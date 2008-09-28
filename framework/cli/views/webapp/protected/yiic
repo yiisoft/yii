@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+
+// change the following paths if necessary
+$yiiFramework='{YiiPath}';
+$configFile=dirname(__FILE__).'/config/console.php';
+
+defined('YII_DEBUG') or define('YII_DEBUG',true);
+
+// disable E_NOTICE so that "yiic shell" is more friendly
+error_reporting(E_ALL ^ E_NOTICE);
+
+require_once($yiiFramework);
+$app=Yii::createConsoleApplication($configFile);
+$app->commandRunner->addCommands(YII_PATH.'/cli/commands');
+$app->run();

@@ -1,0 +1,79 @@
+<?php
+/**
+ * AutoloadCommand class file.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @link http://www.yiiframework.com/
+ * @copyright Copyright &copy; 2008 Yii Software LLC
+ * @license http://www.yiiframework.com/license/
+ * @version $Id$
+ */
+
+/**
+ * AutoloadCommand generates the class map for {@link YiiBase}.
+ * The class file YiiBase.php will be modified with updated class map.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id$
+ * @package system.build
+ * @since 1.0
+ */
+class AutoloadCommand extends CConsoleCommand
+{
+	public function getHelp()
+	{
+		return <<<EOD
+USAGE
+  build autoload
+
+DESCRIPTION
+  This command updates YiiBase.php with the latest class map.
+  The class map is used by Yii::autoload() to quickly include a class on demand.
+
+  Do not run this command unless you change or add core framework classes.
+
+EOD;
+	}
+
+	/**
+	 * Execute the action.
+	 * @param array command line parameters specific for this command
+	 */
+	public function run($args)
+	{
+		$options=array(
+			'fileTypes'=>array('php'),
+			'exclude'=>array(
+				'.svn',
+				'/messages',
+				'/views',
+				'/cli',
+				'/yii.php',
+				'/web/js',
+				'/vendors',
+				'/i18n/data',
+			),
+		);
+		$files=CFileHelper::findFiles(YII_PATH,$options);
+		$map='';
+		foreach($files as $file)
+		{
+			if(($pos=strpos($file,YII_PATH))!==0)
+				die("Invalid file '$file' found.");
+			$path=str_replace('\\','/',substr($file,strlen(YII_PATH)));
+			$className=substr(basename($path),0,-4);
+			if($className[0]==='C')
+				$map.="\t\t'$className' => '$path',\n";
+		}
+
+		$yiiBase=file_get_contents(YII_PATH.'/YiiBase.php');
+		$newYiiBase=preg_replace('/private static \$_classes=array\([^\)]*\);/',"private static \$_classes=array(\n{$map}\t);",$yiiBase);
+		if($yiiBase!==$newYiiBase)
+			echo "Nothing changed.\n";
+		else
+		{
+			file_put_contents(YII_PATH.'/YiiBase.php',$newYiiBase);
+			echo "YiiBase.php is updated successfully.\n";
+		}
+	}
+}
