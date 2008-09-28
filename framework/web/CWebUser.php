@@ -119,7 +119,7 @@ class CWebUser extends CApplicationComponent
 			$value=array();
 		if(!is_array($value))
 			$value=array($value);
-		$this->setState('roles',$value,array());
+		$this->setState('roles',array_map('strtolower',$value),array());
 	}
 
 	/**

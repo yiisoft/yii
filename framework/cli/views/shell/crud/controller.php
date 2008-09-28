@@ -29,8 +29,8 @@ class {ClassName} extends CController
 	{
 		return array(
 			array('deny',  // deny access to CUD for guest users
-				'actions'=>'create, update, delete',
-				'roles'=>'?',
+				'actions'=>array('create','update','delete'),
+				'roles'=>array('?'),
 			),
 		);
 	}

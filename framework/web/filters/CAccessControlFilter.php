@@ -18,13 +18,20 @@
  * To specify the access rules, set the {@link setRules rules} property, which should
  * be an array of the rules. Each rule is specified as an array of the following structure:
  * <pre>
- * array('allow',                  // or 'deny'
- *      'actions'=>'edit, delete', // optional, list of action names (case insensitive) that this rule applies to
- *      'roles'=>'@',              // optional, list of roles (case sensitive) that this rule applies to.
- *                                 // Use * to represent all users, ? guest users, and @ authenticated users.
- *      'ips'=>'127.0.0.1',        // optional, list of IP address/patterns that this rule applies to
- *                                 // e.g. 127.0.0.1, 127.0.0.*
- *      'verbs'=>'GET, POST',      // optional, list of request types (case insensitive) that this rule applies to
+ * array(
+ *   'allow',  // or 'deny'
+ *   // optional, list of action names (case insensitive) that this rule applies to
+ *   'actions'=>array('edit, delete'),
+ *   // optional, list of usernames (case sensitive) that this rule applies to
+ *   'users'=>array('thomas', 'kevin'),
+ *   // optional, list of roles (case sensitive) that this rule applies to
+ *   // Use * to represent all users, ? guest users, and @ authenticated users
+ *   'roles'=>array('@'),
+ *   // optional, list of IP address/patterns that this rule applies to
+ *   // e.g. 127.0.0.1, 127.0.0.*
+ *   'ips'=>array('127.0.0.1'),
+ *   // optional, list of request types (case insensitive) that this rule applies to
+ *   'verbs'=>array('GET', 'POST'),
  * )
  * </pre>
  *
@@ -57,7 +64,7 @@ class CAccessControlFilter extends CFilter
 				$r=new CAccessRule;
 				$r->allow=$rule[0]==='allow';
 				foreach(array_slice($rule,1) as $name=>$value)
-					$r->$name=$value;
+					$r->$name=array_map('strtolower',$value);
 				$this->_rules[]=$r;
 			}
 		}
@@ -117,6 +124,10 @@ class CAccessRule extends CComponent
 	 */
 	public $actions;
 	/**
+	 * @var array list of usernames that this rule applies to.
+	 */
+	public $users;
+	/**
 	 * @var array list of user roles that this rule applies to.
 	 */
 	public $roles;
@@ -141,6 +152,7 @@ class CAccessRule extends CComponent
 	public function isUserAllowed($user,$action,$ip,$verb)
 	{
 		if($this->isActionMatched($action)
+			&& $this->isUserMatched($user)
 			&& $this->isRoleMatched($user)
 			&& $this->isIpMatched($ip)
 			&& $this->isVerbMatched($verb))
@@ -151,21 +163,18 @@ class CAccessRule extends CComponent
 
 	private function isActionMatched($action)
 	{
-		if(empty($this->actions))
-			return true;
-		if(is_string($this->actions))
-			$this->actions=preg_split('/[\s,]+/',strtolower($this->actions),-1,PREG_SPLIT_NO_EMPTY);
-		else
-			$this->actions=array_map('strtolower',$this->actions);
-		return in_array(strtolower($action->getId()),$this->actions);
+		return empty($this->actions) || in_array(strtolower($action->getId()),$this->actions);
+	}
+
+	private function isUserMatched($user)
+	{
+		return empty($this->users) || in_array(strtolower($user->getUsername()),$this->users);
 	}
 
 	private function isRoleMatched($user)
 	{
 		if(empty($this->roles))
 			return true;
-		if(is_string($this->roles))
-			$this->roles=preg_split('/[\s,]+/',$this->roles,-1,PREG_SPLIT_NO_EMPTY);
 		foreach($this->roles as $role)
 		{
 			if($role==='*')
@@ -184,8 +193,6 @@ class CAccessRule extends CComponent
 	{
 		if(empty($this->ips))
 			return true;
-		if(is_string($this->ips))
-			$this->ips=preg_split('/[\s,]+/',strtolower($this->ips),-1,PREG_SPLIT_NO_EMPTY);
 		foreach($this->ips as $rule)
 		{
 			if($rule==='*' || $rule===$ip || (($pos=strpos($rule,'*'))!==false && !strncmp($ip,$rule,$pos)))
@@ -196,10 +203,6 @@ class CAccessRule extends CComponent
 
 	private function isVerbMatched($verb)
 	{
-		if(empty($this->verbs))
-			return true;
-		if(is_string($this->verbs))
-			$this->verbs=preg_split('/[\s,]+/',strtoupper($this->verbs),-1,PREG_SPLIT_NO_EMPTY);
-		return in_array($verb,$this->verbs);
+		return empty($this->verbs) || in_array(strtolower($verb),$this->verbs);
 	}
 }
