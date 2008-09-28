@@ -1,0 +1,21 @@
+#!/usr/bin/env php
+<?php
+/**
+ * build script file.
+ *
+ * This is a command line script that provides various commands
+ * for building an Yii release.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @link http://www.yiiframework.com/
+ * @copyright Copyright &copy; 2008 Yii Software LLC
+ * @license http://www.yiiframework.com/license/
+ * @version $Id$
+ */
+
+defined('YII_DEBUG') or define('YII_DEBUG',true);
+
+$root=dirname(__FILE__);
+require_once($root.'/../framework/yii.php');
+$config=array('basePath'=>$root);
+Yii::createConsoleApplication($config)->run();

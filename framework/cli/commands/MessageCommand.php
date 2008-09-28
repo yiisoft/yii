@@ -1,0 +1,193 @@
+<?php
+/**
+ * MessageCommand class file.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @link http://www.yiiframework.com/
+ * @copyright Copyright &copy; 2008 Yii Software LLC
+ * @license http://www.yiiframework.com/license/
+ */
+
+/**
+ * MessageCommand extracts messages to be translated from source files.
+ * The extracted messages are saved as PHP message source files
+ * under the specified directory.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id$
+ * @package system.cli.commands
+ * @since 1.0
+ */
+class MessageCommand extends CConsoleCommand
+{
+	public function getHelp()
+	{
+		return <<<EOD
+USAGE
+  yiic message <config-file>
+
+DESCRIPTION
+  This command searches for messages to be translated in the specified
+  source files and compiles them into PHP arrays as message source.
+
+PARAMETERS
+ * config-file: required, the path of the configuration file. The file
+   must be a valid PHP script which returns an array of name-value pairs.
+   Each name-value pair represents a configuration option. The following
+   options must be specified:
+   - sourcePath: string, root directory of all source files.
+   - messagePath: string, root directory containing message translations.
+   - languages: array, list of language codes that the extracted messages
+     should be translated to. For example, array('zh_cn','en_au').
+   - fileTypes: array, a list of file extensions (e.g. 'php', 'xml').
+     Only the files whose extension name can be found in this list
+     will be processed. If empty, all files will be processed.
+   - exclude: array, a list of directory and file exclusions. Each
+     exclusion can be either a name or a path. If a file or directory name
+     or path matches the exclusion, it will not be copied. For example,
+     an exclusion of '.svn' will exclude all files and directories whose
+     name is '.svn'. And an exclusion of '/a/b' will exclude file or
+     directory 'sourcePath/a/b'.
+
+EOD;
+	}
+
+	/**
+	 * Execute the action.
+	 * @param array command line parameters specific for this command
+	 */
+	public function run($args)
+	{
+		if(!isset($args[0]))
+			$this->usageError('the configuration file is not specified.');
+		if(!is_file($args[0]))
+			$this->usageError("the configuration file {$args[0]} does not exist.");
+
+		$config=require_once($args[0]);
+		extract($config);
+
+		if(!isset($sourcePath,$messagePath,$languages))
+			$this->usageError('The configuration file must specify "sourcePath", "messagePath" and "languages".');
+		if(!is_dir($sourcePath))
+			$this->usageError("The source path $sourcePath is not a valid directory.");
+		if(!is_dir($messagePath))
+			$this->usageError("The message path $messagePath is not a valid directory.");
+		if(empty($languages))
+			$this->usageError("Languages cannot be empty.");
+
+		$options=array();
+		if(isset($fileTypes))
+			$options['fileTypes']=$fileTypes;
+		if(isset($exclude))
+			$options['exclude']=$exclude;
+		$files=CFileHelper::findFiles(realpath($sourcePath),$options);
+
+		$messages=array();
+		foreach($files as $file)
+			$messages=array_merge_recursive($messages,$this->extractMessages($file));
+
+		foreach($languages as $language)
+		{
+			$dir=$messagePath.DIRECTORY_SEPARATOR.$language;
+			if(!is_dir($dir))
+				@mkdir($dir);
+			foreach($messages as $category=>$msgs)
+			{
+				$msgs=array_values(array_unique($msgs));
+				$this->generateMessageFile($msgs,$dir.DIRECTORY_SEPARATOR.$category.'.php');
+			}
+		}
+	}
+
+	protected function extractMessages($fileName)
+	{
+		echo "Extracting messages from $fileName...\n";
+		$subject=file_get_contents($fileName);
+		preg_match_all('/[\'"]\w+##/',$subject,$matches,PREG_OFFSET_CAPTURE);
+		if(empty($matches))
+			return array();
+		$messages=array();
+		foreach($matches[0] as $match)
+		{
+			$offset=$match[1];
+			$quote=$subject[$offset];
+			$pos=strpos($subject,'##',$offset+1);
+			$category=substr($subject,$offset+1,$pos-$offset-1);
+			for($i=$pos+1;isset($subject[$i]);++$i)
+			{
+				$c=$subject[$i];
+				if($c===$quote && $subject[$i-1]!=='\\')
+				{
+					$message=$quote.substr($subject,$pos+2,$i-$pos-2).$quote;
+					eval("\$str=$message;");  // use eval to eliminate quote escape
+					$messages[$category][]=$str;
+					break;
+				}
+			}
+		}
+		return $messages;
+	}
+
+	protected function generateMessageFile($messages,$fileName)
+	{
+		echo "Saving messages to $fileName...";
+		if(is_file($fileName))
+		{
+			$translated=require($fileName);
+			if(array_keys($translated)==$messages)
+			{
+				echo "nothing new...skipped.\n";
+				return;
+			}
+			$merged=array();
+			$untranslated=array();
+			foreach($messages as $message)
+			{
+				if(isset($translated[$message]))
+					$merged[$message]=$translated[$message];
+				else
+					$untranslated[]=$message;
+			}
+			foreach($untranslated as $message)
+				$merged[$message]='';
+			foreach($translated as $message=>$translation)
+			{
+				if(!isset($merged[$message]))
+					$merged[$message]='@@'.$translation.'@@';
+			}
+			$fileName.='.merged';
+			echo "translation merged.\n";
+		}
+		else
+		{
+			$merged=array();
+			foreach($messages as $message)
+				$merged[$message]='';
+			echo "saved.\n";
+		}
+		$array=var_export($merged,true);
+		$content=<<<EOD
+<?php
+/**
+ * Message translations.
+ *
+ * This file is automatically generated by 'yiic message' command.
+ * It contains the localizable messages extracted from source code.
+ * You may modify this file by translating the extracted messages.
+ *
+ * Each array element represents the translation (value) of a message (key).
+ * If the value is empty, the message is considered as not translated.
+ * Messages that no longer need translation will have their translations
+ * enclosed between a pair of '@@' marks.
+ *
+ * NOTE, this file must be saved in UTF-8 encoding.
+ *
+ * @version \$Id: \$
+ */
+return $array;
+
+?>
+EOD;
+		file_put_contents($fileName, $content);
+	}
+}

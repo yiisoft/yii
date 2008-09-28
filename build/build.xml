@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Phing build file for Yii.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @link http://www.yiiframework.com/
+ * @copyright Copyright &copy; 2008 Yii Software LLC
+ * @license http://www.yiiframework.com/license/
+ * @version $Id$
+ */
+-->
+<project name="yii" basedir="." default="help">
+  <!-- task definitions -->
+  <taskdef name="yii-init-build" classname="YiiInitTask" classpath="tasks" />
+
+  <!-- init yii.version, yii.revision and yii.winbuild -->
+  <yii-init-build />
+
+  <!-- these are required external commands -->
+  <property name="php" value="php" /> <!-- PHP parser -->
+  <property name="hhc" value="hhc" /> <!-- compile phpdoc into CHM -->
+  <property name="pdflatex" value="pdflatex" />  <!-- generates PDF from LaTex -->
+  <property name="zip" value="zip" />  <!-- zip compression -->
+
+  <property name="pkgname" value="${phing.project.name}-${yii.version}.r${yii.revision}"/>
+  <property name="docname" value="${phing.project.name}-docs-${yii.version}.r${yii.revision}"/>
+
+  <!-- directory definitions -->
+  <property name="build.base.dir" value="release"/>
+  <property name="build.dist.dir" value="${build.base.dir}/dist"/>
+  <property name="build.src.dir" value="${build.base.dir}/${pkgname}"/>
+  <property name="build.doc.dir" value="${build.base.dir}/${docname}"/>
+  <property name="build.web.dir" value="${build.base.dir}/web"/>
+
+  <!-- source files in the framework -->
+  <fileset dir=".." id="framework">
+    <exclude name="**/.svn"/>
+    <exclude name="**/*.bak"/>
+    <exclude name="**/*~"/>
+    <include name="framework/**/*"/>
+    <include name="requirements/*"/>
+    <include name="COPYRIGHT"/>
+    <include name="CHANGELOG"/>
+    <include name="UPGRADE"/>
+    <include name="LICENSE"/>
+    <include name="README"/>
+  </fileset>
+
+  <target name="build" depends="prebuild">
+    <echo>Building package ${pkgname}...</echo>
+    <echo>Copying files to build directory...</echo>
+    <copy todir="${build.src.dir}">
+      <fileset refid="framework"/>
+    </copy>
+  </target>
+
+  <target name="docs" depends="prebuild">
+    <echo>Building documentation...</echo>
+
+    <echo>Building API...</echo>
+    <mkdir dir="${build.doc.dir}" />
+    <exec command="build api ${build.doc.dir}" dir="." passthru="true" />
+
+    <echo>Building API CHM...</echo>
+    <exec command="${hhc} ${build.doc.dir}/api/manual.hhp" />
+    <move file="${build.doc.dir}/api/manual.chm" tofile="${build.doc.dir}/yii-api-${yii.version}.chm" />
+    <delete>
+      <fileset dir="${build.doc.dir}/api">
+        <include name="manual.*" />
+      </fileset>
+    </delete>
+  </target>
+
+  <target name="web" depends="prebuild">
+    <echo>Building online API...</echo>
+    <mkdir dir="${build.web.dir}/views/doc" />
+    <mkdir dir="${build.web.dir}/controllers/doc" />
+    <exec command="build api ${build.web.dir}/views/doc online" dir="." passthru="true" />
+    <move file="${build.web.dir}/views/doc/apiKeywords.txt" tofile="${build.web.dir}/controllers/doc/apiKeywords.txt" />
+  </target>
+
+  <target name="prebuild">
+    <echo>Preparing build ${pkgname}...</echo>
+
+    <echo>Building autoload map...</echo>
+    <exec command="build autoload" dir="." passthru="true"/>
+
+    <echo>Building yiilite.php...</echo>
+    <exec command="build lite" dir="." passthru="true"/>
+  </target>
+
+  <target name="rebuild" depends="clean,build">
+  </target>
+
+  <target name="dist" depends="clean,build,docs,web">
+    <echo>Generating release distributions...</echo>
+    <mkdir dir="${build.dist.dir}" />
+    <tar destfile="${build.dist.dir}/${pkgname}.tar.gz" compression="gzip">
+      <fileset dir="${build.base.dir}">
+        <include name="${pkgname}/**/*"/>
+      </fileset>
+    </tar>
+    <tar destfile="${build.dist.dir}/web.tar.gz" compression="gzip">
+      <fileset dir="${build.base.dir}">
+        <include name="web/**/*"/>
+      </fileset>
+    </tar>
+    <tar destfile="${build.dist.dir}/${docname}.tar.gz" compression="gzip">
+      <fileset dir="${build.base.dir}">
+        <include name="${docname}/**/*"/>
+      </fileset>
+    </tar>
+    <zip destfile="${build.dist.dir}/${pkgname}.zip">
+      <fileset dir="${build.base.dir}">
+        <include name="${pkgname}/**/*"/>
+      </fileset>
+    </zip>
+    <zip destfile="${build.dist.dir}/web.zip">
+      <fileset dir="${build.base.dir}">
+        <include name="web/**/*"/>
+      </fileset>
+    </zip>
+    <zip destfile="${build.dist.dir}/${docname}.zip">
+      <fileset dir="${build.base.dir}">
+        <include name="${docname}/**/*"/>
+      </fileset>
+    </zip>
+  </target>
+
+  <target name="clean">
+    <echo>Cleaning up the build...</echo>
+    <delete dir="${build.base.dir}"/>
+  </target>
+
+  <target name="help">
+    <echo>
+
+    Welcome to use Yii build script!
+    --------------------------------
+    You may use the following command format to build a target:
+
+              phing   &lt;target name&gt;
+
+    where &lt;target name&gt; can be one of the following:
+
+    - dist     : create a release;
+    - build    : prepare a directory for distribution;
+    - clean    : clean up the build directory;
+    - rebuild  : clean first and then build;
+    - docs     : generate documentation;
+    - pear     : generate PEAR packages;
+    - snapshot : generate nightly snapshot;
+
+    </echo>
+  </target>
+</project>

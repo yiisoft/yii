@@ -1,0 +1,112 @@
+/* begin overall style */
+body
+{
+	margin: 0;
+	padding: 0;
+	background: white;
+	font-family:arial,helvetica,sans-serif;
+}
+
+#page
+{
+	width: 750px;
+	margin: 0 auto;
+	padding: 0;
+	background: white;
+}
+
+#header
+{
+	margin: 0;
+	padding: 0;
+}
+
+#logo
+{
+	padding: 20px 0 20px 10px;
+	font-size: 200%;
+}
+
+#mainmenu
+{
+	border-bottom: 1px solid silver;
+}
+
+#mainmenu ul
+{
+	padding: 0;
+	margin: 0;
+	background: #036;
+	color: white;
+	padding: 0.4em 0 0.4em 1em;
+}
+
+#mainmenu ul li
+{
+	display: inline;
+}
+
+#mainmenu ul li a
+{
+	padding: 0.4em 0.4em;
+	background: #036;
+	color: white;
+	text-decoration: none;
+	font-weight: bold;
+}
+
+#mainmenu ul li a:hover
+{
+	background: #369;
+	color: #fff;
+}
+
+#content
+{
+    position: relative;
+    width: 95%;
+    margin: 0 auto;
+    padding: 0px;
+}
+
+#footer
+{
+	padding: 15px;
+	margin: 20px 0 0 0;
+	font-size: 0.8em;
+	text-align: center;
+	border-top: 1px solid #EEE;
+}
+/* end of overall style */
+
+/* begin data grid style */
+table.dataGrid
+{
+	background: #EBF4FB;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+table.dataGrid th, table.dataGrid td
+{
+	font-size: 0.9em;
+	border: 1px silver solid;
+	padding: 0.3em;
+}
+
+table.dataGrid th
+{
+	background: gainsboro;
+	text-align: left;
+}
+
+table.dataGrid th.label
+{
+	width: 150px;
+}
+
+table.dataGrid tr.odd
+{
+	background: white;
+}
+/* end of data grid style */
