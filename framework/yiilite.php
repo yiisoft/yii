@@ -534,7 +534,6 @@ abstract class CApplication extends CComponent
 	public $name='My Application';
 	public $charset='UTF-8';
 	public $preload=array();
-	public $extensions=array();
 	public $sourceLanguage='en_us';
 	private $_id;
 	private $_basePath;
@@ -631,18 +630,12 @@ abstract class CApplication extends CComponent
 				array('{path}'=>$runtimePath)));
 		$this->_runtimePath=$runtimePath;
 	}
-	public function getExtensionPath()
+	final public function getExtensionPath()
 	{
 		if($this->_extensionPath!==null)
 			return $this->_extensionPath;
 		else
 			return $this->_extensionPath=$this->getBasePath().DIRECTORY_SEPARATOR.'extensions';
-	}
-	public function setExtensionPath($value)
-	{
-		if(($this->_extensionPath=realpath($value))===false || !is_dir($this->_extensionPath))
-			throw new CException(Yii::t('yii##The extension path "{path}" is not a valid directory.',
-				array('{path}'=>$value)));
 	}
 	public function setImport($aliases)
 	{
@@ -1196,7 +1189,9 @@ class CConfiguration extends CMap
 	}
 	public static function createObject($config)
 	{
-		if($config instanceof self)
+		if(is_string($config))
+			$config=array('class'=>$config);
+		else if($config instanceof self)
 			$config=$config->toArray();
 		if(is_array($config) && isset($config['class']))
 		{
@@ -1224,6 +1219,7 @@ class CWebApplication extends CApplication
 	public $defaultController='home';
 	public $layout='main';
 	public $controllerMap=array();
+	public $catchAll;
 	private $_controllerPath;
 	private $_viewPath;
 	private $_systemViewPath;
@@ -1233,7 +1229,16 @@ class CWebApplication extends CApplication
 	private $_theme;
 	public function processRequest()
 	{
-		list($controllerID,$actionID)=$this->resolveRequest();
+		if(is_array($this->catchAll) && isset($this->catchAll[0]))
+		{
+			$segs=explode('/',$this->catchAll[0]);
+			$controllerID=$segs[0];
+			$actionID=isset($segs[1])?$segs[1]:'';
+			foreach(array_splice($this->catchAll,1) as $name=>$value)
+				$_GET[$name]=$value;
+		}
+		else
+			list($controllerID,$actionID)=$this->resolveRequest();
 		$this->runController($controllerID,$actionID);
 	}
 	protected function resolveRequest()
@@ -1349,15 +1354,7 @@ class CWebApplication extends CApplication
 			if(isset($this->controllerMap[$id]))
 				return CConfiguration::createObject($this->controllerMap[$id],$id);
 			else
-			{
-				$className=ucfirst($id).'Controller';
-				foreach($this->extensions as $extension)
-				{
-					if(($controller=$this->createControllerIn($this->getExtensionPath().DIRECTORY_SEPARATOR.$extension,$className,$id))!==null)
-						return $controller;
-				}
-				return $this->createControllerIn($this->getControllerPath(),$className,$id);
-			}
+				return $this->createControllerIn($this->getControllerPath(),ucfirst($id).'Controller',$id);
 		}
 	}
 	protected function createControllerIn($directory,$className,$id)
@@ -2525,7 +2522,7 @@ class CWebUser extends CApplicationComponent
 			$value=array();
 		if(!is_array($value))
 			$value=array($value);
-		$this->setState('roles',$value,array());
+		$this->setState('roles',array_map('strtolower',$value),array());
 	}
 	public function getReturnUrl()
 	{
@@ -3777,7 +3774,7 @@ class CAccessControlFilter extends CFilter
 				$r=new CAccessRule;
 				$r->allow=$rule[0]==='allow';
 				foreach(array_slice($rule,1) as $name=>$value)
-					$r->$name=$value;
+					$r->$name=array_map('strtolower',$value);
 				$this->_rules[]=$r;
 			}
 		}
@@ -3812,12 +3809,14 @@ class CAccessRule extends CComponent
 {
 	public $allow;
 	public $actions;
+	public $users;
 	public $roles;
 	public $ips;
 	public $verbs;
 	public function isUserAllowed($user,$action,$ip,$verb)
 	{
 		if($this->isActionMatched($action)
+			&& $this->isUserMatched($user)
 			&& $this->isRoleMatched($user)
 			&& $this->isIpMatched($ip)
 			&& $this->isVerbMatched($verb))
@@ -3827,20 +3826,16 @@ class CAccessRule extends CComponent
 	}
 	private function isActionMatched($action)
 	{
-		if(empty($this->actions))
-			return true;
-		if(is_string($this->actions))
-			$this->actions=preg_split('/[\s,]+/',strtolower($this->actions),-1,PREG_SPLIT_NO_EMPTY);
-		else
-			$this->actions=array_map('strtolower',$this->actions);
-		return in_array(strtolower($action->getId()),$this->actions);
+		return empty($this->actions) || in_array(strtolower($action->getId()),$this->actions);
+	}
+	private function isUserMatched($user)
+	{
+		return empty($this->users) || in_array(strtolower($user->getUsername()),$this->users);
 	}
 	private function isRoleMatched($user)
 	{
 		if(empty($this->roles))
 			return true;
-		if(is_string($this->roles))
-			$this->roles=preg_split('/[\s,]+/',$this->roles,-1,PREG_SPLIT_NO_EMPTY);
 		foreach($this->roles as $role)
 		{
 			if($role==='*')
@@ -3858,8 +3853,6 @@ class CAccessRule extends CComponent
 	{
 		if(empty($this->ips))
 			return true;
-		if(is_string($this->ips))
-			$this->ips=preg_split('/[\s,]+/',strtolower($this->ips),-1,PREG_SPLIT_NO_EMPTY);
 		foreach($this->ips as $rule)
 		{
 			if($rule==='*' || $rule===$ip || (($pos=strpos($rule,'*'))!==false && !strncmp($ip,$rule,$pos)))
@@ -3869,11 +3862,7 @@ class CAccessRule extends CComponent
 	}
 	private function isVerbMatched($verb)
 	{
-		if(empty($this->verbs))
-			return true;
-		if(is_string($this->verbs))
-			$this->verbs=preg_split('/[\s,]+/',strtoupper($this->verbs),-1,PREG_SPLIT_NO_EMPTY);
-		return in_array($verb,$this->verbs);
+		return empty($this->verbs) || in_array(strtolower($verb),$this->verbs);
 	}
 }
 abstract class CModel extends CComponent
@@ -5991,6 +5980,93 @@ class CLinkPager extends CBasePager
 			return '<span>'.$label.'</span>';
 		else
 			return '<span>'.CHtml::link($label,$this->createPageUrl($page)).'</span>';
+	}
+}
+class CFileHelper
+{
+	public static function copyDirectory($src,$dst,$options=array())
+	{
+		$fileTypes=array();
+		$exclude=array();
+		$level=-1;
+		extract($options);
+		self::copyDirectoryRecursive($src,$dst,'',$fileTypes,$exclude,$level);
+	}
+	public static function findFiles($dir,$options=array())
+	{
+		$fileTypes=array();
+		$exclude=array();
+		$level=-1;
+		extract($options);
+		$list=self::findFilesRecursive($dir,'',$fileTypes,$exclude,$level);
+		sort($list);
+		return $list;
+	}
+	public static function mkdir($directory)
+	{
+		if(!is_dir($directory))
+		{
+			self::mkdir(dirname($directory));
+			mkdir($directory);
+		}
+	}
+	protected static function copyDirectoryRecursive($src,$dst,$base,$fileTypes,$exclude,$level)
+	{
+		@mkdir($dst);
+		$folder=opendir($src);
+		while($file=readdir($folder))
+		{
+			if($file==='.' || $file==='..')
+				continue;
+			$path=$src.DIRECTORY_SEPARATOR.$file;
+			$isFile=is_file($path);
+			if(self::validatePath($base,$file,$isFile,$fileTypes,$exclude))
+			{
+				if($isFile)
+					copy($path,$dst.DIRECTORY_SEPARATOR.$file);
+				else if($level)
+					self::copyDirectoryRecursive($path,$dst.DIRECTORY_SEPARATOR.$file,$base.'/'.$file,$fileTypes,$exclude,$level-1);
+			}
+		}
+		closedir($folder);
+	}
+	protected static function findFilesRecursive($dir,$base,$fileTypes,$exclude,$level)
+	{
+		$list=array();
+		$handle=opendir($dir);
+		while($file=readdir($handle))
+		{
+			if($file==='.' || $file==='..')
+				continue;
+			$path=$dir.DIRECTORY_SEPARATOR.$file;
+			$isFile=is_file($path);
+			if(self::validatePath($base,$file,$isFile,$fileTypes,$exclude))
+			{
+				if($isFile)
+					$list[]=$path;
+				else if($level)
+					$list=array_merge($list,self::findFilesRecursive($path,$base.'/'.$file,$fileTypes,$exclude,$level-1));
+			}
+		}
+		closedir($handle);
+		return $list;
+	}
+	protected static function validatePath($base,$file,$isFile,$fileTypes,$exclude)
+	{
+		foreach($exclude as $e)
+		{
+			if($file===$e || strpos($base.'/'.$file,$e)===0)
+				return false;
+		}
+		if(!$isFile || empty($fileTypes))
+			return true;
+		if(($pos=strrpos($file,'.'))!==false)
+		{
+			$type=substr($file,$pos+1);
+			return in_array($type,$fileTypes);
+		}
+		else
+			return false;
 	}
 }
 interface IApplicationComponent

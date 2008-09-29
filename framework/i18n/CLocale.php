@@ -171,7 +171,7 @@ class CLocale extends CComponent
 
 	/**
 	 * @param integer month (1-12)
-	 * @param string month name width
+	 * @param string month name width. It can be 'wide', 'abbreviated' or 'narrow'.
 	 * @return string the month name
 	 */
 	public function getMonthName($month,$width='wide')
@@ -181,7 +181,7 @@ class CLocale extends CComponent
 
 	/**
 	 * @param integer weekday (0-6)
-	 * @param string weekday name width
+	 * @param string weekday name width.  It can be 'wide', 'abbreviated' or 'narrow'.
 	 * @return string the weekday name
 	 */
 	public function getWeekDayName($day,$width='wide')
@@ -191,7 +191,7 @@ class CLocale extends CComponent
 
 	/**
 	 * @param integer era (0,1)
-	 * @param string era name width
+	 * @param string era name width.  It can be 'wide', 'abbreviated' or 'narrow'.
 	 * @return string the era name
 	 */
 	public function getEraName($era,$width='wide')
@@ -216,7 +216,7 @@ class CLocale extends CComponent
 	}
 
 	/**
-	 * @param string date format width
+	 * @param string date format width. It can be 'full', 'long', 'medium' or 'short'.
 	 * @return string date format
 	 */
 	public function getDateFormat($width='medium')
@@ -225,7 +225,7 @@ class CLocale extends CComponent
 	}
 
 	/**
-	 * @param string time format width
+	 * @param string time format width. It can be 'full', 'long', 'medium' or 'short'.
 	 * @return string date format
 	 */
 	public function getTimeFormat($width='medium')
@@ -234,7 +234,7 @@ class CLocale extends CComponent
 	}
 
 	/**
-	 * @return string datetime format
+	 * @return string datetime format, i.e., the order of date and time.
 	 */
 	public function getDateTimeFormat()
 	{
