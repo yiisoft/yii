@@ -28,10 +28,6 @@ defined('YII_ENABLE_EXCEPTION_HANDLER') or define('YII_ENABLE_EXCEPTION_HANDLER'
  */
 defined('YII_ENABLE_ERROR_HANDLER') or define('YII_ENABLE_ERROR_HANDLER',true);
 /**
- * This constant defines whether CApplication.onEndRequest should be called when the application exits in the middle. Defaults to true.
- */
-defined('YII_ENABLE_CLEAN_SHUTDOWN') or define('YII_ENABLE_CLEAN_SHUTDOWN',true);
-/**
  * Defines the Yii framework installation path.
  */
 defined('YII_PATH') or define('YII_PATH',dirname(__FILE__));

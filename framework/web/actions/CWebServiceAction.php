@@ -76,7 +76,7 @@ class CWebServiceAction extends CAction
 		else
 			$this->_service->run();
 
-		Yii::app()->terminate();
+		Yii::app()->end();
 	}
 
 	/**

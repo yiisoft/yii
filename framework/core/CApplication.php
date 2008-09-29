@@ -146,21 +146,18 @@ abstract class CApplication extends CComponent
 	 */
 	public function run()
 	{
-		if(YII_ENABLE_CLEAN_SHUTDOWN)
-			register_shutdown_function(array($this,'onEndRequest'),new CEvent($this));
 		$this->onBeginRequest(new CEvent($this));
 		$this->processRequest();
-		if(!YII_ENABLE_CLEAN_SHUTDOWN)
-			$this->onEndRequest(new CEvent($this));
+		$this->onEndRequest(new CEvent($this));
 	}
 
 	/**
 	 * Terminates the application.
-	 * This method replaces PHP's exit() function by performing
-	 * additional final tasks of the application before exiting.
+	 * This method replaces PHP's exit() function by calling
+	 * {@link onEndRequest} before exiting.
 	 * @param integer exit status (value 0 means normal exit while other values mean abnormal exit).
 	 */
-	public function terminate($status=0)
+	public function end($status=0)
 	{
 		$this->onEndRequest(new CEvent($this));
 		exit($status);
@@ -578,7 +575,7 @@ abstract class CApplication extends CComponent
 			else
 				$this->displayException($exception);
 		}
-		$this->terminate(1);
+		$this->end(1);
 	}
 
 	/**
@@ -621,7 +618,7 @@ abstract class CApplication extends CComponent
 				else
 					$this->displayError($code,$message,$file,$line);
 			}
-			$this->terminate(1);
+			$this->end(1);
 		}
 	}
 
