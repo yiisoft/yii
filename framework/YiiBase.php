@@ -228,7 +228,7 @@ class YiiBase
 		{
 			$rootAlias=substr($alias,0,$pos);
 			if(isset(self::$_aliases[$rootAlias]))
-				return self::$_aliases[$alias]=rtrim(str_replace('.',DIRECTORY_SEPARATOR,substr_replace($alias,self::$_aliases[$rootAlias],0,$pos)),'*'.DIRECTORY_SEPARATOR);
+				return self::$_aliases[$alias]=rtrim(self::$_aliases[$rootAlias].DIRECTORY_SEPARATOR.str_replace('.',DIRECTORY_SEPARATOR,substr($alias,$pos+1)),'*'.DIRECTORY_SEPARATOR);
 		}
 		return self::$_aliases[$alias]=false;
 	}
@@ -245,7 +245,7 @@ class YiiBase
 		if($path===null)
 			unset(self::$_aliases[$alias]);
 		else if(!isset(self::$_aliases[$alias]) && ($rp=realpath($path))!==false)
-			self::$_aliases[$alias]=$rp;
+			self::$_aliases[$alias]=rtrim($rp,'\\/');
 		else if(isset(self::$_aliases[$alias]))
 			throw new CException(Yii::t('yii##Path alias "{alias}" is redefined.',
 				array('{alias}'=>$alias)));
