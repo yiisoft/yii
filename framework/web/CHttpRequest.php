@@ -396,7 +396,7 @@ class CHttpRequest extends CApplicationComponent
 			$url=$this->getHostInfo().$url;
 		header('Location: '.$url);
 		if($terminate)
-			Yii::app()->terminate();
+			Yii::app()->end();
 	}
 
 	/**
@@ -465,7 +465,7 @@ class CHttpRequest extends CApplicationComponent
 		header('Content-Transfer-Encoding: binary');
 		echo $content;
 		if($terminate)
-			Yii::app()->terminate();
+			Yii::app()->end();
 	}
 }
 
