@@ -28,7 +28,7 @@ class CCaptchaValidator extends CValidator
 	 * @var string ID of the action that renders the CAPTCHA image. Defaults to 'captcha'.
 	 * Note, the action must belong to the current controller.
 	 */
-	public $actionID='captcha';
+	public $captchaAction='captcha';
 
 	/**
 	 * Validates the attribute of the object.
@@ -38,9 +38,9 @@ class CCaptchaValidator extends CValidator
 	 */
 	protected function validateAttribute($object,$attribute)
 	{
-		if(($captcha=Yii::app()->getController()->createAction($this->actionID))===null)
+		if(($captcha=Yii::app()->getController()->createAction($this->captchaAction))===null)
 			throw new CException(Yii::t('yii#CCaptchaValidator.action "{id}" is invalid. Unable to find such an action in the current controller.',
-					array('{id}'=>$this->actionID)));
+					array('{id}'=>$this->captchaAction)));
 		$value=$object->$attribute;
 		$code=$captcha->getVerifyCode();
 		$valid=$this->caseSensitive?($value===$code):!strcasecmp($value,$code);
