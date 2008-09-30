@@ -14,7 +14,7 @@
  * @since 1.0
  */
 
-**
+/**
  * @var array List of requirements (name, required or not, result, used by, memo)
  */
 $requirements = array(
