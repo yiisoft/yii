@@ -467,6 +467,8 @@ class CHtml
 	 * <ul>
 	 * <li>update: string, specifies the selector whose HTML content should be replaced
 	 *   by the AJAX request result.</li>
+	 * <li>replace: string, specifies the selector whose target should be replaced
+	 *   by the AJAX request result.</li>
 	 * </ul>
 	 * @return string the generated JavaScript
 	 * @see http://docs.jquery.com/Ajax/jQuery.ajax#options
@@ -492,6 +494,12 @@ class CHtml
 			if(!isset($options['success']))
 				$options['success']='js:function(html){jQuery("'.$options['update'].'").html(html)}';
 			unset($options['update']);
+		}
+		if(isset($options['replace']))
+		{
+			if(!isset($options['success']))
+				$options['success']='js:function(html){jQuery("'.$options['replace'].'").replaceWith(html)}';
+			unset($options['replace']);
 		}
 		return 'jQuery.ajax('.CJavaScript::encode($options).');';
 	}
