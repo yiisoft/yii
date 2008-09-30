@@ -15,7 +15,7 @@ div.yiiForm
 	background: #EBF4FB;
 	margin: 0;
 	padding: 5px;
-	width: 650px;
+	width: 570px;
 }
 
 div.errorSummary
@@ -48,7 +48,7 @@ div.yiiForm p.hint
 {
 	color: gray;
 	font-size: 90%;
-	margin: 0 0 0 150px;
+	margin: 0 0 0 120px;
 }
 
 div.yiiForm fieldset
@@ -66,7 +66,7 @@ div.yiiForm legend
 div.yiiForm div.action
 {
 	clear: left;
-	margin-left: 150px;
+	margin-left: 120px;
 	padding: 0.25em 0;
 }
 
@@ -86,7 +86,7 @@ div.yiiForm div.complex span
 	padding-right: 10px;
 	position: relative;
 	text-align: right;
-	width: 130px;
+	width: 100px;
 }
 
 div.yiiForm label.error,
@@ -95,7 +95,8 @@ div.yiiForm span.error
 	color: #C00;
 }
 
-div.yiiForm input.error
+div.yiiForm input.error,
+div.yiiForm textarea.error
 {
 	background: #FEE;
 	border-color: #C00;
@@ -103,5 +104,5 @@ div.yiiForm input.error
 
 div.yiiForm div.complex div
 {
-	margin-left: 150px;
+	margin-left: 120px;
 }
