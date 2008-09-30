@@ -67,13 +67,13 @@ EOD;
 		}
 
 		$yiiBase=file_get_contents(YII_PATH.'/YiiBase.php');
-		$newYiiBase=preg_replace('/private static \$_classes=array\([^\)]*\);/',"private static \$_classes=array(\n{$map}\t);",$yiiBase);
+		$newYiiBase=preg_replace('/private\s+static\s+\$_coreClasses\s*=\s*array\s*\([^\)]*\)\s*;/',"private static \$_coreClasses=array(\n{$map}\t);",$yiiBase);
 		if($yiiBase!==$newYiiBase)
-			echo "Nothing changed.\n";
-		else
 		{
 			file_put_contents(YII_PATH.'/YiiBase.php',$newYiiBase);
 			echo "YiiBase.php is updated successfully.\n";
 		}
+		else
+			echo "Nothing changed.\n";
 	}
 }
