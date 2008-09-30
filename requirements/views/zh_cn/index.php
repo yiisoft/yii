@@ -24,11 +24,11 @@
 <p>
 <?php if($result>0): ?>
 恭喜！您的服务器配置完全符合Yii的要求。
-<?php else if($result<0): ?>
+<?php elseif($result<0): ?>
 您的服务器配置符合Yii的最低要求。如果您需要使用特定的功能，请关注如下警告。
 <?php else: ?>
 您的服务器配置未能满足Yii的要求。
-<?php endif;
+<?php endif; ?>
 </p>
 
 <h2>具体结果</h2>
