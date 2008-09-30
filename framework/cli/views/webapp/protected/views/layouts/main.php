@@ -17,7 +17,7 @@
   </div>
   <div id="mainmenu">
   <ul>
-    <li><?php echo CHtml::link('Home',array('home/index')); ?></li>
+    <li><?php echo CHtml::link('Home',array('site/index')); ?></li>
     <li><?php echo Yii::app()->user->isGuest ? CHtml::link('Login',array('user/login')) : CHtml::link('Logout',array('user/logout')); ?></li>
   </ul>
   </div><!-- mainmenu -->

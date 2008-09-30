@@ -6,8 +6,8 @@ This is the homepage of <em><?php echo Yii::app()->name; ?></em>. You may modify
 to customize the conent of this page:
 </p>
 <dl>
-	<dt><?php echo Yii::app()->controllerPath . DIRECTORY_SEPARATOR . 'HomeController.php'; ?></dt>
-	<dd>This file contains the <tt>HomeController</tt> class which is
+	<dt><?php echo Yii::app()->controllerPath . DIRECTORY_SEPARATOR . 'SiteController.php'; ?></dt>
+	<dd>This file contains the <tt>SiteController</tt> class which is
 	the default application controller. Its default <tt>index</tt> action
 	renders the content of the following two files.
 	</dd>
@@ -20,8 +20,8 @@ to customize the conent of this page:
 
 <h3>What's Next</h3>
 <ul>
-	<li>Implement new actions in <tt>HomeController</tt>, and create corresponding views
-	under <?php echo Yii::app()->viewPath . DIRECTORY_SEPARATOR . 'home'; ?></li>
+	<li>Implement new actions in <tt>SiteController</tt>, and create corresponding views
+	under <?php echo Yii::app()->viewPath . DIRECTORY_SEPARATOR . 'site'; ?></li>
 	<li>Create new controllers and actions manually or using the <tt>yiic</tt> tool.
 	<li>If your Web application should be driven by database, do the following:
 		<ul>

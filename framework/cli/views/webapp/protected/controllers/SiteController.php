@@ -1,6 +1,6 @@
 <?php
 
-class HomeController extends CController
+class SiteController extends CController
 {
 	/**
 	 * This is the default 'index' action that is invoked
@@ -8,7 +8,7 @@ class HomeController extends CController
 	 */
 	public function actionIndex()
 	{
-		// renders the view file 'protected/views/home/index.php'
+		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/application.php'
 		$this->render('index');
 	}
