@@ -24,8 +24,7 @@
  * User requests are resolved as controller-action pairs and additional parameters.
  * CWebApplication creates the requested controller instance and let it to handle
  * the actual user request. If the user does not specify controller name, it will
- * assume {@link defaultController} is requested (which
- * defaults to 'home').
+ * assume {@link defaultController} is requested (which defaults to 'site').
  *
  * Controller class files must reside under the directory {@link getControllerPath controllerPath}
  * (defaults to 'protected/controllers'). The file name is the same as the controller
@@ -41,9 +40,9 @@
 class CWebApplication extends CApplication
 {
 	/**
-	 * @return string the name of the default controller. Defaults to 'home'.
+	 * @return string the ID of the default controller. Defaults to 'site'.
 	 */
-	public $defaultController='home';
+	public $defaultController='site';
 	/**
 	 * @var string the application-wide layout. Defaults to 'main' (relative to {@link getLayoutPath layoutPath}).
 	 */

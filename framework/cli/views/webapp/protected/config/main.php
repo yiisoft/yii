@@ -8,7 +8,7 @@ return array(
 	'import'=>array(
 		'application.models.*',
 	),
-	'defaultController'=>'home',
+	'defaultController'=>'site',
 	'components'=>array(
 		'user'=>array(
 			'class'=>'application.components.WebUser',

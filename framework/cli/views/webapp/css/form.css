@@ -102,6 +102,7 @@ div.yiiForm textarea.error
 	border-color: #C00;
 }
 
+div.yiiForm div.simple div,
 div.yiiForm div.complex div
 {
 	margin-left: 120px;
