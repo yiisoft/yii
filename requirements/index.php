@@ -77,7 +77,7 @@ $requirements = array(
 		false,
 		extension_loaded("mcrypt"),
 		'<a href="http://www.yiiframework.com/doc/api/CSecurityManager">CSecurityManager</a>',
-		''),
+		'This is required by encrypt and decrypt methods.'),
 	array(
 		'yii##SOAP extension',
 		false,
