@@ -55,7 +55,7 @@ class CCaptchaAction extends CAction
 	 */
 	public $height=50;
 	/**
-	 * @var integer padding around the text. Defaults to 4.
+	 * @var integer padding around the text. Defaults to 2.
 	 */
 	public $padding=2;
 	/**
@@ -64,7 +64,7 @@ class CCaptchaAction extends CAction
 	 */
 	public $backColor=0xFFFFFF;
 	/**
-	 * @var integer the font color. For example, 0x55FF00. Defaults to blue color.
+	 * @var integer the font color. For example, 0x55FF00. Defaults to 0x2040A0 (blue color).
 	 */
 	public $foreColor=0x2040A0;
 	/**
