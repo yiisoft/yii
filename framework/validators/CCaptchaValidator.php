@@ -29,6 +29,11 @@ class CCaptchaValidator extends CValidator
 	 * Note, the action must belong to the current controller.
 	 */
 	public $captchaAction='captcha';
+	/**
+	 * @var boolean whether the attribute value can be null or empty.
+	 * Defaults to false, meaning the attribute is invalid if it is empty.
+	 */
+	public $allowEmpty=false;
 
 	/**
 	 * Validates the attribute of the object.
@@ -38,13 +43,14 @@ class CCaptchaValidator extends CValidator
 	 */
 	protected function validateAttribute($object,$attribute)
 	{
+		$value=$object->$attribute;
+		if($this->allowEmpty && ($value===null || $value===''))
+			return;
+
 		if(($captcha=Yii::app()->getController()->createAction($this->captchaAction))===null)
 			throw new CException(Yii::t('yii#CCaptchaValidator.action "{id}" is invalid. Unable to find such an action in the current controller.',
 					array('{id}'=>$this->captchaAction)));
-		$value=$object->$attribute;
-		$code=$captcha->getVerifyCode();
-		$valid=$this->caseSensitive?($value===$code):!strcasecmp($value,$code);
-		if(!$valid)
+		if(!$captcha->validate($value,$this->caseSensitive))
 			$this->addError($object,$attribute,$this->message,'yii##The verification code is incorrect.');
 	}
 }
