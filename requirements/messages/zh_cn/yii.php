@@ -17,7 +17,7 @@
  */
 return array (
   'PHP version' => 'PHP版本',
-  'PHP 5.2.1 or higher is required. Yii may still run with PHP 5.2.0 or lower, but it is not fully tested.' => 'PHP 5.2.1或更高版本是必须的。Yii也有可能运行在PHP 5.2.0或更低的版本，但是它没有经过完全测试。',
+  'PHP 5.1.0 or higher is required.' => 'PHP 5.1.0或更高版本是必须的。',
   '$_SERVER' => '$_SERVER',
   'Reflection extension' => 'Reflection扩展模块',
   'PCRE extension' => 'PCRE扩展模块',
@@ -34,6 +34,7 @@ return array (
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '$_SERVER["SCRIPT_FILENAME"]必须与入口文件路径一致。',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => '$_SERVER["REQUEST_URI"]或$_SERVER["QUERY_STRING"]必须存在。',
   'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' => '无法确定URL path info。请检查$_SERVER["PATH_INFO"]（或$_SERVER["PHP_SELF"]和$_SERVER["SCRIPT_NAME"]）的值是否正确。',
+  'GD extension' => 'GD扩展模块',
 );
 
 ?>
