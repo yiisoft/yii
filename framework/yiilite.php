@@ -26,7 +26,6 @@ defined('YII_BEGIN_TIME') or define('YII_BEGIN_TIME',microtime(true));
 defined('YII_DEBUG') or define('YII_DEBUG',false);
 defined('YII_ENABLE_EXCEPTION_HANDLER') or define('YII_ENABLE_EXCEPTION_HANDLER',true);
 defined('YII_ENABLE_ERROR_HANDLER') or define('YII_ENABLE_ERROR_HANDLER',true);
-defined('YII_ENABLE_CLEAN_SHUTDOWN') or define('YII_ENABLE_CLEAN_SHUTDOWN',true);
 defined('YII_PATH') or define('YII_PATH',dirname(__FILE__));
 class YiiBase
 {
@@ -123,7 +122,7 @@ class YiiBase
 		{
 			$rootAlias=substr($alias,0,$pos);
 			if(isset(self::$_aliases[$rootAlias]))
-				return self::$_aliases[$alias]=rtrim(str_replace('.',DIRECTORY_SEPARATOR,substr_replace($alias,self::$_aliases[$rootAlias],0,$pos)),'*'.DIRECTORY_SEPARATOR);
+				return self::$_aliases[$alias]=rtrim(self::$_aliases[$rootAlias].DIRECTORY_SEPARATOR.str_replace('.',DIRECTORY_SEPARATOR,substr($alias,$pos+1)),'*'.DIRECTORY_SEPARATOR);
 		}
 		return self::$_aliases[$alias]=false;
 	}
@@ -132,7 +131,7 @@ class YiiBase
 		if($path===null)
 			unset(self::$_aliases[$alias]);
 		else if(!isset(self::$_aliases[$alias]) && ($rp=realpath($path))!==false)
-			self::$_aliases[$alias]=$rp;
+			self::$_aliases[$alias]=rtrim($rp,'\\/');
 		else if(isset(self::$_aliases[$alias]))
 			throw new CException(Yii::t('yii##Path alias "{alias}" is redefined.',
 				array('{alias}'=>$alias)));
@@ -271,6 +270,7 @@ class YiiBase
 		'CPhpMessageSource' => '/i18n/CPhpMessageSource.php',
 		'CTimestamp' => '/i18n/CTimestamp.php',
 		'CFileHelper' => '/utils/CFileHelper.php',
+		'CCaptchaValidator' => '/validators/CCaptchaValidator.php',
 		'CCompareValidator' => '/validators/CCompareValidator.php',
 		'CEmailValidator' => '/validators/CEmailValidator.php',
 		'CFilterValidator' => '/validators/CFilterValidator.php',
@@ -288,6 +288,7 @@ class YiiBase
 		'CClientScript' => '/web/CClientScript.php',
 		'CController' => '/web/CController.php',
 		'CDbHttpSession' => '/web/CDbHttpSession.php',
+		'CExtController' => '/web/CExtController.php',
 		'CFormModel' => '/web/CFormModel.php',
 		'CHttpCookie' => '/web/CHttpCookie.php',
 		'CHttpRequest' => '/web/CHttpRequest.php',
@@ -302,6 +303,7 @@ class YiiBase
 		'CWebUser' => '/web/CWebUser.php',
 		'CWsdlGenerator' => '/web/CWsdlGenerator.php',
 		'CAction' => '/web/actions/CAction.php',
+		'CCaptchaAction' => '/web/actions/CCaptchaAction.php',
 		'CInlineAction' => '/web/actions/CInlineAction.php',
 		'CViewAction' => '/web/actions/CViewAction.php',
 		'CWebServiceAction' => '/web/actions/CWebServiceAction.php',
@@ -313,6 +315,7 @@ class YiiBase
 		'CJSON' => '/web/helpers/CJSON.php',
 		'CJavaScript' => '/web/helpers/CJavaScript.php',
 		'CAutoComplete' => '/web/widgets/CAutoComplete.php',
+		'CCaptcha' => '/web/widgets/CCaptcha.php',
 		'CClipWidget' => '/web/widgets/CClipWidget.php',
 		'CContentDecorator' => '/web/widgets/CContentDecorator.php',
 		'CFilterWidget' => '/web/widgets/CFilterWidget.php',
@@ -568,14 +571,11 @@ abstract class CApplication extends CComponent
 	}
 	public function run()
 	{
-		if(YII_ENABLE_CLEAN_SHUTDOWN)
-			register_shutdown_function(array($this,'onEndRequest'),new CEvent($this));
 		$this->onBeginRequest(new CEvent($this));
 		$this->processRequest();
-		if(!YII_ENABLE_CLEAN_SHUTDOWN)
-			$this->onEndRequest(new CEvent($this));
+		$this->onEndRequest(new CEvent($this));
 	}
-	public function terminate($status=0)
+	public function end($status=0)
 	{
 		$this->onEndRequest(new CEvent($this));
 		exit($status);
@@ -798,7 +798,7 @@ abstract class CApplication extends CComponent
 			else
 				$this->displayException($exception);
 		}
-		$this->terminate(1);
+		$this->end(1);
 	}
 	public function handleError($code,$message,$file,$line)
 	{
@@ -821,7 +821,7 @@ abstract class CApplication extends CComponent
 				else
 					$this->displayError($code,$message,$file,$line);
 			}
-			$this->terminate(1);
+			$this->end(1);
 		}
 	}
 	public function onException($event)
@@ -1216,7 +1216,7 @@ class CConfiguration extends CMap
 }
 class CWebApplication extends CApplication
 {
-	public $defaultController='home';
+	public $defaultController='site';
 	public $layout='main';
 	public $controllerMap=array();
 	public $catchAll;
@@ -1950,7 +1950,7 @@ class CHttpRequest extends CApplicationComponent
 			$url=$this->getHostInfo().$url;
 		header('Location: '.$url);
 		if($terminate)
-			Yii::app()->terminate();
+			Yii::app()->end();
 	}
 	public function getPreferredLanguage()
 	{
@@ -2003,7 +2003,7 @@ class CHttpRequest extends CApplicationComponent
 		header('Content-Transfer-Encoding: binary');
 		echo $content;
 		if($terminate)
-			Yii::app()->terminate();
+			Yii::app()->end();
 	}
 }
 class CCookieCollection extends CMap
@@ -3107,8 +3107,9 @@ class CHtml
 		self::clientChange('click',$htmlOptions);
 		return self::tag('a',$htmlOptions,$body);
 	}
-	public static function ajaxButton($label='submit',$ajaxOptions=array(),$htmlOptions=array())
+	public static function ajaxButton($label,$url,$ajaxOptions=array(),$htmlOptions=array())
 	{
+		$ajaxOptions['url']=$url;
 		$htmlOptions['ajax']=$ajaxOptions;
 		return self::button($label,$htmlOptions);
 	}
@@ -3133,6 +3134,12 @@ class CHtml
 			if(!isset($options['success']))
 				$options['success']='js:function(html){jQuery("'.$options['update'].'").html(html)}';
 			unset($options['update']);
+		}
+		if(isset($options['replace']))
+		{
+			if(!isset($options['success']))
+				$options['success']='js:function(html){jQuery("'.$options['replace'].'").replaceWith(html)}';
+			unset($options['replace']);
 		}
 		return 'jQuery.ajax('.CJavaScript::encode($options).');';
 	}
@@ -5980,93 +5987,6 @@ class CLinkPager extends CBasePager
 			return '<span>'.$label.'</span>';
 		else
 			return '<span>'.CHtml::link($label,$this->createPageUrl($page)).'</span>';
-	}
-}
-class CFileHelper
-{
-	public static function copyDirectory($src,$dst,$options=array())
-	{
-		$fileTypes=array();
-		$exclude=array();
-		$level=-1;
-		extract($options);
-		self::copyDirectoryRecursive($src,$dst,'',$fileTypes,$exclude,$level);
-	}
-	public static function findFiles($dir,$options=array())
-	{
-		$fileTypes=array();
-		$exclude=array();
-		$level=-1;
-		extract($options);
-		$list=self::findFilesRecursive($dir,'',$fileTypes,$exclude,$level);
-		sort($list);
-		return $list;
-	}
-	public static function mkdir($directory)
-	{
-		if(!is_dir($directory))
-		{
-			self::mkdir(dirname($directory));
-			mkdir($directory);
-		}
-	}
-	protected static function copyDirectoryRecursive($src,$dst,$base,$fileTypes,$exclude,$level)
-	{
-		@mkdir($dst);
-		$folder=opendir($src);
-		while($file=readdir($folder))
-		{
-			if($file==='.' || $file==='..')
-				continue;
-			$path=$src.DIRECTORY_SEPARATOR.$file;
-			$isFile=is_file($path);
-			if(self::validatePath($base,$file,$isFile,$fileTypes,$exclude))
-			{
-				if($isFile)
-					copy($path,$dst.DIRECTORY_SEPARATOR.$file);
-				else if($level)
-					self::copyDirectoryRecursive($path,$dst.DIRECTORY_SEPARATOR.$file,$base.'/'.$file,$fileTypes,$exclude,$level-1);
-			}
-		}
-		closedir($folder);
-	}
-	protected static function findFilesRecursive($dir,$base,$fileTypes,$exclude,$level)
-	{
-		$list=array();
-		$handle=opendir($dir);
-		while($file=readdir($handle))
-		{
-			if($file==='.' || $file==='..')
-				continue;
-			$path=$dir.DIRECTORY_SEPARATOR.$file;
-			$isFile=is_file($path);
-			if(self::validatePath($base,$file,$isFile,$fileTypes,$exclude))
-			{
-				if($isFile)
-					$list[]=$path;
-				else if($level)
-					$list=array_merge($list,self::findFilesRecursive($path,$base.'/'.$file,$fileTypes,$exclude,$level-1));
-			}
-		}
-		closedir($handle);
-		return $list;
-	}
-	protected static function validatePath($base,$file,$isFile,$fileTypes,$exclude)
-	{
-		foreach($exclude as $e)
-		{
-			if($file===$e || strpos($base.'/'.$file,$e)===0)
-				return false;
-		}
-		if(!$isFile || empty($fileTypes))
-			return true;
-		if(($pos=strrpos($file,'.'))!==false)
-		{
-			$type=substr($file,$pos+1);
-			return in_array($type,$fileTypes);
-		}
-		else
-			return false;
 	}
 }
 interface IApplicationComponent
