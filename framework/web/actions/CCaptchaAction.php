@@ -99,7 +99,7 @@ class CCaptchaAction extends CAction
 		{
 			$session=Yii::app()->session;
 			$session->open();
-			$name=$this->getSessionVar().'count';
+			$name=$this->getSessionKey().'count';
 			if($session[$name]===null || $session[$name]>=$this->testLimit)
 				$regenerate=true;
 			else
@@ -122,7 +122,7 @@ class CCaptchaAction extends CAction
 	{
 		$session=Yii::app()->session;
 		$session->open();
-		$name=$this->getSessionVar();
+		$name=$this->getSessionKey();
 		if($session[$name]===null || $regenerate)
 		{
 			$session[$name]=$this->generateVerifyCode();
@@ -175,9 +175,9 @@ class CCaptchaAction extends CAction
 	 * Returns the session variable name used to store verification code.
 	 * @return string the session variable name
 	 */
-	protected function getSessionVar()
+	protected function getSessionKey()
 	{
-		return self::SESSION_VAR_PREFIX.$this->getController()->getId().'.'.$this->getId();
+		return self::SESSION_VAR_PREFIX.Yii::app()->getId().'.'.$this->getController()->getId().'.'.$this->getId();
 	}
 
 	/**
