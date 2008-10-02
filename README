@@ -22,7 +22,7 @@ directory. You shall see the following files and directories:
 REQUIREMENTS
 ------------
 The minimum requirement by Yii is that your Web server supports
-PHP 5.2.1 or above. Yii has been tested with Apache HTTP server
+PHP 5.1.0 or above. Yii has been tested with Apache HTTP server
 on Windows and Linux operating systems.
 
 Please access the following URL to check if your Web server reaches

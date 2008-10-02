@@ -21,9 +21,9 @@ $requirements = array(
 	array(
 		'yii##PHP version',
 		true,
-		version_compare(PHP_VERSION,"5.2.1",">="),
+		version_compare(PHP_VERSION,"5.1.0",">="),
 		'<a href="http://www.yiiframework.com">Yii Framework</a>',
-		'yii##PHP 5.2.1 or higher is required. Yii may still run with PHP 5.2.0 or lower, but it is not fully tested.'),
+		'yii##PHP 5.1.0 or higher is required.'),
 	array(
 		'yii##$_SERVER',
 		true,
@@ -83,6 +83,12 @@ $requirements = array(
 		false,
 		extension_loaded("soap"),
 		'<a href="http://www.yiiframework.com/doc/api/CWebService">CWebService</a>, <a href="http://www.yiiframework.com/doc/api/CWebServiceAction">CWebServiceAction</a>',
+		''),
+	array(
+		'yii##GD extension',
+		false,
+		extension_loaded('gd'),
+		'<a href="http://www.yiiframework.com/doc/api/CCaptchaAction">CCaptchaAction</a>',
 		''),
 );
 
