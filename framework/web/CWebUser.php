@@ -426,7 +426,7 @@ class CWebUser extends CApplicationComponent
 	 * This method is internally used by {@link CWebApplication}
 	 * to maintain the availability of flash messages.
 	 */
-	public function updateFlash()
+	protected function updateFlash()
 	{
 		$counters=$this->getState(self::FLASH_COUNTERS);
 		if(!is_array($counters))
@@ -436,7 +436,7 @@ class CWebUser extends CApplicationComponent
 			if($count)
 			{
 				unset($counters[$key]);
-				$this->setState($key,null);
+				$this->setState(self::FLASH_KEY_PREFIX.$key,null);
 			}
 			else
 				$counters[$key]++;
