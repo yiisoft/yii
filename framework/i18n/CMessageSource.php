@@ -56,6 +56,12 @@ abstract class CMessageSource extends CApplicationComponent
 	 * Translates a message to the {@link CApplication::getLanguage application language}.
 	 * Note, if the {@link CApplication::getLanguage application language} is the same as
 	 * the {@link getLanguage source message language}, messages will NOT be translated.
+	 *
+	 * If the message is not found in the translations, an {@link onMissingTranslation}
+	 * event will be raised. Handlers can mark this message or do some
+	 * default handling. The {@link CMissingTranslationEvent::message}
+	 * property of the event parameter will be returned.
+	 *
 	 * @param string the message to be translated
 	 * @param string the message category
 	 * @return string the translated message (or the original message if translation is not needed)
@@ -70,6 +76,8 @@ abstract class CMessageSource extends CApplicationComponent
 
 	/**
 	 * Translates the specified message.
+	 * If the message is not found, an {@link onMissingTranslation}
+	 * event will be raised.
 	 * @param string the message to be translated
 	 * @param string the category that the message belongs to
 	 * @param string the target language
@@ -83,6 +91,61 @@ abstract class CMessageSource extends CApplicationComponent
 		if(isset($this->_messages[$key][$message]) && $this->_messages[$key][$message]!=='')
 			return $this->_messages[$key][$message];
 		else
-			return $message;
+		{
+			$event=new CMissingTranslationEvent($message,$category,$language);
+			$this->onMissingTranslation($event);
+			return $event->message;
+		}
+	}
+
+	/**
+	 * Raised when a message cannot be translated.
+	 * Handlers may log this message or do some default handling.
+	 * The {@link CMissingTranslationEvent::message} property
+	 * will be returned by {@link translateMessage}.
+	 * @param CMissingTranslationEvent the event parameter
+	 */
+	public function onMissingTranslation($event)
+	{
+		$this->raiseEvent('onMissingTranslation',$event);
+	}
+}
+
+
+/**
+ * CMissingTranslationEvent represents the parameter for the {@link CMessageSource::onMissingTranslation onMissingTranslation} event.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id$
+ * @package system.i18n
+ * @since 1.0
+ */
+class CMissingTranslationEvent extends CEvent
+{
+	/**
+	 * @var string the message to be translated
+	 */
+	public $message;
+	/**
+	 * @var string the category that the message belongs to
+	 */
+	public $category;
+	/**
+	 * @var string the ID of the language that the message is to be translated to
+	 */
+	public $language;
+
+	/**
+	 * Constructor.
+	 * @param string the message to be translated
+	 * @param string the category that the message belongs to
+	 * @param string the ID of the language that the message is to be translated to
+	 */
+	public function __construct($sender,$message,$category,$language)
+	{
+		parent::__construct($sender);
+		$this->message=$message;
+		$this->category=$category;
+		$this->language=$language;
 	}
 }
