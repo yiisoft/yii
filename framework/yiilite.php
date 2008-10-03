@@ -188,18 +188,12 @@ class YiiBase
 	}
 	public static function t($message,$params=array())
 	{
-		if(($pos=strpos($message,'##'))!==false)
+		if(self::$_app!==null && ($pos=strpos($message,'#'))!==false)
 		{
 			$category=substr($message,0,$pos);
-			$message=(string)substr($message,$pos+2);
-		}
-		else
-			$category='main';
-		if(self::$_app!==null)
-		{
 			$source=$category==='yii'?self::$_app->getCoreMessages():self::$_app->getMessages();
 			if($source!==null)
-				$message=$source->translate($message,$category);
+				$message=$source->translate((string)substr($message,$pos+1),$category);
 		}
 		return $params!==array() ? strtr($message,$params) : $message;
 	}
@@ -274,6 +268,7 @@ class YiiBase
 		'CCompareValidator' => '/validators/CCompareValidator.php',
 		'CEmailValidator' => '/validators/CEmailValidator.php',
 		'CFilterValidator' => '/validators/CFilterValidator.php',
+		'CInlineValidator' => '/validators/CInlineValidator.php',
 		'CNumberValidator' => '/validators/CNumberValidator.php',
 		'CRangeValidator' => '/validators/CRangeValidator.php',
 		'CRegularExpressionValidator' => '/validators/CRegularExpressionValidator.php',
@@ -2662,7 +2657,7 @@ class CWebUser extends CApplicationComponent
 	{
 		return $this->getFlash($key)!==null;
 	}
-	public function updateFlash()
+	protected function updateFlash()
 	{
 		$counters=$this->getState(self::FLASH_COUNTERS);
 		if(!is_array($counters))
@@ -2672,7 +2667,7 @@ class CWebUser extends CApplicationComponent
 			if($count)
 			{
 				unset($counters[$key]);
-				$this->setState($key,null);
+				$this->setState(self::FLASH_KEY_PREFIX.$key,null);
 			}
 			else
 				$counters[$key]++;
@@ -6026,26 +6021,5 @@ interface IWebServiceProvider
 {
 	public function beforeWebMethod($service);
 	public function afterWebMethod($service);
-}
-if(!function_exists('t'))
-{
-	function t($message,$params=array())
-	{
-		return Yii::t($message,$params);
-	}
-}
-if(!function_exists('app'))
-{
-	function app()
-	{
-		return Yii::app();
-	}
-}
-if(!function_exists('h'))
-{
-	function h($str)
-	{
-		return htmlspecialchars($str,ENT_QUOTES,Yii::app()->charset);
-	}
 }
 ?>
