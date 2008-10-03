@@ -19,73 +19,73 @@
  */
 $requirements = array(
 	array(
-		'yii##PHP version',
+		t('yii#PHP version'),
 		true,
 		version_compare(PHP_VERSION,"5.1.0",">="),
 		'<a href="http://www.yiiframework.com">Yii Framework</a>',
-		'yii##PHP 5.1.0 or higher is required.'),
+		t('yii#PHP 5.1.0 or higher is required.')),
 	array(
-		'yii##$_SERVER',
+		t('yii#$_SERVER variable'),
 		true,
 		($message=checkServerVar())==='',
 		'<a href="http://www.yiiframework.com">Yii Framework</a>',
 		$message),
 	array(
-		'yii##Reflection extension',
+		t('yii#Reflection extension'),
 		true,
 		class_exists('Reflection',false),
 		'<a href="http://www.yiiframework.com">Yii Framework</a>',
 		''),
     array(
-        'yii##PCRE extension',
+        t('yii#PCRE extension'),
         true,
         extension_loaded("pcre"),
 		'<a href="http://www.yiiframework.com">Yii Framework</a>',
     	''),
     array(
-		'yii##SPL extension',
+		t('yii#SPL extension'),
 		true,
 		extension_loaded("SPL"),
 		'<a href="http://www.yiiframework.com">Yii Framework</a>',
 		''),
 	array(
-		'yii##DOM extension',
+		t('yii#DOM extension'),
 		false,
 		class_exists("DOMDocument",false),
 		'<a href="http://www.yiiframework.com/doc/api/CWsdlGenerator">CWsdlGenerator</a>',
 		''),
     array(
-    	'yii##PDO extension',
+    	t('yii#PDO extension'),
         false,
         class_exists("PDO",false),
-		'yii##All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>',
-        'yii##Additional drivier-specific PDO extension (e.g. pdo_mysql) is also needed.'),
+		t('yii#All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
+        t('yii#Additional drivier-specific PDO extension (e.g. pdo_mysql) is also needed.')),
 	array(
-    	'yii##Memcache extension',
+    	t('yii#Memcache extension'),
 		false,
 		extension_loaded("memcache"),
 		'<a href="http://www.yiiframework.com/doc/api/CMemCache">CMemCache</a>',
 		''),
 	array(
-		'yii##APC extension',
+		t('yii#APC extension'),
 		false,
 		extension_loaded("apc"),
 		'<a href="http://www.yiiframework.com/doc/api/CApcCache">CApcCache</a>',
 		''),
 	array(
-		'yii##Mcrypt extension',
+		t('yii#Mcrypt extension'),
 		false,
 		extension_loaded("mcrypt"),
 		'<a href="http://www.yiiframework.com/doc/api/CSecurityManager">CSecurityManager</a>',
 		'This is required by encrypt and decrypt methods.'),
 	array(
-		'yii##SOAP extension',
+		t('yii#SOAP extension'),
 		false,
 		extension_loaded("soap"),
 		'<a href="http://www.yiiframework.com/doc/api/CWebService">CWebService</a>, <a href="http://www.yiiframework.com/doc/api/CWebServiceAction">CWebServiceAction</a>',
 		''),
 	array(
-		'yii##GD extension',
+		t('yii#GD extension'),
 		false,
 		extension_loaded('gd'),
 		'<a href="http://www.yiiframework.com/doc/api/CCaptchaAction">CCaptchaAction</a>',
@@ -102,16 +102,16 @@ function checkServerVar()
 			$missing[]=$var;
 	}
 	if(!empty($missing))
-		return strtr('yii##$_SERVER does not have {vars}.',array('{vars}'=>implode(', ',$missing)));
+		return t('yii#$_SERVER does not have {vars}.',array('{vars}'=>implode(', ',$missing)));
 
 	if(realpath($_SERVER["SCRIPT_FILENAME"])!==realpath(__FILE__))
-		return 'yii##$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.';
+		return t('yii#$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.');
 
 	if(!isset($_SERVER["REQUEST_URI"]) && isset($_SERVER["QUERY_STRING"]))
-		return 'yii##Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.';
+		return t('yii#Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.');
 
 	if(!isset($_SERVER["PATH_INFO"]) && strpos($_SERVER["PHP_SELF"],$_SERVER["SCRIPT_NAME"])!==0)
-		return 'yii##Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.';
+		return t('yii#Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.');
 
 	return '';
 }
@@ -150,8 +150,8 @@ function t($message,$params=array())
 		}
 	}
 
-	if(($pos=strpos($message,'##'))!==false)
-		$message=(string)substr($message,$pos+2);
+	if(($pos=strpos($message,'#'))!==false)
+		$message=(string)substr($message,$pos+1);
 	if(empty($message))
 		return $message;
 
@@ -198,9 +198,9 @@ for($i=0;$i<$n;++$i)
 		$result=0;
 	else if($result>0 && !$requirement[1] && !$requirement[2])
 		$result=-1;
-	$requirements[$i][0]=t($requirements[$i][0]);
-	$requirements[$i][3]=t($requirements[$i][3]);
-	$requirements[$i][4]=t($requirements[$i][4]);
+	$requirements[$i][0]=$requirements[$i][0];
+	$requirements[$i][3]=$requirements[$i][3];
+	$requirements[$i][4]=$requirements[$i][4];
 	if($requirements[$i][4]==='')
 		$requirements[$i][4]='&nbsp;';
 }

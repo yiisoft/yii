@@ -48,6 +48,9 @@ PARAMETERS
      an exclusion of '.svn' will exclude all files and directories whose
      name is '.svn'. And an exclusion of '/a/b' will exclude file or
      directory 'sourcePath/a/b'.
+   - translator: the name of the function for translating messages.
+     Defaults to 'Yii::t'. This is used as a mark to find messages to be
+     translated.
 
 EOD;
 	}
@@ -64,6 +67,7 @@ EOD;
 			$this->usageError("the configuration file {$args[0]} does not exist.");
 
 		$config=require_once($args[0]);
+		$translator='Yii::t';
 		extract($config);
 
 		if(!isset($sourcePath,$messagePath,$languages))
@@ -84,7 +88,7 @@ EOD;
 
 		$messages=array();
 		foreach($files as $file)
-			$messages=array_merge_recursive($messages,$this->extractMessages($file));
+			$messages=array_merge_recursive($messages,$this->extractMessages($file,$translator));
 
 		foreach($languages as $language)
 		{
@@ -99,26 +103,22 @@ EOD;
 		}
 	}
 
-	protected function extractMessages($fileName)
+	protected function extractMessages($fileName,$translator)
 	{
 		echo "Extracting messages from $fileName...\n";
 		$subject=file_get_contents($fileName);
-		preg_match_all('/[\'"]\w+##/',$subject,$matches,PREG_OFFSET_CAPTURE);
-		if(empty($matches))
-			return array();
+		preg_match_all('/\b'.$translator.'\s*\(\s*[\'|"](\w+)#(.)/',$subject,$matches,PREG_OFFSET_CAPTURE);
 		$messages=array();
-		foreach($matches[0] as $match)
+		foreach($matches[1] as $j=>$match)
 		{
-			$offset=$match[1];
-			$quote=$subject[$offset];
-			$pos=strpos($subject,'##',$offset+1);
-			$category=substr($subject,$offset+1,$pos-$offset-1);
-			for($i=$pos+1;isset($subject[$i]);++$i)
+			list($category,$offset)=$match;
+			$quote=$subject[$offset-1];
+			$start=$matches[2][$j][1];
+			for($i=$start;isset($subject[$i]);++$i)
 			{
-				$c=$subject[$i];
-				if($c===$quote && $subject[$i-1]!=='\\')
+				if($subject[$i]===$quote && $subject[$i-1]!=='\\')
 				{
-					$message=$quote.substr($subject,$pos+2,$i-$pos-2).$quote;
+					$message=$quote.substr($subject,$start,$i-$start).$quote;
 					eval("\$str=$message;");  // use eval to eliminate quote escape
 					$messages[$category][]=$str;
 					break;
@@ -186,7 +186,6 @@ EOD;
  */
 return $array;
 
-?>
 EOD;
 		file_put_contents($fileName, $content);
 	}

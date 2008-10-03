@@ -88,7 +88,7 @@ abstract class CBaseController extends CComponent
 		else
 		{
 			$widget=end($this->_widgetStack);
-			throw new CException(Yii::t('yii##{controller} contains improperly nested widget tags in its view "{view}". A {widget} widget does not have an endWidget() call.',
+			throw new CException(Yii::t('yii#{controller} contains improperly nested widget tags in its view "{view}". A {widget} widget does not have an endWidget() call.',
 				array('{controller}'=>get_class($this), '{view}'=>$viewFile, '{widget}'=>get_class($widget))));
 		}
 	}
@@ -182,7 +182,7 @@ abstract class CBaseController extends CComponent
 			return $widget;
 		}
 		else
-			throw new CException(Yii::t('yii##{controller} has an extra endWidget({id}) call in its view.',
+			throw new CException(Yii::t('yii#{controller} has an extra endWidget({id}) call in its view.',
 				array('{controller}'=>get_class($this),'{id}'=>$id)));
 	}
 

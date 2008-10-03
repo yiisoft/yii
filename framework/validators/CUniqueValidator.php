@@ -48,7 +48,10 @@ class CUniqueValidator extends CValidator
 		else
 			$exists=$object->exists("LOWER($columnName)=LOWER(:value)",array(':value'=>$value));
 		if($exists)
-			$this->addError($object,$attribute,$this->message,'yii##{attribute} "{value}" has already been taken.',array('{value}'=>$value));
+		{
+			$message=$this->message!==null?$this->message:Yii::t('yii#{attribute} "{value}" has already been taken.');
+			$this->addError($object,$attribute,$message,array('{value}'=>$value));
+		}
 	}
 }
 

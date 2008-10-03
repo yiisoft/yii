@@ -226,7 +226,7 @@ class CDateFormatter extends CComponent
 			case 'MMMMM':
 				return $this->_locale->getMonthName($month,'narrow');
 			default:
-				throw new CException(Yii::t('yii##The pattern for month must be "M", "MM", "MMM", or "MMMM".'));
+				throw new CException(Yii::t('yii#The pattern for month must be "M", "MM", "MMM", or "MMMM".'));
 		}
 	}
 
@@ -245,7 +245,7 @@ class CDateFormatter extends CComponent
 		else if($pattern==='dd')
 			return str_pad($day,2,'0',STR_PAD_LEFT);
 		else
-			throw new CException(Yii::t('yii##The pattern for day of the month must be "d" or "dd".'));
+			throw new CException(Yii::t('yii#The pattern for day of the month must be "d" or "dd".'));
 	}
 
 	/**
@@ -260,7 +260,7 @@ class CDateFormatter extends CComponent
 		if(($n=strlen($pattern))<=3)
 			return str_pad($day,$n,'0',STR_PAD_LEFT);
 		else
-			throw new CException(Yii::t('yii##The pattern for day in year must be "D", "DD" or "DDD".'));
+			throw new CException(Yii::t('yii#The pattern for day in year must be "D", "DD" or "DDD".'));
 	}
 
 	/**
@@ -274,7 +274,7 @@ class CDateFormatter extends CComponent
 		if($pattern==='F')
 			return (int)(($date['mday']+6)/7);
 		else
-			throw new CException(Yii::t('yii##The pattern for day in month must be "F".'));
+			throw new CException(Yii::t('yii#The pattern for day in month must be "F".'));
 	}
 
 	/**
@@ -300,7 +300,7 @@ class CDateFormatter extends CComponent
 			case 'EEEEE':
 				return $this->_locale->getWeekDayName($day,'narrow');
 			default:
-				throw new CException(Yii::t('yii##The pattern for day of the week must be "E", "EE", "EEE", "EEEE" or "EEEEE".'));
+				throw new CException(Yii::t('yii#The pattern for day of the week must be "E", "EE", "EEE", "EEEE" or "EEEEE".'));
 		}
 	}
 
@@ -320,7 +320,7 @@ class CDateFormatter extends CComponent
 				return $this->_locale->getAMName();
 		}
 		else
-			throw new CException(Yii::t('yii##The pattern for AM/PM marker must be "a".'));
+			throw new CException(Yii::t('yii#The pattern for AM/PM marker must be "a".'));
 	}
 
 	/**
@@ -338,7 +338,7 @@ class CDateFormatter extends CComponent
 		else if($pattern==='HH')
 			return str_pad($hour,2,'0',STR_PAD_LEFT);
 		else
-			throw new CException(Yii::t('yii##The pattern for 24 hour format must be "H" or "HH".'));
+			throw new CException(Yii::t('yii#The pattern for 24 hour format must be "H" or "HH".'));
 	}
 
 	/**
@@ -357,7 +357,7 @@ class CDateFormatter extends CComponent
 		else if($pattern==='hh')
 			return str_pad($hour,2,'0',STR_PAD_LEFT);
 		else
-			throw new CException(Yii::t('yii##The pattern for 12 hour format must be "h" or "hh".'));
+			throw new CException(Yii::t('yii#The pattern for 12 hour format must be "h" or "hh".'));
 	}
 
 	/**
@@ -375,7 +375,7 @@ class CDateFormatter extends CComponent
 		else if($pattern==='kk')
 			return str_pad($hour,2,'0',STR_PAD_LEFT);
 		else
-			throw new CException(Yii::t('yii##The pattern for hour in day must be "k" or "kk".'));
+			throw new CException(Yii::t('yii#The pattern for hour in day must be "k" or "kk".'));
 	}
 
 	/**
@@ -393,7 +393,7 @@ class CDateFormatter extends CComponent
 		else if($pattern==='KK')
 			return str_pad($hour,2,'0',STR_PAD_LEFT);
 		else
-			throw new CException(Yii::t('yii##The pattern for hour in AM/PM must be "K" or "KK".'));
+			throw new CException(Yii::t('yii#The pattern for hour in AM/PM must be "K" or "KK".'));
 	}
 
 	/**
@@ -411,7 +411,7 @@ class CDateFormatter extends CComponent
 		else if($pattern==='mm')
 			return str_pad($minutes,2,'0',STR_PAD_LEFT);
 		else
-			throw new CException(Yii::t('yii##The pattern for minutes must be "m" or "mm".'));
+			throw new CException(Yii::t('yii#The pattern for minutes must be "m" or "mm".'));
 	}
 
 	/**
@@ -429,7 +429,7 @@ class CDateFormatter extends CComponent
 		else if($pattern==='ss')
 			return str_pad($seconds,2,'0',STR_PAD_LEFT);
 		else
-			throw new CException(Yii::t('yii##The pattern for seconds must be "s" or "ss".'));
+			throw new CException(Yii::t('yii#The pattern for seconds must be "s" or "ss".'));
 	}
 
 	/**
@@ -443,7 +443,7 @@ class CDateFormatter extends CComponent
 		if($pattern==='w')
 			return @date('W',@mktime(0,0,0,$date['mon'],$date['mday'],$date['year']));
 		else
-			throw new CException(Yii::t('yii##The pattern for week in year must be "w".'));
+			throw new CException(Yii::t('yii#The pattern for week in year must be "w".'));
 	}
 
 	/**
@@ -457,7 +457,7 @@ class CDateFormatter extends CComponent
 		if($pattern==='W')
 			return @date('W',@mktime(0,0,0,$date['mon'], $date['mday'],$date['year']))-date('W', mktime(0,0,0,$date['mon'],1,$date['year']))+1;
 		else
-			throw new CException(Yii::t('yii##The pattern for week in month must be "W".'));
+			throw new CException(Yii::t('yii#The pattern for week in month must be "W".'));
 	}
 
 	/**
@@ -472,7 +472,7 @@ class CDateFormatter extends CComponent
 		if($pattern==='z' | $pattern==='v')
 			return @date('T', @mktime($date['hours'], $date['minutes'], $date['seconds'], $date['mon'], $date['mday'], $date['year']));
 		else
-			throw new CException(Yii::t('yii##The pattern for time zone must be "z" or "v".'));
+			throw new CException(Yii::t('yii#The pattern for time zone must be "z" or "v".'));
 	}
 
 	/**
@@ -496,7 +496,7 @@ class CDateFormatter extends CComponent
 			case 'GGGGG':
 				return $this->_locale->getEraName($era,'narrow');
 			default:
-				throw new CException(Yii::t('yii##The pattern for era must be "G", "GG", "GGG", "GGGG" or "GGGGG".'));
+				throw new CException(Yii::t('yii#The pattern for era must be "G", "GG", "GGG", "GGGG" or "GGGGG".'));
 		}
 	}
 }

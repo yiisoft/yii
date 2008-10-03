@@ -107,7 +107,6 @@ EOD;
 		$content='';
 		foreach($results as $fileName=>$class)
 			$content.="\n".file_get_contents($fileName);
-		$content.="\n".file_get_contents(YII_PATH.'/core/functions.php');
 
 		return $content;
 	}

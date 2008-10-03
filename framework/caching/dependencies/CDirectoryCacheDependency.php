@@ -68,7 +68,7 @@ class CDirectoryCacheDependency extends CCacheDependency
 		if($this->directory!==null)
 			return $this->generateTimestamps($this->directory);
 		else
-			throw new CException(Yii::t('yii##CDirectoryCacheDependency.directory cannot be empty.'));
+			throw new CException(Yii::t('yii#CDirectoryCacheDependency.directory cannot be empty.'));
 	}
 
 	/**
@@ -81,7 +81,7 @@ class CDirectoryCacheDependency extends CCacheDependency
 	protected function generateTimestamps($directory,$level=0)
 	{
 		if(($dir=@opendir($directory))===false)
-			throw new CException(Yii::t('yii##"{path}" is not a valid directory.',
+			throw new CException(Yii::t('yii#"{path}" is not a valid directory.',
 				array('{path}'=>$directory)));
 		$timestamps=array();
 		while(($file=readdir($dir))!==false)

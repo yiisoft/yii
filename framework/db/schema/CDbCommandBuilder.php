@@ -168,7 +168,7 @@ class CDbCommandBuilder extends CComponent
 			}
 		}
 		if($fields===array())
-			throw new CDbException(Yii::t('yii##No columns are being updated to table "{table}".',
+			throw new CDbException(Yii::t('yii#No columns are being updated to table "{table}".',
 				array('{table}'=>$table->name)));
 		$sql="UPDATE {$table->rawName} SET ".implode(', ',$fields);
 		$sql=$this->applyJoin($sql,$criteria->join);
@@ -216,7 +216,7 @@ class CDbCommandBuilder extends CComponent
 			return $command;
 		}
 		else
-			throw new CDbException(Yii::t('yii##No counter columns are being updated for table "{table}".',
+			throw new CDbException(Yii::t('yii#No counter columns are being updated for table "{table}".',
 				array('{table}'=>$table->name)));
 	}
 
@@ -433,7 +433,7 @@ class CDbCommandBuilder extends CComponent
 							$values[$i][$name]=$value;
 					}
 					else
-						throw new CDbException(Yii::t('yii##The value for the primary key "{key}" is not supplied when querying the table "{table}".',
+						throw new CDbException(Yii::t('yii#The value for the primary key "{key}" is not supplied when querying the table "{table}".',
 							array('{table}'=>$table->name,'{key}'=>$name)));
 				}
 			}
@@ -449,7 +449,7 @@ class CDbCommandBuilder extends CComponent
 				return $this->generateCompositePkCondition($table,$values,$prefix);
 		}
 		else
-			throw new CDbException(Yii::t('yii##Table "{table}" does not have a primary key defined.',
+			throw new CDbException(Yii::t('yii#Table "{table}" does not have a primary key defined.',
 				array('{table}'=>$table->name)));
 	}
 
@@ -511,7 +511,7 @@ class CDbCommandBuilder extends CComponent
 					$conditions[]=$table->rawName.'.'.$column->rawName.' IS NULL';
 			}
 			else
-				throw new CDbException(Yii::t('yii##Table "{table}" does not have a column named "{column}".',
+				throw new CDbException(Yii::t('yii#Table "{table}" does not have a column named "{column}".',
 					array('{table}'=>$table->name,'{column}'=>$name)));
 		}
 		$criteria->params=array_merge($values,$criteria->params);

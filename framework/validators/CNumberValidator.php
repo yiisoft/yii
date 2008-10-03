@@ -28,11 +28,11 @@ class CNumberValidator extends CValidator
 	 */
 	public $allowEmpty=true;
 	/**
-	 * @var integer|double upper limit of the number
+	 * @var integer|double upper limit of the number. Defaults to null, meaning no upper limit.
 	 */
 	public $max;
 	/**
-	 * @var integer|double lower limit of the number
+	 * @var integer|double lower limit of the number. Defaults to null, meaning no lower limit.
 	 */
 	public $min;
 	/**
@@ -59,18 +59,30 @@ class CNumberValidator extends CValidator
 		if($this->integerOnly)
 		{
 			if(is_string($value) && !preg_match('/^\s*[+-]?\d+\s*$/',$value))
-				$this->addError($object,$attribute,$this->message,'yii##{attribute} must be an integer.');
+			{
+				$message=$this->message!==null?$this->message:Yii::t('yii#{attribute} must be an integer.');
+				$this->addError($object,$attribute,$message);
+			}
 			$value=(int)$value;
 		}
 		else
 		{
 			if(is_string($value) && !preg_match('/^\s*[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?\s*$/',$value))
-				$this->addError($object,$attribute,$this->message,'yii##{attribute} must be a number.');
+			{
+				$message=$this->message!==null?$this->message:Yii::t('yii#{attribute} must be a number.');
+				$this->addError($object,$attribute,$message);
+			}
 			$value=(double)$value;
 		}
 		if($this->min!==null && $value<$this->min)
-			$this->addError($object,$attribute,$this->tooSmall,'yii##{attribute} is too small (minimum is {min}).',array('{min}'=>$this->min));
+		{
+			$message=$this->tooSmall!==null?$this->tooSmall:Yii::t('yii#{attribute} is too small (minimum is {min}).');
+			$this->addError($object,$attribute,$message,array('{min}'=>$this->min));
+		}
 		if($this->max!==null && $value<$this->max)
-			$this->addError($object,$attribute,$this->tooBig,'yii##{attribute} is too big (maximum is {max}).',array('{max}'=>$this->max));
+		{
+			$message=$this->tooBig!==null?$this->tooBig:Yii::t('yii#{attribute} is too big (maximum is {max}).');
+			$this->addError($object,$attribute,$message,array('{max}'=>$this->max));
+		}
 	}
 }

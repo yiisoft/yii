@@ -215,7 +215,7 @@ class CDbConnection extends CComponent implements IApplicationComponent
 		if($this->_pdo===null)
 		{
 			if(empty($this->connectionString))
-				throw new CDbException(Yii::t('yii##CDbConnection.connectionString cannot be empty.'));
+				throw new CDbException(Yii::t('yii#CDbConnection.connectionString cannot be empty.'));
 			try
 			{
 				$this->_pdo=new PDO($this->connectionString,$this->username,
@@ -225,7 +225,7 @@ class CDbConnection extends CComponent implements IApplicationComponent
 			}
 			catch(PDOException $e)
 			{
-				throw new CDbException(Yii::t('yii##CDbConnection failed to open the DB connection: {error}',
+				throw new CDbException(Yii::t('yii#CDbConnection failed to open the DB connection: {error}',
 					array('{error}'=>$e->getMessage())));
 			}
 		}
@@ -261,7 +261,7 @@ class CDbConnection extends CComponent implements IApplicationComponent
 		if($this->getActive())
 			return new CDbCommand($this,$sql);
 		else
-			throw new CDbException(Yii::t('yii##CDbConnection is inactive and cannot perform any DB operations.'));
+			throw new CDbException(Yii::t('yii#CDbConnection is inactive and cannot perform any DB operations.'));
 	}
 
 	/**
@@ -290,7 +290,7 @@ class CDbConnection extends CComponent implements IApplicationComponent
 			return $this->_transaction=new CDbTransaction($this);
 		}
 		else
-			throw new CDbException(Yii::t('yii##CDbConnection is inactive and cannot perform any DB operations.'));
+			throw new CDbException(Yii::t('yii#CDbConnection is inactive and cannot perform any DB operations.'));
 	}
 
 	/**
@@ -304,7 +304,7 @@ class CDbConnection extends CComponent implements IApplicationComponent
 		else
 		{
 			if(!$this->getActive())
-				throw new CDbException(Yii::t('yii##CDbConnection is inactive and cannot perform any DB operations.'));
+				throw new CDbException(Yii::t('yii#CDbConnection is inactive and cannot perform any DB operations.'));
 			$driver=$this->getDriverName();
 			switch(strtolower($driver))
 			{
@@ -321,7 +321,7 @@ class CDbConnection extends CComponent implements IApplicationComponent
 				case 'oci':
 				case 'ibm':
 				default:
-					throw new CDbException(Yii::t('yii##CDbConnection does not support reading schema for {driver} database.',
+					throw new CDbException(Yii::t('yii#CDbConnection does not support reading schema for {driver} database.',
 						array('{driver}'=>$driver)));
 			}
 		}
@@ -338,7 +338,7 @@ class CDbConnection extends CComponent implements IApplicationComponent
 		if($this->getActive())
 			return $this->_pdo->lastInsertId($sequenceName);
 		else
-			throw new CDbException(Yii::t('yii##CDbConnection is inactive and cannot perform any DB operations.'));
+			throw new CDbException(Yii::t('yii#CDbConnection is inactive and cannot perform any DB operations.'));
 	}
 
 	/**
@@ -352,7 +352,7 @@ class CDbConnection extends CComponent implements IApplicationComponent
 		if($this->getActive())
 			return $this->_pdo->quote($str);
 		else
-			throw new CDbException(Yii::t('yii##CDbConnection is inactive and cannot perform any DB operations.'));
+			throw new CDbException(Yii::t('yii#CDbConnection is inactive and cannot perform any DB operations.'));
 	}
 
 	/**
@@ -532,7 +532,7 @@ class CDbConnection extends CComponent implements IApplicationComponent
 		if($this->getActive())
 			return $this->_pdo->getAttribute($name);
 		else
-			throw new CDbException(Yii::t('yii##CDbConnection is inactive and cannot perform any DB operations.'));
+			throw new CDbException(Yii::t('yii#CDbConnection is inactive and cannot perform any DB operations.'));
 	}
 
 	/**

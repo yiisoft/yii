@@ -40,9 +40,12 @@ class CRegularExpressionValidator extends CValidator
 		if($this->allowEmpty && ($value===null || $value===''))
 			return;
 		if($this->pattern===null)
-			throw new CException(Yii::t('yii##The "pattern" property must be specified with a valid regular expression.'));
+			throw new CException(Yii::t('yii#The "pattern" property must be specified with a valid regular expression.'));
 		if(!preg_match($this->pattern,$value))
-			$this->addError($object,$attribute,$this->message,'yii##{attribute} is invalid.');
+		{
+			$message=$this->message!==null?$this->message:Yii::t('yii#{attribute} is invalid.');
+			$this->addError($object,$attribute,$message);
+		}
 	}
 }
 

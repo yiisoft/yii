@@ -191,7 +191,7 @@ class CHttpRequest extends CApplicationComponent
 			if(isset($_SERVER['SCRIPT_NAME']))
 				$this->_scriptUrl=$_SERVER['SCRIPT_NAME'];
 			else
-				throw new CException(Yii::t('yii##CHttpRequest is unable to determine the entry script URL.'));
+				throw new CException(Yii::t('yii#CHttpRequest is unable to determine the entry script URL.'));
 			return $this->_scriptUrl;
 		}
 	}
@@ -552,7 +552,7 @@ class CCookieCollection extends CMap
 				$this->addCookie($cookie);
 		}
 		else
-			throw new CException(Yii::t('yii##CHttpCookieCollection can only hold CHttpCookie objects.'));
+			throw new CException(Yii::t('yii#CHttpCookieCollection can only hold CHttpCookie objects.'));
 	}
 
 	/**

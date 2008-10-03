@@ -289,7 +289,7 @@ class CUrlManager extends CApplicationComponent
 		if($value===self::PATH_FORMAT || $value===self::GET_FORMAT)
 			$this->_urlFormat=$value;
 		else
-			throw new CException(Yii::t('yii##CUrlManager.UrlFormat must be either "path" or "get".'));
+			throw new CException(Yii::t('yii#CUrlManager.UrlFormat must be either "path" or "get".'));
 	}
 }
 
@@ -364,7 +364,7 @@ class CUrlRule extends CComponent
 		else
 			$this->pattern.='$/u';
 		if(@preg_match($this->pattern,'test')===false)
-			throw new CException(Yii::t('yii##The URL pattern "{pattern}" for route "{route}" is not a valid regular expression.',
+			throw new CException(Yii::t('yii#The URL pattern "{pattern}" for route "{route}" is not a valid regular expression.',
 				array('{route}'=>$route,'{pattern}'=>$pattern)));
 	}
 

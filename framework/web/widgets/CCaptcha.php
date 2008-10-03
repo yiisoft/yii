@@ -93,7 +93,7 @@ class CCaptcha extends CWidget
 		if($this->showRefreshButton)
 		{
 			$id=$this->imageOptions['id'];
-			$label=$this->buttonLabel===null?Yii::t('yii##Get a new code'):$this->buttonLabel;
+			$label=$this->buttonLabel===null?Yii::t('yii#Get a new code'):$this->buttonLabel;
 			$button=$this->buttonType==='button'?'ajaxButton':'ajaxLink';
 			$url=$this->getController()->createUrl($this->captchaAction,array(CCaptchaAction::REFRESH_GET_VAR=>true));
 			echo CHtml::$button($label,$url,array('success'=>'js:function(html){jQuery("#'.$id.'").attr("src",html)}'));

@@ -67,7 +67,10 @@ class CCompareValidator extends CValidator
 				$compareValue=$object->{$this->compareAttribute};
 		}
 		if(($this->strict && $value!==$compareValue) || (!$this->strict && $value!=$compareValue))
-			$this->addError($object,$attribute,$this->message,'yii##{attribute} must be repeated exactly.');
+		{
+			$message=$this->message!==null?$this->message:Yii::t('yii#{attribute} must be repeated exactly.');
+			$this->addError($object,$attribute,$message);
+		}
 	}
 }
 

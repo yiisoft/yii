@@ -77,7 +77,7 @@ class CLocale extends CComponent
 		if(is_file($dataFile))
 			$this->_data=require($dataFile);
 		else
-			throw new CException(Yii::t('yii##Unrecognized locale "{locale}".',array('{locale}'=>$id)));
+			throw new CException(Yii::t('yii#Unrecognized locale "{locale}".',array('{locale}'=>$id)));
 	}
 
 	/**

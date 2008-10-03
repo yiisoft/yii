@@ -751,7 +751,7 @@ class CHtml
 	public static function errorSummary($model,$header='',$footer='')
 	{
 		if($header==='')
-			$header='<p>'.Yii::t('yii##Please fix the following input errors:').'</p>';
+			$header='<p>'.Yii::t('yii#Please fix the following input errors:').'</p>';
 		$content='';
 		foreach($model->getErrors() as $errors)
 		{

@@ -21,15 +21,15 @@
 class CStringValidator extends CValidator
 {
 	/**
-	 * @var integer maximum length.
+	 * @var integer maximum length. Defaults to null, meaning no maximum limit.
 	 */
 	public $max;
 	/**
-	 * @var integer minimum length.
+	 * @var integer minimum length. Defaults to null, meaning no minimum limit.
 	 */
 	public $min;
 	/**
-	 * @var integer exact length.
+	 * @var integer exact length. Defaults to null, meaning no exact length limit.
 	 */
 	public $is;
 	/**
@@ -40,10 +40,6 @@ class CStringValidator extends CValidator
 	 * @var string user-defined error message used when the value is too short.
 	 */
 	public $tooLong;
-	/**
-	 * @var string user-defined error message used when the value length is not the expected one.
-	 */
-	public $wrongLength;
 	/**
 	 * @var boolean whether the attribute value can be null or empty. Defaults to true,
 	 * meaning that if the attribute is empty, it is considered valid.
@@ -63,11 +59,20 @@ class CStringValidator extends CValidator
 			return;
 		$length=strlen($value);
 		if($this->min!==null && $length<$this->min)
-			$this->addError($object,$attribute,$this->tooShort,'yii##{attribute} is too short (minimum is {min} characters).',array('{min}'=>$this->min));
+		{
+			$message=$this->tooShort!==null?$this->tooShort:Yii::t('yii#{attribute} is too short (minimum is {min} characters).');
+			$this->addError($object,$attribute,$message,array('{min}'=>$this->min));
+		}
 		if($this->max!==null && $length>$this->max)
-			$this->addError($object,$attribute,$this->tooLong,'yii##{attribute} is too long (maximum is {max} characters).',array('{max}'=>$this->max));
+		{
+			$message=$this->tooLong!==null?$this->tooLong:Yii::t('yii#{attribute} is too long (maximum is {max} characters).');
+			$this->addError($object,$attribute,$message,array('{max}'=>$this->max));
+		}
 		if($this->is!==null && $length!==$this->is)
-			$this->addError($object,$attribute,$this->wrongLength,'yii##{attribute} is of the wrong length (should be {length} characters).',array('{length}'=>$this->is));
+		{
+			$message=$this->message!==null?$this->message:Yii::t('yii#{attribute} is of the wrong length (should be {length} characters).');
+			$this->addError($object,$attribute,$message,array('{length}'=>$this->is));
+		}
 	}
 }
 

@@ -192,7 +192,7 @@ class CWebUser extends CApplicationComponent
 			$request->redirect($url);
 		}
 		else
-			throw new CHttpException(401,Yii::t('yii##Login Required'));
+			throw new CHttpException(401,Yii::t('yii#Login Required'));
 	}
 
 	/**
@@ -221,7 +221,7 @@ class CWebUser extends CApplicationComponent
 			if($duration>0)
 			{
 				if(!$this->allowAutoLogin)
-					throw new CException(Yii::t('yii##{class}.allowAutoLogin must be set true in order to use cookie-based authentication.',
+					throw new CException(Yii::t('yii#{class}.allowAutoLogin must be set true in order to use cookie-based authentication.',
 						array('{class}'=>get_class($this))));
 				$cookie=new CHttpCookie($this->getSessionKeyPrefix(),'');
 				$cookie->expire=time()+$duration;
@@ -256,7 +256,7 @@ class CWebUser extends CApplicationComponent
 	 */
 	public function validate($username,$password)
 	{
-		throw new CException(Yii::t('yii##You must implement {class}.validate() method in order to do user authentication.',
+		throw new CException(Yii::t('yii#You must implement {class}.validate() method in order to do user authentication.',
 			array('class'=>get_class($this))));
 	}
 

@@ -144,46 +144,13 @@ abstract class CValidator extends CComponent
 	 * This is a helper method that performs message selection and internationalization.
 	 * @param CModel the data object being validated
 	 * @param string the attribute being validated
-	 * @param string user-defined error message. If null, the default error message will be used.
-	 * @param string the default error message
+	 * @param string the error message
 	 * @param array values for the placeholders in the error message
 	 */
-	protected function addError($object,$attribute,$message,$defaultMessage,$params=array())
+	protected function addError($object,$attribute,$message,$params=array())
 	{
 		$params['{attribute}']=$object->getAttributeLabel($attribute);
-		$object->addError($attribute,Yii::t($message===null?$defaultMessage:$message,$params));
+		$object->addError($attribute,strtr($message,$params));
 	}
 }
 
-
-/**
- * CInlineValidator represents a validator which is defined as a method in the object being validated.
- *
- * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
- * @package system.validators
- * @since 1.0
- */
-class CInlineValidator extends CValidator
-{
-	/**
-	 * @var string the name of the validation method defined in the active record class
-	 */
-	public $method;
-	/**
-	 * @var array additional parameters that are passed to the validation method
-	 */
-	public $params;
-
-	/**
-	 * Validates the attribute of the object.
-	 * If there is any error, the error message is added to the object.
-	 * @param CModel the object being validated
-	 * @param string the attribute being validated
-	 */
-	protected function validateAttribute($object,$attribute)
-	{
-		$method=$this->method;
-		$object->$method($attribute,$this->params);
-	}
-}
