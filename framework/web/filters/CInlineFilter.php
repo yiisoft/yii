@@ -53,7 +53,7 @@ class CInlineFilter extends CFilter
 		if(method_exists($filterChain->controller,$method))
 			$filterChain->controller->$method($filterChain);
 		else
-			throw new CException(Yii::t('yii##Filter "{filter}" is invalid. Controller "{class}" does have the filter method "filter{filter}".',
+			throw new CException(Yii::t('yii#Filter "{filter}" is invalid. Controller "{class}" does have the filter method "filter{filter}".',
 				array('{filter}'=>$this->name, '{class}'=>get_class($filterChain->controller))));
 	}
 }

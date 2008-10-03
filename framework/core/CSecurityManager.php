@@ -86,7 +86,7 @@ class CSecurityManager extends CApplicationComponent
 		if(!empty($value))
 			$this->_validationKey=$value;
 		else
-			throw new CException(Yii::t('yii##CSecurityManager.validationKey cannot be empty.'));
+			throw new CException(Yii::t('yii#CSecurityManager.validationKey cannot be empty.'));
 	}
 
 	/**
@@ -120,7 +120,7 @@ class CSecurityManager extends CApplicationComponent
 		if(!empty($value))
 			$this->_encryptionKey=$value;
 		else
-			throw new CException(Yii::t('yii##CSecurityManager.encryptionKey cannot be empty.'));
+			throw new CException(Yii::t('yii#CSecurityManager.encryptionKey cannot be empty.'));
 	}
 
 	/**
@@ -139,7 +139,7 @@ class CSecurityManager extends CApplicationComponent
 		if($value==='MD5' || $value==='SHA1')
 			$this->_validation=$value;
 		else
-			throw new CException(Yii::t('yii##CSecurityManager.validation must be either "MD5" or "SHA1".'));
+			throw new CException(Yii::t('yii#CSecurityManager.validation must be either "MD5" or "SHA1".'));
 	}
 
 	/**
@@ -163,7 +163,7 @@ class CSecurityManager extends CApplicationComponent
 			return $encrypted;
 		}
 		else
-			throw new CException(Yii::t('yii##CSecurityManager requires PHP mcrypt extension to be loaded in order to use data encryption feature.'));
+			throw new CException(Yii::t('yii#CSecurityManager requires PHP mcrypt extension to be loaded in order to use data encryption feature.'));
 	}
 
 	/**
@@ -187,7 +187,7 @@ class CSecurityManager extends CApplicationComponent
 			return rtrim($decrypted,"\0");
 		}
 		else
-			throw new CException(Yii::t('yii##CSecurityManager requires PHP mcrypt extension to be loaded in order to use data encryption feature.'));
+			throw new CException(Yii::t('yii#CSecurityManager requires PHP mcrypt extension to be loaded in order to use data encryption feature.'));
 	}
 
 	/**

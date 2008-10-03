@@ -111,7 +111,7 @@ class YiiBase
 		if(self::$_app===null || $app===null)
 			self::$_app=$app;
 		else
-			throw new CException(Yii::t('yii##Yii application can only be created once.'));
+			throw new CException(Yii::t('yii#Yii application can only be created once.'));
 	}
 
 	/**
@@ -209,7 +209,7 @@ class YiiBase
 			}
 		}
 		else
-			throw new CException(Yii::t('yii##Alias "{alias}" is invalid. Make sure it points to an existing directory or file.',
+			throw new CException(Yii::t('yii#Alias "{alias}" is invalid. Make sure it points to an existing directory or file.',
 				array('{alias}'=>$alias)));
 	}
 
@@ -247,10 +247,10 @@ class YiiBase
 		else if(!isset(self::$_aliases[$alias]) && ($rp=realpath($path))!==false)
 			self::$_aliases[$alias]=rtrim($rp,'\\/');
 		else if(isset(self::$_aliases[$alias]))
-			throw new CException(Yii::t('yii##Path alias "{alias}" is redefined.',
+			throw new CException(Yii::t('yii#Path alias "{alias}" is redefined.',
 				array('{alias}'=>$alias)));
 		else
-			throw new CException(Yii::t('yii##Path alias "{alias}" points to an invalid directory "{path}".',
+			throw new CException(Yii::t('yii#Path alias "{alias}" points to an invalid directory "{path}".',
 				array('{alias}'=>$alias, '{path}'=>$path)));
 	}
 
@@ -365,10 +365,10 @@ class YiiBase
 
 	/**
 	 * Translates a message to the {@link CApplication::getLanguage application language}.
-	 * The message being translated should be prefixed with '???##' where '???' stands
-	 * for the category that the message belongs to. The message category would default
-	 * to 'main', otherwise. See {@link CPhpMessageSource} for interpretation about message
-	 * category. Do not use category 'yii' as it is reserved for Yii framework code.
+	 * The message being translated should be prefixed with '???#' where '???' stands
+	 * for the category that the message belongs to.
+	 * See {@link CPhpMessageSource} for interpretation about message category.
+	 * Do not use category 'yii' as it is reserved for Yii framework code.
 	 * @param string the original message
 	 * @param array parameters to be applied to the message using <code>strtr</code>.
 	 * @return string the translated message
@@ -376,21 +376,13 @@ class YiiBase
 	 */
 	public static function t($message,$params=array())
 	{
-		if(($pos=strpos($message,'##'))!==false)
+		if(self::$_app!==null && ($pos=strpos($message,'#'))!==false)
 		{
 			$category=substr($message,0,$pos);
-			$message=(string)substr($message,$pos+2);
-		}
-		else
-			$category='main';
-
-		if(self::$_app!==null)
-		{
 			$source=$category==='yii'?self::$_app->getCoreMessages():self::$_app->getMessages();
 			if($source!==null)
-				$message=$source->translate($message,$category);
+				$message=$source->translate((string)substr($message,$pos+1),$category);
 		}
-
 		return $params!==array() ? strtr($message,$params) : $message;
 	}
 

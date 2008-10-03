@@ -74,7 +74,7 @@ class CMemCache extends CCache
 	{
 		parent::init();
 		if(!extension_loaded('memcache'))
-			throw new CException(Yii::t('yii##CMemCache requires PHP memcache extension to be loaded.'));
+			throw new CException(Yii::t('yii#CMemCache requires PHP memcache extension to be loaded.'));
 
 		$servers=$this->getServers();
 		$cache=$this->getMemCache();
@@ -244,9 +244,9 @@ class CMemCacheServerConfiguration extends CComponent
 			foreach($config as $key=>$value)
 				$this->$key=$value;
 			if($this->host===null)
-				throw new CException(Yii::t('yii##CMemCache server configuration must have "host" value.'));
+				throw new CException(Yii::t('yii#CMemCache server configuration must have "host" value.'));
 		}
 		else
-			throw new CException(Yii::t('yii##CMemCache server configuration must be an array.'));
+			throw new CException(Yii::t('yii#CMemCache server configuration must be an array.'));
 	}
 }

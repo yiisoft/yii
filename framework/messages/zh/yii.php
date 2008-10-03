@@ -52,6 +52,7 @@ return array (
   'The stack is empty.' => '',
   'CTypedList<{type}> can only hold objects of {type} class.' => '',
   'The command path "{path}" is not a valid directory.' => '',
+  'Command "{name}" already exists. You cannot add two commands with the same name.' => '',
   'Application base path "{path}" is not a valid directory.' => '',
   'Application runtime path "{path}" is not valid. Please make sure it is a directory writable by the Web server process.' => '',
   'Property "{class}.{property}" is not defined.' => '',
@@ -73,6 +74,7 @@ return array (
   'CProfileLogRoute found a mismatching code block "{token}". Make sure the calls to Yii::beginProfile() and Yii::endProfile() be properly nested.' => '',
   'CDbCommand failed to prepare the SQL statement: {error}' => '',
   'CDbCommand failed to execute the SQL statement: {error}' => '',
+  'CDbConnection.connectionString cannot be empty.' => '',
   'CDbConnection failed to open the DB connection: {error}' => '',
   'CDbConnection is inactive and cannot perform any DB operations.' => '',
   'CDbConnection does not support reading schema for {driver} database.' => '',
@@ -114,6 +116,8 @@ return array (
   'The pattern for era must be "G", "GG", "GGG", "GGGG" or "GGGGG".' => '',
   'CDbMessageSource.connectionID is invalid. Please make sure "{id}" refers to a valid database application component.' => '',
   'Unrecognized locale "{locale}".' => '',
+  'CCaptchaValidator.action "{id}" is invalid. Unable to find such an action in the current controller.' => '',
+  'The verification code is incorrect.' => '',
   '{attribute} must be repeated exactly.' => '',
   '{attribute} is not a valid email address.' => '',
   'The "filter" property must be specified with a valid callback.' => '',
@@ -160,6 +164,7 @@ return array (
   'CFilterChain can only take objects implementing the IFilter interface.' => '',
   'Filter "{filter}" is invalid. Controller "{class}" does have the filter method "filter{filter}".' => '',
   'Please fix the following input errors:' => '',
+  'Get a new code' => '',
   'The "view" property is required.' => '',
   'Unable to find the decorator view "{view}".' => '',
   '{class} must specify "model" and "attribute" or "name" property values.' => '',
@@ -167,5 +172,3 @@ return array (
   'Unable to replay the action "{object}.{method}". The method does not exist.' => '',
   '{widget} cannot find the view "{view}".' => '',
 );
-
-?>

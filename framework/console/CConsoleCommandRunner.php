@@ -104,7 +104,7 @@ class CConsoleCommandRunner extends CComponent
 				if(!isset($this->commands[$name]))
 					$this->commands[$name]=$file;
 				else
-					throw new CException(Yii::t('yii##Command "{name}" already exists. You cannot add two commands with the same name.',array('{name}'=>$name)));
+					throw new CException(Yii::t('yii#Command "{name}" already exists. You cannot add two commands with the same name.',array('{name}'=>$name)));
 			}
 		}
 	}

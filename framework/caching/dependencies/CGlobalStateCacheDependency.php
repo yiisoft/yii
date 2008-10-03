@@ -49,6 +49,6 @@ class CGlobalStateCacheDependency extends CCacheDependency
 		if($this->stateName!==null)
 			return Yii::app()->getGlobalState($this->stateName);
 		else
-			throw new CException(Yii::t('yii##CGlobalStateCacheDependency.stateName cannot be empty.'));
+			throw new CException(Yii::t('yii#CGlobalStateCacheDependency.stateName cannot be empty.'));
 	}
 }

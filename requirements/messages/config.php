@@ -8,6 +8,7 @@ return array(
 	'messagePath'=>dirname(__FILE__),
 	'languages'=>array('zh','zh_cn'),
 	'fileTypes'=>array('php'),
+	'translator'=>'t',
 	'exclude'=>array(
 		'.svn',
 		'/messages',

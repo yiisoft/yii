@@ -52,6 +52,9 @@ class CEmailValidator extends CValidator
 			$valid=checkdnsrr($domain,'MX');
 		}
 		if(!$valid)
-			$this->addError($object,$attribute,$this->message,'yii##{attribute} is not a valid email address.');
+		{
+			$message=$this->message!==null?$this->message:Yii::t('yii#{attribute} is not a valid email address.');
+			$this->addError($object,$attribute,$message);
+		}
 	}
 }

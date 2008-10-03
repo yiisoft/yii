@@ -161,7 +161,7 @@ class CWidget extends CBaseController
 		if(($viewFile=$this->getViewFile($view))!==false)
 			return $this->renderFile($viewFile,$data,$return);
 		else
-			throw new CException(Yii::t('yii##{widget} cannot find the view "{view}".',
+			throw new CException(Yii::t('yii#{widget} cannot find the view "{view}".',
 				array('{widget}'=>get_class($this), '{view}'=>$view)));
 	}
 }

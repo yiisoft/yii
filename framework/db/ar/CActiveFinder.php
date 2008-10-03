@@ -165,7 +165,7 @@ class CActiveFinder extends CComponent
 			if(($relation=$parent->model->getActiveRelation($with))!==null)
 				return new CJoinElement($relation,$parent,++$this->_joinCount);
 			else
-				throw new CDbException(Yii::t('yii##Relation "{name}" is not defined in active record class "{class}".',
+				throw new CDbException(Yii::t('yii#Relation "{name}" is not defined in active record class "{class}".',
 					array('{class}'=>get_class($parent->model), '{name}'=>$with)));
 		}
 	}
@@ -479,7 +479,7 @@ class CJoinElement
 					$selected[$matches[1]]=1;
 				}
 				else
-					throw new CDbException(Yii::t('yii##Active record "{class}" is trying to select an invalid column "{column}". Note, the column must exist in the table or be an expression with alias.',
+					throw new CDbException(Yii::t('yii#Active record "{class}" is trying to select an invalid column "{column}". Note, the column must exist in the table or be an expression with alias.',
 						array('{class}'=>get_class($this->model), '{column}'=>$name)));
 			}
 			// add primary key selection if they are not selected
@@ -580,7 +580,7 @@ class CJoinElement
 			if(preg_match('/^\s*(.*?)\((.*)\)\s*$/',$this->relation->foreignKey,$matches))
 			{
 				if(($joinTable=$schema->getTable($matches[1]))===null)
-					throw new CDbException(Yii::t('yii##The relation "{relation}" in active record class "{class}" is not specified correctly: the join table "{joinTable}" given in the foreign key cannot be found in the database.',
+					throw new CDbException(Yii::t('yii#The relation "{relation}" in active record class "{class}" is not specified correctly: the join table "{joinTable}" given in the foreign key cannot be found in the database.',
 						array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{joinTable}'=>$matches[1])));
 				$joinAlias=$this->relation->name.'_'.$this->_tableAlias;
 				$fks=preg_split('/[\s,]+/',$matches[2],-1,PREG_SPLIT_NO_EMPTY);
@@ -596,7 +596,7 @@ class CJoinElement
 						else if($this->tableMatch($schema,$this->_table,$tableName))
 							$childCondition[]=$this->getColumnPrefix().$schema->quoteColumnName($pk).'='.$joinAlias.'.'.$schema->quoteColumnName($fk);
 						else
-							throw new CDbException(Yii::t('yii##The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". The foreign key does not point to either joining table.',
+							throw new CDbException(Yii::t('yii#The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". The foreign key does not point to either joining table.',
 								array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{key}'=>$fk)));
 					}
 				}
@@ -609,11 +609,11 @@ class CJoinElement
 					return $join;
 				}
 				else
-					throw new CDbException(Yii::t('yii##The relation "{relation}" in active record class "{class}" is specified with an incomplete foreign key. The foreign key must consist of columns referencing both joining tables.',
+					throw new CDbException(Yii::t('yii#The relation "{relation}" in active record class "{class}" is specified with an incomplete foreign key. The foreign key must consist of columns referencing both joining tables.',
 						array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name)));
 			}
 			else
-				throw new CDbException(Yii::t('yii##The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".',
+				throw new CDbException(Yii::t('yii#The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".',
 					array('{class}'=>get_class($parent->model),'{relation}'=>$this->relation->name)));
 		}
 		else
@@ -633,7 +633,7 @@ class CJoinElement
 			foreach($fks as $fk)
 			{
 				if(($joins[]=$this->matchColumns($fke,$fk,$pke))===null)
-					throw new CDbException(Yii::t('yii##The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". The foreign key does not point to either joining table.',
+					throw new CDbException(Yii::t('yii#The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". The foreign key does not point to either joining table.',
 						array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{key}'=>$fk)));
 			}
 			$join=implode(' AND ',$joins);

@@ -144,6 +144,6 @@ class CConfiguration extends CMap
 			return $object;
 		}
 		else
-			throw new CException(Yii::t('yii##Object configuration must be an array containing a "class" element.'));
+			throw new CException(Yii::t('yii#Object configuration must be an array containing a "class" element.'));
 	}
 }
