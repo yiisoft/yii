@@ -300,49 +300,33 @@ abstract class CApplication extends CComponent
 
 	/**
 	 * Returns the localized version of a specified file.
-	 * The searching is based on the specified language code. For a language code such as 'zh_cn',
-	 * this method will check the existence of the following files in order:
-	 * <li>path/to/zh_cn/fileName
-	 * <li>path/to/zh/fileName
-	 * The first existing file will be returned. If no localized file exists, the original file will be returned
-	 * (even if it does not exist.)
-	 * Note, the language codes used here should be in lower-case and the dashes
-	 * be replaced with underscores (e.g. 'en_us' instead of 'en-US').
+	 *
+	 * The searching is based on the specified language code. In particular,
+	 * a file with the same name will be looked for under the subdirectory
+	 * named as the locale ID. For example, given the file "path/to/view.php"
+	 * and locale ID "zh_cn", the localized file will be looked for as
+	 * "path/to/zh_cn/view.php". If the file is not found, the original file
+	 * will be returned.
+	 *
+	 * For consistency, it is recommended that the locale ID is given
+	 * in lower case and in the format of LanguageID_RegionID (e.g. "en_us").
+	 *
 	 * @param string the original file
-	 * @param string the language that the original file is in. If null, the application {@link language} is used.
+	 * @param string the language that the original file is in. If null, the application {@link sourceLanguage source language} is used.
 	 * @param string the desired language that the file should be localized to. If null, the {@link getLanguage application language} will be used.
-	 * @return string the matching localized file. The original file is returned if no localized version is found.
+	 * @return string the matching localized file. The original file is returned if no localized version is found
+	 * or if source language is the same as the desired language.
 	 */
 	public function findLocalizedFile($srcFile,$srcLanguage=null,$language=null)
 	{
-		static $files=array();
-
 		if($srcLanguage===null)
 			$srcLanguage=$this->sourceLanguage;
 		if($language===null)
 			$language=$this->getLanguage();
 		if($language===$srcLanguage)
 			return $srcFile;
-
-		if(isset($files[$srcFile][$language]))
-			return $files[$srcFile][$language];
-
-		$basePath=dirname($srcFile).DIRECTORY_SEPARATOR;
-		$fileName=basename($srcFile);
-		$langs=explode('_',$language);
-
-		$paths=array();
-		$pos=-1;
-		while(($pos=strpos($language,'_',$pos+1))!==false)
-			$paths[]=$basePath.substr($language,0,$pos).DIRECTORY_SEPARATOR.$fileName;
-		$paths[]=$basePath.$language;
-
-		for($i=count($paths)-1;$i>=0;--$i)
-		{
-			if(is_file($paths[$i]))
-				return $files[$srcFile][$language]=$paths[$i];
-		}
-		return $files[$srcFile][$language]=$srcFile;
+		$desiredFile=dirname($srcFile).DIRECTORY_SEPARATOR.$language.basename($srcFile);
+		return is_file($desiredFile) ? $desiredFile : $srcFile;
 	}
 
 	/**
