@@ -57,7 +57,7 @@ EOD;
 			$sourceDir=realpath(dirname(__FILE__).'/../views/webapp');
 			$list=$this->buildFileList($sourceDir,$path);
 			$list['index.php']['callback']=array($this,'generateIndex');
-			$list['protected/yiic']['callback']=array($this,'generateIndex');
+			$list['protected/yiic']['callback']=array($this,'generateYiic');
 			$this->copyFiles($list);
 			@chmod($path.'/assets',0777);
 			@chmod($path.'/protected/runtime',0777);
@@ -70,5 +70,11 @@ EOD;
 	{
 		$content=file_get_contents($source);
 		return str_replace('{YiiPath}',realpath(dirname(__FILE__).'/../../yii.php'),$content);
+	}
+
+	public function generateYiic($source,$params)
+	{
+		$content=file_get_contents($source);
+		return str_replace('{YiicPath}',realpath(dirname(__FILE__).'/../../yiic.php'),$content);
 	}
 }

@@ -13,9 +13,6 @@
  * @version $Id$
  */
 
-defined('YII_DEBUG') or define('YII_DEBUG',true);
-
 $root=dirname(__FILE__);
-require_once($root.'/../framework/yii.php');
 $config=array('basePath'=>$root);
-Yii::createConsoleApplication($config)->run();
+require_once($root.'/../framework/yiic.php');

@@ -92,7 +92,7 @@ class CConsoleCommandRunner extends CComponent
 
 	/**
 	 * Adds commands from the specified command path.
-	 * An exception will be raised if a command with the same name already exists.
+	 * If a command already exists, the new one will be ignored.
 	 * @param string the alias of the directory containing the command class files.
 	 */
 	public function addCommands($path)
@@ -103,8 +103,6 @@ class CConsoleCommandRunner extends CComponent
 			{
 				if(!isset($this->commands[$name]))
 					$this->commands[$name]=$file;
-				else
-					throw new CException(Yii::t('yii#Command "{name}" already exists. You cannot add two commands with the same name.',array('{name}'=>$name)));
 			}
 		}
 	}
