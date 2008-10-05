@@ -61,6 +61,7 @@ EOD;
 			$this->copyFiles($list);
 			@chmod($path.'/assets',0777);
 			@chmod($path.'/protected/runtime',0777);
+			@chmod($path.'/protected/yiic',0755);
 			echo "\nYour application has been created successfully under {$path}.\n";
 		}
 	}
