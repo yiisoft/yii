@@ -50,8 +50,7 @@ class MainMenu extends CWidget
 		$matched=$pattern[0]===$route;
 		if($matched && count($pattern)>1)
 		{
-			array_splice($pattern,1);
-			foreach($pattern as $name=>$value)
+			foreach(array_splice($pattern,1) as $name=>$value)
 			{
 				if(!isset($_GET[$name]) || $_GET[$name]!=$value)
 					return false;
