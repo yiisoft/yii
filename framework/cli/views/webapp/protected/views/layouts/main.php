@@ -12,15 +12,16 @@
 <div id="page">
 
 <div id="header">
-  <div id="logo">
-    <?php echo CHtml::encode(Yii::app()->name); ?>
-  </div>
-  <?php $this->widget('application.components.MainMenu',array(
-    	'items'=>array(
-    		array('label'=>'Home', 'url'=>array('site/index')),
-    		array('label'=>'Login', 'url'=>array('user/login'), 'visible'=>Yii::app()->user->isGuest),
-    		array('label'=>'Logout', 'url'=>array('user/logout'), 'visible'=>!Yii::app()->user->isGuest),
-    	))); ?>
+<div id="logo"><?php echo CHtml::encode(Yii::app()->name); ?></div>
+<div id="mainmenu">
+<?php $this->widget('application.components.MainMenu',array(
+	'items'=>array(
+		array('label'=>'Home', 'url'=>array('site/index')),
+		array('label'=>'Login', 'url'=>array('user/login'), 'visible'=>Yii::app()->user->isGuest),
+		array('label'=>'Logout', 'url'=>array('user/logout'), 'visible'=>!Yii::app()->user->isGuest)
+	),
+)); ?>
+</div><!-- mainmenu -->
 </div><!-- header -->
 
 <div id="content">

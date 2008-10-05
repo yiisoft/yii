@@ -15,6 +15,7 @@
  * - pattern: array, optional. This is used to determine if the item is active.
  *   The first element refers to the route of the request, while the rest
  *   name-value pairs representing the GET parameters to be matched with.
+ *   If pattern is not given, the url array will be used instead.
  */
 class MainMenu extends CWidget
 {
@@ -24,7 +25,7 @@ class MainMenu extends CWidget
 	{
 		$items=array();
 		$controller=$this->controller;
-		$route=$controller->id.'/'.$controller->action->id;
+		$action=$controller->action;
 		foreach($this->items as $item)
 		{
 			if(isset($item['visible']) && !$item['visible'])
@@ -36,18 +37,22 @@ class MainMenu extends CWidget
 			else
 				$item2['url']=$item['url'];
 			$pattern=isset($item['pattern'])?$item['pattern']:$item['url'];
-			$item2['active']=$this->isActive($route,$pattern);
+			$item2['active']=$this->isActive($pattern,$controller->id,$action->id);
 			$items[]=$item2;
 		}
 		$this->render('mainMenu',array('items'=>$items));
 	}
 
-	protected function isActive($route,$pattern)
+	protected function isActive($pattern,$controllerID,$actionID)
 	{
 		if(!is_array($pattern) || !isset($pattern[0]))
 			return false;
 
-		$matched=$pattern[0]===$route;
+		if(strpos($pattern[0],'/')!==false)
+			$matched=$pattern[0]===$controllerID.'/'.$actionID;
+		else
+			$matched=$pattern[0]===$controllerID;
+
 		if($matched && count($pattern)>1)
 		{
 			foreach(array_splice($pattern,1) as $name=>$value)
