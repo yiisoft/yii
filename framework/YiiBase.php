@@ -353,14 +353,7 @@ class YiiBase
 	 */
 	public static function powered()
 	{
-		if(self::$_app!==null)
-		{
-			$am=self::$_app->getAssetManager();
-			$url=$am->publish(YII_PATH.DIRECTORY_SEPARATOR.'yii-powered.png');
-		}
-		else
-			$url='http://www.yiiframework.com/images/yii-powered.png';
-		return '<a title="Powered by Yii" href="http://www.yiiframework.com/" target="_blank"><img src="'.$url.'" style="border-width:0px;" alt="Powered by Yii" /></a>';
+		return 'Powered by <a href="http://www.yiiframework.com/">Yii Framework</a>.';
 	}
 
 	/**
