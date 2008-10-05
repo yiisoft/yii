@@ -15,12 +15,12 @@
   <div id="logo">
     <?php echo CHtml::encode(Yii::app()->name); ?>
   </div>
-  <div id="mainmenu">
-  <ul>
-    <li><?php echo CHtml::link('Home',array('site/index')); ?></li>
-    <li><?php echo Yii::app()->user->isGuest ? CHtml::link('Login',array('user/login')) : CHtml::link('Logout',array('user/logout')); ?></li>
-  </ul>
-  </div><!-- mainmenu -->
+  <?php $this->widget('application.components.MainMenu',array(
+    	'items'=>array(
+    		array('label'=>'Home', 'url'=>array('site/index')),
+    		array('label'=>'Login', 'url'=>array('user/login'), 'visible'=>Yii::app()->user->isGuest),
+    		array('label'=>'Logout', 'url'=>array('user/logout'), 'visible'=>!Yii::app()->user->isGuest),
+    	))); ?>
 </div><!-- header -->
 
 <div id="content">

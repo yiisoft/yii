@@ -54,7 +54,7 @@ body
 	font-weight: bold;
 }
 
-#mainmenu ul li a:hover
+#mainmenu ul li a:hover, #mainmenu ul li a.active
 {
 	background: #E6F2FF;
 	color: #6399cd;
