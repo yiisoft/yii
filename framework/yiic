@@ -1,10 +1,9 @@
 #!/usr/bin/env php
 <?php
 /**
- * Yii command line script file.
+ * Yii command line script for Unix/Linux.
  *
- * This script is meant to be run on command line to execute
- * one of the pre-defined console commands.
+ * This is the bootstrap script for running yiic on Unix/Linux.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
@@ -13,10 +12,4 @@
  * @version $Id$
  */
 
-defined('YII_DEBUG') or define('YII_DEBUG',true);
-
-// disable E_NOTICE so that "yiic shell" is more friendly
-error_reporting(E_ALL ^ E_NOTICE);
-
-require_once(dirname(__FILE__).'/yii.php');
-Yii::createConsoleApplication(array('basePath'=>dirname(__FILE__).'/cli'))->run();
+require_once(dirname(__FILE__).'/yiic.php');
