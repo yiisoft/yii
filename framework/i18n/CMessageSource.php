@@ -92,7 +92,7 @@ abstract class CMessageSource extends CApplicationComponent
 			return $this->_messages[$key][$message];
 		else
 		{
-			$event=new CMissingTranslationEvent($message,$category,$language);
+			$event=new CMissingTranslationEvent($this,$message,$category,$language);
 			$this->onMissingTranslation($event);
 			return $event->message;
 		}
