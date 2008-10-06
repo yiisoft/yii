@@ -41,7 +41,6 @@
     <include name="framework/**/*"/>
     <include name="requirements/**/*"/>
     <include name="demos/**/*"/>
-    <include name="COPYRIGHT"/>
     <include name="CHANGELOG"/>
     <include name="UPGRADE"/>
     <include name="LICENSE"/>
