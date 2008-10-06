@@ -177,14 +177,7 @@ class YiiBase
 	}
 	public static function powered()
 	{
-		if(self::$_app!==null)
-		{
-			$am=self::$_app->getAssetManager();
-			$url=$am->publish(YII_PATH.DIRECTORY_SEPARATOR.'yii-powered.png');
-		}
-		else
-			$url='http://www.yiiframework.com/images/yii-powered.png';
-		return '<a title="Powered by Yii" href="http://www.yiiframework.com/" target="_blank"><img src="'.$url.'" style="border-width:0px;" alt="Powered by Yii" /></a>';
+		return 'Powered by <a href="http://www.yiiframework.com/">Yii Framework</a>.';
 	}
 	public static function t($message,$params=array())
 	{
@@ -647,29 +640,14 @@ abstract class CApplication extends CComponent
 	}
 	public function findLocalizedFile($srcFile,$srcLanguage=null,$language=null)
 	{
-		static $files=array();
 		if($srcLanguage===null)
 			$srcLanguage=$this->sourceLanguage;
 		if($language===null)
 			$language=$this->getLanguage();
 		if($language===$srcLanguage)
 			return $srcFile;
-		if(isset($files[$srcFile][$language]))
-			return $files[$srcFile][$language];
-		$basePath=dirname($srcFile).DIRECTORY_SEPARATOR;
-		$fileName=basename($srcFile);
-		$langs=explode('_',$language);
-		$paths=array();
-		$pos=-1;
-		while(($pos=strpos($language,'_',$pos+1))!==false)
-			$paths[]=$basePath.substr($language,0,$pos).DIRECTORY_SEPARATOR.$fileName;
-		$paths[]=$basePath.$language;
-		for($i=count($paths)-1;$i>=0;--$i)
-		{
-			if(is_file($paths[$i]))
-				return $files[$srcFile][$language]=$paths[$i];
-		}
-		return $files[$srcFile][$language]=$srcFile;
+		$desiredFile=dirname($srcFile).DIRECTORY_SEPARATOR.$language.basename($srcFile);
+		return is_file($desiredFile) ? $desiredFile : $srcFile;
 	}
 	public function getLocale($localeID=null)
 	{
@@ -3367,108 +3345,6 @@ class CHtml
 			$htmlOptions['class']=self::$errorCss;
 	}
 }
-class CAssetManager extends CApplicationComponent
-{
-	const DEFAULT_BASEPATH='assets';
-	private $_basePath;
-	private $_baseUrl;
-	private $_published=array();
-	public function init()
-	{
-		parent::init();
-		$request=Yii::app()->getRequest();
-		if($this->getBasePath()===null)
-			$this->setBasePath(dirname($request->getScriptFile()).DIRECTORY_SEPARATOR.self::DEFAULT_BASEPATH);
-		if($this->getBaseUrl()===null)
-			$this->setBaseUrl($request->getBaseUrl().'/'.self::DEFAULT_BASEPATH);
-	}
-	public function getBasePath()
-	{
-		return $this->_basePath;
-	}
-	public function setBasePath($value)
-	{
-		if(($basePath=realpath($value))!==false && is_dir($basePath) && is_writable($basePath))
-			$this->_basePath=$basePath;
-		else
-			throw new CException(Yii::t('yii#CAssetManager.basePath "{path}" is invalid. Please make sure the directory exists and is writable by the Web server process.',
-				array('{path}'=>$value)));
-	}
-	public function getBaseUrl()
-	{
-		return $this->_baseUrl;
-	}
-	public function setBaseUrl($value)
-	{
-		$this->_baseUrl=rtrim($value,'/');
-	}
-	public function publish($path,$level=-1)
-	{
-		if(isset($this->_published[$path]))
-			return $this->_published[$path];
-		else if(($src=realpath($path))!==false)
-		{
-			if(is_file($src))
-			{
-				$dir=$this->hash(dirname($src));
-				$fileName=basename($src);
-				$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
-				$dstFile=$dstDir.DIRECTORY_SEPARATOR.$fileName;
-				if(@filemtime($dstFile)<@filemtime($src))
-				{
-					if(!is_dir($dstDir))
-					{
-						mkdir($dstDir);
-						@chmod($dstDir,0777);
-					}
-					copy($src,$dstFile);
-				}
-				return $this->_published[$path]=$this->getBaseUrl()."/$dir/$fileName";
-			}
-			else
-			{
-				$dir=$this->hash($src);
-				$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
-				if(!is_dir($dstDir))
-					CFileHelper::copyDirectory($src,$dstDir,array('exclude'=>array('.svn'),'level'=>$level));
-				return $this->_published[$path]=$this->getBaseUrl().'/'.$dir;
-			}
-		}
-		else
-			throw new CException(Yii::t('yii#The asset "{asset}" to be pulished does not exist.',
-				array('{asset}'=>$path)));
-	}
-	public function getPublishedPath($path)
-	{
-		if(($path=realpath($path))!==false)
-		{
-			if(is_file($path))
-				return $this->getBasePath().DIRECTORY_SEPARATOR.$this->hash(dirname($path)).DIRECTORY_SEPARATOR.basename($path);
-			else
-				return $this->getBasePath().DIRECTORY_SEPARATOR.$this->hash($path);
-		}
-		else
-			return false;
-	}
-	public function getPublishedUrl($path)
-	{
-		if(isset($this->_published[$path]))
-			return $this->_published[$path];
-		if(($path=realpath($path))!==false)
-		{
-			if(is_file($path))
-				return $this->getBaseUrl().'/'.$this->hash(dirname($path)).'/'.basename($path);
-			else
-				return $this->getBaseUrl().'/'.$this->hash($path);
-		}
-		else
-			return false;
-	}
-	protected function hash($path)
-	{
-		return sprintf('%x',crc32($path.Yii::getVersion()));
-	}
-}
 class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 {
 	private $_d=array();
@@ -5982,6 +5858,108 @@ class CLinkPager extends CBasePager
 			return '<span>'.$label.'</span>';
 		else
 			return '<span>'.CHtml::link($label,$this->createPageUrl($page)).'</span>';
+	}
+}
+class CAssetManager extends CApplicationComponent
+{
+	const DEFAULT_BASEPATH='assets';
+	private $_basePath;
+	private $_baseUrl;
+	private $_published=array();
+	public function init()
+	{
+		parent::init();
+		$request=Yii::app()->getRequest();
+		if($this->getBasePath()===null)
+			$this->setBasePath(dirname($request->getScriptFile()).DIRECTORY_SEPARATOR.self::DEFAULT_BASEPATH);
+		if($this->getBaseUrl()===null)
+			$this->setBaseUrl($request->getBaseUrl().'/'.self::DEFAULT_BASEPATH);
+	}
+	public function getBasePath()
+	{
+		return $this->_basePath;
+	}
+	public function setBasePath($value)
+	{
+		if(($basePath=realpath($value))!==false && is_dir($basePath) && is_writable($basePath))
+			$this->_basePath=$basePath;
+		else
+			throw new CException(Yii::t('yii#CAssetManager.basePath "{path}" is invalid. Please make sure the directory exists and is writable by the Web server process.',
+				array('{path}'=>$value)));
+	}
+	public function getBaseUrl()
+	{
+		return $this->_baseUrl;
+	}
+	public function setBaseUrl($value)
+	{
+		$this->_baseUrl=rtrim($value,'/');
+	}
+	public function publish($path,$level=-1)
+	{
+		if(isset($this->_published[$path]))
+			return $this->_published[$path];
+		else if(($src=realpath($path))!==false)
+		{
+			if(is_file($src))
+			{
+				$dir=$this->hash(dirname($src));
+				$fileName=basename($src);
+				$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
+				$dstFile=$dstDir.DIRECTORY_SEPARATOR.$fileName;
+				if(@filemtime($dstFile)<@filemtime($src))
+				{
+					if(!is_dir($dstDir))
+					{
+						mkdir($dstDir);
+						@chmod($dstDir,0777);
+					}
+					copy($src,$dstFile);
+				}
+				return $this->_published[$path]=$this->getBaseUrl()."/$dir/$fileName";
+			}
+			else
+			{
+				$dir=$this->hash($src);
+				$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
+				if(!is_dir($dstDir))
+					CFileHelper::copyDirectory($src,$dstDir,array('exclude'=>array('.svn'),'level'=>$level));
+				return $this->_published[$path]=$this->getBaseUrl().'/'.$dir;
+			}
+		}
+		else
+			throw new CException(Yii::t('yii#The asset "{asset}" to be pulished does not exist.',
+				array('{asset}'=>$path)));
+	}
+	public function getPublishedPath($path)
+	{
+		if(($path=realpath($path))!==false)
+		{
+			if(is_file($path))
+				return $this->getBasePath().DIRECTORY_SEPARATOR.$this->hash(dirname($path)).DIRECTORY_SEPARATOR.basename($path);
+			else
+				return $this->getBasePath().DIRECTORY_SEPARATOR.$this->hash($path);
+		}
+		else
+			return false;
+	}
+	public function getPublishedUrl($path)
+	{
+		if(isset($this->_published[$path]))
+			return $this->_published[$path];
+		if(($path=realpath($path))!==false)
+		{
+			if(is_file($path))
+				return $this->getBaseUrl().'/'.$this->hash(dirname($path)).'/'.basename($path);
+			else
+				return $this->getBaseUrl().'/'.$this->hash($path);
+		}
+		else
+			return false;
+	}
+	protected function hash($path)
+	{
+		return sprintf('%x',crc32($path.Yii::getVersion()));
 	}
 }
 interface IApplicationComponent
