@@ -570,8 +570,12 @@ class CHtml
 	 */
 	public static function activeLabel($model,$attribute,$htmlOptions=array())
 	{
+		if(($pos=strpos($attribute,'['))!==false)
+			$name=get_class($model).substr($attribute,$pos).'['.($attribute=substr($attribute,0,$pos)).']';
+		else
+			$name=get_class($model).'['.$attribute.']';
 		$label=$model->getAttributeLabel($attribute);
-		$for=get_class($model).'_'.$attribute;
+		$for=str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $name);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
 		return self::label($label,$for,$htmlOptions);
@@ -948,10 +952,15 @@ class CHtml
 	 * @param string the attribute
 	 * @param array the HTML options
 	 */
-	protected static function resolveNameID($model,$attribute,&$htmlOptions)
+	protected static function resolveNameID($model,&$attribute,&$htmlOptions)
 	{
 		if(!isset($htmlOptions['name']))
-			$htmlOptions['name']=get_class($model).'['.$attribute.']';
+		{
+			if(($pos=strpos($attribute,'['))!==false)
+				$htmlOptions['name']=get_class($model).substr($attribute,$pos).'['.($attribute=substr($attribute,0,$pos)).']';
+			else
+				$htmlOptions['name']=get_class($model).'['.$attribute.']';
+		}
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $htmlOptions['name']);
 	}
