@@ -50,9 +50,12 @@ class CWebService extends CComponent
 	 */
 	public $encoding='UTF-8';
 	/**
-	 * @var string comma-separated list of classes that are declared as complex types in WSDL.
+	 * @var array a list of classes that are declared as complex types in WSDL.
+	 * This should be an array with WSDL types as keys and names of PHP classes as values.
+	 * A PHP class can also be specified as a path alias.
+	 * @see http://www.php.net/manual/en/function.soap-soapserver-construct.php
 	 */
-	public $classMap;
+	public $classMap=array();
 	/**
 	 * @var string actor of the SOAP service. Defaults to null, meaning not set.
 	 */
@@ -62,7 +65,8 @@ class CWebService extends CComponent
 	 */
 	public $soapVersion;
 	/**
-	 * @var integer the persistence mode of the SOAP server. See {@link http://www.php.net/manual/en/function.soap-soapserver-setpersistence.php}.
+	 * @var integer the persistence mode of the SOAP server.
+	 * @see http://www.php.net/manual/en/function.soap-soapserver-setpersistence.php
 	 */
 	public $persistence;
 
@@ -211,10 +215,12 @@ class CWebService extends CComponent
 		if($this->actor!==null)
 			$options['actor']=$this->actor;
 		$options['encoding']=$this->encoding;
-		if(is_string($this->classMap))
+		foreach($this->classMap as $type=>$className)
 		{
-			foreach(preg_split('/[\s,]+/',$this->classMap,-1,PREG_SPLIT_NO_EMPTY) as $className)
-				$options['classmap'][$className]=$className;
+			$className=Yii::import($className,true);
+			if(is_int($type))
+				$type=$className;
+			$options['classmap'][$type]=$className;
 		}
 		return $options;
 	}
