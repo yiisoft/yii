@@ -49,6 +49,12 @@ class CWebServiceAction extends CAction
 	 * from a Web service request. Defaults to 'wsdl'.
 	 */
 	public $wsdlVar='wsdl';
+	/**
+	 * @var array the initial property values for the {@link CWebService} object.
+	 * The array keys are property names of {@link CWebService} and the array values
+	 * are the corresponding property initial values.
+	 */
+	public $serviceOptions=array();
 
 	private $_service;
 
@@ -70,6 +76,8 @@ class CWebServiceAction extends CAction
 			$provider=$controller;
 
 		$this->_service=$this->createWebService($provider,$wsdlUrl,$serviceUrl);
+		foreach($this->serviceOptions as $name=>$value)
+			$this->_service->$name=$value;
 
 		if(isset($_GET[$this->wsdlVar]))
 			$this->_service->renderWsdl();
