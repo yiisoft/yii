@@ -23,12 +23,12 @@
  *
  * User requests are resolved as controller-action pairs and additional parameters.
  * CWebApplication creates the requested controller instance and let it to handle
- * the actual user request. If the user does not specify controller name, it will
+ * the actual user request. If the user does not specify controller ID, it will
  * assume {@link defaultController} is requested (which defaults to 'site').
  *
  * Controller class files must reside under the directory {@link getControllerPath controllerPath}
  * (defaults to 'protected/controllers'). The file name is the same as the controller
- * name and the class name is the controller name appended with 'Controller'.
+ * name and the class name is the controller ID appended with 'Controller'.
  * For example, the controller 'article' is defined by the class 'ArticleController'
  * which is in the file 'protected/controller/article.php'.
  *
@@ -133,22 +133,22 @@ class CWebApplication extends CApplication
 
 	/**
 	 * Creates the controller and performs the specified action.
-	 * @param string controller name
-	 * @param string action name
+	 * @param string controller ID
+	 * @param string action ID
 	 * @throws CHttpException if the controller could not be created.
 	 */
-	public function runController($controllerName,$actionName)
+	public function runController($controllerID,$actionID)
 	{
-		if(($controller=$this->createController($controllerName))!==null)
+		if(($controller=$this->createController($controllerID))!==null)
 		{
 			$oldController=$this->_controller;
 			$this->_controller=$controller;
-			$controller->run($actionName);
+			$controller->run($actionID);
 			$this->_controller=$oldController;
 		}
 		else
 			throw new CHttpException(404,Yii::t('yii#The requested controller "{controller}" does not exist.',
-				array('{controller}'=>$controllerName)));
+				array('{controller}'=>$controllerID)));
 	}
 
 	/**
@@ -252,7 +252,7 @@ class CWebApplication extends CApplication
 
 	/**
 	 * Creates a relative URL based on the given controller and action information.
-	 * @param string the URL route. This should be in the format of 'ControllerPath/ActionName'.
+	 * @param string the URL route. This should be in the format of 'ControllerID/ActionID'.
 	 * @param array additional GET parameters (name=>value). Both the name and value will be URL-encoded.
 	 * @param string the token separating name-value pairs in the URL.
 	 * @return string the constructed URL
