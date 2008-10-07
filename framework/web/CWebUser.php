@@ -75,7 +75,7 @@ class CWebUser extends CApplicationComponent
 	 */
 	public function getId()
 	{
-		return $this->getState('ID',-1);
+		return $this->getState('id',-1);
 	}
 
 	/**
