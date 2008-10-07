@@ -11,11 +11,17 @@
 /**
  * CWebServiceAction implements an action that provides Web services.
  *
- * PHP SOAP extension is required for this action.
+ * CWebServiceAction serves for two purposes. On the one hand, it displays
+ * the WSDL content specifying the Web service APIs. On the other hand, it
+ * invokes the requested Web service API. A GET parameter named <code>ws</code>
+ * is used to differentiate these two aspects: the existence of the GET parameter
+ * indicates performing the latter action.
  *
  * By default, CWebServiceAction will use the current controller as
  * the Web service provider. See {@link CWsdlGenerator} on how to declare
  * methods that can be remotely invoked.
+ *
+ * Note, PHP SOAP extension is required for this action.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
@@ -26,6 +32,7 @@ class CWebServiceAction extends CAction
 {
 	/**
 	 * @var mixed the Web service provider object or class name.
+	 * If specified as a class name, it can be a path alias.
 	 * Defaults to null, meaning the current controller is used as the service provider.
 	 * If the provider implements the interface {@link IWebServiceProvider},
 	 * it will be able to intercept the remote method invocation and perform
@@ -35,20 +42,21 @@ class CWebServiceAction extends CAction
 	/**
 	 * @var string the URL for the Web service. Defaults to null, meaning
 	 * the URL for this action is used to provide Web services.
+	 * In this case, a GET parameter named {@link serviceVar} will be used to
+	 * deteremine whether the current request is for WSDL or Web service.
 	 */
 	public $serviceUrl;
 	/**
 	 * @var string the URL for WSDL. Defaults to null, meaning
 	 * the URL for this action is used to serve WSDL document.
-	 * In this case, a GET parameter named {@link wsdlVar} will be used to deteremine whether
-	 * the current request is for WSDL or Web service.
 	 */
 	public $wsdlUrl;
 	/**
 	 * @var string the name of the GET parameter that differentiates a WSDL request
-	 * from a Web service request. Defaults to 'wsdl'.
+	 * from a Web service request. If this GET parameter exists, the request is considered
+	 * as a Web service request; otherwise, it is a WSDL request.  Defaults to 'ws'.
 	 */
-	public $wsdlVar='wsdl';
+	public $serviceVar='ws';
 	/**
 	 * @var array the initial property values for the {@link CWebService} object.
 	 * The array keys are property names of {@link CWebService} and the array values
@@ -61,17 +69,17 @@ class CWebServiceAction extends CAction
 
 	/**
 	 * Runs the action.
-	 * If the GET parameter {@link wsdlVar} exists, the action will serve WSDL content;
-	 * If not, the action will handle the remote method invocation.
+	 * If the GET parameter {@link serviceVar} exists, the action handle the remote method invocation.
+	 * If not, the action will serve WSDL content;
 	 */
 	public function run()
 	{
 		$hostInfo=Yii::app()->getRequest()->getHostInfo();
 		$controller=$this->getController();
 		if(($serviceUrl=$this->serviceUrl)===null)
-			$serviceUrl=$hostInfo.$controller->createUrl($this->getId());
+			$serviceUrl=$hostInfo.$controller->createUrl($this->getId(),array($this->serviceVar=>1));
 		if(($wsdlUrl=$this->wsdlUrl)===null)
-			$wsdlUrl=$hostInfo.$controller->createUrl($this->getId(),array($this->wsdlVar=>1));
+			$wsdlUrl=$hostInfo.$controller->createUrl($this->getId());
 		if(($provider=$this->provider)===null)
 			$provider=$controller;
 
@@ -79,10 +87,10 @@ class CWebServiceAction extends CAction
 		foreach($this->serviceOptions as $name=>$value)
 			$this->_service->$name=$value;
 
-		if(isset($_GET[$this->wsdlVar]))
-			$this->_service->renderWsdl();
-		else
+		if(isset($_GET[$this->serviceVar]))
 			$this->_service->run();
+		else
+			$this->_service->renderWsdl();
 
 		Yii::app()->end();
 	}

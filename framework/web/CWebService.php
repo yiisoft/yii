@@ -29,7 +29,8 @@ class CWebService extends CComponent
 {
 	const SOAP_ERROR=1001;
 	/**
-	 * @var string|object the web service provider class or object
+	 * @var string|object the web service provider class or object.
+	 * If specified as a class name, it can be a path alias.
 	 */
 	public $provider;
 	/**
@@ -117,10 +118,10 @@ class CWebService extends CComponent
 	 */
 	public function generateWsdl()
 	{
-		$providerClass=is_object($this->provider) ? get_class($this->provider) : $this->provider;
+		$providerClass=is_object($this->provider) ? get_class($this->provider) : Yii::import($this->provider,true);
 		if($this->wsdlCacheDuration>0 && ($cache=Yii::app()->getCache())!==null)
 		{
-			$key='Yii.CWebService.'.$this->providerClass.$this->serviceUrl.$this->encoding;
+			$key='Yii.CWebService.'.$providerClass.$this->serviceUrl.$this->encoding;
 			if(($wsdl=$cache->get($key))!==false)
 				return $wsdl;
 		}
@@ -146,7 +147,7 @@ class CWebService extends CComponent
 			if($this->persistence!==null)
 				$server->setPersistence($this->persistence);
 			if(is_string($this->provider))
-				$provider=new $this->provider;
+				$provider=Yii::createComponent($this->provider);
 			else
 				$provider=$this->provider;
 			$server->setObject($provider);
