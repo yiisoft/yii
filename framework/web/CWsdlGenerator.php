@@ -123,7 +123,7 @@ class CWsdlGenerator extends CComponent
 		$comment=preg_replace('/^\s*\**(\s*?$|\s*)/m','',$comment);
 		$params=$method->getParameters();
 		$message=array();
-		$n=preg_match_all('/^@param\s+(\w+(\[\])?)\s*?(.*)$/im',$comment,$matches);
+		$n=preg_match_all('/^@param\s+([\w\.]+(\[\s*\])?)\s*?(.*)$/im',$comment,$matches);
 		if($n>count($params))
 			$n=count($params);
 		for($i=0;$i<$n;++$i)
@@ -131,7 +131,7 @@ class CWsdlGenerator extends CComponent
 
 		$this->_messages[$methodName.'Request']=$message;
 
-		if(preg_match('/^@return\s+([\w\[\]]+)\s*?(.*)$/im',$comment,$matches))
+		if(preg_match('/^@return\s+([\w\.]+(\[\s*\])?)\s*?(.*)$/im',$comment,$matches))
 			$return=array($this->processType($matches[1]),trim($matches[2])); // type, doc
 		else
 			$return=null;
@@ -178,8 +178,9 @@ class CWsdlGenerator extends CComponent
 			}
 			return $this->_types[$type.'[]'];
 		}
-		else
+		else // class type
 		{
+			$type=Yii::import($type,true);
 			$this->_types[$type]=array();
 			$class=new ReflectionClass($type);
 			foreach($class->getProperties() as $property)
@@ -187,8 +188,8 @@ class CWsdlGenerator extends CComponent
 				$comment=$property->getDocComment();
 				if($property->isPublic() && strpos($comment,'@soap')!==false)
 				{
-					if(preg_match('/@var\s+(\w+(\[\])?)\s+\$?(\w+)\s*?(.*?)$/mi',$comment,$matches))
-						$this->_types[$type][$matches[3]]=array($this->processType($matches[1]),trim($matches[4]));  // name => type, doc
+					if(preg_match('/@var\s+([\w\.]+(\[\s*\])?)\s*?(.*)$/mi',$comment,$matches))
+						$this->_types[$type][$property->getName()]=array($this->processType($matches[1]),trim($matches[3]));  // name => type, doc
 				}
 			}
 			return 'tns:'.$type;
