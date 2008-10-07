@@ -3,6 +3,20 @@
 class UserController extends CController
 {
 	/**
+	 * Declares class-based actions.
+	 */
+	public function actions()
+	{
+		return array(
+			// captcha action renders the CAPTCHA image
+			'captcha'=>array(
+				'class'=>'CCaptchaAction',
+				'backColor'=>0xEBF4FB,
+			),
+		);
+	}
+
+	/**
 	 * Displays a login form to login a user.
 	 */
 	public function actionLogin()
@@ -41,6 +55,7 @@ class LoginForm extends CFormModel
 	public $username;
 	public $password;
 	public $rememberMe;
+	public $verifyCode;
 
 	/**
 	 * Declares the validation rules.
@@ -51,7 +66,20 @@ class LoginForm extends CFormModel
 	{
 		return array(
 			array('username, password', 'required'),
+			array('verifyCode', 'captcha', 'allowEmpty'=>!extension_loaded('gd')),
 			array('password', 'authenticate'),
+		);
+	}
+
+	/**
+	 * Declares attribute labels.
+	 * If not declared here, an attribute would have a label
+	 * the same as the attribute name with the first letter in upper case.
+	 */
+	public function attributeLabels()
+	{
+		return array(
+			'verifyCode'=>'Verification Code',
 		);
 	}
 
