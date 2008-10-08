@@ -36,7 +36,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.0a';
+		return '1.0b';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -1222,18 +1222,18 @@ class CWebApplication extends CApplication
 		else
 			return array($route,'');
 	}
-	public function runController($controllerName,$actionName)
+	public function runController($controllerID,$actionID)
 	{
-		if(($controller=$this->createController($controllerName))!==null)
+		if(($controller=$this->createController($controllerID))!==null)
 		{
 			$oldController=$this->_controller;
 			$this->_controller=$controller;
-			$controller->run($actionName);
+			$controller->run($actionID);
 			$this->_controller=$oldController;
 		}
 		else
 			throw new CHttpException(404,Yii::t('yii#The requested controller "{controller}" does not exist.',
-				array('{controller}'=>$controllerName)));
+				array('{controller}'=>$controllerID)));
 	}
 	protected function registerCoreComponents()
 	{
@@ -2471,7 +2471,7 @@ class CWebUser extends CApplicationComponent
 	}
 	public function getId()
 	{
-		return $this->getState('ID',-1);
+		return $this->getState('id',-1);
 	}
 	public function setId($value)
 	{
@@ -3139,8 +3139,12 @@ class CHtml
 	}
 	public static function activeLabel($model,$attribute,$htmlOptions=array())
 	{
+		if(($pos=strpos($attribute,'['))!==false)
+			$name=get_class($model).substr($attribute,$pos).'['.($attribute=substr($attribute,0,$pos)).']';
+		else
+			$name=get_class($model).'['.$attribute.']';
 		$label=$model->getAttributeLabel($attribute);
-		$for=get_class($model).'_'.$attribute;
+		$for=str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $name);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
 		return self::label($label,$for,$htmlOptions);
@@ -3330,10 +3334,15 @@ class CHtml
 			$cs->registerBodyScript('Yii.CHtml.#'.$id,"jQuery('#$id').$event(function(){{$handler}});");
 		}
 	}
-	protected static function resolveNameID($model,$attribute,&$htmlOptions)
+	protected static function resolveNameID($model,&$attribute,&$htmlOptions)
 	{
 		if(!isset($htmlOptions['name']))
-			$htmlOptions['name']=get_class($model).'['.$attribute.']';
+		{
+			if(($pos=strpos($attribute,'['))!==false)
+				$htmlOptions['name']=get_class($model).substr($attribute,$pos).'['.($attribute=substr($attribute,0,$pos)).']';
+			else
+				$htmlOptions['name']=get_class($model).'['.$attribute.']';
+		}
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $htmlOptions['name']);
 	}
@@ -5960,6 +5969,93 @@ class CAssetManager extends CApplicationComponent
 	protected function hash($path)
 	{
 		return sprintf('%x',crc32($path.Yii::getVersion()));
+	}
+}
+class CFileHelper
+{
+	public static function copyDirectory($src,$dst,$options=array())
+	{
+		$fileTypes=array();
+		$exclude=array();
+		$level=-1;
+		extract($options);
+		self::copyDirectoryRecursive($src,$dst,'',$fileTypes,$exclude,$level);
+	}
+	public static function findFiles($dir,$options=array())
+	{
+		$fileTypes=array();
+		$exclude=array();
+		$level=-1;
+		extract($options);
+		$list=self::findFilesRecursive($dir,'',$fileTypes,$exclude,$level);
+		sort($list);
+		return $list;
+	}
+	public static function mkdir($directory)
+	{
+		if(!is_dir($directory))
+		{
+			self::mkdir(dirname($directory));
+			mkdir($directory);
+		}
+	}
+	protected static function copyDirectoryRecursive($src,$dst,$base,$fileTypes,$exclude,$level)
+	{
+		@mkdir($dst);
+		$folder=opendir($src);
+		while($file=readdir($folder))
+		{
+			if($file==='.' || $file==='..')
+				continue;
+			$path=$src.DIRECTORY_SEPARATOR.$file;
+			$isFile=is_file($path);
+			if(self::validatePath($base,$file,$isFile,$fileTypes,$exclude))
+			{
+				if($isFile)
+					copy($path,$dst.DIRECTORY_SEPARATOR.$file);
+				else if($level)
+					self::copyDirectoryRecursive($path,$dst.DIRECTORY_SEPARATOR.$file,$base.'/'.$file,$fileTypes,$exclude,$level-1);
+			}
+		}
+		closedir($folder);
+	}
+	protected static function findFilesRecursive($dir,$base,$fileTypes,$exclude,$level)
+	{
+		$list=array();
+		$handle=opendir($dir);
+		while($file=readdir($handle))
+		{
+			if($file==='.' || $file==='..')
+				continue;
+			$path=$dir.DIRECTORY_SEPARATOR.$file;
+			$isFile=is_file($path);
+			if(self::validatePath($base,$file,$isFile,$fileTypes,$exclude))
+			{
+				if($isFile)
+					$list[]=$path;
+				else if($level)
+					$list=array_merge($list,self::findFilesRecursive($path,$base.'/'.$file,$fileTypes,$exclude,$level-1));
+			}
+		}
+		closedir($handle);
+		return $list;
+	}
+	protected static function validatePath($base,$file,$isFile,$fileTypes,$exclude)
+	{
+		foreach($exclude as $e)
+		{
+			if($file===$e || strpos($base.'/'.$file,$e)===0)
+				return false;
+		}
+		if(!$isFile || empty($fileTypes))
+			return true;
+		if(($pos=strrpos($file,'.'))!==false)
+		{
+			$type=substr($file,$pos+1);
+			return in_array($type,$fileTypes);
+		}
+		else
+			return false;
 	}
 }
 interface IApplicationComponent
