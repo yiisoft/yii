@@ -5,6 +5,8 @@ Version 1.0b To be released
 - Enabled CHtml::activeXXX to deal with multirow input (Qiang)
 - Fixed issue #7: typo in CWebUser.id implementation (Qiang)
 - Changed the default behavior of CWebServiceAction to serve WSDL (Qiang)
+- Removed getIsNewRecord and setIsNewRecord methods from CActiveRecord.
+  Added CActiveRecord.isNewRecord property. (Qiang)
 
 Version 1.0a October 5, 2008
 =============================
