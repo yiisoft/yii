@@ -12,3 +12,6 @@ for both A and B.
 
 Upgrading from v1.0a
 --------------------
+- The getIsNewRecord and setIsNewRecord methods are removed from CActiveRecord.
+  Please use CActiveRecord.isNewRecord property directly.
+

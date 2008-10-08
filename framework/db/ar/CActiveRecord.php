@@ -318,11 +318,16 @@ abstract class CActiveRecord extends CModel
 	 * @see getDbConnection
 	 */
 	public static $db;
+	/**
+	 * @var boolean whether the record is new and should be inserted when calling {@link save}.
+	 * This property is automatically in constructor and {@link populateRecord}.
+	 * Defaults to false, but it will be set to true if the instance is created using
+	 * the new operator.
+	 */
+	public $isNewRecord=false;
 
 	private static $_models=array();			// class name => model
-
 	private $_md;
-	private $_newRecord;
 	private $_attributes=array();				// attribute name => attribute value
 	private $_related=array();					// attribute name => related objects
 
@@ -338,23 +343,13 @@ abstract class CActiveRecord extends CModel
 		if($attributes===null) // internally used by populateRecord() and model()
 			return;
 
-		$this->_md=self::model(get_class($this))->_md;
-		$this->_newRecord=true;
-		$this->_attributes=$this->_md->attributeDefaults;
+		$this->isNewRecord=true;
+		$this->_attributes=$this->getMetaData()->attributeDefaults;
 
 		if($attributes!==array())
 			$this->setAttributes($attributes);
 
 		$this->afterConstruct();
-	}
-
-	/**
-	 * PHP wakeup magic method.
-	 * This method ensures that the model meta data is ready when deserializing an AR object.
-	 */
-	public function __wakeup()
-	{
-		$this->_md=self::model(get_class($this))->_md;
 	}
 
 	/**
@@ -378,17 +373,17 @@ abstract class CActiveRecord extends CModel
 	{
 		if(isset($this->_attributes[$name]))
 			return $this->_attributes[$name];
-		else if(isset($this->_md->columns[$name]))
+		else if(isset($this->getMetaData()->columns[$name]))
 			return null;
 		else if(isset($this->_related[$name]))
 			return $this->_related[$name];
-		else if(isset($this->_md->relations[$name]))
+		else if(isset($this->getMetaData()->relations[$name]))
 		{
-			if($this->_newRecord)
+			if($this->isNewRecord)
 				return null;
 			else if(!array_key_exists($name,$this->_related))
 			{
-				$relation=$this->_md->relations[$name];
+				$relation=$this->getMetaData()->relations[$name];
 				$finder=new CActiveFinder($this,array($name=>$relation->with));
 				$finder->lazyFind($this);
 			}
@@ -406,9 +401,9 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function __set($name,$value)
 	{
-		if(isset($this->_md->columns[$name]))
+		if(isset($this->getMetaData()->columns[$name]))
 			$this->_attributes[$name]=$value;
-		else if(isset($this->_md->relations[$name]))
+		else if(isset($this->getMetaData()->relations[$name]))
 			$this->_related[$name]=$value;
 		else
 			parent::__set($name,$value);
@@ -437,10 +432,21 @@ abstract class CActiveRecord extends CModel
 		else
 		{
 			$model=self::$_models[$className]=new $className(null);
-			$model->_newRecord=false;
+			$model->isNewRecord=false;
 			$model->_md=new CActiveRecordMetaData($model);
 			return $model;
 		}
+	}
+
+	/**
+	 * @return CActiveRecordMetaData the meta for this AR class.
+	 */
+	public function getMetaData()
+	{
+		if($this->_md!==null)
+			return $this->_md;
+		else
+			return $this->_md=self::model(get_class($this))->_md;
 	}
 
 	/**
@@ -562,7 +568,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function getAttributeLabel($attribute)
 	{
-		if(($label=$this->_md->getAttributeLabel($attribute))!==null)
+		if(($label=$this->getMetaData()->getAttributeLabel($attribute))!==null)
 			return $label;
 		else
 			return $this->generateAttributeLabel($attribute);
@@ -574,7 +580,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function getActiveRelation($name)
 	{
-		return isset($this->_md->relations[$name]) ? $this->_md->relations[$name] : null;
+		return isset($this->getMetaData()->relations[$name]) ? $this->getMetaData()->relations[$name] : null;
 	}
 
 	/**
@@ -582,7 +588,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function getTableSchema()
 	{
-		return $this->_md->tableSchema;
+		return $this->getMetaData()->tableSchema;
 	}
 
 	/**
@@ -603,7 +609,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function filterAttributes($attributes)
 	{
-		$safe=$this->_md->safeAttributes;
+		$safe=$this->getMetaData()->safeAttributes;
 		$safeAttributes=array();
 		foreach($attributes as $name=>$value)
 		{
@@ -619,7 +625,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function hasAttribute($name)
 	{
-		return isset($this->_md->columns[$name]);
+		return isset($this->getMetaData()->columns[$name]);
 	}
 
 	/**
@@ -638,7 +644,7 @@ abstract class CActiveRecord extends CModel
 	{
 		if(isset($this->_attributes[$name]))
 			return $this->_attributes[$name];
-		else if(isset($this->_md->columns[$name]))
+		else if(isset($this->getMetaData()->columns[$name]))
 			return null;
 		else
 			throw new CDbException(Yii::t('yii#{class} does not have attribute "{name}".',
@@ -691,7 +697,7 @@ abstract class CActiveRecord extends CModel
 	public function getAttributes($returnAll=true)
 	{
 		$attributes=$this->_attributes;
-		foreach($this->_md->columns as $name=>$column)
+		foreach($this->getMetaData()->columns as $name=>$column)
 		{
 			if(property_exists($this,$name))
 				$attributes[$name]=$this->$name;
@@ -725,7 +731,7 @@ abstract class CActiveRecord extends CModel
 	 * The record is inserted as a row into the database table if it is manually
 	 * created using the 'new' operator. If it is obtained using one of those
 	 * 'find' methods, the record is considered not new and it will be used to
-	 * update the corresponding row in the table. You may check this status via {@link getIsNewRecord isNewRecord}.
+	 * update the corresponding row in the table. You may check this status via {@link isNewRecord}.
 	 * Validation may be performed before saving the record. If the validation fails,
 	 * the record will not be saved.
 	 * If the record is being inserted and its primary key is null,
@@ -738,7 +744,7 @@ abstract class CActiveRecord extends CModel
 	{
 		if(!$runValidation || $this->validate())
 		{
-			if($this->_newRecord)
+			if($this->isNewRecord)
 				return $this->insert();
 			else
 				return $this->update();
@@ -758,9 +764,9 @@ abstract class CActiveRecord extends CModel
 		$this->clearErrors();
 		if($this->beforeValidate())
 		{
-			foreach($this->_md->getValidators() as $validator)
+			foreach($this->getMetaData()->getValidators() as $validator)
 			{
-				if($validator->on===null || ($validator->on==='insert')===$this->getIsNewRecord())
+				if($validator->on===null || ($validator->on==='insert')===$this->isNewRecord)
 					$validator->validate($this);
 			}
 			$this->afterValidate();
@@ -773,7 +779,7 @@ abstract class CActiveRecord extends CModel
 	/**
 	 * This method is invoked before saving a record (after validation, if any).
 	 * You may override this method to do any preparation work for record saving.
-	 * Use {@link getIsNewRecord isNewRecord} to determine whether the saving is
+	 * Use {@link isNewRecord} to determine whether the saving is
 	 * for inserting or updating record.
 	 * @return boolean whether the saving should be executed. Defaults to true.
 	 */
@@ -834,12 +840,12 @@ abstract class CActiveRecord extends CModel
 	 */
 	protected function insert()
 	{
-		if(!$this->_newRecord)
+		if(!$this->isNewRecord)
 			throw new CDbException(Yii::t('yii#The active record cannot be inserted to database because it is not new.'));
 		if($this->beforeSave())
 		{
 			$builder=$this->getCommandBuilder();
-			$table=$this->_md->tableSchema;
+			$table=$this->getMetaData()->tableSchema;
 			$command=$builder->createInsertCommand($table,$this->getAttributes(false));
 			if($command->execute())
 			{
@@ -847,7 +853,7 @@ abstract class CActiveRecord extends CModel
 				if($table->sequenceName!==null && is_string($primaryKey) && $this->$primaryKey===null)
 					$this->$primaryKey=$builder->getLastInsertID($table);
 				$this->afterSave();
-				$this->_newRecord=false;
+				$this->isNewRecord=false;
 				return true;
 			}
 			else
@@ -866,7 +872,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	protected function update()
 	{
-		if($this->_newRecord)
+		if($this->isNewRecord)
 			throw new CDbException(Yii::t('yii#The active record cannot be updated because it is new.'));
 		if($this->beforeSave())
 		{
@@ -898,7 +904,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function saveAttributes($attributes)
 	{
-		if(!$this->_newRecord)
+		if(!$this->isNewRecord)
 		{
 			$values=array();
 			foreach($attributes as $name=>$value)
@@ -921,7 +927,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function delete()
 	{
-		if(!$this->_newRecord)
+		if(!$this->isNewRecord)
 		{
 			if($this->beforeDelete())
 			{
@@ -942,11 +948,11 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function refresh()
 	{
-		if(!$this->_newRecord && ($record=$this->findByPk($this->getPrimaryKey()))!==null)
+		if(!$this->isNewRecord && ($record=$this->findByPk($this->getPrimaryKey()))!==null)
 		{
 			$this->_attributes=array();
 			$this->_related=array();
-			foreach($this->_md->columns as $name=>$column)
+			foreach($this->getMetaData()->columns as $name=>$column)
 				$this->$name=$record->$name;
 			return true;
 		}
@@ -970,7 +976,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function getPrimaryKey()
 	{
-		$table=$this->_md->tableSchema;
+		$table=$this->getMetaData()->tableSchema;
 		if(is_string($table->primaryKey))
 			return $this->{$table->primaryKey};
 		else if(is_array($table->primaryKey))
@@ -1269,22 +1275,6 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
-	 * @return boolean whether the record is new and can be inserted
-	 */
-	public function getIsNewRecord()
-	{
-		return $this->_newRecord;
-	}
-
-	/**
-	 * @param boolean whether the record is new and can be inserted
-	 */
-	public function setIsNewRecord($value)
-	{
-		$this->_newRecord=$value;
-	}
-
-	/**
 	 * Creates an active record with the given attributes.
 	 * This method is internally used by the find methods.
 	 * @param array attribute values (column name=>column value)
@@ -1297,8 +1287,8 @@ abstract class CActiveRecord extends CModel
 		{
 			$class=get_class($this);
 			$record=new $class(null);
-			$record->_newRecord=false;
-			$record->_md=$this->_md;
+			$record->isNewRecord=false;
+			$record->_md=$this->getMetaData();
 			foreach($attributes as $name=>$value)
 			{
 				if(isset($this->_md->columns[$name]))
@@ -1326,12 +1316,13 @@ abstract class CActiveRecord extends CModel
 	{
 		$records=array();
 		$class=get_class($this);
-		$table=$this->_md->tableSchema;
+		$md=$this->getMetaData();
+		$table=$md->tableSchema;
 		foreach($data as $attributes)
 		{
 			$record=new $class(null);
-			$record->_newRecord=false;
-			$record->_md=$this->_md;
+			$record->isNewRecord=false;
+			$record->_md=$md;
 			foreach($attributes as $name=>$value)
 			{
 				if(isset($table->columns[$name]))
