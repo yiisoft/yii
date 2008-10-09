@@ -56,7 +56,7 @@ if ( hasProductInstall && !hasRequestedVersion ) {
 		"quality", "<?php echo $this->quality ?>",
 		"bgcolor", "<?php echo $this->bgColor ?>",
 		"name", "<?php echo $this->name ?>",
-		"flashvars",<?php echo $flashVars ?>,
+		"flashvars","<?php echo $this->flashVarsAsString; ?>",
 		"allowScriptAccess","<?php echo $this->allowScriptAccess ?>",
 		"type", "application/x-shockwave-flash",
 		"pluginspage", "http://www.adobe.com/go/getflashplayer"
@@ -76,6 +76,7 @@ if ( hasProductInstall && !hasRequestedVersion ) {
 			<param name="movie" value="<?php echo $this->baseUrl ?>/<?php echo $this->name ?>.swf" />
 			<param name="quality" value="<?php echo $this->quality ?>" />
 			<param name="bgcolor" value="<?php echo $this->bgColor ?>" />
+			<param name="flashVars" value="<?php echo $this->flashVarsAsString ?>" />
 			<param name="allowScriptAccess" value="<?php echo $this->allowScriptAccess ?>" />
 			<embed src="<?php echo $this->baseUrl ?>/<?php echo $this->name ?>.swf"
 				quality="<?php echo $this->quality ?>"
@@ -93,6 +94,3 @@ if ( hasProductInstall && !hasRequestedVersion ) {
 			</embed>
 	</object>
 </noscript>
-<?php if($this->enableHistory): ?>
-<iframe name="_history" src="<?php echo $this->baseUrl; ?>/history.htm" frameborder="0" scrolling="no" width="22" height="0"></iframe>
-<?php endif; ?>
