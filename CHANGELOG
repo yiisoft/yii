@@ -8,6 +8,8 @@ Version 1.0b To be released
 - Removed getIsNewRecord and setIsNewRecord methods from CActiveRecord.
   Added CActiveRecord.isNewRecord property. (Qiang)
 - Implemented view renderer feature so that customized view template may be used. (Qiang)
+- Added CFlexWidget (Qiang)
+- Added CWebServiceAction.classMap (Qiang)
 
 Version 1.0a October 5, 2008
 =============================
