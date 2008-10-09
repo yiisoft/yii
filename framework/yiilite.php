@@ -1280,6 +1280,10 @@ class CWebApplication extends CApplication
 	{
 		return $this->getComponent('user');
 	}
+	public function getViewRenderer()
+	{
+		return $this->getComponent('viewRenderer');
+	}
 	public function getThemeManager()
 	{
 		return $this->getComponent('themeManager');
@@ -2052,7 +2056,10 @@ abstract class CBaseController extends CComponent
 	public function renderFile($viewFile,$data=null,$return=false)
 	{
 		$widgetCount=count($this->_widgetStack);
-		$content=$this->renderInternal($viewFile,$data,$return);
+		if(($renderer=Yii::app()->getViewRenderer())!==null)
+			$content=$renderer->renderFile($this,$viewFile,$data,$return);
+		else
+			$content=$this->renderInternal($viewFile,$data,$return);
 		if(count($this->_widgetStack)===$widgetCount)
 			return $content;
 		else
@@ -2062,7 +2069,7 @@ abstract class CBaseController extends CComponent
 				array('{controller}'=>get_class($this), '{view}'=>$viewFile, '{widget}'=>get_class($widget))));
 		}
 	}
-	protected function renderInternal($_viewFile_,$_data_=null,$_return_=false)
+	public function renderInternal($_viewFile_,$_data_=null,$_return_=false)
 	{
 		// we use special variable names here to avoid conflict when extracting data
 		if(is_array($_data_))
@@ -3841,25 +3848,20 @@ abstract class CActiveRecord extends CModel
 	const HAS_MANY='CHasManyRelation';
 	const MANY_MANY='CManyManyRelation';
 	public static $db;
+	public $isNewRecord=false;
 	private static $_models=array();			// class name => model
 	private $_md;
-	private $_newRecord;
 	private $_attributes=array();				// attribute name => attribute value
 	private $_related=array();					// attribute name => related objects
 	public function __construct($attributes=array())
 	{
 		if($attributes===null) // internally used by populateRecord() and model()
 			return;
-		$this->_md=self::model(get_class($this))->_md;
-		$this->_newRecord=true;
-		$this->_attributes=$this->_md->attributeDefaults;
+		$this->isNewRecord=true;
+		$this->_attributes=$this->getMetaData()->attributeDefaults;
 		if($attributes!==array())
 			$this->setAttributes($attributes);
 		$this->afterConstruct();
-	}
-	public function __wakeup()
-	{
-		$this->_md=self::model(get_class($this))->_md;
 	}
 	public function __sleep()
 	{
@@ -3870,17 +3872,17 @@ abstract class CActiveRecord extends CModel
 	{
 		if(isset($this->_attributes[$name]))
 			return $this->_attributes[$name];
-		else if(isset($this->_md->columns[$name]))
+		else if(isset($this->getMetaData()->columns[$name]))
 			return null;
 		else if(isset($this->_related[$name]))
 			return $this->_related[$name];
-		else if(isset($this->_md->relations[$name]))
+		else if(isset($this->getMetaData()->relations[$name]))
 		{
-			if($this->_newRecord)
+			if($this->isNewRecord)
 				return null;
 			else if(!array_key_exists($name,$this->_related))
 			{
-				$relation=$this->_md->relations[$name];
+				$relation=$this->getMetaData()->relations[$name];
 				$finder=new CActiveFinder($this,array($name=>$relation->with));
 				$finder->lazyFind($this);
 			}
@@ -3891,9 +3893,9 @@ abstract class CActiveRecord extends CModel
 	}
 	public function __set($name,$value)
 	{
-		if(isset($this->_md->columns[$name]))
+		if(isset($this->getMetaData()->columns[$name]))
 			$this->_attributes[$name]=$value;
-		else if(isset($this->_md->relations[$name]))
+		else if(isset($this->getMetaData()->relations[$name]))
 			$this->_related[$name]=$value;
 		else
 			parent::__set($name,$value);
@@ -3905,10 +3907,17 @@ abstract class CActiveRecord extends CModel
 		else
 		{
 			$model=self::$_models[$className]=new $className(null);
-			$model->_newRecord=false;
+			$model->isNewRecord=false;
 			$model->_md=new CActiveRecordMetaData($model);
 			return $model;
 		}
+	}
+	public function getMetaData()
+	{
+		if($this->_md!==null)
+			return $this->_md;
+		else
+			return $this->_md=self::model(get_class($this))->_md;
 	}
 	public function tableName()
 	{
@@ -3940,18 +3949,18 @@ abstract class CActiveRecord extends CModel
 	}
 	public function getAttributeLabel($attribute)
 	{
-		if(($label=$this->_md->getAttributeLabel($attribute))!==null)
+		if(($label=$this->getMetaData()->getAttributeLabel($attribute))!==null)
 			return $label;
 		else
 			return $this->generateAttributeLabel($attribute);
 	}
 	public function getActiveRelation($name)
 	{
-		return isset($this->_md->relations[$name]) ? $this->_md->relations[$name] : null;
+		return isset($this->getMetaData()->relations[$name]) ? $this->getMetaData()->relations[$name] : null;
 	}
 	public function getTableSchema()
 	{
-		return $this->_md->tableSchema;
+		return $this->getMetaData()->tableSchema;
 	}
 	public function getCommandBuilder()
 	{
@@ -3959,7 +3968,7 @@ abstract class CActiveRecord extends CModel
 	}
 	public function filterAttributes($attributes)
 	{
-		$safe=$this->_md->safeAttributes;
+		$safe=$this->getMetaData()->safeAttributes;
 		$safeAttributes=array();
 		foreach($attributes as $name=>$value)
 		{
@@ -3970,13 +3979,13 @@ abstract class CActiveRecord extends CModel
 	}
 	public function hasAttribute($name)
 	{
-		return isset($this->_md->columns[$name]);
+		return isset($this->getMetaData()->columns[$name]);
 	}
 	public function getAttribute($name)
 	{
 		if(isset($this->_attributes[$name]))
 			return $this->_attributes[$name];
-		else if(isset($this->_md->columns[$name]))
+		else if(isset($this->getMetaData()->columns[$name]))
 			return null;
 		else
 			throw new CDbException(Yii::t('yii#{class} does not have attribute "{name}".',
@@ -4005,7 +4014,7 @@ abstract class CActiveRecord extends CModel
 	public function getAttributes($returnAll=true)
 	{
 		$attributes=$this->_attributes;
-		foreach($this->_md->columns as $name=>$column)
+		foreach($this->getMetaData()->columns as $name=>$column)
 		{
 			if(property_exists($this,$name))
 				$attributes[$name]=$this->$name;
@@ -4028,7 +4037,7 @@ abstract class CActiveRecord extends CModel
 	{
 		if(!$runValidation || $this->validate())
 		{
-			if($this->_newRecord)
+			if($this->isNewRecord)
 				return $this->insert();
 			else
 				return $this->update();
@@ -4041,9 +4050,9 @@ abstract class CActiveRecord extends CModel
 		$this->clearErrors();
 		if($this->beforeValidate())
 		{
-			foreach($this->_md->getValidators() as $validator)
+			foreach($this->getMetaData()->getValidators() as $validator)
 			{
-				if($validator->on===null || ($validator->on==='insert')===$this->getIsNewRecord())
+				if($validator->on===null || ($validator->on==='insert')===$this->isNewRecord)
 					$validator->validate($this);
 			}
 			$this->afterValidate();
@@ -4074,12 +4083,12 @@ abstract class CActiveRecord extends CModel
 	}
 	protected function insert()
 	{
-		if(!$this->_newRecord)
+		if(!$this->isNewRecord)
 			throw new CDbException(Yii::t('yii#The active record cannot be inserted to database because it is not new.'));
 		if($this->beforeSave())
 		{
 			$builder=$this->getCommandBuilder();
-			$table=$this->_md->tableSchema;
+			$table=$this->getMetaData()->tableSchema;
 			$command=$builder->createInsertCommand($table,$this->getAttributes(false));
 			if($command->execute())
 			{
@@ -4087,7 +4096,7 @@ abstract class CActiveRecord extends CModel
 				if($table->sequenceName!==null && is_string($primaryKey) && $this->$primaryKey===null)
 					$this->$primaryKey=$builder->getLastInsertID($table);
 				$this->afterSave();
-				$this->_newRecord=false;
+				$this->isNewRecord=false;
 				return true;
 			}
 			else
@@ -4098,7 +4107,7 @@ abstract class CActiveRecord extends CModel
 	}
 	protected function update()
 	{
-		if($this->_newRecord)
+		if($this->isNewRecord)
 			throw new CDbException(Yii::t('yii#The active record cannot be updated because it is new.'));
 		if($this->beforeSave())
 		{
@@ -4111,7 +4120,7 @@ abstract class CActiveRecord extends CModel
 	}
 	public function saveAttributes($attributes)
 	{
-		if(!$this->_newRecord)
+		if(!$this->isNewRecord)
 		{
 			$values=array();
 			foreach($attributes as $name=>$value)
@@ -4128,7 +4137,7 @@ abstract class CActiveRecord extends CModel
 	}
 	public function delete()
 	{
-		if(!$this->_newRecord)
+		if(!$this->isNewRecord)
 		{
 			if($this->beforeDelete())
 			{
@@ -4144,11 +4153,11 @@ abstract class CActiveRecord extends CModel
 	}
 	public function refresh()
 	{
-		if(!$this->_newRecord && ($record=$this->findByPk($this->getPrimaryKey()))!==null)
+		if(!$this->isNewRecord && ($record=$this->findByPk($this->getPrimaryKey()))!==null)
 		{
 			$this->_attributes=array();
 			$this->_related=array();
-			foreach($this->_md->columns as $name=>$column)
+			foreach($this->getMetaData()->columns as $name=>$column)
 				$this->$name=$record->$name;
 			return true;
 		}
@@ -4161,7 +4170,7 @@ abstract class CActiveRecord extends CModel
 	}
 	public function getPrimaryKey()
 	{
-		$table=$this->_md->tableSchema;
+		$table=$this->getMetaData()->tableSchema;
 		if(is_string($table->primaryKey))
 			return $this->{$table->primaryKey};
 		else if(is_array($table->primaryKey))
@@ -4294,22 +4303,14 @@ abstract class CActiveRecord extends CModel
 		$command=$builder->createDeleteCommand($this->getTableSchema(),$criteria);
 		return $command->execute();
 	}
-	public function getIsNewRecord()
-	{
-		return $this->_newRecord;
-	}
-	public function setIsNewRecord($value)
-	{
-		$this->_newRecord=$value;
-	}
 	public function populateRecord($attributes)
 	{
 		if($attributes!==false)
 		{
 			$class=get_class($this);
 			$record=new $class(null);
-			$record->_newRecord=false;
-			$record->_md=$this->_md;
+			$record->isNewRecord=false;
+			$record->_md=$this->getMetaData();
 			foreach($attributes as $name=>$value)
 			{
 				if(isset($this->_md->columns[$name]))
@@ -4330,12 +4331,13 @@ abstract class CActiveRecord extends CModel
 	{
 		$records=array();
 		$class=get_class($this);
-		$table=$this->_md->tableSchema;
+		$md=$this->getMetaData();
+		$table=$md->tableSchema;
 		foreach($data as $attributes)
 		{
 			$record=new $class(null);
-			$record->_newRecord=false;
-			$record->_md=$this->_md;
+			$record->isNewRecord=false;
+			$record->_md=$md;
 			foreach($attributes as $name=>$value)
 			{
 				if(isset($table->columns[$name]))
@@ -6008,5 +6010,9 @@ interface IWebServiceProvider
 {
 	public function beforeWebMethod($service);
 	public function afterWebMethod($service);
+}
+interface IViewRenderer
+{
+	public function renderFile($context,$file,$data,$return);
 }
 ?>
