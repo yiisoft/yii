@@ -26,7 +26,7 @@ abstract class CConsoleCommand extends CComponent
 
 	/**
 	 * Executes the command.
-	 * @param array parameters for this command.
+	 * @param array command line parameters for this command.
 	 */
 	public abstract function run($args);
 
