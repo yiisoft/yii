@@ -9,7 +9,7 @@
  */
 
 /**
- * CFlexWidget embeds a Flex application into a page.
+ * CFlexWidget embeds a Flex 3.x application into a page.
  *
  * To use CFlexWidget, set {@link name} to be the Flex application name
  * (without the .swf suffix), and set {@link baseUrl} to be URL (without the ending slash)
@@ -35,11 +35,11 @@ class CFlexWidget extends CWidget
 	/**
 	 * @var string width of the application region. Defaults to 450.
 	 */
-	public $width=450;
+	public $width='100%';
 	/**
 	 * @var string height of the application region. Defaults to 300.
 	 */
-	public $height=300;
+	public $height='100%';
 	/**
 	 * @var string quality of the animation. Defaults to 'high'.
 	 */
@@ -85,31 +85,23 @@ class CFlexWidget extends CWidget
 		$cs->registerScriptFile($this->baseUrl.'/AC_OETags.js');
 
 		if($this->enableHistory)
-			$cs->registerScriptFile($this->baseUrl.'/history.js');
+		{
+			$cs->registerCssFile($this->baseUrl.'/history/history.css');
+			$cs->registerScriptFile($this->baseUrl.'/history/history.js');
+		}
 
-		$this->render('flexWidget',array('flashVars'=>$this->generateFlashVars()));
+		$this->render('flexWidget');
 	}
 
 	/**
 	 * Generates the properly quoted flash parameter string.
 	 * @return string the flash parameter string.
 	 */
-	protected function generateFlashVars()
+	public function getFlashVarsAsString()
 	{
 		$params=array();
 		foreach($this->flashVars as $k=>$v)
 			$params[]=urlencode($k).'='.urlencode($v);
-		$flashVars=implode('&',$params);
-
-		if($this->enableHistory)
-		{
-			$historyUrl=urlencode($this->baseUrl.'/history.htm');
-			if($flashVars!=='')
-				$flashVars.='&';
-			$flashVars.="historyUrl={$historyUrl}&lconid=";
-			return "'".CJavaScript::quote($flashVars)."' + lc_id";
-		}
-		else
-			return "'".CJavaScript::quote($flashVars)."'";
+		return CJavaScript::quote(implode('&',$params));
 	}
 }
