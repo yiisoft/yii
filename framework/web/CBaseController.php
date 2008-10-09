@@ -105,7 +105,7 @@ abstract class CBaseController extends CComponent
 	 * @param boolean whether the rendering result should be returned as a string
 	 * @return string the rendering result. Null if the rendering result is not required.
 	 */
-	protected function renderInternal($_viewFile_,$_data_=null,$_return_=false)
+	public function renderInternal($_viewFile_,$_data_=null,$_return_=false)
 	{
 		// we use special variable names here to avoid conflict when extracting data
 		if(is_array($_data_))
