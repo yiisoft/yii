@@ -225,6 +225,18 @@ class CWebApplication extends CApplication
 	}
 
 	/**
+	 * Returns the view renderer.
+	 * If this component is registered and enabled, the default
+	 * view rendering logic defined in {@link CBaseController} will
+	 * be replaced by this renderer.
+	 * @return IViewRenderer the view renderer.
+	 */
+	public function getViewRenderer()
+	{
+		return $this->getComponent('viewRenderer');
+	}
+
+	/**
 	 * @return CThemeManager the theme manager.
 	 */
 	public function getThemeManager()
