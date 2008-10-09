@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 
+	backgroundColor="white"
+	backgroundGradientAlphas="0"
+	backgroundGradientColors="0" 
+	layout="vertical" creationComplete="initApp()">
+	<mx:states>
+		<mx:State name="grid">
+			<mx:RemoveChild target="{loginForm}"/>
+			<mx:AddChild relativeTo="{panel1}" position="lastChild">
+				<mx:HBox id="hbox1">
+					<mx:DataGrid id="contactList" dataProvider="{ws.getContacts.lastResult}" width="350" click="currentState='details'">
+						<mx:columns>
+							<mx:DataGridColumn headerText="Name" width="175" dataField="name"/>
+							<mx:DataGridColumn headerText="Phone" dataField="phone"/>
+						</mx:columns>
+					</mx:DataGrid>
+				</mx:HBox>
+			</mx:AddChild>
+			<mx:SetProperty target="{newButton}" name="visible" value="true"/>
+			<mx:SetProperty target="{deleteButton}" name="visible" value="true"/>
+			<mx:SetProperty target="{controlbar1}" name="height"/>
+		</mx:State>	
+		<mx:State name="details" basedOn="grid">
+			<mx:AddChild relativeTo="{hbox1}" position="lastChild">
+				<mx:Form>
+					<mx:FormItem label="Name:">
+						<mx:TextInput id="nameEdit" text="{contactList.selectedItem.name}"/>
+					</mx:FormItem>
+					<mx:FormItem label="Phone:">
+						<mx:TextInput id="phoneEdit" text="{contactList.selectedItem.phone}" />
+						<mx:Button id="saveButton" label="Save" click="doSave()" />
+					</mx:FormItem>
+				</mx:Form>
+			</mx:AddChild>
+		</mx:State>
+	</mx:states>
+	
+	<mx:PhoneNumberValidator id="val1" source="{phoneEdit}" property="text" />
+	<mx:StringValidator id="val2" source="{nameEdit}" property="text" minLength="3" maxLength="20" />
+	<mx:Validator id="val3" source="{usernameEdit}" property="text" />
+	<mx:Validator id="val4" source="{passwordEdit}" property="text" />
+	
+	<mx:WebService id="ws" fault="dataError(event)">
+		<mx:operation name="saveContact" result="ws.getContacts()" />
+		<mx:operation name="deleteContact" result="ws.getContacts()" />
+		<mx:operation name="login" result="loginReturned(event)" />		
+	</mx:WebService>
+ 
+	<mx:Script>
+		<![CDATA[
+			import mx.rpc.events.ResultEvent;
+			import mx.validators.Validator;
+			import mx.controls.Alert;
+			import mx.rpc.events.FaultEvent;
+			
+			private function initApp():void
+			{
+				ws.loadWSDL(application.parameters.wsdl);
+			}
+			
+			private function dataError(event:FaultEvent):void
+			{
+				Alert.show(event.fault.faultString,"Data Communication Error");
+			}
+
+			private function doSave():void
+			{
+				if(Validator.validateAll([val1, val2]).length == 0)
+				{
+					var data:Object = new Object;
+					data.id = contactList.selectedItem != null ? contactList.selectedItem.id : -1;
+					data.name = nameEdit.text;
+					data.phone = phoneEdit.text;
+					ws.saveContact(data);
+					currentState='grid';
+				}
+			}
+			
+			private function doDelete():void
+			{
+				ws.deleteContact(contactList.selectedItem.id);
+				currentState='grid';
+			}
+			
+			private function doLogin():void
+			{
+				if(Validator.validateAll([val3, val4]).length == 0)
+				{
+					ws.login(usernameEdit.text, passwordEdit.text);
+					usernameEdit.enabled=false;
+					passwordEdit.enabled=false;
+					loginProgress.visible=true;
+				}	
+			}
+			
+			private function loginReturned(event:ResultEvent):void
+			{
+				if(!event.result)
+				{
+					usernameEdit.enabled=true;
+					passwordEdit.enabled=true;
+					loginProgress.visible=false;
+					Alert.show("Username and password did not match!", "Login Error");
+				}
+				else
+				{
+					ws.getContacts();
+					currentState='grid';
+				}
+			}
+		]]>
+	</mx:Script>
+		
+	<mx:Panel layout="vertical" title="Yii Phone Book" id="panel1" resizeEffect="Resize">
+		<mx:Form id="loginForm">
+			<mx:FormItem label="Username:">
+				<mx:TextInput id="usernameEdit" />
+			</mx:FormItem>
+			<mx:FormItem label="Password:">
+				<mx:TextInput id="passwordEdit" displayAsPassword="true"/>
+				<mx:Label text="Use demo/demo to login" color="#999999" />
+			</mx:FormItem>
+			<mx:FormItem>
+				<mx:Button label="Login" click="doLogin()" id="button1"/>
+			</mx:FormItem>
+			<mx:ProgressBar width="100%" indeterminate="true" id="loginProgress" showEffect="Fade" hideEffect="Fade"
+				labelPlacement="center" label="Verifying..." color="#ffffff" visible="false"/>
+		</mx:Form>
+		<mx:ControlBar id="controlbar1">
+			<mx:Button label="New" click="contactList.selectedIndex=-1; currentState='details'" id="newButton" visible="false" />
+			<mx:Button label="Delete" enabled="{contactList.selectedIndex >= 0}" click="doDelete()" id="deleteButton" visible="false" />				
+		</mx:ControlBar>
+	</mx:Panel>
+	
+</mx:Application>

@@ -47,12 +47,30 @@
     <include name="README"/>
   </fileset>
 
+  <fileset dir="." id="writables">
+    <include name="${build.src.dir}/**/runtime" />
+    <include name="${build.src.dir}/**/assets" />
+    <include name="${build.src.dir}/demos/**/data" />
+  </fileset>
+
+  <fileset dir="." id="executables">
+    <include name="${build.src.dir}/**/yiic" />
+  </fileset>
+
   <target name="build" depends="prebuild">
     <echo>Building package ${pkgname}...</echo>
     <echo>Copying files to build directory...</echo>
     <copy todir="${build.src.dir}">
       <fileset refid="framework"/>
     </copy>
+
+    <echo>Changing file permissions...</echo>
+    <chmod mode="0777">
+      <fileset refid="writables" />
+    </chmod>
+    <chmod mode="0755">
+      <fileset refid="executables" />
+    </chmod>
   </target>
 
   <target name="docs" depends="prebuild">
