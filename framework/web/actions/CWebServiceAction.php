@@ -58,6 +58,13 @@ class CWebServiceAction extends CAction
 	 */
 	public $serviceVar='ws';
 	/**
+	 * @var array a list of PHP classes that are declared as complex types in WSDL.
+	 * This should be an array with WSDL types as keys and names of PHP classes as values.
+	 * A PHP class can also be specified as a path alias.
+	 * @see http://www.php.net/manual/en/function.soap-soapserver-construct.php
+	 */
+	public $classMap;
+	/**
 	 * @var array the initial property values for the {@link CWebService} object.
 	 * The array keys are property names of {@link CWebService} and the array values
 	 * are the corresponding property initial values.
@@ -84,6 +91,10 @@ class CWebServiceAction extends CAction
 			$provider=$controller;
 
 		$this->_service=$this->createWebService($provider,$wsdlUrl,$serviceUrl);
+
+		if(is_array($this->classMap))
+			$this->_service->classMap=$this->classMap;
+
 		foreach($this->serviceOptions as $name=>$value)
 			$this->_service->$name=$value;
 
