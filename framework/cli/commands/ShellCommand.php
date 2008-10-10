@@ -79,6 +79,7 @@ EOD;
 	{
 		$_runner_=new CConsoleCommandRunner;
 		$_runner_->addCommands(dirname(__FILE__).'/shell');
+		$_runner_->addCommands(Yii::getPathOfAlias('application.commands.shell'));
 		$_commands_=$_runner_->commands;
 		while(true)
 		{
