@@ -17,7 +17,7 @@ return array(
 		'user'=>array(
 			'class'=>'application.components.WebUser',
 			'allowAutoLogin'=>true,
-			'loginUrl'=>array('user/login'),
+			'loginUrl'=>array('site/login'),
 		),
 		// uncomment the following to set up database
 		/*

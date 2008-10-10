@@ -1,54 +1,9 @@
 <?php
 
-class UserController extends CController
-{
-	/**
-	 * Declares class-based actions.
-	 */
-	public function actions()
-	{
-		return array(
-			// captcha action renders the CAPTCHA image
-			'captcha'=>array(
-				'class'=>'CCaptchaAction',
-				'backColor'=>0xEBF4FB,
-			),
-		);
-	}
-
-	/**
-	 * Displays a login form to login a user.
-	 */
-	public function actionLogin()
-	{
-		$user=new LoginForm;
-		if(Yii::app()->request->isPostRequest)
-		{
-			// collects user input data
-			if(isset($_POST['LoginForm']))
-				$user->setAttributes($_POST['LoginForm']);
-			// validates user input and redirect to homepage if validated
-			if($user->validate())
-				$this->redirect(Yii::app()->user->returnUrl);
-		}
-		// displays the login form
-		$this->render('login',array('user'=>$user));
-	}
-
-	/**
-	 * Logout the current user and redirect to homepage.
-	 */
-	public function actionLogout()
-	{
-		Yii::app()->user->logout();
-		$this->redirect(Yii::app()->homeUrl);
-	}
-}
-
 /**
  * LoginForm class.
  * LoginForm is the data structure for keeping
- * user login form data. It is used by the 'login' action of 'UserController'.
+ * user login form data. It is used by the 'login' action of 'SiteController'.
  */
 class LoginForm extends CFormModel
 {
@@ -74,7 +29,7 @@ class LoginForm extends CFormModel
 	/**
 	 * Declares attribute labels.
 	 * If not declared here, an attribute would have a label
-	 * the same as the attribute name with the first letter in upper case.
+	 * the same as its name with the first letter in upper case.
 	 */
 	public function attributeLabels()
 	{

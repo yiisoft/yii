@@ -43,7 +43,7 @@ class CWebUser extends CApplicationComponent
 	/**
 	 * @var string|array the URL for login. If using array, the first element should be
 	 * the route to the login action, and the rest name-value pairs are GET parameters
-	 * to construct the login URL (e.g. array('user/login')).
+	 * to construct the login URL (e.g. array('site/login')).
 	 * @see CController::createUrl
 	 */
 	public $loginUrl;

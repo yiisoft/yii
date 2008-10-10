@@ -11,6 +11,7 @@ Version 1.0b To be released
 - Added CFlexWidget (Qiang)
 - Added CWebServiceAction.classMap (Qiang)
 - Added Phone Book demo (Qiang)
+- Removed UserController from yiic webapp and merged it to SiteController (Qiang)
 
 Version 1.0a October 5, 2008
 =============================
