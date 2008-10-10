@@ -96,7 +96,7 @@ class CAccessControlFilter extends CFilter
 					return;
 				}
 				else
-					throw new CHttpException(401,Yii::t('yii#Credential Required'));
+					throw new CHttpException(401,Yii::t('yii#You are not authorized to perform this action.'));
 			}
 		}
 
