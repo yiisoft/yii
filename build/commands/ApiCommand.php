@@ -73,6 +73,7 @@ EOD;
 				'/vendors',
 				'/views',
 				'/web/js',
+				'/web/widgets/views',
 			),
 		);
 		$this->pageTitle='Yii Framework Class Reference';
