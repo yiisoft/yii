@@ -17,7 +17,6 @@ return array(
 		'user'=>array(
 			'class'=>'application.components.WebUser',
 			'allowAutoLogin'=>true,
-			'loginUrl'=>array('user/login'),
 		),
 		'db'=>array(
 			'connectionString'=>'sqlite:protected/data/phonebook.db',
