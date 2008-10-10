@@ -77,7 +77,7 @@ class CConsoleCommandRunner extends CComponent
 	 */
 	public function findCommands($path)
 	{
-		if(($dir=opendir($path))===false)
+		if(($dir=@opendir($path))===false)
 			return array();
 		$commands=array();
 		while($name=readdir($dir))

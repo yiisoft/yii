@@ -19,6 +19,12 @@
  */
 class ControllerCommand extends CConsoleCommand
 {
+	/**
+	 * @var string the template file for the controller class.
+	 * Defaults to null, meaning using 'framework/cli/views/shell/controller/controller.php'.
+	 */
+	public $templateFile;
+
 	public function getHelp()
 	{
 		return <<<EOD
@@ -56,10 +62,11 @@ EOD;
 		$actions=array_unique(array_splice($args,1));
 
 		$controllerFile=ucfirst($controllerName).'Controller.php';
+		$templateFile=$this->templateFile===null?YII_PATH.'/cli/views/shell/controller/controller.php':$this->templateFile;
 
 		$list=array(
 			$controllerFile=>array(
-				'source'=>YII_PATH.'/cli/views/shell/controller/controller.php',
+				'source'=>$templateFile,
 				'target'=>Yii::app()->controllerPath.DIRECTORY_SEPARATOR.$controllerFile,
 				'callback'=>array($this,'generateController'),
 				'params'=>array(ucfirst($controllerName).'Controller', $actions),

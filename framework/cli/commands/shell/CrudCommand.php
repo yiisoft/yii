@@ -19,6 +19,12 @@
  */
 class CrudCommand extends CConsoleCommand
 {
+	/**
+	 * @var string the directory that contains templates for crud commands.
+	 * Defaults to null, meaning using 'framework/cli/views/shell/crud'.
+	 */
+	public $templatePath;
+
 	public function getHelp()
 	{
 		return <<<EOD
@@ -56,7 +62,7 @@ EOD;
 		$modelClass=Yii::import($modelClass);
 		$controllerName=isset($args[1])?$args[1]:strtolower($modelClass);
 		$controllerClass=ucfirst($controllerName).'Controller';
-		$templatePath=YII_PATH.'/cli/views/shell/crud';
+		$templatePath=$this->templatePath===null?YII_PATH.'/cli/views/shell/crud':$this->templatePath;
 		$viewPath=Yii::app()->viewPath.DIRECTORY_SEPARATOR.$controllerName;
 		$list=array(
 			$controllerClass.'.php'=>array(

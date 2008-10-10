@@ -19,6 +19,12 @@
  */
 class ModelCommand extends CConsoleCommand
 {
+	/**
+	 * @var string the template file for the model class.
+	 * Defaults to null, meaning using 'framework/cli/views/shell/model/model.php'.
+	 */
+	public $templateFile;
+
 	public function getHelp()
 	{
 		return <<<EOD
@@ -54,9 +60,10 @@ EOD;
 
 		$tableName=isset($args[1])?$args[1]:$className;
 		$classFile=$basePath.DIRECTORY_SEPARATOR.$className.'.php';
+		$templateFile=$this->templateFile===null?YII_PATH.'/cli/views/shell/model/model.php':$this->templateFile;
 		$list=array(
 			$className.'.php'=>array(
-				'source'=>YII_PATH.'/cli/views/shell/model/model.php',
+				'source'=>$templateFile,
 				'target'=>$classFile,
 				'callback'=>array($this,'generateModel'),
 				'params'=>array($className,$tableName),
