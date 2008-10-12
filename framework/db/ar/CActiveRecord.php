@@ -1291,13 +1291,10 @@ abstract class CActiveRecord extends CModel
 			$record->_md=$this->getMetaData();
 			foreach($attributes as $name=>$value)
 			{
-				if(isset($this->_md->columns[$name]))
-				{
-					if(property_exists($record,$name))
-						$record->$name=$value;
-					else
-						$record->_attributes[$name]=$value;
-				}
+				if(property_exists($record,$name))
+					$record->$name=$value;
+				else if(isset($record->_md->columns[$name]))
+					$record->_attributes[$name]=$value;
 			}
 			$record->afterFind();
 			return $record;
@@ -1325,13 +1322,10 @@ abstract class CActiveRecord extends CModel
 			$record->_md=$md;
 			foreach($attributes as $name=>$value)
 			{
-				if(isset($table->columns[$name]))
-				{
-					if(property_exists($record,$name))
-						$record->$name=$value;
-					else
-						$record->_attributes[$name]=$value;
-				}
+				if(property_exists($record,$name))
+					$record->$name=$value;
+				else if(isset($record->_md->columns[$name]))
+					$record->_attributes[$name]=$value;
 			}
 			$record->afterFind();
 			$records[]=$record;
