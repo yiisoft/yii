@@ -275,6 +275,19 @@ class CWebApplication extends CApplication
 	}
 
 	/**
+	 * Creates an absolute URL based on the given controller and action information.
+	 * @param string the URL route. This should be in the format of 'ControllerID/ActionID'.
+	 * @param array additional GET parameters (name=>value). Both the name and value will be URL-encoded.
+	 * @param string schema to use (e.g. http, https). If empty, the schema used for the current request will be used.
+	 * @param string the token separating name-value pairs in the URL.
+	 * @return string the constructed URL
+	 */
+	public function createAbsoluteUrl($route,$params=array(),$schema='',$ampersand='&')
+	{
+		return $this->getRequest()->getHostInfo($schema).$this->createUrl($route,$params,$ampersand);
+	}
+
+	/**
 	 * Returns the relative URL for the application.
 	 * This is a shortcut method to {@link CHttpRequest::getBaseUrl()}.
 	 * @return string the relative URL for the application
