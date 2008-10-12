@@ -4,7 +4,9 @@ body
 	margin: 0;
 	padding: 0;
 	background: white;
-	font-family:arial,helvetica,sans-serif;
+	color: #444;
+	font: normal 10pt Arial,Helvetica,sans-serif;
+	background:white url(bg.gif) repeat-x left top;
 }
 
 #page
@@ -12,7 +14,6 @@ body
 	width: 750px;
 	margin: 0 auto;
 	padding: 0;
-	background: white;
 }
 
 #header
@@ -29,16 +30,15 @@ body
 
 #mainmenu
 {
-	border-bottom: 1px solid silver;
+	position: absolute;
+	top: 59px;
 }
 
 #mainmenu ul
 {
 	padding: 0;
 	margin: 0;
-	background: #036;
-	color: white;
-	padding: 0.4em 0 0.4em 1em;
+	padding: 0.4em 0 0.3em 0;
 }
 
 #mainmenu ul li
@@ -49,16 +49,15 @@ body
 #mainmenu ul li a
 {
 	padding: 0.4em 0.4em;
-	background: #036;
 	color: white;
 	text-decoration: none;
 	font-weight: bold;
 }
 
-#mainmenu ul li a:hover
+#mainmenu ul li a:hover, #mainmenu ul li a.active
 {
-	background: #369;
-	color: #fff;
+	background: #E6F2FF;
+	color: #6399cd;
 }
 
 #content
@@ -82,7 +81,7 @@ body
 /* begin data grid style */
 table.dataGrid
 {
-	background: #EBF4FB;
+	background: #FFF9F2;
 	border-collapse: collapse;
 	width: 100%;
 }
@@ -90,13 +89,13 @@ table.dataGrid
 table.dataGrid th, table.dataGrid td
 {
 	font-size: 0.9em;
-	border: 1px silver solid;
+	border: 1px #DDE8ED solid;
 	padding: 0.3em;
 }
 
 table.dataGrid th
 {
-	background: gainsboro;
+	background: #D9CEC3;
 	text-align: left;
 }
 
@@ -107,6 +106,6 @@ table.dataGrid th.label
 
 table.dataGrid tr.odd
 {
-	background: white;
+	background: #E6F2FF;
 }
 /* end of data grid style */

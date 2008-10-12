@@ -7,14 +7,9 @@ return array(
 	'name'=>'My Web Application',
 	'import'=>array(
 		'application.models.*',
+		'application.components.*',
 	),
-	'defaultController'=>'home',
 	'components'=>array(
-		'user'=>array(
-			'class'=>'application.components.WebUser',
-			'allowAutoLogin'=>true, // enable cookie-based login
-			'loginUrl'=>array('user/login'),
-		),
 		'db'=>array(
 			'class'=>'system.db.CDbConnection',
 			'connectionString'=>'sqlite:'.dirname(__FILE__).'/../data/source.db',

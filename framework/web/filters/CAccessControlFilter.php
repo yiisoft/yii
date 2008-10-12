@@ -120,11 +120,11 @@ class CAccessRule extends CComponent
 	 */
 	public $allow;
 	/**
-	 * @var array list of actions that this rule applies to.
+	 * @var array list of actions that this rule applies to. The comparison is case-insensitive.
 	 */
 	public $actions;
 	/**
-	 * @var array list of usernames that this rule applies to.
+	 * @var array list of user IDs that this rule applies to. The comparison is case-insensitive.
 	 */
 	public $users;
 	/**
@@ -168,7 +168,7 @@ class CAccessRule extends CComponent
 
 	private function isUserMatched($user)
 	{
-		return empty($this->users) || in_array(strtolower($user->getUsername()),$this->users);
+		return empty($this->users) || in_array(strtolower($user->getId()),$this->users);
 	}
 
 	private function isRoleMatched($user)
