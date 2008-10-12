@@ -14,6 +14,7 @@ Version 1.0b To be released
 - Removed UserController from yiic webapp and merged it to SiteController (Qiang)
 - Added support to allow creating customized yiic shell commands (Qiang)
 - Refactored auth framework (Qiang)
+- Fixed a bug that prevented CActiveRecord from taking attributes not defined in table (Qiang)
 
 Version 1.0a October 5, 2008
 =============================

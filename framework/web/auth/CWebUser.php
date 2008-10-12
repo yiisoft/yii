@@ -260,9 +260,22 @@ class CWebUser extends CApplicationComponent implements IWebUser
 				{
 					$this->setId($id);
 					$this->loadIdentityStates($states);
+					$this->onRestoreFromCookie(new CEvent($this));
 				}
 			}
 		}
+	}
+
+	/**
+	 * Raised when the user identity information is being restored from cookie.
+	 * This event is only raised when {@link allowAutoLogin} is true and when
+	 * the user identity information is being restored from cookie.
+	 * When this event is raised, the user component already has the unique ID available.
+	 * @param CEvent event parameter
+	 */
+	public function onRestoreFromCookie($event)
+	{
+		$this->raiseEvent('onRestoreFromCookie',$event);
 	}
 
 	/**
@@ -391,6 +404,10 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		return $this->getFlash($key)!==null;
 	}
 
+	/**
+	 * Retrieves identity states from persistent storage and saves them as an array.
+	 * @return array the identity states
+	 */
 	protected function saveIdentityStates()
 	{
 		$states=array();
@@ -399,6 +416,10 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		return $states;
 	}
 
+	/**
+	 * Loads identity states from an array and saves them to persistent storage.
+	 * @param array the identity states
+	 */
 	protected function loadIdentityStates($states)
 	{
 		if(is_array($states))
