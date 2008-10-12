@@ -535,6 +535,21 @@ class CController extends CBaseController
 	}
 
 	/**
+	 * Creates an absolute URL for the specified action defined in this controller.
+	 * @param string the URL route. This should be in the format of 'ControllerID/ActionID'.
+	 * If the ControllerPath is not present, the current controller ID will be prefixed to the route.
+	 * If the route is empty, it is assumed to be the current action.
+	 * @param array additional GET parameters (name=>value). Both the name and value will be URL-encoded.
+	 * @param string schema to use (e.g. http, https). If empty, the schema used for the current request will be used.
+	 * @param string the token separating name-value pairs in the URL.
+	 * @return string the constructed URL
+	 */
+	public function createAbsoluteUrl($route,$params=array(),$schema='',$ampersand='&')
+	{
+		return Yii::app()->getRequest()->getHostInfo($schema).$this->createUrl($route,$params,$ampersand);
+	}
+
+	/**
 	 * @return string the page title. Defaults to the controller name and the action name.
 	 */
 	public function getPageTitle()
