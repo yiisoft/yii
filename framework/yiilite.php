@@ -288,13 +288,15 @@ class YiiBase
 		'CUrlManager' => '/web/CUrlManager.php',
 		'CWebApplication' => '/web/CWebApplication.php',
 		'CWebService' => '/web/CWebService.php',
-		'CWebUser' => '/web/CWebUser.php',
 		'CWsdlGenerator' => '/web/CWsdlGenerator.php',
 		'CAction' => '/web/actions/CAction.php',
 		'CCaptchaAction' => '/web/actions/CCaptchaAction.php',
 		'CInlineAction' => '/web/actions/CInlineAction.php',
 		'CViewAction' => '/web/actions/CViewAction.php',
 		'CWebServiceAction' => '/web/actions/CWebServiceAction.php',
+		'CBaseIdentity' => '/web/auth/CBaseIdentity.php',
+		'CIdentity' => '/web/auth/CIdentity.php',
+		'CWebUser' => '/web/auth/CWebUser.php',
 		'CAccessControlFilter' => '/web/filters/CAccessControlFilter.php',
 		'CFilter' => '/web/filters/CFilter.php',
 		'CFilterChain' => '/web/filters/CFilterChain.php',
@@ -2462,12 +2464,14 @@ class CInlineAction extends CAction
 		$this->getController()->$method();
 	}
 }
-class CWebUser extends CApplicationComponent
+class CWebUser extends CApplicationComponent implements IWebUser
 {
+	const STATE_ROLES='roles';
 	const FLASH_KEY_PREFIX='Yii.CWebUser.flash.';
 	const FLASH_COUNTERS='Yii.CWebUser.flash.counters';
 	public $allowAutoLogin=false;
-	public $loginUrl;
+	public $loginUrl=array('site/login');
+	public $roleProvider='roleProvider';
 	private $_keyPrefix;
 	public function init()
 	{
@@ -2477,53 +2481,61 @@ class CWebUser extends CApplicationComponent
 			$this->restoreFromCookie();
 		$this->updateFlash();
 	}
+	public function login($identity,$duration=0)
+	{
+		$this->setId($identity->getId());
+		$this->loadIdentityStates($identity->getPersistentStates());
+		if($duration>0)
+		{
+			if($this->allowAutoLogin)
+				$this->saveToCookie($duration);
+			else
+				throw new CException(Yii::t('yii#{class}.allowAutoLogin must be set true in order to use cookie-based authentication.',
+					array('{class}'=>get_class($this))));
+		}
+	}
+	public function logout()
+	{
+		if($this->allowAutoLogin)
+			Yii::app()->getRequest()->getCookies()->remove($this->getStateKeyPrefix());
+		$this->clearStates();
+	}
+	public function getIsGuest()
+	{
+		return $this->getState('_id')===null;
+	}
 	public function getId()
 	{
-		return $this->getState('id',-1);
+		if(($id=$this->getState('_id'))!==null)
+			return $id;
+		else
+			return $this->getGuestName();
 	}
 	public function setId($value)
 	{
-		$this->setState('id',$value,-1);
-	}
-	public function getUsername()
-	{
-		return $this->getState('username',$this->getGuestName());
-	}
-	public function setUsername($value)
-	{
-		$this->setState('username',$value,$this->getGuestName());
-	}
-	public function getRoles()
-	{
-		return $this->getState('roles',array());
-	}
-	public function setRoles($value)
-	{
-		if($value===null)
-			$value=array();
-		if(!is_array($value))
-			$value=array($value);
-		$this->setState('roles',array_map('strtolower',$value),array());
+		$this->setState('_id',$value);
 	}
 	public function getReturnUrl()
 	{
-		return $this->getState('returnUrl',Yii::app()->getRequest()->getScriptUrl());
+		return $this->getState('_returnUrl',Yii::app()->getRequest()->getScriptUrl());
 	}
 	public function setReturnUrl($value)
 	{
-		$this->setState('returnUrl',$value);
+		$this->setState('_returnUrl',$value);
 	}
 	protected function getGuestName()
 	{
 		return 'Guest';
 	}
-	public function getIsGuest()
-	{
-		return $this->getState('username')===null;
-	}
 	public function isInRole($role)
 	{
-		return in_array($role,$this->getRoles());
+		if(($roleProvider=Yii::app()->getComponent($this->roleProvider))!==null)
+			return $roleProvider->isInRole($this,$role);
+		else
+		{
+			$roles=array_map('strtolower',$this->getState(self::STATE_ROLES,array()));
+			return in_array(strtolower($role),$roles);
+		}
 	}
 	public function loginRequired()
 	{
@@ -2542,70 +2554,38 @@ class CWebUser extends CApplicationComponent
 		else
 			throw new CHttpException(401,Yii::t('yii#Login Required'));
 	}
-	public function login($username,$password,$duration=0)
-	{
-		if($this->validate($username,$password))
-		{
-			$this->switchTo($username);
-			if($duration>0)
-			{
-				if(!$this->allowAutoLogin)
-					throw new CException(Yii::t('yii#{class}.allowAutoLogin must be set true in order to use cookie-based authentication.',
-						array('{class}'=>get_class($this))));
-				$cookie=new CHttpCookie($this->getSessionKeyPrefix(),'');
-				$cookie->expire=time()+$duration;
-				$this->saveToCookie($cookie);
-				Yii::app()->getRequest()->getCookies()->add($cookie->name,$cookie);
-			}
-			return true;
-		}
-		else
-			return false;
-	}
-	public function logout()
-	{
-		$app=Yii::app();
-		if($this->allowAutoLogin)
-			$app->getRequest()->getCookies()->remove($this->getSessionKeyPrefix());
-		$app->getSession()->destroy();
-	}
-	public function validate($username,$password)
-	{
-		throw new CException(Yii::t('yii#You must implement {class}.validate() method in order to do user authentication.',
-			array('class'=>get_class($this))));
-	}
-	public function switchTo($username)
-	{
-		$this->setUsername($username);
-	}
-	protected function getValidationKey($username)
-	{
-		return '';
-	}
 	protected function restoreFromCookie()
 	{
 		$app=Yii::app();
-		$cookie=$app->getRequest()->getCookies()->itemAt($this->getSessionKeyPrefix());
+		$cookie=$app->getRequest()->getCookies()->itemAt($this->getStateKeyPrefix());
 		if($cookie && !empty($cookie->value) && ($data=$app->getSecurityManager()->validateData($cookie->value))!==false)
 		{
 			$data=unserialize($data);
 			if(isset($data[0],$data[1],$data[2]))
 			{
-				list($username,$address,$validationKey)=$data;
-				if($address===$app->getRequest()->getUserHostAddress() && $this->getValidationKey($username)===$validationKey)
-					$this->switchTo($username);
+				list($id,$address,$states)=$data;
+				if($address===$app->getRequest()->getUserHostAddress())
+				{
+					$this->setId($id);
+					$this->loadIdentityStates($states);
+				}
 			}
 		}
 	}
-	protected function saveToCookie($cookie)
+	protected function saveToCookie($duration)
 	{
 		$app=Yii::app();
-		$data[0]=$this->getUsername();
-		$data[1]=$app->getRequest()->getUserHostAddress();
-		$data[2]=$this->getValidationKey($data[0]);
+		$cookie=new CHttpCookie($this->getStateKeyPrefix(),'');
+		$cookie->expire=time()+$duration;
+		$data=array(
+			$this->getId(),
+			$app->getRequest()->getUserHostAddress(),
+			$this->saveIdentityStates(),
+		);
 		$cookie->value=$app->getSecurityManager()->hashData(serialize($data));
+		$app->getRequest()->getCookies()->add($cookie->name,$cookie);
 	}
-	protected function getSessionKeyPrefix()
+	protected function getStateKeyPrefix()
 	{
 		if($this->_keyPrefix!==null)
 			return $this->_keyPrefix;
@@ -2614,16 +2594,20 @@ class CWebUser extends CApplicationComponent
 	}
 	public function getState($key,$defaultValue=null)
 	{
-		$key=$this->getSessionKeyPrefix().$key;
+		$key=$this->getStateKeyPrefix().$key;
 		return isset($_SESSION[$key]) ? $_SESSION[$key] : $defaultValue;
 	}
 	public function setState($key,$value,$defaultValue=null)
 	{
-		$key=$this->getSessionKeyPrefix().$key;
+		$key=$this->getStateKeyPrefix().$key;
 		if($value===$defaultValue)
 			unset($_SESSION[$key]);
 		else
 			$_SESSION[$key]=$value;
+	}
+	public function clearStates()
+	{
+		Yii::app()->getSession()->destroy();
 	}
 	public function getFlash($key,$defaultValue=null)
 	{
@@ -2642,6 +2626,24 @@ class CWebUser extends CApplicationComponent
 	public function hasFlash($key)
 	{
 		return $this->getFlash($key)!==null;
+	}
+	protected function saveIdentityStates()
+	{
+		$states=array();
+		foreach($this->getState('_states',array()) as $name)
+			$states[$name]=$this->getState($name);
+		return $states;
+	}
+	protected function loadIdentityStates($states)
+	{
+		if(is_array($states))
+		{
+			foreach($states as $name=>$value)
+				$this->setState($name,$value);
+			$this->setState('_states',array_keys($states));
+		}
+		else
+			$this->setState('_states',array());
 	}
 	protected function updateFlash()
 	{
@@ -3362,6 +3364,69 @@ class CHtml
 			$htmlOptions['class']=self::$errorCss;
 	}
 }
+class CWidget extends CBaseController
+{
+	private static $_viewPaths;
+	private static $_counter=0;
+	private $_id;
+	private $_owner;
+	public function __construct($owner=null)
+	{
+		$this->_owner=$owner===null?Yii::app()->getController():$owner;
+	}
+	public function getOwner()
+	{
+		return $this->_owner;
+	}
+	public function getId($autoGenerate=true)
+	{
+		if($this->_id!==null)
+			return $this->_id;
+		else if($autoGenerate)
+			return $this->_id='yw'.self::$_counter++;
+	}
+	public function setId($value)
+	{
+		$this->_id=$value;
+	}
+	public function getController()
+	{
+		if($this->_owner instanceof CController)
+			return $this->_owner;
+		else
+			return Yii::app()->getController();
+	}
+	public function init()
+	{
+	}
+	public function run()
+	{
+	}
+	public function getViewPath()
+	{
+		$className=get_class($this);
+		if(isset(self::$_viewPaths[$className]))
+			return self::$_viewPaths[$className];
+		else
+		{
+			$class=new ReflectionClass(get_class($this));
+			return self::$_viewPaths[$className]=dirname($class->getFileName()).DIRECTORY_SEPARATOR.'views';
+		}
+	}
+	public function getViewFile($viewName)
+	{
+		$viewFile=$this->getViewPath().DIRECTORY_SEPARATOR.$viewName.'.php';
+		return is_file($viewFile) ? Yii::app()->findLocalizedFile($viewFile) : false;
+	}
+	public function render($view,$data=null,$return=false)
+	{
+		if(($viewFile=$this->getViewFile($view))!==false)
+			return $this->renderFile($viewFile,$data,$return);
+		else
+			throw new CException(Yii::t('yii#{widget} cannot find the view "{view}".',
+				array('{widget}'=>get_class($this), '{view}'=>$view)));
+	}
+}
 class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 {
 	private $_d=array();
@@ -3694,7 +3759,7 @@ class CAccessControlFilter extends CFilter
 					return;
 				}
 				else
-					throw new CHttpException(401,Yii::t('yii#Credential Required'));
+					throw new CHttpException(401,Yii::t('yii#You are not authorized to perform this action.'));
 			}
 		}
 		$filterChain->run();
@@ -3725,7 +3790,7 @@ class CAccessRule extends CComponent
 	}
 	private function isUserMatched($user)
 	{
-		return empty($this->users) || in_array(strtolower($user->getUsername()),$this->users);
+		return empty($this->users) || in_array(strtolower($user->getId()),$this->users);
 	}
 	private function isRoleMatched($user)
 	{
@@ -5698,69 +5763,6 @@ class CJavaScript
 			return CJSON::decode($data,$useArray);
 	}
 }
-class CWidget extends CBaseController
-{
-	private static $_viewPaths;
-	private static $_counter=0;
-	private $_id;
-	private $_owner;
-	public function __construct($owner=null)
-	{
-		$this->_owner=$owner===null?Yii::app()->getController():$owner;
-	}
-	public function getOwner()
-	{
-		return $this->_owner;
-	}
-	public function getId($autoGenerate=true)
-	{
-		if($this->_id!==null)
-			return $this->_id;
-		else if($autoGenerate)
-			return $this->_id='yw'.self::$_counter++;
-	}
-	public function setId($value)
-	{
-		$this->_id=$value;
-	}
-	public function getController()
-	{
-		if($this->_owner instanceof CController)
-			return $this->_owner;
-		else
-			return Yii::app()->getController();
-	}
-	public function init()
-	{
-	}
-	public function run()
-	{
-	}
-	public function getViewPath()
-	{
-		$className=get_class($this);
-		if(isset(self::$_viewPaths[$className]))
-			return self::$_viewPaths[$className];
-		else
-		{
-			$class=new ReflectionClass(get_class($this));
-			return self::$_viewPaths[$className]=dirname($class->getFileName()).DIRECTORY_SEPARATOR.'views';
-		}
-	}
-	public function getViewFile($viewName)
-	{
-		$viewFile=$this->getViewPath().DIRECTORY_SEPARATOR.$viewName.'.php';
-		return is_file($viewFile) ? Yii::app()->findLocalizedFile($viewFile) : false;
-	}
-	public function render($view,$data=null,$return=false)
-	{
-		if(($viewFile=$this->getViewFile($view))!==false)
-			return $this->renderFile($viewFile,$data,$return);
-		else
-			throw new CException(Yii::t('yii#{widget} cannot find the view "{view}".',
-				array('{widget}'=>get_class($this), '{view}'=>$view)));
-	}
-}
 abstract class CBasePager extends CWidget
 {
 	private $_pages;
@@ -5974,6 +5976,93 @@ class CAssetManager extends CApplicationComponent
 		return sprintf('%x',crc32($path.Yii::getVersion()));
 	}
 }
+class CFileHelper
+{
+	public static function copyDirectory($src,$dst,$options=array())
+	{
+		$fileTypes=array();
+		$exclude=array();
+		$level=-1;
+		extract($options);
+		self::copyDirectoryRecursive($src,$dst,'',$fileTypes,$exclude,$level);
+	}
+	public static function findFiles($dir,$options=array())
+	{
+		$fileTypes=array();
+		$exclude=array();
+		$level=-1;
+		extract($options);
+		$list=self::findFilesRecursive($dir,'',$fileTypes,$exclude,$level);
+		sort($list);
+		return $list;
+	}
+	public static function mkdir($directory)
+	{
+		if(!is_dir($directory))
+		{
+			self::mkdir(dirname($directory));
+			mkdir($directory);
+		}
+	}
+	protected static function copyDirectoryRecursive($src,$dst,$base,$fileTypes,$exclude,$level)
+	{
+		@mkdir($dst);
+		$folder=opendir($src);
+		while($file=readdir($folder))
+		{
+			if($file==='.' || $file==='..')
+				continue;
+			$path=$src.DIRECTORY_SEPARATOR.$file;
+			$isFile=is_file($path);
+			if(self::validatePath($base,$file,$isFile,$fileTypes,$exclude))
+			{
+				if($isFile)
+					copy($path,$dst.DIRECTORY_SEPARATOR.$file);
+				else if($level)
+					self::copyDirectoryRecursive($path,$dst.DIRECTORY_SEPARATOR.$file,$base.'/'.$file,$fileTypes,$exclude,$level-1);
+			}
+		}
+		closedir($folder);
+	}
+	protected static function findFilesRecursive($dir,$base,$fileTypes,$exclude,$level)
+	{
+		$list=array();
+		$handle=opendir($dir);
+		while($file=readdir($handle))
+		{
+			if($file==='.' || $file==='..')
+				continue;
+			$path=$dir.DIRECTORY_SEPARATOR.$file;
+			$isFile=is_file($path);
+			if(self::validatePath($base,$file,$isFile,$fileTypes,$exclude))
+			{
+				if($isFile)
+					$list[]=$path;
+				else if($level)
+					$list=array_merge($list,self::findFilesRecursive($path,$base.'/'.$file,$fileTypes,$exclude,$level-1));
+			}
+		}
+		closedir($handle);
+		return $list;
+	}
+	protected static function validatePath($base,$file,$isFile,$fileTypes,$exclude)
+	{
+		foreach($exclude as $e)
+		{
+			if($file===$e || strpos($base.'/'.$file,$e)===0)
+				return false;
+		}
+		if(!$isFile || empty($fileTypes))
+			return true;
+		if(($pos=strrpos($file,'.'))!==false)
+		{
+			$type=substr($file,$pos+1);
+			return in_array($type,$fileTypes);
+		}
+		else
+			return false;
+	}
+}
 interface IApplicationComponent
 {
 	public function init();
@@ -6015,5 +6104,22 @@ interface IWebServiceProvider
 interface IViewRenderer
 {
 	public function renderFile($context,$file,$data,$return);
+}
+interface IIdentity
+{
+	public function authenticate();
+	public function getIsValid();
+	public function getId();
+	public function getPersistentStates();
+}
+interface IWebUser
+{
+	public function getId();
+	public function getIsGuest();
+	public function isInRole($role);
+}
+interface IRoleProvider
+{
+	public function isInRole($user,$role);
 }
 ?>
