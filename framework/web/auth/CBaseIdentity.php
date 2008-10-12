@@ -63,6 +63,28 @@ abstract class CBaseIdentity extends CComponent implements IIdentity
 	}
 
 	/**
+	 * Returns the roles that this user belongs to.
+	 * This information should only be used when a role provider is not defined.
+	 * @return array the roles that this user belongs to.
+	 */
+	public function getRoles()
+	{
+		return $this->getState('roles',array());
+	}
+
+	/**
+	 * Sets the roles that this user belongs to.
+	 * This information should only be used when a role provider is not defined.
+	 * @param array the roles that this user belongs to.
+	 */
+	public function setRoles($value)
+	{
+		if(!is_array($value))
+			$value=array($value);
+		$this->setState('roles',$value,array());
+	}
+
+	/**
 	 * Gets the persisted state by the specified name.
 	 * @param string the name of the state
 	 * @param mixed the default value to be returned if the named state does not exist
