@@ -232,3 +232,97 @@ interface IViewRenderer
 	 */
 	public function renderFile($context,$file,$data,$return);
 }
+
+
+/**
+ * IIdentity interface is implemented by an identity class.
+ *
+ * An identity represents a way to authenticate a user and retrieve
+ * information needed to uniquely identity the user. It is normally
+ * used with the {@link CWebApplication::user user application component}.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id$
+ * @package system.core
+ * @since 1.0
+ */
+interface IIdentity
+{
+	/**
+	 * Authenticates the user.
+	 * The information needed to authenticate the user
+	 * are usually provided in the constructor.
+	 * @return boolean whether authentication succeeds.
+	 */
+	public function authenticate();
+	/**
+	 * Returns a value indicating whether the identity is valid.
+	 * @return boolean whether the identity is valid.
+	 */
+	public function getIsValid();
+	/**
+	 * Returns a value that uniquely represents the identity.
+	 * @return mixed a value that uniquely represents the identity (e.g. username).
+	 */
+	public function getId();
+	/**
+	 * Returns the additional identity information that needs to be persistent during the user session.
+	 * @return array additional identity information that needs to be persistent during the user session (excluding {@link id}).
+	 */
+	public function getPersistentStates();
+}
+
+
+/**
+ * IWebUser interface is implemented by a {@link CWebApplication::user user application component}.
+ *
+ * A user application component represents the identity information
+ * for the current user.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id$
+ * @package system.core
+ * @since 1.0
+ */
+interface IWebUser
+{
+	/**
+	 * Returns a value that uniquely represents the identity.
+	 * @return mixed a value that uniquely represents the user (e.g. username).
+	 */
+	public function getId();
+	/**
+	 * Returns a value indicating whether the user is a guest (not authenticated).
+	 * @return boolean whether the user is a guest (not authenticated)
+	 */
+	public function getIsGuest();
+	/**
+	 * Checks whether the user belongs to the specified role.
+	 * @param mixed the role
+	 * @return boolean whether the user belongs to the specified role.
+	 */
+	public function isInRole($role);
+}
+
+
+/**
+ * IRoleProvider interface is implemented by a {@link CWebApplication::roleProvider role provider application component}.
+ *
+ * A role provider manages the role information of users.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id$
+ * @package system.core
+ * @since 1.0
+ */
+interface IRoleProvider
+{
+	/**
+	 * Checks whether the user belongs to the specified role.
+	 * @param IWebUser the user
+	 * @param mixed the role
+	 * @return boolean whether the user belongs to the specified role.
+	 */
+	public function isInRole($user,$role);
+}
+

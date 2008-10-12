@@ -1,5 +1,5 @@
 <h2>
-	Welcome, <?php echo Yii::app()->user->username; ?>!
+	Welcome, <?php echo Yii::app()->user->id; ?>!
 </h2>
 <p>
 This is the homepage of <em><?php echo Yii::app()->name; ?></em>. You may modify the following files to customize the conent of this page:

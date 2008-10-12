@@ -14,4 +14,7 @@ Upgrading from v1.0a
 --------------------
 - The getIsNewRecord and setIsNewRecord methods are removed from CActiveRecord.
   Please use CActiveRecord.isNewRecord property directly.
-
+- CWebUser.login is now taking an identity object as parameter.
+  CWebUser.switchTo is removed. You should now implement identity class
+  instead of overriding CWebUser. CWebUser.roles property is removed.
+  Added CWebUser.roleProvider property.

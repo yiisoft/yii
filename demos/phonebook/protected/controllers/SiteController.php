@@ -33,6 +33,8 @@ class SiteController extends CController implements IWebServiceProvider
 		$wsdlUrl=Yii::app()->request->hostInfo.$this->createUrl('phonebook');
 		$client=new SoapClient($wsdlUrl);
 		echo "<pre>";
+		echo "login...\n";
+		$client->login('demo','demo');
 		echo "fetching all contacts\n";
 		print_r($client->getContacts());
 		echo "\ninserting a new contact...";
@@ -81,9 +83,12 @@ class SiteController extends CController implements IWebServiceProvider
 	 * @return boolean whether login is valid
 	 * @soap
 	 */
-	public function login($username, $password)
+	public function login($username,$password)
 	{
-		return Yii::app()->user->login($username,$password);
+		$identity=new Identity($username,$password);
+		if($identity->authenticate())
+			Yii::app()->user->login($identity);
+		return $identity->isValid;
 	}
 
 	/**

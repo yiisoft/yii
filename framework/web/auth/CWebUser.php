@@ -9,30 +9,47 @@
  */
 
 /**
- * CWebUser is the base class for objects representing user session data.
+ * CWebUser represents the persistent state for a Web application user.
  *
- * See {@link CWebApplication::getUser()} for more information about accessing
- * the user session data when processing a Web request.
+ * CWebUser is used as an application component whose ID is 'user'.
+ * Therefore, at any place one can access the user state via
+ * <code>Yii::app()->user</code>.
  *
- * CWebUser implements a basic auth framework that provides login and logout
- * functionalities. It also provides access to the user-related data
- * (e.g. username, roles) that are persistent through the user session.
+ * CWebUser should be used together with an {@link IIdentity identity} and an optional
+ * {@link roleProvider role provider}. The former authenticates a user,
+ * while the latter provides the role information for the authenticated user.
  *
- * Derived classes must implement the {@link validate()} method. It is also
- * recommended that you override {@link getValidationKey()} if cookie-based
- * authentication is enabled (by setting {@link allowAutoLogin} to true).
+ * A typical authentication process using CWebUser is as follows:
+ * <ol>
+ * <li>The user provides information needed for authentication.</li>
+ * <li>An {@link IIdentity identity instance} is created with the user-provided information.</li>
+ * <li>Call {@link IIdentity::authenticate} to check if the identity is valid.</li>
+ * <li>If valid, call {@link CWebUser::login} to login the user, and
+ *     Redirect the user browser to {@link returnUrl}.</li>
+ * <li>If not valid, retrieve the error code or message from the identity
+ * instance and display it.</li>
+ * </ol>
  *
- * If you want to store information other than {@link getUsername username} in
- * the session, you should override {@link switchTo()} method and populate the
- * additional properties there.
+ * The property {@link id} is a unique identifier for a user that is persistent
+ * during the whole user session. It can be a username, or something else,
+ * depending on the implementation of the {@link IIdentity identity class}.
+ *
+ * Besides {@link id}, an identity may have additional data that are also persistent
+ * during the session. To access these data, call {@link getState}.
+ * Note, when {@link allowAutoLogin cookie-based authentication} is enabled,
+ * all these persistent data will be stored in cookie. Therefore, do not
+ * store password or other sensitive data in the persistent storage. Instead,
+ * you should store them in session on the server side if needed.
+ *
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
- * @package system.web
+ * @package system.web.auth
  * @since 1.0
  */
-class CWebUser extends CApplicationComponent
+class CWebUser extends CApplicationComponent implements IWebUser
 {
+	const STATE_ROLES='roles';
 	const FLASH_KEY_PREFIX='Yii.CWebUser.flash.';
 	const FLASH_COUNTERS='Yii.CWebUser.flash.counters';
 
@@ -46,14 +63,20 @@ class CWebUser extends CApplicationComponent
 	 * to construct the login URL (e.g. array('site/login')).
 	 * @see CController::createUrl
 	 */
-	public $loginUrl;
+	public $loginUrl=array('site/login');
+	/**
+	 * @var string the ID of the role provider application component.
+	 * Defaults to 'roleProvider'. The role provider has to implement
+	 * the interface {@link IRoleProvider}.
+	 */
+	public $roleProvider='roleProvider';
 
 	private $_keyPrefix;
 
 	/**
 	 * Initializes the application component.
-	 * This method overrides the parent implementation by trying to perform
-	 * cookie-based authentication and updating the flash variables.
+	 * This method overrides the parent implementation by starting session,
+	 * performing cookie-based authentication if enabled, and updating the flash variables.
 	 */
 	public function init()
 	{
@@ -65,61 +88,76 @@ class CWebUser extends CApplicationComponent
 	}
 
 	/**
-	 * Returns the user ID.
-	 * Note, this property is provided here for convenience.
-	 * It is not required by the auth framework. If you want to use it,
-	 * you have to override {@link switchTo} to populate this information
-	 * from some persistent storage (such as database).
-	 * @return integer user ID. Defaults to -1, meaning an invalid ID (or guest user ID).
-	 * @see switchTo
+	 * Logs in a user.
+	 *
+	 * The user identity information will be saved in storage that is
+	 * persistent during the user session. By default, the storage is simply
+	 * the session storage. If the duration parameter is greater than 0,
+	 * a cookie will be sent to prepare for cookie-based login in future.
+	 *
+	 * Note, you have to set {@link allowAutoLogin} to true
+	 * if you want to allow user to be authenticated based on the cookie information.
+	 *
+	 * @param IIdentity the user identity (which should already be authenticated)
+	 * @param integer number of seconds that the user can remain in logged-in status. Defaults to 0, meaning login till the user closes the browser.
+	 * If greater than 0, cookie-based login will be used. In this case, {@link allowAutoLogin}
+	 * must be set true, otherwise an exception will be thrown.
+	 */
+	public function login($identity,$duration=0)
+	{
+		$this->setId($identity->getId());
+		$this->loadIdentityStates($identity->getPersistentStates());
+
+		if($duration>0)
+		{
+			if($this->allowAutoLogin)
+				$this->saveToCookie($duration);
+			else
+				throw new CException(Yii::t('yii#{class}.allowAutoLogin must be set true in order to use cookie-based authentication.',
+					array('{class}'=>get_class($this))));
+		}
+	}
+
+	/**
+	 * Logs out the current user.
+	 * The session will be destroyed.
+	 */
+	public function logout()
+	{
+		if($this->allowAutoLogin)
+			Yii::app()->getRequest()->getCookies()->remove($this->getStateKeyPrefix());
+		$this->clearStates();
+	}
+
+	/**
+	 * @return boolean whether the current application user is a guest.
+	 */
+	public function getIsGuest()
+	{
+		return $this->getState('_id')===null;
+	}
+
+	/**
+	 * Returns the user ID (or username).
+	 * This is the unique identifier that is mainly used for display purpose.
+	 * @return string the user ID. If the user is not logged in, this will be {@link guestName}.
 	 */
 	public function getId()
 	{
-		return $this->getState('id',-1);
+		if(($id=$this->getState('_id'))!==null)
+			return $id;
+		else
+			return $this->getGuestName();
 	}
 
 	/**
-	 * @param integer user ID.
+	 * Sets the user ID (or username).
+	 * @param string the user ID.
+	 * @see getId
 	 */
 	public function setId($value)
 	{
-		$this->setState('id',$value,-1);
-	}
-
-	/**
-	 * @return string username. Defaults to {@link getGuestName guestName}.
-	 */
-	public function getUsername()
-	{
-		return $this->getState('username',$this->getGuestName());
-	}
-
-	/**
-	 * @param string username
-	 */
-	public function setUsername($value)
-	{
-		$this->setState('username',$value,$this->getGuestName());
-	}
-
-	/**
-	 * @return array list of roles that this user is in.
-	 */
-	public function getRoles()
-	{
-		return $this->getState('roles',array());
-	}
-
-	/**
-	 * @param array list of roles that this user is in.
-	 */
-	public function setRoles($value)
-	{
-		if($value===null)
-			$value=array();
-		if(!is_array($value))
-			$value=array($value);
-		$this->setState('roles',array_map('strtolower',$value),array());
+		$this->setState('_id',$value);
 	}
 
 	/**
@@ -131,7 +169,7 @@ class CWebUser extends CApplicationComponent
 	 */
 	public function getReturnUrl()
 	{
-		return $this->getState('returnUrl',Yii::app()->getRequest()->getScriptUrl());
+		return $this->getState('_returnUrl',Yii::app()->getRequest()->getScriptUrl());
 	}
 
 	/**
@@ -139,13 +177,14 @@ class CWebUser extends CApplicationComponent
 	 */
 	public function setReturnUrl($value)
 	{
-		$this->setState('returnUrl',$value);
+		$this->setState('_returnUrl',$value);
 	}
 
 	/**
-	 * Returns the guest username.
-	 * You may override this method to provide a different guest username (e.g. a localizable username).
-	 * @return string the username for a guest user. Defaults to 'Guest'.
+	 * Returns the guest name.
+	 * This is used by {@link getId} whether the current user is a guest (not authenticated).
+	 * You may override this method to provide a different guest name (e.g. a localized name).
+	 * @return string the name for a guest user. Defaults to 'Guest'.
 	 */
 	protected function getGuestName()
 	{
@@ -153,25 +192,30 @@ class CWebUser extends CApplicationComponent
 	}
 
 	/**
-	 * @return boolean whether the current application user is a guest.
-	 */
-	public function getIsGuest()
-	{
-		return $this->getState('username')===null;
-	}
-
-	/**
+	 * Checks if the user belongs to the specified role.
+	 * If an application component named {@link roleProvider} exists,
+	 * it will perform the actual checking work.
+	 * Otherwise, a {@link getState persistent state} named 'roles' will
+	 * be used to check if the specified role is in the persistent roles array.
+	 * In the latter case, the comparison is case-insensitive.
 	 * @param string role name
-	 * @return whether the user is of the specified role
+	 * @return whether the user belongs to the specified role
+	 * @see roleProvider
 	 */
 	public function isInRole($role)
 	{
-		return in_array($role,$this->getRoles());
+		if(($roleProvider=Yii::app()->getComponent($this->roleProvider))!==null)
+			return $roleProvider->isInRole($this,$role);
+		else
+		{
+			$roles=array_map('strtolower',$this->getState(self::STATE_ROLES,array()));
+			return in_array(strtolower($role),$roles);
+		}
 	}
 
 	/**
 	 * Redirects the user browser to the login page.
-	 * Before the redirection, the current URL will be kept in {@link getReturnUrl returnUrl}
+	 * Before the redirection, the current URL will be kept in {@link returnUrl}
 	 * so that the user browser may be redirected back to the current page after successful login.
 	 * Make sure you set {@link loginUrl} so that the user browser
 	 * can be redirected to the specified login URL after calling this method.
@@ -196,115 +240,27 @@ class CWebUser extends CApplicationComponent
 	}
 
 	/**
-	 * Logs in a user.
-	 * This method will first authenticate the user based on the specified
-	 * username and password. It then populates the user with additional
-	 * credential-related information that should be kept in session (e.g.
-	 * username, roles). If the login duration is greater than 0, it will
-	 * also save the login information in cookie so that the user can remain
-	 * logged in even he closes the browser.
-	 *
-	 * Note, you have to set {@link allowAutoLogin} to true
-	 * if you want to allow user to be authenticated based on the cookie information.
-	 * Otherwise, the duration parameter will have no effect.
-	 *
-	 * @param string username
-	 * @param string password
-	 * @param integer number of seconds that the user can remain in logged-in status. Defaults to 0, meaning login till the user closes the browser.
-	 * @return boolean whether the login is successful
-	 */
-	public function login($username,$password,$duration=0)
-	{
-		if($this->validate($username,$password))
-		{
-			$this->switchTo($username);
-			if($duration>0)
-			{
-				if(!$this->allowAutoLogin)
-					throw new CException(Yii::t('yii#{class}.allowAutoLogin must be set true in order to use cookie-based authentication.',
-						array('{class}'=>get_class($this))));
-				$cookie=new CHttpCookie($this->getSessionKeyPrefix(),'');
-				$cookie->expire=time()+$duration;
-				$this->saveToCookie($cookie);
-				Yii::app()->getRequest()->getCookies()->add($cookie->name,$cookie);
-			}
-			return true;
-		}
-		else
-			return false;
-	}
-
-	/**
-	 * Logs out the current user.
-	 * The session will be destroyed.
-	 */
-	public function logout()
-	{
-		$app=Yii::app();
-		if($this->allowAutoLogin)
-			$app->getRequest()->getCookies()->remove($this->getSessionKeyPrefix());
-		$app->getSession()->destroy();
-	}
-
-	/**
-	 * Validates if username and password are correct entries.
-	 * Usually, this is accomplished by checking if the user database
-	 * contains this (username, password) pair.
-	 * @param string username
-	 * @param string password
-	 * @return boolean whether the validation succeeds
-	 */
-	public function validate($username,$password)
-	{
-		throw new CException(Yii::t('yii#You must implement {class}.validate() method in order to do user authentication.',
-			array('class'=>get_class($this))));
-	}
-
-	/**
-	 * Populates the current user object with the information related with the specified username.
-	 * The default implementation only sets the username.
-	 * You may override this method if you want to save more information in session (e.g. id, roles).
-	 * @param string username
-	 */
-	public function switchTo($username)
-	{
-		$this->setUsername($username);
-	}
-
-	/**
-	 * Returns a validation key that is used to strengthen the cookie-based authentication.
-	 * The key will be saved in the cookie and validated with authentication is needed.
-	 * Although the cookie-based authentication is still safe without a validation key,
-	 * it is recommended that you provide a non-empty validation key for enhanced security.
-	 * A good choice of validation key is a randomly generated token associated with the username
-	 * and stored in the database.
-	 * @param string the username whose validation key is to be generated.
-	 * @return string the validation key associated with the user.
-	 */
-	protected function getValidationKey($username)
-	{
-		return '';
-	}
-
-	/**
 	 * Populates the current user object with the information obtained from cookie.
 	 * This method is used when automatic login ({@link allowAutoLogin}) is enabled.
-	 * The user information is recovered from cookie using username, user IP address and a validation key.
+	 * The user identity information is recovered from cookie.
 	 * Sufficient security measures are used to prevent cookie data from being tampered.
 	 * @see saveToCookie
 	 */
 	protected function restoreFromCookie()
 	{
 		$app=Yii::app();
-		$cookie=$app->getRequest()->getCookies()->itemAt($this->getSessionKeyPrefix());
+		$cookie=$app->getRequest()->getCookies()->itemAt($this->getStateKeyPrefix());
 		if($cookie && !empty($cookie->value) && ($data=$app->getSecurityManager()->validateData($cookie->value))!==false)
 		{
 			$data=unserialize($data);
 			if(isset($data[0],$data[1],$data[2]))
 			{
-				list($username,$address,$validationKey)=$data;
-				if($address===$app->getRequest()->getUserHostAddress() && $this->getValidationKey($username)===$validationKey)
-					$this->switchTo($username);
+				list($id,$address,$states)=$data;
+				if($address===$app->getRequest()->getUserHostAddress())
+				{
+					$this->setId($id);
+					$this->loadIdentityStates($states);
+				}
 			}
 		}
 	}
@@ -314,22 +270,27 @@ class CWebUser extends CApplicationComponent
 	 * This method is used when automatic login ({@link allowAutoLogin}) is enabled.
 	 * This method saves username, user IP address and a validation key to cookie.
 	 * These information are used to do authentication next time when user visits the application.
-	 * @param CHttpCookie the cookie to store the user auth information
+	 * @param integer number of seconds that the user can remain in logged-in status. Defaults to 0, meaning login till the user closes the browser.
 	 * @see restoreFromCookie
 	 */
-	protected function saveToCookie($cookie)
+	protected function saveToCookie($duration)
 	{
 		$app=Yii::app();
-		$data[0]=$this->getUsername();
-		$data[1]=$app->getRequest()->getUserHostAddress();
-		$data[2]=$this->getValidationKey($data[0]);
+		$cookie=new CHttpCookie($this->getStateKeyPrefix(),'');
+		$cookie->expire=time()+$duration;
+		$data=array(
+			$this->getId(),
+			$app->getRequest()->getUserHostAddress(),
+			$this->saveIdentityStates(),
+		);
 		$cookie->value=$app->getSecurityManager()->hashData(serialize($data));
+		$app->getRequest()->getCookies()->add($cookie->name,$cookie);
 	}
 
 	/**
 	 * @return string a prefix for the name of the session variables storing user session data.
 	 */
-	protected function getSessionKeyPrefix()
+	protected function getStateKeyPrefix()
 	{
 		if($this->_keyPrefix!==null)
 			return $this->_keyPrefix;
@@ -353,7 +314,7 @@ class CWebUser extends CApplicationComponent
 	 */
 	public function getState($key,$defaultValue=null)
 	{
-		$key=$this->getSessionKeyPrefix().$key;
+		$key=$this->getStateKeyPrefix().$key;
 		return isset($_SESSION[$key]) ? $_SESSION[$key] : $defaultValue;
 	}
 
@@ -374,11 +335,20 @@ class CWebUser extends CApplicationComponent
 	 */
 	public function setState($key,$value,$defaultValue=null)
 	{
-		$key=$this->getSessionKeyPrefix().$key;
+		$key=$this->getStateKeyPrefix().$key;
 		if($value===$defaultValue)
 			unset($_SESSION[$key]);
 		else
 			$_SESSION[$key]=$value;
+	}
+
+	/**
+	 * Clears all user identity information from persistent storage.
+	 * The default implementation simply destroys the session.
+	 */
+	public function clearStates()
+	{
+		Yii::app()->getSession()->destroy();
 	}
 
 	/**
@@ -419,6 +389,26 @@ class CWebUser extends CApplicationComponent
 	public function hasFlash($key)
 	{
 		return $this->getFlash($key)!==null;
+	}
+
+	protected function saveIdentityStates()
+	{
+		$states=array();
+		foreach($this->getState('_states',array()) as $name)
+			$states[$name]=$this->getState($name);
+		return $states;
+	}
+
+	protected function loadIdentityStates($states)
+	{
+		if(is_array($states))
+		{
+			foreach($states as $name=>$value)
+				$this->setState($name,$value);
+			$this->setState('_states',array_keys($states));
+		}
+		else
+			$this->setState('_states',array());
 	}
 
 	/**

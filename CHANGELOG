@@ -13,6 +13,7 @@ Version 1.0b To be released
 - Added Phone Book demo (Qiang)
 - Removed UserController from yiic webapp and merged it to SiteController (Qiang)
 - Added support to allow creating customized yiic shell commands (Qiang)
+- Refactored auth framework (Qiang)
 
 Version 1.0a October 5, 2008
 =============================
