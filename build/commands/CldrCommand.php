@@ -129,7 +129,7 @@ EOD;
 		$this->parseDateTimeFormat($xml,$data);
 		$this->parsePeriodNames($xml,$data);
 
-		$data=var_export($data,true);
+		$data=str_replace("\r",'',var_export($data,true));
 		$locale=substr(basename($path),0,-4);
 		$content=<<<EOD
 /**
@@ -145,7 +145,7 @@ EOD;
 return $data;
 EOD;
 
-		file_put_contents($dir.DIRECTORY_SEPARATOR.strtolower($locale).'.php',"<?php\n".$content."\n?>");
+		file_put_contents($dir.DIRECTORY_SEPARATOR.strtolower($locale).'.php',"<?php\n".$content."\n");
 
 		echo "done.\n";
 	}

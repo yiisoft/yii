@@ -279,7 +279,7 @@ class ApiModel
 		{
 			$type=empty($param->type)?'':$this->getTypeUrl($param->type).' ';
 			if($param->isOptional)
-				$params[]=$type.'$'.$param->name.'='.var_export($param->defaultValue,true);
+				$params[]=$type.'$'.$param->name.'='.str_replace("\r",'',var_export($param->defaultValue,true));
 			else
 				$params[]=$type.'$'.$param->name;
 		}
