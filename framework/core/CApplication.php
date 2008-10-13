@@ -325,7 +325,7 @@ abstract class CApplication extends CComponent
 			$language=$this->getLanguage();
 		if($language===$srcLanguage)
 			return $srcFile;
-		$desiredFile=dirname($srcFile).DIRECTORY_SEPARATOR.$language.basename($srcFile);
+		$desiredFile=dirname($srcFile).DIRECTORY_SEPARATOR.$language.DIRECTORY_SEPARATOR.basename($srcFile);
 		return is_file($desiredFile) ? $desiredFile : $srcFile;
 	}
 
