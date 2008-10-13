@@ -1,6 +1,6 @@
 <?php
 /**
- * CIdentity class file
+ * CUserIdentity class file
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
@@ -9,12 +9,12 @@
  */
 
 /**
- * CIdentity is a base class for representing identities that are authenticated based on a username and a password.
+ * CUserIdentity is a base class for representing identities that are authenticated based on a username and a password.
  *
  * Derived classes should implement {@link authenticate} with the actual
  * authentication scheme (e.g. checking username and password against a DB table).
  *
- * By default, CIdentity assumes the {@link username} is a unique identifier
+ * By default, CUserIdentity assumes the {@link username} is a unique identifier
  * and thus use it as the {@link id ID} of the identity.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -22,7 +22,7 @@
  * @package system.web.auth
  * @since 1.0
  */
-class CIdentity extends CBaseIdentity
+class CUserIdentity extends CBaseUserIdentity
 {
 	/**
 	 * @var string username
@@ -47,7 +47,7 @@ class CIdentity extends CBaseIdentity
 	/**
 	 * Authenticates a user based on {@link username} and {@link password}.
 	 * Derived classes should override this method, or an exception will be thrown.
-	 * This method is required by {@link IIdentity}.
+	 * This method is required by {@link IUserIdentity}.
 	 * @return boolean whether authentication succeeds.
 	 */
 	public function authenticate()
@@ -58,7 +58,7 @@ class CIdentity extends CBaseIdentity
 	/**
 	 * Returns the unique identifier for the identity.
 	 * The default implementation simply returns {@link username}.
-	 * This method is required by {@link IIdentity}.
+	 * This method is required by {@link IUserIdentity}.
 	 * @return string the unique identifier for the identity.
 	 */
 	public function getId()

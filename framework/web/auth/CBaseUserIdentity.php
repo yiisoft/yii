@@ -1,6 +1,6 @@
 <?php
 /**
- * CBaseIdentity class file
+ * CBaseUserIdentity class file
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
@@ -9,14 +9,14 @@
  */
 
 /**
- * CBaseIdentity is a base class implementing {@link IIdentity}.
+ * CBaseUserIdentity is a base class implementing {@link IUserIdentity}.
  *
- * CBaseIdentity implements the scheme for representing identity
+ * CBaseUserIdentity implements the scheme for representing identity
  * information that needs to be persisted. It also provides the way
  * to represent the authentication errors.
  *
- * Derived classes should implement {@link IIdentity::authenticate}
- * and {@link IIdentity::getId} that are required by the {@link IIdentity}
+ * Derived classes should implement {@link IUserIdentity::authenticate}
+ * and {@link IUserIdentity::getId} that are required by the {@link IUserIdentity}
  * interface.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -24,7 +24,7 @@
  * @package system.web.auth
  * @since 1.0
  */
-abstract class CBaseIdentity extends CComponent implements IIdentity
+abstract class CBaseUserIdentity extends CComponent implements IUserIdentity
 {
 	const ERROR_NONE=0;
 	const ERROR_USERNAME_INVALID=1;
@@ -44,7 +44,7 @@ abstract class CBaseIdentity extends CComponent implements IIdentity
 
 	/**
 	 * Returns the identity states that should be persisted.
-	 * This method is required by {@link IIdentity}.
+	 * This method is required by {@link IUserIdentity}.
 	 * @return array the identity states that should be persisted.
 	 */
 	public function getPersistentStates()
@@ -54,7 +54,7 @@ abstract class CBaseIdentity extends CComponent implements IIdentity
 
 	/**
 	 * Returns a value indicating whether the authentication is successful.
-	 * This method is required by {@link IIdentity}.
+	 * This method is required by {@link IUserIdentity}.
 	 * @return whether the authentication is successful.
 	 */
 	public function getIsValid()
