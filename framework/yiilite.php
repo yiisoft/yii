@@ -1156,7 +1156,7 @@ class CConfiguration extends CMap
 	}
 	public function saveAsString()
 	{
-		return var_export($this->toArray(),true);
+		return str_replace("\r",'',var_export($this->toArray(),true));
 	}
 	public function applyTo($object)
 	{

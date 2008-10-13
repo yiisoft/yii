@@ -165,7 +165,7 @@ EOD;
 				$merged[$message]='';
 			echo "saved.\n";
 		}
-		$array=var_export($merged,true);
+		$array=str_replace("\r",'',var_export($merged,true));
 		$content=<<<EOD
 <?php
 /**
