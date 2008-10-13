@@ -15,15 +15,15 @@
  * Therefore, at any place one can access the user state via
  * <code>Yii::app()->user</code>.
  *
- * CWebUser should be used together with an {@link IIdentity identity} and an optional
+ * CWebUser should be used together with an {@link IUserIdentity identity} and an optional
  * {@link roleProvider role provider}. The former authenticates a user,
  * while the latter provides the role information for the authenticated user.
  *
  * A typical authentication process using CWebUser is as follows:
  * <ol>
  * <li>The user provides information needed for authentication.</li>
- * <li>An {@link IIdentity identity instance} is created with the user-provided information.</li>
- * <li>Call {@link IIdentity::authenticate} to check if the identity is valid.</li>
+ * <li>An {@link IUserIdentity identity instance} is created with the user-provided information.</li>
+ * <li>Call {@link IUserIdentity::authenticate} to check if the identity is valid.</li>
  * <li>If valid, call {@link CWebUser::login} to login the user, and
  *     Redirect the user browser to {@link returnUrl}.</li>
  * <li>If not valid, retrieve the error code or message from the identity
@@ -32,7 +32,7 @@
  *
  * The property {@link id} is a unique identifier for a user that is persistent
  * during the whole user session. It can be a username, or something else,
- * depending on the implementation of the {@link IIdentity identity class}.
+ * depending on the implementation of the {@link IUserIdentity identity class}.
  *
  * Besides {@link id}, an identity may have additional data that are also persistent
  * during the session. To access these data, call {@link getState}.
@@ -98,7 +98,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * Note, you have to set {@link allowAutoLogin} to true
 	 * if you want to allow user to be authenticated based on the cookie information.
 	 *
-	 * @param IIdentity the user identity (which should already be authenticated)
+	 * @param IUserIdentity the user identity (which should already be authenticated)
 	 * @param integer number of seconds that the user can remain in logged-in status. Defaults to 0, meaning login till the user closes the browser.
 	 * If greater than 0, cookie-based login will be used. In this case, {@link allowAutoLogin}
 	 * must be set true, otherwise an exception will be thrown.

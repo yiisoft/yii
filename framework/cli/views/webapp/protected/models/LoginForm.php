@@ -46,7 +46,7 @@ class LoginForm extends CFormModel
 	{
 		if(!$this->hasErrors())  // we only want to authenticate when no input errors
 		{
-			$identity=new Identity($this->username,$this->password);
+			$identity=new UserIdentity($this->username,$this->password);
 			if($identity->authenticate())
 			{
 				$duration=$this->rememberMe ? 3600*24*30 : 0; // 30 days

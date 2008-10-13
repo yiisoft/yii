@@ -294,8 +294,8 @@ class YiiBase
 		'CInlineAction' => '/web/actions/CInlineAction.php',
 		'CViewAction' => '/web/actions/CViewAction.php',
 		'CWebServiceAction' => '/web/actions/CWebServiceAction.php',
-		'CBaseIdentity' => '/web/auth/CBaseIdentity.php',
-		'CIdentity' => '/web/auth/CIdentity.php',
+		'CBaseUserIdentity' => '/web/auth/CBaseUserIdentity.php',
+		'CUserIdentity' => '/web/auth/CUserIdentity.php',
 		'CWebUser' => '/web/auth/CWebUser.php',
 		'CAccessControlFilter' => '/web/filters/CAccessControlFilter.php',
 		'CFilter' => '/web/filters/CFilter.php',
@@ -649,7 +649,7 @@ abstract class CApplication extends CComponent
 			$language=$this->getLanguage();
 		if($language===$srcLanguage)
 			return $srcFile;
-		$desiredFile=dirname($srcFile).DIRECTORY_SEPARATOR.$language.basename($srcFile);
+		$desiredFile=dirname($srcFile).DIRECTORY_SEPARATOR.$language.DIRECTORY_SEPARATOR.basename($srcFile);
 		return is_file($desiredFile) ? $desiredFile : $srcFile;
 	}
 	public function getLocale($localeID=null)
@@ -1304,6 +1304,10 @@ class CWebApplication extends CApplication
 	public function createUrl($route,$params=array(),$ampersand='&')
 	{
 		return $this->getUrlManager()->createUrl($route,$params,$ampersand);
+	}
+	public function createAbsoluteUrl($route,$params=array(),$schema='',$ampersand='&')
+	{
+		return $this->getRequest()->getHostInfo($schema).$this->createUrl($route,$params,$ampersand);
 	}
 	public function getBaseUrl()
 	{
@@ -2357,6 +2361,10 @@ class CController extends CBaseController
 			$route=$this->getId().'/'.($route==='' ? $this->getAction()->getId() : $route);
 		return Yii::app()->createUrl($route,$params,$ampersand);
 	}
+	public function createAbsoluteUrl($route,$params=array(),$schema='',$ampersand='&')
+	{
+		return Yii::app()->getRequest()->getHostInfo($schema).$this->createUrl($route,$params,$ampersand);
+	}
 	public function getPageTitle()
 	{
 		if($this->_pageTitle!==null)
@@ -2568,9 +2576,14 @@ class CWebUser extends CApplicationComponent implements IWebUser
 				{
 					$this->setId($id);
 					$this->loadIdentityStates($states);
+					$this->onRestoreFromCookie(new CEvent($this));
 				}
 			}
 		}
+	}
+	public function onRestoreFromCookie($event)
+	{
+		$this->raiseEvent('onRestoreFromCookie',$event);
 	}
 	protected function saveToCookie($duration)
 	{
@@ -4379,13 +4392,10 @@ abstract class CActiveRecord extends CModel
 			$record->_md=$this->getMetaData();
 			foreach($attributes as $name=>$value)
 			{
-				if(isset($this->_md->columns[$name]))
-				{
-					if(property_exists($record,$name))
-						$record->$name=$value;
-					else
-						$record->_attributes[$name]=$value;
-				}
+				if(property_exists($record,$name))
+					$record->$name=$value;
+				else if(isset($record->_md->columns[$name]))
+					$record->_attributes[$name]=$value;
 			}
 			$record->afterFind();
 			return $record;
@@ -4406,13 +4416,10 @@ abstract class CActiveRecord extends CModel
 			$record->_md=$md;
 			foreach($attributes as $name=>$value)
 			{
-				if(isset($table->columns[$name]))
-				{
-					if(property_exists($record,$name))
-						$record->$name=$value;
-					else
-						$record->_attributes[$name]=$value;
-				}
+				if(property_exists($record,$name))
+					$record->$name=$value;
+				else if(isset($record->_md->columns[$name]))
+					$record->_attributes[$name]=$value;
 			}
 			$record->afterFind();
 			$records[]=$record;
@@ -5976,93 +5983,6 @@ class CAssetManager extends CApplicationComponent
 		return sprintf('%x',crc32($path.Yii::getVersion()));
 	}
 }
-class CFileHelper
-{
-	public static function copyDirectory($src,$dst,$options=array())
-	{
-		$fileTypes=array();
-		$exclude=array();
-		$level=-1;
-		extract($options);
-		self::copyDirectoryRecursive($src,$dst,'',$fileTypes,$exclude,$level);
-	}
-	public static function findFiles($dir,$options=array())
-	{
-		$fileTypes=array();
-		$exclude=array();
-		$level=-1;
-		extract($options);
-		$list=self::findFilesRecursive($dir,'',$fileTypes,$exclude,$level);
-		sort($list);
-		return $list;
-	}
-	public static function mkdir($directory)
-	{
-		if(!is_dir($directory))
-		{
-			self::mkdir(dirname($directory));
-			mkdir($directory);
-		}
-	}
-	protected static function copyDirectoryRecursive($src,$dst,$base,$fileTypes,$exclude,$level)
-	{
-		@mkdir($dst);
-		$folder=opendir($src);
-		while($file=readdir($folder))
-		{
-			if($file==='.' || $file==='..')
-				continue;
-			$path=$src.DIRECTORY_SEPARATOR.$file;
-			$isFile=is_file($path);
-			if(self::validatePath($base,$file,$isFile,$fileTypes,$exclude))
-			{
-				if($isFile)
-					copy($path,$dst.DIRECTORY_SEPARATOR.$file);
-				else if($level)
-					self::copyDirectoryRecursive($path,$dst.DIRECTORY_SEPARATOR.$file,$base.'/'.$file,$fileTypes,$exclude,$level-1);
-			}
-		}
-		closedir($folder);
-	}
-	protected static function findFilesRecursive($dir,$base,$fileTypes,$exclude,$level)
-	{
-		$list=array();
-		$handle=opendir($dir);
-		while($file=readdir($handle))
-		{
-			if($file==='.' || $file==='..')
-				continue;
-			$path=$dir.DIRECTORY_SEPARATOR.$file;
-			$isFile=is_file($path);
-			if(self::validatePath($base,$file,$isFile,$fileTypes,$exclude))
-			{
-				if($isFile)
-					$list[]=$path;
-				else if($level)
-					$list=array_merge($list,self::findFilesRecursive($path,$base.'/'.$file,$fileTypes,$exclude,$level-1));
-			}
-		}
-		closedir($handle);
-		return $list;
-	}
-	protected static function validatePath($base,$file,$isFile,$fileTypes,$exclude)
-	{
-		foreach($exclude as $e)
-		{
-			if($file===$e || strpos($base.'/'.$file,$e)===0)
-				return false;
-		}
-		if(!$isFile || empty($fileTypes))
-			return true;
-		if(($pos=strrpos($file,'.'))!==false)
-		{
-			$type=substr($file,$pos+1);
-			return in_array($type,$fileTypes);
-		}
-		else
-			return false;
-	}
-}
 interface IApplicationComponent
 {
 	public function init();
@@ -6105,7 +6025,7 @@ interface IViewRenderer
 {
 	public function renderFile($context,$file,$data,$return);
 }
-interface IIdentity
+interface IUserIdentity
 {
 	public function authenticate();
 	public function getIsValid();

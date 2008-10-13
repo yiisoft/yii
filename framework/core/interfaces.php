@@ -235,7 +235,7 @@ interface IViewRenderer
 
 
 /**
- * IIdentity interface is implemented by an identity class.
+ * IUserIdentity interface is implemented by a user identity class.
  *
  * An identity represents a way to authenticate a user and retrieve
  * information needed to uniquely identity the user. It is normally
@@ -246,7 +246,7 @@ interface IViewRenderer
  * @package system.core
  * @since 1.0
  */
-interface IIdentity
+interface IUserIdentity
 {
 	/**
 	 * Authenticates the user.
