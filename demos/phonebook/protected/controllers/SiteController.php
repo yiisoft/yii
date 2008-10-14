@@ -85,10 +85,10 @@ class SiteController extends CController implements IWebServiceProvider
 	 */
 	public function login($username,$password)
 	{
-		$identity=new Identity($username,$password);
+		$identity=new UserIdentity($username,$password);
 		if($identity->authenticate())
 			Yii::app()->user->login($identity);
-		return $identity->isValid;
+		return $identity->isAuthenticated;
 	}
 
 	/**

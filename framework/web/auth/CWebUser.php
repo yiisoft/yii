@@ -30,11 +30,11 @@
  * instance and display it.</li>
  * </ol>
  *
- * The property {@link id} is a unique identifier for a user that is persistent
+ * The property {@link name} is a unique identifier for a user that is persistent
  * during the whole user session. It can be a username, or something else,
  * depending on the implementation of the {@link IUserIdentity identity class}.
  *
- * Besides {@link id}, an identity may have additional data that are also persistent
+ * Besides {@link name}, an identity may have additional data that are also persistent
  * during the session. To access these data, call {@link getState}.
  * Note, when {@link allowAutoLogin cookie-based authentication} is enabled,
  * all these persistent data will be stored in cookie. Therefore, do not
@@ -57,6 +57,11 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * @var boolean whether to enable cookie-based login. Defaults to false.
 	 */
 	public $allowAutoLogin=false;
+	/**
+	 * @var string the name for a guest user. Defaults to 'Guest'.
+	 * This is used by {@link getName} when the current user is a guest (not authenticated).
+	 */
+	public $guestName='Guest';
 	/**
 	 * @var string|array the URL for login. If using array, the first element should be
 	 * the route to the login action, and the rest name-value pairs are GET parameters
@@ -105,7 +110,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function login($identity,$duration=0)
 	{
-		$this->setId($identity->getId());
+		$this->setName($identity->getName());
 		$this->loadIdentityStates($identity->getPersistentStates());
 
 		if($duration>0)
@@ -134,30 +139,30 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function getIsGuest()
 	{
-		return $this->getState('_id')===null;
+		return $this->getState('_name')===null;
 	}
 
 	/**
-	 * Returns the user ID (or username).
+	 * Returns the unique identifier for the user (e.g. username).
 	 * This is the unique identifier that is mainly used for display purpose.
-	 * @return string the user ID. If the user is not logged in, this will be {@link guestName}.
+	 * @return string the user name. If the user is not logged in, this will be {@link guestName}.
 	 */
-	public function getId()
+	public function getName()
 	{
-		if(($id=$this->getState('_id'))!==null)
-			return $id;
+		if(($name=$this->getState('_name'))!==null)
+			return $name;
 		else
-			return $this->getGuestName();
+			return $this->guestName;
 	}
 
 	/**
-	 * Sets the user ID (or username).
-	 * @param string the user ID.
-	 * @see getId
+	 * Sets the unique identifier for the user (e.g. username).
+	 * @param string the user name.
+	 * @see getName
 	 */
-	public function setId($value)
+	public function setName($value)
 	{
-		$this->setState('_id',$value);
+		$this->setState('_name',$value);
 	}
 
 	/**
@@ -178,17 +183,6 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	public function setReturnUrl($value)
 	{
 		$this->setState('_returnUrl',$value);
-	}
-
-	/**
-	 * Returns the guest name.
-	 * This is used by {@link getId} whether the current user is a guest (not authenticated).
-	 * You may override this method to provide a different guest name (e.g. a localized name).
-	 * @return string the name for a guest user. Defaults to 'Guest'.
-	 */
-	protected function getGuestName()
-	{
-		return 'Guest';
 	}
 
 	/**
@@ -255,10 +249,10 @@ class CWebUser extends CApplicationComponent implements IWebUser
 			$data=unserialize($data);
 			if(isset($data[0],$data[1],$data[2]))
 			{
-				list($id,$address,$states)=$data;
+				list($name,$address,$states)=$data;
 				if($address===$app->getRequest()->getUserHostAddress())
 				{
-					$this->setId($id);
+					$this->setName($name);
 					$this->loadIdentityStates($states);
 					$this->onRestoreFromCookie(new CEvent($this));
 				}
@@ -292,7 +286,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		$cookie=new CHttpCookie($this->getStateKeyPrefix(),'');
 		$cookie->expire=time()+$duration;
 		$data=array(
-			$this->getId(),
+			$this->getName(),
 			$app->getRequest()->getUserHostAddress(),
 			$this->saveIdentityStates(),
 		);

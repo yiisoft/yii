@@ -61,7 +61,7 @@ class CUserIdentity extends CBaseUserIdentity
 	 * This method is required by {@link IUserIdentity}.
 	 * @return string the unique identifier for the identity.
 	 */
-	public function getId()
+	public function getName()
 	{
 		return $this->username;
 	}

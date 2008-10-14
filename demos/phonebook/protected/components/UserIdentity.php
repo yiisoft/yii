@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Identity represents the data needed to identity a user.
+ * UserIdentity represents the data needed to identity a user.
  * It contains the authentication method that checks if the provided
  * data can identity the user.
  */
-class Identity extends CIdentity
+class UserIdentity extends CUserIdentity
 {
 	/**
 	 * Validates the username and password.
