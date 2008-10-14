@@ -15,6 +15,7 @@ Version 1.0b To be released
 - Added support to allow creating customized yiic shell commands (Qiang)
 - Refactored auth framework (Qiang)
 - Fixed a bug that prevented CActiveRecord from taking attributes not defined in table (Qiang)
+- Changed CActiveRecord.setAttributes to allow explicitly specify safe attributes (Qiang)
 
 Version 1.0a October 5, 2008
 =============================

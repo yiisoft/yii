@@ -600,26 +600,6 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
-	 * Returns attributes that can be changed by {@link setAttributes}.
-	 * Only attributes that are neither primary keys nor protected
-	 * (see {@link protectedAttributes}) can be changed by {@link setAttributes}.
-	 * @param array attribute values indexed by names
-	 * @return array the filtered attribute values
-	 * @see protectedAttributes
-	 */
-	public function filterAttributes($attributes)
-	{
-		$safe=$this->getMetaData()->safeAttributes;
-		$safeAttributes=array();
-		foreach($attributes as $name=>$value)
-		{
-			if(isset($safe[$name]))
-				$safeAttributes[$name]=$value;
-		}
-		return $safeAttributes;
-	}
-
-	/**
 	 * @param string attribute name
 	 * @return boolean whether this AR has the named attribute (table column).
 	 */
@@ -708,21 +688,38 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
-	 * Sets the attribute values.
-	 * Existing attribute values will be overwritten if the same named attribute is passed in.
-	 * Note, only {@link filterAttributes safe attributes} are accepted here.
-	 * Use individual assignments to set unsafe attributes (such as primary key).
+	 * Sets the attribute values in a batch mode.
+	 * By default, only safe attributes will be assigned with new values.
+	 * An attribute is safe if it is neither a primary key nor an attribute
+	 * listed in {@link protectedAttributes}. You may also specify safe attribute
+	 * list as the second parameter.
 	 * @param array attribute values indexed by attribute names.
+	 * @param array a list of safe attribute names. Only the attributes listed in this array
+	 * will be assigned. If this is empty, only attributes that are neither primary key
+	 * nor {@link protectedAttributes protected} can be assigned.
 	 * @param boolean whether to set safe attributes only. Defaults to true.
 	 */
-	public function setAttributes($values,$safeAttributesOnly=true)
+	public function setAttributes($values,$safeAttributes=null,$safeAttributesOnly=true)
 	{
 		if(is_array($values))
 		{
 			if($safeAttributesOnly)
-				$values=$this->filterAttributes($values);
-			foreach($values as $name=>$value)
-				$this->$name=$value;
+			{
+				if(empty($safeAttributes))
+					$safeAttributes=$this->getMetaData()->safeAttributes;
+				else
+					$safeAttributes=array_flip($safeAttributes);
+				foreach($values as $name=>$value)
+				{
+					if(isset($safeAttributes[$name]))
+						$this->$name=$value;
+				}
+			}
+			else
+			{
+				foreach($values as $name=>$value)
+					$this->$name=$value;
+			}
 		}
 	}
 
