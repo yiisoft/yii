@@ -168,7 +168,7 @@ class CAccessRule extends CComponent
 
 	private function isUserMatched($user)
 	{
-		return empty($this->users) || in_array(strtolower($user->getId()),$this->users);
+		return empty($this->users) || in_array(strtolower($user->getName()),$this->users);
 	}
 
 	private function isRoleMatched($user)
