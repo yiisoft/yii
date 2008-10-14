@@ -110,6 +110,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function login($identity,$duration=0)
 	{
+		$this->setId($identity->getId());
 		$this->setName($identity->getName());
 		$this->loadIdentityStates($identity->getPersistentStates());
 
@@ -139,7 +140,23 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function getIsGuest()
 	{
-		return $this->getState('_name')===null;
+		return $this->getState('_id')===null;
+	}
+
+	/**
+	 * @return mixed the unique identifier for the user. If null, it means the user is a guest.
+	 */
+	public function getId()
+	{
+		return $this->getState('_id');
+	}
+
+	/**
+	 * @param mixed the unique identifier for the user. If null, it means the user is a guest.
+	 */
+	public function setId($value)
+	{
+		$this->setState('_id',$value);
 	}
 
 	/**
@@ -247,29 +264,18 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		if($cookie && !empty($cookie->value) && ($data=$app->getSecurityManager()->validateData($cookie->value))!==false)
 		{
 			$data=unserialize($data);
-			if(isset($data[0],$data[1],$data[2]))
+			if(isset($data[0],$data[1],$data[2],$data[3]))
 			{
-				list($name,$address,$states)=$data;
+				list($id,$name,$address,$states)=$data;
 				if($address===$app->getRequest()->getUserHostAddress())
 				{
+					$this->setId($id);
 					$this->setName($name);
 					$this->loadIdentityStates($states);
 					$this->onRestoreFromCookie(new CEvent($this));
 				}
 			}
 		}
-	}
-
-	/**
-	 * Raised when the user identity information is being restored from cookie.
-	 * This event is only raised when {@link allowAutoLogin} is true and when
-	 * the user identity information is being restored from cookie.
-	 * When this event is raised, the user component already has the unique ID available.
-	 * @param CEvent event parameter
-	 */
-	public function onRestoreFromCookie($event)
-	{
-		$this->raiseEvent('onRestoreFromCookie',$event);
 	}
 
 	/**
@@ -286,12 +292,25 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		$cookie=new CHttpCookie($this->getStateKeyPrefix(),'');
 		$cookie->expire=time()+$duration;
 		$data=array(
+			$this->getId(),
 			$this->getName(),
 			$app->getRequest()->getUserHostAddress(),
 			$this->saveIdentityStates(),
 		);
 		$cookie->value=$app->getSecurityManager()->hashData(serialize($data));
 		$app->getRequest()->getCookies()->add($cookie->name,$cookie);
+	}
+
+	/**
+	 * Raised when the user identity information is being restored from cookie.
+	 * This event is only raised when {@link allowAutoLogin} is true and when
+	 * the user identity information is being restored from cookie.
+	 * When this event is raised, the user component already has the unique ID available.
+	 * @param CEvent event parameter
+	 */
+	public function onRestoreFromCookie($event)
+	{
+		$this->raiseEvent('onRestoreFromCookie',$event);
 	}
 
 	/**

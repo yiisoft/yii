@@ -29,18 +29,39 @@ abstract class CBaseUserIdentity extends CComponent implements IUserIdentity
 	const ERROR_NONE=0;
 	const ERROR_USERNAME_INVALID=1;
 	const ERROR_PASSWORD_INVALID=2;
-	const ERROR_UNKNOWN=100;
+	const ERROR_UNKNOWN_IDENTITY=100;
 
 	/**
-	 * @var integer the authentication error code. If there is an error, the error code will be non-zero. Defaults to 0.
+	 * @var integer the authentication error code. If there is an error, the error code will be non-zero.
+	 * Defaults to 100, meaning unknown identity. Calling {@link authenticate} will change this value.
 	 */
-	public $errorCode=self::ERROR_NONE;
+	public $errorCode=self::ERROR_UNKNOWN_IDENTITY;
 	/**
 	 * @var string the authentication error message. Defaults to empty.
 	 */
 	public $errorMessage='';
 
 	private $_state=array();
+
+	/**
+	 * Returns a value that uniquely represents the identity.
+	 * @return mixed a value that uniquely represents the identity (e.g. primary key value).
+	 * The default implementation simply returns {@link name}.
+	 */
+	public function getId()
+	{
+		return $this->getName();
+	}
+
+	/**
+	 * Returns the display name for the identity (e.g. username).
+	 * @return string the display name for the identity.
+	 * The default implementation simply returns empty string.
+	 */
+	public function getName()
+	{
+		return '';
+	}
 
 	/**
 	 * Returns the identity states that should be persisted.
@@ -60,28 +81,6 @@ abstract class CBaseUserIdentity extends CComponent implements IUserIdentity
 	public function getIsAuthenticated()
 	{
 		return $this->errorCode==self::ERROR_NONE;
-	}
-
-	/**
-	 * Returns the roles that this user belongs to.
-	 * This information should only be used when a role provider is not defined.
-	 * @return array the roles that this user belongs to.
-	 */
-	public function getRoles()
-	{
-		return $this->getState('roles',array());
-	}
-
-	/**
-	 * Sets the roles that this user belongs to.
-	 * This information should only be used when a role provider is not defined.
-	 * @param array the roles that this user belongs to.
-	 */
-	public function setRoles($value)
-	{
-		if(!is_array($value))
-			$value=array($value);
-		$this->setState('roles',$value,array());
 	}
 
 	/**
