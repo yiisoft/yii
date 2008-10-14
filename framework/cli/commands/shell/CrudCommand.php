@@ -22,6 +22,8 @@ class CrudCommand extends CConsoleCommand
 	/**
 	 * @var string the directory that contains templates for crud commands.
 	 * Defaults to null, meaning using 'framework/cli/views/shell/crud'.
+	 * If you set this path and some views are missing in the directory,
+	 * the default views will be used.
 	 */
 	public $templatePath;
 
@@ -119,6 +121,8 @@ EOD;
 				if(stripos($column->dbType,'text')!==false)
 					unset($columns[$name]);
 		}
+		if(!is_file($source))  // fall back to default ones
+			$source=YII_PATH.'/cli/views/shell/crud/'.basename($source);
 		return $this->renderFile($source,array(
 			'ID'=>$table->primaryKey,
 			'model'=>$model,
