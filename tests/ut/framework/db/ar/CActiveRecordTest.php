@@ -63,7 +63,6 @@ class CActiveRecordTest extends CTestCase
 		$this->assertTrue($model->getActiveRelation('author') instanceof CBelongsToRelation);
 		$this->assertTrue($model->tableSchema instanceof CDbTableSchema);
 		$this->assertTrue($model->commandBuilder instanceof CDbCommandBuilder);
-		$this->assertEquals(array('title'=>'something'),$model->filterAttributes(array('id'=>3,'title'=>'something')));
 		$this->assertTrue($model->hasAttribute('id'));
 		$this->assertFalse($model->hasAttribute('comments'));
 		$this->assertFalse($model->hasAttribute('foo'));
