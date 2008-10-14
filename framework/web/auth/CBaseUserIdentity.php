@@ -53,11 +53,11 @@ abstract class CBaseUserIdentity extends CComponent implements IUserIdentity
 	}
 
 	/**
-	 * Returns a value indicating whether the authentication is successful.
+	 * Returns a value indicating whether the identity is authenticated.
 	 * This method is required by {@link IUserIdentity}.
 	 * @return whether the authentication is successful.
 	 */
-	public function getIsValid()
+	public function getIsAuthenticated()
 	{
 		return $this->errorCode==self::ERROR_NONE;
 	}
