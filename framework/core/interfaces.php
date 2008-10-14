@@ -262,7 +262,12 @@ interface IUserIdentity
 	public function getIsAuthenticated();
 	/**
 	 * Returns a value that uniquely represents the identity.
-	 * @return mixed a value that uniquely represents the identity (e.g. username).
+	 * @return mixed a value that uniquely represents the identity (e.g. primary key value).
+	 */
+	public function getId();
+	/**
+	 * Returns the display name for the identity (e.g. username).
+	 * @return string the display name for the identity.
 	 */
 	public function getName();
 	/**
@@ -288,7 +293,12 @@ interface IWebUser
 {
 	/**
 	 * Returns a value that uniquely represents the identity.
-	 * @return mixed a value that uniquely represents the user (e.g. username).
+	 * @return mixed a value that uniquely represents the identity (e.g. primary key value).
+	 */
+	public function getId();
+	/**
+	 * Returns the display name for the identity (e.g. username).
+	 * @return string the display name for the identity.
 	 */
 	public function getName();
 	/**
