@@ -100,6 +100,9 @@ EOD;
 		else if(is_array($id)===null)
 			throw new ShellException(Yii::t('yii#Error: Table "{table}" has a composite primary key which is not supported by crud command.',array('{table}'=>$model->tableName())));
 
+		if(!is_file($source))  // fall back to default ones
+			$source=YII_PATH.'/cli/views/shell/crud/'.basename($source);
+
 		$content=file_get_contents($source);
 		return strtr($content,array(
 			'{ClassName}'=>$controllerClass,
