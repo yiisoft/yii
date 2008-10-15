@@ -84,7 +84,7 @@
  * @package system.db
  * @since 1.0
  */
-class CDbConnection extends CComponent implements IApplicationComponent
+class CDbConnection extends CApplicationComponent
 {
 	/**
 	 * @var string The Data Source Name, or DSN, contains the information required to connect to the database.
@@ -122,7 +122,6 @@ class CDbConnection extends CComponent implements IApplicationComponent
 	private $_pdo;
 	private $_transaction;
 	private $_schema;
-	private $_initialized=false;
 
 
 	/**
@@ -169,17 +168,9 @@ class CDbConnection extends CComponent implements IApplicationComponent
 	 */
 	public function init()
 	{
-		$this->_initialized=true;
+		parent::init();
 		if($this->autoConnect)
 			$this->setActive(true);
-	}
-
-	/**
-	 * @return boolean whether this application component has been initialized (i.e., {@link init()} is invoked.)
-	 */
-	public function getIsInitialized()
-	{
-		return $this->_initialized;
 	}
 
 	/**
