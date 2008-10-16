@@ -15,9 +15,8 @@
  * Therefore, at any place one can access the user state via
  * <code>Yii::app()->user</code>.
  *
- * CWebUser should be used together with an {@link IUserIdentity identity} and an optional
- * {@link roleProvider role provider}. The former authenticates a user,
- * while the latter provides the role information for the authenticated user.
+ * CWebUser should be used together with an {@link IUserIdentity identity}
+ * which implements the actual authentication algorithm.
  *
  * A typical authentication process using CWebUser is as follows:
  * <ol>
@@ -30,17 +29,19 @@
  * instance and display it.</li>
  * </ol>
  *
- * The property {@link name} is a unique identifier for a user that is persistent
+ * The property {@link id} and {@link name} are both unique identifiers
+ * for the user. The former is mainly used internally (e.g. primary key), while
+ * the latter is for display purpose (e.g. username).  is a unique identifier for a user that is persistent
  * during the whole user session. It can be a username, or something else,
  * depending on the implementation of the {@link IUserIdentity identity class}.
  *
- * Besides {@link name}, an identity may have additional data that are also persistent
- * during the session. To access these data, call {@link getState}.
+ * Both {@link id} and {@link name} are persistent during the user session.
+ * Besides, an identity may have additional persistent data which can
+ * be accessed by calling {@link getState}.
  * Note, when {@link allowAutoLogin cookie-based authentication} is enabled,
  * all these persistent data will be stored in cookie. Therefore, do not
  * store password or other sensitive data in the persistent storage. Instead,
  * you should store them in session on the server side if needed.
- *
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
@@ -49,7 +50,6 @@
  */
 class CWebUser extends CApplicationComponent implements IWebUser
 {
-	const STATE_ROLES='roles';
 	const FLASH_KEY_PREFIX='Yii.CWebUser.flash.';
 	const FLASH_COUNTERS='Yii.CWebUser.flash.counters';
 
@@ -69,12 +69,6 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * @see CController::createUrl
 	 */
 	public $loginUrl=array('site/login');
-	/**
-	 * @var string the ID of the role provider application component.
-	 * Defaults to 'roleProvider'. The role provider has to implement
-	 * the interface {@link IRoleProvider}.
-	 */
-	public $roleProvider='roleProvider';
 
 	private $_keyPrefix;
 
@@ -200,28 +194,6 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	public function setReturnUrl($value)
 	{
 		$this->setState('_returnUrl',$value);
-	}
-
-	/**
-	 * Checks if the user belongs to the specified role.
-	 * If an application component named {@link roleProvider} exists,
-	 * it will perform the actual checking work.
-	 * Otherwise, a {@link getState persistent state} named 'roles' will
-	 * be used to check if the specified role is in the persistent roles array.
-	 * In the latter case, the comparison is case-insensitive.
-	 * @param string role name
-	 * @return whether the user belongs to the specified role
-	 * @see roleProvider
-	 */
-	public function isInRole($role)
-	{
-		if(($roleProvider=Yii::app()->getComponent($this->roleProvider))!==null)
-			return $roleProvider->isInRole($this,$role);
-		else
-		{
-			$roles=array_map('strtolower',$this->getState(self::STATE_ROLES,array()));
-			return in_array(strtolower($role),$roles);
-		}
 	}
 
 	/**
@@ -466,5 +438,38 @@ class CWebUser extends CApplicationComponent implements IWebUser
 				$counters[$key]++;
 		}
 		$this->setState(self::FLASH_COUNTERS,$counters,array());
+	}
+
+	public function getRoles()
+	{
+		// TBD
+		//return $this->getAuthManager()->getRoles($this);
+	}
+
+	public function checkAccess($operations,$params=array(),$activeRole=null)
+	{
+		// TBD
+		/*
+		$roles=$this->getRoles();
+		if(in_array($activeRole,$roles))
+			$roles=array($activeRole);
+		$auth=$this->getAuthManager();
+		foreach($operations as $operation)
+		{
+			$pass=false;
+			foreach($roles as $role)
+			{
+				$r=$auth->getRole($role);
+				if($r->checkAccess($operation,$params))
+				{
+					$pass=true;
+					break;
+				}
+			}
+			if(!$pass)
+				return false;
+		}
+		return true;
+		*/
 	}
 }
