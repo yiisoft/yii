@@ -253,7 +253,7 @@ class CHtml
 
 	/**
 	 * Generates a label tag.
-	 * @param string label text
+	 * @param string label text. Note, you should HTML-encode the text if needed.
 	 * @param string the ID of the HTML element that this label is associated with
 	 * @param array additional HTML attributes.
 	 * @return string the generated label tag
@@ -574,7 +574,7 @@ class CHtml
 			$name=get_class($model).substr($attribute,$pos).'['.($attribute=substr($attribute,0,$pos)).']';
 		else
 			$name=get_class($model).'['.$attribute.']';
-		$label=$model->getAttributeLabel($attribute);
+		$label=CHtml::encode($model->getAttributeLabel($attribute));
 		$for=str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $name);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
