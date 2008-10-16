@@ -199,12 +199,12 @@ abstract class CModel extends CComponent
 	 * Generates a user friendly attribute label.
 	 * This is done by replacing underscores with blanks and
 	 * changing the first letter of each word to upper case.
-	 * For example, 'department_name' becomes 'Department Name'.
+	 * For example, 'department_name' or 'DepartmentName' becomes 'Department Name'.
 	 * @param string the column name
 	 * @return string the attribute label
 	 */
 	public function generateAttributeLabel($name)
 	{
-		return ucwords(strtolower(str_replace('_',' ',$name)));
+		return ucwords(trim(strtolower(str_replace(array('-','_'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $name)))));
 	}
 }
