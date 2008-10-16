@@ -886,7 +886,7 @@ class CHtml
 				$content.=self::listOptions($value,$selection,$dummy);
 				$content.='</optgroup>'."\n";
 			}
-			else if($key==$selection || is_array($selection) && in_array($key,$selection))
+			else if(!strcmp($key,$selection) || is_array($selection) && in_array($key,$selection))
 				$content.='<option value="'.self::encode((string)$key).'" selected="selected">'.self::encode((string)$value)."</option>\n";
 			else
 				$content.='<option value="'.self::encode((string)$key).'">'.self::encode((string)$value)."</option>\n";
