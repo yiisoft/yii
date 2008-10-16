@@ -307,32 +307,47 @@ interface IWebUser
 	 */
 	public function getIsGuest();
 	/**
-	 * Checks whether the user belongs to the specified role.
-	 * @param mixed the role
-	 * @return boolean whether the user belongs to the specified role.
+	 * Returns the roles that this user belongs to.
+	 * @return array the role names that this user belongs to.
 	 */
-	public function isInRole($role);
+	public function getRoles();
+	/**
+	 * Performs access check for this user.
+	 * @param mixed the operations that need access check. It can be either an
+	 * array of the operation codes or a string representing a single operation code.
+	 * @param array name-value pairs that would be passed to biz rules associated
+	 * with the tasks and roles assigned to the user.
+	 * @param string the name of the role that should be used for access checking.
+	 * Defaults to null, meaning it uses the roles obtained via {@link getRoles}.
+	 * @return boolean whether the operations can be performed by this user.
+	 */
+	public function checkAccess($operations,$params=array(),$activeRole=null);
 }
 
 
 /**
- * IRoleProvider interface is implemented by a {@link CWebApplication::roleProvider role provider application component}.
+ * IAuthManager interface is implemented by an auth manager application component.
  *
- * A role provider manages the role information of users.
+ * An auth manager is mainly responsible for providing role-based access control (RBAC) service.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.core
  * @since 1.0
  */
-interface IRoleProvider
+interface IAuthManager
 {
 	/**
-	 * Checks whether the user belongs to the specified role.
-	 * @param IWebUser the user
-	 * @param mixed the role
-	 * @return boolean whether the user belongs to the specified role.
+	 * Performs access check for the specified user.
+	 * @param IWebUser the user to be checked with access.
+	 * @param mixed the operations that need access check. It can be either an
+	 * array of the operation codes or a string representing a single operation code.
+	 * @param array name-value pairs that would be passed to biz rules associated
+	 * with the tasks and roles assigned to the user.
+	 * @param string the name of the role that should be used for access checking.
+	 * Defaults to null, meaning it uses the roles obtained via {@link getRoles}.
+	 * @return boolean whether the operations can be performed by the user.
 	 */
-	public function isInRole($user,$role);
+	public function checkAccess($user,$operations,$params=array(),$activeRole=null);
 }
 

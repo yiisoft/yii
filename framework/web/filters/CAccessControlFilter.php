@@ -22,11 +22,9 @@
  *   'allow',  // or 'deny'
  *   // optional, list of action names (case insensitive) that this rule applies to
  *   'actions'=>array('edit, delete'),
- *   // optional, list of usernames (case sensitive) that this rule applies to
- *   'users'=>array('thomas', 'kevin'),
- *   // optional, list of roles (case sensitive) that this rule applies to
+ *   // optional, list of usernames (case insensitive) that this rule applies to
  *   // Use * to represent all users, ? guest users, and @ authenticated users
- *   'roles'=>array('@'),
+ *   'users'=>array('thomas', 'kevin'),
  *   // optional, list of IP address/patterns that this rule applies to
  *   // e.g. 127.0.0.1, 127.0.0.*
  *   'ips'=>array('127.0.0.1'),
@@ -124,13 +122,9 @@ class CAccessRule extends CComponent
 	 */
 	public $actions;
 	/**
-	 * @var array list of user IDs that this rule applies to. The comparison is case-insensitive.
+	 * @var array list of user names that this rule applies to. The comparison is case-insensitive.
 	 */
 	public $users;
-	/**
-	 * @var array list of user roles that this rule applies to.
-	 */
-	public $roles;
 	/**
 	 * @var array IP patterns.
 	 */
@@ -153,7 +147,6 @@ class CAccessRule extends CComponent
 	{
 		if($this->isActionMatched($action)
 			&& $this->isUserMatched($user)
-			&& $this->isRoleMatched($user)
 			&& $this->isIpMatched($ip)
 			&& $this->isVerbMatched($verb))
 			return $this->allow ? 1 : -1;
@@ -168,22 +161,17 @@ class CAccessRule extends CComponent
 
 	private function isUserMatched($user)
 	{
-		return empty($this->users) || in_array(strtolower($user->getName()),$this->users);
-	}
-
-	private function isRoleMatched($user)
-	{
-		if(empty($this->roles))
+		if(empty($this->users))
 			return true;
-		foreach($this->roles as $role)
+		foreach($this->users as $u)
 		{
-			if($role==='*')
+			if($u==='*')
 				return true;
-			else if($role==='?' && $user->getIsGuest())
+			else if($u==='?' && $user->getIsGuest())
 				return true;
-			else if($role==='@' && !$user->getIsGuest())
+			else if($u==='@' && !$user->getIsGuest())
 				return true;
-			else if($user->isInRole($role))
+			else if(!strcasecmp($u,$user->getName()))
 				return true;
 		}
 		return false;
