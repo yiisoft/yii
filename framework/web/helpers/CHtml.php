@@ -744,6 +744,17 @@ class CHtml
 	}
 
 	/**
+	 * Returns the element ID that is used by methods such as {@link activeTextField}.
+	 * @param CModel the data model
+	 * @param string the attribute
+	 * @return string the element ID for the active field corresponding to the specified model and attribute.
+	 */
+	public static function getActiveId($model,$attribute)
+	{
+		return get_class($model).'_'.$attribute;
+	}
+
+	/**
 	 * Displays a summary of validation errors for a model.
 	 * @param CModel the data model
 	 * @param string a piece of HTML code that appears in front of the errors
