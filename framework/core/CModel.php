@@ -197,7 +197,7 @@ abstract class CModel extends CComponent
 
 	/**
 	 * Generates a user friendly attribute label.
-	 * This is done by replacing underscores with blanks and
+	 * This is done by replacing underscores or dashes with blanks and
 	 * changing the first letter of each word to upper case.
 	 * For example, 'department_name' or 'DepartmentName' becomes 'Department Name'.
 	 * @param string the column name
