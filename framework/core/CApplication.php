@@ -103,6 +103,7 @@ abstract class CApplication extends CComponent
 	public function __construct($config=null)
 	{
 		Yii::setApplication($this);
+		$this->initSystemHandlers();
 		$this->registerCoreComponents();
 		$this->configure($config);
 		$this->init();
@@ -111,14 +112,12 @@ abstract class CApplication extends CComponent
 	/**
 	 * Initializes the application.
 	 * This method is invoked right after the application is configured.
-	 * The default implementation will initialize the error and exception
-	 * handlers and load static components.
+	 * The default implementation will load static components.
 	 * If you override this method, make sure the parent implementation
 	 * is called.
 	 */
 	protected function init()
 	{
-		$this->initSystemHandlers();
 		$this->preloadComponents();
 	}
 
