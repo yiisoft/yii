@@ -755,23 +755,29 @@ class CHtml
 	}
 
 	/**
-	 * Displays a summary of validation errors for a model.
-	 * @param CModel the data model
+	 * Displays a summary of validation errors for one or several models.
+	 * @param mixed the models whose input errors are to be displayed. This can be either
+	 * a single model or an array of models.
 	 * @param string a piece of HTML code that appears in front of the errors
 	 * @param string a piece of HTML code that appears at the end of the errors
 	 * @return string the error summary. Empty if no errors are found.
 	 * @see CModel::getErrors
 	 * @see errorSummaryCss
 	 */
-	public static function errorSummary($model,$header='',$footer='')
+	public static function errorSummary($models,$header='',$footer='')
 	{
 		if($header==='')
 			$header='<p>'.Yii::t('yii#Please fix the following input errors:').'</p>';
 		$content='';
-		foreach($model->getErrors() as $errors)
+		if(!is_array($models))
+			$models=array($model);
+		foreach($models as $model)
 		{
-			foreach($errors as $error)
-				$content.="<li>$error</li>\n";
+			foreach($model->getErrors() as $errors)
+			{
+				foreach($errors as $error)
+					$content.="<li>$error</li>\n";
+			}
 		}
 		if($content!=='')
 			return self::tag('div',array('class'=>self::$errorSummaryCss),$header."\n<ul>\n$content</ul>".$footer);
