@@ -770,7 +770,7 @@ class CHtml
 			$header='<p>'.Yii::t('yii#Please fix the following input errors:').'</p>';
 		$content='';
 		if(!is_array($models))
-			$models=array($model);
+			$models=array($models);
 		foreach($models as $model)
 		{
 			foreach($model->getErrors() as $errors)
