@@ -247,6 +247,7 @@ class YiiBase
 		'CPgsqlColumnSchema' => '/db/schema/pgsql/CPgsqlColumnSchema.php',
 		'CPgsqlSchema' => '/db/schema/pgsql/CPgsqlSchema.php',
 		'CPgsqlTableSchema' => '/db/schema/pgsql/CPgsqlTableSchema.php',
+		'CSqliteColumnSchema' => '/db/schema/sqlite/CSqliteColumnSchema.php',
 		'CSqliteCommandBuilder' => '/db/schema/sqlite/CSqliteCommandBuilder.php',
 		'CSqliteSchema' => '/db/schema/sqlite/CSqliteSchema.php',
 		'CDateFormatter' => '/i18n/CDateFormatter.php',
@@ -297,11 +298,8 @@ class YiiBase
 		'CAuthAssignment' => '/web/auth/CAuthAssignment.php',
 		'CAuthItem' => '/web/auth/CAuthItem.php',
 		'CAuthManager' => '/web/auth/CAuthManager.php',
-		'CAuthOperation' => '/web/auth/CAuthOperation.php',
-		'CAuthRole' => '/web/auth/CAuthRole.php',
-		'CAuthRule' => '/web/auth/CAuthRule.php',
-		'CAuthTask' => '/web/auth/CAuthTask.php',
 		'CBaseUserIdentity' => '/web/auth/CBaseUserIdentity.php',
+		'CDbAuthManager' => '/web/auth/CDbAuthManager.php',
 		'CPhpAuthManager' => '/web/auth/CPhpAuthManager.php',
 		'CUserIdentity' => '/web/auth/CUserIdentity.php',
 		'CWebUser' => '/web/auth/CWebUser.php',
@@ -1269,7 +1267,7 @@ class CWebApplication extends CApplication
 				'class'=>'CThemeManager',
 			),
 			'authManager'=>array(
-				'class'=>'CAuthManager',
+				'class'=>'CPhpAuthManager',
 			),
 		);
 		$this->setComponents($components);
@@ -2685,16 +2683,9 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		}
 		$this->setState(self::FLASH_COUNTERS,$counters,array());
 	}
-	public function getRoles()
+	public function checkAccess($operation,$params=array())
 	{
-		$roles=Yii::app()->getAuthManager()->getRoles($this->getId());
-		foreach($roles as $id=>$role)
-			$roles[$id]=$role->name;
-		return $roles;
-	}
-	public function checkAccess($operations,$params=array(),$activeRole=null)
-	{
-		return Yii::app()->getAuthManager()->checkAccess($this->getId(),$operations,$params,$activeRole);
+		return Yii::app()->getAuthManager()->checkAccess($operation,$this->getId(),$params);
 	}
 }
 class CHttpSession extends CApplicationComponent implements IteratorAggregate,ArrayAccess,Countable
@@ -3264,7 +3255,7 @@ class CHtml
 			$header='<p>'.Yii::t('yii#Please fix the following input errors:').'</p>';
 		$content='';
 		if(!is_array($models))
-			$models=array($model);
+			$models=array($models);
 		foreach($models as $model)
 		{
 			foreach($model->getErrors() as $errors)
@@ -4910,7 +4901,7 @@ class CSqliteSchema extends CDbSchema
 	}
 	protected function createColumn($column)
 	{
-		$c=new CDbColumnSchema;
+		$c=new CSqliteColumnSchema;
 		$c->name=$column['name'];
 		$c->rawName=$this->quoteColumnName($c->name);
 		$c->allowNull=!$column['notnull'];
@@ -5129,6 +5120,16 @@ class CDbColumnSchema extends CComponent
 			case 'string': return (string)$value;
 			default: return $value;
 		}
+	}
+}
+class CSqliteColumnSchema extends CDbColumnSchema
+{
+	protected function extractDefault($defaultValue)
+	{
+		if($this->type==='string') // PHP 5.2.6 adds single quotes while 5.2.0 doesn't
+			$this->defaultValue=trim($defaultValue,"'\"");
+		else
+			$this->defaultValue=$this->typecast($defaultValue);
 	}
 }
 class CDbCommandBuilder extends CComponent
@@ -6059,11 +6060,29 @@ interface IWebUser
 	public function getId();
 	public function getName();
 	public function getIsGuest();
-	public function getRoles();
-	public function checkAccess($operations,$params=array(),$activeRole=null);
+	public function checkAccess($operation,$params=array());
 }
 interface IAuthManager
 {
-	public function checkAccess($user,$operations,$params=array(),$activeRole=null);
+	public function checkAccess($itemName,$userId,$params=array());
+	public function createAuthItem($name,$type,$description='',$bizRule=null,$data=null);
+	public function removeAuthItem($name);
+	public function getAuthItems($type=null,$userId=null);
+	public function getAuthItem($name);
+	public function saveAuthItem($item,$oldName=null);
+	public function addItemChild($itemName,$childName);
+	public function removeItemChild($itemName,$childName);
+	public function hasItemChild($itemName,$childName);
+	public function getItemChildren($itemName);
+	public function assign($itemName,$userId,$bizRule=null,$data=null);
+	public function revoke($itemName,$userId);
+	public function isAssigned($itemName,$userId);
+	public function getAuthAssignment($itemName,$userId);
+	public function getAuthAssignments($userId);
+	public function saveAuthAssignment($assignment);
+	public function clearAll();
+	public function clearAuthAssignments();
+	public function save();
+	public function executeBizRule($bizRule,$params,$data);
 }
 ?>
