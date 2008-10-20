@@ -87,7 +87,7 @@ class CWebApplication extends CApplication
 	 * </pre>
 	 * Defaults to null, meaning catch-all is not effective.
 	 */
-	public $catchAll;
+	public $catchAllRequest;
 
 	private $_controllerPath;
 	private $_viewPath;
@@ -105,12 +105,12 @@ class CWebApplication extends CApplication
 	 */
 	public function processRequest()
 	{
-		if(is_array($this->catchAll) && isset($this->catchAll[0]))
+		if(is_array($this->catchAllRequest) && isset($this->catchAllRequest[0]))
 		{
-			$segs=explode('/',$this->catchAll[0]);
+			$segs=explode('/',$this->catchAllRequest[0]);
 			$controllerID=$segs[0];
 			$actionID=isset($segs[1])?$segs[1]:'';
-			foreach(array_splice($this->catchAll,1) as $name=>$value)
+			foreach(array_splice($this->catchAllRequest,1) as $name=>$value)
 				$_GET[$name]=$value;
 		}
 		else
@@ -179,6 +179,9 @@ class CWebApplication extends CApplication
 			'themeManager'=>array(
 				'class'=>'CThemeManager',
 			),
+			'authManager'=>array(
+				'class'=>'CPhpAuthManager',
+			),
 		);
 
 		$this->setComponents($components);
@@ -198,6 +201,14 @@ class CWebApplication extends CApplication
 	public function getUrlManager()
 	{
 		return $this->getComponent('urlManager');
+	}
+
+	/**
+	 * @return IAuthManager the authorization manager component
+	 */
+	public function getAuthManager()
+	{
+		return $this->getComponent('authManager');
 	}
 
 	/**

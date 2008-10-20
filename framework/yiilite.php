@@ -294,7 +294,15 @@ class YiiBase
 		'CInlineAction' => '/web/actions/CInlineAction.php',
 		'CViewAction' => '/web/actions/CViewAction.php',
 		'CWebServiceAction' => '/web/actions/CWebServiceAction.php',
+		'CAuthAssignment' => '/web/auth/CAuthAssignment.php',
+		'CAuthItem' => '/web/auth/CAuthItem.php',
+		'CAuthManager' => '/web/auth/CAuthManager.php',
+		'CAuthOperation' => '/web/auth/CAuthOperation.php',
+		'CAuthRole' => '/web/auth/CAuthRole.php',
+		'CAuthRule' => '/web/auth/CAuthRule.php',
+		'CAuthTask' => '/web/auth/CAuthTask.php',
 		'CBaseUserIdentity' => '/web/auth/CBaseUserIdentity.php',
+		'CPhpAuthManager' => '/web/auth/CPhpAuthManager.php',
 		'CUserIdentity' => '/web/auth/CUserIdentity.php',
 		'CWebUser' => '/web/auth/CWebUser.php',
 		'CAccessControlFilter' => '/web/filters/CAccessControlFilter.php',
@@ -544,13 +552,13 @@ abstract class CApplication extends CComponent
 	public function __construct($config=null)
 	{
 		Yii::setApplication($this);
+		$this->initSystemHandlers();
 		$this->registerCoreComponents();
 		$this->configure($config);
 		$this->init();
 	}
 	protected function init()
 	{
-		$this->initSystemHandlers();
 		$this->preloadComponents();
 	}
 	public function __get($name)
@@ -1195,7 +1203,7 @@ class CWebApplication extends CApplication
 	public $defaultController='site';
 	public $layout='main';
 	public $controllerMap=array();
-	public $catchAll;
+	public $catchAllRequest;
 	private $_controllerPath;
 	private $_viewPath;
 	private $_systemViewPath;
@@ -1205,12 +1213,12 @@ class CWebApplication extends CApplication
 	private $_theme;
 	public function processRequest()
 	{
-		if(is_array($this->catchAll) && isset($this->catchAll[0]))
+		if(is_array($this->catchAllRequest) && isset($this->catchAllRequest[0]))
 		{
-			$segs=explode('/',$this->catchAll[0]);
+			$segs=explode('/',$this->catchAllRequest[0]);
 			$controllerID=$segs[0];
 			$actionID=isset($segs[1])?$segs[1]:'';
-			foreach(array_splice($this->catchAll,1) as $name=>$value)
+			foreach(array_splice($this->catchAllRequest,1) as $name=>$value)
 				$_GET[$name]=$value;
 		}
 		else
@@ -1260,6 +1268,9 @@ class CWebApplication extends CApplication
 			'themeManager'=>array(
 				'class'=>'CThemeManager',
 			),
+			'authManager'=>array(
+				'class'=>'CAuthManager',
+			),
 		);
 		$this->setComponents($components);
 	}
@@ -1270,6 +1281,10 @@ class CWebApplication extends CApplication
 	public function getUrlManager()
 	{
 		return $this->getComponent('urlManager');
+	}
+	public function getAuthManager()
+	{
+		return $this->getComponent('authManager');
 	}
 	public function getAssetManager()
 	{
@@ -2474,12 +2489,11 @@ class CInlineAction extends CAction
 }
 class CWebUser extends CApplicationComponent implements IWebUser
 {
-	const STATE_ROLES='roles';
 	const FLASH_KEY_PREFIX='Yii.CWebUser.flash.';
 	const FLASH_COUNTERS='Yii.CWebUser.flash.counters';
 	public $allowAutoLogin=false;
+	public $guestName='Guest';
 	public $loginUrl=array('site/login');
-	public $roleProvider='roleProvider';
 	private $_keyPrefix;
 	public function init()
 	{
@@ -2491,8 +2505,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	}
 	public function login($identity,$duration=0)
 	{
-		$this->setId($identity->getId());
-		$this->loadIdentityStates($identity->getPersistentStates());
+		$this->changeIdentity($identity->getId(),$identity->getName(),$identity->getPersistentStates());
 		if($duration>0)
 		{
 			if($this->allowAutoLogin)
@@ -2514,14 +2527,22 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	}
 	public function getId()
 	{
-		if(($id=$this->getState('_id'))!==null)
-			return $id;
-		else
-			return $this->getGuestName();
+		return $this->getState('_id');
 	}
 	public function setId($value)
 	{
 		$this->setState('_id',$value);
+	}
+	public function getName()
+	{
+		if(($name=$this->getState('_name'))!==null)
+			return $name;
+		else
+			return $this->guestName;
+	}
+	public function setName($value)
+	{
+		$this->setState('_name',$value);
 	}
 	public function getReturnUrl()
 	{
@@ -2530,20 +2551,6 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	public function setReturnUrl($value)
 	{
 		$this->setState('_returnUrl',$value);
-	}
-	protected function getGuestName()
-	{
-		return 'Guest';
-	}
-	public function isInRole($role)
-	{
-		if(($roleProvider=Yii::app()->getComponent($this->roleProvider))!==null)
-			return $roleProvider->isInRole($this,$role);
-		else
-		{
-			$roles=array_map('strtolower',$this->getState(self::STATE_ROLES,array()));
-			return in_array(strtolower($role),$roles);
-		}
 	}
 	public function loginRequired()
 	{
@@ -2569,21 +2576,13 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		if($cookie && !empty($cookie->value) && ($data=$app->getSecurityManager()->validateData($cookie->value))!==false)
 		{
 			$data=unserialize($data);
-			if(isset($data[0],$data[1],$data[2]))
+			if(isset($data[0],$data[1],$data[2],$data[3]))
 			{
-				list($id,$address,$states)=$data;
+				list($id,$name,$address,$states)=$data;
 				if($address===$app->getRequest()->getUserHostAddress())
-				{
-					$this->setId($id);
-					$this->loadIdentityStates($states);
-					$this->onRestoreFromCookie(new CEvent($this));
-				}
+					$this->changeIdentity($id,$name,$states);
 			}
 		}
-	}
-	public function onRestoreFromCookie($event)
-	{
-		$this->raiseEvent('onRestoreFromCookie',$event);
 	}
 	protected function saveToCookie($duration)
 	{
@@ -2592,11 +2591,16 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		$cookie->expire=time()+$duration;
 		$data=array(
 			$this->getId(),
+			$this->getName(),
 			$app->getRequest()->getUserHostAddress(),
 			$this->saveIdentityStates(),
 		);
 		$cookie->value=$app->getSecurityManager()->hashData(serialize($data));
 		$app->getRequest()->getCookies()->add($cookie->name,$cookie);
+	}
+	public function onRestoreFromCookie($event)
+	{
+		$this->raiseEvent('onRestoreFromCookie',$event);
 	}
 	protected function getStateKeyPrefix()
 	{
@@ -2640,6 +2644,12 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	{
 		return $this->getFlash($key)!==null;
 	}
+	protected function changeIdentity($id,$name,$states)
+	{
+		$this->setId($id);
+		$this->setName($name);
+		$this->loadIdentityStates($states);
+	}
 	protected function saveIdentityStates()
 	{
 		$states=array();
@@ -2674,6 +2684,17 @@ class CWebUser extends CApplicationComponent implements IWebUser
 				$counters[$key]++;
 		}
 		$this->setState(self::FLASH_COUNTERS,$counters,array());
+	}
+	public function getRoles()
+	{
+		$roles=Yii::app()->getAuthManager()->getRoles($this->getId());
+		foreach($roles as $id=>$role)
+			$roles[$id]=$role->name;
+		return $roles;
+	}
+	public function checkAccess($operations,$params=array(),$activeRole=null)
+	{
+		return Yii::app()->getAuthManager()->checkAccess($this->getId(),$operations,$params,$activeRole);
 	}
 }
 class CHttpSession extends CApplicationComponent implements IteratorAggregate,ArrayAccess,Countable
@@ -3166,7 +3187,7 @@ class CHtml
 			$name=get_class($model).substr($attribute,$pos).'['.($attribute=substr($attribute,0,$pos)).']';
 		else
 			$name=get_class($model).'['.$attribute.']';
-		$label=$model->getAttributeLabel($attribute);
+		$label=CHtml::encode($model->getAttributeLabel($attribute));
 		$for=str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $name);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
@@ -3233,15 +3254,24 @@ class CHtml
 			$htmlOptions['size']=4;
 		return self::dropDownList($model,$attribute,$listData,$htmlOptions);
 	}
-	public static function errorSummary($model,$header='',$footer='')
+	public static function getActiveId($model,$attribute)
+	{
+		return get_class($model).'_'.$attribute;
+	}
+	public static function errorSummary($models,$header='',$footer='')
 	{
 		if($header==='')
 			$header='<p>'.Yii::t('yii#Please fix the following input errors:').'</p>';
 		$content='';
-		foreach($model->getErrors() as $errors)
+		if(!is_array($models))
+			$models=array($model);
+		foreach($models as $model)
 		{
-			foreach($errors as $error)
-				$content.="<li>$error</li>\n";
+			foreach($model->getErrors() as $errors)
+			{
+				foreach($errors as $error)
+					$content.="<li>$error</li>\n";
+			}
 		}
 		if($content!=='')
 			return self::tag('div',array('class'=>self::$errorSummaryCss),$header."\n<ul>\n$content</ul>".$footer);
@@ -3306,7 +3336,7 @@ class CHtml
 				$content.=self::listOptions($value,$selection,$dummy);
 				$content.='</optgroup>'."\n";
 			}
-			else if($key==$selection || is_array($selection) && in_array($key,$selection))
+			else if(!strcmp($key,$selection) || is_array($selection) && in_array($key,$selection))
 				$content.='<option value="'.self::encode((string)$key).'" selected="selected">'.self::encode((string)$value)."</option>\n";
 			else
 				$content.='<option value="'.self::encode((string)$key).'">'.self::encode((string)$value)."</option>\n";
@@ -3783,14 +3813,12 @@ class CAccessRule extends CComponent
 	public $allow;
 	public $actions;
 	public $users;
-	public $roles;
 	public $ips;
 	public $verbs;
 	public function isUserAllowed($user,$action,$ip,$verb)
 	{
 		if($this->isActionMatched($action)
 			&& $this->isUserMatched($user)
-			&& $this->isRoleMatched($user)
 			&& $this->isIpMatched($ip)
 			&& $this->isVerbMatched($verb))
 			return $this->allow ? 1 : -1;
@@ -3803,21 +3831,17 @@ class CAccessRule extends CComponent
 	}
 	private function isUserMatched($user)
 	{
-		return empty($this->users) || in_array(strtolower($user->getId()),$this->users);
-	}
-	private function isRoleMatched($user)
-	{
-		if(empty($this->roles))
+		if(empty($this->users))
 			return true;
-		foreach($this->roles as $role)
+		foreach($this->users as $u)
 		{
-			if($role==='*')
+			if($u==='*')
 				return true;
-			else if($role==='?' && $user->getIsGuest())
+			else if($u==='?' && $user->getIsGuest())
 				return true;
-			else if($role==='@' && !$user->getIsGuest())
+			else if($u==='@' && !$user->getIsGuest())
 				return true;
-			else if($user->isInRole($role))
+			else if(!strcasecmp($u,$user->getName()))
 				return true;
 		}
 		return false;
@@ -3917,7 +3941,7 @@ abstract class CModel extends CComponent
 	}
 	public function generateAttributeLabel($name)
 	{
-		return ucwords(strtolower(str_replace('_',' ',$name)));
+		return ucwords(trim(strtolower(str_replace(array('-','_'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $name)))));
 	}
 }
 abstract class CActiveRecord extends CModel
@@ -4045,17 +4069,6 @@ abstract class CActiveRecord extends CModel
 	{
 		return $this->getDbConnection()->getSchema()->getCommandBuilder();
 	}
-	public function filterAttributes($attributes)
-	{
-		$safe=$this->getMetaData()->safeAttributes;
-		$safeAttributes=array();
-		foreach($attributes as $name=>$value)
-		{
-			if(isset($safe[$name]))
-				$safeAttributes[$name]=$value;
-		}
-		return $safeAttributes;
-	}
 	public function hasAttribute($name)
 	{
 		return isset($this->getMetaData()->columns[$name]);
@@ -4102,14 +4115,27 @@ abstract class CActiveRecord extends CModel
 		}
 		return $attributes;
 	}
-	public function setAttributes($values,$safeAttributesOnly=true)
+	public function setAttributes($values,$safeAttributes=null,$safeAttributesOnly=true)
 	{
 		if(is_array($values))
 		{
 			if($safeAttributesOnly)
-				$values=$this->filterAttributes($values);
-			foreach($values as $name=>$value)
-				$this->$name=$value;
+			{
+				if(empty($safeAttributes))
+					$safeAttributes=$this->getMetaData()->safeAttributes;
+				else
+					$safeAttributes=array_flip($safeAttributes);
+				foreach($values as $name=>$value)
+				{
+					if(isset($safeAttributes[$name]))
+						$this->$name=$value;
+				}
+			}
+			else
+			{
+				foreach($values as $name=>$value)
+					$this->$name=$value;
+			}
 		}
 	}
 	public function save($runValidation=true)
@@ -4524,7 +4550,7 @@ class CActiveRecordMetaData
 		return $this->_validators;
 	}
 }
-class CDbConnection extends CComponent implements IApplicationComponent
+class CDbConnection extends CApplicationComponent
 {
 	public $connectionString;
 	public $username='';
@@ -4537,7 +4563,6 @@ class CDbConnection extends CComponent implements IApplicationComponent
 	private $_pdo;
 	private $_transaction;
 	private $_schema;
-	private $_initialized=false;
 	public function __construct($dsn='',$username='',$password='')
 	{
 		$this->connectionString=$dsn;
@@ -4555,13 +4580,9 @@ class CDbConnection extends CComponent implements IApplicationComponent
 	}
 	public function init()
 	{
-		$this->_initialized=true;
+		parent::init();
 		if($this->autoConnect)
 			$this->setActive(true);
-	}
-	public function getIsInitialized()
-	{
-		return $this->_initialized;
 	}
 	public function getActive()
 	{
@@ -6028,18 +6049,21 @@ interface IViewRenderer
 interface IUserIdentity
 {
 	public function authenticate();
-	public function getIsValid();
+	public function getIsAuthenticated();
 	public function getId();
+	public function getName();
 	public function getPersistentStates();
 }
 interface IWebUser
 {
 	public function getId();
+	public function getName();
 	public function getIsGuest();
-	public function isInRole($role);
+	public function getRoles();
+	public function checkAccess($operations,$params=array(),$activeRole=null);
 }
-interface IRoleProvider
+interface IAuthManager
 {
-	public function isInRole($user,$role);
+	public function checkAccess($user,$operations,$params=array(),$activeRole=null);
 }
 ?>

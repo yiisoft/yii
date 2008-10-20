@@ -441,6 +441,7 @@ class YiiBase
 		'CPgsqlColumnSchema' => '/db/schema/pgsql/CPgsqlColumnSchema.php',
 		'CPgsqlSchema' => '/db/schema/pgsql/CPgsqlSchema.php',
 		'CPgsqlTableSchema' => '/db/schema/pgsql/CPgsqlTableSchema.php',
+		'CSqliteColumnSchema' => '/db/schema/sqlite/CSqliteColumnSchema.php',
 		'CSqliteCommandBuilder' => '/db/schema/sqlite/CSqliteCommandBuilder.php',
 		'CSqliteSchema' => '/db/schema/sqlite/CSqliteSchema.php',
 		'CDateFormatter' => '/i18n/CDateFormatter.php',
@@ -488,7 +489,12 @@ class YiiBase
 		'CInlineAction' => '/web/actions/CInlineAction.php',
 		'CViewAction' => '/web/actions/CViewAction.php',
 		'CWebServiceAction' => '/web/actions/CWebServiceAction.php',
+		'CAuthAssignment' => '/web/auth/CAuthAssignment.php',
+		'CAuthItem' => '/web/auth/CAuthItem.php',
+		'CAuthManager' => '/web/auth/CAuthManager.php',
 		'CBaseUserIdentity' => '/web/auth/CBaseUserIdentity.php',
+		'CDbAuthManager' => '/web/auth/CDbAuthManager.php',
+		'CPhpAuthManager' => '/web/auth/CPhpAuthManager.php',
 		'CUserIdentity' => '/web/auth/CUserIdentity.php',
 		'CWebUser' => '/web/auth/CWebUser.php',
 		'CAccessControlFilter' => '/web/filters/CAccessControlFilter.php',
@@ -519,3 +525,4 @@ class YiiBase
 }
 
 spl_autoload_register(array('YiiBase','autoload'));
+require_once(YII_PATH.'/core/interfaces.php');

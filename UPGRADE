@@ -16,5 +16,6 @@ Upgrading from v1.0a
   Please use CActiveRecord.isNewRecord property directly.
 - CWebUser.login is now taking an identity object as parameter.
   CWebUser.switchTo is removed. You should now implement identity class
-  instead of overriding CWebUser. CWebUser.roles property is removed.
-  Added CWebUser.roleProvider property.
+  instead of overriding CWebUser. CWebUser.roles property is removed
+  and the roles property is removed from access rules of CAccessControlFilter.
+  Consider using "authManager" application component to do RBAC.
