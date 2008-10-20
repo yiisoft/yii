@@ -8,8 +8,6 @@
  * @license http://www.yiiframework.com/license/
  */
 
-require_once(YII_PATH.'/core/interfaces.php');
-
 /**
  * CApplication is the base class for all application classes.
  *

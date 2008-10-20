@@ -104,9 +104,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function login($identity,$duration=0)
 	{
-		$this->setId($identity->getId());
-		$this->setName($identity->getName());
-		$this->loadIdentityStates($identity->getPersistentStates());
+		$this->changeIdentity($identity->getId(),$identity->getName(),$identity->getPersistentStates());
 
 		if($duration>0)
 		{
@@ -240,12 +238,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 			{
 				list($id,$name,$address,$states)=$data;
 				if($address===$app->getRequest()->getUserHostAddress())
-				{
-					$this->setId($id);
-					$this->setName($name);
-					$this->loadIdentityStates($states);
-					$this->onRestoreFromCookie(new CEvent($this));
-				}
+					$this->changeIdentity($id,$name,$states);
 			}
 		}
 	}
@@ -390,6 +383,24 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	}
 
 	/**
+	 * Changes the current user with the specified identity information.
+	 * This method is called by {@link login} and {@link restoreFromCookie}
+	 * when the current user needs to be populated with the corresponding
+	 * identity information. Derived classes may override this method
+	 * by retrieving additional user-related information. Make sure the
+	 * parent implementation is called first.
+	 * @param mixed a unique identifier for the user
+	 * @param string the display name for the user
+	 * @param array identity states
+	 */
+	protected function changeIdentity($id,$name,$states)
+	{
+		$this->setId($id);
+		$this->setName($name);
+		$this->loadIdentityStates($states);
+	}
+
+	/**
 	 * Retrieves identity states from persistent storage and saves them as an array.
 	 * @return array the identity states
 	 */
@@ -440,36 +451,15 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		$this->setState(self::FLASH_COUNTERS,$counters,array());
 	}
 
-	public function getRoles()
+	/**
+	 * Performs access check for this user.
+	 * @param string the name of the operation that need access check.
+	 * @param array name-value pairs that would be passed to business rules associated
+	 * with the tasks and roles assigned to the user.
+	 * @return boolean whether the operations can be performed by this user.
+	 */
+	public function checkAccess($operation,$params=array())
 	{
-		// TBD
-		//return $this->getAuthManager()->getRoles($this);
-	}
-
-	public function checkAccess($operations,$params=array(),$activeRole=null)
-	{
-		// TBD
-		/*
-		$roles=$this->getRoles();
-		if(in_array($activeRole,$roles))
-			$roles=array($activeRole);
-		$auth=$this->getAuthManager();
-		foreach($operations as $operation)
-		{
-			$pass=false;
-			foreach($roles as $role)
-			{
-				$r=$auth->getRole($role);
-				if($r->checkAccess($operation,$params))
-				{
-					$pass=true;
-					break;
-				}
-			}
-			if(!$pass)
-				return false;
-		}
-		return true;
-		*/
+		return Yii::app()->getAuthManager()->checkAccess($operation,$this->getId(),$params);
 	}
 }

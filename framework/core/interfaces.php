@@ -307,21 +307,13 @@ interface IWebUser
 	 */
 	public function getIsGuest();
 	/**
-	 * Returns the roles that this user belongs to.
-	 * @return array the role names that this user belongs to.
-	 */
-	public function getRoles();
-	/**
 	 * Performs access check for this user.
-	 * @param mixed the operations that need access check. It can be either an
-	 * array of the operation codes or a string representing a single operation code.
-	 * @param array name-value pairs that would be passed to biz rules associated
+	 * @param string the name of the operation that need access check.
+	 * @param array name-value pairs that would be passed to business rules associated
 	 * with the tasks and roles assigned to the user.
-	 * @param string the name of the role that should be used for access checking.
-	 * Defaults to null, meaning it uses the roles obtained via {@link getRoles}.
 	 * @return boolean whether the operations can be performed by this user.
 	 */
-	public function checkAccess($operations,$params=array(),$activeRole=null);
+	public function checkAccess($operation,$params=array());
 }
 
 
@@ -339,15 +331,158 @@ interface IAuthManager
 {
 	/**
 	 * Performs access check for the specified user.
-	 * @param IWebUser the user to be checked with access.
-	 * @param mixed the operations that need access check. It can be either an
-	 * array of the operation codes or a string representing a single operation code.
+	 * @param string the name of the operation that need access check
+	 * @param mixed the user ID. This should can be either an integer and a string representing
+	 * the unique identifier of a user. See {@link IWebUser::getId}.
 	 * @param array name-value pairs that would be passed to biz rules associated
 	 * with the tasks and roles assigned to the user.
-	 * @param string the name of the role that should be used for access checking.
-	 * Defaults to null, meaning it uses the roles obtained via {@link getRoles}.
 	 * @return boolean whether the operations can be performed by the user.
 	 */
-	public function checkAccess($user,$operations,$params=array(),$activeRole=null);
-}
+	public function checkAccess($itemName,$userId,$params=array());
 
+	/**
+	 * Creates an authorization item.
+	 * An authorization item represents an action permission (e.g. creating a post).
+	 * It has three types: operation, task and role.
+	 * Authorization items form a hierarchy. Higher level items inheirt permissions representing
+	 * by lower level items.
+	 * @param string the item name. This must be a unique identifier.
+	 * @param integer the item type (0: operation, 1: task, 2: role).
+	 * @param string description of the item
+	 * @param string business rule associated with the item. This is a piece of
+	 * PHP code that will be executed when {@link checkAccess} is called for the item.
+	 * @param mixed additional data associated with the item.
+	 * @return CAuthItem the authorization item
+	 * @throws CException if an item with the same name already exists
+	 */
+	public function createAuthItem($name,$type,$description='',$bizRule=null,$data=null);
+	/**
+	 * Removes the specified authorization item.
+	 * @param string the name of the item to be removed
+	 * @return boolean whether the item exists in the storage and has been removed
+	 */
+	public function removeAuthItem($name);
+	/**
+	 * Returns the authorization items of the specific type and user.
+	 * @param integer the item type (0: operation, 1: task, 2: role). Defaults to null,
+	 * meaning returning all items regardless of their type.
+	 * @param mixed the user ID. Defaults to null, meaning returning all items even if
+	 * they are not assigned to a user.
+	 * @return array the authorization items of the specific type.
+	 */
+	public function getAuthItems($type=null,$userId=null);
+	/**
+	 * Returns the authorization item with the specified name.
+	 * @param string the name of the item
+	 * @return CAuthItem the authorization item. Null if the item cannot be found.
+	 */
+	public function getAuthItem($name);
+	/**
+	 * Saves an authorization item to persistent storage.
+	 * @param CAuthItem the item to be saved.
+	 * @param string the old item name. If null, it means the item name is not changed.
+	 */
+	public function saveAuthItem($item,$oldName=null);
+
+	/**
+	 * Adds an item as a child of another item.
+	 * @param string the parent item name
+	 * @param string the child item name
+	 * @throws CException if either parent or child doesn't exist or if a loop has been detected.
+	 */
+	public function addItemChild($itemName,$childName);
+	/**
+	 * Removes a child from its parent.
+	 * Note, the child item is not deleted. Only the parent-child relationship is removed.
+	 * @param string the parent item name
+	 * @param string the child item name
+	 * @return boolean whether the removal is successful
+	 */
+	public function removeItemChild($itemName,$childName);
+	/**
+	 * Returns a value indicating whether a child exists within a parent.
+	 * @param string the parent item name
+	 * @param string the child item name
+	 * @return boolean whether the child exists
+	 */
+	public function hasItemChild($itemName,$childName);
+	/**
+	 * Returns the children of the specified item.
+	 * @param string the parent item name
+	 * @return array all child items of the parent
+	 */
+	public function getItemChildren($itemName);
+
+	/**
+	 * Assigns an authorization item to a user.
+	 * @param string the item name
+	 * @param mixed the user ID (see {@link IWebUser::getId})
+	 * @param string the business rule to be executed when {@link checkAccess} is called
+	 * for this particular authorization item.
+	 * @param mixed additional data associated with this assignment
+	 * @return CAuthAssignment the authorization assignment information.
+	 * @throws CException if the item does not exist or if the item has already been assigned to the user
+	 */
+	public function assign($itemName,$userId,$bizRule=null,$data=null);
+	/**
+	 * Revokes an authorization assignment from a user.
+	 * @param string the item name
+	 * @param mixed the user ID (see {@link IWebUser::getId})
+	 * @return boolean whether removal is successful
+	 */
+	public function revoke($itemName,$userId);
+	/**
+	 * Returns a value indicating whether the item has been assigned to the user.
+	 * @param string the item name
+	 * @param mixed the user ID (see {@link IWebUser::getId})
+	 * @return boolean whether the item has been assigned to the user.
+	 */
+	public function isAssigned($itemName,$userId);
+	/**
+	 * Returns the item assignment information.
+	 * @param string the item name
+	 * @param mixed the user ID (see {@link IWebUser::getId})
+	 * @return CAuthAssignment the item assignment information. Null is returned if
+	 * the item is not assigned to the user.
+	 */
+	public function getAuthAssignment($itemName,$userId);
+	/**
+	 * Revokes an authorization item assignment.
+	 * @param string the item name
+	 * @param mixed the user ID (see {@link IWebUser::getId})
+	 * @return boolean whether removal is successful
+	 */
+	public function getAuthAssignments($userId);
+	/**
+	 * Saves the changes to an authorization assignment.
+	 * @param CAuthAssignment the assignment that has been changed.
+	 */
+	public function saveAuthAssignment($assignment);
+
+	/**
+	 * Removes all authorization data.
+	 */
+	public function clearAll();
+	/**
+	 * Removes all authorization assignments.
+	 */
+	public function clearAuthAssignments();
+
+	/**
+	 * Saves authorization data into persistent storage.
+	 * If any change is made to the authorization data, please make
+	 * sure you call this method to save the changed data into persistent storage.
+	 */
+	public function save();
+
+	/**
+	 * Executes a business rule.
+	 * A business rule is a piece of PHP code that will be executed when {@link checkAccess} is called.
+	 * @param string the business rule to be executed.
+	 * @param array additional parameters to be passed to the business rule when being executed.
+	 * @param mixed additional data that is associated with the corresponding authorization item or assignment
+	 * @return whether the execution returns a true value.
+	 * If the business rule is empty, it will also return true.
+	 */
+	public function executeBizRule($bizRule,$params,$data);
+}

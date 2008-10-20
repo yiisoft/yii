@@ -105,7 +105,7 @@ class CSqliteSchema extends CDbSchema
 	 */
 	protected function createColumn($column)
 	{
-		$c=new CDbColumnSchema;
+		$c=new CSqliteColumnSchema;
 		$c->name=$column['name'];
 		$c->rawName=$this->quoteColumnName($c->name);
 		$c->allowNull=!$column['notnull'];
