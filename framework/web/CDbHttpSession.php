@@ -38,7 +38,7 @@ class CDbHttpSession extends CHttpSession
 	 * Note, if {@link autoCreateSessionTable} is false and you want to create the DB table manually by yourself,
 	 * you need to make sure the DB table is of the following structure:
 	 * <pre>
-	 * (sessionID CHAR(32) PRIMARY KEY, expire INTEGER, data TEXT)
+	 * (id CHAR(32) PRIMARY KEY, expire INTEGER, data TEXT)
 	 * </pre>
 	 * @see autoCreateSessionTable
 	 */
@@ -74,7 +74,7 @@ class CDbHttpSession extends CHttpSession
 		$sql="
 CREATE TABLE '$tableName'
 (
-	sessionID CHAR(32) PRIMARY KEY,
+	id CHAR(32) PRIMARY KEY,
 	expire INTEGER,
 	data TEXT
 )";
@@ -143,7 +143,7 @@ CREATE TABLE '$tableName'
 		$id=md5($id);
 		$sql="
 SELECT data FROM {$this->sessionTableName}
-WHERE expire>$now AND sessionID='$id'
+WHERE expire>$now AND id='$id'
 ";
 		$data=$this->getDbConnection()->createCommand($sql)->queryScalar();
 		return $data===false?'':$data;
@@ -161,11 +161,11 @@ WHERE expire>$now AND sessionID='$id'
 		$expire=time()+$this->getTimeout();
 		$id=md5($id);
 		$db=$this->getDbConnection();
-		$sql="SELECT sessionID FROM {$this->sessionTableName} WHERE sessionID='$id'";
+		$sql="SELECT id FROM {$this->sessionTableName} WHERE id='$id'";
 		if($db->createCommand($sql)->queryScalar()===false)
-			$sql="INSERT INTO {$this->sessionTableName} (sessionID, data, expire) VALUES ('$id', :data, $expire)";
+			$sql="INSERT INTO {$this->sessionTableName} (id, data, expire) VALUES ('$id', :data, $expire)";
 		else
-			$sql="UPDATE {$this->sessionTableName} SET expire=$expire, data=:data WHERE sessionID='$id'";
+			$sql="UPDATE {$this->sessionTableName} SET expire=$expire, data=:data WHERE id='$id'";
 		$command=$db->createCommand($sql);
 		$command->bindParam(':data',$data);
 		$command->execute();
@@ -181,7 +181,7 @@ WHERE expire>$now AND sessionID='$id'
 	public function destroySession($id)
 	{
 		$id=md5($id);
-		$sql="DELETE FROM {$this->sessionTableName} WHERE sessionID='$id'";
+		$sql="DELETE FROM {$this->sessionTableName} WHERE id='$id'";
 		$this->getDbConnection()->createCommand($sql)->execute();
 		return true;
 	}

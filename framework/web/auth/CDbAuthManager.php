@@ -29,17 +29,17 @@ class CDbAuthManager extends CAuthManager
 	 */
 	public $connectionID='db';
 	/**
-	 * @var string the name of the table storing authorization items. Defaults to 'authitem'.
+	 * @var string the name of the table storing authorization items. Defaults to 'AuthItem'.
 	 */
-	public $itemTable='authitem';
+	public $itemTable='AuthItem';
 	/**
-	 * @var string the name of the table storing authorization item hierarchy. Defaults to 'authitemchild'.
+	 * @var string the name of the table storing authorization item hierarchy. Defaults to 'AuthItemChild'.
 	 */
-	public $itemChildTable='authitemchild';
+	public $itemChildTable='AuthItemChild';
 	/**
-	 * @var string the name of the table storing authorization item assignments. Defaults to 'authassignment'.
+	 * @var string the name of the table storing authorization item assignments. Defaults to 'AuthAssignment'.
 	 */
-	public $assignmentTable='authassignment';
+	public $assignmentTable='AuthAssignment';
 	/**
 	 * @var CDbConnection the database connection. By default, this is initialized
 	 * automatically as the application component whose ID is indicated as {@link connectionID}.
