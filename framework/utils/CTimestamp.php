@@ -29,7 +29,7 @@
  * is 100 A.D. as <100 will invoke the 2 => 4 digit year conversion.
  * The maximum is billions of years in the future, but this is a theoretical
  * limit as the computation of that year would take too long with the
- * current implementation of {@link getTimeStamp}.
+ * current implementation of {@link getTimestamp}.
  *
  * PERFORMANCE
  * For high speed, this library uses the native date static functions where
@@ -38,7 +38,7 @@
  *
  * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
  * @version $Id$
- * @package system.i18n
+ * @package system.utils
  * @since 1.0
  */
 class CTimestamp
@@ -49,6 +49,10 @@ class CTimestamp
 	/**
 	 * Gets day of week, 0 = Sunday,... 6=Saturday.
 	 * Algorithm from PEAR::Date_Calc
+	 * @param integer year
+	 * @param integer month
+	 * @param integer day
+	 * @return integer day of week
 	 */
 	public static function getDayofWeek($year, $month, $day)
 	{
@@ -96,7 +100,7 @@ class CTimestamp
 	/**
 	 * Checks for leap year, returns true if it is. No 2-digit year check. Also
 	 * handles julian calendar correctly.
-	 * @param float year to check
+	 * @param integer year to check
 	 * @return boolean true if is leap year
 	 */
 	public static function isLeapYear($year)
@@ -116,6 +120,7 @@ class CTimestamp
 	/**
 	 * Fix 2-digit years. Works for any century.
 	 * Assumes that if 2-digit is more than 30 years in future, then previous century.
+	 * @param integer year
 	 * @return integer change two digit year into multiple digits
 	 */
 	protected static function digitCheck($y)
@@ -140,6 +145,11 @@ class CTimestamp
 		return $y;
 	}
 
+	/**
+	 * Returns 4-digit representation of the year.
+	 * @param integer year
+	 * @return integer 4-digit representation of the year
+	 */
 	public static function get4DigitYear($y)
 	{
 		return self::digitCheck($y);
@@ -158,6 +168,8 @@ class CTimestamp
 	}
 
 	/**
+	 * Returns the getdate() array.
+	 * @param integer original date timestamp
 	 * @return array an array with date info.
 	 */
 	public static function getDate($d=false,$fast=false)
@@ -394,6 +406,10 @@ class CTimestamp
 	}
 
 	/**
+	 * Checks to see if the year, month, day are valid combination.
+	 * @param integer year
+	 * @param integer month
+	 * @param integer day
 	 * @return boolean true if valid date, semantic check only.
 	 */
 	public static function isValidDate($y,$m,$d)
@@ -415,6 +431,10 @@ class CTimestamp
 	}
 
 	/**
+	 * Formats a timestamp to a date string.
+	 * @param string format pattern
+	 * @param integer timestamp
+	 * @param boolean whether this is a GMT timestamp
 	 * @return string formatted date based on timestamp $d
 	 */
 	public static function formatDate($fmt,$d=false,$is_gmt=false)
@@ -560,10 +580,18 @@ class CTimestamp
 	}
 
 	/**
+	 * Generates a timestamp.
 	 * Not a very fast algorithm - O(n) operation. Could be optimized to O(1).
+	 * @param integer hour
+	 * @param integer minute
+	 * @param integer second
+	 * @param integer month
+	 * @param integer day
+	 * @param integer year
+	 * @param boolean whether this is GMT time
 	 * @return integer|float a timestamp given a local time. Originally by jackbbs.
      */
-	public static function getTimeStamp($hr,$min,$sec,$mon=false,$day=false,$year=false,$is_gmt=false)
+	public static function getTimestamp($hr,$min,$sec,$mon=false,$day=false,$year=false,$is_gmt=false)
 	{
 		if ($mon === false)
 			return $is_gmt? @gmmktime($hr,$min,$sec): @mktime($hr,$min,$sec);

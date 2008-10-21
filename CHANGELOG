@@ -18,6 +18,8 @@ Version 1.0b To be released
 - Changed CActiveRecord.setAttributes to allow explicitly specify safe attributes (Qiang)
 - Implemented hierarchical role-based access control (Qiang)
 - Added CVarDumper (Qiang)
+- Added CDateParser (Qiang)
+- Added CTypeValidator (Qiang)
 
 Version 1.0a October 5, 2008
 =============================

@@ -40,6 +40,7 @@
  * <li>in: {@link CRangeValidator system.validators.CRangeValidator}</li>
  * <li>numerical: {@link CNumberValidator system.validators.CNumberValidator}</li>
  * <li>captcha: {@link CCaptchaValidator system.validators.CCaptchaValidator}</li>
+ * <li>type: {@link CTypeValidator system.validators.CTypeValidator}</li>
  * </ul>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -98,6 +99,7 @@ abstract class CValidator extends CComponent
 			'in'=>'CRangeValidator',
 			'numerical'=>'CNumberValidator',
 			'captcha'=>'CCaptchaValidator',
+			'type'=>'CTypeValidator',
 		);
 
 		if(is_string($attributes))
