@@ -40,7 +40,7 @@ class CDbCache extends CCache
 	 * Note, if {@link autoCreateCacheTable} is false and you want to create the DB table
 	 * manually by yourself, you need to make sure the DB table is of the following structure:
 	 * <pre>
-	 * (itemID CHAR(128) PRIMARY KEY, expire INTEGER, value BLOB)
+	 * (id CHAR(128) PRIMARY KEY, expire INTEGER, value BLOB)
 	 * </pre>
 	 * Note, some DBMS might not support BLOB type. In this case, replace 'BLOB' with a suitable
 	 * binary data type (e.g. LONGBLOB in MySQL, BYTEA in PostgreSQL.)
@@ -114,7 +114,7 @@ class CDbCache extends CCache
 		$sql=<<<EOD
 CREATE TABLE $tableName
 (
-	itemID CHAR(128) PRIMARY KEY,
+	id CHAR(128) PRIMARY KEY,
 	expire INTEGER,
 	value $blob
 )
@@ -154,7 +154,7 @@ EOD;
 	protected function getValue($key)
 	{
 		$time=time();
-		$sql="SELECT value FROM {$this->cacheTableName} WHERE itemID='$key' AND (expire=0 OR expire>$time)";
+		$sql="SELECT value FROM {$this->cacheTableName} WHERE id='$key' AND (expire=0 OR expire>$time)";
 		return $this->getDbConnection()->createCommand($sql)->queryScalar();
 	}
 
@@ -188,7 +188,7 @@ EOD;
 			$expire+=time();
 		else
 			$expire=0;
-		$sql="INSERT INTO {$this->cacheTableName} (itemID,expire,value) VALUES ('$key',$expire,:value)";
+		$sql="INSERT INTO {$this->cacheTableName} (id,expire,value) VALUES ('$key',$expire,:value)";
 		try
 		{
 			$command=$this->getDbConnection()->createCommand($sql);
@@ -210,7 +210,7 @@ EOD;
 	 */
 	protected function deleteValue($key)
 	{
-		$sql="DELETE FROM {$this->cacheTableName} WHERE itemID='$key'";
+		$sql="DELETE FROM {$this->cacheTableName} WHERE id='$key'";
 		$this->getDbConnection()->createCommand($sql)->execute();
 		return true;
 	}

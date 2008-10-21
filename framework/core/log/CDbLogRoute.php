@@ -36,16 +36,16 @@ class CDbLogRoute extends CLogRoute
 	 * you need to make sure the DB table is of the following structure:
 	 * <pre>
 	 *  (
-	 *		logID    INTEGER NOT NULL PRIMARY KEY,
+	 *		id       INTEGER NOT NULL PRIMARY KEY,
 	 *		level    VARCHAR(128),
 	 *		category VARCHAR(128),
-	 *		logTime  INTEGER,
+	 *		logtime  INTEGER,
 	 *		message  TEXT
 	 *   )
 	 * </pre>
-	 * Note, the 'logID' column must be created as an auto-incremental column.
-	 * In MySQL, this means it should be <code>logID INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY</code>;
-	 * In PostgreSQL, it is <code>logID SERIAL PRIMARY KEY</code>.
+	 * Note, the 'id' column must be created as an auto-incremental column.
+	 * In MySQL, this means it should be <code>id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY</code>;
+	 * In PostgreSQL, it is <code>id SERIAL PRIMARY KEY</code>.
 	 * @see autoCreateLogTable
 	 */
 	public $logTableName='YiiLog';
@@ -105,11 +105,11 @@ class CDbLogRoute extends CLogRoute
 	{
 		$driver=$db->getDriverName();
 		if($driver==='mysql')
-			$logID='logID INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY';
+			$logID='id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY';
 		else if($driver==='pgsql')
-			$logID='logID SERIAL PRIMARY KEY';
+			$logID='id SERIAL PRIMARY KEY';
 		else
-			$logID='logID INTEGER NOT NULL PRIMARY KEY';
+			$logID='id INTEGER NOT NULL PRIMARY KEY';
 
 		$sql="
 CREATE TABLE $tableName
@@ -117,7 +117,7 @@ CREATE TABLE $tableName
 	$logID,
 	level INTEGER,
 	category VARCHAR(128),
-	logTime INTEGER,
+	logtime INTEGER,
 	message TEXT
 )";
 		$db->createCommand($sql)->execute();
@@ -154,15 +154,15 @@ CREATE TABLE $tableName
 	{
 		$sql="
 INSERT INTO {$this->logTableName}
-(level, category, logTime, message) VALUES
-(:level, :category, :logTime, :message)
+(level, category, logtime, message) VALUES
+(:level, :category, :logtime, :message)
 ";
 		$command=$this->getDbConnection()->createCommand($sql);
 		foreach($logs as $log)
 		{
 			$command->bindValue(':level',$log[0]);
 			$command->bindValue(':category',$log[1]);
-			$command->bindValue(':logTime',(int)$log[2]);
+			$command->bindValue(':logtime',(int)$log[2]);
 			$command->bindValue(':message',$log[3]);
 			$command->execute();
 		}
