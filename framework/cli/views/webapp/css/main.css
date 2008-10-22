@@ -82,7 +82,7 @@ body
 /* begin data grid style */
 table.dataGrid
 {
-	background: #FFF9F2;
+	background: white;
 	border-collapse: collapse;
 	width: 100%;
 }
@@ -90,14 +90,14 @@ table.dataGrid
 table.dataGrid th, table.dataGrid td
 {
 	font-size: 0.9em;
-	border: 1px #DDE8ED solid;
+	border: 1px #4F81BD solid;
 	padding: 0.3em;
 }
 
 table.dataGrid th
 {
-	background: #D9CEC3;
-	text-align: left;
+	background: #d3dfee;
+	text-align: center;
 }
 
 table.dataGrid th.label
