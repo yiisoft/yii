@@ -193,10 +193,12 @@ abstract class CBaseController extends CComponent
 	 * Begins recording a clip.
 	 * This method is a shortcut to beginning {@link CClipWidget}.
 	 * @param string the clip ID.
+	 * @param array initial property values for {@link CClipWidget}.
 	 */
-	public function beginClip($id)
+	public function beginClip($id,$properties=array())
 	{
-		$this->beginWidget('CClipWidget',array('id'=>$id));
+		$properties['id']=$id;
+		$this->beginWidget('CClipWidget',$properties);
 	}
 
 	/**
@@ -251,13 +253,16 @@ abstract class CBaseController extends CComponent
 
 	/**
 	 * Begins the rendering of content that is to be decorated by the specified view.
-	 * @param string the name of the view that will embed the content in. The actual view script
+	 * @param string the name of the view that will be used to decorate the content. The actual view script
 	 * is resolved via {@link getViewFile}.
+	 * @param array initial property values for {@link CContentDecorator}.
 	 * @see beginContent
+	 * @see CContentDecorator
 	 */
-	public function beginContent($view)
+	public function beginContent($view,$properties=array())
 	{
-		$this->beginWidget('CContentDecorator',array('view'=>$view));
+		$properties['view']=$view;
+		$this->beginWidget('CContentDecorator',$properties);
 	}
 
 	/**

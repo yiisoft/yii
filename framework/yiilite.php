@@ -313,8 +313,8 @@ class YiiBase
 		'CHtml' => '/web/helpers/CHtml.php',
 		'CJSON' => '/web/helpers/CJSON.php',
 		'CJavaScript' => '/web/helpers/CJavaScript.php',
-		'CPradoViewRenderer - Copy' => '/web/renderers/CPradoViewRenderer - Copy.php',
 		'CPradoViewRenderer' => '/web/renderers/CPradoViewRenderer.php',
+		'CViewRenderer' => '/web/renderers/CViewRenderer.php',
 		'CAutoComplete' => '/web/widgets/CAutoComplete.php',
 		'CCaptcha' => '/web/widgets/CCaptcha.php',
 		'CClipWidget' => '/web/widgets/CClipWidget.php',
@@ -2142,9 +2142,10 @@ abstract class CBaseController extends CComponent
 			throw new CException(Yii::t('yii#{controller} has an extra endWidget({id}) call in its view.',
 				array('{controller}'=>get_class($this),'{id}'=>$id)));
 	}
-	public function beginClip($id)
+	public function beginClip($id,$properties=array())
 	{
-		$this->beginWidget('CClipWidget',array('id'=>$id));
+		$properties['id']=$id;
+		$this->beginWidget('CClipWidget',$properties);
 	}
 	public function endClip()
 	{
@@ -2166,9 +2167,10 @@ abstract class CBaseController extends CComponent
 	{
 		$this->endWidget('COutputCache');
 	}
-	public function beginContent($view)
+	public function beginContent($view,$properties=array())
 	{
-		$this->beginWidget('CContentDecorator',array('view'=>$view));
+		$properties['view']=$view;
+		$this->beginWidget('CContentDecorator',$properties);
 	}
 	public function endContent()
 	{
@@ -2957,9 +2959,9 @@ class CHtml
 	public static $errorMessageCss='errorMessage';
 	public static $errorCss='error';
 	private static $_count=0;
-	public static function encode($str)
+	public static function encode($text)
 	{
-		return htmlspecialchars($str,ENT_QUOTES,Yii::app()->charset);
+		return htmlspecialchars($text,ENT_QUOTES,Yii::app()->charset);
 	}
 	public static function tag($tag,$htmlOptions=array(),$content=false,$closeTag=true)
 	{
@@ -2971,41 +2973,41 @@ class CHtml
 		else
 			return $closeTag ? $html.'>'.$content.'</'.$tag.'>' : $html.'>'.$content;
 	}
-	public static function cdata($content)
+	public static function cdata($text)
 	{
-		return '<![CDATA[' . $content . ']]>';
+		return '<![CDATA[' . $text . ']]>';
 	}
-	public static function css($css,$media='')
+	public static function css($text,$media='')
 	{
 		if($media!=='')
 			$media=' media="'.$media.'"';
-		return "<style type=\"text/css\"{$media}>\n/*<![CDATA[*/\n{$css}\n/*]]>*/\n</style>";
+		return "<style type=\"text/css\"{$media}>\n/*<![CDATA[*/\n{$text}\n/*]]>*/\n</style>";
 	}
-	public static function cssFile($cssFile,$media='')
+	public static function cssFile($url,$media='')
 	{
 		if($media!=='')
 			$media=' media="'.$media.'"';
-		return '<link rel="stylesheet" type="text/css" href="'.self::encode($cssFile).'"'.$media.'/>';
+		return '<link rel="stylesheet" type="text/css" href="'.self::encode($url).'"'.$media.'/>';
 	}
-	public static function script($script)
+	public static function script($text)
 	{
-		return "<script type=\"text/javascript\">\n/*<![CDATA[*/\n{$script}\n/*]]>*/\n</script>";
+		return "<script type=\"text/javascript\">\n/*<![CDATA[*/\n{$text}\n/*]]>*/\n</script>";
 	}
-	public static function scriptFile($scriptFile)
+	public static function scriptFile($url)
 	{
-		return '<script type="text/javascript" src="'.self::encode($scriptFile).'"></script>';
+		return '<script type="text/javascript" src="'.self::encode($url).'"></script>';
 	}
-	public static function form($url='',$method='post',$htmlOptions=array())
+	public static function form($action='',$method='post',$htmlOptions=array())
 	{
-		$htmlOptions['action']=self::normalizeUrl($url);
+		$htmlOptions['action']=self::normalizeUrl($action);
 		$htmlOptions['method']=$method;
 		return self::tag('form',$htmlOptions,false,false);
 	}
-	public static function link($body,$url='#',$htmlOptions=array())
+	public static function link($text,$url='#',$htmlOptions=array())
 	{
 		$htmlOptions['href']=self::normalizeUrl($url);
 		self::clientChange('click',$htmlOptions);
-		return self::tag('a',$htmlOptions,$body);
+		return self::tag('a',$htmlOptions,$text);
 	}
 	public static function image($src,$alt='',$htmlOptions=array())
 	{
@@ -3034,9 +3036,9 @@ class CHtml
 		$htmlOptions['type']='reset';
 		return self::button($label,$htmlOptions);
 	}
-	public static function imageButton($imageUrl,$htmlOptions=array())
+	public static function imageButton($src,$htmlOptions=array())
 	{
-		$htmlOptions['src']=$imageUrl;
+		$htmlOptions['src']=$src;
 		$htmlOptions['type']='image';
 		return self::button('submit',$htmlOptions);
 	}
@@ -3047,9 +3049,9 @@ class CHtml
 		$url=isset($htmlOptions['href']) ? $htmlOptions['href'] : '#';
 		return self::link($label,$url,$htmlOptions);
 	}
-	public static function label($label,$forID,$htmlOptions=array())
+	public static function label($label,$for,$htmlOptions=array())
 	{
-		$htmlOptions['for']=$forID;
+		$htmlOptions['for']=$for;
 		return self::tag('label',$htmlOptions,$label);
 	}
 	public static function textField($name,$value='',$htmlOptions=array())
@@ -3099,26 +3101,26 @@ class CHtml
 		self::clientChange('click',$htmlOptions);
 		return self::inputField('checkbox',$name,$checked,$htmlOptions);
 	}
-	public static function dropDownList($name,$selection,$listData,$htmlOptions=array())
+	public static function dropDownList($name,$select,$data,$htmlOptions=array())
 	{
-		$options="\n".self::listOptions($selection,$listData,$htmlOptions);
+		$options="\n".self::listOptions($select,$data,$htmlOptions);
 		self::clientChange('change',$htmlOptions);
 		return self::tag('select',$htmlOptions,$options);
 	}
-	public static function listBox($name,$selection,$listData,$htmlOptions=array())
+	public static function listBox($name,$select,$data,$htmlOptions=array())
 	{
 		if(!isset($htmlOptions['size']))
 			$htmlOptions['size']=4;
-		return self::dropDownList($name,$selection,$listData,$htmlOptions);
+		return self::dropDownList($name,$select,$data,$htmlOptions);
 	}
-	public static function ajaxLink($body,$url,$ajaxOptions=array(),$htmlOptions=array())
+	public static function ajaxLink($text,$url,$ajaxOptions=array(),$htmlOptions=array())
 	{
 		if(!isset($htmlOptions['href']))
 			$htmlOptions['href']='#';
 		$ajaxOptions['url']=$url;
 		$htmlOptions['ajax']=$ajaxOptions;
 		self::clientChange('click',$htmlOptions);
-		return self::tag('a',$htmlOptions,$body);
+		return self::tag('a',$htmlOptions,$text);
 	}
 	public static function ajaxButton($label,$url,$ajaxOptions=array(),$htmlOptions=array())
 	{
@@ -3234,36 +3236,36 @@ class CHtml
 		self::clientChange('click',$htmlOptions);
 		return self::activeInputField('checkbox',$model,$attribute,$htmlOptions);
 	}
-	public static function activeDropDownList($model,$attribute,$listData,$htmlOptions=array())
+	public static function activeDropDownList($model,$attribute,$data,$htmlOptions=array())
 	{
 		$selection=$model->$attribute;
-		$options="\n".self::listOptions($selection,$listData,$htmlOptions);
+		$options="\n".self::listOptions($selection,$data,$htmlOptions);
 		self::resolveNameID($model,$attribute,$htmlOptions);
 		self::clientChange('change',$htmlOptions);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
 		return self::tag('select',$htmlOptions,$options);
 	}
-	public static function activeListBox($model,$attribute,$listData,$htmlOptions=array())
+	public static function activeListBox($model,$attribute,$data,$htmlOptions=array())
 	{
 		if(!isset($htmlOptions['size']))
 			$htmlOptions['size']=4;
-		return self::dropDownList($model,$attribute,$listData,$htmlOptions);
+		return self::dropDownList($model,$attribute,$data,$htmlOptions);
 	}
 	public static function getActiveId($model,$attribute)
 	{
 		return get_class($model).'_'.$attribute;
 	}
-	public static function errorSummary($models,$header='',$footer='')
+	public static function errorSummary($model,$header='',$footer='')
 	{
 		if($header==='')
 			$header='<p>'.Yii::t('yii#Please fix the following input errors:').'</p>';
 		$content='';
-		if(!is_array($models))
-			$models=array($models);
-		foreach($models as $model)
+		if(!is_array($model))
+			$model=array($model);
+		foreach($model as $m)
 		{
-			foreach($model->getErrors() as $errors)
+			foreach($m->getErrors() as $errors)
 			{
 				foreach($errors as $error)
 					$content.="<li>$error</li>\n";
