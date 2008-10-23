@@ -25,38 +25,37 @@
  * </pre>
  *
  * CPradoViewRenderer allows you to write view files with the following syntax:
- * <ul>
- * <li>PHP tags:
- *   <ul>
- *   <li>&lt;%= expression %&gt; : &lt;?php echo expression ?&gt;</li>
- *   <li>&lt;% statement %&gt; : &lt;?php statement ?&gt;</li>
- *   </ul>
- * </li>
- * <li>component tags:
- *   <ul>
- *   <li>&lt;com:WigetClass name1="value1" name2='value2' name3={value3} &gt; :
- *       &lt;php $this->beginWidget('WigetClass',array('name1'=>"value1", 'name2'=>'value2', 'name3'=>value3)); ?&gt;</li>
- *   <li>&lt;/com:WigetClass &gt; : &lt;php $this->endWidget('WigetClass'); &gt;</li>
- *   <li>&lt;com:WigetClass name1="value1" name2='value2' name3={value3} /&gt; :
- *       &lt;php $this->widget('WigetClass',array('name1'=>"value1", 'name2'=>'value2', 'name3'=>value3)); ?&gt;</li>
- *   </ul>
- * </li>
- * <li>cache tags:
- *   <ul>
- *   <li>&lt;cache:fragmentID name1="value1" name2='value2' name3={value3} &gt; :
- *       &lt;php if($this->beginCache('fragmentID',array('name1'=>"value1", 'name2'=>'value2', 'name3'=>value3))): ?&gt;</li>
- *   <li>&lt;/cache:fragmentID &gt; : &lt;php $this->endCache('fragmentID'); endif; &gt;</li>
- *   </ul>
- * </li>
- * <li>clip tags:
- *   <ul>
- *   <li>&lt;clip:clipID &gt; :
- *       &lt;php $this->beginClip('clipID'); ?&gt;</li>
- *   <li>&lt;/clip:clipID &gt; : &lt;php $this->endClip('clipID'); &gt;</li>
- *   </ul>
- * </li>
- * <li>comment tags: the whole tag &lt;!--- comments ---&gt; will be stripped off.</li>
- * </ul>
+ * <pre>
+ * // PHP tags:
+ * &lt;%= expression %&gt;
+ * // &lt;?php echo expression ?&gt;
+ * &lt;% statement %&gt;
+ * // &lt;?php statement ?&gt;</li>
+ *
+ * // component tags:
+ * &lt;com:WigetClass name1="value1" name2='value2' name3={value3} &gt;
+ * // &lt;?php $this->beginWidget('WigetClass',array('name1'=>"value1", 'name2'=>'value2', 'name3'=>value3)); ?&gt;
+ * &lt;/com:WigetClass &gt;
+ * // &lt;?php $this->endWidget('WigetClass'); ?&gt;
+ * &lt;com:WigetClass name1="value1" name2='value2' name3={value3} /&gt;
+ * // &lt;?php $this->widget('WigetClass',array('name1'=>"value1", 'name2'=>'value2', 'name3'=>value3)); ?&gt;
+ *
+ * // cache tags:
+ * &lt;cache:fragmentID name1="value1" name2='value2' name3={value3} &gt;
+ * // &lt;?php if($this->beginCache('fragmentID',array('name1'=>"value1", 'name2'=>'value2', 'name3'=>value3))): ?&gt;
+ * &lt;/cache:fragmentID &gt;
+ * // &lt;?php $this->endCache('fragmentID'); endif; ?&gt;
+ *
+ * // clip tags:
+ * &lt;clip:clipID &gt;
+ * // &lt;?php $this->beginClip('clipID'); ?&gt;
+ * &lt;/clip:clipID &gt;
+ * // &lt;?php $this->endClip('clipID'); ?&gt;
+ *
+ * // comment tags:
+ * &lt;!--- comments ---&gt;
+ * // the whole tag will be stripped off
+ * </pre>
  *
  * @author Steve Heyns http://customgothic.com/
  * @author Qiang Xue <qiang.xue@gmail.com>
