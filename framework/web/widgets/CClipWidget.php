@@ -24,6 +24,12 @@
  */
 class CClipWidget extends CWidget
 {
+	/**
+	 * @var boolean whether to render the clip content in place. Defaults to false,
+	 * meaning the captured clip will not be displayed.
+	 */
+	public $renderClip=false;
+
 	private $_level;
 
 	/**
@@ -42,6 +48,8 @@ class CClipWidget extends CWidget
 	public function run()
 	{
 		$clip=ob_get_clean();
+		if($this->renderClip)
+			echo $clip;
 		$this->getController()->getClips()->add($this->getId(),$clip);
 	}
 }

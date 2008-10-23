@@ -76,20 +76,6 @@ class CFileHelper
 	}
 
 	/**
-	 * Creates a directory.
-	 * This method also creates parent directories if they do not exist.
-	 * @param string the directory to be created.
-	 */
-	public static function mkdir($directory)
-	{
-		if(!is_dir($directory))
-		{
-			self::mkdir(dirname($directory));
-			mkdir($directory);
-		}
-	}
-
-	/**
 	 * Copies a directory.
 	 * This method is mainly used by {@link copyDirectory}.
 	 * @param string the source directory

@@ -20,6 +20,7 @@ Version 1.0b To be released
 - Added CVarDumper (Qiang)
 - Added CDateParser (Qiang)
 - Added CTypeValidator (Qiang)
+- Added CViewRenderer and CPradoViewRenderer (Qiang)
 
 Version 1.0a October 5, 2008
 =============================
