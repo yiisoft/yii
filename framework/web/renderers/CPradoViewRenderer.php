@@ -34,15 +34,18 @@
  *
  * // component tags:
  * &lt;com:WigetClass name1="value1" name2='value2' name3={value3} &gt;
- * // &lt;?php $this->beginWidget('WigetClass',array('name1'=>"value1", 'name2'=>'value2', 'name3'=>value3)); ?&gt;
+ * // &lt;?php $this->beginWidget('WigetClass',
+ * // array('name1'=>"value1", 'name2'=>'value2', 'name3'=>value3)); ?&gt;
  * &lt;/com:WigetClass &gt;
  * // &lt;?php $this->endWidget('WigetClass'); ?&gt;
  * &lt;com:WigetClass name1="value1" name2='value2' name3={value3} /&gt;
- * // &lt;?php $this->widget('WigetClass',array('name1'=>"value1", 'name2'=>'value2', 'name3'=>value3)); ?&gt;
+ * // &lt;?php $this->widget('WigetClass',
+ * // array('name1'=>"value1", 'name2'=>'value2', 'name3'=>value3)); ?&gt;
  *
  * // cache tags:
  * &lt;cache:fragmentID name1="value1" name2='value2' name3={value3} &gt;
- * // &lt;?php if($this->beginCache('fragmentID',array('name1'=>"value1", 'name2'=>'value2', 'name3'=>value3))): ?&gt;
+ * // &lt;?php if($this->beginCache('fragmentID',
+ * // array('name1'=>"value1", 'name2'=>'value2', 'name3'=>value3))): ?&gt;
  * &lt;/cache:fragmentID &gt;
  * // &lt;?php $this->endCache('fragmentID'); endif; ?&gt;
  *
