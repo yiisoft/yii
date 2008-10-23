@@ -38,7 +38,7 @@ abstract class CViewRenderer extends CApplicationComponent implements IViewRende
 	 */
 	public $useRuntimePath=true;
 	/**
-	 * @param integer the chmod permission for temporary directories and files
+	 * @var integer the chmod permission for temporary directories and files
 	 * generated during parsing. Defaults to 0755 (owner rwx, group rx and others rx).
 	 */
 	public $filePermission=0755;
