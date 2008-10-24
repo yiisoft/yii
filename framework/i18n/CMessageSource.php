@@ -62,14 +62,14 @@ abstract class CMessageSource extends CApplicationComponent
 	 * default handling. The {@link CMissingTranslationEvent::message}
 	 * property of the event parameter will be returned.
 	 *
-	 * @param string the message to be translated
 	 * @param string the message category
+	 * @param string the message to be translated
 	 * @return string the translated message (or the original message if translation is not needed)
 	 */
-	public function translate($message,$category)
+	public function translate($category,$message)
 	{
 		if(($lang=Yii::app()->getLanguage())!==$this->getLanguage())
-			return $this->translateMessage($message,$category,$lang);
+			return $this->translateMessage($category,$message,$lang);
 		else
 			return $message;
 	}
@@ -78,12 +78,12 @@ abstract class CMessageSource extends CApplicationComponent
 	 * Translates the specified message.
 	 * If the message is not found, an {@link onMissingTranslation}
 	 * event will be raised.
-	 * @param string the message to be translated
 	 * @param string the category that the message belongs to
+	 * @param string the message to be translated
 	 * @param string the target language
 	 * @return string the translated message
 	 */
-	protected function translateMessage($message,$category,$language)
+	protected function translateMessage($category,$message,$language)
 	{
 		$key=$language.'.'.$category;
 		if(!isset($this->_messages[$key]))
@@ -92,7 +92,7 @@ abstract class CMessageSource extends CApplicationComponent
 			return $this->_messages[$key][$message];
 		else
 		{
-			$event=new CMissingTranslationEvent($this,$message,$category,$language);
+			$event=new CMissingTranslationEvent($this,$category,$message,$language);
 			$this->onMissingTranslation($event);
 			return $event->message;
 		}
@@ -137,11 +137,12 @@ class CMissingTranslationEvent extends CEvent
 
 	/**
 	 * Constructor.
-	 * @param string the message to be translated
+	 * @param mixed sender of this event
 	 * @param string the category that the message belongs to
+	 * @param string the message to be translated
 	 * @param string the ID of the language that the message is to be translated to
 	 */
-	public function __construct($sender,$message,$category,$language)
+	public function __construct($sender,$category,$message,$language)
 	{
 		parent::__construct($sender);
 		$this->message=$message;

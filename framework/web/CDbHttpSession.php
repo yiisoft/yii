@@ -94,7 +94,7 @@ CREATE TABLE '$tableName'
 			if(($this->_db=Yii::app()->getComponent($id)) instanceof CDbConnection)
 				return $this->_db;
 			else
-				throw new CException(Yii::t('yii#CDbHttpSession.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.',
+				throw new CException(Yii::t('yii','CDbHttpSession.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.',
 					array('{id}'=>$id)));
 		}
 		else

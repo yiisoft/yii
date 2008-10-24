@@ -123,7 +123,7 @@ class CDbAuthManager extends CAuthManager
 			}
 			$this->checkItemChildType($parentType,$childType);
 			if($this->detectLoop($itemName,$childName))
-				throw new CException(Yii::t('yii#Cannot add "{child}" as a child of "{name}". A loop has been detected.',
+				throw new CException(Yii::t('yii','Cannot add "{child}" as a child of "{name}". A loop has been detected.',
 					array('{child}'=>$childName,'{name}'=>$itemName)));
 
 			$sql="INSERT INTO {$this->itemChildTable} (parent,child) VALUES (:parent,:child)";
@@ -133,7 +133,7 @@ class CDbAuthManager extends CAuthManager
 			$command->execute();
 		}
 		else
-			throw new CException(Yii::t('yii#Either "{parent}" or "{child}" does not exist.',array('{child}'=>$childName,'{name}'=>$itemName)));
+			throw new CException(Yii::t('yii','Either "{parent}" or "{child}" does not exist.',array('{child}'=>$childName,'{name}'=>$itemName)));
 	}
 
 	/**
@@ -196,7 +196,7 @@ class CDbAuthManager extends CAuthManager
 	public function assign($itemName,$userId,$bizRule=null,$data=null)
 	{
 		if($this->usingSqlite() && $this->getAuthItem($itemName)===null)
-			throw new CException(Yii::t('yii#The item "{name}" does not exist.',array('{name}'=>$itemName)));
+			throw new CException(Yii::t('yii','The item "{name}" does not exist.',array('{name}'=>$itemName)));
 
 		$sql="INSERT INTO {$this->assignmentTable} (itemname,userid,bizrule,data) VALUES (:itemname,:userid,:bizrule,:data)";
 		$command=$this->db->createCommand($sql);
@@ -494,7 +494,7 @@ class CDbAuthManager extends CAuthManager
 		else if(($this->db=Yii::app()->getComponent($this->connectionID)) instanceof CDbConnection)
 			return $this->db;
 		else
-			throw new CException(Yii::t('yii#CDbAuthManager.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.',
+			throw new CException(Yii::t('yii','CDbAuthManager.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.',
 				array('{id}'=>$this->connectionID)));
 	}
 

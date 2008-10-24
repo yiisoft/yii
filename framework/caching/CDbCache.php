@@ -92,7 +92,7 @@ class CDbCache extends CCache
 			if($this->autoCreateCacheTable)
 				$this->createCacheTable($db,$this->cacheTableName);
 			else
-				throw new CException(Yii::t('yii#Cache table "{tableName}" does not exist.',
+				throw new CException(Yii::t('yii','Cache table "{tableName}" does not exist.',
 					array('{tableName}'=>$this->cacheTableName)));
 		}
 	}
@@ -135,7 +135,7 @@ EOD;
 			if(($this->_db=Yii::app()->getComponent($id)) instanceof CDbConnection)
 				return $this->_db;
 			else
-				throw new CException(Yii::t('yii#CDbCache.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.',
+				throw new CException(Yii::t('yii','CDbCache.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.',
 					array('{id}'=>$id)));
 		}
 		else

@@ -147,7 +147,7 @@ class CWebApplication extends CApplication
 			$this->_controller=$oldController;
 		}
 		else
-			throw new CHttpException(404,Yii::t('yii#The requested controller "{controller}" does not exist.',
+			throw new CHttpException(404,Yii::t('yii','The requested controller "{controller}" does not exist.',
 				array('{controller}'=>$controllerID)));
 	}
 
@@ -396,7 +396,7 @@ class CWebApplication extends CApplication
 	public function setControllerPath($value)
 	{
 		if(($this->_controllerPath=realpath($value))===false || !is_dir($this->_controllerPath))
-			throw new CException(Yii::t('yii#The controller path "{path}" is not a valid directory.',
+			throw new CException(Yii::t('yii','The controller path "{path}" is not a valid directory.',
 				array('{path}'=>$value)));
 	}
 
@@ -418,7 +418,7 @@ class CWebApplication extends CApplication
 	public function setViewPath($path)
 	{
 		if(($this->_viewPath=realpath($path))===false || !is_dir($this->_viewPath))
-			throw new CException(Yii::t('yii#The view path "{path}" is not a valid directory.',
+			throw new CException(Yii::t('yii','The view path "{path}" is not a valid directory.',
 				array('{path}'=>$path)));
 	}
 
@@ -440,7 +440,7 @@ class CWebApplication extends CApplication
 	public function setSystemViewPath($path)
 	{
 		if(($this->_systemViewPath=realpath($path))===false || !is_dir($this->_systemViewPath))
-			throw new CException(Yii::t('yii#The system view path "{path}" is not a valid directory.',
+			throw new CException(Yii::t('yii','The system view path "{path}" is not a valid directory.',
 				array('{path}'=>$path)));
 	}
 
@@ -462,7 +462,7 @@ class CWebApplication extends CApplication
 	public function setLayoutPath($path)
 	{
 		if(($this->_layoutPath=realpath($path))===false || !is_dir($this->_layoutPath))
-			throw new CException(Yii::t('yii#The layout path "{path}" is not a valid directory.',
+			throw new CException(Yii::t('yii','The layout path "{path}" is not a valid directory.',
 				array('{path}'=>$path)));
 	}
 }

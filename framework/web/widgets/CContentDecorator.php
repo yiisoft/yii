@@ -57,11 +57,11 @@ class CContentDecorator extends COutputProcessor
 	protected function decorate($content)
 	{
 		if($this->view===null)
-			throw new CException(Yii::t('yii#The "view" property is required.'));
+			throw new CException(Yii::t('yii','The "view" property is required.'));
 		$owner=$this->getOwner();
 		if(($viewFile=$owner->getViewFile($this->view))!==false)
 			return $owner->renderFile($viewFile,array('content'=>$content),true);
 		else
-			throw new CException(Yii::t('yii#Unable to find the decorator view "{view}".',array('{view}'=>$this->view)));
+			throw new CException(Yii::t('yii','Unable to find the decorator view "{view}".',array('{view}'=>$this->view)));
 	}
 }

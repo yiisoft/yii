@@ -48,11 +48,11 @@ class CCaptchaValidator extends CValidator
 			return;
 
 		if(($captcha=Yii::app()->getController()->createAction($this->captchaAction))===null)
-			throw new CException(Yii::t('yii#CCaptchaValidator.action "{id}" is invalid. Unable to find such an action in the current controller.',
+			throw new CException(Yii::t('yii','CCaptchaValidator.action "{id}" is invalid. Unable to find such an action in the current controller.',
 					array('{id}'=>$this->captchaAction)));
 		if(!$captcha->validate($value,$this->caseSensitive))
 		{
-			$message=$this->message!==null?$this->message:Yii::t('yii#The verification code is incorrect.');
+			$message=$this->message!==null?$this->message:Yii::t('yii','The verification code is incorrect.');
 			$this->addError($object,$attribute,$message);
 		}
 	}

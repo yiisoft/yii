@@ -21,6 +21,7 @@ Version 1.0b To be released
 - Added CDateParser (Qiang)
 - Added CTypeValidator (Qiang)
 - Added CViewRenderer and CPradoViewRenderer (Qiang)
+- Changed Yii::t() and added a category parameter as its first parameter (Qiang)
 
 Version 1.0a October 5, 2008
 =============================

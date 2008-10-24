@@ -73,7 +73,7 @@ class CFilterChain extends CList
 			else if(is_array($filter))  // array('path.to.class [+|- action1, action2]','param1'=>'value1',...)
 			{
 				if(!isset($filter[0]))
-					throw new CException(Yii::t('yii#The first element in a filter configuration must be the filter class.'));
+					throw new CException(Yii::t('yii','The first element in a filter configuration must be the filter class.'));
 				$filterClass=$filter[0];
 				unset($filter[0]);
 				if(($pos=strpos($filterClass,'+'))!==false || ($pos=strpos($filterClass,'-'))!==false)
@@ -107,7 +107,7 @@ class CFilterChain extends CList
 		if($item instanceof IFilter)
 			parent::insertAt($index,$item);
 		else
-			throw new CException(Yii::t('yii#CFilterChain can only take objects implementing the IFilter interface.'));
+			throw new CException(Yii::t('yii','CFilterChain can only take objects implementing the IFilter interface.'));
 	}
 
 	/**

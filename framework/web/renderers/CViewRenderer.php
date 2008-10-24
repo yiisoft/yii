@@ -62,7 +62,7 @@ abstract class CViewRenderer extends CApplicationComponent implements IViewRende
 	public function renderFile($context,$sourceFile,$data,$return)
 	{
 		if(!is_file($sourceFile) || ($file=realpath($sourceFile))===false)
-			throw new CException(Yii::t('yii#View file "{file}" does not exist.',array('{file}'=>$sourceFile)));
+			throw new CException(Yii::t('yii','View file "{file}" does not exist.',array('{file}'=>$sourceFile)));
 		$viewFile=$this->getViewFile($sourceFile);
 		if(@filemtime($sourceFile)>@filemtime($viewFile))
 		{

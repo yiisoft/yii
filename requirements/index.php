@@ -19,73 +19,73 @@
  */
 $requirements = array(
 	array(
-		t('yii#PHP version'),
+		t('yii','PHP version'),
 		true,
 		version_compare(PHP_VERSION,"5.1.0",">="),
 		'<a href="http://www.yiiframework.com">Yii Framework</a>',
-		t('yii#PHP 5.1.0 or higher is required.')),
+		t('yii','PHP 5.1.0 or higher is required.')),
 	array(
-		t('yii#$_SERVER variable'),
+		t('yii','$_SERVER variable'),
 		true,
 		($message=checkServerVar())==='',
 		'<a href="http://www.yiiframework.com">Yii Framework</a>',
 		$message),
 	array(
-		t('yii#Reflection extension'),
+		t('yii','Reflection extension'),
 		true,
 		class_exists('Reflection',false),
 		'<a href="http://www.yiiframework.com">Yii Framework</a>',
 		''),
     array(
-        t('yii#PCRE extension'),
+        t('yii','PCRE extension'),
         true,
         extension_loaded("pcre"),
 		'<a href="http://www.yiiframework.com">Yii Framework</a>',
     	''),
     array(
-		t('yii#SPL extension'),
+		t('yii','SPL extension'),
 		true,
 		extension_loaded("SPL"),
 		'<a href="http://www.yiiframework.com">Yii Framework</a>',
 		''),
 	array(
-		t('yii#DOM extension'),
+		t('yii','DOM extension'),
 		false,
 		class_exists("DOMDocument",false),
 		'<a href="http://www.yiiframework.com/doc/api/CWsdlGenerator">CWsdlGenerator</a>',
 		''),
     array(
-    	t('yii#PDO extension'),
+    	t('yii','PDO extension'),
         false,
         class_exists("PDO",false),
-		t('yii#All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
-        t('yii#Additional drivier-specific PDO extension (e.g. pdo_mysql) is also needed.')),
+		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
+        t('yii','Additional drivier-specific PDO extension (e.g. pdo_mysql) is also needed.')),
 	array(
-    	t('yii#Memcache extension'),
+    	t('yii','Memcache extension'),
 		false,
 		extension_loaded("memcache"),
 		'<a href="http://www.yiiframework.com/doc/api/CMemCache">CMemCache</a>',
 		''),
 	array(
-		t('yii#APC extension'),
+		t('yii','APC extension'),
 		false,
 		extension_loaded("apc"),
 		'<a href="http://www.yiiframework.com/doc/api/CApcCache">CApcCache</a>',
 		''),
 	array(
-		t('yii#Mcrypt extension'),
+		t('yii','Mcrypt extension'),
 		false,
 		extension_loaded("mcrypt"),
 		'<a href="http://www.yiiframework.com/doc/api/CSecurityManager">CSecurityManager</a>',
 		'This is required by encrypt and decrypt methods.'),
 	array(
-		t('yii#SOAP extension'),
+		t('yii','SOAP extension'),
 		false,
 		extension_loaded("soap"),
 		'<a href="http://www.yiiframework.com/doc/api/CWebService">CWebService</a>, <a href="http://www.yiiframework.com/doc/api/CWebServiceAction">CWebServiceAction</a>',
 		''),
 	array(
-		t('yii#GD extension'),
+		t('yii','GD extension'),
 		false,
 		extension_loaded('gd'),
 		'<a href="http://www.yiiframework.com/doc/api/CCaptchaAction">CCaptchaAction</a>',
@@ -102,16 +102,16 @@ function checkServerVar()
 			$missing[]=$var;
 	}
 	if(!empty($missing))
-		return t('yii#$_SERVER does not have {vars}.',array('{vars}'=>implode(', ',$missing)));
+		return t('yii','$_SERVER does not have {vars}.',array('{vars}'=>implode(', ',$missing)));
 
 	if(realpath($_SERVER["SCRIPT_FILENAME"])!==realpath(__FILE__))
-		return t('yii#$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.');
+		return t('yii','$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.');
 
 	if(!isset($_SERVER["REQUEST_URI"]) && isset($_SERVER["QUERY_STRING"]))
-		return t('yii#Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.');
+		return t('yii','Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.');
 
 	if(!isset($_SERVER["PATH_INFO"]) && strpos($_SERVER["PHP_SELF"],$_SERVER["SCRIPT_NAME"])!==0)
-		return t('yii#Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.');
+		return t('yii','Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.');
 
 	return '';
 }
@@ -131,11 +131,12 @@ function getYiiVersion()
 
 /**
  * Returns a localized message according to user preferred language.
+ * @param string message category
  * @param string message to be translated
  * @param array parameters to be applied to the translated message
  * @return string translated message
  */
-function t($message,$params=array())
+function t($category,$message,$params=array())
 {
 	static $messages;
 
@@ -150,8 +151,6 @@ function t($message,$params=array())
 		}
 	}
 
-	if(($pos=strpos($message,'#'))!==false)
-		$message=(string)substr($message,$pos+1);
 	if(empty($message))
 		return $message;
 

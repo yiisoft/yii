@@ -556,7 +556,7 @@ abstract class CActiveRecord extends CModel
 				return self::$db;
 			}
 			else
-				throw new CDbException(Yii::t('yii#Active Record requires a "db" CDbConnection application component.'));
+				throw new CDbException(Yii::t('yii','Active Record requires a "db" CDbConnection application component.'));
 		}
 	}
 
@@ -627,7 +627,7 @@ abstract class CActiveRecord extends CModel
 		else if(isset($this->getMetaData()->columns[$name]))
 			return null;
 		else
-			throw new CDbException(Yii::t('yii#{class} does not have attribute "{name}".',
+			throw new CDbException(Yii::t('yii','{class} does not have attribute "{name}".',
 				array('{class}'=>get_class($this), '{name}'=>$name)));
 	}
 
@@ -644,7 +644,7 @@ abstract class CActiveRecord extends CModel
 		if($this->hasAttribute($name))
 			$this->_attributes[$name]=$value;
 		else
-			throw new CDbException(Yii::t('yii#{class} does not have attribute "{name}".',
+			throw new CDbException(Yii::t('yii','{class} does not have attribute "{name}".',
 				array('{class}'=>get_class($this), '{name}'=>$name)));
 	}
 
@@ -838,7 +838,7 @@ abstract class CActiveRecord extends CModel
 	protected function insert()
 	{
 		if(!$this->isNewRecord)
-			throw new CDbException(Yii::t('yii#The active record cannot be inserted to database because it is not new.'));
+			throw new CDbException(Yii::t('yii','The active record cannot be inserted to database because it is not new.'));
 		if($this->beforeSave())
 		{
 			$builder=$this->getCommandBuilder();
@@ -870,7 +870,7 @@ abstract class CActiveRecord extends CModel
 	protected function update()
 	{
 		if($this->isNewRecord)
-			throw new CDbException(Yii::t('yii#The active record cannot be updated because it is new.'));
+			throw new CDbException(Yii::t('yii','The active record cannot be updated because it is new.'));
 		if($this->beforeSave())
 		{
 			$result=$this->updateByPk($this->getPrimaryKey(),$this->getAttributes(false))>0;
@@ -914,7 +914,7 @@ abstract class CActiveRecord extends CModel
 			return $this->updateByPk($this->getPrimaryKey(),$values)>0;
 		}
 		else
-			throw new CDbException(Yii::t('yii#The active record cannot be updated because it is new.'));
+			throw new CDbException(Yii::t('yii','The active record cannot be updated because it is new.'));
 	}
 
 	/**
@@ -936,7 +936,7 @@ abstract class CActiveRecord extends CModel
 				return false;
 		}
 		else
-			throw new CDbException(Yii::t('yii#The active record cannot be deleted because it is new.'));
+			throw new CDbException(Yii::t('yii','The active record cannot be deleted because it is new.'));
 	}
 
 	/**
@@ -1341,7 +1341,7 @@ abstract class CActiveRecord extends CModel
 			if(isset($rule[0],$rule[1]))  // attributes, validator name
 				$validators[]=CValidator::createValidator($rule[1],$this,$rule[0],array_slice($rule,2));
 			else
-				throw new CDbException(Yii::t('yii#{class} has an invalid validation rule. The rule must specify attributes to be validated and the validator name.',
+				throw new CDbException(Yii::t('yii','{class} has an invalid validation rule. The rule must specify attributes to be validated and the validator name.',
 					array('{class}'=>get_class($this))));
 		}
 		return $validators;
@@ -1521,7 +1521,7 @@ class CActiveRecordMetaData
 
 		$tableName=$model->tableName();
 		if(($table=$model->getDbConnection()->getSchema()->getTable($tableName))===null)
-			throw new CDbException(Yii::t('yii#The table "{table}" for active record class "{class}" cannot be found in the database.',
+			throw new CDbException(Yii::t('yii','The table "{table}" for active record class "{class}" cannot be found in the database.',
 				array('{class}'=>get_class($model),'{table}'=>$tableName)));
 		$this->tableSchema=$table;
 		$this->columns=$table->columns;
@@ -1540,7 +1540,7 @@ class CActiveRecordMetaData
 			if(isset($config[0],$config[1],$config[2]))  // relation class, AR class, FK
 				$this->relations[$name]=new $config[0]($name,$config[1],$config[2],array_slice($config,3));
 			else
-				throw new CDbException(Yii::t('yii#Active record "{class}" has an invalid configuration for relation "{relation}". It must specify the relation type, the related active record class and the foreign key.',
+				throw new CDbException(Yii::t('yii','Active record "{class}" has an invalid configuration for relation "{relation}". It must specify the relation type, the related active record class and the foreign key.',
 					array('{class}'=>get_class($model),'{relation}'=>$name)));
 		}
 	}

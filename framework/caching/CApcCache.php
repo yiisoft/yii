@@ -36,7 +36,7 @@ class CApcCache extends CCache
 	{
 		parent::init();
 		if(!extension_loaded('apc'))
-			throw new CException(Yii::t('yii#CApcCache requires PHP apc extension to be loaded.'));
+			throw new CException(Yii::t('yii','CApcCache requires PHP apc extension to be loaded.'));
 	}
 
 	/**

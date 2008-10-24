@@ -176,7 +176,7 @@ class CDbDataReader extends CComponent implements Iterator
 			$this->_index=0;
 		}
 		else
-			throw new CDbException(Yii::t('yii#CDbDataReader cannot rewind. It is a forward-only reader.'));
+			throw new CDbException(Yii::t('yii','CDbDataReader cannot rewind. It is a forward-only reader.'));
 	}
 
 	/**
