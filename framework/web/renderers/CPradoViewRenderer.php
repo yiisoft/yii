@@ -70,6 +70,7 @@ class CPradoViewRenderer extends CViewRenderer
 {
 	private $_input;
 	private $_output;
+	private $_sourceFile;
 
 	/**
 	 * Parses the source view file and saves the results as another file.
@@ -84,6 +85,7 @@ class CPradoViewRenderer extends CViewRenderer
 			'<\/?(com|cache|clip):([\w\.]+)\s*((?:\s*\w+\s*=\s*\'.*?(?<!\\\\)\'|\s*\w+\s*=\s*".*?(?<!\\\\)"|\s*\w+\s*=\s*\{.*?\})*)\s*\/?>', // component tags
 			'<!---.*?--->',	// template comments
 		);
+		$this->_sourceFile=$sourceFile;
 		$this->_input=file_get_contents($sourceFile);
 		$n=preg_match_all('/'.implode('|',$regexRules).'/msS',$this->_input,$matches,PREG_SET_ORDER|PREG_OFFSET_CAPTURE);
 		$textStart=0;
@@ -214,6 +216,7 @@ class CPradoViewRenderer extends CViewRenderer
 	private function generatePhpCode($code,$offset)
 	{
 		$line=$this->getLineNumber($offset);
+		$code=str_replace('__FILE__',var_export($this->_sourceFile,true),$code);
 		return "<?php /* line $line */ $code ?>";
 	}
 
@@ -228,7 +231,7 @@ class CPradoViewRenderer extends CViewRenderer
 			$name=$match[1];
 			$value=$match[2];
 			if($value[0]==='{')
-				$attributes[]="'$name'=>".substr($value,1,-1);
+				$attributes[]="'$name'=>".str_replace('__FILE__',$this->_sourceFile,substr($value,1,-1));
 			else
 				$attributes[]="'$name'=>$value";
 		}
