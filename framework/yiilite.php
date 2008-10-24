@@ -179,14 +179,13 @@ class YiiBase
 	{
 		return 'Powered by <a href="http://www.yiiframework.com/">Yii Framework</a>.';
 	}
-	public static function t($message,$params=array())
+	public static function t($category,$message,$params=array())
 	{
-		if(self::$_app!==null && ($pos=strpos($message,'#'))!==false)
+		if(self::$_app!==null)
 		{
-			$category=substr($message,0,$pos);
 			$source=$category==='yii'?self::$_app->getCoreMessages():self::$_app->getMessages();
 			if($source!==null)
-				$message=$source->translate((string)substr($message,$pos+1),$category);
+				$message=$source->translate($category,$message);
 		}
 		return $params!==array() ? strtr($message,$params) : $message;
 	}
