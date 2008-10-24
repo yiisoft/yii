@@ -138,7 +138,7 @@ abstract class CAuthManager extends CApplicationComponent implements IAuthManage
 	{
 		static $types=array('operation','task','role');
 		if($parentType < $childType)
-			throw new CException(Yii::t('yii#Cannot add an item of type "{child}" to an item of type "{parent}".',
+			throw new CException(Yii::t('yii','Cannot add an item of type "{child}" to an item of type "{parent}".',
 				array('{child}'=>$types[$childType], '{parent}'=>$types[$parentType])));
 	}
 }

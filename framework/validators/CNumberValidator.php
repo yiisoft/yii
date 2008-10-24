@@ -60,7 +60,7 @@ class CNumberValidator extends CValidator
 		{
 			if(is_string($value) && !preg_match('/^\s*[+-]?\d+\s*$/',$value))
 			{
-				$message=$this->message!==null?$this->message:Yii::t('yii#{attribute} must be an integer.');
+				$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} must be an integer.');
 				$this->addError($object,$attribute,$message);
 			}
 			$value=(int)$value;
@@ -69,19 +69,19 @@ class CNumberValidator extends CValidator
 		{
 			if(is_string($value) && !preg_match('/^\s*[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?\s*$/',$value))
 			{
-				$message=$this->message!==null?$this->message:Yii::t('yii#{attribute} must be a number.');
+				$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} must be a number.');
 				$this->addError($object,$attribute,$message);
 			}
 			$value=(double)$value;
 		}
 		if($this->min!==null && $value<$this->min)
 		{
-			$message=$this->tooSmall!==null?$this->tooSmall:Yii::t('yii#{attribute} is too small (minimum is {min}).');
+			$message=$this->tooSmall!==null?$this->tooSmall:Yii::t('yii','{attribute} is too small (minimum is {min}).');
 			$this->addError($object,$attribute,$message,array('{min}'=>$this->min));
 		}
 		if($this->max!==null && $value<$this->max)
 		{
-			$message=$this->tooBig!==null?$this->tooBig:Yii::t('yii#{attribute} is too big (maximum is {max}).');
+			$message=$this->tooBig!==null?$this->tooBig:Yii::t('yii','{attribute} is too big (maximum is {max}).');
 			$this->addError($object,$attribute,$message,array('{max}'=>$this->max));
 		}
 	}

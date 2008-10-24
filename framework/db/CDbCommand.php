@@ -112,7 +112,7 @@ class CDbCommand extends CComponent
 			}
 			catch(Exception $e)
 			{
-				throw new CDbException(Yii::t('yii#CDbCommand failed to prepare the SQL statement: {error}',
+				throw new CDbException(Yii::t('yii','CDbCommand failed to prepare the SQL statement: {error}',
 					array('{error}'=>$e->getMessage())));
 			}
 		}
@@ -189,7 +189,7 @@ class CDbCommand extends CComponent
 		}
 		catch(Exception $e)
 		{
-			throw new CDbException(Yii::t('yii#CDbCommand failed to execute the SQL statement: {error}',
+			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
 				array('{error}'=>$e->getMessage())));
 		}
 	}
@@ -281,7 +281,7 @@ class CDbCommand extends CComponent
 		}
 		catch(Exception $e)
 		{
-			throw new CDbException(Yii::t('yii#CDbCommand failed to execute the SQL statement: {error}',
+			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
 				array('{error}'=>$e->getMessage())));
 		}
 	}

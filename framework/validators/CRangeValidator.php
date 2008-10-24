@@ -45,7 +45,7 @@ class CRangeValidator extends CValidator
 			return;
 		if(is_array($this->range) && !in_array($value,$this->range,$this->strict))
 		{
-			$message=$this->message!==null?$this->message:Yii::t('yii#{attribute} is not in the list.');
+			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} is not in the list.');
 			$this->addError($object,$attribute,$message);
 		}
 	}

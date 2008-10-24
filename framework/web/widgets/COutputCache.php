@@ -285,7 +285,7 @@ class COutputCache extends CFilterWidget
 			else if($action[0]==='' && function_exists($action[1]))
 				call_user_func_array($action[1],$action[2]);
 			else
-				throw new CException(Yii::t('yii#Unable to replay the action "{object}.{method}". The method does not exist.',
+				throw new CException(Yii::t('yii','Unable to replay the action "{object}.{method}". The method does not exist.',
 					array('object'=>$action[0],
 						'method'=>$action[1])));
 		}

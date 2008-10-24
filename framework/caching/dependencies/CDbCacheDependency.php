@@ -63,7 +63,7 @@ class CDbCacheDependency extends CCacheDependency
 		if($this->sql!==null)
 			return $this->getDbConnection()->createCommand($this->sql)->queryScalar();
 		else
-			throw new CException(Yii::t('yii#CDbCacheDependency.sql cannot be empty.'));
+			throw new CException(Yii::t('yii','CDbCacheDependency.sql cannot be empty.'));
 	}
 
 	/**
@@ -79,7 +79,7 @@ class CDbCacheDependency extends CCacheDependency
 			if(($this->_db=Yii::app()->getComponent($this->connectionID)) instanceof CDbConnection)
 				return $this->_db;
 			else
-				throw new CException(Yii::t('yii#CDbHttpSession.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.',
+				throw new CException(Yii::t('yii','CDbHttpSession.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.',
 					array('{id}'=>$this->connectionID)));
 		}
 	}

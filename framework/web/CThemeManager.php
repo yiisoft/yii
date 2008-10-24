@@ -104,7 +104,7 @@ class CThemeManager extends CApplicationComponent
 	{
 		$this->_basePath=realpath($value);
 		if($this->_basePath===false || !is_dir($this->_basePath))
-			throw new CException(Yii::t('yii#Theme directory "{directory}" does not exist.',array('{directory}'=>$value)));
+			throw new CException(Yii::t('yii','Theme directory "{directory}" does not exist.',array('{directory}'=>$value)));
 	}
 
 	/**

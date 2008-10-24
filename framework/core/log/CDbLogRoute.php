@@ -91,7 +91,7 @@ class CDbLogRoute extends CLogRoute
 			if($this->autoCreateLogTable)
 				$this->createLogTable($db,$this->autoCreateLogTable);
 			else
-				throw new CException(Yii::t('yii#CDbLogRoute requires database table "{table}" to store log messages.',
+				throw new CException(Yii::t('yii','CDbLogRoute requires database table "{table}" to store log messages.',
 					array('{table}'=>$this->logTableName)));
 		}
 	}
@@ -136,7 +136,7 @@ CREATE TABLE $tableName
 			if(($this->_db=Yii::app()->getComponent($id)) instanceof CDbConnection)
 				return $this->_db;
 			else
-				throw new CException(Yii::t('yii#CDbLogRoute.connectionID "{id}" does not point to a valid CDbConnection application component.',
+				throw new CException(Yii::t('yii','CDbLogRoute.connectionID "{id}" does not point to a valid CDbConnection application component.',
 					array('{id}'=>$id)));
 		}
 		else

@@ -15,18 +15,18 @@
  * <pre>
  * CREATE TABLE SourceMessage
  * (
- *     messageID INTEGER PRIMARY KEY,
+ *     id INTEGER PRIMARY KEY,
  *     category VARCHAR(32),
  *     message TEXT
  * );
  * CREATE TABLE Message
  * (
- *     messageID INTEGER,
+ *     id INTEGER,
  *     language VARCHAR(16),
  *     translation TEXT,
- *     PRIMARY KEY (messageID, language),
- *     CONSTRAINT FK_Message_SourceMessage FOREIGN KEY (messageID)
- *          REFERENCES SourceMessage (messageID) ON DELETE CASCADE ON UPDATE RESTRICT
+ *     PRIMARY KEY (id, language),
+ *     CONSTRAINT FK_Message_SourceMessage FOREIGN KEY (id)
+ *          REFERENCES SourceMessage (id) ON DELETE CASCADE ON UPDATE RESTRICT
  * );
  * </pre>
  * The 'SourceMessage' table stores the messages to be translated, and the 'Message' table
@@ -74,7 +74,7 @@ class CDbMessageSource extends CMessageSource
 		if(($this->_db=Yii::app()->getComponent($this->connectionID)) instanceof CDbConnection)
 			$this->_db->setActive(true);
 		else
-			throw new CException(Yii::t('yii#CDbMessageSource.connectionID is invalid. Please make sure "{id}" refers to a valid database application component.',
+			throw new CException(Yii::t('yii','CDbMessageSource.connectionID is invalid. Please make sure "{id}" refers to a valid database application component.',
 				array('{id}'=>$this->connectionID)));
 	}
 
@@ -96,7 +96,7 @@ class CDbMessageSource extends CMessageSource
 		$sql=<<<EOD
 SELECT t1.message AS message, t2.translation AS translation
 FROM {$this->sourceMessageTable} t1, {$this->translatedMessageTable} t2
-WHERE t1.messageID=t2.messageID AND t1.category=:category AND t2.language=:language
+WHERE t1.id=t2.id AND t1.category=:category AND t2.language=:language
 EOD;
 		$command=$this->_db->createCommand($sql);
 		$command->bindValue(':category',$category);

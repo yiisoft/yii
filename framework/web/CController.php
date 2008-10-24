@@ -279,7 +279,7 @@ class CController extends CBaseController
 	 */
 	public function missingAction($actionID)
 	{
-		throw new CHttpException(404,Yii::t('yii#The system is unable to find the requested action "{action}".',
+		throw new CHttpException(404,Yii::t('yii','The system is unable to find the requested action "{action}".',
 			array('{action}'=>$actionID==''?$this->defaultAction:$actionID)));
 	}
 
@@ -462,7 +462,7 @@ class CController extends CBaseController
 		if(($viewFile=$this->getViewFile($view))!==false)
 			return $this->renderFile($viewFile,$data,$return);
 		else
-			throw new CException(Yii::t('yii#{controller} cannot find the requested view "{view}".',
+			throw new CException(Yii::t('yii','{controller} cannot find the requested view "{view}".',
 				array('{controller}'=>get_class($this), '{view}'=>$view)));
 	}
 
@@ -661,7 +661,7 @@ class CController extends CBaseController
 		if(Yii::app()->getRequest()->getIsPostRequest())
 			$filterChain->run();
 		else
-			throw new CHttpException(400,Yii::t('yii#Your request is not valid.'));
+			throw new CHttpException(400,Yii::t('yii','Your request is not valid.'));
 	}
 
 	/**
@@ -675,7 +675,7 @@ class CController extends CBaseController
 		if(Yii::app()->getRequest()->getIsAjaxRequest())
 			$filterChain->run();
 		else
-			throw new CHttpException(400,Yii::t('yii#Your request is not valid.'));
+			throw new CHttpException(400,Yii::t('yii','Your request is not valid.'));
 	}
 
 	/**

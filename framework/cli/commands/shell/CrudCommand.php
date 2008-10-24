@@ -96,9 +96,9 @@ EOD;
 		$model=CActiveRecord::model($modelClass);
 		$id=$model->tableSchema->primaryKey;
 		if($id===null)
-			throw new ShellException(Yii::t('yii#Error: Table "{table}" does not have a primary key.',array('{table}'=>$model->tableName())));
+			throw new ShellException(Yii::t('yii','Error: Table "{table}" does not have a primary key.',array('{table}'=>$model->tableName())));
 		else if(is_array($id)===null)
-			throw new ShellException(Yii::t('yii#Error: Table "{table}" has a composite primary key which is not supported by crud command.',array('{table}'=>$model->tableName())));
+			throw new ShellException(Yii::t('yii','Error: Table "{table}" has a composite primary key which is not supported by crud command.',array('{table}'=>$model->tableName())));
 
 		if(!is_file($source))  // fall back to default ones
 			$source=YII_PATH.'/cli/views/shell/crud/'.basename($source);

@@ -217,7 +217,7 @@ abstract class CApplication extends CComponent
 	public function setBasePath($path)
 	{
 		if(($this->_basePath=realpath($path))===false || !is_dir($this->_basePath))
-			throw new CException(Yii::t('yii#Application base path "{path}" is not a valid directory.',
+			throw new CException(Yii::t('yii','Application base path "{path}" is not a valid directory.',
 				array('{path}'=>$path)));
 	}
 
@@ -242,7 +242,7 @@ abstract class CApplication extends CComponent
 	public function setRuntimePath($path)
 	{
 		if(($runtimePath=realpath($path))===false || !is_dir($runtimePath) || !is_writable($runtimePath))
-			throw new CException(Yii::t('yii#Application runtime path "{path}" is not valid. Please make sure it is a directory writable by the Web server process.',
+			throw new CException(Yii::t('yii','Application runtime path "{path}" is not valid. Please make sure it is a directory writable by the Web server process.',
 				array('{path}'=>$runtimePath)));
 		$this->_runtimePath=$runtimePath;
 	}

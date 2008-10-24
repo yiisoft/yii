@@ -107,23 +107,13 @@ EOD;
 	{
 		echo "Extracting messages from $fileName...\n";
 		$subject=file_get_contents($fileName);
-		preg_match_all('/\b'.$translator.'\s*\(\s*[\'|"](\w+)#(.)/',$subject,$matches,PREG_OFFSET_CAPTURE);
+		$n=preg_match_all('/\b'.$translator.'\s*\(\s*(\'.*?(?<!\\\\)\'|".*?(?<!\\\\)")\s*,\s*(\'.*?(?<!\\\\)\'|".*?(?<!\\\\)")\s*[,\)]/',$subject,$matches,PREG_SET_ORDER);
 		$messages=array();
-		foreach($matches[1] as $j=>$match)
+		for($i=0;$i<$n;++$i)
 		{
-			list($category,$offset)=$match;
-			$quote=$subject[$offset-1];
-			$start=$matches[2][$j][1];
-			for($i=$start;isset($subject[$i]);++$i)
-			{
-				if($subject[$i]===$quote && $subject[$i-1]!=='\\')
-				{
-					$message=$quote.substr($subject,$start,$i-$start).$quote;
-					eval("\$str=$message;");  // use eval to eliminate quote escape
-					$messages[$category][]=$str;
-					break;
-				}
-			}
+			$category=substr($matches[$i][1],1,-1);
+			$message=$matches[$i][2];
+			$messages[$category][]=eval("return $message;");  // use eval to eliminate quote escape
 		}
 		return $messages;
 	}

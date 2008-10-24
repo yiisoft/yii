@@ -41,7 +41,7 @@ class CUrlValidator extends CValidator
 			return;
 		if(!preg_match($this->pattern,$value))
 		{
-			$message=$this->message!==null?$this->message:Yii::t('yii#{attribute} is not a valid URL.');
+			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} is not a valid URL.');
 			$this->addError($object,$attribute,$message);
 		}
 	}

@@ -75,11 +75,11 @@ class CFlexWidget extends CWidget
 	public function run()
 	{
 		if(empty($this->name))
-			throw new CException(Yii::t('yii#CFlexWidget.name cannot be empty.'));
+			throw new CException(Yii::t('yii','CFlexWidget.name cannot be empty.'));
 		if(empty($this->baseUrl))
-			throw new CException(Yii::t('yii#CFlexWidget.baseUrl cannot be empty.'));
+			throw new CException(Yii::t('yii','CFlexWidget.baseUrl cannot be empty.'));
 		if($this->altHtmlContent===null)
-			$this->altHtmlContent=Yii::t('yii#This content requires the <a href="http://www.adobe.com/go/getflash/">Adobe Flash Player</a>.');
+			$this->altHtmlContent=Yii::t('yii','This content requires the <a href="http://www.adobe.com/go/getflash/">Adobe Flash Player</a>.');
 
 		$cs=$this->getController()->getClientScript();
 		$cs->registerScriptFile($this->baseUrl.'/AC_OETags.js');

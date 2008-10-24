@@ -111,7 +111,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 			if($this->allowAutoLogin)
 				$this->saveToCookie($duration);
 			else
-				throw new CException(Yii::t('yii#{class}.allowAutoLogin must be set true in order to use cookie-based authentication.',
+				throw new CException(Yii::t('yii','{class}.allowAutoLogin must be set true in order to use cookie-based authentication.',
 					array('{class}'=>get_class($this))));
 		}
 	}
@@ -217,7 +217,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 			$request->redirect($url);
 		}
 		else
-			throw new CHttpException(401,Yii::t('yii#Login Required'));
+			throw new CHttpException(401,Yii::t('yii','Login Required'));
 	}
 
 	/**

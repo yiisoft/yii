@@ -62,7 +62,7 @@ class CDbTransaction extends CComponent
 			$this->_active=false;
 		}
 		else
-			throw new CDbException(Yii::t('yii#CDbTransaction is inactive and cannot perform commit or roll back operations.'));
+			throw new CDbException(Yii::t('yii','CDbTransaction is inactive and cannot perform commit or roll back operations.'));
 	}
 
 	/**
@@ -77,7 +77,7 @@ class CDbTransaction extends CComponent
 			$this->_active=false;
 		}
 		else
-			throw new CDbException(Yii::t('yii#CDbTransaction is inactive and cannot perform commit or roll back operations.'));
+			throw new CDbException(Yii::t('yii','CDbTransaction is inactive and cannot perform commit or roll back operations.'));
 	}
 
 	/**

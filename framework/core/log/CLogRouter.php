@@ -91,7 +91,7 @@ class CLogRouter extends CApplicationComponent
 			if(isset($c['class']))
 				$this->_routeConfig[]=new CConfiguration($c);
 			else
-				throw new CException(Yii::t('yii#Log route configuration must have a "class" value.'));
+				throw new CException(Yii::t('yii','Log route configuration must have a "class" value.'));
 		}
 	}
 

@@ -175,7 +175,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 		if(is_dir($value))
 			session_save_path($value);
 		else
-			throw new CException(Yii::t('yii#CHttpSession.savePath "{path}" is not a valid directory.',
+			throw new CException(Yii::t('yii','CHttpSession.savePath "{path}" is not a valid directory.',
 				array('{path}'=>$value)));
 	}
 
@@ -234,7 +234,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 			ini_set('session.use_only_cookies','1');
 		}
 		else
-			throw new CException(Yii::t('yii#CHttpSession.cookieMode can only be "none", "allow" or "only".'));
+			throw new CException(Yii::t('yii','CHttpSession.cookieMode can only be "none", "allow" or "only".'));
 	}
 
 	/**
@@ -258,7 +258,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 			ini_set('session.gc_divisor','100');
 		}
 		else
-			throw new CException(Yii::t('yii#CHttpSession.gcProbability "{value}" is invalid. It must be an integer between 0 and 100.',
+			throw new CException(Yii::t('yii','CHttpSession.gcProbability "{value}" is invalid. It must be an integer between 0 and 100.',
 				array('{value}'=>$value)));
 	}
 

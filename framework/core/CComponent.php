@@ -102,7 +102,7 @@ class CComponent
 			return $this->_e[$name];
 		}
 		else
-			throw new CException(Yii::t('yii#Property "{class}.{property}" is not defined.',
+			throw new CException(Yii::t('yii','Property "{class}.{property}" is not defined.',
 				array('{class}'=>get_class($this), '{property}'=>$name)));
 	}
 
@@ -133,10 +133,10 @@ class CComponent
 			$this->_e[$name]->add($value);
 		}
 		else if(method_exists($this,'get'.$name))
-			throw new CException(Yii::t('yii#Property "{class}.{property}" is read only.',
+			throw new CException(Yii::t('yii','Property "{class}.{property}" is read only.',
 				array('{class}'=>get_class($this), '{property}'=>$name)));
 		else
-			throw new CException(Yii::t('yii#Property "{class}.{property}" is not defined.',
+			throw new CException(Yii::t('yii','Property "{class}.{property}" is not defined.',
 				array('{class}'=>get_class($this), '{property}'=>$name)));
 	}
 
@@ -219,7 +219,7 @@ class CComponent
 			return $this->_e[$name];
 		}
 		else
-			throw new CException(Yii::t('yii#Event "{class}.{event}" is not defined.',
+			throw new CException(Yii::t('yii','Event "{class}.{event}" is not defined.',
 				array('{class}'=>get_class($this), '{event}'=>$name)));
 	}
 
@@ -310,11 +310,11 @@ class CComponent
 					else if(method_exists($object,$method))
 						$object->$method($event);
 					else
-						throw new CException(Yii::t('yii#Event "{class}.{event}" is attached with an invalid handler "{handler}".',
+						throw new CException(Yii::t('yii','Event "{class}.{event}" is attached with an invalid handler "{handler}".',
 							array('{class}'=>get_class($this), '{event}'=>$name, '{handler}'=>$handler[1])));
 				}
 				else
-					throw new CException(Yii::t('yii#Event "{class}.{event}" is attached with an invalid handler "{handler}".',
+					throw new CException(Yii::t('yii','Event "{class}.{event}" is attached with an invalid handler "{handler}".',
 						array('{class}'=>get_class($this), '{event}'=>$name, '{handler}'=>gettype($handler))));
 				// stop further handling if param.handled is set true
 				if(($event instanceof CEvent) && $event->handled)
@@ -322,7 +322,7 @@ class CComponent
 			}
 		}
 		else if(!$this->hasEvent($name))
-			throw new CException(Yii::t('yii#Event "{class}.{event}" is not defined.',
+			throw new CException(Yii::t('yii','Event "{class}.{event}" is not defined.',
 				array('{class}'=>get_class($this), '{event}'=>$name)));
 	}
 }
@@ -536,7 +536,7 @@ class CPropertyValue
 		if($types[$enumType]->hasConstant($value))
 			return $value;
 		else
-			throw new CException(Yii::t('yii#Invalid enumerable value "{value}". Please make sure it is among ({enum}).',
+			throw new CException(Yii::t('yii','Invalid enumerable value "{value}". Please make sure it is among ({enum}).',
 				array('{value}'=>$value, '{enum}'=>implode(', ',$types[$enumType]->getConstants()))));
 	}
 }

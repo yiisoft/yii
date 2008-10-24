@@ -69,7 +69,7 @@ class CMultiFileUpload extends CWidget
 		else if(isset($this->htmlOptions['name']))
 			$name=$this->htmlOptions['name'];
 		else
-			throw new CException(Yii::t('yii#CMultiFileUpload.name is required.'));
+			throw new CException(Yii::t('yii','CMultiFileUpload.name is required.'));
 		if(substr($name,-2)!=='[]')
 			$name.='[]';
 		if(($id=$this->getId(false))===null)
