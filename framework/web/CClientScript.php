@@ -100,7 +100,11 @@ class CClientScript extends CComponent
 			$output=preg_replace('/(<head\s*>.*?)(<\\/head\s*>)/is','$1'.$html.'$2',$output,1);
 
 		if($html2!=='')
-			$output=preg_replace('/(<\\/body\s*>.*?<\/html\s*>)/is',$html2.'$1',$output,1);
+		{
+			$output=preg_replace('/(<\\/body\s*>.*?<\/html\s*>)/is',$html2.'$1',$output,1,$count);
+			if(!$count)
+				$output.=$html2;
+		}
 
 		return $output;
 	}
