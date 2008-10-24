@@ -460,7 +460,13 @@ class CController extends CBaseController
 	public function renderPartial($view,$data=null,$return=false)
 	{
 		if(($viewFile=$this->getViewFile($view))!==false)
-			return $this->renderFile($viewFile,$data,$return);
+		{
+			$output=$this->renderFile($viewFile,$data,true);
+			if($return)
+				return $output;
+			else
+				echo $output;
+		}
 		else
 			throw new CException(Yii::t('yii','{controller} cannot find the requested view "{view}".',
 				array('{controller}'=>get_class($this), '{view}'=>$view)));
