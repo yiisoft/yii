@@ -363,15 +363,19 @@ class YiiBase
 	 * more interpretation about message category.
 	 * @param string the original message
 	 * @param array parameters to be applied to the message using <code>strtr</code>.
+	 * @param string which message source application component to use.
+	 * Defaults to null, meaning using 'coreMessages' for messages belonging to
+	 * the 'yii' category and using 'messages' for the rest messages.
 	 * @return string the translated message
 	 * @see CMessageSource
 	 */
-	public static function t($category,$message,$params=array())
+	public static function t($category,$message,$params=array(),$source=null)
 	{
 		if(self::$_app!==null)
 		{
-			$source=$category==='yii'?self::$_app->getCoreMessages():self::$_app->getMessages();
-			if($source!==null)
+			if($source===null)
+				$source=$category==='yii'?'coreMessages':'messages';
+			if(($source=self::$_app->getComponent($source))!==null)
 				$message=$source->translate($category,$message);
 		}
 		return $params!==array() ? strtr($message,$params) : $message;
