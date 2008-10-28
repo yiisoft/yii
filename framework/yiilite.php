@@ -36,7 +36,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.0b';
+		return '1.0rc';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -179,12 +179,13 @@ class YiiBase
 	{
 		return 'Powered by <a href="http://www.yiiframework.com/">Yii Framework</a>.';
 	}
-	public static function t($category,$message,$params=array())
+	public static function t($category,$message,$params=array(),$source=null)
 	{
 		if(self::$_app!==null)
 		{
-			$source=$category==='yii'?self::$_app->getCoreMessages():self::$_app->getMessages();
-			if($source!==null)
+			if($source===null)
+				$source=$category==='yii'?'coreMessages':'messages';
+			if(($source=self::$_app->getComponent($source))!==null)
 				$message=$source->translate($category,$message);
 		}
 		return $params!==array() ? strtr($message,$params) : $message;
@@ -251,10 +252,14 @@ class YiiBase
 		'CSqliteSchema' => '/db/schema/sqlite/CSqliteSchema.php',
 		'CDateFormatter' => '/i18n/CDateFormatter.php',
 		'CDbMessageSource' => '/i18n/CDbMessageSource.php',
+		'CGettextMessageSource' => '/i18n/CGettextMessageSource.php',
 		'CLocale' => '/i18n/CLocale.php',
 		'CMessageSource' => '/i18n/CMessageSource.php',
 		'CNumberFormatter' => '/i18n/CNumberFormatter.php',
 		'CPhpMessageSource' => '/i18n/CPhpMessageSource.php',
+		'CGettextFile' => '/i18n/gettext/CGettextFile.php',
+		'CGettextMoFile' => '/i18n/gettext/CGettextMoFile.php',
+		'CGettextPoFile' => '/i18n/gettext/CGettextPoFile.php',
 		'CDateParser' => '/utils/CDateParser.php',
 		'CFileHelper' => '/utils/CFileHelper.php',
 		'CTimestamp' => '/utils/CTimestamp.php',
@@ -2344,10 +2349,18 @@ class CController extends CBaseController
 		else
 			echo $output;
 	}
-	public function renderPartial($view,$data=null,$return=false)
+	public function renderPartial($view,$data=null,$return=false,$processOutput=false)
 	{
 		if(($viewFile=$this->getViewFile($view))!==false)
-			return $this->renderFile($viewFile,$data,$return);
+		{
+			$output=$this->renderFile($viewFile,$data,true);
+			if($processOutput)
+				$output=$this->processOutput($output);
+			if($return)
+				return $output;
+			else
+				echo $output;
+		}
 		else
 			throw new CException(Yii::t('yii','{controller} cannot find the requested view "{view}".',
 				array('{controller}'=>get_class($this), '{view}'=>$view)));
@@ -5611,7 +5624,11 @@ class CClientScript extends CComponent
 		if($html!=='')
 			$output=preg_replace('/(<head\s*>.*?)(<\\/head\s*>)/is','$1'.$html.'$2',$output,1);
 		if($html2!=='')
-			$output=preg_replace('/(<\\/body\s*>.*?<\/html\s*>)/is',$html2.'$1',$output,1);
+		{
+			$output=preg_replace('/(<\\/body\s*>.*?<\/html\s*>)/is',$html2.'$1',$output,1,$count);
+			if(!$count)
+				$output.=$html2;
+		}
 		return $output;
 	}
 	public function getCoreScriptUrl()
@@ -6009,6 +6026,85 @@ class CAssetManager extends CApplicationComponent
 	protected function hash($path)
 	{
 		return sprintf('%x',crc32($path.Yii::getVersion()));
+	}
+}
+class CFileHelper
+{
+	public static function copyDirectory($src,$dst,$options=array())
+	{
+		$fileTypes=array();
+		$exclude=array();
+		$level=-1;
+		extract($options);
+		self::copyDirectoryRecursive($src,$dst,'',$fileTypes,$exclude,$level);
+	}
+	public static function findFiles($dir,$options=array())
+	{
+		$fileTypes=array();
+		$exclude=array();
+		$level=-1;
+		extract($options);
+		$list=self::findFilesRecursive($dir,'',$fileTypes,$exclude,$level);
+		sort($list);
+		return $list;
+	}
+	protected static function copyDirectoryRecursive($src,$dst,$base,$fileTypes,$exclude,$level)
+	{
+		@mkdir($dst);
+		$folder=opendir($src);
+		while($file=readdir($folder))
+		{
+			if($file==='.' || $file==='..')
+				continue;
+			$path=$src.DIRECTORY_SEPARATOR.$file;
+			$isFile=is_file($path);
+			if(self::validatePath($base,$file,$isFile,$fileTypes,$exclude))
+			{
+				if($isFile)
+					copy($path,$dst.DIRECTORY_SEPARATOR.$file);
+				else if($level)
+					self::copyDirectoryRecursive($path,$dst.DIRECTORY_SEPARATOR.$file,$base.'/'.$file,$fileTypes,$exclude,$level-1);
+			}
+		}
+		closedir($folder);
+	}
+	protected static function findFilesRecursive($dir,$base,$fileTypes,$exclude,$level)
+	{
+		$list=array();
+		$handle=opendir($dir);
+		while($file=readdir($handle))
+		{
+			if($file==='.' || $file==='..')
+				continue;
+			$path=$dir.DIRECTORY_SEPARATOR.$file;
+			$isFile=is_file($path);
+			if(self::validatePath($base,$file,$isFile,$fileTypes,$exclude))
+			{
+				if($isFile)
+					$list[]=$path;
+				else if($level)
+					$list=array_merge($list,self::findFilesRecursive($path,$base.'/'.$file,$fileTypes,$exclude,$level-1));
+			}
+		}
+		closedir($handle);
+		return $list;
+	}
+	protected static function validatePath($base,$file,$isFile,$fileTypes,$exclude)
+	{
+		foreach($exclude as $e)
+		{
+			if($file===$e || strpos($base.'/'.$file,$e)===0)
+				return false;
+		}
+		if(!$isFile || empty($fileTypes))
+			return true;
+		if(($pos=strrpos($file,'.'))!==false)
+		{
+			$type=substr($file,$pos+1);
+			return in_array($type,$fileTypes);
+		}
+		else
+			return false;
 	}
 }
 interface IApplicationComponent
