@@ -5,6 +5,7 @@
 Version 1.0rc to be released
 -----------------------------
 - Fixed ticket #18: renderPartial should enable output caching to avoid session start issue (Qiang)
+- Added $source parameter to YiiBase::t() (Qiang)
 
 Version 1.0b October 24, 2008
 -----------------------------
