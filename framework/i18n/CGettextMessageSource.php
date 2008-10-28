@@ -13,11 +13,8 @@
  *
  * Each CGettextMessageSource instance represents the message tranlations
  * for a single domain. And each message category represents a message context
- * in Gettext.
- *
- * Like {@link CPhpMessageSource}, CGettextMessageSource assumes each message
- * category is stored in a separate file. The file format can be either
- * MO or PO, depending on the {@link useMoFile} property value.
+ * in Gettext. Translated messages are stored as either a MO or PO file,
+ * depending on the {@link useMoFile} property value.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
@@ -50,6 +47,11 @@ class CGettextMessageSource extends CMessageSource
 	 * Defaults to false. This property is only used when {@link useMoFile} is true.
 	 */
 	public $useBigEndian=false;
+	/**
+	 * @var string the message catalog name. This is the name of the message file (without extension)
+	 * that stores the translated messages. Defaults to 'messages'.
+	 */
+	public $catalog='messages';
 
 	/**
 	 * Initializes the application component.
@@ -71,7 +73,7 @@ class CGettextMessageSource extends CMessageSource
 	 */
 	protected function loadMessages($category, $language)
 	{
-        $messageFile=$this->basePath . DIRECTORY_SEPARATOR . $language . DIRECTORY_SEPARATOR . $category;
+        $messageFile=$this->basePath . DIRECTORY_SEPARATOR . $language . DIRECTORY_SEPARATOR . $this->catalog;
         if($this->useMoFile)
         	$messageFile.=self::MO_FILE_EXT;
         else
@@ -90,7 +92,7 @@ class CGettextMessageSource extends CMessageSource
 				$file=new CGettextMoFile($this->useBigEndian);
 			else
 				$file=new CGettextPoFile();
-			$messages=$file->load($messageFile);
+			$messages=$file->load($messageFile,$category);
 			if(isset($cache))
 			{
 				$dependency=new CFileCacheDependency($messageFile);

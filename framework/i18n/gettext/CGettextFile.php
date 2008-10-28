@@ -21,13 +21,16 @@ abstract class CGettextFile extends CComponent
 	/**
 	 * Loads messages from a file.
 	 * @param string file path
+	 * @param string message context
 	 * @return array message translations (source message => translated message)
 	 */
-	abstract public function load($file);
+	abstract public function load($file,$context);
 	/**
 	 * Saves messages to a file.
 	 * @param string file path
-	 * @param array message translations (source message => translated message)
+	 * @param array message translations (message id => translated message).
+	 * Note if the message has a context, the message id must be prefixed with
+	 * the context with chr(4) as the separator.
 	 */
 	abstract public function save($file,$messages);
 }
