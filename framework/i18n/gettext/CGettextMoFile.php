@@ -61,9 +61,10 @@ class CGettextMoFile extends CGettextFile
 	/**
 	 * Loads messages from an MO file.
 	 * @param string file path
+	 * @param string message context
 	 * @return array message translations (source message => translated message)
 	 */
-	public function load($file)
+	public function load($file,$context)
 	{
 		if(!($fr=@fopen($file,'rb')))
 			throw new CException(Yii::t('yii','Unable to read file "{file}".',
@@ -112,8 +113,12 @@ class CGettextMoFile extends CGettextFile
 		for($i=0;$i<$count;++$i)
 		{
 			$id=$this->readString($fr,$sourceLengths[$i],$sourceOffsets[$i]);
-			$message=$this->readString($fr,$targetLengths[$i],$targetOffsets[$i]);
-			$messages[$id]=$message;
+			if(($pos=strpos($id,chr(4)))!==false && substr($id,0,$pos)===$context)
+			{
+				$id=substr($id,$pos+1);
+				$message=$this->readString($fr,$targetLengths[$i],$targetOffsets[$i]);
+				$messages[$id]=$message;
+			}
 		}
 
 		@flock($fr,LOCK_UN);
@@ -125,7 +130,9 @@ class CGettextMoFile extends CGettextFile
 	/**
 	 * Saves messages to an MO file.
 	 * @param string file path
-	 * @param array message translations (source message => translated message)
+	 * @param array message translations (message id => translated message).
+	 * Note if the message has a context, the message id must be prefixed with
+	 * the context with chr(4) as the separator.
 	 */
 	public function save($file,$messages)
 	{
@@ -198,7 +205,8 @@ class CGettextMoFile extends CGettextFile
 	 */
 	protected function readByte($fr,$n=1)
 	{
-		return fread($fr,$n);
+		if($n>0)
+			return fread($fr,$n);
 	}
 
 	/**
