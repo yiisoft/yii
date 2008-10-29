@@ -42,6 +42,13 @@ class CHttpCookie extends CComponent
 	 * @var boolean whether cookie should be sent via secure connection
 	 */
 	public $secure=false;
+	/**
+	 * @var boolean whether the cookie should be accessible only through the HTTP protocol.
+	 * By setting this property to true, the cookie will not be accessible by scripting languages,
+	 * such as JavaScript, which can effectly help to reduce identity theft through XSS attacks.
+	 * Note, this property is only effective for PHP 5.2.0 or above.
+	 */
+	public $httpOnly=false;
 
 	/**
 	 * Constructor.
