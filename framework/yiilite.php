@@ -2071,11 +2071,11 @@ class CCookieCollection extends CMap
 		$value=$cookie->value;
 		if($this->_request->enableCookieValidation)
 			$value=Yii::app()->getSecurityManager()->hashData($value);
-		setcookie($cookie->name,$value,$cookie->expire,$cookie->path,$cookie->domain,$cookie->secure);
+		setcookie($cookie->name,$value,$cookie->expire,$cookie->path,$cookie->domain,$cookie->secure,$cookie->httpOnly);
 	}
 	protected function removeCookie($cookie)
 	{
-		setcookie($cookie->name,null,0,$cookie->path,$cookie->domain,$cookie->secure);
+		setcookie($cookie->name,null,0,$cookie->path,$cookie->domain,$cookie->secure,$cookie->httpOnly);
 	}
 }
 abstract class CBaseController extends CComponent
@@ -6026,85 +6026,6 @@ class CAssetManager extends CApplicationComponent
 	protected function hash($path)
 	{
 		return sprintf('%x',crc32($path.Yii::getVersion()));
-	}
-}
-class CFileHelper
-{
-	public static function copyDirectory($src,$dst,$options=array())
-	{
-		$fileTypes=array();
-		$exclude=array();
-		$level=-1;
-		extract($options);
-		self::copyDirectoryRecursive($src,$dst,'',$fileTypes,$exclude,$level);
-	}
-	public static function findFiles($dir,$options=array())
-	{
-		$fileTypes=array();
-		$exclude=array();
-		$level=-1;
-		extract($options);
-		$list=self::findFilesRecursive($dir,'',$fileTypes,$exclude,$level);
-		sort($list);
-		return $list;
-	}
-	protected static function copyDirectoryRecursive($src,$dst,$base,$fileTypes,$exclude,$level)
-	{
-		@mkdir($dst);
-		$folder=opendir($src);
-		while($file=readdir($folder))
-		{
-			if($file==='.' || $file==='..')
-				continue;
-			$path=$src.DIRECTORY_SEPARATOR.$file;
-			$isFile=is_file($path);
-			if(self::validatePath($base,$file,$isFile,$fileTypes,$exclude))
-			{
-				if($isFile)
-					copy($path,$dst.DIRECTORY_SEPARATOR.$file);
-				else if($level)
-					self::copyDirectoryRecursive($path,$dst.DIRECTORY_SEPARATOR.$file,$base.'/'.$file,$fileTypes,$exclude,$level-1);
-			}
-		}
-		closedir($folder);
-	}
-	protected static function findFilesRecursive($dir,$base,$fileTypes,$exclude,$level)
-	{
-		$list=array();
-		$handle=opendir($dir);
-		while($file=readdir($handle))
-		{
-			if($file==='.' || $file==='..')
-				continue;
-			$path=$dir.DIRECTORY_SEPARATOR.$file;
-			$isFile=is_file($path);
-			if(self::validatePath($base,$file,$isFile,$fileTypes,$exclude))
-			{
-				if($isFile)
-					$list[]=$path;
-				else if($level)
-					$list=array_merge($list,self::findFilesRecursive($path,$base.'/'.$file,$fileTypes,$exclude,$level-1));
-			}
-		}
-		closedir($handle);
-		return $list;
-	}
-	protected static function validatePath($base,$file,$isFile,$fileTypes,$exclude)
-	{
-		foreach($exclude as $e)
-		{
-			if($file===$e || strpos($base.'/'.$file,$e)===0)
-				return false;
-		}
-		if(!$isFile || empty($fileTypes))
-			return true;
-		if(($pos=strrpos($file,'.'))!==false)
-		{
-			$type=substr($file,$pos+1);
-			return in_array($type,$fileTypes);
-		}
-		else
-			return false;
 	}
 }
 interface IApplicationComponent
