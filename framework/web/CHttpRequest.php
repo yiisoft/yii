@@ -581,7 +581,7 @@ class CCookieCollection extends CMap
 		$value=$cookie->value;
 		if($this->_request->enableCookieValidation)
 			$value=Yii::app()->getSecurityManager()->hashData($value);
-		if(version_compare('5.2.0',PHP_VERSION,'>='))
+		if(version_compare(PHP_VERSION,'5.2.0','>='))
 			setcookie($cookie->name,$value,$cookie->expire,$cookie->path,$cookie->domain,$cookie->secure,$cookie->httpOnly);
 		else
 			setcookie($cookie->name,$value,$cookie->expire,$cookie->path,$cookie->domain,$cookie->secure);
@@ -593,7 +593,7 @@ class CCookieCollection extends CMap
 	 */
 	protected function removeCookie($cookie)
 	{
-		if(version_compare('5.2.0',PHP_VERSION,'>='))
+		if(version_compare(PHP_VERSION,'5.2.0','>='))
 			setcookie($cookie->name,null,0,$cookie->path,$cookie->domain,$cookie->secure,$cookie->httpOnly);
 		else
 			setcookie($cookie->name,null,0,$cookie->path,$cookie->domain,$cookie->secure);
