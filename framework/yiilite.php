@@ -2071,11 +2071,17 @@ class CCookieCollection extends CMap
 		$value=$cookie->value;
 		if($this->_request->enableCookieValidation)
 			$value=Yii::app()->getSecurityManager()->hashData($value);
-		setcookie($cookie->name,$value,$cookie->expire,$cookie->path,$cookie->domain,$cookie->secure,$cookie->httpOnly);
+		if(version_compare('5.2.0',PHP_VERSION,'>='))
+			setcookie($cookie->name,$value,$cookie->expire,$cookie->path,$cookie->domain,$cookie->secure,$cookie->httpOnly);
+		else
+			setcookie($cookie->name,$value,$cookie->expire,$cookie->path,$cookie->domain,$cookie->secure);
 	}
 	protected function removeCookie($cookie)
 	{
-		setcookie($cookie->name,null,0,$cookie->path,$cookie->domain,$cookie->secure,$cookie->httpOnly);
+		if(version_compare('5.2.0',PHP_VERSION,'>='))
+			setcookie($cookie->name,null,0,$cookie->path,$cookie->domain,$cookie->secure,$cookie->httpOnly);
+		else
+			setcookie($cookie->name,null,0,$cookie->path,$cookie->domain,$cookie->secure);
 	}
 }
 abstract class CBaseController extends CComponent
