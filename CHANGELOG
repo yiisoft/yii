@@ -9,6 +9,7 @@ Version 1.0rc to be released
 - Added CGettextMessageSource (Qiang)
 - Added CHttpCookie.httpOnly property (Qiang)
 - Changed CHtml::activeLabel so that it won't encode the label (Qiang)
+- Fixed ticket #19: CHtml::activeCheckBox does not work as expected when unchecked (Qiang)
 
 Version 1.0b October 24, 2008
 -----------------------------
