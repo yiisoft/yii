@@ -359,12 +359,13 @@ class CHtml
 	 */
 	public static function radioButton($name,$checked=false,$htmlOptions=array())
 	{
-		if(!isset($htmlOptions['value']))
-			$htmlOptions['value']=1;
 		if($checked)
 			$htmlOptions['checked']='checked';
+		else
+			unset($htmlOptions['checked']);
+		$value=isset($htmlOptions['value']) ? $htmlOptions['value'] : 1;
 		self::clientChange('click',$htmlOptions);
-		return self::inputField('radio',$name,$checked,$htmlOptions);
+		return self::inputField('radio',$name,$value,$htmlOptions);
 	}
 
 	/**
@@ -379,12 +380,13 @@ class CHtml
 	 */
 	public static function checkBox($name,$checked=false,$htmlOptions=array())
 	{
-		if(!isset($htmlOptions['value']))
-			$htmlOptions['value']=1;
 		if($checked)
 			$htmlOptions['checked']='checked';
+		else
+			unset($htmlOptions['checked']);
+		$value=isset($htmlOptions['value']) ? $htmlOptions['value'] : 1;
 		self::clientChange('click',$htmlOptions);
-		return self::inputField('checkbox',$name,$checked,$htmlOptions);
+		return self::inputField('checkbox',$name,$value,$htmlOptions);
 	}
 
 	/**
@@ -423,6 +425,81 @@ class CHtml
 		if(!isset($htmlOptions['size']))
 			$htmlOptions['size']=4;
 		return self::dropDownList($name,$select,$data,$htmlOptions);
+	}
+
+	/**
+	 * Generates a check box list.
+	 * A check box list allows multiple selection, like {@link listBox}.
+	 * As a result, the corresponding POST value is an array.
+	 * @param string name of the check box list. You can use this name to retrieve
+	 * the selected value(s) once the form is submitted.
+	 * @param mixed selection of the check boxes. This can be either a string
+	 * for single selection or an array for multiple selections.
+	 * @param array value-label pairs used to generate the check box list.
+	 * @param array addtional HTML options. The options will be applied to
+	 * each checkbox input. The following special options are recognized:
+	 * <ul>
+	 * <li>template: string, specifies how each checkbox is rendered. Defaults
+	 * to "{input} {label}", where "{input}" will be replaced by the generated
+	 * check box input tag while "{label}" be replaced by the corresponding check box label.</li>
+	 * <li>separator: string, specifies the string that separates the generated check boxes.</li>
+	 * </ul>
+	 * @return string the generated check box list
+	 */
+	public static function checkBoxList($name,$select,$data,$htmlOptions=array())
+	{
+		$template=isset($htmlOptions['template'])?$htmlOptions['template']:'{input} {label}';
+		$separator=isset($htmlOptions['separator'])?$htmlOptions['separator']:"<br/>\n";
+		unset($htmlOptions['template'],$htmlOptions['separator']);
+
+		if(substr($name,-2)!=='[]')
+			$name.='[]';
+
+		$items=array();
+		foreach($data as $value=>$label)
+		{
+			$checked=!is_array($select) && !strcmp($value,$select) || is_array($select) && in_array($value,$select);
+			$htmlOptions['value']=$value;
+			$option=self::checkBox($name,$checked,$htmlOptions);
+			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
+		}
+		return implode($separator,$items);
+	}
+
+	/**
+	 * Generates a radio button list.
+	 * A radio button list is like a {@link checkBoxList check box list}, except that
+	 * it only allows single selection.
+	 * @param string name of the radio button list. You can use this name to retrieve
+	 * the selected value(s) once the form is submitted.
+	 * @param mixed selection of the radio buttons. This can be either a string
+	 * for single selection or an array for multiple selections.
+	 * @param array value-label pairs used to generate the radio button list.
+	 * @param array addtional HTML options. The options will be applied to
+	 * each checkbox input. The following special options are recognized:
+	 * <ul>
+	 * <li>template: string, specifies how each checkbox is rendered. Defaults
+	 * to "{input} {label}", where "{input}" will be replaced by the generated
+	 * radio button input tag while "{label}" be replaced by the corresponding radio button label.</li>
+	 * <li>separator: string, specifies the string that separates the generated radio buttons.</li>
+	 * </ul>
+	 * @return string the generated radio button list
+	 */
+	public static function radioButtonList($name,$select,$data,$htmlOptions=array())
+	{
+		$template=isset($htmlOptions['template'])?$htmlOptions['template']:'{input} {label}';
+		$separator=isset($htmlOptions['separator'])?$htmlOptions['separator']:"<br/>\n";
+		unset($htmlOptions['template'],$htmlOptions['separator']);
+
+		$items=array();
+		foreach($data as $value=>$label)
+		{
+			$checked=!strcmp($value,$select);
+			$htmlOptions['value']=$value;
+			$option=self::radioButton($name,$checked,$htmlOptions);
+			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
+		}
+		return implode($separator,$items);
 	}
 
 	/**
@@ -673,7 +750,8 @@ class CHtml
 			$htmlOptions['checked']='checked';
 		self::resolveNameID($model,$attribute,$htmlOptions);
 		self::clientChange('click',$htmlOptions);
-		return self::activeInputField('radio',$model,$attribute,$htmlOptions);
+		return self::hiddenField($htmlOptions['name'],$htmlOptions['value']?0:-1)
+			. self::activeInputField('radio',$model,$attribute,$htmlOptions);
 	}
 
 	/**
@@ -698,7 +776,7 @@ class CHtml
 		self::resolveNameID($model,$attribute,$htmlOptions);
 		self::clientChange('click',$htmlOptions);
 
-		return self::hiddenField($htmlOptions['name'],$htmlOptions['value']?0:-1)
+		return self::hiddenField($htmlOptions['name'],'')
 			. self::activeInputField('checkbox',$model,$attribute,$htmlOptions);
 	}
 
@@ -728,6 +806,7 @@ class CHtml
 
 	/**
 	 * Generates a list box for a model attribute.
+	 * The model attribute value is used as the selection.
 	 * If the attribute has input error, the input field's CSS class will
 	 * be appended with {@link errorCss}.
 	 * @param CModel the data model
@@ -743,7 +822,73 @@ class CHtml
 	{
 		if(!isset($htmlOptions['size']))
 			$htmlOptions['size']=4;
-		return self::dropDownList($model,$attribute,$data,$htmlOptions);
+		return self::activeDropDownList($model,$attribute,$data,$htmlOptions);
+	}
+
+	/**
+	 * Generates a check box list for a model attribute.
+	 * The model attribute value is used as the selection.
+	 * If the attribute has input error, the input field's CSS class will
+	 * be appended with {@link errorCss}.
+	 * Note that a check box list allows multiple selection, like {@link listBox}.
+	 * As a result, the corresponding POST value is an array.
+	 * @param CModel the data model
+	 * @param string the attribute
+	 * @param array value-label pairs used to generate the check box list.
+	 * @param array addtional HTML options. The options will be applied to
+	 * each checkbox input. The following special options are recognized:
+	 * <ul>
+	 * <li>template: string, specifies how each checkbox is rendered. Defaults
+	 * to "{input} {label}", where "{input}" will be replaced by the generated
+	 * check box input tag while "{label}" be replaced by the corresponding check box label.</li>
+	 * <li>separator: string, specifies the string that separates the generated check boxes.</li>
+	 * </ul>
+	 * @return string the generated check box list
+	 * @see checkBoxList
+	 */
+	public static function activeCheckBoxList($model,$attribute,$data,$htmlOptions=array())
+	{
+		$selection=$model->$attribute;
+		self::resolveNameID($model,$attribute,$htmlOptions);
+		if($model->hasErrors($attribute))
+			self::addErrorCss($htmlOptions);
+		$name=$htmlOptions['name'];
+		unset($htmlOptions['name'],$htmlOptions['id']);
+
+		return self::hiddenField($name,'')
+			. self::checkBoxList($name,$selection,$data,$htmlOptions);
+	}
+
+	/**
+	 * Generates a radio button list for a model attribute.
+	 * The model attribute value is used as the selection.
+	 * If the attribute has input error, the input field's CSS class will
+	 * be appended with {@link errorCss}.
+	 * @param CModel the data model
+	 * @param string the attribute
+	 * @param array value-label pairs used to generate the radio button list.
+	 * @param array addtional HTML options. The options will be applied to
+	 * each checkbox input. The following special options are recognized:
+	 * <ul>
+	 * <li>template: string, specifies how each checkbox is rendered. Defaults
+	 * to "{input} {label}", where "{input}" will be replaced by the generated
+	 * radio button input tag while "{label}" be replaced by the corresponding radio button label.</li>
+	 * <li>separator: string, specifies the string that separates the generated radio buttons.</li>
+	 * </ul>
+	 * @return string the generated radio button list
+	 * @see radioButtonList
+	 */
+	public static function activeRadioButtonList($model,$attribute,$data,$htmlOptions=array())
+	{
+		$selection=$model->$attribute;
+		self::resolveNameID($model,$attribute,$htmlOptions);
+		if($model->hasErrors($attribute))
+			self::addErrorCss($htmlOptions);
+		$name=$htmlOptions['name'];
+		unset($htmlOptions['name'],$htmlOptions['id']);
+
+		return self::hiddenField($name,'')
+			. self::radioButtonList($name,$selection,$data,$htmlOptions);
 	}
 
 	/**
@@ -895,7 +1040,7 @@ class CHtml
 				$content.=self::listOptions($value,$selection,$dummy);
 				$content.='</optgroup>'."\n";
 			}
-			else if(!strcmp($key,$selection) || is_array($selection) && in_array($key,$selection))
+			else if(!is_array($selection) && !strcmp($key,$selection) || is_array($selection) && in_array($key,$selection))
 				$content.='<option value="'.self::encode((string)$key).'" selected="selected">'.self::encode((string)$value)."</option>\n";
 			else
 				$content.='<option value="'.self::encode((string)$key).'">'.self::encode((string)$value)."</option>\n";
