@@ -2071,14 +2071,14 @@ class CCookieCollection extends CMap
 		$value=$cookie->value;
 		if($this->_request->enableCookieValidation)
 			$value=Yii::app()->getSecurityManager()->hashData($value);
-		if(version_compare('5.2.0',PHP_VERSION,'>='))
+		if(version_compare(PHP_VERSION,'5.2.0','>='))
 			setcookie($cookie->name,$value,$cookie->expire,$cookie->path,$cookie->domain,$cookie->secure,$cookie->httpOnly);
 		else
 			setcookie($cookie->name,$value,$cookie->expire,$cookie->path,$cookie->domain,$cookie->secure);
 	}
 	protected function removeCookie($cookie)
 	{
-		if(version_compare('5.2.0',PHP_VERSION,'>='))
+		if(version_compare(PHP_VERSION,'5.2.0','>='))
 			setcookie($cookie->name,null,0,$cookie->path,$cookie->domain,$cookie->secure,$cookie->httpOnly);
 		else
 			setcookie($cookie->name,null,0,$cookie->path,$cookie->domain,$cookie->secure);
@@ -3203,7 +3203,7 @@ class CHtml
 			$name=get_class($model).substr($attribute,$pos).'['.($attribute=substr($attribute,0,$pos)).']';
 		else
 			$name=get_class($model).'['.$attribute.']';
-		$label=CHtml::encode($model->getAttributeLabel($attribute));
+		$label=$model->getAttributeLabel($attribute);
 		$for=str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $name);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);

@@ -574,7 +574,7 @@ class CHtml
 			$name=get_class($model).substr($attribute,$pos).'['.($attribute=substr($attribute,0,$pos)).']';
 		else
 			$name=get_class($model).'['.$attribute.']';
-		$label=CHtml::encode($model->getAttributeLabel($attribute));
+		$label=$model->getAttributeLabel($attribute);
 		$for=str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $name);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
