@@ -3252,7 +3252,8 @@ class CHtml
 			$htmlOptions['checked']='checked';
 		self::resolveNameID($model,$attribute,$htmlOptions);
 		self::clientChange('click',$htmlOptions);
-		return self::activeInputField('checkbox',$model,$attribute,$htmlOptions);
+		return self::hiddenField($htmlOptions['name'],$htmlOptions['value']?0:-1)
+			. self::activeInputField('checkbox',$model,$attribute,$htmlOptions);
 	}
 	public static function activeDropDownList($model,$attribute,$data,$htmlOptions=array())
 	{

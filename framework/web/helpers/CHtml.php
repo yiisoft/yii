@@ -678,6 +678,7 @@ class CHtml
 
 	/**
 	 * Generates a check box for a model attribute.
+	 * The attribute is assumed to take either true or false value.
 	 * If the attribute has input error, the input field's CSS class will
 	 * be appended with {@link errorCss}.
 	 * @param CModel the data model
@@ -696,7 +697,9 @@ class CHtml
 			$htmlOptions['checked']='checked';
 		self::resolveNameID($model,$attribute,$htmlOptions);
 		self::clientChange('click',$htmlOptions);
-		return self::activeInputField('checkbox',$model,$attribute,$htmlOptions);
+
+		return self::hiddenField($htmlOptions['name'],$htmlOptions['value']?0:-1)
+			. self::activeInputField('checkbox',$model,$attribute,$htmlOptions);
 	}
 
 	/**
