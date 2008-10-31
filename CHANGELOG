@@ -8,6 +8,7 @@ Version 1.0rc to be released
 - Added $source parameter to YiiBase::t() (Qiang)
 - Added CGettextMessageSource (Qiang)
 - Added CHttpCookie.httpOnly property (Qiang)
+- Changed CHtml::activeLabel so that it won't encode the label (Qiang)
 
 Version 1.0b October 24, 2008
 -----------------------------
