@@ -24,7 +24,7 @@ class CSqliteCommandBuilder extends CDbCommandBuilder
 	 * IN expression with composite columns.
 	 * @param CDbTableSchema the table schema
 	 * @param array list of primary key values to be selected within
-	 * @param string column prefix (ended with dot). If null, it will be the table name
+	 * @param string column prefix (ended with dot)
 	 * @return string the expression for selection
 	 */
 	protected function createCompositePkCondition($table,$values,$prefix)

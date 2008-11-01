@@ -2253,7 +2253,7 @@ class CController extends CBaseController
 		}
 		if($this->_dynamicOutput)
 		{
-			$output=preg_replace_callback('/<###tmp(\d+)###>/',array($this,'replaceDynamicOutput'),$output);
+			$output=preg_replace_callback('/<###dynamic-(\d+)###>/',array($this,'replaceDynamicOutput'),$output);
 			$this->_dynamicOutput=null;
 		}
 		return $output;
@@ -2374,7 +2374,7 @@ class CController extends CBaseController
 	public function renderDynamic($callback)
 	{
 		$n=count($this->_dynamicOutput);
-		echo "<###tmp$n###>";
+		echo "<###dynamic-$n###>";
 		$params=func_get_args();
 		array_shift($params);
 		$this->renderDynamicInternal($callback,$params);
@@ -2472,6 +2472,14 @@ class CController extends CBaseController
 		$filter=new CAccessControlFilter;
 		$filter->setRules($this->accessRules());
 		$filter->filter($filterChain);
+	}
+	public function getPageState($name,$defaultValue=null)
+	{
+		return $this->getClientScript()->getPageState($name,$defaultValue);
+	}
+	public function setPageState($name,$value,$defaultValue=null)
+	{
+		$this->getClientScript()->setPageState($name,$value,$defaultValue);
 	}
 	protected function paginate($itemCount,$pageSize=null,$pageVar=null)
 	{
@@ -3021,6 +3029,11 @@ class CHtml
 		$htmlOptions['method']=$method;
 		return self::tag('form',$htmlOptions,false,false);
 	}
+	public static function statefulForm($action='',$method='post',$htmlOptions=array())
+	{
+		return self::form($action,$method,$htmlOptions)."\n"
+			.'<div style="visibility:hidden;">'.CClientScript::STATE_INPUT_FIELD.'</div>';
+	}
 	public static function link($text,$url='#',$htmlOptions=array())
 	{
 		$htmlOptions['href']=self::normalizeUrl($url);
@@ -3103,21 +3116,23 @@ class CHtml
 	}
 	public static function radioButton($name,$checked=false,$htmlOptions=array())
 	{
-		if(!isset($htmlOptions['value']))
-			$htmlOptions['value']=1;
 		if($checked)
 			$htmlOptions['checked']='checked';
+		else
+			unset($htmlOptions['checked']);
+		$value=isset($htmlOptions['value']) ? $htmlOptions['value'] : 1;
 		self::clientChange('click',$htmlOptions);
-		return self::inputField('radio',$name,$checked,$htmlOptions);
+		return self::inputField('radio',$name,$value,$htmlOptions);
 	}
 	public static function checkBox($name,$checked=false,$htmlOptions=array())
 	{
-		if(!isset($htmlOptions['value']))
-			$htmlOptions['value']=1;
 		if($checked)
 			$htmlOptions['checked']='checked';
+		else
+			unset($htmlOptions['checked']);
+		$value=isset($htmlOptions['value']) ? $htmlOptions['value'] : 1;
 		self::clientChange('click',$htmlOptions);
-		return self::inputField('checkbox',$name,$checked,$htmlOptions);
+		return self::inputField('checkbox',$name,$value,$htmlOptions);
 	}
 	public static function dropDownList($name,$select,$data,$htmlOptions=array())
 	{
@@ -3130,6 +3145,38 @@ class CHtml
 		if(!isset($htmlOptions['size']))
 			$htmlOptions['size']=4;
 		return self::dropDownList($name,$select,$data,$htmlOptions);
+	}
+	public static function checkBoxList($name,$select,$data,$htmlOptions=array())
+	{
+		$template=isset($htmlOptions['template'])?$htmlOptions['template']:'{input} {label}';
+		$separator=isset($htmlOptions['separator'])?$htmlOptions['separator']:"<br/>\n";
+		unset($htmlOptions['template'],$htmlOptions['separator']);
+		if(substr($name,-2)!=='[]')
+			$name.='[]';
+		$items=array();
+		foreach($data as $value=>$label)
+		{
+			$checked=!is_array($select) && !strcmp($value,$select) || is_array($select) && in_array($value,$select);
+			$htmlOptions['value']=$value;
+			$option=self::checkBox($name,$checked,$htmlOptions);
+			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
+		}
+		return implode($separator,$items);
+	}
+	public static function radioButtonList($name,$select,$data,$htmlOptions=array())
+	{
+		$template=isset($htmlOptions['template'])?$htmlOptions['template']:'{input} {label}';
+		$separator=isset($htmlOptions['separator'])?$htmlOptions['separator']:"<br/>\n";
+		unset($htmlOptions['template'],$htmlOptions['separator']);
+		$items=array();
+		foreach($data as $value=>$label)
+		{
+			$checked=!strcmp($value,$select);
+			$htmlOptions['value']=$value;
+			$option=self::radioButton($name,$checked,$htmlOptions);
+			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
+		}
+		return implode($separator,$items);
 	}
 	public static function ajaxLink($text,$url,$ajaxOptions=array(),$htmlOptions=array())
 	{
@@ -3242,7 +3289,8 @@ class CHtml
 			$htmlOptions['checked']='checked';
 		self::resolveNameID($model,$attribute,$htmlOptions);
 		self::clientChange('click',$htmlOptions);
-		return self::activeInputField('radio',$model,$attribute,$htmlOptions);
+		return self::hiddenField($htmlOptions['name'],$htmlOptions['value']?0:-1)
+			. self::activeInputField('radio',$model,$attribute,$htmlOptions);
 	}
 	public static function activeCheckBox($model,$attribute,$htmlOptions=array())
 	{
@@ -3252,7 +3300,7 @@ class CHtml
 			$htmlOptions['checked']='checked';
 		self::resolveNameID($model,$attribute,$htmlOptions);
 		self::clientChange('click',$htmlOptions);
-		return self::hiddenField($htmlOptions['name'],$htmlOptions['value']?0:-1)
+		return self::hiddenField($htmlOptions['name'],'')
 			. self::activeInputField('checkbox',$model,$attribute,$htmlOptions);
 	}
 	public static function activeDropDownList($model,$attribute,$data,$htmlOptions=array())
@@ -3269,7 +3317,29 @@ class CHtml
 	{
 		if(!isset($htmlOptions['size']))
 			$htmlOptions['size']=4;
-		return self::dropDownList($model,$attribute,$data,$htmlOptions);
+		return self::activeDropDownList($model,$attribute,$data,$htmlOptions);
+	}
+	public static function activeCheckBoxList($model,$attribute,$data,$htmlOptions=array())
+	{
+		$selection=$model->$attribute;
+		self::resolveNameID($model,$attribute,$htmlOptions);
+		if($model->hasErrors($attribute))
+			self::addErrorCss($htmlOptions);
+		$name=$htmlOptions['name'];
+		unset($htmlOptions['name'],$htmlOptions['id']);
+		return self::hiddenField($name,'')
+			. self::checkBoxList($name,$selection,$data,$htmlOptions);
+	}
+	public static function activeRadioButtonList($model,$attribute,$data,$htmlOptions=array())
+	{
+		$selection=$model->$attribute;
+		self::resolveNameID($model,$attribute,$htmlOptions);
+		if($model->hasErrors($attribute))
+			self::addErrorCss($htmlOptions);
+		$name=$htmlOptions['name'];
+		unset($htmlOptions['name'],$htmlOptions['id']);
+		return self::hiddenField($name,'')
+			. self::radioButtonList($name,$selection,$data,$htmlOptions);
 	}
 	public static function getActiveId($model,$attribute)
 	{
@@ -3353,7 +3423,7 @@ class CHtml
 				$content.=self::listOptions($value,$selection,$dummy);
 				$content.='</optgroup>'."\n";
 			}
-			else if(!strcmp($key,$selection) || is_array($selection) && in_array($key,$selection))
+			else if(!is_array($selection) && !strcmp($key,$selection) || is_array($selection) && in_array($key,$selection))
 				$content.='<option value="'.self::encode((string)$key).'" selected="selected">'.self::encode((string)$value)."</option>\n";
 			else
 				$content.='<option value="'.self::encode((string)$key).'">'.self::encode((string)$value)."</option>\n";
@@ -5376,14 +5446,14 @@ class CDbCommandBuilder extends CComponent
 			$pk=array($pk);
 		if(is_array($table->primaryKey) && !isset($pk[0]) && $pk!==array()) // single composite key
 			$pk=array($pk);
-		$condition=$this->generatePkCondition($table,$pk);
+		$condition=$this->createPkCondition($table,$pk);
 		if($criteria->condition!=='')
 			$criteria->condition=$condition.' AND ('.$criteria->condition.')';
 		else
 			$criteria->condition=$condition;
 		return $criteria;
 	}
-	public function generatePkCondition($table,$values,$prefix=null)
+	public function createPkCondition($table,$values,$prefix=null)
 	{
 		if(($n=count($values))<1)
 			return '0=1';
@@ -5433,14 +5503,16 @@ class CDbCommandBuilder extends CComponent
 				return implode(' AND ',$entries);
 			}
 			else
-				return $this->generateCompositePkCondition($table,$values,$prefix);
+				return $this->createCompositePkCondition($table,$values,$prefix);
 		}
 		else
 			throw new CDbException(Yii::t('yii','Table "{table}" does not have a primary key defined.',
 				array('{table}'=>$table->name)));
 	}
-	protected function generateCompositePkCondition($table,$values,$prefix)
+	protected function createCompositePkCondition($table,$values,$prefix)
 	{
+		if($prefix===null)
+			$prefix=$table->rawName.'.';
 		$keyNames=array();
 		foreach(array_keys($values[0]) as $name)
 			$keyNames[]=$prefix.$table->columns[$name]->rawName;
@@ -5489,10 +5561,31 @@ class CDbCommandBuilder extends CComponent
 		}
 		return $criteria;
 	}
+	public function createSearchCondition($table,$columns,$keywords,$prefix=null)
+	{
+		if(!is_array($keywords))
+			$keywords=preg_split('/\s+/u',$keywords,-1,PREG_SPLIT_NO_EMPTY);
+		if(empty($keywords))
+			return '';
+		if($prefix===null)
+			$prefix=$table->rawName.'.';
+		$conditions=array();
+		foreach($columns as $name)
+		{
+			if(($column=$table->getColumn($name))===null)
+				throw new CDbException(Yii::t('yii','Table "{table}" does not have a column named "{column}".',
+					array('{table}'=>$table->name,'{column}'=>$name)));
+			$condition=array();
+			foreach($keywords as $keyword)
+				$condition[]=$prefix.$column->rawName.' LIKE '.$this->_connection->quoteValue('%'.$keyword.'%');
+			$conditions[]=implode(' AND ',$condition);
+		}
+		return '('.implode(' OR ',$conditions).')';
+	}
 }
 class CSqliteCommandBuilder extends CDbCommandBuilder
 {
-	protected function generateCompositePkCondition($table,$values,$prefix)
+	protected function createCompositePkCondition($table,$values,$prefix)
 	{
 		$keyNames=array();
 		foreach(array_keys($values[0]) as $name)
@@ -5577,6 +5670,8 @@ class CPagination extends CComponent
 }
 class CClientScript extends CComponent
 {
+	const STATE_INPUT_NAME='YII_PAGE_STATE';
+	const STATE_INPUT_FIELD='<input type="hidden" name="YII_PAGE_STATE" value="" />';
 	public $enableJavaScript=true;
 	private $_controller;
 	private $_packages;
@@ -5589,6 +5684,7 @@ class CClientScript extends CComponent
 	private $_scripts=array();
 	private $_bodyScriptFiles=array();
 	private $_bodyScripts=array();
+	private $_pageStates;
 	public function __construct($controller)
 	{
 		$this->_controller=$controller;
@@ -5627,6 +5723,11 @@ class CClientScript extends CComponent
 				$html2.=CHtml::scriptFile($scriptFile)."\n";
 			if(!empty($this->_bodyScripts))
 				$html2.=CHtml::script(implode("\n",$this->_bodyScripts))."\n";
+		}
+		if(($states=$this->savePageStates())!=='')
+		{
+			$input='<input type="hidden" name="'.self::STATE_INPUT_NAME.'" value="'.$states.'" />';
+			$output=str_replace(self::STATE_INPUT_FIELD,$input,$output);
 		}
 		if($html!=='')
 			$output=preg_replace('/(<head\s*>.*?)(<\\/head\s*>)/is','$1'.$html.'$2',$output,1);
@@ -5749,6 +5850,54 @@ class CClientScript extends CComponent
 	public function isBodyScriptRegistered($id)
 	{
 		return isset($this->_bodyScripts[$id]);
+	}
+	public function getPageState($name,$defaultValue=null)
+	{
+		if($this->_pageStates===null)
+			$this->loadPageStates();
+		return isset($this->_pageStates[$name])?$this->_pageStates[$name]:$defaultValue;
+	}
+	public function setPageState($name,$value,$defaultValue=null)
+	{
+		if($this->_pageStates===null)
+			$this->loadPageStates();
+		if($value===$defaultValue)
+			unset($this->_pageStates[$name]);
+		else
+			$this->_pageStates[$name]=$value;
+		$params=func_get_args();
+		$this->_controller->recordCachingAction('clientScript','setPageState',$params);
+	}
+	protected function loadPageStates()
+	{
+		if(isset($_POST[self::STATE_INPUT_NAME]) && !empty($_POST[self::STATE_INPUT_NAME]))
+		{
+			if(($data=base64_decode($_POST[self::STATE_INPUT_NAME]))!==false)
+			{
+				if(extension_loaded('zlib'))
+					$data=@gzuncompress($data);
+				if(($data=Yii::app()->getSecurityManager()->validateData($data))!==false)
+				{
+					$this->_pageStates=unserialize($data);
+					return;
+				}
+			}
+		}
+		$this->_pageStates=array();
+	}
+	protected function savePageStates()
+	{
+		if($this->_pageStates===null)
+			$this->loadPageStates();
+		if(empty($this->_pageStates))
+			return '';
+		else
+		{
+			$data=Yii::app()->getSecurityManager()->hashData(serialize($this->_pageStates));
+			if(extension_loaded('zlib'))
+				$data=gzcompress($data);
+			return base64_encode($data);
+		}
 	}
 }
 class CJavaScript
