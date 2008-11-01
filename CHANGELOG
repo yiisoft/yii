@@ -12,6 +12,7 @@ Version 1.0rc to be released
 - Fixed ticket #19: CHtml::activeCheckBox does not work as expected when unchecked (Qiang)
 - Added CHtml::checkBoxList(), CHtml::radioButtonList() (Qiang)
 - Added CHtml::activeCheckBoxList() and CHtml::activeRadioButtonList() (Qiang)
+- Added support for persistent page state (Qiang)
 
 Version 1.0b October 24, 2008
 -----------------------------

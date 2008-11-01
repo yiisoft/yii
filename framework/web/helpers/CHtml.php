@@ -141,6 +141,22 @@ class CHtml
 	}
 
 	/**
+	 * Generates a stateful form tag.
+	 * A stateful form tag is similar to {@link form} except that it renders an additional
+	 * hidden field for storing persistent page states. You should use this method to generate
+	 * a form tag if you want to access persistent page states when the form is submitted.
+	 * @param mixed the form action URL (see {@link normalizeUrl} for details about this parameter.)
+	 * @param string form method (e.g. post, get)
+	 * @param array additional HTML attributes.
+	 * @return string the generated form tag.
+	 */
+	public static function statefulForm($action='',$method='post',$htmlOptions=array())
+	{
+		return self::form($action,$method,$htmlOptions)."\n"
+			.'<div style="visibility:hidden;">'.CClientScript::STATE_INPUT_FIELD.'</div>';
+	}
+
+	/**
 	 * Generates a hyperlink tag.
 	 * @param string link body. It will NOT be HTML-encoded. Therefore you can pass in HTML code such as an image tag.
 	 * @param mixed a URL or an action route that can be used to create a URL.
