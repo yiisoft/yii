@@ -457,11 +457,13 @@ class CDbCommandBuilder extends CComponent
 	 * Generates the expression for selecting rows with specified composite primary key values.
 	 * @param CDbTableSchema the table schema
 	 * @param array list of primary key values to be selected within
-	 * @param string column prefix (ended with dot). If null, it will be the table name
+	 * @param string column prefix (ended with dot)
 	 * @return string the expression for selection
 	 */
 	protected function createCompositePkCondition($table,$values,$prefix)
 	{
+		if($prefix===null)
+			$prefix=$table->rawName.'.';
 		$keyNames=array();
 		foreach(array_keys($values[0]) as $name)
 			$keyNames[]=$prefix.$table->columns[$name]->rawName;
@@ -523,5 +525,37 @@ class CDbCommandBuilder extends CComponent
 				$criteria->condition=implode(' AND ',$conditions);
 		}
 		return $criteria;
+	}
+
+	/**
+	 * Generates the expression for searching the specified keywords within a list of columns.
+	 * The search expression is generated using the 'LIKE' SQL syntax.
+	 * Every word in the keywords must be present and appear in at least one of the columns.
+	 * @param array list of column names for potential search condition.
+	 * @param mixed search keywords. This can be either a string with space-separated keywords or an array of keywords.
+	 * @param string column prefix (ended with dot). If null, it will be the table name
+	 * @return string SQL search condition matching on a set of columns. An empty string is returned
+	 * if either the column array or the keywords are empty.
+	 */
+	public function createSearchCondition($table,$columns,$keywords,$prefix=null)
+	{
+		if(!is_array($keywords))
+			$keywords=preg_split('/\s+/u',$keywords,-1,PREG_SPLIT_NO_EMPTY);
+		if(empty($keywords))
+			return '';
+		if($prefix===null)
+			$prefix=$table->rawName.'.';
+		$conditions=array();
+		foreach($columns as $name)
+		{
+			if(($column=$table->getColumn($name))===null)
+				throw new CDbException(Yii::t('yii','Table "{table}" does not have a column named "{column}".',
+					array('{table}'=>$table->name,'{column}'=>$name)));
+			$condition=array();
+			foreach($keywords as $keyword)
+				$condition[]=$prefix.$column->rawName.' LIKE '.$this->_connection->quoteValue('%'.$keyword.'%');
+			$conditions[]=implode(' AND ',$condition);
+		}
+		return '('.implode(' OR ',$conditions).')';
 	}
 }
