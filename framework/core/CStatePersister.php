@@ -15,7 +15,7 @@
  *
  * By default, CStatePersister stores data in a file named 'state.bin' that is located
  * under the application {@link CApplication::getRuntimePath runtime path}.
- * You may change the location by setting the {@link setStateFile stateFile} property.
+ * You may change the location by setting the {@link stateFile} property.
  *
  * To retrieve the data from CStatePersister, call {@link load()}. To save the data,
  * call {@link save()}.
@@ -42,30 +42,27 @@
  */
 class CStatePersister extends CApplicationComponent implements IStatePersister
 {
-	private $_stateFile;
-
 	/**
-	 * @return string the absolute file path storing the state data
-	 */
-	public function getStateFile()
-	{
-		if($this->_stateFile!==null)
-			return $this->_stateFile;
-		else
-			return $this->_stateFile=Yii::app()->getRuntimePath().DIRECTORY_SEPARATOR.'state.bin';
-	}
-
-	/**
-	 * @param string the file path storing the state data. Make sure the directory containing
+	 * @var string the file path storing the state data. Make sure the directory containing
 	 * the file exists and is writable by the Web server process. If using relative path, also
 	 * make sure the path is correct.
 	 */
-	public function setStateFile($value)
+	public $stateFile;
+
+	/**
+	 * Initializes the component.
+	 * This method overrides the parent implementation by making sure {@link stateFile}
+	 * contains valid value.
+	 */
+	public function init()
 	{
-		if(($path=realpath(dirname($value)))===false || !is_dir($path) || !is_writable($path))
+		parent::init();
+		if($this->stateFile===null)
+			$this->stateFile=Yii::app()->getRuntimePath().DIRECTORY_SEPARATOR.'state.bin';
+		$dir=dirname($this->stateFile);
+		if(!is_dir($dir) || !is_writable($dir))
 			throw new CException(Yii::t('yii','Unable to create application state file "{file}". Make sure the directory containing the file exists and is writable by the Web server process.',
-				array('{file}'=>$value)));
-		$this->_stateFile=$path.DIRECTORY_SEPARATOR.basename($value);
+				array('{file}'=>$this->stateFile)));
 	}
 
 	/**
@@ -74,10 +71,10 @@ class CStatePersister extends CApplicationComponent implements IStatePersister
 	 */
 	public function load()
 	{
-		$stateFile=$this->getStateFile();
+		$stateFile=$this->stateFile;
 		if(($cache=Yii::app()->getCache())!==null)
 		{
-			$cacheKey='file:'.$stateFile;
+			$cacheKey='Yii.CStatePersister.'.$stateFile;
 			if(($value=$cache->get($cacheKey))!==false)
 				return unserialize($value);
 			else if(($content=@file_get_contents($stateFile))!==false)
@@ -100,6 +97,6 @@ class CStatePersister extends CApplicationComponent implements IStatePersister
 	 */
 	public function save($state)
 	{
-		file_put_contents($this->getStateFile(),serialize($state),LOCK_EX);
+		file_put_contents($this->stateFile,serialize($state),LOCK_EX);
 	}
 }
