@@ -379,7 +379,7 @@ class CDbCommandBuilder extends CComponent
 			$pk=array($pk);
 		if(is_array($table->primaryKey) && !isset($pk[0]) && $pk!==array()) // single composite key
 			$pk=array($pk);
-		$condition=$this->generatePkCondition($table,$pk);
+		$condition=$this->createPkCondition($table,$pk);
 		if($criteria->condition!=='')
 			$criteria->condition=$condition.' AND ('.$criteria->condition.')';
 		else
@@ -395,7 +395,7 @@ class CDbCommandBuilder extends CComponent
 	 * @param string column prefix (ended with dot). If null, it will be the table name
 	 * @return string the expression for selection
 	 */
-	public function generatePkCondition($table,$values,$prefix=null)
+	public function createPkCondition($table,$values,$prefix=null)
 	{
 		if(($n=count($values))<1)
 			return '0=1';
@@ -446,7 +446,7 @@ class CDbCommandBuilder extends CComponent
 				return implode(' AND ',$entries);
 			}
 			else
-				return $this->generateCompositePkCondition($table,$values,$prefix);
+				return $this->createCompositePkCondition($table,$values,$prefix);
 		}
 		else
 			throw new CDbException(Yii::t('yii','Table "{table}" does not have a primary key defined.',
@@ -460,7 +460,7 @@ class CDbCommandBuilder extends CComponent
 	 * @param string column prefix (ended with dot). If null, it will be the table name
 	 * @return string the expression for selection
 	 */
-	protected function generateCompositePkCondition($table,$values,$prefix)
+	protected function createCompositePkCondition($table,$values,$prefix)
 	{
 		$keyNames=array();
 		foreach(array_keys($values[0]) as $name)

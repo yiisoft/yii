@@ -531,7 +531,7 @@ class CJoinElement
 			foreach($values as &$value)
 				$value=unserialize($value);
 		}
-		return $this->_builder->generatePkCondition($this->_table,$values,$this->getColumnPrefix());
+		return $this->_builder->createPkCondition($this->_table,$values,$this->getColumnPrefix());
 	}
 
 	/**

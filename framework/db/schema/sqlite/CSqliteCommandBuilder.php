@@ -27,7 +27,7 @@ class CSqliteCommandBuilder extends CDbCommandBuilder
 	 * @param string column prefix (ended with dot). If null, it will be the table name
 	 * @return string the expression for selection
 	 */
-	protected function generateCompositePkCondition($table,$values,$prefix)
+	protected function createCompositePkCondition($table,$values,$prefix)
 	{
 		$keyNames=array();
 		foreach(array_keys($values[0]) as $name)
