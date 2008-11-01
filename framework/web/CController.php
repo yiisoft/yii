@@ -222,7 +222,7 @@ class CController extends CBaseController
 
 		if($this->_dynamicOutput)
 		{
-			$output=preg_replace_callback('/<###tmp(\d+)###>/',array($this,'replaceDynamicOutput'),$output);
+			$output=preg_replace_callback('/<###dynamic-(\d+)###>/',array($this,'replaceDynamicOutput'),$output);
 			$this->_dynamicOutput=null;
 		}
 
@@ -499,7 +499,7 @@ class CController extends CBaseController
 	public function renderDynamic($callback)
 	{
 		$n=count($this->_dynamicOutput);
-		echo "<###tmp$n###>";
+		echo "<###dynamic-$n###>";
 		$params=func_get_args();
 		array_shift($params);
 		$this->renderDynamicInternal($callback,$params);
@@ -701,6 +701,35 @@ class CController extends CBaseController
 		$filter=new CAccessControlFilter;
 		$filter->setRules($this->accessRules());
 		$filter->filter($filterChain);
+	}
+
+	/**
+	 * Returns a persistent page state value.
+	 * @param string the state name
+	 * @param mixed the value to be returned if the named state is not found
+	 * @return mixed the page state value
+	 * @see setPageState
+	 * @see CHtml::statefulForm
+	 */
+	public function getPageState($name,$defaultValue=null)
+	{
+		return $this->getClientScript()->getPageState($name,$defaultValue);
+	}
+
+	/**
+	 * Saves a persistent page state value.
+	 * A page state value will remain accessible when the page is submitted
+	 * via a post action. It requires that the form is generated using {@link CHtml::statefulForm}.
+	 * @param string the state name
+	 * @param mixed the page state value
+	 * @param mixed the default page state value. If this is the same as
+	 * the given value, the state will be removed from persistent storage.
+	 * @see getPageState
+	 * @see CHtml::statefulForm
+	 */
+	public function setPageState($name,$value,$defaultValue=null)
+	{
+		$this->getClientScript()->setPageState($name,$value,$defaultValue);
 	}
 
 	/**
