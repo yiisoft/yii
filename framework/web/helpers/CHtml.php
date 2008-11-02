@@ -273,9 +273,8 @@ class CHtml
 	public static function linkButton($label='submit',$htmlOptions=array())
 	{
 		if(!isset($htmlOptions['submit']))
-			$htmlOptions['submit']='';
-		$url=isset($htmlOptions['href']) ? $htmlOptions['href'] : '#';
-		return self::link($label,$url,$htmlOptions);
+			$htmlOptions['submit']=isset($htmlOptions['href']) ? $htmlOptions['href'] : '';
+		return self::link($label,'#',$htmlOptions);
 	}
 
 	/**
