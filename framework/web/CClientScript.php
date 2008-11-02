@@ -19,14 +19,6 @@
 class CClientScript extends CComponent
 {
 	/**
-	 * Name of the hidden field storing persistent page states.
-	 */
-	const STATE_INPUT_NAME='YII_PAGE_STATE';
-	/**
-	 * The HTML code for the hidden field storing persistent page states.
-	 */
-	const STATE_INPUT_FIELD='<input type="hidden" name="YII_PAGE_STATE" value="" />';
-	/**
 	 * @var boolean whether JavaScript should be enabled. Defaults to true.
 	 */
 	public $enableJavaScript=true;
@@ -42,7 +34,6 @@ class CClientScript extends CComponent
 	private $_scripts=array();
 	private $_bodyScriptFiles=array();
 	private $_bodyScripts=array();
-	private $_pageStates;
 
 
 	/**
@@ -104,12 +95,6 @@ class CClientScript extends CComponent
 				$html2.=CHtml::scriptFile($scriptFile)."\n";
 			if(!empty($this->_bodyScripts))
 				$html2.=CHtml::script(implode("\n",$this->_bodyScripts))."\n";
-		}
-
-		if(($states=$this->savePageStates())!=='')
-		{
-			$input='<input type="hidden" name="'.self::STATE_INPUT_NAME.'" value="'.$states.'" />';
-			$output=str_replace(self::STATE_INPUT_FIELD,$input,$output);
 		}
 
 		if($html!=='')
@@ -327,81 +312,5 @@ class CClientScript extends CComponent
 	public function isBodyScriptRegistered($id)
 	{
 		return isset($this->_bodyScripts[$id]);
-	}
-
-	/**
-	 * Returns a persistent page state value.
-	 * @param string the state name
-	 * @param mixed the value to be returned if the named state is not found
-	 * @return mixed the page state value
-	 * @see setPageState
-	 */
-	public function getPageState($name,$defaultValue=null)
-	{
-		if($this->_pageStates===null)
-			$this->loadPageStates();
-		return isset($this->_pageStates[$name])?$this->_pageStates[$name]:$defaultValue;
-	}
-
-	/**
-	 * Saves a persistent page state value.
-	 * A page state value will remain accessible when the page is submitted
-	 * via a post action.
-	 * @param string the state name
-	 * @param mixed the page state value
-	 * @param mixed the default page state value. If this is the same as
-	 * the given value, the state will be removed from persistent storage.
-	 * @see getPageState
-	 */
-	public function setPageState($name,$value,$defaultValue=null)
-	{
-		if($this->_pageStates===null)
-			$this->loadPageStates();
-		if($value===$defaultValue)
-			unset($this->_pageStates[$name]);
-		else
-			$this->_pageStates[$name]=$value;
-
-		$params=func_get_args();
-		$this->_controller->recordCachingAction('clientScript','setPageState',$params);
-	}
-
-	/**
-	 * Loads page states from a hidden input.
-	 */
-	protected function loadPageStates()
-	{
-		if(isset($_POST[self::STATE_INPUT_NAME]) && !empty($_POST[self::STATE_INPUT_NAME]))
-		{
-			if(($data=base64_decode($_POST[self::STATE_INPUT_NAME]))!==false)
-			{
-				if(extension_loaded('zlib'))
-					$data=@gzuncompress($data);
-				if(($data=Yii::app()->getSecurityManager()->validateData($data))!==false)
-				{
-					$this->_pageStates=unserialize($data);
-					return;
-				}
-			}
-		}
-		$this->_pageStates=array();
-	}
-
-	/**
-	 * Saves page states as a base64 string.
-	 */
-	protected function savePageStates()
-	{
-		if($this->_pageStates===null)
-			$this->loadPageStates();
-		if(empty($this->_pageStates))
-			return '';
-		else
-		{
-			$data=Yii::app()->getSecurityManager()->hashData(serialize($this->_pageStates));
-			if(extension_loaded('zlib'))
-				$data=gzcompress($data);
-			return base64_encode($data);
-		}
 	}
 }
