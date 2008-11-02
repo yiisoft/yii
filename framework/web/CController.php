@@ -782,6 +782,14 @@ class CController extends CBaseController
 	}
 
 	/**
+	 * Removes all page states.
+	 */
+	public function clearPageStates()
+	{
+		$this->_pageStates=array();
+	}
+
+	/**
 	 * Loads page states from a hidden input.
 	 */
 	protected function loadPageStates()
