@@ -153,7 +153,18 @@ class CHtml
 	public static function statefulForm($action='',$method='post',$htmlOptions=array())
 	{
 		return self::form($action,$method,$htmlOptions)."\n"
-			.'<div style="visibility:hidden;">'.CClientScript::STATE_INPUT_FIELD.'</div>';
+			.'<div style="visibility:hidden;">'.self::pageStateField('').'</div>';
+	}
+
+	/**
+	 * Generates a hidden field for storing persistent page states.
+	 * This method is internally used by {@link statefulForm}.
+	 * @param string the persistent page states in serialized format
+	 * @return string the generated hidden field
+	 */
+	public static function pageStateField($value)
+	{
+		return '<input type="hidden" name="'.CController::STATE_INPUT_NAME.'" value="'.$value.'" />';
 	}
 
 	/**
