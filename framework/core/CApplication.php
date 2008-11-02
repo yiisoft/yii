@@ -243,7 +243,7 @@ abstract class CApplication extends CComponent
 	{
 		if(($runtimePath=realpath($path))===false || !is_dir($runtimePath) || !is_writable($runtimePath))
 			throw new CException(Yii::t('yii','Application runtime path "{path}" is not valid. Please make sure it is a directory writable by the Web server process.',
-				array('{path}'=>$runtimePath)));
+				array('{path}'=>$path)));
 		$this->_runtimePath=$runtimePath;
 	}
 
