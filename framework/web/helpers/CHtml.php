@@ -180,7 +180,8 @@ class CHtml
 	 */
 	public static function link($text,$url='#',$htmlOptions=array())
 	{
-		$htmlOptions['href']=self::normalizeUrl($url);
+		if($url!=='')
+			$htmlOptions['href']=self::normalizeUrl($url);
 		self::clientChange('click',$htmlOptions);
 		return self::tag('a',$htmlOptions,$text);
 	}
@@ -274,7 +275,7 @@ class CHtml
 	{
 		if(!isset($htmlOptions['submit']))
 			$htmlOptions['submit']=isset($htmlOptions['href']) ? $htmlOptions['href'] : '';
-		return self::link($label,'#',$htmlOptions);
+		return self::link($label,isset($htmlOptions['href'])?'#':'',$htmlOptions);
 	}
 
 	/**
