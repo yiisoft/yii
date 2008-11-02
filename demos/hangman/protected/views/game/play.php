@@ -1,7 +1,7 @@
 <p>This is the game of Hangman. You must guess a word, a letter at a time.
 If you make too many mistakes, you lose the game!</p>
 
-<?php echo CHtml::statefulForm(); ?>
+<?php echo CHtml::form(); ?>
 
 <?php echo CHtml::radioButtonList('level', null, $levels); ?>
 
