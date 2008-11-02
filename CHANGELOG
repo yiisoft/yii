@@ -14,6 +14,7 @@ Version 1.0rc to be released
 - Added CHtml::activeCheckBoxList() and CHtml::activeRadioButtonList() (Qiang)
 - Added support for persistent page state (Qiang)
 - Added CDbCommandBuilder::createSearchCondition (Qiang)
+- Added Hangman game demo (Qiang)
 
 Version 1.0b October 24, 2008
 -----------------------------
