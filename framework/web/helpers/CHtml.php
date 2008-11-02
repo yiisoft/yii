@@ -275,7 +275,7 @@ class CHtml
 	{
 		if(!isset($htmlOptions['submit']))
 			$htmlOptions['submit']=isset($htmlOptions['href']) ? $htmlOptions['href'] : '';
-		return self::link($label,isset($htmlOptions['href'])?'#':'',$htmlOptions);
+		return self::link($label,'#',$htmlOptions);
 	}
 
 	/**
