@@ -148,7 +148,7 @@ class CWebApplication extends CApplication
 		}
 		else
 			throw new CHttpException(404,Yii::t('yii','The requested controller "{controller}" does not exist.',
-				array('{controller}'=>$controllerID)));
+				array('{controller}'=>$controllerID===''?$this->defaultController:$controllerID)));
 	}
 
 	/**
