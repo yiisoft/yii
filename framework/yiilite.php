@@ -2189,6 +2189,7 @@ abstract class CBaseController extends CComponent
 }
 class CController extends CBaseController
 {
+	const STATE_INPUT_NAME='YII_PAGE_STATE';
 	public $layout;
 	public $defaultAction='index';
 	private $_id;
@@ -2198,6 +2199,7 @@ class CController extends CBaseController
 	private $_cachingStack;
 	private $_clips;
 	private $_dynamicOutput;
+	private $_pageStates;
 	public function __construct($id)
 	{
 		$this->_id=$id;
@@ -2244,7 +2246,7 @@ class CController extends CBaseController
 		}
 		$this->_action=$priorAction;
 	}
-	protected function processOutput($output)
+	public function processOutput($output)
 	{
 		if($this->_clientScript)
 		{
@@ -2255,6 +2257,11 @@ class CController extends CBaseController
 		{
 			$output=preg_replace_callback('/<###dynamic-(\d+)###>/',array($this,'replaceDynamicOutput'),$output);
 			$this->_dynamicOutput=null;
+		}
+		if($this->_pageStates!==null || isset($_POST[self::STATE_INPUT_NAME]))
+		{
+			$states=$this->savePageStates();
+			$output=str_replace(CHtml::pageStateField(''),CHtml::pageStateField($states),$output);
 		}
 		return $output;
 	}
@@ -2473,15 +2480,7 @@ class CController extends CBaseController
 		$filter->setRules($this->accessRules());
 		$filter->filter($filterChain);
 	}
-	public function getPageState($name,$defaultValue=null)
-	{
-		return $this->getClientScript()->getPageState($name,$defaultValue);
-	}
-	public function setPageState($name,$value,$defaultValue=null)
-	{
-		$this->getClientScript()->setPageState($name,$value,$defaultValue);
-	}
-	protected function paginate($itemCount,$pageSize=null,$pageVar=null)
+	public function paginate($itemCount,$pageSize=null,$pageVar=null)
 	{
 		$pages=new CPagination;
 		$pages->setItemCount($itemCount);
@@ -2490,6 +2489,58 @@ class CController extends CBaseController
 		if($pageVar!==null)
 			$pages->pageVar=$pageVar;
 		return $pages;
+	}
+	public function getPageState($name,$defaultValue=null)
+	{
+		if($this->_pageStates===null)
+			$this->loadPageStates();
+		return isset($this->_pageStates[$name])?$this->_pageStates[$name]:$defaultValue;
+	}
+	public function setPageState($name,$value,$defaultValue=null)
+	{
+		if($this->_pageStates===null)
+			$this->loadPageStates();
+		if($value===$defaultValue)
+			unset($this->_pageStates[$name]);
+		else
+			$this->_pageStates[$name]=$value;
+		$params=func_get_args();
+		$this->recordCachingAction('','setPageState',$params);
+	}
+	public function clearPageStates()
+	{
+		$this->_pageStates=array();
+	}
+	protected function loadPageStates()
+	{
+		if(isset($_POST[self::STATE_INPUT_NAME]) && !empty($_POST[self::STATE_INPUT_NAME]))
+		{
+			if(($data=base64_decode($_POST[self::STATE_INPUT_NAME]))!==false)
+			{
+				if(extension_loaded('zlib'))
+					$data=@gzuncompress($data);
+				if(($data=Yii::app()->getSecurityManager()->validateData($data))!==false)
+				{
+					$this->_pageStates=unserialize($data);
+					return;
+				}
+			}
+		}
+		$this->_pageStates=array();
+	}
+	protected function savePageStates()
+	{
+		if($this->_pageStates===null)
+			$this->loadPageStates();
+		if(empty($this->_pageStates))
+			return '';
+		else
+		{
+			$data=Yii::app()->getSecurityManager()->hashData(serialize($this->_pageStates));
+			if(extension_loaded('zlib'))
+				$data=gzcompress($data);
+			return base64_encode($data);
+		}
 	}
 }
 abstract class CAction extends CComponent implements IAction
@@ -3032,7 +3083,11 @@ class CHtml
 	public static function statefulForm($action='',$method='post',$htmlOptions=array())
 	{
 		return self::form($action,$method,$htmlOptions)."\n"
-			.'<div style="visibility:hidden;">'.CClientScript::STATE_INPUT_FIELD.'</div>';
+			.'<div style="visibility:hidden;">'.self::pageStateField('').'</div>';
+	}
+	public static function pageStateField($value)
+	{
+		return '<input type="hidden" name="'.CController::STATE_INPUT_NAME.'" value="'.$value.'" />';
 	}
 	public static function link($text,$url='#',$htmlOptions=array())
 	{
@@ -5670,8 +5725,6 @@ class CPagination extends CComponent
 }
 class CClientScript extends CComponent
 {
-	const STATE_INPUT_NAME='YII_PAGE_STATE';
-	const STATE_INPUT_FIELD='<input type="hidden" name="YII_PAGE_STATE" value="" />';
 	public $enableJavaScript=true;
 	private $_controller;
 	private $_packages;
@@ -5684,7 +5737,6 @@ class CClientScript extends CComponent
 	private $_scripts=array();
 	private $_bodyScriptFiles=array();
 	private $_bodyScripts=array();
-	private $_pageStates;
 	public function __construct($controller)
 	{
 		$this->_controller=$controller;
@@ -5723,11 +5775,6 @@ class CClientScript extends CComponent
 				$html2.=CHtml::scriptFile($scriptFile)."\n";
 			if(!empty($this->_bodyScripts))
 				$html2.=CHtml::script(implode("\n",$this->_bodyScripts))."\n";
-		}
-		if(($states=$this->savePageStates())!=='')
-		{
-			$input='<input type="hidden" name="'.self::STATE_INPUT_NAME.'" value="'.$states.'" />';
-			$output=str_replace(self::STATE_INPUT_FIELD,$input,$output);
 		}
 		if($html!=='')
 			$output=preg_replace('/(<head\s*>.*?)(<\\/head\s*>)/is','$1'.$html.'$2',$output,1);
@@ -5850,54 +5897,6 @@ class CClientScript extends CComponent
 	public function isBodyScriptRegistered($id)
 	{
 		return isset($this->_bodyScripts[$id]);
-	}
-	public function getPageState($name,$defaultValue=null)
-	{
-		if($this->_pageStates===null)
-			$this->loadPageStates();
-		return isset($this->_pageStates[$name])?$this->_pageStates[$name]:$defaultValue;
-	}
-	public function setPageState($name,$value,$defaultValue=null)
-	{
-		if($this->_pageStates===null)
-			$this->loadPageStates();
-		if($value===$defaultValue)
-			unset($this->_pageStates[$name]);
-		else
-			$this->_pageStates[$name]=$value;
-		$params=func_get_args();
-		$this->_controller->recordCachingAction('clientScript','setPageState',$params);
-	}
-	protected function loadPageStates()
-	{
-		if(isset($_POST[self::STATE_INPUT_NAME]) && !empty($_POST[self::STATE_INPUT_NAME]))
-		{
-			if(($data=base64_decode($_POST[self::STATE_INPUT_NAME]))!==false)
-			{
-				if(extension_loaded('zlib'))
-					$data=@gzuncompress($data);
-				if(($data=Yii::app()->getSecurityManager()->validateData($data))!==false)
-				{
-					$this->_pageStates=unserialize($data);
-					return;
-				}
-			}
-		}
-		$this->_pageStates=array();
-	}
-	protected function savePageStates()
-	{
-		if($this->_pageStates===null)
-			$this->loadPageStates();
-		if(empty($this->_pageStates))
-			return '';
-		else
-		{
-			$data=Yii::app()->getSecurityManager()->hashData(serialize($this->_pageStates));
-			if(extension_loaded('zlib'))
-				$data=gzcompress($data);
-			return base64_encode($data);
-		}
 	}
 }
 class CJavaScript
