@@ -633,7 +633,7 @@ abstract class CApplication extends CComponent
 	{
 		if(($runtimePath=realpath($path))===false || !is_dir($runtimePath) || !is_writable($runtimePath))
 			throw new CException(Yii::t('yii','Application runtime path "{path}" is not valid. Please make sure it is a directory writable by the Web server process.',
-				array('{path}'=>$runtimePath)));
+				array('{path}'=>$path)));
 		$this->_runtimePath=$runtimePath;
 	}
 	final public function getExtensionPath()
@@ -1251,7 +1251,7 @@ class CWebApplication extends CApplication
 		}
 		else
 			throw new CHttpException(404,Yii::t('yii','The requested controller "{controller}" does not exist.',
-				array('{controller}'=>$controllerID)));
+				array('{controller}'=>$controllerID===''?$this->defaultController:$controllerID)));
 	}
 	protected function registerCoreComponents()
 	{
@@ -1355,20 +1355,25 @@ class CWebApplication extends CApplication
 	{
 		if($id==='')
 			$id=$this->defaultController;
-		if(preg_match('/^\w+$/',$id))
+		if(!preg_match('/^\w+(\.\w+)*$/',$id))
+			return null;
+		if(isset($this->controllerMap[$id]))
+			return CConfiguration::createObject($this->controllerMap[$id],$id);
+		if(($pos=strrpos($id,'.'))!==false)
 		{
-			if(isset($this->controllerMap[$id]))
-				return CConfiguration::createObject($this->controllerMap[$id],$id);
-			else
-				return $this->createControllerIn($this->getControllerPath(),ucfirst($id).'Controller',$id);
+			$classFile=str_replace('.',DIRECTORY_SEPARATOR,$id).'Controller';
+			$classFile[$pos+1]=strtoupper($classFile[$pos+1]);
+			$className=basename($classFile);
+			$classFile=$this->getControllerPath().DIRECTORY_SEPARATOR.$classFile.'.php';
 		}
-	}
-	protected function createControllerIn($directory,$className,$id)
-	{
-		$filePath=$directory.DIRECTORY_SEPARATOR.$className.'.php';
-		if(is_file($filePath))
+		else
 		{
-			require_once($filePath);
+			$className=ucfirst($id).'Controller';
+			$classFile=$this->getControllerPath().DIRECTORY_SEPARATOR.$className.'.php';
+		}
+		if(is_file($classFile))
+		{
+			require_once($classFile);
 			if(class_exists($className,false) && is_subclass_of($className,'CController'))
 				return new $className($id);
 		}
@@ -2308,7 +2313,7 @@ class CController extends CBaseController
 	}
 	public function getViewPath()
 	{
-		return Yii::app()->getViewPath().DIRECTORY_SEPARATOR.$this->getId();
+		return Yii::app()->getViewPath().DIRECTORY_SEPARATOR.str_replace('.',DIRECTORY_SEPARATOR,$this->getId());
 	}
 	public function getViewFile($viewName)
 	{
@@ -3091,7 +3096,8 @@ class CHtml
 	}
 	public static function link($text,$url='#',$htmlOptions=array())
 	{
-		$htmlOptions['href']=self::normalizeUrl($url);
+		if($url!=='')
+			$htmlOptions['href']=self::normalizeUrl($url);
 		self::clientChange('click',$htmlOptions);
 		return self::tag('a',$htmlOptions,$text);
 	}
@@ -3131,9 +3137,8 @@ class CHtml
 	public static function linkButton($label='submit',$htmlOptions=array())
 	{
 		if(!isset($htmlOptions['submit']))
-			$htmlOptions['submit']='';
-		$url=isset($htmlOptions['href']) ? $htmlOptions['href'] : '#';
-		return self::link($label,$url,$htmlOptions);
+			$htmlOptions['submit']=isset($htmlOptions['href']) ? $htmlOptions['href'] : '';
+		return self::link($label,'#',$htmlOptions);
 	}
 	public static function label($label,$for,$htmlOptions=array())
 	{

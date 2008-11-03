@@ -335,36 +335,40 @@ class CWebApplication extends CApplication
 
 	/**
 	 * Creates a controller instance based on its ID.
-	 * The controller class will be ucfirst(id).'Controller'.
+	 * If the ID is found in the {@link controllerMap}, the corresponding controller configuration
+	 * will be used to instantiate the controller instance;
+	 * Otherwise, the ID is assumed to be in the format of "path.to.xxx", and a controller class file
+	 * is being looked for under the directory "protected/controllers/path/to/XxxController.php" where
+	 * "xxx" can be replaced by other controller names.
 	 * @param string ID of the controller
-	 * @return CController the controller instance, null if the controller class does not exist or is invalid.
+	 * @return CController the controller instance, null if the controller class does not exist or the ID is invalid.
 	 */
 	public function createController($id)
 	{
 		if($id==='')
 			$id=$this->defaultController;
-		if(preg_match('/^\w+$/',$id))
-		{
-			if(isset($this->controllerMap[$id]))
-				return CConfiguration::createObject($this->controllerMap[$id],$id);
-			else
-				return $this->createControllerIn($this->getControllerPath(),ucfirst($id).'Controller',$id);
-		}
-	}
+		if(!preg_match('/^\w+(\.\w+)*$/',$id))
+			return null;
 
-	/**
-	 * Creates a controller instance whose class file is under the specified directory.
-	 * @param string the directory containing the controller class file
-	 * @param string name of the controller class
-	 * @param string ID of the controller
-	 * @return CController the controller instance, null if the controller class does not exist or is invalid.
-	 */
-	protected function createControllerIn($directory,$className,$id)
-	{
-		$filePath=$directory.DIRECTORY_SEPARATOR.$className.'.php';
-		if(is_file($filePath))
+		if(isset($this->controllerMap[$id]))
+			return CConfiguration::createObject($this->controllerMap[$id],$id);
+
+		if(($pos=strrpos($id,'.'))!==false)
 		{
-			require_once($filePath);
+			$classFile=str_replace('.',DIRECTORY_SEPARATOR,$id).'Controller';
+			$classFile[$pos+1]=strtoupper($classFile[$pos+1]);
+			$className=basename($classFile);
+			$classFile=$this->getControllerPath().DIRECTORY_SEPARATOR.$classFile.'.php';
+		}
+		else
+		{
+			$className=ucfirst($id).'Controller';
+			$classFile=$this->getControllerPath().DIRECTORY_SEPARATOR.$className.'.php';
+		}
+
+		if(is_file($classFile))
+		{
+			require_once($classFile);
 			if(class_exists($className,false) && is_subclass_of($className,'CController'))
 				return new $className($id);
 		}

@@ -15,6 +15,7 @@ Version 1.0rc to be released
 - Added support for persistent page state (Qiang)
 - Added CDbCommandBuilder::createSearchCondition (Qiang)
 - Added Hangman game demo (Qiang)
+- Added support to allow controller classes to be organized in subdirectories (Qiang)
 
 Version 1.0b October 24, 2008
 -----------------------------

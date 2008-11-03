@@ -329,7 +329,7 @@ class CController extends CBaseController
 	 */
 	public function getViewPath()
 	{
-		return Yii::app()->getViewPath().DIRECTORY_SEPARATOR.$this->getId();
+		return Yii::app()->getViewPath().DIRECTORY_SEPARATOR.str_replace('.',DIRECTORY_SEPARATOR,$this->getId());
 	}
 
 	/**
