@@ -115,7 +115,7 @@ EOD;
 				if($integers!==array())
 					$rules.="\n\t\t\tarray('".implode(', ',$integers)."', 'numerical', 'integerOnly'=>true),";
 				if($numerical!==array())
-					$rules.="\n\t\t\tarray('".implode(', ',$integers)."', 'numerical'),";
+					$rules.="\n\t\t\tarray('".implode(', ',$numerical)."', 'numerical'),";
 			}
 			else
 				echo "Warning: the table '$tableName' does not exist in the database.\n";
