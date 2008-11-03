@@ -17,6 +17,7 @@ Version 1.0rc to be released
 - Added Hangman game demo (Qiang)
 - Added support to allow controller classes to be organized in subdirectories (Qiang)
 - Fixed issue #20: CBasePager throws undefined constant error (Qiang)
+- Fixed an issue that affects pager's parameter initialization order (Qiang)
 
 Version 1.0b October 24, 2008
 -----------------------------

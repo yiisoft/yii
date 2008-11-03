@@ -102,7 +102,7 @@ abstract class CBasePager extends CWidget
 	 * @return integer the zero-based index of the current page. Defaults to 0.
 	 * @see CPagination::getCurrentPage
 	 */
-	public function getCurrentPage($recalculate=false)
+	public function getCurrentPage($recalculate=true)
 	{
 		return $this->getPages()->getCurrentPage($recalculate);
 	}

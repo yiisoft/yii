@@ -79,7 +79,7 @@ class CLinkPager extends CBasePager
 			return;
 
 		list($beginPage,$endPage)=$this->getPageRange();
-		$currentPage=$this->getCurrentPage();
+		$currentPage=$this->getCurrentPage(false); // currentPage is calculated in getPageRange()
 		$controller=$this->getController();
 		$params=$_GET;
 		$buttons=array();

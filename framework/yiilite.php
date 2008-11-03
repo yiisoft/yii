@@ -5702,24 +5702,26 @@ class CPagination extends CComponent
 	{
 		return (int)(($this->_itemCount+$this->_pageSize-1)/$this->_pageSize);
 	}
-	public function getCurrentPage($recalculate=false)
+	public function getCurrentPage($recalculate=true)
 	{
 		if($this->_currentPage===null || $recalculate)
 		{
 			if(isset($_GET[$this->pageVar]))
-				$this->setCurrentPage((int)$_GET[$this->pageVar]);
+			{
+				$this->_currentPage=(int)$_GET[$this->pageVar];
+				$pageCount=$this->getPageCount();
+				if($this->_currentPage>=$pageCount)
+					$this->_currentPage=$pageCount-1;
+				if($this->_currentPage<0)
+					$this->_currentPage=0;
+			}
 			else
-				$this->setCurrentPage(0);
+				$this->_currentPage=0;
 		}
 		return $this->_currentPage;
 	}
 	public function setCurrentPage($value)
 	{
-		$pageCount=$this->getPageCount();
-		if($value>=$pageCount)
-			$value=$pageCount-1;
-		if($value<0)
-			$value=0;
 		$this->_currentPage=$value;
 	}
 	public function createPageUrl($controller,$page)
@@ -6013,7 +6015,7 @@ abstract class CBasePager extends CWidget
 	{
 		return $this->getPages()->getPageCount();
 	}
-	public function getCurrentPage($recalculate=false)
+	public function getCurrentPage($recalculate=true)
 	{
 		return $this->getPages()->getCurrentPage($recalculate);
 	}
@@ -6044,7 +6046,7 @@ class CLinkPager extends CBasePager
 		if(($pageCount=$this->getPageCount())<=1)
 			return;
 		list($beginPage,$endPage)=$this->getPageRange();
-		$currentPage=$this->getCurrentPage();
+		$currentPage=$this->getCurrentPage(false); // currentPage is calculated in getPageRange()
 		$controller=$this->getController();
 		$params=$_GET;
 		$buttons=array();
