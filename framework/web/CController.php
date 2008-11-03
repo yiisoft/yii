@@ -584,10 +584,11 @@ class CController extends CBaseController
 			return $this->_pageTitle;
 		else
 		{
+			$name=ucfirst(basename(str_replace('.','/',$this->getId())));
 			if($this->getAction()!==null && strcasecmp($this->getAction()->getId(),$this->defaultAction))
-				return $this->_pageTitle=Yii::app()->name.' - '.ucfirst($this->getAction()->getId()).' '.ucfirst($this->getId());
+				return $this->_pageTitle=Yii::app()->name.' - '.ucfirst($this->getAction()->getId()).' '.$name;
 			else
-				return $this->_pageTitle=Yii::app()->name.' - '.ucfirst($this->getId());
+				return $this->_pageTitle=Yii::app()->name.' - '.$name;
 		}
 	}
 
