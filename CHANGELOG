@@ -4,7 +4,7 @@
 
 Version 1.0rc to be released
 -----------------------------
-- Fixed ticket #18: renderPartial should enable output caching to avoid session start issue (Qiang)
+- Fixed issue #18: renderPartial should enable output caching to avoid session start issue (Qiang)
 - Added $source parameter to YiiBase::t() (Qiang)
 - Added CGettextMessageSource (Qiang)
 - Added CHttpCookie.httpOnly property (Qiang)
@@ -16,6 +16,7 @@ Version 1.0rc to be released
 - Added CDbCommandBuilder::createSearchCondition (Qiang)
 - Added Hangman game demo (Qiang)
 - Added support to allow controller classes to be organized in subdirectories (Qiang)
+- Fixed issue #20: CBasePager throws undefined constant error (Qiang)
 
 Version 1.0b October 24, 2008
 -----------------------------

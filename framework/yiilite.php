@@ -5991,7 +5991,7 @@ abstract class CBasePager extends CWidget
 	}
 	protected function createPages()
 	{
-		return CPagination;
+		return new CPagination;
 	}
 	public function getPageSize()
 	{
