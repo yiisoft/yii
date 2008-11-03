@@ -24,22 +24,27 @@ class CLinkPager extends CBasePager
 	public $maxButtonCount=10;
 	/**
 	 * @var string the text label for the next page button. Defaults to 'Next >>'.
+	 * Note that the label must be HTML encoded.
 	 */
-	public $nextPageLabel='Next >>';
+	public $nextPageLabel='Next &gt;&gt;';
 	/**
 	 * @var string the text label for the previous page button. Defaults to '<< Prev'.
+	 * Note that the label must be HTML encoded.
 	 */
-	public $prevPageLabel='<< Prev';
+	public $prevPageLabel='&lt;&lt; Prev';
 	/**
 	 * @var string the text label for the first page button. Defaults to '|<< First'.
+	 * Note that the label must be HTML encoded.
 	 */
-	public $firstPageLabel='|<< First';
+	public $firstPageLabel='|&lt;&lt; First';
 	/**
 	 * @var string the text label for the last page button. Defaults to 'Last >>|'.
+	 * Note that the label must be HTML encoded.
 	 */
-	public $lastPageLabel='Last >>|';
+	public $lastPageLabel='Last &gt;&gt;|';
 	/**
 	 * @var boolean whether to show the first page button. Defaults to false.
+	 * Note that the label must be HTML encoded.
 	 */
 	public $showFirstPageButton=false;
 	/**
