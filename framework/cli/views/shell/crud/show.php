@@ -12,7 +12,6 @@
 <tr>
 	<th class="label"><?php echo "<?php echo CHtml::encode(\${$modelVar}->getAttributeLabel('$name')); ?>\n"; ?></th>
     <td><?php echo "<?php echo CHtml::encode(\${$modelVar}->{$name}); ?>\n"; ?></td>
-    </div>
 </tr>
 <?php endforeach; ?>
 </table>
