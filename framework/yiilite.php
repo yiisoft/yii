@@ -6029,10 +6029,10 @@ abstract class CBasePager extends CWidget
 class CLinkPager extends CBasePager
 {
 	public $maxButtonCount=10;
-	public $nextPageLabel='Next >>';
-	public $prevPageLabel='<< Prev';
-	public $firstPageLabel='|<< First';
-	public $lastPageLabel='Last >>|';
+	public $nextPageLabel='Next &gt;&gt;';
+	public $prevPageLabel='&lt;&lt; Prev';
+	public $firstPageLabel='|&lt;&lt; First';
+	public $lastPageLabel='Last &gt;&gt;|';
 	public $showFirstPageButton=false;
 	public $showLastPageButton=false;
 	public $buttonSeparator="\n";
