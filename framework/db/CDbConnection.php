@@ -108,6 +108,7 @@ class CDbConnection extends CApplicationComponent
 	public $schemaCachingDuration=0;
 	/**
 	 * @var array list of tables whose metadata should NOT be cached. Defaults to empty array.
+	 * @see schemaCachingDuration
 	 */
 	public $schemaCachingExclude=array();
 	/**
