@@ -79,7 +79,7 @@ class CTextHighlighter extends COutputProcessor
 	 * @param string the content to be highlighted.
 	 * @return string the highlighted content
 	 */
-	protected function highlight($content)
+	public function highlight($content)
 	{
 		$options['use_language']=true;
 		$options['tabsize']=$this->tabSize;
