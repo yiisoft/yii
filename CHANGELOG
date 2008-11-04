@@ -21,6 +21,7 @@ Version 1.0rc to be released
 - Fixed a bug in determining FK relations in MySQL (Qiang)
 - Added CHtml::ajaxSubmitButton (Qiang)
 - Added CHtmlPurifier (Qiang)
+- Added CMarkdown (Qiang)
 
 Version 1.0b October 24, 2008
 -----------------------------

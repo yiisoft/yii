@@ -327,6 +327,7 @@ class YiiBase
 		'CFlexWidget' => '/web/widgets/CFlexWidget.php',
 		'CHtmlPurifier' => '/web/widgets/CHtmlPurifier.php',
 		'CInputWidget' => '/web/widgets/CInputWidget.php',
+		'CMarkdown' => '/web/widgets/CMarkdown.php',
 		'CMaskedTextField' => '/web/widgets/CMaskedTextField.php',
 		'CMultiFileUpload' => '/web/widgets/CMultiFileUpload.php',
 		'COutputCache' => '/web/widgets/COutputCache.php',
