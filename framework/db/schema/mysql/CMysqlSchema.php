@@ -52,11 +52,7 @@ class CMysqlSchema extends CDbSchema
 
 		if($this->findColumns($table))
 		{
-			if($this->getServerVersion()>5)
-				$this->findConstraints5($table);
-			else
-				$this->findConstraints($table);
-
+			$this->findConstraints($table);
 			return $table;
 		}
 		else
@@ -149,59 +145,26 @@ class CMysqlSchema extends CDbSchema
 
 	/**
 	 * Collects the foreign key column details for the given table.
-	 * This method only applies to MySQL 5.0+.
-	 * @param CMysqlTableSchema the table metadata
-	 */
-	protected function findConstraints5($table)
-	{
-		$sql=<<<EOD
-SELECT
-	CONSTRAINT_SCHEMA as pschema,
-	COLUMN_NAME as col,
-	REFERENCED_TABLE_SCHEMA as fkschema,
-	REFERENCED_TABLE_NAME as fktable,
-	REFERENCED_COLUMN_NAME as fkcol
-FROM
-	 `INFORMATION_SCHEMA`.`KEY_COLUMN_USAGE`
-WHERE
-	REFERENCED_TABLE_NAME IS NOT NULL
-	AND TABLE_NAME=:table
-EOD;
-		if($table->schemaName!==null)
-			$sql.=' AND TABLE_SCHEMA=:schema';
-		$command=$this->getDbConnection()->createCommand($sql);
-		$command->bindValue(':table',$table->name);
-		if($table->schemaName!==null)
-			$command->bindValue(':schema',$table->schemaName);
-		foreach($command->queryAll() as $row)
-		{
-			$tableName=$row['pschema']===$row['fkschema']?$row['fktable']:$row['fkschema'].'.'.$row['fktable'];
-			$table->foreignKeys[$row['col']]=array($tableName,$row['fkcol']);
-			if(isset($table->columns[$row['col']]))
-				$table->columns[$row['col']]->isForeignKey=true;
-		}
-	}
-
-	/**
-	 * Collects the foreign key column details for the given table.
-	 * This method only applies to MySQL versions that are below 5.0.
 	 * @param CMysqlTableSchema the table metadata
 	 */
 	protected function findConstraints($table)
 	{
-		$sql=$this->getDbConnection()->createCommand('SHOW CREATE TABLE '.$table->rawName)->queryScalar();
+		$row=$this->getDbConnection()->createCommand('SHOW CREATE TABLE '.$table->rawName)->queryRow();
 		$matches=array();
-		$regexp='/FOREIGN KEY\s+\(([^\)]+)\)\s+REFERENCES\s+`?([^`]+)`?\s\(([^\)]+)\)/mi';
-		preg_match_all($regexp,$sql,$matches,PREG_SET_ORDER);
+		$regexp='/FOREIGN KEY\s+\(([^\)]+)\)\s+REFERENCES\s+([^\(^\s]+)\s*\(([^\)]+)\)/mi';
+		foreach($row as $sql)
+		{
+			if(preg_match_all($regexp,$sql,$matches,PREG_SET_ORDER))
+				break;
+		}
 		$foreign = array();
 		foreach($matches as $match)
 		{
 			$keys=array_map('trim',explode(',',str_replace('`','',$match[1])));
 			$fks=array_map('trim',explode(',',str_replace('`','',$match[3])));
-			$keys=array();
 			foreach($keys as $k=>$name)
 			{
-				$table->foreignKeys[$name]=array($match[2],trim($match[2]));
+				$table->foreignKeys[$name]=array(str_replace('`','',$match[2]),$fks[$k]);
 				if(isset($table->columns[$name]))
 					$table->columns[$name]->isForeignKey=true;
 			}
