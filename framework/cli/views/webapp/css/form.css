@@ -95,7 +95,8 @@ div.yiiForm span.error
 }
 
 div.yiiForm input.error,
-div.yiiForm textarea.error
+div.yiiForm textarea.error,
+div.yiiForm select.error
 {
 	background: #FEE;
 	border-color: #C00;
