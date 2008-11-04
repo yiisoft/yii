@@ -20,6 +20,7 @@ Version 1.0rc to be released
 - Fixed an issue that affects pager's parameter initialization order (Qiang)
 - Fixed a bug in determining FK relations in MySQL (Qiang)
 - Added CHtml::ajaxSubmitButton (Qiang)
+- Added CHtmlPurifier (Qiang)
 
 Version 1.0b October 24, 2008
 -----------------------------

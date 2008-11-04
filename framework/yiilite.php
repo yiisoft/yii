@@ -325,6 +325,7 @@ class YiiBase
 		'CContentDecorator' => '/web/widgets/CContentDecorator.php',
 		'CFilterWidget' => '/web/widgets/CFilterWidget.php',
 		'CFlexWidget' => '/web/widgets/CFlexWidget.php',
+		'CHtmlPurifier' => '/web/widgets/CHtmlPurifier.php',
 		'CInputWidget' => '/web/widgets/CInputWidget.php',
 		'CMaskedTextField' => '/web/widgets/CMaskedTextField.php',
 		'CMultiFileUpload' => '/web/widgets/CMultiFileUpload.php',
@@ -3253,6 +3254,11 @@ class CHtml
 		$ajaxOptions['url']=$url;
 		$htmlOptions['ajax']=$ajaxOptions;
 		return self::button($label,$htmlOptions);
+	}
+	public static function ajaxSubmitButton($label,$url,$ajaxOptions=array(),$htmlOptions=array())
+	{
+		$ajaxOptions['type']='POST';
+		return self::ajaxButton($label,$url,$ajaxOptions,$htmlOptions);
 	}
 	public static function ajax($options)
 	{
