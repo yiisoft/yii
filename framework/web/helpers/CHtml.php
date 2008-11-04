@@ -562,6 +562,8 @@ class CHtml
 	public static function ajaxButton($label,$url,$ajaxOptions=array(),$htmlOptions=array())
 	{
 		$ajaxOptions['url']=$url;
+		if(!isset($ajaxOptions['type']))
+			$ajaxOptions['type']='POST';
 		$htmlOptions['ajax']=$ajaxOptions;
 		return self::button($label,$htmlOptions);
 	}
@@ -569,7 +571,7 @@ class CHtml
 	/**
 	 * Generates the JavaScript that initiates an AJAX request.
 	 * @param array AJAX options. The valid options are specified in the jQuery ajax documentation.
-	 * The following special option is added for convenience:
+	 * The following special options are added for convenience:
 	 * <ul>
 	 * <li>update: string, specifies the selector whose HTML content should be replaced
 	 *   by the AJAX request result.</li>
