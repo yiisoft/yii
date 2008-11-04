@@ -103,7 +103,7 @@ class CTextHighlighter extends COutputProcessor
 		else
 		{
 			$highlighter->setRenderer(new Text_Highlighter_Renderer_Html($options));
-			$o=$highlighter->highlight($content);
+			$o=preg_replace('/<span\s+[^>]*>(\s*)<\/span>/','\1',$highlighter->highlight($content));
 		}
 
 		return CHtml::tag('div',$this->containerOptions,$o);
