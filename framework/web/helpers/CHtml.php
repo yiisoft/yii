@@ -576,6 +576,7 @@ class CHtml
 	 * <li>replace: string, specifies the selector whose target should be replaced
 	 *   by the AJAX request result.</li>
 	 * </ul>
+	 * Note, if you specify the 'success' option, the above options will be ignored.
 	 * @return string the generated JavaScript
 	 * @see http://docs.jquery.com/Ajax/jQuery.ajax#options
 	 */
