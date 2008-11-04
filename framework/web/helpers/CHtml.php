@@ -551,7 +551,7 @@ class CHtml
 	}
 
 	/**
-	 * Generates a button that submits the form in AJAX mode.
+	 * Generates a push button that can initiate AJAX requests.
 	 * @param string the button label
 	 * @param string the URL for the AJAX request. If empty, it is assumed to be the current URL. See {@link normalizeUrl} for more details.
 	 * @param array AJAX options (see {@link ajax})
@@ -562,10 +562,23 @@ class CHtml
 	public static function ajaxButton($label,$url,$ajaxOptions=array(),$htmlOptions=array())
 	{
 		$ajaxOptions['url']=$url;
-		if(!isset($ajaxOptions['type']))
-			$ajaxOptions['type']='POST';
 		$htmlOptions['ajax']=$ajaxOptions;
 		return self::button($label,$htmlOptions);
+	}
+
+	/**
+	 * Generates a push button that can submit the current form in POST method.
+	 * @param string the button label
+	 * @param string the URL for the AJAX request. If empty, it is assumed to be the current URL. See {@link normalizeUrl} for more details.
+	 * @param array AJAX options (see {@link ajax})
+	 * @param array additional HTML attributes. Besides normal HTML attributes, a few special
+	 * attributes are also recognized (see {@link clientChange} for more details.)
+	 * @return string the generated button
+	 */
+	public static function ajaxSubmitButton($label,$url,$ajaxOptions=array(),$htmlOptions=array())
+	{
+		$ajaxOptions['type']='POST';
+		return self::ajaxButton($label,$url,$ajaxOptions,$htmlOptions);
 	}
 
 	/**
