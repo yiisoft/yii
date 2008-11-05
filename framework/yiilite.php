@@ -262,6 +262,7 @@ class YiiBase
 		'CGettextPoFile' => '/i18n/gettext/CGettextPoFile.php',
 		'CDateParser' => '/utils/CDateParser.php',
 		'CFileHelper' => '/utils/CFileHelper.php',
+		'CMarkdownParser' => '/utils/CMarkdownParser.php',
 		'CTimestamp' => '/utils/CTimestamp.php',
 		'CVarDumper' => '/utils/CVarDumper.php',
 		'CCaptchaValidator' => '/validators/CCaptchaValidator.php',
@@ -3114,6 +3115,8 @@ class CHtml
 	{
 		if(!isset($htmlOptions['name']))
 			$htmlOptions['name']='button';
+		if(!isset($htmlOptions['id']))
+			$htmlOptions['id']=str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $name);
 		if(!isset($htmlOptions['type']))
 			$htmlOptions['type']='button';
 		if(!isset($htmlOptions['value']))
@@ -3168,14 +3171,11 @@ class CHtml
 	}
 	public static function textArea($name,$value='',$htmlOptions=array())
 	{
+		$htmlOptions['name']=$name;
+		if(!isset($htmlOptions['id']))
+			$htmlOptions['id']=str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $name);
 		self::clientChange('change',$htmlOptions);
-		if(is_object($name))
-		{
-			$html=self::tag('textarea',$htmlOptions,self::encode($name->$value));
-			return $name->hasErrors($value) ? self::highlightField($html) : $html;
-		}
-		else
-			return self::tag('textarea',$htmlOptions,self::encode($value));
+		return self::tag('textarea',$htmlOptions,self::encode($value));
 	}
 	public static function radioButton($name,$checked=false,$htmlOptions=array())
 	{
@@ -3201,6 +3201,8 @@ class CHtml
 	{
 		$options="\n".self::listOptions($select,$data,$htmlOptions);
 		self::clientChange('change',$htmlOptions);
+		if(!isset($htmlOptions['id']))
+			$htmlOptions['id']=str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $name);
 		return self::tag('select',$htmlOptions,$options);
 	}
 	public static function listBox($name,$select,$data,$htmlOptions=array())
@@ -3310,6 +3312,8 @@ class CHtml
 		$htmlOptions['type']=$type;
 		$htmlOptions['value']=$value;
 		$htmlOptions['name']=$name;
+		if(!isset($htmlOptions['id']))
+			$htmlOptions['id']=str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $name);
 		return self::tag('input',$htmlOptions);
 	}
 	public static function activeLabel($model,$attribute,$htmlOptions=array())

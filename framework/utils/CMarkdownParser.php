@@ -1,0 +1,154 @@
+<?php
+/**
+ * CMarkdownParser class file.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @link http://www.yiiframework.com/
+ * @copyright Copyright &copy; 2008 Yii Software LLC
+ * @license http://www.yiiframework.com/license/
+ */
+
+require_once(Yii::getPathOfAlias('system.vendors.markdown.markdown').'.php');
+
+/**
+ * CMarkdownParser is a wrapper of {@link http://michelf.com/projects/php-markdown/extra/ MarkdownExtra_Parser}.
+ *
+ * CMarkdownParser extends MarkdownExtra_Parser by using Text_Highlighter
+ * to highlight code blocks with specific language syntax.
+ * In particular, if a code block starts with the following:
+ * <pre>
+ * [language]
+ * </pre>
+ * The syntax for the specified language will be used to highlight
+ * code block. The languages supported include (case-insensitive):
+ * ABAP, CPP, CSS, DIFF, DTD, HTML, JAVA, JAVASCRIPT,
+ * MYSQL, PERL, PHP, PYTHON, RUBY, SQL, XML
+ *
+ * You can also specify options to be passed to the syntax highlighter. For example:
+ * <pre>
+ * [php showLineNumbers=1]
+ * </pre>
+ * which will show line numbers in each line of the code block.
+ *
+ * For details about the standard markdown syntax, please check the following:
+ * <ul>
+ * <li>{@link http://daringfireball.net/projects/markdown/syntax official markdown syntax}</li>
+ * <li>{@link http://michelf.com/projects/php-markdown/extra/ markdown extra syntax}</li>
+ * </ul>
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id$
+ * @package system.utils
+ * @since 1.0
+ */
+class CMarkdownParser extends MarkdownExtra_Parser
+{
+	/**
+	 * Callback function when a code block is matched.
+	 * @param array matches
+	 * @return string the highlighted code block
+	 */
+	public function _doCodeBlocks_callback($matches)
+	{
+		$codeblock = $this->outdent($matches[1]);
+		if(($codeblock = $this->highlightCodeBlock($codeblock)) !== null)
+			return "\n\n".$this->hashBlock($codeblock)."\n\n";
+		else
+			return parent::_doCodeBlocks_callback($matches);
+	}
+
+	/**
+	 * Callback function when a fenced code block is matched.
+	 * @param array matches
+	 * @return string the highlighted code block
+	 */
+	public function _doFencedCodeBlocks_callback($matches)
+	{
+		if(($codeblock = $this->highlightCodeBlock($matches[2])) !== null)
+			return "\n\n".$this->hashBlock($codeblock)."\n\n";
+		else
+			return parent::_doFencedCodeBlocks_callback($matches);
+	}
+
+	/**
+	 * Highlights the code block.
+	 * @param string the code block
+	 * @return string the highlighted code block. Null if the code block does not need to highlighted
+	 */
+	protected function highlightCodeBlock($codeblock)
+	{
+		if(($tag=$this->getHighlightTag($codeblock))===null)
+			return;
+
+		$codeblock = preg_replace('/\A\n+|\n+\z/', '', $codeblock);
+		$highlighter = $this->createHighLighter($tag);
+		$tagLen = strpos($codeblock, $tag)+strlen($tag);
+		$codeblock = ltrim(substr($codeblock, $tagLen));
+		if ($highlighter)
+			$output=preg_replace('/<span\s+[^>]*>(\s*)<\/span>/', '\1', $highlighter->highlight($codeblock));
+		else
+			$output='<pre>'.htmlentities($codeblock).'</pre>';
+
+		return "<div class=\"{$this->code_hl_class}\">".$output."</div>";
+	}
+
+	/**
+	 * Returns the user-entered highlighting options.
+	 * @param string code block with highlighting options.
+	 * @return string the user-entered highlighting options. Null if no option is entered.
+	 */
+	protected function getHighlightTag($codeblock)
+	{
+		$str = trim(current(preg_split("/\r|\n/", $codeblock,2)));
+		if(strlen($str) > 2 && $str[0] === '[' && $str[strlen($str)-1] === ']')
+			return $str;
+	}
+
+	/**
+	 * Creates a highlighter instance.
+	 * @param string the user-entered options
+	 * @return Text_Highlighter the highlighter instance
+	 */
+	protected function createHighLighter($options)
+	{
+		if(!class_exists('Text_Highlighter', false))
+		{
+			require_once(Yii::getPathOfAlias('system.vendors.TextHighlighter.Text.Highlighter').'.php');
+			require_once(Yii::getPathOfAlias('system.vendors.TextHighlighter.Text.Highlighter.Renderer.Html').'.php');
+		}
+		$lang = current(preg_split('/\s+/', substr(substr($options,1), 0,-1),2));
+		$highlighter = Text_Highlighter::factory($lang);
+		if($highlighter)
+			$highlighter->setRenderer(new Text_Highlighter_Renderer_Html($this->getHiglightConfig($options)));
+		return $highlighter;
+	}
+
+	/**
+	 * Generates the config for the highlighter.
+	 * @param string user-entered options
+	 * @return array the highlighter config
+	 */
+	public function getHiglightConfig($options)
+	{
+		$config['use_language'] = true;
+		if( $this->getInlineOption('showLineNumbers', $options, false) )
+			$config['numbers'] = HL_NUMBERS_LI;
+		$config['tabsize'] = $this->getInlineOption('tabSize', $options, 4);
+		return $config;
+	}
+
+	/**
+	 * Retrieves the specified configuration.
+	 * @param string the configuration name
+	 * @param string the user-entered options
+	 * @param mixed default value if the configuration is not present
+	 * @return mixed the configuration value
+	 */
+	protected function getInlineOption($name, $str, $defaultValue)
+	{
+		if(preg_match('/'.$name.'(\s*=\s*(\d+))?/i', $str, $v) && count($v) > 2)
+			return $v[2];
+		else
+			return $defaultValue;
+	}
+}

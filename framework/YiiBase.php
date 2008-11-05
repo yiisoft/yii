@@ -458,6 +458,7 @@ class YiiBase
 		'CGettextPoFile' => '/i18n/gettext/CGettextPoFile.php',
 		'CDateParser' => '/utils/CDateParser.php',
 		'CFileHelper' => '/utils/CFileHelper.php',
+		'CMarkdownParser' => '/utils/CMarkdownParser.php',
 		'CTimestamp' => '/utils/CTimestamp.php',
 		'CVarDumper' => '/utils/CVarDumper.php',
 		'CCaptchaValidator' => '/validators/CCaptchaValidator.php',

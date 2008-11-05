@@ -58,7 +58,6 @@ class CHtmlPurifier extends COutputProcessor
 	{
 		$purifier=new HTMLPurifier($this->options);
 		$purifier->config->set('Cache','SerializerPath',Yii::app()->getRuntimePath());
-		$purifier->config->set('AutoFormat','RemoveEmpty',false);
 		return $purifier->purify($content);
 	}
 }
