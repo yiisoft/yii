@@ -1,0 +1,27 @@
+Model
+=====
+
+A model is an instance of [CModel] or its child class. Models are used to
+keep data and their relevant business rules.
+
+A model represents a single data object. It could be a row in a database
+table or a form of user inputs. Each field of the data object is
+represented as an attribute of the model. The attribute has a label and can
+be validated against a set of rules.
+
+Yii implements two kinds of models: form model and active record. They
+both extend from the same base class [CModel].
+
+A form model is an instance of [CFormModel]. Form model is used to keep
+data collected from user inputs. Such data are often collected, used and
+then discarded. For example, on a login page, we can use a form model to
+represent the username and password information that are provided by an end
+user. For more details, please refer to [Working with Form](/doc/guide/form.model)
+
+Active Record (AR) is a design pattern used to abstract database access in
+an object-oriented fashion. Each AR object is an instance of
+[CActiveRecord] or its child class, representing a single row in a database
+table. The fields in the row are represented as properties of the AR
+object. Details about AR can be found in [Active Record](/doc/guide/database.ar).
+
+<div class="revision">$Id$</div>

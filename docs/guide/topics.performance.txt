@@ -1,0 +1,100 @@
+Performance Tuning
+==================
+
+Performance of Web applications is affected by many factors. Database
+access, file system operations, network bandwidth are all potential
+affecting factors. Yii has tried in every aspect to reduce the performance
+impact caused by the framework. But still, there are many places in the
+user application that can be improved to boost performance.
+
+Enabling APC Extension
+----------------------
+
+Enabling the [PHP APC
+extension](http://www.php.net/manual/en/book.apc.php) is perhaps the
+easiest way to improve the overall performance of an application. The
+extension caches and optimizes PHP intermediate code and avoids the time
+spent in parsing PHP scripts for every incoming request.
+
+Disabling Debug Mode
+--------------------
+
+Disabling debug mode is another easy way to improve performance. An Yii
+application runs in debug mode if the constant `YII_DEBUG` is defined as
+true. Debug mode is useful during development stage, but it would impact
+performance because some components cause extra burden in debug mode. For
+example, the message logger may record additional debug information for
+every message being logged.
+
+Using `yiilite.php`
+-------------------
+
+When the [PHP APC extension](http://www.php.net/manual/en/book.apc.php) is
+enabled, we can replace `yii.php` with a different Yii bootstrap file named
+`yiilite.php` to further boost the performance of an Yii-power application.
+
+The file `yiilite.php` comes with every Yii release. It is the result of
+merging some commonly used Yii class files. Both comments and trace
+statements are stripped from the merged file. Therefore, using
+`yiilite.php` would reduce the number of files being included and avoid
+execution of trace statements.
+
+Note, using `yiilite.php` without APC may actually reduce performance,
+because `yiilite.php` contains some classes that are not necessarily used
+in every request and would take extra parsing time.
+
+Using Caching Techniques
+------------------------
+
+As described in the [Caching](/doc/guide/caching.overview) section, Yii
+provides several caching solutions that may improve the performance of a
+Web application significantly. If the generation of some data takes long
+time, we can use the [data caching](/doc/guide/caching.data) approach to
+reduce the data generation frequency; If a portion of page remains
+relatively static, we can use the [fragment
+caching](/doc/guide/caching.fragment) approach to reduce its rendering
+frequency; If a whole page remains relative static, we can use the [page
+caching](/doc/guide/caching.page) approach to save the rendering cost for
+the whole page.
+
+If the application is using [Active Record](/doc/guide/database.ar), we
+should turn on the schema caching to save the time of parsing database
+schema. This can be done by configuring the
+[CDbConnection::schemaCachingDuration] property to be a value greater than 0.
+
+Besides these application-level caching techniques, we can also use
+server-level caching solutions to boost the application performance. As a
+matter of fact, the [APC caching](/doc/guide/topics.performance#apc) we
+described earlier belongs to this category. There are other server
+techniques, such as [Zend Optimizer](Zend.com/ZendOptimizer),
+[eAccelerator](http://eaccelerator.net/), 
+[Squid](http://www.squid-cache.org/), to name a few.
+
+Database Optimization
+---------------------
+
+Fetching data from database is often the main performance bottleneck in a
+Web application. Although using caching may alleviate the performance hit,
+it does not fully solve the problem. When the database contains enormous
+data and the cached data is invalid, fetching the latest data could be
+prohibitively expensive without proper database and query design.
+
+Design index wisely in a database. Indexing can make `SELECT` queries much
+faster, but it may slow down `INSERT`, `UPDATE` or `DELETE` queries.
+
+For complex queries, it is recommended to create a database view for it
+instead of issuing the queries inside the PHP code and asking DBMS to parse
+them repetitively.
+
+Do not overuse [Active Record](/doc/guide/database.ar). Although [Active
+Record](/doc/guide/database.ar) is good at modelling data in an OOP
+fashion, it actually degrades performance due to the fact that it needs to
+create one or several objects to represent each row of query result. For
+data intensive applications, using [DAO](/doc/guide/database.dao) or
+database APIs at lower level could be a better choice.
+
+Last but not least, use `LIMIT` in your `SELECT` queries. This avoids
+fetching overwhelming data from database and exhausting the memory
+allocated to PHP.
+
+<div class="revision">$Id: performance.php 185 2008-11-03 21:32:54Z xue$</div>

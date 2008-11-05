@@ -1,0 +1,216 @@
+Creating Model
+==============
+
+Before writing the HTML code needed by a form, we should decide what kind
+of data we are expecting from end users and what rules these data should
+comply with. A model class can be used to record these information. A
+model, as defined in the [Model](/doc/guide/basics.model) subsection, is
+the central place for keeping user inputs and validating them.
+
+Depending on how we make use of the user input, we can create two types of
+model. If the user input is collected, used and then discarded, we would
+create a [form model](/doc/guide/basics.model); if the user input is
+collected and saved into database, we would use an [active
+record](/doc/guide/database.ar) instead. Both types of model share the same
+base class [CModel] which defines the common interface needed by form.
+
+> Note: We are mainly using form models in the examples of this section.
+However, the same can also be applied to [active
+record](/doc/guide/database.ar) models.
+
+Defining Model Class
+--------------------
+
+Below we create a `LoginForm` model class used to collect user input on a
+login page. Because the login information is only used to authenticate the
+user and does not need to be saved, we create `LoginForm` as a form model.
+
+~~~
+[php]
+class LoginForm extends CFormModel
+{
+	public $username;
+	public $password;
+	public $rememberMe=false;
+}
+~~~
+
+Three attributes are declared in `LoginForm`: `$username`, `$password` and
+`$rememberMe`. They are used to keep the user-entered username and
+password, and the option whether the user wants to remember his login.
+Because `$rememberMe` has a default value `false`, the corresponding option
+when initially displayed in the login form will be unchecked.
+
+> Info: Instead of calling these member variables properties, we use the
+name *attributes* to differentiate them from normal properties. An
+attribute is a property that is mainly used to store data coming from user
+input or database.
+
+Declaring Validation Rules
+--------------------------
+
+Once a user submits his inputs and the model gets populated, we need to
+make sure the inputs are valid before using them. This is done by
+performing validation of the inputs against a set of rules. We specify the
+validation rules in the `rules()` method which should return an array of
+rule configurations.
+
+~~~
+[php]
+class LoginForm extends CFormModel
+{
+	public $username;
+	public $password;
+	public $rememberMe=false;
+
+	public function rules()
+	{
+		return array(
+			array('username, password', 'required'),
+			array('password', 'authenticate'),
+		);
+	}
+
+	public function authenticate($attribute,$params)
+	{
+		if(!$this->hasErrors())  // we only want to authenticate when no input errors
+		{
+			$identity=new UserIdentity($this->username,$this->password);
+			if($identity->authenticate())
+			{
+				$duration=$this->rememberMe ? 3600*24*30 : 0; // 30 days
+				Yii::app()->user->login($identity,$duration);
+			}
+			else
+				$this->addError('password','Incorrect password.');
+		}
+	}
+}
+~~~
+
+The above code specifies that `username` and `password` are both required,
+and `password` should be authenticated.
+
+Each rule returned by `rules()` must be of the following format:
+
+~~~
+[php]
+array('AttributeList', 'Validator', ...additional options)
+~~~
+
+where `AttributeList` is a string of comma-separated attribute names which
+need to be validated with the rule; `Validator` specifies what kind of
+validation should be performed; and additional options are used to
+configure the validation.
+
+There are three ways to specify `Validator` in a validation rule. First,
+`Validator` can be the name of a method in the model class, like
+`authenticate` in the above example. The validator method must be of the
+following signature:
+
+~~~
+[php]
+/**
+ * @param string the name of the attribute to be validated
+ * @param array options specified in the validation rule
+ */
+public function ValidatorName($attribute,$params) { ... }
+~~~
+
+Second, `Validator` can be the name of a validator class. When the rule is
+applied, an instance of the validator class will be created to perform the
+actual validation. The additional options in the rule are used to
+initialize the instance's attribute values. A validator class must extend
+from [CValidator].
+
+> Note: When specifying rules for an active record model, we can use a
+special option named `on`. The option can be either `'insert'` or
+`'update'` so that the rule is applied only when inserting or updating the
+record, respectively. If not set, the rule would be applied in both cases
+when `save()` is called.
+
+Third, `Validator` can be a predefined alias to a validator class. In the
+above example, the name `required` is the alias to [CRequiredValidator]
+which ensures the attribute value being validated is not empty. Below is
+the complete list of predefined validator aliases:
+
+   - `captcha`: alias of [CCaptchaValidator], ensuring the attribute is
+equal to the verification code displayed in a
+[CAPTCHA](http://en.wikipedia.org/wiki/Captcha).
+
+   - `compare`: alias of [CCompareValidator], ensuring the attribute is
+equal to another attribute or constant.
+   
+   - `email`: alias of [CEmailValidator], ensuring the attribute is a
+valid email address.
+   
+   - `filter`: alias of [CFilterValidator], transforming the attribute
+with a filter.
+   
+   - `in`: alias of [CRangeValidator], ensuring the data is among a
+pre-specified list of values.
+   
+   - `length`: alias of [CStringValidator], ensuring the length of the
+data is within certain range.
+   
+   - `match`: alias of [CRegularExpressionValidator], ensuring the data
+matches a regular expression.
+   
+   - `numerical`: alias of [CNumberValidator], ensuring the data is a
+valid number.
+   
+   - `required`: alias of [CRequiredValidator], ensuring the attribute is
+not empty.
+   
+   - `type`: alias of [CTypeValidator], ensuring the attribute is of
+specific data type.
+   
+   - `unique`: alias of [CUniqueValidator], ensuring the data is unique in
+a database table column.
+   
+   - `url`: alias of [CUrlValidator], ensuring the data is a valid URL.
+
+Below we list some examples of using the predefined validators:
+
+~~~
+[php]
+// ensure password attribute is the same as password2 attribute
+array('password', 'compare', 'compareAttribute'=>'password2')
+// ensure username's length is between 3 and 12
+array('username', 'length', 'min'=>3, 'max'=>12)
+// ensure age is a non-negative integer
+array('age', 'numeric', 'integerOnly'=>true, 'min'=>0)
+~~~
+
+Triggering Validation
+---------------------
+
+To trigger validation, we can call [CModel::validate()]. The method
+returns a value indicating whether the validation is successful without any
+error. For active record model, when we call [save()|CActiveRecord::save]
+to save the model to database, validation will be automatically performed.
+
+Retrieving Validation Errors
+----------------------------
+
+We can use [CModel::hasErrors()] to check if there is any validation
+error, and if yes, we can use [CModel::getErrors()] to obtain the error
+messages. Both methods can be used for all attributes or an individual
+attribute.
+
+Attribute Labels
+----------------
+
+When designing a form, we often need to display a label for each input
+field. The label tells a user what kind of information he is expected to
+enter into the field. Although we can hardcode a label in a view, it would
+offer more flexibility and convenience if we specify it in the
+corresponding model.
+
+By default, [CModel] will simply return the name of an attribute as its
+label. This can be customized by overriding the
+[attributeLabels()|CModel::attributeLabels] method. As we will see in the
+following subsections, specifying labels in the model allows us to create a
+form more quickly and powerful.
+
+<div class="revision">$Id$</div>
