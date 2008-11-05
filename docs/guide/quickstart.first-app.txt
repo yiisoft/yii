@@ -187,4 +187,4 @@ delete user entries.
 All these nice features come without requiring us to write a single line
 of code!
 
-<div class="revision">$Id: first-app.php 156 2008-10-13 21:42:17Z xue$</div>
+<div class="revision">$Id$</div>

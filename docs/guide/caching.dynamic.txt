@@ -42,4 +42,4 @@ additional parameters to [renderDynamic()|CController::renderDynamic()]
 will be passed to the callback. The callback should return the dynamic
 content instead of displaying it.
 
-<div class="revision">$Id: dynamic.php 156 2008-10-13 21:42:17Z xue$</div>
+<div class="revision">$Id$</div>

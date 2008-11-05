@@ -216,4 +216,4 @@ should be applied to the `edit` and `create` actions, while
 `create`. If neither plus nor minus appears in the filter configuration,
 the filter will be applied to all actions.
 
-<div class="revision">$Id: controller.php 181 2008-11-03 04:02:48Z xue$</div>
+<div class="revision">$Id$</div>

@@ -18,4 +18,4 @@ can still use your own database libraries in your Yii application. As a
 matter of fact, Yii framework is carefully designed to be used together
 with other third-party libraries.
 
-<div class="revision">$Id: overview.php 156 2008-10-13 21:42:17Z xue$</div>
+<div class="revision">$Id$</div>

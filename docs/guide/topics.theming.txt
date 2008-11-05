@@ -51,4 +51,4 @@ currently active theme, we can generate the URL for the image as follows,
 Yii::app()->theme->baseUrl . '/images/FileName.gif'
 ~~~
 
-<div class="revision">$Id: theming.php 157 2008-10-14 10:55:40Z xue$</div>
+<div class="revision">$Id$</div>

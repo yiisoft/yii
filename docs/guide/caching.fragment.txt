@@ -154,4 +154,4 @@ However, it is not true vice versa. If the outer cache contains valid data,
 it will always provide the cached copy, even though the content in the
 inner cache already expires.
 
-<div class="revision">$Id: fragment.php 156 2008-10-13 21:42:17Z xue$</div>
+<div class="revision">$Id$</div>

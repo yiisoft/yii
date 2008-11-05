@@ -63,4 +63,4 @@ be differentiated from user-defined classes. It is recommended that the
 prefix 'C' be reserved for Yii framework use only, and user-defined classes
 be prefixed with other letters.
 
-<div class="revision">$Id: namespace.php 156 2008-10-13 21:42:17Z xue$</div>
+<div class="revision">$Id$</div>

@@ -145,4 +145,4 @@ component with a [CProfileLogRoute] log route. This is the same as we do
 with normal message routing. The [CProfileLogRoute] route will display the
 performance results at the end of the current page.
 
-<div class="revision">$Id: logging.php 156 2008-10-13 21:42:17Z xue$</div>
+<div class="revision">$Id$</div>

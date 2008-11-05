@@ -38,4 +38,4 @@ authors' rich experience of Web application development and the
 investigation and reflection of the most popular Web programming frameworks
 and applications.
 
-<div class="revision">$Id: what-is-yii.php 180 2008-11-02 18:43:59Z xue$</div>
+<div class="revision">$Id$</div>

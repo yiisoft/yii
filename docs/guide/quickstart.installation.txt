@@ -29,4 +29,4 @@ server](http://httpd.apache.org/) on Windows and Linux operating systems.
 It may also run on other Web servers and platforms provided PHP 5 is
 supported.
 
-<div class="revision">$Id: installation.php 156 2008-10-13 21:42:17Z xue$</div>
+<div class="revision">$Id$</div>

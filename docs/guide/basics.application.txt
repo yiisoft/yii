@@ -193,4 +193,4 @@ lifecycles:
 	   - run controller;
    1. raise [onEndRequest|CApplication::onEndRequest] event;
 
-<div class="revision">$Id: application.php 159 2008-10-15 19:12:38Z xue$</div>
+<div class="revision">$Id$</div>

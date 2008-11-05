@@ -139,4 +139,4 @@ applied to the application. Each subdirectory represents a single theme
 whose name is the subdirectory name. It can be customized via
 [CThemeManager::basePath].
 
-<div class="revision">$Id: convention.php 156 2008-10-13 21:42:17Z xue$</div>
+<div class="revision">$Id$</div>

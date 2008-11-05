@@ -95,4 +95,4 @@ order that they are attached to the event. If a handler decides to prevent
 the rest handlers from being invoked, it can set
 [$event->handled|CEvent::handled] to true.
 
-<div class="revision">$Id: component.php 156 2008-10-13 21:42:17Z xue$</div>
+<div class="revision">$Id$</div>

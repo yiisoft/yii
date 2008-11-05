@@ -47,4 +47,4 @@ required.
 For each of the above steps, test cases may need to be created and
 performed.
 
-<div class="revision">$Id: workflow.php 156 2008-10-13 21:42:17Z xue$</div>
+<div class="revision">$Id$</div>
