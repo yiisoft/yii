@@ -302,8 +302,7 @@ and save them back to the database table.
 
 ~~~
 [php]
-$post=Post::model()->findByPk(10); // assuming there is a post whose ID is
-10
+$post=Post::model()->findByPk(10);
 $post->title='new post title';
 $post->save(); // save the change to database
 ~~~
@@ -456,14 +455,14 @@ after validation is performed.
    - [beforeSave|CActiveRecord::beforeSave] and
 [afterSave|CActiveRecord::afterSave]: these are invoked before and after
 saving an AR instance.
-   
+
    - [beforeDelete|CActiveRecord::beforeDelete] and
 [afterDelete|CActiveRecord::afterDelete]: these are invoked before and
 after an AR instance is deleted.
-   
+
    - [afterConstruct|CActiveRecord::afterConstruct]: this is invoked for
 every AR instance created using the `new` operator.
-   
+
    - [afterFind|CActiveRecord::afterFind]: this is invoked for every AR
 instance created as a result of query.
 
