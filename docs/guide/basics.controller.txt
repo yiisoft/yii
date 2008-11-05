@@ -1,0 +1,219 @@
+Controller
+==========
+
+A controller is an instance of [CController] or its child class. It is
+created by application when the user requests for it. When a controller
+runs, it performs the requested action which usually brings in the needed
+models and renders an appropriate view. An action, at its simplest form, is
+just a controller class method whose name starts with `action`.
+
+A controller has a default action. When the user request does not indicate
+which action to execute, the default action will be executed. By default,
+the default action is named as `index`. It can be changed by setting
+`CController::defaultAction`.
+
+Below is the minimal code needed by a controller class:
+
+~~~
+[php]
+class PostController extends CController
+{
+}
+~~~
+
+Since the above controller does not define any action, accessing it would
+throw an exception.
+
+Route
+-----
+
+Controllers and actions are identified by IDs. Controller ID is in the
+format of `path.to.xxx` which corresponds to the controller class file
+`protected/controllers/path/to/XxxController.php`, where the token `xxx`
+should be replaced by actual names (e.g. `post` corresponds to
+`protected/controllers/PostController.php`). Action ID is the action method
+name without the `action` prefix. For example, if a controller class
+contains a method named `actionEdit`, the ID of the corresponding action
+would be `edit`.
+
+Users request for a particular controller and action in terms of route. A
+route is formed by concatenating a controller ID and an action ID separated
+by a slash. For example, the route `post/edit` refers to `PostController`
+and its `edit` action. And by default, the URL
+`http://hostname/index.php?r=post/edit` would request for this controller
+and action.
+
+Controller Instantiation
+------------------------
+
+A controller instance is created when [CWebApplication] handles an
+incoming request. Given the ID of the controller, the application will use
+the following rules to determine what the controller class is and where the
+class file is located.
+
+   - If [CWebApplication::catchAll] is defined, the user-specified
+controller ID will be ignored. Instead, the controller will be created
+based on the configuration specified by [CWebApplication::catchAll]. This
+is mainly used to put the application under maintenance mode and display a
+static notice page.
+
+   - If the ID is found in [CWebApplication::controllerMap], the
+corresponding controller configuration will be used to create the
+controller instance.
+
+   - Otherwise, the controller class name is assumed to be
+`ucfirst(ControllerID).'Controller'`. For example, a 'post' controller ID
+corresponds to the class name `PostController`.	
+	   - The application first searches the `controllers` directory under
+every activated extension for the controller class file.
+	   - If not found, it searches the default `protected/controllers`
+directory.
+	   - If the class file is found, it will be included and used to create
+the controller instance. Otherwise, a 404 [CHttpException] will be raised.
+	
+Action
+------
+
+As aforementioned, an action can be defined as a method whose name starts
+with the word `action`. A more advanced way is to define an action class
+and ask the controller to instantiate it when requested. By doing so, we
+allow action classes to be reused and thus introduce more reusability.
+
+To define a new action class, do the following:
+
+~~~
+[php]
+class UpdateAction extends CAction
+{
+	public function run()
+	{
+		// place the action logic here
+	}
+}
+~~~
+
+In order for the controller to be aware of this action, we override the
+`actions()` method of our controller class:
+
+~~~
+[php]
+class PostController extends CController
+{
+	public function actions()
+	{
+		return array(
+			'edit'=>'application.controllers.post.UpdateAction',
+		);
+	}
+}
+~~~
+
+In the above, we use path alias
+`'application.controllers.post.UpdateAction` to specify that the action
+class file is `protected/controllers/post/UpdateAction.php`.
+
+Writing class-based actions, we can organize an application in a modular
+fashion. For example, the following directory structure may be used to
+organize the code for controllers:
+
+~~~
+protected/
+    controllers/
+        PostController.php
+        UserController.php
+        post/
+            CreateAction.php
+            ReadAction.php
+            UpdateAction.php
+        user/
+            CreateAction.php
+            ListAction.php
+            ProfileAction.php
+            UpdateAction.php
+~~~
+
+Filter
+------
+
+Filter is a piece of code that is configured to be executed before and/or
+after a controller action executes. For example, an access control filter
+may be executed to ensure that the user is authenticated before executing
+the requested action; a performance filter may be used to measure the time
+spent in the action execution.
+
+An action can have multiple filters. The filters are executed in the order
+that they appear in the filter list. A filter can prevent the execution of
+the action and the rest unexecuted filters.
+
+A filter can be defined as a controller class method. The method name must
+begin with `filter`. For example, the existence of the
+`filterAccessControl` method defines a filter named `accessControl`. The
+filter method must be of the signature:
+
+~~~
+[php]
+public function filterAccessControl($filterChain)
+{
+	// call $filterChain->run() to continue filtering and action execution
+}
+~~~
+
+where `$filterChain` is an instance of [CFilterChain] which represents the
+filter list associated with the requested action. Inside the filter method,
+we can call `$filterChain->run()` to continue filtering and action
+execution.
+
+A filter can also be an instance of [CFilter] or its child class. The
+following code defines a new filter class:
+
+~~~
+[php]
+class PerformanceFilter extends CFilter
+{
+	public function filter($filterChain)
+	{
+		// call $filterChain->run() to continue filtering and action execution
+	}
+}
+~~~
+
+To apply filters to actions, we need to override the
+`CController::filters()` method. The method should return an array of
+filter configurations. For example,
+
+~~~
+[php]
+class PostController extends CController
+{
+	......
+	public function filters()
+	{
+		return array(
+			'postOnly + edit, create',
+			array(
+				'application.filters.PerformanceFilter - edit, create',
+				'unit'=>'second',
+			),
+		);
+	}
+}
+~~~
+
+The above code specifies two filters: `postOnly` and `PerformanceFilter`.
+The `postOnly` filter is method-based (the corresponding filter method is
+defined in [CController] already); while the `PerformanceFilter` filter is
+object-based. The path alias `application.filters.PerformanceFilter`
+specifies that the filter class file is
+`protected/filters/PerformanceFilter`. We use an array to configure
+`PerformanceFilter` so that it may be used to initialize the property
+values of the filter object. Here the `unit` property of
+`PerformanceFilter` will be initialized as `'second'`.
+
+Using the plus and the minus operators, we can specify which actions the
+filter should and should not be applied to. In the above, the `postOnly`
+should be applied to the `edit` and `create` actions, while
+`PerformanceFilter` should be applied to all actions EXCEPT `edit` and
+`create`. If neither plus nor minus appears in the filter configuration,
+the filter will be applied to all actions.
+
+<div class="revision">$Id: controller.php 181 2008-11-03 04:02:48Z xue$</div>

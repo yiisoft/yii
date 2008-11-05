@@ -1,0 +1,22 @@
+Model-View-Controller (MVC)
+===========================
+
+Yii implements the model-view-controller (MVC) design pattern which is
+widely adopted in Web programming. MVC aims to separate business logic from
+user interface considerations so that developers can more easily change
+each part without affecting the other. In MVC, the model represents the
+information (the data) and the business rules; the view contains elements
+of the user interface such as text, form inputs; and the controller manages
+the communication between the model and the view.
+
+Besides MVC, Yii also introduces a front-controller, called application,
+which represents the execution context of request processing. Application
+resolves the user request and dispatches it to an appropriate controller
+for further handling.
+
+The following diagram shows how user requests are handling in a typical
+Yii application:
+
+*diagram showing MVC workflow*
+
+<div class="revision">$Id$</div>

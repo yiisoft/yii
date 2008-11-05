@@ -1,0 +1,196 @@
+Application
+===========
+
+Application represents the execution context of request processing. Its
+main task is to resolve the user request and dispatch it to an appropriate
+controller for further processing. It also serves as the central place for
+keeping application-level configurations.
+
+Application is implemented as singleton. It is created in the entry
+script, as we have already seen. The application singleton can be accessed
+anywhere via [Yii::app()|YiiBase::app]. For this reason, application may be
+considered as the common part shared by all controllers.
+
+Application Configuration
+-------------------------
+
+By default, application is an instance of [CWebApplication]. To customize
+it, we normally provide a configuration file (or array) to configure its
+property initial values when the application instance is being created. We
+can also extend [CWebApplication], but it is less convenient.
+
+The configuration is an array of key-value pairs. Each key represents the
+name of a property of the application instance, and each value the
+corresponding property's initial value. For example, the following
+configuration configures the [name|CApplication::name] and
+[defaultController|CWebApplication::defaultController] properties of the
+application.
+
+~~~
+[php]
+array(
+	'name'=>'Yii Framework',
+	'defaultController'=>'site',
+)
+~~~
+
+We usually store the configuration in a separate PHP script (e.g.
+`protected/config/main.php`). Inside the script, we return the
+configuration array as follows,
+
+~~~
+[php]
+return array(...);
+~~~
+
+To apply the configuration, we pass it as a parameter to the application's
+constructor, or to [Yii::createWebApplication()] like the following, which
+is usually done in the [entry script](/doc/guide/basics.entry):
+
+~~~
+[php]
+$app=Yii::createWebApplication($configFile);
+~~~
+
+> Tip: If the application configuration is very complex, we can split it
+into several files, each returning a portion of the configuration array.
+Then, in a master configuration file, we call PHP `include()` to include
+the rest configuration files and merge them into a complete configuration
+array.
+
+Application Base Directory
+--------------------------
+
+Application base directory refers to the root directory that contains all
+security-sensitive PHP scripts and data. By default, it is a subdirectory
+named `protected` that is located under the directory containing the entry
+script. It can be customized via setting the
+[basePath|CWebApplication::basePath] property in the application
+configuration.
+
+Contents under the application base directory should be protected from
+being accessed by Web users. With [Apache HTTP
+server](http://httpd.apache.org/), this can be done easily by placing a
+`.htaccess` file under the base directory. The content of the `.htaccess`
+file is as follows,
+
+~~~
+[php]
+deny from all
+~~~
+
+Application Component
+---------------------
+
+Functionalities of application can be easily customized and enriched with
+its flexible component architecture. Application manages a set of
+application components, each of which implements features in some aspect.
+For example, a [CMemCache] component may be plugged into the application so
+that caching via memcache is available anywhere in the code. As a matter of
+fact, application resolves the user request with the help of [CUrlManager]
+and [CHttpRequest] components.
+
+Properties of application components can also be configured. This is done
+by configuring the [components|CApplication::components] property of
+application. For example, we can configure [CMemCache] component so that it
+can use multiple memcache servers for caching,
+
+~~~
+[php]
+array(
+	......
+	'components'=>array(
+		......
+		'cache'=>array(
+			'class'=>'CMemCache',
+			'servers'=>array(
+				array('host'=>'server1', 'port'=>11211, 'weight'=>60),
+				array('host'=>'server2', 'port'=>11211, 'weight'=>40),
+			),
+		),
+	),
+)
+~~~
+
+In the above, we add the `cache` element to the `components` array. The
+`cache` element states that the class of the component is
+`system.caching.CMemCache` and its `servers` property should be initialized
+as such.
+
+To access an application component, use `Yii::app()->ComponentID`, where
+`ComponentID` refers to the ID of the component (e.g. `Yii::app()->cache`).
+
+> Tip: Application components are created on demand. Therefore,
+performance is not affected even if we have many components plugged in. In
+case a component needs to be created beforehand, we can add its ID to the
+[preload|CApplication::preload] property of the application.
+
+Core Application Components
+---------------------------
+
+Yii predefines a set of core application components to provide features
+common among Web applications. For example, the
+[request|CWebApplication::request] component is used to resolve user
+requests and provide information such as URL, cookies. By configuring the
+properties of these core components, we can change the default behaviors of
+Yii in nearly every aspect.
+
+Below we list the core components that are pre-declared by
+[CWebApplication].
+
+   - [db|CApplication::db]: [CDbConnection] - provides the database
+connection. Note, you must configure its
+[connectionString|CDbConnection::connectionString] property.
+
+   - [errorHandler|CApplication::errorHandler]: [CErrorHandler] - handles
+uncaught PHP errors and exceptions.
+
+   - [securityManager|CApplication::securityManager]: [CSecurityManager] -
+provides security-related services, such as hashing, encryption.
+
+   - [statePersister|CApplication::statePersister]: [CStatePersister] -
+provides global state persistence method.
+
+   - [coreMessages|CApplication::coreMessages]: [CPhpMessageSource] -
+provides translated core messages used by Yii framework.
+
+   - [messages|CApplication::messages]: [CPhpMessageSource] - provides
+translated messaged used by Yii application.
+
+   - [urlManager|CWebApplication::urlManager]: [CUrlManager] - provides
+URL parsing and creation functionality.
+
+   - [request|CWebApplication::request]: [CHttpRequest] - provides
+information related with user requests.
+
+   - [session|CWebApplication::session]: [CHttpSession] - provides the
+session-related functionalities.
+
+   - [assetManager|CWebApplication::assetManager]: [CAssetManager] -
+manages the publishing of private asset files.
+
+Besides the above compoennts, a component named
+[cache|CApplication::cache] is also declared but without specifying its
+class. The [cache|CApplication::cache] component is used by Yii for data
+caching purpose. When it is enabled by specifying an actual class (e.g.
+[CMemCache], [CDbCache]), Yii will automatically cache some data that would
+otherwise take long time to generate. 
+
+Application Lifecycles
+----------------------
+
+When handling a user request, the application will undergo the following
+lifecycles:
+
+   1. load application configuration;
+   1. initialize application with [CApplication::init()]	
+	   - set up class autoloader and error handling;
+	   - load static application components;
+   1. raise [onBeginRequest|CApplication::onBeginRequest] event;
+   1. process the user request:
+	   - resolve the user request;
+	   - create controller;
+	   - run controller;
+   1. raise [onEndRequest|CApplication::onEndRequest] event;
+
+<div class="revision">$Id: application.php 159 2008-10-15 19:12:38Z xue$</div>
