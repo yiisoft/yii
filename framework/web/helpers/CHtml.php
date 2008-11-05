@@ -212,8 +212,6 @@ class CHtml
 	{
 		if(!isset($htmlOptions['name']))
 			$htmlOptions['name']='button';
-		if(!isset($htmlOptions['id']))
-			$htmlOptions['id']=str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $name);
 		if(!isset($htmlOptions['type']))
 			$htmlOptions['type']='button';
 		if(!isset($htmlOptions['value']))
