@@ -16,4 +16,4 @@ The following steps are typically needed when dealing with forms in Yii:
 
 In the next subsections, we describe each of these steps in detail.
 
-<div class="revision">$Id: overview.php 156 2008-10-13 21:42:17Z xue$</div>
+<div class="revision">$Id$</div>

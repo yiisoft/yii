@@ -93,4 +93,4 @@ appearing together with the standard ones. We can also create our own
 commands to be used when `yiic shell` is used. To do so, just drop our
 command class files under the `protected/commands/shell` directory.
 
-<div class="revision">$Id: console.php 156 2008-10-13 21:42:17Z xue$</div>
+<div class="revision">$Id$</div>
