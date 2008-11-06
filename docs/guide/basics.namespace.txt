@@ -24,6 +24,7 @@ For example, if we want to include the definition of the [CController]
 class, we can call the following:
 
 ~~~
+[php]
 Yii::import('system.web.CController');
 ~~~
 
@@ -41,6 +42,7 @@ the class files under the directory can be automatically included when
 needed.
 
 ~~~
+[php]
 Yii::import('system.web.*');
 ~~~
 

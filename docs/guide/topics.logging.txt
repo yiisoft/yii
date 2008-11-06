@@ -42,11 +42,11 @@ Message Routing
 
 Messages logged using [Yii::log] or [Yii::trace] are kept in memory. We
 usually need to display them in browser windows, or save them in some
-persistent storage such as files, emails. This is called <em>message
-routing</em>, i.e., sending messages to different destinations.
+persistent storage such as files, emails. This is called *message
+routing*, i.e., sending messages to different destinations.
 
 In Yii, message routing is managed by a [CLogRouter] application
-component. It manages a set of the so-called <em>log routes</em>. Each log
+component. It manages a set of the so-called *log routes*. Each log
 route represents a single log destination. Messages sent along a log route
 can be filtered according to their levels and categories.
 

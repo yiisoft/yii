@@ -14,7 +14,7 @@ communication protocol stack.
 
 Yii provides [CWebService] and [CWebServiceAction] to simplify the work of
 implementing Web service in a Web application. The APIs are grouped into
-classes, called <em>service providers</em>. Yii will generate for each
+classes, called *service providers*. Yii will generate for each
 class a [WSDL](http://www.w3.org/TR/wsdl) specification which describes
 what APIs are available and how they should be invoked by client. When an
 API is invoked by a client, Yii will instantiate the corresponding service

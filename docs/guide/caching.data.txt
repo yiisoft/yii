@@ -78,8 +78,7 @@ cached when calling [set()|CCache::set].
 [php]
 // the value will expire in 30 seconds
 // it may also be invalidated earlier if the dependent file is changed
-Yii::app()->cache->set($id, $value, 30, new
-CFileCacheDependency('FileName'));
+Yii::app()->cache->set($id, $value, 30, new CFileCacheDependency('FileName'));
 ~~~
 
 Now if we retrieve `$value` from cache by calling [get()|CCache::get], the
@@ -93,15 +92,15 @@ modification time is changed.
 
    - [CDirectoryCacheDependency]: the dependency is changed if any of the
 files under the directory and its subdirectories is changed.
-   
+
    - [CDbCacheDependency]: the dependency is changed if the query result
 of the specified SQL statement is changed.
-   
+
    - [CGlobalStateCacheDependency]: the dependency is changed if the value
 of the specified global state is changed. A global state is a variable that
 is persistent across multiple requests and multiple sessions in an
 application. It is defined via [CApplication::setGlobalState()].
-   
+
    - [CChainedCacheDependency]: the dependency is changed if any of the
 dependencies on the chain is changed.
 

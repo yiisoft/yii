@@ -21,13 +21,13 @@ section.
 > [sql]
 > CREATE TABLE foo
 > (
-> 	id INTEGER NOT NULL PRIMARY KEY
+>   id INTEGER NOT NULL PRIMARY KEY
 > );
 > CREATE TABLE bar
 > (
->	id INTEGER NOT NULL PRIMARY KEY,
->	foo_id INTEGER
->		CONSTRAINT fk_foo_id REFERENCES foo(id) ON DELETE CASCADE
+>   id INTEGER NOT NULL PRIMARY KEY,
+>   foo_id INTEGER
+>       CONSTRAINT fk_foo_id REFERENCES foo(id) ON DELETE CASCADE
 > );
 > ~~~
 
@@ -49,10 +49,10 @@ one-to-many, then B belongs to A (e.g. `Post` belongs to `Author`);
 
    - `HAS_MANY`: if the relationship between table A and B is one-to-many,
 then A has many B (e.g. `Author` has many `Post`);
-   
+
    - `HAS_ONE`: this is special case of `HAS_MANY` where A has at most one
 B (e.g. `Author` has at most one `Profile`);
-   
+
    - `MANY_MANY`: this corresponds to the many-to-many relationship in
 database. An associative table is needed to break a many-to-many
 relationship into one-to-many relationships, as most DBMS do not support
@@ -68,8 +68,7 @@ represents a single relationship with the following format:
 
 ~~~
 [php]
-'VarName'=>array('RelationType', 'ClassName', 'ForeignKey', ...additional
-options)
+'VarName'=>array('RelationType', 'ClassName', 'ForeignKey', ...additional options)
 ~~~
 
 where `VarName` is the name of the relationship; `RelationType` specifies
@@ -129,7 +128,7 @@ property of an AR instance. If the property is not accessed previously, a
 relational query will be initiated, which joins the two related tables and
 filters with the primary key of the current AR instance. The query result
 will be saved to the property as instance(s) of the related AR class. This
-is known as the <em>lazy loading</em> approach, i.e., the relational query
+is known as the *lazy loading* approach, i.e., the relational query
 is performed only when the related objects are initially accessed. The
 example below shows how to use this approach:
 
@@ -149,7 +148,7 @@ corresponding property could be either null or an empty array. For
 The lazy loading approach is very convenient to use, but it is not
 efficient in some scenarios. For example, if we want to access the author
 information for `N` posts, using the lazy approach would involve executing
-`N` join queries. We should resort to the so-called <em>eager loading</em>
+`N` join queries. We should resort to the so-called *eager loading*
 approach under this circumstance.
 
 The eager loading approach retrieves the related AR instances together
@@ -222,18 +221,18 @@ disambiguated using `aliasToken` if they appear in an expression (e.g.
 
    - `condition`: the `WHERE` clause. It defaults to empty. Note, column
 references need to be disambiguated using `aliasToken` (e.g. `??.id=10`).
-   
+
    - `order`: the `ORDER BY` clause. It defaults to empty. Note, column
 references need to be disambiguated using `aliasToken` (e.g. `??.age
 DESC`).
-   
+
    - `with`: a list of child related objects that should be loaded
 together with this object. Note, this is only honored by lazy loading, not
 eager loading.
-   
+
    - `joinType`: type of join for this relationship. It defaults to `LEFT
 OUTER JOIN`.
-   
+
    - `aliasToken`: the column prefix for column reference disambiguation.
 It defaults to `'??.'`.
 
@@ -246,7 +245,7 @@ This option only applies to `HAS_MANY` and `MANY_MANY` relationships.
 
    - `limit`: limit of the rows to be selected. This option does NOT apply
 to `BELONGS_TO` relation.
-   
+
    - `offset`: offset of the rows to be selected. This option does NOT
 apply to `BELONGS_TO` relation.
 

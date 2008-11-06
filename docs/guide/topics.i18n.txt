@@ -103,8 +103,8 @@ not contain variables that would change message content (e.g. `"Invalid
 {$message} content."`). Use parameter placeholders if a message needs to
 vary according to some parameters.
 
-Translated messages are stored in a repository called <em>message
-source</em>. A message source is represented as an instance of
+Translated messages are stored in a repository called *message
+source*. A message source is represented as an instance of
 [CMessageSource] or its child class. When [Yii::t()|YiiBase::t] is invoked,
 it will look for the message in the message source and return its
 translated version if it is found.

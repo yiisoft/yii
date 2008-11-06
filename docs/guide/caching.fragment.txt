@@ -48,8 +48,7 @@ caches the content fragement for at most one hour:
 ~~~
 [php]
 ...other HTML content...
-<?php if($this->beginCache($id, array('duration'=>3600)))
-{ ?>
+<?php if($this->beginCache($id, array('duration'=>3600))) { ?>
 ...content to be cached...
 <?php $this->endCache(); } ?>
 ...other HTML content...
@@ -73,8 +72,7 @@ following code specifies the fragment content depends on the change of
 ~~~
 [php]
 ...other HTML content...
-<?php if($this->beginCache($id,
-array('dependency'=>array(
+<?php if($this->beginCache($id, array('dependency'=>array(
 		'class'=>'system.caching.dependencies.CDbCacheDependency',
 		'sql'=>'SELECT MAX(lastModified) FROM Post')))) { ?>
 ...content to be cached...
@@ -97,7 +95,7 @@ Instead of asking developers to variate the IDs according to some scheme,
 to true, we can make the cached content to be variated according to session
 IDs. Therefore, each user session may see different content and they are
 all served from cache.
-   
+
    - [varyByParam|COutputCache::varyByParam]: by setting this option to an
 array of names, we can make the cached content to be variated according to
 the values of the specified GET parameters. For example, if a page displays
@@ -118,8 +116,7 @@ because the form may contain user input. To do so, we can specify the
 ~~~
 [php]
 ...other HTML content...
-<?php if($this->beginCache($id,
-array('requestTypes'=>array('GET')))) { ?>
+<?php if($this->beginCache($id, array('requestTypes'=>array('GET')))) { ?>
 ...content to be cached...
 <?php $this->endCache(); } ?>
 ...other HTML content...

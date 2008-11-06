@@ -84,7 +84,7 @@ should start with a skeleton application created using `yiic webapp`
 command, as described in [Creating First Yii
 Application](/doc/guide/quickstart.first-app). The `yiic webapp` command
 will generate two files under the `protected` directory: `yiic` and
-`yiic.bat`. They are the <em>local</em> version of the `yiic` tool created
+`yiic.bat`. They are the *local* version of the `yiic` tool created
 specifically for the Web application.
 
 We can then create our own commands under the `protected/commands`

@@ -35,8 +35,8 @@ username/password).
 ~~~
 [php]
 $connection=new CDbConnection($dsn,$username,$password);
-$connection->active=true;   // establish connection. May need to
-try...catch possible exceptions
+// establish connection. You may try...catch possible exceptions
+$connection->active=true;
 ......
 $connection->active=false;  // close connection
 ~~~
@@ -110,12 +110,12 @@ statements.
 
 ~~~
 [php]
-$rowCount=$command->execute();       // execute the non-query SQL
-$dataReader=$command->query();       // execute a query SQL
-$rows=$command->queryAll();          // execute a query SQL and return all rows of result
-$row=$command->queryRow();           // execute a query SQL and return the first row of result
-$column=$command->queryColumn();     // execute a query SQL and return the first column of result
-$value=$command->queryScalar();      // execute a query SQL and return the first field in the first row
+$rowCount=$command->execute();   // execute the non-query SQL
+$dataReader=$command->query();   // execute a query SQL
+$rows=$command->queryAll();      // query and return all rows of result
+$row=$command->queryRow();       // query and return the first row of result
+$column=$command->queryColumn(); // query and return the first column of result
+$value=$command->queryScalar();  // query and return the first field in the first row
 ~~~
 
 Fetching Query Results
@@ -129,9 +129,12 @@ construct to retrieve row by row.
 ~~~
 [php]
 $dataReader=$command->query($sql);
-while(($row=$dataReader->read())!==false) { ... }     // calling read() repeatedly until it returns false
-foreach($dataReader as $row) { ... }   // using foreach to traverse through every row of data
-$rows=$dataReader->readAll();          // retrieving all rows at once in a single array
+// calling read() repeatedly until it returns false
+while(($row=$dataReader->read())!==false) { ... }
+// using foreach to traverse through every row of data
+foreach($dataReader as $row) { ... }
+// retrieving all rows at once in a single array
+$rows=$dataReader->readAll();
 ~~~
 
 > Note: Unlike [query()|CDbCommand::query], all `queryXXX()` methods
@@ -164,8 +167,7 @@ try
 	//.... other SQL executions
 	$transaction->commit();
 }
-catch(Exception $e) // an exception is raised if a query fails will be
-raised
+catch(Exception $e) // an exception is raised if a query fails will be raised
 {
 	$transaction->rollBack();
 }
