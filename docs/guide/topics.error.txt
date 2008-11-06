@@ -21,7 +21,7 @@ be false in the [entry script](/doc/guide/basics.entry).
 
 By default, [errorHandler|CApplication::errorHandler] (or
 [exception|CApplication::exceptionHandler]) will raise an
-[onError|CApplication::onError] event (or 
+[onError|CApplication::onError] event (or
 [onException|CApplication::onException] event). If the error (or exception)
 is not handled by any event handler, it will call for help from the
 [errorHandler|CErrorHandler] application component.
@@ -67,7 +67,7 @@ latter case, complete call stack as well as the error line information will
 be displayed.
 
 > Info: When the application runs in [production
-mode](/doc/guide/basics.entry#debug), all errors including those internal
+mode](/doc/guide/basics.entry#debug-mode), all errors including those internal
 ones will be displayed using view `errorXXX`. This is because the call
 stack of an error may contain sensitive information. In this case,
 developers should rely on the error logs to determine what is the real
@@ -81,7 +81,7 @@ directory under the currently active theme.
 
    2. `WebRoot/protected/views/system`: this is the default `system` view
 directory for an application.
-   
+
    3. `yii/framework/views`: this is the standard system view directory
 provided by the Yii framework.
 

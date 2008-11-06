@@ -51,7 +51,7 @@ are written in. Internationalization occurs only when the two languages are
 different.
 
 One can configure [target language|CApplication::language] in the
-[application configuration](/doc/guide/basics.application#config), or
+[application configuration](/doc/guide/basics.application#application-configuration), or
 change it dynamically before any internationalization occurs.
 
 > Tip: Sometimes, we may want to set the target language as the language
@@ -123,12 +123,12 @@ all these directories are located under the directory specified by
 
    - [CGettextMessageSource]: the message translations are stored as [GNU
 Gettext](http://www.gnu.org/software/gettext/) files.
-   
+
    - [CDbMessageSource]: the message translations are stored in database
 tables. For more details, see the API documentation for [CDbMessageSource].
 
 A message source is loaded as an [application
-component](/doc/guide/basics.application#component). Yii pre-declares an
+component](/doc/guide/basics.application#application-component). Yii pre-declares an
 application component named [messages|CApplication::messages] to store
 messages that are used in user application. By default, the type of this
 message source is [CPhpMessageSource] and the base path for storing the PHP
@@ -142,7 +142,7 @@ needed:
    2. Create PHP translation files as
 `protected/messages/LocaleID/CategoryName.php`. Each file simply returns an
 array of message translations.
-   
+
    3. Configure [CApplication::sourceLanguage] and [CApplication::language].
 
 > Tip: The `yiic` tool in Yii can be used to manage message translations.
@@ -218,11 +218,11 @@ number into a string according to a customized pattern (e.g.
    - [formatDecimal|CNumberFormatter::formatDecimal]: this method formats
 the given number using the decimal pattern predefined in the target locale
 data.
-   
+
    - [formatCurrency|CNumberFormatter::formatCurrency]: this method
 formats the given number and currency code using the currency pattern
 predefined in the target locale data.
-   
+
    - [formatPercentage|CNumberFormatter::formatPercentage]: this method
 formats the given number using the percentage pattern predefined in the
 target locale data.

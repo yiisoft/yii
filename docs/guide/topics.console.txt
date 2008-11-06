@@ -38,7 +38,7 @@ Each command class should be named as its command name appended with
 `Command`. For example, to define an `email` command, we should write an
 `EmailCommand` class. All command class files should be placed under the
 `commands` subdirectory of the [application base
-directory](/doc/guide/basics.application#base).
+directory](/doc/guide/basics.application#application-base-directory).
 
 > Tip: By configuring [CConsoleApplication::commandMap], one can also have
 command classes in different naming conventions and located in different

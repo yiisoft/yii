@@ -64,10 +64,10 @@ schema. This can be done by configuring the
 
 Besides these application-level caching techniques, we can also use
 server-level caching solutions to boost the application performance. As a
-matter of fact, the [APC caching](/doc/guide/topics.performance#apc) we
+matter of fact, the [APC caching](/doc/guide/topics.performance#enabling-apc-extension) we
 described earlier belongs to this category. There are other server
 techniques, such as [Zend Optimizer](Zend.com/ZendOptimizer),
-[eAccelerator](http://eaccelerator.net/), 
+[eAccelerator](http://eaccelerator.net/),
 [Squid](http://www.squid-cache.org/), to name a few.
 
 Database Optimization
