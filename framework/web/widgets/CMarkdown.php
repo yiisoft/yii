@@ -47,7 +47,7 @@ class CMarkdown extends COutputProcessor
 	 */
 	public function processOutput($output)
 	{
-		$output=$this->convert($output);
+		$output=$this->transform($output);
 		if($this->purifyOutput)
 		{
 			$purifier=new CHtmlPurifier;
@@ -62,7 +62,7 @@ class CMarkdown extends COutputProcessor
 	 * @param string the content to be converted
 	 * @return string the converted content
 	 */
-	public function convert($output)
+	public function transform($output)
 	{
 		$cs=$this->getController()->getClientScript();
 		if($this->cssFile===null)

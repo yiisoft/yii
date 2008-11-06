@@ -42,8 +42,6 @@ class Markdown_Parser {
 	public $predef_urls = array();
 	public $predef_titles = array();
 
-	public $code_hl_class = 'hl-code';
-
 	public function __construct() {
 	#
 	# Constructor function. Initialize appropriate member variables.
@@ -917,7 +915,7 @@ class Markdown_Parser {
 		# trim leading newlines and trailing newlines
 		$codeblock = preg_replace('/\A\n+|\n+\z/', '', $codeblock);
 
-		$codeblock = "<pre class=\"{$this->code_hl_class}\"><code>$codeblock\n</code></pre>";
+		$codeblock = "<pre><code>$codeblock\n</code></pre>";
 		return "\n\n".$this->hashBlock($codeblock)."\n\n";
 	}
 
@@ -2356,7 +2354,7 @@ class MarkdownExtra_Parser extends Markdown_Parser {
 		$codeblock = htmlspecialchars($codeblock, ENT_NOQUOTES);
 		$codeblock = preg_replace_callback('/^\n+/',
 			array(&$this, '_doFencedCodeBlocks_newlines'), $codeblock);
-		$codeblock = "<pre class=\"{$this->code_hl_class}\"><code>$codeblock</code></pre>";
+		$codeblock = "<pre><code>$codeblock</code></pre>";
 		return "\n\n".$this->hashBlock($codeblock)."\n\n";
 	}
 	public function _doFencedCodeBlocks_newlines($matches) {
