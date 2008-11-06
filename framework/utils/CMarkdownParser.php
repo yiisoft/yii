@@ -44,6 +44,12 @@ require_once(Yii::getPathOfAlias('system.vendors.markdown.markdown').'.php');
 class CMarkdownParser extends MarkdownExtra_Parser
 {
 	/**
+	 * @var string the css class for the div element containing
+	 * the code block that is highlighted. Defaults to 'hl-code'.
+	 */
+	public $highlightCssClass='hl-code';
+
+	/**
 	 * Callback function when a code block is matched.
 	 * @param array matches
 	 * @return string the highlighted code block
@@ -84,12 +90,11 @@ class CMarkdownParser extends MarkdownExtra_Parser
 		$highlighter = $this->createHighLighter($tag);
 		$tagLen = strpos($codeblock, $tag)+strlen($tag);
 		$codeblock = ltrim(substr($codeblock, $tagLen));
-		if ($highlighter)
+		if($highlighter)
+		{
 			$output=preg_replace('/<span\s+[^>]*>(\s*)<\/span>/', '\1', $highlighter->highlight($codeblock));
-		else
-			$output='<pre>'.htmlentities($codeblock).'</pre>';
-
-		return "<div class=\"{$this->code_hl_class}\">".$output."</div>";
+			return "<div class=\"{$this->highlightCssClass}\">".$output."</div>";
+		}
 	}
 
 	/**
