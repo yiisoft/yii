@@ -47,6 +47,14 @@
     <include name="README"/>
   </fileset>
 
+  <!-- doc files -->
+  <fileset dir="../docs" id="docs">
+    <exclude name="**/.svn"/>
+    <exclude name="**/*.bak"/>
+    <exclude name="**/*~"/>
+    <include name="guide/**/*"/>
+  </fileset>
+
   <fileset dir="." id="writables">
     <include name="${build.src.dir}/**/runtime" />
     <include name="${build.src.dir}/**/assets" />
@@ -57,7 +65,7 @@
     <include name="${build.src.dir}/**/yiic" />
   </fileset>
 
-  <target name="build" depends="prebuild">
+  <target name="build" depends="sync">
     <echo>Building package ${pkgname}...</echo>
     <echo>Copying files to build directory...</echo>
     <copy todir="${build.src.dir}">
@@ -73,11 +81,15 @@
     </chmod>
   </target>
 
-  <target name="docs" depends="prebuild">
+  <target name="docs" depends="sync">
     <echo>Building documentation...</echo>
 
+    <echo>Copying Guide...</echo>
+    <copy todir="${build.doc.dir}">
+      <fileset refid="docs"/>
+    </copy>
+
     <echo>Building API...</echo>
-    <mkdir dir="${build.doc.dir}" />
     <exec command="build api ${build.doc.dir}" dir="." passthru="true" />
 
     <echo>Building API CHM...</echo>
@@ -90,7 +102,7 @@
     </delete>
   </target>
 
-  <target name="web" depends="prebuild">
+  <target name="web" depends="sync">
     <echo>Building online API...</echo>
     <mkdir dir="${build.web.dir}/views/doc" />
     <mkdir dir="${build.web.dir}/controllers/doc" />
@@ -98,8 +110,8 @@
     <move file="${build.web.dir}/views/doc/apiKeywords.txt" tofile="${build.web.dir}/controllers/doc/apiKeywords.txt" />
   </target>
 
-  <target name="prebuild">
-    <echo>Preparing build ${pkgname}...</echo>
+  <target name="sync">
+    <echo>Synchronizing code changes for ${pkgname}...</echo>
 
     <echo>Building autoload map...</echo>
     <exec command="build autoload" dir="." passthru="true"/>
