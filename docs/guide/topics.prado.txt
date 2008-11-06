@@ -67,8 +67,8 @@ is translated into
 
 ~~~
 [php]
-<?php echo '<?php'; ?> echo CHtml::textField($name,'value'); ?>
-<?php echo '<?php'; ?> foreach($models as $model): ?>
+<?php echo CHtml::textField($name,'value'); ?>
+<?php foreach($models as $model): ?>
 ~~~
 
 ### Component Tags
@@ -101,7 +101,7 @@ would be translated as
 
 ~~~
 [php]
-<?php echo '<?php'; ?> $this->widget('CCaptcha', array(
+<?php $this->widget('CCaptcha', array(
 	'captchaAction'=>'captcha',
 	'showRefreshButton'=>false)); ?>
 ~~~
@@ -137,10 +137,9 @@ would be translated as
 
 ~~~
 [php]
-<?php echo '<?php'; ?> if($this->cache('profile',
-array('duration'=>3600))): ?>
+<?php if($this->cache('profile', array('duration'=>3600))): ?>
 	// user profile information here
-<?php echo '<?php'; ?> $this->endCache(); endif; ?>
+<?php $this->endCache(); endif; ?>
 ~~~
 
 ### Clip Tags
@@ -161,9 +160,9 @@ The clip tags will be translated as
 
 ~~~
 [php]
-<?php echo '<?php'; ?> $this->beginClip('clipID'); ?>
+<?php $this->beginClip('clipID'); ?>
 	// content for this clip
-<?php echo '<?php'; ?> $this->endClip(); ?>
+<?php $this->endClip(); ?>
 ~~~
 
 ### Comment Tags

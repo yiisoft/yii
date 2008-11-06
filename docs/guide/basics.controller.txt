@@ -10,7 +10,7 @@ just a controller class method whose name starts with `action`.
 A controller has a default action. When the user request does not indicate
 which action to execute, the default action will be executed. By default,
 the default action is named as `index`. It can be changed by setting
-`CController::defaultAction`.
+[CController::defaultAction].
 
 Below is the minimal code needed by a controller class:
 
@@ -63,14 +63,14 @@ controller instance.
 
    - Otherwise, the controller class name is assumed to be
 `ucfirst(ControllerID).'Controller'`. For example, a 'post' controller ID
-corresponds to the class name `PostController`.	
+corresponds to the class name `PostController`.
 	   - The application first searches the `controllers` directory under
 every activated extension for the controller class file.
 	   - If not found, it searches the default `protected/controllers`
 directory.
 	   - If the class file is found, it will be included and used to create
 the controller instance. Otherwise, a 404 [CHttpException] will be raised.
-	
+
 Action
 ------
 

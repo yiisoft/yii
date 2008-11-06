@@ -75,7 +75,6 @@ server](http://httpd.apache.org/), this can be done easily by placing a
 file is as follows,
 
 ~~~
-[php]
 deny from all
 ~~~
 
@@ -114,8 +113,7 @@ array(
 
 In the above, we add the `cache` element to the `components` array. The
 `cache` element states that the class of the component is
-`system.caching.CMemCache` and its `servers` property should be initialized
-as such.
+`CMemCache` and its `servers` property should be initialized as such.
 
 To access an application component, use `Yii::app()->ComponentID`, where
 `ComponentID` refers to the ID of the component (e.g. `Yii::app()->cache`).
@@ -174,7 +172,7 @@ Besides the above compoennts, a component named
 class. The [cache|CApplication::cache] component is used by Yii for data
 caching purpose. When it is enabled by specifying an actual class (e.g.
 [CMemCache], [CDbCache]), Yii will automatically cache some data that would
-otherwise take long time to generate. 
+otherwise take long time to generate.
 
 Application Lifecycles
 ----------------------
@@ -183,14 +181,14 @@ When handling a user request, the application will undergo the following
 lifecycles:
 
    1. load application configuration;
-   1. initialize application with [CApplication::init()]	
+   2. initialize application with [CApplication::init()]
 	   - set up class autoloader and error handling;
 	   - load static application components;
-   1. raise [onBeginRequest|CApplication::onBeginRequest] event;
-   1. process the user request:
+   3. raise [onBeginRequest|CApplication::onBeginRequest] event;
+   4. process the user request:
 	   - resolve the user request;
 	   - create controller;
 	   - run controller;
-   1. raise [onEndRequest|CApplication::onEndRequest] event;
+   5. raise [onEndRequest|CApplication::onEndRequest] event;
 
 <div class="revision">$Id$</div>

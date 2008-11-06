@@ -4,8 +4,8 @@ What is Yii
 Yii is a component-based high-performance PHP framework for developing
 large-scale Web applications. It enables maximum reusability in Web
 programming and can significantly accelerate the development process. The
-name Yii (pronounced as <tt>[i:]</tt>) stands for <em>easy</em>,
-<em>efficient</em> and <em>extensible</em>.
+name Yii (pronounced as `/i:/`) stands for *easy*,
+*efficient* and *extensible*.
 
 Requirements
 ------------

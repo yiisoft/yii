@@ -13,8 +13,8 @@ person is of a particular role that has access to the resources.
 Yii has a built-in authentication/authorization (auth) framework which is
 easy to use and can be customized for special needs.
 
-The central piece in the Yii auth framework is a pre-declared <em>user
-application component</em> which is an object implementing the [IWebUser]
+The central piece in the Yii auth framework is a pre-declared *user
+application component* which is an object implementing the [IWebUser]
 interface. The user component represents the persistent identity
 information for the current user. We can access it at any place using
 `Yii::app()->user`.
@@ -276,11 +276,11 @@ make use of the authorization data to perform access checking.
 
 ### Overview
 
-A fundamental concept in Yii's RBAC is <em>authorization item</em>. An
+A fundamental concept in Yii's RBAC is *authorization item*. An
 authorization item is a permission to do something (e.g. creating new blog
 posts, managing users). According to its granularity and targeted audience,
-authorization items can be classified as <em>operations</em>,
-<em>tasks</em> and <em>roles</em>. A role consists of tasks, a task
+authorization items can be classified as *operations*,
+*tasks* and *roles*. A role consists of tasks, a task
 consists of operations, and an operation is a permission that is atomic.
 For example, we can have a system with `administrator` role which consists
 of `post management` task and `user management` task. The `user management`
@@ -291,7 +291,7 @@ operation to consist of other operations.
 
 An authorization item is uniquely identified by its name.
 
-An authorization item may be associated with a <em>business rule</em>. A
+An authorization item may be associated with a *business rule*. A
 business rule is a piece of PHP code that will be executed when performing
 access checking with respect to the item. Only when the execution returns
 true, will the user be considered to have the permission represented by the

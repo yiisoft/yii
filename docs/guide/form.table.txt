@@ -3,7 +3,7 @@ Collecting Tabular Input
 
 Sometimes we want to collect user input in a batch mode. That is, the user
 can enter the information for multiple model instances and submit them all
-at once. We call this <em>tabular input</em> because the input fields are
+at once. We call this *tabular input* because the input fields are
 often presented in an HTML table.
 
 To work with tabular input, we first need to create or populate an array
@@ -51,8 +51,7 @@ display the input fields in an HTML table.
 <td><?php echo CHtml::activeTextField($item,"name[$i]"); ?></td>
 <td><?php echo CHtml::activeTextField($item,"price[$i]"); ?></td>
 <td><?php echo CHtml::activeTextField($item,"count[$i]"); ?></td>
-<td><?php echo
-CHtml::activeTextArea($item,"description[$i]"); ?></td>
+<td><?php echo CHtml::activeTextArea($item,"description[$i]"); ?></td>
 </tr>
 <?php endforeach; ?>
 </table>

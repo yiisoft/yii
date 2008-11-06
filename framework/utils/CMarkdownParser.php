@@ -70,10 +70,7 @@ class CMarkdownParser extends MarkdownExtra_Parser
 	 */
 	public function _doFencedCodeBlocks_callback($matches)
 	{
-		if(($codeblock = $this->highlightCodeBlock($matches[2])) !== null)
-			return "\n\n".$this->hashBlock($codeblock)."\n\n";
-		else
-			return parent::_doFencedCodeBlocks_callback($matches);
+		return "\n\n".$this->hashBlock($this->highlightCodeBlock($matches[2]))."\n\n";
 	}
 
 	/**
@@ -83,18 +80,16 @@ class CMarkdownParser extends MarkdownExtra_Parser
 	 */
 	protected function highlightCodeBlock($codeblock)
 	{
-		if(($tag=$this->getHighlightTag($codeblock))===null)
-			return;
-
-		$codeblock = preg_replace('/\A\n+|\n+\z/', '', $codeblock);
-		$highlighter = $this->createHighLighter($tag);
-		$tagLen = strpos($codeblock, $tag)+strlen($tag);
-		$codeblock = ltrim(substr($codeblock, $tagLen));
-		if($highlighter)
+		if(($tag=$this->getHighlightTag($codeblock))!==null && ($highlighter=$this->createHighLighter($tag)))
 		{
+			$codeblock = preg_replace('/\A\n+|\n+\z/', '', $codeblock);
+			$tagLen = strpos($codeblock, $tag)+strlen($tag);
+			$codeblock = ltrim(substr($codeblock, $tagLen));
 			$output=preg_replace('/<span\s+[^>]*>(\s*)<\/span>/', '\1', $highlighter->highlight($codeblock));
 			return "<div class=\"{$this->highlightCssClass}\">".$output."</div>";
 		}
+		else
+			return "<pre>".$codeblock."</pre>";
 	}
 
 	/**
