@@ -1,53 +1,9 @@
-   1. Getting Started
-      1. [What is Yii](doc/guide/quickstart.what-is-yii)
-      2. [Installation](doc/guide/quickstart.installation)
-      3. [Creating First Yii Application](doc/guide/quickstart.first-app)
+The Definitive Guide to Yii
+===========================
 
-   2. Fundamentals
-      1. [Model-View-Controller (MVC)](doc/guide/basics.mvc)
-      2. [Entry Script](doc/guide/basics.entry)
-      3. [Application](doc/guide/basics.application)
-      4. [Controller](doc/guide/basics.controller)
-      5. [Model](doc/guide/basics.model)
-      6. [View](doc/guide/basics.view)
-      7. [Component](doc/guide/basics.component)
-      8. [Path Alias and Namespace](doc/guide/basics.namespace)
-      9. [Conventions](doc/guide/basics.convention)
-      10. [Development Workflow](doc/guide/basics.workflow)
+All Rights Reserved.
 
-   3. Working with Form
-      1. [Overview](doc/guide/form.overview)
-      2. [Creating Model](doc/guide/form.model)
-      3. [Creating Action](doc/guide/form.action)
-      4. [Creating Form](doc/guide/form.view)
-      5. [Collecting Tabular Input](doc/guide/form.table)
+2008 &copy; Yii Software LLC.
 
-   4. Working with Database
-      1. [Overview](doc/guide/database.overview)
-      2. [Database Access Objects](doc/guide/database.dao)
-      3. [Active Record](doc/guide/database.ar)
-      4. [Relational Active Record](doc/guide/database.arr)
-
-   5. Working with View
-      1. [Using Helpers](doc/guide/view.helper)
-
-   6. Caching
-      1. [Overview](doc/guide/caching.overview)
-      2. [Data Caching](doc/guide/caching.data)
-      3. [Fragment Caching](doc/guide/caching.fragment)
-      4. [Page Caching](doc/guide/caching.page)
-      5. [Dynamic Content](doc/guide/caching.dynamic)
-
-   7. Special Topics
-      1. [URL Management](doc/guide/topics.url)
-      2. [Authentication and Authorization](doc/guide/topics.auth)
-      3. [Theming](doc/guide/topics.theming)
-      4. [Logging](doc/guide/topics.logging)
-      5. [Error Handling](doc/guide/topics.error)
-      6. [Web Service](doc/guide/topics.webservice)
-      7. [Internationalization (I18N)](doc/guide/topics.i18n)
-      8. [Alternative Template Syntax](doc/guide/topics.prado)
-      9. [Console Applications](doc/guide/topics.console)
-      10. [Performance Tuning](doc/guide/topics.performance)
 
 <div class="revision">$Id$</div>
