@@ -11,7 +11,7 @@ Message Logging
 
 Messages can be logged by calling either [Yii::log] or [Yii::trace]. The
 difference between these two methods is that the latter logs a message only
-when the application is in [debug mode](/doc/guide/basics.entry#debug).
+when the application is in [debug mode](/doc/guide/basics.entry#debug-mode).
 
 ~~~
 [php]
@@ -29,12 +29,12 @@ Message level should be one of the following values:
 the execution flow of the application during development.
 
    - `info`: this is for logging general information.
-   
+
    - `profile`: this is for performance profile which is to be described
 shortly.
-   
+
    - `warning`: this is for warning messages.
-   
+
    - `error`: this is for fatal error messages.
 
 Message Routing
@@ -54,7 +54,7 @@ To use message routing, we need to install and preload a [CLogRouter]
 application component. We also need to configure its
 [routes|CLogRouter::routes] property with the log routes that we want. The
 following shows an example of the needed [application
-configuration](/doc/guide/basics.application#config):
+configuration](/doc/guide/basics.application#application-configuration):
 
 ~~~
 [php]
@@ -98,9 +98,11 @@ The following log routes are available in Yii:
    - [CProfileLogRoute]: displays profiling messages at the end of the current Web page.
 
 > Info: Message routing occurs at the end of the current request cycle
-when the application raises the [onEndRequest|CApplication::onEndRequest]
-event. This event is always raised because by default it is registered as a
-PHP [shutdown function](http://www.php.net/manual/en/function.register-shutdown-function.php).
+when the [onEndRequest|CApplication::onEndRequest] event is raised. To explicitly
+terminate the processing of the current request, call [CApplication::end()] instead
+of `die()` or `exit()`, because [CApplication::end()] will raise the
+[onEndRequest|CApplication::onEndRequest] event so that the messages can
+be properly logged.
 
 ### Message Filtering
 

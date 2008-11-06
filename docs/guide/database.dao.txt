@@ -53,9 +53,9 @@ information. Below is a list of commonly used DSN formats:
 
 Because [CDbConnection] extends from [CApplicationComponent], we can also
 use it as an [application
-component](/doc/guide/basics.application#component). To do so, configure
+component](/doc/guide/basics.application#application-component). To do so, configure
 in a `db` (or other name) application component in the [application
-configuration](/doc/guide/basics.application#config) as follows,
+configuration](/doc/guide/basics.application#application-configuration) as follows,
 
 ~~~
 [php]

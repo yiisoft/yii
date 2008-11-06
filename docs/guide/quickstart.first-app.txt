@@ -37,7 +37,7 @@ and validation are done.
 with error page*
 
 The following diagram shows the directory structure of our application.
-Please see [Conventions](/doc/guide/basics.convention#dir) for detailed
+Please see [Conventions](/doc/guide/basics.convention#directory) for detailed
 explanation about this structure.
 
 ~~~

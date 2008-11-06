@@ -28,7 +28,7 @@ Otherwise, it falls back to the default location as specified by
 To activate a theme, set the [theme|CWebApplication::theme] property of
 the Web application to be the name of the desired theme. This can be done
 either in the [application
-configuration](/doc/guide/basics.application#config) or during runtime in
+configuration](/doc/guide/basics.application#application-configuration) or during runtime in
 controller actions.
 
 > Note: Theme name is case-sensitive. If you attempt to activate a theme
@@ -36,7 +36,7 @@ that does not exist, `Yii::app()->theme` will return `null`.
 
 Contents under a theme directory should be organized in the same way as
 those under the [application base
-path](/doc/guide/basics.application#base). For example, all view files
+path](/doc/guide/basics.application#application-base-directory). For example, all view files
 must be located under `views`, layout view files under `views/layouts`, and
 system view files under `views/system`. Because the `views` directory may
 contain security-sensitive data, it should be configured to prevent from
