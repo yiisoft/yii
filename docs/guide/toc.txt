@@ -28,9 +28,6 @@
     - [Active Record](database.ar)
     - [Relational Active Record](database.arr)
 
-* Working with View
-    - [Using Helpers](view.helper)
-
 * Caching
     - [Overview](caching.overview)
     - [Data Caching](caching.data)
