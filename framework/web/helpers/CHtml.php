@@ -1118,7 +1118,7 @@ class CHtml
 			if(isset($htmlOptions['id']))
 				$id=$htmlOptions['id'];
 			else
-				$id=$htmlOptions['id']=self::ID_PREFIX.self::$_count++;
+				$id=$htmlOptions['id']=isset($htmlOptions['name'])?$htmlOptions['name']:self::ID_PREFIX.self::$_count++;
 
 			$cs=self::getClientScript();
 			$cs->registerCoreScript('jquery');
