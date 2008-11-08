@@ -22,6 +22,7 @@ Version 1.0rc to be released
 - Added CHtml::ajaxSubmitButton (Qiang)
 - Added CHtmlPurifier (Qiang)
 - Added CMarkdown (Qiang)
+- Added CDbConnection.charset (Qiang)
 
 Version 1.0b October 24, 2008
 -----------------------------
