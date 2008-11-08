@@ -117,6 +117,12 @@ class CDbConnection extends CApplicationComponent
 	 * effective when the CDbConnection object is used as an application component.
 	 */
 	public $autoConnect=true;
+	/**
+	 * @var string the charset used for database connection. The property is only used
+	 * for MySQL and PostgreSQL databases. Defaults to null, meaning using default charset
+	 * as specified by the database.
+	 */
+	public $charset;
 
 	private $_attributes=array();
 	private $_active=false;
@@ -212,7 +218,7 @@ class CDbConnection extends CApplicationComponent
 			{
 				$this->_pdo=new PDO($this->connectionString,$this->username,
 									$this->password,$this->_attributes);
-				$this->_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+				$this->initConnection($this->_pdo);
 				$this->_active=true;
 			}
 			catch(PDOException $e)
@@ -232,6 +238,31 @@ class CDbConnection extends CApplicationComponent
 		$this->_pdo=null;
 		$this->_active=false;
 		$this->_schema=null;
+	}
+
+	/**
+	 * Initializes the open db connection.
+	 * This method is invoked right after the db connection is established.
+	 * The default implementation is to set the charset for MySQL and PostgreSQL database connections.
+	 * @param PDO the PDO instance
+	 */
+	protected function initConnection($pdo)
+	{
+		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		if($this->charset===null)
+			return;
+		switch(strtolower($pdo->getAttribute(PDO::ATTR_DRIVER_NAME)))
+		{
+			case 'pgsql':
+				$stmt=$pdo->prepare('SET client_encoding TO ?');
+				$stmt->execute(array($this->charset));
+				break;
+			case 'mysqli':
+			case 'mysql':
+				$stmt=$pdo->prepare('SET CHARACTER SET ?');
+				$stmt->execute(array($this->charset));
+				break;
+		}
 	}
 
 	/**

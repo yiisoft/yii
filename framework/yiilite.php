@@ -3514,7 +3514,7 @@ class CHtml
 			if(isset($htmlOptions['id']))
 				$id=$htmlOptions['id'];
 			else
-				$id=$htmlOptions['id']=self::ID_PREFIX.self::$_count++;
+				$id=$htmlOptions['id']=isset($htmlOptions['name'])?$htmlOptions['name']:self::ID_PREFIX.self::$_count++;
 			$cs=self::getClientScript();
 			$cs->registerCoreScript('jquery');
 			if(isset($htmlOptions['submit']))
@@ -4715,6 +4715,7 @@ class CDbConnection extends CApplicationComponent
 	public $schemaCachingDuration=0;
 	public $schemaCachingExclude=array();
 	public $autoConnect=true;
+	public $charset;
 	private $_attributes=array();
 	private $_active=false;
 	private $_pdo;
@@ -4765,7 +4766,7 @@ class CDbConnection extends CApplicationComponent
 			{
 				$this->_pdo=new PDO($this->connectionString,$this->username,
 									$this->password,$this->_attributes);
-				$this->_pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+				$this->initConnection($this->_pdo);
 				$this->_active=true;
 			}
 			catch(PDOException $e)
@@ -4780,6 +4781,24 @@ class CDbConnection extends CApplicationComponent
 		$this->_pdo=null;
 		$this->_active=false;
 		$this->_schema=null;
+	}
+	protected function initConnection($pdo)
+	{
+		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		if($this->charset===null)
+			return;
+		switch(strtolower($pdo->getAttribute(PDO::ATTR_DRIVER_NAME)))
+		{
+			case 'pgsql':
+				$stmt=$pdo->prepare('SET client_encoding TO ?');
+				$stmt->execute(array($this->charset));
+				break;
+			case 'mysqli':
+			case 'mysql':
+				$stmt=$pdo->prepare('SET CHARACTER SET ?');
+				$stmt->execute(array($this->charset));
+				break;
+		}
 	}
 	public function getPdoInstance()
 	{
@@ -5794,7 +5813,11 @@ class CClientScript extends CComponent
 				$html2.=CHtml::script(implode("\n",$this->_bodyScripts))."\n";
 		}
 		if($html!=='')
-			$output=preg_replace('/(<head\s*>.*?)(<\\/head\s*>)/is','$1'.$html.'$2',$output,1);
+		{
+			$output=preg_replace('/(<head\s*>.*?)(<\\/head\s*>)/is','$1'.$html.'$2',$output,1,$count);
+			if(!$count)
+				$output=$html.$output;
+		}
 		if($html2!=='')
 		{
 			$output=preg_replace('/(<\\/body\s*>.*?<\/html\s*>)/is',$html2.'$1',$output,1,$count);
