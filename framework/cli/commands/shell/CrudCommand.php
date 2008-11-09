@@ -62,7 +62,13 @@ EOD;
 		if(strpos($modelClass,'.')===false)
 			$modelClass='application.models.'.$modelClass;
 		$modelClass=Yii::import($modelClass);
-		$controllerName=isset($args[1])?$args[1]:strtolower($modelClass);
+		if(isset($args[1]))
+			$controllerName=$args[1];
+		else
+		{
+			$controllerName=$modelClass;
+			$controllerName[0]=strtolower($controllerName[0]);
+		}
 		$controllerClass=ucfirst($controllerName).'Controller';
 		$templatePath=$this->templatePath===null?YII_PATH.'/cli/views/shell/crud':$this->templatePath;
 		$viewPath=Yii::app()->viewPath.DIRECTORY_SEPARATOR.$controllerName;
