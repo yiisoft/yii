@@ -49,16 +49,20 @@ class CDbHttpSession extends CHttpSession
 	 */
 	public $autoCreateSessionTable=true;
 	/**
-	 * @var boolean whether to use user-specified handlers to store session data.
-	 * This property is inherited from parent class and is set true so that the session handlers
-	 * can be registered to handle session related functions.
-	 */
-	public $useCustomStorage=true;
-	/**
 	 * @var CDbConnection the DB connection instance
 	 */
 	private $_db;
 
+
+	/**
+	 * Returns a value indicating whether to use custom session storage.
+	 * This method overrides the parent implementation and always returns true.
+	 * @return boolean whether to use custom storage.
+	 */
+	public function getUseCustomStorage()
+	{
+		return true;
+	}
 
 	/**
 	 * Creates the session DB table.

@@ -34,7 +34,6 @@
  * <li>{@link autoStart};</li>
  * <li>{@link setSavePath savePath};</li>
  * <li>{@link setCookieParams cookieParams};</li>
- * <li>{@link useCustomStorage};</li>
  * <li>{@link setGCProbability gcProbability};</li>
  * <li>{@link setCookieMode cookieMode};</li>
  * <li>{@link setUseTransparentSessionID useTransparentSessionID};</li>
@@ -63,13 +62,6 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * @var boolean whether the session should be automatically started when the session application component is initialized, defaults to true.
 	 */
 	public $autoStart=true;
-	/**
-	 * @var boolean whether to use user-specified handlers to store session data.
-	 * If true, make sure the methods {@link openSession}, {@link closeSession}, {@link readSession},
-	 * {@link writeSession}, {@link destroySession}, and {@link gcSession} are overridden in child
-	 * class, because they will be used as the callback handlers.
-	 */
-	public $useCustomStorage=false;
 
 
 	/**
@@ -85,13 +77,27 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 
 	/**
+	 * Returns a value indicating whether to use custom session storage.
+	 * This method should be overriden to return true if custom session storage handler should be used.
+	 * If returning true, make sure the methods {@link openSession}, {@link closeSession}, {@link readSession},
+	 * {@link writeSession}, {@link destroySession}, and {@link gcSession} are overridden in child
+	 * class, because they will be used as the callback handlers.
+	 * The default implementation always return false.
+	 * @return boolean whether to use custom storage.
+	 */
+	public function getUseCustomStorage()
+	{
+		return false;
+	}
+
+	/**
 	 * Starts the session if it has not started yet.
 	 */
 	public function open()
 	{
 		if(session_id()==='')
 		{
-			if($this->useCustomStorage)
+			if($this->getUseCustomStorage())
 				session_set_save_handler(array($this,'openSession'),array($this,'closeSession'),array($this,'readSession'),array($this,'writeSession'),array($this,'destroySession'),array($this,'gcSession'));
 			session_start();
 		}
