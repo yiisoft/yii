@@ -50,6 +50,14 @@ class CMarkdownParser extends MarkdownExtra_Parser
 	public $highlightCssClass='hl-code';
 
 	/**
+	 * @return string the default CSS file that is used to highlight code blocks.
+	 */
+	public function getDefaultCssFile()
+	{
+		return Yii::getPathOfAlias('system.vendors.TextHighlighter.highlight').'.css';
+	}
+
+	/**
 	 * Callback function when a code block is matched.
 	 * @param array matches
 	 * @return string the highlighted code block
