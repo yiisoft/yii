@@ -65,14 +65,12 @@ class CMarkdown extends COutputProcessor
 	public function transform($output)
 	{
 		$cs=$this->getController()->getClientScript();
+		$parser=$this->createMarkdownParser();
 		if($this->cssFile===null)
-		{
-			$cssFile=Yii::getPathOfAlias('system.vendors.TextHighlighter.highlight').'.css';
-			$cs->registerCssFile(CHtml::asset($cssFile));
-		}
+			$cs->registerCssFile(CHtml::asset($parser->getDefaultCssFile()));
 		else
 			$cs->registerCssFile($this->cssFile);
-		return $this->createMarkdownParser()->transform($output);
+		return $parser->transform($output);
 	}
 
 	/**
