@@ -164,7 +164,7 @@ EOD;
 		@mkdir($docPath);
 		$content=$this->renderPartial('index',null,true);
 		$content=preg_replace_callback(self::URL_PATTERN,array($this,'fixOnlineLink'),$content);
-		file_put_contents($docPath.'/index.php',$content);
+		file_put_contents($docPath.'/index.html',$content);
 
 		foreach($this->classes as $name=>$class)
 		{
@@ -172,7 +172,7 @@ EOD;
 			$this->pageTitle=$name;
 			$content=$this->renderPartial('class',array('class'=>$class),true);
 			$content=preg_replace_callback(self::URL_PATTERN,array($this,'fixOnlineLink'),$content);
-			file_put_contents($docPath.'/'.$name.'.php',$content);
+			file_put_contents($docPath.'/'.$name.'.html',$content);
 		}
 	}
 
