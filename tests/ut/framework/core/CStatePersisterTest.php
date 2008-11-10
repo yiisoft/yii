@@ -28,7 +28,8 @@ class CStatePersisterTest extends CTestCase
 		$sp->stateFile=$file;
 		$this->assertEquals($sp->stateFile,$file);
 
-		$this->setExpectedException('CException');
 		$sp->stateFile=dirname(__FILE__).'/unknown/state.bin';
+		$this->setExpectedException('CException');
+		$sp->init();
 	}
 }
