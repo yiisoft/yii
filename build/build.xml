@@ -104,10 +104,8 @@
 
   <target name="web" depends="sync">
     <echo>Building online API...</echo>
-    <mkdir dir="${build.web.dir}/views/doc" />
-    <mkdir dir="${build.web.dir}/controllers/doc" />
-    <exec command="build api ${build.web.dir}/views/doc online" dir="." passthru="true" />
-    <move file="${build.web.dir}/views/doc/apiKeywords.txt" tofile="${build.web.dir}/controllers/doc/apiKeywords.txt" />
+    <mkdir dir="${build.web.dir}/data" />
+    <exec command="build api ${build.web.dir}/data online" dir="." passthru="true" />
   </target>
 
   <target name="sync">
