@@ -2784,7 +2784,6 @@ class CWebUser extends CApplicationComponent implements IWebUser
 class CHttpSession extends CApplicationComponent implements IteratorAggregate,ArrayAccess,Countable
 {
 	public $autoStart=true;
-	public $useCustomStorage=false;
 	public function init()
 	{
 		parent::init();
@@ -2792,11 +2791,15 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 			$this->open();
 		register_shutdown_function(array($this,'close'));
 	}
+	public function getUseCustomStorage()
+	{
+		return false;
+	}
 	public function open()
 	{
 		if(session_id()==='')
 		{
-			if($this->useCustomStorage)
+			if($this->getUseCustomStorage())
 				session_set_save_handler(array($this,'openSession'),array($this,'closeSession'),array($this,'readSession'),array($this,'writeSession'),array($this,'destroySession'),array($this,'gcSession'));
 			session_start();
 		}
@@ -3114,7 +3117,7 @@ class CHtml
 	public static function button($label='button',$htmlOptions=array())
 	{
 		if(!isset($htmlOptions['name']))
-			$htmlOptions['name']='button';
+			$htmlOptions['name']=self::ID_PREFIX.self::$_count++;
 		if(!isset($htmlOptions['type']))
 			$htmlOptions['type']='button';
 		if(!isset($htmlOptions['value']))

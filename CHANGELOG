@@ -2,8 +2,8 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.0rc to be released
------------------------------
+Version 1.0rc November 10, 2008
+-------------------------------
 - Fixed issue #18: renderPartial should enable output caching to avoid session start issue (Qiang)
 - Added $source parameter to YiiBase::t() (Qiang)
 - Added CGettextMessageSource (Qiang)
