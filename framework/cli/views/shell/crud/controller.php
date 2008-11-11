@@ -63,10 +63,9 @@ class {ClassName} extends CController
 	public function actionCreate()
 	{
 		${ModelVar}=new {ModelClass};
-		if(Yii::app()->request->isPostRequest)
+		if(isset($_POST['{ModelClass}']))
 		{
-			if(isset($_POST['{ModelClass}']))
-				${ModelVar}->setAttributes($_POST['{ModelClass}']);
+			${ModelVar}->attributes=$_POST['{ModelClass}'];
 			if(${ModelVar}->save())
 				$this->redirect(array('show','id'=>${ModelVar}->{ID}));
 		}
@@ -80,10 +79,9 @@ class {ClassName} extends CController
 	public function actionUpdate()
 	{
 		${ModelVar}=$this->load{ModelClass}();
-		if(Yii::app()->request->isPostRequest)
+		if(isset($_POST['{ModelClass}']))
 		{
-			if(isset($_POST['{ModelClass}']))
-				${ModelVar}->setAttributes($_POST['{ModelClass}']);
+			${ModelVar}->setAttributes($_POST['{ModelClass}']);
 			if(${ModelVar}->save())
 				$this->redirect(array('show','id'=>${ModelVar}->{ID}));
 		}
