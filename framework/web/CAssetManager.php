@@ -112,6 +112,10 @@ class CAssetManager extends CApplicationComponent
 	 * existence of the target directory to avoid repetitive copying.</li>
 	 * </ul>
 	 * @param string the asset (file or directory) to be published
+	 * @param boolean whether the published directory should be named as the hashed basename.
+	 * If false, the name will be the hashed dirname of the path being published.
+	 * Defaults to false. Set true if the path being published is shared among
+	 * different extensions.
 	 * @param integer level of recursive copying when the asset is a directory.
 	 * Level -1 means publishing all subdirectories and files;
 	 * Level 0 means publishing only the files DIRECTLY under the directory;
@@ -119,7 +123,7 @@ class CAssetManager extends CApplicationComponent
 	 * @return string an absolute URL to the published asset
 	 * @throws CException if the asset to be published does not exist.
 	 */
-	public function publish($path,$level=-1)
+	public function publish($path,$hashByName=false,$level=-1)
 	{
 		if(isset($this->_published[$path]))
 			return $this->_published[$path];
@@ -127,7 +131,7 @@ class CAssetManager extends CApplicationComponent
 		{
 			if(is_file($src))
 			{
-				$dir=$this->hash(dirname($src));
+				$dir=$this->hash($hashByName ? basename($src) : dirname($src));
 				$fileName=basename($src);
 				$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
 				$dstFile=$dstDir.DIRECTORY_SEPARATOR.$fileName;
@@ -146,7 +150,7 @@ class CAssetManager extends CApplicationComponent
 			}
 			else
 			{
-				$dir=$this->hash($src);
+				$dir=$this->hash($hashByName ? basename($src) : $src);
 				$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
 
 				if(!is_dir($dstDir))
@@ -165,16 +169,21 @@ class CAssetManager extends CApplicationComponent
 	 * This method does not perform any publishing. It merely tells you
 	 * if the file or directory is published, where it will go.
 	 * @param string directory or file path being published
+	 * @param boolean whether the published directory should be named as the hashed basename.
+	 * If false, the name will be the hashed dirname of the path being published.
+	 * Defaults to false. Set true if the path being published is shared among
+	 * different extensions.
 	 * @return string the published file path. False if the file or directory does not exist
 	 */
-	public function getPublishedPath($path)
+	public function getPublishedPath($path,$hashByName=false)
 	{
 		if(($path=realpath($path))!==false)
 		{
+			$base=$this->getBasePath().DIRECTORY_SEPARATOR;
 			if(is_file($path))
-				return $this->getBasePath().DIRECTORY_SEPARATOR.$this->hash(dirname($path)).DIRECTORY_SEPARATOR.basename($path);
+				return $base . $this->hash($hashByName ? basename($path) : dirname($path)) . DIRECTORY_SEPARATOR . basename($path);
 			else
-				return $this->getBasePath().DIRECTORY_SEPARATOR.$this->hash($path);
+				return $base . $this->hash($hashByName ? basename($path) : $path);
 		}
 		else
 			return false;
@@ -185,18 +194,22 @@ class CAssetManager extends CApplicationComponent
 	 * This method does not perform any publishing. It merely tells you
 	 * if the file path is published, what the URL will be to access it.
 	 * @param string directory or file path being published
+	 * @param boolean whether the published directory should be named as the hashed basename.
+	 * If false, the name will be the hashed dirname of the path being published.
+	 * Defaults to false. Set true if the path being published is shared among
+	 * different extensions.
 	 * @return string the published URL for the file or directory. False if the file or directory does not exist.
 	 */
-	public function getPublishedUrl($path)
+	public function getPublishedUrl($path,$hashByName=false)
 	{
 		if(isset($this->_published[$path]))
 			return $this->_published[$path];
 		if(($path=realpath($path))!==false)
 		{
 			if(is_file($path))
-				return $this->getBaseUrl().'/'.$this->hash(dirname($path)).'/'.basename($path);
+				return $this->getBaseUrl().'/'.$this->hash($hashByName ? basename($path) : dirname($path)).'/'.basename($path);
 			else
-				return $this->getBaseUrl().'/'.$this->hash($path);
+				return $this->getBaseUrl().'/'.$this->hash($hashByName ? basename($path) : $path);
 		}
 		else
 			return false;
