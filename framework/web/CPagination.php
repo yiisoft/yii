@@ -122,6 +122,8 @@ class CPagination extends CComponent
 		$params=$_GET;
 		if($page>0) // page 0 is the default
 			$params[$this->pageVar]=$page;
+		else
+			unset($params[$this->pageVar]);
 		return $controller->createUrl('',$params);
 	}
 }
