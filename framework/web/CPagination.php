@@ -1,6 +1,6 @@
 <?php
 /**
- * CController class file.
+ * CPagination class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
