@@ -18,10 +18,12 @@ class UserIdentity extends CUserIdentity
 	 */
 	public function authenticate()
 	{
-		if($this->username==='demo' && $this->password==='demo')
-			$this->errorCode=self::ERROR_NONE;
-		else
+		if($this->username!='demo')
+			$this->errorCode=self::ERROR_USERNAME_INVALID;
+		else if($this->password!='demo')
 			$this->errorCode=self::ERROR_PASSWORD_INVALID;
+		else
+			$this->errorCode=self::ERROR_NONE;
 		return !$this->errorCode;
 	}
 }
