@@ -125,7 +125,7 @@ class {ClassName} extends CController
 	 */
 	protected function getListCriteria($pages)
 	{
-		$criteria=Yii::createComponent('system.db.schema.CDbCriteria');
+		$criteria=new CDbCriteria;
 		$columns={ModelClass}::model()->tableSchema->columns;
 		if(isset($_GET['sort']) && isset($columns[$_GET['sort']]))
 		{
