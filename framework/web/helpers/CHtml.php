@@ -628,11 +628,15 @@ class CHtml
 	/**
 	 * Generates the URL for the published assets.
 	 * @param string the path of the asset to be published
+	 * @param boolean whether the published directory should be named as the hashed basename.
+	 * If false, the name will be the hashed dirname of the path being published.
+	 * Defaults to false. Set true if the path being published is shared among
+	 * different extensions.
 	 * @return string the asset URL
 	 */
-	public static function asset($path)
+	public static function asset($path,$hashByName=false)
 	{
-		return Yii::app()->getAssetManager()->publish($path);
+		return Yii::app()->getAssetManager()->publish($path,$hashByName);
 	}
 
 	/**
