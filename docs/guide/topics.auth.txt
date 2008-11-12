@@ -401,8 +401,7 @@ $auth->createOperation('updatePost','update a post');
 $auth->createOperation('deletePost','delete a post');
 
 $bizRule='return Yii::app()->user->id==$params["post"]->authID;';
-$task=$auth->createTask('updateOwnPost','update a post by author
-himself',$bizRule);
+$task=$auth->createTask('updateOwnPost','update a post by author himself',$bizRule);
 $task->addChild('updatePost');
 
 $role=$auth->createRole('reader');
