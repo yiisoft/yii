@@ -427,10 +427,11 @@ class CHtml
 	 */
 	public static function dropDownList($name,$select,$data,$htmlOptions=array())
 	{
-		$options="\n".self::listOptions($select,$data,$htmlOptions);
-		self::clientChange('change',$htmlOptions);
+		$htmlOptions['name']=$name;
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $name);
+		self::clientChange('change',$htmlOptions);
+		$options="\n".self::listOptions($select,$data,$htmlOptions);
 		return self::tag('select',$htmlOptions,$options);
 	}
 
