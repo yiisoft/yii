@@ -208,7 +208,7 @@ special characters can be used here:
 	   - `*`: any user, including both anonymous and authenticated users.
 	   - `?`: anonymous users.
 	   - `@`: authenticated users.
-	
+
    - [ips|CAccessRule::ips]: specifies which client IP addresses this rule
 matches.
 
@@ -348,7 +348,7 @@ return array(
 			'class'=>'CDbConnection',
 			'connectionString'=>'sqlite:path/to/file.db',
 		),
-		'authComponent'=>array(
+		'authManager'=>array(
 			'class'=>'CDbAuthManager',
 			'connectionID'=>'db',
 		),
