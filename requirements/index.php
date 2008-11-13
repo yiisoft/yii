@@ -57,9 +57,27 @@ $requirements = array(
     array(
     	t('yii','PDO extension'),
         false,
-        class_exists("PDO",false),
+    	extension_loaded('pdo'),
 		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
-        t('yii','Additional drivier-specific PDO extension (e.g. pdo_mysql) is also needed.')),
+        ''),
+    array(
+    	t('yii','PDO SQLite extension'),
+        false,
+        extension_loaded('pdo_sqlite'),
+		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yii','This is required if you are using SQLite database.')),
+    array(
+    	t('yii','PDO MySQL extension'),
+        false,
+        extension_loaded('pdo_mysql'),
+		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yii','This is required if you are using MySQL database.')),
+    array(
+    	t('yii','PDO PostgreSQL extension'),
+        false,
+        extension_loaded('pdo_pgsql'),
+		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
+		t('yii','This is required if you are using PostgreSQL database.')),
 	array(
     	t('yii','Memcache extension'),
 		false,
