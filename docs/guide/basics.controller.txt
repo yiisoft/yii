@@ -51,9 +51,9 @@ incoming request. Given the ID of the controller, the application will use
 the following rules to determine what the controller class is and where the
 class file is located.
 
-   - If [CWebApplication::catchAll] is defined, the user-specified
+   - If [CWebApplication::catchAllRequest] is defined, the user-specified
 controller ID will be ignored. Instead, the controller will be created
-based on the configuration specified by [CWebApplication::catchAll]. This
+based on the configuration specified by [CWebApplication::catchAllRequest]. This
 is mainly used to put the application under maintenance mode and display a
 static notice page.
 
