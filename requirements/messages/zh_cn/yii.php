@@ -25,7 +25,6 @@ return array (
   'DOM extension' => 'DOM扩展模块',
   'PDO extension' => 'PDO扩展模块',
   'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => '所有和<a href="http://www.yiiframework.com/doc/api/#system.db">数据库相关的类</a>',
-  'Additional drivier-specific PDO extension (e.g. pdo_mysql) is also needed.' => '与具体数据库相关的PDO扩展模块（如pdo_mysql）也是需要的。',
   'Memcache extension' => 'Memcache扩展模块',
   'APC extension' => 'APC扩展模块',
   'Mcrypt extension' => 'Mcrypt扩展模块',
@@ -35,4 +34,10 @@ return array (
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '$_SERVER["SCRIPT_FILENAME"]必须与入口文件路径一致。',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => '$_SERVER["REQUEST_URI"]或$_SERVER["QUERY_STRING"]必须存在。',
   'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' => '无法确定URL path info。请检查$_SERVER["PATH_INFO"]（或$_SERVER["PHP_SELF"]和$_SERVER["SCRIPT_NAME"]）的值是否正确。',
+  'PDO SQLite extension' => 'PDO SQLite扩展模块',
+  'This is required if you are using SQLite database.' => '如果使用SQLite数据库，这是必须的。',
+  'PDO MySQL extension' => 'PDO MySQL扩展模块',
+  'This is required if you are using MySQL database.' => '如果使用MySQL数据库，这是必须的。',
+  'PDO PostgreSQL extension' => 'PDO PostgreSQL扩展模块',
+  'This is required if you are using PostgreSQL database.' => '如果使用PostgreSQL数据库，这是必须的。',
 );
