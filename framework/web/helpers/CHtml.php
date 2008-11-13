@@ -69,6 +69,30 @@ class CHtml
 	}
 
 	/**
+	 * Generates an open HTML element.
+	 * @param string the tag name
+	 * @param array the element attributes. The values will be HTML-encoded using {@link encode()}.
+	 * @return string the generated HTML element tag
+	 */
+	public static function openTag($tag,$htmlOptions=array())
+	{
+		$html='<' . $tag;
+		foreach($htmlOptions as $name=>$value)
+			$html .= ' ' . $name . '="' . self::encode($value) . '"';
+		return $html . '>';
+	}
+
+	/**
+	 * Generates a close HTML element.
+	 * @param string the tag name
+	 * @return string the generated HTML element tag
+	 */
+	public static function closeTag($tag)
+	{
+		return '</'.$tag.'>';
+	}
+
+	/**
 	 * Encloses the given string within a CDATA tag.
 	 * @param string the string to be enclosed
 	 * @return string the CDATA tag with the enclosed content.
