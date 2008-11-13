@@ -2,7 +2,7 @@
 	Welcome, <?php echo Yii::app()->user->name; ?>!
 </h2>
 <p>
-This is the homepage of <em><?php echo Yii::app()->name; ?></em>. You may modify the following files to customize the conent of this page:
+This is the homepage of <em><?php echo Yii::app()->name; ?></em>. You may modify the following files to customize the content of this page:
 </p>
 <dl>
 	<dt><?php echo Yii::app()->controllerPath . DIRECTORY_SEPARATOR . 'SiteController.php'; ?></dt>
