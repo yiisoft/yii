@@ -804,6 +804,23 @@ class CHtml
 	}
 
 	/**
+	 * Generates a file input for a model attribute.
+	 * Note, you have to set the enclosing form's 'enctype' attribute to be 'multipart/form-data'.
+	 * After the form is submitted, the uploaded file information can be obtained via $_FILES (see
+	 * PHP documentation).
+	 * @param CModel the data model
+	 * @param string the attribute
+	 * @param array additional HTML attributes.
+	 * @return string the generated input field
+	 * @see activeInputField
+	 */
+	public static function activeFileField($model,$attribute,$htmlOptions=array())
+	{
+		self::resolveNameID($model,$attribute,$htmlOptions);
+		return self::activeInputField('file',$model,$attribute,$htmlOptions);
+	}
+
+	/**
 	 * Generates a radio button for a model attribute.
 	 * If the attribute has input error, the input field's CSS class will
 	 * be appended with {@link errorCss}.

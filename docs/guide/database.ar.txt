@@ -413,8 +413,9 @@ $post->save();
 ~~~
 
 By default, all columns except primary key(s) can be massively assigned
-like the above. This can be changed by overriding the
-[protectedAttributes()|CActiveRecord::protectedAttributes] method in the AR
+like the above. This can be changed by overriding either
+[protectedAttributes()|CActiveRecord::protectedAttributes] or
+[safeAttributes()|CActiveRecord::safeAttributes] in the AR
 class. For example, if we do not want the `content` property to be
 massively assigned, we can write:
 
