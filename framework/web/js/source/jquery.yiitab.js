@@ -29,7 +29,7 @@
 
 			// activate a tab based on the current anchor
 			var url = decodeURI(window.location);
-			var pos = theAddress.indexOf("#");
+			var pos = url.indexOf("#");
 			if (pos >= 0) {
 				var id = url.substring(pos);
 				if (this.find('>ul a[href="'+id+'"]').length > 0) {
