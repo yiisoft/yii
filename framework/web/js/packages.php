@@ -7,6 +7,9 @@ $packages=array(
 	'yii'=>array(
 		'jquery.yii.js',
 	),
+	'yiitab'=>array(
+		'jquery.yiitab.js',
+	),
 	'bgiframe'=>array(
 		'jquery.bgiframe.js',
 	),
@@ -36,6 +39,9 @@ $packages=array(
 
 $dependencies=array(
 	'yii'=>array(
+		'jquery',
+	),
+	'yiitab'=>array(
 		'jquery',
 	),
 	'bgiframe'=>array(
