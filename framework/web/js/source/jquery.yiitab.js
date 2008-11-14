@@ -11,7 +11,7 @@
 ;(function($) {
 
 	$.extend($.fn, {
-		yiitab: function(initial) {
+		yiitab: function() {
 
 			function activate(id) {
 				var $tab=$(id);
@@ -24,6 +24,7 @@
 
 			this.find('>ul a').click(function(event) {
 				activate($(event.target).attr('href'));
+				return false;
 			});
 
 			// activate a tab based on the current anchor
@@ -36,8 +37,6 @@
 					return;
 				}
 			}
-
-			activate(initial);
 		}
 	});
 
