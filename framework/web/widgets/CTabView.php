@@ -1,6 +1,6 @@
 <?php
 /**
- * CTabWidget class file.
+ * CTabView class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
@@ -9,13 +9,13 @@
  */
 
 /**
- * CTabWidget displays contents in multiple tabs.
+ * CTabView displays contents in multiple tabs.
  *
  * At any time, only one tab is visible. Users can click on the tab header
  * to switch to see another tab of content.
  *
  * JavaScript is used to control the tab switching. If JavaScript is disabled,
- * CTabWidget still manages to display the content in a semantically appropriate way.
+ * CTabView still manages to display the content in a semantically appropriate way.
  *
  * To specify contents and their tab structure, configure the {@link tabs} property.
  * The {@link tabs} property takes an array with tab ID being mapped tab definition.
@@ -52,7 +52,7 @@
  * @package system.web.widgets
  * @since 1.0
  */
-class CTabWidget extends CWidget
+class CTabView extends CWidget
 {
 	/**
 	 * Default CSS class for the tab container
@@ -146,7 +146,7 @@ class CTabWidget extends CWidget
 		else
 			$cs->registerCssFile($cs->getCoreScriptUrl().'/yiitab/jquery.yiitab.css');
 		$id=$this->getId();
-		$cs->registerBodyScript('Yii.CTabWidget#'.$id,"jQuery(\"#{$id}\").yiitab('#{$this->activeTab}');");
+		$cs->registerBodyScript('Yii.CTabView#'.$id,"jQuery(\"#{$id}\").yiitab();");
 	}
 
 	/**
@@ -158,7 +158,8 @@ class CTabWidget extends CWidget
 		foreach($this->tabs as $id=>$tab)
 		{
 			$title=isset($tab['title'])?CHtml::encode($tab['title']):'undefined';
-			echo "<li><a href=\"#{$id}\">{$title}</a></li>\n";
+			$active=$id===$this->activeTab?' class="active"' : '';
+			echo "<li><a href=\"#{$id}\"{$active}>{$title}</a></li>\n";
 		}
 		echo "</ul>\n";
 	}
@@ -170,7 +171,8 @@ class CTabWidget extends CWidget
 	{
 		foreach($this->tabs as $id=>$tab)
 		{
-			echo "<div id=\"{$id}\">\n";
+			$inactive=$id!==$this->activeTab?' style="display:none"' : '';
+			echo "<div id=\"{$id}\"{$inactive}>\n";
 			if(isset($tab['view']))
 				$this->getController()->renderPartial($tab['view'],$this->viewData);
 			else if(isset($tab['clip']))
