@@ -333,6 +333,7 @@ class YiiBase
 		'CMultiFileUpload' => '/web/widgets/CMultiFileUpload.php',
 		'COutputCache' => '/web/widgets/COutputCache.php',
 		'COutputProcessor' => '/web/widgets/COutputProcessor.php',
+		'CTabWidget' => '/web/widgets/CTabWidget.php',
 		'CTextHighlighter' => '/web/widgets/CTextHighlighter.php',
 		'CTreeView' => '/web/widgets/CTreeView.php',
 		'CWidget' => '/web/widgets/CWidget.php',
@@ -3062,6 +3063,17 @@ class CHtml
 		else
 			return $closeTag ? $html.'>'.$content.'</'.$tag.'>' : $html.'>'.$content;
 	}
+	public static function openTag($tag,$htmlOptions=array())
+	{
+		$html='<' . $tag;
+		foreach($htmlOptions as $name=>$value)
+			$html .= ' ' . $name . '="' . self::encode($value) . '"';
+		return $html . '>';
+	}
+	public static function closeTag($tag)
+	{
+		return '</'.$tag.'>';
+	}
 	public static function cdata($text)
 	{
 		return '<![CDATA[' . $text . ']]>';
@@ -3200,10 +3212,11 @@ class CHtml
 	}
 	public static function dropDownList($name,$select,$data,$htmlOptions=array())
 	{
-		$options="\n".self::listOptions($select,$data,$htmlOptions);
-		self::clientChange('change',$htmlOptions);
+		$htmlOptions['name']=$name;
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $name);
+		self::clientChange('change',$htmlOptions);
+		$options="\n".self::listOptions($select,$data,$htmlOptions);
 		return self::tag('select',$htmlOptions,$options);
 	}
 	public static function listBox($name,$select,$data,$htmlOptions=array())
@@ -3294,9 +3307,9 @@ class CHtml
 		}
 		return 'jQuery.ajax('.CJavaScript::encode($options).');';
 	}
-	public static function asset($path)
+	public static function asset($path,$hashByName=false)
 	{
-		return Yii::app()->getAssetManager()->publish($path);
+		return Yii::app()->getAssetManager()->publish($path,$hashByName);
 	}
 	public static function coreScript($name)
 	{
@@ -5758,7 +5771,10 @@ class CPagination extends CComponent
 	public function createPageUrl($controller,$page)
 	{
 		$params=$_GET;
-		$params[$this->pageVar]=$page;
+		if($page>0) // page 0 is the default
+			$params[$this->pageVar]=$page;
+		else
+			unset($params[$this->pageVar]);
 		return $controller->createUrl('',$params);
 	}
 }
@@ -6159,7 +6175,7 @@ class CAssetManager extends CApplicationComponent
 	{
 		$this->_baseUrl=rtrim($value,'/');
 	}
-	public function publish($path,$level=-1)
+	public function publish($path,$hashByName=false,$level=-1)
 	{
 		if(isset($this->_published[$path]))
 			return $this->_published[$path];
@@ -6167,7 +6183,7 @@ class CAssetManager extends CApplicationComponent
 		{
 			if(is_file($src))
 			{
-				$dir=$this->hash(dirname($src));
+				$dir=$this->hash($hashByName ? basename($src) : dirname($src));
 				$fileName=basename($src);
 				$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
 				$dstFile=$dstDir.DIRECTORY_SEPARATOR.$fileName;
@@ -6184,7 +6200,7 @@ class CAssetManager extends CApplicationComponent
 			}
 			else
 			{
-				$dir=$this->hash($src);
+				$dir=$this->hash($hashByName ? basename($src) : $src);
 				$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
 				if(!is_dir($dstDir))
 					CFileHelper::copyDirectory($src,$dstDir,array('exclude'=>array('.svn'),'level'=>$level));
@@ -6195,28 +6211,29 @@ class CAssetManager extends CApplicationComponent
 			throw new CException(Yii::t('yii','The asset "{asset}" to be pulished does not exist.',
 				array('{asset}'=>$path)));
 	}
-	public function getPublishedPath($path)
+	public function getPublishedPath($path,$hashByName=false)
 	{
 		if(($path=realpath($path))!==false)
 		{
+			$base=$this->getBasePath().DIRECTORY_SEPARATOR;
 			if(is_file($path))
-				return $this->getBasePath().DIRECTORY_SEPARATOR.$this->hash(dirname($path)).DIRECTORY_SEPARATOR.basename($path);
+				return $base . $this->hash($hashByName ? basename($path) : dirname($path)) . DIRECTORY_SEPARATOR . basename($path);
 			else
-				return $this->getBasePath().DIRECTORY_SEPARATOR.$this->hash($path);
+				return $base . $this->hash($hashByName ? basename($path) : $path);
 		}
 		else
 			return false;
 	}
-	public function getPublishedUrl($path)
+	public function getPublishedUrl($path,$hashByName=false)
 	{
 		if(isset($this->_published[$path]))
 			return $this->_published[$path];
 		if(($path=realpath($path))!==false)
 		{
 			if(is_file($path))
-				return $this->getBaseUrl().'/'.$this->hash(dirname($path)).'/'.basename($path);
+				return $this->getBaseUrl().'/'.$this->hash($hashByName ? basename($path) : dirname($path)).'/'.basename($path);
 			else
-				return $this->getBaseUrl().'/'.$this->hash($path);
+				return $this->getBaseUrl().'/'.$this->hash($hashByName ? basename($path) : $path);
 		}
 		else
 			return false;
