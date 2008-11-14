@@ -3367,6 +3367,11 @@ class CHtml
 			self::addErrorCss($htmlOptions);
 		return self::tag('textarea',$htmlOptions,self::encode($model->$attribute));
 	}
+	public static function activeFileField($model,$attribute,$htmlOptions=array())
+	{
+		self::resolveNameID($model,$attribute,$htmlOptions);
+		return self::activeInputField('file',$model,$attribute,$htmlOptions);
+	}
 	public static function activeRadioButton($model,$attribute,$htmlOptions=array())
 	{
 		if(!isset($htmlOptions['value']))
@@ -4203,6 +4208,18 @@ abstract class CActiveRecord extends CModel
 	{
 		return array();
 	}
+	public function safeAttributes()
+	{
+		$table=$this->getDbConnection()->getSchema()->getTable($this->tableName());
+		$protectedAttributes=array_flip($this->protectedAttributes());
+		$safeAttributes=array();
+		foreach($table->columns as $name=>$column)
+		{
+			if(!$column->isPrimaryKey && !isset($protectedAttributes[$name]))
+				$safeAttributes[]=$name;
+		}
+		return $safeAttributes;
+	}
 	public function relations()
 	{
 		return array();
@@ -4693,11 +4710,9 @@ class CActiveRecordMetaData
 				array('{class}'=>get_class($model),'{table}'=>$tableName)));
 		$this->tableSchema=$table;
 		$this->columns=$table->columns;
-		$protectedAttributes=array_flip($model->protectedAttributes());
+		$this->safeAttributes=array_flip($model->safeAttributes($table));
 		foreach($table->columns as $name=>$column)
 		{
-			if(!$column->isPrimaryKey && !isset($protectedAttributes[$name]))
-				$this->safeAttributes[$name]=true;
 			if(!$column->isPrimaryKey && $column->defaultValue!==null)
 				$this->attributeDefaults[$name]=$column->defaultValue;
 		}

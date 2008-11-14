@@ -462,13 +462,36 @@ abstract class CActiveRecord extends CModel
 
 	/**
 	 * Returns the names of the attributes whose value can NOT be altered by {@link setAttributes}.
-	 * The protected attributes can only be changed by individual assignments.
-	 * Note, primary keys are always protected.
-	 * @return array list of protected attribute names. Defaults to empty array.
+	 * The protected attributes can only be changed by individual attribute assignments.
+	 * Note, primary keys are always protected, which do not need to be listed here.
+	 * If you also override {@link safeAttributes}, this method will be ignored.
+	 * @return array list of protected attribute names. Defaults to empty array, meaning
+	 * all attributes except primary key(s) can be altered by {@link setAttributes}.
+	 * @see safeAttributes
 	 */
 	public function protectedAttributes()
 	{
 		return array();
+	}
+
+	/**
+	 * Returns the names of the attributes whose value can be altered by {@link setAttributes}.
+	 * The default implementation is to return non-primary-key attributes that are not listed
+	 * in {@link protectedAttributes}. You may override this method to customize the safe attribute list.
+	 * @return array the names of the attributes whose value can be altered by {@link setAttributes}.
+	 * @see protectedAttributes
+	 */
+	public function safeAttributes()
+	{
+		$table=$this->getDbConnection()->getSchema()->getTable($this->tableName());
+		$protectedAttributes=array_flip($this->protectedAttributes());
+		$safeAttributes=array();
+		foreach($table->columns as $name=>$column)
+		{
+			if(!$column->isPrimaryKey && !isset($protectedAttributes[$name]))
+				$safeAttributes[]=$name;
+		}
+		return $safeAttributes;
 	}
 
 	/**
@@ -690,9 +713,8 @@ abstract class CActiveRecord extends CModel
 	/**
 	 * Sets the attribute values in a batch mode.
 	 * By default, only safe attributes will be assigned with new values.
-	 * An attribute is safe if it is neither a primary key nor an attribute
-	 * listed in {@link protectedAttributes}. You may also specify safe attribute
-	 * list as the second parameter.
+	 * An attribute is safe if it is among the list returned by {@link safeAttributes}.
+	 * You may also explicitly specify the safe attributes as the second parameter.
 	 * @param array attribute values indexed by attribute names.
 	 * @param array a list of safe attribute names. Only the attributes listed in this array
 	 * will be assigned. If this is empty, only attributes that are neither primary key
@@ -1525,12 +1547,10 @@ class CActiveRecordMetaData
 				array('{class}'=>get_class($model),'{table}'=>$tableName)));
 		$this->tableSchema=$table;
 		$this->columns=$table->columns;
+		$this->safeAttributes=array_flip($model->safeAttributes($table));
 
-		$protectedAttributes=array_flip($model->protectedAttributes());
 		foreach($table->columns as $name=>$column)
 		{
-			if(!$column->isPrimaryKey && !isset($protectedAttributes[$name]))
-				$this->safeAttributes[$name]=true;
 			if(!$column->isPrimaryKey && $column->defaultValue!==null)
 				$this->attributeDefaults[$name]=$column->defaultValue;
 		}
