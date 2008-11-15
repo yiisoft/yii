@@ -31,11 +31,25 @@ class CUploadedFile extends CComponent
 
 	/**
 	 * Returns an instance of the specified uploaded file.
+	 * The file should be uploaded using {@link CHtml::activeFileField}.
+	 * @param CModel the model instance
+	 * @param string the attribute name
+	 * @return CUploadedFile the instance of the uploaded file.
+	 * Null is returned if no file is uploaded for the specified model attribute.
+	 * @see getInstanceByName
+	 */
+	public static function getInstance($model,$attribute)
+	{
+		return self::getInstanceByName(get_class($model).'['.$attribute.']');
+	}
+
+	/**
+	 * Returns an instance of the specified uploaded file.
 	 * @param string the name of the file input field.
 	 * @return CUploadedFile the instance of the uploaded file.
 	 * Null is returned if no file is uploaded for the specified name.
 	 */
-	public static function getInstance($name)
+	public static function getInstanceByName($name)
 	{
 		static $files;
 		if($files===null)
@@ -152,5 +166,18 @@ class CUploadedFile extends CComponent
 	public function getHasError()
 	{
 		return $this->_error!=UPLOAD_ERR_OK;
+	}
+
+	/**
+	 * @return string the file extension name for {@link name}.
+	 * The extension name does not include the dot character. An empty string
+	 * is returned if {@link name} does not have an extension name.
+	 */
+	public function getExtensionName()
+	{
+		if(($pos=strrpos($this->_name,'.'))!==false)
+			return (string)substr($this->_name,$pos+1);
+		else
+			return '';
 	}
 }

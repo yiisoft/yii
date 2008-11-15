@@ -1792,15 +1792,6 @@ class CHttpRequest extends CApplicationComponent
 			if(isset($_COOKIE))
 				$_COOKIE=$this->stripSlashes($_COOKIE);
 		}
-		// copy uploaded file names to $_POST array so that they can be assigned to models more easily
-		if(isset($_FILES) && is_array($_FILES))
-		{
-			foreach($_FILES as $name=>$info)
-			{
-				if(is_array($info) && isset($info['name']))
-					$_POST[$name]=$info['name'];
-			}
-		}
 	}
 	public function stripSlashes(&$data)
 	{
