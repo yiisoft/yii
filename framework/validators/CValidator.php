@@ -29,18 +29,19 @@
  * When using {@link createValidator} to create a validator, the following aliases
  * are recognized as the corresponding built-in validator classes:
  * <ul>
- * <li>required: {@link CRequiredValidator system.validators.CRequiredValidator}</li>
- * <li>filter: {@link CFilterValidator system.validators.CFilterValidator}</li>
- * <li>match: {@link CRegularExpressionValidator system.validators.CRegularExpressionValidator}</li>
- * <li>email: {@link CEmailValidator system.validators.CEmailValidator}</li>
- * <li>url: {@link CUrlValidator system.validators.CUrlValidator}</li>
- * <li>unique: {@link CUniqueValidator system.validators.CUniqueValidator}</li>
- * <li>compare: {@link CCompareValidator system.validators.CCompareValidator}</li>
- * <li>length: {@link CStringValidator system.validators.CStringValidator}</li>
- * <li>in: {@link CRangeValidator system.validators.CRangeValidator}</li>
- * <li>numerical: {@link CNumberValidator system.validators.CNumberValidator}</li>
- * <li>captcha: {@link CCaptchaValidator system.validators.CCaptchaValidator}</li>
- * <li>type: {@link CTypeValidator system.validators.CTypeValidator}</li>
+ * <li>required: {@link CRequiredValidator}</li>
+ * <li>filter: {@link CFilterValidator}</li>
+ * <li>match: {@link CRegularExpressionValidator}</li>
+ * <li>email: {@link CEmailValidator}</li>
+ * <li>url: {@link CUrlValidator}</li>
+ * <li>unique: {@link CUniqueValidator}</li>
+ * <li>compare: {@link CCompareValidator}</li>
+ * <li>length: {@link CStringValidator}</li>
+ * <li>in: {@link CRangeValidator}</li>
+ * <li>numerical: {@link CNumberValidator}</li>
+ * <li>captcha: {@link CCaptchaValidator}</li>
+ * <li>type: {@link CTypeValidator}</li>
+ * <li>file: {@link CFileValidator}</li>
  * </ul>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -100,6 +101,7 @@ abstract class CValidator extends CComponent
 			'numerical'=>'CNumberValidator',
 			'captcha'=>'CCaptchaValidator',
 			'type'=>'CTypeValidator',
+			'file'=>'CFileValidator',
 		);
 
 		if(is_string($attributes))
