@@ -70,8 +70,8 @@ class CTypeValidator extends CValidator
 
 		if(!$valid)
 		{
-			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} must be {type}.',array('{type}'=>$this->type));
-			$this->addError($object,$attribute,$message);
+			$message=$this->message!==null?$this->message : Yii::t('yii','{attribute} must be {type}.');
+			$this->addError($object,$attribute,$message,array('{type}'=>$this->type));
 		}
 	}
 }
