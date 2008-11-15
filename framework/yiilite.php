@@ -1988,28 +1988,10 @@ class CHttpRequest extends CApplicationComponent
 	}
 	public function sendFile($fileName,$content,$mimeType=null,$terminate=true)
 	{
-		static $defaultMimeTypes=array(
-			'css'=>'text/css',
-			'gif'=>'image/gif',
-			'jpg'=>'image/jpeg',
-			'jpeg'=>'image/jpeg',
-			'htm'=>'text/html',
-			'html'=>'text/html',
-			'js'=>'javascript/js',
-			'pdf'=>'application/pdf',
-			'xls'=>'application/vnd.ms-excel',
-		);
 		if($mimeType===null)
 		{
-			$mimeType='text/plain';
-			if(function_exists('mime_content_type'))
-				$mimeType=mime_content_type($fileName);
-			else if(($ext=strrchr($fileName,'.'))!==false)
-			{
-				$ext=strtolower(substr($ext,1));
-				if(isset($defaultMimeTypes[$ext]))
-					$mimeType=$defaultMimeTypes[$ext];
-			}
+			if(($mimeType=CFileHelper::getMimeTypeByExtension($fileName))===null)
+				$mimeType='text/plain';
 		}
 		header('Pragma: public');
 		header('Expires: 0');
