@@ -24,6 +24,8 @@
 
 			this.find('>ul a').click(function(event) {
 				activate($(event.target).attr('href'));
+				if($(this).attr('href')[0]=='#')
+					return false;
 			});
 
 			// activate a tab based on the current anchor
