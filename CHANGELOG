@@ -11,6 +11,8 @@ Version 1.0 to be released
 - Added CTabView (Qiang)
 - Added CActiveRecord::safeAttributes (Qiang)
 - Added CHtml::activeFileField (Qiang)
+- Added CUploadedFile (Qiang)
+- Added CFileValidator (Qiang)
 
 Version 1.0rc November 10, 2008
 -------------------------------

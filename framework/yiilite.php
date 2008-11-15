@@ -268,6 +268,7 @@ class YiiBase
 		'CCaptchaValidator' => '/validators/CCaptchaValidator.php',
 		'CCompareValidator' => '/validators/CCompareValidator.php',
 		'CEmailValidator' => '/validators/CEmailValidator.php',
+		'CFileValidator' => '/validators/CFileValidator.php',
 		'CFilterValidator' => '/validators/CFilterValidator.php',
 		'CInlineValidator' => '/validators/CInlineValidator.php',
 		'CNumberValidator' => '/validators/CNumberValidator.php',
@@ -294,6 +295,7 @@ class YiiBase
 		'CPagination' => '/web/CPagination.php',
 		'CTheme' => '/web/CTheme.php',
 		'CThemeManager' => '/web/CThemeManager.php',
+		'CUploadedFile' => '/web/CUploadedFile.php',
 		'CUrlManager' => '/web/CUrlManager.php',
 		'CWebApplication' => '/web/CWebApplication.php',
 		'CWebService' => '/web/CWebService.php',
@@ -1789,6 +1791,15 @@ class CHttpRequest extends CApplicationComponent
 				$_REQUEST=$this->stripSlashes($_REQUEST);
 			if(isset($_COOKIE))
 				$_COOKIE=$this->stripSlashes($_COOKIE);
+		}
+		// copy uploaded file names to $_POST array so that they can be assigned to models more easily
+		if(isset($_FILES) && is_array($_FILES))
+		{
+			foreach($_FILES as $name=>$info)
+			{
+				if(is_array($info) && isset($info['name']))
+					$_POST[$name]=$info['name'];
+			}
 		}
 	}
 	public function stripSlashes(&$data)
