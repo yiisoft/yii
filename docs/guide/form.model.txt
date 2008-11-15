@@ -140,34 +140,37 @@ equal to the verification code displayed in a
 
    - `compare`: alias of [CCompareValidator], ensuring the attribute is
 equal to another attribute or constant.
-   
+
    - `email`: alias of [CEmailValidator], ensuring the attribute is a
 valid email address.
-   
+
+   - `file`: alias of [CFileValidator], ensuring the attribute contains
+the name of an uploaded file.
+
    - `filter`: alias of [CFilterValidator], transforming the attribute
 with a filter.
-   
+
    - `in`: alias of [CRangeValidator], ensuring the data is among a
 pre-specified list of values.
-   
+
    - `length`: alias of [CStringValidator], ensuring the length of the
 data is within certain range.
-   
+
    - `match`: alias of [CRegularExpressionValidator], ensuring the data
 matches a regular expression.
-   
+
    - `numerical`: alias of [CNumberValidator], ensuring the data is a
 valid number.
-   
+
    - `required`: alias of [CRequiredValidator], ensuring the attribute is
 not empty.
-   
+
    - `type`: alias of [CTypeValidator], ensuring the attribute is of
 specific data type.
-   
+
    - `unique`: alias of [CUniqueValidator], ensuring the data is unique in
 a database table column.
-   
+
    - `url`: alias of [CUrlValidator], ensuring the data is a valid URL.
 
 Below we list some examples of using the predefined validators:
