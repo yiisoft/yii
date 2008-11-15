@@ -31,6 +31,7 @@
  * <li>clip: the ID of the {@link CClipWidget clip} to be displayed in this tab.
  * When both 'view' and 'clip' are specified, 'view' will take
  * precedence.</li>
+ * <li>url: a URL that the user browser will be redirected to when clicking on this tab.</li>
  * </ul>
  *
  * For example, the {@link tabs} property can be configured as follows,
@@ -42,7 +43,7 @@
  *     ),
  *     'tab2'=>array(
  *           'title'=>'tab 2 title',
- *           'clip'=>'clip1',
+ *           'url'=>'http://www.yiiframework.com/',
  *     ),
  * )
  * </pre>
@@ -94,6 +95,7 @@ class CTabView extends CWidget
 	 * <li>clip: the ID of the {@link CClipWidget clip} to be displayed in this tab.
 	 * When both 'view' and 'clip' are specified, 'view' will take
 	 * precedence.</li>
+	 * <li>url: a URL that the user browser will be redirected to when clicking on this tab.</li>
 	 * </ul>
 	 * <pre>
 	 * array(
@@ -103,7 +105,7 @@ class CTabView extends CWidget
 	 *     ),
 	 *     'tab2'=>array(
 	 *           'title'=>'tab 2 title',
-	 *           'clip'=>'clip1',
+	 *           'url'=>'http://www.yiiframework.com/',
 	 *     ),
 	 * )
 	 * </pre>
@@ -165,7 +167,8 @@ class CTabView extends CWidget
 		{
 			$title=isset($tab['title'])?CHtml::encode($tab['title']):'undefined';
 			$active=$id===$this->activeTab?' class="active"' : '';
-			echo "<li><a href=\"#{$id}\"{$active}>{$title}</a></li>\n";
+			$url=isset($tab['url'])?$tab['url']:"#{$id}";
+			echo "<li><a href=\"{$url}\"{$active}>{$title}</a></li>\n";
 		}
 		echo "</ul>\n";
 	}
