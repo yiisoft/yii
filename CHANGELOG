@@ -13,6 +13,7 @@ Version 1.0 to be released
 - Added CHtml::activeFileField (Qiang)
 - Added CUploadedFile (Qiang)
 - Added CFileValidator (Qiang)
+- Added CFileHelper::getMimeType and CFileHelper::getMimeTypeByExtension (Qiang)
 
 Version 1.0rc November 10, 2008
 -------------------------------

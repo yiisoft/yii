@@ -49,9 +49,11 @@ EOD;
 				'/views',
 				'/cli',
 				'/yii.php',
+				'/yiilite.php',
 				'/web/js',
 				'/vendors',
 				'/i18n/data',
+				'/utils/mimeTypes.php',
 			),
 		);
 		$files=CFileHelper::findFiles(YII_PATH,$options);

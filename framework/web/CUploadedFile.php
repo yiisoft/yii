@@ -134,7 +134,8 @@ class CUploadedFile extends CComponent
 
 	/**
 	 * @return string the MIME-type of the uploaded file (such as "image/gif").
-	 * Since this mime type is not checked on the server side, do not take its value for granted.
+	 * Since this MIME type is not checked on the server side, do not take this value for granted.
+	 * Instead, use {@link CFileHelper::getMimeType} to determine the exact MIME type.
 	 */
 	public function getType()
 	{
