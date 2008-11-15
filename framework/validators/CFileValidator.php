@@ -23,7 +23,8 @@
  *     $file=CUploadedFile::getInstance($model,'fileName');
  *     $model->fileName=$file->name;
  *     $model->fileSize=$file->size;
- *     $model->save(false); // validation is already performed
+ *     if($model->save(false))   // validation is already performed
+ *         $file->saveAs($path); // save the uploaded file
  * }
  * </pre>
  *
