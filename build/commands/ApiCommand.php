@@ -66,7 +66,7 @@ EOD;
 			'fileTypes'=>array('php'),
 			'exclude'=>array(
 				'.svn',
-				'yiilite.php',
+				'/yiilite.php',
 				'/cli',
 				'/i18n/data',
 				'/messages',
@@ -74,6 +74,7 @@ EOD;
 				'/views',
 				'/web/js',
 				'/web/widgets/views',
+				'/utils/mimeTypes.php',
 			),
 		);
 		$this->pageTitle='Yii Framework Class Reference';

@@ -180,4 +180,51 @@ class CFileHelper
 		else
 			return false;
 	}
+
+	/**
+	 * Determines the MIME type of the specified file.
+	 * This method will attempt the following approaches in order:
+	 * <ol>
+	 * <li>finfo</li>
+	 * <li>mime_content_type</li>
+	 * <li>{@link getMimeTypeByExtension}</li>
+	 * </ol>
+	 * @param string the file name.
+	 * @return string the MIME type. Null is returned if the MIME type cannot be determined.
+	 */
+	public static function getMimeType($file)
+	{
+		if(function_exists('finfo_open'))
+		{
+			if($info=finfo_open(FILEINFO_MIME))
+				return finfo_file($info,$file);
+			else
+				return null;
+		}
+
+		if(function_exists('mime_content_type'))
+			return mime_content_type($file);
+
+		return self::getMimeTypeByExtension($file);
+	}
+
+	/**
+	 * Determines the MIME type based on the extension name of the specified file.
+	 * This method will use a local map between extension name and MIME type.
+	 * @param string the file name.
+	 * @return string the MIME type. Null is returned if the MIME type cannot be determined.
+	 */
+	public static function getMimeTypeByExtension($file)
+	{
+		static $extensions;
+		if($extensions===null)
+			$extensions=require(Yii::getPathOfAlias('system.utils.mimeTypes').'.php');
+		if(($pos=strrpos($file,'.'))!==false)
+		{
+			$ext=strtolower(substr($file,$pos+1));
+			if(isset($extensions[$ext]))
+				return $extensions[$ext];
+		}
+		return null;
+	}
 }
