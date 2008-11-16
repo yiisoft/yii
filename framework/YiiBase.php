@@ -531,6 +531,7 @@ class YiiBase
 		'CMultiFileUpload' => '/web/widgets/CMultiFileUpload.php',
 		'COutputCache' => '/web/widgets/COutputCache.php',
 		'COutputProcessor' => '/web/widgets/COutputProcessor.php',
+		'CStarRating' => '/web/widgets/CStarRating.php',
 		'CTabView' => '/web/widgets/CTabView.php',
 		'CTextHighlighter' => '/web/widgets/CTextHighlighter.php',
 		'CTreeView' => '/web/widgets/CTreeView.php',

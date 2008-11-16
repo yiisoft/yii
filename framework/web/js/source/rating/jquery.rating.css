@@ -1,0 +1,14 @@
+/* jQuery.Rating Plugin CSS - http://www.fyneworks.com/jquery/star-rating/ */
+div.rating{cursor:pointer;margin:2em;clear:both;display:block}
+div.rating:after{content:'.';display:block;height:0;width:0;clear:both;visibility:hidden}
+div.cancel,div.star{float:left;width:17px;height:15px;text-indent:-999em;cursor:pointer;display:block;background:transparent;overflow:hidden}
+div.cancel,div.cancel a{background:url('delete.gif') no-repeat 0 -16px}
+div.star,div.star a{background:url('star.gif') no-repeat 0 0px}
+div.cancel a,div.star a{display:block;width:16px;height:100%;background-position:0 0px;border:1 solid #FF0000}
+div.star_on a{background-position:0 -16px!important}
+div.star_hover a,div.star_live a:hover{background-position:0 -32px}
+/* Read Only CSS */
+div.star_readonly a,div.star_readonly a:hover{cursor:default !important}
+/* Partial Star CSS */
+div.star{background:transparent!important;overflow:hidden!important}
+/* END jQuery.Rating Plugin CSS */

@@ -35,6 +35,12 @@ $packages=array(
 	'multifile'=>array(
 		'jquery.multifile.js',
 	),
+	'rating'=>array(
+		'jquery.rating.js',
+	),
+	'metadata'=>array(
+		'jquery.metadata.js',
+	),
 );
 
 $dependencies=array(
@@ -71,6 +77,11 @@ $dependencies=array(
 	),
 	'multifile'=>array(
 		'jquery',
+	),
+	'rating'=>array(
+		'jquery',
+		'dimensions',
+		'metadata',
 	),
 );
 

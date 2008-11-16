@@ -335,6 +335,7 @@ class YiiBase
 		'CMultiFileUpload' => '/web/widgets/CMultiFileUpload.php',
 		'COutputCache' => '/web/widgets/COutputCache.php',
 		'COutputProcessor' => '/web/widgets/COutputProcessor.php',
+		'CStarRating' => '/web/widgets/CStarRating.php',
 		'CTabView' => '/web/widgets/CTabView.php',
 		'CTextHighlighter' => '/web/widgets/CTextHighlighter.php',
 		'CTreeView' => '/web/widgets/CTreeView.php',
@@ -3170,7 +3171,7 @@ class CHtml
 	{
 		$htmlOptions['name']=$name;
 		if(!isset($htmlOptions['id']))
-			$htmlOptions['id']=str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $name);
+			$htmlOptions['id']=self::getIdByName($name);
 		self::clientChange('change',$htmlOptions);
 		return self::tag('textarea',$htmlOptions,self::encode($value));
 	}
@@ -3198,7 +3199,7 @@ class CHtml
 	{
 		$htmlOptions['name']=$name;
 		if(!isset($htmlOptions['id']))
-			$htmlOptions['id']=str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $name);
+			$htmlOptions['id']=self::getIdByName($name);
 		self::clientChange('change',$htmlOptions);
 		$options="\n".self::listOptions($select,$data,$htmlOptions);
 		return self::tag('select',$htmlOptions,$options);
@@ -3217,10 +3218,13 @@ class CHtml
 		if(substr($name,-2)!=='[]')
 			$name.='[]';
 		$items=array();
+		$baseID=self::getIdByName($name);
+		$id=0;
 		foreach($data as $value=>$label)
 		{
 			$checked=!is_array($select) && !strcmp($value,$select) || is_array($select) && in_array($value,$select);
 			$htmlOptions['value']=$value;
+			$htmlOptions['id']=$baseID.'_'.$id++;
 			$option=self::checkBox($name,$checked,$htmlOptions);
 			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
 		}
@@ -3232,10 +3236,13 @@ class CHtml
 		$separator=isset($htmlOptions['separator'])?$htmlOptions['separator']:"<br/>\n";
 		unset($htmlOptions['template'],$htmlOptions['separator']);
 		$items=array();
+		$baseID=self::getIdByName($name);
+		$id=0;
 		foreach($data as $value=>$label)
 		{
 			$checked=!strcmp($value,$select);
 			$htmlOptions['value']=$value;
+			$htmlOptions['id']=$baseID.'_'.$id++;
 			$option=self::radioButton($name,$checked,$htmlOptions);
 			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
 		}
@@ -3311,7 +3318,7 @@ class CHtml
 		$htmlOptions['value']=$value;
 		$htmlOptions['name']=$name;
 		if(!isset($htmlOptions['id']))
-			$htmlOptions['id']=str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $name);
+			$htmlOptions['id']=self::getIdByName($name);
 		return self::tag('input',$htmlOptions);
 	}
 	public static function activeLabel($model,$attribute,$htmlOptions=array())
@@ -3321,7 +3328,7 @@ class CHtml
 		else
 			$name=get_class($model).'['.$attribute.']';
 		$label=$model->getAttributeLabel($attribute);
-		$for=str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $name);
+		$for=self::getIdByName($name);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
 		return self::label($label,$for,$htmlOptions);
@@ -3463,6 +3470,10 @@ class CHtml
 		}
 		return $listData;
 	}
+	public static function getIdByName($name)
+	{
+		return str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $name);
+	}
 	protected static function activeInputField($type,$model,$attribute,$htmlOptions)
 	{
 		$htmlOptions['type']=$type;
@@ -3559,7 +3570,7 @@ class CHtml
 				$htmlOptions['name']=get_class($model).'['.$attribute.']';
 		}
 		if(!isset($htmlOptions['id']))
-			$htmlOptions['id']=str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $htmlOptions['name']);
+			$htmlOptions['id']=self::getIdByName($htmlOptions['name']);
 	}
 	protected static function addErrorCss(&$htmlOptions)
 	{
