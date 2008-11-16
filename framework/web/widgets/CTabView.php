@@ -22,15 +22,12 @@
  * Each tab definition is an array of the following structure:
  * <ul>
  * <li>title: the tab title.</li>
- * <li>content: the tab content which will not be HTML-encoded.</li>
+ * <li>content: the content to be displayed in the tab.</li>
  * <li>view: the name of the view to be displayed in this tab.
  * The view will be rendered using the current controller's
  * {@link CController::renderPartial} method.
  * When both 'content' and 'view' are specified, 'content' will take precedence.
  * </li>
- * <li>clip: the ID of the {@link CClipWidget clip} to be displayed in this tab.
- * When both 'view' and 'clip' are specified, 'view' will take
- * precedence.</li>
  * <li>url: a URL that the user browser will be redirected to when clicking on this tab.</li>
  * </ul>
  *
@@ -86,15 +83,12 @@ class CTabView extends CWidget
 	 * Each array value must be an array with the following elements:
 	 * <ul>
 	 * <li>title: the tab title.</li>
-	 * <li>content: the tab content which will not be HTML-encoded.</li>
+	 * <li>content: the content to be displayed in the tab.</li>
 	 * <li>view: the name of the view to be displayed in this tab.
 	 * The view will be rendered using the current controller's
 	 * {@link CController::renderPartial} method.
 	 * When both 'content' and 'view' are specified, 'content' will take precedence.
 	 * </li>
-	 * <li>clip: the ID of the {@link CClipWidget clip} to be displayed in this tab.
-	 * When both 'view' and 'clip' are specified, 'view' will take
-	 * precedence.</li>
 	 * <li>url: a URL that the user browser will be redirected to when clicking on this tab.</li>
 	 * </ul>
 	 * <pre>
@@ -186,8 +180,6 @@ class CTabView extends CWidget
 				echo $tab['content'];
 			else if(isset($tab['view']))
 				$this->getController()->renderPartial($tab['view'],$this->viewData);
-			else if(isset($tab['clip']))
-				echo $this->getController()->clips[$tab['clip']];
 			echo "</div><!-- {$id} -->\n";
 		}
 	}
