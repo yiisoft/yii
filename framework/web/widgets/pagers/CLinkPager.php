@@ -149,7 +149,7 @@ class CLinkPager extends CBasePager
 		if(!$visible)
 			$options['style']='display:none';
 		if($page===$currentPage)
-			return CHtml::tag('span',$options,$label);;
+			return CHtml::tag('span',$options,$label);
 		else
 			return CHtml::tag('span',$options,CHtml::link($label,$this->createPageUrl($page)));
 	}
