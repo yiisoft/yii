@@ -84,18 +84,22 @@ class CLinkPager extends CBasePager
 		$params=$_GET;
 		$buttons=array();
 
-		if($beginPage>0 && $this->showFirstPageButton)
-			$buttons[]=$this->createPageButton($this->firstPageLabel,0,$currentPage);
-		if($currentPage>0)
-			$buttons[]=$this->createPageButton($this->prevPageLabel,$currentPage-1,$currentPage);
+		// first page
+		if($this->showFirstPageButton)
+			$buttons[]=$this->createPageButton($this->firstPageLabel,0,$currentPage,'first',$beginPage>0);
 
+		// prev page
+		$buttons[]=$this->createPageButton($this->prevPageLabel,$currentPage-1,$currentPage,'prev',$currentPage>0);
+
+		// internal pages
 		for($i=$beginPage;$i<=$endPage;++$i)
 			$buttons[]=$this->createPageButton($i+1,$i,$currentPage);
 
-		if($currentPage<$pageCount-1)
-			$buttons[]=$this->createPageButton($this->nextPageLabel,$currentPage+1,$currentPage);
-		if($endPage<$pageCount-1 && $this->showLastPageButton)
-			$buttons[]=$this->createPageButton($this->lastPageLabel,$pageCount-1,$currentPage);
+		// next page
+		$buttons[]=$this->createPageButton($this->nextPageLabel,$currentPage+1,$currentPage,'next',$currentPage<$pageCount-1);
+
+		// last page
+		$buttons[]=$this->createPageButton($this->lastPageLabel,$pageCount-1,$currentPage,'last',$endPage<$pageCount-1);
 
 		$content=implode($this->buttonSeparator,$buttons);
 		$htmlOptions=$this->htmlOptions;
@@ -133,13 +137,20 @@ class CLinkPager extends CBasePager
 	 * @param string the text label for the button
 	 * @param integer the page number
 	 * @param integer the current page number
+	 * @param string the CSS class for the page button. This could be 'page', 'first', 'last', 'next' or 'prev'.
+	 * @param boolean whether this page button is visible
 	 * @return string the generated button
 	 */
-	protected function createPageButton($label,$page,$currentPage)
+	protected function createPageButton($label,$page,$currentPage,$cssClass='page',$visible=true)
 	{
+		$options=array();
+		if($cssClass!=='')
+			$options['class']=$cssClass;
+		if(!$visible)
+			$options['style']='display:none';
 		if($page===$currentPage)
-			return '<span>'.$label.'</span>';
+			return CHtml::tag('span',$options,$label);;
 		else
-			return '<span>'.CHtml::link($label,$this->createPageUrl($page)).'</span>';
+			return CHtml::tag('span',$options,CHtml::link($label,$this->createPageUrl($page)));
 	}
 }
