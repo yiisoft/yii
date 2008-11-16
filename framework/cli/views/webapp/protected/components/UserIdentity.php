@@ -8,13 +8,12 @@
 class UserIdentity extends CUserIdentity
 {
 	/**
-	 * Validates the username and password.
-	 * This method should check the validity of the provided username
-	 * and password in some way. In case of any authentication failure,
-	 * set errorCode and errorMessage with appropriate values and return false.
-	 * @param string username
-	 * @param string password
-	 * @return boolean whether the username and password are valid
+	 * Authenticates a user.
+	 * The example implementation makes sure if the username and password
+	 * are both 'demo'.
+	 * In practical applications, this should be changed to authenticate
+	 * against some persistent user identity storage (e.g. database).
+	 * @return boolean whether authentication succeeds.
 	 */
 	public function authenticate()
 	{
