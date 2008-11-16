@@ -77,7 +77,7 @@ class CMultiFileUpload extends CWidget
 			if(isset($this->htmlOptions['id']))
 				$id=$this->htmlOptions['id'];
 			else
-				$id=str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $name);
+				$id=CHtml::getIdByName($name);
 		}
 		$this->htmlOptions['id']=$id;
 

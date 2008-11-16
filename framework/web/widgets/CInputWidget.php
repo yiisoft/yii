@@ -64,7 +64,7 @@ abstract class CInputWidget extends CWidget
 			if(isset($this->htmlOptions['id']))
 				$id=$this->htmlOptions['id'];
 			else
-				$id=str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $name);
+				$id=CHtml::getIdByName($name);
 		}
 
 		return array($name,$id);
