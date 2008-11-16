@@ -390,7 +390,7 @@ class CHtml
 	{
 		$htmlOptions['name']=$name;
 		if(!isset($htmlOptions['id']))
-			$htmlOptions['id']=str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $name);
+			$htmlOptions['id']=self::getIdByName($name);
 		self::clientChange('change',$htmlOptions);
 		return self::tag('textarea',$htmlOptions,self::encode($value));
 	}
@@ -453,7 +453,7 @@ class CHtml
 	{
 		$htmlOptions['name']=$name;
 		if(!isset($htmlOptions['id']))
-			$htmlOptions['id']=str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $name);
+			$htmlOptions['id']=self::getIdByName($name);
 		self::clientChange('change',$htmlOptions);
 		$options="\n".self::listOptions($select,$data,$htmlOptions);
 		return self::tag('select',$htmlOptions,$options);
@@ -507,10 +507,13 @@ class CHtml
 			$name.='[]';
 
 		$items=array();
+		$baseID=self::getIdByName($name);
+		$id=0;
 		foreach($data as $value=>$label)
 		{
 			$checked=!is_array($select) && !strcmp($value,$select) || is_array($select) && in_array($value,$select);
 			$htmlOptions['value']=$value;
+			$htmlOptions['id']=$baseID.'_'.$id++;
 			$option=self::checkBox($name,$checked,$htmlOptions);
 			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
 		}
@@ -543,10 +546,13 @@ class CHtml
 		unset($htmlOptions['template'],$htmlOptions['separator']);
 
 		$items=array();
+		$baseID=self::getIdByName($name);
+		$id=0;
 		foreach($data as $value=>$label)
 		{
 			$checked=!strcmp($value,$select);
 			$htmlOptions['value']=$value;
+			$htmlOptions['id']=$baseID.'_'.$id++;
 			$option=self::radioButton($name,$checked,$htmlOptions);
 			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
 		}
@@ -704,7 +710,7 @@ class CHtml
 		$htmlOptions['value']=$value;
 		$htmlOptions['name']=$name;
 		if(!isset($htmlOptions['id']))
-			$htmlOptions['id']=str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $name);
+			$htmlOptions['id']=self::getIdByName($name);
 		return self::tag('input',$htmlOptions);
 	}
 
@@ -725,7 +731,7 @@ class CHtml
 		else
 			$name=get_class($model).'['.$attribute.']';
 		$label=$model->getAttributeLabel($attribute);
-		$for=str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $name);
+		$for=self::getIdByName($name);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
 		return self::label($label,$for,$htmlOptions);
@@ -1065,6 +1071,15 @@ class CHtml
 	}
 
 	/**
+	 * Generates a valid HTML ID based the name.
+	 * @return string the ID generated based on name.
+	 */
+	public static function getIdByName($name)
+	{
+		return str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $name);
+	}
+
+	/**
 	 * Generates an input HTML tag for a model attribute.
 	 * This method generates an input HTML tag based on the given data model and attribute.
 	 * If the attribute has input error, the input field's CSS class will
@@ -1217,7 +1232,7 @@ class CHtml
 				$htmlOptions['name']=get_class($model).'['.$attribute.']';
 		}
 		if(!isset($htmlOptions['id']))
-			$htmlOptions['id']=str_replace(array('[]', '][', '[', ']'), array('', '_', '_', ''), $htmlOptions['name']);
+			$htmlOptions['id']=self::getIdByName($htmlOptions['name']);
 	}
 
 	/**
