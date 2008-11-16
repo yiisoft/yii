@@ -1,6 +1,6 @@
 <?php
 /**
- * CAutoComplete class file.
+ * CInputWidget class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
