@@ -9,14 +9,14 @@ that `YiiRoot` is the directory where Yii is installed.
 Run `yiic` on the command line as follows:
 
 ~~~
-YiiRoot/framework/yiic webapp WebRoot/testdrive
+% YiiRoot/framework/yiic webapp WebRoot/testdrive
 ~~~
 
 > Note: When running `yiic` on Mac OS, Linux or Unix, you may need to
 change the permission of the `yiic` file so that it is executable. You may
 also use `php YiiRoot/framework/yiic.php` to replace `yiic`.
 
-This creates a skeleton Yii application under the directory
+This will create a skeleton Yii application under the directory
 `WebRoot/testdrive`, where `WebRoot` stands for the document root of your
 Web server. The application is a good starting point for adding more
 features as it has all the needed directories and files.
@@ -31,10 +31,14 @@ http://hostname/testdrive/index.php
 As we can see, the application has two pages: the homepage and the login
 page. The homepage contains some nice information about the application as
 well as the user login status, while the login page shows us how form input
-and validation are done.
+and validation are done. See the following screenshots for more details.
 
-*screenshots of testdrive: homepage, homepage logged in, login page, login
-with error page*
+![Home page](first-app1.png)
+
+![Login page](first-app2.png)
+
+![Login page with error](first-app3.png)
+
 
 The following diagram shows the directory structure of our application.
 Please see [Conventions](/doc/guide/basics.convention#directory) for detailed
@@ -99,13 +103,13 @@ return array(
 );
 ~~~
 
-In the above, we add a `db` entry to in `components`, which instructs the
+In the above, we add a `db` entry to `components`, which instructs the
 application to connect to the SQLite database
 `WebRoot/testdrive/protected/data/source.db` when needed.
 
 > Note: To use Yii's database feature, we need to enable PHP PDO extension
 and the driver-specific PDO extension. For the test-drive application, we
-would need `php_pdo` and `php_pdo_sqlite` to be turned on.
+would need the `php_pdo` and `php_pdo_sqlite` extensions to be turned on.
 
 To this end, we need to prepare a SQLite database so that the above
 configuration can be effective. Using some SQLite admin tool, we can create
@@ -123,7 +127,7 @@ CREATE TABLE User (
 
 For simplicity, we only create a single `User` table in our database. The
 SQLite database file is saved as
-`WebRoot/testdrive/protected/data/source.db`. Both the file and the
+`WebRoot/testdrive/protected/data/source.db`. Note that both the file and the
 containing directory must be made writable by the Web server process, as
 required by SQLite.
 
@@ -138,17 +142,36 @@ Again, we use the `yiic` tool to help us generate the needed code. This
 process is also known as *scaffolding*.
 
 ~~~
-YiiRoot/framework/yiic shell WebRoot/testdrive/index.php
+% cd WebRoot/testdrive
+% YiiRoot/framework/yiic shell
+Yii Interactive Tool v1.0
+Please type 'help' for help. Type 'exit' to quit.
 >> model User
-...the above command creates a User model class based on the User table...
+   generate User.php
+
+The 'User' class has been successfully created in the following file:
+    D:\wwwroot\testdrive\protected\models\User.php
+
+If you have a 'db' database connection, you can test it now with:
+    $model=User::model()->find();
+    print_r($model);
+
 >> crud User
-...the above command creates code needed by CRUD operations for User...
+   generate UserController.php
+   generate create.php
+      mkdir D:/wwwroot/testdrive/protected/views/user
+   generate update.php
+   generate list.php
+   generate show.php
+
+Crud 'user' has been successfully created. You may access it via:
+http://hostname/path/to/index.php?r=user
 ~~~
 
 In the above, we use the `shell` command of `yiic` to interact with our
 newly created application. At the prompt, we can enter a valid PHP
 statement or expression to evaluate and print it. We can also perform tasks
-such as `model` and `crud` as shown above. The `model` automatically
+such as `model` and `crud` as shown above. The `model` command automatically
 generates a `User` model class based on the schema of the `User` table. And
 the `crud` command generates the controller class and views that implement
 the CRUD operations for the `User` model.
@@ -161,7 +184,7 @@ though you are sure you have already enabled PDO and the corresponding
 database driver. The reason for such kind of errors is often because the
 wrong PHP CLI is using an unexpected `php.ini`.
 
-Let's enjoy our work. Type in the following URL in the Web browser:
+Let's enjoy our work by browsing the following URL:
 
 ~~~
 http://hostname/testdrive/index.php?r=user
@@ -171,13 +194,11 @@ This will display a list of user entries in the `User` table. Since our
 table is empty, nothing will appear at the moment.
 
 Click the `New User` link on the page. We will be brought to the login
-page if we have not logged in before. After logging in, we are shown with
+page if we have not logged in before. After logged in, we are shown with
 an input form that allows us to add a new user entry. Complete the form and
 click on the `Create` button. If there is any input error, a nice error
 prompt will be shown which prevents us from saving the input. Back to the
 user list, we should see the newly added user appearing in the list.
-
-*screenshots of empty user list, create user, create user with error, user list*
 
 Repeat the above steps to add more users. Notice that user list page will
 automatically paginate the user entries if there are too many to be
@@ -186,5 +207,11 @@ delete user entries.
 
 All these nice features come without requiring us to write a single line
 of code!
+
+![User list page](first-app4.png)
+
+![Create new user page](first-app5.png)
+
+
 
 <div class="revision">$Id$</div>
