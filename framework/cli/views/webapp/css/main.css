@@ -110,3 +110,8 @@ table.dataGrid tr.odd
 	background: #E6F2FF;
 }
 /* end of data grid style */
+
+.actionBar
+{
+	margin: 10px;
+}

@@ -28,7 +28,7 @@ class CPagination extends CComponent
 	/**
 	 * The default page size.
 	 */
-	const DEFAULT_PAGE_SIZE=20;
+	const DEFAULT_PAGE_SIZE=10;
 	/**
 	 * @var string name of the GET variable storing the current page index. Defaults to 'page'.
 	 */
