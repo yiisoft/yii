@@ -39,7 +39,7 @@ class CPagination extends CComponent
 	private $_currentPage;
 
 	/**
-	 * @return integer number of items in each page. Defaults to 20.
+	 * @return integer number of items in each page. Defaults to 10.
 	 */
 	public function getPageSize()
 	{
