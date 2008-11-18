@@ -11,6 +11,7 @@ for both A and B.
 
 Upgrading from v1.0rc
 ---------------------
+- CLinkPager is changed significantly in appearance and the generated HTML code.
 
 
 Upgrading from v1.0b
