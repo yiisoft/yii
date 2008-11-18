@@ -99,7 +99,8 @@ class CLinkPager extends CBasePager
 		$buttons[]=$this->createPageButton($this->nextPageLabel,$currentPage+1,$currentPage,'next',$currentPage<$pageCount-1);
 
 		// last page
-		$buttons[]=$this->createPageButton($this->lastPageLabel,$pageCount-1,$currentPage,'last',$endPage<$pageCount-1);
+		if($this->showLastPageButton)
+			$buttons[]=$this->createPageButton($this->lastPageLabel,$pageCount-1,$currentPage,'last',$endPage<$pageCount-1);
 
 		$content=implode($this->buttonSeparator,$buttons);
 		$htmlOptions=$this->htmlOptions;
