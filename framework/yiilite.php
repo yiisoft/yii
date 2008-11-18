@@ -5729,7 +5729,7 @@ class CDbCriteria
 }
 class CPagination extends CComponent
 {
-	const DEFAULT_PAGE_SIZE=20;
+	const DEFAULT_PAGE_SIZE=10;
 	public $pageVar='page';
 	private $_pageSize=self::DEFAULT_PAGE_SIZE;
 	private $_itemCount=0;
@@ -6093,41 +6093,66 @@ abstract class CBasePager extends CWidget
 }
 class CLinkPager extends CBasePager
 {
+	const CSS_FIRST_PAGE='first';
+	const CSS_LAST_PAGE='last';
+	const CSS_PREVIOUS_PAGE='previous';
+	const CSS_NEXT_PAGE='previous';
+	const CSS_INTERNAL_PAGE='page';
+	const CSS_HIDDEN_PAGE='hidden';
+	const CSS_SELECTED_PAGE='selected';
 	public $maxButtonCount=10;
-	public $nextPageLabel='Next &gt;&gt;';
-	public $prevPageLabel='&lt;&lt; Prev';
-	public $firstPageLabel='|&lt;&lt; First';
-	public $lastPageLabel='Last &gt;&gt;|';
-	public $showFirstPageButton=false;
-	public $showLastPageButton=false;
-	public $buttonSeparator="\n";
+	public $nextPageLabel='Next &gt;';
+	public $prevPageLabel='&lt; Previous';
+	public $firstPageLabel='&lt;&lt; First';
+	public $lastPageLabel='Last &gt;&gt;';
 	public $header='Go to page: ';
 	public $footer='';
+	public $cssFile;
 	public $htmlOptions=array();
 	public function run()
 	{
-		if(($pageCount=$this->getPageCount())<=1)
+		$buttons=$this->createPageButtons();
+		if(empty($buttons))
 			return;
-		list($beginPage,$endPage)=$this->getPageRange();
-		$currentPage=$this->getCurrentPage(false); // currentPage is calculated in getPageRange()
-		$controller=$this->getController();
-		$params=$_GET;
-		$buttons=array();
-		if($beginPage>0 && $this->showFirstPageButton)
-			$buttons[]=$this->createPageButton($this->firstPageLabel,0,$currentPage);
-		if($currentPage>0)
-			$buttons[]=$this->createPageButton($this->prevPageLabel,$currentPage-1,$currentPage);
-		for($i=$beginPage;$i<=$endPage;++$i)
-			$buttons[]=$this->createPageButton($i+1,$i,$currentPage);
-		if($currentPage<$pageCount-1)
-			$buttons[]=$this->createPageButton($this->nextPageLabel,$currentPage+1,$currentPage);
-		if($endPage<$pageCount-1 && $this->showLastPageButton)
-			$buttons[]=$this->createPageButton($this->lastPageLabel,$pageCount-1,$currentPage);
-		$content=implode($this->buttonSeparator,$buttons);
+		$this->registerClientScript();
 		$htmlOptions=$this->htmlOptions;
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=$this->getId();
-		echo CHtml::tag('div',$htmlOptions,$this->header.$content.$this->footer);
+		if(!isset($htmlOptions['class']))
+			$htmlOptions['class']='yiiPager';
+		echo $this->header;
+		echo CHtml::tag('ul',$htmlOptions,implode("\n",$buttons));
+		echo $this->footer;
+	}
+	protected function createPageButtons()
+	{
+		if(($pageCount=$this->getPageCount())<=1)
+			return array();
+		list($beginPage,$endPage)=$this->getPageRange();
+		$currentPage=$this->getCurrentPage(false); // currentPage is calculated in getPageRange()
+		$buttons=array();
+		// first page
+		$buttons[]=$this->createPageButton($this->firstPageLabel,0,self::CSS_FIRST_PAGE,$beginPage<=0,false);
+		// prev page
+		if(($page=$currentPage-1)<0)
+			$page=0;
+		$buttons[]=$this->createPageButton($this->prevPageLabel,$page,self::CSS_PREVIOUS_PAGE,$currentPage<=0,false);
+		// internal pages
+		for($i=$beginPage;$i<=$endPage;++$i)
+			$buttons[]=$this->createPageButton($i+1,$i,self::CSS_INTERNAL_PAGE,false,$i==$currentPage);
+		// next page
+		if(($page=$currentPage+1)>=$pageCount-1)
+			$page=$pageCount-1;
+		$buttons[]=$this->createPageButton($this->nextPageLabel,$page,self::CSS_NEXT_PAGE,$currentPage>=$pageCount-1,false);
+		// last page
+		$buttons[]=$this->createPageButton($this->lastPageLabel,$pageCount-1,self::CSS_LAST_PAGE,$endPage>=$pageCount-1,false);
+		return $buttons;
+	}
+	protected function createPageButton($label,$page,$class,$hidden,$selected)
+	{
+		if($hidden || $selected)
+			$class.=' '.($hidden ? self::CSS_HIDDEN_PAGE : self::CSS_SELECTED_PAGE);
+		return '<li class="'.$class.'">'.CHtml::link($label,$this->createPageUrl($page)).'</li>';
 	}
 	protected function getPageRange()
 	{
@@ -6144,12 +6169,13 @@ class CLinkPager extends CBasePager
 		}
 		return array($beginPage,$endPage);
 	}
-	protected function createPageButton($label,$page,$currentPage)
+	protected function registerClientScript()
 	{
-		if($page===$currentPage)
-			return '<span>'.$label.'</span>';
-		else
-			return '<span>'.CHtml::link($label,$this->createPageUrl($page)).'</span>';
+		$cs=$this->getController()->getClientScript();
+		if($this->cssFile!==null)
+			$cs->registerCssFile($this->cssFile);
+		else if($this->cssFile!==false)
+			$cs->registerCssFile(CHtml::asset(Yii::getPathOfAlias('system.web.widgets.pagers.pager').'.css'));
 	}
 }
 class CAssetManager extends CApplicationComponent
