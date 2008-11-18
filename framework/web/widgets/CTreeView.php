@@ -46,8 +46,10 @@ class CTreeView extends CWidget
 	 */
 	public $data;
 	/**
-	 * @var string the CSS file to be used instead of the default one. Defaults to null, meaning
-	 * the default one.
+	 * @var mixed the CSS file used for the widget. Defaults to null, meaning
+	 * using the default CSS file included together with the widget.
+	 * If false, no CSS file will be used. Otherwise, the specified CSS file
+	 * will be included when using this widget.
 	 */
 	public $cssFile;
 	/**
@@ -143,7 +145,7 @@ class CTreeView extends CWidget
 		$cs->registerBodyScript('Yii.CTreeView#'.$id,"jQuery(\"#{$id}\").treeview($options);");
 		if($this->cssFile===null)
 			$cs->registerCssFile($cs->getCoreScriptUrl().'/treeview/jquery.treeview.css');
-		else
+		else if($this->cssFile!==false)
 			$cs->registerCssFile($this->cssFile);
 
 		echo CHtml::tag('ul',$this->htmlOptions,false,false)."\n";

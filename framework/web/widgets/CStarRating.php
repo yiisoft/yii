@@ -47,7 +47,10 @@ class CStarRating extends CInputWidget
 	 */
 	public $ratingStepSize=1;
 	/**
-	 * @var string the URL of the CSS file to be applied to this widget. Defaults to null, meaning using the system CSS file.
+	 * @var mixed the CSS file used for the widget. Defaults to null, meaning
+	 * using the default CSS file included together with the widget.
+	 * If false, no CSS file will be used. Otherwise, the specified CSS file
+	 * will be included when using this widget.
 	 */
 	public $cssFile;
 	/**
@@ -122,7 +125,7 @@ class CStarRating extends CInputWidget
 		$cs->registerBodyScript('Yii.CStarRating#'.$id,$js);
 		if($this->cssFile===null)
 			$cs->registerCssFile($cs->getCoreScriptUrl().'/rating/jquery.rating.css');
-		else
+		else if($this->cssFile!==false)
 			$cs->registerCssFile($this->cssFile);
 	}
 

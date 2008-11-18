@@ -30,7 +30,10 @@
 class CMarkdown extends COutputProcessor
 {
 	/**
-	 * @var string the CSS file used for the syntax highlighter. If not set, a default CSS file will be used.
+	 * @var mixed the CSS file used for the widget. Defaults to null, meaning
+	 * using the default CSS file included together with the widget.
+	 * If false, no CSS file will be used. Otherwise, the specified CSS file
+	 * will be included when using this widget.
 	 */
 	public $cssFile;
 	/**
@@ -68,7 +71,7 @@ class CMarkdown extends COutputProcessor
 		$parser=$this->createMarkdownParser();
 		if($this->cssFile===null)
 			$cs->registerCssFile(CHtml::asset($parser->getDefaultCssFile()));
-		else
+		else if($this->cssFile!==false)
 			$cs->registerCssFile($this->cssFile);
 		return $parser->transform($output);
 	}

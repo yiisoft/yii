@@ -53,7 +53,10 @@ class CTextHighlighter extends COutputProcessor
 	 */
 	public $tabSize=4;
 	/**
-	 * @var string the CSS file used for the highlighter. If not set, a default CSS file will be used.
+	 * @var mixed the CSS file used for the widget. Defaults to null, meaning
+	 * using the default CSS file included together with the widget.
+	 * If false, no CSS file will be used. Otherwise, the specified CSS file
+	 * will be included when using this widget.
 	 */
 	public $cssFile;
 	/**
@@ -93,7 +96,7 @@ class CTextHighlighter extends COutputProcessor
 			$cssFile=Yii::getPathOfAlias('system.vendors.TextHighlighter.highlight').'.css';
 			$cs->registerCssFile(CHtml::asset($cssFile));
 		}
-		else
+		else if($this->cssFile!==false)
 			$cs->registerCssFile($this->cssFile);
 
 		$highlighter=empty($this->language)?false:Text_Highlighter::factory($this->language);
