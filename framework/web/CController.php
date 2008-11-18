@@ -110,7 +110,12 @@ class CController extends CBaseController
 	 *
 	 * For a class-based filter, it is specified as an array like the following:
 	 * <pre>
-	 * array('class'=>'Path.To.FilterClass', 'name1'=>'value1', 'name2'=>'value2'...)
+	 * array(
+	 *     'FilterClass[ +|- Action1, Action2, ...]',
+	 *     'name1'=>'value1',
+	 *     'name2'=>'value2',
+	 *     ...
+	 * )
 	 * </pre>
 	 * where the name-value pairs will be used to initialize the properties of the filter.
 	 *
