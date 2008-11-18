@@ -35,6 +35,12 @@
     - [Page Caching](caching.page)
     - [Dynamic Content](caching.dynamic)
 
+* Extending Yii
+    - [Overview](extension.overview)
+    - [Using Extensions](extension.use)
+    - [Creating Extensions](extension.create)
+    - [Using 3rd-Party Libraries](extension.integration)
+
 * Special Topics
     - [URL Management](topics.url)
     - [Authentication and Authorization](topics.auth)
