@@ -61,7 +61,10 @@ class CTabView extends CWidget
 	const CSS_CLASS='yiiTab';
 
 	/**
-	 * @var string the CSS file used for the widget. If not set, the default one will be used.
+	 * @var mixed the CSS file used for the widget. Defaults to null, meaning
+	 * using the default CSS file included together with the widget.
+	 * If false, no CSS file will be used. Otherwise, the specified CSS file
+	 * will be included when using this widget.
 	 */
 	public $cssFile;
 	/**
@@ -145,7 +148,7 @@ class CTabView extends CWidget
 		$cs->registerCoreScript('yiitab');
 		if($this->cssFile!==null)
 			$cs->registerCssFile($this->cssFile);
-		else
+		else if($this->cssFile!==false)
 			$cs->registerCssFile($cs->getCoreScriptUrl().'/yiitab/jquery.yiitab.css');
 		$id=$this->getId();
 		$cs->registerBodyScript('Yii.CTabView#'.$id,"jQuery(\"#{$id}\").yiitab();");

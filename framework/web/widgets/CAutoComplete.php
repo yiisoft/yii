@@ -38,7 +38,10 @@ class CAutoComplete extends CInputWidget
  	 */
 	public $url='';
 	/**
-	 * @var string the CSS file used for the autocomplete. If not set, a default CSS file will be used.
+	 * @var mixed the CSS file used for the widget. Defaults to null, meaning
+	 * using the default CSS file included together with the widget.
+	 * If false, no CSS file will be used. Otherwise, the specified CSS file
+	 * will be included when using this widget.
 	 */
 	public $cssFile;
 	/**
@@ -203,7 +206,7 @@ class CAutoComplete extends CInputWidget
 		$cs->registerBodyScript('Yii.CAutoComplete#'.$id,"jQuery(\"#{$id}\").autocomplete($data,{$options}){$this->methodChain};");
 		if($this->cssFile!==null)
 			$cs->registerCssFile($this->cssFile);
-		else
+		else if($this->cssFile!==false)
 			$cs->registerCssFile($cs->getCoreScriptUrl().'/autocomplete/jquery.autocomplete.css');
 
 		if($this->hasModel())
