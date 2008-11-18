@@ -19,15 +19,15 @@ section.
 > NOT enforced by the SQLite database itself.
 > ~~~
 > [sql]
-> CREATE TABLE foo
+> CREATE TABLE Foo
 > (
 >   id INTEGER NOT NULL PRIMARY KEY
 > );
 > CREATE TABLE bar
 > (
 >   id INTEGER NOT NULL PRIMARY KEY,
->   foo_id INTEGER
->       CONSTRAINT fk_foo_id REFERENCES foo(id) ON DELETE CASCADE
+>   fooID INTEGER
+>       CONSTRAINT fk_foo_id REFERENCES Foo(id) ON DELETE CASCADE
 > );
 > ~~~
 
