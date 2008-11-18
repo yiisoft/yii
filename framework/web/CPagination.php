@@ -90,7 +90,7 @@ class CPagination extends CComponent
 		{
 			if(isset($_GET[$this->pageVar]))
 			{
-				$this->_currentPage=(int)$_GET[$this->pageVar];
+				$this->_currentPage=(int)$_GET[$this->pageVar]-1;
 				$pageCount=$this->getPageCount();
 				if($this->_currentPage>=$pageCount)
 					$this->_currentPage=$pageCount-1;
@@ -121,7 +121,7 @@ class CPagination extends CComponent
 	{
 		$params=$_GET;
 		if($page>0) // page 0 is the default
-			$params[$this->pageVar]=$page;
+			$params[$this->pageVar]=$page+1;
 		else
 			unset($params[$this->pageVar]);
 		return $controller->createUrl('',$params);
