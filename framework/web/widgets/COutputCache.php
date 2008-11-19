@@ -46,6 +46,8 @@
  * The content fetched from cache may be variated with respect to
  * some parameters. COutputCache supports two kinds of variations:
  * <ul>
+ * <li>{@link varyByRoute}: this specifies whether the cached content
+ *   should be varied with the requested route (controller and action)</li>
  * <li>{@link varyByParam}: this specifies a list of GET parameter names
  *   and uses the corresponding values to determine the version of the cached content.</li>
  * <li>{@link varyBySession}: this specifies whether the cached content
@@ -71,6 +73,12 @@ class COutputCache extends CFilterWidget
 	 * the data may be purged out of cache earlier.
 	 */
 	public $duration=60;
+	/**
+	 * @var boolean whether the content being cached should be differentiated according to route.
+	 * A route consists of the requested controller ID and action ID.
+	 * Defaults to true.
+	 */
+	public $varyByRoute=true;
 	/**
 	 * @var boolean whether the content being cached should be differentiated according to user sessions. Defaults to false.
 	 */
@@ -210,17 +218,13 @@ class COutputCache extends CFilterWidget
 	 */
 	protected function getBaseCacheKey()
 	{
-		$controller=$this->getController();
-		$key=self::CACHE_KEY_PREFIX . $controller->getId() . '.';
-		if(($action=$controller->getAction())!==null)
-			$key.=$action->getId();
-		return $key.'.'.$this->getId();
+		return self::CACHE_KEY_PREFIX.':'.$this->getId().':';
 	}
 
 	/**
 	 * Calculates the cache key.
 	 * The key is calculated based on {@link getBaseCacheKey} and other factors, including
-	 * {@link varyByParam} and {@link varyBySession}.
+	 * {@link varyByRoute}, {@link varyByParam} and {@link varyBySession}.
 	 * @return string cache key
 	 */
 	protected function getCacheKey()
@@ -230,8 +234,16 @@ class COutputCache extends CFilterWidget
 		else
 		{
 			$key=$this->getBaseCacheKey();
+			if($this->varyByRoute)
+			{
+				$controller=$this->getController();
+				$key.=$controller->getId().':';
+				if(($action=$controller->getAction())!==null)
+					$key.=$action->getId().':';
+			}
+
 			if($this->varyBySession)
-				$key.=Yii::app()->getSession()->getSessionID();
+				$key.=Yii::app()->getSession()->getSessionID().':';
 			if(is_array($this->varyByParam) && isset($this->varyByParam[0]))
 			{
 				$params=array();
