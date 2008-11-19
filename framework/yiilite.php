@@ -3912,7 +3912,18 @@ class CFilter extends CComponent implements IFilter
 {
 	public function filter($filterChain)
 	{
-		$filterChain->run();
+		if($this->preFilter($filterChain))
+		{
+			$filterChain->run();
+			$this->postFilter($filterChain);
+		}
+	}
+	protected function preFilter($filterChain)
+	{
+		return true;
+	}
+	protected function postFilter($filterChain)
+	{
 	}
 }
 class CInlineFilter extends CFilter
@@ -3955,7 +3966,7 @@ class CAccessControlFilter extends CFilter
 			}
 		}
 	}
-	public function filter($filterChain)
+	protected function preFilter($filterChain)
 	{
 		$app=Yii::app();
 		$request=$app->getRequest();
@@ -3972,13 +3983,13 @@ class CAccessControlFilter extends CFilter
 				if($user->getIsGuest())
 				{
 					$user->loginRequired();
-					return;
+					return false;
 				}
 				else
 					throw new CHttpException(401,Yii::t('yii','You are not authorized to perform this action.'));
 			}
 		}
-		$filterChain->run();
+		return true;
 	}
 }
 class CAccessRule extends CComponent
@@ -5762,7 +5773,7 @@ class CPagination extends CComponent
 		{
 			if(isset($_GET[$this->pageVar]))
 			{
-				$this->_currentPage=(int)$_GET[$this->pageVar];
+				$this->_currentPage=(int)$_GET[$this->pageVar]-1;
 				$pageCount=$this->getPageCount();
 				if($this->_currentPage>=$pageCount)
 					$this->_currentPage=$pageCount-1;
@@ -5782,7 +5793,7 @@ class CPagination extends CComponent
 	{
 		$params=$_GET;
 		if($page>0) // page 0 is the default
-			$params[$this->pageVar]=$page;
+			$params[$this->pageVar]=$page+1;
 		else
 			unset($params[$this->pageVar]);
 		return $controller->createUrl('',$params);
@@ -6172,10 +6183,10 @@ class CLinkPager extends CBasePager
 	protected function registerClientScript()
 	{
 		$cs=$this->getController()->getClientScript();
-		if($this->cssFile!==null)
-			$cs->registerCssFile($this->cssFile);
-		else if($this->cssFile!==false)
+		if($this->cssFile===null)
 			$cs->registerCssFile(CHtml::asset(Yii::getPathOfAlias('system.web.widgets.pagers.pager').'.css'));
+		else if($this->cssFile!==false)
+			$cs->registerCssFile($this->cssFile);
 	}
 }
 class CAssetManager extends CApplicationComponent
@@ -6279,6 +6290,112 @@ class CAssetManager extends CApplicationComponent
 	protected function hash($path)
 	{
 		return sprintf('%x',crc32($path.Yii::getVersion()));
+	}
+}
+class CFileHelper
+{
+	public static function copyDirectory($src,$dst,$options=array())
+	{
+		$fileTypes=array();
+		$exclude=array();
+		$level=-1;
+		extract($options);
+		self::copyDirectoryRecursive($src,$dst,'',$fileTypes,$exclude,$level);
+	}
+	public static function findFiles($dir,$options=array())
+	{
+		$fileTypes=array();
+		$exclude=array();
+		$level=-1;
+		extract($options);
+		$list=self::findFilesRecursive($dir,'',$fileTypes,$exclude,$level);
+		sort($list);
+		return $list;
+	}
+	protected static function copyDirectoryRecursive($src,$dst,$base,$fileTypes,$exclude,$level)
+	{
+		@mkdir($dst);
+		@chmod($dst,0777);
+		$folder=opendir($src);
+		while($file=readdir($folder))
+		{
+			if($file==='.' || $file==='..')
+				continue;
+			$path=$src.DIRECTORY_SEPARATOR.$file;
+			$isFile=is_file($path);
+			if(self::validatePath($base,$file,$isFile,$fileTypes,$exclude))
+			{
+				if($isFile)
+					copy($path,$dst.DIRECTORY_SEPARATOR.$file);
+				else if($level)
+					self::copyDirectoryRecursive($path,$dst.DIRECTORY_SEPARATOR.$file,$base.'/'.$file,$fileTypes,$exclude,$level-1);
+			}
+		}
+		closedir($folder);
+	}
+	protected static function findFilesRecursive($dir,$base,$fileTypes,$exclude,$level)
+	{
+		$list=array();
+		$handle=opendir($dir);
+		while($file=readdir($handle))
+		{
+			if($file==='.' || $file==='..')
+				continue;
+			$path=$dir.DIRECTORY_SEPARATOR.$file;
+			$isFile=is_file($path);
+			if(self::validatePath($base,$file,$isFile,$fileTypes,$exclude))
+			{
+				if($isFile)
+					$list[]=$path;
+				else if($level)
+					$list=array_merge($list,self::findFilesRecursive($path,$base.'/'.$file,$fileTypes,$exclude,$level-1));
+			}
+		}
+		closedir($handle);
+		return $list;
+	}
+	protected static function validatePath($base,$file,$isFile,$fileTypes,$exclude)
+	{
+		foreach($exclude as $e)
+		{
+			if($file===$e || strpos($base.'/'.$file,$e)===0)
+				return false;
+		}
+		if(!$isFile || empty($fileTypes))
+			return true;
+		if(($pos=strrpos($file,'.'))!==false)
+		{
+			$type=substr($file,$pos+1);
+			return in_array($type,$fileTypes);
+		}
+		else
+			return false;
+	}
+	public static function getMimeType($file)
+	{
+		if(function_exists('finfo_open'))
+		{
+			if($info=finfo_open(FILEINFO_MIME))
+				return finfo_file($info,$file);
+			else
+				return null;
+		}
+		if(function_exists('mime_content_type'))
+			return mime_content_type($file);
+		return self::getMimeTypeByExtension($file);
+	}
+	public static function getMimeTypeByExtension($file)
+	{
+		static $extensions;
+		if($extensions===null)
+			$extensions=require(Yii::getPathOfAlias('system.utils.mimeTypes').'.php');
+		if(($pos=strrpos($file,'.'))!==false)
+		{
+			$ext=strtolower(substr($file,$pos+1));
+			if(isset($extensions[$ext]))
+				return $extensions[$ext];
+		}
+		return null;
 	}
 }
 interface IApplicationComponent

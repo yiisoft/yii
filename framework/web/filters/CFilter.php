@@ -15,8 +15,8 @@
  * It can modify the context that the action is to run or decorate the result that the
  * action generates.
  *
- * Override {@link filter()} to specify the filtering logic that should be applied
- * around the action.
+ * Override {@link preFilter()} to specify the filtering logic that should be applied
+ * before the action, and {@link postFilter()} for filtering logic after the action.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
@@ -27,14 +27,38 @@ class CFilter extends CComponent implements IFilter
 {
 	/**
 	 * Performs the filtering.
-	 * The default implementation simply continues the action execution.
-	 * Derived classes may want to override this method to change this behavior.
-	 * Note, in order to continue the execution of action,
-	 * you must call <code>$filterChain->run()</code> inside this method.
+	 * The default implementation is to invoke {@link preFilter}
+	 * and {@link postFilter} which are meant to be overridden
+	 * child classes. If a child class needs to override this method,
+	 * make sure it calls <code>$filterChain->run()</code>
+	 * if the action should be executed.
 	 * @param CFilterChain the filter chain that the filter is on.
 	 */
 	public function filter($filterChain)
 	{
-		$filterChain->run();
+		if($this->preFilter($filterChain))
+		{
+			$filterChain->run();
+			$this->postFilter($filterChain);
+		}
+	}
+
+	/**
+	 * Performs the pre-action filtering.
+	 * @param CFilterChain the filter chain that the filter is on.
+	 * @return boolean whether the filtering process should continue and the action
+	 * should be executed.
+	 */
+	protected function preFilter($filterChain)
+	{
+		return true;
+	}
+
+	/**
+	 * Performs the post-action filtering.
+	 * @param CFilterChain the filter chain that the filter is on.
+	 */
+	protected function postFilter($filterChain)
+	{
 	}
 }
