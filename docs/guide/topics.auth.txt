@@ -57,14 +57,15 @@ class UserIdentity extends CUserIdentity
 	{
 		$record=User::model()->findByAttributes(array('username'=>$this->username));
 		if($record===null)
-			return $this->errorCode=self::ERROR_USERNAME_INVALID;
+			$this->errorCode=self::ERROR_USERNAME_INVALID;
 		else if($record->password!==md5($this->password))
-			return $this->errorCode=self::ERROR_PASSWORD_INVALID;
+			$this->errorCode=self::ERROR_PASSWORD_INVALID;
 		else
 		{
 			$this->title=$record->title;
-			return true;
+			$this->errorCode=self::ERROR_NONE;
 		}
+		return !$this->errorCode;
     }
 
 	public function getTitle()
