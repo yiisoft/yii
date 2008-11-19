@@ -28,6 +28,12 @@
 class CFilterWidget extends CWidget implements IFilter
 {
 	/**
+	 * @var boolean whether to stop the action execution when this widget is used as a filter.
+	 * This property should be changed only in {@link CWidget::init} method.
+	 * Defaults to false, meaning the action should be executed.
+	 */
+	public $stopAction=false;
+	/**
 	 * Performs the filtering.
 	 * The default implementation simply calls {@link init()},
 	 * {@link CFilterChain::run()} and {@link run()} in order
@@ -37,7 +43,10 @@ class CFilterWidget extends CWidget implements IFilter
 	public function filter($filterChain)
 	{
 		$this->init();
-		$filterChain->run();
-		$this->run();
+		if(!$this->stopAction)
+		{
+			$filterChain->run();
+			$this->run();
+		}
 	}
 }
