@@ -91,6 +91,11 @@ IDs when calling [beginCache()|CBaseController::beginCache()].
 Instead of asking developers to variate the IDs according to some scheme,
 [COutputCache] is built-in with such a feature. Below is a summary.
 
+   - [varyByRoute|CoutputCache::varyByRoute]: by setting this option
+to true, the cached content will be variated according to
+[route](/doc/guide/basics.controller#route). Therefore, each combination
+of the requested controller and action will have a separate cached content.
+
    - [varyBySession|COutputCache::varyBySession]: by setting this option
 to true, we can make the cached content to be variated according to session
 IDs. Therefore, each user session may see different content and they are
