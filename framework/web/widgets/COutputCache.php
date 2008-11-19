@@ -240,10 +240,16 @@ class COutputCache extends CFilterWidget
 				$key.=$controller->getId().':';
 				if(($action=$controller->getAction())!==null)
 					$key.=$action->getId().':';
+				else
+					$key.=':';
 			}
+			else
+				$key.='::';
 
 			if($this->varyBySession)
 				$key.=Yii::app()->getSession()->getSessionID().':';
+			else
+				$key.=':';
 			if(is_array($this->varyByParam) && isset($this->varyByParam[0]))
 			{
 				$params=array();
