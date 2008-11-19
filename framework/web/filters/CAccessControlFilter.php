@@ -69,11 +69,12 @@ class CAccessControlFilter extends CFilter
 	}
 
 	/**
-	 * Performs the filtering.
-	 * This method ensures that all access rules are passed before the action is executed.
+	 * Performs the pre-action filtering.
 	 * @param CFilterChain the filter chain that the filter is on.
+	 * @return boolean whether the filtering process should continue and the action
+	 * should be executed.
 	 */
-	public function filter($filterChain)
+	protected function preFilter($filterChain)
 	{
 		$app=Yii::app();
 		$request=$app->getRequest();
@@ -91,14 +92,14 @@ class CAccessControlFilter extends CFilter
 				if($user->getIsGuest())
 				{
 					$user->loginRequired();
-					return;
+					return false;
 				}
 				else
 					throw new CHttpException(401,Yii::t('yii','You are not authorized to perform this action.'));
 			}
 		}
 
-		$filterChain->run();
+		return true;
 	}
 }
 
