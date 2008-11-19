@@ -19,6 +19,9 @@
  */
 class ShellCommand extends CConsoleCommand
 {
+	/**
+	 * @return string the help information for the shell command
+	 */
 	public function getHelp()
 	{
 		return <<<EOD
