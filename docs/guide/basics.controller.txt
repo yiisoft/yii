@@ -170,9 +170,15 @@ following code defines a new filter class:
 [php]
 class PerformanceFilter extends CFilter
 {
-	public function filter($filterChain)
+	protected function preFilter($filterChain)
 	{
-		// call $filterChain->run() to continue filtering and action execution
+		// logic being applied before the action is executed
+		return true; // false if the action should not be executed
+	}
+
+	protected function postFilter($filterChain)
+	{
+		// logic being applied after the action is executed
 	}
 }
 ~~~
