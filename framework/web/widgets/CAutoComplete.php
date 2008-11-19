@@ -204,10 +204,10 @@ class CAutoComplete extends CInputWidget
 			$data='"'.$url.'"';
 		}
 		$cs->registerBodyScript('Yii.CAutoComplete#'.$id,"jQuery(\"#{$id}\").autocomplete($data,{$options}){$this->methodChain};");
-		if($this->cssFile!==null)
-			$cs->registerCssFile($this->cssFile);
-		else if($this->cssFile!==false)
+		if($this->cssFile===null)
 			$cs->registerCssFile($cs->getCoreScriptUrl().'/autocomplete/jquery.autocomplete.css');
+		else if($this->cssFile!==false)
+			$cs->registerCssFile($this->cssFile);
 
 		if($this->hasModel())
 			echo CHtml::activeTextField($this->model,$this->attribute,$this->htmlOptions);
