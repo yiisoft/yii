@@ -1160,6 +1160,7 @@ class CHtml
 	 * specifying the client change behaviors:
 	 * <ul>
 	 * <li>submit: string, specifies the URL that the button should submit to. If empty, the current requested URL will be used.</li>
+	 * <li>params: array, name-value pairs that should be submitted together with the form. This is only used when 'submit' option is specified.</li>
 	 * <li>confirm: string, specifies the message that should show in a pop-up confirmation dialog.</li>
 	 * <li>ajax: array, specifies the AJAX options (see {@link ajax}).</li>
 	 * </ul>
@@ -1184,6 +1185,14 @@ class CHtml
 			$cs=self::getClientScript();
 			$cs->registerCoreScript('jquery');
 
+			if(isset($htmlOptions['params']))
+			{
+				$params=CJavaScript::encode($htmlOptions['params']);
+				unset($htmlOptions['params']);
+			}
+			else
+				$params='{}';
+
 			if(isset($htmlOptions['submit']))
 			{
 				$cs->registerCoreScript('yii');
@@ -1191,7 +1200,7 @@ class CHtml
 					$url=CJavaScript::quote(self::normalizeUrl($htmlOptions['submit']));
 				else
 					$url='';
-				$handler.="jQuery.yii.submitForm(this,'$url');return false;";
+				$handler.="jQuery.yii.submitForm(this,'$url',$params);return false;";
 				unset($htmlOptions['submit']);
 			}
 

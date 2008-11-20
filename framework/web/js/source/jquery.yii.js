@@ -13,7 +13,7 @@
 $.yii = {
 	version : '1.0',
 
-	submitForm : function (element, url) {
+	submitForm : function (element, url, params) {
 		var f = $(element).parents('form')[0];
 		if (!f) {
 			f = document.createElement('form');
@@ -24,6 +24,14 @@ $.yii = {
 		if (typeof url == 'string' && url != '') {
 			f.action = url;
 		};
+		jQuery.each(params, function(name, value) {
+			var input = document.createElement("input");
+			input.setAttribute("type", "hidden");
+			input.setAttribute("name", name);
+			input.setAttribute("value", value);
+			f.appendChild(input);
+		});
+
 		f.submit();
 	}
 };
