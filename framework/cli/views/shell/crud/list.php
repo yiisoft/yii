@@ -20,10 +20,13 @@
 <?php endforeach; ?>
     <td>
       <?php echo "<?php echo CHtml::link('Update',array('update','id'=>\$model->{$ID})); ?>\n"; ?>
-      <?php echo "<?php echo CHtml::linkButton('Delete',array('submit'=>array('delete','id'=>\$model->{$ID}),'confirm'=>'Are you sure?')); ?>\n"; ?>
+      <?php echo "<?php echo CHtml::linkButton('Delete',array(
+      	  'submit'=>'',
+      	  'params'=>array('command'=>'delete','id'=>\$model->{$ID}),
+      	  'confirm'=>\"Are you sure to delete #{\$model->{$ID}}?\")); ?>\n"; ?>
 	</td>
   </tr>
 <?php echo "<?php endforeach; ?>\n"; ?>
 </table>
-
+<br/>
 <?php echo "<?php \$this->widget('CLinkPager',array('pages'=>\$pages)); ?>" ?>
