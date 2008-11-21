@@ -3533,6 +3533,13 @@ class CHtml
 				$id=$htmlOptions['id']=isset($htmlOptions['name'])?$htmlOptions['name']:self::ID_PREFIX.self::$_count++;
 			$cs=self::getClientScript();
 			$cs->registerCoreScript('jquery');
+			if(isset($htmlOptions['params']))
+			{
+				$params=CJavaScript::encode($htmlOptions['params']);
+				unset($htmlOptions['params']);
+			}
+			else
+				$params='{}';
 			if(isset($htmlOptions['submit']))
 			{
 				$cs->registerCoreScript('yii');
@@ -3540,7 +3547,7 @@ class CHtml
 					$url=CJavaScript::quote(self::normalizeUrl($htmlOptions['submit']));
 				else
 					$url='';
-				$handler.="jQuery.yii.submitForm(this,'$url');return false;";
+				$handler.="jQuery.yii.submitForm(this,'$url',$params);return false;";
 				unset($htmlOptions['submit']);
 			}
 			if(isset($htmlOptions['ajax']))
