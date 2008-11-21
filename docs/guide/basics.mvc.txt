@@ -14,9 +14,8 @@ which represents the execution context of request processing. Application
 resolves the user request and dispatches it to an appropriate controller
 for further handling.
 
-The following diagram shows how user requests are handling in a typical
-Yii application:
+The following diagram shows the static structure of a typical Yii application:
 
-*diagram showing MVC workflow*
+![Static structure of Yii application](structure.png)
 
 <div class="revision">$Id$</div>
