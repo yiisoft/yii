@@ -12,7 +12,7 @@ the tables. For simplicity, we will use the database schema shown in the
 following entity-relationship (ER) diagram to illustrate examples in this
 section.
 
-[ER diagram of Post, Category, Author, Profile tables]
+![ER Diagram](er.png)
 
 > Tip: For SQLite database, we may create tables that define the foreign
 > key constraints such as the example below. However, these constraints are
