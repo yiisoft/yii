@@ -72,7 +72,7 @@ class CDbHttpSession extends CHttpSession
 	protected function createSessionTable($db,$tableName)
 	{
 		$sql="
-CREATE TABLE '$tableName'
+CREATE TABLE $tableName
 (
 	id CHAR(32) PRIMARY KEY,
 	expire INTEGER,
