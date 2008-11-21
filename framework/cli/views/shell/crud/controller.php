@@ -28,7 +28,7 @@ class {ClassName} extends CController
 	public function accessRules()
 	{
 		return array(
-			array('deny',  // deny access to CUD for guest users
+			array('deny',  // deny access to CUD operations for guest users
 				'actions'=>array('create','update','delete'),
 				'users'=>array('?'),
 			),
@@ -40,12 +40,35 @@ class {ClassName} extends CController
 	 */
 	public function actionList()
 	{
+		$this->processListCommand();
+
 		$pages=$this->paginate({ModelClass}::model()->count());
 		${ModelVar}List={ModelClass}::model()->findAll($this->getListCriteria($pages));
 
 		$this->render('list',array(
 			'{ModelVar}List'=>${ModelVar}List,
 			'pages'=>$pages));
+	}
+
+	/**
+	 * Executes any command triggered on the list page.
+	 */
+	protected function processListCommand()
+	{
+		if(isset($_POST['command'], $_POST['id']) && $_POST['command']==='delete')
+		{
+			if(Yii::app()->user->isGuest)
+				Yii::app()->user->loginRequired();
+
+			if((${ModelVar}={ModelClass}::model()->findbyPk($_POST['id']))!==null)
+			{
+				${ModelVar}->delete();
+				// reload the current page to avoid duplicated delete actions
+				$this->refresh();
+			}
+			else
+				throw new CHttpException(500,'The requested {ModelName} does not exist.');
+		}
 	}
 
 	/**
