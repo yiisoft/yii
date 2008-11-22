@@ -16,6 +16,11 @@
  * in Gettext. Translated messages are stored as either a MO or PO file,
  * depending on the {@link useMoFile} property value.
  *
+ * All translations are saved under the {@link basePath} directory.
+ * Translations in one language are kept as MO or PO files under an individual
+ * subdirectory whose name is the language ID. The file name is specified via
+ * {@link catalog} property, which defaults to 'messages'.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.i18n
