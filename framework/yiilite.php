@@ -4760,6 +4760,7 @@ class CDbConnection extends CApplicationComponent
 	public $schemaCachingExclude=array();
 	public $autoConnect=true;
 	public $charset;
+	public $emulatePrepare=false;
 	private $_attributes=array();
 	private $_active=false;
 	private $_pdo;
@@ -4829,6 +4830,8 @@ class CDbConnection extends CApplicationComponent
 	protected function initConnection($pdo)
 	{
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		if($this->emulatePrepare && constant('PDO::ATTR_EMULATE_PREPARES'))
+			$pod->setAttribute(PDO::ATTR_EMULATE_PREPARES,true);
 		if($this->charset===null)
 			return;
 		switch(strtolower($pdo->getAttribute(PDO::ATTR_DRIVER_NAME)))
