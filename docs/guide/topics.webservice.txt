@@ -111,7 +111,7 @@ Consuming Web Service
 
 To complete the example, let's create a client to consume the Web service
 we just created. The example client is written in PHP, but it could be in
-other languages, such as Java, C#, Flex, etc.
+other languages, such as `Java`, `C#`, `Flex`, etc.
 
 ~~~
 [php]

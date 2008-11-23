@@ -38,7 +38,7 @@ return array(
 
 By default, [CPradoViewRenderer] will compile source view files and save
 the resulting PHP files under the
-[runtime](/doc/guide/basics.convention##dir) directory. Only when the
+[runtime](/doc/guide/basics.convention#directory) directory. Only when the
 source view files are changed, will the PHP files be re-generated.
 Therefore, using [CPradoViewRenderer] incurs very little performance
 degradation.
