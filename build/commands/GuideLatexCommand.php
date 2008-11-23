@@ -1,0 +1,80 @@
+<?php
+
+class GuideLatexCommand extends CConsoleCommand
+{
+	function getHelp()
+	{
+		return <<<EOD
+USAGE
+  yiic guidelatex
+
+DESCRIPTION
+  This command generates latex files for the definitive guide.
+  The generated latex files are stored in following directory:
+	guideLatex/output
+
+EOD;
+	}
+
+	function getGuideSourceDir()
+	{
+		return dirname(__FILE__).'/../../docs/guide';
+	}
+
+	function getOutputDir()
+	{
+		return dirname(__FILE__).'/guideLatex/output';
+	}
+
+	function run($args)
+	{
+		require_once(dirname(__FILE__).'/guideLatex/MarkdownHtml2Tex.php');
+		$sourcePath=$this->getGuideSourceDir();
+		$chapters=$this->getGuideTopics();
+		$toc = '';
+		foreach($chapters as $chapter=>$sections)
+		{
+			$toc .= sprintf("\chapter{%s}\n", $chapter);
+			foreach($sections as $path=>$section)
+			{
+				echo "creating '$section'...";
+				$content=file_get_contents($sourcePath."/{$path}.txt");
+				$this->createLatexFile($chapter,$section,$content, $path);
+				echo "done\n";
+				$toc .= sprintf("\input{%s}\n", $path);
+			}
+		}
+		$main_file = sprintf('%s/main.tex', $this->getOutputDir());
+		file_put_contents($main_file, $toc);
+	}
+
+	function getGuideTopics()
+	{
+		$file = $this->getGuideSourceDir().'/toc.txt';
+		$lines=file($file);
+		$chapter='';
+		$guideTopics=array();
+		foreach($lines as $line)
+		{
+			if(($line=trim($line))==='')
+				continue;
+			if($line[0]==='*')
+				$chapter=trim($line,'* ');
+			else if($line[0]==='-' && preg_match('/\[(.*?)\]\((.*?)\)/',$line,$matches))
+				$guideTopics[$chapter][$matches[2]]=$matches[1];
+		}
+		return $guideTopics;
+	}
+
+	function createLatexFile($chapter, $section, $content, $path)
+	{
+		$parser=new MarkdownParserLatex;
+		$content=$parser->transform($content);
+		$img_src = $this->getGuideSourceDir().'/images';
+		$img_dst = $this->getOutputDir();
+		$html2tex = new MarkdownHtml2Tex($img_src, $img_dst);
+		$tex = $html2tex->parse_html($content, $path);
+		$filename = sprintf('%s/%s.tex', $this->getOutputDir(), $path);
+		file_put_contents($filename, $tex);
+	}
+}
