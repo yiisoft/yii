@@ -109,7 +109,7 @@ class PostController extends CController
 ~~~
 
 In the above, we use path alias
-`'application.controllers.post.UpdateAction` to specify that the action
+`application.controllers.post.UpdateAction` to specify that the action
 class file is `protected/controllers/post/UpdateAction.php`.
 
 Writing class-based actions, we can organize an application in a modular

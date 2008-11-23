@@ -10,7 +10,7 @@ Yii DAO is built on top of [PHP Data Objects
 (PDO)](http://php.net/manual/en/book.pdo.php) which is an extension
 providing unified data access to many popular DBMS, such as MySQL,
 PostgreSQL. Therefore, to use Yii DAO, the PDO extension and the specific
-PDO database driver (e.g. PDO_MYSQL) have to be installed.
+PDO database driver (e.g. `PDO_MYSQL`) have to be installed.
 
 Yii DAO mainly consists of the following four classes:
 
