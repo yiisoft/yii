@@ -89,7 +89,7 @@ class CTextHighlighter extends COutputProcessor
 		if($this->showLineNumbers)
 			$options['numbers']=($this->lineNumberStyle==='list')?HL_NUMBERS_LI:HL_NUMBERS_TABLE;
 
-		$cs=$this->getController()->getClientScript();
+		$cs=Yii::app()->getClientScript();
 
 		if($this->cssFile===null)
 		{

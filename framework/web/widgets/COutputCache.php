@@ -289,7 +289,7 @@ class COutputCache extends CFilterWidget
 			return;
 
 		$controller=$this->getController();
-		$cs=$controller->getClientScript();
+		$cs=Yii::app()->getClientScript();
 		foreach($this->_actions as $action)
 		{
 			if($action[0]==='clientScript')

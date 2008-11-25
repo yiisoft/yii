@@ -172,7 +172,7 @@ class CLinkPager extends CBasePager
 	 */
 	protected function registerClientScript()
 	{
-		$cs=$this->getController()->getClientScript();
+		$cs=Yii::app()->getClientScript();
 		if($this->cssFile===null)
 			$cs->registerCssFile(CHtml::asset(Yii::getPathOfAlias('system.web.widgets.pagers.pager').'.css'));
 		else if($this->cssFile!==false)

@@ -627,7 +627,7 @@ class CHtml
 	 */
 	public static function ajax($options)
 	{
-		self::getClientScript()->registerCoreScript('jquery');
+		Yii::app()->getClientScript()->registerCoreScript('jquery');
 		if(!isset($options['url']))
 			$options['url']='js:location.href';
 		else
@@ -677,7 +677,7 @@ class CHtml
 	 */
 	public static function coreScript($name)
 	{
-		return self::getClientScript()->renderCoreScript($name);
+		return Yii::app()->getClientScript()->renderCoreScript($name);
 	}
 
 	/**
@@ -1102,16 +1102,6 @@ class CHtml
 	}
 
 	/**
-	 * Returns the client script manager.
-	 * This is a shortcut method for getting the client script manager.
-	 * @return CClientScript the client script manager
-	 */
-	protected static function getClientScript()
-	{
-		return Yii::app()->getController()->getClientScript();
-	}
-
-	/**
 	 * Generates the list options.
 	 * @param mixed the selected value(s). This can be either a string for single selection or an array for multiple selections.
 	 * @param array the option data (see {@link listData})
@@ -1182,7 +1172,7 @@ class CHtml
 			else
 				$id=$htmlOptions['id']=isset($htmlOptions['name'])?$htmlOptions['name']:self::ID_PREFIX.self::$_count++;
 
-			$cs=self::getClientScript();
+			$cs=Yii::app()->getClientScript();
 			$cs->registerCoreScript('jquery');
 
 			if(isset($htmlOptions['params']))

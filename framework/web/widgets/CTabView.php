@@ -144,7 +144,7 @@ class CTabView extends CWidget
 	 */
 	protected function registerClientScript()
 	{
-		$cs=$this->getController()->getClientScript();
+		$cs=Yii::app()->getClientScript();
 		$cs->registerCoreScript('yiitab');
 		if($this->cssFile===null)
 			$cs->registerCssFile($cs->getCoreScriptUrl().'/yiitab/jquery.yiitab.css');
