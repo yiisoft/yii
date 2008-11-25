@@ -203,7 +203,7 @@ class CAutoComplete extends CInputWidget
 			$url=CHtml::normalizeUrl($this->url);
 			$data='"'.$url.'"';
 		}
-		$cs->registerBodyScript('Yii.CAutoComplete#'.$id,"jQuery(\"#{$id}\").autocomplete($data,{$options}){$this->methodChain};");
+		$cs->registerScript('Yii.CAutoComplete#'.$id,"jQuery(\"#{$id}\").autocomplete($data,{$options}){$this->methodChain};");
 		if($this->cssFile===null)
 			$cs->registerCssFile($cs->getCoreScriptUrl().'/autocomplete/jquery.autocomplete.css');
 		else if($this->cssFile!==false)

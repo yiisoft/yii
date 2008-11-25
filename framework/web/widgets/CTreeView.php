@@ -142,7 +142,7 @@ class CTreeView extends CWidget
 		$cs->registerCoreScript('treeview');
 		$options=$this->getClientOptions();
 		$options=$options===array()?'{}' : CJavaScript::encode($options);
-		$cs->registerBodyScript('Yii.CTreeView#'.$id,"jQuery(\"#{$id}\").treeview($options);");
+		$cs->registerScript('Yii.CTreeView#'.$id,"jQuery(\"#{$id}\").treeview($options);");
 		if($this->cssFile===null)
 			$cs->registerCssFile($cs->getCoreScriptUrl().'/treeview/jquery.treeview.css');
 		else if($this->cssFile!==false)

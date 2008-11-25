@@ -122,7 +122,7 @@ class CStarRating extends CInputWidget
 		$js="jQuery('#{$id} > input').rating({$jsOptions});";
 		$cs=Yii::app()->getClientScript();
 		$cs->registerCoreScript('rating');
-		$cs->registerBodyScript('Yii.CStarRating#'.$id,$js);
+		$cs->registerScript('Yii.CStarRating#'.$id,$js);
 		if($this->cssFile===null)
 			$cs->registerCssFile($cs->getCoreScriptUrl().'/rating/jquery.rating.css');
 		else if($this->cssFile!==false)

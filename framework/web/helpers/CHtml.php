@@ -1210,7 +1210,7 @@ class CHtml
 				unset($htmlOptions['confirm']);
 			}
 
-			$cs->registerBodyScript('Yii.CHtml.#'.$id,"jQuery('#$id').$event(function(){{$handler}});");
+			$cs->registerScript('Yii.CHtml.#'.$id,"jQuery('#$id').$event(function(){{$handler}});");
 		}
 	}
 

@@ -226,7 +226,7 @@ class CController extends CBaseController
 	 */
 	public function processOutput($output)
 	{
-		$output=Yii::app()->getClientScript()->render($output);
+		Yii::app()->getClientScript()->render($output);
 
 		if($this->_dynamicOutput)
 		{
