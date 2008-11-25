@@ -534,16 +534,6 @@ class CController extends CBaseController
 	}
 
 	/**
-	 * Returns the client script manager.
-	 * This is a shortcut to {@link CWebApplication::getClientScript}.
-	 * @return CClientScript the client script manager
-	 */
-	public function getClientScript()
-	{
-		return Yii::app()->getClientScript();
-	}
-
-	/**
 	 * Creates a relative URL for the specified action defined in this controller.
 	 * @param string the URL route. This should be in the format of 'ControllerID/ActionID'.
 	 * If the ControllerPath is not present, the current controller ID will be prefixed to the route.
