@@ -172,7 +172,7 @@ class PostController extends CController
 			),
 			array('allow',
 				'actions'=>array('delete'),
-				'users'=>array('root'),
+				'roles'=>array('admin'),
 			),
 			array('deny',
 				'actions'=>array('delete'),
@@ -187,12 +187,12 @@ The above code specifies three rules, each represented as an array. The
 first element of the array is either `'allow'` or `'deny'` and the rest
 name-value pairs specify the pattern parameters of the rule. These rules
 read: the `create` and `edit` actions cannot be executed by anonymous
-users; the `delete` action can be executed by the `root` user; and the
-`delete` action cannot be executed by anyone.
+users; the `delete` action can be executed by users with `admin` role;
+and the `delete` action cannot be executed by anyone.
 
 The access rules are evaluated one by one in the order they are specified.
-The first rule that matches the current pattern (e.g. username, client IP
-address) determines the authorization result. If this rule is an `allow`
+The first rule that matches the current pattern (e.g. username, roles,
+client IP, address) determines the authorization result. If this rule is an `allow`
 rule, the action can be executed; if it is a `deny` rule, the action cannot
 be executed; if none of the rules matches the context, the action can still
 be executed.
@@ -209,6 +209,13 @@ special characters can be used here:
 	   - `*`: any user, including both anonymous and authenticated users.
 	   - `?`: anonymous users.
 	   - `@`: authenticated users.
+
+   - [roles|CAccessRule::roles]: specifies which roles that this rule matches.
+This makes use of the [role-based access control](#role-based-access-control)
+feature to be described in the next subsection. In particular, the rule
+is applied if [CWebUser::checkAccess] returns true for one of the roles.
+Note, you should mainly use roles in an `allow` rule because by definition,
+a role represents a permission to do something.
 
    - [ips|CAccessRule::ips]: specifies which client IP addresses this rule
 matches.
