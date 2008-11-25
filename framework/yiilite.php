@@ -1285,6 +1285,9 @@ class CWebApplication extends CApplication
 			'authManager'=>array(
 				'class'=>'CPhpAuthManager',
 			),
+			'clientScript'=>array(
+				'class'=>'CClientScript',
+			),
 		);
 		$this->setComponents($components);
 	}
@@ -1315,6 +1318,10 @@ class CWebApplication extends CApplication
 	public function getViewRenderer()
 	{
 		return $this->getComponent('viewRenderer');
+	}
+	public function getClientScript()
+	{
+		return $this->getComponent('clientScript');
 	}
 	public function getThemeManager()
 	{
@@ -2189,7 +2196,6 @@ class CController extends CBaseController
 	private $_id;
 	private $_action;
 	private $_pageTitle;
-	private $_clientScript;
 	private $_cachingStack;
 	private $_clips;
 	private $_dynamicOutput;
@@ -2242,11 +2248,7 @@ class CController extends CBaseController
 	}
 	public function processOutput($output)
 	{
-		if($this->_clientScript)
-		{
-			$output=$this->_clientScript->render($output);
-			$this->_clientScript=null;
-		}
+		$output=Yii::app()->getClientScript()->render($output);
 		if($this->_dynamicOutput)
 		{
 			$output=preg_replace_callback('/<###dynamic-(\d+)###>/',array($this,'replaceDynamicOutput'),$output);
@@ -2386,13 +2388,6 @@ class CController extends CBaseController
 			$callback=array($this,$callback);
 		$this->_dynamicOutput[]=call_user_func_array($callback,$params);
 		$this->recordCachingAction('','renderDynamicInternal',array($callback,$params));
-	}
-	public function getClientScript()
-	{
-		if($this->_clientScript)
-			return $this->_clientScript;
-		else
-			return $this->_clientScript=new CClientScript($this);
 	}
 	public function createUrl($route,$params=array(),$ampersand='&')
 	{
@@ -3270,7 +3265,7 @@ class CHtml
 	}
 	public static function ajax($options)
 	{
-		self::getClientScript()->registerCoreScript('jquery');
+		Yii::app()->getClientScript()->registerCoreScript('jquery');
 		if(!isset($options['url']))
 			$options['url']='js:location.href';
 		else
@@ -3304,7 +3299,7 @@ class CHtml
 	}
 	public static function coreScript($name)
 	{
-		return self::getClientScript()->renderCoreScript($name);
+		return Yii::app()->getClientScript()->renderCoreScript($name);
 	}
 	public static function normalizeUrl($url)
 	{
@@ -3483,10 +3478,6 @@ class CHtml
 			self::addErrorCss($htmlOptions);
 		return self::tag('input',$htmlOptions);
 	}
-	protected static function getClientScript()
-	{
-		return Yii::app()->getController()->getClientScript();
-	}
 	protected static function listOptions($selection,$listData,&$htmlOptions)
 	{
 		$content='';
@@ -3531,7 +3522,7 @@ class CHtml
 				$id=$htmlOptions['id'];
 			else
 				$id=$htmlOptions['id']=isset($htmlOptions['name'])?$htmlOptions['name']:self::ID_PREFIX.self::$_count++;
-			$cs=self::getClientScript();
+			$cs=Yii::app()->getClientScript();
 			$cs->registerCoreScript('jquery');
 			if(isset($htmlOptions['params']))
 			{
@@ -3648,6 +3639,189 @@ class CWidget extends CBaseController
 		else
 			throw new CException(Yii::t('yii','{widget} cannot find the view "{view}".',
 				array('{widget}'=>get_class($this), '{view}'=>$view)));
+	}
+}
+class CClientScript extends CApplicationComponent
+{
+	public $enableJavaScript=true;
+	private $_hasScripts=false;
+	private $_packages;
+	private $_dependencies;
+	private $_baseUrl;
+	private $_coreScripts=array();
+	private $_cssFiles=array();
+	private $_css=array();
+	private $_scriptFiles=array();
+	private $_scripts=array();
+	private $_bodyScriptFiles=array();
+	private $_bodyScripts=array();
+	public function reset()
+	{
+		$this->_hasScripts=false;
+		$this->_coreScripts=array();
+		$this->_cssFiles=array();
+		$this->_css=array();
+		$this->_scriptFiles=array();
+		$this->_scripts=array();
+		$this->_bodyScriptFiles=array();
+		$this->_bodyScripts=array();
+		Yii::app()->getController()->recordCachingAction('clientScript','reset',array());
+	}
+	public function render($output)
+	{
+		if(!$this->_hasScripts)
+			return $output;
+		$html='';
+		$html2='';
+		foreach($this->_cssFiles as $url=>$media)
+			$html.=CHtml::cssFile($url,$media)."\n";
+		foreach($this->_css as $css)
+			$html.=CHtml::cssFile($css[0],$css[1])."\n";
+		if($this->enableJavaScript)
+		{
+			foreach($this->_coreScripts as $name)
+			{
+				if(is_string($name))
+					$html.=$this->renderCoreScript($name);
+			}
+			foreach($this->_scriptFiles as $scriptFile)
+				$html.=CHtml::scriptFile($scriptFile)."\n";
+			if(!empty($this->_scripts))
+				$html.=CHtml::script(implode("\n",$this->_scripts))."\n";
+			foreach($this->_bodyScriptFiles as $scriptFile)
+				$html2.=CHtml::scriptFile($scriptFile)."\n";
+			if(!empty($this->_bodyScripts))
+				$html2.=CHtml::script(implode("\n",$this->_bodyScripts))."\n";
+		}
+		if($html!=='')
+		{
+			$output=preg_replace('/(<head\s*>.*?)(<title\s*>)/is','$1'.$html.'$2',$output,1,$count);
+			if(!$count)
+				$output=preg_replace('/(<head\s*>.*?)(<\\/head\s*>)/is','$1'.$html.'$2',$output,1,$count);
+			if(!$count)
+				$output=$html.$output;
+		}
+		if($html2!=='')
+		{
+			$output=preg_replace('/(<\\/body\s*>.*?<\/html\s*>)/is',$html2.'$1',$output,1,$count);
+			if(!$count)
+				$output.=$html2;
+		}
+		return $output;
+	}
+	public function getCoreScriptUrl()
+	{
+		if($this->_baseUrl!==null)
+			return $this->_baseUrl;
+		else
+			return $this->_baseUrl=Yii::app()->getAssetManager()->publish(YII_PATH.'/web/js/source');
+	}
+	public function setCoreScriptUrl($value)
+	{
+		$this->_baseUrl=$value;
+	}
+	public function renderCoreScript($name)
+	{
+		if(isset($this->_coreScripts[$name]) && $this->_coreScripts[$name]===true || !$this->enableJavaScript)
+			return '';
+		$this->_coreScripts[$name]=true;
+		if($this->_packages===null)
+		{
+			$config=require(YII_PATH.'/web/js/packages.php');
+			$this->_packages=$config[0];
+			$this->_dependencies=$config[1];
+		}
+		$baseUrl=$this->getCoreScriptUrl();
+		$html='';
+		if(isset($this->_dependencies[$name]))
+		{
+			foreach($this->_dependencies[$name] as $depName)
+				$html.=$this->renderCoreScript($depName);
+		}
+		if(isset($this->_packages[$name]))
+		{
+			foreach($this->_packages[$name] as $path)
+			{
+				if(substr($path,-4)==='.css')
+					$html.=CHtml::cssFile($baseUrl.'/'.$path)."\n";
+				else
+					$html.=CHtml::scriptFile($baseUrl.'/'.$path)."\n";
+			}
+		}
+		return $html;
+	}
+	public function registerCoreScript($name)
+	{
+		$this->_hasScripts=true;
+		$this->_coreScripts[$name]=$name;
+		$params=func_get_args();
+		Yii::app()->getController()->recordCachingAction('clientScript','registerCoreScript',$params);
+	}
+	public function registerCssFile($url,$media='')
+	{
+		$this->_hasScripts=true;
+		$this->_cssFiles[$url]=$media;
+		$params=func_get_args();
+		Yii::app()->getController()->recordCachingAction('clientScript','registerCssFile',$params);
+	}
+	public function registerCss($id,$css,$media='')
+	{
+		$this->_hasScripts=true;
+		$this->_css[$id]=array($css,$media);
+		$params=func_get_args();
+		Yii::app()->getController()->recordCachingAction('clientScript','registerCss',$params);
+	}
+	public function registerScriptFile($url)
+	{
+		$this->_hasScripts=true;
+		$this->_scriptFiles[$url]=$url;
+		$params=func_get_args();
+		Yii::app()->getController()->recordCachingAction('clientScript','registerScriptFile',$params);
+	}
+	public function registerScript($id,$script)
+	{
+		$this->_hasScripts=true;
+		$this->_scripts[$id]=$script;
+		$params=func_get_args();
+		Yii::app()->getController()->recordCachingAction('clientScript','registerScript',$params);
+	}
+	public function registerBodyScriptFile($url)
+	{
+		$this->_hasScripts=true;
+		$this->_bodyScriptFiles[$url]=$url;
+		$params=func_get_args();
+		Yii::app()->getController()->recordCachingAction('clientScript','registerBodyScriptFile',$params);
+	}
+	public function registerBodyScript($id,$script)
+	{
+		$this->_hasScripts=true;
+		$this->_bodyScripts[$id]=$script;
+		$params=func_get_args();
+		Yii::app()->getController()->recordCachingAction('clientScript','registerBodyScript',$params);
+	}
+	public function isCssFileRegistered($url)
+	{
+		return isset($this->_cssFiles[$url]);
+	}
+	public function isCssRegistered($id)
+	{
+		return isset($this->_css[$id]);
+	}
+	public function isScriptFileRegistered($url)
+	{
+		return isset($this->_scriptFiles[$url]);
+	}
+	public function isScriptRegistered($id)
+	{
+		return isset($this->_scripts[$id]);
+	}
+	public function isBodyScriptFileRegistered($url)
+	{
+		return isset($this->_bodyScriptFiles[$url]);
+	}
+	public function isBodyScriptRegistered($id)
+	{
+		return isset($this->_bodyScripts[$id]);
 	}
 }
 class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countable
@@ -5809,188 +5983,6 @@ class CPagination extends CComponent
 		return $controller->createUrl('',$params);
 	}
 }
-class CClientScript extends CComponent
-{
-	public $enableJavaScript=true;
-	private $_controller;
-	private $_packages;
-	private $_dependencies;
-	private $_baseUrl;
-	private $_coreScripts=array();
-	private $_cssFiles=array();
-	private $_css=array();
-	private $_scriptFiles=array();
-	private $_scripts=array();
-	private $_bodyScriptFiles=array();
-	private $_bodyScripts=array();
-	public function __construct($controller)
-	{
-		$this->_controller=$controller;
-	}
-	public function reset()
-	{
-		$this->_coreScripts=array();
-		$this->_cssFiles=array();
-		$this->_css=array();
-		$this->_scriptFiles=array();
-		$this->_scripts=array();
-		$this->_bodyScriptFiles=array();
-		$this->_bodyScripts=array();
-		$this->_controller->recordCachingAction('clientScript','reset',array());
-	}
-	public function render($output)
-	{
-		$html='';
-		$html2='';
-		foreach($this->_cssFiles as $url=>$media)
-			$html.=CHtml::cssFile($url,$media)."\n";
-		foreach($this->_css as $css)
-			$html.=CHtml::cssFile($css[0],$css[1])."\n";
-		if($this->enableJavaScript)
-		{
-			foreach($this->_coreScripts as $name)
-			{
-				if(is_string($name))
-					$html.=$this->renderCoreScript($name);
-			}
-			foreach($this->_scriptFiles as $scriptFile)
-				$html.=CHtml::scriptFile($scriptFile)."\n";
-			if(!empty($this->_scripts))
-				$html.=CHtml::script(implode("\n",$this->_scripts))."\n";
-			foreach($this->_bodyScriptFiles as $scriptFile)
-				$html2.=CHtml::scriptFile($scriptFile)."\n";
-			if(!empty($this->_bodyScripts))
-				$html2.=CHtml::script(implode("\n",$this->_bodyScripts))."\n";
-		}
-		if($html!=='')
-		{
-			$output=preg_replace('/(<head\s*>.*?)(<title\s*>)/is','$1'.$html.'$2',$output,1,$count);
-			if(!$count)
-				$output=preg_replace('/(<head\s*>.*?)(<\\/head\s*>)/is','$1'.$html.'$2',$output,1,$count);
-			if(!$count)
-				$output=$html.$output;
-		}
-		if($html2!=='')
-		{
-			$output=preg_replace('/(<\\/body\s*>.*?<\/html\s*>)/is',$html2.'$1',$output,1,$count);
-			if(!$count)
-				$output.=$html2;
-		}
-		return $output;
-	}
-	public function getCoreScriptUrl()
-	{
-		if($this->_baseUrl!==null)
-			return $this->_baseUrl;
-		else
-			return $this->_baseUrl=Yii::app()->getAssetManager()->publish(YII_PATH.'/web/js/source');
-	}
-	public function renderCoreScript($name)
-	{
-		if(isset($this->_coreScripts[$name]) && $this->_coreScripts[$name]===true || !$this->enableJavaScript)
-			return '';
-		$this->_coreScripts[$name]=true;
-		if($this->_packages===null)
-		{
-			$config=require(YII_PATH.'/web/js/packages.php');
-			$this->_packages=$config[0];
-			$this->_dependencies=$config[1];
-		}
-		$baseUrl=$this->getCoreScriptUrl();
-		$html='';
-		if(isset($this->_dependencies[$name]))
-		{
-			foreach($this->_dependencies[$name] as $depName)
-				$html.=$this->renderCoreScript($depName);
-		}
-		if(isset($this->_packages[$name]))
-		{
-			foreach($this->_packages[$name] as $path)
-			{
-				if(substr($path,-4)==='.css')
-					$html.=CHtml::cssFile($baseUrl.'/'.$path)."\n";
-				else
-					$html.=CHtml::scriptFile($baseUrl.'/'.$path)."\n";
-			}
-		}
-		return $html;
-	}
-	public function registerCoreScript($name)
-	{
-		if(!isset($this->_coreScripts[$name]))
-		{
-			$this->_coreScripts[$name]=$name;
-			$params=func_get_args();
-			$this->_controller->recordCachingAction('clientScript','registerCoreScript',$params);
-		}
-	}
-	public function registerCssFile($url,$media='')
-	{
-		$this->_cssFiles[$url]=$media;
-		$params=func_get_args();
-		$this->_controller->recordCachingAction('clientScript','registerCssFile',$params);
-	}
-	public function registerCss($id,$css,$media='')
-	{
-		$this->_css[$id]=array($css,$media);
-		$params=func_get_args();
-		$this->_controller->recordCachingAction('clientScript','registerCss',$params);
-	}
-	public function registerScriptFile($url)
-	{
-		if(!isset($this->_scriptFiles[$url]))
-		{
-			$this->_scriptFiles[$url]=$url;
-			$params=func_get_args();
-			$this->_controller->recordCachingAction('clientScript','registerScriptFile',$params);
-		}
-	}
-	public function registerScript($id,$script)
-	{
-		$this->_scripts[$id]=$script;
-		$params=func_get_args();
-		$this->_controller->recordCachingAction('clientScript','registerScript',$params);
-	}
-	public function registerBodyScriptFile($url)
-	{
-		if(!isset($this->_bodyScriptFiles[$url]))
-		{
-			$this->_bodyScriptFiles[$url]=$url;
-			$params=func_get_args();
-			$this->_controller->recordCachingAction('clientScript','registerBodyScriptFile',$params);
-		}
-	}
-	public function registerBodyScript($id,$script)
-	{
-		$this->_bodyScripts[$id]=$script;
-		$params=func_get_args();
-		$this->_controller->recordCachingAction('clientScript','registerBodyScript',$params);
-	}
-	public function isCssFileRegistered($url)
-	{
-		return isset($this->_cssFiles[$url]);
-	}
-	public function isCssRegistered($id)
-	{
-		return isset($this->_css[$id]);
-	}
-	public function isScriptFileRegistered($url)
-	{
-		return isset($this->_scriptFiles[$url]);
-	}
-	public function isScriptRegistered($id)
-	{
-		return isset($this->_scripts[$id]);
-	}
-	public function isBodyScriptFileRegistered($url)
-	{
-		return isset($this->_bodyScriptFiles[$url]);
-	}
-	public function isBodyScriptRegistered($id)
-	{
-		return isset($this->_bodyScripts[$id]);
-	}
-}
 class CJavaScript
 {
 	public static function quote($js,$forUrl=false)
@@ -6192,7 +6184,7 @@ class CLinkPager extends CBasePager
 	}
 	protected function registerClientScript()
 	{
-		$cs=$this->getController()->getClientScript();
+		$cs=Yii::app()->getClientScript();
 		if($this->cssFile===null)
 			$cs->registerCssFile(CHtml::asset(Yii::getPathOfAlias('system.web.widgets.pagers.pager').'.css'));
 		else if($this->cssFile!==false)
