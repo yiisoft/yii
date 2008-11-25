@@ -167,6 +167,15 @@ session-related functionalities.
    - [assetManager|CWebApplication::assetManager]: [CAssetManager] -
 manages the publishing of private asset files.
 
+   - [user|CWebApplication::user]: [CWebUser] - represents the user session information.
+
+   - [themeManager|CWebApplication::themeManager]: [CThemeManager] - manages themes.
+
+   - [authManager|CWebApplication::authManager]: [CAuthManager] - manages role-based access control (RBAC).
+
+   - [clientScript|CWebApplication::clientScript]: [CClientScript] -
+manages client scripts (javascripts and CSS).
+
 Besides the above compoennts, a component named
 [cache|CApplication::cache] is also declared but without specifying its
 class. The [cache|CApplication::cache] component is used by Yii for data

@@ -83,7 +83,6 @@ class CController extends CBaseController
 	private $_id;
 	private $_action;
 	private $_pageTitle;
-	private $_clientScript;
 	private $_cachingStack;
 	private $_clips;
 	private $_dynamicOutput;
@@ -227,11 +226,7 @@ class CController extends CBaseController
 	 */
 	public function processOutput($output)
 	{
-		if($this->_clientScript)
-		{
-			$output=$this->_clientScript->render($output);
-			$this->_clientScript=null;
-		}
+		$output=Yii::app()->getClientScript()->render($output);
 
 		if($this->_dynamicOutput)
 		{
@@ -539,14 +534,13 @@ class CController extends CBaseController
 	}
 
 	/**
+	 * Returns the client script manager.
+	 * This is a shortcut to {@link CWebApplication::getClientScript}.
 	 * @return CClientScript the client script manager
 	 */
 	public function getClientScript()
 	{
-		if($this->_clientScript)
-			return $this->_clientScript;
-		else
-			return $this->_clientScript=new CClientScript($this);
+		return Yii::app()->getClientScript();
 	}
 
 	/**
