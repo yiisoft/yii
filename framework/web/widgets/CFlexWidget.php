@@ -81,7 +81,7 @@ class CFlexWidget extends CWidget
 		if($this->altHtmlContent===null)
 			$this->altHtmlContent=Yii::t('yii','This content requires the <a href="http://www.adobe.com/go/getflash/">Adobe Flash Player</a>.');
 
-		$cs=$this->getController()->getClientScript();
+		$cs=Yii::app()->getClientScript();
 		$cs->registerScriptFile($this->baseUrl.'/AC_OETags.js');
 
 		if($this->enableHistory)

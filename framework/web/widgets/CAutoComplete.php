@@ -194,7 +194,7 @@ class CAutoComplete extends CInputWidget
 		$acOptions=$this->getClientOptions();
 		$options=$acOptions===array()?'{}' : CJavaScript::encode($acOptions);
 
-		$cs=$this->getController()->getClientScript();
+		$cs=Yii::app()->getClientScript();
 		$cs->registerCoreScript('autocomplete');
 		if($this->data!==null)
 			$data=CJavaScript::encode($this->data);

@@ -41,6 +41,7 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function reset()
 	{
+		$this->_hasScripts=false;
 		$this->_coreScripts=array();
 		$this->_cssFiles=array();
 		$this->_css=array();

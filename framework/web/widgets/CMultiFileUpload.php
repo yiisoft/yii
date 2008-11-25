@@ -96,7 +96,7 @@ class CMultiFileUpload extends CWidget
 			$mfOptions['STRING']=$messages;
 		$options=$mfOptions===array()?'':CJavaScript::encode($mfOptions);
 
-		$cs=$this->getController()->getClientScript();
+		$cs=Yii::app()->getClientScript();
 		$cs->registerCoreScript('multifile');
 		$cs->registerBodyScript('Yii.CMultiFileUpload#'.$id,"jQuery(\"#{$id}\").MultiFile({$options});");
 

@@ -66,7 +66,7 @@ class CMaskedTextField extends CInputWidget
 		}
 		$js.="jQuery(\"#{$id}\").mask(\"{$this->mask}\"{$options});";
 
-		$cs=$this->getController()->getClientScript();
+		$cs=Yii::app()->getClientScript();
 		$cs->registerCoreScript('maskedinput');
 		$cs->registerBodyScript('Yii.CMaskedTextField#'.$id,$js);
 
