@@ -25,6 +25,8 @@
  *   // optional, list of usernames (case insensitive) that this rule applies to
  *   // Use * to represent all users, ? guest users, and @ authenticated users
  *   'users'=>array('thomas', 'kevin'),
+ *   // optional, list of roles that this rule applies to
+ *   'roles'=>array('admin', 'editor'),
  *   // optional, list of IP address/patterns that this rule applies to
  *   // e.g. 127.0.0.1, 127.0.0.*
  *   'ips'=>array('127.0.0.1'),
@@ -127,6 +129,15 @@ class CAccessRule extends CComponent
 	 */
 	public $users;
 	/**
+	 * @var array list of roles this rule applies to. For each role, the current user's
+	 * {@link CWebUser::checkAccess} method will be invoked. If one of the invocations
+	 * returns true, the rule will be applied.
+	 * Note, you should mainly use roles in an "allow" rule because by definition,
+	 * a role represents a permission collection.
+	 * @see CAuthManager
+	 */
+	public $roles;
+	/**
 	 * @var array IP patterns.
 	 */
 	public $ips;
@@ -148,6 +159,7 @@ class CAccessRule extends CComponent
 	{
 		if($this->isActionMatched($action)
 			&& $this->isUserMatched($user)
+			&& $this->isRoleMatched($user)
 			&& $this->isIpMatched($ip)
 			&& $this->isVerbMatched($verb))
 			return $this->allow ? 1 : -1;
@@ -173,6 +185,18 @@ class CAccessRule extends CComponent
 			else if($u==='@' && !$user->getIsGuest())
 				return true;
 			else if(!strcasecmp($u,$user->getName()))
+				return true;
+		}
+		return false;
+	}
+
+	private function isRoleMatched($user)
+	{
+		if(empty($this->roles))
+			return true;
+		foreach($this->roles as $role)
+		{
+			if($user->checkAccess($role))
 				return true;
 		}
 		return false;
