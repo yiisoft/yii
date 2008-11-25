@@ -8,6 +8,19 @@
  * @license http://www.yiiframework.com/license/
  */
 
+			'user'=>array(
+				'class'=>'CWebUser',
+			),
+			'themeManager'=>array(
+				'class'=>'CThemeManager',
+			),
+			'authManager'=>array(
+				'class'=>'CPhpAuthManager',
+			),
+			'clientScript'=>array(
+				'class'=>'CClientScript',
+			),
+
 
 /**
  * CWebApplication extends CApplication by providing functionalities specific to Web requests.
@@ -15,10 +28,14 @@
  * CWebApplication manages the controllers in MVC pattern, and provides the following additional
  * core application components:
  * <ul>
- * <li>{@link getUrlManager urlManager}: provides URL parsing and constructing functionality;</li>
- * <li>{@link getRequest request}: encapsulates the Web request information;</li>
- * <li>{@link getSession session}: provides the session-related functionalities;</li>
- * <li>{@link getAssetManager assetManager}: manages the publishing of private asset files.</li>
+ * <li>{@link urlManager}: provides URL parsing and constructing functionality;</li>
+ * <li>{@link request}: encapsulates the Web request information;</li>
+ * <li>{@link session}: provides the session-related functionalities;</li>
+ * <li>{@link assetManager}: manages the publishing of private asset files.</li>
+ * <li>{@link user}: represents the user session information.</li>
+ * <li>{@link themeManager}: manages themes.</li>
+ * <li>{@link authManager}: manages role-based access control (RBAC).</li>
+ * <li>{@link clientScript}: manages client scripts (javascripts and CSS).</li>
  * </ul>
  *
  * User requests are resolved as controller-action pairs and additional parameters.
@@ -182,6 +199,9 @@ class CWebApplication extends CApplication
 			'authManager'=>array(
 				'class'=>'CPhpAuthManager',
 			),
+			'clientScript'=>array(
+				'class'=>'CClientScript',
+			),
 		);
 
 		$this->setComponents($components);
@@ -245,6 +265,15 @@ class CWebApplication extends CApplication
 	public function getViewRenderer()
 	{
 		return $this->getComponent('viewRenderer');
+	}
+
+	/**
+	 * Returns the client script manager.
+	 * @return CClientScript the client script manager
+	 */
+	public function getClientScript()
+	{
+		return $this->getComponent('clientScript');
 	}
 
 	/**
