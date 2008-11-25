@@ -8,20 +8,6 @@
  * @license http://www.yiiframework.com/license/
  */
 
-			'user'=>array(
-				'class'=>'CWebUser',
-			),
-			'themeManager'=>array(
-				'class'=>'CThemeManager',
-			),
-			'authManager'=>array(
-				'class'=>'CPhpAuthManager',
-			),
-			'clientScript'=>array(
-				'class'=>'CClientScript',
-			),
-
-
 /**
  * CWebApplication extends CApplication by providing functionalities specific to Web requests.
  *
