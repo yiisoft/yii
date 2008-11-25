@@ -23,6 +23,7 @@ class CClientScript extends CApplicationComponent
 	 */
 	public $enableJavaScript=true;
 
+	private $_hasScripts=false;
 	private $_packages;
 	private $_dependencies;
 	private $_baseUrl;
@@ -61,6 +62,9 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function render($output)
 	{
+		if(!$this->_hasScripts)
+			return $output;
+
 		$html='';
 		$html2='';
 		foreach($this->_cssFiles as $url=>$media)
@@ -174,12 +178,10 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function registerCoreScript($name)
 	{
-		if(!isset($this->_coreScripts[$name]))
-		{
-			$this->_coreScripts[$name]=$name;
-			$params=func_get_args();
-			Yii::app()->getController()->recordCachingAction('clientScript','registerCoreScript',$params);
-		}
+		$this->_hasScripts=true;
+		$this->_coreScripts[$name]=$name;
+		$params=func_get_args();
+		Yii::app()->getController()->recordCachingAction('clientScript','registerCoreScript',$params);
 	}
 
 	/**
@@ -190,6 +192,7 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function registerCssFile($url,$media='')
 	{
+		$this->_hasScripts=true;
 		$this->_cssFiles[$url]=$media;
 		$params=func_get_args();
 		Yii::app()->getController()->recordCachingAction('clientScript','registerCssFile',$params);
@@ -203,8 +206,8 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function registerCss($id,$css,$media='')
 	{
+		$this->_hasScripts=true;
 		$this->_css[$id]=array($css,$media);
-
 		$params=func_get_args();
 		Yii::app()->getController()->recordCachingAction('clientScript','registerCss',$params);
 	}
@@ -215,12 +218,10 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function registerScriptFile($url)
 	{
-		if(!isset($this->_scriptFiles[$url]))
-		{
-			$this->_scriptFiles[$url]=$url;
-			$params=func_get_args();
-			Yii::app()->getController()->recordCachingAction('clientScript','registerScriptFile',$params);
-		}
+		$this->_hasScripts=true;
+		$this->_scriptFiles[$url]=$url;
+		$params=func_get_args();
+		Yii::app()->getController()->recordCachingAction('clientScript','registerScriptFile',$params);
 	}
 
 	/**
@@ -230,6 +231,7 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function registerScript($id,$script)
 	{
+		$this->_hasScripts=true;
 		$this->_scripts[$id]=$script;
 		$params=func_get_args();
 		Yii::app()->getController()->recordCachingAction('clientScript','registerScript',$params);
@@ -241,12 +243,10 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function registerBodyScriptFile($url)
 	{
-		if(!isset($this->_bodyScriptFiles[$url]))
-		{
-			$this->_bodyScriptFiles[$url]=$url;
-			$params=func_get_args();
-			Yii::app()->getController()->recordCachingAction('clientScript','registerBodyScriptFile',$params);
-		}
+		$this->_hasScripts=true;
+		$this->_bodyScriptFiles[$url]=$url;
+		$params=func_get_args();
+		Yii::app()->getController()->recordCachingAction('clientScript','registerBodyScriptFile',$params);
 	}
 
 	/**
@@ -256,6 +256,7 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function registerBodyScript($id,$script)
 	{
+		$this->_hasScripts=true;
 		$this->_bodyScripts[$id]=$script;
 		$params=func_get_args();
 		Yii::app()->getController()->recordCachingAction('clientScript','registerBodyScript',$params);
