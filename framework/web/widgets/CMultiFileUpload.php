@@ -98,7 +98,7 @@ class CMultiFileUpload extends CWidget
 
 		$cs=Yii::app()->getClientScript();
 		$cs->registerCoreScript('multifile');
-		$cs->registerBodyScript('Yii.CMultiFileUpload#'.$id,"jQuery(\"#{$id}\").MultiFile({$options});");
+		$cs->registerScript('Yii.CMultiFileUpload#'.$id,"jQuery(\"#{$id}\").MultiFile({$options});");
 
 		echo CHtml::fileField($name,'',$this->htmlOptions);
 	}

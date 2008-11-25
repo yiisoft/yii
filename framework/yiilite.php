@@ -2248,7 +2248,7 @@ class CController extends CBaseController
 	}
 	public function processOutput($output)
 	{
-		$output=Yii::app()->getClientScript()->render($output);
+		Yii::app()->getClientScript()->render($output);
 		if($this->_dynamicOutput)
 		{
 			$output=preg_replace_callback('/<###dynamic-(\d+)###>/',array($this,'replaceDynamicOutput'),$output);
@@ -3555,7 +3555,7 @@ class CHtml
 					$handler="return $confirm;";
 				unset($htmlOptions['confirm']);
 			}
-			$cs->registerBodyScript('Yii.CHtml.#'.$id,"jQuery('#$id').$event(function(){{$handler}});");
+			$cs->registerScript('Yii.CHtml.#'.$id,"jQuery('#$id').$event(function(){{$handler}});");
 		}
 	}
 	protected static function resolveNameID($model,&$attribute,&$htmlOptions)
@@ -3643,6 +3643,11 @@ class CWidget extends CBaseController
 }
 class CClientScript extends CApplicationComponent
 {
+	const POS_HEAD=0;
+	const POS_BEGIN=1;
+	const POS_END=2;
+	const POS_LOAD=3;
+	const POS_READY=4;
 	public $enableJavaScript=true;
 	private $_hasScripts=false;
 	private $_packages;
@@ -3653,8 +3658,6 @@ class CClientScript extends CApplicationComponent
 	private $_css=array();
 	private $_scriptFiles=array();
 	private $_scripts=array();
-	private $_bodyScriptFiles=array();
-	private $_bodyScripts=array();
 	public function reset()
 	{
 		$this->_hasScripts=false;
@@ -3663,20 +3666,26 @@ class CClientScript extends CApplicationComponent
 		$this->_css=array();
 		$this->_scriptFiles=array();
 		$this->_scripts=array();
-		$this->_bodyScriptFiles=array();
-		$this->_bodyScripts=array();
 		Yii::app()->getController()->recordCachingAction('clientScript','reset',array());
 	}
-	public function render($output)
+	public function render(&$output)
 	{
 		if(!$this->_hasScripts)
-			return $output;
+			return;
+		$this->renderHead($output);
+		if($this->enableJavaScript)
+		{
+			$this->renderBodyBegin($output);
+			$this->renderBodyEnd($output);
+		}
+	}
+	protected function renderHead(&$output)
+	{
 		$html='';
-		$html2='';
 		foreach($this->_cssFiles as $url=>$media)
 			$html.=CHtml::cssFile($url,$media)."\n";
 		foreach($this->_css as $css)
-			$html.=CHtml::cssFile($css[0],$css[1])."\n";
+			$html.=CHtml::css($css[0],$css[1])."\n";
 		if($this->enableJavaScript)
 		{
 			foreach($this->_coreScripts as $name)
@@ -3684,30 +3693,59 @@ class CClientScript extends CApplicationComponent
 				if(is_string($name))
 					$html.=$this->renderCoreScript($name);
 			}
-			foreach($this->_scriptFiles as $scriptFile)
-				$html.=CHtml::scriptFile($scriptFile)."\n";
-			if(!empty($this->_scripts))
-				$html.=CHtml::script(implode("\n",$this->_scripts))."\n";
-			foreach($this->_bodyScriptFiles as $scriptFile)
-				$html2.=CHtml::scriptFile($scriptFile)."\n";
-			if(!empty($this->_bodyScripts))
-				$html2.=CHtml::script(implode("\n",$this->_bodyScripts))."\n";
+			if(isset($this->_scriptFiles[self::POS_HEAD]))
+			{
+				foreach($this->_scriptFiles[self::POS_HEAD] as $scriptFile)
+					$html.=CHtml::scriptFile($scriptFile)."\n";
+			}
+			if(isset($this->_scripts[self::POS_HEAD]))
+				$html.=CHtml::script(implode("\n",$this->_scripts[self::POS_HEAD]))."\n";
 		}
 		if($html!=='')
 		{
-			$output=preg_replace('/(<head\s*>.*?)(<title\s*>)/is','$1'.$html.'$2',$output,1,$count);
-			if(!$count)
-				$output=preg_replace('/(<head\s*>.*?)(<\\/head\s*>)/is','$1'.$html.'$2',$output,1,$count);
+			$output=preg_replace('/(<title\b[^>]*>|<\\/head\s*>)/is',$html.'$1',$output,1,$count);
 			if(!$count)
 				$output=$html.$output;
 		}
-		if($html2!=='')
+	}
+	protected function renderBodyBegin(&$output)
+	{
+		$html='';
+		if(isset($this->_scriptFiles[self::POS_BEGIN]))
 		{
-			$output=preg_replace('/(<\\/body\s*>.*?<\/html\s*>)/is',$html2.'$1',$output,1,$count);
-			if(!$count)
-				$output.=$html2;
+			foreach($this->_scriptFiles[self::POS_BEGIN] as $scriptFile)
+				$html.=CHtml::scriptFile($scriptFile)."\n";
 		}
-		return $output;
+		if(isset($this->_scripts[self::POS_BEGIN]))
+			$html.=CHtml::script(implode("\n",$this->_scripts[self::POS_BEGIN]))."\n";
+		if($html!=='')
+		{
+			$output=preg_replace('/(<body\b[^>]*>)/is','$1'.$html,$output,1,$count);
+			if(!$count)
+				$output=$html.$output;
+		}
+	}
+	protected function renderBodyEnd(&$output)
+	{
+		$html='';
+		if(isset($this->_scriptFiles[self::POS_END]))
+		{
+			foreach($this->_scriptFiles[self::POS_END] as $scriptFile)
+				$html.=CHtml::scriptFile($scriptFile)."\n";
+		}
+		$scripts=isset($this->_scripts[self::POS_END]) ? $this->_scripts[self::POS_END] : array();
+		if(isset($this->_scripts[self::POS_READY]))
+			$scripts[]="jQuery(document).ready(function() {\n".implode("\n",$this->_scripts[self::POS_READY])."\n});";
+		if(isset($this->_scripts[self::POS_LOAD]))
+			$scripts[]="window.onload=function() {\n".implode("\n",$this->_scripts[self::POS_LOAD])."\n};";
+		if(!empty($scripts))
+			$html.=CHtml::script(implode("\n",$scripts))."\n";
+		if($html!=='')
+		{
+			$output=preg_replace('/(<\\/body\s*>)/is',$html.'$1',$output,1,$count);
+			if(!$count)
+				$output=$output.$html;
+		}
 	}
 	public function getCoreScriptUrl()
 	{
@@ -3771,33 +3809,21 @@ class CClientScript extends CApplicationComponent
 		$params=func_get_args();
 		Yii::app()->getController()->recordCachingAction('clientScript','registerCss',$params);
 	}
-	public function registerScriptFile($url)
+	public function registerScriptFile($url,$position=self::POS_HEAD)
 	{
 		$this->_hasScripts=true;
-		$this->_scriptFiles[$url]=$url;
+		$this->_scriptFiles[$position][$url]=$url;
 		$params=func_get_args();
 		Yii::app()->getController()->recordCachingAction('clientScript','registerScriptFile',$params);
 	}
-	public function registerScript($id,$script)
+	public function registerScript($id,$script,$position=self::POS_READY)
 	{
 		$this->_hasScripts=true;
-		$this->_scripts[$id]=$script;
+		$this->_scripts[$position][$id]=$script;
+		if($position===self::POS_READY)
+			$this->registerCoreScript('jquery');
 		$params=func_get_args();
 		Yii::app()->getController()->recordCachingAction('clientScript','registerScript',$params);
-	}
-	public function registerBodyScriptFile($url)
-	{
-		$this->_hasScripts=true;
-		$this->_bodyScriptFiles[$url]=$url;
-		$params=func_get_args();
-		Yii::app()->getController()->recordCachingAction('clientScript','registerBodyScriptFile',$params);
-	}
-	public function registerBodyScript($id,$script)
-	{
-		$this->_hasScripts=true;
-		$this->_bodyScripts[$id]=$script;
-		$params=func_get_args();
-		Yii::app()->getController()->recordCachingAction('clientScript','registerBodyScript',$params);
 	}
 	public function isCssFileRegistered($url)
 	{
@@ -3807,21 +3833,13 @@ class CClientScript extends CApplicationComponent
 	{
 		return isset($this->_css[$id]);
 	}
-	public function isScriptFileRegistered($url)
+	public function isScriptFileRegistered($url,$position=self::POS_HEAD)
 	{
-		return isset($this->_scriptFiles[$url]);
+		return isset($this->_bodyScriptFiles[$position][$url]);
 	}
-	public function isScriptRegistered($id)
+	public function isScriptRegistered($id,$position=self::POS_READY)
 	{
-		return isset($this->_scripts[$id]);
-	}
-	public function isBodyScriptFileRegistered($url)
-	{
-		return isset($this->_bodyScriptFiles[$url]);
-	}
-	public function isBodyScriptRegistered($id)
-	{
-		return isset($this->_bodyScripts[$id]);
+		return isset($this->_scripts[$position][$id]);
 	}
 }
 class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countable

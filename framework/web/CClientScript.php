@@ -19,6 +19,27 @@
 class CClientScript extends CApplicationComponent
 {
 	/**
+	 * The script is rendered in the head section.
+	 */
+	const POS_HEAD=0;
+	/**
+	 * The script is rendered at the beginning of the body section.
+	 */
+	const POS_BEGIN=1;
+	/**
+	 * The script is rendered at the end of the body section.
+	 */
+	const POS_END=2;
+	/**
+	 * The script is rendered inside window onload function.
+	 */
+	const POS_LOAD=3;
+	/**
+	 * The body script is rendered inside a jQuery ready function.
+	 */
+	const POS_READY=4;
+
+	/**
 	 * @var boolean whether JavaScript should be enabled. Defaults to true.
 	 */
 	public $enableJavaScript=true;
@@ -32,9 +53,6 @@ class CClientScript extends CApplicationComponent
 	private $_css=array();
 	private $_scriptFiles=array();
 	private $_scripts=array();
-	private $_bodyScriptFiles=array();
-	private $_bodyScripts=array();
-
 
 	/**
 	 * Cleans all registered scripts.
@@ -47,8 +65,6 @@ class CClientScript extends CApplicationComponent
 		$this->_css=array();
 		$this->_scriptFiles=array();
 		$this->_scripts=array();
-		$this->_bodyScriptFiles=array();
-		$this->_bodyScripts=array();
 
 		Yii::app()->getController()->recordCachingAction('clientScript','reset',array());
 	}
@@ -59,19 +75,31 @@ class CClientScript extends CApplicationComponent
 	 * rendering content. CClientScript thus gets a chance to insert script tags
 	 * at <code>head</code> and <code>body</code> sections in the HTML output.
 	 * @param string the existing output that needs to be inserted with script tags
-	 * @return string the modified output
 	 */
-	public function render($output)
+	public function render(&$output)
 	{
 		if(!$this->_hasScripts)
-			return $output;
+			return;
 
+		$this->renderHead($output);
+		if($this->enableJavaScript)
+		{
+			$this->renderBodyBegin($output);
+			$this->renderBodyEnd($output);
+		}
+	}
+
+	/**
+	 * Inserts the scripts in the head section.
+	 * @param string the output to be inserted with scripts.
+	 */
+	protected function renderHead(&$output)
+	{
 		$html='';
-		$html2='';
 		foreach($this->_cssFiles as $url=>$media)
 			$html.=CHtml::cssFile($url,$media)."\n";
 		foreach($this->_css as $css)
-			$html.=CHtml::cssFile($css[0],$css[1])."\n";
+			$html.=CHtml::css($css[0],$css[1])."\n";
 		if($this->enableJavaScript)
 		{
 			foreach($this->_coreScripts as $name)
@@ -80,38 +108,80 @@ class CClientScript extends CApplicationComponent
 					$html.=$this->renderCoreScript($name);
 			}
 
-			foreach($this->_scriptFiles as $scriptFile)
-				$html.=CHtml::scriptFile($scriptFile)."\n";
+			if(isset($this->_scriptFiles[self::POS_HEAD]))
+			{
+				foreach($this->_scriptFiles[self::POS_HEAD] as $scriptFile)
+					$html.=CHtml::scriptFile($scriptFile)."\n";
+			}
 
-			if(!empty($this->_scripts))
-				$html.=CHtml::script(implode("\n",$this->_scripts))."\n";
-
-			foreach($this->_bodyScriptFiles as $scriptFile)
-				$html2.=CHtml::scriptFile($scriptFile)."\n";
-			if(!empty($this->_bodyScripts))
-				$html2.=CHtml::script(implode("\n",$this->_bodyScripts))."\n";
+			if(isset($this->_scripts[self::POS_HEAD]))
+				$html.=CHtml::script(implode("\n",$this->_scripts[self::POS_HEAD]))."\n";
 		}
 
 		if($html!=='')
 		{
-			$output=preg_replace('/(<head\s*>.*?)(<title\s*>)/is','$1'.$html.'$2',$output,1,$count);
-			if(!$count)
-				$output=preg_replace('/(<head\s*>.*?)(<\\/head\s*>)/is','$1'.$html.'$2',$output,1,$count);
+			$output=preg_replace('/(<title\b[^>]*>|<\\/head\s*>)/is',$html.'$1',$output,1,$count);
 			if(!$count)
 				$output=$html.$output;
 		}
-
-		if($html2!=='')
-		{
-			$output=preg_replace('/(<\\/body\s*>.*?<\/html\s*>)/is',$html2.'$1',$output,1,$count);
-			if(!$count)
-				$output.=$html2;
-		}
-
-		return $output;
 	}
 
 	/**
+	 * Inserts the scripts at the beginning of the body section.
+	 * @param string the output to be inserted with scripts.
+	 */
+	protected function renderBodyBegin(&$output)
+	{
+		$html='';
+		if(isset($this->_scriptFiles[self::POS_BEGIN]))
+		{
+			foreach($this->_scriptFiles[self::POS_BEGIN] as $scriptFile)
+				$html.=CHtml::scriptFile($scriptFile)."\n";
+		}
+		if(isset($this->_scripts[self::POS_BEGIN]))
+			$html.=CHtml::script(implode("\n",$this->_scripts[self::POS_BEGIN]))."\n";
+
+		if($html!=='')
+		{
+			$output=preg_replace('/(<body\b[^>]*>)/is','$1'.$html,$output,1,$count);
+			if(!$count)
+				$output=$html.$output;
+		}
+	}
+
+	/**
+	 * Inserts the scripts at the end of the body section.
+	 * @param string the output to be inserted with scripts.
+	 */
+	protected function renderBodyEnd(&$output)
+	{
+		$html='';
+		if(isset($this->_scriptFiles[self::POS_END]))
+		{
+			foreach($this->_scriptFiles[self::POS_END] as $scriptFile)
+				$html.=CHtml::scriptFile($scriptFile)."\n";
+		}
+
+		$scripts=isset($this->_scripts[self::POS_END]) ? $this->_scripts[self::POS_END] : array();
+		if(isset($this->_scripts[self::POS_READY]))
+			$scripts[]="jQuery(document).ready(function() {\n".implode("\n",$this->_scripts[self::POS_READY])."\n});";
+		if(isset($this->_scripts[self::POS_LOAD]))
+			$scripts[]="window.onload=function() {\n".implode("\n",$this->_scripts[self::POS_LOAD])."\n};";
+		if(!empty($scripts))
+			$html.=CHtml::script(implode("\n",$scripts))."\n";
+
+		if($html!=='')
+		{
+			$output=preg_replace('/(<\\/body\s*>)/is',$html.'$1',$output,1,$count);
+			if(!$count)
+				$output=$output.$html;
+		}
+	}
+
+	/**
+	 * Returns the base URL of all core javascript files.
+	 * If the base URL is not explicitly set, this method will publish the whole directory
+	 * 'framework/web/js/source' and return the corresponding URL.
 	 * @return string the base URL of all core javascript files
 	 */
 	public function getCoreScriptUrl()
@@ -214,53 +284,44 @@ class CClientScript extends CApplicationComponent
 	}
 
 	/**
-	 * Registers a javascript file that should be inserted in the head section
+	 * Registers a javascript file.
 	 * @param string URL of the javascript file
+	 * @param integer the position of the JavaScript code. Valid values include the following:
+	 * <ul>
+	 * <li>CClientScript::POS_HEAD : the script is inserted in the head section.</li>
+	 * <li>CClientScript::POS_BEGIN : the script is inserted at the beginning of the body section.</li>
+	 * <li>CClientScript::POS_END : the script is inserted at the end of the body section.</li>
+	 * </ul>
 	 */
-	public function registerScriptFile($url)
+	public function registerScriptFile($url,$position=self::POS_HEAD)
 	{
 		$this->_hasScripts=true;
-		$this->_scriptFiles[$url]=$url;
+		$this->_scriptFiles[$position][$url]=$url;
 		$params=func_get_args();
 		Yii::app()->getController()->recordCachingAction('clientScript','registerScriptFile',$params);
 	}
 
 	/**
-	 * Registers a piece of javascript code that should be inserted in the head section
+	 * Registers a piece of javascript code.
 	 * @param string ID that uniquely identifies this piece of JavaScript code
 	 * @param string the javascript code
+	 * @param integer the position of the JavaScript code. Valid values include the following:
+	 * <ul>
+	 * <li>CClientScript::POS_HEAD : the script is inserted in the head section.</li>
+	 * <li>CClientScript::POS_BEGIN : the script is inserted at the beginning of the body section.</li>
+	 * <li>CClientScript::POS_END : the script is inserted at the end of the body section.</li>
+	 * <li>CClientScript::POS_LOAD : the script is inserted in the window.onload() function.</li>
+	 * <li>CClientScript::POS_READY : the script is inserted in the jQuery's ready function.</li>
+	 * </ul>
 	 */
-	public function registerScript($id,$script)
+	public function registerScript($id,$script,$position=self::POS_READY)
 	{
 		$this->_hasScripts=true;
-		$this->_scripts[$id]=$script;
+		$this->_scripts[$position][$id]=$script;
+		if($position===self::POS_READY)
+			$this->registerCoreScript('jquery');
 		$params=func_get_args();
 		Yii::app()->getController()->recordCachingAction('clientScript','registerScript',$params);
-	}
-
-	/**
-	 * Registers a javascript file that should be inserted in the body section
-	 * @param string URL of the javascript file
-	 */
-	public function registerBodyScriptFile($url)
-	{
-		$this->_hasScripts=true;
-		$this->_bodyScriptFiles[$url]=$url;
-		$params=func_get_args();
-		Yii::app()->getController()->recordCachingAction('clientScript','registerBodyScriptFile',$params);
-	}
-
-	/**
-	 * Registers a piece of javascript code that should be inserted in the body section
-	 * @param string ID that uniquely identifies this piece of JavaScript code
-	 * @param string the javascript code
-	 */
-	public function registerBodyScript($id,$script)
-	{
-		$this->_hasScripts=true;
-		$this->_bodyScripts[$id]=$script;
-		$params=func_get_args();
-		Yii::app()->getController()->recordCachingAction('clientScript','registerBodyScript',$params);
 	}
 
 	/**
@@ -284,42 +345,36 @@ class CClientScript extends CApplicationComponent
 	}
 
 	/**
-	 * Checks whether the CSS code has been registered in the head section.
+	 * Checks whether the JavaScript file has been registered.
 	 * @param string URL of the javascript file
+	 * @param integer the position of the JavaScript code. Valid values include the following:
+	 * <ul>
+	 * <li>CClientScript::POS_HEAD : the script is inserted in the head section.</li>
+	 * <li>CClientScript::POS_BEGIN : the script is inserted at the beginning of the body section.</li>
+	 * <li>CClientScript::POS_END : the script is inserted at the end of the body section.</li>
+	 * </ul>
 	 * @return boolean whether the javascript file is already registered
 	 */
-	public function isScriptFileRegistered($url)
+	public function isScriptFileRegistered($url,$position=self::POS_HEAD)
 	{
-		return isset($this->_scriptFiles[$url]);
+		return isset($this->_bodyScriptFiles[$position][$url]);
 	}
 
 	/**
-	 * Checks whether the JavaScript code has been registered in the head section.
+	 * Checks whether the JavaScript code has been registered.
 	 * @param string ID that uniquely identifies the JavaScript code
+	 * @param integer the position of the JavaScript code. Valid values include the following:
+	 * <ul>
+	 * <li>CClientScript::POS_HEAD : the script is inserted in the head section.</li>
+	 * <li>CClientScript::POS_BEGIN : the script is inserted at the beginning of the body section.</li>
+	 * <li>CClientScript::POS_END : the script is inserted at the end of the body section.</li>
+	 * <li>CClientScript::POS_LOAD : the script is inserted in the window.onload() function.</li>
+	 * <li>CClientScript::POS_READY : the script is inserted in the jQuery's ready function.</li>
+	 * </ul>
 	 * @return boolean whether the javascript code is already registered
 	 */
-	public function isScriptRegistered($id)
+	public function isScriptRegistered($id,$position=self::POS_READY)
 	{
-		return isset($this->_scripts[$id]);
-	}
-
-	/**
-	 * Checks whether the JavaScript file has been registered in the body section.
-	 * @param string URL of the javascript file
-	 * @return boolean whether the javascript file is already registered
-	 */
-	public function isBodyScriptFileRegistered($url)
-	{
-		return isset($this->_bodyScriptFiles[$url]);
-	}
-
-	/**
-	 * Checks whether the JavaScript code has been registered in the body section.
-	 * @param string ID that uniquely identifies the JavaScript code
-	 * @return boolean whether the javascript code is already registered
-	 */
-	public function isBodyScriptRegistered($id)
-	{
-		return isset($this->_bodyScripts[$id]);
+		return isset($this->_scripts[$position][$id]);
 	}
 }

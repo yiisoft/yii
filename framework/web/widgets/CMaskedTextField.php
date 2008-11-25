@@ -68,7 +68,7 @@ class CMaskedTextField extends CInputWidget
 
 		$cs=Yii::app()->getClientScript();
 		$cs->registerCoreScript('maskedinput');
-		$cs->registerBodyScript('Yii.CMaskedTextField#'.$id,$js);
+		$cs->registerScript('Yii.CMaskedTextField#'.$id,$js);
 
 		if($this->hasModel())
 			echo CHtml::activeTextField($this->model,$this->attribute,$this->htmlOptions);

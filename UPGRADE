@@ -11,8 +11,11 @@ for both A and B.
 
 Upgrading from v1.0rc
 ---------------------
-- CLinkPager is changed significantly in appearance and the generated HTML code.
+- CLinkPager is changed significantly in both the appearance and the generated HTML code.
 - CController::clientScript is removed. Please use Yii::app()->clientScript instead.
+- CClientScript is changed. The methods registerBodyScript() and
+  registerBodyScriptFile() are removed. Please use registerScript() and
+  registerScriptFile() with appropriate position parameter.
 
 
 Upgrading from v1.0b
