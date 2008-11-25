@@ -100,7 +100,7 @@ class MyWidget extends CWidget
 	protected function registerClientScript()
 	{
 		// ...publish CSS or JavaScript file here...
-		$cs=$this->controller->clientScript;
+		$cs=Yii::app()->clientScript;
 		$cs->registerCssFile($cssFile);
 		$cs->registerScriptFile($jsFile);
 	}
