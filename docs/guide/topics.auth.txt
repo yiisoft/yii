@@ -176,7 +176,7 @@ class PostController extends CController
 			),
 			array('deny',
 				'actions'=>array('delete'),
-				'roles'=>array('*'),
+				'users'=>array('*'),
 			),
 		);
 	}

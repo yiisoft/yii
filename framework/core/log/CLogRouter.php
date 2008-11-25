@@ -26,12 +26,12 @@
  *             'routes'=>array(
  *                 array(
  *                     'class'=>'CFileLogRoute',
- *                     'level'=>'trace, info',
- *                     'category'=>'system.*',
+ *                     'levels'=>'trace, info',
+ *                     'categories'=>'system.*',
  *                 ),
  *                 array(
  *                     'class'=>'CEmailLogRoute',
- *                     'level'=>'error, warning',
+ *                     'levels'=>'error, warning',
  *                     'email'=>'admin@example.com',
  *                 ),
  *             ),
