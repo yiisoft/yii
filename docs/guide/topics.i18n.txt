@@ -188,7 +188,7 @@ timestamp.
 
    - [format|CDateFormatter::format]: this method formats the given UNIX
 timestamp into a string according to a customized pattern (e.g.
-`$formatter->format('yyyy-MM-dd',$timestamp)`).
+`$dateFormatter->format('yyyy-MM-dd',$timestamp)`).
 
    - [formatDateTime|CDateFormatter::formatDateTime]: this method formats
 the given UNIX timestamp into a string according to a pattern predefined in
@@ -213,7 +213,7 @@ integer or double value.
 
    - [format|CNumberFormatter::format]: this method formats the given
 number into a string according to a customized pattern (e.g.
-`$formatter->format('#,##0.00',$number)`).
+`$numberFormatter->format('#,##0.00',$number)`).
 
    - [formatDecimal|CNumberFormatter::formatDecimal]: this method formats
 the given number using the decimal pattern predefined in the target locale
