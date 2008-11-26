@@ -40,18 +40,18 @@ one AR class is related with another.
 Relationship between two AR classes is directly associated with the
 relationship between the database tables represented by the AR classes.
 From database point of view, a relationship between two tables A and B has
-three types: one-to-many (e.g. `Author` and `Post`), one-to-one (e.g.
+three types: one-to-many (e.g. `User` and `Post`), one-to-one (e.g.
 `User` and `Profile`) and many-to-many (e.g. `Category` and `Post`). In AR,
 there are four types of relationships:
 
    - `BELONGS_TO`: if the relationship between table A and B is
-one-to-many, then B belongs to A (e.g. `Post` belongs to `Author`);
+one-to-many, then B belongs to A (e.g. `Post` belongs to `User`);
 
    - `HAS_MANY`: if the relationship between table A and B is one-to-many,
-then A has many B (e.g. `Author` has many `Post`);
+then A has many B (e.g. `User` has many `Post`);
 
    - `HAS_ONE`: this is special case of `HAS_MANY` where A has at most one
-B (e.g. `Author` has at most one `Profile`);
+B (e.g. `User` has at most one `Profile`);
 
    - `MANY_MANY`: this corresponds to the many-to-many relationship in
 database. An associative table is needed to break a many-to-many
@@ -79,7 +79,7 @@ AR class; and `ForeignKey` specifies the foreign key(s) involved in the
 relationship. Additional options can be specified at the end for each
 relationship (to be described later).
 
-The following code shows how we declare the relationships for the `Author`
+The following code shows how we declare the relationships for the `User`
 and `Post` classes.
 
 ~~~
@@ -89,13 +89,13 @@ class Post extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'author'=>array(self::BELONGS_TO, 'Author', 'authorID'),
+			'author'=>array(self::BELONGS_TO, 'User', 'authorID'),
 			'categories'=>array(self::MANY_MANY, 'Category', 'PostCategory(postID, categoryID)'),
 		);
 	}
 }
 
-class Author extends CActiveRecord
+class User extends CActiveRecord
 {
 	public function relations()
 	{
@@ -117,7 +117,7 @@ foreign key `PostCategory(postID, categoryID)`.
 The declaration of relationships in an AR class implicitly adds a property
 to the class for each relationship. After a relational query is performed,
 the corresponding property will be populated with the related AR
-instance(s). For example, if `$author` represents an `Author` AR instance,
+instance(s). For example, if `$author` represents a `User` AR instance,
 we can use `$author->posts` to access its related `Post` instances.
 
 Performing Relational Query
@@ -164,7 +164,7 @@ $posts=Post::model()->with('author')->findAll();
 
 The above code will return an array of `Post` instances. Unlike the lazy
 approach, the `author` property in each `Post` instance is already
-populated with the related `Author` instance before we access the property.
+populated with the related `User` instance before we access the property.
 Instead of executing a join query for each post, the eager loading approach
 brings back all posts together with their authors in a single join query!
 
@@ -249,12 +249,12 @@ to `BELONGS_TO` relation.
    - `offset`: offset of the rows to be selected. This option does NOT
 apply to `BELONGS_TO` relation.
 
-Below we modify the `posts` relationship declaration in the `Author` by
+Below we modify the `posts` relationship declaration in the `User` by
 including some of the above options:
 
 ~~~
 [php]
-class Author extends CActiveRecord
+class User extends CActiveRecord
 {
 	public function relations()
 	{
