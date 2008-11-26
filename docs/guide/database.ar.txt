@@ -252,6 +252,19 @@ Note, when using [CDbCriteria] as query condition, the `$params` parameter
 is no longer needed since it can be specified in [CDbCriteria], as shown
 above.
 
+An alternative way to [CDbCriteria] is passing an array to the `find` method.
+The array keys and values correspond to the criteria's property name and value,
+respectively. The above example can be rewritten as follows,
+
+~~~
+[php]
+$post=Post::model()->find(array(
+	'select'=>'title',
+	'condition'=>'postID=:postID',
+	'params'=>array(':postID'=>10),
+));
+~~~
+
 > Info: When a query condition is about matching some columns with the
 specified values, we can use
 [findByAttributes()|CActiveRecord::findByAttributes]. We let the
