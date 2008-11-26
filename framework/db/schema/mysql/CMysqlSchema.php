@@ -42,6 +42,19 @@ class CMysqlSchema extends CDbSchema
 	}
 
 	/**
+	 * Compares two table names.
+	 * The table names can be either quoted or unquoted. This method
+	 * will consider both cases.
+	 * @param string table name 1
+	 * @param string table name 2
+	 * @return boolean whether the two table names refer to the same table.
+	 */
+	public function compareTableNames($name1,$name2)
+	{
+		return parent::compareTableNames(strtolower($name1),strtolower($name2));
+	}
+
+	/**
 	 * Creates a table instance representing the metadata for the named table.
 	 * @return CMysqlTableSchema driver dependent table metadata. Null if the table does not exist.
 	 */
