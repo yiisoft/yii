@@ -591,9 +591,9 @@ class CJoinElement
 					if(isset($joinTable->foreignKeys[$fk]))
 					{
 						list($tableName,$pk)=$joinTable->foreignKeys[$fk];
-						if($this->tableMatch($schema,$parent->_table,$tableName))
+						if($schema->compareTableNames($parent->_table->rawName,$tableName))
 							$parentCondition[]=$parent->getColumnPrefix().$schema->quoteColumnName($pk).'='.$joinAlias.'.'.$schema->quoteColumnName($fk);
-						else if($this->tableMatch($schema,$this->_table,$tableName))
+						else if($schema->compareTableNames($this->_table->rawName,$tableName))
 							$childCondition[]=$this->getColumnPrefix().$schema->quoteColumnName($pk).'='.$joinAlias.'.'.$schema->quoteColumnName($fk);
 						else
 							throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". The foreign key does not point to either joining table.',
@@ -654,21 +654,10 @@ class CJoinElement
 		if(isset($fke->_table->foreignKeys[$fk]))
 		{
 			list($name,$pk)=$fke->_table->foreignKeys[$fk];
-			if($this->tableMatch($schema,$pke->_table,$name))
+			if($schema->compareTableNames($pke->_table->rawName,$name))
 				return $fke->getColumnPrefix().$schema->quoteColumnName($fk) . '=' . $pke->getColumnPrefix().$schema->quoteColumnName($pk);
 		}
 		return null;
-	}
-
-	private function tableMatch($schema,$table,$name)
-	{
-		if(strpos($name,'.')===false)
-			return $table->name===$name;
-		else
-		{
-			$table2=$schema->getTable($name);
-			return $table->rawName===$table2->rawName;
-		}
 	}
 }
 

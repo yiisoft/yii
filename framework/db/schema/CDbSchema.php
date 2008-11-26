@@ -123,4 +123,19 @@ abstract class CDbSchema extends CComponent
 	{
 		return '"'.$name.'"';
 	}
+
+	/**
+	 * Compares two table names.
+	 * The table names can be either quoted or unquoted. This method
+	 * will consider both cases.
+	 * @param string table name 1
+	 * @param string table name 2
+	 * @return boolean whether the two table names refer to the same table.
+	 */
+	public function compareTableNames($name1,$name2)
+	{
+		$name1=str_replace(array('"','`',"'"),'',$name1);
+		$name2=str_replace(array('"','`',"'"),'',$name2);
+		return $name1===$name2;
+	}
 }
