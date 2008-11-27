@@ -27,6 +27,7 @@ Version 1.0 to be released
 - Fixed a bug in CHtml::dropDownList() which doesn't render the 'name' attribute (Qiang)
 - Fixed a bug when MySQL tables are using mixed-case letters in their names, relational
   active record fails to work as expected. (Qiang)
+- Fixed a bug in CDateFormatter::formatDateTime that causes the method to return null (Qiang)
 
 Version 1.0rc November 10, 2008
 -------------------------------

@@ -104,13 +104,13 @@ class CDateFormatter extends CComponent
 	 * If null, it means the time portion will NOT appear in the formatting result
 	 * @return string formatted date time.
 	 */
-	public function formatDateTime($time,$dateWidth='medium',$timeWidth='medium')
+	public function formatDateTime($timestamp,$dateWidth='medium',$timeWidth='medium')
 	{
 		if(!empty($dateWidth))
-			$date=$this->format($this->_locale->getDateFormat($dateWidth),$time);
+			$date=$this->format($this->_locale->getDateFormat($dateWidth),$timestamp);
 
 		if(!empty($timeWidth))
-			$time=$this->format($this->_locale->getTimeFormat($timeWidth),$time);
+			$time=$this->format($this->_locale->getTimeFormat($timeWidth),$timestamp);
 
 		if(isset($date) && isset($time))
 		{
