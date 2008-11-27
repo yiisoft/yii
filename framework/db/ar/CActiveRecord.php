@@ -776,9 +776,11 @@ abstract class CActiveRecord extends CModel
 	 * Performs the validation.
 	 * This method executes every validation rule as declared in {@link rules}.
 	 * Errors found during the validation can be retrieved via {@link getErrors}.
+	 * @param array the list of attributes to be validated. Defaults to null,
+	 * meaning every attribute as listed in {@link rules} will be validated.
 	 * @return boolean whether the validation is successful without any error.
 	 */
-	public function validate()
+	public function validate($attributes=null)
 	{
 		$this->clearErrors();
 		if($this->beforeValidate())
@@ -786,7 +788,7 @@ abstract class CActiveRecord extends CModel
 			foreach($this->getMetaData()->getValidators() as $validator)
 			{
 				if($validator->on===null || ($validator->on==='insert')===$this->isNewRecord)
-					$validator->validate($this);
+					$validator->validate($this,$attributes);
 			}
 			$this->afterValidate();
 			return !$this->hasErrors();
