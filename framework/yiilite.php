@@ -4196,12 +4196,14 @@ class CAccessRule extends CComponent
 	public $allow;
 	public $actions;
 	public $users;
+	public $roles;
 	public $ips;
 	public $verbs;
 	public function isUserAllowed($user,$action,$ip,$verb)
 	{
 		if($this->isActionMatched($action)
 			&& $this->isUserMatched($user)
+			&& $this->isRoleMatched($user)
 			&& $this->isIpMatched($ip)
 			&& $this->isVerbMatched($verb))
 			return $this->allow ? 1 : -1;
@@ -4229,6 +4231,17 @@ class CAccessRule extends CComponent
 		}
 		return false;
 	}
+	private function isRoleMatched($user)
+	{
+		if(empty($this->roles))
+			return true;
+		foreach($this->roles as $role)
+		{
+			if($user->checkAccess($role))
+				return true;
+		}
+		return false;
+	}
 	private function isIpMatched($ip)
 	{
 		if(empty($this->ips))
@@ -4248,13 +4261,13 @@ class CAccessRule extends CComponent
 abstract class CModel extends CComponent
 {
 	private $_errors=array();	// attribute name => array of errors
-	public function validate()
+	public function validate($attributes=null)
 	{
 		$this->clearErrors();
 		if($this->beforeValidate())
 		{
 			foreach($this->createValidators() as $validator)
-				$validator->validate($this);
+				$validator->validate($this,$attributes);
 			$this->afterValidate();
 			return !$this->hasErrors();
 		}
@@ -4498,15 +4511,20 @@ abstract class CActiveRecord extends CModel
 		else if(!isset($this->_related[$name]))
 			$this->_related[$name]=$record;
 	}
-	public function getAttributes($returnAll=true)
+	public function getAttributes($names=true)
 	{
 		$attributes=$this->_attributes;
 		foreach($this->getMetaData()->columns as $name=>$column)
 		{
 			if(property_exists($this,$name))
 				$attributes[$name]=$this->$name;
-			else if($returnAll && !isset($attributes[$name]))
+			else if($names===true && !isset($attributes[$name]))
 				$attributes[$name]=null;
+		}
+		if(is_array($names))
+		{
+			foreach($names as $name)
+				unset($attributes[$name]);
 		}
 		return $attributes;
 	}
@@ -4533,19 +4551,19 @@ abstract class CActiveRecord extends CModel
 			}
 		}
 	}
-	public function save($runValidation=true)
+	public function save($runValidation=true,$attributes=null)
 	{
-		if(!$runValidation || $this->validate())
+		if(!$runValidation || $this->validate($attributes))
 		{
 			if($this->isNewRecord)
-				return $this->insert();
+				return $this->insert($attributes);
 			else
-				return $this->update();
+				return $this->update($attributes);
 		}
 		else
 			return false;
 	}
-	public function validate()
+	public function validate($attributes=null)
 	{
 		$this->clearErrors();
 		if($this->beforeValidate())
@@ -4553,7 +4571,7 @@ abstract class CActiveRecord extends CModel
 			foreach($this->getMetaData()->getValidators() as $validator)
 			{
 				if($validator->on===null || ($validator->on==='insert')===$this->isNewRecord)
-					$validator->validate($this);
+					$validator->validate($this,$attributes);
 			}
 			$this->afterValidate();
 			return !$this->hasErrors();
@@ -4581,7 +4599,7 @@ abstract class CActiveRecord extends CModel
 	protected function afterFind()
 	{
 	}
-	protected function insert()
+	public function insert($attributes=null)
 	{
 		if(!$this->isNewRecord)
 			throw new CDbException(Yii::t('yii','The active record cannot be inserted to database because it is not new.'));
@@ -4589,7 +4607,7 @@ abstract class CActiveRecord extends CModel
 		{
 			$builder=$this->getCommandBuilder();
 			$table=$this->getMetaData()->tableSchema;
-			$command=$builder->createInsertCommand($table,$this->getAttributes(false));
+			$command=$builder->createInsertCommand($table,$this->getAttributes($attributes));
 			if($command->execute())
 			{
 				$primaryKey=$table->primaryKey;
@@ -4605,13 +4623,13 @@ abstract class CActiveRecord extends CModel
 		else
 			return false;
 	}
-	protected function update()
+	public function update($attributes=null)
 	{
 		if($this->isNewRecord)
 			throw new CDbException(Yii::t('yii','The active record cannot be updated because it is new.'));
 		if($this->beforeSave())
 		{
-			$result=$this->updateByPk($this->getPrimaryKey(),$this->getAttributes(false))>0;
+			$result=$this->updateByPk($this->getPrimaryKey(),$this->getAttributes($attributes))>0;
 			$this->afterSave();
 			return $result;
 		}
@@ -5264,6 +5282,16 @@ abstract class CDbSchema extends CComponent
 	public function quoteColumnName($name)
 	{
 		return '"'.$name.'"';
+	}
+	public function compareTableNames($name1,$name2)
+	{
+		$name1=str_replace(array('"','`',"'"),'',$name1);
+		$name2=str_replace(array('"','`',"'"),'',$name2);
+		if(($pos=strrpos($name1,'.'))!==false)
+			$name1=substr($name1,$pos+1);
+		if(($pos=strrpos($name2,'.'))!==false)
+			$name2=substr($name2,$pos+1);
+		return $name1===$name2;
 	}
 }
 class CSqliteSchema extends CDbSchema
@@ -6190,13 +6218,11 @@ class CLinkPager extends CBasePager
 		$currentPage=$this->getCurrentPage();
 		$pageCount=$this->getPageCount();
 		$buttonCount=$this->maxButtonCount > $pageCount ? $pageCount : $this->maxButtonCount;
-		$beginPage=0;
-		$endPage=$buttonCount-1;
-		if($currentPage>$endPage)
+		$beginPage=max(0, $currentPage-(int)($this->maxButtonCount/2));
+		if(($endPage=$beginPage+$this->maxButtonCount-1)>=$pageCount)
 		{
-			$beginPage=((int)($currentPage/$this->maxButtonCount))*$this->maxButtonCount;
-			if(($endPage=$beginPage+$this->maxButtonCount-1)>=$pageCount)
-				$endPage=$pageCount-1;
+			$endPage=min($pageCount-1,$currentPage+(int)($this->maxButtonCount/2));
+			$beginPage=max(0,$endPage-$this->maxButtonCount+1);
 		}
 		return array($beginPage,$endPage);
 	}
