@@ -694,18 +694,27 @@ abstract class CActiveRecord extends CModel
 	/**
 	 * Returns all column attribute values.
 	 * Note, related objects are not returned.
-	 * @param boolean whether to return all attributes even if they are not loaded from DB.
+	 * @param mixed names of attributes whose value needs to be returned.
+	 * If this is true (default), then all attribute values will be returned, including
+	 * those that are not loaded from DB (null will be returned for these attributes).
+	 * If this is null, then all attributes except those that are not loaded
+	 * from DB will be returned.
 	 * @return array attribute values indexed by attribute names.
 	 */
-	public function getAttributes($returnAll=true)
+	public function getAttributes($names=true)
 	{
 		$attributes=$this->_attributes;
 		foreach($this->getMetaData()->columns as $name=>$column)
 		{
 			if(property_exists($this,$name))
 				$attributes[$name]=$this->$name;
-			else if($returnAll && !isset($attributes[$name]))
+			else if($names===true && !isset($attributes[$name]))
 				$attributes[$name]=null;
+		}
+		if(is_array($names))
+		{
+			foreach($names as $name)
+				unset($attributes[$name]);
 		}
 		return $attributes;
 	}
@@ -757,16 +766,18 @@ abstract class CActiveRecord extends CModel
 	 * after insertion the primary key will be populated with the value
 	 * generated automatically by the database.
 	 * @param boolean whether to perform validation before saving the record.
+	 * @param array list of attributes that need to be saved. Defaults to null,
+	 * meaning all attributes that are loaded from DB will be saved.
 	 * @return boolean whether the saving succeeds
 	 */
-	public function save($runValidation=true)
+	public function save($runValidation=true,$attributes=null)
 	{
-		if(!$runValidation || $this->validate())
+		if(!$runValidation || $this->validate($attributes))
 		{
 			if($this->isNewRecord)
-				return $this->insert();
+				return $this->insert($attributes);
 			else
-				return $this->update();
+				return $this->update($attributes);
 		}
 		else
 			return false;
@@ -856,10 +867,12 @@ abstract class CActiveRecord extends CModel
 	 * If the table's primary key is auto-incremental and is null before insertion,
 	 * it will be populated with the actual value after insertion.
 	 * Note, validation is not performed in this method. You may call {@link validate} to perform the validation.
+	 * @param array list of attributes that need to be saved. Defaults to null,
+	 * meaning all attributes that are loaded from DB will be saved.
 	 * @return boolean whether the attributes are valid and the record is inserted successfully.
 	 * @throws CException if the record is not new
 	 */
-	protected function insert()
+	public function insert($attributes=null)
 	{
 		if(!$this->isNewRecord)
 			throw new CDbException(Yii::t('yii','The active record cannot be inserted to database because it is not new.'));
@@ -867,7 +880,7 @@ abstract class CActiveRecord extends CModel
 		{
 			$builder=$this->getCommandBuilder();
 			$table=$this->getMetaData()->tableSchema;
-			$command=$builder->createInsertCommand($table,$this->getAttributes(false));
+			$command=$builder->createInsertCommand($table,$this->getAttributes($attributes));
 			if($command->execute())
 			{
 				$primaryKey=$table->primaryKey;
@@ -888,16 +901,18 @@ abstract class CActiveRecord extends CModel
 	 * Updates the row represented by this active record.
 	 * All loaded attributes will be saved to the database.
 	 * Note, validation is not performed in this method. You may call {@link validate} to perform the validation.
+	 * @param array list of attributes that need to be saved. Defaults to null,
+	 * meaning all attributes that are loaded from DB will be saved.
 	 * @return boolean whether the update is successful
 	 * @throws CException if the record is new
 	 */
-	protected function update()
+	public function update($attributes=null)
 	{
 		if($this->isNewRecord)
 			throw new CDbException(Yii::t('yii','The active record cannot be updated because it is new.'));
 		if($this->beforeSave())
 		{
-			$result=$this->updateByPk($this->getPrimaryKey(),$this->getAttributes(false))>0;
+			$result=$this->updateByPk($this->getPrimaryKey(),$this->getAttributes($attributes))>0;
 			$this->afterSave();
 			return $result;
 		}
