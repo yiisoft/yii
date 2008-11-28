@@ -136,6 +136,10 @@ abstract class CDbSchema extends CComponent
 	{
 		$name1=str_replace(array('"','`',"'"),'',$name1);
 		$name2=str_replace(array('"','`',"'"),'',$name2);
+		if(($pos=strrpos($name1,'.'))!==false)
+			$name1=substr($name1,$pos+1);
+		if(($pos=strrpos($name2,'.'))!==false)
+			$name2=substr($name2,$pos+1);
 		return $name1===$name2;
 	}
 }
