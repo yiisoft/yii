@@ -197,6 +197,22 @@ rule, the action can be executed; if it is a `deny` rule, the action cannot
 be executed; if none of the rules matches the context, the action can still
 be executed.
 
+> Tip: To ensure an action does not get executed under certain contexts,
+> it is beneficial to always specify a matching-all `deny` rule at the end
+> of rule set, like the following:
+> ~~~
+> [php]
+> return array(
+>     // ... other rules...
+>     // the following rule denies 'delete' action for all contexts
+>     array('deny',
+>         'action'=>'delete',
+>     ),
+> );
+> ~~~
+> The reason for this rule is because if none of the rules matches a context,
+> an action will be executed.
+
 An access rule can match the following context parameters:
 
    - [actions|CAccessRule::actions]: specifies which actions this rule

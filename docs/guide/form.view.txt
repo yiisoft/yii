@@ -13,15 +13,15 @@ example, to create a text input field, we can call [CHtml::textField()]; to
 create a drop-down list, call [CHtml::dropDownList()].
 
 > Info: One may wonder what is the benefit of using helpers if they
-require similar amount of code when compared with plain HTML code. The
-answer is that the helpers can provide more than just HTML code. For
-example, the following code would generate a text input field which can
-trigger form submission if its value is changed by users.
-~~~
-[php]
-CHtml::textField($name,$value,array('submit'=>''));
-~~~
-It would otherwise require writing clumsy JavaScript everywhere.
+> require similar amount of code when compared with plain HTML code. The
+> answer is that the helpers can provide more than just HTML code. For
+> example, the following code would generate a text input field which can
+> trigger form submission if its value is changed by users.
+> ~~~
+> [php]
+> CHtml::textField($name,$value,array('submit'=>''));
+> ~~~
+> It would otherwise require writing clumsy JavaScript everywhere.
 
 In the following, we use [CHtml] to create the login form. We assume that
 the variable `$user` represents `LoginForm` instance.
