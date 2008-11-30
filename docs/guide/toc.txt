@@ -15,14 +15,14 @@
     - [Conventions](basics.convention)
     - [Development Workflow](basics.workflow)
 
-* Working with Form
+* Working with Forms
     - [Overview](form.overview)
     - [Creating Model](form.model)
     - [Creating Action](form.action)
     - [Creating Form](form.view)
     - [Collecting Tabular Input](form.table)
 
-* Working with Database
+* Working with Databases
     - [Overview](database.overview)
     - [Database Access Objects](database.dao)
     - [Active Record](database.ar)
