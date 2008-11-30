@@ -645,7 +645,9 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function getAttribute($name)
 	{
-		if(isset($this->_attributes[$name]))
+		if(property_exists($this,$name))
+			return $this->$name;
+		else if(isset($this->_attributes[$name]))
 			return $this->_attributes[$name];
 		else if(isset($this->getMetaData()->columns[$name]))
 			return null;
@@ -664,7 +666,9 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function setAttribute($name,$value)
 	{
-		if($this->hasAttribute($name))
+		if(property_exists($name))
+			$this->$name=$value;
+		else if(isset($this->getMetaData()->columns[$name]))
 			$this->_attributes[$name]=$value;
 		else
 			throw new CDbException(Yii::t('yii','{class} does not have attribute "{name}".',
