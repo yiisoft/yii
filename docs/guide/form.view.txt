@@ -66,6 +66,8 @@ class upon any input error. For more details about using [CHtml], see
 If we use the CSS style file `form.css` provided by the `yiic` script, the
 generated form would be like the following:
 
-*screenshot of login form, with and without errors*
+![The login page](login1.png)
+
+![The login with error page](login2.png)
 
 <div class="revision">$Id$</div>
