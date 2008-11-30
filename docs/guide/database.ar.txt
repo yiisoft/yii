@@ -109,6 +109,19 @@ class Post extends CActiveRecord
 }
 ~~~
 
+> Tip: Because AR classes are often referenced in many places, we can
+> import the whole directory containing the AR class, instead of including
+> them one by one. For example, if all our AR class files are under
+> `protected/models`, we can configure the application as follows:
+> ~~~
+> [php]
+> return array(
+> 	'import'=>array(
+> 		'application.models.*',
+> 	),
+> );
+> ~~~
+
 By default, the name of the AR class is the same as the database table
 name. Override the [tableName()|CActiveRecord::tableName] method if they
 are different. The [model()|CActiveRecord::model] method is declared as
@@ -138,20 +151,6 @@ case. For example, we use `Post` to name the table storing posts; and we
 use `createTime` to name the table's primary key column. This makes tables
 look more like class types and columns like variables.
 
-<!---->
-
-> Tip: Because AR classes are often referenced in many places, we can
-> import the whole directory containing the AR class, instead of including
-> them one by one. For example, if all our AR class files are under
-> `protected/models`, we can configure the application as follows:
-> ~~~
-> [php]
-> return array(
-> 	'import'=>array(
-> 		'application.models.*',
-> 	),
-> );
-> ~~~
 
 Creating Record
 ---------------
