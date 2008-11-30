@@ -482,7 +482,6 @@ instance created as a result of query.
 The following diagram shows how these placeholder methods are invoked in
 the CRUD workflows:
 
-*diagram for CRUD workflow with placeholder methods*
 
 Using Transaction with AR
 -------------------------
