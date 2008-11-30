@@ -60,7 +60,7 @@ $form->password=$_POST['LoginForm']['password'];
 $form->rememberMe=$_POST['LoginForm']['rememberMe'];
 ~~~
 
-In order to let `$_POST['LoginForm']` to give us an array instead of a
+> Note: In order to let `$_POST['LoginForm']` to give us an array instead of a
 string, we adhere to a convention when naming input fields in the view. In
 particular, for an input field corresponding to attribute `a` of model
 class `C`, we name it as `C[a]`. For example, we would use
