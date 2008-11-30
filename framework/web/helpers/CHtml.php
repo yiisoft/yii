@@ -161,7 +161,14 @@ class CHtml
 	{
 		$htmlOptions['action']=self::normalizeUrl($action);
 		$htmlOptions['method']=$method;
-		return self::tag('form',$htmlOptions,false,false);
+		$form=self::tag('form',$htmlOptions,false,false);
+		$request=Yii::app()->request;
+		if($request->enableCsrfValidation)
+		{
+			$token=self::hiddenField($request->csrfTokenName,$request->getCsrfToken());
+			$form.="\n".$token;
+		}
+		return $form;
 	}
 
 	/**
@@ -176,8 +183,7 @@ class CHtml
 	 */
 	public static function statefulForm($action='',$method='post',$htmlOptions=array())
 	{
-		return self::form($action,$method,$htmlOptions)."\n"
-			.'<div style="visibility:hidden;">'.self::pageStateField('').'</div>';
+		return self::form($action,$method,$htmlOptions)."\n".self::pageStateField('');
 	}
 
 	/**

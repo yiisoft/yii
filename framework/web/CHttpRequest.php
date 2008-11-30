@@ -32,6 +32,27 @@ class CHttpRequest extends CApplicationComponent
 	 * @var boolean whether cookies should be validated to ensure they are not tampered. Defaults to false.
 	 */
 	public $enableCookieValidation=false;
+	/**
+	 * @var boolean whether to enable CSRF (Cross-Site Request Forgery) validation. Defaults to false.
+	 * By setting this property to true, forms submitted to an Yii Web application must be originated
+	 * from the same application. If not, a 400 HTTP exception will be raised.
+	 * Note, this feature requires that the user client accepts cookie.
+	 * You also need to use {@link CHtml::form} or {@link CHtml::statefulForm} to generate
+	 * the needed HTML forms in your pages.
+	 * @see http://freedom-to-tinker.com/sites/default/files/csrf.pdf
+	 */
+	public $enableCsrfValidation=false;
+	/**
+	 * @var string the name of the token used to prevent CSRF. Defaults to 'YII_CSRF_TOKEN'.
+	 * This property is effectively only when {@link enableCsrfValidation} is true.
+	 */
+	public $csrfTokenName='YII_CSRF_TOKEN';
+	/**
+	 * @var array the property values (in name-value pairs) used to initialize the CSRF cookie.
+	 * Any property of {@link CHttpCookie} may be initialized.
+	 * This property is effectively only when {@link enableCsrfValidation} is true.
+	 */
+	public $csrfCookie;
 
 	private $_pathInfo;
 	private $_scriptFile;
@@ -41,6 +62,7 @@ class CHttpRequest extends CApplicationComponent
 	private $_baseUrl;
 	private $_cookies;
 	private $_preferredLanguage;
+	private $_csrfToken;
 
 	/**
 	 * Initializes the application component.
@@ -56,6 +78,7 @@ class CHttpRequest extends CApplicationComponent
 	/**
 	 * Normalizes the request data.
 	 * This method strips off slashes in request data if get_magic_quotes_gpc() returns true.
+	 * It also performs CSRF validation if {@link enableCsrfValidation} is true.
 	 */
 	protected function normalizeRequest()
 	{
@@ -71,6 +94,9 @@ class CHttpRequest extends CApplicationComponent
 			if(isset($_COOKIE))
 				$_COOKIE=$this->stripSlashes($_COOKIE);
 		}
+
+		if($this->enableCsrfValidation && !$this->performCsrfValidation())
+			throw new CHttpException(400,Yii::t('yii','The CSRF token could not be verified.'));
 	}
 
 	/**
@@ -427,7 +453,6 @@ class CHttpRequest extends CApplicationComponent
 	 * @param string file name
 	 * @param string content to be set.
 	 * @param string mime type of the content. If null, it will be guessed automatically based on the given file name.
-	 * @param array list of headers to be sent. Each array element represents a header string (e.g. 'Content-Type: text/plain').
 	 * @param boolean whether to terminate the current application after calling this method
 	 */
 	public function sendFile($fileName,$content,$mimeType=null,$terminate=true)
@@ -447,6 +472,68 @@ class CHttpRequest extends CApplicationComponent
 		echo $content;
 		if($terminate)
 			Yii::app()->end();
+	}
+
+	/**
+	 * Returns the random token used to perform CSRF validation.
+	 * The token will be read from cookie first. If not found, a new token
+	 * will be generated.
+	 * @return string the random token for CSRF validation.
+	 * @see enableCsrfValidation
+	 */
+	public function getCsrfToken()
+	{
+		if($this->_csrfToken===null)
+		{
+			if(($this->_csrfToken=$this->getCsrfTokenFromCookie())===null)
+			{
+				$cookie=$this->createCsrfCookie();
+				$this->_csrfToken=$cookie->value;
+				$this->getCookies()->add($cookie->name,$cookie);
+			}
+		}
+
+		return $this->_csrfToken;
+	}
+
+	/**
+	 * Creates a cookie with a randomly generated CSRF token.
+	 * Initial values specified in {@link csrfCookie} will be applied
+	 * to the generated cookie.
+	 * @return CHttpCookie the generated cookie
+	 * @see enableCsrfValidation
+	 */
+	protected function createCsrfCookie()
+	{
+		$cookie=new CHttpCookie($this->csrfTokenName,sha1(uniqid(rand(),true)));
+		if(is_array($this->csrfCookie))
+		{
+			foreach($this->csrfCookie as $name=>$value)
+				$cookie->$name=$value;
+		}
+		return $cookie;
+	}
+
+	/**
+	 * Performs the CSRF validation.
+	 * The default implementation will compare the CSRF token obtained
+	 * from a cookie and from a POST field. If they are different, a CSRF attack is detected.
+	 * @throws CHttpException if the validation fails
+	 */
+	protected function performCsrfValidation()
+	{
+		if(!$this->getIsPostRequest())
+			return true;
+
+		$cookies=$this->getCookies();
+		if($cookies->contains($this->csrfTokenName) && isset($_POST[$this->csrfTokenName]))
+		{
+			$tokenFromCookie=$cookies->itemAt($this->csrfTokenName)->value;
+			$tokenFromPost=$_POST[$this->csrfTokenName];
+			return $tokenFromCookie===$tokenFromPost;
+		}
+		else
+			return false;
 	}
 }
 
