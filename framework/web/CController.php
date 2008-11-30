@@ -118,6 +118,9 @@ class CController extends CBaseController
 	 * </pre>
 	 * where the name-value pairs will be used to initialize the properties of the filter.
 	 *
+	 * Note, in order to inherit filters defined in the parent class, a child class needs to
+	 * merge the parent filters with child filters using functions like array_merge().
+	 *
 	 * @return array a list of filter configurations.
 	 * @see CFilter
 	 */
@@ -138,6 +141,10 @@ class CController extends CBaseController
 	 * )
 	 * </pre>
 	 * Derived classes may override this method to make use of external action feature.
+	 *
+	 * Note, in order to inherit actions defined in the parent class, a child class needs to
+	 * merge the parent actions with child actions using functions like array_merge().
+	 *
 	 * @return array list of external action classes
 	 * @see createAction
 	 */

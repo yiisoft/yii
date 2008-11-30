@@ -85,6 +85,10 @@ abstract class CModel extends CComponent
 	 * Attribute labels are mainly used in error messages of validation.
 	 * By default an attribute label is generated using {@link generateAttributeLabel}.
 	 * This method allows you to explicitly specify attribute labels.
+	 *
+	 * Note, in order to inherit labels defined in the parent class, a child class needs to
+	 * merge the parent labels with child labels using functions like array_merge().
+	 *
 	 * @return array attribute labels (name=>label)
 	 * @see generateAttributeLabel
 	 */
@@ -127,6 +131,10 @@ abstract class CModel extends CComponent
 	 *     array('password', 'authenticate'),
 	 * );
 	 * </pre>
+	 *
+	 * Note, in order to inherit rules defined in the parent class, a child class needs to
+	 * merge the parent rules with child rules using functions like array_merge().
+	 *
 	 * @return array validation rules to be applied when {@link validate()} is called.
 	 */
 	public function rules()
