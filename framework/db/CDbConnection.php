@@ -257,7 +257,7 @@ class CDbConnection extends CApplicationComponent
 	{
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		if($this->emulatePrepare && constant('PDO::ATTR_EMULATE_PREPARES'))
-			$pod->setAttribute(PDO::ATTR_EMULATE_PREPARES,true);
+			$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,true);
 		if($this->charset===null)
 			return;
 		switch(strtolower($pdo->getAttribute(PDO::ATTR_DRIVER_NAME)))
