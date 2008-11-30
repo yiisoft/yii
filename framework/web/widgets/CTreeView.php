@@ -169,7 +169,7 @@ class CTreeView extends CWidget
 		foreach(array('url','animated','collapsed','control','unique','toggle','persist','cookieId','prerendered') as $name)
 		{
 			if($this->$name!==null)
-				$options[$name]=$object->$name;
+				$options[$name]=$this->$name;
 		}
 		return $options;
 	}

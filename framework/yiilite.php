@@ -4523,10 +4523,13 @@ abstract class CActiveRecord extends CModel
 		}
 		if(is_array($names))
 		{
+			$attrs=array();
 			foreach($names as $name)
-				unset($attributes[$name]);
+				$attrs[$name]=isset($attributes[$name])?$attributes[$name]:null;
+			return $attrs;
 		}
-		return $attributes;
+		else
+			return $attributes;
 	}
 	public function setAttributes($values,$safeAttributes=null,$safeAttributesOnly=true)
 	{
@@ -5041,7 +5044,7 @@ class CDbConnection extends CApplicationComponent
 	{
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		if($this->emulatePrepare && constant('PDO::ATTR_EMULATE_PREPARES'))
-			$pod->setAttribute(PDO::ATTR_EMULATE_PREPARES,true);
+			$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,true);
 		if($this->charset===null)
 			return;
 		switch(strtolower($pdo->getAttribute(PDO::ATTR_DRIVER_NAME)))
