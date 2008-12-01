@@ -387,6 +387,15 @@ class YiiBase
 	 * PLEASE RUN 'build autoload' COMMAND TO UPDATE THIS ARRAY.
 	 */
 	private static $_coreClasses=array(
+		'CApplication' => '/base/CApplication.php',
+		'CApplicationComponent' => '/base/CApplicationComponent.php',
+		'CComponent' => '/base/CComponent.php',
+		'CErrorHandler' => '/base/CErrorHandler.php',
+		'CException' => '/base/CException.php',
+		'CHttpException' => '/base/CHttpException.php',
+		'CModel' => '/base/CModel.php',
+		'CSecurityManager' => '/base/CSecurityManager.php',
+		'CStatePersister' => '/base/CStatePersister.php',
 		'CApcCache' => '/caching/CApcCache.php',
 		'CCache' => '/caching/CCache.php',
 		'CDbCache' => '/caching/CDbCache.php',
@@ -408,15 +417,6 @@ class YiiBase
 		'CConsoleCommand' => '/console/CConsoleCommand.php',
 		'CConsoleCommandRunner' => '/console/CConsoleCommandRunner.php',
 		'CHelpCommand' => '/console/CHelpCommand.php',
-		'CApplication' => '/core/CApplication.php',
-		'CApplicationComponent' => '/core/CApplicationComponent.php',
-		'CComponent' => '/core/CComponent.php',
-		'CErrorHandler' => '/core/CErrorHandler.php',
-		'CException' => '/core/CException.php',
-		'CHttpException' => '/core/CHttpException.php',
-		'CModel' => '/core/CModel.php',
-		'CSecurityManager' => '/core/CSecurityManager.php',
-		'CStatePersister' => '/core/CStatePersister.php',
 		'CDbCommand' => '/db/CDbCommand.php',
 		'CDbConnection' => '/db/CDbConnection.php',
 		'CDbDataReader' => '/db/CDbDataReader.php',
@@ -543,4 +543,4 @@ class YiiBase
 }
 
 spl_autoload_register(array('YiiBase','autoload'));
-require_once(YII_PATH.'/core/interfaces.php');
+require_once(YII_PATH.'/base/interfaces.php');
