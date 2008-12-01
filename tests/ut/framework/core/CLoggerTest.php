@@ -1,7 +1,5 @@
 <?php
 
-Yii::import('system.core.log.CLogger');
-
 class CLoggerTest extends CTestCase
 {
 	public function testLog()

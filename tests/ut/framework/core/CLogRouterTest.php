@@ -1,9 +1,5 @@
 <?php
 
-Yii::import('system.core.log.CLogger');
-Yii::import('system.core.log.CLogRoute');
-Yii::import('system.core.log.CLogRouter');
-
 class MyRoute extends CLogRoute
 {
 	public $logCollected=false;
