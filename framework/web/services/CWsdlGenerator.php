@@ -77,7 +77,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
- * @package system.web
+ * @package system.web.services
  * @since 1.0
  */
 class CWsdlGenerator extends CComponent
