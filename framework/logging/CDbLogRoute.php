@@ -19,7 +19,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
- * @package system.core.log
+ * @package system.logging
  * @since 1.0
  */
 class CDbLogRoute extends CLogRoute
