@@ -19,7 +19,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
- * @package system.core
+ * @package system.base
  * @since 1.0
  */
 abstract class CApplicationComponent extends CComponent implements IApplicationComponent

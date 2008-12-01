@@ -47,7 +47,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
- * @package system.core
+ * @package system.base
  * @since 1.0
  */
 abstract class CApplication extends CComponent
@@ -704,7 +704,7 @@ abstract class CApplication extends CComponent
 			unset($this->_componentConfig[$id]);
 			if(!isset($config['enabled']) || $config['enabled'])
 			{
-				Yii::trace("Loading \"$id\" application component",'system.core.CApplication');
+				Yii::trace("Loading \"$id\" application component",'system.base.CApplication');
 				unset($config['enabled']);
 				$component=CConfiguration::createObject($config);
 				$component->init();
@@ -854,7 +854,7 @@ abstract class CApplication extends CComponent
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
- * @package system.core
+ * @package system.base
  * @since 1.0
  */
 class CExceptionEvent extends CEvent
@@ -882,7 +882,7 @@ class CExceptionEvent extends CEvent
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
- * @package system.core
+ * @package system.base
  * @since 1.0
  */
 class CErrorEvent extends CEvent
