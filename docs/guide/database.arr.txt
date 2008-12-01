@@ -14,9 +14,16 @@ section.
 
 ![ER Diagram](er.png)
 
-> Tip: For SQLite database, we may create tables that define the foreign
-> key constraints such as the example below. However, these constraints are
-> NOT enforced by the SQLite database itself.
+> Info: Support for foreign key contraints varies in different DBMS.
+>
+> SQLite does not support foreign key constraints, but you can still
+> declare the constraints when creating the tables. AR can exploit these
+> declarations to correctly support relational queries.
+>
+> MySQL supports foreign key constraints with InnoDB engine, but not with
+> MyISAM. It is thus recommended that you use InnoDB for your MySQL database.
+> But you have to use MyISAM, you may exploit the following trick so that
+> you can perform relational queries using AR:
 > ~~~
 > [sql]
 > CREATE TABLE Foo
@@ -27,9 +34,11 @@ section.
 > (
 >   id INTEGER NOT NULL PRIMARY KEY,
 >   fooID INTEGER
->       CONSTRAINT fk_foo_id REFERENCES Foo(id) ON DELETE CASCADE
+>      COMMENT 'CONSTRAINT FOREIGN KEY (fooID) REFERENCES Foo(id)'
 > );
 > ~~~
+> In the above, we use `COMMENT` keyword to describe the foreign key constraint
+> which can be read by AR to recognize the described relationship.
 
 Declaring Relationship
 ----------------------

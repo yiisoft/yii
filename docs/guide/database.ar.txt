@@ -479,9 +479,6 @@ every AR instance created using the `new` operator.
    - [afterFind|CActiveRecord::afterFind]: this is invoked for every AR
 instance created as a result of query.
 
-The following diagram shows how these placeholder methods are invoked in
-the CRUD workflows:
-
 
 Using Transaction with AR
 -------------------------
