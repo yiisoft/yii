@@ -1,7 +1,5 @@
 <?php
 
-Yii::import('system.core.CSecurityManager');
-
 class CSecurityManagerTest extends CTestCase
 {
 	public function setUp()
