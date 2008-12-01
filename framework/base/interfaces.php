@@ -16,7 +16,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
- * @package system.core
+ * @package system.base
  * @since 1.0
  */
 interface IApplicationComponent
@@ -119,7 +119,7 @@ interface ICacheDependency
  * {@link CStatePersister}.
  *
  * @version $Id$
- * @package system.core
+ * @package system.base
  * @since 1.0
  */
 interface IStatePersister
@@ -141,7 +141,7 @@ interface IStatePersister
  * IFilter is the interface that must be implemented by action filters.
  *
  * @version $Id$
- * @package system.core
+ * @package system.base
  * @since 1.0
  */
 interface IFilter
@@ -161,7 +161,7 @@ interface IFilter
  * IAction is the interface that must be implemented by controller actions.
  *
  * @version $Id$
- * @package system.core
+ * @package system.base
  * @since 1.0
  */
 interface IAction
@@ -189,7 +189,7 @@ interface IAction
  * to intercept the remote method invocation (e.g. for logging or authentication purpose).
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
- * @package system.core
+ * @package system.base
  * @since 1.0
  */
 interface IWebServiceProvider
@@ -217,7 +217,7 @@ interface IWebServiceProvider
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
- * @package system.core
+ * @package system.base
  * @since 1.0
  */
 interface IViewRenderer
@@ -243,7 +243,7 @@ interface IViewRenderer
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
- * @package system.core
+ * @package system.base
  * @since 1.0
  */
 interface IUserIdentity
@@ -286,7 +286,7 @@ interface IUserIdentity
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
- * @package system.core
+ * @package system.base
  * @since 1.0
  */
 interface IWebUser
@@ -324,7 +324,7 @@ interface IWebUser
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
- * @package system.core
+ * @package system.base
  * @since 1.0
  */
 interface IAuthManager

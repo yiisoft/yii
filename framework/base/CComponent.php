@@ -68,7 +68,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
- * @package system.core
+ * @package system.base
  * @since 1.0
  */
 class CComponent
@@ -339,7 +339,7 @@ class CComponent
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
- * @package system.core
+ * @package system.base
  * @since 1.0
  */
 class CEvent extends CComponent
@@ -384,7 +384,7 @@ class CEvent extends CComponent
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
- * @package system.core
+ * @package system.base
  * @since 1.0
  */
 class CEnumerable
@@ -422,7 +422,7 @@ class CEnumerable
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
- * @package system.core
+ * @package system.base
  * @since 1.0
  */
 class CPropertyValue

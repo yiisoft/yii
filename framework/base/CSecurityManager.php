@@ -35,7 +35,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
- * @package system.core
+ * @package system.base
  * @since 1.0
  */
 class CSecurityManager extends CApplicationComponent
