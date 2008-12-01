@@ -26,7 +26,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
- * @package system.web.widgets
+ * @package system.web.widgets.captcha
  * @since 1.0
  */
 class CCaptcha extends CWidget
