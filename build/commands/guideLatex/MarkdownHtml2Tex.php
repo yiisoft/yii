@@ -99,7 +99,7 @@ class MarkdownHtml2Tex
 
 	var $texttt_hyphen = array
 	(
-		'\'' => '\bshyp{}',
+		//'\\' => '\bshyp{}',
 		'/'  => '\fshyp{}',
 		'.'  => '\dothyp{}',
 		':'  => '\colonhyp{}',
