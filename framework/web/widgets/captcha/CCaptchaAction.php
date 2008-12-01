@@ -29,7 +29,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
- * @package system.web.actions
+ * @package system.web.widgets.captcha
  * @since 1.0
  */
 class CCaptchaAction extends CAction
@@ -201,7 +201,7 @@ class CCaptchaAction extends CAction
 			$this->foreColor%0x100);
 
         if($this->fontFile===null)
-        	$this->fontFile=dirname(__FILE__).'/captcha/Duality.ttf';
+        	$this->fontFile=dirname(__FILE__).'/Duality.ttf';
 
 		$offset=2;
 		$length=strlen($code);
