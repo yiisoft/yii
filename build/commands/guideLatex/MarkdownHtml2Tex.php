@@ -97,6 +97,19 @@ class MarkdownHtml2Tex
 		'~'  => '\~{}',
 	);
 
+	var $texttt_hyphen = array
+	(
+		'\'' => '\bshyp{}',
+		'/'  => '\fshyp{}',
+		'.'  => '\dothyp{}',
+		':'  => '\colonhyp{}',
+	);
+
+	function hypenat($text)
+	{
+		return str_replace(array_keys($this->texttt_hyphen), array_values($this->texttt_hyphen), $text);
+	}
+
 	function escape_verbatim($matches)
 	{
 		$text = html_entity_decode($matches[1]);
@@ -111,7 +124,9 @@ class MarkdownHtml2Tex
 
 	function escape_verb($matches)
 	{
-		return sprintf('\texttt{\small %s}', $this->escape($matches[1]));
+
+		$text = $this->hypenat($this->escape($matches[1]));
+		return sprintf('\texttt{\small %s}',$text);
 	}
 
 	function include_image($matches)

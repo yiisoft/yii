@@ -1,7 +1,14 @@
 
-\usepackage{xspace, calc, enumerate, fancyhdr, alltt, color, ifthen}
+\usepackage{xspace, calc, enumerate, fancyhdr, alltt, color, ifthen, hyphenat}
 \usepackage[pdftex]{graphicx}
 \usepackage[pdftex]{hyperref}
+
+%----- remove hyphen character for texttt ----
+\renewcommand{\BreakableUnderscore}{\nobreak\textunderscore\discretionary{}{}{}\nobreak}
+\renewcommand{\BreakableBackslash}{\nobreak\textbackslash\discretionary{}{}{}\nobreak}
+\renewcommand{\BreakableSlash}{\nobreak/\discretionary{}{}{}\nobreak}
+\renewcommand{\BreakablePeriod}{\nobreak.\discretionary{}{}{}\nobreak}
+\renewcommand{\BreakableColon}{\nobreak:\discretionary{}{}{}\nobreak}
 
 \definecolor{lightp}{rgb}{0.4,0.2,0.8}
 		
