@@ -221,14 +221,6 @@ class YiiBase
 		'CModel' => '/core/CModel.php',
 		'CSecurityManager' => '/core/CSecurityManager.php',
 		'CStatePersister' => '/core/CStatePersister.php',
-		'CDbLogRoute' => '/core/log/CDbLogRoute.php',
-		'CEmailLogRoute' => '/core/log/CEmailLogRoute.php',
-		'CFileLogRoute' => '/core/log/CFileLogRoute.php',
-		'CLogRoute' => '/core/log/CLogRoute.php',
-		'CLogRouter' => '/core/log/CLogRouter.php',
-		'CLogger' => '/core/log/CLogger.php',
-		'CProfileLogRoute' => '/core/log/CProfileLogRoute.php',
-		'CWebLogRoute' => '/core/log/CWebLogRoute.php',
 		'CDbCommand' => '/db/CDbCommand.php',
 		'CDbConnection' => '/db/CDbConnection.php',
 		'CDbDataReader' => '/db/CDbDataReader.php',
@@ -260,6 +252,14 @@ class YiiBase
 		'CGettextFile' => '/i18n/gettext/CGettextFile.php',
 		'CGettextMoFile' => '/i18n/gettext/CGettextMoFile.php',
 		'CGettextPoFile' => '/i18n/gettext/CGettextPoFile.php',
+		'CDbLogRoute' => '/logging/CDbLogRoute.php',
+		'CEmailLogRoute' => '/logging/CEmailLogRoute.php',
+		'CFileLogRoute' => '/logging/CFileLogRoute.php',
+		'CLogRoute' => '/logging/CLogRoute.php',
+		'CLogRouter' => '/logging/CLogRouter.php',
+		'CLogger' => '/logging/CLogger.php',
+		'CProfileLogRoute' => '/logging/CProfileLogRoute.php',
+		'CWebLogRoute' => '/logging/CWebLogRoute.php',
 		'CDateParser' => '/utils/CDateParser.php',
 		'CFileHelper' => '/utils/CFileHelper.php',
 		'CMarkdownParser' => '/utils/CMarkdownParser.php',
@@ -298,13 +298,9 @@ class YiiBase
 		'CUploadedFile' => '/web/CUploadedFile.php',
 		'CUrlManager' => '/web/CUrlManager.php',
 		'CWebApplication' => '/web/CWebApplication.php',
-		'CWebService' => '/web/CWebService.php',
-		'CWsdlGenerator' => '/web/CWsdlGenerator.php',
 		'CAction' => '/web/actions/CAction.php',
-		'CCaptchaAction' => '/web/actions/CCaptchaAction.php',
 		'CInlineAction' => '/web/actions/CInlineAction.php',
 		'CViewAction' => '/web/actions/CViewAction.php',
-		'CWebServiceAction' => '/web/actions/CWebServiceAction.php',
 		'CAuthAssignment' => '/web/auth/CAuthAssignment.php',
 		'CAuthItem' => '/web/auth/CAuthItem.php',
 		'CAuthManager' => '/web/auth/CAuthManager.php',
@@ -322,8 +318,10 @@ class YiiBase
 		'CJavaScript' => '/web/helpers/CJavaScript.php',
 		'CPradoViewRenderer' => '/web/renderers/CPradoViewRenderer.php',
 		'CViewRenderer' => '/web/renderers/CViewRenderer.php',
+		'CWebService' => '/web/services/CWebService.php',
+		'CWebServiceAction' => '/web/services/CWebServiceAction.php',
+		'CWsdlGenerator' => '/web/services/CWsdlGenerator.php',
 		'CAutoComplete' => '/web/widgets/CAutoComplete.php',
-		'CCaptcha' => '/web/widgets/CCaptcha.php',
 		'CClipWidget' => '/web/widgets/CClipWidget.php',
 		'CContentDecorator' => '/web/widgets/CContentDecorator.php',
 		'CFilterWidget' => '/web/widgets/CFilterWidget.php',
@@ -340,6 +338,8 @@ class YiiBase
 		'CTextHighlighter' => '/web/widgets/CTextHighlighter.php',
 		'CTreeView' => '/web/widgets/CTreeView.php',
 		'CWidget' => '/web/widgets/CWidget.php',
+		'CCaptcha' => '/web/widgets/captcha/CCaptcha.php',
+		'CCaptchaAction' => '/web/widgets/captcha/CCaptchaAction.php',
 		'CBasePager' => '/web/widgets/pagers/CBasePager.php',
 		'CLinkPager' => '/web/widgets/pagers/CLinkPager.php',
 		'CListPager' => '/web/widgets/pagers/CListPager.php',
@@ -1773,6 +1773,9 @@ class CUrlRule extends CComponent
 class CHttpRequest extends CApplicationComponent
 {
 	public $enableCookieValidation=false;
+	public $enableCsrfValidation=false;
+	public $csrfTokenName='YII_CSRF_TOKEN';
+	public $csrfCookie;
 	private $_pathInfo;
 	private $_scriptFile;
 	private $_scriptUrl;
@@ -1781,6 +1784,7 @@ class CHttpRequest extends CApplicationComponent
 	private $_baseUrl;
 	private $_cookies;
 	private $_preferredLanguage;
+	private $_csrfToken;
 	public function init()
 	{
 		parent::init();
@@ -1800,6 +1804,8 @@ class CHttpRequest extends CApplicationComponent
 			if(isset($_COOKIE))
 				$_COOKIE=$this->stripSlashes($_COOKIE);
 		}
+		if($this->enableCsrfValidation && !$this->performCsrfValidation())
+			throw new CHttpException(400,Yii::t('yii','The CSRF token could not be verified.'));
 	}
 	public function stripSlashes(&$data)
 	{
@@ -2011,6 +2017,43 @@ class CHttpRequest extends CApplicationComponent
 		echo $content;
 		if($terminate)
 			Yii::app()->end();
+	}
+	public function getCsrfToken()
+	{
+		if($this->_csrfToken===null)
+		{
+			if(($this->_csrfToken=$this->getCsrfTokenFromCookie())===null)
+			{
+				$cookie=$this->createCsrfCookie();
+				$this->_csrfToken=$cookie->value;
+				$this->getCookies()->add($cookie->name,$cookie);
+			}
+		}
+		return $this->_csrfToken;
+	}
+	protected function createCsrfCookie()
+	{
+		$cookie=new CHttpCookie($this->csrfTokenName,sha1(uniqid(rand(),true)));
+		if(is_array($this->csrfCookie))
+		{
+			foreach($this->csrfCookie as $name=>$value)
+				$cookie->$name=$value;
+		}
+		return $cookie;
+	}
+	protected function performCsrfValidation()
+	{
+		if(!$this->getIsPostRequest())
+			return true;
+		$cookies=$this->getCookies();
+		if($cookies->contains($this->csrfTokenName) && isset($_POST[$this->csrfTokenName]))
+		{
+			$tokenFromCookie=$cookies->itemAt($this->csrfTokenName)->value;
+			$tokenFromPost=$_POST[$this->csrfTokenName];
+			return $tokenFromCookie===$tokenFromPost;
+		}
+		else
+			return false;
 	}
 }
 class CCookieCollection extends CMap
@@ -3082,12 +3125,18 @@ class CHtml
 	{
 		$htmlOptions['action']=self::normalizeUrl($action);
 		$htmlOptions['method']=$method;
-		return self::tag('form',$htmlOptions,false,false);
+		$form=self::tag('form',$htmlOptions,false,false);
+		$request=Yii::app()->request;
+		if($request->enableCsrfValidation)
+		{
+			$token=self::hiddenField($request->csrfTokenName,$request->getCsrfToken());
+			$form.="\n".$token;
+		}
+		return $form;
 	}
 	public static function statefulForm($action='',$method='post',$htmlOptions=array())
 	{
-		return self::form($action,$method,$htmlOptions)."\n"
-			.'<div style="visibility:hidden;">'.self::pageStateField('').'</div>';
+		return self::form($action,$method,$htmlOptions)."\n".self::pageStateField('');
 	}
 	public static function pageStateField($value)
 	{
@@ -4483,7 +4532,9 @@ abstract class CActiveRecord extends CModel
 	}
 	public function getAttribute($name)
 	{
-		if(isset($this->_attributes[$name]))
+		if(property_exists($this,$name))
+			return $this->$name;
+		else if(isset($this->_attributes[$name]))
 			return $this->_attributes[$name];
 		else if(isset($this->getMetaData()->columns[$name]))
 			return null;
@@ -4493,7 +4544,9 @@ abstract class CActiveRecord extends CModel
 	}
 	public function setAttribute($name,$value)
 	{
-		if($this->hasAttribute($name))
+		if(property_exists($name))
+			$this->$name=$value;
+		else if(isset($this->getMetaData()->columns[$name]))
 			$this->_attributes[$name]=$value;
 		else
 			throw new CDbException(Yii::t('yii','{class} does not have attribute "{name}".',
