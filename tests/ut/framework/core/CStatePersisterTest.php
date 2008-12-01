@@ -1,7 +1,5 @@
 <?php
 
-Yii::import('system.core.CStatePersister');
-
 class CStatePersisterTest extends CTestCase
 {
 	public function setUp()
