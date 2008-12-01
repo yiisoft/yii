@@ -37,7 +37,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
- * @package system.web.filters
+ * @package system.web.auth
  * @since 1.0
  */
 class CAccessControlFilter extends CFilter
@@ -111,7 +111,7 @@ class CAccessControlFilter extends CFilter
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
- * @package system.web.filters
+ * @package system.web.auth
  * @since 1.0
  */
 class CAccessRule extends CComponent
