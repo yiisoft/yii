@@ -25,7 +25,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
- * @package system.web.actions
+ * @package system.web.services
  * @since 1.0
  */
 class CWebServiceAction extends CAction
