@@ -51,4 +51,5 @@
     - [Internationalization (I18N)](topics.i18n)
     - [Alternative Template Syntax](topics.prado)
     - [Console Applications](topics.console)
+    - [Security](topics.security)
     - [Performance Tuning](topics.performance)
