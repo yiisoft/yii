@@ -1,7 +1,7 @@
 Caching
 =======
 
-Caching is a cheap yet effective way to improve the performance of a Web
+Caching is a cheap and effective way to improve the performance of a Web
 application. By storing relatively static data in cache and serving it from
 cache when requested, we save the time needed to generate the data.
 
@@ -38,10 +38,10 @@ summary of the available cache components:
 
    - [CMemCache]: uses PHP [memcache
 extension](http://www.php.net/manual/en/book.memcache.php).
-   
+
    - [CApcCache]: uses PHP [APC
 extension](http://www.php.net/manual/en/book.apc.php).
-   
+
    - [CDbCache]: uses a database table to store cached data. By default,
 it will create and use a SQLite3 database under the runtime directory. You
 can explicitly specify a database for it to use by setting its

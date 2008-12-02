@@ -22,7 +22,7 @@ section.
 >
 > MySQL supports foreign key constraints with InnoDB engine, but not with
 > MyISAM. It is thus recommended that you use InnoDB for your MySQL database.
-> But you have to use MyISAM, you may exploit the following trick so that
+> When using MyISAM, you may exploit the following trick so that
 > you can perform relational queries using AR:
 > ~~~
 > [sql]
