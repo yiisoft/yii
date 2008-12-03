@@ -2,8 +2,8 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.0 to be released
---------------------------
+Version 1.0 December 3, 2008
+----------------------------
 - Added CTabView (Qiang)
 - Added CStarRating (Qiang)
 - Added CUploadedFile (Qiang)
