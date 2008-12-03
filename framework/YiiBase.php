@@ -57,7 +57,7 @@ class YiiBase
 	 */
 	public static function getVersion()
 	{
-		return '1.0rc';
+		return '1.0.0';
 	}
 
 	/**

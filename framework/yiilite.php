@@ -36,7 +36,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.0rc';
+		return '1.0.0';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -6028,6 +6028,7 @@ class CPagination extends CComponent
 {
 	const DEFAULT_PAGE_SIZE=10;
 	public $pageVar='page';
+	public $route='';
 	private $_pageSize=self::DEFAULT_PAGE_SIZE;
 	private $_itemCount=0;
 	private $_currentPage;
@@ -6077,12 +6078,12 @@ class CPagination extends CComponent
 	}
 	public function createPageUrl($controller,$page)
 	{
-		$params=$_GET;
+		$params=($this->route==='')?$_GET:array();
 		if($page>0) // page 0 is the default
 			$params[$this->pageVar]=$page+1;
 		else
 			unset($params[$this->pageVar]);
-		return $controller->createUrl('',$params);
+		return $controller->createUrl($this->route,$params);
 	}
 }
 class CJavaScript
@@ -6392,6 +6393,112 @@ class CAssetManager extends CApplicationComponent
 	protected function hash($path)
 	{
 		return sprintf('%x',crc32($path.Yii::getVersion()));
+	}
+}
+class CFileHelper
+{
+	public static function copyDirectory($src,$dst,$options=array())
+	{
+		$fileTypes=array();
+		$exclude=array();
+		$level=-1;
+		extract($options);
+		self::copyDirectoryRecursive($src,$dst,'',$fileTypes,$exclude,$level);
+	}
+	public static function findFiles($dir,$options=array())
+	{
+		$fileTypes=array();
+		$exclude=array();
+		$level=-1;
+		extract($options);
+		$list=self::findFilesRecursive($dir,'',$fileTypes,$exclude,$level);
+		sort($list);
+		return $list;
+	}
+	protected static function copyDirectoryRecursive($src,$dst,$base,$fileTypes,$exclude,$level)
+	{
+		@mkdir($dst);
+		@chmod($dst,0777);
+		$folder=opendir($src);
+		while($file=readdir($folder))
+		{
+			if($file==='.' || $file==='..')
+				continue;
+			$path=$src.DIRECTORY_SEPARATOR.$file;
+			$isFile=is_file($path);
+			if(self::validatePath($base,$file,$isFile,$fileTypes,$exclude))
+			{
+				if($isFile)
+					copy($path,$dst.DIRECTORY_SEPARATOR.$file);
+				else if($level)
+					self::copyDirectoryRecursive($path,$dst.DIRECTORY_SEPARATOR.$file,$base.'/'.$file,$fileTypes,$exclude,$level-1);
+			}
+		}
+		closedir($folder);
+	}
+	protected static function findFilesRecursive($dir,$base,$fileTypes,$exclude,$level)
+	{
+		$list=array();
+		$handle=opendir($dir);
+		while($file=readdir($handle))
+		{
+			if($file==='.' || $file==='..')
+				continue;
+			$path=$dir.DIRECTORY_SEPARATOR.$file;
+			$isFile=is_file($path);
+			if(self::validatePath($base,$file,$isFile,$fileTypes,$exclude))
+			{
+				if($isFile)
+					$list[]=$path;
+				else if($level)
+					$list=array_merge($list,self::findFilesRecursive($path,$base.'/'.$file,$fileTypes,$exclude,$level-1));
+			}
+		}
+		closedir($handle);
+		return $list;
+	}
+	protected static function validatePath($base,$file,$isFile,$fileTypes,$exclude)
+	{
+		foreach($exclude as $e)
+		{
+			if($file===$e || strpos($base.'/'.$file,$e)===0)
+				return false;
+		}
+		if(!$isFile || empty($fileTypes))
+			return true;
+		if(($pos=strrpos($file,'.'))!==false)
+		{
+			$type=substr($file,$pos+1);
+			return in_array($type,$fileTypes);
+		}
+		else
+			return false;
+	}
+	public static function getMimeType($file)
+	{
+		if(function_exists('finfo_open'))
+		{
+			if($info=finfo_open(FILEINFO_MIME))
+				return finfo_file($info,$file);
+			else
+				return null;
+		}
+		if(function_exists('mime_content_type'))
+			return mime_content_type($file);
+		return self::getMimeTypeByExtension($file);
+	}
+	public static function getMimeTypeByExtension($file)
+	{
+		static $extensions;
+		if($extensions===null)
+			$extensions=require(Yii::getPathOfAlias('system.utils.mimeTypes').'.php');
+		if(($pos=strrpos($file,'.'))!==false)
+		{
+			$ext=strtolower(substr($file,$pos+1));
+			if(isset($extensions[$ext]))
+				return $extensions[$ext];
+		}
+		return null;
 	}
 }
 interface IApplicationComponent
