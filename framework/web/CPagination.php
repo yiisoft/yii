@@ -33,6 +33,11 @@ class CPagination extends CComponent
 	 * @var string name of the GET variable storing the current page index. Defaults to 'page'.
 	 */
 	public $pageVar='page';
+	/**
+	 * @var string the route (controller ID and action ID) for displaying the paged contents.
+	 * Defaults to empty string, meaning using the current route.
+	 */
+	public $route='';
 
 	private $_pageSize=self::DEFAULT_PAGE_SIZE;
 	private $_itemCount=0;
@@ -119,11 +124,11 @@ class CPagination extends CComponent
 	 */
 	public function createPageUrl($controller,$page)
 	{
-		$params=$_GET;
+		$params=($this->route==='')?$_GET:array();
 		if($page>0) // page 0 is the default
 			$params[$this->pageVar]=$page+1;
 		else
 			unset($params[$this->pageVar]);
-		return $controller->createUrl('',$params);
+		return $controller->createUrl($this->route,$params);
 	}
 }
