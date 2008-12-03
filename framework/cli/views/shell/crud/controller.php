@@ -2,6 +2,8 @@
 
 class {ClassName} extends CController
 {
+	const PAGE_SIZE=10;
+
 	/**
 	 * @var string specifies the default action to be 'list'.
 	 */
@@ -28,47 +30,19 @@ class {ClassName} extends CController
 	public function accessRules()
 	{
 		return array(
-			array('deny',  // deny access to CUD operations for guest users
+			array('deny',  // deny access to create, update, delete operations for guest users
 				'actions'=>array('create','update','delete'),
 				'users'=>array('?'),
 			),
+			array('allow', // allow access to admin operation for admin user
+				'actions'=>array('admin'),
+				'users'=>array('admin'),
+			),
+			array('deny',  // deny access to admin operation for all users
+				'actions'=>array('admin'),
+				'users'=>array('*'),
+			),
 		);
-	}
-
-	/**
-	 * Lists all {ModelVar}s.
-	 */
-	public function actionList()
-	{
-		$this->processListCommand();
-
-		$pages=$this->paginate({ModelClass}::model()->count());
-		${ModelVar}List={ModelClass}::model()->findAll($this->getListCriteria($pages));
-
-		$this->render('list',array(
-			'{ModelVar}List'=>${ModelVar}List,
-			'pages'=>$pages));
-	}
-
-	/**
-	 * Executes any command triggered on the list page.
-	 */
-	protected function processListCommand()
-	{
-		if(isset($_POST['command'], $_POST['id']) && $_POST['command']==='delete')
-		{
-			if(Yii::app()->user->isGuest)
-				Yii::app()->user->loginRequired();
-
-			if((${ModelVar}={ModelClass}::model()->findbyPk($_POST['id']))!==null)
-			{
-				${ModelVar}->delete();
-				// reload the current page to avoid duplicated delete actions
-				$this->refresh();
-			}
-			else
-				throw new CHttpException(500,'The requested {ModelName} does not exist.');
-		}
 	}
 
 	/**
@@ -125,6 +99,34 @@ class {ClassName} extends CController
 		}
 		else
 			throw new CHttpException(500,'Invalid request. Please do not repeat this request again.');
+	}
+
+	/**
+	 * Lists all {ModelVar}s.
+	 */
+	public function actionList()
+	{
+		$pages=$this->paginate({ModelClass}::model()->count(), self::PAGE_SIZE);
+		${ModelVar}List={ModelClass}::model()->findAll($this->getListCriteria($pages));
+
+		$this->render('list',array(
+			'{ModelVar}List'=>${ModelVar}List,
+			'pages'=>$pages));
+	}
+
+	/**
+	 * Manages all {ModelVar}s.
+	 */
+	public function actionAdmin()
+	{
+		$this->processAdminCommand();
+
+		$pages=$this->paginate({ModelClass}::model()->count(), self::PAGE_SIZE);
+		${ModelVar}List={ModelClass}::model()->findAll($this->getListCriteria($pages));
+
+		$this->render('admin',array(
+			'{ModelVar}List'=>${ModelVar}List,
+			'pages'=>$pages));
 	}
 
 	/**
@@ -185,5 +187,26 @@ class {ClassName} extends CController
 		}
 		$url=$this->createUrl('list',$params);
 		return CHtml::link({ModelClass}::model()->getAttributeLabel($column),$url);
+	}
+
+	/**
+	 * Executes any command triggered on the admin page.
+	 */
+	protected function processAdminCommand()
+	{
+		if(isset($_POST['command'], $_POST['id']) && $_POST['command']==='delete')
+		{
+			if(Yii::app()->user->isGuest)
+				Yii::app()->user->loginRequired();
+
+			if((${ModelVar}={ModelClass}::model()->findbyPk($_POST['id']))!==null)
+			{
+				${ModelVar}->delete();
+				// reload the current page to avoid duplicated delete actions
+				$this->refresh();
+			}
+			else
+				throw new CHttpException(500,'The requested {ModelName} does not exist.');
+		}
 	}
 }

@@ -115,3 +115,10 @@ table.dataGrid tr.odd
 {
 	margin: 10px;
 }
+
+div.item
+{
+	margin: 10px 0 0 0;
+	border: 1px solid silver;
+	padding: 5px;
+}

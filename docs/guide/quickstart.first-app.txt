@@ -200,15 +200,26 @@ click on the `Create` button. If there is any input error, a nice error
 prompt will be shown which prevents us from saving the input. Back to the
 user list, we should see the newly added user appearing in the list.
 
-Repeat the above steps to add more users. Notice that user list page will
-automatically paginate the user entries if there are too many to be
-displayed in one page. The list page also allows us to sort, update or
-delete user entries.
+Repeat the above steps to add more users. Notice that user list page
+will automatically paginate the user entries if there are too many to be
+displayed in one page.
+
+If we login as an administrator using `admin/admin`, we can view the user
+admin page with the following URL:
+
+~~~
+http://hostname/testdrive/index.php?r=user/admin
+~~~
+
+This will show us a nice table of user entries. We can click on the table
+header cells to sort the corresponding columns. And like the user list page,
+the admin page also performs pagination when there are too many user entries
+to be displayed in one page.
 
 All these nice features come without requiring us to write a single line
 of code!
 
-![User list page](first-app4.png)
+![User admin page](first-app4.png)
 
 ![Create new user page](first-app5.png)
 
