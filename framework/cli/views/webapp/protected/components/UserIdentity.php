@@ -17,9 +17,14 @@ class UserIdentity extends CUserIdentity
 	 */
 	public function authenticate()
 	{
-		if($this->username!='demo')
+		$users=array(
+			// username => password
+			'demo'=>'demo',
+			'admin'=>'admin',
+		);
+		if(!isset($users[$this->username]))
 			$this->errorCode=self::ERROR_USERNAME_INVALID;
-		else if($this->password!='demo')
+		else if($users[$this->username]!==$this->password)
 			$this->errorCode=self::ERROR_PASSWORD_INVALID;
 		else
 			$this->errorCode=self::ERROR_NONE;

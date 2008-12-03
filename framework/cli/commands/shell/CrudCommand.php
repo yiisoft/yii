@@ -80,7 +80,7 @@ EOD;
 				'params'=>array($controllerClass,$modelClass),
 			),
 		);
-		foreach(array('create','update','list','show') as $action)
+		foreach(array('create','update','list','show','admin') as $action)
 		{
 			$list[$action.'.php']=array(
 				'source'=>$templatePath.'/'.$action.'.php',
