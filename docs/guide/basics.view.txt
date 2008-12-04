@@ -5,11 +5,11 @@ A view is a PHP script consisting of mainly elements of user interface. It
 can contain PHP statements, but it is recommended that these statements
 should not alter data models and should remain relatively simple. For the
 spirit of separation of logic and presentation, large chunk of logic should
-be done in controller instead of view.
+be placed in controller or model instead of view.
 
 A view has a name which is used to identify the view script file when
 rendering. The name of a view is the same as the name of its view script
-file. For example, view `edit` refers to a view script file named
+file. For example, view `edit` refers to a view script file named as
 `edit.php`. To render a view, call [CController::render()] with the name of
 the view. The method will look for the corresponding view file under the
 directory `protected/views/ControllerID`.
@@ -26,7 +26,7 @@ $this->render('edit', array(
 ~~~
 
 The [render()|CController::render] method will extract the second array
-parameter into variables. Therefore, in the view script we can access
+parameter into variables. As a result, in the view script we can access
 variables `$var1` and `$var2`.
 
 Layout
@@ -34,7 +34,7 @@ Layout
 
 Layout is a special view that is used to decorate views. It usually
 contains portions of user interface that are common among several views.
-For example, a layout may contain header and footer portions while embeds
+For example, a layout may contain header and footer portions and embed
 the content view in between,
 
 ~~~
@@ -44,12 +44,12 @@ the content view in between,
 ......footer here......
 ~~~
 
-where `$content` represents the rendering result of the content view.
+where `$content` stores the rendering result of the content view.
 
 Layout is implicitly applied when calling [render()|CController::render].
 By default, the view script `protected/views/layouts/main.php` is used as
-the layout. This can be customized by changing [CWebApplication::layout]
-and [CController::layout]. To render a view without applying any layout,
+the layout. This can be customized by changing either [CWebApplication::layout]
+or [CController::layout]. To render a view without applying any layout,
 call [renderPartial()|CController::renderPartial] instead.
 
 Widget
@@ -77,17 +77,22 @@ or
 <?php $this->widget('path.to.WidgetClass'); ?>
 ~~~
 
-if the widget does not need any body content.
+The latter is used when the widget does not need any body content.
 
-Sometimes, we may want to configure a widget when using it. For example,
+Widgets can be configured to customize its behaviors. This is done by
+settings their initial property values when calling
+[CBaseController::beginWidget] or [CBaseController::widget]. For example,
 when using [CMaskedTextField] widget, we would like to specify the mask
 being used. We can do so by passing an array of those property initial
-values as follows:
+values as follows, where the array keys are property names and array values
+the initial values of the corresponding widget properties:
 
 ~~~
 [php]
 <?php
-$this->widget('system.web.widgets.CMaskedTextField',array('mask'=>'99/99/9999'));
+$this->widget('CMaskedTextField',array(
+	'mask'=>'99/99/9999'
+));
 ?>
 ~~~
 
@@ -110,7 +115,7 @@ class MyWidget extends CWidget
 }
 ~~~
 
-A widget can also own views, like a controller does. By default, widget
+Like a controller, a widget can also have its own view. By default, widget
 view files are located under the `views` subdirectory of the directory
 containing the widget class file. These views can be rendered by calling
 [CWidget::render()], similar to that in controller. The only difference is
@@ -119,10 +124,10 @@ that no layout will be applied to a widget view.
 System View
 -----------
 
-System views are views used by Yii to display error information. For
-example, when a user requests for a non-existing controller or action, Yii
-will throw an exception explaining the error. Yii displays the exception
-using a specific system view.
+System views refer to the views used by Yii to display error and logging
+information. For example, when a user requests for a non-existing controller
+or action, Yii will throw an exception explaining the error. Yii displays the
+exception using a specific system view.
 
 The naming of system views follows some rules. Names like `errorXXX` refer
 to views for displaying [CHttpException] with error code `XXX`. For
