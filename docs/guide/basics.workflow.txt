@@ -41,8 +41,7 @@ required.
    9. Spot data and views that can be cached and apply appropriate
 [caching](/doc/guide/caching.overview) techniques.
 
-   10. Final [tune up](/doc/guide/topics.performance) and
-[deployment](/doc/guide/topics.deployment).
+   10. Final [tune up](/doc/guide/topics.performance) and deployment.
 
 For each of the above steps, test cases may need to be created and
 performed.
