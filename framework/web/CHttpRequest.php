@@ -485,7 +485,8 @@ class CHttpRequest extends CApplicationComponent
 	{
 		if($this->_csrfToken===null)
 		{
-			if(($this->_csrfToken=$this->getCsrfTokenFromCookie())===null)
+			$cookie=$this->getCookies()->itemAt($this->csrfTokenName);
+			if(!$cookie || ($this->_csrfToken=$cookie->value)==null)
 			{
 				$cookie=$this->createCsrfCookie();
 				$this->_csrfToken=$cookie->value;
@@ -548,6 +549,7 @@ class CHttpRequest extends CApplicationComponent
  * <pre>
  * $cookies[$name]=new CHttpCookie($name,$value); // sends a cookie
  * $value=$cookies[$name]->value; // reads a cookie value
+ * unset($cookies[$name]);  // removes a cookie
  * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
