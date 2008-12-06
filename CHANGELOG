@@ -6,6 +6,10 @@ Version 1.1a to be released
 ---------------------------
 
 
+Version 1.0.1 to be released
+----------------------------
+- Fixed issue #41: missing function CHttpRequest:: getCsrfTokenFromCookie() (Qiang)
+
 Version 1.0 December 3, 2008
 ----------------------------
 - Added CTabView (Qiang)
