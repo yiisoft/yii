@@ -38,6 +38,10 @@ class CClientScript extends CApplicationComponent
 	 * The body script is rendered inside a jQuery ready function.
 	 */
 	const POS_READY=4;
+	/**
+	 * The script should be rendered at the place where it is declared.
+	 */
+	const POS_INPLACE=5;
 
 	/**
 	 * @var boolean whether JavaScript should be enabled. Defaults to true.
