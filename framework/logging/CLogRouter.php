@@ -85,7 +85,6 @@ class CLogRouter extends CApplicationComponent
 	 */
 	public function setRoutes($config)
 	{
-		$routes=$this->getRoutes();
 		foreach($config as $c)
 		{
 			if(isset($c['class']))
