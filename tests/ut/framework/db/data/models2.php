@@ -22,6 +22,7 @@ class User2 extends CActiveRecord
 	{
 		return array(
 			'posts'=>array(self::HAS_MANY,'Post2','author_id'),
+			'friends'=>array(self::MANY_MANY,'User2','test.user_friends(id,friend)'),
 		);
 	}
 

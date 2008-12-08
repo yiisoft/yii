@@ -17,6 +17,21 @@ INSERT INTO test.users (username, password, email) VALUES ('user1','pass1','emai
 INSERT INTO test.users (username, password, email) VALUES ('user2','pass2','email2');
 INSERT INTO test.users (username, password, email) VALUES ('user3','pass3','email3');
 
+CREATE TABLE test.user_friends
+(
+	id INTEGER NOT NULL,
+	friend INTEGER NOT NULL,
+	PRIMARY KEY (id, friend),
+	CONSTRAINT FK_user_id FOREIGN KEY (id)
+		REFERENCES test.users (id) ON DELETE CASCADE ON UPDATE RESTRICT,
+	CONSTRAINT FK_friend_id FOREIGN KEY (friend)
+		REFERENCES test.users (id) ON DELETE CASCADE ON UPDATE RESTRICT
+);
+
+INSERT INTO test.user_friends VALUES (1,2);
+INSERT INTO test.user_friends VALUES (1,3);
+INSERT INTO test.user_friends VALUES (2,3);
+
 CREATE TABLE test.profiles
 (
 	id SERIAL NOT NULL PRIMARY KEY,

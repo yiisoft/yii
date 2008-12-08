@@ -185,7 +185,7 @@ class {ClassName} extends CController
 			$params['sort']=$column;
 			unset($params['desc']);
 		}
-		$url=$this->createUrl('list',$params);
+		$url=$this->createUrl('admin',$params);
 		return CHtml::link({ModelClass}::model()->getAttributeLabel($column),$url);
 	}
 

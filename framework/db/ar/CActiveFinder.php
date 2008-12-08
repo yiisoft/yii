@@ -591,16 +591,16 @@ class CJoinElement
 					if(isset($joinTable->foreignKeys[$fk]))
 					{
 						list($tableName,$pk)=$joinTable->foreignKeys[$fk];
-						if($schema->compareTableNames($parent->_table->rawName,$tableName))
-							$parentCondition[]=$parent->getColumnPrefix().$schema->quoteColumnName($pk).'='.$joinAlias.'.'.$schema->quoteColumnName($fk);
-						else if($schema->compareTableNames($this->_table->rawName,$tableName))
-							$childCondition[]=$this->getColumnPrefix().$schema->quoteColumnName($pk).'='.$joinAlias.'.'.$schema->quoteColumnName($fk);
+						if(!isset($parentCondition[$pk]) && $schema->compareTableNames($parent->_table->rawName,$tableName))
+							$parentCondition[$pk]=$parent->getColumnPrefix().$schema->quoteColumnName($pk).'='.$joinAlias.'.'.$schema->quoteColumnName($fk);
+						else if(!isset($childCondition[$pk]) && $schema->compareTableNames($this->_table->rawName,$tableName))
+							$childCondition[$pk]=$this->getColumnPrefix().$schema->quoteColumnName($pk).'='.$joinAlias.'.'.$schema->quoteColumnName($fk);
 						else
 							throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". The foreign key does not point to either joining table.',
 								array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{key}'=>$fk)));
 					}
 				}
-				if(isset($parentCondition[0]) && isset($childCondition[0]))
+				if($parentCondition!==array() && $childCondition!==array())
 				{
 					$join=$this->relation->joinType.' '.$joinTable->rawName.' '.$joinAlias;
 					$join.=' ON '.implode(' AND ',$parentCondition);
