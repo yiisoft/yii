@@ -37,7 +37,7 @@
  * If a pattern ends with '/*', it means additional GET parameters may be appended to the path
  * info part of the URL; otherwise, the GET parameters can only appear in the query string part.
  *
- * To specify URL rules, set the {@link setRules rules) property as an array of rules (pattern=>route).
+ * To specify URL rules, set the {@link setRules rules} property as an array of rules (pattern=>route).
  * For example,
  * <pre>
  * array(
