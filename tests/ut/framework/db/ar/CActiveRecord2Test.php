@@ -560,4 +560,21 @@ class CActiveRecord2Test extends CTestCase
 			'params'=>array(':id'=>2)));
 		$this->assertTrue($posts[0] instanceof Post2);
 	}
+
+	public function testSelfManyMany()
+	{
+		$user=User2::model()->findByPk(1);
+		$this->assertTrue($user instanceof User2);
+		$friends=$user->friends;
+		$this->assertEquals(count($friends),2);
+		$this->assertEquals($friends[0]->id,2);
+		$this->assertEquals($friends[1]->id,3);
+
+		$user=User2::model()->with('friends')->findByPk(1);
+		$this->assertTrue($user instanceof User2);
+		$friends=$user->friends;
+		$this->assertEquals(count($friends),2);
+		$this->assertEquals($friends[0]->id,2);
+		$this->assertEquals($friends[1]->id,3);
+	}
 }
