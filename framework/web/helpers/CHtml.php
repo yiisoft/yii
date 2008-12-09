@@ -1162,7 +1162,7 @@ class CHtml
 	 * <li>scriptPosition: integer, specifies where the generated javascript should be rendered.
 	 * If not set, the javascript will be rendered in jQuery's ready() function.
 	 * If the value is CClientScript::POS_INPLACE, the javascript will be rendered as the corresponding
-	 * event's value (e.g. onclick's value).</li>
+	 * event's value (e.g. onclick's value). This option is available since version 1.0.1.</li>
 	 * </ul>
 	 */
 	protected static function clientChange($event,&$htmlOptions)
