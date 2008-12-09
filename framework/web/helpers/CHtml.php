@@ -1086,6 +1086,33 @@ class CHtml
 	}
 
 	/**
+	 * Generates input field ID for a model attribute.
+	 * @param CModel the data model
+	 * @param string the attribute
+	 * @return string the generated input field ID
+	 * @since 1.0.1
+	 */
+	public static function activeId($model,$attribute)
+	{
+		return self::getIdByName(self::activeName($model,$attribute));
+	}
+
+	/**
+	 * Generates input field name for a model attribute.
+	 * @param CModel the data model
+	 * @param string the attribute
+	 * @return string the generated input field name
+	 * @since 1.0.1
+	 */
+	public static function activeName($model,$attribute)
+	{
+		if(($pos=strpos($attribute,'['))!==false)
+			return get_class($model).substr($attribute,$pos).'['.substr($attribute,0,$pos).']';
+		else
+			return get_class($model).'['.$attribute.']';
+	}
+
+	/**
 	 * Generates an input HTML tag for a model attribute.
 	 * This method generates an input HTML tag based on the given data model and attribute.
 	 * If the attribute has input error, the input field's CSS class will
