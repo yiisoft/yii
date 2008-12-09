@@ -13,7 +13,7 @@
  *
  * NOTE, this file must be saved in UTF-8 encoding.
  *
- * @version $Id$
+ * @version $Id: $
  */
 return array (
   'Yii application can only be created once.' => '',
