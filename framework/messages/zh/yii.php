@@ -200,5 +200,4 @@ return array (
   '{widget} cannot find the view "{view}".' => '',
   'Get a new code' => '',
   'No columns are being updated for table "{table}".' => '',
-  'No columns are being updated to table "{table}".' => '@@@@',
 );
