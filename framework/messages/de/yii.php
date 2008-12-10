@@ -86,6 +86,7 @@ return array (
   'The active record cannot be deleted because it is new.' => 'Das ActiveRecord-Objekt kann nicht gelöscht werden, weil es neu ist.',
   'The table "{table}" for active record class "{class}" cannot be found in the database.' => 'Die Tabelle "{table}" für die ActiveRecord-Klasse "{class}" kann nicht in der Datenbank gefunden werden.',
   'Active record "{class}" has an invalid configuration for relation "{relation}". It must specify the relation type, the related active record class and the foreign key.' => 'ActiveRecord-Klasse "{class}" hat eine ungültige Konfiguration für die Relation "{relation}". Relations-Typ, verknüpftes ActiveRecord und Fremdschlüssel müssen angegeben werden.',
+  'No columns are being updated for table "{table}".' => 'Für Tabelle "{table}" werden keine Felder aktualisiert.',
   'No counter columns are being updated for table "{table}".' => 'Für die Tabelle "{table}" werden keine Zähler-Felder aktualisiert.',
   'The value for the primary key "{key}" is not supplied when querying the table "{table}".' => 'Der Wert für den Primärschlüssel "{key}" wurde bei der Abfrage der Tabelle "{table}" nicht angegeben.',
   'Table "{table}" does not have a primary key defined.' => 'Für Tabelle "{table}" ist kein Primärschlüssel definiert.',
@@ -199,5 +200,4 @@ return array (
   'Unable to replay the action "{object}.{method}". The method does not exist.' => 'Konnte die Aktion "{object}.{method}" nicht erneut durchführen. Die Methode existiert nicht.',
   '{widget} cannot find the view "{view}".' => '{widget} kann den View "{view}" nicht finden.',
   'Get a new code' => 'Neuen Code erzeugen',
-  'No columns are being updated for table "{table}".' => 'Für Tabelle "{table}" werden keine Felder aktualisiert.',
 );
