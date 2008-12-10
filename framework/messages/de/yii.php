@@ -13,7 +13,7 @@
  *
  * NOTE, this file must be saved in UTF-8 encoding.
  *
- * @version $Id: $
+ * @version $Id$
  */
 return array (
   'Yii application can only be created once.' => '',
@@ -86,7 +86,6 @@ return array (
   'The active record cannot be deleted because it is new.' => '',
   'The table "{table}" for active record class "{class}" cannot be found in the database.' => '',
   'Active record "{class}" has an invalid configuration for relation "{relation}". It must specify the relation type, the related active record class and the foreign key.' => '',
-  'No columns are being updated to table "{table}".' => '',
   'No counter columns are being updated for table "{table}".' => '',
   'The value for the primary key "{key}" is not supplied when querying the table "{table}".' => '',
   'Table "{table}" does not have a primary key defined.' => '',
@@ -200,4 +199,6 @@ return array (
   'Unable to replay the action "{object}.{method}". The method does not exist.' => '',
   '{widget} cannot find the view "{view}".' => '',
   'Get a new code' => '',
+  'No columns are being updated for table "{table}".' => '',
+  'No columns are being updated to table "{table}".' => '@@@@',
 );
