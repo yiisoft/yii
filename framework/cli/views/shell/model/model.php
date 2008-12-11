@@ -36,9 +36,9 @@ class {ClassName} extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'author'=>array(self::BELONGS_TO, 'User', 'author_id'),
-			'comments'=>array(self::HAS_MANY, 'Comment', 'post_id', 'with'=>'author', 'order'=>'create_time DESC'),
-			'tags'=>array(self::MANY_MANY, 'Tag', 'post_tag(post_id, tag_id)', 'order'=>'name'),
+			'author'=>array(self::BELONGS_TO, 'User', 'authorId'),
+			'comments'=>array(self::HAS_MANY, 'Comment', 'postId', 'with'=>'author', 'order'=>'createTime DESC'),
+			'tags'=>array(self::MANY_MANY, 'Tag', 'PostTag(postId, tagId)', 'order'=>'name'),
 		);
 	}
 

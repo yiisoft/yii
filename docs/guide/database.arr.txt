@@ -144,7 +144,7 @@ example below shows how to use this approach:
 ~~~
 [php]
 // retrieve the post whose ID is 10
-$post=Post::model()->queryByPk(10);
+$post=Post::model()->findByPk(10);
 // retrieve the post's author: a relational query will be performed here
 $author=$post->author;
 ~~~

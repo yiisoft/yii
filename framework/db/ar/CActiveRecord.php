@@ -666,7 +666,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function setAttribute($name,$value)
 	{
-		if(property_exists($name))
+		if(property_exists($this,$name))
 			$this->$name=$value;
 		else if(isset($this->getMetaData()->columns[$name]))
 			$this->_attributes[$name]=$value;
