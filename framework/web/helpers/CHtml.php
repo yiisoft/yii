@@ -1165,7 +1165,7 @@ class CHtml
 			{
 				$content.='<optgroup label="'.self::encode($key)."\">\n";
 				$dummy=array();
-				$content.=self::listOptions($value,$selection,$dummy);
+				$content.=self::listOptions($selection,$value,$dummy);
 				$content.='</optgroup>'."\n";
 			}
 			else if(!is_array($selection) && !strcmp($key,$selection) || is_array($selection) && in_array($key,$selection))
