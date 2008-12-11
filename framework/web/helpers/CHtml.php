@@ -852,7 +852,7 @@ class CHtml
 			$htmlOptions['checked']='checked';
 		self::resolveNameID($model,$attribute,$htmlOptions);
 		self::clientChange('click',$htmlOptions);
-		return self::hiddenField($htmlOptions['name'],$htmlOptions['value']?0:-1)
+		return self::hiddenField($htmlOptions['name'],$htmlOptions['value']?0:-1,array('id'=>self::ID_PREFIX.$htmlOptions['id']))
 			. self::activeInputField('radio',$model,$attribute,$htmlOptions);
 	}
 
@@ -878,7 +878,7 @@ class CHtml
 		self::resolveNameID($model,$attribute,$htmlOptions);
 		self::clientChange('click',$htmlOptions);
 
-		return self::hiddenField($htmlOptions['name'],'')
+		return self::hiddenField($htmlOptions['name'],'',array('id'=>self::ID_PREFIX.$htmlOptions['id']))
 			. self::activeInputField('checkbox',$model,$attribute,$htmlOptions);
 	}
 
@@ -957,7 +957,7 @@ class CHtml
 		$name=$htmlOptions['name'];
 		unset($htmlOptions['name'],$htmlOptions['id']);
 
-		return self::hiddenField($name,'')
+		return self::hiddenField($name,'',array('id'=>self::ID_PREFIX.$htmlOptions['id']))
 			. self::checkBoxList($name,$selection,$data,$htmlOptions);
 	}
 
@@ -989,7 +989,7 @@ class CHtml
 		$name=$htmlOptions['name'];
 		unset($htmlOptions['name'],$htmlOptions['id']);
 
-		return self::hiddenField($name,'')
+		return self::hiddenField($name,'',array('id'=>self::ID_PREFIX.$htmlOptions['id']))
 			. self::radioButtonList($name,$selection,$data,$htmlOptions);
 	}
 
@@ -1086,6 +1086,33 @@ class CHtml
 	}
 
 	/**
+	 * Generates input field ID for a model attribute.
+	 * @param CModel the data model
+	 * @param string the attribute
+	 * @return string the generated input field ID
+	 * @since 1.0.1
+	 */
+	public static function activeId($model,$attribute)
+	{
+		return self::getIdByName(self::activeName($model,$attribute));
+	}
+
+	/**
+	 * Generates input field name for a model attribute.
+	 * @param CModel the data model
+	 * @param string the attribute
+	 * @return string the generated input field name
+	 * @since 1.0.1
+	 */
+	public static function activeName($model,$attribute)
+	{
+		if(($pos=strpos($attribute,'['))!==false)
+			return get_class($model).substr($attribute,$pos).'['.substr($attribute,0,$pos).']';
+		else
+			return get_class($model).'['.$attribute.']';
+	}
+
+	/**
 	 * Generates an input HTML tag for a model attribute.
 	 * This method generates an input HTML tag based on the given data model and attribute.
 	 * If the attribute has input error, the input field's CSS class will
@@ -1162,7 +1189,7 @@ class CHtml
 	 * <li>scriptPosition: integer, specifies where the generated javascript should be rendered.
 	 * If not set, the javascript will be rendered in jQuery's ready() function.
 	 * If the value is CClientScript::POS_INPLACE, the javascript will be rendered as the corresponding
-	 * event's value (e.g. onclick's value).</li>
+	 * event's value (e.g. onclick's value). This option is available since version 1.0.1.</li>
 	 * </ul>
 	 */
 	protected static function clientChange($event,&$htmlOptions)
