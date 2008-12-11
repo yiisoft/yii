@@ -852,7 +852,7 @@ class CHtml
 			$htmlOptions['checked']='checked';
 		self::resolveNameID($model,$attribute,$htmlOptions);
 		self::clientChange('click',$htmlOptions);
-		return self::hiddenField($htmlOptions['name'],$htmlOptions['value']?0:-1)
+		return self::hiddenField($htmlOptions['name'],$htmlOptions['value']?0:-1,array('id'=>self::ID_PREFIX.$htmlOptions['id']))
 			. self::activeInputField('radio',$model,$attribute,$htmlOptions);
 	}
 
@@ -878,7 +878,7 @@ class CHtml
 		self::resolveNameID($model,$attribute,$htmlOptions);
 		self::clientChange('click',$htmlOptions);
 
-		return self::hiddenField($htmlOptions['name'],'')
+		return self::hiddenField($htmlOptions['name'],'',array('id'=>self::ID_PREFIX.$htmlOptions['id']))
 			. self::activeInputField('checkbox',$model,$attribute,$htmlOptions);
 	}
 
@@ -957,7 +957,7 @@ class CHtml
 		$name=$htmlOptions['name'];
 		unset($htmlOptions['name'],$htmlOptions['id']);
 
-		return self::hiddenField($name,'')
+		return self::hiddenField($name,'',array('id'=>self::ID_PREFIX.$htmlOptions['id']))
 			. self::checkBoxList($name,$selection,$data,$htmlOptions);
 	}
 
@@ -989,7 +989,7 @@ class CHtml
 		$name=$htmlOptions['name'];
 		unset($htmlOptions['name'],$htmlOptions['id']);
 
-		return self::hiddenField($name,'')
+		return self::hiddenField($name,'',array('id'=>self::ID_PREFIX.$htmlOptions['id']))
 			. self::radioButtonList($name,$selection,$data,$htmlOptions);
 	}
 
