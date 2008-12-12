@@ -102,7 +102,7 @@ class CTextHighlighter extends COutputProcessor
 		$highlighter=empty($this->language)?false:Text_Highlighter::factory($this->language);
 
 		if($highlighter===false)
-			$o='<pre>'.htmlentities($content).'</pre>';
+			$o='<pre>'.CHtml::encode($content).'</pre>';
 		else
 		{
 			$highlighter->setRenderer(new Text_Highlighter_Renderer_Html($options));
