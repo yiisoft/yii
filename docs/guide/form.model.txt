@@ -101,7 +101,7 @@ array('AttributeList', 'Validator', 'on'=>'ScenarioList', ...additional options)
 where `AttributeList` is a string of comma-separated attribute names which
 need to be validated according to the rule; `Validator` specifies what kind of
 validation should be performed; the `on` parameter is optional which specifies
-a list of scenarios that the rule should be applied; and additional options
+a list of scenarios where the rule should be applied; and additional options
 are name-value pairs which are used to initialize the corresponding validator's
 property values.
 
@@ -197,20 +197,43 @@ to save the model to database, validation will be automatically performed.
 
 By default, when we call [validate()|CModel::validate], all attributes
 specified in [rules()|CModel::rules] will be validated. Sometimes we may
-only want to validate part of those attributes, while sometimes we want to
-apply different validation rules in different scenarios. We can achieve
-these goals by passing two parameters to [validate()|CModel::validate].
-For example, if we only want to validate three attributes under
-the `register` scenario, we can use the following code:
+only want to validate part of those attributes. To do so, we can pass
+the names of the attributes to be validated as the first parameter of the
+[validate()|CModel::validate] call, like the following:
+
+~~~
+[php]
+$model->validate(array('username','password'));
+~~~
+
+
+Scenario-based Validation
+-------------------------
+
+> Note: scenario-based validation has been available since version 1.0.1.
+
+It is often needed that a model be used in different scenarios. For example,
+a user model may be used in `login`, 'register`, `insert` or `update` scenarios.
+Different scenario may require different validation rules. We call this
+scenario-based validation.
+
+Scenario-based validation can be achieved by using the `on` parameter mentioned
+in the [Declaring Validation Rules](#declaring-validation-rules) section.
+In particular, if a validation rule should only be applied in certain scenarios,
+we would assign to its `on` parameter with the list of the scenario names.
+And then, when we call [validate()|CModel::validate] to perform the validation,
+we will specify the second parameter as the needed scenario name.
+
+For example, we execute the following statement to perform the validation
+when registering a user:
 
 ~~~
 [php]
 $model->validate(array('username','password','password_repeat'), 'register');
 ~~~
 
-In order to allow scenario-based validation as described above, we should
-specify the `on` option in the relevant validation rules. For the above
-example, we would need the following rules:
+Because the validation is done in the `register` scenario, we would need
+the following rules:
 
 ~~~
 [php]
