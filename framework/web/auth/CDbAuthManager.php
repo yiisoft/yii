@@ -103,6 +103,9 @@ class CDbAuthManager extends CAuthManager
 	 */
 	public function addItemChild($itemName,$childName)
 	{
+		if($itemName===$childName)
+			throw new CException(Yii::t('yii','Cannot add "{name}" as a child of itself.',
+					array('{name}'=>$itemName)));
 		$sql="SELECT * FROM {$this->itemTable} WHERE name=:name1 OR name=:name2";
 		$command=$this->db->createCommand($sql);
 		$command->bindValue(':name1',$itemName);
@@ -133,7 +136,7 @@ class CDbAuthManager extends CAuthManager
 			$command->execute();
 		}
 		else
-			throw new CException(Yii::t('yii','Either "{parent}" or "{child}" does not exist.',array('{child}'=>$childName,'{name}'=>$itemName)));
+			throw new CException(Yii::t('yii','Either "{parent}" or "{child}" does not exist.',array('{child}'=>$childName,'{parent}'=>$itemName)));
 	}
 
 	/**

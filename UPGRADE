@@ -11,28 +11,6 @@ for both A and B.
 
 Upgrading from v1.0.0
 ---------------------
-
-Upgrading from v1.0rc
----------------------
-- CLinkPager is changed significantly in both the appearance and the generated HTML code.
-- CController::clientScript is removed. Please use Yii::app()->clientScript instead.
-- CClientScript is changed. The methods registerBodyScript() and
-  registerBodyScriptFile() are removed. Please use registerScript() and
-  registerScriptFile() with appropriate position parameter.
-
-
-Upgrading from v1.0b
---------------------
-
-
-Upgrading from v1.0a
---------------------
-- The getIsNewRecord and setIsNewRecord methods are removed from CActiveRecord.
-  Please use CActiveRecord.isNewRecord property directly.
-- CWebUser.login is now taking an identity object as parameter.
-  CWebUser.switchTo is removed. You should now implement identity class
-  instead of overriding CWebUser. CWebUser.roles property is removed
-  and the roles property is removed from access rules of CAccessControlFilter.
-  Consider using "authManager" application component to do RBAC.
-- Yii::t() is changed. A category parameter is added as the first parameter.
-  And the message to be translated should not contain category information anymore.
+- An $on parameter is added to both CModel::beforeValidate() and afterValidate().
+  If you override these methods in your child classes (form models, AR classes),
+  make sure you change the method signature accordingly.

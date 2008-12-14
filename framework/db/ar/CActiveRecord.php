@@ -262,7 +262,7 @@
  * {@link CHasManyRelation}.
  *
  * CActiveRecord has built-in validation functionality that validates the user input data
- * before they are saved to database. To use the validation, override {@link rules()} as follows,
+ * before they are saved to database. To use the validation, override {@link CModel::rules()} as follows,
  * <pre>
  * class Post extends CActiveRecord
  * {
@@ -291,8 +291,10 @@
  *   When using a built-in validator class, you can use an alias name instead of the full class name.
  *   For example, you can use "required" instead of "system.validators.CRequiredValidator".
  *   For more details, see {@link CValidator}.</li>
- * <li>on: specifies when the validation should be performed. It can be either 'insert' or 'update'. If
- *   not set, the validation will apply to both 'insert' and 'update' operations.</li>
+ * <li>on: this specifies when the validation rule should be performed. Please see {@link CModel::validate}
+ *   for more details about this option. NOTE: if the validation is triggered by the {@link save} call,
+ *   it will use 'insert' to indicate an insertion operation, and 'update' an updating operation.
+ *   You may thus specify a rule with the 'on' option so that it is applied only to insertion or updating.</li>
  * <li>additional parameters are used to initialize the corresponding validator properties. See {@link CValidator}
  *   for possible properties.</li>
  * </ul>
@@ -773,46 +775,31 @@ abstract class CActiveRecord extends CModel
 	 * after insertion the primary key will be populated with the value
 	 * generated automatically by the database.
 	 * @param boolean whether to perform validation before saving the record.
+	 * If the validation fails, the record will not be saved to database.
+	 * The validation will be performed under either 'insert' or 'update' scenario,
+	 * depending on whether {@link isNewRecord} is true or false.
 	 * @param array list of attributes that need to be saved. Defaults to null,
 	 * meaning all attributes that are loaded from DB will be saved.
 	 * @return boolean whether the saving succeeds
 	 */
 	public function save($runValidation=true,$attributes=null)
 	{
-		if(!$runValidation || $this->validate($attributes))
-		{
-			if($this->isNewRecord)
-				return $this->insert($attributes);
-			else
-				return $this->update($attributes);
-		}
+		if(!$runValidation || $this->validate($attributes,$this->isNewRecord?'insert':'update'))
+			return $this->isNewRecord ? $this->insert($attributes) : $this->update($attributes);
 		else
 			return false;
 	}
 
 	/**
-	 * Performs the validation.
-	 * This method executes every validation rule as declared in {@link rules}.
-	 * Errors found during the validation can be retrieved via {@link getErrors}.
-	 * @param array the list of attributes to be validated. Defaults to null,
-	 * meaning every attribute as listed in {@link rules} will be validated.
-	 * @return boolean whether the validation is successful without any error.
+	 * Returns a list of validators created according to {@link CModel::rules}.
+	 * This overrides the parent implementation so that the validators are only
+	 * created once for each type of AR.
+	 * @return array a list of validators created according to {@link CModel::rules}.
+	 * @since 1.0.1
 	 */
-	public function validate($attributes=null)
+	protected function getValidators()
 	{
-		$this->clearErrors();
-		if($this->beforeValidate())
-		{
-			foreach($this->getMetaData()->getValidators() as $validator)
-			{
-				if($validator->on===null || ($validator->on==='insert')===$this->isNewRecord)
-					$validator->validate($this,$attributes);
-			}
-			$this->afterValidate();
-			return !$this->hasErrors();
-		}
-		else
-			return false;
+		return $this->getMetaData()->getValidators();
 	}
 
 	/**
@@ -1374,23 +1361,6 @@ abstract class CActiveRecord extends CModel
 			$records[]=$record;
 		}
 		return $records;
-	}
-
-	/**
-	 * @return array validators built based on {@link rules()}.
-	 */
-	public function createValidators()
-	{
-		$validators=array();
-		foreach($this->rules() as $rule)
-		{
-			if(isset($rule[0],$rule[1]))  // attributes, validator name
-				$validators[]=CValidator::createValidator($rule[1],$this,$rule[0],array_slice($rule,2));
-			else
-				throw new CDbException(Yii::t('yii','{class} has an invalid validation rule. The rule must specify attributes to be validated and the validator name.',
-					array('{class}'=>get_class($this))));
-		}
-		return $validators;
 	}
 }
 

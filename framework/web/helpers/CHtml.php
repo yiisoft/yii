@@ -846,11 +846,11 @@ class CHtml
 	 */
 	public static function activeRadioButton($model,$attribute,$htmlOptions=array())
 	{
+		self::resolveNameID($model,$attribute,$htmlOptions);
 		if(!isset($htmlOptions['value']))
 			$htmlOptions['value']=1;
 		if($model->$attribute)
 			$htmlOptions['checked']='checked';
-		self::resolveNameID($model,$attribute,$htmlOptions);
 		self::clientChange('click',$htmlOptions);
 		return self::hiddenField($htmlOptions['name'],$htmlOptions['value']?0:-1,array('id'=>self::ID_PREFIX.$htmlOptions['id']))
 			. self::activeInputField('radio',$model,$attribute,$htmlOptions);
@@ -871,11 +871,11 @@ class CHtml
 	 */
 	public static function activeCheckBox($model,$attribute,$htmlOptions=array())
 	{
+		self::resolveNameID($model,$attribute,$htmlOptions);
 		if(!isset($htmlOptions['value']))
 			$htmlOptions['value']=1;
 		if($model->$attribute)
 			$htmlOptions['checked']='checked';
-		self::resolveNameID($model,$attribute,$htmlOptions);
 		self::clientChange('click',$htmlOptions);
 
 		return self::hiddenField($htmlOptions['name'],'',array('id'=>self::ID_PREFIX.$htmlOptions['id']))
@@ -897,9 +897,9 @@ class CHtml
 	 */
 	public static function activeDropDownList($model,$attribute,$data,$htmlOptions=array())
 	{
+		self::resolveNameID($model,$attribute,$htmlOptions);
 		$selection=$model->$attribute;
 		$options="\n".self::listOptions($selection,$data,$htmlOptions);
-		self::resolveNameID($model,$attribute,$htmlOptions);
 		self::clientChange('change',$htmlOptions);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
@@ -950,8 +950,8 @@ class CHtml
 	 */
 	public static function activeCheckBoxList($model,$attribute,$data,$htmlOptions=array())
 	{
-		$selection=$model->$attribute;
 		self::resolveNameID($model,$attribute,$htmlOptions);
+		$selection=$model->$attribute;
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
 		$name=$htmlOptions['name'];
@@ -982,8 +982,8 @@ class CHtml
 	 */
 	public static function activeRadioButtonList($model,$attribute,$data,$htmlOptions=array())
 	{
-		$selection=$model->$attribute;
 		self::resolveNameID($model,$attribute,$htmlOptions);
+		$selection=$model->$attribute;
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
 		$name=$htmlOptions['name'];
@@ -1165,7 +1165,7 @@ class CHtml
 			{
 				$content.='<optgroup label="'.self::encode($key)."\">\n";
 				$dummy=array();
-				$content.=self::listOptions($value,$selection,$dummy);
+				$content.=self::listOptions($selection,$value,$dummy);
 				$content.='</optgroup>'."\n";
 			}
 			else if(!is_array($selection) && !strcmp($key,$selection) || is_array($selection) && in_array($key,$selection))

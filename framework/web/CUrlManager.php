@@ -175,7 +175,10 @@ class CUrlManager extends CApplicationComponent
 		{
 			$url=rtrim($this->getBaseUrl().'/'.$route,'/');
 			foreach($params as $key=>$value)
-				$url.='/'.urlencode($key).'/'.urlencode($value);
+			{
+				if("$value"!=='')
+					$url.='/'.urlencode($key).'/'.urlencode($value);
+			}
 			return $url.$this->urlSuffix;
 		}
 		else
@@ -250,7 +253,7 @@ class CUrlManager extends CApplicationComponent
 		$segs=explode('/',$pathInfo.'/');
 		$n=count($segs);
 		for($i=2;$i<$n-1;$i+=2)
-			$_GET[$segs[$i]]=$segs[$i+1];
+			$_GET[urldecode($segs[$i])]=urldecode($segs[$i+1]);
 		return $segs[0].'/'.$segs[1];
 	}
 
@@ -388,7 +391,7 @@ class CUrlRule extends CComponent
 		{
 			if(isset($this->params[$key]))
 				$tr["<$key>"]=$value;
-			else
+			else if("$value"!=='')
 				$rest[]=urlencode($key).$sep.urlencode($value);
 		}
 		$url=strtr($this->template,$tr);
@@ -427,14 +430,14 @@ class CUrlRule extends CComponent
 			foreach($matches as $key=>$value)
 			{
 				if(is_string($key))
-					$_GET[$key]=$value;
+					$_GET[$key]=urldecode($value);
 			}
 			if($pathInfo!==$matches[0])
 			{
 				$segs=explode('/',ltrim(substr($pathInfo,strlen($matches[0])),'/'));
 				$n=count($segs);
 				for($i=0;$i<$n-1;$i+=2)
-					$_GET[$segs[$i]]=$segs[$i+1];
+					$_GET[urldecode($segs[$i])]=urldecode($segs[$i+1]);
 			}
 			return $this->route;
 		}
