@@ -29,16 +29,26 @@ abstract class CModel extends CComponent
 	 * Errors found during the validation can be retrieved via {@link getErrors}.
 	 * @param array the list of attributes to be validated. Defaults to null,
 	 * meaning every attribute as listed in {@link rules} will be validated.
+	 * @param string the set of the validation rules that should be applied.
+	 * This is used to match the {@link CValidator::on on} property set in
+	 * the validation rules. Defaults to null, meaning all validation rules
+	 * should be applied. If this parameter is a non-empty string (e.g. 'register'),
+	 * then only those validation rules whose {@link CValidator::on on} property
+	 * is not set or contains this string (e.g. 'register') will be applied.
+	 * NOTE: this parameter has been available since version 1.0.1.
 	 * @return boolean whether the validation is successful without any error.
 	 */
-	public function validate($attributes=null)
+	public function validate($attributes=null,$on=null)
 	{
 		$this->clearErrors();
-		if($this->beforeValidate())
+		if($this->beforeValidate($on))
 		{
-			foreach($this->createValidators() as $validator)
-				$validator->validate($this,$attributes);
-			$this->afterValidate();
+			foreach($this->getValidators() as $validator)
+			{
+				if(empty($on) || empty($validator->on) || is_array($validator->on) && in_array($on,$validator->on))
+					$validator->validate($this,$attributes);
+			}
+			$this->afterValidate($on);
 			return !$this->hasErrors();
 		}
 		else
@@ -48,9 +58,12 @@ abstract class CModel extends CComponent
 	/**
 	 * This method is invoked before validation starts.
 	 * You may override this method to do preliminary checks before validation.
+	 * @param string the set of the validation rules that should be applied. See {@link validate}
+	 * for more details about this parameter.
+	 * NOTE: this parameter has been available since version 1.0.1.
 	 * @return boolean whether validation should be executed. Defaults to true.
 	 */
-	protected function beforeValidate()
+	protected function beforeValidate($on)
 	{
 		return true;
 	}
@@ -58,8 +71,11 @@ abstract class CModel extends CComponent
 	/**
 	 * This method is invoked after validation ends.
 	 * You may override this method to do postprocessing after validation.
+	 * @param string the set of the validation rules that should be applied. See {@link validate}
+	 * for more details about this parameter.
+	 * NOTE: this parameter has been available since version 1.0.1.
 	 */
-	protected function afterValidate()
+	protected function afterValidate($on)
 	{
 	}
 
@@ -78,6 +94,15 @@ abstract class CModel extends CComponent
 					array('{class}'=>get_class($this))));
 		}
 		return $validators;
+	}
+
+	/**
+	 * @return array a list of validators created according to {@link rules}.
+	 * @since 1.0.1
+	 */
+	protected function getValidators()
+	{
+		return $this->createValidators();
 	}
 
 	/**
@@ -117,8 +142,8 @@ abstract class CModel extends CComponent
 	 *   When using a built-in validator class, you can use an alias name instead of the full class name.
 	 *   For example, you can use "required" instead of "system.validators.CRequiredValidator".
 	 *   For more details, see {@link CValidator}.</li>
-	 * <li>on: this is used in {@link CActiveRecord}. It specifies when the validation should be performed.
-	 *   It can be either 'insert' or 'update'. If not set, the validation will apply to both 'insert' and 'update' operations.</li>
+	 * <li>on: this specifies when the validation rule should be performed. Please see {@link validate}
+	 *   for more details about this option. </li>
 	 * <li>additional parameters are used to initialize the corresponding validator properties. See {@link CValidator}
 	 *   for possible properties.</li>
 	 * </ul>

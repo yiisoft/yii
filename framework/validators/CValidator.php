@@ -22,8 +22,7 @@
  *   of the problematic attribute. Different validators may define additional
  *   placeholders.</li>
  * <li>{@link on}: string, in which scenario should the validator be in effect.
- *   This can be either "insert" or "update". If not set, the validator will
- *   apply in both scenarios.</li>
+ *   This is used to match the 'on' parameter supplied when calling {@link CModel::validate}.</li>
  * </ul>
  *
  * When using {@link createValidator} to create a validator, the following aliases
@@ -62,12 +61,8 @@ abstract class CValidator extends CComponent
 	 * recognize "{attribute}" placeholder, which will be replaced with the label of the attribute.
 	 */
 	public $message;
-	/**
-	 * @var string when this validator should be applied. It is either "insert" or "update".
-	 * If not set, the validator will be applied in both scenarios.
-	 * This is only used for validating CActiveRecord.
-	 */
-	public $on;
+
+	private $_on;
 
 	/**
 	 * Validates a single attribute.
@@ -147,6 +142,28 @@ abstract class CValidator extends CComponent
 			$attributes=$this->attributes;
 		foreach($attributes as $attribute)
 			$this->validateAttribute($object,$attribute);
+	}
+
+	/**
+	 * @return array the set of tags (e.g. insert, register) that indicate when this validator should be applied.
+	 * If this is empty, it means the validator should be applied in all situations.
+	 * @since 1.0.1
+	 */
+	public function getOn()
+	{
+		return $this->_on;
+	}
+
+	/**
+	 * @param mixed the set of tags (e.g. insert, register) that indicate when this validator should be applied.
+ 	 * This can be either an array of the tag names or a string of comma-separated tag names.
+ 	 * @since 1.0.1
+	 */
+	public function setOn($value)
+	{
+		if(is_string($value))
+			$value=preg_split('/[\s,]+/',$value,-1,PREG_SPLIT_NO_EMPTY);
+		$this->_on=$value;
 	}
 
 	/**

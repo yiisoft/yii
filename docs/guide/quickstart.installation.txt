@@ -20,7 +20,7 @@ all the requirements of using Yii. You can do so by accessing the
 requirement checker script at the following URL in a Web browser:
 
 ~~~
-http://hostname/path/to/yii/framework/requirements/index.php
+http://hostname/path/to/yii/requirements/index.php
 ~~~
 
 The minimum requirement by Yii is that your Web server supports PHP 5.1.0

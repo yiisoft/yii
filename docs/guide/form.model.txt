@@ -95,13 +95,15 @@ Each rule returned by `rules()` must be of the following format:
 
 ~~~
 [php]
-array('AttributeList', 'Validator', ...additional options)
+array('AttributeList', 'Validator', 'on'=>'ScenarioList', ...additional options)
 ~~~
 
 where `AttributeList` is a string of comma-separated attribute names which
-need to be validated with the rule; `Validator` specifies what kind of
-validation should be performed; and additional options are used to
-configure the validation.
+need to be validated according to the rule; `Validator` specifies what kind of
+validation should be performed; the `on` parameter is optional which specifies
+a list of scenarios that the rule should be applied; and additional options
+are name-value pairs which are used to initialize the corresponding validator's
+property values.
 
 There are three ways to specify `Validator` in a validation rule. First,
 `Validator` can be the name of a method in the model class, like
@@ -192,6 +194,39 @@ To trigger validation, we can call [CModel::validate()]. The method
 returns a value indicating whether the validation is successful without any
 error. For active record model, when we call [save()|CActiveRecord::save]
 to save the model to database, validation will be automatically performed.
+
+By default, when we call [validate()|CModel::validate], all attributes
+specified in [rules()|CModel::rules] will be validated. Sometimes we may
+only want to validate part of those attributes, while sometimes we want to
+apply different validation rules in different scenarios. We can achieve
+these goals by passing two parameters to [validate()|CModel::validate].
+For example, if we only want to validate three attributes under
+the `register` scenario, we can use the following code:
+
+~~~
+[php]
+$model->validate(array('username','password','password_repeat'), 'register');
+~~~
+
+In order to allow scenario-based validation as described above, we should
+specify the `on` option in the relevant validation rules. For the above
+example, we would need the following rules:
+
+~~~
+[php]
+public function rules()
+{
+	return array(
+		array('username, password', 'required'),
+		array('password_repeat', 'required', 'on'=>'register'),
+		array('password', 'compare', 'on'=>'register'),
+	);
+}
+~~~
+
+As a result, the first rule will be applied in all scenarios, while the
+next two rules will only be applied in the `register` scenario.
+
 
 Retrieving Validation Errors
 ----------------------------
