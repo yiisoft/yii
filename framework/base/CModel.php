@@ -30,11 +30,11 @@ abstract class CModel extends CComponent
 	 * @param array the list of attributes to be validated. Defaults to null,
 	 * meaning every attribute as listed in {@link rules} will be validated.
 	 * @param string the set of the validation rules that should be applied.
-	 * This corresponds to the {@link CValidator::on on} property set in the validation rules.
-	 * Defaults to null, meaning all validation rules should be applied.
-	 * If this is a non-empty string (e.g. 'register'), then only those validation
-	 * rules whose {@link CValidator::on on} property is not set or contains this string
-	 * (e.g. 'register') will be applied.
+	 * This is used to match the {@link CValidator::on on} property set in
+	 * the validation rules. Defaults to null, meaning all validation rules
+	 * should be applied. If this parameter is a non-empty string (e.g. 'register'),
+	 * then only those validation rules whose {@link CValidator::on on} property
+	 * is not set or contains this string (e.g. 'register') will be applied.
 	 * NOTE: this parameter has been available since version 1.0.1.
 	 * @return boolean whether the validation is successful without any error.
 	 */

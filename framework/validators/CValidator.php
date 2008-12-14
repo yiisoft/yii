@@ -22,8 +22,7 @@
  *   of the problematic attribute. Different validators may define additional
  *   placeholders.</li>
  * <li>{@link on}: string, in which scenario should the validator be in effect.
- *   This can be either "insert" or "update". If not set, the validator will
- *   apply in both scenarios.</li>
+ *   This is used to match the 'on' parameter supplied when calling {@link CModel::validate}.</li>
  * </ul>
  *
  * When using {@link createValidator} to create a validator, the following aliases
