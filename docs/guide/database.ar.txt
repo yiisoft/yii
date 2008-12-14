@@ -382,11 +382,10 @@ anything coming from the client side.
 
 AR performs data validation automatically when
 [save()|CActiveRecord::save] is being invoked. The validation is based on
-the rules specified by the [rules()|CModel::rules] which should be
-overridden in AR classes. For more details about how to specifying
-validation rules, refer to <?php echo CHtml::link('Data
-Validation',array('form.validation')); ?> in the "Working with Form"
-section. Below we show an example of typical workflow with validation:
+the rules specified by in the [rules()|CModel::rules] method of the AR class.
+For more details about how to specify validation rules, refer to
+the [Data Validation](/doc/guide/form.model#declaring-validation-rules)
+section. Below is the typical workflow needed by saving a record:
 
 ~~~
 [php]
@@ -413,8 +412,8 @@ $post->save();
 
 If there are many columns, we would see a long list of such assignments.
 This can be alleviated by making use of the
-[attributes|CActiveRecord::attributes] property as shown below. Again, more
-details can be found in the "Working with Form" section.
+[attributes|CActiveRecord::attributes] property as shown below. More
+details can be found in the [Creating Action](/doc/guide/form.action) section.
 
 ~~~
 [php]
@@ -461,8 +460,8 @@ Customization
 [CActiveRecord] provides a few placeholder methods that can be overridden
 in child classes to customize its workflow.
 
-   - [beforeValidate|CActiveRecord::beforeValidate] and
-[afterValidate|CActiveRecord::afterValidate]: these are invoked before and
+   - [beforeValidate|CModel::beforeValidate] and
+[afterValidate|CModel::afterValidate]: these are invoked before and
 after validation is performed.
 
    - [beforeSave|CActiveRecord::beforeSave] and
