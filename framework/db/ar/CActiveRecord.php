@@ -775,6 +775,9 @@ abstract class CActiveRecord extends CModel
 	 * after insertion the primary key will be populated with the value
 	 * generated automatically by the database.
 	 * @param boolean whether to perform validation before saving the record.
+	 * If the validation fails, the record will not be saved to database.
+	 * The validation will be performed under either 'insert' or 'update' scenario,
+	 * depending on whether {@link isNewRecord} is true or false.
 	 * @param array list of attributes that need to be saved. Defaults to null,
 	 * meaning all attributes that are loaded from DB will be saved.
 	 * @return boolean whether the saving succeeds
