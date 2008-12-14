@@ -17,6 +17,7 @@ Version 1.0.1 to be released
 - Fixed inaccurate error message when adding an item as a child of itself in CAuthManager (Qiang)
 - Added CHtml::activeId and CHtml::activeName (Qiang)
 - Added German and Spanish core message translations (mikl, sebas)
+- Added CController::init() (Qiang)
 
 Version 1.0 December 3, 2008
 ----------------------------
