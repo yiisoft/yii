@@ -56,6 +56,12 @@ class CDbCriteria
 	 * For example, <code>'LEFT JOIN users ON users.id=authorID'</code>.
 	 */
 	public $join='';
+	/**
+	 * @var string the condition to be applied with GROUP-BY clause.
+	 * For example, <code>'SUM(revenue)<50000'</code>.
+	 * @since 1.0.1
+	 */
+	public $having='';
 
 	/**
 	 * Constructor.

@@ -299,6 +299,7 @@ class CJoinElement
 			$query->limit=$child->relation->limit;
 			$query->offset=$child->relation->offset;
 			$query->groups[]=str_replace($child->relation->aliasToken.'.',$child->_tableAlias.'.',$child->relation->group);
+			$query->havings[]=str_replace($child->relation->aliasToken.'.',$child->_tableAlias.'.',$child->relation->having);
 		}
 		$child->buildQuery($query);
 		$this->runQuery($query);
@@ -693,6 +694,10 @@ class CJoinQuery
 	 */
 	public $groups=array();
 	/**
+	 * @var array list of HAVING clauses
+	 */
+	public $havings=array();
+	/**
 	 * @var integer row limit
 	 */
 	public $limit=-1;
@@ -724,6 +729,7 @@ class CJoinQuery
 			$this->conditions[]=$criteria->condition;
 			$this->orders[]=$criteria->order;
 			$this->groups[]=$criteria->group;
+			$this->havings[]=$criteria->having;
 			$this->limit=$criteria->limit;
 			$this->offset=$criteria->offset;
 			$this->params=$criteria->params;
@@ -773,6 +779,13 @@ class CJoinQuery
 				$groups[]=$group;
 		if($groups!==array())
 			$sql.=' GROUP BY ' . implode(', ',$groups);
+
+		$havings=array();
+		foreach($this->havings as $having)
+			if($having!=='')
+				$havings[]=$having;
+		if($havings!==array())
+			$sql.=' HAVING ' . implode(' AND ',$havings);
 
 		$orders=array();
 		foreach($this->orders as $order)
