@@ -381,9 +381,7 @@ abstract class CActiveRecord extends CModel
 			return $this->_related[$name];
 		else if(isset($this->getMetaData()->relations[$name]))
 		{
-			if($this->isNewRecord)
-				return null;
-			else if(!array_key_exists($name,$this->_related))
+			if(!array_key_exists($name,$this->_related))
 			{
 				$relation=$this->getMetaData()->relations[$name];
 				$finder=new CActiveFinder($this,array($name=>$relation->with));
