@@ -252,6 +252,11 @@ during lazy loading:
 references need to be disambiguated using `aliasToken` (e.g. `??.age`).
 This option only applies to `HAS_MANY` and `MANY_MANY` relationships.
 
+   - `having`: the `HAVING` clause. It defaults to empty. Note, column
+references need to be disambiguated using `aliasToken` (e.g. `??.age`).
+This option only applies to `HAS_MANY` and `MANY_MANY` relationships. Note:
+option has been available since version 1.0.1.
+
    - `limit`: limit of the rows to be selected. This option does NOT apply
 to `BELONGS_TO` relation.
 

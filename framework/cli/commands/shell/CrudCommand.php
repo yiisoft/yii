@@ -31,7 +31,7 @@ class CrudCommand extends CConsoleCommand
 	{
 		return <<<EOD
 USAGE
-  crud <model-class> [controller-name] ...
+  crud <model-class> [controller-ID] ...
 
 DESCRIPTION
   This command generates a controller and views that accomplish
@@ -40,8 +40,8 @@ DESCRIPTION
 PARAMETERS
  * model-class: required, the name of the data model class. This can
    also be specified using dot syntax (e.g. application.models.Post)
- * controller-name: optional, the name of the controller. If not given,
-   it will use the model class as the controller name.
+ * controller-ID: optional, the controller ID (e.g. 'post', 'admin.user').
+   If absent, the model class name will be used as the ID.
 
 EOD;
 	}
@@ -62,24 +62,42 @@ EOD;
 		if(strpos($modelClass,'.')===false)
 			$modelClass='application.models.'.$modelClass;
 		$modelClass=Yii::import($modelClass);
+
 		if(isset($args[1]))
-			$controllerName=$args[1];
+		{
+			$controllerID=$args[1];
+			if(($pos=strrpos($controllerID,'.'))===false)
+			{
+				$controllerClass=ucfirst($controllerID).'Controller';
+				$controllerFile=Yii::app()->controllerPath.DIRECTORY_SEPARATOR.$controllerClass.'.php';
+				$controllerID[0]=strtolower($controllerID[0]);
+			}
+			else
+			{
+				$controllerClass=ucfirst(substr($controllerID,$pos+1)).'Controller';
+				$controllerFile=Yii::app()->controllerPath.DIRECTORY_SEPARATOR.str_replace('.',DIRECTORY_SEPARATOR,substr($controllerID,0,$pos)).DIRECTORY_SEPARATOR.$controllerClass.'.php';
+				$controllerID[$pos+1]=strtolower($controllerID[$pos+1]);
+			}
+		}
 		else
 		{
-			$controllerName=$modelClass;
-			$controllerName[0]=strtolower($controllerName[0]);
+			$controllerID=$modelClass;
+			$controllerClass=ucfirst($controllerID).'Controller';
+			$controllerFile=Yii::app()->controllerPath.DIRECTORY_SEPARATOR.$controllerClass.'.php';
+			$controllerID[0]=strtolower($controllerID[0]);
 		}
-		$controllerClass=ucfirst($controllerName).'Controller';
+
 		$templatePath=$this->templatePath===null?YII_PATH.'/cli/views/shell/crud':$this->templatePath;
-		$viewPath=Yii::app()->viewPath.DIRECTORY_SEPARATOR.$controllerName;
+		$viewPath=Yii::app()->viewPath.DIRECTORY_SEPARATOR.str_replace('.',DIRECTORY_SEPARATOR,$controllerID);
 		$list=array(
-			$controllerClass.'.php'=>array(
+			basename($controllerFile)=>array(
 				'source'=>$templatePath.'/controller.php',
-				'target'=>Yii::app()->controllerPath.'/'.$controllerClass.'.php',
+				'target'=>$controllerFile,
 				'callback'=>array($this,'generateController'),
 				'params'=>array($controllerClass,$modelClass),
 			),
 		);
+
 		foreach(array('create','update','list','show','admin') as $action)
 		{
 			$list[$action.'.php']=array(
@@ -92,8 +110,8 @@ EOD;
 
 		$this->copyFiles($list);
 
-		echo "\nCrud '{$controllerName}' has been successfully created. You may access it via:\n";
-		echo "http://hostname/path/to/index.php?r={$controllerName}\n";
+		echo "\nCrud '{$controllerID}' has been successfully created. You may access it via:\n";
+		echo "http://hostname/path/to/index.php?r={$controllerID}\n";
 	}
 
 	public function generateController($source,$params)

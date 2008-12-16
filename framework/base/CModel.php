@@ -29,7 +29,7 @@ abstract class CModel extends CComponent
 	 * Errors found during the validation can be retrieved via {@link getErrors}.
 	 * @param array the list of attributes to be validated. Defaults to null,
 	 * meaning every attribute as listed in {@link rules} will be validated.
-	 * @param string the set of the validation rules that should be applied.
+	 * @param string the scenario that the validation rules should be applied.
 	 * This is used to match the {@link CValidator::on on} property set in
 	 * the validation rules. Defaults to null, meaning all validation rules
 	 * should be applied. If this parameter is a non-empty string (e.g. 'register'),

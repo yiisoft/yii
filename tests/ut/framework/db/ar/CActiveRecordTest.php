@@ -537,4 +537,16 @@ class CActiveRecordTest extends CTestCase
 			'params'=>array(':id'=>2)));
 		$this->assertTrue($posts[0] instanceof Post);
 	}
+
+	public function testRelationWithColumnAlias()
+	{
+		$users=User::model()->with('posts')->findAll(array(
+			'select'=>'id, username AS username2',
+			'order'=>'username2',
+		));
+
+		$this->assertEquals(3,count($users));
+		$this->assertEquals($users[1]->username,null);
+		$this->assertEquals($users[1]->username2,'user2');
+	}
 }
