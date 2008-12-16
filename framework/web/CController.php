@@ -98,6 +98,16 @@ class CController extends CBaseController
 	}
 
 	/**
+	 * Initializes the controller.
+	 * This method is called by the application before the controller starts to execute.
+	 * You may override this method to perform the needed initialization for the controller.
+	 * @since 1.0.1
+	 */
+	public function init()
+	{
+	}
+
+	/**
 	 * Returns the filter configurations.
 	 *
 	 * By overriding this method, child classes can specify filters to be applied to actions.

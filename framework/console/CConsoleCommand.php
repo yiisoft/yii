@@ -148,8 +148,8 @@ abstract class CConsoleCommand extends CComponent
 			}
 			else
 			{
-				echo "   generate $name\n";
 				$this->ensureDirectory(dirname($target));
+				echo "   generate $name\n";
 			}
 			file_put_contents($target,$content);
 		}

@@ -128,7 +128,7 @@ construct to retrieve row by row.
 
 ~~~
 [php]
-$dataReader=$command->query($sql);
+$dataReader=$command->query();
 // calling read() repeatedly until it returns false
 while(($row=$dataReader->read())!==false) { ... }
 // using foreach to traverse through every row of data

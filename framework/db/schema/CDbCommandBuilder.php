@@ -72,6 +72,7 @@ class CDbCommandBuilder extends CComponent
 		$sql=$this->applyJoin($sql,$criteria->join);
 		$sql=$this->applyCondition($sql,$criteria->condition);
 		$sql=$this->applyGroup($sql,$criteria->group);
+		$sql=$this->applyHaving($sql,$criteria->having);
 		$sql=$this->applyOrder($sql,$criteria->order);
 		$sql=$this->applyLimit($sql,$criteria->limit,$criteria->offset);
 		$command=$this->_connection->createCommand($sql);
@@ -103,6 +104,7 @@ class CDbCommandBuilder extends CComponent
 		$sql=$this->applyJoin($sql,$criteria->join);
 		$sql=$this->applyCondition($sql,$criteria->condition);
 		$sql=$this->applyGroup($sql,$criteria->group);
+		$sql=$this->applyHaving($sql,$criteria->having);
 		$sql=$this->applyOrder($sql,$criteria->order);
 		$sql=$this->applyLimit($sql,$criteria->limit,$criteria->offset);
 		$command=$this->_connection->createCommand($sql);
@@ -302,6 +304,21 @@ class CDbCommandBuilder extends CComponent
 	{
 		if($group!=='')
 			return $sql.' GROUP BY '.$group;
+		else
+			return $sql;
+	}
+
+	/**
+	 * Alters the SQL to apply HAVING.
+	 * @param string SQL query string without HAVING
+	 * @param string HAVING
+	 * @return string SQL with HAVING
+	 * @since 1.0.1
+	 */
+	public function applyHaving($sql,$having)
+	{
+		if($having!=='')
+			return $sql.' HAVING '.$having;
 		else
 			return $sql;
 	}

@@ -29,17 +29,16 @@ class ControllerCommand extends CConsoleCommand
 	{
 		return <<<EOD
 USAGE
-  controller <controller-name> [action-name] ...
+  controller <controller-ID> [action-ID] ...
 
 DESCRIPTION
   This command generates a controller and views associated with
   the specified actions.
 
 PARAMETERS
- * controller-name: required, the controller name.
- * action-name: optional, action name. You may supply one or
-   or several action names. A default 'index' action will always
-   be generated.
+ * controller-ID: required, controller ID (e.g. 'post', 'admin.user')
+ * action-ID: optional, action ID. You may supply one or several
+   action IDs. A default 'index' action will always be generated.
 
 EOD;
 	}
@@ -56,24 +55,36 @@ EOD;
 			echo $this->getHelp();
 			return;
 		}
-		$controllerName=$args[0];
-		$controllerName[0]=strtolower($controllerName);
+
+		$controllerID=$args[0];
+		if(($pos=strrpos($controllerID,'.'))===false)
+		{
+			$controllerClass=ucfirst($controllerID).'Controller';
+			$controllerFile=Yii::app()->controllerPath.DIRECTORY_SEPARATOR.$controllerClass.'.php';
+			$controllerID[0]=strtolower($controllerID[0]);
+		}
+		else
+		{
+			$controllerClass=ucfirst(substr($controllerID,$pos+1)).'Controller';
+			$controllerFile=Yii::app()->controllerPath.DIRECTORY_SEPARATOR.str_replace('.',DIRECTORY_SEPARATOR,substr($controllerID,0,$pos)).DIRECTORY_SEPARATOR.$controllerClass.'.php';
+			$controllerID[$pos+1]=strtolower($controllerID[$pos+1]);
+		}
+
 		$args[]='index';
 		$actions=array_unique(array_splice($args,1));
 
-		$controllerFile=ucfirst($controllerName).'Controller.php';
 		$templateFile=$this->templateFile===null?YII_PATH.'/cli/views/shell/controller/controller.php':$this->templateFile;
 
 		$list=array(
-			$controllerFile=>array(
+			basename($controllerFile)=>array(
 				'source'=>$templateFile,
-				'target'=>Yii::app()->controllerPath.DIRECTORY_SEPARATOR.$controllerFile,
+				'target'=>$controllerFile,
 				'callback'=>array($this,'generateController'),
-				'params'=>array(ucfirst($controllerName).'Controller', $actions),
+				'params'=>array($controllerClass, $actions),
 			),
 		);
 
-		$viewPath=Yii::app()->viewPath.DIRECTORY_SEPARATOR.$controllerName;
+		$viewPath=Yii::app()->viewPath.DIRECTORY_SEPARATOR.str_replace('.',DIRECTORY_SEPARATOR,$controllerID);
 		foreach($actions as $name)
 		{
 			$list[$name.'.php']=array(
@@ -84,14 +95,13 @@ EOD;
 
 		$this->copyFiles($list);
 
-		$path=Yii::app()->controllerPath.DIRECTORY_SEPARATOR.$controllerFile;
 		echo <<<EOD
 
-Controller '{$controllerName}' has been created in the following file:
-    $path
+Controller '{$controllerID}' has been created in the following file:
+    $controllerFile
 
 You may access it in the browser using the following URL:
-    http://hostname/path/to/index.php?r={$controllerName}
+    http://hostname/path/to/index.php?r={$controllerID}
 
 EOD;
 	}

@@ -542,6 +542,8 @@ abstract class CActiveRecord extends CModel
 	 * <ul>
 	 * <li>'group': string, the GROUP BY clause. Defaults to empty. Note, column references need to
 	 *   be disambiguated with prefix '??.' (e.g. ??.age). This option only applies to HAS_MANY and MANY_MANY relations.</li>
+	 * <li>'having': string, the HAVING clause. Defaults to empty. Note, column references need to
+	 *   be disambiguated with prefix '??.' (e.g. ??.age). This option only applies to HAS_MANY and MANY_MANY relations.</li>
 	 * <li>'limit': limit of the rows to be selected. This option does not apply to BELONGS_TO relation.</li>
 	 * <li>'offset': offset of the rows to be selected. This option does not apply to BELONGS_TO relation.</li>
 	 * </ul>
@@ -1469,6 +1471,10 @@ class CHasManyRelation extends CActiveRelation
 	 * @var string GROUP BY clause. Column names referenced here should be prefixed with '??.'.
 	 */
 	public $group='';
+	/**
+	 * @var string HAVING clause. Column names referenced here should be prefixed with '??.'.
+	 */
+	public $having='';
 	/**
 	 * @var integer limit of the rows to be selected. It is effective only for lazy loading this related object. Defaults to -1, meaning no limit.
 	 */
