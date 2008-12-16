@@ -463,7 +463,7 @@ class CJoinElement
 				$name=trim($name);
 				$matches=array();
 				if(($pos=strrpos($name,'.'))!==false)
-					$key=substr($name,0,$pos);
+					$key=substr($name,$pos+1);
 				else
 					$key=$name;
 				if(isset($this->_columnAliases[$key]))  // simple column names
@@ -475,9 +475,11 @@ class CJoinElement
 				{
 					$alias=$matches[2];
 					if(!isset($this->_columnAliases[$alias]))
-						$this->_columnAliases[$alias]='t'.$this->id.'_c'.count($this->_columnAliases);
-					$columns[]=$matches[1].' AS '.$this->_columnAliases[$alias];
-					$selected[$matches[1]]=1;
+					{
+						$this->_columnAliases[$alias]=$alias;
+						$columns[]=$name;
+						$selected[$alias]=1;
+					}
 				}
 				else
 					throw new CDbException(Yii::t('yii','Active record "{class}" is trying to select an invalid column "{column}". Note, the column must exist in the table or be an expression with alias.',
