@@ -37,6 +37,7 @@ class YiiInitTask extends PropertyTask
 		$this->addProperty('yii.version',$this->getYiiVersion());
 		$this->addProperty('yii.revision',$this->getYiiRevision());
 		$this->addProperty('yii.winbuild', substr(PHP_OS, 0, 3) == 'WIN' ? 'true' : 'false');
+		$this->addProperty('yii.release',$this->getYiiRelease());
 	}
 
 	/**
@@ -53,6 +54,14 @@ class YiiInitTask extends PropertyTask
 				return $matches[1];
 		}
 		return 'unknown';
+	}
+
+	private function getYiiRelease()
+	{
+		$changelog=dirname(__FILE__).'/../../CHANGELOG';
+		if(preg_match('/Version ([\d.a-z]+) .*\d{4}\s/', file_get_contents($changelog), $matches)>0)
+			return $matches[1];
+		return '0.0.0';
 	}
 
 	/**
