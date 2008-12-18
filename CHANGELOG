@@ -22,6 +22,7 @@ Version 1.0.1 to be released
 - Enhancement: CHtml::activeId and CHtml::activeName (Qiang)
 - Enhancement: Added German and Spanish core message translations (mikl, sebas)
 - Enhancement: Added CController::init() (Qiang)
+- Enhancement: Changed Yii::createComponent() to support property initialization (Qiang)
 
 Version 1.0 December 3, 2008
 ----------------------------

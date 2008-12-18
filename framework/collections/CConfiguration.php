@@ -116,6 +116,9 @@ class CConfiguration extends CMap
 	 * Any additional parameters passed to this method will be
 	 * passed to the constructor of the object being created.
 	 *
+	 * NOTE: this method has been deprecated since version 1.0.1.
+	 * Please use {@link YiiBase::createComponent Yii::createComponent}, instead.
+	 *
 	 * @param mixed the configuration. It can be either a string or an array.
 	 * @return mixed the created object
 	 * @throws CException if the configuration does not have 'class' value

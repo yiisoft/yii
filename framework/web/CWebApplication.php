@@ -367,7 +367,7 @@ class CWebApplication extends CApplication
 			return null;
 
 		if(isset($this->controllerMap[$id]))
-			return CConfiguration::createObject($this->controllerMap[$id],$id);
+			return Yii::createComponent($this->controllerMap[$id],$id);
 
 		if(($pos=strrpos($id,'.'))!==false)
 		{
