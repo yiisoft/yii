@@ -100,6 +100,20 @@ class CComponentTest extends CTestCase
 		$this->component->NewMember=$value;
 	}
 
+	public function testIsset()
+	{
+		$this->assertTrue(isset($this->component->Text));
+		$this->assertTrue(!empty($this->component->Text));
+
+		unset($this->component->Text);
+		$this->assertFalse(isset($this->component->Text));
+		$this->assertFalse(!empty($this->component->Text));
+
+		$this->component->Text='';
+		$this->assertTrue(isset($this->component->Text));
+		$this->assertTrue(empty($this->component->Text));
+	}
+
 	public function testHasEvent()
 	{
 		$this->assertTrue($this->component->hasEvent('OnMyEvent'));
