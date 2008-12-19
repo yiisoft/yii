@@ -241,3 +241,44 @@ class ArticleComment extends Content
 		);
 	}
 }
+
+
+class UserNoFk extends CActiveRecord
+{
+	public static function model($class=__CLASS__)
+	{
+		return parent::model($class);
+	}
+
+	public function relations()
+	{
+		return array(
+			'posts'=>array(self::HAS_MANY,'PostNoFk','author_id'),
+		);
+	}
+
+	public function tableName()
+	{
+		return 'users';
+	}
+}
+
+class PostNoFk extends CActiveRecord
+{
+	public static function model($class=__CLASS__)
+	{
+		return parent::model($class);
+	}
+
+	public function relations()
+	{
+		return array(
+			'author'=>array(self::BELONGS_TO,'UserNoFk','author_id'),
+		);
+	}
+
+	public function tableName()
+	{
+		return 'posts_nofk';
+	}
+}

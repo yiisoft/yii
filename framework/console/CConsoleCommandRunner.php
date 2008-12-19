@@ -129,7 +129,7 @@ class CConsoleCommandRunner extends CComponent
 				return new $className($name,$this);
 			}
 			else // an array configuration
-				return CConfiguration::createObject($this->commands[$name],$name,$this);
+				return Yii::createComponent($this->commands[$name],$name,$this);
 		}
 		else if($name==='help')
 			return new CHelpCommand('help',$this);

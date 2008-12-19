@@ -549,4 +549,15 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals($users[1]->username,null);
 		$this->assertEquals($users[1]->username2,'user2');
 	}
+
+	public function testRelationalWithoutFK()
+	{
+		$users=UserNoFk::model()->with('posts')->findAll();
+		$this->assertEquals(3,count($users));
+		$this->assertEquals(3,count($users[1]->posts));
+
+		$posts=PostNoFk::model()->with('author')->findAll();
+		$this->assertEquals(5,count($posts));
+		$this->assertTrue($posts[2]->author instanceof UserNoFk);
+	}
 }

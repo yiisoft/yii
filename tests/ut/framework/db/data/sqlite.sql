@@ -41,6 +41,23 @@ INSERT INTO posts (title, create_time, author_id, content) VALUES ('post 3',1000
 INSERT INTO posts (title, create_time, author_id, content) VALUES ('post 4',100003,2,'content 4');
 INSERT INTO posts (title, create_time, author_id, content) VALUES ('post 5',100004,3,'content 5');
 
+
+CREATE TABLE posts_nofk
+(
+	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	title VARCHAR(128) NOT NULL,
+	create_time TIMESTAMP NOT NULL,
+	author_id INTEGER NOT NULL,
+	content TEXT
+);
+
+INSERT INTO posts_nofk (title, create_time, author_id, content) VALUES ('post 1',100000,1,'content 1');
+INSERT INTO posts_nofk (title, create_time, author_id, content) VALUES ('post 2',100001,2,'content 2');
+INSERT INTO posts_nofk (title, create_time, author_id, content) VALUES ('post 3',100002,2,'content 3');
+INSERT INTO posts_nofk (title, create_time, author_id, content) VALUES ('post 4',100003,2,'content 4');
+INSERT INTO posts_nofk (title, create_time, author_id, content) VALUES ('post 5',100004,3,'content 5');
+
+
 CREATE TABLE comments
 (
 	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -193,3 +210,4 @@ CREATE TABLE Comment
 INSERT INTO Comment (id,authorID,body) VALUES (3,1,'content for comment 1');
 INSERT INTO Comment (id,authorID,body) VALUES (5,1,'content for comment 2');
 INSERT INTO Comment (id,authorID,body) VALUES (6,1,'content for comment 3');
+

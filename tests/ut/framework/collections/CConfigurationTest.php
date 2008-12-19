@@ -84,7 +84,7 @@ class CConfigurationTest extends CTestCase
 
 	public function testCreateComponent()
 	{
-		$obj=CConfiguration::createObject(array('class'=>'MyClass','param2'=>3));
+		$obj=Yii::createComponent(array('class'=>'MyClass','param2'=>3));
 		$this->assertEquals(get_class($obj),'MyClass');
 		$this->assertEquals($obj->param2,3);
 	}

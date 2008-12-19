@@ -66,6 +66,34 @@ class CAttributeCollection extends CMap
 	}
 
 	/**
+	 * Checks if a property value is null.
+	 * This method overrides the parent implementation by checking
+	 * if the key exists in the collection and contains a non-null value.
+	 * @param string the property name or the event name
+	 * @return boolean whether the property value is null
+	 * @since 1.0.1
+	 */
+	public function __isset($name)
+	{
+		if($this->contains($name))
+			return $this->itemAt($name)!==null;
+		else
+			return parent::__isset($name);
+	}
+
+	/**
+	 * Sets a component property to be null.
+	 * This method overrides the parent implementation by clearing
+	 * the specified key value.
+	 * @param string the property name or the event name
+	 * @since 1.0.1
+	 */
+	public function __unset($name)
+	{
+		$this->remove($name);
+	}
+
+	/**
 	 * Returns the item with the specified key.
 	 * This overrides the parent implementation by converting the key to lower case first if {@link caseSensitive} is false.
 	 * @param mixed the key

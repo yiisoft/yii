@@ -577,47 +577,19 @@ class CJoinElement
 	{
 		$parent=$this->_parent;
 		$relation=$this->relation;
-		$schema=$this->_builder->getSchema();
 		if($this->relation instanceof CManyManyRelation)
 		{
-			if(preg_match('/^\s*(.*?)\((.*)\)\s*$/',$this->relation->foreignKey,$matches))
-			{
-				if(($joinTable=$schema->getTable($matches[1]))===null)
-					throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is not specified correctly: the join table "{joinTable}" given in the foreign key cannot be found in the database.',
-						array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{joinTable}'=>$matches[1])));
-				$joinAlias=$this->relation->name.'_'.$this->_tableAlias;
-				$fks=preg_split('/[\s,]+/',$matches[2],-1,PREG_SPLIT_NO_EMPTY);
-				$parentCondition=array();
-				$childCondition=array();
-				foreach($fks as $fk)
-				{
-					if(isset($joinTable->foreignKeys[$fk]))
-					{
-						list($tableName,$pk)=$joinTable->foreignKeys[$fk];
-						if(!isset($parentCondition[$pk]) && $schema->compareTableNames($parent->_table->rawName,$tableName))
-							$parentCondition[$pk]=$parent->getColumnPrefix().$schema->quoteColumnName($pk).'='.$joinAlias.'.'.$schema->quoteColumnName($fk);
-						else if(!isset($childCondition[$pk]) && $schema->compareTableNames($this->_table->rawName,$tableName))
-							$childCondition[$pk]=$this->getColumnPrefix().$schema->quoteColumnName($pk).'='.$joinAlias.'.'.$schema->quoteColumnName($fk);
-						else
-							throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". The foreign key does not point to either joining table.',
-								array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{key}'=>$fk)));
-					}
-				}
-				if($parentCondition!==array() && $childCondition!==array())
-				{
-					$join=$this->relation->joinType.' '.$joinTable->rawName.' '.$joinAlias;
-					$join.=' ON '.implode(' AND ',$parentCondition);
-					$join.=' '.$this->relation->joinType.' '.$this->getTableNameWithAlias();
-					$join.=' ON '.implode(' AND ',$childCondition);
-					return $join;
-				}
-				else
-					throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an incomplete foreign key. The foreign key must consist of columns referencing both joining tables.',
-						array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name)));
-			}
-			else
+			if(!preg_match('/^\s*(.*?)\((.*)\)\s*$/',$this->relation->foreignKey,$matches))
 				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".',
 					array('{class}'=>get_class($parent->model),'{relation}'=>$this->relation->name)));
+
+			$schema=$this->_builder->getSchema();
+			if(($joinTable=$schema->getTable($matches[1]))===null)
+				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is not specified correctly: the join table "{joinTable}" given in the foreign key cannot be found in the database.',
+					array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{joinTable}'=>$matches[1])));
+			$fks=preg_split('/[\s,]+/',$matches[2],-1,PREG_SPLIT_NO_EMPTY);
+
+			return $this->joinManyMany($joinTable,$fks,$parent);
 		}
 		else
 		{
@@ -632,35 +604,99 @@ class CJoinElement
 				$pke=$parent;
 				$fke=$this;
 			}
-			$joins=array();
-			foreach($fks as $fk)
-			{
-				if(($joins[]=$this->matchColumns($fke,$fk,$pke))===null)
-					throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". The foreign key does not point to either joining table.',
-						array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{key}'=>$fk)));
-			}
-			$join=implode(' AND ',$joins);
+			return $this->joinOneMany($fke,$fks,$pke,$parent);
 		}
-		return $this->relation->joinType . ' ' . $this->getTableNameWithAlias() . ' ON ' . $join;
 	}
 
 	/**
-	 * Generates the comparison expression between two join elements
-	 * @param CJoinElement the foreign join element
-	 * @param string the foreign key
-	 * @param CJoinElement the primary join element
-	 * @return string the comparison expression. Null if the foreign key is invalid.
+	 * Generates the join statement for one-many relationship.
+	 * This works for HAS_ONE, HAS_MANY and BELONGS_TO.
+	 * @param CJoinElement the join element containing foreign keys
+	 * @param array the foreign keys
+	 * @param CJoinElement the join element containg primary keys
+	 * @param CJoinElement the parent join element
+	 * @return string the join statement
+	 * @throws CDbException if a foreign key is invalid
 	 */
-	private function matchColumns($fke,$fk,$pke)
+	private function joinOneMany($fke,$fks,$pke,$parent)
 	{
 		$schema=$this->_builder->getSchema();
-		if(isset($fke->_table->foreignKeys[$fk]))
+		$joins=array();
+		foreach($fks as $i=>$fk)
 		{
-			list($name,$pk)=$fke->_table->foreignKeys[$fk];
-			if($schema->compareTableNames($pke->_table->rawName,$name))
-				return $fke->getColumnPrefix().$schema->quoteColumnName($fk) . '=' . $pke->getColumnPrefix().$schema->quoteColumnName($pk);
+			if(isset($fke->_table->foreignKeys[$fk]))
+				$pk=$fke->_table->foreignKeys[$fk][1];
+			else if(empty($fke->_table->foreignKeys))  // FK constraints undefined
+			{
+				if(is_array($pke->_table->primaryKey)) // composite PK
+					$pk=$pke->_table->primaryKey[$i];
+				else
+					$pk=$pke->_table->primaryKey;
+			}
+			else
+				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". The foreign key does not point to either joining table.',
+					array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{key}'=>$fk)));
+			$joins[]=$fke->getColumnPrefix().$schema->quoteColumnName($fk) . '=' . $pke->getColumnPrefix().$schema->quoteColumnName($pk);
 		}
-		return null;
+		return $this->relation->joinType . ' ' . $this->getTableNameWithAlias() . ' ON ' . implode(' AND ',$joins);
+	}
+
+	/**
+	 * Generates the join statement for many-many relationship.
+	 * @param CDbTableSchema the join table
+	 * @param array the foreign keys
+	 * @param CJoinElement the parent join element
+	 * @return string the join statement
+	 * @throws CDbException if a foreign key is invalid
+	 */
+	private function joinManyMany($joinTable,$fks,$parent)
+	{
+		$schema=$this->_builder->getSchema();
+		$joinAlias=$this->relation->name.'_'.$this->_tableAlias;
+		$parentCondition=array();
+		$childCondition=array();
+		foreach($fks as $i=>$fk)
+		{
+			if(isset($joinTable->foreignKeys[$fk]))
+			{
+				list($tableName,$pk)=$joinTable->foreignKeys[$fk];
+				if(!isset($parentCondition[$pk]) && $schema->compareTableNames($parent->_table->rawName,$tableName))
+					$parentCondition[$pk]=$parent->getColumnPrefix().$schema->quoteColumnName($pk).'='.$joinAlias.'.'.$schema->quoteColumnName($fk);
+				else if(!isset($childCondition[$pk]) && $schema->compareTableNames($this->_table->rawName,$tableName))
+					$childCondition[$pk]=$this->getColumnPrefix().$schema->quoteColumnName($pk).'='.$joinAlias.'.'.$schema->quoteColumnName($fk);
+				else
+					throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". The foreign key does not point to either joining table.',
+						array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{key}'=>$fk)));
+			}
+			else if(empty($joinTable->foreignKeys)) // FK constraints not defined
+			{
+				if($i<count($parent->_table->primaryKey))
+				{
+					$pk=is_array($parent->_table->primaryKey) ? $parent->_table->primaryKey[$i] : $parent->_table->primaryKey;
+					$parentCondition[$pk]=$parent->getColumnPrefix().$schema->quoteColumnName($pk).'='.$joinAlias.'.'.$schema->quoteColumnName($fk);
+				}
+				else
+				{
+					$j=$i-count($parent->_table->primaryKey);
+					$pk=is_array($this->_table->primaryKey) ? $this->_table->primaryKey[$j] : $this->_table->primaryKey;
+					$childCondition[$pk]=$this->getColumnPrefix().$schema->quoteColumnName($pk).'='.$joinAlias.'.'.$schema->quoteColumnName($fk);
+				}
+			}
+			else
+				throw new CDbException(Yii::t('yii','The column "{column}" is not a foreign key in table "{table}".',
+					array('{column}'=>$fk, '{table}'=>$joinTable->name)));
+		}
+		if($parentCondition!==array() && $childCondition!==array())
+		{
+			$join=$this->relation->joinType.' '.$joinTable->rawName.' '.$joinAlias;
+			$join.=' ON '.implode(' AND ',$parentCondition);
+			$join.=' '.$this->relation->joinType.' '.$this->getTableNameWithAlias();
+			$join.=' ON '.implode(' AND ',$childCondition);
+			return $join;
+		}
+		else
+			throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an incomplete foreign key. The foreign key must consist of columns referencing both joining tables.',
+				array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name)));
 	}
 }
 

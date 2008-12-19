@@ -45,7 +45,7 @@ abstract class CModel extends CComponent
 		{
 			foreach($this->getValidators() as $validator)
 			{
-				if(empty($on) || empty($validator->on) || is_array($validator->on) && in_array($on,$validator->on))
+				if(empty($on) || $validator->on===array() || in_array($on,$validator->on))
 					$validator->validate($this,$attributes);
 			}
 			$this->afterValidate($on);
