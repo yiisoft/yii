@@ -381,9 +381,7 @@ abstract class CActiveRecord extends CModel
 			return $this->_related[$name];
 		else if(isset($this->getMetaData()->relations[$name]))
 		{
-			if($this->isNewRecord)
-				return null;
-			else if(!array_key_exists($name,$this->_related))
+			if(!array_key_exists($name,$this->_related))
 			{
 				$relation=$this->getMetaData()->relations[$name];
 				$finder=new CActiveFinder($this,array($name=>$relation->with));
@@ -409,6 +407,53 @@ abstract class CActiveRecord extends CModel
 			$this->_related[$name]=$value;
 		else
 			parent::__set($name,$value);
+	}
+
+	/**
+	 * Checks if a property value is null.
+	 * This method overrides the parent implementation by checking
+	 * if the named attribute is null or not.
+	 * @param string the property name or the event name
+	 * @return boolean whether the property value is null
+	 * @since 1.0.1
+	 */
+	public function __isset($name)
+	{
+		if(isset($this->_attributes[$name]))
+			return true;
+		else if(isset($this->getMetaData()->columns[$name]))
+			return false;
+		else if(isset($this->_related[$name]))
+			return true;
+		else if(isset($this->getMetaData()->relations[$name]))
+		{
+			if(!array_key_exists($name,$this->_related))
+			{
+				$relation=$this->getMetaData()->relations[$name];
+				$finder=new CActiveFinder($this,array($name=>$relation->with));
+				$finder->lazyFind($this);
+			}
+			return $this->_related[$name]!==null;
+		}
+		else
+			return parent::__isset($name);
+	}
+
+	/**
+	 * Sets a component property to be null.
+	 * This method overrides the parent implementation by clearing
+	 * the specified attribute value.
+	 * @param string the property name or the event name
+	 * @since 1.0.1
+	 */
+	public function __unset($name)
+	{
+		if(isset($this->getMetaData()->columns[$name]))
+			unset($this->_attributes[$name]);
+		else if(isset($this->getMetaData()->relations[$name]))
+			unset($this->_related[$name]);
+		else
+			parent::__unset($name);
 	}
 
 	/**

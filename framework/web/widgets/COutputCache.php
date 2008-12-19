@@ -166,7 +166,7 @@ class COutputCache extends CFilterWidget
 			$this->getController()->getCachingStack()->pop();
 			$data=array($this->_content,$this->_actions);
 			if(is_array($this->dependency))
-				$this->dependency=CConfiguration::createObject($this->dependency);
+				$this->dependency=Yii::createComponent($this->dependency);
 			$this->_cache->set($this->getCacheKey(),$data,$this->duration>0 ? $this->duration : 0,$this->dependency);
 			echo $this->_content;
 		}

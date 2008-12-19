@@ -135,6 +135,22 @@ abstract class CApplication extends CComponent
 	}
 
 	/**
+	 * Checks if a property value is null.
+	 * This method overrides the parent implementation by checking
+	 * if the named application component is loaded.
+	 * @param string the property name or the event name
+	 * @return boolean whether the property value is null
+	 * @since 1.0.1
+	 */
+	public function __isset($name)
+	{
+		if($this->hasComponent($name))
+			return $this->getComponent($name)!==null;
+		else
+			return parent::__isset($name);
+	}
+
+	/**
 	 * Runs the application.
 	 * This method loads static application components. Derived classes usually overrides this
 	 * method to do more application-specific tasks.
@@ -706,7 +722,7 @@ abstract class CApplication extends CComponent
 			{
 				Yii::trace("Loading \"$id\" application component",'system.base.CApplication');
 				unset($config['enabled']);
-				$component=CConfiguration::createObject($config);
+				$component=Yii::createComponent($config);
 				$component->init();
 				return $this->_components[$id]=$component;
 			}

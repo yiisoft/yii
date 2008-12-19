@@ -123,31 +123,55 @@ class YiiBase
 	}
 
 	/**
-	 * Creates a component with the specified type.
-	 * A component type can be either the component class name
-	 * or an alias referring to the path of the component class file.
-	 * For example, 'MyClass', 'application.controllers.MyController' are both
-	 * valid component type.
-	 * This method can also pass parameters to the component constructor.
-	 * All parameters passed to this method except the first one (the component type)
-	 * will be supplied as component constructor parameters.
-	 * @param string component type
-	 * @return CComponent component instance of the specified type
-	 * @throws CException if the component type is unknown
+	 * Creates an object and initializes it based on the given configuration.
+	 *
+	 * The specified configuration can be either a string or an array.
+	 * If the former, the string is treated as the object type which can
+	 * be either the class name or {@link YiiBase::getPathOfAlias class path alias}.
+	 * If the latter, the array must contain a 'class' element specifying
+	 * the object type, and the rest name-value pairs in the array are used
+	 * to initialize the corresponding object properties.
+	 *
+	 * Any additional parameters passed to this method will be
+	 * passed to the constructor of the object being created.
+	 *
+	 * NOTE: the array-typed configuration has been supported since version 1.0.1.
+	 *
+	 * @param mixed the configuration. It can be either a string or an array.
+	 * @return mixed the created object
+	 * @throws CException if the configuration does not have a 'class' element.
 	 */
-	public static function createComponent($type)
+	public static function createComponent($config)
 	{
-		$type=self::import($type,true);
+		if(is_string($config))
+		{
+			$type=$config;
+			$config=array();
+		}
+		else if(is_array($config) && isset($config['class']))
+		{
+			$type=$config['class'];
+			unset($config['class']);
+		}
+		else
+			throw new CException(Yii::t('yii','Object configuration must be an array containing a "class" element.'));
+
+		$className=Yii::import($type,true);
+
 		if(($n=func_num_args())>1)
 		{
 			$args=func_get_args();
 			for($s='$args[1]',$i=2;$i<$n;++$i)
 				$s.=",\$args[$i]";
-			eval("\$component=new $type($s);");
-			return $component;
+			eval("\$object=new $className($s);");
 		}
 		else
-			return new $type;
+			$object=new $className;
+
+		foreach($config as $key=>$value)
+			$object->$key=$value;
+
+		return $object;
 	}
 
 	/**

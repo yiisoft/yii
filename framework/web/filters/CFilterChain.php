@@ -85,7 +85,7 @@ class CFilterChain extends CList
 						continue;
 				}
 				$filter['class']=$filterClass;
-				$chain->add(CConfiguration::createObject($filter));
+				$chain->add(Yii::createComponent($filter));
 			}
 			else
 				$chain->add($filter);

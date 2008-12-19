@@ -288,17 +288,7 @@ class CController extends CBaseController
 			return new CInlineAction($this,$actionID);
 		$actionMap=$this->actions();
 		if(isset($actionMap[$actionID]))
-		{
-			$c=$actionMap[$actionID];
-			if(is_string($c))
-			{
-				$className=Yii::import($c,true);
-				return new $className($this,$actionID);
-			}
-			else
-				return CConfiguration::createObject($c,$this,$actionID);
-		}
-		return null;
+			return Yii::createComponent($actionMap[$actionID],$this,$actionID);
 	}
 
 	/**

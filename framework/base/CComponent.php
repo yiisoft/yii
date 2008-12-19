@@ -141,6 +141,47 @@ class CComponent
 	}
 
 	/**
+	 * Checks if a property value is null.
+	 * Do not call this method. This is a PHP magic method that we override
+	 * to allow using isset() to detect if a component property is set or not.
+	 * @param string the property name or the event name
+	 * @since 1.0.1
+	 */
+	public function __isset($name)
+	{
+		$getter='get'.$name;
+		if(method_exists($this,$getter))
+			return $this->$getter()!==null;
+		else if(strncasecmp($name,'on',2)===0 && method_exists($this,$name))
+		{
+			$name=strtolower($name);
+			return isset($this->_e[$name]) && $this->_e[$name]->getCount();
+		}
+		else
+			return false;
+	}
+
+	/**
+	 * Sets a component property to be null.
+	 * Do not call this method. This is a PHP magic method that we override
+	 * to allow using unset() to set a component property to be null.
+	 * @param string the property name or the event name
+	 * @throws CException if the property is read only.
+	 * @since 1.0.1
+	 */
+	public function __unset($name)
+	{
+		$setter='set'.$name;
+		if(method_exists($this,$setter))
+			$this->$setter(null);
+		else if(strncasecmp($name,'on',2)===0 && method_exists($this,$name))
+			unset($this->_e[strtolower($name)]);
+		else if(method_exists($this,'get'.$name))
+			throw new CException(Yii::t('yii','Property "{class}.{property}" is read only.',
+				array('{class}'=>get_class($this), '{property}'=>$name)));
+	}
+
+	/**
 	 * Determines whether a property is defined.
 	 * A property is defined if there is a getter or setter method
 	 * defined in the class. Note, property names are case-insensitive.

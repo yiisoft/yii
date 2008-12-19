@@ -62,7 +62,7 @@ abstract class CValidator extends CComponent
 	 */
 	public $message;
 
-	private $_on;
+	private $_on=array();
 
 	/**
 	 * Validates a single attribute.
