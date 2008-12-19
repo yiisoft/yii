@@ -449,6 +449,8 @@ class CController extends CBaseController
 
 		if(!empty($layout) && ($layoutFile=$this->getLayoutFile($layout))!==false)
 			$output=$this->renderFile($layoutFile,array('content'=>$text),true);
+		else
+			$output=$text;
 
 		$output=$this->processOutput($output);
 
