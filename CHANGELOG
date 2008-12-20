@@ -21,6 +21,7 @@ Version 1.0.1 to be released
 - Enhancement #58: Allow specifying HAVING clause in DB criteria (Qiang)
 - Enhancement #64: Add support to use relational AR when FK constraints are not defined in DB (Qiang)
 - Enhancement #66: Add support to allow using isset() and unset() with component properties (Qiang)
+- Enhancement #68: Upgrade the javascript for CMaskedTextField to 1.2.0 (Qiang)
 - Enhancement: Fixed inaccurate error message when adding an item as a child of itself in CAuthManager (Qiang)
 - Enhancement: CHtml::activeId and CHtml::activeName (Qiang)
 - Enhancement: Added German and Spanish core message translations (mikl, sebas)

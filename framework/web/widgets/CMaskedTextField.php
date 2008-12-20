@@ -62,7 +62,7 @@ class CMaskedTextField extends CInputWidget
 		if(is_array($this->charMap))
 		{
 			foreach($this->charMap as $char=>$pattern)
-				$js.="jQuery.mask.addPlaceholder('$char','$pattern');\n";
+				$js.="jQuery.mask.definitions['$char']='$pattern';\n";
 		}
 		$js.="jQuery(\"#{$id}\").mask(\"{$this->mask}\"{$options});";
 
