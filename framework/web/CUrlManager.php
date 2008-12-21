@@ -66,7 +66,7 @@
  */
 class CUrlManager extends CApplicationComponent
 {
-	const CACHE_KEY='CPhpMessageSource.CUrlManager.rules';
+	const CACHE_KEY='CUrlManager.rules';
 	const GET_FORMAT='get';
 	const PATH_FORMAT='path';
 
@@ -83,6 +83,16 @@ class CUrlManager extends CApplicationComponent
 	 * @var string the GET variable name for route. Defaults to 'r'.
 	 */
 	public $routeVar='r';
+	/**
+	 * @var boolean whether routes are case-sensitive. Defaults to true. By setting this to false,
+	 * the route in the incoming request will be turned to lower case first before further processing.
+	 * As a result, you should follow the convent that you use lower case when specifying
+	 * controller mapping ({@link CWebApplication::controllerMap}) and action mapping
+	 * ({@link CController::actions}). Also, the directory names for organizing controllers should
+	 * be in lower case.
+	 * @since 1.0.1
+	 */
+	public $caseSensitive=true;
 
 	private $_urlFormat=self::GET_FORMAT;
 	private $_rules=array();
@@ -213,15 +223,22 @@ class CUrlManager extends CApplicationComponent
 				foreach($rules as $rule)
 				{
 					if(($r=$rule->parseUrl($pathInfo))!==false)
-						return isset($_GET[$this->routeVar])?$_GET[$this->routeVar]:$r;
+					{
+						$route=isset($_GET[$this->routeVar])?$_GET[$this->routeVar]:$r;
+						return $this->caseSensitive?$route:strtolower($route);
+					}
 				}
 			}
-			return $this->parseUrlDefault($pathInfo);
+			$route=$this->parseUrlDefault($pathInfo);
 		}
 		else if(isset($_GET[$this->routeVar]))
-			return $_GET[$this->routeVar];
+			$route=$_GET[$this->routeVar];
+		else if(isset($_POST[$this->routeVar]))
+			$route=$_POST[$this->routeVar];
 		else
-			return isset($_POST[$this->routeVar])?$_POST[$this->routeVar]:'';
+			return '';
+
+		return $this->caseSensitive?$route:strtolower($route);
 	}
 
 	/**
@@ -336,6 +353,11 @@ class CUrlRule extends CComponent
 	 * @var string a token identifies the rule to a certain degree
 	 */
 	public $signature;
+	/**
+	 * @var boolean whether the rule is case sensitive. Defaults to true.
+	 * @since 1.0.1
+	 */
+	public $caseSensitive=true;
 
 	/**
 	 * Constructor.
@@ -366,6 +388,8 @@ class CUrlRule extends CComponent
 			$this->pattern.='/u';
 		else
 			$this->pattern.='$/u';
+		if(!$this->caseSensitive)
+			$this->pattern.='i';
 		if(@preg_match($this->pattern,'test')===false)
 			throw new CException(Yii::t('yii','The URL pattern "{pattern}" for route "{route}" is not a valid regular expression.',
 				array('{route}'=>$route,'{pattern}'=>$pattern)));
