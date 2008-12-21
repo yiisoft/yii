@@ -4,7 +4,6 @@
 
 Version 1.0.1 to be released
 ----------------------------
-- Bug #38: CHtml links and buttons don't work when they are updated via ajax (Qiang)
 - Bug #41: missing function CHttpRequest:: getCsrfTokenFromCookie() (Qiang)
 - Bug #42: Wrong links in crud generated admin view (Qiang)
 - Bug #45: Many-to-many relation does not work when both foreign tables are the same (Qiang)

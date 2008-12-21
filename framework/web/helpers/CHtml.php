@@ -1186,10 +1186,6 @@ class CHtml
 	 * <li>params: array, name-value pairs that should be submitted together with the form. This is only used when 'submit' option is specified.</li>
 	 * <li>confirm: string, specifies the message that should show in a pop-up confirmation dialog.</li>
 	 * <li>ajax: array, specifies the AJAX options (see {@link ajax}).</li>
-	 * <li>scriptPosition: integer, specifies where the generated javascript should be rendered.
-	 * If not set, the javascript will be rendered in jQuery's ready() function.
-	 * If the value is CClientScript::POS_INPLACE, the javascript will be rendered as the corresponding
-	 * event's value (e.g. onclick's value). This option is available since version 1.0.1.</li>
 	 * </ul>
 	 */
 	protected static function clientChange($event,&$htmlOptions)
@@ -1239,13 +1235,9 @@ class CHtml
 					$handler="return $confirm;";
 			}
 
-			$scriptPosition=isset($htmlOptions['scriptPosition']) ? $htmlOptions['scriptPosition'] : CClientScript::POS_READY;
-			if($scriptPosition==CClientScript::POS_INPLACE)
-				$htmlOptions['on'.$event]=$handler;
-			else
-				$cs->registerScript('Yii.CHtml.#'.$id,"jQuery('#$id').$event(function(){{$handler}});",$scriptPosition);
+			$cs->registerScript('Yii.CHtml.#'.$id,"jQuery('#$id').$event(function(){{$handler}});");
 		}
-		unset($htmlOptions['params'],$htmlOptions['submit'],$htmlOptions['ajax'],$htmlOptions['confirm'],$htmlOptions['scriptPosition']);
+		unset($htmlOptions['params'],$htmlOptions['submit'],$htmlOptions['ajax'],$htmlOptions['confirm']);
 	}
 
 	/**
