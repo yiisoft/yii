@@ -25,7 +25,7 @@ Version 1.0.1 to be released
 - Enhancement #68: Upgrade the javascript for CMaskedTextField to 1.2.0 (Qiang)
 - Enhancement: Fixed inaccurate error message when adding an item as a child of itself in CAuthManager (Qiang)
 - Enhancement: CHtml::activeId and CHtml::activeName (Qiang)
-- Enhancement: Added German and Spanish core message translations (mikl, sebas)
+- Enhancement: Added German, Spanish and Swedish core message translations (mikl, sebas, tri)
 - Enhancement: Added CController::init() (Qiang)
 - Enhancement: Changed Yii::createComponent() to support property initialization (Qiang)
 
