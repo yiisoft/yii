@@ -23,6 +23,7 @@ Version 1.0.1 to be released
 - Enhancement #44: Make "yiic shell" command to support controllers organized in subdirectories (Qiang)
 - Enhancement #56: Allow specifying customized 'on' when a validator can be applied (Qiang)
 - Enhancement #58: Allow specifying HAVING clause in DB criteria (Qiang)
+- Enhancement #62: Allow URL routes to be case-insensitive by adding CUrlManager::caseSensitive property (Qiang)
 - Enhancement #64: Add support to use relational AR when FK constraints are not defined in DB (Qiang)
 - Enhancement #65: Added "tableAlias" option to AR relations so that table aliases can be explicitly specified (Qiang)
 - Enhancement #66: Add support to allow using isset() and unset() with component properties (Qiang)
