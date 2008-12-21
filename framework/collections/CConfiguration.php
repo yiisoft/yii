@@ -106,11 +106,10 @@ class CConfiguration extends CMap
 	 * Creates an object and initializes it based on the given configuration.
 	 *
 	 * The specified configuration can be either a string or an array.
-	 * If the former, the string is treated as the class name or
-	 * {@link YiiBase::getPathOfAlias class path alias} of the object to be created.
-	 * If the latter, the array must contain a 'class' element which specifies
-	 * the object's class name or {@link YiiBase::getPathOfAlias class path alias}.
-	 * The rest name-value pairs in the array are used to initialize
+	 * If the former, the string is treated as the object type which can
+	 * be either the class name or {@link YiiBase::getPathOfAlias class path alias}.
+	 * If the latter, the element indexed by 0 or 'class' is treated as the object type,
+	 * and the rest name-value pairs in the array are used to initialize
 	 * the corresponding object properties.
 	 *
 	 * Any additional parameters passed to this method will be
@@ -126,13 +125,15 @@ class CConfiguration extends CMap
 	public static function createObject($config)
 	{
 		if(is_string($config))
-			$config=array('class'=>$config);
+			$config=array($config);
 		else if($config instanceof self)
 			$config=$config->toArray();
-		if(is_array($config) && isset($config['class']))
+
+		if(is_array($config) && (isset($config[0]) || isset($config['class'])))
 		{
-			$className=Yii::import($config['class'],true);
-			unset($config['class']);
+			$type=isset($config[0])?$config[0]:$config['class'];
+			unset($config[0],$config['class']);
+			$className=Yii::import($type,true);
 			if(($n=func_num_args())>1)
 			{
 				$args=func_get_args();
