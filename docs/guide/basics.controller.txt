@@ -43,6 +43,10 @@ and its `edit` action. And by default, the URL
 `http://hostname/index.php?r=post/edit` would request for this controller
 and action.
 
+>Note: By default, routes are case-sensitive. Since version 1.0.1, it is
+>possible to make routes case-insensitive by setting [CUrlManager::caseSensitive]
+>to be true in the application configuration.
+
 Controller Instantiation
 ------------------------
 
