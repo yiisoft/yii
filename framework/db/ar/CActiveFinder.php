@@ -224,7 +224,7 @@ class CJoinElement
 			$this->_parent=$parent;
 			$parent->_children[]=$this;
 			$this->_builder=$parent->_builder;
-			$this->_tableAlias='t'.$id;
+			$this->_tableAlias=$relation->tableAlias===null?'t'.$id:$relation->tableAlias;
 			$this->model=CActiveRecord::model($relation->className);
 			$this->_table=$this->model->getTableSchema();
 		}

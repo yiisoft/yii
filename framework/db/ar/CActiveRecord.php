@@ -1452,6 +1452,13 @@ class CActiveRelation extends CComponent
 	 */
 	public $order='';
 	/**
+	 * @var string the alias for the table that this relation refers to. Defaults to null, meaning
+	 * the alias will be generated automatically. If you set this property explicitly, make sure
+	 * the alias is unique globally.
+	 * @since 1.0.1
+	 */
+	public $tableAlias;
+	/**
 	 * @var string the column prefix placeholder. It will be replaced by the corresponding table alias.
 	 */
 	public $aliasToken='??';
