@@ -36,6 +36,7 @@ class CMaskedTextField extends CInputWidget
 	/**
 	 * @var array the mapping between mask characters and the corresponding patterns.
 	 * For example, array('~'=>'[+-]') specifies that the '~' character expects '+' or '-' input.
+	 * Defaults to null, meaning using the map as described in {@link mask}.
 	 */
 	public $charMap;
 	/**
@@ -60,10 +61,7 @@ class CMaskedTextField extends CInputWidget
 		$options=$miOptions!==array() ? ','.CJavaScript::encode($miOptions) : '';
 		$js='';
 		if(is_array($this->charMap))
-		{
-			foreach($this->charMap as $char=>$pattern)
-				$js.="jQuery.mask.addPlaceholder('$char','$pattern');\n";
-		}
+			$js.='jQuery.mask.definitions='.CJavaScript::encode($this->charMap).";\n";
 		$js.="jQuery(\"#{$id}\").mask(\"{$this->mask}\"{$options});";
 
 		$cs=Yii::app()->getClientScript();
