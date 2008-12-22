@@ -141,19 +141,50 @@ class CController extends CBaseController
 
 	/**
 	 * Returns a list of external action classes.
-	 * Array keys are action names, and array values are the corresponding
+	 * Array keys are action IDs, and array values are the corresponding
 	 * action class in dot syntax (e.g. 'edit'=>'application.controllers.article.EditArticle')
 	 * or arrays representing the configuration of the actions, such as the following,
 	 * <pre>
-	 * array(
-	 *     'class'=>'CViewAction',
-	 *     'views'=>'about,help',
-	 * )
+	 * return array(
+	 *     'action1'=>'path.to.Action1Class',
+	 *     'action2'=>array(
+	 *         'class'=>'path.to.Action2Class',
+	 *         'property1'=>'value1',
+	 *         'property2'=>'value2',
+	 *     ),
+	 * );
 	 * </pre>
-	 * Derived classes may override this method to make use of external action feature.
+	 * Derived classes may override this method to declare external actions.
 	 *
 	 * Note, in order to inherit actions defined in the parent class, a child class needs to
 	 * merge the parent actions with child actions using functions like array_merge().
+	 *
+	 * Since version 1.0.1, you may import actions from an action provider
+	 * (such as a widget, see {@link CWidget::actions}), like the following:
+	 * <pre>
+	 * return array(
+	 *     ...other actions...
+	 *     // import actions declared in ProviderClass::actions()
+	 *     // the action IDs will be prefixed with 'pro.'
+	 *     'pro.'=>'path.to.ProviderClass',
+	 *     // similar as above except that the imported actions are
+	 *     // configured with the specified initial property values
+	 *     'pro2.'=>array(
+	 *         'class'=>'path.to.ProviderClass',
+	 *         'action1'=>array(
+	 *             'property1'=>'value1',
+	 *         ),
+	 *         'action2'=>array(
+	 *             'property2'=>'value2',
+	 *         ),
+	 *     ),
+	 * )
+	 * </pre>
+	 *
+	 * In the above, we differentiate action providers from other action
+	 * declarations by the array keys. For action providers, the array keys
+	 * must contain a dot. As a result, an action ID 'pro2.action1' will
+	 * be resolved as the 'action1' action declared in the 'ProviderClass'.
 	 *
 	 * @return array list of external action classes
 	 * @see createAction
@@ -198,24 +229,24 @@ class CController extends CBaseController
 	 * @param array list of filters to be applied to the action.
 	 * @see filters
 	 * @see createAction
-	 * @see run
+	 * @see runAction
 	 */
-	public function runActionWithFilters($action,$filters=array())
+	public function runActionWithFilters($action,$filters)
 	{
-		if(!empty($filters))
+		if(empty($filters))
+			$this->runAction($action);
+		else
 		{
 			$priorAction=$this->_action;
 			$this->_action=$action;
 			CFilterChain::create($this,$action,$filters)->run();
 			$this->_action=$priorAction;
 		}
-		else
-			$this->runAction($action);
 	}
 
 	/**
 	 * Runs the action after passing through all filters.
-	 * This method is invoked by {@link runAction} after all possible filters have been executed
+	 * This method is invoked by {@link runActionWithFilters} after all possible filters have been executed
 	 * and the action starts to run.
 	 * @param CAction action to run
 	 */
@@ -286,9 +317,57 @@ class CController extends CBaseController
 			$actionID=$this->defaultAction;
 		if(method_exists($this,'action'.$actionID) && strcasecmp($actionID,'s')) // we have actions method
 			return new CInlineAction($this,$actionID);
-		$actionMap=$this->actions();
-		if(isset($actionMap[$actionID]))
-			return Yii::createComponent($actionMap[$actionID],$this,$actionID);
+		else
+			return $this->createActionFromMap($this->actions(),$actionID,$actionID);
+	}
+
+	/**
+	 * Creates the action instance based on the action map.
+	 * This method will check to see if the action ID appears in the given
+	 * action map. If so, the corresponding configuration will be used to
+	 * create the action instance.
+	 * @param array the action map
+	 * @param string the action ID
+	 * @param string the originally requested action ID
+	 * @return CAction the action instance, null if the action does not exist.
+	 * @since 1.0.1
+	 */
+	protected function createActionFromMap($actionMap,$actionID,$requestActionID)
+	{
+		if(($pos=strpos($actionID,'.'))===false)
+			return isset($actionMap[$actionID]) ? Yii::createComponent($actionMap[$actionID],$this,$requestActionID) : null;
+
+		// the action is defined in a provider
+		$prefix=substr($actionID,0,$pos+1);
+		$actionID=(string)substr($actionID,$pos+1);
+		if(!isset($actionMap[$prefix]))
+			return null;
+
+		$config=$actionMap[$prefix];
+		if(is_string($config))
+		{
+			$type=$config;
+			$config=array();
+		}
+		else if(is_array($config) && (isset($config[0]) || isset($config['class'])))
+		{
+			$type=isset($config[0])?$config[0]:$config['class'];
+			unset($config[0],$config['class']);
+		}
+		else
+			throw new CException(Yii::t('yii','Object configuration must be an array containing a "class" element.'));
+
+		$class=Yii::import($type,true);
+		$map=call_user_func(array($class,'actions'));
+		if(($action=$this->createActionFromMap($map,$actionID,$requestActionID))!==null)
+		{
+			if(isset($config[$actionID]) && is_array($config[$actionID]))
+			{
+				foreach($config[$actionID] as $k=>$v)
+					$action->$k=$v;
+			}
+			return $action;
+		}
 	}
 
 	/**

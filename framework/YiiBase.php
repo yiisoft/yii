@@ -161,17 +161,18 @@ class YiiBase
 		else
 			throw new CException(Yii::t('yii','Object configuration must be an array containing a "class" element.'));
 
-		$className=Yii::import($type,true);
+		if(!class_exists($type,false))
+			$type=Yii::import($type,true);
 
 		if(($n=func_num_args())>1)
 		{
 			$args=func_get_args();
 			for($s='$args[1]',$i=2;$i<$n;++$i)
 				$s.=",\$args[$i]";
-			eval("\$object=new $className($s);");
+			eval("\$object=new $type($s);");
 		}
 		else
-			$object=new $className;
+			$object=new $type;
 
 		foreach($config as $key=>$value)
 			$object->$key=$value;
