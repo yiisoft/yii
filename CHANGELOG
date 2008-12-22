@@ -16,6 +16,7 @@ Version 1.0.1 to be released
 - Bug #60: Related objects not available in CActiveRecord::afterSave (Qiang)
 - Bug #69: Variable undefined error in CController::renderText (Qiang)
 - Enhancement #44: Make "yiic shell" command to support controllers organized in subdirectories (Qiang)
+- Enhancement #55: Add support for generating meta and link tags (Qiang)
 - Enhancement #56: Allow specifying customized 'on' when a validator can be applied (Qiang)
 - Enhancement #58: Allow specifying HAVING clause in DB criteria (Qiang)
 - Enhancement #62: Allow URL routes to be case-insensitive by adding CUrlManager::caseSensitive property (Qiang)

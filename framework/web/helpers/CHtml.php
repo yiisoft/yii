@@ -103,6 +103,49 @@ class CHtml
 	}
 
 	/**
+	 * Generates a meta tag that can be inserted in the head section of HTML page.
+	 * @param string content attribute of the meta tag
+	 * @param string name attribute of the meta tag. If null, the attribute will not be generated
+	 * @param string http-equiv attribute of the meta tag. If null, the attribute will not be generated
+	 * @param array other options in name-value pairs (e.g. 'scheme', 'lang')
+	 * @return string the generated meta tag
+	 * @since 1.0.1
+	 */
+	public static function metaTag($content,$name=null,$httpEquiv=null,$options=array())
+	{
+		$options['content']=$content;
+		if($name!==null)
+			$options['name']=$name;
+		if($httpEquiv!==null)
+			$options['http-equiv']=$httpEquiv;
+		return self::tag('meta',$options);
+	}
+
+	/**
+	 * Generates a link tag that can be inserted in the head section of HTML page.
+	 * Do not confuse this method with {@link link()}. The latter generates a hyperlink.
+	 * @param string rel attribute of the link tag. If null, the attribute will not be generated.
+	 * @param string type attribute of the link tag. If null, the attribute will not be generated.
+	 * @param string href attribute of the link tag. If null, the attribute will not be generated.
+	 * @param string media attribute of the link tag. If null, the attribute will not be generated.
+	 * @param array other options in name-value pairs
+	 * @return string the generated link tag
+	 * @since 1.0.1
+	 */
+	public static function linkTag($relation=null,$type=null,$href=null,$media=null,$options=array())
+	{
+		if($relation!==null)
+			$options['rel']=$relation;
+		if($type!==null)
+			$options['type']=$type;
+		if($href!==null)
+			$options['href']=$href;
+		if($media!==null)
+			$options['media']=$media;
+		return self::tag('link',$options);
+	}
+
+	/**
 	 * Encloses the given CSS content with a CSS tag.
 	 * @param string the CSS content
 	 * @param string the media that this CSS should apply to.
