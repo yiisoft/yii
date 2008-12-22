@@ -64,7 +64,7 @@ class YiiBase
 	 * Creates a Web application instance.
 	 * @param mixed application configuration.
 	 * If a string, it is treated as the path of the file that contains the configuration;
-	 * If an array or CConfiguration, it is the actual configuration information.
+	 * If an array, it is the actual configuration information.
 	 * Please make sure you specify the {@link CApplication::basePath basePath} property in the configuration,
 	 * which should point to the directory containing all application logic, template and data.
 	 * If not, the directory will be defaulted to 'protected'.
@@ -78,7 +78,7 @@ class YiiBase
 	 * Creates a console application instance.
 	 * @param mixed application configuration.
 	 * If a string, it is treated as the path of the file that contains the configuration;
-	 * If an array or CConfiguration, it is the actual configuration information.
+	 * If an array, it is the actual configuration information.
 	 * Please make sure you specify the {@link CApplication::basePath basePath} property in the configuration,
 	 * which should point to the directory containing all application logic, template and data.
 	 * If not, the directory will be defaulted to 'protected'.
@@ -148,10 +148,15 @@ class YiiBase
 			$type=$config;
 			$config=array();
 		}
-		else if(is_array($config) && (isset($config[0]) || isset($config['class'])))
+		else if(isset($config['class']))
 		{
-			$type=isset($config[0])?$config[0]:$config['class'];
-			unset($config[0],$config['class']);
+			$type=$config['class'];
+			unset($config['class']);
+		}
+		else if(isset($config[0]))
+		{
+			$type=$config[0];
+			unset($config[0]);
 		}
 		else
 			throw new CException(Yii::t('yii','Object configuration must be an array containing a "class" element.'));
@@ -198,6 +203,9 @@ class YiiBase
 	{
 		if(isset(self::$_imports[$alias]))  // previously imported
 			return self::$_imports[$alias];
+
+		if(class_exists($alias,false))
+			return self::$_imports[$alias]=$alias;
 
 		if(isset(self::$_coreClasses[$alias]) || ($pos=strrpos($alias,'.'))===false)  // a simple class name
 		{
