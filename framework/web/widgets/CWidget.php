@@ -25,6 +25,16 @@
 class CWidget extends CBaseController
 {
 	/**
+	 * @var string the prefix to the IDs of the {@link actions}.
+	 * When a widget is declared an action provider in {@link CController::actions},
+	 * a prefix can be specified to differentiate its action IDs from others.
+	 * The same prefix should then also be used to configure this property
+	 * when the widget is used in a view of the controller.
+	 * @since 1.0.1
+	 */
+	public $actionPrefix;
+
+	/**
 	 * @var array view paths for different types of widgets
 	 */
 	private static $_viewPaths;
@@ -40,6 +50,27 @@ class CWidget extends CBaseController
 	 * @var CBaseController owner/creator of this widget. It could be either a widget or a controller.
 	 */
 	private $_owner;
+
+	/**
+	 * Returns a list of actions that are used by this widget.
+	 * The structure of this method's return value is similar to
+	 * that returned by {@link CController::actions}.
+	 *
+	 * When a widget uses several actions, you can declare these actions using
+	 * this method. The widget will then become an action provider, and the actions
+	 * can be easily imported into a controller.
+	 *
+	 * Note, when creating URLs referring to the actions listed in this method,
+	 * make sure the action IDs are prefixed with {@link actionPrefix}.
+	 *
+	 * @see actionPrefix
+	 * @see CController::actions
+	 * @since 1.0.1
+	 */
+	public static function actions()
+	{
+		return array();
+	}
 
 	/**
 	 * Constructor.

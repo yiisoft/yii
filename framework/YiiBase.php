@@ -64,7 +64,7 @@ class YiiBase
 	 * Creates a Web application instance.
 	 * @param mixed application configuration.
 	 * If a string, it is treated as the path of the file that contains the configuration;
-	 * If an array or CConfiguration, it is the actual configuration information.
+	 * If an array, it is the actual configuration information.
 	 * Please make sure you specify the {@link CApplication::basePath basePath} property in the configuration,
 	 * which should point to the directory containing all application logic, template and data.
 	 * If not, the directory will be defaulted to 'protected'.
@@ -78,7 +78,7 @@ class YiiBase
 	 * Creates a console application instance.
 	 * @param mixed application configuration.
 	 * If a string, it is treated as the path of the file that contains the configuration;
-	 * If an array or CConfiguration, it is the actual configuration information.
+	 * If an array, it is the actual configuration information.
 	 * Please make sure you specify the {@link CApplication::basePath basePath} property in the configuration,
 	 * which should point to the directory containing all application logic, template and data.
 	 * If not, the directory will be defaulted to 'protected'.
@@ -148,25 +148,31 @@ class YiiBase
 			$type=$config;
 			$config=array();
 		}
-		else if(is_array($config) && (isset($config[0]) || isset($config['class'])))
+		else if(isset($config['class']))
 		{
-			$type=isset($config[0])?$config[0]:$config['class'];
-			unset($config[0],$config['class']);
+			$type=$config['class'];
+			unset($config['class']);
+		}
+		else if(isset($config[0]))
+		{
+			$type=$config[0];
+			unset($config[0]);
 		}
 		else
 			throw new CException(Yii::t('yii','Object configuration must be an array containing a "class" element.'));
 
-		$className=Yii::import($type,true);
+		if(!class_exists($type,false))
+			$type=Yii::import($type,true);
 
 		if(($n=func_num_args())>1)
 		{
 			$args=func_get_args();
 			for($s='$args[1]',$i=2;$i<$n;++$i)
 				$s.=",\$args[$i]";
-			eval("\$object=new $className($s);");
+			eval("\$object=new $type($s);");
 		}
 		else
-			$object=new $className;
+			$object=new $type;
 
 		foreach($config as $key=>$value)
 			$object->$key=$value;
@@ -198,6 +204,9 @@ class YiiBase
 	{
 		if(isset(self::$_imports[$alias]))  // previously imported
 			return self::$_imports[$alias];
+
+		if(class_exists($alias,false))
+			return self::$_imports[$alias]=$alias;
 
 		if(isset(self::$_coreClasses[$alias]) || ($pos=strrpos($alias,'.'))===false)  // a simple class name
 		{
@@ -259,23 +268,17 @@ class YiiBase
 
 	/**
 	 * Create a path alias.
+	 * Note, this method neither checks the existence of the path nor normalizes the path.
 	 * @param string alias to the path
 	 * @param string the path corresponding to the alias. If this is null, the corresponding
 	 * path alias will be removed.
-	 * @throws CException if the alias is already defined or the path is not valid directory
 	 */
 	public static function setPathOfAlias($alias,$path)
 	{
 		if($path===null)
 			unset(self::$_aliases[$alias]);
-		else if(!isset(self::$_aliases[$alias]) && ($rp=realpath($path))!==false)
-			self::$_aliases[$alias]=rtrim($rp,'\\/');
-		else if(isset(self::$_aliases[$alias]))
-			throw new CException(Yii::t('yii','Path alias "{alias}" is redefined.',
-				array('{alias}'=>$alias)));
 		else
-			throw new CException(Yii::t('yii','Path alias "{alias}" points to an invalid directory "{path}".',
-				array('{alias}'=>$alias, '{path}'=>$path)));
+			self::$_aliases[$alias]=rtrim($path,'\\/');
 	}
 
 	/**

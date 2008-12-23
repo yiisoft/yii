@@ -103,6 +103,49 @@ class CHtml
 	}
 
 	/**
+	 * Generates a meta tag that can be inserted in the head section of HTML page.
+	 * @param string content attribute of the meta tag
+	 * @param string name attribute of the meta tag. If null, the attribute will not be generated
+	 * @param string http-equiv attribute of the meta tag. If null, the attribute will not be generated
+	 * @param array other options in name-value pairs (e.g. 'scheme', 'lang')
+	 * @return string the generated meta tag
+	 * @since 1.0.1
+	 */
+	public static function metaTag($content,$name=null,$httpEquiv=null,$options=array())
+	{
+		$options['content']=$content;
+		if($name!==null)
+			$options['name']=$name;
+		if($httpEquiv!==null)
+			$options['http-equiv']=$httpEquiv;
+		return self::tag('meta',$options);
+	}
+
+	/**
+	 * Generates a link tag that can be inserted in the head section of HTML page.
+	 * Do not confuse this method with {@link link()}. The latter generates a hyperlink.
+	 * @param string rel attribute of the link tag. If null, the attribute will not be generated.
+	 * @param string type attribute of the link tag. If null, the attribute will not be generated.
+	 * @param string href attribute of the link tag. If null, the attribute will not be generated.
+	 * @param string media attribute of the link tag. If null, the attribute will not be generated.
+	 * @param array other options in name-value pairs
+	 * @return string the generated link tag
+	 * @since 1.0.1
+	 */
+	public static function linkTag($relation=null,$type=null,$href=null,$media=null,$options=array())
+	{
+		if($relation!==null)
+			$options['rel']=$relation;
+		if($type!==null)
+			$options['type']=$type;
+		if($href!==null)
+			$options['href']=$href;
+		if($media!==null)
+			$options['media']=$media;
+		return self::tag('link',$options);
+	}
+
+	/**
 	 * Encloses the given CSS content with a CSS tag.
 	 * @param string the CSS content
 	 * @param string the media that this CSS should apply to.
@@ -1186,10 +1229,6 @@ class CHtml
 	 * <li>params: array, name-value pairs that should be submitted together with the form. This is only used when 'submit' option is specified.</li>
 	 * <li>confirm: string, specifies the message that should show in a pop-up confirmation dialog.</li>
 	 * <li>ajax: array, specifies the AJAX options (see {@link ajax}).</li>
-	 * <li>scriptPosition: integer, specifies where the generated javascript should be rendered.
-	 * If not set, the javascript will be rendered in jQuery's ready() function.
-	 * If the value is CClientScript::POS_INPLACE, the javascript will be rendered as the corresponding
-	 * event's value (e.g. onclick's value). This option is available since version 1.0.1.</li>
 	 * </ul>
 	 */
 	protected static function clientChange($event,&$htmlOptions)
@@ -1239,13 +1278,9 @@ class CHtml
 					$handler="return $confirm;";
 			}
 
-			$scriptPosition=isset($htmlOptions['scriptPosition']) ? $htmlOptions['scriptPosition'] : CClientScript::POS_READY;
-			if($scriptPosition==CClientScript::POS_INPLACE)
-				$htmlOptions['on'.$event]=$handler;
-			else
-				$cs->registerScript('Yii.CHtml.#'.$id,"jQuery('#$id').$event(function(){{$handler}});",$scriptPosition);
+			$cs->registerScript('Yii.CHtml.#'.$id,"jQuery('#$id').$event(function(){{$handler}});");
 		}
-		unset($htmlOptions['params'],$htmlOptions['submit'],$htmlOptions['ajax'],$htmlOptions['confirm'],$htmlOptions['scriptPosition']);
+		unset($htmlOptions['params'],$htmlOptions['submit'],$htmlOptions['ajax'],$htmlOptions['confirm']);
 	}
 
 	/**

@@ -45,7 +45,10 @@ and action.
 
 >Note: By default, routes are case-sensitive. Since version 1.0.1, it is
 >possible to make routes case-insensitive by setting [CUrlManager::caseSensitive]
->to be true in the application configuration.
+>to be true in the application configuration. When in case-insensitive mode,
+>make sure you follow the convention that directories containing controller
+>class files are in lower case, and both [controller map|CWebApplication::controllerMap]
+>[action map|CController::actions] are using lower-case keys.
 
 Controller Instantiation
 ------------------------

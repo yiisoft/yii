@@ -253,7 +253,7 @@ OUTER JOIN`.
 by the corresponding table alias to disambiguate column references.
 It defaults to `'??.'`.
 
-   - `tableAlias`: the alias for the table associated with this relationship.
+   - `alias`: the alias for the table associated with this relationship.
 This option has been available since version 1.0.1. It defaults to null,
 meaning the table alias is automatically generated. This is different
 from `aliasToken` in that the latter is just a placeholder and will be

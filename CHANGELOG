@@ -8,7 +8,6 @@ Version 1.1a to be released
 
 Version 1.0.1 to be released
 ----------------------------
-- Bug #38: CHtml links and buttons don't work when they are updated via ajax (Qiang)
 - Bug #41: missing function CHttpRequest:: getCsrfTokenFromCookie() (Qiang)
 - Bug #42: Wrong links in crud generated admin view (Qiang)
 - Bug #45: Many-to-many relation does not work when both foreign tables are the same (Qiang)
@@ -21,16 +20,18 @@ Version 1.0.1 to be released
 - Bug #60: Related objects not available in CActiveRecord::afterSave (Qiang)
 - Bug #69: Variable undefined error in CController::renderText (Qiang)
 - Enhancement #44: Make "yiic shell" command to support controllers organized in subdirectories (Qiang)
+- Enhancement #51: Add support to import actions declared by a widget (Qiang)
+- Enhancement #55: Add support for generating meta and link tags (Qiang)
 - Enhancement #56: Allow specifying customized 'on' when a validator can be applied (Qiang)
 - Enhancement #58: Allow specifying HAVING clause in DB criteria (Qiang)
 - Enhancement #62: Allow URL routes to be case-insensitive by adding CUrlManager::caseSensitive property (Qiang)
 - Enhancement #64: Add support to use relational AR when FK constraints are not defined in DB (Qiang)
-- Enhancement #65: Added "tableAlias" option to AR relations so that table aliases can be explicitly specified (Qiang)
+- Enhancement #65: Added "alias" option to AR relations so that table aliases can be explicitly specified (Qiang)
 - Enhancement #66: Add support to allow using isset() and unset() with component properties (Qiang)
 - Enhancement #68: Upgrade the javascript for CMaskedTextField to 1.2.0 (Qiang)
 - Enhancement: Fixed inaccurate error message when adding an item as a child of itself in CAuthManager (Qiang)
 - Enhancement: CHtml::activeId and CHtml::activeName (Qiang)
-- Enhancement: Added German and Spanish core message translations (mikl, sebas)
+- Enhancement: Added German, Spanish and Swedish core message translations (mikl, sebas, tri)
 - Enhancement: Added CController::init() (Qiang)
 - Enhancement: Changed Yii::createComponent() to support property initialization (Qiang)
 
