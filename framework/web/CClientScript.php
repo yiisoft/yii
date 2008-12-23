@@ -38,10 +38,6 @@ class CClientScript extends CApplicationComponent
 	 * The body script is rendered inside a jQuery ready function.
 	 */
 	const POS_READY=4;
-	/**
-	 * The script should be rendered at the place where it is declared.
-	 */
-	const POS_INPLACE=5;
 
 	/**
 	 * @var boolean whether JavaScript should be enabled. Defaults to true.
@@ -57,6 +53,8 @@ class CClientScript extends CApplicationComponent
 	private $_css=array();
 	private $_scriptFiles=array();
 	private $_scripts=array();
+	private $_metas=array();
+	private $_links=array();
 
 	/**
 	 * Cleans all registered scripts.
@@ -69,6 +67,8 @@ class CClientScript extends CApplicationComponent
 		$this->_css=array();
 		$this->_scriptFiles=array();
 		$this->_scripts=array();
+		$this->_metas=array();
+		$this->_links=array();
 
 		Yii::app()->getController()->recordCachingAction('clientScript','reset',array());
 	}
@@ -100,6 +100,10 @@ class CClientScript extends CApplicationComponent
 	protected function renderHead(&$output)
 	{
 		$html='';
+		foreach($this->_metas as $meta)
+			$html.=CHtml::metaTag($meta['content'],null,null,$meta);
+		foreach($this->_links as $link)
+			$html.=CHtml::linkTag(null,null,null,null,$link);
 		foreach($this->_cssFiles as $url=>$media)
 			$html.=CHtml::cssFile($url,$media)."\n";
 		foreach($this->_css as $css)
@@ -326,6 +330,50 @@ class CClientScript extends CApplicationComponent
 			$this->registerCoreScript('jquery');
 		$params=func_get_args();
 		Yii::app()->getController()->recordCachingAction('clientScript','registerScript',$params);
+	}
+
+	/**
+	 * Registers a meta tag that will be inserted in the head section of the resulting page.
+	 * @param string content attribute of the meta tag
+	 * @param string name attribute of the meta tag. If null, the attribute will not be generated
+	 * @param string http-equiv attribute of the meta tag. If null, the attribute will not be generated
+	 * @param array other options in name-value pairs (e.g. 'scheme', 'lang')
+	 * @since 1.0.1
+	 */
+	public function registerMetaTag($content,$name=null,$httpEquiv=null,$options=array())
+	{
+		$options['content']=$content;
+		if($name!==null)
+			$options['name']=$name;
+		if($httpEquiv!==null)
+			$options['http-equiv']=$httpEquiv;
+		$this->_metas[serialize($options)]=$options;
+		$params=func_get_args();
+		Yii::app()->getController()->recordCachingAction('clientScript','registerMetaTag',$params);
+	}
+
+	/**
+	 * Registers a link tag that will be inserted in the head section of the resulting page.
+	 * @param string rel attribute of the link tag. If null, the attribute will not be generated.
+	 * @param string type attribute of the link tag. If null, the attribute will not be generated.
+	 * @param string href attribute of the link tag. If null, the attribute will not be generated.
+	 * @param string media attribute of the link tag. If null, the attribute will not be generated.
+	 * @param array other options in name-value pairs
+	 * @since 1.0.1
+	 */
+	public function registerLinkTag($relation=null,$type=null,$href=null,$media=null,$options=array())
+	{
+		if($relation!==null)
+			$options['rel']=$relation;
+		if($type!==null)
+			$options['type']=$type;
+		if($href!==null)
+			$options['href']=$href;
+		if($media!==null)
+			$options['media']=$media;
+		$this->_links[serialize($options)]=$options;
+		$params=func_get_args();
+		Yii::app()->getController()->recordCachingAction('clientScript','registerLinkTag',$params);
 	}
 
 	/**

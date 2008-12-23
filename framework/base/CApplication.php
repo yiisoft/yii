@@ -727,7 +727,6 @@ abstract class CApplication extends CComponent
 				return $this->_components[$id]=$component;
 			}
 		}
-		return null;
 	}
 
 	/**
@@ -748,18 +747,29 @@ abstract class CApplication extends CComponent
 	 * Configures the application with the specified configuration.
 	 * @param mixed application configuration.
 	 * If a string, it is treated as the path of the file that contains the configuration;
-	 * If an array or CConfiguration, it is the actual configuration information.
+	 * If an array, it is the actual configuration information.
 	 * Please make sure you specify the {@link getBasePath basePath} property in the configuration,
 	 * which should point to the root directory containing all application logic, template and data.
 	 */
 	protected function configure($config)
 	{
-		$config=new CConfiguration($config);
-		if(($basePath=$config->remove('basePath'))===null)
+		if(is_string($config))
+			$config=require($config);
+		if(isset($config['basePath']))
+		{
+			$basePath=$config['basePath'];
+			unset($config['basePath']);
+		}
+		else
 			$basePath='protected';
 		$this->setBasePath($basePath);
 		Yii::setPathOfAlias('application',$this->getBasePath());
-		$config->applyTo($this);
+
+		if(is_array($config))
+		{
+			foreach($config as $key=>$value)
+				$this->$key=$value;
+		}
 	}
 
 	/**

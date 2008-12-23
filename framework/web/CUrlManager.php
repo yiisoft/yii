@@ -445,7 +445,8 @@ class CUrlRule extends CComponent
 	 */
 	public function parseUrl($pathInfo)
 	{
-		if(strncmp($pathInfo,$this->signature,strlen($this->signature)))
+		$func=$this->caseSensitive?'strncmp':'strncasecmp';
+		if($func($pathInfo,$this->signature,strlen($this->signature)))
 			return false;
 
 		$pathInfo.='/';
