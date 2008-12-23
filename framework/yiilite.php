@@ -152,14 +152,8 @@ class YiiBase
 	{
 		if($path===null)
 			unset(self::$_aliases[$alias]);
-		else if(!isset(self::$_aliases[$alias]) && ($rp=realpath($path))!==false)
-			self::$_aliases[$alias]=rtrim($rp,'\\/');
-		else if(isset(self::$_aliases[$alias]))
-			throw new CException(Yii::t('yii','Path alias "{alias}" is redefined.',
-				array('{alias}'=>$alias)));
 		else
-			throw new CException(Yii::t('yii','Path alias "{alias}" points to an invalid directory "{path}".',
-				array('{alias}'=>$alias, '{path}'=>$path)));
+			self::$_aliases[$alias]=rtrim($path,'\\/');
 	}
 	public static function autoload($className)
 	{

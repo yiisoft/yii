@@ -268,23 +268,17 @@ class YiiBase
 
 	/**
 	 * Create a path alias.
+	 * Note, this method neither checks the existence of the path nor normalizes the path.
 	 * @param string alias to the path
 	 * @param string the path corresponding to the alias. If this is null, the corresponding
 	 * path alias will be removed.
-	 * @throws CException if the alias is already defined or the path is not valid directory
 	 */
 	public static function setPathOfAlias($alias,$path)
 	{
 		if($path===null)
 			unset(self::$_aliases[$alias]);
-		else if(!isset(self::$_aliases[$alias]) && ($rp=realpath($path))!==false)
-			self::$_aliases[$alias]=rtrim($rp,'\\/');
-		else if(isset(self::$_aliases[$alias]))
-			throw new CException(Yii::t('yii','Path alias "{alias}" is redefined.',
-				array('{alias}'=>$alias)));
 		else
-			throw new CException(Yii::t('yii','Path alias "{alias}" points to an invalid directory "{path}".',
-				array('{alias}'=>$alias, '{path}'=>$path)));
+			self::$_aliases[$alias]=rtrim($path,'\\/');
 	}
 
 	/**
