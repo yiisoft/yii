@@ -214,9 +214,9 @@ class YiiBase
 			if($forceInclude && !class_exists($alias,false))
 			{
 				if(isset(self::$_coreClasses[$alias])) // a core class
-					require_once(YII_PATH.self::$_coreClasses[$alias]);
+					require(YII_PATH.self::$_coreClasses[$alias]);
 				else
-					require_once($alias.'.php');
+					require($alias.'.php');
 			}
 			return $alias;
 		}
@@ -230,7 +230,7 @@ class YiiBase
 			{
 				self::$_imports[$alias]=$className;
 				if($forceInclude)
-					require_once($path.'.php');
+					require($path.'.php');
 				else
 					self::$_classes[$className]=$path.'.php';
 				return $className;
@@ -288,13 +288,13 @@ class YiiBase
 	 */
 	public static function autoload($className)
 	{
-		// use include_once so that the error PHP file may appear
+		// use include so that the error PHP file may appear
 		if(isset(self::$_coreClasses[$className]))
-			include_once(YII_PATH.self::$_coreClasses[$className]);
+			include(YII_PATH.self::$_coreClasses[$className]);
 		else if(isset(self::$_classes[$className]))
-			include_once(self::$_classes[$className]);
+			include(self::$_classes[$className]);
 		else
-			include_once($className.'.php');
+			include($className.'.php');
 	}
 
 	/**
@@ -570,4 +570,4 @@ class YiiBase
 }
 
 spl_autoload_register(array('YiiBase','autoload'));
-require_once(YII_PATH.'/base/interfaces.php');
+require(YII_PATH.'/base/interfaces.php');

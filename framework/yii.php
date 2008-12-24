@@ -11,7 +11,7 @@
  * @since 1.0
  */
 
-require_once(dirname(__FILE__).'/YiiBase.php');
+require(dirname(__FILE__).'/YiiBase.php');
 
 /**
  * Yii is a helper class serving common framework functionalities.
