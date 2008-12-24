@@ -85,7 +85,7 @@ class CTabView extends CWidget
 	 * and the array values are the corresponding tab contents.
 	 * Each array value must be an array with the following elements:
 	 * <ul>
-	 * <li>title: the tab title.</li>
+	 * <li>title: the tab title. You need to make sure this is HTML-encoded.</li>
 	 * <li>content: the content to be displayed in the tab.</li>
 	 * <li>view: the name of the view to be displayed in this tab.
 	 * The view will be rendered using the current controller's
@@ -159,10 +159,10 @@ class CTabView extends CWidget
 	 */
 	protected function renderHeader()
 	{
-		echo "<ul>\n";
+		echo "<ul class=\"tabs\">\n";
 		foreach($this->tabs as $id=>$tab)
 		{
-			$title=isset($tab['title'])?CHtml::encode($tab['title']):'undefined';
+			$title=isset($tab['title'])?$tab['title']:'undefined';
 			$active=$id===$this->activeTab?' class="active"' : '';
 			$url=isset($tab['url'])?$tab['url']:"#{$id}";
 			echo "<li><a href=\"{$url}\"{$active}>{$title}</a></li>\n";
@@ -178,7 +178,7 @@ class CTabView extends CWidget
 		foreach($this->tabs as $id=>$tab)
 		{
 			$inactive=$id!==$this->activeTab?' style="display:none"' : '';
-			echo "<div id=\"{$id}\"{$inactive}>\n";
+			echo "<div class=\"view\" id=\"{$id}\"{$inactive}>\n";
 			if(isset($tab['content']))
 				echo $tab['content'];
 			else if(isset($tab['view']))
