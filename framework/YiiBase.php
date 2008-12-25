@@ -128,7 +128,7 @@ class YiiBase
 	 * The specified configuration can be either a string or an array.
 	 * If the former, the string is treated as the object type which can
 	 * be either the class name or {@link YiiBase::getPathOfAlias class path alias}.
-	 * If the latter, the element indexed by 0 or 'class' is treated as the object type,
+	 * If the latter, the 'class' element is treated as the object type,
 	 * and the rest name-value pairs in the array are used to initialize
 	 * the corresponding object properties.
 	 *
@@ -152,11 +152,6 @@ class YiiBase
 		{
 			$type=$config['class'];
 			unset($config['class']);
-		}
-		else if(isset($config[0]))
-		{
-			$type=$config[0];
-			unset($config[0]);
 		}
 		else
 			throw new CException(Yii::t('yii','Object configuration must be an array containing a "class" element.'));

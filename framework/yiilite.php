@@ -73,11 +73,6 @@ class YiiBase
 			$type=$config['class'];
 			unset($config['class']);
 		}
-		else if(isset($config[0]))
-		{
-			$type=$config[0];
-			unset($config[0]);
-		}
 		else
 			throw new CException(Yii::t('yii','Object configuration must be an array containing a "class" element.'));
 		if(!class_exists($type,false))
@@ -107,9 +102,9 @@ class YiiBase
 			if($forceInclude && !class_exists($alias,false))
 			{
 				if(isset(self::$_coreClasses[$alias])) // a core class
-					require_once(YII_PATH.self::$_coreClasses[$alias]);
+					require(YII_PATH.self::$_coreClasses[$alias]);
 				else
-					require_once($alias.'.php');
+					require($alias.'.php');
 			}
 			return $alias;
 		}
@@ -121,7 +116,7 @@ class YiiBase
 			{
 				self::$_imports[$alias]=$className;
 				if($forceInclude)
-					require_once($path.'.php');
+					require($path.'.php');
 				else
 					self::$_classes[$className]=$path.'.php';
 				return $className;
@@ -157,13 +152,13 @@ class YiiBase
 	}
 	public static function autoload($className)
 	{
-		// use include_once so that the error PHP file may appear
+		// use include so that the error PHP file may appear
 		if(isset(self::$_coreClasses[$className]))
-			include_once(YII_PATH.self::$_coreClasses[$className]);
+			include(YII_PATH.self::$_coreClasses[$className]);
 		else if(isset(self::$_classes[$className]))
-			include_once(self::$_classes[$className]);
+			include(self::$_classes[$className]);
 		else
-			include_once($className.'.php');
+			include($className.'.php');
 	}
 	public static function trace($msg,$category='application')
 	{
@@ -2339,39 +2334,39 @@ class CController extends CBaseController
 		else
 			return $this->createActionFromMap($this->actions(),$actionID,$actionID);
 	}
-	protected function createActionFromMap($actionMap,$actionID,$requestActionID)
+	protected function createActionFromMap($actionMap,$actionID,$requestActionID,$config=array())
 	{
-		if(($pos=strpos($actionID,'.'))===false)
-			return isset($actionMap[$actionID]) ? Yii::createComponent($actionMap[$actionID],$this,$requestActionID) : null;
+		if(($pos=strpos($actionID,'.'))===false && isset($actionMap[$actionID]))
+		{
+			$baseConfig=is_array($actionMap[$actionID]) ? $actionMap[$actionID] : array('class'=>$actionMap[$actionID]);
+			return Yii::createComponent(empty($config)?$baseConfig:array_merge($baseConfig,$config),$this,$requestActionID);
+		}
+		else if($pos===false)
+			return null;
 		// the action is defined in a provider
 		$prefix=substr($actionID,0,$pos+1);
-		$actionID=(string)substr($actionID,$pos+1);
 		if(!isset($actionMap[$prefix]))
 			return null;
-		$config=$actionMap[$prefix];
-		if(is_string($config))
+		$actionID=(string)substr($actionID,$pos+1);
+		$provider=$actionMap[$prefix];
+		if(is_string($provider))
+			$providerType=$provider;
+		else if(is_array($provider) && isset($provider['class']))
 		{
-			$type=$config;
-			$config=array();
-		}
-		else if(is_array($config) && (isset($config[0]) || isset($config['class'])))
-		{
-			$type=isset($config[0])?$config[0]:$config['class'];
-			unset($config[0],$config['class']);
+			$providerType=$provider['class'];
+			if(isset($provider[$actionID]))
+			{
+				if(is_string($provider[$actionID]))
+					$config=array_merge(array('class'=>$provider[$actionID]),$config);
+				else
+					$config=array_merge($provider[$actionID],$config);
+			}
 		}
 		else
 			throw new CException(Yii::t('yii','Object configuration must be an array containing a "class" element.'));
-		$class=Yii::import($type,true);
+		$class=Yii::import($providerType,true);
 		$map=call_user_func(array($class,'actions'));
-		if(($action=$this->createActionFromMap($map,$actionID,$requestActionID))!==null)
-		{
-			if(isset($config[$actionID]) && is_array($config[$actionID]))
-			{
-				foreach($config[$actionID] as $k=>$v)
-					$action->$k=$v;
-			}
-			return $action;
-		}
+		return $this->createActionFromMap($map,$actionID,$requestActionID,$config);
 	}
 	public function missingAction($actionID)
 	{
