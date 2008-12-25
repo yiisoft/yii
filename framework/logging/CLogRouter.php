@@ -51,7 +51,6 @@
 class CLogRouter extends CApplicationComponent
 {
 	private $_routes=array();
-	private $_routeConfig=array();
 
 	/**
 	 * Initializes this application component.
@@ -60,13 +59,14 @@ class CLogRouter extends CApplicationComponent
 	public function init()
 	{
 		parent::init();
-		foreach($this->_routeConfig as $config)
+		foreach($this->_routes as $i=>$route)
 		{
-			$class=$config->remove('class');
-			$route=Yii::createComponent($class);
-			$config->applyTo($route);
-			$route->init();
-			$this->_routes[]=$route;
+			if(is_array($route))
+			{
+				$route=Yii::createComponent($route);
+				$route->init();
+				$this->_routes[$i]=$route;
+			}
 		}
 		Yii::app()->attachEventHandler('onEndRequest',array($this,'collectLogs'));
 	}
@@ -80,17 +80,20 @@ class CLogRouter extends CApplicationComponent
 	}
 
 	/**
-	 * @param array list of route configurations. Each element is an array configuring a route.
-	 * A 'class' key is required to specify the class of the route.
+	 * @param array list of route configurations. Each array element represents
+	 * the configuration for a single route and has the following array structure:
+	 * <ul>
+	 * <li>class: specifies the class name or alias for the route class.</li>
+	 * <li>name-value pairs: configure the initial property values of the route.</li>
+	 * </ul>
 	 */
 	public function setRoutes($config)
 	{
 		foreach($config as $c)
 		{
-			if(isset($c['class']))
-				$this->_routeConfig[]=new CConfiguration($c);
-			else
-				throw new CException(Yii::t('yii','Log route configuration must have a "class" value.'));
+			if(is_string($c))
+				$c=array('class'=>$c);
+			$this->_routes[]=$c;
 		}
 	}
 

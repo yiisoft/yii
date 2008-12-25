@@ -71,7 +71,7 @@ EOD;
 		$content=$this->minifyYii(dirname(__FILE__).'/lite/index.php');
 		$content="<?php\n".preg_replace('/^(\?>|<\?php)/mu','',$content)."\n?>";
 		$content=$this->stripComments($content);
-		$content=preg_replace('/^require_once.*\s*;\s*$/mu','',$content);
+		$content=preg_replace('/^require(_once)?.*\s*;\s*$/mu','',$content);
 		$content=preg_replace('/^\s*Yii::trace.*\s*;\s*$/mu','',$content);
 		$content=preg_replace('/^\s*Yii::(begin|end)Profile.*\s*;\s*$/mu','',$content);
 		$content=$this->stripEmptyLines($content);
