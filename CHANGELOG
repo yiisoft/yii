@@ -34,6 +34,7 @@ Version 1.0.1 to be released
 - Enhancement: Added German, Spanish and Swedish core message translations (mikl, sebas, tri)
 - Enhancement: Added CController::init() (Qiang)
 - Enhancement: Changed Yii::createComponent() to support property initialization (Qiang)
+- Enhancement: Optimized the framework (Qiang)
 
 Version 1.0 December 3, 2008
 ----------------------------

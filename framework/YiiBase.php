@@ -128,7 +128,7 @@ class YiiBase
 	 * The specified configuration can be either a string or an array.
 	 * If the former, the string is treated as the object type which can
 	 * be either the class name or {@link YiiBase::getPathOfAlias class path alias}.
-	 * If the latter, the element indexed by 0 or 'class' is treated as the object type,
+	 * If the latter, the 'class' element is treated as the object type,
 	 * and the rest name-value pairs in the array are used to initialize
 	 * the corresponding object properties.
 	 *
@@ -152,11 +152,6 @@ class YiiBase
 		{
 			$type=$config['class'];
 			unset($config['class']);
-		}
-		else if(isset($config[0]))
-		{
-			$type=$config[0];
-			unset($config[0]);
 		}
 		else
 			throw new CException(Yii::t('yii','Object configuration must be an array containing a "class" element.'));
@@ -214,9 +209,9 @@ class YiiBase
 			if($forceInclude && !class_exists($alias,false))
 			{
 				if(isset(self::$_coreClasses[$alias])) // a core class
-					require_once(YII_PATH.self::$_coreClasses[$alias]);
+					require(YII_PATH.self::$_coreClasses[$alias]);
 				else
-					require_once($alias.'.php');
+					require($alias.'.php');
 			}
 			return $alias;
 		}
@@ -230,7 +225,7 @@ class YiiBase
 			{
 				self::$_imports[$alias]=$className;
 				if($forceInclude)
-					require_once($path.'.php');
+					require($path.'.php');
 				else
 					self::$_classes[$className]=$path.'.php';
 				return $className;
@@ -288,13 +283,13 @@ class YiiBase
 	 */
 	public static function autoload($className)
 	{
-		// use include_once so that the error PHP file may appear
+		// use include so that the error PHP file may appear
 		if(isset(self::$_coreClasses[$className]))
-			include_once(YII_PATH.self::$_coreClasses[$className]);
+			include(YII_PATH.self::$_coreClasses[$className]);
 		else if(isset(self::$_classes[$className]))
-			include_once(self::$_classes[$className]);
+			include(self::$_classes[$className]);
 		else
-			include_once($className.'.php');
+			include($className.'.php');
 	}
 
 	/**
@@ -570,4 +565,4 @@ class YiiBase
 }
 
 spl_autoload_register(array('YiiBase','autoload'));
-require_once(YII_PATH.'/base/interfaces.php');
+require(YII_PATH.'/base/interfaces.php');

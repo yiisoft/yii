@@ -327,47 +327,49 @@ class CController extends CBaseController
 	 * action map. If so, the corresponding configuration will be used to
 	 * create the action instance.
 	 * @param array the action map
-	 * @param string the action ID
+	 * @param string the action ID that has its prefix stripped off
 	 * @param string the originally requested action ID
+	 * @param array the action configuration that should be applied on top of the configuration specified in the map
 	 * @return CAction the action instance, null if the action does not exist.
 	 * @since 1.0.1
 	 */
-	protected function createActionFromMap($actionMap,$actionID,$requestActionID)
+	protected function createActionFromMap($actionMap,$actionID,$requestActionID,$config=array())
 	{
-		if(($pos=strpos($actionID,'.'))===false)
-			return isset($actionMap[$actionID]) ? Yii::createComponent($actionMap[$actionID],$this,$requestActionID) : null;
+		if(($pos=strpos($actionID,'.'))===false && isset($actionMap[$actionID]))
+		{
+			$baseConfig=is_array($actionMap[$actionID]) ? $actionMap[$actionID] : array('class'=>$actionMap[$actionID]);
+			return Yii::createComponent(empty($config)?$baseConfig:array_merge($baseConfig,$config),$this,$requestActionID);
+		}
+		else if($pos===false)
+			return null;
 
 		// the action is defined in a provider
 		$prefix=substr($actionID,0,$pos+1);
-		$actionID=(string)substr($actionID,$pos+1);
 		if(!isset($actionMap[$prefix]))
 			return null;
+		$actionID=(string)substr($actionID,$pos+1);
 
-		$config=$actionMap[$prefix];
-		if(is_string($config))
+		$provider=$actionMap[$prefix];
+		if(is_string($provider))
+			$providerType=$provider;
+		else if(is_array($provider) && isset($provider['class']))
 		{
-			$type=$config;
-			$config=array();
-		}
-		else if(is_array($config) && (isset($config[0]) || isset($config['class'])))
-		{
-			$type=isset($config[0])?$config[0]:$config['class'];
-			unset($config[0],$config['class']);
+			$providerType=$provider['class'];
+			if(isset($provider[$actionID]))
+			{
+				if(is_string($provider[$actionID]))
+					$config=array_merge(array('class'=>$provider[$actionID]),$config);
+				else
+					$config=array_merge($provider[$actionID],$config);
+			}
 		}
 		else
 			throw new CException(Yii::t('yii','Object configuration must be an array containing a "class" element.'));
 
-		$class=Yii::import($type,true);
+		$class=Yii::import($providerType,true);
 		$map=call_user_func(array($class,'actions'));
-		if(($action=$this->createActionFromMap($map,$actionID,$requestActionID))!==null)
-		{
-			if(isset($config[$actionID]) && is_array($config[$actionID]))
-			{
-				foreach($config[$actionID] as $k=>$v)
-					$action->$k=$v;
-			}
-			return $action;
-		}
+
+		return $this->createActionFromMap($map,$actionID,$requestActionID,$config);
 	}
 
 	/**

@@ -1,4 +1,4 @@
-.yiiTab > ul
+.yiiTab ul.tabs
 {
     padding: 3px 0;
     margin: 0;
@@ -6,49 +6,49 @@
     font: bold 12px Verdana, sans-serif;
 }
 
-.yiiTab > ul li
+.yiiTab ul.tabs li
 {
     list-style: none;
     margin: 0;
     display: inline;
 }
 
-.yiiTab > ul a
+.yiiTab ul.tabs a
 {
-    padding: 3px 0.5em;
-    margin-left: 3px;
 	-moz-border-radius-topleft:5px;
 	-moz-border-radius-topright:5px;
+    padding: 2px 0.5em;
+    margin-left: 3px;
     border: 1px solid #4F81BD;
     border-bottom: none;
     background: #d3dfee;
     text-decoration: none;
 }
 
-.yiiTab > ul a:link
+.yiiTab ul.tabs a:link
 {
 	color: #667;
 }
 
-.yiiTab > ul a:visited
+.yiiTab ul.tabs a:visited
 {
 	color: #667;
 }
 
-.yiiTab > ul a:hover
+.yiiTab ul.tabs a:hover
 {
     color: #000;
     background: #E6F2FF;
     border-color: #227;
 }
 
-.yiiTab > ul a.active
+.yiiTab ul.tabs a.active
 {
     background: white;
     border-bottom: 1px solid white;
 }
 
-.yiiTab > div
+.yiiTab div.view
 {
     border-left: 1px solid #4F81BD;
     border-right: 1px solid #4F81BD;

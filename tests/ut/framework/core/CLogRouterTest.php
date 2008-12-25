@@ -30,7 +30,6 @@ class CLogRouterTest extends CTestCase
 				'property'=>3,
 			),
 		);
-		$this->assertEquals(count($router->routes),0);
 		$router->init($app);
 		$this->assertEquals(count($router->routes),2);
 
