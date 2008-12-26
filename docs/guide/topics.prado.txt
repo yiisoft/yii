@@ -150,9 +150,9 @@ syntax is as follows,
 
 ~~~
 [php]
-<cache:clipID>
+<clip:clipID>
 	// content for this clip
-</cache:clipID >
+</clip:clipID >
 ~~~
 
 where `clipID` is an identifier that uniquely identifies the clip content.
