@@ -1,28 +1,27 @@
 Controller
 ==========
 
-A controller is an instance of [CController] or its child class. It is
+A `controller` is an instance of [CController] or its child class. It is
 created by application when the user requests for it. When a controller
 runs, it performs the requested action which usually brings in the needed
-models and renders an appropriate view. An action, at its simplest form, is
+models and renders an appropriate view. An `action`, at its simplest form, is
 just a controller class method whose name starts with `action`.
 
-A controller has a default action. When the user request does not indicate
+A controller has a default action. When the user request does not specify
 which action to execute, the default action will be executed. By default,
 the default action is named as `index`. It can be changed by setting
 [CController::defaultAction].
 
-Below is the minimal code needed by a controller class:
+Below is the minimal code needed by a controller class. Since this controller
+does not define any action, requesting for it would throw an exception.
 
 ~~~
 [php]
-class PostController extends CController
+class SiteController extends CController
 {
 }
 ~~~
 
-Since the above controller does not define any action, accessing it would
-throw an exception.
 
 Route
 -----
