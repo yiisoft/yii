@@ -78,7 +78,7 @@ class {ClassName} extends CController
 		${ModelVar}=$this->load{ModelClass}();
 		if(isset($_POST['{ModelClass}']))
 		{
-			${ModelVar}->setAttributes($_POST['{ModelClass}']);
+			${ModelVar}->attributes=$_POST['{ModelClass}'];
 			if(${ModelVar}->save())
 				$this->redirect(array('show','id'=>${ModelVar}->{ID}));
 		}
