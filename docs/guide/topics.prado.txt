@@ -53,9 +53,9 @@ In the following, we introduce the template tags that are supported by
 ### Short PHP Tags
 
 Short PHP tags are shortcuts to writing PHP expressions and statements in
-a view. The expression tag `&lt;%= expression %&gt;` is translated into
-`&lt;?php echo expression ?&gt;`; while the statement tag `&lt;% statement
-%&gt;` to `&lt;?php statement ?&gt;`. For example,
+a view. The expression tag `<%= expression %>` is translated into
+`<?php echo expression ?>`; while the statement tag `<% statement
+%>` to `<?php statement ?>`. For example,
 
 ~~~
 [php]
