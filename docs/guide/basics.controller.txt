@@ -1,35 +1,34 @@
 Controller
 ==========
 
-A controller is an instance of [CController] or its child class. It is
+A `controller` is an instance of [CController] or its child class. It is
 created by application when the user requests for it. When a controller
 runs, it performs the requested action which usually brings in the needed
-models and renders an appropriate view. An action, at its simplest form, is
+models and renders an appropriate view. An `action`, at its simplest form, is
 just a controller class method whose name starts with `action`.
 
-A controller has a default action. When the user request does not indicate
+A controller has a default action. When the user request does not specify
 which action to execute, the default action will be executed. By default,
 the default action is named as `index`. It can be changed by setting
 [CController::defaultAction].
 
-Below is the minimal code needed by a controller class:
+Below is the minimal code needed by a controller class. Since this controller
+does not define any action, requesting for it would throw an exception.
 
 ~~~
 [php]
-class PostController extends CController
+class SiteController extends CController
 {
 }
 ~~~
 
-Since the above controller does not define any action, accessing it would
-throw an exception.
 
 Route
 -----
 
 Controllers and actions are identified by IDs. Controller ID is in the
-format of `path.to.xxx` which corresponds to the controller class file
-`protected/controllers/path/to/XxxController.php`, where the token `xxx`
+format of `path.to.xyz` which corresponds to the controller class file
+`protected/controllers/path/to/XyzController.php`, where the token `xyz`
 should be replaced by actual names (e.g. `post` corresponds to
 `protected/controllers/PostController.php`). Action ID is the action method
 name without the `action` prefix. For example, if a controller class
@@ -48,7 +47,7 @@ and action.
 >to be true in the application configuration. When in case-insensitive mode,
 >make sure you follow the convention that directories containing controller
 >class files are in lower case, and both [controller map|CWebApplication::controllerMap]
->[action map|CController::actions] are using lower-case keys.
+>[action map|CController::actions] are using keys in lower case.
 
 Controller Instantiation
 ------------------------
@@ -58,33 +57,30 @@ incoming request. Given the ID of the controller, the application will use
 the following rules to determine what the controller class is and where the
 class file is located.
 
-   - If [CWebApplication::catchAllRequest] is defined, the user-specified
-controller ID will be ignored. Instead, the controller will be created
-based on the configuration specified by [CWebApplication::catchAllRequest]. This
-is mainly used to put the application under maintenance mode and display a
-static notice page.
+   - If [CWebApplication::catchAllRequest] is specified, a controller
+will be created based on this property, and the user-specified controller ID
+will be ignored. This is mainly used to put the application under
+maintenance mode and display a static notice page.
 
    - If the ID is found in [CWebApplication::controllerMap], the
 corresponding controller configuration will be used to create the
 controller instance.
 
-   - Otherwise, the controller class name is assumed to be
-`ucfirst(ControllerID).'Controller'`. For example, a 'post' controller ID
-corresponds to the class name `PostController`.
-	   - The application first searches the `controllers` directory under
-every activated extension for the controller class file.
-	   - If not found, it searches the default `protected/controllers`
-directory.
-	   - If the class file is found, it will be included and used to create
-the controller instance. Otherwise, a 404 [CHttpException] will be raised.
+   - If the ID is in the format of `'path.to.xyz'`, the controller class
+name is assumed to be `Xyz` and the corresponding class file is
+`protected/controllers/path/to/XyzController.php`. For example, a controller
+ID `admin.user` would be resolved as the controller class `UserController`
+and the class file `protected/controllers/admin/UserController.php`.
+If the class file does not exist, a 404 [CHttpException] will be raised.
+
 
 Action
 ------
 
 As aforementioned, an action can be defined as a method whose name starts
 with the word `action`. A more advanced way is to define an action class
-and ask the controller to instantiate it when requested. By doing so, we
-allow action classes to be reused and thus introduce more reusability.
+and ask the controller to instantiate it when requested. This allows
+actions to be reused and thus introduces more reusability.
 
 To define a new action class, do the following:
 
@@ -100,7 +96,7 @@ class UpdateAction extends CAction
 ~~~
 
 In order for the controller to be aware of this action, we override the
-`actions()` method of our controller class:
+[actions()|CController::actions] method of our controller class:
 
 ~~~
 [php]
@@ -115,7 +111,7 @@ class PostController extends CController
 }
 ~~~
 
-In the above, we use path alias
+In the above, we use the path alias
 `application.controllers.post.UpdateAction` to specify that the action
 class file is `protected/controllers/post/UpdateAction.php`.
 
