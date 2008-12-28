@@ -164,13 +164,21 @@ EOD;
 			return "CHtml::activeCheckBox(\${$modelVar},'{$column->name}')";
 		else if(stripos($column->dbType,'text')!==false)
 			return "CHtml::activeTextArea(\${$modelVar},'{$column->name}',array('rows'=>6, 'cols'=>50))";
-		else if($column->type!=='string' || $column->size===null)
-			return "CHtml::activeTextField(\${$modelVar},'{$column->name}')";
 		else
 		{
-			if(($size=$maxLength=$column->size)>60)
-				$size=60;
-			return "CHtml::activeTextField(\${$modelVar},'{$column->name}',array('size'=>$size,'maxlength'=>$maxLength))";
+			if(preg_match('/^(password|pass|passwd|passcode)$/i',$column->name))
+				$inputField='activePasswordField';
+			else
+				$inputField='activeTextField';
+
+			if($column->type!=='string' || $column->size===null)
+				return "CHtml::{$inputField}(\${$modelVar},'{$column->name}')";
+			else
+			{
+				if(($size=$maxLength=$column->size)>60)
+					$size=60;
+				return "CHtml::{$inputField}(\${$modelVar},'{$column->name}',array('size'=>$size,'maxlength'=>$maxLength))";
+			}
 		}
 	}
 }
