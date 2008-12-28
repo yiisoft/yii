@@ -15,7 +15,10 @@ the view. The method will look for the corresponding view file under the
 directory `protected/views/ControllerID`.
 
 Inside the view script, we can access the controller instance using
-`$this`. We can also pass in additional local variables as follows,
+`$this`. We can thus `pull` in any property of the controller by
+evaluating `$this->propertyName` in the view.
+
+We can also use the following `push` approach to pass data to the view:
 
 ~~~
 [php]
@@ -25,9 +28,9 @@ $this->render('edit', array(
 ));
 ~~~
 
-The [render()|CController::render] method will extract the second array
+In the above, the [render()|CController::render] method will extract the second array
 parameter into variables. As a result, in the view script we can access
-variables `$var1` and `$var2`.
+local variables `$var1` and `$var2`.
 
 Layout
 ------

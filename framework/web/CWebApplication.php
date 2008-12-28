@@ -382,12 +382,11 @@ class CWebApplication extends CApplication
 			$classFile=$this->getControllerPath().DIRECTORY_SEPARATOR.$className.'.php';
 		}
 
-		if(is_file($classFile))
-		{
-			require_once($classFile);
-			if(class_exists($className,false) && is_subclass_of($className,'CController'))
-				return new $className($id);
-		}
+		if(!class_exists($className,false) && is_file($classFile))
+			require($classFile);
+
+		if(class_exists($className,false) && is_subclass_of($className,'CController'))
+			return new $className($id);
 	}
 
 	/**

@@ -1,10 +1,10 @@
 Component
 =========
 
-Yii framework and applications are built upon components which are objects
-written to a specification. In Yii, a component is an instance of
-[CComponent] or its derived class. Using an Yii component mainly involves
-configuring its properties and raising/handling its events. The base class
+Yii applications are built upon components which are objects
+written to a specification. A component is an instance of
+[CComponent] or its derived class. Using a component mainly involves
+accessing its properties and raising/handling its events. The base class
 [CComponent] specifies how to define properties and events.
 
 Component Property
@@ -25,8 +25,15 @@ defining getter and setter methods like the following:
 
 ~~~
 [php]
-public function getTextWidth( )      { return $this->_textWidth; }
-public function setTextWidth($value) { $this->_width=$value;     }
+public function getTextWidth()
+{
+    return $this->_textWidth;
+}
+
+public function setTextWidth($value)
+{
+    $this->_textWidth=$value;
+}
 ~~~
 
 The above code defines a writable property named `textWidth` (the name is
@@ -38,17 +45,21 @@ exception. Using getter and setter methods to define a property has the
 benefit that additional logic (e.g. performing validation, raising events)
 can be executed when reading and writing the property.
 
+>Note: There is a slight difference between a property defined via getter/setter
+methods and a class member variable. The name of the former
+is case-insensitive while the latter is case-sensitive.
+
 Component Event
 ---------------
 
-Component events are special properties that take methods (called event
-handlers) as their values. Attaching (assigning) a method to an event will
+Component events are special properties that take methods (called `event
+handlers`) as their values. Attaching (assigning) a method to an event will
 cause the method to be invoked automatically at the places where the event
 is raised. Therefore, the behavior of a component can be modified in a way
 that may not be foreseen during the development of the component.
 
-A component event is defined by declaring a method whose name starts with
-`on`. Like property names defined via getter/setter, event names are
+A component event is defined by defining a method whose name starts with
+`on`. Like property names defined via getter/setter methods, event names are
 case-insensitive. The following code defines an `onClicked` event:
 
 ~~~
@@ -62,7 +73,7 @@ public function onClicked($event)
 where `$event` is an instance of [CEvent] or its child class representing
 the event parameter.
 
-We can now attach a method to this event:
+We can attach a method to this event as follows:
 
 ~~~
 [php]
@@ -77,11 +88,14 @@ The signature of an event handler must be as follows:
 
 ~~~
 [php]
-function methodName($event) { ...... }
+function methodName($event)
+{
+    ......
+}
 ~~~
 
 where `$event` is the parameter describing the event (it originates from
-`raiseEvent()` call). The `$event` parameter is an instance of [CEvent] or
+the `raiseEvent()` call). The `$event` parameter is an instance of [CEvent] or
 its derived class. At the minimum, it contains the information about who
 raises the event.
 
@@ -89,10 +103,9 @@ If we call `onClicked()` now, the `onClicked` event will be raised (inside
 `onClicked()`), and the attached event handler will be invoked
 automatically.
 
-An event can be attached with multiple handlers by repeating the
-assignments. When the event is raised, the handlers will be invoked in the
-order that they are attached to the event. If a handler decides to prevent
-the rest handlers from being invoked, it can set
-[$event->handled|CEvent::handled] to true.
+An event can be attached with multiple handlers. When the event is raised,
+the handlers will be invoked in the order that they are attached to the event.
+If a handler decides to prevent the rest handlers from being invoked, it can set
+[$event->handled|CEvent::handled] to be true.
 
 <div class="revision">$Id$</div>
