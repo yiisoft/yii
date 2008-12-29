@@ -4,7 +4,6 @@ class {ClassName} extends CActiveRecord
 {
 	/**
 	 * Returns the static model of the specified AR class.
-	 * This method is required by all child classes of CActiveRecord.
 	 * @return CActiveRecord the static model class
 	 */
 	public static function model($className=__CLASS__)
@@ -29,29 +28,33 @@ class {ClassName} extends CActiveRecord
 		);
 	}
 
-
-	// -----------------------------------------------------------
-	// Uncomment the following methods to override them if needed
-	/*
+	/**
+	 * @return array relational rules.
+	 */
 	public function relations()
 	{
 		return array(
-			'author'=>array(self::BELONGS_TO, 'User', 'authorId'),
-			'comments'=>array(self::HAS_MANY, 'Comment', 'postId', 'with'=>'author', 'order'=>'createTime DESC'),
-			'tags'=>array(self::MANY_MANY, 'Tag', 'PostTag(postId, tagId)', 'order'=>'name'),
 		);
 	}
 
+	/**
+	 * @return array customized attribute labels (name=>label)
+	 */
 	public function attributeLabels()
 	{
 		return array(
-			'authorID'=>'Author',
 		);
 	}
 
+	/**
+	 * Returns the list of attributes that should not be massively assigned.
+	 * You may also override safeAttributes() to specify the list of attributes
+	 * that CAN be massively assigned. Do not override both, though.
+	 * @return array list of attributes that should not be massively assigned.
+	 */
 	public function protectedAttributes()
 	{
-		return array();
+		return array(
+		);
 	}
-	*/
 }

@@ -115,7 +115,7 @@ class CStarRating extends CInputWidget
 	 * Registers the necessary javascript and css scripts.
 	 * @param string the ID of the container
 	 */
-	protected function registerClientScript($id)
+	public function registerClientScript($id)
 	{
 		$jsOptions=$this->getClientOptions();
 		$jsOptions=empty($jsOptions) ? '' : CJavaScript::encode($jsOptions);

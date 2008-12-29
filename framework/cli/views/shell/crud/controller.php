@@ -10,8 +10,11 @@ class {ClassName} extends CController
 	public $defaultAction='list';
 
 	/**
-	 * Specifies the action filters.
-	 * This method overrides the parent implementation.
+	 * @var CActiveRecord the currently loaded data model instance.
+	 */
+	private $_{ModelVar};
+
+	/**
 	 * @return array action filters
 	 */
 	public function filters()
@@ -23,23 +26,25 @@ class {ClassName} extends CController
 
 	/**
 	 * Specifies the access control rules.
-	 * This method overrides the parent implementation.
-	 * It is only effective when 'accessControl' filter is enabled.
+	 * This method is used by the 'accessControl' filter.
 	 * @return array access control rules
 	 */
 	public function accessRules()
 	{
 		return array(
-			array('deny',  // deny access to create, update, delete operations for guest users
-				'actions'=>array('create','update','delete'),
-				'users'=>array('?'),
+			array('allow',  // allow all users to perform 'list' and 'show' actions
+				'actions'=>array('list','show'),
+				'users'=>array('*'),
 			),
-			array('allow', // allow access to admin operation for admin user
-				'actions'=>array('admin'),
+			array('allow', // allow authenticated user to perform 'create' and 'update' actions
+				'actions'=>array('create','update'),
+				'users'=>array('@'),
+			),
+			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+				'actions'=>array('admin','delete'),
 				'users'=>array('admin'),
 			),
-			array('deny',  // deny access to admin operation for all users
-				'actions'=>array('admin'),
+			array('deny',  // deny all users
 				'users'=>array('*'),
 			),
 		);
@@ -50,7 +55,7 @@ class {ClassName} extends CController
 	 */
 	public function actionShow()
 	{
-		$this->render('show',array('{ModelVar}'=>$this->load{ModelClass}()));
+		$this->render('show',array('{ModelVar}'=>$this->get{ModelClass}()));
 	}
 
 	/**
@@ -75,7 +80,7 @@ class {ClassName} extends CController
 	 */
 	public function actionUpdate()
 	{
-		${ModelVar}=$this->load{ModelClass}();
+		${ModelVar}=$this->get{ModelClass}();
 		if(isset($_POST['{ModelClass}']))
 		{
 			${ModelVar}->attributes=$_POST['{ModelClass}'];
@@ -94,7 +99,7 @@ class {ClassName} extends CController
 		if(Yii::app()->request->isPostRequest)
 		{
 			// we only allow deletion via POST request
-			$this->load{ModelClass}()->delete();
+			$this->get{ModelClass}()->delete();
 			$this->redirect(array('list'));
 		}
 		else
@@ -106,7 +111,8 @@ class {ClassName} extends CController
 	 */
 	public function actionList()
 	{
-		$pages=$this->paginate({ModelClass}::model()->count(), self::PAGE_SIZE);
+		$pages=new CPagination({ModelClass}::model()->count());
+		$pages->pageSize=self::PAGE_SIZE;
 		${ModelVar}List={ModelClass}::model()->findAll($this->getListCriteria($pages));
 
 		$this->render('list',array(
@@ -121,7 +127,8 @@ class {ClassName} extends CController
 	{
 		$this->processAdminCommand();
 
-		$pages=$this->paginate({ModelClass}::model()->count(), self::PAGE_SIZE);
+		$pages=new CPagination({ModelClass}::model()->count());
+		$pages->pageSize=self::PAGE_SIZE;
 		${ModelVar}List={ModelClass}::model()->findAll($this->getListCriteria($pages));
 
 		$this->render('admin',array(
@@ -130,17 +137,20 @@ class {ClassName} extends CController
 	}
 
 	/**
-	 * Loads the data model based on the primary key given in the GET variable.
+	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
+	 * @param integer the primary key value. Defaults to null, meaning using the 'id' GET variable
 	 */
-	protected function load{ModelClass}()
+	public function get{ModelClass}($id=null)
 	{
-		if(isset($_GET['id']))
-			${ModelVar}={ModelClass}::model()->findbyPk($_GET['id']);
-		if(isset(${ModelVar}))
-			return ${ModelVar};
-		else
-			throw new CHttpException(500,'The requested {ModelName} does not exist.');
+		if($this->_{ModelVar}===null)
+		{
+			if($id!==null || isset($_GET['id']))
+				$this->_{ModelVar}={ModelClass}::model()->findbyPk($id!==null ? $id : $_GET['id']);
+			if($this->_{ModelVar}===null)
+				throw new CHttpException(500,'The requested {ModelName} does not exist.');
+		}
+		return $this->_{ModelVar};
 	}
 
 	/**
@@ -196,17 +206,9 @@ class {ClassName} extends CController
 	{
 		if(isset($_POST['command'], $_POST['id']) && $_POST['command']==='delete')
 		{
-			if(Yii::app()->user->isGuest)
-				Yii::app()->user->loginRequired();
-
-			if((${ModelVar}={ModelClass}::model()->findbyPk($_POST['id']))!==null)
-			{
-				${ModelVar}->delete();
-				// reload the current page to avoid duplicated delete actions
-				$this->refresh();
-			}
-			else
-				throw new CHttpException(500,'The requested {ModelName} does not exist.');
+			$this->get{ModelClass}($_POST['id'])->delete();
+			// reload the current page to avoid duplicated delete actions
+			$this->refresh();
 		}
 	}
 }
