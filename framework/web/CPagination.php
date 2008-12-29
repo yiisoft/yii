@@ -44,6 +44,16 @@ class CPagination extends CComponent
 	private $_currentPage;
 
 	/**
+	 * Constructor.
+	 * @param integer total number of items.
+	 * @since 1.0.1
+	 */
+	public function __construct($itemCount)
+	{
+		$this->setItemCount($itemCount);
+	}
+
+	/**
 	 * @return integer number of items in each page. Defaults to 10.
 	 */
 	public function getPageSize()
@@ -118,8 +128,13 @@ class CPagination extends CComponent
 
 	/**
 	 * Creates the URL suitable for pagination.
+	 * This method is mainly called by pagers when creating URLs used to
+	 * perform pagination. The default implementation is to call
+	 * the controller's createUrl method with the page information.
+	 * You may override this method if your URL scheme is not the same as
+	 * the one supported by the controller's createUrl method.
 	 * @param CController the controller that will create the actual URL
-	 * @param integer the page that the URL should point to.
+	 * @param integer the page that the URL should point to. This is a zero-based index.
 	 * @return string the created URL
 	 */
 	public function createPageUrl($controller,$page)

@@ -802,6 +802,10 @@ class CController extends CBaseController
 	 * This method can be used to generate pagination information given item count
 	 * and page size. The pagination information can then be passed to {@link CBasePager pagers}
 	 * for corresponding rendering.
+	 *
+	 * Note: this method has been deprecated since version 1.0.1.
+	 * You should directly use "new CPagination" to create a pagination object.
+	 *
 	 * @param integer the total item count
 	 * @param integer the page size. See {@link CPagination} for default value.
 	 * @param string the name of the GET variable storing the current page index. See {@link CPagination} for default value.
