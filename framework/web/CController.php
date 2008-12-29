@@ -813,8 +813,7 @@ class CController extends CBaseController
 	 */
 	public function paginate($itemCount,$pageSize=null,$pageVar=null)
 	{
-		$pages=new CPagination;
-		$pages->setItemCount($itemCount);
+		$pages=new CPagination($itemCount);
 		if($pageSize!==null)
 			$pages->pageSize=$pageSize;
 		if($pageVar!==null)
