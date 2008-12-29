@@ -81,6 +81,17 @@ class CFlexWidget extends CWidget
 		if($this->altHtmlContent===null)
 			$this->altHtmlContent=Yii::t('yii','This content requires the <a href="http://www.adobe.com/go/getflash/">Adobe Flash Player</a>.');
 
+		$this->registerClientScript();
+
+		$this->render('flexWidget');
+	}
+
+	/**
+	 * Registers the needed CSS and JavaScript.
+	 * @since 1.0.1
+	 */
+	public function registerClientScript()
+	{
 		$cs=Yii::app()->getClientScript();
 		$cs->registerScriptFile($this->baseUrl.'/AC_OETags.js');
 
@@ -89,8 +100,6 @@ class CFlexWidget extends CWidget
 			$cs->registerCssFile($this->baseUrl.'/history/history.css');
 			$cs->registerScriptFile($this->baseUrl.'/history/history.js');
 		}
-
-		$this->render('flexWidget');
 	}
 
 	/**

@@ -191,6 +191,23 @@ class CAutoComplete extends CInputWidget
 	{
 		list($name,$id)=$this->resolveNameID();
 		$this->htmlOptions['id']=$id;
+
+		$this->registerClientScript();
+
+		if($this->hasModel())
+			echo CHtml::activeTextField($this->model,$this->attribute,$this->htmlOptions);
+		else
+			echo CHtml::textField($name,$this->value,$this->htmlOptions);
+	}
+
+	/**
+	 * Registers the needed CSS and JavaScript.
+	 * @since 1.0.1
+	 */
+	public function registerClientScript()
+	{
+		$id=$this->htmlOptions['id'];
+
 		$acOptions=$this->getClientOptions();
 		$options=$acOptions===array()?'{}' : CJavaScript::encode($acOptions);
 
@@ -208,11 +225,6 @@ class CAutoComplete extends CInputWidget
 			$cs->registerCssFile($cs->getCoreScriptUrl().'/autocomplete/jquery.autocomplete.css');
 		else if($this->cssFile!==false)
 			$cs->registerCssFile($this->cssFile);
-
-		if($this->hasModel())
-			echo CHtml::activeTextField($this->model,$this->attribute,$this->htmlOptions);
-		else
-			echo CHtml::textField($name,$this->value,$this->htmlOptions);
 	}
 
 	/**
