@@ -32,17 +32,17 @@ class SiteController extends CController
 	 */
 	public function actionLogin()
 	{
-		$user=new LoginForm;
+		$form=new LoginForm;
 		// collect user input data
 		if(isset($_POST['LoginForm']))
 		{
-			$user->attributes=$_POST['LoginForm'];
+			$form->attributes=$_POST['LoginForm'];
 			// validate user input and redirect to previous page if valid
-			if($user->validate())
+			if($form->validate())
 				$this->redirect(Yii::app()->user->returnUrl);
 		}
 		// display the login form
-		$this->render('login',array('user'=>$user));
+		$this->render('login',array('form'=>$form));
 	}
 
 	/**

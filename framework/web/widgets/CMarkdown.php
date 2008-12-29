@@ -41,6 +41,8 @@ class CMarkdown extends COutputProcessor
 	 */
 	public $purifyOutput=false;
 
+	private $_parser;
+
 	/**
 	 * Processes the captured output.
      * This method converts the content in markdown syntax to HTML code.
@@ -67,13 +69,35 @@ class CMarkdown extends COutputProcessor
 	 */
 	public function transform($output)
 	{
+		$this->registerClientScript();
+		return $this->getMarkdownParser()->transform($output);
+	}
+
+	/**
+	 * Registers the needed CSS and JavaScript.
+	 * @since 1.0.1
+	 */
+	public function registerClientScript()
+	{
 		$cs=Yii::app()->getClientScript();
-		$parser=$this->createMarkdownParser();
 		if($this->cssFile===null)
-			$cs->registerCssFile(CHtml::asset($parser->getDefaultCssFile()));
+			$cs->registerCssFile(CHtml::asset($this->getMarkdownParser()->getDefaultCssFile()));
 		else if($this->cssFile!==false)
 			$cs->registerCssFile($this->cssFile);
-		return $parser->transform($output);
+	}
+
+	/**
+	 * Returns the markdown parser instance.
+	 * This method calls {@link createMarkdownParser} to create the parser instance.
+	 * Call this method multipe times will only return the same instance.
+	 * @param CMarkdownParser the parser instance
+	 * @since 1.0.1
+	 */
+	public function getMarkdownParser()
+	{
+		if($this->_parser===null)
+			$this->_parser=$this->createMarkdownParser();
+		return $this->_parser;
 	}
 
 	/**

@@ -84,23 +84,14 @@ class CTextHighlighter extends COutputProcessor
 	 */
 	public function highlight($content)
 	{
+		$this->registerClientScript();
+
 		$options['use_language']=true;
 		$options['tabsize']=$this->tabSize;
 		if($this->showLineNumbers)
 			$options['numbers']=($this->lineNumberStyle==='list')?HL_NUMBERS_LI:HL_NUMBERS_TABLE;
 
-		$cs=Yii::app()->getClientScript();
-
-		if($this->cssFile===null)
-		{
-			$cssFile=Yii::getPathOfAlias('system.vendors.TextHighlighter.highlight').'.css';
-			$cs->registerCssFile(CHtml::asset($cssFile));
-		}
-		else if($this->cssFile!==false)
-			$cs->registerCssFile($this->cssFile);
-
 		$highlighter=empty($this->language)?false:Text_Highlighter::factory($this->language);
-
 		if($highlighter===false)
 			$o='<pre>'.CHtml::encode($content).'</pre>';
 		else
@@ -110,5 +101,22 @@ class CTextHighlighter extends COutputProcessor
 		}
 
 		return CHtml::tag('div',$this->containerOptions,$o);
+	}
+
+	/**
+	 * Registers the needed CSS and JavaScript.
+	 * @since 1.0.1
+	 */
+	public function registerClientScript()
+	{
+		$cs=Yii::app()->getClientScript();
+
+		if($this->cssFile===null)
+		{
+			$cssFile=Yii::getPathOfAlias('system.vendors.TextHighlighter.highlight').'.css';
+			$cs->registerCssFile(CHtml::asset($cssFile));
+		}
+		else if($this->cssFile!==false)
+			$cs->registerCssFile($this->cssFile);
 	}
 }

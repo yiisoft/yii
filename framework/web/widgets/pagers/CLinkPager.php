@@ -168,7 +168,7 @@ class CLinkPager extends CBasePager
 	/**
 	 * Registers the needed client scripts (mainly CSS file).
 	 */
-	protected function registerClientScript()
+	public function registerClientScript()
 	{
 		$cs=Yii::app()->getClientScript();
 		if($this->cssFile===null)
