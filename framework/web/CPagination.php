@@ -48,7 +48,7 @@ class CPagination extends CComponent
 	 * @param integer total number of items.
 	 * @since 1.0.1
 	 */
-	public function __construct($itemCount)
+	public function __construct($itemCount=0)
 	{
 		$this->setItemCount($itemCount);
 	}
@@ -145,5 +145,16 @@ class CPagination extends CComponent
 		else
 			unset($params[$this->pageVar]);
 		return $controller->createUrl($this->route,$params);
+	}
+
+	/**
+	 * Applies LIMIT and OFFSET to the specified query criteria.
+	 * @param CDbCriteria the query criteria that should be applied with the limit
+	 * @since 1.0.1
+	 */
+	public function applyLimit($criteria)
+	{
+		$criteria->limit=$this->pageSize;
+		$criteria->offset=$this->currentPage*$this->pageSize;
 	}
 }

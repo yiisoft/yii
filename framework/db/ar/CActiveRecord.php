@@ -610,6 +610,16 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Returns the list of all attribute names of the model.
+	 * @return array list of attribute names.
+	 * @since 1.0.1
+	 */
+	public function attributeNames()
+	{
+		return array_keys($this->getMetaData()->columns);
+	}
+
+	/**
 	 * Returns the database connection used by active record.
 	 * By default, the "db" application component is used as the database connection.
 	 * You may override this method if you want to use a different database connection.

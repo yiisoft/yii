@@ -24,6 +24,13 @@ abstract class CModel extends CComponent
 	private $_errors=array();	// attribute name => array of errors
 
 	/**
+	 * Returns the list of attribute names of the model.
+	 * @return array list of attribute names.
+	 * @since 1.0.1
+	 */
+	abstract public function attributeNames();
+
+	/**
 	 * Performs the validation.
 	 * This method executes every validation rule as declared in {@link rules}.
 	 * Errors found during the validation can be retrieved via {@link getErrors}.
