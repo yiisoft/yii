@@ -511,6 +511,7 @@ class YiiBase
 		'CHttpSession' => '/web/CHttpSession.php',
 		'COutputEvent' => '/web/COutputEvent.php',
 		'CPagination' => '/web/CPagination.php',
+		'CSort' => '/web/CSort.php',
 		'CTheme' => '/web/CTheme.php',
 		'CThemeManager' => '/web/CThemeManager.php',
 		'CUploadedFile' => '/web/CUploadedFile.php',

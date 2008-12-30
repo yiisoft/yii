@@ -304,6 +304,7 @@ class YiiBase
 		'CHttpSession' => '/web/CHttpSession.php',
 		'COutputEvent' => '/web/COutputEvent.php',
 		'CPagination' => '/web/CPagination.php',
+		'CSort' => '/web/CSort.php',
 		'CTheme' => '/web/CTheme.php',
 		'CThemeManager' => '/web/CThemeManager.php',
 		'CUploadedFile' => '/web/CUploadedFile.php',
@@ -1201,12 +1202,10 @@ class CWebApplication extends CApplication
 			$className=ucfirst($id).'Controller';
 			$classFile=$this->getControllerPath().DIRECTORY_SEPARATOR.$className.'.php';
 		}
-		if(is_file($classFile))
-		{
-			require_once($classFile);
-			if(class_exists($className,false) && is_subclass_of($className,'CController'))
-				return new $className($id);
-		}
+		if(!class_exists($className,false) && is_file($classFile))
+			require($classFile);
+		if(class_exists($className,false) && is_subclass_of($className,'CController'))
+			return new $className($id);
 	}
 	public function getController()
 	{
@@ -2557,8 +2556,7 @@ class CController extends CBaseController
 	}
 	public function paginate($itemCount,$pageSize=null,$pageVar=null)
 	{
-		$pages=new CPagination;
-		$pages->setItemCount($itemCount);
+		$pages=new CPagination($itemCount);
 		if($pageSize!==null)
 			$pages->pageSize=$pageSize;
 		if($pageVar!==null)
@@ -6154,6 +6152,10 @@ class CPagination extends CComponent
 	private $_pageSize=self::DEFAULT_PAGE_SIZE;
 	private $_itemCount=0;
 	private $_currentPage;
+	public function __construct($itemCount=0)
+	{
+		$this->setItemCount($itemCount);
+	}
 	public function getPageSize()
 	{
 		return $this->_pageSize;
@@ -6206,6 +6208,11 @@ class CPagination extends CComponent
 		else
 			unset($params[$this->pageVar]);
 		return $controller->createUrl($this->route,$params);
+	}
+	public function applyLimit($criteria)
+	{
+		$criteria->limit=$this->pageSize;
+		$criteria->offset=$this->currentPage*$this->pageSize;
 	}
 }
 class CJavaScript
