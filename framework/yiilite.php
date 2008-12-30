@@ -15,7 +15,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2009 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  * @version $Id$
  * @since 1.0
@@ -4413,6 +4413,7 @@ class CAccessRule extends CComponent
 abstract class CModel extends CComponent
 {
 	private $_errors=array();	// attribute name => array of errors
+	abstract public function attributeNames();
 	public function validate($attributes=null,$on=null)
 	{
 		$this->clearErrors();
@@ -4628,6 +4629,10 @@ abstract class CActiveRecord extends CModel
 	public function relations()
 	{
 		return array();
+	}
+	public function attributeNames()
+	{
+		return array_keys($this->getMetaData()->columns);
 	}
 	public function getDbConnection()
 	{
