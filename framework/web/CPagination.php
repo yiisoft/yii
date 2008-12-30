@@ -146,4 +146,15 @@ class CPagination extends CComponent
 			unset($params[$this->pageVar]);
 		return $controller->createUrl($this->route,$params);
 	}
+
+	/**
+	 * Applies LIMIT and OFFSET to the specified query criteria.
+	 * @param CDbCriteria the query criteria that should be applied with the limit
+	 * @since 1.0.1
+	 */
+	public function applyLimit($criteria)
+	{
+		$criteria->limit=$this->pageSize;
+		$criteria->offset=$this->currentPage*$this->pageSize;
+	}
 }

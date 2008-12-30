@@ -55,7 +55,7 @@ class {ClassName} extends CController
 	 */
 	public function actionShow()
 	{
-		$this->render('show',array('{ModelVar}'=>$this->get{ModelClass}()));
+		$this->render('show',array('{ModelVar}'=>$this->load{ModelClass}()));
 	}
 
 	/**
@@ -80,7 +80,7 @@ class {ClassName} extends CController
 	 */
 	public function actionUpdate()
 	{
-		${ModelVar}=$this->get{ModelClass}();
+		${ModelVar}=$this->load{ModelClass}();
 		if(isset($_POST['{ModelClass}']))
 		{
 			${ModelVar}->attributes=$_POST['{ModelClass}'];
@@ -99,7 +99,7 @@ class {ClassName} extends CController
 		if(Yii::app()->request->isPostRequest)
 		{
 			// we only allow deletion via POST request
-			$this->get{ModelClass}()->delete();
+			$this->load{ModelClass}()->delete();
 			$this->redirect(array('list'));
 		}
 		else
@@ -111,13 +111,18 @@ class {ClassName} extends CController
 	 */
 	public function actionList()
 	{
+		$criteria=new CDbCriteria;
+
 		$pages=new CPagination({ModelClass}::model()->count());
 		$pages->pageSize=self::PAGE_SIZE;
-		${ModelVar}List={ModelClass}::model()->findAll($this->getListCriteria($pages));
+		$pages->applyLimit($criteria);
+
+		${ModelVar}List={ModelClass}::model()->findAll($criteria);
 
 		$this->render('list',array(
 			'{ModelVar}List'=>${ModelVar}List,
-			'pages'=>$pages));
+			'pages'=>$pages,
+		));
 	}
 
 	/**
@@ -127,13 +132,22 @@ class {ClassName} extends CController
 	{
 		$this->processAdminCommand();
 
+		$criteria=new CDbCriteria;
+
 		$pages=new CPagination({ModelClass}::model()->count());
 		$pages->pageSize=self::PAGE_SIZE;
-		${ModelVar}List={ModelClass}::model()->findAll($this->getListCriteria($pages));
+		$pages->applyLimit($criteria);
+
+		$sort=new CSort('{ModelClass}');
+		$sort->applyOrder($criteria);
+
+		${ModelVar}List={ModelClass}::model()->findAll($criteria);
 
 		$this->render('admin',array(
 			'{ModelVar}List'=>${ModelVar}List,
-			'pages'=>$pages));
+			'pages'=>$pages,
+			'sort'=>$sort,
+		));
 	}
 
 	/**
@@ -141,7 +155,7 @@ class {ClassName} extends CController
 	 * If the data model is not found, an HTTP exception will be raised.
 	 * @param integer the primary key value. Defaults to null, meaning using the 'id' GET variable
 	 */
-	public function get{ModelClass}($id=null)
+	public function load{ModelClass}($id=null)
 	{
 		if($this->_{ModelVar}===null)
 		{
@@ -154,59 +168,13 @@ class {ClassName} extends CController
 	}
 
 	/**
-	 * @param CPagination the pagination information
-	 * @return CDbCriteria the query criteria for {ModelClass} list.
-	 * It includes the ORDER BY and LIMIT/OFFSET information.
-	 */
-	protected function getListCriteria($pages)
-	{
-		$criteria=new CDbCriteria;
-		$columns={ModelClass}::model()->tableSchema->columns;
-		if(isset($_GET['sort']) && isset($columns[$_GET['sort']]))
-		{
-			$criteria->order=$columns[$_GET['sort']]->rawName;
-			if(isset($_GET['desc']))
-				$criteria->order.=' DESC';
-		}
-		$criteria->limit=$pages->pageSize;
-		$criteria->offset=$pages->currentPage*$pages->pageSize;
-		return $criteria;
-	}
-
-	/**
-	 * Generates the header cell for the specified column.
-	 * This method will generate a hyperlink for the column.
-	 * Clicking on the link will cause the data to be sorted according to the column.
-	 * @param string the column name
-	 * @return string the generated header cell content
-	 */
-	protected function generateColumnHeader($column)
-	{
-		$params=$_GET;
-		if(isset($params['sort']) && $params['sort']===$column)
-		{
-			if(isset($params['desc']))
-				unset($params['desc']);
-			else
-				$params['desc']=1;
-		}
-		else
-		{
-			$params['sort']=$column;
-			unset($params['desc']);
-		}
-		$url=$this->createUrl('admin',$params);
-		return CHtml::link({ModelClass}::model()->getAttributeLabel($column),$url);
-	}
-
-	/**
 	 * Executes any command triggered on the admin page.
 	 */
 	protected function processAdminCommand()
 	{
 		if(isset($_POST['command'], $_POST['id']) && $_POST['command']==='delete')
 		{
-			$this->get{ModelClass}($_POST['id'])->delete();
+			$this->load{ModelClass}($_POST['id'])->delete();
 			// reload the current page to avoid duplicated delete actions
 			$this->refresh();
 		}

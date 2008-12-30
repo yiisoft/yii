@@ -7,9 +7,9 @@
 
 <table class="dataGrid">
   <tr>
-    <th><?php echo "<?php echo \$this->generateColumnHeader('$ID'); ?>"; ?></th>
+    <th><?php echo "<?php echo \$sort->link('$ID'); ?>"; ?></th>
 <?php foreach($columns as $column): ?>
-    <th><?php echo "<?php echo \$this->generateColumnHeader('{$column->name}'); ?>"; ?></th>
+    <th><?php echo "<?php echo \$sort->link('{$column->name}'); ?>"; ?></th>
 <?php endforeach; ?>
 	<th>Actions</th>
   </tr>
