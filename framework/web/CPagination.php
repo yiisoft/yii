@@ -48,7 +48,7 @@ class CPagination extends CComponent
 	 * @param integer total number of items.
 	 * @since 1.0.1
 	 */
-	public function __construct($itemCount)
+	public function __construct($itemCount=0)
 	{
 		$this->setItemCount($itemCount);
 	}
