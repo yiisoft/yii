@@ -29,7 +29,7 @@
 </div><!-- content -->
 
 <div id="footer">
-Copyright &copy; 2008 by My Company.<br/>
+Copyright &copy; 2009 by My Company.<br/>
 All Rights Reserved.<br/>
 <?php echo Yii::powered(); ?>
 </div><!-- footer -->

@@ -185,10 +185,7 @@ class CUrlManager extends CApplicationComponent
 		{
 			$url=rtrim($this->getBaseUrl().'/'.$route,'/');
 			foreach($params as $key=>$value)
-			{
-				if("$value"!=='')
-					$url.='/'.urlencode($key).'/'.urlencode($value);
-			}
+				$url.='/'.urlencode($key).'/'.urlencode($value);
 			return $url.$this->urlSuffix;
 		}
 		else
@@ -415,7 +412,7 @@ class CUrlRule extends CComponent
 		{
 			if(isset($this->params[$key]))
 				$tr["<$key>"]=$value;
-			else if("$value"!=='')
+			else
 				$rest[]=urlencode($key).$sep.urlencode($value);
 		}
 		$url=strtr($this->template,$tr);

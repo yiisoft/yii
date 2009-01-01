@@ -325,7 +325,7 @@ using the `new` operator, calling [save()|CActiveRecord::save] would insert
 a new row into the database table; if the AR instance is the result of some
 `find` or `findAll` method call, calling [save()|CActiveRecord::save] would
 update the existing row in the table. In fact, we can use
-[CActive::isNewRecord] to tell if an AR instance is new or not.
+[CActiveRecord::isNewRecord] to tell if an AR instance is new or not.
 
 It is also possible to update one or several rows in a database table
 without loading them first. AR provides the following convenient
