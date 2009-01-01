@@ -21,7 +21,7 @@
 </div><!-- end of content -->
 
 <div id="footer">
-Copyright &copy; 2008 by <a href="http://www.yiisoft.com">Yii Software LLC</a><br/>
+Copyright &copy; 2008-2009 by <a href="http://www.yiisoft.com">Yii Software LLC</a><br/>
 All Rights Reserved.<br/>
 </div><!-- end of footer -->
 
