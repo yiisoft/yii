@@ -54,6 +54,7 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public $csrfCookie;
 
+	private $_requestUri;
 	private $_pathInfo;
 	private $_scriptFile;
 	private $_scriptUrl;
@@ -206,20 +207,27 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the relative URL of the entry script.
+	 * The implementation of this method referenced Zend_Http in Zend Framework.
 	 * @return string the relative URL of the entry script.
 	 */
 	public function getScriptUrl()
 	{
-		if($this->_scriptUrl!==null)
-			return $this->_scriptUrl;
-		else
+		if($this->_scriptUrl===null)
 		{
-			if(isset($_SERVER['SCRIPT_NAME']))
+			$scriptName=basename($_SERVER['SCRIPT_FILENAME']);
+			if(basename($_SERVER['SCRIPT_NAME'])===$scriptName)
 				$this->_scriptUrl=$_SERVER['SCRIPT_NAME'];
+			else if(basename($_SERVER['PHP_SELF'])===$scriptName)
+				$this->_scriptUrl=$_SERVER['PHP_SELF'];
+			else if(isset($_SERVER['ORIG_SCRIPT_NAME']) && basename($_SERVER['ORIG_SCRIPT_NAME'])===$scriptName)
+				$this->_scriptUrl=$_SERVER['ORIG_SCRIPT_NAME'];
+			else if(($pos=strpos($_SERVER['SCRIPT_NAME'],'/'.$scriptName))!==false)
+				$this->_scriptUrl=substr($_SERVER['SCRIPT_NAME'],0,$pos).'/'.$scriptName;
 			else
 				throw new CException(Yii::t('yii','CHttpRequest is unable to determine the entry script URL.'));
-			return $this->_scriptUrl;
 		}
+		return $this->_scriptUrl;
 	}
 
 	/**
@@ -234,49 +242,65 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
-	 * @return string part of the request URL that is after the entry script and before the question mark.
+	 * Returns the path info of the currently requested URL.
+	 * This refers to the part that is after the entry script and before the question mark.
 	 * The starting and ending slashes are stripped off.
+	 * @return string part of the request URL that is after the entry script and before the question mark.
+	 * @throws CException if the request URI cannot be determined due to improper server configuration
 	 */
 	public function getPathInfo()
 	{
 		if($this->_pathInfo===null)
-			$this->_pathInfo=trim(isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $this->guessPathInfo(), '/');
+		{
+			$requestUri=$this->getRequestUri();
+			$scriptUrl=$this->getScriptUrl();
+			if(strpos($requestUri,$scriptUrl)===0)
+				$pathInfo=substr($requestUri,strlen($scriptUrl));
+			else if(strpos($_SERVER['PHP_SELF'],$scriptUrl)===0)
+				$pathInfo=substr($_SERVER['PHP_SELF'],strlen($scriptUrl));
+			else
+				throw new CException(Yii::t('yii','CHttpRequest is unable to determine the path info of the request.'));
+
+			if(($pos=strpos($pathInfo,'?'))!==false)
+				$pathInfo=substr($pathInfo,0,$pos);
+
+			$this->_pathInfo=trim($pathInfo,'/');
+		}
 		return $this->_pathInfo;
 	}
 
 	/**
-	 * Guesses the path info when <code>$_SERVER['PATH_INFO']</code> is not available.
-	 *
-	 * The default implementation guesses the path info in two ways.
-	 * First, if <code>$_SERVER['PHP_SELF']</code> and <code>$_SERVER['SCRIPT_NAME']</code> are different,
-	 * the path info is assumed to be the difference of the two.
-	 * Second, if <code>$_SERVER['REQUEST_URI']</code> does not contain <code>$_SERVER['SCRIPT_NAME']</code>,
-	 * it means some rewrite rule is mapping URLs to the entry script. In this case, the path info
-	 * is assumed to be part of <code>$_SERVER['REQUEST_URI']</code>.
-	 * If neither of the above methods works, you should override this method.
-	 * @return string the path info.
+	 * Returns the request URI portion for the currently requested URL.
+	 * This refers to the portion that is after the {@link hostInfo host info} part.
+	 * It includes the {@link queryString query string} part if any.
+	 * The implementation of this method referenced Zend_Http in Zend Framework.
+	 * @return string the request URI portion for the currently requested URL.
+	 * @throws CException if the request URI cannot be determined due to improper server configuration
+	 * @since 1.0.1
 	 */
-	protected function guessPathInfo()
+	public function getRequestUri()
 	{
-		if($_SERVER['PHP_SELF']!==$_SERVER['SCRIPT_NAME'])
+		if($this->_requestUri===null)
 		{
-			if(strpos($_SERVER['PHP_SELF'],$_SERVER['SCRIPT_NAME'])===0)
-				return substr($_SERVER['PHP_SELF'],strlen($_SERVER['SCRIPT_NAME']));
-		}
-		else if(isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'],$_SERVER['SCRIPT_NAME'])!==0)
-		{
-			// REQUEST_URI doesn't contain SCRIPT_NAME, which means some rewrite rule is in effect
-			$base=strtr(dirname($_SERVER['SCRIPT_NAME']),'\\','/');
-			if(strpos($_SERVER['REQUEST_URI'],$base)===0)
+			if(isset($_SERVER['HTTP_X_REWRITE_URL'])) // IIS
+				$this->_requestUri=$_SERVER['HTTP_X_REWRITE_URL'];
+			else if(isset($_SERVER['REQUEST_URI']))
 			{
-				$pathInfo=substr($_SERVER['REQUEST_URI'],strlen($base));
-				if(($pos=strpos($pathInfo,'?'))!==false)
-					return substr($pathInfo,0,$pos);
-				else
-					return $pathInfo;
+				$this->_requestUri=$_SERVER['REQUEST_URI'];
+				if(strpos($this->_requestUri,$_SERVER['HTTP_HOST'])!==false)
+					$this->_requestUri=preg_replace('/^\w+:\/\/[^\/]+/','',$this->_requestUri);
 			}
+			else if(isset($_SERVER['ORIG_PATH_INFO']))  // IIS 5.0 CGI
+			{
+				$this->_requestUri=$_SERVER['ORIG_PATH_INFO'];
+				if(!empty($_SERVER['QUERY_STRING']))
+					$this->_requestUri.='?'.$_SERVER['QUERY_STRING'];
+			}
+			else
+				throw new CException(Yii::t('yii','CHttpRequest is unable to determine the request URI.'));
 		}
-		return '';
+
+		return $this->_requestUri;
 	}
 
 	/**

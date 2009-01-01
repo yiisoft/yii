@@ -20,17 +20,16 @@ class CAssetManagerTest extends CTestCase
 
 	public function testBaseUrl()
 	{
-		$_SERVER['SCRIPT_NAME']='http://localhost/test/index.php';
 		$app=new TestWebApplication(array('basePath'=>YII_UT_PATH));
+		$app->request->baseUrl='/test';
 		$am=new CAssetManager;
 		$this->assertTrue($am->baseUrl===null);
 		$am->init($app);
-		$this->assertEquals($am->baseUrl,'http://localhost/test/assets');
+		$this->assertEquals($am->baseUrl,'/test/assets');
 	}
 
 	public function testPublishFile()
 	{
-		$_SERVER['SCRIPT_NAME']='http://localhost/test/index.php';
 		$app=new TestWebApplication(array('basePath'=>YII_UT_PATH));
 		$app->reset();
 		$am=new CAssetManager;
