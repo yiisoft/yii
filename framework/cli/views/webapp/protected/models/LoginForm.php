@@ -10,7 +10,6 @@ class LoginForm extends CFormModel
 	public $username;
 	public $password;
 	public $rememberMe;
-	public $verifyCode;
 
 	/**
 	 * Declares the validation rules.
@@ -20,21 +19,10 @@ class LoginForm extends CFormModel
 	public function rules()
 	{
 		return array(
+			// username and password are required
 			array('username, password', 'required'),
-			array('verifyCode', 'captcha', 'allowEmpty'=>!extension_loaded('gd')),
+			// password needs to be authenticated
 			array('password', 'authenticate'),
-		);
-	}
-
-	/**
-	 * Declares attribute labels.
-	 * If not declared here, an attribute would have a label
-	 * the same as its name with the first letter in upper case.
-	 */
-	public function attributeLabels()
-	{
-		return array(
-			'verifyCode'=>'Verification Code',
 		);
 	}
 
