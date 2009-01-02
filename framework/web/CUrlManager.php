@@ -155,21 +155,30 @@ class CUrlManager extends CApplicationComponent
 	 * Constructs a URL.
 	 * @param string the controller and the action (e.g. article/read)
 	 * @param array list of GET parameters (name=>value). Both the name and value will be URL-encoded.
+	 * If the name is '#', the corresponding value will be treated as an anchor
+	 * and will be appended at the end of the URL. This anchor feature has been available since version 1.0.1.
 	 * @param string the token separating name-value pairs in the URL. Defaults to '&'.
 	 * @return string the constructed URL
 	 */
 	public function createUrl($route,$params=array(),$ampersand='&')
 	{
 		unset($params[$this->routeVar]);
+		if(isset($params['#']))
+		{
+			$anchor='#'.$params['#'];
+			unset($params['#']);
+		}
+		else
+			$anchor='';
 		if(isset($this->_groups[$route]))
 		{
 			foreach($this->_groups[$route] as $rule)
 			{
 				if(($url=$rule->createUrl($params,$this->urlSuffix,$ampersand))!==false)
-					return $this->getBaseUrl().'/'.$url;
+					return $this->getBaseUrl().'/'.$url.$anchor;
 			}
 		}
-		return $this->createUrlDefault($route,$params,$ampersand);
+		return $this->createUrlDefault($route,$params,$ampersand).$anchor;
 	}
 
 	/**
