@@ -15,6 +15,7 @@ Version 1.0.1 to be released
 - Bug #57: Explicit column aliasing is not working in relational AR when the column appears in ORDER BY (Qiang)
 - Bug #60: Related objects not available in CActiveRecord::afterSave (Qiang)
 - Bug #69: Variable undefined error in CController::renderText (Qiang)
+- Bug #79: CUrlManager::createUrl does not work for GET parameters that are arrays (Qiang)
 - Enhancement #44: Make "yiic shell" command to support controllers organized in subdirectories (Qiang)
 - Enhancement #51: Add support to import actions declared by a widget (Qiang)
 - Enhancement #55: Add support for generating meta and link tags (Qiang)

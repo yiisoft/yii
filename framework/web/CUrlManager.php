@@ -185,14 +185,30 @@ class CUrlManager extends CApplicationComponent
 		{
 			$url=rtrim($this->getBaseUrl().'/'.$route,'/');
 			foreach($params as $key=>$value)
-				$url.='/'.urlencode($key).'/'.urlencode($value);
+			{
+				if(is_array($value))
+				{
+					foreach($value as $v)
+						$url.='/'.urlencode($key).'[]/'.urlencode($v);
+				}
+				else
+					$url.='/'.urlencode($key).'/'.urlencode($value);
+			}
 			return $url.$this->urlSuffix;
 		}
 		else
 		{
 			$pairs=$route!==''?array($this->routeVar.'='.$route):array();
 			foreach($params as $key=>$value)
-				$pairs[]=urlencode($key).'='.urlencode($value);
+			{
+				if(is_array($value))
+				{
+					foreach($value as $v)
+						$pairs[]=urlencode($key).'[]='.urlencode($v);
+				}
+				else
+					$pairs[]=urlencode($key).'='.urlencode($value);
+			}
 
 			$baseUrl=$this->getBaseUrl();
 			if(!$this->showScriptName)
@@ -267,7 +283,14 @@ class CUrlManager extends CApplicationComponent
 		$segs=explode('/',$pathInfo.'/');
 		$n=count($segs);
 		for($i=2;$i<$n-1;$i+=2)
-			$_GET[urldecode($segs[$i])]=urldecode($segs[$i+1]);
+		{
+			$key=urldecode($segs[$i]);
+			$value=urldecode($segs[$i+1]);
+			if(($pos=strpos($key,'[]'))!==false)
+				$_GET[substr($key,0,$pos)][]=$value;
+			else
+				$_GET[$key]=$value;
+		}
 		return $segs[0].'/'.$segs[1];
 	}
 
@@ -413,7 +436,15 @@ class CUrlRule extends CComponent
 			if(isset($this->params[$key]))
 				$tr["<$key>"]=$value;
 			else
-				$rest[]=urlencode($key).$sep.urlencode($value);
+			{
+				if(is_array($value))
+				{
+					foreach($value as $v)
+						$rest[]=urlencode($key).'[]'.$sep.urlencode($v);
+				}
+				else
+					$rest[]=urlencode($key).$sep.urlencode($value);
+			}
 		}
 		$url=strtr($this->template,$tr);
 		if($rest===array())
@@ -459,7 +490,14 @@ class CUrlRule extends CComponent
 				$segs=explode('/',ltrim(substr($pathInfo,strlen($matches[0])),'/'));
 				$n=count($segs);
 				for($i=0;$i<$n-1;$i+=2)
-					$_GET[urldecode($segs[$i])]=urldecode($segs[$i+1]);
+				{
+					$key=urldecode($segs[$i]);
+					$value=urldecode($segs[$i+1]);
+					if(($pos=strpos($key,'[]'))!==false)
+						$_GET[substr($key,0,$pos)][]=$value;
+					else
+						$_GET[$key]=$value;
+				}
 			}
 			return $this->route;
 		}
