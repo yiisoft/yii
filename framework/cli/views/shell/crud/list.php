@@ -6,6 +6,8 @@
 </div>
 
 <?php echo "<?php \$this->widget('CLinkPager',array('pages'=>\$pages)); ?>" ?>
+
+
 <?php echo "<?php foreach(\${$modelVar}List as \$n=>\$model): ?>\n"; ?>
 <div class="item">
 <?php echo "<?php echo CHtml::encode(\$model->getAttributeLabel('{$ID}')); ?>"; ?>:

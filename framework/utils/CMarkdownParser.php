@@ -50,6 +50,23 @@ class CMarkdownParser extends MarkdownExtra_Parser
 	public $highlightCssClass='hl-code';
 
 	/**
+	 * Transforms the content and purifies the result.
+	 * This method calls the transform() method to convert
+	 * markdown content into HTML content. It then
+	 * uses {@link CHtmlPurifier} to purify the HTML content
+	 * to avoid XSS attacks.
+	 * @param string the markdown content
+	 * @return string the purified HTML content
+	 * @since 1.0.1
+	 */
+	public function safeTransform($content)
+	{
+		$content=$this->transform($content);
+		$purifier=new CHtmlPurifier;
+		return $purifier->purify($content);
+	}
+
+	/**
 	 * @return string the default CSS file that is used to highlight code blocks.
 	 */
 	public function getDefaultCssFile()

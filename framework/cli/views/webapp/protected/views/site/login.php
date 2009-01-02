@@ -1,3 +1,5 @@
+<?php $this->pageTitle=Yii::app()->name . ' - Login'; ?>
+
 <h1>Login</h1>
 
 <div class="yiiForm">
@@ -17,19 +19,6 @@
 Hint: You may login with <tt>demo/demo</tt> or <tt>admin/admin</tt>.
 </p>
 </div>
-
-<?php if(extension_loaded('gd')): ?>
-<div class="simple">
-<?php echo CHtml::activeLabel($form,'verifyCode'); ?>
-	<div>
-	<?php $this->widget('CCaptcha'); ?>
-	<br/>
-	<?php echo CHtml::activeTextField($form,'verifyCode'); ?>
-	</div>
-	<p class="hint">Please enter the letters as they are shown in the image above.
-	<br/>Letters are not case-sensitive.</p>
-</div>
-<?php endif; ?>
 
 <div class="action">
 <?php echo CHtml::activeCheckBox($form,'rememberMe'); ?> Remember me next time<br/>
