@@ -28,16 +28,22 @@ application by accessing the following URL in a Web browser:
 http://hostname/testdrive/index.php
 ~~~
 
-As we can see, the application has two pages: the homepage and the login
-page. The homepage contains some nice information about the application as
-well as the user login status, while the login page shows us how form input
-and validation are done. See the following screenshots for more details.
+As we can see, the application has three pages: the homepage, the contact page
+and the login page. The homepage shows some information about the application as
+well as the user login status, the contact page displays a contact form that users
+can fill in to submit their inquiries, and the login page allows users to be
+authenticated before accessing privileged contents.
+See the following screenshots for more details.
 
 ![Home page](first-app1.png)
 
-![Login page](first-app2.png)
+![Contact page](first-app2.png)
 
-![Login page with error](first-app3.png)
+![Contact page with input errors](first-app3.png)
+
+![Contact page with success](first-app4.png)
+
+![Login page](first-app5.png)
 
 
 The following diagram shows the directory structure of our application.
@@ -70,11 +76,13 @@ testdrive/
       messages/              containing translated messages
       models/                containing model class files
          LoginForm.php       the form model for 'login' action
+         ContactForm.php     the form model for 'contact' action
       runtime/               containing temporarily generated files
       views/                 containing controller view and layout files
          layouts/            containing layout view files
             main.php         the default layout for all views
          site/               containing view files for the 'site' controller
+            contact.php      the view for 'contact' action
             index.php        the view for 'index' action
             login.php        the view for 'login' action
          system/             containing system view files
@@ -219,9 +227,9 @@ to be displayed in one page.
 All these nice features come without requiring us to write a single line
 of code!
 
-![User admin page](first-app4.png)
+![User admin page](first-app6.png)
 
-![Create new user page](first-app5.png)
+![Create new user page](first-app7.png)
 
 
 
