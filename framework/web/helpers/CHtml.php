@@ -998,7 +998,7 @@ class CHtml
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
 		$name=$htmlOptions['name'];
-		unset($htmlOptions['name'],$htmlOptions['id']);
+		unset($htmlOptions['name']);
 
 		return self::hiddenField($name,'',array('id'=>self::ID_PREFIX.$htmlOptions['id']))
 			. self::checkBoxList($name,$selection,$data,$htmlOptions);
@@ -1030,7 +1030,7 @@ class CHtml
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
 		$name=$htmlOptions['name'];
-		unset($htmlOptions['name'],$htmlOptions['id']);
+		unset($htmlOptions['name']);
 
 		return self::hiddenField($name,'',array('id'=>self::ID_PREFIX.$htmlOptions['id']))
 			. self::radioButtonList($name,$selection,$data,$htmlOptions);
