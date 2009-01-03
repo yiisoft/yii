@@ -21,7 +21,7 @@ This is the homepage of <em><?php echo Yii::app()->name; ?></em>. You may modify
 <h3>What's Next</h3>
 <ul>
 	<li>Implement new actions in <tt>SiteController</tt>, and create corresponding views under <?php echo Yii::app()->viewPath . DIRECTORY_SEPARATOR . 'site'; ?></li>
-	<li>Create new controllers and actions manually or using the <tt>yiic</tt> tool.</li>
+	<li>Create new controllers and actions manually or using the <tt>yiic</tt> tool.
 	<li>If your Web application should be driven by database, do the following:
 		<ul>
 			<li>Set up a database connection by configuring the <code>db</code> component in the application configuration
