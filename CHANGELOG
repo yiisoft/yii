@@ -20,6 +20,7 @@ Version 1.0.1 to be released
 - Bug #60: Related objects not available in CActiveRecord::afterSave (Qiang)
 - Bug #69: Variable undefined error in CController::renderText (Qiang)
 - Bug #79: CUrlManager::createUrl does not work for GET parameters that are arrays (Qiang)
+- Bug #80: Improper unset in CHtml::activeCheckBoxList and activeRadioButtonList (Qiang)
 - New #44: Make "yiic shell" command to support controllers organized in subdirectories (Qiang)
 - New #51: Add support to import actions declared by a widget (Qiang)
 - New #55: Add support for generating meta and link tags (Qiang)

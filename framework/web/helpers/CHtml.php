@@ -260,6 +260,23 @@ class CHtml
 	}
 
 	/**
+	 * Generates a mailto link.
+	 * @param string link body. It will NOT be HTML-encoded. Therefore you can pass in HTML code such as an image tag.
+	 * @param string email address. If this is empty, the first parameter (link body) will be treated as the email address.
+	 * @param array additional HTML attributes. Besides normal HTML attributes, a few special
+	 * attributes are also recognized (see {@link clientChange} for more details.)
+	 * @return string the generated mailto link
+	 * @see clientChange
+	 * @since 1.0.1
+	 */
+	public static function mailto($text,$email='',$htmlOptions=array())
+	{
+		if($email==='')
+			$email=$text;
+		return self::link($text,'mailto:'.$email,$htmlOptions);
+	}
+
+	/**
 	 * Generates an image tag.
 	 * @param string the image URL
 	 * @param string the alternative text display
@@ -998,7 +1015,7 @@ class CHtml
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
 		$name=$htmlOptions['name'];
-		unset($htmlOptions['name'],$htmlOptions['id']);
+		unset($htmlOptions['name']);
 
 		return self::hiddenField($name,'',array('id'=>self::ID_PREFIX.$htmlOptions['id']))
 			. self::checkBoxList($name,$selection,$data,$htmlOptions);
@@ -1030,7 +1047,7 @@ class CHtml
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
 		$name=$htmlOptions['name'];
-		unset($htmlOptions['name'],$htmlOptions['id']);
+		unset($htmlOptions['name']);
 
 		return self::hiddenField($name,'',array('id'=>self::ID_PREFIX.$htmlOptions['id']))
 			. self::radioButtonList($name,$selection,$data,$htmlOptions);
