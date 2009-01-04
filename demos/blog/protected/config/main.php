@@ -33,6 +33,8 @@ return array(
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
+			// force 401 HTTP error if authentication needed
+			'loginUrl'=>null,
 		),
 		'db'=>array(
 			'connectionString'=>'sqlite:'.dirname(__FILE__).'/../data/blog.db',

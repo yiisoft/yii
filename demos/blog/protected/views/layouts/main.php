@@ -16,7 +16,9 @@
   </div><!-- header -->
 
   <div id="sidebar">
-    <?php $this->widget('MainMenu'); ?>
+    <?php $this->widget('UserLogin',array('visible'=>Yii::app()->user->isGuest)); ?>
+
+    <?php $this->widget('UserMenu',array('visible'=>!Yii::app()->user->isGuest)); ?>
 
     <?php $this->widget('TagCloud'); ?>
 

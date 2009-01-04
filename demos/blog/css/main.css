@@ -135,6 +135,23 @@ pre
 	padding: 2px 0 4px 0px;
 }
 
+.portlet .row
+{
+	margin: 0 0 5px 0;
+}
+
+.portlet .row .hint
+{
+	margin: 0;
+	padding: 0;
+	color: #999;
+}
+
+.errorMessage
+{
+	color: red;
+}
+
 .form
 {
 	-moz-border-radius:7px;
