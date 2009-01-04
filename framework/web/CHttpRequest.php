@@ -257,7 +257,7 @@ class CHttpRequest extends CApplicationComponent
 			$baseUrl=$this->getBaseUrl();
 			if(strpos($requestUri,$scriptUrl)===0)
 				$pathInfo=substr($requestUri,strlen($scriptUrl));
-			if($baseUrl==='' || strpos($requestUri,$baseUrl)===0)
+			else if($baseUrl==='' || strpos($requestUri,$baseUrl)===0)
 				$pathInfo=substr($requestUri,strlen($baseUrl));
 			else if(strpos($_SERVER['PHP_SELF'],$scriptUrl)===0)
 				$pathInfo=substr($_SERVER['PHP_SELF'],strlen($scriptUrl));

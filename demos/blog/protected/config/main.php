@@ -51,5 +51,8 @@ return array(
 			'password'=>'xxx',
 			*/
 		),
+		'urlManager'=>array(
+			'urlFormat'=>'path',
+		),
 	),
 );
