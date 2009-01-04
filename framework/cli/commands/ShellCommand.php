@@ -56,6 +56,7 @@ EOD;
 		// fake the web server setting
 		chdir(dirname($entryScript));
 		$_SERVER['SCRIPT_NAME']='/'.basename($entryScript);
+		$_SERVER['REQUEST_URI']=$_SERVER['SCRIPT_NAME'];
 		$_SERVER['SCRIPT_FILENAME']=$entryScript;
 		$_SERVER['HTTP_HOST']='localhost';
 		$_SERVER['SERVER_NAME']='localhost';

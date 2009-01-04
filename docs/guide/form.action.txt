@@ -10,7 +10,7 @@ the login form example, the following code is needed:
 public function actionLogin()
 {
 	$form=new LoginForm;
-	if(Yii::app()->request->isPostRequest && isset($_POST['LoginForm']))
+	if(isset($_POST['LoginForm']))
 	{
 		// collects user input data
 		$form->attributes=$_POST['LoginForm'];

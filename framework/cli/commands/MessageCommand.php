@@ -133,18 +133,23 @@ EOD;
 			$untranslated=array();
 			foreach($messages as $message)
 			{
-				if(isset($translated[$message]))
+				if(!empty($translated[$message]))
 					$merged[$message]=$translated[$message];
 				else
 					$untranslated[]=$message;
 			}
+			ksort($merged);
+			sort($untranslated);
+			$todo=array();
 			foreach($untranslated as $message)
-				$merged[$message]='';
+				$todo[$message]='';
+			ksort($translated);
 			foreach($translated as $message=>$translation)
 			{
-				if(!isset($merged[$message]))
-					$merged[$message]='@@'.$translation.'@@';
+				if(!isset($merged[$message]) && !isset($todo[$message]))
+					$todo[$message]='@@'.$translation.'@@';
 			}
+			$merged=array_merge($todo,$merged);
 			$fileName.='.merged';
 			echo "translation merged.\n";
 		}
@@ -153,6 +158,7 @@ EOD;
 			$merged=array();
 			foreach($messages as $message)
 				$merged[$message]='';
+			ksort($merged);
 			echo "saved.\n";
 		}
 		$array=str_replace("\r",'',var_export($merged,true));
