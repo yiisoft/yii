@@ -5,7 +5,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2009 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  * @version $Id$
  */
@@ -21,7 +21,6 @@
   <property name="php" value="php" /> <!-- PHP parser -->
   <property name="hhc" value="hhc" /> <!-- compile phpdoc into CHM -->
   <property name="pdflatex" value="pdflatex" />  <!-- generates PDF from LaTex -->
-  <property name="zip" value="zip" />  <!-- zip compression -->
 
   <property name="pkgname" value="${phing.project.name}-${yii.version}.r${yii.revision}"/>
   <property name="docname" value="${phing.project.name}-docs-${yii.version}.r${yii.revision}"/>
@@ -65,7 +64,7 @@
     <include name="${build.src.dir}/**/yiic" />
   </fileset>
 
-  <target name="build" depends="sync">
+  <target name="src" depends="sync">
     <echo>Building package ${pkgname}...</echo>
     <echo>Copying files to build directory...</echo>
     <copy todir="${build.src.dir}">
@@ -79,9 +78,22 @@
     <chmod mode="0755">
       <fileset refid="executables" />
     </chmod>
+
+    <echo>Generating source release file...</echo>
+    <mkdir dir="${build.dist.dir}" />
+    <tar destfile="${build.dist.dir}/${pkgname}.tar.gz" compression="gzip">
+      <fileset dir="${build.base.dir}">
+        <include name="${pkgname}/**/*"/>
+      </fileset>
+    </tar>
+    <zip destfile="${build.dist.dir}/${pkgname}.zip">
+      <fileset dir="${build.base.dir}">
+        <include name="${pkgname}/**/*"/>
+      </fileset>
+    </zip>
   </target>
 
-  <target name="docs" depends="sync">
+  <target name="doc" depends="sync">
     <echo>Building documentation...</echo>
 
     <echo>Building Guide PDF...</echo>
@@ -103,12 +115,33 @@
         <include name="manual.*" />
       </fileset>
     </delete>
+
+    <echo>Generating doc release file...</echo>
+    <mkdir dir="${build.dist.dir}" />
+    <tar destfile="${build.dist.dir}/${docname}.tar.gz" compression="gzip">
+      <fileset dir="${build.base.dir}">
+        <include name="${docname}/**/*"/>
+      </fileset>
+    </tar>
+    <zip destfile="${build.dist.dir}/${docname}.zip">
+      <fileset dir="${build.base.dir}">
+        <include name="${docname}/**/*"/>
+      </fileset>
+    </zip>
   </target>
 
   <target name="web" depends="sync">
     <echo>Building online API...</echo>
     <mkdir dir="${build.web.dir}/data" />
     <exec command="build api ${build.web.dir}/data online" dir="." passthru="true" />
+
+    <echo>Generating web release file...</echo>
+    <mkdir dir="${build.dist.dir}" />
+    <zip destfile="${build.dist.dir}/web.zip">
+      <fileset dir="${build.base.dir}">
+        <include name="web/**/*"/>
+      </fileset>
+    </zip>
   </target>
 
   <target name="sync">
@@ -119,44 +152,6 @@
 
     <echo>Building yiilite.php...</echo>
     <exec command="build lite" dir="." passthru="true"/>
-  </target>
-
-  <target name="rebuild" depends="clean,build">
-  </target>
-
-  <target name="dist" depends="clean,build,docs,web">
-    <echo>Generating release distributions...</echo>
-    <mkdir dir="${build.dist.dir}" />
-    <tar destfile="${build.dist.dir}/${pkgname}.tar.gz" compression="gzip">
-      <fileset dir="${build.base.dir}">
-        <include name="${pkgname}/**/*"/>
-      </fileset>
-    </tar>
-    <tar destfile="${build.dist.dir}/web.tar.gz" compression="gzip">
-      <fileset dir="${build.base.dir}">
-        <include name="web/**/*"/>
-      </fileset>
-    </tar>
-    <tar destfile="${build.dist.dir}/${docname}.tar.gz" compression="gzip">
-      <fileset dir="${build.base.dir}">
-        <include name="${docname}/**/*"/>
-      </fileset>
-    </tar>
-    <zip destfile="${build.dist.dir}/${pkgname}.zip">
-      <fileset dir="${build.base.dir}">
-        <include name="${pkgname}/**/*"/>
-      </fileset>
-    </zip>
-    <zip destfile="${build.dist.dir}/web.zip">
-      <fileset dir="${build.base.dir}">
-        <include name="web/**/*"/>
-      </fileset>
-    </zip>
-    <zip destfile="${build.dist.dir}/${docname}.zip">
-      <fileset dir="${build.base.dir}">
-        <include name="${docname}/**/*"/>
-      </fileset>
-    </zip>
   </target>
 
   <target name="clean">
@@ -175,13 +170,10 @@
 
     where &lt;target name&gt; can be one of the following:
 
-    - dist     : create a release;
-    - build    : prepare a directory for distribution;
-    - clean    : clean up the build directory;
-    - rebuild  : clean first and then build;
-    - docs     : generate documentation;
-    - pear     : generate PEAR packages;
-    - snapshot : generate nightly snapshot;
+    - sync  : synchronize yiilite.php and YiiBase.php
+    - src   : build source release
+    - doc   : build documentation release (Windows only)
+    - clean : clean up the build
 
     </echo>
   </target>
