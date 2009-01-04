@@ -422,6 +422,7 @@ class YiiBase
 		'CCache' => '/caching/CCache.php',
 		'CDbCache' => '/caching/CDbCache.php',
 		'CMemCache' => '/caching/CMemCache.php',
+		'CXCache' => '/caching/CXCache.php',
 		'CCacheDependency' => '/caching/dependencies/CCacheDependency.php',
 		'CChainedCacheDependency' => '/caching/dependencies/CChainedCacheDependency.php',
 		'CDbCacheDependency' => '/caching/dependencies/CDbCacheDependency.php',

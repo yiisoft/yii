@@ -43,6 +43,7 @@ Version 1.0.1 to be released
 - New: Added CMarkdownParser::safeTransform (Qiang)
 - New: Added support to allow specifying anchor when using createUrl() to create a URL (Qiang)
 - New: Added blog demo (Qiang)
+- New: Added CXCache (Qiang)
 
 Version 1.0 December 3, 2008
 ----------------------------

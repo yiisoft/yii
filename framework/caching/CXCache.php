@@ -1,39 +1,38 @@
 <?php
 /**
- * CApcCache class file
+ * CXCache class file
  *
- * @author Qiang Xue <qiang.xue@gmail.com>
+ * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
  * @link http://www.yiiframework.com/
  * @copyright Copyright &copy; 2008-2009 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
 /**
- * CApcCache provides APC caching in terms of an application component.
+ * CXCache implements a cache application module based on {@link http://xcache.lighttpd.net/ xcache}.
  *
- * The caching is based on {@link http://www.php.net/apc APC}.
- * To use this application component, the APC PHP extension must be loaded.
+ * To use this application component, the XCache PHP extension must be loaded.
  *
  * See {@link CCache} manual for common cache operations that are supported by CApcCache.
  *
- * @author Qiang Xue <qiang.xue@gmail.com>
+ * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
  * @version $Id$
  * @package system.caching
- * @since 1.0
+ * @since 1.0.1
  */
-class CApcCache extends CCache
+class CXCache extends CCache
 {
 	/**
 	 * Initializes this application component.
 	 * This method is required by the {@link IApplicationComponent} interface.
 	 * It checks the availability of memcache.
-	 * @throws CException if APC cache extension is not loaded or is disabled.
+	 * @throws CException if memcache extension is not loaded or is disabled.
 	 */
 	public function init()
 	{
 		parent::init();
-		if(!extension_loaded('apc'))
-			throw new CException(Yii::t('yii','CApcCache requires PHP apc extension to be loaded.'));
+		if(!function_exists('xcache_isset'))
+			throw new CException(Yii::t('yii','CXCache requires PHP XCache extension to be loaded.'));
 	}
 
 	/**
@@ -44,7 +43,7 @@ class CApcCache extends CCache
 	 */
 	protected function getValue($key)
 	{
-		return apc_fetch($key);
+		return xcache_isset($key) ? xcache_get($key) : false;
 	}
 
 	/**
@@ -58,7 +57,7 @@ class CApcCache extends CCache
 	 */
 	protected function setValue($key,$value,$expire)
 	{
-		return apc_store($key,$value,$expire);
+		return xcache_set($key,$value,$expire);
 	}
 
 	/**
@@ -72,7 +71,7 @@ class CApcCache extends CCache
 	 */
 	protected function addValue($key,$value,$expire)
 	{
-		return apc_add($key,$value,$expire);
+		return !xcache_isset($key) ? $this->setValue($key,$value,$expire) : false;
 	}
 
 	/**
@@ -83,7 +82,7 @@ class CApcCache extends CCache
 	 */
 	protected function deleteValue($key)
 	{
-		return apc_delete($key);
+		return xcache_unset($key);
 	}
 
 	/**
@@ -92,6 +91,7 @@ class CApcCache extends CCache
 	 */
 	public function flush()
 	{
-		return apc_clear_cache('user');
+		return xcache_clear_cache();
 	}
 }
+

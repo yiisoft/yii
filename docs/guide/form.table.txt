@@ -20,7 +20,7 @@ public function actionBatchUpdate()
 	// retrieve items to be updated in a batch mode
 	// assuming each item is of model class 'Item'
 	$items=$this->getItemsToUpdate();
-	if(Yii::app()->request->isPostRequest && isset($_POST['Item']))
+	if(isset($_POST['Item']))
 	{
 		$valid=true;
 		foreach($items as $i=>$item)
