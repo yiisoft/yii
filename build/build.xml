@@ -81,11 +81,20 @@
 
     <echo>Generating source release file...</echo>
     <mkdir dir="${build.dist.dir}" />
-    <tar destfile="${build.dist.dir}/${pkgname}.tar.gz" compression="gzip">
-      <fileset dir="${build.base.dir}">
-        <include name="${pkgname}/**/*"/>
-      </fileset>
-    </tar>
+    <if>
+      <equals arg1="${yii.winbuild}" arg2="true"/>
+      <then>
+        <tar destfile="${build.dist.dir}/${pkgname}.tar.gz" compression="gzip">
+          <fileset dir="${build.base.dir}">
+            <include name="${pkgname}/**/*"/>
+          </fileset>
+        </tar>
+      </then>
+      <else>
+        <exec command="tar czpf ${pkgname}.tar.gz ${pkgname}" dir="${build.base.dir}"/>
+        <move file="${build.base.dir}/${pkgname}.tar.gz" todir="${build.dist.dir}" />
+      </else>
+    </if>
     <zip destfile="${build.dist.dir}/${pkgname}.zip">
       <fileset dir="${build.base.dir}">
         <include name="${pkgname}/**/*"/>
