@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="language" content="en" />
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl; ?>/css/main.css" />
-<title><?php echo $this->pageTitle; ?></title>
+<title>Error <?php echo $data['code']; ?></title>
 
 </head>
 
@@ -14,20 +14,21 @@
   <div id="header">
     <h1><?php echo CHtml::link(CHtml::encode(Yii::app()->params['title']),Yii::app()->homeUrl); ?></h1>
   </div><!-- header -->
-
-  <div id="sidebar">
-    <?php $this->widget('UserLogin',array('visible'=>Yii::app()->user->isGuest)); ?>
-
-    <?php $this->widget('UserMenu',array('visible'=>!Yii::app()->user->isGuest)); ?>
-
-    <?php $this->widget('TagCloud'); ?>
-
-    <?php $this->widget('RecentComments'); ?>
-
-  </div><!-- sidebar -->
-
   <div id="content">
-    <?php echo $content; ?>
+    <h2>Error <?php echo $data['code']; ?></h2>
+    <p>
+	<?php echo nl2br(CHtml::encode($data['message'])); ?>
+	</p>
+	<p>
+	The above error occurred when the Web server was processing your request.
+	</p>
+	<p>
+	If you think this is a server error, please contact
+    <?php echo CHtml::mailto(Yii::app()->params['adminEmail']); ?>.
+	</p>
+    <p>
+    <?php echo CHtml::link('Return to homepage',Yii::app()->homeUrl); ?>
+    </p>
   </div><!-- content -->
 
   <br class="clearfloat" />

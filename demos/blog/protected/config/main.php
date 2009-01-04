@@ -19,6 +19,13 @@ return array(
 		'application.components.*',
 	),
 
+	// using 'classic' theme
+	'theme'=>'classic',
+
+	// application-level parameters that can be accessed
+	// using Yii::app()->params['paramName']
+	'params'=>require(dirname(__FILE__).'/params.php'),
+
 	// application components
 	'components'=>array(
 		'log'=>array(
@@ -33,6 +40,8 @@ return array(
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
+			// force 401 HTTP error if authentication needed
+			'loginUrl'=>null,
 		),
 		'db'=>array(
 			'connectionString'=>'sqlite:'.dirname(__FILE__).'/../data/blog.db',
@@ -42,9 +51,8 @@ return array(
 			'password'=>'xxx',
 			*/
 		),
+		'urlManager'=>array(
+			'urlFormat'=>'path',
+		),
 	),
-
-	// application-level parameters that can be accessed
-	// using Yii::app()->params['paramName']
-	'params'=>require(dirname(__FILE__).'/params.php'),
 );

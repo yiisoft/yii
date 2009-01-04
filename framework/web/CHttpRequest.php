@@ -208,7 +208,7 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Returns the relative URL of the entry script.
-	 * The implementation of this method referenced Zend_Http in Zend Framework.
+	 * The implementation of this method referenced Zend_Controller_Request_Http in Zend Framework.
 	 * @return string the relative URL of the entry script.
 	 */
 	public function getScriptUrl()
@@ -222,7 +222,7 @@ class CHttpRequest extends CApplicationComponent
 				$this->_scriptUrl=$_SERVER['PHP_SELF'];
 			else if(isset($_SERVER['ORIG_SCRIPT_NAME']) && basename($_SERVER['ORIG_SCRIPT_NAME'])===$scriptName)
 				$this->_scriptUrl=$_SERVER['ORIG_SCRIPT_NAME'];
-			else if(($pos=strpos($_SERVER['SCRIPT_NAME'],'/'.$scriptName))!==false)
+			else if(($pos=strpos($_SERVER['PHP_SELF'],'/'.$scriptName))!==false)
 				$this->_scriptUrl=substr($_SERVER['SCRIPT_NAME'],0,$pos).'/'.$scriptName;
 			else
 				throw new CException(Yii::t('yii','CHttpRequest is unable to determine the entry script URL.'));
@@ -254,8 +254,11 @@ class CHttpRequest extends CApplicationComponent
 		{
 			$requestUri=$this->getRequestUri();
 			$scriptUrl=$this->getScriptUrl();
+			$baseUrl=$this->getBaseUrl();
 			if(strpos($requestUri,$scriptUrl)===0)
 				$pathInfo=substr($requestUri,strlen($scriptUrl));
+			else if($baseUrl==='' || strpos($requestUri,$baseUrl)===0)
+				$pathInfo=substr($requestUri,strlen($baseUrl));
 			else if(strpos($_SERVER['PHP_SELF'],$scriptUrl)===0)
 				$pathInfo=substr($_SERVER['PHP_SELF'],strlen($scriptUrl));
 			else
@@ -273,7 +276,7 @@ class CHttpRequest extends CApplicationComponent
 	 * Returns the request URI portion for the currently requested URL.
 	 * This refers to the portion that is after the {@link hostInfo host info} part.
 	 * It includes the {@link queryString query string} part if any.
-	 * The implementation of this method referenced Zend_Http in Zend Framework.
+	 * The implementation of this method referenced Zend_Controller_Request_Http in Zend Framework.
 	 * @return string the request URI portion for the currently requested URL.
 	 * @throws CException if the request URI cannot be determined due to improper server configuration
 	 * @since 1.0.1

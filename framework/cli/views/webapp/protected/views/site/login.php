@@ -21,7 +21,9 @@ Hint: You may login with <tt>demo/demo</tt> or <tt>admin/admin</tt>.
 </div>
 
 <div class="action">
-<?php echo CHtml::activeCheckBox($form,'rememberMe'); ?> Remember me next time<br/>
+<?php echo CHtml::activeCheckBox($form,'rememberMe'); ?>
+<?php echo CHtml::label('Remember me next time',CHtml::getActiveId($form,'rememberMe')); ?>
+<br/>
 <?php echo CHtml::submitButton('Login'); ?>
 </div>
 
