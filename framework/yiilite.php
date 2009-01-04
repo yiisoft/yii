@@ -215,6 +215,7 @@ class YiiBase
 		'CCache' => '/caching/CCache.php',
 		'CDbCache' => '/caching/CDbCache.php',
 		'CMemCache' => '/caching/CMemCache.php',
+		'CXCache' => '/caching/CXCache.php',
 		'CCacheDependency' => '/caching/dependencies/CCacheDependency.php',
 		'CChainedCacheDependency' => '/caching/dependencies/CChainedCacheDependency.php',
 		'CDbCacheDependency' => '/caching/dependencies/CDbCacheDependency.php',
@@ -1579,15 +1580,22 @@ class CUrlManager extends CApplicationComponent
 	public function createUrl($route,$params=array(),$ampersand='&')
 	{
 		unset($params[$this->routeVar]);
+		if(isset($params['#']))
+		{
+			$anchor='#'.$params['#'];
+			unset($params['#']);
+		}
+		else
+			$anchor='';
 		if(isset($this->_groups[$route]))
 		{
 			foreach($this->_groups[$route] as $rule)
 			{
 				if(($url=$rule->createUrl($params,$this->urlSuffix,$ampersand))!==false)
-					return $this->getBaseUrl().'/'.$url;
+					return $this->getBaseUrl().'/'.$url.$anchor;
 			}
 		}
-		return $this->createUrlDefault($route,$params,$ampersand);
+		return $this->createUrlDefault($route,$params,$ampersand).$anchor;
 	}
 	protected function createUrlDefault($route,$params,$ampersand)
 	{
@@ -1596,7 +1604,12 @@ class CUrlManager extends CApplicationComponent
 			$url=rtrim($this->getBaseUrl().'/'.$route,'/');
 			foreach($params as $key=>$value)
 			{
-				if("$value"!=='')
+				if(is_array($value))
+				{
+					foreach($value as $v)
+						$url.='/'.urlencode($key).'[]/'.urlencode($v);
+				}
+				else
 					$url.='/'.urlencode($key).'/'.urlencode($value);
 			}
 			return $url.$this->urlSuffix;
@@ -1605,7 +1618,15 @@ class CUrlManager extends CApplicationComponent
 		{
 			$pairs=$route!==''?array($this->routeVar.'='.$route):array();
 			foreach($params as $key=>$value)
-				$pairs[]=urlencode($key).'='.urlencode($value);
+			{
+				if(is_array($value))
+				{
+					foreach($value as $v)
+						$pairs[]=urlencode($key).'[]='.urlencode($v);
+				}
+				else
+					$pairs[]=urlencode($key).'='.urlencode($value);
+			}
 			$baseUrl=$this->getBaseUrl();
 			if(!$this->showScriptName)
 				$baseUrl.='/';
@@ -1653,7 +1674,14 @@ class CUrlManager extends CApplicationComponent
 		$segs=explode('/',$pathInfo.'/');
 		$n=count($segs);
 		for($i=2;$i<$n-1;$i+=2)
-			$_GET[urldecode($segs[$i])]=urldecode($segs[$i+1]);
+		{
+			$key=urldecode($segs[$i]);
+			$value=urldecode($segs[$i+1]);
+			if(($pos=strpos($key,'[]'))!==false)
+				$_GET[substr($key,0,$pos)][]=$value;
+			else
+				$_GET[$key]=$value;
+		}
 		return $segs[0].'/'.$segs[1];
 	}
 	public function getBaseUrl()
@@ -1733,8 +1761,16 @@ class CUrlRule extends CComponent
 		{
 			if(isset($this->params[$key]))
 				$tr["<$key>"]=$value;
-			else if("$value"!=='')
-				$rest[]=urlencode($key).$sep.urlencode($value);
+			else
+			{
+				if(is_array($value))
+				{
+					foreach($value as $v)
+						$rest[]=urlencode($key).'[]'.$sep.urlencode($v);
+				}
+				else
+					$rest[]=urlencode($key).$sep.urlencode($value);
+			}
 		}
 		$url=strtr($this->template,$tr);
 		if($rest===array())
@@ -1774,7 +1810,14 @@ class CUrlRule extends CComponent
 				$segs=explode('/',ltrim(substr($pathInfo,strlen($matches[0])),'/'));
 				$n=count($segs);
 				for($i=0;$i<$n-1;$i+=2)
-					$_GET[urldecode($segs[$i])]=urldecode($segs[$i+1]);
+				{
+					$key=urldecode($segs[$i]);
+					$value=urldecode($segs[$i+1]);
+					if(($pos=strpos($key,'[]'))!==false)
+						$_GET[substr($key,0,$pos)][]=$value;
+					else
+						$_GET[$key]=$value;
+				}
 			}
 			return $this->route;
 		}
@@ -1788,6 +1831,7 @@ class CHttpRequest extends CApplicationComponent
 	public $enableCsrfValidation=false;
 	public $csrfTokenName='YII_CSRF_TOKEN';
 	public $csrfCookie;
+	private $_requestUri;
 	private $_pathInfo;
 	private $_scriptFile;
 	private $_scriptUrl;
@@ -1878,16 +1922,21 @@ class CHttpRequest extends CApplicationComponent
 	}
 	public function getScriptUrl()
 	{
-		if($this->_scriptUrl!==null)
-			return $this->_scriptUrl;
-		else
+		if($this->_scriptUrl===null)
 		{
-			if(isset($_SERVER['SCRIPT_NAME']))
+			$scriptName=basename($_SERVER['SCRIPT_FILENAME']);
+			if(basename($_SERVER['SCRIPT_NAME'])===$scriptName)
 				$this->_scriptUrl=$_SERVER['SCRIPT_NAME'];
+			else if(basename($_SERVER['PHP_SELF'])===$scriptName)
+				$this->_scriptUrl=$_SERVER['PHP_SELF'];
+			else if(isset($_SERVER['ORIG_SCRIPT_NAME']) && basename($_SERVER['ORIG_SCRIPT_NAME'])===$scriptName)
+				$this->_scriptUrl=$_SERVER['ORIG_SCRIPT_NAME'];
+			else if(($pos=strpos($_SERVER['PHP_SELF'],'/'.$scriptName))!==false)
+				$this->_scriptUrl=substr($_SERVER['SCRIPT_NAME'],0,$pos).'/'.$scriptName;
 			else
 				throw new CException(Yii::t('yii','CHttpRequest is unable to determine the entry script URL.'));
-			return $this->_scriptUrl;
 		}
+		return $this->_scriptUrl;
 	}
 	public function setScriptUrl($value)
 	{
@@ -1896,30 +1945,46 @@ class CHttpRequest extends CApplicationComponent
 	public function getPathInfo()
 	{
 		if($this->_pathInfo===null)
-			$this->_pathInfo=trim(isset($_SERVER['PATH_INFO']) ? $_SERVER['PATH_INFO'] : $this->guessPathInfo(), '/');
+		{
+			$requestUri=$this->getRequestUri();
+			$scriptUrl=$this->getScriptUrl();
+			$baseUrl=$this->getBaseUrl();
+			if(strpos($requestUri,$scriptUrl)===0)
+				$pathInfo=substr($requestUri,strlen($scriptUrl));
+			else if($baseUrl==='' || strpos($requestUri,$baseUrl)===0)
+				$pathInfo=substr($requestUri,strlen($baseUrl));
+			else if(strpos($_SERVER['PHP_SELF'],$scriptUrl)===0)
+				$pathInfo=substr($_SERVER['PHP_SELF'],strlen($scriptUrl));
+			else
+				throw new CException(Yii::t('yii','CHttpRequest is unable to determine the path info of the request.'));
+			if(($pos=strpos($pathInfo,'?'))!==false)
+				$pathInfo=substr($pathInfo,0,$pos);
+			$this->_pathInfo=trim($pathInfo,'/');
+		}
 		return $this->_pathInfo;
 	}
-	protected function guessPathInfo()
+	public function getRequestUri()
 	{
-		if($_SERVER['PHP_SELF']!==$_SERVER['SCRIPT_NAME'])
+		if($this->_requestUri===null)
 		{
-			if(strpos($_SERVER['PHP_SELF'],$_SERVER['SCRIPT_NAME'])===0)
-				return substr($_SERVER['PHP_SELF'],strlen($_SERVER['SCRIPT_NAME']));
-		}
-		else if(isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'],$_SERVER['SCRIPT_NAME'])!==0)
-		{
-			// REQUEST_URI doesn't contain SCRIPT_NAME, which means some rewrite rule is in effect
-			$base=strtr(dirname($_SERVER['SCRIPT_NAME']),'\\','/');
-			if(strpos($_SERVER['REQUEST_URI'],$base)===0)
+			if(isset($_SERVER['HTTP_X_REWRITE_URL'])) // IIS
+				$this->_requestUri=$_SERVER['HTTP_X_REWRITE_URL'];
+			else if(isset($_SERVER['REQUEST_URI']))
 			{
-				$pathInfo=substr($_SERVER['REQUEST_URI'],strlen($base));
-				if(($pos=strpos($pathInfo,'?'))!==false)
-					return substr($pathInfo,0,$pos);
-				else
-					return $pathInfo;
+				$this->_requestUri=$_SERVER['REQUEST_URI'];
+				if(strpos($this->_requestUri,$_SERVER['HTTP_HOST'])!==false)
+					$this->_requestUri=preg_replace('/^\w+:\/\/[^\/]+/','',$this->_requestUri);
 			}
+			else if(isset($_SERVER['ORIG_PATH_INFO']))  // IIS 5.0 CGI
+			{
+				$this->_requestUri=$_SERVER['ORIG_PATH_INFO'];
+				if(!empty($_SERVER['QUERY_STRING']))
+					$this->_requestUri.='?'.$_SERVER['QUERY_STRING'];
+			}
+			else
+				throw new CException(Yii::t('yii','CHttpRequest is unable to determine the request URI.'));
 		}
-		return '';
+		return $this->_requestUri;
 	}
 	public function getQueryString()
 	{
@@ -3210,6 +3275,12 @@ class CHtml
 		self::clientChange('click',$htmlOptions);
 		return self::tag('a',$htmlOptions,$text);
 	}
+	public static function mailto($text,$email='',$htmlOptions=array())
+	{
+		if($email==='')
+			$email=$text;
+		return self::link($text,'mailto:'.$email,$htmlOptions);
+	}
 	public static function image($src,$alt='',$htmlOptions=array())
 	{
 		$htmlOptions['src']=$src;
@@ -3513,7 +3584,7 @@ class CHtml
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
 		$name=$htmlOptions['name'];
-		unset($htmlOptions['name'],$htmlOptions['id']);
+		unset($htmlOptions['name']);
 		return self::hiddenField($name,'',array('id'=>self::ID_PREFIX.$htmlOptions['id']))
 			. self::checkBoxList($name,$selection,$data,$htmlOptions);
 	}
@@ -3524,7 +3595,7 @@ class CHtml
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
 		$name=$htmlOptions['name'];
-		unset($htmlOptions['name'],$htmlOptions['id']);
+		unset($htmlOptions['name']);
 		return self::hiddenField($name,'',array('id'=>self::ID_PREFIX.$htmlOptions['id']))
 			. self::radioButtonList($name,$selection,$data,$htmlOptions);
 	}
