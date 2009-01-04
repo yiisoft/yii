@@ -163,6 +163,11 @@
     <exec command="build lite" dir="." passthru="true"/>
   </target>
 
+  <target name="message">
+    <echo>Extracting i18n messages...</echo>
+    <exec command="build message ../framework/messages/config.php" dir="." passthru="true"/>
+  </target>
+
   <target name="clean">
     <echo>Cleaning up the build...</echo>
     <delete dir="${build.base.dir}"/>
