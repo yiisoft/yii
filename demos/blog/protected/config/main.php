@@ -53,6 +53,11 @@ return array(
 		),
 		'urlManager'=>array(
 			'urlFormat'=>'path',
+			'rules'=>array(
+				'post/<id:\d+>'=>'post/show',
+				'post/update/<id:\d+>'=>'post/update',
+				'tag/<tag>'=>'post/list',
+			),
 		),
 	),
 );
