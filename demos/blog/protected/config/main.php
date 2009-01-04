@@ -19,6 +19,13 @@ return array(
 		'application.components.*',
 	),
 
+	// using 'classic' theme
+	'theme'=>'classic',
+
+	// application-level parameters that can be accessed
+	// using Yii::app()->params['paramName']
+	'params'=>require(dirname(__FILE__).'/params.php'),
+
 	// application components
 	'components'=>array(
 		'log'=>array(
@@ -45,8 +52,4 @@ return array(
 			*/
 		),
 	),
-
-	// application-level parameters that can be accessed
-	// using Yii::app()->params['paramName']
-	'params'=>require(dirname(__FILE__).'/params.php'),
 );
