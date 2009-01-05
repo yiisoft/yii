@@ -206,7 +206,7 @@ class YiiBase
 		if(isset(self::$_coreClasses[$alias]) || ($pos=strrpos($alias,'.'))===false)  // a simple class name
 		{
 			self::$_imports[$alias]=$alias;
-			if($forceInclude && !class_exists($alias,false))
+			if($forceInclude)
 			{
 				if(isset(self::$_coreClasses[$alias])) // a core class
 					require(YII_PATH.self::$_coreClasses[$alias]);

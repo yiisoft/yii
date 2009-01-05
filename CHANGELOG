@@ -6,8 +6,12 @@ Version 1.1a to be released
 ---------------------------
 
 
-Version 1.0.1 to be released
+Version 1.0.2 to be released
 ----------------------------
+
+
+Version 1.0.1 January 4, 2009
+-----------------------------
 - Bug #41: missing function CHttpRequest:: getCsrfTokenFromCookie() (Qiang)
 - Bug #42: Wrong links in crud generated admin view (Qiang)
 - Bug #45: Many-to-many relation does not work when both foreign tables are the same (Qiang)
