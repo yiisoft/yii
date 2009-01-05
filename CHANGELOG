@@ -4,6 +4,7 @@
 
 Version 1.0.2 to be released
 ----------------------------
+- Bug: CDbAuthManager::saveAuthAssignment() causes updating all rows (Qiang)
 
 
 Version 1.0.1 January 4, 2009
