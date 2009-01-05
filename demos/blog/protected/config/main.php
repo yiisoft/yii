@@ -54,10 +54,10 @@ return array(
 		'urlManager'=>array(
 			'urlFormat'=>'path',
 			'rules'=>array(
+				'tag/<tag>'=>'post/list',
 				'posts'=>'post/list',
 				'post/<id:\d+>'=>'post/show',
 				'post/update/<id:\d+>'=>'post/update',
-				'tag/<tag>'=>'post/list',
 			),
 		),
 	),
