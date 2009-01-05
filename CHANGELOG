@@ -2,6 +2,10 @@
                    Yii Framework Change Log
                    ========================
 
+Version 1.0.2 to be released
+----------------------------
+
+
 Version 1.0.1 January 4, 2009
 -----------------------------
 - Bug #41: missing function CHttpRequest:: getCsrfTokenFromCookie() (Qiang)
