@@ -8,6 +8,7 @@ Version 1.0.2 to be released
 - Bug: CDbAuthManager::saveAuthAssignment() causes updating all rows (Qiang)
 - Bug: Fixed an issue in CUrlManager::createUrl when GET parameters contain arrays (Qiang)
 - New: Added CActiveRecord::getRelated() (Qiang)
+- New: Added 'return' option to HTML options in CHtml (Qiang)
 
 
 Version 1.0.1 January 4, 2009
