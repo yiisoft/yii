@@ -6,6 +6,7 @@ Version 1.0.2 to be released
 ----------------------------
 - Bug #81: Double backslashes in a clientscript became a singe backslash in the output (Qiang)
 - Bug: CDbAuthManager::saveAuthAssignment() causes updating all rows (Qiang)
+- Bug: Fixed an issue in CUrlManager::createUrl when GET parameters contain arrays (Qiang)
 - New: Added CActiveRecord::getRelated() (Qiang)
 
 

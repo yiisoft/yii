@@ -197,8 +197,8 @@ class CUrlManager extends CApplicationComponent
 			{
 				if(is_array($value))
 				{
-					foreach($value as $v)
-						$url.='/'.urlencode($key).'[]/'.urlencode($v);
+					foreach($value as $k=>$v)
+						$url.='/'.urlencode($key).'['.urlencode($k).']/'.urlencode($v);
 				}
 				else
 					$url.='/'.urlencode($key).'/'.urlencode($value);
@@ -212,8 +212,8 @@ class CUrlManager extends CApplicationComponent
 			{
 				if(is_array($value))
 				{
-					foreach($value as $v)
-						$pairs[]=urlencode($key).'[]='.urlencode($v);
+					foreach($value as $k=>$v)
+						$pairs[]=urlencode($key).'['.urlencode($k).']='.urlencode($v);
 				}
 				else
 					$pairs[]=urlencode($key).'='.urlencode($value);
@@ -448,8 +448,8 @@ class CUrlRule extends CComponent
 			{
 				if(is_array($value))
 				{
-					foreach($value as $v)
-						$rest[]=urlencode($key).'[]'.$sep.urlencode($v);
+					foreach($value as $k=>$v)
+						$rest[]=urlencode($key).'['.urlencode($k).']'.$sep.urlencode($v);
 				}
 				else
 					$rest[]=urlencode($key).$sep.urlencode($value);
