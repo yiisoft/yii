@@ -167,38 +167,39 @@ class CClientScript extends CApplicationComponent
 	 */
 	protected function renderBodyEnd(&$output)
 	{
+		if(!isset($this->_scriptFiles[self::POS_END]) && !isset($this->_scripts[self::POS_END])
+			&& !isset($this->_scripts[self::POS_READY]) && !isset($this->_scripts[self::POS_LOAD]))
+			return;
+
+		$output=preg_replace('/(<\\/body\s*>)/is','<###end###>$1',$output,1,$fullPage);
 		$html='';
 		if(isset($this->_scriptFiles[self::POS_END]))
 		{
 			foreach($this->_scriptFiles[self::POS_END] as $scriptFile)
 				$html.=CHtml::scriptFile($scriptFile)."\n";
 		}
-
-		$scripts2=$scripts=isset($this->_scripts[self::POS_END]) ? $this->_scripts[self::POS_END] : array();
+		$scripts=isset($this->_scripts[self::POS_END]) ? $this->_scripts[self::POS_END] : array();
 		if(isset($this->_scripts[self::POS_READY]))
 		{
-			$scripts[]="jQuery(document).ready(function() {\n".implode("\n",$this->_scripts[self::POS_READY])."\n});";
-			$scripts2[]=implode("\n",$this->_scripts[self::POS_READY]);
+			if($fullPage)
+				$scripts[]="jQuery(document).ready(function() {\n".implode("\n",$this->_scripts[self::POS_READY])."\n});";
+			else
+				$scripts[]=implode("\n",$this->_scripts[self::POS_READY]);
 		}
 		if(isset($this->_scripts[self::POS_LOAD]))
 		{
-			$scripts[]="window.onload=function() {\n".implode("\n",$this->_scripts[self::POS_LOAD])."\n};";
-			$scripts2[]=implode("\n",$this->_scripts[self::POS_LOAD]);
+			if($fullPage)
+				$scripts[]="window.onload=function() {\n".implode("\n",$this->_scripts[self::POS_LOAD])."\n};";
+			else
+				$scripts[]=implode("\n",$this->_scripts[self::POS_LOAD]);
 		}
 		if(!empty($scripts))
-		{
-			$html2=$html.CHtml::script(implode("\n",$scripts))."\n";
 			$html.=CHtml::script(implode("\n",$scripts))."\n";
-		}
 
-		if($html!=='')
-		{
-			$output=preg_replace('/(<\\/body\s*>)/is','<###end###>$1',$output,1,$count);
-			if($count)
-				$output=str_replace('<###end###>',$html,$output);
-			else
-				$output=$html.$output;
-		}
+		if($fullPage)
+			$output=str_replace('<###end###>',$html,$output);
+		else
+			$output=$output.$html;
 	}
 
 	/**
