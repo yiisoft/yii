@@ -380,15 +380,7 @@ abstract class CActiveRecord extends CModel
 		else if(isset($this->_related[$name]))
 			return $this->_related[$name];
 		else if(isset($this->getMetaData()->relations[$name]))
-		{
-			if(!array_key_exists($name,$this->_related))
-			{
-				$relation=$this->getMetaData()->relations[$name];
-				$finder=new CActiveFinder($this,array($name=>$relation->with));
-				$finder->lazyFind($this);
-			}
-			return $this->_related[$name];
-		}
+			return $this->getRelated($name);
 		else
 			return parent::__get($name);
 	}
@@ -426,17 +418,42 @@ abstract class CActiveRecord extends CModel
 		else if(isset($this->_related[$name]))
 			return true;
 		else if(isset($this->getMetaData()->relations[$name]))
-		{
-			if(!array_key_exists($name,$this->_related))
-			{
-				$relation=$this->getMetaData()->relations[$name];
-				$finder=new CActiveFinder($this,array($name=>$relation->with));
-				$finder->lazyFind($this);
-			}
-			return $this->_related[$name]!==null;
-		}
+			return $this->getRelated($name)!==null;
 		else
 			return parent::__isset($name);
+	}
+
+	/**
+	 * Returns the related record(s).
+	 * This method will return the related record(s) of the current record.
+	 * If the relation is HAS_ONE or BELONGS_TO, it will return a single object
+	 * or null if the object does not exist.
+	 * If the relation is HAS_MANY or MANY_MANY, it will return an array of objects
+	 * or an empty array.
+	 * @param string the relation name (see {@link relations})
+	 * @param boolean whether to reload the related objects from database. Defaults to false.
+	 * @return mixed the related object(s).
+	 * @throws CDbException if the relation is not specified in {@link relations}.
+	 * @since 1.0.2
+	 */
+	public function getRelated($name,$refresh=false)
+	{
+		if(!$refresh && (isset($this->_related[$name]) || array_key_exists($name,$this->_related)))
+			return $this->_related[$name];
+
+		$md=$this->getMetaData();
+		if(isset($md->relations[$name]))
+		{
+			$relation=$md->relations[$name];
+			if($this->isNewRecord && ($relation instanceof CHasOneRelation || $relation instanceof CHasManyRelation))
+				return $this->_related[$name]=$relation instanceof CHasOneRelation ? null : array();
+			$finder=new CActiveFinder($this,array($name=>$relation->with));
+			$finder->lazyFind($this);
+			return isset($this->_related[$name]) ? $this->_related[$name] : $this->_related[$name]=null;
+		}
+		else
+			throw new CDbException(Yii::t('yii','{class} does not have relation "{name}".',
+				array('{class}'=>get_class($this), '{name}'=>$name)));
 	}
 
 	/**

@@ -429,7 +429,7 @@ class CDbCommandBuilder extends CComponent
 					$value=$this->_connection->quoteValue($value);
 			}
 			if($n===1)
-				return $prefix.$column->rawName.'='.$values[0];
+				return $prefix.$column->rawName.($values[0]===null?' IS NULL':'='.$values[0]);
 			else
 				return $prefix.$column->rawName.' IN ('.implode(', ',$values).')';
 		}
@@ -459,7 +459,7 @@ class CDbCommandBuilder extends CComponent
 			{
 				$entries=array();
 				foreach($values[0] as $name=>$value)
-					$entries[]=$prefix.$table->columns[$name]->rawName.'='.$value;
+					$entries[]=$prefix.$table->columns[$name]->rawName.($value===null?' IS NULL':'='.$value);
 				return implode(' AND ',$entries);
 			}
 			else

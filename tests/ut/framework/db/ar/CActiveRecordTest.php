@@ -560,4 +560,16 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(5,count($posts));
 		$this->assertTrue($posts[2]->author instanceof UserNoFk);
 	}
+
+	public function testRelationWithNewRecord()
+	{
+		$user=new User;
+		$posts=$user->posts;
+		$this->assertTrue(is_array($posts) && empty($posts));
+
+		$post=new Post;
+		$author=$post->author;
+		$this->assertNull($author);
+	}
+
 }
