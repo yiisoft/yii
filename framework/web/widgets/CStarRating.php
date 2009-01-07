@@ -123,10 +123,22 @@ class CStarRating extends CInputWidget
 		$cs=Yii::app()->getClientScript();
 		$cs->registerCoreScript('rating');
 		$cs->registerScript('Yii.CStarRating#'.$id,$js);
-		if($this->cssFile===null)
-			$cs->registerCssFile($cs->getCoreScriptUrl().'/rating/jquery.rating.css');
-		else if($this->cssFile!==false)
-			$cs->registerCssFile($this->cssFile);
+
+		if($this->cssFile!==false)
+			self::registerCssFile($this->cssFile);
+	}
+
+	/**
+	 * Registers the needed CSS file.
+	 * @param string the CSS URL. If null, a default CSS URL will be used.
+	 * @since 1.0.2
+	 */
+	public static function registerCssFile($url=null)
+	{
+		$cs=Yii::app()->getClientScript();
+		if($url===null)
+			$url=$cs->getCoreScriptUrl().'/rating/jquery.rating.css';
+		$cs->registerCssFile($url);
 	}
 
 	/**

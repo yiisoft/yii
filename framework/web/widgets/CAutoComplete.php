@@ -221,10 +221,22 @@ class CAutoComplete extends CInputWidget
 			$data='"'.$url.'"';
 		}
 		$cs->registerScript('Yii.CAutoComplete#'.$id,"jQuery(\"#{$id}\").autocomplete($data,{$options}){$this->methodChain};");
-		if($this->cssFile===null)
-			$cs->registerCssFile($cs->getCoreScriptUrl().'/autocomplete/jquery.autocomplete.css');
-		else if($this->cssFile!==false)
-			$cs->registerCssFile($this->cssFile);
+
+		if($this->cssFile!==false)
+			self::registerCssFile($this->cssFile);
+	}
+
+	/**
+	 * Registers the needed CSS file.
+	 * @param string the CSS URL. If null, a default CSS URL will be used.
+	 * @since 1.0.2
+	 */
+	public static function registerCssFile($url=null)
+	{
+		$cs=Yii::app()->getClientScript();
+		if($url===null)
+			$url=$cs->getCoreScriptUrl().'/autocomplete/jquery.autocomplete.css';
+		$cs->registerCssFile($url);
 	}
 
 	/**
