@@ -88,9 +88,12 @@ class CDbAuthManager extends CAuthManager
 
 		foreach($rows as $row)
 		{
-			$item=new CAuthItem($this,$row['name'],$row['type'],$row['description'],$row['bizrule'],unserialize($row['data']));
-			if($this->executeBizRule($row['bizrule2'],$params,unserialize($row['data2'])) && $item->checkAccess($itemName,$params))
-				return true;
+			if($this->executeBizRule($row['bizrule2'],$params,unserialize($row['data2'])))
+			{
+				$item=new CAuthItem($this,$row['name'],$row['type'],$row['description'],$row['bizrule'],unserialize($row['data']));
+				if($item->checkAccess($itemName,$params))
+					return true;
+			}
 		}
 		return false;
 	}
@@ -283,10 +286,12 @@ class CDbAuthManager extends CAuthManager
 	 */
 	public function saveAuthAssignment($assignment)
 	{
-		$sql="UPDATE {$this->assignmentTable} SET bizrule=:bizrule, data=:data";
+		$sql="UPDATE {$this->assignmentTable} SET bizrule=:bizrule, data=:data WHERE itemname=:itemname AND userid=:userid";
 		$command=$this->db->createCommand($sql);
 		$command->bindValue(':bizrule',$bizRule);
 		$command->bindValue(':data',serialize($data));
+		$command->bindValue(':itemname',$assignment->getItemName());
+		$command->bindValue(':userid',$assignment->getUserId());
 		$command->execute();
 	}
 

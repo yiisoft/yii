@@ -146,12 +146,24 @@ class CTabView extends CWidget
 	{
 		$cs=Yii::app()->getClientScript();
 		$cs->registerCoreScript('yiitab');
-		if($this->cssFile===null)
-			$cs->registerCssFile($cs->getCoreScriptUrl().'/yiitab/jquery.yiitab.css');
-		else if($this->cssFile!==false)
-			$cs->registerCssFile($this->cssFile);
 		$id=$this->getId();
 		$cs->registerScript('Yii.CTabView#'.$id,"jQuery(\"#{$id}\").yiitab();");
+
+		if($this->cssFile!==false)
+			self::registerCssFile($this->cssFile);
+	}
+
+	/**
+	 * Registers the needed CSS file.
+	 * @param string the CSS URL. If null, a default CSS URL will be used.
+	 * @since 1.0.2
+	 */
+	public static function registerCssFile($url=null)
+	{
+		$cs=Yii::app()->getClientScript();
+		if($url===null)
+			$url=$cs->getCoreScriptUrl().'/yiitab/jquery.yiitab.css';
+		$cs->registerCssFile($url);
 	}
 
 	/**

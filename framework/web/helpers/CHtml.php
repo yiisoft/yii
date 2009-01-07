@@ -1244,60 +1244,67 @@ class CHtml
 	 * <ul>
 	 * <li>submit: string, specifies the URL that the button should submit to. If empty, the current requested URL will be used.</li>
 	 * <li>params: array, name-value pairs that should be submitted together with the form. This is only used when 'submit' option is specified.</li>
+	 * <li>return: boolean, the return value of the javascript. Defaults to false, meaning that the execution of
+	 * javascript would not cause the default behavior of the event. This option has been available since version 1.0.2.</li>
 	 * <li>confirm: string, specifies the message that should show in a pop-up confirmation dialog.</li>
 	 * <li>ajax: array, specifies the AJAX options (see {@link ajax}).</li>
 	 * </ul>
 	 */
 	protected static function clientChange($event,&$htmlOptions)
 	{
-		if(isset($htmlOptions['submit']) || isset($htmlOptions['confirm']) || isset($htmlOptions['ajax']))
+		if(!isset($htmlOptions['submit']) && !isset($htmlOptions['confirm']) && !isset($htmlOptions['ajax']))
+			return;
+
+		if(isset($htmlOptions['return']) && $htmlOptions['return'])
+			$return='return true';
+		else
+			$return='return false';
+
+		if(isset($htmlOptions['on'.$event]))
 		{
-			if(isset($htmlOptions['on'.$event]))
-			{
-				$handler=trim($htmlOptions['on'.$event],';').';';
-				unset($htmlOptions['on'.$event]);
-			}
-			else
-				$handler='';
-
-			if(isset($htmlOptions['id']))
-				$id=$htmlOptions['id'];
-			else
-				$id=$htmlOptions['id']=isset($htmlOptions['name'])?$htmlOptions['name']:self::ID_PREFIX.self::$_count++;
-
-			$cs=Yii::app()->getClientScript();
-			$cs->registerCoreScript('jquery');
-
-			if(isset($htmlOptions['params']))
-				$params=CJavaScript::encode($htmlOptions['params']);
-			else
-				$params='{}';
-
-			if(isset($htmlOptions['submit']))
-			{
-				$cs->registerCoreScript('yii');
-				if($htmlOptions['submit']!=='')
-					$url=CJavaScript::quote(self::normalizeUrl($htmlOptions['submit']));
-				else
-					$url='';
-				$handler.="jQuery.yii.submitForm(this,'$url',$params);return false;";
-			}
-
-			if(isset($htmlOptions['ajax']))
-				$handler.=self::ajax($htmlOptions['ajax']).'return false;';
-
-			if(isset($htmlOptions['confirm']))
-			{
-				$confirm='confirm(\''.CJavaScript::quote($htmlOptions['confirm']).'\')';
-				if($handler!=='')
-					$handler="if($confirm) {".$handler."} else return false;";
-				else
-					$handler="return $confirm;";
-			}
-
-			$cs->registerScript('Yii.CHtml.#'.$id,"jQuery('#$id').$event(function(){{$handler}});");
+			$handler=trim($htmlOptions['on'.$event],';').';';
+			unset($htmlOptions['on'.$event]);
 		}
-		unset($htmlOptions['params'],$htmlOptions['submit'],$htmlOptions['ajax'],$htmlOptions['confirm']);
+		else
+			$handler='';
+
+		if(isset($htmlOptions['id']))
+			$id=$htmlOptions['id'];
+		else
+			$id=$htmlOptions['id']=isset($htmlOptions['name'])?$htmlOptions['name']:self::ID_PREFIX.self::$_count++;
+
+		$cs=Yii::app()->getClientScript();
+		$cs->registerCoreScript('jquery');
+
+		if(isset($htmlOptions['params']))
+			$params=CJavaScript::encode($htmlOptions['params']);
+		else
+			$params='{}';
+
+		if(isset($htmlOptions['submit']))
+		{
+			$cs->registerCoreScript('yii');
+			if($htmlOptions['submit']!=='')
+				$url=CJavaScript::quote(self::normalizeUrl($htmlOptions['submit']));
+			else
+				$url='';
+			$handler.="jQuery.yii.submitForm(this,'$url',$params);{$return};";
+		}
+
+		if(isset($htmlOptions['ajax']))
+			$handler.=self::ajax($htmlOptions['ajax'])."{$return};";
+
+		if(isset($htmlOptions['confirm']))
+		{
+			$confirm='confirm(\''.CJavaScript::quote($htmlOptions['confirm']).'\')';
+			if($handler!=='')
+				$handler="if($confirm) {".$handler."} else return false;";
+			else
+				$handler="return $confirm;";
+		}
+
+		$cs->registerScript('Yii.CHtml.#'.$id,"jQuery('#$id').$event(function(){{$handler}});");
+		unset($htmlOptions['params'],$htmlOptions['submit'],$htmlOptions['ajax'],$htmlOptions['confirm'],$htmlOptions['return']);
 	}
 
 	/**

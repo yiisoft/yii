@@ -109,14 +109,19 @@ class CTextHighlighter extends COutputProcessor
 	 */
 	public function registerClientScript()
 	{
-		$cs=Yii::app()->getClientScript();
+		if($this->cssFile!==false)
+			self::registerCssFile($this->cssFile);
+	}
 
-		if($this->cssFile===null)
-		{
-			$cssFile=Yii::getPathOfAlias('system.vendors.TextHighlighter.highlight').'.css';
-			$cs->registerCssFile(CHtml::asset($cssFile));
-		}
-		else if($this->cssFile!==false)
-			$cs->registerCssFile($this->cssFile);
+	/**
+	 * Registers the needed CSS file.
+	 * @param string the CSS URL. If null, a default CSS URL will be used.
+	 * @since 1.0.2
+	 */
+	public static function registerCssFile($url=null)
+	{
+		if($url===null)
+			$url=CHtml::asset(Yii::getPathOfAlias('system.vendors.TextHighlighter.highlight').'.css');
+		Yii::app()->getClientScript()->registerCssFile($url);
 	}
 }

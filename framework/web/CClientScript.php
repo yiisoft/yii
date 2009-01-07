@@ -128,8 +128,10 @@ class CClientScript extends CApplicationComponent
 
 		if($html!=='')
 		{
-			$output=preg_replace('/(<title\b[^>]*>|<\\/head\s*>)/is',$html.'$1',$output,1,$count);
-			if(!$count)
+			$output=preg_replace('/(<title\b[^>]*>|<\\/head\s*>)/is','<###head###>$1',$output,1,$count);
+			if($count)
+				$output=str_replace('<###head###>',$html,$output);
+			else
 				$output=$html.$output;
 		}
 	}
@@ -151,8 +153,10 @@ class CClientScript extends CApplicationComponent
 
 		if($html!=='')
 		{
-			$output=preg_replace('/(<body\b[^>]*>)/is','$1'.$html,$output,1,$count);
-			if(!$count)
+			$output=preg_replace('/(<body\b[^>]*>)/is','$1<###begin###>'.$html,$output,1,$count);
+			if($count)
+				$output=str_replace('<###begin###>',$html,$output);
+			else
 				$output=$html.$output;
 		}
 	}
@@ -163,27 +167,39 @@ class CClientScript extends CApplicationComponent
 	 */
 	protected function renderBodyEnd(&$output)
 	{
+		if(!isset($this->_scriptFiles[self::POS_END]) && !isset($this->_scripts[self::POS_END])
+			&& !isset($this->_scripts[self::POS_READY]) && !isset($this->_scripts[self::POS_LOAD]))
+			return;
+
+		$output=preg_replace('/(<\\/body\s*>)/is','<###end###>$1',$output,1,$fullPage);
 		$html='';
 		if(isset($this->_scriptFiles[self::POS_END]))
 		{
 			foreach($this->_scriptFiles[self::POS_END] as $scriptFile)
 				$html.=CHtml::scriptFile($scriptFile)."\n";
 		}
-
 		$scripts=isset($this->_scripts[self::POS_END]) ? $this->_scripts[self::POS_END] : array();
 		if(isset($this->_scripts[self::POS_READY]))
-			$scripts[]="jQuery(document).ready(function() {\n".implode("\n",$this->_scripts[self::POS_READY])."\n});";
+		{
+			if($fullPage)
+				$scripts[]="jQuery(document).ready(function() {\n".implode("\n",$this->_scripts[self::POS_READY])."\n});";
+			else
+				$scripts[]=implode("\n",$this->_scripts[self::POS_READY]);
+		}
 		if(isset($this->_scripts[self::POS_LOAD]))
-			$scripts[]="window.onload=function() {\n".implode("\n",$this->_scripts[self::POS_LOAD])."\n};";
+		{
+			if($fullPage)
+				$scripts[]="window.onload=function() {\n".implode("\n",$this->_scripts[self::POS_LOAD])."\n};";
+			else
+				$scripts[]=implode("\n",$this->_scripts[self::POS_LOAD]);
+		}
 		if(!empty($scripts))
 			$html.=CHtml::script(implode("\n",$scripts))."\n";
 
-		if($html!=='')
-		{
-			$output=preg_replace('/(<\\/body\s*>)/is',$html.'$1',$output,1,$count);
-			if(!$count)
-				$output=$output.$html;
-		}
+		if($fullPage)
+			$output=str_replace('<###end###>',$html,$output);
+		else
+			$output=$output.$html;
 	}
 
 	/**
