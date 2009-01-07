@@ -8,6 +8,12 @@ Version 1.1a to be released
 
 Version 1.0.2 to be released
 ----------------------------
+- Bug #81: Double backslashes in a clientscript became a singe backslash in the output (Qiang)
+- Bug: CDbAuthManager::saveAuthAssignment() causes updating all rows (Qiang)
+- Bug: Fixed an issue in CUrlManager::createUrl when GET parameters contain arrays (Qiang)
+- New: Added CActiveRecord::getRelated() (Qiang)
+- New: Added 'return' option to HTML options in CHtml (Qiang)
+- New: Refactored CSS-dependent widgets by adding registerCssFile static methods (Qiang)
 
 
 Version 1.0.1 January 4, 2009

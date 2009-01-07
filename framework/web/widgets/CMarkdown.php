@@ -79,11 +79,18 @@ class CMarkdown extends COutputProcessor
 	 */
 	public function registerClientScript()
 	{
-		$cs=Yii::app()->getClientScript();
-		if($this->cssFile===null)
-			$cs->registerCssFile(CHtml::asset($this->getMarkdownParser()->getDefaultCssFile()));
-		else if($this->cssFile!==false)
-			$cs->registerCssFile($this->cssFile);
+		if($this->cssFile!==false)
+			self::registerCssFile($this->cssFile);
+	}
+
+	/**
+	 * Registers the needed CSS file.
+	 * @param string the CSS URL. If null, a default CSS URL will be used.
+	 * @since 1.0.2
+	 */
+	public static function registerCssFile($url=null)
+	{
+		CTextHighlighter::registerCssFile($url);
 	}
 
 	/**
