@@ -13,6 +13,7 @@ Version 1.0.2 to be released
 - New: Added 'return' option to HTML options in CHtml (Qiang)
 - New: Refactored CSS-dependent widgets by adding registerCssFile static methods (Qiang)
 - New: Added CDbSchema::getTables() and getTableNames() (Qiang)
+- New: Modified CUniqueValidator so that it can correctly validate non-PK attributes when they are being updated (Qiang)
 
 
 Version 1.0.1 January 4, 2009
