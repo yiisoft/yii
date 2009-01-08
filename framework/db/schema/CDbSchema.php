@@ -18,6 +18,7 @@
  */
 abstract class CDbSchema extends CComponent
 {
+	private $_tableNames=array();
 	private $_tables=array();
 	private $_connection;
 	private $_builder;
@@ -73,6 +74,36 @@ abstract class CDbSchema extends CComponent
 	}
 
 	/**
+	 * Returns the metadata for all tables in the database.
+	 * @param string the schema of the tables. Defaults to empty string, meaning the current or default schema.
+	 * @return array the metadata for all tables in the database.
+	 * Each array element is an instance of {@link CDbTableSchema} (or its child class).
+	 * The array keys are table names.
+	 * @since 1.0.2
+	 */
+	public function getTables($schema='')
+	{
+		$tables=array();
+		foreach($this->getTableNames($schema) as $name)
+			$tables[$name]=$this->getTable($name);
+		return $tables;
+	}
+
+	/**
+	 * Returns all table names in the database.
+	 * @param string the schema of the tables. Defaults to empty string, meaning the current or default schema.
+	 * If not empty, the returned table names will be prefixed with the schema name.
+	 * @return array all table names in the database.
+	 * @since 1.0.2
+	 */
+	public function getTableNames($schema='')
+	{
+		if(!isset($this->_tableNames[$schema]))
+			$this->_tableNames[$schema]=$this->findTableNames($schema);
+		return $this->_tableNames[$schema];
+	}
+
+	/**
 	 * @return CDbCommandBuilder the SQL command builder for this connection.
 	 */
 	public function getCommandBuilder()
@@ -81,16 +112,6 @@ abstract class CDbSchema extends CComponent
 			return $this->_builder;
 		else
 			return $this->_builder=$this->createCommandBuilder();
-	}
-
-	/**
-	 * Creates a command builder for the database.
-	 * This method may be overridden by child classes to create a DBMS-specific command builder.
-	 * @return CDbCommandBuilder command builder instance
-	 */
-	protected function createCommandBuilder()
-	{
-		return new CDbCommandBuilder($this);
 	}
 
 	/**
@@ -141,5 +162,30 @@ abstract class CDbSchema extends CComponent
 		if(($pos=strrpos($name2,'.'))!==false)
 			$name2=substr($name2,$pos+1);
 		return $name1===$name2;
+	}
+
+	/**
+	 * Creates a command builder for the database.
+	 * This method may be overridden by child classes to create a DBMS-specific command builder.
+	 * @return CDbCommandBuilder command builder instance
+	 */
+	protected function createCommandBuilder()
+	{
+		return new CDbCommandBuilder($this);
+	}
+
+	/**
+	 * Returns all table names in the database.
+	 * This method should be overridden by child classes in order to support this feature
+	 * because the default implemenation simply throws an exception.
+	 * @param string the schema of the tables. Defaults to empty string, meaning the current or default schema.
+	 * If not empty, the returned table names will be prefixed with the schema name.
+	 * @return array all table names in the database.
+	 * @since 1.0.2
+	 */
+	protected function findTableNames($schema='')
+	{
+		throw new CDbException(Yii::t('yii','{class} does not support fetching all table names.',
+			array('{class}'=>get_class($this))));
 	}
 }
