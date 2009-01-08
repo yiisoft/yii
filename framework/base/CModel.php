@@ -249,4 +249,24 @@ abstract class CModel extends CComponent
 	{
 		return ucwords(trim(strtolower(str_replace(array('-','_'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $name)))));
 	}
+
+	/**
+	 * Returns the public member variables of this class.
+	 * @param array reserved names that should not be returned
+	 * @return array the public member variables of this class.
+	 * @since 1.0.2
+	 */
+	protected function getPublicPropertyNames($reserved=array())
+	{
+		$reserved=array_flip($reserved);
+		$class=new ReflectionClass(get_class($this));
+		$names=array();
+		foreach($class->getProperties() as $property)
+		{
+			$name=$property->getName();
+			if($property->isPublic() && !$property->isStatic() && !isset($reserved[$name]))
+				$names[]=$name;
+		}
+		return $names;
+	}
 }

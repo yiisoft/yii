@@ -541,7 +541,8 @@ abstract class CActiveRecord extends CModel
 	/**
 	 * Returns the names of the attributes whose value can be altered by {@link setAttributes}.
 	 * The default implementation is to return non-primary-key attributes that are not listed
-	 * in {@link protectedAttributes}. You may override this method to customize the safe attribute list.
+	 * in {@link protectedAttributes}. It also includes public member variables.
+	 * You may override this method to customize the safe attribute list.
 	 * @return array the names of the attributes whose value can be altered by {@link setAttributes}.
 	 * @see protectedAttributes
 	 */
@@ -553,9 +554,15 @@ abstract class CActiveRecord extends CModel
 		foreach($table->columns as $name=>$column)
 		{
 			if(!$column->isPrimaryKey && !isset($protectedAttributes[$name]))
-				$safeAttributes[]=$name;
+				$safeAttributes[$name]=true;
 		}
-		return $safeAttributes;
+		$publicProperties=$this->getPublicPropertyNames(array('isNewRecord'));
+		foreach($publicProperties as $name)
+		{
+			if(!isset($safeAttributes[$name]) && !isset($protectedAttributes[$name]))
+				$safeAttributes[$name]=true;
+		}
+		return array_keys($safeAttributes);
 	}
 
 	/**

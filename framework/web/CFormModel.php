@@ -45,14 +45,7 @@ class CFormModel extends CModel
 	 */
 	public function attributeNames()
 	{
-		$class=new ReflectionClass(get_class($this));
-		$attributes=array();
-		foreach($class->getProperties() as $property)
-		{
-			if($property->isPublic())
-				$attributes[]=$property->getName();
-		}
-		return $attributes;
+		return $this->getPublicPropertyNames();
 	}
 
 	/**
