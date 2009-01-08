@@ -105,13 +105,13 @@ else
 Yii::app()->user->logout();
 ~~~
 
-By default, a user will be logged out once he closes his browser window.
-To change this behavior, we can set the
-[allowAutoLogin|CWebUser::allowAutoLogin] property of the user component to
-be true and pass a duration parameter to the [CWebUser::login] method. The
-user will then remain logged in for the specified duration, even if he
-closes his browser window. Note that this feature requires the user's
-browser to accept cookies.
+By default, a user will be logged out after a certain period of inactivity,
+depending on the [session configuration](http://www.php.net/manual/en/session.configuration.php).
+To change this behavior, we can set the [allowAutoLogin|CWebUser::allowAutoLogin]
+property of the user component to be true and pass a duration parameter to
+the [CWebUser::login] method. The user will then remain logged in for
+the specified duration, even if he closes his browser window. Note that
+this feature requires the user's browser to accept cookies.
 
 ~~~
 [php]
