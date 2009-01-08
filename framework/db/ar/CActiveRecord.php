@@ -1628,7 +1628,7 @@ class CActiveRecordMetaData
 				array('{class}'=>get_class($model),'{table}'=>$tableName)));
 		$this->tableSchema=$table;
 		$this->columns=$table->columns;
-		$this->safeAttributes=array_flip($model->safeAttributes($table));
+		$this->safeAttributes=array_flip($model->safeAttributes());
 
 		foreach($table->columns as $name=>$column)
 		{

@@ -66,6 +66,8 @@ EOD;
  * @since 1.0
  */
 
+if(class_exists('YiiBase',false)) return;
+
 ";
 
 		$content=$this->minifyYii(dirname(__FILE__).'/lite/index.php');
