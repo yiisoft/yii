@@ -73,7 +73,5 @@ class CUniqueValidator extends CValidator
 			$this->addError($object,$attribute,$message,array('{value}'=>$value));
 		}
 	}
-
-	protected function checkUniqueness($object,$attribute
 }
 
