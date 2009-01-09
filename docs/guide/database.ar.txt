@@ -384,7 +384,7 @@ AR performs data validation automatically when
 [save()|CActiveRecord::save] is being invoked. The validation is based on
 the rules specified by in the [rules()|CModel::rules] method of the AR class.
 For more details about how to specify validation rules, refer to
-the [Data Validation](/doc/guide/form.model#declaring-validation-rules)
+the [Declaring Validation Rules](/doc/guide/form.model#declaring-validation-rules)
 section. Below is the typical workflow needed by saving a record:
 
 ~~~
@@ -413,32 +413,16 @@ $post->save();
 If there are many columns, we would see a long list of such assignments.
 This can be alleviated by making use of the
 [attributes|CActiveRecord::attributes] property as shown below. More
-details can be found in the [Creating Action](/doc/guide/form.action) section.
+details can be found in the [Securing Attribute Assignments](/doc/guide/form.model#securing-attribute-assignments)
+section and the [Creating Action](/doc/guide/form.action) section.
 
 ~~~
 [php]
-// assume $_POST['Post'] is an array of column values indexed by column
-names
+// assume $_POST['Post'] is an array of column values indexed by column names
 $post->attributes=$_POST['Post'];
 $post->save();
 ~~~
 
-By default, all columns except primary key(s) can be massively assigned
-like the above. This can be changed by overriding either
-[protectedAttributes()|CActiveRecord::protectedAttributes] or
-[safeAttributes()|CActiveRecord::safeAttributes] in the AR
-class. For example, if we do not want the `content` property to be
-massively assigned, we can write:
-
-~~~
-[php]
-public function protectedAttributes()
-{
-	return array('content');
-}
-~~~
-
-Protected columns can only be assigned individually.
 
 Comparing Records
 -----------------

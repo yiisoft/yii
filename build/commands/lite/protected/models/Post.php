@@ -31,30 +31,4 @@ class Post extends CActiveRecord
 			array('author_id', 'numerical', 'integerOnly'=>true),
 		);
 	}
-
-
-	// -----------------------------------------------------------
-	// Uncomment the following methods to override them if needed
-	/*
-	public function relations()
-	{
-		return array(
-			'author'=>array(self::BELONGS_TO, 'User', 'author_id'),
-			'comments'=>array(self::HAS_MANY, 'Comment', 'post_id', 'with'=>'author', 'order'=>'create_time DESC'),
-			'tags'=>array(self::MANY_MANY, 'Tag', 'post_tag(post_id, tag_id)', 'order'=>'name'),
-		);
-	}
-
-	public function attributeLabels()
-	{
-		return array(
-			'authorID'=>'Author',
-		);
-	}
-
-	public function protectedAttributes()
-	{
-		return array();
-	}
-	*/
 }

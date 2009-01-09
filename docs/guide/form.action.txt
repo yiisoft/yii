@@ -46,10 +46,11 @@ the `login` action:
 $form->attributes=$_POST['LoginForm'];
 ~~~
 
-As we mentioned, this line of code simply populate the model with the user
-submitted data. The `attributes` property is defined by [CModel] which
+As we described in [Securing Attribute Assignments](/doc/guide/form.model#securing-attribute-assignments),
+this line of code populates the model with the user submitted data.
+The `attributes` property is defined by [CModel] which
 expects an array of name-value pairs and assigns each value to the
-correspondingly named model attribute. So if `$_POST['LoginForm']` gives us
+corresponding model attribute. So if `$_POST['LoginForm']` gives us
 such an array, the above code would be equivalent to the following lengthy
 one (assuming every needed attribute is present in the array):
 
@@ -61,7 +62,7 @@ $form->rememberMe=$_POST['LoginForm']['rememberMe'];
 ~~~
 
 > Note: In order to let `$_POST['LoginForm']` to give us an array instead of a
-string, we adhere to a convention when naming input fields in the view. In
+string, we stick to a convention when naming input fields in the view. In
 particular, for an input field corresponding to attribute `a` of model
 class `C`, we name it as `C[a]`. For example, we would use
 `LoginForm[username]` to name the input field corresponding to the

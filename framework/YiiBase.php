@@ -494,6 +494,7 @@ class YiiBase
 		'CRangeValidator' => '/validators/CRangeValidator.php',
 		'CRegularExpressionValidator' => '/validators/CRegularExpressionValidator.php',
 		'CRequiredValidator' => '/validators/CRequiredValidator.php',
+		'CSafeValidator' => '/validators/CSafeValidator.php',
 		'CStringValidator' => '/validators/CStringValidator.php',
 		'CTypeValidator' => '/validators/CTypeValidator.php',
 		'CUniqueValidator' => '/validators/CUniqueValidator.php',

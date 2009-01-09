@@ -54,6 +54,8 @@ EOD;
 				'/vendors',
 				'/i18n/data',
 				'/utils/mimeTypes.php',
+				'/yiip.php',
+				'/yiip',
 			),
 		);
 		$files=CFileHelper::findFiles(YII_PATH,$options);

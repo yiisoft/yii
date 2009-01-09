@@ -51,8 +51,7 @@
 abstract class CValidator extends CComponent
 {
 	/**
-	 * @var mixed list of attributes to be validated. This can be either an array of
-	 * the attribute names or a string of comma-separated attribute names.
+	 * @var array list of attributes to be validated.
 	 */
 	public $attributes;
 	/**
@@ -61,8 +60,11 @@ abstract class CValidator extends CComponent
 	 * recognize "{attribute}" placeholder, which will be replaced with the label of the attribute.
 	 */
 	public $message;
-
-	private $_on=array();
+	/**
+	 * @var array list of scenarios that the validator should be applied.
+	 * Each array value refers to a scenario name with the same name as its array key.
+	 */
+	public $on;
 
 	/**
 	 * Validates a single attribute.
@@ -97,21 +99,27 @@ abstract class CValidator extends CComponent
 			'captcha'=>'CCaptchaValidator',
 			'type'=>'CTypeValidator',
 			'file'=>'CFileValidator',
+			'safe'=>'CSafeValidator',
 		);
 
 		if(is_string($attributes))
 			$attributes=preg_split('/[\s,]+/',$attributes,-1,PREG_SPLIT_NO_EMPTY);
+
+		if(isset($params['on']))
+		{
+			if(is_array($params['on']))
+				$on=$params['on'];
+			else
+				$on=preg_split('/[\s,]+/',$params['on'],-1,PREG_SPLIT_NO_EMPTY);
+		}
+		else
+			$on=array();
 
 		if(method_exists($object,$name))
 		{
 			$validator=new CInlineValidator;
 			$validator->attributes=$attributes;
 			$validator->method=$name;
-			if(isset($params['on']))
-			{
-				$validator->on=$params['on'];
-				unset($params['on']);
-			}
 			$validator->params=$params;
 		}
 		else
@@ -125,14 +133,17 @@ abstract class CValidator extends CComponent
 			foreach($params as $name=>$value)
 				$validator->$name=$value;
 		}
+
+		$validator->on=empty($on) ? array() : array_combine($on,$on);
+
 		return $validator;
 	}
 
 	/**
 	 * Validates the specified object.
+	 * @param CModel the data object being validated
 	 * @param array the list of attributes to be validated. Defaults to null,
 	 * meaning every attribute listed in {@link attributes} will be validated.
-	 * @param CModel the data object being validated
 	 */
 	public function validate($object,$attributes=null)
 	{
@@ -145,25 +156,19 @@ abstract class CValidator extends CComponent
 	}
 
 	/**
-	 * @return array the set of tags (e.g. insert, register) that indicate when this validator should be applied.
-	 * If this is empty, it means the validator should be applied in all situations.
-	 * @since 1.0.1
+	 * Returns a value indicating whether the validator applies to the specified scenario.
+	 * A validator applies to a scenario as long as any of the following conditions is met:
+	 * <ul>
+	 * <li>the validator's "on" property is empty</li>
+	 * <li>the validator's "on" property contains the specified scenario</li>
+	 * </ul>
+	 * @param string scenario name
+	 * @return boolean whether the validator applies to the specified scenario.
+	 * @since 1.0.2
 	 */
-	public function getOn()
+	public function applyTo($scenario)
 	{
-		return $this->_on;
-	}
-
-	/**
-	 * @param mixed the set of tags (e.g. insert, register) that indicate when this validator should be applied.
- 	 * This can be either an array of the tag names or a string of comma-separated tag names.
- 	 * @since 1.0.1
-	 */
-	public function setOn($value)
-	{
-		if(is_string($value))
-			$value=preg_split('/[\s,]+/',$value,-1,PREG_SPLIT_NO_EMPTY);
-		$this->_on=$value;
+		return empty($this->on) || isset($this->on[$scenario]);
 	}
 
 	/**

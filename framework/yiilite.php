@@ -21,6 +21,8 @@
  * @since 1.0
  */
 
+if(class_exists('YiiBase',false)) return;
+
 
 defined('YII_BEGIN_TIME') or define('YII_BEGIN_TIME',microtime(true));
 defined('YII_DEBUG') or define('YII_DEBUG',false);
@@ -287,6 +289,7 @@ class YiiBase
 		'CRangeValidator' => '/validators/CRangeValidator.php',
 		'CRegularExpressionValidator' => '/validators/CRegularExpressionValidator.php',
 		'CRequiredValidator' => '/validators/CRequiredValidator.php',
+		'CSafeValidator' => '/validators/CSafeValidator.php',
 		'CStringValidator' => '/validators/CStringValidator.php',
 		'CTypeValidator' => '/validators/CTypeValidator.php',
 		'CUniqueValidator' => '/validators/CUniqueValidator.php',
@@ -1606,8 +1609,8 @@ class CUrlManager extends CApplicationComponent
 			{
 				if(is_array($value))
 				{
-					foreach($value as $v)
-						$url.='/'.urlencode($key).'[]/'.urlencode($v);
+					foreach($value as $k=>$v)
+						$url.='/'.urlencode($key).'['.urlencode($k).']/'.urlencode($v);
 				}
 				else
 					$url.='/'.urlencode($key).'/'.urlencode($value);
@@ -1621,8 +1624,8 @@ class CUrlManager extends CApplicationComponent
 			{
 				if(is_array($value))
 				{
-					foreach($value as $v)
-						$pairs[]=urlencode($key).'[]='.urlencode($v);
+					foreach($value as $k=>$v)
+						$pairs[]=urlencode($key).'['.urlencode($k).']='.urlencode($v);
 				}
 				else
 					$pairs[]=urlencode($key).'='.urlencode($value);
@@ -1765,8 +1768,8 @@ class CUrlRule extends CComponent
 			{
 				if(is_array($value))
 				{
-					foreach($value as $v)
-						$rest[]=urlencode($key).'[]'.$sep.urlencode($v);
+					foreach($value as $k=>$v)
+						$rest[]=urlencode($key).'['.urlencode($k).']'.$sep.urlencode($v);
 				}
 				else
 					$rest[]=urlencode($key).$sep.urlencode($value);
@@ -3701,47 +3704,50 @@ class CHtml
 	}
 	protected static function clientChange($event,&$htmlOptions)
 	{
-		if(isset($htmlOptions['submit']) || isset($htmlOptions['confirm']) || isset($htmlOptions['ajax']))
+		if(!isset($htmlOptions['submit']) && !isset($htmlOptions['confirm']) && !isset($htmlOptions['ajax']))
+			return;
+		if(isset($htmlOptions['return']) && $htmlOptions['return'])
+			$return='return true';
+		else
+			$return='return false';
+		if(isset($htmlOptions['on'.$event]))
 		{
-			if(isset($htmlOptions['on'.$event]))
-			{
-				$handler=trim($htmlOptions['on'.$event],';').';';
-				unset($htmlOptions['on'.$event]);
-			}
-			else
-				$handler='';
-			if(isset($htmlOptions['id']))
-				$id=$htmlOptions['id'];
-			else
-				$id=$htmlOptions['id']=isset($htmlOptions['name'])?$htmlOptions['name']:self::ID_PREFIX.self::$_count++;
-			$cs=Yii::app()->getClientScript();
-			$cs->registerCoreScript('jquery');
-			if(isset($htmlOptions['params']))
-				$params=CJavaScript::encode($htmlOptions['params']);
-			else
-				$params='{}';
-			if(isset($htmlOptions['submit']))
-			{
-				$cs->registerCoreScript('yii');
-				if($htmlOptions['submit']!=='')
-					$url=CJavaScript::quote(self::normalizeUrl($htmlOptions['submit']));
-				else
-					$url='';
-				$handler.="jQuery.yii.submitForm(this,'$url',$params);return false;";
-			}
-			if(isset($htmlOptions['ajax']))
-				$handler.=self::ajax($htmlOptions['ajax']).'return false;';
-			if(isset($htmlOptions['confirm']))
-			{
-				$confirm='confirm(\''.CJavaScript::quote($htmlOptions['confirm']).'\')';
-				if($handler!=='')
-					$handler="if($confirm) {".$handler."} else return false;";
-				else
-					$handler="return $confirm;";
-			}
-			$cs->registerScript('Yii.CHtml.#'.$id,"jQuery('#$id').$event(function(){{$handler}});");
+			$handler=trim($htmlOptions['on'.$event],';').';';
+			unset($htmlOptions['on'.$event]);
 		}
-		unset($htmlOptions['params'],$htmlOptions['submit'],$htmlOptions['ajax'],$htmlOptions['confirm']);
+		else
+			$handler='';
+		if(isset($htmlOptions['id']))
+			$id=$htmlOptions['id'];
+		else
+			$id=$htmlOptions['id']=isset($htmlOptions['name'])?$htmlOptions['name']:self::ID_PREFIX.self::$_count++;
+		$cs=Yii::app()->getClientScript();
+		$cs->registerCoreScript('jquery');
+		if(isset($htmlOptions['params']))
+			$params=CJavaScript::encode($htmlOptions['params']);
+		else
+			$params='{}';
+		if(isset($htmlOptions['submit']))
+		{
+			$cs->registerCoreScript('yii');
+			if($htmlOptions['submit']!=='')
+				$url=CJavaScript::quote(self::normalizeUrl($htmlOptions['submit']));
+			else
+				$url='';
+			$handler.="jQuery.yii.submitForm(this,'$url',$params);{$return};";
+		}
+		if(isset($htmlOptions['ajax']))
+			$handler.=self::ajax($htmlOptions['ajax'])."{$return};";
+		if(isset($htmlOptions['confirm']))
+		{
+			$confirm='confirm(\''.CJavaScript::quote($htmlOptions['confirm']).'\')';
+			if($handler!=='')
+				$handler="if($confirm) {".$handler."} else return false;";
+			else
+				$handler="return $confirm;";
+		}
+		$cs->registerScript('Yii.CHtml.#'.$id,"jQuery('#$id').$event(function(){{$handler}});");
+		unset($htmlOptions['params'],$htmlOptions['submit'],$htmlOptions['ajax'],$htmlOptions['confirm'],$htmlOptions['return']);
 	}
 	protected static function resolveNameID($model,&$attribute,&$htmlOptions)
 	{
@@ -3901,8 +3907,10 @@ class CClientScript extends CApplicationComponent
 		}
 		if($html!=='')
 		{
-			$output=preg_replace('/(<title\b[^>]*>|<\\/head\s*>)/is',$html.'$1',$output,1,$count);
-			if(!$count)
+			$output=preg_replace('/(<title\b[^>]*>|<\\/head\s*>)/is','<###head###>$1',$output,1,$count);
+			if($count)
+				$output=str_replace('<###head###>',$html,$output);
+			else
 				$output=$html.$output;
 		}
 	}
@@ -3918,13 +3926,19 @@ class CClientScript extends CApplicationComponent
 			$html.=CHtml::script(implode("\n",$this->_scripts[self::POS_BEGIN]))."\n";
 		if($html!=='')
 		{
-			$output=preg_replace('/(<body\b[^>]*>)/is','$1'.$html,$output,1,$count);
-			if(!$count)
+			$output=preg_replace('/(<body\b[^>]*>)/is','$1<###begin###>'.$html,$output,1,$count);
+			if($count)
+				$output=str_replace('<###begin###>',$html,$output);
+			else
 				$output=$html.$output;
 		}
 	}
 	protected function renderBodyEnd(&$output)
 	{
+		if(!isset($this->_scriptFiles[self::POS_END]) && !isset($this->_scripts[self::POS_END])
+			&& !isset($this->_scripts[self::POS_READY]) && !isset($this->_scripts[self::POS_LOAD]))
+			return;
+		$output=preg_replace('/(<\\/body\s*>)/is','<###end###>$1',$output,1,$fullPage);
 		$html='';
 		if(isset($this->_scriptFiles[self::POS_END]))
 		{
@@ -3933,17 +3947,25 @@ class CClientScript extends CApplicationComponent
 		}
 		$scripts=isset($this->_scripts[self::POS_END]) ? $this->_scripts[self::POS_END] : array();
 		if(isset($this->_scripts[self::POS_READY]))
-			$scripts[]="jQuery(document).ready(function() {\n".implode("\n",$this->_scripts[self::POS_READY])."\n});";
+		{
+			if($fullPage)
+				$scripts[]="jQuery(document).ready(function() {\n".implode("\n",$this->_scripts[self::POS_READY])."\n});";
+			else
+				$scripts[]=implode("\n",$this->_scripts[self::POS_READY]);
+		}
 		if(isset($this->_scripts[self::POS_LOAD]))
-			$scripts[]="window.onload=function() {\n".implode("\n",$this->_scripts[self::POS_LOAD])."\n};";
+		{
+			if($fullPage)
+				$scripts[]="window.onload=function() {\n".implode("\n",$this->_scripts[self::POS_LOAD])."\n};";
+			else
+				$scripts[]=implode("\n",$this->_scripts[self::POS_LOAD]);
+		}
 		if(!empty($scripts))
 			$html.=CHtml::script(implode("\n",$scripts))."\n";
-		if($html!=='')
-		{
-			$output=preg_replace('/(<\\/body\s*>)/is',$html.'$1',$output,1,$count);
-			if(!$count)
-				$output=$output.$html;
-		}
+		if($fullPage)
+			$output=str_replace('<###end###>',$html,$output);
+		else
+			$output=$output.$html;
 	}
 	public function getCoreScriptUrl()
 	{
@@ -4485,27 +4507,27 @@ abstract class CModel extends CComponent
 {
 	private $_errors=array();	// attribute name => array of errors
 	abstract public function attributeNames();
-	public function validate($attributes=null,$on=null)
+	public function validate($scenario='',$attributes=null)
 	{
 		$this->clearErrors();
-		if($this->beforeValidate($on))
+		if($this->beforeValidate($scenario))
 		{
 			foreach($this->getValidators() as $validator)
 			{
-				if(empty($on) || $validator->on===array() || in_array($on,$validator->on))
+				if($validator->applyTo($scenario))
 					$validator->validate($this,$attributes);
 			}
-			$this->afterValidate($on);
+			$this->afterValidate($scenario);
 			return !$this->hasErrors();
 		}
 		else
 			return false;
 	}
-	protected function beforeValidate($on)
+	protected function beforeValidate($scenario)
 	{
 		return true;
 	}
-	protected function afterValidate($on)
+	protected function afterValidate($scenario)
 	{
 	}
 	public function createValidators()
@@ -4521,7 +4543,7 @@ abstract class CModel extends CComponent
 		}
 		return $validators;
 	}
-	protected function getValidators()
+	public function getValidators()
 	{
 		return $this->createValidators();
 	}
@@ -4570,6 +4592,19 @@ abstract class CModel extends CComponent
 	{
 		return ucwords(trim(strtolower(str_replace(array('-','_'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $name)))));
 	}
+	public function getSafeAttributeNames($scenario='')
+	{
+		$attributes=array();
+		foreach($this->getValidators() as $validator)
+		{
+			if($validator->applyTo($scenario))
+			{
+				foreach($validator->attributes as $name)
+					$attributes[$name]=$name;
+			}
+		}
+		return $attributes;
+	}
 }
 abstract class CActiveRecord extends CModel
 {
@@ -4583,14 +4618,14 @@ abstract class CActiveRecord extends CModel
 	private $_md;
 	private $_attributes=array();				// attribute name => attribute value
 	private $_related=array();					// attribute name => related objects
-	public function __construct($attributes=array())
+	public function __construct($attributes=array(),$scenario='')
 	{
 		if($attributes===null) // internally used by populateRecord() and model()
 			return;
 		$this->isNewRecord=true;
 		$this->_attributes=$this->getMetaData()->attributeDefaults;
 		if($attributes!==array())
-			$this->setAttributes($attributes);
+			$this->setAttributes($attributes,$scenario);
 		$this->afterConstruct();
 	}
 	public function __sleep()
@@ -4607,15 +4642,7 @@ abstract class CActiveRecord extends CModel
 		else if(isset($this->_related[$name]))
 			return $this->_related[$name];
 		else if(isset($this->getMetaData()->relations[$name]))
-		{
-			if(!array_key_exists($name,$this->_related))
-			{
-				$relation=$this->getMetaData()->relations[$name];
-				$finder=new CActiveFinder($this,array($name=>$relation->with));
-				$finder->lazyFind($this);
-			}
-			return $this->_related[$name];
-		}
+			return $this->getRelated($name);
 		else
 			return parent::__get($name);
 	}
@@ -4637,17 +4664,27 @@ abstract class CActiveRecord extends CModel
 		else if(isset($this->_related[$name]))
 			return true;
 		else if(isset($this->getMetaData()->relations[$name]))
-		{
-			if(!array_key_exists($name,$this->_related))
-			{
-				$relation=$this->getMetaData()->relations[$name];
-				$finder=new CActiveFinder($this,array($name=>$relation->with));
-				$finder->lazyFind($this);
-			}
-			return $this->_related[$name]!==null;
-		}
+			return $this->getRelated($name)!==null;
 		else
 			return parent::__isset($name);
+	}
+	public function getRelated($name,$refresh=false)
+	{
+		if(!$refresh && (isset($this->_related[$name]) || array_key_exists($name,$this->_related)))
+			return $this->_related[$name];
+		$md=$this->getMetaData();
+		if(isset($md->relations[$name]))
+		{
+			$relation=$md->relations[$name];
+			if($this->isNewRecord && ($relation instanceof CHasOneRelation || $relation instanceof CHasManyRelation))
+				return $this->_related[$name]=$relation instanceof CHasOneRelation ? null : array();
+			$finder=new CActiveFinder($this,array($name=>$relation->with));
+			$finder->lazyFind($this);
+			return isset($this->_related[$name]) ? $this->_related[$name] : $this->_related[$name]=null;
+		}
+		else
+			throw new CDbException(Yii::t('yii','{class} does not have relation "{name}".',
+				array('{class}'=>get_class($this), '{name}'=>$name)));
 	}
 	public function __unset($name)
 	{
@@ -4680,22 +4717,6 @@ abstract class CActiveRecord extends CModel
 	public function tableName()
 	{
 		return get_class($this);
-	}
-	public function protectedAttributes()
-	{
-		return array();
-	}
-	public function safeAttributes()
-	{
-		$table=$this->getDbConnection()->getSchema()->getTable($this->tableName());
-		$protectedAttributes=array_flip($this->protectedAttributes());
-		$safeAttributes=array();
-		foreach($table->columns as $name=>$column)
-		{
-			if(!$column->isPrimaryKey && !isset($protectedAttributes[$name]))
-				$safeAttributes[]=$name;
-		}
-		return $safeAttributes;
 	}
 	public function relations()
 	{
@@ -4798,37 +4819,31 @@ abstract class CActiveRecord extends CModel
 		else
 			return $attributes;
 	}
-	public function setAttributes($values,$safeAttributes=null,$safeAttributesOnly=true)
+	public function setAttributes($values,$scenario='')
 	{
 		if(is_array($values))
 		{
-			if($safeAttributesOnly)
+			$md=$this->getMetaData();
+			$attributes=$scenario===false ? null : $md->getSafeAttributeNames($scenario);
+			foreach($values as $name=>$value)
 			{
-				if(empty($safeAttributes))
-					$safeAttributes=$this->getMetaData()->safeAttributes;
-				else
-					$safeAttributes=array_flip($safeAttributes);
-				foreach($values as $name=>$value)
-				{
-					if(isset($safeAttributes[$name]))
-						$this->$name=$value;
-				}
-			}
-			else
-			{
-				foreach($values as $name=>$value)
+				if(is_array($attributes) && !isset($attributes[$name]))
+					continue;
+				if(property_exists($this,$name))
 					$this->$name=$value;
+				else if(isset($md->columns[$name]))
+					$this->_attributes[$name]=$value;
 			}
 		}
 	}
 	public function save($runValidation=true,$attributes=null)
 	{
-		if(!$runValidation || $this->validate($attributes,$this->isNewRecord?'insert':'update'))
+		if(!$runValidation || $this->validate($this->isNewRecord?'insert':'update', $attributes))
 			return $this->isNewRecord ? $this->insert($attributes) : $this->update($attributes);
 		else
 			return false;
 	}
-	protected function getValidators()
+	public function getValidators()
 	{
 		return $this->getMetaData()->getValidators();
 	}
@@ -4888,23 +4903,6 @@ abstract class CActiveRecord extends CModel
 		}
 		else
 			return false;
-	}
-	public function saveAttributes($attributes)
-	{
-		if(!$this->isNewRecord)
-		{
-			$values=array();
-			foreach($attributes as $name=>$value)
-			{
-				if(is_integer($name))
-					$values[$value]=$this->$value;
-				else
-					$values[$name]=$this->$name=$value;
-			}
-			return $this->updateByPk($this->getPrimaryKey(),$values)>0;
-		}
-		else
-			throw new CDbException(Yii::t('yii','The active record cannot be updated because it is new.'));
 	}
 	public function delete()
 	{
@@ -5162,10 +5160,10 @@ class CActiveRecordMetaData
 	public $columns;
 	public $relations=array();
 	public $attributeDefaults=array();
-	public $safeAttributes=array();
 	private $_model;
 	private $_attributeLabels;
 	private $_validators;
+	private $_safeAttributes=array();
 	public function __construct($model)
 	{
 		$this->_model=$model;
@@ -5175,7 +5173,6 @@ class CActiveRecordMetaData
 				array('{class}'=>get_class($model),'{table}'=>$tableName)));
 		$this->tableSchema=$table;
 		$this->columns=$table->columns;
-		$this->safeAttributes=array_flip($model->safeAttributes($table));
 		foreach($table->columns as $name=>$column)
 		{
 			if(!$column->isPrimaryKey && $column->defaultValue!==null)
@@ -5201,6 +5198,12 @@ class CActiveRecordMetaData
 		if(!$this->_validators)
 			$this->_validators=$this->_model->createValidators();
 		return $this->_validators;
+	}
+	public function getSafeAttributeNames($scenario='')
+	{
+		if(!isset($this->_safeAttributes[$scenario]))
+			$this->_safeAttributes[$scenario]=$this->_model->getSafeAttributeNames($scenario);
+		return $this->_safeAttributes[$scenario];
 	}
 }
 class CDbConnection extends CApplicationComponent
@@ -5468,6 +5471,7 @@ class CDbConnection extends CApplicationComponent
 }
 abstract class CDbSchema extends CComponent
 {
+	private $_tableNames=array();
 	private $_tables=array();
 	private $_connection;
 	private $_builder;
@@ -5501,16 +5505,25 @@ abstract class CDbSchema extends CComponent
 		else
 			return $this->_tables[$name]=$this->createTable($name);
 	}
+	public function getTables($schema='')
+	{
+		$tables=array();
+		foreach($this->getTableNames($schema) as $name)
+			$tables[$name]=$this->getTable($name);
+		return $tables;
+	}
+	public function getTableNames($schema='')
+	{
+		if(!isset($this->_tableNames[$schema]))
+			$this->_tableNames[$schema]=$this->findTableNames($schema);
+		return $this->_tableNames[$schema];
+	}
 	public function getCommandBuilder()
 	{
 		if($this->_builder!==null)
 			return $this->_builder;
 		else
 			return $this->_builder=$this->createCommandBuilder();
-	}
-	protected function createCommandBuilder()
-	{
-		return new CDbCommandBuilder($this);
 	}
 	public function refresh()
 	{
@@ -5535,9 +5548,23 @@ abstract class CDbSchema extends CComponent
 			$name2=substr($name2,$pos+1);
 		return $name1===$name2;
 	}
+	protected function createCommandBuilder()
+	{
+		return new CDbCommandBuilder($this);
+	}
+	protected function findTableNames($schema='')
+	{
+		throw new CDbException(Yii::t('yii','{class} does not support fetching all table names.',
+			array('{class}'=>get_class($this))));
+	}
 }
 class CSqliteSchema extends CDbSchema
 {
+	protected function findTableNames($schema='')
+	{
+		$sql="SELECT DISTINCT tbl_name FROM sqlite_master WHERE tbl_name<>'sqlite_sequence'";
+		return $this->getDbConnection()->createCommand($sql)->queryColumn();
+	}
 	protected function createCommandBuilder()
 	{
 		return new CSqliteCommandBuilder($this);
@@ -6077,7 +6104,7 @@ class CDbCommandBuilder extends CComponent
 					$value=$this->_connection->quoteValue($value);
 			}
 			if($n===1)
-				return $prefix.$column->rawName.'='.$values[0];
+				return $prefix.$column->rawName.($values[0]===null?' IS NULL':'='.$values[0]);
 			else
 				return $prefix.$column->rawName.' IN ('.implode(', ',$values).')';
 		}
@@ -6106,7 +6133,7 @@ class CDbCommandBuilder extends CComponent
 			{
 				$entries=array();
 				foreach($values[0] as $name=>$value)
-					$entries[]=$prefix.$table->columns[$name]->rawName.'='.$value;
+					$entries[]=$prefix.$table->columns[$name]->rawName.($value===null?' IS NULL':'='.$value);
 				return implode(' AND ',$entries);
 			}
 			else
@@ -6463,112 +6490,6 @@ class CAssetManager extends CApplicationComponent
 	protected function hash($path)
 	{
 		return sprintf('%x',crc32($path.Yii::getVersion()));
-	}
-}
-class CFileHelper
-{
-	public static function copyDirectory($src,$dst,$options=array())
-	{
-		$fileTypes=array();
-		$exclude=array();
-		$level=-1;
-		extract($options);
-		self::copyDirectoryRecursive($src,$dst,'',$fileTypes,$exclude,$level);
-	}
-	public static function findFiles($dir,$options=array())
-	{
-		$fileTypes=array();
-		$exclude=array();
-		$level=-1;
-		extract($options);
-		$list=self::findFilesRecursive($dir,'',$fileTypes,$exclude,$level);
-		sort($list);
-		return $list;
-	}
-	protected static function copyDirectoryRecursive($src,$dst,$base,$fileTypes,$exclude,$level)
-	{
-		@mkdir($dst);
-		@chmod($dst,0777);
-		$folder=opendir($src);
-		while($file=readdir($folder))
-		{
-			if($file==='.' || $file==='..')
-				continue;
-			$path=$src.DIRECTORY_SEPARATOR.$file;
-			$isFile=is_file($path);
-			if(self::validatePath($base,$file,$isFile,$fileTypes,$exclude))
-			{
-				if($isFile)
-					copy($path,$dst.DIRECTORY_SEPARATOR.$file);
-				else if($level)
-					self::copyDirectoryRecursive($path,$dst.DIRECTORY_SEPARATOR.$file,$base.'/'.$file,$fileTypes,$exclude,$level-1);
-			}
-		}
-		closedir($folder);
-	}
-	protected static function findFilesRecursive($dir,$base,$fileTypes,$exclude,$level)
-	{
-		$list=array();
-		$handle=opendir($dir);
-		while($file=readdir($handle))
-		{
-			if($file==='.' || $file==='..')
-				continue;
-			$path=$dir.DIRECTORY_SEPARATOR.$file;
-			$isFile=is_file($path);
-			if(self::validatePath($base,$file,$isFile,$fileTypes,$exclude))
-			{
-				if($isFile)
-					$list[]=$path;
-				else if($level)
-					$list=array_merge($list,self::findFilesRecursive($path,$base.'/'.$file,$fileTypes,$exclude,$level-1));
-			}
-		}
-		closedir($handle);
-		return $list;
-	}
-	protected static function validatePath($base,$file,$isFile,$fileTypes,$exclude)
-	{
-		foreach($exclude as $e)
-		{
-			if($file===$e || strpos($base.'/'.$file,$e)===0)
-				return false;
-		}
-		if(!$isFile || empty($fileTypes))
-			return true;
-		if(($pos=strrpos($file,'.'))!==false)
-		{
-			$type=substr($file,$pos+1);
-			return in_array($type,$fileTypes);
-		}
-		else
-			return false;
-	}
-	public static function getMimeType($file)
-	{
-		if(function_exists('finfo_open'))
-		{
-			if($info=finfo_open(FILEINFO_MIME))
-				return finfo_file($info,$file);
-			else
-				return null;
-		}
-		if(function_exists('mime_content_type'))
-			return mime_content_type($file);
-		return self::getMimeTypeByExtension($file);
-	}
-	public static function getMimeTypeByExtension($file)
-	{
-		static $extensions;
-		if($extensions===null)
-			$extensions=require(Yii::getPathOfAlias('system.utils.mimeTypes').'.php');
-		if(($pos=strrpos($file,'.'))!==false)
-		{
-			$ext=strtolower(substr($file,$pos+1));
-			if(isset($extensions[$ext]))
-				return $extensions[$ext];
-		}
-		return null;
 	}
 }
 interface IApplicationComponent
