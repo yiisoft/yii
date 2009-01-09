@@ -32,30 +32,30 @@ abstract class CModel extends CComponent
 
 	/**
 	 * Performs the validation.
-	 * This method executes every validation rule as declared in {@link rules}.
+	 * This method executes the validation rule as declared in {@link rules}.
 	 * Errors found during the validation can be retrieved via {@link getErrors}.
-	 * @param array the list of attributes to be validated. Defaults to null,
-	 * meaning every attribute as listed in {@link rules} will be validated.
 	 * @param string the scenario that the validation rules should be applied.
-	 * This is used to match the {@link CValidator::on on} property set in
-	 * the validation rules. Defaults to null, meaning all validation rules
-	 * should be applied. If this parameter is a non-empty string (e.g. 'register'),
-	 * then only those validation rules whose {@link CValidator::on on} property
-	 * is not set or contains this string (e.g. 'register') will be applied.
-	 * NOTE: this parameter has been available since version 1.0.1.
+	 * Defaults to empty string, meaning only those validation rules whose "on"
+	 * property is not set will be applied. If this is a non-empty string, only
+	 * the validation rules whose "on" property contains the specified scenario
+	 * will be applied.
+	 * @param array list of attributes that should be validated. Defaults to null,
+	 * meaning any attribute listed in the applicable validation rules should be
+	 * validated. If this parameter is given with a list of attributes, only
+	 * the listed attributes will be validated.
 	 * @return boolean whether the validation is successful without any error.
 	 */
-	public function validate($attributes=null,$on=null)
+	public function validate($scenario='',$attributes=null)
 	{
 		$this->clearErrors();
-		if($this->beforeValidate($on))
+		if($this->beforeValidate($scenario))
 		{
 			foreach($this->getValidators() as $validator)
 			{
-				if(empty($on) || $validator->on===array() || in_array($on,$validator->on))
+				if($validator->applyTo($scenario))
 					$validator->validate($this,$attributes);
 			}
-			$this->afterValidate($on);
+			$this->afterValidate($scenario);
 			return !$this->hasErrors();
 		}
 		else
@@ -70,7 +70,7 @@ abstract class CModel extends CComponent
 	 * NOTE: this parameter has been available since version 1.0.1.
 	 * @return boolean whether validation should be executed. Defaults to true.
 	 */
-	protected function beforeValidate($on)
+	protected function beforeValidate($scenario)
 	{
 		return true;
 	}
@@ -82,7 +82,7 @@ abstract class CModel extends CComponent
 	 * for more details about this parameter.
 	 * NOTE: this parameter has been available since version 1.0.1.
 	 */
-	protected function afterValidate($on)
+	protected function afterValidate($scenario)
 	{
 	}
 
@@ -104,10 +104,10 @@ abstract class CModel extends CComponent
 	}
 
 	/**
-	 * @return array a list of validators created according to {@link rules}.
+	 * @return array list of validators created according to {@link rules}.
 	 * @since 1.0.1
 	 */
-	protected function getValidators()
+	public function getValidators()
 	{
 		return $this->createValidators();
 	}
@@ -149,10 +149,10 @@ abstract class CModel extends CComponent
 	 *   When using a built-in validator class, you can use an alias name instead of the full class name.
 	 *   For example, you can use "required" instead of "system.validators.CRequiredValidator".
 	 *   For more details, see {@link CValidator}.</li>
-	 * <li>on: this specifies when the validation rule should be performed. Please see {@link validate}
+	 * <li>on: this specifies the scenarios when the validation rule should be performed. Please see {@link validate}
 	 *   for more details about this option. </li>
-	 * <li>additional parameters are used to initialize the corresponding validator properties. See {@link CValidator}
-	 *   for possible properties.</li>
+	 * <li>additional parameters are used to initialize the corresponding validator properties.
+	 *   Please refer to inidividal validator class API for possible properties.</li>
 	 * </ul>
 	 *
 	 * The following are some examples:
@@ -248,5 +248,30 @@ abstract class CModel extends CComponent
 	public function generateAttributeLabel($name)
 	{
 		return ucwords(trim(strtolower(str_replace(array('-','_'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $name)))));
+	}
+
+	/**
+	 * Returns the attribute names that are safe to be massively assigned.
+	 * An attribute is safe if it meets both of the following conditions:
+	 * <ul>
+	 * <li>The attribute appears in the attribute list of a validation rule specified in {@link rules}</li>
+	 * <li>The validation rule's "on" property is not set or contains the specified scenario</li>
+	 * </ul>
+	 * @param string scenario name
+	 * @return array attribute names indexed by themselves
+	 * @since 1.0.2
+	 */
+	public function getSafeAttributeNames($scenario='')
+	{
+		$attributes=array();
+		foreach($this->getValidators() as $validator)
+		{
+			if($validator->applyTo($scenario))
+			{
+				foreach($validator->attributes as $name)
+					$attributes[$name]=$name;
+			}
+		}
+		return $attributes;
 	}
 }

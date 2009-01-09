@@ -128,7 +128,6 @@
  * <pre>
  * $post->title='new post title';
  * $post->save(); // or $post->delete();
- * $post->saveAttributes($values);     // update a list of attributes only
  * </pre>
  * In the above, we are using the same 'save()' method to do both insertion and update.
  * CActiveRecord is intelligent enough to differentiate these two scenarios.
@@ -336,11 +335,13 @@ abstract class CActiveRecord extends CModel
 
 	/**
 	 * Constructor.
-	 * @param array initial attributes (column name => column value). The attributes
+	 * @param array initial attributes (name => value). The attributes
 	 * are subject to filtering via {@link setAttributes}. If this parameter is null,
 	 * nothing will be done in the constructor (this is internally used by {@link populateRecord}).
+	 * @param string scenario name. See {@link setAttributes} for more details about this parameter.
+	 * @see setAttributes
 	 */
-	public function __construct($attributes=array())
+	public function __construct($attributes=array(),$scenario='')
 	{
 		if($attributes===null) // internally used by populateRecord() and model()
 			return;
@@ -349,7 +350,7 @@ abstract class CActiveRecord extends CModel
 		$this->_attributes=$this->getMetaData()->attributeDefaults;
 
 		if($attributes!==array())
-			$this->setAttributes($attributes);
+			$this->setAttributes($attributes,$scenario);
 
 		$this->afterConstruct();
 	}
@@ -525,40 +526,6 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
-	 * Returns the names of the attributes whose value can NOT be altered by {@link setAttributes}.
-	 * The protected attributes can only be changed by individual attribute assignments.
-	 * Note, primary keys are always protected, which do not need to be listed here.
-	 * If you also override {@link safeAttributes}, this method will be ignored.
-	 * @return array list of protected attribute names. Defaults to empty array, meaning
-	 * all attributes except primary key(s) can be altered by {@link setAttributes}.
-	 * @see safeAttributes
-	 */
-	public function protectedAttributes()
-	{
-		return array();
-	}
-
-	/**
-	 * Returns the names of the attributes whose value can be altered by {@link setAttributes}.
-	 * The default implementation is to return non-primary-key attributes that are not listed
-	 * in {@link protectedAttributes}. You may override this method to customize the safe attribute list.
-	 * @return array the names of the attributes whose value can be altered by {@link setAttributes}.
-	 * @see protectedAttributes
-	 */
-	public function safeAttributes()
-	{
-		$table=$this->getDbConnection()->getSchema()->getTable($this->tableName());
-		$protectedAttributes=array_flip($this->protectedAttributes());
-		$safeAttributes=array();
-		foreach($table->columns as $name=>$column)
-		{
-			if(!$column->isPrimaryKey && !isset($protectedAttributes[$name]))
-				$safeAttributes[]=$name;
-		}
-		return $safeAttributes;
-	}
-
-	/**
 	 * This method should be overridden to declare related objects.
 	 *
 	 * There are four types of relations that may exist between two active record objects:
@@ -628,6 +595,7 @@ abstract class CActiveRecord extends CModel
 
 	/**
 	 * Returns the list of all attribute names of the model.
+	 * This would return all column names of the table associated with this AR class.
 	 * @return array list of attribute names.
 	 * @since 1.0.1
 	 */
@@ -776,9 +744,8 @@ abstract class CActiveRecord extends CModel
 	 * Note, related objects are not returned.
 	 * @param mixed names of attributes whose value needs to be returned.
 	 * If this is true (default), then all attribute values will be returned, including
-	 * those that are not loaded from DB (null will be returned for these attributes).
-	 * If this is null, then all attributes except those that are not loaded
-	 * from DB will be returned.
+	 * those that are not loaded from DB (null will be returned for those attributes).
+	 * If this is null, then all attributes except those that are not loaded from DB will be returned.
 	 * @return array attribute values indexed by attribute names.
 	 */
 	public function getAttributes($names=true)
@@ -803,36 +770,38 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
-	 * Sets the attribute values in a batch mode.
-	 * By default, only safe attributes will be assigned with new values.
-	 * An attribute is safe if it is among the list returned by {@link safeAttributes}.
-	 * You may also explicitly specify the safe attributes as the second parameter.
-	 * @param array attribute values indexed by attribute names.
-	 * @param array a list of safe attribute names. Only the attributes listed in this array
-	 * will be assigned. If this is empty, only attributes that are neither primary key
-	 * nor {@link protectedAttributes protected} can be assigned.
-	 * @param boolean whether to set safe attributes only. Defaults to true.
+	 * Sets the attribute values in a massive way.
+	 *
+	 * Only safe attributes will be assigned by this method. An attribute is safe if
+	 * it meets both of the following conditions:
+	 * <ul>
+	 * <li>The attribute appears in the attribute list of some validation rule
+	 * whose "on" property is either empty or contains the specified scenario.</li>
+	 * <li>The attribute is listed in {@link attributeNames} or is a class member variable.</li>
+	 * </ul>
+	 *
+	 * See {@link CModel::rules rules} for more details about specifying validation rules.
+	 *
+	 * @param array attributes (name=>value) to be massively assigned.
+	 * @param string scenario name. Defaults to empty string, meaning only attributes
+	 * listed in those validation rules with empty "on" property can be massively assigned.
+	 * If this is false, attributes listed in {@link attributeNames} and those member variables
+	 * can be massively assigned.
 	 */
-	public function setAttributes($values,$safeAttributes=null,$safeAttributesOnly=true)
+	public function setAttributes($values,$scenario='')
 	{
 		if(is_array($values))
 		{
-			if($safeAttributesOnly)
+			$md=$this->getMetaData();
+			$attributes=$scenario===false ? null : $md->getSafeAttributeNames($scenario);
+			foreach($values as $name=>$value)
 			{
-				if(empty($safeAttributes))
-					$safeAttributes=$this->getMetaData()->safeAttributes;
-				else
-					$safeAttributes=array_flip($safeAttributes);
-				foreach($values as $name=>$value)
-				{
-					if(isset($safeAttributes[$name]))
-						$this->$name=$value;
-				}
-			}
-			else
-			{
-				foreach($values as $name=>$value)
+				if(is_array($attributes) && !isset($attributes[$name]))
+					continue;
+				if(property_exists($this,$name))
 					$this->$name=$value;
+				else if(isset($md->columns[$name]))
+					$this->_attributes[$name]=$value;
 			}
 		}
 	}
@@ -858,7 +827,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function save($runValidation=true,$attributes=null)
 	{
-		if(!$runValidation || $this->validate($attributes,$this->isNewRecord?'insert':'update'))
+		if(!$runValidation || $this->validate($this->isNewRecord?'insert':'update', $attributes))
 			return $this->isNewRecord ? $this->insert($attributes) : $this->update($attributes);
 		else
 			return false;
@@ -871,7 +840,7 @@ abstract class CActiveRecord extends CModel
 	 * @return array a list of validators created according to {@link CModel::rules}.
 	 * @since 1.0.1
 	 */
-	protected function getValidators()
+	public function getValidators()
 	{
 		return $this->getMetaData()->getValidators();
 	}
@@ -986,42 +955,6 @@ abstract class CActiveRecord extends CModel
 		}
 		else
 			return false;
-	}
-
-	/**
-	 * Saves a selected list of attributes.
-	 * Unlike {@link save}, this method only saves the specified attributes
-	 * of an existing row dataset. It thus has better performance.
-	 * Note, this method does neither attribute filtering nor validation.
-	 * So do not use this method with untrusted data (such as user posted data).
-	 * You may consider the following alternative if you want to do so:
-	 * <pre>
-	 * $postRecord=Post::model()->findByPk($postID);
-	 * $postRecord->attributes=$_POST['post'];
-	 * $postRecord->save();
-	 * </pre>
-	 * @param array attributes to be updated. Each element represents an attribute name
-	 * or an attribute value indexed by its name. If the latter, the record's
-	 * attribute will be changed accordingly before saving.
-	 * @return boolean whether the update is successful
-	 * @throws CException if the record is new or any database error
-	 */
-	public function saveAttributes($attributes)
-	{
-		if(!$this->isNewRecord)
-		{
-			$values=array();
-			foreach($attributes as $name=>$value)
-			{
-				if(is_integer($name))
-					$values[$value]=$this->$value;
-				else
-					$values[$name]=$this->$name=$value;
-			}
-			return $this->updateByPk($this->getPrimaryKey(),$values)>0;
-		}
-		else
-			throw new CDbException(Yii::t('yii','The active record cannot be updated because it is new.'));
 	}
 
 	/**
@@ -1605,14 +1538,11 @@ class CActiveRecordMetaData
 	 * @var array attribute default values
 	 */
 	public $attributeDefaults=array();
-	/**
-	 * @var array safe attributes
-	 */
-	public $safeAttributes=array();
 
 	private $_model;
 	private $_attributeLabels;
 	private $_validators;
+	private $_safeAttributes=array();
 
 	/**
 	 * Constructor.
@@ -1628,7 +1558,6 @@ class CActiveRecordMetaData
 				array('{class}'=>get_class($model),'{table}'=>$tableName)));
 		$this->tableSchema=$table;
 		$this->columns=$table->columns;
-		$this->safeAttributes=array_flip($model->safeAttributes($table));
 
 		foreach($table->columns as $name=>$column)
 		{
@@ -1665,5 +1594,23 @@ class CActiveRecordMetaData
 		if(!$this->_validators)
 			$this->_validators=$this->_model->createValidators();
 		return $this->_validators;
+	}
+
+	/**
+	 * Returns the attribute names that are safe to be massively assigned.
+	 * An attribute is safe if it meets both of the following conditions:
+	 * <ul>
+	 * <li>The attribute appears in the attribute list of a validation rule specified in {@link CModel::rules rules}</li>
+	 * <li>The validation rule's "on" property is not set or contains the specified scenario</li>
+	 * </ul>
+	 * @param string scenario name
+	 * @return array attribute names indexed by themselves
+	 * @since 1.0.2
+	 */
+	public function getSafeAttributeNames($scenario='')
+	{
+		if(!isset($this->_safeAttributes[$scenario]))
+			$this->_safeAttributes[$scenario]=$this->_model->getSafeAttributeNames($scenario);
+		return $this->_safeAttributes[$scenario];
 	}
 }

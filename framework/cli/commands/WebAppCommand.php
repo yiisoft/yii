@@ -57,7 +57,7 @@ EOD;
 			$sourceDir=realpath(dirname(__FILE__).'/../views/webapp');
 			$list=$this->buildFileList($sourceDir,$path);
 			$list['index.php']['callback']=array($this,'generateIndex');
-			$list['protected/yiic']['callback']=array($this,'generateYiic');
+			$list['protected/yiic.php']['callback']=array($this,'generateYiic');
 			$this->copyFiles($list);
 			@chmod($path.'/assets',0777);
 			@chmod($path.'/protected/runtime',0777);

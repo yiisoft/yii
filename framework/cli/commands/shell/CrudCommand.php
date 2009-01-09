@@ -142,7 +142,7 @@ EOD;
 		$table=$model->getTableSchema();
 		$columns=$table->columns;
 		unset($columns[$table->primaryKey]);
-		if(basename($source)==='list.php')
+		if(basename($source)==='admin.php')
 		{
 			foreach($columns as $name=>$column)
 				if(stripos($column->dbType,'text')!==false)

@@ -38,7 +38,7 @@ class CPgsqlSchema extends CDbSchema
 	protected function createTable($name)
 	{
 		$table=new CPgsqlTableSchema;
-		$this->setTableNames($table,$name);
+		$this->resolveTableNames($table,$name);
 		if(!$this->findColumns($table))
 			return null;
 		$this->findConstraints($table);
@@ -54,7 +54,7 @@ class CPgsqlSchema extends CDbSchema
 	 * @param CPgsqlTableSchema the table instance
 	 * @param string the unquoted table name
 	 */
-	protected function setTableNames($table,$name)
+	protected function resolveTableNames($table,$name)
 	{
 		$parts=explode('.',str_replace('"','',$name));
 		if(isset($parts[1]))
@@ -251,5 +251,32 @@ EOD;
 					$table->columns[$key]->isForeignKey=true;
 			}
 		}
+	}
+
+	/**
+	 * Returns all table names in the database.
+	 * @return array all table names in the database.
+	 * @since 1.0.2
+	 */
+	protected function findTableNames($schema='')
+	{
+		if($schema==='')
+			$schema=self::DEFAULT_SCHEMA;
+		$sql=<<<EOD
+SELECT table_name, table_schema FROM information_schema.tables
+WHERE table_schema=:schema
+EOD;
+		$command=$this->getDbConnection()->createCommand($sql);
+		$command->bindParam(':schema',$schema);
+		$rows=$command->queryAll();
+		$names=array();
+		foreach($rows as $row)
+		{
+			if($schema===self::DEFAULT_SCHEMA)
+				$names[]=$row['table_name'];
+			else
+				$names[]=$row['schema_name'].'.'.$row['table_name'];
+		}
+		return $names;
 	}
 }

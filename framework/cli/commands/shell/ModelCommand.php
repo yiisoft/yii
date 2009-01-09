@@ -99,7 +99,7 @@ EOD;
 				$numerical=array();
 				foreach($table->columns as $column)
 				{
-					if($column->isPrimaryKey && $table->sequenceName!==null)
+					if($column->isPrimaryKey && $table->sequenceName!==null || $column->isForeignKey)
 						continue;
 					if(!$column->allowNull)
 						$required[]=$column->name;

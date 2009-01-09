@@ -61,7 +61,7 @@ class CMysqlSchema extends CDbSchema
 	protected function createTable($name)
 	{
 		$table=new CMysqlTableSchema;
-		$this->setTableNames($table,$name);
+		$this->resolveTableNames($table,$name);
 
 		if($this->findColumns($table))
 		{
@@ -77,7 +77,7 @@ class CMysqlSchema extends CDbSchema
 	 * @param CMysqlTableSchema the table instance
 	 * @param string the unquoted table name
 	 */
-	protected function setTableNames($table,$name)
+	protected function resolveTableNames($table,$name)
 	{
 		$parts=explode('.',str_replace('`','',$name));
 		if(isset($parts[1]))
@@ -182,5 +182,20 @@ class CMysqlSchema extends CDbSchema
 					$table->columns[$name]->isForeignKey=true;
 			}
 		}
+	}
+
+	/**
+	 * Returns all table names in the database.
+	 * @return array all table names in the database.
+	 * @since 1.0.2
+	 */
+	protected function findTableNames($schema='')
+	{
+		if($schema==='')
+			return $this->getDbConnection()->createCommand('SHOW TABLES')->queryColumn();
+		$names=$this->getDbConnection()->createCommand('SHOW TABLES FROM '.$this->quoteTableName($schema))->queryColumn();
+		foreach($names as &$name)
+			$name=$scheam.'.'.$name;
+		return $names;
 	}
 }

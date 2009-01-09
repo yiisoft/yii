@@ -51,8 +51,6 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals('id',$model->tableSchema->primaryKey);
 		$this->assertTrue($model->tableSchema->sequenceName==='');
 		$this->assertEquals(array(),$model->attributeLabels());
-		$this->assertEquals(array(),$model->protectedAttributes());
-		$this->assertEquals(array(),$model->rules());
 		$this->assertEquals(array(
 			'author'=>array(CActiveRecord::BELONGS_TO,'User','author_id'),
 			'firstComment'=>array(CActiveRecord::HAS_ONE,'Comment','post_id','order'=>'??.content'),
@@ -201,17 +199,6 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals('test post 1',$post->title);
 		$this->assertEquals('test post 1',Post::model()->findByPk(1)->title);
 
-		// test saveAttributes
-		$post->author_id=3;
-		$post->content='new content';
-		$this->assertTrue($post->saveAttributes(array('author_id','title'=>'new post')));
-		$this->assertEquals(array(
-			'id'=>'1',
-			'title'=>'new post',
-			'author_id'=>'3',
-			'create_time'=>'100000',
-			'content'=>'content 1'),Post::model()->findByPk(1)->attributes);
-
 		// test updateByPk
 		$this->assertEquals(2,Post::model()->updateByPk(array(4,5),array('title'=>'test post')));
 		$this->assertEquals('post 2',Post::model()->findByPk(2)->title);
@@ -219,7 +206,6 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals('test post',Post::model()->findByPk(5)->title);
 
 		// test updateAll
-		$this->assertEquals('new post',Post::model()->findByPk(1)->title);
 		$this->assertEquals(1,Post::model()->updateAll(array('title'=>'test post'),'id=1'));
 		$this->assertEquals('test post',Post::model()->findByPk(1)->title);
 
@@ -253,7 +239,8 @@ class CActiveRecordTest extends CTestCase
 	{
 		$post=Post::model()->findByPk(1);
 		$post2=Post::model()->findByPk(1);
-		$post2->saveAttributes(array('title'=>'new post'));
+		$post2->title='new post';
+		$post2->save();
 		$this->assertEquals('post 1',$post->title);
 		$this->assertTrue($post->refresh());
 		$this->assertEquals('new post',$post->title);

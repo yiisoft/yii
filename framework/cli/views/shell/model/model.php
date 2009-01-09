@@ -45,16 +45,4 @@ class {ClassName} extends CActiveRecord
 		return array(
 		);
 	}
-
-	/**
-	 * Returns the list of attributes that should not be massively assigned.
-	 * You may also override safeAttributes() to specify the list of attributes
-	 * that CAN be massively assigned. Do not override both, though.
-	 * @return array list of attributes that should not be massively assigned.
-	 */
-	public function protectedAttributes()
-	{
-		return array(
-		);
-	}
 }
