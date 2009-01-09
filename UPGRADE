@@ -58,7 +58,9 @@ Upgrading from v1.0.1
 
   As a result, if you previously used either protectedAttributes() or
   safeAttributes() to limit massive assignments, you should change to
-  use validation rules to specify this limit.
+  use validation rules to specify this limit. For attributes that don't
+  need validation but still need massive assignments, they can be listed
+  in a 'safe' validation rule.
 
   For more details about the scenario-based assignment and validation,
   please read the following tutorial sections:
