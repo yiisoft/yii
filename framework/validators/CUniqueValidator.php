@@ -42,11 +42,31 @@ class CUniqueValidator extends CValidator
 		$value=$object->$attribute;
 		if($this->allowEmpty && ($value===null || $value===''))
 			return;
-		$columnName=$object->getTableSchema()->getColumn($attribute)->rawName;
-		if($this->caseSensitive)
-			$exists=$object->exists("$columnName=:value",array(':value'=>$value));
+
+		$column=$object->getTableSchema()->getColumn($attribute);
+		if($column===null)
+			throw new CException(Yii::t('yii','{class} does not have attribute "{attribute}".',
+				array('{class}'=>get_class($object), '{attribute}'=>$attribute)));
+
+		$columnName=$column->rawName;
+		$criteria=array(
+			'condition'=>$this->caseSensitive ? "$columnName=:value" : "LOWER($columnName)=LOWER(:value)",
+			'params'=>array(':value'=>$value),
+		);
+		if($column->isPrimaryKey)
+			$exists=$object->exists($criteria);
 		else
-			$exists=$object->exists("LOWER($columnName)=LOWER(:value)",array(':value'=>$value));
+		{
+			// need to exclude the current record based on PK
+			$criteria['limit']=2;
+			$objects=$object->findAll($criteria);
+			$n=count($objects);
+			if($n===1)
+				$exists=$objects[0]->getPrimaryKey()===$object->getPrimaryKey();
+			else
+				$exists=$n>1;
+		}
+
 		if($exists)
 		{
 			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} "{value}" has already been taken.');

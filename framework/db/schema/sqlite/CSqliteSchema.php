@@ -19,6 +19,18 @@
 class CSqliteSchema extends CDbSchema
 {
 	/**
+	 * Returns all table names in the database.
+	 * @param string the schema of the tables. This is not used for sqlite database.
+	 * @return array all table names in the database.
+	 * @since 1.0.2
+	 */
+	protected function findTableNames($schema='')
+	{
+		$sql="SELECT DISTINCT tbl_name FROM sqlite_master WHERE tbl_name<>'sqlite_sequence'";
+		return $this->getDbConnection()->createCommand($sql)->queryColumn();
+	}
+
+	/**
 	 * Creates a command builder for the database.
 	 * @return CSqliteCommandBuilder command builder instance
 	 */

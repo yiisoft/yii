@@ -36,6 +36,7 @@ class Post extends CActiveRecord
 			array('title', 'length', 'max'=>128),
 			array('title, content, status', 'required'),
 			array('status', 'numerical', 'min'=>0, 'max'=>3),
+			array('tagInput', 'safe'),
 		);
 	}
 
@@ -58,19 +59,6 @@ class Post extends CActiveRecord
 	{
 		return array(
 			'tagInput'=>'Tags',
-		);
-	}
-
-	/**
-	 * @return array list of attributes that can be massively assigned.
-	 */
-	public function safeAttributes()
-	{
-		return array(
-			'title',
-			'content',
-			'tagInput',
-			'status',
 		);
 	}
 

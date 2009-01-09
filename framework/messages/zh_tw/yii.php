@@ -13,7 +13,7 @@
  *
  * NOTE, this file must be saved in UTF-8 encoding.
  *
- * @version $Id$
+ * @version $Id: $
  */
 return array (
   '"{path}" is not a valid directory.' => '',
@@ -194,6 +194,8 @@ return array (
   '{className} does not support get() functionality.' => '',
   '{className} does not support set() functionality.' => '',
   '{class} does not have attribute "{name}".' => '',
+  '{class} does not have relation "{name}".' => '',
+  '{class} does not support fetching all table names.' => '',
   '{class} has an invalid validation rule. The rule must specify attributes to be validated and the validator name.' => '',
   '{class} must specify "model" and "attribute" or "name" property values.' => '',
   '{class}.allowAutoLogin must be set true in order to use cookie-based authentication.' => '',

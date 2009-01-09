@@ -46,17 +46,19 @@ class CFormModel extends CModel
 	public function attributeNames()
 	{
 		$class=new ReflectionClass(get_class($this));
-		$attributes=array();
+		$names=array();
 		foreach($class->getProperties() as $property)
 		{
-			if($property->isPublic())
-				$attributes[]=$property->getName();
+			$name=$property->getName();
+			if($property->isPublic() && !$property->isStatic())
+				$names[]=$name;
 		}
-		return $attributes;
+		return $names;
 	}
 
 	/**
-	 * @return array all attribute values (name=>value)
+	 * @return array all attribute values (name=>value).
+	 * The attributes returned are those listed in {@link attributeNames}.
 	 */
 	public function getAttributes()
 	{
@@ -67,16 +69,28 @@ class CFormModel extends CModel
 	}
 
 	/**
-	 * Sets the attribute values.
-	 * Only those attributes that are listed in {@link attributeNames()}
-	 * will be set.
-	 * @param array attribute values (name=>value)
+	 * Sets the attribute values in a massive way.
+	 * Only safe attributes will be assigned by this method.
+	 * An attribute is safe if it meets both of the following conditions:
+	 * <ul>
+	 * <li>The attribute appears in the attribute list of some validation rule
+	 * whose "on" property is either empty or contains the specified scenario.</li>
+	 * <li>The attribute is listed in {@link attributeNames}.</li>
+	 * </ul>
+	 *
+	 * @param array attribute values (name=>value) to be set.
+	 * @param string scenario name. Defaults to empty string, meaning only attributes
+	 * listed in those validation rules with empty "on" property can be massively assigned.
+	 * If this is false, all attributes listed in {@link attributeNames} can be massively assigned.
 	 */
-	public function setAttributes($values)
+	public function setAttributes($values,$scenario='')
 	{
 		if(is_array($values))
 		{
-			$attributes=array_flip($this->attributeNames());
+			if($scenario===false)
+				$attributes=array_flip($this->attributeNames());
+			else
+				$attributes=$this->getSafeAttributeNames($scenario);
 			foreach($values as $name=>$value)
 			{
 				if(isset($attributes[$name]))
