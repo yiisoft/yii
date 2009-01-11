@@ -94,7 +94,7 @@ class CTheme extends CComponent
 		if($viewName[0]==='/')
 			$viewFile=$this->getViewPath().$viewName.'.php';
 		else if($viewName[0]==='@')
-			$viewFile=Yii::getPathOfAlias($viewName).'.php';
+			$viewFile=Yii::getPathOfAlias(substr($viewName,1)).'.php';
 		else
 			$viewFile=$this->getViewPath().DIRECTORY_SEPARATOR.$controller->getId().DIRECTORY_SEPARATOR.$viewName.'.php';
 		return is_file($viewFile) ? Yii::app()->findLocalizedFile($viewFile) : false;

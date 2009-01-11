@@ -171,7 +171,7 @@ class CWidget extends CBaseController
 	public function getViewFile($viewName)
 	{
 		if($viewName[0]==='@') // a path alias
-			$viewFile=Yii::getPathOfAlias($viewName).'.php';
+			$viewFile=Yii::getPathOfAlias(substr($viewName,1)).'.php';
 		else
 			$viewFile=$this->getViewPath().DIRECTORY_SEPARATOR.$viewName.'.php';
 		return is_file($viewFile) ? Yii::app()->findLocalizedFile($viewFile) : false;
