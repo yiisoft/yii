@@ -270,7 +270,7 @@ class YiiBase
 	 */
 	public static function setPathOfAlias($alias,$path)
 	{
-		if($path===null)
+		if(empty($path))
 			unset(self::$_aliases[$alias]);
 		else
 			self::$_aliases[$alias]=rtrim($path,'\\/');
