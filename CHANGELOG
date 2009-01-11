@@ -16,6 +16,7 @@ Version 1.0.2 to be released
 - New: Added CDbSchema::getTables() and getTableNames() (Qiang)
 - New: Modified CUniqueValidator so that it can correctly validate non-PK attributes when they are being updated (Qiang)
 - New: Added scenario-based massive model attribute assignment (Qiang)
+- New: Added support to specify views in terms of path aliases (Qiang)
 
 
 Version 1.0.1 January 4, 2009
