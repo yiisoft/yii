@@ -251,7 +251,8 @@ class CUrlManager extends CApplicationComponent
 					}
 				}
 			}
-			$route=$this->parseUrlDefault($pathInfo);
+			$r=$this->parseUrlDefault($pathInfo);
+			$route=isset($_GET[$this->routeVar])?$_GET[$this->routeVar]:$r;
 		}
 		else if(isset($_GET[$this->routeVar]))
 			$route=$_GET[$this->routeVar];

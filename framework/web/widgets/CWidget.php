@@ -163,15 +163,15 @@ class CWidget extends CBaseController
 	 * may be returned if internationalization is needed. See {@link CApplication::findLocalizedFile}
 	 * for more details.
 	 * Since version 1.0.2, the view name can also refer to a path alias
-	 * if it starts with '@'.
+	 * if it contains dot characters.
 	 * @param string name of the view (without file extension)
 	 * @return string the view file path. False if the view file does not exist
 	 * @see CApplication::findLocalizedFile
 	 */
 	public function getViewFile($viewName)
 	{
-		if($viewName[0]==='@') // a path alias
-			$viewFile=Yii::getPathOfAlias(substr($viewName,1)).'.php';
+		if(strpos($viewName,'.')) // a path alias
+			$viewFile=Yii::getPathOfAlias($viewName).'.php';
 		else
 			$viewFile=$this->getViewPath().DIRECTORY_SEPARATOR.$viewName.'.php';
 		return is_file($viewFile) ? Yii::app()->findLocalizedFile($viewFile) : false;
