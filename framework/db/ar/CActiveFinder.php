@@ -260,7 +260,7 @@ class CJoinElement
 			$this->buildQuery($query);
 			$this->runQuery($query);
 		}
-		else if(!$this->_joined) // not joined before
+		else if(!$this->_joined && !empty($this->_parent->records)) // not joined before
 		{
 			$query=new CJoinQuery($this->_parent);
 			$this->_joined=true;

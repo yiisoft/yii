@@ -428,6 +428,8 @@ class CController extends CBaseController
 	 * The view script file is named as "ViewName.php". A localized view file
 	 * may be returned if internationalization is needed. See {@link CApplication::findLocalizedFile}
 	 * for more details.
+	 * Since version 1.0.2, the view name can also refer to a path alias
+	 * if it starts with '@'.
 	 * @param string name of the view (without file extension)
 	 * @return string the view file path, false if the view file does not exist
 	 * @see CApplication::findLocalizedFile
@@ -438,6 +440,8 @@ class CController extends CBaseController
 			return $viewFile;
 		if($viewName[0]==='/')
 			$viewFile=Yii::app()->getViewPath().$viewName.'.php';
+		else if($viewName[0]==='@')
+			$viewFile=Yii::getPathOfAlias(substr($viewName,1)).'.php';
 		else
 			$viewFile=$this->getViewPath().DIRECTORY_SEPARATOR.$viewName.'.php';
 		return is_file($viewFile) ? Yii::app()->findLocalizedFile($viewFile) : false;
@@ -448,6 +452,8 @@ class CController extends CBaseController
 	 * This method will look for the view under the application's {@link CWebApplication::getLayoutPath layoutPath}.
 	 * If the view name starts with '/', the view will be looked for under the application's
 	 * {@link CWebApplication::getViewPath viewPath}.
+	 * Since version 1.0.2, the view name can also refer to a path alias
+	 * if it starts with '@'.
 	 * @param string layout name
 	 * @return string the view file for the layout. False if the view file cannot be found
 	 */
@@ -457,6 +463,8 @@ class CController extends CBaseController
 			return $layoutFile;
 		if($layoutName[0]==='/')
 			$layoutFile=Yii::app()->getViewPath().$layoutName.'.php';
+		else if($layoutName[0]==='@')
+			$layoutFile=Yii::getPathOfAlias(substr($layoutName,1)).'.php';
 		else
 			$layoutFile=Yii::app()->getLayoutPath().DIRECTORY_SEPARATOR.$layoutName.'.php';
 		return is_file($layoutFile) ? Yii::app()->findLocalizedFile($layoutFile) : false;

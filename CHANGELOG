@@ -11,6 +11,7 @@ Version 1.0.2 to be released
 - Bug #81: Double backslashes in a clientscript became a singe backslash in the output (Qiang)
 - Bug #83: yiic command may unexpectedly render its starting line on Windows (Qiang)
 - Bug #87: yiic gives an error when using yiilite.php in the main application (Qiang)
+- Bug #91: Relational AR eager fetching may bring back result even if it shouldn't (Qiang)
 - Bug: CDbAuthManager::saveAuthAssignment() causes updating all rows (Qiang)
 - Bug: Fixed an issue in CUrlManager::createUrl when GET parameters contain arrays (Qiang)
 - New #88: Added public properties to CActiveRecord::safeAttributes() (Qiang)
@@ -20,6 +21,7 @@ Version 1.0.2 to be released
 - New: Added CDbSchema::getTables() and getTableNames() (Qiang)
 - New: Modified CUniqueValidator so that it can correctly validate non-PK attributes when they are being updated (Qiang)
 - New: Added scenario-based massive model attribute assignment (Qiang)
+- New: Added support to specify views in terms of path aliases (Qiang)
 
 
 Version 1.0.1 January 4, 2009
