@@ -542,10 +542,19 @@ class CActiveRecord2Test extends CTestCase
 			'select'=>'title',
 			'condition'=>'posts.id=:id',
 			'limit'=>1,
-			'offset'=>1,
+			'offset'=>0,
 			'order'=>'posts.title',
 			'params'=>array(':id'=>2)));
 		$this->assertTrue($posts[0] instanceof Post2);
+
+		$posts=Post2::model()->with('comments','author')->findAll(array(
+			'select'=>'title',
+			'condition'=>'posts.id=:id',
+			'limit'=>1,
+			'offset'=>1,
+			'order'=>'posts.title',
+			'params'=>array(':id'=>2)));
+		$this->assertTrue($posts===array());
 	}
 
 	public function testSelfManyMany()
