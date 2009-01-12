@@ -32,14 +32,20 @@ class CInlineFilter extends CFilter
 	 * and action names that the filter shall or shall not apply to.
 	 * @param CController the controller who hosts the filter methods
 	 * @param string the filter name
-	 * @return CInlineFilter the created instance, null if the spec indicates the filter does not apply to the action
-	 * @throws CException if filter methods are not found in the controller
+	 * @return CInlineFilter the created instance
+	 * @throws CException if the filter method does not exist
 	 */
 	public static function create($controller,$filterName)
 	{
-		$filter=new CInlineFilter;
-		$filter->name=$filterName;
-		return $filter;
+		if(method_exists($controller,'filter'.$filterName))
+		{
+			$filter=new CInlineFilter;
+			$filter->name=$filterName;
+			return $filter;
+		}
+		else
+			throw new CException(Yii::t('yii','Filter "{filter}" is invalid. Controller "{class}" does have the filter method "filter{filter}".',
+				array('{filter}'=>$filterName, '{class}'=>get_class($controller))));
 	}
 
 	/**
@@ -50,10 +56,6 @@ class CInlineFilter extends CFilter
 	public function filter($filterChain)
 	{
 		$method='filter'.$this->name;
-		if(method_exists($filterChain->controller,$method))
-			$filterChain->controller->$method($filterChain);
-		else
-			throw new CException(Yii::t('yii','Filter "{filter}" is invalid. Controller "{class}" does have the filter method "filter{filter}".',
-				array('{filter}'=>$this->name, '{class}'=>get_class($filterChain->controller))));
+		$filterChain->controller->$method($filterChain);
 	}
 }
