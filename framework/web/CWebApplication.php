@@ -363,11 +363,12 @@ class CWebApplication extends CApplication
 	{
 		if($id==='')
 			$id=$this->defaultController;
-		if(!preg_match('/^\w+(\.\w+)*$/',$id))
-			return null;
 
 		if(isset($this->controllerMap[$id]))
 			return Yii::createComponent($this->controllerMap[$id],$id);
+
+		if(!preg_match('/^\w+(\.\w+)*$/',$id))
+			return null;
 
 		if(($pos=strrpos($id,'.'))!==false)
 		{
