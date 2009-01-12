@@ -62,7 +62,7 @@ class CUniqueValidator extends CValidator
 			$objects=$object->findAll($criteria);
 			$n=count($objects);
 			if($n===1)
-				$exists=$objects[0]->getPrimaryKey()===$object->getPrimaryKey();
+				$exists=$objects[0]->getPrimaryKey()!=$object->getPrimaryKey();
 			else
 				$exists=$n>1;
 		}

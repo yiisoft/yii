@@ -518,11 +518,21 @@ class CActiveRecordTest extends CTestCase
 			'select'=>'title',
 			'condition'=>'posts.id=:id',
 			'limit'=>1,
-			'offset'=>1,
+			'offset'=>0,
 			'order'=>'posts.title',
 			'group'=>'posts.id',
 			'params'=>array(':id'=>2)));
 		$this->assertTrue($posts[0] instanceof Post);
+
+		$posts=Post::model()->with('comments','author')->findAll(array(
+			'select'=>'title',
+			'condition'=>'posts.id=:id',
+			'limit'=>1,
+			'offset'=>1,
+			'order'=>'posts.title',
+			'group'=>'posts.id',
+			'params'=>array(':id'=>2)));
+		$this->assertTrue($posts===array());
 	}
 
 	public function testRelationWithColumnAlias()
