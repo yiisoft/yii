@@ -197,6 +197,7 @@ function getServerInfo()
 	$info[]=isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : '';
 	$info[]='<a href="http://www.yiiframework.com/">Yii Framework</a>/'.getYiiVersion();
 	$info[]=@strftime('%Y-%m-%d %H:%m',time());
+
 	return implode(' ',$info);
 }
 
