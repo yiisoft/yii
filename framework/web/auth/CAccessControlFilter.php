@@ -85,7 +85,7 @@ class CAccessControlFilter extends CFilter
 		$ip=$request->getUserHostAddress();
 		$action=$filterChain->action;
 
-		foreach($this->_rules as $rule)
+		foreach($this->getRules() as $rule)
 		{
 			if(($allow=$rule->isUserAllowed($user,$action,$ip,$verb))>0) // allowed
 				break;
