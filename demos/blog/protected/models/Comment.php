@@ -59,6 +59,7 @@ class Comment extends CActiveRecord
 			'author'=>'Name',
 			'url'=>'Website',
 			'content'=>'Comment',
+			'verifyCode'=>'Verification Code',
 		);
 	}
 

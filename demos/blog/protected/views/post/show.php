@@ -3,9 +3,9 @@
 )); ?>
 
 <div id="comments">
-<?php if(count($comments)>=1): ?>
+<?php if($post->commentCount>=1): ?>
 <h3>
-  <?php echo count($comments)>1 ? count($comments) . ' comments' : 'One comment'; ?>
+  <?php echo $post->commentCount>1 ? $post->commentCount . ' comments' : 'One comment'; ?>
   to "<?php echo CHtml::encode($post->title); ?>"
 </h3>
 <?php endif; ?>
