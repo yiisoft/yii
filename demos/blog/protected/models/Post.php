@@ -122,7 +122,8 @@ class Post extends CActiveRecord
 		{
 			if(($tag=Tag::model()->findByAttributes(array('name'=>$name)))===null)
 			{
-				$tag=new Tag(array('name'=>$name));
+				$tag=new Tag;
+				$tag->name=$name;
 				$tag->save();
 			}
 			$this->dbConnection->createCommand("INSERT INTO PostTag (postId, tagId) VALUES ({$this->id},{$tag->id})")->execute();
