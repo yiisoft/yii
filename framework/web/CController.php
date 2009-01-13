@@ -507,10 +507,10 @@ class CController extends CBaseController
 	 */
 	public function render($view,$data=null,$return=false)
 	{
+		$output=$this->renderPartial($view,$data,true);
+
 		if(($layout=$this->layout)==null)
 			$layout=Yii::app()->layout;
-
-		$output=$this->renderPartial($view,$data,true);
 
 		if(!empty($layout) && ($layoutFile=$this->getLayoutFile($layout))!==false)
 			$output=$this->renderFile($layoutFile,array('content'=>$output),true);
