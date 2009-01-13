@@ -317,12 +317,14 @@ class CWebApplication extends CApplication
 	/**
 	 * Returns the relative URL for the application.
 	 * This is a shortcut method to {@link CHttpRequest::getBaseUrl()}.
+	 * @param boolean whether to return an absolute URL. Defaults to false, meaning returning a relative one.
+	 * This parameter has been available since 1.0.2.
 	 * @return string the relative URL for the application
 	 * @see CHttpRequest::getBaseUrl()
 	 */
-	public function getBaseUrl()
+	public function getBaseUrl($absolute=false)
 	{
-		return $this->getRequest()->getBaseUrl();
+		return $this->getRequest()->getBaseUrl($absolute);
 	}
 
 	/**
