@@ -1,3 +1,9 @@
+<?php if(Yii::app()->user->hasFlash('commentSubmitted')): ?>
+<div class="form">
+<?php echo Yii::app()->user->getFlash('commentSubmitted'); ?>
+</div>
+<?php return; endif; ?>
+
 <div class="form">
 <?php echo CHtml::form(); ?>
 

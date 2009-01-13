@@ -949,9 +949,9 @@ abstract class CActiveRecord extends CModel
 			throw new CDbException(Yii::t('yii','The active record cannot be updated because it is new.'));
 		if($this->beforeSave())
 		{
-			$result=$this->updateByPk($this->getPrimaryKey(),$this->getAttributes($attributes))>0;
+			$this->updateByPk($this->getPrimaryKey(),$this->getAttributes($attributes));
 			$this->afterSave();
-			return $result;
+			return true;
 		}
 		else
 			return false;
