@@ -23,8 +23,8 @@ and any special variant preferences that the user wants to see in their
 user interface. It is usually identified by an ID consisting of a language
 ID and a region ID. For example, the ID `en_US` stands for the locale of
 English and United States. For consistency, all locale IDs in Yii are
-canonicalized to the format of `LanguageID_RegionID` in lower case (e.g.
-`en_us`).
+canonicalized to the format of `LanguageID` or `LanguageID_RegionID`
+in lower case (e.g. `en`, `en_us`).
 
 Locale data is represented as a [CLocale] instance. It provides
 locale-dependent information, including currency symbols, number symbols,
