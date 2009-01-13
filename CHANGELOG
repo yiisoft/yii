@@ -19,7 +19,7 @@ Version 1.0.2 to be released
 - New: Added scenario-based massive model attribute assignment (Qiang)
 - New: Added support to specify views in terms of path aliases (Qiang)
 - New: Enhanced getBaseUrl to allow it to return an absolute URL (Qiang)
-
+- New: Allow flash message to be deleted right after its first access (Qiang)
 
 Version 1.0.1 January 4, 2009
 -----------------------------
