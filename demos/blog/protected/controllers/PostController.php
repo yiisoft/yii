@@ -245,9 +245,17 @@ class PostController extends CController
 				$comment->status=Comment::STATUS_APPROVED;
 
 			if(isset($_POST['previewComment']))
-				$comment->validate(null,'insert');
+				$comment->validate('insert');
 			else if(isset($_POST['submitComment']) && $comment->save())
-				$this->redirect(array('show','id'=>$post->id,'#'=>'c'.$comment->id));
+			{
+				if($comment->status==Comment::STATUS_PENDING)
+				{
+					Yii::app()->user->setFlash('commentSubmitted','Thank you for your comment. Your comment will be posted once it is approved.');
+					$this->refresh();
+				}
+				else
+					$this->redirect(array('show','id'=>$post->id,'#'=>'c'.$comment->id));
+			}
 		}
 		return $comment;
 	}

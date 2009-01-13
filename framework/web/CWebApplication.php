@@ -317,12 +317,14 @@ class CWebApplication extends CApplication
 	/**
 	 * Returns the relative URL for the application.
 	 * This is a shortcut method to {@link CHttpRequest::getBaseUrl()}.
+	 * @param boolean whether to return an absolute URL. Defaults to false, meaning returning a relative one.
+	 * This parameter has been available since 1.0.2.
 	 * @return string the relative URL for the application
 	 * @see CHttpRequest::getBaseUrl()
 	 */
-	public function getBaseUrl()
+	public function getBaseUrl($absolute=false)
 	{
-		return $this->getRequest()->getBaseUrl();
+		return $this->getRequest()->getBaseUrl($absolute);
 	}
 
 	/**
@@ -363,11 +365,12 @@ class CWebApplication extends CApplication
 	{
 		if($id==='')
 			$id=$this->defaultController;
-		if(!preg_match('/^\w+(\.\w+)*$/',$id))
-			return null;
 
 		if(isset($this->controllerMap[$id]))
 			return Yii::createComponent($this->controllerMap[$id],$id);
+
+		if(!preg_match('/^\w+(\.\w+)*$/',$id))
+			return null;
 
 		if(($pos=strrpos($id,'.'))!==false)
 		{

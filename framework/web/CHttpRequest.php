@@ -185,14 +185,16 @@ class CHttpRequest extends CApplicationComponent
 	 * Returns the relative URL for the application.
 	 * This is similar to {@link getScriptUrl scriptUrl} except that
 	 * it does not have the script file name, and the ending slashes are stripped off.
+	 * @param boolean whether to return an absolute URL. Defaults to false, meaning returning a relative one.
+	 * This parameter has been available since 1.0.2.
 	 * @return string the relative URL for the application
 	 * @see setScriptUrl
 	 */
-	public function getBaseUrl()
+	public function getBaseUrl($absolute=false)
 	{
 		if($this->_baseUrl===null)
 			$this->_baseUrl=rtrim(dirname($this->getScriptUrl()),'\\/');
-		return $this->_baseUrl;
+		return $absolute ? $this->getHostInfo() . $this->_baseUrl : $this->_baseUrl;
 	}
 
 	/**

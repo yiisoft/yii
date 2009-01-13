@@ -65,7 +65,7 @@ class CommentController extends CController
 		{
 			$comment->attributes=$_POST['Comment'];
 			if(isset($_POST['previewComment']))
-				$comment->validate(null,'update');
+				$comment->validate('update');
 			else if(isset($_POST['submitComment']) && $comment->save())
 				$this->redirect(array('post/show','id'=>$comment->postId,'#'=>'c'.$comment->id));
 		}
