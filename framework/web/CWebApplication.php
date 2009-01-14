@@ -128,7 +128,7 @@ class CWebApplication extends CApplication
 	protected function resolveRequest()
 	{
 		$route=$this->getUrlManager()->parseUrl($this->getRequest());
-		if(($pos=strrpos($route,'/'))!==false)
+		if($route!=='' && ($pos=strrpos($route,'/'))!==false)
 			return array(substr($route,0,$pos),(string)substr($route,$pos+1));
 		else
 			return array($route,'');
