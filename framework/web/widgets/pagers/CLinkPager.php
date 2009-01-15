@@ -32,28 +32,24 @@ class CLinkPager extends CBasePager
 	public $maxButtonCount=10;
 	/**
 	 * @var string the text label for the next page button. Defaults to 'Next &gt;'.
-	 * Note that the label must be HTML encoded.
 	 */
-	public $nextPageLabel='Next &gt;';
+	public $nextPageLabel;
 	/**
 	 * @var string the text label for the previous page button. Defaults to '&lt; Previous'.
-	 * Note that the label must be HTML encoded.
 	 */
-	public $prevPageLabel='&lt; Previous';
+	public $prevPageLabel;
 	/**
 	 * @var string the text label for the first page button. Defaults to '&lt;&lt; First'.
-	 * Note that the label must be HTML encoded.
 	 */
-	public $firstPageLabel='&lt;&lt; First';
+	public $firstPageLabel;
 	/**
 	 * @var string the text label for the last page button. Defaults to 'Last &gt;&gt;'.
-	 * Note that the label must be HTML encoded.
 	 */
-	public $lastPageLabel='Last &gt;&gt;';
+	public $lastPageLabel;
 	/**
 	 * @var string the text shown before page buttons. Defaults to 'Go to page: '.
 	 */
-	public $header='Go to page: ';
+	public $header;
 	/**
 	 * @var string the text shown after page buttons.
 	 */
@@ -77,6 +73,17 @@ class CLinkPager extends CBasePager
 	 */
 	public function run()
 	{
+		if($this->nextPageLabel===null)
+			$this->nextPageLabel=Yii::t('yii','Next &gt;');
+		if($this->prevPageLabel===null)
+			$this->prevPageLabel=Yii::t('yii','&lt; Previous');
+		if($this->firstPageLabel===null)
+			$this->firstPageLabel=Yii::t('yii','&lt;&lt; First');
+		if($this->lastPageLabel===null)
+			$this->lastPageLabel=Yii::t('yii','Last &gt;&gt;');
+		if($this->header===null)
+			$this->header=Yii::t('yii','Go to page: ');
+
 		$buttons=$this->createPageButtons();
 
 		if(empty($buttons))
