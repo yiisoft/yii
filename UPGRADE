@@ -12,66 +12,14 @@ for both A and B.
 
 Upgrading from v1.0.1
 ---------------------
-- CActiveRecord::saveAttributes() is removed. Please use the following alternative:
-
-  $model->setAttributes($values,false);
-  $model->update();
-
-
 - Due to the introduction of the scenario-based massive assignment feature,
-  we have to make the following BC breaking changes. Please be very careful
-  if you want to upgrade, as the changes will most likely affect or break
-  your existing code.
-
-  The signature of the following methods in CModel (inheirted by CFormModel
-  and CActiveRecord) is changed:
-
-  public function validate($scenario='',$attributes=null)
-  public function setAttributes($values,$scenario='')
-
-  And the following methods are removed from CActiveRecord:
-
-  public function protectedAttributes()
-  public function safeAttributes()
-
-
-  The above changes will affect your code if you call any of the above
-  methods or if your code contains the following assignment statements:
-
-  $model->attributes=$data;
-
-
-  Starting from version 1.0.2, massive attribute assignment is based on
-  validation rules and scenarios. In particular, an attribute can be
-  massively assigned if it meets both of the following conditions:
-
-   * The attribute name appears in the attribute list of some validation rule
-     which applies to the current scenario. A validation rule applies to
-     a specified scenario if the `on` option of the rule is not set or
-     contains the specified scenario name.
-
-   * The attribute name is a valid model attribute. For CFormModel,
-     this means the entry name must refer to a public member variable of
-     the model class; while for CActiveRecord, this means the entry name
-     must refer to either a column of the associated DB table or a member
-     variable of the class.
-
-  As a result, if you previously used either protectedAttributes() or
-  safeAttributes() to limit massive assignments, you should change to
-  use validation rules to specify this limit. For attributes that don't
-  need validation but still need massive assignments, they can be listed
-  in a 'safe' validation rule.
+  we removed CActiveRecord::protectedAttributes(). Please use safeAttributes()
+  to specify which attributes are safe to be massively assigned.
 
   For more details about the scenario-based assignment and validation,
-  please read the following tutorial sections:
+  please read the following tutorial section:
 
   http://www.yiiframework.com/doc/guide/form.model#securing-attribute-assignments
-  http://www.yiiframework.com/doc/guide/form.model#triggering-validation
-
-
-- The methods CActiveRecord::protectedAttributes() and CActiveRecord::safeAttributes()
-  are removed due to the introduction of the above feature. You may need
-  to adjust your code by changing the validation rules accordingly.
 
 
 Upgrading from v1.0.0

@@ -15,6 +15,7 @@ Version 1.0.2 to be released
 - Bug: CDbAuthManager::saveAuthAssignment() causes updating all rows (Qiang)
 - Bug: Fixed an issue in CUrlManager::createUrl when GET parameters contain arrays (Qiang)
 - New #88: Added public properties to CActiveRecord::safeAttributes() (Qiang)
+- New #92: Empty error messages in models are handled better when being displayed (Qiang)
 - New: Added CActiveRecord::getRelated() (Qiang)
 - New: Added 'return' option to HTML options in CHtml (Qiang)
 - New: Refactored CSS-dependent widgets by adding registerCssFile static methods (Qiang)
@@ -23,7 +24,7 @@ Version 1.0.2 to be released
 - New: Added scenario-based massive model attribute assignment (Qiang)
 - New: Added support to specify views in terms of path aliases (Qiang)
 - New: Enhanced getBaseUrl to allow it to return an absolute URL (Qiang)
-
+- New: Allow flash message to be deleted right after its first access (Qiang)
 
 Version 1.0.1 January 4, 2009
 -----------------------------

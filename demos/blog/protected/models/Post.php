@@ -36,8 +36,15 @@ class Post extends CActiveRecord
 			array('title', 'length', 'max'=>128),
 			array('title, content, status', 'required'),
 			array('status', 'numerical', 'min'=>0, 'max'=>3),
-			array('tagInput', 'safe'),
 		);
+	}
+
+	/**
+	 * @return array attributes that can be massively assigned
+	 */
+	public function safeAttributes()
+	{
+		return 'title, content, status, tagInput';
 	}
 
 	/**
@@ -122,8 +129,7 @@ class Post extends CActiveRecord
 		{
 			if(($tag=Tag::model()->findByAttributes(array('name'=>$name)))===null)
 			{
-				$tag=new Tag;
-				$tag->name=$name;
+				$tag=new Tag(array('name'=>$name));
 				$tag->save();
 			}
 			$this->dbConnection->createCommand("INSERT INTO PostTag (postId, tagId) VALUES ({$this->id},{$tag->id})")->execute();

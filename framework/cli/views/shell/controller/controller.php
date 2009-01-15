@@ -28,16 +28,5 @@ class {ClassName} extends CController
 			),
 		);
 	}
-
-	public function defaultAction()
-	{
-		// return the default action name
-		return 'anotherActionName';
-	}
-
-	public function missingAction($actionName)
-	{
-		// deal with unrecognized actions
-	}
 	*/
 }
