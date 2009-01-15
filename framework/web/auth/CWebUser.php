@@ -385,7 +385,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function hasFlash($key)
 	{
-		return $this->getFlash($key)!==null;
+		return $this->getFlash($key, null, false)!==null;
 	}
 
 	/**
