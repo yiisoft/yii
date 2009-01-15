@@ -245,6 +245,7 @@ class YiiBase
 		'CDbColumnSchema' => '/db/schema/CDbColumnSchema.php',
 		'CDbCommandBuilder' => '/db/schema/CDbCommandBuilder.php',
 		'CDbCriteria' => '/db/schema/CDbCriteria.php',
+		'CDbExpression' => '/db/schema/CDbExpression.php',
 		'CDbSchema' => '/db/schema/CDbSchema.php',
 		'CDbTableSchema' => '/db/schema/CDbTableSchema.php',
 		'CMysqlColumnSchema' => '/db/schema/mysql/CMysqlColumnSchema.php',
@@ -3569,7 +3570,14 @@ class CHtml
 		if($model->$attribute)
 			$htmlOptions['checked']='checked';
 		self::clientChange('click',$htmlOptions);
-		return self::hiddenField($htmlOptions['name'],'',array('id'=>self::ID_PREFIX.$htmlOptions['id']))
+		if(isset($htmlOptions['uncheckValue']))
+		{
+			$uncheck=$htmlOptions['uncheckValue'];
+			unset($htmlOptions['uncheckValue']);
+		}
+		else
+			$uncheck='0';
+		return self::hiddenField($htmlOptions['name'],$uncheck,array('id'=>self::ID_PREFIX.$htmlOptions['id']))
 			. self::activeInputField('checkbox',$model,$attribute,$htmlOptions);
 	}
 	public static function activeDropDownList($model,$attribute,$data,$htmlOptions=array())
@@ -4534,6 +4542,13 @@ abstract class CModel extends CComponent
 	}
 	public function validate($scenario='',$attributes=null)
 	{
+		if(is_string($attributes))
+		{
+			// backward compatible with 1.0.1
+			$tmp=$scenario;
+			$scenario=$attributes;
+			$attributes=$tmp;
+		}
 		$this->clearErrors();
 		if($this->beforeValidate($scenario))
 		{
@@ -4865,7 +4880,7 @@ abstract class CActiveRecord extends CModel
 		{
 			if(property_exists($this,$name))
 				$attributes[$name]=$this->$name;
-			else if($names===true && !isset($attributes[$name]))
+			else if($names===null && !isset($attributes[$name]))
 				$attributes[$name]=null;
 		}
 		if(is_array($names))
@@ -4909,7 +4924,7 @@ abstract class CActiveRecord extends CModel
 	protected function afterFind()
 	{
 	}
-	public function insert($attributes=null)
+	public function insert($attributes=true)
 	{
 		if(!$this->isNewRecord)
 			throw new CDbException(Yii::t('yii','The active record cannot be inserted to database because it is not new.'));
@@ -4933,7 +4948,7 @@ abstract class CActiveRecord extends CModel
 		else
 			return false;
 	}
-	public function update($attributes=null)
+	public function update($attributes=true)
 	{
 		if($this->isNewRecord)
 			throw new CDbException(Yii::t('yii','The active record cannot be updated because it is new.'));
@@ -4945,6 +4960,23 @@ abstract class CActiveRecord extends CModel
 		}
 		else
 			return false;
+	}
+	public function saveAttributes($attributes)
+	{
+		if(!$this->isNewRecord)
+		{
+			$values=array();
+			foreach($attributes as $name=>$value)
+			{
+				if(is_integer($name))
+					$values[$value]=$this->$value;
+				else
+					$values[$name]=$this->$name=$value;
+			}
+			return $this->updateByPk($this->getPrimaryKey(),$values)>0;
+		}
+		else
+			throw new CDbException(Yii::t('yii','The active record cannot be updated because it is new.'));
 	}
 	public function delete()
 	{
@@ -5857,7 +5889,7 @@ class CDbColumnSchema extends CComponent
 	}
 	public function typecast($value)
 	{
-		if(gettype($value)===$this->type || $value===null)
+		if(gettype($value)===$this->type || $value===null || $value instanceof CDbExpression)
 			return $value;
 		if($value==='')
 			return $this->type==='string' ? '' : null;
@@ -5947,8 +5979,13 @@ class CDbCommandBuilder extends CComponent
 			if(($column=$table->getColumn($name))!==null && ($value!==null || $column->allowNull))
 			{
 				$fields[]=$column->rawName;
-				$placeholders[]=':'.$name;
-				$values[':'.$name]=$column->typecast($value);
+				if($value instanceof CDbExpression)
+					$placeholders[]=(string)$value;
+				else
+				{
+					$placeholders[]=':'.$name;
+					$values[':'.$name]=$column->typecast($value);
+				}
 			}
 		}
 		$sql="INSERT INTO {$table->rawName} (".implode(', ',$fields).') VALUES ('.implode(', ',$placeholders).')';
@@ -5966,7 +6003,9 @@ class CDbCommandBuilder extends CComponent
 		{
 			if(($column=$table->getColumn($name))!==null)
 			{
-				if($bindByPosition)
+				if($value instanceof CDbExpression)
+					$fields[]=$column->rawName.'='.(string)$value;
+				else if($bindByPosition)
 				{
 					$fields[]=$column->rawName.'=?';
 					$values[]=$column->typecast($value);

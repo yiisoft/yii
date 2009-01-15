@@ -450,6 +450,7 @@ class YiiBase
 		'CDbColumnSchema' => '/db/schema/CDbColumnSchema.php',
 		'CDbCommandBuilder' => '/db/schema/CDbCommandBuilder.php',
 		'CDbCriteria' => '/db/schema/CDbCriteria.php',
+		'CDbExpression' => '/db/schema/CDbExpression.php',
 		'CDbSchema' => '/db/schema/CDbSchema.php',
 		'CDbTableSchema' => '/db/schema/CDbTableSchema.php',
 		'CMysqlColumnSchema' => '/db/schema/mysql/CMysqlColumnSchema.php',
