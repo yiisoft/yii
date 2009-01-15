@@ -644,7 +644,7 @@ class CController extends CBaseController
 	 */
 	public function createUrl($route,$params=array(),$ampersand='&')
 	{
-		if(strpos($route,'/')===false)
+		if($route==='' || strpos($route,'/')===false)
 			$route=$this->getId().'/'.($route==='' ? $this->getAction()->getId() : $route);
 		return Yii::app()->createUrl($route,$params,$ampersand);
 	}

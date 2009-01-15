@@ -348,11 +348,16 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * A flash message is available only in the current and the next requests.
 	 * @param string key identifying the flash message
 	 * @param mixed value to be returned if the flash message is not available.
+	 * @param boolean whether to delete this flash message after accessing it.
+	 * Defaults to true. This parameter has been available since version 1.0.2.
 	 * @return mixed the message message
 	 */
-	public function getFlash($key,$defaultValue=null)
+	public function getFlash($key,$defaultValue=null,$delete=true)
 	{
-		return $this->getState(self::FLASH_KEY_PREFIX.$key,$defaultValue);
+		$value=$this->getState(self::FLASH_KEY_PREFIX.$key,$defaultValue);
+		if($delete)
+			$this->setFlash($key,null);
+		return $value;
 	}
 
 	/**
@@ -380,7 +385,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function hasFlash($key)
 	{
-		return $this->getFlash($key)!==null;
+		return $this->getFlash($key, null, false)!==null;
 	}
 
 	/**

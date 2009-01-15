@@ -53,13 +53,6 @@ class Post2 extends CActiveRecord
 	{
 		return 'test.posts';
 	}
-
-	public function rules()
-	{
-		return array(
-			array('title', 'safe'),
-		);
-	}
 }
 
 class PostExt2 extends CActiveRecord

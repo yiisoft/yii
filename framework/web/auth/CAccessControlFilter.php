@@ -85,7 +85,7 @@ class CAccessControlFilter extends CFilter
 		$ip=$request->getUserHostAddress();
 		$action=$filterChain->action;
 
-		foreach($this->_rules as $rule)
+		foreach($this->getRules() as $rule)
 		{
 			if(($allow=$rule->isUserAllowed($user,$action,$ip,$verb))>0) // allowed
 				break;
@@ -167,12 +167,20 @@ class CAccessRule extends CComponent
 			return 0;
 	}
 
-	private function isActionMatched($action)
+	/**
+	 * @param CAction the action
+	 * @return boolean whether the rule applies to the action
+	 */
+	protected function isActionMatched($action)
 	{
 		return empty($this->actions) || in_array(strtolower($action->getId()),$this->actions);
 	}
 
-	private function isUserMatched($user)
+	/**
+	 * @param IWebUser the user
+	 * @return boolean whether the rule applies to the user
+	 */
+	protected function isUserMatched($user)
 	{
 		if(empty($this->users))
 			return true;
@@ -190,7 +198,11 @@ class CAccessRule extends CComponent
 		return false;
 	}
 
-	private function isRoleMatched($user)
+	/**
+	 * @param string the role name
+	 * @return boolean whether the rule applies to the role
+	 */
+	protected function isRoleMatched($user)
 	{
 		if(empty($this->roles))
 			return true;
@@ -202,7 +214,11 @@ class CAccessRule extends CComponent
 		return false;
 	}
 
-	private function isIpMatched($ip)
+	/**
+	 * @param string the IP address
+	 * @return boolean whether the rule applies to the IP address
+	 */
+	protected function isIpMatched($ip)
 	{
 		if(empty($this->ips))
 			return true;
@@ -214,7 +230,11 @@ class CAccessRule extends CComponent
 		return false;
 	}
 
-	private function isVerbMatched($verb)
+	/**
+	 * @param string the request method
+	 * @return boolean whether the rule applies to the request
+	 */
+	protected function isVerbMatched($verb)
 	{
 		return empty($this->verbs) || in_array(strtolower($verb),$this->verbs);
 	}

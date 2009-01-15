@@ -30,11 +30,29 @@ class CFormModel extends CModel
 	 * Constructor.
 	 * @param array initial attributes (name => value). The attributes
 	 * are subject to filtering via {@link setAttributes}.
+	 * @param string scenario name. See {@link setAttributes} for more details about this parameter.
+	 * This parameter has been available since version 1.0.2.
+	 * @see setAttributes
 	 */
-	public function __construct($attributes=array())
+	public function __construct($attributes=array(),$scenario='')
 	{
 		if($attributes!==array())
-			$this->setAttributes($attributes);
+			$this->setAttributes($attributes,$scenario);
+	}
+
+	/**
+	 * Returns the name of attributes that are safe to be massively assigned.
+	 * The default implementation simply returns {@link attributeNames}.
+	 * This method may be overridden by child classes.
+	 * See {@link CModel::safeAttributes} for more details about how to
+	 * override this method.
+	 * @return array list of safe attribute names.
+	 * @see CModel::safeAttributes
+	 * @since 1.0.2
+	 */
+	public function safeAttributes()
+	{
+		return $this->attributeNames();
 	}
 
 	/**
@@ -54,48 +72,5 @@ class CFormModel extends CModel
 				$names[]=$name;
 		}
 		return $names;
-	}
-
-	/**
-	 * @return array all attribute values (name=>value).
-	 * The attributes returned are those listed in {@link attributeNames}.
-	 */
-	public function getAttributes()
-	{
-		$values=array();
-		foreach($this->attributeNames() as $name)
-			$values[$name]=$this->$name;
-		return $values;
-	}
-
-	/**
-	 * Sets the attribute values in a massive way.
-	 * Only safe attributes will be assigned by this method.
-	 * An attribute is safe if it meets both of the following conditions:
-	 * <ul>
-	 * <li>The attribute appears in the attribute list of some validation rule
-	 * whose "on" property is either empty or contains the specified scenario.</li>
-	 * <li>The attribute is listed in {@link attributeNames}.</li>
-	 * </ul>
-	 *
-	 * @param array attribute values (name=>value) to be set.
-	 * @param string scenario name. Defaults to empty string, meaning only attributes
-	 * listed in those validation rules with empty "on" property can be massively assigned.
-	 * If this is false, all attributes listed in {@link attributeNames} can be massively assigned.
-	 */
-	public function setAttributes($values,$scenario='')
-	{
-		if(is_array($values))
-		{
-			if($scenario===false)
-				$attributes=array_flip($this->attributeNames());
-			else
-				$attributes=$this->getSafeAttributeNames($scenario);
-			foreach($values as $name=>$value)
-			{
-				if(isset($attributes[$name]))
-					$this->$name=$value;
-			}
-		}
 	}
 }

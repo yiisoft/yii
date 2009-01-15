@@ -6,7 +6,7 @@
 return array(
 	'sourcePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'messagePath'=>dirname(__FILE__),
-	'languages'=>array('zh_cn','zh_tw','de','es','sv','he','nl','pt','ru','it','fr'),
+	'languages'=>array('zh_cn','zh_tw','de','es','sv','he','nl','pt','ru','it','fr','ja'),
 	'fileTypes'=>array('php'),
 	'translator'=>'t',
 	'exclude'=>array(

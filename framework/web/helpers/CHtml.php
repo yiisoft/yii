@@ -1086,7 +1086,10 @@ class CHtml
 			foreach($m->getErrors() as $errors)
 			{
 				foreach($errors as $error)
-					$content.="<li>$error</li>\n";
+				{
+					if($error!='')
+						$content.="<li>$error</li>\n";
+				}
 			}
 		}
 		if($content!=='')
@@ -1105,9 +1108,9 @@ class CHtml
 	 */
 	public static function error($model,$attribute)
 	{
-		$errors=$model->getErrors($attribute);
-		if(!empty($errors))
-			return self::tag('div',array('class'=>self::$errorMessageCss),reset($errors));
+		$error=$model->getError($attribute);
+		if($error!='')
+			return self::tag('div',array('class'=>self::$errorMessageCss),$error);
 		else
 			return '';
 	}

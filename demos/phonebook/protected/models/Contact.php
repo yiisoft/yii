@@ -22,11 +22,4 @@ class Contact extends CActiveRecord
 	{
 		return parent::model($className);
 	}
-
-	public function rules()
-	{
-		return array(
-			array('id, name, phone', 'required'),
-		);
-	}
 }
