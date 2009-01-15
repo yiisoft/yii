@@ -51,6 +51,25 @@
 abstract class CValidator extends CComponent
 {
 	/**
+	 * @var array list of built-in validators (name=>class)
+	 */
+	public static $builtInValidators=array(
+		'required'=>'CRequiredValidator',
+		'filter'=>'CFilterValidator',
+		'match'=>'CRegularExpressionValidator',
+		'email'=>'CEmailValidator',
+		'url'=>'CUrlValidator',
+		'unique'=>'CUniqueValidator',
+		'compare'=>'CCompareValidator',
+		'length'=>'CStringValidator',
+		'in'=>'CRangeValidator',
+		'numerical'=>'CNumberValidator',
+		'captcha'=>'CCaptchaValidator',
+		'type'=>'CTypeValidator',
+		'file'=>'CFileValidator',
+	);
+
+	/**
 	 * @var array list of attributes to be validated.
 	 */
 	public $attributes;
@@ -85,23 +104,6 @@ abstract class CValidator extends CComponent
 	 */
 	public static function createValidator($name,$object,$attributes,$params)
 	{
-		static $builtInValidators=array(
-			'required'=>'CRequiredValidator',
-			'filter'=>'CFilterValidator',
-			'match'=>'CRegularExpressionValidator',
-			'email'=>'CEmailValidator',
-			'url'=>'CUrlValidator',
-			'unique'=>'CUniqueValidator',
-			'compare'=>'CCompareValidator',
-			'length'=>'CStringValidator',
-			'in'=>'CRangeValidator',
-			'numerical'=>'CNumberValidator',
-			'captcha'=>'CCaptchaValidator',
-			'type'=>'CTypeValidator',
-			'file'=>'CFileValidator',
-			'safe'=>'CSafeValidator',
-		);
-
 		if(is_string($attributes))
 			$attributes=preg_split('/[\s,]+/',$attributes,-1,PREG_SPLIT_NO_EMPTY);
 
@@ -125,8 +127,8 @@ abstract class CValidator extends CComponent
 		else
 		{
 			$params['attributes']=$attributes;
-			if(isset($builtInValidators[$name]))
-				$className=Yii::import($builtInValidators[$name],true);
+			if(isset(self::$builtInValidators[$name]))
+				$className=Yii::import(self::$builtInValidators[$name],true);
 			else
 				$className=Yii::import($name,true);
 			$validator=new $className;

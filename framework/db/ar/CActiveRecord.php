@@ -290,7 +290,7 @@
  *   When using a built-in validator class, you can use an alias name instead of the full class name.
  *   For example, you can use "required" instead of "system.validators.CRequiredValidator".
  *   For more details, see {@link CValidator}.</li>
- * <li>on: this specifies when the validation rule should be performed. Please see {@link CModel::validate}
+ * <li>on: this specifies the scenario when the validation rule should be performed. Please see {@link CModel::validate}
  *   for more details about this option. NOTE: if the validation is triggered by the {@link save} call,
  *   it will use 'insert' to indicate an insertion operation, and 'update' an updating operation.
  *   You may thus specify a rule with the 'on' option so that it is applied only to insertion or updating.</li>
@@ -319,6 +319,9 @@ abstract class CActiveRecord extends CModel
 	 * @see getDbConnection
 	 */
 	public static $db;
+
+	private static $_models=array();			// class name => model
+
 	/**
 	 * @var boolean whether the record is new and should be inserted when calling {@link save}.
 	 * This property is automatically in constructor and {@link populateRecord}.
@@ -327,7 +330,6 @@ abstract class CActiveRecord extends CModel
 	 */
 	public $isNewRecord=false;
 
-	private static $_models=array();			// class name => model
 	private $_md;
 	private $_attributes=array();				// attribute name => attribute value
 	private $_related=array();					// attribute name => related objects
@@ -339,6 +341,7 @@ abstract class CActiveRecord extends CModel
 	 * are subject to filtering via {@link setAttributes}. If this parameter is null,
 	 * nothing will be done in the constructor (this is internally used by {@link populateRecord}).
 	 * @param string scenario name. See {@link setAttributes} for more details about this parameter.
+	 * This parameter has been available since version 1.0.2.
 	 * @see setAttributes
 	 */
 	public function __construct($attributes=array(),$scenario='')
@@ -605,6 +608,25 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Returns the name of attributes that are safe to be massively assigned.
+	 * The default implementation returns all table columns exception primary key(s).
+	 * Child class may override this method to further limit the attributes that can be massively assigned.
+	 * See {@link CModel::safeAttributes} on how to override this method.
+	 * @return array list of safe attribute names.
+	 * @see CModel::safeAttributes
+	 */
+	public function safeAttributes()
+	{
+		$attributes=array();
+		foreach($this->getMetaData()->columns as $name=>$column)
+		{
+			if(!$column->isPrimaryKey)
+				$attributes[]=$name;
+		}
+		return $attributes;
+	}
+
+	/**
 	 * Returns the database connection used by active record.
 	 * By default, the "db" application component is used as the database connection.
 	 * You may override this method if you want to use a different database connection.
@@ -625,20 +647,6 @@ abstract class CActiveRecord extends CModel
 			else
 				throw new CDbException(Yii::t('yii','Active Record requires a "db" CDbConnection application component.'));
 		}
-	}
-
-	/**
-	 * Returns the text label for the specified attribute.
-	 * @param string the attribute name
-	 * @return string the attribute label
-	 * @see CModel::generateAttributeLabel
-	 */
-	public function getAttributeLabel($attribute)
-	{
-		if(($label=$this->getMetaData()->getAttributeLabel($attribute))!==null)
-			return $label;
-		else
-			return $this->generateAttributeLabel($attribute);
 	}
 
 	/**
@@ -743,19 +751,19 @@ abstract class CActiveRecord extends CModel
 	 * Returns all column attribute values.
 	 * Note, related objects are not returned.
 	 * @param mixed names of attributes whose value needs to be returned.
-	 * If this is true (default), then all attribute values will be returned, including
+	 * If this is null (default), then all attribute values will be returned, including
 	 * those that are not loaded from DB (null will be returned for those attributes).
-	 * If this is null, then all attributes except those that are not loaded from DB will be returned.
+	 * If this is true, all attributes except those that are not loaded from DB will be returned.
 	 * @return array attribute values indexed by attribute names.
 	 */
-	public function getAttributes($names=true)
+	public function getAttributes($names=null)
 	{
 		$attributes=$this->_attributes;
 		foreach($this->getMetaData()->columns as $name=>$column)
 		{
 			if(property_exists($this,$name))
 				$attributes[$name]=$this->$name;
-			else if($names===true && !isset($attributes[$name]))
+			else if($names===null && !isset($attributes[$name]))
 				$attributes[$name]=null;
 		}
 		if(is_array($names))
@@ -767,43 +775,6 @@ abstract class CActiveRecord extends CModel
 		}
 		else
 			return $attributes;
-	}
-
-	/**
-	 * Sets the attribute values in a massive way.
-	 *
-	 * Only safe attributes will be assigned by this method. An attribute is safe if
-	 * it meets both of the following conditions:
-	 * <ul>
-	 * <li>The attribute appears in the attribute list of some validation rule
-	 * whose "on" property is either empty or contains the specified scenario.</li>
-	 * <li>The attribute is listed in {@link attributeNames} or is a class member variable.</li>
-	 * </ul>
-	 *
-	 * See {@link CModel::rules rules} for more details about specifying validation rules.
-	 *
-	 * @param array attributes (name=>value) to be massively assigned.
-	 * @param string scenario name. Defaults to empty string, meaning only attributes
-	 * listed in those validation rules with empty "on" property can be massively assigned.
-	 * If this is false, attributes listed in {@link attributeNames} and those member variables
-	 * can be massively assigned.
-	 */
-	public function setAttributes($values,$scenario='')
-	{
-		if(is_array($values))
-		{
-			$md=$this->getMetaData();
-			$attributes=$scenario===false ? null : $md->getSafeAttributeNames($scenario);
-			foreach($values as $name=>$value)
-			{
-				if(is_array($attributes) && !isset($attributes[$name]))
-					continue;
-				if(property_exists($this,$name))
-					$this->$name=$value;
-				else if(isset($md->columns[$name]))
-					$this->_attributes[$name]=$value;
-			}
-		}
 	}
 
 	/**
@@ -904,12 +875,12 @@ abstract class CActiveRecord extends CModel
 	 * If the table's primary key is auto-incremental and is null before insertion,
 	 * it will be populated with the actual value after insertion.
 	 * Note, validation is not performed in this method. You may call {@link validate} to perform the validation.
-	 * @param array list of attributes that need to be saved. Defaults to null,
+	 * @param array list of attributes that need to be saved. Defaults to true,
 	 * meaning all attributes that are loaded from DB will be saved.
 	 * @return boolean whether the attributes are valid and the record is inserted successfully.
 	 * @throws CException if the record is not new
 	 */
-	public function insert($attributes=null)
+	public function insert($attributes=true)
 	{
 		if(!$this->isNewRecord)
 			throw new CDbException(Yii::t('yii','The active record cannot be inserted to database because it is not new.'));
@@ -938,12 +909,12 @@ abstract class CActiveRecord extends CModel
 	 * Updates the row represented by this active record.
 	 * All loaded attributes will be saved to the database.
 	 * Note, validation is not performed in this method. You may call {@link validate} to perform the validation.
-	 * @param array list of attributes that need to be saved. Defaults to null,
+	 * @param array list of attributes that need to be saved. Defaults to true,
 	 * meaning all attributes that are loaded from DB will be saved.
 	 * @return boolean whether the update is successful
 	 * @throws CException if the record is new
 	 */
-	public function update($attributes=null)
+	public function update($attributes=true)
 	{
 		if($this->isNewRecord)
 			throw new CDbException(Yii::t('yii','The active record cannot be updated because it is new.'));
@@ -955,6 +926,42 @@ abstract class CActiveRecord extends CModel
 		}
 		else
 			return false;
+	}
+
+	/**
+	 * Saves a selected list of attributes.
+	 * Unlike {@link save}, this method only saves the specified attributes
+	 * of an existing row dataset. It thus has better performance.
+	 * Note, this method does neither attribute filtering nor validation.
+	 * So do not use this method with untrusted data (such as user posted data).
+	 * You may consider the following alternative if you want to do so:
+	 * <pre>
+	 * $postRecord=Post::model()->findByPk($postID);
+	 * $postRecord->attributes=$_POST['post'];
+	 * $postRecord->save();
+	 * </pre>
+	 * @param array attributes to be updated. Each element represents an attribute name
+	 * or an attribute value indexed by its name. If the latter, the record's
+	 * attribute will be changed accordingly before saving.
+	 * @return boolean whether the update is successful
+	 * @throws CException if the record is new or any database error
+	 */
+	public function saveAttributes($attributes)
+	{
+		if(!$this->isNewRecord)
+		{
+			$values=array();
+			foreach($attributes as $name=>$value)
+			{
+				if(is_integer($name))
+					$values[$value]=$this->$value;
+				else
+					$values[$name]=$this->$name=$value;
+			}
+			return $this->updateByPk($this->getPrimaryKey(),$values)>0;
+		}
+		else
+			throw new CDbException(Yii::t('yii','The active record cannot be updated because it is new.'));
 	}
 
 	/**
@@ -1540,9 +1547,7 @@ class CActiveRecordMetaData
 	public $attributeDefaults=array();
 
 	private $_model;
-	private $_attributeLabels;
 	private $_validators;
-	private $_safeAttributes=array();
 
 	/**
 	 * Constructor.
@@ -1576,17 +1581,6 @@ class CActiveRecordMetaData
 	}
 
 	/**
-	 * @param string the attribute name
-	 * @return string the explicitly defined attribute label. Null if the label is not defined.
-	 */
-	public function getAttributeLabel($attribute)
-	{
-		if($this->_attributeLabels===null)
-			$this->_attributeLabels=$this->_model->attributeLabels();
-		return isset($this->_attributeLabels[$attribute]) ? $this->_attributeLabels[$attribute] : null;
-	}
-
-	/**
 	 * @return array list of validators
 	 */
 	public function getValidators()
@@ -1594,23 +1588,5 @@ class CActiveRecordMetaData
 		if(!$this->_validators)
 			$this->_validators=$this->_model->createValidators();
 		return $this->_validators;
-	}
-
-	/**
-	 * Returns the attribute names that are safe to be massively assigned.
-	 * An attribute is safe if it meets both of the following conditions:
-	 * <ul>
-	 * <li>The attribute appears in the attribute list of a validation rule specified in {@link CModel::rules rules}</li>
-	 * <li>The validation rule's "on" property is not set or contains the specified scenario</li>
-	 * </ul>
-	 * @param string scenario name
-	 * @return array attribute names indexed by themselves
-	 * @since 1.0.2
-	 */
-	public function getSafeAttributeNames($scenario='')
-	{
-		if(!isset($this->_safeAttributes[$scenario]))
-			$this->_safeAttributes[$scenario]=$this->_model->getSafeAttributeNames($scenario);
-		return $this->_safeAttributes[$scenario];
 	}
 }

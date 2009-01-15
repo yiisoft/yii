@@ -169,9 +169,6 @@ valid number.
    - `required`: alias of [CRequiredValidator], ensuring the attribute is
 not empty.
 
-   - `safe`: alias of [CSafeValidator], marking that the attribute is safe
-to be assigned in a massive manner.
-
    - `type`: alias of [CTypeValidator], ensuring the attribute is of
 specific data type.
 
@@ -184,17 +181,21 @@ Below we list some examples of using the predefined validators:
 
 ~~~
 [php]
-// ensure password attribute is the same as password2 attribute
-array('password', 'compare', 'compareAttribute'=>'password2')
-// ensure username's length is between 3 and 12
-array('username', 'length', 'min'=>3, 'max'=>12)
-// ensure age is a non-negative integer
-array('age', 'numeric', 'integerOnly'=>true, 'min'=>0)
+// username is required
+array('username', 'required'),
+// username must be between 3 and 12 characters
+array('username', 'length', 'min'=>3, 'max'=>12),
+// when in register scenario, password must match password2
+array('password', 'compare', 'compareAttribute'=>'password2', 'on'=>'register'),
+// when in login scenario, password must be authenticated
+array('password', 'authenticate', 'on'=>'login'),
 ~~~
 
 
 Securing Attribute Assignments
 ------------------------------
+
+> Note: scenario-based attribute assignment has been available since version 1.0.2.
 
 After a model instance is created, we often need to populate its
 attributes with the data submitted by end-users. This can be done
@@ -221,49 +222,62 @@ foreach($_POST['LoginForm'] as $name=>$value)
 }
 ~~~
 
-The task of deciding whether a data entry is safe or not is based on
-the validation rules that we just described. In particular, a data entry
-is considered to be safe if it meets both of the following conditions:
+The task of deciding whether a data entry is safe or not is based
+the return value of a method named `safeAttributes` and the specified
+scenario. By default, the method returns all public member variables
+as safe attributes for [CFormModel], while it returns all table columns
+except the primary key as safe attributes for [CActiveRecord]. We may
+override this method to limit safe attributes according to scenarios.
+For example, a user model may contain many attributes, but in `login`
+scenario we only need to use `username` and `password` attributes.
+We can specify this limit as follows:
 
-   - The entry name appears in the attribute list of some validation rule
-     which applies to the current scenario. A validation rule applies to
-     a specified scenario if the `on` option of the rule is not set or
-     contains the specified scenario name.
+~~~
+[php]
+public function safeAttributes()
+{
+	return array(
+		parent::safeAttributes(),
+		'login' => 'username, password',
+	);
+}
+~~~
 
-   - The entry name is a valid model attribute. For [CFormModel], this means
-     the entry name must refer to a public member variable of the model class;
-     while for [CActiveRecord], this means the entry name must refer to either
-     a column of the associated DB table or a member variable of the class.
+More accurately, the return value of the `safeAttributes` method should be
+of the following structure:
 
+~~~
+[php]
+array(
+   // these attributes can be massively assigned in any scenario
+   // that is not explicitly specified below
+   'attr1, attr2, ...',
+	 *
+   // these attributes can be massively assigned only in scenario 1
+   'scenario1' => 'attr2, attr3, ...',
+	 *
+   // these attributes can be massively assigned only in scenario 2
+   'scenario2' => 'attr1, attr3, ...',
+)
+~~~
 
-> Tip: If the scenario is empty, only the validation rules with empty `on`
-> option will be applied. In this case, we can write the massive assignment
-> statement as follows,
->
-> ~~~
-> [php]
-> $model->attributes=$_POST['LoginForm'];
-> // equivalent to: $model->setAttributes($_POST['LoginForm']);
-> ~~~
->
-> If an attribute does not need any validation but we still want to massively
-> assign it, we can use the following `safe` validation rule to mark it:
->
-> ~~~
-> [php]
-> array('AttributeName', 'safe')
-> ~~~
->
+If the model is not scenario-sensitive (i.e., it is only used
+in one scenario, or all scenarios share the same set of safe attributes),
+the return value can be simplified as a single string:
 
-To assign a data entry that does not meet the first condition, we need to
-use the following individual assignment:
+~~~
+[php]
+'attr1, attr2, ...'
+~~~
+
+For data entries that are not safe, we need to assign them to the corresponding
+attributes using individual assign statements, like the following:
 
 ~~~
 [php]
 $model->permission='admin';
+$model->id=1;
 ~~~
-
-> Note: scenario-based attribute assignment has been available since version 1.0.2.
 
 
 Triggering Validation

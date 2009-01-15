@@ -147,7 +147,7 @@ class YiiBase
 	}
 	public static function setPathOfAlias($alias,$path)
 	{
-		if($path===null)
+		if(empty($path))
 			unset(self::$_aliases[$alias]);
 		else
 			self::$_aliases[$alias]=rtrim($path,'\\/');
@@ -274,6 +274,7 @@ class YiiBase
 		'CLogger' => '/logging/CLogger.php',
 		'CProfileLogRoute' => '/logging/CProfileLogRoute.php',
 		'CWebLogRoute' => '/logging/CWebLogRoute.php',
+		'ControllerGenerator' => '/rad/controller/ControllerGenerator.php',
 		'CDateParser' => '/utils/CDateParser.php',
 		'CFileHelper' => '/utils/CFileHelper.php',
 		'CMarkdownParser' => '/utils/CMarkdownParser.php',
@@ -289,7 +290,6 @@ class YiiBase
 		'CRangeValidator' => '/validators/CRangeValidator.php',
 		'CRegularExpressionValidator' => '/validators/CRegularExpressionValidator.php',
 		'CRequiredValidator' => '/validators/CRequiredValidator.php',
-		'CSafeValidator' => '/validators/CSafeValidator.php',
 		'CStringValidator' => '/validators/CStringValidator.php',
 		'CTypeValidator' => '/validators/CTypeValidator.php',
 		'CUniqueValidator' => '/validators/CUniqueValidator.php',
@@ -1062,7 +1062,7 @@ class CWebApplication extends CApplication
 	protected function resolveRequest()
 	{
 		$route=$this->getUrlManager()->parseUrl($this->getRequest());
-		if(($pos=strrpos($route,'/'))!==false)
+		if($route!=='' && ($pos=strrpos($route,'/'))!==false)
 			return array(substr($route,0,$pos),(string)substr($route,$pos+1));
 		else
 			return array($route,'');
@@ -1166,9 +1166,9 @@ class CWebApplication extends CApplication
 	{
 		return $this->getRequest()->getHostInfo($schema).$this->createUrl($route,$params,$ampersand);
 	}
-	public function getBaseUrl()
+	public function getBaseUrl($absolute=false)
 	{
-		return $this->getRequest()->getBaseUrl();
+		return $this->getRequest()->getBaseUrl($absolute);
 	}
 	public function getHomeUrl()
 	{
@@ -1190,10 +1190,10 @@ class CWebApplication extends CApplication
 	{
 		if($id==='')
 			$id=$this->defaultController;
-		if(!preg_match('/^\w+(\.\w+)*$/',$id))
-			return null;
 		if(isset($this->controllerMap[$id]))
 			return Yii::createComponent($this->controllerMap[$id],$id);
+		if(!preg_match('/^\w+(\.\w+)*$/',$id))
+			return null;
 		if(($pos=strrpos($id,'.'))!==false)
 		{
 			$classFile=str_replace('.',DIRECTORY_SEPARATOR,$id).'Controller';
@@ -1655,7 +1655,8 @@ class CUrlManager extends CApplicationComponent
 					}
 				}
 			}
-			$route=$this->parseUrlDefault($pathInfo);
+			$r=$this->parseUrlDefault($pathInfo);
+			$route=isset($_GET[$this->routeVar])?$_GET[$this->routeVar]:$r;
 		}
 		else if(isset($_GET[$this->routeVar]))
 			$route=$_GET[$this->routeVar];
@@ -1913,11 +1914,11 @@ class CHttpRequest extends CApplicationComponent
 	{
 		$this->_hostInfo=rtrim($value,'/');
 	}
-	public function getBaseUrl()
+	public function getBaseUrl($absolute=false)
 	{
 		if($this->_baseUrl===null)
 			$this->_baseUrl=rtrim(dirname($this->getScriptUrl()),'\\/');
-		return $this->_baseUrl;
+		return $absolute ? $this->getHostInfo() . $this->_baseUrl : $this->_baseUrl;
 	}
 	public function setBaseUrl($value)
 	{
@@ -2462,6 +2463,8 @@ class CController extends CBaseController
 			return $viewFile;
 		if($viewName[0]==='/')
 			$viewFile=Yii::app()->getViewPath().$viewName.'.php';
+		else if(strpos($viewName,'.'))
+			$viewFile=Yii::getPathOfAlias($viewName).'.php';
 		else
 			$viewFile=$this->getViewPath().DIRECTORY_SEPARATOR.$viewName.'.php';
 		return is_file($viewFile) ? Yii::app()->findLocalizedFile($viewFile) : false;
@@ -2472,6 +2475,8 @@ class CController extends CBaseController
 			return $layoutFile;
 		if($layoutName[0]==='/')
 			$layoutFile=Yii::app()->getViewPath().$layoutName.'.php';
+		else if(strpos($layoutName,'.'))
+			$layoutFile=Yii::getPathOfAlias($layoutName).'.php';
 		else
 			$layoutFile=Yii::app()->getLayoutPath().DIRECTORY_SEPARATOR.$layoutName.'.php';
 		return is_file($layoutFile) ? Yii::app()->findLocalizedFile($layoutFile) : false;
@@ -2485,9 +2490,9 @@ class CController extends CBaseController
 	}
 	public function render($view,$data=null,$return=false)
 	{
+		$output=$this->renderPartial($view,$data,true);
 		if(($layout=$this->layout)==null)
 			$layout=Yii::app()->layout;
-		$output=$this->renderPartial($view,$data,true);
 		if(!empty($layout) && ($layoutFile=$this->getLayoutFile($layout))!==false)
 			$output=$this->renderFile($layoutFile,array('content'=>$output),true);
 		$output=$this->processOutput($output);
@@ -2543,7 +2548,7 @@ class CController extends CBaseController
 	}
 	public function createUrl($route,$params=array(),$ampersand='&')
 	{
-		if(strpos($route,'/')===false)
+		if($route==='' || strpos($route,'/')===false)
 			$route=$this->getId().'/'.($route==='' ? $this->getAction()->getId() : $route);
 		return Yii::app()->createUrl($route,$params,$ampersand);
 	}
@@ -2849,9 +2854,12 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	{
 		Yii::app()->getSession()->destroy();
 	}
-	public function getFlash($key,$defaultValue=null)
+	public function getFlash($key,$defaultValue=null,$delete=true)
 	{
-		return $this->getState(self::FLASH_KEY_PREFIX.$key,$defaultValue);
+		$value=$this->getState(self::FLASH_KEY_PREFIX.$key,$defaultValue);
+		if($delete)
+			$this->setFlash($key,null);
+		return $value;
 	}
 	public function setFlash($key,$value,$defaultValue=null)
 	{
@@ -2865,7 +2873,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	}
 	public function hasFlash($key)
 	{
-		return $this->getFlash($key)!==null;
+		return $this->getFlash($key, null, false)!==null;
 	}
 	protected function changeIdentity($id,$name,$states)
 	{
@@ -3618,7 +3626,10 @@ class CHtml
 			foreach($m->getErrors() as $errors)
 			{
 				foreach($errors as $error)
-					$content.="<li>$error</li>\n";
+				{
+					if($error!='')
+						$content.="<li>$error</li>\n";
+				}
 			}
 		}
 		if($content!=='')
@@ -3628,9 +3639,9 @@ class CHtml
 	}
 	public static function error($model,$attribute)
 	{
-		$errors=$model->getErrors($attribute);
-		if(!empty($errors))
-			return self::tag('div',array('class'=>self::$errorMessageCss),reset($errors));
+		$error=$model->getError($attribute);
+		if($error!='')
+			return self::tag('div',array('class'=>self::$errorMessageCss),$error);
 		else
 			return '';
 	}
@@ -3825,7 +3836,10 @@ class CWidget extends CBaseController
 	}
 	public function getViewFile($viewName)
 	{
-		$viewFile=$this->getViewPath().DIRECTORY_SEPARATOR.$viewName.'.php';
+		if(strpos($viewName,'.')) // a path alias
+			$viewFile=Yii::getPathOfAlias($viewName).'.php';
+		else
+			$viewFile=$this->getViewPath().DIRECTORY_SEPARATOR.$viewName.'.php';
 		return is_file($viewFile) ? Yii::app()->findLocalizedFile($viewFile) : false;
 	}
 	public function render($view,$data=null,$return=false)
@@ -4375,18 +4389,20 @@ class CInlineFilter extends CFilter
 	public $name;
 	public static function create($controller,$filterName)
 	{
-		$filter=new CInlineFilter;
-		$filter->name=$filterName;
-		return $filter;
+		if(method_exists($controller,'filter'.$filterName))
+		{
+			$filter=new CInlineFilter;
+			$filter->name=$filterName;
+			return $filter;
+		}
+		else
+			throw new CException(Yii::t('yii','Filter "{filter}" is invalid. Controller "{class}" does have the filter method "filter{filter}".',
+				array('{filter}'=>$filterName, '{class}'=>get_class($controller))));
 	}
 	public function filter($filterChain)
 	{
 		$method='filter'.$this->name;
-		if(method_exists($filterChain->controller,$method))
-			$filterChain->controller->$method($filterChain);
-		else
-			throw new CException(Yii::t('yii','Filter "{filter}" is invalid. Controller "{class}" does have the filter method "filter{filter}".',
-				array('{filter}'=>$this->name, '{class}'=>get_class($filterChain->controller))));
+		$filterChain->controller->$method($filterChain);
 	}
 }
 class CAccessControlFilter extends CFilter
@@ -4418,7 +4434,7 @@ class CAccessControlFilter extends CFilter
 		$verb=$request->getRequestType();
 		$ip=$request->getUserHostAddress();
 		$action=$filterChain->action;
-		foreach($this->_rules as $rule)
+		foreach($this->getRules() as $rule)
 		{
 			if(($allow=$rule->isUserAllowed($user,$action,$ip,$verb))>0) // allowed
 				break;
@@ -4455,11 +4471,11 @@ class CAccessRule extends CComponent
 		else
 			return 0;
 	}
-	private function isActionMatched($action)
+	protected function isActionMatched($action)
 	{
 		return empty($this->actions) || in_array(strtolower($action->getId()),$this->actions);
 	}
-	private function isUserMatched($user)
+	protected function isUserMatched($user)
 	{
 		if(empty($this->users))
 			return true;
@@ -4476,7 +4492,7 @@ class CAccessRule extends CComponent
 		}
 		return false;
 	}
-	private function isRoleMatched($user)
+	protected function isRoleMatched($user)
 	{
 		if(empty($this->roles))
 			return true;
@@ -4487,7 +4503,7 @@ class CAccessRule extends CComponent
 		}
 		return false;
 	}
-	private function isIpMatched($ip)
+	protected function isIpMatched($ip)
 	{
 		if(empty($this->ips))
 			return true;
@@ -4498,7 +4514,7 @@ class CAccessRule extends CComponent
 		}
 		return false;
 	}
-	private function isVerbMatched($verb)
+	protected function isVerbMatched($verb)
 	{
 		return empty($this->verbs) || in_array(strtolower($verb),$this->verbs);
 	}
@@ -4507,6 +4523,15 @@ abstract class CModel extends CComponent
 {
 	private $_errors=array();	// attribute name => array of errors
 	abstract public function attributeNames();
+	abstract public function safeAttributes();
+	public function rules()
+	{
+		return array();
+	}
+	public function attributeLabels()
+	{
+		return array();
+	}
 	public function validate($scenario='',$attributes=null)
 	{
 		$this->clearErrors();
@@ -4530,30 +4555,9 @@ abstract class CModel extends CComponent
 	protected function afterValidate($scenario)
 	{
 	}
-	public function createValidators()
-	{
-		$validators=array();
-		foreach($this->rules() as $rule)
-		{
-			if(isset($rule[0],$rule[1]))  // attributes, validator name
-				$validators[]=CValidator::createValidator($rule[1],$this,$rule[0],array_slice($rule,2));
-			else
-				throw new CException(Yii::t('yii','{class} has an invalid validation rule. The rule must specify attributes to be validated and the validator name.',
-					array('{class}'=>get_class($this))));
-		}
-		return $validators;
-	}
 	public function getValidators()
 	{
 		return $this->createValidators();
-	}
-	public function attributeLabels()
-	{
-		return array();
-	}
-	public function rules()
-	{
-		return array();
 	}
 	public function getAttributeLabel($attribute)
 	{
@@ -4577,6 +4581,10 @@ abstract class CModel extends CComponent
 		else
 			return isset($this->_errors[$attribute]) ? $this->_errors[$attribute] : array();
 	}
+	public function getError($attribute)
+	{
+		return isset($this->_errors[$attribute]) ? reset($this->_errors[$attribute]) : null;
+	}
 	public function addError($attribute,$error)
 	{
 		$this->_errors[$attribute][]=$error;
@@ -4588,22 +4596,70 @@ abstract class CModel extends CComponent
 		else
 			unset($this->_errors[$attribute]);
 	}
+	public function createValidators()
+	{
+		$validators=array();
+		foreach($this->rules() as $rule)
+		{
+			if(isset($rule[0],$rule[1]))  // attributes, validator name
+				$validators[]=CValidator::createValidator($rule[1],$this,$rule[0],array_slice($rule,2));
+			else
+				throw new CException(Yii::t('yii','{class} has an invalid validation rule. The rule must specify attributes to be validated and the validator name.',
+					array('{class}'=>get_class($this))));
+		}
+		return $validators;
+	}
 	public function generateAttributeLabel($name)
 	{
 		return ucwords(trim(strtolower(str_replace(array('-','_'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $name)))));
 	}
-	public function getSafeAttributeNames($scenario='')
+	public function getAttributes($names=null)
 	{
-		$attributes=array();
-		foreach($this->getValidators() as $validator)
+		$values=array();
+		foreach($this->attributeNames() as $name)
+			$values[$name]=$this->$name;
+		if(is_array($names))
 		{
-			if($validator->applyTo($scenario))
+			$values2=array();
+			foreach($names as $name)
+				$values2[$name]=isset($values[$name]) ? $values[$name] : null;
+			return $values2;
+		}
+		else
+			return $values;
+	}
+	public function setAttributes($values,$scenario='')
+	{
+		if(is_array($values))
+		{
+			if($scenario===false)
+				$attributes=array_flip($this->attributeNames());
+			else
+				$attributes=array_flip($this->getSafeAttributeNames($scenario));
+			foreach($values as $name=>$value)
 			{
-				foreach($validator->attributes as $name)
-					$attributes[$name]=$name;
+				if(isset($attributes[$name]))
+					$this->$name=$value;
 			}
 		}
-		return $attributes;
+	}
+	public function getSafeAttributeNames($scenario='')
+	{
+		if($scenario===false)
+			return $this->attributeNames();
+		$attributes=$this->safeAttributes();
+		if(!is_array($attributes))
+			$attributes=array($attributes);
+		if($scenario!=='' && isset($attributes[$scenario]))
+			return $this->ensureArray($attributes[$scenario]);
+		if(isset($attributes[0], $attributes[1]))
+			return $attributes;
+		else
+			return isset($attributes[0]) ? $this->ensureArray($attributes[0]) : array();
+	}
+	private function ensureArray($value)
+	{
+		return is_array($value) ? $value : preg_split('/[\s,]+/',$value,-1,PREG_SPLIT_NO_EMPTY);
 	}
 }
 abstract class CActiveRecord extends CModel
@@ -4613,8 +4669,8 @@ abstract class CActiveRecord extends CModel
 	const HAS_MANY='CHasManyRelation';
 	const MANY_MANY='CManyManyRelation';
 	public static $db;
-	public $isNewRecord=false;
 	private static $_models=array();			// class name => model
+	public $isNewRecord=false;
 	private $_md;
 	private $_attributes=array();				// attribute name => attribute value
 	private $_related=array();					// attribute name => related objects
@@ -4726,6 +4782,16 @@ abstract class CActiveRecord extends CModel
 	{
 		return array_keys($this->getMetaData()->columns);
 	}
+	public function safeAttributes()
+	{
+		$attributes=array();
+		foreach($this->getMetaData()->columns as $name=>$column)
+		{
+			if(!$column->isPrimaryKey)
+				$attributes[]=$name;
+		}
+		return $attributes;
+	}
 	public function getDbConnection()
 	{
 		if(self::$db!==null)
@@ -4741,13 +4807,6 @@ abstract class CActiveRecord extends CModel
 			else
 				throw new CDbException(Yii::t('yii','Active Record requires a "db" CDbConnection application component.'));
 		}
-	}
-	public function getAttributeLabel($attribute)
-	{
-		if(($label=$this->getMetaData()->getAttributeLabel($attribute))!==null)
-			return $label;
-		else
-			return $this->generateAttributeLabel($attribute);
 	}
 	public function getActiveRelation($name)
 	{
@@ -4799,7 +4858,7 @@ abstract class CActiveRecord extends CModel
 		else if(!isset($this->_related[$name]))
 			$this->_related[$name]=$record;
 	}
-	public function getAttributes($names=true)
+	public function getAttributes($names=null)
 	{
 		$attributes=$this->_attributes;
 		foreach($this->getMetaData()->columns as $name=>$column)
@@ -4818,23 +4877,6 @@ abstract class CActiveRecord extends CModel
 		}
 		else
 			return $attributes;
-	}
-	public function setAttributes($values,$scenario='')
-	{
-		if(is_array($values))
-		{
-			$md=$this->getMetaData();
-			$attributes=$scenario===false ? null : $md->getSafeAttributeNames($scenario);
-			foreach($values as $name=>$value)
-			{
-				if(is_array($attributes) && !isset($attributes[$name]))
-					continue;
-				if(property_exists($this,$name))
-					$this->$name=$value;
-				else if(isset($md->columns[$name]))
-					$this->_attributes[$name]=$value;
-			}
-		}
 	}
 	public function save($runValidation=true,$attributes=null)
 	{
@@ -4897,9 +4939,9 @@ abstract class CActiveRecord extends CModel
 			throw new CDbException(Yii::t('yii','The active record cannot be updated because it is new.'));
 		if($this->beforeSave())
 		{
-			$result=$this->updateByPk($this->getPrimaryKey(),$this->getAttributes($attributes))>0;
+			$this->updateByPk($this->getPrimaryKey(),$this->getAttributes($attributes));
 			$this->afterSave();
-			return $result;
+			return true;
 		}
 		else
 			return false;
@@ -5161,9 +5203,7 @@ class CActiveRecordMetaData
 	public $relations=array();
 	public $attributeDefaults=array();
 	private $_model;
-	private $_attributeLabels;
 	private $_validators;
-	private $_safeAttributes=array();
 	public function __construct($model)
 	{
 		$this->_model=$model;
@@ -5187,23 +5227,11 @@ class CActiveRecordMetaData
 					array('{class}'=>get_class($model),'{relation}'=>$name)));
 		}
 	}
-	public function getAttributeLabel($attribute)
-	{
-		if($this->_attributeLabels===null)
-			$this->_attributeLabels=$this->_model->attributeLabels();
-		return isset($this->_attributeLabels[$attribute]) ? $this->_attributeLabels[$attribute] : null;
-	}
 	public function getValidators()
 	{
 		if(!$this->_validators)
 			$this->_validators=$this->_model->createValidators();
 		return $this->_validators;
-	}
-	public function getSafeAttributeNames($scenario='')
-	{
-		if(!isset($this->_safeAttributes[$scenario]))
-			$this->_safeAttributes[$scenario]=$this->_model->getSafeAttributeNames($scenario);
-		return $this->_safeAttributes[$scenario];
 	}
 }
 class CDbConnection extends CApplicationComponent

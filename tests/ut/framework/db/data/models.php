@@ -54,13 +54,6 @@ class Post extends CActiveRecord
 	{
 		return 'posts';
 	}
-
-	public function rules()
-	{
-		return array(
-			array('title', 'safe'),
-		);
-	}
 }
 
 class PostExt extends CActiveRecord
