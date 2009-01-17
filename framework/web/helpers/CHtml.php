@@ -1085,10 +1085,8 @@ class CHtml
 	 * @see CModel::getErrors
 	 * @see errorSummaryCss
 	 */
-	public static function errorSummary($model,$header='',$footer='')
+	public static function errorSummary($model,$header=null,$footer=null)
 	{
-		if($header==='')
-			$header='<p>'.Yii::t('yii','Please fix the following input errors:').'</p>';
 		$content='';
 		if(!is_array($model))
 			$model=array($model);
@@ -1104,7 +1102,11 @@ class CHtml
 			}
 		}
 		if($content!=='')
+		{
+			if($header===null)
+				$header='<p>'.Yii::t('yii','Please fix the following input errors:').'</p>';
 			return self::tag('div',array('class'=>self::$errorSummaryCss),$header."\n<ul>\n$content</ul>".$footer);
+		}
 		else
 			return '';
 	}
