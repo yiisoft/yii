@@ -792,11 +792,11 @@ abstract class CActiveRecord extends CModel
 	 * If the validation fails, the record will not be saved to database.
 	 * The validation will be performed under either 'insert' or 'update' scenario,
 	 * depending on whether {@link isNewRecord} is true or false.
-	 * @param array list of attributes that need to be saved. Defaults to null,
+	 * @param array list of attributes that need to be saved. Defaults to true,
 	 * meaning all attributes that are loaded from DB will be saved.
 	 * @return boolean whether the saving succeeds
 	 */
-	public function save($runValidation=true,$attributes=null)
+	public function save($runValidation=true,$attributes=true)
 	{
 		if(!$runValidation || $this->validate($this->isNewRecord?'insert':'update', $attributes))
 			return $this->isNewRecord ? $this->insert($attributes) : $this->update($attributes);
