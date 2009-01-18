@@ -19,7 +19,7 @@
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
- * @package system.web.widgets.pagers
+ * @package system.db.schema
  * @since 1.0.2
  */
 class CDbExpression extends CComponent
