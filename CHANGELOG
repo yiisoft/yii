@@ -25,6 +25,7 @@ Version 1.0.2 to be released
 - New: Allow flash message to be deleted right after its first access (Qiang)
 - New: Upgraded jQuery to 1.3.0 (Qiang)
 - New: Added CDbExpression so that AR can save DB expressions into database (Qiang)
+- New: Added CDefaultValueValidator (Qiang)
 
 Version 1.0.1 January 4, 2009
 -----------------------------

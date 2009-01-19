@@ -275,7 +275,6 @@ class YiiBase
 		'CLogger' => '/logging/CLogger.php',
 		'CProfileLogRoute' => '/logging/CProfileLogRoute.php',
 		'CWebLogRoute' => '/logging/CWebLogRoute.php',
-		'ControllerGenerator' => '/rad/controller/ControllerGenerator.php',
 		'CDateParser' => '/utils/CDateParser.php',
 		'CFileHelper' => '/utils/CFileHelper.php',
 		'CMarkdownParser' => '/utils/CMarkdownParser.php',
@@ -283,6 +282,7 @@ class YiiBase
 		'CVarDumper' => '/utils/CVarDumper.php',
 		'CCaptchaValidator' => '/validators/CCaptchaValidator.php',
 		'CCompareValidator' => '/validators/CCompareValidator.php',
+		'CDefaultValueValidator' => '/validators/CDefaultValueValidator.php',
 		'CEmailValidator' => '/validators/CEmailValidator.php',
 		'CFileValidator' => '/validators/CFileValidator.php',
 		'CFilterValidator' => '/validators/CFilterValidator.php',
@@ -3622,10 +3622,8 @@ class CHtml
 	{
 		return get_class($model).'_'.$attribute;
 	}
-	public static function errorSummary($model,$header='',$footer='')
+	public static function errorSummary($model,$header=null,$footer=null)
 	{
-		if($header==='')
-			$header='<p>'.Yii::t('yii','Please fix the following input errors:').'</p>';
 		$content='';
 		if(!is_array($model))
 			$model=array($model);
@@ -3641,7 +3639,11 @@ class CHtml
 			}
 		}
 		if($content!=='')
+		{
+			if($header===null)
+				$header='<p>'.Yii::t('yii','Please fix the following input errors:').'</p>';
 			return self::tag('div',array('class'=>self::$errorSummaryCss),$header."\n<ul>\n$content</ul>".$footer);
+		}
 		else
 			return '';
 	}
@@ -4873,14 +4875,14 @@ abstract class CActiveRecord extends CModel
 		else if(!isset($this->_related[$name]))
 			$this->_related[$name]=$record;
 	}
-	public function getAttributes($names=null)
+	public function getAttributes($names=true)
 	{
 		$attributes=$this->_attributes;
 		foreach($this->getMetaData()->columns as $name=>$column)
 		{
 			if(property_exists($this,$name))
 				$attributes[$name]=$this->$name;
-			else if($names===null && !isset($attributes[$name]))
+			else if($names===true && !isset($attributes[$name]))
 				$attributes[$name]=null;
 		}
 		if(is_array($names))
@@ -4924,7 +4926,7 @@ abstract class CActiveRecord extends CModel
 	protected function afterFind()
 	{
 	}
-	public function insert($attributes=true)
+	public function insert($attributes=null)
 	{
 		if(!$this->isNewRecord)
 			throw new CDbException(Yii::t('yii','The active record cannot be inserted to database because it is not new.'));
@@ -4948,7 +4950,7 @@ abstract class CActiveRecord extends CModel
 		else
 			return false;
 	}
-	public function update($attributes=true)
+	public function update($attributes=null)
 	{
 		if($this->isNewRecord)
 			throw new CDbException(Yii::t('yii','The active record cannot be updated because it is new.'));
