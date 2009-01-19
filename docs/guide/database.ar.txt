@@ -192,6 +192,21 @@ $post=new Post;
 echo $post->title;  // this would display: please enter a title
 ~~~
 
+Starting from version 1.0.2, an attribute can be assigned a value of [CDbExpression]
+type before the record is saved (either insertion or updating) to the database.
+For example, in order to save a timestamp returned by the MySQL `NOW()` function,
+we can use the following code:
+
+~~~
+[php]
+$post=new Post;
+$post->createTime=new CDbExpression('NOW()');
+// $post->createTime='NOW()'; will not work because
+// 'NOW()' will be treated as a string
+$post->save();
+~~~
+
+
 Reading Record
 --------------
 

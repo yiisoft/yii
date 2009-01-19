@@ -124,6 +124,8 @@ EOD;
 		if(is_file($fileName))
 		{
 			$translated=require($fileName);
+			sort($messages);
+			ksort($translated);
 			if(array_keys($translated)==$messages)
 			{
 				echo "nothing new...skipped.\n";

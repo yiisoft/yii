@@ -16,7 +16,7 @@ Upgrading from v1.0.1
   we removed CActiveRecord::protectedAttributes(). Please use safeAttributes()
   to specify which attributes are safe to be massively assigned.
 
-  For more details about the scenario-based assignment and validation,
+  For more details about scenario-based assignment and validation,
   please read the following tutorial section:
 
   http://www.yiiframework.com/doc/guide/form.model#securing-attribute-assignments
@@ -24,6 +24,6 @@ Upgrading from v1.0.1
 
 Upgrading from v1.0.0
 ---------------------
-- An $on parameter is added to both CModel::beforeValidate() and afterValidate().
+- An $scenario parameter is added to both CModel::beforeValidate() and afterValidate().
   If you override these methods in your child classes (form models, AR classes),
   make sure you change the method signature accordingly.

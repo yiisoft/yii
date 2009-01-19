@@ -245,6 +245,7 @@ class YiiBase
 		'CDbColumnSchema' => '/db/schema/CDbColumnSchema.php',
 		'CDbCommandBuilder' => '/db/schema/CDbCommandBuilder.php',
 		'CDbCriteria' => '/db/schema/CDbCriteria.php',
+		'CDbExpression' => '/db/schema/CDbExpression.php',
 		'CDbSchema' => '/db/schema/CDbSchema.php',
 		'CDbTableSchema' => '/db/schema/CDbTableSchema.php',
 		'CMysqlColumnSchema' => '/db/schema/mysql/CMysqlColumnSchema.php',
@@ -274,7 +275,6 @@ class YiiBase
 		'CLogger' => '/logging/CLogger.php',
 		'CProfileLogRoute' => '/logging/CProfileLogRoute.php',
 		'CWebLogRoute' => '/logging/CWebLogRoute.php',
-		'ControllerGenerator' => '/rad/controller/ControllerGenerator.php',
 		'CDateParser' => '/utils/CDateParser.php',
 		'CFileHelper' => '/utils/CFileHelper.php',
 		'CMarkdownParser' => '/utils/CMarkdownParser.php',
@@ -282,6 +282,7 @@ class YiiBase
 		'CVarDumper' => '/utils/CVarDumper.php',
 		'CCaptchaValidator' => '/validators/CCaptchaValidator.php',
 		'CCompareValidator' => '/validators/CCompareValidator.php',
+		'CDefaultValueValidator' => '/validators/CDefaultValueValidator.php',
 		'CEmailValidator' => '/validators/CEmailValidator.php',
 		'CFileValidator' => '/validators/CFileValidator.php',
 		'CFilterValidator' => '/validators/CFilterValidator.php',
@@ -3569,7 +3570,14 @@ class CHtml
 		if($model->$attribute)
 			$htmlOptions['checked']='checked';
 		self::clientChange('click',$htmlOptions);
-		return self::hiddenField($htmlOptions['name'],'',array('id'=>self::ID_PREFIX.$htmlOptions['id']))
+		if(isset($htmlOptions['uncheckValue']))
+		{
+			$uncheck=$htmlOptions['uncheckValue'];
+			unset($htmlOptions['uncheckValue']);
+		}
+		else
+			$uncheck='0';
+		return self::hiddenField($htmlOptions['name'],$uncheck,array('id'=>self::ID_PREFIX.$htmlOptions['id']))
 			. self::activeInputField('checkbox',$model,$attribute,$htmlOptions);
 	}
 	public static function activeDropDownList($model,$attribute,$data,$htmlOptions=array())
@@ -3614,10 +3622,8 @@ class CHtml
 	{
 		return get_class($model).'_'.$attribute;
 	}
-	public static function errorSummary($model,$header='',$footer='')
+	public static function errorSummary($model,$header=null,$footer=null)
 	{
-		if($header==='')
-			$header='<p>'.Yii::t('yii','Please fix the following input errors:').'</p>';
 		$content='';
 		if(!is_array($model))
 			$model=array($model);
@@ -3633,7 +3639,11 @@ class CHtml
 			}
 		}
 		if($content!=='')
+		{
+			if($header===null)
+				$header='<p>'.Yii::t('yii','Please fix the following input errors:').'</p>';
 			return self::tag('div',array('class'=>self::$errorSummaryCss),$header."\n<ul>\n$content</ul>".$footer);
+		}
 		else
 			return '';
 	}
@@ -4534,6 +4544,13 @@ abstract class CModel extends CComponent
 	}
 	public function validate($scenario='',$attributes=null)
 	{
+		if(is_string($attributes))
+		{
+			// backward compatible with 1.0.1
+			$tmp=$scenario;
+			$scenario=$attributes;
+			$attributes=$tmp;
+		}
 		$this->clearErrors();
 		if($this->beforeValidate($scenario))
 		{
@@ -4858,7 +4875,7 @@ abstract class CActiveRecord extends CModel
 		else if(!isset($this->_related[$name]))
 			$this->_related[$name]=$record;
 	}
-	public function getAttributes($names=null)
+	public function getAttributes($names=true)
 	{
 		$attributes=$this->_attributes;
 		foreach($this->getMetaData()->columns as $name=>$column)
@@ -4945,6 +4962,23 @@ abstract class CActiveRecord extends CModel
 		}
 		else
 			return false;
+	}
+	public function saveAttributes($attributes)
+	{
+		if(!$this->isNewRecord)
+		{
+			$values=array();
+			foreach($attributes as $name=>$value)
+			{
+				if(is_integer($name))
+					$values[$value]=$this->$value;
+				else
+					$values[$name]=$this->$name=$value;
+			}
+			return $this->updateByPk($this->getPrimaryKey(),$values)>0;
+		}
+		else
+			throw new CDbException(Yii::t('yii','The active record cannot be updated because it is new.'));
 	}
 	public function delete()
 	{
@@ -5857,7 +5891,7 @@ class CDbColumnSchema extends CComponent
 	}
 	public function typecast($value)
 	{
-		if(gettype($value)===$this->type || $value===null)
+		if(gettype($value)===$this->type || $value===null || $value instanceof CDbExpression)
 			return $value;
 		if($value==='')
 			return $this->type==='string' ? '' : null;
@@ -5947,8 +5981,13 @@ class CDbCommandBuilder extends CComponent
 			if(($column=$table->getColumn($name))!==null && ($value!==null || $column->allowNull))
 			{
 				$fields[]=$column->rawName;
-				$placeholders[]=':'.$name;
-				$values[':'.$name]=$column->typecast($value);
+				if($value instanceof CDbExpression)
+					$placeholders[]=(string)$value;
+				else
+				{
+					$placeholders[]=':'.$name;
+					$values[':'.$name]=$column->typecast($value);
+				}
 			}
 		}
 		$sql="INSERT INTO {$table->rawName} (".implode(', ',$fields).') VALUES ('.implode(', ',$placeholders).')';
@@ -5966,7 +6005,9 @@ class CDbCommandBuilder extends CComponent
 		{
 			if(($column=$table->getColumn($name))!==null)
 			{
-				if($bindByPosition)
+				if($value instanceof CDbExpression)
+					$fields[]=$column->rawName.'='.(string)$value;
+				else if($bindByPosition)
 				{
 					$fields[]=$column->rawName.'=?';
 					$values[]=$column->typecast($value);

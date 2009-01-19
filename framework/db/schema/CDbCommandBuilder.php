@@ -128,8 +128,13 @@ class CDbCommandBuilder extends CComponent
 			if(($column=$table->getColumn($name))!==null && ($value!==null || $column->allowNull))
 			{
 				$fields[]=$column->rawName;
-				$placeholders[]=':'.$name;
-				$values[':'.$name]=$column->typecast($value);
+				if($value instanceof CDbExpression)
+					$placeholders[]=(string)$value;
+				else
+				{
+					$placeholders[]=':'.$name;
+					$values[':'.$name]=$column->typecast($value);
+				}
 			}
 		}
 		$sql="INSERT INTO {$table->rawName} (".implode(', ',$fields).') VALUES ('.implode(', ',$placeholders).')';
@@ -157,7 +162,9 @@ class CDbCommandBuilder extends CComponent
 		{
 			if(($column=$table->getColumn($name))!==null)
 			{
-				if($bindByPosition)
+				if($value instanceof CDbExpression)
+					$fields[]=$column->rawName.'='.(string)$value;
+				else if($bindByPosition)
 				{
 					$fields[]=$column->rawName.'=?';
 					$values[]=$column->typecast($value);

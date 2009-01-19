@@ -925,6 +925,9 @@ class CHtml
 	 * @param string the attribute
 	 * @param array additional HTML attributes. Besides normal HTML attributes, a few special
 	 * attributes are also recognized (see {@link clientChange} for more details.)
+	 * A special option named 'uncheckValue' is available that can be used to specify
+	 * the value returned when the checkbox is not checked. By default, this value is '0'.
+	 * This option has been available since version 1.0.2.
 	 * @return string the generated check box
 	 * @see clientChange
 	 * @see activeInputField
@@ -938,7 +941,15 @@ class CHtml
 			$htmlOptions['checked']='checked';
 		self::clientChange('click',$htmlOptions);
 
-		return self::hiddenField($htmlOptions['name'],'',array('id'=>self::ID_PREFIX.$htmlOptions['id']))
+		if(isset($htmlOptions['uncheckValue']))
+		{
+			$uncheck=$htmlOptions['uncheckValue'];
+			unset($htmlOptions['uncheckValue']);
+		}
+		else
+			$uncheck='0';
+
+		return self::hiddenField($htmlOptions['name'],$uncheck,array('id'=>self::ID_PREFIX.$htmlOptions['id']))
 			. self::activeInputField('checkbox',$model,$attribute,$htmlOptions);
 	}
 
@@ -1074,10 +1085,8 @@ class CHtml
 	 * @see CModel::getErrors
 	 * @see errorSummaryCss
 	 */
-	public static function errorSummary($model,$header='',$footer='')
+	public static function errorSummary($model,$header=null,$footer=null)
 	{
-		if($header==='')
-			$header='<p>'.Yii::t('yii','Please fix the following input errors:').'</p>';
 		$content='';
 		if(!is_array($model))
 			$model=array($model);
@@ -1093,7 +1102,11 @@ class CHtml
 			}
 		}
 		if($content!=='')
+		{
+			if($header===null)
+				$header='<p>'.Yii::t('yii','Please fix the following input errors:').'</p>';
 			return self::tag('div',array('class'=>self::$errorSummaryCss),$header."\n<ul>\n$content</ul>".$footer);
+		}
 		else
 			return '';
 	}
