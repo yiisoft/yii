@@ -21,13 +21,13 @@
 class CListPager extends CBasePager
 {
 	/**
-	 * @var string the text shown before page buttons.
+	 * @var string the text shown before page buttons. Defaults to 'Go to page: '.
 	 */
-	public $header='Go to page: ';
+	public $header;
 	/**
 	 * @var string the text shown after page buttons.
 	 */
-	public $footer='';
+	public $footer;
 	/**
 	 * @var string the text displayed as a prompt option in the dropdown list. Defaults to null, meaning no prompt.
 	 */
@@ -62,6 +62,10 @@ class CListPager extends CBasePager
 		$htmlOptions=$this->htmlOptions;
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=$this->getId();
+
+		if($this->header===null)
+			$this->header=Yii::t('yii','Go to page: ');
+
 		echo CHtml::tag('div',$htmlOptions,$this->header.$content.$this->footer);
 	}
 

@@ -751,19 +751,19 @@ abstract class CActiveRecord extends CModel
 	 * Returns all column attribute values.
 	 * Note, related objects are not returned.
 	 * @param mixed names of attributes whose value needs to be returned.
-	 * If this is null (default), then all attribute values will be returned, including
+	 * If this is true (default), then all attribute values will be returned, including
 	 * those that are not loaded from DB (null will be returned for those attributes).
-	 * If this is true, all attributes except those that are not loaded from DB will be returned.
+	 * If this is null, all attributes except those that are not loaded from DB will be returned.
 	 * @return array attribute values indexed by attribute names.
 	 */
-	public function getAttributes($names=null)
+	public function getAttributes($names=true)
 	{
 		$attributes=$this->_attributes;
 		foreach($this->getMetaData()->columns as $name=>$column)
 		{
 			if(property_exists($this,$name))
 				$attributes[$name]=$this->$name;
-			else if($names===null && !isset($attributes[$name]))
+			else if($names===true && !isset($attributes[$name]))
 				$attributes[$name]=null;
 		}
 		if(is_array($names))
@@ -875,12 +875,12 @@ abstract class CActiveRecord extends CModel
 	 * If the table's primary key is auto-incremental and is null before insertion,
 	 * it will be populated with the actual value after insertion.
 	 * Note, validation is not performed in this method. You may call {@link validate} to perform the validation.
-	 * @param array list of attributes that need to be saved. Defaults to true,
+	 * @param array list of attributes that need to be saved. Defaults to null,
 	 * meaning all attributes that are loaded from DB will be saved.
 	 * @return boolean whether the attributes are valid and the record is inserted successfully.
 	 * @throws CException if the record is not new
 	 */
-	public function insert($attributes=true)
+	public function insert($attributes=null)
 	{
 		if(!$this->isNewRecord)
 			throw new CDbException(Yii::t('yii','The active record cannot be inserted to database because it is not new.'));
@@ -909,12 +909,12 @@ abstract class CActiveRecord extends CModel
 	 * Updates the row represented by this active record.
 	 * All loaded attributes will be saved to the database.
 	 * Note, validation is not performed in this method. You may call {@link validate} to perform the validation.
-	 * @param array list of attributes that need to be saved. Defaults to true,
+	 * @param array list of attributes that need to be saved. Defaults to null,
 	 * meaning all attributes that are loaded from DB will be saved.
 	 * @return boolean whether the update is successful
 	 * @throws CException if the record is new
 	 */
-	public function update($attributes=true)
+	public function update($attributes=null)
 	{
 		if($this->isNewRecord)
 			throw new CDbException(Yii::t('yii','The active record cannot be updated because it is new.'));

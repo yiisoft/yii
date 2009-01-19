@@ -127,7 +127,7 @@ class CDbColumnSchema extends CComponent
 	 */
 	public function typecast($value)
 	{
-		if(gettype($value)===$this->type || $value===null)
+		if(gettype($value)===$this->type || $value===null || $value instanceof CDbExpression)
 			return $value;
 		if($value==='')
 			return $this->type==='string' ? '' : null;

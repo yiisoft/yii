@@ -16,6 +16,8 @@ Version 1.0.2 to be released
 - Bug: Fixed an issue in CUrlManager::createUrl when GET parameters contain arrays (Qiang)
 - New #88: Added public properties to CActiveRecord::safeAttributes() (Qiang)
 - New #92: Empty error messages in models are handled better when being displayed (Qiang)
+- New #93: Changed CLinkPager and CListPager so that the messages are internationalized (Qiang)
+- New #95: Added an option to CHtml::activeCheckBox() to define default value if unchecked (Qiang)
 - New: Added CActiveRecord::getRelated() (Qiang)
 - New: Added 'return' option to HTML options in CHtml (Qiang)
 - New: Refactored CSS-dependent widgets by adding registerCssFile static methods (Qiang)
@@ -25,6 +27,9 @@ Version 1.0.2 to be released
 - New: Added support to specify views in terms of path aliases (Qiang)
 - New: Enhanced getBaseUrl to allow it to return an absolute URL (Qiang)
 - New: Allow flash message to be deleted right after its first access (Qiang)
+- New: Upgraded jQuery to 1.3.0 (Qiang)
+- New: Added CDbExpression so that AR can save DB expressions into database (Qiang)
+- New: Added CDefaultValueValidator (Qiang)
 
 Version 1.0.1 January 4, 2009
 -----------------------------
