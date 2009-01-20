@@ -36,6 +36,7 @@ class Post extends CActiveRecord
 			array('title', 'length', 'max'=>128),
 			array('title, content, status', 'required'),
 			array('status', 'numerical', 'min'=>0, 'max'=>3),
+			array('tagInput', 'match', 'pattern'=>'/[\w\s,]+/', 'message'=>'Tags can only contain word characters.'),
 		);
 	}
 
