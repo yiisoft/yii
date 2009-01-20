@@ -889,7 +889,6 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function onAfterConstruct($event)
 	{
-		$this->attachBehaviors();
 		$this->raiseEvent('onAfterConstruct',$event);
 	}
 
@@ -900,7 +899,6 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function onAfterFind($event)
 	{
-		$this->attachBehaviors();
 		$this->raiseEvent('onAfterFind',$event);
 	}
 
