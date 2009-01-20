@@ -369,6 +369,7 @@ class Yii extends YiiBase
 class CComponent
 {
 	private $_e;
+	private $_m;
 	public function __get($name)
 	{
 		$getter='get'.$name;
@@ -429,6 +430,45 @@ class CComponent
 		else if(method_exists($this,'get'.$name))
 			throw new CException(Yii::t('yii','Property "{class}.{property}" is read only.',
 				array('{class}'=>get_class($this), '{property}'=>$name)));
+	}
+	public function __call($name,$parameters)
+	{
+		if($this->_m!==null)
+		{
+			foreach($this->_m as $object)
+			{
+				if($object->enabled && method_exists($object,$name))
+					return call_user_func_array(array($object,$name),$parameters);
+			}
+		}
+		throw new CException('yii','{class} does not have a method named {name}.',
+			array('{class}'=>get_class($this), '{name}'=>$name));
+	}
+	public function attachBehavior($name,$config)
+	{
+		$behavior=($config instanceof IBehavior) ? $config : Yii::createComponent($config);
+		$behavior->setEnabled(true);
+		$behavior->attach($this);
+		return $this->_m[$name]=$behavior;
+	}
+	public function detachBehavior($name)
+	{
+		if(isset($this->_m[$name]))
+		{
+			$this->_m[$name]->detach($this);
+			unset($this->_m[$name]);
+			return $this->_m[$name];
+		}
+	}
+	public function enableBehavior($name)
+	{
+		if(isset($this->_m[$name]))
+			$this->_m[$name]->setEnabled(true);
+	}
+	public function disableBehavior($name)
+	{
+		if(isset($this->_m[$name]))
+			$this->_m[$name]->setEnabled(false);
 	}
 	public function hasProperty($name)
 	{
@@ -584,6 +624,24 @@ class CPropertyValue
 		else
 			throw new CException(Yii::t('yii','Invalid enumerable value "{value}". Please make sure it is among ({enum}).',
 				array('{value}'=>$value, '{enum}'=>implode(', ',$types[$enumType]->getConstants()))));
+	}
+}
+class CBehavior extends CComponent implements IBehavior
+{
+	private $_enabled;
+	public function attach($component)
+	{
+	}
+	public function detach($component)
+	{
+	}
+	public function getEnabled()
+	{
+		return $this->_enabled;
+	}
+	public function setEnabled($value)
+	{
+		$this->_enabled=$value;
 	}
 }
 abstract class CApplication extends CComponent
@@ -6640,5 +6698,12 @@ interface IAuthManager
 	public function clearAuthAssignments();
 	public function save();
 	public function executeBizRule($bizRule,$params,$data);
+}
+interface IBehavior
+{
+	public function attach($component);
+	public function detach($component);
+	public function getEnabled();
+	public function setEnabled($value);
 }
 ?>

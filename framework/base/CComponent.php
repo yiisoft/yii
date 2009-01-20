@@ -74,6 +74,7 @@
 class CComponent
 {
 	private $_e;
+	private $_m;
 
 	/**
 	 * Returns a property value or an event handler list by property or event name.
@@ -179,6 +180,89 @@ class CComponent
 		else if(method_exists($this,'get'.$name))
 			throw new CException(Yii::t('yii','Property "{class}.{property}" is read only.',
 				array('{class}'=>get_class($this), '{property}'=>$name)));
+	}
+
+	/**
+	 * Calls the named method which is not a class method.
+	 * Do not call this method. This is a PHP magic method that we override
+	 * @param string the method name
+	 * @param array method parameters
+	 * @return mixed the method return value
+	 * @since 1.0.2
+	 */
+	public function __call($name,$parameters)
+	{
+		if($this->_m!==null)
+		{
+			foreach($this->_m as $object)
+			{
+				if($object->enabled && method_exists($object,$name))
+					return call_user_func_array(array($object,$name),$parameters);
+			}
+		}
+		throw new CException('yii','{class} does not have a method named {name}.',
+			array('{class}'=>get_class($this), '{name}'=>$name));
+	}
+
+	/**
+	 * Attaches a behavior to this component.
+	 * This method will create the behavior object based on the given
+	 * configuration. After that, the behavior object will be initialized
+	 * by calling its {@link IBehavior::attach} method.
+	 * @param string the behavior's name. It should uniquely identify this behavior.
+	 * @param mixed the behavior configuration. This is passed as the first
+	 * parameter to {@link YiiBase::createComponent} to create the behavior object.
+	 * @return IBehavior the behavior object
+	 * @since 1.0.2
+	 */
+	public function attachBehavior($name,$config)
+	{
+		$behavior=($config instanceof IBehavior) ? $config : Yii::createComponent($config);
+		$behavior->setEnabled(true);
+		$behavior->attach($this);
+		return $this->_m[$name]=$behavior;
+	}
+
+	/**
+	 * Detaches a behavior from the component.
+	 * The behavior's {@link IBehavior::detach} method will be invoked.
+	 * @param string the behavior's name. It uniquely identifies the behavior.
+	 * @return IBehavior the detached behavior. Null if the behavior does not exist.
+	 * @since 1.0.2
+	 */
+	public function detachBehavior($name)
+	{
+		if(isset($this->_m[$name]))
+		{
+			$this->_m[$name]->detach($this);
+			unset($this->_m[$name]);
+			return $this->_m[$name];
+		}
+	}
+
+	/**
+	 * Enables an attached behavior.
+	 * A behavior is only effective when it is enabled.
+	 * A behavior is enabled when first attached.
+	 * @param string the behavior's name. It uniquely identifies the behavior.
+	 * @since 1.0.2
+	 */
+	public function enableBehavior($name)
+	{
+		if(isset($this->_m[$name]))
+			$this->_m[$name]->setEnabled(true);
+	}
+
+	/**
+	 * Disables an attached behavior.
+	 * A behavior is only effective when it is enabled.
+	 * @param string the behavior's name. It uniquely identifies the behavior.
+	 * @since 1.0.2
+	 */
+	public function disableBehavior($name)
+	{
+		if(isset($this->_m[$name]))
+			$this->_m[$name]->setEnabled(false);
 	}
 
 	/**
@@ -579,5 +663,52 @@ class CPropertyValue
 		else
 			throw new CException(Yii::t('yii','Invalid enumerable value "{value}". Please make sure it is among ({enum}).',
 				array('{value}'=>$value, '{enum}'=>implode(', ',$types[$enumType]->getConstants()))));
+	}
+}
+
+
+/**
+ * CBehavior is a convenient base class for behavior classes.
+ * Child classes mainly need to implement {@link attach} and/or {@link detach}
+ * methods.
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id$
+ * @package system.base
+ * @since 1.0
+ */
+class CBehavior extends CComponent implements IBehavior
+{
+	private $_enabled;
+
+	/**
+	 * Attaches the behavior object to the component.
+	 * @param CComponent the component that this behavior is to be attached to.
+	 */
+	public function attach($component)
+	{
+	}
+
+	/**
+	 * Detaches the behavior object from the component.
+	 * @param CComponent the component that this behavior is to be detached from.
+	 */
+	public function detach($component)
+	{
+	}
+
+	/**
+	 * @return boolean whether this behavior is enabled
+	 */
+	public function getEnabled()
+	{
+		return $this->_enabled;
+	}
+
+	/**
+	 * @param boolean whether this behavior is enabled
+	 */
+	public function setEnabled($value)
+	{
+		$this->_enabled=$value;
 	}
 }

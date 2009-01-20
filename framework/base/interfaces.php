@@ -486,3 +486,37 @@ interface IAuthManager
 	 */
 	public function executeBizRule($bizRule,$params,$data);
 }
+
+
+/**
+ * IBehavior interfaces is implemented by all behavior classes.
+ *
+ * A behavior is a way to enhance a component with additional methods that
+ * are defined in the behavior class and not available in the component class.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id$
+ * @package system.base
+ * @since 1.0.2
+ */
+interface IBehavior
+{
+	/**
+	 * Attaches the behavior object to the component.
+	 * @param CComponent the component that this behavior is to be attached to.
+	 */
+	public function attach($component);
+	/**
+	 * Detaches the behavior object from the component.
+	 * @param CComponent the component that this behavior is to be detached from.
+	 */
+	public function detach($component);
+	/**
+	 * @return boolean whether this behavior is enabled
+	 */
+	public function getEnabled();
+	/**
+	 * @param boolean whether this behavior is enabled
+	 */
+	public function setEnabled($value);
+}
