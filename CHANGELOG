@@ -27,6 +27,7 @@ Version 1.0.2 to be released
 - New: Added CDbExpression so that AR can save DB expressions into database (Qiang)
 - New: Added CDefaultValueValidator (Qiang)
 - New: Added CBehavior and implemented the behavior feature (Qiang)
+- New: Added a set of new events to CActiveRecord and CFormModel (Qiang)
 
 Version 1.0.1 January 4, 2009
 -----------------------------

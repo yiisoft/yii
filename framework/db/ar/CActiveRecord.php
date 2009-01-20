@@ -597,6 +597,32 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Returns a list of behaviors that this model should behave as.
+	 * The return value should be an array of behavior configurations indexed by
+	 * behavior names. Each behavior configuration can be either a string specifying
+	 * the behavior class or an array of the following structure:
+	 * <pre>
+	 * array(
+	 *     'class'=>'path.to.BehaviorClass',
+	 *     'property1'=>'value1',
+	 *     'property2'=>'value2',
+	 * )
+	 * </pre>
+	 *
+	 * Note, the behavior classes must implement {@link IBehavior} or extend from
+	 * {@link CBehavior}. Behaviors declared in this method will be attached
+	 * to the model when it is instantiated.
+	 *
+	 * For more details about behaviors, see {@link CComponent}.
+	 *
+	 * @since 1.0.2
+	 */
+	public function behaviors()
+	{
+		return array();
+	}
+
+	/**
 	 * Returns the list of all attribute names of the model.
 	 * This would return all column names of the table associated with this AR class.
 	 * @return array list of attribute names.
@@ -817,57 +843,139 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * This event is raised before the record is saved.
+	 * @param CEvent the event parameter
+	 * @since 1.0.2
+	 */
+	public function onBeforeSave($event)
+	{
+		$this->raiseEvent('onBeforeSave',$event);
+	}
+
+	/**
+	 * This event is raised after the record is saved.
+	 * @param CEvent the event parameter
+	 * @since 1.0.2
+	 */
+	public function onAfterSave($event)
+	{
+		$this->raiseEvent('onAfterSave',$event);
+	}
+
+	/**
+	 * This event is raised before the record is deleted.
+	 * @param CEvent the event parameter
+	 * @since 1.0.2
+	 */
+	public function onBeforeDelete($event)
+	{
+		$this->raiseEvent('onBeforeDelete',$event);
+	}
+
+	/**
+	 * This event is raised after the record is deleted.
+	 * @param CEvent the event parameter
+	 * @since 1.0.2
+	 */
+	public function onAfterDelete($event)
+	{
+		$this->raiseEvent('onAfterDelete',$event);
+	}
+
+	/**
+	 * This event is raised after the record instance is created by new operator.
+	 * @param CEvent the event parameter
+	 * @since 1.0.2
+	 */
+	public function onAfterConstruct($event)
+	{
+		$this->attachBehaviors();
+		$this->raiseEvent('onAfterConstruct',$event);
+	}
+
+	/**
+	 * This event is raised after the record is instantiated by a find method.
+	 * @param CEvent the event parameter
+	 * @since 1.0.2
+	 */
+	public function onAfterFind($event)
+	{
+		$this->attachBehaviors();
+		$this->raiseEvent('onAfterFind',$event);
+	}
+
+	/**
 	 * This method is invoked before saving a record (after validation, if any).
+	 * The default implementation raises the {@link onBeforeSave} event.
 	 * You may override this method to do any preparation work for record saving.
 	 * Use {@link isNewRecord} to determine whether the saving is
 	 * for inserting or updating record.
+	 * Make sure you call the parent implementation so that the event is raised properly.
 	 * @return boolean whether the saving should be executed. Defaults to true.
 	 */
 	protected function beforeSave()
 	{
+		$this->onBeforeSave(new CEvent($this));
 		return true;
 	}
 
 	/**
 	 * This method is invoked after saving a record.
+	 * The default implementation raises the {@link onAfterSave} event.
 	 * You may override this method to do postprocessing after record saving.
+	 * Make sure you call the parent implementation so that the event is raised properly.
 	 */
 	protected function afterSave()
 	{
+		$this->onAfterSave(new CEvent($this));
 	}
 
 	/**
 	 * This method is invoked before deleting a record.
+	 * The default implementation raises the {@link onBeforeDelete} event.
 	 * You may override this method to do any preparation work for record deletion.
+	 * Make sure you call the parent implementation so that the event is raised properly.
 	 * @return boolean whether the record should be deleted. Defaults to true.
 	 */
 	protected function beforeDelete()
 	{
+		$this->onBeforeDelete(new CEvent($this));
 		return true;
 	}
 
 	/**
 	 * This method is invoked after deleting a record.
+	 * The default implementation raises the {@link onAfterDelete} event.
 	 * You may override this method to do postprocessing after the record is deleted.
+	 * Make sure you call the parent implementation so that the event is raised properly.
 	 */
 	protected function afterDelete()
 	{
+		$this->onAfterDelete(new CEvent($this));
 	}
 
 	/**
 	 * This method is invoked after a record instance is created by new operator.
+	 * The default implementation raises the {@link onAfterConstruct} event.
 	 * You may override this method to do postprocessing after record creation.
+	 * Make sure you call the parent implementation so that the event is raised properly.
 	 */
 	protected function afterConstruct()
 	{
+		$this->attachBehaviors($this->behaviors());
+		$this->onAfterConstruct(new CEvent($this));
 	}
 
 	/**
 	 * This method is invoked after each record is instantiated by a find method.
+	 * The default implementation raises the {@link onAfterFind} event.
 	 * You may override this method to do postprocessing after each newly found record is instantiated.
+	 * Make sure you call the parent implementation so that the event is raised properly.
 	 */
 	protected function afterFind()
 	{
+		$this->attachBehaviors($this->behaviors());
+		$this->onAfterFind(new CEvent($this));
 	}
 
 	/**

@@ -167,7 +167,9 @@ abstract class CModel extends CComponent
 
 	/**
 	 * This method is invoked before validation starts.
+	 * The default implementation calls {@link onBeforeValidate} to raise an event.
 	 * You may override this method to do preliminary checks before validation.
+	 * Make sure the parent implementation is invoked so that the event can be raised.
 	 * @param string the set of the validation rules that should be applied. See {@link validate}
 	 * for more details about this parameter.
 	 * NOTE: this parameter has been available since version 1.0.1.
@@ -175,18 +177,42 @@ abstract class CModel extends CComponent
 	 */
 	protected function beforeValidate($scenario)
 	{
+		$this->onBeforeValidate(new CEvent($this));
 		return true;
 	}
 
 	/**
 	 * This method is invoked after validation ends.
+	 * The default implementation calls {@link onAfterValidate} to raise an event.
 	 * You may override this method to do postprocessing after validation.
+	 * Make sure the parent implementation is invoked so that the event can be raised.
 	 * @param string the set of the validation rules that should be applied. See {@link validate}
 	 * for more details about this parameter.
 	 * NOTE: this parameter has been available since version 1.0.1.
 	 */
 	protected function afterValidate($scenario)
 	{
+		$this->onAfterValidate(new CEvent($this));
+	}
+
+	/**
+	 * This event is raised before the validation is performed.
+	 * @param CEvent the event parameter
+	 * @since 1.0.2
+	 */
+	public function onBeforeValidate($event)
+	{
+		$this->raiseEvent('onBeforeValidate',$event);
+	}
+
+	/**
+	 * This event is raised after the validation is performed.
+	 * @param CEvent the event parameter
+	 * @since 1.0.2
+	 */
+	public function onAfterValidate($event)
+	{
+		$this->raiseEvent('onAfterValidate',$event);
 	}
 
 	/**

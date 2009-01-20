@@ -66,6 +66,18 @@
  *
  * Both property names and event names are case-insensitive.
  *
+ * Starting from version 1.0.2, CComponent supports behaviors. A behavior is an
+ * instance of {@link IBehavior} which is attached to a component. The methods of
+ * the behavior can be invoked as if they belong to the component. Multiple behaviors
+ * can be attached to the same component.
+ *
+ * To attach a behavior to a component, call {@link attachBehavior}; and to detach the behavior
+ * from the component, call {@link detachBehavior}.
+ *
+ * A behavior can be temporarily enabled or disabled by calling {@link enableBehavior}
+ * or {@link disableBehavior}, respectively. When disabled, the behavior methods cannot
+ * be invoked via the component.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.base
@@ -204,6 +216,42 @@ class CComponent
 			array('{class}'=>get_class($this), '{name}'=>$name));
 	}
 
+
+	/**
+	 * Attaches a list of behaviors to the component.
+	 * Each behavior is indexed by its name and should be an instance of
+	 * {@link IBehavior}, a string specifying the behavior class, or an
+	 * array of the following structure:
+	 * <pre>
+	 * array(
+	 *     'class'=>'path.to.BehaviorClass',
+	 *     'property1'=>'value1',
+	 *     'property2'=>'value2',
+	 * )
+	 * </pre>
+	 * @param array list of behaviors to be attached to the component
+	 * @since 1.0.2
+	 */
+	public function attachBehaviors($behaviors)
+	{
+		foreach($behaviors as $name=>$behavior)
+			$this->attachBehavior($name,$behavior);
+	}
+
+	/**
+	 * Detaches all behaviors from the component.
+	 * @since 1.0.2
+	 */
+	public function detachBehaviors()
+	{
+		if($this->_m!==null)
+		{
+			foreach($this->_m as $name=>$behavior)
+				$this->detachBehavior($name);
+			$this->_m=null;
+		}
+	}
+
 	/**
 	 * Attaches a behavior to this component.
 	 * This method will create the behavior object based on the given
@@ -215,9 +263,10 @@ class CComponent
 	 * @return IBehavior the behavior object
 	 * @since 1.0.2
 	 */
-	public function attachBehavior($name,$config)
+	public function attachBehavior($name,$behavior)
 	{
-		$behavior=($config instanceof IBehavior) ? $config : Yii::createComponent($config);
+		if(!($behavior instanceof IBehavior))
+			$behavior=Yii::createComponent($behavior);
 		$behavior->setEnabled(true);
 		$behavior->attach($this);
 		return $this->_m[$name]=$behavior;
@@ -237,6 +286,32 @@ class CComponent
 			$this->_m[$name]->detach($this);
 			unset($this->_m[$name]);
 			return $this->_m[$name];
+		}
+	}
+
+	/**
+	 * Enables all behaviors attached to this component.
+	 * @since 1.0.2
+	 */
+	public function enableBehaviors()
+	{
+		if($this->_m!==null)
+		{
+			foreach($this->_m as $behavior)
+				$behavior->setEnabled(true);
+		}
+	}
+
+	/**
+	 * Disables all behaviors attached to this component.
+	 * @since 1.0.2
+	 */
+	public function disableBehaviors()
+	{
+		if($this->_m!==null)
+		{
+			foreach($this->_m as $behavior)
+				$behavior->setEnabled(false);
 		}
 	}
 
