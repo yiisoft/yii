@@ -679,16 +679,16 @@ class CPropertyValue
 class CBehavior extends CComponent implements IBehavior
 {
 	private $_enabled;
-	private $_component;
+	private $_owner;
 
 	/**
 	 * Attaches the behavior object to the component.
 	 * Make sure you call the parent implementation if you override this method.
 	 * @param CComponent the component that this behavior is to be attached to.
 	 */
-	public function attach($component)
+	public function attach($owner)
 	{
-		$this->_component=$component;
+		$this->_owner=$owner;
 	}
 
 	/**
@@ -696,17 +696,17 @@ class CBehavior extends CComponent implements IBehavior
 	 * Make sure you call the parent implementation if you override this method.
 	 * @param CComponent the component that this behavior is to be detached from.
 	 */
-	public function detach($component)
+	public function detach($owner)
 	{
-		$this->_component=null;
+		$this->_owner=null;
 	}
 
 	/**
-	 * @return CComponent the main component that this behavior is attached to.
+	 * @return CComponent the owner component that this behavior is attached to.
 	 */
-	public function getComponent()
+	public function getOwner()
 	{
-		return $this->_component;
+		return $this->_owner;
 	}
 
 	/**
