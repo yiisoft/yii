@@ -206,11 +206,13 @@ class YiiBase
 	private static $_coreClasses=array(
 		'CApplication' => '/base/CApplication.php',
 		'CApplicationComponent' => '/base/CApplicationComponent.php',
+		'CBehavior' => '/base/CBehavior.php',
 		'CComponent' => '/base/CComponent.php',
 		'CErrorHandler' => '/base/CErrorHandler.php',
 		'CException' => '/base/CException.php',
 		'CHttpException' => '/base/CHttpException.php',
 		'CModel' => '/base/CModel.php',
+		'CModelBehavior' => '/base/CModelBehavior.php',
 		'CSecurityManager' => '/base/CSecurityManager.php',
 		'CStatePersister' => '/base/CStatePersister.php',
 		'CApcCache' => '/caching/CApcCache.php',
@@ -242,6 +244,7 @@ class YiiBase
 		'CDbTransaction' => '/db/CDbTransaction.php',
 		'CActiveFinder' => '/db/ar/CActiveFinder.php',
 		'CActiveRecord' => '/db/ar/CActiveRecord.php',
+		'CActiveRecordBehavior' => '/db/ar/CActiveRecordBehavior.php',
 		'CDbColumnSchema' => '/db/schema/CDbColumnSchema.php',
 		'CDbCommandBuilder' => '/db/schema/CDbCommandBuilder.php',
 		'CDbCriteria' => '/db/schema/CDbCriteria.php',
@@ -444,9 +447,24 @@ class CComponent
 		throw new CException('yii','{class} does not have a method named {name}.',
 			array('{class}'=>get_class($this), '{name}'=>$name));
 	}
-	public function attachBehavior($name,$config)
+	public function attachBehaviors($behaviors)
 	{
-		$behavior=($config instanceof IBehavior) ? $config : Yii::createComponent($config);
+		foreach($behaviors as $name=>$behavior)
+			$this->attachBehavior($name,$behavior);
+	}
+	public function detachBehaviors()
+	{
+		if($this->_m!==null)
+		{
+			foreach($this->_m as $name=>$behavior)
+				$this->detachBehavior($name);
+			$this->_m=null;
+		}
+	}
+	public function attachBehavior($name,$behavior)
+	{
+		if(!($behavior instanceof IBehavior))
+			$behavior=Yii::createComponent($behavior);
 		$behavior->setEnabled(true);
 		$behavior->attach($this);
 		return $this->_m[$name]=$behavior;
@@ -458,6 +476,22 @@ class CComponent
 			$this->_m[$name]->detach($this);
 			unset($this->_m[$name]);
 			return $this->_m[$name];
+		}
+	}
+	public function enableBehaviors()
+	{
+		if($this->_m!==null)
+		{
+			foreach($this->_m as $behavior)
+				$behavior->setEnabled(true);
+		}
+	}
+	public function disableBehaviors()
+	{
+		if($this->_m!==null)
+		{
+			foreach($this->_m as $behavior)
+				$behavior->setEnabled(false);
 		}
 	}
 	public function enableBehavior($name)
@@ -511,17 +545,9 @@ class CComponent
 	public function detachEventHandler($name,$handler)
 	{
 		if($this->hasEventHandler($name))
-		{
-			try
-			{
-				$this->getEventHandlers($name)->remove($handler);
-				return true;
-			}
-			catch(Exception $e)
-			{
-			}
-		}
-		return false;
+			return $this->getEventHandlers($name)->remove($handler)!==false;
+		else
+			return false;
 	}
 	public function raiseEvent($name,$event)
 	{
@@ -624,24 +650,6 @@ class CPropertyValue
 		else
 			throw new CException(Yii::t('yii','Invalid enumerable value "{value}". Please make sure it is among ({enum}).',
 				array('{value}'=>$value, '{enum}'=>implode(', ',$types[$enumType]->getConstants()))));
-	}
-}
-class CBehavior extends CComponent implements IBehavior
-{
-	private $_enabled;
-	public function attach($component)
-	{
-	}
-	public function detach($component)
-	{
-	}
-	public function getEnabled()
-	{
-		return $this->_enabled;
-	}
-	public function setEnabled($value)
-	{
-		$this->_enabled=$value;
 	}
 }
 abstract class CApplication extends CComponent
@@ -4241,7 +4249,7 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 			return $index;
 		}
 		else
-			throw new CException(Yii::t('yii','Unable to find the list item.'));
+			return false;
 	}
 	public function removeAt($index)
 	{
@@ -4625,10 +4633,20 @@ abstract class CModel extends CComponent
 	}
 	protected function beforeValidate($scenario)
 	{
+		$this->onBeforeValidate(new CEvent($this));
 		return true;
 	}
 	protected function afterValidate($scenario)
 	{
+		$this->onAfterValidate(new CEvent($this));
+	}
+	public function onBeforeValidate($event)
+	{
+		$this->raiseEvent('onBeforeValidate',$event);
+	}
+	public function onAfterValidate($event)
+	{
+		$this->raiseEvent('onAfterValidate',$event);
 	}
 	public function getValidators()
 	{
@@ -4853,6 +4871,10 @@ abstract class CActiveRecord extends CModel
 	{
 		return array();
 	}
+	public function behaviors()
+	{
+		return array();
+	}
 	public function attributeNames()
 	{
 		return array_keys($this->getMetaData()->columns);
@@ -4964,25 +4986,57 @@ abstract class CActiveRecord extends CModel
 	{
 		return $this->getMetaData()->getValidators();
 	}
+	public function onBeforeSave($event)
+	{
+		$this->raiseEvent('onBeforeSave',$event);
+	}
+	public function onAfterSave($event)
+	{
+		$this->raiseEvent('onAfterSave',$event);
+	}
+	public function onBeforeDelete($event)
+	{
+		$this->raiseEvent('onBeforeDelete',$event);
+	}
+	public function onAfterDelete($event)
+	{
+		$this->raiseEvent('onAfterDelete',$event);
+	}
+	public function onAfterConstruct($event)
+	{
+		$this->raiseEvent('onAfterConstruct',$event);
+	}
+	public function onAfterFind($event)
+	{
+		$this->raiseEvent('onAfterFind',$event);
+	}
 	protected function beforeSave()
 	{
+		$this->onBeforeSave(new CEvent($this));
 		return true;
 	}
 	protected function afterSave()
 	{
+		$this->onAfterSave(new CEvent($this));
 	}
 	protected function beforeDelete()
 	{
+		$this->onBeforeDelete(new CEvent($this));
 		return true;
 	}
 	protected function afterDelete()
 	{
+		$this->onAfterDelete(new CEvent($this));
 	}
 	protected function afterConstruct()
 	{
+		$this->attachBehaviors($this->behaviors());
+		$this->onAfterConstruct(new CEvent($this));
 	}
 	protected function afterFind()
 	{
+		$this->attachBehaviors($this->behaviors());
+		$this->onAfterFind(new CEvent($this));
 	}
 	public function insert($attributes=null)
 	{

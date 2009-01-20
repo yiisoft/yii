@@ -471,17 +471,9 @@ class CComponent
 	public function detachEventHandler($name,$handler)
 	{
 		if($this->hasEventHandler($name))
-		{
-			try
-			{
-				$this->getEventHandlers($name)->remove($handler);
-				return true;
-			}
-			catch(Exception $e)
-			{
-			}
-		}
-		return false;
+			return $this->getEventHandlers($name)->remove($handler)!==false;
+		else
+			return false;
 	}
 
 	/**
@@ -738,65 +730,5 @@ class CPropertyValue
 		else
 			throw new CException(Yii::t('yii','Invalid enumerable value "{value}". Please make sure it is among ({enum}).',
 				array('{value}'=>$value, '{enum}'=>implode(', ',$types[$enumType]->getConstants()))));
-	}
-}
-
-
-/**
- * CBehavior is a convenient base class for behavior classes.
- * Child classes mainly need to implement {@link attach} and/or {@link detach}
- * methods.
- * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
- * @package system.base
- * @since 1.0
- */
-class CBehavior extends CComponent implements IBehavior
-{
-	private $_enabled;
-	private $_owner;
-
-	/**
-	 * Attaches the behavior object to the component.
-	 * Make sure you call the parent implementation if you override this method.
-	 * @param CComponent the component that this behavior is to be attached to.
-	 */
-	public function attach($owner)
-	{
-		$this->_owner=$owner;
-	}
-
-	/**
-	 * Detaches the behavior object from the component.
-	 * Make sure you call the parent implementation if you override this method.
-	 * @param CComponent the component that this behavior is to be detached from.
-	 */
-	public function detach($owner)
-	{
-		$this->_owner=null;
-	}
-
-	/**
-	 * @return CComponent the owner component that this behavior is attached to.
-	 */
-	public function getOwner()
-	{
-		return $this->_owner;
-	}
-
-	/**
-	 * @return boolean whether this behavior is enabled
-	 */
-	public function getEnabled()
-	{
-		return $this->_enabled;
-	}
-
-	/**
-	 * @param boolean whether this behavior is enabled
-	 */
-	public function setEnabled($value)
-	{
-		$this->_enabled=$value;
 	}
 }

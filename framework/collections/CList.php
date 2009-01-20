@@ -177,7 +177,7 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 			return $index;
 		}
 		else
-			throw new CException(Yii::t('yii','Unable to find the list item.'));
+			return false;
 	}
 
 	/**
