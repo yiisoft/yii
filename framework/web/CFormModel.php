@@ -38,6 +38,7 @@ class CFormModel extends CModel
 	{
 		if($attributes!==array())
 			$this->setAttributes($attributes,$scenario);
+		$this->attachBehaviors($this->behaviors());
 	}
 
 	/**

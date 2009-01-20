@@ -108,6 +108,32 @@ abstract class CModel extends CComponent
 	}
 
 	/**
+	 * Returns a list of behaviors that this model should behave as.
+	 * The return value should be an array of behavior configurations indexed by
+	 * behavior names. Each behavior configuration can be either a string specifying
+	 * the behavior class or an array of the following structure:
+	 * <pre>
+	 * array(
+	 *     'class'=>'path.to.BehaviorClass',
+	 *     'property1'=>'value1',
+	 *     'property2'=>'value2',
+	 * )
+	 * </pre>
+	 *
+	 * Note, the behavior classes must implement {@link IBehavior} or extend from
+	 * {@link CBehavior}. Behaviors declared in this method will be attached
+	 * to the model when it is instantiated.
+	 *
+	 * For more details about behaviors, see {@link CComponent}.
+	 * @return array the behavior configurations (behavior name=>behavior configuration)
+	 * @since 1.0.2
+	 */
+	public function behaviors()
+	{
+		return array();
+	}
+
+	/**
 	 * Returns the attribute labels.
 	 * Attribute labels are mainly used in error messages of validation.
 	 * By default an attribute label is generated using {@link generateAttributeLabel}.

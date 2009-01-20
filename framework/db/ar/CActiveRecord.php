@@ -597,32 +597,6 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
-	 * Returns a list of behaviors that this model should behave as.
-	 * The return value should be an array of behavior configurations indexed by
-	 * behavior names. Each behavior configuration can be either a string specifying
-	 * the behavior class or an array of the following structure:
-	 * <pre>
-	 * array(
-	 *     'class'=>'path.to.BehaviorClass',
-	 *     'property1'=>'value1',
-	 *     'property2'=>'value2',
-	 * )
-	 * </pre>
-	 *
-	 * Note, the behavior classes must implement {@link IBehavior} or extend from
-	 * {@link CBehavior}. Behaviors declared in this method will be attached
-	 * to the model when it is instantiated.
-	 *
-	 * For more details about behaviors, see {@link CComponent}.
-	 *
-	 * @since 1.0.2
-	 */
-	public function behaviors()
-	{
-		return array();
-	}
-
-	/**
 	 * Returns the list of all attribute names of the model.
 	 * This would return all column names of the table associated with this AR class.
 	 * @return array list of attribute names.
