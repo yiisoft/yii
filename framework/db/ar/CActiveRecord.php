@@ -805,7 +805,7 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
-	 * Returns a list of validators created according to {@link CModel::rules}.
+	 * Returns a list of validators created according to {@link CModel::rules rules}.
 	 * This overrides the parent implementation so that the validators are only
 	 * created once for each type of AR.
 	 * @return array a list of validators created according to {@link CModel::rules}.
