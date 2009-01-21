@@ -124,6 +124,7 @@ class CPagination extends CComponent
 	public function setCurrentPage($value)
 	{
 		$this->_currentPage=$value;
+		$_GET[$this->pageVar]=$value+1;
 	}
 
 	/**
