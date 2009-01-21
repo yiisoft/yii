@@ -265,8 +265,8 @@ abstract class CModel extends CComponent
 			$this->_va=array();
 			foreach($this->getValidators() as $validator)
 			{
-				foreach($validator->attributes as $attribute)
-					$this->_va[$attribute][]=$validator;
+				foreach($validator->attributes as $att)
+					$this->_va[$att][]=$validator;
 			}
 		}
 		$validators=array();
@@ -279,6 +279,25 @@ abstract class CModel extends CComponent
 			}
 		}
 		return $validators;
+	}
+
+	/**
+	 * Returns a value indicating whether the attribute is required.
+	 * This is determined based on the validation rules declared in {@link rules}.
+	 * @param string attribute name
+	 * @param string validation scenario
+	 * @return boolean  whether the attribute is required
+	 * @since 1.0.2
+	 */
+	public function isAttributeRequired($attribute,$scenario='')
+	{
+		$validators=$this->getValidatorsForAttribute($attribute,$scenario);
+		foreach($validators as $validator)
+		{
+			if($validator instanceof CRequiredValidator)
+				return true;
+		}
+		return false;
 	}
 
 	/**

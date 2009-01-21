@@ -29,6 +29,7 @@ Version 1.0.2 to be released
 - New: Implemented the behavior feature; added CBehavior, CModelBehavior and CActiveRecordBehavior (Qiang)
 - New: Added a set of new events to CActiveRecord and CFormModel (Qiang)
 - New: Added CModel::getValidatorsForAttribute (Qiang)
+- New: Added CHtml::activeLabelEx and added 'required' option to CHtml::label (Qiang)
 
 Version 1.0.1 January 4, 2009
 -----------------------------

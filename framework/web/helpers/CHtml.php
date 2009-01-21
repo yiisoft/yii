@@ -33,6 +33,26 @@ class CHtml
 	 * with this CSS class if they have input errors.
 	 */
 	public static $errorCss='error';
+	/**
+	 * @var string the CSS class for required labels. Defaults to 'required'.
+	 * @see label
+	 */
+	public static $requiredCss='required';
+	/**
+	 * @var string the HTML code to be prepended to the required label.
+	 * @see label
+	 */
+	public static $beforeRequiredLabel='';
+	/**
+	 * @var string the HTML code to be appended to the required label.
+	 * @see label
+	 */
+	public static $afterRequiredLabel=' <span class="required">*</span>';
+	/**
+	 * @var string the scenario used to determine whether a model attribute is required.
+	 * @see activeLabelEx
+	 */
+	public static $scenario='';
 
 	private static $_count=0;
 
@@ -373,11 +393,30 @@ class CHtml
 	 * @param string label text. Note, you should HTML-encode the text if needed.
 	 * @param string the ID of the HTML element that this label is associated with
 	 * @param array additional HTML attributes.
+	 * Starting from version 1.0.2, the following HTML option is recognized:
+	 * <pre>
+	 * <li>required: if this is set and is true, the label will be styled
+	 * with CSS class 'required' (customizable with CHtml::$requiredCss),
+	 * and be decorated with {@link CHtml::beforeRequiredLabel} and
+	 * {@link CHtml::afterRequiredLabel}.</li>
+	 * </pre>
 	 * @return string the generated label tag
 	 */
 	public static function label($label,$for,$htmlOptions=array())
 	{
 		$htmlOptions['for']=$for;
+		if(isset($htmlOptions['required']))
+		{
+			if($htmlOptions['required'])
+			{
+				if(isset($htmlOptions['class']))
+					$htmlOptions['class'].=' '.self::$requiredCss;
+				else
+					$htmlOptions['class']=self::$requiredCss;
+				$label=self::$beforeRequiredLabel.$label.self::$afterRequiredLabel;
+			}
+			unset($htmlOptions['required']);
+		}
 		return self::tag('label',$htmlOptions,$label);
 	}
 
@@ -792,15 +831,34 @@ class CHtml
 	 */
 	public static function activeLabel($model,$attribute,$htmlOptions=array())
 	{
-		if(($pos=strpos($attribute,'['))!==false)
-			$name=get_class($model).substr($attribute,$pos).'['.($attribute=substr($attribute,0,$pos)).']';
-		else
-			$name=get_class($model).'['.$attribute.']';
+		$for=self::getIdByName(self::resolveName($model,$attribute));
 		$label=$model->getAttributeLabel($attribute);
-		$for=self::getIdByName($name);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
 		return self::label($label,$for,$htmlOptions);
+	}
+
+	/**
+	 * Generates a label tag for a model attribute.
+	 * This is an enhanced version of {@link activeLabel}. It will render additional
+	 * CSS class and mark when the attribute is required.
+	 * In particular, it calls {@link CModel::isAttributeRequired} to determine
+	 * if the attribute is required under the scenario {@link CHtml::scenario}.
+	 * If so, it will add a CSS class {@link CHtml::requiredCss} to the label,
+	 * and decorate the label with {@link CHtml::beforeRequiredLabel} and
+	 * {@link CHtml::afterRequiredLabel}.
+	 * @param CModel the data model
+	 * @param string the attribute
+	 * @param array additional HTML attributes.
+	 * @return string the generated label tag
+	 * @since 1.0.2
+	 */
+	public static function activeLabelEx($model,$attribute,$htmlOptions=array())
+	{
+		$realAttribute=$attribute;
+		self::resolveName($model,$attribute); // strip off square brackets if any
+		$htmlOptions['required']=$model->isAttributeRequired($attribute,self::$scenario);
+		return self::activeLabel($model,$realAttribute,$htmlOptions);
 	}
 
 	/**
@@ -1182,10 +1240,8 @@ class CHtml
 	 */
 	public static function activeName($model,$attribute)
 	{
-		if(($pos=strpos($attribute,'['))!==false)
-			return get_class($model).substr($attribute,$pos).'['.substr($attribute,0,$pos).']';
-		else
-			return get_class($model).'['.$attribute.']';
+		$a=$attribute; // because the attribute name may be changed by resolveName
+		return self::resolveName($model,$a);
 	}
 
 	/**
@@ -1333,14 +1389,28 @@ class CHtml
 	protected static function resolveNameID($model,&$attribute,&$htmlOptions)
 	{
 		if(!isset($htmlOptions['name']))
-		{
-			if(($pos=strpos($attribute,'['))!==false)
-				$htmlOptions['name']=get_class($model).substr($attribute,$pos).'['.($attribute=substr($attribute,0,$pos)).']';
-			else
-				$htmlOptions['name']=get_class($model).'['.$attribute.']';
-		}
+			$htmlOptions['name']=self::resolveName($model,$attribute);
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=self::getIdByName($htmlOptions['name']);
+	}
+
+	/**
+	 * Generates input name for a model attribute.
+	 * @param CModel the data model
+	 * @param string the attribute
+	 * @return string the input name
+	 * @since 1.0.2
+	 */
+	protected static function resolveName($model,&$attribute)
+	{
+		if(($pos=strpos($attribute,'['))!==false)
+		{
+			$sub=substr($attribute,$pos);
+			$attribute=substr($attribute,0,$pos);
+			return get_class($model).$sub.'['.$attribute.']';
+		}
+		else
+			return get_class($model).'['.$attribute.']';
 	}
 
 	/**
