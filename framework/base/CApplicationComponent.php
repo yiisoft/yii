@@ -24,6 +24,14 @@
  */
 abstract class CApplicationComponent extends CComponent implements IApplicationComponent
 {
+	/**
+	 * @var array the behaviors that should be attached to this component.
+	 * The behaviors will be attached to the component when {@link init} is called.
+	 * Please refer to {@link CModel::behaviors} on how to specify the value of this property.
+	 * @since 1.0.2
+	 */
+	public $behaviors=array();
+
 	private $_initialized=false;
 
 	/**
@@ -34,6 +42,7 @@ abstract class CApplicationComponent extends CComponent implements IApplicationC
 	 */
 	public function init()
 	{
+		$this->attachBehaviors($this->behaviors);
 		$this->_initialized=true;
 	}
 

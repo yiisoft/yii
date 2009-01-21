@@ -22,6 +22,7 @@
 abstract class CModel extends CComponent
 {
 	private $_errors=array();	// attribute name => array of errors
+	private $_va;
 
 	/**
 	 * Returns the list of attribute names of the model.
@@ -108,6 +109,32 @@ abstract class CModel extends CComponent
 	}
 
 	/**
+	 * Returns a list of behaviors that this model should behave as.
+	 * The return value should be an array of behavior configurations indexed by
+	 * behavior names. Each behavior configuration can be either a string specifying
+	 * the behavior class or an array of the following structure:
+	 * <pre>
+	 * array(
+	 *     'class'=>'path.to.BehaviorClass',
+	 *     'property1'=>'value1',
+	 *     'property2'=>'value2',
+	 * )
+	 * </pre>
+	 *
+	 * Note, the behavior classes must implement {@link IBehavior} or extend from
+	 * {@link CBehavior}. Behaviors declared in this method will be attached
+	 * to the model when it is instantiated.
+	 *
+	 * For more details about behaviors, see {@link CComponent}.
+	 * @return array the behavior configurations (behavior name=>behavior configuration)
+	 * @since 1.0.2
+	 */
+	public function behaviors()
+	{
+		return array();
+	}
+
+	/**
 	 * Returns the attribute labels.
 	 * Attribute labels are mainly used in error messages of validation.
 	 * By default an attribute label is generated using {@link generateAttributeLabel}.
@@ -167,7 +194,9 @@ abstract class CModel extends CComponent
 
 	/**
 	 * This method is invoked before validation starts.
+	 * The default implementation calls {@link onBeforeValidate} to raise an event.
 	 * You may override this method to do preliminary checks before validation.
+	 * Make sure the parent implementation is invoked so that the event can be raised.
 	 * @param string the set of the validation rules that should be applied. See {@link validate}
 	 * for more details about this parameter.
 	 * NOTE: this parameter has been available since version 1.0.1.
@@ -175,18 +204,42 @@ abstract class CModel extends CComponent
 	 */
 	protected function beforeValidate($scenario)
 	{
+		$this->onBeforeValidate(new CEvent($this));
 		return true;
 	}
 
 	/**
 	 * This method is invoked after validation ends.
+	 * The default implementation calls {@link onAfterValidate} to raise an event.
 	 * You may override this method to do postprocessing after validation.
+	 * Make sure the parent implementation is invoked so that the event can be raised.
 	 * @param string the set of the validation rules that should be applied. See {@link validate}
 	 * for more details about this parameter.
 	 * NOTE: this parameter has been available since version 1.0.1.
 	 */
 	protected function afterValidate($scenario)
 	{
+		$this->onAfterValidate(new CEvent($this));
+	}
+
+	/**
+	 * This event is raised before the validation is performed.
+	 * @param CEvent the event parameter
+	 * @since 1.0.2
+	 */
+	public function onBeforeValidate($event)
+	{
+		$this->raiseEvent('onBeforeValidate',$event);
+	}
+
+	/**
+	 * This event is raised after the validation is performed.
+	 * @param CEvent the event parameter
+	 * @since 1.0.2
+	 */
+	public function onAfterValidate($event)
+	{
+		$this->raiseEvent('onAfterValidate',$event);
 	}
 
 	/**
@@ -196,6 +249,55 @@ abstract class CModel extends CComponent
 	public function getValidators()
 	{
 		return $this->createValidators();
+	}
+
+	/**
+	 * Returns the validators that are applied to the specified attribute under the specified scenario.
+	 * @param string the attribute name
+	 * @param string the scenario name
+	 * @return array the validators for the attribute. An empty array is returned if no validator applies to the attribute.
+	 * @since 1.0.2
+	 */
+	public function getValidatorsForAttribute($attribute,$scenario='')
+	{
+		if($this->_va===null)
+		{
+			$this->_va=array();
+			foreach($this->getValidators() as $validator)
+			{
+				foreach($validator->attributes as $att)
+					$this->_va[$att][]=$validator;
+			}
+		}
+		$validators=array();
+		if(isset($this->_va[$attribute]))
+		{
+			foreach($this->_va[$attribute] as $validator)
+			{
+				if($validator->applyTo($scenario))
+					$validators[]=$validator;
+			}
+		}
+		return $validators;
+	}
+
+	/**
+	 * Returns a value indicating whether the attribute is required.
+	 * This is determined based on the validation rules declared in {@link rules}.
+	 * @param string attribute name
+	 * @param string validation scenario
+	 * @return boolean  whether the attribute is required
+	 * @since 1.0.2
+	 */
+	public function isAttributeRequired($attribute,$scenario='')
+	{
+		$validators=$this->getValidatorsForAttribute($attribute,$scenario);
+		foreach($validators as $validator)
+		{
+			if($validator instanceof CRequiredValidator)
+				return true;
+		}
+		return false;
 	}
 
 	/**

@@ -160,7 +160,7 @@ class CAssetManager extends CApplicationComponent
 			}
 		}
 		else
-			throw new CException(Yii::t('yii','The asset "{asset}" to be pulished does not exist.',
+			throw new CException(Yii::t('yii','The asset "{asset}" to be published does not exist.',
 				array('{asset}'=>$path)));
 	}
 

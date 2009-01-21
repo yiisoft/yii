@@ -425,7 +425,7 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function isScriptFileRegistered($url,$position=self::POS_HEAD)
 	{
-		return isset($this->_bodyScriptFiles[$position][$url]);
+		return isset($this->_scriptFiles[$position][$url]);
 	}
 
 	/**

@@ -66,6 +66,18 @@
  *
  * Both property names and event names are case-insensitive.
  *
+ * Starting from version 1.0.2, CComponent supports behaviors. A behavior is an
+ * instance of {@link IBehavior} which is attached to a component. The methods of
+ * the behavior can be invoked as if they belong to the component. Multiple behaviors
+ * can be attached to the same component.
+ *
+ * To attach a behavior to a component, call {@link attachBehavior}; and to detach the behavior
+ * from the component, call {@link detachBehavior}.
+ *
+ * A behavior can be temporarily enabled or disabled by calling {@link enableBehavior}
+ * or {@link disableBehavior}, respectively. When disabled, the behavior methods cannot
+ * be invoked via the component.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.base
@@ -74,6 +86,7 @@
 class CComponent
 {
 	private $_e;
+	private $_m;
 
 	/**
 	 * Returns a property value or an event handler list by property or event name.
@@ -179,6 +192,152 @@ class CComponent
 		else if(method_exists($this,'get'.$name))
 			throw new CException(Yii::t('yii','Property "{class}.{property}" is read only.',
 				array('{class}'=>get_class($this), '{property}'=>$name)));
+	}
+
+	/**
+	 * Calls the named method which is not a class method.
+	 * Do not call this method. This is a PHP magic method that we override
+	 * @param string the method name
+	 * @param array method parameters
+	 * @return mixed the method return value
+	 * @since 1.0.2
+	 */
+	public function __call($name,$parameters)
+	{
+		if($this->_m!==null)
+		{
+			foreach($this->_m as $object)
+			{
+				if($object->enabled && method_exists($object,$name))
+					return call_user_func_array(array($object,$name),$parameters);
+			}
+		}
+		throw new CException('yii','{class} does not have a method named {name}.',
+			array('{class}'=>get_class($this), '{name}'=>$name));
+	}
+
+
+	/**
+	 * Attaches a list of behaviors to the component.
+	 * Each behavior is indexed by its name and should be an instance of
+	 * {@link IBehavior}, a string specifying the behavior class, or an
+	 * array of the following structure:
+	 * <pre>
+	 * array(
+	 *     'class'=>'path.to.BehaviorClass',
+	 *     'property1'=>'value1',
+	 *     'property2'=>'value2',
+	 * )
+	 * </pre>
+	 * @param array list of behaviors to be attached to the component
+	 * @since 1.0.2
+	 */
+	public function attachBehaviors($behaviors)
+	{
+		foreach($behaviors as $name=>$behavior)
+			$this->attachBehavior($name,$behavior);
+	}
+
+	/**
+	 * Detaches all behaviors from the component.
+	 * @since 1.0.2
+	 */
+	public function detachBehaviors()
+	{
+		if($this->_m!==null)
+		{
+			foreach($this->_m as $name=>$behavior)
+				$this->detachBehavior($name);
+			$this->_m=null;
+		}
+	}
+
+	/**
+	 * Attaches a behavior to this component.
+	 * This method will create the behavior object based on the given
+	 * configuration. After that, the behavior object will be initialized
+	 * by calling its {@link IBehavior::attach} method.
+	 * @param string the behavior's name. It should uniquely identify this behavior.
+	 * @param mixed the behavior configuration. This is passed as the first
+	 * parameter to {@link YiiBase::createComponent} to create the behavior object.
+	 * @return IBehavior the behavior object
+	 * @since 1.0.2
+	 */
+	public function attachBehavior($name,$behavior)
+	{
+		if(!($behavior instanceof IBehavior))
+			$behavior=Yii::createComponent($behavior);
+		$behavior->setEnabled(true);
+		$behavior->attach($this);
+		return $this->_m[$name]=$behavior;
+	}
+
+	/**
+	 * Detaches a behavior from the component.
+	 * The behavior's {@link IBehavior::detach} method will be invoked.
+	 * @param string the behavior's name. It uniquely identifies the behavior.
+	 * @return IBehavior the detached behavior. Null if the behavior does not exist.
+	 * @since 1.0.2
+	 */
+	public function detachBehavior($name)
+	{
+		if(isset($this->_m[$name]))
+		{
+			$this->_m[$name]->detach($this);
+			unset($this->_m[$name]);
+			return $this->_m[$name];
+		}
+	}
+
+	/**
+	 * Enables all behaviors attached to this component.
+	 * @since 1.0.2
+	 */
+	public function enableBehaviors()
+	{
+		if($this->_m!==null)
+		{
+			foreach($this->_m as $behavior)
+				$behavior->setEnabled(true);
+		}
+	}
+
+	/**
+	 * Disables all behaviors attached to this component.
+	 * @since 1.0.2
+	 */
+	public function disableBehaviors()
+	{
+		if($this->_m!==null)
+		{
+			foreach($this->_m as $behavior)
+				$behavior->setEnabled(false);
+		}
+	}
+
+	/**
+	 * Enables an attached behavior.
+	 * A behavior is only effective when it is enabled.
+	 * A behavior is enabled when first attached.
+	 * @param string the behavior's name. It uniquely identifies the behavior.
+	 * @since 1.0.2
+	 */
+	public function enableBehavior($name)
+	{
+		if(isset($this->_m[$name]))
+			$this->_m[$name]->setEnabled(true);
+	}
+
+	/**
+	 * Disables an attached behavior.
+	 * A behavior is only effective when it is enabled.
+	 * @param string the behavior's name. It uniquely identifies the behavior.
+	 * @since 1.0.2
+	 */
+	public function disableBehavior($name)
+	{
+		if(isset($this->_m[$name]))
+			$this->_m[$name]->setEnabled(false);
 	}
 
 	/**
@@ -312,17 +471,9 @@ class CComponent
 	public function detachEventHandler($name,$handler)
 	{
 		if($this->hasEventHandler($name))
-		{
-			try
-			{
-				$this->getEventHandlers($name)->remove($handler);
-				return true;
-			}
-			catch(Exception $e)
-			{
-			}
-		}
-		return false;
+			return $this->getEventHandlers($name)->remove($handler)!==false;
+		else
+			return false;
 	}
 
 	/**

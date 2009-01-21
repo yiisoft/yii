@@ -6,7 +6,7 @@
 return array(
 	'sourcePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'messagePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'messages',
-	'languages'=>array('zh_cn','zh_tw','de','es','sv','he','nl','pt','ru','it','fr','ja'),
+	'languages'=>array('zh_cn','zh_tw','de','es','sv','he','nl','pt','ru','it','fr','ja','pl'),
 	'fileTypes'=>array('php'),
 	'exclude'=>array(
 		'.svn',
