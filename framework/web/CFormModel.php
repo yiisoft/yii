@@ -26,6 +26,8 @@
  */
 class CFormModel extends CModel
 {
+	private $_validators;
+
 	/**
 	 * Constructor.
 	 * @param array initial attributes (name => value). The attributes
@@ -38,6 +40,7 @@ class CFormModel extends CModel
 	{
 		if($attributes!==array())
 			$this->setAttributes($attributes,$scenario);
+		$this->attachBehaviors($this->behaviors());
 	}
 
 	/**
@@ -72,5 +75,15 @@ class CFormModel extends CModel
 				$names[]=$name;
 		}
 		return $names;
+	}
+
+	/**
+	 * @return array list of validators created according to {@link CModel::rules rules}.
+	 */
+	public function getValidators()
+	{
+		if($this->_validators===null)
+			$this->_validators=$this->createValidators();
+		return $this->_validators;
 	}
 }

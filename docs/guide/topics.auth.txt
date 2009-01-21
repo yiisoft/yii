@@ -89,7 +89,7 @@ also be saved in cookie. Make sure you do not declare sensitive information
 Login and Logout
 ----------------
 
-Using the identity class and the user component user component, we can
+Using the identity class and the user component, we can
 implement login and logout actions easily.
 
 ~~~

@@ -29,7 +29,7 @@ class CDefaultValueValidator extends CValidator
 	 * Defaults to true. If false, the attribute will always be assigned with the default value,
 	 * even if it is already explicitly assigned a value.
 	 */
-	public $emptyOnly=true;
+	public $setOnEmpty=true;
 
 	/**
 	 * Validates the attribute of the object.
@@ -38,7 +38,7 @@ class CDefaultValueValidator extends CValidator
 	 */
 	protected function validateAttribute($object,$attribute)
 	{
-		if(!$this->emptyOnly)
+		if(!$this->setOnEmpty)
 			$object->$attribute=$this->value;
 		else
 		{

@@ -18,6 +18,16 @@ div.yiiForm
 	width: 550px;
 }
 
+div.yiiForm label.required
+{
+	font-weight: bold;
+}
+
+div.yiiForm span.required
+{
+	color: red;
+}
+
 div.errorSummary
 {
 	border: 2px solid #C00;

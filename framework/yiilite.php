@@ -206,11 +206,13 @@ class YiiBase
 	private static $_coreClasses=array(
 		'CApplication' => '/base/CApplication.php',
 		'CApplicationComponent' => '/base/CApplicationComponent.php',
+		'CBehavior' => '/base/CBehavior.php',
 		'CComponent' => '/base/CComponent.php',
 		'CErrorHandler' => '/base/CErrorHandler.php',
 		'CException' => '/base/CException.php',
 		'CHttpException' => '/base/CHttpException.php',
 		'CModel' => '/base/CModel.php',
+		'CModelBehavior' => '/base/CModelBehavior.php',
 		'CSecurityManager' => '/base/CSecurityManager.php',
 		'CStatePersister' => '/base/CStatePersister.php',
 		'CApcCache' => '/caching/CApcCache.php',
@@ -242,6 +244,7 @@ class YiiBase
 		'CDbTransaction' => '/db/CDbTransaction.php',
 		'CActiveFinder' => '/db/ar/CActiveFinder.php',
 		'CActiveRecord' => '/db/ar/CActiveRecord.php',
+		'CActiveRecordBehavior' => '/db/ar/CActiveRecordBehavior.php',
 		'CDbColumnSchema' => '/db/schema/CDbColumnSchema.php',
 		'CDbCommandBuilder' => '/db/schema/CDbCommandBuilder.php',
 		'CDbCriteria' => '/db/schema/CDbCriteria.php',
@@ -369,6 +372,7 @@ class Yii extends YiiBase
 class CComponent
 {
 	private $_e;
+	private $_m;
 	public function __get($name)
 	{
 		$getter='get'.$name;
@@ -430,6 +434,76 @@ class CComponent
 			throw new CException(Yii::t('yii','Property "{class}.{property}" is read only.',
 				array('{class}'=>get_class($this), '{property}'=>$name)));
 	}
+	public function __call($name,$parameters)
+	{
+		if($this->_m!==null)
+		{
+			foreach($this->_m as $object)
+			{
+				if($object->enabled && method_exists($object,$name))
+					return call_user_func_array(array($object,$name),$parameters);
+			}
+		}
+		throw new CException('yii','{class} does not have a method named {name}.',
+			array('{class}'=>get_class($this), '{name}'=>$name));
+	}
+	public function attachBehaviors($behaviors)
+	{
+		foreach($behaviors as $name=>$behavior)
+			$this->attachBehavior($name,$behavior);
+	}
+	public function detachBehaviors()
+	{
+		if($this->_m!==null)
+		{
+			foreach($this->_m as $name=>$behavior)
+				$this->detachBehavior($name);
+			$this->_m=null;
+		}
+	}
+	public function attachBehavior($name,$behavior)
+	{
+		if(!($behavior instanceof IBehavior))
+			$behavior=Yii::createComponent($behavior);
+		$behavior->setEnabled(true);
+		$behavior->attach($this);
+		return $this->_m[$name]=$behavior;
+	}
+	public function detachBehavior($name)
+	{
+		if(isset($this->_m[$name]))
+		{
+			$this->_m[$name]->detach($this);
+			unset($this->_m[$name]);
+			return $this->_m[$name];
+		}
+	}
+	public function enableBehaviors()
+	{
+		if($this->_m!==null)
+		{
+			foreach($this->_m as $behavior)
+				$behavior->setEnabled(true);
+		}
+	}
+	public function disableBehaviors()
+	{
+		if($this->_m!==null)
+		{
+			foreach($this->_m as $behavior)
+				$behavior->setEnabled(false);
+		}
+	}
+	public function enableBehavior($name)
+	{
+		if(isset($this->_m[$name]))
+			$this->_m[$name]->setEnabled(true);
+	}
+	public function disableBehavior($name)
+	{
+		if(isset($this->_m[$name]))
+			$this->_m[$name]->setEnabled(false);
+	}
 	public function hasProperty($name)
 	{
 		return method_exists($this,'get'.$name) || method_exists($this,'set'.$name);
@@ -471,17 +545,9 @@ class CComponent
 	public function detachEventHandler($name,$handler)
 	{
 		if($this->hasEventHandler($name))
-		{
-			try
-			{
-				$this->getEventHandlers($name)->remove($handler);
-				return true;
-			}
-			catch(Exception $e)
-			{
-			}
-		}
-		return false;
+			return $this->getEventHandlers($name)->remove($handler)!==false;
+		else
+			return false;
 	}
 	public function raiseEvent($name,$event)
 	{
@@ -1524,9 +1590,11 @@ class CLogger extends CComponent
 }
 abstract class CApplicationComponent extends CComponent implements IApplicationComponent
 {
+	public $behaviors=array();
 	private $_initialized=false;
 	public function init()
 	{
+		$this->attachBehaviors($this->behaviors);
 		$this->_initialized=true;
 	}
 	public function getIsInitialized()
@@ -3188,6 +3256,10 @@ class CHtml
 	public static $errorSummaryCss='errorSummary';
 	public static $errorMessageCss='errorMessage';
 	public static $errorCss='error';
+	public static $requiredCss='required';
+	public static $beforeRequiredLabel='';
+	public static $afterRequiredLabel=' <span class="required">*</span>';
+	public static $scenario='';
 	private static $_count=0;
 	public static function encode($text)
 	{
@@ -3335,6 +3407,18 @@ class CHtml
 	public static function label($label,$for,$htmlOptions=array())
 	{
 		$htmlOptions['for']=$for;
+		if(isset($htmlOptions['required']))
+		{
+			if($htmlOptions['required'])
+			{
+				if(isset($htmlOptions['class']))
+					$htmlOptions['class'].=' '.self::$requiredCss;
+				else
+					$htmlOptions['class']=self::$requiredCss;
+				$label=self::$beforeRequiredLabel.$label.self::$afterRequiredLabel;
+			}
+			unset($htmlOptions['required']);
+		}
 		return self::tag('label',$htmlOptions,$label);
 	}
 	public static function textField($name,$value='',$htmlOptions=array())
@@ -3511,15 +3595,18 @@ class CHtml
 	}
 	public static function activeLabel($model,$attribute,$htmlOptions=array())
 	{
-		if(($pos=strpos($attribute,'['))!==false)
-			$name=get_class($model).substr($attribute,$pos).'['.($attribute=substr($attribute,0,$pos)).']';
-		else
-			$name=get_class($model).'['.$attribute.']';
+		$for=self::getIdByName(self::resolveName($model,$attribute));
 		$label=$model->getAttributeLabel($attribute);
-		$for=self::getIdByName($name);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
 		return self::label($label,$for,$htmlOptions);
+	}
+	public static function activeLabelEx($model,$attribute,$htmlOptions=array())
+	{
+		$realAttribute=$attribute;
+		self::resolveName($model,$attribute); // strip off square brackets if any
+		$htmlOptions['required']=$model->isAttributeRequired($attribute,self::$scenario);
+		return self::activeLabel($model,$realAttribute,$htmlOptions);
 	}
 	public static function activeTextField($model,$attribute,$htmlOptions=array())
 	{
@@ -3680,10 +3767,8 @@ class CHtml
 	}
 	public static function activeName($model,$attribute)
 	{
-		if(($pos=strpos($attribute,'['))!==false)
-			return get_class($model).substr($attribute,$pos).'['.substr($attribute,0,$pos).']';
-		else
-			return get_class($model).'['.$attribute.']';
+		$a=$attribute; // because the attribute name may be changed by resolveName
+		return self::resolveName($model,$a);
 	}
 	protected static function activeInputField($type,$model,$attribute,$htmlOptions)
 	{
@@ -3773,14 +3858,20 @@ class CHtml
 	protected static function resolveNameID($model,&$attribute,&$htmlOptions)
 	{
 		if(!isset($htmlOptions['name']))
-		{
-			if(($pos=strpos($attribute,'['))!==false)
-				$htmlOptions['name']=get_class($model).substr($attribute,$pos).'['.($attribute=substr($attribute,0,$pos)).']';
-			else
-				$htmlOptions['name']=get_class($model).'['.$attribute.']';
-		}
+			$htmlOptions['name']=self::resolveName($model,$attribute);
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=self::getIdByName($htmlOptions['name']);
+	}
+	protected static function resolveName($model,&$attribute)
+	{
+		if(($pos=strpos($attribute,'['))!==false)
+		{
+			$sub=substr($attribute,$pos);
+			$attribute=substr($attribute,0,$pos);
+			return get_class($model).$sub.'['.$attribute.']';
+		}
+		else
+			return get_class($model).'['.$attribute.']';
 	}
 	protected static function addErrorCss(&$htmlOptions)
 	{
@@ -4104,7 +4195,7 @@ class CClientScript extends CApplicationComponent
 	}
 	public function isScriptFileRegistered($url,$position=self::POS_HEAD)
 	{
-		return isset($this->_bodyScriptFiles[$position][$url]);
+		return isset($this->_scriptFiles[$position][$url]);
 	}
 	public function isScriptRegistered($id,$position=self::POS_READY)
 	{
@@ -4183,7 +4274,7 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 			return $index;
 		}
 		else
-			throw new CException(Yii::t('yii','Unable to find the list item.'));
+			return false;
 	}
 	public function removeAt($index)
 	{
@@ -4532,9 +4623,14 @@ class CAccessRule extends CComponent
 abstract class CModel extends CComponent
 {
 	private $_errors=array();	// attribute name => array of errors
+	private $_va;
 	abstract public function attributeNames();
 	abstract public function safeAttributes();
 	public function rules()
+	{
+		return array();
+	}
+	public function behaviors()
 	{
 		return array();
 	}
@@ -4567,14 +4663,56 @@ abstract class CModel extends CComponent
 	}
 	protected function beforeValidate($scenario)
 	{
+		$this->onBeforeValidate(new CEvent($this));
 		return true;
 	}
 	protected function afterValidate($scenario)
 	{
+		$this->onAfterValidate(new CEvent($this));
+	}
+	public function onBeforeValidate($event)
+	{
+		$this->raiseEvent('onBeforeValidate',$event);
+	}
+	public function onAfterValidate($event)
+	{
+		$this->raiseEvent('onAfterValidate',$event);
 	}
 	public function getValidators()
 	{
 		return $this->createValidators();
+	}
+	public function getValidatorsForAttribute($attribute,$scenario='')
+	{
+		if($this->_va===null)
+		{
+			$this->_va=array();
+			foreach($this->getValidators() as $validator)
+			{
+				foreach($validator->attributes as $att)
+					$this->_va[$att][]=$validator;
+			}
+		}
+		$validators=array();
+		if(isset($this->_va[$attribute]))
+		{
+			foreach($this->_va[$attribute] as $validator)
+			{
+				if($validator->applyTo($scenario))
+					$validators[]=$validator;
+			}
+		}
+		return $validators;
+	}
+	public function isAttributeRequired($attribute,$scenario='')
+	{
+		$validators=$this->getValidatorsForAttribute($attribute,$scenario);
+		foreach($validators as $validator)
+		{
+			if($validator instanceof CRequiredValidator)
+				return true;
+		}
+		return false;
 	}
 	public function getAttributeLabel($attribute)
 	{
@@ -4906,25 +5044,57 @@ abstract class CActiveRecord extends CModel
 	{
 		return $this->getMetaData()->getValidators();
 	}
+	public function onBeforeSave($event)
+	{
+		$this->raiseEvent('onBeforeSave',$event);
+	}
+	public function onAfterSave($event)
+	{
+		$this->raiseEvent('onAfterSave',$event);
+	}
+	public function onBeforeDelete($event)
+	{
+		$this->raiseEvent('onBeforeDelete',$event);
+	}
+	public function onAfterDelete($event)
+	{
+		$this->raiseEvent('onAfterDelete',$event);
+	}
+	public function onAfterConstruct($event)
+	{
+		$this->raiseEvent('onAfterConstruct',$event);
+	}
+	public function onAfterFind($event)
+	{
+		$this->raiseEvent('onAfterFind',$event);
+	}
 	protected function beforeSave()
 	{
+		$this->onBeforeSave(new CEvent($this));
 		return true;
 	}
 	protected function afterSave()
 	{
+		$this->onAfterSave(new CEvent($this));
 	}
 	protected function beforeDelete()
 	{
+		$this->onBeforeDelete(new CEvent($this));
 		return true;
 	}
 	protected function afterDelete()
 	{
+		$this->onAfterDelete(new CEvent($this));
 	}
 	protected function afterConstruct()
 	{
+		$this->attachBehaviors($this->behaviors());
+		$this->onAfterConstruct(new CEvent($this));
 	}
 	protected function afterFind()
 	{
+		$this->attachBehaviors($this->behaviors());
+		$this->onAfterFind(new CEvent($this));
 	}
 	public function insert($attributes=null)
 	{
@@ -6371,6 +6541,7 @@ class CPagination extends CComponent
 	public function setCurrentPage($value)
 	{
 		$this->_currentPage=$value;
+		$_GET[$this->pageVar]=$value+1;
 	}
 	public function createPageUrl($controller,$page)
 	{
@@ -6526,7 +6697,7 @@ class CAssetManager extends CApplicationComponent
 			}
 		}
 		else
-			throw new CException(Yii::t('yii','The asset "{asset}" to be pulished does not exist.',
+			throw new CException(Yii::t('yii','The asset "{asset}" to be published does not exist.',
 				array('{asset}'=>$path)));
 	}
 	public function getPublishedPath($path,$hashByName=false)
@@ -6640,5 +6811,12 @@ interface IAuthManager
 	public function clearAuthAssignments();
 	public function save();
 	public function executeBizRule($bizRule,$params,$data);
+}
+interface IBehavior
+{
+	public function attach($component);
+	public function detach($component);
+	public function getEnabled();
+	public function setEnabled($value);
 }
 ?>
