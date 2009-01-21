@@ -1590,9 +1590,11 @@ class CLogger extends CComponent
 }
 abstract class CApplicationComponent extends CComponent implements IApplicationComponent
 {
+	public $behaviors=array();
 	private $_initialized=false;
 	public function init()
 	{
+		$this->attachBehaviors($this->behaviors);
 		$this->_initialized=true;
 	}
 	public function getIsInitialized()
@@ -3254,6 +3256,10 @@ class CHtml
 	public static $errorSummaryCss='errorSummary';
 	public static $errorMessageCss='errorMessage';
 	public static $errorCss='error';
+	public static $requiredCss='required';
+	public static $beforeRequiredLabel='';
+	public static $afterRequiredLabel=' <span class="required">*</span>';
+	public static $scenario='';
 	private static $_count=0;
 	public static function encode($text)
 	{
@@ -3401,6 +3407,18 @@ class CHtml
 	public static function label($label,$for,$htmlOptions=array())
 	{
 		$htmlOptions['for']=$for;
+		if(isset($htmlOptions['required']))
+		{
+			if($htmlOptions['required'])
+			{
+				if(isset($htmlOptions['class']))
+					$htmlOptions['class'].=' '.self::$requiredCss;
+				else
+					$htmlOptions['class']=self::$requiredCss;
+				$label=self::$beforeRequiredLabel.$label.self::$afterRequiredLabel;
+			}
+			unset($htmlOptions['required']);
+		}
 		return self::tag('label',$htmlOptions,$label);
 	}
 	public static function textField($name,$value='',$htmlOptions=array())
@@ -3577,15 +3595,18 @@ class CHtml
 	}
 	public static function activeLabel($model,$attribute,$htmlOptions=array())
 	{
-		if(($pos=strpos($attribute,'['))!==false)
-			$name=get_class($model).substr($attribute,$pos).'['.($attribute=substr($attribute,0,$pos)).']';
-		else
-			$name=get_class($model).'['.$attribute.']';
+		$for=self::getIdByName(self::resolveName($model,$attribute));
 		$label=$model->getAttributeLabel($attribute);
-		$for=self::getIdByName($name);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
 		return self::label($label,$for,$htmlOptions);
+	}
+	public static function activeLabelEx($model,$attribute,$htmlOptions=array())
+	{
+		$realAttribute=$attribute;
+		self::resolveName($model,$attribute); // strip off square brackets if any
+		$htmlOptions['required']=$model->isAttributeRequired($attribute,self::$scenario);
+		return self::activeLabel($model,$realAttribute,$htmlOptions);
 	}
 	public static function activeTextField($model,$attribute,$htmlOptions=array())
 	{
@@ -3746,10 +3767,8 @@ class CHtml
 	}
 	public static function activeName($model,$attribute)
 	{
-		if(($pos=strpos($attribute,'['))!==false)
-			return get_class($model).substr($attribute,$pos).'['.substr($attribute,0,$pos).']';
-		else
-			return get_class($model).'['.$attribute.']';
+		$a=$attribute; // because the attribute name may be changed by resolveName
+		return self::resolveName($model,$a);
 	}
 	protected static function activeInputField($type,$model,$attribute,$htmlOptions)
 	{
@@ -3839,14 +3858,20 @@ class CHtml
 	protected static function resolveNameID($model,&$attribute,&$htmlOptions)
 	{
 		if(!isset($htmlOptions['name']))
-		{
-			if(($pos=strpos($attribute,'['))!==false)
-				$htmlOptions['name']=get_class($model).substr($attribute,$pos).'['.($attribute=substr($attribute,0,$pos)).']';
-			else
-				$htmlOptions['name']=get_class($model).'['.$attribute.']';
-		}
+			$htmlOptions['name']=self::resolveName($model,$attribute);
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=self::getIdByName($htmlOptions['name']);
+	}
+	protected static function resolveName($model,&$attribute)
+	{
+		if(($pos=strpos($attribute,'['))!==false)
+		{
+			$sub=substr($attribute,$pos);
+			$attribute=substr($attribute,0,$pos);
+			return get_class($model).$sub.'['.$attribute.']';
+		}
+		else
+			return get_class($model).'['.$attribute.']';
 	}
 	protected static function addErrorCss(&$htmlOptions)
 	{
@@ -4170,7 +4195,7 @@ class CClientScript extends CApplicationComponent
 	}
 	public function isScriptFileRegistered($url,$position=self::POS_HEAD)
 	{
-		return isset($this->_bodyScriptFiles[$position][$url]);
+		return isset($this->_scriptFiles[$position][$url]);
 	}
 	public function isScriptRegistered($id,$position=self::POS_READY)
 	{
@@ -4598,9 +4623,14 @@ class CAccessRule extends CComponent
 abstract class CModel extends CComponent
 {
 	private $_errors=array();	// attribute name => array of errors
+	private $_va;
 	abstract public function attributeNames();
 	abstract public function safeAttributes();
 	public function rules()
+	{
+		return array();
+	}
+	public function behaviors()
 	{
 		return array();
 	}
@@ -4651,6 +4681,38 @@ abstract class CModel extends CComponent
 	public function getValidators()
 	{
 		return $this->createValidators();
+	}
+	public function getValidatorsForAttribute($attribute,$scenario='')
+	{
+		if($this->_va===null)
+		{
+			$this->_va=array();
+			foreach($this->getValidators() as $validator)
+			{
+				foreach($validator->attributes as $att)
+					$this->_va[$att][]=$validator;
+			}
+		}
+		$validators=array();
+		if(isset($this->_va[$attribute]))
+		{
+			foreach($this->_va[$attribute] as $validator)
+			{
+				if($validator->applyTo($scenario))
+					$validators[]=$validator;
+			}
+		}
+		return $validators;
+	}
+	public function isAttributeRequired($attribute,$scenario='')
+	{
+		$validators=$this->getValidatorsForAttribute($attribute,$scenario);
+		foreach($validators as $validator)
+		{
+			if($validator instanceof CRequiredValidator)
+				return true;
+		}
+		return false;
 	}
 	public function getAttributeLabel($attribute)
 	{
@@ -4868,10 +4930,6 @@ abstract class CActiveRecord extends CModel
 		return get_class($this);
 	}
 	public function relations()
-	{
-		return array();
-	}
-	public function behaviors()
 	{
 		return array();
 	}
@@ -6483,6 +6541,7 @@ class CPagination extends CComponent
 	public function setCurrentPage($value)
 	{
 		$this->_currentPage=$value;
+		$_GET[$this->pageVar]=$value+1;
 	}
 	public function createPageUrl($controller,$page)
 	{
@@ -6638,7 +6697,7 @@ class CAssetManager extends CApplicationComponent
 			}
 		}
 		else
-			throw new CException(Yii::t('yii','The asset "{asset}" to be pulished does not exist.',
+			throw new CException(Yii::t('yii','The asset "{asset}" to be published does not exist.',
 				array('{asset}'=>$path)));
 	}
 	public function getPublishedPath($path,$hashByName=false)
