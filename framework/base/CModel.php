@@ -22,6 +22,7 @@
 abstract class CModel extends CComponent
 {
 	private $_errors=array();	// attribute name => array of errors
+	private $_va;
 
 	/**
 	 * Returns the list of attribute names of the model.
@@ -248,6 +249,36 @@ abstract class CModel extends CComponent
 	public function getValidators()
 	{
 		return $this->createValidators();
+	}
+
+	/**
+	 * Returns the validators that are applied to the specified attribute under the specified scenario.
+	 * @param string the attribute name
+	 * @param string the scenario name
+	 * @return array the validators for the attribute. An empty array is returned if no validator applies to the attribute.
+	 * @since 1.0.2
+	 */
+	public function getValidatorsForAttribute($attribute,$scenario='')
+	{
+		if($this->_va===null)
+		{
+			$this->_va=array();
+			foreach($this->getValidators() as $validator)
+			{
+				foreach($validator->attributes as $attribute)
+					$this->_va[$attribute][]=$validator;
+			}
+		}
+		$validators=array();
+		if(isset($this->_va[$attribute]))
+		{
+			foreach($this->_va[$attribute] as $validator)
+			{
+				if($validator->applyTo($scenario))
+					$validators[]=$validator;
+			}
+		}
+		return $validators;
 	}
 
 	/**
