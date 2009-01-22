@@ -212,8 +212,8 @@ class CComponent
 					return call_user_func_array(array($object,$name),$parameters);
 			}
 		}
-		throw new CException('yii','{class} does not have a method named {name}.',
-			array('{class}'=>get_class($this), '{name}'=>$name));
+		throw new CException(Yii::t('yii','{class} does not have a method named "{name}".',
+			array('{class}'=>get_class($this), '{name}'=>$name)));
 	}
 
 
