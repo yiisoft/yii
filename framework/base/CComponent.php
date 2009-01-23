@@ -216,6 +216,16 @@ class CComponent
 			array('{class}'=>get_class($this), '{name}'=>$name)));
 	}
 
+	/**
+	 * Returns the named behavior object.
+	 * @param string the behavior name
+	 * @return IBehavior the behavior object, or null if the behavior does not exist
+	 * @since 1.0.2
+	 */
+	public function asa($behavior)
+	{
+		return isset($this->_m[$behavior]) ? $this->_m[$behavior] : null;
+	}
 
 	/**
 	 * Attaches a list of behaviors to the component.
