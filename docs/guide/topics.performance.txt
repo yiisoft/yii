@@ -31,7 +31,7 @@ Using `yiilite.php`
 
 When the [PHP APC extension](http://www.php.net/manual/en/book.apc.php) is
 enabled, we can replace `yii.php` with a different Yii bootstrap file named
-`yiilite.php` to further boost the performance of an Yii-power application.
+`yiilite.php` to further boost the performance of an Yii-powered application.
 
 The file `yiilite.php` comes with every Yii release. It is the result of
 merging some commonly used Yii class files. Both comments and trace
@@ -41,7 +41,10 @@ execution of trace statements.
 
 Note, using `yiilite.php` without APC may actually reduce performance,
 because `yiilite.php` contains some classes that are not necessarily used
-in every request and would take extra parsing time.
+in every request and would take extra parsing time. It is observed that
+using `yiilite.php` is slower with some server configurations, even when
+APC is turned on. The best way to judge whether to use `yiilite.php` or not
+is to run a benchmark using the included `hello world` demo.
 
 Using Caching Techniques
 ------------------------

@@ -19,7 +19,7 @@
  * @package system.base
  * @since 1.0
  */
-abstract class CModel extends CComponent
+abstract class CModel extends CComponent implements IteratorAggregate, ArrayAccess
 {
 	private $_errors=array();	// attribute name => array of errors
 	private $_va;
@@ -501,6 +501,64 @@ abstract class CModel extends CComponent
 			return $attributes;
 		else
 			return isset($attributes[0]) ? $this->ensureArray($attributes[0]) : array();
+	}
+
+	/**
+	 * Returns an iterator for traversing the attributes in the model.
+	 * This method is required by the interface IteratorAggregate.
+	 * @return CMapIterator an iterator for traversing the items in the list.
+	 */
+	public function getIterator()
+	{
+		$attributes=$this->getAttributes();
+		return new CMapIterator($attributes);
+	}
+
+	/**
+	 * Returns whether there is an element at the specified offset.
+	 * This method is required by the interface ArrayAccess.
+	 * @param mixed the offset to check on
+	 * @return boolean
+	 * @since 1.0.2
+	 */
+	public function offsetExists($offset)
+	{
+		return property_exists($this,$offset);
+	}
+
+	/**
+	 * Returns the element at the specified offset.
+	 * This method is required by the interface ArrayAccess.
+	 * @param integer the offset to retrieve element.
+	 * @return mixed the element at the offset, null if no element is found at the offset
+	 * @since 1.0.2
+	 */
+	public function offsetGet($offset)
+	{
+		return $this->$offset;
+	}
+
+	/**
+	 * Sets the element at the specified offset.
+	 * This method is required by the interface ArrayAccess.
+	 * @param integer the offset to set element
+	 * @param mixed the element value
+	 * @since 1.0.2
+	 */
+	public function offsetSet($offset,$item)
+	{
+		$this->$offset=$item;
+	}
+
+	/**
+	 * Unsets the element at the specified offset.
+	 * This method is required by the interface ArrayAccess.
+	 * @param mixed the offset to unset element
+	 * @since 1.0.2
+	 */
+	public function offsetUnset($offset)
+	{
+		unset($this->$offset);
 	}
 
 	private function ensureArray($value)

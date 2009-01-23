@@ -1456,6 +1456,18 @@ abstract class CActiveRecord extends CModel
 		}
 		return $records;
 	}
+
+	/**
+	 * Returns whether there is an element at the specified offset.
+	 * This method is required by the interface ArrayAccess.
+	 * @param mixed the offset to check on
+	 * @return boolean
+	 * @since 1.0.2
+	 */
+	public function offsetExists($offset)
+	{
+		return isset($this->getMetaData()->columns[$offset]);
+	}
 }
 
 

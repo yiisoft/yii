@@ -27,6 +27,7 @@
 class CFormModel extends CModel
 {
 	private $_validators;
+	private static $_names=array();
 
 	/**
 	 * Constructor.
@@ -66,15 +67,21 @@ class CFormModel extends CModel
 	 */
 	public function attributeNames()
 	{
-		$class=new ReflectionClass(get_class($this));
-		$names=array();
-		foreach($class->getProperties() as $property)
+		$className=get_class($this);
+		if(!isset(self::$_names[$className]))
 		{
-			$name=$property->getName();
-			if($property->isPublic() && !$property->isStatic())
-				$names[]=$name;
+			$class=new ReflectionClass(get_class($this));
+			$names=array();
+			foreach($class->getProperties() as $property)
+			{
+				$name=$property->getName();
+				if($property->isPublic() && !$property->isStatic())
+					$names[]=$name;
+			}
+			return self::$_names[$className]=$names;
 		}
-		return $names;
+		else
+			return self::$_names[$className];
 	}
 
 	/**
