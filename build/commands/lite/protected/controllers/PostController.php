@@ -5,7 +5,7 @@ class PostController extends CController
 	/**
 	 * @var string specifies the default action to be 'list'.
 	 */
-	public $defaultAction='list';
+	public $defaultAction='create';
 
 	/**
 	 * Specifies the action filters.
@@ -29,7 +29,7 @@ class PostController extends CController
 	{
 		return array(
 			array('deny',  // deny access to CUD for guest users
-				'actions'=>array('create', 'update', 'delete'),
+				'actions'=>array('delete'),
 				'users'=>array('?'),
 			),
 		);
