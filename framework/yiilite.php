@@ -201,6 +201,13 @@ class YiiBase
 			if(($source=self::$_app->getComponent($source))!==null)
 				$message=$source->translate($category,$message);
 		}
+		if($params===array())
+			return $message;
+		if(isset($params[0])) // number choice
+		{
+			$message=CChoiceFormat::format($message,$params[0]);
+			unset($params[0]);
+		}
 		return $params!==array() ? strtr($message,$params) : $message;
 	}
 	private static $_coreClasses=array(
@@ -264,6 +271,7 @@ class YiiBase
 		'CSqliteColumnSchema' => '/db/schema/sqlite/CSqliteColumnSchema.php',
 		'CSqliteCommandBuilder' => '/db/schema/sqlite/CSqliteCommandBuilder.php',
 		'CSqliteSchema' => '/db/schema/sqlite/CSqliteSchema.php',
+		'CChoiceFormat' => '/i18n/CChoiceFormat.php',
 		'CDateFormatter' => '/i18n/CDateFormatter.php',
 		'CDbMessageSource' => '/i18n/CDbMessageSource.php',
 		'CGettextMessageSource' => '/i18n/CGettextMessageSource.php',
@@ -5243,6 +5251,10 @@ abstract class CActiveRecord extends CModel
 			$records[]=$record;
 		}
 		return $records;
+	}
+	public function offsetExists($offset)
+	{
+		return isset($this->getMetaData()->columns[$offset]);
 	}
 }
 class CActiveRelation extends CComponent
