@@ -380,11 +380,18 @@ class YiiBase
 
 	/**
 	 * Translates a message to the {@link CApplication::getLanguage application language}.
+	 * Starting from version 1.0.2, this method supports choice format (see {@link CChoiceFormat}),
+	 * i.e., the message returned will be chosen from a few candidates according to the given
+	 * number value. This feature is mainly used to solve plural format issue in case
+	 * a message has different plural forms in some languages.
 	 * @param string message category. Please use only word letters. Note, category 'yii' is
 	 * reserved for Yii framework core code use. See {@link CPhpMessageSource} for
 	 * more interpretation about message category.
 	 * @param string the original message
 	 * @param array parameters to be applied to the message using <code>strtr</code>.
+	 * Starting from version 1.0.2, the first parameter can be a number without key.
+	 * And in this case, the method will call {@link CChoiceFormat::format} to choose
+	 * an appropriate message translation.
 	 * @param string which message source application component to use.
 	 * Defaults to null, meaning using 'coreMessages' for messages belonging to
 	 * the 'yii' category and using 'messages' for the rest messages.
@@ -399,6 +406,13 @@ class YiiBase
 				$source=$category==='yii'?'coreMessages':'messages';
 			if(($source=self::$_app->getComponent($source))!==null)
 				$message=$source->translate($category,$message);
+		}
+		if($params===array())
+			return $message;
+		if(isset($params[0])) // number choice
+		{
+			$message=CChoiceFormat::format($message,$params[0]);
+			unset($params[0]);
 		}
 		return $params!==array() ? strtr($message,$params) : $message;
 	}
@@ -434,9 +448,13 @@ class YiiBase
 		'CAttributeCollection' => '/collections/CAttributeCollection.php',
 		'CConfiguration' => '/collections/CConfiguration.php',
 		'CList' => '/collections/CList.php',
+		'CListIterator' => '/collections/CListIterator.php',
 		'CMap' => '/collections/CMap.php',
+		'CMapIterator' => '/collections/CMapIterator.php',
 		'CQueue' => '/collections/CQueue.php',
+		'CQueueIterator' => '/collections/CQueueIterator.php',
 		'CStack' => '/collections/CStack.php',
+		'CStackIterator' => '/collections/CStackIterator.php',
 		'CTypedList' => '/collections/CTypedList.php',
 		'CConsoleApplication' => '/console/CConsoleApplication.php',
 		'CConsoleCommand' => '/console/CConsoleCommand.php',
@@ -465,6 +483,7 @@ class YiiBase
 		'CSqliteColumnSchema' => '/db/schema/sqlite/CSqliteColumnSchema.php',
 		'CSqliteCommandBuilder' => '/db/schema/sqlite/CSqliteCommandBuilder.php',
 		'CSqliteSchema' => '/db/schema/sqlite/CSqliteSchema.php',
+		'CChoiceFormat' => '/i18n/CChoiceFormat.php',
 		'CDateFormatter' => '/i18n/CDateFormatter.php',
 		'CDbMessageSource' => '/i18n/CDbMessageSource.php',
 		'CGettextMessageSource' => '/i18n/CGettextMessageSource.php',
@@ -486,6 +505,7 @@ class YiiBase
 		'CDateParser' => '/utils/CDateParser.php',
 		'CFileHelper' => '/utils/CFileHelper.php',
 		'CMarkdownParser' => '/utils/CMarkdownParser.php',
+		'CPropertyValue' => '/utils/CPropertyValue.php',
 		'CTimestamp' => '/utils/CTimestamp.php',
 		'CVarDumper' => '/utils/CVarDumper.php',
 		'CCaptchaValidator' => '/validators/CCaptchaValidator.php',
@@ -515,6 +535,7 @@ class YiiBase
 		'CHttpCookie' => '/web/CHttpCookie.php',
 		'CHttpRequest' => '/web/CHttpRequest.php',
 		'CHttpSession' => '/web/CHttpSession.php',
+		'CHttpSessionIterator' => '/web/CHttpSessionIterator.php',
 		'COutputEvent' => '/web/COutputEvent.php',
 		'CPagination' => '/web/CPagination.php',
 		'CSort' => '/web/CSort.php',

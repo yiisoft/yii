@@ -252,7 +252,14 @@ class CJSON
 				return '[' . join(',', array_map(array('CJSON', 'encode'), $var)) . ']';
 
 			case 'object':
-				$vars = get_object_vars($var);
+				if ($var instanceof Traversable)
+				{
+					$vars = array();
+					foreach ($var as $k=>$v)
+						$vars[$k] = $v;
+				}
+				else
+					$vars = get_object_vars($var);
 				return '{' .
 					   join(',', array_map(array('CJSON', 'nameValue'),
 										   array_keys($vars),

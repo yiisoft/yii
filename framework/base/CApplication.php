@@ -69,6 +69,13 @@ abstract class CApplication extends CComponent
 	 * the language that the messages and view files are in. Defaults to 'en_us' (US English).
 	 */
 	public $sourceLanguage='en_us';
+	/**
+	 * @var array the behaviors that should be attached to the application.
+	 * The behaviors will be attached to the application when {@link init} is called.
+	 * Please refer to {@link CModel::behaviors} on how to specify the value of this property.
+	 * @since 1.0.2
+	 */
+	public $behaviors=array();
 
 	private $_id;
 	private $_basePath;
@@ -116,6 +123,7 @@ abstract class CApplication extends CComponent
 	 */
 	protected function init()
 	{
+		$this->attachBehaviors($this->behaviors);
 		$this->preloadComponents();
 	}
 

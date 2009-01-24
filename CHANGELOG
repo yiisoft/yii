@@ -18,6 +18,8 @@ Version 1.0.2 to be released
 - New #92: Empty error messages in models are handled better when being displayed (Qiang)
 - New #93: Changed CLinkPager and CListPager so that the messages are internationalized (Qiang)
 - New #95: Added an option to CHtml::activeCheckBox() to define default value if unchecked (Qiang)
+- New #98: Added support to translate messages in different plural forms. Added CChoiceFormat. (Qiang)
+- New #104: Added support to encode traversable objects using JSON (Qiang)
 - New: Added CActiveRecord::getRelated() (Qiang)
 - New: Added 'return' option to HTML options in CHtml (Qiang)
 - New: Refactored CSS-dependent widgets by adding registerCssFile static methods (Qiang)
@@ -34,6 +36,7 @@ Version 1.0.2 to be released
 - New: Added a set of new events to CActiveRecord and CFormModel (Qiang)
 - New: Added CModel::getValidatorsForAttribute (Qiang)
 - New: Added CHtml::activeLabelEx and added 'required' option to CHtml::label (Qiang)
+- New: Added array access support to CFormModel and CActiveRecord (Qiang)
 
 Version 1.0.1 January 4, 2009
 -----------------------------

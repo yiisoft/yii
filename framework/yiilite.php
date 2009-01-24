@@ -201,6 +201,13 @@ class YiiBase
 			if(($source=self::$_app->getComponent($source))!==null)
 				$message=$source->translate($category,$message);
 		}
+		if($params===array())
+			return $message;
+		if(isset($params[0])) // number choice
+		{
+			$message=CChoiceFormat::format($message,$params[0]);
+			unset($params[0]);
+		}
 		return $params!==array() ? strtr($message,$params) : $message;
 	}
 	private static $_coreClasses=array(
@@ -229,9 +236,13 @@ class YiiBase
 		'CAttributeCollection' => '/collections/CAttributeCollection.php',
 		'CConfiguration' => '/collections/CConfiguration.php',
 		'CList' => '/collections/CList.php',
+		'CListIterator' => '/collections/CListIterator.php',
 		'CMap' => '/collections/CMap.php',
+		'CMapIterator' => '/collections/CMapIterator.php',
 		'CQueue' => '/collections/CQueue.php',
+		'CQueueIterator' => '/collections/CQueueIterator.php',
 		'CStack' => '/collections/CStack.php',
+		'CStackIterator' => '/collections/CStackIterator.php',
 		'CTypedList' => '/collections/CTypedList.php',
 		'CConsoleApplication' => '/console/CConsoleApplication.php',
 		'CConsoleCommand' => '/console/CConsoleCommand.php',
@@ -260,6 +271,7 @@ class YiiBase
 		'CSqliteColumnSchema' => '/db/schema/sqlite/CSqliteColumnSchema.php',
 		'CSqliteCommandBuilder' => '/db/schema/sqlite/CSqliteCommandBuilder.php',
 		'CSqliteSchema' => '/db/schema/sqlite/CSqliteSchema.php',
+		'CChoiceFormat' => '/i18n/CChoiceFormat.php',
 		'CDateFormatter' => '/i18n/CDateFormatter.php',
 		'CDbMessageSource' => '/i18n/CDbMessageSource.php',
 		'CGettextMessageSource' => '/i18n/CGettextMessageSource.php',
@@ -281,6 +293,7 @@ class YiiBase
 		'CDateParser' => '/utils/CDateParser.php',
 		'CFileHelper' => '/utils/CFileHelper.php',
 		'CMarkdownParser' => '/utils/CMarkdownParser.php',
+		'CPropertyValue' => '/utils/CPropertyValue.php',
 		'CTimestamp' => '/utils/CTimestamp.php',
 		'CVarDumper' => '/utils/CVarDumper.php',
 		'CCaptchaValidator' => '/validators/CCaptchaValidator.php',
@@ -310,6 +323,7 @@ class YiiBase
 		'CHttpCookie' => '/web/CHttpCookie.php',
 		'CHttpRequest' => '/web/CHttpRequest.php',
 		'CHttpSession' => '/web/CHttpSession.php',
+		'CHttpSessionIterator' => '/web/CHttpSessionIterator.php',
 		'COutputEvent' => '/web/COutputEvent.php',
 		'CPagination' => '/web/CPagination.php',
 		'CSort' => '/web/CSort.php',
@@ -386,6 +400,8 @@ class CComponent
 				$this->_e[$name]=new CList;
 			return $this->_e[$name];
 		}
+		else if(isset($this->_m[$name]))
+			return $this->_m[$name];
 		else
 			throw new CException(Yii::t('yii','Property "{class}.{property}" is not defined.',
 				array('{class}'=>get_class($this), '{property}'=>$name)));
@@ -444,8 +460,12 @@ class CComponent
 					return call_user_func_array(array($object,$name),$parameters);
 			}
 		}
-		throw new CException('yii','{class} does not have a method named {name}.',
-			array('{class}'=>get_class($this), '{name}'=>$name));
+		throw new CException(Yii::t('yii','{class} does not have a method named "{name}".',
+			array('{class}'=>get_class($this), '{name}'=>$name)));
+	}
+	public function asa($behavior)
+	{
+		return isset($this->_m[$behavior]) ? $this->_m[$behavior] : null;
 	}
 	public function attachBehaviors($behaviors)
 	{
@@ -595,69 +615,13 @@ class CEvent extends CComponent
 class CEnumerable
 {
 }
-class CPropertyValue
-{
-	public static function ensureBoolean($value)
-	{
-		if (is_string($value))
-			return !strcasecmp($value,'true') || $value!=0;
-		else
-			return (boolean)$value;
-	}
-	public static function ensureString($value)
-	{
-		if (is_bool($value))
-			return $value?'true':'false';
-		else
-			return (string)$value;
-	}
-	public static function ensureInteger($value)
-	{
-		return (integer)$value;
-	}
-	public static function ensureFloat($value)
-	{
-		return (float)$value;
-	}
-	public static function ensureArray($value)
-	{
-		if(is_string($value))
-		{
-			$value = trim($value);
-			$len = strlen($value);
-			if ($len >= 2 && $value[0] == '(' && $value[$len-1] == ')')
-			{
-				eval('$array=array'.$value.';');
-				return $array;
-			}
-			else
-				return $len>0?array($value):array();
-		}
-		else
-			return (array)$value;
-	}
-	public static function ensureObject($value)
-	{
-		return (object)$value;
-	}
-	public static function ensureEnum($value,$enumType)
-	{
-		static $types=array();
-		if(!isset($types[$enumType]))
-			$types[$enumType]=new ReflectionClass($enumType);
-		if($types[$enumType]->hasConstant($value))
-			return $value;
-		else
-			throw new CException(Yii::t('yii','Invalid enumerable value "{value}". Please make sure it is among ({enum}).',
-				array('{value}'=>$value, '{enum}'=>implode(', ',$types[$enumType]->getConstants()))));
-	}
-}
 abstract class CApplication extends CComponent
 {
 	public $name='My Application';
 	public $charset='UTF-8';
 	public $preload=array();
 	public $sourceLanguage='en_us';
+	public $behaviors=array();
 	private $_id;
 	private $_basePath;
 	private $_runtimePath;
@@ -680,6 +644,7 @@ abstract class CApplication extends CComponent
 	}
 	protected function init()
 	{
+		$this->attachBehaviors($this->behaviors);
 		$this->preloadComponents();
 	}
 	public function __get($name)
@@ -1485,37 +1450,6 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 	public function offsetUnset($offset)
 	{
 		$this->remove($offset);
-	}
-}
-class CMapIterator implements Iterator
-{
-	private $_d;
-	private $_keys;
-	private $_key;
-	public function __construct(&$data)
-	{
-		$this->_d=&$data;
-		$this->_keys=array_keys($data);
-	}
-	public function rewind()
-	{
-		$this->_key=reset($this->_keys);
-	}
-	public function key()
-	{
-		return $this->_key;
-	}
-	public function current()
-	{
-		return $this->_d[$this->_key];
-	}
-	public function next()
-	{
-		$this->_key=next($this->_keys);
-	}
-	public function valid()
-	{
-		return $this->_key!==false;
 	}
 }
 class CLogger extends CComponent
@@ -3217,39 +3151,6 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 		unset($_SESSION[$offset]);
 	}
 }
-class CHttpSessionIterator implements Iterator
-{
-	private $_keys;
-	private $_key;
-	public function __construct()
-	{
-		$this->_keys=array_keys($_SESSION);
-	}
-	public function rewind()
-	{
-		$this->_key=reset($this->_keys);
-	}
-	public function key()
-	{
-		return $this->_key;
-	}
-	public function current()
-	{
-		return isset($_SESSION[$this->_key])?$_SESSION[$this->_key]:null;
-	}
-	public function next()
-	{
-		do
-		{
-			$this->_key=next($this->_keys);
-		}
-		while(!isset($_SESSION[$this->_key]) && $this->_key!==false);
-	}
-	public function valid()
-	{
-		return $this->_key!==false;
-	}
-}
 class CHtml
 {
 	const ID_PREFIX='yt';
@@ -4368,38 +4269,6 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 		$this->removeAt($offset);
 	}
 }
-class CListIterator implements Iterator
-{
-	private $_d;
-	private $_i;
-	private $_c;
-	public function __construct(&$data)
-	{
-		$this->_d=&$data;
-		$this->_i=0;
-		$this->_c=count($this->_d);
-	}
-	public function rewind()
-	{
-		$this->_i=0;
-	}
-	public function key()
-	{
-		return $this->_i;
-	}
-	public function current()
-	{
-		return $this->_d[$this->_i];
-	}
-	public function next()
-	{
-		$this->_i++;
-	}
-	public function valid()
-	{
-		return $this->_i<$this->_c;
-	}
-}
 class CFilterChain extends CList
 {
 	public $controller;
@@ -4620,7 +4489,7 @@ class CAccessRule extends CComponent
 		return empty($this->verbs) || in_array(strtolower($verb),$this->verbs);
 	}
 }
-abstract class CModel extends CComponent
+abstract class CModel extends CComponent implements IteratorAggregate, ArrayAccess
 {
 	private $_errors=array();	// attribute name => array of errors
 	private $_va;
@@ -4811,6 +4680,27 @@ abstract class CModel extends CComponent
 			return $attributes;
 		else
 			return isset($attributes[0]) ? $this->ensureArray($attributes[0]) : array();
+	}
+	public function getIterator()
+	{
+		$attributes=$this->getAttributes();
+		return new CMapIterator($attributes);
+	}
+	public function offsetExists($offset)
+	{
+		return property_exists($this,$offset);
+	}
+	public function offsetGet($offset)
+	{
+		return $this->$offset;
+	}
+	public function offsetSet($offset,$item)
+	{
+		$this->$offset=$item;
+	}
+	public function offsetUnset($offset)
+	{
+		unset($this->$offset);
 	}
 	private function ensureArray($value)
 	{
@@ -5361,6 +5251,10 @@ abstract class CActiveRecord extends CModel
 			$records[]=$record;
 		}
 		return $records;
+	}
+	public function offsetExists($offset)
+	{
+		return isset($this->getMetaData()->columns[$offset]);
 	}
 }
 class CActiveRelation extends CComponent
@@ -6083,653 +5977,6 @@ class CSqliteColumnSchema extends CDbColumnSchema
 			$this->defaultValue=trim($defaultValue,"'\"");
 		else
 			$this->defaultValue=$this->typecast($defaultValue);
-	}
-}
-class CDbCommandBuilder extends CComponent
-{
-	private $_schema;
-	private $_connection;
-	public function __construct($schema)
-	{
-		$this->_schema=$schema;
-		$this->_connection=$schema->getDbConnection();
-	}
-	public function getDbConnection()
-	{
-		return $this->_connection;
-	}
-	public function getSchema()
-	{
-		return $this->_schema;
-	}
-	public function getLastInsertID($table)
-	{
-		if($table->sequenceName!==null)
-			return $this->_connection->getLastInsertID($table->sequenceName);
-		else
-			return null;
-	}
-	public function createFindCommand($table,$criteria)
-	{
-		$select=is_array($criteria->select) ? implode(', ',$criteria->select) : $criteria->select;
-		$sql="SELECT {$select} FROM {$table->rawName}";
-		$sql=$this->applyJoin($sql,$criteria->join);
-		$sql=$this->applyCondition($sql,$criteria->condition);
-		$sql=$this->applyGroup($sql,$criteria->group);
-		$sql=$this->applyHaving($sql,$criteria->having);
-		$sql=$this->applyOrder($sql,$criteria->order);
-		$sql=$this->applyLimit($sql,$criteria->limit,$criteria->offset);
-		$command=$this->_connection->createCommand($sql);
-		$this->bindValues($command,$criteria->params);
-		return $command;
-	}
-	public function createCountCommand($table,$criteria)
-	{
-		$criteria->select='COUNT(*)';
-		return $this->createFindCommand($table,$criteria);
-	}
-	public function createDeleteCommand($table,$criteria)
-	{
-		$sql="DELETE FROM {$table->rawName}";
-		$sql=$this->applyJoin($sql,$criteria->join);
-		$sql=$this->applyCondition($sql,$criteria->condition);
-		$sql=$this->applyGroup($sql,$criteria->group);
-		$sql=$this->applyHaving($sql,$criteria->having);
-		$sql=$this->applyOrder($sql,$criteria->order);
-		$sql=$this->applyLimit($sql,$criteria->limit,$criteria->offset);
-		$command=$this->_connection->createCommand($sql);
-		$this->bindValues($command,$criteria->params);
-		return $command;
-	}
-	public function createInsertCommand($table,$data)
-	{
-		$fields=array();
-		$values=array();
-		$placeholders=array();
-		foreach($data as $name=>$value)
-		{
-			if(($column=$table->getColumn($name))!==null && ($value!==null || $column->allowNull))
-			{
-				$fields[]=$column->rawName;
-				if($value instanceof CDbExpression)
-					$placeholders[]=(string)$value;
-				else
-				{
-					$placeholders[]=':'.$name;
-					$values[':'.$name]=$column->typecast($value);
-				}
-			}
-		}
-		$sql="INSERT INTO {$table->rawName} (".implode(', ',$fields).') VALUES ('.implode(', ',$placeholders).')';
-		$command=$this->_connection->createCommand($sql);
-		foreach($values as $name=>$value)
-			$command->bindValue($name,$value);
-		return $command;
-	}
-	public function createUpdateCommand($table,$data,$criteria)
-	{
-		$fields=array();
-		$values=array();
-		$bindByPosition=isset($criteria->params[0]);
-		foreach($data as $name=>$value)
-		{
-			if(($column=$table->getColumn($name))!==null)
-			{
-				if($value instanceof CDbExpression)
-					$fields[]=$column->rawName.'='.(string)$value;
-				else if($bindByPosition)
-				{
-					$fields[]=$column->rawName.'=?';
-					$values[]=$column->typecast($value);
-				}
-				else
-				{
-					$fields[]=$column->rawName.'=:'.$name;
-					$values[':'.$name]=$column->typecast($value);
-				}
-			}
-		}
-		if($fields===array())
-			throw new CDbException(Yii::t('yii','No columns are being updated for table "{table}".',
-				array('{table}'=>$table->name)));
-		$sql="UPDATE {$table->rawName} SET ".implode(', ',$fields);
-		$sql=$this->applyJoin($sql,$criteria->join);
-		$sql=$this->applyCondition($sql,$criteria->condition);
-		$sql=$this->applyOrder($sql,$criteria->order);
-		$sql=$this->applyLimit($sql,$criteria->limit,$criteria->offset);
-		$command=$this->_connection->createCommand($sql);
-		$this->bindValues($command,array_merge($values,$criteria->params));
-		return $command;
-	}
-	public function createUpdateCounterCommand($table,$counters,$criteria)
-	{
-		$fields=array();
-		foreach($counters as $name=>$value)
-		{
-			if(($column=$table->getColumn($name))!==null)
-			{
-				$value=(int)$value;
-				if($value<0)
-					$fields[]="{$column->rawName}={$column->rawName}-".(-$value);
-				else
-					$fields[]="{$column->rawName}={$column->rawName}+".$value;
-			}
-		}
-		if($fields!==array())
-		{
-			$sql="UPDATE {$table->rawName} SET ".implode(', ',$fields);
-			$sql=$this->applyJoin($sql,$criteria->join);
-			$sql=$this->applyCondition($sql,$criteria->condition);
-			$sql=$this->applyOrder($sql,$criteria->order);
-			$sql=$this->applyLimit($sql,$criteria->limit,$criteria->offset);
-			$command=$this->_connection->createCommand($sql);
-			$this->bindValues($command,$criteria->params);
-			return $command;
-		}
-		else
-			throw new CDbException(Yii::t('yii','No counter columns are being updated for table "{table}".',
-				array('{table}'=>$table->name)));
-	}
-	public function createSqlCommand($sql,$params=array())
-	{
-		$command=$this->_connection->createCommand($sql);
-		$this->bindValues($command,$params);
-		return $command;
-	}
-	public function applyJoin($sql,$join)
-	{
-		if($join!=='')
-			return $sql.' '.$join;
-		else
-			return $sql;
-	}
-	public function applyCondition($sql,$condition)
-	{
-		if($condition!=='')
-			return $sql.' WHERE '.$condition;
-		else
-			return $sql;
-	}
-	public function applyOrder($sql,$orderBy)
-	{
-		if($orderBy!=='')
-			return $sql.' ORDER BY '.$orderBy;
-		else
-			return $sql;
-	}
-	public function applyLimit($sql,$limit,$offset)
-	{
-		if($limit>=0)
-			$sql.=' LIMIT '.(int)$limit;
-		if($offset>0)
-			$sql.=' OFFSET '.(int)$offset;
-		return $sql;
-	}
-	public function applyGroup($sql,$group)
-	{
-		if($group!=='')
-			return $sql.' GROUP BY '.$group;
-		else
-			return $sql;
-	}
-	public function applyHaving($sql,$having)
-	{
-		if($having!=='')
-			return $sql.' HAVING '.$having;
-		else
-			return $sql;
-	}
-	public function bindValues($command, $values)
-	{
-		if(($n=count($values))===0)
-			return;
-		if(isset($values[0])) // question mark placeholders
-		{
-			for($i=0;$i<$n;++$i)
-				$command->bindValue($i+1,$values[$i]);
-		}
-		else // named placeholders
-		{
-			foreach($values as $name=>$value)
-			{
-				if($name[0]!==':')
-					$name=':'.$name;
-				$command->bindValue($name,$value);
-			}
-		}
-	}
-	public function createCriteria($condition='',$params=array())
-	{
-		if(is_array($condition))
-			$criteria=new CDbCriteria($condition);
-		else if($condition instanceof CDbCriteria)
-			$criteria=clone $condition;
-		else
-		{
-			$criteria=new CDbCriteria;
-			$criteria->condition=$condition;
-			$criteria->params=$params;
-		}
-		return $criteria;
-	}
-	public function createPkCriteria($table,$pk,$condition='',$params=array())
-	{
-		$criteria=$this->createCriteria($condition,$params);
-		if(!is_array($pk)) // single key
-			$pk=array($pk);
-		if(is_array($table->primaryKey) && !isset($pk[0]) && $pk!==array()) // single composite key
-			$pk=array($pk);
-		$condition=$this->createPkCondition($table,$pk);
-		if($criteria->condition!=='')
-			$criteria->condition=$condition.' AND ('.$criteria->condition.')';
-		else
-			$criteria->condition=$condition;
-		return $criteria;
-	}
-	public function createPkCondition($table,$values,$prefix=null)
-	{
-		if(($n=count($values))<1)
-			return '0=1';
-		if($prefix===null)
-			$prefix=$table->rawName.'.';
-		if(is_string($table->primaryKey))
-		{
-			// simple key: $values=array(pk1,pk2,...)
-			$column=$table->columns[$table->primaryKey];
-			foreach($values as &$value)
-			{
-				$value=$column->typecast($value);
-				if(is_string($value))
-					$value=$this->_connection->quoteValue($value);
-			}
-			if($n===1)
-				return $prefix.$column->rawName.($values[0]===null?' IS NULL':'='.$values[0]);
-			else
-				return $prefix.$column->rawName.' IN ('.implode(', ',$values).')';
-		}
-		else if(is_array($table->primaryKey))
-		{
-			// composite key: $values=array(array('pk1'=>'v1','pk2'=>'v2'),array(...))
-			foreach($table->primaryKey as $name)
-			{
-				$column=$table->columns[$name];
-				for($i=0;$i<$n;++$i)
-				{
-					if(isset($values[$i][$name]))
-					{
-						$value=$column->typecast($values[$i][$name]);
-						if(is_string($value))
-							$values[$i][$name]=$this->_connection->quoteValue($value);
-						else
-							$values[$i][$name]=$value;
-					}
-					else
-						throw new CDbException(Yii::t('yii','The value for the primary key "{key}" is not supplied when querying the table "{table}".',
-							array('{table}'=>$table->name,'{key}'=>$name)));
-				}
-			}
-			if(count($values)===1)
-			{
-				$entries=array();
-				foreach($values[0] as $name=>$value)
-					$entries[]=$prefix.$table->columns[$name]->rawName.($value===null?' IS NULL':'='.$value);
-				return implode(' AND ',$entries);
-			}
-			else
-				return $this->createCompositePkCondition($table,$values,$prefix);
-		}
-		else
-			throw new CDbException(Yii::t('yii','Table "{table}" does not have a primary key defined.',
-				array('{table}'=>$table->name)));
-	}
-	protected function createCompositePkCondition($table,$values,$prefix)
-	{
-		if($prefix===null)
-			$prefix=$table->rawName.'.';
-		$keyNames=array();
-		foreach(array_keys($values[0]) as $name)
-			$keyNames[]=$prefix.$table->columns[$name]->rawName;
-		$vs=array();
-		foreach($values as $value)
-			$vs[]='('.implode(', ',$value).')';
-		return '('.implode(', ',$keyNames).') IN ('.implode(', ',$vs).')';
-	}
-	public function createColumnCriteria($table,$columns,$condition='',$params=array())
-	{
-		$criteria=$this->createCriteria($condition,$params);
-		$bindByPosition=isset($criteria->params[0]);
-		$conditions=array();
-		$values=array();
-		foreach($columns as $name=>$value)
-		{
-			if(($column=$table->getColumn($name))!==null)
-			{
-				if($value!==null)
-				{
-					if($bindByPosition)
-					{
-						$conditions[]=$table->rawName.'.'.$column->rawName.'=?';
-						$values[]=$value;
-					}
-					else
-					{
-						$conditions[]=$table->rawName.'.'.$column->rawName.'=:'.$name;
-						$values[':'.$name]=$value;
-					}
-				}
-				else
-					$conditions[]=$table->rawName.'.'.$column->rawName.' IS NULL';
-			}
-			else
-				throw new CDbException(Yii::t('yii','Table "{table}" does not have a column named "{column}".',
-					array('{table}'=>$table->name,'{column}'=>$name)));
-		}
-		$criteria->params=array_merge($values,$criteria->params);
-		if(isset($conditions[0]))
-		{
-			if($criteria->condition!=='')
-				$criteria->condition=implode(' AND ',$conditions).' AND ('.$criteria->condition.')';
-			else
-				$criteria->condition=implode(' AND ',$conditions);
-		}
-		return $criteria;
-	}
-	public function createSearchCondition($table,$columns,$keywords,$prefix=null)
-	{
-		if(!is_array($keywords))
-			$keywords=preg_split('/\s+/u',$keywords,-1,PREG_SPLIT_NO_EMPTY);
-		if(empty($keywords))
-			return '';
-		if($prefix===null)
-			$prefix=$table->rawName.'.';
-		$conditions=array();
-		foreach($columns as $name)
-		{
-			if(($column=$table->getColumn($name))===null)
-				throw new CDbException(Yii::t('yii','Table "{table}" does not have a column named "{column}".',
-					array('{table}'=>$table->name,'{column}'=>$name)));
-			$condition=array();
-			foreach($keywords as $keyword)
-				$condition[]=$prefix.$column->rawName.' LIKE '.$this->_connection->quoteValue('%'.$keyword.'%');
-			$conditions[]=implode(' AND ',$condition);
-		}
-		return '('.implode(' OR ',$conditions).')';
-	}
-}
-class CSqliteCommandBuilder extends CDbCommandBuilder
-{
-	protected function createCompositePkCondition($table,$values,$prefix)
-	{
-		$keyNames=array();
-		foreach(array_keys($values[0]) as $name)
-			$keyNames[]=$prefix.$table->columns[$name]->rawName;
-		$vs=array();
-		foreach($values as $value)
-			$vs[]=implode("||','||",$value);
-		return implode("||','||",$keyNames).' IN ('.implode(', ',$vs).')';
-	}
-}
-class CDbCriteria
-{
-	public $select='*';
-	public $condition='';
-	public $params=array();
-	public $limit=-1;
-	public $offset=-1;
-	public $order='';
-	public $group='';
-	public $join='';
-	public $having='';
-	public function __construct($data=array())
-	{
-		foreach($data as $name=>$value)
-			$this->$name=$value;
-	}
-}
-class CPagination extends CComponent
-{
-	const DEFAULT_PAGE_SIZE=10;
-	public $pageVar='page';
-	public $route='';
-	private $_pageSize=self::DEFAULT_PAGE_SIZE;
-	private $_itemCount=0;
-	private $_currentPage;
-	public function __construct($itemCount=0)
-	{
-		$this->setItemCount($itemCount);
-	}
-	public function getPageSize()
-	{
-		return $this->_pageSize;
-	}
-	public function setPageSize($value)
-	{
-		if(($this->_pageSize=$value)<=0)
-			$this->_pageSize=self::DEFAULT_PAGE_SIZE;
-	}
-	public function getItemCount()
-	{
-		return $this->_itemCount;
-	}
-	public function setItemCount($value)
-	{
-		if(($this->_itemCount=$value)<0)
-			$this->_itemCount=0;
-	}
-	public function getPageCount()
-	{
-		return (int)(($this->_itemCount+$this->_pageSize-1)/$this->_pageSize);
-	}
-	public function getCurrentPage($recalculate=true)
-	{
-		if($this->_currentPage===null || $recalculate)
-		{
-			if(isset($_GET[$this->pageVar]))
-			{
-				$this->_currentPage=(int)$_GET[$this->pageVar]-1;
-				$pageCount=$this->getPageCount();
-				if($this->_currentPage>=$pageCount)
-					$this->_currentPage=$pageCount-1;
-				if($this->_currentPage<0)
-					$this->_currentPage=0;
-			}
-			else
-				$this->_currentPage=0;
-		}
-		return $this->_currentPage;
-	}
-	public function setCurrentPage($value)
-	{
-		$this->_currentPage=$value;
-		$_GET[$this->pageVar]=$value+1;
-	}
-	public function createPageUrl($controller,$page)
-	{
-		$params=($this->route==='')?$_GET:array();
-		if($page>0) // page 0 is the default
-			$params[$this->pageVar]=$page+1;
-		else
-			unset($params[$this->pageVar]);
-		return $controller->createUrl($this->route,$params);
-	}
-	public function applyLimit($criteria)
-	{
-		$criteria->limit=$this->pageSize;
-		$criteria->offset=$this->currentPage*$this->pageSize;
-	}
-}
-class CJavaScript
-{
-	public static function quote($js,$forUrl=false)
-	{
-		if($forUrl)
-			return strtr($js,array('%'=>'%25',"\t"=>'\t',"\n"=>'\n',"\r"=>'\r','"'=>'\"','\''=>'\\\'','\\'=>'\\\\'));
-		else
-			return strtr($js,array("\t"=>'\t',"\n"=>'\n',"\r"=>'\r','"'=>'\"','\''=>'\\\'','\\'=>'\\\\'));
-	}
-	public static function encode($value)
-	{
-		if(is_string($value))
-		{
-			if(strpos($value,'js:')===0)
-				return substr($value,3);
-			else
-				return "'".self::quote($value)."'";
-		}
-		else if($value===null)
-			return 'null';
-		else if(is_bool($value))
-			return $value?'true':'false';
-		else if(is_integer($value))
-			return "$value";
-		else if(is_float($value))
-		{
-			if($value===-INF)
-				return 'Number.NEGATIVE_INFINITY';
-			else if($value===INF)
-				return 'Number.POSITIVE_INFINITY';
-			else
-				return "$value";
-		}
-		else if(is_object($value))
-			return self::encode(get_object_vars($value));
-		else if(is_array($value))
-		{
-			$es=array();
-			if(($n=count($value))>0 && array_keys($value)!==range(0,$n-1))
-			{
-				foreach($value as $k=>$v)
-					$es[]="'".self::quote($k)."':".self::encode($v);
-				return '{'.implode(',',$es).'}';
-			}
-			else
-			{
-				foreach($value as $v)
-					$es[]=self::encode($v);
-				return '['.implode(',',$es).']';
-			}
-		}
-		else
-			return '';
-	}
-	public static function jsonEncode($data)
-	{
-		if(function_exists('json_encode'))
-			return json_encode($data);
-		else
-		{
-			return CJSON::encode($data);
-		}
-	}
-	public static function jsonDecode($data,$useArray=true)
-	{
-		if(function_exists('json_decode'))
-			return json_decode($data,$useArray);
-		else
-			return CJSON::decode($data,$useArray);
-	}
-}
-class CAssetManager extends CApplicationComponent
-{
-	const DEFAULT_BASEPATH='assets';
-	private $_basePath;
-	private $_baseUrl;
-	private $_published=array();
-	public function init()
-	{
-		parent::init();
-		$request=Yii::app()->getRequest();
-		if($this->getBasePath()===null)
-			$this->setBasePath(dirname($request->getScriptFile()).DIRECTORY_SEPARATOR.self::DEFAULT_BASEPATH);
-		if($this->getBaseUrl()===null)
-			$this->setBaseUrl($request->getBaseUrl().'/'.self::DEFAULT_BASEPATH);
-	}
-	public function getBasePath()
-	{
-		return $this->_basePath;
-	}
-	public function setBasePath($value)
-	{
-		if(($basePath=realpath($value))!==false && is_dir($basePath) && is_writable($basePath))
-			$this->_basePath=$basePath;
-		else
-			throw new CException(Yii::t('yii','CAssetManager.basePath "{path}" is invalid. Please make sure the directory exists and is writable by the Web server process.',
-				array('{path}'=>$value)));
-	}
-	public function getBaseUrl()
-	{
-		return $this->_baseUrl;
-	}
-	public function setBaseUrl($value)
-	{
-		$this->_baseUrl=rtrim($value,'/');
-	}
-	public function publish($path,$hashByName=false,$level=-1)
-	{
-		if(isset($this->_published[$path]))
-			return $this->_published[$path];
-		else if(($src=realpath($path))!==false)
-		{
-			if(is_file($src))
-			{
-				$dir=$this->hash($hashByName ? basename($src) : dirname($src));
-				$fileName=basename($src);
-				$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
-				$dstFile=$dstDir.DIRECTORY_SEPARATOR.$fileName;
-				if(@filemtime($dstFile)<@filemtime($src))
-				{
-					if(!is_dir($dstDir))
-					{
-						mkdir($dstDir);
-						@chmod($dstDir,0777);
-					}
-					copy($src,$dstFile);
-				}
-				return $this->_published[$path]=$this->getBaseUrl()."/$dir/$fileName";
-			}
-			else
-			{
-				$dir=$this->hash($hashByName ? basename($src) : $src);
-				$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
-				if(!is_dir($dstDir))
-					CFileHelper::copyDirectory($src,$dstDir,array('exclude'=>array('.svn'),'level'=>$level));
-				return $this->_published[$path]=$this->getBaseUrl().'/'.$dir;
-			}
-		}
-		else
-			throw new CException(Yii::t('yii','The asset "{asset}" to be published does not exist.',
-				array('{asset}'=>$path)));
-	}
-	public function getPublishedPath($path,$hashByName=false)
-	{
-		if(($path=realpath($path))!==false)
-		{
-			$base=$this->getBasePath().DIRECTORY_SEPARATOR;
-			if(is_file($path))
-				return $base . $this->hash($hashByName ? basename($path) : dirname($path)) . DIRECTORY_SEPARATOR . basename($path);
-			else
-				return $base . $this->hash($hashByName ? basename($path) : $path);
-		}
-		else
-			return false;
-	}
-	public function getPublishedUrl($path,$hashByName=false)
-	{
-		if(isset($this->_published[$path]))
-			return $this->_published[$path];
-		if(($path=realpath($path))!==false)
-		{
-			if(is_file($path))
-				return $this->getBaseUrl().'/'.$this->hash($hashByName ? basename($path) : dirname($path)).'/'.basename($path);
-			else
-				return $this->getBaseUrl().'/'.$this->hash($hashByName ? basename($path) : $path);
-		}
-		else
-			return false;
-	}
-	protected function hash($path)
-	{
-		return sprintf('%x',crc32($path.Yii::getVersion()));
 	}
 }
 interface IApplicationComponent

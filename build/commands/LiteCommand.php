@@ -88,7 +88,8 @@ if(class_exists('YiiBase',false)) return;
 		{
 			ob_start();
 			$this->runRequest($entryScript);
-			$this->runRequest($entryScript,array('r'=>'post/list'));
+			$_SERVER['REQUEST_URI']='/index.php';
+			$this->runRequest($entryScript,array('r'=>'post'));
 			ob_end_clean();
 		}
 		catch(CException $e)

@@ -16,6 +16,7 @@ class NewComponent extends CComponent
 	private $_object = null;
 	private $_text = 'default';
 	public $eventHandled = false;
+	public $behaviorCalled = false;
 
 	public function getText()
 	{
@@ -45,6 +46,15 @@ class NewComponent extends CComponent
 	public function myEventHandler($event)
 	{
 		$this->eventHandled=true;
+	}
+}
+
+class NewBehavior extends CBehavior
+{
+	public function test()
+	{
+		$this->owner->behaviorCalled=true;
+		return 2;
 	}
 }
 
@@ -211,5 +221,17 @@ class CComponentTest extends CTestCase
 		$this->component->onMyEvent=array($this->component,'nullHandler');
 		$this->setExpectedException('CException');
 		$this->component->onMyEvent();
+	}
+
+	public function testBehavior()
+	{
+		$component=new NewComponent;
+		$component->attachBehavior('a',new NewBehavior);
+		$this->assertFalse($component->behaviorCalled);
+		$this->assertFalse(method_exists($component,'test'));
+		$this->assertEquals(2,$component->test());
+		$this->assertTrue($component->behaviorCalled);
+		$this->setExpectedException('CException');
+		$component->test2();
 	}
 }
