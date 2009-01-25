@@ -170,13 +170,6 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 */
 	public function validate($scenario='',$attributes=null)
 	{
-		if(is_string($attributes))
-		{
-			// backward compatible with 1.0.1
-			$tmp=$scenario;
-			$scenario=$attributes;
-			$attributes=$tmp;
-		}
 		$this->clearErrors();
 		if($this->beforeValidate($scenario))
 		{
@@ -453,10 +446,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	{
 		if(is_array($values))
 		{
-			if($scenario===false)
-				$attributes=array_flip($this->attributeNames());
-			else
-				$attributes=array_flip($this->getSafeAttributeNames($scenario));
+			$attributes=array_flip($this->getSafeAttributeNames($scenario));
 			foreach($values as $name=>$value)
 			{
 				if(isset($attributes[$name]))
