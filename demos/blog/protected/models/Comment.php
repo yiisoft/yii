@@ -64,6 +64,14 @@ class Comment extends CActiveRecord
 	}
 
 	/**
+	 * @return array attributes that can be massively assigned
+	 */
+	public function safeAttributess()
+	{
+		return 'author, email, url, content, verifyCode';
+	}
+
+	/**
 	 * @return array comment status names indexed by status IDs
 	 */
 	public function getStatusOptions()
