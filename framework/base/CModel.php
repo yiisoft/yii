@@ -453,10 +453,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	{
 		if(is_array($values))
 		{
-			if($scenario===false)
-				$attributes=array_flip($this->attributeNames());
-			else
-				$attributes=array_flip($this->getSafeAttributeNames($scenario));
+			$attributes=array_flip($this->getSafeAttributeNames($scenario));
 			foreach($values as $name=>$value)
 			{
 				if(isset($attributes[$name]))
