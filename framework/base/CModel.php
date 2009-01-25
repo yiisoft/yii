@@ -170,13 +170,6 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 */
 	public function validate($scenario='',$attributes=null)
 	{
-		if(is_string($attributes))
-		{
-			// backward compatible with 1.0.1
-			$tmp=$scenario;
-			$scenario=$attributes;
-			$attributes=$tmp;
-		}
 		$this->clearErrors();
 		if($this->beforeValidate($scenario))
 		{
