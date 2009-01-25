@@ -21,6 +21,15 @@ Upgrading from v1.0.1
 
   http://www.yiiframework.com/doc/guide/form.model#securing-attribute-assignments
 
+- The signature of CModel::validate() has been changed to:
+
+  CModel::validate($scenario='', $attributes=null)
+
+  That is, the order of the two parameters has been swapped. If your application
+  contains code that invokes the validate() method (of either a CFormModel
+  or a CActiveRecord object) with some parameter, please make sure you fix
+  the parameter order.
+
 
 Upgrading from v1.0.0
 ---------------------

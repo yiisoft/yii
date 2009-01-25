@@ -161,12 +161,11 @@ class CLinkPager extends CBasePager
 	{
 		$currentPage=$this->getCurrentPage();
 		$pageCount=$this->getPageCount();
-		$buttonCount=$this->maxButtonCount > $pageCount ? $pageCount : $this->maxButtonCount;
 
 		$beginPage=max(0, $currentPage-(int)($this->maxButtonCount/2));
 		if(($endPage=$beginPage+$this->maxButtonCount-1)>=$pageCount)
 		{
-			$endPage=min($pageCount-1,$currentPage+(int)($this->maxButtonCount/2));
+			$endPage=$pageCount-1;
 			$beginPage=max(0,$endPage-$this->maxButtonCount+1);
 		}
 		return array($beginPage,$endPage);
