@@ -1,0 +1,107 @@
+Data Caching
+============
+
+Data caching is about storing some PHP variable in cache and retrieving it
+later from cache. For this purpose, the cache component base class [CCache]
+provides two methods that are used in most of the time: [set()|CCache::set]
+and [get()|CCache::get].
+
+To store a variable `$value` in cache, we choose a unique ID and call
+[set()|CCache::set] to store it:
+
+~~~
+[php]
+Yii::app()->cache->set($id, $value);
+~~~
+
+The cached data will remain in the cache forever unless it is removed
+because of some caching policy (e.g. caching space is full and the oldest
+data are removed). To change this behavior, we can also supply an
+expiration parameter when calling [set()|CCache::set] so that the data will
+be removed from the cache after a certain period of time:
+
+~~~
+[php]
+// keep the value in cache for at most 30 seconds
+Yii::app()->cache->set($id, $value, 30);
+~~~
+
+Later when we need to access this variable (in either the same or a
+different Web request), we call [get()|CCache::get] with the ID to retrieve
+it from cache. If the value returned is false, it means the value is not
+available in cache and we should regenerate it.
+
+~~~
+[php]
+$value=Yii::app()->cache->get($id);
+if($value===false)
+{
+	// regenerate $value because it is not found in cache
+	// and save it in cache for later use:
+	// Yii::app()->cache->set($id,$value);
+}
+~~~
+
+When choosing the ID for a variable to be cached, make sure the ID is
+unique among all other variables that may be cached in the application. It
+is NOT required that the ID is unique across applications because the cache
+component is intelligent enough to differentiate IDs for different
+applications.
+
+To remove a cached value from cache, call [delete()|CCache::delete]; and
+to remove everything from cache, call [flush()|CCache::flush]. Be very
+careful when calling [flush()|CCache::flush] because it also removes cached
+data that are from other applications.
+
+> Tip: Because [CCache] implements `ArrayAccess`, a cache component can be
+> used liked an array. The followings are some examples:
+> ~~~
+> [php]
+> $cache=Yii::app()->cache;
+> $cache['var1']=$value1;  // equivalent to: $cache->set('var1',$value1);
+> $value2=$cache['var2'];  // equivalent to: $value2=$cache->get('var2');
+> ~~~
+
+Cache Dependency
+----------------
+
+Besides expiration setting, cached data may also be invalidated according
+to some dependency changes. For example, if we are caching the content of
+some file and the file is changed, we should invalidate the cached copy and
+read the latest content from the file instead of the cache.
+
+We represent a dependency as an instance of [CCacheDependency] or its
+child class. We pass the dependency instance along with the data to be
+cached when calling [set()|CCache::set].
+
+~~~
+[php]
+// the value will expire in 30 seconds
+// it may also be invalidated earlier if the dependent file is changed
+Yii::app()->cache->set($id, $value, 30, new CFileCacheDependency('FileName'));
+~~~
+
+Now if we retrieve `$value` from cache by calling [get()|CCache::get], the
+dependency will be evaluated and if it is changed, we will get a false
+value, indicating the data needs to be regenerated.
+
+Below is a summary of the available cache dependencies:
+
+   - [CFileCacheDependency]: the dependency is changed if the file's last
+modification time is changed.
+
+   - [CDirectoryCacheDependency]: the dependency is changed if any of the
+files under the directory and its subdirectories is changed.
+
+   - [CDbCacheDependency]: the dependency is changed if the query result
+of the specified SQL statement is changed.
+
+   - [CGlobalStateCacheDependency]: the dependency is changed if the value
+of the specified global state is changed. A global state is a variable that
+is persistent across multiple requests and multiple sessions in an
+application. It is defined via [CApplication::setGlobalState()].
+
+   - [CChainedCacheDependency]: the dependency is changed if any of the
+dependencies on the chain is changed.
+
+<div class="revision">$Id: caching.data.txt 169 2008-11-06 19:43:44Z qiang.xue $</div>

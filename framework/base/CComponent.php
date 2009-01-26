@@ -220,6 +220,7 @@ class CComponent
 
 	/**
 	 * Returns the named behavior object.
+	 * The name 'asa' stands for 'as a'.
 	 * @param string the behavior name
 	 * @return IBehavior the behavior object, or null if the behavior does not exist
 	 * @since 1.0.2

@@ -1,0 +1,210 @@
+最初のYiiアプリケーションの作成
+==============================
+
+Yiiで最初の経験を積むために、この章では最初のYiiアプリケーションの作成法を説明します。
+強力なツールである`yiic`を用いていろいろな用途のために自動コード生成を行います。
+`YiiRoot`はYiiをインストールしたディレクトリと仮定します。
+
+コマンドラインにおいて`yiic`を実行させると以下のような表示がされます。
+~~~
+% YiiRoot/framework/yiic webapp WebRoot/testdrive
+~~~
+
+> 注意: Mac OSやLinuxやUnixで`yiic`を実行する場合には、適切な実行可能なパーミッションを必要とします。
+`yiic`を実行する場合に、`php YiiRoot/framework/yiic.php`としても実行可能です。
+
+これを実行すると`WebRoot/testdrive`の下に骨格のYiiアプリケーションが作成されます。この場合、`WebRoot`
+はあなたのウエブサーバのドキュメントルートです。このアプリケーションは良いスタートポイントです。全ての
+必要なディレクトリとファイルを備えているため、これに機能を追加していけば良いのです。
+
+以下のURLをアクセスしてみてください。コードを一行も書かずに最初のYiiアプリケーションを実行することができます。
+~~~
+http://hostname/testdrive/index.php
+~~~
+
+これで見るように、このアプリケーションは、ホームページ、コンタクトページ、ログインぺージの3ページからなります。
+ホームページはアプリケーション情報だけでなくユーザのログインステータスも表示します。
+コンタクトページはユーザが入力して送信するためのフォームを表示します。
+ログインページはユーザが特権内容にアクセスする前に認証を受けるために使用されます。
+詳しい情報は以下の画面情報を見てください。
+
+![Home page](first-app1.png)
+
+![Contact page](first-app2.png)
+
+![Contact page with input errors](first-app3.png)
+
+![Contact page with success](first-app4.png)
+
+![Login page](first-app5.png)
+
+
+以下はアプリケーションのディレクトリ構造を示します。ディレクトリ構造のより詳細な説明は
+コンベンション[Conventions](/doc/guide/basics.convention#directory)を見てください。
+
+~~~
+testdrive/
+   index.php                 ウエブアプリケーションのエントリスクリプト
+   assets/                   発行されたリソースファイルを含む
+   css/                      CSSファイルを含む
+   images/                   イメージファイルを含む
+   themes/                   アプリケーションテーマを含む
+   protected/                保護されたアプリケーションファイルを含む
+      yiic                   yiicコマンドラインスクリプト
+      yiic.bat               ウインドウズ用yiicコマンドラインスクリプト
+      commands/              カスタム化した'yiic'コマンドを含む
+         shell/              カスタム化した'yiic shell'コマンドを含む
+      components/            再利用可能なユーザコンポーネントを含む
+         MainMenu.php        'MainMenu'ウイジェットクラス
+         Identity.php        認証のための'Identity'クラス
+         views/              ウイジェットのためのビュー
+            mainMenu.php     'MainMenu'ウイジェットのビュー
+      config/                コンフィギュレーションファイルを含む
+         console.php         コンソールアプリケーションコンフィギュレーションファイル
+         main.php            ウエブアプリケーションコンフィギュレーションファイル
+      controllers/           コントローラクラスファイルを含む
+         SiteController.php  デフォルトコントローラクラスファイル
+      extensions/            サードパーティ拡張を含む
+      messages/              翻訳されたメッセージを含む
+      models/                モデルクラスファイルを含む
+         LoginForm.php       'login'アクションのためのフォームモデル
+         ContactForm.php     'contact'アクションのためのフォームモデル
+      runtime/               暫定的に生成されたファイルを含む
+      views/                 コントローラビューとレイアウトを含む
+         layouts/            レイアウトビューファイルを含む
+            main.php         全てのビューファイルのデフォルトレイアウト
+         site/               'site'コントローラのためのビューを含む
+            contact.php      'contact'アクションのためのビュー
+            index.php        'index'アクションのためのビュー
+            login.php        'login'アクションのためのビュー
+         system/             システムビューファイルを含む
+~~~
+
+データベースへの接続
+----------------------
+
+ほとんどのウエブアプリケーションの裏側にはデータベースがあります。この最初のウエブ
+アプリケーションも例外ではありません。データベースを利用するには、まずアプリケーションに
+どのようにアプリケーションに接続するかを指示します。これはアプリケーションコンフィギュレーションファイル
+`WebRoot/testdrive/protected/config/main.php`を以下のように修正することで行います。
+
+~~~
+[php]
+return array(
+	......
+	'components'=>array(
+		......
+		'db'=>array(
+			'connectionString'=>'sqlite:protected/data/source.db',
+		),
+	),
+	......
+);
+~~~
+
+上の例においては、`components`に`db`エントリを追加しています。これにより、アプリケーションが
+必要に応じSQLiteデータベース`WebRoot/testdrive/protected/data/source.db`に接続することを指示します。
+
+> 注意: Yiiのデータベース機能を使うためにはPHP PDO拡張とドライバ固有のPDO拡張をイネーブルにする必要が
+あります。このtest-driveアプリケーションでは`php_pdo`と`php_pdo_sqlite`拡張がオンになっている必要があります。
+
+最後に、上記コンフィギュレーションが有効となるように、SQLiteデータベースを準備する必要があります。
+なんらかのSQLite管理ツールを使用して、以下のスキーマを持つデータベースを作成します。
+
+~~~
+[sql]
+CREATE TABLE User (
+	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	username VARCHAR(128) NOT NULL,
+	password VARCHAR(128) NOT NULL,
+	email VARCHAR(128) NOT NULL
+);
+~~~
+
+単純化のために、データベース中にひとつだけ`User`テーブルを作成します。SQLiteデータベースファイル
+は`WebRoot/testdrive/protected/data/source.db`にストアされます。ファイルだけでなくディレクトリについても、
+ウエブサーバプロセスから書き込めるようにしておいてください。
+
+CRUD操作の実装
+----------------------------
+
+これからが面白くなります。CRUD操作(作成、読み出し、修正、削除)を今作成したばかりの`User`テーブルに対して実装します。
+これは実際のアプリケーションで共通に必要となる機能です。
+
+再び`yiic`ツールを使用し、必要となるコードを生成します。このプロセスは「スカッフォールディング(足場生成)」
+としても知られています。
+
+~~~
+% cd WebRoot/testdrive
+% YiiRoot/framework/yiic shell
+Yii Interactive Tool v1.0
+Please type 'help' for help. Type 'exit' to quit.
+>> model User
+   generate User.php
+
+The 'User' class has been successfully created in the following file:
+    D:\wwwroot\testdrive\protected\models\User.php
+
+If you have a 'db' database connection, you can test it now with:
+    $model=User::model()->find();
+    print_r($model);
+
+>> crud User
+   generate UserController.php
+   generate create.php
+      mkdir D:/wwwroot/testdrive/protected/views/user
+   generate update.php
+   generate list.php
+   generate show.php
+
+Crud 'user' has been successfully created. You may access it via:
+http://hostname/path/to/index.php?r=user
+~~~
+
+上において、新しく作成したアプリケーションに対応するため`yiic`の`shell`コマンドを使用しました。
+プロンプトレベルにおいて、評価し表示するためにPHP文や式の値を入れることが可能です。
+さらに上に示すように`model`や`crud`タスクを実行することができます。
+`model`コマンドは自動的に、`User`テーブルのスキーマに基いて`User`モデルクラスを生成します。
+そして`crud`コマンドは`User`モデルのCRUD操作を実装したコントローラクラスとビューを生成します。
+
+> 注意: もしコードやコンフィギュレーションを変更したら、それが実際に反映されるように`yiic shell`
+コマンドを再度発行してください。また、`yiic`を実行するのに正しいPHP CLIを使用しているかも確かめてください。
+さもなければ、たとえPDO拡張や対応するデータベースドライバをイネーブルにしていても、"...could not find driver"
+のようなエラーに遭遇します。このようなエラーは、しばしば誤ったPHP CLIが予期しない`php.ini`を使用すること
+から起きます。
+
+さて、作業の結果を以下のURLから見て楽みましょう。
+
+~~~
+http://hostname/testdrive/index.php?r=user
+~~~
+
+これは`User`テーブルのユーザエントリのリストを表示するはずです。ただテーブルは空なので、今は何も
+表示されません。
+
+`New User`リンクをクリックしてみてください。もし既にログインしていなければログインページが現れます。
+ログイン後は新規ユーザを追加するための入力フォームが現れます。入力を完了し、`Create`ボタンをクリック
+してください。入力にエラーがあれば素敵なエラーページが表示され、入力はセーブされません。ユーザリストに
+戻り、新しく追加されたユーザをリスト上で見ることができます。
+
+ユーザをもっと追加するには上記のステップを繰り返してください。もし一ページに表示するには多過ぎる場合には、
+ユーザリストページは自動的にページ分割されます。
+
+もし管理者として`admin/admin`を入力してログインする場合は、以下のURLにより、管理者ページを見ることができます。
+
+~~~
+http://hostname/testdrive/index.php?r=user/admin
+~~~
+
+これにより、素敵なユーザエントリ表が表示されます。テーブルの先頭をクリックすることで対応するカラムをソートする
+ことができます。そしてユーザリストページと同様に、管理者ページも、表示すべきユーザエントリが一ページには多過ぎる
+場合には、ページ分割が行われます。
+
+これら全てのすてきな機能はコードを一行も書かなくても達成することができます！
+
+![User admin page](first-app6.png)
+
+![Create new user page](first-app7.png)
+
+翻訳: mocapapa <choco.moca.colon@gmail.com>
+<div class="revision">$Id: quickstart.first-app.txt 446 2009-01-02 04:42:53Z qiang.xue $</div>

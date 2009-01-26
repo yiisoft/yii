@@ -1,0 +1,27 @@
+インストール
+============
+
+Yiiのインストールは主に以下の2つのステップからなります。
+
+   1. [yiiframework.com](http://www.yiiframework.com/)からYiiフレームワークをダウンロード
+   2. Yiiリリースファイルをwebでアクセス可能なディレクトリへ展開
+
+> ヒント: Yii自体はwebアクセス可能なディレクトリへインストールする必要はありません。
+Yiiアプリケーションはひとつのエントリスクリプトを持ちますが、通常そのファイルのみをweb
+に見せればすみます。ハッキングを免れるために、Yiiのも含めて他のPHPスクリプトはwebアクセスから保護されるべきです。
+
+必要条件
+------------
+
+Yiiのインストールが終ったら、サーバがYiiの要求を満足するかどうか確認するべきです。
+以下のURLにある要求チェッカにアクセスすることで、それが確認できます。
+
+~~~
+http://hostname/path/to/yii/requirements/index.php
+~~~
+
+Yiiの最低限の要求はwebサーバはPHP5.1.0以上をサポートすることです。YiiはWindows上とLinux上の[Apache HTTP
+server](http://httpd.apache.org/)により検証されています。その他のPHP5をサポートするwebサーバやプラットフォームで動作します。
+
+翻訳: mocapapa <choco.moca.colon@gmail.com>
+<div class="revision">$Id: quickstart.installation.txt 359 2008-12-14 19:50:41Z qiang.xue $</div>

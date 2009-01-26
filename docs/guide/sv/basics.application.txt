@@ -1,0 +1,187 @@
+Applikationsobjekt
+==================
+
+Application utgör exekveringsomgivning vid behandling av inkommande request. 
+Dess huvudsakliga uppgift är att dela upp en request från användare och skicka 
+denna vidare till relevant controller för fortsatt bearbetning. Den tjänar också 
+som central plats för konfigurationer på applikationsnivå. Av denna anledning 
+kallas Application även `front-controller`.
+
+Application skapas som en singleton av [startskriptet](/doc/guide/basics.entry) 
+och kan alltid nås via [Yii::app()|YiiBase::app].
+
+
+Applikationens konfiguration
+----------------------------
+
+Som standard är application en instans av [CWebApplication]. En anpassad version 
+erhålls normalt genom att bifoga en konfigureringsfil (eller array) för 
+initiering av propertyvärden i samband med att applikationsinstansen skapas. Ett 
+alternativt sätt är att ärva från och utöka [CWebApplication].
+
+Konfigurationen är en array bestående av par av nyckel-värde. Varje nyckel 
+representerar namnet på en property i applikationsobjektet, det tillhörande 
+värdet blir propertyns initialvärde. Exempel: följande konfiguration sätter 
+applikationens [namn|CApplication::name] och 
+[standardcontroller|CWebApplication::defaultController] propertyn.
+
+~~~
+[php]
+array(
+	'name'=>'Yii Framework',
+	'defaultController'=>'site',
+)
+~~~
+
+Normalt lagras konfigurationen i ett separat PHP-skript (t.ex. 
+`protected/config/main.php`). I skriptet bildar konfigurationens array 
+returvärde som följer:
+
+~~~
+[php]
+return array(...);
+~~~
+
+Konfigurationen träder i kraft genom att dess filnamn lämnas som parameter till 
+applikationens constructor, eller till [Yii::createWebApplication()], på 
+nedanstående sätt, vilket vanligtvis sker i [startskriptet](/doc/guide/basics.entry):
+
+~~~
+[php]
+$app=Yii::createWebApplication($configFile);
+~~~
+
+> Tips: Om applikationens konfiguration är mycket omfattande kan den delas upp 
+på flera filer, var och en bidragande med ett avsnitt av konfigurationsarrayen. 
+De separata filerna kombineras därefter till en komplett konfigurationsarray med 
+hjälp av PHP `include()` i konfigurationens huvudfil.
+
+
+Applikatonens rotkatalog
+------------------------
+
+Application base directory refererar till rotkatalogen som innehåller alla 
+säkerhetskänsliga PHP-skript och data. Som standard är den en underkatalog med 
+namnet `protected`, placerad under katalogen som innehåller startskriptet. 
+Placeringen kan anpassas via [basePath|CWebApplication::basePath] propertyn i 
+[applikationens konfiguration](#application-configuration).
+
+Innehållet i applikationens rotkatalog med underkataloger skall inte vara 
+tillgängliga för webbanvändare. Med [Apache HTTP 
+server](http://httpd.apache.org/), kan detta lätt ordnas genom att placera en 
+fil med namnet `.htaccess` i rotkatalogen. Innehållet i `.htaccess` är som följer:
+
+~~~
+deny from all
+~~~
+
+Applikationskomponent
+---------------------
+
+Applications funktionalitet kan lätt anpassas och berikas genom dess flexibla 
+komponentarkitektur. Application handhar en uppsättning applikationskomponenter 
+som var och en implementerar specifika finesser. Exempel: application behandlar 
+en inkommen request från användare med hjälp av komponenterna [CUrlManager] och 
+[CHttpRequest].
+
+Genom att konfigurera applikationens [components|CApplication::components] 
+property, kan class- och propertyvärden sättas för varje komponent i 
+applikationen. Exempel: [CMemCache]-komponenten kan konfigureras att använda 
+multipla memcache-servrar för cachelagring,
+
+~~~
+[php]
+array(
+	......
+	'components'=>array(
+		......
+		'cache'=>array(
+			'class'=>'CMemCache',
+			'servers'=>array(
+				array('host'=>'server1', 'port'=>11211, 'weight'=>60),
+				array('host'=>'server2', 'port'=>11211, 'weight'=>40),
+			),
+		),
+	),
+)
+~~~
+
+I ovanstående exempel ingår elementet `cache` i arrayen `components`. 
+Av elementet `cache` framgår att komponentens klass är `CMemCache` samt hur dess 
+`servers` property skall initialiseras.
+
+För tillgång till en applikationskomponent, använd `Yii::app()->ComponentID`, 
+där `ComponentID` refererar till komponentens ID (t.ex. `Yii::app()->cache`).
+
+En applikationskomponent kan avaktiveras genom att `enabled` sätts till false i 
+dess konfiguration. För en avaktiverad komponent erhålls null som returvärde.
+
+> Tips: Som standard skapas applikationskomponenter på begäran. Detta innebär 
+att en applikationskomponent inte alls behöver instansieras om den inte kommer 
+till användning under en request från användare. Därav följer att totalprestanda 
+inte behöver ta skada av att en applikation konfigureras med många komponenter. 
+Vissa applikationskomponenter (t.ex. [CLogRouter]) kan behöva instansieras vare 
+sig de används eller inte. För att åstadkomma detta, räkna upp deras IDs i 
+applikationens [preload|CApplication::preload]-property.
+
+Applikationens kärnkomponenter
+------------------------------
+
+Yii definierar en kärna av applikationskomponenter som tillhandahåller i 
+webbapplikationer allmänt förekommande finesser. Exempelvis komponenten 
+[request|CWebApplication::request] används för att behandla inkommande request 
+från användare och leverera information såsom URL, cookies. Genom konfigurering 
+av kärnkomponenternas propertyn kan Yii:s standardbeteende förändras på nästan 
+varje tänkbart sätt. 
+
+Nedan listas kärnkomponenterna som fördeklareras av [CWebApplication].
+
+   - [assetManager|CWebApplication::assetManager]: [CAssetManager] - handhar publicering av privata resursfiler
+
+   - [authManager|CWebApplication::authManager]: [CAuthManager] - handhar rollbaserad tillträdeskontroll (RBAC).
+
+   - [cache|CApplication::cache]: [CCache] - tillhandahåller data cache-funktionalitet. Observera att aktuell klass (e.g. [CMemCache], [CDbCache]) måste specificeras. I annat fall returneras null när komponenten skall användas.
+
+   - [clientScript|CWebApplication::clientScript]: [CClientScript] - handhar klientskript (javascripts and CSS).
+
+   - [coreMessages|CApplication::coreMessages]: [CPhpMessageSource] - tillhandahåller översatta systemmeddelanden som Yii framework använder.
+
+   - [db|CApplication::db]: [CDbConnection] - tillhandahåller databasanslutningen. Observera att propertyn [connectionString|CDbConnection::connectionString] måste konfigureras om denna komponent används.
+
+   - [errorHandler|CApplication::errorHandler]: [CErrorHandler] - hanterar icke uppfångade PHP-felmeddelanden och exception.
+
+   - [messages|CApplication::messages]: [CPhpMessageSource] - tillhandahåller översatta texter ingående i Yii-applikationer.
+
+   - [request|CWebApplication::request]: [CHttpRequest] - tillhandahåller information relaterad till inkommen request från användare.
+
+   - [securityManager|CApplication::securityManager]: [CSecurityManager] - tillhandahåller säkerhetsrelaterade tjänster såsom hashning, kryptering.
+
+   - [session|CWebApplication::session]: [CHttpSession] - tillhandahåller funktionalitet relaterad till session.
+
+   - [statePersister|CApplication::statePersister]: [CStatePersister] - tillhandahåller metod för lagring av globalt tillstånd.
+
+   - [urlManager|CWebApplication::urlManager]: [CUrlManager] - tillhandahåller funktionalitet för att analysera eller skapa URL:er.
+
+   - [user|CWebApplication::user]: [CWebUser] - representerar identitetsinformation för aktuell användare.
+
+   - [themeManager|CWebApplication::themeManager]: [CThemeManager] - handhar teman.
+
+
+Livscykel för applikationsobjekt 
+--------------------------------
+
+Vid behandling av en inkommen request från användare genomgår en applikation följande livscykel:
+
+   1. Sätt upp autoladdare för klasser och felhantering;
+   2. Registrera applikationens kärnkomponenter;
+   3. Ladda applikationens konfiguration;
+   4. Initialisera applikationen med [CApplication::init()]
+	   - Ladda statiska (static) applikationskomponenter;
+   5. Signalera händelsen [onBeginRequest|CApplication::onBeginRequest];
+   6. Bearbeta användarens requestt:
+	   - Behandla inkommen request från användare;
+	   - Skapa controller;
+	   - Exekvera controller;
+   7.Signalera händelsen [onEndRequest|CApplication::onEndRequest];
+
+<div class="revision">$Id: basics.application.txt 416 2008-12-28 05:28:11Z qiang.xue $</div>

@@ -16,15 +16,15 @@
  * @version $Id: $
  */
 return array (
-  '"{path}" is not a valid directory.' => '',
-  'Active Record requires a "db" CDbConnection application component.' => '',
+  '"{path}" не является правильной директорией.' => '',
+  'Active Record требует БД компонент приложения CDbConnection .' => '',
   'Active record "{class}" has an invalid configuration for relation "{relation}". It must specify the relation type, the related active record class and the foreign key.' => '',
   'Active record "{class}" is trying to select an invalid column "{column}". Note, the column must exist in the table or be an expression with alias.' => '',
   'Alias "{alias}" is invalid. Make sure it points to an existing directory or file.' => '',
   'Application base path "{path}" is not a valid directory.' => '',
   'Application runtime path "{path}" is not valid. Please make sure it is a directory writable by the Web server process.' => '',
   'Authorization item "{item}" has already been assigned to user "{user}".' => '',
-  'CApcCache requires PHP apc extension to be loaded.' => '',
+  'CApcCache требует загруженного PHP расширения apc .' => '',
   'CAssetManager.basePath "{path}" is invalid. Please make sure the directory exists and is writable by the Web server process.' => '',
   'CCacheHttpSession.cacheID is invalid. Please make sure "{id}" refers to a valid cache application component.' => '',
   'CCaptchaValidator.action "{id}" is invalid. Unable to find such an action in the current controller.' => '',

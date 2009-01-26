@@ -1,0 +1,71 @@
+Collecting Tabular Input
+========================
+
+Sometimes we want to collect user input in a batch mode. That is, the user
+can enter the information for multiple model instances and submit them all
+at once. We call this *tabular input* because the input fields are
+often presented in an HTML table.
+
+To work with tabular input, we first need to create or populate an array
+of model instances, depending on whether we are inserting or updating the
+data. We then retrieve the user input data from the `$_POST` variable and
+assign it to each model. A slight difference from single model input is
+that we retrieve the input data using `$_POST['ModelClass'][$i]` instead of
+`$_POST['ModelClass']`.
+
+~~~
+[php]
+public function actionBatchUpdate()
+{
+	// retrieve items to be updated in a batch mode
+	// assuming each item is of model class 'Item'
+	$items=$this->getItemsToUpdate();
+	if(isset($_POST['Item']))
+	{
+		$valid=true;
+		foreach($items as $i=>$item)
+		{
+			if(isset($_POST['Item'][$i]))
+				$item->attributes=$_POST['Item'][$i];
+			$valid=$valid && $item->validate();
+		}
+		if($valid)  // all items are valid
+			// ...do something here
+	}
+	// displays the view to collect tabular input
+	$this->render('batchUpdate',array('items'=>$items));
+}
+~~~
+
+Having the action ready, we need to work on the `batchUpdate` view to
+display the input fields in an HTML table.
+
+~~~
+[php]
+<div class="yiiForm">
+<?php echo CHtml::form(); ?>
+<table>
+<tr><th>Name</th><th>Price</th><th>Count</th><th>Description</th></tr>
+<?php foreach($items as $i=>$item): ?>
+<tr>
+<td><?php echo CHtml::activeTextField($item,"name[$i]"); ?></td>
+<td><?php echo CHtml::activeTextField($item,"price[$i]"); ?></td>
+<td><?php echo CHtml::activeTextField($item,"count[$i]"); ?></td>
+<td><?php echo CHtml::activeTextArea($item,"description[$i]"); ?></td>
+</tr>
+<?php endforeach; ?>
+</table>
+
+<?php echo CHtml::submitButton('Save'); ?>
+</form>
+</div><!-- yiiForm -->
+~~~
+
+Note in the above that we use `"name[$i]"` instead of `"name"` as the
+second parameter when calling [CHtml::activeTextField].
+
+If there is anything validation error, the corresponding input fields will
+be highlighted automatically, just like the single model input we described
+earlier on.
+
+<div class="revision">$Id: form.table.txt 468 2009-01-04 20:57:35Z qiang.xue $</div>
