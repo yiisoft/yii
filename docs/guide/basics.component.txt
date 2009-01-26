@@ -108,4 +108,62 @@ the handlers will be invoked in the order that they are attached to the event.
 If a handler decides to prevent the rest handlers from being invoked, it can set
 [$event->handled|CEvent::handled] to be true.
 
+
+Component Behavior
+------------------
+
+Starting from version 1.0.2, a component has added support for [mixin](http://en.wikipedia.org/wiki/Mixin)
+and can be attached with one or several behaviors. A *behavior* is an object
+whose methods can be 'inherited' by its attached component through the means of collecting
+functionality instead of specialization (i.e., normal class inheritance).
+A component can be attached with several behaviors and thus achieve 'multiple inheritance'.
+
+Behavior classes must implement the [IBehavior] interface. Most behaviors can
+extend from the [CBehavior] base class. If a behavior needs to be attached to
+a [model](/doc/guide/basics.model), it may also extend from [CFormBehavior] or
+[CActiveRecordBehavior] which implements additional features specifc for models.
+
+To use a behavior, it must be attached to a component first by calling the behavior's
+[attach()|IBehavior::attach] method. Then we can call a behavior method via the component:
+
+~~~
+[php]
+// $name uniquely identifies the behavior in the component
+$behavior->attach($name,$component);
+// test() is a method of $behavior
+$component->test();
+~~~
+
+An attached behavior can be accessed like a normal property of the component.
+For example, if a behavior named `tree` is attached to a component, we can
+obtain the reference to this behavior object using:
+
+~~~
+[php]
+$behavior=$component->tree;
+// equivalent to the following:
+// $behavior=$component->asa('tree');
+~~~
+
+A behavior can be temporarily disabled so that its methods are not available via the component.
+For example,
+
+~~~
+[php]
+$component->disableBehavior($name);
+// the following statement will throw an exception
+$component->test();
+$component->enableBehavior($name);
+// it works now
+$component->test();
+~~~
+
+It is possible that two behaviors attached to the same component have methods of the same name.
+In this case, the method of the first attached behavior will take precedence.
+
+When used together with [events](#component-event), behaviors are even more powerful.
+A behavior, when being attached to a component, can attach some of its methods to some events
+of the component. By doing so, the behavior gets a chance to observe or change the normal
+execution flow of the component.
+
 <div class="revision">$Id$</div>

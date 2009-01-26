@@ -21,6 +21,7 @@ Version 1.0.2 to be released
 - New #95: Added an option to CHtml::activeCheckBox() to define default value if unchecked (Qiang)
 - New #98: Added support to translate messages in different plural forms. Added CChoiceFormat. (Qiang)
 - New #104: Added support to encode traversable objects using JSON (Qiang)
+- New #111: Implemented nonobtrusive javascript "Get new image" link in CCaptcha (Qiang)
 - New: Added CActiveRecord::getRelated() (Qiang)
 - New: Added 'return' option to HTML options in CHtml (Qiang)
 - New: Refactored CSS-dependent widgets by adding registerCssFile static methods (Qiang)

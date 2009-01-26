@@ -1,0 +1,32 @@
+模型-视图-控制器 (MVC)
+======================
+
+Yii 实现了 Web 编程中广为采用的“模型-视图-控制器”(MVC)设计模式。MVC 致力于分离业务逻辑和用户界面，这样开发者可以很容易地修改某个部分而不影响其它。在 MVC 中，模型表现信息（数据）和业务规则；视图包含用户界面中用到的元素，比如文本、表单输入框；控制器管理模型和视图间的交互。
+
+除了 MVC，Yii 还引入了一个叫做 application 的前端控制器，它表现整个请求过程的运行环境。Application 接收用户的请求并把它分发到合适的控制器作进一步处理。
+
+下图描述了一个 Yii 应用的静态结构：
+
+![Yii 应用的静态结构](structure.png)
+
+
+一个典型的处理流程
+------------------
+下图描述了一个 Yii 应用处理用户请求时的典型流程：
+
+![Yii 应用的典型流程](flow.png)
+
+   1. 用户访问 `http://www.example.com/index.php?r=post/show&id=1`，Web 服务器执行入口脚本 `index.php` 来处理该请求。
+   2. 入口脚本建立一个[应用](/doc/guide/basics.application)实例并运行之。
+   3. 应用从一个叫 `request` 的[应用组件](/doc/guide/basics.application#application-component)获得详细的用户请求信息。
+   4. 在名为 `urlManager` 的应用组件的帮助下，应用确定用户要请求的[控制器](/doc/guide/basics.controller)和[动作](/doc/guide/basics.controller#action)。
+   5. 应用建立一个被请求的控制器实例来进一步处理用户请求，控制器确定由它的`actionShow` 方法来处理 `show` 动作。然后它建立并应用和该动作相关的过滤器（比如访问控制和性能测试的准备工作），如果过滤器允许的话，动作被执行。
+   6. 动作从数据库读取一个 ID 为 `1` 的 `Post` [模型](/doc/guide/basics.model)。
+   7. 动作使用 `Post` 模型来渲染一个叫 `show` 的[视图](/doc/guide/basics.view)。
+   8. 视图读取 `Post` 模型的属性并显示之。
+   9. 视图运行一些[挂件](/doc/guide/basics.view#widget)。
+   10. 视图的渲染结果嵌在[布局](/doc/guide/basics.view#layout)中。
+   11. 动作结束视图渲染并显示结果给用户。
+
+
+<div class="revision">$Id: basics.mvc.txt 419 2008-12-28 05:35:39Z qiang.xue $</div>

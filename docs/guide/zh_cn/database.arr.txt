@@ -1,0 +1,285 @@
+Relational Active Record
+========================
+
+我们已经知道如何通过Active Record（AR）从单个数据表中取得数据了，在这一节中，
+我们将要介绍如何使用AR来连接关联的数据表获取数据。
+
+在使用关联AR之前，首先要在数据库中建立关联的数据表之间的主键-外键关联，AR需要
+通过分析数据库中的定义数据表关联的元信息，来决定如何连接数据。
+
+> 注: 从1.0.1版往后，使用关联AR不再依赖数据库中的外键约束定义。
+
+在这一节中，我们将以下面这个简单的实体-关系(ER)图所描述的数据库为例，来介绍
+如何使用包含关联的ActiveRecord。
+
+![ER Diagram](er.png)
+
+> Info: 不同的关系数据库对外键约束的支持有所不同.
+>
+> SQLite是不支持外键约束的，但允许你在建立数据表时定义外键约束，AR会利用
+> DDL声明中的约束定义获得相应的信息，用来支持关联查询。
+>
+> MySQL数据库中的InnoDB表引擎支持外键约束，而MyISAM引擎不支持。因此我们建议你使用
+> InnoDB作为数据库的表引擎。当然你也可以使用MyISAM，可以通过下面的一个小技巧来实现
+> 关联查询。
+>
+> ~
+> [sql]
+> CREATE TABLE Foo
+> (
+>   id INTEGER NOT NULL PRIMARY KEY
+> );
+> CREATE TABLE bar
+> (
+>   id INTEGER NOT NULL PRIMARY KEY,
+>   fooID INTEGER
+>      COMMENT 'CONSTRAINT FOREIGN KEY (fooID) REFERENCES Foo(id)'
+> );
+> ~
+> 就像上面的例子中的做法，把外键约束的定义写在字段注释中，AR可以识别这些信息来确定
+> 数据表之间的关联。
+
+
+如何声明关联
+----------------------
+
+在使用AR进行关联查询之前，我们需要告诉AR各个AR类之间有怎样的关联。
+
+AR类之间的关联直接反映着数据库中这个类所代表的数据表之间的关联。
+从关系数据库的角度来说，两个数据表A，B之间可能的关联有三种：一对多（例如User和Post），
+一对一（例如User和Profile），多对多（例如Category和Post）。而在AR中，关联有以下四种：
+
+   - `BELONGS_TO`: 如果数据表A和B的关系是一对多，那我们就说B属于A（B belongs to A），
+例如Post属于User。
+
+   - `HAS_MANY`: 如果数据表A和B的关系是多对一，那我们就说B有多个A（B has many A），
+例如User有多个Post。
+
+   - `HAS_ONE`: 这是‘HAS_MANY’关系中的一个特例，当A最多有一个的时候，我们说B有一个A
+（B has one A），例如一个User就只有一个Profile
+
+   - `MANY_MANY`: 这个相当于关系数据库中的多对多关系。因为绝大多数关系数据库并不直接
+支持多对多的关系，这时通常都需要一个单独的关联表，把多对多的关系分解为两个一对多的关系。
+在我们的例子中，PostCategory就是这个用作关联的表。用AR的方式去理解的话，我们可以认为
+`MANY_MANY`关系是由`BELONGS_TO`和`HAS_MANY`组成的. 例如`Post`属于多个`Category`并且
+`Category`有多个`Post`。
+
+在AR中声明关联，是通过覆盖（Override）父类[CActiveRecord]中的[relations()|CActiveRecord::relations]
+方法来实现的。这个方法返回一个包含了关系定义的数组，数组中的每一组键值代表一个关联：
+
+~
+[php]
+'VarName'=>array('RelationType', 'ClassName', 'ForeignKey', ...additional options)
+~
+
+这里的`VarName`是这个关联的名称；`RelationType`指定了这个关联的类型，有四个常量代表了四种
+关联的类型：`self::BELONGS_TO`，`self::HAS_ONE`，`self::HAS_MANY`和`self::MANY_MANY`；
+`ClassName`是这个关系关联到的AR类的类名；`ForeignKey`指定了这个关联是通过哪个外键联系起来的。
+后面的`additional options`可以加入一些额外的设置，后面会做介绍。
+
+下面的代码演示了如何定义`User`和`Post`之间的关联。
+
+~
+[php]
+class Post extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+			'author'=>array(self::BELONGS_TO, 'User', 'authorID'),
+			'categories'=>array(self::MANY_MANY, 'Category', 'PostCategory(postID, categoryID)'),
+		);
+	}
+}
+
+class User extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+			'posts'=>array(self::HAS_MANY, 'Post', 'authorID'),
+			'profile'=>array(self::HAS_ONE, 'Profile', 'ownerID'),
+		);
+	}
+}
+~
+
+> Info: 有时外键可能由两个或更多字段组成，在这里可以将多个字段名由逗号或空格分隔，
+一并写在这里。对于多对多的关系，关联表必须在外键中注明，例如在`Post`类的`categories`
+关联中，外键就需要写成`PostCategory(postID, categoryID)`。
+
+在AR类中声明关联时，每个关联会作为一个属性添加到AR类中，属性名就是关联的名称。在进行
+关联查询时，这些属性就会被设置为关联到的AR类的实例，例如在查询取得一个`Post`实例时，
+它的$author属性就是代表Post作者的一个User类的实例。
+
+关联查询
+---------------------------
+
+进行关联查询最简单的方式就是访问一个关联AR对象的某个关联属性。如果这个属性之前没有被
+访问过，这时就会启动一个关联查询，通过当前AR对象的主键连接相关的表，来取得关联对象的
+值，然后将这些数据保存在对象的属性中。这种方式叫做“延迟加载”，也就是只有等到访问到某
+个属性时，才会真正到数据库中把这些关联的数据取出来。下面的例子描述了延迟加载的过程：
+
+~
+[php]
+// retrieve the post whose ID is 10
+$post=Post::model()->findByPk(10);
+// retrieve the post's author: a relational query will be performed here
+$author=$post->author;
+~
+
+> Info: If there is no related instance for a relationship, the
+corresponding property could be either null or an empty array. For
+`BELONGS_TO` and `HAS_ONE` relationships, the result is null; for
+`HAS_MANY` and `MANY_MANY`, it is an empty array.
+
+The lazy loading approach is very convenient to use, but it is not
+efficient in some scenarios. For example, if we want to access the author
+information for `N` posts, using the lazy approach would involve executing
+`N` join queries. We should resort to the so-called *eager loading*
+approach under this circumstance.
+
+The eager loading approach retrieves the related AR instances together
+with the main AR instance(s). This is accomplished by using the
+[with()|CActiveRecord::with] method together with one of the
+[find|CActiveRecord::find] or [findAll|CActiveRecord::findAll] methods in
+AR. For example,
+
+~
+[php]
+$posts=Post::model()->with('author')->findAll();
+~
+
+The above code will return an array of `Post` instances. Unlike the lazy
+approach, the `author` property in each `Post` instance is already
+populated with the related `User` instance before we access the property.
+Instead of executing a join query for each post, the eager loading approach
+brings back all posts together with their authors in a single join query!
+
+We can specify multiple relationship names in the
+[with()|CActiveRecord::with] method and the eager loading approach will
+bring them back all in one shot. For example, the following code will bring
+back posts together with their authors and categories:
+
+~
+[php]
+$posts=Post::model()->with('author','categories')->findAll();
+~
+
+We can also do nested eager loading. Instead of a list of relationship
+names, we pass in a hierarchical representation of relationship names to
+the [with()|CActiveRecord::with] method, like the following,
+
+~
+[php]
+$posts=Post::model()->with(array(
+	'author'=>array(
+		'profile',
+		'posts'),
+	'categories'))->findAll();
+~
+
+The above example will bring back all posts together with their author and
+categories. It will also bring back each author's profile and posts.
+
+> Info: The AR implementation in Yii is very efficient. When eager loading
+a hierarchy of related objects involving `N` `HAS_MANY` or `MANY_MANY`
+relationships, it will take `N+1` SQL queries to obtain the needed results.
+This means it needs to execute 3 SQL queries in the last example because of
+the `posts` and `categories` properties. Other frameworks take a more
+radical approach by using only one SQL query. At first look, this approach
+seems more efficient because fewer queries are being parsed and executed by
+DBMS. It is in fact impractical in reality for two reasons. First, there
+are many repetitive data columns in the result which takes extra time to
+transmit and process. Second, the number of rows in the result set grows
+exponentially with the number of tables involved, which makes it simply
+unmanageable as more relationships are involved.
+
+Relational Query Options
+------------------------
+
+We mentioned that additional options can be specified in relationship
+declaration. These options, specified as name-value pairs, are used to
+customize the relational query. They are summarized as below.
+
+   - `select`: a list of columns to be selected for the related AR class.
+It defaults to '*', meaning all columns. Column names should be
+disambiguated using `aliasToken` if they appear in an expression (e.g.
+`COUNT(??.name) AS nameCount`).
+
+   - `condition`: the `WHERE` clause. It defaults to empty. Note, column
+references need to be disambiguated using `aliasToken` (e.g. `??.id=10`).
+
+   - `order`: the `ORDER BY` clause. It defaults to empty. Note, column
+references need to be disambiguated using `aliasToken` (e.g. `??.age
+DESC`).
+
+   - `with`: a list of child related objects that should be loaded
+together with this object. Note, this is only honored by lazy loading, not
+eager loading.
+
+   - `joinType`: type of join for this relationship. It defaults to `LEFT
+OUTER JOIN`.
+
+   - `aliasToken`: the column prefix placeholder. It will be replaced
+by the corresponding table alias to disambiguate column references.
+It defaults to `'??.'`.
+
+   - `alias`: the alias for the table associated with this relationship.
+This option has been available since version 1.0.1. It defaults to null,
+meaning the table alias is automatically generated. This is different
+from `aliasToken` in that the latter is just a placeholder and will be
+replaced by the actual table alias.
+
+In addition, the following options are available for certain relationships
+during lazy loading:
+
+   - `group`: the `GROUP BY` clause. It defaults to empty. Note, column
+references need to be disambiguated using `aliasToken` (e.g. `??.age`).
+This option only applies to `HAS_MANY` and `MANY_MANY` relationships.
+
+   - `having`: the `HAVING` clause. It defaults to empty. Note, column
+references need to be disambiguated using `aliasToken` (e.g. `??.age`).
+This option only applies to `HAS_MANY` and `MANY_MANY` relationships. Note:
+option has been available since version 1.0.1.
+
+   - `limit`: limit of the rows to be selected. This option does NOT apply
+to `BELONGS_TO` relation.
+
+   - `offset`: offset of the rows to be selected. This option does NOT
+apply to `BELONGS_TO` relation.
+
+Below we modify the `posts` relationship declaration in the `User` by
+including some of the above options:
+
+~
+[php]
+class User extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+			'posts'=>array(self::HAS_MANY, 'Post', 'authorID'
+							'order'=>'??.createTime DESC',
+							'with'=>'categories'),
+			'profile'=>array(self::HAS_ONE, 'Profile', 'ownerID'),
+		);
+	}
+}
+~
+
+Now if we access `$author->posts`, we would obtain the author's posts
+sorted according to their creation time in descending order. Each post
+instance also has its categories loaded.
+
+> Info: When a column name appears in two or more tables being joined
+together, it needs to be disambiguated. This is done by prefixing the
+column name with its table name. For example, `id` becomes `Team.id`. In AR
+relational queries, however, we do not have this freedom because the SQL
+statements are automatically generated by AR which systematically gives
+each table an alias. Therefore, in order to avoid column name conflict, we
+use a placeholder to indicate the existence of a column which needs to be
+disambiguated. AR will replace the placeholder with a suitable table alias
+and properly disambiguate the column.
+
+<div class="revision">$Id: database.arr.txt 401 2008-12-23 13:09:14Z qiang.xue $</div>

@@ -67,8 +67,7 @@ class CCaptcha extends CWidget
 	public function run()
 	{
 		$this->renderImage();
-		echo ' ';
-		$this->renderButton();
+		$this->registerClientScript();
 	}
 
 	/**
@@ -86,17 +85,22 @@ class CCaptcha extends CWidget
 	}
 
 	/**
-	 * Renders the refresh button.
+	 * Registers the needed client scripts.
+	 * @since 1.0.2
 	 */
-	protected function renderButton()
+	public function registerClientScript()
 	{
 		if($this->showRefreshButton)
 		{
+			$cs=Yii::app()->clientScript;
 			$id=$this->imageOptions['id'];
+			$cs->registerScript('Yii.CCaptcha#'.$id,'dummy');
 			$label=$this->buttonLabel===null?Yii::t('yii','Get a new code'):$this->buttonLabel;
 			$button=$this->buttonType==='button'?'ajaxButton':'ajaxLink';
 			$url=$this->getController()->createUrl($this->captchaAction,array(CCaptchaAction::REFRESH_GET_VAR=>true));
-			echo CHtml::$button($label,$url,array('success'=>'js:function(html){jQuery("#'.$id.'").attr("src",html)}'));
+			$html=CHtml::$button($label,$url,array('success'=>'js:function(html){jQuery("#'.$id.'").attr("src",html)}'));
+			$js="jQuery('img#$id').after(\"".CJavaScript::quote($html).'");';
+			$cs->registerScript('Yii.CCaptcha#'.$id,$js);
 		}
 	}
 }

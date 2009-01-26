@@ -23,8 +23,6 @@ class LoginForm extends CFormModel
 			array('username, password', 'required'),
 			// password needs to be authenticated
 			array('password', 'authenticate'),
-			// rememberMe does not need validation. it can be massively assigned
-			array('rememberMe', 'safe'),
 		);
 	}
 
