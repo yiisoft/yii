@@ -1,0 +1,313 @@
+Relational Active Record
+========================
+
+We have already seen how to use Active Record (AR) to select data from a
+single database table. In this section, we describe how to use AR to join
+several related database tables and bring back the joint data set.
+
+In order to use relational AR, it is required that primary-foreign key
+relationships are well defined between tables that need to be joined. AR
+relies on the metadata about these relationships to determine how to join
+the tables.
+
+> Note: Starting from version 1.0.1, you can use relational AR even
+> if you do not define any foreign key constraints in your database.
+
+For simplicity, we will use the database schema shown in the
+following entity-relationship (ER) diagram to illustrate examples in this
+section.
+
+![ER Diagram](er.png)
+
+> Info: Support for foreign key contraints varies in different DBMS.
+>
+> SQLite does not support foreign key constraints, but you can still
+> declare the constraints when creating tables. AR can exploit these
+> declarations to correctly support relational queries.
+>
+> MySQL supports foreign key constraints with InnoDB engine, but not with
+> MyISAM. It is thus recommended that you use InnoDB for your MySQL database.
+> When using MyISAM, you may exploit the following trick so that
+> you can perform relational queries using AR:
+> ~~~
+> [sql]
+> CREATE TABLE Foo
+> (
+>   id INTEGER NOT NULL PRIMARY KEY
+> );
+> CREATE TABLE bar
+> (
+>   id INTEGER NOT NULL PRIMARY KEY,
+>   fooID INTEGER
+>      COMMENT 'CONSTRAINT FOREIGN KEY (fooID) REFERENCES Foo(id)'
+> );
+> ~~~
+> In the above, we use `COMMENT` keyword to describe the foreign key constraint
+> which can be read by AR to recognize the described relationship.
+
+
+
+Declaring Relationship
+----------------------
+
+Before we use AR to perform relational query, we need to let AR know how
+one AR class is related with another.
+
+Relationship between two AR classes is directly associated with the
+relationship between the database tables represented by the AR classes.
+From database point of view, a relationship between two tables A and B has
+three types: one-to-many (e.g. `User` and `Post`), one-to-one (e.g.
+`User` and `Profile`) and many-to-many (e.g. `Category` and `Post`). In AR,
+there are four types of relationships:
+
+   - `BELONGS_TO`: if the relationship between table A and B is
+one-to-many, then B belongs to A (e.g. `Post` belongs to `User`);
+
+   - `HAS_MANY`: if the relationship between table A and B is one-to-many,
+then A has many B (e.g. `User` has many `Post`);
+
+   - `HAS_ONE`: this is special case of `HAS_MANY` where A has at most one
+B (e.g. `User` has at most one `Profile`);
+
+   - `MANY_MANY`: this corresponds to the many-to-many relationship in
+database. An associative table is needed to break a many-to-many
+relationship into one-to-many relationships, as most DBMS do not support
+many-to-many relationship directly. In our example database schema, the
+`PostCategory` serves for this purpose. In AR terminology, we can explain
+`MANY_MANY` as the combination of `BELONGS_TO` and `HAS_MANY`. For example,
+`Post` belongs to many `Category` and `Category` has many `Post`.
+
+Declaring relationship in AR involves overriding the
+[relations()|CActiveRecord::relations] method of [CActiveRecord]. The
+method returns an array of relationship configurations. Each array element
+represents a single relationship with the following format:
+
+~~~
+[php]
+'VarName'=>array('RelationType', 'ClassName', 'ForeignKey', ...additional options)
+~~~
+
+where `VarName` is the name of the relationship; `RelationType` specifies
+the type of the relationship, which can be one of the four constants:
+`self::BELONGS_TO`, `self::HAS_ONE`, `self::HAS_MANY` and
+`self::MANY_MANY`; `ClassName` is the name of the AR class related to this
+AR class; and `ForeignKey` specifies the foreign key(s) involved in the
+relationship. Additional options can be specified at the end for each
+relationship (to be described later).
+
+The following code shows how we declare the relationships for the `User`
+and `Post` classes.
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+			'author'=>array(self::BELONGS_TO, 'User', 'authorID'),
+			'categories'=>array(self::MANY_MANY, 'Category', 'PostCategory(postID, categoryID)'),
+		);
+	}
+}
+
+class User extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+			'posts'=>array(self::HAS_MANY, 'Post', 'authorID'),
+			'profile'=>array(self::HAS_ONE, 'Profile', 'ownerID'),
+		);
+	}
+}
+~~~
+
+> Info: A foreign key may be composite, consisting of two or more columns.
+In this case, we should concatenate the names of the foreign key columns
+and separate them with space or comma. For `MANY_MANY` relationship type,
+the associative table name must also be specified in the foreign key. For
+example, the `categories` relationship in `Post` is specified with the
+foreign key `PostCategory(postID, categoryID)`.
+
+The declaration of relationships in an AR class implicitly adds a property
+to the class for each relationship. After a relational query is performed,
+the corresponding property will be populated with the related AR
+instance(s). For example, if `$author` represents a `User` AR instance,
+we can use `$author->posts` to access its related `Post` instances.
+
+Performing Relational Query
+---------------------------
+
+The simplest way of performing relational query is by reading a relational
+property of an AR instance. If the property is not accessed previously, a
+relational query will be initiated, which joins the two related tables and
+filters with the primary key of the current AR instance. The query result
+will be saved to the property as instance(s) of the related AR class. This
+is known as the *lazy loading* approach, i.e., the relational query
+is performed only when the related objects are initially accessed. The
+example below shows how to use this approach:
+
+~~~
+[php]
+// retrieve the post whose ID is 10
+$post=Post::model()->findByPk(10);
+// retrieve the post's author: a relational query will be performed here
+$author=$post->author;
+~~~
+
+> Info: If there is no related instance for a relationship, the
+corresponding property could be either null or an empty array. For
+`BELONGS_TO` and `HAS_ONE` relationships, the result is null; for
+`HAS_MANY` and `MANY_MANY`, it is an empty array.
+
+The lazy loading approach is very convenient to use, but it is not
+efficient in some scenarios. For example, if we want to access the author
+information for `N` posts, using the lazy approach would involve executing
+`N` join queries. We should resort to the so-called *eager loading*
+approach under this circumstance.
+
+The eager loading approach retrieves the related AR instances together
+with the main AR instance(s). This is accomplished by using the
+[with()|CActiveRecord::with] method together with one of the
+[find|CActiveRecord::find] or [findAll|CActiveRecord::findAll] methods in
+AR. For example,
+
+~~~
+[php]
+$posts=Post::model()->with('author')->findAll();
+~~~
+
+The above code will return an array of `Post` instances. Unlike the lazy
+approach, the `author` property in each `Post` instance is already
+populated with the related `User` instance before we access the property.
+Instead of executing a join query for each post, the eager loading approach
+brings back all posts together with their authors in a single join query!
+
+We can specify multiple relationship names in the
+[with()|CActiveRecord::with] method and the eager loading approach will
+bring them back all in one shot. For example, the following code will bring
+back posts together with their authors and categories:
+
+~~~
+[php]
+$posts=Post::model()->with('author','categories')->findAll();
+~~~
+
+We can also do nested eager loading. Instead of a list of relationship
+names, we pass in a hierarchical representation of relationship names to
+the [with()|CActiveRecord::with] method, like the following,
+
+~~~
+[php]
+$posts=Post::model()->with(array(
+	'author'=>array(
+		'profile',
+		'posts'),
+	'categories'))->findAll();
+~~~
+
+The above example will bring back all posts together with their author and
+categories. It will also bring back each author's profile and posts.
+
+> Info: The AR implementation in Yii is very efficient. When eager loading
+a hierarchy of related objects involving `N` `HAS_MANY` or `MANY_MANY`
+relationships, it will take `N+1` SQL queries to obtain the needed results.
+This means it needs to execute 3 SQL queries in the last example because of
+the `posts` and `categories` properties. Other frameworks take a more
+radical approach by using only one SQL query. At first look, this approach
+seems more efficient because fewer queries are being parsed and executed by
+DBMS. It is in fact impractical in reality for two reasons. First, there
+are many repetitive data columns in the result which takes extra time to
+transmit and process. Second, the number of rows in the result set grows
+exponentially with the number of tables involved, which makes it simply
+unmanageable as more relationships are involved.
+
+Relational Query Options
+------------------------
+
+We mentioned that additional options can be specified in relationship
+declaration. These options, specified as name-value pairs, are used to
+customize the relational query. They are summarized as below.
+
+   - `select`: a list of columns to be selected for the related AR class.
+It defaults to '*', meaning all columns. Column names should be
+disambiguated using `aliasToken` if they appear in an expression (e.g.
+`COUNT(??.name) AS nameCount`).
+
+   - `condition`: the `WHERE` clause. It defaults to empty. Note, column
+references need to be disambiguated using `aliasToken` (e.g. `??.id=10`).
+
+   - `order`: the `ORDER BY` clause. It defaults to empty. Note, column
+references need to be disambiguated using `aliasToken` (e.g. `??.age
+DESC`).
+
+   - `with`: a list of child related objects that should be loaded
+together with this object. Note, this is only honored by lazy loading, not
+eager loading.
+
+   - `joinType`: type of join for this relationship. It defaults to `LEFT
+OUTER JOIN`.
+
+   - `aliasToken`: the column prefix placeholder. It will be replaced
+by the corresponding table alias to disambiguate column references.
+It defaults to `'??.'`.
+
+   - `alias`: the alias for the table associated with this relationship.
+This option has been available since version 1.0.1. It defaults to null,
+meaning the table alias is automatically generated. This is different
+from `aliasToken` in that the latter is just a placeholder and will be
+replaced by the actual table alias.
+
+In addition, the following options are available for certain relationships
+during lazy loading:
+
+   - `group`: the `GROUP BY` clause. It defaults to empty. Note, column
+references need to be disambiguated using `aliasToken` (e.g. `??.age`).
+This option only applies to `HAS_MANY` and `MANY_MANY` relationships.
+
+   - `having`: the `HAVING` clause. It defaults to empty. Note, column
+references need to be disambiguated using `aliasToken` (e.g. `??.age`).
+This option only applies to `HAS_MANY` and `MANY_MANY` relationships. Note:
+option has been available since version 1.0.1.
+
+   - `limit`: limit of the rows to be selected. This option does NOT apply
+to `BELONGS_TO` relation.
+
+   - `offset`: offset of the rows to be selected. This option does NOT
+apply to `BELONGS_TO` relation.
+
+Below we modify the `posts` relationship declaration in the `User` by
+including some of the above options:
+
+~~~
+[php]
+class User extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+			'posts'=>array(self::HAS_MANY, 'Post', 'authorID'
+							'order'=>'??.createTime DESC',
+							'with'=>'categories'),
+			'profile'=>array(self::HAS_ONE, 'Profile', 'ownerID'),
+		);
+	}
+}
+~~~
+
+Now if we access `$author->posts`, we would obtain the author's posts
+sorted according to their creation time in descending order. Each post
+instance also has its categories loaded.
+
+> Info: When a column name appears in two or more tables being joined
+together, it needs to be disambiguated. This is done by prefixing the
+column name with its table name. For example, `id` becomes `Team.id`. In AR
+relational queries, however, we do not have this freedom because the SQL
+statements are automatically generated by AR which systematically gives
+each table an alias. Therefore, in order to avoid column name conflict, we
+use a placeholder to indicate the existence of a column which needs to be
+disambiguated. AR will replace the placeholder with a suitable table alias
+and properly disambiguate the column.
+
+<div class="revision">$Id: database.arr.txt 401 2008-12-23 13:09:14Z qiang.xue $</div>

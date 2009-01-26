@@ -1,0 +1,63 @@
+Sökvägsalias och namnområde
+===========================
+
+Yii använder sökvägsalias extensivt. Ett sökvägsalias är associerat till en 
+katalog eller filsökväg. Det specificeras med punktnotation, snarlikt det vitt 
+förekommande namnområdesformatet (namespace format):
+
+~~~
+RootAlias.path.to.target
+~~~
+
+där `RootAlias` är alias för någon befintlig katalog. Yii fördefinierar två 
+alias: `system` och `application`. Det förra är alias för Yii:s framework-
+katalog, medan det senare är alias för applikationens `protected`-katalog. Genom 
+anrop till [YiiBase::setPathOfAlias()] kan nya sökvägsalias definieras (inklusive rot-alias).
+
+Genom anrop till [YiiBase::getPathOfAlias()] kan ett alias översättas till dess 
+motsvarande sökväg. Till exempel, `system.web.CController` skulle översättas 
+till `yii/framework/web/CController`.
+
+Med hjälp av alias är det mycket bekvämt att importera definitionen för en 
+klass. Till exempel, för att inkludera definitionen för klassen [CController], 
+kan vi skriva följande:
+
+~~~
+[php]
+Yii::import('system.web.CController');
+~~~
+
+Metoden [import|YiiBase::import] skiljer sig från `include` och `require` genom 
+att den är effektivare. Klassdefinitionen som skall importeras inkluderas inte 
+förrän den refereras till första gången. Att importera samma namnområde flera 
+gånger är också det mycket snabbare än `include_once` och `require_once`.
+
+> Tips: När en klass som definieras av Yii-ramverket refereras, behöver denna 
+inte importeras eller inkluderas. Alla kärnklasser i Yii importeras i förväg.
+
+Följande syntax kan användas för att importera en hel katalog, så att 
+klassfilerna i katalogen automatiskt inkluderas när så erfordras.
+
+~~~
+[php]
+Yii::import('system.web.*');
+~~~
+
+Förutom [import|YiiBase::import], används alias även på många andra ställen för 
+att referera till klasser. Till exempel kan ett alias lämnas med till 
+[Yii::createComponent()] för att skapa en instans av motsvarande klass, även om 
+klassfilen inte tidigare inkluderats.
+
+Förväxla inte sökvägsalias med namnområde. Ett namnområde refererar till logisk 
+gruppering av ett antal klassnamn så att de kan särskiljas från andra klasser 
+med samma namn, medan sökvägsalias används för att referera till en klassfil 
+eller sökväg. Det uppstår ingen konflikt mellan sökvägsalias och namnområden.
+
+> Tips: Då PHP före version 5.3.0 inte har inbyggt stöd för namnområden, går det 
+inte att ha instanser av två klasser med samma namn, men olika definitioner. Av 
+denna anledning har alla Yii-klasser namn med prefixet 'C' (som i 'class'), så 
+att de kan skiljas från användardefinierade klaser. Det rekommenderas att C-
+prefixet reserveras för användning endast av Yii-ramverket, och att 
+användardefinierade klasser förses med någon annan prefixbokstav.
+
+<div class="revision">$Id: basics.namespace.txt 169 2008-11-06 19:43:44Z qiang.xue $</div>

@@ -1,0 +1,94 @@
+Datacachning
+============
+
+Datacachning handlar om att lagra någon PHP-variabel i cacheminne och hämta 
+tillbaka den senare från cache. För detta ändamål tillhandahåller 
+cachekomponentens basklass [CCache] två metoder som används för det mesta: 
+[set()|CCache::set] och [get()|CCache::get].
+
+För att lagra en variabel `$value` i cacheminnet väljer vi ett unikt ID och anropar [set()|CCache::set]:
+
+~~~
+[php]
+Yii::app()->cache->set($id, $value);
+~~~
+
+Cachelagrade data förblir i cachen obegränsat länge om de inte tas bort på grund 
+av någon cachningspolicy (t.ex. slut på cacheutrymme medförande att det äldsta 
+datat tas bort). För ändring av detta beteende, kan en förfallotidsparameter 
+lämnas med i anropet till [set()|CCache::set] så att data städas bort från 
+cachen efter en viss tid:
+
+~~~
+[php]
+// keep the value in cache for at most 30 seconds
+Yii::app()->cache->set($id, $value, 30);
+~~~
+
+Senare, när variabeln behöver kommas åt (antingen i samma eller någon annan 
+webbrequest), återhämtas den från cache genom anrop till [get()|CCache::get] med 
+ID bifogat. Om värdet som returneras är false, innebär detta att sökt värde inte 
+är tillgängligt i cachen utan måste genereras på nytt.
+
+~~~
+[php]
+$value=Yii::app()->cache->get($id);
+if($value===false)
+{
+	// regenerate $value because it is not found in cache
+	// and save it in cache for later use:
+	// Yii::app()->cache->set($id,$value);
+}
+~~~
+
+Vid val av ID för en variabel som skall cachas, tillse att ID:t är unikt bland 
+alla andra variabler som kan komma att cachas i applikationen. Det är INTE ett 
+krav att ID:t är unikt över fler applikationer då cachekomponenten är 
+intelligent nog att åtskilja ID:n tillhörande skilda applikationer.
+
+För att ta bort ett cachat värde, anropa [delete()|CCache::delete]; för att ta 
+bort allting från cache, anropa [flush()|CCache::flush]. Var mycket försiktig 
+med att anropa [flush()|CCache::flush] eftersom även cachelagrat data från andra 
+applikationer tas bort.
+
+> Tips: Eftersom [CCache] implementerar `ArrayAccess`, kan en cachekomponent 
+användas som en array. Här följer några exempel: > ~~~ > [php] > 
+$cache=Yii::app()->cache; > $cache['var1']=$value1;  // equivalent to: $cache-
+>set('var1',$value1); > $value2=$cache['var2'];  // equivalent to: 
+$value2=$cache->get('var2'); > ~~~
+
+Cacheberoende
+-------------
+
+Förutom utgången förfallotid, kan cachelagrat data också ogiltiggöras som följd 
+av någon förändring i beroenden. Till exempel, om innehållet i någon fil 
+cachelagras och filen ändras, så skall kopian i cachen markeras som ogiltig och 
+det senaste innehållet från filen läsas i stället.
+
+Ett beroende representeras som en instans av [CCacheDependency] eller nedärvd 
+klass. Dependency-instansen bifogas data som skall cachas i anropet till [set()|CCache::set].
+
+~~~
+[php]
+// the value will expire in 30 seconds
+// it may also be invalidated earlier if the dependent file is changed
+Yii::app()->cache->set($id, $value, 30, new CFileCacheDependency('FileName'));
+~~~
+
+Om vi nu återhämtar `$value` från cachen medelst anrop till [get()|CCache::get], 
+kommer beroendet att utvärderas. Om en förändring skett erhålls returvärdet 
+false, vilket indikerar att data behöver genereras på nytt.
+
+Nedan följer en sammanställning av tillgängliga cacheberoenden:
+
+   - [CFileCacheDependency]: beroendet ändras vid förändring av filens tidangivelse avseende ssenaste ändring.
+
+   - [CDirectoryCacheDependency]: beroendet ändras vid förändring av någon fil i katalogen eller dess underkataloger.
+
+   - [CDbCacheDependency]: beroendet ändras vid förändring i resultatet av databasfrågan given av specificerad SQL-sats.
+
+   - [CGlobalStateCacheDependency]: beroendet ändras vid förändring av värdet för det specificerade globala tillståndet. Ett globalt tillstånd är en variabel som behåller sitt värde över multipla request och multipla sessioner i en applikation. Det definieras via [CApplication::setGlobalState()].
+
+   - [CChainedCacheDependency]: beroendet ändras om något av beroendena i kedjan förändras.
+
+<div class="revision">$Id: caching.data.txt 169 2008-11-06 19:43:44Z qiang.xue $</div>
