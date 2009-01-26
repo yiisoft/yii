@@ -134,6 +134,17 @@ $behavior->attach($name,$component);
 $component->test();
 ~~~
 
+An attached behavior can be accessed like a normal property of the component.
+For example, if a behavior named `tree` is attached to a component, we can
+obtain the reference to this behavior object using:
+
+~~~
+[php]
+$behavior=$component->tree;
+// equivalent to the following:
+// $behavior=$component->asa('tree');
+~~~
+
 A behavior can be temporarily disabled so that its methods are not available via the component.
 For example,
 
