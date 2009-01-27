@@ -235,11 +235,10 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		if($cookie && !empty($cookie->value) && ($data=$app->getSecurityManager()->validateData($cookie->value))!==false)
 		{
 			$data=unserialize($data);
-			if(isset($data[0],$data[1],$data[2],$data[3]))
+			if(isset($data[0],$data[1],$data[2]))
 			{
-				list($id,$name,$address,$states)=$data;
-				if($address===$app->getRequest()->getUserHostAddress())
-					$this->changeIdentity($id,$name,$states);
+				list($id,$name,$states)=$data;
+				$this->changeIdentity($id,$name,$states);
 			}
 		}
 	}
@@ -247,7 +246,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	/**
 	 * Saves necessary user data into a cookie.
 	 * This method is used when automatic login ({@link allowAutoLogin}) is enabled.
-	 * This method saves username, user IP address and a validation key to cookie.
+	 * This method saves user ID, username, other identity states and a validation key to cookie.
 	 * These information are used to do authentication next time when user visits the application.
 	 * @param integer number of seconds that the user can remain in logged-in status. Defaults to 0, meaning login till the user closes the browser.
 	 * @see restoreFromCookie
@@ -260,7 +259,6 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		$data=array(
 			$this->getId(),
 			$this->getName(),
-			$app->getRequest()->getUserHostAddress(),
 			$this->saveIdentityStates(),
 		);
 		$cookie->value=$app->getSecurityManager()->hashData(serialize($data));

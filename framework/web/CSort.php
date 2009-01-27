@@ -202,6 +202,8 @@ class CSort extends CComponent
 	 * False will be returned if the attribute is not allowed to be sorted.
 	 * If the attribute is aliased via {@link attributes}, the original
 	 * attribute name will be returned.
+	 * @param string the attribute name (could be an alias) that the user requests to sort on
+	 * @return string the real attribute name. False if the attribute cannot be sorted
 	 */
 	protected function validateAttribute($attribute)
 	{
