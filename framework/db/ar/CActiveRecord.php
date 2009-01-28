@@ -1431,8 +1431,7 @@ abstract class CActiveRecord extends CModel
 	{
 		if($attributes!==false)
 		{
-			$class=get_class($this);
-			$record=new $class(null);
+			$record=$this->instantiate($attributes);
 			$record->isNewRecord=false;
 			$record->_md=$this->getMetaData();
 			foreach($attributes as $name=>$value)
@@ -1458,12 +1457,11 @@ abstract class CActiveRecord extends CModel
 	public function populateRecords($data)
 	{
 		$records=array();
-		$class=get_class($this);
 		$md=$this->getMetaData();
 		$table=$md->tableSchema;
 		foreach($data as $attributes)
 		{
-			$record=new $class(null);
+			$record=$this->instantiate($attributes);
 			$record->isNewRecord=false;
 			$record->_md=$md;
 			foreach($attributes as $name=>$value)
@@ -1477,6 +1475,23 @@ abstract class CActiveRecord extends CModel
 			$records[]=$record;
 		}
 		return $records;
+	}
+
+	/**
+	 * Creates an active record instance.
+	 * This method is called by {@link populateRecord} and {@link populateRecords}.
+	 * You may override this method if the instance being created
+	 * depends the attributes that are to be populated to the record.
+	 * For example, by creating a record based on the value of a column,
+	 * you may implement the so-called single-table inheritance mapping.
+	 * @param array list of attribute values for the active records.
+	 * @return CActiveRecord the active record
+	 * @since 1.0.2
+	 */
+	protected function instantiate($attributes)
+	{
+		$class=get_class($this);
+		return new $class(null);
 	}
 
 	/**
