@@ -147,26 +147,37 @@ class CActiveFinder extends CComponent
 	 */
 	private function buildJoinTree($parent,$with)
 	{
-		if(is_array($with))
+		if(is_string($with))
 		{
-			foreach($with as $key=>$value)
+			if(($pos=strrpos($with,'.'))!==false)
 			{
-				if(is_string($key))
-				{
-					$child=$this->buildJoinTree($parent,$key);
-					$this->buildJoinTree($child,$value);
-				}
-				else
-					$this->buildJoinTree($parent,$value);
+				$parent=$this->buildJoinTree($this,substr($with,0,$pos));
+				$with=substr($with,$pos+1);
 			}
-		}
-		else if(!empty($with))
-		{
-			if(($relation=$parent->model->getActiveRelation($with))!==null)
+			if(isset($parent->children[$with]))
+				return $parent->children[$with];
+			else if(($relation=$parent->model->getActiveRelation($with))!==null)
 				return new CJoinElement($relation,$parent,++$this->_joinCount);
 			else
 				throw new CDbException(Yii::t('yii','Relation "{name}" is not defined in active record class "{class}".',
 					array('{class}'=>get_class($parent->model), '{name}'=>$with)));
+		}
+
+		// $with is an array, keys are relation name, values are relation spec
+		foreach($with as $key=>$value)
+		{
+			if(is_string($key) && is_array($value))
+			{
+				$element=$this->buildJoinTree($parent,$key);
+				$relation=clone $element->relation;
+				foreach($value as $name=>$option)
+					$relation->$name=$option;
+				if($relation->alias!==null)
+					$element->tableAlias=$relation->alias;
+				$element->relation=$relation;
+			}
+			else if(is_string($value))  // the key is integer, so value is the relation name
+				return $this->buildJoinTree($parent,$value);
 		}
 	}
 }
@@ -184,8 +195,8 @@ class CJoinElement
 {
 	private $_builder;
 	private $_parent;
-	private $_children=array();
-	private $_tableAlias;
+	public $children=array();
+	public $tableAlias;
 	private $_pkAlias;  				// string or name=>alias
 	private $_columnAliases=array();	// name=>alias
 	private $_joined=false;
@@ -222,9 +233,9 @@ class CJoinElement
 		{
 			$this->relation=$relation;
 			$this->_parent=$parent;
-			$parent->_children[]=$this;
+			$parent->children[]=$this;
 			$this->_builder=$parent->_builder;
-			$this->_tableAlias=$relation->alias===null?'t'.$id:$relation->alias;
+			$this->tableAlias=$relation->alias===null?'t'.$id:$relation->alias;
 			$this->model=CActiveRecord::model($relation->className);
 			$this->_table=$this->model->getTableSchema();
 		}
@@ -269,7 +280,7 @@ class CJoinElement
 			$this->_parent->runQuery($query);
 		}
 
-		foreach($this->_children as $child) // find recursively
+		foreach($this->children as $child) // find recursively
 			$child->find();
 	}
 
@@ -289,7 +300,7 @@ class CJoinElement
 			$this->records[serialize($pk)]=$baseRecord;
 		}
 
-		$child=$this->_children[0];
+		$child=reset($this->children);
 		$query=new CJoinQuery($this);
 		$this->_joined=true;
 		$child->_joined=true;
@@ -298,12 +309,12 @@ class CJoinElement
 		{
 			$query->limit=$child->relation->limit;
 			$query->offset=$child->relation->offset;
-			$query->groups[]=str_replace($child->relation->aliasToken.'.',$child->_tableAlias.'.',$child->relation->group);
-			$query->havings[]=str_replace($child->relation->aliasToken.'.',$child->_tableAlias.'.',$child->relation->having);
+			$query->groups[]=str_replace($child->relation->aliasToken.'.',$child->tableAlias.'.',$child->relation->group);
+			$query->havings[]=str_replace($child->relation->aliasToken.'.',$child->tableAlias.'.',$child->relation->having);
 		}
 		$child->buildQuery($query);
 		$this->runQuery($query);
-		foreach($child->_children as $c)
+		foreach($child->children as $c)
 			$c->find();
 	}
 
@@ -335,7 +346,7 @@ class CJoinElement
 		$this->buildQuery($query);
 		if(count($query->joins)>1)
 			$this->runQuery($query);
-		foreach($this->_children as $child)
+		foreach($this->children as $child)
 			$child->find();
 	}
 
@@ -345,7 +356,7 @@ class CJoinElement
 	 */
 	public function buildQuery($query)
 	{
-		foreach($this->_children as $child)
+		foreach($this->children as $child)
 		{
 			if($child->relation instanceof CHasOneRelation || $child->relation instanceof CBelongsToRelation)
 			{
@@ -412,7 +423,7 @@ class CJoinElement
 		}
 
 		// populate child records recursively
-		foreach($this->_children as $child)
+		foreach($this->children as $child)
 		{
 			if(!isset($query->elements[$child->id]))
 				continue;
@@ -431,8 +442,8 @@ class CJoinElement
 	 */
 	public function getTableNameWithAlias()
 	{
-		if($this->_tableAlias!==null)
-			return $this->_table->rawName . ' ' . $this->_tableAlias;
+		if($this->tableAlias!==null)
+			return $this->_table->rawName . ' ' . $this->tableAlias;
 		else
 			return $this->_table->rawName;
 	}
@@ -542,8 +553,8 @@ class CJoinElement
 	 */
 	public function getCondition()
 	{
-		if($this->relation->condition!=='' && $this->_tableAlias!==null)
-			return str_replace($this->relation->aliasToken.'.', $this->_tableAlias.'.', $this->relation->condition);
+		if($this->relation->condition!=='' && $this->tableAlias!==null)
+			return str_replace($this->relation->aliasToken.'.', $this->tableAlias.'.', $this->relation->condition);
 		else
 			return $this->relation->condition;
 	}
@@ -553,8 +564,8 @@ class CJoinElement
 	 */
 	public function getOrder()
 	{
-		if($this->relation->order!=='' && $this->_tableAlias!==null)
-			return str_replace($this->relation->aliasToken.'.',$this->_tableAlias.'.',$this->relation->order);
+		if($this->relation->order!=='' && $this->tableAlias!==null)
+			return str_replace($this->relation->aliasToken.'.',$this->tableAlias.'.',$this->relation->order);
 		else
 			return $this->relation->order;
 	}
@@ -564,8 +575,8 @@ class CJoinElement
 	 */
 	public function getColumnPrefix()
 	{
-		if($this->_tableAlias!==null)
-			return $this->_tableAlias.'.';
+		if($this->tableAlias!==null)
+			return $this->tableAlias.'.';
 		else
 			return $this->_table->rawName.'.';
 	}
@@ -652,7 +663,7 @@ class CJoinElement
 	private function joinManyMany($joinTable,$fks,$parent)
 	{
 		$schema=$this->_builder->getSchema();
-		$joinAlias=$this->relation->name.'_'.$this->_tableAlias;
+		$joinAlias=$this->relation->name.'_'.$this->tableAlias;
 		$parentCondition=array();
 		$childCondition=array();
 		foreach($fks as $i=>$fk)

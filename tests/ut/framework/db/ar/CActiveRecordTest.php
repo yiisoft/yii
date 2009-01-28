@@ -569,4 +569,15 @@ class CActiveRecordTest extends CTestCase
 		$this->assertNull($author);
 	}
 
+	public function testRelationWithDynamicCondition()
+	{
+		$user=User::model()->with('posts')->findByPk(2);
+		$this->assertEquals($user->posts[0]->id,2);
+		$this->assertEquals($user->posts[1]->id,3);
+		$this->assertEquals($user->posts[2]->id,4);
+		$user=User::model()->with(array('posts'=>array('order'=>'??.id DESC')))->findByPk(2);
+		$this->assertEquals($user->posts[0]->id,4);
+		$this->assertEquals($user->posts[1]->id,3);
+		$this->assertEquals($user->posts[2]->id,2);
+	}
 }
