@@ -19,7 +19,7 @@
 class CClientScript extends CApplicationComponent
 {
 	/**
-	 * The script is rendered in the head section.
+	 * The script is rendered in the head section right before the title element.
 	 */
 	const POS_HEAD=0;
 	/**
@@ -312,7 +312,7 @@ class CClientScript extends CApplicationComponent
 	 * @param string URL of the javascript file
 	 * @param integer the position of the JavaScript code. Valid values include the following:
 	 * <ul>
-	 * <li>CClientScript::POS_HEAD : the script is inserted in the head section.</li>
+	 * <li>CClientScript::POS_HEAD : the script is inserted in the head section right before the title element.</li>
 	 * <li>CClientScript::POS_BEGIN : the script is inserted at the beginning of the body section.</li>
 	 * <li>CClientScript::POS_END : the script is inserted at the end of the body section.</li>
 	 * </ul>
@@ -331,7 +331,7 @@ class CClientScript extends CApplicationComponent
 	 * @param string the javascript code
 	 * @param integer the position of the JavaScript code. Valid values include the following:
 	 * <ul>
-	 * <li>CClientScript::POS_HEAD : the script is inserted in the head section.</li>
+	 * <li>CClientScript::POS_HEAD : the script is inserted in the head section right before the title element.</li>
 	 * <li>CClientScript::POS_BEGIN : the script is inserted at the beginning of the body section.</li>
 	 * <li>CClientScript::POS_END : the script is inserted at the end of the body section.</li>
 	 * <li>CClientScript::POS_LOAD : the script is inserted in the window.onload() function.</li>
@@ -349,7 +349,7 @@ class CClientScript extends CApplicationComponent
 	}
 
 	/**
-	 * Registers a meta tag that will be inserted in the head section of the resulting page.
+	 * Registers a meta tag that will be inserted in the head section (right before the title element) of the resulting page.
 	 * @param string content attribute of the meta tag
 	 * @param string name attribute of the meta tag. If null, the attribute will not be generated
 	 * @param string http-equiv attribute of the meta tag. If null, the attribute will not be generated
@@ -369,7 +369,7 @@ class CClientScript extends CApplicationComponent
 	}
 
 	/**
-	 * Registers a link tag that will be inserted in the head section of the resulting page.
+	 * Registers a link tag that will be inserted in the head section (right before the title element) of the resulting page.
 	 * @param string rel attribute of the link tag. If null, the attribute will not be generated.
 	 * @param string type attribute of the link tag. If null, the attribute will not be generated.
 	 * @param string href attribute of the link tag. If null, the attribute will not be generated.
@@ -417,7 +417,7 @@ class CClientScript extends CApplicationComponent
 	 * @param string URL of the javascript file
 	 * @param integer the position of the JavaScript code. Valid values include the following:
 	 * <ul>
-	 * <li>CClientScript::POS_HEAD : the script is inserted in the head section.</li>
+	 * <li>CClientScript::POS_HEAD : the script is inserted in the head section right before the title element.</li>
 	 * <li>CClientScript::POS_BEGIN : the script is inserted at the beginning of the body section.</li>
 	 * <li>CClientScript::POS_END : the script is inserted at the end of the body section.</li>
 	 * </ul>
@@ -433,7 +433,7 @@ class CClientScript extends CApplicationComponent
 	 * @param string ID that uniquely identifies the JavaScript code
 	 * @param integer the position of the JavaScript code. Valid values include the following:
 	 * <ul>
-	 * <li>CClientScript::POS_HEAD : the script is inserted in the head section.</li>
+	 * <li>CClientScript::POS_HEAD : the script is inserted in the head section right before the title element.</li>
 	 * <li>CClientScript::POS_BEGIN : the script is inserted at the beginning of the body section.</li>
 	 * <li>CClientScript::POS_END : the script is inserted at the end of the body section.</li>
 	 * <li>CClientScript::POS_LOAD : the script is inserted in the window.onload() function.</li>
