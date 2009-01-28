@@ -181,6 +181,8 @@ class CSort extends CComponent
 			$baseModel=CActiveRecord::model($this->modelClass);
 			if(($relation=$baseModel->getActiveRelation(substr($attribute,0,$pos)))!==null)
 				return CActiveRecord::model($relation->className)->getAttributeLabel(substr($attribute,$pos+1));
+			else
+				return $baseModel->getAttributeLabel(substr($attribute,$pos+1));
 		}
 		return CActiveRecord::model($this->modelClass)->getAttributeLabel($attribute);
 	}
