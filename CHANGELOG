@@ -11,6 +11,7 @@ Version 1.0.2 to be released
 - Bug #109: CLinkPager shows wrong number of page buttons (Qiang)
 - Bug: CDbAuthManager::saveAuthAssignment() causes updating all rows (Qiang)
 - Bug: Fixed an issue in CUrlManager::createUrl when GET parameters contain arrays (Qiang)
+- Bug: Fixed an issue that CCaptcha::buttonOptions is not used (Qiang)
 - New #88: Added public properties to CActiveRecord::safeAttributes() (Qiang)
 - New #92: Empty error messages in models are handled better when being displayed (Qiang)
 - New #93: Changed CLinkPager and CListPager so that the messages are internationalized (Qiang)
