@@ -217,13 +217,30 @@ a hierarchy of related objects involving `N` `HAS_MANY` or `MANY_MANY`
 relationships, it will take `N+1` SQL queries to obtain the needed results.
 This means it needs to execute 3 SQL queries in the last example because of
 the `posts` and `categories` properties. Other frameworks take a more
-radical approach by using only one SQL query. At first look, this approach
+radical approach by using only one SQL query. At first look, the radical approach
 seems more efficient because fewer queries are being parsed and executed by
 DBMS. It is in fact impractical in reality for two reasons. First, there
 are many repetitive data columns in the result which takes extra time to
 transmit and process. Second, the number of rows in the result set grows
 exponentially with the number of tables involved, which makes it simply
 unmanageable as more relationships are involved.
+
+Since version 1.0.2, you can also enforce the relational query to be done with
+only one SQL query. Simply append a [together|CActiveFinder::together] call
+after [with()|CActiveRecord::with]. For example,
+
+~~~
+[php]
+$posts=Post::model()->with(
+	'author.profile',
+	'author.posts',
+	'categories)->together()->findAll();
+~~~
+
+The above query will be done in one SQL query. Without calling [together|CActiveFinder::together],
+this will need two SQL queries: one joins `Post`, `User` and `Profile` tables,
+and the other joins `User` and `Post` tables.
+
 
 Relational Query Options
 ------------------------

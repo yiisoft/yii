@@ -39,7 +39,8 @@ Version 1.0.2 to be released
 - New: Added CModel::getValidatorsForAttribute (Qiang)
 - New: Added CHtml::activeLabelEx and added 'required' option to CHtml::label (Qiang)
 - New: Added array access support to CFormModel and CActiveRecord (Qiang)
-- New: Added CActiveRecord::instantiate (Qiang)
+- New: Added CActiveRecord::instantiate to support class table inheritance (Qiang)
+- New: Added support to allow join tables all at once (Qiang)
 
 Version 1.0.1 January 4, 2009
 -----------------------------

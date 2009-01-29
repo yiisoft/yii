@@ -21,6 +21,19 @@
  */
 class CActiveFinder extends CComponent
 {
+	/**
+	 * @var boolean join all tables all at once. Defaults to false.
+	 * This property is internally used.
+	 * @since 1.0.2
+	 */
+	public $joinAll=false;
+	/**
+	 * @var boolean whether the base model has limit or offset.
+	 * This property is internally used.
+	 * @since 1.0.2
+	 */
+	public $baseLimited;
+
 	private $_joinCount=0;
 	private $_joinTree;
 	private $_builder;
@@ -34,8 +47,22 @@ class CActiveFinder extends CComponent
 	public function __construct($model,$with)
 	{
 		$this->_builder=$model->getCommandBuilder();
-		$this->_joinTree=new CJoinElement($model);
+		$this->_joinTree=new CJoinElement($this,$model);
 		$this->buildJoinTree($this->_joinTree,$with);
+	}
+
+	/**
+	 * Uses the most aggressive join approach.
+	 * By default, several join statements may be generated in order to avoid
+	 * fetching duplicated data. By calling this method, all tables will be joined
+	 * together all at once.
+	 * @return CActiveFinder the finder object
+	 * @since 1.0.2
+	 */
+	public function together()
+	{
+		$this->joinAll=true;
+		return $this;
 	}
 
 	/**
@@ -151,13 +178,13 @@ class CActiveFinder extends CComponent
 		{
 			if(($pos=strrpos($with,'.'))!==false)
 			{
-				$parent=$this->buildJoinTree($this,substr($with,0,$pos));
+				$parent=$this->buildJoinTree($parent,substr($with,0,$pos));
 				$with=substr($with,$pos+1);
 			}
 			if(isset($parent->children[$with]))
 				return $parent->children[$with];
 			else if(($relation=$parent->model->getActiveRelation($with))!==null)
-				return new CJoinElement($relation,$parent,++$this->_joinCount);
+				return new CJoinElement($this,$relation,$parent,++$this->_joinCount);
 			else
 				throw new CDbException(Yii::t('yii','Relation "{name}" is not defined in active record class "{class}".',
 					array('{class}'=>get_class($parent->model), '{name}'=>$with)));
@@ -177,7 +204,7 @@ class CActiveFinder extends CComponent
 				$element->relation=$relation;
 			}
 			else if(is_string($value))  // the key is integer, so value is the relation name
-				return $this->buildJoinTree($parent,$value);
+				$this->buildJoinTree($parent,$value);
 		}
 	}
 }
@@ -193,15 +220,6 @@ class CActiveFinder extends CComponent
  */
 class CJoinElement
 {
-	private $_builder;
-	private $_parent;
-	public $children=array();
-	public $tableAlias;
-	private $_pkAlias;  				// string or name=>alias
-	private $_columnAliases=array();	// name=>alias
-	private $_joined=false;
-	private $_table;
-
 	/**
 	 * @var integer the unique ID of this tree node
 	 */
@@ -218,6 +236,23 @@ class CJoinElement
 	 * @var array list of active records found by the queries. They are indexed by primary key values.
 	 */
 	public $records=array();
+	/**
+	 * @var array list of child join elements
+	 */
+	public $children=array();
+	/**
+	 * @var string table alias for this join element
+	 */
+	public $tableAlias;
+
+	private $_finder;
+	private $_builder;
+	private $_parent;
+	private $_pkAlias;  				// string or name=>alias
+	private $_columnAliases=array();	// name=>alias
+	private $_joined=false;
+	private $_table;
+	private $_related=array();			// PK, relation name, related PK => true
 
 	/**
 	 * Constructor.
@@ -226,8 +261,9 @@ class CJoinElement
 	 * @param CJoinElement the parent tree node
 	 * @param integer the ID of this tree node that is unique among all the tree nodes
 	 */
-	public function __construct($relation,$parent=null,$id=0)
+	public function __construct($finder,$relation,$parent=null,$id=0)
 	{
+		$this->_finder=$finder;
 		$this->id=$id;
 		if($parent!==null)
 		{
@@ -268,6 +304,7 @@ class CJoinElement
 		if($this->_parent===null) // root element
 		{
 			$query=new CJoinQuery($this,$criteria);
+			$this->_finder->baseLimited=($criteria->offset>=0 || $criteria->limit>=0);
 			$this->buildQuery($query);
 			$this->runQuery($query);
 		}
@@ -309,6 +346,7 @@ class CJoinElement
 		{
 			$query->limit=$child->relation->limit;
 			$query->offset=$child->relation->offset;
+			$this->_finder->baseLimited=($query->offset>=0 || $query->limit>=0);
 			$query->groups[]=str_replace($child->relation->aliasToken.'.',$child->tableAlias.'.',$child->relation->group);
 			$query->havings[]=str_replace($child->relation->aliasToken.'.',$child->tableAlias.'.',$child->relation->having);
 		}
@@ -358,7 +396,8 @@ class CJoinElement
 	{
 		foreach($this->children as $child)
 		{
-			if($child->relation instanceof CHasOneRelation || $child->relation instanceof CBelongsToRelation)
+			if($child->relation instanceof CHasOneRelation || $child->relation instanceof CBelongsToRelation
+				|| ($this->_finder->joinAll && !$this->_finder->baseLimited))
 			{
 				$child->_joined=true;
 				$query->join($child);
@@ -382,6 +421,7 @@ class CJoinElement
 	 * Populates the active records with the query data.
 	 * @param CJoinQuery the query executed
 	 * @param array a row of data
+	 * @return CActiveRecord the populated record
 	 */
 	private function populateRecord($query,$row)
 	{
@@ -431,7 +471,18 @@ class CJoinElement
 			if($child->relation instanceof CHasOneRelation || $child->relation instanceof CBelongsToRelation)
 				$record->addRelatedRecord($child->relation->name,$childRecord,false);
 			else // has_many and many_many
-				$record->addRelatedRecord($child->relation->name,$childRecord,true);
+			{
+				// need to double check to avoid adding duplicated related objects
+				if($childRecord instanceof CActiveRecord)
+					$fpk=serialize($childRecord->getPrimaryKey());
+				else
+					$fpk=0;
+				if(!isset($this->_related[$pk][$child->relation->name][$fpk]))
+				{
+					$record->addRelatedRecord($child->relation->name,$childRecord,true);
+					$this->_related[$pk][$child->relation->name][$fpk]=true;
+				}
+			}
 		}
 
 		return $record;
