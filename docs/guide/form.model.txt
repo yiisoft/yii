@@ -68,8 +68,7 @@ class LoginForm extends CFormModel
 		return array(
 			array('username, password', 'required'),
 			array('password', 'authenticate'),
-			array('rememberMe', 'safe'),
-		);
+	);
 	}
 
 	public function authenticate($attribute,$params)
@@ -90,8 +89,7 @@ class LoginForm extends CFormModel
 ~~~
 
 The above code specifies that `username` and `password` are both required,
-`password` should be authenticated, and `rememberMe` is safe to be massively
-assigned (to be explained in the next subsection).
+`password` should be authenticated.
 
 Each rule returned by `rules()` must be of the following format:
 
