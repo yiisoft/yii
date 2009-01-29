@@ -73,7 +73,7 @@ class PostExt2 extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'comments'=>array(self::HAS_MANY,'Comment2','post_id','order'=>'??.content DESC','with'=>array('post','author'=>array('posts'=>'author'))),
+			'comments'=>array(self::HAS_MANY,'Comment2','post_id','order'=>'??.content DESC','with'=>array('post','author.posts.author')),
 		);
 	}
 }

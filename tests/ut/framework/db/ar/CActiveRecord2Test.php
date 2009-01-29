@@ -518,7 +518,7 @@ class CActiveRecord2Test extends CTestCase
 
 	public function testRelationWithCondition()
 	{
-		$posts=Post2::model()->with('comments')->findAllByPk(array(2,3,4));
+		$posts=Post2::model()->with('comments')->findAllByPk(array(2,3,4),array('order'=>'posts.id'));
 		$this->assertEquals(3,count($posts));
 		$this->assertEquals(2,count($posts[0]->comments));
 		$this->assertEquals(4,count($posts[1]->comments));

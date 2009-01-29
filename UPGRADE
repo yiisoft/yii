@@ -30,6 +30,29 @@ Upgrading from v1.0.1
   or a CActiveRecord object) with some parameter, please make sure you fix
   the parameter order.
 
+- The usage of CActiveRecord::with() and the 'with' option in relations
+  has been changed. In order to query child relations, we should specify the 'with'
+  parameter/option like the following now:
+
+  Post::model()->with(array('comments', 'author.profile'))->findAll();
+
+  Previously, this should be written as:
+
+  Post::model()->with(array('comments', 'author'=>'profile'))->findAll();
+
+  If your code does not involve child relations (like 'profile' in the above),
+  nothing needs to be changed.
+
+  This change has been introduced in order to support dynamic relational
+  query options. For example, we can specify that comments be sorted in
+  descending order (assuming in the relations() method it is specified as
+  ascending order):
+
+  Post::model()->with(array(
+      'comments'=>array('order'=>'createTime DESC'),
+      'author.profile',
+  ))->findAll();
+
 
 Upgrading from v1.0.0
 ---------------------

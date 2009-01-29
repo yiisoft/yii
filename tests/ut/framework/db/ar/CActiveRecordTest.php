@@ -494,7 +494,7 @@ class CActiveRecordTest extends CTestCase
 
 	public function testRelationWithCondition()
 	{
-		$posts=Post::model()->with('comments')->findAllByPk(array(2,3,4));
+		$posts=Post::model()->with('comments')->findAllByPk(array(2,3,4),array('order'=>'posts.id'));
 		$this->assertEquals(3,count($posts));
 		$this->assertEquals(2,count($posts[0]->comments));
 		$this->assertEquals(4,count($posts[1]->comments));
@@ -569,4 +569,62 @@ class CActiveRecordTest extends CTestCase
 		$this->assertNull($author);
 	}
 
+	public function testRelationWithDynamicCondition()
+	{
+		$user=User::model()->with('posts')->findByPk(2);
+		$this->assertEquals($user->posts[0]->id,2);
+		$this->assertEquals($user->posts[1]->id,3);
+		$this->assertEquals($user->posts[2]->id,4);
+		$user=User::model()->with(array('posts'=>array('order'=>'??.id DESC')))->findByPk(2);
+		$this->assertEquals($user->posts[0]->id,4);
+		$this->assertEquals($user->posts[1]->id,3);
+		$this->assertEquals($user->posts[2]->id,2);
+	}
+
+	public function testEagerTogetherRelation()
+	{
+		$post=Post::model()->with('author','firstComment','comments','categories')->findByPk(2);
+		$comments=$post->comments;
+		$this->assertEquals(array(
+			'id'=>2,
+			'username'=>'user2',
+			'password'=>'pass2',
+			'email'=>'email2'),$post->author->attributes);
+		$this->assertTrue($post->firstComment instanceof Comment);
+		$this->assertEquals(array(
+			'id'=>4,
+			'content'=>'comment 4',
+			'post_id'=>2,
+			'author_id'=>2),$post->firstComment->attributes);
+		$this->assertEquals(2,count($post->comments));
+		$this->assertEquals(array(
+			'id'=>5,
+			'content'=>'comment 5',
+			'post_id'=>2,
+			'author_id'=>2),$post->comments[0]->attributes);
+		$this->assertEquals(array(
+			'id'=>4,
+			'content'=>'comment 4',
+			'post_id'=>2,
+			'author_id'=>2),$post->comments[1]->attributes);
+		$this->assertEquals(2,count($post->categories));
+		$this->assertEquals(array(
+			'id'=>4,
+			'name'=>'cat 4',
+			'parent_id'=>1),$post->categories[0]->attributes);
+		$this->assertEquals(array(
+			'id'=>1,
+			'name'=>'cat 1',
+			'parent_id'=>null),$post->categories[1]->attributes);
+
+		$post=Post::model()->with('author','firstComment','comments','categories')->findByPk(4);
+		$this->assertEquals(array(
+			'id'=>2,
+			'username'=>'user2',
+			'password'=>'pass2',
+			'email'=>'email2'),$post->author->attributes);
+		$this->assertNull($post->firstComment);
+		$this->assertEquals(array(),$post->comments);
+		$this->assertEquals(array(),$post->categories);
+	}
 }

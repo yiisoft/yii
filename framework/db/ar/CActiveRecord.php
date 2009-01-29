@@ -451,7 +451,15 @@ abstract class CActiveRecord extends CModel
 			$relation=$md->relations[$name];
 			if($this->isNewRecord && ($relation instanceof CHasOneRelation || $relation instanceof CHasManyRelation))
 				return $this->_related[$name]=$relation instanceof CHasOneRelation ? null : array();
-			$finder=new CActiveFinder($this,array($name=>$relation->with));
+			if(!empty($relation->with))
+			{
+				$r=array($name);
+				foreach($relation->with as $w)
+					$r[]=$name.'.'.$w;
+			}
+			else
+				$r=$name;
+			$finder=new CActiveFinder($this,$r);
 			$finder->lazyFind($this);
 			return isset($this->_related[$name]) ? $this->_related[$name] : $this->_related[$name]=null;
 		}
@@ -1285,22 +1293,34 @@ abstract class CActiveRecord extends CModel
 	/**
 	 * Specifies which related objects should be eagerly loaded.
 	 * This method takes variable number of parameters. Each parameter specifies
-	 * the name of a relation. If a parameter is an associative array, then
-	 * the array keys refer to the relation names, while the array values
-	 * refer to the child relation names. For example,
+	 * the name of a relation or child-relation. For example,
 	 * <pre>
-	 * author' : query with 'author'.
-	 * array('author','category') : query with both 'author' and 'category'.
-	 * array('author'=>'group','category') : same as above, plus author 'group'.
-	 * array('author'=>array('group','comments'),'category') : same as above, plus author 'group' and 'comments'.</li>
+	 * // find all posts together with their author and comments
+	 * Post::model()->with('author','comments')->findAll();
+	 * // find all posts together with their author and the author's profile
+	 * Post::model()->with('author','author.profile')->findAll();
 	 * </pre>
+	 * The relations should be declared in {@link relations()}.
+	 *
+	 * By default, the options specified in {@link relations()} will be used
+	 * to do relational query. In order to customize the options on the fly,
+	 * we should pass an array parameter to the with() method. The array keys
+	 * are relation names, and the array values are the corresponding query options.
+	 * For example,
+	 * <pre>
+	 * Post::model()->with(array(
+	 *     'author'=>array('select'=>'id, name'),
+	 *     'comments'=>array('condition'=>'approved=1', 'order'=>'createTime'),
+	 * ))->findAll();
+	 * </pre>
+	 *
 	 * This method returns a {@link CActiveFinder} instance that provides
 	 * a set of find methods similar to that of CActiveRecord.
-	 * The followings are some examples:
-	 * <pre>
-	 * $posts=Post::model()->with('author','comments'=>'author')->findAll(array('limit'=>10));
-	 * $post=Post::model()->with('author'=>array('groups','country'),'comments')->find();
-	 * </pre>
+	 *
+	 * Note, the possible parameters to this method have been changed since version 1.0.2.
+	 * Previously, it was not possible to specify on-th-fly query options,
+	 * and child-relations were specified as hierarchical arrays.
+	 *
 	 * @return CActiveFinder the active finder instance. If no parameter is passed in, the object itself will be returned.
 	 */
 	public function with()
@@ -1308,6 +1328,8 @@ abstract class CActiveRecord extends CModel
 		if(func_num_args()>0)
 		{
 			$with=func_get_args();
+			if(is_array($with[0]))  // the parameter is given as an array
+				$with=$with[0];
 			return new CActiveFinder($this,$with);
 		}
 		else
@@ -1409,8 +1431,7 @@ abstract class CActiveRecord extends CModel
 	{
 		if($attributes!==false)
 		{
-			$class=get_class($this);
-			$record=new $class(null);
+			$record=$this->instantiate($attributes);
 			$record->isNewRecord=false;
 			$record->_md=$this->getMetaData();
 			foreach($attributes as $name=>$value)
@@ -1436,12 +1457,11 @@ abstract class CActiveRecord extends CModel
 	public function populateRecords($data)
 	{
 		$records=array();
-		$class=get_class($this);
 		$md=$this->getMetaData();
 		$table=$md->tableSchema;
 		foreach($data as $attributes)
 		{
-			$record=new $class(null);
+			$record=$this->instantiate($attributes);
 			$record->isNewRecord=false;
 			$record->_md=$md;
 			foreach($attributes as $name=>$value)
@@ -1455,6 +1475,23 @@ abstract class CActiveRecord extends CModel
 			$records[]=$record;
 		}
 		return $records;
+	}
+
+	/**
+	 * Creates an active record instance.
+	 * This method is called by {@link populateRecord} and {@link populateRecords}.
+	 * You may override this method if the instance being created
+	 * depends the attributes that are to be populated to the record.
+	 * For example, by creating a record based on the value of a column,
+	 * you may implement the so-called single-table inheritance mapping.
+	 * @param array list of attribute values for the active records.
+	 * @return CActiveRecord the active record
+	 * @since 1.0.2
+	 */
+	protected function instantiate($attributes)
+	{
+		$class=get_class($this);
+		return new $class(null);
 	}
 
 	/**
