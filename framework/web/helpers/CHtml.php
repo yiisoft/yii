@@ -620,6 +620,7 @@ class CHtml
 			$htmlOptions['value']=$value;
 			$htmlOptions['id']=$baseID.'_'.$id++;
 			$option=self::checkBox($name,$checked,$htmlOptions);
+			$label=self::label($label,$htmlOptions['id']);
 			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
 		}
 		return implode($separator,$items);
@@ -659,6 +660,7 @@ class CHtml
 			$htmlOptions['value']=$value;
 			$htmlOptions['id']=$baseID.'_'.$id++;
 			$option=self::radioButton($name,$checked,$htmlOptions);
+			$label=self::label($label,$htmlOptions['id']);
 			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
 		}
 		return implode($separator,$items);
@@ -983,9 +985,8 @@ class CHtml
 	 * @param string the attribute
 	 * @param array additional HTML attributes. Besides normal HTML attributes, a few special
 	 * attributes are also recognized (see {@link clientChange} for more details.)
-	 * A special option named 'uncheckValue' is available that can be used to specify
+	 * Since version 1.0.2, a special option named 'uncheckValue' is available that can be used to specify
 	 * the value returned when the checkbox is not checked. By default, this value is '0'.
-	 * This option has been available since version 1.0.2.
 	 * @return string the generated check box
 	 * @see clientChange
 	 * @see activeInputField
@@ -1062,7 +1063,8 @@ class CHtml
 	 * If the attribute has input error, the input field's CSS class will
 	 * be appended with {@link errorCss}.
 	 * Note that a check box list allows multiple selection, like {@link listBox}.
-	 * As a result, the corresponding POST value is an array.
+	 * As a result, the corresponding POST value is an array. In case no selection
+	 * is made, the corresponding POST value is an empty string.
 	 * @param CModel the data model
 	 * @param string the attribute
 	 * @param array value-label pairs used to generate the check box list.

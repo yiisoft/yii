@@ -22,6 +22,31 @@
  * it can cause the query results to be sorted according to the specified
  * attributes.
  *
+ * CSort is primarily used for active record involving a single DB table.
+ * In order to use it with relational active record, special care needs to be taken.
+ * We use an example to illustrate this use case. Assume 'Post' is the main
+ * active record class, and 'author' is one of its related attributes. We would
+ * like to sort by post's title as well as its author's name. First, we need
+ * to define aliases for the two attributes by setting the {@link attributes} property:
+ * <pre>
+ * array(
+ *     'title',
+ *     'author.name'=>'authorName',
+ * )
+ * </pre>
+ *
+ * We also need to modify the 'author' relation in 'Post' class and explicitly
+ * specify the 'alias' option with value 'author':
+ * <pre>
+ * 'author'=>array(self::BELONGS_TO, 'User', 'alias'=>'author')
+ * </pre>
+ *
+ * Finally, we can use the following code to generate hyperlinks:
+ * <pre>
+ * echo CSort::link('title');
+ * echo CSort::link('author.name');
+ * </pre>
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web
@@ -45,9 +70,10 @@ class CSort extends CComponent
 	 * and 'create_time' can be sorted.
 	 * Defaults to null, meaning all attributes of the {@link modelClass} can be sorted.
 	 * This property can also be used to specify attribute aliases that should appear
-	 * in the 'sort' GET parameter in replace of the original attribute names.
+	 * in the 'sort' GET parameter in place of the original attribute names.
 	 * In this case, the aliases should be array values while the attribute names
-	 * should be the corresponding array keys. Do not use '-' and '.' in the aliases.
+	 * should be the corresponding array keys. Do not use '-' and '.' in the aliases
+	 * as they are used as {@link separators}.
 	 */
 	public $attributes;
 	/**
@@ -69,9 +95,9 @@ class CSort extends CComponent
 	 * @var array separators used in the generated URL. This must be an array consisting of
 	 * two elements. The first element specifies the character separating different
 	 * attributes, while the second element specifies the character separating attribute name
-	 * and the corresponding sort direction. Defaults to array('.','-').
+	 * and the corresponding sort direction. Defaults to array('-','.').
 	 */
-	public $separators=array('.','-');
+	public $separators=array('-','.');
 
 	private $_directions;
 
@@ -112,7 +138,12 @@ class CSort extends CComponent
 
 	/**
 	 * Generates a hyperlink that can be clicked to cause sorting.
-	 * @param string the attribute name
+	 * @param string the attribute name. This must be the actual attribute name, not alias.
+	 * If it is an attribute of a related AR object, the name should be prefixed with
+	 * the relation name (e.g. 'author.name', where 'author' is the relation name).
+	 * @param string the link label. If null, the label will be determined according
+	 * to the attribute (see {@link CActiveRecord::getAttributeLabel}).
+	 * @param array additional HTML attributes for the hyperlink tag
 	 * @return string the generated hyperlink
 	 */
 	public function link($attribute,$label=null,$htmlOptions=array())
@@ -131,10 +162,29 @@ class CSort extends CComponent
 			$directions=array($attribute=>$descending);
 
 		if($label===null)
-			$label=CActiveRecord::model($this->modelClass)->getAttributeLabel($attribute);
+			$label=$this->resolveLabel($attribute);
 		$url=$this->createUrl(Yii::app()->getController(),$directions);
 
 		return $this->createLink($attribute,$label,$url,$htmlOptions);
+	}
+
+	/**
+	 * Resolves the attribute label based on label definition in the AR class.
+	 * @param string the attribute name.
+	 * @return string the attribute label
+	 * @since 1.0.2
+	 */
+	protected function resolveLabel($attribute)
+	{
+		if(($pos=strpos($attribute,'.'))!==false)
+		{
+			$baseModel=CActiveRecord::model($this->modelClass);
+			if(($relation=$baseModel->getActiveRelation(substr($attribute,0,$pos)))!==null)
+				return CActiveRecord::model($relation->className)->getAttributeLabel(substr($attribute,$pos+1));
+			else
+				return $baseModel->getAttributeLabel(substr($attribute,$pos+1));
+		}
+		return CActiveRecord::model($this->modelClass)->getAttributeLabel($attribute);
 	}
 
 	/**
@@ -202,6 +252,8 @@ class CSort extends CComponent
 	 * False will be returned if the attribute is not allowed to be sorted.
 	 * If the attribute is aliased via {@link attributes}, the original
 	 * attribute name will be returned.
+	 * @param string the attribute name (could be an alias) that the user requests to sort on
+	 * @return string the real attribute name. False if the attribute cannot be sorted
 	 */
 	protected function validateAttribute($attribute)
 	{

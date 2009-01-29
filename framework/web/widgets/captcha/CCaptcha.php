@@ -98,7 +98,7 @@ class CCaptcha extends CWidget
 			$label=$this->buttonLabel===null?Yii::t('yii','Get a new code'):$this->buttonLabel;
 			$button=$this->buttonType==='button'?'ajaxButton':'ajaxLink';
 			$url=$this->getController()->createUrl($this->captchaAction,array(CCaptchaAction::REFRESH_GET_VAR=>true));
-			$html=CHtml::$button($label,$url,array('success'=>'js:function(html){jQuery("#'.$id.'").attr("src",html)}'));
+			$html=CHtml::$button($label,$url,array('success'=>'js:function(html){jQuery("#'.$id.'").attr("src",html)}'),$this->buttonOptions);
 			$js="jQuery('img#$id').after(\"".CJavaScript::quote($html).'");';
 			$cs->registerScript('Yii.CCaptcha#'.$id,$js);
 		}
