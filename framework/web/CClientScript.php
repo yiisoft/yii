@@ -97,7 +97,7 @@ class CClientScript extends CApplicationComponent
 	 * Inserts the scripts in the head section.
 	 * @param string the output to be inserted with scripts.
 	 */
-	protected function renderHead(&$output)
+	public function renderHead(&$output)
 	{
 		$html='';
 		foreach($this->_metas as $meta)
@@ -140,7 +140,7 @@ class CClientScript extends CApplicationComponent
 	 * Inserts the scripts at the beginning of the body section.
 	 * @param string the output to be inserted with scripts.
 	 */
-	protected function renderBodyBegin(&$output)
+	public function renderBodyBegin(&$output)
 	{
 		$html='';
 		if(isset($this->_scriptFiles[self::POS_BEGIN]))
@@ -165,7 +165,7 @@ class CClientScript extends CApplicationComponent
 	 * Inserts the scripts at the end of the body section.
 	 * @param string the output to be inserted with scripts.
 	 */
-	protected function renderBodyEnd(&$output)
+	public function renderBodyEnd(&$output)
 	{
 		if(!isset($this->_scriptFiles[self::POS_END]) && !isset($this->_scripts[self::POS_END])
 			&& !isset($this->_scripts[self::POS_READY]) && !isset($this->_scripts[self::POS_LOAD]))
