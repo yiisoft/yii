@@ -23,5 +23,4 @@ http://hostname/path/to/yii/requirements/index.php
 Yiiの最低限の要求はwebサーバはPHP5.1.0以上をサポートすることです。YiiはWindows上とLinux上の[Apache HTTP
 server](http://httpd.apache.org/)により検証されています。その他のPHP5をサポートするwebサーバやプラットフォームで動作します。
 
-翻訳: mocapapa <choco.moca.colon@gmail.com>
 <div class="revision">$Id: quickstart.installation.txt 359 2008-12-14 19:50:41Z qiang.xue $</div>

@@ -226,7 +226,7 @@ exponentially with the number of tables involved, which makes it simply
 unmanageable as more relationships are involved.
 
 Since version 1.0.2, you can also enforce the relational query to be done with
-only one SQL query. Simply append a [together|CActiveFinder::together] call
+only one SQL query. Simply append a [together()|CActiveFinder::together] call
 after [with()|CActiveRecord::with]. For example,
 
 ~~~
@@ -234,7 +234,7 @@ after [with()|CActiveRecord::with]. For example,
 $posts=Post::model()->with(
 	'author.profile',
 	'author.posts',
-	'categories)->together()->findAll();
+	'categories')->together()->findAll();
 ~~~
 
 The above query will be done in one SQL query. Without calling [together|CActiveFinder::together],

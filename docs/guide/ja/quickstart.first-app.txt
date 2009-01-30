@@ -206,5 +206,4 @@ http://hostname/testdrive/index.php?r=user/admin
 
 ![Create new user page](first-app7.png)
 
-翻訳: mocapapa <choco.moca.colon@gmail.com>
 <div class="revision">$Id: quickstart.first-app.txt 446 2009-01-02 04:42:53Z qiang.xue $</div>
