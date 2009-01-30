@@ -23,6 +23,7 @@ Version 1.0.2 to be released
 - New #113: Enhanced CSort so that it is easier to be used with relational active record (Qiang)
 - New #116: Enhanced checkBoxList and radioButtonList in CHtml to enclose labels in label tag (Qiang)
 - New #119: Added 'on' option to relational AR (Qiang)
+- New #122: Added support to upload and validate files in a tabular form (Qiang)
 - New: Added CActiveRecord::getRelated() (Qiang)
 - New: Added 'return' option to HTML options in CHtml (Qiang)
 - New: Refactored CSS-dependent widgets by adding registerCssFile static methods (Qiang)
