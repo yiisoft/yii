@@ -52,10 +52,14 @@ med att anropa [flush()|CCache::flush] eftersom även cachelagrat data från and
 applikationer tas bort.
 
 > Tips: Eftersom [CCache] implementerar `ArrayAccess`, kan en cachekomponent 
-användas som en array. Här följer några exempel: > ~~~ > [php] > 
-$cache=Yii::app()->cache; > $cache['var1']=$value1;  // equivalent to: $cache-
->set('var1',$value1); > $value2=$cache['var2'];  // equivalent to: 
-$value2=$cache->get('var2'); > ~~~
+användas som en array. Här följer några exempel:
+
+> ~~~ 
+> [php] 
+> $cache=Yii::app()->cache; 
+> $cache['var1']=$value1;  // equivalent to: $cache->set('var1',$value1); 
+> $value2=$cache['var2'];  // equivalent to: $value2=$cache->get('var2'); 
+> ~~~
 
 Cacheberoende
 -------------
