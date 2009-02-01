@@ -3,7 +3,7 @@
     - [Установка](quickstart.installation)
     - [Создание первого Yii-приложения](quickstart.first-app)
 
-* Основы
+* Основыы
     - [Модель - Представление - Контроллер (MVC)](basics.mvc)
     - [Входной скрипт](basics.entry)
     - [Приложение](basics.application)
@@ -11,7 +11,7 @@
     - [Модель](basics.model)
     - [Представление](basics.view)
     - [Компонент](basics.component)
-    - [Синонимы (alias) путей и пространства имен (namespace)](basics.namespace)
+    - [Псевдоним (alias) пути и пространство имен (namespace)](basics.namespace)
     - [Соглашения](basics.convention)
     - [Процесс разработки](basics.workflow)
 
@@ -41,11 +41,11 @@
     - [Создание дополнений](extension.create)
     - [Использование сторонних библиотек](extension.integration)
 
-* Специфичные темы
+* Специальніе темі
     - [Красивые адреса (URL)](topics.url)
     - [Аутентификация и авторизация](topics.auth)
     - [Темы оформления](topics.theming)
-    - [Логирование](topics.logging)
+    - [Логгирование](topics.logging)
     - [Обработка ошибок](topics.error)
     - [Веб-сервисы](topics.webservice)
     - [Интернационализация (I18N)](topics.i18n)
