@@ -38,7 +38,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.0.2-dev';
+		return '1.0.2';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -3674,7 +3674,9 @@ class CHtml
 	protected static function activeInputField($type,$model,$attribute,$htmlOptions)
 	{
 		$htmlOptions['type']=$type;
-		if(!isset($htmlOptions['value']))
+		if($type==='file')
+			unset($htmlOptions['value']);
+		else if(!isset($htmlOptions['value']))
 			$htmlOptions['value']=$model->$attribute;
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
