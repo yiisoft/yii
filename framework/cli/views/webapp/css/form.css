@@ -20,7 +20,6 @@ div.yiiForm
 
 div.yiiForm label.required
 {
-	font-weight: bold;
 }
 
 div.yiiForm span.required
@@ -71,6 +70,10 @@ div.yiiForm fieldset
 div.yiiForm legend
 {
 	font-weight: bold;
+}
+
+div.yiiForm label
+{
 }
 
 div.yiiForm div.action

@@ -257,6 +257,10 @@ disambiguated using `aliasToken` if they appear in an expression (e.g.
    - `condition`: the `WHERE` clause. It defaults to empty. Note, column
 references need to be disambiguated using `aliasToken` (e.g. `??.id=10`).
 
+   - `on`: the `ON` clause. The condition specified here will be appended
+to the joining condition using the `AND` operator. This option has been
+available since version 1.0.2.
+
    - `order`: the `ORDER BY` clause. It defaults to empty. Note, column
 references need to be disambiguated using `aliasToken` (e.g. `??.age
 DESC`).

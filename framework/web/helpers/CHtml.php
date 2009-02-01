@@ -1261,7 +1261,9 @@ class CHtml
 	protected static function activeInputField($type,$model,$attribute,$htmlOptions)
 	{
 		$htmlOptions['type']=$type;
-		if(!isset($htmlOptions['value']))
+		if($type==='file')
+			unset($htmlOptions['value']);
+		else if(!isset($htmlOptions['value']))
 			$htmlOptions['value']=$model->$attribute;
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);

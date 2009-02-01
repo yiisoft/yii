@@ -17,16 +17,15 @@
  *
  * When using CFileValidator with an active record, the following code is often used:
  * <pre>
- * if($model->validate())
- * {
- *     // fileName stores the name of the uploaded file
- *     $file=CUploadedFile::getInstance($model,'fileName');
- *     $model->fileName=$file->name;
- *     $model->fileSize=$file->size;
- *     if($model->save(false))   // validation is already performed
- *         $file->saveAs($path); // save the uploaded file
- * }
+ *  // assuming the upload file field is generated using
+ *  // CHtml::activeFileField($model,'file');
+ *  $model->file=CUploadedFile::getInstance($model,'file');
+ *  $model->fileSize=$file->size;
+ *  if($model->save())
+ *      $model->file->saveAs($path); // save the uploaded file
  * </pre>
+ *
+ * You can use {@link CFileValidator} to validate the file attribute.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
@@ -85,7 +84,9 @@ class CFileValidator extends CValidator
 	 */
 	protected function validateAttribute($object,$attribute)
 	{
-		$file=CUploadedFile::getInstance($object,$attribute);
+		$file=$object->$attribute;
+		if(!($file instanceof CUploadedFile))
+			$file=CUploadedFile::getInstance($object,$attribute);
 
 		if($this->allowEmpty && ($file===null || $file->getError()==UPLOAD_ERR_NO_FILE))
 			return;
