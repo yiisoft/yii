@@ -80,7 +80,7 @@ class CUploadedFile extends CComponent
 						else
 						{
 							foreach($keys as $key)
-								$files["{$class}[{$key}]"]=new CUploadedFile($info['name'][$key],$info['tmp_name'][$key],$info['type'][$subKey],$info['size'][$key],$info['error'][$key]);
+								$files["{$class}[{$key}]"]=new CUploadedFile($info['name'][$key],$info['tmp_name'][$key],$info['type'][$key],$info['size'][$key],$info['error'][$key]);
 						}
 					}
 					else
