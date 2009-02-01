@@ -2807,11 +2807,10 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		if($cookie && !empty($cookie->value) && ($data=$app->getSecurityManager()->validateData($cookie->value))!==false)
 		{
 			$data=unserialize($data);
-			if(isset($data[0],$data[1],$data[2],$data[3]))
+			if(isset($data[0],$data[1],$data[2]))
 			{
-				list($id,$name,$address,$states)=$data;
-				if($address===$app->getRequest()->getUserHostAddress())
-					$this->changeIdentity($id,$name,$states);
+				list($id,$name,$states)=$data;
+				$this->changeIdentity($id,$name,$states);
 			}
 		}
 	}
@@ -2823,7 +2822,6 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		$data=array(
 			$this->getId(),
 			$this->getName(),
-			$app->getRequest()->getUserHostAddress(),
 			$this->saveIdentityStates(),
 		);
 		$cookie->value=$app->getSecurityManager()->hashData(serialize($data));
@@ -3399,6 +3397,7 @@ class CHtml
 			$htmlOptions['value']=$value;
 			$htmlOptions['id']=$baseID.'_'.$id++;
 			$option=self::checkBox($name,$checked,$htmlOptions);
+			$label=self::label($label,$htmlOptions['id']);
 			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
 		}
 		return implode($separator,$items);
@@ -3417,6 +3416,7 @@ class CHtml
 			$htmlOptions['value']=$value;
 			$htmlOptions['id']=$baseID.'_'.$id++;
 			$option=self::radioButton($name,$checked,$htmlOptions);
+			$label=self::label($label,$htmlOptions['id']);
 			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
 		}
 		return implode($separator,$items);
@@ -3674,7 +3674,9 @@ class CHtml
 	protected static function activeInputField($type,$model,$attribute,$htmlOptions)
 	{
 		$htmlOptions['type']=$type;
-		if(!isset($htmlOptions['value']))
+		if($type==='file')
+			unset($htmlOptions['value']);
+		else if(!isset($htmlOptions['value']))
 			$htmlOptions['value']=$model->$attribute;
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
@@ -3895,7 +3897,7 @@ class CClientScript extends CApplicationComponent
 			$this->renderBodyEnd($output);
 		}
 	}
-	protected function renderHead(&$output)
+	public function renderHead(&$output)
 	{
 		$html='';
 		foreach($this->_metas as $meta)
@@ -3930,7 +3932,7 @@ class CClientScript extends CApplicationComponent
 				$output=$html.$output;
 		}
 	}
-	protected function renderBodyBegin(&$output)
+	public function renderBodyBegin(&$output)
 	{
 		$html='';
 		if(isset($this->_scriptFiles[self::POS_BEGIN]))
@@ -3949,7 +3951,7 @@ class CClientScript extends CApplicationComponent
 				$output=$html.$output;
 		}
 	}
-	protected function renderBodyEnd(&$output)
+	public function renderBodyEnd(&$output)
 	{
 		if(!isset($this->_scriptFiles[self::POS_END]) && !isset($this->_scripts[self::POS_END])
 			&& !isset($this->_scripts[self::POS_READY]) && !isset($this->_scripts[self::POS_LOAD]))
@@ -4509,13 +4511,6 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	}
 	public function validate($scenario='',$attributes=null)
 	{
-		if(is_string($attributes))
-		{
-			// backward compatible with 1.0.1
-			$tmp=$scenario;
-			$scenario=$attributes;
-			$attributes=$tmp;
-		}
 		$this->clearErrors();
 		if($this->beforeValidate($scenario))
 		{
@@ -4656,10 +4651,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	{
 		if(is_array($values))
 		{
-			if($scenario===false)
-				$attributes=array_flip($this->attributeNames());
-			else
-				$attributes=array_flip($this->getSafeAttributeNames($scenario));
+			$attributes=array_flip($this->getSafeAttributeNames($scenario));
 			foreach($values as $name=>$value)
 			{
 				if(isset($attributes[$name]))
@@ -4779,7 +4771,15 @@ abstract class CActiveRecord extends CModel
 			$relation=$md->relations[$name];
 			if($this->isNewRecord && ($relation instanceof CHasOneRelation || $relation instanceof CHasManyRelation))
 				return $this->_related[$name]=$relation instanceof CHasOneRelation ? null : array();
-			$finder=new CActiveFinder($this,array($name=>$relation->with));
+			if(!empty($relation->with))
+			{
+				$r=array($name);
+				foreach($relation->with as $w)
+					$r[]=$name.'.'.$w;
+			}
+			else
+				$r=$name;
+			$finder=new CActiveFinder($this,$r);
 			$finder->lazyFind($this);
 			return isset($this->_related[$name]) ? $this->_related[$name] : $this->_related[$name]=null;
 		}
@@ -5167,6 +5167,8 @@ abstract class CActiveRecord extends CModel
 		if(func_num_args()>0)
 		{
 			$with=func_get_args();
+			if(is_array($with[0]))  // the parameter is given as an array
+				$with=$with[0];
 			return new CActiveFinder($this,$with);
 		}
 		else
@@ -5212,8 +5214,7 @@ abstract class CActiveRecord extends CModel
 	{
 		if($attributes!==false)
 		{
-			$class=get_class($this);
-			$record=new $class(null);
+			$record=$this->instantiate($attributes);
 			$record->isNewRecord=false;
 			$record->_md=$this->getMetaData();
 			foreach($attributes as $name=>$value)
@@ -5232,12 +5233,11 @@ abstract class CActiveRecord extends CModel
 	public function populateRecords($data)
 	{
 		$records=array();
-		$class=get_class($this);
 		$md=$this->getMetaData();
 		$table=$md->tableSchema;
 		foreach($data as $attributes)
 		{
-			$record=new $class(null);
+			$record=$this->instantiate($attributes);
 			$record->isNewRecord=false;
 			$record->_md=$md;
 			foreach($attributes as $name=>$value)
@@ -5252,6 +5252,11 @@ abstract class CActiveRecord extends CModel
 		}
 		return $records;
 	}
+	protected function instantiate($attributes)
+	{
+		$class=get_class($this);
+		return new $class(null);
+	}
 	public function offsetExists($offset)
 	{
 		return isset($this->getMetaData()->columns[$offset]);
@@ -5265,6 +5270,7 @@ class CActiveRelation extends CComponent
 	public $joinType='LEFT OUTER JOIN';
 	public $select='*';
 	public $condition='';
+	public $on='';
 	public $order='';
 	public $alias;
 	public $aliasToken='??';

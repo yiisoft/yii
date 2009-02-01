@@ -1,5 +1,5 @@
-Le Guide Définiti de Yii
-========================
+Le Guide Définitif de Yii
+=========================
 
 Tous droits réservés.
 

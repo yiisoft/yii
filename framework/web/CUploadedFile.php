@@ -14,7 +14,7 @@
  * Call {@link getInstance} to retrieve the instance of an uploaded file,
  * and then use {@link saveAs} to save it on the server.
  * You may also query other information about the file, including {@link name},
- * {@link tempName}, {@link type}, {@link size} and {@link error}
+ * {@link tempName}, {@link type}, {@link size} and {@link error}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
@@ -33,18 +33,23 @@ class CUploadedFile extends CComponent
 	 * Returns an instance of the specified uploaded file.
 	 * The file should be uploaded using {@link CHtml::activeFileField}.
 	 * @param CModel the model instance
-	 * @param string the attribute name
+	 * @param string the attribute name. For tabular file uploading, this can be in the format of "attributeName[$i]", where $i stands for an integer index.
 	 * @return CUploadedFile the instance of the uploaded file.
 	 * Null is returned if no file is uploaded for the specified model attribute.
 	 * @see getInstanceByName
 	 */
 	public static function getInstance($model,$attribute)
 	{
-		return self::getInstanceByName(get_class($model).'['.$attribute.']');
+		if(($pos=strpos($attribute,'['))!==false)
+			$name=get_class($model).substr($attribute,$pos).'['.substr($attribute,0,$pos).']';
+		else
+			$name=get_class($model).'['.$attribute.']';
+		return self::getInstanceByName($name);
 	}
 
 	/**
 	 * Returns an instance of the specified uploaded file.
+	 * The name can be a plain string or a string like an array element (e.g. 'Post[imageFile]', or 'Post[0][imageFile]').
 	 * @param string the name of the file input field.
 	 * @return CUploadedFile the instance of the uploaded file.
 	 * Null is returned if no file is uploaded for the specified name.
@@ -54,23 +59,36 @@ class CUploadedFile extends CComponent
 		static $files;
 		if($files===null)
 		{
+			$files=array();
 			if(isset($_FILES) && is_array($_FILES))
 			{
-				foreach($_FILES as $key=>$info)
+				foreach($_FILES as $class=>$info)
 				{
 					if(is_array($info['name']))
 					{
-						$subKeys=array_keys($info['name']);
-						foreach($subKeys as $subKey)
-							$files[$key.'['.$subKey.']']=new CUploadedFile($info['name'][$subKey],$info['tmp_name'][$subKey],$info['type'][$subKey],$info['size'][$subKey],$info['error'][$subKey]);
+						$first=reset($info['name']);
+						$keys=array_keys($info['name']);
+						if(is_array($first))
+						{
+							foreach($keys as $key)
+							{
+								$subKeys=array_keys($info['name'][$key]);
+								foreach($subKeys as $subKey)
+									$files["{$class}[{$key}][{$subKey}]"]=new CUploadedFile($info['name'][$key][$subKey],$info['tmp_name'][$key][$subKey],$info['type'][$key][$subKey],$info['size'][$key][$subKey],$info['error'][$key][$subKey]);
+							}
+						}
+						else
+						{
+							foreach($keys as $key)
+								$files["{$class}[{$key}]"]=new CUploadedFile($info['name'][$key],$info['tmp_name'][$key],$info['type'][$subKey],$info['size'][$key],$info['error'][$key]);
+						}
 					}
 					else
 						$files[$key]=new CUploadedFile($info['name'],$info['tmp_name'],$info['type'],$info['size'],$info['error']);
 				}
 			}
-			else
-				$files=array();
 		}
+
 		return isset($files[$name]) ? $files[$name] : null;
 	}
 
@@ -90,6 +108,18 @@ class CUploadedFile extends CComponent
 		$this->_type=$type;
 		$this->_size=$size;
 		$this->_error=$error;
+	}
+
+	/**
+	 * String output.
+	 * This is PHP magic method that returns string representation of an object.
+	 * The implementation here returns the uploaded file's name.
+	 * @return string the string representation of the object
+	 * @since 1.0.2
+	 */
+	public function __toString()
+	{
+		return $this->_name;
 	}
 
 	/**

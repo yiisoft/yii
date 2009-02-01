@@ -1544,6 +1544,11 @@ class CActiveRelation extends CComponent
 	 */
 	public $condition='';
 	/**
+	 * @var string ON clause. The condition specified here will be appended to the joining condition using AND operator.
+	 * @since 1.0.2
+	 */
+	public $on='';
+	/**
 	 * @var string ORDER BY clause. Column names referenced here should be prefixed with '??.'.
 	 */
 	public $order='';

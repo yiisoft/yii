@@ -10,6 +10,9 @@ version B between A and C, you need to following the instructions
 for both A and B.
 
 
+Upgrading from v1.0.2
+---------------------
+
 Upgrading from v1.0.1
 ---------------------
 - Due to the introduction of the scenario-based massive assignment feature,
