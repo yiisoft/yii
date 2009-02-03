@@ -47,7 +47,7 @@ and action.
 >to be false in the application configuration. When in case-insensitive mode,
 >make sure you follow the convention that directories containing controller
 >class files are in lower case, and both [controller map|CWebApplication::controllerMap]
->[action map|CController::actions] are using keys in lower case.
+>and [action map|CController::actions] are using keys in lower case.
 
 Controller Instantiation
 ------------------------
