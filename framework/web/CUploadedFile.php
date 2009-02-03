@@ -84,7 +84,7 @@ class CUploadedFile extends CComponent
 						}
 					}
 					else
-						$files[$key]=new CUploadedFile($info['name'],$info['tmp_name'],$info['type'],$info['size'],$info['error']);
+						$files[$class]=new CUploadedFile($info['name'],$info['tmp_name'],$info['type'],$info['size'],$info['error']);
 				}
 			}
 		}
