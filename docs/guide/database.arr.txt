@@ -203,7 +203,7 @@ the [with()|CActiveRecord::with] method, like the following,
 $posts=Post::model()->with(
 	'author.profile',
 	'author.posts',
-	'categories)->findAll();
+	'categories')->findAll();
 ~~~
 
 The above example will bring back all posts together with their author and
