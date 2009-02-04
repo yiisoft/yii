@@ -35,6 +35,16 @@
   <property name="build.doc.dir" value="${build.base.dir}/${docname}"/>
   <property name="build.web.dir" value="${build.base.dir}/web"/>
 
+  <if>
+    <equals arg1="${yii.winbuild}" arg2="true"/>
+    <then>
+      <property name="build" value="build"/>
+    </then>
+    <else>
+      <property name="build" value="php build"/>
+    </else>
+  </if>
+
   <!-- source files in the framework -->
   <fileset dir=".." id="framework">
     <exclude name="**/.svn"/>
@@ -109,7 +119,7 @@
     <echo>Building documentation...</echo>
 
     <echo>Building Guide PDF...</echo>
-    <exec command="build guideLatex" dir="." passthru="true" />
+    <exec command="${build} guideLatex" dir="." passthru="true" />
     <exec command="${pdflatex} guide.tex -interaction=nonstopmode -max-print-line=120" dir="commands/guideLatex/output" passthru="true"/>
     <exec command="${pdflatex} guide.tex -interaction=nonstopmode -max-print-line=120" dir="commands/guideLatex/output" passthru="true"/>
     <exec command="${pdflatex} guide.tex -interaction=nonstopmode -max-print-line=120" dir="commands/guideLatex/output" passthru="true"/>
@@ -117,7 +127,7 @@
     <move file="commands/guideLatex/output/guide.pdf" tofile="${build.doc.dir}/yii-guide-${yii.version}.pdf" />
 
     <echo>Building API...</echo>
-    <exec command="build api ${build.doc.dir}" dir="." passthru="true" />
+    <exec command="${build} api ${build.doc.dir}" dir="." passthru="true" />
 
     <echo>Building API CHM...</echo>
     <exec command="${hhc} ${build.doc.dir}/api/manual.hhp" />
@@ -145,7 +155,7 @@
   <target name="web" depends="sync">
     <echo>Building online API...</echo>
     <mkdir dir="${build.web.dir}/data" />
-    <exec command="build api ${build.web.dir}/data online" dir="." passthru="true" />
+    <exec command="${build} api ${build.web.dir}/data online" dir="." passthru="true" />
 
     <echo>Generating web release file...</echo>
     <mkdir dir="${build.dist.dir}" />
@@ -160,15 +170,15 @@
     <echo>Synchronizing code changes for ${pkgname}...</echo>
 
     <echo>Building autoload map...</echo>
-    <exec command="build autoload" dir="." passthru="true"/>
+    <exec command="${build} autoload" dir="." passthru="true"/>
 
     <echo>Building yiilite.php...</echo>
-    <exec command="build lite" dir="." passthru="true"/>
+    <exec command="${build} lite" dir="." passthru="true"/>
   </target>
 
   <target name="message">
     <echo>Extracting i18n messages...</echo>
-    <exec command="build message ../framework/messages/config.php" dir="." passthru="true"/>
+    <exec command="${build} message ../framework/messages/config.php" dir="." passthru="true"/>
   </target>
 
   <target name="pear" depends="clean,build">

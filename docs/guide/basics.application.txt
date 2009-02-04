@@ -196,15 +196,21 @@ When handling a user request, an application will undergo the following
 lifecycles:
 
    1. Set up class autoloader and error handling;
+
    2. Register core application components;
+
    3. Load application configuration;
+
    4. Initialize application with [CApplication::init()]
 	   - Load static application components;
+
    5. Raise [onBeginRequest|CApplication::onBeginRequest] event;
+
    6. Process the user request:
 	   - Resolve the user request;
 	   - Create controller;
 	   - Run controller;
+
    7.Raise [onEndRequest|CApplication::onEndRequest] event;
 
 <div class="revision">$Id$</div>

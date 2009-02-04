@@ -154,15 +154,18 @@ class CHttpRequest extends CApplicationComponent
 		if($this->_hostInfo===null)
 		{
 			if($secure=$this->getIsSecureConnection())
-				$schema='https';
+				$http='https';
 			else
-				$schema='http';
-			$segs=explode(':',$_SERVER['HTTP_HOST']);
-			$url=$schema.'://'.$segs[0];
-			$port=$_SERVER['SERVER_PORT'];
-			if(($port!=80 && !$secure) || ($port!=443 && $secure))
-				$url.=':'.$port;
-			$this->_hostInfo=$url;
+				$http='http';
+			if(isset($_SERVER['HTTP_HOST']))
+				$this->_hostInfo=$http.'://'.$_SERVER['HTTP_HOST'];
+			else
+			{
+				$this->_hostInfo=$http.'://'.$_SERVER['SERVER_NAME'];
+				$port=$_SERVER['SERVER_PORT'];
+				if(($port!=80 && !$secure) || ($port!=443 && $secure))
+					$this->_hostInfo.=':'.$port;
+			}
 		}
 		if($schema!=='' && ($pos=strpos($this->_hostInfo,':'))!==false)
 			return $schema.substr($this->_hostInfo,$pos);
