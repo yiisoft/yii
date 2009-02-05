@@ -71,7 +71,6 @@ class CActiveFinder extends CComponent
 	public function find($condition='',$params=array())
 	{
 		$criteria=$this->_builder->createCriteria($condition,$params);
-		$criteria->limit=1;
 		$this->_joinTree->find($criteria);
 		if(count($this->_joinTree->records))
 			return reset($this->_joinTree->records);
