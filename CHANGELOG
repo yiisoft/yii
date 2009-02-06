@@ -8,6 +8,7 @@ Version 1.0.3 to be released
 - Bug #132: CMysqlSchema has a typo (Qiang)
 - Bug: CHttpRequest.hostInfo may give wrong port number (Qiang)
 - New: Upgraded jquery to 1.3.1 (Qiang)
+- New: Upgraded jquery star rating to 2.61 (Qiang)
 
 
 Version 1.0.2 February 1, 2009
