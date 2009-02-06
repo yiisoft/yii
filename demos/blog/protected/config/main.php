@@ -19,9 +19,6 @@ return array(
 		'application.components.*',
 	),
 
-	// using 'classic' theme
-	'theme'=>'classic',
-
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']
 	'params'=>require(dirname(__FILE__).'/params.php'),
