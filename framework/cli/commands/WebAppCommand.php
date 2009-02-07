@@ -54,7 +54,9 @@ EOD;
 		echo "Create a Web application under '$path'? [Yes|No] ";
 		if(!strncasecmp(trim(fgets(STDIN)),'y',1))
 		{
-			$sourceDir=realpath(dirname(__FILE__).'/../views/webapp');
+			$sourceDir=realpath(dirname(__FILE__).'/../../../testdrive');
+			if($sourceDir===false)
+				die('Unable to locate the source directory.');
 			$list=$this->buildFileList($sourceDir,$path);
 			$list['index.php']['callback']=array($this,'generateIndex');
 			$list['protected/yiic.php']['callback']=array($this,'generateYiic');
@@ -69,12 +71,14 @@ EOD;
 	public function generateIndex($source,$params)
 	{
 		$content=file_get_contents($source);
-		return str_replace('{YiiPath}',realpath(dirname(__FILE__).'/../../yii.php'),$content);
+		$yii=realpath(dirname(__FILE__).'/../../yii.php');
+		return preg_replace('/\$yii\s*=(.*?);/',"\$yii='$yii';",$content);
 	}
 
 	public function generateYiic($source,$params)
 	{
 		$content=file_get_contents($source);
-		return str_replace('{YiicPath}',realpath(dirname(__FILE__).'/../../yiic.php'),$content);
+		$yiic=realpath(dirname(__FILE__).'/../../yiic.php');
+		return preg_replace('/\$yiic\s*=(.*?);/',"\$yiic='$yiic';",$content);
 	}
 }
