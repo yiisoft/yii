@@ -195,7 +195,7 @@ class CMysqlSchema extends CDbSchema
 			return $this->getDbConnection()->createCommand('SHOW TABLES')->queryColumn();
 		$names=$this->getDbConnection()->createCommand('SHOW TABLES FROM '.$this->quoteTableName($schema))->queryColumn();
 		foreach($names as &$name)
-			$name=$scheam.'.'.$name;
+			$name=$schema.'.'.$name;
 		return $names;
 	}
 }

@@ -2,27 +2,34 @@ Creating First Yii Application
 ==============================
 
 To get an initial experience with Yii, we describe in this section how to
-create our first Yii application. We will use the powerful `yiic` tool
-which can be used to automate code creation for several purposes. We assume
-that `YiiRoot` is the directory where Yii is installed.
+create our first Yii application. For convenience, we assume that `YiiRoot` is
+the directory where Yii is installed, and `WebRoot` is the document root of our
+Web server.
 
-Run `yiic` on the command line as follows:
+Starting from version 1.0.3, each Yii release includes a skeleton application
+located under the directory `YiiRoot/testdrive`. We will use this as the
+starting point for our first Yii application.
 
-~~~
-% YiiRoot/framework/yiic webapp WebRoot/testdrive
-~~~
+ 1. Copy the directory `YiiRoot/testdrive` to `WebRoot`;
+ 2. Edit the file `WebRoot/testdrive/index.php` to change the path of
+    the Yii bootstrap file `yii.php`;
+ 3. Edit the file `WebRoot/testdrive/protected/yiic.php` to change the path
+    of the file `yiic.php`.
+ 4. Change the permission of `WebRoot/testdrive/assets` and `WebRoot/testdrive/protected/runtime` to make them writable by the Web server process.
 
-> Note: When running `yiic` on Mac OS, Linux or Unix, you may need to
-change the permission of the `yiic` file so that it is executable. You may
-also use `php YiiRoot/framework/yiic.php` to replace `yiic`.
+> Note: Prior to version 1.0.3, we would use the `yiic` tool to generate
+> the skeleton application. The following command should be executed
+> in a command line window:
+>
+> ~~~
+> YiiRoot/framework/yiic webapp WebRoot/testdrive
+> ~~~
+>
+> The above command will create a skeleton application under the directory
+> `WebRoot/testdrive`.
 
-This will create a skeleton Yii application under the directory
-`WebRoot/testdrive`, where `WebRoot` stands for the document root of your
-Web server. The application is a good starting point for adding more
-features as it has all the needed directories and files.
-
-Without writing a single line of code, we can test drive our first Yii
-application by accessing the following URL in a Web browser:
+We can test drive our first Yii application by accessing the following URL
+in a Web browser:
 
 ~~~
 http://hostname/testdrive/index.php
@@ -139,6 +146,7 @@ SQLite database file is saved as
 containing directory must be made writable by the Web server process, as
 required by SQLite.
 
+
 Implementing CRUD Operations
 ----------------------------
 
@@ -146,12 +154,14 @@ Now is the fun part. We would like to implement the CRUD (create, read,
 update and delete) operations for the `User` table we just created. This is
 also commonly needed in practical applications.
 
-Again, we use the `yiic` tool to help us generate the needed code. This
-process is also known as *scaffolding*.
+Instead of taking trouble to write actual code, we would use the powerful
+`yiic` tool to automatically generate the code for us. This
+process is also known as *scaffolding*. Open a command line window, and execute
+the commands listed as follows,
 
 ~~~
 % cd WebRoot/testdrive
-% YiiRoot/framework/yiic shell
+% protected/yiic shell
 Yii Interactive Tool v1.0
 Please type 'help' for help. Type 'exit' to quit.
 >> model User
@@ -176,21 +186,35 @@ Crud 'user' has been successfully created. You may access it via:
 http://hostname/path/to/index.php?r=user
 ~~~
 
-In the above, we use the `shell` command of `yiic` to interact with our
-newly created application. At the prompt, we can enter a valid PHP
-statement or expression to evaluate and print it. We can also perform tasks
-such as `model` and `crud` as shown above. The `model` command automatically
-generates a `User` model class based on the schema of the `User` table. And
-the `crud` command generates the controller class and views that implement
-the CRUD operations for the `User` model.
+In the above, we use the `yiic shell` command to interact with our
+skeleton application. At the prompt, we execute two sub-commands: `model User`
+and `crud User`. The former generates a model class for the `User` table,
+while the latter reads the `User` model and generates the code needed
+the CRUD operations.
 
-> Note: If you make any change to your code or configuration, please
-re-enter `yiic shell` so that the new code or configuration can take
-effect. Also make sure you are using the right PHP CLI to execute `yiic`.
-Otherwise you may encounter errors like "...could not find driver", even
-though you are sure you have already enabled PDO and the corresponding
-database driver. The reason for such kind of errors is often because the
-wrong PHP CLI is using an unexpected `php.ini`.
+> Note: When running `yiic` on Mac OS, Linux or Unix, you may need to
+> change the permission of the `yiic` file so that it is executable.
+> Alternatively, you may run the tool as follows,
+>
+> ~~~
+> % cd WebRoot/testdrive
+> % php protected/yiic.php shell
+> ~~~
+>
+> While at the prompt, if you make any change to the configuratin file,
+> make sure you re-run the tool so that new change is picked up.
+>
+> Also make sure you are using the right PHP CLI to execute `yiic`.
+> You may encounter errors like "...could not find driver", even
+> though the requirement checker shows you have already enabled PDO
+> and the corresponding PDO driver. If this happens, you may try
+> to run the `yiic` tool as follows,
+>
+> ~~~
+> % php -c path/to/php.ini protected/yiic.php shell
+> ~~~
+>
+> where `path/to/php.ini` represents the correct PHP ini file.
 
 Let's enjoy our work by browsing the following URL:
 

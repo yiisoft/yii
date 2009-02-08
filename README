@@ -10,9 +10,10 @@ INSTALLATION
 Please make sure the release file is unpacked under a Web-accessible
 directory. You shall see the following files and directories:
 
-      demos/               containing Yii demos
-      framework/           containing Yii framework source files
-      requirements/        containing Yii requirement checker
+      demos/               demos
+      framework/           framework source files
+      requirements/        requirement checker
+      testdrive/           a skeleton Yii application
       CHANGELOG            describing changes in every Yii release
       LICENSE              license of Yii
       README               this file
@@ -33,18 +34,8 @@ the requirements by Yii, assuming "YiiPath" is where Yii is installed:
 
 QUICK START
 -----------
-Yii comes with a command line tool called "yiic" that can create
-a skeleton Yii application for you to start with.
-
-On command line, type in the following commands:
-
-        $ cd YiiPath/framework                (Linux)
-        cd YiiPath\framework                  (Windows)
-
-        $ ./yiic webapp ../testdrive          (Linux)
-        yiic webapp ..\testdrive              (Windows)
-
-The new Yii application will be created at "YiiPath/testdrive".
+Yii comes with a skeleton application located under the directory
+"testdrive". It is a good starting point for your application.
 You can access it with the following URL:
 
         http://hostname/YiiPath/testdrive/index.php
