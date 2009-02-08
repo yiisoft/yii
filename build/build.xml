@@ -52,6 +52,7 @@
     <exclude name="**/*~"/>
     <include name="framework/**/*"/>
     <include name="requirements/**/*"/>
+    <include name="testdrive/**/*"/>
     <include name="demos/**/*"/>
     <include name="CHANGELOG"/>
     <include name="UPGRADE"/>

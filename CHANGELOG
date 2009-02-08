@@ -9,8 +9,13 @@ Version 1.1a to be released
 Version 1.0.3 to be released
 ----------------------------
 - Bug #127: CUploadedFile is using an undefined variable (Qiang)
+- Bug #132: CMysqlSchema has a typo (Qiang)
 - Bug: CHttpRequest.hostInfo may give wrong port number (Qiang)
+- Bug: CHtml::activeListBox does not work when multiple selection is needed (Qiang)
+- Bug: Inconsistency in timezone of log messages for different log routes (Qiang)
 - New: Upgraded jquery to 1.3.1 (Qiang)
+- New: Upgraded jquery star rating to 2.61 (Qiang)
+- New: Added skeleton application and refactored 'yiic webapp' command (Qiang)
 
 
 Version 1.0.2 February 1, 2009

@@ -580,6 +580,11 @@ class CHtml
 	{
 		if(!isset($htmlOptions['size']))
 			$htmlOptions['size']=4;
+		if(isset($htmlOptions['multiple']))
+		{
+			if(substr($name,-2)!=='[]')
+				$name.='[]';
+		}
 		return self::dropDownList($name,$select,$data,$htmlOptions);
 	}
 
@@ -1033,6 +1038,11 @@ class CHtml
 		self::clientChange('change',$htmlOptions);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
+		if(isset($htmlOptions['multiple']))
+		{
+			if(substr($htmlOptions['name'],-2)!=='[]')
+				$htmlOptions['name'].='[]';
+		}
 		return self::tag('select',$htmlOptions,$options);
 	}
 

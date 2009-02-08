@@ -67,7 +67,7 @@ corresponding controller configuration will be used to create the
 controller instance.
 
    - If the ID is in the format of `'path.to.xyz'`, the controller class
-name is assumed to be `Xyz` and the corresponding class file is
+name is assumed to be `XyzController` and the corresponding class file is
 `protected/controllers/path/to/XyzController.php`. For example, a controller
 ID `admin.user` would be resolved as the controller class `UserController`
 and the class file `protected/controllers/admin/UserController.php`.
@@ -146,7 +146,7 @@ spent in the action execution.
 
 An action can have multiple filters. The filters are executed in the order
 that they appear in the filter list. A filter can prevent the execution of
-the action and the rest unexecuted filters.
+the action and the rest of the unexecuted filters.
 
 A filter can be defined as a controller class method. The method name must
 begin with `filter`. For example, the existence of the
