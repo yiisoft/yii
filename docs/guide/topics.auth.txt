@@ -43,16 +43,19 @@ session.
 
 In the following example, we validate the given username and password
 against the user table in a database using [Active
-Record](/doc/guide/database.ar). We also define the `title` property to be
-persistent using [CBaseUserIdentity::getState] and
-[CBaseUserIdentity::setState] methods. As a result, during the whole user
-session, we can obtain the user title information via
-`Yii::app()->user->getState('title')`.
+Record](/doc/guide/database.ar). We also override the `getId` method to
+return the `_id` variable which is set during authentication (the default
+implementation would return the username as the ID). In addition, we define
+the `title` property to be persistent using [CBaseUserIdentity::getState] and
+[CBaseUserIdentity::setState] methods. Starting from version 1.0.3, we may
+access this persistent value via `Yii::app()->user->title`. Before version 1.0.3,
+we have to use `Yii::app()->user->getState('title')`, instead.
 
 ~~~
 [php]
 class UserIdentity extends CUserIdentity
 {
+	private $_id;
 	public function authenticate()
 	{
 		$record=User::model()->findByAttributes(array('username'=>$this->username));
@@ -62,11 +65,17 @@ class UserIdentity extends CUserIdentity
 			$this->errorCode=self::ERROR_PASSWORD_INVALID;
 		else
 		{
+			$this->_id=$record->id;
 			$this->title=$record->title;
 			$this->errorCode=self::ERROR_NONE;
 		}
 		return !$this->errorCode;
     }
+
+	public function getId()
+	{
+		return $this->_id;
+	}
 
 	public function getTitle()
 	{
