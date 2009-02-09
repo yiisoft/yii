@@ -192,7 +192,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function getIsGuest()
 	{
-		return $this->getState('_id')===null;
+		return $this->getState('__id')===null;
 	}
 
 	/**
@@ -200,7 +200,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function getId()
 	{
-		return $this->getState('_id');
+		return $this->getState('__id');
 	}
 
 	/**
@@ -208,7 +208,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function setId($value)
 	{
-		$this->setState('_id',$value);
+		$this->setState('__id',$value);
 	}
 
 	/**
