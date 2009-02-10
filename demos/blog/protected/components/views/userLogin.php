@@ -13,7 +13,7 @@
 </div>
 <div class="row">
 <?php echo CHtml::activeCheckBox($form,'rememberMe'); ?>
-<?php echo CHtml::label('Remember me next time',CHtml::getActiveId($form,'rememberMe')); ?>
+<?php echo CHtml::activeLabel($form,'rememberMe'); ?>
 </div>
 <div class="row">
 <?php echo CHtml::submitButton('Login'); ?>
