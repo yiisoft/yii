@@ -45,11 +45,9 @@ In the following example, we validate the given username and password
 against the user table in a database using [Active
 Record](/doc/guide/database.ar). We also override the `getId` method to
 return the `_id` variable which is set during authentication (the default
-implementation would return the username as the ID). In addition, we define
-the `title` property to be persistent using [CBaseUserIdentity::getState] and
-[CBaseUserIdentity::setState] methods. Starting from version 1.0.3, we may
-access this persistent value via `Yii::app()->user->title`. Before version 1.0.3,
-we have to use `Yii::app()->user->getState('title')`, instead.
+implementation would return the username as the ID). During authentication,
+we store the retrieved `title` information in a state with the same name by
+calling [CBaseUserIdentity::setState].
 
 ~~~
 [php]
@@ -66,7 +64,7 @@ class UserIdentity extends CUserIdentity
 		else
 		{
 			$this->_id=$record->id;
-			$this->title=$record->title;
+			$this->setState('title', $record->title);
 			$this->errorCode=self::ERROR_NONE;
 		}
 		return !$this->errorCode;
@@ -76,18 +74,15 @@ class UserIdentity extends CUserIdentity
 	{
 		return $this->_id;
 	}
-
-	public function getTitle()
-	{
-		return $this->getState('title');
-	}
-
-	public function setTitle($value)
-	{
-		$this->setState('title',$value);
-	}
 }
 ~~~
+
+Information stored in a state (by calling [CBaseUserIdentity::setState]) will be passed
+to [CWebUser] which stores them in a persistent storage, such as session.
+These information can be accessed like properties of [CWebUser]. For example, we
+can obtain the `title` information of the current user by `Yii::app()->user->title`
+(This has been available since version 1.0.3. In prior versions, we should use
+`Yii::app()->user->getState('title')`, instead.)
 
 > Info: By default, [CWebUser] uses session as persistent storage for user
 identity information. If cookie-based login is enabled (by setting
