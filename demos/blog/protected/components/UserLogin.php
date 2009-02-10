@@ -6,13 +6,13 @@ class UserLogin extends Portlet
 
 	protected function renderContent()
 	{
-		$user=new LoginForm;
+		$form=new LoginForm;
 		if(isset($_POST['LoginForm']))
 		{
-			$user->attributes=$_POST['LoginForm'];
-			if($user->validate())
+			$form->attributes=$_POST['LoginForm'];
+			if($form->validate())
 				$this->controller->refresh();
 		}
-		$this->render('userLogin',array('user'=>$user));
+		$this->render('userLogin',array('form'=>$form));
 	}
 }
