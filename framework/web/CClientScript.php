@@ -153,7 +153,7 @@ class CClientScript extends CApplicationComponent
 
 		if($html!=='')
 		{
-			$output=preg_replace('/(<body\b[^>]*>)/is','$1<###begin###>'.$html,$output,1,$count);
+			$output=preg_replace('/(<body\b[^>]*>)/is','$1<###begin###>',$output,1,$count);
 			if($count)
 				$output=str_replace('<###begin###>',$html,$output);
 			else
