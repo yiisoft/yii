@@ -243,6 +243,10 @@ matches.
    - [verbs|CAccessRule::verbs]: specifies which request types (e.g.
 `GET`, `POST`) this rule matches.
 
+   - [expression|CAccessRule::expression]: specifies a PHP expression whose value
+indicates whether this rule matches. In the expression, you can use variable `$user`
+which refers to `Yii::app()->user`. This option has been available since version 1.0.3.
+
 
 ### Handling Authorization Result
 
