@@ -11,11 +11,11 @@ located under the directory `YiiRoot/testdrive`. We will use this as the
 starting point for our first Yii application.
 
  1. Copy the directory `YiiRoot/testdrive` to `WebRoot`;
- 2. Edit the file `WebRoot/testdrive/index.php` to change the path of
-    the Yii bootstrap file `yii.php`;
- 3. Edit the file `WebRoot/testdrive/protected/yiic.php` to change the path
-    of the file `yiic.php`.
- 4. Change the permission of `WebRoot/testdrive/assets` and `WebRoot/testdrive/protected/runtime` to make them writable by the Web server process.
+ 2. Edit the file `WebRoot/testdrive/index.php` by setting the `$yii` variable to be `YiiRoot/framework/index.php`;
+ 3. Edit the file `WebRoot/testdrive/protected/yiic.php` by setting the `$yiic` variable to be `YiiRoot/framework/yiic.php`;
+ 4. Change the permission of `WebRoot/testdrive/assets` and `WebRoot/testdrive/protected/runtime` to make them writable by the Web server process;
+ 5. If on Linux or Unix, change the permission of `WebRoot/testdrive/protected/yiic` to be executable.
+
 
 > Note: Prior to version 1.0.3, we would use the `yiic` tool to generate
 > the skeleton application. The following command should be executed
