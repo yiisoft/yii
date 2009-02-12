@@ -351,7 +351,8 @@ class CJoinElement
 		{
 			$query->limit=$child->relation->limit;
 			$query->offset=$child->relation->offset;
-			$this->_finder->baseLimited=($query->offset>=0 || $query->limit>=0);
+			if($this->_finder->baseLimited===null)
+				$this->_finder->baseLimited=($query->offset>=0 || $query->limit>=0);
 			$query->groups[]=str_replace($child->relation->aliasToken.'.',$child->tableAlias.'.',$child->relation->group);
 			$query->havings[]=str_replace($child->relation->aliasToken.'.',$child->tableAlias.'.',$child->relation->having);
 		}
