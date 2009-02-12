@@ -45,7 +45,12 @@ class Post extends CActiveRecord
 	 */
 	public function safeAttributes()
 	{
-		return 'title, content, status, tagInput';
+		return array(
+			'title',
+			'content',
+			'status',
+			'tagInput',
+		);
 	}
 
 	/**
