@@ -147,19 +147,20 @@ class PostController extends CController
 		$criteria=new CDbCriteria;
 		$criteria->condition='status='.Post::STATUS_PUBLISHED;
 		$criteria->order='createTime DESC';
+		$withOption=array('author');
 		if(!empty($_GET['tag']))
 		{
-			$criteria->join='JOIN PostTag ON PostTag.postId=Post.id JOIN Tag ON PostTag.tagId=Tag.id';
-			$criteria->condition.=' AND Tag.name=:tag';
-			$criteria->params[':tag']=$_GET['tag'];
+			$withOption['tagFilter']['params'][':tag']=$_GET['tag'];
+			$postCount=Post::model()->with($withOption)->count($criteria);
 		}
+		else
+			$postCount=Post::model()->count($criteria);
 
-		$pages=new CPagination(Post::model()->count($criteria));
+		$pages=new CPagination($postCount);
 		$pages->pageSize=Yii::app()->params['postsPerPage'];
 		$pages->applyLimit($criteria);
 
-		$posts=Post::model()->with('author')->findAll($criteria);
-
+		$posts=Post::model()->with($withOption)->together(true)->findAll($criteria);
 		$this->render('list',array(
 			'posts'=>$posts,
 			'pages'=>$pages,
@@ -197,13 +198,9 @@ class PostController extends CController
 	 */
 	public function getTagLinks($post)
 	{
-		$tags=$post->tags;
 		$links=array();
-		foreach($tags as $tag)
-		{
-			$url=$this->createUrl('list',array('tag'=>$tag->name));
-			$links[]=CHtml::link(CHtml::encode($tag->name),$url);
-		}
+		foreach($post->getTagArray() as $tag)
+			$links[]=CHtml::link(CHtml::encode($tag),array('list','tag'=>$tag));
 		return implode(', ',$links);
 	}
 
