@@ -55,7 +55,7 @@ class CActiveRecord2Test extends CTestCase
 	{
 		$this->db->active=false;
 	}
-/*
+
 	public function testModel()
 	{
 		$model=Post2::model();
@@ -573,7 +573,7 @@ class CActiveRecord2Test extends CTestCase
 		$this->assertEquals($friends[0]->id,2);
 		$this->assertEquals($friends[1]->id,3);
 	}
-*/
+
 	public function testRelationalCount()
 	{
 		$count=Post2::model()->with('author','firstComment','comments','categories')->count();
