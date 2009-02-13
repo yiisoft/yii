@@ -20,6 +20,7 @@ Version 1.0.3 to be released
 - New: Refactored the blog demo (Qiang)
 - New: Added ignoreLimit option when joining tables all at once (Qiang)
 - New: Added params option to relation declaration (Qiang)
+- New: Added the blog tutorial (Qiang)
 
 
 Version 1.0.2 February 1, 2009
