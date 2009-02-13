@@ -20,11 +20,6 @@ class CommentController extends CController
 	const PAGE_SIZE=10;
 
 	/**
-	 * @var string specifies the default action to be 'admin'.
-	 */
-	public $defaultAction='admin';
-
-	/**
 	 * @var CActiveRecord the currently loaded data model instance.
 	 */
 	private $_comment;
