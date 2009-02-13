@@ -65,7 +65,7 @@ class CActiveFinder extends CComponent
 	public function together($ignoreLimit=false)
 	{
 		$this->joinAll=true;
-		if($this->ignoreLimit)
+		if($ignoreLimit)
 			$this->baseLimited=false;
 		return $this;
 	}
