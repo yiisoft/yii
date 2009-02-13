@@ -71,7 +71,7 @@ class CActiveFinder extends CComponent
 	}
 
 	/**
-	 * This is relational version of {@link CActiveRecord::find()}.
+	 * This is the relational version of {@link CActiveRecord::find()}.
 	 */
 	public function find($condition='',$params=array())
 	{
@@ -84,7 +84,7 @@ class CActiveFinder extends CComponent
 	}
 
 	/**
-	 * This is relational version of {@link CActiveRecord::findAll()}.
+	 * This is the relational version of {@link CActiveRecord::findAll()}.
 	 */
 	public function findAll($condition='',$params=array())
 	{
@@ -94,7 +94,7 @@ class CActiveFinder extends CComponent
 	}
 
 	/**
-	 * This is relational version of {@link CActiveRecord::findByPk()}.
+	 * This is the relational version of {@link CActiveRecord::findByPk()}.
 	 */
 	public function findByPk($pk,$condition='',$params=array())
 	{
@@ -107,7 +107,7 @@ class CActiveFinder extends CComponent
 	}
 
 	/**
-	 * This is relational version of {@link CActiveRecord::findAllByPk()}.
+	 * This is the relational version of {@link CActiveRecord::findAllByPk()}.
 	 */
 	public function findAllByPk($pk,$condition='',$params=array())
 	{
@@ -117,7 +117,7 @@ class CActiveFinder extends CComponent
 	}
 
 	/**
-	 * This is relational version of {@link CActiveRecord::findByAttributes()}.
+	 * This is  the relational version of {@link CActiveRecord::findByAttributes()}.
 	 */
 	public function findByAttributes($attributes,$condition='',$params=array())
 	{
@@ -130,7 +130,7 @@ class CActiveFinder extends CComponent
 	}
 
 	/**
-	 * This is relational version of {@link CActiveRecord::findAllByAttributes()}.
+	 * This is the relational version of {@link CActiveRecord::findAllByAttributes()}.
 	 */
 	public function findAllByAttributes($attributes,$condition='',$params=array())
 	{
@@ -140,7 +140,7 @@ class CActiveFinder extends CComponent
 	}
 
 	/**
-	 * This is relational version of {@link CActiveRecord::findBySql()}.
+	 * This is the relational version of {@link CActiveRecord::findBySql()}.
 	 */
 	public function findBySql($sql,$params=array())
 	{
@@ -151,7 +151,7 @@ class CActiveFinder extends CComponent
 	}
 
 	/**
-	 * This is relational version of {@link CActiveRecord::findAllBySql()}.
+	 * This is the relational version of {@link CActiveRecord::findAllBySql()}.
 	 */
 	public function findAllBySql($sql,$params=array())
 	{
@@ -159,6 +159,16 @@ class CActiveFinder extends CComponent
 		$baseRecords=$this->_joinTree->model->populateRecords($command->queryAll());
 		$this->_joinTree->findWithBase($baseRecords);
 		return $baseRecords;
+	}
+
+	/**
+	 * This is the relational version of {@link CActiveRecord::count()}.
+	 * @since 1.0.3
+	 */
+	public function count($condition='',$params=array())
+	{
+		$criteria=$this->_builder->createCriteria($condition,$params);
+		return $this->_joinTree->count($criteria);
 	}
 
 	/**
@@ -392,6 +402,37 @@ class CJoinElement
 			$this->runQuery($query);
 		foreach($this->children as $child)
 			$child->find();
+	}
+
+	/**
+	 * Count the number of primary records returned by the join statement.
+	 * @param CDbCriteria the query criteria
+	 * @return integer number of primary records.
+	 * @since 1.0.3
+	 */
+	public function count($criteria=null)
+	{
+		$query=new CJoinQuery($this,$criteria);
+		// ensure only one big join statement is used
+		$this->_finder->baseLimited=false;
+		$this->_finder->joinAll=true;
+		$this->buildQuery($query);
+
+		if($criteria->select==='*')
+		{
+			if(is_array($this->_table->primaryKey))
+				throw new CDbException(Yii::t('yii','Unable to count records with composite primary keys. Please explicitly specify the SELECT option in the query criteria.'));
+			$prefix=$this->getColumnPrefix();
+			$schema=$this->_builder->getSchema();
+			$column=$prefix.$schema->quoteColumnName($this->_table->primaryKey);
+		}
+		else
+			$column=$criteria->select;
+
+		$query->selects=array("COUNT(DISTINCT $column)");
+		$query->orders=$query->groups=$query->havings=array();
+		$command=$query->createCommand($this->_builder);
+		return $command->queryScalar();
 	}
 
 	/**

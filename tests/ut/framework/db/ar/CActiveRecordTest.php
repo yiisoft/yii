@@ -627,4 +627,16 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(array(),$post->comments);
 		$this->assertEquals(array(),$post->categories);
 	}
+
+	public function testRelationalCount()
+	{
+		$count=Post::model()->with('author','firstComment','comments','categories')->count();
+		$this->assertEquals(5,$count);
+
+		$count=Post::model()->with('author','firstComment','comments','categories')->count('posts.id=4');
+		$this->assertEquals(1,$count);
+
+		$count=Post::model()->with('author','firstComment','comments','categories')->count('posts.id=14');
+		$this->assertEquals(0,$count);
+	}
 }
