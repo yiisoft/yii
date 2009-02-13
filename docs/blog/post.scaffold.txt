@@ -55,4 +55,4 @@ To try out the post management feature that we just prototyped, access the URL `
 
 Note that we cannot access the `admin` page in the prototype because the page is configured to be accessible only by a user named `admin`. In the next section, we will describe how to remove this constraint. We will also fine tune the generated pages to fulfill the requirements precisely.
 
-<div class="revision">$Id: $</div>
+<div class="revision">$Id$</div>

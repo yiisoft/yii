@@ -221,4 +221,4 @@ public function actionCreate()
 
 In the above, if the preview button is clicked, we call `$post->validate()` to validate the user input; otherwise if the submit button is clicked, we try to save the post by calling `$post->save()` which implicitly performs validation. If the saving is successful (no validation errors and the data is saved to the database without error), we redirect the user browser to show the newly created post.
 
-<div class="revision">$Id: $</div>
+<div class="revision">$Id$</div>

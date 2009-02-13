@@ -77,4 +77,4 @@ We modify the layout file `/wwwroot/blog/protected/views/layouts/main.php` to em
 ......
 ~~~
 
-<div class="revision">$Id: $</div>
+<div class="revision">$Id$</div>

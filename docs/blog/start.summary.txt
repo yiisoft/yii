@@ -12,4 +12,4 @@ Let's take a break and see what we have done so far:
 
 For a new project, most of the time will be spent in step 1 and 4 for this first milestone.
 
-<div class="revision">$Id: $</div>
+<div class="revision">$Id$</div>

@@ -114,4 +114,4 @@ foreach($comments as $comment)
 ~~~
 
 
-<div class="revision">$Id: $</div>
+<div class="revision">$Id$</div>

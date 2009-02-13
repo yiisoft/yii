@@ -65,4 +65,4 @@ The final deployment process is very simple. We follow the similar steps as we d
  5. Change the permission of the directories `assets` and `protected/runtime` so that they are writable by the Web server process.
 
 
-<div class="revision">$Id: $</div>
+<div class="revision">$Id$</div>

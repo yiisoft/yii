@@ -9,4 +9,4 @@ We also create a file named `error401.php` to display 401 (unauthenticated) HTTP
 
 To learn more details about the naming of these error view files, please refer to [the Guide](http://www.yiiframework.com/doc/guide/topics.error#displaying-errors).
 
-<div class="revision">$Id: $</div>
+<div class="revision">$Id$</div>

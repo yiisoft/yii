@@ -106,4 +106,4 @@ The corresponding layout code looks like the following:
 
 Besides customizing the layout view file, we also need to adjust the CSS file `/wwwroot/blog/css/main.css` so that the overall appearance would look like what we see in the [blog demo](http://www.yiiframework.com/demos/blog/). We will not go into details here.
 
-<div class="revision">$Id: $</div>
+<div class="revision">$Id$</div>

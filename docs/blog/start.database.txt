@@ -81,4 +81,4 @@ The above configuration says that we have a `db` [application component](http://
 
 With this configuration, we can access the DB connection object using `Yii::app()->db` at any place in our code. Note that `Yii::app()` returns the application instance that we create in the entry script. If you are interested in possible methods and properties that the DB connection has, you may refer to its [API documentation|CDbConnection]. However, in most cases we are not going to use this DB connection directly. Instead, we will use the so-called [ActiveRecord](http://www.yiiframework.com/doc/guide/database.ar) to access the database.
 
-<div class="revision">$Id: $</div>
+<div class="revision">$Id$</div>

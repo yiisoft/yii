@@ -106,4 +106,4 @@ Summary
 
 The `UserLogin` portlet is a typical example that follows the MVC design pattern. It uses the `LoginForm` model to represent the data and business rules; it uses the `userLogin` view to generate user interface; and it uses the `UserLogin` class (a mini controller) to coordinate the model and the view.
 
-<div class="revision">$Id: $</div>
+<div class="revision">$Id$</div>
