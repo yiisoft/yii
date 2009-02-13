@@ -902,6 +902,13 @@ class CJoinQuery
 		$this->conditions[]=$element->getCondition();
 		$this->orders[]=$element->getOrder();
 		$this->joins[]=$element->getJoinCondition();
+		if(is_array($element->relation->params))
+		{
+			if(is_array($this->params))
+				$this->params=array_merge($this->params,$element->relation->params);
+			else
+				$this->params=$element->relation->params;
+		}
 		$this->elements[$element->id]=true;
 	}
 
