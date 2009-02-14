@@ -27,7 +27,7 @@ Separate different tags with commas.
 </div>
 
 <div class="row action">
-<?php echo CHtml::submitButton($buttonLabel,array('name'=>'submitPost')); ?>
+<?php echo CHtml::submitButton($update ? 'Save' : 'Create', array('name'=>'submitPost')); ?>
 
 <?php echo CHtml::submitButton('Preview',array('name'=>'previewPost')); ?>
 </div>
