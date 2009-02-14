@@ -57,12 +57,12 @@ class CActiveFinder extends CComponent
 	 * fetching duplicated data. By calling this method, all tables will be joined
 	 * together all at once.
 	 * @param boolean whether we should enforce join even when a limit option is placed on the primary table query.
-	 * Defaults to false, meaning we would still use two queries when there is a HAS_MANY/MANY_MANY relation and
+	 * Defaults to true. If false, we would still use two queries when there is a HAS_MANY/MANY_MANY relation and
 	 * the primary table has a LIMIT option. This parameter is available since version 1.0.3.
 	 * @return CActiveFinder the finder object
 	 * @since 1.0.2
 	 */
-	public function together($ignoreLimit=false)
+	public function together($ignoreLimit=true)
 	{
 		$this->joinAll=true;
 		if($ignoreLimit)
@@ -444,7 +444,7 @@ class CJoinElement
 		foreach($this->children as $child)
 		{
 			if($child->relation instanceof CHasOneRelation || $child->relation instanceof CBelongsToRelation
-				|| ($this->_finder->joinAll && !$this->_finder->baseLimited))
+				|| $child->relation->together || ($this->_finder->joinAll && !$this->_finder->baseLimited))
 			{
 				$child->_joined=true;
 				$query->join($child);

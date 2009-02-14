@@ -109,7 +109,7 @@ public function actionList()
 	$pages=new CPagination($postCount);
 	$pages->applyLimit($criteria);
 
-	$posts=Post::model()->with($withOption)->together(true)->findAll($criteria);
+	$posts=Post::model()->with($withOption)->findAll($criteria);
 
 	$this->render('list',array(
 		'posts'=>$posts,
@@ -120,7 +120,7 @@ public function actionList()
 
 In the above, we first create a query criteria which specifies only published posts should be listed and they should be sorted according to their creation time in descending order. We then compute the total number of posts satisfying the criteria. The number is used by the pagination component to correctly compute how many pages the posts should be displayed in. Finally, we retrieve the post data from the database and send them to the `list` view for display.
 
-Notice that when there is `tag` GET parameter, we would query with the `tagFilter` using the corresponding GET parameter value. We also call `together(true)` to ensure that only a single SQL JOIN statement is used to retrieve the posts with the specified tag. Without this call, Yii would break the query into two separate SQL statements (for efficiency concern) and would return incorrect results.
+Notice that when there is `tag` GET parameter, we would query with the `tagFilter` using the corresponding GET parameter value. Including `tagFilter` in the relational query will ensure that only a single SQL JOIN statement is used to retrieve the posts with the specified tag. Without this call, Yii would break the query into two separate SQL statements (for efficiency concern) and would return incorrect results.
 
 
 Customizing `create` and `update` Operations
