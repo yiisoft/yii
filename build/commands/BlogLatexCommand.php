@@ -1,35 +1,35 @@
 <?php
 
-class GuideLatexCommand extends CConsoleCommand
+class BlogLatexCommand extends CConsoleCommand
 {
 	function getHelp()
 	{
 		return <<<EOD
 USAGE
-  yiic guidelatex
+  yiic bloglatex
 
 DESCRIPTION
   This command generates latex files for the definitive guide.
-  The generated latex files are stored in the guide directory.
+  The generated latex files are stored in the blog directory.
 
 EOD;
 	}
 
 	function getSourceDir()
 	{
-		return dirname(__FILE__).'/../../docs/guide';
+		return dirname(__FILE__).'/../../docs/blog';
 	}
 
 	function getOutputDir()
 	{
-		return dirname(__FILE__).'/guide';
+		return dirname(__FILE__).'/blog';
 	}
 
 	function run($args)
 	{
 		require_once(dirname(__FILE__).'/markdown/MarkdownHtml2Tex.php');
 		$sourcePath=$this->getSourceDir();
-		$chapters=$this->getGuideTopics();
+		$chapters=$this->getTopics();
 		$toc = '';
 		foreach($chapters as $chapter=>$sections)
 		{
@@ -47,7 +47,7 @@ EOD;
 		file_put_contents($main_file, $toc);
 	}
 
-	function getGuideTopics()
+	function getTopics()
 	{
 		$file = $this->getSourceDir().'/toc.txt';
 		$lines=file($file);

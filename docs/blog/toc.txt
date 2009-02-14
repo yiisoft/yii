@@ -1,4 +1,5 @@
 * Getting Started
+	- [Overview](index)
     - [Requirements Analysis](start.requirements)
     - [Creating Skeleton Application](start.skeleton)
     - [Setting Up Database](start.database)

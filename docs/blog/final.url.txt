@@ -14,7 +14,7 @@ In this section, we describe how to beautifying these URLs and make them SEO-fri
  * `/index.php/post/1`: leads to the page showing the detail of the post with ID 1;
  * `/index.php/post/update/1`: leads to the page that allows updating the post with ID 1.
 
-To achieve our goal, we modify the [application configuration](/doc/guide/basics.application#application-configuration) as follows,
+To achieve our goal, we modify the [application configuration](http://www.yiiframework.com/doc/guide/basics.application#application-configuration) as follows,
 
 ~~~
 [php]
@@ -35,11 +35,11 @@ return array(
 );
 ~~~
 
-In the above, we configure the [urlManager](/doc/guide/topics.url) component by setting its `urlFormat` property to be `path` and adding a set of `rules`.
+In the above, we configure the [urlManager](http://www.yiiframework.com/doc/guide/topics.url) component by setting its `urlFormat` property to be `path` and adding a set of `rules`.
 
-The rules are used by `urlManager` to parse and create the URLs in the desired format. For example, the first rule says that if a URL `/index.php/tag/yii` is requested, the `urlManager` component should be responsible to dispatch the request to the [route](/doc/guide/basics.controller#route) `post/list` and generate a `tag` GET parameter with the value `yii`. On the other hand, when creating a URL with the route `post/list` and parameter `tag`, the `urlManager` component will also use this rule to generate the desired URL `/index.php/tag/yii`. For this reason, we say that `urlManager` is a two-way URL manager.
+The rules are used by `urlManager` to parse and create the URLs in the desired format. For example, the first rule says that if a URL `/index.php/tag/yii` is requested, the `urlManager` component should be responsible to dispatch the request to the [route](http://www.yiiframework.com/doc/guide/basics.controller#route) `post/list` and generate a `tag` GET parameter with the value `yii`. On the other hand, when creating a URL with the route `post/list` and parameter `tag`, the `urlManager` component will also use this rule to generate the desired URL `/index.php/tag/yii`. For this reason, we say that `urlManager` is a two-way URL manager.
 
-The `urlManager` component can further beautify our URLs, such as hiding `index.php` in the URLs, appending suffix like `.html` to the URLs. We can obtain these features easily by configuring various properties of `urlManager` in the application configuration. For more details, please refer to [the Guide](/doc/guide/topics.url).
+The `urlManager` component can further beautify our URLs, such as hiding `index.php` in the URLs, appending suffix like `.html` to the URLs. We can obtain these features easily by configuring various properties of `urlManager` in the application configuration. For more details, please refer to [the Guide](http://www.yiiframework.com/doc/guide/topics.url).
 
 
 <div class="revision">$Id$</div>
