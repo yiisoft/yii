@@ -57,7 +57,7 @@ We create the SQLite database file `blog.db` under the directory `/wwwroot/blog/
 Establishing Database Connection
 --------------------------------
 
-To use the blog database, we need to configure the skeleton application by modifying its [application configuration](http://www.yiiframework.com/doc/guide/basics.application#application-configuration) which is stored as a PHP script named `/wwwroot/blog/protected/config/main.php`. The configuration is represented as an associative PHP array consisting of name-value pairs. Each name-value pair is used to initialize a property of the [application instance](http://www.yiiframework.com/doc/guide/basics.application).
+To use the blog database, we need to configure the skeleton application by modifying its [application configuration](/doc/guide/basics.application#application-configuration) which is stored as a PHP script named `/wwwroot/blog/protected/config/main.php`. The configuration is represented as an associative PHP array consisting of name-value pairs. Each name-value pair is used to initialize a property of the [application instance](/doc/guide/basics.application).
 
 We configure the `components` property of the application by adding a new entry named `db` shown as follows,
 
@@ -77,8 +77,8 @@ return array(
 ~~~
 
 
-The above configuration says that we have a `db` [application component](http://www.yiiframework.com/doc/guide/basics.application#application-component) whose class is [CDbConnection] and whose `connectionString` property should be initialized as `sqlite:/wwwroot/blog/protected/data/blog.db`.
+The above configuration says that we have a `db` [application component](/doc/guide/basics.application#application-component) whose class is [CDbConnection] and whose `connectionString` property should be initialized as `sqlite:/wwwroot/blog/protected/data/blog.db`.
 
-With this configuration, we can access the DB connection object using `Yii::app()->db` at any place in our code. Note that `Yii::app()` returns the application instance that we create in the entry script. If you are interested in possible methods and properties that the DB connection has, you may refer to its [API documentation|CDbConnection]. However, in most cases we are not going to use this DB connection directly. Instead, we will use the so-called [ActiveRecord](http://www.yiiframework.com/doc/guide/database.ar) to access the database.
+With this configuration, we can access the DB connection object using `Yii::app()->db` at any place in our code. Note that `Yii::app()` returns the application instance that we create in the entry script. If you are interested in possible methods and properties that the DB connection has, you may refer to its [API documentation|CDbConnection]. However, in most cases we are not going to use this DB connection directly. Instead, we will use the so-called [ActiveRecord](/doc/guide/database.ar) to access the database.
 
 <div class="revision">$Id$</div>

@@ -1,7 +1,7 @@
 Authenticating User
 ===================
 
-Our blog application needs to differentiate between the system owner and guest users. Therefore, we need to implement the [user authentication](http://www.yiiframework.com/doc/guide/topics.auth) feature.
+Our blog application needs to differentiate between the system owner and guest users. Therefore, we need to implement the [user authentication](/doc/guide/topics.auth) feature.
 
 As you may have found that the skeleton application already provides such a feature since it allows us to login and logout. In this section, we will modify the code in the skeleton application so that the authentication is done against the `User` database table.
 
@@ -9,7 +9,7 @@ As you may have found that the skeleton application already provides such a feat
 Creating `User` Class
 ---------------------
 
-Because the authentication needs to read data from the `User` table, we first create [ActiveRecord](http://www.yiiframework.com/doc/guide/database.ar) class named `User` to facilitate the data accessing. ActiveRecord allows us to access the data in a table in an OOP fashion and it can accomplish most database-related tasks without requiring us to write any SQL statements.
+Because the authentication needs to read data from the `User` table, we first create [ActiveRecord](/doc/guide/database.ar) class named `User` to facilitate the data accessing. ActiveRecord allows us to access the data in a table in an OOP fashion and it can accomplish most database-related tasks without requiring us to write any SQL statements.
 
 > Info: Remember that we set up a `db` application component to connect to the SQLite database in the previous section. By default, ActiveRecord will use this `db` component as the underlying database connection.
 
@@ -55,7 +55,7 @@ class User extends CActiveRecord
 
 In the `User` class, the `model()` method is mandatory for every ActiveRecord class, and the `tableName()` method declares the name of the database table that this class is associated with. We can skip the `tableName()` method if the table name is the same as the class name.
 
-For more details about what we can do with ActiveRecord, please check [the Guide](http://www.yiiframework.com/doc/guide/database.ar).
+For more details about what we can do with ActiveRecord, please check [the Guide](/doc/guide/database.ar).
 
 
 Creating `UserIdentity` Class

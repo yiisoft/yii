@@ -1,7 +1,7 @@
 The Yii Blog Tutorial
 =====================
 
-This tutorial describes how we use Yii to develop a blog Web application like [the Yii blog demo](http://www.yiiframework.com/demos/blog/). For complete documentation about Yii, readers should refer to [the Definitive Guide to Yii](http://www.yiiframework.com/doc/guide/) and [the Yii Class Reference](http://www.yiiframework.com/doc/api/).
+This tutorial describes how we use Yii to develop a blog Web application like [the Yii blog demo](http://www.yiiframework.com/demos/blog/). For complete documentation about Yii, readers should refer to [the Definitive Guide to Yii](/doc/guide/) and [the Yii Class Reference](http://www.yiiframework.com/doc/api/).
 
 Readers of this tutorial are not required to have prior knowledge about Yii. However, readers should have basic knowledge of object-oriented programming (OOP) and database programming.
 

@@ -11,7 +11,7 @@ Creating `Portlet` Class
 
 We define a class named `Portlet` to serve as the base class for all our portlets. The base class contains the common properties and methods shared by all portlets. For example, it defines a `title` property that represents the title of a portlet; it defines how to decorate a portlet using a framed box with colored background.
 
-The following code shows the definition of the `Portlet` base class. Because a portlet often contains both logic and presentation, we define `Portlet` by extending [CWidget], which means a portlet is a [widget](http://www.yiiframework.com/doc/guide/basics.view) and can be embedded in a view using the [widget()|CBaseController::widget] method.
+The following code shows the definition of the `Portlet` base class. Because a portlet often contains both logic and presentation, we define `Portlet` by extending [CWidget], which means a portlet is a [widget](/doc/guide/basics.view) and can be embedded in a view using the [widget()|CBaseController::widget] method.
 
 ~~~
 [php]
@@ -63,7 +63,7 @@ return array(
 );
 ~~~
 
-The above lines instruct Yii to import the two path aliases: `application.models.*` and `application.components.*`, which is equivalent to adding the directories `/wwwroot/blog/protected/models` and `/wwwroot/blog/protected/components` to the PHP `include_path`. For more details, please refer to [the Guide](http://www.yiiframework.com/doc/guide/basics.namespace).
+The above lines instruct Yii to import the two path aliases: `application.models.*` and `application.components.*`, which is equivalent to adding the directories `/wwwroot/blog/protected/models` and `/wwwroot/blog/protected/components` to the PHP `include_path`. For more details, please refer to [the Guide](/doc/guide/basics.namespace).
 
 
 Customizing Page Layout
