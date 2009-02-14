@@ -10,26 +10,25 @@ USAGE
 
 DESCRIPTION
   This command generates latex files for the definitive guide.
-  The generated latex files are stored in following directory:
-	guideLatex/output
+  The generated latex files are stored in the guide directory.
 
 EOD;
 	}
 
-	function getGuideSourceDir()
+	function getSourceDir()
 	{
 		return dirname(__FILE__).'/../../docs/guide';
 	}
 
 	function getOutputDir()
 	{
-		return dirname(__FILE__).'/guideLatex/output';
+		return dirname(__FILE__).'/guide';
 	}
 
 	function run($args)
 	{
-		require_once(dirname(__FILE__).'/guideLatex/MarkdownHtml2Tex.php');
-		$sourcePath=$this->getGuideSourceDir();
+		require_once(dirname(__FILE__).'/markdown/MarkdownHtml2Tex.php');
+		$sourcePath=$this->getSourceDir();
 		$chapters=$this->getGuideTopics();
 		$toc = '';
 		foreach($chapters as $chapter=>$sections)
@@ -50,7 +49,7 @@ EOD;
 
 	function getGuideTopics()
 	{
-		$file = $this->getGuideSourceDir().'/toc.txt';
+		$file = $this->getSourceDir().'/toc.txt';
 		$lines=file($file);
 		$chapter='';
 		$guideTopics=array();
@@ -70,7 +69,7 @@ EOD;
 	{
 		$parser=new MarkdownParserLatex;
 		$content=$parser->transform($content);
-		$img_src = $this->getGuideSourceDir().'/images';
+		$img_src = $this->getSourceDir().'/images';
 		$img_dst = $this->getOutputDir();
 		$html2tex = new MarkdownHtml2Tex($img_src, $img_dst);
 		$tex = $html2tex->parse_html($content, $path);

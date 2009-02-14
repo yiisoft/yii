@@ -1,19 +1,19 @@
 <?php echo CHtml::form(); ?>
 <div class="row">
-<?php echo CHtml::activeLabel($user,'username'); ?>
+<?php echo CHtml::activeLabel($form,'username'); ?>
 <br/>
-<?php echo CHtml::activeTextField($user,'username') ?>
-<?php echo CHtml::error($user,'username'); ?>
+<?php echo CHtml::activeTextField($form,'username') ?>
+<?php echo CHtml::error($form,'username'); ?>
 </div>
 <div class="row">
-<?php echo CHtml::activeLabel($user,'password'); ?>
+<?php echo CHtml::activeLabel($form,'password'); ?>
 <br/>
-<?php echo CHtml::activePasswordField($user,'password') ?>
-<?php echo CHtml::error($user,'password'); ?>
+<?php echo CHtml::activePasswordField($form,'password') ?>
+<?php echo CHtml::error($form,'password'); ?>
 </div>
 <div class="row">
-<?php echo CHtml::activeCheckBox($user,'rememberMe'); ?>
-<?php echo CHtml::label('Remember me next time',CHtml::getActiveId($user,'rememberMe')); ?>
+<?php echo CHtml::activeCheckBox($form,'rememberMe'); ?>
+<?php echo CHtml::activeLabel($form,'rememberMe'); ?>
 </div>
 <div class="row">
 <?php echo CHtml::submitButton('Login'); ?>

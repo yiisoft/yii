@@ -1,0 +1,109 @@
+Authenticating User
+===================
+
+Our blog application needs to differentiate between the system owner and guest users. Therefore, we need to implement the [user authentication](http://www.yiiframework.com/doc/guide/topics.auth) feature.
+
+As you may have found that the skeleton application already provides such a feature since it allows us to login and logout. In this section, we will modify the code in the skeleton application so that the authentication is done against the `User` database table.
+
+
+Creating `User` Class
+---------------------
+
+Because the authentication needs to read data from the `User` table, we first create [ActiveRecord](http://www.yiiframework.com/doc/guide/database.ar) class named `User` to facilitate the data accessing. ActiveRecord allows us to access the data in a table in an OOP fashion and it can accomplish most database-related tasks without requiring us to write any SQL statements.
+
+> Info: Remember that we set up a `db` application component to connect to the SQLite database in the previous section. By default, ActiveRecord will use this `db` component as the underlying database connection.
+
+To create the `User` class, we exploit a command line tool named `yiic` that is bundled with Yii. Open a command window and run the following commands:
+
+~~~
+% cd /wwwroot/blog
+
+% protected/yiic shell
+Yii Interactive Tool v1.0
+Please type 'help' for help. Type 'exit' to quit.
+>> model User
+......
+>> exit
+
+%
+~~~
+
+> Info: Some PHP installations may use a different `php.ini` file for CLI PHP. As a result, when running the above `yiic` commands, you may encounter errors like "YiiBase::include(PDO.php): failed to open stream..." or "...could not find driver". Please double check your CLI PHP configuration. You may also use the following command to make sure your CLI PHP is using the specified `php.ini` file:
+>
+> ~~~
+> php -c path/to/php.ini protected/yiic.php shell
+> ~~~
+
+The above commands will generate a `User` class in the file `/wwwroot/blog/protected/models/User.php` which has the following content:
+
+~~~
+[php]
+<?php
+class User extends CActiveRecord
+{
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
+
+	public function tableName()
+	{
+		return 'User';
+	}
+}
+~~~
+
+In the `User` class, the `model()` method is mandatory for every ActiveRecord class, and the `tableName()` method declares the name of the database table that this class is associated with. We can skip the `tableName()` method if the table name is the same as the class name.
+
+For more details about what we can do with ActiveRecord, please check [the Guide](http://www.yiiframework.com/doc/guide/database.ar).
+
+
+Creating `UserIdentity` Class
+--------------------------------
+
+User authentication is performed in a class implementing the [IUserIdentity] interface. The skeleton application already provides such a class named `UserIdentity` that is located at `/wwwroot/blog/protected/components/UserIdentity.php`. We modify this class by exploiting the `User` class we just created.
+
+~~~
+[php]
+<?php
+class UserIdentity extends CUserIdentity
+{
+	private $_id;
+
+	public function authenticate()
+	{
+		$username=strtolower($this->username);
+		$user=User::model()->find('LOWER(username)=?',array($username));
+		if($user===null)
+			$this->errorCode=self::ERROR_USERNAME_INVALID;
+		else if(md5($this->password)!==$user->password)
+			$this->errorCode=self::ERROR_PASSWORD_INVALID;
+		else
+		{
+			$this->_id=$user->id;
+			$this->username=$user->username;
+			$this->errorCode=self::ERROR_NONE;
+		}
+		return !$this->errorCode;
+	}
+
+	public function getId()
+	{
+		return $this->_id;
+	}
+}
+~~~
+
+In the `authenticate()` method, we use `User` class to look for a row in the `User` table whose `username` column is the same as the username that needs to be authenticated. The comparison is case-insensitive. If such a row is found, we further check the password. Only when both match, we conclude that the authentication is successful. We also override the `getId()` method so that it returns the `id` column of the `User` row. The parent implementation would return the username, instead.
+
+In the login page implementation, we may find that a `UserIdentity` instance is passed to `Yii::app()->user->login()` if the authentication succeeds. This would store the `id` and `username` values in the `user` application component and make them globally available through `Yii::app()->user`.
+
+> Info: People often get confused about identity and the `user` application component. The former represents a way of performing authentication, while the latter is used to represent the information related with the current user. An application can only have one `user` component, but it can have one or several identity classes, depending on what kind of authentication it supports. Once authenticated, an identity instance may pass its state information to the `user` component so that they are globally accessible via `user`.
+
+
+Testing User Authentication
+---------------------------
+
+To test the modified `UserIdentity` class, we can browse the URL `http://www.example.com/blog/index.php` and try logging in with the username and password that we store in the `User` table. If we use the database provided by the [blog demo](http://www.yiiframework.com/demos/blog/], we should be able to login with username `demo` and password `demo`. Note that this blog system does not provide the user management feature. As a result, a user cannot change his account or create a new one through the Web interface. The user management feature may be considered as a future enhancement to the blog application.
+
+<div class="revision">$Id$</div>

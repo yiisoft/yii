@@ -19,7 +19,7 @@
 
 <?php $this->renderPartial('/comment/_form',array(
 	'comment'=>$newComment,
-	'buttonLabel'=>'Submit',
+	'update'=>false,
 )); ?>
 
 </div><!-- comments -->

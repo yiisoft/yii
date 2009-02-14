@@ -98,7 +98,7 @@ EOD;
 			),
 		);
 
-		foreach(array('create','update','list','show','admin') as $action)
+		foreach(array('create','update','list','show','admin','_form') as $action)
 		{
 			$list[$action.'.php']=array(
 				'source'=>$templatePath.'/'.$action.'.php',

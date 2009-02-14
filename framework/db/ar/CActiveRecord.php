@@ -576,6 +576,17 @@ abstract class CActiveRecord extends CModel
 	 *   Note, this is only honored by lazy loading, not eager loading.</li>
 	 * <li>'joinType': type of join. Defaults to 'LEFT OUTER JOIN'.</li>
 	 * <li>'aliasToken': the column prefix for column reference disambiguation. Defaults to '??.'.</li>
+	 * <li>'alias': the alias for the table associated with this relationship.
+	 *   This option has been available since version 1.0.1. It defaults to null,
+	 *   meaning the table alias is automatically generated. This is different
+	 *   from `aliasToken` in that the latter is just a placeholder and will be
+	 *   replaced by the actual table alias.</li>
+     * <li>'params': the parameters to be bound to the generated SQL statement.
+	 *   This should be given as an array of name-value pairs. This option has been
+	 *   available since version 1.0.3.</li>
+	 * <li>'on': the ON clause. The condition specified here will be appended
+	 *   to the joining condition using the AND operator. This option has been
+	 *   available since version 1.0.2.</li>
 	 * </ul>
 	 *
 	 * The following options are available for certain relations when lazy loading:
@@ -1543,6 +1554,12 @@ class CActiveRelation extends CComponent
 	 * @var string WHERE clause. Column names referenced in the condition should be prefixed with '??.'.
 	 */
 	public $condition='';
+	/**
+	 * @var array the parameters that are to be bound to the condition.
+	 * The keys are parameter placeholder names, and the values are parameter values.
+	 * @since 1.0.3
+	 */
+	public $params;
 	/**
 	 * @var string ON clause. The condition specified here will be appended to the joining condition using AND operator.
 	 * @since 1.0.2

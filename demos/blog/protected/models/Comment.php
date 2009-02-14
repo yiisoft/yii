@@ -68,7 +68,13 @@ class Comment extends CActiveRecord
 	 */
 	public function safeAttributes()
 	{
-		return 'author, email, url, content, verifyCode';
+		return array(
+			'author',
+			'email',
+			'url',
+			'content',
+			'verifyCode',
+		);
 	}
 
 	/**
