@@ -120,7 +120,7 @@ A component can be attached with several behaviors and thus achieve 'multiple in
 
 Behavior classes must implement the [IBehavior] interface. Most behaviors can
 extend from the [CBehavior] base class. If a behavior needs to be attached to
-a [model](/doc/guide/basics.model), it may also extend from [CFormBehavior] or
+a [model](/doc/guide/basics.model), it may also extend from [CModelBehavior] or
 [CActiveRecordBehavior] which implements additional features specifc for models.
 
 To use a behavior, it must be attached to a component first by calling the behavior's
