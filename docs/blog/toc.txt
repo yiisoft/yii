@@ -6,13 +6,13 @@
     - [Summary](start.summary)
 
 * Implementing Post Feature
-    - [Scaffolding with Post](post.scaffold)
+    - [Scaffolding with Posts](post.scaffold)
     - [Customizing Post Model](post.model)
     - [Customizing CRUD Operations](post.crud)
 
 * Implementing Comment Feature
-    - [Displaying Comments](comment.display)
-    - [Creating Comments](comment.create)
+	- [Customizing Comment Model](comment.model)
+    - [Creating and Displaying Comments](comment.create)
     - [Managing Comments](comment.manage)
 
 * Implementing Porlets

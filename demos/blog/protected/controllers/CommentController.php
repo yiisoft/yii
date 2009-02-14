@@ -93,7 +93,6 @@ class CommentController extends CController
 	{
 		if(Yii::app()->request->isPostRequest)
 		{
-			// we only allow deletion via POST request
 			$comment=$this->loadComment();
 			$comment->approve();
 			$this->redirect(array('post/show','id'=>$comment->postId,'#'=>'c'.$comment->id));

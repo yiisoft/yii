@@ -1,5 +1,5 @@
-Scaffolding with Post
-=====================
+Scaffolding with Posts
+======================
 
 Post management is one of the main requirements for the blog application. It includes creating, reading, updating and deleting (CRUD) posts. In this section, we will use the `yiic` tool to create rapidly a prototype about post management. This process is also known as *scaffolding*.
 
