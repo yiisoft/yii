@@ -1,0 +1,144 @@
+
+\usepackage{xspace, calc, enumerate, fancyhdr, alltt, color, ifthen, hyphenat}
+\usepackage[pdftex]{graphicx}
+\usepackage[pdftex]{hyperref}
+
+%----- remove hyphen character for texttt ----
+\renewcommand{\BreakableUnderscore}{\nobreak\textunderscore\discretionary{}{}{}\nobreak}
+\renewcommand{\BreakableBackslash}{\nobreak\textbackslash\discretionary{}{}{}\nobreak}
+\renewcommand{\BreakableSlash}{\nobreak/\discretionary{}{}{}\nobreak}
+\renewcommand{\BreakablePeriod}{\nobreak.\discretionary{}{}{}\nobreak}
+\renewcommand{\BreakableColon}{\nobreak:\discretionary{}{}{}\nobreak}
+
+\definecolor{lightp}{rgb}{0.4,0.2,0.8}
+		
+%------ syntax highlighting colors --------
+\definecolor{string}{rgb}{1,0.0,0.53}
+\definecolor{comment}{rgb}{0.2,0.6,0.0}
+\definecolor{keyword}{rgb}{0.0,0.3,1.0}
+\definecolor{reserved}{rgb}{0.0,0.3,1.0}
+\definecolor{identifier}{rgb}{0.0,0.0,0.0}
+\definecolor{brackets}{rgb}{0.60,0.80,0.0}
+\definecolor{code}{rgb}{0.0,0.0,0.0}
+\definecolor{number}{rgb}{0.93,0.0,0.0}
+\definecolor{inlinetags}{rgb}{0.0,0.0,1.0}
+\definecolor{quotes}{rgb}{1,0.0,0.53}
+\definecolor{var}{rgb}{0.0,0.66,0.66}
+\definecolor{inlinedoc}{rgb}{0.0,0.66,0.66}
+\definecolor{default}{rgb}{0.0,0.0,0.0}
+
+%---- change link style ---- See http://andy-roberts.net/misc/latex/pdftutorial.html
+\hypersetup{colorlinks, urlcolor=lightp, linkcolor=blue, bookmarksopen=true, pdfstartview={FitH}}
+
+%------------------------Page set-up-----------------------------------------
+\renewcommand{\baselinestretch}{1.15} % line spacing 115%
+\setlength{\hoffset}{-1in}
+\setlength{\oddsidemargin}{4cm}
+\setlength{\evensidemargin}{2cm}
+\setlength{\voffset}{3cm - 1in}
+\setlength{\topmargin}{0cm}
+\setlength{\headheight}{14.5pt}
+%\setlength{\headsep}{0cm}
+\setlength{\marginparwidth}{0cm}
+\setlength{\marginparsep}{0cm}
+\setlength{\marginparpush}{0cm}
+%\setlength{\footskip}{0cm}
+\setlength{\textheight}{242mm - \headheight - \headsep - \footskip}
+\setlength{\textwidth}{15cm}
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{0.75\baselineskip}
+
+%------------------------------------------------------------------------------
+
+%------------------------Setup headings and spacing---------------------
+\makeatletter
+\renewcommand{\section}{\@startsection%
+  {section}% name
+  {1}% level
+  {0mm}% indent
+  {0.5\baselineskip}% beforeskip
+  {0.1mm}% afterskip
+  {\normalfont\Large\bfseries}% style
+}
+\renewcommand{\subsection}{\@startsection%
+  {subsection}% name
+  {2}% level
+  {0mm}% indent
+  {0.5\baselineskip}% beforeskip
+  {0.1mm}% afterskip
+  {\normalfont\large\bfseries}% style
+}
+\makeatother
+
+%------------------------------------------------------------------------------
+% Modify the first page of the chapters: no chapter word, big chapter
+% number, title adjusted to right, and a line below.
+%-----------------------------------------------------------------------
+\makeatletter
+\def\@makechapterhead#1{%
+%  {\parindent \z@\raggedleft
+  {\parindent \z@\raggedright
+    \ifnum \c@secnumdepth >\m@ne
+    {\fontsize{20pt}{30pt}\selectfont\Huge\textsc{{Chapter \thechapter}}}
+    \fi
+    \rule{\columnwidth}{0.25pt} \par
+    {\Huge\textsc{\textbf{#1}}\par}
+    \nobreak
+    \vskip 70\p@
+    }}
+\def\@makeschapterhead#1{%
+%  {\parindent\z@\raggedleft
+   {\parindent\z@\raggedright
+    {\Huge\textsc{#1}\par}
+    \nobreak
+    \vskip 70\p@
+    }}
+\makeatother
+
+
+%-----------------------------------------------------------------------
+% Modify the caption definition to make text italic and smaller than normal size text
+%-----------------------------------------------------------------------
+\makeatletter
+\newsavebox{\capbox}
+\renewcommand{\@makecaption}[2]{%
+  \vspace{0pt}\sbox{\capbox}{\textbf{#1}: \small{#2}}%
+  \ifthenelse{\lengthtest{\wd\capbox > 0.85\linewidth}}%
+    {\center{\parbox[t]{0.8\linewidth}{\textbf{#1}: \small{#2}}}}%
+    {\begin{center}\textbf{#1}: \small{#2}\end{center}}%
+  } \makeatother
+
+
+%-----------------------------------------------------------------------
+% Pages and Fancyheadings stuff
+%-----------------------------------------------------------------------
+\pagestyle{fancy}
+% \pagestyle{fancyplain}
+%\setlength{\headrulewidth}{0.1pt} \setlength{\footrulewidth}{0pt}
+\newcommand{\clearemptydoublepage}{\newpage\thispagestyle{empty}\cleardoublepage}
+\cfoot{}
+% Chapter
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\ #1}{}}
+% % Section
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+\fancyhf{}
+\fancyhead[LE,RO]{\bfseries\thepage}
+\fancyhead[LO]{\nouppercase{\bfseries\rightmark}}
+\fancyhead[RE]{\nouppercase{\scshape\leftmark}}
+% \lhead[\fancyplain{}{\bf\thepage}]{\fancyplain{}{\bf\rightmark}}
+% \rhead[\fancyplain{}{\bf\leftmark}]{\fancyplain{}{\bf\thepage}}
+\fancypagestyle{plain}{%
+\fancyhf{} % clear all header and footer fields
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}}
+%-----------------------------------------------------------------------
+
+
+% boxes
+
+\newsavebox{\fmboxb}
+\newenvironment{tipbox}
+    {\vspace{-2mm}\begin{center}\begin{lrbox}{\fmboxb}\hspace{2mm}
+        \begin{minipage}{0.85\textwidth} \vspace{1mm}\small\setlength{\parskip}{0.75\baselineskip}}
+    {  \vspace{2mm} \end{minipage}
+    \hspace{2mm}\end{lrbox}\fbox{\usebox{\fmboxb}}\end{center}}

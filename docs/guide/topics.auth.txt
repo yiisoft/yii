@@ -43,16 +43,17 @@ session.
 
 In the following example, we validate the given username and password
 against the user table in a database using [Active
-Record](/doc/guide/database.ar). We also define the `title` property to be
-persistent using [CBaseUserIdentity::getState] and
-[CBaseUserIdentity::setState] methods. As a result, during the whole user
-session, we can obtain the user title information via
-`Yii::app()->user->getState('title')`.
+Record](/doc/guide/database.ar). We also override the `getId` method to
+return the `_id` variable which is set during authentication (the default
+implementation would return the username as the ID). During authentication,
+we store the retrieved `title` information in a state with the same name by
+calling [CBaseUserIdentity::setState].
 
 ~~~
 [php]
 class UserIdentity extends CUserIdentity
 {
+	private $_id;
 	public function authenticate()
 	{
 		$record=User::model()->findByAttributes(array('username'=>$this->username));
@@ -62,23 +63,26 @@ class UserIdentity extends CUserIdentity
 			$this->errorCode=self::ERROR_PASSWORD_INVALID;
 		else
 		{
-			$this->title=$record->title;
+			$this->_id=$record->id;
+			$this->setState('title', $record->title);
 			$this->errorCode=self::ERROR_NONE;
 		}
 		return !$this->errorCode;
     }
 
-	public function getTitle()
+	public function getId()
 	{
-		return $this->getState('title');
-	}
-
-	public function setTitle($value)
-	{
-		$this->setState('title',$value);
+		return $this->_id;
 	}
 }
 ~~~
+
+Information stored in a state (by calling [CBaseUserIdentity::setState]) will be passed
+to [CWebUser] which stores them in a persistent storage, such as session.
+These information can be accessed like properties of [CWebUser]. For example, we
+can obtain the `title` information of the current user by `Yii::app()->user->title`
+(This has been available since version 1.0.3. In prior versions, we should use
+`Yii::app()->user->getState('title')`, instead.)
 
 > Info: By default, [CWebUser] uses session as persistent storage for user
 identity information. If cookie-based login is enabled (by setting
@@ -238,6 +242,10 @@ matches.
 
    - [verbs|CAccessRule::verbs]: specifies which request types (e.g.
 `GET`, `POST`) this rule matches.
+
+   - [expression|CAccessRule::expression]: specifies a PHP expression whose value
+indicates whether this rule matches. In the expression, you can use variable `$user`
+which refers to `Yii::app()->user`. This option has been available since version 1.0.3.
 
 
 ### Handling Authorization Result

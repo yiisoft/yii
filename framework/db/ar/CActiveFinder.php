@@ -56,17 +56,22 @@ class CActiveFinder extends CComponent
 	 * By default, several join statements may be generated in order to avoid
 	 * fetching duplicated data. By calling this method, all tables will be joined
 	 * together all at once.
+	 * @param boolean whether we should enforce join even when a limit option is placed on the primary table query.
+	 * Defaults to false, meaning we would still use two queries when there is a HAS_MANY/MANY_MANY relation and
+	 * the primary table has a LIMIT option. This parameter is available since version 1.0.3.
 	 * @return CActiveFinder the finder object
 	 * @since 1.0.2
 	 */
-	public function together()
+	public function together($ignoreLimit=false)
 	{
 		$this->joinAll=true;
+		if($ignoreLimit)
+			$this->baseLimited=false;
 		return $this;
 	}
 
 	/**
-	 * This is relational version of {@link CActiveRecord::find()}.
+	 * This is the relational version of {@link CActiveRecord::find()}.
 	 */
 	public function find($condition='',$params=array())
 	{
@@ -79,7 +84,7 @@ class CActiveFinder extends CComponent
 	}
 
 	/**
-	 * This is relational version of {@link CActiveRecord::findAll()}.
+	 * This is the relational version of {@link CActiveRecord::findAll()}.
 	 */
 	public function findAll($condition='',$params=array())
 	{
@@ -89,7 +94,7 @@ class CActiveFinder extends CComponent
 	}
 
 	/**
-	 * This is relational version of {@link CActiveRecord::findByPk()}.
+	 * This is the relational version of {@link CActiveRecord::findByPk()}.
 	 */
 	public function findByPk($pk,$condition='',$params=array())
 	{
@@ -102,7 +107,7 @@ class CActiveFinder extends CComponent
 	}
 
 	/**
-	 * This is relational version of {@link CActiveRecord::findAllByPk()}.
+	 * This is the relational version of {@link CActiveRecord::findAllByPk()}.
 	 */
 	public function findAllByPk($pk,$condition='',$params=array())
 	{
@@ -112,7 +117,7 @@ class CActiveFinder extends CComponent
 	}
 
 	/**
-	 * This is relational version of {@link CActiveRecord::findByAttributes()}.
+	 * This is  the relational version of {@link CActiveRecord::findByAttributes()}.
 	 */
 	public function findByAttributes($attributes,$condition='',$params=array())
 	{
@@ -125,7 +130,7 @@ class CActiveFinder extends CComponent
 	}
 
 	/**
-	 * This is relational version of {@link CActiveRecord::findAllByAttributes()}.
+	 * This is the relational version of {@link CActiveRecord::findAllByAttributes()}.
 	 */
 	public function findAllByAttributes($attributes,$condition='',$params=array())
 	{
@@ -135,7 +140,7 @@ class CActiveFinder extends CComponent
 	}
 
 	/**
-	 * This is relational version of {@link CActiveRecord::findBySql()}.
+	 * This is the relational version of {@link CActiveRecord::findBySql()}.
 	 */
 	public function findBySql($sql,$params=array())
 	{
@@ -146,7 +151,7 @@ class CActiveFinder extends CComponent
 	}
 
 	/**
-	 * This is relational version of {@link CActiveRecord::findAllBySql()}.
+	 * This is the relational version of {@link CActiveRecord::findAllBySql()}.
 	 */
 	public function findAllBySql($sql,$params=array())
 	{
@@ -154,6 +159,16 @@ class CActiveFinder extends CComponent
 		$baseRecords=$this->_joinTree->model->populateRecords($command->queryAll());
 		$this->_joinTree->findWithBase($baseRecords);
 		return $baseRecords;
+	}
+
+	/**
+	 * This is the relational version of {@link CActiveRecord::count()}.
+	 * @since 1.0.3
+	 */
+	public function count($condition='',$params=array())
+	{
+		$criteria=$this->_builder->createCriteria($condition,$params);
+		return $this->_joinTree->count($criteria);
 	}
 
 	/**
@@ -303,7 +318,8 @@ class CJoinElement
 		if($this->_parent===null) // root element
 		{
 			$query=new CJoinQuery($this,$criteria);
-			$this->_finder->baseLimited=($criteria->offset>=0 || $criteria->limit>=0);
+			if($this->_finder->baseLimited===null)
+				$this->_finder->baseLimited=($criteria->offset>=0 || $criteria->limit>=0);
 			$this->buildQuery($query);
 			$this->runQuery($query);
 		}
@@ -345,7 +361,8 @@ class CJoinElement
 		{
 			$query->limit=$child->relation->limit;
 			$query->offset=$child->relation->offset;
-			$this->_finder->baseLimited=($query->offset>=0 || $query->limit>=0);
+			if($this->_finder->baseLimited===null)
+				$this->_finder->baseLimited=($query->offset>=0 || $query->limit>=0);
 			$query->groups[]=str_replace($child->relation->aliasToken.'.',$child->tableAlias.'.',$child->relation->group);
 			$query->havings[]=str_replace($child->relation->aliasToken.'.',$child->tableAlias.'.',$child->relation->having);
 		}
@@ -385,6 +402,37 @@ class CJoinElement
 			$this->runQuery($query);
 		foreach($this->children as $child)
 			$child->find();
+	}
+
+	/**
+	 * Count the number of primary records returned by the join statement.
+	 * @param CDbCriteria the query criteria
+	 * @return integer number of primary records.
+	 * @since 1.0.3
+	 */
+	public function count($criteria=null)
+	{
+		$query=new CJoinQuery($this,$criteria);
+		// ensure only one big join statement is used
+		$this->_finder->baseLimited=false;
+		$this->_finder->joinAll=true;
+		$this->buildQuery($query);
+
+		if(is_string($this->_table->primaryKey))
+		{
+			$prefix=$this->getColumnPrefix();
+			$schema=$this->_builder->getSchema();
+			$column=$prefix.$schema->quoteColumnName($this->_table->primaryKey);
+		}
+		else if($criteria->select!=='*')
+			$column=$criteria->select;
+		else
+			throw new CDbException(Yii::t('yii','Unable to count records with composite primary keys. Please explicitly specify the SELECT option in the query criteria.'));
+
+		$query->selects=array("COUNT(DISTINCT $column)");
+		$query->orders=$query->groups=$query->havings=array();
+		$command=$query->createCommand($this->_builder);
+		return $command->queryScalar();
 	}
 
 	/**
@@ -854,6 +902,13 @@ class CJoinQuery
 		$this->conditions[]=$element->getCondition();
 		$this->orders[]=$element->getOrder();
 		$this->joins[]=$element->getJoinCondition();
+		if(is_array($element->relation->params))
+		{
+			if(is_array($this->params))
+				$this->params=array_merge($this->params,$element->relation->params);
+			else
+				$this->params=$element->relation->params;
+		}
 		$this->elements[$element->id]=true;
 	}
 

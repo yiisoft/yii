@@ -15,8 +15,8 @@ You may use <a href="http://daringfireball.net/projects/markdown/syntax" target=
 </p>
 </div>
 <div class="row">
-<?php echo CHtml::activeLabel($post,'tagInput'); ?>
-<?php echo CHtml::activeTextField($post,'tagInput',array('size'=>65)); ?>
+<?php echo CHtml::activeLabel($post,'tags'); ?>
+<?php echo CHtml::activeTextField($post,'tags',array('size'=>65)); ?>
 <p class="hint">
 Separate different tags with commas.
 </p>
@@ -27,7 +27,7 @@ Separate different tags with commas.
 </div>
 
 <div class="row action">
-<?php echo CHtml::submitButton($buttonLabel,array('name'=>'submitPost')); ?>
+<?php echo CHtml::submitButton($update ? 'Save' : 'Create', array('name'=>'submitPost')); ?>
 
 <?php echo CHtml::submitButton('Preview',array('name'=>'previewPost')); ?>
 </div>

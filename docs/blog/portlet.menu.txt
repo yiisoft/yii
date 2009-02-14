@@ -1,0 +1,119 @@
+Creating User Menu Portlet
+==========================
+
+In this section, we will develop our first concrete portlet - the user menu portlet which displays a list of menu items that are only available to authenticated users. The menu contains four items:
+
+ * Approve Comments: a hyperlink that leads to a list of comments pending approval;
+ * Create New Post: a hyperlink that leads to the post creation page;
+ * Manage Posts: a hyperlink that leads to the post management page;
+ * Logout: a link button that would log out the current user.
+
+
+Creating `UserMenu` Class
+-------------------------
+
+We create the `UserMenu` class to represent the logic part of the user menu portlet. The class is saved in the file `/wwwroot/blog/protected/components/UserMenu.php` which has the following content:
+
+~~~
+[php]
+<?php
+class UserMenu extends Portlet
+{
+	public function init()
+	{
+		$this->title=CHtml::encode(Yii::app()->user->name);
+		parent::init();
+	}
+
+	protected function renderContent()
+	{
+		$this->render('userMenu');
+	}
+}
+~~~
+
+The `UserMenu` class extends from the `Portlet` class that we created previously. It overrides both the `init()` method and the `renderContent()` method of `Portlet`. The former sets the portlet title to be the name of the current user; the latter generates the portlet body content by rendering a view named `userMenu`.
+
+> Tip: Notice that we do not explicitly include the class file for `Portlet` even though we reference it in the code. This is due to the reason we explained in the previous section.
+
+
+Creating `userMenu` View
+------------------------
+
+Next, we create the `userMenu` view which is saved in the file `/wwwroot/blog/protected/components/views/userMenu.php`:
+
+~~~
+[php]
+<ul>
+<li><?php echo CHtml::link('Approve Comments', array('comment/list'))
+	. ' (' . Comment::model()->pendingCommentCount . ')'; ?></li>
+<li><?php echo CHtml::link('Create New Post',array('post/create')); ?></li>
+<li><?php echo CHtml::link('Manage Posts',array('post/admin')); ?></li>
+<li><?php echo CHtml::linkButton('Logout',array(
+	'submit'=>'',
+	'params'=>array('command'=>'logout'),
+)); ?></li>
+</ul>
+~~~
+
+> Info: By default, view files for a widget should be placed under the `views` sub-directory of the directory containing the widget class file. The file name must be the same as the view name.
+
+In the view, we call [CHtml::link] to create the needed hyperlinks; we also call [CHtml::linkButton] to create a link button which works like a normal push button. When the button is clicked, it submits an implicit form to the current page with the parameter `command` whose value is `logout`.
+
+In order to respond to the clicking of the `logout` hyperlink, we need to modify the `init()` method of `UserMenu` as follows:
+
+~~~
+[php]
+public function init()
+{
+	if(isset($_POST['command']) && $_POST['command']==='logout')
+	{
+		Yii::app()->user->logout();
+		$this->controller->redirect(Yii::app()->homeUrl);
+	}
+
+	$this->title=CHtml::encode(Yii::app()->user->name);
+	parent::init();
+}
+~~~
+
+In the `init()` method, we check if there is a `command` POST variable whose value is `logout`. If so, we log out the current user and redirect the user browser to the application's home page. Note that the `redirect()` method will implicitly terminate the execution of the current application.
+
+
+Using `UserMenu` Portlet
+------------------------
+
+It is time for us to make use of our newly completed `UserMenu` portlet. We modify the layout view file `/wwwroot/blog/protected/views/layouts/main.php` as follows:
+
+~~~
+[php]
+......
+
+<div id="sidebar">
+
+<?php $this->widget('UserMenu',array('visible'=>!Yii::app()->user->isGuest)); ?>
+
+</div>
+
+......
+~~~
+
+In the above, we call the `widget()` method to generate and execute an instance of the `UserMenu` class. Because the portlet should only be displayed to authenticated users, we toggle its `visible` property according to the `isGuest` property of the current user.
+
+
+Testing `UserMenu` Portlet
+--------------------------
+
+Let's test what we have so far.
+
+ 1. Open a browser window and enter the URL `http://www.example.com/blog/index.php`. Verify that there is nothing displayed in the side bar section of the page.
+ 2. Click on the `Login` hyperlink and fill out the login form to login. If successful, verify that the `UserMenu` portlet appears in the side bar and the portlet has the username as its title.
+ 3. Click on the 'Logout' hyperlink in the `UserMenu` portlet. Verify that the logout action is successful and the `UserMenu` portlet disappears.
+
+
+Summary
+-------
+
+What we have created is a portlet that is highly reusable. We can easily reuse it in a different project with little or no modification. Moreover, the design of this portlet follows closely the philosophy that logic and presentation should be separated. While we did not point this out in the previous sections, such practice is used nearly everywhere in a typical Yii application.
+
+<div class="revision">$Id$</div>

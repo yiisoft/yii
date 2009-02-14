@@ -13,6 +13,7 @@ CREATE TABLE Post
 	title VARCHAR(128) NOT NULL,
 	content TEXT NOT NULL,
 	contentDisplay TEXT,
+	tags TEXT,
 	status INTEGER NOT NULL,
 	createTime INTEGER,
 	updateTime INTEGER,
@@ -55,11 +56,11 @@ CREATE TABLE PostTag
 );
 
 INSERT INTO User (username, password, email) VALUES ('demo','fe01ce2a7fbac8fafaed7c982a04e229','webmaster@example.com');
-INSERT INTO Post (title, content, contentDisplay, status, createTime, updateTime, authorId) VALUES ('Welcome to Yii Blog','This blog system is developed using Yii. It is meant to demonstrate how to use Yii to build a complete real-world application. Complete source code may be found in the Yii releases.
+INSERT INTO Post (title, content, contentDisplay, status, createTime, updateTime, authorId, tags) VALUES ('Welcome to Yii Blog','This blog system is developed using Yii. It is meant to demonstrate how to use Yii to build a complete real-world application. Complete source code may be found in the Yii releases.
 
 Feel free to try this system by writing new posts and posting comments.','<p>This blog system is developed using Yii. It is meant to demonstrate how to use Yii to build a complete real-world application. Complete source code may be found in the Yii releases.</p>
 
-<p>Feel free to try this system by writing new posts and posting comments.</p>',1,1230952187,1230952187,1);
+<p>Feel free to try this system by writing new posts and posting comments.</p>',1,1230952187,1230952187,1,'yii, blog');
 
 INSERT INTO Tag (name) VALUES ('yii');
 INSERT INTO Tag (name) VALUES ('blog');

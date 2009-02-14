@@ -121,11 +121,17 @@
 
     <echo>Building Guide PDF...</echo>
     <exec command="${build} guideLatex" dir="." passthru="true" />
-    <exec command="${pdflatex} guide.tex -interaction=nonstopmode -max-print-line=120" dir="commands/guideLatex/output" passthru="true"/>
-    <exec command="${pdflatex} guide.tex -interaction=nonstopmode -max-print-line=120" dir="commands/guideLatex/output" passthru="true"/>
-    <exec command="${pdflatex} guide.tex -interaction=nonstopmode -max-print-line=120" dir="commands/guideLatex/output" passthru="true"/>
+    <exec command="${pdflatex} guide.tex -interaction=nonstopmode -max-print-line=120" dir="commands/guide" passthru="true"/>
+    <exec command="${pdflatex} guide.tex -interaction=nonstopmode -max-print-line=120" dir="commands/guide" passthru="true"/>
+    <exec command="${pdflatex} guide.tex -interaction=nonstopmode -max-print-line=120" dir="commands/guide" passthru="true"/>
+    <move file="commands/guide/guide.pdf" tofile="${build.doc.dir}/yii-guide-${yii.version}.pdf" />
 
-    <move file="commands/guideLatex/output/guide.pdf" tofile="${build.doc.dir}/yii-guide-${yii.version}.pdf" />
+    <echo>Building Blog PDF...</echo>
+    <exec command="${build} blogLatex" dir="." passthru="true" />
+    <exec command="${pdflatex} blog.tex -interaction=nonstopmode -max-print-line=120" dir="commands/blog" passthru="true"/>
+    <exec command="${pdflatex} blog.tex -interaction=nonstopmode -max-print-line=120" dir="commands/blog" passthru="true"/>
+    <exec command="${pdflatex} blog.tex -interaction=nonstopmode -max-print-line=120" dir="commands/blog" passthru="true"/>
+    <move file="commands/blog/blog.pdf" tofile="${build.doc.dir}/yii-blog-${yii.version}.pdf" />
 
     <echo>Building API...</echo>
     <exec command="${build} api ${build.doc.dir}" dir="." passthru="true" />

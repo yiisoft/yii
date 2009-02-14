@@ -41,7 +41,7 @@
  * Note, when {@link allowAutoLogin cookie-based authentication} is enabled,
  * all these persistent data will be stored in cookie. Therefore, do not
  * store password or other sensitive data in the persistent storage. Instead,
- * you should store them in session on the server side if needed.
+ * you should store them directly in session on the server side if needed.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
@@ -72,6 +72,65 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	public $loginUrl=array('site/login');
 
 	private $_keyPrefix;
+
+	/**
+	 * PHP magic method.
+	 * This method is overriden so that persistent states can be accessed like properties.
+	 * @param string property name
+	 * @return mixed property value
+	 * @since 1.0.3
+	 */
+	public function __get($name)
+	{
+		if($this->hasState($name))
+			return $this->getState($name);
+		else
+			return parent::__get($name);
+	}
+
+	/**
+	 * PHP magic method.
+	 * This method is overriden so that persistent states can be set like properties.
+	 * @param string property name
+	 * @param mixed property value
+	 * @since 1.0.3
+	 */
+	public function __set($name,$value)
+	{
+		if($this->hasState($name))
+			$this->setState($name,$value);
+		else
+			parent::__set($name,$value);
+	}
+
+	/**
+	 * PHP magic method.
+	 * This method is overriden so that persistent states can also be checked for null value.
+	 * @param string property name
+	 * @since 1.0.3
+	 */
+	public function __isset($name)
+	{
+		if($this->hasState($name))
+			return $this->getState($name)!==null;
+		else
+			return parent::__iset($name);
+	}
+
+	/**
+	 * PHP magic method.
+	 * This method is overriden so that persistent states can also be unset.
+	 * @param string property name
+	 * @throws CException if the property is read only.
+	 * @since 1.0.3
+	 */
+	public function __unset($name)
+	{
+		if($this->hasState($name))
+			$this->setState($name,null);
+		else
+			parent::__unset($name);
+	}
 
 	/**
 	 * Initializes the application component.
@@ -133,7 +192,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function getIsGuest()
 	{
-		return $this->getState('_id')===null;
+		return $this->getState('__id')===null;
 	}
 
 	/**
@@ -141,7 +200,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function getId()
 	{
-		return $this->getState('_id');
+		return $this->getState('__id');
 	}
 
 	/**
@@ -149,7 +208,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function setId($value)
 	{
-		$this->setState('_id',$value);
+		$this->setState('__id',$value);
 	}
 
 	/**
@@ -333,6 +392,18 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	}
 
 	/**
+	 * Returns a value indicating whether there is a state of the specified name.
+	 * @param string state name
+	 * @return boolean whether there is a state of the specified name.
+	 * @since 1.0.3
+	 */
+	public function hasState($key)
+	{
+		$states=$this->getState('__states',array());
+		return isset($states[$key]);
+	}
+
+	/**
 	 * Clears all user identity information from persistent storage.
 	 * The default implementation simply destroys the session.
 	 */
@@ -411,7 +482,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	protected function saveIdentityStates()
 	{
 		$states=array();
-		foreach($this->getState('_states',array()) as $name)
+		foreach($this->getState('__states',array()) as $name=>$dummy)
 			$states[$name]=$this->getState($name);
 		return $states;
 	}
@@ -424,12 +495,16 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	{
 		if(is_array($states))
 		{
+			$names=array();
 			foreach($states as $name=>$value)
+			{
 				$this->setState($name,$value);
-			$this->setState('_states',array_keys($states));
+				$names[$name]=true;
+			}
+			$this->setState('__states',$names);
 		}
 		else
-			$this->setState('_states',array());
+			$this->setState('__states',array());
 	}
 
 	/**

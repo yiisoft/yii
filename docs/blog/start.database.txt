@@ -1,0 +1,84 @@
+Setting Up Database
+===================
+
+Having created a skeleton application, in this section we will set up the database needed by the blog application to store the post and comment data.
+
+
+Designing Database
+------------------
+
+Based on the analysis of the requirements, the following database tables are needed for the blog system:
+
+###`Post`
+
+`Post` represents a post in the blog system. It mainly consists of the following data fields:
+
+ * `title`: required, title of the post;
+ * `content`: required, body content of the post which uses the [Markdown format](http://daringfireball.net/projects/markdown/syntax);
+ * `tags`: optional, a list of comma-separated words categorizing the post.
+
+A post can be in one of the three statuses:
+
+ * `draft`: the post is in draft and is not visible to public;
+ * `published`: the post is published to public;
+ * `archived`: the post is outdated and is not visible to public.
+
+
+### `Comment`
+
+A comment is associated with a post and mainly consists of the following data fields:
+
+ * `name`: required, the author name;
+ * `email`: required, the author email;
+ * `website`: optional, the author website URL;
+ * `content`: required, the comment content which uses the [Markdown format](http://daringfireball.net/projects/markdown/syntax).
+
+A comment can be in one of the two statuses:
+
+ * `pending approval`: the comment is awaiting the owner's approval and is not visible to public;
+ * `approved`: the comment is visible to public.
+
+
+The following entity-relation (ER) diagram shows the table structure and relationships about the above tables. Note that we create a `Tag` table to store tag information so that we can implement the tag cloud feature. The `Tag` table is related to the `Post` table via `PostTag`.
+
+*show ER diagram* here
+
+
+Creating Database
+-----------------
+
+We choose to create a SQLite database with these tables. Because Yii database support is built on top of [PDO](http://www.php.net/manual/en/book.pdo.php), we can easily switch to use a different type of DBMS (e.g. MySQL, PostgreSQL) without the need to change our application code.
+
+We create the SQLite database file `blog.db` under the directory `/wwwroot/blog/protected/data`. As required by SQLite, both the directory and the database file have to be writable by the Web server process.
+
+> Tip: The Yii blog demo already includes a schema file that contains the SQL statements needed to create the database. The file is located at `demos/blog/protected/data/schema.sqlite.sql`. To create a SQLite database, we can use the `sqlite3` command line tool that is available from [the SQLite website](http://www.sqlite.org/download.html).
+
+
+Establishing Database Connection
+--------------------------------
+
+To use the blog database, we need to configure the skeleton application by modifying its [application configuration](http://www.yiiframework.com/doc/guide/basics.application#application-configuration) which is stored as a PHP script named `/wwwroot/blog/protected/config/main.php`. The configuration is represented as an associative PHP array consisting of name-value pairs. Each name-value pair is used to initialize a property of the [application instance](http://www.yiiframework.com/doc/guide/basics.application).
+
+We configure the `components` property of the application by adding a new entry named `db` shown as follows,
+
+~~~
+[php]
+return array(
+	......
+	'components'=>array(
+		......
+		'db'=>array(
+			'class'=>'CDbConnection',
+			'connectionString'=>'sqlite:/wwwroot/blog/protected/data/blog.db',
+		),
+	),
+	......
+);
+~~~
+
+
+The above configuration says that we have a `db` [application component](http://www.yiiframework.com/doc/guide/basics.application#application-component) whose class is [CDbConnection] and whose `connectionString` property should be initialized as `sqlite:/wwwroot/blog/protected/data/blog.db`.
+
+With this configuration, we can access the DB connection object using `Yii::app()->db` at any place in our code. Note that `Yii::app()` returns the application instance that we create in the entry script. If you are interested in possible methods and properties that the DB connection has, you may refer to its [API documentation|CDbConnection]. However, in most cases we are not going to use this DB connection directly. Instead, we will use the so-called [ActiveRecord](http://www.yiiframework.com/doc/guide/database.ar) to access the database.
+
+<div class="revision">$Id$</div>

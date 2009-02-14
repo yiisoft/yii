@@ -27,6 +27,18 @@ class LoginForm extends CFormModel
 	}
 
 	/**
+	 * Declares the attribute labels.
+	 * If an attribute is not delcared here, it will use the default label
+	 * generation algorithm to get its label.
+	 */
+	public function attributeLabels()
+	{
+		return array(
+			'rememberMe'=>'Remember me next time',
+		);
+	}
+
+	/**
 	 * Authenticates the password.
 	 * This is the 'authenticate' validator as declared in rules().
 	 */

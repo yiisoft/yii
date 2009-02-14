@@ -1,0 +1,60 @@
+Creating Tag Cloud Portlet
+==========================
+
+[Tag cloud](http://en.wikipedia.org/wiki/Tag_cloud) displays a list of post tags with visual decorations hinting the popularity of each individual tag.
+
+
+Creating `TagCloud` Class
+-------------------------
+
+We create the `TagCloud` class in the file `/wwwroot/blog/protected/components/TagCloud.php`. The file has the following content:
+
+~~~
+[php]
+<?php
+class TagCloud extends Portlet
+{
+	public $title='Tags';
+
+	public function getTagWeights()
+	{
+		return Tag::model()->findTagWeights();
+	}
+
+	protected function renderContent()
+	{
+		$this->render('tagCloud');
+	}
+}
+~~~
+
+In the above we invoke the `findTagWeights` method which is defined in the `Tag` class. The method returns a list of tags with their relative frequency weights. If a tag is associated with more posts, it receives higher weights. We will use the weights to control how the tags are displayed.
+
+
+Creating `tagCloud` View
+-------------------------
+
+The `tagCloud` view is saved in the file `/wwwroot/blog/protected/components/views/tagCloud.php`. For each tag returned by `TagCloud::getTagWeights()`, it displays a hyperlink which would lead to the page listing the posts with that tag. The font size of the link is determined according to the weight value of the tag. The higher the weight, the bigger the fone size.
+
+
+Using `TagCloud` Portlet
+-------------------------
+
+Usage of the `TagCloud` portlet is very simple. We modify the layout file `/wwwroot/blog/protected/views/layouts/main.php` as follows,
+
+~~~
+[php]
+......
+<div id="sidebar">
+
+<?php $this->widget('UserLogin',array('visible'=>Yii::app()->user->isGuest)); ?>
+
+<?php $this->widget('UserMenu',array('visible'=>!Yii::app()->user->isGuest)); ?>
+
+<?php $this->widget('TagCloud'); ?>
+
+</div>
+......
+~~~
+
+<div class="revision">$Id$</div>

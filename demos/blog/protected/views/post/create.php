@@ -2,5 +2,5 @@
 
 <?php $this->renderPartial('_form', array(
 	'post'=>$post,
-	'buttonLabel'=>'Create',
+	'update'=>false,
 )); ?>

@@ -32,6 +32,9 @@
  *   'ips'=>array('127.0.0.1'),
  *   // optional, list of request types (case insensitive) that this rule applies to
  *   'verbs'=>array('GET', 'POST'),
+ *   // optional, a PHP expression whose value indicates whether this rule applies
+ *   // This option is available since version 1.0.3.
+ *   'expression'=>'!$user->isGuest && $user->level==2',
  * )
  * </pre>
  *
@@ -145,6 +148,12 @@ class CAccessRule extends CComponent
 	 * @var array list of request types (e.g. GET, POST) that this rule applies to.
 	 */
 	public $verbs;
+	/**
+	 * @var string a PHP expression whose value indicates whether this rule should be applied.
+	 * In this expression, you can use <code>$user</code> which refers to <code>Yii::app()->user</code>.
+	 * @since 1.0.3
+	 */
+	public $expression;
 
 
 	/**
@@ -161,7 +170,8 @@ class CAccessRule extends CComponent
 			&& $this->isUserMatched($user)
 			&& $this->isRoleMatched($user)
 			&& $this->isIpMatched($ip)
-			&& $this->isVerbMatched($verb))
+			&& $this->isVerbMatched($verb)
+			&& $this->isExpressionMatched($user))
 			return $this->allow ? 1 : -1;
 		else
 			return 0;
@@ -237,5 +247,17 @@ class CAccessRule extends CComponent
 	protected function isVerbMatched($verb)
 	{
 		return empty($this->verbs) || in_array(strtolower($verb),$this->verbs);
+	}
+
+	/**
+	 * @param IWebUser the user
+	 * @return boolean the expression value. True if the expression is not specified.
+	 * @since 1.0.3
+	 */
+	protected function isExpressionMatched($user)
+	{
+		if($this->expression===null)
+			return true;
+		return @eval('return '.$this->expression.';');
 	}
 }

@@ -5,10 +5,6 @@ class Post extends CActiveRecord
 	const STATUS_DRAFT=0;
 	const STATUS_PUBLISHED=1;
 	const STATUS_ARCHIVED=2;
-	/**
-	 * @var string this property is used to collect user tag input
-	 */
-	public $tagInput;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -33,10 +29,10 @@ class Post extends CActiveRecord
 	public function rules()
 	{
 		return array(
-			array('title', 'length', 'max'=>128),
 			array('title, content, status', 'required'),
-			array('status', 'numerical', 'min'=>0, 'max'=>3),
-			array('tagInput', 'match', 'pattern'=>'/[\w\s,]+/', 'message'=>'Tags can only contain word characters.'),
+			array('title', 'length', 'max'=>128),
+			array('status', 'in', 'range'=>array(0, 1, 2)),
+			array('tags', 'match', 'pattern'=>'/^[\w\s,]+$/', 'message'=>'Tags can only contain word characters.'),
 		);
 	}
 
@@ -45,7 +41,12 @@ class Post extends CActiveRecord
 	 */
 	public function safeAttributes()
 	{
-		return 'title, content, status, tagInput';
+		return array(
+			'title',
+			'content',
+			'status',
+			'tags',
+		);
 	}
 
 	/**
@@ -56,18 +57,16 @@ class Post extends CActiveRecord
 		return array(
 			'author'=>array(self::BELONGS_TO, 'User', 'authorId'),
 			'comments'=>array(self::HAS_MANY, 'Comment', 'postId', 'order'=>'??.createTime'),
-			'tags'=>array(self::MANY_MANY, 'Tag', 'PostTag(postId, tagId)'),
+			'tagFilter'=>array(self::MANY_MANY, 'Tag', 'PostTag(postId, tagId)', 'joinType'=>'INNER JOIN', 'condition'=>'??.name=:tag'),
 		);
 	}
 
 	/**
-	 * @return array customized attribute labels (name=>label)
+	 * @return array tags
 	 */
-	public function attributeLabels()
+	public function getTagArray()
 	{
-		return array(
-			'tagInput'=>'Tags',
-		);
+		return array_unique(preg_split('/\s*,\s*/',trim($this->tags),-1,PREG_SPLIT_NO_EMPTY));
 	}
 
 	/**
@@ -108,15 +107,6 @@ class Post extends CActiveRecord
 		return true;
 	}
 
-	protected function afterFind()
-	{
-		$tags=$this->tags;
-		$tagInputs=array();
-		foreach($tags as $tag)
-			$tagInputs[]=$tag->name;
-		$this->tagInput=implode(', ',$tagInputs);
-	}
-
 	/**
 	 * Postprocessing after the record is saved
 	 */
@@ -125,8 +115,7 @@ class Post extends CActiveRecord
 		if(!$this->isNewRecord)
 			$this->dbConnection->createCommand('DELETE FROM PostTag WHERE postId='.$this->id)->execute();
 
-		$tags=array_unique(preg_split('/\s*,\s*/',trim($this->tagInput),-1,PREG_SPLIT_NO_EMPTY));
-		foreach($tags as $name)
+		foreach($this->getTagArray() as $name)
 		{
 			if(($tag=Tag::model()->findByAttributes(array('name'=>$name)))===null)
 			{

@@ -45,7 +45,7 @@ You may use <a href="http://daringfireball.net/projects/markdown/syntax" target=
 <?php endif; ?>
 
 <div class="row action">
-<?php echo CHtml::submitButton($buttonLabel,array('name'=>'submitComment')); ?>
+<?php echo CHtml::submitButton($update ? 'Save' : 'Submit', array('name'=>'submitComment')); ?>
 
 <?php echo CHtml::submitButton('Preview',array('name'=>'previewComment')); ?>
 </div>

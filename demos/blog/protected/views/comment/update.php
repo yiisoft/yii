@@ -2,5 +2,5 @@
 
 <?php $this->renderPartial('_form', array(
 	'comment'=>$comment,
-	'buttonLabel'=>'Save',
+	'update'=>true,
 )); ?>

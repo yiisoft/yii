@@ -1,0 +1,15 @@
+Summary
+=======
+
+Let's take a break and see what we have done so far:
+
+ 1. We identified the requirements to be fulfilled;
+ 2. We installed the Yii framework;
+ 3. We created a skeleton application;
+ 4. We designed and created the blog database;
+ 5. We modified the application configuration by adding the database connection;
+ 6. We modified the authentication method to check against the `User` table.
+
+For a new project, most of the time will be spent in step 1 and 4 for this first milestone.
+
+<div class="revision">$Id$</div>
