@@ -1,36 +1,13 @@
 Creating and Displaying Comments
 ================================
 
-In this section, we implement the comment creation and display features.
-
-
-Scaffolding with Comments
--------------------------
-
-We start with scaffolding using the `yiic` tool to create the code that performs the CRUD operations about comments.
-
-Open a command window and run the following commands:
-
-~~~
-% cd /wwwroot/blog
-
-% protected/yiic shell
-Yii Interactive Tool v1.0
-Please type 'help' for help. Type 'exit' to quit.
->> crud Comment
-......
->> exit
-
-%
-~~~
-
-Like what we did with post scaffolding, the above command will generate several files that implement the CRUD operations about comments. Note that the `Comment` class was already generated when we performed scaffolding with posts.
+In this section, we implement the comment display and creation features.
 
 
 Displaying Comments
 -------------------
 
-Instead of displaying and creating comments in dividual pages, we use the post display page. Below the post content display, we first display a list of comments belonging to that post, and we then display a comment creation form.
+Instead of displaying and creating comments in dividual pages, we use the post display page. Below the post content display, we display first a list of comments belonging to that post and then a comment creation form.
 
 In order to display comments on the post page, we modify the `actionShow()` method of `PostController` as follows,
 
@@ -46,9 +23,9 @@ public function actionShow()
 }
 ~~~
 
-Note that the expression `$post->comments` would return the comments belonging to the post.
+Note that the expression `$post->comments` is valid because we have declared a `comments` relation in the `Post` class. Evaluating this expression would trigger an implicit JOIN database query to bring back the comments belonging to the current post. This feature is known as [lazy relational query](http://www.yiiframework.com/doc/guide/database.arr).
 
-We also modify the `show` view by appending the comment display at the end of the post display.
+We also modify the `show` view by appending the comment display at the end of the post display, which we are not going to elaborate here.
 
 
 Creating Comments

@@ -160,7 +160,7 @@ class PostController extends CController
 		$pages->pageSize=Yii::app()->params['postsPerPage'];
 		$pages->applyLimit($criteria);
 
-		$posts=Post::model()->with($withOption)->together(true)->findAll($criteria);
+		$posts=Post::model()->with($withOption)->findAll($criteria);
 		$this->render('list',array(
 			'posts'=>$posts,
 			'pages'=>$pages,

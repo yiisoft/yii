@@ -56,7 +56,7 @@ We modify the entry script file `/wwwroot/blog/index.php` by removing the line d
 Deploying the Application
 -------------------------
 
-The final deployment process is very simple. We follow the similar steps as we did when creating the skeleton application:
+The final deployment process manly involves copying the directory `/wwwroot/blog` to the target directory. The following checklist shows every needed step:
 
  1. Install Yii in the target place if it is not available;
  2. Copy the entire directory `/wwwroot/blog` to the target place;

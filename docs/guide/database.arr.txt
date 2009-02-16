@@ -286,6 +286,9 @@ meaning the table alias is automatically generated. This is different
 from `aliasToken` in that the latter is just a placeholder and will be
 replaced by the actual table alias.
 
+   - `together`: whether the table associated with this relationship should
+be forced to join together with the primary table. This option is only meaningful for HAS_MANY and MANY_MANY relations. If this option is not set or false, each HAS_MANY or MANY_MANY relation will have their own JOIN statement to improve performance. This option has been available since version 1.0.3.
+
 In addition, the following options are available for certain relationships
 during lazy loading:
 

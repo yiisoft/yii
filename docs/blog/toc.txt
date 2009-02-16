@@ -1,29 +1,34 @@
 * Getting Started
-	- [Overview](index)
+	- [Overview](start.overview)
+    - [Testdriving with Yii](start.testdrive)
     - [Requirements Analysis](start.requirements)
-    - [Creating Skeleton Application](start.skeleton)
-    - [Setting Up Database](start.database)
-    - [Authenticating User](start.auth)
-    - [Summary](start.summary)
+    - [Overall Design](start.design)
 
-* Implementing Post Feature
-    - [Scaffolding with Posts](post.scaffold)
+* Milestone 1: Initial Prototyping
+    - [Setting Up Database](prototype.database)
+    - [Scaffolding](prototype.scaffold)
+    - [Authenticating User](prototype.auth)
+    - [Summary](prototype.summary)
+
+* Milestone 2: Post Management
     - [Customizing Post Model](post.model)
-    - [Customizing CRUD Operations](post.crud)
+    - [Creating and Updating Posts](post.create)
+    - [Displaying Posts](post.display)
+    - [Managing Posts](post.admin)
 
-* Implementing Comment Feature
+* Milestone 3: Comment Management
 	- [Customizing Comment Model](comment.model)
     - [Creating and Displaying Comments](comment.create)
-    - [Managing Comments](comment.manage)
+    - [Managing Comments](comment.admin)
 
-* Implementing Porlets
-	- [Creating Portlet Architecture](portlet.base)
+* Milestone 4: Porlets
+	- [Establishing Portlet Architecture](portlet.base)
 	- [Creating User Menu Portlet](portlet.menu)
 	- [Creating Login Portlet](portlet.login)
 	- [Creating Tag Cloud Portlet](portlet.tags)
 	- [Creating Recent Comments Portlet](portlet.comments)
 
-* Final Work
+* Milestone 5: Final Work
 	- [Beautifying URLs](final.url)
 	- [Logging Errors](final.logging)
     - [Customizing Error Display](final.error)
