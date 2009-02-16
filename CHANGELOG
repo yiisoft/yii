@@ -25,6 +25,7 @@ Version 1.0.3 to be released
 - New: Added ignoreLimit option when joining tables all at once (Qiang)
 - New: Added params option to relation declaration (Qiang)
 - New: Added the blog tutorial (Qiang)
+- New: Added CActiveRelation.together option to allow enforcing a table to be joined with the primary table (Qiang)
 
 
 Version 1.0.2 February 1, 2009

@@ -2,34 +2,35 @@ Creating First Yii Application
 ==============================
 
 To get an initial experience with Yii, we describe in this section how to
-create our first Yii application. For convenience, we assume that `YiiRoot` is
-the directory where Yii is installed, and `WebRoot` is the document root of our
-Web server.
+create our first Yii application. We will use the powerful `yiic` tool
+which can be used to automate code creation for certain tasks. For convenience,
+we assume that `YiiRoot` is the directory where Yii is installed, and `WebRoot`
+is the document root of our Web server.
 
-Starting from version 1.0.3, each Yii release includes a skeleton application
-located under the directory `YiiRoot/testdrive`. We will use this as the
-starting point for our first Yii application.
+Run `yiic` on the command line as follows:
 
- 1. Copy the directory `YiiRoot/testdrive` to `WebRoot`;
- 2. Edit the file `WebRoot/testdrive/index.php` by setting the `$yii` variable to be `YiiRoot/framework/index.php`;
- 3. Edit the file `WebRoot/testdrive/protected/yiic.php` by setting the `$yiic` variable to be `YiiRoot/framework/yiic.php`;
- 4. Change the permission of `WebRoot/testdrive/assets` and `WebRoot/testdrive/protected/runtime` to make them writable by the Web server process;
- 5. If on Linux or Unix, change the permission of `WebRoot/testdrive/protected/yiic` to be executable.
+~~~
+% YiiRoot/framework/yiic webapp WebRoot/testdrive
+~~~
 
-
-> Note: Prior to version 1.0.3, we would use the `yiic` tool to generate
-> the skeleton application. The following command should be executed
-> in a command line window:
+> Note: When running `yiic` on Mac OS, Linux or Unix, you may need to
+> change the permission of the `yiic` file so that it is executable.
+> Alternatively, you may run the tool as follows,
 >
 > ~~~
-> YiiRoot/framework/yiic webapp WebRoot/testdrive
+> % cd WebRoot/testdrive
+> % php YiiRoot/framework/yiic.php webapp WebRoot/testdrive
 > ~~~
->
-> The above command will create a skeleton application under the directory
-> `WebRoot/testdrive`.
 
-We can test drive our first Yii application by accessing the following URL
-in a Web browser:
+This will create a skeleton Yii application under the directory
+`WebRoot/testdrive`. The application has a directory structure that is
+is needed by most Yii applications.
+
+> Tip: Starting from version 1.0.3, a testdrive application is included
+> directly under the directory `YiiRoot/testdrive`.
+
+Without writing a single line of code, we can test drive our first Yii
+application by accessing the following URL in a Web browser:
 
 ~~~
 http://hostname/testdrive/index.php
@@ -155,7 +156,7 @@ update and delete) operations for the `User` table we just created. This is
 also commonly needed in practical applications.
 
 Instead of taking trouble to write actual code, we would use the powerful
-`yiic` tool to automatically generate the code for us. This
+`yiic` tool again to automatically generate the code for us. This
 process is also known as *scaffolding*. Open a command line window, and execute
 the commands listed as follows,
 

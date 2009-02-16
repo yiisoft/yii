@@ -1,33 +1,39 @@
-Creating Skeleton Application
-=============================
+Testdriving with Yii
+====================
 
-To begin with, we create a skeleton application that will serve as a good starting point for our blog application.
-
-The blog application will be created under the folder `/wwwroot/blog`, where `/wwwroot` stands for the document root of our Web server. As a result, our blog application can be accessed via URL `http://www.example.com/blog/` (you should replace `www.example.com` with the actual host name of your server).
+In this section, we describe how to create a skeleton application that will serve as our starting point. For simplicity, we assume that the document root of our Web server is `/wwwroot` and the corresponding URL is `http://www.example.com/`.
 
 
 Installing Yii
 --------------
 
-We first need to install the Yii framework. Grab a copy of the Yii release file (version 1.0.3 or above) from [www.yiiframework.com](http://www.yiiframework.com/download) and unpack it to the directory `/wwwroot/yii`. After the installation, double check to make sure that there is a directory `/wwwroot/yii/framework`.
+We first install the Yii framework. Grab a copy of the Yii release file (version 1.0.3 or above) from [www.yiiframework.com](http://www.yiiframework.com/download) and unpack it to the directory `/wwwroot/yii`. Double check to make sure that there is a directory `/wwwroot/yii/framework`.
 
 > Tip: The Yii framework can be installed anywhere in the file system. Its `framework` directory contains all framework code and is the only directory needed when deploying an Yii application. A single installation of Yii can be used by multiple Yii applications.
 
-Because our blog application needs to access SQLite database via [PDO](http://www.php.net/manual/en/book.pdo.php), it is required that we enable both the `pdo` and `pdo_sqlite` PHP extensions for our PHP installation. We may run the requirement checker to verify we have these extensions enabled. The requirement checker is a script that can be accessed via URL `http://www.example.com/yii/requirements/index.php`.
+After installing Yii, open a browser window and access the URL `http://www.example.com/yii/requirements/index.php`. It shows the requirement checker provided in the Yii release. Make sure our Web server and PHP installation reaches the minimal requirement by Yii. In particular, we should enable both the `pdo` and `pdo_sqlite` PHP extensions which are required by our blog application to access the SQLite database.
 
 
-Creating Application
---------------------
+Creating Skeleton Application
+-----------------------------
 
-We perform the following steps to create a skeleton application:
+We then use the `yiic` tool to create a skeleton application under the directory `/wwwroot/blog`. The `yiic` tool is a command line tool provided in the Yii release. It can be used to generate code for certain tasks.
 
- 1. Copy the `testdrive` directory from the Yii installation to `/wwwroot/blog`;
- 2. Edit the file `/wwwroot/blog/index.php` by setting the `$yii` variable to be `/wwwroot/yii/framework/yii.php`;
- 3. Edit the file `/wwwroot/blog/protected/yiic.php` by setting the `$yiic` variable to be `/wwwroot/yii/framework/yiic.php`.
- 4. Change the permission of the directories `/wwwroot/blog/assets` and `/wwwroot/blog/protected/runtime` to make them writable by the Web server process.
- 5. If on Linux or Unix, change the permission of `/wwwroot/blog/protected/yiic` to be executable.
+Open a command window and execute the following command:
 
-That's it. To try out the application we just created, open a Web browser and navigate to the URL `http://www.example.com/blog/index.php`. We shall see that our application has three fully functional pages: the homepage, the contact page and the login page.
+~~~
+% /wwwroot/yii/framework/yiic webapp /wwwroot/blog
+Create a Web application under '/wwwroot/blog'? [Yes|No]y
+......
+~~~
+
+> Tip: In order to use the `yiic` tool as shown above, the CLI PHP program must be on the command search path. If not, the following command may be used instead:
+>
+>~~~
+> path/to/php /wwwroot/yii/framework/yiic.php webapp /wwwroot/blog
+>~~~
+
+To try out the application we just created, open a Web browser and navigate to the URL `http://www.example.com/blog/index.php`. We shall see that our application has three fully functional pages: the homepage, the contact page and the login page.
 
 In the following, we briefly describe what we have in this skeleton application.
 

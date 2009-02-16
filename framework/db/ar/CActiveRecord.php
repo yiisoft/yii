@@ -1587,6 +1587,12 @@ class CActiveRelation extends CComponent
 	 * For more details about this property, see {@link CActiveRecord::with()}.
 	 */
 	public $with=array();
+	/**
+	 * @var boolean whether this table should be joined with the primary table. If not set or false,
+	 * Each HAS_MANY or MANY_MANY table will appear in a separate JOIN statement. Defaults to null.
+	 * @since 1.0.3
+	 */
+	public $together;
 
 	/**
 	 * Constructor.
