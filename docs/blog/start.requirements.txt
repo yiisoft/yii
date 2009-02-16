@@ -1,5 +1,5 @@
-Requirements
-============
+Requirements Analysis
+=====================
 
 The blog system that we are going to develop is a single user system. The owner of the system will be able to perform the following actions:
 

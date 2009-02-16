@@ -1,0 +1,38 @@
+Overall Design
+==============
+
+Based on the analysis of the requirements, we identify that our blog application requires four database tables to store data: `User`, `Post`, `Comment` and `Tag`:
+
+ * `User` stores the user information, including username and password.
+ * `Post` stores post information. It mainly consists of the following columns:
+	 - `title`: required, title of the post;
+	 - `content`: required, body content of the post which uses the [Markdown format](http://daringfireball.net/projects/markdown/syntax);
+	 - `status`: required, status of the post, which can be one of following values:
+		 * `draft`: the post is in draft and is not visible to public;
+		 * `published`: the post is published to public;
+		 * `archived`: the post is outdated and is not visible to public.
+	 - `tags`: optional, a list of comma-separated words categorizing the post.
+ * `Comment` stores post comment information. Each comment is associated with a post and mainly consists of the following columns:
+	 - `name`: required, the author name;
+	 - `email`: required, the author email;
+	 - `website`: optional, the author website URL;
+	 - `content`: required, the comment content which uses the [Markdown format](http://daringfireball.net/projects/markdown/syntax).
+	 - `status`: required, status of the comment, which indicates whether the comment is approved (value 1) or not (value 0).
+ * `Tag` stores post tag information. Each post can have multiple tags, while each tag can also be attached to multiple posts. The `Tag` table is mainly used by the tag cloud portlet which needs to calculate the use frequency of each tag.
+
+The following entity-relation (ER) diagram shows the table structure and relationships about the above tables. Note that the relationship between `Post` and `Tag` is many-to-many, we use the `PostTag` table to decouple this relationship into two one-to-many relationships.
+
+![Entity-Relation Diagram of the Blog Database](schema.png)
+
+Complete SQL statements corresponding to the above ER diagram may be found in [the blog demo](http://www.yiiframework.com/demos/blog/). In our Yii installation, they are in the file `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql`.
+
+
+We divide the development of our blog application into several milestones. In the first milestone, we create a quick prototype that has the major functionalities as required. In the rest of the milestones, we customize the prototype in the following aspects:
+
+ * Post management: including creating, reading, updating and deleting posts.
+ * Comment management: including creating, reading, updating and deleting post comments.
+ * Portlets: including user menu, login, tag cloud and recent comments portlets.
+
+And at the end, we do some overall adjustment and deploy the application.
+
+<div class="revision">$Id$</div>
