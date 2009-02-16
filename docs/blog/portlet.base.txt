@@ -57,10 +57,6 @@ It is time for us to adjust the page layout so that we can place portlets in the
 
 Our blog application will use the following layout:
 
-*show layout diagram*
-
-The corresponding layout code looks like the following:
-
 ~~~
 [php]
 <html>
