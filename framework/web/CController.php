@@ -509,7 +509,7 @@ class CController extends CBaseController
 	{
 		$output=$this->renderPartial($view,$data,true);
 
-		if(($layout=$this->layout)==null)
+		if(($layout=$this->layout)===null)
 			$layout=Yii::app()->layout;
 
 		if(!empty($layout) && ($layoutFile=$this->getLayoutFile($layout))!==false)
@@ -533,7 +533,7 @@ class CController extends CBaseController
 	 */
 	public function renderText($text,$return=false)
 	{
-		if(($layout=$this->layout)==null)
+		if(($layout=$this->layout)===null)
 			$layout=Yii::app()->layout;
 
 		if(!empty($layout) && ($layoutFile=$this->getLayoutFile($layout))!==false)
