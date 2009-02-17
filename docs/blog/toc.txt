@@ -4,31 +4,31 @@
     - [Requirements Analysis](start.requirements)
     - [Overall Design](start.design)
 
-* Milestone 1: Initial Prototyping
+* Initial Prototyping
     - [Setting Up Database](prototype.database)
     - [Scaffolding](prototype.scaffold)
     - [Authenticating User](prototype.auth)
     - [Summary](prototype.summary)
 
-* Milestone 2: Post Management
+* Post Management
     - [Customizing Post Model](post.model)
     - [Creating and Updating Posts](post.create)
     - [Displaying Posts](post.display)
     - [Managing Posts](post.admin)
 
-* Milestone 3: Comment Management
+* Comment Management
 	- [Customizing Comment Model](comment.model)
     - [Creating and Displaying Comments](comment.create)
     - [Managing Comments](comment.admin)
 
-* Milestone 4: Porlets
+* Porlets
 	- [Establishing Portlet Architecture](portlet.base)
 	- [Creating User Menu Portlet](portlet.menu)
 	- [Creating Login Portlet](portlet.login)
 	- [Creating Tag Cloud Portlet](portlet.tags)
 	- [Creating Recent Comments Portlet](portlet.comments)
 
-* Milestone 5: Final Work
+* Final Work
 	- [Beautifying URLs](final.url)
 	- [Logging Errors](final.logging)
     - [Customizing Error Display](final.error)
