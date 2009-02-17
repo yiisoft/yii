@@ -280,6 +280,6 @@ class CSort extends CComponent
 	 */
 	protected function createLink($attribute,$label,$url,$htmlOptions)
 	{
-		return CHtml::link(CHtml::encode($label),$url,$htmlOptions);
+		return CHtml::link($label,$url,$htmlOptions);
 	}
 }
