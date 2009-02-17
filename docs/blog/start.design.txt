@@ -27,12 +27,12 @@ The following entity-relation (ER) diagram shows the table structure and relatio
 Complete SQL statements corresponding to the above ER diagram may be found in [the blog demo](http://www.yiiframework.com/demos/blog/). In our Yii installation, they are in the file `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql`.
 
 
-We divide the development of our blog application into several milestones. In the first milestone, we create a quick prototype that has the major functionalities as required. In the rest of the milestones, we customize the prototype in the following aspects:
+We divide the development of our blog application into the following milestones.
 
- * Post management: including creating, reading, updating and deleting posts.
- * Comment management: including creating, reading, updating and deleting post comments.
- * Portlets: including user menu, login, tag cloud and recent comments portlets.
-
-And at the end, we do some overall adjustment and deploy the application.
+ * Milestone 1: creating a prototype of the blog system. It should consist of most of the required functionalities.
+ * Milestone 2: completing post management. It includes creating, listing, showing, updating and deleting posts.
+ * Milestone 3: completing comment management. It includes creating, listing, approving, updating and deleting post comments.
+ * Milestone 4: implementing portlets. It includes user menu, login, tag cloud and recent comments portlets.
+ * Milestone 5: final tune-up and deployment.
 
 <div class="revision">$Id$</div>
