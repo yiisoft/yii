@@ -6,6 +6,7 @@ Version 1.0.3 to be released
 ----------------------------
 - Bug #127: CUploadedFile is using an undefined variable (Qiang)
 - Bug #132: CMysqlSchema has a typo (Qiang)
+- Bug #133: CSort should properly quote the columns to be sorted (Qiang)
 - Bug #135: CSort::link() does not work well with labels with special chars (Qiang)
 - Bug #145: When layout property of CController is false, main layout is still applied (Qiang)
 - Bug: CHttpRequest.hostInfo may give wrong port number (Qiang)
