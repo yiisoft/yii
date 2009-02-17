@@ -59,7 +59,8 @@ protected function newComment($post)
 			$comment->validate('insert');
 		else if(isset($_POST['submitComment']) && $comment->save())
 		{
-			Yii::app()->user->setFlash('commentSubmitted','Thank you...'); $this->refresh();
+			Yii::app()->user->setFlash('commentSubmitted','Thank you...');
+			$this->refresh();
 		}
 	}
 	return $comment;
