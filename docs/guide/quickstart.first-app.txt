@@ -26,9 +26,6 @@ This will create a skeleton Yii application under the directory
 `WebRoot/testdrive`. The application has a directory structure that is
 is needed by most Yii applications.
 
-> Tip: Starting from version 1.0.3, a testdrive application is included
-> directly under the directory `YiiRoot/testdrive`.
-
 Without writing a single line of code, we can test drive our first Yii
 application by accessing the following URL in a Web browser:
 

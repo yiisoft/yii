@@ -7,7 +7,7 @@ The URLs linking various pages of our blog application currently look ugly. For 
 /index.php?r=post/show&id=1
 ~~~
 
-In this section, we describe how to beautifying these URLs and make them SEO-friendly. We goal is to be able to use the following URLs in the application:
+In this section, we describe how to beautifying these URLs and make them SEO-friendly. Our goal is to be able to use the following URLs in the application:
 
  * `/index.php/tag/yii`: leads to the page showing a list of posts with tag `yii`;
  * `/index.php/posts`: leads to the page showing the latest posts;

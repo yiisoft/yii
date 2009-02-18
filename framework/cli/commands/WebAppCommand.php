@@ -54,7 +54,7 @@ EOD;
 		echo "Create a Web application under '$path'? [Yes|No] ";
 		if(!strncasecmp(trim(fgets(STDIN)),'y',1))
 		{
-			$sourceDir=realpath(dirname(__FILE__).'/../../../testdrive');
+			$sourceDir=realpath(dirname(__FILE__).'/../views/webapp');
 			if($sourceDir===false)
 				die('Unable to locate the source directory.');
 			$list=$this->buildFileList($sourceDir,$path);

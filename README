@@ -1,19 +1,18 @@
-
-             Yii Web Programming Framework
-             =============================
+Yii Web Programming Framework
+=============================
 
 Thank you for choosing Yii - a high-performance component-based PHP framework.
 
 
 INSTALLATION
 ------------
+
 Please make sure the release file is unpacked under a Web-accessible
 directory. You shall see the following files and directories:
 
       demos/               demos
       framework/           framework source files
       requirements/        requirement checker
-      testdrive/           a skeleton Yii application
       CHANGELOG            describing changes in every Yii release
       LICENSE              license of Yii
       README               this file
@@ -22,6 +21,7 @@ directory. You shall see the following files and directories:
 
 REQUIREMENTS
 ------------
+
 The minimum requirement by Yii is that your Web server supports
 PHP 5.1.0 or above. Yii has been tested with Apache HTTP server
 on Windows and Linux operating systems.
@@ -34,8 +34,19 @@ the requirements by Yii, assuming "YiiPath" is where Yii is installed:
 
 QUICK START
 -----------
-Yii comes with a skeleton application located under the directory
-"testdrive". It is a good starting point for your application.
+
+Yii comes with a command line tool called "yiic" that can create
+a skeleton Yii application for you to start with.
+
+On command line, type in the following commands:
+
+        $ cd YiiPath/framework                (Linux)
+        cd YiiPath\framework                  (Windows)
+
+        $ ./yiic webapp ../testdrive          (Linux)
+        yiic webapp ..\testdrive              (Windows)
+
+The new Yii application will be created at "YiiPath/testdrive".
 You can access it with the following URL:
 
         http://hostname/YiiPath/testdrive/index.php
@@ -43,6 +54,7 @@ You can access it with the following URL:
 
 WHAT's NEXT
 -----------
+
 Please visit the project website for tutorials, class reference
 and join discussions with other Yii users.
 

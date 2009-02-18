@@ -122,9 +122,16 @@ class CSort extends CComponent
 			$order=$this->defaultOrder;
 		else
 		{
+			$schema=CActiveRecord::model($this->modelClass)->getDbConnection()->getSchema();
 			$orders=array();
 			foreach($directions as $attribute=>$descending)
+			{
+				if(($pos=strpos($attribute,'.'))!==false)
+					$attribute=$schema->quoteTableName(substr($attribute,0,$pos)).'.'.$schema->quoteColumnName(substr($attribute,$pos+1));
+				else
+					$attribute=$schema->quoteColumnName($attribute);
 				$orders[]=$descending?$attribute.' DESC':$attribute;
+			}
 			$order=implode(', ',$orders);
 		}
 
@@ -280,6 +287,6 @@ class CSort extends CComponent
 	 */
 	protected function createLink($attribute,$label,$url,$htmlOptions)
 	{
-		return CHtml::link(CHtml::encode($label),$url,$htmlOptions);
+		return CHtml::link($label,$url,$htmlOptions);
 	}
 }

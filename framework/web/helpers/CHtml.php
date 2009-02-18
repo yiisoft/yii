@@ -546,7 +546,9 @@ class CHtml
 	 * Generates a drop down list.
 	 * @param string the input name
 	 * @param string the selected value
-	 * @param array data for generating the list options (value=>display)
+	 * @param array data for generating the list options (value=>display).
+	 * You may use {@link listData} to generate this data.
+	 * Please refer to {@link listOptions} on how this data is used to generate the list options.
 	 * @param array additional HTML attributes. Besides normal HTML attributes, a few special
 	 * attributes are also recognized (see {@link clientChange} for more details.)
 	 * @return string the generated drop down list
@@ -569,6 +571,8 @@ class CHtml
 	 * @param string the input name
 	 * @param string the selected value
 	 * @param array data for generating the list options (value=>display)
+	 * You may use {@link listData} to generate this data.
+	 * Please refer to {@link listOptions} on how this data is used to generate the list options.
 	 * @param array additional HTML attributes. Besides normal HTML attributes, a few special
 	 * attributes are also recognized (see {@link clientChange} for more details.)
 	 * @return string the generated list box
@@ -1024,6 +1028,8 @@ class CHtml
 	 * @param CModel the data model
 	 * @param string the attribute
 	 * @param array data for generating the list options (value=>display)
+	 * You may use {@link listData} to generate this data.
+	 * Please refer to {@link listOptions} on how this data is used to generate the list options.
 	 * @param array additional HTML attributes. Besides normal HTML attributes, a few special
 	 * attributes are also recognized (see {@link clientChange} for more details.)
 	 * @return string the generated drop down list
@@ -1054,6 +1060,8 @@ class CHtml
 	 * @param CModel the data model
 	 * @param string the attribute
 	 * @param array data for generating the list options (value=>display)
+	 * You may use {@link listData} to generate this data.
+	 * Please refer to {@link listOptions} on how this data is used to generate the list options.
 	 * @param array additional HTML attributes. Besides normal HTML attributes, a few special
 	 * attributes are also recognized (see {@link clientChange} for more details.)
 	 * @return string the generated list box
@@ -1288,10 +1296,21 @@ class CHtml
 	 * <ul>
 	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty.</li>
 	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.</li>
+	 * <li>options: array, specifies additional attributes for each OPTION tag.
+	 *     The array keys must be the option values, and the array values are the extra
+	 *     OPTION tag attributes in the name-value pairs. For example,
+	 * <pre>
+	 *     array(
+	 *         'value1'=>array('disabled'=>true, 'label'=>'value 1'),
+	 *         'value2'=>array('label'=>'value 2'),
+	 *     );
+	 * </pre>
+	 *     This option has been available since version 1.0.3.
+	 * </li>
 	 * </ul>
 	 * @return string the generated list options
 	 */
-	protected static function listOptions($selection,$listData,&$htmlOptions)
+	public static function listOptions($selection,$listData,&$htmlOptions)
 	{
 		$content='';
 		if(isset($htmlOptions['prompt']))
@@ -1305,6 +1324,14 @@ class CHtml
 			unset($htmlOptions['empty']);
 		}
 
+		if(isset($htmlOptions['options']))
+		{
+			$options=$htmlOptions['options'];
+			unset($htmlOptions['options']);
+		}
+		else
+			$options=array();
+
 		foreach($listData as $key=>$value)
 		{
 			if(is_array($value))
@@ -1314,10 +1341,15 @@ class CHtml
 				$content.=self::listOptions($selection,$value,$dummy);
 				$content.='</optgroup>'."\n";
 			}
-			else if(!is_array($selection) && !strcmp($key,$selection) || is_array($selection) && in_array($key,$selection))
-				$content.='<option value="'.self::encode((string)$key).'" selected="selected">'.self::encode((string)$value)."</option>\n";
 			else
-				$content.='<option value="'.self::encode((string)$key).'">'.self::encode((string)$value)."</option>\n";
+			{
+				$attributes=array('value'=>(string)$key);
+				if(!is_array($selection) && !strcmp($key,$selection) || is_array($selection) && in_array($key,$selection))
+					$attributes['selected']='selected';
+				if(isset($options[$key]))
+					$attributes=array_merge($attributes,$options[$key]);
+				$content.=CHtml::tag('option',$attributes,self::encode((string)$value))."\n";
+			}
 		}
 		return $content;
 	}
