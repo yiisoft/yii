@@ -113,7 +113,7 @@ class {ClassName} extends CController
 	{
 		$criteria=new CDbCriteria;
 
-		$pages=new CPagination({ModelClass}::model()->count());
+		$pages=new CPagination({ModelClass}::model()->count($criteria));
 		$pages->pageSize=self::PAGE_SIZE;
 		$pages->applyLimit($criteria);
 
@@ -134,7 +134,7 @@ class {ClassName} extends CController
 
 		$criteria=new CDbCriteria;
 
-		$pages=new CPagination({ModelClass}::model()->count());
+		$pages=new CPagination({ModelClass}::model()->count($criteria));
 		$pages->pageSize=self::PAGE_SIZE;
 		$pages->applyLimit($criteria);
 

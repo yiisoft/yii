@@ -31,7 +31,7 @@ public function rules()
 }
 ~~~
 
-In the above, we specify that the `title`, `length` and `max` attributes are required; the length of `title` should not exceed 128; the `status` attribute value should be 0 (draft), 1 (published) or 2 (archived); and the `tags` attribute should only contain word characters and commas. All other attributes (e.g. `id`, `createTime`) will not be validated because their values do not come from user input.
+In the above, we specify that the `title`, `content` and `status` attributes are required; the length of `title` should not exceed 128; the `status` attribute value should be 0 (draft), 1 (published) or 2 (archived); and the `tags` attribute should only contain word characters and commas. All other attributes (e.g. `id`, `createTime`) will not be validated because their values do not come from user input.
 
 After making these changes, we can visit the post creation page again to verify that the new validation rules are taking effect.
 

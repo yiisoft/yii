@@ -21,7 +21,7 @@
     - [Creating and Displaying Comments](comment.create)
     - [Managing Comments](comment.admin)
 
-* Porlets
+* Portlets
 	- [Establishing Portlet Architecture](portlet.base)
 	- [Creating User Menu Portlet](portlet.menu)
 	- [Creating Login Portlet](portlet.login)
