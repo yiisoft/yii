@@ -60,8 +60,7 @@ model attribute. If the attribute has an input error, the label's CSS class
 will be changed to `error`, which changes the appearance of the label with
 appropriate CSS styles. Similarly, [CHtml::activeTextField()] generates a
 text input field for the specified model attribute and changes its CSS
-class upon any input error. For more details about using [CHtml], see
-[Using Helpers](/doc/guide/view.helper).
+class upon any input error.
 
 If we use the CSS style file `form.css` provided by the `yiic` script, the
 generated form would be like the following:
