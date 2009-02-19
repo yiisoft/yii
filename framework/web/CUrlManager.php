@@ -93,6 +93,13 @@ class CUrlManager extends CApplicationComponent
 	 * @since 1.0.1
 	 */
 	public $caseSensitive=true;
+	/**
+	 * @var string the ID of the cache application component that is used to cache the parsed URL rules.
+	 * Defaults to 'cache' which refers to the primary cache application component.
+	 * Set this property to false if you want to disable caching URL rules.
+	 * @since 1.0.3
+	 */
+	public $cacheID='cache';
 
 	private $_urlFormat=self::GET_FORMAT;
 	private $_rules=array();
@@ -116,7 +123,7 @@ class CUrlManager extends CApplicationComponent
 	{
 		if(empty($this->_rules) || $this->getUrlFormat()===self::GET_FORMAT)
 			return;
-		if(($cache=Yii::app()->getCache())!==null)
+		if($this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID))!==null)
 		{
 			$hash=md5(serialize($this->_rules));
 			if(($data=$cache->get(self::CACHE_KEY))!==false && isset($data[1]) && $data[1]===$hash)
@@ -127,7 +134,7 @@ class CUrlManager extends CApplicationComponent
 		}
 		foreach($this->_rules as $pattern=>$route)
 			$this->_groups[$route][]=new CUrlRule($route,$pattern);
-		if($cache!==null)
+		if(isset($cache))
 			$cache->set(self::CACHE_KEY,array($this->_groups,$hash));
 	}
 
