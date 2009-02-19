@@ -355,6 +355,7 @@ abstract class CActiveRecord extends CModel
 		if($attributes!==array())
 			$this->setAttributes($attributes,$scenario);
 
+		$this->attachBehaviors($this->behaviors());
 		$this->afterConstruct();
 	}
 
@@ -965,7 +966,6 @@ abstract class CActiveRecord extends CModel
 	 */
 	protected function afterConstruct()
 	{
-		$this->attachBehaviors($this->behaviors());
 		$this->onAfterConstruct(new CEvent($this));
 	}
 
@@ -977,7 +977,6 @@ abstract class CActiveRecord extends CModel
 	 */
 	protected function afterFind()
 	{
-		$this->attachBehaviors($this->behaviors());
 		$this->onAfterFind(new CEvent($this));
 	}
 
@@ -1476,6 +1475,7 @@ abstract class CActiveRecord extends CModel
 				else if(isset($record->_md->columns[$name]))
 					$record->_attributes[$name]=$value;
 			}
+			$record->attachBehaviors($record->behaviors());
 			if($callAfterFind)
 				$record->afterFind();
 			return $record;
@@ -1509,6 +1509,7 @@ abstract class CActiveRecord extends CModel
 				else if(isset($record->_md->columns[$name]))
 					$record->_attributes[$name]=$value;
 			}
+			$record->attachBehaviors($record->behaviors());
 			if($callAfterFind)
 				$record->afterFind();
 			$records[]=$record;
