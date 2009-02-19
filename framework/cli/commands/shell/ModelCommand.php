@@ -101,7 +101,7 @@ EOD;
 				{
 					if($column->isPrimaryKey && $table->sequenceName!==null || $column->isForeignKey)
 						continue;
-					if(!$column->allowNull && $column->defaultValue!==null)
+					if(!$column->allowNull && $column->defaultValue===null)
 						$required[]=$column->name;
 					if($column->type==='integer')
 						$integers[]=$column->name;
