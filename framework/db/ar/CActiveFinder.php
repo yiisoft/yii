@@ -77,6 +77,7 @@ class CActiveFinder extends CComponent
 	{
 		$criteria=$this->_builder->createCriteria($condition,$params);
 		$this->_joinTree->find($criteria);
+		$this->_joinTree->afterFind();
 		if(count($this->_joinTree->records))
 			return reset($this->_joinTree->records);
 		else
@@ -90,6 +91,7 @@ class CActiveFinder extends CComponent
 	{
 		$criteria=$this->_builder->createCriteria($condition,$params);
 		$this->_joinTree->find($criteria);
+		$this->_joinTree->afterFind();
 		return array_values($this->_joinTree->records);
 	}
 
@@ -100,6 +102,7 @@ class CActiveFinder extends CComponent
 	{
 		$criteria=$this->_builder->createPkCriteria($this->_joinTree->model->getTableSchema(),$pk,$condition,$params);
 		$this->_joinTree->find($criteria);
+		$this->_joinTree->afterFind();
 		if(count($this->_joinTree->records))
 			return reset($this->_joinTree->records);
 		else
@@ -113,6 +116,7 @@ class CActiveFinder extends CComponent
 	{
 		$criteria=$this->_builder->createPkCriteria($this->_joinTree->model->getTableSchema(),$pk,$condition,$params);
 		$this->_joinTree->find($criteria);
+		$this->_joinTree->afterFind();
 		return array_values($this->_joinTree->records);
 	}
 
@@ -123,6 +127,7 @@ class CActiveFinder extends CComponent
 	{
 		$criteria=$this->_builder->createColumnCriteria($this->_joinTree->model->getTableSchema(),$attributes,$condition,$params);
 		$this->_joinTree->find($criteria);
+		$this->_joinTree->afterFind();
 		if(count($this->_joinTree->records))
 			return reset($this->_joinTree->records);
 		else
@@ -136,6 +141,7 @@ class CActiveFinder extends CComponent
 	{
 		$criteria=$this->_builder->createColumnCriteria($this->_joinTree->model->getTableSchema(),$attributes,$condition,$params);
 		$this->_joinTree->find($criteria);
+		$this->_joinTree->afterFind();
 		return array_values($this->_joinTree->records);
 	}
 
@@ -147,6 +153,7 @@ class CActiveFinder extends CComponent
 		$command=$this->_builder->createSqlCommand($sql,$params);
 		$baseRecord=$this->_joinTree->model->populateRecord($command->queryRow());
 		$this->_joinTree->findWithBase($baseRecord);
+		$this->_joinTree->afterFind();
 		return $baseRecord;
 	}
 
@@ -158,6 +165,7 @@ class CActiveFinder extends CComponent
 		$command=$this->_builder->createSqlCommand($sql,$params);
 		$baseRecords=$this->_joinTree->model->populateRecords($command->queryAll());
 		$this->_joinTree->findWithBase($baseRecords);
+		$this->_joinTree->afterFind();
 		return $baseRecords;
 	}
 
@@ -179,6 +187,7 @@ class CActiveFinder extends CComponent
 	public function lazyFind($baseRecord)
 	{
 		$this->_joinTree->lazyFind($baseRecord);
+		$this->_joinTree->afterFind();
 	}
 
 	/**
@@ -433,6 +442,18 @@ class CJoinElement
 		$query->orders=$query->groups=$query->havings=array();
 		$command=$query->createCommand($this->_builder);
 		return $command->queryScalar();
+	}
+
+	/**
+	 * Calls {@link CActiveRecord::afterFind} of all the records.
+	 * @since 1.0.3
+	 */
+	public function afterFind()
+	{
+		foreach($this->records as $record)
+			$record->afterFindInternal();
+		foreach($this->children as $child)
+			$child->afterFind();
 	}
 
 	/**

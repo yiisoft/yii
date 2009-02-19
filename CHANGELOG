@@ -9,6 +9,8 @@ Version 1.0.3 to be released
 - Bug #133: CSort should properly quote the columns to be sorted (Qiang)
 - Bug #135: CSort::link() does not work well with labels with special chars (Qiang)
 - Bug #145: When layout property of CController is false, main layout is still applied (Qiang)
+- Bug #153: Accessing related objects in afterFind() causes a duplicated SQL query (Qiang)
+- Bug #154: Calling behavior method in relations() does not work (Qiang)
 - Bug: CHttpRequest.hostInfo may give wrong port number (Qiang)
 - Bug: CHtml::activeListBox does not work when multiple selection is needed (Qiang)
 - Bug: Inconsistency in timezone of log messages for different log routes (Qiang)
