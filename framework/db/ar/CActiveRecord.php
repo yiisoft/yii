@@ -469,6 +469,17 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Returns a value indicating whether the named related object(s) has been loaded.
+	 * @param string the relation name
+	 * @return booolean a value indicating whether the named related object(s) has been loaded.
+	 * @since 1.0.3
+	 */
+	public function hasRelated($name)
+	{
+		return isset($this->_related[$name]) || array_key_exists($name,$this->_related);
+	}
+
+	/**
 	 * Sets a component property to be null.
 	 * This method overrides the parent implementation by clearing
 	 * the specified attribute value.
