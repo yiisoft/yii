@@ -80,6 +80,14 @@ class CUrlManager extends CApplicationComponent
 	 */
 	public $showScriptName=true;
 	/**
+	 * @var boolean whether to append GET parameters to the path info part. Defaults to true.
+	 * This property is only effective when {@link urlFormat} is 'path' and is mainly used when
+	 * creating URLs. When it is true, GET parameters will be appended to the path info and
+	 * separate from each other using slashes. If this is false, GET parameters will be in query part.
+	 * @since 1.0.3
+	 */
+	public $appendParams=true;
+	/**
 	 * @var string the GET variable name for route. Defaults to 'r'.
 	 */
 	public $routeVar='r';
@@ -200,8 +208,16 @@ class CUrlManager extends CApplicationComponent
 		if($this->getUrlFormat()===self::PATH_FORMAT)
 		{
 			$url=rtrim($this->getBaseUrl().'/'.$route,'/');
-			$url.='/'.self::createPathInfo($params,'/','/');
-			return rtrim($url,'/').$this->urlSuffix;
+			if($this->appendParams)
+			{
+				$url.='/'.self::createPathInfo($params,'/','/');
+				return rtrim($url,'/').$this->urlSuffix;
+			}
+			else
+			{
+				$query=self::createPathInfo($params,'=',$ampersand);
+				return $query==='' ? $url : $url.'?'.$query;
+			}
 		}
 		else
 		{
