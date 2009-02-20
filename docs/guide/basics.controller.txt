@@ -27,13 +27,16 @@ Route
 -----
 
 Controllers and actions are identified by IDs. Controller ID is in the
-format of `path.to.xyz` which corresponds to the controller class file
+format of `path/to/xyz` which corresponds to the controller class file
 `protected/controllers/path/to/XyzController.php`, where the token `xyz`
 should be replaced by actual names (e.g. `post` corresponds to
 `protected/controllers/PostController.php`). Action ID is the action method
 name without the `action` prefix. For example, if a controller class
 contains a method named `actionEdit`, the ID of the corresponding action
 would be `edit`.
+
+> Note: Before version 1.0.3, the controller ID format is `path.to.xyz`
+instead of `path/to/xyz`.
 
 Users request for a particular controller and action in terms of route. A
 route is formed by concatenating a controller ID and an action ID separated
@@ -66,7 +69,7 @@ maintenance mode and display a static notice page.
 corresponding controller configuration will be used to create the
 controller instance.
 
-   - If the ID is in the format of `'path.to.xyz'`, the controller class
+   - If the ID is in the format of `'path/to/xyz'`, the controller class
 name is assumed to be `XyzController` and the corresponding class file is
 `protected/controllers/path/to/XyzController.php`. For example, a controller
 ID `admin.user` would be resolved as the controller class `UserController`

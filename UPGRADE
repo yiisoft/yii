@@ -12,6 +12,11 @@ for both A and B.
 
 Upgrading from v1.0.2
 ---------------------
+- Controllers that are organized in subdirectories are now referenced
+  using the ID format "path/to/xyz". Previously it was "path.to.xyz".
+  If you use "path.to.xyz" in your application, you have to modify it
+  to "path/to/xyz".
+
 
 Upgrading from v1.0.1
 ---------------------

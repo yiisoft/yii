@@ -1208,7 +1208,8 @@ class CHtml
 
 	/**
 	 * Generates the data suitable for {@link dropDownList} and {@link listBox}.
-	 * @param array a list of model objects.
+	 * @param array a list of model objects. Starting from version 1.0.3, this parameter
+	 * can also be an array of associative arrays (e.g. results of {@link CDbCommand::queryAll}).
 	 * @param string the attribute name for list option values
 	 * @param string the attribute name for list option texts
 	 * @param string the attribute name for list option group names. If empty, no group will be generated.
@@ -1220,12 +1221,22 @@ class CHtml
 		if($groupField==='')
 		{
 			foreach($models as $model)
-				$listData[$model->$valueField]=$model->$textField;
+			{
+				if(is_object($model))
+					$listData[$model->$valueField]=$model->$textField;
+				else
+					$listData[$model[$valueField]]=$model[$textField];
+			}
 		}
 		else
 		{
 			foreach($models as $model)
-				$listData[$model->$groupField][$model->$valueField]=$model->$textField;
+			{
+				if(is_object($model))
+					$listData[$model->$groupField][$model->$valueField]=$model->$textField;
+				else
+					$listData[$model[$groupField]][$model[$valueField]]=$model[$textField];
+			}
 		}
 		return $listData;
 	}

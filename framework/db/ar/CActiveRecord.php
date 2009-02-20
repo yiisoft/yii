@@ -355,6 +355,7 @@ abstract class CActiveRecord extends CModel
 		if($attributes!==array())
 			$this->setAttributes($attributes,$scenario);
 
+		$this->attachBehaviors($this->behaviors());
 		$this->afterConstruct();
 	}
 
@@ -469,6 +470,17 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Returns a value indicating whether the named related object(s) has been loaded.
+	 * @param string the relation name
+	 * @return booolean a value indicating whether the named related object(s) has been loaded.
+	 * @since 1.0.3
+	 */
+	public function hasRelated($name)
+	{
+		return isset($this->_related[$name]) || array_key_exists($name,$this->_related);
+	}
+
+	/**
 	 * Sets a component property to be null.
 	 * This method overrides the parent implementation by clearing
 	 * the specified attribute value.
@@ -509,6 +521,7 @@ abstract class CActiveRecord extends CModel
 		{
 			$model=self::$_models[$className]=new $className(null);
 			$model->isNewRecord=false;
+			$model->attachBehaviors($model->behaviors());
 			$model->_md=new CActiveRecordMetaData($model);
 			return $model;
 		}
@@ -953,7 +966,6 @@ abstract class CActiveRecord extends CModel
 	 */
 	protected function afterConstruct()
 	{
-		$this->attachBehaviors($this->behaviors());
 		$this->onAfterConstruct(new CEvent($this));
 	}
 
@@ -965,8 +977,17 @@ abstract class CActiveRecord extends CModel
 	 */
 	protected function afterFind()
 	{
-		$this->attachBehaviors($this->behaviors());
 		$this->onAfterFind(new CEvent($this));
+	}
+
+	/**
+	 * Calls {@link afterFind}.
+	 * This method is internally used.
+	 * @since 1.0.3
+	 */
+	public function afterFindInternal()
+	{
+		$this->afterFind();
 	}
 
 	/**
@@ -1435,10 +1456,12 @@ abstract class CActiveRecord extends CModel
 	 * Creates an active record with the given attributes.
 	 * This method is internally used by the find methods.
 	 * @param array attribute values (column name=>column value)
+	 * @param boolean whether to call {@link afterFind} after the record is populated.
+	 * This parameter is added in version 1.0.3.
 	 * @return CActiveRecord the newly created active record. The class of the object is the same as the model class.
 	 * Null is returned if the input data is false.
 	 */
-	public function populateRecord($attributes)
+	public function populateRecord($attributes,$callAfterFind=true)
 	{
 		if($attributes!==false)
 		{
@@ -1452,7 +1475,9 @@ abstract class CActiveRecord extends CModel
 				else if(isset($record->_md->columns[$name]))
 					$record->_attributes[$name]=$value;
 			}
-			$record->afterFind();
+			$record->attachBehaviors($record->behaviors());
+			if($callAfterFind)
+				$record->afterFind();
 			return $record;
 		}
 		else
@@ -1463,9 +1488,11 @@ abstract class CActiveRecord extends CModel
 	 * Creates a list of active records based on the input data.
 	 * This method is internally used by the find methods.
 	 * @param array list of attribute values for the active records.
+	 * @param boolean whether to call {@link afterFind} after each record is populated.
+	 * This parameter is added in version 1.0.3.
 	 * @return array list of active records.
 	 */
-	public function populateRecords($data)
+	public function populateRecords($data,$callAfterFind=true)
 	{
 		$records=array();
 		$md=$this->getMetaData();
@@ -1482,7 +1509,9 @@ abstract class CActiveRecord extends CModel
 				else if(isset($record->_md->columns[$name]))
 					$record->_attributes[$name]=$value;
 			}
-			$record->afterFind();
+			$record->attachBehaviors($record->behaviors());
+			if($callAfterFind)
+				$record->afterFind();
 			$records[]=$record;
 		}
 		return $records;

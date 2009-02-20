@@ -50,8 +50,8 @@ class CUrlManagerTest extends CTestCase
 			),
 			array(
 				'pathInfo'=>'article/123/name/value',
-				'route'=>'article/123',
-				'params'=>array('name'=>'value'),
+				'route'=>'article/123/name/value',
+				'params'=>array(),
 			),
 			array(
 				'pathInfo'=>'article/2000/title goes here',
@@ -82,12 +82,12 @@ class CUrlManagerTest extends CTestCase
 			),
 			array(
 				'pathInfo'=>'home2/name/value/name1/value1',
-				'route'=>'home2/name',
-				'params'=>array('value'=>'name1','value1'=>''),
+				'route'=>'home2/name/value/name1/value1',
+				'params'=>array(),
 			),
 			array(
 				'pathInfo'=>'post',
-				'route'=>'post/',
+				'route'=>'post',
 				'params'=>array(),
 			),
 			array(
@@ -97,12 +97,12 @@ class CUrlManagerTest extends CTestCase
 			),
 			array(
 				'pathInfo'=>'post/read/id/100',
-				'route'=>'post/read',
-				'params'=>array('id'=>'100'),
+				'route'=>'post/read/id/100',
+				'params'=>array(),
 			),
 			array(
 				'pathInfo'=>'',
-				'route'=>'/',
+				'route'=>'',
 				'params'=>array(),
 			),
 			array(
@@ -112,8 +112,8 @@ class CUrlManagerTest extends CTestCase
 			),
 			array(
 				'pathInfo'=>'admin/name/value',
-				'route'=>'admin/name',
-				'params'=>array('value'=>''),
+				'route'=>'admin/name/value',
+				'params'=>array(),
 			),
 		);
 		$config=array(

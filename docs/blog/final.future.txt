@@ -50,6 +50,6 @@ With the above code, the tag cloud display will be served from cache instead of 
 Adding New Features
 -------------------
 
-Our blog application only has very basic functionalities. To become a complete blog system, more features are needed, for example, calendar portlet, email notifications, post categorization, archived post portlet, and so on. We will leave the implementation of thse features to interested readers.
+Our blog application only has very basic functionalities. To become a complete blog system, more features are needed, for example, calendar portlet, email notifications, post categorization, archived post portlet, and so on. We will leave the implementation of these features to interested readers.
 
 <div class="revision">$Id$</div>

@@ -13,6 +13,8 @@ Version 1.0.3 to be released
 - Bug #133: CSort should properly quote the columns to be sorted (Qiang)
 - Bug #135: CSort::link() does not work well with labels with special chars (Qiang)
 - Bug #145: When layout property of CController is false, main layout is still applied (Qiang)
+- Bug #153: Accessing related objects in afterFind() causes a duplicated SQL query (Qiang)
+- Bug #154: Calling behavior method in relations() does not work (Qiang)
 - Bug: CHttpRequest.hostInfo may give wrong port number (Qiang)
 - Bug: CHtml::activeListBox does not work when multiple selection is needed (Qiang)
 - Bug: Inconsistency in timezone of log messages for different log routes (Qiang)
@@ -21,6 +23,8 @@ Version 1.0.3 to be released
 - New #136: Added support to CWebUser to allow directly accessing persistent properties (Qiang)
 - New #137: yiic model command should only set a column as required when it does not have default value (Qiang)
 - New #138: Added support to specify additional attributes for OPTION tags (Qiang)
+- New #146: Added CUrlManager.appendParams which allows creating URLs in path format whose GET parameters are all in the query part (Qiang)
+- New #156: Added CUrlManager.cacheID to allow disabling URL rule caching (Qiang)
 - New: Upgraded jquery to 1.3.1 (Qiang)
 - New: Upgraded jquery star rating to 2.61 (Qiang)
 - New: Added skeleton application and refactored 'yiic webapp' command (Qiang)
@@ -31,6 +35,9 @@ Version 1.0.3 to be released
 - New: Added params option to relation declaration (Qiang)
 - New: Added the blog tutorial (Qiang)
 - New: Added CActiveRelation.together option to allow enforcing a table to be joined with the primary table (Qiang)
+- New: Added CActiveRecord.hasRelated() (Qiang)
+- New: Enhanced CHtml::listData() to work with raw query results (Qiang)
+- New: Controllers under subdirectories are now referenced using "path/to/xyz" (Qiang)
 
 
 Version 1.0.2 February 1, 2009
