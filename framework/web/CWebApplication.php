@@ -110,49 +110,13 @@ class CWebApplication extends CApplication
 	{
 		if(is_array($this->catchAllRequest) && isset($this->catchAllRequest[0]))
 		{
-			$segs=explode('/',$this->catchAllRequest[0]);
-			$controllerID=$segs[0];
-			$actionID=isset($segs[1])?$segs[1]:'';
+			$route=$this->catchAllRequest[0];
 			foreach(array_splice($this->catchAllRequest,1) as $name=>$value)
 				$_GET[$name]=$value;
 		}
 		else
-			list($controllerID,$actionID)=$this->resolveRequest();
-		$this->runController($controllerID,$actionID);
-	}
-
-	/**
-	 * Resolves the current request into controller and action.
-	 * @return array controller ID and action ID.
-	 */
-	protected function resolveRequest()
-	{
-		$route=$this->getUrlManager()->parseUrl($this->getRequest());
-		if($route!=='' && ($pos=strrpos($route,'/'))!==false)
-			return array(substr($route,0,$pos),(string)substr($route,$pos+1));
-		else
-			return array($route,'');
-	}
-
-	/**
-	 * Creates the controller and performs the specified action.
-	 * @param string controller ID
-	 * @param string action ID
-	 * @throws CHttpException if the controller could not be created.
-	 */
-	public function runController($controllerID,$actionID)
-	{
-		if(($controller=$this->createController($controllerID))!==null)
-		{
-			$oldController=$this->_controller;
-			$this->_controller=$controller;
-			$controller->init();
-			$controller->run($actionID);
-			$this->_controller=$oldController;
-		}
-		else
-			throw new CHttpException(404,Yii::t('yii','The requested controller "{controller}" does not exist.',
-				array('{controller}'=>$controllerID===''?$this->defaultController:$controllerID)));
+			$route=$this->getUrlManager()->parseUrl($this->getRequest());
+		$this->runController($route);
 	}
 
 	/**
@@ -352,44 +316,124 @@ class CWebApplication extends CApplication
 	}
 
 	/**
-	 * Creates a controller instance based on its ID.
-	 * If the ID is found in the {@link controllerMap}, the corresponding controller configuration
-	 * will be used to instantiate the controller instance;
-	 * Otherwise, the ID is assumed to be in the format of "path.to.xxx", and a controller class file
-	 * is being looked for under the directory "protected/controllers/path/to/XxxController.php" where
-	 * "xxx" can be replaced by other controller names.
-	 * @param string ID of the controller
-	 * @return CController the controller instance, null if the controller class does not exist or the ID is invalid.
+	 * Returns an application module with the specified ID.
+	 * @param string module ID
+	 * @return IApplicationModule the application module. Null if there is no such module.
+	 * The module will be initialized before being returned for the first time.
+	 * @since 1.0.3
 	 */
-	public function createController($id)
+	public function getModule($id)
 	{
-		if($id==='')
-			$id=$this->defaultController;
+		return null;
+	}
 
-		if(isset($this->controllerMap[$id]))
-			return Yii::createComponent($this->controllerMap[$id],$id);
-
-		if(!preg_match('/^\w+(\.\w+)*$/',$id))
-			return null;
-
-		if(($pos=strrpos($id,'.'))!==false)
+	/**
+	 * Creates the controller and performs the specified action.
+	 * @param string the route of the current request. See {@link createController} for more details.
+	 * @throws CHttpException if the controller could not be created.
+	 */
+	public function runController($route)
+	{
+		if(($ca=$this->createController($route))!==null)
 		{
-			$classFile=str_replace('.',DIRECTORY_SEPARATOR,$id).'Controller';
-			$classFile[$pos+1]=strtoupper($classFile[$pos+1]);
-			$className=basename($classFile);
-			$classFile=$this->getControllerPath().DIRECTORY_SEPARATOR.$classFile.'.php';
+			list($controller,$actionID)=$ca;
+			$oldController=$this->_controller;
+			$this->_controller=$controller;
+			$controller->init();
+			$controller->run($actionID);
+			$this->_controller=$oldController;
 		}
 		else
+			throw new CHttpException(404,Yii::t('yii','Unable to resolve the request "{route}".',
+				array('{route}'=>$route===''?$this->defaultController:$route)));
+	}
+
+	/**
+	 * Creates a controller instance based on a route.
+	 * The route should contain the controller ID and the action ID.
+	 * It may also contain additional GET variables. All these must be concatenated together with slashes.
+	 *
+	 * This method will attempt to create a controller in the following order:
+	 * <ol>
+	 * <li>If the first segment is found in {@link controllerMap}, the corresponding
+	 * controller configuration will be used to create the controller;</li>
+	 * <li>If the first segment is found to be a module ID, the corresponding module
+	 * will be used to create the controller;</li>
+	 * <li>Otherwise, it will search under the {@link controllerPath} to create
+	 * the corresponding controller. For example, if the route is "admin/user/create",
+	 * then the controller will be created using the class file "protected/controllers/admin/UserController.php".</li>
+	 * </ol>
+	 * @param string the route of the request.
+	 * @return array the controller instance and the action ID. Null if the controller class does not exist or the route is invalid.
+	 */
+	public function createController($route)
+	{
+		if($route==='')
+			$route=$this->defaultController;
+		$caseSensitive=$this->getUrlManager()->caseSensitive;
+
+		$route.='/';
+		while(($pos=strpos($route,'/'))!==false)
 		{
+			$id=substr($route,0,$pos);
+			if(!preg_match('/^\w+$/',$id))
+				return null;
+			if(!$caseSensitive)
+				$id=strtolower($id);
+			$route=(string)substr($route,$pos+1);
+			if(!isset($basePath))  // first segment
+			{
+				if(isset($this->controllerMap[$id]))
+				{
+					return array(
+						Yii::createComponent($this->controllerMap[$id],$id),
+						$this->parseActionParams($route),
+					);
+				}
+
+				if(($module=$this->getModule($id))!==null)
+					return $module->createController($route);
+
+				$basePath=$this->getControllerPath();
+				$controllerID=$id;
+			}
+			else
+				$controllerID.='/'.$id;
 			$className=ucfirst($id).'Controller';
-			$classFile=$this->getControllerPath().DIRECTORY_SEPARATOR.$className.'.php';
+			$classFile=$basePath.DIRECTORY_SEPARATOR.$className.'.php';
+			if(is_file($classFile))
+			{
+				if(!class_exists($className,false))
+					require($classFile);
+				if(class_exists($className,false) && is_subclass_of($className,'CController'))
+				{
+					return array(
+						new $className($controllerID),
+						$this->parseActionParams($route),
+					);
+				}
+				return null;
+			}
+			$basePath.=DIRECTORY_SEPARATOR.$id;
 		}
+	}
 
-		if(!class_exists($className,false) && is_file($classFile))
-			require($classFile);
-
-		if(class_exists($className,false) && is_subclass_of($className,'CController'))
-			return new $className($id);
+	/**
+	 * Parses a path info into an action ID and GET variables.
+	 * @param string path info
+	 * @return string action ID
+	 * @since 1.0.3
+	 */
+	protected function parseActionParams($pathInfo)
+	{
+		if(($pos=strpos($pathInfo,'/'))!==false)
+		{
+			CUrlManager::parsePathInfo((string)substr($pathInfo,$pos+1));
+			$actionID=substr($pathInfo,0,$pos);
+			return $this->getUrlManager()->caseSensitive ? $actionID : strtolower($actionID);
+		}
+		else
+			return $pathInfo;
 	}
 
 	/**
