@@ -417,7 +417,7 @@ class CController extends CBaseController
 	 */
 	public function getViewPath()
 	{
-		return Yii::app()->getViewPath().DIRECTORY_SEPARATOR.str_replace('.',DIRECTORY_SEPARATOR,$this->getId());
+		return Yii::app()->getViewPath().DIRECTORY_SEPARATOR.str_replace('/',DIRECTORY_SEPARATOR,$this->getId());
 	}
 
 	/**
@@ -673,7 +673,7 @@ class CController extends CBaseController
 			return $this->_pageTitle;
 		else
 		{
-			$name=ucfirst(basename(str_replace('.','/',$this->getId())));
+			$name=ucfirst(basename($this->getId()));
 			if($this->getAction()!==null && strcasecmp($this->getAction()->getId(),$this->defaultAction))
 				return $this->_pageTitle=Yii::app()->name.' - '.ucfirst($this->getAction()->getId()).' '.$name;
 			else

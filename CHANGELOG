@@ -32,6 +32,7 @@ Version 1.0.3 to be released
 - New: Added CActiveRelation.together option to allow enforcing a table to be joined with the primary table (Qiang)
 - New: Added CActiveRecord.hasRelated() (Qiang)
 - New: Enhanced CHtml::listData() to work with raw query results (Qiang)
+- New: Controllers under subdirectories are now referenced using "path/to/xyz" (Qiang)
 
 
 Version 1.0.2 February 1, 2009
