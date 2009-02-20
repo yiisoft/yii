@@ -392,7 +392,10 @@ class CWebApplication extends CApplication
 				}
 
 				if(($module=$this->getModule($id))!==null)
+				{
+					Yii::setPathOfAlias('module',$module->getBasePath());
 					return $module->createController($route);
+				}
 
 				$basePath=$this->getControllerPath();
 				$controllerID=$id;

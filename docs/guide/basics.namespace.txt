@@ -9,11 +9,15 @@ widely adopted namespace format:
 RootAlias.path.to.target
 ~~~
 
-where `RootAlias` is the alias of some existing directory. Yii predefines
-two aliases: `system` and `application`. The former is the alias of the Yii
-framework directory, while the latter is the alias of the application's
-`protected` directory. We can call [YiiBase::setPathOfAlias()] to define
-new path aliases (including root aliases).
+where `RootAlias` is the alias of some existing directory. By calling [YiiBase::setPathOfAlias()],
+we can define new path aliases.For convenience, Yii predefines the following root aliases:
+
+ - `system`: refers to the Yii framework directory;
+ - `application`: refers to the application's [base directory](/doc/guide/basics.application#application-base-directory);
+ - `webroot`: refers to the directory containing the [entry script](/doc/guide/basics.entry) file.
+ This alias has been available since version 1.0.3.
+ - `module`: refers to the directory of the currently active application module.
+ This alias has been available since version 1.0.3.
 
 By using [YiiBase::getPathOfAlias()], an alias can be translated to its
 corresponding path. For example, `system.web.CController` would be
