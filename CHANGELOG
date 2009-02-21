@@ -23,6 +23,7 @@ Version 1.0.3 to be released
 - New #136: Added support to CWebUser to allow directly accessing persistent properties (Qiang)
 - New #137: yiic model command should only set a column as required when it does not have default value (Qiang)
 - New #138: Added support to specify additional attributes for OPTION tags (Qiang)
+- New #140: Allow the route in a URL rule to contain parameters by itself (Qiang)
 - New #146: Added CUrlManager.appendParams which allows creating URLs in path format whose GET parameters are all in the query part (Qiang)
 - New #156: Added CUrlManager.cacheID to allow disabling URL rule caching (Qiang)
 - New: Upgraded jquery to 1.3.1 (Qiang)
@@ -38,6 +39,7 @@ Version 1.0.3 to be released
 - New: Added CActiveRecord.hasRelated() (Qiang)
 - New: Enhanced CHtml::listData() to work with raw query results (Qiang)
 - New: Controllers under subdirectories are now referenced using "path/to/xyz" (Qiang)
+- New: Added two new defaut aliases: webroot and module (Qiang)
 
 
 Version 1.0.2 February 1, 2009

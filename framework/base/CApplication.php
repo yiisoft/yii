@@ -772,6 +772,7 @@ abstract class CApplication extends CComponent
 			$basePath='protected';
 		$this->setBasePath($basePath);
 		Yii::setPathOfAlias('application',$this->getBasePath());
+		Yii::setPathOfAlias('webroot',dirname($_SERVER['SCRIPT_FILENAME']));
 
 		if(is_array($config))
 		{
