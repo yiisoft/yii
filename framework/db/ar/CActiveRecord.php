@@ -1012,8 +1012,22 @@ abstract class CActiveRecord extends CModel
 			if($command->execute())
 			{
 				$primaryKey=$table->primaryKey;
-				if($table->sequenceName!==null && is_string($primaryKey) && $this->$primaryKey===null)
-					$this->$primaryKey=$builder->getLastInsertID($table);
+				if($table->sequenceName!==null)
+				{
+					if(is_string($primaryKey) && $this->$primaryKey===null)
+						$this->$primaryKey=$builder->getLastInsertID($table);
+					else if(is_array($primaryKey))
+					{
+						foreach($primaryKey as $pk)
+						{
+							if($this->$pk===null)
+							{
+								$this->$pk=$builder->getLastInsertID($table);
+								break;
+							}
+						}
+					}
+				}
 				$this->afterSave();
 				$this->isNewRecord=false;
 				return true;
