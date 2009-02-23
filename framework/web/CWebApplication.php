@@ -560,24 +560,22 @@ class CWebApplication extends CApplication
 	 */
 	public function getModule($id)
 	{
-		if(isset($this->_modules[$id]))
+		if(array_key_exists($this->_modules,$id))
 			return $this->_modules[$id];
 		else if(isset($this->_moduleConfig[$id]))
 		{
 			$config=$this->_moduleConfig[$id];
-			unset($this->_moduleConfig[$id]);
-			if(($module=$this->createModule($id,$config))!==null)
-				return $this->_modules[$id]=$module;
+			return $this->_modules[$id]=$this->createModule($id,$config)
 		}
 	}
 
 	/**
-	 * @return array the currently loaded application modules (indexed by their IDs)
+	 * @return array the configurations of the currently installed modules (id=>configuration)
 	 * @since 1.0.3
 	 */
 	public function getModules()
 	{
-		return $this->_modules;
+		return $this->_moduleConfig;
 	}
 
 	/**
