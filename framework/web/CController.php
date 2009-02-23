@@ -709,7 +709,7 @@ class CController extends CBaseController
 	 * If the ControllerID is not present, the current controller ID will be prefixed to the route.
 	 * If the route is empty, it is assumed to be the current action.
 	 * Since version 1.0.3, if the controller belongs to a module, the {@link CWebModule::getId module ID}
-	 * will be prefixed to the route.
+	 * will be prefixed to the route. (If you do not want the module ID prefix, the route should start with a slash '/'.)
 	 * @param array additional GET parameters (name=>value). Both the name and value will be URL-encoded.
 	 * If the name is '#', the corresponding value will be treated as an anchor
 	 * and will be appended at the end of the URL. This anchor feature has been available since version 1.0.1.
@@ -722,9 +722,9 @@ class CController extends CBaseController
 			$route=$this->getId().'/'.$this->getAction()->getId();
 		else if(strpos($route,'/')===false)
 			$route=$this->getId().'/'.$route;
-		if(($module=$this->getModule())!==null)
+		if($route[0]!=='/' && ($module=$this->getModule())!==null)
 			$route=$module->getId().'/'.$route;
-		return Yii::app()->createUrl($route,$params,$ampersand);
+		return Yii::app()->createUrl(trim($route,'/'),$params,$ampersand);
 	}
 
 	/**

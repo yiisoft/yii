@@ -544,6 +544,7 @@ class YiiBase
 		'CUploadedFile' => '/web/CUploadedFile.php',
 		'CUrlManager' => '/web/CUrlManager.php',
 		'CWebApplication' => '/web/CWebApplication.php',
+		'CWebModule' => '/web/CWebModule.php',
 		'CAction' => '/web/actions/CAction.php',
 		'CInlineAction' => '/web/actions/CInlineAction.php',
 		'CViewAction' => '/web/actions/CViewAction.php',
