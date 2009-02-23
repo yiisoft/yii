@@ -36,6 +36,7 @@ Version 1.0.3 to be released
 - New: Enhanced CHtml::listData() to work with raw query results (Qiang)
 - New: Controllers under subdirectories are now referenced using "path/to/xyz" (Qiang)
 - New: Added two new defaut aliases: webroot and module (Qiang)
+- New: Added support to auto-incremental composite primary keys in active record (Qiang)
 
 
 Version 1.0.2 February 1, 2009

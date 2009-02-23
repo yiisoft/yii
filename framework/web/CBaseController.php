@@ -253,13 +253,18 @@ abstract class CBaseController extends CComponent
 
 	/**
 	 * Begins the rendering of content that is to be decorated by the specified view.
-	 * @param string the name of the view that will be used to decorate the content. The actual view script
-	 * is resolved via {@link getViewFile}.
+	 * @param mixed the name of the view that will be used to decorate the content. The actual view script
+	 * is resolved via {@link getViewFile}. If this parameter is null (default),
+	 * the default layout will be used as the decorative view.
+	 * Note that if the current controller does not belong to
+	 * any module, the default layout refers to the application's {@link CWebApplication::layout default layout};
+	 * If the controller belongs to a module, the default layout refers to the module's
+	 * {@link CWebModule::layout default layout}.
 	 * @param array initial property values for {@link CContentDecorator}.
 	 * @see beginContent
 	 * @see CContentDecorator
 	 */
-	public function beginContent($view,$properties=array())
+	public function beginContent($view=null,$properties=array())
 	{
 		$properties['view']=$view;
 		$this->beginWidget('CContentDecorator',$properties);
