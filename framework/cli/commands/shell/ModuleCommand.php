@@ -77,6 +77,9 @@ Module '{$moduleID}' has been created under the following folder:
 You may access it in the browser using the following URL:
     http://hostname/path/to/index.php?r=$moduleID
 
+Note, the module needs to be installed first by adding '{$moduleID}'
+to the 'modules' property in the application configuration.
+
 EOD;
 	}
 
