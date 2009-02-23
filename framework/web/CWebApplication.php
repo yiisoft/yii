@@ -565,7 +565,7 @@ class CWebApplication extends CApplication
 		else if(isset($this->_moduleConfig[$id]))
 		{
 			$config=$this->_moduleConfig[$id];
-			return $this->_modules[$id]=$this->createModule($id,$config)
+			return $this->_modules[$id]=$this->createModule($id,$config);
 		}
 	}
 
