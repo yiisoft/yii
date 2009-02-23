@@ -11,6 +11,7 @@ Version 1.0.3 to be released
 - Bug #145: When layout property of CController is false, main layout is still applied (Qiang)
 - Bug #153: Accessing related objects in afterFind() causes a duplicated SQL query (Qiang)
 - Bug #154: Calling behavior method in relations() does not work (Qiang)
+- Bug #161: Date formatting with timezones (Qiang)
 - Bug: CHttpRequest.hostInfo may give wrong port number (Qiang)
 - Bug: CHtml::activeListBox does not work when multiple selection is needed (Qiang)
 - Bug: Inconsistency in timezone of log messages for different log routes (Qiang)
