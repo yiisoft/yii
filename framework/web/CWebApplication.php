@@ -560,7 +560,7 @@ class CWebApplication extends CApplication
 	 */
 	public function getModule($id)
 	{
-		if(array_key_exists($this->_modules,$id))
+		if(array_key_exists($id,$this->_modules))
 			return $this->_modules[$id];
 		else if(isset($this->_moduleConfig[$id]))
 		{
