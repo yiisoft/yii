@@ -449,10 +449,9 @@ abstract class CApplication extends CComponent
 	 */
 	public function setParams($value)
 	{
-		if(is_array($value))
-			$this->_params=new CAttributeCollection($value);
-		else
-			$this->_params=$value;
+		$params=$this->getParams();
+		foreach($value as $k=>$v)
+			$params->add($k,$v);
 	}
 
 	/**

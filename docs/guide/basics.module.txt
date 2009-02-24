@@ -1,0 +1,7 @@
+Module
+======
+
+> Note: Support for module has been available since version 1.0.3.
+
+
+<div class="revision">$Id$</div>
