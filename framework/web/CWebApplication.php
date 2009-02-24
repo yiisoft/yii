@@ -654,9 +654,7 @@ class CWebApplication extends CApplication
 			else
 				$module=new $className($owner->getId().'/'.$id,$owner);
 			Yii::setPathOfAlias($className,$module->getBasePath());
-			foreach($config as $k=>$v)
-				$module->$k=$v;
-			$module->init();
+			$module->init($config);
 			return $module;
 		}
 	}
