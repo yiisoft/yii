@@ -404,7 +404,7 @@ class CWebApplication extends CApplication
 				if(class_exists($className,false) && is_subclass_of($className,'CController'))
 				{
 					return array(
-						new $className($controllerID,$owner),
+						new $className($controllerID,$owner===$this?null:$owner),
 						$this->parseActionParams($route),
 					);
 				}
