@@ -364,7 +364,7 @@ class CWebApplication extends CApplication
 	{
 		if($owner===null)
 			$owner=$this;
-		if($route==='')
+		if(($route=trim($route,'/'))==='')
 			$route=$owner->defaultController;
 		$caseSensitive=$this->getUrlManager()->caseSensitive;
 
