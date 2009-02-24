@@ -177,7 +177,7 @@ class CCaptchaAction extends CAction
 	 */
 	protected function getSessionKey()
 	{
-		return self::SESSION_VAR_PREFIX.Yii::app()->getId().'.'.$this->getController()->getId().'.'.$this->getId();
+		return self::SESSION_VAR_PREFIX.Yii::app()->getId().'.'.$this->getController()->getUniqueId().'.'.$this->getId();
 	}
 
 	/**

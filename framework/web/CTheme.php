@@ -68,14 +68,6 @@ class CTheme extends CComponent
 	}
 
 	/**
-	 * @return string the path for layouts. Defaults to 'ThemeRoot/views/layouts'.
-	 */
-	public function getLayoutPath()
-	{
-		return $this->getViewPath().DIRECTORY_SEPARATOR.'layouts';
-	}
-
-	/**
 	 * @return string the path for system views. Defaults to 'ThemeRoot/views/system'.
 	 */
 	public function getSystemViewPath()
@@ -91,13 +83,7 @@ class CTheme extends CComponent
 	 */
 	public function getViewFile($controller,$viewName)
 	{
-		if($viewName[0]==='/')
-			$viewFile=$this->getViewPath().$viewName.'.php';
-		else if(strpos($viewName,'.'))
-			$viewFile=Yii::getPathOfAlias($viewName).'.php';
-		else
-			$viewFile=$this->getViewPath().DIRECTORY_SEPARATOR.$controller->getId().DIRECTORY_SEPARATOR.$viewName.'.php';
-		return is_file($viewFile) ? Yii::app()->findLocalizedFile($viewFile) : false;
+		return $controller->resolveViewFile($viewName,$this->getViewPath().'/'.$controller->getUniqueId(),$this->getViewPath());
 	}
 
 	/**
@@ -108,10 +94,28 @@ class CTheme extends CComponent
 	 */
 	public function getLayoutFile($controller,$layoutName)
 	{
-		if($layoutName[0]==='/')
-			$layoutFile=$this->getViewPath().$layoutName.'.php';
+		$basePath=$this->getViewPath();
+		if(empty($layoutName))
+		{
+			$module=$controller->getModule();
+			while($module!==null)
+			{
+				if($module->layout===false)
+					return false;
+				if(!empty($module->layout))
+					break;
+				$module=$module->getParentModule();
+			}
+			if($module===null)
+				return $controller->resolveViewFile(Yii::app()->layout,$basePath.'/layouts',$basePath);
+			else
+				return $controller->resolveViewFile($module->layout,$module->getLayoutPath(),$module->getViewPath());
+		}
 		else
-			$layoutFile=$this->getLayoutPath().DIRECTORY_SEPARATOR.$layoutName.'.php';
-		return is_file($layoutFile) ? Yii::app()->findLocalizedFile($layoutFile) : false;
+		{
+			if(($module=$controller->getModule())!==null)
+				$basePath.='/'.$module->getId();
+			return $controller->resolveViewFile($layoutName,$basePath.'/layouts',$basePath);
+		}
 	}
 }

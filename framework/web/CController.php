@@ -70,9 +70,11 @@ class CController extends CBaseController
 	const STATE_INPUT_NAME='YII_PAGE_STATE';
 
 	/**
-	 * @var string the name of the layout to be applied to this controller's views.
+	 * @var mixed the name of the layout to be applied to this controller's views.
 	 * Defaults to null, meaning the {@link CWebApplication::layout application layout}
 	 * is used. If it is an empty string, no layout will be applied.
+	 * Since version 1.0.3, the {@link CWebModule::layout module layout} will be used
+	 * if the controller belongs to a module and this layout property is null.
 	 */
 	public $layout;
 	/**
@@ -87,14 +89,18 @@ class CController extends CBaseController
 	private $_clips;
 	private $_dynamicOutput;
 	private $_pageStates;
+	private $_module;
 
 
 	/**
 	 * @param string id of this controller
+	 * @param CWebModule the module that this controller belongs to. This parameter
+	 * has been available since version 1.0.3.
 	 */
-	public function __construct($id)
+	public function __construct($id,$module=null)
 	{
 		$this->_id=$id;
+		$this->_module=$module;
 	}
 
 	/**
@@ -402,7 +408,7 @@ class CController extends CBaseController
 	}
 
 	/**
-	 * @return string id of the controller
+	 * @return string ID of the controller
 	 */
 	public function getId()
 	{
@@ -410,18 +416,41 @@ class CController extends CBaseController
 	}
 
 	/**
+	 * @return string the controller ID that is prefixed with the module ID (if any).
+	 * @since 1.0.3
+	 */
+	public function getUniqueId()
+	{
+		return $this->_module ? $this->_module->getId().'/'.$this->_id : $this->_id;
+	}
+
+	/**
+	 * @return CWebModule the module that this controller belongs to. It returns null
+	 * if the controller does not belong to any module
+	 * @since 1.0.3
+	 */
+	public function getModule()
+	{
+		return $this->_module;
+	}
+
+	/**
 	 * Returns the directory containing view files for this controller.
 	 * The default implementation returns 'protected/views/ControllerID'.
 	 * Child classes may override this method to use customized view path.
+	 * If the controller belongs to a module (since version 1.0.3), the default view path
+	 * is the {@link CWebModule::getViewPath module view path} appended with the controller ID.
 	 * @return string the directory containing the view files for this controller. Defaults to 'protected/views/ControllerID'.
 	 */
 	public function getViewPath()
 	{
-		return Yii::app()->getViewPath().DIRECTORY_SEPARATOR.str_replace('/',DIRECTORY_SEPARATOR,$this->getId());
+		if(($module=$this->getModule())===null)
+			$module=Yii::app();
+		return $module->getViewPath().'/'.$this->getId();
 	}
 
 	/**
-	 * Looks for the view file according to the view name.
+	 * Looks for the view file according to the given view name.
 	 * This method will look for the view under the controller's {@link getViewPath viewPath}.
 	 * If the view name starts with '/', the view will be looked for under the application's
 	 * {@link CWebApplication::getViewPath viewPath}.
@@ -430,6 +459,8 @@ class CController extends CBaseController
 	 * for more details.
 	 * Since version 1.0.2, the view name can also refer to a path alias
 	 * if it contains dot characters.
+	 * Since version 1.0.3, if the controller belongs to a module, the view file
+	 * will be searched under the {@link CWebModule::getViewPath module view path}.
 	 * @param string name of the view (without file extension)
 	 * @return string the view file path, false if the view file does not exist
 	 * @see CApplication::findLocalizedFile
@@ -438,13 +469,9 @@ class CController extends CBaseController
 	{
 		if(($theme=Yii::app()->getTheme())!==null && ($viewFile=$theme->getViewFile($this,$viewName))!==false)
 			return $viewFile;
-		if($viewName[0]==='/')
-			$viewFile=Yii::app()->getViewPath().$viewName.'.php';
-		else if(strpos($viewName,'.'))
-			$viewFile=Yii::getPathOfAlias($viewName).'.php';
-		else
-			$viewFile=$this->getViewPath().DIRECTORY_SEPARATOR.$viewName.'.php';
-		return is_file($viewFile) ? Yii::app()->findLocalizedFile($viewFile) : false;
+		$module=$this->getModule();
+		$basePath=$module ? $module->getViewPath() : Yii::app()->getViewPath();
+		return $this->resolveViewFile($viewName,$this->getViewPath(),$basePath);
 	}
 
 	/**
@@ -452,22 +479,76 @@ class CController extends CBaseController
 	 * This method will look for the view under the application's {@link CWebApplication::getLayoutPath layoutPath}.
 	 * If the view name starts with '/', the view will be looked for under the application's
 	 * {@link CWebApplication::getViewPath viewPath}.
+	 * If the view name is null, the application's {@link CWebApplication::layout default layout}
+	 * will be used. If the view name is false, this method simply returns false.
 	 * Since version 1.0.2, the view name can also refer to a path alias
 	 * if it contains dot characters.
-	 * @param string layout name
+	 * Since version 1.0.3, if the controller belongs to a module, the view file
+	 * will be searched under the {@link CWebModule::getViewPath module layout path},
+	 * and if the view name is null, the {@link CWebModule::layout module default layout}
+	 * will be used.
+	 * @param mixed layout name
 	 * @return string the view file for the layout. False if the view file cannot be found
 	 */
 	public function getLayoutFile($layoutName)
 	{
+		if($layoutName===false)
+			return false;
 		if(($theme=Yii::app()->getTheme())!==null && ($layoutFile=$theme->getLayoutFile($this,$layoutName))!==false)
 			return $layoutFile;
-		if($layoutName[0]==='/')
-			$layoutFile=Yii::app()->getViewPath().$layoutName.'.php';
-		else if(strpos($layoutName,'.'))
-			$layoutFile=Yii::getPathOfAlias($layoutName).'.php';
+
+		if(empty($layoutName))
+		{
+			$module=$this->getModule();
+			while($module!==null)
+			{
+				if($module->layout===false)
+					return false;
+				if(!empty($module->layout))
+					break;
+				$module=$module->getParentModule();
+			}
+			if($module===null)
+				$module=Yii::app();
+			return $this->resolveViewFile($module->layout,$module->getLayoutPath(),$module->getViewPath());
+		}
 		else
-			$layoutFile=Yii::app()->getLayoutPath().DIRECTORY_SEPARATOR.$layoutName.'.php';
-		return is_file($layoutFile) ? Yii::app()->findLocalizedFile($layoutFile) : false;
+		{
+			if(($module=$this->getModule())===null)
+				$module=Yii::app();
+			return $this->resolveViewFile($layoutName,$module->getLayoutPath(),$module->getViewPath());
+		}
+	}
+
+	/**
+	 * Finds a view file based on its name.
+	 * The view name can be in one of the following formats:
+	 * <ul>
+	 * <li>absolute view: the view name starts with a slash '/'.</li>
+	 * <li>aliased view: the view name contains dots and refers to a path alias.
+	 * The view file is determined by calling {@link YiiBase::getPathOfAlias()}.</li>
+	 * <li>relative view: otherwise.</li>
+	 * </ul>
+	 * For absolute view and relative view, the corresponding view file is a PHP file
+	 * whose name is the same as the view name. The file is located under a specified directory.
+	 * This method will call {@link CApplication::findLocalizedFile} to search for a localized file, if any.
+	 * @param string the view name
+	 * @param string the directory that is used to search for a relative view name
+	 * @param string the directory that is used to search for an absolute view name
+	 * @return mixed the view file path. False if the view file does not exist.
+	 * @since 1.0.3
+	 */
+	public function resolveViewFile($viewName,$viewPath,$basePath)
+	{
+		if(empty($viewName))
+			return false;
+		if($viewName[0]==='/')
+			$viewFile=$basePath.$viewName.'.php';
+		else if(strpos($viewName,'.'))
+			$viewFile=Yii::getPathOfAlias($viewName).'.php';
+		else
+			$viewFile=$viewPath.DIRECTORY_SEPARATOR.$viewName.'.php';
+		return is_file($viewFile) ? Yii::app()->findLocalizedFile($viewFile) : false;
 	}
 
 	/**
@@ -508,11 +589,7 @@ class CController extends CBaseController
 	public function render($view,$data=null,$return=false)
 	{
 		$output=$this->renderPartial($view,$data,true);
-
-		if(($layout=$this->layout)===null)
-			$layout=Yii::app()->layout;
-
-		if(!empty($layout) && ($layoutFile=$this->getLayoutFile($layout))!==false)
+		if(($layoutFile=$this->getLayoutFile($this->layout))!==false)
 			$output=$this->renderFile($layoutFile,array('content'=>$output),true);
 
 		$output=$this->processOutput($output);
@@ -533,20 +610,15 @@ class CController extends CBaseController
 	 */
 	public function renderText($text,$return=false)
 	{
-		if(($layout=$this->layout)===null)
-			$layout=Yii::app()->layout;
+		if(($layoutFile=$this->getLayoutFile($this->layout))!==false)
+			$text=$this->renderFile($layoutFile,array('content'=>$text),true);
 
-		if(!empty($layout) && ($layoutFile=$this->getLayoutFile($layout))!==false)
-			$output=$this->renderFile($layoutFile,array('content'=>$text),true);
-		else
-			$output=$text;
-
-		$output=$this->processOutput($output);
+		$text=$this->processOutput($text);
 
 		if($return)
-			return $output;
+			return $text;
 		else
-			echo $output;
+			echo $text;
 	}
 
 	/**
@@ -634,8 +706,10 @@ class CController extends CBaseController
 	/**
 	 * Creates a relative URL for the specified action defined in this controller.
 	 * @param string the URL route. This should be in the format of 'ControllerID/ActionID'.
-	 * If the ControllerPath is not present, the current controller ID will be prefixed to the route.
+	 * If the ControllerID is not present, the current controller ID will be prefixed to the route.
 	 * If the route is empty, it is assumed to be the current action.
+	 * Since version 1.0.3, if the controller belongs to a module, the {@link CWebModule::getId module ID}
+	 * will be prefixed to the route. (If you do not want the module ID prefix, the route should start with a slash '/'.)
 	 * @param array additional GET parameters (name=>value). Both the name and value will be URL-encoded.
 	 * If the name is '#', the corresponding value will be treated as an anchor
 	 * and will be appended at the end of the URL. This anchor feature has been available since version 1.0.1.
@@ -644,9 +718,13 @@ class CController extends CBaseController
 	 */
 	public function createUrl($route,$params=array(),$ampersand='&')
 	{
-		if($route==='' || strpos($route,'/')===false)
-			$route=$this->getId().'/'.($route==='' ? $this->getAction()->getId() : $route);
-		return Yii::app()->createUrl($route,$params,$ampersand);
+		if($route==='')
+			$route=$this->getId().'/'.$this->getAction()->getId();
+		else if(strpos($route,'/')===false)
+			$route=$this->getId().'/'.$route;
+		if($route[0]!=='/' && ($module=$this->getModule())!==null)
+			$route=$module->getId().'/'.$route;
+		return Yii::app()->createUrl(trim($route,'/'),$params,$ampersand);
 	}
 
 	/**

@@ -237,7 +237,7 @@ class COutputCache extends CFilterWidget
 			if($this->varyByRoute)
 			{
 				$controller=$this->getController();
-				$key.=$controller->getId().':';
+				$key.=$controller->getUniqueId().':';
 				if(($action=$controller->getAction())!==null)
 					$key.=$action->getId().':';
 				else

@@ -169,10 +169,12 @@ class CTimestamp
 
 	/**
 	 * Returns the getdate() array.
-	 * @param integer original date timestamp
+	 * @param integer original date timestamp. False to use the current timestamp.
+	 * @param boolean false to compute the day of the week, default is true
+	 * @param boolean true to calculate the GMT dates
 	 * @return array an array with date info.
 	 */
-	public static function getDate($d=false,$fast=false)
+	public static function getDate($d=false,$fast=false,$gmt=false)
 	{
 		if ($d === false) return getdate();
 		// check if number in 32-bit signed range
@@ -181,7 +183,7 @@ class CTimestamp
 			if ($d >= 0) // if windows, must be +ve integer
 				return @getdate($d);
 		}
-		return self::getDateInternal($d);
+		return self::getDateInternal($d,$fast,$gmt);
 	}
 
 	/**

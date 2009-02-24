@@ -15,10 +15,12 @@ Version 1.0.3 to be released
 - Bug #145: When layout property of CController is false, main layout is still applied (Qiang)
 - Bug #153: Accessing related objects in afterFind() causes a duplicated SQL query (Qiang)
 - Bug #154: Calling behavior method in relations() does not work (Qiang)
+- Bug #161: Date formatting with timezones (Qiang)
 - Bug: CHttpRequest.hostInfo may give wrong port number (Qiang)
 - Bug: CHtml::activeListBox does not work when multiple selection is needed (Qiang)
 - Bug: Inconsistency in timezone of log messages for different log routes (Qiang)
 - Bug: Script file registered for POS_BEGIN is rendered twice (Qiang)
+- Bug: CHtml::registerMetaTag() failed to be rendered when no other scripts are registered (Qiang)
 - New #117: Added count() support to relational AR (Qiang)
 - New #136: Added support to CWebUser to allow directly accessing persistent properties (Qiang)
 - New #137: yiic model command should only set a column as required when it does not have default value (Qiang)
@@ -40,6 +42,9 @@ Version 1.0.3 to be released
 - New: Enhanced CHtml::listData() to work with raw query results (Qiang)
 - New: Controllers under subdirectories are now referenced using "path/to/xyz" (Qiang)
 - New: Added two new defaut aliases: webroot and module (Qiang)
+- New: Added support for auto-incremental composite primary keys in active record (Qiang)
+- New: Added support for application modules (Qiang)
+- New: Added "module" command for yiic shell tool (Qiang)
 
 
 Version 1.0.2 February 1, 2009
