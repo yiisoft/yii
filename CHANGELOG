@@ -41,7 +41,7 @@ Version 1.0.3 to be released
 - New: Added support for auto-incremental composite primary keys in active record (Qiang)
 - New: Added support for application modules (Qiang)
 - New: Added "module" command for yiic shell tool (Qiang)
-
+- New: Added support for using default roles in RBAC (Qiang)
 
 Version 1.0.2 February 1, 2009
 ------------------------------
