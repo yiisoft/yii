@@ -84,7 +84,7 @@ class CDateFormatter extends CComponent
 	{
 		if(is_string($time))
 			$time=strtotime($time);
-		$date=CTimestamp::getDate($time,false,true);
+		$date=CTimestamp::getDate($time,false,false);
 		$tokens=$this->parseFormat($pattern);
 		foreach($tokens as &$token)
 		{
