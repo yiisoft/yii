@@ -547,7 +547,7 @@ class CController extends CBaseController
 		else if(strpos($viewName,'.'))
 			$viewFile=Yii::getPathOfAlias($viewName).'.php';
 		else
-			$viewFile=$viewPath.'/'.$viewName.'.php';
+			$viewFile=$viewPath.DIRECTORY_SEPARATOR.$viewName.'.php';
 		return is_file($viewFile) ? Yii::app()->findLocalizedFile($viewFile) : false;
 	}
 

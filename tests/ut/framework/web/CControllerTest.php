@@ -96,7 +96,7 @@ class CControllerTest extends CTestCase
 		$this->assertEquals($c->actions(),array());
 		$this->assertNull($c->action);
 		$this->assertEquals($c->defaultAction,'index');
-		$this->assertEquals($c->viewPath,$app->viewPath.DIRECTORY_SEPARATOR.'test'.DIRECTORY_SEPARATOR.'subtest');
+		$this->assertEquals($c->viewPath,$app->viewPath.'/test/subtest');
 		$this->setExpectedException('CHttpException');
 		$c->missingAction('index');
 	}
