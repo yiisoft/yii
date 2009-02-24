@@ -28,7 +28,7 @@
  *
  * For example, to parse a date string '21/10/2008', use the following:
  * <pre>
- * $timestamp=CDateParser::parse('dd/MM/yyyy','21/10/2008');
+ * $timestamp=CDateParser::parse('21/10/2008','dd/MM/yyyy');
  * </pre>
  *
  * To format a timestamp to a date string, please use {@link CDateFormatter}.

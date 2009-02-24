@@ -358,6 +358,7 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function registerMetaTag($content,$name=null,$httpEquiv=null,$options=array())
 	{
+		$this->_hasScripts=true;
 		$options['content']=$content;
 		if($name!==null)
 			$options['name']=$name;

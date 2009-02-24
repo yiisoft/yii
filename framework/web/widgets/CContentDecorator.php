@@ -32,7 +32,12 @@
 class CContentDecorator extends COutputProcessor
 {
 	/**
-	 * @var string the name of the view that will be used to decorate the captured content.
+	 * @var mixed the name of the view that will be used to decorate the captured content.
+	 * If this property is null (default value), the default layout will be used as
+	 * the decorative view. Note that if the current controller does not belong to
+	 * any module, the default layout refers to the application's {@link CWebApplication::layout default layout};
+	 * If the controller belongs to a module, the default layout refers to the module's
+	 * {@link CWebModule::layout default layout}.
 	 */
 	public $view;
 
@@ -56,12 +61,14 @@ class CContentDecorator extends COutputProcessor
 	 */
 	protected function decorate($content)
 	{
-		if($this->view===null)
-			throw new CException(Yii::t('yii','The "view" property is required.'));
 		$owner=$this->getOwner();
-		if(($viewFile=$owner->getViewFile($this->view))!==false)
+		if($this->view===null)
+			$viewFile=Yii::app()->getController()->getLayoutFile(null);
+		else
+			$viewFile=$owner->getViewFile($this->view);
+		if($viewFile!==false)
 			return $owner->renderFile($viewFile,array('content'=>$content),true);
 		else
-			throw new CException(Yii::t('yii','Unable to find the decorator view "{view}".',array('{view}'=>$this->view)));
+			return $content;
 	}
 }

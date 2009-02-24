@@ -47,7 +47,8 @@ class CWebApplication extends CApplication
 	 */
 	public $defaultController='site';
 	/**
-	 * @var string the application-wide layout. Defaults to 'main' (relative to {@link getLayoutPath layoutPath}).
+	 * @var mixed the application-wide layout. Defaults to 'main' (relative to {@link getLayoutPath layoutPath}).
+	 * If this is false, then no layout will be used.
 	 */
 	public $layout='main';
 	/**
@@ -99,6 +100,9 @@ class CWebApplication extends CApplication
 	private $_controller;
 	private $_homeUrl;
 	private $_theme;
+	private $_modulePath;
+	private $_moduleConfig=array();
+	private $_modules=array();
 
 
 	/**
@@ -316,18 +320,6 @@ class CWebApplication extends CApplication
 	}
 
 	/**
-	 * Returns an application module with the specified ID.
-	 * @param string module ID
-	 * @return IApplicationModule the application module. Null if there is no such module.
-	 * The module will be initialized before being returned for the first time.
-	 * @since 1.0.3
-	 */
-	public function getModule($id)
-	{
-		return null;
-	}
-
-	/**
 	 * Creates the controller and performs the specified action.
 	 * @param string the route of the current request. See {@link createController} for more details.
 	 * @throws CHttpException if the controller could not be created.
@@ -364,12 +356,16 @@ class CWebApplication extends CApplication
 	 * then the controller will be created using the class file "protected/controllers/admin/UserController.php".</li>
 	 * </ol>
 	 * @param string the route of the request.
+	 * @param CWebModule the module that the new controller will belong to. Defaults to null, meaning the application
+	 * instance is the owner.
 	 * @return array the controller instance and the action ID. Null if the controller class does not exist or the route is invalid.
 	 */
-	public function createController($route)
+	public function createController($route,$owner=null)
 	{
+		if($owner===null)
+			$owner=$this;
 		if($route==='')
-			$route=$this->defaultController;
+			$route=$owner->defaultController;
 		$caseSensitive=$this->getUrlManager()->caseSensitive;
 
 		$route.='/';
@@ -383,21 +379,18 @@ class CWebApplication extends CApplication
 			$route=(string)substr($route,$pos+1);
 			if(!isset($basePath))  // first segment
 			{
-				if(isset($this->controllerMap[$id]))
+				if(isset($owner->controllerMap[$id]))
 				{
 					return array(
-						Yii::createComponent($this->controllerMap[$id],$id),
+						Yii::createComponent($owner->controllerMap[$id],$id),
 						$this->parseActionParams($route),
 					);
 				}
 
-				if(($module=$this->getModule($id))!==null)
-				{
-					Yii::setPathOfAlias('module',$module->getBasePath());
-					return $module->createController($route);
-				}
+				if(($module=$owner->getModule($id))!==null)
+					return $this->createController($route,$module);
 
-				$basePath=$this->getControllerPath();
+				$basePath=$owner->getControllerPath();
 				$controllerID=$id;
 			}
 			else
@@ -411,7 +404,7 @@ class CWebApplication extends CApplication
 				if(class_exists($className,false) && is_subclass_of($className,'CController'))
 				{
 					return array(
-						new $className($controllerID),
+						new $className($controllerID,$owner===$this?null:$owner),
 						$this->parseActionParams($route),
 					);
 				}
@@ -466,6 +459,30 @@ class CWebApplication extends CApplication
 	{
 		if(($this->_controllerPath=realpath($value))===false || !is_dir($this->_controllerPath))
 			throw new CException(Yii::t('yii','The controller path "{path}" is not a valid directory.',
+				array('{path}'=>$value)));
+	}
+
+	/**
+	 * @return string the directory that contains the application modules. Defaults to 'protected/modules'.
+	 * @since 1.0.3
+	 */
+	public function getModulePath()
+	{
+		if($this->_modulePath!==null)
+			return $this->_modulePath;
+		else
+			return $this->_modulePath=$this->getBasePath().DIRECTORY_SEPARATOR.'modules';
+	}
+
+	/**
+	 * @param string the directory that contains the application modules.
+	 * @throws CException if the directory is invalid
+	 * @since 1.0.3
+	 */
+	public function setModulePath($value)
+	{
+		if(($this->_modulePath=realpath($value))===false || !is_dir($this->_modulePath))
+			throw new CException(Yii::t('yii','The module path "{path}" is not a valid directory.',
 				array('{path}'=>$value)));
 	}
 
@@ -533,5 +550,114 @@ class CWebApplication extends CApplication
 		if(($this->_layoutPath=realpath($path))===false || !is_dir($this->_layoutPath))
 			throw new CException(Yii::t('yii','The layout path "{path}" is not a valid directory.',
 				array('{path}'=>$path)));
+	}
+
+	/**
+	 * Retrieves the named application module.
+	 * @param string application module ID (case-sensitive)
+	 * @return CWebModule the application module instance, null if the application module is disabled or does not exist.
+	 * @since 1.0.3
+	 */
+	public function getModule($id)
+	{
+		if(array_key_exists($id,$this->_modules))
+			return $this->_modules[$id];
+		else if(isset($this->_moduleConfig[$id]))
+		{
+			$config=$this->_moduleConfig[$id];
+			return $this->_modules[$id]=$this->createModule($id,$config);
+		}
+	}
+
+	/**
+	 * @return array the configurations of the currently installed modules (id=>configuration)
+	 * @since 1.0.3
+	 */
+	public function getModules()
+	{
+		return $this->_moduleConfig;
+	}
+
+	/**
+	 * Configures the modules of this application.
+	 *
+	 * Call this method to declare modules and configure them with their initial property values.
+	 * The parameter should be an array of module configurations. Each array element represents a single module,
+	 * which can be either a string representing the module ID or an ID-config pair representing
+	 * a module with the specified ID and the initial property values.
+	 *
+	 * For example, the following array declares two modules:
+	 * <pre>
+	 * array(
+	 *     'admin',
+	 *     'payment'=>array(
+	 *         'server'=>'paymentserver.com',
+	 *     ),
+	 * )
+	 * </pre>
+	 *
+	 * By default, the module class is determined using the expression <code>ucfirst($moduleID).'Module'</code>.
+	 * And the class file is located under <code>modules/$moduleID</code>.
+	 * You may override this default by explicitly specifying the 'class' option in the configuration.
+	 *
+	 * You may also enable or disable a module by specifying the 'enabled' option in the configuration.
+	 *
+	 * @param array application module configuration.
+	 * @since 1.0.3
+	 */
+	public function setModules($modules)
+	{
+		foreach($modules as $id=>$module)
+		{
+			if(is_int($id))
+			{
+				$id=$module;
+				$module=array();
+			}
+			if(!isset($module['class']))
+				$module['classFile']=$this->getModulePath().DIRECTORY_SEPARATOR.$id.DIRECTORY_SEPARATOR.ucfirst($id).'Module.php';
+
+			if(isset($this->_moduleConfig[$id]))
+				$this->_moduleConfig[$id]=CMap::mergeArray($this->_moduleConfig[$id],$module);
+			else
+				$this->_moduleConfig[$id]=$module;
+		}
+	}
+
+	/**
+	 * Creates an application module based on the given configuration.
+	 * The module created will be initialized with the given configuration.
+	 * And its {@link CWebModule::init()} method will also be invoked.
+	 * @param string the module ID
+	 * @param array module configuration
+	 * @param CWebModule the parent module. Null if no parent.
+	 * @return CWebModule the create module instance. Null if the module is not enabled.
+	 * @since 1.0.3
+	 */
+	public function createModule($id,$config,$owner=null)
+	{
+		if(!isset($config['enabled']) || $config['enabled'])
+		{
+			Yii::trace("Loading \"$id\" application module",'system.web.CWebApplication');
+			if(isset($config['classFile']))
+			{
+				$className=substr(basename($config['classFile']),0,-4);
+				if(!class_exists($className,false))
+					require($config['classFile']);
+				unset($config['classFile']);
+			}
+			else
+				$className=Yii::import($config['class'],true);
+			unset($config['enabled'],$config['classFile'],$config['class']);
+			if($owner===null)
+				$module=new $className($id);
+			else
+				$module=new $className($owner->getId().'/'.$id,$owner);
+			Yii::setPathOfAlias($className,$module->getBasePath());
+			foreach($config as $k=>$v)
+				$module->$k=$v;
+			$module->init();
+			return $module;
+		}
 	}
 }
