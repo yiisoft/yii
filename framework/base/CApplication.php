@@ -449,10 +449,9 @@ abstract class CApplication extends CComponent
 	 */
 	public function setParams($value)
 	{
-		if(is_array($value))
-			$this->_params=new CAttributeCollection($value);
-		else
-			$this->_params=$value;
+		$params=$this->getParams();
+		foreach($value as $k=>$v)
+			$params->add($k,$v);
 	}
 
 	/**
@@ -759,20 +758,24 @@ abstract class CApplication extends CComponent
 	 * Please make sure you specify the {@link getBasePath basePath} property in the configuration,
 	 * which should point to the root directory containing all application logic, template and data.
 	 */
-	protected function configure($config)
+	public function configure($config)
 	{
 		if(is_string($config))
 			$config=require($config);
-		if(isset($config['basePath']))
+
+		if($this->_basePath===null)
 		{
-			$basePath=$config['basePath'];
-			unset($config['basePath']);
+			if(isset($config['basePath']))
+			{
+				$basePath=$config['basePath'];
+				unset($config['basePath']);
+			}
+			else
+				$basePath='protected';
+			$this->setBasePath($basePath);
+			Yii::setPathOfAlias('application',$this->getBasePath());
+			Yii::setPathOfAlias('webroot',dirname($_SERVER['SCRIPT_FILENAME']));
 		}
-		else
-			$basePath='protected';
-		$this->setBasePath($basePath);
-		Yii::setPathOfAlias('application',$this->getBasePath());
-		Yii::setPathOfAlias('webroot',dirname($_SERVER['SCRIPT_FILENAME']));
 
 		if(is_array($config))
 		{

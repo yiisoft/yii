@@ -38,6 +38,19 @@
 abstract class CAuthManager extends CApplicationComponent implements IAuthManager
 {
 	/**
+	 * @var array list of role names that are assigned to all users implicitly.
+	 * These roles do not need to be explicitly assigned to any user.
+	 * When calling {@link checkAccess}, these roles will be checked first.
+	 * For performance reason, you should minimize the number of such roles.
+	 * A typical usage of such roles is to define an 'authenticated' role and associate
+	 * it with a biz rule which checks if the current user is authenticated.
+	 * And then declare 'authenticated' in this property so that it can be applied to
+	 * every authenticated user.
+	 * @since 1.0.3
+	 */
+	public $defaultRoles=array();
+
+	/**
 	 * Creates a role.
 	 * This is a shortcut method to {@link IAuthManager::createAuthItem}.
 	 * @param string the item name

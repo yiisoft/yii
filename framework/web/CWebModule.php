@@ -28,6 +28,10 @@ class CWebModule extends CComponent
 	 */
 	public $defaultController='default';
 	/**
+	 * @var array the IDs of the module components that should be preloaded.
+	 */
+	public $preload=array();
+	/**
 	 * @var mixed the layout that is shared by the controllers inside this module.
 	 * If a controller has explicitly declared its own {@link CController::layout layout},
 	 * this property will be ignored.
@@ -40,6 +44,12 @@ class CWebModule extends CComponent
 	 * Pleaser refer to {@link CWebApplication::controllerMap} for more details.
 	 */
 	public $controllerMap=array();
+	/**
+	 * @var array the behaviors that should be attached to the module.
+	 * The behaviors will be attached to the application when {@link init} is called.
+	 * Please refer to {@link CModel::behaviors} on how to specify the value of this property.
+	 */
+	public $behaviors=array();
 
 	private $_id;
 	private $_parentModule;
@@ -47,6 +57,8 @@ class CWebModule extends CComponent
 	private $_basePath;
 	private $_moduleConfig=array();
 	private $_modules=array();
+	private $_components=array();
+	private $_componentConfig=array();
 
 	/**
 	 * Constructor.
@@ -60,12 +72,49 @@ class CWebModule extends CComponent
 	}
 
 	/**
+	 * Getter magic method.
+	 * This method is overridden to support accessing module components
+	 * like reading module properties.
+	 * @param string module component or property name
+	 * @return mixed the named property value
+	 */
+	public function __get($name)
+	{
+		if($this->hasComponent($name))
+			return $this->getComponent($name);
+		else
+			return parent::__get($name);
+	}
+
+	/**
+	 * Checks if a property value is null.
+	 * This method overrides the parent implementation by checking
+	 * if the named module component is loaded.
+	 * @param string the property name or the event name
+	 * @return boolean whether the property value is null
+	 * @since 1.0.1
+	 */
+	public function __isset($name)
+	{
+		if($this->hasComponent($name))
+			return $this->getComponent($name)!==null;
+		else
+			return parent::__isset($name);
+	}
+
+	/**
 	 * Initializes this module.
 	 * This method is invoked automatically when the module is initially created.
 	 * You may override this method to customize the module or the application.
+	 * Make sure you call the parent implementation so that the module gets configured.
+	 * @param mixed the configuration array or a PHP script returning the configuration array.
+	 * The configuration will be applied to this module.
 	 */
-	public function init()
+	public function init($config)
 	{
+		$this->configure($config);
+		$this->attachBehaviors($this->behaviors);
+		$this->preloadComponents();
 	}
 
 	/**
@@ -251,6 +300,127 @@ class CWebModule extends CComponent
 				$this->_moduleConfig[$id]=CMap::mergeArray($this->_moduleConfig[$id],$module);
 			else
 				$this->_moduleConfig[$id]=$module;
+		}
+	}
+
+	/**
+	 * Loads static module components.
+	 */
+	protected function preloadComponents()
+	{
+		foreach($this->preload as $id)
+			$this->getComponent($id);
+	}
+
+	/**
+	 * @param string module component ID
+	 * @return boolean whether the named module component exists (including both loaded and disabled.)
+	 */
+	public function hasComponent($id)
+	{
+		return isset($this->_components[$id]) || isset($this->_componentConfig[$id]);
+	}
+
+	/**
+	 * Retrieves the named module component.
+	 * @param string application component ID (case-sensitive)
+	 * @return IApplicationComponent the module component instance, null if the module component is disabled or does not exist.
+	 * @see hasComponent
+	 */
+	public function getComponent($id)
+	{
+		if(isset($this->_components[$id]))
+			return $this->_components[$id];
+		else if(isset($this->_componentConfig[$id]))
+		{
+			$config=$this->_componentConfig[$id];
+			unset($this->_componentConfig[$id]);
+			if(!isset($config['enabled']) || $config['enabled'])
+			{
+				Yii::trace("Loading \"$id\" module component",'system.web.CWebModule');
+				unset($config['enabled']);
+				$component=Yii::createComponent($config);
+				$component->init();
+				return $this->_components[$id]=$component;
+			}
+		}
+	}
+
+	/**
+	 * Puts a component under the management of the module.
+	 * The component will be initialized (by calling its {@link CApplicationComponent::init() init()}
+	 * method if it has not done so.
+	 * @param string component ID
+	 * @param IApplicationComponent the component
+	 */
+	public function setComponent($id,$component)
+	{
+		$this->_components[$id]=$component;
+		if(!$component->getIsInitialized())
+			$component->init();
+	}
+
+	/**
+	 * @return array the currently loaded components (indexed by their IDs)
+	 */
+	public function getComponents()
+	{
+		return $this->_components;
+	}
+
+	/**
+	 * Sets the module components.
+	 *
+	 * When a configuration is used to specify a component, it should consist of
+	 * the component's initial property values (name-value pairs). Additionally,
+	 * a component can be enabled (default) or disabled by specifying the 'enabled' value
+	 * in the configuration.
+	 *
+	 * If a configuration is specified with an ID that is the same as an existing
+	 * component or configuration, the existing one will be replaced silently.
+	 *
+	 * The following is the configuration for two components:
+	 * <pre>
+	 * array(
+	 *     'db'=>array(
+	 *         'class'=>'CDbConnection',
+	 *         'connectionString'=>'sqlite:path/to/file.db',
+	 *     ),
+	 *     'cache'=>array(
+	 *         'class'=>'CDbCache',
+	 *         'connectionID'=>'db',
+	 *         'enabled'=>!YII_DEBUG,  // enable caching in non-debug mode
+	 *     ),
+	 * )
+	 * </pre>
+	 *
+	 * @param array module components(id=>component configuration or instances)
+	 */
+	public function setComponents($components)
+	{
+		foreach($components as $id=>$component)
+		{
+			if($component instanceof IApplicationComponent)
+				$this->setComponent($id,$component);
+			else if(isset($this->_componentConfig[$id]))
+				$this->_componentConfig[$id]=CMap::mergeArray($this->_componentConfig[$id],$component);
+			else
+				$this->_componentConfig[$id]=$component;
+		}
+	}
+
+	/**
+	 * Configures the module with the specified configuration.
+	 * @param mixed the configuration array or a PHP script returning the configuration array.
+	 */
+	public function configure($config)
+	{
+		if(is_string($config))
+			$config=require($config);
+		if(is_array($config))
+		{
+			foreach($config as $key=>$value)
+				$this->$key=$value;
 		}
 	}
 }

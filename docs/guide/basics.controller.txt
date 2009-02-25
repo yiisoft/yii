@@ -52,6 +52,9 @@ and action.
 >class files are in lower case, and both [controller map|CWebApplication::controllerMap]
 >and [action map|CController::actions] are using keys in lower case.
 
+Since version 1.0.3, an application can contain [modules](/doc/guide/basics.module). The route for a controller action inside a module is in the format of `moduleID/controllerID/actionID`. For more details, see the [section about modules](/doc/guide/basics.module).
+
+
 Controller Instantiation
 ------------------------
 
@@ -72,9 +75,11 @@ controller instance.
    - If the ID is in the format of `'path/to/xyz'`, the controller class
 name is assumed to be `XyzController` and the corresponding class file is
 `protected/controllers/path/to/XyzController.php`. For example, a controller
-ID `admin.user` would be resolved as the controller class `UserController`
+ID `admin/user` would be resolved as the controller class `UserController`
 and the class file `protected/controllers/admin/UserController.php`.
 If the class file does not exist, a 404 [CHttpException] will be raised.
+
+In case when [modules](/doc/guide/basics.module) are used (available since version 1.0.3), the above process is slighly different. In particular, the application will check if the ID refers to a controller inside a module, and if so, the module instance will be created first followed by the controller instance.
 
 
 Action
