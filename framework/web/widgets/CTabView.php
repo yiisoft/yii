@@ -163,7 +163,7 @@ class CTabView extends CWidget
 		$cs=Yii::app()->getClientScript();
 		if($url===null)
 			$url=$cs->getCoreScriptUrl().'/yiitab/jquery.yiitab.css';
-		$cs->registerCssFile($url);
+		$cs->registerCssFile($url,'screen');
 	}
 
 	/**

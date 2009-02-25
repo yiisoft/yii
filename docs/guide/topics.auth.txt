@@ -498,4 +498,37 @@ if(Yii::app()->user->checkAccess('updateOwnPost',$params))
 }
 ~~~
 
+
+### Using Default Roles
+
+> Note: The default role feature has been available since version 1.0.3
+
+Many Web applications need some very special roles that would be assigned to
+every or most of the system users. For example, we may want to assign some
+privileges to all authenticated users. It poses a lot of maintenance trouble
+if we explicitly specify and store these role assignments. We can exploit
+*default roles* to solve this problem.
+
+A default role is a role that is implicitly assigned to every user, including
+both authenticated and guest. We do not need to explicitly assign it to a user.
+When [CWebUser::checkAccess], default roles will be checked first as if they are
+assigned to the user.
+
+Default roles must be declared in the [CAuthManager::defaultRoles] property.
+
+Because a default role is assigned to every user, it usually needs to be
+associated with a business rule that determines whether the role
+really applies to the user. For example, the following code defines two
+roles, "authenticated" and "guest", which effectively apply to authenticated
+users and guest users, respectively.
+
+~~~
+[php]
+$bizRule='return !Yii::app()->user->isGuest;';
+$auth->createRole('authenticated');
+
+$bizRule='return Yii::app()->user->isGuest;';
+$auth->createRole('guest',$bizRule);
+~~~
+
 <div class="revision">$Id$</div>

@@ -12,6 +12,7 @@
     - [Model](basics.model)
     - [View](basics.view)
     - [Component](basics.component)
+    - [Module](basics.module)
     - [Path Alias and Namespace](basics.namespace)
     - [Conventions](basics.convention)
     - [Development Workflow](basics.workflow)
