@@ -45,6 +45,7 @@ Version 1.0.3 to be released
 - New: Added support for using default roles in RBAC (Qiang)
 - New: Added support for translating a message into multiple languages on the same page at the same time (Qiang)
 - New: Added CClientScript::scriptMap to support remapping registered scripts (Qiang)
+- New: Added CGoogleApi (Qiang)
 
 
 Version 1.0.2 February 1, 2009

@@ -47,6 +47,8 @@ class CClientScript extends CApplicationComponent
 	 * @var array the mapping between script file names and the corresponding script URLs.
 	 * The array keys are script file names (without directory part) and the array values are the corresponding URLs.
 	 * If an array value is false, the corresponding script file will not be rendered.
+	 * If an array key is '*.js' or '*.css', the corresponding URL will replace all
+	 * all JavaScript files or CSS files, respectively.
 	 *
 	 * This property is mainly used to optimize the generated HTML pages
 	 * by merging different scripts files into fewer and optimized script files.
@@ -123,6 +125,8 @@ class CClientScript extends CApplicationComponent
 				if($this->scriptMap[$name]!==false)
 					$cssFiles[$this->scriptMap[$name]]=$media;
 			}
+			else if(isset($this->scriptMap['*.css']))
+				$cssFiles[$this->scriptMap['*.css']]=$media;
 			else
 				$cssFiles[$url]=$media;
 		}
@@ -140,6 +144,8 @@ class CClientScript extends CApplicationComponent
 					if($this->scriptMap[$name]!==false)
 						$jsFiles[$position][$name]=$this->scriptMap[$name];
 				}
+				else if(isset($this->scriptMap['*.js']))
+					$jsFiles[$position][$this->scriptMap['*.js']]=$this->scriptMap['*.js'];
 				else
 					$jsFiles[$position][$key]=$script;
 			}
