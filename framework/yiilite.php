@@ -190,14 +190,14 @@ class YiiBase
 	{
 		return 'Powered by <a href="http://www.yiiframework.com/">Yii Framework</a>.';
 	}
-	public static function t($category,$message,$params=array(),$source=null)
+	public static function t($category,$message,$params=array(),$source=null,$language=null)
 	{
 		if(self::$_app!==null)
 		{
 			if($source===null)
 				$source=$category==='yii'?'coreMessages':'messages';
 			if(($source=self::$_app->getComponent($source))!==null)
-				$message=$source->translate($category,$message);
+				$message=$source->translate($category,$message,$language);
 		}
 		if($params===array())
 			return $message;
@@ -346,6 +346,7 @@ class YiiBase
 		'CFilter' => '/web/filters/CFilter.php',
 		'CFilterChain' => '/web/filters/CFilterChain.php',
 		'CInlineFilter' => '/web/filters/CInlineFilter.php',
+		'CGoogleApi' => '/web/helpers/CGoogleApi.php',
 		'CHtml' => '/web/helpers/CHtml.php',
 		'CJSON' => '/web/helpers/CJSON.php',
 		'CJavaScript' => '/web/helpers/CJavaScript.php',
@@ -801,10 +802,9 @@ abstract class CApplication extends CComponent
 	}
 	public function setParams($value)
 	{
-		if(is_array($value))
-			$this->_params=new CAttributeCollection($value);
-		else
-			$this->_params=$value;
+		$params=$this->getParams();
+		foreach($value as $k=>$v)
+			$params->add($k,$v);
 	}
 	public function getGlobalState($key,$defaultValue=null)
 	{
@@ -965,20 +965,23 @@ abstract class CApplication extends CComponent
 		if(!$component->getIsInitialized())
 			$component->init();
 	}
-	protected function configure($config)
+	public function configure($config)
 	{
 		if(is_string($config))
 			$config=require($config);
-		if(isset($config['basePath']))
+		if($this->_basePath===null)
 		{
-			$basePath=$config['basePath'];
-			unset($config['basePath']);
+			if(isset($config['basePath']))
+			{
+				$basePath=$config['basePath'];
+				unset($config['basePath']);
+			}
+			else
+				$basePath='protected';
+			$this->setBasePath($basePath);
+			Yii::setPathOfAlias('application',$this->getBasePath());
+			Yii::setPathOfAlias('webroot',dirname($_SERVER['SCRIPT_FILENAME']));
 		}
-		else
-			$basePath='protected';
-		$this->setBasePath($basePath);
-		Yii::setPathOfAlias('application',$this->getBasePath());
-		Yii::setPathOfAlias('webroot',dirname($_SERVER['SCRIPT_FILENAME']));
 		if(is_array($config))
 		{
 			foreach($config as $key=>$value)
@@ -1077,6 +1080,7 @@ class CWebApplication extends CApplication
 	private $_controller;
 	private $_homeUrl;
 	private $_theme;
+	private $_modulePath;
 	private $_moduleConfig=array();
 	private $_modules=array();
 	public function processRequest()
@@ -1215,7 +1219,7 @@ class CWebApplication extends CApplication
 	{
 		if($owner===null)
 			$owner=$this;
-		if($route==='')
+		if(($route=trim($route,'/'))==='')
 			$route=$owner->defaultController;
 		$caseSensitive=$this->getUrlManager()->caseSensitive;
 		$route.='/';
@@ -1252,7 +1256,7 @@ class CWebApplication extends CApplication
 				if(class_exists($className,false) && is_subclass_of($className,'CController'))
 				{
 					return array(
-						new $className($controllerID),
+						new $className($controllerID,$owner===$this?null:$owner),
 						$this->parseActionParams($route),
 					);
 				}
@@ -1287,6 +1291,19 @@ class CWebApplication extends CApplication
 	{
 		if(($this->_controllerPath=realpath($value))===false || !is_dir($this->_controllerPath))
 			throw new CException(Yii::t('yii','The controller path "{path}" is not a valid directory.',
+				array('{path}'=>$value)));
+	}
+	public function getModulePath()
+	{
+		if($this->_modulePath!==null)
+			return $this->_modulePath;
+		else
+			return $this->_modulePath=$this->getBasePath().DIRECTORY_SEPARATOR.'modules';
+	}
+	public function setModulePath($value)
+	{
+		if(($this->_modulePath=realpath($value))===false || !is_dir($this->_modulePath))
+			throw new CException(Yii::t('yii','The module path "{path}" is not a valid directory.',
 				array('{path}'=>$value)));
 	}
 	public function getViewPath()
@@ -1330,19 +1347,17 @@ class CWebApplication extends CApplication
 	}
 	public function getModule($id)
 	{
-		if(isset($this->_modules[$id]))
+		if(array_key_exists($id,$this->_modules))
 			return $this->_modules[$id];
 		else if(isset($this->_moduleConfig[$id]))
 		{
 			$config=$this->_moduleConfig[$id];
-			unset($this->_moduleConfig[$id]);
-			if(($module=$this->createModule($id,$config))!==null)
-				return $this->_modules[$id]=$module;
+			return $this->_modules[$id]=$this->createModule($id,$config);
 		}
 	}
 	public function getModules()
 	{
-		return $this->_modules;
+		return $this->_moduleConfig;
 	}
 	public function setModules($modules)
 	{
@@ -1368,7 +1383,7 @@ class CWebApplication extends CApplication
 			if(isset($config['classFile']))
 			{
 				$className=substr(basename($config['classFile']),0,-4);
-				if(!class_exists($config['class'],false))
+				if(!class_exists($className,false))
 					require($config['classFile']);
 				unset($config['classFile']);
 			}
@@ -1379,9 +1394,8 @@ class CWebApplication extends CApplication
 				$module=new $className($id);
 			else
 				$module=new $className($owner->getId().'/'.$id,$owner);
-			foreach($config as $k=>$v)
-				$module->$k=$v;
-			$module->init();
+			Yii::app()->setPathOfAlias('module',$module->getBasePath());
+			$module->init($config);
 			return $module;
 		}
 	}
@@ -2582,7 +2596,7 @@ class CController extends CBaseController
 		else if(strpos($viewName,'.'))
 			$viewFile=Yii::getPathOfAlias($viewName).'.php';
 		else
-			$viewFile=$viewPath.'/'.$viewName.'.php';
+			$viewFile=$viewPath.DIRECTORY_SEPARATOR.$viewName.'.php';
 		return is_file($viewFile) ? Yii::app()->findLocalizedFile($viewFile) : false;
 	}
 	public function getClips()
@@ -2650,9 +2664,9 @@ class CController extends CBaseController
 			$route=$this->getId().'/'.$this->getAction()->getId();
 		else if(strpos($route,'/')===false)
 			$route=$this->getId().'/'.$route;
-		if(($module=$this->getModule())!==null)
+		if($route[0]!=='/' && ($module=$this->getModule())!==null)
 			$route=$module->getId().'/'.$route;
-		return Yii::app()->createUrl($route,$params,$ampersand);
+		return Yii::app()->createUrl(trim($route,'/'),$params,$ampersand);
 	}
 	public function createAbsoluteUrl($route,$params=array(),$schema='',$ampersand='&')
 	{
@@ -3616,10 +3630,6 @@ class CHtml
 	{
 		return Yii::app()->getAssetManager()->publish($path,$hashByName);
 	}
-	public static function coreScript($name)
-	{
-		return Yii::app()->getClientScript()->renderCoreScript($name);
-	}
 	public static function normalizeUrl($url)
 	{
 		if(is_array($url))
@@ -4031,6 +4041,7 @@ class CClientScript extends CApplicationComponent
 	const POS_LOAD=3;
 	const POS_READY=4;
 	public $enableJavaScript=true;
+	public $scriptMap=array();
 	private $_hasScripts=false;
 	private $_packages;
 	private $_dependencies;
@@ -4058,11 +4069,84 @@ class CClientScript extends CApplicationComponent
 	{
 		if(!$this->_hasScripts)
 			return;
+		$this->renderCoreScripts();
+		if(!empty($this->scriptMap))
+			$this->remapScripts();
 		$this->renderHead($output);
 		if($this->enableJavaScript)
 		{
 			$this->renderBodyBegin($output);
 			$this->renderBodyEnd($output);
+		}
+	}
+	protected function remapScripts()
+	{
+		$cssFiles=array();
+		foreach($this->_cssFiles as $url=>$media)
+		{
+			$name=basename($url);
+			if(isset($this->scriptMap[$name]))
+			{
+				if($this->scriptMap[$name]!==false)
+					$cssFiles[$this->scriptMap[$name]]=$media;
+			}
+			else if(isset($this->scriptMap['*.css']))
+				$cssFiles[$this->scriptMap['*.css']]=$media;
+			else
+				$cssFiles[$url]=$media;
+		}
+		$this->_cssFiles=$cssFiles;
+		$jsFiles=array();
+		foreach($this->_scriptFiles as $position=>$scripts)
+		{
+			$jsFiles[$position]=array();
+			foreach($scripts as $key=>$script)
+			{
+				$name=basename($script);
+				if(isset($this->scriptMap[$name]))
+				{
+					if($this->scriptMap[$name]!==false)
+						$jsFiles[$position][$name]=$this->scriptMap[$name];
+				}
+				else if(isset($this->scriptMap['*.js']))
+					$jsFiles[$position][$this->scriptMap['*.js']]=$this->scriptMap['*.js'];
+				else
+					$jsFiles[$position][$key]=$script;
+			}
+		}
+		$this->_scriptFiles=$jsFiles;
+	}
+	public function renderCoreScripts()
+	{
+		$baseUrl=$this->getCoreScriptUrl();
+		$cssFiles=array();
+		$jsFiles=array();
+		foreach($this->_coreScripts as $name)
+		{
+			foreach($this->_packages[$name] as $path)
+			{
+				$url=$baseUrl.'/'.$path;
+				if(substr($path,-4)==='.css')
+					$cssFiles[$url]='';
+				else
+					$jsFiles[$url]=$url;
+			}
+		}
+		// merge in place
+		if($cssFiles!==array())
+		{
+			foreach($this->_cssFiles as $cssFile=>$media)
+				$cssFiles[$cssFile]=$media;
+			$this->_cssFiles=$cssFiles;
+		}
+		if($jsFiles!==array())
+		{
+			if(isset($this->_scriptFiles[self::POS_HEAD]))
+			{
+				foreach($this->_scriptFiles[self::POS_HEAD] as $url)
+					$jsFiles[$url]=$url;
+			}
+			$this->_scriptFiles[self::POS_HEAD]=$jsFiles;
 		}
 	}
 	public function renderHead(&$output)
@@ -4078,11 +4162,6 @@ class CClientScript extends CApplicationComponent
 			$html.=CHtml::css($css[0],$css[1])."\n";
 		if($this->enableJavaScript)
 		{
-			foreach($this->_coreScripts as $name)
-			{
-				if(is_string($name))
-					$html.=$this->renderCoreScript($name);
-			}
 			if(isset($this->_scriptFiles[self::POS_HEAD]))
 			{
 				foreach($this->_scriptFiles[self::POS_HEAD] as $scriptFile)
@@ -4164,38 +4243,23 @@ class CClientScript extends CApplicationComponent
 	{
 		$this->_baseUrl=$value;
 	}
-	public function renderCoreScript($name)
+	public function registerCoreScript($name)
 	{
-		if(isset($this->_coreScripts[$name]) && $this->_coreScripts[$name]===true || !$this->enableJavaScript)
-			return '';
-		$this->_coreScripts[$name]=true;
+		if(isset($this->_coreScripts[$name]))
+			return;
 		if($this->_packages===null)
 		{
 			$config=require(YII_PATH.'/web/js/packages.php');
 			$this->_packages=$config[0];
 			$this->_dependencies=$config[1];
 		}
-		$baseUrl=$this->getCoreScriptUrl();
-		$html='';
+		if(!isset($this->_packages[$name]))
+			return;
 		if(isset($this->_dependencies[$name]))
 		{
 			foreach($this->_dependencies[$name] as $depName)
-				$html.=$this->renderCoreScript($depName);
+				$this->registerCoreScript($depName);
 		}
-		if(isset($this->_packages[$name]))
-		{
-			foreach($this->_packages[$name] as $path)
-			{
-				if(substr($path,-4)==='.css')
-					$html.=CHtml::cssFile($baseUrl.'/'.$path)."\n";
-				else
-					$html.=CHtml::scriptFile($baseUrl.'/'.$path)."\n";
-			}
-		}
-		return $html;
-	}
-	public function registerCoreScript($name)
-	{
 		$this->_hasScripts=true;
 		$this->_coreScripts[$name]=$name;
 		$params=func_get_args();
