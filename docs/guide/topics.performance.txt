@@ -41,7 +41,7 @@ execution of trace statements.
 
 Note, using `yiilite.php` without APC may actually reduce performance,
 because `yiilite.php` contains some classes that are not necessarily used
-in every request and would take extra parsing time. It is observed that
+in every request and would take extra parsing time. It is also observed that
 using `yiilite.php` is slower with some server configurations, even when
 APC is turned on. The best way to judge whether to use `yiilite.php` or not
 is to run a benchmark using the included `hello world` demo.
