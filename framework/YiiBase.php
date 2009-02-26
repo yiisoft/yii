@@ -379,7 +379,7 @@ class YiiBase
 	}
 
 	/**
-	 * Translates a message to the {@link CApplication::getLanguage application language}.
+	 * Translates a message to the specified language.
 	 * Starting from version 1.0.2, this method supports choice format (see {@link CChoiceFormat}),
 	 * i.e., the message returned will be chosen from a few candidates according to the given
 	 * number value. This feature is mainly used to solve plural format issue in case
@@ -395,17 +395,19 @@ class YiiBase
 	 * @param string which message source application component to use.
 	 * Defaults to null, meaning using 'coreMessages' for messages belonging to
 	 * the 'yii' category and using 'messages' for the rest messages.
+	 * @param string the target language. If null (default), the {@link CApplication::getLanguage application language} will be used.
+	 * This parameter has been available since version 1.0.3.
 	 * @return string the translated message
 	 * @see CMessageSource
 	 */
-	public static function t($category,$message,$params=array(),$source=null)
+	public static function t($category,$message,$params=array(),$source=null,$language=null)
 	{
 		if(self::$_app!==null)
 		{
 			if($source===null)
 				$source=$category==='yii'?'coreMessages':'messages';
 			if(($source=self::$_app->getComponent($source))!==null)
-				$message=$source->translate($category,$message);
+				$message=$source->translate($category,$message,$language);
 		}
 		if($params===array())
 			return $message;
@@ -560,6 +562,7 @@ class YiiBase
 		'CFilter' => '/web/filters/CFilter.php',
 		'CFilterChain' => '/web/filters/CFilterChain.php',
 		'CInlineFilter' => '/web/filters/CInlineFilter.php',
+		'CGoogleApi' => '/web/helpers/CGoogleApi.php',
 		'CHtml' => '/web/helpers/CHtml.php',
 		'CJSON' => '/web/helpers/CJSON.php',
 		'CJavaScript' => '/web/helpers/CJavaScript.php',

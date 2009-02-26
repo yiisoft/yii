@@ -53,8 +53,9 @@ abstract class CMessageSource extends CApplicationComponent
 	}
 
 	/**
-	 * Translates a message to the {@link CApplication::getLanguage application language}.
-	 * Note, if the {@link CApplication::getLanguage application language} is the same as
+	 * Translates a message to the specified language.
+	 *
+	 * Note, if the specified language is the same as
 	 * the {@link getLanguage source message language}, messages will NOT be translated.
 	 *
 	 * If the message is not found in the translations, an {@link onMissingTranslation}
@@ -64,12 +65,16 @@ abstract class CMessageSource extends CApplicationComponent
 	 *
 	 * @param string the message category
 	 * @param string the message to be translated
+	 * @param string the target language. If null (default), the {@link CApplication::getLanguage application language} will be used.
+	 * This parameter has been available since version 1.0.3.
 	 * @return string the translated message (or the original message if translation is not needed)
 	 */
-	public function translate($category,$message)
+	public function translate($category,$message,$language=null)
 	{
-		if(($lang=Yii::app()->getLanguage())!==$this->getLanguage())
-			return $this->translateMessage($category,$message,$lang);
+		if($language===null)
+			$language=Yii::app()->getLanguage();
+		if($language!==$this->getLanguage())
+			return $this->translateMessage($category,$message,$language);
 		else
 			return $message;
 	}

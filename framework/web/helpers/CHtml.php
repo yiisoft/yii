@@ -787,16 +787,6 @@ class CHtml
 	}
 
 	/**
-	 * Generates the HTML code for including the specified core script.
-	 * @param string core script name. The valid names are listed in framework/web/js/packages.php
-	 * @return string the HTML code
-	 */
-	public static function coreScript($name)
-	{
-		return Yii::app()->getClientScript()->renderCoreScript($name);
-	}
-
-	/**
 	 * Generates a URL if the input specifies the route to a controller action.
 	 * @param mixed the URL to be normalized. If a string, the URL is returned back;
 	 * if an array, it is considered as a route to a controller action and will
