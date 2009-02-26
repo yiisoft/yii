@@ -17,6 +17,11 @@ Upgrading from v1.0.2
   If you use "path.to.xyz" in your application, you have to modify it
   to "path/to/xyz".
 
+- CHtml::coreScript() is removed. If you used this in your application,
+  please use the following alternative:
+
+  Yii::app()->clientScript->registerCoreScript($name);
+
 
 Upgrading from v1.0.1
 ---------------------

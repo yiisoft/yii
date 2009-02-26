@@ -43,6 +43,16 @@ class CClientScript extends CApplicationComponent
 	 * @var boolean whether JavaScript should be enabled. Defaults to true.
 	 */
 	public $enableJavaScript=true;
+	/**
+	 * @var array the mapping between script file names and the corresponding script URLs.
+	 * The array keys are script file names (without directory part) and the array values are the corresponding URLs.
+	 * If an array value is false, the corresponding script file will not be rendered.
+	 *
+	 * This property is mainly used to optimize the generated HTML pages
+	 * by merging different scripts files into fewer and optimized script files.
+	 * @since 1.0.3
+	 */
+	public $scriptMap=array();
 
 	private $_hasScripts=false;
 	private $_packages;
@@ -85,11 +95,75 @@ class CClientScript extends CApplicationComponent
 		if(!$this->_hasScripts)
 			return;
 
+		$this->renderCoreScripts();
+
+		if(!empty($this->scriptMap))
+			$this->remapScripts();
+
 		$this->renderHead($output);
 		if($this->enableJavaScript)
 		{
 			$this->renderBodyBegin($output);
 			$this->renderBodyEnd($output);
+		}
+	}
+
+	/**
+	 * Uses {@link scriptMap} to re-map the registered scripts.
+	 * @since 1.0.3
+	 */
+	protected function remapScripts()
+	{
+		$cssFiles=array();
+		foreach($this->_cssFiles as $url=>$media)
+		{
+			$name=basename($url);
+			if(isset($this->scriptMap[$name]))
+			{
+				if($this->scriptMap[$name]!==false)
+					$cssFiles[$this->scriptMap[$name]]=$media;
+			}
+			else
+				$cssFiles[$url]=$media;
+		}
+		$this->_cssFiles=$cssFiles;
+
+		$jsFiles=array();
+		foreach($this->_scriptFiles as $position=>$scripts)
+		{
+			$jsFiles[$position]=array();
+			foreach($scripts as $key=>$script)
+			{
+				$name=basename($script);
+				if(isset($this->scriptMap[$name]))
+				{
+					if($this->scriptMap[$name]!==false)
+						$jsFiles[$position][$name]=$this->scriptMap[$name];
+				}
+				else
+					$jsFiles[$position][$key]=$script;
+			}
+		}
+		$this->_scriptFiles=$jsFiles;
+	}
+
+	/**
+	 * Renders the specified core javascript library.
+	 * @since 1.0.3
+	 */
+	public function renderCoreScripts()
+	{
+		foreach($this->_coreScripts as $name)
+		{
+			$this->_coreScripts[$name]=true;
+			$baseUrl=$this->getCoreScriptUrl();
+			foreach($this->_packages[$name] as $path)
+			{
+				if(substr($path,-4)==='.css')
+					$this->registerCssFile($baseUrl,'/'.$path);
+				else
+					$this->registerScriptFile($baseUrl.'/'.$path);
+			}
 		}
 	}
 
@@ -110,12 +184,6 @@ class CClientScript extends CApplicationComponent
 			$html.=CHtml::css($css[0],$css[1])."\n";
 		if($this->enableJavaScript)
 		{
-			foreach($this->_coreScripts as $name)
-			{
-				if(is_string($name))
-					$html.=$this->renderCoreScript($name);
-			}
-
 			if(isset($this->_scriptFiles[self::POS_HEAD]))
 			{
 				foreach($this->_scriptFiles[self::POS_HEAD] as $scriptFile)
@@ -228,51 +296,29 @@ class CClientScript extends CApplicationComponent
 	}
 
 	/**
-	 * Renders the specified core javascript library.
-	 * Any dependent libraries will also be rendered.
-	 * @param string name of core javascript library. See framework/web/js/packages.php
-	 * for valid names.
-	 * @return string the rendering result
-	 */
-	public function renderCoreScript($name)
-	{
-		if(isset($this->_coreScripts[$name]) && $this->_coreScripts[$name]===true || !$this->enableJavaScript)
-			return '';
-
-		$this->_coreScripts[$name]=true;
-		if($this->_packages===null)
-		{
-			$config=require(YII_PATH.'/web/js/packages.php');
-			$this->_packages=$config[0];
-			$this->_dependencies=$config[1];
-		}
-		$baseUrl=$this->getCoreScriptUrl();
-		$html='';
-		if(isset($this->_dependencies[$name]))
-		{
-			foreach($this->_dependencies[$name] as $depName)
-				$html.=$this->renderCoreScript($depName);
-		}
-		if(isset($this->_packages[$name]))
-		{
-			foreach($this->_packages[$name] as $path)
-			{
-				if(substr($path,-4)==='.css')
-					$html.=CHtml::cssFile($baseUrl.'/'.$path)."\n";
-				else
-					$html.=CHtml::scriptFile($baseUrl.'/'.$path)."\n";
-			}
-		}
-		return $html;
-	}
-
-	/**
 	 * Registers a core javascript library.
 	 * @param string the core javascript library name
 	 * @see renderCoreScript
 	 */
 	public function registerCoreScript($name)
 	{
+		if(isset($this->_coreScripts[$name]))
+			return;
+
+		if($this->_packages===null)
+		{
+			$config=require(YII_PATH.'/web/js/packages.php');
+			$this->_packages=$config[0];
+			$this->_dependencies=$config[1];
+		}
+		if(!isset($this->_packages[$name]))
+			return;
+		if(isset($this->_dependencies[$name]))
+		{
+			foreach($this->_dependencies[$name] as $depName)
+				$this->registerCoreScript($depName);
+		}
+
 		$this->_hasScripts=true;
 		$this->_coreScripts[$name]=$name;
 		$params=func_get_args();
