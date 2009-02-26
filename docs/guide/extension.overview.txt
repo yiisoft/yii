@@ -19,10 +19,7 @@ classified as follows,
  * validator: a validator is a component class extending [CValidator].
  * helper: a helper is a class with only static methods. It is like global
    functions using the class name as their namespace.
- * module: a module is a package of several class files and the corresponding
-   asset files. A module often achieves higher level and more advanced
-   functionalities than a single component. For example, we could have a module
-   that provides user management functionalities.
+ * [module](/doc/guide/basics.module): a module is a self-contained software unit that consists of [models](/doc/guide/basics.model), [views](/doc/guide/basics.view), [controllers](/doc/guide/basics.controller) and other supporting components. In many aspects, a module resembles to an [application](/doc/guide/basics.application). The main difference is that a  For example, we could have a module that provides user management functionalities.
 
 An extension can also be a component that does not fall into any of the above
 categories. As a matter of fact, Yii is carefully designed such that nearly
