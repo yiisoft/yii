@@ -153,17 +153,35 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function renderCoreScripts()
 	{
+		$baseUrl=$this->getCoreScriptUrl();
+		$cssFiles=array();
+		$jsFiles=array();
 		foreach($this->_coreScripts as $name)
 		{
-			$this->_coreScripts[$name]=true;
-			$baseUrl=$this->getCoreScriptUrl();
 			foreach($this->_packages[$name] as $path)
 			{
+				$url=$baseUrl.'/'.$path;
 				if(substr($path,-4)==='.css')
-					$this->registerCssFile($baseUrl,'/'.$path);
+					$cssFiles[$url]='';
 				else
-					$this->registerScriptFile($baseUrl.'/'.$path);
+					$jsFiles[$url]=$url;
 			}
+		}
+		// merge in place
+		if($cssFiles!==array())
+		{
+			foreach($this->_cssFiles as $cssFile=>$media)
+				$cssFiles[$cssFile]=$media;
+			$this->_cssFiles=$cssFiles;
+		}
+		if($jsFiles!==array())
+		{
+			if(isset($this->_scriptFiles[self::POS_HEAD]))
+			{
+				foreach($this->_scriptFiles[self::POS_HEAD] as $url)
+					$jsFiles[$url]=$url;
+			}
+			$this->_scriptFiles[self::POS_HEAD]=$jsFiles;
 		}
 	}
 
