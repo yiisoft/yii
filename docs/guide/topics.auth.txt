@@ -515,6 +515,19 @@ When [CWebUser::checkAccess], default roles will be checked first as if they are
 assigned to the user.
 
 Default roles must be declared in the [CAuthManager::defaultRoles] property.
+For example, the following configuration declares two roles to be default roles: `authenticated` and `guest`.
+
+~~~
+[php]
+return array(
+	'components'=>array(
+		'authManager'=>array(
+			'class'=>'CDbAuthManager',
+			'defaultRoles'=>array('authenticated', 'guest'),
+		),
+	),
+);
+~~~
 
 Because a default role is assigned to every user, it usually needs to be
 associated with a business rule that determines whether the role
@@ -525,7 +538,7 @@ users and guest users, respectively.
 ~~~
 [php]
 $bizRule='return !Yii::app()->user->isGuest;';
-$auth->createRole('authenticated');
+$auth->createRole('authenticated',$bizRule);
 
 $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('guest',$bizRule);
