@@ -111,6 +111,9 @@ writable by Web server process. It can be customized via
    - `WebRoot/protected/extensions`: this directory holds all third-party
 extensions. It can be customized via [CApplication::extensionPath].
 
+   - `WebRoot/protected/modules`: this directory holds all application
+[modules](/doc/guide/basics.module), each represented as a subdirectory.
+
    - `WebRoot/protected/controllers`: this directory holds all controller
 class files. It can be customized via [CWebApplication::controllerPath].
 

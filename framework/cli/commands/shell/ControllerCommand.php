@@ -36,7 +36,7 @@ DESCRIPTION
   the specified actions.
 
 PARAMETERS
- * controller-ID: required, controller ID (e.g. 'post', 'admin.user')
+ * controller-ID: required, controller ID (e.g. 'post', 'admin/user')
  * action-ID: optional, action ID. You may supply one or several
    action IDs. A default 'index' action will always be generated.
 
@@ -57,7 +57,7 @@ EOD;
 		}
 
 		$controllerID=$args[0];
-		if(($pos=strrpos($controllerID,'.'))===false)
+		if(($pos=strrpos($controllerID,'/'))===false)
 		{
 			$controllerClass=ucfirst($controllerID).'Controller';
 			$controllerFile=Yii::app()->controllerPath.DIRECTORY_SEPARATOR.$controllerClass.'.php';
@@ -66,7 +66,7 @@ EOD;
 		else
 		{
 			$controllerClass=ucfirst(substr($controllerID,$pos+1)).'Controller';
-			$controllerFile=Yii::app()->controllerPath.DIRECTORY_SEPARATOR.str_replace('.',DIRECTORY_SEPARATOR,substr($controllerID,0,$pos)).DIRECTORY_SEPARATOR.$controllerClass.'.php';
+			$controllerFile=Yii::app()->controllerPath.DIRECTORY_SEPARATOR.str_replace('/',DIRECTORY_SEPARATOR,substr($controllerID,0,$pos)).DIRECTORY_SEPARATOR.$controllerClass.'.php';
 			$controllerID[$pos+1]=strtolower($controllerID[$pos+1]);
 		}
 
@@ -84,7 +84,7 @@ EOD;
 			),
 		);
 
-		$viewPath=Yii::app()->viewPath.DIRECTORY_SEPARATOR.str_replace('.',DIRECTORY_SEPARATOR,$controllerID);
+		$viewPath=Yii::app()->viewPath.DIRECTORY_SEPARATOR.str_replace('/',DIRECTORY_SEPARATOR,$controllerID);
 		foreach($actions as $name)
 		{
 			$list[$name.'.php']=array(
