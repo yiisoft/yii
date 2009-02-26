@@ -43,6 +43,7 @@ Version 1.0.3 to be released
 - New: Added support for application modules (Qiang)
 - New: Added "module" command for yiic shell tool (Qiang)
 - New: Added support for using default roles in RBAC (Qiang)
+- New: Added support for translating a message into multiple languages on the same page at the same time (Qiang)
 
 Version 1.0.2 February 1, 2009
 ------------------------------
