@@ -212,11 +212,11 @@ is created using `yiic webapp` command, then the configuration file
 for the console application `protected/yiic` is `protected/config/console.php`,
 while the configuration file for the Web application is `protected/config/main.php`.
 
+
 Module
 ------
-A module typically consists of more than one class files and is often
-a mix of the above extension types. Therefore, you should follow the corresponding
-instructions to use a module.
+Please refer to the section about [modules](/doc/guide/basics.module#using-module) on how to use a module.
+
 
 Generic Component
 -----------------
