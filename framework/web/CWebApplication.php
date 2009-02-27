@@ -653,9 +653,30 @@ class CWebApplication extends CApplication
 				$module=new $className($id);
 			else
 				$module=new $className($owner->getId().'/'.$id,$owner);
-			Yii::app()->setPathOfAlias('module',$module->getBasePath());
+			Yii::setPathOfAlias($id,$module->getBasePath());
 			$module->init($config);
 			return $module;
 		}
+	}
+
+	/**
+	 * Searches for a module by its ID.
+	 * This method is used internally. Do not call this method.
+	 * @param string module ID
+	 * @return CWebModule the module that has the specified ID. Null if no module is found.
+	 * @since 1.0.3
+	 */
+	public function findModule($id)
+	{
+		if(($controller=$this->getController())!==null && ($module=$controller->getModule())!==null)
+		{
+			do
+			{
+				if(($m=$module->getModule($id))!==null)
+					return $m;
+			} while(($module=$module->getParentModule())!==null);
+		}
+		if(($m=$this->getModule($id))!==null)
+			return $m;
 	}
 }

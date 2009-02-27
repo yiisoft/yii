@@ -42,7 +42,7 @@ Version 1.0.3 to be released
 - New: Added CActiveRecord.hasRelated() (Qiang)
 - New: Enhanced CHtml::listData() to work with raw query results (Qiang)
 - New: Controllers under subdirectories are now referenced using "path/to/xyz" (Qiang)
-- New: Added two new defaut aliases: webroot and module (Qiang)
+- New: Added a defaut path alias named "webroot" (Qiang)
 - New: Added support for auto-incremental composite primary keys in active record (Qiang)
 - New: Added support for application modules (Qiang)
 - New: Added "module" command for yiic shell tool (Qiang)
