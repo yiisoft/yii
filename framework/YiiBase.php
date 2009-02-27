@@ -257,8 +257,13 @@ class YiiBase
 			$rootAlias=substr($alias,0,$pos);
 			if(isset(self::$_aliases[$rootAlias]))
 				return self::$_aliases[$alias]=rtrim(self::$_aliases[$rootAlias].DIRECTORY_SEPARATOR.str_replace('.',DIRECTORY_SEPARATOR,substr($alias,$pos+1)),'*'.DIRECTORY_SEPARATOR);
+			else if(self::$_app instanceof CWebApplication)
+			{
+				if(self::$_app->findModule($rootAlias)!==null)
+					return self::getPathOfAlias($alias);
+			}
 		}
-		return self::$_aliases[$alias]=false;
+		return false;
 	}
 
 	/**
