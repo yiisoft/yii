@@ -89,6 +89,14 @@ protected function afterSave()
 			"INSERT INTO PostTag (postId, tagId) VALUES ({$this->id},{$tag->id})")->execute();
 	}
 }
+
+public function getTagArray()
+{
+	// break tag string into a set of tags
+	return array_unique(
+		preg_split('/\s*,\s*/',trim($this->tags),-1,PREG_SPLIT_NO_EMPTY)
+	);
+}
 ~~~
 
 In the above, we first clean up the `PostTag` table for rows related with the current post. We then insert new tags into the `Tag` table and add a reference in the `PostTag` table. The logic here is a bit complex. Instead of using [ActiveRecord](http://www.yiiframework.com/doc/guide/database.ar), we write raw SQL statements and execute them with the database connection.

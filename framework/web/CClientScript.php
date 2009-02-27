@@ -126,7 +126,10 @@ class CClientScript extends CApplicationComponent
 					$cssFiles[$this->scriptMap[$name]]=$media;
 			}
 			else if(isset($this->scriptMap['*.css']))
-				$cssFiles[$this->scriptMap['*.css']]=$media;
+			{
+				if($this->scriptMap['*.css']!==false)
+					$cssFiles[$this->scriptMap['*.css']]=$media;
+			}
 			else
 				$cssFiles[$url]=$media;
 		}
@@ -145,7 +148,10 @@ class CClientScript extends CApplicationComponent
 						$jsFiles[$position][$name]=$this->scriptMap[$name];
 				}
 				else if(isset($this->scriptMap['*.js']))
-					$jsFiles[$position][$this->scriptMap['*.js']]=$this->scriptMap['*.js'];
+				{
+					if($this->scriptMap['*.js']!==false)
+						$jsFiles[$position][$this->scriptMap['*.js']]=$this->scriptMap['*.js'];
+				}
 				else
 					$jsFiles[$position][$key]=$script;
 			}
