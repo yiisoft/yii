@@ -382,7 +382,7 @@ class CWebApplication extends CApplication
 				if(isset($owner->controllerMap[$id]))
 				{
 					return array(
-						Yii::createComponent($owner->controllerMap[$id],$id),
+						Yii::createComponent($owner->controllerMap[$id],$id,$owner===$this?null:$owner),
 						$this->parseActionParams($route),
 					);
 				}
