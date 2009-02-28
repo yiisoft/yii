@@ -37,8 +37,7 @@ Given a locale ID, one can get the corresponding [CLocale] instance by
 `CLocale::getInstance($localeID)` or `CApplication::getLocale($localeID)`.
 
 > Info: Yii comes with locale data for nearly every language and region.
-The data is obtained from [Common Locale Data Data
-Repository](http://unicode.org/cldr/) (CLDR). For each locale, only a
+The data is obtained from [Common Locale Data Repository](http://unicode.org/cldr/) (CLDR). For each locale, only a
 subset of the CLDR data is provided as the original data contains much
 rarely used information.
 

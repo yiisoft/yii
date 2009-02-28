@@ -456,6 +456,7 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function registerLinkTag($relation=null,$type=null,$href=null,$media=null,$options=array())
 	{
+		$this->_hasScripts=true;
 		if($relation!==null)
 			$options['rel']=$relation;
 		if($type!==null)

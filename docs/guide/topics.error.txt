@@ -20,7 +20,7 @@ constant `YII_ENABLE_ERROR_HANDLER` and `YII_ENABLE_EXCEPTION_HANDLER` to
 be false in the [entry script](/doc/guide/basics.entry).
 
 By default, [errorHandler|CApplication::errorHandler] (or
-[exception|CApplication::exceptionHandler]) will raise an
+[exceptionHandler|CApplication::exceptionHandler]) will raise an
 [onError|CApplication::onError] event (or
 [onException|CApplication::onException] event). If the error (or exception)
 is not handled by any event handler, it will call for help from the

@@ -35,12 +35,12 @@ the variable `$user` represents `LoginForm` instance.
 
 <div class="simple">
 <?php echo CHtml::activeLabel($user,'username'); ?>
-<?php echo CHtml::activeTextField($user,'username') ?>
+<?php echo CHtml::activeTextField($user,'username'); ?>
 </div>
 
 <div class="simple">
 <?php echo CHtml::activeLabel($user,'password'); ?>
-<?php echo CHtml::activePasswordField($user,'password')
+<?php echo CHtml::activePasswordField($user,'password');
 ?>
 </div>
 
