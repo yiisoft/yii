@@ -1,0 +1,51 @@
+Cachen von Seiten
+=================
+
+Beim Cachen von Seiten wird der Inhalt einer ganzen Seite gecacht. Dies kann
+an verschiedenen Stellen geschehen. Zum Beispiel kann der Client-Browser
+bereits eine betrachtete Seite für einen begrenzten Zeitraum cachen, indem man
+einen passenden Seiten-Header wählt. Auch die Webanwendung selbst kann den
+Inhalt einer Seite im Cache speichern. In diesem Kapitel sehen wir uns
+letzeren Ansatz näher an.
+
+Das Cachen einer Seite kann als Spezialfall des [Cachens von
+Seitenabschnitten](/doc/guide/caching.fragment) betrachtet werden. Da der
+Inhalt einer Seite oft mittels Anwendung eines Layouts auf einen View 
+erzeugt wird, funktioniert es nicht, wenn wir einfach
+[beginCache()|CBaseController::beginCache] und
+[endCache()|CBaseController::endCache] im Layout aufrufen. Das liegt daran, da
+das Layout innerhalb von [CController::render()] erst angewendet wird, NACHDEM der
+View-Inhalt bestimmt wurde.
+
+Um eine ganze Seite zu cachen, sollten wir die Ausführung derjenigen Action
+überspringen, die den Seiteninhalt erzeut. Um dies zu erreichen, können wir [COutputCache] als
+[Filter](/doc/guide/basics.controller#filter) für eine Action verwenden.
+Der folgende Code zeigt, wie wir den Cache-Filter konfigurieren:
+
+~~~
+[php]
+public function filters()
+{
+	return array(
+		array(
+			'system.web.widgets.COutputCache',
+			'duration'=>100,
+			'varyByParam'=>array('id'),
+		),
+	);
+}
+~~~
+
+Bei obige Filterkonfiguration würde den Filter auf alle Actions des
+Controllers anwenden. Indem wir den Plus-Operator verwenden, können wir ihn
+auf eine oder wenige Actions beschränken. Nähere Informationen hierzu finden
+sich unter [Filter](/doc/guide/basics.controller#filter).
+
+> Tip|Tipp: Wir können [COutputCache] deshalb als Filter verwenden, weil er
+[CFilterWidget] erweitert, was bedeutet, dass er sowohl ein Widget, als auch ein
+Filter ist. Tatsächlich ähneln sich die Funktionsweisen eines Widgets und
+eines Filters: Ein Widget (Filter) beginnt, bevor der eingebettete Inhalt
+(Action) ausgewertet wird und endet, nachdem dieser Inhalt (Action)
+ausgewertet wurde.
+
+<div class="revision">$Id: caching.page.txt 162 2008-11-05 12:44:08Z weizhuo $</div>

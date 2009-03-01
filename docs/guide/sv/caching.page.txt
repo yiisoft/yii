@@ -3,7 +3,7 @@ Sidcachning
 
 Sidcachning refererar till cachning av innehållet för en hel sida. Sidcachning 
 kan inträffa på olika ställen. Till exempel kan klienten/webbläsaren, genom val 
-av en lämplig page header, fås att cachelagra sidan som presenteras under en 
+av en lämplig page header, fås att cachelagra sidan som presenteras, under en 
 begränsasd tid. Själva webbapplikationen kan också cachelagra sidinnehållet. I 
 detta delavsnitt, fokuserar vi på det senare tillvägagångssättet.
 
@@ -17,7 +17,7 @@ innehållsvyn.
 
 För cachning av en hel sida skall åtgärden som genererar sidinnehållet hoppas 
 över. [COutputCache] kan användas som ett 
-[filter](/doc/guide/basics.controller#filter) att åstadkomma detta. Följande kod 
+[filter](/doc/guide/basics.controller#filter) för att åstadkomma detta. Följande kod 
 visar hur cachefiltret kan konfigureras:
 
 ~~~
@@ -39,7 +39,7 @@ kontrollern. Detta kan begränsas till en eller ett fåtal åtgärder genom
 användning av plus-operatorn. Fler detaljer finns i 
 [filter](/doc/guide/basics.controller#filter).
 
-> Tips: Klassen [COutputCache] kan användas som ett filter eftersom den är en 
+> Tip|Tips: Klassen [COutputCache] kan användas som ett filter eftersom den är en 
 utvidgning av [CFilterWidget], vilket innebär att den är både en widget och ett 
 filter. Faktum är att sättet en widget arbetar på är mycket likt ett filter: en 
 widget (filter) börjar innan något omslutet innehåll (åtgärd) utvärderas, och 

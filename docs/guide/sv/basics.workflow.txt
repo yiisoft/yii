@@ -6,9 +6,9 @@ arbetsgången vid utveckling av en webbapplikation med hjälp av Yii. Det
 förutsätts att kravanalys såväl som erforderlig designanalys gjorts för 
 applikationen.
 
-   1. Skapa den övergripande katalogstrukturen. Verktyget `yiic`, beskrivet i [Creating 
-   First Yii Application](/doc/guide/quickstart.first-app), kan användas för att 
-   snabba upp detta steg.
+   1. Skapa den övergripande katalogstrukturen. Verktyget `yiic`, beskrivet i 
+   [Skapa en första Yii-applikation](/doc/guide/quickstart.first-app), kan användas 
+   för att snabba upp detta steg.
 
    2. Konfigurera [application](/doc/guide/basics.application). Detta görs genom 
    modifiering av applikationens konfigurationsfil. I detta steg kan också några 
@@ -27,7 +27,7 @@ applikationen.
 
    5. Implementera åtgärder, [actions](/doc/guide/basics.controller#action), och 
    deras tillhörande vyer, [views](/doc/guide/basics.view). Det är här det 
-   egentliga arbetet nehöver göras.
+   egentliga arbetet behöver göras.
 
    6. Konfigurera nödvändiga åtgärdsfilter, 
    [filters](/doc/guide/basics.controller#filter), i kontrollerklasserna.
@@ -42,5 +42,6 @@ applikationen.
    10. Slutlig fintrimning, [tune up](/doc/guide/topics.performance), samt utsättning.
 
 För vart och ett av ovanstående steg kan testfall behöva skapas och utföras.
+
 
 <div class="revision">$Id: basics.workflow.txt 323 2008-12-04 01:40:16Z qiang.xue $</div>

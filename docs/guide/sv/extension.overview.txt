@@ -7,7 +7,7 @@ från dess [CController]-klass; när en ny widget skrivs, utvidgas [CWidget] ell
 en redan existerande widgetklass. Om den utvidgade koden är konstruerad med 
 avsikt att återanvändas av tredjepartsutvecklare, kallas den för en *extension*.
 
-En extension tjänar vanligtvis ett distinkt syfte. Med Yii's nomenklatur, kan den klassficeras enligt följande,
+En extension tjänar vanligtvis ett distinkt syfte. Med Yii's nomenklatur, kan den klassificeras enligt följande,
 
  * [applikationskomponent](/doc/guide/basics.application#application-component)
  * [widget](/doc/guide/basics.view#widget)
@@ -17,10 +17,10 @@ En extension tjänar vanligtvis ett distinkt syfte. Med Yii's nomenklatur, kan d
  * [konsolkommando](/doc/guide/topics.console)
  * validator: en validator är en komponentklass som utvidgar [CValidator].
  * helper: en helper är en klass bestående endast av (statiska) klassmetoder. Det motsvarar globala funktioner med klassens namn som namnområde.
- * modul: en modul är en paketering bestående av ett antal klassfiler samt tillhörande resursfiler. En modul uppnår ofta högre nivå och mer avancerad funktionalitet jämfört med en enstaka komponent. Till exempel, en modul kan tillhandahålla funktionalitet för administrering av användare.
-
+ * [modul](/doc/guide/basics.module): en modul är en komplett och oberoende mjukvaruenhet som består av [modeller](/doc/guide/basics.model), [vyer](/doc/guide/basics.view), [kontrollrar](/doc/guide/basics.controller) samt andra stödkomponenter. En modul motsvarar ur många aspekter en [applikation](/doc/guide/basics.application). Den huvudsakliga skillnaden är att en modul finns inuti en applikation. Till exempel kan en modul som erbjuda funktionalitet för administrering av användare.
+ 
 En extension kan även vara en komponent som inte faller inom någon av ovannämnda 
 kategorier. Faktum är att Yii omsorgsfullt konstruerats så att nästan varje del 
 av dess kodbas kan utvidgas och anpassas till individuella behov.
 
-<div class="revision">$Id: extension.overview.txt 235 2008-11-18 04:27:50Z qiang.xue $</div>
+<div class="revision">$Id: extension.overview.txt 759 2009-02-26 21:23:53Z qiang.xue $</div>

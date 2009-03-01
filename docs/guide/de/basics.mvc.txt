@@ -1,0 +1,61 @@
+Model-View-Controller (MVC)
+===========================
+
+Yii implementiert die Model-View-Controller-Architektur (MVC),
+die im Bereich der Web-Programmierung breite Anwendung findet. MVC zielt auf
+eine Trennung von Geschäftslogik und Benutzerschnittstelle ab, so dass
+der Entwickler jeden Bereich bequem verändern kann, ohne den anderen
+zu beeinflussen. In MVC werden die Information (die Daten) und die
+Geschäftsregeln durch das Model (Modell) repräsentiert. Der View
+(Präsentation) enthält Elemente der Benutzerschnittstelle, wie z.B. Text oder
+Formularelemente. Und der Controller (Steuerung) verwaltet die Kommunikation
+zwischen Model und View.
+
+Neben MVC führt Yii außerdem einen Front-Controller namens Applikation
+ein, der die Laufzeitumgebung für die Bearbeitung eines Requests (Anfrage) 
+darstellt. Die Applikation löst einen Benutzer-Request auf und leitet ihn zur
+Bearbeitung an einen passenden Controller weiter.
+
+Das folgende Diagramm zeigt die statische Struktur einer Yii-Applikation:
+
+![Statische Struktur einer Yii-Applikation](structure.png)
+
+
+Ein typischer Ablauf
+--------------------
+
+Das folgende Diagramm zeigt den typischen Ablauf einer Yii-Anwendung beim
+Bearbeiten eines Requests:
+
+![Ein typischer Ablauf einer Yii-Applikation](flow.png)
+
+   1. Ein Benutzer schickt einen Request mit der URL
+`http://www.example.com/index.php?r=post/show&id=1`
+   2. Das Ladescript erzeugt eine Instanz einer
+[Applikation](/doc/guide/basics.application) und startet diese.
+   3. Die Applikation bezieht die Detailinformationen des Benutzer-Requests von
+einer [Anwendungskomponente](/doc/guide/basics.application#application-component)
+namens `request`.
+   4. Die Applikation ermittelt den angeforderten
+[Controller](/doc/guide/basics.controller) unter Zuhilfenahme einer
+Applikationskomponente namens `urlManager`. In diesem Beispiel ist der
+Controller `post`, was sich auf die Klasse `PostController` bezieht. Die
+Action ist `show`, dessen tatsächliche Bedeutung erst vom Controller ermittelt wird.
+   5. Die Applikation erzeugt eine Instanz des angeforderten Controllers, damit
+dieser den Request weiter bearbeitet. Der Controller stellt fest, dass die
+Action `show` sich auf auf eine Methode namens `actionShow` in der
+Controller-Klasse bezieht. Er instanziiert daraufhin die mit dieser Action
+verbundenen Filter (z.B. Zugriffsschutz, Benchmark) und führt diese aus. Die Action wird
+ausgeführt wenn dies von den Filtern erlaubt wird.
+   6. Die Action liest das [Model](/doc/guide/basics.model) `Post` mit der ID
+`1` aus der Datenbank
+   7. Die Action rendert einen
+[View](/doc/guide/basics.view) namens `show` mit dem `Post`-Model.
+   8. Der View liest die Attribute des `Post`-Models und zeigt diese an.
+   9. Der View führt einige [Widgets](/doc/guide/basics.view#widget) aus.
+   10. Das Ergebnis des View-Render-Vorgangs wird in ein
+[Layout](/doc/guide/basics.view#layout) eingebettet.
+   11. Die Action beendet das Rendern des Views und zeigt dem Benutzer das
+Ergebnis an.
+
+<div class="revision">$Id: basics.mvc.txt 419 2008-12-28 05:35:39Z qiang.xue $</div>

@@ -51,7 +51,7 @@ bort allting från cache, anropa [flush()|CCache::flush]. Var mycket försiktig
 med att anropa [flush()|CCache::flush] eftersom även cachelagrat data från andra 
 applikationer tas bort.
 
-> Tips: Eftersom [CCache] implementerar `ArrayAccess`, kan en cachekomponent 
+> Tip|Tips: Eftersom [CCache] implementerar `ArrayAccess`, kan en cachekomponent 
 användas som en array. Här följer några exempel:
 
 > ~~~ 
@@ -85,7 +85,7 @@ false, vilket indikerar att data behöver genereras på nytt.
 
 Nedan följer en sammanställning av tillgängliga cacheberoenden:
 
-   - [CFileCacheDependency]: beroendet ändras vid förändring av filens tidangivelse avseende ssenaste ändring.
+   - [CFileCacheDependency]: beroendet ändras vid förändring av filens tidangivelse avseende senaste ändring.
 
    - [CDirectoryCacheDependency]: beroendet ändras vid förändring av någon fil i katalogen eller dess underkataloger.
 

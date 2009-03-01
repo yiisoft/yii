@@ -1,0 +1,289 @@
+モデルの作成
+==============
+
+フォームに必要なHTMLコードを書く前に、エンドユーザから、どの様なタイプの
+データが送られてくる事を期待するか、どの様なルールが適用されるべきかを
+決定します。モデルクラスはこれらの情報を記録するために
+使用することができます。モデルはサブセクション
+ [Model](/doc/guide/basics.model) で定義されているように、
+ユーザーの入力を保持し、入力チェックを行う中心的な場所です。
+
+ユーザーの入力をどのように扱うかによって、2つのタイプのモデルを
+作成することができます。もしユーザーの入力が収集され、
+使用された後に破棄される場合は、 [form model](/doc/guide/basics.model)
+ を作成しましょう;もしユーザーの入力が収集され、データベースへ保存される場合
+は代わりに [active record](/doc/guide/database.ar) を使いましょう。
+両方のモデルは共通のインターフェースとして定義された [CModel]
+ という基底クラスを必要とします。
+
+> Note|注意: このセクションでは例として form model を主に扱いますが、
+[active record](/doc/guide/database.ar) においても同様なことが可能です。
+
+モデルクラスの定義
+--------------------
+
+以下では、ログインページでユーザーの入力を収集する為に使用される
+ `LoginForm` モデルクラスを作成します。ログインで扱う情報は
+認証時にのみ必要で、保存される必要はありませんので、`LoginForm` 
+のモデルは form model として作成します。
+
+~~~
+[php]
+class LoginForm extends CFormModel
+{
+	public $username;
+	public $password;
+	public $rememberMe=false;
+}
+~~~
+
+３つの属性が `LoginForm` の中で宣言されています: `$username`、`$password`、
+そして `$rememberMe`です。これらはユーザーの入力したユーザー名とパスワード、
+そして、ユーザーがログイン情報を保存するかどうかのオプションを保持する為に
+用いられます。`$rememberMe` は、デフォルトで `false` になっているので、
+ログインフォームに表示される結びついたオプションは、初期状態では
+チェックされてない状態となります。
+
+> Info|情報: ここでは、これらのメンバ変数を普通のプロパティと区別する為に、
+プロパティと呼ばずに *属性* (attribute) と呼びます。属性は主に、
+ユーザの入力やデータベースのデータを保持する為に用いられるプロパティです。
+
+バリデーションルールの宣言
+--------------------------
+
+ユーザがインプットを送信し、モデルが値を受け取った際、私たちは
+その値を使用する前に正しい値であるか検証する必要があります。
+これはインプットに対して、セットになったルールのバリデーション（検証）
+を実行する事によって成し遂げられます。バリデーションルールは `rules()` 
+メソッドの中で定義し、このメソッドはルールの構成を配列として
+返さなければいけません。
+
+~~~
+[php]
+class LoginForm extends CFormModel
+{
+	public $username;
+	public $password;
+	public $rememberMe=false;
+
+	public function rules()
+	{
+		return array(
+			array('username, password', 'required'),
+			array('password', 'authenticate'),
+		);
+	}
+
+	public function authenticate($attribute,$params)
+	{
+		if(!$this->hasErrors())  // インプットエラーが無い場合にのみ認証を行います
+		{
+			$identity=new UserIdentity($this->username,$this->password);
+			if($identity->authenticate())
+			{
+				$duration=$this->rememberMe ? 3600*24*30 : 0; // 30 days
+				Yii::app()->user->login($identity,$duration);
+			}
+			else
+				$this->addError('password','Incorrect password.');
+		}
+	}
+}
+~~~
+
+上記のコードは `username` と `password` の両方が必須であり、`password` 
+は認証に掛けられなければならない事を示しています。
+
+`rules()` によって返される、それぞれのルールは下記の様なフォーマット
+でなければなりません:
+
+~~~
+[php]
+array('AttributeList', 'Validator', 'on'=>'ScenarioList', ...additional options)
+~~~
+
+`AttributeList` の箇所は、ルールによって検証されなければならない属性
+(attribute)の名前がカンマ区切りの文字列として入ります; `Validator` 
+はどのようなバリデーションが適用されなければならないかを示しています;
+ `on` パラメータはオプションで、ルールが適用されるシナリオのリスト
+を示しています; そして追加のオプション(additional option)の箇所は
+名前-値 のペアで、結びついたバリデータのプロパティの値を初期化する為に
+使用されます。
+
+バリデーションルールの中で `Validator` を指定するには３つの方法があります。
+ひとつ目に、上記の `authenticate` の例の様に、`Validator` はモデルクラス
+の中のメソッド名を取る事ができます。バリデータメソッドは下記の様な書式
+でなければなりません:
+
+~~~
+[php]
+/**
+ * @param string the name of the attribute to be validated
+ * @param array options specified in the validation rule
+ */
+public function ValidatorName($attribute,$params) { ... }
+~~~
+
+二つ目に、`Validator` はバリデータクラスの名前にする事ができます。
+ルールが適用されたとき、バリデータクラスのインスタンスが作成され、
+実際の検証が行われます。追加のオプションの値は、インスタンスの属性の値を
+初期化する為に用いられます。バリデータクラスは [CValidator]
+ を継承しなければいけません。
+
+> Note|注意: アクティブレコードモデルでルールを定義する場合、`on` 
+という名前の特別なオプションを使用する事ができます。このオプションは
+ `'insert'` か `'update'` のどちらかにする事が可能で、レコードのインサート
+の時のみにルールが適用されるか、アップデートの時のみにルールが
+適用されるかをそれぞれ指定することが出来ます。もしセットされていない場合、
+ルールは `save()` がコールされた時に両方のケースで適用されます。
+
+三つ目に、`Validator` は予め定義されたバリデータクラスの
+エイリアスを用いる事が出来ます。上記の例にあるように、`required` は
+ [CRequiredValidator] のエイリアスで、これは属性の値が、空の値では無い
+と検証された事を保証します。下記は予め定義されたバリデータの
+エイリアスの完全なリストです:
+
+   - `captcha`: [CCaptchaValidator] のエイリアスで、属性の値が
+　[CAPTCHA](http://en.wikipedia.org/wiki/Captcha)で表示された
+ベリフィケーションコードと等しい事を確認します。
+
+   - `compare`: [CCompareValidator] のエイリアスで、 属性の値が、
+もう一つの属性、または定数と等しい事を確認します。
+
+   - `email`: [CEmailValidator] のエイリアスで、属性の値が正式な
+Eメールアドレスである事を確認します。
+
+   - `file`: [CFileValidator] のエイリアスで、属性の値にアップロード
+されたファイルの名前が入っている事を確認します。
+
+   - `filter`: [CFilterValidator] のエイリアスで、 属性の値を
+フィルタによって変形します。
+
+   - `in`: [CRangeValidator] のエイリアスで、属性の値が、
+予め定めた値のリストの中にある事を確認します。
+
+   - `length`: [CStringValidator] のエイリアスで、
+データの長さが特定の範囲内にある事を確認します。
+
+   - `match`: [CRegularExpressionValidator] のエイリアスで、
+データが正規表現にマッチする事を確認します。
+
+   - `numerical`: [CNumberValidator] のエイリアスで、
+データが数値として妥当であるかを確認します。
+
+   - `required`: [CRequiredValidator] のエイリアスで、
+属性が空でない事を確認します。
+
+   - `type`: [CTypeValidator] のエイリアスでデータが
+特定の型である事を確認します。
+
+   - `unique`: [CUniqueValidator] のエイリアスで、データが
+データベースのテーブルのカラムで一意な値である事を確認します。
+
+   - `url`: [CUrlValidator] のエイリアスで、データが妥当なURLである事
+を確認します。
+
+下記は予め定義されたバリデータを使用した例のリストです:
+
+~~~
+[php]
+// 属性 password が、属性 password2 と同じである事を確認します。
+array('password', 'compare', 'compareAttribute'=>'password2')
+// username の長さが3から12の間である事を確認します。
+array('username', 'length', 'min'=>3, 'max'=>12)
+// age が負の整数では無い事を確認します。
+array('age', 'numeric', 'integerOnly'=>true, 'min'=>0)
+~~~
+
+バリデーションの始動
+---------------------
+
+バリデーションを始動する為に、[CModel::validate()] をコールする事
+が出来ます。このメソッドは、一つのエラーも起こらずに、バリデーションが
+成功したかどうかを示す値を返します。アクティブレコードモデルでは、
+モデルをデータベースに保存する為に、 [save()|CActiveRecord::save] 
+をコールした時点で、バリデーションは自動的に動作します。
+
+デフォルトでは、[validate()|CModel::validate] をコールした時、
+[rules()|CModel::rules] で指定された全ての属性が検証されます。
+いくつかの状況において、一部の属性だけを検証したい場合があるでしょう。
+そのようにする場合は、検証したい属性の名前群を 
+[validate()|CModel::validate] をコールする時の最初のパラメータ
+として渡す事で、下記の様に実現可能です:
+
+~~~
+[php]
+$model->validate(array('username','password'));
+~~~
+
+
+シナリオベースバリデーション
+-------------------------
+
+> Note|注意: シナリオベースバリデーションはバージョン1.0.1.から
+利用可能になりました
+
+モデルを異なるシナリオの中で使用する事が必要となる場合が度々あります。
+例えば、ユーザモデルなら `login` , `register` , `insert` または `update` 
+シナリオで使用されるでしょう。異なるシナリオは異なるバリデーションルール
+を必要とするでしょう。これをシナリオベースバリデーションと呼びます。
+
+シナリオベースバリデーションは、
+[Declaring Validation Rules](#declaring-validation-rules) 
+セクションで述べられている `on` パラメータを使用する事で成し遂げられます。
+特に私たちは、バリデーションルールが特定のシナリオだけに
+適用されなければならない場合に、シナリオ名のリストと共に `on` 
+パラメータを付与するでしょう。そしてその時、バリデーションを実行する為に、
+[validate()|CModel::validate] をコールし、二つ目のパラメータを必要とされる
+シナリオの名前にするのです。
+
+例えば、ユーザの登録時にバリデーションを行う為に、下記のステートメントを
+実行します:
+
+~~~
+[php]
+$model->validate(array('username','password','password_repeat'), 'register');
+~~~
+
+`register` シナリオの中でバリデーションが行われる為、下記のルールが
+必要になるでしょう:
+
+~~~
+[php]
+public function rules()
+{
+	return array(
+		array('username, password', 'required'),
+		array('password_repeat', 'required', 'on'=>'register'),
+		array('password', 'compare', 'on'=>'register'),
+	);
+}
+~~~
+
+結果として、最初のルールは全てのシナリオに適用され、次の二つのルールは
+ `register` シナリオの場合にのみ適用される事になるでしょう。
+
+
+バリデーションエラーの回収
+----------------------------
+
+バリデーションエラーがあるかどうかをチェックする為に [CModel::hasErrors()]
+ を使用する事ができ、もしエラーがある場合、エラーメッセージ獲得の為に 
+[CModel::getErrors()] を使用する事ができます。メソッドは両方とも、
+個別の属性か全ての属性に対して使用する事が出来ます。
+
+属性のラベル
+----------------
+
+フォームをデザインする時、それぞれのインプットフィールドにラベルの表示
+が必要となる事が度々あります。ラベルはユーザに、どの様な種類の情報を
+フィールドに入力するかを伝えます。ビューの中にラベルを直接書き込む事も可能
+ですが、結びついたモデルの中で定めた方がより柔軟で便利なことが多いでしょう。
+
+デフォルトでは、[CModel] は単純に属性の名前をラベルとして返します。
+これは [attributeLabels()|CModel::attributeLabels] メソッドを
+オーバーライドする事でカスタマイズ可能です。次のサブセクション
+に見るように、モデルの中でのラベルの定義は、より早く、
+力強いフォームの作成を私達にもたらします。
+
+<div class="revision">$Id: form.model.txt 367 2008-12-16 20:18:30Z qiang.xue $</div>

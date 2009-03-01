@@ -3,8 +3,8 @@ Konventioner
 
 Yii föredrar konventioner före konfigurationer. Genom att följa konventioner kan 
 man med Yii skapa sofistikerade applikationer utan att skriva och administrera 
-komplicerade konfigurationer. Självklart kan Yii vid behov fortfarande anpassas 
-på nästan varje tänkbart sätt, med hjälp av konfigurationer.
+komplicerade konfigurationer. Självklart kan Yii vid behov, med hjälp av 
+konfigurationer, fortfarande anpassas på nästan varje tänkbart sätt.
 
 Nedan beskrivs de konventioner som rekommenderas för programmering med Yii. För 
 enkelhets skull antar vi att `WebRoot` är den katalog i vilken Yii-applikationen 
@@ -28,7 +28,7 @@ variabeln saknas), kommer applikationen att använda standardkontrollern
 
 Med hjälp av [CUrlManager] går det att skapa och känna igen mer SEO-vänliga 
 URL:er, som t ex `http://hostname/ControllerID/ActionID.html`. Denna finess 
-beskrivs detaljerat i [URL Management](/doc/guide/topics.url).
+beskrivs detaljerat i [URL-hantering](/doc/guide/topics.url).
 
 Kod
 ---
@@ -99,9 +99,11 @@ av dem kan anpassas om så önskas.
 
    - `WebRoot/protected/extensions`: denna katalog innehåller alla tredjepartstillägg. Anpassning kan ske via [CApplication::extensionPath].
 
+   - `WebRoot/protected/modules`: denna katalog innehåller alla applikationens [moduler](/doc/guide/basics.module), var och en representerad som en underkatalog.
+
    - `WebRoot/protected/controllers`: denna katalog innehåller alla kontrollerklassfiler. Anpassning kan ske via [CWebApplication::controllerPath].
 
-   - `WebRoot/protected/views`: denna katalog innehåller alla vyfiler, inkluderande kontrollervyer, layoutvyer samt systemvyer. Anpassning kan ske via [CWebApplication::viewPath].
+   - `WebRoot/protected/views`: denna katalog innehåller alla vyfiler, inklusive kontrollervyer, layoutvyer samt systemvyer. Anpassning kan ske via [CWebApplication::viewPath].
 
    - `WebRoot/protected/views/ControllerID`: denna katalog innehåller vyer tillhörande en specifik kontrollerklass. `ControllerID` står för kontrollerns ID. Anpassning kan ske via [CController::getViewPath].
 
@@ -113,4 +115,4 @@ av dem kan anpassas om så önskas.
 
    - `WebRoot/themes`: denna katalog innehåller olika teman att applicera på applikationen. Varje underkatalog representerar ett specifikt tema med samma namn som underkatalogen. Anpassning kan ske via [CThemeManager::basePath].
 
-<div class="revision">$Id: basics.convention.txt 170 2008-11-06 20:33:35Z qiang.xue $</div>
+<div class="revision">$Id: basics.convention.txt 749 2009-02-26 02:11:31Z qiang.xue $</div>

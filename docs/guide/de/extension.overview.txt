@@ -1,0 +1,38 @@
+Übersicht
+=========
+
+Während der Entwicklung ist es ganz normal, dass Sie Yii zu erweitern. Wenn Sie
+zum Beispiel einen neuen Controller schreiben, erweitern Sie Yii, indem sie
+von seiner [CController]-Klasse ableiten. Wenn Sie ein neues Widget schreiben,
+erweitern Sie [CWidget] oder eine andere verfügbare Widget-Klasse. Wenn der
+erweiterte Code so geschrieben wurde, dass er auch von Dritten weiterverwendet
+werden kann, sprechen wir von einer *Erweiterung* (engl.: extension).
+
+Eine Erweiterung dient normalerweise einem bestimmten Zweck. In Yii-Begriffen
+kann sie wie folgt klassifiziert werden:
+
+ * [Anwendungskomponente](/doc/guide/basics.application#application-component)
+ * [Widget](/doc/guide/basics.view#widget)
+ * [Controller](/doc/guide/basics.controller)
+ * [Action](/doc/guide/basics.controller#action)
+ * [Filter](/doc/guide/basics.controller#filter)
+ * [Konsolenbefehl](/doc/guide/topics.console)
+ * Validator: Ein Validator ist eine von [CValidator] abgeleitete Komponente.
+ * Helper: Ein Helper (Helfer) ist eine Klasse, die nur statische
+Methoden enthält. Sie sind quasi globale Funktionen, die den Klassennamen als
+Namespace verwenden.
+ * [Modul](/doc/guide/basics.module): Ein Modul ist eine in sich geschlossene
+Softwareeinheit, die aus [Models](/doc/guide/basics.model),
+[Views](/doc/guide/basics.view), [Controllern](/doc/guide/basics.controller)
+und anderen tragenden Komponenten besteht. In vielerlei Hinsicht erinnert ein
+Modul an eine [Applikation](/doc/guide/basics.application). Der wesentliche
+Unterschied besteht darin, dass ein Modul nicht für sich allein betrieben werden 
+kann und in eine Applikation eingebettet werden muss. Es könnte zum Beispiel
+ein Modul zur Benutzerverwaltung geben.
+
+Eine Erweiterung kann auch eine Komponente sein, die in keine der genannten
+Kategorien fällt. Tatsächlich ist Yii ist so konzipiert, dass fast sein gesamter
+Code erweitert oder angepasst werden kann, um individuellen Bedürfnissen
+gerecht zu werden.
+
+<div class="revision">$Id: extension.overview.txt 759 2009-02-26 21:23:53Z qiang.xue $</div>

@@ -6,7 +6,7 @@ Installation av Yii omfattar vanligtvis följande två steg:
    1. Ladda ned Yii-ramverket från [yiiframework.com](http://www.yiiframework.com/).
    2. Extrahera Yii:s distributionsfil till en katalog som är tillgänglig för webbanvändare.
 
-> Tips: Yii behöver inte installeras i en katalog med webbåtkomst. En Yii-
+> Tip|Tips: Yii behöver inte installeras i en katalog med webbåtkomst. En Yii-
 applikation har ett startskript som vanligtvis är den enda filen som behöver 
 exponeras för webbanvändare. Andra PHP-skript, inklusive de från Yii, bör 
 skyddas från webbanvändare eftersom de riskerar att utsättas för hackning.
@@ -24,7 +24,7 @@ http://hostname/path/to/yii/requirements/index.php
 ~~~
 
 Minimikrav för Yii är att webbservern stöder PHP 5.1.0 eller senare. Yii har 
-testats med [Apache HTTP server](http://httpd.apache.org/) på Windows och Linux 
+testats med [Apache HTTP-server](http://httpd.apache.org/) på Windows och Linux 
 operativsystem. Det bör även gå att köra på andra webbservrar och plattformar 
 förutsatt att PHP 5 stöds.
 

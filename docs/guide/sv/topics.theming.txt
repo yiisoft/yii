@@ -1,0 +1,64 @@
+Teman
+=====
+
+Användning av teman är ett systematiskt sätt att anpassa utseendet hos sidor i 
+en webbapplikation. Genom att applicera ett annat tema, kan man omedelbart 
+dramatiskt förändra det övergripande utseendet hos en webbapplikation.
+
+I Yii representeras varje tema av en katalog innehållande vyfiler, layoutfiler 
+samt relevanta resursfiler så som bilder, CSS-filer, JavaScript-filer etc. 
+Namnet på ett tema är namnet på dess katalog. Alla teman huserar under samma 
+katalog, `WebRoot/themes`. Vid varje tillfälle kan endast ett av dessa vara 
+aktivt.
+
+> Tip|Tips: Standardrotkatalogen för teman, `WebRoot/themes`, kan konfigureras 
+till en anan katalog. Konfigurera bara applikationskomponenten 
+[themeManager|CWebApplication::themeManager]:s propertyn 
+[basePath|CThemeManager::basePath] och [baseUrl|CThemeManager::baseUrl] efter 
+önskemål.
+
+För att aktivera ett tema, sätt webbapplikationens property 
+[theme|CWebApplication::theme] till namnet på det önskade temat. 
+Detta kan antingen göras i 
+[applikationskonfigurationen](/doc/guide/basics.application#application-configuration) 
+eller vid körning, i en kontrolleråtgärd.
+
+> Note|Märk: Temanamn är skiftlägeskänsliga (case-sensitive). Om man försöker 
+att aktivera ett tema som inte kan hittas returnerar `Yii::app()->theme` `null`.
+
+Innehåll under temats katalog skall organiseras på samma sätt som det under 
+[applikationens rotkatalog](/doc/guide/basics.application#application-base-directory). 
+Till exempel, alla vyfiler måste placeras under `views`, 
+layoutvyfiler under `views/layouts` och systemvyfiler under `views/system`. 
+Om vi till exempel vill ersätta vyn `create` tillhörande `PostController` 
+med en vy ur temat `classic`, skall den nya vyfilen sparas som 
+`WebRoot/themes/classic/views/post/create.php`.
+
+För vyer som tillhör kontrollrar i en [modul](/doc/guide/basics.module), skall även 
+motsvarande vyfiler som tillhör teman placeras under katalogen `views`.
+Till exempel, om tidigare nämnda `PostController` återfinns i modulen `forum`, 
+skall vyfilen `create` sparas som `WebRoot/themes/classic/views/forum/post/create.php`. 
+Om modulen `forum` är nästlad i en annan modul, `support`, skall vyfilen istället sparas 
+som `WebRoot/themes/classic/views/support/forum/post/create.php`.
+
+> Note: Eftersom katalogen `views` kan innehålla ur säkerhetssynpunkt känslig data, 
+skall den konfigureras för att förhindra webbanvändare tillgång.
+
+Vid anrop till [render|CController::render] eller 
+[renderPartial|CController::renderPartial] för att presentera en vy, kommer 
+motsvarande vyfil samt layoutfil att eftersökas i det för tillfället aktiva 
+temat. Om de hittas används de för renderingen. I annat fall används 
+standardplatserna för vyer och layouter specificerade i 
+[viewPath|CController::viewPath] respektive 
+[layoutPath|CWebApplication::layoutPath].
+
+> Tip|Tips: Inuti en temavy, behöver ofta länkning ske till andra 
+temaresursfiler. Till exempel, kan vi vilja visa en bildfil under temats katalog 
+`images`. Genom att använda det för tillfället aktiva temats property 
+[baseUrl|CTheme::baseUrl], kan en URL för bilden genereras på följande sätt, 
+> ~~~ 
+> [php] 
+> Yii::app()->theme->baseUrl . '/images/FileName.gif' 
+> ~~~ 
+
+<div class="revision">$Id: topics.theming.txt 759 2009-02-26 21:23:53Z qiang.xue $</div>

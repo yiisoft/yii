@@ -1,0 +1,163 @@
+アプリケーション
+===========
+
+アプリケーションはリクエスト処理の実行コンテキストを表します。その主なタスクはユーザのリクエストを解析し、その先の処理を行うために適切なコントローラへ処理を移すことです。さらにアプリケーションレベルの初期構成を保つための中心的な場所として振舞います。この理由からアプリケーションは`フロントコントローラ`とも呼ばれます。
+
+アプリケーションは[エントリースクリプト](/doc/guide/basics.entry)により、シングルトンとして生成されます。
+アプリケーションシングルトンはどの場所からでも[Yii::app()|YiiBase::app]としてアクセスすることができます。
+
+アプリケーション初期構成
+-------------------------
+
+デフォルトでは、アプリケーションは[CWebApplication]のインスタンスです。
+アプリケーションインスタンスが生成された時にプロパティ値を初期化するために、通常は初期構成ファイルまたは配列を提供します。
+別のアプリケーションカスタマイズ方法は[CWebApplication]を継承することです。
+
+初期構成はキーと値のペアの要素を持つ配列です。キーはアプリケーションインスタンスのプロパティ名を表します。
+値は対応するキーの初期値です。
+例えば、以下の初期構成ファイルは[name|CApplication::name]及び[defaultController|CWebApplication::defaultController]プロパティを構成します。
+
+~~~
+[php]
+array(
+	'name'=>'Yii Framework',
+	'defaultController'=>'site',
+)
+~~~
+
+一般には構成は別のPHPスクリプトに格納されます(例えば`protected/config/main.php`)。
+このスクリプト中では構成が以下のようにリターンされます。
+
+~~~
+[php]
+return array(...);
+~~~
+
+構成を適用するには、アプリケーションのコンストラクタに構成ファイル名をパラメータとして渡すか、あるいは以下のように
+[エントリースクリプト](/doc/guide/basics.entry)中にもよく見られるように、[Yii::createWebApplication()]に渡します。
+
+~~~
+[php]
+$app=Yii::createWebApplication($configFile);
+~~~
+
+> Tip|ヒント: もしアプリケーション構成が非常に複雑な場合は、複数のファイルに分割することができます。
+それぞれのファイルは構成配列の一部をリターンします。そしてメインの構成ファイルではPHPの`include()`により
+他の構成ファイルを組み込み、完全な構成配列にマージします。
+
+
+アプリケーションベースディレクトリ
+--------------------------
+
+アプリケーションベースディレクトリはルートディレクトリであり、これは全てのセキュリティに関係するPHPスクリプトやデータを含みます。デフォルトでは、`protected`という名前のサブディレクトリであり、エントリスクリプトを含むディレクトリの下に位置付けられます。その場所は、[アプリケーション構成](#application-configuration)の[basePath|CWebApplication::basePath]プロパティ値を変更することでカスタマイズが可能です。
+
+アプリケーションベースディレクトリより下の内容はウェブユーザからのアクセスから守られる必要があります。
+[Apache HTTP server](http://httpd.apache.org/)を用いる場合、`.htaccess`をベースディレクトリの下に置くことで容易に実現可能です。`.htaccess`ファイルの内容は以下のとおりです。
+
+~~~
+deny from all
+~~~
+
+アプリケーションコンポーネント
+---------------------
+
+アプリケーションの機能はフレキシブルなコンポーネントアーキテクチャによって容易にカスタマイズでき、また充実させることができます。アプリケーションはアプリケーションコンポーネントを管理し、それぞれは個別の特徴を実装します。
+例えば、アプリケーションはユーザリクエストを[CUrlManager]コンポーネントと[CHttpRequest]コンポーネントの助けを借りて
+解決します。
+
+アプリケーションの[components|CApplication::components]プロパティを構成するには、
+アプリケーションで使用されるアプリケーションコンポーネントのクラスとプロパティ値をカスタマイズ可能です。
+例えば、我々は[CMemCache]コンポーネントを複数のmemcacheサーバに対応させるために以下のように構成することが可能です。
+
+~~~
+[php]
+array(
+	......
+	'components'=>array(
+		......
+		'cache'=>array(
+			'class'=>'CMemCache',
+			'servers'=>array(
+				array('host'=>'server1', 'port'=>11211, 'weight'=>60),
+				array('host'=>'server2', 'port'=>11211, 'weight'=>40),
+			),
+		),
+	),
+)
+~~~
+
+上においては`components`配列に`cache`要素を追加しました。そして`cache`要素は
+コンポーネントのクラスが`CMemCache`であり、`servers`プロパティ値がこのようであると記述します。
+
+アプリケーションコンポーネントにアクセスするには`Yii::app()->ComponentID`を用いてください。
+ここで、`ComponentID`はコンポーネントのID(例えば`Yii::app()->cache`)を参照します。
+
+アプリケーションコンポーネントは構成ファイル中で`enabled`プロパティを偽にセットすることで無効にすることができます。
+無効にされたコンポーネントへのアクセスはnullがリターンされます。
+
+> Tip|ヒント: デフォルトでは、アプリケーションコンポーネントは必要に応じて生成されます。
+これは、アプリケーションコンポーネントはユーザリクエストの間にアクセスされなければ一度には生成されないことを意味します。
+結果として、アプリケーションが多量のコンポーネントを持つように構成されても全体としての性能は落ちません。
+あるアプリケーションコンポーネント(例えば[CLogRouter])はアクセスされようがされまいが生成される必要があります。
+そのためには、これらのIDをアプリケーションのプロパティ[preload|CApplication::preload]で指示する必要があります。
+
+コアアプリケーションコンポーネント
+---------------------------
+
+Yiiは、ウェブアプリケーションに共通な機能を提供するために、あらかじめコアアプリケーションコンポーネントを定義しています。
+例えば、[request|CWebApplication::request]コンポーネントはユーザリクエストを解決し、URLやクッキーの情報を提供するために使用されます。このようなコアコンポーネントのプロパティ値を構成するために、我々はYiiのデフォルト動作のほとんど全てを変更可能です。
+
+以下は[CWebApplication]によってあらかじめ宣言されたコアコンポーネントのリストです。
+
+   - [assetManager|CWebApplication::assetManager]: [CAssetManager] -
+プライベートアセットファイルの発行を管理します。
+
+   - [authManager|CWebApplication::authManager]: [CAuthManager] - 役割ベースアクセス制御(RBAC)を管理します。
+
+   - [cache|CApplication::cache]: [CCache] - データキャッシュ機能を提供します。注意:実際のクラス(例:[CMemCache], [CDbCache])
+を指定してください。さもないとこのコンポーネントをアクセスした場合にnullがリターンされます。
+
+   - [clientScript|CWebApplication::clientScript]: [CClientScript] - クライアントスクリプト(javascriptsやCSS)を管理します。
+
+   - [coreMessages|CApplication::coreMessages]: [CPhpMessageSource] -
+Yiiフレームワークのコアメッセージの翻訳を提供します。
+
+   - [db|CApplication::db]: [CDbConnection] - データベース接続を提供します。注意: このコンポーネントを使うためには[connectionString|CDbConnection::connectionString]プロパティを構成しなければなりません。
+
+   - [errorHandler|CApplication::errorHandler]: [CErrorHandler] - キャッチされていないPHPエラーや例外を扱います。
+
+   - [messages|CApplication::messages]: [CPhpMessageSource] - Yiiアプリケーションによって使用される翻訳されたメッセージを提供します。
+
+   - [request|CWebApplication::request]: [CHttpRequest] - ユーザリクエストに関連した情報を提供します。
+
+   - [securityManager|CApplication::securityManager]: [CSecurityManager] - セキュリティ関連のサービス（例えばハッシュ化、暗号化）を提供します。
+
+   - [session|CWebApplication::session]: [CHttpSession] - セッションに関連した機能を提供します。
+
+   - [statePersister|CApplication::statePersister]: [CStatePersister] - グローバルな状態の持続手段を提供します。
+
+   - [urlManager|CWebApplication::urlManager]: [CUrlManager] - URL分析と生成機能を提供します。
+
+   - [user|CWebApplication::user]: [CWebUser] - 現在のユーザーのアイデンティティ情報を表します。
+
+   - [themeManager|CWebApplication::themeManager]: [CThemeManager] - テーマを管理します。
+
+
+アプリケーションライフサイクル
+----------------------
+
+ユーザーリクエストを取り扱うとき、アプリケーションは次のライフサイクルを経ます:
+
+   1. クラス自動ローダとエラー処理を準備します;
+   2. コアアプリケーションコンポーネントを登録します;
+   3. アプリケーション構成をロードします;
+   4. [CApplication::init()]によりアプリケーションを初期化します;
+	   - 静的なアプリケーションコンポーネントをロードします;
+   5. イベント[onBeginRequest|CApplication::onBeginRequest]を発行します;
+   6. ユーザー要請を処理します:
+	   - ユーザーリクエストを分解します;
+	   - コントローラを生成します；
+	   - コントローラを実行します;
+   7. イベント[onEndRequest|CApplication::onEndRequest]を発行します;
+
+<div class="revision">$Id: basics.application.txt 416 2008-12-28 05:28:11Z qiang.xue $</div>

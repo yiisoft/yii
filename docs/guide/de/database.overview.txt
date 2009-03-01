@@ -1,0 +1,24 @@
+﻿Arbeiten mit Datenbanken
+========================
+
+Yii bietet leistungsstarke Features für die Datenbankprogrammierung. Basierend auf der
+PDO-Erweiterung (PHP Data Objects) für PHP kann man mit Yii Data Access
+Objects (Datenzugriffsobjekte, DAO)
+über eine einheitliche Schnittstelle auf unterschiedliche Datenbankmanagementsysteme (DBMS) 
+zugreifen. Anwendungen, die Yii’s DAO benutzen, können leicht auf ein anderes DBMS 
+umgestellt werden, ohne den Code für den Zugriff auf die Daten ändern zu müssen. 
+Yii’s ActiveRecord (AR) wurde nach dem 
+weit verbreiteten Ansatz der objektrelationalen Abbildung (Object-Relational
+Mapping, ORM) implementiert. Er vereinfacht die Datenbank Programmierung
+zusätzlich.  Indem eine Tabelle von einer Klasse und eine Tabellenzeile von
+einer Instanz verkörpert wird, vermeidet Yii-AR das sich stets wiederholende
+Schreiben von SQL-Anweisungen, die sich hauptsächlich mit CRUD-Operationen (für 
+"*C*reate, *R*ead, *U*pdate, *D*elete", "Erstellen, Lesen, Aktualisieren, Löschen")
+befassen.
+
+Obwohl man mit Yii’s DAO und AR fast alle datenbankbezogenen Aufgaben erledigen kann,
+können Sie trotzdem Ihre eigene Datenbankbibliothek für Ihre Yii Anwendung nutzen.
+Tatsächlich wurde bei der Konzeption von Yii viel Sorgfalt darauf verwendet,
+andere Fremdbibliotheken mit einbinden zu können.
+
+<div class="revision">$Id: database.overview.txt 163 2008-11-05 12:51:48Z weizhuo $</div>

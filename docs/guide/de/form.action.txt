@@ -1,0 +1,74 @@
+﻿Erstellen der Action
+====================
+
+Sobald wir ein Model haben, können wir anfangen, die Logik für das Arbeiten mit
+dem Model zu verfassen. Wir platzieren diese Logik in eine Controller-Action. 
+Für das Beispiel des Anmeldeformulars ist der folgende Code notwendig:
+
+~~~
+[php]
+public function actionLogin()
+{
+	$form=new LoginForm;
+	if(isset($_POST['LoginForm']))
+	{
+		// Erfasst die vom Benutzer eingegeben Daten
+		$form->attributes=$_POST['LoginForm'];
+        // Prüfe die Benuzereingaben auf Gültigkeit und kehre zur 
+		// vorherigen Seite zurück, wenn die Prüfung erfolgreich war.
+	    if($form->validate())
+			$this->redirect(Yii::app()->user->returnUrl);
+	}
+	// Zeige das Anmeldeformular
+	$this->render('login',array('user'=>$form));
+}
+~~~
+
+Oben erzeugen wir zuerst eine Instanz von `LoginForm`. Wenn die Anfrage ein 
+POST-Request ist (d.h. das Anmeldeormular abgeschickt wurde), befüllen wir `$form`
+mit den übermittelten Daten von `$_POST['LoginForm']`. Dann prüfen wir die
+Eingaben auf Gültigkeit. Falls dies erfolgreich war, leiten wir den Browser des 
+Benutzers auf die Seite um, die vorher eine Authentifizierung erfordert hat.
+Falls die Gültigkeitsprüfung scheitert
+oder die Action zum ersten mal aufgerufen wurde, rendern wir den `login`-View.
+Dessen Inhalt wird im nächsten Kapitel beschrieben.
+
+> Tip|Tipp: Die `login`-Action benutzt `Yii::app()->user->returnUrl` um die URL
+der Seite zu ermitteln, die eine Authentifizierung erfordert hat. Die Komponente
+`Yii::app()->user` ist vom Typ [CWebUser] (oder dessen Kind-Klasse) und
+repräsentiert die Informationen der Benutzersitzung (z.B. Benutzername, Status).
+Weitere Einzelheiten finden Sie unter [Authentifizierung und Berechtigung](/doc/guide/topics.auth).
+ 
+Beachten wir insbesondere die folgende PHP-Anweisung in der `login`-Action:
+
+~~~
+[php]
+$form->attributes=$_POST['LoginForm'];
+~~~
+
+Wie wir im Abschnitt [Absichern von Attributzuweisungen](/doc/guide/form.model#securing-attribute-assignments)
+beschrieben haben, befüllt diese Codezeile das Model mit den vom Benutzer übermittelten Daten.
+Die `attributes`-Eigenschaft ist in [CModel] definiert, erwartet ein Array von Namen-Werte-Paaren
+und weist jedem Model-Attribut den entsprechenden Wert zu. Wenn uns also `$_POST['LoginForm']` 
+solch ein Array übergibt, wäre der obige Code äquivalent zu folgendem, etwas
+länglichem Code (vorausgesetzt, dass jedes erforderliche Attribut im Array
+vorhanden ist):
+
+~~~
+[php]
+$form->username=$_POST['LoginForm']['username'];
+$form->password=$_POST['LoginForm']['password'];
+$form->rememberMe=$_POST['LoginForm']['rememberMe'];
+~~~
+
+> Note|Hinweis: Damit `$_POST['LoginForm']` uns ein Array statt eines String
+liefert, halten wir uns an eine Konvention bezüglich der Bezeichnung der
+Eingabefelder in einem View. Dazu benennen wird das Eingabefeld,
+das dem Attribut `a` des Model der Klasse `C` entspricht, `C[a]`. 
+Für das Attribut `username` würden wir zum Beispiel `LoginForm[username]` als 
+Namen für das Eingabefeld verwenden.
+
+Nun verbleibt noch, den `login`-View zu entwerfen, der ein HTM-Formular
+mit den notwendigen Eingabefeldern enthält.
+
+<div class="revision">$Id: form.action.txt 626 2009-02-04 20:51:13Z qiang.xue $</div>

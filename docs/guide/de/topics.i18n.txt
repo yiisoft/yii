@@ -1,0 +1,288 @@
+Internationalisierung
+=====================
+
+Unter Internationalisierung (engl: internationalization bzw. I18N, wegen 18
+Buchstaben zwischen I und N) versteht man den Prozess, eine Softwareanwendung
+so zu entwerfen, dass sie an verschiedene Sprachen und Regionen angepasst
+werden kann, ohne Änderungen an der Programmlogik vornehmen zu müssen. Für
+Webanwendungen ist dieser Punkt von besonderem Interesse, da Besucher
+aus der ganzen Welt zu erwarten sind.
+
+Yii unterstützt I18N in verschiedenen Belangen:
+
+   - Es enthält Lokaliesierungsdaten für jede mögliche Sprache und Variante.
+   - Es enthält Dienste zur Nachrichten- und Dateiübersetzung.
+   - Es beherrscht landesspezifische Datums- und Zeitformatierung.
+   - Es beherrscht landesspezifische Zahlenformatierung.
+
+In den folgenden Abschnitten gehen wir auf jeden dieser Punkte näher ein.
+
+Locale und Sprache
+------------------
+
+Eine Locale (sinngem.: Gebietsschema) besteht aus einer Reihe von Parametern,
+die für einen Benutzer die Sprache, das Land und alle speziellen abweichenden 
+Einstellungen enthält, die für seine Anwenderschnittstelle von Bedeutung sind.
+In der Regel wird sie durch eine ID bestimmt, die sich aus SprachID und LandID
+zusammensetzt. Die ID `en_US` steht zum Beispiel für die Locale Englisch
+und Vereinigte Staaten. Um Konsistenz zu wahren, werden alle Locale-IDs 
+in das Format `SprachID` oder `SprachID_LandID` in Kleinbuchstaben gebracht
+(z.B. `en`, `en_us`). 
+
+Locale-Daten werden durch eine Instanz vom Typ [CLocale] verkörpert. Sie
+enthält locale-abhängige Informationen inklusive Währungssymbole,
+Zahlensymbole, Währungsformate, Zahlenformate, Datums- und Zeitformate und
+datumsbezogene Namen. Da die Sprachinformation bereits in der Locale-ID
+enthalten ist, wird diese nicht von [CLocale] bereitgestellt. Die Begriffe
+Locale und Sprache werden daher oft gleichbedeutend verwendet.
+
+Für eine gegebene Locale-ID erhält man die entsprechende Instanz von [CLocale]
+über `CLocale::getInstance($localeID)` oder
+`CApplication::getLocale($localeID)`. 
+
+> Info: Yii enthält Locale-Daten für fast alle Sprachen und Länder. Die Daten
+stammen vom [Common Locale Data Repository](http://unicode.org/cldr/) (CLDR). 
+Jede Locale bietet nur einen Teil der CLDR-Daten, da in den
+Originaldaten viele kaum verwendete Informationen enthalten sind.
+
+Bei einer Yii-Anwendung unterscheiden wir zwischen
+[Zielsprache|CApplication::language] und
+[Quellsprache|CApplication::sourceLanguage] (engl: source language). Die
+Zielsprache bezieht sich auf die Sprache (Locale) der Zielgruppe, für die die
+Anwendung geschrieben wurde, während die Quellsprache die Sprache (Locale)
+ist, in der die Quelltexte der Anwendung vorliegen. Internationalisierung
+kommt nur dann zur Anwendung, wenn diese beiden Sprachen sich unterscheiden.
+
+Die [Zielsprache|CApplication::language] kann in der
+[Anwendungskonfiguration](/doc/guide/basics.application#application-configuration)
+definiert oder dynamisch angepasst werden, bevor die Internationalisierung
+durchgeführt wird.
+
+> Tip|Tipp: Manchmal möchten wir evtl. die Zielsprache auf die vom Besucher
+bevorzugte Sprache (entsprechend seinen Browsereinstellungen) setzen. Wir
+können die SprachID seiner bevorzugten Sprache über [CHttpRequest::preferredLanguage] 
+beziehen.
+
+Übersetzung
+-----------
+
+Am häufigsten wird wahrscheinlich das Übersetzungsfeature von I18N benötigt,
+was die Übersetzung von Nachrichtentexten und Views beinhaltet. Bei ersterem
+werden einzelne Textnachrichten in die gewünschte Sprache übersetzt,
+bei letzterem ganze Dateien.
+
+Eine Übersetzungsanfrage besteht aus dem zu übersetzenden Objekt, der
+Quellsprache des Objekts und der Zielsprache in die das Objekt übersetzt
+werden soll. Die Quellsprache wird von Yii standardmäßig auf die [Quellsprache
+der Anwendung|CApplication::sourceLanguage] gesetzt, die Zielsprache auf die
+momentane [Sprache der Anwendung|CApplication::language]. Falls Quell- und
+Zielsprache gleich sind, findet keine Übersetzung statt.
+
+### Übersetzen von Textnachrichten
+
+Textnachrichten werden durch Aufruf von [Yii::t()|YiiBase::t] übersetzt. Die
+Methode übersetzt die übergebene Nachricht von der
+[Quellsprache|CApplication::sourceLanguage] in die
+[Zielsprache|CApplication::language].
+
+Beim Übersetzen einer Textnachricht muss deren Kategorie angegeben werden, da
+Nachrichten je nach Kategorie (bzw. Kontext) unterschiedlich übersetzt werden
+könnten. Die Kategorie `yii` bleibt dabei Nachrichten des Yii-Frameworks
+vorbehalten.
+
+Textnachrichten können auch Platzhalter für Parameter enthalten, die beim Aufruf
+von [Yii::t()|YiiBase::t] mit den tatsächlichen Parameterwerten ersetzt
+werden. Bei der folgenden Übersetzungsanfrage, würde der Platzhalter `{alias}` in
+der Nachricht durch den tatsächlichen Wert für alias ersetzt.
+
+~~~
+[php]
+Yii::t('yii', 'Pfad-Alias "{alias}" wurde geändert.',
+	array('{alias}'=>$alias))
+~~~
+
+> Note|Hinweis: Zu übersetzende Nachrichten müssen statische Strings sein. 
+Sie dürfen keine Variablen enthalten, die den Inhalt der Nachricht verändern
+würden (z.B. `"Ungültiger Inhalt einer {$nachricht}."`) Benutzen Sie
+Platzhalter für Parameter, wenn eine Nachricht je nach Parameter variieren
+soll.
+
+Übersetzte Nachrichten werden in einem Magazin gespeichert, das wir als 
+*Nachrichtenquelle* (engl.: message source) bezeichnen. Eine Nachrichtenquelle wird
+von einer Instanz vom Typ [CMessageSource] oder deren Kindklasse dargestellt.
+Beim Aufruf von [Yii::t()|YiiBase::t] sucht die Routine in der
+Nachrichtenquelle nach der Textnachricht und liefert die übersetzte 
+Version zurück, falls gefunden.
+
+Yii stellt die folgenden Arten von Nachrichtenquellen zur Auswahl. Sie können
+[CMessageSource] auch erweitern, um ihren eigenen Typ einer Nachrichtenquelle
+zu erstellen.
+
+   - [CPhpMessageSource]: Die übersetzten Textnachrichten werden als
+Schlüssel-Wert-Paare in einem PHP-Array gespeichert. Die ursprüngliche
+Nachricht wird als Schlüssel verwendet, die Übersetzung als Wert. Jedes Array
+steht für eine bestimmte Nachrichtenkategorie und wird unter dem Namen dieser
+Kategorie in jeweils einem PHP-Script gespeichert. Sämtliche 
+PHP-Dateien mit Übersetzungen für eine Sprache werden in einem Verzeichnis 
+mit dem Namen der Locale-ID abgelegt. Alle diese Verzeichnisse liegen wiederum
+unterhalb eines Basisverzeichnisses, dessen Ort mit
+[basePath|CPhpMessageSource::basePath] bestimmt wird.
+
+   - [CGettextMessageSource]: Die übersetzten Nachrichten werden als
+[GNU Gettext](http://www.gnu.org/software/gettext/)-Dateien abgelegt.
+
+   - [CDbMessageSource]: Die übersetzten Nachrichten werden in
+Datenbanktabellen gespeichert. Für weitere Details ziehen Sie bitte die
+API-Dokumentation für [CDbMessageSource] zu rate.
+
+Eine Nachrichtenquelle wird als
+[Anwendungskomponente](/doc/guide/basics.application#application-component)
+geladen. Yii belegt bereits eine Anwendungskomponente namens
+[messages|CApplication::messages] vor, um die Textnachrichten einer Anwendung zu
+speichern. Standardmäßig ist diese Nachrichtenquelle eine [CPhpMessageSource]
+mit dem Basisverzeichnis `protected/messages`.
+
+Zusammenfassend sind folgende Schritte nötig, um Textnachrichten übersetzen zu
+können:
+
+   1. Rufen Sie [Yii::t()|YiiBase::t] an den entsprechenden Stellen auf
+
+   2. Erstellen Sie PHP-Dateien mit Übersetzungen gemäß dem Schema
+`protected/messages/LocaleID/KategorieName.php`. Jede Datei liefert einfach
+ein Array mit übersetzten Nachrichten zurück. Beachten Sie, dass wir hier davon
+ausgehen, dass Sie die vorgegebene [CPhpMessageSource] zur Speicherung der
+übersetzten Nachrichten verwenden.
+
+   3. Konfigurieren Sie [CApplication::sourceLanguage] und [CApplication::language].
+
+> Tip|Tipp: Wenn Sie [CPhpMessageSource] als Nachrichtenquelle einsetzen, 
+können Sie den `yiic`-Befehl zum Verwalten der Übersetzungen verwenden. Mit 
+dem `message`-Kommando können Sie die zu übersetzenden Nachrichten aus
+ausgewählten Quelldateien extrahieren und bei Bedarf mit bereits vorhandenen 
+Übersetzungen zusammenführen.
+
+Seit Version 1.0.2 unterstütz Yii das [Auswahlformat|CChoiceFormat] (engl.:
+choice format). Dieses Format bezieht sich auf die Auswahl einer Übersetzung
+in Abhängigkeit von einem gegebenen Zahlenwert. Zum Beispiel gibt es für das 
+Wort 'Buch' im Deutschen eine Singular- und eine Pluralform, während sich das
+Wort in anderen Sprachen gar nicht (Chinesisch) oder nach komplexen Regeln
+(Russisch) in Abhängikeit von der Anzahl ändern kann. Das Auswahlformat löst
+dieses Problem auf einfache und dennoch wirksame Weise.
+
+Um das Auswahlformat zu verwenden, muss eine übersetzte Nachricht aus einer
+Folge von Ausdruck-Textnachricht-Paaren bestehen, die wie folgt durch `|` 
+getrennt werden:
+
+~~~
+[php]
+'ausdr1#nachricht1|ausdr2#nachricht2|ausdr3#nachricht3'
+~~~
+
+wobei `ausdrN` sich auf einen gültigen PHP-Ausdruck bezieht, der in einen
+boole'schen Wert resultiert und anzeigt, ob die entsprechende Textnachricht
+verwendet werden soll. Die erste Textnachricht, deren Ausdruck ein true
+liefert, wird zurückgegeben. Ein Ausdruck kann auch eine spezielle Variable
+`n` (nicht `$n`!) verwenden, die den Zahlenwert enthält, der als erster
+Nachrichtenparameter übergeben wurde. Nehmen wir zum Beispiel an, die
+übersetzte Textnachricht sei
+
+~~~
+[php]
+'n==1#ein Buch|n>1#viele Bücher'
+~~~
+
+und beim Aufruf von [Yii::t()|YiiBase::t] würden wir den Wert 2 im
+Parameter-Array der Nachricht übergeben, so würde letztlich `viele Bücher` 
+als übersetzte Nachricht zurückgegeben werden. 
+
+Als Kurzschreibweise kann der Ausdruck `n==Zahl` auch als einzelne Zahl
+geschrieben werden. Die obige übersetzte Nachricht kann daher auch so
+geschrieben werden:
+
+~~~
+[php]
+'1#ein Buch|n>1#viele Bücher'
+~~~
+
+
+### Übersetzen ganzer Dateien
+
+Dateien werden durch Aufruf von [CApplication::findLocalizedFile()] übersetzt.
+Bei einem gegebenen Dateipfad für eine zu übersetzende Datei sucht diese
+Methode im Unterverzeichnis `LocaleID` nach einer Datei mit dem selben Namen.
+Falls gefunden, wird der Pfad zu dieser Datei zurückgeliefert, andernfalls der
+Pfad zur Originaldatei.
+
+Übersetzte Dateien werden hauptsächlich beim Rendern von Views verwendet. 
+Wenn in einem Controller oder einem Widget eine der Render-Methoden 
+aufgerufen wird, werden die View-Dateien automatisch übersetzt. Wenn die
+[Zielsprache|CApplication::language] z.B. auf `zh_cn` gesetzt wurde, während
+die [Quellsprache|CApplication::sourceLanguage] `en_us` ist, würde beim
+Rendern des Views `edit`, nach der View-Datei
+`protected/views/ControllerID/zh_cn/edit.php` gesucht werden. Wird diese Datei
+gefunden, wird diese übersetzte Version zum Rendern verwendet, andernfalls die
+Datei `protected/views/ControllerID/edit.php`.
+
+Übersetzte Dateien eignen sich auch für andere Zwecke. Zum Beispiel um 
+übersetzte Bilder zu verwenden oder um locale-abhängige Daten einzubinden.
+
+
+Datums- und Uhrzeitformatierung
+-------------------------------
+
+Verschiedene Länder und Regionen verwenden oft unterschiedliche Formate für
+Datum und Uhrzeit. Die Aufgabe bei der Formatierung von Datum und Uhrzeit
+besteht also darin, einen Datums- oder Uhrzeitstring gemäß der angegebenen
+Locale zu erzeugen. Yii stellt dazu [CDateFormatter] (Datumsformatierer) 
+zur Verfügung.
+
+Jede Instanz von [CDateFormatter] ist mit 
+einer bestimmten Ziel-Locale verknüpft. Um den Formatierer für die 
+Ziel-Locale der gesamten Anwendung zu erhalten, können wir
+einfach auf die Eigenschaft [dateFormatter|CApplication::dateFormatter] der
+Applikation zugreifen.
+
+Die Klasse [CDateFormatter] bietet hauptsächlich zwei Methoden zum Formatieren
+eines UNIX-Zeitstempels (engl.: timestamp) an.
+
+   - [format|CDateFormatter::format]: Diese Methode formatiert den 
+gegebenen UNIX-Zeitstempel gemäß einem anpassbaren Muster in einen String
+(z.B. `$dateFormatter->format('dd.MM.yyyy',$timestamp)`)
+
+   - [formatDateTime|CDateFormatter::formatDateTime]: Diese Methode 
+formatiert den gegebenen UNIX-Zeitstempel gemäß dem in der Ziel-Locale 
+vordefinierten Muster in einen String. (z.B. `short` für kurzes Datumsformat,
+`long` für langes Zeitformat)
+
+Zahlenformatierung
+------------------
+
+Genau wie Datum und Uhrzeit können auch Zahlen je nach Land und Region
+unterschiedlich formatiert werden. Zahlenformatierung beinhalted dezimale
+Formatierung, Währungsformatierung und Prozentsatzformatierung. Zu diesem
+Zweck stellt Yii die Klasse [CNumberFormatter] (Zahlenformatierer) zur Verfügung.
+
+Um den Zahlenformatierer für die Ziel-Locale der gesamten Anwendung zu
+beziehen, können wir auf die Eigenschaft
+[numberFormatter|CApplication::numberFormatter] der Applikation zugreifen.
+
+Die folgenden Methoden werden von [CNumberFormatter] zum Formatieren eines
+Integer- oder Double-Werts bereitgestellt.
+
+   - [format|CNumberFormatter::format]: Diese Methode formatiert die gegebene
+Zahl gemäß einem anpassbaren Muster in einen String (z.B.
+`$numberFormatter->format('#,##0.00',$number)`).
+
+   - [formatDecimal|CNumberFormatter::formatDecimal]: Diese Methode formatiert
+die gegebene Zahl, indem sie das in der Ziel-Locale vorgegebene Muster für 
+Dezimalzahlen verwendet.
+
+   - [formatCurrency|CNumberFormatter::formatCurrency]: Diese Methode
+formatiert die gegebene Zahl sowie den Währungscode, indem sie das in der
+Ziel-Locale vorgegebene Währungsmuster verwendet.
+
+   - [formatPercentage|CNumberFormatter::formatPercentage]: Diese Methode 
+formatiert die gegebene Zahl, indem sie das in der Ziel-Locale vorgegebene 
+Prozentsatz-Muster verwendet.
+
+<div class="revision">$Id: topics.i18n.txt 584 2009-01-26 22:26:33Z qiang.xue $</div>

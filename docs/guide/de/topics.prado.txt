@@ -1,0 +1,182 @@
+Verwenden der Alternativen Template-Syntax
+==========================================
+
+Yii erlaubt es dem Entwickler, seine eigene bevorzugte Template-Syntax 
+(z.B. von Prado oder Smarty) für Controller- und Widget-Views zu verwenden.
+Dazu kann eine [viewRenderer|CWebApplication::viewRenderer]-Anwendungskomponente 
+erstellt werden. Diese Komponente fängt die Aufrufe von
+[CBaseController::renderFile] ab, kompiliert die entsprechende View-Datei 
+mit der angepassten Syntax (z.B. von Prado oder Smarty) und rendert das
+Ergebnis.
+
+> Info: Es wird empfohlen, die alternative Syntax nur bei Views einzusetzen,
+die vermutlich weniger wiederverwendet werden. Andernfalls wäre jeder, der den
+View wiederverwenden möchte, gezwungen, die selbe alternative Syntax in seiner
+Anwendung einzusetzen.
+
+Im Folgenden zeigen wir, wie der [CPradoViewRenderer] verwendet werden
+kann, damit ein Entwickler eine ähnliche Syntax wie die des
+[Prado-Frameworks](http://www.pradosoft.com/) verwenden kann.
+[CPradoViewRenderer] ist ein guter Ausgangspunkt, falls jemand einen eigenen
+View-Renderer entwickeln möchte.
+
+Einsatz des `CPradoViewRenderer`
+--------------------------------
+
+Um [CPradoViewRenderer] einzusetzen, müssen wir nur die Anwendungskomponente
+wie folgt konfigurieren:
+
+~~~
+[php]
+return array(
+	'components'=>array(
+		......,
+		'viewRenderer'=>array(
+			'class'=>'CPradoViewRenderer',
+		),
+	),
+);
+~~~
+
+Standardmäßig kompiliert der [CPradoViewRenderer] die Quell-View-Dateien und
+speichert die resultierenden PHP-Dateien im
+[Runtime](/doc/guide/basics.convention#directory)-Verzeichnis der Anwendung.
+Diese PHP-Dateien werden nur dann neu generiert, wenn die Quelldatei sich
+geändert hat. So verringert der Einsatz von [CPradoViewRenderer] die
+Leistungsfähigkeit nur unwesentlich.
+
+> Tip|Tipp: Der [CPradoViewRenderer] führt hauptsächlich neue Template-Tags
+ein, um das Schreiben von Views zu vereinfachen und zu beschleunigen. Sie
+können aber immer noch wie gewohnt PHP-Code in View-Dateien einsetzen. 
+
+Nachfolgend zeigen wir, welche Template-Tags von [CPradoViewRenderer]
+unterstützt werden.
+
+### Kurze PHP-Tags
+
+Kurze PHP-Tags sind abgekürzte Schreibweisen für PHP-Ausdrücke und
+-Anweisungen in einem View. Der Ausdrucks-Tag `<%= Ausdruck %>` wird zu `<?php
+echo Ausdruck ?>` übersetzt, während der Anweisungs-Tag `<% Anweisung %>` zu
+`<?php Anweisung ?>` übersetzt wird. So wird
+
+~~~
+[php]
+<%= CHtml::textField($name,'value'); %>
+<% foreach($models as $model): %>
+~~~
+
+übersetzt zu
+
+~~~
+[php]
+<?php echo CHtml::textField($name,'value'); ?>
+<?php foreach($models as $model): ?>
+~~~
+
+### Komponententags
+
+Komponententags dienen zum Einfügen eines
+[Widgets](/doc/guide/basics.view#widget) in einem View. Sie verwenden diese
+Syntax: 
+
+~~~
+[php]
+<com:WidgetKlasse eigenschaft1=wert1 eigenschaft2=wert2...>
+	// Eingebetteter Inhalt des Widgets
+</com:WidgetKlasse>
+
+// Ein Widget ohne eingebetteten Inhalt
+<com:WidgetKlasse eigenschaft1=wert1 eigenschaft2=wert2.../>
+~~~
+
+wobei `WidgetKlasse` den Klassennamen oder
+[Pfad-Alias](/doc/guide/basics.namespace) des Widgets definiert und die
+Startwerte für Eigenschaften entweder in doppelten Anführungszeichen oder als
+PHP-Ausdruck in geschweiften Klammern wie folgt angegeben werden können:
+
+~~~
+[php]
+<com:CCaptcha captchaAction="captcha" showRefreshButton={false} />
+~~~
+
+würde übersetzt werden zu
+
+~~~
+[php]
+<?php $this->widget('CCaptcha', array(
+	'captchaAction'=>'captcha',
+	'showRefreshButton'=>false)); ?>
+~~~
+
+> Note|Hinweis: Der Wert für `showRefreshButton` wird als `{false}` statt
+`"false"` angegeben, da letzteres einen String statt eines boole'schen Wertes
+darstellen würde.
+
+### Cache-Tags
+
+Cache-Tags sind Abkürzungen für das [Cachen von
+Seitabschnitten](/doc/guide/caching.fragment). Ihre Syntax lautet
+
+~~~
+[php]
+<cache:abschnittID eigenschaft1=wert1 eigenschaft2=wert2...>
+	// Zu cachender Inhalt
+</cache:abschnittID>
+~~~
+
+wobei `abschnittID` ein eindeutiger Bezeichner für den zu cachenden Inhalt
+sein sollte und die Eigenschafts-Werte-Paare zum konfigurieren des Caches
+dienen. Zum Beispiel würde
+
+~~~
+[php]
+<cache:profil duration={3600}>
+	// Informationen zum Benutzerprofil
+</cache:profil >
+~~~
+
+übersetzt werden in
+
+~~~
+[php]
+<?php if($this->cache('profile', array('duration'=>3600))): ?>
+	// Informationen zum Benutzerprofil
+<?php $this->endCache(); endif; ?>
+~~~
+
+### Clip-Tags
+
+Wie Cache-Tags sind auch Clip-Tags Abkürzungen um [CBaseController::beginClip]
+und [CBaseController::endClip] in einem View aufzurufen. Die Syntax lautet
+
+~~~
+[php]
+<clip:clipID>
+	// Inhalt des Clips
+</clip:clipID >
+~~~
+
+wobei `clipID` ein eindeutiger Bezeichner für den Clipinhalt ist.
+Clip-Tags werden übersetzt zu
+
+~~~
+[php]
+<?php $this->beginClip('clipID'); ?>
+	// Inhalt des Clips
+<?php $this->endClip(); ?>
+~~~
+
+### Kommentar-Tags
+
+Kommentar-Tags sind für View-Kommentare gedacht und nur für Entwickler
+sichtbar. Kommentar-Tags werden vor der Anzeige aus dem View entfernt. Die
+Syntax lautet hier
+
+~~~
+[php]
+<!---
+View-Kommentare, der später entfernt wird
+--->
+~~~
+
+<div class="revision">$Id: topics.prado.txt 416 2008-12-28 05:28:11Z qiang.xue $</div>

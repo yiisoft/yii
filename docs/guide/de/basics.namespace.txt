@@ -1,0 +1,82 @@
+Pfad-Aliase und Namespace
+=========================
+
+Yii macht intensiven Gebrauch von Pfad-Aliasen. Ein Pfad-Alias verweist auf
+ein Verzeichnis oder einen Dateipfad. Er wird in Punkt-Syntax angegeben,
+ähnlich zum weitverbreiteten Namespace-Format (Namensraum):
+
+~~~
+RootAlias.pfad.zu.ziel
+~~~
+
+wobei `RootAlias` den Alias eines existierenden Verzeichnisses darstellt. 
+Durch Aufrufen von [YiiBase::setPathOfAlias()] können wir neue Pfad-Aliase 
+definieren. Der Einfachheit halber sind schon folgende RootAliase
+vordefiniert:
+
+ - `system`: Verweist auf das Frameworkverzeichnis von Yii
+ - `application`: Verweist auf das
+[Stammverzeichnis](/doc/guide/basics.application#application-base-directory) der Anwendung
+ - `webroot`: Verweist auf das Verzeichnis, das das
+[Eingangsscript](/doc/guide/basics.entry) enthält. Dieser Alias ist seit
+Version 1.0.3 verfügbar.
+
+Falls die Anwendung [Module](/doc/guide/basics.module) verwendet, wird für
+jedes Modul ein zusätzlicher RootAlias für jede ModulID auf das
+Stammverzeichnis des jeweiligen Moduls angelegt. Dieses Feature steht seit
+Version 1.0.3 zur Verfügung.
+
+Mit [YiiBase::getPathOfAlias()] kann ein Alias in seinen entsprechenden Pfad
+übersetzt werden. `system.web.CController` würde zum Beispiel nach
+`yii/framework/web/CController` übersetzt werden.
+
+Durch Verwendung von Aliasen können Klassendefinitionen sehr bequem importiert
+werden. Wenn wir zum Beispiel die Definition von [CController] importieren
+möchten, können wir folgenden Aufruf verwenden:
+
+~~~
+[php]
+Yii::import('system.web.CController');
+~~~
+
+Die Methode [import|YiiBase::import] unterscheidet sich von `include` und 
+`require` durch ihre höhere Effizienz. Die Klassendefinition wird nicht
+eingebunden, solange nirgends Bezug darauf genommen wird. Den selben Namespace
+mehrfach zu importieren ist auch wesentlich schneller als `include_once` und
+`require_once`.
+
+> Tip|Tipp: Wenn wir uns auf eine Klasse aus dem Yii-Framework beziehen,
+> brauchen wir sie nicht zu importieren oder mit include einzubinden. Alle
+> Kern-Klassen von Yii sind bereits vor-importiert.
+
+Wir können auch die folgende Syntax verwenden, um ein ganzes Verzeichnis zu
+importieren, so dass Klassendateien in diesem Verzeichnis bei Bedarf
+automatsich eingebunden werden:
+
+~~~
+[php]
+Yii::import('system.web.*');
+~~~
+
+Außer in [import|YiiBase::import] werden Aliase noch an vielen anderen Stellen
+verwendet, um Bezug auf Klassen zu nehmen. An [Yii::createComponent()] kann zum
+Beispiel auch ein Alias übergeben werden, um eine Instanz der entsprechenden
+Klasse zu erzeugen, auch wenn die Klassendatei vorher noch nicht eingebunden
+war.
+
+Verwechseln Sie einen Pfad-Alias nicht mit einem Namespace. Ein Namespace
+bezieht sich auf eine logische Gruppe von einigen Klassen, um sie von anderen
+Klassennamen zu unterscheiden, selbst wenn ihre Namen die selben sind. Ein
+Pfad-Alias hingegen bezieht sich auf eine Klassendatei oder ein Verzeichnis.
+Ein Pfad-Alias kollidiert nicht mit einem Namespace.
+
+> Tip|Tipp: Da PHP vor Version 5.3.0 von Haus aus noch keine Namespaces
+> unterstützt, können Sie keine Instanzen von Klassen erzeugen, die den selben
+> Namen aber unterschiedliche Definitionen haben. Daher wird allen Klassen des
+> Yii-Frameworks der Buchstabe 'C' (von engl.: Class, Klasse) vorangestellt,
+> um Sie von benutzerdefinierten Klassen zu unterscheiden. Es wird empfohlen,
+> dass die Präfix 'C' zur alleinigen Verwendung innerhalb des Yii-Frameworks
+> reserviert bleibt und benutzerdefinierte Klassen mit anderen Präfixen
+> versehen werden.
+
+<div class="revision">$Id: basics.namespace.txt 766 2009-02-27 17:22:13Z qiang.xue $</div>

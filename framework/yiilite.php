@@ -140,8 +140,13 @@ class YiiBase
 			$rootAlias=substr($alias,0,$pos);
 			if(isset(self::$_aliases[$rootAlias]))
 				return self::$_aliases[$alias]=rtrim(self::$_aliases[$rootAlias].DIRECTORY_SEPARATOR.str_replace('.',DIRECTORY_SEPARATOR,substr($alias,$pos+1)),'*'.DIRECTORY_SEPARATOR);
+			else if(self::$_app instanceof CWebApplication)
+			{
+				if(self::$_app->findModule($rootAlias)!==null)
+					return self::getPathOfAlias($alias);
+			}
 		}
-		return self::$_aliases[$alias]=false;
+		return false;
 	}
 	public static function setPathOfAlias($alias,$path)
 	{
@@ -1236,7 +1241,7 @@ class CWebApplication extends CApplication
 				if(isset($owner->controllerMap[$id]))
 				{
 					return array(
-						Yii::createComponent($owner->controllerMap[$id],$id),
+						Yii::createComponent($owner->controllerMap[$id],$id,$owner===$this?null:$owner),
 						$this->parseActionParams($route),
 					);
 				}
@@ -1394,10 +1399,23 @@ class CWebApplication extends CApplication
 				$module=new $className($id);
 			else
 				$module=new $className($owner->getId().'/'.$id,$owner);
-			Yii::app()->setPathOfAlias('module',$module->getBasePath());
+			Yii::setPathOfAlias($id,$module->getBasePath());
 			$module->init($config);
 			return $module;
 		}
+	}
+	public function findModule($id)
+	{
+		if(($controller=$this->getController())!==null && ($module=$controller->getModule())!==null)
+		{
+			do
+			{
+				if(($m=$module->getModule($id))!==null)
+					return $m;
+			} while(($module=$module->getParentModule())!==null);
+		}
+		if(($m=$this->getModule($id))!==null)
+			return $m;
 	}
 }
 class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
@@ -4091,7 +4109,10 @@ class CClientScript extends CApplicationComponent
 					$cssFiles[$this->scriptMap[$name]]=$media;
 			}
 			else if(isset($this->scriptMap['*.css']))
-				$cssFiles[$this->scriptMap['*.css']]=$media;
+			{
+				if($this->scriptMap['*.css']!==false)
+					$cssFiles[$this->scriptMap['*.css']]=$media;
+			}
 			else
 				$cssFiles[$url]=$media;
 		}
@@ -4109,7 +4130,10 @@ class CClientScript extends CApplicationComponent
 						$jsFiles[$position][$name]=$this->scriptMap[$name];
 				}
 				else if(isset($this->scriptMap['*.js']))
-					$jsFiles[$position][$this->scriptMap['*.js']]=$this->scriptMap['*.js'];
+				{
+					if($this->scriptMap['*.js']!==false)
+						$jsFiles[$position][$this->scriptMap['*.js']]=$this->scriptMap['*.js'];
+				}
 				else
 					$jsFiles[$position][$key]=$script;
 			}
@@ -4309,6 +4333,7 @@ class CClientScript extends CApplicationComponent
 	}
 	public function registerLinkTag($relation=null,$type=null,$href=null,$media=null,$options=array())
 	{
+		$this->_hasScripts=true;
 		if($relation!==null)
 			$options['rel']=$relation;
 		if($type!==null)

@@ -1,4 +1,5 @@
 * Komma igång
+	- [Översikt](index)
     - [Vad är Yii](quickstart.what-is-yii)
     - [Installation](quickstart.installation)
     - [Skapa en första Yii-applikation](quickstart.first-app)
@@ -11,11 +12,12 @@
     - [Model](basics.model)
     - [View](basics.view)
     - [Komponent](basics.component)
+    - [Moduler](basics.module)
     - [Sökvägsalias och namnområde](basics.namespace)
     - [Konventioner](basics.convention)
     - [Arbetsgång vid utveckling](basics.workflow)
 
-* Arbeta med Forms
+* Arbeta med formulär
     - [Översikt](form.overview)
     - [Skapa Model](form.model)
     - [Skapa Action](form.action)
@@ -35,10 +37,10 @@
     - [Sidcachning](caching.page)
     - [Dynamiskt innehåll](caching.dynamic)
 
-* Utökning av Yii
+* Utvidgning av Yii
     - [Översikt](extension.overview)
-    - [Använda utökning](extension.use)
-    - [Skapa utökning](extension.create)
+    - [Använda utvidgning](extension.use)
+    - [Skapa utvidgning](extension.create)
     - [Använda tredjepartsbibliotek](extension.integration)
 
 * Speciella ämnen
@@ -53,3 +55,5 @@
     - [Konsolapplikationer](topics.console)
     - [Säkerhet](topics.security)
     - [Prestandaoptimering](topics.performance)
+
+<div class="revision">$Id: toc.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>

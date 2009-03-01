@@ -1,0 +1,46 @@
+缓存
+====
+
+缓存是用于提升网站性能的一种即简单又有效的途径。通过存储相对静态的数据至缓存以备所需，我们可以省去生成这些数据的时间。
+
+在 Yii 中使用缓存主要包括配置和访问缓存组件。如下的应用配置指定了一个使用两台缓存服务器的 memcache 缓存组件：
+
+~~~
+[php]
+array(
+	......
+	'components'=>array(
+		......
+		'cache'=>array(
+			'class'=>'system.caching.CMemCache',
+			'servers'=>array(
+				array('host'=>'server1', 'port'=>11211, 'weight'=>60),
+				array('host'=>'server2', 'port'=>11211, 'weight'=>40),
+			),
+		),
+	),
+);
+~~~
+
+程序运行的时候可以通过 `Yii::app()->cache` 来访问缓存组件。
+
+Yii 提供多种缓存组件以便在不同的媒介上存储缓存数据。比如 [CMemCache] 组件封装了 PHP memcache 扩展，它使用内存作为存储缓存的媒介；[CApcCache] 组件封装了 PHP APC 扩展；[CDbCache] 组件在数据库里存储缓存数据。下面是各种缓存组件的简要说明：
+
+   - [CMemCache]: 使用 PHP [memcache 扩展](http://www.php.net/manual/en/book.memcache.php).
+
+   - [CApcCache]: 使用 PHP [APC 扩展](http://www.php.net/manual/en/book.apc.php).
+
+   - [CXCache]: 使用 PHP [XCache 扩展](http://xcache.lighttpd.net/).
+注意，该组件从 1.0.1 版本开始提供。
+
+   - [CDbCache]: 使用一张数据库表来存储缓存数据。它默认在运行时目录建立并使用一个 SQLite3 数据库，你可以通过设置 [connectionID|CDbCache::connectionID] 属性显式地指定一个数据库给它使用。
+
+> 提示: 因为所有这些缓存组件都从同一个基础类 [CCache] 扩展而来，不需要修改使用缓存的代码即可在不同的缓存组件之间切换。
+
+缓存可以在不同的级别使用。在最低级别，我们使用缓存来存储单个数据，比如一个变量，我们把它叫做 *数据缓存*。往上一级，我们缓存一个由视图脚本生成的页面片断。在最高级别，我们存储整个页面以便需要的时候直接从缓存读取。
+
+接下来我们将阐述如何在这些级别上使用缓存。
+
+> 注意: 按定义来讲，缓存是一个不稳定的存储媒介，它不保证缓存一定存在——不管该缓存是否过期。所以，不要使用缓存进行持久存储（比如，不要使用缓存来存储 SESSION 数据）。
+
+<div class="revision">$Id: caching.overview.txt 723 2009-02-21 18:14:05Z qiang.xue $</div>
