@@ -165,6 +165,8 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function renderCoreScripts()
 	{
+		if($this->_packages===null)
+			return;
 		$baseUrl=$this->getCoreScriptUrl();
 		$cssFiles=array();
 		$jsFiles=array();
