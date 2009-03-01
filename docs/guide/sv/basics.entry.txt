@@ -29,7 +29,7 @@ värdet hos konstanten `YII_DEBUG`. Som standard är denna konstant definierad
 till `false`, vilket innebär produktionsläge. För att köra i debugläge, 
 definiera konstanten till `true` före inkludering av filen `yii.php`. Körning av 
 applikationen i debugläge är mindre effektivt eftersom många interna 
-loggar administraras. Å andra sidan är debugläge också till stor hjälp i utvecklingsfasen 
-eftersom utförligare information tillhandahålls när fel uppträder.
+loggar administreras. Å andra sidan är debugläge också till stor hjälp i utvecklingsfasen 
+eftersom utförligare information blir tillgänglig när fel uppträder.
 
 <div class="revision">$Id: basics.entry.txt 162 2008-11-05 12:44:08Z weizhuo $</div>

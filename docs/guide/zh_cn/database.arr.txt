@@ -7,14 +7,14 @@ Relational Active Record
 在使用关联AR之前，首先要在数据库中建立关联的数据表之间的主键-外键关联，AR需要
 通过分析数据库中的定义数据表关联的元信息，来决定如何连接数据。
 
-> 注: 从1.0.1版往后，使用关联AR不再依赖数据库中的外键约束定义。
+> Note|注意: 从1.0.1版往后，使用关联AR不再依赖数据库中的外键约束定义。
 
 在这一节中，我们将以下面这个简单的实体-关系(ER)图所描述的数据库为例，来介绍
 如何使用包含关联的ActiveRecord。
 
 ![ER Diagram](er.png)
 
-> Info: 不同的关系数据库对外键约束的支持有所不同.
+> Info|说明: 不同的关系数据库对外键约束的支持有所不同.
 >
 > SQLite是不支持外键约束的，但允许你在建立数据表时定义外键约束，AR会利用
 > DDL声明中的约束定义获得相应的信息，用来支持关联查询。
@@ -104,7 +104,7 @@ class User extends CActiveRecord
 }
 ~
 
-> Info: 有时外键可能由两个或更多字段组成，在这里可以将多个字段名由逗号或空格分隔，
+> Info|说明: 有时外键可能由两个或更多字段组成，在这里可以将多个字段名由逗号或空格分隔，
 一并写在这里。对于多对多的关系，关联表必须在外键中注明，例如在`Post`类的`categories`
 关联中，外键就需要写成`PostCategory(postID, categoryID)`。
 
@@ -128,7 +128,7 @@ $post=Post::model()->findByPk(10);
 $author=$post->author;
 ~
 
-> Info: If there is no related instance for a relationship, the
+> Info|说明: If there is no related instance for a relationship, the
 corresponding property could be either null or an empty array. For
 `BELONGS_TO` and `HAS_ONE` relationships, the result is null; for
 `HAS_MANY` and `MANY_MANY`, it is an empty array.
@@ -182,7 +182,7 @@ $posts=Post::model()->with(array(
 The above example will bring back all posts together with their author and
 categories. It will also bring back each author's profile and posts.
 
-> Info: The AR implementation in Yii is very efficient. When eager loading
+> Info|说明: The AR implementation in Yii is very efficient. When eager loading
 a hierarchy of related objects involving `N` `HAS_MANY` or `MANY_MANY`
 relationships, it will take `N+1` SQL queries to obtain the needed results.
 This means it needs to execute 3 SQL queries in the last example because of
@@ -272,7 +272,7 @@ Now if we access `$author->posts`, we would obtain the author's posts
 sorted according to their creation time in descending order. Each post
 instance also has its categories loaded.
 
-> Info: When a column name appears in two or more tables being joined
+> Info|说明: When a column name appears in two or more tables being joined
 together, it needs to be disambiguated. This is done by prefixing the
 column name with its table name. For example, `id` becomes `Team.id`. In AR
 relational queries, however, we do not have this freedom because the SQL

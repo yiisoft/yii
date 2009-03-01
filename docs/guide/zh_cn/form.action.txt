@@ -14,7 +14,7 @@ public function actionLogin()
 		$form->attributes=$_POST['LoginForm'];
 		// 验证用户输入，如果无效则重定位到前个页面
 		if($form->validate())
-			$this->redirect($this->user->returnUrl);
+			$this->redirect(Yii::app()->user->returnUrl);
 	}
 	// 显示登陆表单
 	$this->render('login',array('user'=>$form));
@@ -22,9 +22,8 @@ public function actionLogin()
 ~~~
 上面写的是，我们编写`LoginForm`实例；如果请求是POST方式（意味着登陆表单是submit），我们产生一个$form，里面放着提交过来的数据 `$_POST['LoginForm']`;然后验证输入，如果成功，把用户请求url定位到相应需要授权的页面。如果验证失败，或者是第一次访问login页面的，把用户请求url定位到login的页面，`login`页面具体怎么写会在下一个小节里描写。
 
-> 秘诀: 在`login` action里面，我们用 `$this->user->returnUrl` 获取之前需要验证的url。 This is 因为
-[CController] 正好有一个[CWebUser](或者子类)的实例叫做`user`，用来存放用户session信息的（例如：用户名，状态等）。想要了解更多，看[Authentication and
-Authorization](/doc/guide/topics.auth)这章。
+> Tip|提示: 在`login` action里面，我们用 `Yii::app()->user->returnUrl` 获取之前需要验证的url。表达式`Yii::app()->user`返回一个[CWebUser](或者子类)的实例，
+它主要用来存放用户session信息的（例如：用户名，状态等）。想要了解更多，看[身份验证和授权](/doc/guide/topics.auth)这章。
 
 大家注意这段在`login` action里面的php语句：
 
@@ -42,7 +41,7 @@ $form->password=$_POST['LoginForm']['password'];
 $form->rememberMe=$_POST['LoginForm']['rememberMe'];
 ~~~
 
-> 提示: 为了让`$_POST['LoginForm']`不提供字符串而是数组，根据惯例view页面的输入字段应该写model相应的名字。记住是，一个页面输入字段对应model（简称`C`）里面的一个属性`C[a]`。例如，我们用 `LoginForm[username]`去命名页面`username`输入字段。
+> Tip|提示: 为了让`$_POST['LoginForm']`不提供字符串而是数组，根据惯例view页面的输入字段应该写model相应的名字。记住是，一个页面输入字段对应model（简称`C`）里面的一个属性`C[a]`。例如，我们用 `LoginForm[username]`去命名页面`username`输入字段。
 
 剩下的工作是编写`login` view了，编写里面的html表单和相应的输入字段。
 

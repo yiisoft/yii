@@ -2,17 +2,24 @@ Sökvägsalias och namnområde
 ===========================
 
 Yii använder sökvägsalias extensivt. Ett sökvägsalias är associerat till en 
-katalog eller filsökväg. Det specificeras med punktnotation, snarlikt det vitt 
-förekommande namnområdesformatet (namespace format):
+katalog eller filsökväg. Det specificeras med punktnotation, snarlikt detta vanligt 
+förekommande namnområdesformat (namespace format):
 
 ~~~
 RootAlias.path.to.target
 ~~~
 
-där `RootAlias` är alias för någon befintlig katalog. Yii fördefinierar två 
-alias: `system` och `application`. Det förra är alias för Yii:s framework-
-katalog, medan det senare är alias för applikationens `protected`-katalog. Genom 
-anrop till [YiiBase::setPathOfAlias()] kan nya sökvägsalias definieras (inklusive rot-alias).
+där `RootAlias` är alias för någon befintlig katalog. Nya sökvägsalias kan definieras 
+genom anrop av [YiiBase::setPathOfAlias()]. För att underlätta fördefinierar Yii 
+följande rot-alias:
+
+ - `system`: refererar till Yii:s framework-katalog;
+ - `application`: refererar till applikationens [rotkatalog](/doc/guide/basics.application#application-base-directory);
+ - `webroot`: refererar till katalogen som innehåller [startskriptet](/doc/guide/basics.entry). Detta alias har varit tillgängligt sedan version 1.0.3.
+
+Om applikationen dessutom använder sig av [moduler](/doc/guide/basics.module), 
+fördefinieras också ett rotalias för varje modul-ID. Detta alias refererar till modulens rotsökväg.
+Denna finess har varit tillgängligt fr o m version 1.0.3.
 
 Genom anrop till [YiiBase::getPathOfAlias()] kan ett alias översättas till dess 
 motsvarande sökväg. Till exempel, `system.web.CController` skulle översättas 
@@ -32,7 +39,7 @@ att den är effektivare. Klassdefinitionen som skall importeras inkluderas inte
 förrän den refereras till första gången. Att importera samma namnområde flera 
 gånger är också det mycket snabbare än `include_once` och `require_once`.
 
-> Tips: När en klass som definieras av Yii-ramverket refereras, behöver denna 
+> Tip|Tips: När en klass som definieras av Yii-ramverket refereras, behöver denna 
 inte importeras eller inkluderas. Alla kärnklasser i Yii importeras i förväg.
 
 Följande syntax kan användas för att importera en hel katalog, så att 
@@ -53,11 +60,11 @@ gruppering av ett antal klassnamn så att de kan särskiljas från andra klasser
 med samma namn, medan sökvägsalias används för att referera till en klassfil 
 eller sökväg. Det uppstår ingen konflikt mellan sökvägsalias och namnområden.
 
-> Tips: Då PHP före version 5.3.0 inte har inbyggt stöd för namnområden, går det 
-inte att ha instanser av två klasser med samma namn, men olika definitioner. Av 
+> Tip|Tips: Då PHP före version 5.3.0 inte har inbyggt stöd för namnområden, går det 
+inte att ha instanser av två klasser med samma namn men olika definitioner. Av 
 denna anledning har alla Yii-klasser namn med prefixet 'C' (som i 'class'), så 
-att de kan skiljas från användardefinierade klaser. Det rekommenderas att C-
+att de kan skiljas från användardefinierade klasser. Det rekommenderas att C-
 prefixet reserveras för användning endast av Yii-ramverket, och att 
 användardefinierade klasser förses med någon annan prefixbokstav.
 
-<div class="revision">$Id: basics.namespace.txt 169 2008-11-06 19:43:44Z qiang.xue $</div>
+<div class="revision">$Id: basics.namespace.txt 766 2009-02-27 17:22:13Z qiang.xue $</div>

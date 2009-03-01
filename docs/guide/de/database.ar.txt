@@ -1,0 +1,525 @@
+﻿ActiveRecord
+============
+
+Obwohl man mit Yii-DAO praktisch jede datenbankbezogene Aufgabe erledigen kann,
+werden wir wahrscheinlich 90% unserer Zeit mit dem Schreiben von
+SQL-Anweisungen für die üblichen CRUD-Operationen (create, read, update und delete)
+verbringen. Auch die Codewartung wird erschwert, wenn dieser
+mit SQL Anweisungen durchmischt ist. Zur Lösung dieser Probleme können wir 
+ActiveRecord nutzen.
+
+ActiveRecord (AR) ist eine gängige objektrelationale Abbildungstechnik (engl.: 
+object-relational mapping,ORM). Jede AR-Klasse repräsentiert eine Tabelle der
+Datenbank (oder einen View) deren Attribute durch AR-Klasseneigenschaften
+repräsentiert werden. Eine AR-Instanz repräsentiert eine Zeile in der Tabelle.
+Übliche CRUD-Operationen sind als AR-Methoden implementiert. Das hat zur Folge,
+dass wir in eher objektorientierter Weise auf unsere Daten zugreifen
+können. Zum Beispiel können wir den folgenden Code dazu benutzen, um eine neue Zeile
+in die `Post`-Tabelle einzufügen:
+
+~~~
+[php]
+$post=new Post;
+$post->title='Beispielbeitrag';
+$post->content='Inhalt des Beitrags';
+$post->save();
+~~~
+
+Im Folgenden beschreiben wir, wie wir AR-Instanzen anlegen und für CRUD-Operationen
+benutzen können. Im nächsten Kapitel werden wir dann darauf eingehen, wie wir AR
+verwenden können, um mit Beziehungen in einer Datenbank (DB) umzugehen. 
+Der Einfachheit halber benutzen wir für die Beispiele in diesem Abschnitt 
+folgende Datenbanktabelle:
+
+~~~
+[sql]
+CREATE TABLE Post (
+	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	title VARCHAR(128) NOT NULL,
+	content TEXT NOT NULL,
+	createTime INTEGER NOT NULL
+);
+~~~
+
+> Note|Hinweis: AR ist nicht dafür gedacht, alle datenbankbezogenen Aufgaben zu lösen.
+AR ist zweckmäßig, um Datenbanktabellen in PHP abzubilden sowie für
+Abfragen, die kein komplexes SQL erfordern. In komplexeren Fällen sollte Yii-DAO 
+benutzt werden.
+
+Aufbau einer DB-Verbindung
+--------------------------
+
+AR setzt auf eine DB-Verbindung auf, um DB-bezogene Operationen durchzuführen.
+Standardmäßig geht AR davon aus, dass die Applikationskomponente `db` die
+notwendige [CDbConnection]-Instanz liefert, die als DB-Verbindung dient. Die
+folgende Applikationskonfiguration zeigt ein Beispiel:
+
+~~~
+[php]
+return array(
+	'components'=>array(
+		'db'=>array(
+			'class'=>'system.db.CDbConnection',
+			'connectionString'=>'sqlite:path/to/dbfile',
+            // Schema Caching einschalten, um die Performance zu verbessern
+			// 'schemaCachingDuration'=>3600,
+		),
+	),
+);
+~~~
+
+> Tip|Tipp: ActiveRecord verwendet Metadaten von Tabellen, um 
+die Spalteninformationen zu ermitteln. Das Lesen und Analysieren dieser Daten
+braucht Zeit. Falls das Schema Ihrer Datenbank
+kaum mehr geändert wird, sollten Sie das Schema-Caching einschalten, 
+indem Sie die Eigenschaft [CDbConnection::schemaCachingDuration] auf 
+einen Wert größer 0 setzen.
+
+Die AR-Unterstützung ist auf bestimmte Datenbankmanagementsysteme (DBMS) begrenzt.
+Derzeit werden folgende DBMS unterstützt:
+
+   - [MySQL 4.1 oder später](http://www.mysql.com)
+   - [PostgreSQL 7.3 oder später](http://www.postgres.com)
+   - [SQLite 2 und 3](http://www.sqlite.org)
+
+Falls Sie eine andere Applikationskomponente als `db` benutzen möchten, oder
+wenn Sie mit AR auf mehreren Datenbanken arbeiten, sollten Sie
+[CActiveRecord::getDbConnection()] überschreiben. Die [CActiveRecord]-Klasse
+ist die Basisklasse für alle AR-Klassen.
+   
+> Tip|Tipp: Es gibt zwei Wege, um mit AR auf mehren Datenbanken zu arbeiten.
+Falls die Datenbankschemas sich unterscheiden, können Sie unterschiedliche
+AR-Basisklassen mit verschiedenen Implementierungen von
+[getDbConnection()|CActiveRecord::getDbConnection] erzeugen. Andernfalls
+ist es günstiger, die statische Variable [CActiveRecord::db] dynamisch zu
+ändern.
+
+Definieren von AR-Klassen
+-------------------------
+
+Um auf eine Datenbanktabelle zuzugreifen, müssen wir zuerst eine AR-Klasse
+durch Erweitern von [CActiveRecord] definieren. Jede Klasse repräsentiert
+eine einzelne Datenbanktabelle, und eine AR-Instanz repräsentiert eine Zeile
+der Tabelle. Das folgende Beispiel zeigt den nötigen Mindestcode einer AR-Klasse,
+die die Tabelle `Post` repräsentiert.
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
+}
+~~~
+
+> Tip|Tipp: Da AR-Klassen oft an vielen Stellen verwendet werden, können
+>wir das ganze Verzeichnis mit AR-Klassen importieren, anstatt diese einzeln
+>einzubinden. Liegen beispielsweise alle unsere AR-Klassen im Verzeichnis
+>`protected/models`, können wir die Applikation wie folgt konfigurieren:
+> ~~~
+> [php]
+> return array(
+> 	'import'=>array(
+> 		'application.models.*',
+> 	),
+> );
+> ~~~
+
+Standardmäßig hat die AR-Klasse den gleichen Namen wie die Datenbanktabelle.
+Überschreiben Sie die [tableName()|CActiveRecord::tableName]-Methode, falls
+sie sich unterscheiden sollen. Die [model()|CActiveRecord::model]-Methode wird in jedem
+AR deklariert (worauf wir in Kürze eingehen werden).
+
+Über die Eigenschaften der entsprechenden AR-Instanz, kann auf die Felder 
+einer Tabellenzeile zugegriffen werden. Der folgende Code setzt zum Beispiel das
+`title`-Feld (Attribut).
+
+~~~
+[php]
+$post=new Post;
+$post->title='Ein Beispielbeitrag';
+~~~
+
+Obwohl die `title`-Eigenschaft in der `Post`-Klasse nicht explizit deklariert
+wurde, können wir doch mit dem obigen Code auf sie zugreifen. Das liegt daran,
+dass `title` ein Feld in der `Post`-Tabelle ist und CActiveRecord mittels der
+magischen PHP Methode `__get()` erlaubt, darauf wie auf eine Eigenschaft
+zuzugreifen. Falls wir auf diese Weise versuchen, ein nicht existierendes Feld
+anzusprechen, wird eine Exception ausgelöst.
+
+> Info|Info: Zur besseren Lesbarkeit empfehlen wir, Datenbanktabellen und Spalten
+in sog. CamelCase-Schreibweise zu benennen. Das bedeutet, dass alle Worte im
+Tabellennamen mit Großbuchstaben beginnen und diese ohne Leerzeichen
+aneinandergereiht werden. Für Spaltennamen gilt das selbe, außer, dass deren
+erster Buchstabe kleingeschrieben wird. Beispielsweise benutzen wir `Post`
+(Beitrag), um die Tabelle für die Beiträge zu benennen. Das hat zur Folge, 
+dass Tabellen eher wie Klassen und Spalten wie Variablen aussehen. Beachten
+Sie jedoch, dass die CamelCase-Schreibweise bei einigen DBMS, wie z.B. MySQL, 
+auch zu Unannehmlichkeiten führen kann, da diese sich je nach Betriebssystem
+unterschiedlich verhalten.
+
+Einfügen von Datensätzen
+------------------------
+
+Um eine neue Zeile in eine Datenbanktabelle einzufügen, erzeugen wir eine
+neue Instanz der entsprechenden AR-Klasse, setzen die den Tabellenfeldern
+entsprechenden Eigenschaften und rufen die [save()|CActiveRecord::save]-
+Methode auf, um das Einfügen abzuschließen.
+
+~~~
+[php]
+$post=new Post;
+$post->title='Beispielbeitrag';
+$post->content='Inhalt des Beispielbeitrags';
+$post->createTime=time();
+$post->save();
+~~~
+
+Wird der Primärschlüssel automatisch vergeben (auto-increment), enthält die AR-Instanz
+nach dem Einfügen den aktuellen Primärschlüssel. Im obigen Beispiel spiegelt
+die `id`-Eigenschaft den Wert des Primärschlüssels für den neu eingefügten
+Beitrag wieder, obwohl wir diese Eigenschaft nicht explizit gesetzt haben.
+
+Falls für eine Tabellenspalte im Schema ein statischer Vorgabewert definiert
+wurde (z.B. ein String oder eine Zahl), enthält die AR-Instanz nach dem
+Anlegen automatisch diesen Wert. Eine Möglichkeit, um diesen Vorgabewert zu
+verändern, besteht darin, diese Eigenschaft explizit in der 
+AR-Klasse festzulegen:
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	public $title='Bitte den Titel eingeben';
+	......
+}
+
+$post=new Post;
+echo $post->title;  // Dies führt zur Anzeige von: Bitte den Titel eingeben
+~~~
+
+Seit Version 1.0.2 kann man einem Attribut auch einen Wert vom Typ
+[CDbExpression] zuweisen, bevor der Datensatz in der Datenbank gespeichert
+wird. Um zum Beispiel einen Zeitstempel zu speichern, wie er von der 
+MySQL-Funktion `NOW()` geliefert wird, können wir folgenden Code verwenden:
+
+~~~
+[php]
+$post=new Post;
+$post->createTime=new CDbExpression('NOW()');
+// $post->createTime='NOW()'; funktioniert nicht
+// 'NOW()' würde wie ein String behandelt
+$post->save();
+~~~
+
+
+Lesen von Datensätzen
+---------------------
+
+Um Daten aus der Datenbanktabelle zu lesen rufen wir eine der folgenden 
+`find`-Methoden auf:
+
+~~~
+[php]
+// Finde die erste Zeile, die die angegebene Bedingung erfüllt
+$post=Post::model()->find($condition,$params);
+// Finde die Zeile mit dem angegebenen Primärschlüssel
+$post=Post::model()->findByPk($postID,$condition,$params);
+// Finde die Zeile mit den angegeben Attributwerten
+$post=Post::model()->findByAttributes($attributes,$condition,$params);
+// Finde die erste Zeile unter Anwenden der angegeben SQL-Anweisung
+$post=Post::model()->findBySql($sql,$params);
+~~~
+
+Oben rufen wir die `find`-Methode mit `Post::model()` auf. Wie bereits
+erwähnt, wird die statische Methode `model()` für jede AR-Klasse benötigt.
+Die Methode gibt eine AR-Instanz zurück, die dazu benutzt wird, um in einem
+Objektkontext auf Methoden auf Klassenebene zugreifen zu können (ähnlich zu 
+statischen Klassenmethoden).
+
+Wenn die `find`-Methode eine Zeile findet, die die Abfragebedingung erfüllt,
+gibt sie eine `Post`-Instanz zurück, deren Eigenschaften die entsprechenden
+Werte der Felder der Zeile enthalten. Wir können die geladenen Werte dann
+wie Eigenschaften von normalen Objekten auslesen, z.B. `echo $post->title;`.
+
+Falls in der Datenbank zur gegebenen Abfragebedingung nichts gefunden wird,
+gibt die `find`-Methode null zurück.
+
+Beim Aufruf von `find` verwenden wir `$condition` und `$params` um
+Abfragebedingungen anzugeben. Dabei kann `$condition` ein String sein, der die
+`WHERE`-Klausel in einer SQL Abfrage darstellt und `$params` ein Array aus
+Parametern, dessen Werte an die Platzhalter in `$condition` gebunden werden.
+Zum Beispiel:
+
+~~~
+[php]
+// Finde die Zeile mit postID=10
+$post=Post::model()->find('postID=:postID', array(':postID'=>10));
+~~~
+
+Wir können `$condition` auch für komplexere Abfragebedingungen verwenden.
+Statt eines Strings kann `$condition` auch eine Instanz von [CDbCriteria]
+sein, die es uns erlaubt, weitere Bedingungen statt nur der `WHERE`-Klausel 
+anzugeben, z.B.:
+
+~~~
+[php]
+$criteria=new CDbCriteria;
+$criteria->select='title';  // Nur die 'title' Spalte wird ausgewählt
+$criteria->condition='postID=:postID';
+$criteria->params=array(':postID'=>10);
+$post=Post::model()->find($criteria); // $params ist nicht nötig
+~~~
+
+Beachten Sie, dass der `$params`-Parameter nicht mehr benötigt wird, wenn Sie
+[CDbCriteria] als Abfragebedingung nutzen, da diese Parameter, wie oben gezeigt,
+in [CDbCriteria] angegeben werden können.
+
+Alternativ zur Verwendung von [CDbCriteria] kann auch ein Array an die
+`find`-Methode übergeben werden. Die Schlüssel und Werte des Array entsprechen 
+den Namen und Werten der Eigenschaften von CDbCriteria. Das obige Beispiel 
+kann daher wie folgt umformuliert werden:
+
+~~~
+[php]
+$post=Post::model()->find(array(
+	'select'=>'title',
+	'condition'=>'postID=:postID',
+	'params'=>array(':postID'=>10),
+));
+~~~
+
+> Info|Info: Wenn bei einer Abfrage nach bestimmten Werten für Tabellenspalten gesucht
+werden soll, können wir dazu [findByAttributes()|CActiveRecord::findByAttributes]
+verwenden. Dabei ist der Parameter `$attributes` ein Array von Werten, die durch
+Spaltennamen indiziert werden. In einigen Frameworks wird diese Aufgabe durch
+Aufruf von Methoden wie `findByNameAndTitle` gelöst. Obwohl diese
+Herangehensweise zunächst reizvoll aussieht, sorgt sie oft für Verwirrung,
+Konflikte und Probleme im Zusammenhang mit der Groß-/Kleinschreibung von
+Spaltennamen.
+
+Wenn mehrere Datenzeilen die Abfragebedingung erfüllen, können wir diese
+gesammelt mit den folgenen `findAll`-Methoden beziehen, von denen jede ihr
+Pendant bei den schon beschriebnen `find`-Methoden hat.
+
+~~~
+[php]
+// Finde alle Zeilen, die die angegebene Bedingung erfüllen
+$posts=Post::model()->findAll($condition,$params);
+// Finde alle Zeilen mit dem angegebenen Primärschlüsseln
+$posts=Post::model()->findAllByPk($postIDs,$condition,$params);
+// Finde alle Zeilen mit den angegeben Attributwerten
+$posts=Post::model()->findAllByAttributes($attributes,$condition,$params);
+// Finde alle Zeilen unter Anwendung der angegeben SQL-Anweisung
+$posts=Post::model()->findAllBySql($sql,$params);
+~~~
+
+Falls die Abfragebedingung von keiner Zeile erfüllt wird, liefert `findAll`
+ein leeres Array zurück. Dies unterscheidet sich von `find`, das null
+zurückliefert, falls nichts gefunden wurde.
+
+Zusätzlich zu den oben beschriebenen `find`- und `findAll`-Methoden, werden 
+für bequemen Zugriff noch die folgenden Methoden bereitgestellt:
+
+~~~
+[php]
+// Liefert die Anzahl der Zeilen, die die angegebene Bedingung erfüllen
+$n=Post::model()->count($condition,$params);
+// Liefert die Anzahl der Zeilen durch Anwenden der angegeben SQL-Anweisung
+$n=Post::model()->countBySql($sql,$params);
+// Prüft, ob mindestens eine Zeile die angegebene Bedingung erfüllt
+$exists=Post::model()->exists($condition,$params);
+~~~
+
+Aktualisieren von Datensätzen
+-----------------------------
+
+Nachdem eine AR-Instanz mit den Werten der Tabellenspalten befüllt wurde, 
+können wir diese verändern und in die Datenbanktabelle zurück speichern.
+
+~~~
+[php]
+$post=Post::model()->findByPk(10);
+$post->title='Titel eines neuen Beitrags';
+$post->save(); // Änderung in der Datenbank speichern
+~~~
+
+Wie wir sehen, verwenden wir für Einfüge- und Aktualisierungsoperationen die gleiche 
+[save()|CActiveRecord::save]-Methode. Wenn eine AR-Instanz durch den
+`new`-Operator erzeugt wurde, fügt der Aufruf von [save()|CActiveRecord::save]
+eine neue Zeile in die Datenbanktabelle ein. Falls die AR-Instanz das Ergebnis
+eines `find`- oder `findAll`-Aufrufs war, aktualisiert der Aufruf von
+[save()|CActiveRecord::save] die bestehende Zeile in der Tabelle. Wir können 
+[CActiveRecord::isNewRecord] abfragen, um herauszufinden, ob wir eine neue
+AR-Instanz vorliegen haben oder nicht.
+
+Es ist auch möglich, eine oder mehrere Zeilen in der Datenbanktabelle zu aktualisieren
+ohne sie vorher zu laden. AR bietet dazu auf Klassenebene folgende nützliche
+Methoden:
+
+~~~
+[php]
+// Aktualisiere die Zeilen, die die angegebene Bedingung erfüllen
+Post::model()->updateAll($attribute,$bedingung,$params);
+// Aktualisiere die Zeilen, die die angegebene Bedingung und den(die) Primärschlüssel erfüllen
+Post::model()->updateByPk($pk,$attribute,$bedingung,$params);
+// Aktualisiere Zähler-Felder in den Zeilen, die die angegebene Bedingung erfüllen
+Post::model()->updateCounters($zaehler,$bedingung,$params);
+~~~
+
+Hier ist `$attribute` ein Array von Feldwerten, die durch Feldnamen indiziert sind.
+`$zaehler` ist ein Array inkrementeller Werte, die durch Feldnamen indiziert
+sind. `$bedingung` und `$params` wurden bereits in vorangegangenen Abschnitten
+beschrieben.
+
+Löschen von Datensätzen
+-----------------------
+
+Wir können eine Datenzeile auch löschen, wenn eine AR-Instanz mit dieser Zeile
+befüllt wurde. 
+
+~~~
+[php]
+$post=Post::model()->findByPk(10); // Unter der Annahme, es gibt einen `Post` mit ID 10
+$post->delete(); // Lösche diese Zeile in der Datenbanktabelle
+~~~
+
+Beachten Sie, dass die AR-Instanz nach dem Löschen unverändert bleibt, obwohl
+die entsprechende Zeile in der Datenbank bereits gelöscht wurde.
+
+Die folgenden Methoden auf Klassenebene stehen bereit, um Zeilen zu löschen,
+ohne sie vorher laden zu müssen:
+
+~~~
+[php]
+// Lösche die Zeilen, die die angegebene Bedingung erfüllen
+Post::model()->deleteAll($condition,$params);
+// Lösche die Zeilen, die die angegebene Bedingung und den(die) Primärschlüssel erfüllen
+Post::model()->deleteByPk($pk,$condition,$params);
+~~~
+
+Gültigkeitsprüfung der Daten
+----------------------------
+
+Wenn eine Datenzeile eingefügt oder aktualisiert wird, müssen wir oft überprüfen,
+ob die Werte der Felder bestimmten Regeln entsprechen. Dies ist besonders wichtig,
+wenn die Werte von Endbenutzern stammen. Generell sollten wir Daten, die von
+Clientseite stammen, niemals vertrauen.
+
+AR führt die Gültigkeitsprüfung beim Aufruf von [save()|CActiveRecord::save] 
+automatisch durch. Die Prüfung wird anhand der Regeln durchgeführt, 
+die in der [rules()|CModel::rules]-Methode der AR-Klasse angegeben wurden.
+Weitere Einzelheiten zur Definition von Prüfregeln finden Sie im Abschnitt
+[Angeben der Regeln zur Gültigkeitsprüfung](/doc/guide/form.model#declaring-validation-rules).
+Nachfolgend der typische Ablauf, der zum Speichern eines Datensatzes notwendig ist:
+
+~~~
+[php]
+if($post->save())
+{
+	// Die Daten sind gültig und wurden erfolgreich eingefügt/aktualisiert
+}
+else
+{
+	// Die Daten sind ungültig. Rufen Sie getErrors() auf um die Fehlermeldungen abzufragen
+}
+~~~
+
+Wenn die einzufügenden oder zu aktualisierenden Daten von einem Endbenutzer
+per HTML-Formular abgeschickt wurden, müssen wir diese den entsprechenden AR-Eigenschaften 
+zuweisen. Wir können das wie folgt tun:
+
+~~~
+[php]
+$post->title=$_POST['title'];
+$post->content=$_POST['content'];
+$post->save();
+~~~
+
+Bei vielen Feldern würden wir eine lange Liste solcher Zuweisungen benötigen.
+Linderung verspricht hier der Einsatz der
+[attributes|CActiveRecord::attributes]-Eigenschaft, wie unten gezeigt. 
+Weitere Details finden Sie im Abschnitt 
+[Absichern von Attributzuweisungen](/doc/guide/form.model#securing-attribute-assignments)
+sowie im Kapitel [Erstellen der Action](/doc/guide/form.action).
+
+~~~
+[php]
+// Angenommen, $_POST['Post'] ist ein Array von Werten, 
+// das durch Feldnamen indiziert wurde
+$post->attributes=$_POST['Post'];
+$post->save();
+~~~
+
+
+Vergleichen von Records
+-----------------------
+
+Wie Tabellenzeilen werden AR-Instanzen eindeutig durch Primärschlüsselwerte
+identifiziert. Um zwei AR-Instanzen zu vergleichen, müssen wir daher lediglich
+die Werte ihrer Primärschlüssel vergleichen, vorausgesetzt, sie gehören beide
+zur selben AR-Klasse. Einfacher geht dies jedoch über einen Aufruf von 
+[CActiveRecord::equals()].
+
+> Info|Info: Im Unterschied zu anderen Frameworks, unterstützen Yii’s AR
+zusammengesetzte Primärschlüssel. Ein zusammengesetzter Primärschlüssel besteht aus zwei
+oder mehr Feldern. Entsprechend wird der Primärschlüsselwert in Yii als Array 
+dargestellt. Die Eigenschaft [primaryKey|CActiveRecord::primaryKey] liefert den Wert
+des Primärschlüssels einer AR-Instanz.
+
+Anpassung
+---------
+
+[CActiveRecord] stellt einige Platzhalter-Methoden bereit, die in abgeleiteten
+Klassen zur Anpassung bestimmter Abläufe überschrieben werden können.
+
+   - [beforeValidate|CModel::beforeValidate] und
+[afterValidate|CModel::afterValidate]: diese werden aufgerufen, bevor bzw. nachdem
+die Gültigkeitsprüfung durchgeführt wird/wurde.
+
+   - [beforeSave|CActiveRecord::beforeSave] und
+[afterSave|CActiveRecord::afterSave]: diese werden aufgerufen, bevor bzw. nachdem
+die AR-Instanz gespeichert wird/wurde.
+
+   - [beforeDelete|CActiveRecord::beforeDelete] und
+[afterDelete|CActiveRecord::afterDelete]: diese werden aufgerufen, bevor bzw. nachdem
+eine AR-Instanz gelöscht wird/wurde.
+
+   - [afterConstruct|CActiveRecord::afterConstruct]: diese wird aufgerufen, nachdem
+eine AR-Instanz mit dem `new` Operator erstellt wurde.
+
+   - [afterFind|CActiveRecord::afterFind]: diese wird aufgerufen, nachdem
+eine AR-Instanz als Ergebnis einer Abfrage erstellt wurde.
+
+
+Transaktionen mit AR
+--------------------
+
+Jede AR-Instanz hat eine Eigenschaft mit dem Namen 
+[dbConnection|CActiveRecord::dbConnection], welche eine Instanz von [CDbConnection]
+darstellt. Bei Bedarf können wir deshalb beim Arbeiten mit AR das Transaktions-Feature 
+von Yii-DAO verwenden:
+
+~~~
+[php]
+$model=Post::model();
+$transaction=$model->dbConnection->beginTransaction();
+try
+{
+	// Finden und Speichern sind zwei Schritte, zwischen denen eine andere
+	// Anfrage vorkommen könnte. Wir verwenden daher eine Transaktion, um 
+	// Konsistenz und Integrität zu gewährleisten.
+	$post=$model->findByPk(10);
+	$post->title='Titel eines neuen Beitrags';
+	$post->save();
+	$transaction->commit();
+}
+catch(Exception $e)
+{
+	$transaction->rollBack();
+}
+~~~
+
+<div class="revision">$Id: database.ar.txt 687 2009-02-17 02:57:56Z qiang.xue $</div>

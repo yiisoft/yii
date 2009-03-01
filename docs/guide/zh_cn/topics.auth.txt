@@ -1,0 +1,354 @@
+验证和授权(Authentication and Authorization)
+================================
+
+如果web页面的访问是受限于某些用户的，则需要Authentication和Authorization技术。Authentication 是验证某人表明的身份信息是否与系统相合。一般来说使用用户名和密码，当然也可能使用别的表明身份方式，录入智能卡，指纹等等。Authorization是找出被Authentication通过的用户是否允许操作特定的资源。一般的做法是找出此用户是否属于某个允许操作此资源的角色。
+
+Yii有一个内置的authentication/authorization (auth)框架，用来轻松实现这些功能。
+
+Yii auth framework 的核心一块是一个事先声明的*user application component*（用户应用部件），实现[IWebUser]接口的对象。此用户部件代表当前用户存储的身份信息。我们能够通过`Yii::app()->user`在任何地方来获取它。
+
+使用此用户部件，可以通过[CWebUser::isGuest]检查一个用户是否登陆。可以[login|CWebUser::login] （登陆）或者[logout|CWebUser::logout] （注销）一个用户；可以通过[CWebUser::checkAccess]检查此用户是否能够执行特定的操作;还可以获得此用户的[unique identifier|CWebUser::name]（唯一标识）和别的身份信息。
+
+定义身份类 （Defining Identity Class）
+-----------------------
+
+为了验证一个用户，我们定义一个有验证逻辑的身份类。这个身份类实现[IUserIdentity] 接口。不同的类可能实现不同的验证方式（例如：OpenID，LDAP）。最好是继承 [CUserIdentity]，此类是居于用户名和密码的验证方式。
+
+定义身份类的主要工作是实现[IUserIdentity::authenticate]方法。在用户会话中根据需要，身份类可能需要定义别的身份信息
+
+下面的例子，我们使用[Active
+Record](/doc/guide/database.ar)来验证提供的用户名、密码和数据库的用户表是否吻合。用[CBaseUserIdentity::getState] 和 [CBaseUserIdentity::setState] 来存取定义的title属性。因此在整个用户会话，我们通过`Yii::app()->user->getState('title')`来获取用户的title信息。
+
+~~~
+[php]
+class UserIdentity extends CUserIdentity
+{
+	public function authenticate()
+	{
+		$record=User::model()->findByAttributes(array('username'=>$this->username));
+		if($record===null)
+			$this->errorCode=self::ERROR_USERNAME_INVALID;
+		else if($record->password!==md5($this->password))
+			$this->errorCode=self::ERROR_PASSWORD_INVALID;
+		else
+		{
+			$this->title=$record->title;
+			$this->errorCode=self::ERROR_NONE;
+		}
+		return !$this->errorCode;
+    }
+
+	public function getTitle()
+	{
+		return $this->getState('title');
+	}
+
+	public function setTitle($value)
+	{
+		$this->setState('title',$value);
+	}
+}
+~~~
+
+> 提示: 缺省情况下，[CWebUser]用session来存储用户身份信息。如果允许基于cookie方式登录(通过设置
+[CWebUser::allowAutoLogin]为 true)，用户身份信息将被存放在cookie中。确记敏感信息不要存放(例如 password) 。
+
+登录和注销（Login and Logout）
+----------------
+
+使用身份类和用户部件，我们方便的实现登录和注销。
+
+~~~
+[php]
+// 使用提供的用户名和密码登录用户
+$identity=new UserIdentity($username,$password);
+if($identity->authenticate())
+	Yii::app()->user->login($identity);
+else
+	echo $identity->errorMessage;
+......
+// 注销当前用户
+Yii::app()->user->logout();
+~~~
+
+缺省情况下，用户将根据[session configuration](http://www.php.net/manual/en/session.configuration.php)完成一序列inactivity动作后注销。设置用户部件的[allowAutoLogin|CWebUser::allowAutoLogin]属性为true和在[CWebUser::login]方法中设置一个持续时间参数来改变这个行为。即使用户关闭浏览器，此用户将保留用户登陆状态时间为被设置的持续时间之久。前提是用户的浏览器接受cookies。
+
+~~~
+[php]
+// 保留用户登陆状态时间7天
+// 确保用户部件的allowAutoLogin被设置为true。
+Yii::app()->user->login($identity,3600*24*7);
+~~~
+
+访问控制过滤器（Access Control Filter）
+---------------------
+
+访问控制过滤器是检查当前用户是否能执行访问的controller action的初步授权模式。这种授权模式基于用户名，客户IP地址和访问类型。
+It is provided as a filter named as
+["accessControl"|CController::filterAccessControl].
+
+> 小贴士: 访问控制过滤器适用于简单的验证。需要复杂的访问控制，需要使用将要讲解到的基于角色访问控制（role-based access (RBAC)）.
+
+在控制器（controller）里重载[CController::filters]方法设置访问过滤器来控制访问动作(看
+[Filter](/doc/guide/basics.controller#filter) 了解更多过滤器设置信息)。
+
+~~~
+[php]
+class PostController extends CController
+{
+	......
+	public function filters()
+	{
+		return array(
+			'accessControl',
+		);
+	}
+}
+~~~
+
+在上面，设置的[access
+control|CController::filterAccessControl]过滤器将应用于`PostController`里每个动作。过滤器具体的授权规则通过重载控制器的[CController::accessRules]方法来指定。
+
+~~~
+[php]
+class PostController extends CController
+{
+	......
+	public function accessRules()
+	{
+		return array(
+			array('deny',
+				'actions'=>array('create', 'edit'),
+				'users'=>array('?'),
+			),
+			array('allow',
+				'actions'=>array('delete'),
+				'roles'=>array('admin'),
+			),
+			array('deny',
+				'actions'=>array('delete'),
+				'users'=>array('*'),
+			),
+		);
+	}
+}
+~~~
+
+上面设定了三个规则，每个用个数组表示。数组的第一个元素不是`'allow'`就是`'deny'`，其他的是名-值成对形式设置规则参数的。上面的规则这样理解：`create`和`edit`动作不能被匿名执行；`delete`动作可以被`admin`角色的用户执行；`delete`动作不能被任何人执行。
+
+访问规则是一个一个按照设定的顺序一个一个来执行判断的。和当前判断模式（例如：用户名、角色、客户端IP、地址）相匹配的第一条规则决定授权的结果。如果这个规则是`allow`，则动作可执行；如果是`deny`，不能执行；如果没有规则匹配，动作可以执行。
+
+> 提示：为了确保某类动作在没允许情况下不被执行，设置一个匹配所有人的`deny`规则在最后，类似如下：
+
+> ~~~
+> [php]
+> return array(
+>     // ... 别的规则...
+>     // 以下匹配所有人规则拒绝'delete'动作
+>     array('deny',
+>         'action'=>'delete',
+>     ),
+> );
+> ~~~
+> 因为如果没有设置规则匹配动作，动作缺省会被执行。
+
+访问规则通过如下的上下文参数设置：
+
+   - [actions|CAccessRule::actions]: 设置哪个动作匹配此规则。
+
+   - [users|CAccessRule::users]: 设置哪个用户匹配此规则。
+此当前用户的[name|CWebUser::name] 被用来匹配. 三种设定字符在这里可以用：
+
+	   - `*`: 任何用户，包括匿名和验证通过的用户。
+	   - `?`: 匿名用户。
+	   - `@`: 验证通过的用户。
+
+   - [roles|CAccessRule::roles]: 设定哪个角色匹配此规则。
+这里用到了将在后面描述的[role-based access control](#role-based-access-control)技术。In particular, the rule is applied if [CWebUser::checkAccess] returns true for one of the roles.提示，用户角色应该被设置成`allow`规则，因为角色代表能做某些事情。
+
+   - [ips|CAccessRule::ips]: 设定哪个客户端IP匹配此规则。
+
+   - [verbs|CAccessRule::verbs]: 设定哪种请求类型(例如：`GET`, `POST`)匹配此规则。
+
+### 授权处理结果（Handling Authorization Result）
+
+当授权失败，即，用户不允许执行此动作，以下的两种可能将会产生：
+
+   - 如果用户没有登录和在用户部件中配置了[loginUrl|CWebUser::loginUrl]，浏览器将重定位网页到此配置URL。	
+
+   - 否则一个错误代码401的HTTP例外将显示。
+
+当配置[loginUrl|CWebUser::loginUrl] 属性，可以用相对和绝对URL。还可以使用数组通过[CWebApplication::createUrl]来生成URL。第一个元素将设置[route](/doc/guide/basics.controller#route) 为登录控制器动作，其他为名-值成对形式的GET参数。如下，
+
+~~~
+[php]
+array(
+	......
+	'components'=>array(
+		'user'=>array(
+			// 这实际上是默认值
+			'loginUrl'=>array('site/login'),
+		),
+	),
+)
+~~~
+
+如果浏览器重定位到登录页面，而且登录成功，我们将重定位浏览器到引起验证失败的页面。我们怎么知道这个值呢？我们可以通过用户部件的[returnUrl|CWebUser::returnUrl] 属性获得。我们因此可以用如下执行重定向：
+
+~~~
+[php]
+Yii::app()->request->redirect(Yii::app()->user->returnUrl);
+~~~
+
+基于角色的访问控制（Role-Based Access Control）
+-------------------------
+
+基于角色的访问控制（ RBAC的）提供了一种简单而强大
+集中访问控制。请参阅[维基文章] （http://en.wikipedia.org/wiki/Role-based_access_control）了解更多详细的RBAC与其他较传统的访问控制模式的比较。 
+
+Yii实现通过其[authManager|CWebApplication::authManager] 应用程序组件分级RBAC的模式。在下面，我们首先介绍用于这模式的主要概念;我们然后描述了如何设定授权数据;最后，我们看看如何利用授权数据，以进行访问检查。
+
+### 概览（Overview）
+
+在Yii的RBAC的一个基本概念是*authorization item*（授权项目）。一个授权项目是一个做某事的许可（如创造新的博客发布，管理用户）。根据其粒度和targeted audience， 授权项目可分为*operations*（行动）,*tasks*（任务）和 *roles*（角色）。角色包括任务，任务包括行动，行动是许可是个原子。 例如，我们就可以有一个`administrator`角色，包括`post management`和`user management`任务。`user management` 任务可能包括`create user`，`update user`和`delete user`行动。为了更灵活，Yii也可以允许角色包括其他角色和动作，任务包括其他任务，行动包括其他行动。
+
+授权项目通过名称唯一确定。
+
+授权项目可能与*business rule*（业务规则）关联。业务规则是一块PHP代码，将在检查访问此项的相关时被执行。只有当执行返回true，用户将被视为有权限此项所代表的许可。举例来说，当定义一项行动`updatePost`，我们想添加业务规则来检查，用户ID是否和帖子作者ID一样，以便只有作者自己能够有权限更新发布。
+
+使用授权的项目，我们可以建立一个*authorization hierarchy*（授权等级）。在授权等级中如果项目`A`包括项目`B`，`A`是`B`的父亲（或说`A`继承`B`所代表的权限）。一个项目可以有多个子项目，也可以有多个父项目。因此，授权等级是一个partial-order图，而不是树型。在此等级中，角色项在最高，行动项在最底，任务项在中间。
+
+一旦有了授权等级，我们可以在此等级中分配角色给应用用户。一个用户，一旦被分配了角色，将
+有角色所代表的权限。例如，如果我们指定
+`administrator`角色给用户，他将拥有管理员权限
+其中包括`post management`和`user management` （和
+相应的操作，如`create user`） 。
+
+现在精彩的部分开始。在控制器的行动，我们要检查，当前用户是否可以删除指定的发布。利用RBAC等级和分配，可以很容易做到这一点。如下：
+
+
+~~~
+[php]
+if(Yii::app()->user->checkAccess('deletePost'))
+{
+	// 删除此发布
+}
+~~~
+
+### 配置授权管理器（Configuring Authorization Manager）
+
+在我们准备定义授权等级和执行访问检查前，我们需要配置
+[authManager|CWebApplication::authManager] 应用程序组件。Yii
+提供两种类型的授权管理器： [ CPhpAuthManager ]和
+[ CDbAuthManager ] 。前者使用的PHP脚本文件来存储授权
+数据，而后者的数据存储在数据库授权。当我们
+配置[authManager|CWebApplication::authManager]应用
+部件，我们需要指定哪些部件类和部件的初始值。例如，
+
+~~~
+[php]
+return array(
+	'components'=>array(
+		'db'=>array(
+			'class'=>'CDbConnection',
+			'connectionString'=>'sqlite:path/to/file.db',
+		),
+		'authManager'=>array(
+			'class'=>'CDbAuthManager',
+			'connectionID'=>'db',
+		),
+	),
+);
+~~~
+
+然后，我们便可使用`Yii::app()->authManager`访问[authManager|CWebApplication::authManager]应用部件。
+
+### 定义授权等级（Defining Authorization Hierarchy）
+
+定义授权等级涉及三个步骤：定义授权项目，建立授权项目关系项目，并分配角色给应用用户。[authManager|CWebApplication::authManager] 应用部件提供了一整套的API来完成这些任务。
+
+根据不同种类的项目调用下列方法之一定义授权项目：
+
+   - [CAuthManager::createRole]
+   - [CAuthManager::createTask]
+   - [CAuthManager::createOperation]
+
+一旦我们拥有一套授权项目，我们可以调用以下方法建立授权项目关系：
+
+   - [CAuthManager::addItemChild]
+   - [CAuthManager::removeItemChild]
+   - [CAuthItem::addChild]
+   - [CAuthItem::removeChild]
+
+最后，我们调用下列方法来分配角色项目给各个用户：
+
+   - [CAuthManager::assign]
+   - [CAuthManager::revoke]
+
+下面我们将展示一个例子是关于用所提供的API建立一个授权等级：
+
+~~~
+[php]
+$auth=Yii::app()->authManager;
+
+$auth->createOperation('createPost','create a post');
+$auth->createOperation('readPost','read a post');
+$auth->createOperation('updatePost','update a post');
+$auth->createOperation('deletePost','delete a post');
+
+$bizRule='return Yii::app()->user->id==$params["post"]->authID;';
+$task=$auth->createTask('updateOwnPost','update a post by author himself',$bizRule);
+$task->addChild('updatePost');
+
+$role=$auth->createRole('reader');
+$role->addChild('readPost');
+
+$role=$auth->createRole('author');
+$role->addChild('reader');
+$role->addChild('createPost');
+$role->addChild('updateOwnPost');
+
+$role=$auth->createRole('editor');
+$role->addChild('reader');
+$role->addChild('updatePost');
+
+$role=$auth->createRole('admin');
+$role->addChild('editor');
+$role->addChild('author');
+$role->addChild('deletePost');
+
+$auth->assign('reader','readerA');
+$auth->assign('author','authorB');
+$auth->assign('editor','editorC');
+$auth->assign('admin','adminD');
+~~~
+
+请注意，我们给` updateOwnPost `任务关联一个业务规则。在这个业务规则，我们只是检查目前的用户ID是否和指定的帖子的作者ID一样。当执行访问检查时，发布信息在开发者提供`$params`数组中。
+
+>信息：虽然上面的例子看起来冗长和枯燥，这主要是为示范的目的。开发者通常需要制定一些用户接口，以便最终用户可以更直观使用它来建立一个授权等级。
+
+### 访问检查（Access Checking）
+
+为了执行访问检查，我们得先知道
+授权项目的名字。例如，如果要检查当前用户是否可以创建一个发布，我们将检查是否有`createPost`行动的权限。然后，我们调用[ CWebUser ： ： checkAccess ]执行访问检查：
+
+~~~
+[php]
+if(Yii::app()->user->checkAccess('createPost'))
+{
+	// 创建发布
+}
+~~~
+
+如果授权规则关联了需要额外参数的商业规则，我们同样可以通过他们。例如，要检查如果用户是否可以更新发布，我们将编写
+
+~~~
+[php]
+$params=array('post'=>$post);
+if(Yii::app()->user->checkAccess('updateOwnPost',$params))
+{
+	// 更新发布
+}
+~~~
+
+<div class="revision">$Id: topics.auth.txt 564 2009-01-21 22:07:10Z qiang.xue $</div>

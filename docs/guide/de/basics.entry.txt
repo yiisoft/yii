@@ -1,0 +1,37 @@
+Eingangsscript
+==============
+
+Zu Beginn wird der Benutzer-Request vom Eingangs- oder Lade-Script bearbeitet.
+Dieses PHP-Script ist das einzige, das der Endbenutzer per Request ausführen kann.
+
+In den meisten Fällen enthält das Eingangsscript einer Yii-Anwendung einfachen Code 
+wie diesen:
+
+~~~
+[php]
+// Folgende Zeile im Produktivmodus entfernen:
+defined('YII_DEBUG') or define('YII_DEBUG',true);
+// Yii-Startdatei einbinden
+require_once('path/to/yii/framework/yii.php');
+// Instanz einer Applikation erzeugen und starten
+$configFile='path/to/config/file.php';
+Yii::createWebApplication($configFile)->run();
+~~~
+
+Das Script bindet zunächst die Startdatei des Yii-Frameworks `yii.php` ein.
+Es erzeugt dann eine Instanz einer Web-Applikation mit der angegebenen
+Konfiguration und startet diese.
+
+Debug-Modus
+-----------
+
+Eine Yii-Anwendung kann entweder im Debug- oder im Produktivmodus betrieben
+werden, je nach Wert der Konstante `YII_DEBUG`. Standardmäßig ist diese
+Konstante als `false` definiert, was Produktivmodus bedeutet. Um den
+Debug-Modus zu starten, definieren Sie diese Konstante als `true`, bevor 
+sie die Datei `yii.php` einbinden. Eine Anwendung im Debug-Modus zu betreiben
+ist weniger effizient, da hier viele interne Log-Einträge gehalten werden. 
+In der Entwicklungsphase ist der Debug-Modus allerdings hilfreich, da er
+im Fehlerfall umfangreiche Debug-Informationen liefert.
+
+<div class="revision">$Id: basics.entry.txt 162 2008-11-05 12:44:08Z weizhuo $</div>

@@ -1,0 +1,27 @@
+入口脚本
+========
+
+入口脚本是在前期处理用户请求的引导脚本。它是唯一一个最终用户可以直接请求运行的 PHP 脚本。
+
+大多数情况下，一个 Yii 应用的入口脚本只包含如下几行：
+
+~~~
+[php]
+// 部署到正式环境时去掉下面这行
+defined('YII_DEBUG') or define('YII_DEBUG',true);
+// 包含 Yii 引导文件
+require_once('path/to/yii/framework/yii.php');
+// 建立应用实例并运行
+$configFile='path/to/config/file.php';
+Yii::createWebApplication($configFile)->run();
+~~~
+
+这段代码首先包含了 Yii 框架的引导文件 `yii.php`，然后它配合指定的配置文件建立了一个 Web 应用实例并运行。
+
+
+调试模式
+--------
+
+一个 Yii 应用能够根据 YII_DEBUG 常量的指示以调试模式或者生产模式运行。默认情况下该常量定义为 false，代表生产模式。要以调试模式运行，在包含 `yii.php` 文件前将此常量定义为 true。应用以调试模式运行时效率较低，因为它会生成许多内部日志。从另一个角度来看，发生错误时调试模式会产生更多的调试信息，因而在开发阶段非常有用。
+
+<div class="revision">$Id: basics.entry.txt 162 2008-11-05 12:44:08Z weizhuo $</div>

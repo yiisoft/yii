@@ -1,0 +1,225 @@
+URL-Management
+==============
+
+Für ein umfassendes URL-Management sind zwei Seiten zu berücksichtigen. Zum
+einen muss die Anwendung bei einem eingehenden Benutzer-Request die vorliegende 
+URL *auswerten*, also in für sie verständliche Parameter übersetzen. Zum anderen muss 
+man mit der Anwendung auch ebensolche URLs *erzeugen* können. Bei einer 
+Yii-Applikation werden diese Aufgaben von [CUrlManager] übernommen.
+
+
+Erstellen von URLs
+------------------
+
+Obwohl man in Views statische URLs verwenden kann, bleibt man meist flexibler,
+wenn man sie dynamisch erzeugt:
+
+~~~
+[php]
+$url=$this->createUrl($route,$params);
+~~~
+
+wobei `$this` sich auf die Controller-Instanz bezieht. `$route` gibt die
+[Route](/doc/guide/basics.controller#route) des Requests an und `$params` eine
+Liste von `GET`-Parametern, die an die URL angehängt werden sollen.
+
+Standardmässig werden mit [createUrl|CController::createUrl] erstellte URLs im
+sogenannten `get`-Format erzeugt. Für die Werte `$route='post/read'` und
+`$params=array('id'=>100)` würden wir zum Beispiel die folgende URL erhalten:
+
+~~~
+/index.php?r=post/read&id=100
+~~~
+
+wobei Parameter im Anfragestring (der Teil hinter dem ?) als Liste von `Name=Wert` Elementen
+enthalten sind, die durch eine UND-Zeichen (&) getrennt werden. Der Parameter
+`r` gibt die angeforderte [Route](/doc/guide/basics.controller#route) an.
+Dieses URL-Format ist nicht sehr anwenderfreundlich, da es etliche
+Sonderzeichen enthält. 
+
+Mit dem sogenannten `path`-Format (Pfad-Format) können wir die obige URL etwas
+sauberer und selbsterklärender machen. Es entfernt den Anfragestring 
+und bringt die GET-Parameter in der Pfadangabe der URL unter:
+
+~~~
+/index.php/post/read/id/100
+~~~
+
+Um das URL-Format zu ändern, sollten wir die Anwendungskomponente
+[urlManager|CWebApplication::urlManager] konfigurieren, so dass
+[createUrl|CController::createUrl] automatisch das neue Format verwendet
+und die Anwendung die neuen URLs auch richtig interpretiert:
+
+~~~
+[php]
+array(
+	......
+	'components'=>array(
+		......
+		'urlManager'=>array(
+			'urlFormat'=>'path',
+		),
+	),
+);
+~~~
+
+Beachten Sie, dass wir die Klasse für die
+[urlManager|CWebApplication::urlManager]-Komponente nicht angeben müssen, da
+sie von [CWebApplication] bereits mit dem Wert [CUrlManager] vorbelegt wurde.
+
+> Tip|Tipp: URLs die mit [createUrl|CController::createUrl] erzeugt werden,
+sind relativ. Um absolute URLs zu erhalten, können wir ihnen entweder
+`Yii::app()->hostInfo` voranstellen, oder
+[createAbsoluteUrl|CController::createAbsoluteUrl] aufrufen. 
+
+Benutzerfreundliche URLs
+------------------------
+
+Wenn wir das URL-Format `path` verwenden, können wir noch
+anwenderfreundlichere URLs erhalten, indem wir zusätzlich einige URL-Regeln
+angeben. Zum Beispiel können wir eine kurze URL wie `/post/100` statt der
+langen `/index.php/post/read/id/100` erzeugen. URL-Regeln werden von
+[CUrlManager] sowohl zum Erstellen als auch zum Auswerten von URLs verwendet.
+
+Um URL-Regeln anzugeben, müssen wir die Eigenschaft [rules|CUrlManager::rules] 
+der [urlManager|CWebApplication::urlManager]-Komponente konfigurieren:::
+
+~~~
+[php]
+array(
+	......
+	'components'=>array(
+		......
+		'urlManager'=>array(
+			'urlFormat'=>'path',
+			'rules'=>array(
+				'pattern1'=>'route1',
+				'pattern2'=>'route2',
+				'pattern3'=>'route3',
+			),
+		),
+	),
+);
+~~~
+
+Die Regeln werden als Array von Suchmuster-Routen-Paaren angegeben, bei denen
+jeder Eintrag sich auf eine einzelne Regel bezieht. Das Suchmuster (engl.:
+pattern) einer Regel muss ein gültiger regulärer Ausdruck (engl.: regular
+expression) ohne Trennzeichen und Modifikatoren sein. Es wird zum Auffinden
+der Pfadangaben in einer URL verwendet. Die
+[Route](/doc/guide/basics.controller#route) sollte einer gültigen
+Controller-Route entsprechen.
+
+Eine Regel kann mit einigen GET-Parametern verknüpft werden. Diese
+GET-Parameter erscheinen innerhalb der Regel in diesem Format: 
+
+~~~
+&lt;ParamName:ParamMuster&gt;
+~~~
+
+wobei `ParamName` den Namen des GET-Parameters angibt und das optionale 
+`ParamMuster` einen regulären Ausdruck, der für das Auffinden dieses
+Parameters verwendet werden soll. Beim Erstellen einer URL werden diese
+Parameterplatzhalter durch die entsprechenden Parameterwerte ersetzt. Und beim
+Auswerten einer URL werden die entsprechenden GET-Parameter mit den gefundenen
+Werten gefüllt.
+
+Sehen wir uns einige Beispiele an, um zu zeigen, wie URL-Regeln funktionieren.
+Nehmen wir an, wir verwenden diese drei Regeln:
+
+~~~
+[php]
+array(
+	'posts'=>'post/list',
+	'post/<id:\d+>'=>'post/read',
+	'post/<year:\d{4}>/<title>'=>'post/read',
+)
+~~~
+
+   - Rufen wir `$this->createUrl('post/list')` auf, erzeugt dies
+`/index.php/posts`. Die erste Regel wird angewendet.
+
+   - Rufen wir `$this->createUrl('post/read',array('id'=>100))`, erhalten wir
+`/index.php/post/100`. Die zweite Regel wird angewendet.
+
+   - Rufen wir `$this->createUrl('post/read',array('year'=>2008,
+'title'=>'a sample post'))` auf, erzeugt dies
+`/index.php/post/2008/a%20sample%20post`. Die dritte Regel wird angewendet.
+
+   - Rufen wir `$this->createUrl('post/read')` auf, liefert dies 
+`/index.php/post/read`. Keine der Regeln wird angewendet.
+
+Zusammenfassend kann man sagen, dass beim Aufruf von
+[createUrl|CController::createUrl] anhand der übergebenen Route- und GET-Parameter 
+entschieden wird, welche Regel zum Einsatz kommt. Eine Regel
+wird dann zur Erzeugung der URL verwendet, wenn jeder Parameter aus der Regel 
+in den an [createUrl|CController::createUrl] übergebenen GET-Parametern
+vorgefunden wird und außerdem die Route der Regel mit der übergebenen 
+Route übereinstimmt.
+
+Wenn an [createUrl|CController::createUrl] mehr GET-Parameter übergeben
+wurden, als in einer Regel vorkommen, tauchen die zusätzlichen Parameter im
+Anfragestring auf. Rufen wir zum Beispiel
+`$this->createUrl('post/read', array('id'=>100, 'year'=>2008))` auf, liefert uns
+das `/index.php/post/100?year=2008`. Um diese zusätzlichen Parameter 
+in der Pfadangabe erscheinen zu lassen, sollten wir `/*` an eine Regel
+anhängen. Somit wird diese URL mit der Regel `post/<id:\d+>/*` zu
+`/index.php/post/100/year/2008`.
+
+
+Wie erwähnt dienen URL-Regeln auch zum Auswerten von angeforderten URLs. 
+Normalerweise ist das der umgekehrte Fall zum Erstellen einer URL. Wenn ein
+Anwender zum Beispiel `/index.php/post/100` anfordert, kommt die zweite der
+obigen Regeln zum Einsatz. Sie löst die Route zu `post/read` und die
+GET-Parameter zu `array('id'=>100)` (erreichbar über `$_GET`) auf. 
+
+> Note|Hinweis: Der Einsatz von URL-Regeln verringert die Leistungsfähigkeit 
+einer Anwendung. Das liegt daran, dass [CUrlManager] beim Auswerten einer URL
+für jede Regel prüft, ob sie auf die Anfrage passt, bis eine passende 
+Regel gefunden wurde. Eine Webanwendung mit hohem Traffic-Aufkommen sollte daher die
+Anzahl ihrer URL-Regeln minimieren.
+
+### Verbergen von `index.php`
+
+Wir können eine weitere Maßnahme zum Bereinigen unserer URLs durchführen: das
+Verbergen des Eingangsscripts `index.php` in der URL. Dazu müssen wir sowohl
+den Webserver als auch die [urlManager|CWebApplication::urlManager]-Komponente
+konfigurieren.
+
+Zunächst richten wir den Webserver so ein, dass eine URL, bei der das
+Eingangsscript fehlt, immer noch vom Eingangsscript bearbeitet wird. Im Falle
+des [Apache HTTP-Servers](http://httpd.apache.org/) erreichen wir das, indem
+wir die Rewrite-Engine (sinngem.: Umschreibemaschine) einschalten und einige
+Rewrite-Rules (sinngem.: Umschreiberegeln) definieren. Beides kann in einer
+`.htaccess`-Datei erfolgen, die man in das Verzeichnis mit dem Eingangsscript
+ablegt. Hier ein Beispiel:
+
+~~~
+Options +FollowSymLinks
+IndexIgnore */*
+RewriteEngine on
+
+# Verwende Verzeichnis oder Datei, wenn sie vorhanden sind
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Leite andernfalls auf index.php um
+RewriteRule . index.php
+~~~
+
+Dann setzen wir die Eigenschaft [showScriptName|CUrlManager::showScriptName]
+in der [urlManager|CWebApplication::urlManager]-Komponente auf `false`.
+
+Jetzt erhalten wir beim Aufruf von `$this->createUrl('post/read', array('id'=>100))` 
+die URL `/post/100`. Und noch wichtiger: Diese URL wird auch korrekt von
+unserer Anwendung erkannt.
+
+### URL-Endung vortäuschen
+
+Wir können auch Endungen an unsere URLs anhängen. Aus `/post/100` können wir
+zum Beispiel `/post/100.html` machen. Das sieht dann noch mehr wie eine URL zu
+einer statischen Webseite aus. Setzen Sie dazu einfach die gewünschte Endung
+über die Eigenschaft [urlSuffix|CUrlManager::urlSuffix] der
+[urlManager|CWebApplication::urlManager]-Komponente.
+
+<div class="revision">$Id: topics.url.txt 229 2008-11-16 21:14:59Z qiang.xue $</div>

@@ -1,0 +1,220 @@
+URLの取り扱い
+============
+
+Webアプリケーションの包括的なURLの取り扱いには2つの側面があります。1つ目は
+ユーザーのURLからのリクエストをアプリケーションが理解できる形に解析する事。
+2つ目はWebアプリケーションによって解析されるURLの作成方法を提供することで、
+この二つは[CUrlManager]の手助けによって行われます。
+
+URLの作り方
+-------------
+
+URLはコントローラービューの中に直接コーディングしてしまう事も出来ますが、
+次の様に動的な書き方をすることで融通が利く場合が多いでしょう:
+
+~~~
+[php]
+$url=$this->createUrl($route,$params);
+~~~
+
+`$this`はコントローラのインスタンス;
+`$route`はリクエストの[route](/doc/guide/basics.controller#route)
+そして`$param`はURLに付加される`GET`パラメータです。
+
+デフォルトでは、[createUrl|CController::createUrl] によって作成されるURLは
+いわゆる`get`クエリの書式になります。例えば、 `$route='post/read'` かつ
+ `$params=array('id'=>100)` の場合のURLは以下の通りです:
+
+~~~
+/index.php?r=post/read&id=100
+~~~
+
+GETクエリの書式は`パラメータ名=値`の一組を&で繋げた形になっていて、
+ `r=` の部分はリクエストされた [route]
+(/doc/guide/basics.controller#route) を示しています。このURLの書式は
+いくつかの言葉ではない文字を含んでいる為、あまりユーザーフレンドリーとは
+言えないでしょう。
+
+この様なURLを、GETパラメータをURLのパスへ置き換えてクエリ文字列を除いた
+`パス`フォーマットと呼ばれる形式にする事で分かり易い形式へ変更できます:
+
+~~~
+/index.php/post/read/id/100
+~~~
+
+URLの書式を変えるには、アプリケーションコンポーネントの
+[urlManager|CWebApplication::urlManager]を以下で記述する様に設定します。
+設定によって[createUrl|CController::createUrl]は自動的に新しい書式の
+URLを作成する様になり、アプリケーションは作成されたURLを正しく認識
+出来る様になります:
+
+~~~
+[php]
+array(
+    ......
+    'components'=>array(
+        ......
+        'urlManager'=>array(
+            'urlFormat'=>'path',
+        ),
+    ),
+);
+~~~
+
+[urlManager|CWebApplication::urlManager]のクラスは[CWebApplication]の
+[CurlManager]ですでに宣言済みなので明記する必要が無い点に注意して下さい。
+
+> Tip|ヒント: [createUrl|CController::createUrl]で作成されたURLは相対URLです。
+絶対URLが必要な時は、`Yii::app()->hostInfo`をプリフィックスにするか
+[createAbsoluteUrl|CController::createAbsoluteUrl]をコールします。
+
+ユーザーフレンドリーなURL
+------------------
+
+`パス`がURLに用いられる場合、いくつかのルールを指定する事でURLをもっと
+ユーザーフレンドリーにできます。例えば`/index.php/post/read/id/100`
+といった長いURLの代わりに`/post/100`の様な短いURLを作成することができます。
+URLのルールの作成と解析は両方とも[CUrlManager]によって行われます。
+
+URLの規則を指定するには、アプリケーションコンポーネント
+[urlManager|CWebApplication::urlManager] の[rules|CUrlManager::rules]
+プロパティを設定する必要があります:
+
+~~~
+[php]
+array(
+    ......
+    'components'=>array(
+        ......
+        'urlManager'=>array(
+            'urlFormat'=>'path',
+            'rules'=>array(
+                'pattern1'=>'route1',
+                'pattern2'=>'route2',
+                'pattern3'=>'route3',
+            ),
+        ),
+    ),
+);
+~~~
+
+rulesはパターン-ルートの組み合わせから成る配列によって指定されます。
+配列の一つ一つは単独のルールから成り立っています。ruleのパターンは、
+デリミタ(区切り文字)とモデファイア（修飾子のオプション)を取り除いた形の
+正規表現パターンでなければなりません。このパターンは、パスインフォに
+マッチさせる為に使われます。そして、
+[route](/doc/guide/basics.controller#route) は正しいコントローラのルート
+を示していなければなりません。
+
+一つ一つのruleは、いくつかのGETパラメータと結びつける事が出来ます。
+その場合の書式は以下の様になります:
+
+~~~
+&lt;ParamName:ParamPattern&gt;
+~~~
+
+`ParamName`にはGETパラメータの名前、オプションの`ParamPattern`は
+正規表現でGETパラメータの値にマッチさせた物が入る必要があります。
+URLを作成する時には、この正規表現に結びついたGETパラメータの値によって
+置き換えられたURLが作成されます。 URLが解析される時は、パターンの
+解析後の結果がGETパラメータに入ります。
+
+では、URLのルールがどうやって動くのか試してみましょう。ここでは3つの
+ルールがあると仮定します:
+
+~~~
+[php]
+array(
+    'posts'=>'post/list',
+    'post/<id:\d+>'=>'post/read',
+    'post/<year:\d{4}>/<title>'=>'post/read',
+)
+~~~
+   - `$this->createUrl('post/list')` をコールした場合、1番目のルールが
+適用されて `/index.php/posts` が作成されます。
+
+   - `$this->createUrl('post/read', array('id'=>100))`をコールした場合、
+2番目のルールが適用されて `/index.php/post/100` が作成されます。
+
+   - `$this->createUrl('post/read', array('year'=>2008, 'title'=>'a 
+sample post'))` をコールした場合、3番目のルールが適用される事になり 
+`/index.php/post/2008/a%20sample%20post` が作成されます。
+
+   - `$this->createUrl('post/read')`をコールした場合、どのルールも適用
+されないので `/index.php/post/read` が作成されます。
+
+
+要点をまとめますと、[createUrl|CController::createUrl] でURLを
+作成した時、createUrlメソッドに渡されたルートパラメータとGETパラメータの
+配列は、どの URLのルールが適用されるかを決定するために用いられます。
+もしルールで定められたパラメータが全て[createUrl|CController::createUrl]に
+渡されたGETパラメータ配列に結びついていて、そしてもし、ルールで定められた
+ルートと、メソッドに渡されたルートパラメータがマッチしていれば、そのルール
+はURLの作成に適用されるということです。
+
+もし、[createUrl|CController::createUrl] メソッドに、ルールで定められた
+以上のパラメータが渡された場合、追加のパラメータはクエリ文字列として表示
+されます。例えば先ほどのルールと同じ条件の場合に、`$this->createUrl(
+'post/read', array('id'=>100, 'year'=>2008))`とした場合、URLは 
+`/index.php/post/100?year=2008`になります。これらのルールで定めた以上の
+追加のパラメータもスラッシュ区切りのパスインフォ形式のURLとして扱いたい場合
+`/*`を追加します。つまりこの場合は、ルールを `post/<id:\d+>/*` とすることで
+`/index.php/post/100/year/2008` というURLを作成させるようにできます。
+
+ここまでで述べた様に、URLのルールの目的のもう一つの側面は、リクエスト
+されたURLを解析する事です。これは当然ですがURLの作成の逆の動作です。例えば
+ユーザが`/index.php/post/100` というURLをリクエストした時、2番目のルールが
+適用される事になり、`post/read` のルートが呼ばれ、GETパラメータの中には
+`array('id'=>100)`というパラメータ（`$_GET`でアクセス可能）が入ります。
+
+> Note|注意: 正規表現によるURLルールの使用はパフォーマンスのグレードを下げます。
+なぜなら、URLの解析に[CUrlManager]がマッチするルールを探そうとする為です。
+その為、通信量の大きいWebアプリケーションの作成時は、URLルールの作成を
+最小限に留めるべきです。
+
+### `index.php`の隠し方
+
+URLをもっと綺麗にするために、もう一つの方法があります。例えば、
+エントリースクリプトの`index.php`をURLから隠すことです。この方法は
+[urlManager|CWebApplication::urlManager] アプリケーションコンポーネントの他
+にWebサーバの設定が必要になります。
+
+URL からエントリースクリプトが消えても、エントリースクリプトを扱い続ける
+為には、まずはじめにWebサーバーの設定が必要です。 [Apache HTTPserver]
+(http://httpd.apache.org/)の場合、URLリライティングエンジンを有効化し、
+幾つかのリライティングルールを指定します。どちらも.`.htaccess`ファイルを
+エントリースクリプトと同じディレクトリ上に配置することで実現できます。
+以下が例です:
+
+~~~
+Options +FollowSymLinks
+IndexIgnore */*
+RewriteEngine on
+
+# ディレクトリ名やファイル名が実在する場合は変換を行いません。
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# それ以外の場合は、index.phpへ進みます。
+RewriteRule . index.php
+~~~
+
+この場合は、[urlManager|CWebApplication::urlManager]コンポーネントの
+[showScriptName|CUrlManager::showScriptName]プロパティを`false`に設定
+します。
+
+さあ、これでもし`$this->createUrl('post/read',array('id'=>100))`を
+コールした場合、`/post/100` というURLが作成される様になりました。ここで
+重要な点は、このURLがWebアプリケーションにも正しく認識されるものである
+という事です。
+
+### URLにおける擬似的な拡張子
+
+URLに拡張子を付加することができます。例えば、`/post/100` の代わりに 
+`/post/100.html` の形にする事ができます。これによって、URLをより静的なURLの
+様に見せることができます。そうする場合は単純に、
+[urlManager|CWebApplication::urlManager] コンポーネントの
+[urlSuffix|CUrlManager::urlSuffix] プロパティを使用したい拡張子に設定する
+だけです。
+
+<div class="revision">$Id: topics.url.txt 229 2008-11-16 21:14:59Z qiang.xue $</div>

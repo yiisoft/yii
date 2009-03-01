@@ -1,0 +1,96 @@
+Konsolenanwendungen
+===================
+
+Konsolenanwendungen werden in einer Webanwendung hauptsächlich für
+Offline-Arbeiten verwendet, wie z.B. zur Code-Generierung, zum Erstellen eines
+Suchindex, zum Verschicken von E-Mails etc. Yii bietet ein Framework zur
+systematischen objektorientierten Erstellung von Konsolenanwendungen.
+
+Jeder Konsolenbefehl wird in Yii durch ein [Kommando|CConsoleCommand]
+repräsentiert. Eine [Konsolenanwendung|CConsoleApplication] wird wiederum
+verwendet, um einen Aufruf von der Kommandozeile an das entsprechende Kommando
+weiterzuleiten. In einem Eingangsscript wird eine Instanz der Applikation
+erstellt. Um einen Konsolenbefehl aufzurufen, führen wir an der Kommandozeile
+einfach folgenden Befehl aus:
+
+~~~
+php eingangsScript.php KommandoName Param0 Param1 ...
+~~~
+
+`KommandoName` bezieht sich hier auf den Namen des Kommandos wobei
+Groß-/Kleinschreibung nicht berücksichtigt wird.  `Param0`, `Param1` usw.
+sind Parameter, die an die Instanz des Kommandos übergeben werden.
+
+Das Eingangsscript einer Konsolenanwendung sieht ähnlich wie das einer
+Webanwendung aus:
+
+~~~
+[php]
+defined('YII_DEBUG') or define('YII_DEBUG',true);
+// Einbinden der Yii-Startdatei
+require_once('pfad/zum/yii/framework/yii.php');
+// Erstellen und Starten der Applikations-Instanz
+$configFile='pfad/zur/config/datei.php';
+Yii::createConsoleApplication($configFile)->run();
+~~~
+
+Danach müssen wir von [CConsoleCommand] abgeleitetete Kommandoklassen
+erstellen. Jede Kommandoklasse sollte wie das entsprechende Kommando heißen,
+ergänzt um `Command`. So würde z.B. eine Klasse `EmailCommand` ein Kommando 
+`email` zu definieren. Alle Kommandoklassen sollten
+in einem  Unterverzeichnis `commands` im
+[Stammverzeichnis](/doc/guide/basics.application#application-base-directory)
+der Anwendung abgelegt werden.
+
+> Tip|Tipp: Verwendet man [CConsoleApplication::commandMap], können
+Kommandoklassen auch anderen Namenskonventionen folgen und an anderen Orten
+liegen.
+
+Im Wesentlichen bedeuted das Schreiben einer Kommandklasse, die Methode
+[CConsoleCommand::run] zu implementieren. Kommandozeilenparamter
+werden als Array an diese Methode übergeben. Hier ein Beispiel:
+
+~~~
+[php]
+class EmailCommand extends CConsoleCommand
+{
+	public function run($args)
+	{
+		$receiver=$args[0];
+		// Email an $receiver senden
+	}
+}
+~~~
+
+In einer Konsolenanwendung können wir jederzeit über `Yii::app()` auf die 
+Anwendungsinstanz zugreifen. Eine Konsolenanwendung kann genauso wie eine
+Webanwendung konfiguriert werden. Wir können zum Beispiel eine
+Anwendungskomponente `db` konfigurieren, um auf eine Datenbank zuzugreifen.
+Die Konfiguration liegt in der Regel als PHP-Datei vor, deren Pfad an den
+Konstruktor der Konsolenanwendung übergeben wird (bzw. im Eingangsscript an
+[createConsoleApplication|YiiBase::createConsoleApplication]).
+
+Verwendung des `yiic`-Befehls
+-----------------------------
+
+Wir haben den `yiic`-Befehl bereits verwendet, um unsere [erste Yii-Anwendung
+zu erstellen](/doc/guide/quickstart.first-app). Tatsächlich ist der `yiic`-Befehl 
+eine Konsolenanwendung mit dem Eingangsscript `framework/yiic.php`. Mit `yiic`
+können wir das Grundgerüst einer Webanwendung anlegen, Controller- und
+Modelklassen erstellen, Code für CRUD-Operationen erzeugen, zu übersetzende
+Textnachrichten extrahieren etc. 
+
+Wir können `yiic` um eigene Kommandos ergänzen. Dazu sollten wir zunächst
+das Gerüst für eine Webanwendung erstellen, wie im Kapitel [Erstellen der
+ersten Yii-Anwendung](/doc/guide/quickstart.first-app) beschrieben. Der Befehl
+`yiic webapp` erzeugt zwei Dateien im `protected`-Verzeichnis: `yiic` und
+`yiic.bat`. Das sind *lokale* Versionen des `yiic`-Befehls, die speziell für
+diese Webanwendung erstellt wurden.
+
+Wir können unsere eigenen Kommandos im `protected/commands`-Verzeichnis
+ablegen. Wenn wir den `yiic`-Befehl ausführen, sehen wir, dass neben den
+normalen auch unsere Befehle auftauchen. Wir können auch Kommandos für den
+Einsatz mit `yiic shell` erstellen. Dazu muss unsere Kommandoklasse im
+Verzeichnis `protected/commands/shell` abgelegt werden.
+
+<div class="revision">$Id: topics.console.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>

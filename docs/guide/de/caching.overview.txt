@@ -1,0 +1,77 @@
+Caching
+=======
+
+Caching (sinngem.: Zwischenspeicherung) ist eine günstige und
+wirkungsvolle Methode, um die Leistungsfähigkeit einer Webanwendung zu
+erhöhen. Indem relativ statische Daten im Cache gespeichert und bei Bedarf
+auch von dort ausgeliefert werden, sparen wir die Zeit, um diese Daten
+erneut zu generieren.
+
+Der Einsatz eines Caches besteht in Yii im Wesentlichen aus Zugriffen auf
+die Cache-Komponente der Anwendung. In der folgenden Konfiguration
+wird eine Cache-Komponente festgelegt, die Memcache mit zwei Cache-Servern
+verwendet.
+
+~~~
+[php]
+array(
+	......
+	'components'=>array(
+		......
+		'cache'=>array(
+			'class'=>'system.caching.CMemCache',
+			'servers'=>array(
+				array('host'=>'server1', 'port'=>11211, 'weight'=>60),
+				array('host'=>'server2', 'port'=>11211, 'weight'=>40),
+			),
+		),
+	),
+);
+~~~
+
+Wenn die Applikation läuft, kann über `Yii::app()->cache` auf die
+Cache-Komponente zugegriffen werden.
+
+Yii bietet verschiedene Cache-Komponenten, die Cache-Daten auf
+unterschiedlichen Medien speichern kann. Die [CMemCache]-Komponente zum
+Beispiel, kapselt die memcache-Erweiterung von PHP und verwendet RAM-Speicher
+als Medium für den Cache-Speicher. Und die [CDbCache]-Komponente speichert
+gecachte Daten in einer Datenbank. Hier eine Übersicht der verfügbaren 
+Cache-Komponenten:
+
+   - [CMemCache]: Verwendet die
+	 [memcache-Erweiterung](http://www.php.net/manual/en/book.memcache.php)
+von PHP.
+
+   - [CApcCache]: Verwendet die
+[APC-Erweiterung](http://www.php.net/manual/en/book.apc.php) von PHP
+
+   - [CXCache]: Verwendet die
+[XCache-Erweiterung](http://xcache.lighttpd.net/) von PHP.
+Beachten Sie, dass diese Komponente seit Version 1.0.1 zur Verfügung steht.
+
+   - [CDbCache]: Verwendet eine Datenbanktabelle zum Speichern gecachter
+Daten. Standardmäßig wird eine SQLite3-Datenbank im runtime-Verzeichnisus
+angelegt und verwendet. Sie können auch explizit eine Datenbank angeben, indem
+Sie die [connectionID|CDbCache::connectionID]-Eigenschaft konfigurieren.
+
+> Tip|Tipp: Da alle Cache-Komponenten von der selben Basisklasse [CCache]
+abgeleitet sind, kann auf eine andere Cache-Art umgestellt werden, ohne den
+Code verändern zu müssen, der den Cache verwendet.
+
+Caching kann auf unterschiedlichen Ebenen eingesetzt werden. Auf unterster
+Ebene verwenden wir einen Cache zum Speichern von Daten, wie z.B. einer
+Variable. Man nennt dies auch *Datencaching* (engl.: data caching). 
+Eine Ebene höher speichern wir ganze Seitenabschnitte, die von einem View-Teil
+generiert wurden, im Cache. Und auf der höchsten Ebene speichern wir eine
+ganze Seite im Cache und liefern sie bei Bedarf von dort aus.
+
+In den nächsten Teilabschnitten gehen wir auf den Einsatz eines Caches auf
+jeder dieser Ebenen ein.
+
+> Note|Hinweis: Per Definition ist ein Cache ein vergängliches Speichermedium.
+Die Existenz von gecachten Daten wird nicht garantiert, selbst wenn diese
+niemals verfallen. Benutzern Sie daher einen Cache niemals als beständigen
+Speicher (speichern Sie dort also z.B. keine Sessiondaten).
+
+<div class="revision">$Id: caching.overview.txt 723 2009-02-21 18:14:05Z qiang.xue $</div>

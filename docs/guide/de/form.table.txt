@@ -1,0 +1,72 @@
+﻿Erfassen tabellarischer Eingaben
+================================
+
+Manchmal wollen wir eine ganze Reihe von Benutzereingaben erfassen, d.h. der Benutzer
+kann Informationen für mehrere Model-Instanzen auf einmal eingeben und
+abschicken. Wir nennen dies *tabellarische Eingabe*, weil die Eingabefelder oft
+als HTML-Tabelle dargestellt werden.
+
+Um mit tabellarischen Eingaben zu arbeiten, müssen wir zuerst ein Array mit
+Model-Instanzen erstellen oder befüllen, je nachdem, ob wir Daten einfügen oder 
+aktualisieren wollen. Dann beziehen wir die vom Benutzer eingegebenen Daten
+von der `$_POST`-Variable und ordnen sie den einzelnen Model-Instanzen zu. 
+Im Unterschied zum Vorgehen bei einer einzelnen Model-Instanz, beziehen wir
+die Daten mit `$_POST['ModelClass'][$i]` statt `$_POST['ModelClass']`.
+
+~~~
+[php]
+public function actionBatchUpdate()
+{
+	// Zu aktualisierende Datensätze abfragen
+    // Es wird davon ausgegangen, dass jeder Datensatz vom 
+	// Typ 'Item' ist 
+	$items=$this->getItemsToUpdate();
+	if(isset($_POST['Item']))
+	{
+		$valid=true;
+		foreach($items as $i=>$item)
+		{
+			if(isset($_POST['Item'][$i]))
+				$item->attributes=$_POST['Item'][$i];
+			$valid=$valid && $item->validate();
+		}
+		if($valid)  // alle Daten sind gültig
+			// ...Tu hier etwas
+	}
+	// Zeigt den View an und erfasst tabellarische Eingabe
+	$this->render('batchUpdate',array('items'=>$items));
+}
+~~~
+
+Nachdem die Action bereit steht, müssen wir am View `batchUpdate`
+arbeiten, um die Eingabefelder in einer HTML-Tabelle anzuzeigen.
+
+~~~
+[php]
+<div class="yiiForm">
+<?php echo CHtml::form(); ?>
+<table>
+<tr><th>Name</th><th>Preis</th><th>Anzahl</th><th>Beschreibung</th></tr>
+<?php foreach($items as $i=>$item): ?>
+<tr>
+<td><?php echo CHtml::activeTextField($item,"name[$i]"); ?></td>
+<td><?php echo CHtml::activeTextField($item,"price[$i]"); ?></td>
+<td><?php echo CHtml::activeTextField($item,"count[$i]"); ?></td>
+<td><?php echo CHtml::activeTextArea($item,"description[$i]"); ?></td>
+</tr>
+<?php endforeach; ?>
+</table>
+
+<?php echo CHtml::submitButton('Speichern'); ?>
+</form>
+</div><!-- yiiForm -->
+~~~
+
+Beachten Sie, dass wir beim Aufruf von [CHtml::activeTextField] 
+`"name[$i]"` statt `"name"` als zweiten Parameter benutzen.
+
+Falls ein Fehler bei der Gültigkeitsprüfung auftritt, werden die entsprechenden
+Eingabefelder automatisch hervorgehoben, wie bereits bei der Einzeleingabe für
+ein Model beschrieben.
+
+<div class="revision">$Id: form.table.txt 468 2009-01-04 20:57:35Z qiang.xue $</div>

@@ -1,0 +1,51 @@
+Andere Bibliotheken verwenden
+=============================
+
+Um Yii’s Funktionalität leicht durch Bibliotheken von Drittanbietern erweitern
+zu können, wurde bei der Planung viel Sorgfalt auf diesen Punkt verwendet. 
+Bei der Verwendung von solchen Bibliotheken ist der Entwickler oft mit
+Problemen im Zusammenhang mit Klassenbezeichnungen und Dateieinbindungen
+konfrontiert. Da allen Yii-Klassen der Buchstabe `C` vorangestellt wurde, sind
+Konflikte bei Klassennamen eher unwahrscheinlich. Und da Yii beim Einbinden
+von Klassen auf [SPL autoload](http://us3.php.net/manual/en/function.spl-autoload.php)
+setzt, klappt das Zusammenspiel mit Bibliotheken reibungslos, wenn diese für
+ihre Klassen die selbe Methode zum automatischen Laden oder den selben PHP Include-Pfad 
+verwenden.
+
+Unten zeigen wir an einem Beispiel, wie man die 
+[Zend_Search_Lucene](http://www.zendframework.com/manual/en/zend.search.lucene.html)-Komponente
+aus dem [Zend-Framework](http://www.zendframework.com) in einer Yii-Anwendung
+verwendet.
+
+Zunächst entpacken wir die Dateien des Zend-Framework in ein Verzeichnis
+unterhalb von `protected/vendors`, unter der Annahme, dass `protected` das
+[Stammverzeichnis unserer
+Anwendung](/doc/guide/basics.application#application-base-directory) ist.
+Überprüfen Sie, dass die Datei `protected/vendors/Zend/Search/Lucene.php`
+vorhanden ist.
+
+Fügen Sie dann die folgenden beiden Zeilen am Anfang einer Controllerklasse
+ein:
+
+~~~
+[php]
+Yii::import('application.vendors.*');
+require_once('Zend/Search/Lucene.php');
+~~~
+
+Der obige Code bindet die Klassendatei `Lucene.php` ein. Da wir einen
+relativen Pfad verwenden, müssen wir den Include-Pfad von PHP verändern, damit
+die Datei gefunden werden kann. Dies erfolgt über den Aufruf von `Yii::import`
+vor `require_once`.
+
+Nachdem obige Änderungen vorgenommen wurden, können wir die Klasse `Lucene` in
+einer Controller-Action wir folgt verwenden:
+
+~~~
+[php]
+$lucene=new Zend_Search_Lucene($pathOfIndex);
+$hits=$lucene->find(strtolower($keyword));
+~~~
+
+
+<div class="revision">$Id: extension.integration.txt 251 2008-11-19 22:28:46Z qiang.xue $</div>

@@ -1,0 +1,60 @@
+テーマ
+=====
+
+テーマはウェブアプリケーションのページの外観をカスタマイズする為の
+システマティックな方法です。新しいテーマを適用することで、
+ウェブアプリケーション全体のデザインを簡単にドラマチック
+に変える事が出来ます。
+
+Yiiでの各テーマは、ビューファイル、レイアウトファイル、
+画像やCSSやJavaScriptなどの関連するリソースで成り立った
+ディレクトリを表しています。テーマの名前はディレクトリ名
+になっています。全てのテーマは、`WebRoot/themas` 
+という同じディレクトリの中に置かれます。
+いかなる場合でも有効に出来るテーマは一つだけです。
+
+> Tip|ヒント: デフォルトのテーマディレクトリ `WebRoot/themes`
+ は別の物に設定可能です。[basePath|CThemeManager::basePath] と 
+[baseUrl|CThemeManager::baseUrl] 
+ [themeManager|CWebApplication::themeManager] 
+アプリケーションコンポーネントのプロパティを望む物に設定して下さい。
+
+ビューを表示する為に、[render|CController::render] か 
+[renderPartial|CController::renderPartial] をコールした際、
+結びついたビューファイルは、レイアウトファイルと同様に、
+現在アクティブになっているテーマの中から探されます。そして見つかった場合は、
+それらのファイルがレンダリングされます。そうでない場合は、
+[viewPath|CController::viewPath] と [layoutPath|CWebApplication::layoutPath] 
+で定められたデフォルトの場所へと探す場所が代替されます。
+
+テーマを有効にするには、ウェブアプリケーションのプロパティである、
+[theme|CWebApplication::theme] の名前を望むものにセットします。
+これは [application
+configuration](/doc/guide/basics.application#application-configuration) 
+の中か、コントローラアクションの処理の中のどちらでも行うことが可能です。
+
+> Note|注意: テーマの名前は大文字小文字を区別します。もしアクティブ
+にしようとしたテーマが存在していない場合、`Yii::app()->theme` は 
+`null` を返すでしょう。
+
+テーマディレクトリの中身は [application base
+path](/doc/guide/basics.application#application-base-directory) 
+の中身と同様の方法で纏められなければなりません。例えば、
+全てのビューファイルは `views` の中に置かれ、レイアウトビューファイルは 
+`views/layouts` の中、システムビューファイルは `views/system` 
+の中で無ければいけません。`views` ディレクトリは、
+セキュリティに関わるデータを含む事がありえる為、
+ウェブユーザーからのアクセスを防ぐ様に設定するべきです。
+
+> Tip|ヒント: 私たちはテーマビューの中で、他のテーマのリソースファイル
+へのリンクを必要とすることが度々あります。例えば、あるテーマの `images` 
+ディレクトリの中の画像を表示したい事があるでしょう。
+現在アクティブになっているテーマの [baseUrl|CTheme::baseUrl] 
+プロパティを用いることで、下記の様に画像へのURLを生成する事が出来ます。
+
+~~~
+[php]
+Yii::app()->theme->baseUrl . '/images/FileName.gif'
+~~~
+
+<div class="revision">$Id: topics.theming.txt 170 2008-11-06 20:33:35Z qiang.xue $</div>

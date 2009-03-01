@@ -1,0 +1,224 @@
+Applikation
+===========
+
+Die Applikation (bzw. Anwendung) repräsentiert die Laufzeitumgebung zur Bearbeitung 
+eines Requests. Ihre wesentliche Aufgabe ist es, einen Benutzer-Request aufzulösen und
+zur Bearbeitung an einen passenden Controller weiterzuleiten. Daneben dient
+sie auch zur Speicherung von Konfigurationen auf Anwendungsebene an einem
+zentralen Ort. Daher wird die Applikation auch `Front-Controller` genannt.
+
+Die Applikation wird vom [Eingangsscript](/doc/guide/basics.entry) als 
+Singleton erzeugt. Über [Yii::app()|YiiBase::app] kann von jeder Stelle aus
+auf das Applikationssingleton zugegriffen werden.
+
+Anwendungskonfiguration
+-----------------------
+
+Standardmäßig ist die Applikation eine Instanz vom Typ [CWebApplication]. Zur
+Anpassung übergeben wir beim Instanziieren normalerweise eine Konfigurationsdatei 
+(oder ein Array), um ihre Eigenschaften zu initialisieren. Alternativ kann
+die Anpassung auch über eine Ableitung der Klasse [CWebApplication] erfolgen.
+
+Die Konfiguration besteht aus einem Array mit Schlüssel-/Wertepaaren. Jeder Schlüssel
+steht für den Namen einer Eigenschaft der Applikationsinstanz und jeder
+Wert für den Startwert dieser Eigenschaft. Die folgende Konfiguration
+zum Beispiel bestimmt die Eigenschaften [name|CApplication::name] und
+[defaultController|CWebApplication::defaultController] (Standardcontroller)
+der Anwendung.
+
+~~~
+[php]
+array(
+	'name'=>'Yii Framework',
+	'defaultController'=>'site',
+)
+~~~
+
+Für gewöhnlich speichern wir die Konfiguration in einem separaten PHP-Script
+(z.B. `protected/config/main.php`). In diesem Script geben wir das
+Konfigurations-Array wie folgt zurück:
+
+~~~
+[php]
+return array(...);
+~~~
+
+Um eine Konfiguration anzuwenden, übergeben wir deren Dateinamen als Parameter
+an den Konstruktor der Applikation oder wie im folgenden Beispiel an 
+[Yii::createWebApplication()]. Für gewöhnlich geschieht dies im 
+[Eingangsscript](/doc/guide/basics.entry):
+
+~~~
+[php]
+$app=Yii::createWebApplication($configFile);
+~~~
+
+> Tip|Tipp: Falls die Anwendungskonfiguration sehr komplex ist, können wir sie in
+mehrere Dateien aufteilen, von denen jede einen Abschnitt der Konfiguration
+als Array zurückliefert. In der Haupt-Konfigurationsdatei rufen
+wir dann `include()` auf, um die restlichen Konfigurationsdateien einzubinden
+und zu einem vollständigen Konfigurations-Array zusammenzuführen.
+
+Stammverzeichnis der Anwendung
+------------------------------
+
+Das Stammverzeichnis einer Anwendung bezieht sich auf das Wurzelverzeichnis, das alle 
+sicherheitsbedenklichen PHP-Scripts und Daten enthält. Standardmäßig ist dies
+ein Unterverzeichnis namens `protected` (geschützt) innerhalb des
+Verzeichnisses, das auch das Eingangsscript enthält. Der Ort kann über die
+Eigenschaft [basePath|CWebApplication::basePath] in der
+[Anwendungskonfiguration](#application-configuration) angepasst werden.
+
+Inhalte innerhalb des Stammverzeichnisses sollten vor Zugriff durch
+Web-Benutzer geschützt werden. Beim [Apache
+HTTP-Server](http://httpd.apache.org/) kann dies dadurch erreicht werden, 
+indem einfach eine `.htaccess`-Datei in diesem Verzeichnis abgelegt wird. Der
+Inhalt dieser `.htaccess`-Datei ist wie folgt:
+
+~~~
+deny from all
+~~~
+
+Applikationskomponente
+----------------------
+
+Über die flexible Komponenten-Architektur kann der Funktionsumfang einer
+Applikation einfach angepasst und erweitert werden. Die Anwendung verwaltet
+eine Reihe von Applikationskomponenten, von denen jede ein spezielles Feature
+implementiert. So löst die Applikation zum Beispiel Benutzer-Requests mit
+Hilfe der [CUrlManager]- und [CHttpRequest]-Komponenten auf.
+
+Indem wir die [components|CApplication::components]-Eigenschaft der
+Applikation konfigurieren, können wir die Klasse und Eigenschaftswerte jeder
+verwendeten Applikationskomponente anpassen. Wir können z.B. die
+[CMemCache]-Komponente konfigurieren, so dass sie mehrere Memcache-Server zum
+Cachen verwendet:
+
+~~~
+[php]
+array(
+	......
+	'components'=>array(
+		......
+		'cache'=>array(
+			'class'=>'CMemCache',
+			'servers'=>array(
+				array('host'=>'server1', 'port'=>11211, 'weight'=>60),
+				array('host'=>'server2', 'port'=>11211, 'weight'=>40),
+			),
+		),
+	),
+)
+~~~
+
+Hier fügen wird das `cache`-Element zum `components`-Array hinzu. Das
+`cache`-Element legt als Klasse dieser Komponente `CMemCache` fest und
+initalisiert deren Eigenschaft `servers` mit den angegebenen Werten.
+
+Benutzen Sie `Yii::app()->KomponentenID`, um auf eine Applikationskomponente
+zuzugreifen, wobei `KomponentenID` sich auf die ID der Komponente bezieht
+(z.B.  `Yii::app()->cache`).
+
+Eine Applikationskomponente kann deaktiviert werden, indem `enabled` in ihrer
+Konfiguration auf `false` gesetzt wird. Wenn wir auf eine deaktivierte
+Komponente zugreifen, wird `null` zurückgeliefert.
+
+> Tip|Tipp: Standardmäßig werden Applikationskomponenten erst bei Bedarf erzeugt.
+Das bedeutet, dass eine Komponente evtl. gar nicht erzeugt wird, wenn während
+eines Requests kein Zugriff auf sie stattfindet. Das führt dazu, dass die
+Gesamtleistung selbst dann nicht sinkt, wenn in einer Anwendung viele
+Applikationskomponenten konfiguriert wurden. Einige Komponenten (z.B.
+[CLogRouter]) könnten allerdings immer erstellt werden müssen, unabhängig davon, 
+ob auf sie zugegriffen wird, oder nicht. Um dies zu erreichen, führen Sie deren IDs
+in der [preload|CApplication::preload]-Eigenschaft der Applikation auf.
+
+Kernkomponenten der Applikation
+--------------------------------
+
+Um die in Webanwendungen gebräuchlichsten Funktionen bereitzustellen, 
+werden von Yii eine Reihe von Kernkomponenten  vordefiniert.
+Die [request|CWebApplication::request]-Komponente zum Beispiel, wird für die
+Auflösung eines Requests und die Bereitstellung bestimmter Informationen wie URL und
+Cookies verwendet. Indem wir die Eigenschaften von Kernkomponenten
+anpassen, können wir das Standardverhalten von Yii in praktisch jeder Hinsicht
+verändern.
+
+Unten finden Sie eine Liste der Kernkomponenten die von [CWebApplication]
+vorbelegt werden.
+
+   - [assetManager|CWebApplication::assetManager]: [CAssetManager] -
+verwaltet die Veröffentlichung privater Asset-Dateien (sinngem.:
+Zusatzdateien).
+
+   - [authManager|CWebApplication::authManager]: [CAuthManager] - verwaltet
+die rollenbasierte Zugriffskontrolle (RBAC, engl.: role-based access control).
+
+   - [cache|CApplication::cache]: [CCache] - stellt Funktionalität
+zum Cachen von Daten bereit. Beachten Sie, dass Sie eine existierende Klasse (z.B.
+[CMemCache], [CDbCache]) angeben müssen. Andernfalls wird null
+zurückgeliefert, wenn Sie auf diese Komponente zugreifen.
+
+   - [clientScript|CWebApplication::clientScript]: [CClientScript] -
+verwaltet Clientscripts (Javascripts und CSS).
+
+   - [coreMessages|CApplication::coreMessages]: [CPhpMessageSource] -
+stellt übersetzte Kernmeldungen für das Yii-Framework bereit.
+
+   - [db|CApplication::db]: [CDbConnection] - stellt eine Datenbankverbindung
+bereit.  Beachten Sie, dass sie deren
+[connectionString|CDbConnection::connectionString]-Eigenschaft konfigurieren
+müssen um diese Komponente zu verwenden.
+
+   - [errorHandler|CApplication::errorHandler]: [CErrorHandler] - bearbeitet 
+nicht-abgefangene PHP-Fehler und -Exceptions.
+
+   - [messages|CApplication::messages]: [CPhpMessageSource] - stellt
+übersetzte Meldungen für die Yii-Anwendung bereit.
+
+   - [request|CWebApplication::request]: [CHttpRequest] - stellt Informationen 
+bereit, die sich auf den Benutzer-Request beziehen.
+
+   - [securityManager|CApplication::securityManager]: [CSecurityManager] -
+stellt Sicherheitsdienste bereit, wie z.B. Hashing, Verschlüsselung.
+
+   - [session|CWebApplication::session]: [CHttpSession] - stellt
+sessionbezogene Funktionen zur Verfügung.
+
+   - [statePersister|CApplication::statePersister]: [CStatePersister] -
+stellt Methoden zur globalen beständigen Datenhaltung bereit.
+
+   - [urlManager|CWebApplication::urlManager]: [CUrlManager] - beinhaltet 
+Funktionen zur URL-Analyse und -Erstellung.
+
+   - [user|CWebApplication::user]: [CWebUser] - repräsentiert die
+Idenitätsinformationen des aktuellen Benutzers.
+
+   - [themeManager|CWebApplication::themeManager]: [CThemeManager] -
+verwaltet Themes.
+
+
+Lebenszyklus einer Applikation
+------------------------------
+
+Wenn eine Applikation einen Benutzer-Request bearbeitet, werden folgende
+Lebenszyklen durchlaufen:
+
+   1. Einrichten des Klassen-Autoloaders und der Fehlerbehandlung
+
+   2. Registrieren der Kernkomponenten
+
+   3. Laden der Anwendungskonfiguration
+
+   4. Initialisieren der Anwendung mit [CApplication::init()]
+       - Laden von statischen Applikationskomponenten
+
+   5. Auslösen des [onBeginRequest|CApplication::onBeginRequest]-Events
+
+   6. Bearbeiten des Benutzer-Requests:
+       - Auflösen des Benutzer-Requests
+       - Erzeugen des Controllers
+       - Ausführen des Controllers
+
+   7. Auslösen des [onEndRequest|CApplication::onEndRequest]-Events
+
+<div class="revision">$Id: basics.application.txt 626 2009-02-04 20:51:13Z qiang.xue $</div>

@@ -1,16 +1,12 @@
 Qu'est-ce que Yii
 =================
 
-Yii is a high-performance component-based PHP framework for developing
-large-scale Web applications. It enables maximum reusability in Web
-programming and can significantly accelerate the development process. The
-name Yii (pronounced as `/i:/`) stands for *easy*,
-*efficient* and *extensible*.
-
 Yii est un framework PHP ultra performant qui a été développé pour créer
-des application Web de grande qualité. Il permet d'accélerer le
-développement d'application Web en simplifiant la réutilisation de
-Le nom Yii (à prononcer `/i:/`) se veut synonyme de *facile*, *efficace* et *extensible*
+des application Web de grande qualité. 
+Yii a été conçu autour de composants dans le but d'accélerer le développement 
+d'applications Web en simplifiant la réutilisation de code existant.
+
+Le nom Yii (à prononcer `/i:/`) se veut être un synonyme de *facile*, *efficace* et *extensible*
 
 Pré-requis
 ----------
@@ -18,8 +14,8 @@ Pré-requis
 Pour faire tourner une application Web Yii, vous devez avoir un serveur 
 Web supportant PHP 5.1.0 ou plus.
 
-Pour les développeurs qui veulent utliser Yii, la compréhension de la 
-programmation orienté-objet (OOP) est un plus car Yii est un pur 
+Pour les développeurs qui veulent utiliser Yii, la connaissance des principes
+de base de la programmation orienté-objet (OOP) est un plus car Yii est un pur 
 framework OOP.
 
 Pour quel usage Yii est il optimal?
@@ -35,7 +31,7 @@ de contenu (CMS), des sites e-commerce, etc.
 Comment se position Yii vis-à-vis des autres Frameworks?
 --------------------------------------------------------
 
-Comme la plupart des frameworks PHP, Yii est basé sur le modèle PVC.
+Comme la plupart des frameworks PHP, Yii est basé sur le modèle MVC.
 
 Les points forts de Yii sont l'efficacité, la richesse fonctionnelle et une 
 documentation claire. Yii a été conçu dès le départ pour permettre le 

@@ -3,7 +3,7 @@ Controller
 
 En `controller` är en instans av [CController] eller en nedärvd klass. Den 
 skapas av Application till följd av en request från användare. När en kontroller 
-körs utför den den begärda åtgärden (action), vilket vanligen laddar in 
+körs utför den den begärda åtgärden (action), vilken vanligen laddar in 
 erforderliga modeller (model) samt renderar en relevant vy (view). En åtgärd är, 
 i sin enklaste form, en vanlig metod i kontrollerklassen vars namn börjar med 
 `action`
@@ -27,27 +27,35 @@ class SiteController extends CController
 Route
 -----
 
-Kontroller och åtgärd identifieras genom ID:n. Controller ID har formatet 
-`path.to.xyz` motsvarande kontrollerklassfilen 
+Kontroller och åtgärd identifieras genom ID:n. Controller-ID har formatet 
+`path/to/xyz` motsvarande kontrollerklassfilen 
 `protected/controllers/path/to/XyzController.php`, där ledet `xyz` skall 
 ersättas med aktuella namn (t.ex. `post` motsvarar 
-`protected/controllers/PostController.php`). Action ID är en åtgärds metodnamn 
+`protected/controllers/PostController.php`). Action-ID är en åtgärds metodnamn 
 minus dess `action`-prefix. Exempelvis, om en kontrollerklass innehåller en 
 metod `actionEdit` så är ID för motsvarande åtgärd `edit`.
 
+> Note|Märk: Före version 1.0.3, var formatet för controller-ID `path.to.xyz`
+i stället för `path/to/xyz`.
+
 Användare begär körning av en viss kontroller och åtgärd genom att ange en 
-route. En route består av controller ID samt action ID separerat av ett 
-snedstreck. Till exempel rutten `post/edit` refererar till `PostController` och 
+route. En route består av controller-ID samt action-ID separerat av ett 
+snedstreck. Exempel: `post/edit` refererar till `PostController` och 
 dess `edit`-åtgärd. Som standard refererar URL:en 
 `http://hostname/index.php?r=post/edit` till denna kontroller resp. åtgärd.
 
-> Märk: Som standard är route skiftlägesberoende. Fr o m version 1.0.1, kan route 
+> Note|Märk: Som standard är route skiftlägesberoende. Fr o m version 1.0.1, kan route 
 göras okänslig för skiftläge genom att inställningen 
-[CUrlManager::caseSensitive] sätts till true i applikationens konfiguration. I 
+[CUrlManager::caseSensitive] sätts till false i applikationens konfiguration. I 
 detta läge, se till att följa konventionen att kataloger som innehåller 
 kontrollerklassfiler anges med gemener samt att både [controller 
 map|CWebApplication::controllerMap] och [action map|CController::actions] 
 använder gemener i sina nyckelvärden.
+
+Fr o m version 1.0.3 kan en applikation innehålla [moduler](/doc/guide/basics.module). 
+En kontrolleråtgärd inuti en modul har en route på följande format 
+`moduleID/controllerID/actionID`. För fler detaljer hänvisas till 
+[avsnittet om moduler](/doc/guide/basics.module).
 
 Instansiering av Controller
 ---------------------------
@@ -60,7 +68,12 @@ att bestämma kontrollerklass samt var dess klassfil är placerad.
 
    - Om begärt ID kan hittas i [CWebApplication::controllerMap], används motsvarande kontrollerkonfiguration för att skapa kontrollerinstansen.
 
-   - Om begärt ID har formatet `'path.to.xyz'`, förmodas kontrollerklassen vara `Xyz` och motsvarande klassfil `protected/controllers/path/to/XyzController.php`. Exempelvis kontroller-ID `admin.user` resolveras som kontrollerklassen `UserController` med klassfilen `protected/controllers/admin/UserController.php`. Om klassfilen inte kan hittas ges en 404 [CHttpException].
+   - Om begärt ID har formatet `'path/to/xyz'`, förmodas kontrollerklassen vara `XyzController` och motsvarande klassfil `protected/controllers/path/to/XyzController.php`. Exempelvis kontroller-ID `admin/user` löses upp som kontrollerklassen `UserController` med klassfilen `protected/controllers/admin/UserController.php`. Om klassfilen inte kan hittas ges en 404 [CHttpException].
+
+Om [moduler](/doc/guide/basics.module) används (tillgängligt fr o m version 1.0.3), 
+är ovanstående process aningen annorlunda. Mer detaljerat, applikationen kontrollerar 
+om ID:t refererar till en kontroller inuti en modul och om så är fallet skapas 
+modulinstansen först, därefter kontrollerinstansen.
 
 
 Action
@@ -104,8 +117,8 @@ Ovan används sökvägsalias `application.controllers.post.UpdateAction` för at
 specificera att åtgärdsklassens fil är `protected/controllers/post/UpdateAction.php`.
 
 Med hjälp av klassbaserade åtgärder kan en applikation organiseras modulärt. 
-Till exempel följande katalogstruktur kan användas för att organisera koden för 
-controller:
+Till exempel kan följande katalogstruktur användas för att organisera kontrollrar och
+åtgärdsklasser:
 
 ~~~
 protected/
@@ -126,14 +139,15 @@ protected/
 Filter
 ------
 
-Filter är ett stycke kod som är konfigurerat att exekveras före och/eller efter 
-exekvering av en kontrolleråtgärd. Till exempel ett filter för 
+Filter är ett stycke kod som konfigureras att exekvera före och/eller efter 
+exekvering av en kontrolleråtgärd. Exempel: ett filter för 
 tillträdeskontroll kan köras för att säkerställa att användaren är autenticerad 
 innan en begärd åtgärd utförs; ett prestandafilter kan användas för att 
 mäta tidåtgång vid exekvering av en åtgärd.
 
 En åtgärd kan ha flera filter. Filtren körs i den ordning de förekommer i 
-filterdeklarationen. Ett filter kan förhindra exekvering av åtgärden såväl som återstående ej exekverade filter.
+filterdeklarationen. Ett filter kan förhindra exekvering av åtgärden såväl som 
+återstående ej exekverade filter.
 
 Ett filter kan definieras som en metod i kontrollerklassen. Metoden namn måste 
 börja med `filter`. Exempelvis förekomsten av en metod `filterAccessControl` 
@@ -199,13 +213,13 @@ definierad i [CController]); medan däremot `PerformanceFilter`-filtret är
 objektbaserat. Sökvägsalias `application.filters.PerformanceFilter` specificerar 
 att filtrets klassfil är `protected/filters/PerformanceFilter`. En array används 
 för att konfigurera `PerformanceFilter` så att propertyvärdena för 
-filterobjektet kan initialisera. I exemplet initialiseras propertyn `unit` i 
+filterobjektet kan initialiseras. I exemplet initialiseras propertyn `unit` i 
 `PerformanceFilter` till `'second'`.
 
 Genom användning av plus- och minusoperatorerna kan vi specificera vilka 
 åtgärder filtret skall eller inte skall tillämpas på. I exemplet ovan tillämpas 
-filtret `postOnly` på åtgärder `edit` och `create`, medan `PerformanceFilter` 
+filtret `postOnly` på åtgärderna `edit` och `create`, medan `PerformanceFilter` 
 tillämpas på alla åtgärder UTOM `edit` och `create`. Om varken plus eller minus 
 förekommer i filterkonfigurationen tillämpas filtret på alla åtgärder.
 
-<div class="revision">$Id: basics.controller.txt 416 2008-12-28 05:28:11Z qiang.xue $</div>
+<div class="revision">$Id: basics.controller.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>

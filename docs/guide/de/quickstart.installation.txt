@@ -1,0 +1,32 @@
+Installation
+============
+
+Die Installation von Yii beinhaltet im Wesentlichen die folgenden beiden Schritte:
+
+   1. Herunterladen des Yii-Frameworks von [yiiframework.com](http://www.yiiframework.com/).
+   2. Entpacken des Yii-Pakets in ein Verzeichnis mit Webzugriff.
+
+> Tip|Tipp: Yii muss nicht zwingend in ein Verzeichnis installiert werden, auf
+das vom Web aus zugegriffen werden kann. Eine Yii-Anwendung verwendet ein 
+einzelnes Eingangsscript. In der Regel ist dies die einzige Datei, die 
+Besucher aufrufen können müssen. Andere PHP-Scripts, inklusive denen 
+von Yii, sollten vor Zugriff über das Web geschützt werden, da sie für 
+Hack-Versuche missbraucht werden könnten.
+
+Anforderungen
+-------------
+
+Nachdem Sie Yii installiert haben, möchten Sie vielleicht überprüfen,
+ob Ihr Webserver auch alle Anforderungen von Yii erfüllt. Dazu können Sie
+über diese URL einen Test per Webbrowser ausführen:
+
+~~~
+http://hostname/pfad/zu/yii/requirements/index.php
+~~~
+
+Als Minimalanforderung für Yii muss ihr Webserver PHP 5.1.0 oder höher
+unterstützen. Yii wurde mit dem [Apache HTTP Server](http://httpd.apache.org/) 
+unter Windows- und Linux-Betriebssystemen getestet. Es läuft u.U. auch auf
+anderen Webservern und Plattformen, vorausgesetzt PHP 5 wird dort unterstützt.
+
+<div class="revision">$Id: quickstart.installation.txt 359 2008-12-14 19:50:41Z qiang.xue $</div>

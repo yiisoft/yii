@@ -1,0 +1,165 @@
+Protokollierung (Logging)
+=========================
+
+Yii bietet eine flexibles und erweiterbares Protokollierungsfeature (engl.:
+logging). Zu loggende (also zu protokollierende) Nachrichten können einer 
+Logstufe (engl.: log level) und einer Nachrichtenkategorie zugeordnet werden. Zusammen mit 
+Logstufen- und Kategoriefiltern können ausgewählte 
+Nachrichten an verschiedene Ziele, wie z.B. Dateien, E-Mails, 
+Browserfenster etc., weitergeleitet werden
+
+Loggen von Nachrichten
+----------------------
+
+Nachrichten können geloggt werden, indem man entweder [Yii::log] oder
+[Yii::trace] aufruft. Der Unterschied zwischen beiden besteht darin, dass
+bei letzterer Nachrichten nur dann protokolliert werden, wenn die Anwendung
+sich im [Debug-Modus](/doc/guide/basics.entry#debug-mode) befindet.
+
+~~~
+[php]
+Yii::log($message, $level, $category);
+Yii::trace($message, $category);
+~~~
+
+Beim Loggen einer Nachricht müssen wir eine Kategorie und eine Stufe angeben. 
+Die Kategorie ist ein String im Format `xxx.yyy.zzz` was einem
+[Pfad-Alias](/doc/guide/basics.namespace) gleicht. Wenn eine Nachricht zum
+Beispiel in [CController] geloggt wird, könnten wir die Kategorie
+`system.web.CController` verwenden. Die Logstufe sollte einem der folgenden
+Werte entpsrechen:
+
+   - `trace`: Diese Stufe wird von [Yii::trace] verwendet. Sie dient zum
+Nachverfolgen (engl.: trace) des Programmablaufs während der Entwicklungsphase. 
+
+   - `info`: dient zum Loggen allgemeiner Informationen.
+
+   - `profile`: dient zur Leistungsmessung, wie wir sie in Kürze behandeln.
+
+   - `warning`: dient für Warnhinweise.
+
+   - `error`: dient für schwerwiegende Fehlermeldungen.
+
+Nachrichtenrouting
+------------------
+
+Mit [Yii::log] oder [Yii::trace] geloggte Nachrichten werden im Speicher
+gehalten. Für gewöhnlich sollen diese im Browserfenster angezeigt oder in einem
+beständigen Speicher wie Dateien oder E-Mails gespeichert werden. Dies nennt
+man auch *Nachrichtenrouting* (engl.: message routing), also das Weiterleiten 
+von Nachrichten an bestimmte Zielorte.
+
+In Yii wird das Nachrichtenrouting von einer
+[CLogRouter]-Anwendungskomponente (sinngem.: Nachrichtenweiterleiter) übernommen.
+Sie verwaltet eine Reihe sogenannter *Nachrichtenrouten* (engl.: log routes).
+Jede Nachrichtenroute steht für ein einzelnes Log-Ziel. Nachrichten, die 
+über eine Nachrichtenroute geschickt werden, können nach Stufe und Kategorie
+gefiltert werden.
+
+Um das Nachrichtenrouting verwenden zu können, müssen wir die
+[CLogRouter]-Komponente installieren und frühzeitig laden (engl.: preload).
+Wir müssen außerdem deren Eigenschaft [routes|CLogRouter::routes] (Routen) mit
+den von uns gewünschten Nachrichtenrouten konfigurieren. Hier ein Beispiel für
+die nötige
+[Anwendungskonfiguration](/doc/guide/basics.application#application-configuration):
+
+~~~
+[php]
+array(
+	......
+	'preload'=>array('log'),
+	'components'=>array(
+		......
+		'log'=>array(
+			'class'=>'CLogRouter',
+			'routes'=>array(
+				array(
+					'class'=>'CFileLogRoute',
+					'levels'=>'trace, info',
+					'categories'=>'system.*',
+				),
+				array(
+					'class'=>'CEmailLogRoute',
+					'levels'=>'error, warning',
+					'email'=>'admin@example.com',
+				),
+			),
+		),
+	),
+)
+~~~
+
+In obigem Beispiel verwenden wir zwei Nachrichtenrouten. Die erste ist
+[CFileLogRoute], welche Nachrichten in einer Datei im Runtime-Verzeichnis der
+Anwendung speichert. Nur Nachrichten, die der Stufe `trace` oder `info`
+angehören und deren Kategorie mit `system.` beginnt, werden gespeichert. Die
+zweite Route ist [CEmailLogRoute], die Nachrichten an die angegebene
+E-Mail-Adresse verschickt. Nur Nachrichten mit der Stufe `error` oder
+`warning` werden verschickt.
+
+Die folgenden Nachrichtenrouten stehen in Yii zur Verfügung:
+
+   - [CDbLogRoute]: speichert Nachrichten in einer Datenbanktabelle.
+   - [CEmailLogRoute]: schickt Nachrichetn an die angegebenen E-Mail-Adressen.
+   - [CFileLogRoute]: speichert Nachrichten in eine Datei im
+Runtime-Verzeichnis der Anwendung.
+   - [CWebLogRoute]: zeigt Nachrichten am Ende der aktuellen Webseite an.
+   - [CProfileLogRoute]: zeigt Nachrichten zur Leistungsermittlung am Ende der
+aktuellen Webseite an.
+
+> Info: Das Nachrichtenrouting wird am Ende des aktuellen Request-Zyklus beim
+Auslösen des [onEndRequest|CApplication::onEndRequest]-Events durchgeführt. Um
+die Bearbeitung des aktuellen Requests explizit zu beenden, rufen Sie
+[CApplication::end()] statt `die()` oder `exit()` auf, da
+[CApplication::end()] das [onEndRequest|CApplication::onEndRequest]-Event
+auslöst und somit Nachrichten ordnungsgemäß geloggt werden können.
+
+### Nachrichtenfilterung
+
+Wie erwähnt, können Nachrichten nach ihrer Stufe und ihrer Kategorie gefiltert
+werden, bevor sie auf eine Nachrichtenroute geleitet werden. Dies geschieht,
+indem man die [levels|CLogRoute::levels]- und
+[categories|CLogRoute::categories]-Eigenschaften der entsprechenden Route
+setzt. Mehrere Stufen oder Kategorien sollten mit Kommas verbunden werden.
+
+Da Nachrichtenkategorien im Format `xxx.yyy.zzz` vorliegen, können wir sie wie
+eine Hierarchie von Kategorien behandeln. In diesem Fall können wir sagen, `xxx`
+ist die Elternkategorie von `xxx.yyy`, welche wiederum die Elternkategorie von
+`xxx.yyy.zzz` bildet.  Wir können `xxx.*` verwenden, um die Kategorie 
+`xxx` und all ihre Kind- und Enkelkategorien darzustellen.
+
+
+Leistungsmessung
+----------------
+
+Die Leistungsmessung (engl.: performance profiling) ist eine spezielle Art der
+Nachrichtenprotokollierung. Sie kann verwendet werden, um die Zeit zu messen, die zur
+Ausführung eines bestimmten Code-Blocks benötigt wird, und so den
+leistungsmäßigen Flaschenhals herauszufinden.
+
+Für die Leistungsmessung müssen wir die zu messenden Code-Blöcke
+identifizieren. Wir markieren Anfang und Ende jedes Code-Blocks, indem wir die
+folgenden Methoden einfügen:
+
+~~~
+[php]
+Yii::beginProfile('blockID');
+...Zu messender Code-Block...
+Yii::endProfile('blockID');
+~~~
+
+wobei `blockID` eine eindeutige ID zur Identifizierung des Code-Blocks
+darstellt.
+
+Beachten Sie, dass Code-Blöcke sauber verschachtelt werden müssen. Das
+bedeutet, dass sich zwei Blöcke nicht überschneiden dürfen. Sie müssen
+entweder auf der selben Ebene nebeneinander liegen, oder vollständig von einem
+anderen Code-Block umschlossen werden.
+
+Um die Ergebnisse der Messung anzuzeigen, müssen wir eine
+[CLogRouter]-Komponente mit einer [CProfileLogRoute]-Logroute installieren.
+Dies geht genauso wie beim normalen Nachrichtenrouting. Die
+[CProfileLogRoute]-Route zeigt das Ergebnis der Messung am Ende der aktuellen
+Seite an.
+
+<div class="revision">$Id: topics.logging.txt 170 2008-11-06 20:33:35Z qiang.xue $</div>

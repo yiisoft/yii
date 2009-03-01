@@ -1,0 +1,428 @@
+アクティブレコード
+=============
+
+Yii DAOが実質的にどんなデータベース関連のタスクでも取り扱うことができるものの、
+我々は一般のCRUD（生成、読み出し、変更、削除）オペレーションを実行するSQL記述を書くことで自身の時間の90%を過ごしています。
+さらに、SQL文とコードが混ざり合うために、コードを保守することが困難です。
+これらの問題を解決するために、我々はアクティブレコードを使うことができます。
+
+アクティブレコード(AR)は、人気があるO/Rマッピング(ORM)テクニックです。
+各々のARクラスはアトリビュートがARクラスのプロパティとして描写されるデータベーステーブル(またはビュー)を表します。そして、ARインスタンスはそのテーブルでの列を表します。
+共通のCRUDオペレーションは、ARメソッドとして実装されます。
+その結果、我々はよりオブジェクト指向方向でデータにアクセスすることができます。
+例えば、我々は`Post`テーブルに新しい列を挿入するために、以下のコードを使用することができます:
+
+~~~
+[php]
+$post=new Post;
+$post->title='sample post';
+$post->content='post body content';
+$post->save();
+~~~
+以下に、CRUDオペレーションを実行するために、ARを準備して使う方法を解説します。
+次のセクションでデータベースリレーションに対処するためにARを使う方法を示します。
+単純化するため、このセクションでは例として以下のデータベーステーブルを使います。
+
+~~~
+[sql]
+CREATE TABLE Post (
+	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	title VARCHAR(128) NOT NULL,
+	content TEXT NOT NULL,
+	createTime INTEGER NOT NULL
+);
+~~~
+
+> Note|注意: ARはあらゆるデータベース関連のタスクを解くものではありません。
+PHPの中でデータベーステーブルをモデル化し、複雑なSQLを含まないクエリを実行するために、最も使われます。
+複雑なシナリオのためにはYii DAOを使うべきです。
+
+DB接続の確立
+--------------------------
+
+ARは、DB関連のオペレーションを実行するために、DB接続に依存します。
+デフォルトでは`db`アプリケーションコンポーネントは、DB接続として用いられる必要な[CDbConnection]インスタンスを与えると仮定されます。
+以下のアプリケーション構成を例として示します：
+
+~~~
+[php]
+return array(
+	'components'=>array(
+		'db'=>array(
+			'class'=>'system.db.CDbConnection',
+			'connectionString'=>'sqlite:path/to/dbfile',
+			// turn on schema caching to improve performance
+			// 'schemaCachingDuration'=>3600,
+		),
+	),
+);
+~~~
+
+> Tip|ヒント: アクティブレコードが列情報を決定するためにテーブルのメタデータに頼るので、メタデータを読んで分析する時間かかります。
+データベースのスキーマが変わりそうにないならば、[CDbConnection：schemaCachingDuration]プロパティを0よりも大きな値に構成することによってスキーマキャッシングを行わなけなければなりません。
+
+ARに対するサポートは、DBMSによって制限されます。現在以下のDBMSがサポートされています:
+
+   - [MySQL 4.1 or later](http://www.mysql.com)
+   - [PostgreSQL 7.3 or later](http://www.postgres.com)
+   - [SQLite 2 and 3](http://www.sqlite.org)
+
+`db`以外のアプリケーションコンポーネントを使いたいか、あるいはARを使う複数のデータベースで作業することを望む場合は[CActiveRecord：getDbConnection()]をオーバライドしなければなりません。
+[CActiveRecord]クラスは、すべてのARクラスのためのベースクラスです。
+
+> Tip|ヒント: ARで複数のデータベースで作業するには2つの方法があります。
+データベースのスキーマが異なるならば、あなたは[getDbConnection()|CActiveRecord::getDbConnection]の異なる実装を行った異なるベースARクラスを作成しても良いでしょう。
+あるいは、ダイナミックに静的変数[CActiveRecord：dB]を変えることはより良い考えです。
+
+ARクラス定義
+-----------------
+
+データベーステーブルにアクセスするために、最初に[CActiveRecord]を継承ことによってARクラスを定義する必要があります。
+それぞれのARクラスは一つのデータベーステーブルを表します。
+そして、ARインスタンスはそのテーブルでの列を表します。
+以下の例は、`Post`テーブルを表しているARクラスのために必要な最小のコードを示します。
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
+}
+~~~
+
+> Tip|ヒント: ARクラスは多くの場所でしばしば参照されるため、一つずつインクルードするのではなく、ARクラスを含んでいるディレクトリごと組込むことができます。
+例えば、全てのARクラスファイルが`protected/models`の下にあるなら、以下のようにアプリケーションを設定することができます:
+> ~~~
+> [php]
+> return array(
+> 	'import'=>array(
+> 		'application.models.*',
+> 	),
+> );
+> ~~~
+
+デフォルトでは、ARクラス名はデータベーステーブル名と同じです。
+もし異なる場合は[tableName()|CActiveRecord:tableName]メソッドをオーバライドしてください。
+[model()|CActiveRecord:model］メソッドはあらゆるARクラス(まもなく説明されます)のためにそのように宣言されます。
+
+テーブル列の列値は、対応するARクラスインスタンスのプロパティとしてアクセスされます。
+例えば、以下のコードは、`タイトル`列(アトリビュート)をセットします:
+
+~~~
+[php]
+$post=new Post;
+$post->title='a sample post';
+~~~
+
+`Post`クラスでは決してはっきりと`title`プロパティを宣言していませんが、上記のコードでそれにまだアクセスすることができます。
+これは、`title`が`Post`テーブルの列であるからであり、CActiveRecordがそれをPHPの魔法の方法である`__get()`の助けを借りて、プロパティとしてアクセスできるようにします。
+同様な方法で存在しない列にアクセスしようとすると、例外が発生します。
+
+> Info|情報: 読みやすいように、キャメルケースでデータベーステーブルと列に名をつけることを提案します。
+特にテーブル名は、各々の語の先頭を大文字にして、空白無しで繋げ合せることによって作られます;
+最初が小文字であること以外は、列名はテーブル名と類似しています。
+たとえば、記事を保存しているテーブルに名をつけるため`Post`という名前を使います;
+そして、テーブルのプライマリキーの列に名をつけるために、`createTime`を使います。
+これはテーブルをクラスタイプのように列を変数のように見えさせます。
+しかしながら、キャメルケースを使うとある種のDBMS、例えばMySQLでは不便になることがあります。というのは、異なるOS上では異なる動作となるからです。
+
+
+レコードの作成
+---------------
+
+新しい列をデータベーステーブルに挿入するため、対応するARクラスの新しいインスタンス作り、
+テーブル列に関連したプロパティをセットし、
+挿入を完了するため[save()|CActiveRecord::save]メソッドを呼びます。
+
+~~~
+[php]
+$post=new Post;
+$post->title='sample post';
+$post->content='content for the sample post';
+$post->createTime=time();
+$post->save();
+~~~
+
+テーブルのプライマリキーが自動増加するならば、挿入の後ではARインスタンスは更新されたプライマリキーを含みます。
+たとえ表立ってそれを変えないとしても、上記の例においては`id`プロパティは新しく挿入された記事のプライマリーキーとなる値を反映します。
+
+列がテーブルスキーマ中の静的デフォルト値（例えばストリング、数）で定められるならば、
+インスタンスが生成された後、ARインスタンスの対応するプロパティは自動的にそのような値を持ちます。
+このデフォルト値を変える1つの方法は、ARクラスで明白にプロパティを宣言することです:
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	public $title='please enter a title';
+	......
+}
+
+$post=new Post;
+echo $post->title;  // this would display: please enter a title
+~~~
+
+バージョン1.0.2からは、レコードがデータベースにセーブされる(挿入か更新のいずれか)前に、アトリビュートには［CDbExpression］タイプの値を割り当てることができます。
+例えば、MySQLの`NOW()`関数によって返されるタイムスタンプを保存するために、以下のコードを使用することができます:
+
+~~~
+[php]
+$post=new Post;
+$post->createTime=new CDbExpression('NOW()');
+// $post->createTime='NOW()'; は'NOW()'が文字列として扱われるため、
+// 動作しません
+$post->save();
+~~~
+
+レコードの読み出し
+--------------
+
+データをデータベーステーブルから読むためには、`find`メソッドのうちの1つを以下のように呼出します。
+
+~~~
+[php]
+// 指定された条件を満足する最初の列を見つけます
+$post=Post::model()->find($condition,$params);
+// 指定されたプライマリキーを持つ列を見つけます
+$post=Post::model()->findByPk($postID,$condition,$params);
+// 指定されたアトリビュート値を持つ列を見つけます
+$post=Post::model()->findByAttributes($attributes,$condition,$params);
+// 指定されたSQLにより列を見つけます
+$post=Post::model()->findBySql($sql,$params);
+~~~
+上記において`Post::model()`を用いて`find`メソッドを呼出します。
+静的メソッド`model()`が全てのARクラスで必要なことを覚えてください。
+メソッドは、オブジェクトコンテキストにおけるクラスレベルメソッド(静的クラスメソッドに類似したもの)にアクセスするために用いられるARインスタンスを返します。
+
+
+もし`find`メソッドがクエリ条件を満足する列を見つけた場合、`Post`インスタンスが返されます。そのプロパティはテーブル列の対応する項目値となります。そのため、普通のオブジェクトのプロパティを読むように、例えば、`echo $post->title;`のように値を読むことができます。
+
+与えられたクエリ条件でデータベースからみつけることができない場合には、`find`メソッドはナルを返します。
+
+`find`を呼出す際には、クエリ条件を指定するため`$condition`と`$params`を用います。
+ここで、`$condition`はSQL文の`WHERE`句を表す文字列であり、`$params`は配列パラメータであり、それらの値は`$condition`のプレースホルダに対応させる必要があります。例えば、
+
+
+~~~
+[php]
+// postIDが10である列を見つけます
+$post=Post::model()->find('postID=:postID', array(':postID'=>10));
+~~~
+
+`$condition`はもっと複雑なクエリ条件に使うことができます。`$condition`は文字列ではなく[CDbCriteria]インスタンスを使うことができ、それは`WHERE`句だけでない他の条件を使用することができます。例えば、
+
+~~~
+[php]
+$criteria=new CDbCriteria;
+$criteria->select='title';  // 'title'行のみを選択します
+$criteria->condition='postID=:postID';
+$criteria->params=array(':postID'=>10);
+$post=Post::model()->find($criteria); // $paramsは不要です
+~~~
+
+上記に見られるように、[CDbCriteria]をクエリ条件として使用する場合には`$params`パラメータは不要です。というのはそれは[CDbCriteria]中で指定されるからです。
+
+別の方法として、[CDbCriteria]は`find`メソッドに配列を渡します。配列のキーと値はクライテリアの行の名前と値にそれぞれ対応します。上記の例は以下のように書き換えられます。
+
+~~~
+[php]
+$post=Post::model()->find(array(
+	'select'=>'title',
+	'condition'=>'postID=:postID',
+	'params'=>array(':postID'=>10),
+));
+~~~
+
+> Info|情報: 指定された値によってクエリ条件をいくつかの列にマッチさせるとき、[findByAttributes()|CActiveRecord::findByAttributes]を使用します。
+`$attributes`パラメータは列名によりインデックスされた値の配列です。
+ある種のフレームワークでは、このタスクは`findByNameAndTitle`のようなメソッドをコールすることで達成されます。
+このアプローチは魅力的ではありますが、しばしば混乱と列名のケースセンシティブの問題により競合を招きます。
+
+指定されたクエリ条件が複数の行のデータにマッチした場合は、我々は以下の`findAll`メソッドによりまとめることができます。
+それぞれの条件は既に述べた`find`メソッドにより対応されます。
+
+~~~
+[php]
+// 指定された条件を満足する全ての行を見つけます
+$posts=Post::model()->findAll($condition,$params);
+// 指定された主キーを満足する全ての行を見つけます
+$posts=Post::model()->findAllByPk($postIDs,$condition,$params);
+// 指定されたアトリビュート値をキーを満足する全ての行を見つけます
+$posts=Post::model()->findAllByAttributes($attributes,$condition,$params);
+// 指定されたSQLにより満足する全ての行を見つけます
+$posts=Post::model()->findAllBySql($sql,$params);
+~~~
+
+もしもクエリ条件に何もマッチしなければ、`findAll`は空の配列を返します。これは`find`と異ります。
+もし何も見つけられなかった場合はnullを返すからです。
+
+`find`と`findAll`が上記で示される違いはあっても、以下のようなメソッドが便宜上提供されます。
+
+~~~
+[php]
+// 指定された条件を満足する行の数を得ます
+$n=Post::model()->count($condition,$params);
+// 指定されたSQLを用いた行の数を得ます
+$n=Post::model()->countBySql($sql,$params);
+// 指定された条件を満足する行が一つでもあるかをチェックします
+$exists=Post::model()->exists($condition,$params);
+~~~
+
+レコードの更新
+---------------
+
+ARインスタンスに列の値が読み出された後、その値を更新し、元のデータベーステーブルに格納することができます。
+
+~~~
+[php]
+$post=Post::model()->findByPk(10);
+$post->title='new post title';
+$post->save(); // 変更をテーブルに格納します
+~~~
+
+見てきたように、挿入操作と更新操作について、同じメソッド[save()|CActiveRecord::save]を使用します。
+もしARインスタンスが`new`演算子によって生成された場合、[save()|CActiveRecord::save]を呼ぶとデータベーステーブルに新しい行が挿入されます。一方もしARインスタンスが何らかの`find`や`findAll`メソッドの結果である場合には、[save()|CActiveRecord::save]を呼ぶと既存の行が更新されます。実際にはARインスタンスが新しいか否かは[CActiveRecord::isNewRecord]を用いて伝えることができます。
+
+いくつかのデータベーステーブルの行を前もってロードすることなしに更新することが可能です。ARは以下のような便利なクロスレベルのメソッドをこの目的のため提供します。
+
+~~~
+[php]
+// 指定された条件を満足する行を更新します
+Post::model()->updateAll($attributes,$condition,$params);
+// 指定された条件と主キーを満足する行を更新します
+Post::model()->updateByPk($pk,$attributes,$condition,$params);
+// 指定された条件を満足するカウンタ行を更新します
+Post::model()->updateCounters($counters,$condition,$params);
+~~~
+
+上記において、`$attributes`は列名によってインデックスされた列値の配列です。
+$counters`は列名によってインデックスされた増加値の配列です。
+そして`$condition`と`$params`は以前のサブセクションで示されたものです。
+
+レコードの削除
+---------------
+
+ARインスタンスに行が読み出されている場合、この行を削除することができます。
+
+~~~
+[php]
+$post=Post::model()->findByPk(10); // IDが10という記事が存在すると仮定します
+$post->delete(); // その記事をテーブルから削除します
+~~~
+
+削除後でもARインスタンスは変更されていないことに注意してください。その一方で対応するデータベーステーブルの行は無くなっています。
+
+以下のクロスレベルのメソッドが、前もってロードすることなしに行を削除するために提供されています。
+
+~~~
+[php]
+// 指定された条件を満足する行を削除します
+Post::model()->deleteAll($condition,$params);
+// 指定された条件と主キーを満足する行を削除します
+Post::model()->deleteByPk($pk,$condition,$params);
+~~~
+
+データ検証
+---------------
+
+行が挿入されたり更新される場合には、列の値が指定されたルールに適合しているかをチェックする必要があります。
+これは列の値がエンドユーザによって与えられる場合には特に重要になります。
+一般に、クライアント側から来る値を一切信じてはなりません。
+
+ARは[save()|CActiveRecord::save]が呼ばれた場合に自動的にデータ検証を行います。
+検証はARクラスの[rules()|CModel::rules]メソッド中で指定されるルールに基いて行われます。
+もっと詳しい検証ルールの設定法に関しては[バリデーションルールの宣言](/doc/guide/form.model#declaring-validation-rules)
+の章を参照してください。
+以下はレコードの格納をする場合の典型的なワークフローです。
+
+~~~
+[php]
+if($post->save())
+{
+	// データはバリッドであり正常に格納もしくは更新されました
+}
+else
+{
+	// データはバリッドではなく、エラーメッセージを表示するにはgetErrors()を呼びます
+}
+~~~
+
+もし、挿入や更新されるべきデータがエンドユーザによってHTMLフォームの中からサブミットされた場合は
+対応するARプロパティを割当る必要があります。これは以下のように行います。
+
+~~~
+[php]
+$post->title=$_POST['title'];
+$post->content=$_POST['content'];
+$post->save();
+~~~
+
+もしたくさんの列がある場合には、この割当ては非常に長いリストとなってしまいます。
+これは[attributes|CActiveRecord::attributes]を利用することで以下に示すように軽減することができます。
+より詳細は[アトリビュート割り当ての安全化](/doc/guide/form.model#securing-attribute-assignments)章と[アクションの生成](/doc/guide/form.action)章に見ることができます。
+
+~~~
+[php]
+// $_POST['Post']は列の値の、列名でインデックスされた配列とします
+$post->attributes=$_POST['Post'];
+$post->save();
+~~~
+
+
+レコードの比較
+-----------------
+
+テーブルの列のように、ARインスタンスは主キーによってユニークに同定されます。
+そのため、2つのARインスタンスを比較することは、それらが同じARクラスに属すると仮定するとき、
+単にそれらの主キーを比較するだけです。しかしながらより簡単な方法があり、それは[CActiveRecord::equals()]を呼ぶことです。
+
+> Info|情報: 他のフレームワークのAR実装と異り、YiiはARにおいて複合された主キーをサポートします。
+複合された主キーは2つ以上の列から構成されます。Yiiでは主キー値は対応する配列として表現されます。
+[primaryKey|CActiveRecord::primaryKey]はARインスタンスの主キー値を与えます。
+
+
+カスタマイゼーション
+-------------
+
+[CActiveRecord]クラスは場所取りメソッドを提供しますが、ワークフローにおいてそれを継承する子クラスのメソッドによりオーバライドされます。
+
+   - [beforeValidate|CModel::beforeValidate]と[afterValidate|CModel::afterValidate]: これらは検証前と検証後に実行されます。
+
+   - [beforeSave|CActiveRecord::beforeSave]と[afterSave|CActiveRecord::afterSave]: これらはARインスタンスの格納前と格納後に実行されます。
+
+   - [beforeDelete|CActiveRecord::beforeDelete]と[afterDelete|CActiveRecord::afterDelete]: これらはARインスタンスの削除前と削除後に実行されます。
+
+   - [afterConstruct|CActiveRecord::afterConstruct]: これは`new`演算子により新なARインスタンスが作成されるたびに実行されます。
+
+   - [afterFind|CActiveRecord::afterFind]: これはクエリの結果によりARインスタンスが作成されるたびに実行されます。
+
+
+ARを用いたトランザクション
+-------------------------
+
+どのARインスタンスにも[dbConnection|CActiveRecord::dbConnection]という名の[CDbConnection]クラスのインスタンスであるプロパティがあります。
+それを用いると以下のコードのように、YiiのDAOにより提供される[トランザクション](/doc/guide/database.dao#using-transactions)機能を使うことができます。
+
+~~~
+[php]
+$model=Post::model();
+$transaction=$model->dbConnection->beginTransaction();
+try
+{
+	// findとsaveは2つのステップなので、他のリクエストにより順番が反転しかねません
+	// 従って、一貫性と完全性を確実にするために、トランザクションを使用します
+	$post=$model->findByPk(10);
+	$post->title='new post title';
+	$post->save();
+	$transaction->commit();
+}
+catch(Exception $e)
+{
+	$transaction->rollBack();
+}
+~~~
+
+<div class="revision">$Id: database.ar.txt 546 2009-01-19 15:00:39Z qiang.xue $</div>

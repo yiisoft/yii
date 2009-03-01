@@ -1,0 +1,93 @@
+Konsolapplikationer
+===================
+
+Konsolapplikationer används huvudsakligen av webbapplikationer till att utföra 
+offline-arbete, så som kodgenerering, kompilering av sökindex, skicka mail, etc. 
+Yii erbjuder ett ramverk för att skriva konsolapplikationer på ett 
+objektorienterat och systematiskt sätt.
+
+Yii representerar varje konsoluppgift i termer av [kommando|CConsoleCommand], 
+och en [konsolapplikation|CConsoleApplication]s-instans används för att skicka 
+ut en kommandorads-request till ett passande kommando. Applikationsinstansen 
+skapas i ett startskript. För att utföra en konsol-uppgift, kör man helt enkelt 
+det motsvarande kommandot från kommandoraden på följande sätt,
+
+~~~
+php entryScript.php CommandName Param0 Param1 ...
+~~~
+
+där `CommandName` refererar till kommandots namn, vilket inte är känsligt för skiftläge (case-insensitive),
+och `Param0`, `Param1` och så vidare är parametrar som skall lämnas med till kommandoinstansen.
+
+Startskriptet för en konsolapplikation är vanligtvis skrivet snarlikt det 
+följande, inte olikt det som tillhör en webbapplikation,
+
+~~~
+[php]
+defined('YII_DEBUG') or define('YII_DEBUG',true);
+// include Yii bootstrap file
+require_once('path/to/yii/framework/yii.php');
+// create application instance and run
+$configFile='path/to/config/file.php';
+Yii::createConsoleApplication($configFile)->run();
+~~~
+
+Sedan skapar vi kommandoklasserna som skall ärva från och utvidga 
+[CConsoleCommand]. Varje kommandoklass skall ha samma namn som dess 
+kommandonamn, med tillägget `Command`. Till exempel, för att definiera ett 
+`email`-kommando skall en `EmailCommand`-klass skrivas. Alla kommandoklassfiler 
+bör placeras under `commands`, en underkatalog till [applikationens 
+rotkatalog](/doc/guide/basics.application#application-base-directory).
+
+> Tip|Tips: Genom konfigurering av [CConsoleApplication::commandMap] kan man 
+även ha kommandoklasser med andra namngivningskonventioner och placerade i andra 
+kataloger.
+
+Att skriva en kommandoklass involverar huvudsakligen implementering av metoden 
+[CConsoleCommand::run]. Kommandoradsparametrar lämnas till denna metod i form av 
+en array. Nedan följer ett exempel:
+
+~~~
+[php]
+class EmailCommand extends CConsoleCommand
+{
+	public function run($args)
+	{
+		$receiver=$args[0];
+		// send email to $receiver
+	}
+}
+~~~
+
+Vid varje tillfälle i ett kommando kan konsolapplikationens instans kommas åt 
+via `Yii::app()`. I likhet med en webbapplikationsinstans, kan även en 
+konsolapplikation konfigureras. Till exempel, kan en applikationskomponent `db` 
+konfigureras för tillgång till en databas. Konfigurationen specificeras 
+vanligtvis som en PHP-fil och lämnas till konstruktorn för konsolapplikationens 
+klass (eller [createConsoleApplication|YiiBase::createConsoleApplication] i startskripetet).
+
+Använda verktyget `yiic`
+------------------------
+
+Vi har använt `yiic`-verktyget för att [skapa en första 
+applikation](/doc/guide/quickstart.first-app). Faktum är att verktyget `yiic` är 
+implementerat som en konsolapplikation vars startskriptfil är 
+`framework/yiic.php`. Genom att använda `yiic`, kan vi utföra uppgifter såsom 
+skapa ett skelett till en webbapplikation, generera en kontroller- eller 
+modellklass, generera kod som behövs för att utföra CRUD-operationer, extrahera 
+meddelanden som skall översättas, etc.
+
+Verktyget `yiic` kan utökas genom tillägg av egna anpassade kommandon. För att 
+göra så, börjar vi med ett applikationsskelett skapat med hjälp av kommandot 
+`yiic webapp`, så som beskrivs i [Skapa en första Yii-
+applikation](/doc/guide/quickstart.first-app). Kommandot `yiic webapp` genererar 
+två filer i katalogen `protected`: `yiic` och `yiic.bat`. De utgör den *lokala* 
+versionen av `yiic`-verktyget, skapad speciellt för webbapplikationen.
+
+Därefter kan vi skapa våra egna kommandon under katalogen `protected/commands`. 
+När vi kör det lokala `yiic`-verktyget, kommer vi att se våra egna kommandon 
+förutom de som är standard. Vi kan också skapa egna kommandon som skall användas 
+med `yiic shell`. För att göra så, placera bara kommandonas klassfiler i 
+katalogen `protected/commands/shell`.
+
+<div class="revision">$Id: topics.console.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>

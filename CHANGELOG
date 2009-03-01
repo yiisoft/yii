@@ -5,9 +5,12 @@
 Version 1.1a to be released
 ---------------------------
 
-
-Version 1.0.3 to be released
+Version 1.0.4 to be released
 ----------------------------
+
+
+Version 1.0.3 March 1, 2009
+---------------------------
 - Bug #127: CUploadedFile is using an undefined variable (Qiang)
 - Bug #132: CMysqlSchema has a typo (Qiang)
 - Bug #133: CSort should properly quote the columns to be sorted (Qiang)

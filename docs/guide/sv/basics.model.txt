@@ -12,17 +12,16 @@ mot en uppsättning regler.
 Yii implementerar två slags modeller: form model och active record. De är båda 
 underklasser till den abstrakta basklassen [CModel].
 
-En form model är en instans av klassen [CFormModel]. Formmodellen används till 
+En form model är en instans av klassen [CFormModel]. Formulärmodellen används till 
 förvaring av användarinmatad data. Sådan data brukar ofta samlas, användas och 
-därefter slängas. Exempelvis kan en inloggningssida använda en formmodell till 
+därefter slängas. Exempelvis kan en inloggningssida använda en formulärmodell till 
 att representera information om användarnamn och lösen tillhandahållna av en 
-slutanvändare. För fler detaljer hänvisas till [Working with 
-Form](/doc/guide/form.model)
+slutanvändare. För fler detaljer hänvisas till [Arbeta med formulär](/doc/guide/form.model)
 
 Active Record (AR) är ett designmönster som används för att abstrahera åtkomst 
 till databaser på ett objektorienterat sätt. Varje AR-objekt är en instans av 
 klassen [CActiveRecord] eller nedärvd klass och det representerar en specifik 
 rad i en databastabell. Fälten i raden/posten representeras som propertyn i AR-
-objektet. Detaljer om AR finns [Active Record](/doc/guide/database.ar).
+objektet. Detaljer om AR finns i [Active Record](/doc/guide/database.ar).
 
 <div class="revision">$Id: basics.model.txt 162 2008-11-05 12:44:08Z weizhuo $</div>

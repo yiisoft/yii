@@ -1,0 +1,53 @@
+Der Entwicklungsprozess mit Yii
+===============================
+
+Nachdem wir die Grundlagen von Yii beschrieben haben, zeigen wir nun den
+typischen Ablauf bei der Entwicklung einer Yii-Anwendung. Für den Ablaufplan
+gehen wir davon aus, dass die Anforderungen für Yii bereits geprüft und die
+nötige Entwurfsanalyse der Anwendung durchgeführt wurde.
+
+   1. Erstellen der grundsätzlichen Verzeichnisstruktur. Um diesen Prozess zu
+beschleunigen, kann der `yiic`-Befehl verwendet werden, wie im Kapitel
+[Erstellen der ersten Yii-Anwendung](/doc/guide/quickstart.first-app)
+beschrieben.
+
+   2. Konfigurieren der [Applikation](/doc/guide/basics.application). Dies
+erfolgt durch Anpassen der Konfigurationsdateien. Dieser Schritt kann auch das
+Erstellen einiger Anwendungskomponenten umfassen (z.B. der "user component",
+einer Benutzerkomponente)
+
+   3. Erstellen einer [Model](/doc/guide/basics.model)-Klasse für alle Arten von
+Daten, die zu verwalten sind. Auch hier kann `yiic` verwendet werden, um
+automatisch [ActiveRecord](/doc/guide/database.ar)-Klassen für alle beteiligten
+Datenbanktabellen zu generieren.
+
+   4. Erstellen einer [Controller](/doc/guide/basics.controller)-Klasse für
+jede Art von Benutzeranfrage. Wie die Benutzeranfragen klassifiziert
+werden, hängt von den tatsächlichen Anforderungen ab. Im allgemeinen gilt,
+dass eine Controller-Klasse für jede Model-Klasse verwendet wird, auf die
+Benutzer zugreifen können sollen. Auch dieser Schritt kann mit dem
+`yiic`-Befehl automatisiert werden.
+
+   5. Implementieren von [Actions](/doc/guide/basics.controller#action) und
+entsprechender [Views](/doc/guide/basics.view). Hier ist die eigentliche
+Arbeit zu verrichten.
+
+   6. Konfigurieren der nötigen Action-[Filter](/doc/guide/basics.controller#filter) 
+in den Controller-Klassen.
+
+   7. Erstellen von [Themes](/doc/guide/topics.theming), falls dieses Feature
+benötigt wird.
+
+   8. Erstellen von Übersetzungen, falls
+[Internationalisierung](/doc/guide/topics.i18n) erforderlich ist.
+
+   9. Ausfindig machen von Daten und Views, die gecacht werden können und
+Anwenden geeigneter [Cache](/doc/guide/caching.overview)-Techniken.
+
+   10. Abschließende [Leistungsoptimierung](/doc/guide/topics.performance) und
+Online-Stellung.
+
+Für jeden der obigen Schritte kann es nötig sein, "Test cases" (sinngem:
+automatisierte Funktionstests) zu erstellen und durchzuführen.
+
+<div class="revision">$Id: basics.workflow.txt 323 2008-12-04 01:40:16Z qiang.xue $</div>

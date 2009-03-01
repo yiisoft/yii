@@ -1,9 +1,10 @@
-﻿* Начало
+* Начало
+	- [Обзор](index)
     - [Что такое Yii](quickstart.what-is-yii)
     - [Установка](quickstart.installation)
     - [Создание первого Yii-приложения](quickstart.first-app)
 
-* Основыы
+* Основы
     - [Модель - Представление - Контроллер (MVC)](basics.mvc)
     - [Входной скрипт](basics.entry)
     - [Приложение](basics.application)
@@ -18,22 +19,22 @@
 * Работа с формами
     - [Обзор](form.overview)
     - [Создание модели](form.model)
-    - [Создание действий](form.action)
+    - [Создание действия](form.action)
     - [Создание формы](form.view)
-    - [Обработка массового ввода (tabular input)](form.table)
+    - [Обработка табличного ввода](form.table)
 
 * Работа с БД
     - [Обзор](database.overview)
-    - [Объекты доступа к БД](database.dao)
+    - [Объекты доступа к данным (DAO)](database.dao)
     - [Активная запись](database.ar)
     - [Реляционная активная запись](database.arr)
 
-* Кеширование
+* Кэширование
     - [Обзор](caching.overview)
-    - [Кеширование данных](caching.data)
-    - [Кеширование фрагментов](caching.fragment)
-    - [Кеширование страниц](caching.page)
-    - [Динамическое содержимое](caching.dynamic)
+    - [Кэширование данных](caching.data)
+    - [Кэширование фрагментов](caching.fragment)
+    - [Кэширование страниц](caching.page)
+    - [Кэширование динамического содержимого](caching.dynamic)
 
 * Расширение Yii
     - [Обзор](extension.overview)
@@ -41,7 +42,7 @@
     - [Создание дополнений](extension.create)
     - [Использование сторонних библиотек](extension.integration)
 
-* Специальніе темі
+* Специальные темы
     - [Красивые адреса (URL)](topics.url)
     - [Аутентификация и авторизация](topics.auth)
     - [Темы оформления](topics.theming)
@@ -53,3 +54,5 @@
     - [Консольные приложения](topics.console)
     - [Безопасность](topics.security)
     - [Улучшение производительности](topics.performance)
+
+<div class="revision">$Id: toc.txt 723 2009-02-21 18:14:05Z qiang.xue $</div>
