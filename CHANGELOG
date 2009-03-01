@@ -2,6 +2,10 @@
                    Yii Framework Change Log
                    ========================
 
+Version 1.0.4 to be released
+----------------------------
+
+
 Version 1.0.3 March 1, 2009
 ---------------------------
 - Bug #127: CUploadedFile is using an undefined variable (Qiang)
