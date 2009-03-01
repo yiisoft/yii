@@ -3,7 +3,7 @@ Dynamiskt innehåll
 
 Vid användning av [fragmentcachning](/doc/guide/caching.fragment) eller 
 [sidcachning](/doc/guide/caching.page), uppstår ofta situationen att större 
-delen av utdata är relativt statiskt, sånär som vid ett eller flera ställen. 
+delen av utdata är relativt statiskt, så när som på något eller några enstaka ställen. 
 Till exempel en hjälpsida kan presentera statisk hjälpinformation med namnet på 
 den för tillfället inloggade användaren synligt längst upp.
 
@@ -20,7 +20,7 @@ innehållet dynamiskt måste det genereras varje gång, även när det omslutand
 innehållet levereras från cache. Av denna anledning krävs det att dynamiskt 
 innehåll genereras av någon metod eller funktion.
 
-Anrop av [CController::renderDynamic()] skjuter in dynamiskt innehåll på önskad 
+Anrop av [CController::renderDynamic()] infogar dynamiskt innehåll på önskad 
 plats.
 
 ~~~

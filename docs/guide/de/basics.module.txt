@@ -1,0 +1,149 @@
+Modul
+=====
+
+> Note|Hinweis: Module werden seit Version 1.0.3 unterstützt.
+
+Ein Modul ist eine in sich geschlossene Einheit, die aus
+[Models](/doc/guide/basics.model), [Views](/doc/guide/basics.view),
+[Controllern](/doc/guide/basics.controller) und anderen tragenden Komponenten
+besteht. In vielerlei Hinsicht erinnert ein Modul an eine
+[Applikation](/doc/guide/basics.application). Der wesentliche Unterschied
+besteht darin, dass ein Modul nicht für sich allein betrieben werden kann und
+in eine Applikation eingebettet werden muss. Anwender können auf die Controller
+eines Moduls genauso wie auf gewöhnliche Controller einer Anwendung zugreifen.
+
+Module sind in vielen Fällen nützlich. Eine große Anwendung könnte in mehrere
+Module unterteilt werden, die alle einzeln entwickelt und gewartet werden
+können. Einige häufig auftretende Features, wie Benutzer- oder
+Kommentarverwaltung, können als Modul entwickelt werden, um sie in späteren
+Projekten einfach wiederverwenden zu können.
+
+Erstellen eines Moduls
+----------------------
+
+Ein Modul wird in einem Verzeichnis mit der eindeutigen [ID|CWebModule::id]
+des Moduls untergebracht. Die Struktur eines Modulverzeichnisses ist ähnlich
+zum
+[Stammverzeichnis](/doc/guide/basics.application#application-base-directory)
+der Anwendung. Im Folgenden sehen Sie die typische Struktur eines Moduls mit
+dem Namen `forum`:
+~~~
+forum/
+   ForumModule.php            die Klassendatei des Moduls
+   components/                enthält wiederverwendbare Benutzerkomponenten
+      views/                  enthält Viewdateien für Widgets
+   controllers/               enthält Klassendateien von Controllern
+      DefaultController.php   Die Klassendatei des Standardcontrollers
+   extensions/                enthält Erweiterungen von Dritten 
+   models/                    enthält Klassendateien von Models
+   views/                     enthält View- und Layoutdateien für Controller
+      layouts/                enthält Layout-Viewdateien 
+      default/                enthält Viewdateien für den Standardcontroller
+         index.php            die Datei des Index-Views
+~~~
+
+Ein Modul muss eine Modulklasse beinhalten, die von [CWebModule] abgeleitet
+wurde. Der Klassenname wird mit dem Ausdruck `ucfirst($id).'Module'` gebildet,
+wobei `$id` sich auf die Modul-ID (oder den Verzeichnisnamen des Moduls)
+bezieht. Die Modulklasse dient als zentraler Speicherort für Informationen, die
+vom ganzen Modulcode verwendet werden. Wir können zum Beispiel
+[CWebModule::params] oder [CWebModule::components] verwenden, um
+Modulparameter bzw.
+[Anwendungskomponenten](/doc/guide/basics.application#application-component)
+auf Modulebene bereitzustellen.
+
+> Tip|Tipp: Wir können den `yiic`-Befehl verwenden, um das Grundgerüst eines
+>Moduls anzulegen. Um zum Beispiel das obenstehende `forum`-Modul zu erstellen,
+>können wir folgende Befehle an der Eingabeaufforderung ausführen:
+> ~~~
+> % cd WebRoot/testdrive
+> % protected/yiic shell
+> Yii Interactive Tool v1.0
+> Please type 'help' for help. Type 'exit' to quit.
+> >> module forum
+> ~~~
+
+
+Verwenden von Modulen
+---------------------
+
+Um eine Modul zu verwenden, legen Sie zunächst das Modulverzeichnis unter
+`modules` im
+[Stammverzeichnis](/doc/guide/basics.application#application-base-directory)
+der Anwendung ab. Deklarieren Sie danach die Modul-ID über die Eigenschaft
+[modules|CWebApplication::modules] der Anwendung. Um zum Beispiel das obige
+`forum`-Modul zu verwenden, können wir folgende
+[Anwendungskonfiguration](/doc/guide/basics.application#application-configuration)
+vornehmen:
+
+~~~
+[php]
+return array(
+	......
+	'modules'=>array('forum',...),
+	......
+);
+~~~
+
+Für ein Modul können auch Startwerte für dessen Eigenschaften konfiguriert
+werden. Die Konfiguration erfolgt dabei ähnlich zu der von
+[Anwendungskomponenten](/doc/guide/basics.application#application-component).
+Das `forum`-Modul könnte zum Beispiel eine Eigenschaft `postPerPage` (Beiträge
+pro Seite) in seiner Modulklasse haben, die wir folgendermaßen in der
+[Anwendungskonfiguration](/doc/guide/basics.application#application-configuration)
+definieren können:
+
+~~~
+[php]
+return array(
+	......
+	'modules'=>array(
+	    'forum'=>array(
+	        'postPerPage'=>20,
+	    ),
+	),
+	......
+);
+~~~
+
+Auf die Instanz des Moduls kann über die [module|CController::module]-Eigenschaft
+des gerade aktiven Controllers zugegriffen werden. Über die Modulinstanz
+können wir auf die gesammelten Informationen auf Modulebene zugreifen. Um zum
+Beispiel die obige `postPerPage`-Information auszulesen, können wir folgenden
+Ausdruck verwenden:
+
+~~~
+[php]
+$postPerPage=Yii::app()->controller->module->postPerPage;
+// oder den folgenden, wenn $this sich auf die Controllerinstanz bezieht
+// $postPerPage=$this->module->postPerPage;
+~~~
+
+Eine Controller-Action in einem Modul kann über die
+[Route](/doc/guide/basics.controller#route) `modulID/controllerID/actionID`
+aufgerufen werden. Wenn wir zum Beispiel annehmen, dass das obige
+`forum`-Modul einen Controller namens `PostController` besitzt, können wir die
+[Route](/doc/guide/basics.controller#route) `forum/post/create` verwenden, um
+uns auf die Action `create` in diesem Controller zu beziehen. Die
+entsprechende URL für diese Route wäre dann
+`http://www.example.com/index.php?r=forum/post/create`.
+
+
+> Tip|Tipp: Wenn ein Controller in einem Unterverzeichnis unterhalb `controllers`
+> abgelegt wurde, können wir immer noch das obige Format für die
+> [Route](/doc/guide/basics.controller#route) verwenden. Läge der
+> `PostController` zum Beispiel unter `forum/controllers/admin`, könnten wir
+> auf seine Action `create` über `forum/admin/post/create` zugreifen.
+
+
+Verschachtelte Module
+---------------------
+
+Module können ineinander verschachtelt werden. Das bedeutet, dass ein Modul
+ein weiteres Modul enthalten kann. Wir nennen ersteres *Elternmodul*, letzeres
+*Kindmodul*. Kindmodule müssen im `modules`-Verzeichnis des Elternmoduls
+abgelegt werden. Um eine Controller-Action in einem Kindmodul aufzurufen,
+sollten wir die Route `elternModulID/kindModulID/controllerID/actionID`
+verwenden.
+
+<div class="revision">$Id: basics.module.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>

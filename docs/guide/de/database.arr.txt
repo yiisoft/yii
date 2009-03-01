@@ -1,0 +1,359 @@
+﻿ActiveRecord-Beziehungen
+========================
+
+Wir haben schon gesehen, wie wir ActiveRecord (AR) nutzen können, um Daten
+einer einzelnen Tabelle auszulesen. In diesem Abschnitt beschreiben wir,
+wie wir mit AR mehrere relationale Datentabellen zusammenführen,
+um verbundene Datensätze zurückzuerhalten.
+
+Um mit AR-Beziehungen zu arbeiten, müssen zwischen den zu
+verbindenden Tabellen eindeutige Fremdschlüsselbeziehungen definiert worden sein. 
+AR stützt sich auf die Metadaten dieser Beziehungen, um zu ermitteln, 
+wie die Tabellen verbunden werden sollen.
+
+> Note|Hinweis: Ab Version 1.0.1 können Sie AR-Beziehungen auch verwenden,
+>wenn Sie keine Fremdschlüssel-Constraints in ihrer Datenbank definiert haben.
+
+Der Einfachheit halber, verwenden wir zur Veranschaulichung der Beispiel in
+diesem Abschnitt das folgende ER-Diagramm (engl.: entity relationship,
+Gegenstands-Beziehungs-Modell).
+
+![ER-Diagramm](er.png)
+
+> Info|Info: DBMS unterscheiden sich in ihrer jeweiligen Unterstützung von
+> Fremdschlüssel-Constraints.
+>
+> SQLite unterstützt keine Fremschlüssel-Constraints, aber Sie können beim Erstellen
+> von Tabellen trotzdem Constraints festlegen. AR kann sich diese Angaben zunutze 
+> machen, um Verbundabfragen in richtiger Weise zu unterstützen.
+>
+> MySQL unterstützt Fremdschlüssel-Constraints mit der InnoDB-Engine, aber nicht mit 
+> MyISAM. Es wird deshalb empfohlen, dass Sie InnoDB für MySQL-Datenbanken benutzen.
+> Falls Sie MyISAM verwenden, können Sie Verbund-Abfragen mit AR mit folgendem Trick 
+> durchführen:
+> ~~~
+> [sql]
+> CREATE TABLE Foo
+> (
+>   id INTEGER NOT NULL PRIMARY KEY
+> );
+> CREATE TABLE bar
+> (
+>   id INTEGER NOT NULL PRIMARY KEY,
+>   fooID INTEGER
+>      COMMENT 'CONSTRAINT FOREIGN KEY (fooID) REFERENCES Foo(id)'
+> );
+> ~~~
+> Hier verwenden wir das Schlüsselwort `COMMENT`, um die Fremdschlüssel-Constraints
+> zu beschreiben. AR kann diese Informationen auslesen, um die Beziehung zu erkennen.
+
+Festlegen der Beziehungen
+-------------------------
+
+Bevor wir Verbundabfragen mit AR durchführen können, müssen wir AR bekannt geben,
+wie eine AR-Klasse mit einer anderen in Beziehung steht.
+
+Die Beziehung zwischen zwei AR-Klassen steht in direktem Zusammenhang mit der
+Beziehung zwischen den Datenbanktabellen, die die AR-Klassen repräsentieren. 
+Aus Sicht der Datenbank gibt es drei Beziehungstypen zwischen zwei
+Tabellen A und B: eins-zu-viele (engl.: one-to-many, 1:n, z.B. zwischen `User` und `Post`), 
+eins-zu-eins (engl.: one-to-one, 1:1, z.B. zwischen `User` und `Profile`) und
+viele-zu-viele (engl.: many-to-many, n:m, z.B. zwischen `Category` und `Post`):
+
+   - `BELONGS_TO` (gehört zu): Wenn die Beziehung zwischen den Tabellen A und B
+eins-zu-viele ist, dann gehört B zu A (z.B. `Post` gehört zu `User`).
+
+   - `HAS_MANY` (hat viele): Wenn die Beziehung zwischen der Tabelle A und B 
+eins-zu-viele ist, dann hat A viele B (z.B. `User` hat viele `Post`).
+
+   - `HAS_ONE` (hat ein): Dies ist ein Spezialfall von `HAS_MANY`, wobei A höchstens ein
+B hat (z.B. `User` hat höchstens ein `Profile`).
+
+   - `MANY_MANY` (viele viele): Dies entspricht der viele-zu-viele-Beziehung (n:m-Beziehung) bei
+Datenbanken. Eine Verbindungstabelle wird benötigt, um die viele-zu-viele
+Beziehung auf eins-zu-viele-Beziehungen herunterzubrechen, da die meisten DBMS 
+viele-zu-viele-Beziehungen nicht direkt unterstützen. In unserem Schema dient 
+`PostCategory` diesem Zweck. In AR-Terminologie können wir `MANY_MANY` als
+eine Kombination von `BELONGS_TO` und `HAS_MANY` erklären. Beispielsweise gehört
+`Post` zu vielen `Category` und `Category` hat viele `Post`.
+   
+Das Festlegen der Beziehungen geschieht in AR durch Überschreiben der 
+[relations()|CActiveRecord::relations]-Methode von [CActiveRecord]. Die Methode 
+gibt ein Array der Beziehungsstruktur zurück. Jedes Arrayelement repräsentiert 
+eine einzelne Beziehung im folgenden Format:
+
+~~~
+[php]
+'VarName'=>array('RelationsTyp', 'KlassenName', 'FremdSchlüssel', ...Zusätzliche Optionen)
+~~~
+
+wobei `VarName` der Name der Beziehung ist. `RelationsTyp` spezifiziert den Typ der Beziehung 
+und kann eine dieser vier Konstanten sein: `self::BELONGS_TO`, `self::HAS_ONE`,
+ `self::HAS_MANY` und `self::MANY_MANY`. `KlassenName` ist der Name der AR-Klasse, die zu
+dieser in Beziehung steht. Und `FremdSchlüssel` gibt den/die an der Beziehung beteiligten
+Fremdschlüssel an. Am Ende können zusätzliche Optionen für jede Beziehung angegeben werden
+(was später beschrieben wird).
+
+Der folgende Code zeigt, wie wir die Beziehung für die `User`- und `Post`-Klasse angeben.
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+			'author'=>array(self::BELONGS_TO, 'User', 'authorID'),
+			'categories'=>array(self::MANY_MANY, 'Category', 'PostCategory(postID, categoryID)'),
+		);
+	}
+}
+
+class User extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+			'posts'=>array(self::HAS_MANY, 'Post', 'authorID'),
+			'profile'=>array(self::HAS_ONE, 'Profile', 'ownerID'),
+		);
+	}
+}
+~~~
+
+> Info|Info: Ein Fremdschlüssel kann auch ein kombinierter Schlüssel sein,
+also aus zwei oder mehr Attributen bestehen. In diesem Fall sollten wir die Namen der
+Fremdschlüssel verketten und durch ein Komma oder Leerzeichen trennen. Beim 
+`MANY_MANY` Beziehungstyp muss der Name der Verbindungstabelle beim
+`FremdSchlüssel` ebenfalls angegeben werden. Zum Beispiel ist der Fremdschlüssel für die 
+`categories`-Beziehung in `Post` mit `PostCategory(postID, categoryID)` angegeben.
+
+Das Definieren von Beziehungen in einer AR-Klasse fügt dieser implizit eine Eigenschaft
+für jede Beziehung hinzu. Nachdem eine Verbundanfrage ausgeführt wurde, ist die
+entsprechende Eigenschaft mit der/den verbundenen AR Instanz(en) befüllt.
+Steht `$author` bespielsweise für eine AR-Instanz `User`, so können wir mit 
+`$author->posts` auf die verbundenen `Post`-Instanzen zugreifen.
+
+Ausführen von Verbundabfragen
+-----------------------------
+
+Die einfachste Art, Verbundabfragen auszuführen, ist, eine Verbundeigenschaft
+einer AR-Instanz zu lesen. Falls auf die Eigenschaft noch nicht zugegriffen wurde,
+wird eine Verbundabfrage ausgelöst, die die beiden betroffenen Tabellen kombiniert 
+und nach dem Primärschlüssel der aktuellen AR-Instanz filtert.
+Das Abfrageergebnis wird in der Eigenschaft als Instanz(en) der verbundenen
+AR-Klasse gespeichert. Dies ist unter dem Namen *lazy loading*-Methode
+(träges Nachladen) bekannt, d.h. die Verbundabfrage wird erst beim ersten Zugriff 
+auf die Verbundobjekte durchgeführt. Das folgende Beispiel zeigt, wie man dieses Konzept 
+einsetzen kann:
+
+~~~
+[php]
+// Frage den Beitrag mit der ID 10 ab
+$post=Post::model()->findByPk(10);
+// Frage den Autor des Beitrags ab: Hier wird eine Verbundabfrage durchgeführt
+$author=$post->author;
+~~~
+
+> Info|Info: Wenn es keine verbundene Instanz für die Beziehung gibt, kann die
+entsprechende Eigenschaft null oder ein leeres Array sein. Für die `BELONGS_TO`
+und `HAS_ONE` Beziehungen ist das Ergebnis null, für `HAS_MANY` und `MANY_MANY`
+ein leerer Array.
+
+Die `lazy loading`-Methode ist sehr bequem einzusetzen, aber in einigen Szenarien
+nicht sehr effizient. Wenn wir beispielsweise mit der `lazy loading`-Methode auf 
+die `author`-Information von `N` Posts zugreifen wollen, müssen `N` Verbundabfragen
+durchgeführt werden. Unter diesen Umständen sollten wir auf die so genannte
+*eager loading*-Methode (begieriges Laden) zurückgreifen.
+
+Das `eager loading`-Konzept fragt die verbundenen AR Instanzen zusammen mit der
+AR Hauptinstanz ab. Das wird in AR mit der [with()|CActiveRecord::with]-Methode zusammen
+mit der [find|CActiveRecord::find]- oder [findAll|CActiveRecord::findAll]-Methode
+durchgeführt. Zum Beispiel:
+~~~
+[php]
+$posts=Post::model()->with('author')->findAll();
+~~~
+
+Der obige Code liefert ein Array von `Post`-Instanzen. Anders als beim
+`lazy loading`-Ansatz ist die `author`-Eigenschaft in jeder `Post`-Instanz
+schon mit der verbundenen `User`-Instanz befüllt, bevor wir auf die Eigenschaft zugreifen.
+Anstatt eine Verbundabfrage für jeden Post durchzuführen, liefert der
+`eager loading`-Ansatz mit einer einzigen JOIN-Abfrage alle Beiträge zusammen 
+mit ihren Autoren.
+
+Wir können mehrere Namen von Beziehungen in der [with()|CActiveRecord::with]-Methode
+angeben und mit der `eager loading`-Methode alle in einem Zug zurückerhalten.
+Beispielsweise liefert der folgende Code Beiträge zusammen mit ihren Autoren und
+Kategorien zurück:
+
+~~~
+[php]
+$posts=Post::model()->with('author','categories')->findAll();
+~~~
+
+Wir können auch verschachteltes `eager loading` ausführen. Anstatt einer Liste
+von Beziehungsnamen, können wir der [with()|CActiveRecord::with]-Methode 
+eine hierarchische Darstellung wie folgt mitgeben:
+
+~~~
+[php]
+$posts=Post::model()->with(
+	'author.profile',
+	'author.posts',
+	'categories')->findAll();
+~~~
+
+Das obige Beispiel liefert alle Beiträge zusammen mit ihrem Autor und den
+Kategorien zurück. Zusätzlich wird auch das Profil sowie alle Beiträge des
+jeweiligen Autors zurückgegeben.
+
+> Note|Hinweis: Die Verwendung der [with()|CActiveRecord::with]-Methode hat sich ab
+> Version 1.0.2 geändert. Bitte lesen Sie die API-Dokumentation sorgfältig durch.
+
+Die AR-Implementierung von Yii ist sehr effektiv. Beim `eager loading` einer
+Hierarchie von `N` `HAS_MANY`- oder `MANY_MANY`-Beziehungen sind `N+1`
+SQL Abfragen erforderlich, um das Ergebnis zu erhalten. Das bedeutet, dass
+im letzten Beispiel 3 SQL Abragen für die `posts`- und `categories`-Eigenschaften
+ausgeführt werden müssen. Andere Frameworks verfolgen eine fundamentalere
+Herangehensweise, indem sie nur eine SQL Anweisung benutzen. Auf den ersten Blick
+ist dieses fundamentalere Verfahren effizienter, da weniger Anfragen vom DBMS
+analysiert und ausgeführt werden müssen. In Wahrheit ist es aber aus zwei Gründen
+tatsächlich unpraktisch. Erstens enthält das Ergebnis viele, sich wiederholende
+Datenspalten, für deren Übermittlung und Bearbeitung zusätzliche Zeit benötigt wird.
+Zweitens wächst mit der Anzahl der beteiligten Tabellen die Anzahl der Spalten
+exponentiell und das macht es unübersichtlicher, wenn mehrere Beziehungen daran beteiligt sind.
+
+Seit Version 1.0.2 können sie auch erzwingen, dass die Verbundanfrage mit genau einer
+SQL Abfrage durchgeführt wird. Fügen Sie einfach einen 
+[together()|CActiveFinder::together]-Aufruf nach [with()|CActiveRecord::with] an, z.B.
+
+~~~
+[php]
+$posts=Post::model()->with(
+	'author.profile',
+	'author.posts',
+	'categories')->together()->findAll();
+~~~
+
+Die obige Abfrage wird über eine einzelne SQL-Abfrage ausgeführt. Ohne 
+den Aufruf von [together|CActiveFinder::together] würden zwei SQL Abfragen 
+benötigt werden: eine, für den Verbund der Tabellen `Post`, `User` und `Profile`
+und eine, die die Tabellen `User` und `Post` verbindet.
+
+Optionen für Verbundabfragen
+----------------------------
+
+Wir haben bereits erwähnt, dass bei Beziehungsdeklarationen zusätzliche Optionen 
+angegeben werden können. Diese Optionen, durch Name-Wert-Paare festgelegt, werden 
+verwendet um die Verbundabfrage individuell anzupassen. Sie sind nachfolgend zusammengestellt.
+
+   - `select`: Eine Liste der abzufragenden Spalten der betreffenden AR Klasse.
+Der Standardwert ist '*', d.h. alle Spalten. Die Spaltennamen sollten durch
+`aliasToken` eindeutig gekennzeichnet sein, wenn sie in einem Ausdruck auftreten
+(z.B. `COUNT(??.name) AS nameCount`).
+
+   - `condition`: Die `WHERE` Klausel, standardmäßig leer. Beachten Sie,
+dass Spaltenreferenzen mit `aliasToken` eindeutig gekennzeichnet werden müssen (z.B. `??.id=10`).
+
+   - `params`: Die Parameter, die an die erzeugte SQL Abfrage gebunden werden sollen.
+Diese sollten als ein Array von Namen-Werte Paaren angegeben werden. Diese Option ist
+seit Version 1.0.3 verfügbar.
+
+   - `on`: Die `ON` Klausel. Die hier angegebene Bedingung wird an die JOIN Abfrage
+mit einem `AND` Operator angehängt. Diese Option ist seit Version 1.0.2 verfügbar.
+
+   - `order`: Die `ORDER BY` Klausel, standardmäßig leer. Beachten Sie,
+dass Spaltenreferenzen mit `aliasToken` eindeutig gekennzeichnet werden müssen (z.B. `??.age
+DESC`).
+
+   - `with`: Eine Liste kind-bezogener Objekte, die zusammen mit diesem Objekt
+geladen werden sollen. Beachten Sie, dass dies nur bei `lazy loading` und nicht beim 
+`eager loading` verwendet wird.
+
+   - `joinType`: Jointyp für diesen Beziehungstyp. Der Standardwert ist `LEFT
+OUTER JOIN`.
+
+   - `aliasToken`: Der Platzhalter für die Spaltenpräfix. Er wird durch den
+entsprechenden Alias der Tabelle ersetzt, um die Spaltenreferenzen zu vereindeutigen.
+Der Standardwert ist `'??.'`
+
+   - `alias`: Der Alias für die in dieser Beziehung verbundene Tabelle.
+Diese Option ist seit Version 1.0.1 verfügbar. Der Standardwert ist null,
+das bedeutet, der Tabellenalias wird automatisch erzeugt. Das ist etwas
+anderes als `aliasToken`. Im letzterem Falle handelt es sich nur um einen Platzhalter, der
+vom tatsächlichen Tabellenalias ersetzt wird.
+
+Zusätzlich sind für bestimmte Beziehungen folgende Optionen beim `lazy loading`
+verfügbar:
+
+   - `group`: Die `GROUP BY` Klausel, standardmäßig leer. Beachten Sie,
+dass Spaltenreferenzen mit `aliasToken` eindeutig gekennzeichnet werden müssen (z.B. `??.age`).
+Diese Option ist nur anwendbar bei `HAS_MANY` und `MANY_MANY` Beziehungen.
+
+   - `having`: Die `HAVING` Klausel, standarmäßig leer. Beachten Sie,
+dass Spaltenreferenzen mit `aliasToken` eindeutig gekennzeichnet werden müssen (z.B. `??.age`).
+Diese Option ist nur bei `HAS_MANY` und `MANY_MANY` Beziehungen anwendbar.
+die Option ist seit Version 1.0.1. verfügbar.
+
+   - `limit`: Begrenzt die auszuwählenden Zeilen. Diese Option ist bei der Beziehung
+`BELONGS_TO` NICHT anwendbar.   
+
+   - `offset`: Versatz der auszuwählenden Zeilen. Diese Option ist bei der Beziehung
+`BELONGS_TO` NICHT anwendbar.   
+   
+Nachfolgend modifizieren wir die `posts`-Beziehung beim `User` indem wir einige der
+obigen Optionen einbeziehen:
+
+~~~
+[php]
+class User extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+			'posts'=>array(self::HAS_MANY, 'Post', 'authorID'
+							'order'=>'??.createTime DESC',
+							'with'=>'categories'),
+			'profile'=>array(self::HAS_ONE, 'Profile', 'ownerID'),
+		);
+	}
+}
+~~~
+
+Wenn wir jetzt auf `$author->posts` zugreifen, erhalten wir die `posts` des
+`author` absteigend sortiert nach ihrer `creation time` (Erstellzeitpunkt). 
+Bei jedem Post wurden auch seine Kategorien geladen.
+
+> Info|Info: Wenn ein Spaltenname in zwei oder mehr Tabellen auftaucht, die
+verbunden werden sollen, muss er eindeutig gekennzeichnet werden. Dies geschieht durch
+voranstellen des Tabellennamens vor den Spaltennamen. Aus `id` wird beispielsweise 
+`Team.id`. Bei AR-Verbundabfragen haben wir diese Freiheit nicht, da AR den
+SQL-Ausdruck automatisch erzeugt und jeder Tabelle systematisch ein Alias gegeben wird.
+Um Konflikte mit Spaltennamen zu vermeiden, benutzen wir daher einen
+Platzhalter, um zu markieren, dass wir eine zu kennzeichnende Spalte
+verwenden. AR ersetzt den Platzhalter mit einem geeignet Tablellenalias und 
+sorgt so fur eine ordnungsgemäße eindeutige Kennzeichnung.
+
+
+Dynamische Optionen für Verbundabfragen
+---------------------------------------
+
+Seit Version 1.0.2 können wir dynamische Optionen für Verbundabfragen sowohl bei
+[with()|CActiveRecord::with], als auch bei der `with`-Option nutzen. Die dynamischen
+Optionen überschreiben die in der
+[relations()|CActiveRecord::relations]-Methode spezifisierten.
+Wollen wir beispielsweise im obigen `User`-Model den `eager loading`-Ansatz
+nutzen, um die Beiträge, die zu einem Autor gehören in *aufsteigender
+Reihenfolge* zu erhalten (die `order`-Option in der `relations`-Angabe verwendet
+absteigende Reihenfolge), können wir das folgendermaßen erreichen:
+
+~~~
+[php]
+User::model()->with(array(
+	'posts'=>array('order'=>'??.createTime DESC'),
+	'profile',
+))->findAll();
+~~~
+
+<div class="revision">$Id: database.arr.txt 683 2009-02-16 05:20:17Z qiang.xue $</div>

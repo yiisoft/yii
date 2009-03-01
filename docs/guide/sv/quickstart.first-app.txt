@@ -3,22 +3,28 @@ Skapa en första Yii-applikation
 
 För en inledande bekantskap med Yii beskrivs i detta avsnitt hur man kan skapa 
 en första Yii-applikation. Det kraftfulla verktyget `yiic` kan användas till att 
-automatisera kodgenerering för olika ändamål. Vi antar att `YiiRoot` är 
-katalogen där Yii är installerat. Kör `yiic` från en kommandorad enligt 
-följande:
+automatisera kodgenerering för vissa ändamål. Vi antar att `YiiRoot` är 
+katalogen där Yii är installerat, samt att `WebRoot` är webbserverns rotkatalog 
+för dokument. 
+
+Kör `yiic` från en kommandorad enligt följande:
 
 ~~~
 % YiiRoot/framework/yiic webapp WebRoot/testdrive
 ~~~
 
-> Märk: Om `yiic` körs under Mac OS, Linux eller Unix, kan rättigheterna för 
-filen `yiic` behöva kompletteras så att den blir körbar (executable). Det går 
-även att skriva `php YiiRoot/framework/yiic.php` som alternativ till `yiic`. 
+> Note|Märk: Om `yiic` körs under Mac OS, Linux eller Unix, kan rättigheterna för 
+> filen `yiic` behöva kompletteras så att den blir körbar (executable).
+> Alternativt kan verktyget köras på följande sätt,
+>
+> ~~~
+> % cd WebRoot/testdrive
+> % php YiiRoot/framework/yiic.php webapp WebRoot/testdrive
+> ~~~
 
 Detta kommer att skapa en mall till Yii-applikation under katalogen 
-`WebRoot/testdrive`, där `WebRoot` står för webbserverns dokumentrotkatalog. 
-Applikationen utgör en bra grund för tillägg av fler finesser eftersom den har 
-alla erforderliga kataloger och filer.
+`WebRoot/testdrive`. Applikationen har en katalogstruktur som kommer till 
+användning i de flesta Yii-applikationer. 
 
 Utan att skriva en enda rad kod kan den första Yii-applikationen nu testköras 
 genom att mata in följande URL i webbläsarens adressfält:
@@ -32,7 +38,7 @@ inloggningssidan. Startsidan visar lite information om applikationen samt
 användarens inloggningsstatus, kontaktsidan presenterar ett kontaktformulär som 
 användare kan fylla i för att skicka sina förfrågningar och inloggningssidan ger 
 användare möjlighet att bli autentiserade för åtkomst till priviligierat 
-innehåll. Se nedanstående skärmdumpar för närmare detlajer.
+innehåll. Se nedanstående skärmdumpar för närmare detaljer.
 
 ![Starsida](first-app1.png)
 
@@ -109,11 +115,11 @@ return array(
 );
 ~~~
 
-Ovan, läggs ett `db`-element till i `components`, vilket instruerar 
+Ovan läggs ett `db`-element till i `components`, vilket instruerar 
 applikationen att ansluta till SQLite-databasen 
 `WebRoot/testdrive/protected/data/source.db` när så erfordras.
 
-> Märk: För att använda Yii:s databasfiness, måste vi aktivera PHP PDO-tillägget 
+> Note|Märk: För att använda Yii:s databasfiness, måste vi aktivera PHP PDO-tillägget 
 samt det drivrutinsspecifika PDO-tillägget. Testkörningsapplikationen behöver ha 
 `php_pdo` och `php_pdo_sqlite`-tilläggen igång.
 
@@ -143,12 +149,13 @@ Nu till den roliga biten. Vi vill implementera CRUD-operationerna (create, read,
 update och delete) för tabellen `User` vi just skapat. Detta är även ett vanligt 
 förekommande krav i skarpa webbapplikationer.
 
-Vi använder återigen verktyget `yiic` som hjälp för att generera den 
-erforderliga koden. Denna process kallas även för *scaffolding*.
+I stället för omaket att skriva kod manuellt, använder vi återigen verktyget `yiic` 
+som hjälp för att generera den erforderliga koden åt oss. Denna process kallas även 
+för *scaffolding*. Öppna ett kommandoradsfönster och kör nedanstående kommandon,
 
 ~~~
 % cd WebRoot/testdrive
-% YiiRoot/framework/yiic shell
+% protected/yiic shell
 Yii Interactive Tool v1.0
 Please type 'help' for help. Type 'exit' to quit.
 >> model User
@@ -173,20 +180,21 @@ Crud 'user' has been successfully created. You may access it via:
 http://hostname/path/to/index.php?r=user
 ~~~
 
-Ovan används `shell`-kommandot i `yiic` till att interagera med den nyligen 
-skapade applikationen. Vid kommandoprompten kan vi mata in en giltig PHP-sats 
-eller ett uttryck som skall utvärderas och skrivas ut. Vi kan också utföra 
-uppgifter som `model` och `crud` exemplifierat ovan. `model`-kommandot skapar 
-automatiskt en modellklass `User`,  baserat på schemat för tabellen `User`. 
-`crud`-kommandot genererar kontrollerklassen och vyer som implementerar CRUD-
-operationerna för modellen `User`.
+Ovan används `shell`-kommandot i `yiic` till att interagera med mallapplikationen. 
+Vid kommandoprompten kör vi två underkommandon: `model User` och `crud User`. 
+Den förra skapar en modellklass för tabellen `User`, medan den senare läser 
+`User`-modellen och genererar koden som erfordras för CRUD-operationerna.
 
-> Märk: Om förändringar görs i koden eller konfigurationen, starta om `yiic 
-shell` så att den nya koden eller konfigurationen kan få effekt. Kontrollera 
-också att rätt PHP CLI används för att exekvera `yiic`. I annat fall kan fel i 
-stil med "...could not find driver" uppstå, trots att PDO och motsvarande 
-databasdrivrutin redan är aktiva. Anledningen till den sortens fel är ofta att 
-den ej tilltänkta PHP CLI:n använder en oväntad `php.ini`.
+> Note|Märk: Det kan hända att felmeddelanden i stil med "...could not find driver"
+> uppstår, även om systemkravskontrollen visar att PDO och motsvarande databasdrivrutin 
+> redan är aktiva. Om detta inträffar kan man försöka med att köra `yiic`-verktyget på 
+> följande sätt,
+>
+> ~~~
+> % php -c path/to/php.ini protected/yiic.php shell
+> ~~~
+>
+> där `path/to/php.ini` representerar den rätta ini-filen för PHP.
 
 Resultatet kan nu beskådas genom inmatning av URL:en:
 
@@ -208,7 +216,7 @@ Upprepa ovanstående för att lägga till fler användare. Lägg märke till att
 listsidan automatiskt kommer att paginera user-posterna om de är för många för 
 att visas på en sida.
 
-Genom inloggning som administratör med `admin/admin`, kan user:s administrationssida visas genom följande URL:
+Genom inloggning som administratör med `admin/admin`, kan user:s administrationssida visas via följande URL:
 
 ~~~
 http://hostname/testdrive/index.php?r=user/admin
@@ -226,4 +234,4 @@ Allt detta uppnåddes utan att skriva en enda rad kod!
 
 
 
-<div class="revision">$Id: quickstart.first-app.txt 446 2009-01-02 04:42:53Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app.txt 723 2009-02-21 18:14:05Z qiang.xue $</div>

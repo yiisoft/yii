@@ -59,7 +59,7 @@ Widget
 
 En widget är en instans av [CWidget] eller nedärvd klass. Den är en komponent 
 huvudsakligen avsedd för presentation. Widget bäddas vanligen in i vyskript för 
-att generera något komplext, men ändå i sin helhet ingående, användargränssnitt. 
+att generera något komplext, men ändå komplett och oberoende, användargränssnitt. 
 Till exempel kan en kalenderwidget användas till att rendera ett avancerat 
 kalendergränssnitt. Widget möjliggör bättre återanvändningsbarhet av 
 användargränssnittet.
@@ -82,13 +82,13 @@ eller
 
 Det senare används när widget:en inte behöver omfatta innehåll (body content).
 
-Widget kan konfigureras för anpassning av deras beteende. Detta sker genom att 
-man sätter deras initiala propertyvärden vid anrop till 
+Widget kan konfigureras för anpassning av dess beteende. Detta sker genom att 
+man sätter dess initiala propertyvärden vid anrop till 
 [CBaseController::beginWidget] eller [CBaseController::widget]. Till exempel, 
 för [CMaskedTextField] widget:en, vill vi kunna specificera vilken mask som 
 skall användas. Detta kan göras genom att lämna med en array av initialvärden 
 för widget-egenskaper (property) på följande sätt, där arrayens nycklar är 
-egenskapsnamn, arrayvärdena initialvärden för widget:ens egenskaper:
+egenskapsnamn, arrayvärdena initialvärden för widgetens egenskaper:
 
 ~~~
 [php]
@@ -120,7 +120,7 @@ class MyWidget extends CWidget
 
 En widget kan. liksom en kontroller, ha sin egen vy. Som standard har en widget 
 sina vyfiler placerade i underkatalogen `views` till katalogen som innehåller 
-widget:ens klassfil. Dessa vyer kan renderas genom anrop till 
+widgetens klassfil. Dessa vyer kan renderas genom anrop till 
 [CWidget::render()], ungefär som med en kontroller. Den enda skillnaden är att 
 ingen layout appliceras på en widgetvy .
 
@@ -129,15 +129,15 @@ Systemvy
 
 Systemvyer refererar till de vyer som Yii använder för att presentera 
 felmeddelanden och loggningsinformation. Till exempel, när en användare skickar 
-en begäran gällande en kontroller eller åtgärd som inte existerar, kommer Yii 
+en begäran gällande en icke-existerande kontroller eller åtgärd, kommer Yii 
 att signalera en exception som förklarar felet. Yii presenterar en exception med 
 hjälp av en specifik systemvy.
 
 Namn på systemvyer följer vissa regler. Namn i stil med `errorXXX` avser vyer 
-för presentation [CHttpException] med felkod `XXX`. Till exempel, om 
+för presentation, [CHttpException] med felkod `XXX`. Till exempel, om 
 [CHttpException] signaleras med felkod 404, så kommer vyn `error404` att visas.
 
-Yii tillhandahåller en standarduppsättning systemvyer placerade under 
+Yii erbjuder en standarduppsättning systemvyer placerade under 
 `framework/views`. Dessa kan anpassas genom att vyfiler med samma namn placeras 
 under `protected/views/system`.
 

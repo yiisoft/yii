@@ -1,0 +1,230 @@
+Data Access Objects (DAO)
+=========================
+
+Data Access Objects (DAO) dostarcza generycznego API celem dostępu do danych 
+przechowywanych w różnych systemach zarządzania bazą danych (DBMS). W rezultacie, 
+ukryty DBMS może zostać zastąpiony przez inny bez potrzeby zmiany kodu, który używa
+DAO celem dostępu do danych.
+
+Yii DAO jest stworzone w oparciu o [PHP Data Objects (PDO)](http://php.net/manual/en/book.pdo.php) 
+które jest rozszerzeniem dostarczającym ujednolicony dostęp do danych dla wielu 
+popularnych DBMS, takich jak MySQL, PostgreSQL. Dlatego też, by używać Yii DAO, 
+rozszerzenie PDO oraz poszczególne sterowniki PDO dla baz danych (e.g. `PDO_MYSQL`) 
+muszą być zainstalowane.
+
+
+Yii DAO składa się głównie z następujących czterech klas:
+
+   - [CDbConnection]: reprezentuje połączenie z bazą danych,
+   - [CDbCommand]: reprezentuje zapytanie SQL, wykonywane na bazie danych,
+   - [CDbDataReader]: represents a forward-only stream of rows from a query result set.
+   - [CDbTransaction]: reprezentuje transakcję DB.
+
+
+W dalszej części, przedstawimy użycie Yii DAO w różnych scenariuszach.
+
+Ustanawianie połączenia z bazą danych
+--------------------------------
+
+Aby ustanowić połączenie z bazą danych należy utworzyć instancję [CDbConnection] 
+a następnie aktywować połączenie. Aby połączyć się  bazą danych potrzebny jest adres DNS. 
+Użytkownik oraz hasło mogą być również potrzebne aby ustanowić połączenie. W przypadku 
+gdy podczas łączenie nastąpi błąd (np. podano zły adres DNS lub złe hasło/nazwę użytkownika) 
+zostanie rzucony odpowiedni wyjątek 
+
+~~~
+[php]
+$connection=new CDbConnection($dsn,$username,$password);
+// ustanawianie połączenia. Możesz użyć try...catch aby złapać potencjalne wyjątki
+$connection->active=true;
+......
+$connection->active=false;  // zamknij połączenie
+~~~
+
+Format adres DNS zależy od używanego sterownika PDO dla danej bazy danych. Uogólniając, 
+DNS składa się z nazwy sterownika PDO, po którym następuje przecinek a następnie 
+zależna od sterownika składnia połączenia. Zobacz [dokumentację PDO](http://www.php.net/manual/en/pdo.construct.php) 
+aby uzyskać więcej informacji. Poniżej znajduje się lista najczęściej używanych formatów DNS:
+
+   - SQLite: `sqlite:/sciezka/do/pliku/bazy`
+   - MySQL: `mysql:host=localhost;dbname=testdb`
+   - PostgreSQL: `pgsql:host=localhost;port=5432;dbname=testdb`
+
+Ponieważ klasa [CDbConnection] rozszerza [CApplicationComponent], możemy użyć jej jako 
+[komponent aplikacji](/doc/guide/basics.application#application-component). 
+Aby to zrobić, skonfiguruj jako 'db' (lub używając innej nazwy) komponent aplikacji 
+w [konfiguracji aplikacji](/doc/guide/basics.application#application-configuration) 
+w następujący sposób,
+
+~~~
+[php]
+array(
+	......
+	'components'=>array(
+		......
+		'db'=>array(
+			'class'=>'CDbConnection',
+			'connectionString'=>'mysql:host=localhost;dbname=testdb',
+			'username'=>'root',
+			'password'=>'hasło',
+		),
+	),
+)
+~~~
+
+Dostęp do połączenia DB, można uzyskać poprzez `Yii::app()->db`. Jest ono automatycznie 
+aktywowane, chyba że wyraźnie skonfigurujemy [CDbConnection::autoConnect] jako false. 
+Używając tego podejścia, jedno połączenie DB może być dzielone w wielu miejscach w naszym kodzie.
+
+Wykonywanie wyrażeń SQL
+------------------------
+
+Gdy połączenie z bazą danych jest ustanowione, można wykonywać wyrażania SQL za 
+pomocą [CDbCommand]. Utworzenie instancji [CDbCommand] odbywa się poprzez wywołanie 
+[CDbConnection::createCommand()] z określonym wyrażeniem SQL:
+
+~~~
+[php]
+$command=$connection->createCommand($sql);
+// jeśli wymagane, wyrażenie SQL może być zaktualizowane następująco:
+// $command->text=$newSQL;
+~~~
+
+
+Wyrażenie SQL może zostać wykonane za pomocą [CDbCommand] w jeden z poniższych 
+dwóch sposobów:
+
+   - [execute()|CDbCommand::execute]: wywołuje wyrażenia SQL nie będące zapytaniami 
+   takie jak `INSERT`, `UPDATE` oraz `DELETE`. Jeśli zakończy się sukcesem, zwróci 
+   liczbę wierszy, na które wpłynęło wykonywane wyrażenia.
+
+   - [query()|CDbCommand::query]: wywołuje wyrażenie SQL, które zwraca wiersze z danymi, 
+   takie jak `SELECT`. Jeśli zakończy się sukcesem, zwróci instancję [CDbDataReader], za pomocą której 
+   można przejrzeć wynikowe wiersze danych. Dla wygody został zaimplementowany zestaw metod `queryXXX()`, 
+   które to zwracają bezpośrednio wyniki zapytań.
+
+Wyjątek zostanie rzucony, jeśli podczas wykonywania wyrażenia SQL wystąpi błąd.
+
+~~~
+[php]
+$rowCount=$command->execute();   // wykonaj wyrażenie SQL nie będące zapytaniem
+$dataReader=$command->query();   // wykonaj zapytanie SQL
+$rows=$command->queryAll();      // zapytaj i zwróć wszystkie, wynikowe wiersze 
+$row=$command->queryRow();       // zapytaj i zwróć pierwszy wiersz z wyników
+$column=$command->queryColumn(); // zapytaj i zwróć pierwszą kolumnę spośród wyników
+$value=$command->queryScalar();  // zapytaj i zwróć pierwsze pole w pierwszym wierszu
+~~~
+
+Wydobywanie wyników zapytań
+----------------------
+
+Po wygenerowaniu przez [CDbCommand::query()] instancji klasy [CDbDataReader], można 
+zwrócić wiersze danych wynikowych poprzez powtarzające się wywoływanie metody [CDbDataReader::read()]. 
+Można również użyć [CDbDataReader] w konstrukcji języka PHP `foreach` aby uzyskać 
+wiersz po wierszu.
+
+~~~
+[php]
+$dataReader=$command->query();
+// powtarzaj wywołanie read() dopóki nie zwróci false
+while(($row=$dataReader->read())!==false) { ... }
+// używanie foreach do przeglądania każdego wiersza danych
+foreach($dataReader as $row) { ... }
+// zwrócenie wszystkich wierszy za jednym razem za pomocą jednej tablicy
+$rows=$dataReader->readAll();
+~~~
+
+> Note|Przypis: W odróżnieniu od [query()|CDbCommand::query], wszystkie metody `queryXXX()` 
+zwracają dane bezpośrednio. Na przykład, [queryRow()|CDbCommand::queryRow]
+zwraca tablicę reprezentującą pierwszy wiersz wyniku zapytań.
+
+Używanie transakcji
+------------------
+
+Kiedy aplikacja wykonuje kilka zapytań, za każdym razem czytając i/lub zapisując informacje w bazie danych, 
+jest ważne by być pewnym, że na bazie danych nie została wykonana tylko część zapytań.
+W takim przypadku może zostać użyta transakcja reprezentowana w Yii poprzez instancję [CDbTransaction]:
+
+   - rozpocznij transakcję;
+   - wykonaj zapytania jedno po drugim. żadna zmiana w bazie danych nie jest widoczna na zewnątrz;
+   - potwierdź (commit) transakcję. Zmiany będą widoczne jeśli transakcja się powiedzie;
+   - jeśli jedno z zapytań nie powiedzie się, cała transakcja zostanie anulowana (roll-back).
+
+Powyższy logika może zostać zaimplementowana używając następującego kodu:
+
+~~~
+[php]
+$transaction=$connection->beginTransaction();
+try
+{
+	$connection->createCommand($sql1)->execute();
+	$connection->createCommand($sql2)->execute();
+	//.... pozostałe wywołania SQL
+	$transaction->commit();
+}
+catch(Exception $e) // jeśli zapytanie nie powiedzie się, wołany jest wyjątek
+{
+	$transaction->rollBack();
+}
+~~~
+
+Przypinanie parametrów
+------------------
+
+Aby uniknąć [ataków SQL injection](http://en.wikipedia.org/wiki/SQL_injection)
+oraz aby zwiększyć wydajność wykonywania często używanych wyrażeń SQL, można "przygotować" 
+wyrażenie SQL z opcjonalnymi placeholderami parametrów, które to będą zastąpione
+przez aktualne parametry podczas procesu przypinania parametrów.
+
+Placeholdery parametrów mogą być nawet nazwane (reprezentowane jako unikalne tokeny) 
+lub mogą nie posiadać nazwy (reprezentowane za pomocą znaku zapytania). Aby zastąpić te 
+placeholdery aktualnymi parametrami wywołaj [CDbCommand::bindParam()] lub [CDbCommand::bindValue()].
+Parametry te nie muszą być objęte cudzysłowem, ukryty sterownik bazy danych zrobi to za Ciebie. 
+Przypinanie parametrów musi nastąpić zanim wyrażenie SQL zostanie wykonane.
+
+~~~
+[php]
+// SQL z dwoma placeholderami ":username" oraz ":email"
+$sql="INSERT INTO users(username, email) VALUES(:username,:email)";
+$command=$connection->createCommand($sql);
+// zastąp placeholder ":username" aktualną wartością parametru username
+$command->bindParam(":username",$username,PDO::PARAM_STR);
+// zastąp placeholder ":email" aktualną wartością parametru email
+$command->bindParam(":email",$email,PDO::PARAM_STR);
+$command->execute();
+// wstaw inny wiersz z nowym zestawem parametrów 
+$command->bindParam(":username",$username2,PDO::PARAM_STR);
+$command->bindParam(":email",$email2,PDO::PARAM_STR);
+$command->execute();
+~~~
+
+Metody [bindParam()|CDbCommand::bindParam] oraz [bindValue()|CDbCommand::bindValue] 
+są bardzo podobne. Jedyną różnicą jest to, że pierwsza przypina do parametru referencję 
+zmiennej gdy druga wartość zmiennej. Dla parametrów które reprezentują duże bloki pamięci danych,
+druga metoda jest preferowaną ze względu na wydajność.
+
+
+Aby uzyskać więcej informacji na temat przypinania parametrów zobacz 
+[odpowiednią dokumentację PHP](http://www.php.net/manual/en/pdostatement.bindparam.php).
+
+Przypinanie kolumn
+---------------
+
+Podczas pobierania wyników zapytania, można również przypiąć do kolumny zmienne PHP 
+tak, że są one automatycznie wypełniane ostatnimi danymi za każdym razem kiedy wiersz jest pobierany.
+
+~~~
+[php]
+$sql="SELECT username, email FROM users";
+$dataReader=$connection->createCommand($sql)->query();
+// przypnij pierwszą kolumnę (username) do zmiennej the $username
+$dataReader->bindColumn(1,$username);
+// przypnij 2 kolumnę (email) do zmiennej $email
+$dataReader->bindColumn(2,$email);
+while($dataReader->read()!==false)
+{
+    // $username oraz $email zawierają nazwę użytkownika (username) oraz email dla aktualnego wiersza
+}
+~~~
+
+<div class="revision">$Id: database.dao.txt 367 2008-12-16 20:18:30Z qiang.xue $</div>

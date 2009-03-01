@@ -9,7 +9,7 @@
 % YiiRoot/framework/yiic webapp WebRoot/testdrive
 ~~~
 
-> 注意：在 MacOS、Linux 或 Unix 系统中运行 `yiic` 时，你可能需要修改 `yiic` 文件的权限使它能够运行。你也可以用 `php YiiRoot/framework/yiic.php` 来代替 `yiic`。
+> Note|注意: 在 MacOS、Linux 或 Unix 系统中运行 `yiic` 时，你可能需要修改 `yiic` 文件的权限使它能够运行。你也可以用 `php YiiRoot/framework/yiic.php` 来代替 `yiic`。
 
 这将在 `WebRoot/testdrive` 目录下建立一个最基本的 Yii 应用，`WebRoot` 代表你的 Web 服务器根目录。这个应用具有所有必须的目录和文件，因此可以方便地在此基础上添加更多功能。
 
@@ -33,9 +33,6 @@ http://hostname/testdrive/index.php
 ![登录页](first-app5.png)
 
 
-The following diagram shows the directory structure of our application.
-Please see [Conventions](/doc/guide/basics.convention#directory) for detailed
-explanation about this structure.
 下面的树图描述了我们这个应用的目录结构。请查看[约定](/doc/guide/basics.convention#directory)以获取该结构的详细解释。
 
 ~~~
@@ -97,7 +94,7 @@ return array(
 
 在上面的代码中，我们添加了 `db` 条目至 `components` 中，指示应用在需要的时候连接到 SQLite 数据库 `WebRoot/testdrive/protected/data/source.db`。
 
-> 注意：要使用 Yii 的数据库功能，我们需要启用 PHP 的 PDO 扩展和相应的驱动扩展。对于测试应用来说，我们需要启用 `php_pdo` 和 `php_pdo_sqlite` 扩展。
+> Note|注意: 要使用 Yii 的数据库功能，我们需要启用 PHP 的 PDO 扩展和相应的驱动扩展。对于测试应用来说，我们需要启用 `php_pdo` 和 `php_pdo_sqlite` 扩展。
 
 接下来，我们需要准备一个 SQLite 数据库以使上面的配置生效。使用一些 SQLite 管理工具，我们可以建立一个包含如下模式的数据库：
 
@@ -149,7 +146,7 @@ http://hostname/path/to/index.php?r=user
 
 如上所示，我们使用 `yiic` 的 `shell` 命令来和我们刚才建立的应用进行交互。在提示符后面，我们可以输入一个有效的 PHP 语句或表达式来运行并显示。我们还可以完成一些诸如 `model` 或 `crud` 之类的任务。`model` 命令自动生成一个基于 `User` 表结构的 `User` 模型类，`crud` 命令生成实现 `User` 模型 CRUD 操作的控制器类和视图。
 
-> 注意，如果你更改了你的任何代码或配置，请重新输入 `yiic shell` 以使你的新代码或配置文件生效。还有，确保你使用了正确的 PHP CLI 来运行 `yiic`，否则你会碰到 "...could not find driver" 之类的错误（即使你确信已经启用了 PDO 和相应的驱动）。这类错误通常是因为 PHP CLI 使用了不恰当的 `php.ini`。
+> Note|注意: 如果你更改了你的任何代码或配置，请重新输入 `yiic shell` 以使你的新代码或配置文件生效。还有，确保你使用了正确的 PHP CLI 来运行 `yiic`，否则你会碰到 "...could not find driver" 之类的错误（即使你确信已经启用了 PDO 和相应的驱动）。这类错误通常是因为 PHP CLI 使用了不恰当的 `php.ini`。
 
 让我们看看成果，访问如下 URL：
 

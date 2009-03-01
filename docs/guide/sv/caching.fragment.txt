@@ -10,7 +10,7 @@ För att använda fragmentcachning, anropa
 [CController::beginCache()|CBaseController::beginCache()] och 
 [CController::endCache()|CBaseController::endCache()] i en kontrollers vyskript. 
 Dessa två metoder markerar början respektive slutet av det sidinnehåll som skall 
-cachelagras. liksom vid [datacachning](/doc/guide/caching.data), behövs ett ID 
+cachelagras. Liksom vid [datacachning](/doc/guide/caching.data), behövs ett ID 
 för att identifiera det cachade fragmentet.
 
 ~~~
@@ -82,7 +82,7 @@ innehållsfragmentet beror på om värdet för kolumnen `lastModified`  ändrats
 
 ### Variation
 
-Innehåll som cachelagras kan varieras i enlighet olika parametrar. Till exempel, 
+Innehåll som cachelagras kan varieras i enlighet med olika parametrar. Till exempel, 
 den personliga profilen kan se annorlunda ut för olika användare. Vid 
 cachelagring av profilinnehållet vill vi att den cachelagrade kopian varieras 
 baserat på användaridentiteter. Detta innebär huvudsakligen att skilda ID:n 
@@ -93,7 +93,7 @@ Som alternativ till att utvecklare varierar ID:n enligt något schema, har
 
    - [varyByRoute|COutputCache::varyByRoute]: genom att sätta detta alternativ till true, kommer det cachelagrade innehållet att varieras enligt [route](/doc/guide/basics.controller#route). Det innebär att varje kombination av begärd kontroller och åtgärd kommer att få separat cachelagrat innehåll.
 
-   - [varyBySession|COutputCache::varyBySession]: genom att sätta detta alternativ till true, kan det cachelagrade innehållet varieras efter sessions-ID. Det innebär att varje användarsession kan få olika innehåll presenterat, i samtliga fall levererat från cache.
+   - [varyBySession|COutputCache::varyBySession]: genom att sätta detta alternativ till true, kan det cachelagrade innehållet varieras efter sessions-ID. Det innebär att respektive användarsession kan få olika innehåll presenterat, i samtliga fall levererat från cache.
 
    - [varyByParam|COutputCache::varyByParam]: genom att sätta detta alternativ till en array med namn, kan det cachelagrade innehållet varieras efter värden i de specificerade GET-parametrarna. Till exempel, om en sida presenterar innehållet från en postning baserat på  GET-parametern `id`, kan innehållet i varje postning cachelagras genom att [varyByParam|COutputCache::varyByParam] sätts till en `array('id')`. Utan en sådan variation skulle bara en enda postning kunna lagras.
 
@@ -137,8 +137,8 @@ cachelagras tillsammans med själva postningen i en yttre fragmentcache.
 ~~~
 
 Andra cachningsalternativ kan sättas för nästlade cachefragment. till exempel, 
-kan den inre och den yttre cachen i ovanstående exemempel ges olika duration-
-värden. När innehållet i den yttre cachen blir ogiltigt, kan den inre cachen 
+kan den inre och den yttre cachen i ovanstående exempel ges olika duration-värden. 
+När innehållet i den yttre cachen blir ogiltigt, kan den inre cachen 
 fortfarande tillhandahålla giltiga inre fragment. Detta är dock inte sant i 
 omvänd ordning. Om den yttre cachen innehåller giltig data kommer alltid den 
 cachelagrade kopian att tillhandahållas, även om innehållet i den inre cachen 

@@ -1,0 +1,245 @@
+Erweiterungen verwenden
+=======================
+
+Zum Einsatz einer Erweiterung (engl.: Extension) sind in der Regel folgende 
+drei Schritte erforderlich:
+
+  1. Die Erweiterung aus dem [Extension
+  repository](http://www.yiiframework.com/extensions/) von Yii herunterladen
+  2. Die Erweiterung im [Stammverzeichnis der
+  Anwendung](/doc/guide/basics.application#application-base-directory) in ein
+  Unterverzeichnis `extensions/xyz` entpacken, wobei `xyz` der Name der
+  Erweiterung ist.
+  3. Importieren, Konfigurieren und Verwenden der Erweiterung
+
+Jede Erweiterung hat einen eindeutigen Namen, um sie klar von anderen
+Erweiterungen zu unterscheiden. Im Falle der Erweiterung namens `xyz` können
+wir überall den Pfad-Alias `application.extensions.xyz` verwenden, um das
+Basisverzeichnis mit allen Dateien von `xyz` anzusprechen.
+
+Jede Erweiterung stellt andere Anforderungen an die Art und Weise wie sie
+importiert, konfiguriert und angewendet wird. Entsprechend den bereits in
+der [Übersicht](/doc/guide/extension.overview) beschriebenen Kategorien
+bieten wir im folgenden einen Überblick der gängigsten Anwendungsszenarien
+von Erweiterungen.
+
+Anwendungskomponente
+--------------------
+
+Um eine [Komponente](/doc/guide/basics.application#application-component) zu
+verwenden, müssen wir erst die [Konfiguration der
+Anwendung](/doc/guide/basics.application#application-configuration) anpassen.
+Dazu fügen wir einen neuen Eintrag zu deren Eigenschaft `components` wie folgt
+hinzu:
+
+~~~
+[php]
+return array(
+    // 'preload'=>array('xyz',...),
+    'components'=>array(
+        'xyz'=>array(
+            'class'=>'application.extensions.xyz.XyzClass',
+            'property1'=>'value1',
+            'property2'=>'value2',
+        ),
+        // Andere Konfigurationen für Komponenten
+    ),
+);
+~~~
+
+Danach können wir von jeder Stelle aus über `Yii::app()->xyz` auf die
+Komponente zugreifen. Die Komponente wird `lazy` (faul) erzeugt, also
+erst dann, wenn zum ersten mal auf sie zugegriffen wird), außer, wir führen
+sie in der Eigenschaft `preload` auf.
+
+
+Widget
+------
+
+[Widgets](/doc/guide/basics.view#widget) werden hauptsächlich in
+[Views](/doc/guide/basics.view) verwendet. Eine Widget-Klasse `XyzClass` aus
+der `xyz`-Erweiterung kann im View wie folgt verwendet werden:
+
+~~~
+[php]
+// Widget ohne eingebetteten Inhalt
+<?php $this->widget('application.extensions.xyz.XyzClass', array(
+    'property1'=>'value1',
+    'property2'=>'value2')); ?>
+
+// Widget, das eingebetteten Inhalt enthalten kann
+<?php $this->beginWidget('application.extensions.xyz.XyzClass', array(
+    'property1'=>'value1',
+    'property2'=>'value2')); ?>
+
+...Eingebetteter Inhalt des Widgets...
+
+<?php $this->endWidget(); ?>
+~~~
+
+Action
+------
+
+[Actions](/doc/guide/basics.controller#action) werden von einem [Controller](/doc/guide/basics.controller)
+verwendet, um auf spezifische Benutzer-Requests zu antworten. Eine
+Action-Klasse `XyzClass` aus der `xyz`-Erweiterung kann in unserer
+Controller-Klasse verwendet werden, indem wir dort die Methode 
+[CController::actions] überschreiben:
+
+~~~
+[php]
+class TestController extends CController
+{
+	public function actions()
+	{
+		return array(
+			'xyz'=>array(
+				'class'=>'application.extensions.xyz.XyzClass',
+				'property1'=>'value1',
+				'property2'=>'value2',
+			),
+			// Andere Actions
+		);
+	}
+}
+~~~
+
+Die Action kann dann über die [Route](/doc/guide/basics.controller#route)
+`test/xyz` aufgerufen werden.
+
+Filter
+------
+[Filter](/doc/guide/basics.controller#filter) werden ebenfalls von 
+einem [Controller](/doc/guide/basics.controller) verwendet. Sie übernehmen
+hauptsächlich die Vor- und Nachbearbeitung eines User-Requests, wenn dieser
+von einer [Action](/doc/guide/basics.controller#action) bearbeitet wird.
+Eine Filter-Klasse `XyzClass` aus der Erweiterung `xyz` könnnen wir in unserer
+Controller-Klasse verwenden, indem wir deren Methode [CController::filters]
+überschreiben:
+
+~~~
+[php]
+class TestController extends CController
+{
+	public function filters()
+	{
+		return array(
+			array(
+				'application.extensions.xyz.XyzClass',
+				'property1'=>'value1',
+				'property2'=>'value2',
+			),
+			// Andere Filter
+		);
+	}
+}
+~~~
+
+In obigem Beispiel können wir beim ersten Arrayelement Plus- und Minusoperatoren 
+verwenden, um den Filter nur auf bestimmte Actions anzuwenden.
+Nähere Informationen hierzu finden Sie in der Dokumentation von [CController].
+
+Controller
+----------
+Ein [Controller](/doc/guide/basics.controller) stellt eine Reihe von Actions
+bereit, die von einem Benutzer aufgerufen werden können. Um eine
+Controller-Erweiterung zu verwenden, müssen wir in der
+[Anwendungskonfiguration](/doc/guide/basics.application#application-configuration) 
+die Eigenschaft [CWebApplication::controllerMap] anpassen:
+
+~~~
+[php]
+return array(
+	'controllerMap'=>array(
+		'xyz'=>array(
+			'class'=>'application.extensions.xyz.XyzClass',
+			'property1'=>'value1',
+			'property2'=>'value2',
+		),
+		// Andere Controller
+	),
+);
+~~~
+
+Eine Action `a` in diesem Controller kann dann über die
+[Route](/doc/guide/basics.controller#route) `xyz/a` aufgerufen werden.
+
+Validator
+---------
+Ein Validator wird hauptsächlich in einer
+[Model](/doc/guide/basics.model)-Klasse (also einer von
+[CFormModel] oder [CActiveRecord] abgeleiteten Klasse) verwendet.
+Um einen Validator `XyzClass` aus der Erweiterung `xyz` einzusetzen,
+überschreiben wir in unserer Model-Klasse die Methode [CModel::rules]:
+
+~~~
+[php]
+class MyModel extends CActiveRecord // oder CFormModel
+{
+	public function rules()
+	{
+		return array(
+			array(
+				'attr1, attr2',
+				'application.extensions.xyz.XyzClass',
+				'property1'=>'value1',
+				'property2'=>'value2',
+			),
+			// Andere Prüfregeln
+		);
+	}
+}
+~~~
+
+Konsolenbefehl
+--------------
+Eine Erweiterung mit einem [Konsolenbefehl](/doc/guide/topics.console) 
+fügt in der Regel dem `yiic`-Befehl ein weiteres Kommando hinzu. Den
+Konsolenbefehl `XyzClass` aus der Erweiterung `xyz` können wir über die
+Anpassung der Konfiguration für Konsolenanwendungen verwenden:
+
+~~~
+[php]
+return array(
+	'commandMap'=>array(
+		'xyz'=>array(
+			'class'=>'application.extensions.xyz.XyzClass',
+			'property1'=>'value1',
+			'property2'=>'value2',
+		),
+		// Andere Kommandos
+	),
+);
+~~~
+
+Damit haben wir den `yiic`-Befehl mit einem weiteren Kommando `xyz`
+ausgestattet.
+
+> Note|Hinweis: Eine Konsolenanwendung verwendet normalerweise eine andere
+Konfigurationsdatei als die Webanwendung. Wenn eine Applikation mit dem Befehl
+`yiic webapp` erstellt wurde, liegt die Konfigurationsdatei für die
+Konsolenanwendung `protected/yiic` in `protected/config/console.php`, während
+die Konfigurationsdatei für die Webanwendung in `protected/config/main.php`
+liegt.
+
+Module
+------
+Bitte beachten Sie das Kapitel über
+[Module](/doc/guide/basics.module#using-module), um mehr über den Einsatz von
+Modulen zu erfahren.
+
+Allgemeine Komponenten
+----------------------
+Um eine allgemeine [Komponente](/doc/guide/basics.component) einzusetzen,
+müssen wir zunächst deren Klassendatei wie folgt einbinden:
+
+~~~
+Yii::import('application.extensions.xyz.XyzClass');
+~~~
+
+Wir können dann entweder eine Instanz von dieser Klasse erzeugen, ihre
+Eigenschaften konfigurieren oder ihre Methoden aufrufen. Möglicherweise
+möchten wir sie auch erweitern, um neue Kindklassen zu erstellen.
+
+
+<div class="revision">$Id: extension.use.txt 749 2009-02-26 02:11:31Z qiang.xue $</div>

@@ -1,0 +1,228 @@
+コントローラ
+==========
+
+`コントローラ` は [CController] かその子クラスのインスタンスです。
+インスタンスは、これを求めるユーザーからの要求があった際にアプリケーション
+により生成されます。コントローラが起動するとき、通常、必要なモデルを持ち、
+適切なビューのレンダリングを行うことで、要求されたアクションを実行します。
+簡単なフォームでのアクションは、`action` から始まる名前のコントローラクラス
+メソッドとなります。
+
+コントローラは規定のアクション（デフォルトアクション）を持っています。
+どのアクションを実行するかをユーザーが指定しない場合、デフォルトアクション
+が実行されます。デフォルトでは、デフォルトアクション名は `index` です。
+これは、[CController::defaultAction] を設定することで変更できます。
+
+以下にコントローラクラスに必要な最小のコードを示します。
+このコントローラにはアクションが定義されていないため、
+このコントローラへのリクエストは例外が発生します。
+~~~
+[php]
+class SiteController extends CController
+{
+}
+~~~
+
+
+ルート（道筋）
+-----
+
+コントローラとアクションは ID により識別されます。
+コントローラ ID は `path.to.xyz` の形式で、コントローラクラスファイル
+`protected/controllers/path/to/XyzController.php` に対応します。
+（`xyz` を実際の名前に置き換えて考えてください。
+  例えば、`post` は `protected/controllers/PostController.php` に対応します。）
+また、アクション ID はアクションメソッド名からプレフィックス `action` を
+除いたものです。たとえば、コントローラクラスに `actionEdit` という名前の
+メソッドがあれば、アクション ID は `edit` になります。
+
+ユーザーはルート（道筋）により、特定のコントローラとアクションをリクエスト
+します。ルートはスラッシュによりコントローラ ID とアクション ID を連結する
+ことで形成されます。たとえば、ルート `post/edit` は `PostController` の
+`edit` アクションを参照します。そして、デフォルトでは
+`http://hostname/index.php?r=post/edit` という URL によりこのコントローラと
+アクションをリクエストできます。
+
+>Note|注意: デフォルトでは、ルートは大文字と小文字を区別します。
+>version 1.0.1 以降では、[CUrlManager::caseSensitive] を false に設定するこ
+>とで、大文字と小文字を区別しないようすることも可能になりました。
+>大文字と小文字を区別しないモード（case-insensitive mode）の場合、
+>コントローラクラスファイルを含んでいるディレクトリが小文字かどうかを確かめ、
+>[controller map|CWebApplication::controllerMap] と
+>[action map|CController::actions] の両方では、キーは小文字に変換し使用され
+>ます。
+
+コントローラのインスタンス
+------------------------
+
+コントローラのインスタンスは [CWebApplication] ハンドラにリクエストが入って
+きた際に生成されます。コントローラ ID が与えられると、アプリケーションは
+次のルールを用いて、コントローラクラスとクラスファイルを探し出します。
+
+   - [CWebApplication::catchAllRequest] が指定されている場合、コントローラ
+はこのプロパティを元に生成され、ユーザの指定したコントローラ ID は無視され
+ます。これは主にアプリケーションをメンテナンスモードにし、通知のための静的
+ページを表示するために使用します。
+
+   - ID が [CWebApplication::controllerMap] に指定されている場合、対応する
+コントローラ設定に基づき、コントローラインスタンスが生成されます。
+
+   - ID が `'path.to.xyz'` 形式の場合、コントローラクラス名は `XyzController`
+で、対応するクラスファイルは `protected/controllers/path/to/XyzController.php`
+であると仮定されます。たとえば、コントローラ ID が `admin.user` なら、コン
+トローラクラス名が `UserController` で、クラスファイルが
+`protected/controllers/admin/UserController.php` になります。
+もしクラスがなければ、404 [CHttpException] が呼び出されます。
+
+
+アクション
+------
+
+前述したとおり、アクションは `action` から始まる名前のメソッドにより定義で
+きます。より高度な方法は、アクションクラスを定義し、リクエスト時にインスタ
+ンス化するようにコントローラに要求する方法です。この方法を用いる事で、アク
+ションの再利用が可能になるため、より再利用性を高められます。
+
+新しいアクションクラスを定義するためには、下記のように行います:
+
+~~~
+[php]
+class UpdateAction extends CAction
+{
+	public function run()
+	{
+		// ここにアクションロジックを記述
+	}
+}
+~~~
+
+コントローラがこのアクションを認識するように、このコントローラクラスの
+[actions()|CController::actions] メソッドを上書き定義します。
+
+~~~
+[php]
+class PostController extends CController
+{
+	public function actions()
+	{
+		return array(
+			'edit'=>'application.controllers.post.UpdateAction',
+		);
+	}
+}
+~~~
+
+上記で使用されている、`application.controllers.post.UpdateAction` というパ
+スは、アクションクラスファイル `protected/controllers/post/UpdateAction.php`
+へのパスのエイリアスです。
+
+クラスベースのアクションを書く事で、モジュール方式でアプリケーションを構成
+出来ます。たとえば、コントローラのためのコードを構成するために、次のような
+ディレクトリ構造を利用出来ます。:
+
+~~~
+protected/
+    controllers/
+        PostController.php
+        UserController.php
+        post/
+            CreateAction.php
+            ReadAction.php
+            UpdateAction.php
+        user/
+            CreateAction.php
+            ListAction.php
+            ProfileAction.php
+            UpdateAction.php
+~~~
+
+フィルタ
+------
+
+フィルタは、コードのまとまりで、コントローラのアクション実行の前か後（もし
+くはその両方）に実行されるように構成されます。たとえば、アクセスコントロー
+ルフィルタは、ユーザーがリクエストしたアクションを実行する前に、認証済みで
+ある事を確実にするために使用されるかもしれません; パフォーマンスフィルタは、
+アクションの実行所要時間を計測するために使用されるかもしれません。
+
+一つのアクションは複数のフィルタを持つことが出来ます。フィルタはフィルタリ
+ストに登場する順で順次実行されます。フィルタは、アクションと残りの実行され
+ていないフィルタの実行を防ぐことが出来ます。
+
+フィルタはコントローラクラスメソッドで定義出来ます。メソッド名は必ず `filter`
+で始めます。たとえば、`filterAccessControl` メソッドは、`accessControl` と
+いう名前のフィルタを定義します。フィルタメソッドはそのシグネチャでなければ
+なりません:
+
+~~~
+[php]
+public function filterAccessControl($filterChain)
+{
+	// フィルタリングとアクションの実行を継続するために、$filterChain->run() をコール出来ます
+}
+~~~
+
+`$filterChain` はリクエストされたアクションに結びついているフィルターリスト
+を表した、[CFilterChain] のインスタンスです。フィルタメソッド内で、フィルタ
+リングとアクションの実行を継続するために、$filterChain->run() をコール出来
+ます。
+
+フィルタもまた [CFilter] かその子クラスのインスタンスにする事が出来ます。
+次のコードように新しいフィルタクラスを定義します:
+
+~~~
+[php]
+class PerformanceFilter extends CFilter
+{
+	protected function preFilter($filterChain)
+	{
+		// アクションが実行される前に実行されるコード
+		return true; // アクションが実行されるべきでない場合は false
+	}
+
+	protected function postFilter($filterChain)
+	{
+		// アクションが実行された後に実行されるコード
+	}
+}
+~~~
+
+アクションにフィルタを適用するために、`CController::filters()` メソッドを
+上書きする必要があります。このメソッドはフィルタ構成の配列を返さなくてはな
+りません。たとえば、
+
+~~~
+[php]
+class PostController extends CController
+{
+	......
+	public function filters()
+	{
+		return array(
+			'postOnly + edit, create',
+			array(
+				'application.filters.PerformanceFilter - edit, create',
+				'unit'=>'second',
+			),
+		);
+	}
+}
+~~~
+
+上記のコードは `postOnly` と `PerformanceFilter` という、2つのフィルタを指
+定しています。 `postOnly` フィルタは、メソッドベースのフィルタです（対応
+するフィルタメソッドは既に [CController] に定義されている）; また、
+`PerformanceFilter` フィルタはオブジェクトベースです。
+`application.filters.PerformanceFilter` というパスは、フィルタークラスファ
+イル `protected/filters/PerformanceFilter` へのパスのエイリアスです。
+ここでは、`PerformanceFilter` を配列を用いて指定しています。配列を用いるこ
+とで、フィルタオブジェクトのプロパティ値を初期化する事ができます。ここでは、
+`PerformanceFilter` の `unit` プロパティを `'second'` に初期化しています。
+
+プラスやマイナス演算子を使用すると、アクションに対してのフィルタ適用の有無
+を指定できます。上記の場合、`postOnly` は `edit` と `create` アクションに適
+用され、`PerformanceFilter` は `edit` と `create` アクション以外のすべての
+アクションに適用されます。もし、プラスとマイナスのどちらも使用されていない
+場合、フィルタはすべてのアクションに適用されます。
+
+<div class="revision">$Id: basics.controller.txt 626 2009-02-04 20:51:13Z qiang.xue $</div>

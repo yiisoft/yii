@@ -1,0 +1,371 @@
+Relationell Active Record
+==========================
+
+Vi har redan sett hur man kan använda Active Record (AR) till att selektera data 
+från en enstaka databastabell. I det här avsnittet, beskrivs hur man använder AR 
+till att sammanfoga (join) ett antal relaterade databastabeller och lämna den 
+resulterande datamängden i retur.
+
+För att relationell AR skall kunna användas, krävs det att väldefinierade 
+samband etablerats mellan primärnyckel resp. referensattribut (foreign key)  för 
+de tabeller som behöver förenas. AR förlitar sig på metadata om dessa samband 
+för att avgöra hur tabellerna skall sammanfogas.
+
+> Note|Märk: Från och med version 1.0.1, är det möjligt att använda relationell 
+AR även utan att referensattributrestriktioner (foreign key constraints) har 
+definierats i databasen.
+
+För enkelhets skull kommer databasschemat som visas i följande entity-
+relationshipdiagram (ER-diagram) att användas för att illustrera exempel i detta 
+avsnitt.
+
+![ER-diagram](er.png)
+
+> Info: Stödet för referensattributrestriktioner varierar mellan olika databashanterare.
+>
+> SQLite stöder inte referensattributrestriktioner, men det går ändå
+> att deklarera restriktionerna när tabeller skapas. AR kan dra fördel av dessa
+> deklarationer för att korrekt stödja frågor som involverar tabellsamband.
+>
+> MySQL stöder referensattributrestriktioner med InnoDB-motorn, men inte med 
+> MyISAM. Därför rekommenderas användning av InnoDB för MySQL databaser.
+> När MyISAM används kan man dra fördel av följande trick, så att
+> frågor som involverar tabellsamband kan utföras med hjälp av AR:
+> ~~~
+> [sql]
+> CREATE TABLE Foo
+> (
+>   id INTEGER NOT NULL PRIMARY KEY
+> );
+> CREATE TABLE bar
+> (
+>   id INTEGER NOT NULL PRIMARY KEY,
+>   fooID INTEGER
+>      COMMENT 'CONSTRAINT FOREIGN KEY (fooID) REFERENCES Foo(id)'
+> );
+> ~~~
+> I exemplet ovan, används nyckelordet `COMMENT` för att beskriva referensattributrestriktionen
+> som sedan kan läsas och ge AR insikt om det beskrivna sambandet.
+
+
+
+Deklarera tabellsamband
+-----------------------
+
+Innan AR kan användas till att genomföra relationella frågor, måste AR få veta 
+hur en AR-klass relaterar till en annan.
+
+Samband mellan två AR-klasser är direkt förknippat med sambandet mellan 
+databastabellerna som AR-klasserna representerar. Från databasens synvinkel kan 
+sambandet mellan två tabeller A and B ha tre typer: en-till-många (t.ex. `User` 
+och `Post`), en-till-en (t.ex. `User` och `Profile`) samt många-till-många 
+(t.ex. `Category` och `Post`). Inom AR finns det fyra sorters samband:
+
+   - `BELONGS_TO`: om sambandet mellan tabellerna A och B är en-till-många, så 
+   är B tillhörig A (t.ex. `Post` tillhör `User`);
+
+   - `HAS_MANY`: om sambandet mellan tabellerna A och B är en-till-många, så har 
+   A många B (t.ex. `User` har många  `Post`);
+
+   - `HAS_ONE`: detta är ett specialfall av `HAS_MANY` där A har som mest en B 
+   (t.ex. `User` har som mest en `Profile`);
+
+   - `MANY_MANY`: detta motsvarar många-till-mångasambandet i databasen. En 
+   assisterande tabell erfordras för att bryta upp ett många-till-mångasamband i 
+   ett-till-mångasamband, eftersom de flesta databashanterare saknar direkt stöd 
+   för många-till-mångasamband. I vårt exempelschema, tjänar `PostCategory` 
+   detta syfte. Med AR terminology kan `MANY_MANY` förklaras som kombinationen 
+   av `BELONGS_TO` och `HAS_MANY`. Till exempel, `Post` tilhör många `Category` 
+   och `Category` har många `Post`.
+
+Tabellsamband deklareras i AR genom att metoden 
+[relations()|CActiveRecord::relations] i [CActiveRecord] åsidosätts. Denna metod 
+returnerar en array med sambandskonfigurationer. Varje element i denna array 
+representerar ett enstaka samband, på följande format:
+
+~~~
+[php]
+'VarName'=>array('RelationType', 'ClassName', 'ForeignKey', ...additional options)
+~~~
+
+där `VarName` är sambandets namn; `RelationType` specificerar sambandets typ, 
+som kan vara en av de fyra konstanternas: `self::BELONGS_TO`, `self::HAS_ONE`, 
+`self::HAS_MANY` samt `self::MANY_MANY`; `ClassName` är namnet på den AR-klass 
+som har samband med denna AR-klass; `ForeignKey` specificerar det eller de 
+referensattribut som är involverade i sambandet. Ytterligare alternativ kan 
+specificeras i slutet av varje sambandsdeklaration (beskrivs längre fram).
+
+Följande kod visar hur sambandet mellan klasserna `User` och `Post` deklareras.
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+			'author'=>array(self::BELONGS_TO, 'User', 'authorID'),
+			'categories'=>array(self::MANY_MANY, 'Category', 'PostCategory(postID, categoryID)'),
+		);
+	}
+}
+
+class User extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+			'posts'=>array(self::HAS_MANY, 'Post', 'authorID'),
+			'profile'=>array(self::HAS_ONE, 'Profile', 'ownerID'),
+		);
+	}
+}
+~~~
+
+> Info: Ett referensattribut kan vara sammansatt och bestå av två eller flera 
+kolumner. I det fallet skall namnen på kolumner som ingår i referensattributet 
+skrivas efter varandra, separerade av blanksteg eller komma. För samband av 
+typen `MANY_MANY` måste namnet på den assisterande tabellen också specificeras i 
+referensattributet. Till exempel, sambandet  `categories` i `Post` är 
+specificerat med referensattributet `PostCategory(postID, categoryID)`.
+
+Deklarationen av samband i en AR-klass lägger underförstått till en property i 
+klassen för varje samband. När en relationell fråga har utförts kommer den 
+motsvarande propertyn att innehålla den relaterade AR-instansen(-erna). Till 
+exempel, om `$author` representerar en AR-instans `User`, kan `$author->posts` 
+användas för tillgång till dess relaterade `Post`-instans.
+
+Utföra relationell fråga
+------------------------
+
+Det enklaste sättet att utföra en relationell fråga är genom att läsa en 
+relationell property i en AR-instans. Om denna property inte har lästs tidigare 
+kommer en relationell fråga att initieras, som slår samman de två relaterade 
+tabellerna och filtrerar med primärnyckeln i aktuell AR-instans. Frågeresultatet 
+kommer att sparas i propertyn som en eller flera instanser av den relaterade AR-
+klassen. Detta förfarande är känt som *lazy loading*, dvs den relationella 
+frågan utförs först när relaterade objekt refereras till första gången. Exemplet 
+nedan visar hur man använder detta tillvägagångssätt:
+
+~~~
+[php]
+// retrieve the post whose ID is 10
+$post=Post::model()->findByPk(10);
+// retrieve the post's author: a relational query will be performed here
+$author=$post->author;
+~~~
+
+> Info: Om det saknas en relaterad instans i ett samband kan den motsvarande 
+propertyn anta värdet null eller en tom array. För sambanden `BELONGS_TO` och 
+`HAS_ONE` , är resultatet null; för `HAS_MANY` och `MANY_MANY`, är det en tom 
+array.
+
+Tillvägagångssättet med lazy loading är mycket bekvämt att använda, men har 
+lägre prestanda i vissa scenarier. Till exempel, om vi vill få tillgång till 
+information om författare för `N` postningar, kommer tillvägagångssättet lazy 
+att omfatta körning av `N` join-frågor. Under dessa omständigheter bör det 
+alternativa tillvägagångssättet, kallat *eager loading*, användas.
+
+Tillvägagångssättet eager loading hämtar in relaterade AR-instanser tillsammans 
+med huvudinstansen (-instanserna). Detta åstadkommes genom användning av metoden 
+[with()|CActiveRecord::with] tillsammans med en av [find|CActiveRecord::find]-
+eller [findAll|CActiveRecord::findAll]-metoderna i AR. Till exempel,
+
+~~~
+[php]
+$posts=Post::model()->with('author')->findAll();
+~~~
+
+Ovanstående kod returnerar en array bestående av `Post`-intanser. Till skillnad 
+från tillvägagångssättet lazy, är propertyn `author` i varje instans av `Post` 
+redan laddad med den relaterade `User`-instansen redan innan vi refererar till 
+propertyn. I stället för att exekvera en join-fråga för varje postning, hämtar 
+tillvägagångssättet eager loading in samtliga postningar tillsammans med deras 
+respektive författare, alltsammans i en enda join-fråga!
+
+Man kan specificera flera sambandsnamn till metoden [with()|CActiveRecord::with] 
+och tillvägagångssättet eager loading kommer att hämta in dem alla i ett moment. 
+Till exempel, följande kod hämtar in postningar tillsammans med deras repektive 
+författare och kategorier:
+
+~~~
+[php]
+$posts=Post::model()->with('author','categories')->findAll();
+~~~
+
+Det går att använda nästlad eager loading. I stället för en lista med 
+sambandsnamn, lämnar vi med en hierarkisk representation av sambandsnamnen till 
+metoden [with()|CActiveRecord::with], som i följande exempel,
+
+~~~
+[php]
+$posts=Post::model()->with(
+	'author.profile',
+	'author.posts',
+	'categories')->findAll();
+~~~
+
+Ovanstående exempel hämtar in alla postningar tillsammans med deras respektive 
+författare och kategorier. Det hämtar även in varje författares profil samt 
+postningar.
+
+> Note|Märk: Sättet att använda metoden [with()|CActiveRecord::with] har ändrats 
+från och med version 1.0.2. Den tillhörande API-dokumentationen bör läsas 
+omsorgsfullt.
+
+AR-implementeringen i Yii är mycket effektiv. Vid eager loading av en hierarki 
+av relaterade objekt omfattande `N` `HAS_MANY`- eller `MANY_MANY`-samband, 
+behövs `N+1` SQL-frågor för att uppnå önskat resultat. Detta innebär att den 
+behöver exekvera 3 SQL-frågor i det förra exemplet, på grund av propertyna 
+`posts` och `categories`. Andra ramverk tar ett mer radikalt grepp genom att 
+använda en enda SQL-fråga. Vid en första anblick, verkar det radikala angreppssättet 
+mer effektivt, på grund av att färre frågor behöver avkodas och exekveras av 
+databashanteraren. Men det är i verkligheten opraktiskt av två skäl. För det 
+första, finns det många repetitiva datakolumner i resultatet, vilka kräver mer 
+tid att överföra och bearbeta. För det andra, växer antalet rader i 
+resultatmängden exponentiellt med antalet involverade tabeller, vilket gör saken 
+ohanterlig i takt med att fler samband omfattas.
+
+Sedan version 1.0.2, går det även att tvinga fram att en relationell fråga 
+utförs med hjälp av endast en SQL-fråga. Detta sker helt enkelt genom att ett 
+anrop till [together()|CActiveFinder::together] läggs till efter 
+[with()|CActiveRecord::with]. Till exempel,
+
+~~~
+[php]
+$posts=Post::model()->with(
+	'author.profile',
+	'author.posts',
+	'categories')->together()->findAll();
+~~~
+
+Ovanstående fråga kommer att utföras i en enda SQL-fråga. Utan anropet till 
+[together|CActiveFinder::together], skulle det behövas två SQL-frågor: en slår 
+samman tabellerna `Post`, `User` och `Profile`, den andra slår samman tabellerna 
+`User` och `Post`.
+
+
+Alternativ för relationella frågor
+----------------------------------
+
+Som nämnts kan ytterligare alternativ anges i sambandsdeklarationer. Dessa 
+alternativ, specificerade i form av namn-värdepar, används för att anpassa den 
+relationella frågan. De sammanfattas nedan.
+
+   - `select`: en lista med med kolumner som skall selekteras till den 
+   relaterade AR-klassen. Den har standardvärdet '*', vilket innebär alla 
+   kolumner. Kolumnnamn skall göras otvetydiga med hjälp av `aliasToken` om de 
+   används i ett uttryck (t.ex. `COUNT(??.name) AS nameCount`).
+
+   - `condition`: motsvarar `WHERE`-ledet. Det är som standard tomt. Märk att 
+   kolumnreferenser behöver göras otvetydiga med hjälp av `aliasToken` (t.ex. 
+   `??.id=10`).
+
+   - `params`: parametrarna som skall kopplas ihop med den genererade SQL-satsen. 
+   Dessa skall ges som en array bestående av namn-värdepar. Detta alternativ har 
+   varit tillgängligt från och med version 1.0.3.
+
+   - `on`: motsvarar `ON`-ledet. Villkoret som specificeras här kommer att läggas till 
+   sammanslagningsvillkoret med hjälp av `AND`-operatorn. Detta alternativ har 
+   varit tillgängligt från och med version 1.0.2.
+
+   - `order`: motsvarar `ORDER BY`-ledet. Det är som standard tomt. Märk att 
+   kolumnreferenser behöver göras otvetydiga med hjälp av `aliasToken` (t.ex. 
+   `??.age DESC`).
+
+   - `with`: en lista med underordnade relaterade objekt som skall laddas 
+   tillsammans med detta objekt. Märk att detta bara beaktas vid lazy loading, 
+   ej vid eager loading.
+
+   - `joinType`: typ av sammanslagning för detta samband. Den är som standard 
+   `LEFT OUTER JOIN`.
+
+   - `aliasToken`: platshållare för kolumnprefix. Den ersätts med motsvarande 
+   tabellalias så att kolumnreferenser kan göras otvetydiga. Standardvärde är 
+   `'??.'`.
+
+   - `alias`: aliasnamn för tabellen som förknippas med detta samband. Detta 
+   alternativ har varit tillgängligt från och med version 1.0.1. Standardvärde 
+   är null, vilket innebär att tabellalias genereras automatiskt. Detta skiljer 
+   sig från `aliasToken` på så sätt att den senare bara är en platshållare och 
+   ersätts med faktiskt tabellalias.
+
+   - `together`: huruvida tabellen associerad med detta samband skall tvingas till 
+   en ovillkorlig sammanslagning (join) med den primära tabellen. Detta alternativ 
+   är endast relevant för samband av typerna HAS_MANY och MANY_MANY. Om alternativet 
+   inte anges eller sätts till false, kommer varje HAS_MANY- eller MANY_MANY-samband 
+   att, av prestandaskäl, ha sin egen JOIN-sats. Detta alternativ har varit tillgängligt 
+   från och med version 1.0.3.
+
+Dessutom är följande alternativ tillgängliga för vissa samband när lazy loading används:
+
+   - `group`: motsvarar `GROUP BY`-ledet. Det är som standard tomt. Märk att 
+   kolumnreferenser behöver göras otvetydiga med hjälp av `aliasToken` (e.g. 
+   `??.age`). Detta alternativ är tillämpligt endast på `HAS_MANY`- och `MANY_MANY`-samband.
+
+   - `having`: motsvarar `HAVING`-ledet. Det är som standard tomt. Märk att 
+   kolumnreferenser behöver göras otvetydiga med hjälp av `aliasToken` (e.g. 
+   `??.age`). Detta alternativ är tillämpligt endast på `HAS_MANY`- och 
+   `MANY_MANY`-samband. Detta alternativ har varit tillgängligt från och med 
+   version 1.0.1.
+
+   - `limit`: begränsar antalet rader som kan selekteras. Detta alternativ är 
+   INTE tillämpligt på `BELONGS_TO`-samband.
+
+   - `offset`: offset till rader som skall selekteras. Detta alternativ är 
+   INTE tillämpligt på `BELONGS_TO`-samband.
+
+Nedan har deklarationen av sambandet `posts` i `User` varierats genom 
+inkludering av några av ovanstående alternativ:
+
+~~~
+[php]
+class User extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+			'posts'=>array(self::HAS_MANY, 'Post', 'authorID'
+							'order'=>'??.createTime DESC',
+							'with'=>'categories'),
+			'profile'=>array(self::HAS_ONE, 'Profile', 'ownerID'),
+		);
+	}
+}
+~~~
+
+Om vi nu refererar till `$author->posts`, kommer vi att erhålla författarens 
+postningar sorterade i fallande ordning efter tid de skapats. Varje instans av 
+postning har också fått sina kategorier laddade.
+
+> Info: När ett kolumnnamn uppträder i två eller fler tabeller som slås samman 
+(join), behöver det göras otvetydigt. Detta åstadkoms genom att föregå 
+kolumnnamnet med dess tabellnamn. Till exempel, `id` blir `Team.id`. I AR:s 
+relationella frågor däremot, saknas denna frihet eftersom SQL-satserna 
+genereras automatiskt av AR, vilket systematiskt ger varje tabell ett alias. Av 
+denna anledning används, för att undvika konflikter mellan kolumnnamn, en 
+platshållare för att indikera förekomsten av en kolumn som behöver göras 
+otvetydig. AR ersätter platshållaren med ett passande tabellalias och gör 
+kolumnen otvetydig.
+
+Alternativ för dynamisk relationell fråga
+-----------------------------------------
+
+Med start från och med version 1.0.2, går det att använda alternativ för 
+dynamisk relationell fråga både med metoden [with()|CActiveRecord::with] och 
+med `with`-alternativet. De dynamiska alternativen skriver över existerande 
+alternativ som specificerats i metoden [relations()|CActiveRecord::relations]. 
+Till exempel, för att, med ovanstående `User`-modell, använda tillvägagångssättet 
+eager loading till att hämta in postningar tillhörande en författare i *stigande 
+ordningsföljd* (`order`-alternativet i sambandet specificerar fallande 
+ordningsföljd), kan man göra följande:
+
+~~~
+[php]
+User::model()->with(array(
+	'posts'=>array('order'=>'??.createTime DESC'),
+	'profile',
+))->findAll();
+~~~
+
+<div class="revision">$Id: database.arr.txt 683 2009-02-16 05:20:17Z qiang.xue $</div>

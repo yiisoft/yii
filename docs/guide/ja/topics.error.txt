@@ -1,0 +1,111 @@
+エラーハンドリング
+==============
+
+YiiはPHP5の例外メカニズムを元にした完全なエラーハンドリングを提供します。
+アプリケーションがユーザーのリクエストによって呼び出された時、
+アプリケーションは[handleError|CApplication::handleError]メソッドをPHP
+warningとnoticeを扱うために登録し、
+[handleException|CApplication::handleException]メソッドをPHP exeptions
+(例外)を扱うために登録します。したがって、もしアプリケーションの実行時に
+PHPのwarningやnotice、キャッチされない例外が発生した場合は、
+エラーハンドラがコントロールを横取りし、必要なエラーハンドリングの処理を
+開始します。
+
+> Tip|ヒント: エラーハンドラは、アプリケーションのコンストラクタでPHP
+ファンクションである
+[set_exception_handler](http://www.php.net/manual/jp/function.set-exception-handler.php)
+と
+[set_error_handler](http://www.php.net/manual/jp/function.set-error-handler.php)
+によって
+登録されます。もし不要な場合は、[entry script](/doc/guide/basics.entry)で
+`YII_ENABLE_ERROR_HANDLER`と`YII_ENABLE_EXCEPTION_HANDLER`の定数をfalse
+として定義する事で対応できます。
+
+デフォルトでは[errorHandler|CApplication::errorHandler]
+（[exception|CApplication::exceptionHandler]も同様）は
+[onError|CApplication::onError]
+(または[onException|CApplication::onException])イベントを発生させます。
+これらは、もしエラー（あるいは例外）がイベントハンドラに全く
+ハンドルされていない場合、[errorHandler|CErrorHandler]アプリケーション
+コンポーネントから助けを呼びます。
+
+例外の発生
+------------------
+
+Yiiでの例外は、PHPでの例外と同様です。以下の文法を例外を発生させる為に
+使用できます:
+
+~~~
+[php]
+throw new ExceptionClass('ExceptionMessage');
+~~~
+
+Yiiは二つの例外クラスを定義しています。[CException] と [CHttpException] 
+です。[CHttpException] はエンドユーザーへ例外情報を表示するための例外
+になっていて、[CException] はそうでない場合の
+(エラーを表示せずに処理する場合などの)為の代替案です。また、
+[CHttpException] はHTTPステータスコードを提供する 
+[statusCode|CHttpException::statusCode] プロパティを持っています。
+例外クラスは次章で述べるように、例外を表示するかどうかを決定します。
+
+> Tip|ヒント: [CHttpException]における例外の発生はユーザの入力ミスを
+報告するのにシンプルな方法です。例えば、もしユーザーが不正なpost IDのURLを
+要求した場合、以下のように404error (page not found) をシンプルに表示する
+事が出来ます:
+~~~
+[php]
+// もし要求されたpost IDが不正な場合
+throw new CHttpException(404,'The specified post cannot be found.');
+~~~
+
+エラーの表示
+-----------------
+
+エラーの処理が [CErrorHandler] アプリケーションコンポーネントまで
+流れてくると、エラーを表示する為に相応しい ビュー が選ばれます。
+もしエラーが[CHttpException]のように、エンドユーザーへ表示するタイプの
+ものだった場合、`errorXXX` といった様な名前の ビュー が使用され、この
+`XXX` の部分はHTTPステータスコード(例えば400, 404, 500など)を表します。
+もしエラーが内部的なもので、開発者にのみ表示するべきものであった場合、
+`exeptions` という名前のビューが使用されます。その場合は、エラーの
+起きている行番号をや完全なコールスタック(ファイルの階層情報など)が
+表示されます。
+
+> Info|情報: アプリケーションが[production
+mode](/doc/guide/basics.entry#debug-mode)で実行された時、内部的なエラーを
+含む全てのエラーは `errorXXX` という view を使用して表示されます。
+こうなっているのは、エラーのコールスタックが機密に関わる情報を含む可能性が
+ある為です。このモードでは、開発者はエラーの真の原因を究明する為に、
+エラーログに頼ることになるでしょう。
+
+[CErrorHandler] は下記の順序で対応する view ファイルを探します:
+
+   1. `WebRoot/themes/ThemeName/views/system`: これは
+現在アクティブになっているテーマの中の `system` ビューディレクトリです。
+
+   2. `WebRoot/protected/views/system`: これはアプリケーションの
+デフォルトの `system` ビューディレクトリです。
+
+   3. `yii/framework/views`: これはYiiフレームワークによって供給される
+標準のシステムビューディレクトリです。
+
+したがって、もしエラーの表示をカスタマイズしたい場合は、アプリケーションか
+テーマのシステムビューディレクトリーにエラービューファイルを作成する事で
+容易に実現可能です。それぞれのビューファイルは、大部分がHTMLコードで
+成り立った通常のPHPスクリプトです。詳細はframeworkの`view`ディレクトリの
+デフォルトのビューファイルを参考にして下さい。
+
+メッセージのログ処理
+---------------
+
+エラーが発生した際、`error` レベルのメッセージは常に記録されます。
+もしPHP warningかnoticeによってエラーが発生した場合、メッセージは
+カテゴリー `php` と共に記録されます。もしエラーが
+キャッチされていない例外として発生した際、カテゴリーは
+`exception.ExceptionClassName`の様になるでしょう。
+([CHttpException]における[statusCode|CHttpException::statusCode] もまた
+カテゴリーに追加されるでしょう。) 
+このようにアプリケーションの実行の間に起きるエラーをモニターする為の
+[logging](/doc/guide/topics.logging)機能を利用することが出来ます。
+
+<div class="revision">$Id: topics.error.txt 170 2008-11-06 20:33:35Z qiang.xue $</div>

@@ -1,0 +1,74 @@
+﻿Erstellen des Formulars
+=======================
+
+Den `login`-View zu schreiben ist einfach. Wir beginnen mit dem `form` Tag,
+dessen action-Attribut die URL der zuvor beschriebenen `login`-Action ist.
+Wir ergänzen dann Label und Eingabefelder für die in der Klasse `LoginForm`
+definierten Attribute. Zum Schluss fügen wir einen Button zum Absenden
+hinzu. Das alles lässt sich mit reinem HTML-Code bewerkstelligen.
+
+Yii bietet einige Helferklassen, die die Gestaltung von Views erleichtern. Um 
+beispielsweise ein Textfeld oder eine Dropdown-Liste zu erstellen, können wir 
+[CHtml::textField()] bzw. [CHtml::dropDownList()] aufrufen.
+
+> Info: Man könnte sich fragen, welchen Nutzen diese Helfer bringen, wenn
+> sie doch, verglichen mit einfachem HTML, fast die gleiche Menge an Code
+> erfodern. Die Antwort ist, dass die Helfer mehr als nur HTML-Code
+> bieten. Zum Beispiel erzeugt der folgende Code ein Texteingabefeld, das
+> das Absenden des Formulars einleitet, wenn sein Wert vom Benutzer verändert
+> wurde.
+> ~~~
+> [php]
+> CHtml::textField($name,$value,array('submit'=>''));
+> ~~~
+> Dies würde andernfalls überall klobigen JavaScript-Code
+> erforderlich machen.
+
+Nachfolgend benutzen wir [CHtml], um das Anmeldeformular zu erstellen. Wir
+nehmen an, dass die Variable `$user` eine Instanz von `LoginForm` ist.
+
+~~~
+[php]
+<div class="yiiForm">
+<?php echo CHtml::form(); ?>
+
+<?php echo CHtml::errorSummary($user); ?>
+
+<div class="simple">
+<?php echo CHtml::activeLabel($user,'username'); ?>
+<?php echo CHtml::activeTextField($user,'username') ?>
+</div>
+
+<div class="simple">
+<?php echo CHtml::activeLabel($user,'password'); ?>
+<?php echo CHtml::activePasswordField($user,'password')
+?>
+</div>
+
+<div class="action">
+<?php echo CHtml::activeCheckBox($user,'rememberMe'); ?>
+Angemeldet bleiben<br />
+<?php echo CHtml::submitButton('Login'); ?>
+</div>
+
+</form>
+</div><!-- yiiForm -->
+~~~
+
+Der obige Code generiert ein dynamischeres Formular. [CHtml::activeLabel()] 
+erzeugt zum Beispiel ein Label, das mit dem angegebenen Model-Attribut
+verknüpft ist. Wenn beim Attribut ein Eingabefehler auftritt, ändert
+sich die CSS-Klasse des Labels in `error`, was über entsprechende CSS-Stile
+wiederum das Erscheinungsbild des Labels ändert. Gleichermaßen erzeugt
+[CHtml::activeTextField()] ein Texteingabefeld für das angegebene Model-Attribut
+und verändert ebenfalls seine CSS-Klasse im Falle eines Eingabefehlers. 
+
+Wenn wir die mit den `yiic`-Skripten mitgelieferte Stylesheet-Datei `form.css`
+nutzen, sieht das erzeugte Formular folgendermaßen aus:
+
+
+![Die Anmeldeseite](login1.png)
+
+![Die Anmeldeseite mit Fehlern](login2.png)
+
+<div class="revision">$Id: form.view.txt 715 2009-02-20 02:08:24Z qiang.xue $</div>
