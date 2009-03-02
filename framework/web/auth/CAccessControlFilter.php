@@ -67,7 +67,12 @@ class CAccessControlFilter extends CFilter
 				$r=new CAccessRule;
 				$r->allow=$rule[0]==='allow';
 				foreach(array_slice($rule,1) as $name=>$value)
-					$r->$name=array_map('strtolower',$value);
+				{
+					if($name==='expression')
+						$r->$name=$value;
+					else
+						$r->$name=array_map('strtolower',$value);
+				}
 				$this->_rules[]=$r;
 			}
 		}
