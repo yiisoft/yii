@@ -4,6 +4,7 @@
 
 Version 1.0.4 to be released
 ----------------------------
+- Bug: Setting the 'expression' option in an access url causes error (Qiang)
 
 
 Version 1.0.3 March 1, 2009
