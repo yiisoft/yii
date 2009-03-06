@@ -63,7 +63,7 @@ class CPhpAuthManager extends CAuthManager
 	 */
 	public function checkAccess($itemName,$userId,$params=array())
 	{
-		if(!empty($this->defaultRoles) && $this->checkDefaultRoles($itemName,$userId,$params))
+		if(!empty($this->defaultRoles) && $this->checkDefaultRoles($itemName,$params))
 			return true;
 		foreach($this->getAuthAssignments($userId) as $assignment)
 		{
@@ -77,14 +77,12 @@ class CPhpAuthManager extends CAuthManager
 	/**
 	 * Checks the access based on the default roles as declared in {@link defaultRoles}.
 	 * @param string the name of the operation that need access check
-	 * @param mixed the user ID. This should can be either an integer and a string representing
-	 * the unique identifier of a user. See {@link IWebUser::getId}.
 	 * @param array name-value pairs that would be passed to biz rules associated
 	 * with the tasks and roles assigned to the user.
 	 * @return boolean whether the operations can be performed by the user according to the default roles.
 	 * @since 1.0.3
 	 */
-	protected function checkDefaultRoles($itemName,$userId,$params)
+	protected function checkDefaultRoles($itemName,$params)
 	{
 		foreach($this->defaultRoles as $role)
 		{
