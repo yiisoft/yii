@@ -532,7 +532,7 @@ return array(
 Because a default role is assigned to every user, it usually needs to be
 associated with a business rule that determines whether the role
 really applies to the user. For example, the following code defines two
-roles, "authenticated" and "guest", which effectively apply to authenticated
+roles, `authenticated` and `guest`, which effectively apply to authenticated
 users and guest users, respectively.
 
 ~~~
