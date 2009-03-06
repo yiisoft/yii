@@ -289,9 +289,6 @@ replaced by the actual table alias.
    - `together`: whether the table associated with this relationship should
 be forced to join together with the primary table. This option is only meaningful for HAS_MANY and MANY_MANY relations. If this option is not set or false, each HAS_MANY or MANY_MANY relation will have their own JOIN statement to improve performance. This option has been available since version 1.0.3.
 
-In addition, the following options are available for certain relationships
-during lazy loading:
-
    - `group`: the `GROUP BY` clause. It defaults to empty. Note, column
 references need to be disambiguated using `aliasToken` (e.g. `??.age`).
 This option only applies to `HAS_MANY` and `MANY_MANY` relationships.
@@ -300,6 +297,10 @@ This option only applies to `HAS_MANY` and `MANY_MANY` relationships.
 references need to be disambiguated using `aliasToken` (e.g. `??.age`).
 This option only applies to `HAS_MANY` and `MANY_MANY` relationships. Note:
 option has been available since version 1.0.1.
+
+
+In addition, the following options are available for certain relationships
+during lazy loading:
 
    - `limit`: limit of the rows to be selected. This option does NOT apply
 to `BELONGS_TO` relation.
