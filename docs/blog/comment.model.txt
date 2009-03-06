@@ -54,13 +54,10 @@ When we develop the "recent comments" portlet, we need to list the most recent c
 [php]
 public function relations()
 {
-	public function relations()
-	{
-		return array(
-			'post'=>array(self::BELONGS_TO, 'Post', 'postId',
-				'joinType'=>'INNER JOIN'),
-		);
-	}
+	return array(
+		'post'=>array(self::BELONGS_TO, 'Post', 'postId',
+			'joinType'=>'INNER JOIN'),
+	);
 }
 ~~~
 
