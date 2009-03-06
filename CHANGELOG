@@ -6,7 +6,8 @@ Version 1.0.4 to be released
 ----------------------------
 - Bug: Setting the 'expression' option in an access url causes error (Qiang)
 - Bug: CAccessRule.roles should be case sensitive (Qiang)
-- New #172: Add eAccelerator cache driver (Steffen)
+- New #172: Added eAccelerator cache driver (Steffen)
+- New: Added support to GROUP BY and HAVING in eager loading of AR (Qiang)
 
 
 Version 1.0.3 March 1, 2009

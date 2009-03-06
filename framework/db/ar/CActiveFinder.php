@@ -690,6 +690,30 @@ class CJoinElement
 	}
 
 	/**
+	 * @return string the GROUP BY clause. Column references are properly disambiguated.
+	 * @since 1.0.4
+	 */
+	public function getGroupBy()
+	{
+		if($this->relation->group!=='' && $this->tableAlias!==null)
+			return str_replace($this->relation->aliasToken.'.', $this->tableAlias.'.', $this->relation->group);
+		else
+			return $this->relation->group;
+	}
+
+	/**
+	 * @return string the HAVING clause. Column references are properly disambiguated.
+	 * @since 1.0.4
+	 */
+	public function getHaving()
+	{
+		if($this->relation->having!=='' && $this->tableAlias!==null)
+			return str_replace($this->relation->aliasToken.'.', $this->tableAlias.'.', $this->relation->having);
+		else
+			return $this->relation->having;
+	}
+
+	/**
 	 * @return string the column prefix for column reference disambiguation
 	 */
 	public function getColumnPrefix()
@@ -923,6 +947,11 @@ class CJoinQuery
 		$this->conditions[]=$element->getCondition();
 		$this->orders[]=$element->getOrder();
 		$this->joins[]=$element->getJoinCondition();
+		if($element->relation instanceof CHasManyRelation)
+		{
+			$this->groups[]=$element->getGroupBy();
+			$this->havings[]=$element->getHaving();
+		}
 		if(is_array($element->relation->params))
 		{
 			if(is_array($this->params))
