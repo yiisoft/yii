@@ -53,8 +53,11 @@ class CHtml
 	 * @see activeLabelEx
 	 */
 	public static $scenario='';
-
-	private static $_count=0;
+	/**
+	 * @var integer the counter for generating automatic input field names.
+	 * @since 1.0.4
+	 */
+	public static $count=0;
 
 	/**
 	 * Encodes special characters into HTML entities.
@@ -321,7 +324,7 @@ class CHtml
 	public static function button($label='button',$htmlOptions=array())
 	{
 		if(!isset($htmlOptions['name']))
-			$htmlOptions['name']=self::ID_PREFIX.self::$_count++;
+			$htmlOptions['name']=self::ID_PREFIX.self::$count++;
 		if(!isset($htmlOptions['type']))
 			$htmlOptions['type']='button';
 		if(!isset($htmlOptions['value']))
@@ -1390,7 +1393,7 @@ class CHtml
 		if(isset($htmlOptions['id']))
 			$id=$htmlOptions['id'];
 		else
-			$id=$htmlOptions['id']=isset($htmlOptions['name'])?$htmlOptions['name']:self::ID_PREFIX.self::$_count++;
+			$id=$htmlOptions['id']=isset($htmlOptions['name'])?$htmlOptions['name']:self::ID_PREFIX.self::$count++;
 
 		$cs=Yii::app()->getClientScript();
 		$cs->registerCoreScript('jquery');
