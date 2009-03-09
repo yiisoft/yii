@@ -72,8 +72,9 @@ EOD;
 		require($entryScript);
 		ob_end_clean();
 
+		$yiiVersion=Yii::getVersion();
 		echo <<<EOD
-Yii Interactive Tool v1.0
+Yii Interactive Tool v1.0 (based on Yii v{$yiiVersion})
 Please type 'help' for help. Type 'exit' to quit.
 EOD;
 		$this->runShell();
