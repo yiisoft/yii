@@ -86,7 +86,7 @@ class CHtml
 		foreach($htmlOptions as $name=>$value)
 			$html .= ' ' . $name . '="' . self::encode($value) . '"';
 		if($content===false)
-			return $closeTag ? $html.'/>' : $html.'>';
+			return $closeTag ? $html.' />' : $html.'>';
 		else
 			return $closeTag ? $html.'>'.$content.'</'.$tag.'>' : $html.'>'.$content;
 	}
@@ -191,7 +191,7 @@ class CHtml
 	{
 		if($media!=='')
 			$media=' media="'.$media.'"';
-		return '<link rel="stylesheet" type="text/css" href="'.self::encode($url).'"'.$media.'/>';
+		return '<link rel="stylesheet" type="text/css" href="'.self::encode($url).'"'.$media.' />';
 	}
 
 	/**
