@@ -150,11 +150,13 @@ class CActiveFinder extends CComponent
 	 */
 	public function findBySql($sql,$params=array())
 	{
-		$command=$this->_builder->createSqlCommand($sql,$params);
-		$baseRecord=$this->_joinTree->model->populateRecord($command->queryRow(),false);
-		$this->_joinTree->findWithBase($baseRecord);
-		$this->_joinTree->afterFind();
-		return $baseRecord;
+		if(($row=$this->_builder->createSqlCommand($sql,$params)->queryRow())!==false)
+		{
+			$baseRecord=$this->_joinTree->model->populateRecord($row,false);
+			$this->_joinTree->findWithBase($baseRecord);
+			$this->_joinTree->afterFind();
+			return $baseRecord;
+		}
 	}
 
 	/**
@@ -162,11 +164,15 @@ class CActiveFinder extends CComponent
 	 */
 	public function findAllBySql($sql,$params=array())
 	{
-		$command=$this->_builder->createSqlCommand($sql,$params);
-		$baseRecords=$this->_joinTree->model->populateRecords($command->queryAll(),false);
-		$this->_joinTree->findWithBase($baseRecords);
-		$this->_joinTree->afterFind();
-		return $baseRecords;
+		if(($rows=$this->_builder->createSqlCommand($sql,$params)->queryAll())!==array())
+		{
+			$baseRecords=$this->_joinTree->model->populateRecords($rows,false);
+			$this->_joinTree->findWithBase($baseRecords);
+			$this->_joinTree->afterFind();
+			return $baseRecords;
+		}
+		else
+			return array();
 	}
 
 	/**
