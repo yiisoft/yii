@@ -1,0 +1,12 @@
+<phpunit bootstrap="bootstrap.php"
+		colors="false"
+		convertErrorsToExceptions="true"
+		convertNoticesToExceptions="true"
+		convertWarningsToExceptions="true"
+		stopOnFailure="false">
+
+	<testsuite name="Yii Framework Core Code">
+		<directory>./framework</directory>
+	</testsuite>
+
+</phpunit>

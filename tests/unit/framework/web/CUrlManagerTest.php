@@ -125,7 +125,7 @@ class CUrlManagerTest extends CTestCase
 				),
 			),
 		);
-		$app=new TestWebApplication($config);
+		$app=new TestApplication($config);
 		$app->controllerPath=dirname(__FILE__).DIRECTORY_SEPARATOR.'controllers';
 		$request=$app->request;
 		$um=new CUrlManager;
@@ -166,7 +166,7 @@ class CUrlManagerTest extends CTestCase
 				),
 			),
 		);
-		$app=new TestWebApplication($config);
+		$app=new TestApplication($config);
 		$entries=array(
 			array(
 				'scriptUrl'=>'/apps/index.php',
@@ -268,7 +268,7 @@ class CUrlManagerTest extends CTestCase
 				'name'=>'value',
 			),
 		);
-		$app=new TestWebApplication($config);
+		$app=new TestApplication($config);
 		$request=$app->request;
 		$um=new CUrlManager;
 		$um->urlFormat='get';
@@ -293,7 +293,7 @@ class CUrlManagerTest extends CTestCase
 				),
 			),
 		);
-		$app=new TestWebApplication($config);
+		$app=new TestApplication($config);
 		$entries=array(
 			array(
 				'scriptUrl'=>'/apps/index.php',

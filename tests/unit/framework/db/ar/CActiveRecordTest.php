@@ -30,7 +30,7 @@ class CActiveRecordTest extends CTestCase
 				),
 			),
 		);
-		$app=new TestWebApplication($config);
+		$app=new TestApplication($config);
 		$app->db->active=true;
 		CActiveRecord::$db=$this->db=$app->db;
 	}
