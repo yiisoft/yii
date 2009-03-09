@@ -268,7 +268,7 @@ class CDbConnection extends CApplicationComponent
 				break;
 			case 'mysqli':
 			case 'mysql':
-				$stmt=$pdo->prepare('SET CHARACTER SET ?');
+				$stmt=$pdo->prepare('SET NAMES ?');
 				$stmt->execute(array($this->charset));
 				break;
 		}
