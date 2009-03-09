@@ -25,7 +25,7 @@ Wenn Sie die URL von Hand eingegeben haben, prüfen Sie bitte Ihre Schreibweise 
 </p>
 <p>
 Wenn Sie der Meinung sind, dass es sich um einen Serverfehler handelt, kontaktieren Sie bitte
-<?php echo $data['admin']. ?>.
+<?php echo $data['admin']; ?>.
 </p>
 <div class="version">
 <?php echo date('d.m.Y H:i:s',$data['time']) .' '. $data['version']; ?>

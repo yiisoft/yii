@@ -5,6 +5,7 @@
 Version 1.0.4 to be released
 ----------------------------
 - Bug #177: CFileValidator::getSizeLimit() not calculate well (Qiang)
+- Bug #185: German error views have syntax errors (Qiang)
 - Bug: Setting the 'expression' option in an access url causes error (Qiang)
 - Bug: CAccessRule.roles should be case sensitive (Qiang)
 - Bug: CDbAuthManager::checkDefaultRoles() uses an undefined variable (Qiang)
