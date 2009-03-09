@@ -10,7 +10,7 @@ CREATE TABLE users
 	username VARCHAR(128) NOT NULL,
 	password VARCHAR(128) NOT NULL,
 	email VARCHAR(128) NOT NULL
-);
+) TYPE=INNODB;
 
 INSERT INTO users (username, password, email) VALUES ('user1','pass1','email1');
 INSERT INTO users (username, password, email) VALUES ('user2','pass2','email2');
@@ -24,7 +24,7 @@ CREATE TABLE profiles
 	user_id INTEGER NOT NULL,
 	CONSTRAINT FK_profile_user FOREIGN KEY (user_id)
 		REFERENCES users (id) ON DELETE CASCADE ON UPDATE RESTRICT
-);
+) TYPE=INNODB;
 
 INSERT INTO profiles (first_name, last_name, user_id) VALUES ('first 1','last 1',1);
 INSERT INTO profiles (first_name, last_name, user_id) VALUES ('first 2','last 2',2);
@@ -38,7 +38,7 @@ CREATE TABLE posts
 	content TEXT,
 	CONSTRAINT FK_post_author FOREIGN KEY (author_id)
 		REFERENCES users (id) ON DELETE CASCADE ON UPDATE RESTRICT
-);
+) TYPE=INNODB;
 
 INSERT INTO posts (title, create_time, author_id, content) VALUES ('post 1','2000-01-01',1,'content 1');
 INSERT INTO posts (title, create_time, author_id, content) VALUES ('post 2','2000-01-02',2,'content 2');
@@ -56,7 +56,7 @@ CREATE TABLE comments
 		REFERENCES posts (id) ON DELETE CASCADE ON UPDATE RESTRICT,
 	CONSTRAINT FK_user_comment FOREIGN KEY (author_id)
 		REFERENCES users (id) ON DELETE CASCADE ON UPDATE RESTRICT
-);
+) TYPE=INNODB;
 
 INSERT INTO comments (content, post_id, author_id) VALUES ('comment 1',1, 2);
 INSERT INTO comments (content, post_id, author_id) VALUES ('comment 2',1, 2);
@@ -76,7 +76,7 @@ CREATE TABLE categories
 	parent_id INTEGER,
 	CONSTRAINT FK_category_category FOREIGN KEY (parent_id)
 		REFERENCES categories (id) ON DELETE CASCADE ON UPDATE RESTRICT
-);
+) TYPE=INNODB;
 
 INSERT INTO categories (name, parent_id) VALUES ('cat 1',NULL);
 INSERT INTO categories (name, parent_id) VALUES ('cat 2',NULL);
@@ -95,7 +95,7 @@ CREATE TABLE post_category
 		REFERENCES posts (id) ON DELETE CASCADE ON UPDATE RESTRICT,
 	CONSTRAINT FK_post_category_category FOREIGN KEY (category_id)
 		REFERENCES categories (id) ON DELETE CASCADE ON UPDATE RESTRICT
-);
+) TYPE=INNODB;
 
 INSERT INTO post_category (category_id, post_id) VALUES (1,1);
 INSERT INTO post_category (category_id, post_id) VALUES (2,1);
@@ -110,7 +110,7 @@ CREATE TABLE orders
 	key2 INTEGER NOT NULL,
 	name VARCHAR(128),
 	PRIMARY KEY (key1, key2)
-);
+) TYPE=INNODB;
 
 INSERT INTO orders (key1,key2,name) VALUES (1,2,'order 12');
 INSERT INTO orders (key1,key2,name) VALUES (1,3,'order 13');
@@ -125,7 +125,7 @@ CREATE TABLE items
 	col2 INTEGER NOT NULL,
 	CONSTRAINT FK_order_item FOREIGN KEY (col1,col2)
 		REFERENCES orders (key1,key2) ON DELETE CASCADE ON UPDATE RESTRICT
-);
+) TYPE=INNODB;
 
 INSERT INTO items (name,col1,col2) VALUES ('item 1',1,2);
 INSERT INTO items (name,col1,col2) VALUES ('item 2',1,2);
@@ -147,4 +147,4 @@ CREATE TABLE types
 	time TIMESTAMP DEFAULT '2002-01-01',
 	bool_col BOOL NOT NULL,
 	bool_col2 BOOLEAN DEFAULT 1
-);
+) TYPE=INNODB;
