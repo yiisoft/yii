@@ -14,6 +14,7 @@ class CMysqlTest extends CTestCase
 			$this->markTestSkipped('PDO and MySQL extensions are required.');
 
 		$this->db=new CDbConnection('mysql:host=localhost;dbname=yii','test','test');
+		$this->db->charset='UTF8';
 		try
 		{
 			$this->db->active=true;

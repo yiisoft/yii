@@ -42,6 +42,7 @@ class CHelpCommand extends CConsoleCommand
 		{
 			if(!empty($commands))
 			{
+				echo "Yii command runner (based on Yii v".Yii::getVersion().")\n";
 				echo "Usage: ".$runner->getScriptName()." <command-name> [parameters...]\n";
 				echo "\nThe following commands are available:\n";
 				echo ' - '.implode("\n - ",array_keys($commands));

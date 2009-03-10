@@ -105,7 +105,7 @@ class CPradoViewRenderer extends CViewRenderer
 			{
 				$type=$match[3][0];
 				if($str[strlen($str)-2]!=='/')  // open tag
-					$this->_output.=$this->processOpenWidget($type,$match[4][0],$match[2][1]);
+					$this->_output.=$this->processBeginWidget($type,$match[4][0],$match[2][1]);
 				else
 					$this->_output.=$this->processWidget($type,$match[4][0],$match[2][1]);
 			}

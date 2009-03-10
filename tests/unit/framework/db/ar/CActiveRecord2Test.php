@@ -46,7 +46,7 @@ class CActiveRecord2Test extends CTestCase
 				),
 			),
 		);
-		$app=new TestWebApplication($config);
+		$app=new TestApplication($config);
 		$app->db->active=true;
 		CActiveRecord::$db=$this->db=$app->db;
 	}
@@ -584,5 +584,20 @@ class CActiveRecord2Test extends CTestCase
 
 		$count=Post2::model()->with('author','firstComment','comments','categories')->count('posts.id=14');
 		$this->assertEquals(0,$count);
+	}
+
+	public function testEmptyFinding()
+	{
+		$post=Post2::model()->with('author','firstComment','comments','categories')->find('posts.id=100');
+		$this->assertNull($post);
+
+		$posts=Post2::model()->with('author','firstComment','comments','categories')->findAll('posts.id=100');
+		$this->assertTrue($posts===array());
+
+		$post=Post2::model()->with('author','firstComment','comments','categories')->findBySql('SELECT * FROM test.posts WHERE id=100');
+		$this->assertNull($post);
+
+		Post2::model()->with('author','firstComment','comments','categories')->findAllBySql('SELECT * FROM test.posts WHERE id=100');
+		$this->assertTrue($posts===array());
 	}
 }

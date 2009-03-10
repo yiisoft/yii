@@ -26,7 +26,7 @@ Beim Bearbeiten Ihrer Anfrage durch den Server ist obenstehender Fehler aufgetre
 </p>
 <p>
 Wenn Sie der Meinung sind, dass es sich um einen Serverfehler handelt, kontaktieren Sie bitte
-<?php echo $data['admin']. ?>.
+<?php echo $data['admin']; ?>.
 </p>
 <p>
 Vielen Dank.

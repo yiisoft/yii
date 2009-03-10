@@ -51,6 +51,7 @@ If you have business inquries or other questions, please fill out the following 
 <?php echo CHtml::submitButton('Submit'); ?>
 </div>
 
-</form>
+<?php echo "<?php echo CHtml::closeTag('form'); ?>\n"; ?>
+
 </div><!-- yiiForm -->
 <?php endif; ?>

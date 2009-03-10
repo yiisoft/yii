@@ -150,11 +150,13 @@ class CActiveFinder extends CComponent
 	 */
 	public function findBySql($sql,$params=array())
 	{
-		$command=$this->_builder->createSqlCommand($sql,$params);
-		$baseRecord=$this->_joinTree->model->populateRecord($command->queryRow(),false);
-		$this->_joinTree->findWithBase($baseRecord);
-		$this->_joinTree->afterFind();
-		return $baseRecord;
+		if(($row=$this->_builder->createSqlCommand($sql,$params)->queryRow())!==false)
+		{
+			$baseRecord=$this->_joinTree->model->populateRecord($row,false);
+			$this->_joinTree->findWithBase($baseRecord);
+			$this->_joinTree->afterFind();
+			return $baseRecord;
+		}
 	}
 
 	/**
@@ -162,11 +164,15 @@ class CActiveFinder extends CComponent
 	 */
 	public function findAllBySql($sql,$params=array())
 	{
-		$command=$this->_builder->createSqlCommand($sql,$params);
-		$baseRecords=$this->_joinTree->model->populateRecords($command->queryAll(),false);
-		$this->_joinTree->findWithBase($baseRecords);
-		$this->_joinTree->afterFind();
-		return $baseRecords;
+		if(($rows=$this->_builder->createSqlCommand($sql,$params)->queryAll())!==array())
+		{
+			$baseRecords=$this->_joinTree->model->populateRecords($rows,false);
+			$this->_joinTree->findWithBase($baseRecords);
+			$this->_joinTree->afterFind();
+			return $baseRecords;
+		}
+		else
+			return array();
 	}
 
 	/**
@@ -690,6 +696,30 @@ class CJoinElement
 	}
 
 	/**
+	 * @return string the GROUP BY clause. Column references are properly disambiguated.
+	 * @since 1.0.4
+	 */
+	public function getGroupBy()
+	{
+		if($this->relation->group!=='' && $this->tableAlias!==null)
+			return str_replace($this->relation->aliasToken.'.', $this->tableAlias.'.', $this->relation->group);
+		else
+			return $this->relation->group;
+	}
+
+	/**
+	 * @return string the HAVING clause. Column references are properly disambiguated.
+	 * @since 1.0.4
+	 */
+	public function getHaving()
+	{
+		if($this->relation->having!=='' && $this->tableAlias!==null)
+			return str_replace($this->relation->aliasToken.'.', $this->tableAlias.'.', $this->relation->having);
+		else
+			return $this->relation->having;
+	}
+
+	/**
 	 * @return string the column prefix for column reference disambiguation
 	 */
 	public function getColumnPrefix()
@@ -923,6 +953,11 @@ class CJoinQuery
 		$this->conditions[]=$element->getCondition();
 		$this->orders[]=$element->getOrder();
 		$this->joins[]=$element->getJoinCondition();
+		if($element->relation instanceof CHasManyRelation)
+		{
+			$this->groups[]=$element->getGroupBy();
+			$this->havings[]=$element->getHaving();
+		}
 		if(is_array($element->relation->params))
 		{
 			if(is_array($this->params))

@@ -5,13 +5,13 @@ class CStatePersisterTest extends CTestCase
 	public function setUp()
 	{
 		// clean up runtime directory
-		$app=new TestWebApplication(array('basePath'=>YII_UT_PATH));
+		$app=new TestApplication;
 		$app->reset();
 	}
 
 	public function testLoadSave()
 	{
-		$app=new TestWebApplication(array('basePath'=>YII_UT_PATH));
+		$app=new TestApplication;
 		$sp=$app->statePersister;
 		$data=array('123','456','a'=>443);
 		$sp->save($data);

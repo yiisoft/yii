@@ -239,10 +239,10 @@ EOD;
 		$matches=array();
 		$brackets='\(([^\)]+)\)';
 		$pattern="/FOREIGN\s+KEY\s+{$brackets}\s+REFERENCES\s+([^\(]+){$brackets}/i";
-		if(preg_match($pattern,$src,$matches))
+		if(preg_match($pattern,str_replace('"','',$src),$matches))
 		{
 			$keys=preg_split('/,\s+/', $matches[1]);
-			$tableName=str_replace('"','',$matches[2]);
+			$tableName=$matches[2];
 			$fkeys=preg_split('/,\s+/', $matches[3]);
 			foreach($keys as $i=>$key)
 			{

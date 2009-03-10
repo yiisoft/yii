@@ -162,9 +162,16 @@ class YiiBase
 		if(($n=func_num_args())>1)
 		{
 			$args=func_get_args();
-			for($s='$args[1]',$i=2;$i<$n;++$i)
-				$s.=",\$args[$i]";
-			eval("\$object=new $type($s);");
+			if($n===2)
+				$object=new $type($args[1]);
+			else if($n===3)
+				$object=new $type($args[1],$args[2]);
+			else
+			{
+				for($s='$args[1]',$i=2;$i<$n;++$i)
+					$s.=",\$args[$i]";
+				eval("\$object=new $type($s);");
+			}
 		}
 		else
 			$object=new $type;
