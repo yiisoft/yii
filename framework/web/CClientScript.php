@@ -153,7 +153,7 @@ class CClientScript extends CApplicationComponent
 				if(isset($this->scriptMap[$name]))
 				{
 					if($this->scriptMap[$name]!==false)
-						$jsFiles[$position][$name]=$this->scriptMap[$name];
+						$jsFiles[$position][$this->scriptMap[$name]]=$this->scriptMap[$name];
 				}
 				else if(isset($this->scriptMap['*.js']))
 				{
