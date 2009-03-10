@@ -50,6 +50,7 @@ class MainMenu extends CWidget
 		if(!is_array($pattern) || !isset($pattern[0]))
 			return false;
 
+		$pattern[0]=trim($pattern[0],'/');
 		if(strpos($pattern[0],'/')!==false)
 			$matched=$pattern[0]===$controllerID.'/'.$actionID;
 		else

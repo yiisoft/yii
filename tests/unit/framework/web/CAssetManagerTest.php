@@ -12,7 +12,7 @@ class CAssetManagerTest extends CTestCase
 		$this->assertTrue($am->basePath===dirname(__FILE__));
 
 		$am2=new CAssetManager;
-		$app=new TestWebApplication(array('basePath'=>YII_UT_PATH));
+		$app=new TestApplication;
 		$app->reset();
 		$am2->init($app);
 		$this->assertEquals($am2->basePath,$app->basePath.DIRECTORY_SEPARATOR.'assets');
@@ -20,7 +20,7 @@ class CAssetManagerTest extends CTestCase
 
 	public function testBaseUrl()
 	{
-		$app=new TestWebApplication(array('basePath'=>YII_UT_PATH));
+		$app=new TestApplication;
 		$app->request->baseUrl='/test';
 		$am=new CAssetManager;
 		$this->assertTrue($am->baseUrl===null);
@@ -30,7 +30,7 @@ class CAssetManagerTest extends CTestCase
 
 	public function testPublishFile()
 	{
-		$app=new TestWebApplication(array('basePath'=>YII_UT_PATH));
+		$app=new TestApplication;
 		$app->reset();
 		$am=new CAssetManager;
 		$am->init($app);

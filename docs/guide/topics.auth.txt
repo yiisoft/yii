@@ -532,16 +532,16 @@ return array(
 Because a default role is assigned to every user, it usually needs to be
 associated with a business rule that determines whether the role
 really applies to the user. For example, the following code defines two
-roles, "authenticated" and "guest", which effectively apply to authenticated
+roles, `authenticated` and `guest`, which effectively apply to authenticated
 users and guest users, respectively.
 
 ~~~
 [php]
 $bizRule='return !Yii::app()->user->isGuest;';
-$auth->createRole('authenticated',$bizRule);
+$auth->createRole('authenticated', 'authenticated user', $bizRule);
 
 $bizRule='return Yii::app()->user->isGuest;';
-$auth->createRole('guest',$bizRule);
+$auth->createRole('guest', 'guest user', $bizRule);
 ~~~
 
 <div class="revision">$Id$</div>

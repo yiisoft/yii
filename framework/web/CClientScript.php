@@ -55,15 +55,23 @@ class CClientScript extends CApplicationComponent
 	 * @since 1.0.3
 	 */
 	public $scriptMap=array();
+	/**
+	 * @var array the registered CSS files (CSS URL=>media type).
+	 * @since 1.0.4
+	 */
+	protected $cssFiles=array();
+	/**
+	 * @var array the registered JavaScript files (position, key => URL)
+	 * @since 1.0.4
+	 */
+	protected $scriptFiles=array();
 
 	private $_hasScripts=false;
 	private $_packages;
 	private $_dependencies;
 	private $_baseUrl;
 	private $_coreScripts=array();
-	private $_cssFiles=array();
 	private $_css=array();
-	private $_scriptFiles=array();
 	private $_scripts=array();
 	private $_metas=array();
 	private $_links=array();
@@ -75,9 +83,9 @@ class CClientScript extends CApplicationComponent
 	{
 		$this->_hasScripts=false;
 		$this->_coreScripts=array();
-		$this->_cssFiles=array();
+		$this->cssFiles=array();
 		$this->_css=array();
-		$this->_scriptFiles=array();
+		$this->scriptFiles=array();
 		$this->_scripts=array();
 		$this->_metas=array();
 		$this->_links=array();
@@ -117,7 +125,7 @@ class CClientScript extends CApplicationComponent
 	protected function remapScripts()
 	{
 		$cssFiles=array();
-		foreach($this->_cssFiles as $url=>$media)
+		foreach($this->cssFiles as $url=>$media)
 		{
 			$name=basename($url);
 			if(isset($this->scriptMap[$name]))
@@ -133,10 +141,10 @@ class CClientScript extends CApplicationComponent
 			else
 				$cssFiles[$url]=$media;
 		}
-		$this->_cssFiles=$cssFiles;
+		$this->cssFiles=$cssFiles;
 
 		$jsFiles=array();
-		foreach($this->_scriptFiles as $position=>$scripts)
+		foreach($this->scriptFiles as $position=>$scripts)
 		{
 			$jsFiles[$position]=array();
 			foreach($scripts as $key=>$script)
@@ -145,7 +153,7 @@ class CClientScript extends CApplicationComponent
 				if(isset($this->scriptMap[$name]))
 				{
 					if($this->scriptMap[$name]!==false)
-						$jsFiles[$position][$name]=$this->scriptMap[$name];
+						$jsFiles[$position][$this->scriptMap[$name]]=$this->scriptMap[$name];
 				}
 				else if(isset($this->scriptMap['*.js']))
 				{
@@ -156,7 +164,7 @@ class CClientScript extends CApplicationComponent
 					$jsFiles[$position][$key]=$script;
 			}
 		}
-		$this->_scriptFiles=$jsFiles;
+		$this->scriptFiles=$jsFiles;
 	}
 
 	/**
@@ -184,18 +192,18 @@ class CClientScript extends CApplicationComponent
 		// merge in place
 		if($cssFiles!==array())
 		{
-			foreach($this->_cssFiles as $cssFile=>$media)
+			foreach($this->cssFiles as $cssFile=>$media)
 				$cssFiles[$cssFile]=$media;
-			$this->_cssFiles=$cssFiles;
+			$this->cssFiles=$cssFiles;
 		}
 		if($jsFiles!==array())
 		{
-			if(isset($this->_scriptFiles[self::POS_HEAD]))
+			if(isset($this->scriptFiles[self::POS_HEAD]))
 			{
-				foreach($this->_scriptFiles[self::POS_HEAD] as $url)
+				foreach($this->scriptFiles[self::POS_HEAD] as $url)
 					$jsFiles[$url]=$url;
 			}
-			$this->_scriptFiles[self::POS_HEAD]=$jsFiles;
+			$this->scriptFiles[self::POS_HEAD]=$jsFiles;
 		}
 	}
 
@@ -210,15 +218,15 @@ class CClientScript extends CApplicationComponent
 			$html.=CHtml::metaTag($meta['content'],null,null,$meta);
 		foreach($this->_links as $link)
 			$html.=CHtml::linkTag(null,null,null,null,$link);
-		foreach($this->_cssFiles as $url=>$media)
+		foreach($this->cssFiles as $url=>$media)
 			$html.=CHtml::cssFile($url,$media)."\n";
 		foreach($this->_css as $css)
 			$html.=CHtml::css($css[0],$css[1])."\n";
 		if($this->enableJavaScript)
 		{
-			if(isset($this->_scriptFiles[self::POS_HEAD]))
+			if(isset($this->scriptFiles[self::POS_HEAD]))
 			{
-				foreach($this->_scriptFiles[self::POS_HEAD] as $scriptFile)
+				foreach($this->scriptFiles[self::POS_HEAD] as $scriptFile)
 					$html.=CHtml::scriptFile($scriptFile)."\n";
 			}
 
@@ -243,9 +251,9 @@ class CClientScript extends CApplicationComponent
 	public function renderBodyBegin(&$output)
 	{
 		$html='';
-		if(isset($this->_scriptFiles[self::POS_BEGIN]))
+		if(isset($this->scriptFiles[self::POS_BEGIN]))
 		{
-			foreach($this->_scriptFiles[self::POS_BEGIN] as $scriptFile)
+			foreach($this->scriptFiles[self::POS_BEGIN] as $scriptFile)
 				$html.=CHtml::scriptFile($scriptFile)."\n";
 		}
 		if(isset($this->_scripts[self::POS_BEGIN]))
@@ -267,15 +275,15 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function renderBodyEnd(&$output)
 	{
-		if(!isset($this->_scriptFiles[self::POS_END]) && !isset($this->_scripts[self::POS_END])
+		if(!isset($this->scriptFiles[self::POS_END]) && !isset($this->_scripts[self::POS_END])
 			&& !isset($this->_scripts[self::POS_READY]) && !isset($this->_scripts[self::POS_LOAD]))
 			return;
 
 		$output=preg_replace('/(<\\/body\s*>)/is','<###end###>$1',$output,1,$fullPage);
 		$html='';
-		if(isset($this->_scriptFiles[self::POS_END]))
+		if(isset($this->scriptFiles[self::POS_END]))
 		{
-			foreach($this->_scriptFiles[self::POS_END] as $scriptFile)
+			foreach($this->scriptFiles[self::POS_END] as $scriptFile)
 				$html.=CHtml::scriptFile($scriptFile)."\n";
 		}
 		$scripts=isset($this->_scripts[self::POS_END]) ? $this->_scripts[self::POS_END] : array();
@@ -366,7 +374,7 @@ class CClientScript extends CApplicationComponent
 	public function registerCssFile($url,$media='')
 	{
 		$this->_hasScripts=true;
-		$this->_cssFiles[$url]=$media;
+		$this->cssFiles[$url]=$media;
 		$params=func_get_args();
 		Yii::app()->getController()->recordCachingAction('clientScript','registerCssFile',$params);
 	}
@@ -398,7 +406,7 @@ class CClientScript extends CApplicationComponent
 	public function registerScriptFile($url,$position=self::POS_HEAD)
 	{
 		$this->_hasScripts=true;
-		$this->_scriptFiles[$position][$url]=$url;
+		$this->scriptFiles[$position][$url]=$url;
 		$params=func_get_args();
 		Yii::app()->getController()->recordCachingAction('clientScript','registerScriptFile',$params);
 	}
@@ -479,7 +487,7 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function isCssFileRegistered($url)
 	{
-		return isset($this->_cssFiles[$url]);
+		return isset($this->cssFiles[$url]);
 	}
 
 	/**
@@ -505,7 +513,7 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function isScriptFileRegistered($url,$position=self::POS_HEAD)
 	{
-		return isset($this->_scriptFiles[$position][$url]);
+		return isset($this->scriptFiles[$position][$url]);
 	}
 
 	/**

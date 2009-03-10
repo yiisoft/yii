@@ -19,5 +19,6 @@ Fields with <span class="required">*</span> are required.
 <?php echo "<?php echo CHtml::submitButton(\$update ? 'Save' : 'Create'); ?>\n"; ?>
 </div>
 
-</form>
+<?php echo "<?php echo CHtml::closeTag('form'); ?>\n"; ?>
+
 </div><!-- yiiForm -->

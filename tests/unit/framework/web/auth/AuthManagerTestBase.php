@@ -1,6 +1,6 @@
 <?php
 
-class AuthManagerTestBase extends CTestCase
+abstract class AuthManagerTestBase extends CTestCase
 {
 	protected $auth;
 

@@ -5,7 +5,7 @@ class CSecurityManagerTest extends CTestCase
 	public function setUp()
 	{
 		// clean up runtime directory
-		$app=new TestWebApplication(array('basePath'=>YII_UT_PATH));
+		$app=new TestApplication;
 		$app->reset();
 	}
 
@@ -16,10 +16,10 @@ class CSecurityManagerTest extends CTestCase
 		$sm->validationKey=$key;
 		$this->assertEquals($key,$sm->validationKey);
 
-		$app=new TestWebApplication(array('basePath'=>YII_UT_PATH));
+		$app=new TestApplication;
 		$key=$app->securityManager->validationKey;
 		$app->saveGlobalState();
-		$app2=new TestWebApplication(array('basePath'=>YII_UT_PATH));
+		$app2=new TestApplication;
 		$this->assertEquals($app2->securityManager->validationKey,$key);
 	}
 
@@ -30,10 +30,10 @@ class CSecurityManagerTest extends CTestCase
 		$sm->encryptionKey=$key;
 		$this->assertEquals($key,$sm->encryptionKey);
 
-		$app=new TestWebApplication(array('basePath'=>YII_UT_PATH));
+		$app=new TestApplication;
 		$key=$app->securityManager->encryptionKey;
 		$app->saveGlobalState();
-		$app2=new TestWebApplication(array('basePath'=>YII_UT_PATH));
+		$app2=new TestApplication;
 		$this->assertEquals($app2->securityManager->encryptionKey,$key);
 	}
 

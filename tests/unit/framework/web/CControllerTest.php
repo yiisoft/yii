@@ -88,7 +88,7 @@ class CControllerTest extends CTestCase
 {
 	public function testDefaultProperties()
 	{
-		$app=new TestWebApplication(array('basePath'=>YII_UT_PATH));
+		$app=new TestApplication;
 		$_SERVER['REQUEST_METHOD']='GET';
 		$c=new CController('test/subtest');
 		$this->assertEquals($c->id,'test/subtest');
@@ -103,7 +103,7 @@ class CControllerTest extends CTestCase
 
 	public function testRunAction()
 	{
-		$app=new TestWebApplication(array('basePath'=>YII_UT_PATH));
+		$app=new TestApplication;
 		$c=new TestController('test');
 		$this->assertEquals($c->internal,0);
 		$this->assertEquals($c->external,0);

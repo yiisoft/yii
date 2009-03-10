@@ -258,19 +258,17 @@ class CDbConnection extends CApplicationComponent
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		if($this->emulatePrepare && constant('PDO::ATTR_EMULATE_PREPARES'))
 			$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,true);
-		if($this->charset===null)
-			return;
-		switch(strtolower($pdo->getAttribute(PDO::ATTR_DRIVER_NAME)))
+		if($this->charset!==null)
 		{
-			case 'pgsql':
-				$stmt=$pdo->prepare('SET client_encoding TO ?');
-				$stmt->execute(array($this->charset));
-				break;
-			case 'mysqli':
-			case 'mysql':
-				$stmt=$pdo->prepare('SET CHARACTER SET ?');
-				$stmt->execute(array($this->charset));
-				break;
+			switch(strtolower($pdo->getAttribute(PDO::ATTR_DRIVER_NAME)))
+			{
+				case 'pgsql':
+				case 'mysql':
+				case 'mysqli':
+					$stmt=$pdo->prepare('SET NAMES ?');
+					$stmt->execute(array($this->charset));
+					break;
+			}
 		}
 	}
 

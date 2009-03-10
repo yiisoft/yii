@@ -1,7 +1,5 @@
 <?php
 
-Yii::import('system.caching.CDbCache');
-
 if(!defined('DBCACHE_TEST_DBFILE'))
 	define('DBCACHE_TEST_DBFILE',dirname(__FILE__).'/temp/test2.db');
 
@@ -12,20 +10,17 @@ if(!defined('DBCACHE_TEST_DB'))
 class CDbCacheTest extends CTestCase
 {
 	private $_config1=array(
-		'basePath'=>'.',
 		'id'=>'testApp',
 		'components'=>array(
 			'cache'=>array(
-				'class'=>'system.caching.CDbCache',
+				'class'=>'CDbCache',
 			),
 		),
 	);
 	private $_config2=array(
-		'basePath'=>'.',
 		'id'=>'testApp',
 		'components'=>array(
 			'db'=>array(
-				'class'=>'system.db.CDbConnection',
 				'connectionString'=>DBCACHE_TEST_DB,
 			),
 			'cache'=>array(
@@ -34,6 +29,7 @@ class CDbCacheTest extends CTestCase
 			),
 		),
 	);
+
 	public function setUp()
 	{
 		if(!extension_loaded('pdo') || !extension_loaded('pdo_sqlite'))

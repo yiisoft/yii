@@ -144,6 +144,8 @@ class CFileValidator extends CValidator
 	protected function getSizeLimit()
 	{
 		$limit=ini_get('upload_max_filesize');
+		if(strpos($limit,'M')!==false)
+			$limit=$limit*1024*1024;
 		if($this->maxSize!==null && $limit>0 && $this->maxSize<$limit)
 			$limit=$this->maxSize;
 		if(isset($_POST['MAX_FILE_SIZE']) && $_POST['MAX_FILE_SIZE']>0 && $_POST['MAX_FILE_SIZE']<$limit)

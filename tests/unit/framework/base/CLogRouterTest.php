@@ -16,7 +16,7 @@ class CLogRouterTest extends CTestCase
 {
 	public function testRoutes()
 	{
-		$app=new TestWebApplication(array('basePath'=>'.'));
+		$app=new TestApplication;
 		$router=new CLogRouter;
 
 		$this->assertEquals(count($router->routes),0);
