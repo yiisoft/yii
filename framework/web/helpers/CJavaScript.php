@@ -42,7 +42,7 @@ class CJavaScript
 	 * $options=array('key1'=>true,'key2'=>123,'key3'=>'value');
 	 * echo CJavaScript::encode($options);
 	 * // The following javascript code would be generated:
-	 * // {'key1':true,'key2':123,'key3'=>'value'}
+	 * // {'key1':true,'key2':123,'key3':'value'}
 	 * </pre>
 	 *
 	 * For highly complex data structures use {@link jsonEncode} and {@link jsonDecode}
