@@ -58,8 +58,8 @@ class CMssqlSchema extends CDbSchema
 	 */
 	public function compareTableNames($name1,$name2)
 	{
-		$name1=str_replpace(array('[',']'),'',$name1);
-		$name1=str_replpace(array('[',']'),'',$name2);
+		$name1=str_replace(array('[',']'),'',$name1);
+		$name1=str_replace(array('[',']'),'',$name2);
 		return parent::compareTableNames(strtolower($name1),strtolower($name2));
 	}
 
@@ -230,7 +230,11 @@ EOD;
 		foreach($columns as $column)
 		{
 			$c=$this->createColumn($column);
-			$c->isPrimaryKey=(strcasecmp($c->name,$table->primaryKey)===0) || (in_array($c->name, $table->primaryKey));
+			if (is_array($table->primaryKey))
+				$c->isPrimaryKey=in_array($c->name, $table->primaryKey);
+			else
+				$c->isPrimaryKey=strcasecmp($c->name,$table->primaryKey)===0;
+
 			$c->isForeignKey=isset($table->foreignKeys[$c->name]);
 			$table->columns[$c->name]=$c;
 			if ($column['IsIdentity']==1 && $table->sequenceName===null)

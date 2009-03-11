@@ -27,16 +27,17 @@ class Tag extends CActiveRecord
 	 */
 	public function findTagWeights($limit=20)
 	{
-		$sql=<<<EOD
-	SELECT name, COUNT(postId) AS weight
-	FROM Tag, PostTag
-	WHERE Tag.id=PostTag.tagId
-	GROUP BY name
-	HAVING COUNT(postId)>0
-	ORDER BY weight DESC
-	LIMIT $limit
-EOD;
-		$rows=$this->dbConnection->createCommand($sql)->queryAll();
+		$criteria=new CDbCriteria(array(
+			'select'=>'name, COUNT(postId) as weight',
+			'join'=>'INNER JOIN PostTag ON Tag.id=PostTag.tagId',
+			'group'=>'name',
+			'having'=>'COUNT(postId)>0',
+			'order'=>'weight DESC',
+			'limit'=>20,
+		));
+
+		$rows=$this->dbConnection->commandBuilder->createFindCommand($this->tableSchema, $criteria)->queryAll();
+
 		$total=0;
 		foreach($rows as $row)
 			$total+=$row['weight'];

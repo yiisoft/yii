@@ -359,6 +359,16 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the SQL command builder for the current DB connection.
+	 * @return CDbCommandBuilder the command builder
+	 * @since 1.0.4
+	 */
+	public function getCommandBuilder()
+	{
+		return $this->getSchema()->getCommandBuilder();
+	}
+
+	/**
 	 * Returns the ID of the last inserted row or sequence value.
 	 * @param string name of the sequence object (required by some DBMS)
 	 * @return string the row ID of the last row inserted, or the last value retrieved from the sequence object

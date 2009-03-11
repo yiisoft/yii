@@ -17,7 +17,7 @@
  * @author Christophe Boulain <Christophe.Boulain@gmail.com>
  * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
  * @version $Id$
- * @package system.db.schema
+ * @package system.db.schema.mssql
  * @since 1.0.4
  */
 class CMssqlCommandBuilder extends CDbCommandBuilder
@@ -39,7 +39,7 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 
 	/**
 	 * This is a port from Prado Framework.
-	 * 
+	 *
 	 * Overrides parent implementation. Alters the sql to apply $limit and $offset.
 	 * The idea for limit with offset is done by modifying the sql on the fly
 	 * with numerous assumptions on the structure of the sql string.
@@ -178,6 +178,67 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 			$orders[$column] = strtolower(trim($direction))==='desc' ? 'ASC' : 'DESC';
 		return $orders;
 	}
+
+	/**
+	 * Creates a COUNT(*) command for a single table.
+	 * Override parent implementation to remove the order clause of criteria if it exists
+	 * @param CDbTableSchema the table metadata
+	 * @param CDbCriteria the query criteria
+	 * @return CDbCommand query command.
+	 */
+	public function createCountCommand($table,$criteria)
+	{
+		$criteria->order='';
+		return parent::createCountCommand($table, $criteria);
+	}
+
+	/**
+	 * Creates an UPDATE command.
+	 * Override parent implementation because mssql don't want to update an identity column
+	 * @param CDbTableSchema the table metadata
+	 * @param array list of columns to be updated (name=>value)
+	 * @param CDbCriteria the query criteria
+	 * @return CDbCommand update command.
+	 */
+	public function createUpdateCommand($table,$data,$criteria)
+	{
+		$fields=array();
+		$values=array();
+		$bindByPosition=isset($criteria->params[0]);
+		foreach($data as $name=>$value)
+		{
+			if(($column=$table->getColumn($name))!==null)
+			{
+				if ($table->sequenceName !== null && $column->isPrimaryKey === true) continue;
+				if($value instanceof CDbExpression)
+					$fields[]=$column->rawName.'='.(string)$value;
+				else if($bindByPosition)
+				{
+					$fields[]=$column->rawName.'=?';
+					$values[]=$column->typecast($value);
+				}
+				else
+				{
+					$fields[]=$column->rawName.'=:'.$name;
+					$values[':'.$name]=$column->typecast($value);
+				}
+			}
+		}
+		if($fields===array())
+			throw new CDbException(Yii::t('yii','No columns are being updated for table "{table}".',
+				array('{table}'=>$table->name)));
+		$sql="UPDATE {$table->rawName} SET ".implode(', ',$fields);
+		$sql=$this->applyJoin($sql,$criteria->join);
+		$sql=$this->applyCondition($sql,$criteria->condition);
+		$sql=$this->applyOrder($sql,$criteria->order);
+		$sql=$this->applyLimit($sql,$criteria->limit,$criteria->offset);
+
+		$command=$this->getDbConnection()->createCommand($sql);
+		$this->bindValues($command,array_merge($values,$criteria->params));
+
+		return $command;
+	}
+
 
 }
 ?>
