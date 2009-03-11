@@ -605,7 +605,7 @@ class CJoinElement
 				if(isset($this->_columnAliases[$key]))  // simple column names
 				{
 					$columns[]=$prefix.$schema->quoteColumnName($key).' AS '.$this->_columnAliases[$key];
-					$selected[$key]=1;
+					$selected[$this->_columnAliases[$key]]=1;
 				}
 				else if(preg_match('/^(.*?)\s+AS\s+(\w+)$/i',$name,$matches)) // if the column is already aliased
 				{
