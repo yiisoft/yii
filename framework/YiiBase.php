@@ -168,9 +168,11 @@ class YiiBase
 				$object=new $type($args[1],$args[2]);
 			else
 			{
-				for($s='$args[1]',$i=2;$i<$n;++$i)
-					$s.=",\$args[$i]";
-				eval("\$object=new $type($s);");
+				unset($args[0]);
+				$class=new ReflectionClass($type);
+				// Note: ReflectionClass::newInstanceArgs() is available for PHP 5.1.3+
+				// return $class->newInstanceArgs($args);
+				return call_user_func_array(array($class,'newInstance'),$args);
 			}
 		}
 		else
