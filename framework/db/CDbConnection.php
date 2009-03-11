@@ -348,6 +348,7 @@ class CDbConnection extends CApplicationComponent
 					return $this->_schema=new CSqliteSchema($this);
 				case 'mssql': // Mssql driver on windows hosts
 				case 'dblib': // dblib drivers on linux (and maybe others os) hosts
+					return $this->_schema=new CMssqlSchema($this);
 				case 'oci':
 				case 'ibm':
 				default:
