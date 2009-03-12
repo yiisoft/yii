@@ -86,9 +86,11 @@ class YiiBase
 				$object=new $type($args[1],$args[2]);
 			else
 			{
-				for($s='$args[1]',$i=2;$i<$n;++$i)
-					$s.=",\$args[$i]";
-				eval("\$object=new $type($s);");
+				unset($args[0]);
+				$class=new ReflectionClass($type);
+				// Note: ReflectionClass::newInstanceArgs() is available for PHP 5.1.3+
+				// return $class->newInstanceArgs($args);
+				return call_user_func_array(array($class,'newInstance'),$args);
 			}
 		}
 		else
@@ -275,6 +277,7 @@ class YiiBase
 		'CDbTableSchema' => '/db/schema/CDbTableSchema.php',
 		'CMssqlColumnSchema' => '/db/schema/mssql/CMssqlColumnSchema.php',
 		'CMssqlCommandBuilder' => '/db/schema/mssql/CMssqlCommandBuilder.php',
+		'CMssqlPdoAdapter' => '/db/schema/mssql/CMssqlPdoAdapter.php',
 		'CMssqlSchema' => '/db/schema/mssql/CMssqlSchema.php',
 		'CMssqlTableSchema' => '/db/schema/mssql/CMssqlTableSchema.php',
 		'CMysqlColumnSchema' => '/db/schema/mysql/CMysqlColumnSchema.php',
@@ -3016,11 +3019,20 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	}
 	public function setState($key,$value,$defaultValue=null)
 	{
-		$key=$this->getStateKeyPrefix().$key;
+		$key2=$this->getStateKeyPrefix().$key;
+		$states=$this->getState('__states',array());
 		if($value===$defaultValue)
-			unset($_SESSION[$key]);
+		{
+			unset($_SESSION[$key2]);
+			unset($states[$key]);
+		}
 		else
-			$_SESSION[$key]=$value;
+		{
+			$_SESSION[$key2]=$value;
+			$states[$key]=true;
+		}
+		if($key!=='__states')
+			$this->setState('__states',$states,array());
 	}
 	public function hasState($key)
 	{
@@ -5588,6 +5600,8 @@ class CActiveRelation extends CComponent
 	public $aliasToken='??';
 	public $with=array();
 	public $together;
+	public $group='';
+	public $having='';
 	public function __construct($name,$className,$foreignKey,$options=array())
 	{
 		$this->name=$name;
@@ -5605,8 +5619,6 @@ class CHasOneRelation extends CActiveRelation
 }
 class CHasManyRelation extends CActiveRelation
 {
-	public $group='';
-	public $having='';
 	public $limit=-1;
 	public $offset=-1;
 }
@@ -5709,8 +5721,7 @@ class CDbConnection extends CApplicationComponent
 				throw new CDbException(Yii::t('yii','CDbConnection.connectionString cannot be empty.'));
 			try
 			{
-				$this->_pdo=new PDO($this->connectionString,$this->username,
-									$this->password,$this->_attributes);
+				$this->_pdo=$this->createPdoInstance();
 				$this->initConnection($this->_pdo);
 				$this->_active=true;
 			}
@@ -5727,6 +5738,18 @@ class CDbConnection extends CApplicationComponent
 		$this->_active=false;
 		$this->_schema=null;
 	}
+	protected function createPdoInstance()
+	{
+		$pdoClass='PDO';
+		if(($pos=strpos($this->connectionString,':'))!==false)
+		{
+			$driver=strtolower(substr($this->connectionString,0,$pos));
+			if($driver==='mssql' || $driver==='dblib')
+				$pdoClass='CMssqlPdoAdapter';
+		}
+		return new $pdoClass($this->connectionString,$this->username,
+									$this->password,$this->_attributes);
+	}
 	protected function initConnection($pdo)
 	{
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -5734,15 +5757,8 @@ class CDbConnection extends CApplicationComponent
 			$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,true);
 		if($this->charset!==null)
 		{
-			switch(strtolower($pdo->getAttribute(PDO::ATTR_DRIVER_NAME)))
-			{
-				case 'pgsql':
-				case 'mysql':
-				case 'mysqli':
-					$stmt=$pdo->prepare('SET NAMES ?');
-					$stmt->execute(array($this->charset));
-					break;
-			}
+			$stmt=$pdo->prepare('SET NAMES ?');
+			$stmt->execute(array($this->charset));
 		}
 	}
 	public function getPdoInstance()
@@ -5804,6 +5820,10 @@ class CDbConnection extends CApplicationComponent
 						array('{driver}'=>$driver)));
 			}
 		}
+	}
+	public function getCommandBuilder()
+	{
+		return $this->getSchema()->getCommandBuilder();
 	}
 	public function getLastInsertID($sequenceName='')
 	{
