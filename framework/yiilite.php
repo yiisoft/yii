@@ -80,9 +80,16 @@ class YiiBase
 		if(($n=func_num_args())>1)
 		{
 			$args=func_get_args();
-			for($s='$args[1]',$i=2;$i<$n;++$i)
-				$s.=",\$args[$i]";
-			eval("\$object=new $type($s);");
+			if($n===2)
+				$object=new $type($args[1]);
+			else if($n===3)
+				$object=new $type($args[1],$args[2]);
+			else
+			{
+				for($s='$args[1]',$i=2;$i<$n;++$i)
+					$s.=",\$args[$i]";
+				eval("\$object=new $type($s);");
+			}
 		}
 		else
 			$object=new $type;
@@ -228,6 +235,7 @@ class YiiBase
 		'CApcCache' => '/caching/CApcCache.php',
 		'CCache' => '/caching/CCache.php',
 		'CDbCache' => '/caching/CDbCache.php',
+		'CEAcceleratorCache' => '/caching/CEAcceleratorCache.php',
 		'CMemCache' => '/caching/CMemCache.php',
 		'CXCache' => '/caching/CXCache.php',
 		'CCacheDependency' => '/caching/dependencies/CCacheDependency.php',
@@ -265,6 +273,10 @@ class YiiBase
 		'CDbExpression' => '/db/schema/CDbExpression.php',
 		'CDbSchema' => '/db/schema/CDbSchema.php',
 		'CDbTableSchema' => '/db/schema/CDbTableSchema.php',
+		'CMssqlColumnSchema' => '/db/schema/mssql/CMssqlColumnSchema.php',
+		'CMssqlCommandBuilder' => '/db/schema/mssql/CMssqlCommandBuilder.php',
+		'CMssqlSchema' => '/db/schema/mssql/CMssqlSchema.php',
+		'CMssqlTableSchema' => '/db/schema/mssql/CMssqlTableSchema.php',
 		'CMysqlColumnSchema' => '/db/schema/mysql/CMysqlColumnSchema.php',
 		'CMysqlSchema' => '/db/schema/mysql/CMysqlSchema.php',
 		'CMysqlTableSchema' => '/db/schema/mysql/CMysqlTableSchema.php',
@@ -3327,7 +3339,7 @@ class CHtml
 	public static $beforeRequiredLabel='';
 	public static $afterRequiredLabel=' <span class="required">*</span>';
 	public static $scenario='';
-	private static $_count=0;
+	public static $count=0;
 	public static function encode($text)
 	{
 		return htmlspecialchars($text,ENT_QUOTES,Yii::app()->charset);
@@ -3338,7 +3350,7 @@ class CHtml
 		foreach($htmlOptions as $name=>$value)
 			$html .= ' ' . $name . '="' . self::encode($value) . '"';
 		if($content===false)
-			return $closeTag ? $html.'/>' : $html.'>';
+			return $closeTag ? $html.' />' : $html.'>';
 		else
 			return $closeTag ? $html.'>'.$content.'</'.$tag.'>' : $html.'>'.$content;
 	}
@@ -3388,7 +3400,7 @@ class CHtml
 	{
 		if($media!=='')
 			$media=' media="'.$media.'"';
-		return '<link rel="stylesheet" type="text/css" href="'.self::encode($url).'"'.$media.'/>';
+		return '<link rel="stylesheet" type="text/css" href="'.self::encode($url).'"'.$media.' />';
 	}
 	public static function script($text)
 	{
@@ -3441,7 +3453,7 @@ class CHtml
 	public static function button($label='button',$htmlOptions=array())
 	{
 		if(!isset($htmlOptions['name']))
-			$htmlOptions['name']=self::ID_PREFIX.self::$_count++;
+			$htmlOptions['name']=self::ID_PREFIX.self::$count++;
 		if(!isset($htmlOptions['type']))
 			$htmlOptions['type']='button';
 		if(!isset($htmlOptions['value']))
@@ -3925,7 +3937,7 @@ class CHtml
 		if(isset($htmlOptions['id']))
 			$id=$htmlOptions['id'];
 		else
-			$id=$htmlOptions['id']=isset($htmlOptions['name'])?$htmlOptions['name']:self::ID_PREFIX.self::$_count++;
+			$id=$htmlOptions['id']=isset($htmlOptions['name'])?$htmlOptions['name']:self::ID_PREFIX.self::$count++;
 		$cs=Yii::app()->getClientScript();
 		$cs->registerCoreScript('jquery');
 		if(isset($htmlOptions['params']))
@@ -4060,14 +4072,14 @@ class CClientScript extends CApplicationComponent
 	const POS_READY=4;
 	public $enableJavaScript=true;
 	public $scriptMap=array();
+	protected $cssFiles=array();
+	protected $scriptFiles=array();
 	private $_hasScripts=false;
 	private $_packages;
 	private $_dependencies;
 	private $_baseUrl;
 	private $_coreScripts=array();
-	private $_cssFiles=array();
 	private $_css=array();
-	private $_scriptFiles=array();
 	private $_scripts=array();
 	private $_metas=array();
 	private $_links=array();
@@ -4075,9 +4087,9 @@ class CClientScript extends CApplicationComponent
 	{
 		$this->_hasScripts=false;
 		$this->_coreScripts=array();
-		$this->_cssFiles=array();
+		$this->cssFiles=array();
 		$this->_css=array();
-		$this->_scriptFiles=array();
+		$this->scriptFiles=array();
 		$this->_scripts=array();
 		$this->_metas=array();
 		$this->_links=array();
@@ -4100,7 +4112,7 @@ class CClientScript extends CApplicationComponent
 	protected function remapScripts()
 	{
 		$cssFiles=array();
-		foreach($this->_cssFiles as $url=>$media)
+		foreach($this->cssFiles as $url=>$media)
 		{
 			$name=basename($url);
 			if(isset($this->scriptMap[$name]))
@@ -4116,9 +4128,9 @@ class CClientScript extends CApplicationComponent
 			else
 				$cssFiles[$url]=$media;
 		}
-		$this->_cssFiles=$cssFiles;
+		$this->cssFiles=$cssFiles;
 		$jsFiles=array();
-		foreach($this->_scriptFiles as $position=>$scripts)
+		foreach($this->scriptFiles as $position=>$scripts)
 		{
 			$jsFiles[$position]=array();
 			foreach($scripts as $key=>$script)
@@ -4127,7 +4139,7 @@ class CClientScript extends CApplicationComponent
 				if(isset($this->scriptMap[$name]))
 				{
 					if($this->scriptMap[$name]!==false)
-						$jsFiles[$position][$name]=$this->scriptMap[$name];
+						$jsFiles[$position][$this->scriptMap[$name]]=$this->scriptMap[$name];
 				}
 				else if(isset($this->scriptMap['*.js']))
 				{
@@ -4138,10 +4150,12 @@ class CClientScript extends CApplicationComponent
 					$jsFiles[$position][$key]=$script;
 			}
 		}
-		$this->_scriptFiles=$jsFiles;
+		$this->scriptFiles=$jsFiles;
 	}
 	public function renderCoreScripts()
 	{
+		if($this->_packages===null)
+			return;
 		$baseUrl=$this->getCoreScriptUrl();
 		$cssFiles=array();
 		$jsFiles=array();
@@ -4159,18 +4173,18 @@ class CClientScript extends CApplicationComponent
 		// merge in place
 		if($cssFiles!==array())
 		{
-			foreach($this->_cssFiles as $cssFile=>$media)
+			foreach($this->cssFiles as $cssFile=>$media)
 				$cssFiles[$cssFile]=$media;
-			$this->_cssFiles=$cssFiles;
+			$this->cssFiles=$cssFiles;
 		}
 		if($jsFiles!==array())
 		{
-			if(isset($this->_scriptFiles[self::POS_HEAD]))
+			if(isset($this->scriptFiles[self::POS_HEAD]))
 			{
-				foreach($this->_scriptFiles[self::POS_HEAD] as $url)
+				foreach($this->scriptFiles[self::POS_HEAD] as $url)
 					$jsFiles[$url]=$url;
 			}
-			$this->_scriptFiles[self::POS_HEAD]=$jsFiles;
+			$this->scriptFiles[self::POS_HEAD]=$jsFiles;
 		}
 	}
 	public function renderHead(&$output)
@@ -4180,15 +4194,15 @@ class CClientScript extends CApplicationComponent
 			$html.=CHtml::metaTag($meta['content'],null,null,$meta);
 		foreach($this->_links as $link)
 			$html.=CHtml::linkTag(null,null,null,null,$link);
-		foreach($this->_cssFiles as $url=>$media)
+		foreach($this->cssFiles as $url=>$media)
 			$html.=CHtml::cssFile($url,$media)."\n";
 		foreach($this->_css as $css)
 			$html.=CHtml::css($css[0],$css[1])."\n";
 		if($this->enableJavaScript)
 		{
-			if(isset($this->_scriptFiles[self::POS_HEAD]))
+			if(isset($this->scriptFiles[self::POS_HEAD]))
 			{
-				foreach($this->_scriptFiles[self::POS_HEAD] as $scriptFile)
+				foreach($this->scriptFiles[self::POS_HEAD] as $scriptFile)
 					$html.=CHtml::scriptFile($scriptFile)."\n";
 			}
 			if(isset($this->_scripts[self::POS_HEAD]))
@@ -4206,9 +4220,9 @@ class CClientScript extends CApplicationComponent
 	public function renderBodyBegin(&$output)
 	{
 		$html='';
-		if(isset($this->_scriptFiles[self::POS_BEGIN]))
+		if(isset($this->scriptFiles[self::POS_BEGIN]))
 		{
-			foreach($this->_scriptFiles[self::POS_BEGIN] as $scriptFile)
+			foreach($this->scriptFiles[self::POS_BEGIN] as $scriptFile)
 				$html.=CHtml::scriptFile($scriptFile)."\n";
 		}
 		if(isset($this->_scripts[self::POS_BEGIN]))
@@ -4224,14 +4238,14 @@ class CClientScript extends CApplicationComponent
 	}
 	public function renderBodyEnd(&$output)
 	{
-		if(!isset($this->_scriptFiles[self::POS_END]) && !isset($this->_scripts[self::POS_END])
+		if(!isset($this->scriptFiles[self::POS_END]) && !isset($this->_scripts[self::POS_END])
 			&& !isset($this->_scripts[self::POS_READY]) && !isset($this->_scripts[self::POS_LOAD]))
 			return;
 		$output=preg_replace('/(<\\/body\s*>)/is','<###end###>$1',$output,1,$fullPage);
 		$html='';
-		if(isset($this->_scriptFiles[self::POS_END]))
+		if(isset($this->scriptFiles[self::POS_END]))
 		{
-			foreach($this->_scriptFiles[self::POS_END] as $scriptFile)
+			foreach($this->scriptFiles[self::POS_END] as $scriptFile)
 				$html.=CHtml::scriptFile($scriptFile)."\n";
 		}
 		$scripts=isset($this->_scripts[self::POS_END]) ? $this->_scripts[self::POS_END] : array();
@@ -4292,7 +4306,7 @@ class CClientScript extends CApplicationComponent
 	public function registerCssFile($url,$media='')
 	{
 		$this->_hasScripts=true;
-		$this->_cssFiles[$url]=$media;
+		$this->cssFiles[$url]=$media;
 		$params=func_get_args();
 		Yii::app()->getController()->recordCachingAction('clientScript','registerCssFile',$params);
 	}
@@ -4306,7 +4320,7 @@ class CClientScript extends CApplicationComponent
 	public function registerScriptFile($url,$position=self::POS_HEAD)
 	{
 		$this->_hasScripts=true;
-		$this->_scriptFiles[$position][$url]=$url;
+		$this->scriptFiles[$position][$url]=$url;
 		$params=func_get_args();
 		Yii::app()->getController()->recordCachingAction('clientScript','registerScriptFile',$params);
 	}
@@ -4348,7 +4362,7 @@ class CClientScript extends CApplicationComponent
 	}
 	public function isCssFileRegistered($url)
 	{
-		return isset($this->_cssFiles[$url]);
+		return isset($this->cssFiles[$url]);
 	}
 	public function isCssRegistered($id)
 	{
@@ -4356,7 +4370,7 @@ class CClientScript extends CApplicationComponent
 	}
 	public function isScriptFileRegistered($url,$position=self::POS_HEAD)
 	{
-		return isset($this->_scriptFiles[$position][$url]);
+		return isset($this->scriptFiles[$position][$url]);
 	}
 	public function isScriptRegistered($id,$position=self::POS_READY)
 	{
@@ -4651,7 +4665,12 @@ class CAccessControlFilter extends CFilter
 				$r=new CAccessRule;
 				$r->allow=$rule[0]==='allow';
 				foreach(array_slice($rule,1) as $name=>$value)
-					$r->$name=array_map('strtolower',$value);
+				{
+					if($name==='expression' || $name==='roles')
+						$r->$name=$value;
+					else
+						$r->$name=array_map('strtolower',$value);
+				}
 				$this->_rules[]=$r;
 			}
 		}
@@ -5713,19 +5732,17 @@ class CDbConnection extends CApplicationComponent
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		if($this->emulatePrepare && constant('PDO::ATTR_EMULATE_PREPARES'))
 			$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,true);
-		if($this->charset===null)
-			return;
-		switch(strtolower($pdo->getAttribute(PDO::ATTR_DRIVER_NAME)))
+		if($this->charset!==null)
 		{
-			case 'pgsql':
-				$stmt=$pdo->prepare('SET client_encoding TO ?');
-				$stmt->execute(array($this->charset));
-				break;
-			case 'mysqli':
-			case 'mysql':
-				$stmt=$pdo->prepare('SET CHARACTER SET ?');
-				$stmt->execute(array($this->charset));
-				break;
+			switch(strtolower($pdo->getAttribute(PDO::ATTR_DRIVER_NAME)))
+			{
+				case 'pgsql':
+				case 'mysql':
+				case 'mysqli':
+					$stmt=$pdo->prepare('SET NAMES ?');
+					$stmt->execute(array($this->charset));
+					break;
+			}
 		}
 	}
 	public function getPdoInstance()
@@ -5779,6 +5796,7 @@ class CDbConnection extends CApplicationComponent
 					return $this->_schema=new CSqliteSchema($this);
 				case 'mssql': // Mssql driver on windows hosts
 				case 'dblib': // dblib drivers on linux (and maybe others os) hosts
+					return $this->_schema=new CMssqlSchema($this);
 				case 'oci':
 				case 'ibm':
 				default:

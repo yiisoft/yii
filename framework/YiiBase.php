@@ -168,9 +168,11 @@ class YiiBase
 				$object=new $type($args[1],$args[2]);
 			else
 			{
-				for($s='$args[1]',$i=2;$i<$n;++$i)
-					$s.=",\$args[$i]";
-				eval("\$object=new $type($s);");
+				unset($args[0]);
+				$class=new ReflectionClass($type);
+				// Note: ReflectionClass::newInstanceArgs() is available for PHP 5.1.3+
+				// return $class->newInstanceArgs($args);
+				return call_user_func_array(array($class,'newInstance'),$args);
 			}
 		}
 		else
@@ -451,6 +453,7 @@ class YiiBase
 		'CApcCache' => '/caching/CApcCache.php',
 		'CCache' => '/caching/CCache.php',
 		'CDbCache' => '/caching/CDbCache.php',
+		'CEAcceleratorCache' => '/caching/CEAcceleratorCache.php',
 		'CMemCache' => '/caching/CMemCache.php',
 		'CXCache' => '/caching/CXCache.php',
 		'CCacheDependency' => '/caching/dependencies/CCacheDependency.php',
@@ -488,6 +491,10 @@ class YiiBase
 		'CDbExpression' => '/db/schema/CDbExpression.php',
 		'CDbSchema' => '/db/schema/CDbSchema.php',
 		'CDbTableSchema' => '/db/schema/CDbTableSchema.php',
+		'CMssqlColumnSchema' => '/db/schema/mssql/CMssqlColumnSchema.php',
+		'CMssqlCommandBuilder' => '/db/schema/mssql/CMssqlCommandBuilder.php',
+		'CMssqlSchema' => '/db/schema/mssql/CMssqlSchema.php',
+		'CMssqlTableSchema' => '/db/schema/mssql/CMssqlTableSchema.php',
 		'CMysqlColumnSchema' => '/db/schema/mysql/CMysqlColumnSchema.php',
 		'CMysqlSchema' => '/db/schema/mysql/CMysqlSchema.php',
 		'CMysqlTableSchema' => '/db/schema/mysql/CMysqlTableSchema.php',
