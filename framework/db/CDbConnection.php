@@ -223,8 +223,7 @@ class CDbConnection extends CApplicationComponent
 				throw new CDbException(Yii::t('yii','CDbConnection.connectionString cannot be empty.'));
 			try
 			{
-				$this->_pdo=new PDO($this->connectionString,$this->username,
-									$this->password,$this->_attributes);
+				$this->_pdo=$this->createPdoInstance();
 				$this->initConnection($this->_pdo);
 				$this->_active=true;
 			}
@@ -248,6 +247,26 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
+	 * Creates the PDO instance.
+	 * When some functionalities are missing in the pdo driver, we may use
+	 * an adapter class to provides them.
+	 * @return PDO the pdo instance
+	 * @since 1.0.4
+	 */
+	protected function createPdoInstance()
+	{
+		$pdoClass='PDO';
+		if(($pos=strpos($this->connectionString,':'))!==false)
+		{
+			$driver=strtolower(substr($this->connectionString,0,$pos));
+			if($driver==='mssql' || $driver==='dblib')
+				$pdoClass='CMssqlPdoAdapter';
+		}
+		return new $pdoClass($this->connectionString,$this->username,
+									$this->password,$this->_attributes);
+	}
+
+	/**
 	 * Initializes the open db connection.
 	 * This method is invoked right after the db connection is established.
 	 * The default implementation is to set the charset for MySQL and PostgreSQL database connections.
@@ -260,15 +279,8 @@ class CDbConnection extends CApplicationComponent
 			$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,true);
 		if($this->charset!==null)
 		{
-			switch(strtolower($pdo->getAttribute(PDO::ATTR_DRIVER_NAME)))
-			{
-				case 'pgsql':
-				case 'mysql':
-				case 'mysqli':
-					$stmt=$pdo->prepare('SET NAMES ?');
-					$stmt->execute(array($this->charset));
-					break;
-			}
+			$stmt=$pdo->prepare('SET NAMES ?');
+			$stmt->execute(array($this->charset));
 		}
 	}
 
@@ -348,6 +360,7 @@ class CDbConnection extends CApplicationComponent
 					return $this->_schema=new CSqliteSchema($this);
 				case 'mssql': // Mssql driver on windows hosts
 				case 'dblib': // dblib drivers on linux (and maybe others os) hosts
+					return $this->_schema=new CMssqlSchema($this);
 				case 'oci':
 				case 'ibm':
 				default:
@@ -355,6 +368,16 @@ class CDbConnection extends CApplicationComponent
 						array('{driver}'=>$driver)));
 			}
 		}
+	}
+
+	/**
+	 * Returns the SQL command builder for the current DB connection.
+	 * @return CDbCommandBuilder the command builder
+	 * @since 1.0.4
+	 */
+	public function getCommandBuilder()
+	{
+		return $this->getSchema()->getCommandBuilder();
 	}
 
 	/**

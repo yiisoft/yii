@@ -1636,6 +1636,14 @@ class CActiveRelation extends CComponent
 	 * @since 1.0.3
 	 */
 	public $together;
+	/**
+	 * @var string GROUP BY clause. Column names referenced here should be prefixed with '??.'.
+	 */
+	public $group='';
+	/**
+	 * @var string HAVING clause. Column names referenced here should be prefixed with '??.'.
+	 */
+	public $having='';
 
 	/**
 	 * Constructor.
@@ -1688,14 +1696,6 @@ class CHasOneRelation extends CActiveRelation
  */
 class CHasManyRelation extends CActiveRelation
 {
-	/**
-	 * @var string GROUP BY clause. Column names referenced here should be prefixed with '??.'.
-	 */
-	public $group='';
-	/**
-	 * @var string HAVING clause. Column names referenced here should be prefixed with '??.'.
-	 */
-	public $having='';
 	/**
 	 * @var integer limit of the rows to be selected. It is effective only for lazy loading this related object. Defaults to -1, meaning no limit.
 	 */

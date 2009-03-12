@@ -12,16 +12,20 @@ Version 1.0.4 to be released
 - Bug #183: Fatal error in CActiveFinder::afterFindInternal() (Qiang)
 - Bug #186: MainMenu component in yiic webapp doesn't detect active menu item correctly (Qiang)
 - Bug #187: SET CHARACTER SET is not working for MySQL in some cases (Qiang)
+- Bug #192: CDbLogRoute has several issues (Qiang)
 - Bug: Setting the 'expression' option in an access url causes error (Qiang)
 - Bug: CAccessRule.roles should be case sensitive (Qiang)
 - Bug: CDbAuthManager::checkDefaultRoles() uses an undefined variable (Qiang)
 - Bug: CPgsqlSchema does not handle quotes well in detecting FK constraints (Qiang)
 - Bug: CPradoViewRenderer is calling an undefined method (Qiang)
 - Bug: CClientScript::scriptMap generates duplicated script tags (Qiang)
+- Bug: ActiveRecord may fetch the same PK column twice in a relational query (Qiang)
+- Bug: CWebUser::hasState does not return consistent result (Qiang)
 - New #171: Add version info to yiic help output (Qiang)
 - New #172: Added eAccelerator cache driver (Steffen)
 - New: Added support to GROUP BY and HAVING in eager loading of AR (Qiang)
 - New: Added CClientScript::scriptFiles and CClientScript::cssFiles (Qiang)
+- New: Added SQL Server support for Active Record (Christophe)
 
 
 Version 1.0.3 March 1, 2009
