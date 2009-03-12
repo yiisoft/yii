@@ -80,7 +80,7 @@ class CDbLogRoute extends CLogRoute
 		$db=$this->getDbConnection();
 		$db->setActive(true);
 
-		$sql="SELECT * FROM {$this->logTableName} WHERE 0";
+		$sql="SELECT * FROM {$this->logTableName} WHERE 0=1";
 		try
 		{
 			$db->createCommand($sql)->execute();
@@ -89,7 +89,7 @@ class CDbLogRoute extends CLogRoute
 		{
 			// The log table does not exist
 			if($this->autoCreateLogTable)
-				$this->createLogTable($db,$this->autoCreateLogTable);
+				$this->createLogTable($db,$this->logTableName);
 			else
 				throw new CException(Yii::t('yii','CDbLogRoute requires database table "{table}" to store log messages.',
 					array('{table}'=>$this->logTableName)));
@@ -160,12 +160,11 @@ INSERT INTO {$this->logTableName}
 		$command=$this->getDbConnection()->createCommand($sql);
 		foreach($logs as $log)
 		{
-			$command->bindValue(':level',$log[0]);
-			$command->bindValue(':category',$log[1]);
-			$command->bindValue(':logtime',(int)$log[2]);
-			$command->bindValue(':message',$log[3]);
+			$command->bindValue(':level',$log[1]);
+			$command->bindValue(':category',$log[2]);
+			$command->bindValue(':logtime',(int)$log[3]);
+			$command->bindValue(':message',$log[0]);
 			$command->execute();
 		}
 	}
 }
-
