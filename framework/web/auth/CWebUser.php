@@ -114,7 +114,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		if($this->hasState($name))
 			return $this->getState($name)!==null;
 		else
-			return parent::__iset($name);
+			return parent::__isset($name);
 	}
 
 	/**
