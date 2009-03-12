@@ -41,8 +41,7 @@ class CMssqlColumnSchema extends CDbColumnSchema
 		if($this->dbType==='timestamp' )
 			$this->defaultValue=null;
 		else
-			parent::extractDefault($defaultValue);
-
+			parent::extractDefault(str_replace(array('(',')',"'"), '', $defaultValue));
 	}
 
 	/**

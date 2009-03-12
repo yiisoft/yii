@@ -239,7 +239,7 @@ EOD;
 			$table->columns[$c->name]=$c;
 			if ($column['IsIdentity']==1 && $table->sequenceName===null)
 				$table->sequenceName='';
-			
+
 		}
 		return true;
 	}
@@ -258,18 +258,17 @@ EOD;
 		if ($column['NUMERIC_PRECISION_RADIX']!==null)
 		{
 			// We have a numeric datatype
-			$c->size=$c->precision=(int)$column['NUMERIC_PRECISION'];
-			$c->scale=(int)$column['NUMERIC_SCALE'];
+			$c->size=$c->precision=$column['NUMERIC_PRECISION']!==null?(int)$column['NUMERIC_PRECISION']:null;
+			$c->scale=$column['NUMERIC_SCALE']!==null?(int)$column['NUMERIC_SCALE']:null;
 		}
 		elseif ($column['DATA_TYPE']=='image' || $column['DATA_TYPE']=='text')
 			$c->size=$c->precision=null;
 		else
 			$c->size=$c->precision=($column['CHARACTER_MAXIMUM_LENGTH']!== null)?(int)$column['CHARACTER_MAXIMUM_LENGTH']:null;
 
-		$c->init($column['DATA_TYPE'],($column['COLUMN_DEFAULT']!== null)?new CDbExpression($column['COLUMN_DEFAULT']):null);
+		$c->init($column['DATA_TYPE'],$column['COLUMN_DEFAULT']);
 		return $c;
 	}
-
 
 	/**
 	 * Returns all table names in the database.
@@ -295,7 +294,7 @@ EOD;
 			else
 				$names[]=$schema.'.'.$name['TABLE_SCHEMA'].'.'.$name['TABLE_NAME'];
 		}
-		
+
 		return $result;
 	}
 
@@ -308,6 +307,4 @@ EOD;
 	{
 		return new CMssqlCommandBuilder($this);
 	}
-
-
 }

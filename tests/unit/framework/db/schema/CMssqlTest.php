@@ -6,7 +6,7 @@ Yii::import('system.db.schema.mysql.CMssqlSchema');
 
 class CMssqlTest extends CTestCase
 {
-	const DB_HOST='SAGESSE';
+	const DB_HOST='YII'; // This is the alias to mssql server. Defined in freetds.conf for linux, or in Client Network Utility on windows
 	const DB_NAME='yii';
 	const DB_USER='test';
 	const DB_PASS='test';
@@ -122,12 +122,12 @@ EOD;
 		(
 			'name'=>array('int_col', 'int_col2', 'char_col', 'char_col2', 'char_col3', 'float_col', 'float_col2', 'blob_col', 'numeric_col', 'time', 'bool_col', 'bool_col2'),
 			'rawName'=>array('[int_col]', '[int_col2]', '[char_col]', '[char_col2]', '[char_col3]', '[float_col]', '[float_col2]', '[blob_col]', '[numeric_col]', '[time]', '[bool_col]', '[bool_col2]'),
-			'defaultValue'=>array(null, '(1)', null, "('something')", null, null, "(1.23)", null, '(33.22)', '(2002-01-01 00:00:00)', null, '(1)'),
-			'size'=>array(11, 11, 100, 100, null, 4, null, null, 5, null, 1, 1),
-			'precision'=>array(11, 11, 100, 100, null, 4, null, null, 5, null, 1, 1),
-			'scale'=>array(null, null, null, null, null, 3, null, null, 2, null, null, null),
-			'dbType'=>array('int(11)','int(11)','char(100)','varchar(100)','text','double(4,3)','double','blob','decimal(5,2)','timestamp','tinyint(1)','tinyint(1)'),
-			'type'=>array('integer','integer','string','string','string','double','double','string','string','string','integer','integer'),
+			'defaultValue'=>array(null, 1, null, "something", null, null, 1.23, null, '33.22', '2002-01-01 00:00:00', null, true),
+			'size'=>array(10, 10, 100, 100, null, 24, 53, null, 5, null, null, null),
+			'precision'=>array(10, 10, 100, 100, null, 24, 53, null, 5, null, null, null),
+			'scale'=>array(0, 0, null, null, null, null, null, null, 2, null, null, null),
+			'dbType'=>array('int','int','char','varchar','text','real','float','image','numeric','datetime','bit','bit'),
+			'type'=>array('integer','integer','string','string','string','double','double','string','string','string','boolean','boolean'),
 			'isPrimaryKey'=>array(false,false,false,false,false,false,false,false,false,false,false,false),
 			'isForeignKey'=>array(false,false,false,false,false,false,false,false,false,false,false,false),
 		);
@@ -159,6 +159,7 @@ EOD;
 		$this->assertEquals('INSERT INTO [dbo].[posts] ([title], [create_time], [author_id], [content]) VALUES (:title, :create_time, :author_id, :content)',$c->text);
 		$c->execute();
 		$this->assertEquals(6,$builder->getLastInsertId($table));
+		$this->assertEquals(6, $this->db->getLastInsertID());
 
 		$c=$builder->createCountCommand($table,new CDbCriteria);
 		$this->assertEquals('SELECT COUNT(*) FROM [dbo].[posts]',$c->text);
@@ -267,5 +268,43 @@ EOD;
 
 		$c=$builder->createPkCriteria($table2,array());
 		$this->assertEquals('0=1',$c->condition);
+	}
+
+	public function testTransactions()
+	{
+		$transaction=$this->db->beginTransaction();
+		$schema=$this->db->schema;
+		$builder=$schema->commandBuilder;
+		$table=$schema->getTable('posts');
+		// Working transaction
+		try
+		{
+			$builder->createInsertCommand($table, array('title'=>'working transaction test post 1','create_time'=>'2009-01-01','author_id'=>1,'content'=>'test content'))->execute();
+			$builder->createInsertCommand($table, array('title'=>'working transaction test post 2','create_time'=>'2009-01-01','author_id'=>1,'content'=>'test content'))->execute();
+			$transaction->commit();
+		}
+		catch (Exception $e)
+		{
+			$transaction->rollBack();
+		}
+		$n=$builder->createCountCommand($table, new CDbCriteria(array('condition' => "title LIKE 'working transaction%'")))->queryScalar();
+		$this->assertEquals(2, $n);
+
+		
+		// Failing Transaction
+		$transaction=$this->db->beginTransaction();
+		try
+		{
+			$builder->createInsertCommand($table, array('title'=>'failed transaction test post 1','create_time'=>'2009-01-01','author_id'=>1,'content'=>'test content'))->execute();
+			$builder->createInsertCommand($table, array('id' => 1, 'title'=>'failed transaction test post 2','create_time'=>'2009-01-01','author_id'=>1,'content'=>'test content'))->execute();
+			$transaction->commit();
+		}
+		catch (Exception $e)
+		{
+			$transaction->rollBack();
+		}
+		$n=$builder->createCountCommand($table, new CDbCriteria(array('condition' => "title LIKE 'failed transaction%'")))->queryScalar();
+		$this->assertEquals(0, $n);
+
 	}
 }

@@ -49,7 +49,7 @@ CREATE TABLE [dbo].[types](
 	[float_col2] [float] NULL CONSTRAINT [DF_types_float_col2]  DEFAULT (1.23),
 	[blob_col] [image] NULL,
 	[numeric_col] [numeric](5, 2) NULL CONSTRAINT [DF_types_numeric_col]  DEFAULT (33.22),
-	[time] [datetime] NULL CONSTRAINT [DF_types_time]  DEFAULT (2002 - 1 - 1),
+	[time] [datetime] NULL CONSTRAINT [DF_types_time]  DEFAULT ('2002-01-01 00:00:00'),
 	[bool_col] [bit] NOT NULL,
 	[bool_col2] [bit] NOT NULL CONSTRAINT [DF_types_bool_col2]  DEFAULT (1)
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
