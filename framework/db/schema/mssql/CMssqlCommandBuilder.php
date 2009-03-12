@@ -36,6 +36,108 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 			return null;
 	}
 
+	/**
+	 * Creates a COUNT(*) command for a single table.
+	 * Override parent implementation to remove the order clause of criteria if it exists
+	 * @param CDbTableSchema the table metadata
+	 * @param CDbCriteria the query criteria
+	 * @return CDbCommand query command.
+	 */
+	public function createCountCommand($table,$criteria)
+	{
+		$criteria->order='';
+		return parent::createCountCommand($table, $criteria);
+	}
+
+	/**
+	 * Creates a SELECT command for a single table.
+	 * Override parent implementation to check if an orderby clause if specified when querying with an offset
+	 * @param CDbTableSchema the table metadata
+	 * @param CDbCriteria the query criteria
+	 * @return CDbCommand query command.
+	 */
+	public function createFindCommand($table,$criteria)
+	{
+		$criteria=$this->checkCriteria($table,$criteria);
+		return parent::createFindCommand($table,$criteria);
+
+	}
+
+	/**
+	 * Creates an UPDATE command.
+	 * Override parent implementation because mssql don't want to update an identity column
+	 * @param CDbTableSchema the table metadata
+	 * @param array list of columns to be updated (name=>value)
+	 * @param CDbCriteria the query criteria
+	 * @return CDbCommand update command.
+	 */
+	public function createUpdateCommand($table,$data,$criteria)
+	{
+		$criteria=$this->checkCriteria($table,$criteria);
+		$fields=array();
+		$values=array();
+		$bindByPosition=isset($criteria->params[0]);
+		foreach($data as $name=>$value)
+		{
+			if(($column=$table->getColumn($name))!==null)
+			{
+				if ($table->sequenceName !== null && $column->isPrimaryKey === true) continue;
+				if($value instanceof CDbExpression)
+					$fields[]=$column->rawName.'='.(string)$value;
+				else if($bindByPosition)
+				{
+					$fields[]=$column->rawName.'=?';
+					$values[]=$column->typecast($value);
+				}
+				else
+				{
+					$fields[]=$column->rawName.'=:'.$name;
+					$values[':'.$name]=$column->typecast($value);
+				}
+			}
+		}
+		if($fields===array())
+			throw new CDbException(Yii::t('yii','No columns are being updated for table "{table}".',
+				array('{table}'=>$table->name)));
+		$sql="UPDATE {$table->rawName} SET ".implode(', ',$fields);
+		$sql=$this->applyJoin($sql,$criteria->join);
+		$sql=$this->applyCondition($sql,$criteria->condition);
+		$sql=$this->applyOrder($sql,$criteria->order);
+		$sql=$this->applyLimit($sql,$criteria->limit,$criteria->offset);
+
+		$command=$this->getDbConnection()->createCommand($sql);
+		$this->bindValues($command,array_merge($values,$criteria->params));
+
+		return $command;
+	}
+
+	/**
+	 * Creates a DELETE command.
+	 * Override parent implementation to check if an orderby clause if specified when querying with an offset
+	 * @param CDbTableSchema the table metadata
+	 * @param CDbCriteria the query criteria
+	 * @return CDbCommand delete command.
+	 */
+	public function createDeleteCommand($table,$criteria)
+	{
+		$criteria=$this->checkCriteria($table, $criteria);
+		return parent::createDeleteCommand($table, $criteria);
+	}
+
+	/**
+	 * Creates an UPDATE command that increments/decrements certain columns.
+	 * Override parent implementation to check if an orderby clause if specified when querying with an offset
+	 * @param CDbTableSchema the table metadata
+	 * @param CDbCriteria the query criteria
+	 * @param array counters to be updated (counter increments/decrements indexed by column names.)
+	 * @return CDbCommand the created command
+	 * @throws CException if no counter is specified
+	 */
+	public function createUpdateCounterCommand($table,$counters,$criteria)
+	{
+		$criteria=$this->checkCriteria($table, $criteria);
+		return parent::createUpdateCounterCommand($table, $counters, $criteria);
+	}
 
 	/**
 	 * This is a port from Prado Framework.
@@ -179,65 +281,21 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 		return $orders;
 	}
 
-	/**
-	 * Creates a COUNT(*) command for a single table.
-	 * Override parent implementation to remove the order clause of criteria if it exists
-	 * @param CDbTableSchema the table metadata
-	 * @param CDbCriteria the query criteria
-	 * @return CDbCommand query command.
-	 */
-	public function createCountCommand($table,$criteria)
-	{
-		$criteria->order='';
-		return parent::createCountCommand($table, $criteria);
-	}
 
 	/**
-	 * Creates an UPDATE command.
-	 * Override parent implementation because mssql don't want to update an identity column
-	 * @param CDbTableSchema the table metadata
-	 * @param array list of columns to be updated (name=>value)
-	 * @param CDbCriteria the query criteria
-	 * @return CDbCommand update command.
+	 * Checks if the criteria has an order by clause when using offset/limit.
+	 * Override parent implementation to check if an orderby clause if specified when querying with an offset
+	 * If not, order it by pk.
+	 * @param CMssqlTableSchema table schema
+	 * @param CDbCriteria criteria
+	 * @return CDbCrireria the modified criteria
 	 */
-	public function createUpdateCommand($table,$data,$criteria)
+	protected function checkCriteria($table, $criteria)
 	{
-		$fields=array();
-		$values=array();
-		$bindByPosition=isset($criteria->params[0]);
-		foreach($data as $name=>$value)
+		if ($criteria->offset > 0 && $criteria->order==='')
 		{
-			if(($column=$table->getColumn($name))!==null)
-			{
-				if ($table->sequenceName !== null && $column->isPrimaryKey === true) continue;
-				if($value instanceof CDbExpression)
-					$fields[]=$column->rawName.'='.(string)$value;
-				else if($bindByPosition)
-				{
-					$fields[]=$column->rawName.'=?';
-					$values[]=$column->typecast($value);
-				}
-				else
-				{
-					$fields[]=$column->rawName.'=:'.$name;
-					$values[':'.$name]=$column->typecast($value);
-				}
-			}
+			$criteria->order=is_array($table->primaryKey)?implode(',',$table->primaryKey):$table->primaryKey;
 		}
-		if($fields===array())
-			throw new CDbException(Yii::t('yii','No columns are being updated for table "{table}".',
-				array('{table}'=>$table->name)));
-		$sql="UPDATE {$table->rawName} SET ".implode(', ',$fields);
-		$sql=$this->applyJoin($sql,$criteria->join);
-		$sql=$this->applyCondition($sql,$criteria->condition);
-		$sql=$this->applyOrder($sql,$criteria->order);
-		$sql=$this->applyLimit($sql,$criteria->limit,$criteria->offset);
-
-		$command=$this->getDbConnection()->createCommand($sql);
-		$this->bindValues($command,array_merge($values,$criteria->params));
-
-		return $command;
+		return $criteria;
 	}
-
-
 }
