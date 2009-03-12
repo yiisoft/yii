@@ -953,11 +953,9 @@ class CJoinQuery
 		$this->conditions[]=$element->getCondition();
 		$this->orders[]=$element->getOrder();
 		$this->joins[]=$element->getJoinCondition();
-		if($element->relation instanceof CHasManyRelation)
-		{
-			$this->groups[]=$element->getGroupBy();
-			$this->havings[]=$element->getHaving();
-		}
+		$this->groups[]=$element->getGroupBy();
+		$this->havings[]=$element->getHaving();
+
 		if(is_array($element->relation->params))
 		{
 			if(is_array($this->params))

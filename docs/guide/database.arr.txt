@@ -291,12 +291,10 @@ be forced to join together with the primary table. This option is only meaningfu
 
    - `group`: the `GROUP BY` clause. It defaults to empty. Note, column
 references need to be disambiguated using `aliasToken` (e.g. `??.age`).
-This option only applies to `HAS_MANY` and `MANY_MANY` relationships.
 
    - `having`: the `HAVING` clause. It defaults to empty. Note, column
 references need to be disambiguated using `aliasToken` (e.g. `??.age`).
-This option only applies to `HAS_MANY` and `MANY_MANY` relationships. Note:
-option has been available since version 1.0.1.
+Note: option has been available since version 1.0.1.
 
 
 In addition, the following options are available for certain relationships
