@@ -231,7 +231,7 @@ class CHtml
 		$request=Yii::app()->request;
 		if($request->enableCsrfValidation)
 		{
-			$token=self::hiddenField($request->csrfTokenName,$request->getCsrfToken());
+			$token=self::hiddenField($request->csrfTokenName,$request->getCsrfToken(),array('id'=>false));
 			$form.="\n".$token;
 		}
 		return $form;
@@ -820,6 +820,8 @@ class CHtml
 		$htmlOptions['name']=$name;
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=self::getIdByName($name);
+		else if($htmlOptions['id']===false)
+			unset($htmlOptions['id']);
 		return self::tag('input',$htmlOptions);
 	}
 
