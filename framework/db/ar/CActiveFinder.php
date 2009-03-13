@@ -193,7 +193,8 @@ class CActiveFinder extends CComponent
 	public function lazyFind($baseRecord)
 	{
 		$this->_joinTree->lazyFind($baseRecord);
-		$this->_joinTree->afterFind();
+		$child=reset($this->_joinTree->children);
+		$child->afterFind();
 	}
 
 	/**
