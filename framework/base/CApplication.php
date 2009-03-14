@@ -729,9 +729,9 @@ abstract class CApplication extends CComponent
 			{
 				Yii::trace("Loading \"$id\" application component",'system.base.CApplication');
 				unset($config['enabled']);
-				$this->_components[$id]=$component=Yii::createComponent($config);
+				$component=Yii::createComponent($config);
 				$component->init();
-				return $component;
+				return $this->_components[$id]=$component;
 			}
 		}
 	}
