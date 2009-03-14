@@ -19,6 +19,7 @@ Version 1.0.4 to be released
 - Bug: ActiveRecord may fetch the same PK column twice in a relational query (Qiang)
 - Bug: CWebUser::hasState does not return consistent result (Qiang)
 - Bug: A module layout in a theme cannot be applied (Qiang)
+- Bug: Enabling both CSRF prevention and theming may cause a PHP error (Qiang)
 - New #171: Add version info to yiic help output (Qiang)
 - New #172: Added eAccelerator cache driver (Steffen)
 - New: Added support to GROUP BY and HAVING in eager loading of AR (Qiang)
