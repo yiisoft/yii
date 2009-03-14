@@ -109,7 +109,10 @@ class CTheme extends CComponent
 			if($module===null)
 				return $controller->resolveViewFile(Yii::app()->layout,$basePath.'/layouts',$basePath);
 			else
-				return $controller->resolveViewFile($module->layout,$module->getLayoutPath(),$module->getViewPath());
+			{
+				$basePath.='/'.$module->getId();
+				return $controller->resolveViewFile($module->layout,$basePath.'/layouts',$basePath);
+			}
 		}
 		else
 		{
