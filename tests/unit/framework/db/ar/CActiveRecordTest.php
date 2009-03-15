@@ -51,11 +51,6 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals('id',$model->tableSchema->primaryKey);
 		$this->assertTrue($model->tableSchema->sequenceName==='');
 		$this->assertEquals(array(),$model->attributeLabels());
-		$this->assertEquals(array(
-			'author'=>array(CActiveRecord::BELONGS_TO,'User','author_id'),
-			'firstComment'=>array(CActiveRecord::HAS_ONE,'Comment','post_id','order'=>'??.content'),
-			'comments'=>array(CActiveRecord::HAS_MANY,'Comment','post_id','order'=>'??.content DESC'),
-			'categories'=>array(CActiveRecord::MANY_MANY,'Category','post_category(post_id,category_id)')),$model->relations());
 		$this->assertEquals('Id',$model->getAttributeLabel('id'));
 		$this->assertEquals('Author Id',$model->getAttributeLabel('author_id'));
 		$this->assertTrue($model->getActiveRelation('author') instanceof CBelongsToRelation);
@@ -638,5 +633,57 @@ class CActiveRecordTest extends CTestCase
 
 		$count=Post::model()->with('author','firstComment','comments','categories')->count('posts.id=14');
 		$this->assertEquals(0,$count);
+	}
+
+	public function testRelationalStat()
+	{
+		$users=User::model()->with('postCount')->findAll();
+		$this->assertEquals(3,count($users));
+		$this->assertEquals(1,$users[0]->postCount);
+		$this->assertEquals(3,$users[1]->postCount);
+		$this->assertEquals(1,$users[2]->postCount);
+
+		$users=User::model()->findAll();
+		$this->assertEquals(3,count($users));
+		$this->assertEquals(1,$users[0]->postCount);
+		$this->assertEquals(3,$users[1]->postCount);
+		$this->assertEquals(1,$users[2]->postCount);
+
+		$orders=Order::model()->with('itemCount')->findAll();
+		$this->assertEquals(4,count($orders));
+		$this->assertEquals(2,$orders[0]->itemCount);
+		$this->assertEquals(1,$orders[1]->itemCount);
+		$this->assertEquals(0,$orders[2]->itemCount);
+		$this->assertEquals(2,$orders[3]->itemCount);
+
+		$orders=Order::model()->findAll();
+		$this->assertEquals(4,count($orders));
+		$this->assertEquals(2,$orders[0]->itemCount);
+		$this->assertEquals(1,$orders[1]->itemCount);
+		$this->assertEquals(0,$orders[2]->itemCount);
+		$this->assertEquals(2,$orders[3]->itemCount);
+
+		$categories=Category::model()->with('postCount')->findAll();
+		$this->assertEquals(7,count($categories));
+		$this->assertEquals(3,$categories[0]->postCount);
+		$this->assertEquals(1,$categories[1]->postCount);
+		$this->assertEquals(1,$categories[2]->postCount);
+		$this->assertEquals(1,$categories[3]->postCount);
+		$this->assertEquals(0,$categories[4]->postCount);
+		$this->assertEquals(0,$categories[5]->postCount);
+		$this->assertEquals(0,$categories[6]->postCount);
+
+		$categories=Category::model()->findAll();
+		$this->assertEquals(7,count($categories));
+		$this->assertEquals(3,$categories[0]->postCount);
+		$this->assertEquals(1,$categories[1]->postCount);
+		$this->assertEquals(1,$categories[2]->postCount);
+		$this->assertEquals(1,$categories[3]->postCount);
+		$this->assertEquals(0,$categories[4]->postCount);
+		$this->assertEquals(0,$categories[5]->postCount);
+		$this->assertEquals(0,$categories[6]->postCount);
+
+		$users=User::model()->with('postCount','posts.commentCount')->findAll();
+		$this->assertEquals(3,count($users));
 	}
 }

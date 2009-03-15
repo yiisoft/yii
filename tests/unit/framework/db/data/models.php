@@ -24,6 +24,7 @@ class User extends CActiveRecord
 	{
 		return array(
 			'posts'=>array(self::HAS_MANY,'Post','author_id'),
+			'postCount'=>array(self::STAT,'Post','author_id'),
 		);
 	}
 
@@ -46,6 +47,7 @@ class Post extends CActiveRecord
 			'author'=>array(self::BELONGS_TO,'User','author_id'),
 			'firstComment'=>array(self::HAS_ONE,'Comment','post_id','order'=>'??.content'),
 			'comments'=>array(self::HAS_MANY,'Comment','post_id','order'=>'??.content DESC'),
+			'commentCount'=>array(self::STAT,'Comment','post_id'),
 			'categories'=>array(self::MANY_MANY,'Category','post_category(post_id,category_id)'),
 		);
 	}
@@ -120,6 +122,7 @@ class Category extends CActiveRecord
 			'parent'=>array(self::BELONGS_TO,'Category','parent_id'),
 			'children'=>array(self::HAS_MANY,'Category','parent_id'),
 			'nodes'=>array(self::HAS_MANY,'Category','parent_id','with'=>array('parent','children')),
+			'postCount'=>array(self::STAT, 'Post', 'post_category(post_id,category_id)'),
 		);
 	}
 }
@@ -136,6 +139,7 @@ class Order extends CActiveRecord
 	{
 		return array(
 			'items'=>array(self::HAS_MANY,'Item','col1, col2'),
+			'itemCount'=>array(self::STAT,'Item','col1, col2'),
 		);
 	}
 

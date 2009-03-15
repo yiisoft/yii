@@ -260,6 +260,36 @@
  * More detailed description about possible options can be found in {@link CActiveRelation} and
  * {@link CHasManyRelation}.
  *
+ * Since version 1.0.4, a new relational query, called STAT, is supported. It is meant
+ * to perform relational queries that return statistical information about related objects
+ * (e.g. the number of comments that each post has). To use this new relational query,
+ * we need to declare it in the {@link relations} method like other relations:
+ * <pre>
+ * class Post extends CActiveRecord
+ * {
+ *     ......
+ *     public function relations()
+ *     {
+ *         return array(
+ *             'commentCount'=>array(self::STAT,'Comment','postID'),
+ *
+ *             'comments'=>array(self::HAS_MANY,'Comment','postID',
+ *                               'order'=>'??.createTime DESC',
+ *                               'with'=>'author'),
+ *         );
+ *     }
+ * }
+ * </pre>
+ * In the above, we declare 'commentCount' to be a STAT relation that is related with
+ * the <code>Comment</code> model via its foreign key <code>postID</code>. Given a post
+ * model instance, we can then obtain the number of comments it has via the expression
+ * <code>$post->commentCount</code>. We can also obtain the number of comments for a list
+ * of posts via eager loading:
+ * <pre>
+ * $posts=Post::model()->with('commentCount')->findAll();
+ * </pre>
+ *
+ *
  * CActiveRecord has built-in validation functionality that validates the user input data
  * before they are saved to database. To use the validation, override {@link CModel::rules()} as follows,
  * <pre>
@@ -312,6 +342,7 @@ abstract class CActiveRecord extends CModel
 	const HAS_ONE='CHasOneRelation';
 	const HAS_MANY='CHasManyRelation';
 	const MANY_MANY='CManyManyRelation';
+	const STAT='CStatRelation';
 
 	/**
 	 * @var CDbConnection the default database connection for all active record classes.
@@ -1563,13 +1594,13 @@ abstract class CActiveRecord extends CModel
 
 
 /**
- * CActiveRelation is the base class for representing active relations.
+ * CBaseActiveRelation is the base class for all active relations.
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.db.ar
- * @since 1.0
+ * @since 1.0.4
  */
-class CActiveRelation extends CComponent
+class CBaseActiveRelation extends CComponent
 {
 	/**
 	 * @var string name of the related object
@@ -1583,12 +1614,83 @@ class CActiveRelation extends CComponent
 	 * @var string the foreign key in this relation
 	 */
 	public $foreignKey;
+
+	/**
+	 * Constructor.
+	 * @param string name of the relation
+	 * @param string name of the related active record class
+	 * @param string foreign key for this relation
+	 * @param array additional options (name=>value). The keys must be the property names of this class.
+	 */
+	public function __construct($name,$className,$foreignKey,$options=array())
+	{
+		$this->name=$name;
+		$this->className=$className;
+		$this->foreignKey=$foreignKey;
+		foreach($options as $name=>$value)
+			$this->$name=$value;
+	}
+}
+
+
+/**
+ * CStatRelation represents a statistical relational query.
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id$
+ * @package system.db.ar
+ * @since 1.0.4
+ */
+class CStatRelation extends CBaseActiveRelation
+{
+	/**
+	 * @var string the statistical expression. Defaults to 'COUNT(*)', meaning
+	 * the count of child objects.
+	 */
+	public $select='COUNT(*)';
+	/**
+	 * @var mixed the default value to be assigned to those records that do not
+	 * receive a statistical query result. Defaults to 0.
+	 */
+	public $defaultValue=0;
+	/**
+	 * @var string WHERE clause.
+	 */
+	public $condition='';
+	/**
+	 * @var array the parameters that are to be bound to the condition.
+	 * The keys are parameter placeholder names, and the values are parameter values.
+	 */
+	public $params;
+	/**
+	 * @var string GROUP BY clause.
+	 */
+	public $group='';
+	/**
+	 * @var string HAVING clause.
+	 */
+	public $having='';
+	/**
+	 * @var string ORDER BY clause.
+	 */
+	public $order='';
+}
+
+
+/**
+ * CActiveRelation is the base class for representing active relations that bring back related objects.
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id$
+ * @package system.db.ar
+ * @since 1.0
+ */
+class CActiveRelation extends CBaseActiveRelation
+{
 	/**
 	 * @var string join type. Defaults to 'LEFT OUTER JOIN'.
 	 */
 	public $joinType='LEFT OUTER JOIN';
 	/**
-	 * @var string list of column names (separated by commas) to be selected.
+	 * @var mixed list of column names (an array, or a string of names separated by commas) to be selected.
 	 * Do not quote or prefix the column names unless they are used in an expression.
 	 * In that case, you should prefix the column names with '??.'.
 	 */
@@ -1644,22 +1746,6 @@ class CActiveRelation extends CComponent
 	 * @var string HAVING clause. Column names referenced here should be prefixed with '??.'.
 	 */
 	public $having='';
-
-	/**
-	 * Constructor.
-	 * @param string name of the relation
-	 * @param string name of the related active record class
-	 * @param string foreign key for this relation
-	 * @param array additional options (name=>value). The keys must be the property names of this class.
-	 */
-	public function __construct($name,$className,$foreignKey,$options=array())
-	{
-		$this->name=$name;
-		$this->className=$className;
-		$this->foreignKey=$foreignKey;
-		foreach($options as $name=>$value)
-			$this->$name=$value;
-	}
 }
 
 
