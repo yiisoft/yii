@@ -25,6 +25,7 @@ Version 1.0.4 to be released
 - New: Added support to GROUP BY and HAVING in eager loading of AR (Qiang)
 - New: Added CClientScript::scriptFiles and CClientScript::cssFiles (Qiang)
 - New: Added SQL Server support for Active Record (Christophe)
+- New: Added support for performing statistical query with Active Record (Qiang)
 
 
 Version 1.0.3 March 1, 2009
