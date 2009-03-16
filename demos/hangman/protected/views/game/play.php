@@ -1,7 +1,7 @@
 <p>This is the game of Hangman. You must guess a word, a letter at a time.
 If you make too many mistakes, you lose the game!</p>
 
-<?php echo CHtml::form(); ?>
+<?php echo CHtml::beginForm(); ?>
 
 <?php echo CHtml::radioButtonList('level', null, $levels); ?>
 
@@ -12,4 +12,4 @@ If you make too many mistakes, you lose the game!</p>
 <span style="color:red">You must choose a difficulty level!</span>
 <?php endif; ?>
 
-</form>
+<?php echo CHtml::endForm(); ?>

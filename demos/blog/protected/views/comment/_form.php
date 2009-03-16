@@ -5,7 +5,7 @@
 <?php return; endif; ?>
 
 <div class="form">
-<?php echo CHtml::form(); ?>
+<?php echo CHtml::beginForm(); ?>
 
 <?php echo CHtml::errorSummary($comment); ?>
 
@@ -50,7 +50,7 @@ You may use <a href="http://daringfireball.net/projects/markdown/syntax" target=
 <?php echo CHtml::submitButton('Preview',array('name'=>'previewComment')); ?>
 </div>
 
-</form>
+<?php echo CHtml::endForm(); ?>
 </div><!-- form -->
 
 <?php if(isset($_POST['previewComment']) && !$comment->hasErrors()): ?>

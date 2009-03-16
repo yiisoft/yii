@@ -26,6 +26,7 @@ Version 1.0.4 to be released
 - New: Added CClientScript::scriptFiles and CClientScript::cssFiles (Qiang)
 - New: Added SQL Server support for Active Record (Christophe)
 - New: Added support for performing statistical query with Active Record (Qiang)
+- New: Added CHtml::beginForm and endForm (Qiang)
 
 
 Version 1.0.3 March 1, 2009

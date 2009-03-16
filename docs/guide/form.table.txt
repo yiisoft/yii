@@ -43,7 +43,7 @@ display the input fields in an HTML table.
 ~~~
 [php]
 <div class="yiiForm">
-<?php echo CHtml::form(); ?>
+<?php echo CHtml::beginForm(); ?>
 <table>
 <tr><th>Name</th><th>Price</th><th>Count</th><th>Description</th></tr>
 <?php foreach($items as $i=>$item): ?>
@@ -57,7 +57,7 @@ display the input fields in an HTML table.
 </table>
 
 <?php echo CHtml::submitButton('Save'); ?>
-</form>
+<?php echo CHtml::endForm(); ?>
 </div><!-- yiiForm -->
 ~~~
 
