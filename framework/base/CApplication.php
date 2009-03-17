@@ -108,18 +108,48 @@ abstract class CApplication extends CComponent
 	public function __construct($config=null)
 	{
 		Yii::setApplication($this);
+
+		if(is_string($config))
+			$config=require($config);
+		if(isset($config['basePath']))
+		{
+			$this->setBasePath($config['basePath']);
+			unset($config['basePath']);
+		}
+		else
+			$this->setBasePath('protected');
+		Yii::setPathOfAlias('application',$this->getBasePath());
+		Yii::setPathOfAlias('webroot',dirname($_SERVER['SCRIPT_FILENAME']));
+
+		$this->preinit();
+
 		$this->initSystemHandlers();
 		$this->registerCoreComponents();
 		$this->configure($config);
+
 		$this->init();
+	}
+
+	/**
+	 * Preinitializes the application.
+	 * This method is called at the beginning of the application constructor.
+	 * You may override this method to do some customized preinitialization work.
+	 * Note that at this moment, core application components are not registered yet.
+	 * @since 1.0.4
+	 * @see init
+	 */
+	protected function preinit()
+	{
 	}
 
 	/**
 	 * Initializes the application.
 	 * This method is invoked right after the application is configured.
 	 * The default implementation will load static components.
-	 * If you override this method, make sure the parent implementation
-	 * is called.
+	 * If you override this method, make sure the parent implementation is called.
+	 * Note that at this moment, core application components have been registered
+	 * and static components have been created.
+	 * @see preinit
 	 */
 	protected function init()
 	{
@@ -760,23 +790,6 @@ abstract class CApplication extends CComponent
 	 */
 	public function configure($config)
 	{
-		if(is_string($config))
-			$config=require($config);
-
-		if($this->_basePath===null)
-		{
-			if(isset($config['basePath']))
-			{
-				$basePath=$config['basePath'];
-				unset($config['basePath']);
-			}
-			else
-				$basePath='protected';
-			$this->setBasePath($basePath);
-			Yii::setPathOfAlias('application',$this->getBasePath());
-			Yii::setPathOfAlias('webroot',dirname($_SERVER['SCRIPT_FILENAME']));
-		}
-
 		if(is_array($config))
 		{
 			foreach($config as $key=>$value)
