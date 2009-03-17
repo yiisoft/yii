@@ -83,7 +83,12 @@ class CDateFormatter extends CComponent
 	public function format($pattern,$time)
 	{
 		if(is_string($time))
-			$time=strtotime($time);
+		{
+			if(ctype_digit($time))
+				$time=(int)$time;
+			else
+				$time=strtotime($time);
+		}
 		$date=CTimestamp::getDate($time,false,false);
 		$tokens=$this->parseFormat($pattern);
 		foreach($tokens as &$token)
