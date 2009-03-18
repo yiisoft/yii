@@ -35,12 +35,15 @@ class CFormModel extends CModel
 	 * are subject to filtering via {@link setAttributes}.
 	 * @param string scenario name. See {@link setAttributes} for more details about this parameter.
 	 * This parameter has been available since version 1.0.2.
+	 * As of version 1.0.4, this parameter will be used to set the {@link CModel::scenario scenario}
+	 * property of the model.
 	 * @see setAttributes
 	 */
 	public function __construct($attributes=array(),$scenario='')
 	{
+		$this->setScenario($scenario);
 		if($attributes!==array())
-			$this->setAttributes($attributes,$scenario);
+			$this->setAttributes($attributes);
 		$this->attachBehaviors($this->behaviors());
 	}
 

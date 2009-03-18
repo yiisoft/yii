@@ -373,6 +373,8 @@ abstract class CActiveRecord extends CModel
 	 * nothing will be done in the constructor (this is internally used by {@link populateRecord}).
 	 * @param string scenario name. See {@link setAttributes} for more details about this parameter.
 	 * This parameter has been available since version 1.0.2.
+	 * As of version 1.0.4, this parameter will be used to set the {@link CModel::scenario scenario}
+	 * property of the model.
 	 * @see setAttributes
 	 */
 	public function __construct($attributes=array(),$scenario='')
@@ -380,11 +382,12 @@ abstract class CActiveRecord extends CModel
 		if($attributes===null) // internally used by populateRecord() and model()
 			return;
 
+		$this->setScenario($scenario);
 		$this->isNewRecord=true;
 		$this->_attributes=$this->getMetaData()->attributeDefaults;
 
 		if($attributes!==array())
-			$this->setAttributes($attributes,$scenario);
+			$this->setAttributes($attributes);
 
 		$this->attachBehaviors($this->behaviors());
 		$this->afterConstruct();
@@ -861,7 +864,9 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function save($runValidation=true,$attributes=null)
 	{
-		if(!$runValidation || $this->validate($this->isNewRecord?'insert':'update', $attributes))
+		if($this->getScenario()==='')
+			$this->setScenario($this->isNewRecord?'insert':'update');
+		if(!$runValidation || $this->validate('',$attributes))
 			return $this->isNewRecord ? $this->insert($attributes) : $this->update($attributes);
 		else
 			return false;

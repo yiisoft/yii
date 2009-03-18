@@ -3,7 +3,7 @@
 		convertErrorsToExceptions="true"
 		convertNoticesToExceptions="true"
 		convertWarningsToExceptions="true"
-		stopOnFailure="true">
+		stopOnFailure="false">
 
 	<testsuite name="Yii Framework Core Code">
 		<directory>./framework</directory>
