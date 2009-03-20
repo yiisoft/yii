@@ -353,15 +353,8 @@ abstract class CActiveRecord extends CModel
 
 	private static $_models=array();			// class name => model
 
-	/**
-	 * @var boolean whether the record is new and should be inserted when calling {@link save}.
-	 * This property is automatically in constructor and {@link populateRecord}.
-	 * Defaults to false, but it will be set to true if the instance is created using
-	 * the new operator.
-	 */
-	public $isNewRecord=false;
-
 	private $_md;
+	private $_new=false;
 	private $_attributes=array();				// attribute name => attribute value
 	private $_related=array();					// attribute name => related objects
 
@@ -383,7 +376,7 @@ abstract class CActiveRecord extends CModel
 			return;
 
 		$this->setScenario($scenario);
-		$this->isNewRecord=true;
+		$this->setIsNewRecord(true);
 		$this->_attributes=$this->getMetaData()->attributeDefaults;
 
 		if($attributes!==array())
@@ -484,7 +477,7 @@ abstract class CActiveRecord extends CModel
 		if(isset($md->relations[$name]))
 		{
 			$relation=$md->relations[$name];
-			if($this->isNewRecord && ($relation instanceof CHasOneRelation || $relation instanceof CHasManyRelation))
+			if($this->getIsNewRecord() && ($relation instanceof CHasOneRelation || $relation instanceof CHasManyRelation))
 				return $this->_related[$name]=$relation instanceof CHasOneRelation ? null : array();
 			if(!empty($relation->with))
 			{
@@ -554,7 +547,6 @@ abstract class CActiveRecord extends CModel
 		else
 		{
 			$model=self::$_models[$className]=new $className(null);
-			$model->isNewRecord=false;
 			$model->attachBehaviors($model->behaviors());
 			$model->_md=new CActiveRecordMetaData($model);
 			return $model;
@@ -864,12 +856,34 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function save($runValidation=true,$attributes=null)
 	{
-		if($this->getScenario()==='')
-			$this->setScenario($this->isNewRecord?'insert':'update');
-		if(!$runValidation || $this->validate('',$attributes))
-			return $this->isNewRecord ? $this->insert($attributes) : $this->update($attributes);
+		if(($scenario=$this->getScenario())==='')
+			$scenario=$this->getIsNewRecord()?'insert':'update';
+		if(!$runValidation || $this->validate($scenario,$attributes))
+			return $this->getIsNewRecord() ? $this->insert($attributes) : $this->update($attributes);
 		else
 			return false;
+	}
+
+	/**
+	 * @return boolean whether the record is new and should be inserted when calling {@link save}.
+	 * This property is automatically set in constructor and {@link populateRecord}.
+	 * Defaults to false, but it will be set to true if the instance is created using
+	 * the new operator.
+	 */
+	public function getIsNewRecord()
+	{
+		return $this->_new;
+	}
+
+	/**
+	 * @param boolean whether the record is new and should be inserted when calling {@link save}.
+	 * @see getIsNewRecord
+	 */
+	public function setIsNewRecord($value)
+	{
+		$this->_new=$value;
+		if(!$value && $this->getScenario()==='insert')
+			$this->setScenario('update');
 	}
 
 	/**
@@ -1038,7 +1052,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function insert($attributes=null)
 	{
-		if(!$this->isNewRecord)
+		if(!$this->getIsNewRecord())
 			throw new CDbException(Yii::t('yii','The active record cannot be inserted to database because it is not new.'));
 		if($this->beforeSave())
 		{
@@ -1065,9 +1079,7 @@ abstract class CActiveRecord extends CModel
 					}
 				}
 				$this->afterSave();
-				$this->isNewRecord=false;
-				if($this->getScenario()==='insert')
-					$this->setScenario('update');
+				$this->setIsNewRecord(false);
 				return true;
 			}
 			else
@@ -1088,7 +1100,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function update($attributes=null)
 	{
-		if($this->isNewRecord)
+		if($this->getIsNewRecord())
 			throw new CDbException(Yii::t('yii','The active record cannot be updated because it is new.'));
 		if($this->beforeSave())
 		{
@@ -1120,7 +1132,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function saveAttributes($attributes)
 	{
-		if(!$this->isNewRecord)
+		if(!$this->getIsNewRecord())
 		{
 			$values=array();
 			foreach($attributes as $name=>$value)
@@ -1143,7 +1155,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function delete()
 	{
-		if(!$this->isNewRecord)
+		if(!$this->getIsNewRecord())
 		{
 			if($this->beforeDelete())
 			{
@@ -1164,7 +1176,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function refresh()
 	{
-		if(!$this->isNewRecord && ($record=$this->findByPk($this->getPrimaryKey()))!==null)
+		if(!$this->getIsNewRecord() && ($record=$this->findByPk($this->getPrimaryKey()))!==null)
 		{
 			$this->_attributes=array();
 			$this->_related=array();
@@ -1518,7 +1530,6 @@ abstract class CActiveRecord extends CModel
 		if($attributes!==false)
 		{
 			$record=$this->instantiate($attributes);
-			$record->isNewRecord=false;
 			$record->_md=$this->getMetaData();
 			foreach($attributes as $name=>$value)
 			{
@@ -1552,7 +1563,6 @@ abstract class CActiveRecord extends CModel
 		foreach($data as $attributes)
 		{
 			$record=$this->instantiate($attributes);
-			$record->isNewRecord=false;
 			$record->_md=$md;
 			foreach($attributes as $name=>$value)
 			{
