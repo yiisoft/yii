@@ -40,7 +40,7 @@ The content of the `userLogin` view also comes largely from the `login` view for
 
 ~~~
 [php]
-<?php echo CHtml::form(); ?>
+<?php echo CHtml::beginForm(); ?>
 <div class="row">
 <?php echo CHtml::activeLabel($form,'username'); ?>
 <br/>
@@ -61,7 +61,7 @@ The content of the `userLogin` view also comes largely from the `login` view for
 <?php echo CHtml::submitButton('Login'); ?>
 <p class="hint">You may login with <b>demo/demo</b></p>
 </div>
-</form>
+<?php echo CHtml::endForm(); ?>
 ~~~
 
 In the login form, we display a username text field and a password field. We also display a check box indicating whether the user login status should be remembered even if the browser is closed. The view has a local variable named `$form` which comes from the data passed to the `render()` method call in `UserLogin::renderContent()`.

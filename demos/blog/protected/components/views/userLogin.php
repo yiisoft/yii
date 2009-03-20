@@ -1,4 +1,4 @@
-<?php echo CHtml::form(); ?>
+<?php echo CHtml::beginForm(); ?>
 <div class="row">
 <?php echo CHtml::activeLabel($form,'username'); ?>
 <br/>
@@ -19,4 +19,4 @@
 <?php echo CHtml::submitButton('Login'); ?>
 <p class="hint">You may login with <b>demo/demo</b></p>
 </div>
-</form>
+<?php echo CHtml::endForm(); ?>

@@ -205,14 +205,25 @@ conveniently using the following massive assignment:
 ~~~
 [php]
 $model=new LoginForm;
+$model->scenario='login';
 if(isset($_POST['LoginForm']))
-	$model->setAttributes($_POST['LoginForm'], 'login');
+	$model->attributes=$_POST['LoginForm'];
 ~~~
+
+> Note: The [scenario|CModel::scenario] property has been available
+> since version 1.0.4. The massive assignment will take this property
+> value to determine which attributes can be massively assigned.
+> In version 1.0.2 and 1.0.3, we need to use the following way to
+> perform massive assignment for a specific scenario:
+>
+> ~~~
+> [php]
+> $model->setAttributes($_POST['LoginForm'], 'login');
+> ~~~
 
 The last statement is a massive assignment which assigns every entry
 in `$_POST['LoginForm']` to the corresponding model attribute in the
-`login` scenario (specified as the second parameter). It is equivalent to
-the following assignments:
+`login` scenario. It is equivalent to the following assignments:
 
 ~~~
 [php]
@@ -223,7 +234,7 @@ foreach($_POST['LoginForm'] as $name=>$value)
 }
 ~~~
 
-The task of deciding whether a data entry is safe or not is based
+The task of deciding whether a data entry is safe or not is based on
 the return value of a method named `safeAttributes` and the specified
 scenario. By default, the method returns all public member variables
 as safe attributes for [CFormModel], while it returns all table columns
@@ -302,8 +313,20 @@ when registering a user:
 
 ~~~
 [php]
-$model->validate('register');
+$model->scenario='register';
+$model->validate();
 ~~~
+
+> Note: The [scenario|CModel::scenario] property has been available
+> since version 1.0.4. The validation method will take this property
+> value to determine which rules to be checked with. In version 1.0.2
+> and 1.0.3, we need to use the following way to perform scenario-based
+> validation:
+>
+> ~~~
+> [php]
+> $model->validate('register');
+> ~~~
 
 We may declare the validation rules in the form model class as follows,
 

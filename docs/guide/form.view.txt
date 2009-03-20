@@ -29,7 +29,7 @@ the variable `$user` represents `LoginForm` instance.
 ~~~
 [php]
 <div class="yiiForm">
-<?php echo CHtml::form(); ?>
+<?php echo CHtml::beginForm(); ?>
 
 <?php echo CHtml::errorSummary($user); ?>
 
@@ -50,7 +50,7 @@ Remember me next time<br/>
 <?php echo CHtml::submitButton('Login'); ?>
 </div>
 
-</form>
+<?php echo CHtml::endForm(); ?>
 </div><!-- yiiForm -->
 ~~~
 

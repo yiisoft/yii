@@ -193,7 +193,11 @@ class CActiveFinder extends CComponent
 	public function lazyFind($baseRecord)
 	{
 		$this->_joinTree->lazyFind($baseRecord);
-		$this->_joinTree->afterFind();
+		if(!empty($this->_joinTree->children))
+		{
+			$child=reset($this->_joinTree->children);
+			$child->afterFind();
+		}
 	}
 
 	/**
@@ -203,6 +207,10 @@ class CActiveFinder extends CComponent
 	 */
 	private function buildJoinTree($parent,$with)
 	{
+		if($parent instanceof CStatElement)
+			throw new CDbException(Yii::t('yii','The STAT relation "{name}" cannot have child relations.',
+				array('{name}'=>$parent->relation->name)));
+
 		if(is_string($with))
 		{
 			if(($pos=strrpos($with,'.'))!==false)
@@ -213,7 +221,12 @@ class CActiveFinder extends CComponent
 			if(isset($parent->children[$with]))
 				return $parent->children[$with];
 			else if(($relation=$parent->model->getActiveRelation($with))!==null)
-				return new CJoinElement($this,$relation,$parent,++$this->_joinCount);
+			{
+				if($relation instanceof CStatRelation)
+					return new CStatElement($this,$relation,$parent);
+				else
+					return new CJoinElement($this,$relation,$parent,++$this->_joinCount);
+			}
 			else
 				throw new CDbException(Yii::t('yii','Relation "{name}" is not defined in active record class "{class}".',
 					array('{class}'=>get_class($parent->model), '{name}'=>$with)));
@@ -228,7 +241,7 @@ class CActiveFinder extends CComponent
 				$relation=clone $element->relation;
 				foreach($value as $name=>$option)
 					$relation->$name=$option;
-				if($relation->alias!==null)
+				if($relation instanceof CActiveRelation && $relation->alias!==null)
 					$element->tableAlias=$relation->alias;
 				$element->relation=$relation;
 			}
@@ -269,6 +282,11 @@ class CJoinElement
 	 * @var array list of child join elements
 	 */
 	public $children=array();
+	/**
+	 * @var array list of stat elements
+	 * @since 1.0.4
+	 */
+	public $stats=array();
 	/**
 	 * @var string table alias for this join element
 	 */
@@ -349,6 +367,9 @@ class CJoinElement
 
 		foreach($this->children as $child) // find recursively
 			$child->find();
+
+		foreach($this->stats as $stat)
+			$stat->query();
 	}
 
 	/**
@@ -366,6 +387,12 @@ class CJoinElement
 				$pk[$name]=$baseRecord->$name;
 			$this->records[serialize($pk)]=$baseRecord;
 		}
+
+		foreach($this->stats as $stat)
+			$stat->query();
+
+		if(empty($this->children))
+			return;
 
 		$child=reset($this->children);
 		$query=new CJoinQuery($this);
@@ -417,6 +444,9 @@ class CJoinElement
 			$this->runQuery($query);
 		foreach($this->children as $child)
 			$child->find();
+
+		foreach($this->stats as $stat)
+			$stat->query();
 	}
 
 	/**
@@ -670,7 +700,7 @@ class CJoinElement
 			foreach($values as &$value)
 				$value=unserialize($value);
 		}
-		return $this->_builder->createPkCondition($this->_table,$values,$this->getColumnPrefix());
+		return $this->_builder->createInCondition($this->_table,$this->_table->primaryKey,$values,$this->getColumnPrefix());
 	}
 
 	/**
@@ -784,22 +814,23 @@ class CJoinElement
 		$joins=array();
 		foreach($fks as $i=>$fk)
 		{
+			if(!isset($fke->_table->columns[$fk]))
+				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". There is no such column in the table "{table}".',
+					array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{key}'=>$fk, '{table}'=>$fke->_table->name)));
+
 			if(isset($fke->_table->foreignKeys[$fk]))
 				$pk=$fke->_table->foreignKeys[$fk][1];
-			else if(empty($fke->_table->foreignKeys))  // FK constraints undefined
+			else  // FK constraints undefined
 			{
 				if(is_array($pke->_table->primaryKey)) // composite PK
 					$pk=$pke->_table->primaryKey[$i];
 				else
 					$pk=$pke->_table->primaryKey;
 			}
-			else
-				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". The foreign key does not point to either joining table.',
-					array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{key}'=>$fk)));
 			$joins[]=$fke->getColumnPrefix().$schema->quoteColumnName($fk) . '=' . $pke->getColumnPrefix().$schema->quoteColumnName($pk);
 		}
 		if(!empty($this->relation->on))
-			$joins[]=$this->relation->on;
+			$joins[]=str_replace($this->relation->aliasToken.'.', $this->tableAlias.'.', $this->relation->on);
 		return $this->relation->joinType . ' ' . $this->getTableNameWithAlias() . ' ON ' . implode(' AND ',$joins);
 	}
 
@@ -819,6 +850,10 @@ class CJoinElement
 		$childCondition=array();
 		foreach($fks as $i=>$fk)
 		{
+			if(!isset($joinTable->columns[$fk]))
+				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". There is no such column in the table "{table}".',
+					array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{key}'=>$fk, '{table}'=>$joinTable->name)));
+
 			if(isset($joinTable->foreignKeys[$fk]))
 			{
 				list($tableName,$pk)=$joinTable->foreignKeys[$fk];
@@ -830,7 +865,7 @@ class CJoinElement
 					throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". The foreign key does not point to either joining table.',
 						array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{key}'=>$fk)));
 			}
-			else if(empty($joinTable->foreignKeys)) // FK constraints not defined
+			else // FK constraints not defined
 			{
 				if($i<count($parent->_table->primaryKey))
 				{
@@ -844,9 +879,6 @@ class CJoinElement
 					$childCondition[$pk]=$this->getColumnPrefix().$schema->quoteColumnName($pk).'='.$joinAlias.'.'.$schema->quoteColumnName($fk);
 				}
 			}
-			else
-				throw new CDbException(Yii::t('yii','The column "{column}" is not a foreign key in table "{table}".',
-					array('{column}'=>$fk, '{table}'=>$joinTable->name)));
 		}
 		if($parentCondition!==array() && $childCondition!==array())
 		{
@@ -1008,5 +1040,263 @@ class CJoinQuery
 		$command=$builder->getDbConnection()->createCommand($sql);
 		$builder->bindValues($command,$this->params);
 		return $command;
+	}
+}
+
+
+/**
+ * CStatElement represents STAT join element for {@link CActiveFinder}.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id$
+ * @package system.db.ar
+ * @since 1.0.4
+ */
+class CStatElement
+{
+	/**
+	 * @var CActiveRelation the relation represented by this tree node
+	 */
+	public $relation;
+
+	private $_finder;
+	private $_parent;
+
+	/**
+	 * Constructor.
+	 * @param CActiveFinder the finder
+	 * @param CStatRelation the STAT relation
+	 * @param CJoinElement the join element owning this STAT element
+	 */
+	public function __construct($finder,$relation,$parent)
+	{
+		$this->_finder=$finder;
+		$this->_parent=$parent;
+		$this->relation=$relation;
+		$parent->stats[]=$this;
+	}
+
+	/**
+	 * Performs the STAT query.
+	 */
+	public function query()
+	{
+		if(preg_match('/^\s*(.*?)\((.*)\)\s*$/',$this->relation->foreignKey,$matches))
+			$this->queryManyMany($matches[1],$matches[2]);
+		else
+			$this->queryOneMany();
+	}
+
+	private function queryOneMany()
+	{
+		$relation=$this->relation;
+		$model=CActiveRecord::model($relation->className);
+		$builder=$model->getCommandBuilder();
+		$schema=$builder->getSchema();
+		$table=$model->getTableSchema();
+		$pkTable=$this->_parent->model->getTableSchema();
+
+		$fks=preg_split('/[\s,]+/',$relation->foreignKey,-1,PREG_SPLIT_NO_EMPTY);
+		if(count($fks)!==count($pkTable->primaryKey))
+			throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The columns in the key must match the primary keys of the table "{table}".',
+						array('{class}'=>get_class($parent->model), '{relation}'=>$relation->name, '{table}'=>$pkTable->name)));
+
+		// set up mapping between fk and pk columns
+		$map=array();  // pk=>fk
+		foreach($fks as $i=>$fk)
+		{
+			if(!isset($table->columns[$fk]))
+				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". There is no such column in the table "{table}".',
+					array('{class}'=>get_class($parent->model), '{relation}'=>$relation->name, '{key}'=>$fk, '{table}'=>$table->name)));
+
+			if(isset($table->foreignKeys[$fk]))
+			{
+				list($tableName,$pk)=$table->foreignKeys[$fk];
+				if($schema->compareTableNames($pkTable->rawName,$tableName))
+					$map[$pk]=$fk;
+				else
+					throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with a foreign key "{key}" that does not point to the parent table "{table}".',
+						array('{class}'=>get_class($parent->model), '{relation}'=>$relation->name, '{key}'=>$fk, '{table}'=>$pkTable->name)));
+			}
+			else  // FK constraints undefined
+			{
+				if(is_array($table->primaryKey)) // composite PK
+					$map[$table->primaryKey[$i]]=$fk;
+			}
+		}
+
+		$records=$this->_parent->records;
+
+		$where=empty($relation->condition)?'' : ' WHERE '.$relation->condition;
+		$group=empty($relation->group)?'' : ', '.$relation->group;
+		$having=empty($relation->having)?'' : ' AND '.$relation->having;
+		$order=empty($relation->order)?'' : ' ORDER BY '.$relation->order;
+
+		// generate and perform query
+		if(count($fks)===1)  // single column FK
+		{
+			$col=$table->columns[$fks[0]]->rawName;
+			$sql="SELECT $col AS c, ".$relation->select.' AS s FROM '.$table->rawName
+				.$where
+				." GROUP BY $col".$group
+				." HAVING ".$builder->createInCondition($table,$fks[0],array_keys($records))
+				.$having.$order;
+			$command=$builder->getDbConnection()->createCommand($sql);
+			if(is_array($relation->params))
+				$builder->bindValues($command,$relation->params);
+			$stats=array();
+			foreach($command->queryAll() as $row)
+				$stats[$row['c']]=$row['s'];
+		}
+		else  // composite FK
+		{
+			$keys=array_keys($records);
+			foreach($keys as &$key)
+			{
+				$key2=unserialize($key);
+				$key=array();
+				foreach($pkTable->primaryKey as $pk)
+					$key[$map[$pk]]=$key2[$pk];
+			}
+			$cols=array();
+			foreach($pkTable->primaryKey as $n=>$pk)
+			{
+				$name=$table->columns[$map[$pk]]->rawName;
+				$cols[$name]=$name.' AS c'.$n;
+			}
+			$sql='SELECT '.implode(', ',$cols).', '.$relation->select.' AS s FROM '.$table->rawName
+				.$where
+				.' GROUP BY '.implode(', ',array_keys($cols)).$group
+				.' HAVING '.$builder->createInCondition($table,$fks,$keys)
+				.$having.$order;
+			$command=$builder->getDbConnection()->createCommand($sql);
+			if(is_array($relation->params))
+				$builder->bindValues($command,$relation->params);
+			$stats=array();
+			foreach($command->queryAll() as $row)
+			{
+				$key=array();
+				foreach($pkTable->primaryKey as $n=>$pk)
+					$key[$pk]=$row['c'.$n];
+				$stats[serialize($key)]=$row['s'];
+			}
+		}
+
+		// populate the results into existing records
+		foreach($records as $pk=>$record)
+			$record->addRelatedRecord($relation->name,isset($stats[$pk])?$stats[$pk]:$relation->defaultValue,false);
+	}
+
+	private function queryManyMany($joinTableName,$keys)
+	{
+		$relation=$this->relation;
+		$model=CActiveRecord::model($relation->className);
+		$table=$model->getTableSchema();
+		$builder=$model->getCommandBuilder();
+		$schema=$builder->getSchema();
+		$pkTable=$this->_parent->model->getTableSchema();
+
+		if(($joinTable=$builder->getSchema()->getTable($joinTableName))===null)
+			throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is not specified correctly. The join table "{joinTable}" given in the foreign key cannot be found in the database.',
+				array('{class}'=>get_class($this->_parent->model), '{relation}'=>$relation->name, '{joinTable}'=>$joinTableName)));
+
+		$fks=preg_split('/[\s,]+/',$keys,-1,PREG_SPLIT_NO_EMPTY);
+		if(count($fks)!==count($table->primaryKey)+count($pkTable->primaryKey))
+			throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an incomplete foreign key. The foreign key must consist of columns referencing both joining tables.',
+				array('{class}'=>get_class($this->_parent->model), '{relation}'=>$relation->name)));
+
+		$joinCondition=array();
+		$map=array();
+		foreach($fks as $i=>$fk)
+		{
+			if(!isset($joinTable->columns[$fk]))
+				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". There is no such column in the table "{table}".',
+					array('{class}'=>get_class($this->_parent->model), '{relation}'=>$relation->name, '{key}'=>$fk, '{table}'=>$joinTable->name)));
+
+			if(isset($joinTable->foreignKeys[$fk]))
+			{
+				list($tableName,$pk)=$joinTable->foreignKeys[$fk];
+				if(!isset($joinCondition[$pk]) && $schema->compareTableNames($table->rawName,$tableName))
+					$joinCondition[$pk]=$table->rawName.'.'.$schema->quoteColumnName($pk).'='.$joinTable->rawName.'.'.$schema->quoteColumnName($fk);
+				else if(!isset($map[$pk]) && $schema->compareTableNames($pkTable->rawName,$tableName))
+					$map[$pk]=$fk;
+				else
+					throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". The foreign key does not point to either joining table.',
+						array('{class}'=>get_class($this->_parent->model), '{relation}'=>$relation->name, '{key}'=>$fk)));
+			}
+			else // FK constraints not defined
+			{
+				if($i<count($pkTable->primaryKey))
+				{
+					$pk=is_array($pkTable->primaryKey) ? $pkTable->primaryKey[$i] : $pkTable->primaryKey;
+					$map[$pk]=$fk;
+				}
+				else
+				{
+					$j=$i-count($pkTable->primaryKey);
+					$pk=is_array($table->primaryKey) ? $table->primaryKey[$j] : $table->primaryKey;
+					$joinCondition[$pk]=$table->rawName.'.'.$schema->quoteColumnName($pk).'='.$joinTable->rawName.'.'.$schema->quoteColumnName($fk);
+				}
+			}
+		}
+
+		if($joinCondition===array() || $map===array())
+			throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an incomplete foreign key. The foreign key must consist of columns referencing both joining tables.',
+				array('{class}'=>get_class($this->_parent->model), '{relation}'=>$relation->name)));
+
+		$records=$this->_parent->records;
+
+		$cols=array();
+		foreach(is_string($pkTable->primaryKey)?array($pkTable->primaryKey):$pkTable->primaryKey as $n=>$pk)
+		{
+			$name=$joinTable->rawName.'.'.$schema->quoteColumnName($map[$pk]);
+			$cols[$name]=$name.' AS c'.$n;
+		}
+
+		$keys=array_keys($records);
+		if(is_array($pkTable->primaryKey))
+		{
+			foreach($keys as &$key)
+			{
+				$key2=unserialize($key);
+				$key=array();
+				foreach($pkTable->primaryKey as $pk)
+					$key[$map[$pk]]=$key2[$pk];
+			}
+		}
+
+		$where=empty($relation->condition)?'' : ' WHERE '.$relation->condition;
+		$group=empty($relation->group)?'' : ', '.$relation->group;
+		$having=empty($relation->having)?'' : ' AND '.$relation->having;
+		$order=empty($relation->order)?'' : ' ORDER BY '.$relation->order;
+
+		$sql='SELECT '.$this->relation->select.' AS s, '.implode(', ',$cols)
+			.' FROM '.$table->rawName.' INNER JOIN '.$joinTable->rawName
+			.' ON '.implode(' AND ',$joinCondition)
+			.$where
+			.' GROUP BY '.implode(', ',array_keys($cols)).$group
+			.' HAVING '.$builder->createInCondition($joinTable,$map,$keys)
+			.$having.$order;
+
+		$command=$builder->getDbConnection()->createCommand($sql);
+		if(is_array($relation->params))
+			$builder->bindValues($command,$relation->params);
+
+		$stats=array();
+		foreach($command->queryAll() as $row)
+		{
+			if(is_array($pkTable->primaryKey))
+			{
+				$key=array();
+				foreach($pkTable->primaryKey as $n=>$k)
+					$key[$k]=$row['c'.$n];
+				$stats[serialize($key)]=$row['s'];
+			}
+			else
+				$stats[$row['c0']]=$row['s'];
+		}
+
+		foreach($records as $pk=>$record)
+			$record->addRelatedRecord($relation->name,isset($stats[$pk])?$stats[$pk]:$this->relation->defaultValue,false);
 	}
 }

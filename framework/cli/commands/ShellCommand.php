@@ -86,10 +86,11 @@ EOD;
 		$_runner_->addCommands(dirname(__FILE__).'/shell');
 		$_runner_->addCommands(Yii::getPathOfAlias('application.commands.shell'));
 		$_commands_=$_runner_->commands;
-		while(true)
+
+		echo "\n>> ";
+		while(($_line_=fgets(STDIN))!==false)
 		{
-			echo "\n>> ";
-			$_line_=trim(fgets(STDIN));
+			$_line_=trim($_line_);
 			try
 			{
 				$_args_=preg_split('/[\s,]+/',rtrim($_line_,';'),-1,PREG_SPLIT_NO_EMPTY);
@@ -109,6 +110,8 @@ EOD;
 				else
 					echo $e;
 			}
+
+			echo "\n>> ";
 		}
 	}
 }

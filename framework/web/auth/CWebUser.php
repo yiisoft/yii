@@ -114,7 +114,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		if($this->hasState($name))
 			return $this->getState($name)!==null;
 		else
-			return parent::__iset($name);
+			return parent::__isset($name);
 	}
 
 	/**
@@ -384,20 +384,11 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function setState($key,$value,$defaultValue=null)
 	{
-		$key2=$this->getStateKeyPrefix().$key;
-		$states=$this->getState('__states',array());
+		$key=$this->getStateKeyPrefix().$key;
 		if($value===$defaultValue)
-		{
-			unset($_SESSION[$key2]);
-			unset($states[$key]);
-		}
+			unset($_SESSION[$key]);
 		else
-		{
-			$_SESSION[$key2]=$value;
-			$states[$key]=true;
-		}
-		if($key!=='__states')
-			$this->setState('__states',$states,array());
+			$_SESSION[$key]=$value;
 	}
 
 	/**
@@ -408,8 +399,8 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function hasState($key)
 	{
-		$states=$this->getState('__states',array());
-		return isset($states[$key]);
+		$key=$this->getStateKeyPrefix().$key;
+		return isset($_SESSION[$key]);
 	}
 
 	/**

@@ -19,6 +19,8 @@
  */
 class WebAppCommand extends CConsoleCommand
 {
+	private $_rootPath;
+
 	public function getHelp()
 	{
 		return <<<EOD
@@ -50,7 +52,7 @@ EOD;
 		$dir=realpath(dirname($path));
 		if($dir===false || !is_dir($dir))
 			$this->usageError("The directory '$path' is not valid. Please make sure the parent directory exists.");
-		$path=$dir.DIRECTORY_SEPARATOR.basename($path);
+		$this->_rootPath=$path=$dir.DIRECTORY_SEPARATOR.basename($path);
 		echo "Create a Web application under '$path'? [Yes|No] ";
 		if(!strncasecmp(trim(fgets(STDIN)),'y',1))
 		{
@@ -72,13 +74,42 @@ EOD;
 	{
 		$content=file_get_contents($source);
 		$yii=realpath(dirname(__FILE__).'/../../yii.php');
-		return preg_replace('/\$yii\s*=(.*?);/',"\$yii='$yii';",$content);
+		$yii=$this->getRelativePath($yii,$this->_rootPath.DIRECTORY_SEPARATOR.'index.php');
+		$yii=str_replace('\\','\\\\',$yii);
+		return preg_replace('/\$yii\s*=(.*?);/',"\$yii=$yii;",$content);
 	}
 
 	public function generateYiic($source,$params)
 	{
 		$content=file_get_contents($source);
 		$yiic=realpath(dirname(__FILE__).'/../../yiic.php');
-		return preg_replace('/\$yiic\s*=(.*?);/',"\$yiic='$yiic';",$content);
+		$yiic=$this->getRelativePath($yiic,$this->_rootPath.DIRECTORY_SEPARATOR.'protected'.DIRECTORY_SEPARATOR.'yiic.php');
+		$yiic=str_replace('\\','\\\\',$yiic);
+		return preg_replace('/\$yiic\s*=(.*?);/',"\$yiic=$yiic;",$content);
+	}
+
+	protected function getRelativePath($path1,$path2)
+	{
+		$segs1=explode(DIRECTORY_SEPARATOR,$path1);
+		$segs2=explode(DIRECTORY_SEPARATOR,$path2);
+		$n1=count($segs1);
+		$n2=count($segs2);
+		$common='';
+		for($i=0;$i<$n1 && $i<$n2;++$i)
+		{
+			if($segs1[$i]===$segs2[$i])
+				$common.=($i?DIRECTORY_SEPARATOR:'').$segs1[$i];
+			else
+				break;
+		}
+		if($i===0)
+			return "'".$path1."'";
+		$up='';
+		for($j=$i;$j<$n2-1;++$j)
+			$up.='/..';
+		for(;$i<$n1-1;++$i)
+			$up.='/'.$segs1[$i];
+
+		return 'dirname(__FILE__).\''.$up.'/'.basename($path1).'\'';
 	}
 }

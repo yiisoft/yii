@@ -459,15 +459,16 @@ $auth->assign('editor','editorC');
 $auth->assign('admin','adminD');
 ~~~
 
-Note that we associate a business rule with the `updateOwnPost` task. In
-the business rule we simply check if the current user ID is the same as the
-specified post's author ID. The post information in the `$params` array is
-supplied by developers when performing access checking.
-
 > Info: While the above example looks long and tedious, it is mainly for
 demonstrative purpose. Developers usually need to develop some user
 interfaces so that end users can use to establish an authorization
 hierarchy more intuitively.
+
+
+### Using Business Rules
+
+When we are defining the authorization hierarchy, we can associate a role, a task or an operation with a so-called *business rule*. We may also associate a business rule when we assign a role to a user. A business rule is a piece of PHP code (PHP statements to be exactly) that is executed when we perform access checking. The returning value of the code is used to determine if the role or assignment applies to the current user. In the example above, we associated a business rule with the `updateOwnPost` task. In the business rule we simply check if the current user ID is the same as the specified post's author ID. The post information in the `$params` array is supplied by developers when performing access checking.
+
 
 ### Access Checking
 

@@ -15,9 +15,9 @@
  *
  * The following code is a common scenario of using transactions:
  * <pre>
+ * $transaction=$connection->beginTransaction();
  * try
  * {
- *    $transaction=$connection->beginTransaction();
  *    $connection->createCommand($sql1)->execute();
  *    $connection->createCommand($sql2)->execute();
  *    //.... other SQL executions

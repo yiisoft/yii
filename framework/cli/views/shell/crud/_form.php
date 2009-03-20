@@ -4,7 +4,7 @@
 Fields with <span class="required">*</span> are required.
 </p>
 
-<?php echo "<?php echo CHtml::form(); ?>\n"; ?>
+<?php echo "<?php echo CHtml::beginForm(); ?>\n"; ?>
 
 <?php echo "<?php echo CHtml::errorSummary(\${$modelVar}); ?>\n"; ?>
 
@@ -19,6 +19,6 @@ Fields with <span class="required">*</span> are required.
 <?php echo "<?php echo CHtml::submitButton(\$update ? 'Save' : 'Create'); ?>\n"; ?>
 </div>
 
-<?php echo "<?php echo CHtml::closeTag('form'); ?>\n"; ?>
+<?php echo "<?php echo CHtml::endForm(); ?>\n"; ?>
 
 </div><!-- yiiForm -->

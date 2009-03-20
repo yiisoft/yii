@@ -96,9 +96,10 @@ class CHttpRequest extends CApplicationComponent
 				$_COOKIE=$this->stripSlashes($_COOKIE);
 		}
 
-		if($this->enableCsrfValidation && !$this->performCsrfValidation())
-			throw new CHttpException(400,Yii::t('yii','The CSRF token could not be verified.'));
+		if($this->enableCsrfValidation)
+			Yii::app()->attachEventHandler('onBeginRequest',array($this,'validateCsrfToken'));
 	}
+
 
 	/**
 	 * Strips slashes from input data.
@@ -549,24 +550,30 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Performs the CSRF validation.
+	 * This is the event handler responding to {@link CApplication::onBeginRequest}.
 	 * The default implementation will compare the CSRF token obtained
 	 * from a cookie and from a POST field. If they are different, a CSRF attack is detected.
+	 * @param CEvent event parameter
 	 * @throws CHttpException if the validation fails
+	 * @since 1.0.4
 	 */
-	protected function performCsrfValidation()
+	public function validateCsrfToken($event)
 	{
-		if(!$this->getIsPostRequest())
-			return true;
-
-		$cookies=$this->getCookies();
-		if($cookies->contains($this->csrfTokenName) && isset($_POST[$this->csrfTokenName]))
+		if($this->getIsPostRequest())
 		{
-			$tokenFromCookie=$cookies->itemAt($this->csrfTokenName)->value;
-			$tokenFromPost=$_POST[$this->csrfTokenName];
-			return $tokenFromCookie===$tokenFromPost;
+			// only validate POST requests
+			$cookies=$this->getCookies();
+			if($cookies->contains($this->csrfTokenName) && isset($_POST[$this->csrfTokenName]))
+			{
+				$tokenFromCookie=$cookies->itemAt($this->csrfTokenName)->value;
+				$tokenFromPost=$_POST[$this->csrfTokenName];
+				$valid=$tokenFromCookie===$tokenFromPost;
+			}
+			else
+				$valid=false;
+			if(!$valid)
+				throw new CHttpException(400,Yii::t('yii','The CSRF token could not be verified.'));
 		}
-		else
-			return false;
 	}
 }
 

@@ -50,6 +50,7 @@ information. Below is a list of commonly used DSN formats:
    - SQLite: `sqlite:/path/to/dbfile`
    - MySQL: `mysql:host=localhost;dbname=testdb`
    - PostgreSQL: `pgsql:host=localhost;port=5432;dbname=testdb`
+   - SQL Server: `mssql:host=localhost;dbname=testdb`
 
 Because [CDbConnection] extends from [CApplicationComponent], we can also
 use it as an [application

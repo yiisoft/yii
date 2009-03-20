@@ -14,7 +14,7 @@ If you have business inquries or other questions, please fill out the following 
 
 <div class="yiiForm">
 
-<?php echo CHtml::form(); ?>
+<?php echo CHtml::beginForm(); ?>
 
 <?php echo CHtml::errorSummary($contact); ?>
 
@@ -51,7 +51,7 @@ If you have business inquries or other questions, please fill out the following 
 <?php echo CHtml::submitButton('Submit'); ?>
 </div>
 
-<?php echo "<?php echo CHtml::closeTag('form'); ?>\n"; ?>
+<?php echo CHtml::endForm(); ?>
 
 </div><!-- yiiForm -->
 <?php endif; ?>
