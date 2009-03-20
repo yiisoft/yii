@@ -830,7 +830,7 @@ class CJoinElement
 			$joins[]=$fke->getColumnPrefix().$schema->quoteColumnName($fk) . '=' . $pke->getColumnPrefix().$schema->quoteColumnName($pk);
 		}
 		if(!empty($this->relation->on))
-			$joins[]=$this->relation->on;
+			$joins[]=str_replace($this->relation->aliasToken.'.', $this->tableAlias.'.', $this->relation->on);
 		return $this->relation->joinType . ' ' . $this->getTableNameWithAlias() . ' ON ' . implode(' AND ',$joins);
 	}
 
