@@ -1,5 +1,5 @@
 <div class="form">
-<?php echo CHtml::form(); ?>
+<?php echo CHtml::beginForm(); ?>
 
 <?php echo CHtml::errorSummary($post); ?>
 
@@ -32,7 +32,7 @@ Separate different tags with commas.
 <?php echo CHtml::submitButton('Preview',array('name'=>'previewPost')); ?>
 </div>
 
-</form>
+<?php echo CHtml::endForm(); ?>
 </div><!-- form -->
 
 <?php if(isset($_POST['previewPost']) && !$post->hasErrors()): ?>

@@ -3,7 +3,7 @@
 <h1>Login</h1>
 
 <div class="yiiForm">
-<?php echo CHtml::form(); ?>
+<?php echo CHtml::beginForm(); ?>
 
 <?php echo CHtml::errorSummary($form); ?>
 
@@ -27,6 +27,6 @@ Hint: You may login with <tt>demo/demo</tt> or <tt>admin/admin</tt>.
 <?php echo CHtml::submitButton('Login'); ?>
 </div>
 
-<?php echo "<?php echo CHtml::closeTag('form'); ?>\n"; ?>
+<?php echo CHtml::endForm(); ?>
 
 </div><!-- yiiForm -->

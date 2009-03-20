@@ -679,4 +679,15 @@ class CWebApplication extends CApplication
 		if(($m=$this->getModule($id))!==null)
 			return $m;
 	}
+
+	/**
+	 * Initializes the application.
+	 * This method overrides the parent implementation by preloading the 'request' component.
+	 */
+	protected function init()
+	{
+		parent::init();
+		// preload 'request' so that it has chance to respond to onBeginRequest event.
+		$this->getRequest();
+	}
 }

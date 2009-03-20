@@ -22,7 +22,8 @@
 abstract class CModel extends CComponent implements IteratorAggregate, ArrayAccess
 {
 	private $_errors=array();	// attribute name => array of errors
-	private $_va;
+	private $_va;  // validator
+	private $_se='';  // scenario
 
 	/**
 	 * Returns the list of attribute names of the model.
@@ -102,6 +103,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * merge the parent rules with child rules using functions like array_merge().
 	 *
 	 * @return array validation rules to be applied when {@link validate()} is called.
+	 * @see scenario
 	 */
 	public function rules()
 	{
@@ -114,7 +116,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * behavior names. Each behavior configuration can be either a string specifying
 	 * the behavior class or an array of the following structure:
 	 * <pre>
-	 * array(
+	 * 'behaviorName'=>array(
 	 *     'class'=>'path.to.BehaviorClass',
 	 *     'property1'=>'value1',
 	 *     'property2'=>'value2',
@@ -159,7 +161,10 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * Defaults to empty string, meaning only those validation rules whose "on"
 	 * option is empty will be applied. If this is a non-empty string, only
 	 * the validation rules whose "on" option is empty or contains the specified scenario
-	 * will be applied.
+	 * will be applied. As of version 1.0.4, this parameter is deprecated, and
+	 * the {@link scenario} property is the preferred way of specifying the scenario.
+	 * In particular, when this parameter is empty, the {@link scenario} property value
+	 * will be used as the effective scenario.
 	 * @param array list of attributes that should be validated. Defaults to null,
 	 * meaning any attribute listed in the applicable validation rules should be
 	 * validated. If this parameter is given as a list of attributes, only
@@ -170,6 +175,9 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 */
 	public function validate($scenario='',$attributes=null)
 	{
+		if($scenario==='')
+			$scenario=$this->getScenario();
+
 		$this->clearErrors();
 		if($this->beforeValidate($scenario))
 		{
@@ -247,12 +255,18 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	/**
 	 * Returns the validators that are applied to the specified attribute under the specified scenario.
 	 * @param string the attribute name
-	 * @param string the scenario name
+	 * @param string the scenario name. As of version 1.0.4, this parameter is deprecated, and
+	 * the {@link scenario} property is the preferred way of specifying the scenario.
+	 * In particular, when this parameter is empty, the {@link scenario} property value
+	 * will be used as the effective scenario.
 	 * @return array the validators for the attribute. An empty array is returned if no validator applies to the attribute.
 	 * @since 1.0.2
 	 */
 	public function getValidatorsForAttribute($attribute,$scenario='')
 	{
+		if($scenario==='')
+			$scenario=$this->getScenario();
+
 		if($this->_va===null)
 		{
 			$this->_va=array();
@@ -278,12 +292,18 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * Returns a value indicating whether the attribute is required.
 	 * This is determined based on the validation rules declared in {@link rules}.
 	 * @param string attribute name
-	 * @param string validation scenario
+	 * @param string validation scenario. As of version 1.0.4, this parameter is deprecated, and
+	 * the {@link scenario} property is the preferred way of specifying the scenario.
+	 * In particular, when this parameter is empty, the {@link scenario} property value
+	 * will be used as the effective scenario.
 	 * @return boolean  whether the attribute is required
 	 * @since 1.0.2
 	 */
 	public function isAttributeRequired($attribute,$scenario='')
 	{
+		if($scenario==='')
+			$scenario=$this->getScenario();
+
 		$validators=$this->getValidatorsForAttribute($attribute,$scenario);
 		foreach($validators as $validator)
 		{
@@ -440,10 +460,15 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * </ul>
 	 * @param array attribute values (name=>value) to be set.
 	 * @param mixed scenario name.
+	 * Note that as of version 1.0.4, if this parameter is an empty string, it will
+	 * take the {@link scenario} property value.
 	 * @see getSafeAttributeNames
 	 */
 	public function setAttributes($values,$scenario='')
 	{
+		if($scenario==='')
+			$scenario=$this->getScenario();
+
 		if(is_array($values))
 		{
 			$attributes=array_flip($this->getSafeAttributeNames($scenario));
@@ -453,6 +478,29 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 					$this->$name=$value;
 			}
 		}
+	}
+
+	/**
+	 * Returns the scenario that this model is in.
+	 * Scenario affects how massive attribute assignment is carried and which
+	 * validations should be performed. An attribute can be declared as safe
+	 * for massive assignment and requiring validation under certain scenarios.
+	 * @return string the scenario that this model is in. Defaults to empty.
+	 * @since 1.0.4
+	 */
+	public function getScenario()
+	{
+		return $this->_se;
+	}
+
+	/**
+	 * @param string the scenario that this model is in.
+	 * @see getScenario
+	 * @since 1.0.4
+	 */
+	public function setScenario($value)
+	{
+		$this->_se=$value;
 	}
 
 	/**
@@ -471,12 +519,17 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * in {@link safeAttributes}, the first set of attributes in {@link safeAttributes}
 	 * will be returned.</li>
 	 * </ul>
-	 * @param string scenario name
+	 * @param string scenario name.
+	 * Note that as of version 1.0.4, if this parameter is an empty string, it will
+	 * take the {@link scenario} property value.
 	 * @return array safe attribute names
 	 * @since 1.0.2
 	 */
 	public function getSafeAttributeNames($scenario='')
 	{
+		if($scenario==='')
+			$scenario=$this->getScenario();
+
 		if($scenario===false)
 			return $this->attributeNames();
 

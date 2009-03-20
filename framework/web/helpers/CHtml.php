@@ -215,9 +215,8 @@ class CHtml
 	}
 
 	/**
-	 * Generates a form tag.
-	 * Note, only the open tag is generated. A close tag should be placed manually
-	 * at the end of the form.
+	 * Generates an opening form tag.
+	 * This is a shortcut to {@link beginForm}.
 	 * @param mixed the form action URL (see {@link normalizeUrl} for details about this parameter.)
 	 * @param string form method (e.g. post, get)
 	 * @param array additional HTML attributes.
@@ -225,16 +224,43 @@ class CHtml
 	 */
 	public static function form($action='',$method='post',$htmlOptions=array())
 	{
+		return self::beginForm($action,$method,$htmlOptions);
+	}
+
+	/**
+	 * Generates an opening form tag.
+	 * Note, only the open tag is generated. A close tag should be placed manually
+	 * at the end of the form.
+	 * @param mixed the form action URL (see {@link normalizeUrl} for details about this parameter.)
+	 * @param string form method (e.g. post, get)
+	 * @param array additional HTML attributes.
+	 * @return string the generated form tag.
+	 * @since 1.0.4
+	 * @see endForm
+	 */
+	public static function beginForm($action='',$method='post',$htmlOptions=array())
+	{
 		$htmlOptions['action']=self::normalizeUrl($action);
 		$htmlOptions['method']=$method;
 		$form=self::tag('form',$htmlOptions,false,false);
 		$request=Yii::app()->request;
 		if($request->enableCsrfValidation)
 		{
-			$token=self::hiddenField($request->csrfTokenName,$request->getCsrfToken());
+			$token=self::hiddenField($request->csrfTokenName,$request->getCsrfToken(),array('id'=>false));
 			$form.="\n".$token;
 		}
 		return $form;
+	}
+
+	/**
+	 * Generates a closing form tag.
+	 * @return string the generated tag
+	 * @since 1.0.4
+	 * @see beginForm
+	 */
+	public static function endForm()
+	{
+		return '</form>';
 	}
 
 	/**
@@ -820,6 +846,8 @@ class CHtml
 		$htmlOptions['name']=$name;
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=self::getIdByName($name);
+		else if($htmlOptions['id']===false)
+			unset($htmlOptions['id']);
 		return self::tag('input',$htmlOptions);
 	}
 

@@ -262,7 +262,9 @@ This should be given as an array of name-value pairs. This option has been
 available since version 1.0.3.
 
    - `on`: the `ON` clause. The condition specified here will be appended
-to the joining condition using the `AND` operator. This option has been
+to the joining condition using the `AND` operator. ote, column
+references need to be disambiguated using `aliasToken` (e.g. `??.id=10`).
+This option does not apply to `MANY_MANY` relations. This option has been
 available since version 1.0.2.
 
    - `order`: the `ORDER BY` clause. It defaults to empty. Note, column
@@ -357,5 +359,59 @@ User::model()->with(array(
 	'profile',
 ))->findAll();
 ~~~
+
+
+Statistical Query
+-----------------
+
+> Note: Statistical query has been supported since version 1.0.4.
+
+Besides the relational query described above, Yii also supports the so-called statistical query (or aggregational query). It refers to retrieving the aggregational information about the related objects, such as the number of comments for each post, the average rating for each product, etc. Statistical query can only be performed for objects related in `HAS_MANY` (e.g. a post has many comments) or `MANY_MANY` (e.g. a post belongs to many categories and a category has many posts).
+
+Performing statistical query is very similar to performing relation query as we described before. We first need to declare the statistical query in the [relations()|CActiveRecord::relations] method of [CActiveRecord] like we do with relational query.
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+			'commentCount'=>array(self::STAT, 'Comment', 'postID'),
+			'categoryCount'=>array(self::STAT, 'Category', 'PostCategory(postID, categoryID)'),
+		);
+	}
+}
+~~~
+
+In the above, we declare two statistical queries: `commentCount` calculates the number of comments belonging to a post, and `categoryCount` calculates the number of categories that a post belongs to. Note that the relationship between `Post` and `Comment` is `HAS_MANY`, while the relationship between `Post` and `Category` is `MANY_MANY` (with the joining table `PostCategory`). As we can see, the declaration is very similar to those relations we described in earlier subsections. The only difference is that the relation type is `STAT` here.
+
+
+With the above declaration, we can retrieve the number of comments for a post using the expression `$post->commentCount`. When we access this property for the first time, a SQL statement will be executed implicitly to retrieve the corresponding result. As we already know, this is the so-called *lazy loading* approach. We can also use the *eager loading* approach if we need to determine the comment count for multiple posts:
+
+~~~
+[php]
+$posts=Post::model()->with('commentCount', 'categoryCount')->findAll();
+~~~
+
+The above statement will execute three SQLs to bring back all posts together with their comment counts and category counts. Using the lazy loading approach, we would end up with `2*N+1` SQL queries if there are `N` posts.
+
+By default, a statistical query will calculate the `COUNT` expression (and thus the comment count and category count in the above example). We can customize it by specifying additional options when we declare it in [relations()|CActiveRecord::relations]. The available options are summarized as below.
+
+   - `select`: the statistical expression. Defaults to `COUNT(*)`, meaning the count of child objects.
+
+   - `defaultValue`: the value to be assigned to those records that do not receive a statistical query result. For example, if a post does not have any comments, its `commentCount` would receive this value. The default value for this option is 0.
+
+   - `condition`: the `WHERE` clause. It defaults to empty.
+
+   - `params`: the parameters to be bound to the generated SQL statement.
+This should be given as an array of name-value pairs.
+
+   - `order`: the `ORDER BY` clause. It defaults to empty.
+
+   - `group`: the `GROUP BY` clause. It defaults to empty.
+
+   - `having`: the `HAVING` clause. It defaults to empty.
+
 
 <div class="revision">$Id$</div>
