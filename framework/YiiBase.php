@@ -456,6 +456,7 @@ class YiiBase
 		'CEAcceleratorCache' => '/caching/CEAcceleratorCache.php',
 		'CMemCache' => '/caching/CMemCache.php',
 		'CXCache' => '/caching/CXCache.php',
+		'CZendDataCache' => '/caching/CZendDataCache.php',
 		'CCacheDependency' => '/caching/dependencies/CCacheDependency.php',
 		'CChainedCacheDependency' => '/caching/dependencies/CChainedCacheDependency.php',
 		'CDbCacheDependency' => '/caching/dependencies/CDbCacheDependency.php',
