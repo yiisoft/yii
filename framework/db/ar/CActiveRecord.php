@@ -1066,6 +1066,8 @@ abstract class CActiveRecord extends CModel
 				}
 				$this->afterSave();
 				$this->isNewRecord=false;
+				if($this->getScenario()==='insert')
+					$this->setScenario('update');
 				return true;
 			}
 			else
