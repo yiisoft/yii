@@ -33,6 +33,7 @@ Version 1.0.4 to be released
 - New: Added support for performing statistical query with Active Record (Qiang)
 - New: Added CHtml::beginForm and endForm (Qiang)
 - New: Added CApplication::preinit (Qiang)
+- New: Added 'controllers' option to access control (Qiang)
 
 
 Version 1.0.3 March 1, 2009
