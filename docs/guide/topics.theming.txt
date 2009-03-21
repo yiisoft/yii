@@ -1,5 +1,5 @@
-Theme
-=====
+Theming
+=======
 
 Theming is a systematic way of customizing the outlook of pages in a Web
 application. By applying a new theme, the overall appearance of a Web
@@ -41,7 +41,7 @@ named `forum`, we should save the `create` view file as `WebRoot/themes/classic/
 is nested in another module named `support`, then the view file should be
 `WebRoot/themes/classic/views/support/forum/post/create.php`.
 
-> Note: Beause the `views` directory may contain security-sensitive data, it should be configured to prevent from being accessed by Web users.
+> Note: Because the `views` directory may contain security-sensitive data, it should be configured to prevent from being accessed by Web users.
 
 When we call [render|CController::render] or
 [renderPartial|CController::renderPartial] to display a view, the
@@ -52,12 +52,14 @@ Otherwise, it falls back to the default location as specified by
 [layoutPath|CWebApplication::layoutPath].
 
 > Tip: Inside a theme view, we often need to link other theme resource
-files. For example, we may want to show an image file under the theme's
-`images` directory. Using the [baseUrl|CTheme::baseUrl] property of the
-currently active theme, we can generate the URL for the image as follows,
-~~~
-[php]
-Yii::app()->theme->baseUrl . '/images/FileName.gif'
-~~~
+> files. For example, we may want to show an image file under the theme's
+> `images` directory. Using the [baseUrl|CTheme::baseUrl] property of the
+> currently active theme, we can generate the URL for the image as follows,
+>
+> ~~~
+> [php]
+> Yii::app()->theme->baseUrl . '/images/FileName.gif'
+> ~~~
+>
 
 <div class="revision">$Id$</div>
