@@ -423,4 +423,49 @@ class CWebModule extends CComponent
 				$this->$key=$value;
 		}
 	}
+
+	/**
+	 * Filters controller actions.
+	 * This method is invoked by the filter chain for the currently requested controller action.
+	 * The default implementation splits this method into {@link beforeControllerAction}
+	 * and {@link beforeControllerAction}.
+	 * @param CFilter the filter chain
+	 * @since 1.0.4
+	 */
+	public function filterControllerAction($filterChain)
+	{
+		if($this->beforeControllerAction($filterChain->controller,$filterChina->action))
+		{
+			$filterChain->run();
+			$this->afterControllerAction($filterChain->controller,$filterChina->action);
+		}
+	}
+
+	/**
+	 * The pre-filter for controller actions.
+	 * This method is invoked before the currently requested controller action and all its filters
+	 * are executed. You may override this method with logic that needs to be done
+	 * before all controller actions.
+	 * @param CController the controller
+	 * @param CAction the action
+	 * @return boolean whether the action should be executed.
+	 * @since 1.0.4
+	 */
+	protected function beforeControllerAction($controller,$action)
+	{
+		return true;
+	}
+
+	/**
+	 * The post-filter for controller actions.
+	 * This method is invoked after the currently requested controller action and all its filters
+	 * are executed. You may override this method with logic that needs to be done
+	 * after all controller actions.
+	 * @param CController the controller
+	 * @param CAction the action
+	 * @since 1.0.4
+	 */
+	protected function afterControllerAction($controller,$action)
+	{
+	}
 }

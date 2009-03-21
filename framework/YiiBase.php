@@ -583,6 +583,7 @@ class YiiBase
 		'CFilter' => '/web/filters/CFilter.php',
 		'CFilterChain' => '/web/filters/CFilterChain.php',
 		'CInlineFilter' => '/web/filters/CInlineFilter.php',
+		'CModuleFilter' => '/web/filters/CModuleFilter.php',
 		'CGoogleApi' => '/web/helpers/CGoogleApi.php',
 		'CHtml' => '/web/helpers/CHtml.php',
 		'CJSON' => '/web/helpers/CJSON.php',
