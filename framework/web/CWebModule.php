@@ -434,10 +434,10 @@ class CWebModule extends CComponent
 	 */
 	public function filterControllerAction($filterChain)
 	{
-		if($this->beforeControllerAction($filterChain->controller,$filterChina->action))
+		if($this->beforeControllerAction($filterChain->controller,$filterChain->action))
 		{
 			$filterChain->run();
-			$this->afterControllerAction($filterChain->controller,$filterChina->action);
+			$this->afterControllerAction($filterChain->controller,$filterChain->action);
 		}
 	}
 
