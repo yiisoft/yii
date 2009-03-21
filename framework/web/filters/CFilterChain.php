@@ -57,9 +57,6 @@ class CFilterChain extends CList
 	{
 		$chain=new CFilterChain($controller,$action);
 
-		if(($module=$controller->getModule())!==null)
-			$chain->add(new CModuleFilter);
-
 		$actionID=$action->getId();
 		foreach($filters as $filter)
 		{
