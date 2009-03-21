@@ -35,6 +35,7 @@ Version 1.0.4 to be released
 - New: Added CApplication::preinit (Qiang)
 - New: Added 'controllers' option to access control (Qiang)
 - New: Added module-level filter support (Qiang)
+- New: Added CContentDecorator.data property (Qiang)
 
 
 Version 1.0.3 March 1, 2009
