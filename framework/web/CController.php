@@ -240,7 +240,7 @@ class CController extends CBaseController
 	public function runActionWithFilters($action,$filters)
 	{
 		if($this->getModule()!==null)
-			array_unshift($filters, array('CWebFilter'));
+			array_unshift($filters, array('CModuleFilter'));
 		if(empty($filters))
 			$this->runAction($action);
 		else
