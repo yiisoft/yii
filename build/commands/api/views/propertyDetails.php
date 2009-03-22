@@ -2,8 +2,7 @@
 <h2>Property Details</h2>
 <?php foreach($class->properties as $property): ?>
 <?php if($property->isInherited) continue; ?>
-<a name="<?php echo $property->name; ?>"></a>
-<div class="detailHeader">
+<div class="detailHeader" id="<?php echo $property->name.'-detail'; ?>">
 <?php echo $property->name; ?>
 <span class="detailHeaderTag">
 property
