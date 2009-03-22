@@ -222,7 +222,15 @@ class CController extends CBaseController
 	public function run($actionID)
 	{
 		if(($action=$this->createAction($actionID))!==null)
-			$this->runActionWithFilters($action,$this->filters());
+		{
+			if(($parent=$this->getModule())===null)
+				$parent=Yii::app();
+			if($parent->beforeControllerAction($this,$action))
+			{
+				$this->runActionWithFilters($action,$this->filters());
+				$parent->afterControllerAction($this,$action);
+			}
+		}
 		else
 			$this->missingAction($actionID);
 	}
@@ -239,8 +247,6 @@ class CController extends CBaseController
 	 */
 	public function runActionWithFilters($action,$filters)
 	{
-		if($this->getModule()!==null)
-			array_unshift($filters, array('CModuleFilter'));
 		if(empty($filters))
 			$this->runAction($action);
 		else
@@ -775,8 +781,10 @@ class CController extends CBaseController
 	 * the first element must be a route to a controller action and the rest
 	 * are GET parameters in name-value pairs.
 	 * @param boolean whether to terminate the current application after calling this method
+	 * @param integer the HTTP status code. Defaults to 302. See {@link http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html}
+	 * for details about HTTP status code. This parameter has been available since version 1.0.4.
 	 */
-	public function redirect($url,$terminate=true)
+	public function redirect($url,$terminate=true,$statusCode=302)
 	{
 		if(is_array($url))
 		{

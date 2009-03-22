@@ -11,6 +11,10 @@ for both A and B.
 
 Upgrading from v1.0.3
 ---------------------
+- The signature of CWebModule::init() is modified. Its parameter is removed.
+  If your application uses modules, you have to modify your module class
+  files accordingly.
+
 
 Upgrading from v1.0.2
 ---------------------
