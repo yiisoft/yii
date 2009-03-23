@@ -43,6 +43,7 @@ Version 1.0.4 to be released
 - New: Added CHtml::encodeArray() (Qiang)
 - New: Added case-sensitivity parameter to CDbCommandBuilder::createSearchCondition (Qiang)
 - New: Added COutputCache.varyByExpression (Qiang)
+- New: Added CExpressionDependency (Qiang)
 
 
 Version 1.0.3 March 1, 2009

@@ -250,6 +250,7 @@ class YiiBase
 		'CChainedCacheDependency' => '/caching/dependencies/CChainedCacheDependency.php',
 		'CDbCacheDependency' => '/caching/dependencies/CDbCacheDependency.php',
 		'CDirectoryCacheDependency' => '/caching/dependencies/CDirectoryCacheDependency.php',
+		'CExpressionDependency' => '/caching/dependencies/CExpressionDependency.php',
 		'CFileCacheDependency' => '/caching/dependencies/CFileCacheDependency.php',
 		'CGlobalStateCacheDependency' => '/caching/dependencies/CGlobalStateCacheDependency.php',
 		'CAttributeCollection' => '/collections/CAttributeCollection.php',
@@ -2782,7 +2783,7 @@ class CController extends CBaseController
 			$route=isset($url[0]) ? $url[0] : '';
 			$url=$this->createUrl($route,array_splice($url,1));
 		}
-		Yii::app()->getRequest()->redirect($url,$terminate);
+		Yii::app()->getRequest()->redirect($url,$terminate,$statusCode);
 	}
 	public function refresh($terminate=true)
 	{
@@ -3400,6 +3401,21 @@ class CHtml
 	{
 		return htmlspecialchars($text,ENT_QUOTES,Yii::app()->charset);
 	}
+	public static function encodeArray($data)
+	{
+		$d=array();
+		foreach($data as $key=>$value)
+		{
+			if(is_string($key))
+				$key=htmlspecialchars($key,ENT_QUOTES,Yii::app()->charset);
+			if(is_string($value))
+				$value=htmlspecialchars($value,ENT_QUOTES,Yii::app()->charset);
+			else if(is_array($value))
+				$value=self::encodeArray($value);
+			$d[$key]=$value;
+		}
+		return $d;
+	}
 	public static function tag($tag,$htmlOptions=array(),$content=false,$closeTag=true)
 	{
 		$html='<' . $tag;
@@ -3637,17 +3653,52 @@ class CHtml
 		unset($htmlOptions['template'],$htmlOptions['separator']);
 		if(substr($name,-2)!=='[]')
 			$name.='[]';
+		if(isset($htmlOptions['checkAll']))
+		{
+			$checkAllLabel=$htmlOptions['checkAll'];
+			$checkAllLast=isset($htmlOptions['checkAllLast']) && $htmlOptions['checkAllLast'];
+		}
+		unset($htmlOptions['checkAll'],$htmlOptions['checkAllLast']);
 		$items=array();
 		$baseID=self::getIdByName($name);
 		$id=0;
+		$checkAll=true;
 		foreach($data as $value=>$label)
 		{
 			$checked=!is_array($select) && !strcmp($value,$select) || is_array($select) && in_array($value,$select);
+			$checkAll=$checkAll && $checked;
 			$htmlOptions['value']=$value;
 			$htmlOptions['id']=$baseID.'_'.$id++;
 			$option=self::checkBox($name,$checked,$htmlOptions);
 			$label=self::label($label,$htmlOptions['id']);
 			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
+		}
+		if(isset($checkAllLabel))
+		{
+			$htmlOptions['value']=1;
+			$htmlOptions['id']=$id=$baseID.'_all';
+			$option=self::checkBox($id,$checkAll,$htmlOptions);
+			$label=self::label($checkAllLabel,$id);
+			$item=strtr($template,array('{input}'=>$option,'{label}'=>$label));
+			if($checkAllLast)
+				$items[]=$item;
+			else
+				array_unshift($items,$item);
+			$name=strtr($name,array('['=>'\\[',']'=>'\\]'));
+			$js=<<<EOD
+jQuery('#$id').click(function() {
+	var checked=this.checked;
+	jQuery("input[name='$name']").each(function() {
+		this.checked=checked;
+	});
+});
+jQuery("input[name='$name']").click(function() {
+	jQuery('#$id').attr('checked', jQuery("input[name='$name']").length==jQuery("input[name='$name'][checked=true]").length);
+});
+EOD;
+			$cs=Yii::app()->getClientScript();
+			$cs->registerCoreScript('jquery');
+			$cs->registerScript($id,$js);
 		}
 		return implode($separator,$items);
 	}
@@ -3784,7 +3835,10 @@ class CHtml
 	public static function activeFileField($model,$attribute,$htmlOptions=array())
 	{
 		self::resolveNameID($model,$attribute,$htmlOptions);
-		return self::activeInputField('file',$model,$attribute,$htmlOptions);
+		// add a hidden field so that if a model only has a file field, we can
+		// still use isset($_POST[$modelClass]) to detect if the input is submitted
+		return self::hiddenField($htmlOptions['name'],'',array('id'=>self::ID_PREFIX.$htmlOptions['id']))
+			. self::activeInputField('file',$model,$attribute,$htmlOptions);
 	}
 	public static function activeRadioButton($model,$attribute,$htmlOptions=array())
 	{
@@ -3794,6 +3848,7 @@ class CHtml
 		if($model->$attribute)
 			$htmlOptions['checked']='checked';
 		self::clientChange('click',$htmlOptions);
+		// add a hidden field so that if the radio button is not selected, it still submits a value
 		return self::hiddenField($htmlOptions['name'],$htmlOptions['value']?0:-1,array('id'=>self::ID_PREFIX.$htmlOptions['id']))
 			. self::activeInputField('radio',$model,$attribute,$htmlOptions);
 	}
