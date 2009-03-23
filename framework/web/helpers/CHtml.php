@@ -720,9 +720,13 @@ class CHtml
 			$js=<<<EOD
 jQuery('#$id').click(function() {
 	var checked=this.checked;
-	$("input[name='$name']").each(function() {
+	jQuery("input[name='$name']").each(function() {
 		this.checked=checked;
 	});
+});
+
+jQuery("input[name='$name']").click(function() {
+	jQuery('#$id').attr('checked', jQuery("input[name='$name']").length==jQuery("input[name='$name'][checked=true]").length);
 });
 EOD;
 			$cs=Yii::app()->getClientScript();
