@@ -56,6 +56,7 @@ class CFilterChain extends CList
 	public static function create($controller,$action,$filters)
 	{
 		$chain=new CFilterChain($controller,$action);
+
 		$actionID=$action->getId();
 		foreach($filters as $filter)
 		{

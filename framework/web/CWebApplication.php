@@ -100,9 +100,6 @@ class CWebApplication extends CApplication
 	private $_controller;
 	private $_homeUrl;
 	private $_theme;
-	private $_modulePath;
-	private $_moduleConfig=array();
-	private $_modules=array();
 
 
 	/**
@@ -463,30 +460,6 @@ class CWebApplication extends CApplication
 	}
 
 	/**
-	 * @return string the directory that contains the application modules. Defaults to 'protected/modules'.
-	 * @since 1.0.3
-	 */
-	public function getModulePath()
-	{
-		if($this->_modulePath!==null)
-			return $this->_modulePath;
-		else
-			return $this->_modulePath=$this->getBasePath().DIRECTORY_SEPARATOR.'modules';
-	}
-
-	/**
-	 * @param string the directory that contains the application modules.
-	 * @throws CException if the directory is invalid
-	 * @since 1.0.3
-	 */
-	public function setModulePath($value)
-	{
-		if(($this->_modulePath=realpath($value))===false || !is_dir($this->_modulePath))
-			throw new CException(Yii::t('yii','The module path "{path}" is not a valid directory.',
-				array('{path}'=>$value)));
-	}
-
-	/**
 	 * @return string the root directory of view files. Defaults to 'protected/views'.
 	 */
 	public function getViewPath()
@@ -553,110 +526,31 @@ class CWebApplication extends CApplication
 	}
 
 	/**
-	 * Retrieves the named application module.
-	 * @param string application module ID (case-sensitive)
-	 * @return CWebModule the application module instance, null if the application module is disabled or does not exist.
-	 * @since 1.0.3
+	 * The pre-filter for controller actions.
+	 * This method is invoked before the currently requested controller action and all its filters
+	 * are executed. You may override this method with logic that needs to be done
+	 * before all controller actions.
+	 * @param CController the controller
+	 * @param CAction the action
+	 * @return boolean whether the action should be executed.
+	 * @since 1.0.4
 	 */
-	public function getModule($id)
+	public function beforeControllerAction($controller,$action)
 	{
-		if(array_key_exists($id,$this->_modules))
-			return $this->_modules[$id];
-		else if(isset($this->_moduleConfig[$id]))
-		{
-			$config=$this->_moduleConfig[$id];
-			return $this->_modules[$id]=$this->createModule($id,$config);
-		}
+		return true;
 	}
 
 	/**
-	 * @return array the configurations of the currently installed modules (id=>configuration)
-	 * @since 1.0.3
+	 * The post-filter for controller actions.
+	 * This method is invoked after the currently requested controller action and all its filters
+	 * are executed. You may override this method with logic that needs to be done
+	 * after all controller actions.
+	 * @param CController the controller
+	 * @param CAction the action
+	 * @since 1.0.4
 	 */
-	public function getModules()
+	public function afterControllerAction($controller,$action)
 	{
-		return $this->_moduleConfig;
-	}
-
-	/**
-	 * Configures the modules of this application.
-	 *
-	 * Call this method to declare modules and configure them with their initial property values.
-	 * The parameter should be an array of module configurations. Each array element represents a single module,
-	 * which can be either a string representing the module ID or an ID-config pair representing
-	 * a module with the specified ID and the initial property values.
-	 *
-	 * For example, the following array declares two modules:
-	 * <pre>
-	 * array(
-	 *     'admin',
-	 *     'payment'=>array(
-	 *         'server'=>'paymentserver.com',
-	 *     ),
-	 * )
-	 * </pre>
-	 *
-	 * By default, the module class is determined using the expression <code>ucfirst($moduleID).'Module'</code>.
-	 * And the class file is located under <code>modules/$moduleID</code>.
-	 * You may override this default by explicitly specifying the 'class' option in the configuration.
-	 *
-	 * You may also enable or disable a module by specifying the 'enabled' option in the configuration.
-	 *
-	 * @param array application module configuration.
-	 * @since 1.0.3
-	 */
-	public function setModules($modules)
-	{
-		foreach($modules as $id=>$module)
-		{
-			if(is_int($id))
-			{
-				$id=$module;
-				$module=array();
-			}
-			if(!isset($module['class']))
-				$module['classFile']=$this->getModulePath().DIRECTORY_SEPARATOR.$id.DIRECTORY_SEPARATOR.ucfirst($id).'Module.php';
-
-			if(isset($this->_moduleConfig[$id]))
-				$this->_moduleConfig[$id]=CMap::mergeArray($this->_moduleConfig[$id],$module);
-			else
-				$this->_moduleConfig[$id]=$module;
-		}
-	}
-
-	/**
-	 * Creates an application module based on the given configuration.
-	 * The module created will be initialized with the given configuration.
-	 * And its {@link CWebModule::init()} method will also be invoked.
-	 * @param string the module ID
-	 * @param array module configuration
-	 * @param CWebModule the parent module. Null if no parent.
-	 * @return CWebModule the create module instance. Null if the module is not enabled.
-	 * @since 1.0.3
-	 */
-	public function createModule($id,$config,$owner=null)
-	{
-		if(!isset($config['enabled']) || $config['enabled'])
-		{
-			Yii::trace("Loading \"$id\" application module",'system.web.CWebApplication');
-			if(isset($config['classFile']))
-			{
-				$className=substr(basename($config['classFile']),0,-4);
-				if(!class_exists($className,false))
-					require($config['classFile']);
-				unset($config['classFile']);
-			}
-			else
-				$className=Yii::import($config['class'],true);
-			unset($config['enabled'],$config['classFile'],$config['class']);
-			if($owner===null)
-				$module=new $className($id);
-			else
-				$module=new $className($owner->getId().'/'.$id,$owner);
-			Yii::setPathOfAlias($id,$module->getBasePath());
-			$module->init($config);
-			return $module;
-		}
 	}
 
 	/**

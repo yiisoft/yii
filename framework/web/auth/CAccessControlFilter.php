@@ -20,8 +20,11 @@
  * <pre>
  * array(
  *   'allow',  // or 'deny'
- *   // optional, list of action names (case insensitive) that this rule applies to
- *   'actions'=>array('edit, delete'),
+ *   // optional, list of action IDs (case insensitive) that this rule applies to
+ *   'actions'=>array('edit', 'delete'),
+ *   // optional, list of controller IDs (case insensitive) that this rule applies to
+ *   // This option is available since version 1.0.3.
+ *   'controllers'=>array('post', 'admin.user'),
  *   // optional, list of usernames (case insensitive) that this rule applies to
  *   // Use * to represent all users, ? guest users, and @ authenticated users
  *   'users'=>array('thomas', 'kevin'),
@@ -91,11 +94,10 @@ class CAccessControlFilter extends CFilter
 		$user=$app->getUser();
 		$verb=$request->getRequestType();
 		$ip=$request->getUserHostAddress();
-		$action=$filterChain->action;
 
 		foreach($this->getRules() as $rule)
 		{
-			if(($allow=$rule->isUserAllowed($user,$action,$ip,$verb))>0) // allowed
+			if(($allow=$rule->isUserAllowed($user,$filterChain->controller,$filterChain->action,$ip,$verb))>0) // allowed
 				break;
 			else if($allow<0) // denied
 			{
@@ -129,9 +131,14 @@ class CAccessRule extends CComponent
 	 */
 	public $allow;
 	/**
-	 * @var array list of actions that this rule applies to. The comparison is case-insensitive.
+	 * @var array list of action IDs that this rule applies to. The comparison is case-insensitive.
 	 */
 	public $actions;
+	/**
+	 * @var array list of controler IDs that this rule applies to. The comparison is case-insensitive.
+	 * @since 1.0.4
+	 */
+	public $controllers;
 	/**
 	 * @var array list of user names that this rule applies to. The comparison is case-insensitive.
 	 */
@@ -164,18 +171,20 @@ class CAccessRule extends CComponent
 	/**
 	 * Checks whether the Web user is allowed to perform the specified action.
 	 * @param CWebUser the user object
+	 * @param CController the controller currently being executed
 	 * @param CAction the action to be performed
 	 * @param string the request IP address
 	 * @param string the request verb (GET, POST, etc.)
 	 * @return integer 1 if the user is allowed, -1 if the user is denied, 0 if the rule does not apply to the user
 	 */
-	public function isUserAllowed($user,$action,$ip,$verb)
+	public function isUserAllowed($user,$controller,$action,$ip,$verb)
 	{
 		if($this->isActionMatched($action)
 			&& $this->isUserMatched($user)
 			&& $this->isRoleMatched($user)
 			&& $this->isIpMatched($ip)
 			&& $this->isVerbMatched($verb)
+			&& $this->isControllerMatched($controller)
 			&& $this->isExpressionMatched($user))
 			return $this->allow ? 1 : -1;
 		else
@@ -189,6 +198,15 @@ class CAccessRule extends CComponent
 	protected function isActionMatched($action)
 	{
 		return empty($this->actions) || in_array(strtolower($action->getId()),$this->actions);
+	}
+
+	/**
+	 * @param CAction the action
+	 * @return boolean whether the rule applies to the action
+	 */
+	protected function isControllerMatched($controller)
+	{
+		return empty($this->controllers) || in_array(strtolower($controller->getId()),$this->controllers);
 	}
 
 	/**

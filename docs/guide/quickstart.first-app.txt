@@ -62,7 +62,7 @@ testdrive/
    css/                      containing CSS files
    images/                   containing image files
    themes/                   containing application themes
-   protected/                containg protected application files
+   protected/                containing protected application files
       yiic                   yiic command line script
       yiic.bat               yiic command line script for Windows
       commands/              containing customized 'yiic' commands

@@ -40,6 +40,11 @@ class CContentDecorator extends COutputProcessor
 	 * {@link CWebModule::layout default layout}.
 	 */
 	public $view;
+	/**
+	 * @var array the variables (name=>value) to be extracted and made available in the decorative view.
+	 * @since 1.0.4
+	 */
+	public $data=array();
 
 	/**
 	 * Processes the captured output.
@@ -67,7 +72,11 @@ class CContentDecorator extends COutputProcessor
 		else
 			$viewFile=$owner->getViewFile($this->view);
 		if($viewFile!==false)
-			return $owner->renderFile($viewFile,array('content'=>$content),true);
+		{
+			$data=$this->data;
+			$data['content']=$content;
+			return $owner->renderFile($viewFile,$data,true);
+		}
 		else
 			return $content;
 	}

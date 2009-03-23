@@ -260,14 +260,14 @@ abstract class CBaseController extends CComponent
 	 * any module, the default layout refers to the application's {@link CWebApplication::layout default layout};
 	 * If the controller belongs to a module, the default layout refers to the module's
 	 * {@link CWebModule::layout default layout}.
-	 * @param array initial property values for {@link CContentDecorator}.
+	 * @param array the variables (name=>value) to be extracted and made available in the decorative view.
+	 * This parameter has been available since version 1.0.4
 	 * @see beginContent
 	 * @see CContentDecorator
 	 */
-	public function beginContent($view=null,$properties=array())
+	public function beginContent($view=null,$data=array())
 	{
-		$properties['view']=$view;
-		$this->beginWidget('CContentDecorator',$properties);
+		$this->beginWidget('CContentDecorator',array('view'=>$view, 'data'=>$data));
 	}
 
 	/**

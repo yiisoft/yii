@@ -166,6 +166,8 @@ class YiiBase
 				$object=new $type($args[1]);
 			else if($n===3)
 				$object=new $type($args[1],$args[2]);
+			else if($n===4)
+				$object=new $type($args[1],$args[2],$args[3]);
 			else
 			{
 				unset($args[0]);
@@ -443,11 +445,14 @@ class YiiBase
 		'CApplicationComponent' => '/base/CApplicationComponent.php',
 		'CBehavior' => '/base/CBehavior.php',
 		'CComponent' => '/base/CComponent.php',
+		'CErrorEvent' => '/base/CErrorEvent.php',
 		'CErrorHandler' => '/base/CErrorHandler.php',
 		'CException' => '/base/CException.php',
+		'CExceptionEvent' => '/base/CExceptionEvent.php',
 		'CHttpException' => '/base/CHttpException.php',
 		'CModel' => '/base/CModel.php',
 		'CModelBehavior' => '/base/CModelBehavior.php',
+		'CModule' => '/base/CModule.php',
 		'CSecurityManager' => '/base/CSecurityManager.php',
 		'CStatePersister' => '/base/CStatePersister.php',
 		'CApcCache' => '/caching/CApcCache.php',

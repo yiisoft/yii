@@ -495,10 +495,12 @@ class CDbCommandBuilder extends CComponent
 	 * @param array list of column names for potential search condition.
 	 * @param mixed search keywords. This can be either a string with space-separated keywords or an array of keywords.
 	 * @param string column prefix (ended with dot). If null, it will be the table name
+	 * @param boolean whether the search is case-sensitive. Defaults to true. This parameter
+	 * has been available since version 1.0.4.
 	 * @return string SQL search condition matching on a set of columns. An empty string is returned
 	 * if either the column array or the keywords are empty.
 	 */
-	public function createSearchCondition($table,$columns,$keywords,$prefix=null)
+	public function createSearchCondition($table,$columns,$keywords,$prefix=null,$caseSensitive=true)
 	{
 		$this->ensureTable($table);
 		if(!is_array($keywords))
@@ -515,7 +517,12 @@ class CDbCommandBuilder extends CComponent
 					array('{table}'=>$table->name,'{column}'=>$name)));
 			$condition=array();
 			foreach($keywords as $keyword)
-				$condition[]=$prefix.$column->rawName.' LIKE '.$this->_connection->quoteValue('%'.$keyword.'%');
+			{
+				if($caseSensitive)
+					$condition[]=$prefix.$column->rawName.' LIKE '.$this->_connection->quoteValue('%'.$keyword.'%');
+				else
+					$condition[]='LOWER('.$prefix.$column->rawName.') LIKE LOWER('.$this->_connection->quoteValue('%'.$keyword.'%').')';
+			}
 			$conditions[]=implode(' AND ',$condition);
 		}
 		return '('.implode(' OR ',$conditions).')';

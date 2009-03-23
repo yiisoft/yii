@@ -72,6 +72,32 @@ class CHtml
 	}
 
 	/**
+	 * Encodes special characters in an array of strings into HTML entities.
+	 * Both the array keys and values will be encoded if needed.
+	 * If a value is an array, this method will also encode it recursively.
+	 * The {@link CApplication::charset application charset} will be used for encoding.
+	 * @param array data to be encoded
+	 * @return array the encoded data
+	 * @see http://www.php.net/manual/en/function.htmlspecialchars.php
+	 * @since 1.0.4
+	 */
+	public static function encodeArray($data)
+	{
+		$d=array();
+		foreach($data as $key=>$value)
+		{
+			if(is_string($key))
+				$key=htmlspecialchars($key,ENT_QUOTES,Yii::app()->charset);
+			if(is_string($value))
+				$value=htmlspecialchars($value,ENT_QUOTES,Yii::app()->charset);
+			else if(is_array($value))
+				$value=self::encodeArray($value);
+			$d[$key]=$value;
+		}
+		return $d;
+	}
+
+	/**
 	 * Generates an HTML element.
 	 * @param string the tag name
 	 * @param array the element attributes. The values will be HTML-encoded using {@link encode()}.
@@ -637,6 +663,14 @@ class CHtml
 	 * to "{input} {label}", where "{input}" will be replaced by the generated
 	 * check box input tag while "{label}" be replaced by the corresponding check box label.</li>
 	 * <li>separator: string, specifies the string that separates the generated check boxes.</li>
+	 * <li>checkAll: string, specifies the label for the "check all" checkbox.
+	 * If this option is specified, a 'check all' checkbox will be displayed. Clicking on
+	 * this checkbox will cause all checkboxes checked or unchecked. This option has been
+	 * available since version 1.0.4.</li>
+	 * <li>checkAllLast: boolean, specifies whether the 'check all' checkbox should be
+	 * displayed at the end of the checkbox list. If this option is not set (default)
+	 * or is false, the 'check all' checkbox will be displayed at the beginning of
+	 * the checkbox list. This option has been available since version 1.0.4.</li>
 	 * </ul>
 	 * @return string the generated check box list
 	 */
@@ -649,18 +683,57 @@ class CHtml
 		if(substr($name,-2)!=='[]')
 			$name.='[]';
 
+		if(isset($htmlOptions['checkAll']))
+		{
+			$checkAllLabel=$htmlOptions['checkAll'];
+			$checkAllLast=isset($htmlOptions['checkAllLast']) && $htmlOptions['checkAllLast'];
+		}
+		unset($htmlOptions['checkAll'],$htmlOptions['checkAllLast']);
+
 		$items=array();
 		$baseID=self::getIdByName($name);
 		$id=0;
+		$checkAll=true;
 		foreach($data as $value=>$label)
 		{
 			$checked=!is_array($select) && !strcmp($value,$select) || is_array($select) && in_array($value,$select);
+			$checkAll=$checkAll && $checked;
 			$htmlOptions['value']=$value;
 			$htmlOptions['id']=$baseID.'_'.$id++;
 			$option=self::checkBox($name,$checked,$htmlOptions);
 			$label=self::label($label,$htmlOptions['id']);
 			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
 		}
+
+		if(isset($checkAllLabel))
+		{
+			$htmlOptions['value']=1;
+			$htmlOptions['id']=$id=$baseID.'_all';
+			$option=self::checkBox($id,$checkAll,$htmlOptions);
+			$label=self::label($checkAllLabel,$id);
+			$item=strtr($template,array('{input}'=>$option,'{label}'=>$label));
+			if($checkAllLast)
+				$items[]=$item;
+			else
+				array_unshift($items,$item);
+			$name=strtr($name,array('['=>'\\[',']'=>'\\]'));
+			$js=<<<EOD
+jQuery('#$id').click(function() {
+	var checked=this.checked;
+	jQuery("input[name='$name']").each(function() {
+		this.checked=checked;
+	});
+});
+
+jQuery("input[name='$name']").click(function() {
+	jQuery('#$id').attr('checked', jQuery("input[name='$name']").length==jQuery("input[name='$name'][checked=true]").length);
+});
+EOD;
+			$cs=Yii::app()->getClientScript();
+			$cs->registerCoreScript('jquery');
+			$cs->registerScript($id,$js);
+		}
+
 		return implode($separator,$items);
 	}
 
@@ -1114,6 +1187,14 @@ class CHtml
 	 * to "{input} {label}", where "{input}" will be replaced by the generated
 	 * check box input tag while "{label}" be replaced by the corresponding check box label.</li>
 	 * <li>separator: string, specifies the string that separates the generated check boxes.</li>
+	 * <li>checkAll: string, specifies the label for the "check all" checkbox.
+	 * If this option is specified, a 'check all' checkbox will be displayed. Clicking on
+	 * this checkbox will cause all checkboxes checked or unchecked. This option has been
+	 * available since version 1.0.4.</li>
+	 * <li>checkAllLast: boolean, specifies whether the 'check all' checkbox should be
+	 * displayed at the end of the checkbox list. If this option is not set (default)
+	 * or is false, the 'check all' checkbox will be displayed at the beginning of
+	 * the checkbox list. This option has been available since version 1.0.4.</li>
 	 * </ul>
 	 * @return string the generated check box list
 	 * @see checkBoxList
@@ -1229,6 +1310,8 @@ class CHtml
 
 	/**
 	 * Generates the data suitable for {@link dropDownList} and {@link listBox}.
+	 * Note, this method does not HTML-encode the generated data. You may call {@link encodeArray} to
+	 * encode it if needed.
 	 * @param array a list of model objects. Starting from version 1.0.3, this parameter
 	 * can also be an array of associative arrays (e.g. results of {@link CDbCommand::queryAll}).
 	 * @param string the attribute name for list option values

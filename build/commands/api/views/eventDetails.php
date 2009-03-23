@@ -2,8 +2,7 @@
 <h2>Event Details</h2>
 <?php foreach($class->events as $event): ?>
 <?php if($event->isInherited) continue; ?>
-<a name="<?php echo $event->name; ?>"></a>
-<div class="detailHeader">
+<div class="detailHeader" id="<?php echo $event->name.'-detail'; ?>">
 <?php echo $event->name; ?>
 <span class="detailHeaderTag">
 event
