@@ -11,7 +11,7 @@
 /**
  * CStarRating displays a star rating control that can collect user rating input.
  *
- * CStarRating is based on {@link http://plugins.jquery.com/project/MultipleFriendlyStarRating jQuery Star Rating Plugin}.
+ * CStarRating is based on {@link http://www.fyneworks.com/jquery/star-rating/ jQuery Star Rating Plugin}.
  * It displays a list of stars indicating the rating values. Users can toggle these stars
  * to indicate their rating input. On the server side, when the rating input is submitted,
  * the value can be retrieved in the same way as working with a normal HTML input.
@@ -91,7 +91,7 @@ class CStarRating extends CInputWidget
 	/**
 	 * @var string Callback when the stars are clicked.
 	 */
-	public $click;
+	public $callback;
 
 
 	/**
@@ -194,12 +194,12 @@ class CStarRating extends CInputWidget
 			else
 				$options['blur']=$this->blur;
 		}
-		if($this->click!==null)
+		if($this->callback!==null)
 		{
-			if(strncmp($this->click,'js:',3))
-				$options['click']='js:'.$this->click;
+			if(strncmp($this->callback,'js:',3))
+				$options['callback']='js:'.$this->callback;
 			else
-				$options['click']=$this->click;
+				$options['callback']=$this->callback;
 		}
 		return $options;
 	}
