@@ -1,6 +1,6 @@
 <?php
 /**
- * This file contains the base application class and related classes.
+ * CApplication class file.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @link http://www.yiiframework.com/
@@ -50,7 +50,7 @@
  * @package system.base
  * @since 1.0
  */
-abstract class CApplication extends CComponent
+abstract class CApplication extends CModule
 {
 	/**
 	 * @var string the application name. Defaults to 'My Application'.
@@ -61,21 +61,10 @@ abstract class CApplication extends CComponent
 	 */
 	public $charset='UTF-8';
 	/**
-	 * @var array the IDs of the application components that should be preloaded.
-	 */
-	public $preload=array();
-	/**
 	 * @var string the language that the application is written in. This mainly refers to
 	 * the language that the messages and view files are in. Defaults to 'en_us' (US English).
 	 */
 	public $sourceLanguage='en_us';
-	/**
-	 * @var array the behaviors that should be attached to the application.
-	 * The behaviors will be attached to the application when {@link init} is called.
-	 * Please refer to {@link CModel::behaviors} on how to specify the value of this property.
-	 * @since 1.0.2
-	 */
-	public $behaviors=array();
 
 	private $_id;
 	private $_basePath;
@@ -83,9 +72,6 @@ abstract class CApplication extends CComponent
 	private $_extensionPath;
 	private $_globalState;
 	private $_stateChanged;
-	private $_params;
-	private $_components=array();
-	private $_componentConfig=array();
 	private $_ended=false;
 	private $_language;
 
@@ -109,6 +95,7 @@ abstract class CApplication extends CComponent
 	{
 		Yii::setApplication($this);
 
+		// set basePath at early as possible to avoid trouble
 		if(is_string($config))
 			$config=require($config);
 		if(isset($config['basePath']))
@@ -125,68 +112,14 @@ abstract class CApplication extends CComponent
 
 		$this->initSystemHandlers();
 		$this->registerCoreComponents();
+
 		$this->configure($config);
+		$this->attachBehaviors($this->behaviors);
+		$this->preloadComponents();
 
 		$this->init();
 	}
 
-	/**
-	 * Preinitializes the application.
-	 * This method is called at the beginning of the application constructor.
-	 * You may override this method to do some customized preinitialization work.
-	 * Note that at this moment, core application components are not registered yet.
-	 * @since 1.0.4
-	 * @see init
-	 */
-	protected function preinit()
-	{
-	}
-
-	/**
-	 * Initializes the application.
-	 * This method is invoked right after the application is configured.
-	 * The default implementation will load static components.
-	 * If you override this method, make sure the parent implementation is called.
-	 * Note that at this moment, core application components have been registered
-	 * and static components have been created.
-	 * @see preinit
-	 */
-	protected function init()
-	{
-		$this->attachBehaviors($this->behaviors);
-		$this->preloadComponents();
-	}
-
-	/**
-	 * Getter magic method.
-	 * This method is overridden to support accessing application components
-	 * like reading application properties.
-	 * @param string application component or property name
-	 * @return mixed the named property value
-	 */
-	public function __get($name)
-	{
-		if($this->hasComponent($name))
-			return $this->getComponent($name);
-		else
-			return parent::__get($name);
-	}
-
-	/**
-	 * Checks if a property value is null.
-	 * This method overrides the parent implementation by checking
-	 * if the named application component is loaded.
-	 * @param string the property name or the event name
-	 * @return boolean whether the property value is null
-	 * @since 1.0.1
-	 */
-	public function __isset($name)
-	{
-		if($this->hasComponent($name))
-			return $this->getComponent($name)!==null;
-		else
-			return parent::__isset($name);
-	}
 
 	/**
 	 * Runs the application.
@@ -312,16 +245,6 @@ abstract class CApplication extends CComponent
 			return $this->_extensionPath;
 		else
 			return $this->_extensionPath=$this->getBasePath().DIRECTORY_SEPARATOR.'extensions';
-	}
-
-	/**
-	 * Sets the aliases that are used in the application.
-	 * @param array list of aliases to be imported
-	 */
-	public function setImport($aliases)
-	{
-		foreach($aliases as $alias)
-			Yii::import($alias);
 	}
 
 	/**
@@ -461,27 +384,6 @@ abstract class CApplication extends CComponent
 	public function getMessages()
 	{
 		return $this->getComponent('messages');
-	}
-
-	/**
-	 * @return CAttributeCollection the list of application parameters
-	 */
-	public function getParams()
-	{
-		if($this->_params!==null)
-			return $this->_params;
-		else
-			return $this->_params=new CAttributeCollection;
-	}
-
-	/**
-	 * @param mixed application parameters. This can be either an array or CAttributeCollection object.
-	 */
-	public function setParams($value)
-	{
-		$params=$this->getParams();
-		foreach($value as $k=>$v)
-			$params->add($k,$v);
 	}
 
 	/**
@@ -733,71 +635,6 @@ abstract class CApplication extends CComponent
 	}
 
 	/**
-	 * @param string application component ID
-	 * @return boolean whether the named application component exists (including both loaded and disabled.)
-	 */
-	public function hasComponent($id)
-	{
-		return isset($this->_components[$id]) || isset($this->_componentConfig[$id]);
-	}
-
-	/**
-	 * Retrieves the named application component.
-	 * @param string application component ID (case-sensitive)
-	 * @return IApplicationComponent the application component instance, null if the application component is disabled or does not exist.
-	 * @see hasComponent
-	 */
-	public function getComponent($id)
-	{
-		if(isset($this->_components[$id]))
-			return $this->_components[$id];
-		else if(isset($this->_componentConfig[$id]))
-		{
-			$config=$this->_componentConfig[$id];
-			unset($this->_componentConfig[$id]);
-			if(!isset($config['enabled']) || $config['enabled'])
-			{
-				Yii::trace("Loading \"$id\" application component",'system.base.CApplication');
-				unset($config['enabled']);
-				$component=Yii::createComponent($config);
-				$component->init();
-				return $this->_components[$id]=$component;
-			}
-		}
-	}
-
-	/**
-	 * Puts a component under the management of the application.
-	 * The component will be initialized (by calling its {@link CApplicationComponent::init() init()}
-	 * method if it has not done so.
-	 * @param string component ID
-	 * @param IApplicationComponent the component
-	 */
-	public function setComponent($id,$component)
-	{
-		$this->_components[$id]=$component;
-		if(!$component->getIsInitialized())
-			$component->init();
-	}
-
-	/**
-	 * Configures the application with the specified configuration.
-	 * @param mixed application configuration.
-	 * If a string, it is treated as the path of the file that contains the configuration;
-	 * If an array, it is the actual configuration information.
-	 * Please make sure you specify the {@link getBasePath basePath} property in the configuration,
-	 * which should point to the root directory containing all application logic, template and data.
-	 */
-	public function configure($config)
-	{
-		if(is_array($config))
-		{
-			foreach($config as $key=>$value)
-				$this->$key=$value;
-		}
-	}
-
-	/**
 	 * Initializes the class autoloader and error handlers.
 	 */
 	protected function initSystemHandlers()
@@ -838,137 +675,5 @@ abstract class CApplication extends CComponent
 		);
 
 		$this->setComponents($components);
-	}
-
-	/**
-	 * Loads static application components.
-	 */
-	protected function preloadComponents()
-	{
-		foreach($this->preload as $id)
-			$this->getComponent($id);
-	}
-
-	/**
-	 * @return array the currently loaded components (indexed by their IDs)
-	 */
-	public function getComponents()
-	{
-		return $this->_components;
-	}
-
-	/**
-	 * Sets the application components.
-	 *
-	 * When a configuration is used to specify a component, it should consist of
-	 * the component's initial property values (name-value pairs). Additionally,
-	 * a component can be enabled (default) or disabled by specifying the 'enabled' value
-	 * in the configuration.
-	 *
-	 * If a configuration is specified with an ID that is the same as an existing
-	 * component or configuration, the existing one will be replaced silently.
-	 *
-	 * The following is the configuration for two components:
-	 * <pre>
-	 * array(
-	 *     'db'=>array(
-	 *         'class'=>'CDbConnection',
-	 *         'connectionString'=>'sqlite:path/to/file.db',
-	 *     ),
-	 *     'cache'=>array(
-	 *         'class'=>'CDbCache',
-	 *         'connectionID'=>'db',
-	 *         'enabled'=>!YII_DEBUG,  // enable caching in non-debug mode
-	 *     ),
-	 * )
-	 * </pre>
-	 *
-	 * @param array application components(id=>component configuration or instances)
-	 */
-	public function setComponents($components)
-	{
-		foreach($components as $id=>$component)
-		{
-			if($component instanceof IApplicationComponent)
-				$this->setComponent($id,$component);
-			else if(isset($this->_componentConfig[$id]))
-				$this->_componentConfig[$id]=CMap::mergeArray($this->_componentConfig[$id],$component);
-			else
-				$this->_componentConfig[$id]=$component;
-		}
-	}
-}
-
-
-/**
- * CExceptionEvent represents the parameter for the {@link CApplication::onException onException} event.
- *
- * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
- * @package system.base
- * @since 1.0
- */
-class CExceptionEvent extends CEvent
-{
-	/**
-	 * @var CException the exception that this event is about.
-	 */
-	public $exception;
-
-	/**
-	 * Constructor.
-	 * @param mixed sender of the event
-	 * @param CException the exception
-	 */
-	public function __construct($sender,$exception)
-	{
-		$this->exception=$exception;
-		parent::__construct($sender);
-	}
-}
-
-
-/**
- * CErrorEvent represents the parameter for the {@link CApplication::onError onError} event.
- *
- * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id$
- * @package system.base
- * @since 1.0
- */
-class CErrorEvent extends CEvent
-{
-	/**
-	 * @var string error code
-	 */
-	public $code;
-	/**
-	 * @var string error message
-	 */
-	public $message;
-	/**
-	 * @var string error message
-	 */
-	public $file;
-	/**
-	 * @var string error file
-	 */
-	public $line;
-
-	/**
-	 * Constructor.
-	 * @param mixed sender of the event
-	 * @param string error code
-	 * @param string error message
-	 * @param string error file
-	 * @param integer error line
-	 */
-	public function __construct($sender,$code,$message,$file,$line)
-	{
-		$this->code=$code;
-		$this->message=$message;
-		$this->file=$file;
-		$this->line=$line;
-		parent::__construct($sender);
 	}
 }

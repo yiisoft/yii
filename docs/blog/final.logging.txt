@@ -1,7 +1,7 @@
 Logging Errors
 ==============
 
-A production Web application often needs sophisticated logging for various events. In our blog application, we would like to log the errors occurring when it is being used. Such errors could be programming mistakes or users' misuage of the system. Logging these errors will help us to improve the blog application.
+A production Web application often needs sophisticated logging for various events. In our blog application, we would like to log the errors occurring when it is being used. Such errors could be programming mistakes or users' misuse of the system. Logging these errors will help us to improve the blog application.
 
 We enable the error logging by modifying the [application configuration](http://www.yiiframework.com/doc/guide/basics.application#application-configuration) as follows,
 

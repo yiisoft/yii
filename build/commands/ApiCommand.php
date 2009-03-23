@@ -75,6 +75,7 @@ EOD;
 				'/web/js',
 				'/web/widgets/views',
 				'/utils/mimeTypes.php',
+				'/toolkit',
 			),
 		);
 		$this->pageTitle='Yii Framework Class Reference';
@@ -237,7 +238,7 @@ EOD;
 		if($text===null)
 			$text=$subject;
 		if(isset($this->classes[$type]))
-			return '{{'.$type.'::'.$subject.'|'.$text.'}}';
+			return '{{'.$type.'::'.$subject.'-detail'.'|'.$text.'}}';
 		else
 			return $text;
 	}
@@ -279,7 +280,7 @@ EOD;
 			if($className==='index')
 				return "<a href=\"/doc/api/#{$method}\">{$matches[2]}</a>";
 			else
-				return "<a href=\"/doc/api/{$className}#{$method}\">{$matches[2]}</a>";
+				return "<a href=\"/doc/api/{$className}#{$method}-detail\">{$matches[2]}</a>";
 		}
 		else
 		{

@@ -40,7 +40,7 @@ Cross-site Request Forgery Prevention
 -------------------------------------
 
 Cross-Site Request Forgery (CSRF) attacks occur when a
-malicious web site causes a user’s web browser to perform
+malicious web site causes a user's web browser to perform
 an unwanted action on a trusted site. For example, a malicious
 web site has a page that contains an image tag whose `src` points
 to a banking site: `http://bank.example/withdraw?transfer=10000&to=someone`.

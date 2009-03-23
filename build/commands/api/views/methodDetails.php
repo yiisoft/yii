@@ -3,8 +3,7 @@
 
 <?php foreach($class->methods as $method): ?>
 <?php if($method->isInherited) continue; ?>
-<a name="<?php echo $method->name; ?>"></a>
-<div class="detailHeader">
+<div class="detailHeader" id="<?php echo $method->name.'-detail'; ?>">
 <?php echo $method->name; ?>()
 <span class="detailHeaderTag">
 method

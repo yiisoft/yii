@@ -35,7 +35,14 @@ Version 1.0.4 to be released
 - New: Added SQL Server support for Active Record (Christophe)
 - New: Added support for performing statistical query with Active Record (Qiang)
 - New: Added CHtml::beginForm and endForm (Qiang)
-- New: Added CApplication::preinit (Qiang)
+- New: Added 'controllers' option to access control (Qiang)
+- New: Added CContentDecorator.data property (Qiang)
+- New: Refactored application and module code (Qiang)
+- New: Added HTTP status code parameter to CHttpRequest::redirect (Qiang)
+- New: Added beforeControllerAction and afterControllerAction to CWebApplication and CWebModule (Qiang)
+- New: Added 'checkAll' option to CHtml::checkBoxList and CHtml::activeCheckBoxList (Qiang)
+- New: Added CHtml::encodeArray() (Qiang)
+- New: Added case-sensitivity parameter to CDbCommandBuilder::createSearchCondition (Qiang)
 
 
 Version 1.0.3 March 1, 2009
