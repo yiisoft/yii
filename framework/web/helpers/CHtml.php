@@ -72,6 +72,32 @@ class CHtml
 	}
 
 	/**
+	 * Encodes special characters in an array of strings into HTML entities.
+	 * Both the array keys and values will be encoded if needed.
+	 * If a value is an array, this method will also encode it recursively.
+	 * The {@link CApplication::charset application charset} will be used for encoding.
+	 * @param array data to be encoded
+	 * @return array the encoded data
+	 * @see http://www.php.net/manual/en/function.htmlspecialchars.php
+	 * @since 1.0.4
+	 */
+	public static function encodeArray($data)
+	{
+		$d=array();
+		foreach($data as $key=>$value)
+		{
+			if(is_string($key))
+				$key=htmlspecialchars($key,ENT_QUOTES,Yii::app()->charset);
+			if(is_string($value))
+				$value=htmlspecialchars($value,ENT_QUOTES,Yii::app()->charset);
+			else if(is_array($value))
+				$value=self::encodeArray($value);
+			$d[$key]=$value;
+		}
+		return $d;
+	}
+
+	/**
 	 * Generates an HTML element.
 	 * @param string the tag name
 	 * @param array the element attributes. The values will be HTML-encoded using {@link encode()}.
@@ -1280,6 +1306,8 @@ EOD;
 
 	/**
 	 * Generates the data suitable for {@link dropDownList} and {@link listBox}.
+	 * Note, this method does not HTML-encode the generated data. You may call {@link encodeArray} to
+	 * encode it if needed.
 	 * @param array a list of model objects. Starting from version 1.0.3, this parameter
 	 * can also be an array of associative arrays (e.g. results of {@link CDbCommand::queryAll}).
 	 * @param string the attribute name for list option values

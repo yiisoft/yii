@@ -38,6 +38,7 @@ Version 1.0.4 to be released
 - New: Added HTTP status code parameter to CHttpRequest::redirect (Qiang)
 - New: Added beforeControllerAction and afterControllerAction to CWebApplication and CWebModule (Qiang)
 - New: Added 'checkAll' option to CHtml::checkBoxList and CHtml::activeCheckBoxList (Qiang)
+- New: Added CHtml::encodeArray() (Qiang)
 
 
 Version 1.0.3 March 1, 2009
