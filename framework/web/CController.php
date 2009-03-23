@@ -791,7 +791,7 @@ class CController extends CBaseController
 			$route=isset($url[0]) ? $url[0] : '';
 			$url=$this->createUrl($route,array_splice($url,1));
 		}
-		Yii::app()->getRequest()->redirect($url,$terminate);
+		Yii::app()->getRequest()->redirect($url,$terminate,$statusCode);
 	}
 
 	/**
