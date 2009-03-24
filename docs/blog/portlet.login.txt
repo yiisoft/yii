@@ -36,7 +36,7 @@ The code in the `renderContent()`method is copied from the `actionLogin()` metho
 Creating `userLogin` View
 -------------------------
 
-The content of the `userLogin` view also comes largely from the `login` view for the `SiteController`'s `login` action. The view is saved in the file `/wwwroot/blog/protected/components/views/loginUser.php` and has the following content:
+The content of the `userLogin` view also comes largely from the `login` view for the `SiteController`'s `login` action. The view is saved in the file `/wwwroot/blog/protected/components/views/userLogin.php` and has the following content:
 
 ~~~
 [php]
