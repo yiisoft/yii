@@ -492,9 +492,10 @@ class CDbCommandBuilder extends CComponent
 	 * Generates the expression for searching the specified keywords within a list of columns.
 	 * The search expression is generated using the 'LIKE' SQL syntax.
 	 * Every word in the keywords must be present and appear in at least one of the columns.
+	 * @param mixed the table schema ({@link CDbTableSchema}) or the table name (string).
 	 * @param array list of column names for potential search condition.
 	 * @param mixed search keywords. This can be either a string with space-separated keywords or an array of keywords.
-	 * @param string column prefix (ended with dot). If null, it will be the table name
+	 * @param string optional column prefix (with dot at the end). If null, the table name will be used as the prefix.
 	 * @param boolean whether the search is case-sensitive. Defaults to true. This parameter
 	 * has been available since version 1.0.4.
 	 * @return string SQL search condition matching on a set of columns. An empty string is returned
