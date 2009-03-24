@@ -40,11 +40,11 @@ Version 1.0.4 to be released
 - New: Added HTTP status code parameter to CHttpRequest::redirect (Qiang)
 - New: Added beforeControllerAction and afterControllerAction to CWebApplication and CWebModule (Qiang)
 - New: Added 'checkAll' option to CHtml::checkBoxList and CHtml::activeCheckBoxList (Qiang)
-- New: Added CHtml::encodeArray() (Qiang)
+- New: Added CHtml::encodeArray() to allow HTML-encoding an array recursively (Qiang)
 - New: Added case-sensitivity parameter to CDbCommandBuilder::createSearchCondition (Qiang)
-- New: Added COutputCache.varyByExpression (Qiang)
-- New: Added CExpressionDependency (Qiang)
-- New: Added CAutoComplete.textArea (Qiang)
+- New: Added COutputCache.varyByExpression to allow variating cached content based on an expression value (Qiang)
+- New: Added CExpressionDependency to represent dependency based on an expression value (Qiang)
+- New: Added CAutoComplete.textArea to allow using it as a text area (Qiang)
 
 
 Version 1.0.3 March 1, 2009
