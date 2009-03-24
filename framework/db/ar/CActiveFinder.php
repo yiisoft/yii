@@ -640,7 +640,7 @@ class CJoinElement
 				else if(preg_match('/^(.*?)\s+AS\s+(\w+)$/i',$name,$matches)) // if the column is already aliased
 				{
 					$alias=$matches[2];
-					if(!isset($this->_columnAliases[$alias]))
+					if(!isset($this->_columnAliases[$alias]) || $this->_columnAliases[$alias]!==$alias)
 					{
 						$this->_columnAliases[$alias]=$alias;
 						$columns[]=$name;
