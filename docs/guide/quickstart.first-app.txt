@@ -138,6 +138,9 @@ CREATE TABLE User (
 );
 ~~~
 
+> Note: If you are using MySQL database, you should replace `AUTOINCREMENT`
+> with `AUTO_INCREMENT` in the above SQL.
+
 For simplicity, we only create a single `User` table in our database. The
 SQLite database file is saved as
 `WebRoot/testdrive/protected/data/source.db`. Note that both the file and the

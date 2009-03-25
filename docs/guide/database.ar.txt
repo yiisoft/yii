@@ -25,7 +25,8 @@ $post->save();
 In the following we describe how to set up AR and use it to perform CRUD
 operations. We will show how to use AR to deal with database relationships
 in the next section. For simplicity, we use the following database table
-for our examples in this section.
+for our examples in this section. Note that if you are using MySQL database,
+you should replace `AUTOINCREMENT` with `AUTO_INCREMENT` in the following SQL.
 
 ~~~
 [sql]

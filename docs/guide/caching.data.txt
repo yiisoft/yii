@@ -104,4 +104,8 @@ application. It is defined via [CApplication::setGlobalState()].
    - [CChainedCacheDependency]: the dependency is changed if any of the
 dependencies on the chain is changed.
 
+   - [CExpressionDependency]: the dependency is changed if the result of
+the specified PHP expression is changed. This class has been available
+since version 1.0.4.
+
 <div class="revision">$Id$</div>
