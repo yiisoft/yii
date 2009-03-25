@@ -21,6 +21,12 @@
 class CAutoComplete extends CInputWidget
 {
 	/**
+	 * @var boolean whether to show the autocomplete using a text area. Defaults to false,
+	 * meaning a text field is used.
+	 * @since 1.0.4
+	 */
+	public $textArea=false;
+	/**
 	 * @var array data that would be saved as client-side data to provide candidate selections.
 	 * Each array element can be string or an associative array.
 	 * The {@link url} property will be ignored if this property is set.
@@ -194,10 +200,17 @@ class CAutoComplete extends CInputWidget
 
 		$this->registerClientScript();
 
+
 		if($this->hasModel())
-			echo CHtml::activeTextField($this->model,$this->attribute,$this->htmlOptions);
+		{
+			$field=$this->textArea ? 'activeTextArea' : 'activeTextField';
+			echo CHtml::$field($this->model,$this->attribute,$this->htmlOptions);
+		}
 		else
-			echo CHtml::textField($name,$this->value,$this->htmlOptions);
+		{
+			$field=$this->textArea ? 'textArea' : 'textField';
+			echo CHtml::$field($name,$this->value,$this->htmlOptions);
+		}
 	}
 
 	/**

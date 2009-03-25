@@ -1052,7 +1052,10 @@ EOD;
 	public static function activeFileField($model,$attribute,$htmlOptions=array())
 	{
 		self::resolveNameID($model,$attribute,$htmlOptions);
-		return self::activeInputField('file',$model,$attribute,$htmlOptions);
+		// add a hidden field so that if a model only has a file field, we can
+		// still use isset($_POST[$modelClass]) to detect if the input is submitted
+		return self::hiddenField($htmlOptions['name'],'',array('id'=>self::ID_PREFIX.$htmlOptions['id']))
+			. self::activeInputField('file',$model,$attribute,$htmlOptions);
 	}
 
 	/**
@@ -1075,6 +1078,7 @@ EOD;
 		if($model->$attribute)
 			$htmlOptions['checked']='checked';
 		self::clientChange('click',$htmlOptions);
+		// add a hidden field so that if the radio button is not selected, it still submits a value
 		return self::hiddenField($htmlOptions['name'],$htmlOptions['value']?0:-1,array('id'=>self::ID_PREFIX.$htmlOptions['id']))
 			. self::activeInputField('radio',$model,$attribute,$htmlOptions);
 	}

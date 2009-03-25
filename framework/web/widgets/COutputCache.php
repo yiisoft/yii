@@ -52,6 +52,8 @@
  *   and uses the corresponding values to determine the version of the cached content.</li>
  * <li>{@link varyBySession}: this specifies whether the cached content
  *   should be varied with the user session.</li>
+ * <li>{@link varyByExpression}: this specifies whether the cached content
+ *   should be varied with the result of the specified PHP expression.</li>
  * </ul>
  * For more advanced variation, override {@link getBaseCacheKey()} method.
  *
@@ -85,10 +87,17 @@ class COutputCache extends CFilterWidget
 	public $varyBySession=false;
 	/**
 	 * @var array list of GET parameters that should participate in cache key calculation.
-	 * By setting this value, the output cache will use different cached data
+	 * By setting this property, the output cache will use different cached data
 	 * for each different set of GET parameter values.
 	 */
 	public $varyByParam;
+	/**
+	 * @var string a PHP expression whose result is used in the cache key calculation.
+	 * By setting this property, the output cache will use different cached data
+	 * for each different expression result.
+	 * @since 1.0.4
+	 */
+	public $varyByExpression;
 	/**
 	 * @var array list of request types (e.g. GET, POST) for which the cache should be enabled only.
 	 * Defaults to null, meaning all request types.
@@ -233,23 +242,20 @@ class COutputCache extends CFilterWidget
 			return $this->_key;
 		else
 		{
-			$key=$this->getBaseCacheKey();
+			$key=$this->getBaseCacheKey().':';
 			if($this->varyByRoute)
 			{
 				$controller=$this->getController();
-				$key.=$controller->getUniqueId().':';
+				$key.=$controller->getUniqueId().'/';
 				if(($action=$controller->getAction())!==null)
-					$key.=$action->getId().':';
-				else
-					$key.=':';
+					$key.=$action->getId();
 			}
-			else
-				$key.='::';
+			$key.=':';
 
 			if($this->varyBySession)
-				$key.=Yii::app()->getSession()->getSessionID().':';
-			else
-				$key.=':';
+				$key.=Yii::app()->getSession()->getSessionID();
+			$key.=':';
+
 			if(is_array($this->varyByParam) && isset($this->varyByParam[0]))
 			{
 				$params=array();
@@ -262,8 +268,19 @@ class COutputCache extends CFilterWidget
 				}
 				$key.=serialize($params);
 			}
+			$key.=':';
+
+			if($this->varyByExpression!==null)
+				$key.=$this->evaluateExpression($this->varyByExpression);
+			$key.=':';
+
 			return $this->_key=$key;
 		}
+	}
+
+	private function evaluateExpression($expression)
+	{
+		return @eval('return '.$expression.';');
 	}
 
 	/**
