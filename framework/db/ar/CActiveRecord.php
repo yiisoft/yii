@@ -576,6 +576,22 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Returns the primary key of the associated database table.
+	 * This method is meant to be overridden in case when the table is not defined with a primary key
+	 * (for some legency database). If the table is already defined with a primary key,
+	 * you do not need to override this method. The default implementation simply returns null,
+	 * meaning using the primary key defined in the database.
+	 * @return mixed the primary key of the associated database table.
+	 * If the key is a single column, it should return the column name;
+	 * If the key is a composite one consisting of several columns, it should
+	 * return the array of the key column names.
+	 * @since 1.0.4
+	 */
+	public function primaryKey()
+	{
+	}
+
+	/**
 	 * This method should be overridden to declare related objects.
 	 *
 	 * There are four types of relations that may exist between two active record objects:
@@ -1864,6 +1880,8 @@ class CActiveRecordMetaData
 		if(($table=$model->getDbConnection()->getSchema()->getTable($tableName))===null)
 			throw new CDbException(Yii::t('yii','The table "{table}" for active record class "{class}" cannot be found in the database.',
 				array('{class}'=>get_class($model),'{table}'=>$tableName)));
+		if($table->primaryKey===null)
+			$table->primaryKey=$model->primaryKey();
 		$this->tableSchema=$table;
 		$this->columns=$table->columns;
 
