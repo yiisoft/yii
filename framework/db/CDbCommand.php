@@ -281,6 +281,7 @@ class CDbCommand extends CComponent
 		}
 		catch(Exception $e)
 		{
+			Yii::log('Error in executing SQL: '.$this->getText(),CLogger::LEVEL_ERROR,'system.db.CDbCommand');
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
 				array('{error}'=>$e->getMessage())));
 		}
