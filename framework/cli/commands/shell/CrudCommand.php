@@ -39,9 +39,34 @@ DESCRIPTION
 
 PARAMETERS
  * model-class: required, the name of the data model class. This can
-   also be specified using dot syntax (e.g. application.models.Post)
- * controller-ID: optional, the controller ID (e.g. 'post', 'admin.user').
-   If absent, the model class name will be used as the ID.
+   also be specified as a path alias (e.g. application.models.Post).
+   If the model class belongs to a module, it should be specified
+   as 'ModuleID.models.ClassName'.
+
+ * controller-ID: optional, the controller ID (e.g. 'post').
+   If this is not specified, the model class name will be used
+   as the controller ID. In this case, if the model belongs to
+   a module, the controller will also be created under the same
+   module.
+
+   If the controller should be located under a subdirectory,
+   please specify the controller ID as 'path/to/ControllerID'
+   (e.g. 'admin/user').
+
+   If the controller belongs to a module (different from the module
+   that the model belongs to), please specify the controller ID
+   as 'ModuleID/ControllerID' or 'ModuleID/path/to/Controller'.
+
+EXAMPLES
+ * Generates CRUD for the Post model:
+        crud Post
+
+ * Generates CRUD for the Post model which belongs to module 'admin':
+        crud admin.models.Post
+
+ * Generates CRUD for the Post model. The generated controller should
+   belong to module 'admin', but not the model class:
+        crud Post admin/post
 
 EOD;
 	}
@@ -58,37 +83,59 @@ EOD;
 			echo $this->getHelp();
 			return;
 		}
+		$module=Yii::app();
 		$modelClass=$args[0];
-		if(strpos($modelClass,'.')===false)
+		if(($pos=strpos($modelClass,'.'))===false)
 			$modelClass='application.models.'.$modelClass;
+		else
+		{
+			$id=substr($modelClass,0,$pos);
+			if(($m=Yii::app()->getModule($id))!==null)
+				$module=$m;
+		}
 		$modelClass=Yii::import($modelClass);
 
 		if(isset($args[1]))
 		{
 			$controllerID=$args[1];
-			if(($pos=strrpos($controllerID,'.'))===false)
+			if(($pos=strrpos($controllerID,'/'))===false)
 			{
 				$controllerClass=ucfirst($controllerID).'Controller';
-				$controllerFile=Yii::app()->controllerPath.DIRECTORY_SEPARATOR.$controllerClass.'.php';
+				$controllerFile=$module->controllerPath.DIRECTORY_SEPARATOR.$controllerClass.'.php';
 				$controllerID[0]=strtolower($controllerID[0]);
 			}
 			else
 			{
-				$controllerClass=ucfirst(substr($controllerID,$pos+1)).'Controller';
-				$controllerFile=Yii::app()->controllerPath.DIRECTORY_SEPARATOR.str_replace('.',DIRECTORY_SEPARATOR,substr($controllerID,0,$pos)).DIRECTORY_SEPARATOR.$controllerClass.'.php';
-				$controllerID[$pos+1]=strtolower($controllerID[$pos+1]);
+				$last=substr($controllerID,$pos+1);
+				$last[0]=strtolower($last);
+				$pos2=strpos($controllerID,'/');
+				$first=substr($controllerID,0,$pos2);
+				$middle=$pos===$pos2?'':substr($controllerID,$pos2+1,$pos-$pos2);
+
+				$controllerClass=ucfirst($last).'Controller';
+				$controllerFile=($middle===''?'':$middel.'/').$controllerClass.'.php';
+				$controllerID=$middle===''?$last:$middel.'/'.$last;
+				if(($m=Yii::app()->getModule($first))!==null)
+					$module=$m;
+				else
+				{
+					$controllerFile=$first.'/'.$controllerClass;
+					$controllerID=$first.'/'.$controllerID;
+				}
+
+				$controllerFile=$module->controllerPath.DIRECTORY_SEPARATOR.str_replace('/',DIRECTORY_SEPARATOR,$controllerFile);
 			}
 		}
 		else
 		{
 			$controllerID=$modelClass;
 			$controllerClass=ucfirst($controllerID).'Controller';
-			$controllerFile=Yii::app()->controllerPath.DIRECTORY_SEPARATOR.$controllerClass.'.php';
+			$controllerFile=$module->controllerPath.DIRECTORY_SEPARATOR.$controllerClass.'.php';
 			$controllerID[0]=strtolower($controllerID[0]);
 		}
 
 		$templatePath=$this->templatePath===null?YII_PATH.'/cli/views/shell/crud':$this->templatePath;
-		$viewPath=Yii::app()->viewPath.DIRECTORY_SEPARATOR.str_replace('.',DIRECTORY_SEPARATOR,$controllerID);
+		$viewPath=$module->viewPath.DIRECTORY_SEPARATOR.str_replace('.',DIRECTORY_SEPARATOR,$controllerID);
 		$list=array(
 			basename($controllerFile)=>array(
 				'source'=>$templatePath.'/controller.php',
@@ -110,8 +157,13 @@ EOD;
 
 		$this->copyFiles($list);
 
+		if($module instanceof CWebModule)
+			$moduleID=$module->id.'/';
+		else
+			$moduleID='';
+
 		echo "\nCrud '{$controllerID}' has been successfully created. You may access it via:\n";
-		echo "http://hostname/path/to/index.php?r={$controllerID}\n";
+		echo "http://hostname/path/to/index.php?r={$moduleID}{$controllerID}\n";
 	}
 
 	public function generateController($source,$params)

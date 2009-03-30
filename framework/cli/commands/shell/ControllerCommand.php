@@ -36,9 +36,38 @@ DESCRIPTION
   the specified actions.
 
 PARAMETERS
- * controller-ID: required, controller ID (e.g. 'post', 'admin/user')
+ * controller-ID: required, controller ID, e.g., 'post'.
+   If the controller should be located under a subdirectory,
+   please specify the controller ID as 'path/to/ControllerID',
+   e.g., 'admin/user'.
+
+   If the controller belongs to a module, please specify
+   the controller ID as 'ModuleID/ControllerID' or
+   'ModuleID/path/to/Controller' (assuming the controller is
+   under a subdirectory of that module).
+
  * action-ID: optional, action ID. You may supply one or several
    action IDs. A default 'index' action will always be generated.
+
+EXAMPLES
+ * Generates the 'post' controller:
+        controller post
+
+ * Generates the 'post' controller with additional actions 'contact'
+   and 'about':
+        controller post contact about
+
+ * Generates the 'post' controller which should be located under
+   the 'admin' subdirectory of the base controller path:
+        controller admin/post
+
+ * Generates the 'post' controller which should belong to
+   the 'admin' module:
+        controller admin/post
+
+NOTE: in the last two examples, the commands are the same, but
+the generated controller file is located under different directories.
+Yii is able to detect whether 'admin' refers to a module or a subdirectory.
 
 EOD;
 	}
@@ -56,18 +85,34 @@ EOD;
 			return;
 		}
 
+		$module=Yii::app();
 		$controllerID=$args[0];
 		if(($pos=strrpos($controllerID,'/'))===false)
 		{
 			$controllerClass=ucfirst($controllerID).'Controller';
-			$controllerFile=Yii::app()->controllerPath.DIRECTORY_SEPARATOR.$controllerClass.'.php';
+			$controllerFile=$module->controllerPath.DIRECTORY_SEPARATOR.$controllerClass.'.php';
 			$controllerID[0]=strtolower($controllerID[0]);
 		}
 		else
 		{
-			$controllerClass=ucfirst(substr($controllerID,$pos+1)).'Controller';
-			$controllerFile=Yii::app()->controllerPath.DIRECTORY_SEPARATOR.str_replace('/',DIRECTORY_SEPARATOR,substr($controllerID,0,$pos)).DIRECTORY_SEPARATOR.$controllerClass.'.php';
-			$controllerID[$pos+1]=strtolower($controllerID[$pos+1]);
+			$last=substr($controllerID,$pos+1);
+			$last[0]=strtolower($last);
+			$pos2=strpos($controllerID,'/');
+			$first=substr($controllerID,0,$pos2);
+			$middle=$pos===$pos2?'':substr($controllerID,$pos2+1,$pos-$pos2);
+
+			$controllerClass=ucfirst($last).'Controller';
+			$controllerFile=($middle===''?'':$middel.'/').$controllerClass.'.php';
+			$controllerID=$middle===''?$last:$middel.'/'.$last;
+			if(($m=Yii::app()->getModule($first))!==null)
+				$module=$m;
+			else
+			{
+				$controllerFile=$first.'/'.$controllerClass;
+				$controllerID=$first.'/'.$controllerID;
+			}
+
+			$controllerFile=$module->controllerPath.DIRECTORY_SEPARATOR.str_replace('/',DIRECTORY_SEPARATOR,$controllerFile);
 		}
 
 		$args[]='index';
@@ -84,7 +129,7 @@ EOD;
 			),
 		);
 
-		$viewPath=Yii::app()->viewPath.DIRECTORY_SEPARATOR.str_replace('/',DIRECTORY_SEPARATOR,$controllerID);
+		$viewPath=$module->viewPath.DIRECTORY_SEPARATOR.str_replace('/',DIRECTORY_SEPARATOR,$controllerID);
 		foreach($actions as $name)
 		{
 			$list[$name.'.php']=array(
@@ -95,13 +140,18 @@ EOD;
 
 		$this->copyFiles($list);
 
+		if($module instanceof CWebModule)
+			$moduleID=$module->id.'/';
+		else
+			$moduleID='';
+
 		echo <<<EOD
 
 Controller '{$controllerID}' has been created in the following file:
     $controllerFile
 
 You may access it in the browser using the following URL:
-    http://hostname/path/to/index.php?r={$controllerID}
+    http://hostname/path/to/index.php?r={$moduleID}{$controllerID}
 
 EOD;
 	}
