@@ -225,7 +225,7 @@ class CActiveFinder extends CComponent
 				if($relation instanceof CStatRelation)
 					return new CStatElement($this,$relation,$parent);
 				else
-					return new CJoinElement($this,$relation,$parent,++$this->_joinCount);
+					return $parent->children[$with]=new CJoinElement($this,$relation,$parent,++$this->_joinCount);
 			}
 			else
 				throw new CDbException(Yii::t('yii','Relation "{name}" is not defined in active record class "{class}".',
@@ -316,7 +316,6 @@ class CJoinElement
 		{
 			$this->relation=$relation;
 			$this->_parent=$parent;
-			$parent->children[]=$this;
 			$this->_builder=$parent->_builder;
 			$this->tableAlias=$relation->alias===null?'t'.$id:$relation->alias;
 			$this->model=CActiveRecord::model($relation->className);

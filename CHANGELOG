@@ -24,6 +24,7 @@ Version 1.0.4 to be released
 - Bug: CWebUser::hasState does not return consistent result (Qiang)
 - Bug: A module layout in a theme cannot be applied (Qiang)
 - Bug: Enabling both CSRF prevention and theming may cause a PHP error (Qiang)
+- Bug: Eager loading in RAR may join the same table twice in some cases (Qiang)
 - New #171: Added version info to yiic help output (Qiang)
 - New #172: Added eAccelerator cache driver (Steffen)
 - New #195: Added CModel::scenario property (Qiang)
