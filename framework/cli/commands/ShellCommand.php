@@ -80,6 +80,26 @@ EOD;
 		$this->runShell();
 	}
 
+	/**
+	 * Reads input via the readline PHP extension if that's available, or fgets() if readline is not installed.
+	 * @param string prompt to echo out before waiting for user input
+	 * @return mixed line read as a string, or false if input has been closed
+	 */
+	protected function readline($prompt)
+	{
+		if (extension_loaded('readline'))
+		{
+			$input = readline($prompt);
+			readline_add_history($input);
+			return $input;
+		}
+		else
+		{
+			echo $prompt;
+			return fgets(STDIN);
+		}
+	}
+
 	protected function runShell()
 	{
 		$_runner_=new CConsoleCommandRunner;
@@ -87,8 +107,7 @@ EOD;
 		$_runner_->addCommands(Yii::getPathOfAlias('application.commands.shell'));
 		$_commands_=$_runner_->commands;
 
-		echo "\n>> ";
-		while(($_line_=fgets(STDIN))!==false)
+		while(($_line_=$this->readline("\n>> "))!==false)
 		{
 			$_line_=trim($_line_);
 			try
@@ -110,8 +129,6 @@ EOD;
 				else
 					echo $e;
 			}
-
-			echo "\n>> ";
 		}
 	}
 }
