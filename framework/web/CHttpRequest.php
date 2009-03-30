@@ -113,6 +113,52 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the named GET or POST parameter value.
+	 * If the GET or POST parameter does not exist, the second parameter to this method will be returned.
+	 * If both GET and POST contains such a named parameter, the GET parameter takes precedence.
+	 * @param string the GET parameter name
+	 * @param mixed the default parameter value if the GET parameter does not exist.
+	 * @return mixed the GET parameter value
+	 * @since 1.0.4
+	 * @see getQuery
+	 * @see getPost
+	 */
+	public function getParam($name,$defaultValue=null)
+	{
+		return isset($_GET[$name]) ? $_GET[$name] : (isset($_POST[$name]) ? $_POST[$name] : $defaultValue);
+	}
+
+	/**
+	 * Returns the named GET parameter value.
+	 * If the GET parameter does not exist, the second parameter to this method will be returned.
+	 * @param string the GET parameter name
+	 * @param mixed the default parameter value if the GET parameter does not exist.
+	 * @return mixed the GET parameter value
+	 * @since 1.0.4
+	 * @see getPost
+	 * @see getParam
+	 */
+	public function getQuery($name,$defaultValue=null)
+	{
+		return isset($_GET[$name]) ? $_GET[$name] : $defaultValue;
+	}
+
+	/**
+	 * Returns the named POST parameter value.
+	 * If the POST parameter does not exist, the second parameter to this method will be returned.
+	 * @param string the POST parameter name
+	 * @param mixed the default parameter value if the POST parameter does not exist.
+	 * @return mixed the POST parameter value
+	 * @since 1.0.4
+	 * @see getParam
+	 * @see getQuery
+	 */
+	public function getPost($name,$defaultValue=null)
+	{
+		return isset($_POST[$name]) ? $_POST[$name] : $defaultValue;
+	}
+
+	/**
 	 * @return string part of the request URL after the host info.
 	 * It consists of the following parts:
 	 * <ul>
