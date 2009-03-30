@@ -51,7 +51,7 @@ class CEmailValidator extends CValidator
 		$value=$object->$attribute;
 		if($this->allowEmpty && ($value===null || $value===''))
 			return;
-		if($valid=preg_match($this->pattern,$value)
+		if($valid=preg_match($this->pattern,$value))
 			$domain=substr($value,strpos($value,'@')+1);
 		if($valid && $this->checkMX && function_exists('checkdnsrr'))
 			$valid=checkdnsrr($domain,'MX');
