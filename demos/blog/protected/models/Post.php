@@ -118,14 +118,17 @@ class Post extends CActiveRecord
 		if(!$this->isNewRecord)
 			$this->dbConnection->createCommand('DELETE FROM PostTag WHERE postId='.$this->id)->execute();
 
-		foreach($this->getTagArray() as $name)
+		if($this->status==self::STATUS_PUBLISHED)
 		{
-			if(($tag=Tag::model()->findByAttributes(array('name'=>$name)))===null)
+			foreach($this->getTagArray() as $name)
 			{
-				$tag=new Tag(array('name'=>$name));
-				$tag->save();
+				if(($tag=Tag::model()->findByAttributes(array('name'=>$name)))===null)
+				{
+					$tag=new Tag(array('name'=>$name));
+					$tag->save();
+				}
+				$this->dbConnection->createCommand("INSERT INTO PostTag (postId, tagId) VALUES ({$this->id},{$tag->id})")->execute();
 			}
-			$this->dbConnection->createCommand("INSERT INTO PostTag (postId, tagId) VALUES ({$this->id},{$tag->id})")->execute();
 		}
 	}
 
