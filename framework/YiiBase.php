@@ -541,6 +541,7 @@ class YiiBase
 		'CCompareValidator' => '/validators/CCompareValidator.php',
 		'CDefaultValueValidator' => '/validators/CDefaultValueValidator.php',
 		'CEmailValidator' => '/validators/CEmailValidator.php',
+		'CExistValidator' => '/validators/CExistValidator.php',
 		'CFileValidator' => '/validators/CFileValidator.php',
 		'CFilterValidator' => '/validators/CFilterValidator.php',
 		'CInlineValidator' => '/validators/CInlineValidator.php',

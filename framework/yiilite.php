@@ -325,6 +325,7 @@ class YiiBase
 		'CCompareValidator' => '/validators/CCompareValidator.php',
 		'CDefaultValueValidator' => '/validators/CDefaultValueValidator.php',
 		'CEmailValidator' => '/validators/CEmailValidator.php',
+		'CExistValidator' => '/validators/CExistValidator.php',
 		'CFileValidator' => '/validators/CFileValidator.php',
 		'CFilterValidator' => '/validators/CFilterValidator.php',
 		'CInlineValidator' => '/validators/CInlineValidator.php',
@@ -1044,10 +1045,10 @@ abstract class CApplication extends CModule
 	{
 		if($this->_globalState===null)
 			$this->loadGlobalState();
-		if(isset($this->_globals[$key]))
+		if(isset($this->_globalState[$key]))
 		{
 			$this->_stateChanged=true;
-			unset($this->_globals[$key]);
+			unset($this->_globalState[$key]);
 		}
 	}
 	protected function loadGlobalState()
@@ -1360,10 +1361,10 @@ class CWebApplication extends CApplication
 				if(($module=$owner->getModule($id))!==null)
 					return $this->createController($route,$module);
 				$basePath=$owner->getControllerPath();
-				$controllerID=$id;
+				$controllerID='';
 			}
 			else
-				$controllerID.='/'.$id;
+				$controllerID.='/';
 			$className=ucfirst($id).'Controller';
 			$classFile=$basePath.DIRECTORY_SEPARATOR.$className.'.php';
 			if(is_file($classFile))
@@ -1372,13 +1373,15 @@ class CWebApplication extends CApplication
 					require($classFile);
 				if(class_exists($className,false) && is_subclass_of($className,'CController'))
 				{
+					$id[0]=strtolower($id[0]);
 					return array(
-						new $className($controllerID,$owner===$this?null:$owner),
+						new $className($controllerID.$id,$owner===$this?null:$owner),
 						$this->parseActionParams($route),
 					);
 				}
 				return null;
 			}
+			$controllerID.=$id;
 			$basePath.=DIRECTORY_SEPARATOR.$id;
 		}
 	}
@@ -1753,6 +1756,18 @@ class CHttpRequest extends CApplicationComponent
 	public function stripSlashes(&$data)
 	{
 		return is_array($data)?array_map(array($this,'stripSlashes'),$data):stripslashes($data);
+	}
+	public function getParam($name,$defaultValue=null)
+	{
+		return isset($_GET[$name]) ? $_GET[$name] : (isset($_POST[$name]) ? $_POST[$name] : $defaultValue);
+	}
+	public function getQuery($name,$defaultValue=null)
+	{
+		return isset($_GET[$name]) ? $_GET[$name] : $defaultValue;
+	}
+	public function getPost($name,$defaultValue=null)
+	{
+		return isset($_POST[$name]) ? $_POST[$name] : $defaultValue;
 	}
 	public function getUrl()
 	{
@@ -2422,6 +2437,7 @@ abstract class CBaseController extends CComponent
 	{
 		$widget=$this->createWidget($className,$properties);
 		$widget->run();
+		return $widget;
 	}
 	public function beginWidget($className,$properties=array())
 	{
@@ -3795,7 +3811,13 @@ EOD;
 	public static function activeLabel($model,$attribute,$htmlOptions=array())
 	{
 		$for=self::getIdByName(self::resolveName($model,$attribute));
-		$label=$model->getAttributeLabel($attribute);
+		if(isset($htmlOptions['label']))
+		{
+			$label=$htmlOptions['label'];
+			unset($htmlOptions['label']);
+		}
+		else
+			$label=$model->getAttributeLabel($attribute);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
 		return self::label($label,$for,$htmlOptions);
@@ -4986,8 +5008,6 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	}
 	public function isAttributeRequired($attribute,$scenario='')
 	{
-		if($scenario==='')
-			$scenario=$this->getScenario();
 		$validators=$this->getValidatorsForAttribute($attribute,$scenario);
 		foreach($validators as $validator)
 		{
@@ -5255,6 +5275,9 @@ abstract class CActiveRecord extends CModel
 	public function tableName()
 	{
 		return get_class($this);
+	}
+	public function primaryKey()
+	{
 	}
 	public function relations()
 	{
@@ -5797,6 +5820,8 @@ class CActiveRecordMetaData
 		if(($table=$model->getDbConnection()->getSchema()->getTable($tableName))===null)
 			throw new CDbException(Yii::t('yii','The table "{table}" for active record class "{class}" cannot be found in the database.',
 				array('{class}'=>get_class($model),'{table}'=>$tableName)));
+		if($table->primaryKey===null)
+			$table->primaryKey=$model->primaryKey();
 		$this->tableSchema=$table;
 		$this->columns=$table->columns;
 		foreach($table->columns as $name=>$column)
@@ -6397,6 +6422,7 @@ class CDbCommand extends CComponent
 		}
 		catch(Exception $e)
 		{
+			Yii::log('Error in executing SQL: '.$this->getText(),CLogger::LEVEL_ERROR,'system.db.CDbCommand');
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
 				array('{error}'=>$e->getMessage())));
 		}

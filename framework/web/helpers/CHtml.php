@@ -968,7 +968,7 @@ EOD;
 	 * @param CModel the data model
 	 * @param string the attribute
 	 * @param array additional HTML attributes. A special option named
-	 * 'label' is recognized. If this option is specified, it will be used
+	 * 'label' is recognized since version 1.0.4. If this option is specified, it will be used
 	 * as the label. Otherwise, the label will be determined
 	 * by calling {@link CModel::getAttributeLabel}.
 	 * @return string the generated label tag

@@ -59,7 +59,7 @@ class CUniqueValidator extends CValidator
 		{
 			// need to exclude the current record based on PK
 			$criteria['limit']=2;
-			$objects=$object->findAll($criteria);
+			$objects=CActiveRecord::model(get_class($object))->findAll($criteria);
 			$n=count($objects);
 			if($n===1)
 				$exists=$objects[0]->getPrimaryKey()!=$object->getPrimaryKey();

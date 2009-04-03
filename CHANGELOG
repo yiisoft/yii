@@ -56,6 +56,7 @@ Version 1.0.4 to be released
 - New: Added CAutoComplete.textArea to allow using it as a text area (Qiang)
 - New: Added support to allow using AR when a table has no primary key defined (Qiang)
 - New: Added support to CAPTCHA widget so that it can use captcha defined in other controllers (Qiang)
+- New: Added CExistValidator (Qiang)
 
 
 Version 1.0.3 March 1, 2009
