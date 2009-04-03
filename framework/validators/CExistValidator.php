@@ -39,11 +39,6 @@ class CExistValidator extends CValidator
 	 */
 	public $attributeName;
 	/**
-	 * @var boolean whether the comparison is case sensitive. Defaults to true.
-	 * Note, by setting it to false, you are assuming the attribute type is string.
-	 */
-	public $caseSensitive=true;
-	/**
 	 * @var boolean whether the attribute value can be null or empty. Defaults to true,
 	 * meaning that if the attribute is empty, it is considered valid.
 	 */
