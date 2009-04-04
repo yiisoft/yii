@@ -935,7 +935,17 @@ EOD;
 	public static function normalizeUrl($url)
 	{
 		if(is_array($url))
-			$url=isset($url[0]) ? Yii::app()->getController()->createUrl($url[0],array_splice($url,1)) : '';
+		{
+			if(isset($url[0]))
+			{
+				if(($c=Yii::app()->getController())!==null)
+					$url=$c->createUrl($url[0],array_splice($url,1));
+				else
+					$url=Yii::app()->createUrl($url[0],array_splice($url,1));
+			}
+			else
+				$url='';
+		}
 		return $url==='' ? Yii::app()->getRequest()->getUrl() : $url;
 	}
 
