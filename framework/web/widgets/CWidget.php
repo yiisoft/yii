@@ -75,7 +75,6 @@ class CWidget extends CBaseController
 	/**
 	 * Constructor.
 	 * @param CBaseController owner/creator of this widget. It could be either a widget or a controller.
-	 * @param string ID of this widget. If not set, an ID will be generated automatically
 	 */
 	public function __construct($owner=null)
 	{

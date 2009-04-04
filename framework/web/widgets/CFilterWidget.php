@@ -33,6 +33,28 @@ class CFilterWidget extends CWidget implements IFilter
 	 * Defaults to false, meaning the action should be executed.
 	 */
 	public $stopAction=false;
+
+	private $_isFilter;
+
+	/**
+	 * Constructor.
+	 * @param CBaseController owner/creator of this widget. It could be either a widget or a controller.
+	 */
+	public function __construct($owner=null)
+	{
+		parent::__construct($owner);
+		$this->_isFilter=($owner===null);
+	}
+
+	/**
+	 * @return boolean whether this widget is used as a filter.
+	 * @since 1.0.4
+	 */
+	public function getIsFilter()
+	{
+		return $this->_isFilter;
+	}
+
 	/**
 	 * Performs the filtering.
 	 * The default implementation simply calls {@link init()},

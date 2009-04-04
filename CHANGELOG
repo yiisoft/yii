@@ -18,6 +18,7 @@ Version 1.0.4 to be released
 - Bug #218: Uppercase letter in controller in URL leads to exception (Qiang)
 - Bug #226: CJoinElement uses undefined _primaryKey (Qiang)
 - Bug #223: Calling CApplication::clearGlobalState causes error (Qiang)
+- Bug #229: dynamic content does not work with page caching (Qiang)
 - Bug: Setting the 'expression' option in an access url causes error (Qiang)
 - Bug: CAccessRule.roles should be case sensitive (Qiang)
 - Bug: CDbAuthManager::checkDefaultRoles() uses an undefined variable (Qiang)
