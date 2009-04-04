@@ -38,6 +38,7 @@ Version 1.0.4 to be released
 - New #207: Enhanced CHtml::activeFileField so that we can still use $_POST to detect form submission under some rare cases (Qiang)
 - New #212: 'Readline' support in yiic console script (olafure)
 - New #225: Added trace statements to CActiveRecord and CActiveFinder (Qiang)
+- New #233: allow CFileValidator::types to be set with an array (Qiang)
 - New: Added support to GROUP BY and HAVING in eager loading of AR (Qiang)
 - New: Added CClientScript::scriptFiles and CClientScript::cssFiles (Qiang)
 - New: Added SQL Server support for Active Record (Christophe)
