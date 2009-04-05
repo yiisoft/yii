@@ -2,6 +2,10 @@
                    Yii Framework Change Log
                    ========================
 
+Version 1.0.5 to be released
+----------------------------
+
+
 Version 1.0.4 April 5, 2009
 ---------------------------
 - Bug #177: CFileValidator::getSizeLimit() not calculate well (Qiang)
