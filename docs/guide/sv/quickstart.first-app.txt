@@ -137,6 +137,8 @@ CREATE TABLE User (
 );
 ~~~
 
+> Note|Märk: Om MySQL-databas används skall `AUTOINCREMENT` bytas mot `AUTO_INCREMENT` i ovanstående SQL.
+
 För enkelhets skull skapas bara en enda tabell, `User`, i databasen. SQLite 
 databasfilen sparas som `WebRoot/testdrive/protected/data/source.db`. Lägg märke 
 till att webbservern behöver ha skrivrättighet till både filen och dess 
@@ -234,4 +236,4 @@ Allt detta uppnåddes utan att skriva en enda rad kod!
 
 
 
-<div class="revision">$Id: quickstart.first-app.txt 723 2009-02-21 18:14:05Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app.txt 891 2009-03-25 15:20:56Z qiang.xue $</div>

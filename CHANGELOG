@@ -5,18 +5,27 @@
 Version 1.1a to be released
 ---------------------------
 
-Version 1.0.4 to be released
+Version 1.0.5 to be released
 ----------------------------
+
+
+Version 1.0.4 April 5, 2009
+---------------------------
 - Bug #177: CFileValidator::getSizeLimit() not calculate well (Qiang)
 - Bug #185: German error views have syntax errors (Qiang)
 - Bug #183: Fatal error in CActiveFinder::afterFindInternal() (Qiang)
 - Bug #186: MainMenu component in yiic webapp doesn't detect active menu item correctly (Qiang)
 - Bug #187: SET CHARACTER SET is not working for MySQL in some cases (Qiang)
+- Bug #190: yiic shell command does not work when the Web application redirects by default (Qiang)
 - Bug #192: CDbLogRoute has several issues (Qiang)
 - Bug #199: yiic webapp command may fail in some directory setup (Qiang)
 - Bug #200: CDateFormatter does not recognize timestamp given as a string (Qiang)
 - Bug #205: CTRL-D puts yiic into endless loop (olafure)
 - Bug #206: Property "click" in CStarRating does not work (Qiang)
+- Bug #218: Uppercase letter in controller in URL leads to exception (Qiang)
+- Bug #226: CJoinElement uses undefined _primaryKey (Qiang)
+- Bug #223: Calling CApplication::clearGlobalState causes error (Qiang)
+- Bug #229: dynamic content does not work with page caching (Qiang)
 - Bug: Setting the 'expression' option in an access url causes error (Qiang)
 - Bug: CAccessRule.roles should be case sensitive (Qiang)
 - Bug: CDbAuthManager::checkDefaultRoles() uses an undefined variable (Qiang)
@@ -27,11 +36,18 @@ Version 1.0.4 to be released
 - Bug: CWebUser::hasState does not return consistent result (Qiang)
 - Bug: A module layout in a theme cannot be applied (Qiang)
 - Bug: Enabling both CSRF prevention and theming may cause a PHP error (Qiang)
+- Bug: Eager loading in RAR may join the same table twice in some cases (Qiang)
 - New #171: Added version info to yiic help output (Qiang)
 - New #172: Added eAccelerator cache driver (Steffen)
+- New #176: Added support to make yiic tool working with modules (Qiang)
 - New #195: Added CModel::scenario property (Qiang)
+- New #197: Added getParam, getQueryParam and getPostParam to CHttpRequest (Qiang)
 - New #203: Added CZendDataCache (Steffen)
 - New #207: Enhanced CHtml::activeFileField so that we can still use $_POST to detect form submission under some rare cases (Qiang)
+- New #212: 'Readline' support in yiic console script (olafure)
+- New #225: Added trace statements to CActiveRecord and CActiveFinder (Qiang)
+- New #230: Enhanced CHtml so that it can be used in situations where controller is absent (Qiang)
+- New #233: allow CFileValidator::types to be set with an array (Qiang)
 - New: Added support to GROUP BY and HAVING in eager loading of AR (Qiang)
 - New: Added CClientScript::scriptFiles and CClientScript::cssFiles (Qiang)
 - New: Added SQL Server support for Active Record (Christophe)
@@ -49,6 +65,8 @@ Version 1.0.4 to be released
 - New: Added CExpressionDependency to represent dependency based on an expression value (Qiang)
 - New: Added CAutoComplete.textArea to allow using it as a text area (Qiang)
 - New: Added support to allow using AR when a table has no primary key defined (Qiang)
+- New: Added support to CAPTCHA widget so that it can use captcha defined in other controllers (Qiang)
+- New: Added CExistValidator (Qiang)
 
 
 Version 1.0.3 March 1, 2009
@@ -74,6 +92,7 @@ Version 1.0.3 March 1, 2009
 - New #146: Added CUrlManager.appendParams which allows creating URLs in path format whose GET parameters are all in the query part (Qiang)
 - New #150: Register CTabView css file with media type='screen' (Qiang)
 - New #156: Added CUrlManager.cacheID to allow disabling URL rule caching (Qiang)
+- New #213: Enhanced CEmailValidator by allowing checking server port (Qiang)
 - New: Upgraded jquery to 1.3.2 (Qiang)
 - New: Upgraded jquery star rating to 2.61 (Qiang)
 - New: Added skeleton application and refactored 'yiic webapp' command (Qiang)

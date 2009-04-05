@@ -22,6 +22,7 @@ $post->save();
 以下に、CRUDオペレーションを実行するために、ARを準備して使う方法を解説します。
 次のセクションでデータベースリレーションに対処するためにARを使う方法を示します。
 単純化するため、このセクションでは例として以下のデータベーステーブルを使います。
+もしMySQLをお使いの場合には以下のSQLにおいて、`AUTOINCREMENT`を`AUTO_INCREMENT`に修正することに注意してください。
 
 ~~~
 [sql]
@@ -66,6 +67,7 @@ ARに対するサポートは、DBMSによって制限されます。現在以�
    - [MySQL 4.1 or later](http://www.mysql.com)
    - [PostgreSQL 7.3 or later](http://www.postgres.com)
    - [SQLite 2 and 3](http://www.sqlite.org)
+   - [Microsoft SQL Server 2000 or later](http://www.microsoft.com/sqlserver/)
 
 `db`以外のアプリケーションコンポーネントを使いたいか、あるいはARを使う複数のデータベースで作業することを望む場合は[CActiveRecord：getDbConnection()]をオーバライドしなければなりません。
 [CActiveRecord]クラスは、すべてのARクラスのためのベースクラスです。
@@ -127,7 +129,7 @@ $post->title='a sample post';
 たとえば、記事を保存しているテーブルに名をつけるため`Post`という名前を使います;
 そして、テーブルのプライマリキーの列に名をつけるために、`createTime`を使います。
 これはテーブルをクラスタイプのように列を変数のように見えさせます。
-しかしながら、キャメルケースを使うとある種のDBMS、例えばMySQLでは不便になることがあります。というのは、異なるOS上では異なる動作となるからです。
+注意：しかしながら、キャメルケースを使うとある種のDBMS、例えばMySQLでは不便になることがあります。というのは、異なるOS上では異なる動作となるからです。
 
 
 レコードの作成
@@ -425,4 +427,4 @@ catch(Exception $e)
 }
 ~~~
 
-<div class="revision">$Id: database.ar.txt 546 2009-01-19 15:00:39Z qiang.xue $</div>
+<div class="revision">$Id: database.ar.txt 891 2009-01-19 15:00:39Z qiang.xue $</div>

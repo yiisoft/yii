@@ -172,6 +172,8 @@ Livscykel för applikationsobjekt
 
 Vid behandling av en inkommen request från användare genomgår en applikation följande livscykel:
 
+   0. Förinitialisera applikationen med hjälp av [CApplication::preinit()];
+
    1. Sätt upp autoladdare för klasser och felhantering;
 
    2. Registrera applikationens kärnkomponenter;
@@ -179,6 +181,7 @@ Vid behandling av en inkommen request från användare genomgår en applikation 
    3. Ladda applikationens konfiguration;
 
    4. Initialisera applikationen med [CApplication::init()]
+       - Registrera applikationens `behaviors`;
 	   - Ladda statiska (static) applikationskomponenter;
 
    5. Signalera händelsen [onBeginRequest|CApplication::onBeginRequest];
@@ -190,4 +193,4 @@ Vid behandling av en inkommen request från användare genomgår en applikation 
 
    7.Signalera händelsen [onEndRequest|CApplication::onEndRequest];
 
-<div class="revision">$Id: basics.application.txt 626 2009-02-04 20:51:13Z qiang.xue $</div>
+<div class="revision">$Id: basics.application.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>

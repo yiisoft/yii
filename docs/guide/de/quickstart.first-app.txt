@@ -143,6 +143,9 @@ CREATE TABLE User (
 );
 ~~~
 
+> Note|Hinweis: Falls Sie MySQL verwenden, sollten Sie in obigem SQL 
+> `AUTOINCREMENT` durch `AUTO_INCREMENT` ersetzen.
+
 Der Einfachheit halber erzeugen wir in unserer Datenbank 
 nur eine einzelne Tabelle `User`. Die SQLite-Datenbankdatei wird als
 `WebRoot/testdrive/protected/data/source.db` gespeichert. Beachten Sie, dass
@@ -258,4 +261,4 @@ schreiben müssen!
 
 
 
-<div class="revision">$Id: quickstart.first-app.txt 723 2009-02-21 18:14:05Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app.txt 891 2009-03-25 15:20:56Z qiang.xue $</div>

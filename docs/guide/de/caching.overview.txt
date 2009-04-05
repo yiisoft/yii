@@ -50,6 +50,9 @@ von PHP.
 [XCache-Erweiterung](http://xcache.lighttpd.net/) von PHP.
 Beachten Sie, dass diese Komponente seit Version 1.0.1 zur Verfügung steht.
 
+   - [CEAcceleratorCache]: Verwendet die
+[EAccelerator-Erweiterung](http://eaccelerator.net/) für PHP.
+
    - [CDbCache]: Verwendet eine Datenbanktabelle zum Speichern gecachter
 Daten. Standardmäßig wird eine SQLite3-Datenbank im runtime-Verzeichnisus
 angelegt und verwendet. Sie können auch explizit eine Datenbank angeben, indem
@@ -74,4 +77,4 @@ Die Existenz von gecachten Daten wird nicht garantiert, selbst wenn diese
 niemals verfallen. Benutzern Sie daher einen Cache niemals als beständigen
 Speicher (speichern Sie dort also z.B. keine Sessiondaten).
 
-<div class="revision">$Id: caching.overview.txt 723 2009-02-21 18:14:05Z qiang.xue $</div>
+<div class="revision">$Id: caching.overview.txt 814 2009-03-10 18:00:11Z qiang.xue $</div>

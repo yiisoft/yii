@@ -149,6 +149,9 @@ valid email address.
    - `default`: alias of [CDefaultValueValidator], assigning a default value
 to the specified attributes.
 
+   - `exist`: alias of [CExistValidator], ensuring the attribute value
+can be found in the specified table column.
+
    - `file`: alias of [CFileValidator], ensuring the attribute contains
 the name of an uploaded file.
 

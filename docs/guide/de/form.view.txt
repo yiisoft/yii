@@ -30,19 +30,18 @@ nehmen an, dass die Variable `$user` eine Instanz von `LoginForm` ist.
 ~~~
 [php]
 <div class="yiiForm">
-<?php echo CHtml::form(); ?>
+<?php echo CHtml::beginForm(); ?>
 
 <?php echo CHtml::errorSummary($user); ?>
 
 <div class="simple">
 <?php echo CHtml::activeLabel($user,'username'); ?>
-<?php echo CHtml::activeTextField($user,'username') ?>
+<?php echo CHtml::activeTextField($user,'username'); ?>
 </div>
 
 <div class="simple">
 <?php echo CHtml::activeLabel($user,'password'); ?>
-<?php echo CHtml::activePasswordField($user,'password')
-?>
+<?php echo CHtml::activePasswordField($user,'password'); ?>
 </div>
 
 <div class="action">
@@ -51,7 +50,7 @@ Angemeldet bleiben<br />
 <?php echo CHtml::submitButton('Login'); ?>
 </div>
 
-</form>
+<?php echo CHtml::endForm(); ?>
 </div><!-- yiiForm -->
 ~~~
 
@@ -71,4 +70,4 @@ nutzen, sieht das erzeugte Formular folgendermaßen aus:
 
 ![Die Anmeldeseite mit Fehlern](login2.png)
 
-<div class="revision">$Id: form.view.txt 715 2009-02-20 02:08:24Z qiang.xue $</div>
+<div class="revision">$Id: form.view.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>

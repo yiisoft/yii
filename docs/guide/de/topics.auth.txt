@@ -239,11 +239,18 @@ kann die Action immer noch ausgeführt werden.
 Eine Zugriffsregel kann auf folgende Kontextparameter zutreffen:
 
    - [actions|CAccessRule::actions]: Definiert, welche Actions diese Regel
-betrifft.
+betrifft. Dies sollte ein Array aus Action-IDs sein, Groß-/Kleinschreibung
+spielt hierbei keine Rolle.
+
+   - [controllers|CAccessRule::controllers]: Definiert, welche Controller
+diese Regel betrifft. Dies sollte ein Array aus Controller-IDs sein,
+Groß-/Kleinschreibung spielt hierbei keine Rolle. Diese Option ist seit
+Version 1.0.4 verfügbar.
 
    - [users|CAccessRule::users]: Definiert, welche Benutzer diese Regel
 betrifft. Zur Prüfung wird der [Name|CWebUser::name] des aktuellen Benutzers
-herangezogen. Hier können drei spezielle Zeichen verwendet werden:
+herangezogen, Groß-/Kleinschreibung spielt hierbei keine Rolle.
+Hier können drei spezielle Zeichen verwendet werden:
 
 	   - `*`: Jeder Benutzer, inkl. anonyme und authentifizierte Benutzer.
 	   - `?`: Anonyme (nicht angemeldete) Benutzer.
@@ -261,7 +268,8 @@ per Definition eine Erlaubnis darstellt, etwas bestimmtes zu tun.
 Regel betrifft. 
 
    - [verbs|CAccessRule::verbs]: Definiert, welche Requesttypen (z.B. 'GET',
-'POST') diese Regel betrifft.
+'POST') diese Regel betrifft. Groß-/Kleinschreibung spielt hierbei keine
+Rolle.
 
    - [expression|CAccessRule::expression]: Definiert einen PHP-Ausdruck,
 dessen Wert darüber entscheidet, ob die Regel zutrifft oder nicht. Im Ausdruck
@@ -499,16 +507,23 @@ $auth->assign('redakteur','redakteurC');
 $auth->assign('admin','adminD');
 ~~~
 
-Beachten Sie, dass wir die Tätigkeit `aktualisiereEigenenBeitrag` mit einer 
-Geschäftsregel versehen haben. In dieser Regel prüfen wir einfach, ob die aktuelle
-Benuzter-ID der Autor-ID des angegebenen Beitrags entspricht. Die
-Beitragsdaten im `$params`-Array werden vom Entwickler bei der Zugangsprüfung
-übergeben.
-
 > Info|Info: Das Verfahren oben mutet etwas langwierig an, dient aber lediglich
 Demonstrationszwecken. In der Regel müssen Entwickler
 Benutzerschnittstellen entwerfen, mit denen Autorisierungshierarchien
 intuitiver erstellt werden können.
+
+### Verwenden von Geschäftsregeln
+
+Beim Definieren einer Autorisierungshierarchie können wir eine Rolle, eine
+Tätigkeit oder eine Operation mit einer sogenannten *Geschäftsregel* versehen.
+Auch beim Zuweisen einer Rolle an einen Benutzer können wir eine
+Geschäftsregel angeben. Eine Geschäftsregel ist ein Stück PHP-Code
+(PHP-Anweisungen, um genau zu sein), der bei der Zugriffsprüfung ausgeführt
+wird. In obigem Beispiel haben wir der Tätigkeit `aktualisiereEigenenBeitrag`
+eine Geschäftsregel zugeordnet. In dieser Geschäftsregel prüfen wir einfach,
+ob die ID des aktuellen Benutzers mit der Autor-ID des Beitrags übereinstimmt.
+Bei der Zugriffsprüfung wird die post-Information (also der Beitrag) vom
+Entwickler im Array `$params` übergeben.
 
 ### Zugriffsprüfung
 
@@ -582,10 +597,10 @@ Benutzern und Gästen entsprechend zugeordnet werden.
 ~~~
 [php]
 $bizRule='return !Yii::app()->user->isGuest;';
-$auth->createRole('authentifiziert',$bizRule);
+$auth->createRole('authentifiziert','Autentifizierte Benutzer', $bizRule);
 
 $bizRule='return Yii::app()->user->isGuest;';
-$auth->createRole('gast',$bizRule);
+$auth->createRole('gast','Gast-Benutzer', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 759 2009-02-26 21:23:53Z qiang.xue $</div>
+<div class="revision">$Id: topics.auth.txt 878 2009-03-23 15:31:21Z qiang.xue $</div>

@@ -1,0 +1,203 @@
+エクステンションの作成
+===================
+
+エクステンションは第三者の開発者によって使われるはずのものなので、作るためにはさらにいくらかの努力を必要とします。
+次に示すのは一般的なガイドラインです。
+
+* エクステンションは自己充足的でなければなりません。つまり外部の依存は最小限でなければなりません。
+  エクステンションがさらなるパッケージ、クラスまたはリソースファイルのインストールを必要とするならば、
+  それはユーザの頭痛となるでしょう。
+* エクステンションに属しているファイルは、エクステンション名を名前とする同じディレクトリの下で組織される必要があります。
+* エクステンションのクラスは、他のエクステンションのクラスとの競合を避けるために、何文字かの識別子を名前の前に置かれなければなりません。
+* エクステンションは、コードと合せて詳細なインストールとAPIドキュメンテーションが必要です。
+  これにより、エクステンションが使われる際に他の開発者に必要な時間と努力を減らします。
+* エクステンションは、適当なライセンスを持っていなければなりません。
+オープンソースとクローズドソースプロジェクトの両方にエクステンションを使って貰いたければ
+BSD、MIT、その他のようなライセンスを考慮したほうが良いでしょう。GPLではありません。
+なぜならGPLはその派生コードに同様にオープンソースであることを要求するためです。
+
+以下に、[概要](/doc/guide/extension.overview)で解説される分類により、新しいエクステンションを作成する方法を解説します。
+主に自身のプロジェクトで使われるコンポーネントを作成するときも、これらの説明があてはまります。
+
+アプリケーションコンポーネント
+---------------------
+
+[アプリケーションコンポーネント](/doc/guide/basics.application#application-component)
+は[IApplicationComponent]インタフェースを実装するかまたは[CApplicationComponent]の継承です。
+メインのメソッドでは[IApplicationComponent::init]を実装する必要があり、そこでコンポーネントの初期化処理を行います。
+このメソッドはコンポーネントが生成された後で起動され、[アプリケーション構成](/doc/guide/basics.application#application-configuration)
+で規定される初期値が適用されます。
+
+デフォルトではリクエスト処理中に最初にアクセスされるときに生成され、初期化されます。
+もしアプリケーションインスタンスが生成された直後にアプリケーションコンポーネントが生成される必要があるならば、
+ユーザはそのIDを[CApplication::preload]プロパティに記述しておかなければなりません。
+
+ウィジェット
+------
+
+[ウィジェット](/doc/guide/basics.view#widget)は[CWidget]またはその子クラスの継承です。
+新しいウィジェットを作成する最も簡単な方法は、既存のウィジェットを継承し、そのメソッドをオーバライドするか、またはそのデフォルトプロパティ値を変更することです。
+たとえば、より素晴らしいCSSスタイルを［CTabView］に適用したいなら、ウィジェットを使用する際にその[CTabView::cssFile]プロパティを構成することができます。
+以下のように[CTabView]を継承することで、ウィジェットを使うときもはやプロパティを構成する必要がないようもできます。
+
+~~~
+[php]
+class MyTabView extends CTabView
+{
+	public function init()
+	{
+		if($this->cssFile===null)
+		{
+			$file=dirname(__FILE__).DIRECTORY_SEPARATOR.'tabview.css';
+			$this->cssFile=Yii::app()->getAssetManager()->publish($file);
+		}
+		parent::init();
+	}
+}
+~~~
+
+In the above, we override the [CWidget::init] method and assign to
+[CTabView::cssFile] the URL to our new default CSS style if the property
+is not set. We put the new CSS style file under the same directory
+containing the `MyTabView` class file so that they can be packaged as
+an extension. Because the CSS style file is not Web accessible, we need
+to publish as an asset.
+
+To create a new widget from scratch, we mainly need to implement two methods:
+[CWidget::init] and [CWidget::run]. The first method is called when we
+use `$this->beginWidget` to insert a widget in a view, and the
+second method is called when we call `$this->endWidget`.
+If we want to capture and process the content displayed between these two
+method invocations, we can start [output buffering](http://us3.php.net/manual/en/book.outcontrol.php)
+in [CWidget::init] and retrieve the buffered output in [CWidget::run]
+for further processing.
+
+A widget often involves including CSS, JavaScript or other resource files
+in the page that uses the widget. We call these files *assets* because
+they stay together with the widget class file and are usually not accessible by
+Web users. In order to make these files Web accessible, we need to publish
+them using [CWebApplication::assetManager], as shown in the above code snippet.
+Besides, if we want to include a CSS or JavaScript file in the current page,
+we need to register it using [CClientScript]:
+
+~~~
+[php]
+class MyWidget extends CWidget
+{
+	protected function registerClientScript()
+	{
+		// ...publish CSS or JavaScript file here...
+		$cs=Yii::app()->clientScript;
+		$cs->registerCssFile($cssFile);
+		$cs->registerScriptFile($jsFile);
+	}
+}
+~~~
+
+A widget may also have its own view files. If so, create a directory named
+`views` under the directory containing the widget class file, and put all the
+view files there. In the widget class, in order to render a widget view, use
+`$this->render('ViewName')`, which is similar to what we do in a controller.
+
+Action
+------
+
+An [action](/doc/guide/basics.controller#action) should extend from [CAction]
+or its child classes. The main method that needs to be implemented for an action
+is [IAction::run].
+
+Filter
+------
+A [filter](/doc/guide/basics.controller#filter) should extend from [CFilter]
+or its child classes. The main methods that need to be implemented for a filter
+are [CFilter::preFilter] and [CFilter::postFilter]. The former is invoked before
+the action is executed while the latter after.
+
+~~~
+[php]
+class MyFilter extends CFilter
+{
+	protected function preFilter($filterChain)
+	{
+		// logic being applied before the action is executed
+		return true; // false if the action should not be executed
+	}
+
+	protected function postFilter($filterChain)
+	{
+		// logic being applied after the action is executed
+	}
+}
+~~~
+
+The parameter `$filterChain` is of type [CFilterChain] which contains information
+about the action that is currently filtered.
+
+
+Controller
+----------
+A [controller](/doc/guide/basics.controller) distributed as an extension
+should extend from [CExtController], instead of [CController]. The main reason
+is because [CController] assumes the controller view files are located under
+`application.views.ControllerID`, while [CExtController] assumes the view
+files are located under the `views` directory which is a subdirectory of
+the directory containing the controller class file. Therefore, it is easier
+to redistribute the controller since its view files are staying together
+with the controller class file.
+
+
+Validator
+---------
+A validator should extend from [CValidator] and implement its
+[CValidator::validateAttribute] method.
+
+~~~
+[php]
+class MyValidator extends CValidator
+{
+	protected function validateAttribute($model,$attribute)
+	{
+		$value=$model->$attribute;
+		if($value has error)
+			$model->addError($attribute,$errorMessage);
+	}
+}
+~~~
+
+Console Command
+---------------
+A [console command](/doc/guide/topics.console) should extend from
+[CConsoleCommand] and implement its [CConsoleCommand::run] method.
+Optionally, we can override [CConsoleCommand::getHelp] to provide
+some nice help information about the command.
+
+~~~
+[php]
+class MyCommand extends CConsoleCommand
+{
+	public function run($args)
+	{
+		// $args gives an array of the command-line arguments for this command
+	}
+
+	public function getHelp()
+	{
+		return 'Usage: how to use this command';
+	}
+}
+~~~
+
+Module
+------
+Please refer to the section about [modules](/doc/guide/basics.module#creating-module) on how to create a module.
+
+A general guideline for developing a module is that it should be self-contained. Resource files (such as CSS, JavaScript, images) that are used by a module should be distributed together with the module. And the module should publish them so that they can be Web-accessible.
+
+
+Generic Component
+-----------------
+Developing a generic component extension is like writing a class. Again, the component
+should also be self-contained so that it can be easily used by other developers.
+
+
+<div class="revision">$Id: extension.create.txt 749 2009-02-26 02:11:31Z qiang.xue $</div>

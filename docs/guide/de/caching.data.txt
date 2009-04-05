@@ -108,4 +108,8 @@ definiert.
    - [CChainedCacheDependency]: Eine Änderung bei dieser Abhängigkeit tritt auf,
 wenn bei einer der Abhängigkeiten der Kette eine Änderung eingetreten ist.
 
-<div class="revision">$Id: caching.data.txt 169 2008-11-06 19:43:44Z qiang.xue $</div>
+   - [CExpressionDependency]: Eine Änderung bei dieser Abhängigkeit tritt auf,
+wenn das Ergebnis des angegebenen PHP-Ausdrucks sich ändert. Diese Klasse
+steht seit Version 1.0.4 zur Verfügung.
+
+<div class="revision">$Id: caching.data.txt 891 2009-03-25 15:20:56Z qiang.xue $</div>

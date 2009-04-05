@@ -42,6 +42,7 @@
  * <li>type: {@link CTypeValidator}</li>
  * <li>file: {@link CFileValidator}</li>
  * <li>default: {@link CDefaultValueValidator}</li>
+ * <li>exist: {@link CExistValidator}</li>
  * </ul>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -69,6 +70,7 @@ abstract class CValidator extends CComponent
 		'type'=>'CTypeValidator',
 		'file'=>'CFileValidator',
 		'default'=>'CDefaultValueValidator',
+		'exist'=>'CExistValidator',
 	);
 
 	/**

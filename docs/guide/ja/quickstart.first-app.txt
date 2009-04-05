@@ -1,27 +1,29 @@
 初めてのYiiアプリケーションの作成
 ==============================
 
-Yiiで最初の経験を積むために、この章では最初のYiiアプリケーションの作成法を説明します。
+Yiiで最初の経験を積むために、この章では最初のYiiアプリケーションの作成法を説明します。強力な'yiic'ツールを使用します。
+これは数種類のタスクのためのコード生成を自動で行います。
 便宜上、`YiiRoot`はYiiをインストールしたディレクトリと仮定し、`WebRoot`はウェブサーバのドキュメントルートします。
 
-1.0.3版からは、Yiiのリリースには`YiiRoot/testdrive`の下に骨格アプリケーションが含まれます。
 
- 1. ディレクトリ`YiiRoot/testdrive`を`WebRoot`にコピーします
- 2. `WebRoot/testdrive/index.php`を編集し、Yiiブートファイル`yii.php`のパスを変更します
- 3. `WebRoot/testdrive/protected/yiic.php`を編集し、`yiic.php`のパスを変更します
- 4. `WebRoot/testdrive/assets`と`WebRoot/testdrive/protected/runtime`のパーミッションを変更し、ウェブサーバプロセスから書きこみ可能にします
+`yiic`をコマンドラインから動かすには次のように行います。
 
-> Note|注意: 1.0.3版より前の版においては、骨格アプリケーションを生成するために`yiic`を使う必要がありました。
-コマンドライン窓において以下のようなコマンドを実行します。
->
->~~~
->% YiiRoot/framework/yiic webapp WebRoot/testdrive
->~~~
->
->これを実行すると`WebRoot/testdrive`の下に骨格のYiiアプリケーションが作成されます。
->
+~~~
+% YiiRoot/framework/yiic webapp WebRoot/testdrive
+~~~
 
-ウェブブラウザにより以下のURLをアクセスすることで、最初のYiiアプリケーションをテストすることができます。
+> Note|注意: `yiic`をMac OSやLinuxやUnix上で動かす場合には、`yiic`ファイルを実行化にします。
+>または、以下のようにツールを動作させます。
+> ~~~
+> % cd WebRoot/testdrive
+> % php YiiRoot/framework/yiic.php webapp WebRoot/testdrive
+> ~~~
+
+これを実行すると`WebRoot/testdrive`の下に骨格のYiiアプリケーションが作成されます。
+このアプリケーションはほとんどのYiiアプリケーションに必要とされるディレクトリ構造を持ちます。
+
+
+コードを一行も書かなくても、ウェブブラウザで以下のURLをアクセスすることで、最初のYiiアプリケーションをテストすることができます。
 ~~~
 http://hostname/testdrive/index.php
 ~~~
@@ -123,21 +125,25 @@ CREATE TABLE User (
 );
 ~~~
 
+> Note|注意: もしMySQLデータベースをお使いの場合は上記の`AUTOINCREMENT`を`AUTO_INCREMENT`に変更してください。
+
 単純化のために、データベース中にひとつだけ`User`テーブルを作成します。
 SQLiteデータベースファイルは`WebRoot/testdrive/protected/data/source.db`にストアされます。ファイルだけでなくディレクトリについても、ウェブサーバプロセスから書き込めるようにしておいてください。
 
 CRUD操作の実装
 ----------------------------
 
-これからが面白くなります。CRUD操作(作成、読み出し、修正、削除)を今作成したばかりの`User`テーブルに対して実装します。
+これからが面白い部分です。
+CRUD操作(作成、読み出し、修正、削除)を今作成したばかりの`User`テーブルに対して実装します。
 これは実際のアプリケーションで共通に必要となる機能です。
 
-再び`yiic`ツールを使用し、必要となるコードを生成します。
+実際にコードを書く苦労を無くすために、強力な`yiic`ツールを再び使用し、コードを自動生成します。
 このプロセスは「スカッフォールディング(足場生成)」としても知られています。
+コマンドラインから以下のコマンドを実行します。
 
 ~~~
 % cd WebRoot/testdrive
-% YiiRoot/framework/yiic shell
+% protected/yiic shell
 Yii Interactive Tool v1.0
 Please type 'help' for help. Type 'exit' to quit.
 >> model User
@@ -162,18 +168,22 @@ Crud 'user' has been successfully created. You may access it via:
 http://hostname/path/to/index.php?r=user
 ~~~
 
-上において、新しく作成したアプリケーションに対応するため`yiic`の`shell`コマンドを使用しました。
-プロンプトレベルにおいて、評価し表示するためにPHP文や式の値を入れることが可能です。
-さらに上に示すように`model`や`crud`タスクを実行することができます。
-`model`コマンドは自動的に、`User`テーブルのスキーマに基いて`User`モデルクラスを生成します。
-そして`crud`コマンドは`User`モデルのCRUD操作を実装したコントローラクラスとビューを生成します。
+上において、新しい骨格アプリケーションと応答するために`yiic shell`コマンドを使用しました。
+プロンプトが出たら2つのサブコマンドを実行します。それらは`model User`と`crud User`です。
+前者は`User`テーブルのスキーマに基いて`User`モデルクラスを生成します。
+後者は`User`モデルを読み込み、CRUD操作に必要なコードを生成します。
 
-> Note|注意: もしコードやコンフィギュレーションを変更したら、それが実際に反映されるように`yiic shell`
-コマンドを再度発行してください。また、`yiic`を実行するのに正しいPHP CLIを使用しているかも確かめてください。
-さもなければ、たとえPDO拡張や対応するデータベースドライバをイネーブルにしていても、"...could not find driver"
-のようなエラーに遭遇します。このようなエラーは、しばしば誤ったPHP CLIが予期しない`php.ini`を使用することから起きます。
+> Note|注意: たとえ要求チェッカーがシステム要求としてPDOと対応するPDOドライバがイネーブルになっていたとしても
+>"...could not find driver"のようなエラーにぶつかるかもしれません。
+> その場合は以下のようにしてみてください。
+>
+> ~~~
+> % php -c path/to/php.ini protected/yiic.php shell
+> ~~~
+>
+> ここで`path/to/php.ini`は正しいPHP初期化ファイルです。
 
-さて、作業の結果を以下のURLから見て楽みましょう。
+さて、作業の結果を以下のURLから見て楽しみましょう。
 
 ~~~
 http://hostname/testdrive/index.php?r=user
@@ -205,4 +215,4 @@ http://hostname/testdrive/index.php?r=user/admin
 
 ![Create new user page](first-app7.png)
 
-<div class="revision">$Id: quickstart.first-app.txt 446 2009-01-02 04:42:53Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app.txt 891 2009-01-02 04:42:53Z qiang.xue $</div>

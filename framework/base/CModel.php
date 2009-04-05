@@ -301,9 +301,6 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 */
 	public function isAttributeRequired($attribute,$scenario='')
 	{
-		if($scenario==='')
-			$scenario=$this->getScenario();
-
 		$validators=$this->getValidatorsForAttribute($attribute,$scenario);
 		foreach($validators as $validator)
 		{

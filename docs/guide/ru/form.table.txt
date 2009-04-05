@@ -41,7 +41,7 @@ public function actionBatchUpdate()
 ~~~
 [php]
 <div class="yiiForm">
-<?php echo CHtml::form(); ?>
+<?php echo CHtml::beginForm(); ?>
 <table>
 <tr><th>Имя</th><th>Стоимость</th><th>Количество</th><th>Описание</th></tr>
 <?php foreach($items as $i=>$item): ?>
@@ -55,7 +55,7 @@ public function actionBatchUpdate()
 </table>
 
 <?php echo CHtml::submitButton('Сохранить'); ?>
-</form>
+<?php echo CHtml::endForm(); ?>
 </div><!-- yiiForm -->
 ~~~
 
@@ -65,4 +65,4 @@ public function actionBatchUpdate()
 В случае, если возникнет ошибка проверки данных, соответствующие поля ввода будут подсвечены автоматически, 
 как и в случае работы с одной моделью, рассмотренном ранее.
 
-<div class="revision">$Id: form.table.txt 468 2009-01-04 20:57:35Z qiang.xue $</div>
+<div class="revision">$Id: form.table.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>

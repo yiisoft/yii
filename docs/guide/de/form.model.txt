@@ -206,14 +206,25 @@ folgende Massenzuweisung geschehen:
 ~~~
 [php]
 $model=new LoginForm;
+$model->scenario='login';
 if(isset($_POST['LoginForm']))
-	$model->setAttributes($_POST['LoginForm'], 'login');
+	$model->attributes=$_POST['LoginForm'];
 ~~~
 
+> Note|Hinweis: Die Eigenschaft [scenario|CModel::scenario] ist seit
+> Version 1.0.4 verfügbar. Diese Eigenschaft wird bei der Massenzuweisung
+> verwendet, um festzustellen, welche Attribute zugewiesen werden können.
+> In den Versionen 1.0.2 und 1.0.3 mussten wir eine Massenzuweisung wie folgt
+> durchführen, um das entsprechende Szenario anzugeben:
+>
+> ~~~
+> [php]
+> $model->setAttributes($_POST['LoginForm'], 'login');
+> ~~~
+
 Die letzte Anweisung ist eine Massenzuweisung, bei der jeder Eintrag in
-`$_POST['LoginForm']` dem entsprechenden Model-Attribut des `login`-Szenarios 
-(festgelegt durch den zweiten Parameter) zugewiesen wird. Dies ist
-äquivalent zu folgender Zuweisung:
+`$_POST['LoginForm']` dem entsprechenden Model-Attribut im `login`-Szenario
+zugewiesen wird. Dies ist äquivalent zu folgender Zuweisung:
 
 ~~~
 [php]
@@ -304,8 +315,20 @@ Anweisung aus:
 
 ~~~
 [php]
-$model->validate('register');
+$model->scenario='register';
+$model->validate();
 ~~~
+
+> Note|Hinweis: Die Eigenschaft [scenario|CModel::scenario] ist seit Version
+> 1.0.4 verfügbar. Die Prüfmethode verwendet diese Eigenschaft, um
+> festzustellen, gegen welche Regeln geprüft werden muss. In den Versionen
+> 1.0.2 und 1.0.3 mussten wir die szenarienbasierte Prüfung wie folgt
+> durchführen:
+>
+> ~~~
+> [php]
+> $model->validate('register');
+> ~~~
 
 Wir können die Prüfregeln im Formular-Model wie folgt angeben:
 
@@ -350,4 +373,4 @@ angepasst werden. Wie wir in den folgenden Kapiteln sehen werden, erlaubt
 uns die Angabe von Labels im Model, ein Formular schneller und wirkungsvoller zu
 erstellen.
 
-<div class="revision">$Id: form.model.txt 598 2009-01-29 20:19:28Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>

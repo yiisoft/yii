@@ -60,7 +60,8 @@ ARでは、以下の4種類のリレーションがあります。
 AR用語では、`BELONGS_TO`と`HAS_MANY`の組合せとして、`MANY_MANY`を説明することができます。
 例えば`Post`は多くの`Category`に属しています。そして`Category`には多くの`Post`があります。
 
-ARでのリレーション宣言は、[CActiveRecord]クラスの[relations()|CActiveRecord::relations]メソッドをオーbライドすることで行います。このメソッドはリレーション構成の配列を返します。
+ARでのリレーション宣言は、[CActiveRecord]クラスの[relations()|CActiveRecord::relations]メソッドをオーbライドすることで行います。
+このメソッドはリレーション構成の配列を返します。
 各々の配列要素は以下のフォーマットで示す一つのリレーションを意味します。
 
 ~~~
@@ -115,95 +116,85 @@ ARクラスのリレーションの宣言は、各々のリレーションのた
 リレーショナルクエリの実行
 ---------------------------
 
-The simplest way of performing relational query is by reading a relational
-property of an AR instance. If the property is not accessed previously, a
-relational query will be initiated, which joins the two related tables and
-filters with the primary key of the current AR instance. The query result
-will be saved to the property as instance(s) of the related AR class. This
-is known as the *lazy loading* approach, i.e., the relational query
-is performed only when the related objects are initially accessed. The
-example below shows how to use this approach:
+リレーショナルクエリを実行する最も単純な方法は、ARインスタンスのリレーショナルなプロパティを読み出すことです。
+プロパティが以前にアクセスされていない場合には、リレーショナルクエリは初期化されます。
+そのクエリは2つの関係するテーブルを結合し、現行のARインスタンスの主キーでフィルタリングされます。
+これは*レイジー格納*アプローチとして知られており、リレーショナルなクエリは関連するオブジェクトが最初にアクセスされるときに実行されます。
+以下の例は実際にこのアプローチをどのように使用するかを示します。
 
 ~~~
 [php]
-// retrieve the post whose ID is 10
+// ID番号が10の投稿を取得
 $post=Post::model()->findByPk(10);
-// retrieve the post's author: a relational query will be performed here
+// 投稿の著者を取得。リレーショナルクエリはここで実行される
 $author=$post->author;
 ~~~
 
-> Info|情報: If there is no related instance for a relationship, the
-corresponding property could be either null or an empty array. For
-`BELONGS_TO` and `HAS_ONE` relationships, the result is null; for
-`HAS_MANY` and `MANY_MANY`, it is an empty array.
+> Info|情報: リレーションにより関連したインスタンスが取得できない場合、
+対応するプロパティはナルまたは空の配列となります。
+`BELONGS_TO`と`HAS_ONE`リレーションの場合結果はナルです。
+`HAS_MANY`と`MANY_MANY`では空の配列です。
 
-The lazy loading approach is very convenient to use, but it is not
-efficient in some scenarios. For example, if we want to access the author
-information for `N` posts, using the lazy approach would involve executing
-`N` join queries. We should resort to the so-called *eager loading*
-approach under this circumstance.
+レイジーローディングアプローチは使うのに非常に便利ですが、それはいくつかの場合に効率的ではありません。
+例えば`N`個の著者情報にアクセスする場合、レイジーローディングアプローチを使うと`N`個のジョインクエリを発行しなければなりません。
+この状況ではいわゆる*イーガーローディング*アプローチをとる必要があります。
 
-The eager loading approach retrieves the related AR instances together
-with the main AR instance(s). This is accomplished by using the
-[with()|CActiveRecord::with] method together with one of the
-[find|CActiveRecord::find] or [findAll|CActiveRecord::findAll] methods in
-AR. For example,
+イーガーローディングアプローチでは、主なARインスタンスと共に関連するARインスタンスを取得します。
+これは、ARにおいて[find|CActiveRecord::find]か[findAll|CActiveRecord::findAll]のいずれかと共に
+[with()|CActiveRecord::with]メソッドを用いることで達成されます。例えば、
 
 ~~~
 [php]
 $posts=Post::model()->with('author')->findAll();
 ~~~
 
-The above code will return an array of `Post` instances. Unlike the lazy
-approach, the `author` property in each `Post` instance is already
-populated with the related `User` instance before we access the property.
-Instead of executing a join query for each post, the eager loading approach
-brings back all posts together with their authors in a single join query!
+上記のコードは`Post`インスタンスの配列を返します。
+レイジーアプローチとは異なり、プロパティにアクセスする前に、各々の`Post`インスタンスの`author`プロパティは
+関連した`User`インスタンスにより格納されています。
+ポストのたびにジョインクエリを実行する代わりに、イーガーローディングアプローチでは一回のジョインクエリにより
+著者と共にすべてのポストを取得します!
 
-We can specify multiple relationship names in the
-[with()|CActiveRecord::with] method and the eager loading approach will
-bring them back all in one shot. For example, the following code will bring
-back posts together with their authors and categories:
+
+複数のリレーション名を[with()|CActiveRecord::with]メソッド中で指定することができ、
+イーガーローディングアプローチでは一度で全ての情報を取得できます。
+例えば、以下のコードにより、著者とカテゴリーをポストと共に戻します。
 
 ~~~
 [php]
 $posts=Post::model()->with('author','categories')->findAll();
 ~~~
 
-We can also do nested eager loading. Instead of a list of relationship
-names, we pass in a hierarchical representation of relationship names to
-the [with()|CActiveRecord::with] method, like the following,
+我々は、イーガーローディングを入れ子で実行することもできます。
+リレーション名のリストする代わりに、以下のようにリレーション名の階層的な表現を[with()|CActiveRecord::with]メソッドに渡します。
 
 ~~~
 [php]
 $posts=Post::model()->with(
 	'author.profile',
 	'author.posts',
-	'categories)->findAll();
+	'categories')->findAll();
 ~~~
 
-The above example will bring back all posts together with their author and
-categories. It will also bring back each author's profile and posts.
+上記の例は、著者とカテゴリーと共にすべての投稿を取得します。
+さらに各々の著者のプロフィールと投稿を戻します。
 
-> Note: The usage of the [with()|CActiveRecord::with] method has been changed
-> since version 1.0.2. Please read the corresponding API documentation carefully.
+> Note|注意: [with()|CActiveRecord::with]の使用法はバージョン1.0.2から変わりました。
+対応するAPIドキュメンテーションを注意深く読んでください。
 
-The AR implementation in Yii is very efficient. When eager loading
-a hierarchy of related objects involving `N` `HAS_MANY` or `MANY_MANY`
-relationships, it will take `N+1` SQL queries to obtain the needed results.
-This means it needs to execute 3 SQL queries in the last example because of
-the `posts` and `categories` properties. Other frameworks take a more
-radical approach by using only one SQL query. At first look, the radical approach
-seems more efficient because fewer queries are being parsed and executed by
-DBMS. It is in fact impractical in reality for two reasons. First, there
-are many repetitive data columns in the result which takes extra time to
-transmit and process. Second, the number of rows in the result set grows
-exponentially with the number of tables involved, which makes it simply
-unmanageable as more relationships are involved.
+YiiのAR実装は非常に効率的です。
+`N`個の`HAS_MANY`または`MANY_MANY`リレーションを含んでいるオブジェクトの階層をイーガーローディングする時、
+必要とする結果を得るために`N+1`個のSQLクエリを必要とします。
+従って、先程の例では`posts`と`categories`のプロパティを取得するため、3つのSQLクエリを実行する必要があることを意味します。
+他のフレームワークは、1つのSQLクエリだけを用いたより急進的なアプローチをとっています。
+ぱっと見には急進的なアプローチはより効率的にみえます。というのはより少ないクエリがDBMSによって解析され実行されるのためです。
+そのアプローチは実際には2つの理由から非実用的です。
+第1に結果の中に多くの反復的なデータコラムがあり、それを送信し処理する余分な時間がかかるためです。
+第2に結果セットの列の数は関係するテーブルの数で指数的に増大します。
+そして、リレーションがより複雑になるにつれ、管理不可能になります。
 
-Since version 1.0.2, you can also enforce the relational query to be done with
-only one SQL query. Simply append a [together()|CActiveFinder::together] call
-after [with()|CActiveRecord::with]. For example,
+バージョン1.0.2から、1つのSQLクエリだけでリレーショナルなクエリを実施することもできます。
+単に、[together()|CActiveFinder::together]呼び出しを[with()|CActiveRecord::with]の後に追加するだけです。
+例えば、
 
 ~~~
 [php]
@@ -213,71 +204,67 @@ $posts=Post::model()->with(
 	'categories')->together()->findAll();
 ~~~
 
-The above query will be done in one SQL query. Without calling [together|CActiveFinder::together],
-this will need two SQL queries: one joins `Post`, `User` and `Profile` tables,
-and the other joins `User` and `Post` tables.
+上記のクエリは1つのSQLクエリで実行されます。
+[together|CActiveFinder::together]メソッドを呼出さなければ、`Post`、`User`、`Profile`テーブルをジョインするクエリと、
+`User`、`Post`テーブルをジョインするクエリの2つのSQLクエリを必要とします。
 
-
-Relational Query Options
+リレーショナルクエリのオプション
 ------------------------
 
-We mentioned that additional options can be specified in relationship
-declaration. These options, specified as name-value pairs, are used to
-customize the relational query. They are summarized as below.
+さらなるオプションがリレーション宣言において指定されることができることを述べました。
+これらのオプションは、名前-値のペアとして指定されますが、リレーションの質問をカスタマイズするのに用いられます。
+それらは以下の通りまとめられます。
 
-   - `select`: a list of columns to be selected for the related AR class.
-It defaults to '*', meaning all columns. Column names should be
-disambiguated using `aliasToken` if they appear in an expression (e.g.
-`COUNT(??.name) AS nameCount`).
+   - `select`: リレーションのあるARクラスのために選ばれるコラムのリスト。
+デフォルトは'*'でありすべてのコラムを意味します。
+コラム名が式（例えば、`COUNT（??.name）AS nameCount`のような）に現れるならば、`aliasToken`を使って曖昧さをなくされなければなりません。
 
-   - `condition`: the `WHERE` clause. It defaults to empty. Note, column
-references need to be disambiguated using `aliasToken` (e.g. `??.id=10`).
+   - `condition`: `WHERE`句です。デフォルトは空で無条件を意味します。
+注意:コラム参照は`aliasToken`を用いてて曖昧さをなくされなければなりません(例えば`??.id=10`)。
 
-   - `on`: the `ON` clause. The condition specified here will be appended
-to the joining condition using the `AND` operator. This option has been
-available since version 1.0.2.
+   - `params`: 生成されたSQL文に縛らるパラメータ。
+これは名前-値のペアの配列として与えられなければなりません。
+このオプションはバージョン1.0.3から利用できるようになりました。
 
-   - `order`: the `ORDER BY` clause. It defaults to empty. Note, column
-references need to be disambiguated using `aliasToken` (e.g. `??.age
-DESC`).
+   - `on`: `ON`句です。ここで指定される条件は、`AND`オペレーターを使用しJOIN条件に追加されます。
+このオプションはバージョン1.0.2から利用できるようになりました。
 
-   - `with`: a list of child related objects that should be loaded
-together with this object. Note, this is only honored by lazy loading, not
-eager loading.
+   - `order`: `ORDER BY`句です。デフォルトでは空で無条件を意味します。
+注意:コラム参照は`aliasToken`を用いてて曖昧さをなくされなければなりません(例えば`??.age DESC`)。
 
-   - `joinType`: type of join for this relationship. It defaults to `LEFT
-OUTER JOIN`.
+   - `with`: 子供のリレーションを持つオブジェクトのリストであり、このオブジェクトと共にロードすべきオブジェクトです。
+注意：これがレイジーローディングによって守られるべきであり、イーガーローディングでは必要ありません。
 
-   - `aliasToken`: the column prefix placeholder. It will be replaced
-by the corresponding table alias to disambiguate column references.
-It defaults to `'??.'`.
+   - `joinType`: このリレーションのジョインタイプで、デフォルトでは`LEFT OUTER JOIN`です。
 
-   - `alias`: the alias for the table associated with this relationship.
-This option has been available since version 1.0.1. It defaults to null,
-meaning the table alias is automatically generated. This is different
-from `aliasToken` in that the latter is just a placeholder and will be
-replaced by the actual table alias.
+   - `aliasToken`: コラム接頭辞の場所取りです。コラム参照の曖昧さをなくすために対応するテーブル別名と置き換えられます。
+デフォルトでは`'??.'`です。
 
-In addition, the following options are available for certain relationships
-during lazy loading:
+   - `alias`: このリレーションと結びついたテーブルの別名です。
+このオプションはバージョン1.0.1から利用できるようになりました。
+デフォルトはナルであり、テーブル別名が自動的に生成されることを意味します。
+これは以下の点から`aliasToken`と異なります。`aliasToken`は単なる場所取りであり、実際のテーブル別名と置き換えられるためです。
 
-   - `group`: the `GROUP BY` clause. It defaults to empty. Note, column
-references need to be disambiguated using `aliasToken` (e.g. `??.age`).
-This option only applies to `HAS_MANY` and `MANY_MANY` relationships.
+   - `together`: テーブルがこのリレーションと結びついたかどうかは、主テーブルと共にジョインとして強制されなければなりません。
+このオプションはHAS_MANYとMANY_MANY関係のときのみ意味があります。
+このオプションがセットされないか偽である場合、HAS_MANYまたはMANY_MANYリレーションはパフォーマンスを向上させるためにのJOIN文を持ちます。
+このオプションはバージョン1.0.3から利用できるようになりました。
 
-   - `having`: the `HAVING` clause. It defaults to empty. Note, column
-references need to be disambiguated using `aliasToken` (e.g. `??.age`).
-This option only applies to `HAS_MANY` and `MANY_MANY` relationships. Note:
-option has been available since version 1.0.1.
+   - `group`: `GROUP BY`句です。デフォルトは空です。
+注意:コラム参照は`aliasToken`を用いてて曖昧さをなくされなければなりません(例えば`??.age`)。
 
-   - `limit`: limit of the rows to be selected. This option does NOT apply
-to `BELONGS_TO` relation.
+   - `having`: `HAVING`句です。デフォルトは空です。
+注意:コラム参照は`aliasToken`を用いてて曖昧さをなくされなければなりません(例えば`??.age`)。
+このオプションはバージョン1.0.1から利用できるようになりました。
 
-   - `offset`: offset of the rows to be selected. This option does NOT
-apply to `BELONGS_TO` relation.
+さらに、以下のオプションは、レイジーローディングの間、特定の関係のために利用できます：
 
-Below we modify the `posts` relationship declaration in the `User` by
-including some of the above options:
+   - `limit`: 選択される列の制限。このオプションは`BELONGS_TO`リレーションには適用されません。
+
+   - `offset`: 選択される列のオフセット。このオプションは`BELONGS_TO`リレーションには適用されません。
+
+
+以下に上記のオプションのいくつかを含むような`User`における`posts`リレーション宣言を修正します。
 
 ~~~
 [php]
@@ -294,31 +281,23 @@ class User extends CActiveRecord
 	}
 }
 ~~~
+さて今`$author->posts`のようにアクセスする場合、下降順に生成時間によってソートされる著者のポストを得るでしょう。
+それぞれのポストインスタンスも、その塔載されたカテゴリーを持ちます。
 
-Now if we access `$author->posts`, we would obtain the author's posts
-sorted according to their creation time in descending order. Each post
-instance also has its categories loaded.
+> Info|情報: 列名が結び付けられている2つ以上のテーブルに現れるとき、曖昧さが無い必要があります。
+テーブル名で列名に接頭辞を付けることによってこれは成されます。
+たとえば`id`は`Team.id`となります。
+しかしながらARリレーションのクエリにおいては、SQL文はシステム的に各々のテーブルに別名を与えるARによって自動的に発生するので、
+この自由がありません。
+したがって、列名の衝突を避けるために、曖昧さを無くす必要がある列の存在を示すために、場所取りを使います。
+ARは場所取りを適当なテーブル別名と入れ替えて列の曖昧さをなくします。
 
-> Info: When a column name appears in two or more tables being joined
-together, it needs to be disambiguated. This is done by prefixing the
-column name with its table name. For example, `id` becomes `Team.id`. In AR
-relational queries, however, we do not have this freedom because the SQL
-statements are automatically generated by AR which systematically gives
-each table an alias. Therefore, in order to avoid column name conflict, we
-use a placeholder to indicate the existence of a column which needs to be
-disambiguated. AR will replace the placeholder with a suitable table alias
-and properly disambiguate the column.
-
-Dynamic Relational Query Options
+動的なリレーショナルクエリのオプション
 --------------------------------
 
-Starting from version 1.0.2, we can use dynamic relational query options
-in both [with()|CActiveRecord::with] and the `with` option. The dynamic
-options will overwrite existing options as specified in the [relations()|CActiveRecord::relations]
-method. For example, with the above `User` model, if we want to use eager
-loading approach to bring back posts belonging to an author in *ascending order*
-(the `order` option in the relation specification is descending order), we
-can do the following:
+バージョン1.0.2からは[with()|CActiveRecord::with] と`with`オプションの両方の場合とも、動的なリレーションのクエリオプションを使用することができます。
+ダイナミックなオプションは、[relations()|CActiveRecord::relations]メソッド中で指定され、既存のオプションを上書きします。
+たとえば、上記の`User`モデルにおいて、*上昇順*（リレーション仕様に関する`order`オプションは下降順です）である著者に所属するポストを戻すためにイーガーローディングアプローチを使いたいならば、以下のように行います。
 
 ~~~
 [php]
@@ -328,4 +307,71 @@ User::model()->with(array(
 ))->findAll();
 ~~~
 
-<div class="revision">$Id: database.arr.txt 611 2009-02-01 02:14:39Z qiang.xue $</div>
+
+統計クエリ
+-----------------
+
+> Note|注意: 統計クエリはバージョン1.0.4からサポートされます。
+
+上述のリレーショナルなクエリの他に、Yiiはいわゆる統計クエリ(または集計クエリ)もサポートします。
+関連したオブジェクト（例えば各々のポストのためのコメントの数、各々の製品の平均点数、その他）に関する集計的な情報を検索することに言及します。
+統計クエリは、`HAS_MANY`(例えばポストは多くのコメントを保持します)または`MANY_MANY`(例えばポストは多くのカテゴリーに属していますし、カテゴリーには多くのポストがあります)のリレーションを持つオブジェクトのために実行されるのみです。
+
+以前に解説したように、統計クエリを実行することはリレーショナルクエリを実行することと非常に類似しています。
+リレーショナルのクエリで行うように、最初に統計クエリを[relations()|CActiveRecord::relations]中で宣言する必要があります。
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+       public function relations()
+       {
+              return array(
+                     'commentCount'=>array(self::STAT, 'Comment', 'postID'),
+                     'categoryCount'=>array(self::STAT, 'Category', 'PostCategory(postID, categoryID)'),
+              );
+       }
+}
+~~~
+
+上記において、我々は2つの統計クエリを宣言します。`commentCount`はポストに属しているコメントの数を計算します。
+`categoryCount`はポストが属しているカテゴリーの数を計算します。
+`Post`と`Category`の関係が`MANY_MANY`(ジョインテーブル`PostCategory`を介して)であるのに対し、
+`Post`と`Comment`の関係が`HAS_MANY`である点に注意してください。
+このように、統計クエリの宣言は以前のサブセクションで解説したリレーション宣言と非常に類似しています。
+唯一の違いはリレーションタイプが`STAT`であるということです。
+
+上記の宣言を用いて、`$post->commentCount`という式でポストに対するコメントの数を取り出すことができます。
+初めてこのプロパティにアクセスするとき、対応する結果を取り出すために暗黙のうちSQL文が実行されます。
+すでに知っているように、これはいわゆる*レイジーローディング*アプローチです。
+複数のポストについてコメント数を決定する必要があるならば、我々は*イーガーローディング*アプローチを使用することもできます。
+
+~~~
+[php]
+$posts=Post::model()->with('commentCount', 'categoryCount')->findAll();
+~~~
+
+上記の文は、すべてのポストに対するコメント数とカテゴリー数を取り出すために、3つのSQL文を実行します。
+レイジーローディングアプローチを使う場合、`N`個のポストがあるならば`2*N+1`のSQLクエリを必要とします。
+
+デフォルトでは、統計クエリは、`COUNT`式(従って上記の例ではコメント数とカテゴリー数)を計算します。
+[relations()|CActiveRecord::relations]で宣言するとき、さらにオプションを指定することでカスタマイズ可能です。
+利用できるオプションは、下の通りまとめられます。
+
+   - `select`: 統計表現。デフォルトでは`COUNT(*)`であり、子オブジェクトの数を意味する。
+
+   - `defaultValue`: 統計クエリの結果を受けないレコードに割り当てられる値。
+たとえばポストがコメントを持たないならば、その`commentCount`はこの値を取るでしょう。
+このオプションのデフォルト値は0です。
+
+   - `condition`: `WHERE`句です。デフォルト値は空です。
+
+   - `params`: 生成されたSQL文に結合されたパラメータ値。これは名前-値のペアの配列として与えます。
+
+   - `order`: `ORDER BY`句です。デフォルト値は空です。
+
+   - `group`: `GROUP BY`句です。デフォルト値は空です。
+
+   - `having`: `HAVING`句です。デフォルト値は空です。
+
+<div class="revision">$Id: database.arr.txt 857 2009-02-01 02:14:39Z qiang.xue $</div>

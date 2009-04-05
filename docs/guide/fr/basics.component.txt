@@ -179,4 +179,4 @@ composant, peut attacher certaines de ses méthodes à des évènements du compo
 Cela permet à un comportement d'observer et/ou de changer le cycle d'exécution du
 composant.
 
-<div class="revision">$Id$</div>
+<div class="revision">$Id: basics.component.txt 683 $</div>

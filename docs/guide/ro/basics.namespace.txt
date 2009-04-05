@@ -6,7 +6,7 @@ este asociat unui director sau unui fisier fizic. Alias-ul este specificat in
 sintaxa cu puncte, la fel cu formatul namespace adoptat in lume:
 
 ~~~
-RootAlias.path.catre.destinatie
+RootAlias.cale.catre.destinatie
 ~~~
 
 `RootAlias` este alias-ul unui director existent. Prin apelarea [YiiBase::setPathOfAlias()],
@@ -58,7 +58,7 @@ a unor nume de clase, astfel incat acestea sa fie diferite de alte clase care au
 Path alias-urile sunt folosite pentru a se face referinta la o clasa dintr-un fisier fizic sau la
 un director. Path alias-ul nu intra in conflict cu 
 
-> Tip}Sfat: Pentru ca inainte de versiunea PHP 5.3.0 nu exista suport pentru namespace,
+> Tip|Sfat: Pentru ca inainte de versiunea PHP 5.3.0 nu exista suport pentru namespace,
 nu putem crea instante a doua clase care au acelasi nume (dar definitii diferite). Din acest
 motiv, toate clasele platformei Yii sunt prefixate cu litera 'C' (de la 'clasa') astfel incat
 vor fi diferite fata de clasele definite ulterior de catre utilizatori. Este recomandat

@@ -35,7 +35,7 @@ aksi tanpa prefiks `action`. Sebagai contoh, jika kelas kontroler berisi
 sebuah metode bernama `actionEdit`, ID dari aksi terkait adalah 
 `edit`.
 
-> Catatan: Sebelum versi 1.0.3, format ID kontroler adalah `path.ke.xyz`
+> Note|Catatan: Sebelum versi 1.0.3, format ID kontroler adalah `path.ke.xyz`
 daripada `path/ke/xyz`.
 
 Permintaan para pengguna terhadap kontroler dan aksi tertentu dalam batasan rute. 
@@ -45,14 +45,16 @@ dan aksi `edit`. Dan secara standar, URL
 `http://hostname/index.php?r=post/edit` akan meminta kontroler dan 
 aksi ini.
 
->Catatan: Standarnya, rute sensitif jenis huruf. Sejak versi 1.0.1, dimungkinkan
+>Note|Catatan: Standarnya, rute sensitif jenis huruf. Sejak versi 1.0.1, dimungkinkan
 >menjadikan rute tidak sensitif huruf dengan menyetel [CUrlManager::caseSensitive]
 >menjadi false dalam konfigurasi aplikasi. Ketika dalam mode tidak sensitif huruf,
 >pastikan Anda mengikuti konvensi bahwa direktori yang berisi file kelas kontroler
->dalam huruf kecil, dan [controller map|CWebApplication::controllerMap]
->serta [action map|CController::actions] keduanya menggunakan kunci dalam huruf kecil.
+>dalam huruf kecil, dan [peta kontroler|CWebApplication::controllerMap]
+>serta [peta aksi|CController::actions] keduanya menggunakan kunci dalam huruf kecil.
 
-Sejak versi 1.0.3, sebuah aplikasi bisa berisi [modules](/doc/guide/basics.module). Rute aksi kontroler di dalam sebuah modul yakni dalam format `moduleID/controllerID/actionID`. Untuk lebih rinci, lihat [section about modules](/doc/guide/basics.module).
+Sejak versi 1.0.3, sebuah aplikasi bisa berisi [modul](/doc/guide/basics.module). 
+Rute aksi kontroler di dalam sebuah modul yakni dalam format `moduleID/controllerID/actionID`. 
+Untuk lebih rinci, lihat [seksi mengenai modul](/doc/guide/basics.module).
 
 
 Penurunan Kontroler
@@ -79,7 +81,7 @@ diasumsikan adalah `XyzController` dan file kelas terkait adalah
 dan file kelas `protected/controllers/admin/UserController.php`.
 Jika file kelas tidak ada, 404 [CHttpException] akan dimunculkan.
 
-Dalam hal ketika [modules](/doc/guide/basics.module) dipakai (tersedia sejak versi 1.0.3), proses di atas cukup berbeda. Dalam keadaan tertentu, aplikasi akan memeriksa apakah ID merujuk ke kontroler di dalam sebuah modul, dan jika demikian, turunan modul akan dibuat lebih dulu diikuti dengan turunan kontroler.
+Dalam hal ketika [modul](/doc/guide/basics.module) dipakai (tersedia sejak versi 1.0.3), proses di atas cukup berbeda. Dalam keadaan tertentu, aplikasi akan memeriksa apakah ID merujuk ke kontroler di dalam sebuah modul, dan jika demikian, turunan modul akan dibuat lebih dulu diikuti dengan turunan kontroler.
 
 
 Aksi
@@ -196,7 +198,7 @@ class PerformanceFilter extends CFilter
 
 Untuk menerapkan filter terhadap aksi, kita perlu menimpa metode
 `CController::filters()`. Metode harus mengembalikan array konfigurasi
-filter. Contohnya,
+filter. Contoh,
 
 ~~~
 [php]

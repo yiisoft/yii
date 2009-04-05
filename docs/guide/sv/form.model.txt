@@ -207,14 +207,25 @@ massiva tilldelning:
 ~~~
 [php]
 $model=new LoginForm;
+$model->scenario='login';
 if(isset($_POST['LoginForm']))
-	$model->setAttributes($_POST['LoginForm'], 'login');
+	$model->attributes=$_POST['LoginForm'];
 ~~~
 
+> Note|Märk: Propertyn [scenario|CModel::scenario] har varit tillgänglig 
+> fr o m version 1.0.4. Den massiva tilldelningen utgår från värdet i denna
+> propertty för att avgöra vilka attribut som kan tilldelas massivt.
+> I version 1.0.2 och 1.0.3, behövde vi använda följande sätt för att
+> utföra massiv tilldelning i ett specifikt scenario:
+>
+> ~~~
+> [php]
+> $model->setAttributes($_POST['LoginForm'], 'login');
+> ~~~
+
 Den sista programraden innebär en massiv tilldelning av varje fält i 
-`$_POST['LoginForm']` till motsvarande modellattribut i `login`-scenariet 
-(specificerad av den andra parametern). Detta är ekvivalent med följande 
-tilldelning:
+`$_POST['LoginForm']` till motsvarande modellattribut i `login`-scenariet. 
+Detta är ekvivalent med följande tilldelning:
 
 ~~~
 [php]
@@ -305,8 +316,20 @@ registrering av en användare:
 
 ~~~
 [php]
-$model->validate('register');
+$model->scenario='register';
+$model->validate();
 ~~~
+
+> Note|Märk: Propertyn [scenario|CModel::scenario] har varit tillgänglig
+> fr o m version 1.0.4. Valideringsmetoden utgår från detta propertyvärde
+> för att avgöra vilka regler som skall användas för kontroll. I version 1.0.2
+> och 1.0.3, behövde vi använda följande tillvägagångssätt för att utföra
+> scenariobaserad validering:
+>
+> ~~~
+> [php]
+> $model->validate('register');
+> ~~~
 
 Valideringsregler kan deklareras i en formulärmodellklass på följande sätt,
 
@@ -351,4 +374,4 @@ ledtext. Detta kan anpassas genom att åsidosätta metoden
 avsnitt, tillåter specificering av ledtexter i modellen, oss att skapa formulär 
 snabbare och mer kraftfullt.
 
-<div class="revision">$Id: form.model.txt 598 2009-01-29 20:19:28Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>

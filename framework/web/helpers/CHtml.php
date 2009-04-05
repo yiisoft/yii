@@ -604,8 +604,25 @@ class CHtml
 	 * @param array data for generating the list options (value=>display).
 	 * You may use {@link listData} to generate this data.
 	 * Please refer to {@link listOptions} on how this data is used to generate the list options.
+	 * Note, the values and labels will be automatically HTML-encoded by this method.
 	 * @param array additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} for more details.)
+	 * attributes are recognized. See {@link clientChange} for more details.
+	 * In addition, the following options are also supported:
+	 * <ul>
+	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty.</li>
+	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.</li>
+	 * <li>options: array, specifies additional attributes for each OPTION tag.
+	 *     The array keys must be the option values, and the array values are the extra
+	 *     OPTION tag attributes in the name-value pairs. For example,
+	 * <pre>
+	 *     array(
+	 *         'value1'=>array('disabled'=>true, 'label'=>'value 1'),
+	 *         'value2'=>array('label'=>'value 2'),
+	 *     );
+	 * </pre>
+	 *     This option has been available since version 1.0.3.
+	 * </li>
+	 * </ul>
 	 * @return string the generated drop down list
 	 * @see clientChange
 	 * @see inputField
@@ -628,8 +645,25 @@ class CHtml
 	 * @param array data for generating the list options (value=>display)
 	 * You may use {@link listData} to generate this data.
 	 * Please refer to {@link listOptions} on how this data is used to generate the list options.
+	 * Note, the values and labels will be automatically HTML-encoded by this method.
 	 * @param array additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} for more details.)
+	 * attributes are also recognized. See {@link clientChange} for more details.
+	 * In addition, the following options are also supported:
+	 * <ul>
+	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty.</li>
+	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.</li>
+	 * <li>options: array, specifies additional attributes for each OPTION tag.
+	 *     The array keys must be the option values, and the array values are the extra
+	 *     OPTION tag attributes in the name-value pairs. For example,
+	 * <pre>
+	 *     array(
+	 *         'value1'=>array('disabled'=>true, 'label'=>'value 1'),
+	 *         'value2'=>array('label'=>'value 2'),
+	 *     );
+	 * </pre>
+	 *     This option has been available since version 1.0.3.
+	 * </li>
+	 * </ul>
 	 * @return string the generated list box
 	 * @see clientChange
 	 * @see inputField
@@ -656,6 +690,7 @@ class CHtml
 	 * @param mixed selection of the check boxes. This can be either a string
 	 * for single selection or an array for multiple selections.
 	 * @param array value-label pairs used to generate the check box list.
+	 * Note, the values will be automatically HTML-encoded, while the labels will not.
 	 * @param array addtional HTML options. The options will be applied to
 	 * each checkbox input. The following special options are recognized:
 	 * <ul>
@@ -746,6 +781,7 @@ EOD;
 	 * @param mixed selection of the radio buttons. This can be either a string
 	 * for single selection or an array for multiple selections.
 	 * @param array value-label pairs used to generate the radio button list.
+	 * Note, the values will be automatically HTML-encoded, while the labels will not.
 	 * @param array addtional HTML options. The options will be applied to
 	 * each checkbox input. The following special options are recognized:
 	 * <ul>
@@ -899,7 +935,17 @@ EOD;
 	public static function normalizeUrl($url)
 	{
 		if(is_array($url))
-			$url=isset($url[0]) ? Yii::app()->getController()->createUrl($url[0],array_splice($url,1)) : '';
+		{
+			if(isset($url[0]))
+			{
+				if(($c=Yii::app()->getController())!==null)
+					$url=$c->createUrl($url[0],array_splice($url,1));
+				else
+					$url=Yii::app()->createUrl($url[0],array_splice($url,1));
+			}
+			else
+				$url='';
+		}
 		return $url==='' ? Yii::app()->getRequest()->getUrl() : $url;
 	}
 
@@ -927,17 +973,26 @@ EOD;
 	/**
 	 * Generates a label tag for a model attribute.
 	 * The label text is the attribute label and the label is associated with
-	 * the input for the attribute. If the attribute has input error,
-	 * the label's CSS class will be appended with {@link errorCss}.
+	 * the input for the attribute (see {@link CModel::getAttributeLabel}.
+	 * If the attribute has input error, the label's CSS class will be appended with {@link errorCss}.
 	 * @param CModel the data model
 	 * @param string the attribute
-	 * @param array additional HTML attributes.
+	 * @param array additional HTML attributes. A special option named
+	 * 'label' is recognized since version 1.0.4. If this option is specified, it will be used
+	 * as the label. Otherwise, the label will be determined
+	 * by calling {@link CModel::getAttributeLabel}.
 	 * @return string the generated label tag
 	 */
 	public static function activeLabel($model,$attribute,$htmlOptions=array())
 	{
 		$for=self::getIdByName(self::resolveName($model,$attribute));
-		$label=$model->getAttributeLabel($attribute);
+		if(isset($htmlOptions['label']))
+		{
+			$label=$htmlOptions['label'];
+			unset($htmlOptions['label']);
+		}
+		else
+			$label=$model->getAttributeLabel($attribute);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
 		return self::label($label,$for,$htmlOptions);
@@ -1128,8 +1183,25 @@ EOD;
 	 * @param array data for generating the list options (value=>display)
 	 * You may use {@link listData} to generate this data.
 	 * Please refer to {@link listOptions} on how this data is used to generate the list options.
+	 * Note, the values and labels will be automatically HTML-encoded by this method.
 	 * @param array additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} for more details.)
+	 * attributes are recognized. See {@link clientChange} for more details.
+	 * In addition, the following options are also supported:
+	 * <ul>
+	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty.</li>
+	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.</li>
+	 * <li>options: array, specifies additional attributes for each OPTION tag.
+	 *     The array keys must be the option values, and the array values are the extra
+	 *     OPTION tag attributes in the name-value pairs. For example,
+	 * <pre>
+	 *     array(
+	 *         'value1'=>array('disabled'=>true, 'label'=>'value 1'),
+	 *         'value2'=>array('label'=>'value 2'),
+	 *     );
+	 * </pre>
+	 *     This option has been available since version 1.0.3.
+	 * </li>
+	 * </ul>
 	 * @return string the generated drop down list
 	 * @see clientChange
 	 * @see listData
@@ -1160,8 +1232,25 @@ EOD;
 	 * @param array data for generating the list options (value=>display)
 	 * You may use {@link listData} to generate this data.
 	 * Please refer to {@link listOptions} on how this data is used to generate the list options.
+	 * Note, the values and labels will be automatically HTML-encoded by this method.
 	 * @param array additional HTML attributes. Besides normal HTML attributes, a few special
-	 * attributes are also recognized (see {@link clientChange} for more details.)
+	 * attributes are recognized. See {@link clientChange} for more details.
+	 * In addition, the following options are also supported:
+	 * <ul>
+	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty.</li>
+	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.</li>
+	 * <li>options: array, specifies additional attributes for each OPTION tag.
+	 *     The array keys must be the option values, and the array values are the extra
+	 *     OPTION tag attributes in the name-value pairs. For example,
+	 * <pre>
+	 *     array(
+	 *         'value1'=>array('disabled'=>true, 'label'=>'value 1'),
+	 *         'value2'=>array('label'=>'value 2'),
+	 *     );
+	 * </pre>
+	 *     This option has been available since version 1.0.3.
+	 * </li>
+	 * </ul>
 	 * @return string the generated list box
 	 * @see clientChange
 	 * @see listData
@@ -1184,6 +1273,7 @@ EOD;
 	 * @param CModel the data model
 	 * @param string the attribute
 	 * @param array value-label pairs used to generate the check box list.
+	 * Note, the values will be automatically HTML-encoded, while the labels will not.
 	 * @param array addtional HTML options. The options will be applied to
 	 * each checkbox input. The following special options are recognized:
 	 * <ul>
@@ -1224,6 +1314,7 @@ EOD;
 	 * @param CModel the data model
 	 * @param string the attribute
 	 * @param array value-label pairs used to generate the radio button list.
+	 * Note, the values will be automatically HTML-encoded, while the labels will not.
 	 * @param array addtional HTML options. The options will be applied to
 	 * each checkbox input. The following special options are recognized:
 	 * <ul>

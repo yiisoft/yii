@@ -75,6 +75,7 @@ class CActiveFinder extends CComponent
 	 */
 	public function find($condition='',$params=array())
 	{
+		Yii::trace(get_class($this->_joinTree->model).'.find() eagerly','system.db.ar.CActiveRecord');
 		$criteria=$this->_builder->createCriteria($condition,$params);
 		$this->_joinTree->find($criteria);
 		$this->_joinTree->afterFind();
@@ -89,6 +90,7 @@ class CActiveFinder extends CComponent
 	 */
 	public function findAll($condition='',$params=array())
 	{
+		Yii::trace(get_class($this->_joinTree->model).'.findAll() eagerly','system.db.ar.CActiveRecord');
 		$criteria=$this->_builder->createCriteria($condition,$params);
 		$this->_joinTree->find($criteria);
 		$this->_joinTree->afterFind();
@@ -100,6 +102,7 @@ class CActiveFinder extends CComponent
 	 */
 	public function findByPk($pk,$condition='',$params=array())
 	{
+		Yii::trace(get_class($this->_joinTree->model).'.findByPk() eagerly','system.db.ar.CActiveRecord');
 		$criteria=$this->_builder->createPkCriteria($this->_joinTree->model->getTableSchema(),$pk,$condition,$params);
 		$this->_joinTree->find($criteria);
 		$this->_joinTree->afterFind();
@@ -114,6 +117,7 @@ class CActiveFinder extends CComponent
 	 */
 	public function findAllByPk($pk,$condition='',$params=array())
 	{
+		Yii::trace(get_class($this->_joinTree->model).'.findAllByPk() eagerly','system.db.ar.CActiveRecord');
 		$criteria=$this->_builder->createPkCriteria($this->_joinTree->model->getTableSchema(),$pk,$condition,$params);
 		$this->_joinTree->find($criteria);
 		$this->_joinTree->afterFind();
@@ -125,6 +129,7 @@ class CActiveFinder extends CComponent
 	 */
 	public function findByAttributes($attributes,$condition='',$params=array())
 	{
+		Yii::trace(get_class($this->_joinTree->model).'.findByAttributes() eagerly','system.db.ar.CActiveRecord');
 		$criteria=$this->_builder->createColumnCriteria($this->_joinTree->model->getTableSchema(),$attributes,$condition,$params);
 		$this->_joinTree->find($criteria);
 		$this->_joinTree->afterFind();
@@ -139,6 +144,7 @@ class CActiveFinder extends CComponent
 	 */
 	public function findAllByAttributes($attributes,$condition='',$params=array())
 	{
+		Yii::trace(get_class($this->_joinTree->model).'.findAllByAttributes() eagerly','system.db.ar.CActiveRecord');
 		$criteria=$this->_builder->createColumnCriteria($this->_joinTree->model->getTableSchema(),$attributes,$condition,$params);
 		$this->_joinTree->find($criteria);
 		$this->_joinTree->afterFind();
@@ -150,6 +156,7 @@ class CActiveFinder extends CComponent
 	 */
 	public function findBySql($sql,$params=array())
 	{
+		Yii::trace(get_class($this->_joinTree->model).'.findBySql() eagerly','system.db.ar.CActiveRecord');
 		if(($row=$this->_builder->createSqlCommand($sql,$params)->queryRow())!==false)
 		{
 			$baseRecord=$this->_joinTree->model->populateRecord($row,false);
@@ -164,6 +171,7 @@ class CActiveFinder extends CComponent
 	 */
 	public function findAllBySql($sql,$params=array())
 	{
+		Yii::trace(get_class($this->_joinTree->model).'.findAllBySql() eagerly','system.db.ar.CActiveRecord');
 		if(($rows=$this->_builder->createSqlCommand($sql,$params)->queryAll())!==array())
 		{
 			$baseRecords=$this->_joinTree->model->populateRecords($rows,false);
@@ -181,6 +189,7 @@ class CActiveFinder extends CComponent
 	 */
 	public function count($condition='',$params=array())
 	{
+		Yii::trace(get_class($this->_joinTree->model).'.count() eagerly','system.db.ar.CActiveRecord');
 		$criteria=$this->_builder->createCriteria($condition,$params);
 		return $this->_joinTree->count($criteria);
 	}
@@ -225,7 +234,7 @@ class CActiveFinder extends CComponent
 				if($relation instanceof CStatRelation)
 					return new CStatElement($this,$relation,$parent);
 				else
-					return new CJoinElement($this,$relation,$parent,++$this->_joinCount);
+					return $parent->children[$with]=new CJoinElement($this,$relation,$parent,++$this->_joinCount);
 			}
 			else
 				throw new CDbException(Yii::t('yii','Relation "{name}" is not defined in active record class "{class}".',
@@ -316,7 +325,6 @@ class CJoinElement
 		{
 			$this->relation=$relation;
 			$this->_parent=$parent;
-			$parent->children[]=$this;
 			$this->_builder=$parent->_builder;
 			$this->tableAlias=$relation->alias===null?'t'.$id:$relation->alias;
 			$this->model=CActiveRecord::model($relation->className);
@@ -656,7 +664,7 @@ class CJoinElement
 				$columns[]=$prefix.$schema->quoteColumnName($this->_table->primaryKey).' AS '.$this->_pkAlias;
 			else if(is_array($this->_pkAlias))
 			{
-				foreach($this->_primaryKey as $name)
+				foreach($this->_table->_primaryKey as $name)
 					if(!isset($selected[$name]))
 						$columns[]=$prefix.$schema->quoteColumnName($name).' AS '.$this->_pkAlias[$name];
 			}

@@ -1,8 +1,8 @@
 * 初めに
-    - [概要](index)
+    - [Yiiの公式ガイド](index)
     - [Yiiとは何でしょうか](quickstart.what-is-yii)
-    - [インストール法](quickstart.installation)
-    - [初めてのYiiアプリを作成](quickstart.first-app)
+    - [インストール](quickstart.installation)
+    - [初めてのYiiアプリケーションの作成](quickstart.first-app)
 
 * 基本
     - [モデル-ビュー-コントローラ (MVC)](basics.mvc)
@@ -18,41 +18,41 @@
     - [開発ワークフロー](basics.workflow)
 
 * フォームを使う
-    - [概要](form.overview)
+    - [フォームを使うform.overview)
     - [モデルの作成](form.model)
     - [アクションの作成](form.action)
     - [フォームの作成](form.view)
-    - [タブ入力](form.table)
+    - [HTMLテーブル式入力の収集](form.table)
 
 * データベースを使う
-    - [概要](database.overview)
-    - [データベースアクセスオブジェクト](database.dao)
+    - [データベースを使う](database.overview)
+    - [データアクセスオブジェクト](database.dao)
     - [アクティブレコード](database.ar)
     - [リレーショナルアクティブレコード](database.arr)
 
 * キャッシュ
-    - [概要](caching.overview)
+    - [キャッシュ](caching.overview)
     - [データキャッシュ](caching.data)
     - [フラグメントキャッシュ](caching.fragment)
     - [ページキャッシュ](caching.page)
     - [ダイナミックコンテンツ](caching.dynamic)
 
 * Yiiのエクステンション
-    - [概要](extension.overview)
+    - [エクステンション](extension.overview)
     - [エクステンションを使う](extension.use)
     - [エクステンションを作成する](extension.create)
     - [サードパーティライブラリを使う](extension.integration)
 
 * その他のトピック
-    - [URL管理](topics.url)
+    - [URLの取り扱い](topics.url)
     - [認証](topics.auth)
-    - [テーマを変る](topics.theming)
+    - [テーマ](topics.theming)
     - [ログをとる](topics.logging)
-    - [エラー処理](topics.error)
+    - [エラーハンドリング](topics.error)
     - [ウェブサービス](topics.webservice)
     - [国際化 (I18N)](topics.i18n)
     - [代替テンプレート文法](topics.prado)
-    - [コンソールアプリ](topics.console)
+    - [コンソールアプリケーション](topics.console)
     - [セキュリティ](topics.security)
     - [性能チューニング](topics.performance)
 

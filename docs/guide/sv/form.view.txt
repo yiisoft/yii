@@ -29,7 +29,7 @@ variabeln `$user` representerar `LoginForm`-instansen.
 ~~~
 [php]
 <div class="yiiForm">
-<?php echo CHtml::form(); ?>
+<?php echo CHtml::beginForm(); ?>
 
 <?php echo CHtml::errorSummary($user); ?>
 
@@ -50,7 +50,7 @@ Remember me next time<br/>
 <?php echo CHtml::submitButton('Login'); ?>
 </div>
 
-</form>
+<?php echo CHtml::endForm(); ?>
 </div><!-- yiiForm -->
 ~~~
 
@@ -69,4 +69,4 @@ av `yiic`-skriptet, kommer det genererade formuläret att se ut i stil med följ
 
 ![Loginsidan med felmeddelanden](login2.png)
 
-<div class="revision">$Id: form.view.txt 772 2009-02-28 18:23:17Z qiang.xue $</div>
+<div class="revision">$Id: form.view.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>

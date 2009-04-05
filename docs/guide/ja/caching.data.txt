@@ -108,4 +108,7 @@ Yii::app()->cache->set($id, $value, 30, new CFileCacheDependency('FileName'));
    - [CChainedCacheDependency]: チェーン上の依存関係のいずれかが変更された場合、
 依存関係が変更されます。
 
-<div class="revision">$Id: caching.data.txt 169 2008-11-06 19:43:44Z qiang.xue $</div>
+   - [CExpressionDependency]: 指定されたPHP表現の結果が変更された場合、依存関係が変更されます。
+このクラスは、バージョン1.0.4から利用できます。
+
+<div class="revision">$Id: caching.data.txt 891 2008-11-06 19:43:44Z qiang.xue $</div>

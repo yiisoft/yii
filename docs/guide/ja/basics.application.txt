@@ -148,16 +148,25 @@ Yiiフレームワークのコアメッセージの翻訳を提供します。
 
 ユーザーリクエストを取り扱うとき、アプリケーションは次のライフサイクルを経ます:
 
+   0. [CApplication::preinit()]によりアプリケーションをプレ初期化します;
+
    1. クラス自動ローダとエラー処理を準備します;
+
    2. コアアプリケーションコンポーネントを登録します;
+
    3. アプリケーション構成をロードします;
+
    4. [CApplication::init()]によりアプリケーションを初期化します;
+           - アプリケーションビヘイビアを登録します;
 	   - 静的なアプリケーションコンポーネントをロードします;
+
    5. イベント[onBeginRequest|CApplication::onBeginRequest]を発行します;
+
    6. ユーザー要請を処理します:
 	   - ユーザーリクエストを分解します;
-	   - コントローラを生成します；
+	   - コントローラを生成します;
 	   - コントローラを実行します;
+
    7. イベント[onEndRequest|CApplication::onEndRequest]を発行します;
 
-<div class="revision">$Id: basics.application.txt 416 2008-12-28 05:28:11Z qiang.xue $</div>
+<div class="revision">$Id: basics.application.txt 857 2008-12-28 05:28:11Z qiang.xue $</div>

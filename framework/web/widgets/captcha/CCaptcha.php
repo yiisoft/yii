@@ -19,7 +19,7 @@
  * By default, the action ID should be 'captcha', which can be changed by setting {@link captchaAction}.
  *
  * CCaptcha also renders a button next to the CAPTCHA image. Clicking on the button
- * will change the CAPTCHA image to be new one.
+ * will change the CAPTCHA image to be a new one in an AJAX way.
  *
  * A {@link CCaptchaValidator} may be used to validate that the user enters
  * a verification code matching the code displayed in the CAPTCHA image.
@@ -32,8 +32,11 @@
 class CCaptcha extends CWidget
 {
 	/**
-	 * @var sring the ID of the action that should provide CAPTCHA image. Defaults to 'captcha'.
-	 * The action must belong to the controller rendering this widget.
+	 * @var string the ID of the action that should provide CAPTCHA image. Defaults to 'captcha',
+	 * meaning the 'captcha' action of the current controller. This property may also
+	 * be in the format of 'ControllerID/ActionID'. Underneath, this property is used
+	 * by {@link CController::createUrl} to create the URL that would serve the CAPTCHA image.
+	 * The action has to be of {@link CCaptchaAction}.
 	 */
 	public $captchaAction='captcha';
 	/**

@@ -388,10 +388,10 @@ class CWebApplication extends CApplication
 					return $this->createController($route,$module);
 
 				$basePath=$owner->getControllerPath();
-				$controllerID=$id;
+				$controllerID='';
 			}
 			else
-				$controllerID.='/'.$id;
+				$controllerID.='/';
 			$className=ucfirst($id).'Controller';
 			$classFile=$basePath.DIRECTORY_SEPARATOR.$className.'.php';
 			if(is_file($classFile))
@@ -400,13 +400,15 @@ class CWebApplication extends CApplication
 					require($classFile);
 				if(class_exists($className,false) && is_subclass_of($className,'CController'))
 				{
+					$id[0]=strtolower($id[0]);
 					return array(
-						new $className($controllerID,$owner===$this?null:$owner),
+						new $className($controllerID.$id,$owner===$this?null:$owner),
 						$this->parseActionParams($route),
 					);
 				}
 				return null;
 			}
+			$controllerID.=$id;
 			$basePath.=DIRECTORY_SEPARATOR.$id;
 		}
 	}

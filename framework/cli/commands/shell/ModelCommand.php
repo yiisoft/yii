@@ -28,12 +28,34 @@ class ModelCommand extends CConsoleCommand
 	public function getHelp()
 	{
 		return <<<EOD
-Usage: model <class-name> [table-name]
-This command generates a model class with the specified class name.
- * class-name: required, model class name. It can be specified in
-   dot syntax (it defaults to application.models.class-name).
+USAGE
+  model <class-name> [table-name]
+
+DESCRIPTION
+  This command generates a model class with the specified class name.
+
+PARAMETERS
+ * class-name: required, model class name. By default, the generated
+   model class file will be placed under the directory aliased as
+   'application.models'. To override this default, specify the class
+   name in terms of a path alias, e.g., 'application.somewhere.ClassName'.
+
+   If the model class belongs to a module, it should be specified
+   as 'ModuleID.models.ClassName'.
+
  * table-name: optional, the associated database table name. If not given,
    it is assumed to be the model class name.
+
+EXAMPLES
+ * Generates the Post model:
+        model Post
+
+ * Generates the Post model which is associated with table 'posts':
+        model Post posts
+
+ * Generates the Post model which should belong to module 'admin':
+        model admin.models.Post
+
 EOD;
 	}
 

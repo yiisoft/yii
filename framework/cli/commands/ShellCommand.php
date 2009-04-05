@@ -26,17 +26,22 @@ class ShellCommand extends CConsoleCommand
 	{
 		return <<<EOD
 USAGE
-  yiic shell [app-entry-script]
+  yiic shell [entry-script | config-file]
 
 DESCRIPTION
   This command allows you to interact with a Web application
   on the command line. It provides tools to automatically
   generate new controllers, views and data models.
 
+  It is recommended that you execute this command under
+  the directory that contains the entry script file of
+  the Web application.
+
 PARAMETERS
- * app-entry-script: optional, the path to the entry script file
-   of the Web application. If not given, it is assumed to be
-  'index.php' under the current directory.
+ * entry-script | config-file: optional, the path to
+   the entry script file or the configuration file for
+   the Web application. If not given, it is assumed to be
+   the 'index.php' file under the current directory.
 
 EOD;
 	}
@@ -54,6 +59,7 @@ EOD;
 			$this->usageError("{$args[0]} does not exist or is not an entry script file.");
 
 		// fake the web server setting
+		$cwd=getcwd();
 		chdir(dirname($entryScript));
 		$_SERVER['SCRIPT_NAME']='/'.basename($entryScript);
 		$_SERVER['REQUEST_URI']=$_SERVER['SCRIPT_NAME'];
@@ -69,8 +75,18 @@ EOD;
 		Yii::setPathOfAlias('application',null);
 
 		ob_start();
-		require($entryScript);
+		$config=require($entryScript);
 		ob_end_clean();
+
+		// oops, the entry script turns out to be a config file
+		if(is_array($config))
+		{
+			chdir($cwd);
+			$_SERVER['SCRIPT_NAME']='/index.php';
+			$_SERVER['REQUEST_URI']=$_SERVER['SCRIPT_NAME'];
+			$_SERVER['SCRIPT_FILENAME']=$cwd.DIRECTORY_SEPARATOR.'index.php';
+			Yii::createWebApplication($config);
+		}
 
 		$yiiVersion=Yii::getVersion();
 		echo <<<EOD
@@ -80,6 +96,26 @@ EOD;
 		$this->runShell();
 	}
 
+	/**
+	 * Reads input via the readline PHP extension if that's available, or fgets() if readline is not installed.
+	 * @param string prompt to echo out before waiting for user input
+	 * @return mixed line read as a string, or false if input has been closed
+	 */
+	protected function readline($prompt)
+	{
+		if (extension_loaded('readline'))
+		{
+			$input = readline($prompt);
+			readline_add_history($input);
+			return $input;
+		}
+		else
+		{
+			echo $prompt;
+			return fgets(STDIN);
+		}
+	}
+
 	protected function runShell()
 	{
 		$_runner_=new CConsoleCommandRunner;
@@ -87,8 +123,7 @@ EOD;
 		$_runner_->addCommands(Yii::getPathOfAlias('application.commands.shell'));
 		$_commands_=$_runner_->commands;
 
-		echo "\n>> ";
-		while(($_line_=fgets(STDIN))!==false)
+		while(($_line_=$this->readline("\n>> "))!==false)
 		{
 			$_line_=trim($_line_);
 			try
@@ -110,8 +145,6 @@ EOD;
 				else
 					echo $e;
 			}
-
-			echo "\n>> ";
 		}
 	}
 }

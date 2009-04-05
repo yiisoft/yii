@@ -41,7 +41,7 @@ skall vyfilen `create` sparas som `WebRoot/themes/classic/views/forum/post/creat
 Om modulen `forum` är nästlad i en annan modul, `support`, skall vyfilen istället sparas 
 som `WebRoot/themes/classic/views/support/forum/post/create.php`.
 
-> Note: Eftersom katalogen `views` kan innehålla ur säkerhetssynpunkt känslig data, 
+> Note|Märk: Eftersom katalogen `views` kan innehålla ur säkerhetssynpunkt känslig data, 
 skall den konfigureras för att förhindra webbanvändare tillgång.
 
 Vid anrop till [render|CController::render] eller 
@@ -56,9 +56,10 @@ standardplatserna för vyer och layouter specificerade i
 temaresursfiler. Till exempel, kan vi vilja visa en bildfil under temats katalog 
 `images`. Genom att använda det för tillfället aktiva temats property 
 [baseUrl|CTheme::baseUrl], kan en URL för bilden genereras på följande sätt, 
+
 > ~~~ 
 > [php] 
 > Yii::app()->theme->baseUrl . '/images/FileName.gif' 
 > ~~~ 
 
-<div class="revision">$Id: topics.theming.txt 759 2009-02-26 21:23:53Z qiang.xue $</div>
+<div class="revision">$Id: topics.theming.txt 878 2009-03-23 15:31:21Z qiang.xue $</div>

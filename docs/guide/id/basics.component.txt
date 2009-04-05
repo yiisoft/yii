@@ -45,7 +45,7 @@ eksepsi. Menggunakan metode pengambil dan penyetel untuk mendefinisikan sebuah
 properti memiliki keuntungan bahwa logika tambahan (seperti melakukan validasi, memunculkan event)
 dapat dijalankan saat membaca dan menulis properti.
 
->Catatan: Ada perbedaan menyolok antara properti yang didefinisikan via metode 
+>Note|Catatan: Ada perbedaan menyolok antara properti yang didefinisikan via metode 
 pengambil/penyetel dan variabel anggota kelas. Nama pengambil/penyetel
 tidak sensitif jenis huruf sementara variabel anggota kelas sensitif jenis huruf.
 

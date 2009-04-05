@@ -1,0 +1,246 @@
+Tworzenie pierwszej aplikacji
+=============================
+
+Po to by nabyć podstawowych doświadczeń w pracy z Yii pokażemy w tym rozdziale
+jak utworzyć naszą pierwszą aplikację. Użyjemy potężnego narzędzia `yiic`,
+które pozwala automatyzować generowanie kodu dla określonych zadań.
+Przyjmujemy tu konwencję w myśl której `YiiRoot` jest katalogiem,
+w którym zainstalowano Yii, a `WebRoot` to document root naszego web serwera.
+
+Uruchom `yiic` z wiersza poleceń w następujący sposób:
+
+~~~
+% YiiRoot/framework/yiic webapp WebRoot/testdrive
+~~~
+
+> Uwaga: uruchamiając `yiic` na Mac OS, Linuksie lub Uniksie będziesz może
+> musiał zmienić uprawnienia pliku `yiic` tak, aby był on wykonywalny.
+> Alternatywnie możesz użyć tego narzędzia w sposób następujący:
+>
+> ~~~
+> % cd WebRoot/testdrive
+> % php YiiRoot/framework/yiic.php webapp WebRoot/testdrive
+> ~~~
+
+This will create a skeleton Yii application under the directory
+`WebRoot/testdrive`. The application has a directory structure that is
+is needed by most Yii applications.
+
+Without writing a single line of code, we can test drive our first Yii
+application by accessing the following URL in a Web browser:
+
+~~~
+http://hostname/testdrive/index.php
+~~~
+
+Jak widać aplikacja składa się z trzech stron: strony domowej, kontaktu
+i strony logowania. Strona domowa prezentuje pewne informacje na temat
+samej aplikacji oraz statusu logowania użytkownika. Strona kontaktowa
+zawiera formularz kontaktowy, poprzez który użytkownik może wysłać swoje
+zapytanie. Strona logowania pozwala użytkownikowi na autentykację,
+poprzedzającą dostęp do uprzywilejowanych zasobów.
+Poniższe zrzuty ekranów prezentują więcej szczegółów.
+
+![Strona domowa](first-app1.png)
+
+![Strona kontaktowa](first-app2.png)
+
+![Strona kontaktowa z błędami wej.](first-app3.png)
+
+![Strona kontaktowa zatwierdzona pomyślnie](first-app4.png)
+
+![Strona logowania](first-app5.png)
+
+
+Poniższy diagram prezentuje strukturę naszej aplikacji.
+Szczegółowe informacje na temat tej struktury znajdziesz
+w dziale [Konwencje](/doc/guide/basics.convention#directory).
+
+~~~
+testdrive/
+   index.php                 skrypt startowy aplikacji webowej
+   assets/                   zawiera opublikowane zasoby plików
+   css/                      zawiera pliki CSS
+   images/                   zawiera pliki obrazów
+   themes/                   Zawiera tematy aplikacji
+   protected/                zawiera chronione pliki aplikacji
+      yiic                   skrypt yiic
+      yiic.bat               skrypt yiic dla systemu Windows
+      commands/              zawiera spersonalizowane polecenia 'yiic'
+         shell/              zawiera spersonalizowane polecenia 'yiic shell'
+      components/            zawiera komponenty wielokrotnego użytku
+         MainMenu.php        klasa widżetu 'MainMenu'
+         Identity.php        klasa 'Identity', przeznaczona do celów autentykacji
+         views/              zawiera pliki widoków widżetów
+            mainMenu.php     plik widoku widżetu 'MainMenu'
+      config/                zawiera pliki konfiguracyjne
+         console.php         konfiguracja aplikacji konsolowej
+         main.php            konfiguracja aplikacji webowej
+      controllers/           zawiera pliki klas kontrolera
+         SiteController.php  domyślna klasa kontrolera
+      extensions/            zawiera rozszerzenia firm trzecich
+      messages/              zawiera przetłumaczone komunikaty
+      models/                zawiera pliki klas modeli
+         LoginForm.php       model formularza dla czynności logowania
+         ContactForm.php     model formularza kontaktowego
+      runtime/               zawiera tymczasowo generowane pliki
+      views/                 zawiera pliki widoku i układu (ang. layout) kontrolera
+         layouts/            zawiera pliki układów (ang. layout) dla widoków
+            main.php         domyślny układ dla wszystkich widoków
+         site/               zawiera pliki widoków dla kontrolera 'site'
+            contact.php      widok dla czynności 'contact'
+            index.php        widok dla czynności 'index'
+            login.php        widok dla czynności 'login'
+         system/             zawiera pliki widoków systemowych
+~~~
+
+Łączenie z bazą danych
+----------------------
+
+Większość aplikacji webowych pracuje w oparciu o bazę danych. Nasz aplikacja
+testowa nie jest tu wyjątkiem. Aby użyć bazy danych musimy po pierwsze
+poinformować aplikację jak ma się z nią połączyć. Jest to realizowane przez
+modyfikację pliku konfiguracyjnego `WebRoot/testdrive/protected/config/main.php`,
+co pokazujemy niżej:
+
+~~~
+[php]
+return array(
+	......
+	'components'=>array(
+		......
+		'db'=>array(
+			'connectionString'=>'sqlite:protected/data/source.db',
+		),
+	),
+	......
+);
+~~~
+
+W powyższym przykładzie do sekcji `components` dodajemy wpis `db`, który nakazuje
+aplikacji łączyć się z bazą danych `WebRoot/testdrive/protected/data/source.db`
+wtedy, gdy jest to potrzebne.
+
+> Uwaga: aby używać opcji obsługi bazy danych, musimy włączyć rozszerzenie
+PHP PDO oraz właściwy dla bazy sterownik PDO. Dla aplikacji testowej będziemy
+potrzebowali włączonych `php_pdo` i `php_pdo_sqlite`.
+
+W tym celu musimy przygotować bazę SQLite tak, aby skutecznie użyć powyższej
+konfiguracji. Używając jakiegoś narzędzia zarządzania SQLite możemy utworzyć
+tabelę o następującym schemacie:
+
+~~~
+[sql]
+CREATE TABLE User (
+	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	username VARCHAR(128) NOT NULL,
+	password VARCHAR(128) NOT NULL,
+	email VARCHAR(128) NOT NULL
+);
+~~~
+
+Dla uproszczenia tworzymy w bazie danych tylko pojedynczą tabelę `User`.
+Plik bazy danych SQLite zostanie zapisany jako
+`WebRoot/testdrive/protected/data/source.db`. Zwróć uwagę, że zarówno plik,
+jak i zawierający go katalog muszą być dostępne do zapisu dla procesu Web
+serwera, jak wymaga tego SQLite.
+
+
+Implementowanie operacji CRUD
+-----------------------------
+
+Ta część to czysta zabawa. Chcemy zaimplementować operacje CRUD (create,
+read, update i delete) dla tabeli `User`, którą dopiero co utworzyliśmy.
+Potrzebne są one też powszechnie w praktycznie tworzonych aplikacjach.
+
+Zamiast męczyć się pisząc rzeczywisty kod możemy znów skorzystać z potężnego
+narzędzia `yiic`, które automatycznie wygeneruje dla nas kod. Ten proces znany
+jest jako *scaffolding* (tworzenie rusztowania). Otwórz okno poleceń i uruchom
+listę następujących poleceń:
+
+~~~
+% cd WebRoot/testdrive
+% protected/yiic shell
+Yii Interactive Tool v1.0
+Please type 'help' for help. Type 'exit' to quit.
+>> model User
+   generate User.php
+
+The 'User' class has been successfully created in the following file:
+    D:\wwwroot\testdrive\protected\models\User.php
+
+If you have a 'db' database connection, you can test it now with:
+    $model=User::model()->find();
+    print_r($model);
+
+>> crud User
+   generate UserController.php
+   generate create.php
+      mkdir D:/wwwroot/testdrive/protected/views/user
+   generate update.php
+   generate list.php
+   generate show.php
+
+Crud 'user' has been successfully created. You may access it via:
+http://hostname/path/to/index.php?r=user
+~~~
+
+Powyżej używamy polecenia `yiic shell` dla interakcji z naszą szkieletową
+aplikacją. W wierszu poleceń wykonujemy dwa polecenia: `model User` i `crud User`.
+Pierwsze z nich generuje klasę modelu dla tabeli `User`, kolejne odczytuje
+ten model i generuje kod wymagany dla operacji CRUD.
+
+> Uwaga: mogą pojawić się błędy typu "...could not find driver" (nie mogę
+> odnaleźć sterownika), nawet gdy weryfikacja wymagań pokaże, że uruchomiłeś
+> już PDO i odpowiadający mu sterownik. Jeżeli się to zdarzy możesz spróbować
+> uruchomić `yiic` w sposób następujący:
+>
+> ~~~
+> % php -c path/to/php.ini protected/yiic.php shell
+> ~~~
+>
+> gdzie `path/to/php.ini` reprezentuje sobą ścieżkę do właściwego pliku PHP ini.
+
+Nacieszmy się teraz efektami naszej pracy otwierając taki adres URL:
+
+~~~
+http://hostname/testdrive/index.php?r=user
+~~~
+
+Spowoduje to wyświetlenie listy użytkowników w tabeli `User`. Ponieważ
+nasza tabela jest pusta, chwilowo nic się nie pojawi.
+
+Kliknij link `New User` na tej stronie. Zostaniemy przeniesieni do strony logowania,
+o ile wcześniej nie zalogowaliśmy się. Po zalogowaniu zostanie nam wyświetlony
+formularz wprowadzania danych, który pozwoli nam wprowadzić nowego użytkownika.
+Wypełnij formularz i kliknij przycisk `Create`. Jeżeli wystąpił jakikolwiek błąd
+danych wejściowych pojawi się zgrabny komunikat o błędzie. Ustrzeże nas to
+od zapisania takich danych. Wracając na listę użytkowników powinniśmy zauważyć
+świeżo dodanego użytkownika.
+
+Powtórz powyższe kroki aby dodać więcej użytkowników. Zauważ, że strona z listą
+użytkowników podlega automatycznej paginacji, jeżeli jest zbyt wiele rekordów
+do wyświetlenia na pojedynczej stronie.
+
+Jeżeli zalogowaliśmy się jako administrator używając `admin/admin`, możemy
+odwiedzić stronę administrowania użytkownikami pod adresem:
+
+~~~
+http://hostname/testdrive/index.php?r=user/admin
+~~~
+
+Zobaczymy tam tablicę zawierającą listę użytkowników. Możemy klikać w nagłówki
+cel, aby uporządkować je wg. odpowiadających im kolumn. I podobnie jak strona
+z listą użytkowników, strona administracji również obsługuje paginację,
+gdy więcej jest pozycji w tabeli niż można wyświetlić na jednej stronie.
+
+Wszystkie te praktyczne funkcjonalności nie wymagały od nas napisania choćby
+pojedynczej linijki kodu!
+
+![Strona administracji użytkownikami](first-app6.png)
+
+![Strona tworzenia nowego użytkownika](first-app7.png)
+
+
+
+<div class="revision">$Id: quickstart.first-app.txt 723 2009-02-21 18:14:05Z qiang.xue $</div>

@@ -46,6 +46,7 @@ DSN のフォーマットは、使用する PDO データベースドライバ�
    - SQLite: `sqlite:/path/to/dbfile`
    - MySQL: `mysql:host=localhost;dbname=testdb`
    - PostgreSQL: `pgsql:host=localhost;port=5432;dbname=testdb`
+   - SQL Server: `mssql:host=localhost;dbname=testdb`
 
 [CDbConnection] は [CApplicationComponent] から拡張されているため、
 [アプリケーションコンポーネント](/doc/guide/basics.application#application-component)
@@ -223,4 +224,4 @@ while($dataReader->read()!==false)
 }
 ~~~
 
-<div class="revision">$Id: database.dao.txt 367 2008-12-16 20:18:30Z qiang.xue $</div>
+<div class="revision">$Id: database.dao.txt 857 2008-12-16 20:18:30Z qiang.xue $</div>

@@ -1,0 +1,218 @@
+Zarządzanie adresami URL
+========================
+
+Pełne zarządzanie adresami URL w ramach aplikacji webowej składa się z dwóch
+aspektów. Pierwszy, gdy ze strony użytkownika pojawia się żądanie w formacie
+URL. Wówczas aplikacja musi przetworzyć je do postaci zrozumiałych dla siebie
+parametrów. W drugim przypadku aplikacja musi dostarczyć mechanizmu tworzenia
+takich adresów URL, by były one zrozumiałe dla samej aplikacji.
+W przypadku aplikacji Yii jest to dokonywane przy pomocy [CUrlManager].
+
+Tworzenie adresów URL
+---------------------
+
+Pomimo, że adresy URL mogą być sztywno zapisane w widokach kontrolera,
+bardziej elastycznym sposobem jest ich dynamiczne tworzenie:
+
+~~~
+[php]
+$url=$this->createUrl($route,$params);
+~~~
+
+gdzie `$this` odnosi się do instancji kontrolera; `$route` określa trasę
+[route](/doc/guide/basics.controller#route) wywołania; `$params` jest listą
+parametrów `GET`, dodaną do adresu URL.
+
+Domyślnie adres URL utworzony przez [createUrl|CController::createUrl]
+jest w tak zwanym formacie `get`. Przykładowo, dla zadanych `$route='post/read'`
+i `$params=array('id'=>100)`, uzyskamy następujący URL:
+
+~~~
+/index.php?r=post/read&id=100
+~~~
+
+parametry pojawiają się w wywołaniu w postaci listy wyrażeń `Name=Value`,
+złączonych znakiem ampersand (&). Parametr `r` reprezentuje żądanie
+[route](/doc/guide/basics.controller#route). Ten format URL nie jest zbyt
+przyjazny użytkownikowi, ponieważ wymaga kilku nieczytelnych znaków.
+
+Możemy sprawić by powyższy URL prezentował się czytelniej i był bardziej
+zrozumiały używając adresu formatowanego ukośnikami (ang. `path`), który
+eliminuje kwerendę i umieszcza parametry GET na ścieżce adresu URL:
+
+~~~
+/index.php/post/read/id/100
+~~~
+
+Aby zmienić format adresów URL musimy skonfigurować komponent aplikacji
+[urlManager|CWebApplication::urlManager] tak, by [createUrl|CController::createUrl]
+mógł automatycznie przełączyć się na nowy format i by aplikacja mogła zrozumieć
+nowe adresy URL:
+
+~~~
+[php]
+array(
+	......
+	'components'=>array(
+		......
+		'urlManager'=>array(
+			'urlFormat'=>'path',
+		),
+	),
+);
+~~~
+
+Zauważ, że nie musimy definiować klasy komponentu [urlManager|CWebApplication::urlManager]
+ponieważ jest on wstępnie zadeklarowana jako [CUrlManager] w [CWebApplication].
+
+> Wskazówka: URL wygenerowany przy pomocy metody [createUrl|CController::createUrl]
+jest adresem względnym. Aby uzyskać pełny adres wystarczy poprzedzić adres względny
+`Yii::app()->hostInfo` lub wywołać metodę [createAbsoluteUrl|CController::createAbsoluteUrl].
+
+Przyjazne adresy URL
+--------------------
+
+Gdy używany jest URL formatowany ukośnikami (ang. `path`) możemy zdefiniować
+pewne reguły tworzenia URL tak, by adres był jeszcze bardziej przyjazny użytkownikowi.
+Przykładowo możemy generować adres tak krótki jak `/post/100`, zamiast długiego
+`/index.php/post/read/id/100`. Reguły tworzenia adresów URL używane są przez
+[CUrlManager], zarówno do celów tworzenia, jak i przetwarzania adresów URL.
+
+Aby utworzyć te reguły musimy skonfigurować właściwość [rules|CUrlManager::rules]
+komponentu aplikacji [urlManager|CWebApplication::urlManager]:
+
+~~~
+[php]
+array(
+	......
+	'components'=>array(
+		......
+		'urlManager'=>array(
+			'urlFormat'=>'path',
+			'rules'=>array(
+				'pattern1'=>'route1',
+				'pattern2'=>'route2',
+				'pattern3'=>'route3',
+			),
+		),
+	),
+);
+~~~
+
+Opisywane reguły definiowane są w tablicy przechowującej pary wyrażeń postaci
+wzorzec-trasa, każda z takich par odpowiada jednej regule. Wzorzec reguły musi
+być poprawnym wyrażeniem regularnym, pozbawionym separatorów i parametrów.
+Używany jest do sprawdzenia dopasowania części informacyjnej adresu URL
+do wzorca. [Trasa](/doc/guide/basics.controller#route) powinna odnosić się do poprawnej
+trasy kontrolera.
+
+Reguła może być powiązana z kilkoma parametrami GET. Te parametry pojawiają
+się we wzorcu reguły jako specjalne znaczniki o formacie:
+
+~~~
+&lt;ParamName:ParamPattern&gt;
+~~~
+
+gdzie `ParamName` określa nazwe parametru GET, a opcjonalny `ParamPattern` definiuje
+wyrażenie regularne, które ma być używane do badania dopasowania wartości parametru
+GET. Gdy tworzymy adres URL znaczniki tych parametrów zostaną zastąpione odpowiednimi
+wartościami parametru GET; podczas przetwarzania adresu URL odpowiednie parametry GET
+zostaną wypełnione wynikami tego przetwarzania.
+
+Pokażmy kilka przykładów by wyjasnić jak działają reguły adresów URL. Zakładamy,
+że nasz zestaw reguł składa się z trzech, widocznych poniżej:
+
+~~~
+[php]
+array(
+	'posts'=>'post/list',
+	'post/<id:\d+>'=>'post/read',
+	'post/<year:\d{4}>/<title>'=>'post/read',
+)
+~~~
+
+   - Wywołanie `$this->createUrl('post/list')` tworzy `/index.php/posts`.
+Stosowana jest pierwsza reguła.
+
+   - Wywołanie `$this->createUrl('post/read',array('id'=>100))` generates
+`/index.php/post/100`. Zastosowana została druga reguła.
+
+   - Wywołanie `$this->createUrl('post/read',array('year'=>2008,'title'=>'a
+sample post'))` tworzy `/index.php/post/2008/a%20sample%20post`. Zastosowana
+została trzecia reguła.
+
+   - Wywołanie `$this->createUrl('post/read')` tworzy
+`/index.php/post/read`. Żadna z reguł nie została użyta.
+
+Podsumowując: gdy używamy [createUrl|CController::createUrl] do generowania
+adresów URL, trasa i parametry GET przekazywane do tej metody umożliwiają
+wybór reguły, która ma być zastosowana. Jeżeli każdy z parametrów powiązanych
+z pewną reguła występuje również wśród parametrów GET przekazywanych do
+[createUrl|CController::createUrl] i jeżeli trasa zawarta w tej regule pasuje
+do trasy w parametrach wywołania metody, to ta reguła będzie użyta
+do wygenerowania adresu URL.
+
+Jeżeli parametrów GET przekazywanych do metody [createUrl|CController::createUrl]
+jest więcej niż wymaga jakakolwiek reguła, nadmiarowe parametry pojawią się
+w ciągu argumentów tej metody. Przykładowo: jeżeli wywołamy
+`$this->createUrl('post/read',array('id'=>100,'year'=>2008))` otrzymalibyśmy
+`/index.php/post/100?year=2008`. Po to, by te dodatkowe parametry pojawiły się
+w części informacyjnej adresu, powinniśmy dodać `/*` do reguły. Wówczas, używając
+reguły `post/<id:\d+>/*`, możemy uzyskać adres URL postaci
+`/index.php/post/100/year/2008`.
+
+Jak wcześniej wspominaliśmy innym zastosowaniem reguł URL jest przetwarzanie
+wywoływanych adresów URL. Jest to oczywiście proces odwrotny do tworzenia
+adresów. Np. gdy użytkownik zgłasza żądanie adresu `/index.php/post/100`,
+zastosowanie będzie miała druga reguła z przykłady wyżej. Spowoduje to
+rozłożenie żądania na trasę `post/read` i parametr GET `array('id'=>100)`
+(dostępny poprzez `$_GET`).
+
+> Uwaga: korzystanie z reguł URL obniża wydajność aplikacji. Dzieje się tak
+ponieważ [CUrlManager] przetwarzając wywoływany URL porównuje go z każdą regułą,
+aż nie trafi na odpowiednią. Z tego względu w mocno obciążanych aplikacjach
+webowych należy minimalizować użycie reguł URL.
+
+### Ukrywanie `index.php`
+
+Czyszcząc adresy URL możemy zrobić jeszcze jedną rzecz więcej ukrywając
+w adresie URL skrypt startowy `index.php`. To wymaga od nas skonfigurowania
+web serwera oraz komponentu aplikacji [urlManager|CWebApplication::urlManager].
+
+Po pierwsze musimy skonfigurować web serwer tak, by adres URL pozbawiony
+skryptu wejściowego mógł być zawsze obsługiwany z uwzględnieniem skryptu.
+W przypadku [serwera HTTP Apache](http://httpd.apache.org/) może to być zrealizowane poprzez
+włączenie tzw. mechanizmu nadpisywania URL (ang. URL rewriting engine)
+i zdefiniowanie kilku reguł nadpisywania. Taka konfiguracja może zostać
+umieszczona w pliku `.htaccess`, wewnątrz katalogu zawierającego skrypt
+wejściowy. Poniżej przykładowa:
+
+~~~
+Options +FollowSymLinks
+IndexIgnore */*
+RewriteEngine on
+
+# jeżeli katalog lub plik istnieje użyj ich bezpośrednio
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# w przeciwnym razie przekieruj na index.php
+RewriteRule . index.php
+~~~
+
+Później konfigurujemy wspomnianą właściwość [showScriptName|CUrlManager::showScriptName]
+komponentu [urlManager|CWebApplication::urlManager] przypisując jej wartość `false`.
+
+Teraz możemy wywołać `$this->createUrl('post/read',array('id'=>100))`, otrzymując URL
+`/post/100`. I co ważniejsze ten adres URL będzie poprawnie rozpoznany przez twoją
+aplikację webową.
+
+### Pozorowany sufiks adresu URL
+
+Możemy również dodawać pewne sufiksy do adresów URL. Na przykład możemy uzyskać
+`/post/100.html` zamiast `/post/100`. To sprawia, że wygląda on bardziej jak URL
+do strony statycznej. Aby to zrobić po prostu skonfiguruj komponent
+[urlManager|CWebApplication::urlManager] ustawiając jego właściwość
+[urlSuffix|CUrlManager::urlSuffix] na taki sufiks, jaki ci odpowiada.
+
+<div class="revision">$Id: topics.url.txt 229 2008-11-16 21:14:59Z qiang.xue $</div>

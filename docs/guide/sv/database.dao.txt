@@ -49,6 +49,7 @@ fullständig information. Nedan återges en lista med vanligtvis använda DSN-fo
    - SQLite: `sqlite:/path/to/dbfile`
    - MySQL: `mysql:host=localhost;dbname=testdb`
    - PostgreSQL: `pgsql:host=localhost;port=5432;dbname=testdb`
+   - SQL Server: `mssql:host=localhost;dbname=testdb`
 
 Eftersom [CDbConnection] är en utvidgning av [CApplicationComponent], kan vi 
 även använda den som just en 
@@ -234,4 +235,4 @@ while($dataReader->read()!==false)
 }
 ~~~
 
-<div class="revision">$Id: database.dao.txt 367 2008-12-16 20:18:30Z qiang.xue $</div>
+<div class="revision">$Id: database.dao.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>

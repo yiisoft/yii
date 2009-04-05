@@ -1,7 +1,7 @@
 Przewodnik po Yii
 ===========================
 
-Ten przewodnik został wydany zgodnie z [warunkami dokumentacji Yii](http://www.yiiframework.com/doc/terms/).
+Ten przewodnik został wydany w zgodzie z [warunkami dokumentacji Yii](http://www.yiiframework.com/doc/terms/).
 
 Wszystkie prawa zastrzeżone.
 

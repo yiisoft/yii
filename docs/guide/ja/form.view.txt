@@ -31,19 +31,19 @@ Yiiはビューの作成を手助けするいくつかのヘルパークラス�
 ~~~
 [php]
 <div class="yiiForm">
-<?php echo CHtml::form(); ?>
+<?php echo CHtml::beginForm(); ?>
 
 <?php echo CHtml::errorSummary($user); ?>
 
 <div class="simple">
 <?php echo CHtml::activeLabel($user,'username'); ?>
-<?php echo CHtml::activeTextField($user,'username') ?>
+<?php echo CHtml::activeTextField($user,'username'); ?>
 </div>
 
 <div class="simple">
 <?php echo CHtml::activeLabel($user,'password'); ?>
-<?php echo CHtml::activePasswordField($user,'password')
-?>
+<?php echo CHtml::activePasswordField($user,'password');
+ ?>
 </div>
 
 <div class="action">
@@ -52,7 +52,7 @@ Remember me next time<br/>
 <?php echo CHtml::submitButton('Login'); ?>
 </div>
 
-</form>
+<?php echo CHtml::endForm(); ?>
 </div><!-- yiiForm -->
 ~~~
 
@@ -62,8 +62,7 @@ Remember me next time<br/>
  `error` に変更され、表示はラベルに適したCSSスタイルへ変更されるでしょう。
 同様に、[CHtml::activeTextField()] は、定義されたモデルの属性の為の
 テキスト入力フィールドを生成し、あらゆる入力エラー時に、
-そのCSSクラスを変更します。[CHtml] の使用に関するより詳細な情報は、
-[Using Helpers](/doc/guide/view.helper)を参照して下さい。
+そのCSSクラスを変更します。
 
 `yiic` スクリプトで供給される、`form.css` というCSSスタイルファイル
 を使用した場合、それによって生成されるフォームは下記の様になるでしょう:
@@ -72,4 +71,4 @@ Remember me next time<br/>
 
 ![The login with error page](login2.png)
 
-<div class="revision">$Id: form.view.txt 297 2008-11-30 23:01:07Z qiang.xue $</div>
+<div class="revision">$Id: form.view.txt 857 2008-11-30 23:01:07Z qiang.xue $</div>

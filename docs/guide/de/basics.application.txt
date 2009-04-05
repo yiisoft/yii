@@ -203,6 +203,8 @@ Lebenszyklus einer Applikation
 Wenn eine Applikation einen Benutzer-Request bearbeitet, werden folgende
 Lebenszyklen durchlaufen:
 
+   0. Vor-Initialisieren der Anwendung mit [CApplication::preinit()];
+
    1. Einrichten des Klassen-Autoloaders und der Fehlerbehandlung
 
    2. Registrieren der Kernkomponenten
@@ -210,6 +212,7 @@ Lebenszyklen durchlaufen:
    3. Laden der Anwendungskonfiguration
 
    4. Initialisieren der Anwendung mit [CApplication::init()]
+       - Registrieren von Anwendungs-Behaviors
        - Laden von statischen Applikationskomponenten
 
    5. Auslösen des [onBeginRequest|CApplication::onBeginRequest]-Events
@@ -221,4 +224,4 @@ Lebenszyklen durchlaufen:
 
    7. Auslösen des [onEndRequest|CApplication::onEndRequest]-Events
 
-<div class="revision">$Id: basics.application.txt 626 2009-02-04 20:51:13Z qiang.xue $</div>
+<div class="revision">$Id: basics.application.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>
