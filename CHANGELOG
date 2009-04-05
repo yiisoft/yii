@@ -2,8 +2,8 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.0.4 to be released
-----------------------------
+Version 1.0.4 April 5, 2009
+---------------------------
 - Bug #177: CFileValidator::getSizeLimit() not calculate well (Qiang)
 - Bug #185: German error views have syntax errors (Qiang)
 - Bug #183: Fatal error in CActiveFinder::afterFindInternal() (Qiang)

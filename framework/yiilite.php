@@ -36,7 +36,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.0.4-dev';
+		return '1.0.4';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -2495,6 +2495,7 @@ class CController extends CBaseController
 	const STATE_INPUT_NAME='YII_PAGE_STATE';
 	public $layout;
 	public $defaultAction='index';
+	public $usePageCaching=false;
 	private $_id;
 	private $_action;
 	private $_pageTitle;
@@ -2564,15 +2565,22 @@ class CController extends CBaseController
 	public function processOutput($output)
 	{
 		Yii::app()->getClientScript()->render($output);
-		if($this->_dynamicOutput)
-		{
-			$output=preg_replace_callback('/<###dynamic-(\d+)###>/',array($this,'replaceDynamicOutput'),$output);
-			$this->_dynamicOutput=null;
-		}
+		// if using page caching, we should delay dynamic output replacement
+		if(!$this->usePageCaching && $this->_dynamicOutput)
+			$output=$this->processDynamicOutput($output);
 		if($this->_pageStates!==null || isset($_POST[self::STATE_INPUT_NAME]))
 		{
 			$states=$this->savePageStates();
 			$output=str_replace(CHtml::pageStateField(''),CHtml::pageStateField($states),$output);
+		}
+		return $output;
+	}
+	public function processDynamicOutput($output)
+	{
+		if($this->_dynamicOutput)
+		{
+			$output=preg_replace_callback('/<###dynamic-(\d+)###>/',array($this,'replaceDynamicOutput'),$output);
+			$this->_dynamicOutput=null;
 		}
 		return $output;
 	}
@@ -2756,10 +2764,10 @@ class CController extends CBaseController
 	}
 	public function renderDynamicInternal($callback,$params)
 	{
+		$this->recordCachingAction('','renderDynamicInternal',array($callback,$params));
 		if(is_string($callback) && method_exists($this,$callback))
 			$callback=array($this,$callback);
 		$this->_dynamicOutput[]=call_user_func_array($callback,$params);
-		$this->recordCachingAction('','renderDynamicInternal',array($callback,$params));
 	}
 	public function createUrl($route,$params=array(),$ampersand='&')
 	{
@@ -3794,7 +3802,17 @@ EOD;
 	public static function normalizeUrl($url)
 	{
 		if(is_array($url))
-			$url=isset($url[0]) ? Yii::app()->getController()->createUrl($url[0],array_splice($url,1)) : '';
+		{
+			if(isset($url[0]))
+			{
+				if(($c=Yii::app()->getController())!==null)
+					$url=$c->createUrl($url[0],array_splice($url,1));
+				else
+					$url=Yii::app()->createUrl($url[0],array_splice($url,1));
+			}
+			else
+				$url='';
+		}
 		return $url==='' ? Yii::app()->getRequest()->getUrl() : $url;
 	}
 	protected static function inputField($type,$name,$value,$htmlOptions)
