@@ -1,0 +1,121 @@
+部件
+=========
+
+YII 应用构建于对象是规范编写的部件之上.部件是 [CComponent] 或其衍生类的实例.使用部件主要就是涉及访问其属性和挂起/处理它的事件.基类 [CComponent] 指定了如何定义属性和事件.
+
+部件属性
+------------------
+
+组件的属性就像对象的公开成员变量.我们可以读取或设置组件属性的值.例如:
+
+~~~
+[php]
+$width=$component->textWidth;     // 获取 textWidth 属性
+$component->enableCaching=true;   // 设置 enableCaching 属性
+~~~
+
+我们可以简单的在组件类里公开声明一个公共成员变量来定义组件属性.更灵活的方法就是,如下所示的,定义 getter 和 setter 方法:
+
+~~~
+[php]
+public function getTextWidth()
+{
+    return $this->_textWidth;
+}
+
+public function setTextWidth($value)
+{
+    $this->_textWidth=$value;
+}
+~~~
+
+以上的代码定义了一个名称为 `textWidth`(大小写不敏感) 的可写属性.当读取属性时,`getTextWidth()`被请求,然后它它的返回值编程了属性的值;同样的,当写入属性石,`setTextWidth()` 被请求.如果 setter 方法没有定义,属性就是只读的如果向其写入将抛出一个异常.使用 getter 和 setter 方法来定义属性 有这样一个好处:当属性被读取或者写入的时候附加的逻辑(例如执行校验,挂起事件)可以被执行.
+
+>Note|注意: 通过 getter/setter 方法和通过定位类里的一个成员变量来定义一个属性有一个微小的差异.前者大小写不敏感而后者大小写敏感.
+
+部件事件
+---------------
+
+部件事件是一种特殊的属性,它可以将方法(称之为 `事件句柄(event handlers)`)作为它的值.绑定(分配)一个方法到一个事件将会导致方法在事件被挂起处自动被调用.因此部件行为可能会被一种在部件开发过程中不可预见的方式修改.
+
+部件事件以 `on` 开头的命名方式定义.和属性通过 getter/setter 方法来定义的命名方式一样,事件的名称是大小写不敏感的.以下方法定义了一个 `onClicked` 事件:
+
+~~~
+[php]
+public function onClicked($event)
+{
+	$this->raiseEvent('onClicked', $event);
+}
+~~~
+
+这里作为事件参数的 `$event` 是 [CEvent] 或其子类的实例.
+
+我们可以按照下述为这个事件绑定一个方法:
+
+~~~
+[php]
+$component->onClicked=$callback;
+~~~
+
+这里的 `$callback` 指向了一个有效的 PHP 回调.它可以是一个全局函数也可以是类中的一个方法.如果是后者他的提供方式必须是一个数组(`array($object,'methodName')`).
+
+事件句柄必须按照如下来签署 :
+
+~~~
+[php]
+function methodName($event)
+{
+    ......
+}
+~~~
+
+这里的 `$event` 是描述事件(源于 `raiseEvent()` 调用的)的参数. `$event` 参数是 [CEvent] 或其子类的实例.它至少包含了"是谁挂起了这个事件"的信息.
+
+如果我们现在调用了 `onClicked()`, `onClicked` 事件将被挂起(内置的 `onClicked()` ),然后被绑定的事件句柄将被自动调用.
+
+一个事件可以绑定多个句柄.当事件被挂起时,句柄将会以他们被绑定到事件的先后顺序调用.如果句柄决定在调用期间防止其他句柄的调用,它可以设置 [$event->handled|CEvent::handled] 为 true.
+
+
+部件行为
+------------------
+
+自 1.0.2 版起,部件开始支持 [mixin](http://en.wikipedia.org/wiki/Mixin) 从而可以绑定一个或者多个行为.一个 *行为(behavior)* 就是一个对象,其方法可以被它绑定的部件通过收集功能的方式来实现 '继承(inherited)',而不是专有化继承(即普通的类继承).简单的来说,就是一个部件可以以'多重继承'的方式实现多个行为的绑定.
+
+行为类必须实现 [IBehavior] 接口.大多数行为可以从 [CBehavior] 基类扩展而来.如果一个行为需要绑定到一个[模型](/doc/guide/basics.model),它也可以从专为模型实现绑定特性的 [CModelBehavior] 或者 [CActiveRecordBehavior] 继承.
+
+使用一个行为,首先通过调用行为的 [attach()|IBehavior::attach] 方法绑定到一个部件是必须的.然后我们就可以通过部件调用行为了:
+
+~~~
+[php]
+// $name 是行为在部件中唯一的身份标识.
+$behavior->attach($name,$component);
+// test() 是一个方法或者行为
+$component->test();
+~~~
+
+一个已绑定的行为是可以被当作组件的一个属性一样来访问的.例如,如果一个名为 `tree` 的行为被绑定到部件,我们可以获得行为对象的引用:
+
+~~~
+[php]
+$behavior=$component->tree;
+// 相当于以下:
+// $behavior=$component->asa('tree');
+~~~
+
+行为是可以被临时禁止的,此时它的方法开就会在部件中失效.例如:
+
+~~~
+[php]
+$component->disableBehavior($name);
+// 以下语句将抛出一个异常
+$component->test();
+$component->enableBehavior($name);
+// 当前可用
+$component->test();
+~~~
+
+两个同名行为绑定到同一个部件下是很有可能的.在这种情况下,先绑定的行为则拥有优先权.
+
+当和 [events](#component-event) 一起使用时,行为会更加强大.当行为被绑定到部件时,行为里的一些方法就可以绑定到部件的一些事件上了.这样一来,行为就有机观察或者改变部件的常规执行流程.
+
+<div class="revision">$Id: basics.component.txt 683 2009-02-16 05s:20:17Z qiang.xue & 译 : thaiki $</div>

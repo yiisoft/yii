@@ -262,7 +262,7 @@ This should be given as an array of name-value pairs. This option has been
 available since version 1.0.3.
 
    - `on`: the `ON` clause. The condition specified here will be appended
-to the joining condition using the `AND` operator. ote, column
+to the joining condition using the `AND` operator. Note, column
 references need to be disambiguated using `aliasToken` (e.g. `??.id=10`).
 This option does not apply to `MANY_MANY` relations. This option has been
 available since version 1.0.2.

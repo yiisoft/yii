@@ -1,4 +1,5 @@
 * Introduction
+	- [Vue d'ensemble](index)
     - [Qu'est-ce que Yii](quickstart.what-is-yii)
     - [Installation](quickstart.installation)
     - [Créer sa première application Yii](quickstart.first-app)
@@ -11,6 +12,7 @@
     - [Modèle](basics.model)
     - [Vue](basics.view)
     - [Composant](basics.component)
+	- [Module](basics.module)
     - [Alias et Espace de nommage](basics.namespace)
     - [Conventions](basics.convention)
     - [Organisation du développement](basics.workflow)
@@ -46,10 +48,12 @@
     - [Autentification et autorisation](topics.auth)
     - [Thèmes](topics.theming)
     - [Logging](topics.logging)
-    - [gestion des erreurs](topics.error)
+    - [Gestion des erreurs](topics.error)
     - [Web Service](topics.webservice)
     - [Internationalisation (I18N)](topics.i18n)
     - [Syntaxe alternative des templates](topics.prado)
     - [Applications en ligne de commande](topics.console)
     - [Securité](topics.security)
     - [Optimisation](topics.performance)
+
+<div class="revision">$Id: toc.txt 745 $</div>

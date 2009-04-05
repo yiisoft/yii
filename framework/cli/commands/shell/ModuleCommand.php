@@ -63,7 +63,10 @@ EOD;
 		$list=$this->buildFileList($sourceDir,$modulePath);
 		$list['module.php']['target']=$modulePath.DIRECTORY_SEPARATOR.$moduleClass.'.php';
 		$list['module.php']['callback']=array($this,'generateModuleClass');
-		$list['module.php']['params']=array('moduleClass'=>$moduleClass);
+		$list['module.php']['params']=array(
+			'moduleClass'=>$moduleClass,
+			'moduleID'=>$moduleID,
+		);
 		$list[$moduleClass.'.php']=$list['module.php'];
 		unset($list['module.php']);
 

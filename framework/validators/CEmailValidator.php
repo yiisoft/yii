@@ -29,6 +29,12 @@ class CEmailValidator extends CValidator
 	 */
 	public $checkMX=false;
 	/**
+	 * @var boolean whether to check port 25 for the email address.
+	 * Defaults to false.
+	 * @since 1.0.4
+	 */
+	public $checkPort=false;
+	/**
 	 * @var boolean whether the attribute value can be null or empty. Defaults to true,
 	 * meaning that if the attribute is empty, it is considered valid.
 	 */
@@ -45,12 +51,12 @@ class CEmailValidator extends CValidator
 		$value=$object->$attribute;
 		if($this->allowEmpty && ($value===null || $value===''))
 			return;
-		if(($valid=preg_match($this->pattern,$value)) && $this->checkMX && function_exists('checkdnsrr'))
-		{
-			$pos=strpos($value,'@');
-			$domain=substr($value,$pos+1);
+		if($valid=preg_match($this->pattern,$value))
+			$domain=substr($value,strpos($value,'@')+1);
+		if($valid && $this->checkMX && function_exists('checkdnsrr'))
 			$valid=checkdnsrr($domain,'MX');
-		}
+		if($valid && $this->checkPort && function_exists('fsockopen'))
+			$valid=fsockopen($domain,25)!==false;
 		if(!$valid)
 		{
 			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} is not a valid email address.');

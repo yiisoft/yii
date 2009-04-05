@@ -40,8 +40,9 @@ class CFileValidator extends CValidator
 	 */
 	public $allowEmpty=false;
 	/**
-	 * @var string a list of file name extensions that are allowed to be uploaded.
-	 * Separate the extension names with space or comma, for example, "gif, jpg".
+	 * @var mixed a list of file name extensions that are allowed to be uploaded.
+	 * This can be either an array or a string consisting of file extension names
+	 * separated by space or comma (e.g. "gif, jpg").
 	 * Extension names are case-insensitive. Defaults to null, meaning all file name
 	 * extensions are allowed.
 	 */
@@ -121,7 +122,10 @@ class CFileValidator extends CValidator
 
 		if($this->types!==null)
 		{
-			$types=preg_split('/[\s,]+/',strtolower($this->types),-1,PREG_SPLIT_NO_EMPTY);
+			if(is_string($this->types))
+				$types=preg_split('/[\s,]+/',strtolower($this->types),-1,PREG_SPLIT_NO_EMPTY);
+			else
+				$types=$this->types;
 			if(!in_array(strtolower($file->getExtensionName()),$types))
 			{
 				$message=$this->wrongType!==null?$this->wrongType : Yii::t('yii','The file "{file}" cannot be uploaded. Only files with these extensions are allowed: {extensions}.');

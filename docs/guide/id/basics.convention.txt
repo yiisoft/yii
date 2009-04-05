@@ -1,0 +1,145 @@
+Konvensi
+========
+
+Yii mempunyai konvensi terhadap konfigurasi. Ikuti konvensi dan seseorang 
+bisa membuat aplikasi Yii yang memuaskan tanpa harus menulis dan mengatur
+konfigurasi yang rumit. Tentunya, Yii masih dapat dikustomisasi dalam hampir
+setiap aspek dengan konfigurasi bila diperlukan.
+
+Di bawah ini dijelaskan konvensi yang direkomendasikan untuk pemrograman Yii.
+Demi kenyamanan, kami asumsikan bahwa `WebRoot` adalah direktori di mana 
+aplikasi Yii diinstalasi.
+
+URL
+---
+
+Secara standar, Yii mengenali URL dengan format berikut:
+
+~~~
+http://hostname/index.php?r=ControllerID/ActionID
+~~~
+
+Variabel GET `r` merujuk pada
+[rute](/doc/guide/basics.controller#route) yang bisa dipecah oleh Yii
+menjadi kontroler dan aksi. Jika `ActionID` tidak ada, kontroler akan 
+mengambil aksi standar (didefinisikan via [CController::defaultAction]); dan jika
+`ControllerID` juga tidak ada (atau variabel `r` tidak ada), aplikasi
+akan menggunakan kontoler standar (didefinsikan via
+[CWebApplication::defaultController]).
+
+Dengan bantuan [CUrlManager], memungkinkan URL dibuat dan dikenal lebih
+ramah-SEO-friendly, seperti
+`http://hostname/ControllerID/ActionID.html`. Fitur ini dicakup secara rinci
+dalam [URL Management](/doc/guide/topics.url).
+
+Kode
+----
+
+Yii merekomendasikan penamaan variabel, fungsi dan tipe kelas dalam jenis huruf
+kamel yang membesarkan setiap kata pada nama dan menggabungkannya tanpa spasi.
+Nama variabel dan spasi namanya semuanya harus dalam huruf kecil,
+tujuannya untuk membedakannya dari nama kelas (contoh `$basePath`,
+`runController()`, `LinkPager`). Untuk variabel anggota kelas private,
+direkomendasikan untuk mengawali namanya dengan karakter garis bawah (contoh
+`$_actionList`).
+
+Karena namespace tidak didukung oleh PHP sebelum versi 5.3.0, direkomendasikan
+bahwa kelas dinamai dalam cara yang unik guna menghindari konflik nama dengan 
+kelas pihak-ketiga. Untuk alasan ini, semua kelas Yii framework diawali dengan
+huruf "C".
+
+Aturan khusus untuk nama kelas kontroler, ia harus ditambah dengan kata
+`Controller`. Kemudian ID kontroler didefinisikan sebagai nama kelas dengan
+huruf pertamanya dalam huruf kecil dan kata `Controller` dipotong.
+Sebagai contoh, kelas `PageController` akan memiliki ID `page`. Aturan ini
+membuat aplikasi lebih aman. Ini juga menjadikan URL yang terkait dengan
+kontroler sedikit lebih bersih (contoh `/index.php?r=page/index` daripada
+`/index.php?r=PageController/index`).
+
+Konfigurasi
+-----------
+
+Konfigurasi adalah sebuah array pasangan kunci-nilai. Setiap kunci mewakili
+nama properti obyek yang dikonfigurasi, dan setiap nilai
+merupakan nilai awal properti tersebut. Sebagai contoh, `array('name'=>'My
+application', 'basePath'=>'./protected')` mengawali properti `name` dan
+`basePath` ke nilai array terkait.
+
+Setiap properti obyek yang bisa ditulis dapat dikonfigurasi. Jika tidak dikonfigurasi,
+properti akan mengambil nilai standar awal. Ketika mengkonfigurasi properti,
+tidak ada salahnya untuk membaca dokumentasi terkait agar nilai awal
+dapat diberikan dengan benar.
+
+File
+----
+
+Konvensi penamaan dan penggunaan file tergantung pada tipenya.
+
+File Kelas harus dinamai setelah kelas publik. Sebagai contoh,
+kelas [CController] pada file `CController.php`.  Kelas publik
+adalah kelas yang dipakai oleh kelas lain. Setiap file kelas harus
+berisi paling banyak satu kelas. Kelas Private (kelas yang hanya dipakai
+oleh satu kelas publik) bisa berada dalam file yang sama dengan
+kelas publik.
+
+File tampilan harus dinamai setelah nama tampilan. Sebagai contoh, tampilan `index`
+ada dalam file `index.php`. File tampilan adalah file naskah PHP yang berisi
+kode HTML dan PHP terutama untuk keperluan penyajian.
+
+File konfigurasi bisa dinamai secara arbitrari. File konfigurasi adalah
+naskah PHP yang bertujuan untuk mengembalikan sebuah array asosiasi yang
+mewakili konfigurasi.
+
+Direktori
+---------
+
+Yii menganggap set standar direktori yang dipakai untuk berbagai keperluan. Masing-masing
+bisa dikustomisasi jika diperlukan.
+
+   - `WebRoot/protected`: ini adalah [basis direktori 
+aplikasi](/doc/guide/basics.application#application-base-directory) menampung semua
+naskah PHP sensitif-keamanan dan file data. Yii memiliki alias standar
+bernama `application` yang dikaitkan dengan path ini. Direktori ini dan
+semua yang ada di bawahnya dilindungi dari pengaksesan pengguna Web. Ia
+bisa dikustomisasi via [CWebApplication::basePath].
+
+   - `WebRoot/protected/runtime`: direktori ini menampung file temporal privat
+yang dibuat selama menjalankan aplikasi. Direktori ini harus bisa ditulis oleh
+proses server Web. Ia dapat dikustomisasi melalui
+[CApplication::runtimePath].
+
+   - `WebRoot/protected/extensions`: direktori ini menampung semua ekstensi
+pihak ketiga. Ia dapat dikustomisasi melalui [CApplication::extensionPath].
+
+   - `WebRoot/protected/modules`: direktori ini menampung semua 
+[modul](/doc/guide/basics.module) aplikasi, masing-masing diwakili oleh subdirektori.
+
+   - `WebRoot/protected/controllers`: direktori ini menampung semua file kelas
+kontroler. Ia dapat dikustomisasi melalui [CWebApplication::controllerPath].
+
+   - `WebRoot/protected/views`: direktori ini menampung semua file tampilan,
+termasuk tampilan kontroler, tampilan tata letak dan tampilan sistem. Ia dapat 
+dikustomisasi melalui [CWebApplication::viewPath].
+
+   - `WebRoot/protected/views/ControllerID`: direktori ini menampung file tampilan
+untuk satu kelas kontroler. Di sini, `ControllerID` kepenekan dari ID
+kontroler. Ia dapat dikustomisasi melalui [CController::getViewPath].
+
+   - `WebRoot/protected/views/layouts`: direktori ini menampung semua file
+tampilan tata letak. Ia dapat dikustomisasi melalui [CWebApplication::layoutPath].
+
+   - `WebRoot/protected/views/system`: direktori ini menampung semua file tampilan
+sistem. Tampilan sistem adalah template yang dipakai dalam menampilkan eksepsi dan
+kesalahan. Ia dapat dikustomisasi melalui [CWebApplication::systemViewPath].
+
+   - `WebRoot/assets`: direktori ini menampung file aset yang diterbitkan. File
+asset adalah file privat yang dapat diterbitkan agar bisa diakses oleh pengguna
+Web. Direktori ini harus bisa ditulis oleh proses server Web. Ia dapat dikustomisasi 
+melalui [CAssetManager::basePath].
+
+   - `WebRoot/themes`: direktori ini menampung berbagai tema yang dapat diterapkan
+pada aplikasi. Setiap subdirektori mewakili satu tema yang namanya adalah nama
+subdirektori. Ia dapat dikustomisasi melalui
+[CThemeManager::basePath].
+
+<div class="revision">$Id: basics.convention.txt 749 2009-02-26 02:11:31Z qiang.xue $</div>

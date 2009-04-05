@@ -1,4 +1,5 @@
 * Memulai
+	- [Tinjauan](index)
     - [Apa itu Yii](quickstart.what-is-yii)
     - [Instalasi](quickstart.installation)
     - [Membuat Aplikasi Yii Pertama](quickstart.first-app)
@@ -7,13 +8,14 @@
     - [Model-View-Controller (MVC)](basics.mvc)
     - [Naskah Entri](basics.entry)
     - [Aplikasi](basics.application)
-    - [Pengontrol](basics.controller)
+    - [Kontroler](basics.controller)
     - [Model](basics.model)
     - [Tampilan](basics.view)
     - [Komponen](basics.component)
     - [Alias Path dan Namespace](basics.namespace)
+    - [Modul](basics.module)
     - [Konvensi](basics.convention)
-    - [Alur Pengembangan](basics.workflow)
+    - [Alur Kerja Pengembangan](basics.workflow)
 
 * Bekerja dengan Formulir
     - [Tinjauan](form.overview)
@@ -30,9 +32,9 @@
 
 * Caching
     - [Tinjauan](caching.overview)
-    - [Caching Data](caching.data)
-    - [Caching Fragmen](caching.fragment)
-    - [Caching Halaman](caching.page)
+    - [Cache Data](caching.data)
+    - [Cache Fragmen](caching.fragment)
+    - [Cache Halaman](caching.page)
     - [Konten Dinamis](caching.dynamic)
 
 * Memperluas Yii
@@ -53,3 +55,5 @@
     - [Aplikasi Konsol](topics.console)
     - [Keamanan](topics.security)
     - [Penyesuaian Performansi](topics.performance)
+
+<div class="revision">$Id: toc.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>

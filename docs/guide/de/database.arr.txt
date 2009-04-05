@@ -261,7 +261,9 @@ Diese sollten als ein Array von Namen-Werte Paaren angegeben werden. Diese Optio
 seit Version 1.0.3 verfügbar.
 
    - `on`: Die `ON` Klausel. Die hier angegebene Bedingung wird an die JOIN Abfrage
-mit einem `AND` Operator angehängt. Diese Option ist seit Version 1.0.2 verfügbar.
+mit einem `AND` Operator angehängt. Die Spaltennamen sollten durch
+`aliasToken` eindeutig gekennzeichnet sein (z.B. `??.id=10`). Bei
+`MANY_MANY`-Beziehungen wird diese Option nicht berücksichtigt. Diese Option ist seit Version 1.0.2 verfügbar.
 
    - `order`: Die `ORDER BY` Klausel, standardmäßig leer. Beachten Sie,
 dass Spaltenreferenzen mit `aliasToken` eindeutig gekennzeichnet werden müssen (z.B. `??.age
@@ -284,17 +286,15 @@ das bedeutet, der Tabellenalias wird automatisch erzeugt. Das ist etwas
 anderes als `aliasToken`. Im letzterem Falle handelt es sich nur um einen Platzhalter, der
 vom tatsächlichen Tabellenalias ersetzt wird.
 
-Zusätzlich sind für bestimmte Beziehungen folgende Optionen beim `lazy loading`
-verfügbar:
-
    - `group`: Die `GROUP BY` Klausel, standardmäßig leer. Beachten Sie,
 dass Spaltenreferenzen mit `aliasToken` eindeutig gekennzeichnet werden müssen (z.B. `??.age`).
-Diese Option ist nur anwendbar bei `HAS_MANY` und `MANY_MANY` Beziehungen.
 
    - `having`: Die `HAVING` Klausel, standarmäßig leer. Beachten Sie,
 dass Spaltenreferenzen mit `aliasToken` eindeutig gekennzeichnet werden müssen (z.B. `??.age`).
-Diese Option ist nur bei `HAS_MANY` und `MANY_MANY` Beziehungen anwendbar.
-die Option ist seit Version 1.0.1. verfügbar.
+Diese Option ist seit Version 1.0.1. verfügbar.
+
+Zusätzlich sind für bestimmte Beziehungen folgende Optionen beim `lazy loading`
+verfügbar:
 
    - `limit`: Begrenzt die auszuwählenden Zeilen. Diese Option ist bei der Beziehung
 `BELONGS_TO` NICHT anwendbar.   
@@ -356,4 +356,85 @@ User::model()->with(array(
 ))->findAll();
 ~~~
 
-<div class="revision">$Id: database.arr.txt 683 2009-02-16 05:20:17Z qiang.xue $</div>
+Statistische Abfragen
+---------------------
+
+> Note|Hinweis: Statistische Abfragen werden seit Version 1.0.4 unterstützt.
+
+Neben den oben beschriebenen Verbundabfragen unterstützt Yii auch sogenannte
+statistische Abfragen (auch: aggregierte Abfragen, engl.: aggregational query)
+Mit ihnen können Informationen zu verbundenen Objekten ausgelesen werden, wie
+z.B. die Anzahl von Kommentaren zu einem Beitrag, die durchschnittliche
+Bewertung eines Produkts, etc. Statistische Abfragen können nur für Objekte
+durchgeführt werden, die in einer `HAS_MANY`-Beziehung (z.B. ein Beitrag hat
+viele Kommentare) oder einer `MANY_MANY`-Beziehung (z.B. ein Beitrag gehört zu
+vielen Kategorien und eine Kategorie hat viele Beiträge) stehen.
+
+Eine statistische Abfrage wird ähnlich wie eine oben beschriebene
+Verbundabfrage durchgeführt. Analog dazu müssen wir zunächst die statistische Abfrage
+in der [relations()|CActiveRecord::relations]-Methode des [CActiveRecord]
+festlegen.
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+			'commentCount'=>array(self::STAT, 'Comment', 'postID'),
+			'categoryCount'=>array(self::STAT, 'Category', 'PostCategory(postID, categoryID)'),
+		);
+	}
+}
+~~~
+
+Hier legen wir zwei statistische Abfragen fest: `commentCount` errechnet die
+Anzahl der Kommentare zu einem Beitrag und `categoryCount` die Anzahl von
+Kategorien, denen ein Beitrag zugeordnet wurde. Beachten Sie, dass `Post` und
+`Comment` in einer `HAS_MANY`-Beziehung zueineander stehen, während `Post` und
+`Category` über eine `MANY_MANY`-Beziehung (über die Verbindungstabelle
+`PostCategory`) verknüpft sind.
+
+Mit obiger Deklaration können wir die Anzahl der Kommentare eines Beitrags
+über den Ausdruck `$post->commentCount` beziehen. Beim ersten Zugriff auf
+diese Eigenschaft wird implizit eine SQL-Abfrage durchgeführt, um das
+entsprechende Ergebnis zu bestimmen. Wie wir bereits wissen, handelt es sich
+hierbei um den *lazy loading*-Ansatz. Wenn wir die Anzahl der Kommentare für
+mehrere Beiträge bestimmen wollen, können wir auch die *eager loading*-Methode
+verwenden:
+
+~~~
+[php]
+$posts=Post::model()->with('commentCount', 'categoryCount')->findAll();
+~~~
+
+Dieser Befehl führt drei SQL-Anweisungen aus um alle Beiträge zusammen mit der Anzahl
+ihrer Kommentare und Kategorien zurückzuliefern. Würden wir den *lazy
+loading*-Ansatz verwenden, würde das in `2*N+1` SQL-Abfragen resultieren, wenn
+es `N` Beiträge gibt.
+
+Standardmäßig wird eine statistische Abfrage unter Verwendung von `COUNT`
+durchgeführt (was in obigem Beispiel für die Ermittlung der Anzahl der Kommentare und
+Kategorien der Fall ist). Wir können dies über zusätzliche Optionen bei der
+Deklaration in [relations()|CActiveRecord::relations] anpassen. Hier die
+verfügbaren Optionen:
+
+   - `select`: Der statistische Ausdruck. Vorgabewert ist `COUNT(*)`, was der
+Anzahl der Kindobjekte entspricht.
+
+   - `defaultValue`: Der Wert, der jenen Einträgen zugeordnet werden soll, für
+die die statistische Abfrage kein Ergenis liefert. Hat ein Beitrag z.B. keine
+Kommentare, würde sein `commentCount` diesen Wert erhalten. Vorgabewert ist 0.
+
+   - `condition`: Die `WHERE`-Bedingung. Standardmäßig leer.
+
+   - `params`: Die Parameter, die an die erzeugte SQL-Anweisung gebunden
+werden sollen. Sie sollten als Array aus Namen-/Wert-Paare angegeben werden.
+
+   - `order`: Die `ORDER BY`-Anweisung. Standardmäßig leer.
+
+   - `group`: Die `GROUP BY`-Anweisung. Standardmäßig leer.
+
+   - `having`: Die `HAVING`-Anweisung. Standarmäßig leer.
+
+<div class="revision">$Id: database.arr.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>

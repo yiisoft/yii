@@ -108,4 +108,4 @@ einer nicht-abgefangenen Exception, lautet die Kategorie
 somit die Verfahren zur [Protokollierung](/doc/guide/topics.logging) benutzen,
 um Ausführungsfehler einer Anwendung zu überwachen.
 
-<div class="revision">$Id: topics.error.txt 170 2008-11-06 20:33:35Z qiang.xue $</div>
+<div class="revision">$Id: topics.error.txt 772 2009-02-28 18:23:17Z qiang.xue $</div>

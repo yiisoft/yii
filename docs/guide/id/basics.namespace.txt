@@ -1,0 +1,70 @@
+Alias Path dan Namespace
+========================
+
+Yii menggunakan alias secara ekstensif. Alias path dikaitkan dengan
+direktori atau path file. Ditetapkan dalam sintaks titik, mirip dengan
+format namespace yang diadopsi secara luas:
+
+~~~
+RootAlias.path.ke.target
+~~~
+
+di mana `RootAlias` adalah alias dari beberapa direktori yang sudah ada. Dengan memanggil [YiiBase::setPathOfAlias()],
+kita dapat menetapkan alias path baru. Demi kenyamanan, Yii sudah mendefinisikan alias root sebagai berikut:
+
+ - `system`: merujuk pada direktori Yii framework;
+ - `application`: merujuk pada [basis direktori](/doc/guide/basics.application#application-base-directory) aplikasi;
+ - `webroot`: merujuk pada direktori yang berisi file [naskah entri](/doc/guide/basics.entry). Alias ini sudah tersedia sejak versi 1.0.3.
+ 
+Sebagai tambahan, jika aplikasi menggunakan [modul](/doc/guide/basics.module), alias root juga didefinisikan untuk setiap ID modul dan merujuk pada basis path modul terkait. Fitur ini sudah tersedia sejak versi 1.0.3.
+
+Dengan menggunakan [YiiBase::getPathOfAlias()], alias dapat diterjemahkan ke
+path terkait. Sebagai contoh, `system.web.CController` akan diterjemahkan
+sebagai `yii/framework/web/CController`.
+
+Menggunakan alias, sangat nyaman untuk mengimpor definisi sebuah kelas.
+Sebagai contoh, jika kita ingin menyertakan definisi kelas [CController],
+kita dapat memanggil seperti berikut:
+
+~~~
+[php]
+Yii::import('system.web.CController');
+~~~
+
+Metode [import|YiiBase::import] berbeda dari `include` dan `require`
+dalam hal ia lebih efisien. Definisi kelas yang sedang diimpor
+sebenarnya tidak disertakan sampai ia dirujuk untuk pertama kali. Mengimpor
+namespace yang sama berkali-kali juga lebih cepat daripada `include_once`
+dan `require_once`.
+
+> Tip: Ketika merujuk pada kelas yang didefinisikan oleh Yii framework, kita tidak
+perlu mengimpor atau menyertakannya. Semua kelas inti Yii sudah pra-impor.
+
+Kita juga dapat menggunakan sintaks berikut untuk mengimpor seluruh direktori agar
+file kelas di bawah direktori tersebut secara otomatis disertakan saat
+diperlukan.
+
+~~~
+[php]
+Yii::import('system.web.*');
+~~~
+
+Selain [import|YiiBase::import], alias juga dipakai di banyak tempat
+lain untuk merujuk pada kelas. Sebagai contoh, alias dapat dioper ke
+[Yii::createComponent()] guna membuat turunan kelas terkait,
+meskipun file kelas tidak disertakan sebelumnya.
+
+Jangan menyamakan antara alias path dengan namespace. Namespace merujuk pada pengelompokan
+logis beberapa nama kelas agar dapat dibedakan dari
+nama kelas lainnya jika namanya sama, sementara alias path dipakai untuk
+merujuk pada file kelas atau direktori. Alias path tidak konflik dengan
+namespace.
+
+> Tip: Karena PHP sebelum versi 5.3.0 tidak mendukung namespace secara
+langsung, Anda tidak dapat membuat turunan dari dua kelas yang memiliki
+nama yang sama dengan definisi yang berbeda. Untuk alasan ini, semua kelas Yii 
+framework diawali dengan huruf 'C' (berarti 'class') agar bisa dibedakan dari
+kelas yang didefinisikan-pengguna. Direkomendasikan bahwa prefiks 'C' khusus dipakai hanya untuk pemakaian Yii framework saja, dan kelas yang didefinisikan-pengguna diawali
+dengan huruf lainnya.
+
+<div class="revision">$Id: basics.namespace.txt 766 2009-02-27 17:22:13Z qiang.xue $</div>

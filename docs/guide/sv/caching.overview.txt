@@ -41,6 +41,8 @@ Här följer en sammanfattning av de tillgängliga cachekomponenterna:
 
    - [CXCache]: använder PHP:s [XCache-tillägg](http://xcache.lighttpd.net/). (Tillgängligt fr o m version 1.0.1.)
 
+   - [CEAcceleratorCache]: använder PHP:s [EAccelerator-tillägg](http://eaccelerator.net/).
+
    - [CDbCache]: använder en databastabell för cachelagring av  data. Som 
    standard skapas en SQLite3-databas i runtime-katalogen. Det går att explicit 
    ange en databas CDbCache skall använda genom att sätta dess 
@@ -64,4 +66,4 @@ existensen av cachelagrat data, även sådant vars giltighetstid inte löpt ut. 
 anledning, använd inte cache för icke-flyktig lagring (t.ex. använd inte cache 
 till att lagra sessionsdata).
 
-<div class="revision">$Id: caching.overview.txt 723 2009-02-21 18:14:05Z qiang.xue $</div>
+<div class="revision">$Id: caching.overview.txt 814 2009-03-10 18:00:11Z qiang.xue $</div>

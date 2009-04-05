@@ -4,7 +4,7 @@ Application
 L'application représente le contexte d'exécution de gestion des requêtes.
 Son principal objet est de résoudre les requêtes utilisateurs et de les
 rediriger vers le contrôleur adéquat. Elle sert aussi à centraliser toutes
-les informations de configuration qui lui relative.
+les informations de configuration qui lui sont relatives.
 C'est pour cela que l'application peut aussi être appelé `front-controller`
 
 L'application est un singleton créé par le [script de démarrage](/doc/guide/basics.entry).
@@ -54,7 +54,7 @@ comme dans l'exemple suivant,, ce qui est fait la plupart du temps dans le
 $app=Yii::createWebApplication($configFile);
 ~~~
 
-> truc: si la configuration est très complexe, il est possible de la segmenter
+> Tip|Astuce : si la configuration est très complexe, il est possible de la segmenter
 en plusieurs fichiers, chacun retournant un fraction du tableau de configuration.
 Ensuite, il ne reste qu'à assembler au sein du fichier de configuration général les
 différents segments (en utilisant la directive PHP `include()`).
@@ -119,7 +119,7 @@ par l'appel `Yii::app()->cache`.
 Un composant peut être désactivé en forçant sa propriété `enabled` à false.
 Lors de l'accès au composant, si il a été désactivé, la valeur null est retournée.
 
-> Truc: En standard, les composants de l'application sont créés à la demande.
+> Tip|Astuce : En standard, les composants de l'application sont créés à la demande.
 Cela signifie qu'un composant de l'application n'est pas instancié si
 il n'est pas accédé. Cela permet de ne pas dégrader les performances de
 l'application même si beaucoup de composants sont déclarés. Pour certains composants
@@ -206,4 +206,4 @@ par les étapes suivantes :
 	   - Exécution du contrôleur;
    7. Levée de l'évènement [onEndRequest|CApplication::onEndRequest];
 
-<div class="revision">$Id$</div>
+<div class="revision">$Id: basics.application.txt 626 $</div>

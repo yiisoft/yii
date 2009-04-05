@@ -45,4 +45,4 @@ $form->rememberMe=$_POST['LoginForm']['rememberMe'];
 
 剩下的工作是编写`login` view了，编写里面的html表单和相应的输入字段。
 
-<div class="revision">$Id: form.action.txt 501 2009-01-09 22:07:29Z qiang.xue $</div>
+<div class="revision">$Id: form.action.txt 501 2009-01-09 22:07:29Z qiang.xue 译 : sharehua$</div>

@@ -28,13 +28,16 @@ class SiteController extends CController
 -----
 
 コントローラとアクションは ID により識別されます。
-コントローラ ID は `path.to.xyz` の形式で、コントローラクラスファイル
+コントローラ ID は `path/to/xyz` の形式で、コントローラクラスファイル
 `protected/controllers/path/to/XyzController.php` に対応します。
 （`xyz` を実際の名前に置き換えて考えてください。
   例えば、`post` は `protected/controllers/PostController.php` に対応します。）
 また、アクション ID はアクションメソッド名からプレフィックス `action` を
 除いたものです。たとえば、コントローラクラスに `actionEdit` という名前の
 メソッドがあれば、アクション ID は `edit` になります。
+
+> Note|注意: バージョン1.0.3以前ではコントローラIDのフォーマットは`path.to.xyz`であり、
+`path/to/xyz`ではありません。
 
 ユーザーはルート（道筋）により、特定のコントローラとアクションをリクエスト
 します。ルートはスラッシュによりコントローラ ID とアクション ID を連結する
@@ -44,13 +47,18 @@ class SiteController extends CController
 アクションをリクエストできます。
 
 >Note|注意: デフォルトでは、ルートは大文字と小文字を区別します。
->version 1.0.1 以降では、[CUrlManager::caseSensitive] を false に設定するこ
+>バージョン1.0.1 以降では、[CUrlManager::caseSensitive] を false に設定するこ
 >とで、大文字と小文字を区別しないようすることも可能になりました。
 >大文字と小文字を区別しないモード（case-insensitive mode）の場合、
 >コントローラクラスファイルを含んでいるディレクトリが小文字かどうかを確かめ、
 >[controller map|CWebApplication::controllerMap] と
 >[action map|CController::actions] の両方では、キーは小文字に変換し使用され
 >ます。
+
+バージョン1.0.3からはアプリケーションは[モジュール](/doc/guide/basics.module)を含むことができます。
+モジュール中のコントローラのアクションは`moduleID/controllerID/actionID`のフォーマットで表されます。
+より詳細には[モジュールに関する章](/doc/guide/basics.module)を見てください。
+
 
 コントローラのインスタンス
 ------------------------
@@ -67,12 +75,16 @@ class SiteController extends CController
    - ID が [CWebApplication::controllerMap] に指定されている場合、対応する
 コントローラ設定に基づき、コントローラインスタンスが生成されます。
 
-   - ID が `'path.to.xyz'` 形式の場合、コントローラクラス名は `XyzController`
+   - ID が `'path/to/xyz'` 形式の場合、コントローラクラス名は `XyzController`
 で、対応するクラスファイルは `protected/controllers/path/to/XyzController.php`
-であると仮定されます。たとえば、コントローラ ID が `admin.user` なら、コン
+であると仮定されます。たとえば、コントローラ ID が `admin/user` なら、コン
 トローラクラス名が `UserController` で、クラスファイルが
 `protected/controllers/admin/UserController.php` になります。
 もしクラスがなければ、404 [CHttpException] が呼び出されます。
+
+[モジュール](/doc/guide/basics.module)が使われる場合(バージョン1.0.3以降)には、上記の
+プロセスは若干異ります。具体的にはアプリケーションはIDがモジュール中のコントローラを参照しているかを調べ、
+もしそうなら、モジュールインスタンスが最初に生成されコントローラインスタンスが次に生成されます。
 
 
 アクション
@@ -225,4 +237,4 @@ class PostController extends CController
 アクションに適用されます。もし、プラスとマイナスのどちらも使用されていない
 場合、フィルタはすべてのアクションに適用されます。
 
-<div class="revision">$Id: basics.controller.txt 626 2009-02-04 20:51:13Z qiang.xue $</div>
+<div class="revision">$Id: basics.controller.txt 745 2009-02-04 20:51:13Z qiang.xue $</div>

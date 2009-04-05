@@ -1,0 +1,158 @@
+Buforowanie fragmentaryczne
+================
+
+Buforowanie fragmentaryczne odnosi się do buforowania części strony. Na przykład, 
+jeśli strona wyświetla podsumowanie rocznej sprzedaży w tabelce, możemy zachować 
+tą tabelkę w buforze, aby wyeliminować czas potrzebny do jej wygenerowania 
+dla każdego żądania. 
+
+Aby używać buforowania fragmentarycznego wywołujemy 
+[CController::beginCache()|CBaseController::beginCache()] oraz
+[CController::endCache()|CBaseController::endCache()] w pliku widoku konytolera.
+Te dwie metody, odpowiednio, zaznaczają początek oraz koniec zawartości strony, 
+która powinna zostać zbuforowana. Tak jak dla [buforowania danych](/doc/guide/caching.data)
+potrzebujemy ID do zidentyfikowania gragmentu, który będzie buforowany.
+
+~~~
+[php]
+...pozostała zawartość HTML...
+<?php if($this->beginCache($id)) { ?>
+...zawartość, która będzie buforowana...
+<?php $this->endCache(); } ?>
+...pozostała zawartość HTML...
+~~~
+
+Powyżej, jeśli metoda [beginCache()|CBaseController::beginCache()] zwróci wartość
+false, zbuforowana zawartość będzie automatycznie wstawiona w tym miejscu;
+w przeciwnym przypadku, zawartość zawarta w wyrażeniu `if` będzie wykonana 
+i zbuforowana kiedy metoda [endCache()|CBaseController::endCache()] jest wywołana.
+
+Opcje buforowania
+---------------
+
+Podczas wywoływania metody [beginCache()|CBaseController::beginCache()] możemy 
+dostarczyć tablicy, jako drugiego parametru, zawierającej opcjje buforowania w celu 
+dostosowania do własnych potrzeb buforowania fragmentarycznego. Ze względu na 
+fakt, że metody [beginCache()|CBaseController::beginCache()] oraz
+[endCache()|CBaseController::endCache()] są wygodnymi wraperami widżetu  
+[COutputCache], dlatego też, opcje buforowania mogą być wartościami początkowymi 
+każdej z właściwości [COutputCache].
+
+### Czas trwania
+
+Prawdopodobni najbardziej znaną opcją jest czas trwania [duration|COutputCache::duration],
+która określa jak długo zawartość może pozostać poprawna dla bufora. Jest ona podobna 
+do parametru wygasania metody [CCache::set()]. Następujący kod buforuje część 
+zawartości na maksymalnie godzinę czasu:
+
+~~~
+[php]
+...pozostała zawartość HTML...
+<?php if($this->beginCache($id, array('duration'=>3600))) { ?>
+...zawartość, która będzie cache'owana...
+<?php $this->endCache(); } ?>
+...pozostała zawartość HTML...
+~~~
+
+Jeśli nie ustalimy czasu trwania, będzie on domyślnie posiadał wartość 60,
+co oznacza, że zawartość będzie niepoprawna po 60 sekundach.
+
+### Zależność
+
+Jak w [buforowaniu danych](/doc/guide/caching.data) część buforowanej zawartości,
+może także posiadać zależności. Na przykład, zawartość wyświetlanego postu, zależy
+od tego, czy został on zmodyfikowany, czy też nie.
+
+Abu określić zależność ustawiamy opcję [dependency|COutputCache::dependency],
+która może być zarówno obiektem implementującym interfejs [ICacheDependency] 
+jak i tablicą konfiguracyjną, która może zostać użyta do generowania obiektu zależności.
+Następujący kod deklaruje część zawartości, zależną od zmian wartości w kolumnie
+`lastModified`:
+
+~~~
+[php]
+...other HTML content...
+<?php if($this->beginCache($id, array('dependency'=>array(
+		'class'=>'system.caching.dependencies.CDbCacheDependency',
+		'sql'=>'SELECT MAX(lastModified) FROM Post')))) { ?>
+...zawartość, która będzie buforowana...
+<?php $this->endCache(); } ?>
+...other HTML content...
+~~~
+
+### Uzmiennianie
+
+Zawartość, która będzie buforowana, może zostać zmieniona odpowiedno do pewnych
+parametrów. Na przykład, profil osobisty, może wyglądać różnie dla różnych użytkowników.
+Buforując zawartość profilu, będziemy chcieli uzmiennić zbuforowaną kopię, odpowiednio
+do ID użytkowników. To essentially znaczy, że będziemy chcieli używać różnych
+ID podczas wołania metody [beginCache()|CBaseController::beginCache()].
+
+Zamiast prosić developera do uzmiennienie ID odpowiednio do pewnego wzorca, 
+[COutputCache] posiada takie wbudowane funkcjonalności. Poniżej ich podsumowanie.
+
+   - [varyByRoute|COutputCache::varyByRoute]: ustawiając tą opcję na true, buforowana
+   zawartość będzie uzmienniona odpowiednio do [ścieżki](/doc/guide/basics.controller#route). 
+   Dlatego, każda kombinacja żądanego kontrolera oraz akcji będzie posiadała oddzielnie
+   zbuforowaną zawartość.
+
+   - [varyBySession|COutputCache::varyBySession]: ustawiając tą opcję na true, 
+   możemy uzmiennić buforowaną zawartość odpowiednio do ID sesji. Dlatego też, 
+   każda sesja użytkownika może widzieć różną zawartość i wszystkie one są dostarczone 
+   z bufora.
+
+   - [varyByParam|COutputCache::varyByParam]: ustawiając tą opcję jako tablicę 
+   nazw, możemy zawartość zbuforowaną uzmiennić odpowiednio do wartości parametrów
+   GET. Na przykład, jeśli strona wyświetla zawartość posta, odpowiednio do parametru 
+   GET o nazwie `id`, możemy określić jako [varyByParam|COutputCache::varyByParam] 
+   tablicę `array('id')`, tak, że możemy zbuforować zawartość dla każdego posta.
+   Bez takiej parametryzacji, będziemy mogli buforować pojedyncze posty.
+
+### Typy żądań
+
+Czaami chcemy aby buforowanie fragmentaryczne było możliwe tylko dla konkretnych
+typów żądań. Na przykład, dla strony wyświetlającej formularz, chcemy buforować formularz
+tylko wtedy, gdy żądamy dostępu do niego po raz pierwszy (poprzez żądanie GET).
+Każde następne wyświetlenie ofrularza (poprzez żądanie POST) nie powinno być buforowane
+ponieważ formularz może zawierać dane wprowadone przez użytkownika. Aby to zrobić,
+możemy określi opcję [requestTypes|COutputCache::requestTypes]:
+
+~~~
+[php]
+...pozostała zawartość HTML...
+<?php if($this->beginCache($id, array('requestTypes'=>array('GET')))) { ?>
+...zawartość, która będzie buforowana...
+<?php $this->endCache(); } ?>
+...pozostała zawartość HTML...
+~~~
+
+Zagnieżdżone buforowanie
+--------------
+
+Buforowanie fragmentaryczne może być zagnieżdżone. Oznacza to, że buforowana 
+część zawiera się wewnątrz większej części, która także jest buforowana. 
+Na przykład, komentarze są buforowane w wewnętrznym buforze fragmentarycznym,
+a ono jest buforowane razem z zawartością postu w zewnętrznym buforze fragmentarycznym.
+
+~~~
+[php]
+...pozostała zawartość HTML...
+<?php if($this->beginCache($id1)) { ?>
+...zewnętrzna zawartość, która będzie buforowana...
+	<?php if($this->beginCache($id2)) { ?>
+	...wewnętrzna zawartość, któa będzie buforowana...
+	<?php $this->endCache(); } ?>
+...zewnętrzna zawartość, która będzie buforowana...
+<?php $this->endCache(); } ?>
+...pozostała zawartość HTML...
+~~~
+
+Różne opcje buforowania mogą być ustawione dla zagnieżdżonych buforów. Na przykład,
+wewnętrzny bufor i zewnętrzny bufor w powyższym przykładzie, mogą mieć ustawione 
+różne wartości długości trwania. Kiedy dane zbuforowane w zewnętrznym buforze są
+niepoprawne, wewnętrzny bufor może wciąż dostarczać poprawą, wewnętrzną część.
+Jednakże, nie jest to prawdą, jeśli systuacja się odwróci. Jeśli zewnętrzny bufor
+zawiera poprawne dane, będzie on zawsze dostarczał zbuforowaną kopię, nawet jeśli 
+zawartość w wewnętrznym buforze wygaśnie.
+
+<div class="revision">$Id: caching.fragment.txt 323 2008-12-04 01:40:16Z qiang.xue $</div>

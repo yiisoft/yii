@@ -43,7 +43,7 @@ inmatningsfälten i form av en HTML-tabell.
 ~~~
 [php]
 <div class="yiiForm">
-<?php echo CHtml::form(); ?>
+<?php echo CHtml::beginForm(); ?>
 <table>
 <tr><th>Name</th><th>Price</th><th>Count</th><th>Description</th></tr>
 <?php foreach($items as $i=>$item): ?>
@@ -57,7 +57,7 @@ inmatningsfälten i form av en HTML-tabell.
 </table>
 
 <?php echo CHtml::submitButton('Save'); ?>
-</form>
+<?php echo CHtml::endForm(); ?>
 </div><!-- yiiForm -->
 ~~~
 
@@ -68,4 +68,4 @@ Om det uppstår något valideringsfel kommer motsvarande inmatningsfält att
 framhävas automatiskt, precis som tidigare beskrivits i fråga om inmatning av en 
 enstaka modellinstans.
 
-<div class="revision">$Id: form.table.txt 468 2009-01-04 20:57:35Z qiang.xue $</div>
+<div class="revision">$Id: form.table.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>

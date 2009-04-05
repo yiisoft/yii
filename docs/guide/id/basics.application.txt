@@ -1,13 +1,13 @@
 Aplikasi
 ========
 
-Aplikasi menggambarkan konteks dijalankannya pemrosesan permintaan. Tugas
+Aplikasi menggambarkan konteks dijalankannya pemrosesan sebuah permintaan. Tugas
 utamanya adalah memecahkan permintaan pengguna dan meneruskannya ke pengontrol
 terkait guna pemrosesan selanjutnya. Ia juga bertindak sebagai tempat pusat
 untuk memelihara konfigurasi tingkat-aplikasi. Oleh karena itu, aplikasi juga
 disebut `pengontrol-depan`.
 
-Aplikasi dibuat sebagai kerangka tunggal oleh [entry script](/doc/guide/basics.entry).
+Aplikasi dibuat sebagai kerangka tunggal oleh [naskah entri](/doc/guide/basics.entry).
 Kerangka aplikasi dapat diakses di mana saja melalui [Yii::app()|YiiBase::app].
 
 
@@ -44,7 +44,7 @@ return array(...);
 
 Untuk menerapkan konfigurasi, kami mengoper nama file konfigurasi sebagai
 parameter bagi pembentuk aplikasi, atau ke [Yii::createWebApplication()]
-seperti yang berikut, yang biasanya dikerjakan dalam [entry script](/doc/guide/basics.entry):
+seperti yang berikut, yang biasanya dikerjakan dalam [naskah  entri](/doc/guide/basics.entry):
 
 ~~~
 [php]
@@ -65,7 +65,7 @@ Direktori basis aplikasi merujuk ke direktori root yang berisi semua
 data dan naskah PHP sensitif-keamanan. Standarnya, ia berupa subdirektori
 bernama `protected` yang ditempatkan di bawah direktori yang berisi naskah
 entri. Ia dapat dikustomisasi melalui setelan properti
-[basePath|CWebApplication::basePath] dalam [application configuration](#application-configuration).
+[basePath|CWebApplication::basePath] dalam [konfigurasi aplikasi](#application-configuration).
 
 Isi di dalam direktori basis aplikasi harus dilindungi dari akses oleh
 para pengguna Web. Dengan [Apache HTTP
@@ -86,7 +86,7 @@ aplikasi, masing-masing mengimplementasi fitur tertentu.
 Sebagai contoh, aplikasi memecahkan permintaan pengguna dengan bantuan komponen [CUrlManager]
 dan [CHttpRequest].
 
-Dengan mengkonfigurasi properti [components|CApplication::components] aplikasi,
+Dengan mengkonfigurasi properti [komponen|CApplication::components] aplikasi,
 kita bisa mengkustomisasi kelasi dan nilai properti setiap komponen
 aplikasi yang dipakai dalam sebuah aplikasi. Sebagai contoh, kita dapat
 mengkonfigurasi komponen [CMemCache] agar ia bisa menggunakan multipel server memcache
@@ -114,12 +114,12 @@ Dalam contoh di atas, kita menambahkan elemen `cache` pada array `components`. E
 `CMemCache` dan properti `servers` juga harus diinisialisasi.
 
 Untuk mengakses komponen aplikasi, gunakan `Yii::app()->ComponentID`, di mana
-`ComponentID` merujuk ke ID komponen (contoh `Yii::app()->cache`).
+`ComponentID` merujuk pada ID komponen (contoh `Yii::app()->cache`).
 
-Komponen aplikasi dapat dimatikan dengan menyetek `enabled` menjadi false
+Komponen aplikasi dapat dimatikan dengan menyetel `enabled` menjadi false
 dalam konfigurasinya. Null dikembalikan saat kita mengakses komponen yang dimatikan.
 
-> Tip: Standarnya, komponen aplikasi dibuat bila diperlukan. Ini berarti
+> Tip: Secara standar, komponen aplikasi dibuat bila diperlukan. Ini berarti
 komponen aplikasi mungkin tidak dibuat sama sekali jika tidak diakses
 saat pengguna meminta. Hasilnya, performansi keseluruhan mungkin tidak menurun 
 walaupun aplikasi dikonfigurasi dengan banyak komponen. Beberapa komponen
@@ -173,8 +173,8 @@ informasi terkait dengan permintaan penggguna.
    - [securityManager|CApplication::securityManager]: [CSecurityManager] -
 menyediakan layanan terkait-keamanan, seperti hashing, enkripsi.
 
-   - [session|CWebApplication::session]: [CHttpSession] - provides
-funsionalitas terkait-sesi.
+   - [session|CWebApplication::session]: [CHttpSession] - menyediakan
+fungsionalitas terkait-sesi.
 
    - [statePersister|CApplication::statePersister]: [CStatePersister] -
 menyediakan metode persisten kondisi global.
@@ -205,8 +205,8 @@ sebagai berikut:
 
    5. Menghidupkan event [onBeginRequest|CApplication::onBeginRequest];
 
-   6. Memroses permintaan pengguna:
-	   - Resolve the user request;
+   6. Mengolah permintaan pengguna:
+	   - Memecah permintaan pengguna;
 	   - Membuat pengontrol;
 	   - Menjalankan pengontrol;
 

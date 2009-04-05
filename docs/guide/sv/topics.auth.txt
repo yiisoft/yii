@@ -221,11 +221,16 @@ en `allow`-regel, kan åtgärden exekveras; om den är en `deny`-regel, kan
 En åtkomstregel kan matcha följande kontextparametrar:
 
    - [actions|CAccessRule::actions]: specificerar vilka åtgärder denna regel 
-   matchar.
+   matchar. Detta skall vara en array av åtgärds-ID:n. Jämförelsen sker 
+   skiftlägesoberoende (case-insensitive).
+
+   - [controllers|CAccessRule::controllers]: specificerar vilka kontroller denna regel 
+   matchar. Detta skall vara en array av kontroller-ID:n. Jämförelsen sker 
+   skiftlägesoberoende. Detta alternativ har varit tillgängligt fr o m version 1.0.4.
 
    - [users|CAccessRule::users]: specificerar vilka användare denna regel 
-   matchar. Aktuellt [användarnamn|CWebUser::name] används för matchning. Tre 
-   specialtecken kan användas här:
+   matchar. Aktuellt [användarnamn|CWebUser::name] används för matchning. Jämförelsen 
+   sker skiftlägesoberoende. Tre specialtecken kan användas här:
 
 	   - `*`: varje användare, inkluderande både anonyma och autentiserade användare.
 	   - `?`: anonyma användare.
@@ -243,7 +248,7 @@ En åtkomstregel kan matcha följande kontextparametrar:
    matchar.
 
    - [verbs|CAccessRule::verbs]: specificerar vilka typer av request (t.ex. 
-   `GET`, `POST`) denna regel, matchar.
+   `GET`, `POST`) denna regel, matchar. Jämförelsen sker skiftlägesoberoende.
 
 
 ### Hantera resultat av auktorisering
@@ -456,15 +461,22 @@ $auth->assign('editor','editorC');
 $auth->assign('admin','adminD');
 ~~~
 
-Lägg märke till att en affärsregel associeras till uppgiften `updateOwnPost`. I 
-affärsregeln undersöker vi helt enkelt huruvida aktuell användares ID är 
-identiskt med den specificerade postningens författar-ID. Information om 
-postningen, i arrayen `$params`, levereras av utvecklare när åtkomstkontroll utförs.
-
 > Info: Även om ovanstående exempel framstår som omfattande och långrandigt, 
 återfinns det här som demonstration. Utvecklare behöver vanligtvis utveckla 
 någon form av användargränssnitt som slutanvändare sedan kan använda för att, på 
 ett mer intuitivt sätt, åstadkomma en auktoriseringshierarki.
+
+### Using Business Rules
+
+När vi definierar en auktoriseringshierarki kan vi associera en roll, en uppgift 
+eller en operation med en så kallad *affärsregel*. Vi kan även associera en affärsregel 
+när vi tilldelar en roll till en användare. En affärsregel är ett stycke PHP-kod 
+(PHP-satser mer exakt) som exekveras vid åtkomstkontroll. Returvärdet från 
+denna kod används för att avgöra om rollen eller tilldelningen avser aktuell användare.
+I ovanstående exempel associerades en affärsregel till uppgiften `updateOwnPost`. 
+I affärsregeln undersöker vi helt enkelt huruvida aktuell användares ID är 
+identiskt med den specificerade postningens författar-ID. Information om 
+postningen, i arrayen `$params`, levereras av utvecklare när åtkomstkontroll utförs.
 
 ### Åtkomstkontroll
 
@@ -530,16 +542,16 @@ return array(
 
 Eftersom en standardroll tilldelas alla användare, behöver den i regel associeras 
 med en affärsregel som avgör om rollen verkligen skall tillämpas på användaren. 
-Exempel: följande kod definierar två roller, "authenticated" och "guest", 
+Exempel: följande kod definierar två roller, `authenticated` och `guest`, 
 vilka i praktiken tillämpas på autentiserade användare respektive gästanvändare.
 
 ~~~
 [php]
 $bizRule='return !Yii::app()->user->isGuest;';
-$auth->createRole('authenticated');
+$auth->createRole('authenticated', 'authenticated user', $bizRule);
 
 $bizRule='return Yii::app()->user->isGuest;';
-$auth->createRole('guest',$bizRule);
+$auth->createRole('guest', 'guest user', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 759 2009-02-26 21:23:53Z qiang.xue $</div>
+<div class="revision">$Id: topics.auth.txt 878 2009-03-23 15:31:21Z qiang.xue $</div>

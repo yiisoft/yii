@@ -53,6 +53,7 @@ Informationen. Nachfolgend eine Liste der gebräuchlichsten DSN-Formate:
    - SQLite: `sqlite:/path/to/dbfile`
    - MySQL: `mysql:host=localhost;dbname=testdb`
    - PostgreSQL: `pgsql:host=localhost;port=5432;dbname=testdb`
+   - SQL Server: `mssql:host=localhost;dbname=testdb`
 
 Da [CDbConnection] von [CApplicationComponent] abgeleitet ist, können wir sie auch
 als [Applikationskomponente](/doc/guide/basics.application#application-component)
@@ -244,4 +245,4 @@ while($dataReader->read()!==false)
 }
 ~~~
 
-<div class="revision">$Id: database.dao.txt 367 2008-12-16 20:18:30Z qiang.xue $</div>
+<div class="revision">$Id: database.dao.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>

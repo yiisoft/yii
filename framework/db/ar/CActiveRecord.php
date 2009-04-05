@@ -476,6 +476,7 @@ abstract class CActiveRecord extends CModel
 		$md=$this->getMetaData();
 		if(isset($md->relations[$name]))
 		{
+			Yii::trace('lazy loading '.get_class($this).'.'.$name,'system.db.ar.CActiveRecord');
 			$relation=$md->relations[$name];
 			if($this->getIsNewRecord() && ($relation instanceof CHasOneRelation || $relation instanceof CHasManyRelation))
 				return $this->_related[$name]=$relation instanceof CHasOneRelation ? null : array();
@@ -1072,6 +1073,7 @@ abstract class CActiveRecord extends CModel
 			throw new CDbException(Yii::t('yii','The active record cannot be inserted to database because it is not new.'));
 		if($this->beforeSave())
 		{
+			Yii::trace(get_class($this).'.insert()','system.db.ar.CActiveRecord');
 			$builder=$this->getCommandBuilder();
 			$table=$this->getMetaData()->tableSchema;
 			$command=$builder->createInsertCommand($table,$this->getAttributes($attributes));
@@ -1120,6 +1122,7 @@ abstract class CActiveRecord extends CModel
 			throw new CDbException(Yii::t('yii','The active record cannot be updated because it is new.'));
 		if($this->beforeSave())
 		{
+			Yii::trace(get_class($this).'.update()','system.db.ar.CActiveRecord');
 			$this->updateByPk($this->getPrimaryKey(),$this->getAttributes($attributes));
 			$this->afterSave();
 			return true;
@@ -1150,6 +1153,7 @@ abstract class CActiveRecord extends CModel
 	{
 		if(!$this->getIsNewRecord())
 		{
+			Yii::trace(get_class($this).'.saveAttributes()','system.db.ar.CActiveRecord');
 			$values=array();
 			foreach($attributes as $name=>$value)
 			{
@@ -1173,6 +1177,7 @@ abstract class CActiveRecord extends CModel
 	{
 		if(!$this->getIsNewRecord())
 		{
+			Yii::trace(get_class($this).'.delete()','system.db.ar.CActiveRecord');
 			if($this->beforeDelete())
 			{
 				$result=$this->deleteByPk($this->getPrimaryKey())>0;
@@ -1192,6 +1197,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function refresh()
 	{
+		Yii::trace(get_class($this).'.refresh()','system.db.ar.CActiveRecord');
 		if(!$this->getIsNewRecord() && ($record=$this->findByPk($this->getPrimaryKey()))!==null)
 		{
 			$this->_attributes=array();
@@ -1247,6 +1253,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function find($condition='',$params=array())
 	{
+		Yii::trace(get_class($this).'.find()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
 		$criteria->limit=1;
@@ -1263,6 +1270,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findAll($condition='',$params=array())
 	{
+		Yii::trace(get_class($this).'.findAll()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
 		$command=$builder->createFindCommand($this->getTableSchema(),$criteria);
@@ -1279,6 +1287,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findByPk($pk,$condition='',$params=array())
 	{
+		Yii::trace(get_class($this).'.findByPk()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createPkCriteria($this->getTableSchema(),$pk,$condition,$params);
 		$criteria->limit=1;
@@ -1296,6 +1305,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findAllByPk($pk,$condition='',$params=array())
 	{
+		Yii::trace(get_class($this).'.findAllByPk()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createPkCriteria($this->getTableSchema(),$pk,$condition,$params);
 		$command=$builder->createFindCommand($this->getTableSchema(),$criteria);
@@ -1312,6 +1322,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findByAttributes($attributes,$condition='',$params=array())
 	{
+		Yii::trace(get_class($this).'.findByAttributes()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params);
 		$criteria->limit=1;
@@ -1329,6 +1340,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findAllByAttributes($attributes,$condition='',$params=array())
 	{
+		Yii::trace(get_class($this).'.findAllByAttributes()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params);
 		$command=$builder->createFindCommand($this->getTableSchema(),$criteria);
@@ -1343,6 +1355,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findBySql($sql,$params=array())
 	{
+		Yii::trace(get_class($this).'.findBySql()','system.db.ar.CActiveRecord');
 		$command=$this->getCommandBuilder()->createSqlCommand($sql,$params);
 		return $this->populateRecord($command->queryRow());
 	}
@@ -1355,6 +1368,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findAllBySql($sql,$params=array())
 	{
+		Yii::trace(get_class($this).'.findAllBySql()','system.db.ar.CActiveRecord');
 		$command=$this->getCommandBuilder()->createSqlCommand($sql,$params);
 		return $this->populateRecords($command->queryAll());
 	}
@@ -1368,6 +1382,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function count($condition='',$params=array())
 	{
+		Yii::trace(get_class($this).'.count()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
 		return $builder->createCountCommand($this->getTableSchema(),$criteria)->queryScalar();
@@ -1382,6 +1397,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function countBySql($sql,$params=array())
 	{
+		Yii::trace(get_class($this).'.countBySql()','system.db.ar.CActiveRecord');
 		return $this->getCommandBuilder()->createSqlCommand($sql,$params)->queryScalar();
 	}
 
@@ -1394,6 +1410,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function exists($condition,$params=array())
 	{
+		Yii::trace(get_class($this).'.exists()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
 		$table=$this->getTableSchema();
@@ -1460,6 +1477,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function updateByPk($pk,$attributes,$condition='',$params=array())
 	{
+		Yii::trace(get_class($this).'.updateByPk()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$table=$this->getTableSchema();
 		$criteria=$builder->createPkCriteria($table,$pk,$condition,$params);
@@ -1478,6 +1496,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function updateAll($attributes,$condition='',$params=array())
 	{
+		Yii::trace(get_class($this).'.updateAll()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
 		$command=$builder->createUpdateCommand($this->getTableSchema(),$attributes,$criteria);
@@ -1495,6 +1514,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function updateCounters($counters,$condition='',$params=array())
 	{
+		Yii::trace(get_class($this).'.updateCounters()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
 		$command=$builder->createUpdateCounterCommand($this->getTableSchema(),$counters,$criteria);
@@ -1511,6 +1531,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function deleteByPk($pk,$condition='',$params=array())
 	{
+		Yii::trace(get_class($this).'.deleteByPk()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createPkCriteria($this->getTableSchema(),$pk,$condition,$params);
 		$command=$builder->createDeleteCommand($this->getTableSchema(),$criteria);
@@ -1526,6 +1547,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function deleteAll($condition='',$params=array())
 	{
+		Yii::trace(get_class($this).'.deleteAll()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
 		$command=$builder->createDeleteCommand($this->getTableSchema(),$criteria);

@@ -436,10 +436,10 @@ abstract class CApplication extends CModule
 	{
 		if($this->_globalState===null)
 			$this->loadGlobalState();
-		if(isset($this->_globals[$key]))
+		if(isset($this->_globalState[$key]))
 		{
 			$this->_stateChanged=true;
-			unset($this->_globals[$key]);
+			unset($this->_globalState[$key]);
 		}
 	}
 

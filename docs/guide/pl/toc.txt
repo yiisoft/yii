@@ -2,7 +2,7 @@
 	- [Przegląd](index)
     - [Czym jest Yii](quickstart.what-is-yii)
     - [Instalacja](quickstart.installation)
-    - [Tworzymy pierwszą aplikację w Yii](quickstart.first-app)
+    - [Pierwsza aplikacja w Yii](quickstart.first-app)
 
 * Podstawy
     - [Model-Widok-Kontroler (MVC)](basics.mvc)
@@ -10,8 +10,9 @@
     - [Aplikacja](basics.application)
     - [Kontroler](basics.controller)
     - [Model](basics.model)
-    - [Widok](basics.view)
+    - [Widok](basics.view)    
     - [Komponent](basics.component)
+    - [Moduł](basics.module)    
     - [Aliasy oraz przestrzenie nazw](basics.namespace)
     - [Konwencje](basics.convention)
     - [Przebieg developmentu](basics.workflow)
@@ -21,7 +22,7 @@
     - [Tworzenie modelu](form.model)
     - [Tworzenie akcji](form.action)
     - [Tworzenie formularza](form.view)
-    - [Odczytywanie danych tabelarycznych](form.table)
+    - [Odczytywanie tablicowych danych wejściowych](form.table)
 
 * Praca z bazami danych
     - [Przegląd](database.overview)
@@ -32,7 +33,7 @@
 * Buforowanie podręczne (ang. caching)
     - [Przegląd](caching.overview)
     - [Buforowanie danych](caching.data)
-    - [Częściowe buforowanie](caching.fragment)
+    - [Buforowanie fragmentaryczne](caching.fragment)
     - [Buforowanie stron](caching.page)
     - [Zawartość dynamiczna](caching.dynamic)
 
@@ -55,4 +56,4 @@
     - [Bezpieczeństwo](topics.security)
     - [Polepszanie wydajności](topics.performance)
 
-<div class="revision">$Id: toc.txt 723 2009-02-21 18:14:05Z qiang.xue $</div>
+<div class="revision">$Id: toc.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>

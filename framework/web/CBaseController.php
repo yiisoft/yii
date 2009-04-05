@@ -146,11 +146,13 @@ abstract class CBaseController extends CComponent
 	 * Creates a widget and executes it.
 	 * @param string the widget class name or class in dot syntax (e.g. application.widgets.MyWidget)
 	 * @param array list of initial property values for the widget (Property Name => Property Value)
+	 * @return CWidget the widget instance. This return value has been available since version 1.0.4.
 	 */
 	public function widget($className,$properties=array())
 	{
 		$widget=$this->createWidget($className,$properties);
 		$widget->run();
+		return $widget;
 	}
 
 	/**

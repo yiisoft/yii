@@ -44,7 +44,7 @@ arbeiten, um die Eingabefelder in einer HTML-Tabelle anzuzeigen.
 ~~~
 [php]
 <div class="yiiForm">
-<?php echo CHtml::form(); ?>
+<?php echo CHtml::beginForm(); ?>
 <table>
 <tr><th>Name</th><th>Preis</th><th>Anzahl</th><th>Beschreibung</th></tr>
 <?php foreach($items as $i=>$item): ?>
@@ -58,7 +58,7 @@ arbeiten, um die Eingabefelder in einer HTML-Tabelle anzuzeigen.
 </table>
 
 <?php echo CHtml::submitButton('Speichern'); ?>
-</form>
+<?php echo CHtml::endForm(); ?>
 </div><!-- yiiForm -->
 ~~~
 
@@ -69,4 +69,4 @@ Falls ein Fehler bei der Gültigkeitsprüfung auftritt, werden die entsprechende
 Eingabefelder automatisch hervorgehoben, wie bereits bei der Einzeleingabe für
 ein Model beschrieben.
 
-<div class="revision">$Id: form.table.txt 468 2009-01-04 20:57:35Z qiang.xue $</div>
+<div class="revision">$Id: form.table.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>

@@ -81,6 +81,12 @@ class CController extends CBaseController
 	 * @var string the name of the default action. Defaults to 'index'.
 	 */
 	public $defaultAction='index';
+	/**
+	 * @var boolean whether page caching is enabled for the current action.
+	 * Do not modify the value of this property.
+	 * @since 1.0.4
+	 */
+	public $usePageCaching=false;
 
 	private $_id;
 	private $_action;
@@ -290,11 +296,9 @@ class CController extends CBaseController
 	{
 		Yii::app()->getClientScript()->render($output);
 
-		if($this->_dynamicOutput)
-		{
-			$output=preg_replace_callback('/<###dynamic-(\d+)###>/',array($this,'replaceDynamicOutput'),$output);
-			$this->_dynamicOutput=null;
-		}
+		// if using page caching, we should delay dynamic output replacement
+		if(!$this->usePageCaching && $this->_dynamicOutput)
+			$output=$this->processDynamicOutput($output);
 
 		if($this->_pageStates!==null || isset($_POST[self::STATE_INPUT_NAME]))
 		{
@@ -302,6 +306,23 @@ class CController extends CBaseController
 			$output=str_replace(CHtml::pageStateField(''),CHtml::pageStateField($states),$output);
 		}
 
+		return $output;
+	}
+
+	/**
+	 * Postprocesses the dynamic output.
+	 * This method is internally used. Do not call this method directly.
+	 * @param string output to be processed
+	 * @return string the processed output
+	 * @since 1.0.4
+	 */
+	public function processDynamicOutput($output)
+	{
+		if($this->_dynamicOutput)
+		{
+			$output=preg_replace_callback('/<###dynamic-(\d+)###>/',array($this,'replaceDynamicOutput'),$output);
+			$this->_dynamicOutput=null;
+		}
 		return $output;
 	}
 
@@ -678,7 +699,8 @@ class CController extends CBaseController
 	 * dynamic regions, such as username or current time.
 	 * We can use this method to render these dynamic regions to ensure they are always up-to-date.
 	 *
-	 * Except the first parameters, parameters of this method will be passed to the specified callback.
+	 * The first parameter to this method should be a valid PHP callback, while the rest parameters
+	 * will be passed to the callback.
 	 *
 	 * Note, the callback and its parameter values will be serialized and saved in cache.
 	 * Make sure they are serializable.
@@ -705,10 +727,10 @@ class CController extends CBaseController
 	 */
 	public function renderDynamicInternal($callback,$params)
 	{
+		$this->recordCachingAction('','renderDynamicInternal',array($callback,$params));
 		if(is_string($callback) && method_exists($this,$callback))
 			$callback=array($this,$callback);
 		$this->_dynamicOutput[]=call_user_func_array($callback,$params);
-		$this->recordCachingAction('','renderDynamicInternal',array($callback,$params));
 	}
 
 	/**

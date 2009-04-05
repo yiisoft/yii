@@ -34,12 +34,12 @@ Mai jos, folosim [CHtml] pentru a crea formularul de logare. Presupunem ca varia
 
 <div class="simple">
 <?php echo CHtml::activeLabel($user,'username'); ?>
-<?php echo CHtml::activeTextField($user,'username') ?>
+<?php echo CHtml::activeTextField($user,'username'); ?>
 </div>
 
 <div class="simple">
 <?php echo CHtml::activeLabel($user,'password'); ?>
-<?php echo CHtml::activePasswordField($user,'password')
+<?php echo CHtml::activePasswordField($user,'password');
 ?>
 </div>
 
@@ -67,4 +67,4 @@ generat va arata in felul urmator:
 
 ![Pagina login cu erori](login2.png)
 
-<div class="revision">$Id: form.view.txt 715 2009-02-20 02:08:24Z qiang.xue $</div>
+<div class="revision">$Id: form.view.txt 772 2009-02-28 18:23:17Z qiang.xue $</div>

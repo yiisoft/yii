@@ -74,7 +74,7 @@ array(
 				array(
 					'class'=>'CEmailLogRoute',
 					'levels'=>'error, warning',
-					'email'=>'admin@example.com',
+					'emails'=>'admin@example.com',
 				),
 			),
 		),

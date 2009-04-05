@@ -1,0 +1,222 @@
+使用扩展
+================
+
+适用扩展通常半酣了以下三步:
+
+  1. 从 Yii 的 [扩展库](http://www.yiiframework.com/extensions/) 下载扩展.
+  2. 解压到 [应用程序的基目录](/doc/guide/basics.application#application-base-directory)
+的子目录 `extensions/xyz` 下,这里的 `xyz` 是扩展的名称.
+  3. 导入, 配置和使用扩展.
+
+每个扩展都有一个所有扩展中唯一的名称标识.把一个扩展命名为 `xyz` ,我们也可以使用路径别名定位到包含了 `xyz`
+所有文件的基目录.
+
+不同的扩展有着不同的导入,配置,使用要求.以下是我们通常会用到扩展的场景,按照他们在
+ [概述](/doc/guide/extension.overview) 中的描述分类.
+
+应用的部件
+---------------------
+
+使用 [应用的部件](/doc/guide/basics.application#application-component),
+首先我们需要添加一个新条目到 [应用配置](/doc/guide/basics.application#application-configuration)
+ 的 `components` 属性, 如下所示:
+
+~~~
+[php]
+return array(
+    // 'preload'=>array('xyz',...),
+    'components'=>array(
+        'xyz'=>array(
+            'class'=>'application.extensions.xyz.XyzClass',
+            'property1'=>'value1',
+            'property2'=>'value2',
+        ),
+        // 其他部件配置
+    ),
+);
+~~~
+
+然后,我们可以在任何地方通过使用 `Yii::app()->xyz` 来访问部件.部件将会被 `惰性创建`(就是,仅当它第一次被访问时创建.) ,
+除非我们把它配置到  `preload` 属性里.
+
+
+组件
+------
+
+[组件](/doc/guide/basics.view#widget) 主要用在 [视图](/doc/guide/basics.view) 里.鉴于组件类 `XyzClass` 属于 `xyz`
+ 扩展,我们可以如下在视图中使用它:
+
+~~~
+[php]
+// 组件不需要主体内容
+<?php $this->widget('application.extensions.xyz.XyzClass', array(
+    'property1'=>'value1',
+    'property2'=>'value2')); ?>
+
+// 组件可以包含主体内容
+<?php $this->beginWidget('application.extensions.xyz.XyzClass', array(
+    'property1'=>'value1',
+    'property2'=>'value2')); ?>
+
+...组件的主体内容...
+
+<?php $this->endWidget(); ?>
+~~~
+
+动作
+------
+
+[动作](/doc/guide/basics.controller#action) 被 [控制器](/doc/guide/basics.controller) 用于响应指定的用户请求.鉴于
+动作的类 `XyzClass` 属于 `xyz` 扩展,我们可以在我们的控制器类里重写 [CController::actions] 方法来使用它:
+
+~~~
+[php]
+class TestController extends CController
+{
+	public function actions()
+	{
+		return array(
+			'xyz'=>array(
+				'class'=>'application.extensions.xyz.XyzClass',
+				'property1'=>'value1',
+				'property2'=>'value2',
+			),
+			// 其他动作
+		);
+	}
+}
+~~~
+
+然后,我们可以通过 [路由](/doc/guide/basics.controller#route) `test/xyz` 来访问.
+
+过滤器
+------
+[过滤器](/doc/guide/basics.controller#filter) 也被 [控制器](/doc/guide/basics.controller) 使用.
+过滤器主要用于当其被 [动作](/doc/guide/basics.controller#action) 挂起时预处理,提交处理用户请求.
+鉴于过滤器的类 `XyzClass` 属于 `xyz` 扩展,我们可以在我们的控制器类里重写 [CController::filters] 方法来使用它:
+
+~~~
+[php]
+class TestController extends CController
+{
+	public function filters()
+	{
+		return array(
+			array(
+				'application.extensions.xyz.XyzClass',
+				'property1'=>'value1',
+				'property2'=>'value2',
+			),
+			// 其他过滤器
+		);
+	}
+}
+~~~
+
+
+
+In the above, we can use plus and minus operators in the first array element
+to apply the filter to limited actions only. For more details, please refer
+to the documentation of [CController].
+
+控制器
+----------
+A [控制器](/doc/guide/basics.controller) provides a set of actions that can
+be requested by users. In order to use a controller extension, we need to
+configure the [CWebApplication::controllerMap] property in the
+[应用配置](/doc/guide/basics.application#application-configuration):
+
+~~~
+[php]
+return array(
+	'controllerMap'=>array(
+		'xyz'=>array(
+			'class'=>'application.extensions.xyz.XyzClass',
+			'property1'=>'value1',
+			'property2'=>'value2',
+		),
+		// 其他控制器
+	),
+);
+~~~
+
+Then, an action `a` in the controller can be accessed via
+[路由](/doc/guide/basics.controller#route) `xyz/a`.
+
+校验器
+---------
+A validator is mainly used in a [模型](/doc/guide/basics.model) class
+(one that extends from either [CFormModel] or [CActiveRecord]).
+Given a validator class `XyzClass` belonging to
+the `xyz` extension, we can use it by overriding the [CModel::rules] method
+in our model class:
+
+~~~
+[php]
+class MyModel extends CActiveRecord // or CFormModel
+{
+	public function rules()
+	{
+		return array(
+			array(
+				'attr1, attr2',
+				'application.extensions.xyz.XyzClass',
+				'property1'=>'value1',
+				'property2'=>'value2',
+			),
+			// 其他校验规则
+		);
+	}
+}
+~~~
+
+控制台命令
+---------------
+A [控制台命令](/doc/guide/topics.console) extension usually enhances
+the `yiic` tool with an additional command. Given a console command
+`XyzClass` belonging to the `xyz` extension, we can use it by configuring
+the configuration for the console application:
+
+~~~
+[php]
+return array(
+	'commandMap'=>array(
+		'xyz'=>array(
+			'class'=>'application.extensions.xyz.XyzClass',
+			'property1'=>'value1',
+			'property2'=>'value2',
+		),
+		// 其他命令
+	),
+);
+~~~
+
+Then, we can use the `yiic` tool is equipped with an additional
+command `xyz`.
+
+> Note|注意: A console application usually uses a configuration file
+that is different from the one used by a Web application. If an application
+is created using `yiic webapp` command, then the configuration file
+for the console application `protected/yiic` is `protected/config/console.php`,
+while the configuration file for the Web application is `protected/config/main.php`.
+
+模块
+------
+A module typically consists of more than one class files and is often
+a mix of the above extension types. Therefore, you should follow the corresponding
+instructions to use a module.
+
+通用部件
+-----------------
+To use a generic [部件](/doc/guide/basics.component), we first
+need to include its class file by using
+
+~~~
+Yii::import('application.extensions.xyz.XyzClass');
+~~~
+
+Then, we can either create an instance of the class, configure its properties,
+and call its methods. We may also extend it to create new child classes.
+
+
+<div class="revision">$Id: extension.use.txt 235 2009-03-16 11:39:50Z qiang.xue & 译:thaiki $</div>

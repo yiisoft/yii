@@ -1,0 +1,93 @@
+Modul
+=====
+
+> Note|Catatan: Dukungan modul sudah tersedia sejak versi 1.0.3.
+
+Modul adalah unit piranti lunak berdiri sendiri yang terdiri dari [model](/doc/guide/basics.model), [tampilan](/doc/guide/basics.view), [kontroler](/doc/guide/basics.controller) dan komponen pendukung lainnya. Dalam banyak aspek, sebuah modul mirip dengan [aplikasi](/doc/guide/basics.application). Perbedaan utamanya adalah bahwa modul tidak bisa disebarkan sendirian dan ia harus berada di dalam sebuah aplikasi. Para pengguna dapat mengakses kontroler dalam sebuah modul layaknya yang dilakukan dengan kontroler aplikasi biasa.
+
+Modul berguna dalam beberapa skenario. Untuk aplikasi berskala-besar, kita dapat membaginya ke dalam beberapa modul, masing-masing dikembangkan dan dipelihara secara terpisah. Beberapa fitur yang umum digunakan, seperti misalnya manajemen pengguna, manajemen komentar, dapat dikembangkan dalam batasan modul agar dapat dipakai kembali dengan mudah dalam proyek mendatang.
+
+
+Membuat Modul
+-------------
+
+Modul diatur sebagai direktori di mana namanya bertindak sebagai  [ID|CWebModule::id] unik. Struktur direktori modul mirip dengan [basis direktori aplikasi](/doc/guide/basics.application#application-base-directory). Contoh berikut memperlihatkan struktur umum direktori pada modul bernama `forum`:
+
+~~~
+forum/
+   ForumModule.php            file kelas modul
+   components/                berisi komponen yang bisa dipakai ulang
+      views/                  berisi file tampilan untuk widgets
+   controllers/               berisi file kelas kontroler
+      DefaultController.php   file kelas kontroler standar
+   extensions/                berisi ekstensi pihak-ketiga
+   models/                    berisi file kelas model
+   views/                     berisi file tampilan kontroler dan tatat letak
+      layouts/                berisi file tampilan tata letak
+      default/                berisi file tampilan untuk DefaultController
+         index.php            file tampilan indeks
+~~~
+
+Modul harus memiliki kelas modul yang diperluas dari [CWebModule]. Nama kelas ditentukan menggunakan `ucfirst($id).'Module'`, di mana `$id` merujuk pada ID modul (atau nama direktori modul). Kelas modul bertindak sebagai pusat tempat penyimpanan informasi berbagi diantara kode modul. Sebagai contoh, kita dapat menggunakan [CWebModule::params] untuk menyimpan parameter modul, dan menggunakan [CWebModule::components] untuk berbagi [komponen aplikasi](/doc/guide/basics.application#application-component) pada tingkat modul.
+
+> Tip: Kita bisa menggunakan piranti `yiic` untuk membuat kerangka dasar modul baru. Sebagai contoh, untuk membuat modul `forum` di atas, kita dapat menjalankan perintah berikut dalam jendela baris perintah:
+>
+> ~~~
+> % cd WebRoot/testdrive
+> % protected/yiic shell
+> Yii Interactive Tool v1.0
+> Silahkan ketik 'help' untuk bantuan. Ketik 'exit' untuk keluar.
+> >> module forum
+> ~~~
+
+
+Menggunakan Modul
+-----------------
+
+Untuk menggunakan modul, pertama tempatkan direktori modul di bawah [basis direktori aplikasi](/doc/guide/basics.application#application-base-directory) `modules`. Kemudian deklarasikan ID modul dalam properti [modul|CWebApplication::modules] aplikasi. Sebagai contoh, agar bisa menggunakan modul `forum` di atas, kita dapat menggunakan [konfigurasi aplikasi](/doc/guide/basics.application#application-configuration) berikut:
+
+~~~
+[php]
+return array(
+	......
+	'modules'=>array('forum',...),
+	......
+);
+~~~
+
+Modul juga bisa dikonfigurasi dengan nilai properti awal. Pemakaian ini mirip dengan mengkonfigurasi [komponen aplikasi](/doc/guide/basics.application#application-component). Sebagai contoh, modul `forum` dapat memiliki properti bernama `postPerPage` dakan kelas modulnya yang bisa dikonfigurasi dalam [konfigurasi aplikasi](/doc/guide/basics.application#application-configuration) sebagai berikut:
+
+~~~
+[php]
+return array(
+	......
+	'modules'=>array(
+	    'forum'=>array(
+	        'postPerPage'=>20,
+	    ),
+	),
+	......
+);
+~~~
+
+Turunan modul dapat diakses melalui properti [modul|CController::module] pada kontroler yang aktif saat ini. Melalui turunan modul, selanjutnya kita dapat mengakses informasi yang dibagi pada tingkat modul. Sebagai contoh, agar bisa mengakses informasi `postPerPage` di atas, kita dapat menggunakan ekspresi berikut:
+
+~~~
+[php]
+$postPerPage=Yii::app()->controller->module->postPerPage;
+// atau yang berikut jika $this merujuk pada turunan kontroler
+// $postPerPage=$this->module->postPerPage;
+~~~
+
+Aksi kontroler dalam sebuah modul dapat diakses menggunakan [rute](/doc/guide/basics.controller#route) `moduleID/controllerID/actionID`. Sebagai contoh, menganggap modul `forum` di atas memiliki kontroler bernama `PostController`, kita dapat menggunakan [rute](/doc/guide/basics.controller#route) `forum/post/create` untuk merujuk pada aksi `create` dalam kontroler ini. URL terkait untuk rute ini adalah `http://www.example.com/index.php?r=forum/post/create`.
+
+> Tip: Jika kontroler ada dalam sub-direktori `controllers`, kita masih dapat menggunakan format [rute](/doc/guide/basics.controller#route) di atas. Sebagai contoh, menganggap `PostController` di bawah `forum/controllers/admin`, kita dapat merujuk pada aksi `create` menggunakan `forum/admin/post/create`.
+
+
+Modul Berulang
+--------------
+
+Modul dapat diulang. Yaitu, sebuah modul bisa berisi modul lainnya. Kita menyebut pemanggil sebagai *leluhur modul* sementara yang dipanggil disebut *anak modul*. Anak modul harus ditempatkan di bawah direktori `modules` pada modul leluhurnya. Untuk mengakses aksi kontroler dalam anak modul, kita harus menggunakan rute `parentModuleID/childModuleID/controllerID/actionID`.
+
+
+<div class="revision">$Id: basics.module.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>

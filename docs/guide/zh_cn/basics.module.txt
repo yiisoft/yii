@@ -1,0 +1,92 @@
+Module(模块)
+======
+
+> 注意：自版本1.0.3起才支持Module。  
+
+module是一个独立的程序单元，由[models](/doc/guide/basics.model), [views](/doc/guide/basics.view), [controllers](/doc/guide/basics.controller)和其他辅助部件组成。在许多方面，一个module类似一个[application](/doc/guide/basics.application) 。它们的主要区别是，一个module不能单独部署，它必须驻留在一个application。用户可以在module里访问controller像他们访问正常application controller。 
+
+在某些情况下module有用。对于一个大规模的application，我们可以分成几个module，每个都独立开发和维护的。一些常用功能，如用户管理，评论管理，可在约定的模块里面开发，使他们可以很容易在未来的项目重用。
+
+Creating Module（创建模块）
+---------------
+
+module用一个唯一[ID|CWebModule::id]名字的目录来组织。module目录结构类似于[application base directory](/doc/guide/basics.application#application-base-directory)。以下显示了一个模块名为`forum`的典型目录结构：
+
+~~~
+forum/
+   ForumModule.php            module类文件
+   components/                包含可重复使用的用户组件containing reusable user components
+      views/                  包含widget的view文件
+   controllers/               包含controller的类文件
+      DefaultController.php   缺省控制类文件
+   extensions/                包含第3方extension
+   models/                    包含model的类文件
+   views/                     包含controller的view和layout文件
+      layouts/                包含layout的view文件
+      default/                包含DefaultController的view文件
+         index.php            index的view文件
+~~~
+
+module必须有一个module类，从[CWebModule]继承。类名使用`ucfirst($id).'Module'`表达格式来确定，其中`$id` 指module编号（或module目录名）。module类在module代码中共享存储信息充当中间角色。例如，我们可以使用[CWebModule::params]存储module参数，并在module级别使用CWebModule::components]共享[application components](/doc/guide/basics.application#application-component)。
+
+> 提示：我们可以使用` yiic `工具来建立一个新的module的基本骨架。例如，要创建上述`forum`module，我们可以执行下面的命令在命令行窗口：
+>
+> ~~~
+> % cd WebRoot/testdrive
+> % protected/yiic shell
+> Yii Interactive Tool v1.0
+> Please type 'help' for help. Type 'exit' to quit.
+> >> module forum
+> ~~~
+
+
+Using Module(使用模块)
+------------
+
+要使用一个module，首先把module目录放在[application base directory](/doc/guide/basics.application#application-base-directory)的`modules`目录下 。然后在application的[modules|CWebApplication::modules]属性中声明module编号。例如，为了使用上述`forum`module，我们可以使用下面的[application configuration](/doc/guide/basics.application#application-configuration)：
+
+~~~
+[php]
+return array(
+	......
+	'modules'=>array('forum',...),
+	......
+);
+~~~
+
+module也可以设定初始属性值。和配置[application components](/doc/guide/basics.application#application-component)非常相似。例如，`forum`module可能在其module类有属性名叫`postPerPage`，可在[application configuration](/doc/guide/basics.application#application-configuration) 如下配置：
+
+~~~
+[php]
+return array(
+	......
+	'modules'=>array(
+	    'forum'=>array(
+	        'postPerPage'=>20,
+	    ),
+	),
+	......
+);
+~~~
+
+该module实例可通过当前活动的controller的[module|CController::module] 属性访问。通过module实例，我们可以访问在module级别共享的信息。例如，为了获取上述`postPerPage`信息，我们可以使用下面的表达式：
+
+~~~
+[php]
+$postPerPage=Yii::app()->controller->module->postPerPage;
+// or the following if $this refers to the controller instance
+// $postPerPage=$this->module->postPerPage;
+~~~
+
+module里的controller的action可以使用[route](/doc/guide/basics.controller#route) `moduleID/controllerID/actionID`访问。例如，假设上述`forum` module有个命名为`PostController`的controller，我们可以使用[route](/doc/guide/basics.controller#route)  `forum/post/create`在这个controller访问`create` action。这条路线相应的网址将是` http://www.example.com/index.php?r=forum/post/create ` 。
+
+> 提示：如果一个controller是`controllers`的子目录 ，我们仍然可以使用上述[[route](/doc/guide/basics.controller#route)格式。例如，假设`PostController`在`forum/controllers/admin`下，我们可以使用`forum/admin/post/create`访问`create` action。
+
+
+Nested Module（嵌套模块）
+-------------
+
+模块可以嵌套。也就是说，一个模块可以包含另一个模块。我们称呼前者*parent module* ，而后者*child module*.child module必须置于parent module的`modules`目录下。在child module中访问controller action，我们应该使用路线`parentModuleID/childModuleID/controllerID/actionID`。
+
+
+<div class="revision">$Id: basics.module.txt 745 2009-02-25 21:45:42Z qiang.xue 译：sharehua $</div>

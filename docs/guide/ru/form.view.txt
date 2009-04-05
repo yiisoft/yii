@@ -26,19 +26,18 @@
 ~~~
 [php]
 <div class="yiiForm">
-<?php echo CHtml::form(); ?>
+<?php echo CHtml::beginForm(); ?>
 
 <?php echo CHtml::errorSummary($user); ?>
 
 <div class="simple">
 <?php echo CHtml::activeLabel($user,'username'); ?>
-<?php echo CHtml::activeTextField($user,'username') ?>
+<?php echo CHtml::activeTextField($user,'username'); ?>
 </div>
 
 <div class="simple">
 <?php echo CHtml::activeLabel($user,'password'); ?>
-<?php echo CHtml::activePasswordField($user,'password')
-?>
+<?php echo CHtml::activePasswordField($user,'password'); ?>
 </div>
 
 <div class="action">
@@ -47,7 +46,7 @@
 <?php echo CHtml::submitButton('Login'); ?>
 </div>
 
-</form>
+<?php echo CHtml::endForm(); ?>
 </div><!-- yiiForm -->
 ~~~
 
@@ -60,8 +59,8 @@
 Если использовать CSS стиль `form.css`, предоставляемый скриптом `yiic`, созданная форма будет 
 выглядеть так:
 
-![The login page](login1.png)
+![Страница авторизации](login1.png)
 
-![The login with error page](login2.png)
+![Страница авторизации с сообщением об ошибке](login2.png)
 
-<div class="revision">$Id: form.view.txt 715 2009-02-20 02:08:24Z qiang.xue $</div>
+<div class="revision">$Id: form.view.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>

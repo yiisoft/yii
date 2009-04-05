@@ -1,9 +1,9 @@
 验证和授权(Authentication and Authorization)
 ================================
 
-如果web页面的访问是受限于某些用户的，则需要Authentication和Authorization技术。Authentication 是验证某人表明的身份信息是否与系统相合。一般来说使用用户名和密码，当然也可能使用别的表明身份方式，录入智能卡，指纹等等。Authorization是找出被Authentication通过的用户是否允许操作特定的资源。一般的做法是找出此用户是否属于某个允许操作此资源的角色。
+如果网页的访问需要用户权限限制，那么我们需要使用验证（Authentication）和授权（Authorization）。验证是指核查某人表明的身份信息是否与系统相合。一般来说使用用户名和密码，当然也可能使用别的表明身份方式，录入智能卡，指纹等等。授权是找出已通过验证的用户是否允许操作特定的资源。一般的做法是找出此用户是否属于某个允许操作此资源的角色。
 
-Yii有一个内置的authentication/authorization (auth)框架，用来轻松实现这些功能。
+利用Yii内置的验证和授权（auth）框架，我们可以轻松实现上述功能。
 
 Yii auth framework 的核心一块是一个事先声明的*user application component*（用户应用部件），实现[IWebUser]接口的对象。此用户部件代表当前用户存储的身份信息。我们能够通过`Yii::app()->user`在任何地方来获取它。
 
@@ -16,13 +16,13 @@ Yii auth framework 的核心一块是一个事先声明的*user application comp
 
 定义身份类的主要工作是实现[IUserIdentity::authenticate]方法。在用户会话中根据需要，身份类可能需要定义别的身份信息
 
-下面的例子，我们使用[Active
-Record](/doc/guide/database.ar)来验证提供的用户名、密码和数据库的用户表是否吻合。用[CBaseUserIdentity::getState] 和 [CBaseUserIdentity::setState] 来存取定义的title属性。因此在整个用户会话，我们通过`Yii::app()->user->getState('title')`来获取用户的title信息。
+下面的例子，我们使用[Active Record](/doc/guide/database.ar)来验证提供的用户名、密码和数据库的用户表是否吻合。我们通过重写`getId`函数来返回验证过程中获得的`_id`变量（缺省的实现则是返回用户名）。在验证过程中，我们还借助[CBaseUserIdentity::setState]函数把获得的`title`信息存成一个状态。
 
 ~~~
 [php]
 class UserIdentity extends CUserIdentity
 {
+	private $_id;
 	public function authenticate()
 	{
 		$record=User::model()->findByAttributes(array('username'=>$this->username));
@@ -32,25 +32,23 @@ class UserIdentity extends CUserIdentity
 			$this->errorCode=self::ERROR_PASSWORD_INVALID;
 		else
 		{
-			$this->title=$record->title;
+			$this->_id=$record->id;
+			$this->setState('title', $record->title);
 			$this->errorCode=self::ERROR_NONE;
 		}
 		return !$this->errorCode;
     }
 
-	public function getTitle()
+	public function getId()
 	{
-		return $this->getState('title');
-	}
-
-	public function setTitle($value)
-	{
-		$this->setState('title',$value);
+		return $this->_id;
 	}
 }
 ~~~
 
-> 提示: 缺省情况下，[CWebUser]用session来存储用户身份信息。如果允许基于cookie方式登录(通过设置
+作为状态存储的信息（通过调用[CBaseUserIdentity::setState]）将被传递给[CWebUser]。而后者则把这些信息存放在一个永久存储媒介上（如session）。我们可以把这些信息当作[CWebUser]的属性来使用。例如，为了获得当前用户的`title`信息，我们可以使用`Yii::app()->user->title`（这项功能是在1.0.3版本引入的。在之前的版本里，我们需要使用`Yii::app()->user->getState('title')`）。
+
+> info|提示: 缺省情况下，[CWebUser]用session来存储用户身份信息。如果允许基于cookie方式登录(通过设置
 [CWebUser::allowAutoLogin]为 true)，用户身份信息将被存放在cookie中。确记敏感信息不要存放(例如 password) 。
 
 登录和注销（Login and Logout）
@@ -87,7 +85,7 @@ Yii::app()->user->login($identity,3600*24*7);
 It is provided as a filter named as
 ["accessControl"|CController::filterAccessControl].
 
-> 小贴士: 访问控制过滤器适用于简单的验证。需要复杂的访问控制，需要使用将要讲解到的基于角色访问控制（role-based access (RBAC)）.
+> tip|小贴士: 访问控制过滤器适用于简单的验证。需要复杂的访问控制，需要使用将要讲解到的基于角色访问控制（role-based access (RBAC)）.
 
 在控制器（controller）里重载[CController::filters]方法设置访问过滤器来控制访问动作(看
 [Filter](/doc/guide/basics.controller#filter) 了解更多过滤器设置信息)。
@@ -138,7 +136,7 @@ class PostController extends CController
 
 访问规则是一个一个按照设定的顺序一个一个来执行判断的。和当前判断模式（例如：用户名、角色、客户端IP、地址）相匹配的第一条规则决定授权的结果。如果这个规则是`allow`，则动作可执行；如果是`deny`，不能执行；如果没有规则匹配，动作可以执行。
 
-> 提示：为了确保某类动作在没允许情况下不被执行，设置一个匹配所有人的`deny`规则在最后，类似如下：
+> info|提示：为了确保某类动作在没允许情况下不被执行，设置一个匹配所有人的`deny`规则在最后，类似如下：
 
 > ~~~
 > [php]
@@ -170,11 +168,14 @@ class PostController extends CController
 
    - [verbs|CAccessRule::verbs]: 设定哪种请求类型(例如：`GET`, `POST`)匹配此规则。
 
+   - [expression|CAccessRule::expression]: 设定一个PHP表达式。它的值用来表明这条规则是否适用。在表达式，你可以使用一个叫`$user`的变量，它代表的是`Yii::app()->user`。这个选项是在1.0.3版本里引入的。
+
+
 ### 授权处理结果（Handling Authorization Result）
 
 当授权失败，即，用户不允许执行此动作，以下的两种可能将会产生：
 
-   - 如果用户没有登录和在用户部件中配置了[loginUrl|CWebUser::loginUrl]，浏览器将重定位网页到此配置URL。	
+   - 如果用户没有登录和在用户部件中配置了[loginUrl|CWebUser::loginUrl]，浏览器将重定位网页到此配置URL。
 
    - 否则一个错误代码401的HTTP例外将显示。
 
@@ -204,7 +205,7 @@ Yii::app()->request->redirect(Yii::app()->user->returnUrl);
 -------------------------
 
 基于角色的访问控制（ RBAC的）提供了一种简单而强大
-集中访问控制。请参阅[维基文章] （http://en.wikipedia.org/wiki/Role-based_access_control）了解更多详细的RBAC与其他较传统的访问控制模式的比较。 
+集中访问控制。请参阅[维基文章] （http://en.wikipedia.org/wiki/Role-based_access_control）了解更多详细的RBAC与其他较传统的访问控制模式的比较。
 
 Yii实现通过其[authManager|CWebApplication::authManager] 应用程序组件分级RBAC的模式。在下面，我们首先介绍用于这模式的主要概念;我们然后描述了如何设定授权数据;最后，我们看看如何利用授权数据，以进行访问检查。
 
@@ -325,7 +326,7 @@ $auth->assign('admin','adminD');
 
 请注意，我们给` updateOwnPost `任务关联一个业务规则。在这个业务规则，我们只是检查目前的用户ID是否和指定的帖子的作者ID一样。当执行访问检查时，发布信息在开发者提供`$params`数组中。
 
->信息：虽然上面的例子看起来冗长和枯燥，这主要是为示范的目的。开发者通常需要制定一些用户接口，以便最终用户可以更直观使用它来建立一个授权等级。
+> info|信息：虽然上面的例子看起来冗长和枯燥，这主要是为示范的目的。开发者通常需要制定一些用户接口，以便最终用户可以更直观使用它来建立一个授权等级。
 
 ### 访问检查（Access Checking）
 
@@ -347,8 +348,42 @@ if(Yii::app()->user->checkAccess('createPost'))
 $params=array('post'=>$post);
 if(Yii::app()->user->checkAccess('updateOwnPost',$params))
 {
-	// 更新发布
+	// 更新post
 }
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 564 2009-01-21 22:07:10Z qiang.xue $</div>
+
+### 使用缺省角色（Default Roles）
+
+> Note|注意: 缺省角色的功能是在1.0.3版本引入的。
+
+很多Web应用需要一些很特殊的角色，它们通常需要被分配给几乎每一个用户。例如，我们可能需要为所有注册用户分配一些特殊的权力。假如要象上述方法那样去为每一个用户分配这种角色，我们在维护上将面临很多麻烦。因此，我们采用*缺省角色*功能来解决这个问题。
+
+所谓缺省角色指的是被隐式分配给每一个用户（包括注册和非注册的用户）的角色。它们无需象前面所描述的那样去被分配给用户。当我们调用[CWebUser::checkAccess]，缺省角色将首先被检查，就像它们已经被分配给当前用户一样。
+
+缺省角色必须通过[CAuthManager::defaultRoles]属性进行声明。例如，下面的应用配置声明了两个缺省角色：`authenticated`和`guest`。
+
+~~~
+[php]
+return array(
+	'components'=>array(
+		'authManager'=>array(
+			'class'=>'CDbAuthManager',
+			'defaultRoles'=>array('authenticated', 'guest'),
+		),
+	),
+);
+~~~
+
+因为缺省角色实质上是被分配给每一个用户的，它通常需要伴随一个业务规则用来确定它是否真正适用某个用户。例如，下面的代码定义了两个角色，`authenticated`和`guest`，它们在实质上分别被分配给已通过验证和未通过验证的用户。
+
+~~~
+[php]
+$bizRule='return !Yii::app()->user->isGuest;';
+$auth->createRole('authenticated',$bizRule);
+
+$bizRule='return Yii::app()->user->isGuest;';
+$auth->createRole('guest',$bizRule);
+~~~
+
+<div class="revision">$Id: topics.auth.txt 759 2009-02-26 21:23:53Z qiang.xue 译 : sharehua $</div>
