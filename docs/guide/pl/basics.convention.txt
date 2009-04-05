@@ -1,0 +1,135 @@
+Konwencje
+===========
+
+Yii przedkłada konwencje nad konfiguracją. Stosując się do konwencji można stworzyć
+wyszukaną aplikację w Yii bez potrzeby pisania i zarządzania skomplikowanej konfiguracji.
+Oczywiście, Yii wciąż można dostosowywać prawie w każdym aspekcie za pomocą konfiguracji, 
+jeśli występuje taka potrzeba.
+
+Poniżej opiszemy konwencje, które zalecamy używać podczas programowania w Yii.
+Dla wygody, zakładamy, że `WebRoot` jest katalogiem, w którym zainstalowane są aplikacje Yii.
+
+Adresy URL
+---
+
+Domyślnie Yii rozpoznaje adresy URL w następującym formacie:
+
+~~~
+http://hostname/index.php?r=IdKontrolera/IdAkcji
+~~~
+
+Zmienna GET `r prezentuje [ścieżkę](/doc/guide/basics.controller#route) która może 
+zostać rozkodowana przez Yii na nazwę kontrolera i akcji. Jesli `IdAkcji` jest pominięte 
+kontroler weźmie akcję domyślną (zdefiniowaną poprzez [CController::defaultAction]); 
+a jeśli `IdKontrolera` zostanie również pominięte (lub zmienna `r` nie będzie występować) 
+aplikacja użyje domyślnego kontrolera (zdefiniowanego poprzez [CWebApplication::defaultController]).
+
+Przy pomocy [CUrlManager], możliwym jest utworzenie oraz rozpoznawanie bardziej 
+przyjaznych SEO adresów URL, takich jak `http://hostname/IdKontrolera/IdAkcji.html`. 
+Funkcjonalność ta jest szczegółowo opisana w [Zarządzaniu adresami URL](/doc/guide/topics.url).
+
+Kod
+----
+
+Yii zaleca nazywać zmienne, funkcje oraz typy klas stosując notację wielbłąda, w której 
+każde słowo w nazwie pisane jest z dużej litery a słowa połączone są bez spacji. 
+Nazwy zmiennych oraz funkcji powinny mieć pierwsze słowo zawsze pisane małą literą,
+w celu odróżnienia ich od nazw klas (np. `$basePath`, `runController()`, `LinkPager`). 
+Dla zmiennych prywatnych klasy zaleca się poprzedzić ich nazwy znakiem podkreślenia 
+(np. `$_actionList`).
+
+Ponieważ przestrzenie nazw nie są wspierane dla wersji PHP niższych niż 5.3.0
+zaleca się, aby klasy były nazywane w sposób unikalny, w celu uniknięcia konfliktu 
+nazw z zewnętrznymi klasami. Z tego powodu, wszystkie klasy frameworku poprzedzone są 
+literą "C".
+
+Specjalna zasada dotyczy kontrolerów, do których nazw musi zostać dodane słowo `Controller`. 
+ID kontrolera jest wtedy definiowane jako nazwa klasy rozpoczynająca się małą literą 
+bez słowa `Controller`. Na przkład, klasa `PageController` będzie posiadała ID `page`. 
+Reguła ta powoduje, że aplikacja jest bezpieczniejsza. Przyczynia się to również do tego, 
+że adresy URL związane z kontrolerami są trochę bardziej czytelne (np. `/index.php?r=page/index` 
+zamiast `/index.php?r=PageController/index`).
+
+Konfiguracja
+-------------
+
+Konfiguracja składa się z tablicy par klucz-wartość. Każdy klucz reprezentuje nazwę
+właściwości obiektu konfigurowanego a każda wartość jest odpowiadającą jej wartością
+inicjalną własności. Na przykłąd, `array('name'=>'Moja aplikacja', 'basePath'=>'./protected')` 
+inicjalizuje właściwości `name` oraz `basePath` odpowiadającymi im wartościom z tablicy.
+
+Każda właściwość obiektu umożliwiająca zapis do niej może zostać skonfigurowana.
+Jeśli nie zostanie to zrobione, właściwość przyjmie wartość domyślną. Podczas konfigurowania 
+właściwości, opłaca się przeczytać odpowiadającą jej dokumentację, tak aby nadać 
+jej poprawną wartość początkową.
+
+Plik
+----
+
+Konwencje nazywania oraz używania plikó zależą od ich typów.
+
+PLiki klas powinny zostać nazwane tak jak klasy, które zawierają. Na przykład, 
+klasa [CController] znajduje się w pliku `CController.php`. Klasa publiczna, to taka klasa, 
+która może zostać użyta w innych klasach. Każdt plik klasy powinien zawierać co najmniej 
+jedną klasę publiczną. Klasy prywatne (klasy, które są używane tylko przez jedną klasę publiczną) 
+mogą się znajdować w tym samym pliku, gdzie znajduje się klasa w której jest używana.
+
+Klasy widoków, powinny być nazywane tak samo jak widoki. Na przykład, widok `index`
+znajduje się w pliku `index.php`. Plik widoku jest skryptem PHP, który posiada kod 
+PHP oraz HTML, w celach prezentacyjnych.
+
+Pliki konfoguracyjne można nazwać arbitralnie. Plik konfiguracji jest skryptem PHP, 
+którego jedynym celem jest zwrócić tablicę asocjacyjną reprezentującą konfigurację.
+
+
+Katalogi
+---------
+
+Yii zakłada, że istnieje pewien zestaw katalogów używanych do różnych celów. 
+Każdy z nich może zostać zmieniony, jeśli występuje taka potrzeba:
+
+   - `WebRoot/protected`: jest to [głóny folder aplikacji](/doc/guide/basics.application#application-base-directory) 
+   zawierający wszystkie ważne ze względ na bezpieczeństwo skrypty PHP oraz
+   pliki z danymi. Yii posiada domyślny alias nazwany `application` powiązany z tą ścieżką. 
+   KAtalog ten, oraz wszystko co się w nim znajduje powinny być zabezpieczone przed 
+   dostępem z zewnątrz przez użytkowników sieciowych. Katalog ten można zmienić poprez 
+   zmianę wartości [CWebApplication::basePath].
+
+   - `WebRoot/protected/runtime`: katalog ten trzyma prywatne pliki tymczasowe, generowane 
+   w czasie działania aplikacji. Katalog ten musi posiadać prawo zapisu dla procesów 
+   serwera WWW. Można ją zmienić poprzez zmianę wartości [CApplication::runtimePath].
+
+   - `WebRoot/protected/extensions`: katalog ten zawiera wszystkie zewnętrzne rozszerzenia. 
+   Można go zmienić poprez zmianę wartości [CApplication::extensionPath].
+
+   - `WebRoot/protected/modules`: katalog ten zawiera wszytkie [moduły](/doc/guide/basics.module)
+   aplikacji, z których każdy reprezentowany jest przez podkatalog.
+
+   - `WebRoot/protected/controllers`: katalog ten zawiera wszystkie pliki klas kontrolerów.
+   Można go zmienić poprzez zminę wartości [CWebApplication::controllerPath].
+
+   - `WebRoot/protected/views`: katalog ten zawiera wszystkie pliki widoków, włączając 
+   w to widoki kontrolera, układy widoku oraz widoki systemowe. 
+   Można go zmienić poprzez zminę wartości [CWebApplication::viewPath].
+
+   - `WebRoot/protected/views/ControllerID`: katalog ten zawiera pliki widoków dla 
+   pojedynczej klasy kontrolera. Tutaj `ControllerID` oznacza ID kontrolera.
+   Można go zmienić poprzez zminę wartości [CController::getViewPath].
+
+   - `WebRoot/protected/views/layouts`: katalog ten zawiera pliki wszystkich układów 
+   widoków. Można go zmienić poprzez zminę wartości [CWebApplication::layoutPath].
+
+   - `WebRoot/protected/views/system`: katalog ten zawiera pliki wszystkich widoków 
+   systemowych. Widoki systemowe są szablonami używanymi do wyświetlania wyjątków 
+   oraz błędów. Można go zmienić poprzez zminę wartości [CWebApplication::systemViewPath].
+
+   - `WebRoot/assets`: katalog ten zawiera opublikowane pliki zasobów. Plik zasobu
+   jest prywatnym plikiem, który może zostać opublikowany, by stać się dostępnym dla 
+   użytkowników. Katalog ten musi posiadać prawa zapisu dla procesu serwera WWW. 
+   Można go zmienić poprzez zminę wartości [CAssetManager::basePath].
+
+   - `WebRoot/themes`: katalog ten zawiera różne tematy, które można zastosować do
+   aplikacji. Każdy podkatalog reprezentuje pojedynczy temat, którego nazwa jest 
+   nazwą podkatalogu. Można go zmienić poprzez zminę wartości [CThemeManager::basePath].
+
+<div class="revision">$Id: basics.convention.txt 749 2009-02-26 02:11:31Z qiang.xue $</div>

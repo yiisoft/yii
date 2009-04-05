@@ -4,9 +4,8 @@
 已经描述了yii的基本概念，现在我们看看用yii开发一个web程序的基本流程。前提是我这个程序我们已经做了需求分析和必要的设计分析。
 
    1. 创建目录结构。在前面的章节[Creating First Yii Application](/doc/guide/quickstart.first-app)写的yiic工具可以帮助我们快速完成这步。
-配置application。就是修改application配置文件。这步有可能会写一些application部件(例如：用户部件)。
 
-   2. 配置 [application](/doc/guide/basics.application).就是修改application配置文件。这步有可能会写一些application部件(例如：用户部件)
+   2. 配置 [application](/doc/guide/basics.application)。就是修改application配置文件。这步有可能会写一些application部件(例如：用户部件)
 
    3. 每种类型的数据都创建一个 [model](/doc/guide/basics.model) 类来管理。 同样，yiic可以为我们需要的数据库表自动生成active record
 [active record](/doc/guide/database.ar) 类。
@@ -15,10 +14,10 @@
 
    5. 实现 [actions](/doc/guide/basics.controller#action) 和相应的 [views](/doc/guide/basics.view)。这是真正需要我们编写的工作。
 
-   6. 在controller类里配置需要的action 
+   6. 在controller类里配置需要的action
 [filters](/doc/guide/basics.controller#filter) 。
 
-   7. 如果需要主题功能，编写 [themes](/doc/guide/topics.theming)。 
+   7. 如果需要主题功能，编写 [themes](/doc/guide/topics.theming)。
 
    8. 如果需要
 [internationalization](/doc/guide/topics.i18n)国际化功能，编写翻译语句。
@@ -30,4 +29,4 @@
 
 以上每个步骤，有可能需要编写测试案例来测试。
 
-<div class="revision">$Id: basics.workflow.txt 323 2009-1-19 01:40:16Z shuarehua $</div>
+<div class="revision">$Id: basics.workflow.txt 323 2009-1-19 01:40:16Z qiang.xue 译 : sharehua $</div>

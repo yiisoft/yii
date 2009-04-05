@@ -1,0 +1,27 @@
+Model
+=====
+
+Model adalah turunan dari [CModel] atau anak kelasnya. Model dipakai untuk
+memelihara data dan aturan bisnis relevannya.
+
+Model mewakili satu obyek data. Ia dapat berupa baris dalam tabel database
+atau formulir input bagi pengguna. Setiap field obyek data digambarkan
+sebagai atribut model. Atribut memiliki label dan bisa divalidasi
+terhadap set aturan.
+
+Yii mengimplementasi dua jenis model: model formulir dan rekaman aktif. Keduanya
+diperluas dari kelas basis yang sama [CModel].
+
+Model formulir adalah turunan dari [CFormModel]. Model formulir dipakai untuk memelihara
+data yang dikumpilkan dari input pengguna. Data tersebut sering dikumpulkan, dipakai
+kemudian diabaikan. Sebagai contoh, pada halaman masuk, kita dapat menggunakan model formulir untuk
+menyajikan informasi nama pengguna dan kata sandi yang disediakan oleh pengguna
+akhir. Untuk lebih jelasnya, silahkan merujuk ke [Bekerja dengan Formulir](/doc/guide/form.model)
+
+Active Record (AR) atau rekaman aktif adalah pola design yang dipakai untuk mengaburkan akses database
+dalam mode terorientasi-obyek. Setiap obyek AR adalah turunan dari 
+[CActiveRecord] atau kelas anaknya, mewakili satu baris dalam tabel database.
+Field dalam baris diwakili sebagai properti obyek AR.
+Rincian mengenai AR dapat ditemukan dalam [Rekaman Aktif](/doc/guide/database.ar).
+
+<div class="revision">$Id: basics.model.txt 162 2008-11-05 12:44:08Z weizhuo $</div>

@@ -1,0 +1,145 @@
+Widok
+====
+
+Widok jest skryptem PHP zawierającym przede wszystkim elementy interfejsu użytkownika.
+Może on zawierać wyrażenia PHP, ale rekomendowane jest, aby te wyrażenia 
+nie zmieniały danych modelu oraz były w miarę proste. W duchu rozdzielania 
+logiki i prezentacji, duże porcje logiki powinny zostać umieszczone w kontrolerze
+lub modelu zamiast w widoku.
+
+Widok posiada nazwę, która jest używane do zidentyfikowania pliku skryptu widoku 
+podczas generowania. Nazwa widoku to ta sama nazwa co nazwa pliku skryptu zawierającego
+widok. Na przykład, widok `edit` odnosi się do pliku skryptu widoku nazwanego 
+`edit.php`.  Aby wygenerować widok wywołaj metodę [CController::render()] wraz 
+z nazwą widoku.  Metodata będzie szukała odpowiadającego widokowi pliku w katalogu 
+`protected/views/ControllerID`.
+
+Wewnątrz skryptu widoku mamy dostęp do instancji kontrolera poprzez `$this`. 
+Możemy w ten sposób `przeciągnąć` każdą właściwość kontrolera do widoku poprzez 
+wywołanie `$this->nazwaWłaściwości`.
+
+Możemy również użyć podejścia `pchnij` do przekazania danych do wyświetlenia:
+
+~~~
+[php]
+$this->render('edit', array(
+	'var1'=>$value1,
+	'var2'=>$value2,
+));
+~~~
+
+W powyższym kodzie, metoda [render()|CController::render] rozkoduje drugi parametr 
+tablicy do zmiennych. W rezultacie, w skrpcie widoku uzyskamy dostęp do zmiennych 
+lokalnych `$var1` oraz `$var2`.
+
+Układ (ang. Layout)
+------
+
+Układ jest specjalnym widokiem, który jest używany do dekorowania widoku. 
+Zazwycaj zawiera porcję interfejsu użytkownika, która jest wspólna dla różnych 
+widoków. Na przykład, widok może zawierać część nagłówkową i stopkę oraz osadzać 
+zawartość widoku pomiędzy nimi,
+
+~~~
+[php]
+......nagłówek......
+<?php echo $content; ?>
+......stopka......
+~~~
+
+gdzie `$content` przechowuje wynik generowania zawartości widoku.
+
+Widok jest domyślnie sosowany podczas wołania metody [render()|CController::render].
+Domyślnie, skrypt widoku `protected/views/layouts/main.php` jest używany jako widok.
+Można to zmienić poprzez zmianę [CWebApplication::layout] lub [CController::layout].
+Aby wygenerować widok bez korzystania z żadnego widoku wywołaj w zamian metodę 
+[renderPartial()|CController::renderPartial].
+
+Widżety (ang. Widget)
+------
+
+Widżet jest instancją klasy [CWidget] lub jej klas pochodnych. Jest komponentem 
+stosowanym dla celów prezentacji. Widżety są zazwyczaj osadzane w widoku w skrypcie 
+widoku do generowania pewnych skomplikowanych, samowystarczalnych (niezależnych)
+interfejsów użytkownika. Na przykłąd, widżet kalendarza może być używany do wygenerowania 
+skomplikowanego interfejsu użytkownika dla kalendarza. Widżety umożliwiają 
+lepsze ponowne wykorzystanie kodu w interfejsie użytkownika.
+
+Aby użyć widżetu, zróc co następuje w skrypcie widoku:
+
+~~~
+[php]
+<?php $this->beginWidget('path.to.WidgetClass'); ?>
+...zawartość, która może zostać uwzględniona przez widżet...
+<?php $this->endWidget(); ?>
+~~~
+
+lub
+
+~~~
+[php]
+<?php $this->widget('ścieżka.do.klasy.widżetu'); ?>
+~~~
+
+Drugie podejście jest używane kiedy widżet nie potrzebuje żadnej zawartości.
+
+Widżety można skonfigurować, tak by zmienić ich zachowanie. Można to zrobić poprzez 
+ustawienie ich inincjalnych wartości podczas wywołania [CBaseController::beginWidget] 
+lub [CBaseController::widget]. Na przykład, podczas używania widżetu [CMaskedTextField],
+chcielibyśmy okreslić używaną maskę. Możemy to zrobić przez przekazywanie tablicy tych 
+wartości początkowych właściwości w następujący sposób, gdzie kluczami tablicy 
+są nazwy właściwości oraz wartościami inicjalne wartości odpowiadających widżetowi 
+właściwości:
+
+~~~
+[php]
+<?php
+$this->widget('CMaskedTextField',array(
+	'mask'=>'99/99/9999'
+));
+?>
+~~~
+
+Abu zdefiniować nowy widżet, rozszerz klasyę [CWidget] oraz nadpisz jej metody 
+[init()|CWidget::init] oraz [run()|CWidget::run]:
+
+~~~
+[php]
+class MyWidget extends CWidget
+{
+	public function init()
+	{
+	  // jest to metoda wołana przez CController::beginWidget()
+	}
+
+	public function run()
+	{
+	  // jest to metoda wołana przez CController::endWidget()
+	}
+}
+~~~
+
+Tak jak w kontrolerze, widżet może mieć swoje własny widok. Domyślnie, pliki widoku 
+widżetu są umieszczone w podkatalogu `views` katalogu zawierającego klasę widżetu.
+Widoki te mogą być renderowane poprzez wywołanie [CWidget::render()], w sposób podobny
+do tego w kontrolerze. Jedyną różnicą jest to, że żaden układ nie będzie używany 
+dla widoku widżetu.
+
+Widok systemowy (ang. System View)
+-----------
+
+Widok systemowy odpowiada widokowi używanemu w Yii do wyświetlania błędów oraz 
+logowania informacji. Na przykład, kiedy użytkownik żądą dostępu do nieistniejącego 
+kontrolera lub akcji, Yii rzuci wyjątkiem wyjaśniającym błąd. Wyświetli ten wyjątek
+przy użyciu określonego widoku systemowego.
+
+Nazywanie widokó systemowych podlega pewnym zasadon. Nazwy takie jak `errorXXX` 
+odpowiadają widokom do wyświetlania wyjątków [CHttpException] dla kodu błędu `XXX`.
+Na przykład, jeśli wywołany jejst wyjątek [CHttpException] o kodzie błędu 404, 
+wtedy błąd `error404` będzie wyświetlony.
+
+Yii dostarcza zestawu domyślnych widoków systemowych umieszczonych w folderze 
+`framework/views`. Mogą one zostać zmienione poprzez utworzenie tak samo nazwanych
+plików widoku w folderze `protected/views/system`.
+
+<div class="revision">$Id: basics.view.txt 416 2008-12-28 05:28:11Z qiang.xue $</div>

@@ -25,7 +25,8 @@ $post->save();
 I det följande beskrivs hur man sätter upp AR och använder denna till att 
 genomföra CRUD-operationer. I nästa avsnitt visas hur man kan använda AR för att 
 hantera databassamband (relationship). För enkelhets skull kommer nedanstående 
-databastabell att användas i exemplen i detta avsnitt.
+databastabell att användas i exemplen i detta avsnitt.  Märk att om MySQL-databas 
+används skall `AUTOINCREMENT` bytas mot `AUTO_INCREMENT` i följande SQL.
 
 ~~~
 [sql]
@@ -76,6 +77,7 @@ stöds endast följande databashanterare:
    - [MySQL 4.1 eller senare](http://www.mysql.com)
    - [PostgreSQL 7.3 eller senare](http://www.postgres.com)
    - [SQLite 2 och 3](http://www.sqlite.org)
+   - [Microsoft SQL Server 2000 eller senare](http://www.microsoft.com/sqlserver/)
 
 Vid önskemål om att använda en annan applikationskomponent än `db`, eller om att 
 använda AR till att arbeta mot flera databaser, åsidosätt 
@@ -502,4 +504,4 @@ catch(Exception $e)
 }
 ~~~
 
-<div class="revision">$Id: database.ar.txt 687 2009-02-17 02:57:56Z qiang.xue $</div>
+<div class="revision">$Id: database.ar.txt 891 2009-03-25 15:20:56Z qiang.xue $</div>

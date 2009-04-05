@@ -12,4 +12,4 @@ Yii 从表单模型和 active record 实现了两种模型. 它们都继承自�
 
 Active Record (AR) 是一种面向对象风格的,用于抽象数据库访问的设计模式.任何一个 AR 对象都是 [CActiveRecord] 或其子类的实例, 它描述的数据表中的单独一行数据.这行数据中的字段被描述成 AR 对象的一个属性. 关于 AR 的更多信息可以在 [Active Record](/doc/guide/database.ar) 中找到.
 
-<div class="revision">$Id: basics.model.txt 162 2009-02-25 14:45:08Z thaiki $</div>
+<div class="revision">$Id: basics.model.txt 162 2009-02-25 14:45:08Z qiang.xue & 译 : thaiki $</div>

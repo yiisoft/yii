@@ -97,6 +97,10 @@ Som alternativ till att utvecklare varierar ID:n enligt något schema, har
 
    - [varyByParam|COutputCache::varyByParam]: genom att sätta detta alternativ till en array med namn, kan det cachelagrade innehållet varieras efter värden i de specificerade GET-parametrarna. Till exempel, om en sida presenterar innehållet från en postning baserat på  GET-parametern `id`, kan innehållet i varje postning cachelagras genom att [varyByParam|COutputCache::varyByParam] sätts till en `array('id')`. Utan en sådan variation skulle bara en enda postning kunna lagras.
 
+   - [varyByExpression|COutputCache::varyByExpression]: genom att sätta detta alternativ till ett PHP-uttryck 
+kan det cachelagrade innehållet fås att variera i enlighet med värdet av detta PHP-uttryck. 
+Detta alternativ har varit tillgängligt fr o m version 1.0.4.
+
 ### Typ av Request
 
 Ibland är det önskvärt att aktivera fragmentcachning för endast vissa typer av 
@@ -144,4 +148,4 @@ omvänd ordning. Om den yttre cachen innehåller giltig data kommer alltid den
 cachelagrade kopian att tillhandahållas, även om innehållet i den inre cachen 
 redan blivit för gammalt och klassat ogiltigt.
 
-<div class="revision">$Id: caching.fragment.txt 323 2008-12-04 01:40:16Z qiang.xue $</div>
+<div class="revision">$Id: caching.fragment.txt 891 2009-03-25 15:20:56Z qiang.xue $</div>

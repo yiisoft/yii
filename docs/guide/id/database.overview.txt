@@ -1,0 +1,9 @@
+Bekerja dengan Database
+=======================
+
+Yii menyediakan dukungan bertenaga untuk pemrograman database. Dibangun di atas ekstensi PHP Data Objects (PDO), Yii Data Access Objects (DAO) menghidupkan pengaksesan ke sistem manajemen database (DBMS) yang berbeda dalam satu antar muka. Aplikasi yang dikembangkan menggunakan Yii DAO dapat dialihkan dengan mudah guna memakai DBMS yang berbeda tanpa perlu memodifikasi kode pengaksesan data. Rekaman Aktif (AR) Yii, diimplementasikan sebagai pendekatan
+Object-Relational Mapping (ORM) atau Pemetaan Relasional-Obyek paling umum dipakai, selanjutnya menyederhanakan pemrograman database. Penyajian tabel dalam batasan turunan kelas dan baris, AR Yii mengeliminasi tugas penulisan pernyataan SQL tersebut yang terutama berkaitan dengan operasi CRUD (create, read, update and delete).
+
+Meskipun Yii DAO dan AR dapat menangani hampir semua tugas-tugas terkait-database, Anda masih dapat menggunakan librari Anda sendiri alam aplikasi Yii Anda. Dalam kenyataannya, Yii framework didesain dengan hati-hati untuk dipakai bersamaan dengan librari pihak-ketiga lainnya.
+
+<div class="revision">$Id: database.overview.txt 163 2008-11-05 12:51:48Z weizhuo $</div>

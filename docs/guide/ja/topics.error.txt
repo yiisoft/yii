@@ -22,7 +22,7 @@ PHPのwarningやnotice、キャッチされない例外が発生した場合は�
 として定義する事で対応できます。
 
 デフォルトでは[errorHandler|CApplication::errorHandler]
-（[exception|CApplication::exceptionHandler]も同様）は
+（[exceptionHandler|CApplication::exceptionHandler]も同様）は
 [onError|CApplication::onError]
 (または[onException|CApplication::onException])イベントを発生させます。
 これらは、もしエラー（あるいは例外）がイベントハンドラに全く
@@ -108,4 +108,4 @@ mode](/doc/guide/basics.entry#debug-mode)で実行された時、内部的なエ
 このようにアプリケーションの実行の間に起きるエラーをモニターする為の
 [logging](/doc/guide/topics.logging)機能を利用することが出来ます。
 
-<div class="revision">$Id: topics.error.txt 170 2008-11-06 20:33:35Z qiang.xue $</div>
+<div class="revision">$Id: topics.error.txt 772 2008-11-06 20:33:35Z qiang.xue $</div>

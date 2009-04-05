@@ -285,4 +285,4 @@ Ziel-Locale vorgegebene Währungsmuster verwendet.
 formatiert die gegebene Zahl, indem sie das in der Ziel-Locale vorgegebene 
 Prozentsatz-Muster verwendet.
 
-<div class="revision">$Id: topics.i18n.txt 584 2009-01-26 22:26:33Z qiang.xue $</div>
+<div class="revision">$Id: topics.i18n.txt 772 2009-02-28 18:23:17Z qiang.xue $</div>

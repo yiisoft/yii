@@ -10,15 +10,21 @@ Yiiは広範囲に渡るパスエイリアスを使用します。パスエイ�
 RootAlias.path.to.target
 ~~~
 
-`RootAlias`の部分は現存するディレクトリへのエイリアスです。Yiiは二つの
-エイリアスをあらかじめ定義しています: `system` と `application` です。
-`system` はYiiフレームワークのディレクトリへのエイリアスで、`application`
- はアプリケーションの `protected` ディレクトリへのエイリアスです。新しい
-パスエイリアス(ルートエイリアスを含む)を定義するために、
-[YiiBase::setPathOfAlias()]をコールする事が出来ます。
+`RootAlias`の部分は現存するディレクトリへのエイリアスです。
+[YiiBase::setPathOfAlias()]を呼出すことにより、新たにパスエイリアスを定義することができます。
+便宜上、Yiiは以下のルートエイリアスをあらかじめ定義しています。
 
-[YiiBase::getPathOfAlias()]を使用する事によって、結びついたパスへエイリアス
-を変換することができます。例えば、`system.web.CController` は
+ - `system`: Yiiフレームワークのディレクトリを参照します。
+ - `application`: アプリケーションの[base directory](/doc/guide/basics.application#application-base-directory)を参照します。
+ - `webroot`: [entry script](/doc/guide/basics.entry)ファイルを含むディレクトリを参照します。
+このエイリアスは1.0.3版から使用可能です。
+
+さらに、もしアプリケーションが[modules](/doc/guide/basics.module)を使用している場合は、
+ルートエイリアスはあらかじめそれぞれのモジュールIDを定義し、対応するモジュールのベースパスを参照します。
+この機能は1.0.3版から使用可能です。
+
+[YiiBase::getPathOfAlias()]を使用する事によって、エイリアスを対応するパスへ
+変換することができます。例えば、`system.web.CController` は
  `yii/framework/web/CController` の様に変換されます。
 
 エイリアスを使用する事によって、クラスの定義をインポートする事が
@@ -68,4 +74,4 @@ Yii::import('system.web.*');
 リザーブしておき、ユーザー定義によるクラスの前置詞には別の文字列を
 使用して下さい。
 
-<div class="revision">$Id: basics.namespace.txt 169 2008-11-06 19:43:44Z qiang.xue $</div>
+<div class="revision">$Id: basics.namespace.txt 766 2008-11-06 19:43:44Z qiang.xue $</div>

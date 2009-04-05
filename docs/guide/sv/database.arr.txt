@@ -266,8 +266,10 @@ relationella frågan. De sammanfattas nedan.
    varit tillgängligt från och med version 1.0.3.
 
    - `on`: motsvarar `ON`-ledet. Villkoret som specificeras här kommer att läggas till 
-   sammanslagningsvillkoret med hjälp av `AND`-operatorn. Detta alternativ har 
-   varit tillgängligt från och med version 1.0.2.
+   sammanslagningsvillkoret med hjälp av `AND`-operatorn.  Märk att kolumnreferenser 
+behöver göras otvetydiga med hjälp av `aliasToken` (t.ex. `??.id=10`).
+Detta alternativ är inte relevant vid `MANY_MANY`-relationer. Det har varit 
+tillgängligt från och med version 1.0.2.
 
    - `order`: motsvarar `ORDER BY`-ledet. Det är som standard tomt. Märk att 
    kolumnreferenser behöver göras otvetydiga med hjälp av `aliasToken` (t.ex. 
@@ -297,17 +299,16 @@ relationella frågan. De sammanfattas nedan.
    att, av prestandaskäl, ha sin egen JOIN-sats. Detta alternativ har varit tillgängligt 
    från och med version 1.0.3.
 
-Dessutom är följande alternativ tillgängliga för vissa samband när lazy loading används:
-
    - `group`: motsvarar `GROUP BY`-ledet. Det är som standard tomt. Märk att 
    kolumnreferenser behöver göras otvetydiga med hjälp av `aliasToken` (e.g. 
-   `??.age`). Detta alternativ är tillämpligt endast på `HAS_MANY`- och `MANY_MANY`-samband.
+   `??.age`).
 
    - `having`: motsvarar `HAVING`-ledet. Det är som standard tomt. Märk att 
    kolumnreferenser behöver göras otvetydiga med hjälp av `aliasToken` (e.g. 
-   `??.age`). Detta alternativ är tillämpligt endast på `HAS_MANY`- och 
-   `MANY_MANY`-samband. Detta alternativ har varit tillgängligt från och med 
+   `??.age`). Detta alternativ har varit tillgängligt från och med 
    version 1.0.1.
+
+Dessutom är följande alternativ tillgängliga för vissa samband när lazy loading används:
 
    - `limit`: begränsar antalet rader som kan selekteras. Detta alternativ är 
    INTE tillämpligt på `BELONGS_TO`-samband.
@@ -368,4 +369,78 @@ User::model()->with(array(
 ))->findAll();
 ~~~
 
-<div class="revision">$Id: database.arr.txt 683 2009-02-16 05:20:17Z qiang.xue $</div>
+Statistikfråga
+--------------
+
+> Note|Märk: Statistikfrågor har understötts fr o m version 1.0.4.
+
+Utöver relationella frågor som beskrivits ovan, stöder Yii också så kallade statistikfrågor 
+(eller aggregationsfrågor). Detta refererar till inhämtning av aggregeringsinformation om 
+relaterade objekt, såsom antalet kommentarer till varje postning, den genomsnittliga 
+poängsättningen för varje produkt, etc. Statistikfrågor kan endast utföras mot objekt som har 
+sambandstyperna `HAS_MANY` (t.ex. en postning har många kommentarer) eller `MANY_MANY` 
+(t.ex. en postning tillhör många kategorier och en kategori har många postningar).
+
+Att genomföra en statistikfråga är mycket snarlikt till att utföra en relationell fråga, 
+som tidigare besrivits. Först deklareras en statistikfråga i metoden 
+[relations()|CActiveRecord::relations] i [CActiveRecord] precis som vid en relationell fråga.
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+			'commentCount'=>array(self::STAT, 'Comment', 'postID'),
+			'categoryCount'=>array(self::STAT, 'Category', 'PostCategory(postID, categoryID)'),
+		);
+	}
+}
+~~~
+
+Ovan deklareras två statistikfrågor: `commentCount` beräknar antalet kommentarer som tillhör 
+en postning och `categoryCount` beräknar antalet kategorier en postning tillhör. 
+Märk att sambandstypen mellan between `Post` och `Comment` är `HAS_MANY`, medan sambandstypen 
+mellan `Post` och `Category` är `MANY_MANY` (med hjälp av mellantabellen `PostCategory`). 
+Som tydligt framgår är deklarationen mycket snarlik  de sambandsdeklarationer som beskrivits 
+i tidigare delavsnitt. Den enda skillnaden är att sambandstypen `STAT` används här.
+
+
+Med ovanstående deklaration kan vi hämta antalet kommentarer till en postning med hjälp av 
+uttrycket `$post->commentCount`. När vi använder denna property första gången, kommer en 
+SQL-sats att exekveras implicit för att hämta in det önskade resultatet. 
+Som bekant är detta den så kallade *lazy loading*-metoden. Vi kan även använda 
+*eager loading*-metoden om vi behöver avgöra antalet kommentarer för ett flertal postningar:
+
+~~~
+[php]
+$posts=Post::model()->with('commentCount', 'categoryCount')->findAll();
+~~~
+
+Ovanstående programsats exekverar tre SQL-satser för att leverera alla postningar tillsammans 
+med deras respektive kommentarantal och antal kategorier. Om lazy loading-metoden används 
+blir resultatet att `2*N+1` SQL-frågor exekveras givet `N` postningar.
+
+Som standard kalkylerar en statistikfråga `COUNT`-uttrycket (och därmed kommentarantalet och 
+antalet kategorier i ovanstående exempel). Detta kan vi anpassa genom att ange ytterligare
+alternativ när vi deklarerar [relations()|CActiveRecord::relations]. 
+De tillgängliga alternativen summeras nedan.
+
+   - `select`: statistikfrågan. Som standard `COUNT(*)`, innebärande antalet underordnade objekt.
+
+   - `defaultValue`: värde som skall tilldelas de poster som inte erhåller ett resultat från statistikfrågan. Till exempel, om en postning inte har några kommentarer, kommer dess `commentCount` att åsättas detta värde. Standardvärde för detta alternativ är 0.
+
+   - `condition`: `WHERE`-ledet. Som standard tomt.
+
+   - `params`: parametrarna som skall kopplas till den genererade SQL-satsen. 
+De skall anges som en array av namn-värdepar.
+
+   - `order`: `ORDER BY`-ledet. Som standard tomt.
+
+   - `group`: `GROUP BY`-ledet. Som standard tomt.
+
+   - `having`: `HAVING`-ledet. Som standard tomt.
+
+
+<div class="revision">$Id: database.arr.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>

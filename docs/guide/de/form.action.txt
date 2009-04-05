@@ -68,7 +68,7 @@ das dem Attribut `a` des Model der Klasse `C` entspricht, `C[a]`.
 Für das Attribut `username` würden wir zum Beispiel `LoginForm[username]` als 
 Namen für das Eingabefeld verwenden.
 
-Nun verbleibt noch, den `login`-View zu entwerfen, der ein HTM-Formular
+Nun verbleibt noch, den `login`-View zu entwerfen, der ein HTML-Formular
 mit den notwendigen Eingabefeldern enthält.
 
 <div class="revision">$Id: form.action.txt 626 2009-02-04 20:51:13Z qiang.xue $</div>

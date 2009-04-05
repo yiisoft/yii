@@ -119,6 +119,9 @@ Yiiはデフォルトのディレクトリのセットが様々な目的で利�
 サードパーティ製の拡張ファイルを保有します。
 [CApplication::extensionPath]によってカスタマイズ可能です。
 
+   - `WebRoot/protected/modules`: このディレクトリは全てのアプリケーション
+[モジュール](/doc/guide/basics.module)を保有します。それぞれのモジュールはサブディレクトリで表現されます。
+
    - `WebRoot/protected/controllers`: このディレクトリはコントローラ
 のクラスファイルを保有します。[CWebApplication::controllerPath] によって
 カスタマイズ可能です。
@@ -152,4 +155,4 @@ Yiiはデフォルトのディレクトリのセットが様々な目的で利�
 ディレクトリ名と同じ名前を持った一つのテーマを表しています。
 [CThemeManager::basePath] によってカスタマイズ可能です。
 
-<div class="revision">$Id: basics.convention.txt 170 2008-11-06 20:33:35Z qiang.xue $</div>
+<div class="revision">$Id: basics.convention.txt 749 2008-11-06 20:33:35Z qiang.xue $</div>

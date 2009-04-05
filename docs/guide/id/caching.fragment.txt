@@ -1,0 +1,144 @@
+Cache Fragmen
+=============
+
+Cache fragmen merujuk pada melakukan cache fragmen sebuah halaman. Sebagai 
+contoh, jika halaman menampilkan ringkasan penjualan tahunan dalam sebuah tabel,
+kita dapat menyimpan tabel ini dalam cache untuk mengeliminasi waktu yang dibutuhkan dalam membuatnya untuk setiap permintaan.
+
+Untuk menggunakan cache fragmen, kita memanggil
+[CController::beginCache()|CBaseController::beginCache()] dan
+[CController::endCache()|CBaseController::endCache()] dalam naskah tampilan 
+kontroler. Masing-masing dari dua metode menandai awal dan akhir konten halaman yang harus di-cache. Seperti [cache
+data](/doc/guide/caching.data), kita memerlukan ID guna mengidentifikasi
+fragmen yang sedang di-cache.
+
+~~~
+[php]
+...konten HTML lain...
+<?php if($this->beginCache($id)) { ?>
+...konten yang di-cache...
+<?php $this->endCache(); } ?>
+...konten HTML lain...
+~~~
+
+Dalam contoh di atas, jjika [beginCache()|CBaseController::beginCache()] 
+mengembalikan false, konten yang di-cache akan disisipkan secara otomatis;
+sebaliknya, konten di dalam pernyataan-`if` yang akan dijalankan dan di-
+cache saat [endCache()|CBaseController::endCache()] dipanggil.
+
+Opsi Cache
+----------
+
+Ketika memanggil [beginCache()|CBaseController::beginCache()], kita dapat menyediakan array sebagai parameter kedua yang terdiri dari opsi cache untuk mengkustomisasi cache fragmen. Bahkan dalam kenyataanya, metode 
+[beginCache()|CBaseController::beginCache()] dan
+[endCache()|CBaseController::endCache()] adalah pelapis yang nyaman untuk widget [COutputCache]. Oleh karena itu, opsi cache dapat bernilai awal untuk
+setiap properti [COutputCache].
+
+### Durasi
+
+Barangkali, opsi paling umum adalah [duration|COutputCache::duration]
+yang menetapkan berapa lama konten tetap benar dalam cache. Ia mirip dengan parameter masa hidup [CCache::set()]. Kode berikut melakukan 
+cache fragmen konten untuk satu jam:
+
+~~~
+[php]
+...konten HTML lain...
+<?php if($this->beginCache($id, array('duration'=>3600))) { ?>
+...konten yang di-cache...
+<?php $this->endCache(); } ?>
+...konten HTML lain...
+~~~
+
+Jika kita tida menyetel durasi, standarnya adalah 60, berarti konten di-cache akan disegarkan setelah 60 detik.
+
+### Ketergantungan
+
+Seperti halnya [cache data](/doc/guide/caching.data), fragmen konten yang sedang di- cache juga bisa memiliki ketergantungan. Sebagai contoh, konten tulisan yang sedang ditampilkan tergantung apakah tulisan dimodifikasi atau tidak.
+
+Untuk menetapkan ketergantungan, kita menyetel opsi [dependency|COutputCache::dependency],
+yang bisa berupa obyek yang mengimplementasi [ICacheDependency] atau array konfigurasi yang dapat dipakai guna menghasilkan obyek dependensi. Kode berikut menetapkan konten fragmen yang tergantung pada perubahan nilai kolom 
+`lastModified`:
+
+~~~
+[php]
+...konten HTML lain...
+<?php if($this->beginCache($id, array('dependency'=>array(
+		'class'=>'system.caching.dependencies.CDbCacheDependency',
+		'sql'=>'SELECT MAX(lastModified) FROM Post')))) { ?>
+...konten yang di-cache...
+<?php $this->endCache(); } ?>
+...konten HTML lain...
+~~~
+
+### Variasi
+
+Konten yang sedang di-cache dapat divariasikan berdasarkan pada beberapa parameter. Sebagai
+contoh, profil personal bisa terlihat berbeda bagi pengguna yang berbeda. 
+Untuk men-cache konten profil, kita ingin duplikat yang di-cache divariasikan
+berdasarkan ID pengguna. Secara esensial ini berarti bahwa kita harus 
+menggunakan ID berbeda saat memanggil 
+[beginCache()|CBaseController::beginCache()].
+
+Daripada meminta para pengembang untuk memvariasikan ID berdasarkan pada beberapa skema,
+[COutputCache] adalah fitur built-in untuk hal itu. Di bawah ini ringkasannya.
+
+   - [varyByRoute|COutputCache::varyByRoute]: dengan menyetel opsi ini
+menjadi true, konten yang di-cache kan divariasikan berdasarkan
+[rute](/doc/guide/basics.controller#route). Oleh karena itu, setiap kombinasi
+kontroler dan aksi yang diminta akan memiliki konten di-cache terpisah.
+
+   - [varyBySession|COutputCache::varyBySession]: dengan menyetel opsi ini
+menjadi true, kita bisa membuat konten di-cache divariasikan berdasarkan ID 
+sesi. Oleh karena itu, setiap sesi pengguna dapat melihat konten secara berbeda 
+dan semuanya dilayani daricache.
+
+   - [varyByParam|COutputCache::varyByParam]: dengan menyetel opsi ini
+menjadi array nama, kita dapat membuat konten di-cache divariasikan 
+berdasarkan nilai yang ditetapkan parameter GET. Sebagai contoh, jika halaman
+menampilkan konten tulisan berdasarkan parameter GET `id`, kita bisa menetapkan
+[varyByParam|COutputCache::varyByParam] menjadi `array('id')` dengan demikian 
+kita dapat men-cache konten untuk setiap tulisan. Tanpa variasi seperti ini, 
+kita hanya bisa men-cache satu tulisan..
+
+### Jenis Permintaan
+
+Ada kalanya kita menginginkan cache fragmen hanya dihidupkan untuk jenis 
+permintaan tertentu. Sebagai contoh, untuk halaman yang menampilkan formulir, 
+kita hanya ingin men-cache formulir saat awal ia diminta (via permintaan GET). 
+Setiap tampilan selanjutnya (via permintaan POST) terhadap formulir tidak harus 
+di-cache karena formulir mungkin berisi input pengguna. Untuk melakukannya, 
+kita dapat menetapkan opsi [requestTypes|COutputCache::requestTypes]:
+
+~~~
+[php]
+...konten HTML lain...
+<?php if($this->beginCache($id, array('requestTypes'=>array('GET')))) { ?>
+...konten yang di-cache...
+<?php $this->endCache(); } ?>
+...konten HTML lain...
+~~~
+
+Cache Berulang
+--------------
+
+Cache fragmen dapat diulang. Yaitu, fragmen yang di-cache disertakan dalam fragmen yang lebih besar yang juga di-cache. Sebagai contoh, komentar di-cache dalam fragmen cache lebih dalam, dan di-cache bersama dengan konten tulisan di cache fragmen lebih luar.
+
+~~~
+[php]
+...konten HTML lain...
+<?php if($this->beginCache($id1)) { ?>
+...konten lebih luar di-cache...
+	<?php if($this->beginCache($id2)) { ?>
+	...konten lebih dalam di-cache...
+	<?php $this->endCache(); } ?>
+...konten lebih luar di-cache...
+<?php $this->endCache(); } ?>
+...konten HTML lain...
+~~~
+
+Opsi cache yang berbeda dapat disetel untuk pengulangan cache. Sebagai contoh,
+cache lebih dalam dan cache lebih luar dalam contoh di atas dapat disetel dengan nilai durasi yang berbeda. Saat data di-cache dalam cahce lebih luar
+disegarkan, cache mungkin menyediakan fragmen lebih dalam yang masih.
+Akan tetapi, tidak benar jika dilakukan sebaliknya. Jika cache lebih luar berisi data yang benar, ia akan selalu menyediakan duplikat yang di-cache, meskipun konten cache lebih dalam sudah berakhir.
+
+<div class="revision">$Id: caching.fragment.txt 323 2008-12-04 01:40:16Z qiang.xue $</div>

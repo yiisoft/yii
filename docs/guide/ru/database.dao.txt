@@ -44,6 +44,7 @@ $connection->active=false;  // close connection
    - SQLite: `sqlite:/path/to/dbfile`
    - MySQL: `mysql:host=localhost;dbname=testdb`
    - PostgreSQL: `pgsql:host=localhost;port=5432;dbname=testdb`
+   - SQL Server: `mssql:host=localhost;dbname=testdb`
 
 Поскольку [CDbConnection] является подклассом [CApplicationComponent], то мы можем использовать его
 в качестве [компонента](/doc/guide/basics.application#application-component). Для этого нужно настроить 
@@ -213,4 +214,4 @@ while($dataReader->read()!==false)
 }
 ~~~
 
-<div class="revision">$Id: database.dao.txt 367 2008-12-16 20:18:30Z qiang.xue $</div>
+<div class="revision">$Id: database.dao.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>

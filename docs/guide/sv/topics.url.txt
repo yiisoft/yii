@@ -185,7 +185,7 @@ kommer att hanteras av startskriptet. För [Apache HTTP-server](http://httpd.apa
 kan detta åstadkommas genom att slå på URL rewriting engine och 
 specificera några rewriting-regler. Båda dessa saker 
 kan härbärgeras i en `.htaccess`-fil placerad i katalogen som innehåller 
-startkriptet. Följande är ett exempel:
+startskriptet. Följande är ett exempel:
 
 ~~~
 Options +FollowSymLinks

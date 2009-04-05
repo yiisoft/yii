@@ -45,6 +45,8 @@ Yii は、異なるメディアにキャッシュデータを保存すること�
    - [CXCache]: PHP [XCache 拡張](http://xcache.lighttpd.net/)を使用します。
 注意、これは version 1.0.1 以降で利用可能です。
 
+   - [CEAcceleratorCache]: PHP[EAccelerator拡張](http://eaccelerator.net/)を使用します。
+
    - [CDbCache]: データベーステーブルを使用してキャッシュデータを保存します。
 デフォルトでは、ランタイムディレクトリ下に SQLite3 データベースを作り、使用します。
 [connectionID|CDbCache::connectionID] プロパティを設定することで、
@@ -69,4 +71,4 @@ Yii は、異なるメディアにキャッシュデータを保存すること�
 したがって、永続的なストレージとしてキャッシュを使用しないでください。
 （たとえば、セッションデータを保存するために、キャッシュを用いない）
 
-<div class="revision">$Id: caching.overview.txt 723 2009-02-21 18:14:05Z qiang.xue $</div>
+<div class="revision">$Id: caching.overview.txt 814 2009-02-21 18:14:05Z qiang.xue $</div>

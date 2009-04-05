@@ -29,7 +29,8 @@ Im Folgenden beschreiben wir, wie wir AR-Instanzen anlegen und für CRUD-Operati
 benutzen können. Im nächsten Kapitel werden wir dann darauf eingehen, wie wir AR
 verwenden können, um mit Beziehungen in einer Datenbank (DB) umzugehen. 
 Der Einfachheit halber benutzen wir für die Beispiele in diesem Abschnitt 
-folgende Datenbanktabelle:
+folgende Datenbanktabelle. Beachten Sie bitte, dass sie im folgenden SQL AUTOINCREMENT durch
+AUTO_INCREMENT ersetzen müssen, falls Sie MySQL verwenden.
 
 ~~~
 [sql]
@@ -81,6 +82,7 @@ Derzeit werden folgende DBMS unterstützt:
    - [MySQL 4.1 oder später](http://www.mysql.com)
    - [PostgreSQL 7.3 oder später](http://www.postgres.com)
    - [SQLite 2 und 3](http://www.sqlite.org)
+   - [Microsoft SQL Server 2000 oder höher](http://www.microsoft.com/sqlserver/)
 
 Falls Sie eine andere Applikationskomponente als `db` benutzen möchten, oder
 wenn Sie mit AR auf mehreren Datenbanken arbeiten, sollten Sie
@@ -522,4 +524,4 @@ catch(Exception $e)
 }
 ~~~
 
-<div class="revision">$Id: database.ar.txt 687 2009-02-17 02:57:56Z qiang.xue $</div>
+<div class="revision">$Id: database.ar.txt 891 2009-03-25 15:20:56Z qiang.xue $</div>

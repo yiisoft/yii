@@ -58,14 +58,14 @@ Andernfalls werden sie an den Standardorten gesucht, wie mit
 vorgegeben. 
 
 > Tip|Tipp: Innerhalb eines Motiv-Views müssen wir evtl. öfter auf andere
-Ressource-Dateien des Motivs verlinken. Zum Beispiel könnten wir eine
-Bilddatei im Ordner `images` des Motivs anzeigen wollen. Mit Hilfe der
-Eigenschaft [baseUrl|CTheme::baseUrl] des aktuellen Motivs können wir die
-Bild-URL wie folgt zusammenbauen:
+> Ressource-Dateien des Motivs verlinken. Zum Beispiel könnten wir eine
+> Bilddatei im Ordner `images` des Motivs anzeigen wollen. Mit Hilfe der
+> Eigenschaft [baseUrl|CTheme::baseUrl] des aktuellen Motivs können wir die
+> Bild-URL wie folgt zusammenbauen:
+>
+> ~~~
+> [php]
+> Yii::app()->theme->baseUrl . '/images/BildName.gif'
+> ~~~
 
-~~~
-[php]
-Yii::app()->theme->baseUrl . '/images/BildName.gif'
-~~~
-
-<div class="revision">$Id: topics.theming.txt 759 2009-02-26 21:23:53Z qiang.xue $</div>
+<div class="revision">$Id: topics.theming.txt 878 2009-03-23 15:31:21Z qiang.xue $</div>

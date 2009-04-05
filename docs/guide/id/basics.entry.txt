@@ -1,0 +1,37 @@
+Naskah Entri
+============
+
+Naskah entri adalah naskah bootstrap PHP yang menangani awal permintaan penguna
+initially. Ia satu-satunya naskah PHP yang diminta pengguna yang secara langsung 
+bisa dijalankan.
+
+Dalam banyak hal, naskah entri aplikasi Yii berisi kode yang sesederhana
+seperti berikut,
+
+~~~
+[php]
+// hapus baris berikut saat dalam mode produksi
+defined('YII_DEBUG') or define('YII_DEBUG',true);
+// sertakan file bootstrap Yii
+require_once('path/to/yii/framework/yii.php');
+// buat turunan aplikasi dan jalankan
+$configFile='path/to/config/file.php';
+Yii::createWebApplication($configFile)->run();
+~~~
+
+Pertama naskah menyertakan file boostrap Yii framework, `yii.php`. Selanjutnya
+membuat turunan aplikasi Web dengan konfigurasi yang sudah ditetapkan
+dan menjalankannya.
+
+Mode Debug
+----------
+
+Aplikasi Yii dapat berjalan baik dalam mode debug ataupun produksi berdasarkan
+pada nilai konstan `YII_DEBUG`. Secara standar, nilai konstan ini didefinisikan
+sebagai `false`, berarti mode produksi. Untuk dijalankan dalam mode debug, definisikan
+konstan ini menjadi `true` sebelum menyertakan file `yii.php`. Menjalankan aplikasi
+dalam mode debug kurang efisien karena ia memelihara banyak log internal. Di sisi
+lain, mode debug juga lebih membantu selama tahap pengembangan karena ia menyediakan
+banyak informasi debug saat terjadi kesalahan.
+
+<div class="revision">$Id: basics.entry.txt 162 2008-11-05 12:44:08Z weizhuo $</div>

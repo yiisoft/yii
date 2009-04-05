@@ -1,0 +1,36 @@
+Skrypt wejściowy
+============
+
+Skryptem wejściowym jest skrypt rozruchowy PHP, który zarządza żądaniami użytkownika.
+Jest on jedynym skryptem, do którego użytkownik końcowy może wykonywać.
+
+W większości przypadków skrypt wejściowy aplikacji Yii zawiera kod, który jest bardzo prosty,
+np taki:
+
+~~~
+[php]
+// usuń tą linię na produkci
+defined('YII_DEBUG') or define('YII_DEBUG',true);
+// załaduj plik rozruchowy Yii
+require_once('path/to/yii/framework/yii.php');
+// utwórz instancję aplikacji oraz uruchom ją 
+$configFile='path/to/config/file.php';
+Yii::createWebApplication($configFile)->run();
+~~~
+
+Skrypt na początku dołączą plik rozruchowy Yii `yii.php`. Następnie tworzy instancję 
+aplikacji webowej wraz z odpowiednią konfiguracją i uruchamia ją.
+
+Tryb debugowania (ang. Debug Mode)
+----------
+
+Aplikacja Yii może być uruchomiona w trybie debugowania lub produkcyjnym w zależności
+od wartości stałej `YII_DEBUG`. Domyślnie, zmienna ta posiada wartość `false`, 
+co oznacza tryb produkcyjny. Aby uruchomić aplikację w trybie debugowania, 
+należy zdefiniować tą zmienną jako `true` zanim załadujemy plik `yii.php`.
+Uruchamianie aplikacji w trybie debugowania jest mniej wydajne ponieważ trzyma ona 
+wiele wewnętrznych logów. Z drugiej strony, tryb debugowania jest bardzi pomocny 
+podczas fazy dewelopmentu, ponieważ dostarcza bogatszych infomracji w momencie wystąpienia
+błędu.
+
+<div class="revision">$Id: basics.entry.txt 162 2008-11-05 12:44:08Z weizhuo $</div>

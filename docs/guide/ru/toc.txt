@@ -12,7 +12,8 @@
     - [Модель](basics.model)
     - [Представление](basics.view)
     - [Компонент](basics.component)
-    - [Псевдоним (alias) пути и пространство имен (namespace)](basics.namespace)
+	- [Модуль](basics.module)
+    - [Псевдоним пути и пространство имен](basics.namespace)
     - [Соглашения](basics.convention)
     - [Процесс разработки](basics.workflow)
 
@@ -38,15 +39,15 @@
 
 * Расширение Yii
     - [Обзор](extension.overview)
-    - [Использование дополнений](extension.use)
-    - [Создание дополнений](extension.create)
+    - [Использование расширений](extension.use)
+    - [Создание расширений](extension.create)
     - [Использование сторонних библиотек](extension.integration)
 
 * Специальные темы
-    - [Красивые адреса (URL)](topics.url)
+    - [Красивые адреса URL](topics.url)
     - [Аутентификация и авторизация](topics.auth)
     - [Темы оформления](topics.theming)
-    - [Логгирование](topics.logging)
+    - [Протоколирование](topics.logging)
     - [Обработка ошибок](topics.error)
     - [Веб-сервисы](topics.webservice)
     - [Интернационализация (I18N)](topics.i18n)
@@ -55,4 +56,4 @@
     - [Безопасность](topics.security)
     - [Улучшение производительности](topics.performance)
 
-<div class="revision">$Id: toc.txt 723 2009-02-21 18:14:05Z qiang.xue $</div>
+<div class="revision">$Id: toc.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>

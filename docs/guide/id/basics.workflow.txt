@@ -1,0 +1,45 @@
+Alur Kerja Pengembangan
+=======================
+
+Setelah menjelaskan konsep fundamental Yii, kami memperlihatkan alur kerja
+umum untuk pengembangan aplikasi web menggunakan Yii. Alur kerja mengasumsikan
+bahwa kita sudah menyelesaikan analisis persyaratan juga analisis desain aplikasi.
+
+   1. Buat kerangka struktur direktori. Piranti `yiic` yang dijelaskan dalam
+[Membuat Aplikasi Pertama Yii](/doc/guide/quickstart.first-app) dapat 
+dipakai untuk mempercepat langkah ini.
+
+   2. Konfigurasi [aplikasi](/doc/guide/basics.application). Ini dilakukan
+dengan memodifikasi file konfigurasi aplikasi. Langkah ini juga
+memerlukan penulisan beberapa komponen aplikasi (misalnya komponen pengguna).
+
+   3. Buat kelas [model](/doc/guide/basics.model) untuk setiap jenis data
+untuk diatur. Sekali lagi, `yiic` bisa dipakai guna membuat kelas
+[rekaman aktif](/doc/guide/database.ar) secara otomatis untuk tabel database
+yang diperlukan.
+
+   4. Buat kelas [kontroler](/doc/guide/basics.controller) untuk setiap jenis permintaan pengguna. Bagaimana untuk mengklasifikasian permintaan pengguna tergantung pada
+kebutuhan sebenarnya. Secara umum, jika kelas model perlu diakses oleh pengguna, ia
+harus memiliki kelas kontroler terkait. Piranti `yiic` dapat mengotomasi 
+langkah ini juga.
+
+   5. Implementasikan [aksi](/doc/guide/basics.controller#action) dan 
+[tampilan](/doc/guide/basics.view) terkait. Di sinilah pekerjaan sebenarnya
+yang perlu dilakukan.
+
+   6. Konfigurasi aksi yang diperlukan
+[filter](/doc/guide/basics.controller#filter) dalam kelas.
+
+   7. Buat [tema](/doc/guide/topics.theming) jika fitur tema diperlukan.
+
+   8. Buat pesan terjemahan jika
+[internasionalisasi](/doc/guide/topics.i18n) diperlukan.
+
+   9. Pilih data dan tampilan yang dapat di-cache dan terapkan teknik
+[caching](/doc/guide/caching.overview) terkait.
+
+   10. Final [penyesuaian](/doc/guide/topics.performance) dan penyebaran.
+
+Untuk setiap langkah di atas, pengujian kasus mungkin perlu dibuat dan diperlihatkan.
+
+<div class="revision">$Id: basics.workflow.txt 323 2008-12-04 01:40:16Z qiang.xue $</div>

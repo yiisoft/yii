@@ -1,0 +1,53 @@
+Model-View-Controller (MVC)
+===========================
+
+Yii mengimplementasikan pola desain model-view-controller (MVC) atau model-tampilan-kontroler yang
+secara luas diadopsi dalam pemrograman Web. MVC bertujuan untuk memisahkan logika bisnis dari
+pertimbangan antar muka pengguna agar para pengembang bisa lebih mudah mengubah
+setiap bagian tanpa mempengaruhi yang lain. Dalam MVC, model menggambarkan 
+informasi (data) dan aturan bisnis; tampilan berisi elemen
+antar muka pengguna seperti teks, formulir input; sementara kontroler mengatur
+komunikasi antar model dan tampilan.
+
+Selain MVC, Yii juga memperkenalkan kontroler-depan, disebut aplikasi,
+yang menggambarkan berjalannya konteks proses permintaan. Aplikasi 
+memecah permintaan pengguna dan membaginya ke kontroler yang sesuai
+untuk penanganan selanjutnya.
+
+Diagram berikut memperlihatkan struktur statis sebuah aplikasi Yii:
+
+![Struktur statis aplikasi Yii](structure.png)
+
+
+Alur kerja Umum
+---------------
+Diagram berikut memperlihatkan alur kerja umum sebuah aplikasi Yii saat
+menangani permintaan pengguna:
+
+![Alur kerja umum aplikasi Yii](flow.png)
+
+   1. Pengguna membuat permintaan dengan URL `http://www.example.com/index.php?r=post/show&id=1`
+dan server Web menangani permintaan dengan menjalankan naskah bootstrap `index.php`.
+   2. Naskah bootstrap membuat turunan [aplikasi](/doc/guide/basics.application)
+dan menjalankannya.
+   3. Alikasi mendapatkan rincian informasi permintaan pengguna dari
+[komponen aplikasi](/doc/guide/basics.application#application-component)
+bernama `request`.
+   4. Aplikasi menentukan [kontroler](/doc/guide/basics.controller)
+dan [aksi](/doc/guide/basics.controller#action) yang diminta dengan bantuan
+komponen aplikasi bernama `urlManager`. Dalam contoh ini, kontroler adalah
+`post` yang merujuk pada kelas `PostController`; dan aksi adalah `show`
+yang arti sebenarnya ditentukan oleh kontroler.
+   5. Aplikasi membuat turunan kontroler yang diminta
+untuk selanjutnya menangani permintaan pengguna. Kontroler menentukan aksi
+`show` merujuk pada sebuah metode bernama `actionShow` dalam kelas kontroler. Kemudian membuat dan menjalankan filter (contoh kontrol akses, pengukuran) 
+terkait dengan aksi ini. Aksi dijalankan jika diijinkan oleh filter.
+   6. Aksi membaca `Post` [model](/doc/guide/basics.model) di mana ID adalah `1` dari database.
+   7. Aksi meyiapkan [tampilan](/doc/guide/basics.view) bernama `show` dengan model `Post`.
+   8. Tampilan membaca dan menampilkan atribut model `Post`.
+   9. Tampilan menjalankan beberapa [widget](/doc/guide/basics.view#widget).
+   10. Tampilan menyiapkan hasil yang dilengketkan dalam [tata letak](/doc/guide/basics.view#layout).
+   11. Aksi menyempurnakan pembuatan tampilan dan menampilkan hasil akhir kepada pengguna.
+
+
+<div class="revision">$Id: basics.mvc.txt 419 2008-12-28 05:35:39Z qiang.xue $</div>

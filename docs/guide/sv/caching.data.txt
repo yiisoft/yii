@@ -95,4 +95,7 @@ Nedan följer en sammanställning av tillgängliga cacheberoenden:
 
    - [CChainedCacheDependency]: beroendet ändras om något av beroendena i kedjan förändras.
 
-<div class="revision">$Id: caching.data.txt 169 2008-11-06 19:43:44Z qiang.xue $</div>
+   - [CExpressionDependency]: beroendet ändras om värdet av det specificerade PHP-uttrycket ändras. 
+Denna klass har varit tillgänglig fr o m version 1.0.4.
+
+<div class="revision">$Id: caching.data.txt 891 2009-03-25 15:20:56Z qiang.xue $</div>

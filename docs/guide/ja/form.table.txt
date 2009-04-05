@@ -45,7 +45,7 @@ public function actionBatchUpdate()
 ~~~
 [php]
 <div class="yiiForm">
-<?php echo CHtml::form(); ?>
+<?php echo CHtml::beginForm(); ?>
 <table>
 <tr><th>Name</th><th>Price</th><th>Count</th><th>Description</th></tr>
 <?php foreach($items as $i=>$item): ?>
@@ -59,7 +59,7 @@ public function actionBatchUpdate()
 </table>
 
 <?php echo CHtml::submitButton('Save'); ?>
-</form>
+<?php echo CHtml::endForm(); ?>
 </div><!-- yiiForm -->
 ~~~
 
@@ -70,4 +70,4 @@ public function actionBatchUpdate()
 もし何か検証にエラーがある場合は、シングルモデルでの入力の際
 に述べたのと同様に、結びついた入力フィールドが自動的にハイライトされます。
 
-<div class="revision">$Id: form.table.txt 468 2009-01-04 20:57:35Z qiang.xue $</div>
+<div class="revision">$Id: form.table.txt 857 2009-01-04 20:57:35Z qiang.xue $</div>

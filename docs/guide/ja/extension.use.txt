@@ -1,0 +1,237 @@
+エクステンションを使う
+================
+
+エクステンションを使うには、通常、次の3つのステップが必要です:
+
+  1. Yii's [extension repository](http://www.yiiframework.com/extensions/) より、
+     エクステンションをダウンロードします。
+  2. エクステンションを [アプリケーションベースディレクトリ](/doc/guide/basics.application#application-base-directory)
+     のサブディレクトリである `extensions/xyz` 以下に解凍します。
+     `xyz` にはエクステンション名が入ります。
+  3. インポート、初期構成を行い、エクステンションを使用します。
+
+各エクステンションはユニークで全てのエクステンション中でそれを特定するための名前を持ちます。
+エクステンション名を `xyz` にした場合、`xyz` のすべてのファイルを含む
+ベースディレクトリを示す、`application.extensions.xyz` というパスエイリアスを
+いつでも使用できます。
+
+異なるエクステンションは、インポート、初期構成、使用方法に関する異なる要件があります。
+以下では、エクステンションに関して、[概要](/doc/guide/extension.overview) で記述したカテゴリに従い、
+一般的な使用方法のシナリオをまとめます。
+
+アプリケーションコンポーネント
+---------------------
+
+[アプリケーションコンポーネント](/doc/guide/basics.application#application-component) を使用するために、
+最初に [アプリケーション初期構成](/doc/guide/basics.application#application-configuration) へ、
+`components` プロパティを以下のように追加する必要があります:
+
+~~~
+[php]
+return array(
+    // 'preload'=>array('xyz',...),
+    'components'=>array(
+        'xyz'=>array(
+            'class'=>'application.extensions.xyz.XyzClass',
+            'property1'=>'value1',
+            'property2'=>'value2',
+        ),
+        // 他のコンポーネント初期構成
+    ),
+);
+~~~
+
+その後に、どこでも `Yii::app()->xyz` を使って、コンポーネントにアクセスできます。
+コンポーネントは `preload` プロパティにリストしない限り、
+初めてアクセスした時に生成されます。
+
+ウィジェット
+------
+
+[ウィジェット](/doc/guide/basics.view#widget) は主に
+[ビュー](/doc/guide/basics.view) 中で使用されます。
+ウィジットクラス `XyzClass` が 'xyz' エクステンションに属している場合、
+ビュー中で下記のように使用できます。
+
+~~~
+[php]
+// 本文（body content）を必要としないウィジェット
+<?php $this->widget('application.extensions.xyz.XyzClass', array(
+    'property1'=>'value1',
+    'property2'=>'value2')); ?>
+
+// 本文（body content）を含められるウィジェット
+// widget that can contain body content
+<?php $this->beginWidget('application.extensions.xyz.XyzClass', array(
+    'property1'=>'value1',
+    'property2'=>'value2')); ?>
+
+...ウィジェットの本文（body content）...
+
+<?php $this->endWidget(); ?>
+~~~
+
+アクション
+------
+
+[アクション](/doc/guide/basics.controller#action) は、
+特定のユーザーリクエストに応答するために [コントローラ](/doc/guide/basics.controller) により使用されます。
+アクションクラス `XyzClass` が `xyz` エクステンションに属している場合、
+コントローラクラスで、[CController::actions] メソッドを上書き（オーバーライド）すれば
+それを使用できます:
+
+~~~
+[php]
+class TestController extends CController
+{
+	public function actions()
+	{
+		return array(
+			'xyz'=>array(
+				'class'=>'application.extensions.xyz.XyzClass',
+				'property1'=>'value1',
+				'property2'=>'value2',
+			),
+			// other actions
+		);
+	}
+}
+~~~
+
+その後、 [ルート（道筋）](/doc/guide/basics.controller#route) `test/xyz`
+を用いて、アクションにアクセスできます。
+
+フィルタ
+------
+[フィルタ](/doc/guide/basics.controller#filter) もまた、
+[コントローラ](/doc/guide/basics.controller) により使用されます。
+それらは主に、[アクション](/doc/guide/basics.controller#action) により処理される
+ユーザーリクエストの前処理や後処理です。
+フィルタクラス `XyzClass` が `xyz` エクステンションに属している場合、
+コントローラクラスで、[CController::filters] メソッドを上書き（オーバーライド）すれば
+それを使用できます:
+
+~~~
+[php]
+class TestController extends CController
+{
+	public function filters()
+	{
+		return array(
+			array(
+				'application.extensions.xyz.XyzClass',
+				'property1'=>'value1',
+				'property2'=>'value2',
+			),
+			// 他のフィルタ
+		);
+	}
+}
+~~~
+
+上記では、限られたアクションだけにフィルタに適用するために、
+最初の配列要素でプラスやマイナス演算子を使用できます。
+詳細については、[CController] ドキュメントを参照してください。
+
+コントローラ
+----------
+[コントローラ](/doc/guide/basics.controller) は、
+ユーザーが要求できるアクションのセットを提供します。
+コントローラエクステンションを使用するために、
+[アプリケーション初期構成](/doc/guide/basics.application#application-configuration) 中の
+[CWebApplication::controllerMap] プロパティへの初期構成が必要です:
+
+~~~
+[php]
+return array(
+	'controllerMap'=>array(
+		'xyz'=>array(
+			'class'=>'application.extensions.xyz.XyzClass',
+			'property1'=>'value1',
+			'property2'=>'value2',
+		),
+		// 他のコントローラ
+	),
+);
+~~~
+
+その後、[ルート（道筋）](/doc/guide/basics.controller#route) `xyz/a` を
+用いてコントローラのアクション `a` にアクセスできます。
+
+バリデータ
+---------
+バリデータは主に、 [モデル](/doc/guide/basics.model) クラス
+（[CFormModel] か [CActiveRecord] のどちらかから継承された）により使用されます。
+バリデータクラス `XyzClass` が `xyz` エクステンションに属している場合、
+モデルクラスで、[CModel::rules] メソッドを上書き（オーバーライド）すれば
+それを使用できます:
+
+~~~
+[php]
+class MyModel extends CActiveRecord // または CFormModel
+{
+	public function rules()
+	{
+		return array(
+			array(
+				'attr1, attr2',
+				'application.extensions.xyz.XyzClass',
+				'property1'=>'value1',
+				'property2'=>'value2',
+			),
+			// 他のバリデーションルール
+		);
+	}
+}
+~~~
+
+コンソールコマンド
+---------------
+[コンソールコマンド](/doc/guide/topics.console) エクステンションは、通常、
+追加コマンドにより `yiic` ツールを強化します。
+コンソールコマンド `XyzClass` が `xyz` エクステンションに属している場合、
+コンソールアプリケーション用の初期構成を設定することで
+それを使用できます:
+
+~~~
+[php]
+return array(
+	'commandMap'=>array(
+		'xyz'=>array(
+			'class'=>'application.extensions.xyz.XyzClass',
+			'property1'=>'value1',
+			'property2'=>'value2',
+		),
+		// 他のコマンド
+	),
+);
+~~~
+
+その後、追加コマンド `xyz` を備えている `yiic` ツールを使用できます。
+
+> Note|注意: コンソールアプリケーションは、通常、ウェブアプリケーションで
+使用されるものとは異なる初期構成ファイルを使用します。
+もし、アプリケーションを `yiic webapp` コマンドを使用して作成した場合、
+コンソールアプリケーション `protected/yiic` 用の初期構成ファイルは、
+`protected/config/console.php`、また、ウェブアプリケーション用の
+初期構成ファイルは `protected/config/main.php` です。
+
+モジュール
+------
+モジュールの使用方法については、[モジュール](/doc/guide/basics.module#using-module)
+に関するセクションを参照してください。
+
+
+一般的なコンポーネント
+-----------------
+一般的な [コンポーネント](/doc/guide/basics.component) を使用するには、
+はじめに、下記のようにそのクラスファイルをインクルードする必要があります。
+
+~~~
+Yii::import('application.extensions.xyz.XyzClass');
+~~~
+
+その後、クラスのインスタンスの生成やプロパティの設定、メソッドのコールを
+行えます。それを継承して新しい子クラスを作成してもいいです。
+
+<div class="revision">$Id: extension.use.txt 749 2009-02-26 02:11:31Z qiang.xue $</div>

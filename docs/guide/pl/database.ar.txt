@@ -37,7 +37,7 @@ CREATE TABLE Post (
 );
 ~~~
 
-> Tip|Podpowiedź: AR nie został pomyślany do rozwiązywania wszystkich zadań związanych z bazą danych. 
+> Tip|Porada: AR nie został pomyślany do rozwiązywania wszystkich zadań związanych z bazą danych. 
 Najlepiej używać go do modelowania tabel baz danych w konstrukcjach PHP oraz wykonywania 
 zapytań, które nie zawierają skomplikowanego kodu SQL. Dla tych skomplikowanych 
 scenariuszy powinno używać się Yii DAO.
@@ -64,7 +64,7 @@ return array(
 );
 ~~~
 
-> Tip|Podpowiedź: Ponieważ Rekord Aktywny zależy od metadanych tabeli zawierających 
+> Tip|Porada: Ponieważ Rekord Aktywny zależy od metadanych tabeli zawierających 
 informacje o kolumnach, zajmuje mu to nieco czasu, aby je odczytać oraz zanalizować. 
 Jeśli prawdopodobieństwo, że schemat twojej bazy danych jest małe, powinieneś 
 włączyć cache'owanie schematu bazy danych poprzez skonfigurowanie właściwości 
@@ -81,7 +81,7 @@ Jeśli chesz używać komponentu aplikacji innego niż `db` lub jeśli chcesz pr
 bazami danych używając AR, powinieneś nadpisać metodę [CActiveRecord::getDbConnection()]. 
 Klasa [CActiveRecord] jest klasą bazową dla wszystkich klas AR.
 
-> Tip|Podpowiedź: Istnieją dwa sposoby pracowania z wieloma bazami danych z użyciem AR. 
+> Tip|Porada: Istnieją dwa sposoby pracowania z wieloma bazami danych z użyciem AR. 
 Jeśli schematy bazy danych różnią się, możesz utworzyć różne bazowe klasy AR z różniącymi się 
 implementacjami metody [getDbConnection()|CActiveRecord::getDbConnection]. W przeciwnym przypadku, 
 lepszym pomysłem jest dynamiczna zmiana statycznej zmiennej [CActiveRecord::db].
@@ -105,7 +105,7 @@ class Post extends CActiveRecord
 }
 ~~~
 
-> Tip|Podpowiedź: Ponieważ klasy AR są często używane w wielu różnych miejscach, 
+> Tip|Porada: Ponieważ klasy AR są często używane w wielu różnych miejscach, 
 > możemy zaimportować zawartość folderu zawierającego klasy AR zamiast
 > dołączać je jedna po drugiej. Na przykład, jeśli wszystkie nasze pliki zawierające klasy AR 
 > znajdują się w katalogu `protected/models`, możemy skonfigurować aplikację w następujący sposób:
