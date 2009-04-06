@@ -490,7 +490,14 @@ abstract class CActiveRecord extends CModel
 				$r=$name;
 			$finder=new CActiveFinder($this,$r);
 			$finder->lazyFind($this);
-			return isset($this->_related[$name]) ? $this->_related[$name] : $this->_related[$name]=null;
+			if(isset($this->_related[$name]))
+				return $this->_related[$name];
+			else if($relation instanceof CHasManyRelation)
+				return $this->_related[$name]=array();
+			else if($relation instanceof CStatRelation)
+				return $this->_related[$name]=$relation->defaultValue;
+			else
+				return $this->_related[$name]=null;
 		}
 		else
 			throw new CDbException(Yii::t('yii','{class} does not have relation "{name}".',
