@@ -280,7 +280,7 @@ EOD;
 			if($className==='index')
 				return "<a href=\"/doc/api/#{$method}\">{$matches[2]}</a>";
 			else
-				return "<a href=\"/doc/api/{$className}#{$method}-detail\">{$matches[2]}</a>";
+				return "<a href=\"/doc/api/{$className}#{$method}\">{$matches[2]}</a>";
 		}
 		else
 		{
