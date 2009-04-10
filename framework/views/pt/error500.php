@@ -23,7 +23,7 @@ p {font-family:"Verdana";font-weight:normal;color:black;font-size:9pt;margin-top
 <h2><?php echo nl2br(CHtml::encode($data['message'])); ?></h2>
 <p>
 Ocorreu um erro interno enquanto o servidor Web processava sua requisição.
-Por favor entre contate <? Php echo $ dados [ 'admin'];?> para relatar esse problema.
+Por favor entre contate <?php echo $data['admin'];?> para relatar esse problema.
 </p>
 <p>
 Obrigado.
