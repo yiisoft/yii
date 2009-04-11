@@ -290,12 +290,12 @@ EOD;
 		foreach ($rows as $row)
 		{
 			if ($schema == self::DEFAULT_SCHEMA)
-				$names[]=$name['TABLE_NAME'];
+				$names[]=$row['TABLE_NAME'];
 			else
-				$names[]=$schema.'.'.$name['TABLE_SCHEMA'].'.'.$name['TABLE_NAME'];
+				$names[]=$schema.'.'.$row['TABLE_SCHEMA'].'.'.$row['TABLE_NAME'];
 		}
 
-		return $result;
+		return $names;
 	}
 
 	/**
