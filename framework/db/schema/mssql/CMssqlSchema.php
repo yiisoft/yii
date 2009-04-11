@@ -168,7 +168,7 @@ EOD;
 		if (isset($table->catalogName))
 		{
 			$kcu=$table->catalogName.'.'.$kcu;
-			$rc=$table->schameName.'.'.$tc;
+			$rc=$table->catalogName.'.'.$rc;
 		}
 
 		//From http://msdn2.microsoft.com/en-us/library/aa175805(SQL.80).aspx

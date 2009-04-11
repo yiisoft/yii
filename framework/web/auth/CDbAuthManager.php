@@ -325,8 +325,8 @@ class CDbAuthManager extends CAuthManager
 	{
 		$sql="UPDATE {$this->assignmentTable} SET bizrule=:bizrule, data=:data WHERE itemname=:itemname AND userid=:userid";
 		$command=$this->db->createCommand($sql);
-		$command->bindValue(':bizrule',$bizRule);
-		$command->bindValue(':data',serialize($data));
+		$command->bindValue(':bizrule',$assignment->getBizRule());
+		$command->bindValue(':data',serialize($assignment->getData()));
 		$command->bindValue(':itemname',$assignment->getItemName());
 		$command->bindValue(':userid',$assignment->getUserId());
 		$command->execute();
