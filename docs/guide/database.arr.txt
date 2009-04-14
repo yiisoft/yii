@@ -355,7 +355,7 @@ can do the following:
 ~~~
 [php]
 User::model()->with(array(
-	'posts'=>array('order'=>'??.createTime DESC'),
+	'posts'=>array('order'=>'??.createTime ASC'),
 	'profile',
 ))->findAll();
 ~~~
