@@ -84,6 +84,8 @@ class CDbCriteria
 	 */
 	public function mergeWith($criteria)
 	{
+		if(is_array($criteria))
+			$criteria=new self($criteria);
 		if($this->select!==$criteria->select)
 		{
 			if($this->select==='*')

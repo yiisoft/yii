@@ -10,6 +10,7 @@ Version 1.0.5 to be released
 - Bug: CDateFormatter::formatYear() only returns one digit when the year pattern is 'yy' (Qiang)
 - New: Deprecated CHtml::getActiveId() (Qiang)
 - New: Added CDbCriteria::mergeWith() (Qiang)
+- New: Added support for named scope of AR (Qiang)
 
 Version 1.0.4 April 5, 2009
 ---------------------------

@@ -56,6 +56,15 @@ class Post extends CActiveRecord
 	{
 		return 'posts';
 	}
+
+	public function scopes()
+	{
+		return array(
+			'post23'=>array('condition'=>'id=2 OR id=3', 'order'=>'id'),
+			'post3'=>array('condition'=>'id=3'),
+			'recent'=>array('order'=>'create_time DESC'),
+		);
+	}
 }
 
 class PostExt extends CActiveRecord

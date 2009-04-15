@@ -353,10 +353,11 @@ abstract class CActiveRecord extends CModel
 
 	private static $_models=array();			// class name => model
 
-	private $_md;
-	private $_new=false;
+	private $_md;								// meta data
+	private $_new=false;						// whether this instance is new or not
 	private $_attributes=array();				// attribute name => attribute value
 	private $_related=array();					// attribute name => related objects
+	private $_c;								// query criteria (used by finder only)
 
 
 	/**
@@ -453,6 +454,31 @@ abstract class CActiveRecord extends CModel
 			return $this->getRelated($name)!==null;
 		else
 			return parent::__isset($name);
+	}
+
+	/**
+	 * Calls the named method which is not a class method.
+	 * Do not call this method. This is a PHP magic method that we override
+	 * to implement the named scope feature.
+	 * @param string the method name
+	 * @param array method parameters
+	 * @return mixed the method return value
+	 * @since 1.0.5
+	 */
+	public function __call($name,$parameters)
+	{
+		$scopes=array_change_key_case($this->scopes());
+		if(isset($scopes[strtolower($name)]))
+		{
+			$scope=$scopes[strtolower($name)];
+			if($this->_c===null)
+				$this->_c=new CDbCriteria($scope);
+			else
+				$this->_c->mergeWith($scope);
+			return $this;
+		}
+		else
+			return parent::__call($name,$parameters);
 	}
 
 	/**
@@ -674,6 +700,43 @@ abstract class CActiveRecord extends CModel
 	 * @return array list of related object declarations. Defaults to empty array.
 	 */
 	public function relations()
+	{
+		return array();
+	}
+
+	/**
+	 * Returns the declaration of named scopes.
+	 * A named scope represents a query criteria that can be chained together with
+	 * other named scopes and applied to a query. This method should be overridden
+	 * by child classes to declare named scopes for the particular AR classes.
+	 * For example, the following code declares two named scopes: 'recently' and
+	 * 'published'.
+	 * <pre>
+	 * return array(
+	 *     'recently'=>array(
+	 *           'order'=>'createTime DESC',
+	 *     ),
+	 *     'published'=>array(
+	 *           'condition'=>'status=1',
+	 *           'limit'=>5,
+	 *     ),
+	 * );
+	 * </pre>
+	 * If the above scopes are declared in a 'Post' model, we can perform the following
+	 * queries:
+	 * <pre>
+	 * $posts=Post::model()->published()->findAll();
+	 * $posts=Post::model()->recently()->published()->findAll();
+	 * $posts=Post::model()->published()->with('comments')->findAll();
+	 * </pre>
+	 * Note that the last query is a relational query.
+	 *
+	 * @return array the scope definition. The array keys are scope names; the array
+	 * values are the corresponding scope definitions. Each scope definition is represented
+	 * as an array whose keys must be properties of {@link CDbCriteria}.
+	 * @since 1.0.5
+	 */
+	public function scopes()
 	{
 		return array();
 	}
@@ -1247,6 +1310,18 @@ abstract class CActiveRecord extends CModel
 			return null;
 	}
 
+	private function query($criteria,$all=false)
+	{
+		if($this->_c!==null)
+		{
+			$this->_c->mergeWith($criteria);
+			$criteria=$this->_c;
+			$this->_c=null;
+		}
+		$command=$this->getCommandBuilder()->createFindCommand($this->getTableSchema(),$criteria);
+		return $all ? $this->populateRecords($command->queryAll()) : $this->populateRecord($command->queryRow());
+	}
+
 	/**
 	 * Finds a single active record with the specified condition.
 	 * @param mixed query condition or criteria.
@@ -1261,11 +1336,9 @@ abstract class CActiveRecord extends CModel
 	public function find($condition='',$params=array())
 	{
 		Yii::trace(get_class($this).'.find()','system.db.ar.CActiveRecord');
-		$builder=$this->getCommandBuilder();
-		$criteria=$builder->createCriteria($condition,$params);
+		$criteria=$this->getCommandBuilder()->createCriteria($condition,$params);
 		$criteria->limit=1;
-		$command=$builder->createFindCommand($this->getTableSchema(),$criteria);
-		return $this->populateRecord($command->queryRow());
+		return $this->query($criteria);
 	}
 
 	/**
@@ -1278,10 +1351,8 @@ abstract class CActiveRecord extends CModel
 	public function findAll($condition='',$params=array())
 	{
 		Yii::trace(get_class($this).'.findAll()','system.db.ar.CActiveRecord');
-		$builder=$this->getCommandBuilder();
-		$criteria=$builder->createCriteria($condition,$params);
-		$command=$builder->createFindCommand($this->getTableSchema(),$criteria);
-		return $this->populateRecords($command->queryAll());
+		$criteria=$this->getCommandBuilder()->createCriteria($condition,$params);
+		return $this->query($criteria,true);
 	}
 
 	/**
@@ -1295,11 +1366,9 @@ abstract class CActiveRecord extends CModel
 	public function findByPk($pk,$condition='',$params=array())
 	{
 		Yii::trace(get_class($this).'.findByPk()','system.db.ar.CActiveRecord');
-		$builder=$this->getCommandBuilder();
-		$criteria=$builder->createPkCriteria($this->getTableSchema(),$pk,$condition,$params);
+		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk,$condition,$params);
 		$criteria->limit=1;
-		$command=$builder->createFindCommand($this->getTableSchema(),$criteria);
-		return $this->populateRecord($command->queryRow());
+		return $this->query($criteria);
 	}
 
 	/**
@@ -1313,10 +1382,8 @@ abstract class CActiveRecord extends CModel
 	public function findAllByPk($pk,$condition='',$params=array())
 	{
 		Yii::trace(get_class($this).'.findAllByPk()','system.db.ar.CActiveRecord');
-		$builder=$this->getCommandBuilder();
-		$criteria=$builder->createPkCriteria($this->getTableSchema(),$pk,$condition,$params);
-		$command=$builder->createFindCommand($this->getTableSchema(),$criteria);
-		return $this->populateRecords($command->queryAll());
+		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk,$condition,$params);
+		return $this->query($criteria,true);
 	}
 
 	/**
@@ -1330,11 +1397,9 @@ abstract class CActiveRecord extends CModel
 	public function findByAttributes($attributes,$condition='',$params=array())
 	{
 		Yii::trace(get_class($this).'.findByAttributes()','system.db.ar.CActiveRecord');
-		$builder=$this->getCommandBuilder();
-		$criteria=$builder->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params);
+		$criteria=$this->getCommandBuilder()->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params);
 		$criteria->limit=1;
-		$command=$builder->createFindCommand($this->getTableSchema(),$criteria);
-		return $this->populateRecord($command->queryRow());
+		return $this->query($criteria);
 	}
 
 	/**
@@ -1348,10 +1413,8 @@ abstract class CActiveRecord extends CModel
 	public function findAllByAttributes($attributes,$condition='',$params=array())
 	{
 		Yii::trace(get_class($this).'.findAllByAttributes()','system.db.ar.CActiveRecord');
-		$builder=$this->getCommandBuilder();
-		$criteria=$builder->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params);
-		$command=$builder->createFindCommand($this->getTableSchema(),$criteria);
-		return $this->populateRecords($command->queryAll());
+		$criteria=$this->getCommandBuilder()->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params);
+		return $this->query($criteria,true);
 	}
 
 	/**
@@ -1392,6 +1455,12 @@ abstract class CActiveRecord extends CModel
 		Yii::trace(get_class($this).'.count()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
+		if($this->_c!==null)
+		{
+			$this->_c->mergeWith($criteria);
+			$criteria=$this->_c;
+			$this->_c=null;
+		}
 		return $builder->createCountCommand($this->getTableSchema(),$criteria)->queryScalar();
 	}
 
@@ -1423,6 +1492,12 @@ abstract class CActiveRecord extends CModel
 		$table=$this->getTableSchema();
 		$criteria->select=reset($table->columns)->rawName;
 		$criteria->limit=1;
+		if($this->_c!==null)
+		{
+			$this->_c->mergeWith($criteria);
+			$criteria=$this->_c;
+			$this->_c=null;
+		}
 		return $builder->createFindCommand($table,$criteria)->queryRow()!==false;
 	}
 
@@ -1466,7 +1541,7 @@ abstract class CActiveRecord extends CModel
 			$with=func_get_args();
 			if(is_array($with[0]))  // the parameter is given as an array
 				$with=$with[0];
-			return new CActiveFinder($this,$with);
+			return new CActiveFinder($this,$with,$this->_c);
 		}
 		else
 			return $this;

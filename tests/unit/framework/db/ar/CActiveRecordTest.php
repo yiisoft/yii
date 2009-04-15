@@ -686,4 +686,29 @@ class CActiveRecordTest extends CTestCase
 		$users=User::model()->with('postCount','posts.commentCount')->findAll();
 		$this->assertEquals(3,count($users));
 	}
+
+	public function testScopes()
+	{
+		$posts=Post::model()->post23()->findAll();
+		$this->assertEquals(2,count($posts));
+		$this->assertEquals(2,$posts[0]->id);
+		$this->assertEquals(3,$posts[1]->id);
+
+		$posts=Post::model()->post23()->post3()->findAll();
+		$this->assertEquals(1,count($posts));
+		$this->assertEquals(3,$posts[0]->id);
+
+		$post=Post::model()->post23()->find();
+		$this->assertTrue($post instanceof Post);
+		$this->assertEquals(2,$post->id);
+
+		$posts=Post::model()->post23()->findAll('id=3');
+		$this->assertEquals(1,count($posts));
+		$this->assertEquals(3,$posts[0]->id);
+
+		$posts=Post::model()->recent()->with('author')->findAll();
+		$this->assertEquals(5,count($posts));
+		$this->assertEquals(5,$posts[0]->id);
+		$this->assertEquals(4,$posts[1]->id);
+	}
 }
