@@ -350,9 +350,9 @@ class CDbConnection extends CApplicationComponent
 			$driver=$this->getDriverName();
 			switch(strtolower($driver))
 			{
-				case 'pgsql':
+				case 'pgsql':  // PostgreSQL
 					return $this->_schema=new CPgsqlSchema($this);
-				case 'mysqli':
+				case 'mysqli': // MySQL
 				case 'mysql':
 					return $this->_schema=new CMysqlSchema($this);
 				case 'sqlite': // sqlite 3
@@ -361,7 +361,8 @@ class CDbConnection extends CApplicationComponent
 				case 'mssql': // Mssql driver on windows hosts
 				case 'dblib': // dblib drivers on linux (and maybe others os) hosts
 					return $this->_schema=new CMssqlSchema($this);
-				case 'oci':
+				case 'oci':  // Oracle driver
+					return $this->_schema=new COciSchema($this);
 				case 'ibm':
 				default:
 					throw new CDbException(Yii::t('yii','CDbConnection does not support reading schema for {driver} database.',

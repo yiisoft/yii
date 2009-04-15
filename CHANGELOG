@@ -11,6 +11,7 @@ Version 1.0.5 to be released
 - New: Deprecated CHtml::getActiveId() (Qiang)
 - New: Added CDbCriteria::mergeWith() (Qiang)
 - New: Added support for named scope of AR (Qiang)
+- New: Added Oracle support for Active Record (Ricardo)
 
 Version 1.0.4 April 5, 2009
 ---------------------------

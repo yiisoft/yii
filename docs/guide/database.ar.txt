@@ -79,6 +79,10 @@ supported:
    - [PostgreSQL 7.3 or later](http://www.postgres.com)
    - [SQLite 2 and 3](http://www.sqlite.org)
    - [Microsoft SQL Server 2000 or later](http://www.microsoft.com/sqlserver/)
+   - [Oracle](http://www.oracle.com)
+
+> Note: The support for Microsoft SQL Server has been available since version 1.0.4;
+> And the support for Oracle has been available since version 1.0.5.
 
 If you want to use an application component other than `db`, or if you
 want to work with multiple databases using AR, you should override
