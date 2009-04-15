@@ -471,6 +471,15 @@ abstract class CActiveRecord extends CModel
 		if(isset($scopes[strtolower($name)]))
 		{
 			$scope=$scopes[strtolower($name)];
+			if(!empty($parameters))
+			{
+				if(!isset($scope['params']))
+					$scope['params']=array();
+				if(is_array($parameters[0]))  // named parameters
+					$scope['params']=array_merge($scope['params'],$parameters[0]);
+				else
+					$scope['params']=array_merge($scope['params'],$parameters);
+			}
 			if($this->_c===null)
 				$this->_c=new CDbCriteria($scope);
 			else
