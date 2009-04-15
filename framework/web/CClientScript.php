@@ -90,7 +90,7 @@ class CClientScript extends CApplicationComponent
 		$this->_metas=array();
 		$this->_links=array();
 
-		Yii::app()->getController()->recordCachingAction('clientScript','reset',array());
+		$this->recordCachingAction('clientScript','reset',array());
 	}
 
 	/**
@@ -362,7 +362,7 @@ class CClientScript extends CApplicationComponent
 		$this->_hasScripts=true;
 		$this->_coreScripts[$name]=$name;
 		$params=func_get_args();
-		Yii::app()->getController()->recordCachingAction('clientScript','registerCoreScript',$params);
+		$this->recordCachingAction('clientScript','registerCoreScript',$params);
 	}
 
 	/**
@@ -376,7 +376,7 @@ class CClientScript extends CApplicationComponent
 		$this->_hasScripts=true;
 		$this->cssFiles[$url]=$media;
 		$params=func_get_args();
-		Yii::app()->getController()->recordCachingAction('clientScript','registerCssFile',$params);
+		$this->recordCachingAction('clientScript','registerCssFile',$params);
 	}
 
 	/**
@@ -390,7 +390,7 @@ class CClientScript extends CApplicationComponent
 		$this->_hasScripts=true;
 		$this->_css[$id]=array($css,$media);
 		$params=func_get_args();
-		Yii::app()->getController()->recordCachingAction('clientScript','registerCss',$params);
+		$this->recordCachingAction('clientScript','registerCss',$params);
 	}
 
 	/**
@@ -408,7 +408,7 @@ class CClientScript extends CApplicationComponent
 		$this->_hasScripts=true;
 		$this->scriptFiles[$position][$url]=$url;
 		$params=func_get_args();
-		Yii::app()->getController()->recordCachingAction('clientScript','registerScriptFile',$params);
+		$this->recordCachingAction('clientScript','registerScriptFile',$params);
 	}
 
 	/**
@@ -431,7 +431,7 @@ class CClientScript extends CApplicationComponent
 		if($position===self::POS_READY)
 			$this->registerCoreScript('jquery');
 		$params=func_get_args();
-		Yii::app()->getController()->recordCachingAction('clientScript','registerScript',$params);
+		$this->recordCachingAction('clientScript','registerScript',$params);
 	}
 
 	/**
@@ -452,7 +452,7 @@ class CClientScript extends CApplicationComponent
 			$options['http-equiv']=$httpEquiv;
 		$this->_metas[serialize($options)]=$options;
 		$params=func_get_args();
-		Yii::app()->getController()->recordCachingAction('clientScript','registerMetaTag',$params);
+		$this->recordCachingAction('clientScript','registerMetaTag',$params);
 	}
 
 	/**
@@ -477,7 +477,7 @@ class CClientScript extends CApplicationComponent
 			$options['media']=$media;
 		$this->_links[serialize($options)]=$options;
 		$params=func_get_args();
-		Yii::app()->getController()->recordCachingAction('clientScript','registerLinkTag',$params);
+		$this->recordCachingAction('clientScript','registerLinkTag',$params);
 	}
 
 	/**
@@ -532,5 +532,22 @@ class CClientScript extends CApplicationComponent
 	public function isScriptRegistered($id,$position=self::POS_READY)
 	{
 		return isset($this->_scripts[$position][$id]);
+	}
+
+	/**
+	 * Records a method call when an output cache is in effect.
+	 * This is a shortcut to Yii::app()->controller->recordCachingAction.
+	 * In case when controller is absent, nothing is recorded.
+	 * @param string a property name of the controller. It refers to an object
+	 * whose method is being called. If empty it means the controller itself.
+	 * @param string the method name
+	 * @param array parameters passed to the method
+	 * @see COutputCache
+	 * @since 1.0.5
+	 */
+	protected function recordCachingAction($context,$method,$params)
+	{
+		if(($controller=Yii::app()->getController())!==null)
+			$controller->recordCachingAction($context,$method,$params);
 	}
 }
