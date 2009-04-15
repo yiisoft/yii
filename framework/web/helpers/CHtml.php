@@ -1349,7 +1349,7 @@ EOD;
 	 */
 	public static function getActiveId($model,$attribute)
 	{
-		return self::getActiveId($model,$attribute);
+		return self::activeId($model,$attribute);
 	}
 
 	/**
