@@ -717,4 +717,13 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(4,$posts[1]->id);
 
 	}
+
+	public function testLazyLoadingWithConditions()
+	{
+		$user=User::model()->findByPk(2);
+		$posts=$user->posts;
+		$this->assertEquals(3,count($posts));
+		$posts=$user->posts(array('condition'=>'posts.id>=3', 'alias'=>'posts'));
+		$this->assertEquals(2,count($posts));
+	}
 }

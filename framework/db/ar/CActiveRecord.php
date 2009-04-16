@@ -467,6 +467,14 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function __call($name,$parameters)
 	{
+		if(isset($this->getMetaData()->relations[$name]))
+		{
+			if(empty($parameters))
+				return $this->getRelated($name,false);
+			else
+				return $this->getRelated($name,false,$parameters[0]);
+		}
+
 		$scopes=array_change_key_case($this->scopes());
 		if(isset($scopes[strtolower($name)]))
 		{
@@ -484,8 +492,8 @@ abstract class CActiveRecord extends CModel
 				$this->_c->mergeWith($scope);
 			return $this;
 		}
-		else
-			return parent::__call($name,$parameters);
+
+		return parent::__call($name,$parameters);
 	}
 
 	/**
@@ -497,44 +505,68 @@ abstract class CActiveRecord extends CModel
 	 * or an empty array.
 	 * @param string the relation name (see {@link relations})
 	 * @param boolean whether to reload the related objects from database. Defaults to false.
+	 * @param array additional parameters that customize the query conditions as specified in the relation declaration.
+	 * This parameter has been available since version 1.0.5.
 	 * @return mixed the related object(s).
 	 * @throws CDbException if the relation is not specified in {@link relations}.
 	 * @since 1.0.2
 	 */
-	public function getRelated($name,$refresh=false)
+	public function getRelated($name,$refresh=false,$params=array())
 	{
-		if(!$refresh && (isset($this->_related[$name]) || array_key_exists($name,$this->_related)))
+		if(!$refresh && $params===array() && (isset($this->_related[$name]) || array_key_exists($name,$this->_related)))
 			return $this->_related[$name];
 
 		$md=$this->getMetaData();
-		if(isset($md->relations[$name]))
-		{
-			Yii::trace('lazy loading '.get_class($this).'.'.$name,'system.db.ar.CActiveRecord');
-			$relation=$md->relations[$name];
-			if($this->getIsNewRecord() && ($relation instanceof CHasOneRelation || $relation instanceof CHasManyRelation))
-				return $this->_related[$name]=$relation instanceof CHasOneRelation ? null : array();
-			if(!empty($relation->with))
-			{
-				$r=array($name);
-				foreach($relation->with as $w)
-					$r[]=$name.'.'.$w;
-			}
-			else
-				$r=$name;
-			$finder=new CActiveFinder($this,$r);
-			$finder->lazyFind($this);
-			if(isset($this->_related[$name]))
-				return $this->_related[$name];
-			else if($relation instanceof CHasManyRelation)
-				return $this->_related[$name]=array();
-			else if($relation instanceof CStatRelation)
-				return $this->_related[$name]=$relation->defaultValue;
-			else
-				return $this->_related[$name]=null;
-		}
-		else
+		if(!isset($md->relations[$name]))
 			throw new CDbException(Yii::t('yii','{class} does not have relation "{name}".',
 				array('{class}'=>get_class($this), '{name}'=>$name)));
+
+		Yii::trace('lazy loading '.get_class($this).'.'.$name,'system.db.ar.CActiveRecord');
+		$relation=$md->relations[$name];
+		if($this->getIsNewRecord() && ($relation instanceof CHasOneRelation || $relation instanceof CHasManyRelation))
+			return $relation instanceof CHasOneRelation ? null : array();
+
+		if($params!==array()) // dynamic query
+		{
+			$exists=isset($this->_related[$name]) || array_key_exists($name,$this->_related);
+			if($exists)
+				$save=$this->_related[$name];
+			unset($this->_related[$name]);
+			$r=array($name=>$params);
+		}
+		else
+			$r=array($name);
+
+		if(!empty($relation->with))
+		{
+			foreach($relation->with as $w)
+				$r[]=$name.'.'.$w;
+		}
+
+		$finder=new CActiveFinder($this,$r);
+		$finder->lazyFind($this);
+
+		if(!isset($this->_related[$name]))
+		{
+			if($relation instanceof CHasManyRelation)
+				$this->_related[$name]=array();
+			else if($relation instanceof CStatRelation)
+				$this->_related[$name]=$relation->defaultValue;
+			else
+				$this->_related[$name]=null;
+		}
+
+		if($params!==array())
+		{
+			$results=$this->_related[$name];
+			if($exists)
+				$this->_related[$name]=$save;
+			else
+				unset($this->_related[$name]);
+			return $results;
+		}
+		else
+			return $this->_related[$name];
 	}
 
 	/**
@@ -896,8 +928,7 @@ abstract class CActiveRecord extends CModel
 				$this->_related[$name][]=$record;
 		}
 		else if(!isset($this->_related[$name]))
-			$this->_related[$name]=$record;
-	}
+			$this->_related[$name]=$record;	}
 
 	/**
 	 * Returns all column attribute values.

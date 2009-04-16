@@ -845,7 +845,7 @@ class CJoinElement
 		}
 		if(!empty($this->relation->on))
 			$joins[]=str_replace($this->relation->aliasToken.'.', $this->tableAlias.'.', $this->relation->on);
-		return $this->relation->joinType . ' ' . $this->getTableNameWithAlias() . ' ON ' . implode(' AND ',$joins);
+		return $this->relation->joinType . ' ' . $this->getTableNameWithAlias() . ' ON (' . implode(') AND (',$joins).')';
 	}
 
 	/**
@@ -897,9 +897,9 @@ class CJoinElement
 		if($parentCondition!==array() && $childCondition!==array())
 		{
 			$join=$this->relation->joinType.' '.$joinTable->rawName.' '.$joinAlias;
-			$join.=' ON '.implode(' AND ',$parentCondition);
+			$join.=' ON ('.implode(') AND (',$parentCondition).')';
 			$join.=' '.$this->relation->joinType.' '.$this->getTableNameWithAlias();
-			$join.=' ON '.implode(' AND ',$childCondition);
+			$join.=' ON ('.implode(') AND (',$childCondition).')';
 			return $join;
 		}
 		else
@@ -1027,7 +1027,7 @@ class CJoinQuery
 			if($condition!=='')
 				$conditions[]=$condition;
 		if($conditions!==array())
-			$sql.=' WHERE ' . implode(' AND ',$conditions);
+			$sql.=' WHERE (' . implode(') AND (',$conditions).')';
 
 		$groups=array();
 		foreach($this->groups as $group)
@@ -1041,7 +1041,7 @@ class CJoinQuery
 			if($having!=='')
 				$havings[]=$having;
 		if($havings!==array())
-			$sql.=' HAVING ' . implode(' AND ',$havings);
+			$sql.=' HAVING (' . implode(') AND (',$havings).')';
 
 		$orders=array();
 		foreach($this->orders as $order)
@@ -1141,9 +1141,9 @@ class CStatElement
 
 		$records=$this->_parent->records;
 
-		$where=empty($relation->condition)?'' : ' WHERE '.$relation->condition;
+		$where=empty($relation->condition)?'' : ' WHERE ('.$relation->condition.')';
 		$group=empty($relation->group)?'' : ', '.$relation->group;
-		$having=empty($relation->having)?'' : ' AND '.$relation->having;
+		$having=empty($relation->having)?'' : ' AND ('.$relation->having.')';
 		$order=empty($relation->order)?'' : ' ORDER BY '.$relation->order;
 
 		// generate and perform query
@@ -1279,17 +1279,17 @@ class CStatElement
 			}
 		}
 
-		$where=empty($relation->condition)?'' : ' WHERE '.$relation->condition;
+		$where=empty($relation->condition)?'' : ' WHERE ('.$relation->condition.')';
 		$group=empty($relation->group)?'' : ', '.$relation->group;
-		$having=empty($relation->having)?'' : ' AND '.$relation->having;
+		$having=empty($relation->having)?'' : ' AND ('.$relation->having.')';
 		$order=empty($relation->order)?'' : ' ORDER BY '.$relation->order;
 
 		$sql='SELECT '.$this->relation->select.' AS s, '.implode(', ',$cols)
 			.' FROM '.$table->rawName.' INNER JOIN '.$joinTable->rawName
-			.' ON '.implode(' AND ',$joinCondition)
+			.' ON ('.implode(') AND (',$joinCondition).')'
 			.$where
 			.' GROUP BY '.implode(', ',array_keys($cols)).$group
-			.' HAVING '.$builder->createInCondition($joinTable,$map,$keys)
+			.' HAVING ('.$builder->createInCondition($joinTable,$map,$keys).')'
 			.$having.$order;
 
 		$command=$builder->getDbConnection()->createCommand($sql);
