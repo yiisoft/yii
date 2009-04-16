@@ -473,12 +473,10 @@ abstract class CActiveRecord extends CModel
 			$scope=$scopes[strtolower($name)];
 			if(!empty($parameters))
 			{
-				if(!isset($scope['params']))
-					$scope['params']=array();
-				if(is_array($parameters[0]))  // named parameters
-					$scope['params']=array_merge($scope['params'],$parameters[0]);
+				if(isset($scope['params']))
+					$scope['params']=array_merge($scope['params'],is_array($parameters[0]) ? $parameters[0] : $parameters);
 				else
-					$scope['params']=array_merge($scope['params'],$parameters);
+					$scope['params']=is_array($parameters[0]) ? $parameters[0] : $parameters;
 			}
 			if($this->_c===null)
 				$this->_c=new CDbCriteria($scope);
@@ -1550,7 +1548,9 @@ abstract class CActiveRecord extends CModel
 			$with=func_get_args();
 			if(is_array($with[0]))  // the parameter is given as an array
 				$with=$with[0];
-			return new CActiveFinder($this,$with,$this->_c);
+			$finder=new CActiveFinder($this,$with,$this->_c);
+			$this->_c=null;
+			return $finder;
 		}
 		else
 			return $this;
