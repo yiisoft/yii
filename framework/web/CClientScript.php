@@ -65,6 +65,11 @@ class CClientScript extends CApplicationComponent
 	 * @since 1.0.4
 	 */
 	protected $scriptFiles=array();
+	/**
+	 * @var array the registered JavaScript code blocks (position, key => code)
+	 * @since 1.0.5
+	 */
+	protected $scripts=array();
 
 	private $_hasScripts=false;
 	private $_packages;
@@ -72,7 +77,6 @@ class CClientScript extends CApplicationComponent
 	private $_baseUrl;
 	private $_coreScripts=array();
 	private $_css=array();
-	private $_scripts=array();
 	private $_metas=array();
 	private $_links=array();
 
@@ -86,7 +90,7 @@ class CClientScript extends CApplicationComponent
 		$this->cssFiles=array();
 		$this->_css=array();
 		$this->scriptFiles=array();
-		$this->_scripts=array();
+		$this->scripts=array();
 		$this->_metas=array();
 		$this->_links=array();
 
@@ -230,8 +234,8 @@ class CClientScript extends CApplicationComponent
 					$html.=CHtml::scriptFile($scriptFile)."\n";
 			}
 
-			if(isset($this->_scripts[self::POS_HEAD]))
-				$html.=CHtml::script(implode("\n",$this->_scripts[self::POS_HEAD]))."\n";
+			if(isset($this->scripts[self::POS_HEAD]))
+				$html.=CHtml::script(implode("\n",$this->scripts[self::POS_HEAD]))."\n";
 		}
 
 		if($html!=='')
@@ -256,8 +260,8 @@ class CClientScript extends CApplicationComponent
 			foreach($this->scriptFiles[self::POS_BEGIN] as $scriptFile)
 				$html.=CHtml::scriptFile($scriptFile)."\n";
 		}
-		if(isset($this->_scripts[self::POS_BEGIN]))
-			$html.=CHtml::script(implode("\n",$this->_scripts[self::POS_BEGIN]))."\n";
+		if(isset($this->scripts[self::POS_BEGIN]))
+			$html.=CHtml::script(implode("\n",$this->scripts[self::POS_BEGIN]))."\n";
 
 		if($html!=='')
 		{
@@ -275,8 +279,8 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function renderBodyEnd(&$output)
 	{
-		if(!isset($this->scriptFiles[self::POS_END]) && !isset($this->_scripts[self::POS_END])
-			&& !isset($this->_scripts[self::POS_READY]) && !isset($this->_scripts[self::POS_LOAD]))
+		if(!isset($this->scriptFiles[self::POS_END]) && !isset($this->scripts[self::POS_END])
+			&& !isset($this->scripts[self::POS_READY]) && !isset($this->scripts[self::POS_LOAD]))
 			return;
 
 		$output=preg_replace('/(<\\/body\s*>)/is','<###end###>$1',$output,1,$fullPage);
@@ -286,20 +290,20 @@ class CClientScript extends CApplicationComponent
 			foreach($this->scriptFiles[self::POS_END] as $scriptFile)
 				$html.=CHtml::scriptFile($scriptFile)."\n";
 		}
-		$scripts=isset($this->_scripts[self::POS_END]) ? $this->_scripts[self::POS_END] : array();
-		if(isset($this->_scripts[self::POS_READY]))
+		$scripts=isset($this->scripts[self::POS_END]) ? $this->scripts[self::POS_END] : array();
+		if(isset($this->scripts[self::POS_READY]))
 		{
 			if($fullPage)
-				$scripts[]="jQuery(document).ready(function() {\n".implode("\n",$this->_scripts[self::POS_READY])."\n});";
+				$scripts[]="jQuery(document).ready(function() {\n".implode("\n",$this->scripts[self::POS_READY])."\n});";
 			else
-				$scripts[]=implode("\n",$this->_scripts[self::POS_READY]);
+				$scripts[]=implode("\n",$this->scripts[self::POS_READY]);
 		}
-		if(isset($this->_scripts[self::POS_LOAD]))
+		if(isset($this->scripts[self::POS_LOAD]))
 		{
 			if($fullPage)
-				$scripts[]="window.onload=function() {\n".implode("\n",$this->_scripts[self::POS_LOAD])."\n};";
+				$scripts[]="window.onload=function() {\n".implode("\n",$this->scripts[self::POS_LOAD])."\n};";
 			else
-				$scripts[]=implode("\n",$this->_scripts[self::POS_LOAD]);
+				$scripts[]=implode("\n",$this->scripts[self::POS_LOAD]);
 		}
 		if(!empty($scripts))
 			$html.=CHtml::script(implode("\n",$scripts))."\n";
@@ -427,7 +431,7 @@ class CClientScript extends CApplicationComponent
 	public function registerScript($id,$script,$position=self::POS_READY)
 	{
 		$this->_hasScripts=true;
-		$this->_scripts[$position][$id]=$script;
+		$this->scripts[$position][$id]=$script;
 		if($position===self::POS_READY)
 			$this->registerCoreScript('jquery');
 		$params=func_get_args();
@@ -531,7 +535,7 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function isScriptRegistered($id,$position=self::POS_READY)
 	{
-		return isset($this->_scripts[$position][$id]);
+		return isset($this->scripts[$position][$id]);
 	}
 
 	/**
