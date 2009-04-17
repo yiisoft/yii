@@ -475,10 +475,10 @@ abstract class CActiveRecord extends CModel
 				return $this->getRelated($name,false,$parameters[0]);
 		}
 
-		$scopes=array_change_key_case($this->scopes());
-		if(isset($scopes[strtolower($name)]))
+		$scopes=$this->scopes();
+		if(isset($scopes[$name]))
 		{
-			$scope=$scopes[strtolower($name)];
+			$scope=$scopes[$name];
 			if(!empty($parameters))
 			{
 				if(isset($scope['params']))
@@ -1791,6 +1791,37 @@ class CBaseActiveRelation extends CComponent
 	 * @var string the foreign key in this relation
 	 */
 	public $foreignKey;
+	/**
+	 * @var mixed list of column names (an array, or a string of names separated by commas) to be selected.
+	 * Do not quote or prefix the column names unless they are used in an expression.
+	 * In that case, you should prefix the column names with '??.'.
+	 */
+	public $select='*';
+	/**
+	 * @var string WHERE clause. For {@link CActiveRelation} descendant classes, column names
+	 * referenced in the condition should be disambiguated with prefix '??.'.
+	 */
+	public $condition='';
+	/**
+	 * @var array the parameters that are to be bound to the condition.
+	 * The keys are parameter placeholder names, and the values are parameter values.
+	 */
+	public $params=array();
+	/**
+	 * @var string GROUP BY clause. For {@link CActiveRelation} descendant classes, column names
+	 * referenced in this property should be disambiguated with prefix '??.'.
+	 */
+	public $group='';
+	/**
+	 * @var string HAVING clause. For {@link CActiveRelation} descendant classes, column names
+	 * referenced in this property should be disambiguated with prefix '??.'.
+	 */
+	public $having='';
+	/**
+	 * @var string ORDER BY clause. For {@link CActiveRelation} descendant classes, column names
+	 * referenced in this property should be disambiguated with prefix '??.'.
+	 */
+	public $order='';
 
 	/**
 	 * Constructor.
@@ -1806,6 +1837,61 @@ class CBaseActiveRelation extends CComponent
 		$this->foreignKey=$foreignKey;
 		foreach($options as $name=>$value)
 			$this->$name=$value;
+	}
+
+	/**
+	 * Merges this relation with a criteria specified dynamically.
+	 * @param array the dynamically specified criteria
+	 * @since 1.0.5
+	 */
+	public function mergeWith($criteria)
+	{
+		if(isset($criteria['select']) && $this->select!==$criteria['select'])
+		{
+			if($this->select==='*')
+				$this->select=$criteria['select'];
+			else if($criteria['select']!=='*')
+			{
+				$select1=is_string($this->select)?preg_split('/\s*,\s*/',trim($this->select),-1,PREG_SPLIT_NO_EMPTY):$this->select;
+				$select2=is_string($criteria['select'])?preg_split('/\s*,\s*/',trim($criteria['select']),-1,PREG_SPLIT_NO_EMPTY):$criteria['select'];
+				$this->select=array_merge($select1,array_diff($select2,$select1));
+			}
+		}
+
+		if(isset($criteria['condition']) && $this->condition!==$criteria['condition'])
+		{
+			if($this->condition==='')
+				$this->condition=$criteria['condition'];
+			else if($criteria['condition']!=='')
+				$this->condition="({$this->condition}) AND ({$criteria['condition']})";
+		}
+
+		if(isset($criteria['params']) && $this->params!==$criteria['params'])
+			$this->params=array_merge($this->params,$criteria['params']);
+
+		if(isset($criteria['order']) && $this->order!==$criteria['order'])
+		{
+			if($this->order==='')
+				$this->order=$criteria['order'];
+			else if($criteria['order']!=='')
+				$this->order.=', '.$criteria['order'];
+		}
+
+		if(isset($criteria['group']) && $this->group!==$criteria['group'])
+		{
+			if($this->group==='')
+				$this->group=$criteria['group'];
+			else if($criteria['group']!=='')
+				$this->group.=', '.$criteria['group'];
+		}
+
+		if(isset($criteria['having']) && $this->having!==$criteria['having'])
+		{
+			if($this->having==='')
+				$this->having=$criteria['having'];
+			else if($criteria['having']!=='')
+				$this->having="({$this->having}) AND ({$criteria['having']})";
+		}
 	}
 }
 
@@ -1829,27 +1915,19 @@ class CStatRelation extends CBaseActiveRelation
 	 * receive a statistical query result. Defaults to 0.
 	 */
 	public $defaultValue=0;
+
 	/**
-	 * @var string WHERE clause.
+	 * Merges this relation with a criteria specified dynamically.
+	 * @param array the dynamically specified criteria
+	 * @since 1.0.5
 	 */
-	public $condition='';
-	/**
-	 * @var array the parameters that are to be bound to the condition.
-	 * The keys are parameter placeholder names, and the values are parameter values.
-	 */
-	public $params;
-	/**
-	 * @var string GROUP BY clause.
-	 */
-	public $group='';
-	/**
-	 * @var string HAVING clause.
-	 */
-	public $having='';
-	/**
-	 * @var string ORDER BY clause.
-	 */
-	public $order='';
+	public function mergeWith($criteria)
+	{
+		parent::mergeWith($criteria);
+
+		if(isset($criteria['defaultValue']))
+			$this->defaultValue=$criteria['defaultValue'];
+	}
 }
 
 
@@ -1867,30 +1945,10 @@ class CActiveRelation extends CBaseActiveRelation
 	 */
 	public $joinType='LEFT OUTER JOIN';
 	/**
-	 * @var mixed list of column names (an array, or a string of names separated by commas) to be selected.
-	 * Do not quote or prefix the column names unless they are used in an expression.
-	 * In that case, you should prefix the column names with '??.'.
-	 */
-	public $select='*';
-	/**
-	 * @var string WHERE clause. Column names referenced in the condition should be prefixed with '??.'.
-	 */
-	public $condition='';
-	/**
-	 * @var array the parameters that are to be bound to the condition.
-	 * The keys are parameter placeholder names, and the values are parameter values.
-	 * @since 1.0.3
-	 */
-	public $params;
-	/**
 	 * @var string ON clause. The condition specified here will be appended to the joining condition using AND operator.
 	 * @since 1.0.2
 	 */
 	public $on='';
-	/**
-	 * @var string ORDER BY clause. Column names referenced here should be prefixed with '??.'.
-	 */
-	public $order='';
 	/**
 	 * @var string the alias for the table that this relation refers to. Defaults to null, meaning
 	 * the alias will be generated automatically. If you set this property explicitly, make sure
@@ -1915,14 +1973,36 @@ class CActiveRelation extends CBaseActiveRelation
 	 * @since 1.0.3
 	 */
 	public $together;
+
 	/**
-	 * @var string GROUP BY clause. Column names referenced here should be prefixed with '??.'.
+	 * Merges this relation with a criteria specified dynamically.
+	 * @param array the dynamically specified criteria
+	 * @since 1.0.5
 	 */
-	public $group='';
-	/**
-	 * @var string HAVING clause. Column names referenced here should be prefixed with '??.'.
-	 */
-	public $having='';
+	public function mergeWith($criteria)
+	{
+		parent::mergeWith($criteria);
+
+		if(isset($criteria['joinType']))
+			$this->joinType=$criteria['joinType'];
+
+		if(isset($criteria['on']) && $this->defaultValue!==$criteria['on'])
+		{
+			if($this->on==='')
+				$this->on=$criteria['on'];
+			else if($criteria['on']!=='')
+				$this->on="({$this->on}) AND ({$criteria['on']})";
+		}
+
+		if(isset($criteria['alias']))
+			$this->alias=$criteria['alias'];
+
+		if(isset($criteria['aliasToken']))
+			$this->aliasToken=$criteria['aliasToken'];
+
+		if(isset($criteria['together']))
+			$this->together=$criteria['together'];
+	}
 }
 
 
@@ -1967,6 +2047,21 @@ class CHasManyRelation extends CActiveRelation
 	 * @var integer offset of the rows to be selected. It is effective only for lazy loading this related object. Defaults to -1, meaning no offset.
 	 */
 	public $offset=-1;
+
+	/**
+	 * Merges this relation with a criteria specified dynamically.
+	 * @param array the dynamically specified criteria
+	 * @since 1.0.5
+	 */
+	public function mergeWith($criteria)
+	{
+		parent::mergeWith($criteria);
+		if(isset($criteria['limit']) && $criteria['limit']>0)
+			$this->limit=$criteria['limit'];
+
+		if(isset($criteria['offset']) && $criteria['offset']>=0)
+			$this->offset=$criteria['offset'];
+	}
 }
 
 

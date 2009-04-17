@@ -109,10 +109,10 @@ class CDbCriteria
 		if($this->params!==$criteria->params)
 			$this->params=array_merge($this->params,$criteria->params);
 
-		if($this->limit!==$criteria->limit && $criteria->limit>0)
+		if($criteria->limit>0)
 			$this->limit=$criteria->limit;
 
-		if($this->offset!==$criteria->offset && $criteria->offset>=0)
+		if($criteria->offset>=0)
 			$this->offset=$criteria->offset;
 
 		if($this->order!==$criteria->order)

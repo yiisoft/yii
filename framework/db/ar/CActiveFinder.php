@@ -233,10 +233,34 @@ class CActiveFinder extends CComponent
 				$parent=$this->buildJoinTree($parent,substr($with,0,$pos));
 				$with=substr($with,$pos+1);
 			}
+
+			// named scope
+			if(($pos=strpos($with,':'))!==false)
+			{
+				$scopes=explode(':',substr($with,$pos+1));
+				$with=substr($with,0,$pos);
+			}
+
 			if(isset($parent->children[$with]))
 				return $parent->children[$with];
-			else if(($relation=$parent->model->getActiveRelation($with))!==null)
+
+			if(($relation=$parent->model->getActiveRelation($with))!==null)
 			{
+				if(isset($scopes) && !empty($scopes))
+				{
+					$model=CActiveRecord::model($relation->className);
+					$relation=clone $relation;
+					$scs=$model->scopes();
+					foreach($scopes as $scope)
+					{
+						if(isset($scs[$scope]))
+							$relation->mergeWith($scs[$scope]);
+						else
+							throw new CDbException(Yii::t('yii','Active record class "{class}" does not have a scope named "{scope}".',
+								array('{class}'=>get_class($model), '{scope}'=>$scope)));
+					}
+				}
+
 				if($relation instanceof CStatRelation)
 					return new CStatElement($this,$relation,$parent);
 				else
@@ -318,6 +342,7 @@ class CJoinElement
 
 	/**
 	 * Constructor.
+	 * @param CActiveFinder the finder
 	 * @param mixed the relation (if the second parameter is not null)
 	 * or the model (if the second parameter is null) associated with this tree node.
 	 * @param CJoinElement the parent tree node

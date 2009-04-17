@@ -726,4 +726,12 @@ class CActiveRecordTest extends CTestCase
 		$posts=$user->posts(array('condition'=>'posts.id>=3', 'alias'=>'posts'));
 		$this->assertEquals(2,count($posts));
 	}
+
+	public function testScopeWithRelations()
+	{
+		$user=User::model()->with('posts:post23')->findByPk(2);
+		$this->assertEquals(2,count($user->posts));
+		$this->assertEquals(2,$user->posts[0]->id);
+		$this->assertEquals(3,$user->posts[1]->id);
+	}
 }
