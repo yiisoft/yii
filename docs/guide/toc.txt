@@ -1,5 +1,6 @@
 * Getting Started
 	- [Overview](index)
+	- [New Features](changes)
     - [What is Yii](quickstart.what-is-yii)
     - [Installation](quickstart.installation)
     - [Creating First Yii Application](quickstart.first-app)

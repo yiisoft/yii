@@ -752,11 +752,11 @@ abstract class CActiveRecord extends CModel
 	 * 'published'.
 	 * <pre>
 	 * return array(
-	 *     'recently'=>array(
-	 *           'order'=>'createTime DESC',
-	 *     ),
 	 *     'published'=>array(
 	 *           'condition'=>'status=1',
+	 *     ),
+	 *     'recently'=>array(
+	 *           'order'=>'createTime DESC',
 	 *           'limit'=>5,
 	 *     ),
 	 * );
@@ -765,7 +765,7 @@ abstract class CActiveRecord extends CModel
 	 * queries:
 	 * <pre>
 	 * $posts=Post::model()->published()->findAll();
-	 * $posts=Post::model()->recently()->published()->findAll();
+	 * $posts=Post::model()->published()->recently()->findAll();
 	 * $posts=Post::model()->published()->with('comments')->findAll();
 	 * </pre>
 	 * Note that the last query is a relational query.

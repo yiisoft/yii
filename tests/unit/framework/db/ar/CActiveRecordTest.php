@@ -694,6 +694,9 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(2,$posts[0]->id);
 		$this->assertEquals(3,$posts[1]->id);
 
+		$post=Post::model()->post23()->find();
+		$this->assertEquals(2,$post->id);
+
 		$posts=Post::model()->post23()->post3()->findAll();
 		$this->assertEquals(1,count($posts));
 		$this->assertEquals(3,$posts[0]->id);
