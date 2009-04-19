@@ -65,12 +65,37 @@ class CPhpAuthManager extends CAuthManager
 	{
 		if(!empty($this->defaultRoles) && $this->checkDefaultRoles($itemName,$params))
 			return true;
+
+		// check directly assigned items
+		$names=array();
 		foreach($this->getAuthAssignments($userId) as $assignment)
 		{
 			$item=$this->getAuthItem($assignment->getItemName());
-			if($item!==null && $this->executeBizRule($assignment->getBizRule(),$params,$assignment->getData()) && $item->checkAccess($itemName,$params))
-				return true;
+			if($item!==null && $this->executeBizRule($assignment->getBizRule(),$params,$assignment->getData())
+				&& $this->executeBizRule($item->getBizRule(),$params,$item->getData()))
+			{
+				if($item->getName()===$itemName)
+					return true;
+				$names[]=$item->getName();
+			}
 		}
+
+		// check all descendant items
+		while($names!==array())
+		{
+			$items=$this->getItemChildren($names);
+			$names=array();
+			foreach($items as $item)
+			{
+				if($this->executeBizRule($item->getBizRule(),$params,$item->getData()))
+				{
+					if($item->getName()===$itemName)
+						return true;
+					$names[]=$item->getName();
+				}
+			}
+		}
+
 		return false;
 	}
 
@@ -146,12 +171,22 @@ class CPhpAuthManager extends CAuthManager
 
 	/**
 	 * Returns the children of the specified item.
-	 * @param string the parent item name
+	 * @param mixed the parent item name. This can be either a string or an array.
+	 * The latter represents a list of item names (available since version 1.0.5).
 	 * @return array all child items of the parent
 	 */
-	public function getItemChildren($itemName)
+	public function getItemChildren($names)
 	{
-		return isset($this->_children[$itemName]) ? $this->_children[$itemName] : array();
+		if(is_string($names))
+			return isset($this->_children[$names]) ? $this->_children[$names] : array();
+
+		$children=array();
+		foreach($names as $name)
+		{
+			if(isset($this->_children[$name]))
+				$children=array_merge($children,$this->_children[$name]);
+		}
+		return $children;
 	}
 
 	/**
