@@ -14,6 +14,7 @@ Version 1.0.5 to be released
 - New: Added CDbCriteria::mergeWith() (Qiang)
 - New: Added Oracle support for Active Record (Ricardo)
 - New: Modified CClientScript so that it can be used without the presence of a controller (Qiang)
+- New: Enhanced CWebUser::checkAccess() to allow caching the access check results (Qiang)
 
 Version 1.0.4 April 5, 2009
 ---------------------------
