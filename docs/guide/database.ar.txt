@@ -521,7 +521,7 @@ Named Scopes
 
 A *named scope* represents a *named* query criteria that can be combined with other named scopes and applied to an active record query.
 
-Named scopes are declared in the [CActiveRecord::scopes()] method as name-criteria pairs. The following code declares three named scopes, `published`, `recently` and `writtenBy`, in the `Post` model class:
+Named scopes are mainly declared in the [CActiveRecord::scopes()] method as name-criteria pairs. The following code declares three named scopes, `published` and `recently`, in the `Post` model class:
 
 ~~~
 [php]
@@ -538,12 +538,6 @@ class Post extends CActiveRecord
 				'order'=>'createTime DESC',
 				'limit'=>5,
 			),
-			'writtenBy'=>array(
-				'condition'=>'authorID=:author',
-				'params'=>array(
-					':author' => -1
-				),
-			),
 		);
 	}
 }
@@ -551,20 +545,37 @@ class Post extends CActiveRecord
 
 Each named scope is declared as an array which can be used to initialize a [CDbCriteria] instance. For example, the `recently` named scope specifies that the `order` property to be `createTime DESC` and the `limit` property to be 5, which translates to a query criteria that should bring back the most recent 5 posts.
 
-Named scopes are used as chained modifiers to `find` method calls. For example, to find the recently published posts, we can use the following code:
+Named scopes are used as modifiers to the `find` method calls. Several named scopes may be chained together and result in a more restrictive query result set. For example, to find the recently published posts, we can use the following code:
 
 ~~~
 [php]
 $posts=Post::model()->published()->recently()->findAll();
 ~~~
 
-Named scopes can also be parameterized. For example, the above `writtenBy` named scope uses the `:author` parameter in its condition. This parameter value can be specified dynamically when performing the query. The following code brings back the posts that are written by the current user:
+In general, named scopes must appear to the left of a `find` method call. Each of them provides a query criteria, which is combined with other criterias, including the one passed to the `find` method call. The net effect is like adding a list of filters to a query.
+
+Named scopes can be parameterized. For example, we may want to customize the number of posts specified by the `recently` named scope. To do so, instead of declaring the named scope in the [CActiveRecord::scopes] method, we need to define a new method whose name is the same as the scope name:
 
 ~~~
 [php]
-$posts=Post::model()->writtenBy(array(':author'=>Yii::app()->user->id))->findAll();
+public function recently($limit=5)
+{
+	$this->getDbCriteria()->mergeWith(array(
+		'order'=>'createTime DESC',
+		'limit'=>$limit,
+	));
+	return $this;
+}
 ~~~
 
-In general, named scopes must appear to the left of a `find` method call. Each of them provides a query criteria, which is combined with other criterias, including the one passed to the `find` method call. The net effect is like adding a list of filters to a query.
+Then, we can use the following statement to retrieve the 3 recently published posts:
+
+~~~
+[php]
+$posts=Post::model()->published()->recently(3)->findAll();
+~~~
+
+If we do not supply the parameter 3 in the above, we would retrieve the 5 recently published posts by default.
+
 
 <div class="revision">$Id$</div>

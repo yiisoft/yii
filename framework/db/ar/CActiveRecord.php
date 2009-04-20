@@ -457,6 +457,23 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Sets a component property to be null.
+	 * This method overrides the parent implementation by clearing
+	 * the specified attribute value.
+	 * @param string the property name or the event name
+	 * @since 1.0.1
+	 */
+	public function __unset($name)
+	{
+		if(isset($this->getMetaData()->columns[$name]))
+			unset($this->_attributes[$name]);
+		else if(isset($this->getMetaData()->relations[$name]))
+			unset($this->_related[$name]);
+		else
+			parent::__unset($name);
+	}
+
+	/**
 	 * Calls the named method which is not a class method.
 	 * Do not call this method. This is a PHP magic method that we override
 	 * to implement the named scope feature.
@@ -479,13 +496,6 @@ abstract class CActiveRecord extends CModel
 		if(isset($scopes[$name]))
 		{
 			$scope=$scopes[$name];
-			if(!empty($parameters))
-			{
-				if(isset($scope['params']))
-					$scope['params']=array_merge($scope['params'],is_array($parameters[0]) ? $parameters[0] : $parameters);
-				else
-					$scope['params']=is_array($parameters[0]) ? $parameters[0] : $parameters;
-			}
 			if($this->_c===null)
 				$this->_c=new CDbCriteria($scope);
 			else
@@ -581,20 +591,16 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
-	 * Sets a component property to be null.
-	 * This method overrides the parent implementation by clearing
-	 * the specified attribute value.
-	 * @param string the property name or the event name
-	 * @since 1.0.1
+	 * @return CDbCriteria the query criteria that is associated with this model.
+	 * This criteria is mainly used by {@link scopes named scope} feature to accumulate
+	 * different criteria specifications.
+	 * @since 1.0.5
 	 */
-	public function __unset($name)
+	public function getDbCriteria()
 	{
-		if(isset($this->getMetaData()->columns[$name]))
-			unset($this->_attributes[$name]);
-		else if(isset($this->getMetaData()->relations[$name]))
-			unset($this->_related[$name]);
-		else
-			parent::__unset($name);
+		if($this->_c===null)
+			$this->_c=new CDbCriteria;
+		return $this->_c;
 	}
 
 	/**
