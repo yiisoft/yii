@@ -62,8 +62,16 @@ class Post extends CActiveRecord
 		return array(
 			'post23'=>array('condition'=>'posts.id=2 OR posts.id=3', 'alias'=>'posts', 'order'=>'posts.id'),
 			'post3'=>array('condition'=>'id=3'),
-			'recent'=>array('order'=>'create_time DESC', 'condition'=>'posts.id>:id', 'params'=>array(':id'=>0)),
 		);
+	}
+
+	public function recent($limit=5)
+	{
+		$this->getDbCriteria()->mergeWith(array(
+			'order'=>'create_time DESC',
+			'limit'=>$limit,
+		));
+		return $this;
 	}
 }
 
