@@ -101,17 +101,26 @@ class CAccessControlFilter extends CFilter
 				break;
 			else if($allow<0) // denied
 			{
-				if($user->getIsGuest())
-				{
-					$user->loginRequired();
-					return false;
-				}
-				else
-					throw new CHttpException(401,Yii::t('yii','You are not authorized to perform this action.'));
+				$this->accessDenied($user);
+				return false;
 			}
 		}
 
 		return true;
+	}
+
+	/**
+	 * Denies the access of the user.
+	 * This method is invoked when access check fails.
+	 * @param IWebUser the current user
+	 * @since 1.0.5
+	 */
+	protected function accessDenied($user)
+	{
+		if($user->getIsGuest())
+			$user->loginRequired();
+		else
+			throw new CHttpException(401,Yii::t('yii','You are not authorized to perform this action.'));
 	}
 }
 
