@@ -37,15 +37,18 @@ class CActiveFinder extends CComponent
 	private $_joinCount=0;
 	private $_joinTree;
 	private $_builder;
+	private $_criteria;  // the criteria generated via named scope
 
 	/**
 	 * Constructor.
 	 * A join tree is built up based on the declared relationships between active record classes.
 	 * @param CActiveRecord the model that initiates the active finding process
 	 * @param mixed the relation names to be actively looked for
+	 * @param CDbCriteria the criteria associated with the named scopes (since version 1.0.5)
 	 */
-	public function __construct($model,$with)
+	public function __construct($model,$with,$criteria=null)
 	{
+		$this->_criteria=$criteria;
 		$this->_builder=$model->getCommandBuilder();
 		$this->_joinTree=new CJoinElement($this,$model);
 		$this->buildJoinTree($this->_joinTree,$with);
@@ -70,6 +73,25 @@ class CActiveFinder extends CComponent
 		return $this;
 	}
 
+	private function query($criteria,$all=false)
+	{
+		if($this->_criteria!==null)
+		{
+			$this->_criteria->mergeWith($criteria);
+			$criteria=$this->_criteria;
+		}
+
+		$this->_joinTree->find($criteria);
+		$this->_joinTree->afterFind();
+
+		if($all)
+			return array_values($this->_joinTree->records);
+		else if(count($this->_joinTree->records))
+			return reset($this->_joinTree->records);
+		else
+			return null;
+	}
+
 	/**
 	 * This is the relational version of {@link CActiveRecord::find()}.
 	 */
@@ -77,12 +99,7 @@ class CActiveFinder extends CComponent
 	{
 		Yii::trace(get_class($this->_joinTree->model).'.find() eagerly','system.db.ar.CActiveRecord');
 		$criteria=$this->_builder->createCriteria($condition,$params);
-		$this->_joinTree->find($criteria);
-		$this->_joinTree->afterFind();
-		if(count($this->_joinTree->records))
-			return reset($this->_joinTree->records);
-		else
-			return null;
+		return $this->query($criteria);
 	}
 
 	/**
@@ -92,9 +109,7 @@ class CActiveFinder extends CComponent
 	{
 		Yii::trace(get_class($this->_joinTree->model).'.findAll() eagerly','system.db.ar.CActiveRecord');
 		$criteria=$this->_builder->createCriteria($condition,$params);
-		$this->_joinTree->find($criteria);
-		$this->_joinTree->afterFind();
-		return array_values($this->_joinTree->records);
+		return $this->query($criteria,true);
 	}
 
 	/**
@@ -104,12 +119,7 @@ class CActiveFinder extends CComponent
 	{
 		Yii::trace(get_class($this->_joinTree->model).'.findByPk() eagerly','system.db.ar.CActiveRecord');
 		$criteria=$this->_builder->createPkCriteria($this->_joinTree->model->getTableSchema(),$pk,$condition,$params);
-		$this->_joinTree->find($criteria);
-		$this->_joinTree->afterFind();
-		if(count($this->_joinTree->records))
-			return reset($this->_joinTree->records);
-		else
-			return null;
+		return $this->query($criteria);
 	}
 
 	/**
@@ -119,9 +129,7 @@ class CActiveFinder extends CComponent
 	{
 		Yii::trace(get_class($this->_joinTree->model).'.findAllByPk() eagerly','system.db.ar.CActiveRecord');
 		$criteria=$this->_builder->createPkCriteria($this->_joinTree->model->getTableSchema(),$pk,$condition,$params);
-		$this->_joinTree->find($criteria);
-		$this->_joinTree->afterFind();
-		return array_values($this->_joinTree->records);
+		return $this->query($criteria,true);
 	}
 
 	/**
@@ -131,12 +139,7 @@ class CActiveFinder extends CComponent
 	{
 		Yii::trace(get_class($this->_joinTree->model).'.findByAttributes() eagerly','system.db.ar.CActiveRecord');
 		$criteria=$this->_builder->createColumnCriteria($this->_joinTree->model->getTableSchema(),$attributes,$condition,$params);
-		$this->_joinTree->find($criteria);
-		$this->_joinTree->afterFind();
-		if(count($this->_joinTree->records))
-			return reset($this->_joinTree->records);
-		else
-			return null;
+		return $this->query($criteria);
 	}
 
 	/**
@@ -146,9 +149,7 @@ class CActiveFinder extends CComponent
 	{
 		Yii::trace(get_class($this->_joinTree->model).'.findAllByAttributes() eagerly','system.db.ar.CActiveRecord');
 		$criteria=$this->_builder->createColumnCriteria($this->_joinTree->model->getTableSchema(),$attributes,$condition,$params);
-		$this->_joinTree->find($criteria);
-		$this->_joinTree->afterFind();
-		return array_values($this->_joinTree->records);
+		return $this->query($criteria,true);
 	}
 
 	/**
@@ -191,6 +192,11 @@ class CActiveFinder extends CComponent
 	{
 		Yii::trace(get_class($this->_joinTree->model).'.count() eagerly','system.db.ar.CActiveRecord');
 		$criteria=$this->_builder->createCriteria($condition,$params);
+		if($this->_criteria!==null)
+		{
+			$this->_criteria->mergeWith($criteria);
+			$criteria=$this->_criteria;
+		}
 		return $this->_joinTree->count($criteria);
 	}
 
@@ -227,10 +233,34 @@ class CActiveFinder extends CComponent
 				$parent=$this->buildJoinTree($parent,substr($with,0,$pos));
 				$with=substr($with,$pos+1);
 			}
+
+			// named scope
+			if(($pos=strpos($with,':'))!==false)
+			{
+				$scopes=explode(':',substr($with,$pos+1));
+				$with=substr($with,0,$pos);
+			}
+
 			if(isset($parent->children[$with]))
 				return $parent->children[$with];
-			else if(($relation=$parent->model->getActiveRelation($with))!==null)
+
+			if(($relation=$parent->model->getActiveRelation($with))!==null)
 			{
+				if(isset($scopes) && !empty($scopes))
+				{
+					$model=CActiveRecord::model($relation->className);
+					$relation=clone $relation;
+					$scs=$model->scopes();
+					foreach($scopes as $scope)
+					{
+						if(isset($scs[$scope]))
+							$relation->mergeWith($scs[$scope]);
+						else
+							throw new CDbException(Yii::t('yii','Active record class "{class}" does not have a scope named "{scope}".',
+								array('{class}'=>get_class($model), '{scope}'=>$scope)));
+					}
+				}
+
 				if($relation instanceof CStatRelation)
 					return new CStatElement($this,$relation,$parent);
 				else
@@ -312,6 +342,7 @@ class CJoinElement
 
 	/**
 	 * Constructor.
+	 * @param CActiveFinder the finder
 	 * @param mixed the relation (if the second parameter is not null)
 	 * or the model (if the second parameter is null) associated with this tree node.
 	 * @param CJoinElement the parent tree node
@@ -839,7 +870,7 @@ class CJoinElement
 		}
 		if(!empty($this->relation->on))
 			$joins[]=str_replace($this->relation->aliasToken.'.', $this->tableAlias.'.', $this->relation->on);
-		return $this->relation->joinType . ' ' . $this->getTableNameWithAlias() . ' ON ' . implode(' AND ',$joins);
+		return $this->relation->joinType . ' ' . $this->getTableNameWithAlias() . ' ON (' . implode(') AND (',$joins).')';
 	}
 
 	/**
@@ -891,9 +922,9 @@ class CJoinElement
 		if($parentCondition!==array() && $childCondition!==array())
 		{
 			$join=$this->relation->joinType.' '.$joinTable->rawName.' '.$joinAlias;
-			$join.=' ON '.implode(' AND ',$parentCondition);
+			$join.=' ON ('.implode(') AND (',$parentCondition).')';
 			$join.=' '.$this->relation->joinType.' '.$this->getTableNameWithAlias();
-			$join.=' ON '.implode(' AND ',$childCondition);
+			$join.=' ON ('.implode(') AND (',$childCondition).')';
 			return $join;
 		}
 		else
@@ -1021,7 +1052,7 @@ class CJoinQuery
 			if($condition!=='')
 				$conditions[]=$condition;
 		if($conditions!==array())
-			$sql.=' WHERE ' . implode(' AND ',$conditions);
+			$sql.=' WHERE (' . implode(') AND (',$conditions).')';
 
 		$groups=array();
 		foreach($this->groups as $group)
@@ -1035,7 +1066,7 @@ class CJoinQuery
 			if($having!=='')
 				$havings[]=$having;
 		if($havings!==array())
-			$sql.=' HAVING ' . implode(' AND ',$havings);
+			$sql.=' HAVING (' . implode(') AND (',$havings).')';
 
 		$orders=array();
 		foreach($this->orders as $order)
@@ -1135,9 +1166,9 @@ class CStatElement
 
 		$records=$this->_parent->records;
 
-		$where=empty($relation->condition)?'' : ' WHERE '.$relation->condition;
+		$where=empty($relation->condition)?'' : ' WHERE ('.$relation->condition.')';
 		$group=empty($relation->group)?'' : ', '.$relation->group;
-		$having=empty($relation->having)?'' : ' AND '.$relation->having;
+		$having=empty($relation->having)?'' : ' AND ('.$relation->having.')';
 		$order=empty($relation->order)?'' : ' ORDER BY '.$relation->order;
 
 		// generate and perform query
@@ -1273,17 +1304,17 @@ class CStatElement
 			}
 		}
 
-		$where=empty($relation->condition)?'' : ' WHERE '.$relation->condition;
+		$where=empty($relation->condition)?'' : ' WHERE ('.$relation->condition.')';
 		$group=empty($relation->group)?'' : ', '.$relation->group;
-		$having=empty($relation->having)?'' : ' AND '.$relation->having;
+		$having=empty($relation->having)?'' : ' AND ('.$relation->having.')';
 		$order=empty($relation->order)?'' : ' ORDER BY '.$relation->order;
 
 		$sql='SELECT '.$this->relation->select.' AS s, '.implode(', ',$cols)
 			.' FROM '.$table->rawName.' INNER JOIN '.$joinTable->rawName
-			.' ON '.implode(' AND ',$joinCondition)
+			.' ON ('.implode(') AND (',$joinCondition).')'
 			.$where
 			.' GROUP BY '.implode(', ',array_keys($cols)).$group
-			.' HAVING '.$builder->createInCondition($joinTable,$map,$keys)
+			.' HAVING ('.$builder->createInCondition($joinTable,$map,$keys).')'
 			.$having.$order;
 
 		$command=$builder->getDbConnection()->createCommand($sql);

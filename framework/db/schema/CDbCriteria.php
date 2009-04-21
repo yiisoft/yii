@@ -72,4 +72,79 @@ class CDbCriteria
 		foreach($data as $name=>$value)
 			$this->$name=$value;
 	}
+
+	/**
+	 * Merges with another criteria.
+	 * In general, the merging makes the resulting criteria more restrictive.
+	 * For example, if both criterias have conditions, they will be 'AND' together.
+	 * Also, the criteria passed as the parameter takes precedence in case
+	 * two options cannot be merged (e.g. LIMIT, OFFSET).
+	 * @param CDbCriteria the criteria to be merged with.
+	 * @since 1.0.5
+	 */
+	public function mergeWith($criteria)
+	{
+		if(is_array($criteria))
+			$criteria=new self($criteria);
+		if($this->select!==$criteria->select)
+		{
+			if($this->select==='*')
+				$this->select=$criteria->select;
+			else if($criteria->select!=='*')
+			{
+				$select1=is_string($this->select)?preg_split('/\s*,\s*/',trim($this->select),-1,PREG_SPLIT_NO_EMPTY):$this->select;
+				$select2=is_string($criteria->select)?preg_split('/\s*,\s*/',trim($criteria->select),-1,PREG_SPLIT_NO_EMPTY):$criteria->select;
+				$this->select=array_merge($select1,array_diff($select2,$select1));
+			}
+		}
+
+		if($this->condition!==$criteria->condition)
+		{
+			if($this->condition==='')
+				$this->condition=$criteria->condition;
+			else if($criteria->condition!=='')
+				$this->condition="({$this->condition}) AND ({$criteria->condition})";
+		}
+
+		if($this->params!==$criteria->params)
+			$this->params=array_merge($this->params,$criteria->params);
+
+		if($criteria->limit>0)
+			$this->limit=$criteria->limit;
+
+		if($criteria->offset>=0)
+			$this->offset=$criteria->offset;
+
+		if($this->order!==$criteria->order)
+		{
+			if($this->order==='')
+				$this->order=$criteria->order;
+			else if($criteria->order!=='')
+				$this->order.=', '.$criteria->order;
+		}
+
+		if($this->group!==$criteria->group)
+		{
+			if($this->group==='')
+				$this->group=$criteria->group;
+			else if($criteria->group!=='')
+				$this->group.=', '.$criteria->group;
+		}
+
+		if($this->join!==$criteria->join)
+		{
+			if($this->join==='')
+				$this->join=$criteria->join;
+			else if($criteria->join!=='')
+				$this->join.=' '.$criteria->join;
+		}
+
+		if($this->having!==$criteria->having)
+		{
+			if($this->having==='')
+				$this->having=$criteria->having;
+			else if($criteria->having!=='')
+				$this->having="({$this->having}) AND ({$criteria->having})";
+		}
+	}
 }

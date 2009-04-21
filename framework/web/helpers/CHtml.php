@@ -1341,13 +1341,15 @@ EOD;
 
 	/**
 	 * Returns the element ID that is used by methods such as {@link activeTextField}.
+	 * This method has been deprecated since version 1.0.5. Please use {@link activeId} instead.
 	 * @param CModel the data model
 	 * @param string the attribute
 	 * @return string the element ID for the active field corresponding to the specified model and attribute.
+	 * @deprecated 1.0.5
 	 */
 	public static function getActiveId($model,$attribute)
 	{
-		return get_class($model).'_'.$attribute;
+		return self::activeId($model,$attribute);
 	}
 
 	/**

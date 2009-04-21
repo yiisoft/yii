@@ -84,7 +84,7 @@ value in a hidden field so that it can be submitted for CSRF validation.
 
 Cookie Attack Prevention
 ------------------------
-Protecting cookies from being attacked is of extreme important, as session
+Protecting cookies from being attacked is of extreme importance, as session
 IDs are commonly stored in cookies. If one gets hold of a session ID,
 he essentially owns all relevant session information.
 

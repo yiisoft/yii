@@ -290,6 +290,10 @@ class YiiBase
 		'CMysqlColumnSchema' => '/db/schema/mysql/CMysqlColumnSchema.php',
 		'CMysqlSchema' => '/db/schema/mysql/CMysqlSchema.php',
 		'CMysqlTableSchema' => '/db/schema/mysql/CMysqlTableSchema.php',
+		'COciColumnSchema' => '/db/schema/oci/COciColumnSchema.php',
+		'COciCommandBuilder' => '/db/schema/oci/COciCommandBuilder.php',
+		'COciSchema' => '/db/schema/oci/COciSchema.php',
+		'COciTableSchema' => '/db/schema/oci/COciTableSchema.php',
 		'CPgsqlColumnSchema' => '/db/schema/pgsql/CPgsqlColumnSchema.php',
 		'CPgsqlSchema' => '/db/schema/pgsql/CPgsqlSchema.php',
 		'CPgsqlTableSchema' => '/db/schema/pgsql/CPgsqlTableSchema.php',
@@ -3955,7 +3959,7 @@ EOD;
 	}
 	public static function getActiveId($model,$attribute)
 	{
-		return get_class($model).'_'.$attribute;
+		return self::activeId($model,$attribute);
 	}
 	public static function errorSummary($model,$header=null,$footer=null)
 	{
@@ -5176,10 +5180,11 @@ abstract class CActiveRecord extends CModel
 	const STAT='CStatRelation';
 	public static $db;
 	private static $_models=array();			// class name => model
-	private $_md;
-	private $_new=false;
+	private $_md;								// meta data
+	private $_new=false;						// whether this instance is new or not
 	private $_attributes=array();				// attribute name => attribute value
 	private $_related=array();					// attribute name => related objects
+	private $_c;								// query criteria (used by finder only)
 	public function __construct($attributes=array(),$scenario='')
 	{
 		if($attributes===null) // internally used by populateRecord() and model()
@@ -5232,6 +5237,30 @@ abstract class CActiveRecord extends CModel
 		else
 			return parent::__isset($name);
 	}
+	public function __call($name,$parameters)
+	{
+		$scopes=array_change_key_case($this->scopes());
+		if(isset($scopes[strtolower($name)]))
+		{
+			$scope=$scopes[strtolower($name)];
+			if(!empty($parameters))
+			{
+				if(!isset($scope['params']))
+					$scope['params']=array();
+				if(is_array($parameters[0]))  // named parameters
+					$scope['params']=array_merge($scope['params'],$parameters[0]);
+				else
+					$scope['params']=array_merge($scope['params'],$parameters);
+			}
+			if($this->_c===null)
+				$this->_c=new CDbCriteria($scope);
+			else
+				$this->_c->mergeWith($scope);
+			return $this;
+		}
+		else
+			return parent::__call($name,$parameters);
+	}
 	public function getRelated($name,$refresh=false)
 	{
 		if(!$refresh && (isset($this->_related[$name]) || array_key_exists($name,$this->_related)))
@@ -5252,7 +5281,14 @@ abstract class CActiveRecord extends CModel
 				$r=$name;
 			$finder=new CActiveFinder($this,$r);
 			$finder->lazyFind($this);
-			return isset($this->_related[$name]) ? $this->_related[$name] : $this->_related[$name]=null;
+			if(isset($this->_related[$name]))
+				return $this->_related[$name];
+			else if($relation instanceof CHasManyRelation)
+				return $this->_related[$name]=array();
+			else if($relation instanceof CStatRelation)
+				return $this->_related[$name]=$relation->defaultValue;
+			else
+				return $this->_related[$name]=null;
 		}
 		else
 			throw new CDbException(Yii::t('yii','{class} does not have relation "{name}".',
@@ -5298,6 +5334,10 @@ abstract class CActiveRecord extends CModel
 	{
 	}
 	public function relations()
+	{
+		return array();
+	}
+	public function scopes()
 	{
 		return array();
 	}
@@ -5594,50 +5634,49 @@ abstract class CActiveRecord extends CModel
 		else
 			return null;
 	}
+	private function query($criteria,$all=false)
+	{
+		if($this->_c!==null)
+		{
+			$this->_c->mergeWith($criteria);
+			$criteria=$this->_c;
+			$this->_c=null;
+		}
+		$command=$this->getCommandBuilder()->createFindCommand($this->getTableSchema(),$criteria);
+		return $all ? $this->populateRecords($command->queryAll()) : $this->populateRecord($command->queryRow());
+	}
 	public function find($condition='',$params=array())
 	{
-		$builder=$this->getCommandBuilder();
-		$criteria=$builder->createCriteria($condition,$params);
+		$criteria=$this->getCommandBuilder()->createCriteria($condition,$params);
 		$criteria->limit=1;
-		$command=$builder->createFindCommand($this->getTableSchema(),$criteria);
-		return $this->populateRecord($command->queryRow());
+		return $this->query($criteria);
 	}
 	public function findAll($condition='',$params=array())
 	{
-		$builder=$this->getCommandBuilder();
-		$criteria=$builder->createCriteria($condition,$params);
-		$command=$builder->createFindCommand($this->getTableSchema(),$criteria);
-		return $this->populateRecords($command->queryAll());
+		$criteria=$this->getCommandBuilder()->createCriteria($condition,$params);
+		return $this->query($criteria,true);
 	}
 	public function findByPk($pk,$condition='',$params=array())
 	{
-		$builder=$this->getCommandBuilder();
-		$criteria=$builder->createPkCriteria($this->getTableSchema(),$pk,$condition,$params);
+		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk,$condition,$params);
 		$criteria->limit=1;
-		$command=$builder->createFindCommand($this->getTableSchema(),$criteria);
-		return $this->populateRecord($command->queryRow());
+		return $this->query($criteria);
 	}
 	public function findAllByPk($pk,$condition='',$params=array())
 	{
-		$builder=$this->getCommandBuilder();
-		$criteria=$builder->createPkCriteria($this->getTableSchema(),$pk,$condition,$params);
-		$command=$builder->createFindCommand($this->getTableSchema(),$criteria);
-		return $this->populateRecords($command->queryAll());
+		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk,$condition,$params);
+		return $this->query($criteria,true);
 	}
 	public function findByAttributes($attributes,$condition='',$params=array())
 	{
-		$builder=$this->getCommandBuilder();
-		$criteria=$builder->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params);
+		$criteria=$this->getCommandBuilder()->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params);
 		$criteria->limit=1;
-		$command=$builder->createFindCommand($this->getTableSchema(),$criteria);
-		return $this->populateRecord($command->queryRow());
+		return $this->query($criteria);
 	}
 	public function findAllByAttributes($attributes,$condition='',$params=array())
 	{
-		$builder=$this->getCommandBuilder();
-		$criteria=$builder->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params);
-		$command=$builder->createFindCommand($this->getTableSchema(),$criteria);
-		return $this->populateRecords($command->queryAll());
+		$criteria=$this->getCommandBuilder()->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params);
+		return $this->query($criteria,true);
 	}
 	public function findBySql($sql,$params=array())
 	{
@@ -5653,6 +5692,12 @@ abstract class CActiveRecord extends CModel
 	{
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
+		if($this->_c!==null)
+		{
+			$this->_c->mergeWith($criteria);
+			$criteria=$this->_c;
+			$this->_c=null;
+		}
 		return $builder->createCountCommand($this->getTableSchema(),$criteria)->queryScalar();
 	}
 	public function countBySql($sql,$params=array())
@@ -5666,6 +5711,12 @@ abstract class CActiveRecord extends CModel
 		$table=$this->getTableSchema();
 		$criteria->select=reset($table->columns)->rawName;
 		$criteria->limit=1;
+		if($this->_c!==null)
+		{
+			$this->_c->mergeWith($criteria);
+			$criteria=$this->_c;
+			$this->_c=null;
+		}
 		return $builder->createFindCommand($table,$criteria)->queryRow()!==false;
 	}
 	public function with()
@@ -5675,7 +5726,7 @@ abstract class CActiveRecord extends CModel
 			$with=func_get_args();
 			if(is_array($with[0]))  // the parameter is given as an array
 				$with=$with[0];
-			return new CActiveFinder($this,$with);
+			return new CActiveFinder($this,$with,$this->_c);
 		}
 		else
 			return $this;
@@ -6002,9 +6053,9 @@ class CDbConnection extends CApplicationComponent
 			$driver=$this->getDriverName();
 			switch(strtolower($driver))
 			{
-				case 'pgsql':
+				case 'pgsql':  // PostgreSQL
 					return $this->_schema=new CPgsqlSchema($this);
-				case 'mysqli':
+				case 'mysqli': // MySQL
 				case 'mysql':
 					return $this->_schema=new CMysqlSchema($this);
 				case 'sqlite': // sqlite 3
@@ -6013,7 +6064,8 @@ class CDbConnection extends CApplicationComponent
 				case 'mssql': // Mssql driver on windows hosts
 				case 'dblib': // dblib drivers on linux (and maybe others os) hosts
 					return $this->_schema=new CMssqlSchema($this);
-				case 'oci':
+				case 'oci':  // Oracle driver
+					return $this->_schema=new COciSchema($this);
 				case 'ibm':
 				default:
 					throw new CDbException(Yii::t('yii','CDbConnection does not support reading schema for {driver} database.',

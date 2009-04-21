@@ -72,6 +72,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	public $loginUrl=array('site/login');
 
 	private $_keyPrefix;
+	private $_access=array();
 
 	/**
 	 * PHP magic method.
@@ -535,10 +536,20 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * @param string the name of the operation that need access check.
 	 * @param array name-value pairs that would be passed to business rules associated
 	 * with the tasks and roles assigned to the user.
+	 * @param boolean whether to allow caching the result of access checki.
+	 * This parameter has been available since version 1.0.5. When this parameter
+	 * is true (default), if the access check of an operation was performed before,
+	 * its result will be directly returned when calling this method to check the same operation.
+	 * If this parameter is false, this method will always call {@link CAuthManager::checkAccess}
+	 * to obtain the up-to-date access result. Note that this caching is effective
+	 * only within the same request.
 	 * @return boolean whether the operations can be performed by this user.
 	 */
-	public function checkAccess($operation,$params=array())
+	public function checkAccess($operation,$params=array(),$allowCaching=true)
 	{
-		return Yii::app()->getAuthManager()->checkAccess($operation,$this->getId(),$params);
+		if($allowCaching && isset($this->_access[$operation]))
+			return $this->_access[$operation];
+		else
+			return $this->_access[$operation]=Yii::app()->getAuthManager()->checkAccess($operation,$this->getId(),$params);
 	}
 }

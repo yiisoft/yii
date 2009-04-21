@@ -113,8 +113,8 @@ EOD;
 				$middle=$pos===$pos2?'':substr($controllerID,$pos2+1,$pos-$pos2);
 
 				$controllerClass=ucfirst($last).'Controller';
-				$controllerFile=($middle===''?'':$middel.'/').$controllerClass.'.php';
-				$controllerID=$middle===''?$last:$middel.'/'.$last;
+				$controllerFile=($middle===''?'':$middle.'/').$controllerClass.'.php';
+				$controllerID=$middle===''?$last:$middle.'/'.$last;
 				if(($m=Yii::app()->getModule($first))!==null)
 					$module=$m;
 				else

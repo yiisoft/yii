@@ -353,10 +353,11 @@ abstract class CActiveRecord extends CModel
 
 	private static $_models=array();			// class name => model
 
-	private $_md;
-	private $_new=false;
+	private $_md;								// meta data
+	private $_new=false;						// whether this instance is new or not
 	private $_attributes=array();				// attribute name => attribute value
 	private $_related=array();					// attribute name => related objects
+	private $_c;								// query criteria (used by finder only)
 
 
 	/**
@@ -456,59 +457,6 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
-	 * Returns the related record(s).
-	 * This method will return the related record(s) of the current record.
-	 * If the relation is HAS_ONE or BELONGS_TO, it will return a single object
-	 * or null if the object does not exist.
-	 * If the relation is HAS_MANY or MANY_MANY, it will return an array of objects
-	 * or an empty array.
-	 * @param string the relation name (see {@link relations})
-	 * @param boolean whether to reload the related objects from database. Defaults to false.
-	 * @return mixed the related object(s).
-	 * @throws CDbException if the relation is not specified in {@link relations}.
-	 * @since 1.0.2
-	 */
-	public function getRelated($name,$refresh=false)
-	{
-		if(!$refresh && (isset($this->_related[$name]) || array_key_exists($name,$this->_related)))
-			return $this->_related[$name];
-
-		$md=$this->getMetaData();
-		if(isset($md->relations[$name]))
-		{
-			Yii::trace('lazy loading '.get_class($this).'.'.$name,'system.db.ar.CActiveRecord');
-			$relation=$md->relations[$name];
-			if($this->getIsNewRecord() && ($relation instanceof CHasOneRelation || $relation instanceof CHasManyRelation))
-				return $this->_related[$name]=$relation instanceof CHasOneRelation ? null : array();
-			if(!empty($relation->with))
-			{
-				$r=array($name);
-				foreach($relation->with as $w)
-					$r[]=$name.'.'.$w;
-			}
-			else
-				$r=$name;
-			$finder=new CActiveFinder($this,$r);
-			$finder->lazyFind($this);
-			return isset($this->_related[$name]) ? $this->_related[$name] : $this->_related[$name]=null;
-		}
-		else
-			throw new CDbException(Yii::t('yii','{class} does not have relation "{name}".',
-				array('{class}'=>get_class($this), '{name}'=>$name)));
-	}
-
-	/**
-	 * Returns a value indicating whether the named related object(s) has been loaded.
-	 * @param string the relation name
-	 * @return booolean a value indicating whether the named related object(s) has been loaded.
-	 * @since 1.0.3
-	 */
-	public function hasRelated($name)
-	{
-		return isset($this->_related[$name]) || array_key_exists($name,$this->_related);
-	}
-
-	/**
 	 * Sets a component property to be null.
 	 * This method overrides the parent implementation by clearing
 	 * the specified attribute value.
@@ -523,6 +471,136 @@ abstract class CActiveRecord extends CModel
 			unset($this->_related[$name]);
 		else
 			parent::__unset($name);
+	}
+
+	/**
+	 * Calls the named method which is not a class method.
+	 * Do not call this method. This is a PHP magic method that we override
+	 * to implement the named scope feature.
+	 * @param string the method name
+	 * @param array method parameters
+	 * @return mixed the method return value
+	 * @since 1.0.5
+	 */
+	public function __call($name,$parameters)
+	{
+		if(isset($this->getMetaData()->relations[$name]))
+		{
+			if(empty($parameters))
+				return $this->getRelated($name,false);
+			else
+				return $this->getRelated($name,false,$parameters[0]);
+		}
+
+		$scopes=$this->scopes();
+		if(isset($scopes[$name]))
+		{
+			$scope=$scopes[$name];
+			if($this->_c===null)
+				$this->_c=new CDbCriteria($scope);
+			else
+				$this->_c->mergeWith($scope);
+			return $this;
+		}
+
+		return parent::__call($name,$parameters);
+	}
+
+	/**
+	 * Returns the related record(s).
+	 * This method will return the related record(s) of the current record.
+	 * If the relation is HAS_ONE or BELONGS_TO, it will return a single object
+	 * or null if the object does not exist.
+	 * If the relation is HAS_MANY or MANY_MANY, it will return an array of objects
+	 * or an empty array.
+	 * @param string the relation name (see {@link relations})
+	 * @param boolean whether to reload the related objects from database. Defaults to false.
+	 * @param array additional parameters that customize the query conditions as specified in the relation declaration.
+	 * This parameter has been available since version 1.0.5.
+	 * @return mixed the related object(s).
+	 * @throws CDbException if the relation is not specified in {@link relations}.
+	 * @since 1.0.2
+	 */
+	public function getRelated($name,$refresh=false,$params=array())
+	{
+		if(!$refresh && $params===array() && (isset($this->_related[$name]) || array_key_exists($name,$this->_related)))
+			return $this->_related[$name];
+
+		$md=$this->getMetaData();
+		if(!isset($md->relations[$name]))
+			throw new CDbException(Yii::t('yii','{class} does not have relation "{name}".',
+				array('{class}'=>get_class($this), '{name}'=>$name)));
+
+		Yii::trace('lazy loading '.get_class($this).'.'.$name,'system.db.ar.CActiveRecord');
+		$relation=$md->relations[$name];
+		if($this->getIsNewRecord() && ($relation instanceof CHasOneRelation || $relation instanceof CHasManyRelation))
+			return $relation instanceof CHasOneRelation ? null : array();
+
+		if($params!==array()) // dynamic query
+		{
+			$exists=isset($this->_related[$name]) || array_key_exists($name,$this->_related);
+			if($exists)
+				$save=$this->_related[$name];
+			unset($this->_related[$name]);
+			$r=array($name=>$params);
+		}
+		else
+			$r=array($name);
+
+		if(!empty($relation->with))
+		{
+			foreach($relation->with as $w)
+				$r[]=$name.'.'.$w;
+		}
+
+		$finder=new CActiveFinder($this,$r);
+		$finder->lazyFind($this);
+
+		if(!isset($this->_related[$name]))
+		{
+			if($relation instanceof CHasManyRelation)
+				$this->_related[$name]=array();
+			else if($relation instanceof CStatRelation)
+				$this->_related[$name]=$relation->defaultValue;
+			else
+				$this->_related[$name]=null;
+		}
+
+		if($params!==array())
+		{
+			$results=$this->_related[$name];
+			if($exists)
+				$this->_related[$name]=$save;
+			else
+				unset($this->_related[$name]);
+			return $results;
+		}
+		else
+			return $this->_related[$name];
+	}
+
+	/**
+	 * Returns a value indicating whether the named related object(s) has been loaded.
+	 * @param string the relation name
+	 * @return booolean a value indicating whether the named related object(s) has been loaded.
+	 * @since 1.0.3
+	 */
+	public function hasRelated($name)
+	{
+		return isset($this->_related[$name]) || array_key_exists($name,$this->_related);
+	}
+
+	/**
+	 * @return CDbCriteria the query criteria that is associated with this model.
+	 * This criteria is mainly used by {@link scopes named scope} feature to accumulate
+	 * different criteria specifications.
+	 * @since 1.0.5
+	 */
+	public function getDbCriteria()
+	{
+		if($this->_c===null)
+			$this->_c=new CDbCriteria;
+		return $this->_c;
 	}
 
 	/**
@@ -667,6 +745,43 @@ abstract class CActiveRecord extends CModel
 	 * @return array list of related object declarations. Defaults to empty array.
 	 */
 	public function relations()
+	{
+		return array();
+	}
+
+	/**
+	 * Returns the declaration of named scopes.
+	 * A named scope represents a query criteria that can be chained together with
+	 * other named scopes and applied to a query. This method should be overridden
+	 * by child classes to declare named scopes for the particular AR classes.
+	 * For example, the following code declares two named scopes: 'recently' and
+	 * 'published'.
+	 * <pre>
+	 * return array(
+	 *     'published'=>array(
+	 *           'condition'=>'status=1',
+	 *     ),
+	 *     'recently'=>array(
+	 *           'order'=>'createTime DESC',
+	 *           'limit'=>5,
+	 *     ),
+	 * );
+	 * </pre>
+	 * If the above scopes are declared in a 'Post' model, we can perform the following
+	 * queries:
+	 * <pre>
+	 * $posts=Post::model()->published()->findAll();
+	 * $posts=Post::model()->published()->recently()->findAll();
+	 * $posts=Post::model()->published()->with('comments')->findAll();
+	 * </pre>
+	 * Note that the last query is a relational query.
+	 *
+	 * @return array the scope definition. The array keys are scope names; the array
+	 * values are the corresponding scope definitions. Each scope definition is represented
+	 * as an array whose keys must be properties of {@link CDbCriteria}.
+	 * @since 1.0.5
+	 */
+	public function scopes()
 	{
 		return array();
 	}
@@ -819,8 +934,7 @@ abstract class CActiveRecord extends CModel
 				$this->_related[$name][]=$record;
 		}
 		else if(!isset($this->_related[$name]))
-			$this->_related[$name]=$record;
-	}
+			$this->_related[$name]=$record;	}
 
 	/**
 	 * Returns all column attribute values.
@@ -1240,6 +1354,18 @@ abstract class CActiveRecord extends CModel
 			return null;
 	}
 
+	private function query($criteria,$all=false)
+	{
+		if($this->_c!==null)
+		{
+			$this->_c->mergeWith($criteria);
+			$criteria=$this->_c;
+			$this->_c=null;
+		}
+		$command=$this->getCommandBuilder()->createFindCommand($this->getTableSchema(),$criteria);
+		return $all ? $this->populateRecords($command->queryAll()) : $this->populateRecord($command->queryRow());
+	}
+
 	/**
 	 * Finds a single active record with the specified condition.
 	 * @param mixed query condition or criteria.
@@ -1254,11 +1380,9 @@ abstract class CActiveRecord extends CModel
 	public function find($condition='',$params=array())
 	{
 		Yii::trace(get_class($this).'.find()','system.db.ar.CActiveRecord');
-		$builder=$this->getCommandBuilder();
-		$criteria=$builder->createCriteria($condition,$params);
+		$criteria=$this->getCommandBuilder()->createCriteria($condition,$params);
 		$criteria->limit=1;
-		$command=$builder->createFindCommand($this->getTableSchema(),$criteria);
-		return $this->populateRecord($command->queryRow());
+		return $this->query($criteria);
 	}
 
 	/**
@@ -1271,10 +1395,8 @@ abstract class CActiveRecord extends CModel
 	public function findAll($condition='',$params=array())
 	{
 		Yii::trace(get_class($this).'.findAll()','system.db.ar.CActiveRecord');
-		$builder=$this->getCommandBuilder();
-		$criteria=$builder->createCriteria($condition,$params);
-		$command=$builder->createFindCommand($this->getTableSchema(),$criteria);
-		return $this->populateRecords($command->queryAll());
+		$criteria=$this->getCommandBuilder()->createCriteria($condition,$params);
+		return $this->query($criteria,true);
 	}
 
 	/**
@@ -1288,11 +1410,9 @@ abstract class CActiveRecord extends CModel
 	public function findByPk($pk,$condition='',$params=array())
 	{
 		Yii::trace(get_class($this).'.findByPk()','system.db.ar.CActiveRecord');
-		$builder=$this->getCommandBuilder();
-		$criteria=$builder->createPkCriteria($this->getTableSchema(),$pk,$condition,$params);
+		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk,$condition,$params);
 		$criteria->limit=1;
-		$command=$builder->createFindCommand($this->getTableSchema(),$criteria);
-		return $this->populateRecord($command->queryRow());
+		return $this->query($criteria);
 	}
 
 	/**
@@ -1306,10 +1426,8 @@ abstract class CActiveRecord extends CModel
 	public function findAllByPk($pk,$condition='',$params=array())
 	{
 		Yii::trace(get_class($this).'.findAllByPk()','system.db.ar.CActiveRecord');
-		$builder=$this->getCommandBuilder();
-		$criteria=$builder->createPkCriteria($this->getTableSchema(),$pk,$condition,$params);
-		$command=$builder->createFindCommand($this->getTableSchema(),$criteria);
-		return $this->populateRecords($command->queryAll());
+		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk,$condition,$params);
+		return $this->query($criteria,true);
 	}
 
 	/**
@@ -1323,11 +1441,9 @@ abstract class CActiveRecord extends CModel
 	public function findByAttributes($attributes,$condition='',$params=array())
 	{
 		Yii::trace(get_class($this).'.findByAttributes()','system.db.ar.CActiveRecord');
-		$builder=$this->getCommandBuilder();
-		$criteria=$builder->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params);
+		$criteria=$this->getCommandBuilder()->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params);
 		$criteria->limit=1;
-		$command=$builder->createFindCommand($this->getTableSchema(),$criteria);
-		return $this->populateRecord($command->queryRow());
+		return $this->query($criteria);
 	}
 
 	/**
@@ -1341,10 +1457,8 @@ abstract class CActiveRecord extends CModel
 	public function findAllByAttributes($attributes,$condition='',$params=array())
 	{
 		Yii::trace(get_class($this).'.findAllByAttributes()','system.db.ar.CActiveRecord');
-		$builder=$this->getCommandBuilder();
-		$criteria=$builder->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params);
-		$command=$builder->createFindCommand($this->getTableSchema(),$criteria);
-		return $this->populateRecords($command->queryAll());
+		$criteria=$this->getCommandBuilder()->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params);
+		return $this->query($criteria,true);
 	}
 
 	/**
@@ -1385,6 +1499,12 @@ abstract class CActiveRecord extends CModel
 		Yii::trace(get_class($this).'.count()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
+		if($this->_c!==null)
+		{
+			$this->_c->mergeWith($criteria);
+			$criteria=$this->_c;
+			$this->_c=null;
+		}
 		return $builder->createCountCommand($this->getTableSchema(),$criteria)->queryScalar();
 	}
 
@@ -1416,6 +1536,12 @@ abstract class CActiveRecord extends CModel
 		$table=$this->getTableSchema();
 		$criteria->select=reset($table->columns)->rawName;
 		$criteria->limit=1;
+		if($this->_c!==null)
+		{
+			$this->_c->mergeWith($criteria);
+			$criteria=$this->_c;
+			$this->_c=null;
+		}
 		return $builder->createFindCommand($table,$criteria)->queryRow()!==false;
 	}
 
@@ -1459,7 +1585,9 @@ abstract class CActiveRecord extends CModel
 			$with=func_get_args();
 			if(is_array($with[0]))  // the parameter is given as an array
 				$with=$with[0];
-			return new CActiveFinder($this,$with);
+			$finder=new CActiveFinder($this,$with,$this->_c);
+			$this->_c=null;
+			return $finder;
 		}
 		else
 			return $this;
@@ -1669,6 +1797,37 @@ class CBaseActiveRelation extends CComponent
 	 * @var string the foreign key in this relation
 	 */
 	public $foreignKey;
+	/**
+	 * @var mixed list of column names (an array, or a string of names separated by commas) to be selected.
+	 * Do not quote or prefix the column names unless they are used in an expression.
+	 * In that case, you should prefix the column names with '??.'.
+	 */
+	public $select='*';
+	/**
+	 * @var string WHERE clause. For {@link CActiveRelation} descendant classes, column names
+	 * referenced in the condition should be disambiguated with prefix '??.'.
+	 */
+	public $condition='';
+	/**
+	 * @var array the parameters that are to be bound to the condition.
+	 * The keys are parameter placeholder names, and the values are parameter values.
+	 */
+	public $params=array();
+	/**
+	 * @var string GROUP BY clause. For {@link CActiveRelation} descendant classes, column names
+	 * referenced in this property should be disambiguated with prefix '??.'.
+	 */
+	public $group='';
+	/**
+	 * @var string HAVING clause. For {@link CActiveRelation} descendant classes, column names
+	 * referenced in this property should be disambiguated with prefix '??.'.
+	 */
+	public $having='';
+	/**
+	 * @var string ORDER BY clause. For {@link CActiveRelation} descendant classes, column names
+	 * referenced in this property should be disambiguated with prefix '??.'.
+	 */
+	public $order='';
 
 	/**
 	 * Constructor.
@@ -1684,6 +1843,61 @@ class CBaseActiveRelation extends CComponent
 		$this->foreignKey=$foreignKey;
 		foreach($options as $name=>$value)
 			$this->$name=$value;
+	}
+
+	/**
+	 * Merges this relation with a criteria specified dynamically.
+	 * @param array the dynamically specified criteria
+	 * @since 1.0.5
+	 */
+	public function mergeWith($criteria)
+	{
+		if(isset($criteria['select']) && $this->select!==$criteria['select'])
+		{
+			if($this->select==='*')
+				$this->select=$criteria['select'];
+			else if($criteria['select']!=='*')
+			{
+				$select1=is_string($this->select)?preg_split('/\s*,\s*/',trim($this->select),-1,PREG_SPLIT_NO_EMPTY):$this->select;
+				$select2=is_string($criteria['select'])?preg_split('/\s*,\s*/',trim($criteria['select']),-1,PREG_SPLIT_NO_EMPTY):$criteria['select'];
+				$this->select=array_merge($select1,array_diff($select2,$select1));
+			}
+		}
+
+		if(isset($criteria['condition']) && $this->condition!==$criteria['condition'])
+		{
+			if($this->condition==='')
+				$this->condition=$criteria['condition'];
+			else if($criteria['condition']!=='')
+				$this->condition="({$this->condition}) AND ({$criteria['condition']})";
+		}
+
+		if(isset($criteria['params']) && $this->params!==$criteria['params'])
+			$this->params=array_merge($this->params,$criteria['params']);
+
+		if(isset($criteria['order']) && $this->order!==$criteria['order'])
+		{
+			if($this->order==='')
+				$this->order=$criteria['order'];
+			else if($criteria['order']!=='')
+				$this->order.=', '.$criteria['order'];
+		}
+
+		if(isset($criteria['group']) && $this->group!==$criteria['group'])
+		{
+			if($this->group==='')
+				$this->group=$criteria['group'];
+			else if($criteria['group']!=='')
+				$this->group.=', '.$criteria['group'];
+		}
+
+		if(isset($criteria['having']) && $this->having!==$criteria['having'])
+		{
+			if($this->having==='')
+				$this->having=$criteria['having'];
+			else if($criteria['having']!=='')
+				$this->having="({$this->having}) AND ({$criteria['having']})";
+		}
 	}
 }
 
@@ -1707,27 +1921,19 @@ class CStatRelation extends CBaseActiveRelation
 	 * receive a statistical query result. Defaults to 0.
 	 */
 	public $defaultValue=0;
+
 	/**
-	 * @var string WHERE clause.
+	 * Merges this relation with a criteria specified dynamically.
+	 * @param array the dynamically specified criteria
+	 * @since 1.0.5
 	 */
-	public $condition='';
-	/**
-	 * @var array the parameters that are to be bound to the condition.
-	 * The keys are parameter placeholder names, and the values are parameter values.
-	 */
-	public $params;
-	/**
-	 * @var string GROUP BY clause.
-	 */
-	public $group='';
-	/**
-	 * @var string HAVING clause.
-	 */
-	public $having='';
-	/**
-	 * @var string ORDER BY clause.
-	 */
-	public $order='';
+	public function mergeWith($criteria)
+	{
+		parent::mergeWith($criteria);
+
+		if(isset($criteria['defaultValue']))
+			$this->defaultValue=$criteria['defaultValue'];
+	}
 }
 
 
@@ -1745,30 +1951,10 @@ class CActiveRelation extends CBaseActiveRelation
 	 */
 	public $joinType='LEFT OUTER JOIN';
 	/**
-	 * @var mixed list of column names (an array, or a string of names separated by commas) to be selected.
-	 * Do not quote or prefix the column names unless they are used in an expression.
-	 * In that case, you should prefix the column names with '??.'.
-	 */
-	public $select='*';
-	/**
-	 * @var string WHERE clause. Column names referenced in the condition should be prefixed with '??.'.
-	 */
-	public $condition='';
-	/**
-	 * @var array the parameters that are to be bound to the condition.
-	 * The keys are parameter placeholder names, and the values are parameter values.
-	 * @since 1.0.3
-	 */
-	public $params;
-	/**
 	 * @var string ON clause. The condition specified here will be appended to the joining condition using AND operator.
 	 * @since 1.0.2
 	 */
 	public $on='';
-	/**
-	 * @var string ORDER BY clause. Column names referenced here should be prefixed with '??.'.
-	 */
-	public $order='';
 	/**
 	 * @var string the alias for the table that this relation refers to. Defaults to null, meaning
 	 * the alias will be generated automatically. If you set this property explicitly, make sure
@@ -1793,14 +1979,36 @@ class CActiveRelation extends CBaseActiveRelation
 	 * @since 1.0.3
 	 */
 	public $together;
+
 	/**
-	 * @var string GROUP BY clause. Column names referenced here should be prefixed with '??.'.
+	 * Merges this relation with a criteria specified dynamically.
+	 * @param array the dynamically specified criteria
+	 * @since 1.0.5
 	 */
-	public $group='';
-	/**
-	 * @var string HAVING clause. Column names referenced here should be prefixed with '??.'.
-	 */
-	public $having='';
+	public function mergeWith($criteria)
+	{
+		parent::mergeWith($criteria);
+
+		if(isset($criteria['joinType']))
+			$this->joinType=$criteria['joinType'];
+
+		if(isset($criteria['on']) && $this->defaultValue!==$criteria['on'])
+		{
+			if($this->on==='')
+				$this->on=$criteria['on'];
+			else if($criteria['on']!=='')
+				$this->on="({$this->on}) AND ({$criteria['on']})";
+		}
+
+		if(isset($criteria['alias']))
+			$this->alias=$criteria['alias'];
+
+		if(isset($criteria['aliasToken']))
+			$this->aliasToken=$criteria['aliasToken'];
+
+		if(isset($criteria['together']))
+			$this->together=$criteria['together'];
+	}
 }
 
 
@@ -1845,6 +2053,21 @@ class CHasManyRelation extends CActiveRelation
 	 * @var integer offset of the rows to be selected. It is effective only for lazy loading this related object. Defaults to -1, meaning no offset.
 	 */
 	public $offset=-1;
+
+	/**
+	 * Merges this relation with a criteria specified dynamically.
+	 * @param array the dynamically specified criteria
+	 * @since 1.0.5
+	 */
+	public function mergeWith($criteria)
+	{
+		parent::mergeWith($criteria);
+		if(isset($criteria['limit']) && $criteria['limit']>0)
+			$this->limit=$criteria['limit'];
+
+		if(isset($criteria['offset']) && $criteria['offset']>=0)
+			$this->offset=$criteria['offset'];
+	}
 }
 
 

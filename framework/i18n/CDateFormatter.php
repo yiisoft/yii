@@ -199,7 +199,7 @@ class CDateFormatter extends CComponent
 	{
 		$year=$date['year'];
 		if($pattern==='yy')
-			return $year%100;
+			return str_pad($year%100,2,'0',STR_PAD_LEFT);
 		else
 			return str_pad($year,strlen($pattern),'0',STR_PAD_LEFT);
 	}

@@ -332,7 +332,6 @@ return array(
 	'jpm' => 'image/jpm',
 	'jpf' => 'image/jpx',
 	'pic' => 'image/pict',
-	'jpg' => 'image/pjpeg',
 	'png' => 'image/png',
 	'tga' => 'image/targa',
 	'tif' => 'image/tiff',

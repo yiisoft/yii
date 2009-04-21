@@ -96,7 +96,7 @@ class CMaskedTextField extends CInputWidget
 			$options['placeholder']=$this->placeholder;
 		if(is_string($this->completed))
 		{
-			if(strncmp($this->$func,'js:',3))
+			if(strncmp($this->completed,'js:',3))
 				$options['completed']='js:'.$this->completed;
 			else
 				$options['completed']=$this->completed;

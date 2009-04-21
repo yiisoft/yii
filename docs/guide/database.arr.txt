@@ -19,7 +19,7 @@ section.
 
 ![ER Diagram](er.png)
 
-> Info: Support for foreign key contraints varies in different DBMS.
+> Info: Support for foreign key constraints varies in different DBMS.
 >
 > SQLite does not support foreign key constraints, but you can still
 > declare the constraints when creating tables. AR can exploit these
@@ -355,9 +355,17 @@ can do the following:
 ~~~
 [php]
 User::model()->with(array(
-	'posts'=>array('order'=>'??.createTime DESC'),
+	'posts'=>array('order'=>'??.createTime ASC'),
 	'profile',
 ))->findAll();
+~~~
+
+Starting from version 1.0.5, dynamic query options can also be used when using the lazy loading approach to perform relational query. To do so, we should call a method whose name is the same as the relation name and pass the dynamic query options as the method parameter. For example, the following code returns a user's posts whose `status` is 1:
+
+~~~
+[php]
+$user=User::model()->findByPk(1);
+$posts=$user->posts(array('condition'=>'status=1'));
 ~~~
 
 
@@ -412,6 +420,32 @@ This should be given as an array of name-value pairs.
    - `group`: the `GROUP BY` clause. It defaults to empty.
 
    - `having`: the `HAVING` clause. It defaults to empty.
+
+
+Relational Query with Named Scopes
+----------------------------------
+
+> Note: The support for named scopes has been available since version 1.0.5.
+
+Relational query can also be performed in combination with [named scopes](/doc/guide/database.ar#named-scopes). It comes with two forms. In the first form, named scopes are applied to the main model. In the second form, named scopes are applied to the related models.
+
+The following code shows how to apply named scopes to the main model.
+
+~~~
+[php]
+$posts=Post::model()->published()->recently()->with('comments')->findAll();
+~~~
+
+This is very similar to non-relational query. The only difference is that we have the `with()` call after the named-scope chain. This query would bring back recently published posts together with their comments.
+
+The following code shows how to apply named scopes to the related models.
+
+~~~
+[php]
+$posts=Post::model()->with('comments:recently:approved')->findAll();
+~~~
+
+The above query will bring back all posts together with their approved comments. Note that `comments` refers to the relation name, while `recently` and `approved` refer to two named scopes declared in the `Comment` model class. The relation name and the named scopes should be separated by a colon.
 
 
 <div class="revision">$Id$</div>

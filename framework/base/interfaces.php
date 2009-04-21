@@ -408,7 +408,8 @@ interface IAuthManager
 	public function hasItemChild($itemName,$childName);
 	/**
 	 * Returns the children of the specified item.
-	 * @param string the parent item name
+	 * @param mixed the parent item name. This can be either a string or an array.
+	 * The latter represents a list of item names (available since version 1.0.5).
 	 * @return array all child items of the parent
 	 */
 	public function getItemChildren($itemName);

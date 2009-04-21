@@ -199,6 +199,7 @@ class CComponent
 	/**
 	 * Calls the named method which is not a class method.
 	 * Do not call this method. This is a PHP magic method that we override
+	 * to implement the behavior feature.
 	 * @param string the method name
 	 * @param array method parameters
 	 * @return mixed the method return value
