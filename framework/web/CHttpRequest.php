@@ -50,7 +50,7 @@ class CHttpRequest extends CApplicationComponent
 	/**
 	 * @var array the property values (in name-value pairs) used to initialize the CSRF cookie.
 	 * Any property of {@link CHttpCookie} may be initialized.
-	 * This property is effectively only when {@link enableCsrfValidation} is true.
+	 * This property is effective only when {@link enableCsrfValidation} is true.
 	 */
 	public $csrfCookie;
 

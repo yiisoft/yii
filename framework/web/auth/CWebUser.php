@@ -70,6 +70,13 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * @see CController::createUrl
 	 */
 	public $loginUrl=array('site/login');
+	/**
+	 * @var array the property values (in name-value pairs) used to initialize the identity cookie.
+	 * Any property of {@link CHttpCookie} may be initialized.
+	 * This property is effective only when {@link allowAutoLogin} is true.
+	 * @since 1.0.5
+	 */
+	public $identityCookie;
 
 	private $_keyPrefix;
 	private $_access=array();
@@ -314,7 +321,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	protected function saveToCookie($duration)
 	{
 		$app=Yii::app();
-		$cookie=new CHttpCookie($this->getStateKeyPrefix(),'');
+		$cookie=$this->createIdentityCookie($this->getStateKeyPrefix());
 		$cookie->expire=time()+$duration;
 		$data=array(
 			$this->getId(),
@@ -323,6 +330,23 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		);
 		$cookie->value=$app->getSecurityManager()->hashData(serialize($data));
 		$app->getRequest()->getCookies()->add($cookie->name,$cookie);
+	}
+
+	/**
+	 * Creates a cookie to store identity information.
+	 * @param string the cookie name
+	 * @return CHttpCookie the cookie used to store identity information
+	 * @since 1.0.5
+	 */
+	protected function createIdentityCookie($name)
+	{
+		$cookie=new CHttpCookie($name,'');
+		if(is_array($this->identityCookie))
+		{
+			foreach($this->identityCookie as $name=>$value)
+				$cookie->$name=$value;
+		}
+		return $cookie;
 	}
 
 	/**
