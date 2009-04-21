@@ -43,7 +43,7 @@ values for any properties of [COutputCache].
 Perhaps the most commonly option is [duration|COutputCache::duration]
 which specifies how long the content can remain valid in cache. It is
 similar to the expiration parameter of [CCache::set()]. The following code
-caches the content fragement for at most one hour:
+caches the content fragment for at most one hour:
 
 ~~~
 [php]

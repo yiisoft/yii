@@ -88,6 +88,6 @@ abstract class CViewRenderer extends CApplicationComponent implements IViewRende
 			return $viewFile;
 		}
 		else
-			return $viewFile.'c';
+			return $file.'c';
 	}
 }

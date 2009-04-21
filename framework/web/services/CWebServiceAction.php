@@ -61,7 +61,7 @@ class CWebServiceAction extends CAction
 	 * @var array a list of PHP classes that are declared as complex types in WSDL.
 	 * This should be an array with WSDL types as keys and names of PHP classes as values.
 	 * A PHP class can also be specified as a path alias.
-	 * @see http://www.php.net/manual/en/function.soap-soapserver-construct.php
+	 * @see http://www.php.net/manual/en/soapclient.soapclient.php
 	 */
 	public $classMap;
 	/**

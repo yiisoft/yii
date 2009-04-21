@@ -7,7 +7,21 @@ Version 1.1a to be released
 
 Version 1.0.5 to be released
 ----------------------------
-
+- Bug #234: Multi-line Yii::t() not found by 'yiic message' (Qiang)
+- Bug #239: Syntax error in translated Portuguese error view file (Qiang)
+- Bug #246: Undefined variable in CMaskedTextField (Qiang)
+- Bug #262: Setting 'charset' of CDbConnection causes exception when working with SQLite (Qiang)
+- Bug: Lazy loading HAS_MANY or MANY_MANY properties will get NULL instead of empty array when the result set is empty (Qiang)
+- Bug: CDateFormatter::formatYear() only returns one digit when the year pattern is 'yy' (Qiang)
+- New #210: Added support for named scope of AR (Qiang)
+- New #211: Enhanced AR by supporting lazy relational query with on-the-fly query parameters (Qiang)
+- New: Deprecated CHtml::getActiveId() (Qiang)
+- New: Added CDbCriteria::mergeWith() (Qiang)
+- New: Added Oracle support for Active Record (Ricardo)
+- New: Modified CClientScript so that it can be used without the presence of a controller (Qiang)
+- New: Enhanced CWebUser::checkAccess() to allow caching the access check results (Qiang)
+- New: Enhanced the performance of CDbAuthManager::checkAccess() (Qiang)
+- New: Added CAccessControlFilter::accessDenied() (Qiang)
 
 Version 1.0.4 April 5, 2009
 ---------------------------

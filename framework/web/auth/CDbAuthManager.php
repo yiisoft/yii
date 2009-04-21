@@ -83,22 +83,43 @@ class CDbAuthManager extends CAuthManager
 	{
 		if(!empty($this->defaultRoles) && $this->checkDefaultRoles($itemName,$params))
 			return true;
+
 		$sql="SELECT name, type, description, t1.bizrule, t1.data, t2.bizrule AS bizrule2, t2.data AS data2 FROM {$this->itemTable} t1, {$this->assignmentTable} t2 WHERE name=itemname AND userid=:userid";
 		$command=$this->db->createCommand($sql);
 		$command->bindValue(':userid',$userId);
-		$rows=$command->queryAll();
 
-		foreach($rows as $row)
+		// check directly assigned items
+		$names=array();
+		foreach($command->queryAll() as $row)
 		{
-			if($this->executeBizRule($row['bizrule2'],$params,unserialize($row['data2'])))
+			if($this->executeBizRule($row['bizrule2'],$params,unserialize($row['data2']))
+				&& $this->executeBizRule($row['bizrule'],$params,unserialize($row['data'])))
 			{
-				$item=new CAuthItem($this,$row['name'],$row['type'],$row['description'],$row['bizrule'],unserialize($row['data']));
-				if($item->checkAccess($itemName,$params))
+				if($row['name']===$itemName)
 					return true;
+				$names[]=$row['name'];
 			}
 		}
+
+		// check all descendant items
+		while($names!==array())
+		{
+			$items=$this->getItemChildren($names);
+			$names=array();
+			foreach($items as $item)
+			{
+				if($this->executeBizRule($item->getBizRule(),$params,$item->getData()))
+				{
+					if($item->getName()===$itemName)
+						return true;
+					$names[]=$item->getName();
+				}
+			}
+		}
+
 		return false;
 	}
+
 
 	/**
 	 * Checks the access based on the default roles as declared in {@link defaultRoles}.
@@ -212,16 +233,23 @@ class CDbAuthManager extends CAuthManager
 
 	/**
 	 * Returns the children of the specified item.
-	 * @param string the parent item name
+	 * @param mixed the parent item name. This can be either a string or an array.
+	 * The latter represents a list of item names (available since version 1.0.5).
 	 * @return array all child items of the parent
 	 */
-	public function getItemChildren($itemName)
+	public function getItemChildren($names)
 	{
-		$sql="SELECT name, type, description, bizrule, data FROM {$this->itemTable}, {$this->itemChildTable} WHERE parent=:parent AND name=child";
-		$command=$this->db->createCommand($sql);
-		$command->bindValue(':parent',$itemName);
+		if(is_string($names))
+			$condition='parent='.$this->db->quoteValue($names);
+		else if(is_array($names) && $names!==array())
+		{
+			foreach($names as &$name)
+				$name=$this->db->quoteValue($name);
+			$condition='parent IN ('.implode(', ',$names).')';
+		}
+		$sql="SELECT name, type, description, bizrule, data FROM {$this->itemTable}, {$this->itemChildTable} WHERE $condition AND name=child";
 		$children=array();
-		foreach($command->queryAll() as $row)
+		foreach($this->db->createCommand($sql)->queryAll() as $row)
 			$children[$row['name']]=new CAuthItem($this,$row['name'],$row['type'],$row['description'],$row['bizrule'],unserialize($row['data']));
 		return $children;
 	}
@@ -325,8 +353,8 @@ class CDbAuthManager extends CAuthManager
 	{
 		$sql="UPDATE {$this->assignmentTable} SET bizrule=:bizrule, data=:data WHERE itemname=:itemname AND userid=:userid";
 		$command=$this->db->createCommand($sql);
-		$command->bindValue(':bizrule',$bizRule);
-		$command->bindValue(':data',serialize($data));
+		$command->bindValue(':bizrule',$assignment->getBizRule());
+		$command->bindValue(':data',serialize($assignment->getData()));
 		$command->bindValue(':itemname',$assignment->getItemName());
 		$command->bindValue(':userid',$assignment->getUserId());
 		$command->execute();

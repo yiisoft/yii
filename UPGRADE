@@ -11,6 +11,12 @@ for both A and B.
 
 Upgrading from v1.0.4
 ---------------------
+- CWebUser::checkAccess() takes an additional parameter to allow caching
+the access check results. If you override this method, you will need to
+modify your method declaration accordingly. Because the new parameter will
+enable caching the access check results by default, please double check
+your code containing this method call to make sure the behavior is as expected.
+
 
 Upgrading from v1.0.3
 ---------------------

@@ -516,7 +516,7 @@ if we explicitly specify and store these role assignments. We can exploit
 
 A default role is a role that is implicitly assigned to every user, including
 both authenticated and guest. We do not need to explicitly assign it to a user.
-When [CWebUser::checkAccess], default roles will be checked first as if they are
+When [CWebUser::checkAccess] is invoked, default roles will be checked first as if they are
 assigned to the user.
 
 Default roles must be declared in the [CAuthManager::defaultRoles] property.
