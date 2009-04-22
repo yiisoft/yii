@@ -350,18 +350,6 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	}
 
 	/**
-	 * Raised when the user identity information is being restored from cookie.
-	 * This event is only raised when {@link allowAutoLogin} is true and when
-	 * the user identity information is being restored from cookie.
-	 * When this event is raised, the user component already has the unique ID available.
-	 * @param CEvent event parameter
-	 */
-	public function onRestoreFromCookie($event)
-	{
-		$this->raiseEvent('onRestoreFromCookie',$event);
-	}
-
-	/**
 	 * @return string a prefix for the name of the session variables storing user session data.
 	 */
 	protected function getStateKeyPrefix()
