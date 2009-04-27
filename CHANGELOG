@@ -21,6 +21,7 @@ Version 1.0.5 to be released
 - New: Enhanced the performance of CDbAuthManager::checkAccess() (Qiang)
 - New: Added CAccessControlFilter::accessDenied() (Qiang)
 - New: Added CWebUser::identityCookie property (Qiang)
+- New: Added new message placeholder to CCompareValidator (Qiang)
 
 Version 1.0.4 April 5, 2009
 ---------------------------
