@@ -169,7 +169,7 @@ try
 	//.... other SQL executions
 	$transaction->commit();
 }
-catch(Exception $e) // an exception is raised if a query fails will be raised
+catch(Exception $e) // an exception is raised if a query fails
 {
 	$transaction->rollBack();
 }
