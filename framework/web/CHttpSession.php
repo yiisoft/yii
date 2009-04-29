@@ -206,7 +206,10 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 		$data=session_get_cookie_params();
 		extract($data);
 		extract($value);
-		session_set_cookie_params($lifetime,$path,$domain,$secure);
+		if(isset($httponly))
+			session_set_cookie_params($lifetime,$path,$domain,$secure,$httponly);
+		else
+			session_set_cookie_params($lifetime,$path,$domain,$secure);
 	}
 
 	/**
