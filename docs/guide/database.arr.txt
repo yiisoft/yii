@@ -318,7 +318,7 @@ class User extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'posts'=>array(self::HAS_MANY, 'Post', 'authorID'
+			'posts'=>array(self::HAS_MANY, 'Post', 'authorID',
 							'order'=>'??.createTime DESC',
 							'with'=>'categories'),
 			'profile'=>array(self::HAS_ONE, 'Profile', 'ownerID'),
