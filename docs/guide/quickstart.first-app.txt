@@ -178,7 +178,7 @@ If you have a 'db' database connection, you can test it now with:
 >> crud User
    generate UserController.php
    generate create.php
-      mkdir D:/wwwroot/testdrive/protected/views/user
+   mkdir D:/wwwroot/testdrive/protected/views/user
    generate update.php
    generate list.php
    generate show.php
@@ -190,7 +190,7 @@ http://hostname/path/to/index.php?r=user
 In the above, we use the `yiic shell` command to interact with our
 skeleton application. At the prompt, we execute two sub-commands: `model User`
 and `crud User`. The former generates a model class for the `User` table,
-while the latter reads the `User` model and generates the code needed
+while the latter reads the `User` model and generates the code implementing
 the CRUD operations.
 
 > Note: You may encounter errors like "...could not find driver", even
