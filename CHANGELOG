@@ -24,6 +24,7 @@ Version 1.0.5 to be released
 - New: Added CAccessControlFilter::accessDenied() (Qiang)
 - New: Added CWebUser::identityCookie property (Qiang)
 - New: Added new message placeholder to CCompareValidator (Qiang)
+- New: Added trace statements to auth components (Qiang)
 
 Version 1.0.4 April 5, 2009
 ---------------------------
