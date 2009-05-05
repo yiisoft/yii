@@ -535,7 +535,7 @@ class YiiBase
 		'CLogger' => '/logging/CLogger.php',
 		'CProfileLogRoute' => '/logging/CProfileLogRoute.php',
 		'CWebLogRoute' => '/logging/CWebLogRoute.php',
-		'CDateParser' => '/utils/CDateParser.php',
+		'CDateTimeParser' => '/utils/CDateTimeParser.php',
 		'CFileHelper' => '/utils/CFileHelper.php',
 		'CMarkdownParser' => '/utils/CMarkdownParser.php',
 		'CPropertyValue' => '/utils/CPropertyValue.php',
