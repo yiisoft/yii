@@ -1,16 +1,17 @@
 <?php
 /**
- * CDateParser class file
+ * CDateTimeParser class file
  *
  * @author Wei Zhuo <weizhuo[at]gamil[dot]com>
  * @author Qiang Xue <qiang.xue@gmail.com>
+ * @author Tomasz Suchanek <tomasz[dot]suchanek[at]gmail[dot]com>
  * @link http://www.yiiframework.com/
  * @copyright Copyright &copy; 2008-2009 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
 /**
- * CDateParser converts a date string to a UNIX timestamp according to the specified pattern.
+ * CDateTimeParser converts a date/time string to a UNIX timestamp according to the specified pattern.
  *
  * The following pattern characters are recognized:
  * <pre>
@@ -22,13 +23,19 @@
  * MM      | Month digit 01 to 12, zero leading
  * yy      | 2 year digit, e.g., 96, 05
  * yyyy    | 4 year digit, e.g., 2005
+ * h       | Hour in 0 to 23, no padding (since version 1.0.5)
+ * hh      | Hour in 00 to 23, zero leading (since version 1.0.5)
+ * m       | Minutes in 0 to 59, no padding (since version 1.0.5)
+ * mm      | Minutes in 00 to 59, zero leading (since version 1.0.5)
+ * s	   | Seconds in 0 to 59, no padding (since version 1.0.5)
+ * ss      | Seconds in 00 to 59, zero leading (since version 1.0.5)
  * ----------------------------------------------------
  * </pre>
  * All other characters must appear in the date string at the corresponding positions.
  *
  * For example, to parse a date string '21/10/2008', use the following:
  * <pre>
- * $timestamp=CDateParser::parse('21/10/2008','dd/MM/yyyy');
+ * $timestamp=CDateTimeParser::parse('21/10/2008','dd/MM/yyyy');
  * </pre>
  *
  * To format a timestamp to a date string, please use {@link CDateFormatter}.
@@ -39,7 +46,7 @@
  * @package system.utils
  * @since 1.0
  */
-class CDateParser
+class CDateTimeParser
 {
 	/**
 	 * Converts a date string to a timestamp.
@@ -98,6 +105,48 @@ class CDateParser
 					$i+=strlen($day);
 					break;
 				}
+				case 'h':
+				{
+					if(($hour=self::parseInteger($value,$i,1,2))===false)
+						return false;
+					$i+=strlen($hour);
+					break;
+				}
+				case 'hh':
+				{
+					if(($hour=self::parseInteger($value,$i,2,2))===false)
+						return false;
+					$i+=2;
+					break;
+				}
+				case 'm':
+				{
+					if(($minute=self::parseInteger($value,$i,1,2))===false)
+						return false;
+					$i+=strlen($minute);
+					break;
+				}
+				case 'mm':
+				{
+					if(($minute=self::parseInteger($value,$i,2,2))===false)
+						return false;
+					$i+=2;
+					break;
+				}
+				case 's':
+				{
+					if(($second=self::parseInteger($value,$i,1,2))===false)
+						return false;
+					$i+=strlen($seconds);
+					break;
+				}
+				case 'ss':
+				{
+					if(($second=self::parseInteger($value,$i,2,2))===false)
+						return false;
+					$i+=2;
+					break;
+				}
 				default:
 				{
 					$tn=strlen($token);
@@ -129,8 +178,23 @@ class CDateParser
 		$month=(int)$month;
 		$day=(int)$day;
 
-		if(CTimestamp::isValidDate($year,$month,$day))
-			return CTimestamp::getTimestamp(0,0,0,$month,$day,$year);
+		if(!isset($hour) && !isset($minute) && !isset($second))
+			$hour=$minute=$second=0;
+		else
+		{
+			if(!isset($hour))
+				$hour=date('H');
+			if(!isset($minute))
+				$minute=date('i');
+			if(!isset($second))
+				$second=date('s');
+			$hour=(int)$hour;
+			$minute=(int)$minute;
+			$second=(int)$second;
+		}
+
+		if(CTimestamp::isValidDate($year,$month,$day) && CTimestamp::isValidTime($hour,$minute,$second))
+			return CTimestamp::getTimestamp($hour,$minute,$second,$month,$day,$year);
 		else
 			return false;
 	}
