@@ -14,6 +14,7 @@ Version 1.0.5 to be released
 - Bug: CDateFormatter::formatYear() only returns one digit when the year pattern is 'yy' (Qiang)
 - New #210: Added support for named scope of AR (Qiang)
 - New #211: Enhanced AR by supporting lazy relational query with on-the-fly query parameters (Qiang)
+- New #247: Added support to allow using Web services in PHP versions lower than 5.2.0 (Qiang)
 - New #254: Added support to allow input widgets to be used with tabular inputs (Qiang)
 - New: Deprecated CHtml::getActiveId() (Qiang)
 - New: Added CDbCriteria::mergeWith() (Qiang)
