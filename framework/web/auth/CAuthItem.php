@@ -62,6 +62,7 @@ class CAuthItem extends CComponent
 	 */
 	public function checkAccess($itemName,$params=array())
 	{
+		Yii::trace('Checking permission "'.$this->_name.'"','system.web.auth.CAuthItem');
 		if($this->_auth->executeBizRule($this->_bizRule,$params,$this->_data))
 		{
 			if($this->_name==$itemName)

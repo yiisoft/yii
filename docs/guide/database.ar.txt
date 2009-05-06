@@ -521,7 +521,7 @@ Named Scopes
 
 A *named scope* represents a *named* query criteria that can be combined with other named scopes and applied to an active record query.
 
-Named scopes are mainly declared in the [CActiveRecord::scopes()] method as name-criteria pairs. The following code declares three named scopes, `published` and `recently`, in the `Post` model class:
+Named scopes are mainly declared in the [CActiveRecord::scopes()] method as name-criteria pairs. The following code declares two named scopes, `published` and `recently`, in the `Post` model class:
 
 ~~~
 [php]

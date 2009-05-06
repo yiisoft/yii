@@ -17,6 +17,8 @@ modify your method declaration accordingly. Because the new parameter will
 enable caching the access check results by default, please double check
 your code containing this method call to make sure the behavior is as expected.
 
+- CDateParser has been renamed to CDateTimeParser
+
 
 Upgrading from v1.0.3
 ---------------------

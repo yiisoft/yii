@@ -128,6 +128,7 @@ class CDbCommandBuilder extends CComponent
 		$fields=array();
 		$values=array();
 		$placeholders=array();
+		$i=0;
 		foreach($data as $name=>$value)
 		{
 			if(($column=$table->getColumn($name))!==null && ($value!==null || $column->allowNull))
@@ -137,8 +138,9 @@ class CDbCommandBuilder extends CComponent
 					$placeholders[]=(string)$value;
 				else
 				{
-					$placeholders[]=':'.$name;
-					$values[':'.$name]=$column->typecast($value);
+					$placeholders[]=':_p'.$i;
+					$values[':_p'.$i]=$column->typecast($value);
+					$i++;
 				}
 			}
 		}
@@ -164,6 +166,7 @@ class CDbCommandBuilder extends CComponent
 		$fields=array();
 		$values=array();
 		$bindByPosition=isset($criteria->params[0]);
+		$i=0;
 		foreach($data as $name=>$value)
 		{
 			if(($column=$table->getColumn($name))!==null)
@@ -177,8 +180,9 @@ class CDbCommandBuilder extends CComponent
 				}
 				else
 				{
-					$fields[]=$column->rawName.'=:'.$name;
-					$values[':'.$name]=$column->typecast($value);
+					$fields[]=$column->rawName.'=:_p'.$i;
+					$values[':_p'.$i]=$column->typecast($value);
+					$i++;
 				}
 			}
 		}
@@ -453,6 +457,7 @@ class CDbCommandBuilder extends CComponent
 		$bindByPosition=isset($criteria->params[0]);
 		$conditions=array();
 		$values=array();
+		$i=0;
 		foreach($columns as $name=>$value)
 		{
 			if(($column=$table->getColumn($name))!==null)
@@ -466,8 +471,9 @@ class CDbCommandBuilder extends CComponent
 					}
 					else
 					{
-						$conditions[]=$table->rawName.'.'.$column->rawName.'=:'.$name;
-						$values[':'.$name]=$value;
+						$conditions[]=$table->rawName.'.'.$column->rawName.'=:_p'.$i;
+						$values[':_p'.$i]=$value;
+						$i++;
 					}
 				}
 				else

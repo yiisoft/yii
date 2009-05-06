@@ -160,6 +160,9 @@ $author=$post->author;
 corresponding property could be either null or an empty array. For
 `BELONGS_TO` and `HAS_ONE` relationships, the result is null; for
 `HAS_MANY` and `MANY_MANY`, it is an empty array.
+Note that the `HAS_MANY` and `MANY_MANY` relationships return arrays of objects, 
+you will need to loop through the results before trying to access any properties. 
+Otherwise, you may receive "Trying to get property of non-object" errors.
 
 The lazy loading approach is very convenient to use, but it is not
 efficient in some scenarios. For example, if we want to access the author
@@ -318,7 +321,7 @@ class User extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'posts'=>array(self::HAS_MANY, 'Post', 'authorID'
+			'posts'=>array(self::HAS_MANY, 'Post', 'authorID',
 							'order'=>'??.createTime DESC',
 							'with'=>'categories'),
 			'profile'=>array(self::HAS_ONE, 'Profile', 'ownerID'),
