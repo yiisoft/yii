@@ -554,6 +554,9 @@ $posts=Post::model()->published()->recently()->findAll();
 
 In general, named scopes must appear to the left of a `find` method call. Each of them provides a query criteria, which is combined with other criterias, including the one passed to the `find` method call. The net effect is like adding a list of filters to a query.
 
+
+===Parameterized Named Scopes
+
 Named scopes can be parameterized. For example, we may want to customize the number of posts specified by the `recently` named scope. To do so, instead of declaring the named scope in the [CActiveRecord::scopes] method, we need to define a new method whose name is the same as the scope name:
 
 ~~~
@@ -577,5 +580,29 @@ $posts=Post::model()->published()->recently(3)->findAll();
 
 If we do not supply the parameter 3 in the above, we would retrieve the 5 recently published posts by default.
 
+
+===Default Named Scope
+
+A model class can have a default named scope that would be applied for all queries (including relational ones) about the model. For example, a website supporting multiple languages may only want to display contents that are in the language the current user specifies. Because there may be many queries about the site contents, we can define a default named scope to solve this problem. To do so, we override the [CActiveRecord::defaultScope] method as follows,
+
+~~~
+[php]
+class Content extends CActiveRecord
+{
+	public function defaultScope()
+	{
+		return array(
+			'condition'=>"language='".Yii::app()->language."'",
+		);
+	}
+}
+~~~
+
+Now, if the following method call will automatically use the query criteria as defined above:
+
+~~~
+[php]
+$contents=Content::model()->findAll();
+~~~
 
 <div class="revision">$Id$</div>
