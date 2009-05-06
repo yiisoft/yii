@@ -58,18 +58,17 @@ class CCompareValidator extends CValidator
 		if($this->allowEmpty && ($value===null || $value===''))
 			return;
 		if($this->compareValue!==null)
-			$compareValue=$this->compareValue;
+			$compareTo=$compareValue=$this->compareValue;
 		else
 		{
-			if($this->compareAttribute===null)
-				$compareValue=$object->{$attribute.'_repeat'};
-			else
-				$compareValue=$object->{$this->compareAttribute};
+			$compareAttribute=$this->compareAttribute===null ? $attribute.'_repeat' : $this->compareAttribute;
+			$compareValue=$object->$compareAttribute;
+			$compareTo=$object->getAttributeLabel($compareAttribute);
 		}
 		if(($this->strict && $value!==$compareValue) || (!$this->strict && $value!=$compareValue))
 		{
 			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} must be repeated exactly.');
-			$this->addError($object,$attribute,$message);
+			$this->addError($object,$attribute,$message,array('{compareAttribute}'=>$compareTo));
 		}
 	}
 }

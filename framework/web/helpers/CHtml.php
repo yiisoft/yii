@@ -816,7 +816,7 @@ EOD;
 	/**
 	 * Generates a link that can initiate AJAX requests.
 	 * @param string the link body (it will NOT be HTML-encoded.)
-	 * @param string the URL for the AJAX request. If empty, it is assumed to be the current URL. See {@link normalizeUrl} for more details.
+	 * @param mixed the URL for the AJAX request. If empty, it is assumed to be the current URL. See {@link normalizeUrl} for more details.
 	 * @param array AJAX options (see {@link ajax})
 	 * @param array additional HTML attributes. Besides normal HTML attributes, a few special
 	 * attributes are also recognized (see {@link clientChange} for more details.)
@@ -837,7 +837,7 @@ EOD;
 	/**
 	 * Generates a push button that can initiate AJAX requests.
 	 * @param string the button label
-	 * @param string the URL for the AJAX request. If empty, it is assumed to be the current URL. See {@link normalizeUrl} for more details.
+	 * @param mixed the URL for the AJAX request. If empty, it is assumed to be the current URL. See {@link normalizeUrl} for more details.
 	 * @param array AJAX options (see {@link ajax})
 	 * @param array additional HTML attributes. Besides normal HTML attributes, a few special
 	 * attributes are also recognized (see {@link clientChange} for more details.)
@@ -853,7 +853,7 @@ EOD;
 	/**
 	 * Generates a push button that can submit the current form in POST method.
 	 * @param string the button label
-	 * @param string the URL for the AJAX request. If empty, it is assumed to be the current URL. See {@link normalizeUrl} for more details.
+	 * @param mixed the URL for the AJAX request. If empty, it is assumed to be the current URL. See {@link normalizeUrl} for more details.
 	 * @param array AJAX options (see {@link ajax})
 	 * @param array additional HTML attributes. Besides normal HTML attributes, a few special
 	 * attributes are also recognized (see {@link clientChange} for more details.)
@@ -1615,7 +1615,7 @@ EOD;
 		{
 			$cs->registerCoreScript('yii');
 			if($htmlOptions['submit']!=='')
-				$url=CJavaScript::quote(self::normalizeUrl($htmlOptions['submit']));
+				$url=CJavaScript::quote(self::normalizeUrl($htmlOptions['submit']),true);
 			else
 				$url='';
 			$handler.="jQuery.yii.submitForm(this,'$url',$params);{$return};";

@@ -72,7 +72,7 @@ class CController extends CBaseController
 	/**
 	 * @var mixed the name of the layout to be applied to this controller's views.
 	 * Defaults to null, meaning the {@link CWebApplication::layout application layout}
-	 * is used. If it is an empty string, no layout will be applied.
+	 * is used. If it is false, no layout will be applied.
 	 * Since version 1.0.3, the {@link CWebModule::layout module layout} will be used
 	 * if the controller belongs to a module and this layout property is null.
 	 */

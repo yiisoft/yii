@@ -154,7 +154,12 @@ class CWebService extends CComponent
 				$provider=Yii::createComponent($this->provider);
 			else
 				$provider=$this->provider;
-			$server->setObject($provider);
+
+			if(method_exists($server,'setObject'))
+				$server->setObject($provider);
+			else
+				$server->setClass('CSoapObjectWrapper',$provider);
+
 			if($provider instanceof IWebServiceProvider)
 			{
 				if($provider->beforeWebMethod($this))
@@ -225,3 +230,42 @@ class CWebService extends CComponent
 		return $options;
 	}
 }
+
+
+/**
+ * CSoapObjectWrapper is a wrapper class internally used when SoapServer::setObject() is not defined.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id$
+ * @package system.web.services
+ * @since 1.0.5
+ */
+class CSoapObjectWrapper
+{
+	/**
+	 * @var object the service provider
+	 */
+	public $object=null;
+
+	/**
+	 * Constructor.
+	 * @param object the service provider
+	 */
+	public function __construct($object)
+	{
+		$this->object=$object;
+	}
+
+	/**
+	 * PHP __call magic method.
+	 * This method calls the service provider to execute the actual logic.
+	 * @param string method name
+	 * @param array method arguments
+	 * @return mixed method return value
+	 */
+	public function __call($name,$arguments)
+	{
+		return call_user_func_array(array($this->object,$name),$arguments);
+	}
+}
+

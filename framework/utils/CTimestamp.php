@@ -433,6 +433,23 @@ class CTimestamp
 	}
 
 	/**
+	 * Checks to see if the hour, minute and second are valid.
+	 * @param integer hour
+	 * @param integer minute
+	 * @param integer second
+	 * @param boolean whether the hours should be 0 through 23 (default) or 1 through 12.
+	 * @return boolean true if valid date, semantic check only.
+	 * @since 1.0.5
+	 */
+	public static function isValidTime($h,$m,$s,$hs24=true)
+	{
+		if($hs24 && ($h < 0 || $h > 23) || !$hs24 && ($h < 1 || $h > 12)) return false;
+		if($m > 59 || $m < 0) return false;
+		if($s > 59 || $s < 0) return false;
+		return true;
+	}
+
+	/**
 	 * Formats a timestamp to a date string.
 	 * @param string format pattern
 	 * @param integer timestamp

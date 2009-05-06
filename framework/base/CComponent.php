@@ -298,8 +298,9 @@ class CComponent
 		if(isset($this->_m[$name]))
 		{
 			$this->_m[$name]->detach($this);
+			$behavior=$this->_m[$name];
 			unset($this->_m[$name]);
-			return $this->_m[$name];
+			return $behavior;
 		}
 	}
 
