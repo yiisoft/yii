@@ -599,8 +599,20 @@ abstract class CActiveRecord extends CModel
 	public function getDbCriteria()
 	{
 		if($this->_c===null)
-			$this->_c=new CDbCriteria;
+			$this->_c=$this->createDbCriteria();
 		return $this->_c;
+	}
+
+	/**
+	 * Creates the query criteria that is associated with this model.
+	 * The default implementation simply creates a {@link CDbCriteria} instance.
+	 * You may override this method to do some initialization of the criteria if needed.
+	 * @return CDbCriteria the query criteria
+	 * @since 1.0.5
+	 */
+	protected function createDbCriteria()
+	{
+		return new CDbCriteria;
 	}
 
 	/**
