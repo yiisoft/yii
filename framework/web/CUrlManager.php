@@ -440,7 +440,7 @@ class CUrlRule extends CComponent
 			$this->pattern.='$/u';
 		if(!$this->caseSensitive)
 			$this->pattern.='i';
-		if(@preg_match($this->pattern,'test')===false)
+		if(YII_DEBUG && @preg_match($this->pattern,'test')===false)
 			throw new CException(Yii::t('yii','The URL pattern "{pattern}" for route "{route}" is not a valid regular expression.',
 				array('{route}'=>$route,'{pattern}'=>$pattern)));
 	}
