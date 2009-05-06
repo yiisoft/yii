@@ -602,21 +602,21 @@ abstract class CActiveRecord extends CModel
 	{
 		if($this->_c===null)
 		{
-			if(($c=$this->defaultDbCriteria())!==array() || $createIfNull)
+			if(($c=$this->defaultScope())!==array() || $createIfNull)
 				$this->_c=new CDbCriteria($c);
 		}
 		return $this->_c;
 	}
 
 	/**
-	 * Returns the default query criteria that should be applied to all queries for this model.
+	 * Returns the default named scope that should be applied to all queries implicitly for this model.
 	 * The default implementation simply returns an empty array. You may override this method
 	 * if the model needs to be queried with some default criteria (e.g. only active records should be returned).
 	 * @return array the query criteria. This will be used as the parameter to the constructor
 	 * of {@link CDbCriteria}.
 	 * @since 1.0.5
 	 */
-	public function defaultDbCriteria()
+	public function defaultScope()
 	{
 		return array();
 	}
