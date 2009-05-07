@@ -19,9 +19,22 @@
 class CEmailValidator extends CValidator
 {
 	/**
-	 * @var string the regular expression used to validates the attribute value.
+	 * @var string the regular expression used to validate the attribute value.
 	 */
 	public $pattern='/^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$/';
+	/**
+	 * @var string the regular expression used to validate email addresses with the name part.
+	 * This property is used only when {@link allowName} is true.
+	 * @since 1.0.5
+	 * @see allowName
+	 */
+	public $fullPattern='/^[^@]*<\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*>$/';
+	/**
+	 * @var boolean whether to allow name in the email address (e.g. "Qiang Xue <qiang.xue@gmail.com>"). Defaults to false.
+	 * @since 1.0.5
+	 * @see fullPattern
+	 */
+	public $allowName=false;
 	/**
 	 * @var boolean whether to check the MX record for the email address.
 	 * Defaults to false. To enable it, you need to make sure the PHP function 'checkdnsrr'
@@ -51,8 +64,9 @@ class CEmailValidator extends CValidator
 		$value=$object->$attribute;
 		if($this->allowEmpty && ($value===null || $value===''))
 			return;
-		if($valid=preg_match($this->pattern,$value))
-			$domain=substr($value,strpos($value,'@')+1);
+		$valid=preg_match($this->pattern,$value) || $this->allowName && preg_match($this->fullPattern,$value);
+		if($valid)
+			$domain=rtrim(substr($value,strpos($value,'@')+1),'>');
 		if($valid && $this->checkMX && function_exists('checkdnsrr'))
 			$valid=checkdnsrr($domain,'MX');
 		if($valid && $this->checkPort && function_exists('fsockopen'))

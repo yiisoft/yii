@@ -374,6 +374,28 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	}
 
 	/**
+	 * Adds a list of errors.
+	 * @param array a list of errors. The array keys must be attribute names.
+	 * The array values should be error messages. If an attribute has multiple errors,
+	 * these errors must be given in terms of an array.
+	 * You may use the result of {@link getErrors} as the value for this parameter.
+	 * @since 1.0.5
+	 */
+	public function addErrors($errors)
+	{
+		foreach($errors as $attribute=>$error)
+		{
+			if(is_array($error))
+			{
+				foreach($error as $e)
+					$this->_errors[$attribute][]=$e;
+			}
+			else
+				$this->_errors[$attribute][]=$error;
+		}
+	}
+
+	/**
 	 * Removes errors for all attributes or a single attribute.
 	 * @param string attribute name. Use null to remove errors for all attribute.
 	 */

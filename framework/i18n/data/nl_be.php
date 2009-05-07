@@ -216,13 +216,13 @@ return array (
     ),
     'narrow' => 
     array (
-      'sun' => 'Z',
-      'mon' => 'M',
-      'tue' => 'D',
-      'wed' => 'W',
-      'thu' => 'D',
-      'fri' => 'V',
-      'sat' => 'Z',
+      0 => 'Z',
+      1 => 'M',
+      2 => 'D',
+      3 => 'W',
+      4 => 'D',
+      5 => 'V',
+      6 => 'Z',
     ),
   ),
   'eraNames' => 

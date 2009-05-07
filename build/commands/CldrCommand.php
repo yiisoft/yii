@@ -244,8 +244,11 @@ EOD;
 		$dayTypes=$xml->xpath('/ldml/dates/calendars/calendar[@type=\'gregorian\']/days/dayContext[@type=\'stand-alone\']/dayWidth[@type=\'narrow\']');
 		if(is_array($dayTypes) && isset($dayTypes[0]))
 		{
+			$names=array();
 			foreach($dayTypes[0]->xpath('day') as $day)
-				$data['weekDayNames']['narrow'][(string)$day['type']]=(string)$day;
+				$names[$mapping[(string)$day['type']]]=(string)$day;
+			if($names!==array())
+				$data['weekDayNames']['narrow']=$names;
 		}
 	}
 
