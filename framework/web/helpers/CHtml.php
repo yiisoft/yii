@@ -1288,6 +1288,8 @@ EOD;
 	 * displayed at the end of the checkbox list. If this option is not set (default)
 	 * or is false, the 'check all' checkbox will be displayed at the beginning of
 	 * the checkbox list. This option has been available since version 1.0.4.</li>
+	 * <li>encode: boolean, specifies whether to encode HTML-encode tag attributes and values. Defaults to true.
+	 * This option has been available since version 1.0.5.</li>
 	 * </ul>
 	 * @return string the generated check box list
 	 * @see checkBoxList
@@ -1321,6 +1323,8 @@ EOD;
 	 * to "{input} {label}", where "{input}" will be replaced by the generated
 	 * radio button input tag while "{label}" be replaced by the corresponding radio button label.</li>
 	 * <li>separator: string, specifies the string that separates the generated radio buttons.</li>
+	 * <li>encode: boolean, specifies whether to encode HTML-encode tag attributes and values. Defaults to true.
+	 * This option has been available since version 1.0.5.</li>
 	 * </ul>
 	 * @return string the generated radio button list
 	 * @see radioButtonList
