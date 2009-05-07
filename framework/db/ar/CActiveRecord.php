@@ -952,7 +952,8 @@ abstract class CActiveRecord extends CModel
 				$this->_related[$name][]=$record;
 		}
 		else if(!isset($this->_related[$name]))
-			$this->_related[$name]=$record;	}
+			$this->_related[$name]=$record;
+	}
 
 	/**
 	 * Returns all column attribute values.

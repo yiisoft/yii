@@ -20,6 +20,7 @@ Version 1.0.5 to be released
 - New #247: Added support to allow using Web services in PHP versions lower than 5.2.0 (Qiang)
 - New #254: Added support to allow input widgets to be used with tabular inputs (Qiang)
 - New #265: Added support to validate time and datetime inputs (Qiang)
+- New #291: Added support to validate emails with name part (Qiang)
 - New: Deprecated CHtml::getActiveId() (Qiang)
 - New: Added CDbCriteria::mergeWith() (Qiang)
 - New: Added Oracle support for Active Record (Ricardo)
