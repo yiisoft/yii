@@ -591,16 +591,34 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Returns the query criteria associated with this model.
+	 * @param boolean whether to create a criteria instance if it does not exist. Defaults to true.
 	 * @return CDbCriteria the query criteria that is associated with this model.
 	 * This criteria is mainly used by {@link scopes named scope} feature to accumulate
 	 * different criteria specifications.
 	 * @since 1.0.5
 	 */
-	public function getDbCriteria()
+	public function getDbCriteria($createIfNull=true)
 	{
 		if($this->_c===null)
-			$this->_c=new CDbCriteria;
+		{
+			if(($c=$this->defaultScope())!==array() || $createIfNull)
+				$this->_c=new CDbCriteria($c);
+		}
 		return $this->_c;
+	}
+
+	/**
+	 * Returns the default named scope that should be applied to all queries implicitly for this model.
+	 * The default implementation simply returns an empty array. You may override this method
+	 * if the model needs to be queried with some default criteria (e.g. only active records should be returned).
+	 * @return array the query criteria. This will be used as the parameter to the constructor
+	 * of {@link CDbCriteria}.
+	 * @since 1.0.5
+	 */
+	public function defaultScope()
+	{
+		return array();
 	}
 
 	/**
@@ -934,7 +952,8 @@ abstract class CActiveRecord extends CModel
 				$this->_related[$name][]=$record;
 		}
 		else if(!isset($this->_related[$name]))
-			$this->_related[$name]=$record;	}
+			$this->_related[$name]=$record;
+	}
 
 	/**
 	 * Returns all column attribute values.
@@ -1356,10 +1375,10 @@ abstract class CActiveRecord extends CModel
 
 	private function query($criteria,$all=false)
 	{
-		if($this->_c!==null)
+		if(($c=$this->getDbCriteria(false))!==null)
 		{
-			$this->_c->mergeWith($criteria);
-			$criteria=$this->_c;
+			$c->mergeWith($criteria);
+			$criteria=$c;
 			$this->_c=null;
 		}
 		$command=$this->getCommandBuilder()->createFindCommand($this->getTableSchema(),$criteria);
@@ -1499,10 +1518,10 @@ abstract class CActiveRecord extends CModel
 		Yii::trace(get_class($this).'.count()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
-		if($this->_c!==null)
+		if(($c=$this->getDbCriteria(false))!==null)
 		{
-			$this->_c->mergeWith($criteria);
-			$criteria=$this->_c;
+			$c->mergeWith($criteria);
+			$criteria=$c;
 			$this->_c=null;
 		}
 		return $builder->createCountCommand($this->getTableSchema(),$criteria)->queryScalar();
@@ -1536,10 +1555,10 @@ abstract class CActiveRecord extends CModel
 		$table=$this->getTableSchema();
 		$criteria->select=reset($table->columns)->rawName;
 		$criteria->limit=1;
-		if($this->_c!==null)
+		if(($c=$this->getDbCriteria(false))!==null)
 		{
-			$this->_c->mergeWith($criteria);
-			$criteria=$this->_c;
+			$c->mergeWith($criteria);
+			$criteria=$c;
 			$this->_c=null;
 		}
 		return $builder->createFindCommand($table,$criteria)->queryRow()!==false;
@@ -1585,7 +1604,7 @@ abstract class CActiveRecord extends CModel
 			$with=func_get_args();
 			if(is_array($with[0]))  // the parameter is given as an array
 				$with=$with[0];
-			$finder=new CActiveFinder($this,$with,$this->_c);
+			$finder=new CActiveFinder($this,$with,$this->getDbCriteria(false));
 			$this->_c=null;
 			return $finder;
 		}

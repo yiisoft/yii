@@ -102,14 +102,12 @@ array(
 ~~~
 
 The rules are specified as an array of pattern-route pairs, each
-corresponding to a single rule. The pattern of a rule must be a valid
-regular expression without delimiters and modifiers. It is used to match
-the path info part of URLs. And the
-[route](/doc/guide/basics.controller#route) should refer to a valid
-controller route.
+corresponding to a single rule. The pattern of a rule is a string
+used to match the path info part of URLs. And the route of a rule
+should refer to a valid controller [route](/doc/guide/basics.controller#route).
 
 A rule can be associated with a few GET parameters. These GET parameters
-appear in the rule's pattern as special tokens of the following format:
+appear in the rule's pattern as special tokens in the following format:
 
 ~~~
 &lt;ParamName:ParamPattern&gt;

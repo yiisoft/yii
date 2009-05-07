@@ -300,11 +300,10 @@ class CController extends CBaseController
 		if(!$this->usePageCaching && $this->_dynamicOutput)
 			$output=$this->processDynamicOutput($output);
 
-		if($this->_pageStates!==null || isset($_POST[self::STATE_INPUT_NAME]))
-		{
-			$states=$this->savePageStates();
-			$output=str_replace(CHtml::pageStateField(''),CHtml::pageStateField($states),$output);
-		}
+		if($this->_pageStates===null)
+			$this->_pageStates=$this->loadPageStates();
+		if(!empty($this->_pageStates))
+			$this->savePageStates($this->_pageStates,$output);
 
 		return $output;
 	}
@@ -955,7 +954,7 @@ class CController extends CBaseController
 	public function getPageState($name,$defaultValue=null)
 	{
 		if($this->_pageStates===null)
-			$this->loadPageStates();
+			$this->_pageStates=$this->loadPageStates();
 		return isset($this->_pageStates[$name])?$this->_pageStates[$name]:$defaultValue;
 	}
 
@@ -974,7 +973,7 @@ class CController extends CBaseController
 	public function setPageState($name,$value,$defaultValue=null)
 	{
 		if($this->_pageStates===null)
-			$this->loadPageStates();
+			$this->_pageStates=$this->loadPageStates();
 		if($value===$defaultValue)
 			unset($this->_pageStates[$name]);
 		else
@@ -994,6 +993,7 @@ class CController extends CBaseController
 
 	/**
 	 * Loads page states from a hidden input.
+	 * @return array the loaded page states
 	 */
 	protected function loadPageStates()
 	{
@@ -1004,30 +1004,23 @@ class CController extends CBaseController
 				if(extension_loaded('zlib'))
 					$data=@gzuncompress($data);
 				if(($data=Yii::app()->getSecurityManager()->validateData($data))!==false)
-				{
-					$this->_pageStates=unserialize($data);
-					return;
-				}
+					return unserialize($data);
 			}
 		}
-		$this->_pageStates=array();
+		return array();
 	}
 
 	/**
 	 * Saves page states as a base64 string.
+	 * @param array the states to be saved.
+	 * @param string the output to be modified. Note, this is passed by reference.
 	 */
-	protected function savePageStates()
+	protected function savePageStates($states,&$output)
 	{
-		if($this->_pageStates===null)
-			$this->loadPageStates();
-		if(empty($this->_pageStates))
-			return '';
-		else
-		{
-			$data=Yii::app()->getSecurityManager()->hashData(serialize($this->_pageStates));
-			if(extension_loaded('zlib'))
-				$data=gzcompress($data);
-			return base64_encode($data);
-		}
+		$data=Yii::app()->getSecurityManager()->hashData(serialize($states));
+		if(extension_loaded('zlib'))
+			$data=gzcompress($data);
+		$value=base64_encode($data);
+		$output=str_replace(CHtml::pageStateField(''),CHtml::pageStateField($value),$output);
 	}
 }

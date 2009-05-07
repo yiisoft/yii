@@ -113,13 +113,13 @@ return array (
     ),
     'narrow' => 
     array (
-      'sun' => 'S',
-      'mon' => 'S',
-      'tue' => 'M',
-      'wed' => 'R',
-      'thu' => 'H',
-      'fri' => 'A',
-      'sat' => 'Q',
+      0 => 'S',
+      1 => 'S',
+      2 => 'M',
+      3 => 'R',
+      4 => 'H',
+      5 => 'A',
+      6 => 'Q',
     ),
   ),
   'eraNames' => 

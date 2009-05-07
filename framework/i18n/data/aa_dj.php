@@ -106,13 +106,13 @@ return array (
     ),
     'narrow' => 
     array (
-      'sun' => 'A',
-      'mon' => 'E',
-      'tue' => 'T',
-      'wed' => 'A',
-      'thu' => 'K',
-      'fri' => 'G',
-      'sat' => 'S',
+      0 => 'A',
+      1 => 'E',
+      2 => 'T',
+      3 => 'A',
+      4 => 'K',
+      5 => 'G',
+      6 => 'S',
     ),
   ),
   'eraNames' => 

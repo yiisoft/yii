@@ -301,13 +301,13 @@ return array (
     ),
     'narrow' => 
     array (
-      'sun' => 'D',
-      'mon' => 'L',
-      'tue' => 'M',
-      'wed' => 'M',
-      'thu' => 'J',
-      'fri' => 'V',
-      'sat' => 'S',
+      0 => 'D',
+      1 => 'L',
+      2 => 'M',
+      3 => 'M',
+      4 => 'J',
+      5 => 'V',
+      6 => 'S',
     ),
   ),
   'eraNames' => 
