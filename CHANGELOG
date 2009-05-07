@@ -8,6 +8,7 @@ Version 1.0.5 to be released
 - Bug #239: Syntax error in translated Portuguese error view file (Qiang)
 - Bug #246: Undefined variable in CMaskedTextField (Qiang)
 - Bug #252: mimeTypes.php contains clashing types (Qiang)
+- Bug #261: CWsdlGenerator should not use 'tns:' namespace when declaring a complex type (Qiang)
 - Bug #262: Setting 'charset' of CDbConnection causes exception when working with SQLite (Qiang)
 - Bug #263: Exception is thrown when column names contain "=" symbol (Qiang)
 - Bug #270: CComponent::detachBehavior() uses undefined index (Qiang)
