@@ -21,6 +21,7 @@ Version 1.0.5 to be released
 - New #249: Added option to CHtml to allow generate tags without encoding attribute values (Qiang)
 - New #254: Added support to allow input widgets to be used with tabular inputs (Qiang)
 - New #265: Added support to validate time and datetime inputs (Qiang)
+- New #268: Added support to allow using dot syntax to generate list options with CHtml (Qiang)
 - New #291: Added support to validate emails with name part (Qiang)
 - New: Deprecated CHtml::getActiveId() (Qiang)
 - New: Added CDbCriteria::mergeWith() (Qiang)
@@ -32,6 +33,8 @@ Version 1.0.5 to be released
 - New: Added CWebUser::identityCookie property (Qiang)
 - New: Added new message placeholder to CCompareValidator (Qiang)
 - New: Added trace statements to auth components (Qiang)
+- New: Added CHtml::value() (Qiang)
+
 
 Version 1.0.4 April 5, 2009
 ---------------------------

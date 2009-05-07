@@ -1408,6 +1408,7 @@ EOD;
 	 * Generates the data suitable for {@link dropDownList} and {@link listBox}.
 	 * Note, this method does not HTML-encode the generated data. You may call {@link encodeArray} to
 	 * encode it if needed.
+	 * Please refer to the {@link value} method on how to specify value field, text field and group field.
 	 * @param array a list of model objects. Starting from version 1.0.3, this parameter
 	 * can also be an array of associative arrays (e.g. results of {@link CDbCommand::queryAll}).
 	 * @param string the attribute name for list option values
@@ -1422,23 +1423,51 @@ EOD;
 		{
 			foreach($models as $model)
 			{
-				if(is_object($model))
-					$listData[$model->$valueField]=$model->$textField;
-				else
-					$listData[$model[$valueField]]=$model[$textField];
+				$value=self::value($model,$valueField);
+				$text=self::value($model,$textField);
+				$listData[$value]=$text;
 			}
 		}
 		else
 		{
 			foreach($models as $model)
 			{
-				if(is_object($model))
-					$listData[$model->$groupField][$model->$valueField]=$model->$textField;
-				else
-					$listData[$model[$groupField]][$model[$valueField]]=$model[$textField];
+				$group=self::value($model,$groupField);
+				$value=self::value($model,$valueField);
+				$text=self::value($model,$textField);
+				$listData[$group][$value]=$text;
 			}
 		}
 		return $listData;
+	}
+
+	/**
+	 * Evaluates the value of the specified attribute for the given model.
+	 * The attribute name can be given in a dot syntax. For example, if the attribute
+	 * is "author.firstName", this method will return the value of "$model->author->firstName".
+	 * A default value (passed as the last parameter) will be returned if the attribute does
+	 * not exist or is broken in the middle (e.g. $model->author is null).
+	 * The model can be either an object or an array. If the latter, the attribute is treated
+	 * as a key of the array. For the example of "author.firstName", if would mean the array value
+	 * "$model['author']['firstName']".
+	 * @param mixed the model. This can be either an object or an array.
+	 * @param string the attribute name (use dot to concatenate multiple attributes)
+	 * @param mixed the default value to return when the attribute does not exist
+	 * @return mixed the attribute value
+	 * @since 1.0.5
+	 */
+	public static function value($model,$attribute,$defaultValue=null)
+	{
+		foreach(explode('.',$attribute) as $name)
+		{
+			if(is_object($model))
+				$model=$model->$name;
+			else if(is_array($model) && isset($model[$name]))
+				$model=$model[$name];
+			else
+				return $defaultValue;
+		}
+		return $model;
 	}
 
 	/**
