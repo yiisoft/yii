@@ -174,7 +174,11 @@ class YiiBase
 		else if(isset(self::$_classes[$className]))
 			include(self::$_classes[$className]);
 		else
-			include($className.'.php');
+		{
+			@include($className.'.php');
+			return class_exists($className,false);
+		}
+		return true;
 	}
 	public static function trace($msg,$category='application')
 	{
@@ -242,6 +246,7 @@ class YiiBase
 		'CApcCache' => '/caching/CApcCache.php',
 		'CCache' => '/caching/CCache.php',
 		'CDbCache' => '/caching/CDbCache.php',
+		'CDummyCache' => '/caching/CDummyCache.php',
 		'CEAcceleratorCache' => '/caching/CEAcceleratorCache.php',
 		'CMemCache' => '/caching/CMemCache.php',
 		'CXCache' => '/caching/CXCache.php',
@@ -1189,6 +1194,9 @@ abstract class CApplication extends CModule
 			'statePersister'=>array(
 				'class'=>'CStatePersister',
 			),
+			'cache'=>array(
+				'class'=>'CDummyCache',
+			)
 		);
 		$this->setComponents($components);
 	}
@@ -2341,7 +2349,7 @@ class CUrlRule extends CComponent
 			$this->pattern.='$/u';
 		if(!$this->caseSensitive)
 			$this->pattern.='i';
-		if(@preg_match($this->pattern,'test')===false)
+		if(YII_DEBUG && @preg_match($this->pattern,'test')===false)
 			throw new CException(Yii::t('yii','The URL pattern "{pattern}" for route "{route}" is not a valid regular expression.',
 				array('{route}'=>$route,'{pattern}'=>$pattern)));
 	}
@@ -2573,11 +2581,10 @@ class CController extends CBaseController
 		// if using page caching, we should delay dynamic output replacement
 		if(!$this->usePageCaching && $this->_dynamicOutput)
 			$output=$this->processDynamicOutput($output);
-		if($this->_pageStates!==null || isset($_POST[self::STATE_INPUT_NAME]))
-		{
-			$states=$this->savePageStates();
-			$output=str_replace(CHtml::pageStateField(''),CHtml::pageStateField($states),$output);
-		}
+		if($this->_pageStates===null)
+			$this->_pageStates=$this->loadPageStates();
+		if(!empty($this->_pageStates))
+			$this->savePageStates($this->_pageStates,$output);
 		return $output;
 	}
 	public function processDynamicOutput($output)
@@ -2871,13 +2878,13 @@ class CController extends CBaseController
 	public function getPageState($name,$defaultValue=null)
 	{
 		if($this->_pageStates===null)
-			$this->loadPageStates();
+			$this->_pageStates=$this->loadPageStates();
 		return isset($this->_pageStates[$name])?$this->_pageStates[$name]:$defaultValue;
 	}
 	public function setPageState($name,$value,$defaultValue=null)
 	{
 		if($this->_pageStates===null)
-			$this->loadPageStates();
+			$this->_pageStates=$this->loadPageStates();
 		if($value===$defaultValue)
 			unset($this->_pageStates[$name]);
 		else
@@ -2898,27 +2905,18 @@ class CController extends CBaseController
 				if(extension_loaded('zlib'))
 					$data=@gzuncompress($data);
 				if(($data=Yii::app()->getSecurityManager()->validateData($data))!==false)
-				{
-					$this->_pageStates=unserialize($data);
-					return;
-				}
+					return unserialize($data);
 			}
 		}
-		$this->_pageStates=array();
+		return array();
 	}
-	protected function savePageStates()
+	protected function savePageStates($states,&$output)
 	{
-		if($this->_pageStates===null)
-			$this->loadPageStates();
-		if(empty($this->_pageStates))
-			return '';
-		else
-		{
-			$data=Yii::app()->getSecurityManager()->hashData(serialize($this->_pageStates));
-			if(extension_loaded('zlib'))
-				$data=gzcompress($data);
-			return base64_encode($data);
-		}
+		$data=Yii::app()->getSecurityManager()->hashData(serialize($states));
+		if(extension_loaded('zlib'))
+			$data=gzcompress($data);
+		$value=base64_encode($data);
+		$output=str_replace(CHtml::pageStateField(''),CHtml::pageStateField($value),$output);
 	}
 }
 abstract class CAction extends CComponent implements IAction
@@ -3461,9 +3459,7 @@ class CHtml
 	}
 	public static function tag($tag,$htmlOptions=array(),$content=false,$closeTag=true)
 	{
-		$html='<' . $tag;
-		foreach($htmlOptions as $name=>$value)
-			$html .= ' ' . $name . '="' . self::encode($value) . '"';
+		$html='<' . $tag . self::renderAttributes($htmlOptions);
 		if($content===false)
 			return $closeTag ? $html.' />' : $html.'>';
 		else
@@ -3471,10 +3467,7 @@ class CHtml
 	}
 	public static function openTag($tag,$htmlOptions=array())
 	{
-		$html='<' . $tag;
-		foreach($htmlOptions as $name=>$value)
-			$html .= ' ' . $name . '="' . self::encode($value) . '"';
-		return $html . '>';
+		return '<' . $tag . self::renderAttributes($htmlOptions) . '>';
 	}
 	public static function closeTag($tag)
 	{
@@ -4016,23 +4009,35 @@ EOD;
 		{
 			foreach($models as $model)
 			{
-				if(is_object($model))
-					$listData[$model->$valueField]=$model->$textField;
-				else
-					$listData[$model[$valueField]]=$model[$textField];
+				$value=self::value($model,$valueField);
+				$text=self::value($model,$textField);
+				$listData[$value]=$text;
 			}
 		}
 		else
 		{
 			foreach($models as $model)
 			{
-				if(is_object($model))
-					$listData[$model->$groupField][$model->$valueField]=$model->$textField;
-				else
-					$listData[$model[$groupField]][$model[$valueField]]=$model[$textField];
+				$group=self::value($model,$groupField);
+				$value=self::value($model,$valueField);
+				$text=self::value($model,$textField);
+				$listData[$group][$value]=$text;
 			}
 		}
 		return $listData;
+	}
+	public static function value($model,$attribute,$defaultValue=null)
+	{
+		foreach(explode('.',$attribute) as $name)
+		{
+			if(is_object($model))
+				$model=$model->$name;
+			else if(is_array($model) && isset($model[$name]))
+				$model=$model[$name];
+			else
+				return $defaultValue;
+		}
+		return $model;
 	}
 	public static function getIdByName($name)
 	{
@@ -4060,15 +4065,16 @@ EOD;
 	}
 	public static function listOptions($selection,$listData,&$htmlOptions)
 	{
+		$raw=isset($htmlOptions['encode']) && !$htmlOptions['encode'];
 		$content='';
 		if(isset($htmlOptions['prompt']))
 		{
-			$content.='<option value="">'.self::encode($htmlOptions['prompt'])."</option>\n";
+			$content.='<option value="">'.($raw?$htmlOptions['prompt'] : self::encode($htmlOptions['prompt']))."</option>\n";
 			unset($htmlOptions['prompt']);
 		}
 		if(isset($htmlOptions['empty']))
 		{
-			$content.='<option value="">'.self::encode($htmlOptions['empty'])."</option>\n";
+			$content.='<option value="">'.($raw?$htmlOptions['empty'] : self::encode($htmlOptions['empty']))."</option>\n";
 			unset($htmlOptions['empty']);
 		}
 		if(isset($htmlOptions['options']))
@@ -4082,19 +4088,19 @@ EOD;
 		{
 			if(is_array($value))
 			{
-				$content.='<optgroup label="'.self::encode($key)."\">\n";
+				$content.='<optgroup label="'.($raw?$key : self::encode($key))."\">\n";
 				$dummy=array();
 				$content.=self::listOptions($selection,$value,$dummy);
 				$content.='</optgroup>'."\n";
 			}
 			else
 			{
-				$attributes=array('value'=>(string)$key);
+				$attributes=array('value'=>(string)$key, 'encode'=>!$raw);
 				if(!is_array($selection) && !strcmp($key,$selection) || is_array($selection) && in_array($key,$selection))
 					$attributes['selected']='selected';
 				if(isset($options[$key]))
 					$attributes=array_merge($attributes,$options[$key]);
-				$content.=CHtml::tag('option',$attributes,self::encode((string)$value))."\n";
+				$content.=self::tag('option',$attributes,$raw?(string)$value : self::encode((string)$value))."\n";
 			}
 		}
 		return $content;
@@ -4170,6 +4176,25 @@ EOD;
 			$htmlOptions['class'].=' '.self::$errorCss;
 		else
 			$htmlOptions['class']=self::$errorCss;
+	}
+	protected static function renderAttributes($htmlOptions)
+	{
+		if($htmlOptions===array())
+			return '';
+		$html='';
+		$raw=isset($htmlOptions['encode']) && !$htmlOptions['encode'];
+		unset($htmlOptions['encode']);
+		if($raw)
+		{
+			foreach($htmlOptions as $name=>$value)
+				$html .= ' ' . $name . '="' . $value . '"';
+		}
+		else
+		{
+			foreach($htmlOptions as $name=>$value)
+				$html .= ' ' . $name . '="' . self::encode($value) . '"';
+		}
+		return $html;
 	}
 }
 class CWidget extends CBaseController
@@ -5090,6 +5115,19 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	{
 		$this->_errors[$attribute][]=$error;
 	}
+	public function addErrors($errors)
+	{
+		foreach($errors as $attribute=>$error)
+		{
+			if(is_array($error))
+			{
+				foreach($error as $e)
+					$this->_errors[$attribute][]=$e;
+			}
+			else
+				$this->_errors[$attribute][]=$error;
+		}
+	}
 	public function clearErrors($attribute=null)
 	{
 		if($attribute===null)
@@ -5342,11 +5380,18 @@ abstract class CActiveRecord extends CModel
 	{
 		return isset($this->_related[$name]) || array_key_exists($name,$this->_related);
 	}
-	public function getDbCriteria()
+	public function getDbCriteria($createIfNull=true)
 	{
 		if($this->_c===null)
-			$this->_c=new CDbCriteria;
+		{
+			if(($c=$this->defaultScope())!==array() || $createIfNull)
+				$this->_c=new CDbCriteria($c);
+		}
 		return $this->_c;
+	}
+	public function defaultScope()
+	{
+		return array();
 	}
 	public static function model($className=__CLASS__)
 	{
@@ -5460,7 +5505,8 @@ abstract class CActiveRecord extends CModel
 				$this->_related[$name][]=$record;
 		}
 		else if(!isset($this->_related[$name]))
-			$this->_related[$name]=$record;	}
+			$this->_related[$name]=$record;
+	}
 	public function getAttributes($names=true)
 	{
 		$attributes=$this->_attributes;
@@ -5676,10 +5722,10 @@ abstract class CActiveRecord extends CModel
 	}
 	private function query($criteria,$all=false)
 	{
-		if($this->_c!==null)
+		if(($c=$this->getDbCriteria(false))!==null)
 		{
-			$this->_c->mergeWith($criteria);
-			$criteria=$this->_c;
+			$c->mergeWith($criteria);
+			$criteria=$c;
 			$this->_c=null;
 		}
 		$command=$this->getCommandBuilder()->createFindCommand($this->getTableSchema(),$criteria);
@@ -5732,10 +5778,10 @@ abstract class CActiveRecord extends CModel
 	{
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
-		if($this->_c!==null)
+		if(($c=$this->getDbCriteria(false))!==null)
 		{
-			$this->_c->mergeWith($criteria);
-			$criteria=$this->_c;
+			$c->mergeWith($criteria);
+			$criteria=$c;
 			$this->_c=null;
 		}
 		return $builder->createCountCommand($this->getTableSchema(),$criteria)->queryScalar();
@@ -5751,10 +5797,10 @@ abstract class CActiveRecord extends CModel
 		$table=$this->getTableSchema();
 		$criteria->select=reset($table->columns)->rawName;
 		$criteria->limit=1;
-		if($this->_c!==null)
+		if(($c=$this->getDbCriteria(false))!==null)
 		{
-			$this->_c->mergeWith($criteria);
-			$criteria=$this->_c;
+			$c->mergeWith($criteria);
+			$criteria=$c;
 			$this->_c=null;
 		}
 		return $builder->createFindCommand($table,$criteria)->queryRow()!==false;
@@ -5766,7 +5812,7 @@ abstract class CActiveRecord extends CModel
 			$with=func_get_args();
 			if(is_array($with[0]))  // the parameter is given as an array
 				$with=$with[0];
-			$finder=new CActiveFinder($this,$with,$this->_c);
+			$finder=new CActiveFinder($this,$with,$this->getDbCriteria(false));
 			$this->_c=null;
 			return $finder;
 		}

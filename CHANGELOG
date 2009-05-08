@@ -26,6 +26,7 @@ Version 1.0.5 to be released
 - New #284: Refactored code about page states to simplify overriding efforts (Qiang)
 - New #291: Added support to validate emails with name part (Qiang)
 - New #293: Added support to allow Yii to be used with other libraries which rely on autoload (Qiang)
+- New #294: Added CDummyCache component (Qiang)
 - New: Deprecated CHtml::getActiveId() (Qiang)
 - New: Added CDbCriteria::mergeWith() (Qiang)
 - New: Added Oracle support for Active Record (Ricardo)
