@@ -42,7 +42,7 @@ class {ClassName} extends CActiveRecord
 	 */
 	public function attributeLabels()
 	{
-		return array(
+		return array({Labels}
 		);
 	}
 }

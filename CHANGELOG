@@ -40,6 +40,7 @@ Version 1.0.5 to be released
 - New: Added new message placeholder to CCompareValidator (Qiang)
 - New: Added trace statements to auth components (Qiang)
 - New: Added CHtml::value() (Qiang)
+- New: Enhanced 'yiic shell model' command so that it generates attribute labels by default (Qiang)
 
 
 Version 1.0.4 April 5, 2009
