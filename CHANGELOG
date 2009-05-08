@@ -18,6 +18,7 @@ Version 1.0.5 to be released
 - New #210: Added support for named scope of AR (Qiang)
 - New #211: Enhanced AR by supporting lazy relational query with on-the-fly query parameters (Qiang)
 - New #224: Added CModel::addErrors() method (Qiang)
+- New #241: Added support to define root path aliases in configuration (Qiang)
 - New #247: Added support to allow using Web services in PHP versions lower than 5.2.0 (Qiang)
 - New #249: Added option to CHtml to allow generate tags without encoding attribute values (Qiang)
 - New #254: Added support to allow input widgets to be used with tabular inputs (Qiang)
