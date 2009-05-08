@@ -602,6 +602,8 @@ class CJoinElement
 					$attributes[$aliases[$alias]]=$value;
 			}
 			$record=$this->model->populateRecord($attributes,false);
+			foreach($this->children as $child)
+				$record->addRelatedRecord($child->relation->name,null,$child->relation instanceof CHasManyRelation);
 			$this->records[$pk]=$record;
 		}
 
