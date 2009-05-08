@@ -200,7 +200,7 @@ EOD;
 	 */
 	protected function findPrimaryKey($table,$indices)
 	{
-		$indices=join(', ',split(' ',$indices));
+		$indices=join(', ',explode(' ',$indices));
 		$sql=<<<EOD
 SELECT attnum, attname FROM pg_catalog.pg_attribute WHERE
 	attrelid=(
