@@ -167,10 +167,44 @@ when a user requests for `/index.php/post/100`, the second rule in the
 above example will apply, which resolves in the route `post/read` and the
 GET parameter `array('id'=>100)` (accessible via `$_GET`).
 
+### Route Sub-patterns
+
+Starting from version 1.0.5, we may define route sub-patterns in a rule and reference
+them in the rule's route part. This may greatly reduce the number of rules
+needed if the desired URL format is largely the same for most controllers.
+
+A route sub-pattern is like a parameter token described above. The main difference
+is that a sub-pattern uses an integer as its name. The format of route sub-pattern
+is as follows, where `ID` is an integer, and `RoutePattern` is a regular expression:
+
+~~~
+&lt;ID:RoutePattern&gt;
+~~~
+
+We use the following example rules to illustrate how to use route sub-patterns.
+
+~~~
+[php]
+array(
+	'<1:(post|comment)>/<id:\d+>/<2:(create|update|delete)>' => '<1>/<2>',
+	'<1:(post|comment)>/<id:\d+>' => '<1>/read',
+	'<1:(post|comment)>s' => '<1>/list',
+)
+~~~
+
+In the above, we define route sub-pattern &lt;1&gt; and &lt;2&gt; in the pattern part of the rules,
+and reference them in the route part. Like normal rules, these rules can be used for both
+parsing and creating URLs. For example, using the rules above, the URL `/index.php/post/123/create`
+would be parsed as the route `post/create` with GET parameter `id=123`.
+And given the route `post/list` and GET parameter `page=2`, we should get a URL
+`/index.php/posts/page/2`.
+
+
 > Note: Using URL rules will degrade application performance. This is
 because when parsing the request URL, [CUrlManager] will attempt to match
 it with each rule until one can be applied. Therefore, a high-traffic Web
 application should minimize its use of URL rules.
+
 
 ### Hiding `index.php`
 
