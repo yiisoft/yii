@@ -130,6 +130,15 @@ class CDbConnection extends CApplicationComponent
 	 * the buggy native prepare support. Note, this property is only effective for PHP 5.1.3 or above.
 	 */
 	public $emulatePrepare=false;
+	/**
+	 * @var boolean whether to log the values that are bound to a prepare SQL statement.
+	 * Defaults to false. During development, you may consider setting this property to true
+	 * so that parameter values bound to SQL statements are logged for debugging purpose.
+	 * You should be aware that logging parameter values could be expensive and have significant
+	 * impact on the performance of your application.
+	 * @since 1.0.5
+	 */
+	public $enableParamLogging=false;
 
 	private $_attributes=array();
 	private $_active=false;
