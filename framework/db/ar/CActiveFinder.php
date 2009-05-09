@@ -246,10 +246,12 @@ class CActiveFinder extends CComponent
 
 			if(($relation=$parent->model->getActiveRelation($with))!==null)
 			{
+				$relation=clone $relation;
+				$model=CActiveRecord::model($relation->className);
+				if(($scope=$model->defaultScope())!==array())
+					$relation->mergeWith($scope);
 				if(isset($scopes) && !empty($scopes))
 				{
-					$model=CActiveRecord::model($relation->className);
-					$relation=clone $relation;
 					$scs=$model->scopes();
 					foreach($scopes as $scope)
 					{
