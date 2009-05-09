@@ -41,9 +41,9 @@ class CUrlManagerTest extends CTestCase
 			'register/*'=>'user',
 			'home/*'=>'',
 			'ad/*'=>'admin/index/list',
-			'<1:(post|comment)>/<id:\d+>/<2:(create|update|delete)>'=>'<1>/<2>',
-			'<1:(post|comment)>/<id:\d+>'=>'<1>/view',
-			'<1:(post|comment)>s/*'=>'<1>/list',
+			'<c:(post|comment)>/<id:\d+>/<a:(create|update|delete)>'=>'<c>/<a>',
+			'<c:(post|comment)>/<id:\d+>'=>'<c>/view',
+			'<c:(post|comment)>s/*'=>'<c>/list',
 		);
 		$entries=array(
 			array(
@@ -178,9 +178,9 @@ class CUrlManagerTest extends CTestCase
 			'a/<_a>/*'=>'article',
 			'register/*'=>'user',
 			'home/*'=>'',
-			'<1:(post|comment)>/<id:\d+>/<2:(create|update|delete)>'=>'<1>/<2>',
-			'<1:(post|comment)>/<id:\d+>'=>'<1>/view',
-			'<1:(post|comment)>s/*'=>'<1>/list',
+			'<c:(post|comment)>/<id:\d+>/<a:(create|update|delete)>'=>'<c>/<a>',
+			'<c:(post|comment)>/<id:\d+>'=>'<c>/view',
+			'<c:(post|comment)>s/*'=>'<c>/list',
 		);
 		$config=array(
 			'basePath'=>dirname(__FILE__),

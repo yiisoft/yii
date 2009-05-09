@@ -56,18 +56,18 @@
  *   and vice versa applies when constructing such a URL.</li>
  * </ul>
  *
- * Starting from version 1.0.5, the route part may contain route sub-patterns which can be used to
- * match the path info of a URL. For example,
+ * Starting from version 1.0.5, the route part may contain references to named parameters defined
+ * in the pattern part. This allows a rule to be applied to different routes based on matching criteria.
+ * For example,
  * <pre>
  * array(
- *      '<1:(post|comment)>/<id:\d+>/<2:(create|update|delete)>'=>'<1>/<2>',
- *      '<1:(post|comment)>/<id:\d+>'=>'<1>/view',
- *      '<1:(post|comment)>s/*'=>'<1>/list',
+ *      '<_c:(post|comment)>/<id:\d+>/<_a:(create|update|delete)>'=>'<_c>/<_a>',
+ *      '<_c:(post|comment)>/<id:\d+>'=>'<_a>/view',
+ *      '<_c:(post|comment)>s/*'=>'<_a>/list',
  * )
  * </pre>
- * In the above, we define route sub-pattern '<1>' and '<2>' in the pattern part of the rules,
- * and reference them in the route part. A route sub-pattern is like a named parameter,
- * except that its name must be an integer.
+ * In the above, we use two named parameters '<_c>' and '<_a>' in the route part. The '<_c>'
+ * parameter matches either 'post' or 'comment', while the '<_a>' parameter matches an action ID.
  *
  * Like normal rules, these rules can be used for both parsing and creating URLs.
  * For example, using the rules above, the URL '/index.php/post/123/create'
@@ -420,21 +420,23 @@ class CUrlRule extends CComponent
 	{
 		$this->route=$route;
 		$tr2['/']=$tr['/']='\\/';
+
+		if(strpos($route,'<')!==false && preg_match_all('/<(\w+)>/',$route,$matches2))
+		{
+			foreach($matches2[1] as $name)
+				$this->references[$name]="<$name>";
+		}
+
 		if(preg_match_all('/<(\w+):?(.*?)?>/',$pattern,$matches))
 		{
 			$tokens=array_combine($matches[1],$matches[2]);
 			foreach($tokens as $name=>$value)
 			{
-				if(ctype_digit((string)$name)) // a number reference
-				{
-					$this->references['_r'.$name]="<$name>";
-					$tr2["<$name>"]=$tr["<$name>"]="(?P<_r$name>".($value!==''?$value:'[^\/]+').')';
-				}
-				else // a named param
-				{
+				$tr["<$name>"]="(?P<$name>".($value!==''?$value:'[^\/]+').')';
+				if(isset($this->references[$name]))
+					$tr2["<$name>"]=$tr["<$name>"];
+				else
 					$this->params[$name]=$value;
-					$tr["<$name>"]="(?P<$name>".($value!==''?$value:'[^\/]+').')';
-				}
 			}
 		}
 		$p=rtrim($pattern,'*');
@@ -450,7 +452,7 @@ class CUrlRule extends CComponent
 		if(!$this->caseSensitive)
 			$this->pattern.='i';
 
-		if($this->references!==array()) // has number references
+		if($this->references!==array())
 		{
 			$this->routePattern='/^'.strtr($this->route,$tr2).'$/u';
 			if(!$this->caseSensitive)
@@ -521,10 +523,10 @@ class CUrlRule extends CComponent
 			$tr=array();
 			foreach($matches as $key=>$value)
 			{
-				if(isset($this->params[$key]))
+				if(isset($this->references[$key]))
+					$tr[$this->references[$key]]=urldecode($value);
+				else if(isset($this->params[$key]))
 					$_GET[$key]=urldecode($value);
-				else if(isset($this->references[$key]))
-					$tr['<'.substr($key,2).'>']=urldecode($value);
 			}
 			if($pathInfo!==$matches[0]) // there're additional GET params
 				CUrlManager::parsePathInfo(ltrim(substr($pathInfo,strlen($matches[0])),'/'));

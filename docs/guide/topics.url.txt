@@ -106,6 +106,8 @@ corresponding to a single rule. The pattern of a rule is a string
 used to match the path info part of URLs. And the route of a rule
 should refer to a valid controller [route](/doc/guide/basics.controller#route).
 
+### Using Named Parameters
+
 A rule can be associated with a few GET parameters. These GET parameters
 appear in the rule's pattern as special tokens in the following format:
 
@@ -167,43 +169,43 @@ when a user requests for `/index.php/post/100`, the second rule in the
 above example will apply, which resolves in the route `post/read` and the
 GET parameter `array('id'=>100)` (accessible via `$_GET`).
 
-### Route Sub-patterns
 
-Starting from version 1.0.5, we may define route sub-patterns in a rule and reference
-them in the rule's route part. This may greatly reduce the number of rules
-needed if the desired URL format is largely the same for most controllers.
+> Note: Using URL rules will degrade application performance. This is
+because when parsing the request URL, [CUrlManager] will attempt to match
+it with each rule until one can be applied. The more the number of rules,
+the more the performance impact. Therefore, a high-traffic Web
+application should minimize its use of URL rules.
 
-A route sub-pattern is like a parameter token described above. The main difference
-is that a sub-pattern uses an integer as its name. The format of route sub-pattern
-is as follows, where `ID` is an integer, and `RoutePattern` is a regular expression:
 
-~~~
-&lt;ID:RoutePattern&gt;
-~~~
+### Parameterizing Routes
 
-We use the following example rules to illustrate how to use route sub-patterns.
+Starting from version 1.0.5, we may reference named parameters in the route part
+of a rule. This allows a rule to be applied to multiple routes based on matching
+criteria. It may also help reduce the number of rules needed for an application,
+and thus improve the overall performance.
+
+We use the following example rules to illustrate how to parameterize routes
+with named parameters:
 
 ~~~
 [php]
 array(
-	'<1:(post|comment)>/<id:\d+>/<2:(create|update|delete)>' => '<1>/<2>',
-	'<1:(post|comment)>/<id:\d+>' => '<1>/read',
-	'<1:(post|comment)>s' => '<1>/list',
+	'<_c:(post|comment)>/<id:\d+>/<_a:(create|update|delete)>' => '<_c>/<_a>',
+	'<_c:(post|comment)>/<id:\d+>' => '<_c>/read',
+	'<_c:(post|comment)>s' => '<_c>/list',
 )
 ~~~
 
-In the above, we define route sub-pattern &lt;1&gt; and &lt;2&gt; in the pattern part of the rules,
-and reference them in the route part. Like normal rules, these rules can be used for both
-parsing and creating URLs. For example, using the rules above, the URL `/index.php/post/123/create`
+In the above, we use two named parameters in the route part of the rules:
+`_c` and `_a`. The former matches a controller ID to be either `post` or `comment`,
+while the latter matches an action ID to be `create`, `update` or `delete`.
+You may name the parameters differently as long as they do not conflict with
+GET parameters that may appear in URLs.
+
+Using the aboving rules, the URL `/index.php/post/123/create`
 would be parsed as the route `post/create` with GET parameter `id=123`.
-And given the route `post/list` and GET parameter `page=2`, we should get a URL
-`/index.php/posts/page/2`.
-
-
-> Note: Using URL rules will degrade application performance. This is
-because when parsing the request URL, [CUrlManager] will attempt to match
-it with each rule until one can be applied. Therefore, a high-traffic Web
-application should minimize its use of URL rules.
+And given the route `comment/list` and GET parameter `page=2`, we can create a URL
+`/index.php/comments?page=2`.
 
 
 ### Hiding `index.php`
