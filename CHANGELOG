@@ -16,6 +16,7 @@ Version 1.0.5 to be released
 - Bug #290: date formatter generates incorrect narrow day output (Qiang)
 - Bug: Lazy loading HAS_MANY or MANY_MANY properties will get NULL instead of empty array when the result set is empty (Qiang)
 - Bug: CDateFormatter::formatYear() only returns one digit when the year pattern is 'yy' (Qiang)
+- Bug: The ON option is not respected for MANY_MANY relations (Qiang)
 - New #210: Added support for named scope of AR (Qiang)
 - New #211: Enhanced AR by supporting lazy relational query with on-the-fly query parameters (Qiang)
 - New #224: Added CModel::addErrors() method (Qiang)
