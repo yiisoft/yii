@@ -359,4 +359,4 @@ $posts=Post::model()->with('commentCount', 'categoryCount')->findAll();
    
    - `having`: соответствует оператору `HAVING`, по умолчанию значение параметра пустое;
 
-<div class="revision">$Id: database.arr.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>
+<div class="revision">$Id: database.arr.txt 922 2009-04-05 21:36:33Z qiang.xue $</div>

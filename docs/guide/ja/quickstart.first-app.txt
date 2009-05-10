@@ -12,7 +12,7 @@ Yiiで最初の経験を積むために、この章では最初のYiiアプリ�
 % YiiRoot/framework/yiic webapp WebRoot/testdrive
 ~~~
 
-> Note|注意: `yiic`をMac OSやLinuxやUnix上で動かす場合には、`yiic`ファイルを実行化にします。
+> Note|注意: `yiic`をMac OSやLinuxやUnix上で動かす場合には、`yiic`ファイルを実行可にします。
 >または、以下のようにツールを動作させます。
 > ~~~
 > % cd WebRoot/testdrive
@@ -159,7 +159,7 @@ If you have a 'db' database connection, you can test it now with:
 >> crud User
    generate UserController.php
    generate create.php
-      mkdir D:/wwwroot/testdrive/protected/views/user
+   mkdir D:/wwwroot/testdrive/protected/views/user
    generate update.php
    generate list.php
    generate show.php
@@ -171,7 +171,7 @@ http://hostname/path/to/index.php?r=user
 上において、新しい骨格アプリケーションと応答するために`yiic shell`コマンドを使用しました。
 プロンプトが出たら2つのサブコマンドを実行します。それらは`model User`と`crud User`です。
 前者は`User`テーブルのスキーマに基いて`User`モデルクラスを生成します。
-後者は`User`モデルを読み込み、CRUD操作に必要なコードを生成します。
+後者は`User`モデルを読み込み、CRUD操作に必要なコードを実装します。
 
 > Note|注意: たとえ要求チェッカーがシステム要求としてPDOと対応するPDOドライバがイネーブルになっていたとしても
 >"...could not find driver"のようなエラーにぶつかるかもしれません。
@@ -215,4 +215,4 @@ http://hostname/testdrive/index.php?r=user/admin
 
 ![Create new user page](first-app7.png)
 
-<div class="revision">$Id: quickstart.first-app.txt 891 2009-01-02 04:42:53Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app.txt 978 2009-05-06 03:36:09Z qiang.xue $</div>

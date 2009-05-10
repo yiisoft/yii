@@ -1,14 +1,14 @@
 Tworzenie formularza
 =============
 
-Stworzenie widoku `login` jest bardzo proste. Rozpoczynami od tagu `form`, którego 
+Stworzenie widoku `login` jest bardzo proste. Rozpoczynamy od tagu `form`, którego 
 atrybut akcji powinien być adresem URL poprzednio opisanej akcji `login`.
 Następnie wstawiamy etykiety oraz pola wejściowe dla atrybutów zadeklarowanych 
-w klasie `LoginForm`. Na końcu wstawiamy przycisk wysłający, który może zostać 
+w klasie `LoginForm`. Na końcu wstawiamy przycisk wysyłający, który może zostać 
 kliknięty przez użytkownika celem przesłania formularza. Wszystko to może zostać
 zrobione za pomocą czystego kody HTML.
 
-Yii dostarczas kilka klas helperów, aby ułatwić komponowanie widoku. Na przykład, 
+Yii dostarcza kilka klas helperów, aby ułatwić komponowanie widoku. Na przykład, 
 aby stworzyć pole tekstowe, możemy wywołać metodę [CHtml::textField()]; aby utworzyć
 listę rozwijaną (ang. drop-down) wywołujemy metodę [CHtml::dropDownList()].
 
@@ -29,7 +29,7 @@ Zakładamy, że zmienna `$user` reprezentuje instancje `LoginForm`.
 ~~~
 [php]
 <div class="yiiForm">
-<?php echo CHtml::form(); ?>
+<?php echo CHtml::beginForm(); ?>
 
 <?php echo CHtml::errorSummary($user); ?>
 
@@ -50,16 +50,16 @@ Remember me next time<br/>
 <?php echo CHtml::submitButton('Login'); ?>
 </div>
 
-</form>
+<?php echo CHtml::endForm(); ?>
 </div><!-- yiiForm -->
 ~~~
 
 Powyższy kod generuje bardziej dynamiczny formularz. Na przykład, 
 metoda [CHtml::activeLabel()] generuje etykietę powiązaną z określonym atrybutem modelu.
-Jeśli atrybut posiada błąd w danych wejściowych, klasa CSS etykiety będzie zmmieniona 
+Jeśli atrybut posiada błąd w danych wejściowych, klasa CSS etykiety będzie zmieniona 
 na `error`, co zmieni wygląd etykiety odpowiednio do stylu CSS. Podobnie metoda 
 [CHtml::activeTextField()] wygeneruje pole wejściowe dla określonego atrybutu modelu 
-oraz zmieni jego klasę CSS w momencie wystapienia błędów we wprowadzanych danych.
+oraz zmieni jego klasę CSS w momencie wystąpienia błędów we wprowadzanych danych.
 
 Jeśli używamy pliku stylu CSS `form.css` dostarczonego przez skrypt `yiic` wygenerowany
 formularz będzie podobny do następującego:
@@ -68,4 +68,4 @@ formularz będzie podobny do następującego:
 
 ![Logowania wraz ze stroną błędów](login2.png)
 
-<div class="revision">$Id: form.view.txt 772 2009-02-28 18:23:17Z qiang.xue $</div>
+<div class="revision">$Id: form.view.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>

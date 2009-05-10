@@ -211,4 +211,4 @@ Cuando se maneja un un pedido de usuario, la aplicación realizará el siguiente
 
    7.Ejecuta el evento [onEndRequest|CApplication::onEndRequest];
 
-<div class="revision">$Id: basics.application.txt 626 2009-02-04 20:51:13Z qiang.xue $</div>
+<div class="revision">$Id: basics.application.txt 626 2009-02-04 20:51:13Z sebathi $</div>

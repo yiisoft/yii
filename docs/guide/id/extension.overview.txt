@@ -1,0 +1,29 @@
+Tinjauan
+========
+
+Memperluas Yii merupakan kegiatan umum selama pengembangan. Contohnya, saat
+Anda membuat kontroler baru, Anda memperluas Yii dengan menurunkan kelas [CController]
+dan saat Anda membuat widget baru, Anda memperluas [CWidget] atau kelas widget
+lain yang sudah ada. Jika kode yang diperluas didesain untuk dipakai ulang oleh pengembang
+pihak ketiga, kita menyebutnya sebagai *ekstensi*.
+
+Ekstensi biasanya melayani satu kebutuhan tertentu. Dalam batasan Yii, ia dapat
+diklasifikasikan sebagai berikut,
+
+ * [komponen aplikasi](/doc/guide/basics.application#application-component)
+ * [widget](/doc/guide/basics.view#widget)
+ * [kontroler](/doc/guide/basics.controller)
+ * [aksi](/doc/guide/basics.controller#action)
+ * [filter](/doc/guide/basics.controller#filter)
+ * [perintah konsol](/doc/guide/topics.console)
+ * validator: validator adalah kelas komponen yang memperluas [CValidator].
+ * helper: helper adalah kelas hanya dengan metode statis saja. Ia mirip fungsi global
+   yang menggunakan nama kelas sebagai namespace-nya.
+ * [modul](/doc/guide/basics.module): modul adalah unit software beriri sendiri yang terdiri dari [model](/doc/guide/basics.model), [tampilan](/doc/guide/basics.view), [kontroler](/doc/guide/basics.controller) dan komponen pendukung lainnya. Dalam banyak aspek, modul mirip dengan [aplikasi](/doc/guide/basics.application). Perbedaan utamanya adalah bahwa modul ada di dalam aplikasi. Sebagai contoh, kita dapat memiliki modul yang menyediakan fungsionalitas manajemen pengguna.
+
+Ekstensi juga dapat berupa komponen yang tidak masuk ke dalam kategori
+di atas. Bahkan, Yii didesain secara hati-hati sehingga hampir seluruh kodenya
+dapat diperluas dan dikustomisasi agar sesuai dengan kebutuhan secara
+individual.
+
+<div class="revision">$Id: extension.overview.txt 759 2009-02-26 21:23:53Z qiang.xue $</div>

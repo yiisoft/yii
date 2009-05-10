@@ -1,0 +1,512 @@
+認証と権限付与
+================================
+
+認証と権限付与は、特定のユーザにだけ公開したいウェブページに必要です。
+認証とは、ある人物が主張するとおりに、確かにその当人であるかどうかを確かめることです。
+多くの場合ユーザ名とパスワードを用いますが、スマートカードや指紋など他の身分照明方法でもかまいません。
+権限付与とは、いったんある人物が認証された後、特定のリソースの操作を許可されているかどうかを判断することです。
+たいていこれはその人物がリソースにアクセスする特定のロールを持っているかどうかで決定されます。
+
+Yiiには組み込みの認証・権限付与(ここでは両方をあわせてauthと呼びます)機構が備わっており、
+簡単に利用できます。特別なニーズに対応することも可能です。
+
+auth機構の中心部分はあらかじめ宣言済みの *ユーザアプリケーションコンポーネント*であり、
+これは[IWebUser]インターフェイスを実装しています。
+ユーザコンポーネントは現在のユーザの持続的な個人情報を保持します。
+`Yii::app()->user`とするとどこからでもこの情報にアクセスできます。
+
+ユーザコンポーネントを用いることで、ユーザがログインしているかどうかを[CWebUser::isGuest]で確認できます。
+ユーザの[login|CWebUser::login]や[logout|CWebUser::logout]、
+ある操作が許可されているかどうかのチェック[CWebUser::checkAccess]、
+ユーザID[unique identifier|CWebUser::name]やその他の情報へのアクセスが可能です。
+
+Identityクラスを定義する
+-----------------------
+
+ユーザを認証するために、実際の認証ロジックを含むidentityクラスを定義します。
+identityクラスは[IUserIdentity]インターフェイスを実装しなければなりません。
+異なった認証方法(例：OpenIDやLDAPなど)には、それぞれ異なったクラスを実装します。
+まずは[CUserIdentity]を継承すると始めやすいでしょう。
+このクラスはユーザ名とパスワードに基づいた認証の基本クラスです。
+
+identityクラス定義の主な作業は[IUserIdentity::authenticate]メソッドの実装です。
+またidentityクラスでは、ユーザセッションの間保持される必要がある追加の個人情報も宣言します。
+
+以降の例では、入力されたユーザ名とパスワードを、[Active Record](/doc/guide/database.ar)を使ってデータベーステーブルに問い合わせて検証します。
+さらに`getId`メソッドをオーバーライドして、認証の際にセットされる`_id`を返すように変更します。
+(デフォルトではユーザ名をIDとして返します)
+認証では取得した`title`を[CBaseUserIdentity::setState]メソッドを呼んでstateに保存します。
+
+~~~
+[php]
+class UserIdentity extends CUserIdentity
+{
+	private $_id;
+	public function authenticate()
+	{
+		$record=User::model()->findByAttributes(array('username'=>$this->username));
+		if($record===null)
+			$this->errorCode=self::ERROR_USERNAME_INVALID;
+		else if($record->password!==md5($this->password))
+			$this->errorCode=self::ERROR_PASSWORD_INVALID;
+		else
+		{
+			$this->_id=$record->id;
+			$this->setState('title', $record->title);
+			$this->errorCode=self::ERROR_NONE;
+		}
+		return !$this->errorCode;
+    }
+
+	public function getId()
+	{
+		return $this->_id;
+	}
+}
+~~~
+
+[CBaseUserIdentity::setState]によってstateに保存された情報は、[CWebUser]に渡され、
+セッションのような持続的ストレージに保存されます。
+これらの情報は[CWebUser]のプロパティのようにアクセスできます。
+例えば、現在のユーザの`title`は`Yii::app()->user->title`とすることによって得られます。
+(この記述はYii 1.0.3以降で有効です。それ以前のバージョンでは代わりに`Yii::app()->user->getState('title')`を使ってください)
+
+> 情報：デフォルトでは[CWebUser]はユーザの個人情報を保存するのに、
+持続的ストレージとしてセッションを使います。
+クッキーベースのログインが有効([CWebUser::allowAutoLogin]がtrue)になっていると、
+ユーザの個人情報がクッキーにも保存される可能性があります。
+パスワードのような取り扱いに注意を要する個人情報を保存しないよう気をつけてください。
+
+ログインとログアウト
+----------------
+
+identityクラスとユーザコンポーネントを使ってログインとログアウトを簡単に実装することができます。
+
+~~~
+[php]
+// 入力されたユーザ名とパスワードでログイン
+$identity=new UserIdentity($username,$password);
+if($identity->authenticate())
+	Yii::app()->user->login($identity);
+else
+	echo $identity->errorMessage;
+......
+// ログアウト
+Yii::app()->user->logout();
+~~~
+
+デフォルトでは、[session configuration](http://www.php.net/manual/en/session.configuration.php)によって、
+一定の時間が経つとユーザはログアウトします。
+この仕様を変更するため、ユーザコンポーネントの [allowAutoLogin|CWebUser::allowAutoLogin]をtrueにセットし、
+期間パラメータを [CWebUser::login]に渡すことができます。
+ブラウザを閉じてもユーザは設定した期間の間ログインしたままになります。
+この機能はユーザのブラウザがクッキーを受け入れる必要があることに注意してください。
+
+
+~~~
+[php]
+// 7日間ログイン状態を保持する
+// ユーザコンポーネントのallowAutoLoginが trueであることを確認
+Yii::app()->user->login($identity,3600*24*7);
+~~~
+
+アクセスコントロールフィルタ
+---------------------
+
+アクセスコントロールフィルタは予備的な権限付与スキームです。
+現在のユーザが要求されたコントローラのアクションを実行できるかどうかをチェックします。
+権限付与はユーザ名、クライアントのIPアドレス、リクエストタイプなどに基づいて行われます。
+これは["accessControl"|CController::filterAccessControl]という名前のフィルタとして提供されています。
+
+> ヒント: アクセスコントロールフィルタは単純なケースでは十分に役に立ちます。
+より複雑なアクセスコントロールには、後ほど紹介するロールベースアクセス(RBAC)が使えるでしょう。
+
+コントローラのアクションへのアクセスを制御するために、[CController::filters]をオーバーライドして、
+アクセスコントロールフィルタをインストールします。
+(フィルタインストールの詳細については[Filter](/doc/guide/basics.controller#filter)を参照してください)
+
+~~~
+[php]
+class PostController extends CController
+{
+	......
+	public function filters()
+	{
+		return array(
+			'accessControl',
+		);
+	}
+}
+~~~
+
+上記の例では、[access control|CController::filterAccessControl]フィルタが`PostController`のすべてのアクションに適用されるよう指定しています。
+フィルタによって実行される実際の権限付与ルールは[CController::accessRules]をオーバーライドすることで指定します。
+以下に例を示します。
+
+~~~
+[php]
+class PostController extends CController
+{
+	......
+	public function accessRules()
+	{
+		return array(
+			array('deny',
+				'actions'=>array('create', 'edit'),
+				'users'=>array('?'),
+			),
+			array('allow',
+				'actions'=>array('delete'),
+				'roles'=>array('admin'),
+			),
+			array('deny',
+				'actions'=>array('delete'),
+				'users'=>array('*'),
+			),
+		);
+	}
+}
+~~~
+
+上記のコードでは三つのルールが指定されています。
+ルールは配列で表されます。
+ルールの最初の要素は`'allow'` か `'deny'`で、残りはルールのパラメタを指定するキーと値のペアです。
+この例では、
+`create` と`edit`アクションはアノニマスユーザは実行できず、
+`delete`アクションは`admin`ロールを持ったユーザが実行でき、
+`delete`アクションは誰にも実行できない。
+と設定されています。
+
+アクセスルールは上から順番にひとつずつ評価されるので、現在のパターン(例：ユーザ名、ロール、IPアドレス)
+に一致した最初のルールが権限付与の結果を決定します。
+マッチしたルールが`allow`なら、アクションは実行されます。
+`deny`ならアクションは実行されません。
+すべてのルールに一致しない場合、アクションは実行されます。
+
+> ヒント: 予期せぬアクションの実行を防ぐため、ルールセットの最後に常に`deny`をおくことが有効です。
+> 以下に例を示します。
+> ~~~
+> [php]
+> return array(
+>     // ... ルール...
+>     // 最後のルールで必ず実行を阻止する
+>     array('deny',
+>         'action'=>'delete',
+>     ),
+> );
+> ~~~
+> こうする理由は、すべてのルールに一致しない場合でも、アクションが実行されるからです。
+
+アクセスルールは以下のコンテクストパラメータと一致する可能性があります。
+An access rule can match the following context parameters:
+
+   - [actions|CAccessRule::actions]: どのアクションにルールが適用されるか決める。
+アクションIDの配列。比較は大文字小文字を区別しない。
+
+   - [controllers|CAccessRule::controllers]: どのコントローラにルールが適用されるか決める。
+コントローラIDの配列。比較は大文字小文字を区別しない。1.0.4以降で利用可能。
+
+   - [users|CAccessRule::users]: どのユーザにルールが適用されるか決める。
+現在のユーザの[name|CWebUser::name]が判断基準に使われる。
+比較は大文字小文字を区別しない。
+三種類の特別な意味を持つ文字を使うことができる。
+
+	   - `*`: あらゆるユーザ。アノニマスユーザも認証済みのユーザも含む。
+	   - `?`: アノニマスユーザ
+	   - `@`: 認証済みのユーザ
+
+   - [roles|CAccessRule::roles]: どのロールにルールが適用されるか決める。
+これは次のサブセクションで説明する[role-based access control](#role-based-access-control)で利用する。
+具体的には、ロールに対して[CWebUser::checkAccess]がtrueを返したときにルールが適用される。
+注意：ロールは主に`allow`にたいして使うべきです。その定義から言ってロールとは何かをする許可のことだからです。
+
+   - [ips|CAccessRule::ips]: どのクライアントIPアドレスにルールが適用されるか決める
+
+   - [verbs|CAccessRule::verbs]: どのリクエストタイプ(例：`GET`, `POST`)にルールが適用されるか決める。
+比較は大文字小文字を区別しない。
+
+   - [expression|CAccessRule::expression]: PHPの評価式でルールが適用されるか決める。
+評価式の中で、`$user`という変数を使って`Yii::app()->user`を参照できる。
+このオプションは1.0.3以降で有効。
+
+
+### 権限付与結果の取り扱い
+
+権限付与が失敗すると、すなわちユーザがアクションの実行を許可されないと、以下の二つのシナリオのうちどちらかが発生します。
+
+   - ユーザがログインしておらず、ユーザコンポーネントの [loginUrl|CWebUser::loginUrl]プロパティがログインページのURLにが設定されていると、
+ブラウザはそのページにリダイレクトされる。
+
+   - それ以外の場合はHTTP例外がエラーコード401で表示される。
+
+[loginUrl|CWebUser::loginUrl]を設定する際に、相対URLか絶対URLのどちらかを指定できます。
+あるいはまた、[CWebApplication::createUrl]によってURLを生成する文字列も利用可能です。
+配列の最初の要素はログインコントローラアクションへの[route](/doc/guide/basics.controller#route)であり、
+残りはGETパラメータとして渡されるキーと値のペアです。
+例えば、
+
+~~~
+[php]
+array(
+	......
+	'components'=>array(
+		'user'=>array(
+			// 実際のデフォルト値
+			'loginUrl'=>array('site/login'),
+		),
+	),
+)
+~~~
+
+ブラウザがログインページリダイレクトされ、ログインが成功したら、
+権限付与を必要とした元のページに戻りたいでしょう。
+どうしたら元のページのURLがわかるでしょうか？
+ユーザコンポーネントの[returnUrl|CWebUser::returnUrl]プロパティからこの情報を得ることができます。
+したがって、リダイレクトを以下のようにして実行できます。
+
+~~~
+[php]
+Yii::app()->request->redirect(Yii::app()->user->returnUrl);
+~~~
+
+ロールベースアクセスコントロール
+-------------------------
+
+ロールベースアクセスコントロール(RBAC)はシンプルで強力な集中的アクセスコントロールを提供します。
+RBACと他の伝統的なアクセスコントロールスキーマとの比較については[Wiki
+article](http://en.wikipedia.org/wiki/Role-based_access_control)を参照してください。
+
+Yiiは[authManager|CWebApplication::authManager]アプリケーションコンポーネントで、階層的RBACスキームを実装しています。
+以下でこのスキームで使われる主な概念を紹介します。
+次に権限付与データをどう定義するかを説明します。
+最後に権限付与データをアクセスチェックに利用するやり方を説明します。
+
+### 概要
+
+YiiのRBACの基本概念は、*権限付与アイテム*です。
+権限付与アイテムとは何かをする許可のことです。(例：新しいブログ記事を作る、ユーザを管理する)
+粒度と対象者によって、権限付与アイテムは*オペレーション*、*タスク*、*ロール*に分類されます。
+ロールは複数のタスクからなり、タスクは複数のオペレーションからなります。
+そして、オペレーションが一番小さな許可単位です。
+例えば、`administrator`ロールが`post management`タスクと`user management`タスクを含むようなシステムを作ることができます。
+`user management`タスクは`create user`、`update user`、`delete user`などのオペレーションから構成されるでしょう。
+更なる柔軟性のために、Yiidではロールに他のロールを含めたり、タスクに他のタスクを含めたりできます。
+さらにオペレーションも他のオペレーションを含むことができます。
+
+権限付与アイテムは名前によって一意に識別されます。
+
+権限付与アイテムは*ビジネスルール*に関連付けられることがあります。
+ビジネスルールとは、小さなPHPコードで、アクセスチェックの際に実行されます。
+ビジネスルールの実行結果がtrueを返したときだけ、
+ユーザは権限付与アイテムが表す実行許可を持っていると考えられます。
+例えば、`updatePost`というオペレーションを作るときに、記事作成者本人だけに更新許可を与えるために、
+ユーザのIDが記事作成者のIDと同じであるかどうか確認するビジネスルールを付け加えたいことがあるでしょう。
+
+
+権限付与アイテムを使うことで、*権限付与階層*を構築することができます。
+アイテム`A`がアイテム`B`を含むとき、`A`は`B`の親になります。（つまり、`A`は`B`の権限をすべて含みます)
+アイテムは複数の子を持つことができ、また複数の親を持つこともできます。
+したがって、権限付与階層はツリー構造ではなく半順序グラフです。
+階層構造の中で、ロールアイテムは最上位に位置します。
+オペレーションアイテムは最下層です。
+タスクアイテムはそれらの中間です。
+
+権限付与階層を作った後、階層の中にあるロールをユーザに割り当てることができます。
+ユーザはいったんロールを割り当てられると、ロールによって表される権限を持つことになります。
+例えば、`administrator`ロールをあるユーザに割り当てると、
+そのユーザはアドミニストレータロールに含まれる`post management`と`user management`権限を持つことになります。
+そして`user management`には`create user`のようなオペレーションが含まれます。
+
+ここからが面白いところです。コントローラのアクションでユーザがある記事を削除できるかどうかチェックしたいとしましょう。
+RBAC階層と割り当てを使うとこれは以下のように簡単になります。
+
+
+~~~
+[php]
+if(Yii::app()->user->checkAccess('deletePost'))
+{
+	// 記事の削除
+}
+~~~
+
+### 権限付与マネージャの設定
+
+権限付与階層を定義してアクセスチェックを始める前に、[authManager|CWebApplication::authManager]
+アプリケーションコンポーネントを設定する必要があります。
+Yiiは二つのタイプの権限付与マネージャを提供します。
+[CPhpAuthManager] と [CDbAuthManager]です。
+前者は権限付与データを格納するのにPHPファイルを使い、後者はデータベースを使います。
+[authManager|CWebApplication::authManager]
+アプリケーションコンポーネントを設定するさいに、どちらのクラスを使い、初期値をどうするのか指定しなければなりません。
+例えば、
+
+~~~
+[php]
+return array(
+	'components'=>array(
+		'db'=>array(
+			'class'=>'CDbConnection',
+			'connectionString'=>'sqlite:path/to/file.db',
+		),
+		'authManager'=>array(
+			'class'=>'CDbAuthManager',
+			'connectionID'=>'db',
+		),
+	),
+);
+~~~
+
+この設定で、`Yii::app()->authManager`として[authManager|CWebApplication::authManager]
+アプリケーションコンポーネント
+にアクセスできます。
+
+### 権限付与階層を定義する
+
+権限付与階層の定義には三つのステップがあります。
+権限付与アイテムを定義し、アイテム同士の関係を設定し、最後にユーザにロールを割り当てます。
+[authManager|CWebApplication::authManager]
+アプリケーションコンポーネントはこれらのタスクを実行するための完全なAPIセットを提供します。
+
+権限付与アイテムの定義には、アイテムの種類によって以下のメソッドにいずれかを使います。
+
+   - [CAuthManager::createRole]
+   - [CAuthManager::createTask]
+   - [CAuthManager::createOperation]
+
+権限付与アイテムのセットができたら、以下のメソッドでアイテム間の関係を設定します。
+
+   - [CAuthManager::addItemChild]
+   - [CAuthManager::removeItemChild]
+   - [CAuthItem::addChild]
+   - [CAuthItem::removeChild]
+
+そして最後に、以下のメソッドでロールを個々のユーザに割り当てます。
+
+   - [CAuthManager::assign]
+   - [CAuthManager::revoke]
+
+以下にこれらのAPIを使った例を示します。
+
+~~~
+[php]
+$auth=Yii::app()->authManager;
+
+$auth->createOperation('createPost','create a post');
+$auth->createOperation('readPost','read a post');
+$auth->createOperation('updatePost','update a post');
+$auth->createOperation('deletePost','delete a post');
+
+$bizRule='return Yii::app()->user->id==$params["post"]->authID;';
+$task=$auth->createTask('updateOwnPost','update a post by author himself',$bizRule);
+$task->addChild('updatePost');
+
+$role=$auth->createRole('reader');
+$role->addChild('readPost');
+
+$role=$auth->createRole('author');
+$role->addChild('reader');
+$role->addChild('createPost');
+$role->addChild('updateOwnPost');
+
+$role=$auth->createRole('editor');
+$role->addChild('reader');
+$role->addChild('updatePost');
+
+$role=$auth->createRole('admin');
+$role->addChild('editor');
+$role->addChild('author');
+$role->addChild('deletePost');
+
+$auth->assign('reader','readerA');
+$auth->assign('author','authorB');
+$auth->assign('editor','editorC');
+$auth->assign('admin','adminD');
+~~~
+
+> 情報: この例は長くて退屈に見えますが、それはデモだからです。
+たいてい開発者はエンドユーザがより直感的に利用できるインターフェイスを作る必要があるでしょう。
+
+
+### ビジネスルールを使う
+
+権限階層を定義する際に、ロール・タスク・オペレーションにいわゆる*ビジネスルール*を関連付けることができます。
+さらにまた、ユーザにロールを割り当てる際にも、ビジネスルールを関連付けることができます。
+ビジネスルールとは、アクセスチェックが行われる際に実行される、小さなPHPコードです(正確にはPHPの評価式です)。
+ビジネスルールの戻り値はロールや割り当てがユーザに適応されるかどうかの判断に使われます。
+上記の例では`updateOwnPost`タスクにビジネスルールを関連付けています。
+ビジネスルールでは単に現在のユーザIDと記事作成者のIDが同じかどうかをチェックします。
+`$params`配列の記事情報は、開発者自身がアクセスチェックの際に設定します。
+
+
+### アクセスチェック
+
+アクセスチェックを実行するため、まず権限付与アイテムの名前を知る必要があります。
+たとえば、ユーザが記事の新規作成ができるかどうかをチェックするには、
+`createPost`オペレーションで表される権限を持っているかどうかを調べます。
+次に[CWebUser::checkAccess]を呼ぶことでアクセスチェックを実行します。
+
+~~~
+[php]
+if(Yii::app()->user->checkAccess('createPost'))
+{
+	// 記事の作成
+}
+~~~
+
+権限付与ルールがビジネスルールに関連付けられており、追加のパラメータを必要とする場合には、
+パラメータを渡すことができます。
+例えば、ユーザが記事の更新が可能かどうかを調べるために、以下のようにします。
+
+~~~
+[php]
+$params=array('post'=>$post);
+if(Yii::app()->user->checkAccess('updateOwnPost',$params))
+{
+	// 記事の更新
+}
+~~~
+
+
+### デフォルトロールを使う
+
+> 注意: デフォルトフォール機能は1.0.3以降で利用可能です。
+
+多くのウェブアプリケーションでは、すべてもしくはほとんどのユーザに割り当てるいくつかのとても特殊なロールが必要です。
+例えば、ある特権を認証済みのすべてのユーザに割り当てたいとします。
+これらのロール割り当てを明示的に指定し、保存すると、大変なメンテナンストラブルをもたらします。
+この問題を解決するために、*デフォルトロールを*活用することができます。
+
+デフォルトロールは、認証済みのユーザとゲストユーザを含むすべてのユーザに、黙示的に割り当てられるロールです。
+明示的にユーザに割り当てる必要はありません。
+ [CWebUser::checkAccess]が呼び出されると、デフォルトロールはまるでユーザに割り当てられているかのようにまずチェックされます。
+
+デフォルトロールは[CAuthManager::defaultRoles] プロパティで宣言されなければなりません。
+例えば、以下の設定では`authenticated`と`guest`という二つのロールをデフォルトロールとして宣言しています。
+
+~~~
+[php]
+return array(
+	'components'=>array(
+		'authManager'=>array(
+			'class'=>'CDbAuthManager',
+			'defaultRoles'=>array('authenticated', 'guest'),
+		),
+	),
+);
+~~~
+
+デフォルトロールはすべてのユーザに割り当てられるため、
+たいていビジネスルールでロールが本当にユーザに適用されるかどうか決定する必要があります。
+例えば、以下のコードでは`authenticated`と`guest`という二つのロールを定義し、
+それぞれを認証済みユーザとゲストユーザに割り当てています。
+
+~~~
+[php]
+$bizRule='return !Yii::app()->user->isGuest;';
+$auth->createRole('authenticated', 'authenticated user', $bizRule);
+
+$bizRule='return Yii::app()->user->isGuest;';
+$auth->createRole('guest', 'guest user', $bizRule);
+~~~
+
+<div class="revision">$Id: topics.auth.txt 956 2009-04-21 15:16:03Z qiang.xue@gmail.com $</div>

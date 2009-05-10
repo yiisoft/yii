@@ -144,7 +144,7 @@ jest przez klasę, jego parametry są publicznymi atrybutami tej klasy
 zawierającymi znacznik `@soap` w ich sekcjach doc comments.
 
 Możemy również użyć typu tablicowego poprzez dodanie `[]` na końcu typu
-prostego lub złożonego. Tym sposobem definiujemy tablicę okreslonego typu.
+prostego lub złożonego. Tym sposobem definiujemy tablicę określonego typu.
 
 W przykładzie poniżej zdefiniowano funkcję Web API `getPosts`, która zwraca
 tablicę obiektów `Post`.

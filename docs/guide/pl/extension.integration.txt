@@ -1,7 +1,7 @@
 Używanie zewnętrznych bibliotek (ang. Using 3rd-Party Libraries)
 =========================
 
-Yii jest starannie zparojektowane, tak że zewnętrzne biblioteki można z łatwością 
+Yii jest starannie zaprojektowane, tak że zewnętrzne biblioteki można z łatwością 
 zintegrować do dalszego rozszerzania funkcjonalności Yii.
 Podczas używania zewnętrznych bibliotek w projekcie, deweloperzy często spotykają 
 się z problemami związanymi z nazywaniem klas oraz z dołączaniem plików. 
@@ -14,12 +14,12 @@ class files.
 
 Poniżej użyjemy przykładu aby zilustrować jak używać komponentu 
 [Zend_Search_Lucene](http://www.zendframework.com/manual/en/zend.search.lucene.html)
-z [frameworku Zend ](http://www.zendframework.com) w aplikaci Yii.
+z [frameworku Zend ](http://www.zendframework.com) w aplikacji Yii.
 
 Po pierwse, rozpakowujemy plik z wydaniem frameworku Zend do katalogu `protected/vendors`, 
 zakładając, że `protected` jest
 [głównym folderem aplikacji](/doc/guide/basics.application#application-base-directory).
-Sprawdz czy plik `protected/vendors/Zend/Search/Lucene.php` istnieje.
+Sprawdź czy plik `protected/vendors/Zend/Search/Lucene.php` istnieje.
 
 Po drugi, na początku klasy kontrolera wstaw następujące linie:
 

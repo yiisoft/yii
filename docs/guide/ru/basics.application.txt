@@ -118,7 +118,7 @@ array(
 Yii предопределяет набор ключевых (core) компонентов, которые предоставляют возможности, 
 необходимые для большинства веб-приложений. Например, компонент [request|CWebApplication::request] 
 используется для предварительной обработки (resolve) запросов пользователя и предоставления
-различной информации, такой как URL, cookies. Конфигурируя свойства ключевых компонентов, 
+различной информации, такой как URL, cookies. Задавая свойства ключевых компонентов, 
 можно изменять стандартное поведение Yii практически как угодно.
 
 Далее перечислены ключевые компоненты, предопределенные классом [CWebApplication]:
@@ -137,18 +137,18 @@ Yii предопределяет набор ключевых (core) компон
    - [db|CApplication::db]: [CDbConnection] - обслуживает соединение с базой данных; обратите внимание, что 
 для использования компонента необходимо установить свойство [connectionString|CDbConnection::connectionString];
 
-   - [errorHandler|CApplication::errorHandler]: [CErrorHandler] - обрабатывает непойманные ошибки и исключения PHP;
+   - [errorHandler|CApplication::errorHandler]: [CErrorHandler] - обрабатывает не пойманные ошибки и исключения PHP;
 
    - [messages|CApplication::messages]: [CPhpMessageSource] - предоставляет переводы сообщений, используемых в Yii-приложении;
 
    - [request|CWebApplication::request]: [CHttpRequest] - предоставляет информацию, относящуюся к пользовательскому запросу;
 
-   - [securityManager|CApplication::securityManager]: [CSecurityManager] - предоставляет функции, связанные с безопасностью (например, хэширование, шифрование);
+   - [securityManager|CApplication::securityManager]: [CSecurityManager] - предоставляет функции, связанные с безопасностью (например, хеширование, шифрование);
 
    - [session|CWebApplication::session]: [CHttpSession] - обеспечивает функциональность, связанную с сессиями;
 
-   - [statePersister|CApplication::statePersister]: [CStatePersister] - предоставляет метод персистентности 
-глобального состояния (global state persistence method);
+   - [statePersister|CApplication::statePersister]: [CStatePersister] - предоставляет метод для сохранения 
+глобального состояния;
 
    - [urlManager|CWebApplication::urlManager]: [CUrlManager] - предоставляет функции парсинга и формирования URL;
 
@@ -161,7 +161,7 @@ Yii предопределяет набор ключевых (core) компон
 -------------------------
 Жизненный цикл приложения при обработке пользовательского запроса:
 
-   0. предынициализация приложения посредством [CApplication::preinit()];
+   0. предварительная инициализация приложения посредством [CApplication::preinit()];
 
    1. установка автозагрузчика класса и обработку ошибок;
 

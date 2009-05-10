@@ -11,15 +11,15 @@ instalacji dodatkowych pakietów, klas lub plików.
 którego nazwa jest identyczna jak nazwa rozszerzenia.
 * Klasy w rozszerzeniu powinny być poprzedzone pewną literą(ami) aby uniknąć konfliktów
 nazw z klasami z innych rozszerzeń.
-* Rozszerzenie powinno być dostarczone wraz ze szczegółowymi instrukcjami instalacynymi
+* Rozszerzenie powinno być dostarczone wraz ze szczegółowymi instrukcjami instalacyjnymi
 oraz udokumentowanym API. Zredukuje to czas i nakłady poświęcone przez innych programistów
 podczas używania rozszerzenia.
 * Rozszerzenie powinno używać odpowiedniej licencji. Jeśli chcesz uczynić 
 twoje rozszerzenie dostępne zarówno dla projektów open-source jak i o kodzie zamkniętym
-powinieneś rozwarzyć używanie licencji takich jak BSD, MIT, itp. ale nie GPL, gdyż ta wymaga
+powinieneś rozważyć używanie licencji takich jak BSD, MIT, itp. ale nie GPL, gdyż ta wymaga
 aby kod wywodził się od innego kodu open-source.
 
-Następnie, opiszemy jak utworzyć nowe rozszerzenie, odpowiednio do katergorii
+Następnie, opiszemy jak utworzyć nowe rozszerzenie, odpowiednio do katergori
 opisanych w [przeglądzie](/doc/guide/extension.overview). Opis ten również ma zastosowanie
 kiedy tworzysz komponenty do użytku we własnych projektach.
 
@@ -29,7 +29,7 @@ Komponent aplikacji
 [Komponent aplikacji](/doc/guide/basics.application#application-component) powinien 
 implementować interfejs [IApplicationComponent] lub dziedziczyć z [CApplicationComponent]. 
 Główna metoda, która musi zostać zaimplementowana to [IApplicationComponent::init], 
-w której to komponent wykonuje penwą pracę inicjalizacyjną. Metoda ta jest wywoływana
+w której to komponent wykonuje pewną pracę początkową. Metoda ta jest wywoływana
 zaraz po tym jak komponent jest utworzony i wartości początkowe (określone w [konfiguracji 
 aplikacji](/doc/guide/basics.application#application-configuration))
 zostały nadane.
@@ -48,7 +48,7 @@ lub jej klas pochodnych.
 
 Najprostszym sposobem utworzenia nowego widżetu jest rozszerzenie istniejącego 
 widżetu oraz nadpisanie jego metod lub zmienienie jego domyślnych wartości własności.
-Na przykład, jeśli chesz używać ładniejszego stylu dla klasy [CTabView], powinieneś 
+Na przykład, jeśli chcesz używać ładniejszego stylu dla klasy [CTabView], powinieneś 
 skonfigurować jej właściwość [CTabView::cssFile] jeśli używasz tego widżetu. 
 Możesz również rozszerzyć klasę [CTabView] następująco, tak że nie będzie wymagane
 dłużej używanie konfiguracji tej właściwości podczas używania widżetu.
@@ -71,7 +71,7 @@ class MyTabView extends CTabView
 
 Powyżej, nadpisujemy metodę [CWidget::init] oraz przypisujemy URL do [CTabView::cssFile] 
 naszego nowego stylu CSS jeśli właściwość nie jest ustawiona. Umieszczamy nowy plik stylu
-CSS w tym samym katalogu zawierącym plik klasy `MyTabView`, tak że mogą one być 
+CSS w tym samym katalogu zawierającym plik klasy `MyTabView`, tak że mogą one być 
 spakowane jako rozszerzenie. Ponieważ plik stylu CSS nie jest dostępny w sieci
 musimy go opublikować jako zasób.
 
@@ -88,7 +88,7 @@ widżetu. Nazywamy te pliki *zasobami* (ang. assets) ponieważ znajdują się ra
 plikami klas widżetu i są zazwyczaj niedostępne dla internauty. Aby uczynić te pliki
 dostępnymi w sieci, musimy opublikować je używając [CWebApplication::assetManager], 
 tak jak pokazano w poniższym fragmencie kodu. Poza tym, jeśli chcemy dołączyć plik CSS
-lub JavaScript do aktualnej strony, musimy go zarejestronwać używając [CClientScript]:
+lub JavaScript do aktualnej strony, musimy go zarejestrować używając [CClientScript]:
 
 ~~~
 [php]
@@ -119,7 +119,7 @@ Filtr
 ------
 [Filtr](/doc/guide/basics.controller#filter) powinien dziedziczyć z [CFilter] lub jego 
 klas pochodnych. Główne metody, które muszą zostać zaimplementowane dla filtru 
-to [CFilter::preFilter] oraz [CFilter::postFilter]. Pierwsza jest wołąna przed wywołaniem akcją
+to [CFilter::preFilter] oraz [CFilter::postFilter]. Pierwsza jest wołana przed wywołaniem akcją
 gdy druga wołana jest po.
 
 ~~~
@@ -147,7 +147,7 @@ Kontroler
 [Kontroler](/doc/guide/basics.controller) dystrybuowany jako rozszerzenie powinien 
 dziedziczyć z [CExtController], zamiast z [CController]. Głównym powodem jest to, że 
 [CController] zakłada, że pliki widoku kontrolera znajdują się w `application.views.ControllerID`, 
-gdy zaś [CExtController] zakłąda, że pliki widoku znajdują się w katalogu `views`, 
+gdy zaś [CExtController] zakłada, że pliki widoku znajdują się w katalogu `views`, 
 który jest podkatalogiem katalogu zawierającego plik klasy kontrolera. Z tego też powodu,
 łatwiej można redystrybuować kontroler, ponieważ pliki widoku znajdują się razem z plikami 
 klasy kontrolera.
@@ -173,7 +173,7 @@ Konsola poleceń
 ---------------
 [Konsola poleceń](/doc/guide/topics.console) powinna dziedziczyć z [CConsoleCommand] 
 i implementować swoją metodę [CConsoleCommand::run]. Opcjonalnie, możemy nadpisać 
-[CConsoleCommand::getHelp] aby dotarczyć trochę informacji dotyczących polecenia.
+[CConsoleCommand::getHelp] aby dostarczyć trochę informacji dotyczących polecenia.
 
 ~~~
 [php]
@@ -193,7 +193,7 @@ class MyCommand extends CConsoleCommand
 
 Moduł
 ------
-Zonacz do sekscji dotyczącej [modułów](/doc/guide/basics.module#creating-module) 
+Zerknij do sekcji dotyczącej [modułów](/doc/guide/basics.module#creating-module) 
 aby zobaczyć jak utworzyć moduł.
 
 Ogólną wytyczną dla tworzenia moduły jest to, iż powinien on być samowystarczalny. 
@@ -205,7 +205,7 @@ powinny być dystrybuowane razem z modułem, a moduł powinien opublikować jest
 Generyczne komponenty
 -----------------
 Tworzenie rozszerzeń generycznych komponentów to jak pianie klasy. Również tutaj, 
-kompoenent powinien być samowystarczalny, tak że może ony być w łatwy sposób
-wykorzytany przez innych deweloperów.
+komponent powinien być samowystarczalny, tak że może ony być w łatwy sposób
+wykorzystany przez innych deweloperów.
 
 <div class="revision">$Id: extension.create.txt 749 2009-02-26 02:11:31Z qiang.xue $</div>

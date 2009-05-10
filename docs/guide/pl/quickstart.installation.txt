@@ -3,12 +3,12 @@ Instalacja
 
 Instalacja Yii zasadniczo składa się z następujących dwóch etapów:
 
-   1. Ściągnij Yii Framework z [yiiframework.com](http://www.yiiframework.com/).
-   2. Rozpakuj pliki Yii do katalogu dostępnego z internetu.
+   1. Ściągnięcia frameworku Yii z [yiiframework.com](http://www.yiiframework.com/).
+   2. Rozpakowania plików Yii do katalogu dostępnego z internetu.
 
-> Wskazówka: Yii nie musi być instalowany w katalogu dostępnego z internetu.
+> Tip|Wskazówka: Yii nie musi być instalowany w katalogu dostępnego z internetu.
 Aplikacja Yii ma skrypt uruchomieniowy, który jest właściwie jedynym plikiem
-jaki musisz udostępnić użytkownikom internetu. Inne skrytpty PHP, włączając
+jaki musisz udostępnić użytkownikom internetu. Inne skrypty PHP, włączając
 w to skrypty Yii, powinny być chronione przed dostępem z internetem, ponieważ
 mogą być narażone na hacking lub exploity.
 

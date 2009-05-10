@@ -1,0 +1,17 @@
+Fitur Baru
+==========
+
+Halaman ini meringkas fitur-fitur utama baru yang diperkenalkan dalam setiap rilis Yii.
+
+Versi 1.0.5
+-------------
+
+ * Rekaman aktif ditingkatkan dengan mendukung lingkup penamaan. Lihat:
+     - [Lingkup Bernama](/doc/guide/database.ar#named-scopes)
+     - [Query Relasional dengan Lingkup Bernama](/doc/guide/database.arr#relational-query-with-named-scopes)
+
+
+ * Rekaman aktif ditingkatkan dengan mendukung pemanggilan lazy dengan opsi query dinamis. Lihat:
+     - [Opsi Query Relasional Dinamis](/doc/guide/database.arr#dynamic-relational-query-options)
+
+<div class="revision">$Id: changes.txt 956 2009-04-21 15:16:03Z qiang.xue@gmail.com $</div>

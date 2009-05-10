@@ -54,6 +54,7 @@ Informationen. Nachfolgend eine Liste der gebräuchlichsten DSN-Formate:
    - MySQL: `mysql:host=localhost;dbname=testdb`
    - PostgreSQL: `pgsql:host=localhost;port=5432;dbname=testdb`
    - SQL Server: `mssql:host=localhost;dbname=testdb`
+   - Oracle: `oci:dbname=//localhost:1521/testdb`
 
 Da [CDbConnection] von [CApplicationComponent] abgeleitet ist, können wir sie auch
 als [Applikationskomponente](/doc/guide/basics.application#application-component)
@@ -245,4 +246,4 @@ while($dataReader->read()!==false)
 }
 ~~~
 
-<div class="revision">$Id: database.dao.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>
+<div class="revision">$Id: database.dao.txt 978 2009-05-06 03:36:09Z qiang.xue $</div>

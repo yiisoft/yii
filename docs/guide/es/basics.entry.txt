@@ -33,4 +33,4 @@ Ejecutar aplicaciones en modo debug es menos eficienta ya que debe mantener los 
 internamente. Por otro lado el modo debug es de mucha ayuda durante la etapa de 
 desarrollo ya que provee información de debug rica cuando ocurre el error.
 
-<div class="revision">$Id: basics.entry.txt 162 2008-11-05 12:44:08Z weizhuo $</div>
+<div class="revision">$Id: basics.entry.txt 162 2008-11-05 12:44:08Z sebathi $</div>

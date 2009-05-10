@@ -2525,7 +2525,6 @@ class CController extends CBaseController
 	const STATE_INPUT_NAME='YII_PAGE_STATE';
 	public $layout;
 	public $defaultAction='index';
-	public $usePageCaching=false;
 	private $_id;
 	private $_action;
 	private $_pageTitle;
@@ -2596,7 +2595,7 @@ class CController extends CBaseController
 	{
 		Yii::app()->getClientScript()->render($output);
 		// if using page caching, we should delay dynamic output replacement
-		if(!$this->usePageCaching && $this->_dynamicOutput)
+		if($this->_dynamicOutput!==null && $this->isCachingStackEmpty())
 			$output=$this->processDynamicOutput($output);
 		if($this->_pageStates===null)
 			$this->_pageStates=$this->loadPageStates();
@@ -2850,11 +2849,15 @@ class CController extends CBaseController
 				$cache->recordAction($context,$method,$params);
 		}
 	}
-	public function getCachingStack()
+	public function getCachingStack($createIfNull=true)
 	{
 		if(!$this->_cachingStack)
 			$this->_cachingStack=new CStack;
 		return $this->_cachingStack;
+	}
+	public function isCachingStackEmpty()
+	{
+		return $this->_cachingStack===null || !$this->_cachingStack->getCount();
 	}
 	protected function beforeAction($action)
 	{

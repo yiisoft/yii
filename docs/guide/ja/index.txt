@@ -7,6 +7,6 @@ All Rights Reserved.
 
 2008-2009 &copy; Yii Software LLC.
 
-翻訳: mocapapa &lt;<mocapapa@g.pugpug.org>&gt;, iwasaki &lt;<iwasaki@cresc.com>&gt;, wjx &lt;<webjax@webjax.org>&gt;
+翻訳: mocapapa &lt;<mocapapa@g.pugpug.org>&gt;, iwasaki &lt;<iwasaki@cresc.com>&gt;, wjx &lt;<webjax@webjax.org>&gt;, shuwatto &lt;<shuwatto@gmail.com>&gt;
 
 <div class="revision">$Id: index.txt 687 2009-01-01 04:14:09Z qiang.xue $</div>

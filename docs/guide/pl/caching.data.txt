@@ -6,7 +6,7 @@ przywracania ich później z buforu. Z tego powodu, podstawowa klasa komponentu 
 [CCache] dostarcza dwóch metod, które są używane przez większość czasu: [set()|CCache::set]
 oraz [get()|CCache::get].
 
-Abu zachować zmienną `$value` w buforze, wybieramy unikalne ID oraz wywołujemy 
+Aby zachować zmienną `$value` w buforze, wybieramy unikalne ID oraz wywołujemy 
 [set()|CCache::set] aby ją zachować:
 
 ~~~
@@ -26,8 +26,7 @@ określonego okresu czasu:
 Yii::app()->cache->set($id, $value, 30);
 ~~~
 
-Następnie, jeśli potrzebujemy uzyskać dostęp do tej zmiennej 
-Later when we need to access this variable (albo w tym samym klub też innym żądaniu) 
+Następnie, jeśli potrzebujemy uzyskać dostęp do tej zmiennej (albo w tym samym lub też innym żądaniu) 
 wywołujemy [get()|CCache::get] wraz z ID aby zwrócić ją z bufora. Jeśli wartość 
 zwracana to false, oznacza to, że wartość nie jest dostępna w buforze i powinniśmy ją 
 wygenerować.
@@ -43,17 +42,17 @@ if($value===false)
 }
 ~~~
 
-Podczas wybierania ID dla zmiennej, kóra będzie buforowana, upewnij się, że ID jest 
+Podczas wybierania ID dla zmiennej, która będzie buforowana, upewnij się, że ID jest 
 unikalne spośród wszystkich innych zmiennych, które mogą być zbuforowane w aplikacji.
 NIE WYMAGA się, aby ID było unikalne pomiędzy aplikacjami, ponieważ komponent cache
 jest wystarczająco zmyślny aby rozróżniać te same ID w różnych aplikacjach.
 
-Abu usunąć zbuforowaną wartość z bufora wywołujemy metodę [delete()|CCache::delete];
+Aby usunąć zbuforowaną wartość z bufora wywołujemy metodę [delete()|CCache::delete];
 aby usunąć całą wartość z bufora wołamy [flush()|CCache::flush]. Bądź bardzo ostrożny
 podczas wywoływania [flush()|CCache::flush] ponieważ usuwa ono dane, które zostały 
 zbuforowane dla innych aplikacji.
 
-> Tip|Porada: Ponieważ [CCache] implementuje dostęp przez tablice `ArrayAccess`
+> Tip|Wskazówka: Ponieważ [CCache] implementuje dostęp przez tablice `ArrayAccess`
 > komponent cache może być używany jak tablica. Poniżej znajduje się kilka przykładów:
 > ~~~
 > [php]
@@ -65,7 +64,7 @@ zbuforowane dla innych aplikacji.
 Zależności w buforowaniu (ang. Cache Dependency)
 ----------------
 
-Poza opcją wygasania, dane zbuforowane  mogą róznież stracić ważność zgodnie
+Poza opcją wygasania, dane zbuforowane  mogą również stracić ważność zgodnie
 z pewnymi zmianami zależności. Na przykład, jeśli buforujemy zawartość pewnego 
 pliku a plik ulegnie zmianie, powinniśmy unieważnić zbuforowaną kopię i przeczytać
 najnowszą zawartość z pliku zamiast tej z bufora.
@@ -80,7 +79,7 @@ Przekazujemy instancję zależności wraz z danymi do buforowania gdy wywołujem
 Yii::app()->cache->set($id, $value, 30, new CFileCacheDependency('NazwaPliku'));
 ~~~
 
-Teraz jeśli zwrócimy `$value` z bufowu poprzez wywołanie [get()|CCache::get] zależność
+Teraz jeśli zwrócimy `$value` z buforu poprzez wywołanie [get()|CCache::get] zależność
 zostanie sprawdzona i jeśli zmieni się, zostanie zwrócona wartość false, ze wskazaniem
 danych, które wymagają odświeżenia.
 
@@ -92,14 +91,17 @@ Poniżej znajduje się podsumowanie dostępnych zależności buforowania:
    - [CDirectoryCacheDependency]: zależność jest zmieniona jeśli jakikolwiek z plików
    w katalogu lub podkatalogach zmienił się.
 
-   - [CDbCacheDependency]: zależność zmieniłą się jeśli wynik zapytania określonego 
+   - [CDbCacheDependency]: zależność jest zmieniona jeśli wynik zapytania określonego 
    zapytania SQL zmienił się.
 
    - [CGlobalStateCacheDependency]: zależność jest zmieniona jeśli wartość określonego 
    globalnego stanu została zmieniona. Globalny stan to zmienna, która jest trwała 
-   w aplikacji dla wielu żądań oraz wielu sesji. Jest zdefioniowana poprzez [CApplication::setGlobalState()].
+   w aplikacji dla wielu żądań oraz wielu sesji. Jest zdefiniowana poprzez [CApplication::setGlobalState()].
 
-   - [CChainedCacheDependency]: zależność jest zmieniowa jeśli jakakolwiek z zależności 
+   - [CChainedCacheDependency]: zależność jest zmieniona jeśli jakakolwiek z zależności 
    w łańcuchu zmieniła się.
 
-<div class="revision">$Id: caching.data.txt 169 2008-11-06 19:43:44Z qiang.xue $</div>
+   - [CExpressionDependency]: zależność jest zmieniona jeśli zmieni się rezultat określonego wyrażenia PHP. Klasa ta jest dostępna od
+   wersji 1.0.4.
+
+<div class="revision">$Id: caching.data.txt 891 2009-03-25 15:20:56Z qiang.xue $</div>

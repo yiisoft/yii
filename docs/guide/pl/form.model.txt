@@ -13,10 +13,10 @@ przez użytkownika, możemy stworzyć dwa typy modelów. Jeśli dane wejściowe 
 używane a na końcu wyrzucane, powinniśmy stworzyć [model formularza](/doc/guide/basics.model); 
 jeśli dane wejściowe są zbierane a następnie zapisywane w bazie danych, powinniśmy
 w zamian używać [rekordu aktywnego](/doc/guide/database.ar). Oba typy modeli 
-dziedzicza tą samą klasę bazową [CModel], która definiuje wspólny interfejs 
+dziedziczą tą samą klasę bazową [CModel], która definiuje wspólny interfejs 
 wymagany dla formularzy.
 
-> Note|Przypis: W tej sekcji używamy głównie modeli formularza jako przykładów.
+> Note|Uwaga: W tej sekcji używamy głównie modeli formularza jako przykładów.
 Jednakże ma to również zastosowanie do modeli [rekordu aktywnego](/doc/guide/database.ar).
 
 Definiowanie klasy modelu.
@@ -39,14 +39,14 @@ class LoginForm extends CFormModel
 
 W modelu `LoginForm` zadeklarowaliśmy 3 atrybuty: `$username` (nazwa użytkownika), 
 `$password` (hasło) oraz `$rememberMe` (zapamiętaj mnie). Są one używane do 
-zapamiętywania wporwadzonych przez użytkownika informaci o jego nazwie, haśle oraz 
+zapamiętywania wprowadzonych przez użytkownika informacji o jego nazwie, haśle oraz 
 opcji pozwalającej określić, czy użytkownik chce zapamiętać swoje dane logowania.
 Ponieważ pole `$rememberMe` posiada domyślną wartość ustawioną na `false`, 
-opdowiadająca mu opcja jest wyświetlana inicjalnie w forularzu jako odznaczona.
+odpowiadająca mu opcja jest wyświetlana inicjalnie w formularzu jako odznaczona.
 
-> Info|Info: Zamiast nazywać te zmienne właściwościami, będziemy używali nazwy *atrybyty* 
-aby odróżnić jest od zwykłych właściwości. Atrybut jest właściwością, która jest  An
-głównie używana do przechowywania danych pochodzacych od danych wejściowych użytkownika 
+> Info|Info: Zamiast nazywać te zmienne właściwościami, będziemy używali nazwy *atrybuty* 
+aby odróżnić jest od zwykłych właściwości. Atrybut jest właściwością, która jest
+głównie używana do przechowywania danych pochodzących od danych wejściowych użytkownika 
 lub z bazy danych.
 
 Tworzenie reguł sprawdzania poprawności (ang. Declaring Validation Rules)
@@ -90,7 +90,7 @@ class LoginForm extends CFormModel
 }
 ~~~
 
-Powyższy kod mówi, iż zarówno uzytkownik `username` jak i hasło `password` są wymagane, 
+Powyższy kod mówi, iż zarówno użytkownik `username` jak i hasło `password` są wymagane, 
 hasło `password` powinno zostać uwierzytelnione.
 
 Każda regułą zwrócona przez metodę `rules()` musi posiadać następujący format:
@@ -100,7 +100,7 @@ Każda regułą zwrócona przez metodę `rules()` musi posiadać następujący f
 array('AttributeList', 'Validator', 'on'=>'ScenarioList', ...dodatkowe opcje)
 ~~~
 
-gdzie `AttributeList` jest łańcuchem znaków, zawierającym oddzielone przecinkami attribute names which
+gdzie `AttributeList` jest łańcuchem znaków, zawierającym oddzielone przecinkami 
 nazwy atrybutów, które powinny zostać sprawdzone z regułą; `Validator` określa jaki rodzaj
 porównywania powinien zostać użyty; parametr `on` jest opcjonalny i określa 
 listę scenariuszy, gdzie reguła powinna mieć zastosowanie; dodatkowe opcje są parami
@@ -109,7 +109,7 @@ walidatora.
 
 Istnieją trzy sposoby aby określić `walidator` (ang. Validator) w regułach sprawdzania.  
 W pierwszym `walidator` może być nazwą metody w klasie modelu, jak `authenticate` 
-w przykłądzie powyżej. Metoda walidatora musi posiadać następującą składnię:
+w przykładzie powyżej. Metoda walidatora musi posiadać następującą składnię:
 
 ~~~
 [php]
@@ -120,18 +120,18 @@ w przykłądzie powyżej. Metoda walidatora musi posiadać następującą skład
 public function ValidatorName($attribute,$params) { ... }
 ~~~
 
-W drugim, `Walidator` może być nazwą klasy walidacji. Kiedy reguła ma zastosowanie, 
+W drugim, `walidator` może być nazwą klasy walidacji. Kiedy reguła ma zastosowanie, 
 instancja walidatora zostanie stworzona w celu dokonania sprawdzenia danych. Dodatkowe 
 opcje w regule są używane do zainicjalizowania wartości instancji atrybutu. 
 Klasa walidatora musi rozszerzać klasę [CValidator].
 
-> Note|Przypis: Kiedy określamy regułę dla modelu aktywnego rekordu, możemy używać we can use a
+> Note|Uwaga: Kiedy określamy regułę dla modelu aktywnego rekordu, możemy używać 
 specjalnej opcji nazwanej `on`. Opcja ta może posiadać wartość `'insert'` (wstawianie) lub
 `'update'` (aktualizowanie), tak, że reguła ta ma zastosowanie podczas wstawiania lub 
 aktualizowania rekordu. Gdy nie jest ona ustawiona, reguła będzie miała zastosowanie 
 w obu przypadkach w momencie gdy metoda `save()` jest wywoływana.
 
-W trzecim, `Walidator` może być predefiniowanym aliasem do klasy walidatora. 
+W trzecim, `walidator` może być predefiniowanym aliasem do klasy walidatora. 
 W powyższym przykładzie, nazwa `required` (wymagany) jest aliasem  do klasy [CRequiredValidator], 
 która sprawdza czy wartość atrybutu sprawdzanego nie jest pusta. Poniżej znajduje się
 pełna lista predefiniowanych aliasów walidatorów:
@@ -142,19 +142,21 @@ pełna lista predefiniowanych aliasów walidatorów:
    - `compare`: alias dla klasy [CCompareValidator], sprawdza czy atrybut jest równy
    innemu atrybutowi bądź stałej.
 
-   - `email`: alias dla klasy [CEmailValidator], sprawdza czy atrybut jest poprawnymensuring the attribute is a
+   - `email`: alias dla klasy [CEmailValidator], sprawdza czy atrybut jest poprawnym
    adresem email.
 
    - `default`: alias dla klasy [CDefaultValueValidator], przypisuje domyślną wartość 
    do danego atrybutu.
+   
+   - `exist`: alias dla klasy [CExistValidator], sprawdza czy wartość atrybutu znajduje się w określonej kolumnie tabeli.
 
    - `file`: alias dla klasy [CFileValidator], sprawdza czy atrybut zawiera nazwę
    wczytywanego pliku.
 
    - `filter`: alias dla klasy [CFilterValidator], transformuje atrybut przy użyciu filtra.
 
-   - `in`: alias dla klasyy [CRangeValidator], sprawdza czy dana jest zawiera się 
-   wyspecyfikowanej wcześniej liście wartości.
+   - `in`: alias dla klasy [CRangeValidator], sprawdza czy dana zawiera się 
+   określonej wcześniej liście wartości.
 
    - `length`: alias dla klasy [CStringValidator], sprawdza czy długość danych zgadza się 
    z pewną wartością.
@@ -167,7 +169,7 @@ pełna lista predefiniowanych aliasów walidatorów:
 
    - `required`: alias dla klasy [CRequiredValidator], sprawdza czy atrybut nie jest pusty.
 
-   - `type`: alias dla klasy [CTypeValidator], sprawdza czy atrybyt jest określonego typu.
+   - `type`: alias dla klasy [CTypeValidator], sprawdza czy atrybut jest określonego typu.
 
    - `unique`: alias dla klasy [CUniqueValidator], sprawdza czy dana jest unikalna w kolumnie 
    tabeli bazy danych.
@@ -193,23 +195,33 @@ array('password', 'authenticate', 'on'=>'login'),
 Ochrona przypisania atrybutów (ang. Securing Attribute Assignments)
 ------------------------------
 
-> Note|Przypis: przypisywanie atrybutów w zależności od scenariusza zostało udostępnione 
+> Note|Uwaga: przypisywanie atrybutów w zależności od scenariusza zostało udostępnione 
 > od wersji 1.0.2
 
 Po utworzeniu instancji modelu, często potrzebujemy wypełnić jej atrybuty danymi 
 dostarczonymi przez użytkowników końcowych. Można to zrobić wygodnie przy użyciu 
-nastepującego grupowego przypisania:
+następującego grupowego przypisania:
 
 ~~~
 [php]
 $model=new LoginForm;
+$model->scenario='login';
 if(isset($_POST['LoginForm']))
-	$model->setAttributes($_POST['LoginForm'], 'login');
+  $model->attributes=$_POST['LoginForm'];
 ~~~
 
+> Note|Uwaga: Właściwość [scenario|CModel::scenario] jest dostępna od wersji 1.0.4.
+> Grupowe przypisywanie będzie używać wartości tej właściwości w celu określenia które atrybuty
+> mogą być grupowo przypisane. W wersjach 1.0.2 oraz 1.0.3, musieliśmy używać następującego kodu
+> aby dokonać grupowego przypisania dla określonego scenariusza:
+>
+> ~~~
+> [php]
+> $model->setAttributes($_POST['LoginForm'], 'login');
+> ~~~
+
 Ostatnia linia jest grupowym przypisaniem, które przypisuje każdy wpis w `$_POST['LoginForm']` 
-do odpowiadającego mu atrybutu w modelu dla scenariusza logowania `login` (określonego za pomocą 
-drugiego parametru). Jest to równoznaczne z następującym przypisaniem:
+do odpowiadającego mu atrybutu w modelu dla scenariusza logowania `login`. Jest to równoznaczne z następującym przypisaniem:
 
 ~~~
 [php]
@@ -261,7 +273,7 @@ array(
 
 Jeśli model nie zależy od scenariuszy (np. jest on używany tylko w jednym scenariuszu, 
 albo wszystkie scenariusze współdzielą ten sam zestaw bezpiecznych atrybutów),
-wartości zwracane mogą być uproszczone do pojedyńczego łańcucha znaków:
+wartości zwracane mogą być uproszczone do pojedynczego łańcucha znaków:
 
 ~~~
 [php]
@@ -269,7 +281,7 @@ wartości zwracane mogą być uproszczone do pojedyńczego łańcucha znaków:
 ~~~
 
 Dla danych wejściowych, które nie są bezpieczne, musimy je przypisać do odpowiadających
-mu atrybutów przy użyciu undywidualnych wyrażeń przypisujących wartość, jak w kolejnym
+mu atrybutów przy użyciu indywidualnych wyrażeń przypisujących wartość, jak w kolejnym
 przykładzie:
 
 ~~~
@@ -284,25 +296,36 @@ Wyzwalanie sprawdzania poprawności (ang. Triggering Validation)
 
 Kiedy model jest wypełniony danymi pochodzącymi od użytkownika, możemy wywołać metodę 
 [CModel::validate()] w celu rozpoczęcia procesu sprawdzania poprawności danych. 
-Metoda ta zwraca wartość na podstawie której podejmowana jest decyzja, czy spradzanie 
+Metoda ta zwraca wartość na podstawie której podejmowana jest decyzja, czy sprawdzanie 
 wartości zakończyło się sukcesem czy też nie. Dla modelu [CActiveRecord] sprawdzanie 
 poprawności może być również automatycznie wyzwolone, podczas wywołania metody [CActiveRecord::save()].
 
 
 Podczas wywoływania metody [CModel::validate()] możemy podać parametr opisujący scenariusz.
-Tylke te reguły sprawdzania porawności, które pasują do podanego scenariusza będą 
+Tylko te reguły sprawdzania poprawności, które pasują do podanego scenariusza będą 
 wywołane. Reguła sprawdzania poprawności ma zastosowanie do scenariusza jeśli 
 opcja `on` reguły nie jest ustawiona lub zawiera one określoną nazwę scenariusza. 
 Jeśli nie określimy scenariusza podczas wywoływania [CModel::validate()] tylko te 
 reguły będą wywołane, które nie posiadają ustawionej opcji `on`.
 
-Na przykład, wywołujemy następujące wyrażenie, aby spradzić poprawność podczas 
+Na przykład, wywołujemy następujące wyrażenie, aby sprawdzić poprawność podczas 
 rejestracji użytkownika:
 
 ~~~
 [php]
-$model->validate('register');
+$model->scenario='register';
+$model->validate();
 ~~~
+
+> Note|Uwaga: właściwość [scenario|CModel::scenario] została udostępniona wraz z wersją 1.0.4.
+> Metoda sprawdzania poprawności będzie używała wartości tej właściwości aby ustalić, które 
+> reguły muszą być używane do sprawdzania. W wersjach 1.0.2 oraz 1.0.3, musieliśmy używać następującego   
+> sposobu aby przeprowadzić sprawdzanie poprawności w zależności od scenariusza:
+> ~~~
+> [php]
+> $model->validate('register');
+> ~~~
+
 
 Możemy zdeklarować reguły walidacji w klasie modelu formularza następująco:
 
@@ -321,11 +344,11 @@ public function rules()
 W rezultacie, pierwsza regułą będzie miała zastosowanie do wszystkich scenariuszy,
 zaś następne dwie będą używane dla scenariusza rejestracji `register`.
 
-> Note|Przypis: sprawdzanie poprawności przy użyciu scenariuszy zostało udostępnione 
+> Note|Uwaga: sprawdzanie poprawności przy użyciu scenariuszy zostało udostępnione 
 wraz z wersją 1.0.1.
 
 
-Zwracanie błędów sprawdzania popawności (ang. Retrieving Validation Errors)
+Zwracanie błędów sprawdzania poprawności (ang. Retrieving Validation Errors)
 ----------------------------
 
 Możemy używać metody [CModel::hasErrors()] aby sprawdzić jeśli wystąpił błąd podczas 
@@ -344,7 +367,7 @@ jeśli zapiszemy je w odpowiednim modelu.
 
 Domyślnie [CModel] zwróci nazwę atrybutu jako etykietę. Można to dostosować do swoich 
 potrzeb poprzez nadpisanie metody [attributeLabels()|CModel::attributeLabels]. 
-Jak zobacztymy w następnych punktach, zdefiniowanie etykiet w modelu umożliwia nam tworzenie 
+Jak zobaczymy w następnych punktach, zdefiniowanie etykiet w modelu umożliwia nam tworzenie 
 formularzy szybciej i lepiej.
 
-<div class="revision">$Id: form.model.txt 598 2009-01-29 20:19:28Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 922 2009-04-05 21:36:33Z qiang.xue $</div>

@@ -603,4 +603,4 @@ $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('gast','Gast-Benutzer', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 878 2009-03-23 15:31:21Z qiang.xue $</div>
+<div class="revision">$Id: topics.auth.txt 956 2009-04-21 15:16:03Z qiang.xue@gmail.com $</div>

@@ -1,17 +1,17 @@
-﻿ActiveRecord-Beziehungen
-========================
+﻿Relationale ActiveRecords
+=========================
 
 Wir haben schon gesehen, wie wir ActiveRecord (AR) nutzen können, um Daten
 einer einzelnen Tabelle auszulesen. In diesem Abschnitt beschreiben wir,
 wie wir mit AR mehrere relationale Datentabellen zusammenführen,
 um verbundene Datensätze zurückzuerhalten.
 
-Um mit AR-Beziehungen zu arbeiten, müssen zwischen den zu
+Um mit relationalen AR zu arbeiten, müssen zwischen den zu
 verbindenden Tabellen eindeutige Fremdschlüsselbeziehungen definiert worden sein. 
 AR stützt sich auf die Metadaten dieser Beziehungen, um zu ermitteln, 
 wie die Tabellen verbunden werden sollen.
 
-> Note|Hinweis: Ab Version 1.0.1 können Sie AR-Beziehungen auch verwenden,
+> Note|Hinweis: Ab Version 1.0.1 können Sie relationale AR auch verwenden,
 >wenn Sie keine Fremdschlüssel-Constraints in ihrer Datenbank definiert haben.
 
 Der Einfachheit halber, verwenden wir zur Veranschaulichung der Beispiel in
@@ -25,11 +25,11 @@ Gegenstands-Beziehungs-Modell).
 >
 > SQLite unterstützt keine Fremschlüssel-Constraints, aber Sie können beim Erstellen
 > von Tabellen trotzdem Constraints festlegen. AR kann sich diese Angaben zunutze 
-> machen, um Verbundabfragen in richtiger Weise zu unterstützen.
+> machen, um relationale Abfragen in richtiger Weise zu unterstützen.
 >
 > MySQL unterstützt Fremdschlüssel-Constraints mit der InnoDB-Engine, aber nicht mit 
 > MyISAM. Es wird deshalb empfohlen, dass Sie InnoDB für MySQL-Datenbanken benutzen.
-> Falls Sie MyISAM verwenden, können Sie Verbund-Abfragen mit AR mit folgendem Trick 
+> Falls Sie MyISAM verwenden, können Sie relationale Abfragen mit AR mit folgendem Trick 
 > durchführen:
 > ~~~
 > [sql]
@@ -50,7 +50,7 @@ Gegenstands-Beziehungs-Modell).
 Festlegen der Beziehungen
 -------------------------
 
-Bevor wir Verbundabfragen mit AR durchführen können, müssen wir AR bekannt geben,
+Bevor wir relationale Abfragen mit AR durchführen können, müssen wir AR bekannt geben,
 wie eine AR-Klasse mit einer anderen in Beziehung steht.
 
 Die Beziehung zwischen zwei AR-Klassen steht in direktem Zusammenhang mit der
@@ -129,21 +129,21 @@ Fremdschlüssel verketten und durch ein Komma oder Leerzeichen trennen. Beim
 `categories`-Beziehung in `Post` mit `PostCategory(postID, categoryID)` angegeben.
 
 Das Definieren von Beziehungen in einer AR-Klasse fügt dieser implizit eine Eigenschaft
-für jede Beziehung hinzu. Nachdem eine Verbundanfrage ausgeführt wurde, ist die
+für jede Beziehung hinzu. Nachdem eine relationale Abfrage ausgeführt wurde, ist die
 entsprechende Eigenschaft mit der/den verbundenen AR Instanz(en) befüllt.
 Steht `$author` bespielsweise für eine AR-Instanz `User`, so können wir mit 
 `$author->posts` auf die verbundenen `Post`-Instanzen zugreifen.
 
-Ausführen von Verbundabfragen
------------------------------
+Ausführen von relationalen Abfragen
+-----------------------------------
 
-Die einfachste Art, Verbundabfragen auszuführen, ist, eine Verbundeigenschaft
+Die einfachste Art, relationale Abfragen auszuführen, ist, eine Verbundeigenschaft
 einer AR-Instanz zu lesen. Falls auf die Eigenschaft noch nicht zugegriffen wurde,
-wird eine Verbundabfrage ausgelöst, die die beiden betroffenen Tabellen kombiniert 
+wird eine relationale Abfrage ausgeführt, die die beiden betroffenen Tabellen kombiniert 
 und nach dem Primärschlüssel der aktuellen AR-Instanz filtert.
 Das Abfrageergebnis wird in der Eigenschaft als Instanz(en) der verbundenen
 AR-Klasse gespeichert. Dies ist unter dem Namen *lazy loading*-Methode
-(träges Nachladen) bekannt, d.h. die Verbundabfrage wird erst beim ersten Zugriff 
+(träges Nachladen) bekannt, d.h. die relationale Abfrage wird erst beim ersten Zugriff 
 auf die Verbundobjekte durchgeführt. Das folgende Beispiel zeigt, wie man dieses Konzept 
 einsetzen kann:
 
@@ -151,7 +151,7 @@ einsetzen kann:
 [php]
 // Frage den Beitrag mit der ID 10 ab
 $post=Post::model()->findByPk(10);
-// Frage den Autor des Beitrags ab: Hier wird eine Verbundabfrage durchgeführt
+// Frage den Autor des Beitrags ab: Hier wird eine relationale Abfrage durchgeführt
 $author=$post->author;
 ~~~
 
@@ -162,8 +162,8 @@ ein leerer Array.
 
 Die `lazy loading`-Methode ist sehr bequem einzusetzen, aber in einigen Szenarien
 nicht sehr effizient. Wenn wir beispielsweise mit der `lazy loading`-Methode auf 
-die `author`-Information von `N` Posts zugreifen wollen, müssen `N` Verbundabfragen
-durchgeführt werden. Unter diesen Umständen sollten wir auf die so genannte
+die `author`-Information von `N` Posts zugreifen wollen, müssen `N` relationale 
+Abfragen durchgeführt werden. Unter diesen Umständen sollten wir auf die so genannte
 *eager loading*-Methode (begieriges Laden) zurückgreifen.
 
 Das `eager loading`-Konzept fragt die verbundenen AR Instanzen zusammen mit der
@@ -178,7 +178,7 @@ $posts=Post::model()->with('author')->findAll();
 Der obige Code liefert ein Array von `Post`-Instanzen. Anders als beim
 `lazy loading`-Ansatz ist die `author`-Eigenschaft in jeder `Post`-Instanz
 schon mit der verbundenen `User`-Instanz befüllt, bevor wir auf die Eigenschaft zugreifen.
-Anstatt eine Verbundabfrage für jeden Post durchzuführen, liefert der
+Anstatt für jeden Post eine relationale Abfrage durchzuführen, liefert der
 `eager loading`-Ansatz mit einer einzigen JOIN-Abfrage alle Beiträge zusammen 
 mit ihren Autoren.
 
@@ -224,7 +224,7 @@ Datenspalten, für deren Übermittlung und Bearbeitung zusätzliche Zeit benöti
 Zweitens wächst mit der Anzahl der beteiligten Tabellen die Anzahl der Spalten
 exponentiell und das macht es unübersichtlicher, wenn mehrere Beziehungen daran beteiligt sind.
 
-Seit Version 1.0.2 können sie auch erzwingen, dass die Verbundanfrage mit genau einer
+Seit Version 1.0.2 können sie auch erzwingen, dass die relationale Abfrage mit genau einer
 SQL Abfrage durchgeführt wird. Fügen Sie einfach einen 
 [together()|CActiveFinder::together]-Aufruf nach [with()|CActiveRecord::with] an, z.B.
 
@@ -241,12 +241,12 @@ den Aufruf von [together|CActiveFinder::together] würden zwei SQL Abfragen
 benötigt werden: eine, für den Verbund der Tabellen `Post`, `User` und `Profile`
 und eine, die die Tabellen `User` und `Post` verbindet.
 
-Optionen für Verbundabfragen
-----------------------------
+Optionen für relationale Abfragen
+---------------------------------
 
 Wir haben bereits erwähnt, dass bei Beziehungsdeklarationen zusätzliche Optionen 
 angegeben werden können. Diese Optionen, durch Name-Wert-Paare festgelegt, werden 
-verwendet um die Verbundabfrage individuell anzupassen. Sie sind nachfolgend zusammengestellt.
+verwendet um die relationale Abfrage individuell anzupassen. Sie sind nachfolgend zusammengestellt.
 
    - `select`: Eine Liste der abzufragenden Spalten der betreffenden AR Klasse.
 Der Standardwert ist '*', d.h. alle Spalten. Die Spaltennamen sollten durch
@@ -312,7 +312,7 @@ class User extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'posts'=>array(self::HAS_MANY, 'Post', 'authorID'
+			'posts'=>array(self::HAS_MANY, 'Post', 'authorID',
 							'order'=>'??.createTime DESC',
 							'with'=>'categories'),
 			'profile'=>array(self::HAS_ONE, 'Profile', 'ownerID'),
@@ -328,7 +328,7 @@ Bei jedem Post wurden auch seine Kategorien geladen.
 > Info|Info: Wenn ein Spaltenname in zwei oder mehr Tabellen auftaucht, die
 verbunden werden sollen, muss er eindeutig gekennzeichnet werden. Dies geschieht durch
 voranstellen des Tabellennamens vor den Spaltennamen. Aus `id` wird beispielsweise 
-`Team.id`. Bei AR-Verbundabfragen haben wir diese Freiheit nicht, da AR den
+`Team.id`. Bei relationalen AR-Abfragen haben wir diese Freiheit nicht, da AR den
 SQL-Ausdruck automatisch erzeugt und jeder Tabelle systematisch ein Alias gegeben wird.
 Um Konflikte mit Spaltennamen zu vermeiden, benutzen wir daher einen
 Platzhalter, um zu markieren, dass wir eine zu kennzeichnende Spalte
@@ -336,10 +336,10 @@ verwenden. AR ersetzt den Platzhalter mit einem geeignet Tablellenalias und
 sorgt so fur eine ordnungsgemäße eindeutige Kennzeichnung.
 
 
-Dynamische Optionen für Verbundabfragen
----------------------------------------
+Dynamische Optionen für relationale Abfragen 
+--------------------------------------------
 
-Seit Version 1.0.2 können wir dynamische Optionen für Verbundabfragen sowohl bei
+Seit Version 1.0.2 können wir dynamische Optionen für relationale Abfragen sowohl bei
 [with()|CActiveRecord::with], als auch bei der `with`-Option nutzen. Die dynamischen
 Optionen überschreiben die in der
 [relations()|CActiveRecord::relations]-Methode spezifisierten.
@@ -351,17 +351,30 @@ absteigende Reihenfolge), können wir das folgendermaßen erreichen:
 ~~~
 [php]
 User::model()->with(array(
-	'posts'=>array('order'=>'??.createTime DESC'),
+	'posts'=>array('order'=>'??.createTime ASC'),
 	'profile',
 ))->findAll();
 ~~~
+
+Seit Version 1.0.5 können dynamische Abfrageoptionen auch beim `lazy
+loading`-Ansatz verwendet werden. Dazu rufen wir die Methode mit dem namen des
+verbundenen Objekts auf und übergeben die Abfrageoptionen als Parameter. Der
+folgende Code liefert zum Beispiel die Beiträge eines Benutzers mit `status`
+1:
+
+~~~
+[php]
+$user=User::model()->findByPk(1);
+$posts=$user->posts(array('condition'=>'status=1'));
+~~~
+
 
 Statistische Abfragen
 ---------------------
 
 > Note|Hinweis: Statistische Abfragen werden seit Version 1.0.4 unterstützt.
 
-Neben den oben beschriebenen Verbundabfragen unterstützt Yii auch sogenannte
+Neben den oben beschriebenen relationalen Abfragen unterstützt Yii auch sogenannte
 statistische Abfragen (auch: aggregierte Abfragen, engl.: aggregational query)
 Mit ihnen können Informationen zu verbundenen Objekten ausgelesen werden, wie
 z.B. die Anzahl von Kommentaren zu einem Beitrag, die durchschnittliche
@@ -371,7 +384,7 @@ viele Kommentare) oder einer `MANY_MANY`-Beziehung (z.B. ein Beitrag gehört zu
 vielen Kategorien und eine Kategorie hat viele Beiträge) stehen.
 
 Eine statistische Abfrage wird ähnlich wie eine oben beschriebene
-Verbundabfrage durchgeführt. Analog dazu müssen wir zunächst die statistische Abfrage
+relatoinale Abfrage durchgeführt. Analog dazu müssen wir zunächst die statistische Abfrage
 in der [relations()|CActiveRecord::relations]-Methode des [CActiveRecord]
 festlegen.
 ~~~
@@ -437,4 +450,43 @@ werden sollen. Sie sollten als Array aus Namen-/Wert-Paare angegeben werden.
 
    - `having`: Die `HAVING`-Anweisung. Standarmäßig leer.
 
-<div class="revision">$Id: database.arr.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>
+
+Relational Abfragen mit benannten Bereichen 
+-------------------------------------------
+
+> Note|Hinweis: Benannte Bereiche werden seit Version 1.0.5 unterstützt.
+
+Auch relationale Abfragen können mit [benannten
+Bereichen](/doc/guide/database.ar#named-scopes) kombiniert werden. Dabei
+gibt es zwei Anwendungsfälle. Im ersten Fall werden benannte Bereiche auf
+das Hauptmodel, im zweiten auf die verbundenen Objekte angewendet.
+
+Der folgende Code zeigt, wie benannte Bereiche mit dem Hauptmodel
+verwendet werden:
+
+~~~
+[php]
+$posts=Post::model()->veroeffentlicht()->kuerzlich()->with('comments')->findAll();
+~~~
+
+Dies unterscheidet sich kaum vom Vorgehen bei nicht-relationalen Abfragen. Der einzige
+Unterschied besteht im zusätzlichen Aufruf von `with()` nach der Kette
+benannter Bereiche. Diese Abfrage würde also die kürzlich veröffentlichten
+Beiträge zusammen mit ihren Kommentaren zurückliefern.
+
+Der folgende Code zeigt die Anwendung benannter Bereiche auf verbundene
+Models:
+
+~~~
+[php]
+$posts=Post::model()->with('comments:kuerzlich:freigegeben')->findAll();
+~~~
+
+Diese Abfrage liefert alle Beiträge zusammen mit ihren freigegebenen
+Kommentaren zurück. Beachten Sie, dass `comments` sich auf den Namen der
+Beziehung bezieht, während `kuerzlich` und `freigegeben` zwei benannte
+Bereiche sind, die in der Modelklasse `Comment` deklariert sind. Der
+Beziehungsname und die benannten Bereiche sollten durch einen Doppelpunkt
+getrennt werden.
+
+<div class="revision">$Id: database.arr.txt 978 2009-05-06 03:36:09Z qiang.xue $</div>

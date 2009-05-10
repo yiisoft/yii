@@ -1,0 +1,96 @@
+Aplikasi Konsole
+================
+
+Aplikasi konsol dipakai terutama oleh aplikasi web untuk melakukan pekerjaan
+offline, seperti pembuatan kode, pencarian kompilasi indeks, pengiriman
+email, dll. Yii menyediakan sebuah kerangka kerja untuk penulisan aplikasi konsol
+secara sistematis dan berorientasi-obyek.
+
+Yii mewakili setiap tugas konsol dalam batasan turunan [perintah|CConsoleCommand],
+dan [aplikasi konsole|CConsoleApplication] yang dipakai untuk mengirimkan permintaan
+baris perintah ke perintah yang sesuai. Turunan aplikasi dibuat dalam
+naskah entri. Untuk menjalankan tugas konsol, kita cukup menjalankan
+perintah pada baris perintah sebagai berikut,
+
+~~~
+php entryScript.php CommandName Param0 Param1 ...
+~~~
+
+di mana `CommandName` merujuk pada nama perintah yang tidak sensitif jenis huruf,
+dan `Param0`, `Param1` dan seterusnya adalah parameter yang dioper ke turunan
+perintah.
+
+Naskah entri untuk aplikasi konsol biasanya ditulis seperti berikut,
+mirip dengan aplikasi Web,
+
+~~~
+[php]
+defined('YII_DEBUG') or define('YII_DEBUG',true);
+// sertakan file bootstrap Yii
+require_once('path/to/yii/framework/yii.php');
+// buat turunan aplikasi dan jalankan
+$configFile='path/to/config/file.php';
+Yii::createConsoleApplication($configFile)->run();
+~~~
+
+Kemudian kita membuat kelas perintah yang harus diperluas dari [CConsoleCommand].
+Setiap kelas perintah harus dinamai seperti nama perintah ditambahkan dengan
+`Command`. Sebagai contoh, untuk mendifisikan perintah `email`, kita harus menulis kelas
+`EmailCommand`. Semua file kelas perintah harus ditempatkan di bawah subdirektori
+`commands` pada [basis direktori
+aplikasi](/doc/guide/basics.application#application-base-directory).
+
+> Tip: Dengan mengkonfigurasi [CConsoleApplication::commandMap], Anda juga dapat memiliki
+kelas perintah dalam kkonvensi penamaan berbeda dan ditempatkan dalam direktori
+yang berbeda.
+
+Menulis kelas perintah umumnya menyangkut implementasi metode
+[CConsoleCommand::run]. Parameter baris perintah dioper sebagai array
+pada metode ini. Di bawah ini contohnya:
+
+~~~
+[php]
+class EmailCommand extends CConsoleCommand
+{
+	public function run($args)
+	{
+		$receiver=$args[0];
+		// kirim email ke $receiver
+	}
+}
+~~~
+
+Kapan saja dalam sebuah perintah, kita dapat mengakses turunan aplikasi konsol
+via `Yii::app()`. Seperti turunan aplikasi Web, aplikasi konsole juga bisa
+dikonfigurasi. Sebagai contoh, kita bosa mengkonfigurasi komponen aplikasi `db`
+untuk mengakses database. Konfigurasi biasanya ditetapkan sebagai file PHP dan
+dioper ke pembentuk kelas aplikasi konsol
+(atau [createConsoleApplication|YiiBase::createConsoleApplication] dalam
+naskah entri).
+
+Menggunakan Piranti `yiic`
+--------------------------
+
+Kita sudah menggunakan piranti `yiic` untuk [membuat aplikasi pertama
+kita](/doc/guide/quickstart.first-app). Sebenarnya piranti `yiic`
+diimplementasikan sebagai aplikasi konsol yang file naskah entrinya
+`framework/yiic.php`. Menggunakan `yiic`, kita dapat melaksanakan tugas-tugas seperti
+membuat kerangka aplikasi Web, membuat kelas kontroler atau kelas model,
+membuat kode yang dibutuhkan oleh operasi CRUD, menguraikan pesan yang
+diterjemahkan, dll.
+
+Kita dapat meningkatkan `yiic` dengan menambah perintah kita sendiri yang dikustomisasi. Untuk melakukannya,
+kita harus mulai dengan kerangka aplikasi yang dibuat menggunakan perintah `yiic webapp`,
+seperti dijelaskan dalam [Membuat Aplikasi Pertama
+Yii](/doc/guide/quickstart.first-app). Perintah `yiic webapp` akan
+membuat dua file di bawah direktori `protected`: `yiic` dan
+`yiic.bat`. Keduanya adalah versi *lokal* pada piranti  `yiic` yang dibuat
+khususnya untuk aplikasi Web.
+
+Selanjutnya kita membuat perintah kita sendiri di bawah direktori `protected/commands`.
+Menjalankan piranti lokal `yiic`, kita akan melihat bahwa perintah kita sendiri
+terlihat bersama dengan yang standar. Kita juga bisa membuat perintah kita sendiri untuk
+dipakai saat `yiic shell` dipakai. Untuk melakukannya, cukup masukkan file kelas
+perintah di bawah direktori `protected/commands/shell`.
+
+<div class="revision">$Id: topics.console.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>
