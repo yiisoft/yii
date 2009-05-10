@@ -2,8 +2,8 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.0.5 to be released
-----------------------------
+Version 1.0.5 May 10, 2009
+--------------------------
 - Bug #234: Multi-line Yii::t() not found by 'yiic message' (Qiang)
 - Bug #235: Dynamic content does not work when page caching is used together with fragment caching (Qiang)
 - Bug #239: Syntax error in translated Portuguese error view file (Qiang)
