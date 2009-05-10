@@ -2,6 +2,10 @@
                    Yii Framework Change Log
                    ========================
 
+Version 1.0.6 to be released
+----------------------------
+
+
 Version 1.0.5 May 10, 2009
 --------------------------
 - Bug #234: Multi-line Yii::t() not found by 'yiic message' (Qiang)
