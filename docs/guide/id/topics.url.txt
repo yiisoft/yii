@@ -1,0 +1,219 @@
+Manajemen URL
+=============
+
+Manajemen URL yang lengkap pada aplikasi Web terdiri dari dua aspek. Pertama,
+ketika permintaan pengguna berasal dari sebuah URL, aplikasi harus menguraikannya
+ke dalam sebuah parameter yang dapat dimengerti. Kedua, aplikasi harus menyediakan
+cara pembuatan URL agar URL yang dibuat dapat dimengerti oleh aplikasi
+Untuk aplikasi Yii, ini dilakukan dengan bantuan
+[CUrlManager].
+
+Membuat URL
+-----------
+
+Meskipun URL bisa dibuat secara manual dala tampilan kontroler, seringkali lebih
+jauh fleksibel jika membuatnya secara dinamis:
+
+~~~
+[php]
+$url=$this->createUrl($route,$params);
+~~~
+
+di mana `$this` merujuk ke turunan kontroler; `$route` menetapkan
+[rute](/doc/guide/basics.controller#route) permintaan; dan `$params`
+adalah daftar parameter `GET` yang akan ditambahkan ke URL.
+
+Distandarkan, URL yang dibuat dengan  [createUrl|CController::createUrl] adalah
+apa yang disebut dengan format `get`. Sebagai contoh, `$route='post/read'` dan
+`$params=array('id'=>100)`, kita akan mendapatkan URL seperti berikut:
+
+~~~
+/index.php?r=post/read&id=100
+~~~
+
+di mana parameter terlihat dalam string queri sebagai daftar `Nama=Nilai`
+yang disambung dengan karakter ampersand, dan parameter `r` menetapkan
+permintaan [rute](/doc/guide/basics.controller#route). Format URL ini
+tidak ramah-pengguna karea ini memakai beberapa karakter bukan-kata.
+
+Kita ingin menjadikan URL di atas terlihat lebih bersih dan lebih jelas dengan
+menggunakan apa yang disebut format `path` yang mengeliminir string queri dan
+menyimpan parameter GET ke dalam info path bagian dari URL:
+
+~~~
+/index.php/post/read/id/100
+~~~
+
+Untuk mengubah format URL, kita harus mengkonfigurasi komponen aplikasi
+[urlManager|CWebApplication::urlManager] agar
+[createUrl|CController::createUrl] bisa beralih secara otomatis ke format baru
+dan aplikasi mengerti dengan benar URL baru tersebut:
+
+~~~
+[php]
+array(
+	......
+	'components'=>array(
+		......
+		'urlManager'=>array(
+			'urlFormat'=>'path',
+		),
+	),
+);
+~~~
+
+Catatan bahwa kita tidak ingin menetapkan kelas komponen
+[urlManager|CWebApplication::urlManager] karena ia adalah
+pra-deklarasi sebagai [CUrlManager] dalam [CWebApplication].
+
+> Tip: URL yang dihasilkan oleh metode [createUrl|CController::createUrl]
+adalah URL relatif. Untuk mendapatkan URL absolut, kita dapat mengawalinya dengan
+`Yii::app()->hostInfo`, atau memanggil [createAbsoluteUrl|CController::createAbsoluteUrl].
+
+URL ramah-pengguna
+------------------
+
+Ketika `path` dipakai sebagai format URL, kita dapat menetapkan beberapa aturan URL untuk
+membuat URL kita bahkan lebih ramah-pengguna. Sebagai contoh, kita dapat membuat URL sesingkat
+`/post/100`, daripada
+`/index.php/post/read/id/100` yang cukup panjang. Aturan URL dipakai oleh [CUrlManager] baik
+untuk pembuatan URL maupun keperluan penguraian.
+
+Untuk menetapkan aturan URL, kita harus mengkonfigurasi properti [rules|CUrlManager::rules]
+pada komponen aplikasi [urlManager|CWebApplication::urlManager]:
+
+~~~
+[php]
+array(
+	......
+	'components'=>array(
+		......
+		'urlManager'=>array(
+			'urlFormat'=>'path',
+			'rules'=>array(
+				'pattern1'=>'route1',
+				'pattern2'=>'route2',
+				'pattern3'=>'route3',
+			),
+		),
+	),
+);
+~~~
+
+Aturan ditetapkan sebagai array dengan pasangan pola-rute, masing-masing
+berkaitan dengan satu aturan. Pola aturan harus ekspresi reguler yang benar
+tanpa pemisah dan pembeda. Ini dipakai untuk menyamakan bagian info path
+URL. Dan
+[rute](/doc/guide/basics.controller#route) harus merujuk ke kontroler rute
+yang sesuai.
+
+Aturan dapat dikaitkan dengan beberapa parameter GET. Parameter GET ini
+muncul dalam pola aturan sebagai token khusus dengan format sebagai berikut:
+
+~~~
+&lt;ParamName:ParamPattern&gt;
+~~~
+
+di mana `ParamName` menetapkan nama parameter GET, dan opsional
+`ParamPattern` menetapkan ekspresi reguler yang harus dipakai untuk
+menyamakan nilai parameter GET. Ketika membuat URL, token parameter ini
+akan diganti dengan nilai parameter terkait; saat penguraian
+URL, parameter GET tersebut akan dipopulasi dengan hasil
+penguraian.
+
+Mari kita gunakan beberapa contoh untuk menjelaskan bagaimana aturan URL bekerja. Kita anggap bahwa
+set aturan kita terdiri dari tiga aturan:
+
+~~~
+[php]
+array(
+	'posts'=>'post/list',
+	'post/<id:\d+>'=>'post/read',
+	'post/<year:\d{4}>/<title>'=>'post/read',
+)
+~~~
+
+   - Memanggil `$this->createUrl('post/list')` menghasilkan `/index.php/posts`.
+Aturan pertama diterapkan.
+
+   - Memanggil `$this->createUrl('post/read',array('id'=>100))` menghasilkan
+`/index.php/post/100`. Aturan kedua diterapkan.
+
+   - Memanggil `$this->createUrl('post/read',array('year'=>2008,'title'=>'a
+sample post'))` menghasilkan `/index.php/post/2008/a%20sample%20post`. Aturan
+ketiga diterapkan.
+
+   - Memanggil `$this->createUrl('post/read')` menghasilkan
+`/index.php/post/read`. Tidak ada satu aturapun yang diterapkan.
+
+Secara ringkas, saat menggunakan [createUrl|CController::createUrl] untuk membuat
+URL, rute dan parameter GET mengopernya ke metode yang dipakai untuk
+memutuskan aturan URL mana yang akan diterapkan. Jika setiap parameter dikaitkan
+dengan sebuah aturan dan ditemukan dalam parameter GET yang dioper ke
+[createUrl|CController::createUrl], dan apakah rute aturan juga
+sesuai dengan parameter rute, aturan akan dipakai untuk membuat URL.
+
+Jika parameter GET doper ke [createUrl|CController::createUrl] lebih
+dari yang dibutuhkan oleh aturan, parameter tambahan akan muncul dalam
+string queri. Sebagai contoh, jika kita memanggil
+`$this->createUrl('post/read',array('id'=>100,'year'=>2008))`, kita akan
+mendapatkan `/index.php/post/100?year=2008`. Agar parameter tambahan ini
+muncul dalam bagian info path, kita harus menambahkan `/*` pada aturan.
+Oleh karena itu, dengan aturan `post/<id:\d+>/*`, kita bisa mendapatkan URL seperti
+`/index.php/post/100/year/2008`.
+
+Seperti yang sudah kami sebutkan, kegunaan lain aturan URL adalah untuk mengurai
+permintaan URL. Secara alami, ini adalah proses terbalik pembuatan URL. Sebagai contoh,
+ketika pengguna meminta `/index.php/post/100`, aturan kedua dalam contoh
+di atas akan berlaku, menjadi solusi dalam rute `post/read` dan parameter
+GET `array('id'=>100)` (accessible via `$_GET`).
+
+> Note|Catatan: Menggunakan aturan URL akan menurunkan performansi aplikasi. Ini
+disebabkan saat mengurai URL yang diminta, [CUrlManager] akan mencoba mencari
+setiap aturan sampai salah satunya diterapkan. Oleh karenanya, aplikasi Web dengan
+lalu lintas tinggi harus meminimalisir pemakaian aturan URL.
+
+### Menyembunyikan `index.php`
+
+Ada satu hal lagi yang dapat kita lakukan untuk membersihkan URL kita, misalnya
+menyembunyikan entri naskah `index.php` dalam URL. Ini mengharuskan kita untuk 
+mengkonfigurasi server Web dan juga komponen aplikasi
+[urlManager|CWebApplication::urlManager].
+
+Pertama kita harus mengkonfigurasi server Web agar URL tanpa naskah entri
+masih dapat ditangani oleh naskah entri. Untuk [Apache HTTP
+server](http://httpd.apache.org/), ini bisa dikerjakan dengan menghidupkan URL
+rewriting engine dan menetapkan beberapa aturan penulisannya. Keduanya bisa dilakukan dalam
+file `.htaccess` yang ditempatkan di bawah direktori yang berisi naskah entri.
+Berikut ini adalah sebuah contohnya:
+
+~~~
+Options +FollowSymLinks
+IndexIgnore */*
+RewriteEngine on
+
+# if a directory or a file exists, use it directly
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# otherwise forward it to index.php
+RewriteRule . index.php
+~~~
+
+Selanjutnya kita mengkonfigurasi properti [showScriptName|CUrlManager::showScriptName]
+pada komponen [urlManager|CWebApplication::urlManager] menjadikannya
+`false`.
+
+Sekarang jika kita memanggil `$this->createUrl('post/read',array('id'=>100))`, kita akan
+mendapatkan URL `/post/100`. Lebih penting lagi, URL ini bisa dikenal oleh
+aplikasi Web kita dengan benar.
+
+### Memalsukan Sufiks URL
+
+Kita juga bisa menambahkan beberapa sufiks ke URL kita. Sebagai contoh, kita dapat
+memiliki `/post/100.html` daripada `/post/100`. Ini membuat URL lebih terlihat sebagai
+halaman Web statis. Untuk melakukannya, cukup konfigurasi komponen
+[urlManager|CWebApplication::urlManager] dengan menyetel properti
+[urlSuffix|CUrlManager::urlSuffix] ke sufiks yang Anda inginkan.
+
+<div class="revision">$Id: topics.url.txt 229 2008-11-16 21:14:59Z qiang.xue $</div>

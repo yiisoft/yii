@@ -1,0 +1,150 @@
+Pencatatan
+==========
+
+Yii menyediakan fitur pencatatan fleksibel dan bisa diperluas. Pencatatan pesan
+dapat diklasifikasikan berdasarkan tingkat log atau kategori pesan. Menggunakan
+filter tingkat dan kategori, pesan yang dipilih selanjutnya bisa dirutekan ke
+tujuan yang berbeda, misalnya file, email, jendela browser, dll.
+
+Pencatatan Pesan
+----------------
+
+Pesan dapat dicatat dengan memanggil [Yii::log] atau [Yii::trace]. Perbedaan
+diantara kedua metode ini adalah bahwa yang kedua hanya mencatat pesan
+saat aplikasi dalam [mode debug](/doc/guide/basics.entry#debug-mode).
+
+~~~
+[php]
+Yii::log($message, $level, $category);
+Yii::trace($message, $category);
+~~~
+
+Ketika mencatat pesan, kita harus menetapkan tingkat dan kategorinya.
+Kategori adalah string dalam bentuk `xxx.yyy.zzz` yang mirip dengan
+[alias path](/doc/guide/basics.namespace). Contoh, jika pesan dicatat
+dalam [CController], kita bisa menggunakan kategori `system.web.CController`.
+Tingkat pesan harus salah satu dari nilai berikut:
+
+   - `trace`: ini adalah tingkat yang dipakai oleh [Yii::trace]. kegunaannya untuk melacak
+alur eksekusi aplikasi selama pengembangan.
+
+   - `info`: ini untuk pencatatan informasi umum.
+
+   - `profile`: ini untuk profil performansi yang akan segera
+dijelaskan.
+
+   - `warning`: ini untuk pesan peringatan.
+
+   - `error`: ini untuk pesan kesalahan fatal.
+
+Pengiriman Pesan
+----------------
+
+Pesan yang dicatat menggunakan [Yii::log] or [Yii::trace] dipelihara dalam memori. Kita
+biasanya harus menampilkannya dalam jendela browser, atau menyimpannya dalam beberapa
+media penyimpan persisten seperti file, email. Ini disebut *mengirimkan
+pesan*, misalnya mengirimkan pesan ke tujuan yang berbeda.
+
+Dalam Yii, pengiriman pesan diatur oleh komponen aplikasi [CLogRouter].
+Ia mengatur satu set apa yang disebut *rute log*. Setiap rute log
+mewakili satu tujuan log. Pesan yang dikirimkan bersamaan dengan rute log
+bisa disaring berdasarkan pada tingkat dan kategorinya.
+
+Untuk menggunakan pengiriman pesan, kita harus menginstalasi dan mengaktifkan komponen
+aplikasi [CLogRouter]. Kita juga harus mengkonfigurasi properti
+[routes|CLogRouter::routes] dengan rute log yang kita inginkan. Berikut ini
+memperlihatkan contoh [konfigurasi
+aplikasi](/doc/guide/basics.application#application-configuration) yang dibutuhkan:
+
+~~~
+[php]
+array(
+	......
+	'preload'=>array('log'),
+	'components'=>array(
+		......
+		'log'=>array(
+			'class'=>'CLogRouter',
+			'routes'=>array(
+				array(
+					'class'=>'CFileLogRoute',
+					'levels'=>'trace, info',
+					'categories'=>'system.*',
+				),
+				array(
+					'class'=>'CEmailLogRoute',
+					'levels'=>'error, warning',
+					'emails'=>'admin@example.com',
+				),
+			),
+		),
+	),
+)
+~~~
+
+Dalam contoh di atas, kita memiliki dua rute log. Rute pertama adalah
+[CFileLogRoute] yang menyimpan pesan dalam sebuah file di bawah direktori
+runtime aplikasi. Hanya pesan-pesan yang tingkatnya adalah `trace` atau `info` dan
+kategorinya dimulai dengan `system.` yang disimpan. Rute kedua adalah
+[CEmailLogRoute] yang mengirimkan pesan ke alamat email yang sudah ditetapkan.
+Hanya pesan-pesan yang tingkatnya `error` atau `warning` yang dikirimkan.
+
+Rute log berikut tersedia dalam Yii:
+
+   - [CDbLogRoute]: menyimpan pesan dalam tabel database.
+   - [CEmailLogRoute]: mengirimkan pesan ke alamat email yang ditetapkan.
+   - [CFileLogRoute]: menyimpan pesan dalam sebuah file di bawah direktori runtime aplikasi.
+   - [CWebLogRoute]: menampilkan pesan diakhir halaman Web saat ini.
+   - [CProfileLogRoute]: menampilkan pesan profil di akhir halaman Web saat ini.
+
+> Info: Pengiriman pesan terjadi di akhir siklus permintaan saat ini
+saat event [onEndRequest|CApplication::onEndRequest] dimunculkan. Untuk mengakhiri
+pemrosesan permintaan saat ini secara eksplisit, panggil [CApplication::end()] daripada
+`die()` atau `exit()`, karena [CApplication::end()] akan memunculkan event
+[onEndRequest|CApplication::onEndRequest] dan pesan bisa dicatat
+dengan benar.
+
+### Penyaringan Pesan
+
+Seperti yang sudah disebutkan, pesan bisa disaring berdasarkan tingkat dan kategorinya
+sebelum mengirimkan rute log. Ini dikerjakan dengan menyetel
+properti [levels|CLogRoute::levels] dan [categories|CLogRoute::categories]
+pada rute log terkait. Multipel tingkat atau kategori
+harus diakhiri dengan koma.
+
+Karena kategori pesan dalam bentuk `xxx.yyy.zzz`, kita bisa memperlakukannya
+sebagai hirarki kategori. Bahkan, kita katakan `xxx` adalah leluhur
+`xxx.yyy` yang merupakan leluhur `xxx.yyy.zzz`. Selanjutnya kita bisa menggunakan
+`xxx.*` untuk mewakili kategori `xxx` dan semua anak dan cucu
+kategori.
+
+Pengukuran Performansi
+----------------------
+
+Pengukuran performansu adalah jenis pencatatan pesan khusus. Pengukuran
+performansi bisa dipakai guna mengukur waktu yang dibutuhkan untuk blok kode
+yang ditetapkan dan mencari tahu hambatan apa pada performansi.
+
+Untuk menggunakan pengukuran performansi, kita harus mengidentifikasi blok kode
+yang akan diukur. Kita tandai awal dan akhir setiap blok kode dengan menyisipkan
+metode berikut:
+
+~~~
+[php]
+Yii::beginProfile('blockID');
+...blok kode sedang diukur...
+Yii::endProfile('blockID');
+~~~
+
+di mana `blockID` adalah ID yang secara unik mengidentifikasi blok kode.
+
+Catatan, blok kode harus diulang dengan benar. Yakni, blok kode tidak bisa
+berseberangan dengan yang lain. Ia harus dalam tingkat paralel atau dikurung
+seluruhnya oleh blok kode lain.
+
+Untuk memperlihatkan hasil pengukuran, kita harus menginstalasi komponen aplikasi [CLogRouter]
+dengan rute log [CProfileLogRoute]. Ini sama seperti yang kita lakukan dengan
+pengiriman pesan biasa. Rute [CProfileLogRoute] akan menampilkan hasil
+pengukuran di akhir halaman saat ini.
+
+<div class="revision">$Id: topics.logging.txt 922 2009-04-05 21:36:33Z qiang.xue $</div>

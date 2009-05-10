@@ -1,0 +1,71 @@
+Mengumpulkan Input Tabular
+==========================
+
+Adakalanya kita ingin mengumpulkan input pengguna dalam mode batch. Yakni, pengguna
+dapat memasukan informasi untuk turunan model secara multipel dan mengirimkannya
+sekaligus. Kami menyebut ini *input tabular* karena field input sering disajikan
+dalam tabel HTML.
+
+Untuk bekerja dengan input tabular, pertama kita perlu membuat atau mempopulasikan
+array turunan model, tergantung pada apakah kita menyisipkan atau memutakhirkan
+data. Selanjutnya kita dapat mengambil data input pengguna dari variabel `$_POST` dan
+menempatkannya ke setiap model. Perbedaan utama dari model input tunggal adalah
+bahwa kita mengambil data input menggunakan `$_POST['ModelClass'][$i]` daripada
+`$_POST['ModelClass']`.
+
+~~~
+[php]
+public function actionBatchUpdate()
+{
+	// ambil item yang akan dipopulasi dalam mode batch
+	// menganggap setiap item adalah kelas model 'Item'
+	$items=$this->getItemsToUpdate();
+	if(isset($_POST['Item']))
+	{
+		$valid=true;
+		foreach($items as $i=>$item)
+		{
+			if(isset($_POST['Item'][$i]))
+				$item->attributes=$_POST['Item'][$i];
+			$valid=$valid && $item->validate();
+		}
+		if($valid)  // seluruh item benar
+			// ...lakukan sesuatu di sini
+	}
+	// tampilkan tampilan untuk mengumpulkan input tabular
+	$this->render('batchUpdate',array('items'=>$items));
+}
+~~~
+
+Setelah aksi siap, kita perlu bekerja pada tampilan `batchUpdate` untuk
+menampilkan field input dalam sebuah tabel HTML.
+
+~~~
+[php]
+<div class="yiiForm">
+<?php echo CHtml::beginForm(); ?>
+<table>
+<tr><th>Name</th><th>Price</th><th>Count</th><th>Description</th></tr>
+<?php foreach($items as $i=>$item): ?>
+<tr>
+<td><?php echo CHtml::activeTextField($item,"name[$i]"); ?></td>
+<td><?php echo CHtml::activeTextField($item,"price[$i]"); ?></td>
+<td><?php echo CHtml::activeTextField($item,"count[$i]"); ?></td>
+<td><?php echo CHtml::activeTextArea($item,"description[$i]"); ?></td>
+</tr>
+<?php endforeach; ?>
+</table>
+
+<?php echo CHtml::submitButton('Save'); ?>
+<?php echo CHtml::endForm(); ?>
+</div><!-- yiiForm -->
+~~~
+
+Catatan dalam contoh di atas kita menggunakan `"name[$i]"` daripada `"name"` sebagai
+parameter kedua saat memanggil [CHtml::activeTextField].
+
+Jika ada kesalahan validasi, field input terkait akan diterangi secara
+otomatis, seperti halnya model input tunggal yang kami jelaskan
+sebelumnya.
+
+<div class="revision">$Id: form.table.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>

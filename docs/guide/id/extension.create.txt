@@ -1,0 +1,216 @@
+Membuat Ekstensi
+================
+
+Karena ekstensi bertujuan agar dipakai oleh pengembang pihak ketiga, diperlukan
+beberapa usaha tambahan untuk membuatnya. Berikut ini adalah beberapa pedoman umum:
+
+* Ekstensi harus berdiri sendiri. Yakni, ketergantungan internalnya harus
+  minimal. Ini akan memusingkan bagi para penggunanya jika sebuah ekstensi perlu
+  menginstalasi paket, kelas atau file sumber tambahan.
+* File yang dimiliki ekstensi harus diatur pada direktori yang sama di mana
+  namanya adalah nama ekstensi
+* Kelas dalam ekstensi harus diawali dengan huruf guna menghindari konflik
+  penamaan dengan kelas dalam ekstensi lainnya.
+* Ekstensi harus disertai dengan rincian instalasi dan dokumentasi API.
+  Ini akan mengurangi waktu dan usaha yang diperlukan oleh pengembang lain
+  saat mereka menggunakan esktensi.
+* Ekstensi harus menggunakan lisensi yang sesuai. Jika Anda ingin menjadikan
+  ekstensi Anda dipakai baik oleh proyek open-source dan closed-source,
+  Anda dapat menggunakan lisensi seperti BSD, MIT, dll., bukan GPL karena ia
+  mengharuskan kode yang dipakainya juga harus open-source.
+
+Berikut ini, kami menjelaskan bagaimana untuk membuat sebuah ekstensi baru, berdasarkan
+pada kategorisasi dalam [tinjauan](/doc/guide/extension.overview).
+Deskripsi ini juga berlaku saat Anda membuat komponen terutama yang dipakai
+dalam proyek Anda sendiri.
+
+Komponen Aplikasi
+-----------------
+
+[Komponen aplikasi](/doc/guide/basics.application#application-component)
+harus mengimplementasikan antar muka [IApplicationComponent] atau diperluas dari
+[CApplicationComponent]. Metode utama yang perlu diimplementasikan adalah
+[IApplicationComponent::init] di mana komponen melakukan beberapa pekerjaan
+inisialisasi. Metode ini dipanggil setelah komponen dibuat dan nilai properti awal
+(yang ditetapkan dalam [konfigurasi aplikasi](/doc/guide/basics.application#application-configuration))
+diterapkan.
+
+Secara standar, komponen aplikasi dibuat dan diinisialisasi hanya saat ia
+diakses untuk pertama kali saat penanganan permintaan. Jika komponen aplikasi
+memerlukan untuk dibuat segera setelah turunan aplikasi dibuat, ia akan
+memerlukan pengguna untuk mendaftar ID-nya dalam properti [CApplication::preload].
+
+
+Widget
+------
+
+[Widget](/doc/guide/basics.view#widget) harus diperluas dari [CWidget] atau
+anak kelasnya.
+
+Cara termudah pembuatan widget baru adalah dengan memperluas widget yang sudah ada dan
+menimpa metodenya atau mengganti nilai standar propertinya. Sebagai ontoh, jika
+Anda ingin menggunakan gaya CSS lebih bagus untuk [CTabView], Anda dapat mengkonfigurasi
+properti [CTabView::cssFile] saat menggunakan widget. Anda juga dapat memperluas [CTabView]
+seperti berikut agar Anda tida perlu lagi mengkonfigurasi properti saat menggunakan widget.
+
+~~~
+[php]
+class MyTabView extends CTabView
+{
+	public function init()
+	{
+		if($this->cssFile===null)
+		{
+			$file=dirname(__FILE__).DIRECTORY_SEPARATOR.'tabview.css';
+			$this->cssFile=Yii::app()->getAssetManager()->publish($file);
+		}
+		parent::init();
+	}
+}
+~~~
+
+Dalam contoh di atas, kita menimpa metode [CWidget::init] dan menempatkan
+URL [CTabView::cssFile] ke gaya standar CSS baru kita jika properti
+belum disetel. Kita menempatkan file gaya CSS baru di bawah direktori yang sama
+dengan file kelas `MyTabView` agar bisa dipaketkan sebagai sebuah
+ekstensi. Karena file gaya CSS tidak bisa diakses oleh Web, kita perlu
+menerbitkannya sebagai sebuah asset.
+
+Untuk membuat widget baru dari awal, kita perlu mengimplementasikan dua metode:
+[CWidget::init] dan [CWidget::run]. Metode pertama dipanggil saat kita
+menggunakan `$this->beginWidget` untuk menyisipkan widget dalam sebuah tampilan, dan
+metode kedua dipanggil saat kita memanggil `$this->endWidget`.
+Jika kita ingin menangkap dan memroses konten yang ditampilkan diantara kedua
+invokasi metode ini, kita dapat memulai [membufer output](http://us3.php.net/manual/en/book.outcontrol.php)
+pada [CWidget::init] dan mengembil output yang di-bufer pada [CWidget::run]
+guna pemrosesan selanjutnya.
+
+Widget sering terkait dengan penyertaan CSS, JavaScript atau file sumber lain
+dalam halaman yang menggunakan widget. Kita menyebut file-file ini *assets* karena
+tempatnya bersama dengan file kelas widget dan biasanya tidak bisa diakses oleh
+pengguna Web. Agar file-file ini bisa diakses oleh Web, kita perlu menerbitkannya
+dengan menggunakan [CWebApplication::assetManager], seperti yang ditampilkan dalam snippet kode di atas.
+Selain itu, jika kita ingin menyertakan file CSS atau JavaScript dalam halaman saat ini,
+kita perlu mendaftarkannya dengan menggunakan [CClientScript]:
+
+~~~
+[php]
+class MyWidget extends CWidget
+{
+	protected function registerClientScript()
+	{
+		// ...terbitkan file CSS atau JavaScript di sini...
+		$cs=Yii::app()->clientScript;
+		$cs->registerCssFile($cssFile);
+		$cs->registerScriptFile($jsFile);
+	}
+}
+~~~
+
+Widget juga dapat memiliki file tampilan sendiri. Jika seperti itu, buat direktori bernama
+`views` di bawah direktori yang berisi file kelas widget, dan simpan semua file
+tampilan di sana. Dalam kelas widget, untuk me-render tampilan widget, gunakan
+`$this->render('NamaTampilan')`, yang mirip dengan apa yang dilakukan dalam sebuah kontroler.
+
+Aksi
+----
+
+[Aksi](/doc/guide/basics.controller#action) harus diperluas dari [CAction]
+atau anak kelasnya. Metode utama yang perlu diimplementasikan untuk sebuah filter
+adalah [IAction::run].
+
+Filter
+------
+[Filter](/doc/guide/basics.controller#filter) harus diperluas dari [CFilter]
+atau anak kelasnya. Metode utama yang perlu diimplementasikan untuk sebuah filter
+adalah [CFilter::preFilter] dan [CFilter::postFilter]. Yang pertama dipanggil sebelum
+aksi dijalankan sementara yang filter kedua setelahnya.
+
+~~~
+[php]
+class MyFilter extends CFilter
+{
+	protected function preFilter($filterChain)
+	{
+		// logika diterapkan sebelum aksi dijalankan
+		return true; // false jika aksi seharusnya tidak dijalankan
+	}
+
+	protected function postFilter($filterChain)
+	{
+		// logika diterapkan setelah aksi dijalankan
+	}
+}
+~~~
+
+Parameter `$filterChain` adalah tipe [CFilterChain] yang berisi informasi
+tentang aksi yang saat ini disaring.
+
+
+Kontroler
+---------
+[Kontroler](/doc/guide/basics.controller) yang didistribusikan sebagai ekstensi
+harus diperluas dari [CExtController], bukan dari [CController]. Alasan utama adalah
+karena [CController] menganggap file tampilan kontroler ditempatkan di bawah
+`application.views.ControllerID`, sementara [CExtController] menganggap file tampilan
+ditempatkan di bawah direktori `views` yang tidak lain adalah subdirektori
+dari direktori yang berisi file kelas kontroler. Oleh karena itu, lebih mudah
+dalam menditribusikan kembali kontroler karena file tampilan tetap bersama dengan
+file kelas kontroler.
+
+
+Validator
+---------
+Validator harus diperluas dari [CValidator] dan mengimplementasikan metode
+[CValidator::validateAttribute].
+
+~~~
+[php]
+class MyValidator extends CValidator
+{
+	protected function validateAttribute($model,$attribute)
+	{
+		$value=$model->$attribute;
+		if($value has error)
+			$model->addError($attribute,$errorMessage);
+	}
+}
+~~~
+
+Perintah Konsol
+---------------
+[Perintah konsol](/doc/guide/topics.console) harus diperluas dari
+[CConsoleCommand] dan mengimplementasikan metode [CConsoleCommand::run].
+Secara opsional, kita dapat menimpa [CConsoleCommand::getHelp] untuk menyediakan
+beberapa informasi bantuan menarik mengenai perintah.
+
+~~~
+[php]
+class MyCommand extends CConsoleCommand
+{
+	public function run($args)
+	{
+		// $args berisi array argumen baris perintah untuk perintah ini
+	}
+
+	public function getHelp()
+	{
+		return 'Usage: how to use this command';
+	}
+}
+~~~
+
+Modul
+-----
+Silahkan merujuk ke seksi tentang [modul](/doc/guide/basics.module#creating-module) bagaimana membuat sebuah modul.
+
+Petunjuk umum untuk mengembangkan modul adalah bahwa ia harus berdiri sendiri. File sumber (seperti CSS, JavaScript, gambar) yang dipakai oleh modul harus didistribusikan bersamaan dengan modul. Dan modul harus menerbitkannya agar bisa diakses oleh Web.
+
+
+Komponen Generik
+----------------
+Mengembangkan ekstensi komponen generik mirip dengan pembuatan sebuah kelas. Sekali lagi, komponen
+juga harus berdiri sendiri agar dapat dipakai dengan mudah oleh pengembang yang lain.
+
+
+<div class="revision">$Id: extension.create.txt 749 2009-02-26 02:11:31Z qiang.xue $</div>
