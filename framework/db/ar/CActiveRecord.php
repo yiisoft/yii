@@ -426,11 +426,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function __set($name,$value)
 	{
-		if(isset($this->getMetaData()->columns[$name]))
-			$this->_attributes[$name]=$value;
-		else if(isset($this->getMetaData()->relations[$name]))
-			$this->_related[$name]=$value;
-		else
+		if($this->setAttribute($name,$value)===false)
 			parent::__set($name,$value);
 	}
 
@@ -900,7 +896,6 @@ abstract class CActiveRecord extends CModel
 	 * You may also use $this->AttributeName to obtain the attribute value.
 	 * @param string the attribute name
 	 * @return mixed the attribute value. Null if the attribute is not set or does not exist.
-	 * @throws CException if the attribute does not exist.
 	 * @see hasAttribute
 	 */
 	public function getAttribute($name)
@@ -909,11 +904,6 @@ abstract class CActiveRecord extends CModel
 			return $this->$name;
 		else if(isset($this->_attributes[$name]))
 			return $this->_attributes[$name];
-		else if(isset($this->getMetaData()->columns[$name]))
-			return null;
-		else
-			throw new CDbException(Yii::t('yii','{class} does not have attribute "{name}".',
-				array('{class}'=>get_class($this), '{name}'=>$name)));
 	}
 
 	/**
@@ -921,7 +911,7 @@ abstract class CActiveRecord extends CModel
 	 * You may also use $this->AttributeName to set the attribute value.
 	 * @param string the attribute name
 	 * @param mixed the attribute value.
-	 * @throws CException if the attribute does not exist.
+	 * @return boolean whether the attribute exists and the assignment is conducted successfully
 	 * @see hasAttribute
 	 */
 	public function setAttribute($name,$value)
@@ -931,8 +921,8 @@ abstract class CActiveRecord extends CModel
 		else if(isset($this->getMetaData()->columns[$name]))
 			$this->_attributes[$name]=$value;
 		else
-			throw new CDbException(Yii::t('yii','{class} does not have attribute "{name}".',
-				array('{class}'=>get_class($this), '{name}'=>$name)));
+			return false;
+		return true;
 	}
 
 	/**

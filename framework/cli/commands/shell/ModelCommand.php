@@ -111,6 +111,7 @@ EOD;
 		list($className,$tableName)=$params;
 		$content=file_get_contents($source);
 		$rules='';
+		$labels='';
 		if(($db=Yii::app()->getDb())!==null)
 		{
 			$db->active=true;
@@ -121,6 +122,10 @@ EOD;
 				$numerical=array();
 				foreach($table->columns as $column)
 				{
+					$label=ucwords(trim(strtolower(str_replace(array('-','_'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $column->name)))));
+					if(strcasecmp(substr($label,-2),'id')===0 && strlen($label)>2)
+						$label=substr($label,0,-2);
+					$labels.="\n\t\t\t'{$column->name}'=>'$label',";
 					if($column->isPrimaryKey && $table->sequenceName!==null || $column->isForeignKey)
 						continue;
 					if(!$column->allowNull && $column->defaultValue===null)
@@ -148,6 +153,7 @@ EOD;
 		$tr=array(
 			'{ClassName}'=>$className,
 			'{TableName}'=>$tableName,
+			'{Labels}'=>$labels,
 			'{Rules}'=>$rules);
 
 		return strtr($content,$tr);

@@ -8,10 +8,14 @@ Version 1.0.5
 
  * Enhanced active record by supporting named scopes. See:
      - [Named Scopes](/doc/guide/database.ar#named-scopes)
+     - {Default Named Scope](/doc/guide/database.ar#default-named-scope)
      - [Relational Query with Named Scopes](/doc/guide/database.arr#relational-query-with-named-scopes)
 
 
  * Enhanced active record by supporting lazy loading with dynamic query options. See:
      - [Dynamic Relational Query Options](/doc/guide/database.arr#dynamic-relational-query-options)
+
+ * Enhanced [CUrlManager] to support parameterizing the route part in URL rules. See:
+     - [Parameterizing Routes in URL Rules](/doc/guide/topics.url#parameterizing-routes)
 
 <div class="revision">$Id$</div>

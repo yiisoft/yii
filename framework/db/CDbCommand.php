@@ -38,6 +38,7 @@ class CDbCommand extends CComponent
 	private $_connection;
 	private $_text='';
 	private $_statement=null;
+	private $_params;
 
 	/**
 	 * Constructor.
@@ -109,9 +110,11 @@ class CDbCommand extends CComponent
 			try
 			{
 				$this->_statement=$this->getConnection()->getPdoInstance()->prepare($this->getText());
+				$this->_params=array();
 			}
 			catch(Exception $e)
 			{
+				Yii::log('Error in preparing SQL: '.$this->getText(),CLogger::LEVEL_ERROR,'system.db.CDbCommand');
 				throw new CDbException(Yii::t('yii','CDbCommand failed to prepare the SQL statement: {error}',
 					array('{error}'=>$e->getMessage())));
 			}
@@ -146,6 +149,8 @@ class CDbCommand extends CComponent
 			$this->_statement->bindParam($name,$value,$dataType);
 		else
 			$this->_statement->bindParam($name,$value,$dataType,$length);
+		if($this->_connection->enableParamLogging)
+			$this->_params[]=$name.'=['.gettype($value).']';
 	}
 
 	/**
@@ -165,6 +170,8 @@ class CDbCommand extends CComponent
 			$this->_statement->bindValue($name,$value,$this->_connection->getPdoType(gettype($value)));
 		else
 			$this->_statement->bindValue($name,$value,$dataType);
+		if($this->_connection->enableParamLogging)
+			$this->_params[]=$name.'='.var_export($value,true);
 	}
 
 	/**
@@ -176,7 +183,8 @@ class CDbCommand extends CComponent
 	 */
 	public function execute()
 	{
-		Yii::trace('Executing SQL: '.$this->getText(),'system.db.CDbCommand');
+		$params=$this->_connection->enableParamLogging && !empty($this->_params) ? '. Bind with parameter ' . implode(', ',$this->_params) : '';
+		Yii::trace('Executing SQL: '.$this->getText().$params,'system.db.CDbCommand');
 		try
 		{
 			if($this->_statement instanceof PDOStatement)
@@ -189,6 +197,7 @@ class CDbCommand extends CComponent
 		}
 		catch(Exception $e)
 		{
+			Yii::log('Error in executing SQL: '.$this->getText().$params,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
 				array('{error}'=>$e->getMessage())));
 		}
@@ -266,7 +275,8 @@ class CDbCommand extends CComponent
 	 */
 	private function queryInternal($method,$mode)
 	{
-		Yii::trace('query with SQL: '.$this->getText(),'system.db.CDbCommand');
+		$params=$this->_connection->enableParamLogging && !empty($this->_params) ? '. Bind with parameter ' . implode(', ',$this->_params) : '';
+		Yii::trace('Querying SQL: '.$this->getText().$params,'system.db.CDbCommand');
 		try
 		{
 			if($this->_statement instanceof PDOStatement)
@@ -281,7 +291,7 @@ class CDbCommand extends CComponent
 		}
 		catch(Exception $e)
 		{
-			Yii::log('Error in executing SQL: '.$this->getText(),CLogger::LEVEL_ERROR,'system.db.CDbCommand');
+			Yii::log('Error in querying SQL: '.$this->getText().$params,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
 				array('{error}'=>$e->getMessage())));
 		}

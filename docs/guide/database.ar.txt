@@ -43,6 +43,7 @@ used for modeling database tables in PHP constructs and performing queries
 that do not involve complex SQLs. Yii DAO should be used for those complex
 scenarios.
 
+
 Establishing DB Connection
 --------------------------
 
@@ -149,13 +150,15 @@ a column in the `Post` table, and CActiveRecord makes it accessible as a
 property with the help of the PHP `__get()` magic method. An exception will
 be thrown if we attempt to access a non-existing column in the same way.
 
-> Info: For better readability, we suggest naming database tables and
-columns in camel case. In particular, table names are formed by
-capitalizing each word in the name and joining them without spaces; column
-names are similar to table names except their first letter is in lower
-case. For example, we use `Post` to name the table storing posts; and we
-use `createTime` to name the table's primary key column. This makes tables
-look more like class types and columns like variables. Note, however, using camel case may also bring you inconvenience for some DBMS, such as MySQL, as they may behave differently on different operation systems.
+> Info: For better readability, we suggest naming table columns in camel case.
+In particular, column names are formed by capitalizing each word except
+the first one in the name and concatenating them without spaces. For example, we
+may use `createTime` to name a column storing the creation time of a row.
+Naming of tables depends on your personal taste. In this guide, we also follow
+camel case naming convention except that the first letter is in upper case as well.
+For example, we use `Post` to name the table storing post data.
+Note, however, using camel case for table names may bring you inconvenience
+for some DBMS, such as MySQL, as they may behave differently on different operation systems.
 
 
 Creating Record
@@ -211,6 +214,15 @@ $post->createTime=new CDbExpression('NOW()');
 // 'NOW()' will be treated as a string
 $post->save();
 ~~~
+
+> Tip: While AR allows us to perform database operations without writing
+cumbersom SQL statements, we often want to know what SQL statements are executed
+by AR underneath. This can be achieved by turning on the [logging feature](/doc/guide/topics.logging)
+of Yii. For example, we can turn on [CWebLogRoute] in the application configuration,
+and we will see the executed SQL statements being displayed at the end of each Web page.
+Since version 1.0.5, we can set [CDbConnection::enableParamLogging] to be true in
+the application configuration so that the parameter values bound to the SQL
+statements are also logged.
 
 
 Reading Record
@@ -555,7 +567,7 @@ $posts=Post::model()->published()->recently()->findAll();
 In general, named scopes must appear to the left of a `find` method call. Each of them provides a query criteria, which is combined with other criterias, including the one passed to the `find` method call. The net effect is like adding a list of filters to a query.
 
 
-===Parameterized Named Scopes
+### Parameterized Named Scopes
 
 Named scopes can be parameterized. For example, we may want to customize the number of posts specified by the `recently` named scope. To do so, instead of declaring the named scope in the [CActiveRecord::scopes] method, we need to define a new method whose name is the same as the scope name:
 
@@ -581,7 +593,7 @@ $posts=Post::model()->published()->recently(3)->findAll();
 If we do not supply the parameter 3 in the above, we would retrieve the 5 recently published posts by default.
 
 
-===Default Named Scope
+### Default Named Scope
 
 A model class can have a default named scope that would be applied for all queries (including relational ones) about the model. For example, a website supporting multiple languages may only want to display contents that are in the language the current user specifies. Because there may be many queries about the site contents, we can define a default named scope to solve this problem. To do so, we override the [CActiveRecord::defaultScope] method as follows,
 

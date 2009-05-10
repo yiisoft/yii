@@ -149,8 +149,6 @@ class COutputCache extends CFilterWidget
 	 */
 	public function init()
 	{
-		$this->getController()->usePageCaching=$this->getIsFilter();
-
 		if($this->getIsContentCached())
 			$this->replayActions();
 		else if($this->_cache!==null)
@@ -170,7 +168,12 @@ class COutputCache extends CFilterWidget
 	public function run()
 	{
 		if($this->getIsContentCached())
-			echo $this->getController()->processDynamicOutput($this->_content);
+		{
+			if($this->getController()->isCachingStackEmpty())
+				echo $this->getController()->processDynamicOutput($this->_content);
+			else
+				echo $this->_content;
+		}
 		else if($this->_cache!==null)
 		{
 			$this->_content=ob_get_clean();
@@ -179,7 +182,11 @@ class COutputCache extends CFilterWidget
 			if(is_array($this->dependency))
 				$this->dependency=Yii::createComponent($this->dependency);
 			$this->_cache->set($this->getCacheKey(),$data,$this->duration>0 ? $this->duration : 0,$this->dependency);
-			echo $this->getController()->processDynamicOutput($this->_content);
+
+			if($this->getController()->isCachingStackEmpty())
+				echo $this->getController()->processDynamicOutput($this->_content);
+			else
+				echo $this->_content;
 		}
 	}
 
@@ -306,7 +313,6 @@ class COutputCache extends CFilterWidget
 	{
 		if(empty($this->_actions))
 			return;
-
 		$controller=$this->getController();
 		$cs=Yii::app()->getClientScript();
 		foreach($this->_actions as $action)

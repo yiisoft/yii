@@ -8,9 +8,11 @@ Version 1.1a to be released
 Version 1.0.5 to be released
 ----------------------------
 - Bug #234: Multi-line Yii::t() not found by 'yiic message' (Qiang)
+- Bug #235: Dynamic content does not work when page caching is used together with fragment caching (Qiang)
 - Bug #239: Syntax error in translated Portuguese error view file (Qiang)
 - Bug #246: Undefined variable in CMaskedTextField (Qiang)
 - Bug #252: mimeTypes.php contains clashing types (Qiang)
+- Bug #258: Some eager loading queries may result in extra lazy loading queries (Qiang)
 - Bug #261: CWsdlGenerator should not use 'tns:' namespace when declaring a complex type (Qiang)
 - Bug #262: Setting 'charset' of CDbConnection causes exception when working with SQLite (Qiang)
 - Bug #263: Exception is thrown when column names contain "=" symbol (Qiang)
@@ -18,16 +20,21 @@ Version 1.0.5 to be released
 - Bug #290: date formatter generates incorrect narrow day output (Qiang)
 - Bug: Lazy loading HAS_MANY or MANY_MANY properties will get NULL instead of empty array when the result set is empty (Qiang)
 - Bug: CDateFormatter::formatYear() only returns one digit when the year pattern is 'yy' (Qiang)
+- Bug: The ON option is not respected for MANY_MANY relations (Qiang)
 - New #210: Added support for named scope of AR (Qiang)
 - New #211: Enhanced AR by supporting lazy relational query with on-the-fly query parameters (Qiang)
 - New #224: Added CModel::addErrors() method (Qiang)
+- New #241: Added support to define root path aliases in configuration (Qiang)
 - New #247: Added support to allow using Web services in PHP versions lower than 5.2.0 (Qiang)
 - New #249: Added option to CHtml to allow generate tags without encoding attribute values (Qiang)
 - New #254: Added support to allow input widgets to be used with tabular inputs (Qiang)
 - New #265: Added support to validate time and datetime inputs (Qiang)
 - New #268: Added support to allow using dot syntax to generate list options with CHtml (Qiang)
+- New #274: Added support to allow using route sub-patterns in URL rules (Qiang)
 - New #284: Refactored code about page states to simplify overriding efforts (Qiang)
 - New #291: Added support to validate emails with name part (Qiang)
+- New #293: Added support to allow Yii to be used with other libraries which rely on autoload (Qiang)
+- New #294: Added CDummyCache component (Qiang)
 - New: Deprecated CHtml::getActiveId() (Qiang)
 - New: Added CDbCriteria::mergeWith() (Qiang)
 - New: Added Oracle support for Active Record (Ricardo)
@@ -39,7 +46,8 @@ Version 1.0.5 to be released
 - New: Added new message placeholder to CCompareValidator (Qiang)
 - New: Added trace statements to auth components (Qiang)
 - New: Added CHtml::value() (Qiang)
-
+- New: Enhanced 'yiic shell model' command so that it generates attribute labels by default (Qiang)
+- New: Added CDbConnection::enableParamLogging to allow logging parameters bound to SQL statements (Qiang)
 
 Version 1.0.4 April 5, 2009
 ---------------------------
@@ -79,7 +87,8 @@ Version 1.0.4 April 5, 2009
 - New #212: 'Readline' support in yiic console script (olafure)
 - New #225: Added trace statements to CActiveRecord and CActiveFinder (Qiang)
 - New #230: Enhanced CHtml so that it can be used in situations where controller is absent (Qiang)
-- New #233: allow CFileValidator::types to be set with an array (Qiang)
+- New #233: Allow CFileValidator::types to be set with an array (Qiang)
+- New #292: Refactored CActiveRecord so that attribute assignment can be overridden more easily (Qiang)
 - New: Added support to GROUP BY and HAVING in eager loading of AR (Qiang)
 - New: Added CClientScript::scriptFiles and CClientScript::cssFiles (Qiang)
 - New: Added SQL Server support for Active Record (Christophe)
