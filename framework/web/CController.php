@@ -81,12 +81,6 @@ class CController extends CBaseController
 	 * @var string the name of the default action. Defaults to 'index'.
 	 */
 	public $defaultAction='index';
-	/**
-	 * @var boolean whether page caching is enabled for the current action.
-	 * Do not modify the value of this property.
-	 * @since 1.0.4
-	 */
-	public $usePageCaching=false;
 
 	private $_id;
 	private $_action;
@@ -297,7 +291,7 @@ class CController extends CBaseController
 		Yii::app()->getClientScript()->render($output);
 
 		// if using page caching, we should delay dynamic output replacement
-		if(!$this->usePageCaching && $this->_dynamicOutput)
+		if($this->_dynamicOutput!==null && $this->isCachingStackEmpty())
 			$output=$this->processDynamicOutput($output);
 
 		if($this->_pageStates===null)
@@ -846,13 +840,25 @@ class CController extends CBaseController
 	}
 
 	/**
+	 * @param boolean whether to create a stack if it does not exist yet. Defaults to true.
 	 * @return CStack stack of {@link COutputCache} objects
 	 */
-	public function getCachingStack()
+	public function getCachingStack($createIfNull=true)
 	{
 		if(!$this->_cachingStack)
 			$this->_cachingStack=new CStack;
 		return $this->_cachingStack;
+	}
+
+	/**
+	 * @return whether the caching stack is empty. If not empty, it means currently there are
+	 * some output cache in effect. Note, the return result of this method may change when it is
+	 * called in different output regions, depending on the partition of output caches.
+	 * @since 1.0.5
+	 */
+	public function isCachingStackEmpty()
+	{
+		return $this->_cachingStack===null || !$this->_cachingStack->getCount();
 	}
 
 	/**
