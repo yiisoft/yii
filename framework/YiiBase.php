@@ -296,6 +296,7 @@ class YiiBase
 	 * Class autoload loader.
 	 * This method is provided to be invoked within an __autoload() magic method.
 	 * @param string class name
+	 * @return boolean whether the class has been loaded successfully
 	 */
 	public static function autoload($className)
 	{
@@ -305,7 +306,11 @@ class YiiBase
 		else if(isset(self::$_classes[$className]))
 			include(self::$_classes[$className]);
 		else
-			include($className.'.php');
+		{
+			@include($className.'.php');
+			return class_exists($className,false);
+		}
+		return true;
 	}
 
 	/**
@@ -458,6 +463,7 @@ class YiiBase
 		'CApcCache' => '/caching/CApcCache.php',
 		'CCache' => '/caching/CCache.php',
 		'CDbCache' => '/caching/CDbCache.php',
+		'CDummyCache' => '/caching/CDummyCache.php',
 		'CEAcceleratorCache' => '/caching/CEAcceleratorCache.php',
 		'CMemCache' => '/caching/CMemCache.php',
 		'CXCache' => '/caching/CXCache.php',

@@ -41,6 +41,9 @@ class CUrlManagerTest extends CTestCase
 			'register/*'=>'user',
 			'home/*'=>'',
 			'ad/*'=>'admin/index/list',
+			'<c:(post|comment)>/<id:\d+>/<a:(create|update|delete)>'=>'<c>/<a>',
+			'<c:(post|comment)>/<id:\d+>'=>'<c>/view',
+			'<c:(post|comment)>s/*'=>'<c>/list',
 		);
 		$entries=array(
 			array(
@@ -58,13 +61,6 @@ class CUrlManagerTest extends CTestCase
 				'route'=>'article/read',
 				'params'=>array('year'=>'2000','title'=>'title goes here'),
 			),
-			/*
-			array(
-				'pathInfo'=>'a/edit/title/title goes here',
-				'route'=>'article/edit',
-				'params'=>array('_a'=>'edit','title'=>'title goes here'),
-			),
-			*/
 			array(
 				'pathInfo'=>'article/2000/title goes here/name/value',
 				'route'=>'article/read',
@@ -115,6 +111,31 @@ class CUrlManagerTest extends CTestCase
 				'route'=>'admin/name/value',
 				'params'=>array(),
 			),
+			array(
+				'pathInfo'=>'posts',
+				'route'=>'post/list',
+				'params'=>array(),
+			),
+			array(
+				'pathInfo'=>'posts/page/3',
+				'route'=>'post/list',
+				'params'=>array('page'=>3),
+			),
+			array(
+				'pathInfo'=>'post/3',
+				'route'=>'post/view',
+				'params'=>array('id'=>3),
+			),
+			array(
+				'pathInfo'=>'post/3/delete',
+				'route'=>'post/delete',
+				'params'=>array('id'=>3),
+			),
+			array(
+				'pathInfo'=>'post/3/delete/a',
+				'route'=>'post/3/delete/a',
+				'params'=>array(),
+			),
 		);
 		$config=array(
 			'basePath'=>dirname(__FILE__),
@@ -157,6 +178,9 @@ class CUrlManagerTest extends CTestCase
 			'a/<_a>/*'=>'article',
 			'register/*'=>'user',
 			'home/*'=>'',
+			'<c:(post|comment)>/<id:\d+>/<a:(create|update|delete)>'=>'<c>/<a>',
+			'<c:(post|comment)>/<id:\d+>'=>'<c>/view',
+			'<c:(post|comment)>s/*'=>'<c>/list',
 		);
 		$config=array(
 			'basePath'=>dirname(__FILE__),
@@ -168,6 +192,38 @@ class CUrlManagerTest extends CTestCase
 		);
 		$app=new TestApplication($config);
 		$entries=array(
+			array(
+				'scriptUrl'=>'/apps/index.php',
+				'url'=>'/apps/index.php/post/123?name1=value1',
+				'url2'=>'/apps/post/123?name1=value1',
+				'url3'=>'/apps/post/123.html?name1=value1',
+				'route'=>'post/view',
+				'params'=>array(
+					'id'=>'123',
+					'name1'=>'value1',
+				),
+			),
+			array(
+				'scriptUrl'=>'/apps/index.php',
+				'url'=>'/apps/index.php/post/123/update?name1=value1',
+				'url2'=>'/apps/post/123/update?name1=value1',
+				'url3'=>'/apps/post/123/update.html?name1=value1',
+				'route'=>'post/update',
+				'params'=>array(
+					'id'=>'123',
+					'name1'=>'value1',
+				),
+			),
+			array(
+				'scriptUrl'=>'/apps/index.php',
+				'url'=>'/apps/index.php/posts/page/123',
+				'url2'=>'/apps/posts/page/123',
+				'url3'=>'/apps/posts/page/123.html',
+				'route'=>'post/list',
+				'params'=>array(
+					'page'=>'123',
+				),
+			),
 			array(
 				'scriptUrl'=>'/apps/index.php',
 				'url'=>'/apps/index.php/article/123?name1=value1',

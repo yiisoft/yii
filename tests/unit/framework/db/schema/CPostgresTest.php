@@ -137,7 +137,7 @@ class CPostgresTest extends CTestCase
 		$table=$schema->getTable('test.posts');
 
 		$c=$builder->createInsertCommand($table,array('title'=>'test post','create_time'=>'2004-10-19 10:23:54','author_id'=>1,'content'=>'test content'));
-		$this->assertEquals('INSERT INTO "test"."posts" ("title", "create_time", "author_id", "content") VALUES (:title, :create_time, :author_id, :content)',$c->text);
+		$this->assertEquals('INSERT INTO "test"."posts" ("title", "create_time", "author_id", "content") VALUES (:_p0, :_p1, :_p2, :_p3)',$c->text);
 		$c->execute();
 		$this->assertEquals(6,$builder->getLastInsertId($table));
 
@@ -230,6 +230,6 @@ class CPostgresTest extends CTestCase
 
 		// createColumnCriteria
 		$c=$builder->createColumnCriteria($table,array('id'=>1,'author_id'=>2),'title=\'\'');
-		$this->assertEquals('"test"."posts"."id"=:id AND "test"."posts"."author_id"=:author_id AND (title=\'\')',$c->condition);
+		$this->assertEquals('"test"."posts"."id"=:_p0 AND "test"."posts"."author_id"=:_p1 AND (title=\'\')',$c->condition);
 	}
 }

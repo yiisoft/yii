@@ -246,10 +246,12 @@ class CActiveFinder extends CComponent
 
 			if(($relation=$parent->model->getActiveRelation($with))!==null)
 			{
+				$relation=clone $relation;
+				$model=CActiveRecord::model($relation->className);
+				if(($scope=$model->defaultScope())!==array())
+					$relation->mergeWith($scope);
 				if(isset($scopes) && !empty($scopes))
 				{
-					$model=CActiveRecord::model($relation->className);
-					$relation=clone $relation;
 					$scs=$model->scopes();
 					foreach($scopes as $scope)
 					{
@@ -602,6 +604,8 @@ class CJoinElement
 					$attributes[$aliases[$alias]]=$value;
 			}
 			$record=$this->model->populateRecord($attributes,false);
+			foreach($this->children as $child)
+				$record->addRelatedRecord($child->relation->name,null,$child->relation instanceof CHasManyRelation);
 			$this->records[$pk]=$record;
 		}
 
@@ -925,6 +929,8 @@ class CJoinElement
 			$join.=' ON ('.implode(') AND (',$parentCondition).')';
 			$join.=' '.$this->relation->joinType.' '.$this->getTableNameWithAlias();
 			$join.=' ON ('.implode(') AND (',$childCondition).')';
+			if(!empty($this->relation->on))
+				$join.=' AND ('.str_replace($this->relation->aliasToken.'.', $this->tableAlias.'.', $this->relation->on).')';
 			return $join;
 		}
 		else

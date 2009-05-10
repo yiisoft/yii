@@ -204,6 +204,31 @@ abstract class CModule extends CComponent
 	}
 
 	/**
+	 * Defines the root aliases.
+	 * @param array list of aliases to be defined. The array keys are root aliases,
+	 * while the array values are paths or aliases corresponding to the root aliases.
+	 * For example,
+	 * <pre>
+	 * array(
+	 *    'models'=>'application.models',              // an existing alias
+	 *    'extensions'=>'application.extensions',      // an existing alias
+	 *    'backend'=>dirname(__FILE__).'/../backend',  // a directory
+	 * )
+	 * </pre>
+	 * @since 1.0.5
+	 */
+	public function setAliases($mappings)
+	{
+		foreach($mappings as $name=>$alias)
+		{
+			if(($path=Yii::getPathOfAlias($alias))!==false)
+				Yii::setPathOfAlias($name,$path);
+			else
+				Yii::setPathOfAlias($name,$alias);
+		}
+	}
+
+	/**
 	 * @return CModule the parent module. Null if this module does not have a parent.
 	 */
 	public function getParentModule()

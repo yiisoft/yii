@@ -56,6 +56,25 @@
  *   and vice versa applies when constructing such a URL.</li>
  * </ul>
  *
+ * Starting from version 1.0.5, the route part may contain references to named parameters defined
+ * in the pattern part. This allows a rule to be applied to different routes based on matching criteria.
+ * For example,
+ * <pre>
+ * array(
+ *      '<_c:(post|comment)>/<id:\d+>/<_a:(create|update|delete)>'=>'<_c>/<_a>',
+ *      '<_c:(post|comment)>/<id:\d+>'=>'<_a>/view',
+ *      '<_c:(post|comment)>s/*'=>'<_a>/list',
+ * )
+ * </pre>
+ * In the above, we use two named parameters '<_c>' and '<_a>' in the route part. The '<_c>'
+ * parameter matches either 'post' or 'comment', while the '<_a>' parameter matches an action ID.
+ *
+ * Like normal rules, these rules can be used for both parsing and creating URLs.
+ * For example, using the rules above, the URL '/index.php/post/123/create'
+ * would be parsed as the route 'post/create' with GET parameter 'id' being 123.
+ * And given the route 'post/list' and GET parameter 'page' being 2, we should get a URL
+ * '/index.php/posts/page/2'.
+ *
  * CUrlManager is a default application component that may be accessed via
  * {@link CWebApplication::getUrlManager()}.
  *
@@ -70,6 +89,10 @@ class CUrlManager extends CApplicationComponent
 	const GET_FORMAT='get';
 	const PATH_FORMAT='path';
 
+	/**
+	 * @var array the URL rules (pattern=>route).
+	 */
+	public $rules=array();
 	/**
 	 * @var string the URL suffix used when in 'path' format.
 	 * For example, ".html" can be used so that the URL looks like pointing to a static HTML page. Defaults to empty.
@@ -111,7 +134,6 @@ class CUrlManager extends CApplicationComponent
 
 	private $_urlFormat=self::GET_FORMAT;
 	private $_rules=array();
-	private $_groups=array();
 	private $_baseUrl;
 
 
@@ -129,41 +151,21 @@ class CUrlManager extends CApplicationComponent
 	 */
 	protected function processRules()
 	{
-		if(empty($this->_rules) || $this->getUrlFormat()===self::GET_FORMAT)
+		if(empty($this->rules) || $this->getUrlFormat()===self::GET_FORMAT)
 			return;
 		if($this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID))!==null)
 		{
-			$hash=md5(serialize($this->_rules));
+			$hash=md5(serialize($this->rules));
 			if(($data=$cache->get(self::CACHE_KEY))!==false && isset($data[1]) && $data[1]===$hash)
 			{
-				$this->_groups=$data[0];
+				$this->_rules=$data[0];
 				return;
 			}
 		}
-		foreach($this->_rules as $pattern=>$route)
-			$this->_groups[$route][]=new CUrlRule($route,$pattern);
+		foreach($this->rules as $pattern=>$route)
+			$this->_rules[]=new CUrlRule($route,$pattern);
 		if(isset($cache))
-			$cache->set(self::CACHE_KEY,array($this->_groups,$hash));
-	}
-
-	/**
-	 * @return array the URL rules
-	 */
-	public function getRules()
-	{
-		return $this->_rules;
-	}
-
-	/**
-	 * Sets the URL rules.
-	 * @param array the URL rules (pattern=>route)
-	 */
-	public function setRules($value)
-	{
-		if($this->_rules===array())
-			$this->_rules=$value;
-		else
-			$this->_rules=array_merge($this->_rules,$value);
+			$cache->set(self::CACHE_KEY,array($this->_rules,$hash));
 	}
 
 	/**
@@ -185,13 +187,10 @@ class CUrlManager extends CApplicationComponent
 		}
 		else
 			$anchor='';
-		if(isset($this->_groups[$route]))
+		foreach($this->_rules as $rule)
 		{
-			foreach($this->_groups[$route] as $rule)
-			{
-				if(($url=$rule->createUrl($params,$this->urlSuffix,$ampersand))!==false)
-					return $this->getBaseUrl().'/'.$url.$anchor;
-			}
+			if(($url=$rule->createUrl($route,$params,$this->urlSuffix,$ampersand))!==false)
+				return $this->getBaseUrl().'/'.$url.$anchor;
 		}
 		return $this->createUrlDefault($route,$params,$ampersand).$anchor;
 	}
@@ -246,13 +245,10 @@ class CUrlManager extends CApplicationComponent
 		if($this->getUrlFormat()===self::PATH_FORMAT)
 		{
 			$pathInfo=$this->removeUrlSuffix($request->getPathInfo());
-			foreach($this->_groups as $rules)
+			foreach($this->_rules as $rule)
 			{
-				foreach($rules as $rule)
-				{
-					if(($r=$rule->parseUrl($pathInfo))!==false)
-						return isset($_GET[$this->routeVar]) ? $_GET[$this->routeVar] : $r;
-				}
+				if(($r=$rule->parseUrl($pathInfo))!==false)
+					return isset($_GET[$this->routeVar]) ? $_GET[$this->routeVar] : $r;
 			}
 			return $pathInfo;
 		}
@@ -370,7 +366,7 @@ class CUrlManager extends CApplicationComponent
  * It mainly consists of two parts: route and pattern. The former classifies
  * the rule so that it only applies to specific controller-action route.
  * The latter performs the actual formatting and parsing role. The pattern
- * may have a set of named parameters each of specific format.
+ * may have a set of named parameters.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
@@ -384,6 +380,16 @@ class CUrlRule extends CComponent
 	 */
 	public $route;
 	/**
+	 * @var array the mapping from route param name to token name (e.g. _r1=><1>)
+	 * @since 1.0.5
+	 */
+	public $references=array();
+	/**
+	 * @var string the pattern used to match route
+	 * @since 1.0.5
+	 */
+	public $routePattern;
+	/**
 	 * @var string regular expression used to parse a URL
 	 */
 	public $pattern;
@@ -394,15 +400,11 @@ class CUrlRule extends CComponent
 	/**
 	 * @var array list of parameters (name=>regular expression)
 	 */
-	public $params;
+	public $params=array();
 	/**
 	 * @var boolean whether the URL allows additional parameters at the end of the path info.
 	 */
 	public $append;
-	/**
-	 * @var string a token identifies the rule to a certain degree
-	 */
-	public $signature;
 	/**
 	 * @var boolean whether the rule is case sensitive. Defaults to true.
 	 * @since 1.0.1
@@ -417,22 +419,31 @@ class CUrlRule extends CComponent
 	public function __construct($route,$pattern)
 	{
 		$this->route=$route;
+		$tr2['/']=$tr['/']='\\/';
+
+		if(strpos($route,'<')!==false && preg_match_all('/<(\w+)>/',$route,$matches2))
+		{
+			foreach($matches2[1] as $name)
+				$this->references[$name]="<$name>";
+		}
+
 		if(preg_match_all('/<(\w+):?(.*?)?>/',$pattern,$matches))
-			$this->params=array_combine($matches[1],$matches[2]);
-		else
-			$this->params=array();
+		{
+			$tokens=array_combine($matches[1],$matches[2]);
+			foreach($tokens as $name=>$value)
+			{
+				$tr["<$name>"]="(?P<$name>".($value!==''?$value:'[^\/]+').')';
+				if(isset($this->references[$name]))
+					$tr2["<$name>"]=$tr["<$name>"];
+				else
+					$this->params[$name]=$value;
+			}
+		}
 		$p=rtrim($pattern,'*');
 		$this->append=$p!==$pattern;
 		$p=trim($p,'/');
 		$this->template=preg_replace('/<(\w+):?.*?>/','<$1>',$p);
-		if(($pos=strpos($p,'<'))!==false)
-			$this->signature=substr($p,0,$pos);
-		else
-			$this->signature=$p;
 
-		$tr['/']='\\/';
-		foreach($this->params as $key=>$value)
-			$tr["<$key>"]="(?P<$key>".($value!==''?$value:'[^\/]+').')';
 		$this->pattern='/^'.strtr($this->template,$tr).'\/';
 		if($this->append)
 			$this->pattern.='/u';
@@ -440,20 +451,40 @@ class CUrlRule extends CComponent
 			$this->pattern.='$/u';
 		if(!$this->caseSensitive)
 			$this->pattern.='i';
+
+		if($this->references!==array())
+		{
+			$this->routePattern='/^'.strtr($this->route,$tr2).'$/u';
+			if(!$this->caseSensitive)
+				$this->routePattern.='i';
+		}
+
 		if(YII_DEBUG && @preg_match($this->pattern,'test')===false)
 			throw new CException(Yii::t('yii','The URL pattern "{pattern}" for route "{route}" is not a valid regular expression.',
 				array('{route}'=>$route,'{pattern}'=>$pattern)));
 	}
 
 	/**
+	 * @param string the route
 	 * @param array list of parameters
 	 * @param string URL suffix
 	 * @param string the token separating name-value pairs in the URL.
 	 * @return string the constructed URL
 	 */
-	public function createUrl($params,$suffix,$ampersand)
+	public function createUrl($route,$params,$suffix,$ampersand)
 	{
 		$tr=array();
+		if($route!==$this->route)
+		{
+			if($this->routePattern!==null && preg_match($this->routePattern,$route,$matches))
+			{
+				foreach($this->references as $key=>$name)
+					$tr[$name]=$matches[$key];
+			}
+			else
+				return false;
+		}
+
 		foreach($this->params as $key=>$value)
 		{
 			if(isset($params[$key]))
@@ -464,6 +495,7 @@ class CUrlRule extends CComponent
 			else
 				return false;
 		}
+
 		$url=strtr($this->template,$tr);
 		if(empty($params))
 			return $url!=='' ? $url.$suffix : $url;
@@ -485,21 +517,23 @@ class CUrlRule extends CComponent
 	 */
 	public function parseUrl($pathInfo)
 	{
-		$func=$this->caseSensitive?'strncmp':'strncasecmp';
-		if($func($pathInfo,$this->signature,strlen($this->signature)))
-			return false;
-
 		$pathInfo.='/';
 		if(preg_match($this->pattern,$pathInfo,$matches))
 		{
+			$tr=array();
 			foreach($matches as $key=>$value)
 			{
-				if(is_string($key))
+				if(isset($this->references[$key]))
+					$tr[$this->references[$key]]=urldecode($value);
+				else if(isset($this->params[$key]))
 					$_GET[$key]=urldecode($value);
 			}
 			if($pathInfo!==$matches[0]) // there're additional GET params
 				CUrlManager::parsePathInfo(ltrim(substr($pathInfo,strlen($matches[0])),'/'));
-			return $this->route;
+			if($this->routePattern!==null)
+				return strtr($this->route,$tr);
+			else
+				return $this->route;
 		}
 		else
 			return false;

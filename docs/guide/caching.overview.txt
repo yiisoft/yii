@@ -50,6 +50,14 @@ it will create and use a SQLite3 database under the runtime directory. You
 can explicitly specify a database for it to use by setting its
 [connectionID|CDbCache::connectionID] property.
 
+   - [CDummyCache]: presents dummy cache that does no caching at all. The purpose
+of this component is to simplify the code that needs to check the availability of cache.
+For example, during development or if the server doesn't have actual cache support, we
+can use this cache component. When an actual cache support is enabled, we can switch
+to use the corresponding cache component. In both cases, we can use the same code
+`Yii::app()->cache->get($key)` to attempt retrieving a piece of data without worrying
+that `Yii::app()->cache` might be `null`. This component has been available since version 1.0.5.
+
 > Tip: Because all these cache components extend from the same base class
 [CCache], one can switch to use a different type of cache without modifying
 the code that uses cache.
