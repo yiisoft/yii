@@ -1,0 +1,65 @@
+Tematy
+======
+
+Tematy są usystematyzowanym sposobem personalizacji wyglądu stron aplikacji
+webowej. Poprzez zastosowanie nowego tematu cały wygląd aplikacji może być
+jednocześnie i znacząco zmieniony.
+
+W ramach Yii każdy temat reprezentowany jest przez katalog zawierający pliki
+widoków, pliki układów (ang. layout) i powiązane z nimi pliki zasobów,
+takie jak obrazy, pliki CSS, Javascript, itp. Nazwa tematu jest też nazwą
+jego katalogu. Wszystkie tematy znajdują się we wspólnym katalogu `WebRoot/themes`.
+W dowolnej chwili tylko jeden z nich może być aktywny.
+
+> Wskazówka: Domyślny katalog tematów `WebRoot/themes` może być zastąpiony
+innym. Po prostu skonfiguruj odpowiednio atrybuty
+[basePath|CThemeManager::basePath] oraz [baseUrl|CThemeManager::baseUrl]
+komponentu aplikacji [themeManager|CWebApplication::themeManager].
+
+Aby aktywować jakiś temat ustaw atrybut [theme|CWebApplication::theme]
+aplikacji webowej na nazwę tematu, który chcesz użyć. Czynność tą możesz
+wykonać zarówno w [konfiguracji aplikacji](/doc/guide/basics.application#application-configuration),
+jak i w trakcie uruchamiania, poprzez akcję kontrolera.
+
+> Uwaga: Nazwa tematu jest wrażliwa na wielkość liter. Jeżeli próbujesz
+aktywować temat, który nie istnieje `Yii::app()->theme` zwróci `null`.
+
+Zawartość katalogu tematu powinna być zorganizowana w taką samą strukturę
+jak ta w [ścieżce głównej aplikacji](/doc/guide/basics.application#application-base-directory).
+Przykładowo, wszystkie pliki widoków muszą być umieszczone w `views`,
+pliki układów (ang. layout) widoku w `views/layouts`, a pliki widoków
+systemowych w `views/system`. Na przykład gdy będziemy chcieli zamienić
+widok `create` kontrolera `PostController` z widokiem tematu `classic`
+powinniśmy zapisać nowy plik jako `WebRoot/themes/classic/views/post/create.php`.
+
+Dla widoków należących do kontrolera w [module](/doc/guide/basics.module),
+odpowiadający mu plik widoku tematu powinien być również umieszczony
+w katalogu `views`. Na przykład, uprzednio omawiany kontroler `PostController`
+jest w module nazwanym `forum`, powinniśmy więc zapisać plik widoku `create`
+jako `WebRoot/themes/classic/views/forum/post/create.php`.
+W module `forum` zagnieżdżony jest inny moduł nazwany `support`, w tym wypadku
+plikiem widoku powinien być `WebRoot/themes/classic/views/support/forum/post/create.php`.
+
+> Uwaga: Ponieważ katalog `views` może zawierać wrażliwe z punktu widzenia bezpieczeństwa dane, powinien być zabezpieczony przed dostępem użytkowników internetu.
+
+Gdy wywołujemy metodę [render|CController::render]
+lub [renderPartial|CController::renderPartial] aby wyświetlić widok,
+odpowiadające temu widokowi pliki, jak również pliki układu (layout)
+szukane będą w katalogu aktywnego tematu. Jeżeli zostaną odnalezione,
+będą renderowane. W przeciwnym razie aplikacja powraca do domyślnej
+lokalizacji określonej przez atrybuty [viewPath|CController::viewPath]
+i [layoutPath|CWebApplication::layoutPath].
+
+> Wskazówka: Wewnątrz widoku tematu musimy często dołączać pliki zasobów
+> innych tematów. Np. możemy chcieć wyświetlić plik obrazu znajdujący się
+> w katalogu `images` tematu. Korzystając z właściwości [baseUrl|CTheme::baseUrl]
+> aktualnie aktywnego tematu możemy wygenerować adres URL dla tego obrazka
+> w sposób następujący:
+>
+> ~~~
+> [php]
+> Yii::app()->theme->baseUrl . '/images/FileName.gif'
+> ~~~
+>
+
+<div class="revision">$Id: topics.theming.txt 878 2009-03-23 15:31:21Z qiang.xue $</div>

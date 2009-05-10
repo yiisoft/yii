@@ -23,7 +23,7 @@ Jalankan `yiic` pada baris perintah seperti berikut:
 > ~~~
 
 Ini akan membuat kerangka aplikasi Yii di bawah direktori
-`WebRoot/testdrive`. Aplikasi memiliki struktur direktori yang 
+`WebRoot/testdrive`. Aplikasi memiliki struktur direktori yang
 diperlukan oleh umumnya aplikasi Yii.
 
 Tanpa harus menulis satu baris kode pun, kita dapat menguji aplikasi pertama
@@ -52,7 +52,7 @@ Perhatikan foto layar berikut agar lebih jelas.
 
 
 Diagram berikut memperlihatkan struktur direktori pada aplikasi kita
-Silahkan lihat [Conventions](/doc/guide/basics.convention#directory) utuk keterangan
+Silahkan lihat [Konvensi](/doc/guide/basics.convention#directory) utuk keterangan
 lebih rinci mengenai struktur ini.
 
 ~~~
@@ -141,7 +141,7 @@ CREATE TABLE User (
 Demi kemudahan, kita hanya membuat satu tabel `User` dalam database kita. File
 database SQLite disimpan sebagai
 `WebRoot/testdrive/protected/data/source.db`. Catatan bahwa baik file maupun
-direktori di mana ia berada harus dijadikan bisa ditulis oleh proses server Web, 
+direktori di mana ia berada harus dijadikan bisa ditulis oleh proses server Web,
 karena dbutuhkan oleh SQLite.
 
 
@@ -153,7 +153,7 @@ update dan delete) untuk tabel `User` yang baru dibuat. Ini juga umumnya
 diperlukan dalam praktek aplikasi.
 
 Daripada mendapatkan masalah dengan penulisan kode sebenarnya, kita ingin menggunakan
-piranti bertenaga `yiic` lagi untuk pembuatan kode secara otomatis bagi kita. Proses 
+piranti bertenaga `yiic` lagi untuk pembuatan kode secara otomatis bagi kita. Proses
 ini juga dikenal sebagai *scaffolding*. Buka jendela baris perintah, dan jalankan perintah
 yang terdaftar sebagai berikut,
 
@@ -214,7 +214,7 @@ Klik link `New User` pada halaman. Kita akan dibawa ke halaman masuk
 jika kita belum masuk sebelumnya. Setelah masuk, kita melihat formulir
 input yang mengijinkan kita untuk menambah entri pengguna baru. Lengkapi formulir dan
 klik tombol `Create`. Jika ada kesalahan input, pengingat kesalahan akan
-ditampilkan yang melarang kita menyimpan input. Kembali ke daftar 
+ditampilkan yang melarang kita menyimpan input. Kembali ke daftar
 pengguna, seharusnya kita melihat pengguna yang baru ditambahkan muncul dalam daftar.
 
 Ulangi langkah di atas untuk menambah lebih banyak pengguna. Catatan bahwa halaman daftar pengguna
@@ -230,7 +230,7 @@ http://hostname/testdrive/index.php?r=user/admin
 
 Ini akan memperlihatkan tabel entri pengguna bagi kita. Kita dapat mengklik sel header
 tabel guna mengurut sesuai kolom terkait. Dan seperti halnya halaman daftar pengguna,
-halaman admin juga melakukan paginasi bila ada banyak entri pengguna yang harus 
+halaman admin juga melakukan paginasi bila ada banyak entri pengguna yang harus
 ditampilkan dalam satu halaman.
 
 Semua fitur cantik disediakan tanpa harus menulis satu baris kode pun!

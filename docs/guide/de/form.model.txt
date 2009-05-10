@@ -150,6 +150,9 @@ Attribut oder einer Konstanten.
    - `default`: Alias für [CDefaultValueValidator], Zuweisung eines Standardwertes für
 das angegebene Attribut.
 
+   - `exist`: Alias für [CExistValidator], garantiert, dass der Wert des
+Attributs in der entsprechenden Tabellenspalte vorhanden ist.
+
    - `file`: Alias für [CFileValidator], garantiert dass der Attributwert den Namen einer
 hochgeladenen Datei enthält.
 
@@ -373,4 +376,4 @@ angepasst werden. Wie wir in den folgenden Kapiteln sehen werden, erlaubt
 uns die Angabe von Labels im Model, ein Formular schneller und wirkungsvoller zu
 erstellen.
 
-<div class="revision">$Id: form.model.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 922 2009-04-05 21:36:33Z qiang.xue $</div>

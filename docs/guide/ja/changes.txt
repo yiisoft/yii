@@ -1,0 +1,17 @@
+新機能
+============
+
+このページは、各々のYiiリリースにおいて導入される主な新機能をまとめます。
+
+Version 1.0.5
+-------------
+
+ * Named Scope をサポートするアクティブレコードの機能拡張です。以下を参照してください。
+     - [Named Scope](/doc/guide/database.ar#named-scopes)
+     - [Named Scope を使用したリレーショナルクエリ](/doc/guide/database.arr#relational-query-with-named-scopes)
+
+
+ * 動的クエリオプションを伴うレイジーローディングをサポートするアクティブレコードの機能拡張。以下を参照してください。
+     - [動的リレーショナルクエリオプション](/doc/guide/database.arr#dynamic-relational-query-options)
+
+<div class="revision">$Id: changes.txt 956 2009-04-21 15:16:03Z qiang.xue@gmail.com $</div>

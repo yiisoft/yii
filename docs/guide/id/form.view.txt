@@ -1,0 +1,72 @@
+Membuat Formulir
+================
+
+Menulis tampilan `login` adalah pekerjaan langsung. Kita mulai dengan sebuah tag `form`
+yang atribut aksinya berupa URL atas aksi `login` seperti dijelaskan
+sebelumnya. Kemudian kita menyisipkan label dan field input untuk atribut
+yang dideklarasikan dalam kelas `LoginForm`. Setelah itu kita menyisipkan tombol kirim
+yang dapat diklik oleh pengguna untuk mengirimkan formulir. Semua ini dapat dikerjakan dalam
+kode murni HTML.
+
+Yii menyediakan beberapa kelas pembantu guna memfasilitasi komposisi tampilan. Sebagai
+contoh, untuk membuat sebuah field input teks, kita dapat memanggil [CHtml::textField()]; untuk
+membuat daftar drop-down, panggil [CHtml::dropDownList()].
+
+> Info: Orang mungkin heran apa untungnya pemakaian bantuan jika mereka
+> memerlukan sejumlah kode yang mirip dibandingkan dengan kode HTML langsung.
+> Jawabannya adalah bahwa pembantu dapat menyediakan lebih dari sekedar kode HTML. Sebagai
+> example, the following code would generate a text input field which can
+> pemicu pengiriman formulir jika nilainya diubah oleh pengguna.
+> ~~~
+> [php]
+> CHtml::textField($name,$value,array('submit'=>''));
+> ~~~
+> Ini akan memerlukan penulisan sejumlah JavaScript dimana-mana.
+
+Dalam contoh berikut, kita menggunakan [CHtml] untuk membuat formulir login. Kita beranggapan bahwa
+variabel `$user` mewakili turunan `LoginForm`.
+
+~~~
+[php]
+<div class="yiiForm">
+<?php echo CHtml::beginForm(); ?>
+
+<?php echo CHtml::errorSummary($user); ?>
+
+<div class="simple">
+<?php echo CHtml::activeLabel($user,'username'); ?>
+<?php echo CHtml::activeTextField($user,'username'); ?>
+</div>
+
+<div class="simple">
+<?php echo CHtml::activeLabel($user,'password'); ?>
+<?php echo CHtml::activePasswordField($user,'password');
+?>
+</div>
+
+<div class="action">
+<?php echo CHtml::activeCheckBox($user,'rememberMe'); ?>
+Remember me next time<br/>
+<?php echo CHtml::submitButton('Login'); ?>
+</div>
+
+<?php echo CHtml::endForm(); ?>
+</div><!-- yiiForm -->
+~~~
+
+Kode di atas menghasilkan formulir lebih dinamis. Sebagai contoh,
+[CHtml::activeLabel()] menghasilkan label terkait dengan atribut model yang
+ditetapkan. Jika atribut memiliki kesalahan input, label kelas CSS akan diubah
+ke `error`, yang mengubah tampilan label dengan gaya CSS terkait.
+Hal yang sama, [CHtml::activeTextField()] menghasilkan field input teks
+untuk atribut model yang ditetapkan dan mengubah kelas CSS jika
+ada kesalahan pada input.
+
+Jika kita menggunakan file gaya CSS `form.css` yang disediakan oleh naskah `yiic`, formulir
+yang dihasilkan akan terlihat seperti berikut:
+
+![Halaman login](login1.png)
+
+![Login dengan halaman kesalahan](login2.png)
+
+<div class="revision">$Id: form.view.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>

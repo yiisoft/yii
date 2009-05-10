@@ -16,6 +16,7 @@
  * @version $Id: $
  */
 return array (
+  'This is required by encrypt and decrypt methods.' => 'É necessário aos métodos encrypt e decrypt.',
   '$_SERVER does not have {vars}.' => '$_SERVER não possui {vars}.',
   '$_SERVER variable' => 'variável $_SERVER',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '$_SERVER["SCRIPT_FILENAME"] precisa ser o mesmo que o arquivo de script de entrada.',

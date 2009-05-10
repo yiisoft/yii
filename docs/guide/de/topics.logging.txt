@@ -81,7 +81,7 @@ array(
 				array(
 					'class'=>'CEmailLogRoute',
 					'levels'=>'error, warning',
-					'email'=>'admin@example.com',
+					'emails'=>'admin@example.com',
 				),
 			),
 		),
@@ -162,4 +162,4 @@ Dies geht genauso wie beim normalen Nachrichtenrouting. Die
 [CProfileLogRoute]-Route zeigt das Ergebnis der Messung am Ende der aktuellen
 Seite an.
 
-<div class="revision">$Id: topics.logging.txt 170 2008-11-06 20:33:35Z qiang.xue $</div>
+<div class="revision">$Id: topics.logging.txt 922 2009-04-05 21:36:33Z qiang.xue $</div>

@@ -5,9 +5,9 @@ Yii implementuje wzorzec projektowy model-widok-kontroler (MVC), który jest
 powszechnie stosowany w programowaniu webowym. MVC ma na celu oddzielenie 
 logiki biznesowej od interfejsu użytkownika, biorąc pod uwagę to, że developer 
 może dzięki temu w łatwy sposób zmienić każdą część bez oddziaływania na inną.
-W MVC model reprezentuje informacje (dane) oraz reguły binzesowe; widok zawiera 
-elementy interfesu użytkownika takie jak tekst, formularze; kontroler zaś zawiaduje 
-komunikacją pomiędzu modelem a widokiem.
+W MVC model reprezentuje informacje (dane) oraz reguły biznesowe; widok zawiera 
+elementy interfejsu użytkownika takie jak tekst, formularze; kontroler zaś zawiaduje 
+komunikacją pomiędzy modelem a widokiem.
 
 Poza MVC, Yii wprowadza również front-controller, nazwany aplikacją, który reprezentuje 
 kontekst wykonywania podczas przetwarzania żądania. Aplikacja rozszyfrowuje żądania 
@@ -20,29 +20,29 @@ Następujący diagram pokazuje statyczna strukturę aplikacji napisanej w Yii:
 Typowe sterowanie kolejnością zadań (ang. A Typical Workflow)
 ------------------
 Następny diagram pokazuje typowe sterowanie kolejnością zadań w aplikacji Yii, podczas przetwarzania
-żadania użytkownika:
+żądania użytkownika:
 
 ![Typowe sterowanie kolejnością zadań dla aplikacji napisanej w Yii](flow.png)
 
    1. Użytkownik tworzy żądanie za pomocą URL `http://www.example.com/index.php?r=post/show&id=1`
    a serwer webowy przetwarza żądanie poprzez wykonanie skryptu rozruchowego 
    (ang. bootstrap script) `index.php`.
-   2. Skrypt rozruchowy tworzy isntancję [aplikacji](/doc/guide/basics.application)
+   2. Skrypt rozruchowy tworzy instancję [aplikacji](/doc/guide/basics.application)
    i zwraca ją.
    3. Aplikacja zawiera szczegółowe informacje o żądaniu użytkownika z 
    [komponentu aplikacji](/doc/guide/basics.application#application-component)
    nazwanego `request`.
-   4. Aplikacja ustala żadany [kontroler](/doc/guide/basics.controller)
+   4. Aplikacja ustala żądany [kontroler](/doc/guide/basics.controller)
    oraz [akcję ](/doc/guide/basics.controller#action) przy pomocy komponentu aplikacji 
    nazwanego `urlManager`. Na przykład, kontrolerem jest `post`, który reprezentuje 
    klasę `PostController`; akcją jest `show`, której aktualne znaczenie jest determinowane
    przez kontroler.
-   5. Aplikacja tworzy instancję żądanego kontrolera do późniejszczego przetwarzania 
+   5. Aplikacja tworzy instancję żądanego kontrolera do późniejszego przetwarzania 
    żądań użytkownika. Kontroler ustala, iż akcja `show` odpowiada metodzie nazwanej `actionShow`
-   w klasie kontrolera. Następnie tworzy on i wywołuje filtry (np filtr kontroli dostępu, benchmarking) 
-   powiązane z tą akcją. Akcja jest wykonywana, jeśli umożliwiają to jej filtry.
+   w klasie kontrolera. Następnie tworzy on i wywołuje filtry (np. filtr kontroli dostępu, benchmarking) 
+   powiązane z tą akcją. Akcja jest wykonywana, jeśli zezwalają na to filtry.
    6. Akcja czyta [model](/doc/guide/basics.model) `Post`, którego ID wynosi `1` z bazy danych.
-   7. Akcja generuje [widok](/doc/guide/basics.view) nazwany `show` woraz z modelem `Post`.
+   7. Akcja generuje [widok](/doc/guide/basics.view) nazwany `show` wraz z modelem `Post`.
    8. Widok czyta i wyświetla atrybuty modelu `Post`.
    9. Widok wywołuje pewne [widżety](/doc/guide/basics.view#widget).
    10. Wynik generowania jest osadzany w [widoku](/doc/guide/basics.view#layout).

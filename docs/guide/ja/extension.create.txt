@@ -38,7 +38,7 @@ BSD、MIT、その他のようなライセンスを考慮したほうが良い�
 [ウィジェット](/doc/guide/basics.view#widget)は[CWidget]またはその子クラスの継承です。
 新しいウィジェットを作成する最も簡単な方法は、既存のウィジェットを継承し、そのメソッドをオーバライドするか、またはそのデフォルトプロパティ値を変更することです。
 たとえば、より素晴らしいCSSスタイルを［CTabView］に適用したいなら、ウィジェットを使用する際にその[CTabView::cssFile]プロパティを構成することができます。
-以下のように[CTabView]を継承することで、ウィジェットを使うときもはやプロパティを構成する必要がないようもできます。
+以下のように[CTabView]を継承することで、ウィジェットを使うときもはやプロパティを構成しないようにすることも可能です。
 
 ~~~
 [php]
@@ -56,29 +56,20 @@ class MyTabView extends CTabView
 }
 ~~~
 
-In the above, we override the [CWidget::init] method and assign to
-[CTabView::cssFile] the URL to our new default CSS style if the property
-is not set. We put the new CSS style file under the same directory
-containing the `MyTabView` class file so that they can be packaged as
-an extension. Because the CSS style file is not Web accessible, we need
-to publish as an asset.
+上記において、プロパティがセットされてなければ、[CWidget:init]メソッドをオーバライドし、新しいデフォルトCSSスタイルをURL[CTabView:cssFile]に割り当てます。
+拡張としてまとめられるように、`MyTabView`クラスファイルを含む同じディレクトリの下に新しいCSSスタイルファイルを置きました。
+CSSスタイルファイルはWebアクセスできないので、アセットとして公開する必要があります。
 
-To create a new widget from scratch, we mainly need to implement two methods:
-[CWidget::init] and [CWidget::run]. The first method is called when we
-use `$this->beginWidget` to insert a widget in a view, and the
-second method is called when we call `$this->endWidget`.
-If we want to capture and process the content displayed between these two
-method invocations, we can start [output buffering](http://us3.php.net/manual/en/book.outcontrol.php)
-in [CWidget::init] and retrieve the buffered output in [CWidget::run]
-for further processing.
+ゼロから新しいウィジェットを作製するために、主に[CWidget::init]と[CWidget::run]の2つのメソッドを実装する必要があります。
+ウィジェットをビューに挿入するために`$this->beginWidget`を使うとき、最初のメソッドが呼ばれます。
+最後に`$this->endWidget`を呼ぶとき、第2のメソッドが呼ばれます。
+これらの2つのメソッドの間で表示される内容を捕えて処理したい場合には、[CWidget::init]の中で[出力バッファリング](http://us3.php.net/manual/en/book.outcontrol.php)を用います。
+さらに[CWidget::run]の中でバッファされた出力を取り出し処理を行います。
 
-A widget often involves including CSS, JavaScript or other resource files
-in the page that uses the widget. We call these files *assets* because
-they stay together with the widget class file and are usually not accessible by
-Web users. In order to make these files Web accessible, we need to publish
-them using [CWebApplication::assetManager], as shown in the above code snippet.
-Besides, if we want to include a CSS or JavaScript file in the current page,
-we need to register it using [CClientScript]:
+ウィジェットは、しばしば、CSS、JavaScriptまたは他のリソースファイルをウィジェットを使うページに含むことが必要です。
+彼らがウィジェットクラスファイルと共にいて、通常ウェブユーザーによってアクセスできないので、これらのファイルは*アセット*と呼ばれます。
+これらのファイルにウェブアクセスできるようにするため、上記のコード断片で示すように、[WebApplication::assetManager]を用いて公開する必要があります。
+この他、CSSまたはJavaScriptファイルを現在のページに含めたいならば、[CClientScript]を用いてそれを登録する必要があります。
 
 ~~~
 [php]
@@ -86,7 +77,7 @@ class MyWidget extends CWidget
 {
 	protected function registerClientScript()
 	{
-		// ...publish CSS or JavaScript file here...
+		// ...CSS又はJavaScriptファイルをここで公開...
 		$cs=Yii::app()->clientScript;
 		$cs->registerCssFile($cssFile);
 		$cs->registerScriptFile($jsFile);
@@ -94,24 +85,22 @@ class MyWidget extends CWidget
 }
 ~~~
 
-A widget may also have its own view files. If so, create a directory named
-`views` under the directory containing the widget class file, and put all the
-view files there. In the widget class, in order to render a widget view, use
-`$this->render('ViewName')`, which is similar to what we do in a controller.
+ウィジェットは、それ自身のビューファイルも備えているかもしれません。
+もしそうならば、ウィジェットクラスファイルを含んでいるディレクトリの下に`views`という名のディレクトリをつくり、すべてのビューファイルをそこに置いてください。
+ウィジェットクラスでは、ウィジェットの表示を行うために`$this->render('ViewName')`を用いてください。
+そしてそれはコントローラで行う方法と似ています。
 
-Action
+アクション
 ------
 
-An [action](/doc/guide/basics.controller#action) should extend from [CAction]
-or its child classes. The main method that needs to be implemented for an action
-is [IAction::run].
+[アクション](/doc/guide/basics.controller#action)は[CAction]またはその子クラスから継承されるべきです。
+アクションとして主に実装されるべきメソッドは[IAction::run]です。
 
-Filter
+フィルタ
 ------
-A [filter](/doc/guide/basics.controller#filter) should extend from [CFilter]
-or its child classes. The main methods that need to be implemented for a filter
-are [CFilter::preFilter] and [CFilter::postFilter]. The former is invoked before
-the action is executed while the latter after.
+[フィルタ](/doc/guide/basics.controller#filter)は[CFilter]またはその子クラスから継承されるべきです。
+フィルタとして主に実装されるべきメソッドは[CFilter::preFilter]と[CFilter::postFilter]です。
+前者はアクションが実行される前に呼び出され、後者はアクションの実行後に呼び出されます。
 
 ~~~
 [php]
@@ -119,37 +108,31 @@ class MyFilter extends CFilter
 {
 	protected function preFilter($filterChain)
 	{
-		// logic being applied before the action is executed
-		return true; // false if the action should not be executed
+		// アクションが実行される前に行われるロジック
+		return true; // アクションが実行されるべきでない場合は偽
 	}
 
 	protected function postFilter($filterChain)
 	{
-		// logic being applied after the action is executed
+		// アクションが実行された後に行われるロジック
 	}
 }
 ~~~
 
-The parameter `$filterChain` is of type [CFilterChain] which contains information
-about the action that is currently filtered.
+`$filterChain`パラメータは[CFilterChain]タイプで、現在フィルタされているアクションの情報を含みます。
 
 
-Controller
+コントローラ
 ----------
-A [controller](/doc/guide/basics.controller) distributed as an extension
-should extend from [CExtController], instead of [CController]. The main reason
-is because [CController] assumes the controller view files are located under
-`application.views.ControllerID`, while [CExtController] assumes the view
-files are located under the `views` directory which is a subdirectory of
-the directory containing the controller class file. Therefore, it is easier
-to redistribute the controller since its view files are staying together
-with the controller class file.
+イクステンションとして配布される[コントローラ](/doc/guide/basics.controller)は
+ [CController]の継承ではなく[CExtController]を継承するべきです。
+主な理由は、[CController]はビューファイルが`application.views.ControllerID`の下に存在するのに対し、[CExtController]はビューファイルが、コントローラクラスファイルを含むディレクトリのサブディレクトリである`views`ディレクトリに存在すると仮定するからです。
+したがって、そのビューファイルがコントローラクラスファイルと共に存在するため、コントローラを再配布することはより簡単です。
 
 
-Validator
+バリデータ
 ---------
-A validator should extend from [CValidator] and implement its
-[CValidator::validateAttribute] method.
+バリデータは[CValidator]を継承し、[CValidator::validateAttribute]メソッドを実装するべきです。
 
 ~~~
 [php]
@@ -164,12 +147,11 @@ class MyValidator extends CValidator
 }
 ~~~
 
-Console Command
+コンソールコマンド
 ---------------
-A [console command](/doc/guide/topics.console) should extend from
-[CConsoleCommand] and implement its [CConsoleCommand::run] method.
-Optionally, we can override [CConsoleCommand::getHelp] to provide
-some nice help information about the command.
+[コンソールコマンド](/doc/guide/topics.console)は[CConsoleCommand]を継承し、
+[CConsoleCommand::run]メソッドを実装するべきです。
+付加的に、[CConsoleCommand::getHelp]をオーバライドし、コマンドの素敵なヘルプ情報を表示することも可能です。
 
 ~~~
 [php]
@@ -177,27 +159,27 @@ class MyCommand extends CConsoleCommand
 {
 	public function run($args)
 	{
-		// $args gives an array of the command-line arguments for this command
+		// $argsは、このコマンドに対するコマンドラインの引数の配列です
 	}
 
 	public function getHelp()
 	{
-		return 'Usage: how to use this command';
+		return '使用法: このコマンドの使いかた';
 	}
 }
 ~~~
 
-Module
+モジュール
 ------
-Please refer to the section about [modules](/doc/guide/basics.module#creating-module) on how to create a module.
+モジュールの作成する方法については[モジュール](/doc/guide/basics.module#creating-module)に関する章を参照してください。
 
-A general guideline for developing a module is that it should be self-contained. Resource files (such as CSS, JavaScript, images) that are used by a module should be distributed together with the module. And the module should publish them so that they can be Web-accessible.
+モジュール開発の一般的なガイドラインは、自分自身を含むことです。
+モジュールによって使用されるリソースファイル(例えばCSS, JavaScript, 画像)はモジュールと共に配布されるべきです。
+そしてモジュールはそれらのファイルがWebからアクセス可能なように公開されるべきです。
 
-
-Generic Component
+生成コンポーネント
 -----------------
-Developing a generic component extension is like writing a class. Again, the component
-should also be self-contained so that it can be easily used by other developers.
-
+生成コンポーネントエクステンションの開発はクラスを書くことに似ています。
+再び、コンポーネントは自分自身を含むべきです。理由は他の開発者が容易に使用できるためです。
 
 <div class="revision">$Id: extension.create.txt 749 2009-02-26 02:11:31Z qiang.xue $</div>

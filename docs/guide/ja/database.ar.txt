@@ -68,6 +68,10 @@ ARに対するサポートは、DBMSによって制限されます。現在以�
    - [PostgreSQL 7.3 or later](http://www.postgres.com)
    - [SQLite 2 and 3](http://www.sqlite.org)
    - [Microsoft SQL Server 2000 or later](http://www.microsoft.com/sqlserver/)
+   - [Oracle](http://www.oracle.com)
+
+> Note|注意: Microsoft SQL Server のサポートは、バージョン 1.0.4 以降で有効です。
+> また、Oracle のサポートは、バージョン 1.0.5 以降で有効です。
 
 `db`以外のアプリケーションコンポーネントを使いたいか、あるいはARを使う複数のデータベースで作業することを望む場合は[CActiveRecord：getDbConnection()]をオーバライドしなければなりません。
 [CActiveRecord]クラスは、すべてのARクラスのためのベースクラスです。
@@ -317,7 +321,7 @@ $post->delete(); // その記事をテーブルから削除します
 
 削除後でもARインスタンスは変更されていないことに注意してください。その一方で対応するデータベーステーブルの行は無くなっています。
 
-以下のクロスレベルのメソッドが、前もってロードすることなしに行を削除するために提供されています。
+以下のクラスレベルのメソッドが、前もってロードすることなしに行を削除するために提供されています。
 
 ~~~
 [php]
@@ -427,4 +431,109 @@ catch(Exception $e)
 }
 ~~~
 
-<div class="revision">$Id: database.ar.txt 891 2009-01-19 15:00:39Z qiang.xue $</div>
+
+Named Scope
+------------
+
+> Note|注意: Named Scope のサポートは、バージョン 1.0.5 以降で有効です。
+> Named Scope の発想元は、Ruby on Rails から来ました。
+
+*Named Scope* は、他の Named Scope に結合して、アクティブレコードクエリーに適用できる、
+*Named（名前の付けられた）*クエリー基準（クライテリア）のことです。
+
+Named Scope は主に、名前 - 基準の対として、[CActiveRecord::scopes()] メソッドで宣言されます。
+下記コードでは、`Post` モデルクラスで `published` と `recently` の 2 つの Named Scope を宣言しています:
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	......
+	public function scopes()
+	{
+		return array(
+			'published'=>array(
+				'condition'=>'status=1',
+			),
+			'recently'=>array(
+				'order'=>'createTime DESC',
+				'limit'=>5,
+			),
+		);
+	}
+}
+~~~
+
+各 Named Scope は、[CDbCriteria] インスタンスを初期化するのに使用できる
+配列として宣言されます。
+例えば、`recently` Named Scope は、`order` プロパティを `createTime DESC` に、
+`limit` プロパティを 5 に（最新の 5 件を返すはずであるクエリー基準として解釈される）
+指定します。
+
+Named Scope は、`find` メソッド呼び出しの修飾句としてとして使用されます。
+いくつかの Named Scope が、連結されて使用されると、より絞り込まれたクエリ結果のセットが返ります。
+例えば、最近公開された（published）投稿を見つけるために、下記コードを利用できます:
+
+~~~
+[php]
+$posts=Post::model()->published()->recently()->findAll();
+~~~
+
+一般的に、Named Scope は `find` メソッド呼び出しの左側に現れなくてはなりません。
+それらは `find` メソッド呼び出しへ渡されたものを含むクエリー基準（他の基準と結合されて）を提供します。
+実際は、クエリーにフィルタのリストを加えるのとほぼ同じです。
+
+Named Scope はパラメータ化することが可能です。
+例えば、`recently` Named Scope によって指定された投稿数をカスタマイズ出来るようにしたいとします。
+その場合、[CActiveRecord::scopes] で Named Scope を宣言する代わりに、
+その Named Scope と同じ名前で、新しいメソッドを定義します:
+
+~~~
+[php]
+public function recently($limit=5)
+{
+	$this->getDbCriteria()->mergeWith(array(
+		'order'=>'createTime DESC',
+		'limit'=>$limit,
+	));
+	return $this;
+}
+~~~
+
+その後、最近公開された 3 つの投稿を検索するには、下記のように使用できます:
+
+~~~
+[php]
+$posts=Post::model()->published()->recently(3)->findAll();
+~~~
+
+もし、上記でパラメータ 3 を渡さなければ、デフォルトで最近公開された 5 つの投稿が検索されます。
+
+=== デフォルト Named Scope
+モデルクラスにはデフォルトのNamed Scopeを設定し、
+(リレーションを含めた)すべてのクエリに適用するようにすることができます。
+例えば、複数の言語で利用できるウェブサイトでは、利用中のユーザが指定した言語のコンテンツだけを表示したいということがありうるでしょう。
+サイトコンテンツを取り出すクエリはたくさんあるでしょうから、デフォルト Named Scope を定義して、この問題を解決することができます。
+そのために[CActiveRecord::defaultScope]メソッドを以下のようにオーバーライドします。
+
+~~~
+[php]
+class Content extends CActiveRecord
+{
+	public function defaultScope()
+	{
+		return array(
+			'condition'=>"language='".Yii::app()->language."'",
+		);
+	}
+}
+~~~
+
+これで、次のようにメソッドを呼ぶことで、自動的に上記で定義されたクエリクライテリアが利用つかわれます。
+
+~~~
+[php]
+$contents=Content::model()->findAll();
+~~~
+
+<div class="revision">$Id: database.ar.txt 993 2009-05-06 03:36:09Z qiang.xue $</div>

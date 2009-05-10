@@ -153,6 +153,10 @@ public function ValidatorName($attribute,$params) { ... }
    - `email`: [CEmailValidator] のエイリアスで、属性の値が正式な
 Eメールアドレスである事を確認します。
 
+   - `default`: [CDefaultValueValidator]のエイリアスで、指定した属性にデフォルト地を代入します。
+
+   - `exist`: [CExistValidator]のエイリアスで、属性値が指定されたテーブルの列に存在することを保証します。
+
    - `file`: [CFileValidator] のエイリアスで、属性の値にアップロード
 されたファイルの名前が入っている事を確認します。
 
@@ -187,66 +191,141 @@ Eメールアドレスである事を確認します。
 
 ~~~
 [php]
-// 属性 password が、属性 password2 と同じである事を確認します。
-array('password', 'compare', 'compareAttribute'=>'password2')
+// username は必須です。
+array('username', 'required'),
 // username の長さが3から12の間である事を確認します。
-array('username', 'length', 'min'=>3, 'max'=>12)
-// age が負の整数では無い事を確認します。
-array('age', 'numeric', 'integerOnly'=>true, 'min'=>0)
+array('username', 'length', 'min'=>3, 'max'=>12),
+// 登録シナリオでは、パスワードとパスワード2は一致する必要があります。
+array('password', 'compare', 'compareAttribute'=>'password2', 'on'=>'register'),
+// ログインシナリオでは、パスワードは認証されなければなりません。
+array('password', 'authenticate', 'on'=>'login'),
+~~~
+
+属性への代入をセキュアにする
+--------------------------------
+
+> 注意：シナリオベースでの属性への代入は1.0.2から利用可能です。
+
+モデルインスタンスが作成した後、多くの場合は属性値にユーザからの入力値を代入する必要があります。
+これは以下のように一括代入を使うと容易に行えます。
+
+~~~
+[php]
+$model=new LoginForm;
+$model->scenario='login';
+if(isset($_POST['LoginForm']))
+	$model->attributes=$_POST['LoginForm'];
+~~~
+
+> Note|注意: [scenario|CModel::scenario] プロパティは、バージョン 1.0.4
+> 以降で利用可能です。一括代入では、どの属性を一括代入できるかを決定するために、
+> このプロパティ値が利用されます。
+> バージョン 1.0.2 と 1.0.3 では、特定のシナリオに一括代入を行うために、
+> 下記の方法を使用する必要があります。
+>
+> ~~~
+> [php]
+> $model->setAttributes($_POST['LoginForm'], 'login');
+> ~~~
+
+最後の文は、`login` シナリオの対応モデル属性に `$_POST['LoginForm']` の
+すべてのエントリを一括代入します。
+これは、下記の代入と同等です。
+
+~~~
+[php]
+foreach($_POST['LoginForm'] as $name=>$value)
+{
+	if($name is a safe attribute)
+		$model->$name=$value;
+}
+~~~
+
+各属性が一括代入しても安全かどうかの判断は、
+`safeAttributes`メソッドの戻り値と、指定されたシナリオによって決定されます。
+デフォルトでは、[CFormModel]のすべてのパブリックメンバプロパティが安全と返されます。
+一方で [CActiveRecord]では、プライマリキーを除いたテーブルのカラムすべてが安全と返されます。
+このメソッドをオーバーライドして、安全な属性をシナリオによって制限することができます。
+例えば、ユーザモデルはたくさんの属性を持ちますが、`login`シナリオでは`username`と`password`
+しか使わないので、以下のようにして制限を加えます。
+
+~~~
+[php]
+public function safeAttributes()
+{
+	return array(
+		parent::safeAttributes(),
+		'login' => 'username, password',
+	);
+}
+~~~
+
+より正確には、`safeAttributes`メソッドの戻り値は以下のような構造です。
+
+~~~
+[php]
+array(
+   // これらの属性は下で明示的に指定されたしなりの以外のすべてのケースで一括代入の対象になる
+   'attr1, attr2, ...',
+	 *
+   // これらの属性はシナリオ1でのみ一括代入される
+   'scenario1' => 'attr2, attr3, ...',
+	 *
+   // これらの属性はシナリオ2でのみ一括代入される
+   'scenario2' => 'attr1, attr3, ...',
+)
+~~~
+
+モデルでシナリオを必要としない場合(例：常にひとつのシナリオで使われる、
+すべてのシナリオで同じ安全な属性のセットを使う)、戻り値は単純な文字列でもかまいません。
+
+~~~
+[php]
+'attr1, attr2, ...'
+~~~
+
+安全でない属性にデータを代入するには、以下のように個々に代入式を書く必要があります。
+
+~~~
+[php]
+$model->permission='admin';
+$model->id=1;
 ~~~
 
 バリデーションの始動
 ---------------------
 
+モデルにユーザからの入力値をセットしたら、
 バリデーションを始動する為に、[CModel::validate()] をコールする事
 が出来ます。このメソッドは、一つのエラーも起こらずに、バリデーションが
 成功したかどうかを示す値を返します。アクティブレコードモデルでは、
 モデルをデータベースに保存する為に、 [save()|CActiveRecord::save] 
 をコールした時点で、バリデーションは自動的に動作します。
 
-デフォルトでは、[validate()|CModel::validate] をコールした時、
-[rules()|CModel::rules] で指定された全ての属性が検証されます。
-いくつかの状況において、一部の属性だけを検証したい場合があるでしょう。
-そのようにする場合は、検証したい属性の名前群を 
-[validate()|CModel::validate] をコールする時の最初のパラメータ
-として渡す事で、下記の様に実現可能です:
+[CModel::validate()]を呼ぶ際に、シナリオパラメータを指定することができます。
+指定されたシナリオに当てはまるバリデーションルールのみが実行されます。
+シナリオに当てはまるバリデーションデータは、ルールの `on` オプションが設定されていないか、
+指定されたシナリオ名を含むものです。
+[CModel::validate()]を呼ぶ際にシナリオを指定しないと、`on` オプションが設定されていないルールのみが実行されます。
+
+例えば、以下の評価式を実行して、ユーザ登録時のバリデーションをおこうなうことができます。
 
 ~~~
 [php]
-$model->validate(array('username','password'));
+$model->scenario='register';
+$model->validate();
 ~~~
 
+> Note: [scenario|CModel::scenario]プロパティはバージョン1.0.4から利用可能です。
+> validationメソッドはどのルールがチェックされるかどうかをこのプロパティによって決定します。
+> バージョン1.0.2と1.0.3では、シナリオベースのバリデーションを実行する際に以下のようにする必要があります。
+> 
+> ~~~
+> [php]
+> $model->validate('register');
+> ~~~
 
-シナリオベースバリデーション
--------------------------
-
-> Note|注意: シナリオベースバリデーションはバージョン1.0.1.から
-利用可能になりました
-
-モデルを異なるシナリオの中で使用する事が必要となる場合が度々あります。
-例えば、ユーザモデルなら `login` , `register` , `insert` または `update` 
-シナリオで使用されるでしょう。異なるシナリオは異なるバリデーションルール
-を必要とするでしょう。これをシナリオベースバリデーションと呼びます。
-
-シナリオベースバリデーションは、
-[Declaring Validation Rules](#declaring-validation-rules) 
-セクションで述べられている `on` パラメータを使用する事で成し遂げられます。
-特に私たちは、バリデーションルールが特定のシナリオだけに
-適用されなければならない場合に、シナリオ名のリストと共に `on` 
-パラメータを付与するでしょう。そしてその時、バリデーションを実行する為に、
-[validate()|CModel::validate] をコールし、二つ目のパラメータを必要とされる
-シナリオの名前にするのです。
-
-例えば、ユーザの登録時にバリデーションを行う為に、下記のステートメントを
-実行します:
-
-~~~
-[php]
-$model->validate(array('username','password','password_repeat'), 'register');
-~~~
-
-`register` シナリオの中でバリデーションが行われる為、下記のルールが
-必要になるでしょう:
+バリデーションルールはフォームモデルクラスで以下のように宣言できます。
 
 ~~~
 [php]
@@ -260,8 +339,10 @@ public function rules()
 }
 ~~~
 
-結果として、最初のルールは全てのシナリオに適用され、次の二つのルールは
- `register` シナリオの場合にのみ適用される事になるでしょう。
+結果として、最初のルールはすべてのシナリオに適用され、
+そのほかの二つのシナリオは`register`シナリオの場合のみ適用されます。
+
+> 注意: シナリオベースのバリデーションはバージョン1.0.1から利用可能です。
 
 
 バリデーションエラーの回収
@@ -286,4 +367,4 @@ public function rules()
 に見るように、モデルの中でのラベルの定義は、より早く、
 力強いフォームの作成を私達にもたらします。
 
-<div class="revision">$Id: form.model.txt 367 2008-12-16 20:18:30Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 922 2009-04-05 21:36:33Z qiang.xue $</div>

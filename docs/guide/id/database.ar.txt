@@ -1,25 +1,32 @@
 Rekaman Aktif
 =============
 
-Meskipun Yii DAO secara virtual dapat menangani setiap tugas-tugas terkait 
-database, kenyataannya adalah bahwa kita akan menghabiskan 90% waktu kita dalam 
-penulisan beberapa pernyataan SQL yang melakukan operasi umum CRUD (create, 
-read, update and delete). Juga akan sulit untuk memelihara kode kita saat 
-dicampur dengan pernyataan SQL. Untuk memecahkan masalah ini, kita dapat 
-menggunakan Rekaman Aktif.
+Meskipun Yii DAO secara virtual dapat menangani setiap tugas terkait-database,
+kenyataannya kita akan menghabiskan 90% waktu kita dalam penulisan beberapa pernyataan SQL
+yang melakukan operasi umum CRUD (create, read, update dan delete).
+Ini juga akan sulit untuk memelihara kode kita saat ia dicampur dengan
+pernyataan SQL. Untuk memecahkan masalah ini, kita dapat menggunakan Rekaman Aktif.
 
-Rekaman Aktif atau Active Record (AR) adalah teknik populer  Object-Relational Mapping (ORM) atau Pemetaan Relasional-Obyek.
-Setiap kelas AR mewakili tabel (atau tampilan) database yang atributnya disajikan sebagai properti kelas AR, dan turunan AR mewakili sebuah baris dalam tabel itu. Operasi umum CRUD diimplementasikan sebagai metode AR. Hasilnya, kita dapat mengakses data kita dalam cara yang lebih terorientasi-obyek. Sebagai contoh, kita dapat menggunakan kode berikut untuk menyisipkan baris baru ke tabel `Post`:
+Rekaman Aktif / Active Record (AR) adalah teknik populer Pemetaan Relasional Obyek / Object-Relational Mapping (ORM).
+Setiap kelas AR mewakili tabel database (atau view) yang atributnya diwakili
+oleh properti kelas AR, dan turunan AR mewakili baris pada tabel
+tersebut. Operasi umum CRUD diimplementasikan sebagai metode AR. Hasilnya,
+kita dapat mengakses data dengan cara lebih terorientasi-obyek. Sebagai contoh,
+kita dapat menggunakan kode berikut untuk menyisipkan baris baru ke dalam tabel `Post`:
 
 ~~~
 [php]
 $post=new Post;
-$post->title='contoh tulisan';
-$post->content='konten isi tulisan';
+$post->title='sample post';
+$post->content='post body content';
 $post->save();
 ~~~
 
-Dalam contoh di bawah ini kami menjelaskan bagaimana untuk menyiapkan AR dan menggunakannya guna melakukan operasi CRUD. Kami akan memperlihatkan bagaimana cara memakai AR dalam menghadapi keterkaitan database oada seksi berikutnya. Untuk menyederhanakan, kami menggunakan tabel database berikut sebagai contoh dalam seksi ini.
+Selanjutnya kami jelaskan bagaimana menyiapkan AR dan menggunakannya untuk melakukan operasi
+CRUD. Kami akan memperlihatkan bagaimana untuk menggunakan AR untuk bekerja dengan relasi database
+dalam seksi berikutnya. Demi kemudahan, kami gunakan tabel database berikut
+sebagai contoh kita dalam seksi ini. Catatan bahwa jika Anda menggunakan database MySQL,
+Anda harus mengganti `AUTOINCREMENT` dengan `AUTO_INCREMENT` dalam SQL berikut.
 
 ~~~
 [sql]
@@ -31,16 +38,18 @@ CREATE TABLE Post (
 );
 ~~~
 
-> Note|Catatan: AR tidak ditujukan untuk memecahkan semua tugas-tugas terkait 
-database. Ia lebih baik dipakai untuk memodelkan tabel database dalam 
-konstruksi PHP dan melakukan queri yang tidak melibatkan SQL yang kompleks. Yii 
-DAO harus dipakai dalam skenario komples itu.
+> Note|Catatan: AR tidak ditujukan untuk memecahkan semua tugas-tugas terkait-database. Hal terbaik
+dipakai untuk memodelkan tabel database dalam konstruksi PHP dan melakukan queri yang
+tidak melibatkan SQL yang kompleks. Yii DAO harus dipakai untuk skenario kompleks
+tersebut.
 
-Melakukan Sambungan DB
-----------------------
+Membuat Koneksi DB
+--------------------
 
-AR bergantung pada sambungan DB untuk melakukan operasi terkait-DB. Secara standar, dianggap bahwa komponen aplikasi `db` memberikan turunan 
-[CDbConnection] yang diperlukan untuk bertindak sebagai koneksi DB. Konfigurasi aplikasi berikut memperlihatkan contoh:
+AR bergantung pada koneksi DB untuk melaksanakan operasi terkait-DB. Secara standar,
+ia menganggap bahwa komponen aplikasi `db` adalah turunan
+[CDbConnection] yang dibutuhkan untuk bertindak sebagai koneksi DB. Konfigurasi
+aplikasi berikut memperlihatkan sebuah contoh:
 
 ~~~
 [php]
@@ -48,47 +57,52 @@ return array(
 	'components'=>array(
 		'db'=>array(
 			'class'=>'system.db.CDbConnection',
-			'connectionString'=>'sqlite:path/ke/dbfile',
-			// hidupkan skema cache untuk meningkatkan performansi
+			'connectionString'=>'sqlite:path/to/dbfile',
+			// hidupkan cache schema untuk meningkatkan performansi
 			// 'schemaCachingDuration'=>3600,
 		),
 	),
 );
 ~~~
 
-> Tip: Because Active Record relies on the metadata about tables to
-determine the column information, it takes time to read the metadata and
-analyze it. If the schema of your database is less likely to be changed,
-you should turn on schema caching by configuring the
-[CDbConnection::schemaCachingDuration] property to be a value greater than
+> Tip: Karena Rekaman Aktif bergantung pada metadata mengenai tabel untuk
+menentukan informasi kolom, dibutuhkan waktu guna membaca metadata dan
+menganalisanya. Jika skema database Anda kurang sepertinya perlu diubah,
+Anda harus menghidupkan cache skema dengan mengkonfigurasi properti
+[CDbConnection::schemaCachingDuration] ke nilai lebih besar daripada
 0.
 
-Support for AR is limited by DBMS. Currently, only the following DBMS are
-supported:
+Dukungan terhadap AR dibatasi oleh DBMS. Saat ini, hanya DBMS berikut yang
+didukung:
 
-   - [MySQL 4.1 or later](http://www.mysql.com)
-   - [PostgreSQL 7.3 or later](http://www.postgres.com)
-   - [SQLite 2 and 3](http://www.sqlite.org)
+   - [MySQL 4.1 atau lebih tinggi](http://www.mysql.com)
+   - [PostgreSQL 7.3 atau lebih tinggi](http://www.postgres.com)
+   - [SQLite 2 dan 3](http://www.sqlite.org)
+   - [Microsoft SQL Server 2000 atau lebih tinggi](http://www.microsoft.com/sqlserver/)
+   - [Oracle](http://www.oracle.com)
 
-If you want to use an application component other than `db`, or if you
-want to work with multiple databases using AR, you should override
-[CActiveRecord::getDbConnection()]. The [CActiveRecord] class is the base
-class for all AR classes.
+> Note|Catatan: Dukungan untuk Microsoft SQL Server sudah tersedia sejak versi 1.0.4;
+> Dan dukungan untuk Oracle sudah tersedia sejak versi 1.0.5.
 
-> Tip: There are two ways to work with multiple databases in AR. If the
-schemas of the databases are different, you may create different base AR
-classes with different implementation of
-[getDbConnection()|CActiveRecord::getDbConnection]. Otherwise, dynamically
-changing the static variable [CActiveRecord::db] is a better idea.
+Jika Anda ingin menggunakan komponen aplikasi selain `db`, atau jika Anda
+ingin bekerja dengan multipel database menggunakan AR, Anda harus menimpa
+[CActiveRecord::getDbConnection()]. Kelas [CActiveRecord] adalah basis kelas
+untuk semua kelas AR.
 
-Defining AR Class
------------------
+> Tip: Ada dua cara untuk bekerja dengan multipel database dalam AR. Jika
+skema database berbeda, Anda dapat membuat basis kelas AR yang berbeda
+dengan implementasi berbeda pada
+[getDbConnection()|CActiveRecord::getDbConnection]. Sebaliknya, secara dinamis
+mengubah variabel static [CActiveRecord::db] merupakan ide yang lebih baik.
 
-To access a database table, we first need to define an AR class by
-extending [CActiveRecord]. Each AR class represents a single database
-table, and an AR instance represents a row in that table. The following
-example shows the minimal code needed for the AR class representing the
-`Post` table.
+Mendefinisikan Kelas AR
+-----------------------
+
+Untuk mengakses tabel database, pertama kita perlu mendefinisikan kelas AR dengan
+memperluas [CActiveRecord]. Setiap kelas AR mewakili satu tabel database,
+dan turunan AR mewakili sebuah baris dalam tabel tersebut. Contoh berikut
+memperlihatkan kode minimal yang diperlukan untuk kelas AR yang mewakili
+tabel `Post`.
 
 ~~~
 [php]
@@ -101,10 +115,10 @@ class Post extends CActiveRecord
 }
 ~~~
 
-> Tip: Because AR classes are often referenced in many places, we can
-> import the whole directory containing the AR class, instead of including
-> them one by one. For example, if all our AR class files are under
-> `protected/models`, we can configure the application as follows:
+> Tip: Karena kelas AR sering dirujuk di banyak tempat, kita dapat
+> mengimpor seluruh direktori yang berisi kelas AR, daripada menyertakannya
+> satu demi satu. Sebagai contoh, jika semua file kelas AR kita di bawah
+> `protected/models`, kita dapat mengkonfigurasi aplikasi sebagai berikut:
 > ~~~
 > [php]
 > return array(
@@ -114,14 +128,14 @@ class Post extends CActiveRecord
 > );
 > ~~~
 
-By default, the name of the AR class is the same as the database table
-name. Override the [tableName()|CActiveRecord::tableName] method if they
-are different. The [model()|CActiveRecord::model] method is declared as
-such for every AR class (to be explained shortly).
+Secara standar, nama kelas AR sama seperti nama tabel database.
+Menimpa metode [tableName()|CActiveRecord::tableName] jika berbeda.
+Metode [model()|CActiveRecord::model] dideklarasikan seperti itu
+untuk setiap kelas AR (akan dijelaskan kemudian).
 
-Column values of a table row can be accessed as properties of the
-corresponding AR class instance. For example, the following code sets the
-`title` column (attribute):
+Nilai kolom pada baris tabel dapat diakses sebagai properti
+turunan kelas AR terkait. Sebagai contoh, kode berikut menyetel kolom
+`title` (atribut):
 
 ~~~
 [php]
@@ -129,28 +143,28 @@ $post=new Post;
 $post->title='a sample post';
 ~~~
 
-Although we never explicitly declare the `title` property in the `Post`
-class, we can still access it in the above code. This is because `title` is
-a column in the `Post` table, and CActiveRecord makes it accessible as a
-property with the help of the PHP `__get()` magic method. An exception will
-be thrown if we attempt to access a non-existing column in the same way.
+Meskipun kita tidak pernah mendeklarasikan properti `title` secara eksplisit dalam kelas `Post`,
+kita masih dapat mengaksesnya dalam kode di atas. Ini disebabkan `title` adalah
+kolom dalam tabel `Post`, dan CActiveRecord membuatnya bisa diakses seperti layaknya
+properti dengan bantuan metode magic PHP `__get()`. Eksepsi akan ditampilkan
+jika kita mencoba mengakses kolom yang tidak ada dengan cara yang sama.
 
-> Info: For better readability, we suggest naming database tables and
-columns in camel case. In particular, table names are formed by
-capitalizing each word in the name and joining them without spaces; column
-names are similar to table names except their first letter is in lower
-case. For example, we use `Post` to name the table storing posts; and we
-use `createTime` to name the table's primary key column. This makes tables
-look more like class types and columns like variables. Note, however, using camel case may also bring you inconvenience for some DBMS, such as MySQL, as they may behave differently on different operation systems.
+> Info: Untuk pembacaan yang lebih baik, kami sarankan penamaan tabel database dan
+kolom dalam jenis pundak unta. Secara khusus, nama tabel dibentuk dengan
+membesarkan setiap kata pada namanya dan menggabungkannya tanpa spasi; nama
+kolom mirip dengan nama tabel kecuali huruf pertamanya dalam jenis huruf
+kecil. Sebagai contoh, kita menggunakan `Post` untuk menamai tabel penyimpanan tulisan; dan kita
+menggunakan `createTime` untuk menamai kolom kunci primer tabel. Ini menjadikan tabel
+terlihat lebih seperti tipe kelas dan kolom seperti variabel. Catatan, akan tetapi, pemakaian punduk unta juga membuat Anda tidak nyaman pada beberapa DBMS, seperti misalnya MySQL, karena ia bertindak secara berbeda pada sistem operasi yang berbeda.
 
 
-Creating Record
+Membuat Rekaman
 ---------------
 
-To insert a new row into a database table, we create a new instance of the
-corresponding AR class, set its properties associated with the table
-columns, and call the [save()|CActiveRecord::save] method to finish the
-insertion.
+Untuk menyisipkan baris baru ke dalam tabel database, kita membuat turunan baru kelas
+AR terkait, menyetel propertinya yang terkait dengan kolom tabel,
+dan memanggil metode [save()|CActiveRecord::save] untuk menyelesaikan
+penyisipan.
 
 ~~~
 [php]
@@ -161,16 +175,16 @@ $post->createTime=time();
 $post->save();
 ~~~
 
-If the table's primary key is auto-incremental, after the insertion the AR
-instance will contain an updated primary key. In the above example, the
-`id` property will reflect the primary key value of the newly inserted
-post, even though we never change it explicitly.
+Jika kunci primer table adalah auto-incremental, setelah menyisipkan turunan AR
+ia akan berisi kunci primer yang baru dimutakhirkan. Dalam contoh di atas, properti
+`id` akan merujuk pada nilai kunci primer tulisan yang baru saja disisipkan,
+meskipun kita tidak pernah mengubahnya secara eksplisit.
 
-If a column is defined with some static default value (e.g. a string, a
-number) in the table schema, the corresponding property in the AR instance
-will automatically has such a value after the instance is created. One way
-to change this default value is by explicitly declaring the property in the
-AR class:
+Jika kolom didefinisikan dengan beberapa nilai standar statis (misalnya string, angka)
+dalam skema tabel, properti terkait dalam turunan AR akan secara otomatis memiliki
+nilai tersebut setelah turunan dibuat. Satu cara untuk mengubah nilai standar ini
+adalah dengan secara eksplisit mendeklarasikan properti dalam
+kelas AR:
 
 ~~~
 [php]
@@ -181,86 +195,86 @@ class Post extends CActiveRecord
 }
 
 $post=new Post;
-echo $post->title;  // this would display: please enter a title
+echo $post->title;  // ini akan menampilkan: please enter a title
 ~~~
 
-Starting from version 1.0.2, an attribute can be assigned a value of [CDbExpression]
-type before the record is saved (either insertion or updating) to the database.
-For example, in order to save a timestamp returned by the MySQL `NOW()` function,
-we can use the following code:
+Mulai dari versi 1.0.2, atribut dapat menempatkan nilai tipe [CDbExpression]
+sebelum rekaman disimpan (baik penyisipan ataupun pemutakhiran) ke database.
+Sebagai contoh, untuk menyimpan timestamp yang dihasilkan oleh fungsi MySQL `NOW()`,
+kita dapat menggunakan kode berikut:
 
 ~~~
 [php]
 $post=new Post;
 $post->createTime=new CDbExpression('NOW()');
-// $post->createTime='NOW()'; will not work because
-// 'NOW()' will be treated as a string
+// $post->createTime='NOW()'; tidak akan bekerja karena
+// 'NOW()' akan dianggap sebagai string
 $post->save();
 ~~~
 
 
-Reading Record
---------------
+Membaca Rekaman
+---------------
 
-To read data in a database table, we call one of the `find` methods as
-follows.
+Untuk membaca data dalam tabel database, kita memanggil salah satu metode `find` seperti
+berikut.
 
 ~~~
 [php]
-// find the first row satisfying the specified condition
+// cari baris pertama sesuai dengan kondisi yang ditetapkan
 $post=Post::model()->find($condition,$params);
-// find the row with the specified primary key
+// cari baris dengan kunci primer yang ditetapkan
 $post=Post::model()->findByPk($postID,$condition,$params);
-// find the row with the specified attribute values
+// cari baris dengan nilai atribut yang ditetapkan
 $post=Post::model()->findByAttributes($attributes,$condition,$params);
-// find the first row using the specified SQL statement
+// cari baris pertama menggunakan pernyataan SQL yang ditetapkan
 $post=Post::model()->findBySql($sql,$params);
 ~~~
 
-In the above, we call the `find` method with `Post::model()`. Remember
-that the static method `model()` is required for every AR class. The method
-returns an AR instance that is used to access class-level methods
-(something similar to static class methods) in an object context.
+Dalam contoh di atas, kita memanggil metode `find` dengan `Post::model()`. Ingat
+bahwa metode statis `model()` diperlukan oleh setiap kelas AR. Metode
+menghasilkan turunan AR yang dipakai untuk mengakses metode tingkat kelas
+(mirip dengan metode kelas static) dalam konteks obyek.
 
-If the `find` method finds a row satisfying the query conditions, it will
-return a `Post` instance whose properties contain the corresponding column
-values of the table row. We can then read the loaded values like we do with
-normal object properties, for example, `echo $post->title;`.
+Jika metode `find` menemukan baris yang sesuai dengan kondisi queri, ia akan
+mengembalikan turunan `Post` yang propertinya berisi nilai kolom terkait
+dari baris table. Kemudian kita dapat membaca nilai yang diambil sepert yang
+kita lakukan pada properti obyek, sebagai contoh, `echo $post->title;`.
 
-The `find` method will return null if nothing can be found in the database
-with the given query condition.
+Metode `find` akan menghasilkan null jika tidak ada yang ditemukan dalam database
+dengan kondisi queri yang diberikan.
 
-When calling `find`, we use `$condition` and `$params` to specify query
-conditions. Here `$condition` can be string representing the `WHERE` clause
-in a SQL statement, and `$params` is an array of parameters whose values
-should be bound to the placeholders in `$condition`. For example,
+Ketika memanggil `find`, kita menggunakan `$condition` dan `$params` untuk menetapkan kondisi
+queri. Di sini, `$condition` dapat berupa string yang mewakili klausul `WHERE` dalam
+pernyataan SQL, dan `$params` adalah array parameter yang nilainya harus diikat
+ke tempat di dalam `$condition`. Sebagai contoh,
 
 ~~~
 [php]
-// find the row with postID=10
+// cari baris dengan postID=10
 $post=Post::model()->find('postID=:postID', array(':postID'=>10));
 ~~~
 
-We can also use `$condition` to specify more complex query conditions.
-Instead of a string, we let `$condition` be a [CDbCriteria] instance, which
-allows us to specify conditions other than the `WHERE` clause. For example,
+Kita juga bisa menggunakan `$condition` untuk menetapkan kondisi queri lebih kompleks
+Daripada sebuah string kita membiarkan `$condition` menjadi turunan [CDbCriteria] yang
+mengijinkan kita untuk menetapkan kondisi selain klausul `WHERE`. Sebagai contoh,
 
 ~~~
 [php]
 $criteria=new CDbCriteria;
-$criteria->select='title';  // only select the 'title' column
+$criteria->select='title';  // hanya memilih kolom 'title'
 $criteria->condition='postID=:postID';
 $criteria->params=array(':postID'=>10);
-$post=Post::model()->find($criteria); // $params is not needed
+$post=Post::model()->find($criteria); // $params tidak diperlukan
 ~~~
 
-Note, when using [CDbCriteria] as query condition, the `$params` parameter
-is no longer needed since it can be specified in [CDbCriteria], as shown
-above.
+Catatan, saat menggunakan [CDbCriteria] sebagai kondisi queri, parameter `$params`
+tidak lagi diperlukan karena ia bisa ditetapkan dalam [CDbCriteria], seperti dicontohkan
+di atas.
 
-An alternative way to [CDbCriteria] is passing an array to the `find` method.
-The array keys and values correspond to the criteria's property name and value,
-respectively. The above example can be rewritten as follows,
+Cara alternatif terhadap [CDbCriteria] adalah dengan mengoper array ke metode `find`.
+Kunci dan nilai array masing-masing berhubungan dengan properti kriteria nama dan nilai.
+Contoh di atas dapat ditulis ulang seperti berikut
 
 ~~~
 [php]
@@ -271,22 +285,22 @@ $post=Post::model()->find(array(
 ));
 ~~~
 
-> Info: When a query condition is about matching some columns with the
-specified values, we can use
-[findByAttributes()|CActiveRecord::findByAttributes]. We let the
-`$attributes` parameters be an array of the values indexed by the column
-names. In some frameworks, this task can be achieved by calling methods
-like `findByNameAndTitle`. Although this approach looks attractive, it
-often causes confusion, conflict and issues like case-sensitivity of column
-names.
+> Info: Saat kondisi queri menemukan beberapa kolom dengan nilai yang
+ditetapkan, kita dapat menggunakan
+[findByAttributes()|CActiveRecord::findByAttributes]. Kita biarkan parameter
+`$attributes` menjadi array nilai yang diindeks oleh nama kolom.
+Dalam beberapa framework, tugas ini bisa dilaksanakan dengan memanggil metode
+seperti `findByNameAndTitle`. Meskipun pendekatan ini terlihat atraktif, sering
+menyebabkan kebingungan, konflik dan masalah seperti sensitifitas-jenis huruf pada
+nama-nama kolom.
 
-When multiple rows of data matching the specified query condition, we can
-bring them in all together using the following `findAll` methods, each of
-which has its counterpart `find` method, as we already described.
+Ketika multipel baris data sama seperti kondisi queri yang ditetapkan, kita dapat
+membawanya sekaligus menggunakan metode `findAll`, masing-masing memiliki
+pasangan metode `find`, seperti yang sudah kami jelaskan.
 
 ~~~
 [php]
-// find all rows satisfying the specified condition
+// cari seluruh baris yang sesuai dengan kondisi yang ditetapkan
 $posts=Post::model()->findAll($condition,$params);
 // find all rows with the specified primary keys
 $posts=Post::model()->findAllByPk($postIDs,$condition,$params);
@@ -296,119 +310,119 @@ $posts=Post::model()->findAllByAttributes($attributes,$condition,$params);
 $posts=Post::model()->findAllBySql($sql,$params);
 ~~~
 
-If nothing matches the query condition, `findAll` would return an empty
-array. This is different from `find` who would return null if nothing is
-found.
+Jika tidak ada yang sama dengan kondisi queri, `findAll` akan mengembalikan array
+kosong. Ini berbeda dengan `find` yang akan mengembalikan null jika tidak menemukan
+apapun.
 
-Besides the `find` and `findAll` methods described above, the following
-methods are also provided for convenience:
+Selain metode `find` dan `findAll` seperti dijelaskan di atas, metode berikut
+juga disediakan demi kenyamanan:
 
 ~~~
 [php]
-// get the number of rows satisfying the specified condition
+// ambil sejumlah baris yang sesuai dengan kondisi yang ditetapkan
 $n=Post::model()->count($condition,$params);
-// get the number of rows using the specified SQL statement
+// ambil sejumlah baris menggunakan pernyataan SQL yang ditetapkan
 $n=Post::model()->countBySql($sql,$params);
-// check if there is at least a row satisfying the specified condition
+// periksa apakah ada satu baris yang sesuai denga kondisi yang ditetapkan
 $exists=Post::model()->exists($condition,$params);
 ~~~
 
-Updating Record
----------------
+Memutakhirkan Rekaman
+---------------------
 
-After an AR instance is populated with column values, we can change them
-and save them back to the database table.
+Setelah turunan AR dipopulasikan dengan nilai kolom, kita dapat mengubah
+dan menyimpannya kembali ke tabel database.
 
 ~~~
 [php]
 $post=Post::model()->findByPk(10);
 $post->title='new post title';
-$post->save(); // save the change to database
+$post->save(); // simpan perubahan ke database
 ~~~
 
-As we can see, we use the same [save()|CActiveRecord::save] method to
-perform insertion and updating operations. If an AR instance is created
-using the `new` operator, calling [save()|CActiveRecord::save] would insert
-a new row into the database table; if the AR instance is the result of some
-`find` or `findAll` method call, calling [save()|CActiveRecord::save] would
-update the existing row in the table. In fact, we can use
-[CActiveRecord::isNewRecord] to tell if an AR instance is new or not.
+Seperti yang kita lihat, kita menggunakan metode [save()|CActiveRecord::save] yang sama
+untuk melakukan operasi penyisipan dan pemutakhiran. Jika turunan AR dibuat
+menggunakan operator `new`, pemanggilan [save()|CActiveRecord::save] akan menyisipkan
+baris rekaman baru ke dalam tabel database; jika turunan AR adalah hasil dari beberapa
+pemanggilan metode `find` atau `findAll`, memanggil [save()|CActiveRecord::save] akan
+memutakhirkan baris yang sudah ada dalam tabel. Bahkan, kita dapat menggunakan
+[CActiveRecord::isNewRecord] untuk memberitahu turunan AR baru atau tidak.
 
-It is also possible to update one or several rows in a database table
-without loading them first. AR provides the following convenient
-class-level methods for this purpose:
+Dimungkinkan juga untuk memutakhirkan satu atau beberapa baris dalam sebuah tabel database
+tanpa memanggilnya lebih dulu. AR menyediakan metode tingkat-kelas yang nyaman
+untuk tujuan ini:
 
 ~~~
 [php]
-// update the rows matching the specified condition
+// mutakhirkan baris yang sama seperti kondisi yang ditetapkan
 Post::model()->updateAll($attributes,$condition,$params);
-// update the rows matching the specified condition and primary key(s)
+// mutakhirkan baris yang sama seperti kondisi dan kunci primer yang ditetapkan
 Post::model()->updateByPk($pk,$attributes,$condition,$params);
-// update counter columns in the rows satisfying the specified conditions
+// mutakhirkan kolom counter dalam baris yang sesuai dengan kondisi yang ditetapkan
 Post::model()->updateCounters($counters,$condition,$params);
 ~~~
 
-In the above, `$attributes` is an array of column values indexed by column
-names; `$counters` is an array of incremental values indexed by column
-names; and `$condition` and `$params` are as described in the previous
-subsection.
+Dalam contoh di atas, `$attributes` adalah array nilai kolom yang diindeks oleh
+nama kolom; `$counters` adalah array nilai inkremental yang diindeks oleh nama
+kolom; sedangkan `$condition` dan `$params` seperti yang sudah dijelaskan dalam
+subseksi sebelumnya.
 
-Deleting Record
----------------
+Menghapus Rekaman
+-----------------
 
-We can also delete a row of data if an AR instance has been populated with
-this row.
-
-~~~
-[php]
-$post=Post::model()->findByPk(10); // assuming there is a post whose ID is 10
-$post->delete(); // delete the row from the database table
-~~~
-
-Note, after deletion, the AR instance remains unchanged, but the
-corresponding row in the database table is already gone.
-
-The following class-level methods are provided to delete rows without the
-need of loading them first:
+Kita juga bisa menghapus baris data jika turunan AR sudah dipopulasikan
+dengan baris ini.
 
 ~~~
 [php]
-// delete the rows matching the specified condition
+$post=Post::model()->findByPk(10); // menganggap ada tulisan yang memiliki ID = 10
+$post->delete(); // hapus baris dari tabel database
+~~~
+
+Catatan, setelah penghapusan, turunan AR tetap tidak berubah, tapi baris
+terkait dalam tabel database sudah tidak ada.
+
+Metode tingkat kelas berikut disediakan untuk menghapus baris tanpa
+haris mengambilnya lebih dulu:
+
+~~~
+[php]
+// hapus baris yang sesuai dengan kondisi yang ditetapkan
 Post::model()->deleteAll($condition,$params);
-// delete the rows matching the specified condition and primary key(s)
+// hapus baris yang sesuai dengan kondisi dan kunci primer yang ditetapkan
 Post::model()->deleteByPk($pk,$condition,$params);
 ~~~
 
-Data Validation
----------------
+Validasi Data
+-------------
 
-When inserting or updating a row, we often need to check if the column
-values comply to certain rules. This is especially important if the column
-values are provided by end users. In general, we should never trust
-anything coming from the client side.
+Ketika menyisipkan atau memutakhirkan baris, seringkali kita harus memeriksa  apakah nilai
+kolom sesuai dengan aturan tertentu. Ini penting terutama jika nilai kolom
+disediakan oleh pengguna akhir. Secara umum, kita seharusnya tidak pernah
+mempercayai apapun yang berasal dari sisi klien.
 
-AR performs data validation automatically when
-[save()|CActiveRecord::save] is being invoked. The validation is based on
-the rules specified by in the [rules()|CModel::rules] method of the AR class.
-For more details about how to specify validation rules, refer to
-the [Declaring Validation Rules](/doc/guide/form.model#declaring-validation-rules)
-section. Below is the typical workflow needed by saving a record:
+AR melakukan validasi data secara otomatis ketika
+[save()|CActiveRecord::save] sedang dipanggil. Validasi didasarkan pada
+aturan yang ditetapkan dalam metode [rules()|CModel::rules] pada kelas AR.
+Untuk lebih jelasnya mengenai bagaimana untuk menetapkan aturan validasi, rujuk
+seksi [Mendeklarasikan Aturan Validasi](/doc/guide/form.model#declaring-validation-rules).
+Di bawah ini adalah alur kerja umum yang diperlukan oleh penyimpanan rekaman:
 
 ~~~
 [php]
 if($post->save())
 {
-	// data is valid and is successfully inserted/updated
+	// data benar dan disisipkan/dimutakhirkan dengan sukses
 }
 else
 {
-	// data is invalid. call getErrors() to retrieve error messages
+	// data tidak benar. panggil getErrors() untuk mengambil pesan kesalahan
 }
 ~~~
 
-When the data for inserting or updating is submitted by end users in an
-HTML form, we need to assign them to the corresponding AR properties. We
-can do so like the following:
+Ketika data untuk penyisipan atau pemutakhiran dikirimkan oleh pengguna akhir dalam
+bentuk HTML, kita perlu menempatkannya ke properti AR terkait. Kita apat melakukannya
+seperti berikut:
 
 ~~~
 [php]
@@ -417,67 +431,67 @@ $post->content=$_POST['content'];
 $post->save();
 ~~~
 
-If there are many columns, we would see a long list of such assignments.
-This can be alleviated by making use of the
-[attributes|CActiveRecord::attributes] property as shown below. More
-details can be found in the [Securing Attribute Assignments](/doc/guide/form.model#securing-attribute-assignments)
-section and the [Creating Action](/doc/guide/form.action) section.
+Jika terdapat banyak kolom, kita akan melihat daftar yang panjang dari penempatan tersebut.
+Ini dapat dipersingkat dengan pemakaian properti
+[attributes|CActiveRecord::attributes] seperti ditampilkan di bawah. Rincian
+dapat ditemukan dalam seksi [Mengamankan Penempatan Atribut](/doc/guide/form.model#securing-attribute-assignments)
+dan seksi [Membuat Aksi](/doc/guide/form.action).
 
 ~~~
 [php]
-// assume $_POST['Post'] is an array of column values indexed by column names
+// anggap $_POST['Post'] adalah array nilai kolom yang diindeks oleh nama kolom
 $post->attributes=$_POST['Post'];
 $post->save();
 ~~~
 
 
-Comparing Records
------------------
+Membandingkan Rekaman
+---------------------
 
-Like table rows, AR instances are uniquely identified by their primary key
-values. Therefore, to compare two AR instances, we merely need to compare
-their primary key values, assuming they belong to the same AR class. A
-simpler way is to call [CActiveRecord::equals()], however.
+Seperti baris tabel, turunan AR secara unik diidentifikasi dengan nilai kunci
+primer. Oleh karena itu, untuk membandingkan dua turunan AR, kita perlu membandingkan
+nilai kunci primernya, menganggap keduanya milik kelas AR yang sama. cara
+paling sederhana adalah dengan memanggil [CActiveRecord::equals()].
 
-> Info: Unlike AR implementation in other frameworks, Yii supports
-composite primary keys in its AR. A composite primary key consists of two
-or more columns. Correspondingly, the primary key value is represented as
-an array in Yii. The [primaryKey|CActiveRecord::primaryKey] property gives
-the primary key value of an AR instance.
+> Info: Tidak seperti implementasi AR dalam framework lain, Yii mendukung
+kunci primer composite dalam turunan AR-nya. Kunci primer terdiri dari dua
+atau lebih kolom. Secara bersamaan, nilai kunci primer disajikan sebagai
+array dalam Yii. Properti [primaryKey|CActiveRecord::primaryKey] memberikan
+nilai kunci primer pada turunan AR.
 
-Customization
--------------
+Kustomisasi
+-----------
 
-[CActiveRecord] provides a few placeholder methods that can be overridden
-in child classes to customize its workflow.
+[CActiveRecord] menyediakan beberapa metode penampungan yang dapat ditimpa
+dalam anak kelas untuk mengkustomisasi alur kerjanya.
 
-   - [beforeValidate|CModel::beforeValidate] and
-[afterValidate|CModel::afterValidate]: these are invoked before and
-after validation is performed.
+   - [beforeValidate|CModel::beforeValidate] dan
+[afterValidate|CModel::afterValidate]: ini dipanggil sebelum dan sesudah
+validasi dilakukan.
 
-   - [beforeSave|CActiveRecord::beforeSave] and
-[afterSave|CActiveRecord::afterSave]: these are invoked before and after
-saving an AR instance.
+   - [beforeSave|CActiveRecord::beforeSave] dan
+[afterSave|CActiveRecord::afterSave]: ini dipanggil sebelum dan sesudah
+penyimpanan turunan AR.
 
-   - [beforeDelete|CActiveRecord::beforeDelete] and
-[afterDelete|CActiveRecord::afterDelete]: these are invoked before and
-after an AR instance is deleted.
+   - [beforeDelete|CActiveRecord::beforeDelete] dan
+[afterDelete|CActiveRecord::afterDelete]: ini dipanggil sebelum dan sesudah
+turunan AR dihapus.
 
-   - [afterConstruct|CActiveRecord::afterConstruct]: this is invoked for
-every AR instance created using the `new` operator.
+   - [afterConstruct|CActiveRecord::afterConstruct]: ini dipanggil untuk
+setiap turunan AR yang dibuat menggunakan operator `new`.
 
-   - [afterFind|CActiveRecord::afterFind]: this is invoked for every AR
-instance created as a result of query.
+   - [afterFind|CActiveRecord::afterFind]: ini dipanggil untuk setiap turunan AR
+yang dibuat sebagai hasil dari queri.
 
 
-Using Transaction with AR
--------------------------
+Menggunakan Transaksi dengan AR
+-------------------------------
 
-Every AR instance contains a property named
-[dbConnection|CActiveRecord::dbConnection] which is a [CDbConnection]
-instance. We thus can use the
-[transaction](/doc/guide/database.dao#using-transactions) feature provided by Yii
-DAO if it is desired when working with AR:
+Setiap turunan AR berisi properti bernama
+[dbConnection|CActiveRecord::dbConnection] yang merupakan turunan dari [CDbConnection].
+Kita dapat menggunakan fitur
+[transaksi](/doc/guide/database.dao#using-transactions) yang disediakan oleh Yii
+DAO jika diinginkan saat bekerja dengan AR:
 
 ~~~
 [php]
@@ -485,8 +499,8 @@ $model=Post::model();
 $transaction=$model->dbConnection->beginTransaction();
 try
 {
-	// find and save are two steps which may be intervened by another request
-	// we therefore use a transaction to ensure consistency and integrity
+	// cari dan simpan adalah dua langkah yang bisa diintervensi oleh permintaan lain
+	// oleh karenanya kita menggunakan transaksi untuk memastikan konsistensi dan integritas
 	$post=$model->findByPk(10);
 	$post->title='new post title';
 	$post->save();
@@ -498,4 +512,70 @@ catch(Exception $e)
 }
 ~~~
 
-<div class="revision">$Id: database.ar.txt 687 2009-02-17 02:57:56Z qiang.xue $</div>
+
+Lingkup Bernama
+---------------
+
+> Note|Catatan: Dukungan lingkup bernama sudah tersedia sejak versi 1.0.5.
+> Ide lingkup bernama berasal dari Ruby on Rails.
+
+Sebuah *named scope* atau lingkup bernama mewakili kriteria queri *bernama* yang dapat digabung dengan lingkup bernama lain dan diterapkan ke queri rekaman aktif.
+
+Lingkup bernama dideklarasikan terutama dalam metode [CActiveRecord::scopes()] sebagai pasangan nama-kriteria. Kode berikut mendeklarasikan tiga lingkup bernama, `published` dan `recently`, dalam kelas model `Post`
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	......
+	public function scopes()
+	{
+		return array(
+			'published'=>array(
+				'condition'=>'status=1',
+			),
+			'recently'=>array(
+				'order'=>'createTime DESC',
+				'limit'=>5,
+			),
+		);
+	}
+}
+~~~
+
+Setiap lingkup bernama dideklarasikan sebagai sebuah array yang dipakai untuk menginisialisasi turunan [CDbCriteria]. Sebagai contoh, lingkup bernama `recently` menetapkan bahwa properti `order` adalah `createTime DESC` dan properti `limit` adalah 5 yang diterjemahkan ke dalam sebuah kriteria queri yang harus menghasilkan paling banyak 5 tulisan terbaru.
+
+Lingkup bernama dipakai sebagai pembeda pada pemanggilan metode `find`. Beberapa lingkup bernama dapat dikaitkan bersamaan dan menghasilkan set yang lebih terbatas. Sebagai contoh, untuk mencari tulisan terbaru yang diterbitkan, kita menggunakan kode berikut:
+
+~~~
+[php]
+$posts=Post::model()->published()->recently()->findAll();
+~~~
+
+Secara umum, lingkup bernama harus berada di sebelah kiri pemanggilan metode `find`. Masing-masing menyediakan kriteria queri, yang merupakan gabungan dengan kriteria lain, termasuk yang dioper ke pemanggilan metode `find`. Hal ini mirip dengan menambahkan sebuah daftar filter ke sebuah queri.
+
+Named scopes dapat diparameterkan. Sebagai contoh, kita mungkin ingin mengkustomisasi sejumlah tulisan dengan lingkup bernama `recently`. Untuk melakukannya, daripada mendeklarasikan lingkup bernama dalam metode [CActiveRecord::scopes], kita perlu mendefinisikan sebuah metode baru yang namanya sama seperti nama lingkup tadi:
+
+~~~
+[php]
+public function recently($limit=5)
+{
+	$this->getDbCriteria()->mergeWith(array(
+		'order'=>'createTime DESC',
+		'limit'=>$limit,
+	));
+	return $this;
+}
+~~~
+
+Selanjutnya, kita bisa menggunakan pernyataan berikut untuk mengambil 3 tulisan terbaru yang diterbitkan:
+
+~~~
+[php]
+$posts=Post::model()->published()->recently(3)->findAll();
+~~~
+
+Jika kita tidak melengkapi parameter 3 di atas, secara standar kita akan mengambil 5 tulisan terbaru yang diterbitkan.
+
+
+<div class="revision">$Id: database.ar.txt 956 2009-04-21 15:16:03Z qiang.xue@gmail.com $</div>

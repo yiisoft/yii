@@ -1,12 +1,12 @@
 Moduł
 ======
 
-> Note|Przypis: Wsparcie dla modułów zostało dodane od wersji 1.0.3.
+> Note|Uwaga: Wsparcie dla modułów zostało dodane od wersji 1.0.3.
 
 Moduł jest samowystarczalną jednostką aplikacji, która zawiera [modele](/doc/guide/basics.model), 
 [widoki](/doc/guide/basics.view), [kontrolery](/doc/guide/basics.controller) oraz inne 
 wpierające komponenty. W wielu aspektach, moduły przypominają [aplikację](/doc/guide/basics.application). 
-Główna róznica est taka, że moduł nie może istnieć sam i musi rezydować 
+Główna różnica jest taka, że moduł nie może istnieć sam i musi rezydować 
 w aplikacji. Użytkownicy posiadają dostęp do kontrolerów w modułach w ten sam sposób
 jak w kontrolerze aplikacji. 
 
@@ -47,9 +47,9 @@ do przechowywania parametrów modułu oraz [CWebModule::components] do dzielenia
 [komponentów aplikacji](/doc/guide/basics.application#application-component) na poziomie 
 modułu. 
 
-> Tip|Porada: Możemy użyć narzędzia `yiic` do stworzenia postawowego szkieletu nowego 
+> Tip|Wskazówka: Możemy użyć narzędzia `yiic` do stworzenia podstawowego szkieletu nowego 
 modułu. Na przykład, aby utworzyć powyższy moduł forum `forum` możemy wykonać 
-nastepujące polecenie w oknie linie poleceń:
+następujące polecenie w oknie linie poleceń:
 >
 > ~~~
 > % cd WebRoot/testdrive
@@ -60,12 +60,12 @@ nastepujące polecenie w oknie linie poleceń:
 > ~~~
 
 
-Uzywanie modułów
+Używanie modułów
 ------------
 
 Aby używać modułu, najpierw umieść moduł w katalogu `modules` w 
 [folderze głównym aplikacji](/doc/guide/basics.application#application-base-directory). 
-Nastepnie zadeklaruj ID modułu we właściwości [modules|CWebApplication::modules] aplikajci. 
+Następnie zadeklaruj ID modułu we właściwości [modules|CWebApplication::modules] aplikacji. 
 Na przykład, w celu używania powyższego modułu `forum`, możemy używać następującej
 [konfiguracji aplikacji](/doc/guide/basics.application#application-configuration):
 
@@ -98,10 +98,10 @@ return array(
 );
 ~~~
 
-Dostęp do intancji modułu można uzyskać poprzez właściwość [module|CController::module] 
+Dostęp do instancji modułu można uzyskać poprzez właściwość [module|CController::module] 
 aktualnie aktywnego kontrolera. Poprzez instancję modułu, możemy uzyskać dostęp do
-intormacji dzielonych na poziomie modułu. Na przykład, w celu uzyskania dostępu 
-do powyższej informacji o ilościu postów na stronę `postPerPage`, możemy użyć 
+informacji dzielonych na poziomie modułu. Na przykład, w celu uzyskania dostępu 
+do powyższej informacji o ilości postów na stronę `postPerPage`, możemy użyć 
 następującego wyrażenia:
 
 ~~~
@@ -117,18 +117,18 @@ posiada kontroler nazwany `PostController`, używany [ścieżki](/doc/guide/basi
 `forum/post/create` aby odnieść się do akcji `create` w tym kontrolerze. 
 Odpowiadający tej ścieżce adres URL będzie następujący `http://www.example.com/index.php?r=forum/post/create`.
 
-> Tip|Porada: Jesli kontroler jest podkatalogiem katalogu `controllers` 
+> Tip|Wskazówka: Jeśli kontroler jest podkatalogiem katalogu `controllers` 
 możemy wciąż używać powyższego formatu [ścieżki](/doc/guide/basics.controller#route). 
 Na przykład, zakładając, że kontroler `PostController` znajduje się wewnątrz 
 `forum/controllers/admin`, możemy odnieść się do akcji `create` używając `forum/admin/post/create`.
 
 
-Zagnieżdżon moduły
+Zagnieżdżone moduły
 -------------
 
-Moduły moga być zagnieżdżone. Oznacza to, że jeden moduł może posiadać inne moduły. 
-Pierwszego nazwyamy *modułem rodzica* a drugiego *modułem dziecka*. Moduły dzieci 
-muszą znajdować się w katalogu `modules` moduły rodzica. Aby uzsykać dostęp do 
+Moduły mogą być zagnieżdżone. Oznacza to, że jeden moduł może posiadać inne moduły. 
+Pierwszego nazywamy *modułem rodzica* a drugiego *modułem dziecka*. Moduły dzieci 
+muszą znajdować się w katalogu `modules` moduły rodzica. Aby uzyskać dostęp do 
 akcji kontrolera w module dziecka, powinniśmy używać ścieżki `IDModułuRodzica/IDModułuDziecka/IDKontrolera/IDAkcji`.
 
 

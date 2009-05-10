@@ -182,7 +182,7 @@ If you have a 'db' database connection, you can test it now with:
 >> crud User
    generate UserController.php
    generate create.php
-      mkdir D:/wwwroot/testdrive/protected/views/user
+   mkdir D:/wwwroot/testdrive/protected/views/user
    generate update.php
    generate list.php
    generate show.php
@@ -261,4 +261,4 @@ schreiben müssen!
 
 
 
-<div class="revision">$Id: quickstart.first-app.txt 891 2009-03-25 15:20:56Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app.txt 978 2009-05-06 03:36:09Z qiang.xue $</div>

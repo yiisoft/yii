@@ -50,4 +50,4 @@ and the Web server handles the request by executing el Script de entrada en `ind
    11. La acción completa la vista realizada y se la muestra al usuario.
 
 
-<div class="revision">$Id: basics.mvc.txt 419 2008-12-28 05:35:39Z qiang.xue $</div>
+<div class="revision">$Id: basics.mvc.txt 419 2008-12-28 05:35:39Z sebathi $</div>

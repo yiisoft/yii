@@ -1,5 +1,6 @@
 * Początek
 	- [Przegląd](index)
+    - [Nowe funkcjonalności](changes)	
     - [Czym jest Yii](quickstart.what-is-yii)
     - [Instalacja](quickstart.installation)
     - [Pierwsza aplikacja w Yii](quickstart.first-app)
@@ -56,4 +57,4 @@
     - [Bezpieczeństwo](topics.security)
     - [Polepszanie wydajności](topics.performance)
 
-<div class="revision">$Id: toc.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>
+<div class="revision">$Id: toc.txt 956 2009-04-21 15:16:03Z qiang.xue@gmail.com $</div>

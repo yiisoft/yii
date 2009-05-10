@@ -1,0 +1,30 @@
+Theming(主题)
+=======
+
+Theming是一个在Web应用程序里定制网页外观的系统方式。通过采用一个新的主题，网页应用程序的整体外观可以立即和戏剧性的改变。
+
+在Yii，每个主题由一个目录代表，包含view文件，layout文件和相关的资源文件，如图片， CSS文件， JavaScript文件等。主题的名字就是他的目录名字。全部主题都放在在同一目录`WebRoot/themes`下 。在任何时候，只有一个主题可以被激活。
+
+> 提示：默认的主题根目录`WebRoot/themes`可被配置成其他的。只需要配置[themeManager|CWebApplication::themeManager]应用部件的属性[basePath|CThemeManager::basePath]和[baseUrl|CThemeManager::baseUrl]为你所要的值。
+
+要激活一个主题，设置Web应用程序的属性[theme|CWebApplication::theme]为你所要的名字。可以在[application configuration](/doc/guide/basics.application#application-configuration)中配置或者在执行过程中在控制器的动作里面修改。
+
+> 注：主题名称是区分大小写的。如果您尝试启动一个不存在的主题， `Yii::app()->theme`将返回`null` 。
+
+主题目录里面内容的组织方式和[application base path](/doc/guide/basics.application#application-base-directory)目录下的组织方式一样。例如，所有的view文件必须位于`views`下 ，布局view文件在`views/layouts`下 ，和系统view文件在`views/system`下。例如，如果我们要替换`PostController`的`create` view文件为`classic`主题下，我们将保存新的view文件为`WebRoot/themes/classic/views/post/create.php`。
+
+对于在[module](/doc/guide/basics.module)里面的控制器view文件，相应主题view文件将被放在`views`目录下。例如，如果上述的`PostController`是在一个命名为`forum`的模块里 ，我们应该保存`create` view 文件为`WebRoot/themes/classic/views/forum/post/create.php` 。如果 `forum`模块嵌套在另一个名为`support`模块里 ，那么view文件应为`WebRoot/themes/classic/views/support/forum/post/create.php` 。
+
+> 注：由于`views`目录可能包含安全敏感数据，应当配置以防止被网络用户访问。
+
+当我们调用[render|CController::render]或[renderPartial|CController::renderPartial]显示视图，相应的view文件以及布局文件将在当前激活的主题里寻找。如果发现，这些文件将被render渲染。否则，就后退到[viewPath|CController::viewPath]和[layoutPath|CWebApplication::layoutPath] 所指定的预设位置寻找。
+
+> 提示：在一个主题的视图，我们经常需要链接其他主题资源文件。例如，我们可能要显示一个在主题下`images`目录里的图像文件。使用当前激活主题的[baseUrl|CTheme::baseUrl]属性，我们就可以为此图像文件生成如下URL，
+
+> ~~~
+> [php]
+> Yii::app()->theme->baseUrl . '/images/FileName.gif'
+> ~~~
+>
+
+<div class="revision">$Id: topics.theming.txt 878 2009-03-23 15:31:21Z qiang.xue 译：sharehua $</div>

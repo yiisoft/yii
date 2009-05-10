@@ -6,7 +6,7 @@ Inaczej mówiąc, użytkownik może wprowadzić informacje dla wielu instancji m
 oraz przesłać je wszystkie naraz. Nazywamy to *tablicowymi danymi wejściowymi* 
 (ang. tabular input, ponieważ pola wejściowe są często prezentowane w tabeli HTML.
 
-Aby pracować z tabliowymi danymi wejściowymi, musimy najpierw stworzyć lub też 
+Aby pracować z tablicowymi danymi wejściowymi, musimy najpierw stworzyć lub też 
 wypełnić tablice modeli instancji, w zależności od tego czy wstawiamy dane 
 czy też aktualizujemy je. Otrzymujemy wtedy dane wejściowe użytkownika ze zmiennej 
 `$_POST` oraz przypisujemy je do każdego modelu. Drobną różnicą pomiędzy w stosunku 
@@ -37,13 +37,13 @@ public function actionBatchUpdate()
 }
 ~~~
 
-Mając gotową akcję, musimy poprawcować nad widokiem `batchUpdate` aby wyświetlić 
+Mając gotową akcję, musimy popracować nad widokiem `batchUpdate` aby wyświetlić 
 pola wejściowe za pomocą tabeli HTML.
 
 ~~~
 [php]
 <div class="yiiForm">
-<?php echo CHtml::form(); ?>
+<?php echo CHtml::beginForm(); ?>
 <table>
 <tr><th>Nazwa</th><th>Cena</th><th>Ilość</th><th>Opis</th></tr>
 <?php foreach($items as $i=>$item): ?>
@@ -57,7 +57,7 @@ pola wejściowe za pomocą tabeli HTML.
 </table>
 
 <?php echo CHtml::submitButton('Save'); ?>
-</form>
+<?php echo CHtml::endForm(); ?>
 </div><!-- yiiForm -->
 ~~~
 
@@ -68,4 +68,4 @@ Jeśli wystąpił tutaj jakiś błąd sprawdzania danych, odpowiednie pole wejś
 zostanie podświetlone automatycznie, tak jak to było w przypadku pojedynczego 
 modelu opisanego wcześniej.
 
-<div class="revision">$Id: form.table.txt 468 2009-01-04 20:57:35Z qiang.xue $</div>
+<div class="revision">$Id: form.table.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>

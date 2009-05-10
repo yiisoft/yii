@@ -7,7 +7,7 @@
 * Fundamentos
     - [Modelo-Vista-Controlador (MVC)](basics.mvc)
     - [Script de entrada](basics.entry)
-    - [Aplicacioón](basics.application)
+    - [Aplicación](basics.application)
     - [Controlador](basics.controller)
     - [Modelo](basics.model)
     - [Vista](basics.view)
@@ -56,4 +56,4 @@
     - [Seguridad](topics.security)
     - [Tuneo de Rendimiento](topics.performance)
 
-<div class="revision">$Id: toc.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>
+<div class="revision">$Id: toc.txt 745 2009-02-25 21:45:42Z sebathi $</div>

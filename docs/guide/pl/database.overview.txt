@@ -1,7 +1,7 @@
 Praca z bazami danych
 =====================
 
-Yii dostarcza mocnego wsparcia dla baz danych. Stworzone w oparciu o PDO (PHP Data Objects) 
+Yii dostarcza silnego wsparcia dla baz danych. Stworzone w oparciu o PDO (PHP Data Objects) 
 rozszerzenie Yii Data Access Objects (DAO) umożliwia dostęp do różnych systemów 
 zarządzania bazami danych (DBMS) za pomocą jednego ujednoliconego interfejsu. 
 Aplikacje stworzone z użyciem Yii DAO można w łatwy sposób zastąpić innym systemem zarządzania 

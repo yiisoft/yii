@@ -1,7 +1,8 @@
 Das Standardhandbuch für Yii
 =============================
 
-This tutorial is released under [the Terms of Yii Documentation](http://www.yiiframework.com/doc/terms/).
+Dieses Tutorial wurde unter den [Bedingungen der
+Yii-Dokumentation](http://www.yiiframework.com/doc/terms/) veröffentlicht.
 
 All Rights Reserved.
 

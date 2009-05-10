@@ -1,0 +1,65 @@
+Tema
+====
+
+Tema adalah cara sistematis mengkustomisasi tampilan halaman dalam aplikasi
+Web. Dengan menerapkan tema baru, penampilan aplikasi Web secara keseluruhan
+bisa diubah secara instan dan secara dramatis.
+
+Dalam Yii, setiap tema disajikan sebagai direktori yang terdiri dari file view,
+file layout, dan file sumber daya relevan seperti file gambar, file CSS,
+file JavaScript, dll.  Nama tema adalah nama direktorinya. Semua tema
+berada di bawah dierktori yang sama `WebRoot/themes`. Hanya ada satu tema saja
+yang bisa aktif.
+
+> Tip: Direktori root standar tema `WebRoot/themes` bisa dikonfigurasi ke
+direktori yang berbeda. Cukup konfigurasi properti
+[basePath|CThemeManager::basePath] dan [baseUrl|CThemeManager::baseUrl]
+pada komponen aplikasi [themeManager|CWebApplication::themeManager] 
+ke direktori yang diinginkan.
+
+Untuk mengaktifkan tema, setel properti [theme|CWebApplication::theme] 
+aplikasi Web menjadi nama tema yang diinginkan. Ini bisa dikerjakan baik dalam
+[konfigurasi
+aplikasi](/doc/guide/basics.application#application-configuration) maupun selama berjalan
+dalam aksi kontoler.
+
+> Note|Catatan: Nama tema sensitif jenis huruf. Jika Anda mencoba 
+mengaktifkan tema yang tidak ada, `Yii::app()->theme` akan mengembalikan `null`.
+
+Konten di bawah direktori theme harus diatur dengan cara yang sama seperti yang 
+ada di bawah [basis path
+aplikasi](/doc/guide/basics.application#application-base-directory). Sebagai contoh, semua file tampilan
+harus ditempatkan di bawah `views`, file tampilan layout di bawah `views/layouts`, dan
+file tampilan system di bawah `views/system`. Contoh lain, jika kita ingin mengganti
+tampilan `create` pada `PostController` dengan tampilan pada tema `classic`,
+kita harus menyimpan file tampilan baru sebagai `WebRoot/themes/classic/views/post/create.php`.
+
+Untuk tampilan yang dimiliki kontroler dalam [modul](/doc/guide/basics.module),
+File tampilan tema terkait juga harus ditempatkan di bawah dierktori `views`.
+Sebagai contoh, jika `PostController` ada dalam sebuah modul bernama
+`forum`, kita harus menyimpan file tampilan `create` sebagai `WebRoot/themes/classic/views/forum/post/create.php`. Jika modul `forum` 
+diulang dalam modul lain bernama `support`, maka file tampilan seharusnya
+`WebRoot/themes/classic/views/support/forum/post/create.php`.
+
+> Note|Catatan: Karena direktori `views` mungkin berisi data sensitif-keamanan, ia harus dikonfigurasi guna menjaga dari pengakses Web oleh pengguna.
+
+Ketika kita memanggil [render|CController::render] atau
+[renderPartial|CController::renderPartial] untuk menampilkan tampilan, file
+tampilan terkait juga file tata letak akan dicari di
+tema yang saat ini sedang aktif. Dan jika ditemukan, file-file tersebut akan dirender.
+Sebaliknya, jika gagal akan kembali ke lokasi seperti yang ditetapkan oleh
+[viewPath|CController::viewPath] dan
+[layoutPath|CWebApplication::layoutPath].
+
+> Tip: Di dalam tampilan tema, kita sering harus menghubungkan file sumber daya
+> tema. Sebagai contoh, kita mungkin ingin memperlihatkan file gambar di bawah direktori
+> `images` tema. Menggunakan properti [baseUrl|CTheme::baseUrl] property pada
+> tema yang aktif saat ini, kita membuat URL untuk gambar seperti berikut,
+>
+> ~~~
+> [php]
+> Yii::app()->theme->baseUrl . '/images/FileName.gif'
+> ~~~
+>
+
+<div class="revision">$Id: topics.theming.txt 878 2009-03-23 15:31:21Z qiang.xue $</div>

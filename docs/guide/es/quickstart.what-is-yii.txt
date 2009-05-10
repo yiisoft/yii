@@ -39,4 +39,4 @@ trabajo de terceros. Es el resultado de la basta experiencia de los autores
 en desarrollo de aplicaciones Web y de la investigación y la reflexión de los más 
 populares los frameworks de programación Web y aplicaciones.
 
-<div class="revision">$Id: quickstart.what-is-yii.txt 257 2008-11-21 13:35:04Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.what-is-yii.txt 257 2008-11-21 13:35:04Z sebathi $</div>
