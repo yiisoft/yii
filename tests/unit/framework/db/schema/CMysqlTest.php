@@ -142,7 +142,7 @@ class CMysqlTest extends CTestCase
 		$table=$schema->getTable('posts');
 
 		$c=$builder->createInsertCommand($table,array('title'=>'test post','create_time'=>'2000-01-01','author_id'=>1,'content'=>'test content'));
-		$this->assertEquals('INSERT INTO `posts` (`title`, `create_time`, `author_id`, `content`) VALUES (:title, :create_time, :author_id, :content)',$c->text);
+		$this->assertEquals('INSERT INTO `posts` (`title`, `create_time`, `author_id`, `content`) VALUES (:_p0, :_p1, :_p2, :_p3)',$c->text);
 		$c->execute();
 		$this->assertEquals(6,$builder->getLastInsertId($table));
 
@@ -238,7 +238,7 @@ class CMysqlTest extends CTestCase
 
 		// createColumnCriteria
 		$c=$builder->createColumnCriteria($table,array('id'=>1,'author_id'=>2),'title=``');
-		$this->assertEquals('`posts`.`id`=:id AND `posts`.`author_id`=:author_id AND (title=``)',$c->condition);
+		$this->assertEquals('`posts`.`id`=:_p0 AND `posts`.`author_id`=:_p1 AND (title=``)',$c->condition);
 
 		$c=$builder->createPkCriteria($table2,array());
 		$this->assertEquals('0=1',$c->condition);
