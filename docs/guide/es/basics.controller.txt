@@ -35,7 +35,7 @@ por el nombre de su controlador (ejemplo: `post` corresponde a
 el prefijo `action`. Por ejemplo si el controlador contiene el método `actionEdit`
 el ID de la acción correspondiente será `edit`.
 
-> Note: Antes de la versión 1.0.3, el formato del id del controlador era `path.to.xyz`
+> Note|Nota: Antes de la versión 1.0.3, el formato del id del controlador era `path.to.xyz`
 en vez de `path/to/xyz`.
 
 Los usuarios realizan pedidos por un controlador y acción en términos de ruta.
@@ -44,7 +44,7 @@ separados por una barra. Por ejemplo la ruta `post/edit` se refiere a `PostContr
 su acción `edit. Por predeterminado la url `http://hostname/index.php?r=post/edit` 
 realiza el pedido a el ese contlador y esa acción.
 
->Note: Por predeterminado las rutas distinguen mayúsculas de minúsculas. Desde la versión 1.0.1
+>Note|Nota: Por predeterminado las rutas distinguen mayúsculas de minúsculas. Desde la versión 1.0.1
 >es posible utilizar rutas que no distingan mayúsculas de minúsculas modificando en la configuración
 >de la aplicación la propiedad [CUrlManager::caseSensitive] en `false`.
 >Cuando esta propiedad no está activada, asegurese de seguir las convencion de que
@@ -236,4 +236,4 @@ debe ser aplicado a las acciones `edit` y `create`, mientras que el filtro
 Si los operadores mas y menos no aparecieran en la configuración del filtro el mismo
 se aplicaría a todas las acciones.
 
-<div class="revision">$Id: basics.controller.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>
+<div class="revision">$Id: basics.controller.txt 745 2009-02-25 21:45:42Z sebathi $</div>

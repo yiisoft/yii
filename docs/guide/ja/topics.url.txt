@@ -217,4 +217,4 @@ URLに拡張子を付加することができます。例えば、`/post/100` �
 [urlSuffix|CUrlManager::urlSuffix] プロパティを使用したい拡張子に設定する
 だけです。
 
-<div class="revision">$Id: topics.url.txt 229 2008-11-16 21:14:59Z qiang.xue $</div>
+<div class="revision">$Id: topics.url.txt 993 2008-11-16 21:14:59Z qiang.xue $</div>

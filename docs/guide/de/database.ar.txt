@@ -83,6 +83,11 @@ Derzeit werden folgende DBMS unterstützt:
    - [PostgreSQL 7.3 oder später](http://www.postgres.com)
    - [SQLite 2 und 3](http://www.sqlite.org)
    - [Microsoft SQL Server 2000 oder höher](http://www.microsoft.com/sqlserver/)
+   - [Oracle](http://www.oracle.com)
+
+> Note|Hinweis: Microsoft SQL Server wird seit Version 1.0.4 unterstützt und
+> Oracle seit Version 1.0.5.
+
 
 Falls Sie eine andere Applikationskomponente als `db` benutzen möchten, oder
 wenn Sie mit AR auf mehreren Datenbanken arbeiten, sollten Sie
@@ -524,4 +529,124 @@ catch(Exception $e)
 }
 ~~~
 
-<div class="revision">$Id: database.ar.txt 891 2009-03-25 15:20:56Z qiang.xue $</div>
+
+Benannte Bereiche
+-----------------
+
+> Note|Hinweis: Benannte Bereiche werden seit Version 1.0.5 unterstützt.
+> Die usprüngliche Idee für benannte Bereiche stammt von Ruby on Rails.
+
+Ein *benannter Bereich* (engl.: named scope) stellt ein *benanntes*
+Abfragekriterium dar, das mit anderen benannten Bereichen kombiniert 
+und auf eine ActiveRecord-Abfrage angewendet werden kann.
+
+Benannte Bereiche werden in der Methode [CActiveRecord::scopes()]
+hauptsächlich als Name-Kriterium-Paare definiert. Der folgende Code deklariert
+die beiden benannten Bereiche `veroeffentlicht` und `kuerzlich` in der
+Model-Klasse `Beitrag`:
+
+~~~
+[php]
+class Beitrag extends CActiveRecord
+{
+	......
+	public function scopes()
+	{
+		return array(
+			'veroeffentlicht'=>array(
+				'condition'=>'status=1',
+			),
+			'kuerzlich'=>array(
+				'order'=>'erstellZeit DESC',
+				'limit'=>5,
+			),
+		);
+	}
+}
+~~~
+
+Jeder benannte Bereich wird als Array deklariert, das zum Initialisieren
+einer [CDbCriteria]-Instanz verwendet werden kann. Der benannte Bereich
+`kuerzlich` bestimmt zum Beispiel, dass die `order`-Eigenschaft auf
+`erstellZeit DESC` und die `limit`-Eigenschaft auf 5 gesetzt werden soll. Dies
+wird in ein Abfragekriterium übersetzt, das die letzten 5 Beiträge
+zurückliefern sollte.
+
+Benannte Bereiche werden als Modifikatoren beim Aufruf von `find`-Methoden
+verwendet. Mehrere benannte Bereiche können miteinander verkettet werden
+und resultieren so in einem immer weiter eingeschränkten Abfrageergebnis.
+Um zum Beispiel die letzten veröffentlichten Beiträge zu finden, können wir
+diesen Code verwenden:
+~~~
+[php]
+$beitraege=Beitrag::model()->veroeffentlicht()->kuerzlich()->findAll();
+~~~
+
+Benannte Bereiche müssen grundsätzlich links vom Aufruf einer
+`find`-Methode stehen. Jeder einzelne von ihnen stellt ein Abfragekriterium bereit, das
+mit anderen Kriterien kombiniert wird, inklusive demjenigen, das als
+Parameter and die `find`-Methode übergeben wurde. Letztendlich fügt man 
+einer Abfrage also eine Liste von Filtern hinzu.
+
+###Parametriesierte benannte Bereiche
+
+Benannte Bereiche können parametrisiert werden. Wir könnten zum Beispiel
+die Anzahl der Beiträge des benannten Bereichs `kuerzlich` anpassen wollen.
+Statt den Bereich in der [CActiveRecord::scopes]-Methode anzugeben,  müssen wir
+dazu eine neue Methode mit dem Namen des Bereichs definieren:
+
+~~~
+[php]
+public function kuerzlich($limit=5)
+{
+	$this->getDbCriteria()->mergeWith(array(
+		'order'=>'createTime DESC',
+		'limit'=>$limit,
+	));
+	return $this;
+}
+~~~
+
+Wir können dann den folgenden Befehl verwenden, um die letzten 3
+veröffentlichten Beiträge zu erhalten:
+
+~~~
+[php]
+$beitraege=Beitrag::model()->veroeffentlicht()->kuerzlich(3)->findAll();
+~~~
+
+Wenn wir den Parameter 3 hier nicht angeben, würden wir standardmäßig die letzten 5
+veröffentlichten Beiträge erhalten.
+
+###Standardmäßiger benannter Bereich
+
+Ein benannter Bereich kann auch als Standardbereich für eine Modelklasse
+festgelegt werden, so dass er bei allen Abfragen (inkl. relationalen)
+verwendet wird. So könnte zum Beispiel eine mehrsprachige Website ihre 
+Inhalte immer nur in der Sprache des aktuellen Besuchers anzeigen wollen. 
+Da bei den Abfragen für diese Inhalten immer die selben Sprachkriterien
+verwendet werden sollen, können wir einen benannten Bereich als Standard
+festlegen, um dieses Problem zu lösen. Dazu überschreiben wir die Methode
+[CActiveRecord::defaultScope] wie folgt:
+
+~~~
+[php]
+class Content extends CActiveRecord
+{
+	public function defaultScope()
+	{
+		return array(
+			'condition'=>"sprache='".Yii::app()->language."'",
+		);
+	}
+}
+~~~
+
+Dadurch verwendet der folgene Aufruf automatisch das eben festgelegte
+Abfragekriterium.
+
+~~~
+[php]
+$contents=Content::model()->findAll();
+~~~
+<div class="revision">$Id: database.ar.txt 993 2009-05-07 21:43:44Z qiang.xue $</div>

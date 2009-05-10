@@ -13,7 +13,7 @@ ARはこれらのリレーションに関してどのようにテーブルを結
 
 ![ER Diagram ER図](er.png)
 
-> Info|情報: 外部キーのサポートはDBMS毎に異ります。
+> Info|情報: 外部キー制約のサポートはDBMS毎に異ります。
 >
 > SQLiteは外部キーをサポートしませんが、テーブルを作成する際に制約を宣言します。
 > ARはリレーショナルなクエリを正しくサポートするためにこの制約宣言を利用します。
@@ -119,7 +119,7 @@ ARクラスのリレーションの宣言は、各々のリレーションのた
 リレーショナルクエリを実行する最も単純な方法は、ARインスタンスのリレーショナルなプロパティを読み出すことです。
 プロパティが以前にアクセスされていない場合には、リレーショナルクエリは初期化されます。
 そのクエリは2つの関係するテーブルを結合し、現行のARインスタンスの主キーでフィルタリングされます。
-これは*レイジー格納*アプローチとして知られており、リレーショナルなクエリは関連するオブジェクトが最初にアクセスされるときに実行されます。
+これは*レイジーローディング*アプローチとして知られており、リレーショナルなクエリは関連するオブジェクトが最初にアクセスされるときに実行されます。
 以下の例は実際にこのアプローチをどのように使用するかを示します。
 
 ~~~
@@ -134,6 +134,9 @@ $author=$post->author;
 対応するプロパティはナルまたは空の配列となります。
 `BELONGS_TO`と`HAS_ONE`リレーションの場合結果はナルです。
 `HAS_MANY`と`MANY_MANY`では空の配列です。
+`HAS_MANY` と `MANY_MANY` リレーションは、オブジェクトの配列を返すため、
+どんなプロパティにアクセスする前にも、結果を通してループする必要があることに注意してください。
+そうでなければ、「Trying to get property of non-object（非オブジェクトのプロパティを取得しようとしている）」エラーが発生します。
 
 レイジーローディングアプローチは使うのに非常に便利ですが、それはいくつかの場合に効率的ではありません。
 例えば`N`個の著者情報にアクセスする場合、レイジーローディングアプローチを使うと`N`個のジョインクエリを発行しなければなりません。
@@ -227,6 +230,7 @@ $posts=Post::model()->with(
 このオプションはバージョン1.0.3から利用できるようになりました。
 
    - `on`: `ON`句です。ここで指定される条件は、`AND`オペレーターを使用しJOIN条件に追加されます。
+注意: コラム参照は`aliasToken`を使って曖昧さをなくす必要があることに注意すべきです(例えば`??.id=10`)。
 このオプションはバージョン1.0.2から利用できるようになりました。
 
    - `order`: `ORDER BY`句です。デフォルトでは空で無条件を意味します。
@@ -273,7 +277,7 @@ class User extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'posts'=>array(self::HAS_MANY, 'Post', 'authorID'
+			'posts'=>array(self::HAS_MANY, 'Post', 'authorID',
 							'order'=>'??.createTime DESC',
 							'with'=>'categories'),
 			'profile'=>array(self::HAS_ONE, 'Profile', 'ownerID'),
@@ -292,7 +296,7 @@ class User extends CActiveRecord
 したがって、列名の衝突を避けるために、曖昧さを無くす必要がある列の存在を示すために、場所取りを使います。
 ARは場所取りを適当なテーブル別名と入れ替えて列の曖昧さをなくします。
 
-動的なリレーショナルクエリのオプション
+動的リレーショナルクエリオプション
 --------------------------------
 
 バージョン1.0.2からは[with()|CActiveRecord::with] と`with`オプションの両方の場合とも、動的なリレーションのクエリオプションを使用することができます。
@@ -302,9 +306,20 @@ ARは場所取りを適当なテーブル別名と入れ替えて列の曖昧さ
 ~~~
 [php]
 User::model()->with(array(
-	'posts'=>array('order'=>'??.createTime DESC'),
+	'posts'=>array('order'=>'??.createTime ASC'),
 	'profile',
 ))->findAll();
+~~~
+
+バージョン 1.0.5 以降では、リレーショナルクエリを実行するのにレイジーローディングアプローチを使用するときも、動的なクエリオプションを使用できます。
+その場合、
+リレーション名と同じ名前のメソッドを、パラメータに動的なクエリオプションを指定して呼び出します。
+例えば、下記のコードは、`status` が 1 のユーザー投稿を返します:
+
+~~~
+[php]
+$user=User::model()->findByPk(1);
+$posts=$user->posts(array('condition'=>'status=1'));
 ~~~
 
 
@@ -374,4 +389,36 @@ $posts=Post::model()->with('commentCount', 'categoryCount')->findAll();
 
    - `having`: `HAVING`句です。デフォルト値は空です。
 
-<div class="revision">$Id: database.arr.txt 857 2009-02-01 02:14:39Z qiang.xue $</div>
+
+Nemed Scope を使用したリレーショナルクエリ
+----------------------------------
+
+> Note|注意: Nemed Scope はバージョン 1.0.5 以降で有効です。
+
+リレーショナルクエリは [Nemed Scope](/doc/guide/database.ar#named-scopes) と組み合わせて実行できます。
+リレーショナルクエリは、2 つの方法で利用できます。
+1つ目は、Nemed Scope をメインモデルに適用させる方法、2つ目は、Nemed Scope をリレーションモデルに適用させる方法です。
+
+下記のコードは、メインモデルに Nemed Scope を適用する方法を示します。
+
+~~~
+[php]
+$posts=Post::model()->published()->recently()->with('comments')->findAll();
+~~~
+
+これは、リレーショナルしないクエリにとても似ています。
+唯一の違いは、Nemed Scope チェーンの後で `with()` をコールする点です。
+このクエリは、最近公開された投稿とそれらのコメントを返します。
+
+下記のコードは、リレーションモデルに Nemed Scope を適用する方法を示します。
+
+~~~
+[php]
+$posts=Post::model()->with('comments:recently:approved')->findAll();
+~~~
+
+上記クエリは、全ての投稿とそれらの承認済みコメントを返します。
+`comments` はリレーション名を、`recently` と `approved` は `Comment` モデルクラスで宣言された 2 つの Nemed Scope を示している事に注意してください。
+リレーション名と Nemed Scope はコロン区切りで指定します。
+
+<div class="revision">$Id: database.arr.txt 978 2009-05-06 03:36:09Z qiang.xue $</div>

@@ -17,8 +17,8 @@ Yii DAO składa się głównie z następujących czterech klas:
 
    - [CDbConnection]: reprezentuje połączenie z bazą danych,
    - [CDbCommand]: reprezentuje zapytanie SQL, wykonywane na bazie danych,
-   - [CDbDataReader]: represents a forward-only stream of rows from a query result set.
-   - [CDbTransaction]: reprezentuje transakcję DB.
+   - [CDbDataReader]: represents a forward-only stream of rows from a query result set,
+   - [CDbTransaction]: reprezentuje transakcję DB.   
 
 
 W dalszej części, przedstawimy użycie Yii DAO w różnych scenariuszach.
@@ -41,14 +41,16 @@ $connection->active=true;
 $connection->active=false;  // zamknij połączenie
 ~~~
 
-Format adres DNS zależy od używanego sterownika PDO dla danej bazy danych. Uogólniając, 
+Format adresu DNS zależy od używanego sterownika PDO dla danej bazy danych. Uogólniając, 
 DNS składa się z nazwy sterownika PDO, po którym następuje przecinek a następnie 
 zależna od sterownika składnia połączenia. Zobacz [dokumentację PDO](http://www.php.net/manual/en/pdo.construct.php) 
 aby uzyskać więcej informacji. Poniżej znajduje się lista najczęściej używanych formatów DNS:
 
-   - SQLite: `sqlite:/sciezka/do/pliku/bazy`
-   - MySQL: `mysql:host=localhost;dbname=testdb`
-   - PostgreSQL: `pgsql:host=localhost;port=5432;dbname=testdb`
+   - SQLite: `sqlite:/scieżka/do/pliku/bazy`,
+   - MySQL: `mysql:host=localhost;dbname=testdb`,
+   - PostgreSQL: `pgsql:host=localhost;port=5432;dbname=testdb`,
+   - SQL Server: `mssql:host=localhost;dbname=testdb`,
+   - Oracle: `oci:dbname=//localhost:1521/testdb`
 
 Ponieważ klasa [CDbConnection] rozszerza [CApplicationComponent], możemy użyć jej jako 
 [komponent aplikacji](/doc/guide/basics.application#application-component). 
@@ -134,7 +136,7 @@ foreach($dataReader as $row) { ... }
 $rows=$dataReader->readAll();
 ~~~
 
-> Note|Przypis: W odróżnieniu od [query()|CDbCommand::query], wszystkie metody `queryXXX()` 
+> Note|Uwaga: W odróżnieniu od [query()|CDbCommand::query], wszystkie metody `queryXXX()` 
 zwracają dane bezpośrednio. Na przykład, [queryRow()|CDbCommand::queryRow]
 zwraca tablicę reprezentującą pierwszy wiersz wyniku zapytań.
 
@@ -227,4 +229,6 @@ while($dataReader->read()!==false)
 }
 ~~~
 
-<div class="revision">$Id: database.dao.txt 367 2008-12-16 20:18:30Z qiang.xue $</div>
+~~~
+
+<div class="revision">$Id: database.dao.txt 956 2009-04-21 15:16:03Z qiang.xue@gmail.com $</div>

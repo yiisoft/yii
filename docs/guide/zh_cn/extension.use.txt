@@ -43,8 +43,7 @@ return array(
 组件
 ------
 
-[组件](/doc/guide/basics.view#widget) 主要用在 [视图](/doc/guide/basics.view) 里.鉴于组件类 `XyzClass` 属于 `xyz`
- 扩展,我们可以如下在视图中使用它:
+[组件](/doc/guide/basics.view#widget) 主要用在 [视图](/doc/guide/basics.view) 里.假设组件类 `XyzClass` 属于 `xyz` 扩展,我们可以如下在视图中使用它:
 
 ~~~
 [php]
@@ -66,8 +65,7 @@ return array(
 动作
 ------
 
-[动作](/doc/guide/basics.controller#action) 被 [控制器](/doc/guide/basics.controller) 用于响应指定的用户请求.鉴于
-动作的类 `XyzClass` 属于 `xyz` 扩展,我们可以在我们的控制器类里重写 [CController::actions] 方法来使用它:
+[动作](/doc/guide/basics.controller#action) 被 [控制器](/doc/guide/basics.controller) 用于响应指定的用户请求.假设动作的类 `XyzClass` 属于 `xyz` 扩展,我们可以在我们的控制器类里重写 [CController::actions] 方法来使用它:
 
 ~~~
 [php]
@@ -91,9 +89,7 @@ class TestController extends CController
 
 过滤器
 ------
-[过滤器](/doc/guide/basics.controller#filter) 也被 [控制器](/doc/guide/basics.controller) 使用.
-过滤器主要用于当其被 [动作](/doc/guide/basics.controller#action) 挂起时预处理,提交处理用户请求.
-鉴于过滤器的类 `XyzClass` 属于 `xyz` 扩展,我们可以在我们的控制器类里重写 [CController::filters] 方法来使用它:
+[过滤器](/doc/guide/basics.controller#filter) 也被 [控制器](/doc/guide/basics.controller) 使用.过滤器主要用于当其被 [动作](/doc/guide/basics.controller#action) 挂起时预处理,提交处理用户请求.假设过滤器的类 `XyzClass` 属于 `xyz` 扩展,我们可以在我们的控制器类里重写 [CController::filters] 方法来使用它:
 
 ~~~
 [php]
@@ -115,16 +111,12 @@ class TestController extends CController
 
 
 
-In the above, we can use plus and minus operators in the first array element
-to apply the filter to limited actions only. For more details, please refer
-to the documentation of [CController].
+在上述代码中,我们可以在数组的第一个元素离使用加号或者减号操作符来限定过滤器只在那些动作中生效.更多信息,请参照文档的 [CController].
+
 
 控制器
 ----------
-A [控制器](/doc/guide/basics.controller) provides a set of actions that can
-be requested by users. In order to use a controller extension, we need to
-configure the [CWebApplication::controllerMap] property in the
-[应用配置](/doc/guide/basics.application#application-configuration):
+[控制器](/doc/guide/basics.controller) 提供了一套可以被用户请求的动作.我们需要在 [应用配置](/doc/guide/basics.application#application-configuration) 里设置 [CWebApplication::controllerMap] 属性,才能在控制器里使用扩展:
 
 ~~~
 [php]
@@ -140,16 +132,11 @@ return array(
 );
 ~~~
 
-Then, an action `a` in the controller can be accessed via
-[路由](/doc/guide/basics.controller#route) `xyz/a`.
+然后, 一个在控制里的 `a` 行为就可以通过 [路由](/doc/guide/basics.controller#route) `xyz/a` 来访问了.
 
 校验器
 ---------
-A validator is mainly used in a [模型](/doc/guide/basics.model) class
-(one that extends from either [CFormModel] or [CActiveRecord]).
-Given a validator class `XyzClass` belonging to
-the `xyz` extension, we can use it by overriding the [CModel::rules] method
-in our model class:
+校验器主要用在 [模型](/doc/guide/basics.model)类(继承自 [CFormModel] 或者 [CActiveRecord])中.假设校验器类 `XyzClass` 属于 `xyz` 扩展,我们可以在我们的模型类中通过 [CModel::rules] 重写 [CModel::rules] 来使用它:
 
 ~~~
 [php]
@@ -172,10 +159,7 @@ class MyModel extends CActiveRecord // or CFormModel
 
 控制台命令
 ---------------
-A [控制台命令](/doc/guide/topics.console) extension usually enhances
-the `yiic` tool with an additional command. Given a console command
-`XyzClass` belonging to the `xyz` extension, we can use it by configuring
-the configuration for the console application:
+[控制台命令](/doc/guide/topics.console)扩展通常使用一个额外的命令来增强 `yiic` 的功能.假设命令控制台 `XyzClass` 属于 `xyz` 扩展,我们可以通过设定控制台应用的配置来使用它:
 
 ~~~
 [php]
@@ -191,32 +175,23 @@ return array(
 );
 ~~~
 
-Then, we can use the `yiic` tool is equipped with an additional
-command `xyz`.
+然后,我们就能使用配备了额外命令 `xyz` 的 `yiic` 工具了.
 
-> Note|注意: A console application usually uses a configuration file
-that is different from the one used by a Web application. If an application
-is created using `yiic webapp` command, then the configuration file
-for the console application `protected/yiic` is `protected/config/console.php`,
-while the configuration file for the Web application is `protected/config/main.php`.
+> Note|注意: 控制台应用通常使用了一个不同于 Web 应用的配置文件.如果使用了 `yiic webapp` 命令创建了一个应用,这样的话,控制台应用的 `protected/yiic` 的配置文件就是 `protected/config/console.php`  了,而Web应用的配置文件
+则是 `protected/config/main.php`.
 
 模块
 ------
-A module typically consists of more than one class files and is often
-a mix of the above extension types. Therefore, you should follow the corresponding
-instructions to use a module.
+模块通常由多个类文件组成,且往往综合上述扩展类型.因此,你应该按照和以下一致的指令来使用模块.
 
 通用部件
 -----------------
-To use a generic [部件](/doc/guide/basics.component), we first
-need to include its class file by using
+使用一个通用 [部件](/doc/guide/basics.component), 我们首先需要通过使用
 
 ~~~
 Yii::import('application.extensions.xyz.XyzClass');
 ~~~
 
-Then, we can either create an instance of the class, configure its properties,
-and call its methods. We may also extend it to create new child classes.
-
+来包含它的类文件.然后,我们既可以创建一个类的实例,配置它的属性,也可以调用它的方法.我们还可以创建一个新的子类来扩展它.ss
 
 <div class="revision">$Id: extension.use.txt 235 2009-03-16 11:39:50Z qiang.xue & 译:thaiki $</div>

@@ -1,5 +1,6 @@
 * 初めに
     - [Yiiの公式ガイド](index)
+    - [新機能](changes)
     - [Yiiとは何でしょうか](quickstart.what-is-yii)
     - [インストール](quickstart.installation)
     - [初めてのYiiアプリケーションの作成](quickstart.first-app)
@@ -18,7 +19,7 @@
     - [開発ワークフロー](basics.workflow)
 
 * フォームを使う
-    - [フォームを使うform.overview)
+    - [フォームを使う](form.overview)
     - [モデルの作成](form.model)
     - [アクションの作成](form.action)
     - [フォームの作成](form.view)
@@ -56,4 +57,4 @@
     - [セキュリティ](topics.security)
     - [性能チューニング](topics.performance)
 
-<div class="revision">$Id: toc.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>
+<div class="revision">$Id: toc.txt 975 2009-02-25 21:45:42Z qiang.xue $</div>

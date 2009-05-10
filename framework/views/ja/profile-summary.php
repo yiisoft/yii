@@ -2,18 +2,18 @@
 <table width="100%" cellpadding="2" style="border-spacing:1px;font:11px Verdana, Arial, Helvetica, sans-serif;background:#EEEEEE;color:#666666;">
 	<tr>
 		<th style="background:black;color:white;" colspan="6">
-			Profiling Summary Report
-			(Time: <?php echo sprintf('%0.5f',Yii::getLogger()->getExecutionTime()); ?>s,
-			Memory: <?php echo number_format(Yii::getLogger()->getMemoryUsage()/1024); ?>KB)
+			プロファイリング概要レポート
+			(時間: <?php echo sprintf('%0.5f',Yii::getLogger()->getExecutionTime()); ?>s,
+			メモリ: <?php echo number_format(Yii::getLogger()->getMemoryUsage()/1024); ?>KB)
 		</th>
 	</tr>
 	<tr style="background-color: #ccc;">
-	    <th>Procedure</th>
-		<th>Count</th>
-		<th>Total (s)</th>
-		<th>Avg. (s)</th>
-		<th>Min. (s)</th>
-		<th>Max. (s)</th>
+	    <th>プロシージャ</th>
+		<th>回数</th>
+		<th>合計 (s)</th>
+		<th>平均 (s)</th>
+		<th>最小 (s)</th>
+		<th>最大 (s)</th>
 	</tr>
 <?php
 foreach($data as $index=>$entry)

@@ -13,7 +13,7 @@ Ejecute `yiic` en la linea de comandos de la siguiente manera:
 % YiiRoot/framework/yiic webapp WebRoot/testdrive
 ~~~
 
-> Note: Cuando ejecuta `yiic` en Mac OS, Linux o Unix, usted deberá 
+> Note|Nota: Cuando ejecuta `yiic` en Mac OS, Linux o Unix, usted deberá 
 > modificar los permisos del archivo `yiic` para poder ejecutarlo.
 > Alternativamente puede correr la herramienta de la siguiente manera,
 >
@@ -121,7 +121,7 @@ En el ejemplo anterior agregamos la entrada `db` al arreglo de `components` (com
 el cual indica a la aplicación que se conecte a la base de datos 
 `WebRoot/testdrive/protected/data/source.db` cuando sea necesario.
 
-> Note: Para utilizar la característica de base de datos de Yii necesitamos habilitar la 
+> Note|Nota: Para utilizar la característica de base de datos de Yii necesitamos habilitar la 
 extensión PHP PDO y el driver especifico de la extensión PDO. Para la aplicación test-drive
 se necesitará habilitar las extensiones `php_pdo` y `php_pdo_sqlite`.
 
@@ -190,7 +190,7 @@ con la aplicación esqueleto. Hemos ejecutado dos comandos: `model User` y
 que el segundo lee el modelo `User` y genera el código necesario para las 
 operaciones CRUD.
 
-> Note: Usted se puede encontrar con errores del estilo "...could not 
+> Note|Nota: Usted se puede encontrar con errores del estilo "...could not 
 > find driver", a pesar de que el script de verificación de requerimientos
 > le haya indicado que tiene habilitado PDO y el driver PD correspondiente.
 > Si esto ocurre puede intentar correr la herramienta `yiic` de la siguiente
@@ -246,4 +246,4 @@ escribir ni una sola linea de código!
 
 
 
-<div class="revision">$Id: quickstart.first-app.txt 723 2009-02-21 18:14:05Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app.txt 723 2009-02-21 18:14:05Z sebathi $</div>

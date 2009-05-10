@@ -1,61 +1,63 @@
 Data Access Objects (DAO)
-=========================
+========================
 
-Data Access Objects (DAO) provides a generic API to access data stored in
-different database management systems (DBMS). As a result, the underlying
-DBMS can be changed to a different one without requiring change of the code
-which uses DAO to access the data.
+Data Access Objects (DAO) atau Obyek Akses Data menyediakan API generik untuk mengakses data yang disimpan dalam
+sistem manajemen database (DBMS) yang berbeda. Hasilnya, Lapisan DBMS
+dapat diubah ke yang lain yang berbeda tanpa memerlukan perubahan kode
+yang menggunakan DAO untuk mengakses data.
 
-Yii DAO is built on top of [PHP Data Objects
-(PDO)](http://php.net/manual/en/book.pdo.php) which is an extension
-providing unified data access to many popular DBMS, such as MySQL,
-PostgreSQL. Therefore, to use Yii DAO, the PDO extension and the specific
-PDO database driver (e.g. `PDO_MYSQL`) have to be installed.
+Yii DAO dibangun di atas [PHP Data Objects
+(PDO)](http://php.net/manual/en/book.pdo.php) yang merupakan ekstensi
+yang menyediakan akses data gabungan untuk beberapa DBMS populer, seperti MySQL,
+PostgreSQL. Oleh karena itu, untuk menggunakan Yii DAO, ekstensi PDO dan driver database
+PDO tertebtu (misalnya `PDO_MYSQL`) harus sudah diinstalasi.
 
-Yii DAO mainly consists of the following four classes:
+Yii DAO terdiri dari empat kelas utama sebagai berikut:
 
-   - [CDbConnection]: represents a connection to a database.
-   - [CDbCommand]: represents an SQL statement to execute against a database.
-   - [CDbDataReader]: represents a forward-only stream of rows from a query result set.
-   - [CDbTransaction]: represents a DB transaction.
+   - [CDbConnection]: mewakili koneksi ke database.
+   - [CDbCommand]: mewakili pernyataan SQL untuk dijalankan pada database.
+   - [CDbDataReader]: mewakili forward-only stream terhadap baris dari set hasil queri.
+   - [CDbTransaction]: mewakili transaksi DB.
 
-In the following, we introduce the usage of Yii DAO in different
-scenarios.
+Berikutnya, kami memperkenalkan pemakaian Yii DAO dalam skenario
+berbeda.
 
-Establishing Database Connection
---------------------------------
+Membuat Koneksi Database
+------------------------
 
-To establish a database connection, create a [CDbConnection] instance and
-activate it. A data source name (DSN) is needed to specify the information
-required to connect to the database. A username and password may also be
-needed to establish the connection. An exception will be raised in case an
-error occurs during establishing the connection (e.g. bad DSN or invalid
-username/password).
+Untuk membuat koneksi database, buat turunan [CDbConnection] dan mengaktifkannya.
+Nama sumber data (DSN) diperlukan untuk menetapkan informasi yang diperlukan
+untuk menyambung ke database. Nama pengguna dan kata sandi juga diperlukan
+guna melakukan koneksi. Eksepsi akan dimunculkan seandainya kesalahan terjadi
+selama pelaksanaan koneksi (misalnya DSN tidak benar atau username/password
+tidak benar).
 
 ~~~
 [php]
 $connection=new CDbConnection($dsn,$username,$password);
-// establish connection. You may try...catch possible exceptions
+// melakukan koneksi. Anda dapat mencoba try...catch eksepsi yang mungkin
 $connection->active=true;
 ......
-$connection->active=false;  // close connection
+$connection->active=false;  // tutup koneksi
 ~~~
 
-The format of DSN depends on the PDO database driver in use. In general, a
-DSN consists of the PDO driver name, followed by a colon, followed by the
-driver-specific connection syntax. See [PDO
-documentation](http://www.php.net/manual/en/pdo.construct.php) for complete
-information. Below is a list of commonly used DSN formats:
+Format DSN tergantung pada driver PDO database yang digunakan. Secara umum, DSN
+terdiri dari nama driver PDO, diikuti oleh titik dua, diikuti oleh
+sintaks koneksi spesifik-driver. Lihat [Dokumentasi
+PDO](http://www.php.net/manual/en/pdo.construct.php) untuk informasi
+lebih lengkap. Di bawah ini adalah daftar format DSN yang umum dipakai:
 
    - SQLite: `sqlite:/path/to/dbfile`
    - MySQL: `mysql:host=localhost;dbname=testdb`
    - PostgreSQL: `pgsql:host=localhost;port=5432;dbname=testdb`
+   - SQL Server: `mssql:host=localhost;dbname=testdb`
+   - Oracle: `oci:dbname=//localhost:1521/testdb`
 
-Because [CDbConnection] extends from [CApplicationComponent], we can also
-use it as an [application
-component](/doc/guide/basics.application#application-component). To do so, configure
-in a `db` (or other name) application component in the [application
-configuration](/doc/guide/basics.application#application-configuration) as follows,
+Karena [CDbConnection] diperluas dari [CApplicationComponent], kita juga dapat
+menggunakannya sebagai [komponen
+aplikasi](/doc/guide/basics.application#application-component). Untuk melakukannya, konfigurasi
+dalam komponen aplikasi `db` (atau nama lain) pada [konfigurasi
+aplikasi](/doc/guide/basics.application#application-configuration) sebagai berikut,
 
 ~~~
 [php]
@@ -73,89 +75,89 @@ array(
 )
 ~~~
 
-We can then access the DB connection via `Yii::app()->db` which is already
-activated automatically, unless we explictly configure
-[CDbConnection::autoConnect] to be false. Using this approach, the single
-DB connection can be shared in multiple places in our code.
+Selanjutnya kita dapat mengakses koneksi DB via `Yii::app()->db` yang sudah
+diaktifkan secara otomatis, kecuali dikonfigurasi secara eksplisit
+[CDbConnection::autoConnect] menjadi false. Menggunakan pendekatan ini, koneksi DB
+tunggal dapat dibagi dalam tempat multipel pada kode kita.
 
-Executing SQL Statements
-------------------------
+Menjalankan Pernyataan SQL
+--------------------------
 
-Once a database connection is established, SQL statements can be executed
-using [CDbCommand]. One creates a [CDbCommand] instance by calling
-[CDbConnection::createCommand()] with the specified SQL statement:
+Setelah koneksi database terlaksana, pernyataan SQL dapat dijalankan
+menggunakan [CDbCommand]. Membuat turunan [CDbCommand] dengan memanggil
+[CDbConnection::createCommand()] dengan pernyataan SQL yang ditetapkan:
 
 ~~~
 [php]
 $command=$connection->createCommand($sql);
-// if needed, the SQL statement may be updated as follows:
+// jika diperlukan, pernyataan SQL dapat dimutakhirkan seperti berikut:
 // $command->text=$newSQL;
 ~~~
 
-A SQL statement is executed via [CDbCommand] in one of the following two
-ways:
+Pernyataan SQL dijalankan via [CDbCommand] dalam dua cara
+berikut:
 
-   - [execute()|CDbCommand::execute]: performs a non-query SQL statement,
-such as `INSERT`, `UPDATE` and `DELETE`. If successful, it returns the
-number of rows that are affected by the execution.
+   - [execute()|CDbCommand::execute]: melakukan pernyataan SQL non-queri,
+seperti `INSERT`, `UPDATE` and `DELETE`. Jika berhasil, ia mengembalikan
+sejumlah baris yang dipengaruhi oleh eksekusi
 
-   - [query()|CDbCommand::query]: performs an SQL statement that returns
-rows of data, such as `SELECT`. If successful, it returns a [CDbDataReader]
-instance from which one can traverse the resulting rows of data. For
-convenience, a set of `queryXXX()` methods are also implemented which
-directly return the query results.
+   - [query()|CDbCommand::query]: melakukan pernyataan SQL yang mengembalikan
+baris data, seperti `SELECT`. Jika berhasil, ia mengembalikan turunan [CDbDataReader]
+dari salah satu yang dapat menelusuri baris data yang dihasilkan. Untuk
+kenyamanan, satu set metode `queryXXX()` juga diimplementasikan yang secara
+langsung mengembalikan hasil queri.
 
-An exception will be raised if an error occurs during the execution of SQL
-statements.
+Eksepsi akan dimunculkan jika kesalahan terjadi selama eksekusi pernyataan
+SQL.
 
 ~~~
 [php]
-$rowCount=$command->execute();   // execute the non-query SQL
-$dataReader=$command->query();   // execute a query SQL
-$rows=$command->queryAll();      // query and return all rows of result
-$row=$command->queryRow();       // query and return the first row of result
-$column=$command->queryColumn(); // query and return the first column of result
-$value=$command->queryScalar();  // query and return the first field in the first row
+$rowCount=$command->execute();   // jalankan SQL non-queri
+$dataReader=$command->query();   // jalankan queri SQL
+$rows=$command->queryAll();      // queri dan kembalikan seluruh baris hasil
+$row=$command->queryRow();       // query dan kembalikan baris pertama hasil
+$column=$command->queryColumn(); // query dan kembalikan kolom pertama hasil
+$value=$command->queryScalar();  // query dan kembalikan field pertama dalam baris pertama
 ~~~
 
-Fetching Query Results
-----------------------
+Mengambil Hasil Queri
+---------------------
 
-After [CDbCommand::query()] generates the [CDbDataReader] instance, one
-can retrieve rows of resulting data by calling [CDbDataReader::read()]
-repeatedly. One can also use [CDbDataReader] in PHP's `foreach` language
-construct to retrieve row by row.
+Setelah [CDbCommand::query()] membuat turunan [CDbDataReader], Anda
+bisa mengambil baris data yang dihasilkan oleh pemanggilan [CDbDataReader::read()]
+secara berulang. Ia juga dapat menggunakan [CDbDataReader] dalam konsrruksi bahasa PHP
+`foreach` untuk mengambil baris demi baris.
 
 ~~~
 [php]
 $dataReader=$command->query();
-// calling read() repeatedly until it returns false
+// memanggil read() secara terus menerus sampai ia mengembalikan false
 while(($row=$dataReader->read())!==false) { ... }
-// using foreach to traverse through every row of data
+// menggunakan foreach untuk menelusuri setiap baris data
 foreach($dataReader as $row) { ... }
-// retrieving all rows at once in a single array
+// mengambil seluruh baris sekaligus dalam satu array tunggal
 $rows=$dataReader->readAll();
 ~~~
 
-> Note: Unlike [query()|CDbCommand::query], all `queryXXX()` methods
-return data directly. For example, [queryRow()|CDbCommand::queryRow]
-returns an array representing the first row of the querying result.
+> Note|Catatan: Tidak seperti [query()|CDbCommand::query], semua metode `queryXXX()`
+mengembalikan data secara langsung. Sebagai contoh, [queryRow()|CDbCommand::queryRow]
+mengembalikan array yang mewakili baris pertama pada hasil queri.
 
-Using Transactions
-------------------
+Menggunakan Transaksi
+---------------------
 
-When an application executes a few queries, each reading and/or writing
-information in the database, it is important to be sure that the database
-is not left with only some of the queries carried out. A transaction,
-represented as a [CDbTransaction] instance in Yii, may be initiated in this
-case:
+Ketika aplikasi menjalankan beberapa queri, setiap pembacaan dan/atau penulisan
+informasi dalam database, penting untuk memastikan bahwa database tidak
+tertinggal dengan hanya beberapa queri yang dihasilkan. Transaksi diwakili
+oleh turunan [CDbTransaction] dalam Yii, dapat diinisiasi dalam
+hal:
 
-   - Begin the transaction.
-   - Execute queries one by one. Any updates to the database are not visible to the outside world.
-   - Commit the transaction. Updates become visible if the transaction is successful.
-   - If one of the queries fails, the entire transaction is rolled back.
+   - Mulai transaksi.
+   - Jalankan queri satu demi satu. Setiap pemutakhiran pada database tidak terlihat bagi dunia luar.
+   - Lakukan transaksi. Pemutakhiran menjadi terlihat jika transaksi berhasil.
+   - Jika salah satu queri gagal, seluruh transaksi dibatalkan.
 
-The above workflow can be implemented using the following code:
+Alur kerja di atas dapat diimplementasikan menggunakan kode berikut:
 
 ~~~
 [php]
@@ -164,75 +166,75 @@ try
 {
 	$connection->createCommand($sql1)->execute();
 	$connection->createCommand($sql2)->execute();
-	//.... other SQL executions
+	//.... eksekusi SQL lainnya
 	$transaction->commit();
 }
-catch(Exception $e) // an exception is raised if a query fails will be raised
+catch(Exception $e) // eksepsi dimunculkan jika queri gagal
 {
 	$transaction->rollBack();
 }
 ~~~
 
-Binding Parameters
+Mengikat Parameter
 ------------------
 
-To avoid [SQL injection
-attacks](http://en.wikipedia.org/wiki/SQL_injection) and to improve
-performance of executing repeatedly used SQL statements, one can "prepare"
-an SQL statement with optional parameter placeholders that are to be
-replaced with the actual parameters during the parameter binding process.
+Untuk menghindari [serangan injeksi
+SQL](http://en.wikipedia.org/wiki/SQL_injection) dan meningkatkan
+performansi pelaksanaan pernyataan SQL secara terus menerus, Anda dapat "menyiapkan"
+sebuah pernyataan SQL dengan opsional penampung parameter yang akan
+diganti dengan parameter sebenarnya selama proses pengikatan parameter.
 
-The parameter placeholders can be either named (represented as unique
-tokens) or unnamed (represented as question marks). Call
-[CDbCommand::bindParam()] or [CDbCommand::bindValue()] to replace these
-placeholders with the actual parameters. The parameters do not need to be
-quoted: the underlying database driver does it for you. Parameter binding
-must be done before the SQL statement is executed.
+Penampung parameter dapat bernama (disajikan sebagai token
+unik) ataupun tidak bernama (disajikan sebagai tanda tanya). Panggil
+[CDbCommand::bindParam()] atau [CDbCommand::bindValue()] untuk mengganti penampung
+ini dengan parameter sebenarnya. Parameter tidak harus bertanda
+kutip: lapisan driver database melakukan ini bagi Anda. Pengikatan parameter
+harus dikerjakan sebelum pernyataan SQL dijalankan.
 
 ~~~
 [php]
-// an SQL with two placeholders ":username" and ":email"
+// SQL dengan dua penampung ":username" dan ":email"
 $sql="INSERT INTO users(username, email) VALUES(:username,:email)";
 $command=$connection->createCommand($sql);
-// replace the placeholder ":username" with the actual username value
+// ganti penampung ":username" dengan nilai username sebenarnya
 $command->bindParam(":username",$username,PDO::PARAM_STR);
-// replace the placeholder ":email" with the actual email value
+// ganti penampung ":email" dengan nilai email sebenarnya
 $command->bindParam(":email",$email,PDO::PARAM_STR);
 $command->execute();
-// insert another row with a new set of parameters
+// sisipkan baris lain dengan set baru parameter
 $command->bindParam(":username",$username2,PDO::PARAM_STR);
 $command->bindParam(":email",$email2,PDO::PARAM_STR);
 $command->execute();
 ~~~
 
-The methods [bindParam()|CDbCommand::bindParam] and
-[bindValue()|CDbCommand::bindValue] are very similar. The only difference
-is that the former binds a parameter with a PHP variable reference while
-the latter with a value. For parameters that represent large block of data
-memory, the former is preferred for performance consideration.
+Metode [bindParam()|CDbCommand::bindParam] dan
+[bindValue()|CDbCommand::bindValue] sangat mirip. Perbedaanya hanyalah bahwa
+bidParam mengikat parameter dengan referensi variabel PHP sedangkan
+bindValue dengan nilai. Untuk parameter yang mewakili memori blok besar data,
+bidParam dipilih dengan pertimbangan performansi.
 
-For more details about binding parameters, see the [relevant PHP
-documentation](http://www.php.net/manual/en/pdostatement.bindparam.php).
+Untuk lebih jelasnya mengenai pengikatan parameter, lihat [dokumentasi PHP
+relevan](http://www.php.net/manual/en/pdostatement.bindparam.php).
 
-Binding Columns
----------------
+Mengikat Kolom
+--------------
 
-When fetching query results, one can also bind columns with PHP variables
-so that they are automatically populated with the latest data each time a
-row is fetched.
+Ketika mengambil hasil queri, Anda dapat mengikat kolom ke variabel PHP
+dengan demikian hasil akan dipopulasi secara otomatis dengan data terbaru setiap kali
+baris diambil.
 
 ~~~
 [php]
 $sql="SELECT username, email FROM users";
 $dataReader=$connection->createCommand($sql)->query();
-// bind the 1st column (username) with the $username variable
+// ikat kolom ke-1 (username) ke variabel $username
 $dataReader->bindColumn(1,$username);
-// bind the 2nd column (email) with the $email variable
+// ikat kolom ke-2 (email) ke variabel $email
 $dataReader->bindColumn(2,$email);
 while($dataReader->read()!==false)
 {
-    // $username and $email contain the username and email in the current row
+    // $username dan $email berisi username dan email pada baris saat ini
 }
 ~~~
 
-<div class="revision">$Id: database.dao.txt 367 2008-12-16 20:18:30Z qiang.xue $</div>
+<div class="revision">$Id: database.dao.txt 956 2009-04-21 15:16:03Z qiang.xue@gmail.com $</div>

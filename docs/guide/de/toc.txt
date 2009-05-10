@@ -1,4 +1,6 @@
 * Der schnelle Einstieg
+    - [Übersicht](index)
+    - [Neue Features](changes)
     - [Was ist Yii](quickstart.what-is-yii)
     - [Installation](quickstart.installation)
     - [Erstellen der ersten Yii-Anwendung](quickstart.first-app)
@@ -27,7 +29,7 @@
     - [Übersicht](database.overview)
     - [Data Access Objects (DAO)](database.dao)
     - [ActiveRecord](database.ar)
-    - [ActiveRecord-Beziehungen](database.arr)
+    - [Relationale ActiveRecords](database.arr)
 
 * Caching
     - [Übersicht](caching.overview)
@@ -55,4 +57,4 @@
     - [Sicherheit](topics.security)
     - [Leistungsoptimierung](topics.performance)
 
-<div class="revision">$Id: toc.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>
+<div class="revision">$Id: toc.txt 956 2009-04-21 15:16:03Z qiang.xue@gmail.com $</div>

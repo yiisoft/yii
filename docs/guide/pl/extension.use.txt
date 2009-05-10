@@ -3,17 +3,17 @@ Używanie rozszerzeń
 
 Używanie rozszerzeń zwykle obejmuje następujące trzy kroki:
 
-  1. Pobranie rozszerzenia z [repozytoriuim rozszerzeń Yii](http://www.yiiframework.com/extensions/).
+  1. Pobranie rozszerzenia z [repozytorium rozszerzeń Yii](http://www.yiiframework.com/extensions/).
   2. Rozpakowania rozszerzenia do katalogu `extensions/xyz` będącego podkatalogiem 
      [głównego folderu aplikacji](/doc/guide/basics.application#application-base-directory),
      gdzie `xyz` jest nazwą rozszerzenia.
   3. Import, konfiguracja i używanie rozszerzenia.
 
 
-Każde rozszerzenie posiada nazwę, która jendoznacznie identyfikuje ją spośróc 
+Każde rozszerzenie posiada nazwę, która jednoznacznie identyfikuje ją spośród 
 wszystkich rozszerzeń. Biorąc pod uwagę rozszerzenie nazwane `xyz`, możemy zawsze 
 użyć aliasu ścieżki `application.extensions.xyz` by zlokalizować jego główny katalog, 
-któru zawiera wszystkie pliki z `xyz`.
+który zawiera wszystkie pliki z `xyz`.
 
 Różne rozszerzenia posiadają różne wymagania dotyczące importowania, konfiguracji
 oraz użycia. W dalszej części, podsumujemy najczęściej używane scenariusze dotyczące
@@ -24,7 +24,7 @@ Komponent aplikacji
 
 Aby używać [komponentu aplikacji](/doc/guide/basics.application#application-component)
 musimy najpierw zmienić [konfigurację aplikacji](/doc/guide/basics.application#application-configuration)
-poprzez dodawnie nowego wpisu do jej właściwości `components`, w następujący sposób:
+poprzez dodawanie nowego wpisu do jej właściwości `components`, w następujący sposób:
 
 ~~~
 [php]
@@ -41,8 +41,8 @@ return array(
 );
 ~~~
 
-Następnie możemy uzyskać dostęp do komponenty w każdym miejscu używając `Yii::app()->xyz`.
-Komponent zostanie leniwie stworzony (to znaczu, będzie utworzony wtedy gdy zarządamy
+Następnie możemy uzyskać dostęp do komponentu w każdym miejscu używając `Yii::app()->xyz`.
+Komponent zostanie leniwie stworzony (to znaczy, będzie utworzony wtedy gdy zażądamy
 dostępu do niego po raz pierwszy) chyba, że wpiszemy go do właściwości `preload`.
 
 
@@ -74,7 +74,7 @@ Akcja
 ------
 
 [Akcje](/doc/guide/basics.controller#action) są używane przez [kontroler](/doc/guide/basics.controller)
-aby odpowiadać na konkretne żądania użytkowika. Biorąc pod uwagę klasę akcji `XyzClass` należącą do rozszerzenia 
+aby odpowiadać na konkretne żądania użytkownika. Biorąc pod uwagę klasę akcji `XyzClass` należącą do rozszerzenia 
 `xyz`, możemy ją używać poprzez nadpisanie metody [CController::actions] w klasie naszego
 kontrolera:
 
@@ -105,7 +105,7 @@ Filtr
 Przetwarzają głównie żądania użytkownika na początku (ang. pre) i na końcu (ang. post), kiedy 
 jest ono obsługiwane przez [akcje](/doc/guide/basics.controller#action).
 Biorąc pod uwagę klasę `XyzClass` należącą do rozszerzenie `xyz`, możemy jej użyć
-poprzez nadpisanie metody [CController::filters] w klasie naszego kontolera:
+poprzez nadpisanie metody [CController::filters] w klasie naszego kontrolera:
 
 ~~~
 [php]
@@ -126,7 +126,7 @@ class TestController extends CController
 ~~~
 
 Powyżej, możemy użyć operatorów dodawania i odejmowania w pierwszym elemencie tablicy,
-aby zastosować filtr tylk do pewnych akcji. Aby uzyskać więcej szczegółów, zobacz
+aby zastosować filtr tylko do pewnych akcji. Aby uzyskać więcej szczegółów, zobacz
 dokumentację klasy kontrolera [CController].
 
 Kontroler
@@ -202,7 +202,7 @@ return array(
 
 Teraz możemy użyć narzędzia `yiic` wyposażonego w dodatkowe polecenie `xyz`.
 
-> Note|Przypis: Aplikacja konsoleowa zazwyczaj używa pliku konfiguracyjnego, 
+> Note|Uwaga: Aplikacja konsolowa zazwyczaj używa pliku konfiguracyjnego, 
 który różni się od tego używanego w aplikacji sieciowej. Jeśli aplikacja została 
 utworzona przy użyciu polecenia `yiic webapp`, wtedy plikiem konfiguracji dla aplikacji
 konsolowej `protected/yiic` jest `protected/config/console.php`,
@@ -217,7 +217,7 @@ aby zobaczyć jak używać modułów.
 
 Komponenty generyczne
 -----------------
-Aby używać generycznych [komponentów](/doc/guide/basics.component), najpier musimy 
+Aby używać generycznych [komponentów](/doc/guide/basics.component), najpierw musimy 
 dołączyć ich plik klasy używając
 
 ~~~

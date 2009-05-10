@@ -1,10 +1,10 @@
 Komponen
 ========
 
-Aplikasi Yii dibangun setelah komponen berupa obyek ditulis menjadi 
+Aplikasi Yii dibangun setelah komponen berupa obyek ditulis menjadi
 spesifikasi. Sebuah komponen adalah turunan dari
 [CComponent] atau kelas sebelumnya. Pemakaian komponen meliputi
-pengaksesan propertinya dan memunculkan/menangani event-nya. Kelas basis 
+pengaksesan propertinya dan memunculkan/menangani event-nya. Kelas basis
 [CComponent] menetapkan bagaimana untuk mendefinisikan properti dan event.
 
 Properti Komponen
@@ -39,21 +39,21 @@ public function setTextWidth($value)
 Kode di atas mendefinisikan properti yang bisa ditulis dengan nama `textWidth` (nama
 sensitif jenis huruf). Ketika membaca properti, `getTextWidth()` dipanggil
 dan nilai yang dihasilkannya menjadi nilai properti; Hal yang mirip, saat menulis
-properti, `setTextWidth()` dipanggil. Jika metode penyetel tidak didefinisikan, 
+properti, `setTextWidth()` dipanggil. Jika metode penyetel tidak didefinisikan,
 properti akan menjadi hanya-baca dan menulisinya akan memunculkan sebuah
-eksepsi. Menggunakan metode pengambil dan penyetel untuk mendefinisikan sebuah 
+eksepsi. Menggunakan metode pengambil dan penyetel untuk mendefinisikan sebuah
 properti memiliki keuntungan bahwa logika tambahan (seperti melakukan validasi, memunculkan event)
 dapat dijalankan saat membaca dan menulis properti.
 
->Note|Catatan: Ada perbedaan menyolok antara properti yang didefinisikan via metode 
+>Note|Catatan: Ada perbedaan menyolok antara properti yang didefinisikan via metode
 pengambil/penyetel dan variabel anggota kelas. Nama pengambil/penyetel
 tidak sensitif jenis huruf sementara variabel anggota kelas sensitif jenis huruf.
 
 Event Komponen
 --------------
 
-Event komponen adalah properti khusus yang mengambil metode (disebut `pengendali event`) 
-sebagai nilainya. Melampirkan (menempatkan) metode ke sebuah event akan 
+Event komponen adalah properti khusus yang mengambil metode (disebut `pengendali event`)
+sebagai nilainya. Melampirkan (menempatkan) metode ke sebuah event akan
 menyebabkan metode dipanggil secara otomatis di tempat di mana event
 dimunculkan. Oleh karena itu, perilaku komponen bisa diubah dengan cara yang
 tidak bisa dilihat selama pengembangan komponen.
@@ -80,7 +80,7 @@ Kita dapat melampirkan sebuah metode ke event ini seperti berikut:
 $component->onClicked=$callback;
 ~~~
 
-di mana `$callback` merujuk ke PHP callback yang benar. Ia bisa berupa fungsi 
+di mana `$callback` merujuk ke PHP callback yang benar. Ia bisa berupa fungsi
 global atau metode kelas. Jika metode kelas, callback harus dibentuk sebagai
 array: `array($object,'methodName')`.
 
@@ -118,7 +118,7 @@ yang metodenya bisa 'inherited' (diturunkan) dengan komponen lampirannya dalam a
 fungsionalitas daripada spesialisasi (misal, penurunan kelas normal).
 Komponen dapat dilampirkan ke beberapa perilaku dan selanjutnya melakukan 'multipel penurunan'.
 
-Kelas perilaku harus mengimplementasikan antar muka [IBehavior]. Umumnya perilaku dapat 
+Kelas perilaku harus mengimplementasikan antar muka [IBehavior]. Umumnya perilaku dapat
 diperluas dari kelas basis [CBehavior]. Jika perilaku perlu dilampirkan ke sebuah
 [model](/doc/guide/basics.model), ia juga bisa diperluas dari [CModelBehavior] atau
 [CActiveRecordBehavior] yang mengimplementasikan fitur tambahan tertentu untuk model.
@@ -161,7 +161,7 @@ $component->test();
 Dimungkinkan bahwa dua perilaku dilampirkan ke komponen yang sama yang memiliki nama metode yang sama.
 Dalam hal ini, perilaku metode pertama yang akan diprioritaskan.
 
-Ketika dipakai bersama dengan [events](#component-event), perilaku bahkan lebih bertenaga.
+Ketika dipakai bersama dengan [event](#component-event), perilaku bahkan lebih bertenaga.
 Sebuah perilaku, bila dilampirkan ke sebuah komponen dapat melampirkan beberapa metodenya ke beberapa event
 komponen. Dengan melakukan itu, perilaku mendapat kesempatan untuk mengawasi atau mengubah alur
 eksekusi normal komponen.

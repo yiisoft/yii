@@ -104,11 +104,9 @@ array(
 
 Die Regeln werden als Array von Suchmuster-Routen-Paaren angegeben, bei denen
 jeder Eintrag sich auf eine einzelne Regel bezieht. Das Suchmuster (engl.:
-pattern) einer Regel muss ein gültiger regulärer Ausdruck (engl.: regular
-expression) ohne Trennzeichen und Modifikatoren sein. Es wird zum Auffinden
-der Pfadangaben in einer URL verwendet. Die
-[Route](/doc/guide/basics.controller#route) sollte einer gültigen
-Controller-Route entsprechen.
+pattern) einer Regel ist ein String, der zum Auffinden der Pfadangaben in
+einer URL verwendet wird. Die [Route](/doc/guide/basics.controller#route) 
+sollte einer gültigen Controller-Route entsprechen.
 
 Eine Regel kann mit einigen GET-Parametern verknüpft werden. Diese
 GET-Parameter erscheinen innerhalb der Regel in diesem Format: 
@@ -222,4 +220,4 @@ einer statischen Webseite aus. Setzen Sie dazu einfach die gewünschte Endung
 über die Eigenschaft [urlSuffix|CUrlManager::urlSuffix] der
 [urlManager|CWebApplication::urlManager]-Komponente.
 
-<div class="revision">$Id: topics.url.txt 229 2008-11-16 21:14:59Z qiang.xue $</div>
+<div class="revision">$Id: topics.url.txt 993 2009-05-07 21:43:44Z qiang.xue $</div>

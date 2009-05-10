@@ -169,4 +169,4 @@ Seitenabschnitt liefern. Allerdings gilt das nicht umgekehrt. Falls der äußere
 Cache noch gültige Daten enthält, wird er immer die gecachte Kopie ausliefern,
 selbst wenn die Daten des inneren Cache bereits abgelaufen sind.
 
-<div class="revision">$Id: caching.fragment.txt 891 2009-03-25 15:20:56Z qiang.xue $</div>
+<div class="revision">$Id: caching.fragment.txt 956 2009-04-21 15:16:03Z qiang.xue@gmail.com $</div>

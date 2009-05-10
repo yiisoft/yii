@@ -1,11 +1,9 @@
 应用
 ====
 
-Application represents the execution context of request processing. Its
-main task is to resolve the user request and dispatch it to an appropriate
-controller for further processing. It also serves as the central place for
-keeping application-level configurations. For this reason, application is
-also called `front-controller`.
+应用是指执行用户的访问指令。其主要任务是解析用户指令，并将其分配给相应的控制器以进行进一步的处理。
+应用同时也是一个存储参数的地方。因为这个原因，应用一般被称为“前端控制器”。
+
 
 [入口脚本](/doc/guide/basics.entry)将应用创建为一个单例.
 应用单例可以在任何位置通过 [Yii::app()|YiiBase::app] 来访问.
@@ -29,65 +27,50 @@ array(
 	'defaultController'=>'site',
 )
 ~~~
-
-We usually store the configuration in a separate PHP script (e.g.
-`protected/config/main.php`). Inside the script, we return the
-configuration array as follows,
-
+我们一般将配置保存在一个单独的PHP代码里(e.g.
+`protected/config/main.php`). 在这个代码里，我们返回以下参数数组，
 ~~~
 [php]
 return array(...);
 ~~~
 
-To apply the configuration, we pass the configuration file name as
-a parameter to the application's constructor, or to [Yii::createWebApplication()]
-like the following, which is usually done in the [entry script](/doc/guide/basics.entry):
+为执行这些配置，我们一般将这个文件作为一个配置，传递给应用的构造器。或者象下述例子这样传递给[Yii::createWebApplication()]
+我们一般在 [entry script](/doc/guide/basics.entry)里界定这些配置:
 
 ~~~
 [php]
 $app=Yii::createWebApplication($configFile);
 ~~~
 
-> Tip|提示: If the application configuration is very complex, we can split it
-into several files, each returning a portion of the configuration array.
-Then, in the main configuration file, we call PHP `include()` to include
-the rest configuration files and merge them into a complete configuration
-array.
+> Tip|提示: 如果应用配置非常复杂，我们可以将这分成几个文件，每个文件返回一部分配置参数。接下来，我们在主配置文件里用PHP `include()` 把其它
+配置文件合并成一个配置数组。
 
-
-Application Base Directory
+应用的主目录
 --------------------------
 
-Application base directory refers to the root directory that contains all
-security-sensitive PHP scripts and data. By default, it is a subdirectory
-named `protected` that is located under the directory containing the entry
-script. It can be customized via setting the
-[basePath|CWebApplication::basePath] property in the [application configuration](#application-configuration).
+应用的主目录是指包含所有安全系数比较高的PHP代码和数据的根目录。
+在默认情况下，这个目录一般是入口代码所在目录的一个目录： `protected` 。
+这个路径可以通过在[application configuration](#application-configuration)里设置
+[basePath|CWebApplication::basePath]来改变.
 
-Contents under the application base directory should be protected from
-being accessed by Web users. With [Apache HTTP
-server](http://httpd.apache.org/), this can be done easily by placing a
-`.htaccess` file under the base directory. The content of the `.htaccess`
-file is as follows,
+普通用户不应该能够访问应用文件夹里的内容。在 [Apache HTTP
+服务器](http://httpd.apache.org/)里, 我们可以在这个文件夹里放一个
+`.htaccess` 文件. `.htaccess`的文件内容是这样的：
 
 ~~~
 deny from all
 ~~~
 
-应用的部件
+应用元件
 ----------
 
-Functionalities of application can be easily customized and enriched with
-its flexible component architecture. Application manages a set of
-application components, each implementing specific features.
-For example, application resolves a user request with the help of [CUrlManager]
-and [CHttpRequest] components.
+我们可以很容易的通过元件(component)设置和丰富一个应用(Application)的功能。一个应用可以有很多应用元件，
+每个元件都执行一些特定的功能。比如说，一个应用可能通过[CUrlManager]
+和 [CHttpRequest]部件来解析用户的访问。
 
-By configuring the [components|CApplication::components] property of
-application, we can customize the class and property values of any
-application component used in an application. For example, we can
-configure [CMemCache] component so that it can use multiple memcache
-servers for caching,
+通过配置 [components|CApplication::components] property of
+application, 我们可以个性化一些元件的类及其参数。比如说，我们可以
+配置[CMemCache] 元件以便用服务器的内存当缓存。,
 
 ~~~
 [php]
@@ -106,25 +89,18 @@ array(
 )
 ~~~
 
-In the above, we add the `cache` element to the `components` array. The
-`cache` element states that the class of the component is
-`CMemCache` and its `servers` property should be initialized as such.
+在上述例子中，我们将`(缓存)cache`元素(element)加在 `元件` 数组里. 这个
+`缓存（cache）` 告诉我们这个元件的类是`CMemCache` 其服务 `服务器(servers)` 属性应该这样初始化。
 
-To access an application component, use `Yii::app()->ComponentID`, where
-`ComponentID` refers to the ID of the component (e.g. `Yii::app()->cache`).
+要调用这个元件，用这个命令：`Yii::app()->ComponentID`，其中`ComponentID`是指这个元件的ID。 (比如 `Yii::app()->cache`).
 
-An application component may be disabled by setting `enabled` to be false
-in its configuration. Null is returned when we access a disabled component.
+我们可以在应用配置里，将`enabled`改为false来关闭一个元件。当我们访问一个被禁止的元件时，系统会返回一个NULL值。
 
-> Tip|提示: By default, application components are created on demand. This means
-an application component may not be created at all if it is not accessed
-during a user request. As a result, the overall performance may not be
-degraded even if an application is configured with many components. Some
-application components (e.g. [CLogRouter]) may need to be created no matter
-they are accessed or not. To do so, list their IDs in the [preload|CApplication::preload]
-property of the application.
+> Tip|提示: 默认情况下，应用元件是根据需要而创建的。这意味着一个元件只有在被访问的情况下才会创建。
+因此，系统的整体性能不会因为配置了很多元件而下降。有些应用元件，(比如[CLogRouter]) 是不管用不用都要创建的。在这种情况下，
+我们在应用的配置文件里将这些元件的ID列上：[preload|CApplication::preload]。
 
-应用的核心部件
+应用的核心元件
 --------------
 
 Yii predefines a set of core application components to provide features

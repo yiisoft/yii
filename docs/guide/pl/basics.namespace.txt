@@ -1,7 +1,7 @@
 Aliasy i przestrzenie nazw
 ========================
 
-Yii używa aliasów ścieżek bardzo intensywnie. Alias ścieżki reprezentuje katalog 
+Yii używa w dużym stopniu aliasów ścieżek. Alias ścieżki reprezentuje katalog 
 lub też ścieżkę pliku. Zapisany jest przy użyciu składni zawierającej kropki, podobnej
 do powszechnie znanego formatu przestrzeni nazw:
 
@@ -9,23 +9,22 @@ do powszechnie znanego formatu przestrzeni nazw:
 AliasGłowny.ścieżka.do.celu
 ~~~
 
-gdzie `AliasGłówny` jest aliase do pewnego istiejącego folderu. Poprzez wywołanie [YiiBase::setPathOfAlias()]
+gdzie `AliasGłówny` jest aliasem do pewnego istniejącego folderu. Poprzez wywołanie [YiiBase::setPathOfAlias()]
 możemy zdefiniować nowe aliasy ścieżek. Dla wygody, Yii predefiniuje domyślne, główne aliasy:
 
- - `system`: wkazuje katalog framework Yii;
- - `application`: wksazuje do [folderu głównego aplikacji](/doc/guide/basics.application#application-base-directory);
- - `webroot`: wkazuje na katalog zawierający plik [sktyptu wejściowego](/doc/guide/basics.entry). Alias ten został wprowadzony wraz z wersją 1.0.3.
+ - `system`: wskazuje katalog framework Yii;
+ - `application`: wskazuje do [folderu głównego aplikacji](/doc/guide/basics.application#application-base-directory);
+ - `webroot`: wskazuje na katalog zawierający plik [skryptu wejściowego](/doc/guide/basics.entry). Alias ten został wprowadzony wraz z wersją 1.0.3.
  
-Dodaktowo, jeśli aplikacjia używa [modułów](/doc/guide/basics.module) 
+Dodatkowo, jeśli aplikacja używa [modułów](/doc/guide/basics.module) 
 alias główny jest również predefiniowany dla każdego ID modułu i wskazuje na 
-kataog główny odpowiedniego mofułu. Funkcjonalność ta jest dostępna od version 1.0.3.
+katalog główny odpowiedniego modułu. Funkcjonalność ta jest dostępna od version 1.0.3.
 
 Używając [YiiBase::getPathOfAlias()] alias może zostać przetłumaczony na odpowiadającą 
 mu ścieżkę. Na przykład `system.web.CController` będzie przetłumaczony jako `yii/framework/web/CController`.
 
-Uzywanie aliasów jest bardzo wygodne dla importowania definicji klasy. 
-Na przykład, jeśli chcemy dołączyć definicję klasy [CController], możemy 
-to zrobić następująco:
+Używanie aliasów jest bardzo wygodne dla importowania definicji klasy. 
+Na przykład, jeśli chcemy dołączyć definicję klasy [CController], możemy to zrobić następująco:
 
 ~~~
 [php]
@@ -34,13 +33,13 @@ Yii::import('system.web.CController');
 
 Metoda [import|YiiBase::import] różni się od `include` oraz `require` w tym, że jest 
 bardziej wydajna. Definicja klasy, która została importowana, nie jest ładowana 
-dopóki, nie zostanie użyta po raz pierszy. Importowanie wielokrotnie tej samej 
+dopóki, nie zostanie użyta po raz pierwszy. Importowanie wielokrotnie tej samej 
 przestrzeni nazw jest także dużo szybsze niż `include_once` czy też `require_once`.
 
-> Tip|Porada: Kiedy odnosimy się do klasy zdefiniowanej we frameworku Yii, nie musimy
+> Tip|Wskazówka: Kiedy odnosimy się do klasy zdefiniowanej we frameworku Yii, nie musimy
 > importować jej lub dołączać. Wszystkie klasy Yii są preimportowane.
 
-Możemy równiż użyć następującej składni do importowania całego katalogu, tak, że 
+Możemy również użyć następującej składni do importowania całego katalogu, tak, że 
 wszystkie pliki klas w katalogu będą automatycznie dołączone gdy zajdzie taka potrzeba.
 
 ~~~
@@ -53,15 +52,15 @@ Na przykład, alias może zostać przekazany do metody [Yii::createComponent()] 
 utworzenia instancji klasy komponentu, nawet jeśli plik klasy nie był dołączony wcześniej.
 
 Nie myl ścieżek plików z przestrzeniami nazw. Przestrzeń nazw wskazuje na logiczną 
-grupę nazw klas, tak, że moga one zostać odróżnione od innych klas, nawet jeśli ich 
+grupę nazw klas, tak, że mogą one zostać odróżnione od innych klas, nawet jeśli ich 
 nazwy są identyczne, podczas gdy alias jest używany do wskazywania pliku klasy bądź
 też katalogu. Aliasy ścieżek nie kłócą się z przestrzenią nazw. 
 
-> Tip|Porada: Ponieważ wcześniejsze wersje PHP niż 5.3.0 nie wpsierały przestrzeni 
+> Tip|Wskazówka: Ponieważ wcześniejsze wersje PHP niż 5.3.0 nie wspierały przestrzeni 
 nazw, nie możesz stworzyć instancji dwóch klasy, które posiadają tą samą nazwę 
 ale różnią się definicjami. Z tego powodu, Wszystkie klasy frameworku poprzedzone 
 są prefiksem zawierającym literę 'C' (od ang. 'class' - klasa), tak, by móc je rozróżnić 
-od klas zdefiniowanych przez użytkownika. Zaleca się, abu prefix 'C' był zarezerwowany
+od klas zdefiniowanych przez użytkownika. Zaleca się, aby prefix 'C' był zarezerwowany
 wyłącznie dla frameworku Yii a klasy użytkownika były poprzedzone prefiksem składającym 
 się z innej litery.
 

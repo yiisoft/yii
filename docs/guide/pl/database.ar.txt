@@ -26,6 +26,9 @@ $post->save();
 W dalszej części opiszemy jak utworzyć AR i użyć go do wykonywania operacji CRUD. 
 W następnej sekcji pokażemy jak używać AR by radzić sobie z relacjami w bazach danych. 
 Dla uproszczeniami używamy w przykładach tej sekcji następującej tabeli bazy danych.
+Zauważ, że jeśli używasz bazy danych MySQL, powinieneś zamienić `AUTOINCREMENT` na `AUTO_INCREMENT` 
+w poniższym kodzie SQL. 
+
 
 ~~~
 [sql]
@@ -37,7 +40,7 @@ CREATE TABLE Post (
 );
 ~~~
 
-> Tip|Porada: AR nie został pomyślany do rozwiązywania wszystkich zadań związanych z bazą danych. 
+> Tip|Wskazówka: AR nie został pomyślany do rozwiązywania wszystkich zadań związanych z bazą danych. 
 Najlepiej używać go do modelowania tabel baz danych w konstrukcjach PHP oraz wykonywania 
 zapytań, które nie zawierają skomplikowanego kodu SQL. Dla tych skomplikowanych 
 scenariuszy powinno używać się Yii DAO.
@@ -64,7 +67,7 @@ return array(
 );
 ~~~
 
-> Tip|Porada: Ponieważ Rekord Aktywny zależy od metadanych tabeli zawierających 
+> Tip|Wskazówka: Ponieważ Rekord Aktywny zależy od metadanych tabeli zawierających 
 informacje o kolumnach, zajmuje mu to nieco czasu, aby je odczytać oraz zanalizować. 
 Jeśli prawdopodobieństwo, że schemat twojej bazy danych jest małe, powinieneś 
 włączyć cache'owanie schematu bazy danych poprzez skonfigurowanie właściwości 
@@ -75,13 +78,17 @@ Wsparcie dla AR jest ograniczone przez DBMS. Aktualnie, tylko następujące DBMS
    - [MySQL 4.1 lub późniejsze](http://www.mysql.com)
    - [PostgreSQL 7.3 lub późniejsze](http://www.postgres.com)
    - [SQLite 2 oraz 3](http://www.sqlite.org)
+   - [Microsoft SQL Server 2000 lub nowsze](http://www.microsoft.com/sqlserver/)
+   - [Oracle](http://www.oracle.com)
+   
+> Note|Uwaga: Wsparcie dla Microsoft SQL Server jest dostępne od wersji 1.0.4;
+> a wsparcie dla Oracle'a od wersji 1.0.5.   
 
-
-Jeśli chesz używać komponentu aplikacji innego niż `db` lub jeśli chcesz pracować z wieloma 
+Jeśli chcesz używać komponentu aplikacji innego niż `db` lub jeśli chcesz pracować z wieloma 
 bazami danych używając AR, powinieneś nadpisać metodę [CActiveRecord::getDbConnection()]. 
 Klasa [CActiveRecord] jest klasą bazową dla wszystkich klas AR.
 
-> Tip|Porada: Istnieją dwa sposoby pracowania z wieloma bazami danych z użyciem AR. 
+> Tip|Wskazówka: Istnieją dwa sposoby pracowania z wieloma bazami danych z użyciem AR. 
 Jeśli schematy bazy danych różnią się, możesz utworzyć różne bazowe klasy AR z różniącymi się 
 implementacjami metody [getDbConnection()|CActiveRecord::getDbConnection]. W przeciwnym przypadku, 
 lepszym pomysłem jest dynamiczna zmiana statycznej zmiennej [CActiveRecord::db].
@@ -105,7 +112,7 @@ class Post extends CActiveRecord
 }
 ~~~
 
-> Tip|Porada: Ponieważ klasy AR są często używane w wielu różnych miejscach, 
+> Tip|Wskazówka: Ponieważ klasy AR są często używane w wielu różnych miejscach, 
 > możemy zaimportować zawartość folderu zawierającego klasy AR zamiast
 > dołączać je jedna po drugiej. Na przykład, jeśli wszystkie nasze pliki zawierające klasy AR 
 > znajdują się w katalogu `protected/models`, możemy skonfigurować aplikację w następujący sposób:
@@ -205,7 +212,7 @@ $post->save();
 Odczytywanie rekordu
 --------------
 
-Abu odczytać dane z tabeli bazodanowej wołany jedną z następujących metod `find`:
+Aby odczytać dane z tabeli bazodanowej wołany jedną z następujących metod `find`:
 
 ~~~
 [php]
@@ -280,7 +287,7 @@ podobnych do `findByNameAndTitle`. Chociaż to podejście wygląda bardzo atrakc
 często powoduje zamieszanie, konflikty oraz problemy np. z czułością na wielkość liter 
 w nazwach kolumn.
 
-Kiedy więcej wierszy danych pasuje do wyspecyfikowanych warunków zapytania, możemy
+Kiedy więcej wierszy danych pasuje do określonych warunków zapytania, możemy
 dostarczyć je wszystkie razem używając następujących metod `findAll`, z których
 każda ma swój odpowiednik w metodzie `find`, tak jak było to wcześniej opisane.
 
@@ -308,7 +315,7 @@ Poza opisanymi powyżej metodami `find` and `findAll`, dla wygody dostarczono na
 $n=Post::model()->count($condition,$params);
 // zwraca ilość wierszy używanych w określonym wyrażeniu SQL
 $n=Post::model()->countBySql($sql,$params);
-// sprawdza czy istnieje przynajmniej jeden wierszs spełniający określone warunki
+// sprawdza czy istnieje przynajmniej jeden wiersz spełniający określone warunki
 $exists=Post::model()->exists($condition,$params);
 ~~~
 
@@ -322,7 +329,7 @@ i zapisać je z powrotem w tabeli bazodanowej.
 [php]
 $post=Post::model()->findByPk(10);
 $post->title='nowy tytuł postu';
-$post->save(); // sapisz zmiany do bazy danych
+$post->save(); // zapisz zmiany do bazy danych
 ~~~
 
 Jak widać, używamy tej samej metody [save()|CActiveRecord::save] do wykonania operacji 
@@ -488,4 +495,77 @@ catch(Exception $e)
 }
 ~~~
 
-<div class="revision">$Id: database.ar.txt 687 2009-02-17 02:57:56Z qiang.xue $</div>
+Nazwane podzbiory (ang. Named Scopes)
+------------
+
+> Note|Uwaga: Wsparcie dla nazwanych podzbiorów zostało udostępnione wraz z wersją 1.0.5.
+> Pierwotny pomysł na nazwane podzbiory pochodzi z Ruby on Rails.
+
+*Nazwany podzbiór* reprezentuje *nazwane* kryteria zapytania, które mogą być połączone z innymi nazwanymi podzbiorami  
+i zastosowane do zapytania generowanego przez rekord aktywny. 
+
+Nazwane podzbiory deklarowane są głównie w metodzie [CActiveRecord::scopes()] jako pary nazwa-kryterium.
+Następujący kod definiuje dwa nazwane podzbiory, `opublikowane` oraz `najnowsze` w klasie modelu `Post`:
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+  ......
+  public function scopes()
+  {
+    return array(
+      'opublikowane'=>array(
+        'condition'=>'status=1',
+      ),
+      'najnowsze'=>array(
+        'order'=>'createTime DESC',
+        'limit'=>5,
+      ),
+    );
+  }
+}
+~~~
+
+Każdy nazwany podzbiór jest definiowany jako tablica, która może zostać użyta do inicjalizacji instancji klasy [CDbCriteria].
+Na przykład, nazwany zbiór `najnowsze` określa właściwość `order` jako `createTime DESC` oraz nadaje właściwości `limit` wartość 5,
+które przetłumaczone na kryteria zapytania, powinny zwrócić ostatnich 5 postów.
+
+Nazwane podzbiory używane są jako modyfikatory dla wywołań metody `find`. Kilka nazwanych podzbiorów może zostać ze sobą połączonych 
+i w rezultacie tego zwrócić bardziej ograniczony zbiór wynikowy. Na przykład, aby znaleźć ostatnio opublikowane posty, możemy użyć następującego kodu:
+
+~~~
+[php]
+$posts=Post::model()->obublikowane()->najnowsze()->findAll();
+~~~
+
+Ogólnie rzecz biorąc, nazwane podzbiory musza pojawić się po lewej stronie od wywołania metody `find`. Każde z nich dostarcza kryteria zapytania ,
+które sa łączone z pozostałymi kryteriami, włączając w to te, które zostały przekazane do metody `find`. Efekt końcowy jest podobny do tego,  
+jakby do zapytania dodano listę filtrów.
+
+Nazwane podzbiory mogą by sparametryzowane. Na przykład, chcemy dostosować liczbę postów określoną w nazwanym podzbiorze `najnowsze`. 
+Aby to zrobić, zamiast deklarować nazwany podzbiór w metodzie [CActiveRecord::scopes], musimy zdefiniować nową metodę, 
+której nazwa jest taka sama jak jak nazwa podzbioru:
+
+~~~
+[php]
+public function najnowsze($limit=5)
+{
+  $this->getDbCriteria()->mergeWith(array(
+    'order'=>'createTime DESC',
+    'limit'=>$limit,
+  ));
+  return $this;
+}
+~~~
+
+Następnie, możemy używać następującego wyrażenia, aby uzyskać 3 ostatnie opublikowane posty:
+
+~~~
+[php]
+$posts=Post::model()->opublikowane()->najnowsze(3)->findAll();
+~~~
+
+Jeśli w powyższym kodzie nie przekazalibyśmy 3, otrzymalibyśmy domyślnie 5 ostatnio opublikowanych postów.
+
+<div class="revision">$Id: database.ar.txt 956 2009-04-21 15:16:03Z qiang.xue@gmail.com $</div>

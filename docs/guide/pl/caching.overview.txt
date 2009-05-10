@@ -28,7 +28,7 @@ array(
 
 W czasie działania aplikacji, dostęp do komponentu cache można uzyskać poprzez `Yii::app()->cache`.
 
-Yii dostarcza różnych komponentów cache, któe mogą przechowywać dane za pomocą różnych mediów.
+Yii dostarcza różnych komponentów cache, które mogą przechowywać dane za pomocą różnych mediów.
 Na przykład, komponent [CMemCache] hermetyzuje rozszerzenie PHP memcache i używa pamięci 
 jako medium do przechowywania cache'u; komponent [CApcCache] hermetyzuje rozszerzenie APC dla PHP; 
 natomiast komponent [CDbCache] przechowuje buforowane dane w bazie danych. Poniżej znajduje 
@@ -41,12 +41,14 @@ się podsumowanie dostępnych komponentów cache:
    - [CXCache]: używa [rozszerzenia XCache](http://xcache.lighttpd.net/) dla PHP.
 Uwaga, rozszerzenie to zostało udostępnione w wersji 1.0.1.
 
+   - [CEAcceleratorCache]: używa [rozszerzenia EAccelerator](http://eaccelerator.net/).
+
    - [CDbCache]: używa bazy danych do przechowywania danych zbuforowanych. Domyślnie, 
    utworzy i będzie używać bazy danych SQLite3 w katalogu runtime. Możesz bezpośrednio 
    określić bazę danych, którą będzie to rozszerzenie używało poprzez ustawienie 
    właściwości [connectionID|CDbCache::connectionID].
 
-> Tip|Porada: Ponieważ wszystkie te komopnenty dziedziczą z tej samej klasy bazowej 
+> Tip|Wskazówka: Ponieważ wszystkie te komponenty dziedziczą z tej samej klasy bazowej 
 [CCache], można je zamienić na inną metodę buforowania bez modyfikowania kodu, który 
 używa buforowania.
 
@@ -59,8 +61,8 @@ taka potrzeba.
 
 W następnych dwóch podpunktach opowiemy jak używać buforowania na tych poziomach.
 
-> Note|Przypis: Z definicji, bufor jest ulotnym nośnikiem. Nie sprawdza on isnienia 
+> Note|Uwaga: Z definicji, bufor jest ulotnym nośnikiem. Nie sprawdza on istnienia 
 buforowanych danych nawet jeśli nie wygasa. Dlatego też, nie używaj buforu jako 
 miejsca stałego składowania (np. nie używaj buforu do przechowywania danych sesji).
 
-<div class="revision">$Id: caching.overview.txt 723 2009-02-21 18:14:05Z qiang.xue $</div>
+<div class="revision">$Id: caching.overview.txt 814 2009-03-10 18:00:11Z qiang.xue $</div>

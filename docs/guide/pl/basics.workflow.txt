@@ -1,25 +1,25 @@
 Przebieg dewelopmentu
 ====================
 
-Mając opisane podstawy koncepcji Yii, pokażemy całościowy przebieg tworzenia plikacji
-przy użyciu Yii. Przebieg ten zakłąda, że sprawdziliśmy wymagania stawiane Yii
+Mając opisane podstawy koncepcji Yii, pokażemy całościowy przebieg tworzenia aplikacji
+przy użyciu Yii. Przebieg ten zakłada, że sprawdziliśmy wymagania stawiane Yii
 tak samo, jak że przeprowadziliśmy analizę projektową dla aplikacji. 
 
-   1. Ttworzenie szkieletu struktury katalogowej. Narzędzie `yiic` opisane 
+   1. Tworzenie szkieletu struktury katalogowej. Narzędzie `yiic` opisane 
    w [Pierwszej aplikacji w Yii ](/doc/guide/quickstart.first-app) może zostać użyte, 
-   aby przyśpieszyćten krok.
+   aby przyśpieszyć ten krok.
 
    2. Konfigurowanie [aplikacji](/doc/guide/basics.application). Robimy to poprzez 
    modyfikowanie pliku konfiguracji aplikacji. Krok ten może również wymagać napisania 
-   pewnych komonentów aplikacji (np. komponentu użytkownika).
+   pewnych komponentów aplikacji (np. komponentu użytkownika).
 
    3. Tworzenie klasy [modelu](/doc/guide/basics.model) dla każdego typu danych, 
    którym będziemy zarządzać. Po raz kolejny narzędzie `yiic` może zostać użyte 
-   do wygenerowania klas [rekordu aktwnego](/doc/guide/database.ar) dla każdej interesującej 
+   do wygenerowania klas [rekordu aktywnego](/doc/guide/database.ar) dla każdej interesującej 
    nas tabeli bazy danych.
 
    4. Tworzenie klasy [kontrolera](/doc/guide/basics.controller) dla każdego typu 
-   żądania użytkownika. Jak sklasyfikować żądania użytkownika w zależności od wyagań?
+   żądania użytkownika. Jak sklasyfikować żądania użytkownika w zależności od wymagań?
    Uogólniając, jeśli model klasy musi być udostępniony użytkownikowi, powinien 
    powinien posiadać odpowiadającą mu klasę kontrolera. Narzędzie `yiic` pomoże 
    również zautomatyzować ten krok.
@@ -34,7 +34,7 @@ tak samo, jak że przeprowadziliśmy analizę projektową dla aplikacji.
    7. Tworzenie [tematów](/doc/guide/topics.theming) jeśli korzystanie z tematów
    jest wymagana.
 
-   8. Tworznenie tłumaczeń komunikatów jeśli [internacjonalizacja](/doc/guide/topics.i18n) 
+   8. Tworzenie tłumaczeń komunikatów jeśli [internacjonalizacja](/doc/guide/topics.i18n) 
    jest wymagana.
 
    9. Rozpoznawanie danych oraz widoków, które mogą być buforowane oraz stosowanie odpowiednich 
@@ -42,7 +42,7 @@ tak samo, jak że przeprowadziliśmy analizę projektową dla aplikacji.
 
    10. Końcowy [tuning](/doc/guide/topics.performance) oraz wdrożenie.
 
-Dla każdego z powyższych kroków, może być konieczne stowrzenie przypadkó testowych 
+Dla każdego z powyższych kroków, może być konieczne stworzenie przypadków testowych 
 i sprawdzenie ich.
 
 <div class="revision">$Id: basics.workflow.txt 323 2008-12-04 01:40:16Z qiang.xue $</div>

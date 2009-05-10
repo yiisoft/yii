@@ -1,8 +1,8 @@
 Przegląd
 ========
 
-Rozszerzanie Yii jest powszednią czynności podczas dewelopmentu. Na przykład, gdy
-piszesz nowy kontroler, rozszerzach Yii poprzez dziedziczenie po klasie jego 
+Rozszerzanie Yii jest powszednią czynnością podczas dewelopmentu. Na przykład, gdy
+piszesz nowy kontroler, rozszerzasz Yii poprzez dziedziczenie po klasie jego 
 [CController]; gdy piszesz nowy widżet, dziedziczysz po [CWidget] lub istniejącej
 klasie widżetu. Jeśli rozszerzony kod jest przeznaczony do ponownego użycia przez
 innych deweloperów, nazywamy go *rozszerzeniem* (ang. extension).
@@ -24,10 +24,10 @@ następująco:
  [kontrolerów](/doc/guide/basics.controller) oraz innych komponentów wspierających. 
  W wielu aspektach, moduł jest podobny do [aplikacji](/doc/guide/basics.application). 
  Główną różnicą jest to, że moduł znajduje się wewnątrz aplikacji. Na przykład, 
- możemy mieć moduł, który dostarcza funckjonalności zarządzania użytkownikami.
+ możemy mieć moduł, który dostarcza funkcjonalności zarządzania użytkownikami.
 
-Rozszerzenie może być również komponentem, które nie należy do żadnej z wyżej 
-wymienionych kategorii. W rzeczu samej, framework Yii jest starannie zaprojektowany, tak że
+Rozszerzenie może być również komponentem, który nie należy do żadnej z wyżej 
+wymienionych kategorii. W rzeczy samej, framework Yii jest starannie zaprojektowany, tak że
 niemal każda jego część kodu może być rozszerzona oraz dostosowana do indywidualnych potrzeb.
 
 <div class="revision">$Id: extension.overview.txt 759 2009-02-26 21:23:53Z qiang.xue $</div>

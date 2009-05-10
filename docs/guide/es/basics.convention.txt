@@ -137,4 +137,4 @@ Cada uno de estos puede ser customizado en caso de necesitarse.
    aplicación. Cada subdirectorio representa a un solo tema (theme) cuyo nombre es el snombre de ese
    subdirectorio. Puede ser customizado via [CThemeManager::basePath].
 
-<div class="revision">$Id: basics.convention.txt 749 2009-02-26 02:11:31Z qiang.xue $</div>
+<div class="revision">$Id: basics.convention.txt 749 2009-02-26 02:11:31Z sebathi $</div>

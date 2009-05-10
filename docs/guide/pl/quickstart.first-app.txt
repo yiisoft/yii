@@ -13,7 +13,7 @@ Uruchom `yiic` z wiersza poleceń w następujący sposób:
 % YiiRoot/framework/yiic webapp WebRoot/testdrive
 ~~~
 
-> Uwaga: uruchamiając `yiic` na Mac OS, Linuksie lub Uniksie będziesz może
+> Note|Uwaga: uruchamiając `yiic` na Mac OS, Linuksie lub Uniksie będziesz może
 > musiał zmienić uprawnienia pliku `yiic` tak, aby był on wykonywalny.
 > Alternatywnie możesz użyć tego narzędzia w sposób następujący:
 >
@@ -37,7 +37,7 @@ Jak widać aplikacja składa się z trzech stron: strony domowej, kontaktu
 i strony logowania. Strona domowa prezentuje pewne informacje na temat
 samej aplikacji oraz statusu logowania użytkownika. Strona kontaktowa
 zawiera formularz kontaktowy, poprzez który użytkownik może wysłać swoje
-zapytanie. Strona logowania pozwala użytkownikowi na autentykację,
+zapytanie. Strona logowania pozwala użytkownikowi na uwierzytelnienie,
 poprzedzającą dostęp do uprzywilejowanych zasobów.
 Poniższe zrzuty ekranów prezentują więcej szczegółów.
 
@@ -62,7 +62,7 @@ testdrive/
    assets/                   zawiera opublikowane zasoby plików
    css/                      zawiera pliki CSS
    images/                   zawiera pliki obrazów
-   themes/                   Zawiera tematy aplikacji
+   themes/                   zawiera tematy aplikacji
    protected/                zawiera chronione pliki aplikacji
       yiic                   skrypt yiic
       yiic.bat               skrypt yiic dla systemu Windows
@@ -70,7 +70,7 @@ testdrive/
          shell/              zawiera spersonalizowane polecenia 'yiic shell'
       components/            zawiera komponenty wielokrotnego użytku
          MainMenu.php        klasa widżetu 'MainMenu'
-         Identity.php        klasa 'Identity', przeznaczona do celów autentykacji
+         Identity.php        klasa 'Identity', przeznaczona do celów uwierzytelnienia
          views/              zawiera pliki widoków widżetów
             mainMenu.php     plik widoku widżetu 'MainMenu'
       config/                zawiera pliki konfiguracyjne
@@ -138,6 +138,9 @@ CREATE TABLE User (
 	email VARCHAR(128) NOT NULL
 );
 ~~~
+
+> Uwaga: Jeśli używasz bazy danych MySQL powinieneś zastąpić `AUTOINCREMENT`
+> poprzez `AUTO_INCREMENT` w powyższym kodzie SQL.
 
 Dla uproszczenia tworzymy w bazie danych tylko pojedynczą tabelę `User`.
 Plik bazy danych SQLite zostanie zapisany jako
@@ -243,4 +246,4 @@ pojedynczej linijki kodu!
 
 
 
-<div class="revision">$Id: quickstart.first-app.txt 723 2009-02-21 18:14:05Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app.txt 891 2009-03-25 15:20:56Z qiang.xue $</div>

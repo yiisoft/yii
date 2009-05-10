@@ -119,7 +119,7 @@ GET. Gdy tworzymy adres URL znaczniki tych parametrów zostaną zastąpione odpo
 wartościami parametru GET; podczas przetwarzania adresu URL odpowiednie parametry GET
 zostaną wypełnione wynikami tego przetwarzania.
 
-Pokażmy kilka przykładów by wyjasnić jak działają reguły adresów URL. Zakładamy,
+Pokażmy kilka przykładów by wyjaśnić jak działają reguły adresów URL. Zakładamy,
 że nasz zestaw reguł składa się z trzech, widocznych poniżej:
 
 ~~~

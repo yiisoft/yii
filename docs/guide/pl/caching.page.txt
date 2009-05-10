@@ -39,10 +39,10 @@ akcji w kontrolerze. Możemy ograniczyć go, do jednej lub więcej akcji tylko p
 zastosowanie operatora dodawania. Więcej szczegółów można znaleźć w sekcji 
 [filtry](/doc/guide/basics.controller#filter).
 
-> Tip|Porada: Możemy używać kalsę [COutputCache] jako filtr ponieważ dziedziny ona 
+> Tip|Wskazówka: Możemy używać klasę [COutputCache] jako filtr ponieważ dziedziczy ona 
 po klasie [CFilterWidget], co oznacza, że jest ona zarówno widżetem oraz filtrem. 
 W rzeczy samej, sposób w jaki widżet działa jest bardzo podobny do filtru: widżet
 (filtr) rozpoczyna się zanim zamknięta zawartość (akcja) jest przetwarzana is evaluated
-i widżet (fitr) kończy po tym jak zamknięta zawartość (akcja) jest przetwarzana.
+i widżet (filtr) kończy po tym jak zamknięta zawartość (akcja) jest przetwarzana.
 
 <div class="revision">$Id: caching.page.txt 162 2008-11-05 12:44:08Z weizhuo $</div>

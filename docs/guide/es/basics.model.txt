@@ -27,4 +27,4 @@ clases que lo heredan, representando una única fila de la tabla de base de dato
 Los campos de la fila son representados por propiedades del objeto AR. Puede encontrar más
 información de AR en [Active Record](/doc/guide/database.ar).
 
-<div class="revision">$Id: basics.model.txt 162 2008-11-05 12:44:08Z weizhuo $</div>
+<div class="revision">$Id: basics.model.txt 162 2008-11-05 12:44:08Z sebathi $</div>

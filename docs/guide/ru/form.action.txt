@@ -19,7 +19,8 @@ public function actionLogin()
 		if($form->validate())
 			$this->redirect(Yii::app()->user->returnUrl);
 	}
-	// отображаем форму авторизации
+	// рендерим представление - форму авторизации,
+	// переменная $form в представлении будет представлена переменной с именем user
 	$this->render('login',array('user'=>$form));
 }
 ~~~

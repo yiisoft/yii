@@ -1,5 +1,6 @@
 * Memulai
 	- [Tinjauan](index)
+	- [Fitur Baru](changes)
     - [Apa itu Yii](quickstart.what-is-yii)
     - [Instalasi](quickstart.installation)
     - [Membuat Aplikasi Yii Pertama](quickstart.first-app)
@@ -56,4 +57,4 @@
     - [Keamanan](topics.security)
     - [Penyesuaian Performansi](topics.performance)
 
-<div class="revision">$Id: toc.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>
+<div class="revision">$Id: toc.txt 956 2009-04-21 15:16:03Z qiang.xue@gmail.com $</div>

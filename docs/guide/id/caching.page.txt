@@ -1,23 +1,23 @@
 Cache Halaman
 =============
 
-Cache halaman merujuk pada cache konten seluruh halaman. Cacge halaman dapat
-terjadi di berbagai tempat. Sebagai contoh, dengan memilih header halaman yang 
-sesuai, browser klien mungkin men-cache halaman yang sedang dilihat untuk waktu 
-tertentu. Aplikasi Web itu sendiri juga dapat menyimpan konten halaman dalam 
-cache. Dalam subseksi ini, kit fokus pada pendekatan ini.
+Cache halaman merujuk pada cache konten seluruh halaman. Cache halaman bisa
+terjadi di berbagai tempat. Sebagai contoh, dengan memilih header halaman yang
+sesuai, browser klien mungkin men-cache halaman yang sedang dilihat untuk waktu
+tertentu. Aplikasi Web itu sendiri juga dapat menyimpan konten halaman dalam
+cache. Dalam subseksi ini, fokus kita pada pendekatan ini.
 
-Cache halaman bisa dipertimbangkan sebagai kasus khusus [cache 
-fragmen](/doc/guide/caching.fragment). Karena konten halaman sering dibuat 
-dengan menerapkan tata letak pada sebuah tampilan, ia tidak akan bekerja jika 
+Cache halaman bisa dipertimbangkan sebagai kasus khusus [cache
+fragmen](/doc/guide/caching.fragment). Karena konten halaman sering dibuat
+dengan menerapkan tata letak pada sebuah tampilan, ia tidak akan bekerja jika
 kita hanya memanggil [beginCache()|CBaseController::beginCache] dan
-[endCache()|CBaseController::endCache] dalam tata letak. Alasannya adalah 
-karena tata letak diterapkan di dalam metode [CController::render()] SETELAH 
+[endCache()|CBaseController::endCache] dalam tata letak. Alasannya adalah
+karena tata letak diterapkan di dalam metode [CController::render()] SETELAH
 tampilan konten dievaluasi.
 
-Untuk men-cache seluruh halaman, kita harus melewati jalannya aksi pembuatan 
-konten halaman. Kita bisa menggunakan [COutputCache] sebagai aksi 
-[filter](/doc/guide/basics.controller#filter) untuk melaksanakan tugas ini. 
+Untuk men-cache seluruh halaman, kita harus melewati jalannya aksi pembuatan
+konten halaman. Kita bisa menggunakan [COutputCache] sebagai aksi
+[filter](/doc/guide/basics.controller#filter) untuk melaksanakan tugas ini.
 Kode berikut memperlihatkan bagaimana kita mengkonfigurasi filter cache:
 
 ~~~
@@ -34,14 +34,14 @@ public function filters()
 }
 ~~~
 
-Konfigurasi filter di atas akan menjadikan filter diterapkan ke semua aksi 
-dalam kontroler. Kita dapat membatasinya ke satu atau beberapa aksi hanya 
+Konfigurasi filter di atas akan menjadikan filter diterapkan ke semua aksi
+dalam kontroler. Kita dapat membatasinya ke satu atau beberapa aksi hanya
 dengan menggunakan operator plus. Lebih jelasnya bisa ditemukan dalam
 [filter](/doc/guide/basics.controller#filter).
 
-> Tip: Kita dapat menggunakan [COutputCache] sebagai filter karena ia diperluas 
-dari [CFilterWidget], yang berarti ia adalah widget dan juga filter. 
-Sebenarnya, cara widget bekerja mirip dengan filter: widget (filter) dimulai 
+> Tip: Kita dapat menggunakan [COutputCache] sebagai filter karena ia diperluas
+dari [CFilterWidget], yang berarti ia adalah widget dan juga filter.
+Sebenarnya, cara widget bekerja mirip dengan filter: widget (filter) dimulai
 sebelum konten yang disertakan (aksi) dievaluasi, dan widget (filter)
 berakhir setelah konten yang disertakan (aksi) dievaluasi.
 
