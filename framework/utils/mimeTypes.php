@@ -48,6 +48,7 @@ return array(
 	'f'=>'text/plain',
 	'f90'=>'text/plain',
 	'fli'=>'video/x-fli',
+	'flv'=>'video/x-flv',
 	'gif'=>'image/gif',
 	'gtar'=>'application/x-gtar',
 	'gz'=>'application/x-gzip',

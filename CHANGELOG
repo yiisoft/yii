@@ -4,6 +4,7 @@
 
 Version 1.0.6 to be released
 ----------------------------
+- New #304: Adding flv mimeType to the mimeType array (Qiang)
 
 
 Version 1.0.5 May 10, 2009
