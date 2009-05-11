@@ -232,6 +232,7 @@ class CDbConnection extends CApplicationComponent
 				throw new CDbException(Yii::t('yii','CDbConnection.connectionString cannot be empty.'));
 			try
 			{
+				Yii::trace('Opening DB connection','system.db.CDbConnection');
 				$this->_pdo=$this->createPdoInstance();
 				$this->initConnection($this->_pdo);
 				$this->_active=true;
@@ -250,6 +251,7 @@ class CDbConnection extends CApplicationComponent
 	 */
 	protected function close()
 	{
+		Yii::trace('Closing DB connection','system.db.CDbConnection');
 		$this->_pdo=null;
 		$this->_active=false;
 		$this->_schema=null;
