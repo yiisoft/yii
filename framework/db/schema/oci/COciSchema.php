@@ -245,21 +245,23 @@ EOD;
 	 */
 	protected function findTableNames($schema='')
 	{
-		/*if($schema===''){*/
-		$sql=<<<EOD
+		if($schema==='')
+		{
+			$sql=<<<EOD
 SELECT table_name, '{$schema}' as table_schema FROM user_tables
 EOD;
-	/*	}else{
+			$command=$this->getDbConnection()->createCommand($sql);
+		}
+		else
+		{
 			$sql=<<<EOD
-			SELECT object_name as table_name, owner as table_schema FROM all_objects
-			WHERE object_type = 'TABLE'
-			  and owner=:schema
-			order by 1
-			EOD;
-		}*/
+SELECT object_name as table_name, owner as table_schema FROM all_objects
+WHERE object_type = 'TABLE' AND owner=:schema
+EOD;
+			$command=$this->getDbConnection()->createCommand($sql);
+			$command->bindParam(':schema',$schema);
+		}
 
-		$command=$this->getDbConnection()->createCommand($sql);
-		//$command->bindParam(':schema',$schema);
 		$rows=$command->queryAll();
 		$names=array();
 		foreach($rows as $row)
