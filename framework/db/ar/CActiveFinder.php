@@ -266,7 +266,12 @@ class CActiveFinder extends CComponent
 				if($relation instanceof CStatRelation)
 					return new CStatElement($this,$relation,$parent);
 				else
-					return $parent->children[$with]=new CJoinElement($this,$relation,$parent,++$this->_joinCount);
+				{
+					$element=$parent->children[$with]=new CJoinElement($this,$relation,$parent,++$this->_joinCount);
+					if(!empty($relation->with))
+						$this->buildJoinTree($element,$relation->with);
+					return $element;
+				}
 			}
 			else
 				throw new CDbException(Yii::t('yii','Relation "{name}" is not defined in active record class "{class}".',

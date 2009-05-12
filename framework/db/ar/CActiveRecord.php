@@ -541,13 +541,7 @@ abstract class CActiveRecord extends CModel
 			$r=array($name=>$params);
 		}
 		else
-			$r=array($name);
-
-		if(!empty($relation->with))
-		{
-			foreach($relation->with as $w)
-				$r[]=$name.'.'.$w;
-		}
+			$r=$name;
 
 		$finder=new CActiveFinder($this,$r);
 		$finder->lazyFind($this);
