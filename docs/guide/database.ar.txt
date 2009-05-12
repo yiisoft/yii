@@ -557,7 +557,7 @@ class Post extends CActiveRecord
 
 Each named scope is declared as an array which can be used to initialize a [CDbCriteria] instance. For example, the `recently` named scope specifies that the `order` property to be `createTime DESC` and the `limit` property to be 5, which translates to a query criteria that should bring back the most recent 5 posts.
 
-Named scopes are used as modifiers to the `find` method calls. Several named scopes may be chained together and result in a more restrictive query result set. For example, to find the recently published posts, we can use the following code:
+Named scopes are mostly used as modifiers to the `find` method calls. Several named scopes may be chained together and result in a more restrictive query result set. For example, to find the recently published posts, we can use the following code:
 
 ~~~
 [php]
@@ -565,6 +565,15 @@ $posts=Post::model()->published()->recently()->findAll();
 ~~~
 
 In general, named scopes must appear to the left of a `find` method call. Each of them provides a query criteria, which is combined with other criterias, including the one passed to the `find` method call. The net effect is like adding a list of filters to a query.
+
+Starting from version 1.0.6, named scopes can also be used with `update` and `delete` methods. For example, the following code would delete all recently published posts:
+
+~~~
+[php]
+Post::model()->published()->recently()->delete();
+~~~
+
+> Note: Named scopes can only be used with class-level methods. That is, the method must be called using `ClassName::model()`.
 
 
 ### Parameterized Named Scopes
@@ -616,5 +625,6 @@ Now, if the following method call will automatically use the query criteria as d
 [php]
 $contents=Content::model()->findAll();
 ~~~
+
 
 <div class="revision">$Id$</div>

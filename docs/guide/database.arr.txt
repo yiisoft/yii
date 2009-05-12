@@ -160,8 +160,8 @@ $author=$post->author;
 corresponding property could be either null or an empty array. For
 `BELONGS_TO` and `HAS_ONE` relationships, the result is null; for
 `HAS_MANY` and `MANY_MANY`, it is an empty array.
-Note that the `HAS_MANY` and `MANY_MANY` relationships return arrays of objects, 
-you will need to loop through the results before trying to access any properties. 
+Note that the `HAS_MANY` and `MANY_MANY` relationships return arrays of objects,
+you will need to loop through the results before trying to access any properties.
 Otherwise, you may receive "Trying to get property of non-object" errors.
 
 The lazy loading approach is very convenient to use, but it is not
@@ -275,8 +275,8 @@ references need to be disambiguated using `aliasToken` (e.g. `??.age
 DESC`).
 
    - `with`: a list of child related objects that should be loaded
-together with this object. Note, this is only honored by lazy loading, not
-eager loading.
+together with this object. Be aware that using this option inappropriately
+may form an infinite relation loop.
 
    - `joinType`: type of join for this relationship. It defaults to `LEFT
 OUTER JOIN`.
@@ -430,7 +430,7 @@ Relational Query with Named Scopes
 
 > Note: The support for named scopes has been available since version 1.0.5.
 
-Relational query can also be performed in combination with [named scopes](/doc/guide/database.ar#named-scopes). It comes with two forms. In the first form, named scopes are applied to the main model. In the second form, named scopes are applied to the related models.
+Relational query can also be performed in combination with [named scopes](/doc/guide/database.ar#named-scopes). It comes in two forms. In the first form, named scopes are applied to the main model. In the second form, named scopes are applied to the related models.
 
 The following code shows how to apply named scopes to the main model.
 
@@ -439,16 +439,34 @@ The following code shows how to apply named scopes to the main model.
 $posts=Post::model()->published()->recently()->with('comments')->findAll();
 ~~~
 
-This is very similar to non-relational query. The only difference is that we have the `with()` call after the named-scope chain. This query would bring back recently published posts together with their comments.
+This is very similar to non-relational queries. The only difference is that we have the `with()` call after the named-scope chain. This query would bring back recently published posts together with their comments.
 
-The following code shows how to apply named scopes to the related models.
+And the following code shows how to apply named scopes to the related models.
 
 ~~~
 [php]
 $posts=Post::model()->with('comments:recently:approved')->findAll();
 ~~~
 
-The above query will bring back all posts together with their approved comments. Note that `comments` refers to the relation name, while `recently` and `approved` refer to two named scopes declared in the `Comment` model class. The relation name and the named scopes should be separated by a colon.
+The above query will bring back all posts together with their approved comments. Note that `comments` refers to the relation name, while `recently` and `approved` refer to two named scopes declared in the `Comment` model class. The relation name and the named scopes should be separated by colons.
+
+Named scopes can also be specified in the `with` option of the relational rules declared in [CActiveRecord::relations()]. In the following example, if we access `$user->posts`, it would bring back all *approved* comments of the posts.
+
+~~~
+[php]
+class User extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+			'posts'=>array(self::HAS_MANY, 'Post', 'authorID',
+				'with'=>'comments:approved'),
+		);
+	}
+}
+~~~
+
+> Note: Named scopes applied to related models must be specified in [CActiveRecord::scopes]. As a result, they cannot be parameterized.
 
 
 <div class="revision">$Id$</div>
