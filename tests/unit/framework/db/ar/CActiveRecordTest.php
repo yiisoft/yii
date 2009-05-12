@@ -482,9 +482,13 @@ class CActiveRecordTest extends CTestCase
 
 	public function testEagerRecursiveRelation()
 	{
-		$post=Post::model()->with(array('comments'=>'author','categories'))->findByPk(2);
+		//$post=Post::model()->with(array('comments'=>'author','categories'))->findByPk(2);
+		$post=Post::model()->with('comments.author','categories')->findByPk(2);
 		$this->assertEquals(2,count($post->comments));
 		$this->assertEquals(2,count($post->categories));
+
+		$posts=PostExt::model()->with('comments')->findAll();
+		$this->assertEquals(5,count($posts));
 	}
 
 	public function testRelationWithCondition()

@@ -541,13 +541,7 @@ abstract class CActiveRecord extends CModel
 			$r=array($name=>$params);
 		}
 		else
-			$r=array($name);
-
-		if(!empty($relation->with))
-		{
-			foreach($relation->with as $w)
-				$r[]=$name.'.'.$w;
-		}
+			$r=$name;
 
 		$finder=new CActiveFinder($this,$r);
 		$finder->lazyFind($this);
@@ -1365,14 +1359,19 @@ abstract class CActiveRecord extends CModel
 
 	private function query($criteria,$all=false)
 	{
+		$this->applyScopes($criteria);
+		$command=$this->getCommandBuilder()->createFindCommand($this->getTableSchema(),$criteria);
+		return $all ? $this->populateRecords($command->queryAll()) : $this->populateRecord($command->queryRow());
+	}
+
+	private function applyScopes(&$criteria)
+	{
 		if(($c=$this->getDbCriteria(false))!==null)
 		{
 			$c->mergeWith($criteria);
 			$criteria=$c;
 			$this->_c=null;
 		}
-		$command=$this->getCommandBuilder()->createFindCommand($this->getTableSchema(),$criteria);
-		return $all ? $this->populateRecords($command->queryAll()) : $this->populateRecord($command->queryRow());
 	}
 
 	/**
@@ -1508,12 +1507,7 @@ abstract class CActiveRecord extends CModel
 		Yii::trace(get_class($this).'.count()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
-		if(($c=$this->getDbCriteria(false))!==null)
-		{
-			$c->mergeWith($criteria);
-			$criteria=$c;
-			$this->_c=null;
-		}
+		$this->applyScopes($criteria);
 		return $builder->createCountCommand($this->getTableSchema(),$criteria)->queryScalar();
 	}
 
@@ -1545,12 +1539,7 @@ abstract class CActiveRecord extends CModel
 		$table=$this->getTableSchema();
 		$criteria->select=reset($table->columns)->rawName;
 		$criteria->limit=1;
-		if(($c=$this->getDbCriteria(false))!==null)
-		{
-			$c->mergeWith($criteria);
-			$criteria=$c;
-			$this->_c=null;
-		}
+		$this->applyScopes($criteria);
 		return $builder->createFindCommand($table,$criteria)->queryRow()!==false;
 	}
 
@@ -1618,6 +1607,7 @@ abstract class CActiveRecord extends CModel
 		$builder=$this->getCommandBuilder();
 		$table=$this->getTableSchema();
 		$criteria=$builder->createPkCriteria($table,$pk,$condition,$params);
+		$this->applyScopes($criteria);
 		$command=$builder->createUpdateCommand($table,$attributes,$criteria);
 		return $command->execute();
 	}
@@ -1636,6 +1626,7 @@ abstract class CActiveRecord extends CModel
 		Yii::trace(get_class($this).'.updateAll()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
+		$this->applyScopes($criteria);
 		$command=$builder->createUpdateCommand($this->getTableSchema(),$attributes,$criteria);
 		return $command->execute();
 	}
@@ -1654,6 +1645,7 @@ abstract class CActiveRecord extends CModel
 		Yii::trace(get_class($this).'.updateCounters()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
+		$this->applyScopes($criteria);
 		$command=$builder->createUpdateCounterCommand($this->getTableSchema(),$counters,$criteria);
 		return $command->execute();
 	}
@@ -1671,6 +1663,7 @@ abstract class CActiveRecord extends CModel
 		Yii::trace(get_class($this).'.deleteByPk()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createPkCriteria($this->getTableSchema(),$pk,$condition,$params);
+		$this->applyScopes($criteria);
 		$command=$builder->createDeleteCommand($this->getTableSchema(),$criteria);
 		return $command->execute();
 	}
@@ -1687,6 +1680,7 @@ abstract class CActiveRecord extends CModel
 		Yii::trace(get_class($this).'.deleteAll()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
+		$this->applyScopes($criteria);
 		$command=$builder->createDeleteCommand($this->getTableSchema(),$criteria);
 		return $command->execute();
 	}
