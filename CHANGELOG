@@ -7,6 +7,7 @@ Version 1.0.6 to be released
 - New #304: Adding flv mimeType to the mimeType array (Qiang)
 - New: Enhanced the 'with' option in relational rules so that it also applies in eager loading (Qiang)
 - New: Added support to allow using named scopes with update and delete methods (Qiang)
+- New: Refactored support for dynamic query options with relational AR (Qiang)
 
 Version 1.0.5 May 10, 2009
 --------------------------

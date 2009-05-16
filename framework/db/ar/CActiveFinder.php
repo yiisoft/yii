@@ -219,8 +219,9 @@ class CActiveFinder extends CComponent
 	 * Builds up the join tree representing the relationships involved in this query.
 	 * @param CJoinElement the parent tree node
 	 * @param mixed the names of the related objects relative to the parent tree node
+	 * @param array additional query options to be merged with the relation
 	 */
-	private function buildJoinTree($parent,$with)
+	private function buildJoinTree($parent,$with,$options=null)
 	{
 		if($parent instanceof CStatElement)
 			throw new CDbException(Yii::t('yii','The STAT relation "{name}" cannot have child relations.',
@@ -244,53 +245,47 @@ class CActiveFinder extends CComponent
 			if(isset($parent->children[$with]))
 				return $parent->children[$with];
 
-			if(($relation=$parent->model->getActiveRelation($with))!==null)
-			{
-				$relation=clone $relation;
-				$model=CActiveRecord::model($relation->className);
-				if(($scope=$model->defaultScope())!==array())
-					$relation->mergeWith($scope);
-				if(isset($scopes) && !empty($scopes))
-				{
-					$scs=$model->scopes();
-					foreach($scopes as $scope)
-					{
-						if(isset($scs[$scope]))
-							$relation->mergeWith($scs[$scope]);
-						else
-							throw new CDbException(Yii::t('yii','Active record class "{class}" does not have a scope named "{scope}".',
-								array('{class}'=>get_class($model), '{scope}'=>$scope)));
-					}
-				}
-
-				if($relation instanceof CStatRelation)
-					return new CStatElement($this,$relation,$parent);
-				else
-				{
-					$element=$parent->children[$with]=new CJoinElement($this,$relation,$parent,++$this->_joinCount);
-					if(!empty($relation->with))
-						$this->buildJoinTree($element,$relation->with);
-					return $element;
-				}
-			}
-			else
+			if(($relation=$parent->model->getActiveRelation($with))===null)
 				throw new CDbException(Yii::t('yii','Relation "{name}" is not defined in active record class "{class}".',
 					array('{class}'=>get_class($parent->model), '{name}'=>$with)));
+
+			$relation=clone $relation;
+			$model=CActiveRecord::model($relation->className);
+			if(($scope=$model->defaultScope())!==array())
+				$relation->mergeWith($scope);
+			if(isset($scopes) && !empty($scopes))
+			{
+				$scs=$model->scopes();
+				foreach($scopes as $scope)
+				{
+					if(isset($scs[$scope]))
+						$relation->mergeWith($scs[$scope]);
+					else
+						throw new CDbException(Yii::t('yii','Active record class "{class}" does not have a scope named "{scope}".',
+							array('{class}'=>get_class($model), '{scope}'=>$scope)));
+				}
+			}
+
+			// dynamic options
+			if($options!==null)
+				$relation->mergeWith($options);
+
+			if($relation instanceof CStatRelation)
+				return new CStatElement($this,$relation,$parent);
+			else
+			{
+				$element=$parent->children[$with]=new CJoinElement($this,$relation,$parent,++$this->_joinCount);
+				if(!empty($relation->with))
+					$this->buildJoinTree($element,$relation->with);
+				return $element;
+			}
 		}
 
 		// $with is an array, keys are relation name, values are relation spec
 		foreach($with as $key=>$value)
 		{
 			if(is_string($key) && is_array($value))
-			{
-				$element=$this->buildJoinTree($parent,$key);
-				$relation=clone $element->relation;
-				foreach($value as $name=>$option)
-					$relation->$name=$option;
-				if($relation instanceof CActiveRelation && $relation->alias!==null)
-					$element->tableAlias=$relation->alias;
-				$element->relation=$relation;
-			}
+				$element=$this->buildJoinTree($parent,$key,$value);
 			else if(is_string($value))  // the key is integer, so value is the relation name
 				$this->buildJoinTree($parent,$value);
 		}

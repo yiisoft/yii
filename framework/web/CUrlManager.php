@@ -117,7 +117,7 @@ class CUrlManager extends CApplicationComponent
 	/**
 	 * @var boolean whether routes are case-sensitive. Defaults to true. By setting this to false,
 	 * the route in the incoming request will be turned to lower case first before further processing.
-	 * As a result, you should follow the convent that you use lower case when specifying
+	 * As a result, you should follow the convention that you use lower case when specifying
 	 * controller mapping ({@link CWebApplication::controllerMap}) and action mapping
 	 * ({@link CController::actions}). Also, the directory names for organizing controllers should
 	 * be in lower case.
