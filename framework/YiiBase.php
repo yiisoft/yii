@@ -307,7 +307,7 @@ class YiiBase
 			include(self::$_classes[$className]);
 		else
 		{
-			@include($className.'.php');
+			include($className.'.php');
 			return class_exists($className,false);
 		}
 		return true;
