@@ -42,7 +42,7 @@ required.
 [caching](/doc/guide/caching.overview) techniques.
 
    10. Final [tune up](/doc/guide/topics.performance) and
-[deployment](/doc/guide/topics.deployment).
+deployment.
 
 For each of the above steps, test cases may need to be created and
 performed.
