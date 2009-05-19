@@ -2012,6 +2012,9 @@ class CActiveRelation extends CBaseActiveRelation
 				$this->on="({$this->on}) AND ({$criteria['on']})";
 		}
 
+		if(isset($criteria['with']))
+			$this->with=$criteria['with'];
+
 		if(isset($criteria['alias']))
 			$this->alias=$criteria['alias'];
 

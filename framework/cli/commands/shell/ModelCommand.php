@@ -123,8 +123,8 @@ EOD;
 				foreach($table->columns as $column)
 				{
 					$label=ucwords(trim(strtolower(str_replace(array('-','_'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $column->name)))));
-					if(strcasecmp(substr($label,-2),'id')===0 && strlen($label)>2)
-						$label=substr($label,0,-2);
+					if(strcasecmp(substr($label,-3),' id')===0)
+						$label=substr($label,0,-3);
 					$labels.="\n\t\t\t'{$column->name}'=>'$label',";
 					if($column->isPrimaryKey && $table->sequenceName!==null || $column->isForeignKey)
 						continue;
