@@ -12,7 +12,7 @@ Version 1.0.6 to be released
 - New: Enhanced the 'with' option in relational rules so that it also applies in eager loading (Qiang)
 - New: Added support to allow using named scopes with update and delete methods (Qiang)
 - New: Refactored support for dynamic query options with relational AR (Qiang)
-- New: Added support to allow using CDbCriteria object as on-the-fly query option (Qiang)
+- New: Added CDbCriteria::toArray() (Qiang)
 
 Version 1.0.5 May 10, 2009
 --------------------------

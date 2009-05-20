@@ -147,4 +147,16 @@ class CDbCriteria
 				$this->having="({$this->having}) AND ({$criteria->having})";
 		}
 	}
+
+	/**
+	 * @return array the array representation of the criteria
+	 * @since 1.0.6
+	 */
+	public function toArray()
+	{
+		$result=array();
+		foreach(array('select', 'condition', 'params', 'limit', 'offset', 'order', 'group', 'join', 'having') as $name)
+			$result[$name]=$this->$name;
+		return $result;
+	}
 }

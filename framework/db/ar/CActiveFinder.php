@@ -286,7 +286,7 @@ class CActiveFinder extends CComponent
 		{
 			if(is_string($value))  // the value is a relation name
 				$this->buildJoinTree($parent,$value);
-			else if(is_string($key) && (is_array($value) || $value instanceof CDbCriteria))
+			else if(is_string($key) && is_array($value))
 				$element=$this->buildJoinTree($parent,$key,$value);
 		}
 	}
