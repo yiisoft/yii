@@ -4,6 +4,7 @@
 
 Version 1.0.6 to be released
 ----------------------------
+- Bug #308: typo in CLinkPager CSS class name (Qiang)
 - Bug #310: Leading space in auto generated labels if they end with "ID" (Qiang)
 - Bug: Syntax errors in autoloaded classes are not reported (Qiang)
 - New #304: Adding flv mimeType to the mimeType array (Qiang)
