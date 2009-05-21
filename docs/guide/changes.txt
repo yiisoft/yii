@@ -15,6 +15,9 @@ Version 1.0.6
  * Added support for profiling SQL executions
      - [Profiling SQL Executions](/doc/guide/topics.logging#profiling-sql-executions)
 
+ * Added support for customizing a single URL rule by setting its urlFormat and caseSensitive options:
+     - [User-friendly URLs](/doc/guide/topics.url#user-friendly-urls)
+
 Version 1.0.5
 -------------
 

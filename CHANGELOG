@@ -10,6 +10,7 @@ Version 1.0.6 to be released
 - Bug: Syntax errors in autoloaded classes are not reported (Qiang)
 - New #304: Added flv mimeType to the mimeType array (Qiang)
 - New #315: Added CDbConnection.enableProfiling (Qiang)
+- New #320: Added support for customizing a single URL rule by setting its urlFormat and caseSensitive options (Qiang)
 - New #326: Yii::powered() will show Yii site in a new window (Qiang)
 - New #328: Make yiic to work with f-cgi (Qiang)
 - New: Enhanced the 'with' option in relational rules so that it also applies in eager loading (Qiang)
