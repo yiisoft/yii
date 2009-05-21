@@ -268,7 +268,10 @@ class CActiveFinder extends CComponent
 
 			// dynamic options
 			if($options!==null)
-				$relation->mergeWith($options);
+			{
+				foreach($options as $name=>$value)
+					$relation->$name=$value;
+			}
 
 			if($relation instanceof CStatRelation)
 				return new CStatElement($this,$relation,$parent);
