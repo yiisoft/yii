@@ -142,7 +142,7 @@
  * Post::model()->updateByPk($postID,$attributes,$condition,$params);
  *
  * // update one or several counter columns
- * Post::model()->updateCounters($pk,$counters);
+ * Post::model()->updateCounters($counters,$condition,$params);
  *
  * // delete all records with the specified condition
  * Post::model()->deleteAll($condition,$params);
