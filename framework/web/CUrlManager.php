@@ -516,11 +516,11 @@ class CUrlRule extends CComponent
 				return false;
 		}
 
+		$suffix=$this->urlSuffix===null ? $manager->urlSuffix : $this->urlSuffix;
+
 		$url=strtr($this->template,$tr);
 		if(empty($params))
 			return $url!=='' ? $url.$suffix : $url;
-
-		$suffix=$this->urlSuffix===null ? $manager->urlSuffix : $this->urlSuffix;
 
 		if($this->append)
 			$url.='/'.$manager->createPathInfo($params,'/','/').$suffix;
