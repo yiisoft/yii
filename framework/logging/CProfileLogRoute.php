@@ -28,6 +28,14 @@
 class CProfileLogRoute extends CWebLogRoute
 {
 	/**
+	 * @var boolean whether to aggregate results according to profiling tokens.
+	 * If false, the results will be aggregated by categories.
+	 * Defaults to true. Note that this property only affects the summary report
+	 * that is enabled when {@link report} is 'summary'.
+	 * @since 1.0.6
+	 */
+	public $groupByToken=true;
+	/**
 	 * @var string type of profiling report to display
 	 */
 	private $_report='summary';
@@ -67,6 +75,10 @@ class CProfileLogRoute extends CWebLogRoute
 	 */
 	public function processLogs($logs)
 	{
+		$app=Yii::app();
+		if(!($app instanceof CWebApplication) || $app->getRequest()->getIsAjaxRequest())
+			return;
+
 		if($this->getReport()==='summary')
 			$this->displaySummary($logs);
 		else
@@ -85,6 +97,8 @@ class CProfileLogRoute extends CWebLogRoute
 		$n=0;
 		foreach($logs as $log)
 		{
+			if($log[1]!==CLogger::LEVEL_PROFILE)
+				continue;
 			$message=$log[0];
 			if(!strncasecmp($message,'begin:',6))
 			{
@@ -123,6 +137,8 @@ class CProfileLogRoute extends CWebLogRoute
 		$stack=array();
 		foreach($logs as $log)
 		{
+			if($log[1]!==CLogger::LEVEL_PROFILE)
+				continue;
 			$message=$log[0];
 			if(!strncasecmp($message,'begin:',6))
 			{
@@ -135,6 +151,8 @@ class CProfileLogRoute extends CWebLogRoute
 				if(($last=array_pop($stack))!==null && $last[0]===$token)
 				{
 					$delta=$log[3]-$last[3];
+					if(!$this->groupByToken)
+						$token=$log[2];
 					if(isset($results[$token]))
 						$results[$token]=$this->aggregateResult($results[$token],$delta);
 					else
@@ -150,7 +168,7 @@ class CProfileLogRoute extends CWebLogRoute
 		while(($last=array_pop($stack))!==null)
 		{
 			$delta=$now-$last[3];
-			$token=$last[0];
+			$token=$this->groupByToken ? $last[0] : $last[2];
 			if(isset($results[$token]))
 				$results[$token]=$this->aggregateResult($results[$token],$delta);
 			else

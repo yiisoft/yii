@@ -37,7 +37,7 @@ return array(
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
-			// force 401 HTTP error if authentication needed
+			// force 403 HTTP error if authentication needed
 			'loginUrl'=>null,
 		),
 		'db'=>array(

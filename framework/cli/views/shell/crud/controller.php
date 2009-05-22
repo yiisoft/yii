@@ -103,7 +103,7 @@ class {ClassName} extends CController
 			$this->redirect(array('list'));
 		}
 		else
-			throw new CHttpException(500,'Invalid request. Please do not repeat this request again.');
+			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 	}
 
 	/**
@@ -162,7 +162,7 @@ class {ClassName} extends CController
 			if($id!==null || isset($_GET['id']))
 				$this->_{ModelVar}={ModelClass}::model()->findbyPk($id!==null ? $id : $_GET['id']);
 			if($this->_{ModelVar}===null)
-				throw new CHttpException(500,'The requested {ModelName} does not exist.');
+				throw new CHttpException(404,'The requested {ModelName} does not exist.');
 		}
 		return $this->_{ModelVar};
 	}

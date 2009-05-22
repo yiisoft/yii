@@ -80,10 +80,14 @@ class CDbCriteria
 	 * Also, the criteria passed as the parameter takes precedence in case
 	 * two options cannot be merged (e.g. LIMIT, OFFSET).
 	 * @param CDbCriteria the criteria to be merged with.
+	 * @param boolean whether to use 'AND' to merge condition and having options.
+	 * If false, 'OR' will be used instead. Defaults to 'AND'. This parameter has been
+	 * available since version 1.0.6.
 	 * @since 1.0.5
 	 */
-	public function mergeWith($criteria)
+	public function mergeWith($criteria,$useAnd=true)
 	{
+		$and=$useAnd ? 'AND' : 'OR';
 		if(is_array($criteria))
 			$criteria=new self($criteria);
 		if($this->select!==$criteria->select)
@@ -103,7 +107,7 @@ class CDbCriteria
 			if($this->condition==='')
 				$this->condition=$criteria->condition;
 			else if($criteria->condition!=='')
-				$this->condition="({$this->condition}) AND ({$criteria->condition})";
+				$this->condition="({$this->condition}) $and ({$criteria->condition})";
 		}
 
 		if($this->params!==$criteria->params)
@@ -144,7 +148,19 @@ class CDbCriteria
 			if($this->having==='')
 				$this->having=$criteria->having;
 			else if($criteria->having!=='')
-				$this->having="({$this->having}) AND ({$criteria->having})";
+				$this->having="({$this->having}) $and ({$criteria->having})";
 		}
+	}
+
+	/**
+	 * @return array the array representation of the criteria
+	 * @since 1.0.6
+	 */
+	public function toArray()
+	{
+		$result=array();
+		foreach(array('select', 'condition', 'params', 'limit', 'offset', 'order', 'group', 'join', 'having') as $name)
+			$result[$name]=$this->$name;
+		return $result;
 	}
 }

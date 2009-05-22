@@ -142,7 +142,7 @@
  * Post::model()->updateByPk($postID,$attributes,$condition,$params);
  *
  * // update one or several counter columns
- * Post::model()->updateCounters($pk,$counters);
+ * Post::model()->updateCounters($counters,$condition,$params);
  *
  * // delete all records with the specified condition
  * Post::model()->deleteAll($condition,$params);
@@ -491,11 +491,7 @@ abstract class CActiveRecord extends CModel
 		$scopes=$this->scopes();
 		if(isset($scopes[$name]))
 		{
-			$scope=$scopes[$name];
-			if($this->_c===null)
-				$this->_c=new CDbCriteria($scope);
-			else
-				$this->_c->mergeWith($scope);
+			$this->getDbCriteria()->mergeWith($scopes[$name]);
 			return $this;
 		}
 

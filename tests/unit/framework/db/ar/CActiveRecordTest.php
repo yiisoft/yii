@@ -722,6 +722,16 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(3,count($posts));
 		$this->assertEquals(5,$posts[0]->id);
 		$this->assertEquals(4,$posts[1]->id);
+
+		$posts=PostSpecial::model()->findAll();
+		$this->assertEquals(2,count($posts));
+		$this->assertEquals(2,$posts[0]->id);
+		$this->assertEquals(3,$posts[1]->id);
+
+		$posts=PostSpecial::model()->desc()->findAll();
+		$this->assertEquals(2,count($posts));
+		$this->assertEquals(3,$posts[0]->id);
+		$this->assertEquals(2,$posts[1]->id);
 	}
 
 	public function testLazyLoadingWithConditions()
@@ -739,6 +749,18 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(2,count($user->posts));
 		$this->assertEquals(2,$user->posts[0]->id);
 		$this->assertEquals(3,$user->posts[1]->id);
+
+		$user=UserSpecial::model()->findByPk(2);
+		$posts=$user->posts;
+		$this->assertEquals(2,count($posts));
+		$this->assertEquals(2,$posts[0]->id);
+		$this->assertEquals(3,$posts[1]->id);
+
+		$user=UserSpecial::model()->findByPk(2);
+		$posts=$user->posts(array('params'=>array(':id1'=>4),'order'=>'posts.id DESC'));
+		$this->assertEquals(2,count($posts));
+		$this->assertEquals(4,$posts[0]->id);
+		$this->assertEquals(3,$posts[1]->id);
 	}
 
 	public function testDuplicateLazyLoadingBug()

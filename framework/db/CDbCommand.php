@@ -187,16 +187,26 @@ class CDbCommand extends CComponent
 		Yii::trace('Executing SQL: '.$this->getText().$params,'system.db.CDbCommand');
 		try
 		{
+			if($this->_connection->enableProfiling)
+				Yii::beginProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
+
 			if($this->_statement instanceof PDOStatement)
 			{
 				$this->_statement->execute();
-				return $this->_statement->rowCount();
+				$n=$this->_statement->rowCount();
 			}
 			else
-				return $this->getConnection()->getPdoInstance()->exec($this->getText());
+				$n=$this->getConnection()->getPdoInstance()->exec($this->getText());
+
+			if($this->_connection->enableProfiling)
+				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
+
+			return $n;
 		}
 		catch(Exception $e)
 		{
+			if($this->_connection->enableProfiling)
+				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
 			Yii::log('Error in executing SQL: '.$this->getText().$params,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
 				array('{error}'=>$e->getMessage())));
@@ -279,18 +289,27 @@ class CDbCommand extends CComponent
 		Yii::trace('Querying SQL: '.$this->getText().$params,'system.db.CDbCommand');
 		try
 		{
+			if($this->_connection->enableProfiling)
+				Yii::beginProfile('system.db.CDbCommand.query('.$this->getText().')','system.db.CDbCommand.query');
+
 			if($this->_statement instanceof PDOStatement)
 				$this->_statement->execute();
 			else
 				$this->_statement=$this->getConnection()->getPdoInstance()->query($this->getText());
-			if($method==='')
-				return new CDbDataReader($this);
-			$result=$this->_statement->{$method}($mode);
+
+			$result=$method==='' ? new CDbDataReader($this) : $this->_statement->{$method}($mode);
+
 			$this->_statement->closeCursor();
+
+			if($this->_connection->enableProfiling)
+				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().')','system.db.CDbCommand.query');
+
 			return $result;
 		}
 		catch(Exception $e)
 		{
+			if($this->_connection->enableProfiling)
+				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().')','system.db.CDbCommand.query');
 			Yii::log('Error in querying SQL: '.$this->getText().$params,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
 				array('{error}'=>$e->getMessage())));
