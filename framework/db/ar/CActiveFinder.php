@@ -284,10 +284,10 @@ class CActiveFinder extends CComponent
 		// $with is an array, keys are relation name, values are relation spec
 		foreach($with as $key=>$value)
 		{
-			if(is_string($key) && is_array($value))
-				$element=$this->buildJoinTree($parent,$key,$value);
-			else if(is_string($value))  // the key is integer, so value is the relation name
+			if(is_string($value))  // the value is a relation name
 				$this->buildJoinTree($parent,$value);
+			else if(is_string($key) && is_array($value))
+				$element=$this->buildJoinTree($parent,$key,$value);
 		}
 	}
 }

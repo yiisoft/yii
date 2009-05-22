@@ -120,7 +120,7 @@ class CAccessControlFilter extends CFilter
 		if($user->getIsGuest())
 			$user->loginRequired();
 		else
-			throw new CHttpException(401,Yii::t('yii','You are not authorized to perform this action.'));
+			throw new CHttpException(403,Yii::t('yii','You are not authorized to perform this action.'));
 	}
 }
 

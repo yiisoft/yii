@@ -30,7 +30,7 @@ protected function loadPost($id=null)
 			$this->_post=Post::model()->findbyPk($id!==null ? $id : $_GET['id']);
 		if($this->_post===null || Yii::app()->user->isGuest &&
 			$this->_post->status!=Post::STATUS_PUBLISHED)
-			throw new CHttpException(500,'The requested post does not exist.');
+			throw new CHttpException(404,'The requested post does not exist.');
 	}
 	return $this->_post;
 }

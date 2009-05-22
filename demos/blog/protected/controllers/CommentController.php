@@ -82,7 +82,7 @@ class CommentController extends CController
 			$this->redirect(array('post/show','id'=>$comment->postId));
 		}
 		else
-			throw new CHttpException(500,'Invalid request. Please do not repeat this request again.');
+			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 	}
 
 	/**
@@ -98,7 +98,7 @@ class CommentController extends CController
 			$this->redirect(array('post/show','id'=>$comment->postId,'#'=>'c'.$comment->id));
 		}
 		else
-			throw new CHttpException(500,'Invalid request. Please do not repeat this request again.');
+			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 	}
 
 	/**
@@ -133,7 +133,7 @@ class CommentController extends CController
 			if($id!==null || isset($_GET['id']))
 				$this->_comment=Comment::model()->findbyPk($id!==null ? $id : $_GET['id']);
 			if($this->_comment===null)
-				throw new CHttpException(500,'The requested comment does not exist.');
+				throw new CHttpException(404,'The requested comment does not exist.');
 		}
 		return $this->_comment;
 	}

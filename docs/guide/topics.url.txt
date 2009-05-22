@@ -106,6 +106,17 @@ corresponding to a single rule. The pattern of a rule is a string
 used to match the path info part of URLs. And the route of a rule
 should refer to a valid controller [route](/doc/guide/basics.controller#route).
 
+> Info: Starting from version 1.0.6, a rule may be further customized
+> by setting its `urlSuffix` and `caseSensitive` options. To do so,
+> we should specify the route part of the rule as an array, like the following:
+>
+> ~~~
+> [php]
+> 'pattern1'=>array('route1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
+> ~~~
+>
+
+
 ### Using Named Parameters
 
 A rule can be associated with a few GET parameters. These GET parameters

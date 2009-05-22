@@ -147,4 +147,20 @@ component with a [CProfileLogRoute] log route. This is the same as we do
 with normal message routing. The [CProfileLogRoute] route will display the
 performance results at the end of the current page.
 
+
+### Profiling SQL Executions
+
+Profiling is especially useful when working with database since SQL executions
+are often the main performance bottleneck of an application. While we can manually
+insert `beginProfile` and `endProfile` statements at appropriate places to measure
+the time spent in each SQL execution, starting from version 1.0.6, Yii provides
+a more systematic approach to solve this problem.
+
+By setting [CDbConnection::enableProfiling] to be true in the application configuration,
+every SQL statement being executed will be profiled. The results can be readily displayed
+using the aforementioned [CProfileLogRoute], which can show us how much time is spent
+in executing what SQL statement. We can also call [CDbConnection::getStats()] to retrieve
+the total number SQL statements executed and their total execution time.
+
+
 <div class="revision">$Id$</div>

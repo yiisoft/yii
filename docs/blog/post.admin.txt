@@ -95,7 +95,7 @@ public function actionDelete()
 		$this->redirect(array('list'));
 	}
 	else
-		throw new CHttpException(500,'Invalid request...');
+		throw new CHttpException(400,'Invalid request...');
 }
 ~~~
 

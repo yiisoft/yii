@@ -39,6 +39,11 @@ class CLogger extends CComponent
 	 * @var array log categories for filtering (used when filtering)
 	 */
 	private $_categories;
+	/**
+	 * @var array the profiling results (category, token => time in seconds)
+	 * @since 1.0.6
+	 */
+	private $_timings;
 
 	/**
 	 * Logs a message.
@@ -162,6 +167,71 @@ class CLogger extends CComponent
 				$output=explode("  ",$output[0]);
 				return isset($output[1]) ? $output[1]*1024 : 0;
 			}
+		}
+	}
+
+	/**
+	 * Returns the profiling results.
+	 * The results may be filtered by token and/or category.
+	 * If no filter is specified, the returned results would be an array with each element
+	 * being array($token,$category,$time).
+	 * If a filter is specified, the results would be an array of timings.
+	 * @param string token filter. Defaults to null, meaning not filtered by token.
+	 * @param string category filter. Defaults to null, meaning not filtered by category.
+	 * @param boolean whether to refresh the internal timing calculations. If false,
+	 * only the first time calling this method will the timings be calculated internally.
+	 * @return array the profiling results.
+	 * @since 1.0.6
+	 */
+	public function getProfilingResults($token=null,$category=null,$refresh=false)
+	{
+		if($this->_timings===null || $refresh)
+			$this->calculateTimings();
+		if($token===null && $category===null)
+			return $this->_timings;
+		$results=array();
+		foreach($this->_timings as $timing)
+		{
+			if(($category===null || $timing[1]===$category) && ($token===null || $timing[0]===$token))
+				$results[]=$timing[2];
+		}
+		return $results;
+	}
+
+	private function calculateTimings()
+	{
+		$this->_timings=array();
+
+		$stack=array();
+		foreach($this->_logs as $log)
+		{
+			if($log[1]!==CLogger::LEVEL_PROFILE)
+				continue;
+			list($message,$level,$category,$timestamp)=$log;
+			if(!strncasecmp($message,'begin:',6))
+			{
+				$log[0]=substr($message,6);
+				$stack[]=$log;
+			}
+			else if(!strncasecmp($message,'end:',4))
+			{
+				$token=substr($message,4);
+				if(($last=array_pop($stack))!==null && $last[0]===$token)
+				{
+					$delta=$log[3]-$last[3];
+					$this->_timings[]=array($message,$category,$delta);
+				}
+				else
+					throw new CException(Yii::t('yii','CProfileLogRoute found a mismatching code block "{token}". Make sure the calls to Yii::beginProfile() and Yii::endProfile() be properly nested.',
+						array('{token}'=>$token)));
+			}
+		}
+
+		$now=microtime(true);
+		while(($last=array_pop($stack))!==null)
+		{
+			$delta=$now-$last[3];
+			$this->_timings[]=array($last[0],$last[2],$delta);
 		}
 	}
 }

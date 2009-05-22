@@ -66,7 +66,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * @var string|array the URL for login. If using array, the first element should be
 	 * the route to the login action, and the rest name-value pairs are GET parameters
 	 * to construct the login URL (e.g. array('site/login')). If this property is null,
-	 * a 401 HTTP exception will be raised instead.
+	 * a 403 HTTP exception will be raised instead.
 	 * @see CController::createUrl
 	 */
 	public $loginUrl=array('site/login');
@@ -285,7 +285,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 			$request->redirect($url);
 		}
 		else
-			throw new CHttpException(401,Yii::t('yii','Login Required'));
+			throw new CHttpException(403,Yii::t('yii','Login Required'));
 	}
 
 	/**

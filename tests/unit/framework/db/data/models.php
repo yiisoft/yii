@@ -62,6 +62,7 @@ class Post extends CActiveRecord
 		return array(
 			'post23'=>array('condition'=>'posts.id=2 OR posts.id=3', 'alias'=>'posts', 'order'=>'posts.id'),
 			'post3'=>array('condition'=>'id=3'),
+			'postX'=>array('condition'=>'id=:id1 OR id=:id2', 'params'=>array(':id1'=>2, ':id2'=>3)),
 		);
 	}
 
@@ -72,6 +73,55 @@ class Post extends CActiveRecord
 			'limit'=>$limit,
 		));
 		return $this;
+	}
+}
+
+class PostSpecial extends CActiveRecord
+{
+	public static function model($class=__CLASS__)
+	{
+		return parent::model($class);
+	}
+
+	public function tableName()
+	{
+		return 'posts';
+	}
+
+	public function defaultScope()
+	{
+		return array(
+			'condition'=>'posts.id=:id1 OR posts.id=:id2',
+			'params'=>array(':id1'=>2, ':id2'=>3),
+			'alias'=>'posts',
+		);
+	}
+
+	public function scopes()
+	{
+		return array(
+			'desc'=>array('order'=>'id DESC'),
+		);
+	}
+}
+
+class UserSpecial extends CActiveRecord
+{
+	public static function model($class=__CLASS__)
+	{
+		return parent::model($class);
+	}
+
+	public function relations()
+	{
+		return array(
+			'posts'=>array(self::HAS_MANY,'PostSpecial','author_id'),
+		);
+	}
+
+	public function tableName()
+	{
+		return 'users';
 	}
 }
 

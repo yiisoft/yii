@@ -139,6 +139,13 @@ class CDbConnection extends CApplicationComponent
 	 * @since 1.0.5
 	 */
 	public $enableParamLogging=false;
+	/**
+	 * @var boolean whether to enable profiling the SQL statements being executed.
+	 * Defaults to false. This should be mainly enabled and used during development
+	 * to find out the bottleneck of SQL executions.
+	 * @since 1.0.6
+	 */
+	public $enableProfiling=false;
 
 	private $_attributes=array();
 	private $_active=false;
@@ -615,5 +622,26 @@ class CDbConnection extends CApplicationComponent
 			$this->_pdo->setAttribute($name,$value);
 		else
 			$this->_attributes[$name]=$value;
+	}
+
+	/**
+	 * Returns the statistical results of SQL executions.
+	 * The results returned include the number of SQL statements executed and
+	 * the total time spent.
+	 * In order to use this method, {@link enableProfiling} has to be set true.
+	 * @return array the first element indicates the number of SQL statements executed,
+	 * and the second element the total time spent in SQL execution.
+	 * @since 1.0.6
+	 */
+	public function getStats()
+	{
+		$logger=Yii::getLogger();
+		$timings=$logger->getProfilingResults(null,'system.db.CDbCommand.query');
+		$count=count($timings);
+		$time=array_sum($timings);
+		$timings=$logger->getProfilingResults(null,'system.db.CDbCommand.execute');
+		$count+=count($timings);
+		$time+=array_sum($timings);
+		return array($count,$time);
 	}
 }
