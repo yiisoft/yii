@@ -244,7 +244,7 @@ class CUrlManager extends CApplicationComponent
 	{
 		if($this->getUrlFormat()===self::PATH_FORMAT)
 		{
-			$rawPathInfo=$request->getPathInfo();
+			$rawPathInfo=urldecode($request->getPathInfo());
 			$pathInfo=$this->removeUrlSuffix($rawPathInfo,$this->urlSuffix);
 			foreach($this->_rules as $rule)
 			{
@@ -274,9 +274,9 @@ class CUrlManager extends CApplicationComponent
 		$n=count($segs);
 		for($i=0;$i<$n-1;$i+=2)
 		{
-			$key=urldecode($segs[$i]);
+			$key=$segs[$i];
 			if($key==='') continue;
-			$value=urldecode($segs[$i+1]);
+			$value=$segs[$i+1];
 			if(($pos=strpos($key,'[]'))!==false)
 				$_GET[substr($key,0,$pos)][]=$value;
 			else
@@ -557,9 +557,9 @@ class CUrlRule extends CComponent
 			foreach($matches as $key=>$value)
 			{
 				if(isset($this->references[$key]))
-					$tr[$this->references[$key]]=urldecode($value);
+					$tr[$this->references[$key]]=$value;
 				else if(isset($this->params[$key]))
-					$_GET[$key]=urldecode($value);
+					$_GET[$key]=$value;
 			}
 			if($pathInfo!==$matches[0]) // there're additional GET params
 				CUrlManager::parsePathInfo(ltrim(substr($pathInfo,strlen($matches[0])),'/'));
