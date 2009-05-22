@@ -136,7 +136,7 @@ class PostController extends CController
 			$this->redirect(array('list'));
 		}
 		else
-			throw new CHttpException(500,'Invalid request. Please do not repeat this request again.');
+			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 	}
 
 	/**
@@ -216,7 +216,7 @@ class PostController extends CController
 			if($id!==null || isset($_GET['id']))
 				$this->_post=Post::model()->findbyPk($id!==null ? $id : $_GET['id']);
 			if($this->_post===null || Yii::app()->user->isGuest && $this->_post->status!=Post::STATUS_PUBLISHED)
-				throw new CHttpException(500,'The requested post does not exist.');
+				throw new CHttpException(404,'The requested post does not exist.');
 		}
 		return $this->_post;
 	}
