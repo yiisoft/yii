@@ -22,7 +22,7 @@
 class CHttpException extends CException
 {
 	/**
-	 * @var integer HTTP status code, such as 401, 404, 500, etc.
+	 * @var integer HTTP status code, such as 403, 404, 500, etc.
 	 */
 	public $statusCode;
 

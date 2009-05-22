@@ -261,7 +261,7 @@ specified action, one of the following two scenarios may happen:
 property of the user component is configured to be the URL of the login
 page, the browser will be redirected to that page.
 
-   - Otherwise an HTTP exception will be displayed with error code 401.
+   - Otherwise an HTTP exception will be displayed with error code 403.
 
 When configuring the [loginUrl|CWebUser::loginUrl] property, one can
 provide a relative or absolute URL. One can also provide an array which

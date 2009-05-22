@@ -9,6 +9,7 @@ Version 1.0.6 to be released
 - Bug #312: defaultScope not honored when other sopes are applied (Qiang)
 - Bug #313: Dynamic parameter for lazy loading resets the parameters specified in default scope (Qiang)
 - Bug #321: CProfileLogRoute should be disabled for AJAX requests (Qiang)
+- Bug #331: HTTP 403 status code should be used to indicate auth failure (Qiang)
 - Bug: Syntax errors in autoloaded classes are not reported (Qiang)
 - New #304: Added flv mimeType to the mimeType array (Qiang)
 - New #315: Added CDbConnection.enableProfiling (Qiang)
