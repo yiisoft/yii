@@ -64,6 +64,15 @@ class CErrorHandler extends CApplicationComponent
 	 * @var boolean whether to discard any existing page output before error display. Defaults to true.
 	 */
 	public $discardOutput=true;
+	/**
+	 * @var string the route (e.g. 'site/error') to the controller action that will be used to display external errors.
+	 * Inside the action, it can retrieve the error information by Yii::app()->errorHandler->error.
+	 * This property defaults to null, meaning CErrorHandler will handle the error display.
+	 * @since 1.0.6
+	 */
+	public $errorAction;
+
+	private $_error;
 
 	/**
 	 * Handles the exception/error event.
@@ -88,6 +97,26 @@ class CErrorHandler extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the details about the error that is currently being handled.
+	 * The error is returned in terms of an array, with the following information:
+	 * <ul>
+	 * <li>code - the HTTP status code (e.g. 403, 500)</li>
+	 * <li>type - the error type (e.g. 'CHttpException', 'PHP Error')</li>
+	 * <li>message - the error message</li>
+	 * <li>file - the name of the PHP script file where the error occurs</li>
+	 * <li>line - the line number of the code where the error occurs</li>
+	 * <li>trace - the call stack of the error</li>
+	 * <li>source - the context source code where the error occurs</li>
+	 * </ul>
+	 * @return array the error details. Null if there is no error.
+	 * @since 1.0.6
+	 */
+	public function getError()
+	{
+		return $this->_error;
+	}
+
+	/**
 	 * Handles the exception.
 	 * @param Exception the exception captured
 	 */
@@ -106,7 +135,7 @@ class CErrorHandler extends CApplicationComponent
 				$fileName=$trace['file'];
 				$errorLine=$trace['line'];
 			}
-			$data=array(
+			$this->_error=$data=array(
 				'code'=>($exception instanceof CHttpException)?$exception->statusCode:500,
 				'type'=>get_class($exception),
 				'message'=>$exception->getMessage(),
@@ -114,7 +143,7 @@ class CErrorHandler extends CApplicationComponent
 				'line'=>$errorLine,
 				'trace'=>$exception->getTraceAsString(),
 				'source'=>$this->getSourceLines($fileName,$errorLine),
-				);
+			);
 
 			if(!headers_sent())
 				header("HTTP/1.0 {$data['code']} ".get_class($exception));
@@ -155,7 +184,7 @@ class CErrorHandler extends CApplicationComponent
 		$app=Yii::app();
 		if($app instanceof CWebApplication)
 		{
-			$data=array(
+			$this->_error=$data=array(
 				'code'=>500,
 				'type'=>'PHP Error',
 				'message'=>$event->message,
@@ -200,11 +229,16 @@ class CErrorHandler extends CApplicationComponent
 	 */
 	protected function render($view,$data)
 	{
-		// additional information to be passed to view
-		$data['version']=$this->getVersionInfo();
-		$data['time']=time();
-		$data['admin']=$this->adminInfo;
-		include($this->getViewFile($view,$data['code']));
+		if($view==='error' && $this->errorAction!==null)
+			Yii::app()->runController($this->errorAction);
+		else
+		{
+			// additional information to be passed to view
+			$data['version']=$this->getVersionInfo();
+			$data['time']=time();
+			$data['admin']=$this->adminInfo;
+			include($this->getViewFile($view,$data['code']));
+		}
 	}
 
 	/**

@@ -500,15 +500,22 @@ abstract class CApplication extends CModule
 			$message.=' REQUEST_URI='.$_SERVER['REQUEST_URI'];
 		Yii::log($message,CLogger::LEVEL_ERROR,$category);
 
-		$event=new CExceptionEvent($this,$exception);
-		$this->onException($event);
-		if(!$event->handled)
+		try
 		{
-			// try an error handler
-			if(($handler=$this->getErrorHandler())!==null)
-				$handler->handle($event);
-			else
-				$this->displayException($exception);
+			$event=new CExceptionEvent($this,$exception);
+			$this->onException($event);
+			if(!$event->handled)
+			{
+				// try an error handler
+				if(($handler=$this->getErrorHandler())!==null)
+					$handler->handle($event);
+				else
+					$this->displayException($exception);
+			}
+		}
+		catch(Exception $e)
+		{
+			$this->displayException($e);
 		}
 		$this->end(1);
 	}
@@ -543,15 +550,22 @@ abstract class CApplication extends CModule
 				$log.=' REQUEST_URI='.$_SERVER['REQUEST_URI'];
 			Yii::log($log,CLogger::LEVEL_ERROR,'php');
 
-			$event=new CErrorEvent($this,$code,$message,$file,$line);
-			$this->onError($event);
-			if(!$event->handled)
+			try
 			{
-				// try an error handler
-				if(($handler=$this->getErrorHandler())!==null)
-					$handler->handle($event);
-				else
-					$this->displayError($code,$message,$file,$line);
+				$event=new CErrorEvent($this,$code,$message,$file,$line);
+				$this->onError($event);
+				if(!$event->handled)
+				{
+					// try an error handler
+					if(($handler=$this->getErrorHandler())!==null)
+						$handler->handle($event);
+					else
+						$this->displayError($code,$message,$file,$line);
+				}
+			}
+			catch(Exception $e)
+			{
+				$this->displayException($e);
 			}
 			$this->end(1);
 		}

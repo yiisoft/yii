@@ -18,6 +18,9 @@ Version 1.0.6
  * Added support for customizing a single URL rule by setting its urlFormat and caseSensitive options:
      - [User-friendly URLs](/doc/guide/topics.url#user-friendly-urls)
 
+ * Added support for using a controller action to display application errors:
+     - [Handling Errors Using an Action](/doc/guide/topics.error#handling-errors-using-an-action)
+
 Version 1.0.5
 -------------
 
