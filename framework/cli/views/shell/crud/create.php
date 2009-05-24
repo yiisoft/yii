@@ -3,9 +3,7 @@
  * This is the template for generating the create view for crud.
  * The following variables are available in this template:
  * - $ID: the primary key name
- * - $model: the finder object
  * - $modelClass: the model class name
- * - $modelVar: the PHP variable name storing the model instance
  * - $columns: a list of column schema objects
  */
 ?>
@@ -17,6 +15,6 @@
 </div>
 
 <?php echo "<?php echo \$this->renderPartial('_form', array(
-	'$modelVar'=>\$$modelVar,
+	'model'=>\$model,
 	'update'=>false,
 )); ?>"; ?>

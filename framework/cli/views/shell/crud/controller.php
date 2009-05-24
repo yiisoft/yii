@@ -3,10 +3,8 @@
  * This is the template for generating the controller class file for crud.
  * The following variables are available in this template:
  * - $ID: the primary key name
- * - $model: the finder object
+ * - $controllerClass: the controller class name
  * - $modelClass: the model class name
- * - $modelVar: the PHP variable name storing the model instance
- * - $modelName: the model name
  */
 ?>
 <?php echo "<?php\n"; ?>
@@ -23,7 +21,7 @@ class <?php echo $controllerClass; ?> extends CController
 	/**
 	 * @var CActiveRecord the currently loaded data model instance.
 	 */
-	private $_<?php echo $modelVar; ?>;
+	private $_model;
 
 	/**
 	 * @return array action filters
@@ -62,47 +60,47 @@ class <?php echo $controllerClass; ?> extends CController
 	}
 
 	/**
-	 * Shows a particular <?php echo $modelVar; ?>.
+	 * Shows a particular model.
 	 */
 	public function actionShow()
 	{
-		$this->render('show',array('<?php echo $modelVar; ?>'=>$this->load<?php echo $modelClass; ?>()));
+		$this->render('show',array('model'=>$this->load<?php echo $modelClass; ?>()));
 	}
 
 	/**
-	 * Creates a new <?php echo $modelVar; ?>.
+	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'show' page.
 	 */
 	public function actionCreate()
 	{
-		$<?php echo $modelVar; ?>=new <?php echo $modelClass; ?>;
+		$model=new <?php echo $modelClass; ?>;
 		if(isset($_POST['<?php echo $modelClass; ?>']))
 		{
-			$<?php echo $modelVar; ?>->attributes=$_POST['<?php echo $modelClass; ?>'];
-			if($<?php echo $modelVar; ?>->save())
-				$this->redirect(array('show','id'=>$<?php echo $modelVar; ?>-><?php echo $ID; ?>));
+			$model->attributes=$_POST['<?php echo $modelClass; ?>'];
+			if($model->save())
+				$this->redirect(array('show','id'=>$model-><?php echo $ID; ?>));
 		}
-		$this->render('create',array('<?php echo $modelVar; ?>'=>$<?php echo $modelVar; ?>));
+		$this->render('create',array('model'=>$model));
 	}
 
 	/**
-	 * Updates a particular <?php echo $modelVar; ?>.
+	 * Updates a particular model.
 	 * If update is successful, the browser will be redirected to the 'show' page.
 	 */
 	public function actionUpdate()
 	{
-		$<?php echo $modelVar; ?>=$this->load<?php echo $modelClass; ?>();
+		$model=$this->load<?php echo $modelClass; ?>();
 		if(isset($_POST['<?php echo $modelClass; ?>']))
 		{
-			$<?php echo $modelVar; ?>->attributes=$_POST['<?php echo $modelClass; ?>'];
-			if($<?php echo $modelVar; ?>->save())
-				$this->redirect(array('show','id'=>$<?php echo $modelVar; ?>-><?php echo $ID; ?>));
+			$model->attributes=$_POST['<?php echo $modelClass; ?>'];
+			if($model->save())
+				$this->redirect(array('show','id'=>$model-><?php echo $ID; ?>));
 		}
-		$this->render('update',array('<?php echo $modelVar; ?>'=>$<?php echo $modelVar; ?>));
+		$this->render('update',array('model'=>$model));
 	}
 
 	/**
-	 * Deletes a particular <?php echo $modelVar; ?>.
+	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'list' page.
 	 */
 	public function actionDelete()
@@ -118,7 +116,7 @@ class <?php echo $controllerClass; ?> extends CController
 	}
 
 	/**
-	 * Lists all <?php echo $modelVar; ?>s.
+	 * Lists all models.
 	 */
 	public function actionList()
 	{
@@ -128,16 +126,16 @@ class <?php echo $controllerClass; ?> extends CController
 		$pages->pageSize=self::PAGE_SIZE;
 		$pages->applyLimit($criteria);
 
-		$<?php echo $modelVar; ?>List=<?php echo $modelClass; ?>::model()->findAll($criteria);
+		$models=<?php echo $modelClass; ?>::model()->findAll($criteria);
 
 		$this->render('list',array(
-			'<?php echo $modelVar; ?>List'=>$<?php echo $modelVar; ?>List,
+			'models'=>$models,
 			'pages'=>$pages,
 		));
 	}
 
 	/**
-	 * Manages all <?php echo $modelVar; ?>s.
+	 * Manages all models.
 	 */
 	public function actionAdmin()
 	{
@@ -152,10 +150,10 @@ class <?php echo $controllerClass; ?> extends CController
 		$sort=new CSort('<?php echo $modelClass; ?>');
 		$sort->applyOrder($criteria);
 
-		$<?php echo $modelVar; ?>List=<?php echo $modelClass; ?>::model()->findAll($criteria);
+		$models=<?php echo $modelClass; ?>::model()->findAll($criteria);
 
 		$this->render('admin',array(
-			'<?php echo $modelVar; ?>List'=>$<?php echo $modelVar; ?>List,
+			'models'=>$models,
 			'pages'=>$pages,
 			'sort'=>$sort,
 		));
@@ -168,14 +166,14 @@ class <?php echo $controllerClass; ?> extends CController
 	 */
 	public function load<?php echo $modelClass; ?>($id=null)
 	{
-		if($this->_<?php echo $modelVar; ?>===null)
+		if($this->_model===null)
 		{
 			if($id!==null || isset($_GET['id']))
-				$this->_<?php echo $modelVar; ?>=<?php echo $modelClass; ?>::model()->findbyPk($id!==null ? $id : $_GET['id']);
-			if($this->_<?php echo $modelVar; ?>===null)
-				throw new CHttpException(404,'The requested <?php echo $modelName; ?> does not exist.');
+				$this->_model=<?php echo $modelClass; ?>::model()->findbyPk($id!==null ? $id : $_GET['id']);
+			if($this->_model===null)
+				throw new CHttpException(404,'The requested page does not exist.');
 		}
-		return $this->_<?php echo $modelVar; ?>;
+		return $this->_model;
 	}
 
 	/**

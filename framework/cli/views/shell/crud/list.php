@@ -3,9 +3,7 @@
  * This is the template for generating the list view for crud.
  * The following variables are available in this template:
  * - $ID: the primary key name
- * - $model: the finder object
  * - $modelClass: the model class name
- * - $modelVar: the PHP variable name storing the model instance
  * - $columns: a list of column schema objects
  */
 ?>
@@ -19,7 +17,7 @@
 <?php echo "<?php \$this->widget('CLinkPager',array('pages'=>\$pages)); ?>" ?>
 
 
-<?php echo "<?php foreach(\${$modelVar}List as \$n=>\$model): ?>\n"; ?>
+<?php echo "<?php foreach(\$models as \$n=>\$model): ?>\n"; ?>
 <div class="item">
 <?php echo "<?php echo CHtml::encode(\$model->getAttributeLabel('{$ID}')); ?>"; ?>:
 <?php echo "<?php echo CHtml::link(\$model->{$ID},array('show','id'=>\$model->{$ID})); ?>"; ?>
