@@ -158,21 +158,6 @@ EOD;
 
 	public function generateController($source,$params)
 	{
-		list($className,$actions)=$params;
-		$content=file_get_contents($source);
-		$actionTemplate=<<<EOD
-
-	public function action{Name}()
-	{
-		\$this->render('{View}');
-	}
-
-EOD;
-		$actionCode='';
-		foreach($actions as $name)
-			$actionCode.=strtr($actionTemplate,array('{Name}'=>ucfirst($name),'{View}'=>$name));
-		return strtr($content,array(
-			'{ClassName}'=>$className,
-			'{Actions}'=>$actionCode));
+		return $this->renderFile($source,array('className'=>$params[0],'actions'=>$params[1]),true);
 	}
 }

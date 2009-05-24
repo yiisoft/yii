@@ -1,7 +1,14 @@
-<?php
+<?php echo "<?php\n"; ?>
 
-class {ClassName} extends CController
-{{Actions}
+class <?php echo $className; ?> extends CController
+{
+<?php foreach($actions as $action): ?>
+	public function action<?php echo ucfirst($action); ?>()
+	{
+		$this->render('<?php echo $action; ?>');
+	}
+
+<?php endforeach; ?>
 	// -----------------------------------------------------------
 	// Uncomment the following methods and override them if needed
 	/*
