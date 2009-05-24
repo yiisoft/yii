@@ -179,13 +179,14 @@ EOD;
 		if(!is_file($source))  // fall back to default ones
 			$source=YII_PATH.'/cli/views/shell/crud/'.basename($source);
 
-		$content=file_get_contents($source);
-		return strtr($content,array(
-			'{ClassName}'=>$controllerClass,
-			'{ID}'=>$id,
-			'{ModelClass}'=>$modelClass,
-			'{ModelVar}'=>strtolower($modelClass),
-			'{ModelName}'=>strtolower($modelClass)));
+		return $this->renderFile($source,array(
+			'ID'=>$id,
+			'model'=>$model,
+			'controllerClass'=>$controllerClass,
+			'modelClass'=>$modelClass,
+			'modelVar'=>strtolower($modelClass),
+			'ModelName'=>strtolower($modelClass),
+		),true);
 	}
 
 	public function generateView($source,$modelClass)

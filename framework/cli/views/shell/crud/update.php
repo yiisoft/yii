@@ -1,3 +1,14 @@
+<?php
+/**
+ * This is the template for generating the update view for crud.
+ * The following variables are available in this template:
+ * - $ID: the primary key name
+ * - $model: the finder object
+ * - $modelClass: the model class name
+ * - $modelVar: the PHP variable name storing the model instance
+ * - $columns: a list of column schema objects
+ */
+?>
 <h2>Update <?php echo $modelClass." <?php echo \${$modelVar}->{$ID}; ?>"; ?></h2>
 
 <div class="actionBar">

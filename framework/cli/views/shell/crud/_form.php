@@ -1,3 +1,14 @@
+<?php
+/**
+ * This is the template for generating the form view for crud.
+ * The following variables are available in this template:
+ * - $ID: the primary key name
+ * - $model: the finder object
+ * - $modelClass: the model class name
+ * - $modelVar: the PHP variable name storing the model instance
+ * - $columns: a list of column schema objects
+ */
+?>
 <div class="yiiForm">
 
 <p>
