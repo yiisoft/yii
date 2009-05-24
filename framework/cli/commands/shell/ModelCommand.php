@@ -253,21 +253,23 @@ EOD;
 			$this->_tables = array($tableName => $className);
 		}
 
+		$list=array();
 		foreach ($this->_tables as $tableName=>$className)
 		{
 			$files[]=$classFile=$basePath.DIRECTORY_SEPARATOR.$className.'.php';
 			$templateFile=$this->templateFile===null?YII_PATH.'/cli/views/shell/model/model.php':$this->templateFile;
-			$list=array(
-				$className.'.php'=>array(
-					'source'=>$templateFile,
-					'target'=>$classFile,
-					'callback'=>array($this,'generateModel'),
-					'params'=>array($className,$tableName),
-				),
+			$list[$className.'.php']=array(
+				'source'=>$templateFile,
+				'target'=>$classFile,
+				'callback'=>array($this,'generateModel'),
+				'params'=>array($className,$tableName),
 			);
-			$this->copyFiles($list);
-			include_once($classFile);
 		}
+
+		$this->copyFiles($list);
+
+		foreach($files as $file)
+			include_once($file);
 
 		$classes=join(", ", $classNames);
 
