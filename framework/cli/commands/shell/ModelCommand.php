@@ -324,8 +324,8 @@ EOD;
 				if($numerical!==array())
 					$rules[]="array('".implode(', ',$numerical)."', 'numerical')";
 
-				if(is_array($this->_relations[$tableName]))
-					$relations=$this->_relations[$tableName];
+				if(isset($this->_relations[$className]) && is_array($this->_relations[$className]))
+					$relations=$this->_relations[$className];
 			}
 			else
 				echo "Warning: the table '$tableName' does not exist in the database.\n";
