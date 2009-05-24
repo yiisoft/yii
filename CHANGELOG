@@ -4,6 +4,7 @@
 
 Version 1.0.6 to be released
 ----------------------------
+- Bug #305: column aliases used in CActiveFinder should be quoted so that their cases are kept (Qiang)
 - Bug #308: typo in CLinkPager CSS class name (Qiang)
 - Bug #310: Leading space in auto generated labels if they end with "ID" (Qiang)
 - Bug #312: defaultScope not honored when other sopes are applied (Qiang)
