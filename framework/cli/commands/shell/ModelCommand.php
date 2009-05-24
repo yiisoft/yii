@@ -110,8 +110,8 @@ EOD;
 	{
 		list($className,$tableName)=$params;
 		$content=file_get_contents($source);
-		$rules='';
-		$labels='';
+		$rules=array();
+		$labels=array();
 		if(($db=Yii::app()->getDb())!==null)
 		{
 			$db->active=true;
@@ -125,7 +125,7 @@ EOD;
 					$label=ucwords(trim(strtolower(str_replace(array('-','_'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $column->name)))));
 					if(strcasecmp(substr($label,-3),' id')===0)
 						$label=substr($label,0,-3);
-					$labels.="\n\t\t\t'{$column->name}'=>'$label',";
+					$labels[]="'{$column->name}'=>'$label'";
 					if($column->isPrimaryKey && $table->sequenceName!==null || $column->isForeignKey)
 						continue;
 					if(!$column->allowNull && $column->defaultValue===null)
@@ -135,14 +135,14 @@ EOD;
 					else if($column->type==='double')
 						$numerical[]=$column->name;
 					else if($column->type==='string' && $column->size>0)
-						$rules.="\n\t\t\tarray('{$column->name}','length','max'=>{$column->size}),";
+						$rules[]="array('{$column->name}','length','max'=>{$column->size})";
 				}
 				if($required!==array())
-					$rules.="\n\t\t\tarray('".implode(', ',$required)."', 'required'),";
+					$rules[]="array('".implode(', ',$required)."', 'required')";
 				if($integers!==array())
-					$rules.="\n\t\t\tarray('".implode(', ',$integers)."', 'numerical', 'integerOnly'=>true),";
+					$rules[]="array('".implode(', ',$integers)."', 'numerical', 'integerOnly'=>true)";
 				if($numerical!==array())
-					$rules.="\n\t\t\tarray('".implode(', ',$numerical)."', 'numerical'),";
+					$rules[]="array('".implode(', ',$numerical)."', 'numerical')";
 			}
 			else
 				echo "Warning: the table '$tableName' does not exist in the database.\n";
@@ -150,12 +150,12 @@ EOD;
 		else
 			echo "Warning: you do not have a 'db' database connection as required by Active Record.\n";
 
-		$tr=array(
-			'{ClassName}'=>$className,
-			'{TableName}'=>$tableName,
-			'{Labels}'=>$labels,
-			'{Rules}'=>$rules);
-
-		return strtr($content,$tr);
+		return $this->renderFile($source,array(
+			'className'=>$className,
+			'tableName'=>$tableName,
+			'columns'=>isset($table) ? $table->columns : array(),
+			'rules'=>$rules,
+			'labels'=>$labels,
+		),true);
 	}
 }
