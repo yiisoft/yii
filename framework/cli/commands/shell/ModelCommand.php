@@ -25,6 +25,10 @@ class ModelCommand extends CConsoleCommand
 	 */
 	public $templateFile;
 
+	private $_schema;
+	private $_relations; // where we keep table relations
+	private $_tables;
+
 	public function getHelp()
 	{
 		return <<<EOD
@@ -43,8 +47,14 @@ PARAMETERS
    If the model class belongs to a module, it should be specified
    as 'ModuleID.models.ClassName'.
 
+   If the class name ends with '*', then a model class will be generated
+   for every table in the database.
+
  * table-name: optional, the associated database table name. If not given,
    it is assumed to be the model class name.
+
+   Note, when the class name ends with '*', this parameter will be
+   ignored.
 
 EXAMPLES
  * Generates the Post model:
@@ -56,7 +66,154 @@ EXAMPLES
  * Generates the Post model which should belong to module 'admin':
         model admin.models.Post
 
+ * Generates a model class for every table in the current database:
+        model *
+
+ * Generates a model class for every table in the current database.
+   The model class files are stored under 'protected/models2':
+        model application.models2.*
+
 EOD;
+	}
+
+	/**
+	 * Checks if the given table is a "many to many" helper table.
+	 * Their PK has 2 fields, and both of those fields are also FK to other separate tables.
+	 * @param CDbTableSchema table to inspect
+	 * @return boolean true if table matches description of helpter table.
+	 */
+	protected function isRelationTable($table)
+	{
+		$pk = $table->primaryKey;
+		return (count($pk) === 2 // we want 2 columns
+			&& isset($table->foreignKeys[$pk[0]]) // pk column 1 is also a foreign key
+			&& isset($table->foreignKeys[$pk[1]]) // pk column 2 is also a foriegn key
+			&& $table->foreignKeys[$pk[0]][0] !== $table->foreignKeys[$pk[1]][0]); // and the foreign keys point different tables
+	}
+
+	/**
+	 * Generate code to put in ActiveRecord class's relations() function.
+	 * @return array indexed by table names, each entry contains array of php code to go in appropriate ActiveRecord class.
+	 *		Empty array is returned if database couldn't be connected.
+	 */
+	protected function generateRelations()
+	{
+		if(($db=Yii::app()->getDb()) === null)
+		{
+			echo "Warning: you do not have a 'db' database connection as required by Active Record.\n";
+			return array();
+		}
+
+		$db->active = true;
+		$this->_schema = $schema = $db->schema;
+		$relations = array();
+
+		foreach ($schema->tables as $table)
+        {
+			$tableName = $table->name;
+
+			if ($this->isRelationTable($table))
+			{
+				$pks = $table->primaryKey;
+				$fks = $table->foreignKeys;
+
+				$table0 = $fks[$pks[1]][0];
+				$table1 = $fks[$pks[0]][0];
+
+				$relationName = $this->generateRelationName($table0, $table1, true);
+				$className = $this->generateClassName($table0);
+				$relations[$className][$relationName] = "array(self::MANY_MANY, '$table1', '$tableName($pks[0], $pks[1])')";
+
+				$relationName = $this->generateRelationName($table1, $table0, true);
+				$className = $this->generateClassName($table1);
+				$relations[$className][$relationName] = "array(self::MANY_MANY, '$table0', '$tableName($pks[0], $pks[1])')";
+			}
+			else
+			{
+				foreach ($table->foreignKeys as $fkName => $fkEntry)
+				{
+					// Put table and key name in variables for easier reading
+					$refTable = $fkEntry[0]; // Table name that current fk references to
+					$refKey = $fkEntry[1];   // Key in that table being referenced
+
+					// Add relation for this table
+					$relationName = $this->generateRelationName($tableName, $fkName, false);
+					$className = $this->generateClassName($tableName);
+					$relations[$className][$relationName] = "array(self::BELONGS_TO, '$refTable', '$fkName')";
+
+					// Add relation for the referenced table
+					$relationType = $table->primaryKey === $fkName ? 'HAS_ONE' : 'HAS_MANY';
+					$relationName = $this->generateRelationName($refTable, $tableName, $relationType==='HAS_MANY');
+					$refClassName = $this->generateClassName($refTable);
+					$relations[$refClassName][$relationName] = "array(self::$relationType, '$tableName', '$fkName')";
+				}
+			}
+		}
+
+		return $relations;
+	}
+
+	/**
+	 * Generates model class name based on a table name
+	 * @param string the table name
+	 * @return string the generated model class name
+	 */
+	protected function generateClassName($tableName)
+	{
+		if(!isset($this->_tables[$tableName]))
+		{
+			$name=ucwords(trim(strtolower(str_replace(array('-','_'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $tableName)))));
+			$this->_tables[$tableName]=str_replace(' ','',$name);
+		}
+		return $this->_tables[$tableName];
+	}
+
+	/**
+	 * Generate a name for use as a relation name (inside relations() function in a model).
+	 * @param string the name of the table to hold the relation
+	 * @param string the foreign key name
+	 * @param boolean whether the relation would contain multiple objects
+	 */
+	protected function generateRelationName($tableName, $fkName, $multiple)
+	{
+		if(strcasecmp(substr($fkName,-2),'id')===0)
+			$relationName=rtrim(substr($fkName, 0, -2),'_');
+		else
+			$relationName=$fkName;
+		$relationName[0]=strtolower($relationName);
+
+		$rawName=$relationName;
+		if($multiple)
+			$relationName=$this->pluralize($relationName);
+
+		$table=$this->_schema->getTable($tableName);
+		$i=0;
+		while(isset($table->columns[$relationName]))
+			$relationName=$rawName.($i++);
+		return $relationName;
+	}
+
+	/**
+	 * Converts a word to its plural form.
+	 * @param string the word to be pluralized
+	 * @return string the pluralized word
+	 */
+	protected function pluralize($name)
+	{
+		$rules=array(
+			'/(x|ch|ss|sh|us|as|es|is|os)$/i' => '\1es',
+			'/(?:([^f])fe|([lr])f)$/i' => '\1\2ves',
+			'/(m)an$/i' => '\1en',
+			'/(child)$/i' => '\1ren',
+			'/(r)y$/i' => '\1ies',
+			'/s$/' => 's',
+		);
+		foreach($rules as $rule=>$replacement)
+		{
+			if(preg_match($rule,$name))
+				return preg_replace($rule,$replacement,$name);
+		}
+		return $name.'s';
 	}
 
 	/**
@@ -72,6 +229,7 @@ EOD;
 			return;
 		}
 		$className=$args[0];
+
 		if(($pos=strrpos($className,'.'))===false)
 			$basePath=Yii::getPathOfAlias('application.models');
 		else
@@ -80,26 +238,45 @@ EOD;
 			$className=substr($className,$pos+1);
 		}
 
-		$tableName=isset($args[1])?$args[1]:$className;
-		$classFile=$basePath.DIRECTORY_SEPARATOR.$className.'.php';
-		$templateFile=$this->templateFile===null?YII_PATH.'/cli/views/shell/model/model.php':$this->templateFile;
-		$list=array(
-			$className.'.php'=>array(
-				'source'=>$templateFile,
-				'target'=>$classFile,
-				'callback'=>array($this,'generateModel'),
-				'params'=>array($className,$tableName),
-			),
-		);
-		$this->copyFiles($list);
-		include_once($classFile);
+		if ($className==='*')
+		{
+			$this->_relations = $this->generateRelations();
+			$classNames = array_keys($this->_relations);
+		}
+		else
+		{
+			// preset table=>class name map before relation generation
+			$this->_tables = array($tableName => $className);
+			$this->_relations = $this->generateRelations();
+			$classNames = array($className);
+			$tableName = isset($args[1])?$args[1]:$className;
+			$this->_tables = array($tableName => $className);
+		}
+
+		foreach ($this->_tables as $tableName=>$className)
+		{
+			$files[]=$classFile=$basePath.DIRECTORY_SEPARATOR.$className.'.php';
+			$templateFile=$this->templateFile===null?YII_PATH.'/cli/views/shell/model/model.php':$this->templateFile;
+			$list=array(
+				$className.'.php'=>array(
+					'source'=>$templateFile,
+					'target'=>$classFile,
+					'callback'=>array($this,'generateModel'),
+					'params'=>array($className,$tableName),
+				),
+			);
+			$this->copyFiles($list);
+			include_once($classFile);
+		}
+
+		$classes=join(", ", $classNames);
 
 		echo <<<EOD
 
-The '{$className}' class has been successfully created in the following file:
-    $classFile
+The following model classes are successfully generated:
+    $classes
 
-If you have a 'db' database connection, you can test it now with:
+If you have a 'db' database connection, you can test these models now with:
     \$model={$className}::model()->find();
     print_r(\$model);
 
@@ -112,6 +289,7 @@ EOD;
 		$content=file_get_contents($source);
 		$rules=array();
 		$labels=array();
+		$relations=array();
 		if(($db=Yii::app()->getDb())!==null)
 		{
 			$db->active=true;
@@ -143,6 +321,9 @@ EOD;
 					$rules[]="array('".implode(', ',$integers)."', 'numerical', 'integerOnly'=>true)";
 				if($numerical!==array())
 					$rules[]="array('".implode(', ',$numerical)."', 'numerical')";
+
+				if(is_array($this->_relations[$tableName]))
+					$relations=$this->_relations[$tableName];
 			}
 			else
 				echo "Warning: the table '$tableName' does not exist in the database.\n";
@@ -156,6 +337,7 @@ EOD;
 			'columns'=>isset($table) ? $table->columns : array(),
 			'rules'=>$rules,
 			'labels'=>$labels,
+			'relations'=>$relations,
 		),true);
 	}
 }

@@ -7,6 +7,7 @@
  * - $columns: a list of table column schema objects
  * - $rules: a list of validation rules (string)
  * - $labels: a list of labels (string)
+ * - $relations: a  list of relations (string)
  */
 ?>
 <?php echo "<?php\n"; ?>
@@ -54,7 +55,12 @@ class <?php echo $className; ?> extends CActiveRecord
 	 */
 	public function relations()
 	{
+		// NOTE: you may need to adjust the relation name and the related
+		// class name for the relations automatically generated below.
 		return array(
+<?php foreach($relations as $name=>$relation): ?>
+			<?php echo "'$name' => $relation,\n"; ?>
+<?php endforeach; ?>
 		);
 	}
 
