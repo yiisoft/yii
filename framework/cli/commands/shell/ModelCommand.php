@@ -109,7 +109,7 @@ EOD;
 		$relations = array();
 
 		foreach ($schema->tables as $table)
-        {
+		{
 			$tableName = $table->name;
 
 			if ($this->isRelationTable($table))
@@ -256,7 +256,7 @@ EOD;
 		$list=array();
 		foreach ($this->_tables as $tableName=>$className)
 		{
-			$files[]=$classFile=$basePath.DIRECTORY_SEPARATOR.$className.'.php';
+			$files[$className]=$classFile=$basePath.DIRECTORY_SEPARATOR.$className.'.php';
 			$templateFile=$this->templateFile===null?YII_PATH.'/cli/views/shell/model/model.php':$this->templateFile;
 			$list[$className.'.php']=array(
 				'source'=>$templateFile,
@@ -268,8 +268,11 @@ EOD;
 
 		$this->copyFiles($list);
 
-		foreach($files as $file)
-			include_once($file);
+		foreach($files as $className=>$file)
+		{
+			if(!class_exists($className,false))
+				include_once($file);
+		}
 
 		$classes=join(", ", $classNames);
 
