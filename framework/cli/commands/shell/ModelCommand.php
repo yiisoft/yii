@@ -119,14 +119,14 @@ EOD;
 
 				$table0 = $fks[$pks[1]][0];
 				$table1 = $fks[$pks[0]][0];
+				$className0 = $this->generateClassName($table0);
+				$className1 = $this->generateClassName($table1);
 
 				$relationName = $this->generateRelationName($table0, $table1, true);
-				$className = $this->generateClassName($table0);
-				$relations[$className][$relationName] = "array(self::MANY_MANY, '$table1', '$tableName($pks[0], $pks[1])')";
+				$relations[$className0][$relationName] = "array(self::MANY_MANY, '$className1', '$tableName($pks[0], $pks[1])')";
 
 				$relationName = $this->generateRelationName($table1, $table0, true);
-				$className = $this->generateClassName($table1);
-				$relations[$className][$relationName] = "array(self::MANY_MANY, '$table0', '$tableName($pks[0], $pks[1])')";
+				$relations[$className1][$relationName] = "array(self::MANY_MANY, '$className0', '$tableName($pks[0], $pks[1])')";
 			}
 			else
 			{
@@ -135,17 +135,17 @@ EOD;
 					// Put table and key name in variables for easier reading
 					$refTable = $fkEntry[0]; // Table name that current fk references to
 					$refKey = $fkEntry[1];   // Key in that table being referenced
+					$className = $this->generateClassName($tableName);
+					$refClassName = $this->generateClassName($refTable);
 
 					// Add relation for this table
 					$relationName = $this->generateRelationName($tableName, $fkName, false);
-					$className = $this->generateClassName($tableName);
-					$relations[$className][$relationName] = "array(self::BELONGS_TO, '$refTable', '$fkName')";
+					$relations[$className][$relationName] = "array(self::BELONGS_TO, '$refClassName', '$fkName')";
 
 					// Add relation for the referenced table
 					$relationType = $table->primaryKey === $fkName ? 'HAS_ONE' : 'HAS_MANY';
 					$relationName = $this->generateRelationName($refTable, $tableName, $relationType==='HAS_MANY');
-					$refClassName = $this->generateClassName($refTable);
-					$relations[$refClassName][$relationName] = "array(self::$relationType, '$tableName', '$fkName')";
+					$relations[$refClassName][$relationName] = "array(self::$relationType, '$className', '$fkName')";
 				}
 			}
 		}
@@ -201,7 +201,7 @@ EOD;
 	protected function pluralize($name)
 	{
 		$rules=array(
-			'/(x|ch|ss|sh|us|as|es|is|os)$/i' => '\1es',
+			'/(x|ch|ss|sh|us|as|is|os)$/i' => '\1es',
 			'/(?:([^f])fe|([lr])f)$/i' => '\1\2ves',
 			'/(m)an$/i' => '\1en',
 			'/(child)$/i' => '\1ren',
