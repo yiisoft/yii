@@ -43,6 +43,8 @@
  * <li>file: {@link CFileValidator}</li>
  * <li>default: {@link CDefaultValueValidator}</li>
  * <li>exist: {@link CExistValidator}</li>
+ * <li>safe: {@link CSafeValidator}</li>
+ * <li>unsafe: {@link CUnsafeValidator}</li>
  * </ul>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -71,6 +73,8 @@ abstract class CValidator extends CComponent
 		'file'=>'CFileValidator',
 		'default'=>'CDefaultValueValidator',
 		'exist'=>'CExistValidator',
+		'safe'=>'CSafeValidator',
+		'unsafe'=>'CUnsafeValidator',
 	);
 
 	/**

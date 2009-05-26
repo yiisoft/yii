@@ -43,6 +43,8 @@ class <?php echo $className; ?> extends CActiveRecord
 	 */
 	public function rules()
 	{
+		// NOTE: you should only define rules for those attributes that
+		// will receive user inputs.
 		return array(
 <?php foreach($rules as $rule): ?>
 			<?php echo $rule.",\n"; ?>

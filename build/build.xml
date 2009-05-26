@@ -13,7 +13,9 @@
 <project name="yii" basedir="." default="help">
   <!-- task definitions -->
   <taskdef name="yii-init-build" classname="YiiInitTask" classpath="tasks" />
+  <!--
   <taskdef name="yii-pear" classname="YiiPearTask" classpath="tasks"/>
+  -->
 
   <!-- init yii.version, yii.revision and yii.winbuild -->
   <yii-init-build />
@@ -188,6 +190,7 @@
     <exec command="${build} message ../framework/messages/config.php" dir="." passthru="true"/>
   </target>
 
+  <!--
   <target name="pear" depends="clean,build">
     <echo>Generating pear package for ${phing.project.name}-${yii.release}</echo>
     <mkdir dir="${build.dist.dir}" />
@@ -205,6 +208,7 @@
     <exec command="pear package" dir="${build.pear.src.dir}" passthru="true" />
     <move file="${build.pear.src.dir}/${pearname}" tofile="${build.dist.dir}/${pearname}" />
   </target>
+  -->
 
   <target name="clean">
     <echo>Cleaning up the build...</echo>

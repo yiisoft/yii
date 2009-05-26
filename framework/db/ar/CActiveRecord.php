@@ -12,324 +12,8 @@
  * CActiveRecord is the base class for classes representing relational data.
  *
  * It implements the active record design pattern, a popular Object-Relational Mapping (ORM) technique.
- *
- * Each active record class represents a database table/view, while an active record instance
- * represents a row in that table. Using CActiveRecord, one can perform CRUD
- * (create, read, update, delete) database actions in an object-oriented way. For example,
- * the following code inserts a row to the 'Post' table (where 'Post' is the class representing
- * the 'Post' table):
- * <pre>
- * $post=new Post;
- * $post->title='sample post';
- * $post->save();
- * </pre>
- *
- * In the following, we elaborate how to use CActiveRecord.
- *
- * First, we need to set up a database connection to be used by CActiveRecord. This is
- * done by loading a {@link CDbConnection} application component whose ID is "db", using the following application
- * configuration:
- * <pre>
- * array(
- *     'components'=>array(
- *         'db'=>array(
- *             'class'=>'CDbConnection',
- *             'connectionString'=>'sqlite:test.db',
- *         ),
- *     )
- * );
- * </pre>
- * To use a different database connection, you should override {@link getDbConnection}.
- *
- * Second, for every database table that we want to access, define an active record class.
- * The following example shows the minimal code needed for a 'Post' class, which represents
- * the 'Post' table.
- * <pre>
- * class Post extends CActiveRecord
- * {
- *     public static function model($className=__CLASS__)
- *     {
- *         return parent::model($className);
- *     }
- * }
- * </pre>
- * The 'model()' method is declared as such for every active record class (to be explained shortly).
- * By convention, the 'Post' class is associated with the database table named 'Post' (the class name).
- * If the class should be associated with some other table, you may override
- * the {@link tableName()} method.
- *
- * To access column values, use $record->columnName, where $record refers to an active record instance.
- * For example, the following code sets the 'title' column (attribute) of $post:
- * <pre>
- * $post=new Post;
- * $post->title='a sample post';
- * </pre>
- * Although we never explicitly declare the 'title' property in the 'Post' class, we can
- * still access it in the above code. This is because 'title' is a column in the 'Post' table,
- * and CActiveRecord makes it accessible as a property with the help of PHP __get() magic method.
- * If you attempt to access a non-existing column in the same way, an exception will be thrown.
- *
- * To insert a new row into 'Post', we first create a new instance of 'Post' class,
- * and then call 'save()' to do the insertion.
- * <pre>
- * $post=new Post;
- * $post->title='sample post';
- * $post->save();
- * </pre>
- * After insertion, the $post object will contain an updated primary key if it is auto-incremental.
- *
- * To query for posts, we will use the 'model' method we defined earlier on. The 'model' method
- * is the only static method defined in CActiveRecord. It returns a static active record instance
- * that is used to access class-level methods (something similar to static class methods).
- * The following 'find' methods are all class-level methods that CActiveRecord implements to
- * facilitate database querying:
- * <pre>
- * // find the first row satisfying the specified condition
- * $post=Post::model()->find($condition,$params);
- *
- * // find all rows satisfying the specified condition
- * $posts=Post::model()->findAll($condition,$params);
- *
- * // find the row with the specified primary key
- * $post=Post::model()->findByPk($postID,$condition,$params);
- *
- * // find all rows with the specified primary keys
- * $posts=Post::model()->findAllByPk($postIDs,$condition,$params);
- *
- * // find the row with the specified attribute values
- * $post=Post::model()->findByAttributes($attributes,$condition,$params);
- *
- * // find all rows with the specified attribute values
- * $posts=Post::model()->findAllByAttributes($attributes,$condition,$params);
- *
- * // find the first row using the specified SQL statement
- * $post=Post::model()->findBySql($sql,$params);
- *
- * // find all rows using the specified SQL statement
- * $posts=Post::model()->findAllBySql($sql,$params);
- *
- * // get the number of rows satisfying the specified condition
- * $n=Post::model()->count($condition,$params);
- *
- * // get the number of rows using the specified SQL statement
- * $n=Post::model()->countBySql($sql,$params);
- * </pre>
- * where $condition specifies the WHERE clause, and $params gives a list of parameters that
- * should be bound to the generated SQL statement.
- * You may also pass a {@link CDbCriteria} object at the place of $condition to specify
- * more complex query conditions (in that case, $params will be ignored since you can sepcify it
- * in the {@link CDbCriteria} object.)
- *
- * As we can see from the above, we have a set of find() methods and a set of findAll() methods.
- * The result of the former is either an active record instance or null
- * if no result is found, while the result of the latter is always an array.
- *
- * After obtaining an active record from query, we can update it or delete it.
- * <pre>
- * $post->title='new post title';
- * $post->save(); // or $post->delete();
- * </pre>
- * In the above, we are using the same 'save()' method to do both insertion and update.
- * CActiveRecord is intelligent enough to differentiate these two scenarios.
- *
- * CActiveRecord also has a few class-level methods to facilitate updating and deleting rows
- * without instantiating active record objects. Below is a summary:
- * <pre>
- * // update all records with the specified attributes and condition
- * Post::model()->updateAll($attributes,$condition,$params);
- *
- * // update one or several records with the specified primary key(s) and attribute values
- * Post::model()->updateByPk($postID,$attributes,$condition,$params);
- *
- * // update one or several counter columns
- * Post::model()->updateCounters($counters,$condition,$params);
- *
- * // delete all records with the specified condition
- * Post::model()->deleteAll($condition,$params);
- *
- * // delete one or several records with the specified primary key(s) and attribute values
- * Post::model()->deleteByPk($pk,$condition,$params);
- *
- * // check if a record exists with the specified condition
- * Post::model()->exists($condition,$params);
- * </pre>
- *
- * A very useful feature that CActiveRecord supports is retrieving related active records.
- * An active record is often related with other active records, via the relationship
- * defined between database tables. For example, a post belongs to an author and has many comments;
- * a user has a profile; a post belongs to and has many categories. CActiveRecord makes retrieving
- * these related objects very easy.
- *
- * Before retrieving related objects, we need to declare these relations in the class definition.
- * This is done by overriding the {@link relations} method:
- * <pre>
- * class Post extends CActiveRecord
- * {
- *     public function relations()
- *     {
- *         return array(
- *             'author'=>array(self::BELONGS_TO, 'User', 'authorID'),
- *             'comments'=>array(self::HAS_MANY, 'Comment', 'postID'),
- *         );
- *     }
- * }
- * </pre>
- * In the above, we declare two relations:
- * <ul>
- * <li>the 'author' relation is of BELONGS_TO type; it references the 'User' active record class;
- *   and the 'authorID' column of the 'Post' table is the foreign key.</li>
- * <li>the 'comments' relation is of HAS_MANY type; it references the 'Comment' active record class;
- *   and the 'postID' column of the 'Comment' table is the foreign key.</li>
- * </ul>
- *
- * Since the 'Post' class knows what kind of related objects it has, we can use
- * the following code to access the author and comments of a post:
- * <pre>
- * $post=Post::model()->findByPk($postID);
- * $author=$post->author;
- * $comments=$post->comments;
- * </pre>
- * Internally, when we access 'author' or 'comments' the first time, an SQL query will
- * be executed to fetch the corresponding active record(s). This is the so-called
- * lazy loading, i.e., the related objects are loaded the first time when they are accessed.
- *
- * If we have 100 posts and would like to obtain the author and comments for every post,
- * lazy loading would be very inefficient, because it means we will need 200 SQL queries
- * in order to fetch those related objects. In this situation, we should resort to
- * the so-called eager loading.
- * <pre>
- * $posts=Post::model()->with('author','comments')->findAll($condition,$params);
- * </pre>
- * Here we used the 'with' method to specify that we want to bring back post records
- * together with their related author and comments. Internally, two SQL queries
- * will be created and executed: one brings back the posts and their authors, and the other
- * brings back the comments). The reason we do not fetch them all together in one shot is
- * because the returned rows would otherwise contain many repetitive results (e.g. the post
- * information is repeated for every comment it has), which is both inefficient for database
- * server and PHP code.
- *
- * Eager loading can be nested. For example, if for every comment, we also want to know
- * its author, we could use the following 'with' find:
- * <pre>
- * $posts=Post::model()->with(array('author','comments'=>'author'))->findAll($condition,$params);
- * </pre>
- * How many SQL queries do we need now? Still two (one for posts and their authors, and one
- * for comments and their authors)! In fact, if there are N HAS_MANY/MANY_MANY relations involved,
- * we would need N+1 queries in total.
- *
- * There is a minor inconvenience when using eager loading, though. That is, we need to
- * disambiguate any column references in conditions or search criteria, because we are
- * joining several tables together. In general, it would be safe if we prefix every column referenced
- * in the condition or search criteria with the table name.
- *
- * Now let's describe more about the possible relations we can declare for active records.
- * From database point of view, the relationship between two tables A and B has three types:
- * one-to-many, one-to-one and many-to-many. In active records, these are classified into four types:
- * <ul>
- * <li>BELONGS_TO: if A vs. B is one-to-many, then B belongs to A (e.g. a post belongs to an author);</li>
- * <li>HAS_MANY: if A vs. B is one-to-many, then A has many B (e.g. an author has many posts);</li>
- * <li>HAS_ONE: this is special case of has-many where A has at most one B;</li>
- * <li>MANY_MANY: this corresponds to many-to-many relationship in database. An intermediate
- *   join table is needed as most DBMS do not support many-to-many relationship directly.
- *   For example, a post can belong to many categories and a category can have many posts.
- *   We would use a table 'post_category' to join the 'posts' and 'categories' tables together.</li>
- * </ul>
- *
- * We already see how to declare a relation in an active record class. In many situations,
- * we often have more constraints on those related objects, such as the conditions that the related
- * objects should satisfy, their orderings, etc. These can be specified as additional options
- * in our relation declaration. For example,
- * <pre>
- * class Post extends CActiveRecord
- * {
- *     ......
- *     public function relations()
- *     {
- *         return array(
- *             'comments'=>array(self::HAS_MANY,'Comment','postID',
- *                               'order'=>'??.createTime DESC',
- *                               'with'=>'author'),
- *         );
- *     }
- * }
- * </pre>
- * where the 'order' option specifies that the comments should be sorted by their creation time,
- * and the 'with' option specifies that the comments should be loaded together with their authors.
- * The special token '??.' is for disamibiguating the column reference. When SQL statement
- * is generated, it will be replaced automatically by the table alias for the 'Comment' table.
- * More detailed description about possible options can be found in {@link CActiveRelation} and
- * {@link CHasManyRelation}.
- *
- * Since version 1.0.4, a new relational query, called STAT, is supported. It is meant
- * to perform relational queries that return statistical information about related objects
- * (e.g. the number of comments that each post has). To use this new relational query,
- * we need to declare it in the {@link relations} method like other relations:
- * <pre>
- * class Post extends CActiveRecord
- * {
- *     ......
- *     public function relations()
- *     {
- *         return array(
- *             'commentCount'=>array(self::STAT,'Comment','postID'),
- *
- *             'comments'=>array(self::HAS_MANY,'Comment','postID',
- *                               'order'=>'??.createTime DESC',
- *                               'with'=>'author'),
- *         );
- *     }
- * }
- * </pre>
- * In the above, we declare 'commentCount' to be a STAT relation that is related with
- * the <code>Comment</code> model via its foreign key <code>postID</code>. Given a post
- * model instance, we can then obtain the number of comments it has via the expression
- * <code>$post->commentCount</code>. We can also obtain the number of comments for a list
- * of posts via eager loading:
- * <pre>
- * $posts=Post::model()->with('commentCount')->findAll();
- * </pre>
- *
- *
- * CActiveRecord has built-in validation functionality that validates the user input data
- * before they are saved to database. To use the validation, override {@link CModel::rules()} as follows,
- * <pre>
- * class Post extends CActiveRecord
- * {
- *     public function rules()
- *     {
- *         return array(
- *             array('title, content', 'required'),
- *             array('title', 'length', 'min'=>5),
- *         );
- *     }
- * }
- * </pre>
- * The method returns a list of validation rules, each represented as an array of the following format:
- * <pre>
- * array('attribute list', 'validator name', 'on'=>'insert', ...validation parameters...)
- * </pre>
- * where
- * <ul>
- * <li>attribute list: specifies the attributes to be validated;</li>
- * <li>validator name: specifies the validator to be used. It can be a class name (or class in dot syntax),
- *   or a validation method in the AR class. A validator class must extend from {@link CValidator},
- *   while a validation method must have the following signature:
- * <pre>
- * function validatorName($attribute,$params)
- * </pre>
- *   When using a built-in validator class, you can use an alias name instead of the full class name.
- *   For example, you can use "required" instead of "system.validators.CRequiredValidator".
- *   For more details, see {@link CValidator}.</li>
- * <li>on: this specifies the scenario when the validation rule should be performed. Please see {@link CModel::validate}
- *   for more details about this option. NOTE: if the validation is triggered by the {@link save} call,
- *   it will use 'insert' to indicate an insertion operation, and 'update' an updating operation.
- *   You may thus specify a rule with the 'on' option so that it is applied only to insertion or updating.</li>
- * <li>additional parameters are used to initialize the corresponding validator properties. See {@link CValidator}
- *   for possible properties.</li>
- * </ul>
- *
- * When {@link save} is called, validation will be performed. If there are any validation errors,
- * {@link save} will return false and the errors can be retrieved back via {@link getErrors}.
+ * Please check {@link http://www.yiiframework.com/doc/guide/database.ar the Guide} for more details
+ * about this class.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
@@ -362,26 +46,16 @@ abstract class CActiveRecord extends CModel
 
 	/**
 	 * Constructor.
-	 * @param array initial attributes (name => value). The attributes
-	 * are subject to filtering via {@link setAttributes}. If this parameter is null,
-	 * nothing will be done in the constructor (this is internally used by {@link populateRecord}).
-	 * @param string scenario name. See {@link setAttributes} for more details about this parameter.
-	 * This parameter has been available since version 1.0.2.
-	 * As of version 1.0.4, this parameter will be used to set the {@link CModel::scenario scenario}
-	 * property of the model.
-	 * @see setAttributes
+	 * @param string scenario name. See {@link CModel::scenario} for more details about this parameter.
 	 */
-	public function __construct($attributes=array(),$scenario='')
+	public function __construct($scenario='insert')
 	{
-		if($attributes===null) // internally used by populateRecord() and model()
+		if($scenario===null) // internally used by populateRecord() and model()
 			return;
 
 		$this->setScenario($scenario);
 		$this->setIsNewRecord(true);
 		$this->_attributes=$this->getMetaData()->attributeDefaults;
-
-		if($attributes!==array())
-			$this->setAttributes($attributes);
 
 		$this->attachBehaviors($this->behaviors());
 		$this->afterConstruct();
@@ -802,25 +476,6 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
-	 * Returns the name of attributes that are safe to be massively assigned.
-	 * The default implementation returns all table columns exception primary key(s).
-	 * Child class may override this method to further limit the attributes that can be massively assigned.
-	 * See {@link CModel::safeAttributes} on how to override this method.
-	 * @return array list of safe attribute names.
-	 * @see CModel::safeAttributes
-	 */
-	public function safeAttributes()
-	{
-		$attributes=array();
-		foreach($this->getMetaData()->columns as $name=>$column)
-		{
-			if(!$column->isPrimaryKey)
-				$attributes[]=$name;
-		}
-		return $attributes;
-	}
-
-	/**
 	 * Returns the database connection used by active record.
 	 * By default, the "db" application component is used as the database connection.
 	 * You may override this method if you want to use a different database connection.
@@ -967,28 +622,30 @@ abstract class CActiveRecord extends CModel
 
 	/**
 	 * Saves the current record.
-	 * The record is inserted as a row into the database table if it is manually
-	 * created using the 'new' operator. If it is obtained using one of those
-	 * 'find' methods, the record is considered not new and it will be used to
-	 * update the corresponding row in the table. You may check this status via {@link isNewRecord}.
-	 * Validation may be performed before saving the record. If the validation fails,
-	 * the record will not be saved.
-	 * If the record is being inserted and its primary key is null,
-	 * after insertion the primary key will be populated with the value
-	 * generated automatically by the database.
+	 *
+	 * The record is inserted as a row into the database table if its {@link isNewRecord}
+	 * property is true (usually the case when the record is created using the 'new'
+	 * operator). Otherwise, it will be used to update the corresponding row in the table
+	 * (usually the case if the record is obtained using one of those 'find' methods.)
+	 *
+	 * Validation will be performed before saving the record. If the validation fails,
+	 * the record will not be saved. You can call {@link getErrors()} to retrieve the
+	 * validation errors.
+	 *
+	 * If the record is saved via insertion, its {@link isNewRecord} property will be
+	 * set false, and its {@link scenario} property will be set to be 'update'.
+	 * And if its primary key is auto-incremental and is not set before insertion,
+	 * the primary key will be populated with the automatically generated key value.
+	 *
 	 * @param boolean whether to perform validation before saving the record.
 	 * If the validation fails, the record will not be saved to database.
-	 * The validation will be performed under either 'insert' or 'update' scenario,
-	 * depending on whether {@link isNewRecord} is true or false.
 	 * @param array list of attributes that need to be saved. Defaults to null,
 	 * meaning all attributes that are loaded from DB will be saved.
 	 * @return boolean whether the saving succeeds
 	 */
 	public function save($runValidation=true,$attributes=null)
 	{
-		if(($scenario=$this->getScenario())==='')
-			$scenario=$this->getIsNewRecord()?'insert':'update';
-		if(!$runValidation || $this->validate($scenario,$attributes))
+		if(!$runValidation || $this->validate($attributes))
 			return $this->getIsNewRecord() ? $this->insert($attributes) : $this->update($attributes);
 		else
 			return false;
@@ -1012,20 +669,6 @@ abstract class CActiveRecord extends CModel
 	public function setIsNewRecord($value)
 	{
 		$this->_new=$value;
-		if(!$value && $this->getScenario()==='insert')
-			$this->setScenario('update');
-	}
-
-	/**
-	 * Returns a list of validators created according to {@link CModel::rules rules}.
-	 * This overrides the parent implementation so that the validators are only
-	 * created once for each type of AR.
-	 * @return array a list of validators created according to {@link CModel::rules}.
-	 * @since 1.0.1
-	 */
-	public function getValidators()
-	{
-		return $this->getMetaData()->getValidators();
 	}
 
 	/**
@@ -1175,6 +818,8 @@ abstract class CActiveRecord extends CModel
 	 * If the table's primary key is auto-incremental and is null before insertion,
 	 * it will be populated with the actual value after insertion.
 	 * Note, validation is not performed in this method. You may call {@link validate} to perform the validation.
+	 * After the record is inserted to DB successfully, its {@link isNewRecord} property will be set false,
+	 * and its {@link scenario} property will be set to be 'update'.
 	 * @param array list of attributes that need to be saved. Defaults to null,
 	 * meaning all attributes that are loaded from DB will be saved.
 	 * @return boolean whether the attributes are valid and the record is inserted successfully.
@@ -1211,6 +856,7 @@ abstract class CActiveRecord extends CModel
 				}
 				$this->afterSave();
 				$this->setIsNewRecord(false);
+				$this->setScenario('update');
 				return true;
 			}
 			else
@@ -1758,7 +1404,9 @@ abstract class CActiveRecord extends CModel
 	protected function instantiate($attributes)
 	{
 		$class=get_class($this);
-		return new $class(null);
+		$model=new $class(null);
+		$model->setScenario('update');
+		return $model;
 	}
 
 	/**
@@ -2122,7 +1770,6 @@ class CActiveRecordMetaData
 	public $attributeDefaults=array();
 
 	private $_model;
-	private $_validators;
 
 	/**
 	 * Constructor.
@@ -2155,15 +1802,5 @@ class CActiveRecordMetaData
 				throw new CDbException(Yii::t('yii','Active record "{class}" has an invalid configuration for relation "{relation}". It must specify the relation type, the related active record class and the foreign key.',
 					array('{class}'=>get_class($model),'{relation}'=>$name)));
 		}
-	}
-
-	/**
-	 * @return array list of validators
-	 */
-	public function getValidators()
-	{
-		if(!$this->_validators)
-			$this->_validators=$this->_model->createValidators();
-		return $this->_validators;
 	}
 }

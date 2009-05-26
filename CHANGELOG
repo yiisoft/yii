@@ -4,7 +4,7 @@
 
 Version 1.1a to be released
 ---------------------------
-
+- New: Refactored scenario-based validation and massive assignments (Qiang)
 
 Version 1.0.6 to be released
 ----------------------------

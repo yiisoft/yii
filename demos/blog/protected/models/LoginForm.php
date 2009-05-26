@@ -23,6 +23,8 @@ class LoginForm extends CFormModel
 			array('username, password', 'required'),
 			// password needs to be authenticated
 			array('password', 'authenticate'),
+			// rememberMe should be either 0 or 1
+			array('rememberMe', 'in', 'range'=>array(0,1)),
 		);
 	}
 

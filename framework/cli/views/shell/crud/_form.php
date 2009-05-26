@@ -19,7 +19,7 @@ Fields with <span class="required">*</span> are required.
 
 <?php foreach($columns as $name=>$column): ?>
 <div class="simple">
-<?php echo "<?php echo CHtml::activeLabelEx(\$model,'$name'); ?>\n"; ?>
+<?php echo "<?php echo ".$this->generateInputLabel($modelClass,$column)."; ?>\n"; ?>
 <?php echo "<?php echo ".$this->generateInputField($modelClass,$column)."; ?>\n"; ?>
 </div>
 <?php endforeach; ?>
