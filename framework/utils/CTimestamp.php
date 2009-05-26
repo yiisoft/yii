@@ -213,6 +213,7 @@ class CTimestamp
 
 		$d366 = $_day_power * 366;
 		$d365 = $_day_power * 365;
+		$month = $ndays = 0;
 
 		if ($d < 0)
 		{

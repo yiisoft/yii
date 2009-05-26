@@ -440,6 +440,15 @@ class CWebApplication extends CApplication
 	}
 
 	/**
+	 * @param CController the currently active controller
+	 * @since 1.0.6
+	 */
+	public function setController($value)
+	{
+		$this->_controller=$value;
+	}
+
+	/**
 	 * @return string the directory that contains the controller classes. Defaults to 'protected/controllers'.
 	 */
 	public function getControllerPath()

@@ -179,13 +179,11 @@ EOD;
 		if(!is_file($source))  // fall back to default ones
 			$source=YII_PATH.'/cli/views/shell/crud/'.basename($source);
 
-		$content=file_get_contents($source);
-		return strtr($content,array(
-			'{ClassName}'=>$controllerClass,
-			'{ID}'=>$id,
-			'{ModelClass}'=>$modelClass,
-			'{ModelVar}'=>strtolower($modelClass),
-			'{ModelName}'=>strtolower($modelClass)));
+		return $this->renderFile($source,array(
+			'ID'=>$id,
+			'controllerClass'=>$controllerClass,
+			'modelClass'=>$modelClass,
+		),true);
 	}
 
 	public function generateView($source,$modelClass)
@@ -204,18 +202,16 @@ EOD;
 			$source=YII_PATH.'/cli/views/shell/crud/'.basename($source);
 		return $this->renderFile($source,array(
 			'ID'=>$table->primaryKey,
-			'model'=>$model,
 			'modelClass'=>$modelClass,
-			'modelVar'=>strtolower($modelClass),
 			'columns'=>$columns),true);
 	}
 
-	public function generateInputField($model,$modelVar,$column)
+	public function generateInputField($modelClass,$column)
 	{
 		if($column->type==='boolean')
-			return "CHtml::activeCheckBox(\${$modelVar},'{$column->name}')";
+			return "CHtml::activeCheckBox(\$model,'{$column->name}')";
 		else if(stripos($column->dbType,'text')!==false)
-			return "CHtml::activeTextArea(\${$modelVar},'{$column->name}',array('rows'=>6, 'cols'=>50))";
+			return "CHtml::activeTextArea(\$model,'{$column->name}',array('rows'=>6, 'cols'=>50))";
 		else
 		{
 			if(preg_match('/^(password|pass|passwd|passcode)$/i',$column->name))
@@ -224,12 +220,12 @@ EOD;
 				$inputField='activeTextField';
 
 			if($column->type!=='string' || $column->size===null)
-				return "CHtml::{$inputField}(\${$modelVar},'{$column->name}')";
+				return "CHtml::{$inputField}(\$model,'{$column->name}')";
 			else
 			{
 				if(($size=$maxLength=$column->size)>60)
 					$size=60;
-				return "CHtml::{$inputField}(\${$modelVar},'{$column->name}',array('size'=>$size,'maxlength'=>$maxLength))";
+				return "CHtml::{$inputField}(\$model,'{$column->name}',array('size'=>$size,'maxlength'=>$maxLength))";
 			}
 		}
 	}
