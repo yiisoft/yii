@@ -37,19 +37,6 @@ class Post extends CActiveRecord
 	}
 
 	/**
-	 * @return array attributes that can be massively assigned
-	 */
-	public function safeAttributes()
-	{
-		return array(
-			'title',
-			'content',
-			'status',
-			'tags',
-		);
-	}
-
-	/**
 	 * @return array relational rules.
 	 */
 	public function relations()
@@ -96,7 +83,7 @@ class Post extends CActiveRecord
 	/**
 	 * Prepares attributes before performing validation.
 	 */
-	protected function beforeValidate($on)
+	protected function beforeValidate()
 	{
 		$parser=new CMarkdownParser;
 		$this->contentDisplay=$parser->safeTransform($this->content);

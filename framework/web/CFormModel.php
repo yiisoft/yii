@@ -26,40 +26,18 @@
  */
 class CFormModel extends CModel
 {
-	private $_validators;
 	private static $_names=array();
 
 	/**
 	 * Constructor.
-	 * @param array initial attributes (name => value). The attributes
-	 * are subject to filtering via {@link setAttributes}.
-	 * @param string scenario name. See {@link setAttributes} for more details about this parameter.
-	 * This parameter has been available since version 1.0.2.
-	 * As of version 1.0.4, this parameter will be used to set the {@link CModel::scenario scenario}
-	 * property of the model.
-	 * @see setAttributes
+	 * @param string name of the scenario that this model is used in.
+	 * See {@link CModel::scenario} on how scenario is used by models.
+	 * @see getScenario
 	 */
-	public function __construct($attributes=array(),$scenario='')
+	public function __construct($scenario='')
 	{
 		$this->setScenario($scenario);
-		if($attributes!==array())
-			$this->setAttributes($attributes);
 		$this->attachBehaviors($this->behaviors());
-	}
-
-	/**
-	 * Returns the name of attributes that are safe to be massively assigned.
-	 * The default implementation simply returns {@link attributeNames}.
-	 * This method may be overridden by child classes.
-	 * See {@link CModel::safeAttributes} for more details about how to
-	 * override this method.
-	 * @return array list of safe attribute names.
-	 * @see CModel::safeAttributes
-	 * @since 1.0.2
-	 */
-	public function safeAttributes()
-	{
-		return $this->attributeNames();
 	}
 
 	/**
@@ -85,15 +63,5 @@ class CFormModel extends CModel
 		}
 		else
 			return self::$_names[$className];
-	}
-
-	/**
-	 * @return array list of validators created according to {@link CModel::rules rules}.
-	 */
-	public function getValidators()
-	{
-		if($this->_validators===null)
-			$this->_validators=$this->createValidators();
-		return $this->_validators;
 	}
 }

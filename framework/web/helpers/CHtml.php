@@ -49,11 +49,6 @@ class CHtml
 	 */
 	public static $afterRequiredLabel=' <span class="required">*</span>';
 	/**
-	 * @var string the scenario used to determine whether a model attribute is required.
-	 * @see activeLabelEx
-	 */
-	public static $scenario='';
-	/**
 	 * @var integer the counter for generating automatic input field names.
 	 * @since 1.0.4
 	 */
@@ -448,12 +443,12 @@ class CHtml
 	 * @param string the ID of the HTML element that this label is associated with
 	 * @param array additional HTML attributes.
 	 * Starting from version 1.0.2, the following HTML option is recognized:
-	 * <pre>
+	 * <ul>
 	 * <li>required: if this is set and is true, the label will be styled
 	 * with CSS class 'required' (customizable with CHtml::$requiredCss),
 	 * and be decorated with {@link CHtml::beforeRequiredLabel} and
 	 * {@link CHtml::afterRequiredLabel}.</li>
-	 * </pre>
+	 * </ul>
 	 * @return string the generated label tag
 	 */
 	public static function label($label,$for,$htmlOptions=array())
@@ -976,10 +971,16 @@ EOD;
 	 * If the attribute has input error, the label's CSS class will be appended with {@link errorCss}.
 	 * @param CModel the data model
 	 * @param string the attribute
-	 * @param array additional HTML attributes. A special option named
-	 * 'label' is recognized since version 1.0.4. If this option is specified, it will be used
-	 * as the label. Otherwise, the label will be determined
-	 * by calling {@link CModel::getAttributeLabel}.
+	 * @param array additional HTML attributes. The following special options are recognized:
+	 * <ul>
+	 * <li>required: if this is set and is true, the label will be styled
+	 * with CSS class 'required' (customizable with CHtml::$requiredCss),
+	 * and be decorated with {@link CHtml::beforeRequiredLabel} and
+	 * {@link CHtml::afterRequiredLabel}. This option has been available since version 1.0.2.</li>
+	 * <li>label: this specifies the label to be displayed. If this is not set,
+	 * {@link CModel::getAttributeLabel} will be called to get the label for display.
+	 * This option has been available since version 1.0.4.</li>
+	 * </ul>
 	 * @return string the generated label tag
 	 */
 	public static function activeLabel($model,$attribute,$htmlOptions=array())
@@ -1002,7 +1003,7 @@ EOD;
 	 * This is an enhanced version of {@link activeLabel}. It will render additional
 	 * CSS class and mark when the attribute is required.
 	 * In particular, it calls {@link CModel::isAttributeRequired} to determine
-	 * if the attribute is required under the scenario {@link CHtml::scenario}.
+	 * if the attribute is required.
 	 * If so, it will add a CSS class {@link CHtml::requiredCss} to the label,
 	 * and decorate the label with {@link CHtml::beforeRequiredLabel} and
 	 * {@link CHtml::afterRequiredLabel}.
@@ -1016,7 +1017,7 @@ EOD;
 	{
 		$realAttribute=$attribute;
 		self::resolveName($model,$attribute); // strip off square brackets if any
-		$htmlOptions['required']=$model->isAttributeRequired($attribute,self::$scenario);
+		$htmlOptions['required']=$model->isAttributeRequired($attribute);
 		return self::activeLabel($model,$realAttribute,$htmlOptions);
 	}
 

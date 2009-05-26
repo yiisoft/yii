@@ -92,7 +92,7 @@ Because we want to keep the comment count in each post, when we add or delete a 
 
 ~~~
 [php]
-protected function beforeValidate($on)
+protected function beforeValidate()
 {
 	$parser=new CMarkdownParser;
 	$this->contentDisplay=$parser->safeTransform($this->content);

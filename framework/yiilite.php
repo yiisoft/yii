@@ -175,7 +175,7 @@ class YiiBase
 			include(self::$_classes[$className]);
 		else
 		{
-			@include($className.'.php');
+			include($className.'.php');
 			return class_exists($className,false);
 		}
 		return true;
@@ -208,7 +208,7 @@ class YiiBase
 	}
 	public static function powered()
 	{
-		return 'Powered by <a href="http://www.yiiframework.com/">Yii Framework</a>.';
+		return 'Powered by <a href="http://www.yiiframework.com/" target="_blank">Yii Framework</a>.';
 	}
 	public static function t($category,$message,$params=array(),$source=null,$language=null)
 	{
@@ -342,9 +342,11 @@ class YiiBase
 		'CRangeValidator' => '/validators/CRangeValidator.php',
 		'CRegularExpressionValidator' => '/validators/CRegularExpressionValidator.php',
 		'CRequiredValidator' => '/validators/CRequiredValidator.php',
+		'CSafeValidator' => '/validators/CSafeValidator.php',
 		'CStringValidator' => '/validators/CStringValidator.php',
 		'CTypeValidator' => '/validators/CTypeValidator.php',
 		'CUniqueValidator' => '/validators/CUniqueValidator.php',
+		'CUnsafeValidator' => '/validators/CUnsafeValidator.php',
 		'CUrlValidator' => '/validators/CUrlValidator.php',
 		'CValidator' => '/validators/CValidator.php',
 		'CAssetManager' => '/web/CAssetManager.php',
@@ -1100,15 +1102,22 @@ abstract class CApplication extends CModule
 		if(isset($_SERVER['REQUEST_URI']))
 			$message.=' REQUEST_URI='.$_SERVER['REQUEST_URI'];
 		Yii::log($message,CLogger::LEVEL_ERROR,$category);
-		$event=new CExceptionEvent($this,$exception);
-		$this->onException($event);
-		if(!$event->handled)
+		try
 		{
-			// try an error handler
-			if(($handler=$this->getErrorHandler())!==null)
-				$handler->handle($event);
-			else
-				$this->displayException($exception);
+			$event=new CExceptionEvent($this,$exception);
+			$this->onException($event);
+			if(!$event->handled)
+			{
+				// try an error handler
+				if(($handler=$this->getErrorHandler())!==null)
+					$handler->handle($event);
+				else
+					$this->displayException($exception);
+			}
+		}
+		catch(Exception $e)
+		{
+			$this->displayException($e);
 		}
 		$this->end(1);
 	}
@@ -1123,15 +1132,22 @@ abstract class CApplication extends CModule
 			if(isset($_SERVER['REQUEST_URI']))
 				$log.=' REQUEST_URI='.$_SERVER['REQUEST_URI'];
 			Yii::log($log,CLogger::LEVEL_ERROR,'php');
-			$event=new CErrorEvent($this,$code,$message,$file,$line);
-			$this->onError($event);
-			if(!$event->handled)
+			try
 			{
-				// try an error handler
-				if(($handler=$this->getErrorHandler())!==null)
-					$handler->handle($event);
-				else
-					$this->displayError($code,$message,$file,$line);
+				$event=new CErrorEvent($this,$code,$message,$file,$line);
+				$this->onError($event);
+				if(!$event->handled)
+				{
+					// try an error handler
+					if(($handler=$this->getErrorHandler())!==null)
+						$handler->handle($event);
+					else
+						$this->displayError($code,$message,$file,$line);
+				}
+			}
+			catch(Exception $e)
+			{
+				$this->displayException($e);
 			}
 			$this->end(1);
 		}
@@ -1420,6 +1436,10 @@ class CWebApplication extends CApplication
 	{
 		return $this->_controller;
 	}
+	public function setController($value)
+	{
+		$this->_controller=$value;
+	}
 	public function getControllerPath()
 	{
 		if($this->_controllerPath!==null)
@@ -1661,6 +1681,7 @@ class CLogger extends CComponent
 	private $_logs=array();
 	private $_levels;
 	private $_categories;
+	private $_timings;
 	public function log($message,$level='info',$category='application')
 	{
 		$this->_logs[]=array($message,$level,$category,microtime(true));
@@ -1718,6 +1739,54 @@ class CLogger extends CComponent
 				$output=explode("  ",$output[0]);
 				return isset($output[1]) ? $output[1]*1024 : 0;
 			}
+		}
+	}
+	public function getProfilingResults($token=null,$category=null,$refresh=false)
+	{
+		if($this->_timings===null || $refresh)
+			$this->calculateTimings();
+		if($token===null && $category===null)
+			return $this->_timings;
+		$results=array();
+		foreach($this->_timings as $timing)
+		{
+			if(($category===null || $timing[1]===$category) && ($token===null || $timing[0]===$token))
+				$results[]=$timing[2];
+		}
+		return $results;
+	}
+	private function calculateTimings()
+	{
+		$this->_timings=array();
+		$stack=array();
+		foreach($this->_logs as $log)
+		{
+			if($log[1]!==CLogger::LEVEL_PROFILE)
+				continue;
+			list($message,$level,$category,$timestamp)=$log;
+			if(!strncasecmp($message,'begin:',6))
+			{
+				$log[0]=substr($message,6);
+				$stack[]=$log;
+			}
+			else if(!strncasecmp($message,'end:',4))
+			{
+				$token=substr($message,4);
+				if(($last=array_pop($stack))!==null && $last[0]===$token)
+				{
+					$delta=$log[3]-$last[3];
+					$this->_timings[]=array($message,$category,$delta);
+				}
+				else
+					throw new CException(Yii::t('yii','CProfileLogRoute found a mismatching code block "{token}". Make sure the calls to Yii::beginProfile() and Yii::endProfile() be properly nested.',
+						array('{token}'=>$token)));
+			}
+		}
+		$now=microtime(true);
+		while(($last=array_pop($stack))!==null)
+		{
+			$delta=$now-$last[3];
+			$this->_timings[]=array($last[0],$last[2],$delta);
 		}
 	}
 }
@@ -2185,7 +2254,7 @@ class CUrlManager extends CApplicationComponent
 			$anchor='';
 		foreach($this->_rules as $rule)
 		{
-			if(($url=$rule->createUrl($route,$params,$this->urlSuffix,$ampersand))!==false)
+			if(($url=$rule->createUrl($this,$route,$params,$ampersand))!==false)
 				return $this->getBaseUrl().'/'.$url.$anchor;
 		}
 		return $this->createUrlDefault($route,$params,$ampersand).$anchor;
@@ -2197,12 +2266,12 @@ class CUrlManager extends CApplicationComponent
 			$url=rtrim($this->getBaseUrl().'/'.$route,'/');
 			if($this->appendParams)
 			{
-				$url.='/'.self::createPathInfo($params,'/','/');
+				$url.='/'.$this->createPathInfo($params,'/','/');
 				return rtrim($url,'/').$this->urlSuffix;
 			}
 			else
 			{
-				$query=self::createPathInfo($params,'=',$ampersand);
+				$query=$this->createPathInfo($params,'=',$ampersand);
 				return $query==='' ? $url : $url.'?'.$query;
 			}
 		}
@@ -2214,10 +2283,10 @@ class CUrlManager extends CApplicationComponent
 			if($route!=='')
 			{
 				$url.='?'.$this->routeVar.'='.$route;
-				if(($query=self::createPathInfo($params,'=',$ampersand))!=='')
+				if(($query=$this->createPathInfo($params,'=',$ampersand))!=='')
 					$url.=$ampersand.$query;
 			}
-			else if(($query=self::createPathInfo($params,'=',$ampersand))!=='')
+			else if(($query=$this->createPathInfo($params,'=',$ampersand))!=='')
 				$url.='?'.$query;
 			return $url;
 		}
@@ -2226,10 +2295,11 @@ class CUrlManager extends CApplicationComponent
 	{
 		if($this->getUrlFormat()===self::PATH_FORMAT)
 		{
-			$pathInfo=$this->removeUrlSuffix($request->getPathInfo());
+			$rawPathInfo=urldecode($request->getPathInfo());
+			$pathInfo=$this->removeUrlSuffix($rawPathInfo,$this->urlSuffix);
 			foreach($this->_rules as $rule)
 			{
-				if(($r=$rule->parseUrl($pathInfo))!==false)
+				if(($r=$rule->parseUrl($this,$pathInfo,$rawPathInfo))!==false)
 					return isset($_GET[$this->routeVar]) ? $_GET[$this->routeVar] : $r;
 			}
 			return $pathInfo;
@@ -2249,16 +2319,16 @@ class CUrlManager extends CApplicationComponent
 		$n=count($segs);
 		for($i=0;$i<$n-1;$i+=2)
 		{
-			$key=urldecode($segs[$i]);
+			$key=$segs[$i];
 			if($key==='') continue;
-			$value=urldecode($segs[$i+1]);
+			$value=$segs[$i+1];
 			if(($pos=strpos($key,'[]'))!==false)
 				$_GET[substr($key,0,$pos)][]=$value;
 			else
 				$_GET[$key]=$value;
 		}
 	}
-	public static function createPathInfo($params,$equal,$ampersand)
+	public function createPathInfo($params,$equal,$ampersand)
 	{
 		$pairs=array();
 		foreach($params as $key=>$value)
@@ -2273,10 +2343,10 @@ class CUrlManager extends CApplicationComponent
 		}
 		return implode($ampersand,$pairs);
 	}
-	protected function removeUrlSuffix($pathInfo)
+	public function removeUrlSuffix($pathInfo,$urlSuffix)
 	{
-		if(($ext=$this->urlSuffix)!=='' && substr($pathInfo,-strlen($ext))===$ext)
-			return substr($pathInfo,0,-strlen($ext));
+		if($urlSuffix!=='' && substr($pathInfo,-strlen($urlSuffix))===$urlSuffix)
+			return substr($pathInfo,0,-strlen($urlSuffix));
 		else
 			return $pathInfo;
 	}
@@ -2307,6 +2377,8 @@ class CUrlManager extends CApplicationComponent
 }
 class CUrlRule extends CComponent
 {
+	public $urlSuffix;
+	public $caseSensitive;
 	public $route;
 	public $references=array();
 	public $routePattern;
@@ -2314,10 +2386,18 @@ class CUrlRule extends CComponent
 	public $template;
 	public $params=array();
 	public $append;
-	public $caseSensitive=true;
 	public function __construct($route,$pattern)
 	{
-		$this->route=$route;
+		if(is_array($route))
+		{
+			$this->route=$route[0];
+			if(isset($route['urlSuffix']))
+				$this->urlSuffix=$route['urlSuffix'];
+			if(isset($route['caseSensitive']))
+				$this->caseSensitive=$route['caseSensitive'];
+		}
+		else
+			$this->route=$route;
 		$tr2['/']=$tr['/']='\\/';
 		if(strpos($route,'<')!==false && preg_match_all('/<(\w+)>/',$route,$matches2))
 		{
@@ -2345,24 +2425,22 @@ class CUrlRule extends CComponent
 			$this->pattern.='/u';
 		else
 			$this->pattern.='$/u';
-		if(!$this->caseSensitive)
-			$this->pattern.='i';
 		if($this->references!==array())
-		{
 			$this->routePattern='/^'.strtr($this->route,$tr2).'$/u';
-			if(!$this->caseSensitive)
-				$this->routePattern.='i';
-		}
 		if(YII_DEBUG && @preg_match($this->pattern,'test')===false)
 			throw new CException(Yii::t('yii','The URL pattern "{pattern}" for route "{route}" is not a valid regular expression.',
 				array('{route}'=>$route,'{pattern}'=>$pattern)));
 	}
-	public function createUrl($route,$params,$suffix,$ampersand)
+	public function createUrl($manager,$route,$params,$ampersand)
 	{
+		if($manager->caseSensitive && $this->caseSensitive===null || $this->caseSensitive)
+			$case='';
+		else
+			$case='i';
 		$tr=array();
 		if($route!==$this->route)
 		{
-			if($this->routePattern!==null && preg_match($this->routePattern,$route,$matches))
+			if($this->routePattern!==null && preg_match($this->routePattern.$case,$route,$matches))
 			{
 				foreach($this->references as $key=>$name)
 					$tr[$name]=$matches[$key];
@@ -2380,31 +2458,38 @@ class CUrlRule extends CComponent
 			else
 				return false;
 		}
+		$suffix=$this->urlSuffix===null ? $manager->urlSuffix : $this->urlSuffix;
 		$url=strtr($this->template,$tr);
 		if(empty($params))
 			return $url!=='' ? $url.$suffix : $url;
 		if($this->append)
-			$url.='/'.CUrlManager::createPathInfo($params,'/','/').$suffix;
+			$url.='/'.$manager->createPathInfo($params,'/','/').$suffix;
 		else
 		{
 			if($url!=='')
 				$url.=$suffix;
-			$url.='?'.CUrlManager::createPathInfo($params,'=',$ampersand);
+			$url.='?'.$manager->createPathInfo($params,'=',$ampersand);
 		}
 		return $url;
 	}
-	public function parseUrl($pathInfo)
+	public function parseUrl($manager,$pathInfo,$rawPathInfo)
 	{
+		if($manager->caseSensitive && $this->caseSensitive===null || $this->caseSensitive)
+			$case='';
+		else
+			$case='i';
+		if($this->urlSuffix!==null)
+			$pathInfo=$manager->removeUrlSuffix($rawPathInfo,$this->urlSuffix);
 		$pathInfo.='/';
-		if(preg_match($this->pattern,$pathInfo,$matches))
+		if(preg_match($this->pattern.$case,$pathInfo,$matches))
 		{
 			$tr=array();
 			foreach($matches as $key=>$value)
 			{
 				if(isset($this->references[$key]))
-					$tr[$this->references[$key]]=urldecode($value);
+					$tr[$this->references[$key]]=$value;
 				else if(isset($this->params[$key]))
-					$_GET[$key]=urldecode($value);
+					$_GET[$key]=$value;
 			}
 			if($pathInfo!==$matches[0]) // there're additional GET params
 				CUrlManager::parsePathInfo(ltrim(substr($pathInfo,strlen($matches[0])),'/'));
@@ -3075,7 +3160,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 			$request->redirect($url);
 		}
 		else
-			throw new CHttpException(401,Yii::t('yii','Login Required'));
+			throw new CHttpException(403,Yii::t('yii','Login Required'));
 	}
 	protected function restoreFromCookie()
 	{
@@ -3456,7 +3541,6 @@ class CHtml
 	public static $requiredCss='required';
 	public static $beforeRequiredLabel='';
 	public static $afterRequiredLabel=' <span class="required">*</span>';
-	public static $scenario='';
 	public static $count=0;
 	public static function encode($text)
 	{
@@ -3876,7 +3960,7 @@ EOD;
 	{
 		$realAttribute=$attribute;
 		self::resolveName($model,$attribute); // strip off square brackets if any
-		$htmlOptions['required']=$model->isAttributeRequired($attribute,self::$scenario);
+		$htmlOptions['required']=$model->isAttributeRequired($attribute);
 		return self::activeLabel($model,$realAttribute,$htmlOptions);
 	}
 	public static function activeTextField($model,$attribute,$htmlOptions=array())
@@ -4929,7 +5013,7 @@ class CAccessControlFilter extends CFilter
 		if($user->getIsGuest())
 			$user->loginRequired();
 		else
-			throw new CHttpException(401,Yii::t('yii','You are not authorized to perform this action.'));
+			throw new CHttpException(403,Yii::t('yii','You are not authorized to perform this action.'));
 	}
 }
 class CAccessRule extends CComponent
@@ -5016,10 +5100,9 @@ class CAccessRule extends CComponent
 abstract class CModel extends CComponent implements IteratorAggregate, ArrayAccess
 {
 	private $_errors=array();	// attribute name => array of errors
-	private $_va;  // validator
-	private $_se='';  // scenario
+	private $_validators;  		// validators
+	private $_scenario='';  	// scenario
 	abstract public function attributeNames();
-	abstract public function safeAttributes();
 	public function rules()
 	{
 		return array();
@@ -5032,30 +5115,25 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	{
 		return array();
 	}
-	public function validate($scenario='',$attributes=null)
+	public function validate($attributes=null)
 	{
-		if($scenario==='')
-			$scenario=$this->getScenario();
 		$this->clearErrors();
-		if($this->beforeValidate($scenario))
+		if($this->beforeValidate())
 		{
 			foreach($this->getValidators() as $validator)
-			{
-				if($validator->applyTo($scenario))
-					$validator->validate($this,$attributes);
-			}
-			$this->afterValidate($scenario);
+				$validator->validate($this,$attributes);
+			$this->afterValidate();
 			return !$this->hasErrors();
 		}
 		else
 			return false;
 	}
-	protected function beforeValidate($scenario)
+	protected function beforeValidate()
 	{
 		$this->onBeforeValidate(new CEvent($this));
 		return true;
 	}
-	protected function afterValidate($scenario)
+	protected function afterValidate()
 	{
 		$this->onAfterValidate(new CEvent($this));
 	}
@@ -5067,38 +5145,38 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	{
 		$this->raiseEvent('onAfterValidate',$event);
 	}
-	public function getValidators()
+	public function getValidators($attribute=null)
 	{
-		return $this->createValidators();
-	}
-	public function getValidatorsForAttribute($attribute,$scenario='')
-	{
-		if($scenario==='')
-			$scenario=$this->getScenario();
-		if($this->_va===null)
-		{
-			$this->_va=array();
-			foreach($this->getValidators() as $validator)
-			{
-				foreach($validator->attributes as $att)
-					$this->_va[$att][]=$validator;
-			}
-		}
+		if($this->_validators===null)
+			$this->_validators=$this->createValidators();
 		$validators=array();
-		if(isset($this->_va[$attribute]))
+		$scenario=$this->getScenario();
+		foreach($this->_validators as $validator)
 		{
-			foreach($this->_va[$attribute] as $validator)
+			if($validator->applyTo($scenario))
 			{
-				if($validator->applyTo($scenario))
+				if($attribute===null || in_array($attribute,$validator->attributes,true))
 					$validators[]=$validator;
 			}
 		}
 		return $validators;
 	}
-	public function isAttributeRequired($attribute,$scenario='')
+	public function createValidators()
 	{
-		$validators=$this->getValidatorsForAttribute($attribute,$scenario);
-		foreach($validators as $validator)
+		$validators=array();
+		foreach($this->rules() as $rule)
+		{
+			if(isset($rule[0],$rule[1]))  // attributes, validator name
+				$validators[]=CValidator::createValidator($rule[1],$this,$rule[0],array_slice($rule,2));
+			else
+				throw new CException(Yii::t('yii','{class} has an invalid validation rule. The rule must specify attributes to be validated and the validator name.',
+					array('{class}'=>get_class($this))));
+		}
+		return $validators;
+	}
+	public function isAttributeRequired($attribute)
+	{
+		foreach($this->getValidators($attribute) as $validator)
 		{
 			if($validator instanceof CRequiredValidator)
 				return true;
@@ -5155,19 +5233,6 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		else
 			unset($this->_errors[$attribute]);
 	}
-	public function createValidators()
-	{
-		$validators=array();
-		foreach($this->rules() as $rule)
-		{
-			if(isset($rule[0],$rule[1]))  // attributes, validator name
-				$validators[]=CValidator::createValidator($rule[1],$this,$rule[0],array_slice($rule,2));
-			else
-				throw new CException(Yii::t('yii','{class} has an invalid validation rule. The rule must specify attributes to be validated and the validator name.',
-					array('{class}'=>get_class($this))));
-		}
-		return $validators;
-	}
 	public function generateAttributeLabel($name)
 	{
 		return ucwords(trim(strtolower(str_replace(array('-','_'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $name)))));
@@ -5187,43 +5252,45 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		else
 			return $values;
 	}
-	public function setAttributes($values,$scenario='')
+	public function setAttributes($values,$safeOnly=true)
 	{
-		if($scenario==='')
-			$scenario=$this->getScenario();
-		if(is_array($values))
+		if(!is_array($values))
+			return;
+		$attributes=array_flip($safeOnly ? $this->getSafeAttributeNames() : $this->attributeNames());
+		foreach($values as $name=>$value)
 		{
-			$attributes=array_flip($this->getSafeAttributeNames($scenario));
-			foreach($values as $name=>$value)
-			{
-				if(isset($attributes[$name]))
-					$this->$name=$value;
-			}
+			if(isset($attributes[$name]))
+				$this->$name=$value;
 		}
 	}
 	public function getScenario()
 	{
-		return $this->_se;
+		return $this->_scenario;
 	}
 	public function setScenario($value)
 	{
-		$this->_se=$value;
+		$this->_scenario=$value;
 	}
-	public function getSafeAttributeNames($scenario='')
+	public function getSafeAttributeNames()
 	{
-		if($scenario==='')
-			$scenario=$this->getScenario();
-		if($scenario===false)
-			return $this->attributeNames();
-		$attributes=$this->safeAttributes();
-		if(!is_array($attributes))
-			$attributes=array($attributes);
-		if($scenario!=='' && isset($attributes[$scenario]))
-			return $this->ensureArray($attributes[$scenario]);
-		if(isset($attributes[0], $attributes[1]))
-			return $attributes;
-		else
-			return isset($attributes[0]) ? $this->ensureArray($attributes[0]) : array();
+		$attributes=array();
+		$unsafe=array();
+		foreach($this->getValidators() as $validator)
+		{
+			if($validator instanceof CUnsafeValidator)
+			{
+				foreach($validator->attributes as $name)
+					$unsafe[]=$name;
+			}
+			else
+			{
+				foreach($validator->attributes as $name)
+					$attributes[$name]=true;
+			}
+		}
+		foreach($unsafe as $name)
+			unset($attributes[$name]);
+		return array_keys($attributes);
 	}
 	public function getIterator()
 	{
@@ -5246,10 +5313,6 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	{
 		unset($this->$offset);
 	}
-	private function ensureArray($value)
-	{
-		return is_array($value) ? $value : preg_split('/[\s,]+/',$value,-1,PREG_SPLIT_NO_EMPTY);
-	}
 }
 abstract class CActiveRecord extends CModel
 {
@@ -5265,15 +5328,13 @@ abstract class CActiveRecord extends CModel
 	private $_attributes=array();				// attribute name => attribute value
 	private $_related=array();					// attribute name => related objects
 	private $_c;								// query criteria (used by finder only)
-	public function __construct($attributes=array(),$scenario='')
+	public function __construct($scenario='insert')
 	{
-		if($attributes===null) // internally used by populateRecord() and model()
+		if($scenario===null) // internally used by populateRecord() and model()
 			return;
 		$this->setScenario($scenario);
 		$this->setIsNewRecord(true);
 		$this->_attributes=$this->getMetaData()->attributeDefaults;
-		if($attributes!==array())
-			$this->setAttributes($attributes);
 		$this->attachBehaviors($this->behaviors());
 		$this->afterConstruct();
 	}
@@ -5334,11 +5395,7 @@ abstract class CActiveRecord extends CModel
 		$scopes=$this->scopes();
 		if(isset($scopes[$name]))
 		{
-			$scope=$scopes[$name];
-			if($this->_c===null)
-				$this->_c=new CDbCriteria($scope);
-			else
-				$this->_c->mergeWith($scope);
+			$this->getDbCriteria()->mergeWith($scopes[$name]);
 			return $this;
 		}
 		return parent::__call($name,$parameters);
@@ -5363,12 +5420,7 @@ abstract class CActiveRecord extends CModel
 			$r=array($name=>$params);
 		}
 		else
-			$r=array($name);
-		if(!empty($relation->with))
-		{
-			foreach($relation->with as $w)
-				$r[]=$name.'.'.$w;
-		}
+			$r=$name;
 		$finder=new CActiveFinder($this,$r);
 		$finder->lazyFind($this);
 		if(!isset($this->_related[$name]))
@@ -5446,16 +5498,6 @@ abstract class CActiveRecord extends CModel
 	public function attributeNames()
 	{
 		return array_keys($this->getMetaData()->columns);
-	}
-	public function safeAttributes()
-	{
-		$attributes=array();
-		foreach($this->getMetaData()->columns as $name=>$column)
-		{
-			if(!$column->isPrimaryKey)
-				$attributes[]=$name;
-		}
-		return $attributes;
 	}
 	public function getDbConnection()
 	{
@@ -5540,9 +5582,7 @@ abstract class CActiveRecord extends CModel
 	}
 	public function save($runValidation=true,$attributes=null)
 	{
-		if(($scenario=$this->getScenario())==='')
-			$scenario=$this->getIsNewRecord()?'insert':'update';
-		if(!$runValidation || $this->validate($scenario,$attributes))
+		if(!$runValidation || $this->validate($attributes))
 			return $this->getIsNewRecord() ? $this->insert($attributes) : $this->update($attributes);
 		else
 			return false;
@@ -5554,12 +5594,6 @@ abstract class CActiveRecord extends CModel
 	public function setIsNewRecord($value)
 	{
 		$this->_new=$value;
-		if(!$value && $this->getScenario()==='insert')
-			$this->setScenario('update');
-	}
-	public function getValidators()
-	{
-		return $this->getMetaData()->getValidators();
 	}
 	public function onBeforeSave($event)
 	{
@@ -5645,6 +5679,7 @@ abstract class CActiveRecord extends CModel
 				}
 				$this->afterSave();
 				$this->setIsNewRecord(false);
+				$this->setScenario('update');
 				return true;
 			}
 			else
@@ -5733,14 +5768,18 @@ abstract class CActiveRecord extends CModel
 	}
 	private function query($criteria,$all=false)
 	{
+		$this->applyScopes($criteria);
+		$command=$this->getCommandBuilder()->createFindCommand($this->getTableSchema(),$criteria);
+		return $all ? $this->populateRecords($command->queryAll()) : $this->populateRecord($command->queryRow());
+	}
+	private function applyScopes(&$criteria)
+	{
 		if(($c=$this->getDbCriteria(false))!==null)
 		{
 			$c->mergeWith($criteria);
 			$criteria=$c;
 			$this->_c=null;
 		}
-		$command=$this->getCommandBuilder()->createFindCommand($this->getTableSchema(),$criteria);
-		return $all ? $this->populateRecords($command->queryAll()) : $this->populateRecord($command->queryRow());
 	}
 	public function find($condition='',$params=array())
 	{
@@ -5789,12 +5828,7 @@ abstract class CActiveRecord extends CModel
 	{
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
-		if(($c=$this->getDbCriteria(false))!==null)
-		{
-			$c->mergeWith($criteria);
-			$criteria=$c;
-			$this->_c=null;
-		}
+		$this->applyScopes($criteria);
 		return $builder->createCountCommand($this->getTableSchema(),$criteria)->queryScalar();
 	}
 	public function countBySql($sql,$params=array())
@@ -5808,12 +5842,7 @@ abstract class CActiveRecord extends CModel
 		$table=$this->getTableSchema();
 		$criteria->select=reset($table->columns)->rawName;
 		$criteria->limit=1;
-		if(($c=$this->getDbCriteria(false))!==null)
-		{
-			$c->mergeWith($criteria);
-			$criteria=$c;
-			$this->_c=null;
-		}
+		$this->applyScopes($criteria);
 		return $builder->createFindCommand($table,$criteria)->queryRow()!==false;
 	}
 	public function with()
@@ -5835,6 +5864,7 @@ abstract class CActiveRecord extends CModel
 		$builder=$this->getCommandBuilder();
 		$table=$this->getTableSchema();
 		$criteria=$builder->createPkCriteria($table,$pk,$condition,$params);
+		$this->applyScopes($criteria);
 		$command=$builder->createUpdateCommand($table,$attributes,$criteria);
 		return $command->execute();
 	}
@@ -5842,6 +5872,7 @@ abstract class CActiveRecord extends CModel
 	{
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
+		$this->applyScopes($criteria);
 		$command=$builder->createUpdateCommand($this->getTableSchema(),$attributes,$criteria);
 		return $command->execute();
 	}
@@ -5849,6 +5880,7 @@ abstract class CActiveRecord extends CModel
 	{
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
+		$this->applyScopes($criteria);
 		$command=$builder->createUpdateCounterCommand($this->getTableSchema(),$counters,$criteria);
 		return $command->execute();
 	}
@@ -5856,6 +5888,7 @@ abstract class CActiveRecord extends CModel
 	{
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createPkCriteria($this->getTableSchema(),$pk,$condition,$params);
+		$this->applyScopes($criteria);
 		$command=$builder->createDeleteCommand($this->getTableSchema(),$criteria);
 		return $command->execute();
 	}
@@ -5863,6 +5896,7 @@ abstract class CActiveRecord extends CModel
 	{
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
+		$this->applyScopes($criteria);
 		$command=$builder->createDeleteCommand($this->getTableSchema(),$criteria);
 		return $command->execute();
 	}
@@ -5913,7 +5947,9 @@ abstract class CActiveRecord extends CModel
 	protected function instantiate($attributes)
 	{
 		$class=get_class($this);
-		return new $class(null);
+		$model=new $class(null);
+		$model->setScenario('update');
+		return $model;
 	}
 	public function offsetExists($offset)
 	{
@@ -6023,6 +6059,8 @@ class CActiveRelation extends CBaseActiveRelation
 			else if($criteria['on']!=='')
 				$this->on="({$this->on}) AND ({$criteria['on']})";
 		}
+		if(isset($criteria['with']))
+			$this->with=$criteria['with'];
 		if(isset($criteria['alias']))
 			$this->alias=$criteria['alias'];
 		if(isset($criteria['aliasToken']))
@@ -6060,7 +6098,6 @@ class CActiveRecordMetaData
 	public $relations=array();
 	public $attributeDefaults=array();
 	private $_model;
-	private $_validators;
 	public function __construct($model)
 	{
 		$this->_model=$model;
@@ -6086,12 +6123,6 @@ class CActiveRecordMetaData
 					array('{class}'=>get_class($model),'{relation}'=>$name)));
 		}
 	}
-	public function getValidators()
-	{
-		if(!$this->_validators)
-			$this->_validators=$this->_model->createValidators();
-		return $this->_validators;
-	}
 }
 class CDbConnection extends CApplicationComponent
 {
@@ -6104,6 +6135,7 @@ class CDbConnection extends CApplicationComponent
 	public $charset;
 	public $emulatePrepare=false;
 	public $enableParamLogging=false;
+	public $enableProfiling=false;
 	private $_attributes=array();
 	private $_active=false;
 	private $_pdo;
@@ -6367,6 +6399,17 @@ class CDbConnection extends CApplicationComponent
 		else
 			$this->_attributes[$name]=$value;
 	}
+	public function getStats()
+	{
+		$logger=Yii::getLogger();
+		$timings=$logger->getProfilingResults(null,'system.db.CDbCommand.query');
+		$count=count($timings);
+		$time=array_sum($timings);
+		$timings=$logger->getProfilingResults(null,'system.db.CDbCommand.execute');
+		$count+=count($timings);
+		$time+=array_sum($timings);
+		return array($count,$time);
+	}
 }
 abstract class CDbSchema extends CComponent
 {
@@ -6629,16 +6672,20 @@ class CDbCommand extends CComponent
 		$params=$this->_connection->enableParamLogging && !empty($this->_params) ? '. Bind with parameter ' . implode(', ',$this->_params) : '';
 		try
 		{
+			if($this->_connection->enableProfiling)
 			if($this->_statement instanceof PDOStatement)
 			{
 				$this->_statement->execute();
-				return $this->_statement->rowCount();
+				$n=$this->_statement->rowCount();
 			}
 			else
-				return $this->getConnection()->getPdoInstance()->exec($this->getText());
+				$n=$this->getConnection()->getPdoInstance()->exec($this->getText());
+			if($this->_connection->enableProfiling)
+			return $n;
 		}
 		catch(Exception $e)
 		{
+			if($this->_connection->enableProfiling)
 			Yii::log('Error in executing SQL: '.$this->getText().$params,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
 				array('{error}'=>$e->getMessage())));
@@ -6673,18 +6720,19 @@ class CDbCommand extends CComponent
 		$params=$this->_connection->enableParamLogging && !empty($this->_params) ? '. Bind with parameter ' . implode(', ',$this->_params) : '';
 		try
 		{
+			if($this->_connection->enableProfiling)
 			if($this->_statement instanceof PDOStatement)
 				$this->_statement->execute();
 			else
 				$this->_statement=$this->getConnection()->getPdoInstance()->query($this->getText());
-			if($method==='')
-				return new CDbDataReader($this);
-			$result=$this->_statement->{$method}($mode);
+			$result=$method==='' ? new CDbDataReader($this) : $this->_statement->{$method}($mode);
 			$this->_statement->closeCursor();
+			if($this->_connection->enableProfiling)
 			return $result;
 		}
 		catch(Exception $e)
 		{
+			if($this->_connection->enableProfiling)
 			Yii::log('Error in querying SQL: '.$this->getText().$params,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
 				array('{error}'=>$e->getMessage())));

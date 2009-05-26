@@ -206,6 +206,11 @@ EOD;
 			'columns'=>$columns),true);
 	}
 
+	public function generateInputLabel($modelClass,$column)
+	{
+		return "CHtml::activeLabelEx(\$model,'{$column->name}')";
+	}
+
 	public function generateInputField($modelClass,$column)
 	{
 		if($column->type==='boolean')

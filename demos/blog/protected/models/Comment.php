@@ -64,20 +64,6 @@ class Comment extends CActiveRecord
 	}
 
 	/**
-	 * @return array attributes that can be massively assigned
-	 */
-	public function safeAttributes()
-	{
-		return array(
-			'author',
-			'email',
-			'url',
-			'content',
-			'verifyCode',
-		);
-	}
-
-	/**
 	 * @return array comment status names indexed by status IDs
 	 */
 	public function getStatusOptions()
@@ -146,7 +132,7 @@ class Comment extends CActiveRecord
 	/**
 	 * Prepares attributes before performing validation.
 	 */
-	protected function beforeValidate($on)
+	protected function beforeValidate()
 	{
 		$parser=new CMarkdownParser;
 		$this->contentDisplay=$parser->safeTransform($this->content);

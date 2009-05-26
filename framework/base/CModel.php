@@ -22,8 +22,8 @@
 abstract class CModel extends CComponent implements IteratorAggregate, ArrayAccess
 {
 	private $_errors=array();	// attribute name => array of errors
-	private $_va;  // validator
-	private $_se='';  // scenario
+	private $_validators;  		// validators
+	private $_scenario='';  	// scenario
 
 	/**
 	 * Returns the list of attribute names of the model.
@@ -31,36 +31,6 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * @since 1.0.1
 	 */
 	abstract public function attributeNames();
-	/**
-	 * Returns the name of attributes that are safe to be massively assigned.
-	 * For details about massive assignment, see the documentation of
-	 * child classes (e.g. {@link CActiveRecord::setAttributes},
-	 * {@link CFormModel::setAttributes}).
-	 *
-	 * The returned value of this method should be in the following structure:
-	 * <pre>
-	 * array(
-	 *    // these attributes can be massively assigned in any scenario
-	 *    // that is not explicitly specified below
-	 *    'attr1, attr2, ...',
-	 *
-	 *    // these attributes can be massively assigned only in scenario 1
-	 *    'scenario1' => 'attr2, attr3, ...',
-	 *
-	 *    // these attributes can be massively assigned only in scenario 2
-	 *    'scenario2' => 'attr1, attr3, ...',
-	 * );
-	 * </pre>
-	 * If the model is not scenario-sensitive (i.e., it is only used
-	 * in one scenario, or all scenarios share the same set of safe attributes),
-	 * the return value can be simplified as a single string:
-	 * <pre>
-	 * 'attr1, attr2, ...'
-	 * </pre>
-	 * @return array list of safe attribute names.
-	 * @since 1.0.2
-	 */
-	abstract public function safeAttributes();
 
 	/**
 	 * Returns the validation rules for attributes.
@@ -84,9 +54,9 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 *   And a validator class is a class extending {@link CValidator}.</li>
 	 * <li>on: this specifies the scenarios when the validation rule should be performed.
 	 *   Separate different scenarios with commas. If this option is not set, the rule
-	 *   will be applied in any scenario. Please see {@link validate} for more details about this option.</li>
+	 *   will be applied in any scenario. Please see {@link scenario} for more details about this option.</li>
 	 * <li>additional parameters are used to initialize the corresponding validator properties.
-	 *   Please refer to inidividal validator class API for possible properties.</li>
+	 *   Please refer to individal validator class API for possible properties.</li>
 	 * </ul>
 	 *
 	 * The following are some examples:
@@ -155,16 +125,14 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 
 	/**
 	 * Performs the validation.
-	 * This method executes the validation rule as declared in {@link rules}.
+	 *
+	 * This method executes the validation rules as declared in {@link rules}.
+	 * Only the rules applicable to the current {@link scenario} will be executed.
+	 * A rule is considered applicable to a scenario if its 'on' option is not set
+	 * or contains the scenario.
+	 *
 	 * Errors found during the validation can be retrieved via {@link getErrors}.
-	 * @param string the scenario that the validation rules should be applied.
-	 * Defaults to empty string, meaning only those validation rules whose "on"
-	 * option is empty will be applied. If this is a non-empty string, only
-	 * the validation rules whose "on" option is empty or contains the specified scenario
-	 * will be applied. As of version 1.0.4, this parameter is deprecated, and
-	 * the {@link scenario} property is the preferred way of specifying the scenario.
-	 * In particular, when this parameter is empty, the {@link scenario} property value
-	 * will be used as the effective scenario.
+	 *
 	 * @param array list of attributes that should be validated. Defaults to null,
 	 * meaning any attribute listed in the applicable validation rules should be
 	 * validated. If this parameter is given as a list of attributes, only
@@ -173,20 +141,14 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * @see beforeValidate
 	 * @see afterValidate
 	 */
-	public function validate($scenario='',$attributes=null)
+	public function validate($attributes=null)
 	{
-		if($scenario==='')
-			$scenario=$this->getScenario();
-
 		$this->clearErrors();
-		if($this->beforeValidate($scenario))
+		if($this->beforeValidate())
 		{
 			foreach($this->getValidators() as $validator)
-			{
-				if($validator->applyTo($scenario))
-					$validator->validate($this,$attributes);
-			}
-			$this->afterValidate($scenario);
+				$validator->validate($this,$attributes);
+			$this->afterValidate();
 			return !$this->hasErrors();
 		}
 		else
@@ -198,12 +160,9 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * The default implementation calls {@link onBeforeValidate} to raise an event.
 	 * You may override this method to do preliminary checks before validation.
 	 * Make sure the parent implementation is invoked so that the event can be raised.
-	 * @param string the set of the validation rules that should be applied. See {@link validate}
-	 * for more details about this parameter.
-	 * NOTE: this parameter has been available since version 1.0.1.
 	 * @return boolean whether validation should be executed. Defaults to true.
 	 */
-	protected function beforeValidate($scenario)
+	protected function beforeValidate()
 	{
 		$this->onBeforeValidate(new CEvent($this));
 		return true;
@@ -214,11 +173,8 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * The default implementation calls {@link onAfterValidate} to raise an event.
 	 * You may override this method to do postprocessing after validation.
 	 * Make sure the parent implementation is invoked so that the event can be raised.
-	 * @param string the set of the validation rules that should be applied. See {@link validate}
-	 * for more details about this parameter.
-	 * NOTE: this parameter has been available since version 1.0.1.
 	 */
-	protected function afterValidate($scenario)
+	protected function afterValidate()
 	{
 		$this->onAfterValidate(new CEvent($this));
 	}
@@ -244,44 +200,24 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	}
 
 	/**
-	 * @return array list of validators created according to {@link rules}.
+	 * Returns the validators applicable to the current {@link scenario}.
+	 * @param string the name of the attribute whose validators should be returned.
+	 * If this is null, the validators for ALL attributes in the model will be returned.
+	 * @return array the validators applicable to the current {@link scenario}.
 	 * @since 1.0.1
 	 */
-	public function getValidators()
+	public function getValidators($attribute=null)
 	{
-		return $this->createValidators();
-	}
+		if($this->_validators===null)
+			$this->_validators=$this->createValidators();
 
-	/**
-	 * Returns the validators that are applied to the specified attribute under the specified scenario.
-	 * @param string the attribute name
-	 * @param string the scenario name. As of version 1.0.4, this parameter is deprecated, and
-	 * the {@link scenario} property is the preferred way of specifying the scenario.
-	 * In particular, when this parameter is empty, the {@link scenario} property value
-	 * will be used as the effective scenario.
-	 * @return array the validators for the attribute. An empty array is returned if no validator applies to the attribute.
-	 * @since 1.0.2
-	 */
-	public function getValidatorsForAttribute($attribute,$scenario='')
-	{
-		if($scenario==='')
-			$scenario=$this->getScenario();
-
-		if($this->_va===null)
-		{
-			$this->_va=array();
-			foreach($this->getValidators() as $validator)
-			{
-				foreach($validator->attributes as $att)
-					$this->_va[$att][]=$validator;
-			}
-		}
 		$validators=array();
-		if(isset($this->_va[$attribute]))
+		$scenario=$this->getScenario();
+		foreach($this->_validators as $validator)
 		{
-			foreach($this->_va[$attribute] as $validator)
+			if($validator->applyTo($scenario))
 			{
-				if($validator->applyTo($scenario))
+				if($attribute===null || in_array($attribute,$validator->attributes,true))
 					$validators[]=$validator;
 			}
 		}
@@ -289,20 +225,35 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	}
 
 	/**
+	 * Creates validator objects based on the specification in {@link rules}.
+	 * This method is mainly used internally.
+	 * @return array validators built based on {@link rules()}.
+	 */
+	public function createValidators()
+	{
+		$validators=array();
+		foreach($this->rules() as $rule)
+		{
+			if(isset($rule[0],$rule[1]))  // attributes, validator name
+				$validators[]=CValidator::createValidator($rule[1],$this,$rule[0],array_slice($rule,2));
+			else
+				throw new CException(Yii::t('yii','{class} has an invalid validation rule. The rule must specify attributes to be validated and the validator name.',
+					array('{class}'=>get_class($this))));
+		}
+		return $validators;
+	}
+
+	/**
 	 * Returns a value indicating whether the attribute is required.
-	 * This is determined based on the validation rules declared in {@link rules}.
+	 * This is determined by checking if the attribute is associated with a
+	 * {@link CRequiredValidator} validation rule in the current {@link scenario}.
 	 * @param string attribute name
-	 * @param string validation scenario. As of version 1.0.4, this parameter is deprecated, and
-	 * the {@link scenario} property is the preferred way of specifying the scenario.
-	 * In particular, when this parameter is empty, the {@link scenario} property value
-	 * will be used as the effective scenario.
-	 * @return boolean  whether the attribute is required
+	 * @return boolean whether the attribute is required
 	 * @since 1.0.2
 	 */
-	public function isAttributeRequired($attribute,$scenario='')
+	public function isAttributeRequired($attribute)
 	{
-		$validators=$this->getValidatorsForAttribute($attribute,$scenario);
-		foreach($validators as $validator)
+		foreach($this->getValidators($attribute) as $validator)
 		{
 			if($validator instanceof CRequiredValidator)
 				return true;
@@ -408,23 +359,6 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	}
 
 	/**
-	 * @return array validators built based on {@link rules()}.
-	 */
-	public function createValidators()
-	{
-		$validators=array();
-		foreach($this->rules() as $rule)
-		{
-			if(isset($rule[0],$rule[1]))  // attributes, validator name
-				$validators[]=CValidator::createValidator($rule[1],$this,$rule[0],array_slice($rule,2));
-			else
-				throw new CException(Yii::t('yii','{class} has an invalid validation rule. The rule must specify attributes to be validated and the validator name.',
-					array('{class}'=>get_class($this))));
-		}
-		return $validators;
-	}
-
-	/**
 	 * Generates a user friendly attribute label.
 	 * This is done by replacing underscores or dashes with blanks and
 	 * changing the first letter of each word to upper case.
@@ -463,53 +397,44 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 
 	/**
 	 * Sets the attribute values in a massive way.
-	 * Only safe attributes will be assigned by this method.
-	 *
-	 * Given a scenario, this method will assign values to the attributes
-	 * that appear in the list returned by {@link safeAttributes} for the specified scenario:
-	 * <ul>
-	 * <li>If the scenario is false, attributes specified by {@link attributeNames}
-	 * will be assigned.</li>
-	 * <li>If the scenario is not an empty string, and it is found
-	 * as a key in {@link safeAttributes}, the corresponding attributes
-	 * will be assigned;</li>
-	 * <li>If the scenario is an empty string, or if it is not found
-	 * in {@link safeAttributes}, the first set of attributes in {@link safeAttributes}
-	 * will be assigned.</li>
-	 * </ul>
 	 * @param array attribute values (name=>value) to be set.
-	 * @param mixed scenario name.
-	 * Note that as of version 1.0.4, if this parameter is an empty string, it will
-	 * take the {@link scenario} property value.
+	 * @param boolean whether the assignments should only be done to the safe attributes.
+	 * A safe attribute is one that is associated with a validation rule in the current {@link scenario}.
 	 * @see getSafeAttributeNames
+	 * @see attributeNames
 	 */
-	public function setAttributes($values,$scenario='')
+	public function setAttributes($values,$safeOnly=true)
 	{
-		if($scenario==='')
-			$scenario=$this->getScenario();
-
-		if(is_array($values))
+		if(!is_array($values))
+			return;
+		$attributes=array_flip($safeOnly ? $this->getSafeAttributeNames() : $this->attributeNames());
+		foreach($values as $name=>$value)
 		{
-			$attributes=array_flip($this->getSafeAttributeNames($scenario));
-			foreach($values as $name=>$value)
-			{
-				if(isset($attributes[$name]))
-					$this->$name=$value;
-			}
+			if(isset($attributes[$name]))
+				$this->$name=$value;
 		}
 	}
 
 	/**
-	 * Returns the scenario that this model is in.
-	 * Scenario affects how massive attribute assignment is carried and which
-	 * validations should be performed. An attribute can be declared as safe
-	 * for massive assignment and requiring validation under certain scenarios.
-	 * @return string the scenario that this model is in. Defaults to empty.
+	 * Returns the scenario that this model is used in.
+	 *
+	 * Scenario affects how validation is performed and which attributes can
+	 * be massively assigned.
+	 *
+	 * A validation rule will be performed when calling {@link validate()}
+	 * if its 'on' option is not set or contains the current scenario value.
+	 *
+	 * And an attribute can be massively assigned if it is associated with
+	 * a validation rule for the current scenario. Note that an exception is
+	 * the {@link CUnsafeValidator unsafe} validator which marks the associated
+	 * attributes as unsafe and not allowed to be massively assigned.
+	 *
+	 * @return string the scenario that this model is in.
 	 * @since 1.0.4
 	 */
 	public function getScenario()
 	{
-		return $this->_se;
+		return $this->_scenario;
 	}
 
 	/**
@@ -519,50 +444,36 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 */
 	public function setScenario($value)
 	{
-		$this->_se=$value;
+		$this->_scenario=$value;
 	}
 
 	/**
 	 * Returns the attribute names that are safe to be massively assigned.
-	 * This method is internally used by {@link setAttributes}.
-	 *
-	 * Given a scenario, this method will choose the folllowing result
-	 * from the list returned by {@link safeAttributes}:
-	 * <ul>
-	 * <li>If the scenario is false, attributes specified by {@link attributeNames}
-	 * will be returned.</li>
-	 * <li>If the scenario is not an empty string, and it is found
-	 * as a key in {@link safeAttributes}, the corresponding attributes
-	 * will be returned;</li>
-	 * <li>If the scenario is an empty string, or if it is not found
-	 * in {@link safeAttributes}, the first set of attributes in {@link safeAttributes}
-	 * will be returned.</li>
-	 * </ul>
-	 * @param string scenario name.
-	 * Note that as of version 1.0.4, if this parameter is an empty string, it will
-	 * take the {@link scenario} property value.
+	 * A safe attribute is one that is associated with a validation rule in the current {@link scenario}.
 	 * @return array safe attribute names
 	 * @since 1.0.2
 	 */
-	public function getSafeAttributeNames($scenario='')
+	public function getSafeAttributeNames()
 	{
-		if($scenario==='')
-			$scenario=$this->getScenario();
+		$attributes=array();
+		$unsafe=array();
+		foreach($this->getValidators() as $validator)
+		{
+			if($validator instanceof CUnsafeValidator)
+			{
+				foreach($validator->attributes as $name)
+					$unsafe[]=$name;
+			}
+			else
+			{
+				foreach($validator->attributes as $name)
+					$attributes[$name]=true;
+			}
+		}
 
-		if($scenario===false)
-			return $this->attributeNames();
-
-		$attributes=$this->safeAttributes();
-		if(!is_array($attributes))
-			$attributes=array($attributes);
-
-		if($scenario!=='' && isset($attributes[$scenario]))
-			return $this->ensureArray($attributes[$scenario]);
-
-		if(isset($attributes[0], $attributes[1]))
-			return $attributes;
-		else
-			return isset($attributes[0]) ? $this->ensureArray($attributes[0]) : array();
+		foreach($unsafe as $name)
+			unset($attributes[$name]);
+		return array_keys($attributes);
 	}
 
 	/**
@@ -621,10 +532,5 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	public function offsetUnset($offset)
 	{
 		unset($this->$offset);
-	}
-
-	private function ensureArray($value)
-	{
-		return is_array($value) ? $value : preg_split('/[\s,]+/',$value,-1,PREG_SPLIT_NO_EMPTY);
 	}
 }

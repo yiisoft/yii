@@ -1,0 +1,26 @@
+Upgrading from Version 1.0 to 1.1
+=================================
+
+Changes Related with Model Scenarios
+------------------------------------
+
+- Removed CModel::safeAttributes(). Safe attributes are now defined to
+be those that are being validated by some rules as defined in CModel::rules()
+for the particular scenario.
+
+- Changed CModel::validate(), CModel::beforeValidate() and CModel::afterValidate().
+CModel::setAttributes(), CModel::getSafeAttributeNames()
+The 'scenario' parameter is removed. You should get and set the model scenario
+via CModel::scenario.
+
+- Changed CModel::getValidators() and CModel::getValidatorsForAttribute().
+They now only return validators applicable to the scenario as specified
+by the model's scenario property.
+
+- Changed CModel::isAttributeRequired() and CModel::getValidatorsForAttribute().
+The scenario parameter is removed. The model's scenario property will be
+used, instead.
+
+- Removed CModel::getValidatorsForAttribute(). Please use CModel::getValidators() instead.
+
+- Removed CHtml::scenario

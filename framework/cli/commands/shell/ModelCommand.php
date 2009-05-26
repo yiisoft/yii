@@ -303,6 +303,8 @@ EOD;
 				$required=array();
 				$integers=array();
 				$numerical=array();
+				$length=array();
+				$safe=array();
 				foreach($table->columns as $column)
 				{
 					$label=ucwords(trim(strtolower(str_replace(array('-','_'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $column->name)))));
@@ -311,14 +313,17 @@ EOD;
 					$labels[]="'{$column->name}'=>'$label'";
 					if($column->isPrimaryKey && $table->sequenceName!==null || $column->isForeignKey)
 						continue;
-					if(!$column->allowNull && $column->defaultValue===null)
+					$r=!$column->allowNull && $column->defaultValue===null;
+					if($r)
 						$required[]=$column->name;
 					if($column->type==='integer')
 						$integers[]=$column->name;
 					else if($column->type==='double')
 						$numerical[]=$column->name;
 					else if($column->type==='string' && $column->size>0)
-						$rules[]="array('{$column->name}','length','max'=>{$column->size})";
+						$length[$column->size][]=$column->name;
+					else if(!$column->isPrimaryKey && !$r)
+						$safe[]=$column->name;
 				}
 				if($required!==array())
 					$rules[]="array('".implode(', ',$required)."', 'required')";
@@ -326,6 +331,13 @@ EOD;
 					$rules[]="array('".implode(', ',$integers)."', 'numerical', 'integerOnly'=>true)";
 				if($numerical!==array())
 					$rules[]="array('".implode(', ',$numerical)."', 'numerical')";
+				if($length!==array())
+				{
+					foreach($length as $len=>$cols)
+						$rules[]="array('".implode(', ',$cols)."', 'length', 'max'=>$len)";
+				}
+				if($safe!==array())
+					$rules[]="array('".implode(', ',$safe)."', 'safe')";
 
 				if(isset($this->_relations[$className]) && is_array($this->_relations[$className]))
 					$relations=$this->_relations[$className];

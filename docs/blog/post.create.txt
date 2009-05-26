@@ -51,7 +51,7 @@ We then modify the `Post` class so that it can automatically set some attributes
 
 ~~~
 [php]
-protected function beforeValidate($on)
+protected function beforeValidate()
 {
 	$parser=new CMarkdownParser;
 	$this->contentDisplay=$parser->safeTransform($this->content);
