@@ -375,11 +375,12 @@ class CJoinElement
 		$prefix='t'.$id.'_c';
 		foreach($table->getColumnNames() as $key=>$name)
 		{
-			$this->_columnAliases[$name]=$prefix.$key;
+			$alias=$prefix.$key;
+			$this->_columnAliases[$name]=$alias;
 			if($table->primaryKey===$name)
-				$this->_pkAlias=$prefix.$key;
+				$this->_pkAlias=$alias;
 			else if(is_array($table->primaryKey) && in_array($name,$table->primaryKey))
-				$this->_pkAlias[$name]=$prefix.$key;
+				$this->_pkAlias[$name]=$alias;
 		}
 	}
 
@@ -573,20 +574,20 @@ class CJoinElement
 		// determine the primary key value
 		if(is_string($this->_pkAlias))  // single key
 		{
-			if(!isset($row[$this->_pkAlias]))	// no matching related objects
-				return null;
-			else
+			if(isset($row[$this->_pkAlias]))
 				$pk=$row[$this->_pkAlias];
+			else	// no matching related objects
+				return null;
 		}
 		else // is_array, composite key
 		{
 			$pk=array();
 			foreach($this->_pkAlias as $name=>$alias)
 			{
-				if(!isset($row[$alias]))	// no matching related objects
-					return null;
-				else
+				if(isset($row[$alias]))
 					$pk[$name]=$row[$alias];
+				else	// no matching related objects
+					return null;
 			}
 			$pk=serialize($pk);
 		}
@@ -660,7 +661,7 @@ class CJoinElement
 		if($select==='*')
 		{
 			foreach($this->_table->getColumnNames() as $name)
-				$columns[]=$prefix.$schema->quoteColumnName($name).' AS '.$this->_columnAliases[$name];
+				$columns[]=$prefix.$schema->quoteColumnName($name).' AS '.$schema->quoteColumnName($this->_columnAliases[$name]);
 		}
 		else
 		{
@@ -677,7 +678,7 @@ class CJoinElement
 					$key=$name;
 				if(isset($this->_columnAliases[$key]))  // simple column names
 				{
-					$columns[]=$prefix.$schema->quoteColumnName($key).' AS '.$this->_columnAliases[$key];
+					$columns[]=$prefix.$schema->quoteColumnName($key).' AS '.$schema->quoteColumnName($this->_columnAliases[$key]);
 					$selected[$this->_columnAliases[$key]]=1;
 				}
 				else if(preg_match('/^(.*?)\s+AS\s+(\w+)$/i',$name,$matches)) // if the column is already aliased
@@ -696,12 +697,12 @@ class CJoinElement
 			}
 			// add primary key selection if they are not selected
 			if(is_string($this->_pkAlias) && !isset($selected[$this->_pkAlias]))
-				$columns[]=$prefix.$schema->quoteColumnName($this->_table->primaryKey).' AS '.$this->_pkAlias;
+				$columns[]=$prefix.$schema->quoteColumnName($this->_table->primaryKey).' AS '.$schema->quoteColumnName($this->_pkAlias);
 			else if(is_array($this->_pkAlias))
 			{
 				foreach($this->_table->_primaryKey as $name)
 					if(!isset($selected[$name]))
-						$columns[]=$prefix.$schema->quoteColumnName($name).' AS '.$this->_pkAlias[$name];
+						$columns[]=$prefix.$schema->quoteColumnName($name).' AS '.$schema->quoteColumnName($this->_pkAlias[$name]);
 			}
 		}
 
@@ -721,11 +722,11 @@ class CJoinElement
 		$prefix=$this->getColumnPrefix();
 		$columns=array();
 		if(is_string($this->_pkAlias))
-			$columns[]=$prefix.$schema->quoteColumnName($this->_table->primaryKey).' AS '.$this->_pkAlias;
+			$columns[]=$prefix.$schema->quoteColumnName($this->_table->primaryKey).' AS '.$schema->quoteColumnName($this->_pkAlias);
 		else if(is_array($this->_pkAlias))
 		{
 			foreach($this->_pkAlias as $name=>$alias)
-				$columns[]=$prefix.$schema->quoteColumnName($name).' AS '.$alias;
+				$columns[]=$prefix.$schema->quoteColumnName($name).' AS '.$schema->quoteColumnName($alias);
 		}
 		return implode(', ',$columns);
 	}
@@ -1177,11 +1178,14 @@ class CStatElement
 		$having=empty($relation->having)?'' : ' AND ('.$relation->having.')';
 		$order=empty($relation->order)?'' : ' ORDER BY '.$relation->order;
 
+		$c=$schema->quoteColumnName('c');
+		$s=$schema->quoteColumnName('s');
+
 		// generate and perform query
 		if(count($fks)===1)  // single column FK
 		{
 			$col=$table->columns[$fks[0]]->rawName;
-			$sql="SELECT $col AS c, ".$relation->select.' AS s FROM '.$table->rawName
+			$sql="SELECT $col AS $c, {$relation->select} AS $s FROM {$table->rawName}"
 				.$where
 				." GROUP BY $col".$group
 				." HAVING ".$builder->createInCondition($table,$fks[0],array_keys($records))
@@ -1207,9 +1211,9 @@ class CStatElement
 			foreach($pkTable->primaryKey as $n=>$pk)
 			{
 				$name=$table->columns[$map[$pk]]->rawName;
-				$cols[$name]=$name.' AS c'.$n;
+				$cols[$name]=$name.' AS '.$schema->quoteColumnName('c'.$n);
 			}
-			$sql='SELECT '.implode(', ',$cols).', '.$relation->select.' AS s FROM '.$table->rawName
+			$sql='SELECT '.implode(', ',$cols).", {$relation->select} AS $s FROM {$table->rawName}"
 				.$where
 				.' GROUP BY '.implode(', ',array_keys($cols)).$group
 				.' HAVING '.$builder->createInCondition($table,$fks,$keys)
@@ -1295,7 +1299,7 @@ class CStatElement
 		foreach(is_string($pkTable->primaryKey)?array($pkTable->primaryKey):$pkTable->primaryKey as $n=>$pk)
 		{
 			$name=$joinTable->rawName.'.'.$schema->quoteColumnName($map[$pk]);
-			$cols[$name]=$name.' AS c'.$n;
+			$cols[$name]=$name.' AS '.$schema->quoteColumnName('c'.$n);
 		}
 
 		$keys=array_keys($records);
@@ -1315,7 +1319,7 @@ class CStatElement
 		$having=empty($relation->having)?'' : ' AND ('.$relation->having.')';
 		$order=empty($relation->order)?'' : ' ORDER BY '.$relation->order;
 
-		$sql='SELECT '.$this->relation->select.' AS s, '.implode(', ',$cols)
+		$sql='SELECT '.$this->relation->select.' AS '.$schema->quoteColumnName('s').', '.implode(', ',$cols)
 			.' FROM '.$table->rawName.' INNER JOIN '.$joinTable->rawName
 			.' ON ('.implode(') AND (',$joinCondition).')'
 			.$where

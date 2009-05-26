@@ -1,7 +1,26 @@
 <?php
+/**
+ * This is the template for generating a model class file.
+ * The following variables are available in this template:
+ * - $className: the class name
+ * - $tableName: the table name
+ * - $columns: a list of table column schema objects
+ * - $rules: a list of validation rules (string)
+ * - $labels: a list of labels (string)
+ * - $relations: a  list of relations (string)
+ */
+?>
+<?php echo "<?php\n"; ?>
 
-class {ClassName} extends CActiveRecord
+class <?php echo $className; ?> extends CActiveRecord
 {
+	/**
+     * The followings are the available columns in table '<?php echo $tableName; ?>':
+<?php foreach($columns as $column): ?>
+	 * @var <?php echo $column->type.' $'.$column->name."\n"; ?>
+<?php endforeach; ?>
+	 */
+
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return CActiveRecord the static model class
@@ -16,7 +35,7 @@ class {ClassName} extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return '{TableName}';
+		return '<?php echo $tableName; ?>';
 	}
 
 	/**
@@ -24,7 +43,10 @@ class {ClassName} extends CActiveRecord
 	 */
 	public function rules()
 	{
-		return array({Rules}
+		return array(
+<?php foreach($rules as $rule): ?>
+			<?php echo $rule.",\n"; ?>
+<?php endforeach; ?>
 		);
 	}
 
@@ -33,7 +55,12 @@ class {ClassName} extends CActiveRecord
 	 */
 	public function relations()
 	{
+		// NOTE: you may need to adjust the relation name and the related
+		// class name for the relations automatically generated below.
 		return array(
+<?php foreach($relations as $name=>$relation): ?>
+			<?php echo "'$name' => $relation,\n"; ?>
+<?php endforeach; ?>
 		);
 	}
 
@@ -42,7 +69,10 @@ class {ClassName} extends CActiveRecord
 	 */
 	public function attributeLabels()
 	{
-		return array({Labels}
+		return array(
+<?php foreach($labels as $label): ?>
+			<?php echo $label.",\n"; ?>
+<?php endforeach; ?>
 		);
 	}
 }

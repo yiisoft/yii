@@ -91,6 +91,59 @@ theme. Each view file is a normal PHP script consisting of mainly HTML
 code. For more details, please refer to the default view files under the
 framework's `view` directory.
 
+
+### Handling Errors Using an Action
+
+Starting from version 1.0.6, Yii allows using a [controller action](/doc/guide/basics.controller#action)
+to handle the error display work. To do so, we should configure the error handler
+in the application configuration as follows:
+
+~~~
+[php]
+return array(
+	......
+	'components'=>array(
+		'errorHandler'=>array(
+			'errorAction'=>'site/error',
+		),
+	),
+);
+~~~
+
+In the above, we configure the [CErrorHandler::errorAction] property to be the route
+`site/error` which refers to the `error` action in `SiteController`. We may use a different
+route if needed.
+
+We can write the `error` action like the following:
+
+~~~
+[php]
+public function actionError()
+{
+	if($error=Yii::app()->errorHandler->error)
+		$this->render('error', $error);
+}
+~~~
+
+In the action, we first retrieve the detailed error information from [CErrorHandler::error].
+If it is not empty, we render the `error` view together with the error information.
+The error information returned from [CErrorHandler::error] is an array with the following fields:
+
+ * `code`: the HTTP status code (e.g. 403, 500);
+ * `type`: the error type (e.g. [CHttpException], `PHP Error`);
+ * `message`: the error message;
+ * `file`: the name of the PHP script file where the error occurs;
+ * `line`: the line number of the code where the error occurs;
+ * `trace`: the call stack of the error;
+ * `source`: the context source code where the error occurs.
+
+> Tip: The reason we check if [CErrorHandler::error] is empty or not is because
+the `error` action may be directly requested by an end user, in which case there is no error.
+Since we are passing the `$error` array to the view, it will be automatically expanded
+to individual variables. As a result, in the view we can access directly the variables such as
+`$code`, `$type`.
+
+
 Message Logging
 ---------------
 

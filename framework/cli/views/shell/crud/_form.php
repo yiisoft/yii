@@ -1,3 +1,12 @@
+<?php
+/**
+ * This is the template for generating the form view for crud.
+ * The following variables are available in this template:
+ * - $ID: the primary key name
+ * - $modelClass: the model class name
+ * - $columns: a list of column schema objects
+ */
+?>
 <div class="yiiForm">
 
 <p>
@@ -6,12 +15,12 @@ Fields with <span class="required">*</span> are required.
 
 <?php echo "<?php echo CHtml::beginForm(); ?>\n"; ?>
 
-<?php echo "<?php echo CHtml::errorSummary(\${$modelVar}); ?>\n"; ?>
+<?php echo "<?php echo CHtml::errorSummary(\$model); ?>\n"; ?>
 
 <?php foreach($columns as $name=>$column): ?>
 <div class="simple">
-<?php echo "<?php echo CHtml::activeLabelEx(\${$modelVar},'$name'); ?>\n"; ?>
-<?php echo "<?php echo ".$this->generateInputField($model,$modelVar,$column)."; ?>\n"; ?>
+<?php echo "<?php echo CHtml::activeLabelEx(\$model,'$name'); ?>\n"; ?>
+<?php echo "<?php echo ".$this->generateInputField($modelClass,$column)."; ?>\n"; ?>
 </div>
 <?php endforeach; ?>
 
