@@ -12,6 +12,7 @@ Version 1.0.6 to be released
 - Bug #321: CProfileLogRoute should be disabled for AJAX requests (Qiang)
 - Bug #331: HTTP 403 status code should be used to indicate auth failure (Qiang)
 - Bug #338: Undefined variables in CTimestamp.php (Qiang)
+- Bug #343: HtmlPurifier should register its autoload to allow using its plugins (Qiang)
 - Bug: Syntax errors in autoloaded classes are not reported (Qiang)
 - New #36: Added column declarations to the generated model class using yiic (Qiang)
 - New #231: Enhanced yiic shell model command to generate relations automatically (olafure, Qiang)
