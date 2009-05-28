@@ -21,6 +21,7 @@ Version 1.0.6 to be released
 - New #320: Added support for customizing a single URL rule by setting its urlFormat and caseSensitive options (Qiang)
 - New #326: Yii::powered() will show Yii site in a new window (Qiang)
 - New #328: Make yiic to work with f-cgi (Qiang)
+- New #349: Enhanced MySQL driver to recongize tinyint(1) as a boolean (Qiang)
 - New: Enhanced the 'with' option in relational rules so that it also applies in eager loading (Qiang)
 - New: Enhanced yiic shell model command to generate all models for the whole database (olafure, Qiang)
 - New: Added support to allow using named scopes with update and delete methods (Qiang)
