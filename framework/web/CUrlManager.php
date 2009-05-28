@@ -131,6 +131,15 @@ class CUrlManager extends CApplicationComponent
 	 * @since 1.0.3
 	 */
 	public $cacheID='cache';
+	/**
+	 * @var boolean whether to enable strict URL parsing.
+	 * This property is only effective when {@link urlFormat} is 'path'.
+	 * If it is set true, then an incoming URL must match one of the {@link rules URL rules}.
+	 * Otherwise, it will be treated as an invalid request and trigger a 404 HTTP exception.
+	 * Defaults to false.
+	 * @since 1.0.6
+	 */
+	public $useStrictParsing=false;
 
 	private $_urlFormat=self::GET_FORMAT;
 	private $_rules=array();
@@ -251,7 +260,11 @@ class CUrlManager extends CApplicationComponent
 				if(($r=$rule->parseUrl($this,$pathInfo,$rawPathInfo))!==false)
 					return isset($_GET[$this->routeVar]) ? $_GET[$this->routeVar] : $r;
 			}
-			return $pathInfo;
+			if($this->useStrictParsing)
+				throw new CHttpException(404,Yii::t('yii','Unable to resolve the request "{route}".',
+					array('{route}'=>$pathInfo)));
+			else
+				return $pathInfo;
 		}
 		else if(isset($_GET[$this->routeVar]))
 			return $_GET[$this->routeVar];
@@ -430,11 +443,11 @@ class CUrlRule extends CComponent
 	{
 		if(is_array($route))
 		{
-			$this->route=$route[0];
 			if(isset($route['urlSuffix']))
 				$this->urlSuffix=$route['urlSuffix'];
 			if(isset($route['caseSensitive']))
 				$this->caseSensitive=$route['caseSensitive'];
+			$route=$this->route=$route[0];
 		}
 		else
 			$this->route=$route;
@@ -549,6 +562,12 @@ class CUrlRule extends CComponent
 
 		if($this->urlSuffix!==null)
 			$pathInfo=$manager->removeUrlSuffix($rawPathInfo,$this->urlSuffix);
+
+		// URL suffix required, but not found in the requested URL
+		if($manager->useStrictParsing && $pathInfo===$rawPathInfo
+			&& ($this->urlSuffix!='' || $this->urlSuffix===null && $manager->urlSuffix!=''))
+			throw new CHttpException(404,Yii::t('yii','Unable to resolve the request "{route}".',
+				array('{route}'=>$rawPathInfo)));
 
 		$pathInfo.='/';
 		if(preg_match($this->pattern.$case,$pathInfo,$matches))
