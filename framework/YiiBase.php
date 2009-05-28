@@ -211,7 +211,7 @@ class YiiBase
 		if(isset(self::$_imports[$alias]))  // previously imported
 			return self::$_imports[$alias];
 
-		if(class_exists($alias,false))
+		if(class_exists($alias,false) || interface_exists($alias,false))
 			return self::$_imports[$alias]=$alias;
 
 		if(isset(self::$_coreClasses[$alias]) || ($pos=strrpos($alias,'.'))===false)  // a simple class name
@@ -227,7 +227,7 @@ class YiiBase
 			return $alias;
 		}
 
-		if(($className=(string)substr($alias,$pos+1))!=='*' && class_exists($className,false))
+		if(($className=(string)substr($alias,$pos+1))!=='*' && (class_exists($className,false) || interface_exists($className,false)))
 			return self::$_imports[$alias]=$className;
 
 		if(($path=self::getPathOfAlias($alias))!==false)
@@ -308,7 +308,7 @@ class YiiBase
 		else
 		{
 			include($className.'.php');
-			return class_exists($className,false);
+			return class_exists($className,false) || interface_exists($className,false);
 		}
 		return true;
 	}

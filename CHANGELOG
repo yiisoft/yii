@@ -28,7 +28,7 @@ Version 1.0.6 to be released
 - New: Added CDbCriteria::toArray() (Qiang)
 - New: Added support to allow merging CDbCriteria using 'OR' operator (Qiang)
 - New: Added CLogger::getStats() (Qiang)
-
+- New: Added support to import and autoload interfaces (Qiang)
 
 Version 1.0.5 May 10, 2009
 --------------------------
