@@ -371,7 +371,6 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Registers a CSS file
-	 * @param string ID that uniquely identifies this CSS file
 	 * @param string URL of the CSS file
 	 * @param string media that the CSS file should be applied to. If empty, it means all media types.
 	 */

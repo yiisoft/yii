@@ -73,7 +73,6 @@
  *         'db'=>array(
  *             'class'=>'CDbConnection',
  *             'connectionString'=>'sqlite:path/to/dbfile',
- *             ),
  *         ),
  *     ),
  * )

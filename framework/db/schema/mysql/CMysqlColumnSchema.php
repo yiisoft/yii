@@ -26,10 +26,10 @@ class CMysqlColumnSchema extends CDbColumnSchema
 	{
 		if(strpos($dbType,'bigint')!==false || strpos($dbType,'float')!==false || strpos($dbType,'double')!==false)
 			$this->type='double';
+		else if(strpos($dbType,'bool')!==false || $dbType==='tinyint(1)')
+			$this->type='boolean';
 		else if(strpos($dbType,'int')!==false || strpos($dbType,'bit')!==false)
 			$this->type='integer';
-		else if(strpos($dbType,'bool')!==false)
-			$this->type='boolean';
 		else
 			$this->type='string';
 	}

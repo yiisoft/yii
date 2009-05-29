@@ -297,9 +297,13 @@ class CDbCommand extends CComponent
 			else
 				$this->_statement=$this->getConnection()->getPdoInstance()->query($this->getText());
 
-			$result=$method==='' ? new CDbDataReader($this) : $this->_statement->{$method}($mode);
-
-			$this->_statement->closeCursor();
+			if($method==='')
+				$result=new CDbDataReader($this);
+			else
+			{
+				$result=$this->_statement->{$method}($mode);
+				$this->_statement->closeCursor();
+			}
 
 			if($this->_connection->enableProfiling)
 				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().')','system.db.CDbCommand.query');
