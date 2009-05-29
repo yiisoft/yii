@@ -9,6 +9,7 @@
  */
 
 require_once(Yii::getPathOfAlias('system.vendors.htmlpurifier').DIRECTORY_SEPARATOR.'HTMLPurifier.standalone.php');
+HTMLPurifier_Bootstrap::registerAutoload();
 
 /**
  * CHtmlPurifier is wrapper of {@link http://htmlpurifier.org HTML Purifier}.

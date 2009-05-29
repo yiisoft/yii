@@ -28,6 +28,7 @@ class ModelCommand extends CConsoleCommand
 	private $_schema;
 	private $_relations; // where we keep table relations
 	private $_tables;
+	private $_classes;
 
 	public function getHelp()
 	{
@@ -48,7 +49,13 @@ PARAMETERS
    as 'ModuleID.models.ClassName'.
 
    If the class name ends with '*', then a model class will be generated
-   for every table in the database.
+   for EVERY table in the database.
+
+   If the class name contains a regular expression deliminated by slashes,
+   then a model class will be generated for those tables whose name
+   matches the regular expression. If the regular expression contains
+   sub-patterns, the first sub-pattern will be used to generate the model
+   class name.
 
  * table-name: optional, the associated database table name. If not given,
    it is assumed to be the model class name.
@@ -69,9 +76,18 @@ EXAMPLES
  * Generates a model class for every table in the current database:
         model *
 
- * Generates a model class for every table in the current database.
-   The model class files are stored under 'protected/models2':
+ * Same as above, but the model class files should be generated
+   under 'protected/models2':
         model application.models2.*
+
+ * Generates a model class for every table whose name is prefixed
+   with 'tbl_' in the current database. The model class will not
+   contain the table prefix.
+        model /^tbl_(.*)$/
+
+ * Same as above, but the model class files should be generated
+   under 'protected/models2':
+        model application.models2./^tbl_(.*)$/
 
 EOD;
 	}
@@ -84,7 +100,7 @@ EOD;
 	 */
 	protected function isRelationTable($table)
 	{
-		$pk = $table->primaryKey;
+		$pk=$table->primaryKey;
 		return (count($pk) === 2 // we want 2 columns
 			&& isset($table->foreignKeys[$pk[0]]) // pk column 1 is also a foreign key
 			&& isset($table->foreignKeys[$pk[1]]) // pk column 2 is also a foriegn key
@@ -98,59 +114,54 @@ EOD;
 	 */
 	protected function generateRelations()
 	{
-		if(($db=Yii::app()->getDb()) === null)
+		$this->_relations=array();
+		$this->_classes=array();
+		foreach($this->_schema->getTables() as $table)
 		{
-			echo "Warning: you do not have a 'db' database connection as required by Active Record.\n";
-			return array();
-		}
-
-		$db->active = true;
-		$this->_schema = $schema = $db->schema;
-		$relations = array();
-
-		foreach ($schema->tables as $table)
-		{
-			$tableName = $table->name;
+			$tableName=$table->name;
 
 			if ($this->isRelationTable($table))
 			{
-				$pks = $table->primaryKey;
-				$fks = $table->foreignKeys;
+				$pks=$table->primaryKey;
+				$fks=$table->foreignKeys;
 
-				$table0 = $fks[$pks[1]][0];
-				$table1 = $fks[$pks[0]][0];
-				$className0 = $this->generateClassName($table0);
-				$className1 = $this->generateClassName($table1);
+				$table0=$fks[$pks[1]][0];
+				$table1=$fks[$pks[0]][0];
+				$className0=$this->getClassName($table0);
+				$className1=$this->getClassName($table1);
 
-				$relationName = $this->generateRelationName($table0, $table1, true);
-				$relations[$className0][$relationName] = "array(self::MANY_MANY, '$className1', '$tableName($pks[0], $pks[1])')";
+				$relationName=$this->generateRelationName($table0, $table1, true);
+				$this->_relations[$className0][$relationName]="array(self::MANY_MANY, '$className1', '$tableName($pks[0], $pks[1])')";
 
-				$relationName = $this->generateRelationName($table1, $table0, true);
-				$relations[$className1][$relationName] = "array(self::MANY_MANY, '$className0', '$tableName($pks[0], $pks[1])')";
+				$relationName=$this->generateRelationName($table1, $table0, true);
+				$this->_relations[$className1][$relationName]="array(self::MANY_MANY, '$className0', '$tableName($pks[0], $pks[1])')";
 			}
 			else
 			{
+				$this->_classes[$tableName]=$className=$this->getClassName($tableName);
 				foreach ($table->foreignKeys as $fkName => $fkEntry)
 				{
 					// Put table and key name in variables for easier reading
-					$refTable = $fkEntry[0]; // Table name that current fk references to
-					$refKey = $fkEntry[1];   // Key in that table being referenced
-					$className = $this->generateClassName($tableName);
-					$refClassName = $this->generateClassName($refTable);
+					$refTable=$fkEntry[0]; // Table name that current fk references to
+					$refKey=$fkEntry[1];   // Key in that table being referenced
+					$refClassName=$this->getClassName($refTable);
 
 					// Add relation for this table
-					$relationName = $this->generateRelationName($tableName, $fkName, false);
-					$relations[$className][$relationName] = "array(self::BELONGS_TO, '$refClassName', '$fkName')";
+					$relationName=$this->generateRelationName($tableName, $fkName, false);
+					$this->_relations[$className][$relationName]="array(self::BELONGS_TO, '$refClassName', '$fkName')";
 
 					// Add relation for the referenced table
-					$relationType = $table->primaryKey === $fkName ? 'HAS_ONE' : 'HAS_MANY';
-					$relationName = $this->generateRelationName($refTable, $tableName, $relationType==='HAS_MANY');
-					$relations[$refClassName][$relationName] = "array(self::$relationType, '$className', '$fkName')";
+					$relationType=$table->primaryKey === $fkName ? 'HAS_ONE' : 'HAS_MANY';
+					$relationName=$this->generateRelationName($refTable, $tableName, $relationType==='HAS_MANY');
+					$this->_relations[$refClassName][$relationName]="array(self::$relationType, '$className', '$fkName')";
 				}
 			}
 		}
+	}
 
-		return $relations;
+	protected function getClassName($tableName)
+	{
+		return isset($this->_tables[$tableName]) ? $this->_tables[$tableName] : $this->generateClassName($tableName);
 	}
 
 	/**
@@ -160,12 +171,35 @@ EOD;
 	 */
 	protected function generateClassName($tableName)
 	{
-		if(!isset($this->_tables[$tableName]))
+		return str_replace(' ','',
+			ucwords(
+				trim(
+					strtolower(
+						str_replace(array('-','_'),' ',
+							preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $tableName))))));
+	}
+
+	/**
+	 * Generates the mapping table between table names and class names.
+	 * @param CDbSchema the database schema
+	 * @param string a regular expression that may be used to filter table names
+	 */
+	protected function generateClassNames($schema,$pattern=null)
+	{
+		$this->_tables=array();
+		foreach($schema->getTableNames() as $name)
 		{
-			$name=ucwords(trim(strtolower(str_replace(array('-','_'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $tableName)))));
-			$this->_tables[$tableName]=str_replace(' ','',$name);
+			if($pattern===null)
+				$this->_tables[$name]=$this->generateClassName($name);
+			else if(preg_match($pattern,$name,$matches))
+			{
+				if(count($matches)>1 && !empty($matches[1]))
+					$className=$this->generateClassName($matches[1]);
+				else
+					$className=$this->generateClassName($matches[0]);
+				$this->_tables[$name]=empty($className) ? $name : $className;
+			}
 		}
-		return $this->_tables[$tableName];
 	}
 
 	/**
@@ -230,31 +264,72 @@ EOD;
 		}
 		$className=$args[0];
 
-		if(($pos=strrpos($className,'.'))===false)
-			$basePath=Yii::getPathOfAlias('application.models');
-		else
+		if(($db=Yii::app()->getDb())===null)
 		{
-			$basePath=Yii::getPathOfAlias(substr($className,0,$pos));
-			$className=substr($className,$pos+1);
+			echo "Error: an active 'db' connection is required.\n";
+			echo "If you already added 'db' component in application configuration,\n";
+			echo "please quit and re-enter the yiic shell.\n";
+			return;
 		}
 
-		if ($className==='*')
+		$db->active=true;
+		$this->_schema=$db->schema;
+
+		if(!preg_match('/^[\w\.\-\*]*(.*?)$/',$className,$matches))
 		{
-			$this->_relations = $this->generateRelations();
-			$classNames = array_keys($this->_relations);
+			echo "Error: model class name is invalid.\n";
+			return;
 		}
-		else
+
+		if(empty($matches[1]))  // without regular expression
 		{
-			// preset table=>class name map before relation generation
-			$this->_tables = array($tableName => $className);
-			$this->_relations = $this->generateRelations();
-			$classNames = array($className);
-			$tableName = isset($args[1])?$args[1]:$className;
-			$this->_tables = array($tableName => $className);
+			$this->generateClassNames($this->_schema);
+			if(($pos=strrpos($className,'.'))===false)
+				$basePath=Yii::getPathOfAlias('application.models');
+			else
+			{
+				$basePath=Yii::getPathOfAlias(substr($className,0,$pos));
+				$className=substr($className,$pos+1);
+			}
+			if($className==='*') // generate all models
+				$this->generateRelations();
+			else
+			{
+				$tableName=isset($args[1])?$args[1]:$className;
+				$this->_tables[$tableName]=$className;
+				$this->generateRelations();
+				$this->_classes=array($tableName=>$className);
+			}
+		}
+		else  // with regular expression
+		{
+			$pattern=$matches[1];
+			$pos=strrpos($className,$pattern);
+			if($pos>0)  // only regexp is given
+				$basePath=Yii::getPathOfAlias(rtrim(substr($className,0,$pos),'.'));
+			else
+				$basePath=Yii::getPathOfAlias('application.models');
+			$this->generateClassNames($this->_schema,$pattern);
+			$classes=$this->_tables;
+			$this->generateRelations();
+			$this->_classes=$classes;
+		}
+
+		if(count($this->_classes)>1)
+		{
+			$entries=array();
+			$count=0;
+			foreach($this->_classes as $tableName=>$className)
+				$entries[]=++$count.". $className ($tableName)";
+			echo "The following model classes (tables) match your criteria:\n";
+			echo implode("\n",$entries);
+			echo "\n\nDo you want to generate the above classes? [Yes|No] ";
+			if(strncasecmp(trim(fgets(STDIN)),'y',1))
+				return;
 		}
 
 		$list=array();
-		foreach ($this->_tables as $tableName=>$className)
+		foreach ($this->_classes as $tableName=>$className)
 		{
 			$files[$className]=$classFile=$basePath.DIRECTORY_SEPARATOR.$className.'.php';
 			$templateFile=$this->templateFile===null?YII_PATH.'/cli/views/shell/model/model.php':$this->templateFile;
@@ -274,7 +349,7 @@ EOD;
 				include_once($file);
 		}
 
-		$classes=join(", ", $classNames);
+		$classes=implode(", ", $this->_classes);
 
 		echo <<<EOD
 
@@ -295,58 +370,52 @@ EOD;
 		$rules=array();
 		$labels=array();
 		$relations=array();
-		if(($db=Yii::app()->getDb())!==null)
+		if(($table=$this->_schema->getTable($tableName))!==null)
 		{
-			$db->active=true;
-			if(($table=$db->schema->getTable($tableName))!==null)
+			$required=array();
+			$integers=array();
+			$numerical=array();
+			$length=array();
+			$safe=array();
+			foreach($table->columns as $column)
 			{
-				$required=array();
-				$integers=array();
-				$numerical=array();
-				$length=array();
-				$safe=array();
-				foreach($table->columns as $column)
-				{
-					$label=ucwords(trim(strtolower(str_replace(array('-','_'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $column->name)))));
-					if(strcasecmp(substr($label,-3),' id')===0)
-						$label=substr($label,0,-3);
-					$labels[]="'{$column->name}'=>'$label'";
-					if($column->isPrimaryKey && $table->sequenceName!==null || $column->isForeignKey)
-						continue;
-					$r=!$column->allowNull && $column->defaultValue===null;
-					if($r)
-						$required[]=$column->name;
-					if($column->type==='integer')
-						$integers[]=$column->name;
-					else if($column->type==='double')
-						$numerical[]=$column->name;
-					else if($column->type==='string' && $column->size>0)
-						$length[$column->size][]=$column->name;
-					else if(!$column->isPrimaryKey && !$r)
-						$safe[]=$column->name;
-				}
-				if($required!==array())
-					$rules[]="array('".implode(', ',$required)."', 'required')";
-				if($integers!==array())
-					$rules[]="array('".implode(', ',$integers)."', 'numerical', 'integerOnly'=>true)";
-				if($numerical!==array())
-					$rules[]="array('".implode(', ',$numerical)."', 'numerical')";
-				if($length!==array())
-				{
-					foreach($length as $len=>$cols)
-						$rules[]="array('".implode(', ',$cols)."', 'length', 'max'=>$len)";
-				}
-				if($safe!==array())
-					$rules[]="array('".implode(', ',$safe)."', 'safe')";
-
-				if(isset($this->_relations[$className]) && is_array($this->_relations[$className]))
-					$relations=$this->_relations[$className];
+				$label=ucwords(trim(strtolower(str_replace(array('-','_'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $column->name)))));
+				if(strcasecmp(substr($label,-3),' id')===0)
+					$label=substr($label,0,-3);
+				$labels[]="'{$column->name}'=>'$label'";
+				if($column->isPrimaryKey && $table->sequenceName!==null || $column->isForeignKey)
+					continue;
+				$r=!$column->allowNull && $column->defaultValue===null;
+				if($r)
+					$required[]=$column->name;
+				if($column->type==='integer')
+					$integers[]=$column->name;
+				else if($column->type==='double')
+					$numerical[]=$column->name;
+				else if($column->type==='string' && $column->size>0)
+					$length[$column->size][]=$column->name;
+				else if(!$column->isPrimaryKey && !$r)
+					$safe[]=$column->name;
 			}
-			else
-				echo "Warning: the table '$tableName' does not exist in the database.\n";
+			if($required!==array())
+				$rules[]="array('".implode(', ',$required)."', 'required')";
+			if($integers!==array())
+				$rules[]="array('".implode(', ',$integers)."', 'numerical', 'integerOnly'=>true)";
+			if($numerical!==array())
+				$rules[]="array('".implode(', ',$numerical)."', 'numerical')";
+			if($length!==array())
+			{
+				foreach($length as $len=>$cols)
+					$rules[]="array('".implode(', ',$cols)."', 'length', 'max'=>$len)";
+			}
+			if($safe!==array())
+				$rules[]="array('".implode(', ',$safe)."', 'safe')";
+
+			if(isset($this->_relations[$className]) && is_array($this->_relations[$className]))
+				$relations=$this->_relations[$className];
 		}
 		else
-			echo "Warning: you do not have a 'db' database connection as required by Active Record.\n";
+			echo "Warning: the table '$tableName' does not exist in the database.\n";
 
 		return $this->renderFile($source,array(
 			'className'=>$className,

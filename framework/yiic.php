@@ -12,8 +12,6 @@
  * @version $Id$
  */
 
-defined('YII_DEBUG') or define('YII_DEBUG',true);
-
 // fix for fcgi
 defined('STDIN') or define('STDIN', fopen('php://stdin', 'r'));
 
