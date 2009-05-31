@@ -457,6 +457,7 @@ class YiiBase
 		'CHttpException' => '/base/CHttpException.php',
 		'CModel' => '/base/CModel.php',
 		'CModelBehavior' => '/base/CModelBehavior.php',
+		'CModelEvent' => '/base/CModelEvent.php',
 		'CModule' => '/base/CModule.php',
 		'CSecurityManager' => '/base/CSecurityManager.php',
 		'CStatePersister' => '/base/CStatePersister.php',
