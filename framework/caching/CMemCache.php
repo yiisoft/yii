@@ -48,6 +48,9 @@
  * See {@link http://www.php.net/manual/en/function.memcache-addserver.php}
  * for more details.
  *
+ * Since version 1.0.6, CMemCache can also be used with {@link http://pecl.php.net/package/memcached memcached}.
+ * To do so, set {@link useMemcached} to be true.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.caching
@@ -55,6 +58,13 @@
  */
 class CMemCache extends CCache
 {
+	/**
+	 * @var boolean whether to use {@link http://pecl.php.net/package/memcached memcached}
+	 * as the underlying caching extension. Defaults to false, meaning using
+	 * {@link http://pecl.php.net/package/memcache memcache}.
+	 * @since 1.0.6
+	 */
+	public $useMemcached=false;
 	/**
 	 * @var Memcache the Memcache instance
 	 */
@@ -73,17 +83,16 @@ class CMemCache extends CCache
 	public function init()
 	{
 		parent::init();
-		if(!extension_loaded('memcache'))
-			throw new CException(Yii::t('yii','CMemCache requires PHP memcache extension to be loaded.'));
-
 		$servers=$this->getServers();
 		$cache=$this->getMemCache();
 		if(count($servers))
 		{
 			foreach($servers as $server)
 			{
-				$cache->addServer($server->host,$server->port,$server->persistent,
-					$server->weight,$server->timeout,$server->status);
+				if($this->useMemcached)
+					$cache->addServer($server->host,$server->port,$server->weight);
+				else
+					$cache->addServer($server->host,$server->port,$server->persistent,$server->weight,$server->timeout,$server->status);
 			}
 		}
 		else
@@ -91,14 +100,14 @@ class CMemCache extends CCache
 	}
 
 	/**
-	 * @return Memcache the memcache instance
+	 * @return mixed the memcache instance (or memcached if {@link useMemcached} is true) used by this component.
 	 */
-	protected function getMemCache()
+	public function getMemCache()
 	{
 		if($this->_cache!==null)
 			return $this->_cache;
 		else
-			return $this->_cache=new Memcache;
+			return $this->_cache=$this->useMemcached ? new Memcachd : new Memcache;
 	}
 
 	/**
