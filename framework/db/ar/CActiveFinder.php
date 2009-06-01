@@ -700,7 +700,7 @@ class CJoinElement
 				$columns[]=$prefix.$schema->quoteColumnName($this->_table->primaryKey).' AS '.$schema->quoteColumnName($this->_pkAlias);
 			else if(is_array($this->_pkAlias))
 			{
-				foreach($this->_table->_primaryKey as $name)
+				foreach($this->_table->primaryKey as $name)
 					if(!isset($selected[$name]))
 						$columns[]=$prefix.$schema->quoteColumnName($name).' AS '.$schema->quoteColumnName($this->_pkAlias[$name]);
 			}
