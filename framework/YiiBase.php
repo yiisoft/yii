@@ -466,6 +466,7 @@ class YiiBase
 		'CDbCache' => '/caching/CDbCache.php',
 		'CDummyCache' => '/caching/CDummyCache.php',
 		'CEAcceleratorCache' => '/caching/CEAcceleratorCache.php',
+		'CFileCache' => '/caching/CFileCache.php',
 		'CMemCache' => '/caching/CMemCache.php',
 		'CXCache' => '/caching/CXCache.php',
 		'CZendDataCache' => '/caching/CZendDataCache.php',

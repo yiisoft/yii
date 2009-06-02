@@ -249,6 +249,7 @@ class YiiBase
 		'CDbCache' => '/caching/CDbCache.php',
 		'CDummyCache' => '/caching/CDummyCache.php',
 		'CEAcceleratorCache' => '/caching/CEAcceleratorCache.php',
+		'CFileCache' => '/caching/CFileCache.php',
 		'CMemCache' => '/caching/CMemCache.php',
 		'CXCache' => '/caching/CXCache.php',
 		'CZendDataCache' => '/caching/CZendDataCache.php',
@@ -944,7 +945,7 @@ abstract class CApplication extends CModule
 		if($this->_id!==null)
 			return $this->_id;
 		else
-			return $this->_id=md5($this->getBasePath().$this->name);
+			return $this->_id=sprintf('%x',crc32($this->getBasePath().$this->name));
 	}
 	public function setId($id)
 	{

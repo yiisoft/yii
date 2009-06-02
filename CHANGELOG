@@ -16,6 +16,7 @@ Version 1.0.6 to be released
 - Bug: Syntax errors in autoloaded classes are not reported (Qiang)
 - New #36: Added column declarations to the generated model class using yiic (Qiang)
 - New #231: Enhanced yiic shell model command to generate relations automatically (olafure, Qiang)
+- New #271: Added CFileCache (Qiang)
 - New #300: Added support for using a controller action to display application errors (Qiang)
 - New #304: Added flv mimeType to the mimeType array (Qiang)
 - New #315: Added CDbConnection.enableProfiling (Qiang)
