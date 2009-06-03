@@ -85,7 +85,7 @@
  */
 class CUrlManager extends CApplicationComponent
 {
-	const CACHE_KEY='CUrlManager.rules';
+	const CACHE_KEY='Yii.CUrlManager.rules';
 	const GET_FORMAT='get';
 	const PATH_FORMAT='path';
 

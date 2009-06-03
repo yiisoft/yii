@@ -85,7 +85,10 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 			if(!is_array($data))
 				return false;
 			if(!($data[1] instanceof ICacheDependency) || !$data[1]->getHasChanged())
+			{
+				Yii::trace('Serving "'.$id.'" from cache','system.caching.'.get_class($this));
 				return $data[0];
+			}
 		}
 		return false;
 	}
@@ -103,6 +106,7 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 */
 	public function set($id,$value,$expire=0,$dependency=null)
 	{
+		Yii::trace('Saving "'.$id.'" to cache','system.caching.'.get_class($this));
 		if($dependency!==null)
 			$dependency->evaluateDependency();
 		$data=array($value,$dependency);
@@ -120,6 +124,7 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 */
 	public function add($id,$value,$expire=0,$dependency=null)
 	{
+		Yii::trace('Adding "'.$id.'" to cache','system.caching.'.get_class($this));
 		if($dependency!==null)
 			$dependency->evaluateDependency();
 		$data=array($value,$dependency);
@@ -133,6 +138,7 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 */
 	public function delete($id)
 	{
+		Yii::trace('Deleting "'.$id.'" to cache','system.caching.'.get_class($this));
 		return $this->deleteValue($this->generateUniqueKey($id));
 	}
 
@@ -144,6 +150,7 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 */
 	public function flush()
 	{
+		Yii::trace('Flushign cache','system.caching.'.get_class($this));
 		throw new CException(Yii::t('yii','{className} does not support flush() functionality.',
 			array('{className}'=>get_class($this))));
 	}

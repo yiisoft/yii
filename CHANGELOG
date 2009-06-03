@@ -36,6 +36,7 @@ Version 1.0.6 to be released
 - New: Added support to allow merging CDbCriteria using 'OR' operator (Qiang)
 - New: Added CLogger::getStats() (Qiang)
 - New: Added support to import and autoload interfaces (Qiang)
+- New: Added tracing statements to cache components (Qiang)
 
 Version 1.0.5 May 10, 2009
 --------------------------
