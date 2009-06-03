@@ -49,7 +49,7 @@ class CFileCache extends CCache
 			$this->cachePath=Yii::app()->getRuntimePath().DIRECTORY_SEPARATOR.'cache';
 		if(is_dir($this->cachePath))
 		{
-			//if(rand(0,100)<$this->_gcProbability)
+			if(rand(0,100)<$this->_gcProbability)
 				$this->gc();
 		}
 		else
