@@ -17,9 +17,11 @@ Version 1.0.6 to be released
 - Bug #331: HTTP 403 status code should be used to indicate auth failure (Qiang)
 - Bug #338: Undefined variables in CTimestamp.php (Qiang)
 - Bug #343: HtmlPurifier should register its autoload to allow using its plugins (Qiang)
+- Bug #353: CClientScript may not generate expected output on some PHP version due to preg_replace bug (Qiang)
 - Bug: Syntax errors in autoloaded classes are not reported (Qiang)
 - New #36: Added column declarations to the generated model class using yiic (Qiang)
 - New #231: Enhanced yiic shell model command to generate relations automatically (olafure, Qiang)
+- New #271: Added CFileCache (Qiang)
 - New #300: Added support for using a controller action to display application errors (Qiang)
 - New #304: Added flv mimeType to the mimeType array (Qiang)
 - New #315: Added CDbConnection.enableProfiling (Qiang)
@@ -27,8 +29,10 @@ Version 1.0.6 to be released
 - New #326: Yii::powered() will show Yii site in a new window (Qiang)
 - New #328: Make yiic to work with f-cgi (Qiang)
 - New #344: Added support to automatically attach behaviors to a controller (Qiang)
+- New #346: Enhanced CMemCache so that it can be used with both memcache and memcached (Qiang)
 - New #347: Added CUrlManager.useStrictParsing to support parsing URLs only based on rules (Qiang)
 - New #349: Enhanced MySQL driver to recongize tinyint(1) as a boolean (Qiang)
+- New #351: Enhanced CModelBehavior so that its beforeValidate() can stop the current validation process (Qiang)
 - New: Enhanced the 'with' option in relational rules so that it also applies in eager loading (Qiang)
 - New: Enhanced yiic shell model command to generate all models for the whole database (olafure, Qiang)
 - New: Added support to allow using named scopes with update and delete methods (Qiang)
@@ -37,6 +41,8 @@ Version 1.0.6 to be released
 - New: Added support to allow merging CDbCriteria using 'OR' operator (Qiang)
 - New: Added CLogger::getStats() (Qiang)
 - New: Added support to import and autoload interfaces (Qiang)
+- New: Added tracing statements to cache components (Qiang)
+- New: Added CLogFilter to support logging additional context information (Qiang)
 
 Version 1.0.5 May 10, 2009
 --------------------------

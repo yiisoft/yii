@@ -164,8 +164,9 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 */
 	protected function beforeValidate()
 	{
-		$this->onBeforeValidate(new CEvent($this));
-		return true;
+		$event=new CModelEvent($this);
+		$this->onBeforeValidate($event);
+		return $event->isValid;
 	}
 
 	/**
@@ -181,7 +182,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 
 	/**
 	 * This event is raised before the validation is performed.
-	 * @param CEvent the event parameter
+	 * @param CModelEvent the event parameter
 	 * @since 1.0.2
 	 */
 	public function onBeforeValidate($event)

@@ -15,7 +15,7 @@
 foreach($data as $index=>$log)
 {
 	$color=($index%2)?'#F5F5F5':'#EBF8FE';
-	$message=CHtml::encode($log[0]);
+	$message='<pre>'.CHtml::encode(wordwrap($log[0])).'</pre>';
 	$time=date('H:i:s.',$log[3]).(int)(($log[3]-(int)$log[3])*1000000);
 
 	echo <<<EOD
