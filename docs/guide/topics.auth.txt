@@ -239,7 +239,9 @@ This makes use of the [role-based access control](#role-based-access-control)
 feature to be described in the next subsection. In particular, the rule
 is applied if [CWebUser::checkAccess] returns true for one of the roles.
 Note, you should mainly use roles in an `allow` rule because by definition,
-a role represents a permission to do something.
+a role represents a permission to do something. Also note, although we use the
+term `roles` here, its value can actually be any auth item, including roles,
+tasks and operations.
 
    - [ips|CAccessRule::ips]: specifies which client IP addresses this rule
 matches.

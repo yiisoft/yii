@@ -236,7 +236,7 @@ class COutputCache extends CFilterWidget
 	 */
 	protected function getBaseCacheKey()
 	{
-		return self::CACHE_KEY_PREFIX.':'.$this->getId().':';
+		return self::CACHE_KEY_PREFIX.$this->getId().'.';
 	}
 
 	/**
@@ -251,7 +251,7 @@ class COutputCache extends CFilterWidget
 			return $this->_key;
 		else
 		{
-			$key=$this->getBaseCacheKey().':';
+			$key=$this->getBaseCacheKey().'.';
 			if($this->varyByRoute)
 			{
 				$controller=$this->getController();
@@ -259,11 +259,11 @@ class COutputCache extends CFilterWidget
 				if(($action=$controller->getAction())!==null)
 					$key.=$action->getId();
 			}
-			$key.=':';
+			$key.='.';
 
 			if($this->varyBySession)
 				$key.=Yii::app()->getSession()->getSessionID();
-			$key.=':';
+			$key.='.';
 
 			if(is_array($this->varyByParam) && isset($this->varyByParam[0]))
 			{
@@ -277,11 +277,11 @@ class COutputCache extends CFilterWidget
 				}
 				$key.=serialize($params);
 			}
-			$key.=':';
+			$key.='.';
 
 			if($this->varyByExpression!==null)
 				$key.=$this->evaluateExpression($this->varyByExpression);
-			$key.=':';
+			$key.='.';
 
 			return $this->_key=$key;
 		}

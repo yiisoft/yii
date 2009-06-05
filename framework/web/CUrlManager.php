@@ -85,7 +85,7 @@
  */
 class CUrlManager extends CApplicationComponent
 {
-	const CACHE_KEY='CUrlManager.rules';
+	const CACHE_KEY='Yii.CUrlManager.rules';
 	const GET_FORMAT='get';
 	const PATH_FORMAT='path';
 
@@ -189,6 +189,9 @@ class CUrlManager extends CApplicationComponent
 	public function createUrl($route,$params=array(),$ampersand='&')
 	{
 		unset($params[$this->routeVar]);
+		foreach($params as &$param)
+			if($param===null)
+				$param='';
 		if(isset($params['#']))
 		{
 			$anchor='#'.$params['#'];
@@ -476,7 +479,6 @@ class CUrlRule extends CComponent
 		$this->append=$p!==$pattern;
 		$p=trim($p,'/');
 		$this->template=preg_replace('/<(\w+):?.*?>/','<$1>',$p);
-
 		$this->pattern='/^'.strtr($this->template,$tr).'\/';
 		if($this->append)
 			$this->pattern.='/u';
@@ -519,14 +521,13 @@ class CUrlRule extends CComponent
 		}
 
 		foreach($this->params as $key=>$value)
-		{
-			if(isset($params[$key]))
-			{
-				$tr["<$key>"]=urlencode($params[$key]);
-				unset($params[$key]);
-			}
-			else
+			if(!isset($params[$key]))
 				return false;
+
+		foreach($this->params as $key=>$value)
+		{
+			$tr["<$key>"]=urlencode($params[$key]);
+			unset($params[$key]);
 		}
 
 		$suffix=$this->urlSuffix===null ? $manager->urlSuffix : $this->urlSuffix;

@@ -105,7 +105,7 @@ class YiiBase
 	{
 		if(isset(self::$_imports[$alias]))  // previously imported
 			return self::$_imports[$alias];
-		if(class_exists($alias,false))
+		if(class_exists($alias,false) || interface_exists($alias,false))
 			return self::$_imports[$alias]=$alias;
 		if(isset(self::$_coreClasses[$alias]) || ($pos=strrpos($alias,'.'))===false)  // a simple class name
 		{
@@ -119,7 +119,7 @@ class YiiBase
 			}
 			return $alias;
 		}
-		if(($className=(string)substr($alias,$pos+1))!=='*' && class_exists($className,false))
+		if(($className=(string)substr($alias,$pos+1))!=='*' && (class_exists($className,false) || interface_exists($className,false)))
 			return self::$_imports[$alias]=$className;
 		if(($path=self::getPathOfAlias($alias))!==false)
 		{
@@ -176,7 +176,7 @@ class YiiBase
 		else
 		{
 			include($className.'.php');
-			return class_exists($className,false);
+			return class_exists($className,false) || interface_exists($className,false);
 		}
 		return true;
 	}
@@ -240,6 +240,7 @@ class YiiBase
 		'CHttpException' => '/base/CHttpException.php',
 		'CModel' => '/base/CModel.php',
 		'CModelBehavior' => '/base/CModelBehavior.php',
+		'CModelEvent' => '/base/CModelEvent.php',
 		'CModule' => '/base/CModule.php',
 		'CSecurityManager' => '/base/CSecurityManager.php',
 		'CStatePersister' => '/base/CStatePersister.php',
@@ -248,6 +249,7 @@ class YiiBase
 		'CDbCache' => '/caching/CDbCache.php',
 		'CDummyCache' => '/caching/CDummyCache.php',
 		'CEAcceleratorCache' => '/caching/CEAcceleratorCache.php',
+		'CFileCache' => '/caching/CFileCache.php',
 		'CMemCache' => '/caching/CMemCache.php',
 		'CXCache' => '/caching/CXCache.php',
 		'CZendDataCache' => '/caching/CZendDataCache.php',
@@ -319,6 +321,7 @@ class YiiBase
 		'CDbLogRoute' => '/logging/CDbLogRoute.php',
 		'CEmailLogRoute' => '/logging/CEmailLogRoute.php',
 		'CFileLogRoute' => '/logging/CFileLogRoute.php',
+		'CLogFilter' => '/logging/CLogFilter.php',
 		'CLogRoute' => '/logging/CLogRoute.php',
 		'CLogRouter' => '/logging/CLogRouter.php',
 		'CLogger' => '/logging/CLogger.php',
@@ -821,11 +824,11 @@ abstract class CModule extends CComponent
 	{
 		return isset($this->_components[$id]) || isset($this->_componentConfig[$id]);
 	}
-	public function getComponent($id)
+	public function getComponent($id,$createIfNull=true)
 	{
 		if(isset($this->_components[$id]))
 			return $this->_components[$id];
-		else if(isset($this->_componentConfig[$id]))
+		else if(isset($this->_componentConfig[$id]) && $createIfNull)
 		{
 			$config=$this->_componentConfig[$id];
 			unset($this->_componentConfig[$id]);
@@ -945,7 +948,7 @@ abstract class CApplication extends CModule
 		if($this->_id!==null)
 			return $this->_id;
 		else
-			return $this->_id=md5($this->getBasePath().$this->name);
+			return $this->_id=sprintf('%x',crc32($this->getBasePath().$this->name));
 	}
 	public function setId($id)
 	{
@@ -1671,125 +1674,6 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 		$this->remove($offset);
 	}
 }
-class CLogger extends CComponent
-{
-	const LEVEL_TRACE='trace';
-	const LEVEL_WARNING='warning';
-	const LEVEL_ERROR='error';
-	const LEVEL_INFO='info';
-	const LEVEL_PROFILE='profile';
-	private $_logs=array();
-	private $_levels;
-	private $_categories;
-	private $_timings;
-	public function log($message,$level='info',$category='application')
-	{
-		$this->_logs[]=array($message,$level,$category,microtime(true));
-	}
-	public function getLogs($levels='',$categories='')
-	{
-		$this->_levels=preg_split('/[\s,]+/',strtolower($levels),-1,PREG_SPLIT_NO_EMPTY);
-		$this->_categories=preg_split('/[\s,]+/',strtolower($categories),-1,PREG_SPLIT_NO_EMPTY);
-		if(empty($levels) && empty($categories))
-			return $this->_logs;
-		else if(empty($levels))
-			return array_values(array_filter(array_filter($this->_logs,array($this,'filterByCategory'))));
-		else if(empty($categories))
-			return array_values(array_filter(array_filter($this->_logs,array($this,'filterByLevel'))));
-		else
-		{
-			$ret=array_values(array_filter(array_filter($this->_logs,array($this,'filterByLevel'))));
-			return array_values(array_filter(array_filter($ret,array($this,'filterByCategory'))));
-		}
-	}
-	private function filterByCategory($value)
-	{
-		foreach($this->_categories as $category)
-		{
-			$cat=strtolower($value[2]);
-			if($cat===$category || (($c=rtrim($category,'.*'))!==$category && strpos($cat,$c)===0))
-				return $value;
-		}
-		return false;
-	}
-	private function filterByLevel($value)
-	{
-		return in_array(strtolower($value[1]),$this->_levels)?$value:false;
-	}
-	public function getExecutionTime()
-	{
-		return microtime(true)-YII_BEGIN_TIME;
-	}
-	public function getMemoryUsage()
-	{
-		if(function_exists('memory_get_usage'))
-			return memory_get_usage();
-		else
-		{
-			$output=array();
-			if(strncmp(PHP_OS,'WIN',3)===0)
-			{
-				exec('tasklist /FI "PID eq ' . getmypid() . '" /FO LIST',$output);
-				return isset($output[5])?preg_replace('/[\D]/','',$output[5])*1024 : 0;
-			}
-			else
-			{
-				$pid=getmypid();
-				exec("ps -eo%mem,rss,pid | grep $pid", $output);
-				$output=explode("  ",$output[0]);
-				return isset($output[1]) ? $output[1]*1024 : 0;
-			}
-		}
-	}
-	public function getProfilingResults($token=null,$category=null,$refresh=false)
-	{
-		if($this->_timings===null || $refresh)
-			$this->calculateTimings();
-		if($token===null && $category===null)
-			return $this->_timings;
-		$results=array();
-		foreach($this->_timings as $timing)
-		{
-			if(($category===null || $timing[1]===$category) && ($token===null || $timing[0]===$token))
-				$results[]=$timing[2];
-		}
-		return $results;
-	}
-	private function calculateTimings()
-	{
-		$this->_timings=array();
-		$stack=array();
-		foreach($this->_logs as $log)
-		{
-			if($log[1]!==CLogger::LEVEL_PROFILE)
-				continue;
-			list($message,$level,$category,$timestamp)=$log;
-			if(!strncasecmp($message,'begin:',6))
-			{
-				$log[0]=substr($message,6);
-				$stack[]=$log;
-			}
-			else if(!strncasecmp($message,'end:',4))
-			{
-				$token=substr($message,4);
-				if(($last=array_pop($stack))!==null && $last[0]===$token)
-				{
-					$delta=$log[3]-$last[3];
-					$this->_timings[]=array($message,$category,$delta);
-				}
-				else
-					throw new CException(Yii::t('yii','CProfileLogRoute found a mismatching code block "{token}". Make sure the calls to Yii::beginProfile() and Yii::endProfile() be properly nested.',
-						array('{token}'=>$token)));
-			}
-		}
-		$now=microtime(true);
-		while(($last=array_pop($stack))!==null)
-		{
-			$delta=$now-$last[3];
-			$this->_timings[]=array($last[0],$last[2],$delta);
-		}
-	}
-}
 abstract class CApplicationComponent extends CComponent implements IApplicationComponent
 {
 	public $behaviors=array();
@@ -2206,7 +2090,7 @@ class CCookieCollection extends CMap
 }
 class CUrlManager extends CApplicationComponent
 {
-	const CACHE_KEY='CUrlManager.rules';
+	const CACHE_KEY='Yii.CUrlManager.rules';
 	const GET_FORMAT='get';
 	const PATH_FORMAT='path';
 	public $rules=array();
@@ -2216,6 +2100,7 @@ class CUrlManager extends CApplicationComponent
 	public $routeVar='r';
 	public $caseSensitive=true;
 	public $cacheID='cache';
+	public $useStrictParsing=false;
 	private $_urlFormat=self::GET_FORMAT;
 	private $_rules=array();
 	private $_baseUrl;
@@ -2245,6 +2130,9 @@ class CUrlManager extends CApplicationComponent
 	public function createUrl($route,$params=array(),$ampersand='&')
 	{
 		unset($params[$this->routeVar]);
+		foreach($params as &$param)
+			if($param===null)
+				$param='';
 		if(isset($params['#']))
 		{
 			$anchor='#'.$params['#'];
@@ -2302,7 +2190,11 @@ class CUrlManager extends CApplicationComponent
 				if(($r=$rule->parseUrl($this,$pathInfo,$rawPathInfo))!==false)
 					return isset($_GET[$this->routeVar]) ? $_GET[$this->routeVar] : $r;
 			}
-			return $pathInfo;
+			if($this->useStrictParsing)
+				throw new CHttpException(404,Yii::t('yii','Unable to resolve the request "{route}".',
+					array('{route}'=>$pathInfo)));
+			else
+				return $pathInfo;
 		}
 		else if(isset($_GET[$this->routeVar]))
 			return $_GET[$this->routeVar];
@@ -2390,11 +2282,11 @@ class CUrlRule extends CComponent
 	{
 		if(is_array($route))
 		{
-			$this->route=$route[0];
 			if(isset($route['urlSuffix']))
 				$this->urlSuffix=$route['urlSuffix'];
 			if(isset($route['caseSensitive']))
 				$this->caseSensitive=$route['caseSensitive'];
+			$route=$this->route=$route[0];
 		}
 		else
 			$this->route=$route;
@@ -2449,14 +2341,12 @@ class CUrlRule extends CComponent
 				return false;
 		}
 		foreach($this->params as $key=>$value)
-		{
-			if(isset($params[$key]))
-			{
-				$tr["<$key>"]=urlencode($params[$key]);
-				unset($params[$key]);
-			}
-			else
+			if(!isset($params[$key]))
 				return false;
+		foreach($this->params as $key=>$value)
+		{
+			$tr["<$key>"]=urlencode($params[$key]);
+			unset($params[$key]);
 		}
 		$suffix=$this->urlSuffix===null ? $manager->urlSuffix : $this->urlSuffix;
 		$url=strtr($this->template,$tr);
@@ -2480,6 +2370,11 @@ class CUrlRule extends CComponent
 			$case='i';
 		if($this->urlSuffix!==null)
 			$pathInfo=$manager->removeUrlSuffix($rawPathInfo,$this->urlSuffix);
+		// URL suffix required, but not found in the requested URL
+		if($manager->useStrictParsing && $pathInfo===$rawPathInfo
+			&& ($this->urlSuffix!='' || $this->urlSuffix===null && $manager->urlSuffix!=''))
+			throw new CHttpException(404,Yii::t('yii','Unable to resolve the request "{route}".',
+				array('{route}'=>$rawPathInfo)));
 		$pathInfo.='/';
 		if(preg_match($this->pattern.$case,$pathInfo,$matches))
 		{
@@ -2622,6 +2517,7 @@ class CController extends CBaseController
 	{
 		$this->_id=$id;
 		$this->_module=$module;
+		$this->attachBehaviors($this->behaviors());
 	}
 	public function init()
 	{
@@ -2631,6 +2527,10 @@ class CController extends CBaseController
 		return array();
 	}
 	public function actions()
+	{
+		return array();
+	}
+	public function behaviors()
 	{
 		return array();
 	}
@@ -4519,6 +4419,7 @@ class CClientScript extends CApplicationComponent
 		}
 		if($html!=='')
 		{
+			$count=0;
 			$output=preg_replace('/(<title\b[^>]*>|<\\/head\s*>)/is','<###head###>$1',$output,1,$count);
 			if($count)
 				$output=str_replace('<###head###>',$html,$output);
@@ -4538,6 +4439,7 @@ class CClientScript extends CApplicationComponent
 			$html.=CHtml::script(implode("\n",$this->scripts[self::POS_BEGIN]))."\n";
 		if($html!=='')
 		{
+			$count=0;
 			$output=preg_replace('/(<body\b[^>]*>)/is','$1<###begin###>',$output,1,$count);
 			if($count)
 				$output=str_replace('<###begin###>',$html,$output);
@@ -4550,6 +4452,7 @@ class CClientScript extends CApplicationComponent
 		if(!isset($this->scriptFiles[self::POS_END]) && !isset($this->scripts[self::POS_END])
 			&& !isset($this->scripts[self::POS_READY]) && !isset($this->scripts[self::POS_LOAD]))
 			return;
+		$fullPage=0;
 		$output=preg_replace('/(<\\/body\s*>)/is','<###end###>$1',$output,1,$fullPage);
 		$html='';
 		if(isset($this->scriptFiles[self::POS_END]))
@@ -5130,8 +5033,9 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	}
 	protected function beforeValidate()
 	{
-		$this->onBeforeValidate(new CEvent($this));
-		return true;
+		$event=new CModelEvent($this);
+		$this->onBeforeValidate($event);
+		return $event->isValid;
 	}
 	protected function afterValidate()
 	{
@@ -6725,8 +6629,13 @@ class CDbCommand extends CComponent
 				$this->_statement->execute();
 			else
 				$this->_statement=$this->getConnection()->getPdoInstance()->query($this->getText());
-			$result=$method==='' ? new CDbDataReader($this) : $this->_statement->{$method}($mode);
-			$this->_statement->closeCursor();
+			if($method==='')
+				$result=new CDbDataReader($this);
+			else
+			{
+				$result=$this->_statement->{$method}($mode);
+				$this->_statement->closeCursor();
+			}
 			if($this->_connection->enableProfiling)
 			return $result;
 		}

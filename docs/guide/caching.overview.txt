@@ -53,6 +53,9 @@ can explicitly specify a database for it to use by setting its
    - [CZendDataCache]: uses Zend Data Cache as the underlying caching medium.
 Note, this has been available since version 1.0.4.
 
+   - [CFileCache]: uses files to store cached data. This is particular suitable to
+cache large chunk of data (such as pages). Not, this has been available since version 1.0.6.
+
    - [CDummyCache]: presents dummy cache that does no caching at all. The purpose
 of this component is to simplify the code that needs to check the availability of cache.
 For example, during development or if the server doesn't have actual cache support, we

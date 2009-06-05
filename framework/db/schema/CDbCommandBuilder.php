@@ -18,6 +18,8 @@
  */
 class CDbCommandBuilder extends CComponent
 {
+	const PARAM_PREFIX=':yp';
+
 	private $_schema;
 	private $_connection;
 
@@ -138,8 +140,8 @@ class CDbCommandBuilder extends CComponent
 					$placeholders[]=(string)$value;
 				else
 				{
-					$placeholders[]=':_p'.$i;
-					$values[':_p'.$i]=$column->typecast($value);
+					$placeholders[]=self::PARAM_PREFIX.$i;
+					$values[self::PARAM_PREFIX.$i]=$column->typecast($value);
 					$i++;
 				}
 			}
@@ -180,8 +182,8 @@ class CDbCommandBuilder extends CComponent
 				}
 				else
 				{
-					$fields[]=$column->rawName.'=:_p'.$i;
-					$values[':_p'.$i]=$column->typecast($value);
+					$fields[]=$column->rawName.'='.self::PARAM_PREFIX.$i;
+					$values[self::PARAM_PREFIX.$i]=$column->typecast($value);
 					$i++;
 				}
 			}
@@ -471,8 +473,8 @@ class CDbCommandBuilder extends CComponent
 					}
 					else
 					{
-						$conditions[]=$table->rawName.'.'.$column->rawName.'=:_p'.$i;
-						$values[':_p'.$i]=$value;
+						$conditions[]=$table->rawName.'.'.$column->rawName.'='.self::PARAM_PREFIX.$i;
+						$values[self::PARAM_PREFIX.$i]=$value;
 						$i++;
 					}
 				}
