@@ -35,6 +35,7 @@ class CFileCache extends CCache
 	public $cacheFileSuffix='.bin';
 
 	private $_gcProbability=1;
+	private $_gced=false;
 
 	/**
 	 * Initializes this application component.
@@ -47,12 +48,7 @@ class CFileCache extends CCache
 		parent::init();
 		if($this->cachePath===null)
 			$this->cachePath=Yii::app()->getRuntimePath().DIRECTORY_SEPARATOR.'cache';
-		if(is_dir($this->cachePath))
-		{
-			if(rand(0,100)<$this->_gcProbability)
-				$this->gc();
-		}
-		else
+		if(!is_dir($this->cachePath))
 			mkdir($this->cachePath,0777,true);
 	}
 
@@ -118,6 +114,12 @@ class CFileCache extends CCache
 	 */
 	protected function setValue($key,$value,$expire)
 	{
+		if(rand(0,100)<$this->_gcProbability)
+		{
+			$this->gc();
+			$this->_gced=true;
+		}
+
 		if($expire<=0)
 			$expire=31536000; // 1 year
 		$expire+=time();
@@ -177,6 +179,8 @@ class CFileCache extends CCache
 	 */
 	protected function gc($expiredOnly=true)
 	{
+		if($expiredOnly && $this->_gced)
+			return;
 		if(($handle=opendir($this->cachePath))===false)
 			return;
 		while($file=readdir($handle))
