@@ -38,6 +38,7 @@ Version 1.0.6 to be released
 - New: Added CLogger::getStats() (Qiang)
 - New: Added support to import and autoload interfaces (Qiang)
 - New: Added tracing statements to cache components (Qiang)
+- New: Added CLogFilter to support logging additional context information (Qiang)
 
 Version 1.0.5 May 10, 2009
 --------------------------

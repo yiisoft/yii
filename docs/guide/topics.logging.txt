@@ -118,6 +118,45 @@ parent of `xxx.yyy` which is the parent of `xxx.yyy.zzz`. We can then use
 `xxx.*` to represent category `xxx` and all its child and grandchild
 categories.
 
+### Logging Context Information
+
+Starting from version 1.0.6, we can specify to log additional context information,
+such as PHP predefined variables (e.g. `$_GET`, `$_SERVER`), session ID, user name, etc.
+This is accomplished by specifying the [CLogRoute::filter] property of a log route to be
+a suitable log filter.
+
+The framework comes with the convenient [CLogFilter] that may be used as the needed log
+filter in most cases. By default, [CLogFilter] will log a message with variables like
+`$_GET`, `$_SERVER` which often contains valuable system context information.
+[CLogFilter] can also be configured to prefix each logged message with session ID, username, etc.,
+which may greatly simplifying the global search when we are checking the numerous logged messages.
+
+The following configuration shows how to enable logging context information. Note that each
+log route may have its own log filter. And by default, a log route does not have a log filter.
+
+~~~
+[php]
+array(
+	......
+	'preload'=>array('log'),
+	'components'=>array(
+		......
+		'log'=>array(
+			'class'=>'CLogRouter',
+			'routes'=>array(
+				array(
+					'class'=>'CFileLogRoute',
+					'levels'=>'error',
+					'filter'=>'CLogFilter',
+				),
+				...other log routes...
+			),
+		),
+	),
+)
+~~~
+
+
 Performance Profiling
 ---------------------
 

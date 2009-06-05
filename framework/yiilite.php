@@ -321,6 +321,7 @@ class YiiBase
 		'CDbLogRoute' => '/logging/CDbLogRoute.php',
 		'CEmailLogRoute' => '/logging/CEmailLogRoute.php',
 		'CFileLogRoute' => '/logging/CFileLogRoute.php',
+		'CLogFilter' => '/logging/CLogFilter.php',
 		'CLogRoute' => '/logging/CLogRoute.php',
 		'CLogRouter' => '/logging/CLogRouter.php',
 		'CLogger' => '/logging/CLogger.php',
@@ -821,11 +822,11 @@ abstract class CModule extends CComponent
 	{
 		return isset($this->_components[$id]) || isset($this->_componentConfig[$id]);
 	}
-	public function getComponent($id)
+	public function getComponent($id,$createIfNull=true)
 	{
 		if(isset($this->_components[$id]))
 			return $this->_components[$id];
-		else if(isset($this->_componentConfig[$id]))
+		else if(isset($this->_componentConfig[$id]) && $createIfNull)
 		{
 			$config=$this->_componentConfig[$id];
 			unset($this->_componentConfig[$id]);
@@ -2087,7 +2088,7 @@ class CCookieCollection extends CMap
 }
 class CUrlManager extends CApplicationComponent
 {
-	const CACHE_KEY='CUrlManager.rules';
+	const CACHE_KEY='Yii.CUrlManager.rules';
 	const GET_FORMAT='get';
 	const PATH_FORMAT='path';
 	public $rules=array();
@@ -4417,6 +4418,7 @@ class CClientScript extends CApplicationComponent
 		}
 		if($html!=='')
 		{
+			$count=0;
 			$output=preg_replace('/(<title\b[^>]*>|<\\/head\s*>)/is','<###head###>$1',$output,1,$count);
 			if($count)
 				$output=str_replace('<###head###>',$html,$output);
@@ -4436,6 +4438,7 @@ class CClientScript extends CApplicationComponent
 			$html.=CHtml::script(implode("\n",$this->scripts[self::POS_BEGIN]))."\n";
 		if($html!=='')
 		{
+			$count=0;
 			$output=preg_replace('/(<body\b[^>]*>)/is','$1<###begin###>',$output,1,$count);
 			if($count)
 				$output=str_replace('<###begin###>',$html,$output);
@@ -4448,6 +4451,7 @@ class CClientScript extends CApplicationComponent
 		if(!isset($this->scriptFiles[self::POS_END]) && !isset($this->scripts[self::POS_END])
 			&& !isset($this->scripts[self::POS_READY]) && !isset($this->scripts[self::POS_LOAD]))
 			return;
+		$fullPage=0;
 		$output=preg_replace('/(<\\/body\s*>)/is','<###end###>$1',$output,1,$fullPage);
 		$html='';
 		if(isset($this->scriptFiles[self::POS_END]))
