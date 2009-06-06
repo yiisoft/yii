@@ -198,16 +198,18 @@ class CFileCache extends CCache
 	 */
 	protected function gc($expiredOnly=true,$path=null)
 	{
-		if(($handle=opendir($this->cachePath))===false)
+		if($path===null)
+			$path=$this->cachePath;
+		if(($handle=opendir($path))===false)
 			return;
 		while($file=readdir($handle))
 		{
 			if($file[0]==='.')
 				continue;
-			$fullPath=$this->cachePath.DIRECTORY_SEPARATOR.$file;
+			$fullPath=$path.DIRECTORY_SEPARATOR.$file;
 			if(is_dir($fullPath))
 				$this->gc($expiredOnly,$fullPath);
-			else if($expiredOnly && @filemtime($file)<time() || !$expiredOnly)
+			else if($expiredOnly && @filemtime($fullPath)<time() || !$expiredOnly)
 				@unlink($fullPath);
 		}
 		closedir($handle);
