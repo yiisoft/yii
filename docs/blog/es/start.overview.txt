@@ -1,0 +1,10 @@
+Construyendo un Sistema de Blog usando Yii
+==========================================
+
+Este tutorial describe como utilizar Yii para desarrollar una aplicación de blog tal como [el blog demo](http://www.yiiframework.com/demos/blog/). Explica a nivel detallado cada paso a seguir durante el desarrollo, el cual puede ser aplicado de la misma forma en el desarrollo de otras aplicaciones Web. Como un complemento de [la guía](http://www.yiiframework.com/doc/guide/) y [la Referencia de Clases](http://www.yiiframework.com/doc/api/) de Yii, este tutorial pretende mostrar el uso practico de Yii en vez de realizar una descripción definitiva y minuciosa.
+
+Los lectores de este tutorial no requieren tener conocimiento previo sobre Yii. Aun así, conocimiento básico de Programación Orientada a Objetos (OOP) y programación de bases de datos ayudaría a los lectores a entender este tutorial con mayor facilidad.
+
+Este tutorial se encuentra publicado bajo [los Términos de Documentación de Yii](http://www.yiiframework.com/doc/terms/).
+
+<div class="revision">$Id: start.overview.txt 681 2009-02-16 04:57:01Z burtitica $</div>

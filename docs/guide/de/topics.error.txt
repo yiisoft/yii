@@ -96,6 +96,61 @@ Motivs View-Dateien anlegen. Jede View-Datei ist ein gewöhnliches PHP-Script, d
 hauptsächlich aus HTML-Code besteht. Mehr Details finden sie in den
 vorgegebenen View-Dateien im `view`-Verzeichnis des Frameworks.
 
+### Fehlerbehandlung mit einer Action
+
+Seit Version 1.0.6 erlaubt Yii die Verwendung einer
+[Controller-Action](/doc/guide/basics.controller#action) zur Anzeige eines
+Fehlers. Dazu müssen wir die Fehlerroute in der Anwendungskonfiguration wie
+folgt konfigurieren:
+
+~~~
+[php]
+return array(
+	......
+	'components'=>array(
+		'errorHandler'=>array(
+			'errorAction'=>'site/error',
+		),
+	),
+);
+~~~
+
+Hier setzen wir die [CErrorHandler::errorAction]-Eigenschaft auf die Route
+`site/error`, was sich auf die `error`-Action in `SiteController` bezieht. Bei
+Bedarf können wir auch eine andere Route verwenden.
+
+Die `error`-Action können wir wie folgt schreiben:
+
+~~~
+[php]
+public function actionError()
+{
+	if($error=Yii::app()->errorHandler->error)
+		$this->render('error', $error);
+}
+~~~
+
+In der Action holen wir uns zunächst die detaillierte Fehlerinformationen aus
+[CErrorHandler::error]. Falls diese nicht leer ist, wird der `error`-View
+zusammen mit den Fehlerinformationen gerendert. Die von [CErrorHandler::error]
+zurückgegebene Fehlerinformation ist ein Array mit den folgenden Feldern:
+
+ * `code`: der HTTP-Statuscode (z.B. 403, 500);
+ * `type`: der Fehlertyp (z.B. [CHttpException], `PHP Error`);
+ * `message`: die Fehlernachricht;
+ * `file`: der Name des PHP-Scripts, in dem der Fehler aufgetreten ist;
+ * `line`: die Nummer der Zeile, in der der Fehler aufgetreten ist;
+ * `trace`: der Aufrufstack des Fehlers;
+ * `source`: der Quelltextbereich, in dem der Fehler aufgetreten ist.
+
+> Tip|Tipp: Die Prüfung, ob [CErrorHandler::error] leer ist oder nicht, führen
+> wir durch, da die `error`-Action auch direkt von einem Endbenutzer
+> aufgerufen werden könnte. In diesem Fall gibt es aber keinen Fehler. Da wir
+> das `$error`-Array direkt an den View übergeben, wird es automatisch in
+> einzelne Variablen expandiert. Daher können wir im View die Variablen direkt
+> als `$code`, `$type` usw. ansprechen.
+
+
 Loggen von Nachrichten
 ----------------------
 
@@ -108,4 +163,4 @@ einer nicht-abgefangenen Exception, lautet die Kategorie
 somit die Verfahren zur [Protokollierung](/doc/guide/topics.logging) benutzen,
 um Ausführungsfehler einer Anwendung zu überwachen.
 
-<div class="revision">$Id: topics.error.txt 772 2009-02-28 18:23:17Z qiang.xue $</div>
+<div class="revision">$Id: topics.error.txt 1053 2009-05-23 02:34:03Z qiang.xue $</div>

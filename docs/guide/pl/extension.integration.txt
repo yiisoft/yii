@@ -16,7 +16,7 @@ Poniżej użyjemy przykładu aby zilustrować jak używać komponentu
 [Zend_Search_Lucene](http://www.zendframework.com/manual/en/zend.search.lucene.html)
 z [frameworku Zend ](http://www.zendframework.com) w aplikacji Yii.
 
-Po pierwse, rozpakowujemy plik z wydaniem frameworku Zend do katalogu `protected/vendors`, 
+Po pierwsze, rozpakowujemy plik z wydaniem frameworku Zend do katalogu `protected/vendors`, 
 zakładając, że `protected` jest
 [głównym folderem aplikacji](/doc/guide/basics.application#application-base-directory).
 Sprawdź czy plik `protected/vendors/Zend/Search/Lucene.php` istnieje.

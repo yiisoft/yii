@@ -70,14 +70,14 @@ class CLogFilter extends CComponent
 	protected function format(&$logs)
 	{
 		$prefix='';
-		if($this->prefixSession && isset($_SESSION) && ($id=session_id())!=='')
+		if($this->prefixSession && ($id=session_id())!=='')
 			$prefix.="[$id]";
 		if($this->prefixUser && ($user=Yii::app()->getComponent('user',false))!==null)
 			$prefix.='['.$user->getName().']['.$user->getId().']';
 		if($prefix!=='')
 		{
 			foreach($logs as &$log)
-				$log[0]=$prefix.$log[0];
+				$log[0]=$prefix.' '.$log[0];
 		}
 	}
 

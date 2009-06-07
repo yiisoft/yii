@@ -1,0 +1,36 @@
+* Pasos Iniciales
+	- [Visión General](start.overview)
+    - [Lanzamiento de Prueba con Yii](start.testdrive)
+    - [Análisis de Requerimientos](start.requirements)
+    - [Diseño General](start.design)
+
+* Prototipo Inicial
+    - [Configurando la Base de Datos](prototype.database)
+    - ["Andamiaje" (Scaffolding)](prototype.scaffold)
+    - [Autenticación de Usuario](prototype.auth)
+    - [Resumen](prototype.summary)
+
+* Administración de Posts 
+    - [Personalizando el Modelo Post](post.model)
+    - [Crear y Actualizar Posts](post.create)
+    - [Mostrando Posts](post.display)
+    - [Administración de Posts](post.admin)
+
+* Administración de Comentarios
+	- [Personalizando el Modelo Comment](comment.model)
+    - [Crear y Actualizar Comentarios](comment.create)
+    - [Administración de Comentarios](comment.admin)
+
+* "Portlets"
+	- [Estableciendo Arquitectura de "Portlets"](portlet.base)
+	- [Creación de Portlet Menú de Usuarios](portlet.menu)
+	- [Creación de Portlet de Inicio de Sesión](portlet.login)
+	- [Creación de Portlet de Nube de Etiquetas (Tag Cloud)](portlet.tags)
+	- [Creación de Portlet de Comentarios Recientes](portlet.comments)
+
+* Trabajo Final
+	- [Embellecimiento de URLs](final.url)
+	- [Registro de Errores](final.logging)
+    - [Personalización de Vista de Errores](final.error)
+    - [Configuración Final y Despliegue](final.deployment)
+    - [Mejoras Futuras](final.future)

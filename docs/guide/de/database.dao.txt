@@ -79,7 +79,7 @@ array(
 ~~~
 
 Wir können dann auf die bereits automatisch aktivierte DB-Verbindung mittels
-`Yii::app()->db` zugreifen, es sei denn, war haben [CDbConnection::autoConnect]
+`Yii::app()->db` zugreifen, es sei denn, wir haben [CDbConnection::autoConnect]
 mit false konfiguriert. Mit dieser Vorgehensweise kann eine einzelne
 DB-Verbindung an vielen Stellen in unserm Code gemeinsam benutzt werden.
  
@@ -102,7 +102,7 @@ Eine SQL-Anweisung wird über [CDbCommand] auf eine der folgenden beiden Arten
 ausgeführt:
 
    - [execute()|CDbCommand::execute]: führt eine SQL-Anweisung aus, die keine
-Abfrage ist, wie `INSERT`, `UPDATE` und `DELETE`,  aus. Bei Erfolg, liefert sie die Anzahl
+Abfrage ist, wie `INSERT`, `UPDATE` und `DELETE`. Bei Erfolg, liefert sie die Anzahl
 der betroffenen Zeilen zurück.
 
    - [query()|CDbCommand::query]: führt eine SQL-Abfrage wie `SELECT` aus, die
@@ -112,7 +112,7 @@ halber ist auch eine Reihe von `queryXXX()`-Methoden implementiert, die das Abfr
 direkt zurückliefern.
 
 Falls ein Fehler während der Ausführung der SQL-Anweisung
-auftritt, wird eine Exception wird ausgelöst, 
+auftritt, wird eine Exception ausgelöst, 
 
 ~~~
 [php]

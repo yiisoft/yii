@@ -1,7 +1,7 @@
 Übersicht
 =========
 
-Während der Entwicklung ist es ganz normal, dass Sie Yii zu erweitern. Wenn Sie
+Während der Entwicklung ist es ganz normal, dass Sie Yii erweitern. Wenn Sie
 zum Beispiel einen neuen Controller schreiben, erweitern Sie Yii, indem sie
 von seiner [CController]-Klasse ableiten. Wenn Sie ein neues Widget schreiben,
 erweitern Sie [CWidget] oder eine andere verfügbare Widget-Klasse. Wenn der
@@ -31,7 +31,7 @@ kann und in eine Applikation eingebettet werden muss. Es könnte zum Beispiel
 ein Modul zur Benutzerverwaltung geben.
 
 Eine Erweiterung kann auch eine Komponente sein, die in keine der genannten
-Kategorien fällt. Tatsächlich ist Yii ist so konzipiert, dass fast sein gesamter
+Kategorien fällt. Tatsächlich ist Yii so konzipiert, dass fast sein gesamter
 Code erweitert oder angepasst werden kann, um individuellen Bedürfnissen
 gerecht zu werden.
 

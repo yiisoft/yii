@@ -53,7 +53,7 @@
     - [Webserwisy](topics.webservice)
     - [Internacjonalizacja (I18N)](topics.i18n)
     - [Alternatywne składnie szablonów](topics.prado)
-    - [Konsola aplikacji](topics.console)
+    - [Aplikacje konsolowe](topics.console)
     - [Bezpieczeństwo](topics.security)
     - [Polepszanie wydajności](topics.performance)
 

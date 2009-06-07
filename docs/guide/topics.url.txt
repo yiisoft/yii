@@ -229,9 +229,10 @@ configure the Web server as well as the
 We first need to configure the Web server so that a URL without the entry
 script can still be handled by the entry script. For [Apache HTTP
 server](http://httpd.apache.org/), this can be done by turning on the URL
-rewriting engine and specifying some rewriting rules. Both can be in a
-`.htaccess` file that is placed under the directory containing the entry
-script. The following is an example:
+rewriting engine and specifying some rewriting rules. We can create
+the file `/wwwroot/blog/.htaccess` with the following content.
+Note that the same content can also be put in the Apache configuration
+file within the `Directory` element for `/wwwroot/blog`.
 
 ~~~
 Options +FollowSymLinks

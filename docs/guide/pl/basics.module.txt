@@ -111,14 +111,14 @@ $postPerPage=Yii::app()->controller->module->postPerPage;
 // $postPerPage=$this->module->postPerPage;
 ~~~
 
-Dostęp do akcji kontrolera w module można uzyskać poprzez [ścieżkę](/doc/guide/basics.controller#route) 
+Dostęp do akcji kontrolera w module można uzyskać poprzez [trasę](/doc/guide/basics.controller#route) 
 `IDmodułu/IDkontrolera/IDakcji`. Na przykład, zakładając, że powyższy moduł `forum` 
-posiada kontroler nazwany `PostController`, używany [ścieżki](/doc/guide/basics.controller#route) 
+posiada kontroler nazwany `PostController`, używany [trasy](/doc/guide/basics.controller#route) 
 `forum/post/create` aby odnieść się do akcji `create` w tym kontrolerze. 
-Odpowiadający tej ścieżce adres URL będzie następujący `http://www.example.com/index.php?r=forum/post/create`.
+Odpowiadający tej trasie adres URL będzie następujący `http://www.example.com/index.php?r=forum/post/create`.
 
 > Tip|Wskazówka: Jeśli kontroler jest podkatalogiem katalogu `controllers` 
-możemy wciąż używać powyższego formatu [ścieżki](/doc/guide/basics.controller#route). 
+możemy wciąż używać powyższego formatu [trasy](/doc/guide/basics.controller#route). 
 Na przykład, zakładając, że kontroler `PostController` znajduje się wewnątrz 
 `forum/controllers/admin`, możemy odnieść się do akcji `create` używając `forum/admin/post/create`.
 
@@ -129,7 +129,7 @@ Zagnieżdżone moduły
 Moduły mogą być zagnieżdżone. Oznacza to, że jeden moduł może posiadać inne moduły. 
 Pierwszego nazywamy *modułem rodzica* a drugiego *modułem dziecka*. Moduły dzieci 
 muszą znajdować się w katalogu `modules` moduły rodzica. Aby uzyskać dostęp do 
-akcji kontrolera w module dziecka, powinniśmy używać ścieżki `IDModułuRodzica/IDModułuDziecka/IDKontrolera/IDAkcji`.
+akcji kontrolera w module dziecka, powinniśmy używać trasy `IDModułuRodzica/IDModułuDziecka/IDKontrolera/IDAkcji`.
 
 
 <div class="revision">$Id: basics.module.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>
