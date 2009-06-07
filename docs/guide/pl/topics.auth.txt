@@ -233,8 +233,10 @@ Reguła dostępu może pasować do następujących parametrów kontekstowych:
    która zostanie opisana w następnej podsekcji. W szczególności, reguła ma zastosowanie
    jeśli metoda [CWebUser::checkAccess] zwróci true dla jednej z ról. Zauważ, że powinieneś,
    głównie używać ról dla reguły `allow` (zezwól), ponieważ z definicji, rola reprezentuje 
-   pozwolenie na zrobienie czegoś.   
-
+   pozwolenie na zrobienie czegoś. Należy również zauważyć, iż mimo tego, że używamy tutaj pojęcia
+   `role`, ich wartości mogą być w rzeczywistości dowolnymi jednostkami autoryzacji włączając w to 
+   role, zadania oraz operacje.
+   
    - [ips|CAccessRule::ips]: określa adres IP klienta dla pasującej reguły.
 
    - [verbs|CAccessRule::verbs]: określa typ żądania (np.`GET`, `POST`) pasującej reguły. Porównywanie nie uwzględnia wielkości liter.
@@ -253,11 +255,11 @@ akcji, jeden z dwóch poniższych scenariuszy może mieć miejsce:
 komponentu użytkownika jest skonfigurowana jako URL strony logowania, przeglądarka
 zostanie przekierowana na tą stronę. 
 
-   - w przeciwnym przypadku wyjątek HTTP zostanie wyświetlony wraz z kodem błędu 401.
+   - w przeciwnym przypadku wyjątek HTTP zostanie wyświetlony wraz z kodem błędu 403.
 
 relatywny jak i absolutny URL. Można również przekazać tablicę, która będzie 
 używana do wygenerowania URL poprzez wywołanie [CWebApplication::createUrl]. 
-Pierwszy element tablicy powinien określać [ścieżkę](/doc/guide/basics.controller#route) 
+Pierwszy element tablicy powinien określać [trasę](/doc/guide/basics.controller#route) 
 do akcji logowania kontrolera a pozostałe pary parametrów nazwa-wartość 
 są parametrami GET. Na przykład, 
 
@@ -547,4 +549,4 @@ $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('guest','gość', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 956 2009-04-21 15:16:03Z qiang.xue@gmail.com $</div>
+<div class="revision">$Id: topics.auth.txt 1078 2009-05-29 00:45:13Z qiang.xue $</div>

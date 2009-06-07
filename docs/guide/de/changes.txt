@@ -3,6 +3,24 @@ Neue Features
 
 Diese Seite fasst die wesentlichen neuen Features jeder Yii-Version zusammen.
 
+Version 1.0.6
+-------------
+
+ * Benannte Bereiche werden nun auch in `update`- und `delete`-Methoden unterstützt:
+     - [Benannte Bereiche](/doc/guide/database.ar#named-scopes)
+
+ * Benannte Bereiche können nun auch in der `with`-Option von Beziehungsdefinitionen verwendet werden:
+     - [Relationale Abfragen mit benannten Bereichen](/doc/guide/database.arr#relational-query-with-named-scopes)
+
+ * SQL-Anweisungen können nun ebenfalls einer Leistungsmessung unterzogen werden
+     - [Leistungsmessung von SQL-Anweisungen](/doc/guide/topics.logging#profiling-sql-executions)
+
+ * URL-Regeln können nun mit den Optionen urlFormat und caseSensitive weiter angepasst werden:
+     - [Benutzerfreundliche URLs](/doc/guide/topics.url#user-friendly-urls)
+
+ * Anwendungsfehler können nun auch über eine Controller-Action angezeigt werden:
+     - [Fehlerbehandlung mit einer Action](/doc/guide/topics.error#handling-errors-using-an-action)
+
 Version 1.0.5
 -------------
 
@@ -14,4 +32,8 @@ Version 1.0.5
  * ActiveRecord unterstützt nun lazy loading mit dynamischen Abfrageoptionen. Siehe:
      - [Dynamische Optionen für relationale Abfragen](/doc/guide/database.arr#dynamic-relational-query-options)
 
-<div class="revision">$Id: changes.txt 956 2009-04-21 15:16:03Z qiang.xue@gmail.com $</div>
+ * [CUrlManager] unterstützt nun das Parametrisieren des Route-Bestandteils
+einer URL. Siehe:
+     - [Parametrisierte Routen in URL-Regeln](/doc/guide/topics.url#parameterizing-routes)
+
+<div class="revision">$Id: changes.txt 1053 2009-05-23 02:34:03Z qiang.xue $</div>

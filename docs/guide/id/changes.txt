@@ -3,6 +3,21 @@ Fitur Baru
 
 Halaman ini meringkas fitur-fitur utama baru yang diperkenalkan dalam setiap rilis Yii.
 
+Version 1.0.6
+-------------
+
+ * Ditambahkan dukungan untuk pemakaian lingkup bernama dengan metode `update` dan `delete`:
+     - [Lingkup Bernama](/doc/guide/database.ar#named-scopes)
+
+ * Ditambahkan dukungan untuk pemakaian lingkup bernama dalam opsi `with` pada aturan relasional:
+     - [Queri Relasional dengan Lingkup Bernama](/doc/guide/database.arr#relational-query-with-named-scopes)
+
+ * Ditambahkan dukungan untuk pengukuran eksekusi SQL
+     - [Mengukur Eksekusi SQL](/doc/guide/topics.logging#profiling-sql-executions)
+
+ * Ditambahkan dukungan untuk kustomisasi aturan URL tunggal dengan menyetel opsi urlFormat dan caseSensitive:
+     - [URL Ramah-Pengguna](/doc/guide/topics.url#user-friendly-urls)
+
 Versi 1.0.5
 -------------
 
@@ -14,4 +29,7 @@ Versi 1.0.5
  * Rekaman aktif ditingkatkan dengan mendukung pemanggilan lazy dengan opsi query dinamis. Lihat:
      - [Opsi Query Relasional Dinamis](/doc/guide/database.arr#dynamic-relational-query-options)
 
-<div class="revision">$Id: changes.txt 956 2009-04-21 15:16:03Z qiang.xue@gmail.com $</div>
+ * Peningkatan [CUrlManager] untuk mendukung parameterisasi bagian rute dalam aturan URL. Lihat:
+     - [Parameterisasi Rute dalam Aturan URL](/doc/guide/topics.url#parameterizing-routes)
+
+<div class="revision">$Id: changes.txt 1051 2009-05-22 20:14:05Z qiang.xue $</div>

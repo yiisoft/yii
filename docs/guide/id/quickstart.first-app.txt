@@ -138,6 +138,9 @@ CREATE TABLE User (
 );
 ~~~
 
+> Note|Catatan: Jika Anda menggunakan database MySQL, Anda harus mengganti `AUTOINCREMENT`
+> dengan `AUTO_INCREMENT` dalam SQL di atas.
+
 Demi kemudahan, kita hanya membuat satu tabel `User` dalam database kita. File
 database SQLite disimpan sebagai
 `WebRoot/testdrive/protected/data/source.db`. Catatan bahwa baik file maupun
@@ -241,4 +244,4 @@ Semua fitur cantik disediakan tanpa harus menulis satu baris kode pun!
 
 
 
-<div class="revision">$Id: quickstart.first-app.txt 723 2009-02-21 18:14:05Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app.txt 978 2009-05-06 03:36:09Z qiang.xue $</div>

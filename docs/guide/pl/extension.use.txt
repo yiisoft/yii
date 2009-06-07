@@ -96,7 +96,7 @@ class TestController extends CController
 }
 ~~~
 
-Następnie, możemy uzyskać dostęp do akcji poprzez [ścieżkę](/doc/guide/basics.controller#route)
+Następnie, możemy uzyskać dostęp do akcji poprzez [trasę](/doc/guide/basics.controller#route)
 `test/xyz`.
 
 Filtr
@@ -151,7 +151,7 @@ return array(
 ~~~
 
 Następnie możemy uzyskać dostęp do akcji `a` w kontrolerze za pomocą 
-[ścieżki](/doc/guide/basics.controller#route) `xyz/a`.
+[trasy](/doc/guide/basics.controller#route) `xyz/a`.
 
 Walidator
 ---------

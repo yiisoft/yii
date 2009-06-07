@@ -100,11 +100,22 @@ array(
 ~~~
 
 Opisywane reguły definiowane są w tablicy przechowującej pary wyrażeń postaci
-wzorzec-trasa, każda z takich par odpowiada jednej regule. Wzorzec reguły musi
-być poprawnym wyrażeniem regularnym, pozbawionym separatorów i parametrów.
-Używany jest do sprawdzenia dopasowania części informacyjnej adresu URL
-do wzorca. [Trasa](/doc/guide/basics.controller#route) powinna odnosić się do poprawnej
-trasy kontrolera.
+wzorzec-trasa, każda z takich par odpowiada jednej regule. Wzorzec reguły jest łańcuchem
+używanym w celu dopasowania części informacyjnej adresu URL do wzorca. 
+[Trasa](/doc/guide/basics.controller#route) powinna odnosić się do poprawnej trasy kontrolera.
+
+> Info|Info: Rozpoczynając od wersji 1.0.6, reguła może zostać jeszcze bardziej dostosowana
+> poprzez ustawienie jej opcji `urlSuffix` oraz `caseSensitive`. Aby to uczynić, powinniśmy
+> zdefiniować część trasy reguły jako tablicę, jak pokazano dalej:
+>
+> ~~~
+> [php]
+> 'pattern1'=>array('route1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
+> ~~~
+>
+
+
+### Używanie nazwanych parametrów
 
 Reguła może być powiązana z kilkoma parametrami GET. Te parametry pojawiają
 się we wzorcu reguły jako specjalne znaczniki o formacie:
@@ -170,8 +181,38 @@ rozłożenie żądania na trasę `post/read` i parametr GET `array('id'=>100)`
 
 > Uwaga: korzystanie z reguł URL obniża wydajność aplikacji. Dzieje się tak
 ponieważ [CUrlManager] przetwarzając wywoływany URL porównuje go z każdą regułą,
-aż nie trafi na odpowiednią. Z tego względu w mocno obciążanych aplikacjach
-webowych należy minimalizować użycie reguł URL.
+aż nie trafi na odpowiednią. Im większa ilość reguł, tym większy mają one wpływ na wydajność. 
+Z tego względu w mocno obciążanych aplikacjach webowych należy minimalizować użycie reguł URL.
+
+### Parametryzowane trasy
+
+Poczynając od wersji 1.0.5, możemy odnosić się do nazwanych parametrów w części reguły 
+związanej z trasą. Pozwala to zastosować regułę do wielu tras w oparciu o spełniane kryterium.
+Może to pomóc zredukować ilość reguł potrzebnych dla aplikacji i przez to zwiększyć
+ogólną wydajność. 
+
+Będziemy używać następujących przykładowych reguły aby zilustrować jak parametryzować
+trasę za pomocą nazwanych parametrów:
+
+~~~
+[php]
+array(
+  '<_c:(post|comment)>/<id:\d+>/<_a:(create|update|delete)>' => '<_c>/<_a>',
+  '<_c:(post|comment)>/<id:\d+>' => '<_c>/read',
+  '<_c:(post|comment)>s' => '<_c>/list',
+)
+~~~
+
+W powyższym kodzie, uzyliśmy dwóch nazwancyh parametrów w cześci reguły odnoszącej się 
+do strasy: `_c` oraz `_a`. Pierwszy parametr odpowiada ID kontrolera posiadającym wartość `post` lub `comment`,
+podczas gdy drugi odpowiada ID akcji, która może mieć wartość `create`, `update` lub `delete`.
+Możesz nazywać parametry dowolnie, dopóki ich nazwy nie konfliktują z parametrami GET 
+znajdującymi się w URLach.
+
+Używając powyższych reguł, URL `/index.php/post/123/create` zostanie sparsowany na 
+trasę `post/create` z parametrem GET `id=123`. A biorąc pod uwagę trasę 
+`comment/list` oraz parametr GET `page=2`, możemy stworzyć URL
+`/index.php/comments?page=2`.
 
 ### Ukrywanie `index.php`
 
@@ -215,4 +256,4 @@ do strony statycznej. Aby to zrobić po prostu skonfiguruj komponent
 [urlManager|CWebApplication::urlManager] ustawiając jego właściwość
 [urlSuffix|CUrlManager::urlSuffix] na taki sufiks, jaki ci odpowiada.
 
-<div class="revision">$Id: topics.url.txt 229 2008-11-16 21:14:59Z qiang.xue $</div>
+<div class="revision">$Id: topics.url.txt 1045 2009-05-21 22:13:50Z qiang.xue $</div>

@@ -147,4 +147,19 @@ dengan rute log [CProfileLogRoute]. Ini sama seperti yang kita lakukan dengan
 pengiriman pesan biasa. Rute [CProfileLogRoute] akan menampilkan hasil
 pengukuran di akhir halaman saat ini.
 
-<div class="revision">$Id: topics.logging.txt 922 2009-04-05 21:36:33Z qiang.xue $</div>
+### Mengukur Eksekusi SQL
+
+Pengukuran sangat berguna terutama saat bekerja dengan database karena eksekusi SQL
+sering menjadi sumber performansi utama pada aplikasi. Sementara kita dapat menyisipkan
+pernyataan `beginProfile` dan `endProfile` secara manual di tempat yang sesuai guna mengukur
+waktu yang diperlukan dalam setiap eksekusi SQL, mulai dari versi 1.0.6, Yii menyediakan
+pendekatan yang lebih sistematis untuk memecahkan masalah ini.
+
+Dengan menyetel [CDbConnection::enableProfiling] menjadi true dalam konfigurasi aplikasi,
+setiap pernyataan SQL yang sedang dijalankan akan diukur. Hasilnya bisa ditampilkan menggunakan
+[CProfileLogRoute] yang sudah disebutkan sebelumnya, yang dapat memperlihatkan berapa lama waktu yang dibutuhkan
+dalam menjalankan pernyataan SQL. Kita juga dapat memanggil [CDbConnection::getStats()] untuk mengambil
+jumlah pernyataan SQL dan total waktu eksekusi.
+
+
+<div class="revision">$Id: topics.logging.txt 1051 2009-05-22 20:14:05Z qiang.xue $</div>

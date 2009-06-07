@@ -103,86 +103,62 @@ array(
 应用的核心元件
 --------------
 
-Yii predefines a set of core application components to provide features
-common among Web applications. For example, the
-[request|CWebApplication::request] component is used to resolve user
-requests and provide information such as URL, cookies. By configuring the
-properties of these core components, we can change the default behaviors of
-Yii in nearly every aspect.
+Yii预先定义了一套核心应用组件提供Web应用程序的常见功能。例如，[request|CWebApplication::request]元件用于解析用户请求和提供信息，如网址，cookie。在几乎每一个方面，通过配置这些核心元件的属性，我们都可以更改Yii的默认行为。
 
-Below we list the core components that are pre-declared by
-[CWebApplication].
+下面我们列出[CWebApplication]预先声明的核心元件。
 
-   - [assetManager|CWebApplication::assetManager]: [CAssetManager] -
-manages the publishing of private asset files.
+   - [assetManager|CWebApplication::assetManager]: [CAssetManager] -管理发布私有asset文件。
 
-   - [authManager|CWebApplication::authManager]: [CAuthManager] - manages role-based access control (RBAC).
+   - [authManager|CWebApplication::authManager]: [CAuthManager] - 管理基于角色控制 (RBAC)。
 
-   - [cache|CApplication::cache]: [CCache] - provides data caching
-functionality. Note, you must specify the actual class (e.g.
-[CMemCache], [CDbCache]). Otherwise, null will be returned when you
-access this component.
+   - [cache|CApplication::cache]: [CCache] - 提供数据缓存功能。请注意，您必须指定实际的类（例如[CMemCache], [CDbCache] ） 。否则，将返回空当访问此元件。
 
-   - [clientScript|CWebApplication::clientScript]: [CClientScript] -
-manages client scripts (javascripts and CSS).
+   - [clientScript|CWebApplication::clientScript]: [CClientScript] -管理客户端脚本(javascripts and CSS)。
 
-   - [coreMessages|CApplication::coreMessages]: [CPhpMessageSource] -
-provides translated core messages used by Yii framework.
+   - [coreMessages|CApplication::coreMessages]: [CPhpMessageSource] -提供翻译Yii框架使用的核心消息。
 
-   - [db|CApplication::db]: [CDbConnection] - provides the database
-connection. Note, you must configure its
-[connectionString|CDbConnection::connectionString] property in order
-to use this component.
+   - [db|CApplication::db]: [CDbConnection] - 提供数据库连接。请注意，你必须配置它的[connectionString|CDbConnection::connectionString]属性才能使用此元件。
 
-   - [errorHandler|CApplication::errorHandler]: [CErrorHandler] - handles
-uncaught PHP errors and exceptions.
+   - [errorHandler|CApplication::errorHandler]: [CErrorHandler] - 处理没有捕获的PHP错误和例外。
 
-   - [messages|CApplication::messages]: [CPhpMessageSource] - provides
-translated messaged used by Yii application.
+   - [messages|CApplication::messages]: [CPhpMessageSource] - 提供翻译Yii应用程序使用的消息。
 
-   - [request|CWebApplication::request]: [CHttpRequest] - provides
-information related with user requests.
+   - [request|CWebApplication::request]: [CHttpRequest] - 提供和用户请求相关的信息。
 
-   - [securityManager|CApplication::securityManager]: [CSecurityManager] -
-provides security-related services, such as hashing, encryption.
+   - [securityManager|CApplication::securityManager]: [CSecurityManager] -提供安全相关的服务，例如散列（hashing）, 加密（encryption）。
 
-   - [session|CWebApplication::session]: [CHttpSession] - provides
-session-related functionalities.
+   - [session|CWebApplication::session]: [CHttpSession] - 提供会话（session）相关功能。
 
-   - [statePersister|CApplication::statePersister]: [CStatePersister] -
-provides global state persistence method.
+   - [statePersister|CApplication::statePersister]: [CStatePersister] -提供全局持久方法（global state persistence method）。
 
-   - [urlManager|CWebApplication::urlManager]: [CUrlManager] - provides
-URL parsing and creation functionality.
+   - [urlManager|CWebApplication::urlManager]: [CUrlManager] - 提供网址解析和某些函数。
 
-   - [user|CWebApplication::user]: [CWebUser] - represents the identity
-information of the current user.
+   - [user|CWebApplication::user]: [CWebUser] - 代表当前用户的身份信息。
 
-   - [themeManager|CWebApplication::themeManager]: [CThemeManager] - manages themes.
+   - [themeManager|CWebApplication::themeManager]: [CThemeManager] - 管理主题（themes）。
 
 
 应用的生命周期
 --------------
 
-When handling a user request, an application will undergo the following
-lifecycles:
+当处理一个用户请求时，一个应用程序将经历如下生命周期：
 
-   1. Set up class autoloader and error handling;
+   1. 建立类自动加载器和错误处理；
 
-   2. Register core application components;
+   2. 注册核心应用组件；
 
-   3. Load application configuration;
+   3. 读取应用配置；
 
-   4. Initialize application with [CApplication::init()]
-	   - Load static application components;
+   4. 用[CApplication::init()]初始化应用程序。
+	   - 读取静态应用组件;
 
-   5. Raise [onBeginRequest|CApplication::onBeginRequest] event;
+   5. 触发[onBeginRequest|CApplication::onBeginRequest]事件;
 
-   6. Process the user request:
-	   - Resolve the user request;
-	   - Create controller;
-	   - Run controller;
+   6. 处理用户请求：
+	   - 解析用户请求；
+	   - 创建控制器；
+	   - 执行控制器；
 
-   7.Raise [onEndRequest|CApplication::onEndRequest] event;
+   7.触发[onEndRequest|CApplication::onEndRequest]事件;
 
-<div class="revision">$Id: basics.application.txt 626 2009-02-04 20:51:13Z qiang.xue $</div>
+<div class="revision">$Id: basics.application.txt 626 2009-02-04 20:51:13Z qiang.xue  后部分译：sharehua$</div>

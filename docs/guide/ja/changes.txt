@@ -3,15 +3,29 @@
 
 このページは、各々のYiiリリースにおいて導入される主な新機能をまとめます。
 
+Version 1.0.6
+-------------
+
+ * Named Scope を使用しての `update` と `delete` メソッドサポートの追加:
+     - [Named Scope](/doc/guide/database.ar#named-scopes)
+
+ * Named Scope のリレーションルールの `with` オプション内でのサポートの追加:
+     - [Named Scope を使用したリレーショナルクエリ](/doc/guide/database.arr#relational-query-with-named-scopes)
+
+
 Version 1.0.5
 -------------
 
  * Named Scope をサポートするアクティブレコードの機能拡張です。以下を参照してください。
      - [Named Scope](/doc/guide/database.ar#named-scopes)
+     - [デフォルト Named Scope](/doc/guide/database.ar#default-named-scope)
      - [Named Scope を使用したリレーショナルクエリ](/doc/guide/database.arr#relational-query-with-named-scopes)
 
 
  * 動的クエリオプションを伴うレイジーローディングをサポートするアクティブレコードの機能拡張。以下を参照してください。
      - [動的リレーショナルクエリオプション](/doc/guide/database.arr#dynamic-relational-query-options)
 
-<div class="revision">$Id: changes.txt 956 2009-04-21 15:16:03Z qiang.xue@gmail.com $</div>
+ * URL ルールでのルート部分のパラメータ化をサポートする [CUrlManager] の機能拡張。以下を参照してください。
+     - [URL ルールでのルートのパラメータ化](/doc/guide/topics.url#parameterizing-routes)
+
+<div class="revision">$Id: changes.txt 1027 2009-05-12 17:59:03Z qiang.xue $</div>

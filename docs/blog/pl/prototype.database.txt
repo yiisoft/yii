@@ -1,0 +1,60 @@
+Ustawienia bazy danych
+===================
+
+Posiadając utworzony szkielet aplikacji oraz zaprojektowaną bazę danych, utworzymy w tej części
+bazę danych dla bloga oraz ustanowimy połączenie do niej w naszym szkielecie aplikacji.
+
+
+Tworzenie bazy danych
+-----------------
+
+Zdecydowaliśmy, że będziemy tworzyć bazę danych SQLite. Ponieważ wsparcie dla baz danych 
+opiera się na [PDO](http://www.php.net/manual/en/book.pdo.php), możemy bardzi łatwo  
+przełączać się pomiędzy używaniem różnych typów DBMS (np. MySQL, PostgreSQL) bez potrzeby
+zmieniania kodu aplikacji.
+
+Utworzyliśmy plik bazy danych `blog.db` w katalogu `/wwwroot/blog/protected/data`.
+Zauważ, że wymagania SQLLite, powodują że zarówno katalog jak i plik bazy danych powinny być zapisywalne przez proces 
+serwera. Mozna po prostu skopiować plik bazy danych z dema blogu znajdującego się w instalacji
+Yii w `/wwwroot/yii/demos/blog/protected/data/blog.db`. Możemy również wygenerować bazę danych  
+poprzez wykonanie zapytań SQL zawartych w pliku `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql`.
+
+> Tip|Wskazówka: aby móc wykonywać wyrażenia SQL, możemy używać narzędzia linii poleceń `sqlite3`,
+które można znaleźć na [oficjalnej stronie SQLite](http://www.sqlite.org/download.html).
+
+
+Ustanawianie połączenia z bazą danych
+--------------------------------
+
+Aby używać bazę danych blogu w utworzonym szkielecie aplikacji, musimy zmodyfikować jego [konfigurację aplikacji](http://www.yiiframework.com/doc/guide/basics.application#application-configuration) 
+która przechowywana jest jako skrypt PHP `/wwwroot/blog/protected/config/main.php`. 
+Skrypt zwraca asocjacyjną tablicę zawierającą pary nazwa-wartość, z których każda  
+używana jest do zainicjalizowania właściwości [instancji aplikacji](http://www.yiiframework.com/doc/guide/basics.application).
+
+Konfigurujemy właściwość `components` aplikacji poprzez dodawnie nowego wpisu nazwanego `db` w następujący sposób,
+
+~~~
+[php]
+return array(
+	......
+	'components'=>array(
+		......
+		'db'=>array(
+			'class'=>'CDbConnection',
+			'connectionString'=>'sqlite:/wwwroot/blog/protected/data/blog.db',
+		),
+	),
+	......
+);
+~~~
+
+Powyższa konfiguracja mówi, że mamy [komponent aplikacji](http://www.yiiframework.com/doc/guide/basics.application#application-component) `db`, 
+którego klasą jest [CDbConnection] i którego właściwość `connectionString` powinna zostać zainicjalizowana jako `sqlite:/wwwroot/blog/protected/data/blog.db`.
+
+Przy użyciu tej konfiguracji, możemy uzyskać dostęp do obiektu połączenia z bazą danych przy użyciu `Yii::app()->db` 
+w dowolnym miejscu naszego kodu. Zauważ, że `Yii::app()` zwraca instancję aplikacji, którą utworzyliśmy w skrypcie wejściowym. 
+Jeśli jesteś zainsteresowany posiadanymi przez połączenie DB metodami oraz właściwościami, możesz udać się do   
+[dokumentacji klas|CDbConnection]. Jednakże w większości przypadków nie będziemy używali tego połączenia z bazą danych bezpośrednio.
+W zamian, będziemy używać tak zwanego [rekordu aktywnego](http://www.yiiframework.com/doc/guide/database.ar) aby uzyskać dostęp do bazy danych. 
+
+<div class="revision">$Id: prototype.database.txt 683 2009-02-16 05:20:17Z qiang.xue $</div>

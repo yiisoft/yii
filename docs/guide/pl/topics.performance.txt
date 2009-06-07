@@ -1,0 +1,160 @@
+Polepszanie wydajności
+==================
+
+Na wydajność aplikacji sieciowych ma wpływ wiele czynników. Dostęp do baz danych,
+operacje na plikach, przepustowość sieci, wszystkie z nich potencjalnie są tymi 
+czynnikami. Yii stara się w każdym aspekcie redukować wpływy na wydajność 
+powodowane przez framework. Mimo to, jest wiele miejsc w aplikacji użytkownika, 
+które mogą zostać poprawione by zwiększyć wydajność.
+
+Włączanie rozszerzenia APC
+----------------------
+
+Włączenie [rozszerzenia PHP APC](http://www.php.net/manual/en/book.apc.php) jest 
+prawdwopodobnie najłatwiejszym sposobem zwiększenia całkowitej wydajności aplikacji.
+Rozszerzenie to buforuje oraz optymalizuje pośredni kod PHP unikając w ten sposób,
+czasu poświęconego na parsowanie skryptu PHP wraz z każdym nadchodzącym żądaniem.
+
+Wyłączanie trybu debugowania
+--------------------
+
+Wyłączenie trybu debugowania jest kolejnym prostym sposobem na poprawienie wydajności
+aplikacji. Aplikacja Yii działa w trybie debugowania, jeśli stała `YII_DEBUG`  
+jest zdefiniowana jako wartość true. Tryb debugowania jest użyteczny w trakcie  
+fazy tworzenia aplikacji, jednakże wpływa on na wydajność, ponieważ część
+komponentów powoduje dodatkowy ??TODO (ang. burden)??. Na przykład, logger komunikatów
+może zapisywać dodatkowe informacje dla każdego logowanego komunikatu. 
+
+Używanie `yiilite.php`
+-------------------
+
+Jeśli rozszerzenie PHP [APC](http://www.php.net/manual/en/book.apc.php) jest włączone,
+możemy zastąpić `yii.php` innym plikiem inicjalizującym (ang. bootstrap) `yiilite.php` 
+aby później zwiększyć wydajność aplikacji opartych o Yii.
+
+
+Plik `yiilite.php` dostarczany jest wraz z każdym wydaniem Yii. Jest on rezultatem  
+połączenia pewnych często używanych w Yii plików klas. Zarówno komentarze oraz 
+wyrażenia trace są usuwane z tego połączonego pliku. Dlatego też używanie  
+`yiilite.php` spowoduje redukcję ilości plików dołączanych oraz uniknięcie wywołań
+wyrażeń trace.
+
+Zauważ, że użwanie `yiilite.php` bez APC, może zmniejszyć wydajność ponieważ `yiilite.php`
+zawiera on część klas, które niekoniecznie używane są w każdym żądaniu, przez co 
+zwiększają one czas parsowania. Zauważono również, że używanie `yiilite.php`
+jest wolniejsze dla pewnych konfiguracji serwera, nawet jeśli włączone jest APC.
+Najlepszym sposobem rozstrzygnięcia czy używać `yiilite.php` czy też nie 
+jest uruchomienie benchmarku używającego załączone do Yii demo `hello world`.
+
+Używanie technik buforowania
+------------------------
+
+Tak jak to opisano w sekcji [buforowanie](/doc/guide/caching.overview), Yii dostarcza
+kilka rozwiązań związanych z buforowaniem, które mogą zwiększyć w znacznym stopniu wydajność 
+aplikacji sieciowej. Jeśli generowanie pewnych danych zabiera wiele czasu, możemy
+użyć techniki [buforowania danych](/doc/guide/caching.data) w celu zredukowania 
+częstotliwości generowania danych; jeśli część strony pozostaje relatywnie statyczna
+możemy użyć techniki [buforowania fragmentarycznego](/doc/guide/caching.fragment)
+w celu zredukowania częstotliwości renderowania tego fragmentu; jeżeli cała strona 
+pozostaje relatywnie statyczna, możemy użyć techniki [buforowania strony](/doc/guide/caching.page) 
+w celu zredukowania kosztu generowania całej strony. 
+
+Jeśli aplikacja używa [rekordu aktywnego](/doc/guide/database.ar) powinniśmy włączyć
+buforowanie schematu bazy danych by zmniejszyć czas parsowania schematu bazy danych.
+Można to uczynić poprzez skonfigurowanie właściwości [CDbConnection::schemaCachingDuration] 
+nadając jej wartość większą niż 0.
+
+
+Poza wymienionymi technikami buforowania na poziomie aplikacji, możemy również skorzystać
+z rozwiązań na poziomie serwera w celu poprawienia wydajności aplikacji. 
+[Buforowani APC](/doc/guide/topics.performance#enabling-apc-extension), które wcześniej opisaliśmy
+bezsprzecznie należy o tej kategorii. Wyróżnia się tutaj inne techniki, między innymi takie jak 
+[Zend Optimizer](http://Zend.com/ZendOptimizer), [eAccelerator](http://eaccelerator.net/),
+[Squid](http://www.squid-cache.org/).
+
+Optymalizacja bazy danych
+---------------------
+
+
+Fetching data from database is often the main performance bottleneck in a
+Web application. Although using caching may alleviate the performance hit,
+it does not fully solve the problem. When the database contains enormous
+data and the cached data is invalid, fetching the latest data could be
+prohibitively expensive without proper database and query design.
+
+Design index wisely in a database. Indexing can make `SELECT` queries much
+faster, but it may slow down `INSERT`, `UPDATE` or `DELETE` queries.
+
+For complex queries, it is recommended to create a database view for it
+instead of issuing the queries inside the PHP code and asking DBMS to parse
+them repetitively.
+
+Do not overuse [Active Record](/doc/guide/database.ar). Although [Active
+Record](/doc/guide/database.ar) is good at modelling data in an OOP
+fashion, it actually degrades performance due to the fact that it needs to
+create one or several objects to represent each row of query result. For
+data intensive applications, using [DAO](/doc/guide/database.dao) or
+database APIs at lower level could be a better choice.
+
+Last but not least, use `LIMIT` in your `SELECT` queries. This avoids
+fetching overwhelming data from database and exhausting the memory
+allocated to PHP.
+
+Minimizing Script Files
+-----------------------
+
+Complex pages often need to include many external JavaScript and CSS files. Because each file would cause one extra round trip to the server and back, we should minimize the number of script files by merging them into fewer ones. We should also consider reducing the size of each script file to reduce the network transmission time. There are many tools around to help on these two aspects.
+
+For a page generated by Yii, chances are that some script files are rendered by components that we do not want to modify (e.g. Yii core components, third-party components). In order to minimizing these script files, we need two steps.
+
+> Note: The `scriptMap` feature described in the following has been available since version 1.0.3.
+
+First, we declare the scripts to be minimized by configuring the [scriptMap|CClientScript::scriptMap] property of the [clientScript|CWebApplication::clientScript] application component. This can be done either in the application configuration or in code. For example,
+
+~~~
+[php]
+$cs=Yii::app()->clientScript;
+$cs->scriptMap=array(
+	'jquery.js'=>'/js/all.js',
+	'jquery.ajaxqueue.js'=>'/js/all.js',
+	'jquery.metadata.js'=>'/js/all.js',
+	......
+);
+~~~
+
+What the above code does is that it maps those JavaScript files to the URL `/js/all.js`. If any of these JavaScript files need to be included by some components, Yii will include the URL (once) instead of the individual script files.
+
+Second, we need to use some tools to merge (and perhaps compress) the JavaScript files into a single one and save it as `js/all.js`.
+
+The same trick also applies to CSS files.
+
+We can also improve page loading speed with the help of [Google AJAX Libraries API](http://code.google.com/apis/ajaxlibs/). For example, we can include `jquery.js` from Google servers instead of our own server. To do so, we first configure the `scriptMap` as follows,
+
+~~~
+[php]
+$cs=Yii::app()->clientScript;
+$cs->scriptMap=array(
+	'jquery.js'=>false,
+	'jquery.ajaxqueue.js'=>false,
+	'jquery.metadata.js'=>false,
+	......
+);
+~~~
+
+By mapping these script files to false, we prevent Yii from generating the code to include these files. Instead, we write the following code in our pages to explicitly include the script files from Google,
+
+~~~
+[php]
+<head>
+<?php echo CGoogleApi::bootstrap(); ?>
+
+<?php echo CHtml::script(
+	CGoogleApi::load('jquery','1.3.2') . "\n" .
+	CGoogleApi::load('jquery.ajaxqueue.js') . "\n" .
+	CGoogleApi::load('jquery.metadata.js')
+); ?>
+......
+</head>
+~~~
+
+<div class="revision">$Id: topics.performance.txt 759 2009-02-26 21:23:53Z qiang.xue $</div>

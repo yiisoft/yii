@@ -26,7 +26,7 @@ public function filters()
 {
 	return array(
 		array(
-			'system.web.widgets.COutputCache',
+			'COutputCache',
 			'duration'=>100,
 			'varyByParam'=>array('id'),
 		),
@@ -45,4 +45,4 @@ Sebenarnya, cara widget bekerja mirip dengan filter: widget (filter) dimulai
 sebelum konten yang disertakan (aksi) dievaluasi, dan widget (filter)
 berakhir setelah konten yang disertakan (aksi) dievaluasi.
 
-<div class="revision">$Id: caching.page.txt 162 2008-11-05 12:44:08Z weizhuo $</div>
+<div class="revision">$Id: caching.page.txt 1014 2009-05-10 12:25:55Z qiang.xue $</div>

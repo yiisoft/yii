@@ -47,6 +47,7 @@ AR ist zweckmäßig, um Datenbanktabellen in PHP abzubilden sowie für
 Abfragen, die kein komplexes SQL erfordern. In komplexeren Fällen sollte Yii-DAO 
 benutzt werden.
 
+
 Aufbau einer DB-Verbindung
 --------------------------
 
@@ -156,16 +157,19 @@ magischen PHP Methode `__get()` erlaubt, darauf wie auf eine Eigenschaft
 zuzugreifen. Falls wir auf diese Weise versuchen, ein nicht existierendes Feld
 anzusprechen, wird eine Exception ausgelöst.
 
-> Info|Info: Zur besseren Lesbarkeit empfehlen wir, Datenbanktabellen und Spalten
-in sog. CamelCase-Schreibweise zu benennen. Das bedeutet, dass alle Worte im
-Tabellennamen mit Großbuchstaben beginnen und diese ohne Leerzeichen
-aneinandergereiht werden. Für Spaltennamen gilt das selbe, außer, dass deren
-erster Buchstabe kleingeschrieben wird. Beispielsweise benutzen wir `Post`
-(Beitrag), um die Tabelle für die Beiträge zu benennen. Das hat zur Folge, 
-dass Tabellen eher wie Klassen und Spalten wie Variablen aussehen. Beachten
-Sie jedoch, dass die CamelCase-Schreibweise bei einigen DBMS, wie z.B. MySQL, 
+> Info|Info: Zur besseren Lesbarkeit empfehlen wir, die Spalten einer Tabelle
+in sog. CamelCase-Schreibweise zu benennen. Das bedeutet, dass außder dem
+ersten, alle Worte im Namen mit Großbuchstaben beginnen und diese ohne Leerzeichen
+aneinandergereiht werden. Beispielsweise könnten wir `erstellZeit` verwenden,
+um die Spalte zum Speichern des Erstellzeitpunkts einer Zeile zu benennen.
+Die Benennung von Tabellen unterliegt dem persönlichen Geschmack. In diesem
+Handbuch verwenden wir auch dafür CamelCase, mit dem Unterschied, dass der erste Buchstabe
+hier ebenfalls groß geschrieben wird. Wir verwenden zum Beispiel `Post`
+(Beitrag) als Namen für die Tabelle, in der Beitragsdaten abgelegt werden sollen.
+Beachten Sie jedoch, dass die CamelCase-Schreibweise bei einigen DBMS, wie z.B. MySQL, 
 auch zu Unannehmlichkeiten führen kann, da diese sich je nach Betriebssystem
 unterschiedlich verhalten.
+
 
 Einfügen von Datensätzen
 ------------------------
@@ -220,6 +224,17 @@ $post->createTime=new CDbExpression('NOW()');
 // 'NOW()' würde wie ein String behandelt
 $post->save();
 ~~~
+
+> Tip|Tipp: Obwohl uns AR erlauben, Datenbankoperationen ohne umständliche
+SQL-Ausdrücke durchzuführen, möchten wir oft wissen, welche SQL-Abfragen
+tatsächlich von AR ausgeführt werden. Dies kann durch Aktivieren des
+[Log-Features](/doc/guide/topics.logging) von Yii erreicht werden. Wir können
+zum Beispiel [CWebLogRoute] in der Anwendungskonfiguration einschalten und
+sehen dann am Ende jeder Webseite die ausgeführten SQL-Abfragen. Seit Version
+1.0.5 können wir [CDbConnection::enableParamLogging] in der
+Anwendungskonfiguration auf `true` setzen, um auch die Parameter, die an die
+SQL-Abfragen gebunden werden, zu loggen.
+
 
 
 Lesen von Datensätzen
@@ -572,7 +587,7 @@ einer [CDbCriteria]-Instanz verwendet werden kann. Der benannte Bereich
 wird in ein Abfragekriterium übersetzt, das die letzten 5 Beiträge
 zurückliefern sollte.
 
-Benannte Bereiche werden als Modifikatoren beim Aufruf von `find`-Methoden
+Benannte Bereiche werden meist als Modifikatoren beim Aufruf von `find`-Methoden
 verwendet. Mehrere benannte Bereiche können miteinander verkettet werden
 und resultieren so in einem immer weiter eingeschränkten Abfrageergebnis.
 Um zum Beispiel die letzten veröffentlichten Beiträge zu finden, können wir
@@ -587,6 +602,19 @@ Benannte Bereiche müssen grundsätzlich links vom Aufruf einer
 mit anderen Kriterien kombiniert wird, inklusive demjenigen, das als
 Parameter and die `find`-Methode übergeben wurde. Letztendlich fügt man 
 einer Abfrage also eine Liste von Filtern hinzu.
+
+Seit Version 1.0.6 können benannte Bereiche auch mit `update`- und
+`delete`-Methoden verwendet werden. Der folgende Code würde zum Beispiel alle
+kürzlich veröffentlichten Beiträge löschen:
+
+~~~
+[php]
+Beitrag::model()->veroeffentlicht()->kuerzlich()->delete();
+~~~
+
+> Note|Hinweis: Benannte Bereiche können nur mit Methoden auf Klassenebene
+verwendet werden. Das bedeutet, dass die Methode über `KlassenName::model()`
+aufgerufen werden muss.
 
 ###Parametriesierte benannte Bereiche
 
@@ -649,4 +677,4 @@ Abfragekriterium.
 [php]
 $contents=Content::model()->findAll();
 ~~~
-<div class="revision">$Id: database.ar.txt 993 2009-05-07 21:43:44Z qiang.xue $</div>
+<div class="revision">$Id: database.ar.txt 1025 2009-05-12 17:47:04Z qiang.xue $</div>

@@ -80,7 +80,8 @@ membuat URL kita bahkan lebih ramah-pengguna. Sebagai contoh, kita dapat membuat
 untuk pembuatan URL maupun keperluan penguraian.
 
 Untuk menetapkan aturan URL, kita harus mengkonfigurasi properti [rules|CUrlManager::rules]
-pada komponen aplikasi [urlManager|CWebApplication::urlManager]:
+pada komponen aplikasi
+[urlManager|CWebApplication::urlManager]:
 
 ~~~
 [php]
@@ -103,9 +104,20 @@ array(
 Aturan ditetapkan sebagai array dengan pasangan pola-rute, masing-masing
 berkaitan dengan satu aturan. Pola aturan harus ekspresi reguler yang benar
 tanpa pemisah dan pembeda. Ini dipakai untuk menyamakan bagian info path
-URL. Dan
-[rute](/doc/guide/basics.controller#route) harus merujuk ke kontroler rute
-yang sesuai.
+URL. Dan [rute](/doc/guide/basics.controller#route) harus merujuk ke kontroler rute yang sesuai.
+
+> Info: Mulai dari versi 1.0.6, aturan selanjutnya bisa dikustomisasi
+> dengan menyetel opsi `urlSuffix` dan `caseSensitive`. Untuk melakukannya,
+> kita harus menetapkan bagian rute sebagai sebuah array, seperti berikut:
+>
+> ~~~
+> [php]
+> 'pattern1'=>array('route1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
+> ~~~
+>
+
+
+### Menggunakan Parameter Bernama
 
 Aturan dapat dikaitkan dengan beberapa parameter GET. Parameter GET ini
 muncul dalam pola aturan sebagai token khusus dengan format sebagai berikut:
@@ -168,15 +180,49 @@ ketika pengguna meminta `/index.php/post/100`, aturan kedua dalam contoh
 di atas akan berlaku, menjadi solusi dalam rute `post/read` dan parameter
 GET `array('id'=>100)` (accessible via `$_GET`).
 
+
 > Note|Catatan: Menggunakan aturan URL akan menurunkan performansi aplikasi. Ini
 disebabkan saat mengurai URL yang diminta, [CUrlManager] akan mencoba mencari
 setiap aturan sampai salah satunya diterapkan. Oleh karenanya, aplikasi Web dengan
-lalu lintas tinggi harus meminimalisir pemakaian aturan URL.
+lalu lintas tinggi harus meminimalisir pemakaian
+aturan URL.
+
+
+### Parameterisasi Rute
+
+Mulai dari versi 1.0.5, kita dapat rujuk parameter bernama dalam bagian rute pada sebuah
+aturan. Ini mengijinkan aturan untuk diterapkan pada multi rute berdasarkan pada kriteria
+yang sesuai. Ini juga membantu mengurangi jumlah aturan yang diperlukan oleh aplikasi,
+Selanjutnya tentunya meingkatkan performansi secara keseluruhan.
+
+Kita gunakan contoh berikut untuk menggambarkan bagaimana parameterisasi rute
+dengan parameter bernama:
+
+~~~
+[php]
+array(
+	'<_c:(post|comment)>/<id:\d+>/<_a:(create|update|delete)>' => '<_c>/<_a>',
+	'<_c:(post|comment)>/<id:\d+>' => '<_c>/read',
+	'<_c:(post|comment)>s' => '<_c>/list',
+)
+~~~
+
+Dalam contoh di atas, kita menggunakan parameter bernama dalam bagian rute pada sebuah aturan:
+`_c` dan `_a`. Yang pertama sesuai dengan ID kontroler yang bisa berupa `post` ataupun `comment`,
+sementara yang kedua sesuai dengan ID aksi yakni `create`, `update` atau `delete`.
+Anda dapat menamai parameter secara berbeda selama tidak bertabrakan dengan parameter
+GET yang terlihat dalam URL.
+
+Menggunakan aturan di atas, URL `/index.php/post/123/create` akan diuraikan sebagai
+rute `post/create` dengan parameter GET `id=123`.
+Dan menghasilkan `comment/list` dan parameter GET `page=2`, kita dapat membuat URL
+`/index.php/comments?page=2`.
+
 
 ### Menyembunyikan `index.php`
 
 Ada satu hal lagi yang dapat kita lakukan untuk membersihkan URL kita, misalnya
-menyembunyikan entri naskah `index.php` dalam URL. Ini mengharuskan kita untuk 
+menyembunyikan entri naskah `index.php` dalam URL. Ini mengharuskan kita untuk
 mengkonfigurasi server Web dan juga komponen aplikasi
 [urlManager|CWebApplication::urlManager].
 
@@ -216,4 +262,4 @@ halaman Web statis. Untuk melakukannya, cukup konfigurasi komponen
 [urlManager|CWebApplication::urlManager] dengan menyetel properti
 [urlSuffix|CUrlManager::urlSuffix] ke sufiks yang Anda inginkan.
 
-<div class="revision">$Id: topics.url.txt 229 2008-11-16 21:14:59Z qiang.xue $</div>
+<div class="revision">$Id: topics.url.txt 1051 2009-05-22 20:14:05Z qiang.xue $</div>

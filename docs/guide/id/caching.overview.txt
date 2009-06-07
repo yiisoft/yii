@@ -5,7 +5,7 @@ Caching sebuah cara murah dan efektif guna meningkatkan performansi aplikasi
 Web. Dengan menyimpan data statis secara relatif dalam cache dan melayaninya dari
 cache bila diminta, kita menghemat waktu yang diperlukan untuk membuat data.
 
-Pemakaian cache dalam Yii mencakup mengkonfigurasi dan mengakses komponen 
+Pemakaian cache dalam Yii mencakup mengkonfigurasi dan mengakses komponen
 aplikasi cache. Konfigurasi aplikasi berikut menetapkan komponen cache yang
 menggunakan memcache dengan dua server cache.
 
@@ -29,7 +29,7 @@ array(
 Ketika aplikasi berjalan, komponen cache daoat diakses via
 `Yii::app()->cache`.
 
-Yii menyediakan berbagai komponen cache yang dapat menyimpan data cache dalam 
+Yii menyediakan berbagai komponen cache yang dapat menyimpan data cache dalam
 medium berbeda. Sebagai contoh, komponen [CMemCache] melapisi ekstensi
 PHP memcache dan pemakaian memori sebagai medium penyimpanan cache; komponen
 [CApcCache] melapisi ekstensi PHP APC; dan komponen
@@ -46,15 +46,28 @@ Catatan, ini sudah tersedia sejak versi 1.0.1.
    - [CEAcceleratorCache]: menggunakan PHP [EAccelerator extension](http://eaccelerator.net/).
 
    - [CDbCache]: menggunakan tabel database untuk menyimpan data cache. Secara standar,
-ia akan membuat dan menggunakan database SQLite3 di bawah direktori runtime. Anda dapat menetapkan secara eksplisit database yang dipilih dengan menyetel properti
+ia akan membuat dan menggunakan database SQLite3 di bawah direktori runtime. Anda
+dapat menetapkan secara eksplisit database yang dipilih dengan menyetel properti
 [connectionID|CDbCache::connectionID].
+
+   - [CZendDataCache]: menggunakan Zend Data Cache sebagi lapisan medium caching.
+Catatan, ini sudah tersedia sejak versi 1.0.4.
+
+   - [CDummyCache]: menyajikan cache dummy yang tidak melakukan cache sama sekali. Maksud
+komponen ini adalah untuk menyederhanakan kode yang harus memeriksa ketersediaan cache.
+Sebagai contoh, selama pengembangan atau jika server tidak memiliki dukungan cache sebenarnya, kita
+dapat menggunakan komponen cache ini. Seandainya dukungan cache sebenarnya dihidupkan, kita dapat beralih
+untuk menggunakan komponen cache terkait. Dalam kedua kasus tersebut, kita dapat menggunakan kode yang sama
+`Yii::app()->cache->get($key)` untuk mencoba mengambil bagian data tanpa mencemaskan
+apakah `Yii::app()->cache` mungkin berisi `null`. Komponen ini sudah tersedia sejak versi 1.0.5.
 
 > Tip: Karena semua komponen cache ini diperluas dari basis kelas yang sama
 [CCache], Anda bisa beralih untuk menggunakan jenis cache tanpa mengubah kode yang menggunakan cache.
 
 Caching dapat dipakai pada tingkat yang bebeda. Pada tingkat terendah, kita gunakan cache
 untuk menyimpan satu data, misalnya sebuah variabel, dan kita menyebut ini
-*data caching*. Pada tingkat berikutnya, kita menyimpan sebuah fragmen halaman dalam cache yang dibuat oleh bagian naskah tampilan. Dan pada tingkat 
+*data caching*. Pada tingkat berikutnya, kita menyimpan sebuah fragmen halaman
+dalam cache yang dibuat oleh bagian naskah tampilan. Dan pada tingkat
 tertinggi, kita menyimpan seluruh halaman dalam cache dan melayaninya dari cache bila diperlukan.
 
 Dalam beberapa subseksi berikut, kita mengelaborasi bagaimana untuk menggunakan
@@ -65,4 +78,4 @@ memastikan keberadaan data yang di-cache meskipun belum berakhir.
 Oleh karena itu, jangan gunakan cache sebagai penyimpanan persisten (contoh, jangan gunakan cache
 untuk menyimpan data sesi).
 
-<div class="revision">$Id: caching.overview.txt 814 2009-03-10 18:00:11Z qiang.xue $</div>
+<div class="revision">$Id: caching.overview.txt 1034 2009-05-19 21:33:55Z qiang.xue $</div>

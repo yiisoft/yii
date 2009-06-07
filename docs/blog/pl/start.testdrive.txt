@@ -1,0 +1,115 @@
+Jazda próbna z Yii
+====================
+
+W części tej napiszemy jak utworzyć szkielet aplikacji, który będzie stanowić nasz punkt startowy.
+Dla uproszczenia, zakładamy, ze główny katalog naszego serwera to `/wwwroot` a odpowiadający
+mu adres URL to `http://www.example.com/`.
+
+
+Instalacja Yii
+--------------
+
+Najpierw instalujemy framework Yii. Pobierz kopię pliku wydania Yii (wersja 1.0.3 lub wyższe)  
+z [www.yiiframework.com](http://www.yiiframework.com/download) i rozpakuj ją do katalogu `/wwwroot/yii`. 
+Upewnij się jeszcze raz, że istnieje folder `/wwwroot/yii/framework`.
+
+> Tip|Wskazówka: framework Yii może zostać zainstalowany w dowolnym miejscu systemu plików.  
+Jego katalog `framework` zawiera cały kod frameworku i jest jedynym wymaganym folderem  
+podczas wdrażania aplikacji napisanej w Yii. Pojedyncza instalacja Yii może być używana  
+przez wiele aplikacji.
+
+Po zainstalowaniu Yii, otwórz okno przeglądarki i wpisz adres URL `http://www.example.com/yii/requirements/index.php`. 
+Pokazuje on dostarczoną wraz z Yii stronę sprawdzającą wymagania. Upewnij się, że twój serwer 
+oraz instalacja PHP spełniają minimalne wymagania stawiane przez Yii. W szczególności, powinniśmy
+mieć dostęp do obu rozszerzeń PHP `pdo` oraz `pdo_sqlite`, które są wymagane przez naszą
+aplikację blogową, w celu uzyskania dostępu do bazy danych SQLite.
+
+
+Tworzenie szkieletu aplikacji
+-----------------------------
+
+Teraz użyjemy narzędzia `yiic` w celu utworzenia szkieletu aplikacji w katalgou `/wwwroot/blog`. 
+Narzędzie `yiic` jest narzędziem wiersza poleceń, dostarczonym wraz z wydaniem Yii.   
+Może zostać użyte do wygenerowania kodu dla poszczególnych zadań.
+
+Otwórz okno wiersza poleceń oraz wywołaj następującą komendę:
+
+~~~
+% /wwwroot/yii/framework/yiic webapp /wwwroot/blog
+Create a Web application under '/wwwroot/blog'? [Yes|No]y
+......
+~~~
+
+> Tip|Wskazówka: W celu wykorzystania narzędzia `yiic` w sposób pokazany powyżej  
+program CLI PHP musi się znajdować w ścieżce poleceń. Jeśli nie, następująca komenda może być użyta 
+w zamian:
+
+>
+>~~~
+> ścieżka/do/php /wwwroot/yii/framework/yiic.php webapp /wwwroot/blog
+>~~~
+
+Aby wypróbować aplikacje, która właśnie stworzyliśmy, otwórz przeglądarkę i nawiguj do adresu
+`http://www.example.com/blog/index.php`. Powinniśmy zobaczyć, że nasza aplikacja posiada
+trzy w pełni funkcjonalne strony: strona domowa, strona kontaktowa oraz strona logowania. 
+
+W dalszej części, pokrótce opiszemy co znajduje się w szkielecie aplikacji.
+
+###Skrypt wejściowy
+
+Mamy plik [skryptu wejściowego](http://www.yiiframework.com/doc/guide/basics.entry) 
+`/wwwroot/blog/index.php`, który posiada następującą zawartość:
+
+~~~
+[php]
+<?php
+$yii='/wwwroot/framework/yii.php';
+$config=dirname(__FILE__).'/protected/config/main.php';
+
+// remove the following line when in production mode
+defined('YII_DEBUG') or define('YII_DEBUG',true);
+
+require_once($yii);
+Yii::createWebApplication($config)->run();
+~~~
+
+Jest to jedyny skrypt, do którego internauci mają dostęp. Skrypt majpierw załącza plik  
+inicjalizacyjny `yii.php`. Następnie jest w nim tworzona instancja [aplikacji](http://www.yiiframework.com/doc/guide/basics.application) 
+z określoną konfiguracją i uruchamia aplikację.
+
+###Główny katalog aplikacji
+
+Mamy również [główny katalog aplikacji](http://www.yiiframework.com/doc/guide/basics.application#application-base-directory) `/wwwroot/blog/protected`. 
+Większość naszego kodu i danych znajdzie się w tym katalogu, dlatego więc nie 
+powinien on być udostępniony dla internautów. Dla [serwera httpd Apache](http://httpd.apache.org/), 
+umieszczamy w tym miejscu plik `.htaccess` z następującą zawartością:
+
+~~~
+deny from all
+~~~
+
+Dla pozostałych serwerów informacje o tym jak ochronić katalog przed dostępem z zewnątrz  
+przez intermautów można znaleźć w odpowiadającym im manualu.
+
+
+Działanie aplikacji (ang. Aplication Workflow)
+--------------------
+
+Aby pomóc zrozumieć jak Yii działa, opiszemy główny przebieg działania aplikacji w naszym szkielecie aplikacji 
+gdy użytkownik uzyskuje dostęp do strony kontaktowej:
+
+ 1. [Skrypt wejściowy](http://www.yiiframework.com/doc/guide/basics.entry) jest wykonywany przez serwer sieciowy aby przetworzyć żądanie.
+ 2. Instancja [aplikacji](http://www.yiiframework.com/doc/guide/basics.application) jest tworzona  
+ i konfigurowana inicjalnymi wartościami określonymi w pliku konfiguracyjnym aplikacji 
+ `/wwwroot/blog/protected/config/main.php`;
+ 3. Aplikacja rozszyfrowuje żądanie na [kontroler](http://www.yiiframework.com/doc/guide/basics.controller) oraz 
+ [akcję kontrolera](http://www.yiiframework.com/doc/guide/basics.controller#action). Dla żadania strony kontaktowej,  
+ aplikacja rozszyfowyje żądanie na kontroler `site` oraz akcję `contact`;
+ 4. Aplikacja tworz kontroler `site` pod pojęciem instancji `SiteController` a następnie uruchamia go;
+ 5. Instancja kontrolera `SiteController` wykonuje akcję `contact` poprzez wywołanie metody kontrolera `actionContact()`;
+ 6. Metoda `actionContact` generuje internaucie [widok](http://www.yiiframework.com/doc/guide/basics.view) o nazwie `contact`.  
+ Wewnętrznie dzieje się to poprzez załączenie pliku widoku `/wwwroot/blog/protected/views/site/contact.php` 
+ i osadzeniu wyniku w plku [układu](http://www.yiiframework.com/doc/guide/basics.view#layout) `/wwwroot/blog/protected/views/layouts/main.php`.
+
+
+<div class="revision">$Id: start.testdrive.txt 683 2009-02-16 05:20:17Z qiang.xue $</div>

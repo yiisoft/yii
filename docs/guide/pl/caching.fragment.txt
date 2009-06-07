@@ -92,7 +92,7 @@ Zamiast prosić dewelopera do uzmiennienie ID odpowiednio do pewnego wzorca,
 [COutputCache] posiada takie wbudowane funkcjonalności. Poniżej ich podsumowanie.
 
    - [varyByRoute|COutputCache::varyByRoute]: ustawiając tą opcję na true, buforowana
-   zawartość będzie uzmienniona odpowiednio do [ścieżki](/doc/guide/basics.controller#route). 
+   zawartość będzie uzmienniona odpowiednio do [trasy](/doc/guide/basics.controller#route). 
    Dlatego, każda kombinacja żądanego kontrolera oraz akcji będzie posiadała oddzielnie
    zbuforowaną zawartość.
 
