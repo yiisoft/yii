@@ -36,7 +36,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.0.6-dev';
+		return '1.0.6';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -4137,7 +4137,7 @@ EOD;
 		{
 			$cs->registerCoreScript('yii');
 			if($htmlOptions['submit']!=='')
-				$url=CJavaScript::quote(self::normalizeUrl($htmlOptions['submit']),true);
+				$url=CJavaScript::quote(self::normalizeUrl($htmlOptions['submit']));
 			else
 				$url='';
 			$handler.="jQuery.yii.submitForm(this,'$url',$params);{$return};";
