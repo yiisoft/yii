@@ -25,7 +25,7 @@ public function actionLogin()
 ~~~
 
 Oben erzeugen wir zuerst eine Instanz von `LoginForm`. Wenn die Anfrage ein 
-POST-Request ist (d.h. das Anmeldeormular abgeschickt wurde), befüllen wir `$form`
+POST-Request ist (d.h. das Anmeldeformular abgeschickt wurde), befüllen wir `$form`
 mit den übermittelten Daten von `$_POST['LoginForm']`. Dann prüfen wir die
 Eingaben auf Gültigkeit. Falls dies erfolgreich war, leiten wir den Browser des 
 Benutzers auf die Seite um, die vorher eine Authentifizierung erfordert hat.

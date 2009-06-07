@@ -270,8 +270,8 @@ dass Spaltenreferenzen mit `aliasToken` eindeutig gekennzeichnet werden müssen 
 DESC`).
 
    - `with`: Eine Liste kind-bezogener Objekte, die zusammen mit diesem Objekt
-geladen werden sollen. Beachten Sie, dass dies nur bei `lazy loading` und nicht beim 
-`eager loading` verwendet wird.
+geladen werden sollen. Beachten Sie, dass bei falscher Verwendung dieser
+Option eine endlose Beziehungsschleife entstehen kann.
 
    - `joinType`: Jointyp für diesen Beziehungstyp. Der Standardwert ist `LEFT
 OUTER JOIN`.
@@ -451,8 +451,8 @@ werden sollen. Sie sollten als Array aus Namen-/Wert-Paare angegeben werden.
    - `having`: Die `HAVING`-Anweisung. Standarmäßig leer.
 
 
-Relational Abfragen mit benannten Bereichen 
--------------------------------------------
+Relationale Abfragen mit benannten Bereichen 
+--------------------------------------------
 
 > Note|Hinweis: Benannte Bereiche werden seit Version 1.0.5 unterstützt.
 
@@ -474,7 +474,7 @@ Unterschied besteht im zusätzlichen Aufruf von `with()` nach der Kette
 benannter Bereiche. Diese Abfrage würde also die kürzlich veröffentlichten
 Beiträge zusammen mit ihren Kommentaren zurückliefern.
 
-Der folgende Code zeigt die Anwendung benannter Bereiche auf verbundene
+Und der folgende Code zeigt die Anwendung benannter Bereiche auf verbundene
 Models:
 
 ~~~
@@ -486,7 +486,30 @@ Diese Abfrage liefert alle Beiträge zusammen mit ihren freigegebenen
 Kommentaren zurück. Beachten Sie, dass `comments` sich auf den Namen der
 Beziehung bezieht, während `kuerzlich` und `freigegeben` zwei benannte
 Bereiche sind, die in der Modelklasse `Comment` deklariert sind. Der
-Beziehungsname und die benannten Bereiche sollten durch einen Doppelpunkt
+Beziehungsname und die benannten Bereiche sollten durch Doppelpunkte
 getrennt werden.
 
-<div class="revision">$Id: database.arr.txt 978 2009-05-06 03:36:09Z qiang.xue $</div>
+Benannte Bereiche können auch in den in [CActiveRecord::relations()]
+festgelegten `with`-Optionen einer Beziehung angegeben werden. Würden wir im
+folgenden Beispiel auf `$user->posts` zugreifen, würden alle
+*freigegebenen* Kommentare des Beitrags zurückgeliefert werden.
+
+~~~
+[php]
+class User extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+			'posts'=>array(self::HAS_MANY, 'Post', 'authorID',
+				'with'=>'comments:freigegeben'),
+		);
+	}
+}
+~~~
+
+> Note|Hinweis: Bei relationalen Abfragen können nur benannte Bereiche
+verwendet werden, die in [CActiveRecord::scopes] definiert wurden. Daher
+können diese hier auch nicht parametrisiert werden.
+
+<div class="revision">$Id: database.arr.txt 1024 2009-05-12 16:35:09Z qiang.xue $</div>

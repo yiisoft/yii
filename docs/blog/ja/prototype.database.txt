@@ -1,0 +1,46 @@
+データベースのセットアップ
+===================
+
+スケルトンアプリケーションを作り、データベースの設計が終わりました。 このセクションでは実際にブログデータベースを作成し、スケルトンアプリケーションとの接続を確立します。 
+
+
+データベースの作成
+-----------------
+
+ データベースはSQLiteを使います。 Yiiのデータベースサポートは [PDO](http://www.php.net/manual/en/book.pdo.php) の上に構築されているため、 アプリケーションコードを変更することなく、MySQLやPostgreSQLといった異なるDBMSを利用することができます。
+
+データベースファイルとして、ディレクトリ `/wwwroot/blog/protected/data` に `blog.db` を作ります。ディレクトリとファイルはともにWebサーバプロセスと SQLite により書き込み可能である必要があります。ここでは単に `/wwwroot/yii/demos/blog/protected/data/blog.db` にあるブログデモのデータベースファイルをコピーすることにします。もしくは `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql` にある、SQLファイルを実行することでもデータベースを生成できます。
+
+> Tip|ヒント: SQL文の実行には、 `sqlite3` コマンドラインツールを利用できます。 詳しくは [SQLite 公式ウェブサイト](http://www.sqlite.org/download.html)を参照してください。 
+
+
+データベースとの接続を確立する
+--------------------------------
+
+作ったスケルトンアプリケーションでブログデータベースを使うには、`/wwwroot/blog/protected/config/main.php` に保存されている PHP スクリプトで[アプリケーション初期構成](http://www.yiiframework.com/doc/guide/basics.application#application-configuration) を変更する必要があります。
+このスクリプトはキーと値のペアで構成された連想配列を返します。 これらの値は[アプリケーションインスタンス](http://www.yiiframework.com/doc/guide/basics.application)を初期化するために使われます。
+
+以下のようにアプリケーションの `components` プロパティに、 `db` という名前のエントリを追加します。 
+
+~~~
+[php]
+return array(
+	......
+	'components'=>array(
+		......
+		'db'=>array(
+			'class'=>'CDbConnection',
+			'connectionString'=>'sqlite:/wwwroot/blog/protected/data/blog.db',
+		),
+	),
+	......
+);
+~~~
+
+上記の設定は、 [CDbConnection] クラスの `db` [アプリケーションコンポーネント](http://www.yiiframework.com/doc/guide/basics.application#application-component)を持ち、`connectionString` プロパティが `sqlite:/wwwroot/blog/protected/data/blog.db` に初期化されることを示します。
+
+> Note|訳者注:yii-1.0.3以降のデモでは、'class'=>'CDbConnection'の記述はなくなっています。
+
+この設定の場合、コードのどこからでも、`Yii::app()->db` を通じて DB コネクションオブジェクトにアクセスすることができます。`Yii::app()` は、エントリスクリプトで作成されたアプリケーションインスタンスを返すことに注意して下さい。DB コネクションのメソッドやプロパティに興味があれば、[クラスリファレンス|CDbConnection]を参照して下さい。 しかし、多くの場合このDBコネクションを直接利用することはありません。 そのかわりにいわゆる [ActiveRecord](http://www.yiiframework.com/doc/guide/database.ar) を利用してデータベースにアクセスします。 
+
+<div class="revision">$Id: prototype.database.txt 683 2009-02-16 05:20:17Z qiang.xue $</div>

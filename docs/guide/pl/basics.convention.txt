@@ -18,7 +18,7 @@ Domyślnie Yii rozpoznaje adresy URL w następującym formacie:
 http://hostname/index.php?r=IdKontrolera/IdAkcji
 ~~~
 
-Zmienna GET `r prezentuje [ścieżkę](/doc/guide/basics.controller#route) która może 
+Zmienna GET `r prezentuje [trasę](/doc/guide/basics.controller#route) która może 
 zostać rozkodowana przez Yii na nazwę kontrolera i akcji. Jeśli `IdAkcji` jest pominięte 
 kontroler weźmie akcję domyślną (zdefiniowaną poprzez [CController::defaultAction]); 
 a jeśli `IdKontrolera` zostanie również pominięte (lub zmienna `r` nie będzie występować) 

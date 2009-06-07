@@ -46,7 +46,23 @@ Uwaga, rozszerzenie to zostało udostępnione w wersji 1.0.1.
    - [CDbCache]: używa bazy danych do przechowywania danych zbuforowanych. Domyślnie, 
    utworzy i będzie używać bazy danych SQLite3 w katalogu runtime. Możesz bezpośrednio 
    określić bazę danych, którą będzie to rozszerzenie używało poprzez ustawienie 
-   właściwości [connectionID|CDbCache::connectionID].
+   właściwości [connectionID|CDbCache::connectionID],
+   
+   - [CZendDataCache]: używa Zend Data Cache jako medium buforowania. Uwaga, rozszerzenie to 
+   jest dostępne od wersji 1.0.4.   
+   
+   - [CFileCache]: używa plików do przechowywania buforowanych danych. Komponent ten jest przydatny 
+   w szczególności do buforowania dużych porcji danych (takich jak strony). Zauważ, że jest on dostępny 
+   od wersji 1.0.6.   
+   
+   - [CDummyCache]: reprezentuje imitację buforowania (ang. dummy cache), która w praktyce nie buforuje. 
+   Celem tego komponentu jest uproszczenie kodu, który sprawdzić dostępność bufora. 
+   Na przykład, podczas tworzenia lub gdy serwer nie posiada aktualnie wsparcia dla buforowania, 
+   możemy użyć tego komponentu buforowania. W momencie, gdy wsparcie dla buforowanie będzie udostępnione,
+   możemy go przełączyć na używanie odpowiedniego komponentu buforującego. W obu przypadkach,
+   możemy używać tego samego kodu `Yii::app()->cache->get($key)` aby próbować pobrać część danych 
+   bez martwienia się, że `Yii::app()->cache` może mieć wartość `null`. Ten komponent został udostępniony 
+   wraz z wersją 1.0.5.   
 
 > Tip|Wskazówka: Ponieważ wszystkie te komponenty dziedziczą z tej samej klasy bazowej 
 [CCache], można je zamienić na inną metodę buforowania bez modyfikowania kodu, który 
@@ -65,4 +81,4 @@ W następnych dwóch podpunktach opowiemy jak używać buforowania na tych pozio
 buforowanych danych nawet jeśli nie wygasa. Dlatego też, nie używaj buforu jako 
 miejsca stałego składowania (np. nie używaj buforu do przechowywania danych sesji).
 
-<div class="revision">$Id: caching.overview.txt 814 2009-03-10 18:00:11Z qiang.xue $</div>
+<div class="revision">$Id: caching.overview.txt 1084 2009-06-02 17:35:38Z qiang.xue $</div>

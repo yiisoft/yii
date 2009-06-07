@@ -58,6 +58,23 @@ Daten. Standardmäßig wird eine SQLite3-Datenbank im runtime-Verzeichnisus
 angelegt und verwendet. Sie können auch explizit eine Datenbank angeben, indem
 Sie die [connectionID|CDbCache::connectionID]-Eigenschaft konfigurieren.
 
+   - [CZendDataCache]: Verwendet den Zend Data Cache als Cache-Medium.
+ Beachten Sie, dass dieses Feature seit Version 1.0.4 zur Verfügung steht.
+
+   - [CFileCache]: Verwendet Dateien um gecachte Daten zu speichern. Dies
+eignet sich besonders zum Cachen umfangreicher Daten (z.B. ganzer Seiten).
+Beachten Sie, dass dieses Feature seit Version 1.0.6 zur Verfügung steht.
+
+   - [CDummyCache]: stellt einen Dummy-Cache bereit, der überhaupt nicht
+cacht. Der Sinn dieser Komponente liegt darin, den Code, der prüft, ob ein
+Cache vorhanden ist, zu vereinfachen. Wir können diese Cache-Komponente zum
+Beispiel Während der Entwicklung verwenden oder wenn der Server keinen Cache
+unterstützt. Wenn der eigentliche Cache-Support dann aktiviert wird, können
+wir auf die entsprechende Cache-Komponente umschalten. In beiden Fällen können
+wir den selben Code `Yii::app()->cache->get($key)` verwenden, um zu versuchen, 
+Daten auszulesen, ohne Gefahr zu laufen, dass `Yii::app()->cache` `null` sein
+könnte. Diese Komponente ist seit Version 1.0.5 verfügbar.
+
 > Tip|Tipp: Da alle Cache-Komponenten von der selben Basisklasse [CCache]
 abgeleitet sind, kann auf eine andere Cache-Art umgestellt werden, ohne den
 Code verändern zu müssen, der den Cache verwendet.
@@ -77,4 +94,4 @@ Die Existenz von gecachten Daten wird nicht garantiert, selbst wenn diese
 niemals verfallen. Benutzern Sie daher einen Cache niemals als beständigen
 Speicher (speichern Sie dort also z.B. keine Sessiondaten).
 
-<div class="revision">$Id: caching.overview.txt 814 2009-03-10 18:00:11Z qiang.xue $</div>
+<div class="revision">$Id: caching.overview.txt 1084 2009-06-02 17:35:38Z qiang.xue $</div>

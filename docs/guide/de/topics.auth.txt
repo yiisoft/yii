@@ -262,7 +262,10 @@ Zugriffskontrolle](#role-based-access-control) verwendet, die wir im nächsten
 Abschnitt beschreiben werden. Konkret wird diese Regel angewendet, wenn
 [CWebUser::checkAccess] für eine der Rollen true zurückliefert. Beachten Sie,
 dass Sie Rollen vor allem in `allow`-Regeln einsetzen sollen, da eine Rolle
-per Definition eine Erlaubnis darstellt, etwas bestimmtes zu tun.
+per Definition eine Erlaubnis darstellt, etwas bestimmtes zu tun. Und obwohl
+wir hier den Begriff `roles` (Rollen) verwenden, kann der Wert tatsächlich
+jedem beliebigen Autorisierungselement entsprechen, inklusive Rollen, Tätigkeiten und
+Operationen.
 
    - [ips|CAccessRule::ips]: Definiert, welche Client-IP-Adressen diese
 Regel betrifft. 
@@ -287,7 +290,7 @@ Situationen vor:
 [loginUrl|CWebUser::loginUrl] der Userkomponente auf die URL der Anmeldeseite
 gesetzt wurde, wird der Browser auf diese Seite umgeleitet.
 
-   - Andernfalls wird eine HTTP-Exception mit dem Fehlercode 401 angezeigt.
+   - Andernfalls wird eine HTTP-Exception mit dem Fehlercode 403 angezeigt.
 
 Beim Konfigurieren der [loginUrl|CWebUser::loginUrl] kann eine relative oder
 absolute URL angegeben werden. Man kann auch ein Array angeben, das an
@@ -354,7 +357,7 @@ In einem System kann es zum Beispiel eine Rolle `administrator` geben. Sie
 besteht aus den Tätigkeiten `Beiträge verwalten` und `Benutzer verwalten`. 
 Die Tätigkeit `Benutzer verwalten` könnte aus den Operationen
 `Benutzer anlegen`, `Benutzer aktualisieren` und `Benutzer löschen` bestehen. 
-Um das System noch noch flexibler zu machen, erlaubt es Yii
+Um das System noch flexibler zu machen, erlaubt es Yii
 sogar, dass eine Rolle aus weiteren Rollen oder Operationen besteht, eine
 Tätigkeit aus anderen Tätigkeiten und eine Operation aus anderen Operationen. 
 
@@ -402,7 +405,7 @@ if(Yii::app()->user->checkAccess('löscheBeitrag'))
 
 ### Konfiguration des Berechtigungsmanagers
 
-Bevor wir mit damit loslegen können, eine Autorisierungshierarchie anzulegen 
+Bevor wir damit loslegen können, eine Autorisierungshierarchie anzulegen 
 und den Zugriffschutz zu verwenden, müssen wir die Anwendungskomponente
 [authManager|CWebApplication::authManager] konfigurieren. Yii bietet zwei
 Arten von Berechtigungsmanagern (engl.: authorization manager): 
@@ -589,7 +592,7 @@ return array(
 ~~~
 
 Da eine Standardrolle jedem Benutzer zugewiesen wird, muss sie normalerweise
-mit einer Geschäftsregel verbunden werden, um festzustellen, ob dir Rolle
+mit einer Geschäftsregel verbunden werden, um festzustellen, ob die Rolle
 wirklich auf den Benutzer zutrifft. Der folgende Code definiert zum Beispiel
 zwei Rollen, "authentifiziert" und "gast", die letzendlich authentifizierten
 Benutzern und Gästen entsprechend zugeordnet werden.
@@ -603,4 +606,4 @@ $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('gast','Gast-Benutzer', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 956 2009-04-21 15:16:03Z qiang.xue@gmail.com $</div>
+<div class="revision">$Id: topics.auth.txt 1078 2009-05-29 00:45:13Z qiang.xue $</div>

@@ -16,6 +16,7 @@
  * @version $Id: $
  */
 return array (
+  'This is required by encrypt and decrypt methods.' => 'Dies wird für Ver- und Entschlüsselungsmethoden benötigt.',
   '$_SERVER does not have {vars}.' => '$_SERVER verfügt nicht über {vars}.',
   '$_SERVER variable' => '$_SERVER Variable',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '$_SERVER["SCRIPT_FILENAME"] muss der selbe Eingangsscriptpfad sein.',
@@ -31,13 +32,13 @@ return array (
   'PDO PostgreSQL extension' => 'PDO PostgreSQL Erweiterung',
   'PDO SQLite extension' => 'PDO SQLite Erweiterung',
   'PDO extension' => 'PDO Erweiterung',
-  'PHP 5.1.0 or higher is required.' => 'PHP 5.1.0 oder Neuer wird benötigt.',
+  'PHP 5.1.0 or higher is required.' => 'PHP 5.1.0 oder neuer wird benötigt.',
   'PHP version' => 'PHP Version',
   'Reflection extension' => 'Reflection Erweiterung',
   'SOAP extension' => 'SOAP Erweiterung',
   'SPL extension' => 'SPL Erweiterung',
-  'This is required if you are using MySQL database.' => 'Dies wird bei Verwendung einer MySQL Datenbank benötigt.',
-  'This is required if you are using PostgreSQL database.' => 'Dies wird bei Verwendung einer PostgreSQL Datenbank benötigt.',
-  'This is required if you are using SQLite database.' => 'Dies wird bei Verwendung einer SQLite Datenbank benötigt.',
+  'This is required if you are using MySQL database.' => 'Dies wird für die Verwendung einer MySQL Datenbank benötigt.',
+  'This is required if you are using PostgreSQL database.' => 'Dies wird für die Verwendung einer PostgreSQL Datenbank benötigt.',
+  'This is required if you are using SQLite database.' => 'Dies wird für die Verwendung einer SQLite Datenbank benötigt.',
   'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' => 'Die URL Pfadinformation kann nicht ermittelt werden. Stellen Sie bitte sicher, dass entweder $_SERVER["PATH_INFO"] (oder $_SERVER["PHP_SELF"] und $_SERVER["SCRIPT_NAME"]) mit korrekten Werten gefüllt sind.',
 );

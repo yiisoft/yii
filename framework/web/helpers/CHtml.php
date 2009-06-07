@@ -1650,7 +1650,7 @@ EOD;
 		{
 			$cs->registerCoreScript('yii');
 			if($htmlOptions['submit']!=='')
-				$url=CJavaScript::quote(self::normalizeUrl($htmlOptions['submit']),true);
+				$url=CJavaScript::quote(self::normalizeUrl($htmlOptions['submit']));
 			else
 				$url='';
 			$handler.="jQuery.yii.submitForm(this,'$url',$params);{$return};";

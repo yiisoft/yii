@@ -1,0 +1,89 @@
+Aplikacje konsolowe
+====================
+
+Aplikacje konsolowe używane są głównie przez aplikacje webowe do wykonywania zadań 
+w trybie offline, takich jak generowanie kodu, kompilacja indeksu wyszukiwania,  
+wysyłanie maili, itp. Yii dostarcza frameworku do pisania aplikacji konsolowych  
+w sposób systematyczny i obiektowo zorientowany.
+
+Yii reprezentuje każde zadanie konsolowe pod pojęciem [polecenia|CConsoleCommand]
+a instancja [aplikacji konsolowej|CConsoleApplication] jest używana do wysłania 
+żądania linii poleceń do odpowiedniego polecenia. Instancja aplikacji tworzona jest 
+w skrypcie wejściowym. Aby wykonać zadanie konsolowe, wystarczy wywołać odpowiednie 
+polecenie w wierszu linii poleceń w następujący sposób:
+
+~~~
+php entryScript.php NazwaPolecenia Parametr0 Parametr1 ...
+~~~
+
+gdzie `NazwaPolecenia` odpowiada nazwie polecenia (niewrażliwego na duże i małe litery)   
+`Parametr0`, `Parametr1` oraz dalsze, są parametrami przekazywanymi do instancji polecenia.
+
+Skrypt wejściowy dla aplikacji konsolowych jest zazwyczaj napisany w następujący sposób,
+podobny do aplikacji webowej:
+
+~~~
+[php]
+defined('YII_DEBUG') or define('YII_DEBUG',true);
+// załącz plik inicjujący Yii 
+require_once('path/to/yii/framework/yii.php');
+// utwórz instancję aplikacji i uruchom ją
+$configFile='path/to/config/file.php';
+Yii::createConsoleApplication($configFile)->run();
+~~~
+
+Następnie tworzymy klasy poleceń, które powinny dziedziczyć z klasy [CConsoleCommand].
+Każda klasa poleceń powinna być nazwana poprzez połączenie nazwy polecenia ze słowem 
+`Command`. Na przykład, aby zdefiniować polecenie For `email` powinniśmy napisać 
+klasę `EmailCommand`. Wszystkie klasy poleceń powinny znajdować się w podkatalogu  
+`commands` [głównego folderu aplikacji](/doc/guide/basics.application#application-base-directory).
+
+> Tip|Wskazówka: Poprzez skonfigurowanie [CConsoleApplication::commandMap] można posiadać również 
+klasy poleceń spełniające inne konwencje nazewnictwa oraz znajdujące się w innych katalogach.
+
+Pisanie klasy poleceń obejmuje głównie implementację metody [CConsoleCommand::run].  
+Parametry linii poleceń są przekazywane tej metodzie poprzez tablicę. Poniżej 
+znajduje się przykład:
+
+~~~
+[php]
+class EmailCommand extends CConsoleCommand
+{
+	public function run($args)
+	{
+		$receiver=$args[0];
+		// wyślij email do $receiver
+	}
+}
+~~~
+
+W dowolnym momencie możemy uzyskać dostęp do instancji aplikacji poprzez via `Yii::app()`. 
+Tak jak aplikacja webowa, aplikacja konsolowa może również zostać skonfigurowana.
+Na przykład, możemy skonfigurować komponent aplikacji  `db` aby uzyskać dostęp do bazy danych.
+Konfiguracja jest zazwyczaj zapisana jako plik PHP i przekazywana do konstruktora klasy aplikacji
+konsolowej (lub [createConsoleApplication|YiiBase::createConsoleApplication] w skrypcie wejściowym).
+
+Używanie narzędzia `yiic`
+---------------------
+
+Użyliśmy narzędzia `yiic` w celu [utworzenia naszej pierwszej aplikacji](/doc/guide/quickstart.first-app). 
+Narzędzie `yiic` jest w rzeczy samej zaimplementowane jako aplikacja konsolowa, 
+której plikiem wejściowym jest `framework/yiic.php`. Używając `yiic` możemy zrealizować 
+następujące zadania, tj. tworzenie szkieletu aplikacji, generowanie klasy kontrolera
+lub też klasy modelu, generowanie kodu potrzebnego do wykonywania operacji CRUD, 
+wydobycia komunikatów do przetłumaczenia, itp.
+
+Możemy rozszerzyć narzędzie `yiic` poprzez dodanie naszych własnych poleceń. 
+Aby to zrobić, powinniśmy rozpocząć ze szkieletem aplikacji utworzonym przy użyciu
+polecenia `yiic webapp` tak jak to opisano w [tworzeniu pierwszej aplikacji w Yii](/doc/guide/quickstart.first-app).
+Polecenie `yiic webapp` wygeneruje dwa pliki w katalogu `protected`: `yiic` oraz `yiic.bat`.
+Są one *lokalnymi* wersjami narzędzia `yiic` utworzonymi specjalnie dla danej aplikacji.
+
+
+Możemy wtedy utworzyć swoje własne polecenie w katalogu `protected/commands`. 
+Uruchamiając lokalną wersję narzędzia `yiic` tool, zobaczymy, że nasze własne polecenie 
+zostanie wyświetlone wraz z tymi standardowymi. Możemy również utworzyć własne polecenia, które 
+będą używane wraz z poleceniem `yiic shell`. Aby tak zrobić po prostu umieść swoje klasy poleceń 
+w folderze `protected/commands/shell`.
+
+<div class="revision">$Id: topics.console.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>

@@ -64,7 +64,7 @@ return array (
   'CDbCommand failed to execute the SQL statement: {error}' => 'CDbCommand はSQL文を実行できません。:{error}',
   'CDbCommand failed to prepare the SQL statement: {error}' => 'CDbCommand はSQL文を準備できません。:{error}',
   'CDbConnection does not support reading schema for {driver} database.' => 'CDbConnection は {driver} データベースに対して読み取りスキーマをサポートしていません。',
-  'CDbConnection failed to open the DB connection: {error}' => 'CDbConnection はデータベースコネクションをオープンできません。',
+  'CDbConnection failed to open the DB connection: {error}' => 'CDbConnection はデータベースコネクションをオープンできません。:{error}',
   'CDbConnection is inactive and cannot perform any DB operations.' => 'CDbConnection がアクティブでないためデータベース操作ができません。',
   'CDbConnection.connectionString cannot be empty.' => 'CDbConnection.connectionString は空白ではいけません。',
   'CDbDataReader cannot rewind. It is a forward-only reader.' => 'CDbDataReader は巻き戻しできません。これは順方向のみのリーダです。',

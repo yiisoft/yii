@@ -21,7 +21,7 @@ class SiteController extends CController
 }
 ~~~
 
-Ścieżka (ang. route)
+Trasa (ang. route)
 -----
 
 Kontrolery i akcje są definiowane poprzez ich ID. ID kontrolera posiada format
@@ -35,13 +35,13 @@ bez prefiksu `action`. Na przykład, jeśli klasa kontrolera zawiera metodę naz
 > Note|Uwaga: Przed wersją 1.0.3, formatem ID kontrolera był ciąg `path.to.xyz`
 zamiast `path/to/xyz`.
 
-Użytkownicy żądają poszczególnych kontrolerów oraz akcji za pomocą ścieżki.
-Ścieżkę tworzy połączenie ID kontrolera oraz ID akcji rozdzielone za pomocą ukośnika.
-Na przykład, ścieżka `post/edit` odpowiada kontrolerowi `PostController` oraz jego
+Użytkownicy żądają poszczególnych kontrolerów oraz akcji za pomocą trasy.
+Trasę tworzy połączenie ID kontrolera oraz ID akcji rozdzielone za pomocą ukośnika.
+Na przykład, trasa `post/edit` odpowiada kontrolerowi `PostController` oraz jego
 akcji `edit`. Domyślnie, adres URL `http://hostname/index.php?r=post/edit` będzie 
 żądał tego kontrolera oraz tą akcję.
 
->Note|Uwaga: Domyślnie, ścieżki rozróżniają wielkość liter. Od wersji 1.0.1, 
+>Note|Uwaga: Domyślnie, trasy rozróżniają wielkość liter. Od wersji 1.0.1, 
 > możliwe jest wyłączenie rozróżnienia wielkości liter poprzez ustawienie właściwości
 >[CUrlManager::caseSensitive] jako false w konfiguracji aplikacji.
 >Będąc w trybie rozróżniania wielkości liter, upewnij się, że używasz konwencji 
@@ -50,7 +50,7 @@ akcji `edit`. Domyślnie, adres URL `http://hostname/index.php?r=post/edit` będ
 >oraz [mapa akcji|CController::actions] używają kluczy zapisanych małymi literami.
 
 Od wersji 1.0.3, aplikacja może posiadać [moduły](/doc/guide/basics.module). 
-Ścieżka akcji kontrolera wewnątrz modułu posiada format `IDmodułu/IDkontrolera/IDakcji`.
+Trasa dla akcji kontrolera wewnątrz modułu posiada format `IDmodułu/IDkontrolera/IDakcji`.
 Aby uzyskać więcej szczegółów zobacz [sekcję dotyczącą modułów](/doc/guide/basics.module).
 
 

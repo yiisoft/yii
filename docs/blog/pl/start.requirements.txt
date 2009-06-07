@@ -1,0 +1,29 @@
+Analiza wynagań
+=====================
+
+System blogowy, który zamierzamy utworzyć jest systemem "jednoużytkownikowym".  
+Właściciel systemy będzie mógł wykonyać następujące akcje:
+ 
+ * zalogowania i wylogowania;
+ * tworzenia, aktualizowania i usuwania wiadomości;
+ * publikowania, zdejmowania i archiwizowania wiadomości;
+ * zatwierdzania i usuwania komentary.
+
+Wszyscy pozostali użytkownicy są gośćmi, którzy mogą wykonywać następujące akcje:
+
+ * czytać wiadomości;
+ * tworzyć komentarze.
+
+Dodatkowe wymagania dla tego systemu zawierają:
+
+ * Strona domowa systemy powinna wyświetlać listę najnowszych wiadomości. 
+ * Jeżeli strona posiada więcej niż 10 wiadomości, powinny być one wyswietlane  
+ za pomocą podstron.
+ * System powinien wyświetlać wiadomości wraz z komentarzami do niej; 
+ * System powinien być w stanie wyświetlić wiadomości o konkretnym otagowaniu.
+ * System powinien pokazać chmurkę tagów, uwzględniającą ich częstotliwość występowania.
+ * Sustem powinien pokazać listę najnowszych komentarzy.
+ * System powinien posiadać możliwość używania motywów.
+ * System powinien używać adresów URL SEO-przyjaznych użytkownikowi.
+
+<div class="revision">$Id: start.requirements.txt 683 2009-02-16 05:20:17Z qiang.xue $</div>

@@ -162,4 +162,21 @@ Dies geht genauso wie beim normalen Nachrichtenrouting. Die
 [CProfileLogRoute]-Route zeigt das Ergebnis der Messung am Ende der aktuellen
 Seite an.
 
-<div class="revision">$Id: topics.logging.txt 922 2009-04-05 21:36:33Z qiang.xue $</div>
+
+### Leistungsmessung von SQL-Anweisungen
+
+Im Zusammenhang mit Datenbanken ist eine Leistungsmessung besonders sinnvoll,
+da SQL-Anweisungen oft den größten leistungsmäßigen Flaschenhals einer Anwendung
+darstellen. Obwohl wir manuell `beginProfile`- und `endProfile`-Ausdrücke an
+die passenden Stellen setzen könnten, um die Zeit für jede SQL-Anweisung zu
+messen, bietet Yii seit Version 1.0.6 eine systematischere Herangehensweise,
+um dieses Problem zu lösen.
+
+Indem [CDbConnection::enableProfiling] in der Anwendungskonfiguration auf true
+gesetzt wird, wird jede SQL-Anweisung gemessen. Mit der erwähnten [CProfileLogRoute] 
+können die Ergebnisse leicht aufgegliedert nach den einzelnen SQL-Anweisungen
+und den dafür benötigten Zeiten angezeigt werden. Durch Aufruf von
+[CDbConnection::getStats()] können wir auch die Gesamtzahl aller
+SQL-Anweisungen sowie deren gesamte Ausführungszeit abfragen.
+
+<div class="revision">$Id: topics.logging.txt 1042 2009-05-21 19:53:47Z qiang.xue $</div>

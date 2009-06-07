@@ -6,8 +6,12 @@ Version 1.1a to be released
 ---------------------------
 - New: Refactored scenario-based validation and massive assignments (Qiang)
 
-Version 1.0.6 to be released
+
+Version 1.0.7 to be released
 ----------------------------
+
+Version 1.0.6 June 7, 2009
+--------------------------
 - Bug #305: column aliases used in CActiveFinder should be quoted so that their cases are kept (Qiang)
 - Bug #308: typo in CLinkPager CSS class name (Qiang)
 - Bug #310: Leading space in auto generated labels if they end with "ID" (Qiang)

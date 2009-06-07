@@ -33,8 +33,16 @@ class CFileCache extends CCache
 	 * @var string cache file suffix. Defaults to '.bin'.
 	 */
 	public $cacheFileSuffix='.bin';
+	/**
+	 * @var integer the level of sub-directories to store cache files. Defaults to 0,
+	 * meaning no sub-directories. If the system has huge number of cache files (e.g. 10K+),
+	 * you may want to set this value to be 1 or 2 so that the file system is not over burdened.
+	 * The value of this property should not exceed 16 (less than 3 is recommended).
+	 */
+	public $directoryLevel=0;
 
-	private $_gcProbability=1;
+	private $_gcProbability=100;
+	private $_gced=false;
 
 	/**
 	 * Initializes this application component.
@@ -47,17 +55,13 @@ class CFileCache extends CCache
 		parent::init();
 		if($this->cachePath===null)
 			$this->cachePath=Yii::app()->getRuntimePath().DIRECTORY_SEPARATOR.'cache';
-		if(is_dir($this->cachePath))
-		{
-			if(rand(0,100)<$this->_gcProbability)
-				$this->gc();
-		}
-		else
+		if(!is_dir($this->cachePath))
 			mkdir($this->cachePath,0777,true);
 	}
 
 	/**
-	 * @return integer the probability (percentage) that gc (garbage collection) should be performed upon initializing the file cache component. Defaults to 1, meaning 1% chance.
+	 * @return integer the probability (parts per million) that garbage collection (GC) should be performed
+	 * when storing a piece of data in the cache. Defaults to 100, meaning 0.01% chance.
 	 */
 	public function getGCProbability()
 	{
@@ -65,17 +69,17 @@ class CFileCache extends CCache
 	}
 
 	/**
-	 * @param integer the probability (percentage) that gc (garbage collection) should be performed upon initializing the file cache component.
-	 * This number should be between 0 and 100. A value 0 meaning no GC will be performed at all.
-	 * While a value 100 meaning GC is performed each time the file cache is loaded.
+	 * @param integer the probability (parts per million) that garbage collection (GC) should be performed
+	 * when storing a piece of data in the cache. Defaults to 100, meaning 0.01% chance.
+	 * This number should be between 0 and 1000000. A value 0 meaning no GC will be performed at all.
 	 */
 	public function setGCProbability($value)
 	{
 		$value=(int)$value;
 		if($value<0)
 			$value=0;
-		if($value>100)
-			$value=100;
+		if($value>1000000)
+			$value=1000000;
 		$this->_gcProbability=$value;
 	}
 
@@ -97,13 +101,10 @@ class CFileCache extends CCache
 	protected function getValue($key)
 	{
 		$cacheFile=$this->getCacheFile($key);
-		if(is_file($cacheFile))
-		{
-			if(@filemtime($cacheFile)>time())
-				return file_get_contents($cacheFile);
-			else
-				@unlink($cacheFile);
-		}
+		if(($time=@filemtime($cacheFile))>time())
+			return file_get_contents($cacheFile);
+		else if($time>0)
+			@unlink($cacheFile);
 		return false;
 	}
 
@@ -118,11 +119,19 @@ class CFileCache extends CCache
 	 */
 	protected function setValue($key,$value,$expire)
 	{
+		if(!$this->_gced && mt_rand(0,1000000)<$this->_gcProbability)
+		{
+			$this->gc();
+			$this->_gced=true;
+		}
+
 		if($expire<=0)
 			$expire=31536000; // 1 year
 		$expire+=time();
 
 		$cacheFile=$this->getCacheFile($key);
+		if($this->directoryLevel>0)
+			@mkdir(dirname($cacheFile),0777,true);
 		if(@file_put_contents($cacheFile,$value,LOCK_EX)==strlen($value))
 		{
 			@chmod($cacheFile,0777);
@@ -168,23 +177,40 @@ class CFileCache extends CCache
 	 */
 	protected function getCacheFile($key)
 	{
-		return $this->cachePath.DIRECTORY_SEPARATOR.$key.$this->cacheFileSuffix;
+		if($this->directoryLevel>0)
+		{
+			$base=$this->cachePath;
+			for($i=0;$i<$this->directoryLevel;++$i)
+			{
+				if(($prefix=substr($key,$i+$i,2))!==false)
+					$base.=DIRECTORY_SEPARATOR.$prefix;
+			}
+			return $base.DIRECTORY_SEPARATOR.$key.$this->cacheFileSuffix;
+		}
+		else
+			return $this->cachePath.DIRECTORY_SEPARATOR.$key.$this->cacheFileSuffix;
 	}
 
 	/**
 	 * Removes expired cache files.
 	 * @param boolean whether to removed expired cache files only. If true, all cache files under {@link cachePath} will be removed.
+	 * @param string the path to clean with. If null, it will be {@link cachePath}.
 	 */
-	protected function gc($expiredOnly=true)
+	protected function gc($expiredOnly=true,$path=null)
 	{
-		if(($handle=opendir($this->cachePath))===false)
+		if($path===null)
+			$path=$this->cachePath;
+		if(($handle=opendir($path))===false)
 			return;
 		while($file=readdir($handle))
 		{
-			if($file[0]==='.' || !is_file($file=$this->cachePath.DIRECTORY_SEPARATOR.$file))
+			if($file[0]==='.')
 				continue;
-			if($expiredOnly && filemtime($file)<time() || !$expiredOnly)
-				@unlink($file);
+			$fullPath=$path.DIRECTORY_SEPARATOR.$file;
+			if(is_dir($fullPath))
+				$this->gc($expiredOnly,$fullPath);
+			else if($expiredOnly && @filemtime($fullPath)<time() || !$expiredOnly)
+				@unlink($fullPath);
 		}
 		closedir($handle);
 	}

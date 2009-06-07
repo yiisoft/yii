@@ -155,7 +155,9 @@ membesarkan setiap kata pada namanya dan menggabungkannya tanpa spasi; nama
 kolom mirip dengan nama tabel kecuali huruf pertamanya dalam jenis huruf
 kecil. Sebagai contoh, kita menggunakan `Post` untuk menamai tabel penyimpanan tulisan; dan kita
 menggunakan `createTime` untuk menamai kolom kunci primer tabel. Ini menjadikan tabel
-terlihat lebih seperti tipe kelas dan kolom seperti variabel. Catatan, akan tetapi, pemakaian punduk unta juga membuat Anda tidak nyaman pada beberapa DBMS, seperti misalnya MySQL, karena ia bertindak secara berbeda pada sistem operasi yang berbeda.
+terlihat lebih seperti tipe kelas dan kolom seperti variabel. Catatan, akan tetapi,
+pemakaian punduk unta juga membuat Anda tidak nyaman pada beberapa DBMS, seperti misalnya MySQL,
+karena ia bertindak secara berbeda pada sistem operasi yang berbeda.
 
 
 Membuat Rekaman
@@ -211,6 +213,15 @@ $post->createTime=new CDbExpression('NOW()');
 // 'NOW()' akan dianggap sebagai string
 $post->save();
 ~~~
+
+> Tip: Karena AR mengijinkan kita untuk melakukan operasi database tanpa menulis
+sejumlah pernyataan SQL, seringkali kita ingin mengetahui pernyataan SQL apa yang dijalankan
+oleh AR. Ini bisa dilakukan dengan menghidupkan [fitur pencatatan](/doc/guide/topics.logging)
+pada Yii. Sebagai contoh, kita dapat menghidupkan [CWebLogRoute] dalam konfigurasi aplikasi,
+dan kita akan melihat pernyataan SQL yang dijalankan untuk ditampilkan  di akhir setiap halaman Web.
+Sejak versi 1.0.5, kita dapat menyetel [CDbConnection::enableParamLogging] menjadi true dalam
+konfigurasi aplikasi agar nilai parameter yang diikat ke pernyataan SQL
+juga dicatat.
 
 
 Membaca Rekaman
@@ -554,6 +565,17 @@ $posts=Post::model()->published()->recently()->findAll();
 
 Secara umum, lingkup bernama harus berada di sebelah kiri pemanggilan metode `find`. Masing-masing menyediakan kriteria queri, yang merupakan gabungan dengan kriteria lain, termasuk yang dioper ke pemanggilan metode `find`. Hal ini mirip dengan menambahkan sebuah daftar filter ke sebuah queri.
 
+Mulai dari versi 1.0.6, lingkup bernama juga dapat dipakai dengan metode `update` dan `delete`. Sebagai contoh, kode bberikut akan menghapus semua tulisan yang akhir-akhir ini diterbitkan:
+
+~~~
+[php]
+Post::model()->published()->recently()->delete();
+~~~
+
+> Note|Catatan: Lingkup bernama hanya bisa dipakai dengan metode tingkat-kelas. Yakni, metode harus dipanggil menggunakan `ClassName::model()`.
+
+### Parameterisasi Lingkup Bernama
+
 Named scopes dapat diparameterkan. Sebagai contoh, kita mungkin ingin mengkustomisasi sejumlah tulisan dengan lingkup bernama `recently`. Untuk melakukannya, daripada mendeklarasikan lingkup bernama dalam metode [CActiveRecord::scopes], kita perlu mendefinisikan sebuah metode baru yang namanya sama seperti nama lingkup tadi:
 
 ~~~
@@ -578,4 +600,29 @@ $posts=Post::model()->published()->recently(3)->findAll();
 Jika kita tidak melengkapi parameter 3 di atas, secara standar kita akan mengambil 5 tulisan terbaru yang diterbitkan.
 
 
-<div class="revision">$Id: database.ar.txt 956 2009-04-21 15:16:03Z qiang.xue@gmail.com $</div>
+### Standar Lingkup Bernama
+
+Kelas model dapat memiliki standar lingkup bernama yang akan diterapkan untuk semua queri (termasuk yang relasional) berkenaan dengan model. Sebagai contoh, website yang mendukung multi bahasa mungkin hanya ingin menampilkan konten yang ditetapkan oleh pengguna saat ini. Karena di sana ada banyak queri atas konten situs, kita dapat mendefinisikan standar lingkup bernama guna memecahkan masalah ini. Untuk melakukannya, kita menimpa metode [CActiveRecord::defaultScope] seperti berikut,
+
+~~~
+[php]
+class Content extends CActiveRecord
+{
+	public function defaultScope()
+	{
+		return array(
+			'condition'=>"language='".Yii::app()->language."'",
+		);
+	}
+}
+~~~
+
+Sekarang, jika metode di bawah ini dipanggil, ia akan secara otomatis menggunakan kriteria queri seperti didefinisikan di atas:
+
+~~~
+[php]
+$contents=Content::model()->findAll();
+~~~
+
+
+<div class="revision">$Id: database.ar.txt 1027 2009-05-12 17:59:03Z qiang.xue $</div>

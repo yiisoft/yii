@@ -154,6 +154,11 @@ odpowiednie właściwości mogą być pustą tablicą bądź wartością null.
 Dla relacji `BELONGS_TO` oraz `HAS_ONE` wynikiem jest wartość null; dla 
 `HAS_MANY` oraz `MANY_MANY` jest to pusta tablica.
 
+Zauważ, że relacje `HAS_MANY` oraz `MANY_MANY` zwracają tablicę obiektów, dlatego 
+będziesz musiał przejść w pętli przez zwrócony wynik, jeśli będziesz chciał uzyskać dostęp 
+do jakiejkolwiek właściwości obiektu. W przeciwnym przypadku, możesz uzyskać błąd: "Próbujesz   
+skorzystać z właściwości elementu nie będącego obiektem" (ang. "Trying to get property of non-object" errors).
+
 Technika opóźnionego ładowania jest bardzo poręczne w użyciu, ale nie zawsze jest wydajne 
 we wszystkich scenariuszach. Dla przykładu, jeśli chcemy uzyskać dostęp do informacje o autorze dla 
 `N` postów, używając techniki opóźnionego ładowania wykonamy `N` zapytań z użyciem join. 
@@ -260,8 +265,8 @@ powinny zostać rozróżnione przy użyciu `aliasToken` (np. `??.id=10`).
 DESC`).
 
    - `with`: lista obiektów potomnych, które powinny zostać załadowane wraz z tym 
-   obiektem. Zauważ, że opcja ta jest używana tylko przy użyciu opóźnionego ładowania
-   a nie jest dla gorliwego ładowania.
+   obiektem. Należy pamiętać, że niewłaściwe użycie tej opcji może skutkować utworzeniem
+   nigdy niekończącej się pętli.   
 
    - `joinType`: typ złączenia dla relacji. Domyślna wartość to `LEFT OUTER JOIN`.
 
@@ -441,7 +446,7 @@ Następujący kod pokazuje, jak zastosować nazwane podzbiory do głównego mode
 $posts=Post::model()->published()->recently()->with('comments')->findAll();
 ~~~
 
-Przypomina to bardziej nierelacyjne zapytanie. Jedyna różnica polega na tym, że mamy wywołanie metody `with()` 
+Przypomina to bardziej nierelacyjne zapytania. Jedyna różnica polega na tym, że mamy wywołanie metody `with()` 
 po łańcuchu wywołań nazwanych podzbiorów. Zapytanie zwróci ostatnio opublikowane posty wraz z ich komentarzami.
 
 Następujący kod pokazuje, jak zastosować nazwane podzbiory do modelu powiązanego.
@@ -455,5 +460,26 @@ Powyższe zapytanie zwróci wszystkie posty wraz z zatwierdzonymi komentarzami. 
 do nazwy relacji, a `recently` oraz `approved` referuje do dwóch nazwanych podzbiorów w klasie modelu `Comment`. 
 Nazwa relacji oraz nazwane podzbiory powinny być rozdzielone dwukropkiem.
 
+Nazwane podzbiory mogą również zostać zdefiniowane w opcji `with` reguły relacyjnej zadeklarowanej 
+w [CActiveRecord::relations()]. W następnym przykładzie, jeśli odczytamy `$user->posts`, 
+zwróci nam wszystkie zatwierdzone komentarze (*approved*) postu.
 
-<div class="revision">$Id: database.arr.txt 956 2009-04-21 15:16:03Z qiang.xue@gmail.com $</div>
+~~~
+[php]
+class User extends CActiveRecord
+{
+  public function relations()
+  {
+    return array(
+      'posts'=>array(self::HAS_MANY, 'Post', 'authorID',
+        'with'=>'comments:approved'),
+    );
+  }
+}
+~~~
+
+> Note|Uwaga: Nazwane podzbiory zastosowane dla modelów w relacji muszą zostać określone
+w [CActiveRecord::scopes]. W rezultacie, nie mogą one zostać sparametryzowane.
+
+
+<div class="revision">$Id: database.arr.txt 1027 2009-05-12 17:59:03Z qiang.xue $</div>
