@@ -4,6 +4,7 @@
 
 Version 1.0.7 to be released
 ----------------------------
+- Bug: COciCommandBuilder is referencing undefined variable (Qiang)
 
 Version 1.0.6 June 7, 2009
 --------------------------
