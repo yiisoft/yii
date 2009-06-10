@@ -146,7 +146,7 @@ By mapping these script files to false, we prevent Yii from generating the code 
 ~~~
 [php]
 <head>
-<?php echo CGoogleApi::bootstrap(); ?>
+<?php echo CGoogleApi::init(); ?>
 
 <?php echo CHtml::script(
 	CGoogleApi::load('jquery','1.3.2') . "\n" .
