@@ -224,4 +224,39 @@ class CSqliteTest extends CTestCase
 		$c=$builder->createPkCriteria($table2,array());
 		$this->assertEquals('0=1',$c->condition);
 	}
+
+	public function testResetSequence()
+	{
+		$max=$this->db->createCommand("SELECT MAX(id) FROM users")->queryScalar();
+		$this->db->createCommand("DELETE FROM users")->execute();
+		$this->db->createCommand("INSERT INTO users (username, password, email) VALUES ('user4','pass4','email4')")->execute();
+		$max2=$this->db->createCommand("SELECT MAX(id) FROM users")->queryScalar();
+		$this->assertEquals($max+1,$max2);
+
+		$userTable=$this->db->schema->getTable('users');
+
+		$this->db->createCommand("DELETE FROM users")->execute();
+		$this->db->schema->resetSequence($userTable);
+		$this->db->createCommand("INSERT INTO users (username, password, email) VALUES ('user4','pass4','email4')")->execute();
+		$max=$this->db->createCommand("SELECT MAX(id) FROM users")->queryScalar();
+		$this->assertEquals(1,$max);
+		$this->db->createCommand("INSERT INTO users (username, password, email) VALUES ('user4','pass4','email4')")->execute();
+		$max=$this->db->createCommand("SELECT MAX(id) FROM users")->queryScalar();
+		$this->assertEquals(2,$max);
+
+		$this->db->createCommand("DELETE FROM users")->execute();
+		$this->db->schema->resetSequence($userTable,10);
+		$this->db->createCommand("INSERT INTO users (username, password, email) VALUES ('user4','pass4','email4')")->execute();
+		$max=$this->db->createCommand("SELECT MAX(id) FROM users")->queryScalar();
+		$this->assertEquals(10,$max);
+		$this->db->createCommand("INSERT INTO users (username, password, email) VALUES ('user4','pass4','email4')")->execute();
+		$max=$this->db->createCommand("SELECT MAX(id) FROM users")->queryScalar();
+		$this->assertEquals(11,$max);
+	}
+
+	public function testCheckIntegrity()
+	{
+		$this->db->schema->checkIntegrity(false);
+		$this->db->schema->checkIntegrity(true);
+	}
 }

@@ -5,7 +5,7 @@
 Version 1.1a to be released
 ---------------------------
 - New: Refactored scenario-based validation and massive assignments (Qiang)
-
+- New: Added CDbSchema::checkIntegrity() and resetSequence() (Qiang)
 
 Version 1.0.7 to be released
 ----------------------------
