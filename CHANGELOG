@@ -5,6 +5,7 @@
 Version 1.0.7 to be released
 ----------------------------
 - Bug: COciCommandBuilder is referencing undefined variable (Qiang)
+- New: Rolled back the change about treating tinyint(1) in MySQL as boolean (Qiang)
 
 Version 1.0.6 June 7, 2009
 --------------------------
