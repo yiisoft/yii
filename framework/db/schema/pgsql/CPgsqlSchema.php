@@ -275,7 +275,7 @@ EOD;
 			if($schema===self::DEFAULT_SCHEMA)
 				$names[]=$row['table_name'];
 			else
-				$names[]=$row['schema_name'].'.'.$row['table_name'];
+				$names[]=$row['table_schema'].'.'.$row['table_name'];
 		}
 		return $names;
 	}
