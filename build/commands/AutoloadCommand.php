@@ -56,6 +56,7 @@ EOD;
 				'/utils/mimeTypes.php',
 				'/yiip.php',
 				'/toolkit',
+				'/test',
 			),
 		);
 		$files=CFileHelper::findFiles(YII_PATH,$options);
