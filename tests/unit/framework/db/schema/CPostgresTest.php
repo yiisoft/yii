@@ -232,4 +232,40 @@ class CPostgresTest extends CTestCase
 		$c=$builder->createColumnCriteria($table,array('id'=>1,'author_id'=>2),'title=\'\'');
 		$this->assertEquals('"test"."posts"."id"=:yp0 AND "test"."posts"."author_id"=:yp1 AND (title=\'\')',$c->condition);
 	}
+
+	public function testResetSequence()
+	{
+		$max=$this->db->createCommand("SELECT MAX(id) FROM test.users")->queryScalar();
+		$this->db->createCommand("DELETE FROM test.users")->execute();
+		$this->db->createCommand("INSERT INTO test.users (username, password, email) VALUES ('user4','pass4','email4')")->execute();
+		$max2=$this->db->createCommand("SELECT MAX(id) FROM test.users")->queryScalar();
+		$this->assertEquals($max+1,$max2);
+
+		$userTable=$this->db->schema->getTable('test.users');
+
+		$this->db->createCommand("DELETE FROM test.users")->execute();
+		$this->db->schema->resetSequence($userTable);
+		$this->db->createCommand("INSERT INTO test.users (username, password, email) VALUES ('user4','pass4','email4')")->execute();
+		$max=$this->db->createCommand("SELECT MAX(id) FROM test.users")->queryScalar();
+		$this->assertEquals(1,$max);
+		$this->db->createCommand("INSERT INTO test.users (username, password, email) VALUES ('user4','pass4','email4')")->execute();
+		$max=$this->db->createCommand("SELECT MAX(id) FROM test.users")->queryScalar();
+		$this->assertEquals(2,$max);
+
+		$this->db->createCommand("DELETE FROM test.users")->execute();
+		$this->db->schema->resetSequence($userTable,10);
+		$this->db->createCommand("INSERT INTO test.users (username, password, email) VALUES ('user4','pass4','email4')")->execute();
+		$max=$this->db->createCommand("SELECT MAX(id) FROM test.users")->queryScalar();
+		$this->assertEquals(10,$max);
+		$this->db->createCommand("INSERT INTO test.users (username, password, email) VALUES ('user4','pass4','email4')")->execute();
+		$max=$this->db->createCommand("SELECT MAX(id) FROM test.users")->queryScalar();
+		$this->assertEquals(11,$max);
+	}
+
+	public function testCheckIntegrity()
+	{
+		$this->db->schema->checkIntegrity(false,'test');
+		$this->db->createCommand("INSERT INTO test.profiles (first_name, last_name, user_id) VALUES ('first 1','last 1',1000)")->execute();
+		$this->db->schema->checkIntegrity(true,'test');
+	}
 }

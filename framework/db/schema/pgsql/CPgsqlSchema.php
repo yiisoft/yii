@@ -32,6 +32,50 @@ class CPgsqlSchema extends CDbSchema
 	}
 
 	/**
+	 * Resets the sequence value of a table's primary key.
+	 * The sequence will be reset such that the primary key of the next new row inserted
+	 * will have the specified value or 1.
+	 * @param CDbTableSchema the table schema whose primary key sequence will be reset
+	 * @param mixed the value for the primary key of the next new row inserted. If this is not set,
+	 * the next new row's primary key will have a value 1.
+	 * @since 1.1
+	 */
+	public function resetSequence($table,$value=null)
+	{
+		if($table->sequenceName!==null)
+		{
+			$seq='"'.$table->sequenceName.'"';
+			if(strpos($seq,'.')!==false)
+				$seq=str_replace('.','"."',$seq);
+			if($value===null)
+				$value="(SELECT COALESCE(MAX(\"{$table->primaryKey}\"),0) FROM {$table->rawName}) + 1";
+			else
+				$value=(int)$value;
+			$this->getDbConnection()->createCommand("SELECT SETVAL('$seq', $value, false)")->execute();
+		}
+	}
+
+	/**
+	 * Enables or disables integrity check.
+	 * @param boolean whether to turn on or off the integrity check.
+	 * @param string the schema of the tables. Defaults to empty string, meaning the current or default schema.
+	 * @since 1.1
+	 */
+	public function checkIntegrity($check=true,$schema='')
+	{
+		$enable=$check ? 'ENABLE' : 'DISABLE';
+		$tableNames=$this->getTableNames($schema);
+		$db=$this->getDbConnection();
+		foreach($tableNames as $tableName)
+		{
+			$tableName='"'.$tableName.'"';
+			if(strpos($tableName,'.')!==false)
+				$tableName=str_replace('.','"."',$tableName);
+			$db->createCommand("ALTER TABLE $tableName $enable TRIGGER ALL")->execute();
+		}
+	}
+
+	/**
 	 * Creates a table instance representing the metadata for the named table.
 	 * @return CDbTableSchema driver dependent table metadata.
 	 */
@@ -275,7 +319,7 @@ EOD;
 			if($schema===self::DEFAULT_SCHEMA)
 				$names[]=$row['table_name'];
 			else
-				$names[]=$row['schema_name'].'.'.$row['table_name'];
+				$names[]=$row['table_schema'].'.'.$row['table_name'];
 		}
 		return $names;
 	}
