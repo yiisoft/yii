@@ -2,7 +2,7 @@
 
 Yii::import('system.test.CTestCase');
 
-class CActiveRecordTestCase extends CTestCase
+class CDbTestCase extends CTestCase
 {
 	public function __get($name)
 	{
