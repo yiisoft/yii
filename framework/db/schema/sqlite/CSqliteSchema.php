@@ -29,11 +29,14 @@ class CSqliteSchema extends CDbSchema
 	 */
 	public function resetSequence($table,$value=null)
 	{
-		if($value===null)
-			$value=$this->getDbConnection()->createCommand("SELECT MAX(`{$table->primaryKey}`) FROM {$table->rawName}")->queryScalar();
-		else
-			$value=(int)$value-1;
-		$this->getDbConnection()->createCommand("UPDATE sqlite_sequence SET seq='$value' WHERE name='{$table->name}'")->execute();
+		if($table->sequenceName!==null)
+		{
+			if($value===null)
+				$value=$this->getDbConnection()->createCommand("SELECT MAX(`{$table->primaryKey}`) FROM {$table->rawName}")->queryScalar();
+			else
+				$value=(int)$value-1;
+			$this->getDbConnection()->createCommand("UPDATE sqlite_sequence SET seq='$value' WHERE name='{$table->name}'")->execute();
+		}
 	}
 
 	/**

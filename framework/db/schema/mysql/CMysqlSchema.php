@@ -65,11 +65,14 @@ class CMysqlSchema extends CDbSchema
 	 */
 	public function resetSequence($table,$value=null)
 	{
-		if($value===null)
-			$value=$this->getDbConnection()->createCommand("SELECT MAX(`{$table->primaryKey}`) FROM {$table->rawName}")->queryScalar()+1;
-		else
-			$value=(int)$value;
-		$this->getDbConnection()->createCommand("ALTER TABLE {$table->rawName} AUTO_INCREMENT=$value")->execute();
+		if($table->sequenceName!==null)
+		{
+			if($value===null)
+				$value=$this->getDbConnection()->createCommand("SELECT MAX(`{$table->primaryKey}`) FROM {$table->rawName}")->queryScalar()+1;
+			else
+				$value=(int)$value;
+			$this->getDbConnection()->createCommand("ALTER TABLE {$table->rawName} AUTO_INCREMENT=$value")->execute();
+		}
 	}
 
 	/**
