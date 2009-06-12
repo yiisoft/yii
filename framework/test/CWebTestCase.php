@@ -57,7 +57,7 @@ class CWebTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		if(isset($params[0]) && ($record=$this->getFixtureManager()->getRecord($name,$params[0]))!==false)
 			return $record;
 		else
-			throw new Exception("Unknown method '$name' for class '".get_class($this)."'.");
+			return parent::__call($name,$params);
 	}
 
 	/**
@@ -73,7 +73,7 @@ class CWebTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	 * If you override this method, make sure the parent implementation is invoked.
 	 * Otherwise, the database fixtures will not be managed properly.
 	 */
-	public function setUp()
+	protected function setUp()
 	{
 		parent::setUp();
 		$this->getFixtureManager()->load($this->fixtures);
