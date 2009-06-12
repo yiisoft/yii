@@ -24,12 +24,13 @@ require_once('PHPUnit/Extensions/SeleniumTestCase.php');
 class CWebTestCase extends PHPUnit_Extensions_SeleniumTestCase
 {
 	/**
-	 * @var array a list of fixtures that should be loaded for all test cases.
+	 * @var array a list of fixtures that should be loaded before each test method executes.
 	 * The array keys are fixture names, and the array values are either AR class names
 	 * or table names. If table names, they must begin with a colon character (e.g. 'Post'
 	 * means an AR class, while ':Post' means a table name).
+	 * Defaults to false, meaning fixtures will not be used at all.
 	 */
-	public $fixtures=array();
+	public $fixtures=false;
 
 	/**
 	 * PHP magic method.
@@ -39,7 +40,7 @@ class CWebTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	 */
 	public function __get($name)
 	{
-		if(($rows=$this->getFixtureManager()->getRows($name))!==false)
+		if(is_array($this->fixtures) && ($rows=$this->getFixtureManager()->getRows($name))!==false)
 			return $rows;
 		else
 			throw new Exception("Unknown property '$name' for class '".get_class($this)."'.");
@@ -54,7 +55,7 @@ class CWebTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	 */
 	public function __call($name,$params)
 	{
-		if(isset($params[0]) && ($record=$this->getFixtureManager()->getRecord($name,$params[0]))!==false)
+		if(is_array($this->fixtures) && isset($params[0]) && ($record=$this->getFixtureManager()->getRecord($name,$params[0]))!==false)
 			return $record;
 		else
 			return parent::__call($name,$params);
@@ -76,6 +77,7 @@ class CWebTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	protected function setUp()
 	{
 		parent::setUp();
-		$this->getFixtureManager()->load($this->fixtures);
+		if(is_array($this->fixtures))
+			$this->getFixtureManager()->load($this->fixtures);
 	}
 }
