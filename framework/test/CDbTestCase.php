@@ -2,11 +2,25 @@
 
 Yii::import('system.test.CTestCase');
 
+/**
+ * CDbTestCase is the base class for DB-related unit tests.
+ *
+ * CDbTestCase uses {@link CDbTestFixture} to manage DB fixtures and provies
+ * easy access to the fixtures.
+ */
 class CDbTestCase extends CTestCase
 {
+	/**
+	 * @var array a list of fixtures that should be loaded for all test cases.
+	 * The array keys are fixture names, and the array values are either AR class names
+	 * or table names. If table names, they must begin with a colon character (e.g. 'Post'
+	 * means an AR class, while ':Post' means a table name).
+	 */
+	public $fixtures=array();
+
 	public function __get($name)
 	{
-		if(($rows=$this->getFixture()->getRows($name))!==false)
+		if(($rows=$this->getFixtureManager()->getRows($name))!==false)
 			return $rows;
 		else
 			throw new Exception("Unknown property '$name' for class '".get_class($this)."'.");
@@ -14,13 +28,13 @@ class CDbTestCase extends CTestCase
 
 	public function __call($name,$params)
 	{
-		if(isset($params[0]) && $this->getFixture()->hasRecord($name,$params[0]))
-			return $this->getFixture()->getRecord($name,$params[0]);
+		if(isset($params[0]) && ($record=$this->getFixtureManager()->getRecord($name,$params[0]))!==false)
+			return $record;
 		else
 			throw new Exception("Unknown method '$name' for class '".get_class($this)."'.");
 	}
 
-	public function getFixture()
+	public function getFixtureManager()
 	{
 		return Yii::app()->getComponent('fixture');
 	}
@@ -33,12 +47,6 @@ class CDbTestCase extends CTestCase
 	public function setUp()
 	{
 		parent::setUp();
-		$this->getFixture()->load($this->fixtures());
-	}
-
-	public function tearDown()
-	{
-		$this->getFixture()->unload($this->fixtures());
-		parent::tearDown();
+		$this->getFixtureManager()->load($this->fixtures());
 	}
 }
