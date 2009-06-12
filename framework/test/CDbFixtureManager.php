@@ -27,8 +27,9 @@
  * If the init script does not exist, the table will be emptied.
  *
  * Fixtures must be stored under the {@link basePath} directory. The directory
- * may contain a file named "init.php" which will be executed once at the beginning
- * of the test execution.
+ * may contain a file named "init.php" which will be executed once to initialize
+ * the database. If this file is not found, all available fixtures will be loaded
+ * into the database.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
@@ -79,6 +80,7 @@ class CDbFixtureManager extends CApplicationComponent
 		parent::init();
 		if($this->basePath===null)
 			$this->basePath=Yii::getPathOfAlias('application.tests.fixtures');
+		$this->prepare();
 	}
 
 	/**
@@ -99,9 +101,8 @@ class CDbFixtureManager extends CApplicationComponent
 
 	/**
 	 * Prepares the fixtures for the whole test.
-	 * This method should be called when tests start and should only be called once.
-	 * The method will execute the database init script if it is available.
-	 * It will then load every fixture found under {@link basePath}.
+	 * This method is invoked in {@link init}. It executes the database init script
+	 * if it exists. Otherwise, it will load all available fixtures.
 	 */
 	public function prepare()
 	{
@@ -111,10 +112,11 @@ class CDbFixtureManager extends CApplicationComponent
 
 		if(is_file($initFile))
 			require($initFile);
-
-		foreach($this->getFixtures() as $fixture)
-			$this->loadFixture($fixture);
-
+		else
+		{
+			foreach($this->getFixtures() as $fixture)
+				$this->loadFixture($fixture);
+		}
 		$this->checkIntegrity(true);
 	}
 
