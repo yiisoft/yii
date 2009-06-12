@@ -1,27 +1,40 @@
 <?php
-/*
-/protected/tests/fixtures/
-	init.php			the script to be executed at the very beginning of the whole test execution.
-						If this script does not exist, truncateTable() will be called
-						for every table with fixture data available.
-	posts.init.php		the script to be executed when resetting a table.
-						If this script does not exist, truncateTable() will be called.
-	posts.php			the fixture data for the table.
+/**
+ * This file contains the CDbFixtureManager class.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @link http://www.yiiframework.com/
+ * @copyright Copyright &copy; 2008-2009 Yii Software LLC
+ * @license http://www.yiiframework.com/license/
+ */
 
-Useful APIs provided by CDbTestFixture:
-1. truncateTable(): remove all rows from the specified table and reset its PK sequence if any.
-2. truncateTables($schema=''):  same as above except that it applies to all tables or tables in the specified schema
-3. getFixtures(): returns a list of the available fixtures (table names)
-4. initTable(): populating the table with the available fixture data.
-
-When specifying fixtures to be loaded, we differentiate the following usages:
-a fixture declared in a test case (name => fixture)
-1. If there is a fixture data file, then resetTable() or posts.reset.php will be invoked first
-2. If the fixture is declared as a table (the fixture starts with ':'), then a fixture row
-    can be accessed via $this->name[$i].
-3. If the fixture is declared as a class, then a fixture row can be accessed via $this->name[$i],
-    and an AR record corresponding to an aliased fixture row can be accessed via $this->name($i).
-*/
+/**
+ * CDbFixtureManager manages database fixtures during tests.
+ *
+ * A fixture represents a list of rows for a specific table. For a test method,
+ * using a fixture means that at the begin of the method, the table has and only
+ * has the rows that are given in the fixture. Therefore, the table's state is
+ * predictable.
+ *
+ * A fixture is represented as a PHP script whose name (without suffix) is the
+ * same as the table name (if schema name is needed, it should be prefixed to
+ * the table name). The PHP script returns an array representing a list of table
+ * rows. Each row is an associative array of column values indexed by column names.
+ *
+ * A fixture can be associated with an init script which sits under the same fixture
+ * directory and is named as "TableName.init.php". The init script is used to
+ * initialize the table before populating the fixture data into the table.
+ * If the init script does not exist, the table will be emptied.
+ *
+ * Fixtures must be stored under the {@link basePath} directory. The directory
+ * may contain a file named "init.php" which will be executed once at the beginning
+ * of the test execution.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id$
+ * @package system.test
+ * @since 1.1
+ */
 class CDbFixtureManager extends CApplicationComponent
 {
 	/**
@@ -40,15 +53,15 @@ class CDbFixtureManager extends CApplicationComponent
 	public $basePath;
 	/**
 	 * @var string the ID of the database connection. Defaults to 'db'.
-	 * Note, data in this database will be deleted when the whole test starts.
+	 * Note, data in this database may be deleted or modified during testing.
 	 * Make sure you have a backup database.
 	 */
 	public $connectionID='db';
 	/**
 	 * @var array list of database schemas that the test tables may reside in. Defaults to
 	 * array(''), meaning using the default schema (an empty string refers to the
-	 * default schema). Note, all tables in the schemas will be truncated when the
-	 * whole test starts. Make sure you have a backup database.
+	 * default schema). This property is mainly used when turning on and off integrity checks
+	 * so that fixture data can be populated into the database without causing problem.
 	 */
 	public $schemas=array('');
 
@@ -86,11 +99,9 @@ class CDbFixtureManager extends CApplicationComponent
 
 	/**
 	 * Prepares the fixtures for the whole test.
-	 * This method should be called before tests start and should only be called once.
+	 * This method should be called when tests start and should only be called once.
 	 * The method will execute the database init script if it is available.
-	 * Otherwise, it will call {@link truncateTable} for every table that has a fixture.
-	 * If the init script does not exist, it will truncate tables that have corresponding seed files.
-	 * The method then populates tables with the seed data.
+	 * It will then load every fixture found under {@link basePath}.
 	 */
 	public function prepare()
 	{
@@ -110,7 +121,7 @@ class CDbFixtureManager extends CApplicationComponent
 	/**
 	 * Resets the table to the state that it contains no fixture data.
 	 * If there is an init script named "tests/fixtures/TableName.init.php",
-	 * then this script will be executed.
+	 * the script will be executed.
 	 * Otherwise, {@link truncateTable} will be invoked to delete all rows in the table
 	 * and reset primary key sequence, if any.
 	 * @param string the table name
@@ -129,7 +140,7 @@ class CDbFixtureManager extends CApplicationComponent
 	 * This method will insert rows given in the fixture into the corresponding table.
 	 * The loaded rows will be returned by this method.
 	 * If the table has auto-incremental primary key, each row will contain updated primary key value.
-	 * If the fixture does not exist, this method will return an empty array.
+	 * If the fixture does not exist, this method will return false.
 	 * Note, you may want to call {@link resetTable} before calling this method
 	 * so that the table is emptied first.
 	 * @param string table name
@@ -173,7 +184,9 @@ class CDbFixtureManager extends CApplicationComponent
 	}
 
 	/**
-	 * @return array list of fixture files (table name => file path)
+	 * Returns the names of the tables that have fixture data.
+	 * All fixtures are assumed to be located under {@link basePath}.
+	 * @return array the names of the tables that have fixture data
 	 */
 	public function getFixtures()
 	{
@@ -227,7 +240,7 @@ class CDbFixtureManager extends CApplicationComponent
 			$schema->resetSequence($table,1);
 		}
 		else
-			throw new Exception("Table '$tableName' does not exist.");
+			throw new CException("Table '$tableName' does not exist.");
 	}
 
 	/**
@@ -250,6 +263,8 @@ class CDbFixtureManager extends CApplicationComponent
 	 * {@link resetTable} and then be populated with the fixture data.
 	 * The loaded fixture data may be later retrieved using {@link getRows}
 	 * and {@link getRecord}.
+	 * Note, if a table does not have fixture data, {@link resetTable} will still
+	 * be called to reset the table.
 	 * @param array fixtures to be loaded. The array keys are fixture names,
 	 * and the array values are either AR class names or table names.
 	 * If table names, they must begin with a colon character (e.g. 'Post'
@@ -290,6 +305,12 @@ class CDbFixtureManager extends CApplicationComponent
 		$schema->checkIntegrity(true);
 	}
 
+	/**
+	 * Returns the fixture data rows.
+	 * The rows will have updated primary key values if the primary key is auto-incremental.
+	 * @param string the fixture name
+	 * @return array the fixture data rows. False is returned if there is no such fixture data.
+	 */
 	public function getRows($name)
 	{
 		if(isset($this->_rows[$name]))
@@ -298,6 +319,12 @@ class CDbFixtureManager extends CApplicationComponent
 			return false;
 	}
 
+	/**
+	 * Returns the specified ActiveRecord instance in the fixture data.
+	 * @param string the fixture name
+	 * @param string the alias for the fixture data row
+	 * @return CActiveRecord the ActiveRecord instance. False is returned if there is no such fixture row.
+	 */
 	public function getRecord($name,$alias)
 	{
 		if(isset($this->_records[$name][$alias]))
