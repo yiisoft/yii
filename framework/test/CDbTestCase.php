@@ -88,7 +88,7 @@ class CDbTestCase extends CTestCase
 	 * If you override this method, make sure the parent implementation is invoked.
 	 * Otherwise, the database fixtures will not be managed properly.
 	 */
-	public function setUp()
+	protected function setUp()
 	{
 		parent::setUp();
 		$this->getFixtureManager()->load($this->fixtures);
