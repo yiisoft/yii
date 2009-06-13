@@ -7,7 +7,8 @@ Version 1.1a to be released
 - New: Refactored scenario-based validation and massive assignments (Qiang)
 - New: Added CDbSchema::checkIntegrity() and resetSequence() (Qiang)
 - New: Added phpunit-based testing framework (Qiang)
-- Chg: Changed the default behavior for AR eager loading so that it generates and executes a single SQL statement (Qiang)
+- Chg: Changed AR eager loading so that it generates and executes a single SQL statement by default (Qiang)
+- Chg: Changed AR table aliasing so that it uses relation names as default table aliases (Qiang)
 
 Version 1.0.7 to be released
 ----------------------------
