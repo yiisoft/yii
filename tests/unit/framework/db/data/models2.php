@@ -49,6 +49,13 @@ class Post2 extends CActiveRecord
 		);
 	}
 
+	public function rules()
+	{
+		return array(
+			array('title', 'required'),
+		);
+	}
+
 	public function tableName()
 	{
 		return 'test.posts';

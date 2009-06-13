@@ -66,6 +66,13 @@ class Post extends CActiveRecord
 		);
 	}
 
+	public function rules()
+	{
+		return array(
+			array('title', 'required'),
+		);
+	}
+
 	public function recent($limit=5)
 	{
 		$this->getDbCriteria()->mergeWith(array(
