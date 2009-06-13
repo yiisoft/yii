@@ -43,10 +43,10 @@ class Post extends CActiveRecord
 	{
 		return array(
 			'author'=>array(self::BELONGS_TO, 'User', 'authorId'),
-			'comments'=>array(self::HAS_MANY, 'Comment', 'postId', 'order'=>'??.createTime'),
+			'comments'=>array(self::HAS_MANY, 'Comment', 'postId', 'order'=>'comments.createTime'),
 			'tagFilter'=>array(self::MANY_MANY, 'Tag', 'PostTag(postId, tagId)',
 				'joinType'=>'INNER JOIN',
-				'condition'=>'??.name=:tag'),
+				'condition'=>'tagFilter.name=:tag'),
 		);
 	}
 

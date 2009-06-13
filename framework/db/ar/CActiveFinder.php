@@ -341,8 +341,8 @@ class CJoinElement
 	/**
 	 * Constructor.
 	 * @param CActiveFinder the finder
-	 * @param mixed the relation (if the second parameter is not null)
-	 * or the model (if the second parameter is null) associated with this tree node.
+	 * @param mixed the relation (if the third parameter is not null)
+	 * or the model (if the third parameter is null) associated with this tree node.
 	 * @param CJoinElement the parent tree node
 	 * @param integer the ID of this tree node that is unique among all the tree nodes
 	 */
@@ -355,7 +355,7 @@ class CJoinElement
 			$this->relation=$relation;
 			$this->_parent=$parent;
 			$this->_builder=$parent->_builder;
-			$this->tableAlias=$relation->alias===null?'t'.$id:$relation->alias;
+			$this->tableAlias=$relation->alias===null?$relation->name:$relation->alias;
 			$this->model=CActiveRecord::model($relation->className);
 			$this->_table=$this->model->getTableSchema();
 		}
@@ -442,8 +442,8 @@ class CJoinElement
 			$query->limit=$child->relation->limit;
 			$query->offset=$child->relation->offset;
 			$this->_finder->baseLimited=($query->offset>=0 || $query->limit>=0);
-			$query->groups[]=str_replace($child->relation->aliasToken.'.',$child->tableAlias.'.',$child->relation->group);
-			$query->havings[]=str_replace($child->relation->aliasToken.'.',$child->tableAlias.'.',$child->relation->having);
+			$query->groups[]=$child->relation->group;
+			$query->havings[]=$child->relation->having;
 		}
 		$child->buildQuery($query);
 		$this->_finder->baseLimited=false;
@@ -702,11 +702,7 @@ class CJoinElement
 			}
 		}
 
-		$select=implode(', ',$columns);
-		if($this->relation!==null)
-			return str_replace($this->relation->aliasToken.'.', $prefix, $select);
-		else
-			return $select;
+		return implode(', ',$columns);
 	}
 
 	/**
@@ -741,52 +737,6 @@ class CJoinElement
 				$value=unserialize($value);
 		}
 		return $this->_builder->createInCondition($this->_table,$this->_table->primaryKey,$values,$this->getColumnPrefix());
-	}
-
-	/**
-	 * @return string the WHERE clause. Column references are properly disambiguated.
-	 */
-	public function getCondition()
-	{
-		if($this->relation->condition!=='' && $this->tableAlias!==null)
-			return str_replace($this->relation->aliasToken.'.', $this->tableAlias.'.', $this->relation->condition);
-		else
-			return $this->relation->condition;
-	}
-
-	/**
-	 * @return string the ORDER BY clause. Column references are properly disambiguated.
-	 */
-	public function getOrder()
-	{
-		if($this->relation->order!=='' && $this->tableAlias!==null)
-			return str_replace($this->relation->aliasToken.'.',$this->tableAlias.'.',$this->relation->order);
-		else
-			return $this->relation->order;
-	}
-
-	/**
-	 * @return string the GROUP BY clause. Column references are properly disambiguated.
-	 * @since 1.0.4
-	 */
-	public function getGroupBy()
-	{
-		if($this->relation->group!=='' && $this->tableAlias!==null)
-			return str_replace($this->relation->aliasToken.'.', $this->tableAlias.'.', $this->relation->group);
-		else
-			return $this->relation->group;
-	}
-
-	/**
-	 * @return string the HAVING clause. Column references are properly disambiguated.
-	 * @since 1.0.4
-	 */
-	public function getHaving()
-	{
-		if($this->relation->having!=='' && $this->tableAlias!==null)
-			return str_replace($this->relation->aliasToken.'.', $this->tableAlias.'.', $this->relation->having);
-		else
-			return $this->relation->having;
 	}
 
 	/**
@@ -870,7 +820,7 @@ class CJoinElement
 			$joins[]=$fke->getColumnPrefix().$schema->quoteColumnName($fk) . '=' . $pke->getColumnPrefix().$schema->quoteColumnName($pk);
 		}
 		if(!empty($this->relation->on))
-			$joins[]=str_replace($this->relation->aliasToken.'.', $this->tableAlias.'.', $this->relation->on);
+			$joins[]=$this->relation->on;
 		return $this->relation->joinType . ' ' . $this->getTableNameWithAlias() . ' ON (' . implode(') AND (',$joins).')';
 	}
 
@@ -927,7 +877,7 @@ class CJoinElement
 			$join.=' '.$this->relation->joinType.' '.$this->getTableNameWithAlias();
 			$join.=' ON ('.implode(') AND (',$childCondition).')';
 			if(!empty($this->relation->on))
-				$join.=' AND ('.str_replace($this->relation->aliasToken.'.', $this->tableAlias.'.', $this->relation->on).')';
+				$join.=' AND ('.$this->relation->on.')';
 			return $join;
 		}
 		else
@@ -1024,11 +974,11 @@ class CJoinQuery
 	public function join($element)
 	{
 		$this->selects[]=$element->getColumnSelect($element->relation->select);
-		$this->conditions[]=$element->getCondition();
-		$this->orders[]=$element->getOrder();
+		$this->conditions[]=$element->relation->condition;
+		$this->orders[]=$element->relation->order;
 		$this->joins[]=$element->getJoinCondition();
-		$this->groups[]=$element->getGroupBy();
-		$this->havings[]=$element->getHaving();
+		$this->groups[]=$element->relation->group;
+		$this->havings[]=$element->relation->having;
 
 		if(is_array($element->relation->params))
 		{
