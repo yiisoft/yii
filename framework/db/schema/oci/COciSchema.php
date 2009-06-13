@@ -213,7 +213,7 @@ EOD;
 	protected function findConstraints($table)
 	{
 		$sql=<<<EOD
-		SELECT D.constraint_type, C.COLUMN_NAME, C.position, D.r_constraint_name,
+		SELECT D.constraint_type as CONSTRAINT_TYPE, C.COLUMN_NAME, C.position, D.r_constraint_name,
                 E.table_name as table_ref, f.column_name as column_ref
         FROM ALL_CONS_COLUMNS C
         inner join ALL_constraints D on D.OWNER = C.OWNER and D.constraint_name = C.constraint_name
@@ -227,7 +227,7 @@ EOD;
 		$command=$this->getDbConnection()->createCommand($sql);
 		foreach($command->queryAll() as $row)
 		{
-			if($row['constraint_type']==='R')   // foreign key
+			if($row['CONSTRAINT_TYPE']==='R')   // foreign key
 			{
 				$name = $row["COLUMN_NAME"];
 				$table->foreignKeys[$name]=array($row["TABLE_REF"], array($row["COLUMN_REF"]));
