@@ -551,7 +551,7 @@ class CActiveRecord2Test extends CTestCase
 			'select'=>'title',
 			'condition'=>'posts.id=:id',
 			'limit'=>1,
-			'offset'=>1,
+			'offset'=>2,
 			'order'=>'posts.title',
 			'params'=>array(':id'=>2)));
 		$this->assertTrue($posts===array());

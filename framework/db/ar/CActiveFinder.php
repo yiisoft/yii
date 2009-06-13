@@ -32,7 +32,7 @@ class CActiveFinder extends CComponent
 	 * This property is internally used.
 	 * @since 1.0.2
 	 */
-	public $baseLimited;
+	public $baseLimited=false;
 
 	private $_joinCount=0;
 	private $_joinTree;
@@ -56,20 +56,16 @@ class CActiveFinder extends CComponent
 
 	/**
 	 * Uses the most aggressive join approach.
-	 * By default, several join statements may be generated in order to avoid
-	 * fetching duplicated data. By calling this method, all tables will be joined
-	 * together all at once.
-	 * @param boolean whether we should enforce join even when a limit option is placed on the primary table query.
-	 * Defaults to true. If false, we would still use two queries when there is a HAS_MANY/MANY_MANY relation and
-	 * the primary table has a LIMIT option. This parameter is available since version 1.0.3.
+	 * By calling this method, even if there is LIMIT/OFFSET option set for
+	 * the primary table query, we will still use a single SQL statement.
+	 * By default (without calling this method), the primary table will be queried
+	 * by itself so that LIMIT/OFFSET can be correctly applied.
 	 * @return CActiveFinder the finder object
 	 * @since 1.0.2
 	 */
-	public function together($ignoreLimit=true)
+	public function together()
 	{
 		$this->joinAll=true;
-		if($ignoreLimit)
-			$this->baseLimited=false;
 		return $this;
 	}
 
@@ -393,9 +389,9 @@ class CJoinElement
 		if($this->_parent===null) // root element
 		{
 			$query=new CJoinQuery($this,$criteria);
-			if($this->_finder->baseLimited===null)
-				$this->_finder->baseLimited=($criteria->offset>=0 || $criteria->limit>=0);
+			$this->_finder->baseLimited=($criteria->offset>=0 || $criteria->limit>=0);
 			$this->buildQuery($query);
+			$this->_finder->baseLimited=false;
 			$this->runQuery($query);
 		}
 		else if(!$this->_joined && !empty($this->_parent->records)) // not joined before
@@ -445,12 +441,12 @@ class CJoinElement
 		{
 			$query->limit=$child->relation->limit;
 			$query->offset=$child->relation->offset;
-			if($this->_finder->baseLimited===null)
-				$this->_finder->baseLimited=($query->offset>=0 || $query->limit>=0);
+			$this->_finder->baseLimited=($query->offset>=0 || $query->limit>=0);
 			$query->groups[]=str_replace($child->relation->aliasToken.'.',$child->tableAlias.'.',$child->relation->group);
 			$query->havings[]=str_replace($child->relation->aliasToken.'.',$child->tableAlias.'.',$child->relation->having);
 		}
 		$child->buildQuery($query);
+		$this->_finder->baseLimited=false;
 		$this->runQuery($query);
 		foreach($child->children as $c)
 			$c->find();
@@ -543,7 +539,7 @@ class CJoinElement
 		foreach($this->children as $child)
 		{
 			if($child->relation instanceof CHasOneRelation || $child->relation instanceof CBelongsToRelation
-				|| $child->relation->together || ($this->_finder->joinAll && !$this->_finder->baseLimited))
+				|| $this->_finder->joinAll || !$this->_finder->baseLimited && $child->relation->together)
 			{
 				$child->_joined=true;
 				$query->join($child);

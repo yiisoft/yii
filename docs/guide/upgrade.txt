@@ -24,3 +24,15 @@ used, instead.
 - Removed CModel::getValidatorsForAttribute(). Please use CModel::getValidators() instead.
 
 - Removed CHtml::scenario
+
+
+Changes Related with Eager Loading for Relational Active Record
+---------------------------------------------------------------
+
+- By default, a single JOIN statement will be generated and executed
+for all relations involved in the eager loading. If the primary table
+has its `LIMIT` or `OFFSET` query option set, it will be queried alone
+first, followed by another SQL statement that brings back all its related
+objects. Previsoulay in version 1.0.x, the default behavior is that
+there will be `N+1` SQL statements if an eager loading involves
+`N` `HAS_MANY` or `MANY_MANY` relations.
