@@ -387,12 +387,9 @@ abstract class CActiveRecord extends CModel
 	 * <li>'with': string|array, a list of child related objects that should be loaded together with this object.
 	 *   Note, this is only honored by lazy loading, not eager loading.</li>
 	 * <li>'joinType': type of join. Defaults to 'LEFT OUTER JOIN'.</li>
-	 * <li>'aliasToken': the column prefix for column reference disambiguation. Defaults to '??.'.</li>
 	 * <li>'alias': the alias for the table associated with this relationship.
 	 *   This option has been available since version 1.0.1. It defaults to null,
-	 *   meaning the table alias is automatically generated. This is different
-	 *   from `aliasToken` in that the latter is just a placeholder and will be
-	 *   replaced by the actual table alias.</li>
+	 *   meaning the table alias is the same as the relation name.</li>
      * <li>'params': the parameters to be bound to the generated SQL statement.
 	 *   This should be given as an array of name-value pairs. This option has been
 	 *   available since version 1.0.3.</li>
@@ -1604,17 +1601,10 @@ class CActiveRelation extends CBaseActiveRelation
 	public $on='';
 	/**
 	 * @var string the alias for the table that this relation refers to. Defaults to null, meaning
-	 * the alias will be generated automatically. If you set this property explicitly, make sure
-	 * the alias is unique globally.
-	 * @see aliasToken
+	 * the alias will be the same as the relation name.
 	 * @since 1.0.1
 	 */
 	public $alias;
-	/**
-	 * @var string the column prefix placeholder. It will be replaced by the corresponding table alias.
-	 * @see alias
-	 */
-	public $aliasToken='??';
 	/**
 	 * @var string|array specifies which related objects should be eagerly loaded when this related object is lazily loaded.
 	 * For more details about this property, see {@link CActiveRecord::with()}.
@@ -1655,9 +1645,6 @@ class CActiveRelation extends CBaseActiveRelation
 
 		if(isset($criteria['alias']))
 			$this->alias=$criteria['alias'];
-
-		if(isset($criteria['aliasToken']))
-			$this->aliasToken=$criteria['aliasToken'];
 
 		if(isset($criteria['together']))
 			$this->together=$criteria['together'];

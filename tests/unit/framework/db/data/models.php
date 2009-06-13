@@ -45,8 +45,8 @@ class Post extends CActiveRecord
 	{
 		return array(
 			'author'=>array(self::BELONGS_TO,'User','author_id'),
-			'firstComment'=>array(self::HAS_ONE,'Comment','post_id','order'=>'??.content'),
-			'comments'=>array(self::HAS_MANY,'Comment','post_id','order'=>'??.content DESC'),
+			'firstComment'=>array(self::HAS_ONE,'Comment','post_id','order'=>'firstComment.content'),
+			'comments'=>array(self::HAS_MANY,'Comment','post_id','order'=>'comments.content DESC'),
 			'commentCount'=>array(self::STAT,'Comment','post_id'),
 			'categories'=>array(self::MANY_MANY,'Category','post_category(post_id,category_id)'),
 		);
@@ -150,7 +150,7 @@ class PostExt extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'comments'=>array(self::HAS_MANY,'Comment','post_id','order'=>'??.content DESC','with'=>array('post','author.posts.author')),
+			'comments'=>array(self::HAS_MANY,'Comment','post_id','order'=>'comments.content DESC','with'=>array('post'=>array('alias'=>'post'), 'author')),
 		);
 	}
 }
@@ -233,7 +233,7 @@ class Item extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'order'=>array(self::BELONGS_TO,'Order','col1, col2'),
+			'order'=>array(self::BELONGS_TO,'Order','col1, col2','alias'=>'_order'),
 		);
 	}
 

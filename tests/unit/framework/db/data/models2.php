@@ -43,9 +43,9 @@ class Post2 extends CActiveRecord
 	{
 		return array(
 			'author'=>array(self::BELONGS_TO,'User2','author_id'),
-			'firstComment'=>array(self::HAS_ONE,'Comment2','post_id','order'=>'??.content'),
-			'comments'=>array(self::HAS_MANY,'Comment2','post_id','order'=>'??.content DESC'),
-			'categories'=>array(self::MANY_MANY,'Category2','test.post_category(post_id,category_id)','order'=>'??.id DESC'),
+			'firstComment'=>array(self::HAS_ONE,'Comment2','post_id','order'=>'firstComment.content'),
+			'comments'=>array(self::HAS_MANY,'Comment2','post_id','order'=>'comments.content DESC'),
+			'categories'=>array(self::MANY_MANY,'Category2','test.post_category(post_id,category_id)','order'=>'categories.id DESC'),
 		);
 	}
 
@@ -80,7 +80,7 @@ class PostExt2 extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'comments'=>array(self::HAS_MANY,'Comment2','post_id','order'=>'??.content DESC','with'=>array('post','author.posts.author')),
+			'comments'=>array(self::HAS_MANY,'Comment2','post_id','order'=>'comments.content DESC','with'=>array('post'=>array('alias'=>'post'), 'author')),
 		);
 	}
 }
@@ -161,7 +161,7 @@ class Item2 extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'order'=>array(self::BELONGS_TO,'Order2','col1, col2'),
+			'order'=>array(self::BELONGS_TO,'Order2','col1, col2','alias'=>'_order'),
 		);
 	}
 
