@@ -73,7 +73,7 @@ EOD;
 		$content=$this->stripComments($content);
 		$content=preg_replace('/^require(_once)?.*\s*;\s*$/mu','',$content);
 		$content=preg_replace('/^\s*Yii::trace.*\s*;\s*$/mu','',$content);
-		$content=preg_replace('/^\s*Yii::(begin|end)Profile.*\s*;\s*$/mu','',$content);
+//		$content=preg_replace('/^\s*Yii::(begin|end)Profile.*\s*;\s*$/mu','',$content);
 		$content=$this->stripEmptyLines($content);
 		$content=substr_replace($content,$comments,5,0);
 		file_put_contents(YII_PATH.DIRECTORY_SEPARATOR.'yiilite.php',$content);

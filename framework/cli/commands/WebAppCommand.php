@@ -52,7 +52,10 @@ EOD;
 		$dir=realpath(dirname($path));
 		if($dir===false || !is_dir($dir))
 			$this->usageError("The directory '$path' is not valid. Please make sure the parent directory exists.");
-		$this->_rootPath=$path=$dir.DIRECTORY_SEPARATOR.basename($path);
+		if(basename($path)==='.')
+			$this->_rootPath=$path=$dir;
+		else
+			$this->_rootPath=$path=$dir.DIRECTORY_SEPARATOR.basename($path);
 		echo "Create a Web application under '$path'? [Yes|No] ";
 		if(!strncasecmp(trim(fgets(STDIN)),'y',1))
 		{
