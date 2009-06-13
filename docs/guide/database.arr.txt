@@ -215,35 +215,6 @@ categories. It will also bring back each author's profile and posts.
 > Note: The usage of the [with()|CActiveRecord::with] method has been changed
 > since version 1.0.2. Please read the corresponding API documentation carefully.
 
-The AR implementation in Yii is very efficient. When eager loading
-a hierarchy of related objects involving `N` `HAS_MANY` or `MANY_MANY`
-relationships, it will take `N+1` SQL queries to obtain the needed results.
-This means it needs to execute 3 SQL queries in the last example because of
-the `posts` and `categories` properties. Other frameworks take a more
-radical approach by using only one SQL query. At first look, the radical approach
-seems more efficient because fewer queries are being parsed and executed by
-DBMS. It is in fact impractical in reality for two reasons. First, there
-are many repetitive data columns in the result which takes extra time to
-transmit and process. Second, the number of rows in the result set grows
-exponentially with the number of tables involved, which makes it simply
-unmanageable as more relationships are involved.
-
-Since version 1.0.2, you can also enforce the relational query to be done with
-only one SQL query. Simply append a [together()|CActiveFinder::together] call
-after [with()|CActiveRecord::with]. For example,
-
-~~~
-[php]
-$posts=Post::model()->with(
-	'author.profile',
-	'author.posts',
-	'categories')->together()->findAll();
-~~~
-
-The above query will be done in one SQL query. Without calling [together|CActiveFinder::together],
-this will need two SQL queries: one joins `Post`, `User` and `Profile` tables,
-and the other joins `User` and `Post` tables.
-
 
 Relational Query Options
 ------------------------
@@ -292,7 +263,11 @@ from `aliasToken` in that the latter is just a placeholder and will be
 replaced by the actual table alias.
 
    - `together`: whether the table associated with this relationship should
-be forced to join together with the primary table. This option is only meaningful for HAS_MANY and MANY_MANY relations. If this option is not set or false, each HAS_MANY or MANY_MANY relation will have their own JOIN statement to improve performance. This option has been available since version 1.0.3.
+be forced to join together with the primary table. This option is only meaningful
+for HAS_MANY and MANY_MANY relations. If this option is set false,
+each HAS_MANY or MANY_MANY relation will have their own JOIN statement,
+which may improve overall query performance. For more details, see the section
+"Relational Query Performance". This option has been available since version 1.0.3.
 
    - `group`: the `GROUP BY` clause. It defaults to empty. Note, column
 references need to be disambiguated using `aliasToken` (e.g. `??.age`).
@@ -344,6 +319,7 @@ use a placeholder to indicate the existence of a column which needs to be
 disambiguated. AR will replace the placeholder with a suitable table alias
 and properly disambiguate the column.
 
+
 Dynamic Relational Query Options
 --------------------------------
 
@@ -370,6 +346,67 @@ Starting from version 1.0.5, dynamic query options can also be used when using t
 $user=User::model()->findByPk(1);
 $posts=$user->posts(array('condition'=>'status=1'));
 ~~~
+
+
+Relational Query Performance
+----------------------------
+
+As we described above, the eager loading approach is mainly used in the scenario
+when we need to access many related objects. It generates a big complex SQL statement
+by joining all needed tables. A big SQL statement is preferrable in many cases
+since it simplifies filtering based on a column in a related table.
+It may not be efficient in some cases, however.
+
+Consider an example where we need to find the latest posts together with their comments.
+Assuming each post has 10 comments, using a single big SQL statement, we will bring back
+a lot of redundant post data since each post will be repeated for every comment it has.
+Now let's try another approach: we first query for the latest posts, and then query for their comments.
+In this new approach, we need to execute two SQL statements. The benefit is that there is
+no redundancy in the query results.
+
+So which approach is more efficient? There is no absolute answer. Executing a single big SQL statement
+may be more efficient because it causes less overhead in DBMS for yparsing and executing
+the SQL statements. On the other hand, using the single SQL statement, we end up with more redundant data
+and thus need more time to read and process them.
+
+For this reason, Yii provides the `together` query option so that we choose between the two approaches as needed.
+By default, Yii adopts the first approach, i.e., generating a single SQL statement to perform
+eager loading. We can set the `together` option to be false in the relation declarations so that some of
+tables are joined in separate SQL statements. For example, in order to use the second approach
+to query for the latest posts with their comments, we can declare the `comments` relation
+in `Post` class as follows,
+
+~~~
+[php]
+public function relations()
+{
+	return array(
+		'comments' => array(self::HAS_MANY, 'Comment', 'postID', 'together'=>false),
+	);
+}
+~~~
+
+We can also dynamically set this option when we perform the eager loading:
+
+~~~
+[php]
+$posts = Post::model()->with(array('comments'=>array('together'=>false)))->findAll();
+~~~
+
+> Note: In version 1.0.x, the default behavior is that Yii will generate and
+> execute `N+1` SQL statements if there are `N` `HAS_MANY` or `MANY_MANY` relations.
+> Each `HAS_MANY` or `MANY_MANY` relation has its own SQL statement. By calling
+> the `together()` method after `with()`, we can enforce only a single SQL statement
+> is generated and executed. For example,
+>
+> ~~~
+> [php]
+> $posts=Post::model()->with(
+> 	'author.profile',
+> 	'author.posts',
+> 	'categories')->together()->findAll();
+> ~~~
+>
 
 
 Statistical Query
