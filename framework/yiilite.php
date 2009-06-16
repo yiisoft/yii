@@ -5940,9 +5940,7 @@ class CActiveRelation extends CBaseActiveRelation
 	public $joinType='LEFT OUTER JOIN';
 	public $on='';
 	public $alias;
-	public $aliasToken='??';
 	public $with=array();
-	public $together;
 	public function mergeWith($criteria)
 	{
 		if(isset($criteria['condition']) && $this->on!==$criteria['condition'])
@@ -5967,8 +5965,6 @@ class CActiveRelation extends CBaseActiveRelation
 			$this->with=$criteria['with'];
 		if(isset($criteria['alias']))
 			$this->alias=$criteria['alias'];
-		if(isset($criteria['aliasToken']))
-			$this->aliasToken=$criteria['aliasToken'];
 		if(isset($criteria['together']))
 			$this->together=$criteria['together'];
 	}
@@ -5983,6 +5979,7 @@ class CHasManyRelation extends CActiveRelation
 {
 	public $limit=-1;
 	public $offset=-1;
+	public $together=true;
 	public function mergeWith($criteria)
 	{
 		parent::mergeWith($criteria);
@@ -6394,6 +6391,14 @@ abstract class CDbSchema extends CComponent
 			$name2=substr($name2,$pos+1);
 		return $name1===$name2;
 	}
+	public function resetSequence($table,$value=null)
+	{
+		throw new CDbException(Yii::t('yii','Resetting PK sequence is not supported.'));
+	}
+	public function checkIntegrity($check=true,$schema='')
+	{
+		throw new CDbException(Yii::t('yii','Setting integrity check is not supported.'));
+	}
 	protected function createCommandBuilder()
 	{
 		return new CDbCommandBuilder($this);
@@ -6406,6 +6411,22 @@ abstract class CDbSchema extends CComponent
 }
 class CSqliteSchema extends CDbSchema
 {
+	public function resetSequence($table,$value=null)
+	{
+		if($table->sequenceName!==null)
+		{
+			if($value===null)
+				$value=$this->getDbConnection()->createCommand("SELECT MAX(`{$table->primaryKey}`) FROM {$table->rawName}")->queryScalar();
+			else
+				$value=(int)$value-1;
+			$this->getDbConnection()->createCommand("UPDATE sqlite_sequence SET seq='$value' WHERE name='{$table->name}'")->execute();
+		}
+	}
+	public function checkIntegrity($check=true,$schema='')
+	{
+		// SQLite doesn't enforce integrity
+		return;
+	}
 	protected function findTableNames($schema='')
 	{
 		$sql="SELECT DISTINCT tbl_name FROM sqlite_master WHERE tbl_name<>'sqlite_sequence'";
@@ -6577,6 +6598,7 @@ class CDbCommand extends CComponent
 		try
 		{
 			if($this->_connection->enableProfiling)
+				Yii::beginProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
 			if($this->_statement instanceof PDOStatement)
 			{
 				$this->_statement->execute();
@@ -6585,11 +6607,13 @@ class CDbCommand extends CComponent
 			else
 				$n=$this->getConnection()->getPdoInstance()->exec($this->getText());
 			if($this->_connection->enableProfiling)
+				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
 			return $n;
 		}
 		catch(Exception $e)
 		{
 			if($this->_connection->enableProfiling)
+				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
 			Yii::log('Error in executing SQL: '.$this->getText().$params,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
 				array('{error}'=>$e->getMessage())));
@@ -6625,6 +6649,7 @@ class CDbCommand extends CComponent
 		try
 		{
 			if($this->_connection->enableProfiling)
+				Yii::beginProfile('system.db.CDbCommand.query('.$this->getText().')','system.db.CDbCommand.query');
 			if($this->_statement instanceof PDOStatement)
 				$this->_statement->execute();
 			else
@@ -6637,11 +6662,13 @@ class CDbCommand extends CComponent
 				$this->_statement->closeCursor();
 			}
 			if($this->_connection->enableProfiling)
+				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().')','system.db.CDbCommand.query');
 			return $result;
 		}
 		catch(Exception $e)
 		{
 			if($this->_connection->enableProfiling)
+				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().')','system.db.CDbCommand.query');
 			Yii::log('Error in querying SQL: '.$this->getText().$params,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
 				array('{error}'=>$e->getMessage())));
