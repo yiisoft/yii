@@ -64,8 +64,7 @@ EOD;
 				die('Unable to locate the source directory.');
 			$list=$this->buildFileList($sourceDir,$path);
 			$list['index.php']['callback']=array($this,'generateIndex');
-			$list['protected/tests/unit/bootstrap.php']['callback']=array($this,'generateTestBoostrap');
-			$list['protected/tests/functional/bootstrap.php']['callback']=array($this,'generateTestBoostrap');
+			$list['protected/tests/bootstrap.php']['callback']=array($this,'generateTestBoostrap');
 			$list['protected/yiic.php']['callback']=array($this,'generateYiic');
 			$this->copyFiles($list);
 			@chmod($path.'/assets',0777);
@@ -88,7 +87,7 @@ EOD;
 	{
 		$content=file_get_contents($source);
 		$yii=realpath(dirname(__FILE__).'/../../yiit.php');
-		$yii=$this->getRelativePath($yii,$this->_rootPath.DIRECTORY_SEPARATOR.'tests'.DIRECTORY_SEPARATOR.'unit'.DIRECTORY_SEPARATOR.'index.php');
+		$yii=$this->getRelativePath($yii,$this->_rootPath.DIRECTORY_SEPARATOR.'tests'.DIRECTORY_SEPARATOR.'bootstrap.php');
 		$yii=str_replace('\\','\\\\',$yii);
 		return preg_replace('/\$yiit\s*=(.*?);/',"\$yiit=$yii;",$content);
 	}
