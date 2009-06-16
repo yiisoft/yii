@@ -5,8 +5,8 @@
 define('TEST_BASE_URL','http://localhost/yii/demos/blog/index-test.php/');
 
 // Change the following paths if necessary
-$yiit=dirname(__FILE__).'/../../../../../framework/yiit.php';
-$config=dirname(__FILE__).'/../../config/test.php';
+$yiit=dirname(__FILE__).'/../../../../framework/yiit.php';
+$config=dirname(__FILE__).'/../config/test.php';
 
 require_once($yiit);
 
