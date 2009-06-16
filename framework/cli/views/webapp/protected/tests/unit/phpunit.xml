@@ -5,8 +5,4 @@
 		convertWarningsToExceptions="true"
 		stopOnFailure="false">
 
-	<testsuite name="My unit tests">
-		<directory>./models</directory>
-	</testsuite>
-
 </phpunit>

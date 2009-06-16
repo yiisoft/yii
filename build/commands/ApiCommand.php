@@ -67,6 +67,7 @@ EOD;
 			'exclude'=>array(
 				'.svn',
 				'/yiilite.php',
+				'/yiit.php',
 				'/cli',
 				'/i18n/data',
 				'/messages',

@@ -11,6 +11,7 @@ return array(
 	'exclude'=>array(
 		'.svn',
 		'yiilite.php',
+		'yiit.php',
 		'/i18n/data',
 		'/messages',
 		'/vendors',

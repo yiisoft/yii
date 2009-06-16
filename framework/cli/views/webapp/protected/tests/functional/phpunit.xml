@@ -5,4 +5,9 @@
 		convertWarningsToExceptions="true"
 		stopOnFailure="false">
 
+	<selenium>
+		<browser name="Internet Explorer" browser="*iexplore" />
+		<browser name="Firefox" browser="*firefox" />
+	</selenium>
+
 </phpunit>
