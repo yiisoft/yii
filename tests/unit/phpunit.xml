@@ -4,9 +4,4 @@
 		convertNoticesToExceptions="true"
 		convertWarningsToExceptions="true"
 		stopOnFailure="false">
-
-	<testsuite name="Yii Framework Core Code">
-		<directory>./framework</directory>
-	</testsuite>
-
 </phpunit>
