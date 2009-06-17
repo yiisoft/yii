@@ -16,20 +16,25 @@ In order to run these tests, the following requirements must be met:
 
 
 Depending on your installation of Yii release, you may need to modify
-the file "bootstrap.php" so that the "TEST_BASE_URL" constant contains
-correct value.
+the file "WebTestCase.php" so that the "TEST_BASE_URL" constant contains
+correct value. You may also modify "phpunit.xml" to specify the browsers
+you intend to run the functional tests on.
 
 To run these tests, please refer to PHPUnit documentation. The followings
 are some examples:
 
- - Executes all unit tests:
+ - Executes all tests under the "unit" directory with verbose information:
 
-	phpunit unit
+	phpunit --verbose unit
 
- - Executes all functional tests (make sure Selenium RC is running):
+ - Executes all tests under "functional" (make sure Selenium RC is running):
 
 	phpunit functional
 
- - Executes a particular functional test:
+ - Executes a particular test:
 
 	phpunit functional/PostTest.php
+
+
+NOTE: the test cases included here are by no means complete. They mainly serve
+for demonstration purpose.

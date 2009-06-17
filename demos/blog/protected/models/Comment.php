@@ -124,7 +124,7 @@ class Comment extends CActiveRecord
 		if($this->status==Comment::STATUS_PENDING)
 		{
 			$this->status=Comment::STATUS_APPROVED;
-			$this->save();
+			$this->update(array('status'));
 			Post::model()->updateCounters(array('commentCount'=>1), "id={$this->postId}");
 		}
 	}
