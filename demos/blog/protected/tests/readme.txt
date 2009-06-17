@@ -8,6 +8,8 @@ This directory contains unit and functional tests for the blog demo.
 
  - unit: contains unit test cases.
 
+ - report: contains any coverage reports.
+
 
 In order to run these tests, the following requirements must be met:
 

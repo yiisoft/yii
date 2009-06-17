@@ -18,6 +18,6 @@ require_once('PHPUnit/Framework/TestCase.php');
  * @package system.test
  * @since 1.1
  */
-class CTestCase extends PHPUnit_Framework_TestCase
+abstract class CTestCase extends PHPUnit_Framework_TestCase
 {
 }
