@@ -21,7 +21,7 @@ require_once('PHPUnit/Extensions/SeleniumTestCase.php');
  * @package system.test
  * @since 1.1
  */
-class CWebTestCase extends PHPUnit_Extensions_SeleniumTestCase
+abstract class CWebTestCase extends PHPUnit_Extensions_SeleniumTestCase
 {
 	/**
 	 * @var array a list of fixtures that should be loaded before each test method executes.

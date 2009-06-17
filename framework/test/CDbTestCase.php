@@ -36,7 +36,7 @@ Yii::import('system.test.CTestCase');
  * @package system.test
  * @since 1.1
  */
-class CDbTestCase extends CTestCase
+abstract class CDbTestCase extends CTestCase
 {
 	/**
 	 * @var array a list of fixtures that should be loaded before each test method executes.
