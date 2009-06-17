@@ -157,6 +157,16 @@ array(
 ~~~
 
 
+Starting from version 1.0.7, Yii supports logging call stack information in the messages that are
+logged by calling `Yii::trace`. This feature is disabled by default because it lowers performance.
+To use this feature, simply define a constant named `YII_TRACE_LEVEL` at the beginning of the entry
+script (before including `yii.php`) to be an integer greater than 0. Yii will then append to
+every trace message with the file name and line number of the call stacks belonging to application
+code. The number `YII_TRACE_LEVEL` determines how many layers of each call stack should be recorded.
+This information is particularly useful during development stage as it can help us identify the
+places that trigger the trace messages.
+
+
 Performance Profiling
 ---------------------
 

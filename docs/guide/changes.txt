@@ -3,6 +3,12 @@ New Features
 
 This page summarizes the main new features introduced in each Yii release.
 
+Version 1.0.7
+-------------
+
+ * Added support for displaying call stack information in trace messages
+     - [Logging Context Information](/doc/guide/topics.logging#logging-context-information)
+
 Version 1.0.6
 -------------
 
