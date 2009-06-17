@@ -24,7 +24,7 @@ defined('YII_DEBUG') or define('YII_DEBUG',false);
  * Defaults to 0, meaning no backtrace information. If it is greater than 0,
  * at most that number of call stacks will be logged. Note, only user application call stacks are considered.
  */
-defined('Yii_TRACE_LEVEL') or define('YII_TRACE_LEVEL',3);
+defined('Yii_TRACE_LEVEL') or define('YII_TRACE_LEVEL',0);
 /**
  * This constant defines whether exception handling should be enabled. Defaults to true.
  */
