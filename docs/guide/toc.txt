@@ -45,6 +45,12 @@
     - [Creating Extensions](extension.create)
     - [Using 3rd-Party Libraries](extension.integration)
 
+* Testing
+	- [Overview](test.overview)
+	- [Defining Fixtures](test.fixture)
+	- [Unit Testing](test.unit)
+	- [Functional Testing](test.functional)
+
 * Special Topics
     - [URL Management](topics.url)
     - [Authentication and Authorization](topics.auth)
