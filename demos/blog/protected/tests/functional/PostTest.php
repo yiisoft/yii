@@ -2,9 +2,12 @@
 
 class PostTest extends WebTestCase
 {
+	/**
+	 * We use the 'Post' only for this test.
+	 * @see CWebTestCase::fixtures
+	 */
 	public $fixtures=array(
 		'posts'=>'Post',
-		'comments'=>'Comment',
 	);
 
 	public function testList()
@@ -154,29 +157,5 @@ class PostTest extends WebTestCase
 		$this->assertConfirmationPresent("Are you sure to delete this post?");
 		$this->getConfirmation(); // close the dialog
 		$this->assertTextNotPresent($this->posts['sample1']['title']);
-	}
-
-	public function testAdmin()
-	{
-
-	}
-
-	protected function login()
-	{
-		$this->type('name=LoginForm[username]','demo');
-		$this->type('name=LoginForm[password]','demo');
-		$this->clickAndWait("//input[@value='Login']");
-	}
-
-	protected function logout()
-	{
-		if($this->isElementPresent("link=Logout"))
-			$this->clickAndWait("link=Logout");
-	}
-
-	protected function ensureLogout()
-	{
-		$this->open('');
-		$this->logout();
 	}
 }

@@ -64,6 +64,7 @@ EOD;
 				die('Unable to locate the source directory.');
 			$list=$this->buildFileList($sourceDir,$path);
 			$list['index.php']['callback']=array($this,'generateIndex');
+			$list['index-test.php']['callback']=array($this,'generateIndex');
 			$list['protected/tests/bootstrap.php']['callback']=array($this,'generateTestBoostrap');
 			$list['protected/yiic.php']['callback']=array($this,'generateYiic');
 			$this->copyFiles($list);
