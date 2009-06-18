@@ -1,7 +1,7 @@
 Defining Fixtures
 =================
 
-One of the most time-consuming parts of writing tests is preparing the environment so that the tests start execution in some known state. This known state is called the *fixture* of the tests.
+One of the most time-consuming parts of writing tests is preparing the environment so that the tests start execution in some known state. This known state is called the *fixture* of the tests. The [PHPUnit documentation](http://www.phpunit.de/wiki/Documentation) has described well about generic fixture setup. In this section, we describe how to set up database fixtures, which is a common and difficult task in database-driven applications.
 
 
 
