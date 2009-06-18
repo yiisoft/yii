@@ -47,11 +47,11 @@ class CCacheHttpSession extends CHttpSession
 	 */
 	public function init()
 	{
-		parent::init();
 		$this->_cache=Yii::app()->getComponent($this->cacheID);
 		if(!($this->_cache instanceof ICache))
 			throw new CException(Yii::t('yii','CCacheHttpSession.cacheID is invalid. Please make sure "{id}" refers to a valid cache application component.',
 				array('{id}'=>$this->cacheID)));
+		parent::init();
 	}
 
 	/**

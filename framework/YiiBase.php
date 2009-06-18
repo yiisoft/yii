@@ -20,6 +20,12 @@ defined('YII_BEGIN_TIME') or define('YII_BEGIN_TIME',microtime(true));
  */
 defined('YII_DEBUG') or define('YII_DEBUG',false);
 /**
+ * This constant defines how much call stack information (file name and line number) should be logged by Yii::trace().
+ * Defaults to 0, meaning no backtrace information. If it is greater than 0,
+ * at most that number of call stacks will be logged. Note, only user application call stacks are considered.
+ */
+defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',0);
+/**
  * This constant defines whether exception handling should be enabled. Defaults to true.
  */
 defined('YII_ENABLE_EXCEPTION_HANDLER') or define('YII_ENABLE_EXCEPTION_HANDLER',true);
@@ -323,7 +329,27 @@ class YiiBase
 	public static function trace($msg,$category='application')
 	{
 		if(YII_DEBUG)
+		{
+			if(YII_TRACE_LEVEL>0)
+			{
+				$traces=debug_backtrace();
+				$count=0;
+				foreach($traces as $trace)
+				{
+					if(isset($trace['file'],$trace['line']))
+					{
+						$className=substr(basename($trace['file']),0,-4);
+						if(!isset(self::$_coreClasses[$className]) && $className!=='YiiBase')
+						{
+							$msg.="\nin ".$trace['file'].' ('.$trace['line'].')';
+							if(++$count>=YII_TRACE_LEVEL)
+								break;
+						}
+					}
+				}
+			}
 			self::log($msg,CLogger::LEVEL_TRACE,$category);
+		}
 	}
 
 	/**

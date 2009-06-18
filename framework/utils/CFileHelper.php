@@ -198,8 +198,6 @@ class CFileHelper
 		{
 			if($info=finfo_open(FILEINFO_MIME))
 				return finfo_file($info,$file);
-			else
-				return null;
 		}
 
 		if(function_exists('mime_content_type'))

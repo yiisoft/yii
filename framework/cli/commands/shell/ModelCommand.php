@@ -210,7 +210,7 @@ EOD;
 	 */
 	protected function generateRelationName($tableName, $fkName, $multiple)
 	{
-		if(strcasecmp(substr($fkName,-2),'id')===0)
+		if(strcasecmp(substr($fkName,-2),'id')===0 && strcasecmp($fkName,'id'))
 			$relationName=rtrim(substr($fkName, 0, -2),'_');
 		else
 			$relationName=$fkName;
