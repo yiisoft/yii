@@ -39,14 +39,16 @@
 class CDbFixtureManager extends CApplicationComponent
 {
 	/**
-	 * The name of the initialization script for the whole test execution.
+	 * @var string the name of the initialization script that would be executed before the whole test set runs.
+	 * Defaults to 'init.php'. If the script does not exist, every table with a fixture file will be reset.
 	 */
-	const INIT_SCRIPT='init.php';
+	public $initScript='init.php';
 	/**
-	 * The suffix for fixture initialization scripts.
+	 * @var string the suffix for fixture initialization scripts.
+	 * If a table is associated with such a script whose name is TableName suffixed this property value,
+	 * then the script will be executed each time before the table is reset.
 	 */
-	const INIT_SCRIPT_SUFFIX='.init.php';
-
+	public $initScriptSuffix='.init.php';
 	/**
 	 * @var string the base path containing all fixtures. Defaults to null, meaning
 	 * the path 'protected/tests/fixtures'.
@@ -106,7 +108,7 @@ class CDbFixtureManager extends CApplicationComponent
 	 */
 	public function prepare()
 	{
-		$initFile=$this->basePath . DIRECTORY_SEPARATOR . self::INIT_SCRIPT;
+		$initFile=$this->basePath . DIRECTORY_SEPARATOR . $this->initScript;
 
 		$this->checkIntegrity(false);
 
@@ -130,7 +132,7 @@ class CDbFixtureManager extends CApplicationComponent
 	 */
 	public function resetTable($tableName)
 	{
-		$initFile=$this->basePath . DIRECTORY_SEPARATOR . $tableName . self::INIT_SCRIPT_SUFFIX;
+		$initFile=$this->basePath . DIRECTORY_SEPARATOR . $tableName . $this->initScriptSuffix;
 		if(is_file($initFile))
 			require($initFile);
 		else
@@ -197,13 +199,13 @@ class CDbFixtureManager extends CApplicationComponent
 			$this->_fixtures=array();
 			$schema=$this->getDbConnection()->getSchema();
 			$folder=opendir($this->basePath);
-			$suffixLen=strlen(self::INIT_SCRIPT_SUFFIX);
+			$suffixLen=strlen($this->initScriptSuffix);
 			while($file=readdir($folder))
 			{
-				if($file==='.' || $file==='..' || $file===self::INIT_SCRIPT)
+				if($file==='.' || $file==='..' || $file===$this->initScript)
 					continue;
 				$path=$this->basePath.DIRECTORY_SEPARATOR.$file;
-				if(substr($file,-4)==='.php' && is_file($path) && substr($file,-$suffixLen)!==self::INIT_SCRIPT_SUFFIX)
+				if(substr($file,-4)==='.php' && is_file($path) && substr($file,-$suffixLen)!==$this->initScriptSuffix)
 				{
 					$tableName=substr($file,0,-4);
 					if($schema->getTable($tableName)!==null)
