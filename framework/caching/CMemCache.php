@@ -107,7 +107,7 @@ class CMemCache extends CCache
 		if($this->_cache!==null)
 			return $this->_cache;
 		else
-			return $this->_cache=$this->useMemcached ? new Memcachd : new Memcache;
+			return $this->_cache=$this->useMemcached ? new Memcached : new Memcache;
 	}
 
 	/**

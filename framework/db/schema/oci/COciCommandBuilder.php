@@ -47,7 +47,7 @@ class COciCommandBuilder extends CDbCommandBuilder
 
 		$filters = array();
 		if($offset>0){
-			$filters[] = 'rowNumId >= '.(int)$offset;
+			$filters[] = 'rowNumId > '.(int)$offset;
 		}
 
 		if($limit>=0){

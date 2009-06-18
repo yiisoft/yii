@@ -15,6 +15,12 @@ Version 1.1.0
  * Changed the default table alias to be the name of active record relations.
 
 
+Version 1.0.7
+-------------
+
+ * Added support for displaying call stack information in trace messages
+     - [Logging Context Information](/doc/guide/topics.logging#logging-context-information)
+
 Version 1.0.6
 -------------
 
