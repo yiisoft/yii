@@ -136,12 +136,20 @@ EOD;
 
 		$templatePath=$this->templatePath===null?YII_PATH.'/cli/views/shell/crud':$this->templatePath;
 		$viewPath=$module->viewPath.DIRECTORY_SEPARATOR.str_replace('.',DIRECTORY_SEPARATOR,$controllerID);
+		$fixtureName=$this->pluralize($modelClass);
+		$fixtureName[0]=strtolower($fixtureName);
 		$list=array(
 			basename($controllerFile)=>array(
 				'source'=>$templatePath.'/controller.php',
 				'target'=>$controllerFile,
 				'callback'=>array($this,'generateController'),
 				'params'=>array($controllerClass,$modelClass),
+			),
+			$modelClass.'Test.php'=>array(
+				'source'=>$templatePath.'/test.php',
+				'target'=>Yii::getPathOfAlias('application.tests.functional').DIRECTORY_SEPARATOR.$modelClass.'Test.php',
+				'callback'=>array($this,'generateTest'),
+				'params'=>array($controllerID,$fixtureName,$modelClass),
 			),
 		);
 
@@ -204,6 +212,18 @@ EOD;
 			'ID'=>$table->primaryKey,
 			'modelClass'=>$modelClass,
 			'columns'=>$columns),true);
+	}
+
+	public function generateTest($source,$params)
+	{
+		list($controllerID,$fixtureName,$modelClass)=$params;
+		if(!is_file($source))  // fall back to default ones
+			$source=YII_PATH.'/cli/views/shell/crud/'.basename($source);
+		return $this->renderFile($source, array(
+			'controllerID'=>$controllerID,
+			'fixtureName'=>$fixtureName,
+			'modelClass'=>$modelClass,
+		),true);
 	}
 
 	public function generateInputLabel($modelClass,$column)
