@@ -24,6 +24,13 @@ class ModelCommand extends CConsoleCommand
 	 * Defaults to null, meaning using 'framework/cli/views/shell/model/model.php'.
 	 */
 	public $templateFile;
+	/**
+	 * @var string the directory that contains templates for the model command.
+	 * Defaults to null, meaning using 'framework/cli/views/shell/model'.
+	 * If you set this path and some views are missing in the directory,
+	 * the default views will be used.
+	 */
+	public $templatePath;
 
 	private $_schema;
 	private $_relations; // where we keep table relations
@@ -232,7 +239,7 @@ EOD;
 	 * @param string the word to be pluralized
 	 * @return string the pluralized word
 	 */
-	protected function pluralize($name)
+	public function pluralize($name)
 	{
 		$rules=array(
 			'/(x|ch|ss|sh|us|as|is|os)$/i' => '\1es',
@@ -328,16 +335,30 @@ EOD;
 				return;
 		}
 
+		$templatePath=$this->templatePath===null?YII_PATH.'/cli/views/shell/model':$this->templatePath;
 		$list=array();
 		foreach ($this->_classes as $tableName=>$className)
 		{
 			$files[$className]=$classFile=$basePath.DIRECTORY_SEPARATOR.$className.'.php';
-			$templateFile=$this->templateFile===null?YII_PATH.'/cli/views/shell/model/model.php':$this->templateFile;
-			$list[$className.'.php']=array(
-				'source'=>$templateFile,
+			$list['models/'.$className.'.php']=array(
+				'source'=>$templatePath.DIRECTORY_SEPARATOR.'model.php',
 				'target'=>$classFile,
 				'callback'=>array($this,'generateModel'),
 				'params'=>array($className,$tableName),
+			);
+			$list['tests/fixtures/'.$tableName.'.php']=array(
+				'source'=>$templatePath.DIRECTORY_SEPARATOR.'fixture.php',
+				'target'=>Yii::getPathOfAlias('application.tests.fixtures').DIRECTORY_SEPARATOR.$tableName.'.php',
+				'callback'=>array($this,'generateFixture'),
+				'params'=>$this->_schema->getTable($tableName),
+			);
+			$fixtureName=$this->pluralize($className);
+			$fixtureName[0]=strtolower($fixtureName);
+			$list['tests/unit/'.$className.'Test.php']=array(
+				'source'=>$templatePath.DIRECTORY_SEPARATOR.'test.php',
+				'target'=>Yii::getPathOfAlias('application.tests.unit').DIRECTORY_SEPARATOR.$className.'Test.php',
+				'callback'=>array($this,'generateTest'),
+				'params'=>array($className,$fixtureName),
 			);
 		}
 
@@ -417,6 +438,8 @@ EOD;
 		else
 			echo "Warning: the table '$tableName' does not exist in the database.\n";
 
+		if(!is_file($source))  // fall back to default ones
+			$source=YII_PATH.'/cli/views/shell/model/'.basename($source);
 		return $this->renderFile($source,array(
 			'className'=>$className,
 			'tableName'=>$tableName,
@@ -424,6 +447,26 @@ EOD;
 			'rules'=>$rules,
 			'labels'=>$labels,
 			'relations'=>$relations,
+		),true);
+	}
+
+	public function generateFixture($source,$table)
+	{
+		if(!is_file($source))  // fall back to default ones
+			$source=YII_PATH.'/cli/views/shell/model/'.basename($source);
+		return $this->renderFile($source, array(
+			'table'=>$table,
+		),true);
+	}
+
+	public function generateTest($source,$params)
+	{
+		list($className,$fixtureName)=$params;
+		if(!is_file($source))  // fall back to default ones
+			$source=YII_PATH.'/cli/views/shell/model/'.basename($source);
+		return $this->renderFile($source, array(
+			'className'=>$className,
+			'fixtureName'=>$fixtureName,
 		),true);
 	}
 }
