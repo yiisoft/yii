@@ -171,7 +171,7 @@ abstract class CConsoleCommand extends CComponent
 		$handle=opendir($sourceDir);
 		while($file=readdir($handle))
 		{
-			if($file==='.' || $file==='..' || $file==='.svn')
+			if($file==='.' || $file==='..' || $file==='.svn' ||$file==='.yii')
 				continue;
 			$sourcePath=$sourceDir.DIRECTORY_SEPARATOR.$file;
 			$targetPath=$targetDir.DIRECTORY_SEPARATOR.$file;

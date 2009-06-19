@@ -45,7 +45,7 @@ abstract class CDbTestCase extends CTestCase
 	 * means an AR class, while ':Post' means a table name).
 	 * Defaults to false, meaning fixtures will not be used at all.
 	 */
-	public $fixtures=false;
+	protected $fixtures=false;
 
 	/**
 	 * PHP magic method.
