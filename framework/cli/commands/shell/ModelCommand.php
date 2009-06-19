@@ -235,29 +235,6 @@ EOD;
 	}
 
 	/**
-	 * Converts a word to its plural form.
-	 * @param string the word to be pluralized
-	 * @return string the pluralized word
-	 */
-	public function pluralize($name)
-	{
-		$rules=array(
-			'/(x|ch|ss|sh|us|as|is|os)$/i' => '\1es',
-			'/(?:([^f])fe|([lr])f)$/i' => '\1\2ves',
-			'/(m)an$/i' => '\1en',
-			'/(child)$/i' => '\1ren',
-			'/(r)y$/i' => '\1ies',
-			'/s$/' => 's',
-		);
-		foreach($rules as $rule=>$replacement)
-		{
-			if(preg_match($rule,$name))
-				return preg_replace($rule,$replacement,$name);
-		}
-		return $name.'s';
-	}
-
-	/**
 	 * Execute the action.
 	 * @param array command line parameters specific for this command
 	 */
