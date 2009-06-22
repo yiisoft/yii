@@ -7,7 +7,7 @@ In this section, we implement the comment display and creation features.
 Displaying Comments
 -------------------
 
-Instead of displaying and creating comments in dividual pages, we use the post display page. Below the post content display, we display first a list of comments belonging to that post and then a comment creation form.
+Instead of displaying and creating comments individual pages, we use the post display page. Below the post content display, we display first a list of comments belonging to that post and then a comment creation form.
 
 In order to display comments on the post page, we modify the `actionShow()` method of `PostController` as follows,
 
