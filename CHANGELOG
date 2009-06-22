@@ -14,6 +14,7 @@ Version 1.0.7 to be released
 - Bug: yiic shell model command may fail when a foreign key is named as ID (Qiang)
 - Chg #391: defaultScope should not be applied to UPDATE (Qiang)
 - New #360: Added anchor parameter to CController::redirect (Qiang)
+- New #378: Added support to allow dynamically turning off and on log routes (Qiang)
 - New #396: Improved error display when running yiic commands (Qiang)
 - New: Rolled back the change about treating tinyint(1) in MySQL as boolean (Qiang)
 - New: Added support for displaying call stack information in trace messages (Qiang)
