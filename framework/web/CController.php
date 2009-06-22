@@ -841,10 +841,13 @@ class CController extends CBaseController
 	 * The effect of this method call is the same as user pressing the
 	 * refresh button on the browser (without post data).
 	 * @param boolean whether to terminate the current application after calling this method
+	 * @param string the anchor that should be appended to the redirection URL.
+	 * Defaults to empty. Make sure the anchor starts with '#' if you want to specify it.
+	 * The parameter has been available since version 1.0.7.
 	 **/
-	public function refresh($terminate=true)
+	public function refresh($terminate=true,$anchor='')
 	{
-		$this->redirect(Yii::app()->getRequest()->getUrl(),$terminate);
+		$this->redirect(Yii::app()->getRequest()->getUrl().$anchor,$terminate);
 	}
 
 	/**
