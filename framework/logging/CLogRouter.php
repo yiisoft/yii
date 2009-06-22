@@ -99,6 +99,9 @@ class CLogRouter extends CApplicationComponent
 	{
 		$logger=Yii::getLogger();
 		foreach($this->getRoutes() as $route)
-			$route->collectLogs($logger);
+		{
+			if($route->enabled)
+				$route->collectLogs($logger);
+		}
 	}
 }
