@@ -595,7 +595,8 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
-	 * Returns the default named scope that should be applied to all queries implicitly for this model.
+	 * Returns the default named scope that should be implicitly applied to all queries for this model.
+	 * Note, default scope only applies to SELECT queries. It is ignored for INSERT, UPDATE and DELETE queries.
 	 * The default implementation simply returns an empty array. You may override this method
 	 * if the model needs to be queried with some default criteria (e.g. only active records should be returned).
 	 * @return array the query criteria. This will be used as the parameter to the constructor
@@ -1603,7 +1604,6 @@ abstract class CActiveRecord extends CModel
 		$builder=$this->getCommandBuilder();
 		$table=$this->getTableSchema();
 		$criteria=$builder->createPkCriteria($table,$pk,$condition,$params);
-		$this->applyScopes($criteria);
 		$command=$builder->createUpdateCommand($table,$attributes,$criteria);
 		return $command->execute();
 	}
@@ -1622,7 +1622,6 @@ abstract class CActiveRecord extends CModel
 		Yii::trace(get_class($this).'.updateAll()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
-		$this->applyScopes($criteria);
 		$command=$builder->createUpdateCommand($this->getTableSchema(),$attributes,$criteria);
 		return $command->execute();
 	}
@@ -1641,7 +1640,6 @@ abstract class CActiveRecord extends CModel
 		Yii::trace(get_class($this).'.updateCounters()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
-		$this->applyScopes($criteria);
 		$command=$builder->createUpdateCounterCommand($this->getTableSchema(),$counters,$criteria);
 		return $command->execute();
 	}
@@ -1659,7 +1657,6 @@ abstract class CActiveRecord extends CModel
 		Yii::trace(get_class($this).'.deleteByPk()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createPkCriteria($this->getTableSchema(),$pk,$condition,$params);
-		$this->applyScopes($criteria);
 		$command=$builder->createDeleteCommand($this->getTableSchema(),$criteria);
 		return $command->execute();
 	}
@@ -1676,7 +1673,6 @@ abstract class CActiveRecord extends CModel
 		Yii::trace(get_class($this).'.deleteAll()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
-		$this->applyScopes($criteria);
 		$command=$builder->createDeleteCommand($this->getTableSchema(),$criteria);
 		return $command->execute();
 	}
