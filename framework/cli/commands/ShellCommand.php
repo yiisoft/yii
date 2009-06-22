@@ -78,9 +78,6 @@ EOD;
 		$config=require($entryScript);
 		ob_end_clean();
 
-		restore_error_handler();
-		restore_exception_handler();
-
 		// oops, the entry script turns out to be a config file
 		if(is_array($config))
 		{
@@ -90,6 +87,9 @@ EOD;
 			$_SERVER['SCRIPT_FILENAME']=$cwd.DIRECTORY_SEPARATOR.'index.php';
 			Yii::createWebApplication($config);
 		}
+
+		restore_error_handler();
+		restore_exception_handler();
 
 		$yiiVersion=Yii::getVersion();
 		echo <<<EOD
