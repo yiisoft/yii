@@ -726,6 +726,9 @@ abstract class CActiveRecord extends CModel
 	 * <li>'on': the ON clause. The condition specified here will be appended
 	 *   to the joining condition using the AND operator. This option has been
 	 *   available since version 1.0.2.</li>
+	 * <li>'index': the name of the column whose values should be used as keys
+	 *   of the array that stores related objects. This option is only available to
+	 *   HAS_MANY and MANY_MANY relations. This option has been available since version 1.0.7.</li>
 	 * </ul>
 	 *
 	 * The following options are available for certain relations when lazy loading:
@@ -921,16 +924,23 @@ abstract class CActiveRecord extends CModel
 	 * This method is used internally by {@link CActiveFinder} to populate related objects.
 	 * @param string attribute name
 	 * @param mixed the related record
-	 * @param boolean whether the relation is HAS_MANY/MANY_MANY.
+	 * @param mixed the index value in the related object collection.
+	 * If true, it means using zero-based integer index.
+	 * If false, it means a HAS_ONE or BELONGS_TO object and no index is needed.
 	 */
-	public function addRelatedRecord($name,$record,$multiple)
+	public function addRelatedRecord($name,$record,$index)
 	{
-		if($multiple)
+		if($index!==false)
 		{
 			if(!isset($this->_related[$name]))
 				$this->_related[$name]=array();
 			if($record instanceof CActiveRecord)
-				$this->_related[$name][]=$record;
+			{
+				if($index===true)
+					$this->_related[$name][]=$record;
+				else
+					$this->_related[$name][$index]=$record;
+			}
 		}
 		else if(!isset($this->_related[$name]))
 			$this->_related[$name]=$record;
@@ -2060,6 +2070,12 @@ class CHasManyRelation extends CActiveRelation
 	 * @var integer offset of the rows to be selected. It is effective only for lazy loading this related object. Defaults to -1, meaning no offset.
 	 */
 	public $offset=-1;
+	/**
+	 * @var string the name of the column that should be used as the key for storing related objects.
+	 * Defaults to null, meaning using zero-based integer IDs.
+	 * @since 1.0.7
+	 */
+	public $index;
 
 	/**
 	 * Merges this relation with a criteria specified dynamically.
@@ -2074,6 +2090,9 @@ class CHasManyRelation extends CActiveRelation
 
 		if(isset($criteria['offset']) && $criteria['offset']>=0)
 			$this->offset=$criteria['offset'];
+
+		if(isset($criteria['index']))
+			$this->index=$criteria['index'];
 	}
 }
 
