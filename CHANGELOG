@@ -19,6 +19,7 @@ Version 1.0.7 to be released
 - New: Rolled back the change about treating tinyint(1) in MySQL as boolean (Qiang)
 - New: Added support for displaying call stack information in trace messages (Qiang)
 - New: Added 'index' option to AR relations so that related objects can be indexed by specific column value (Qiang)
+- New: Allow CHtml::activeLabel to override the automatically generated 'for' attribute (Qiang)
 
 Version 1.0.6 June 7, 2009
 --------------------------

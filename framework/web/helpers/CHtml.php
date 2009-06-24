@@ -984,7 +984,13 @@ EOD;
 	 */
 	public static function activeLabel($model,$attribute,$htmlOptions=array())
 	{
-		$for=self::getIdByName(self::resolveName($model,$attribute));
+		if(isset($htmlOptions['for']))
+		{
+			$for=$htmlOptions['for'];
+			unset($htmlOptions['for']);
+		}
+		else
+			$for=self::getIdByName(self::resolveName($model,$attribute));
 		if(isset($htmlOptions['label']))
 		{
 			$label=$htmlOptions['label'];
