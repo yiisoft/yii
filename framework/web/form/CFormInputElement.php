@@ -186,6 +186,6 @@ class CFormInputElement extends CFormElement
 	 */
 	protected function evaluateVisible()
 	{
-		return $this->getParent()->getModel()->isAttributeSafe($this->name);
+		return $this->type!=='hidden' && $this->getParent()->getModel()->isAttributeSafe($this->name);
 	}
 }

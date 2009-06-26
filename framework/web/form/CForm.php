@@ -52,6 +52,7 @@ class CForm extends CFormElement implements ArrayAccess
 	private $_model;
 	private $_elements;
 	private $_buttons;
+	private $_hiddens=array();
 
 	/**
 	 * Constructor.
@@ -239,50 +240,82 @@ class CForm extends CFormElement implements ArrayAccess
 	}
 
 	/**
+	 * Returns the hidden elements of this form.
+	 * The hidden elements are obtained from {@link elements} collection.
+	 * Only the currently "renderable" elements are returned.
+	 * @return array the "renderable" hidden elements of this form.
+	 */
+	public function getHiddenElements()
+	{
+		$model=$this->getModel();
+		$elements=array();
+		foreach($this->_hiddens as $name=>$element)
+		{
+			if($model->isAttributeSafe($name))
+				$elements[$name]=$element;
+		}
+		return $elements;
+	}
+
+	/**
 	 * Renders the form.
-	 * If this is a sub-form, only the {@link body} will be rendered.
+	 * If this is a sub-form, only the {@link renderBody} will be rendered.
 	 * Otherwise, the whole form will be rendered, including the open and close tag.
 	 * @return string the rendering result
 	 */
 	public function render()
 	{
 		if($this->getParent() instanceof self) // is a sub-form
-			return $this->body();
+			return $this->renderBody();
 		else
-			return $this->begin() . $this->body() . $this->end();
+			return $this->renderBegin() . $this->renderBody() . $this->renderEnd();
 	}
 
 	/**
 	 * Renders the open tag of the form.
-	 * The default implementation will render the open tag as well as {@link token}.
+	 * The default implementation will render the open tag.
 	 * @return string the rendering result
 	 */
-	public function begin()
+	public function renderBegin()
 	{
-		$output=CHtml::beginForm($this->action,$this->method,$this->attributes);
-		$output.=$this->token();
-		return $output;
+		return CHtml::beginForm($this->action,$this->method,$this->attributes);
 	}
 
 	/**
 	 * Renders the close tag of the form.
 	 * @return string the rendering result
 	 */
-	public function end()
+	public function renderEnd()
 	{
 		return CHtml::endForm();
 	}
 
 	/**
+	 * Renders the hidden fields that this form has.
+	 */
+	public function renderHiddenFields()
+	{
+		$output=$this->getParent() instanceof self ? '' : CHtml::hiddenField($this->getUniqueID(),1)."\n";
+		$model=$this->getModel();
+		foreach($this->getHiddenElements() as $element)
+			$output.=CHtml::activeHiddenField($model,$element->name,$element->attributes)."\n";
+		if($output!=='')
+			return "<div style=\"visibility:none\">\n".$output.'</div>';
+		else
+			return '';
+	}
+
+	/**
 	 * Renders the body content of this form.
-	 * The form tag will not be rendered. Please call {@link begin} and {@link end}
+	 * The form tag will not be rendered. Please call {@link renderBegin} and {@link renderEnd}
 	 * to render the open and close tags of the form.
 	 * You may override this method to customize the rendering of the form.
 	 * @return string the rendering result
 	 */
-	public function body()
+	public function renderBody()
 	{
-		$output='';
+		$output=$this->renderHiddenFields();
+
 		if($this->legend!==null)
 			$output.="\n<fieldset>\n<legend>\n".$this->legend."</legend>\n";
 		$output.=CHtml::errorSummary($this->getModel());
@@ -312,15 +345,27 @@ class CForm extends CFormElement implements ArrayAccess
 	}
 
 	/**
-	 * Renders a special token that can be used to identify the form.
-	 * This token is rendered in terms of a hidden field so that we can use this token to
-	 * check if the form is submitted or not.
-	 * The default implementation of {@link begin} includes the rendering of this token.
-	 * @return string the rendering result.
+	 * This method is called after an element is added to the element collection.
+	 * @param string the name of the element
+	 * @param CFormElement the element that is added
+	 * @param boolean whether the element is added to the {@link buttons} collection
 	 */
-	public function token()
+	public function addedElement($name,$element,$forButtons)
 	{
-		return '<div style="visibility:none">'.CHtml::hiddenField($this->getUniqueID(),1).'</div>';
+		if($element instanceof CFormInputElement && $element->type==='hidden')
+			$this->_hiddens[$name]=$element;
+	}
+
+	/**
+	 * This method is called after an element is removed from the element collection.
+	 * @param string the name of the element
+	 * @param CFormElement the element that is removed
+	 * @param boolean whether the element is removed from the {@link buttons} collection
+	 */
+	public function removedElement($name,$element,$forButtons)
+	{
+		if($element instanceof CFormInputElement && $element->type==='hidden')
+			unset($this->_hiddens[$name]);
 	}
 
 	/**

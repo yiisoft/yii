@@ -65,8 +65,7 @@ class CFormElementCollection extends CMap
 			if($this->_forButtons)
 			{
 				$class=$this->_form->buttonElementClass;
-				$button=new $class($this->_form,$value);
-				parent::add($key,$button);
+				$element=new $class($this->_form,$value);
 			}
 			else
 			{
@@ -75,17 +74,17 @@ class CFormElementCollection extends CMap
 				if($value['type']==='string')
 				{
 					unset($value['type'],$value['name']);
-					parent::add($key,new CFormStringElement($this->_form,$value));
+					$element=new CFormStringElement($this->_form,$value);
 				}
 				else if(!strcasecmp(substr($value['type'],-4),'form'))	// a form
 				{
 					$class=Yii::import($value['type']);
-					parent::add($key,new $class($this->_form,null,$value));
+					$element=new $class($this->_form,null,$value);
 				}
 				else
 				{
 					$class=$this->_form->inputElementClass;
-					parent::add($key,new $class($this->_form,$value));
+					$element=new $class($this->_form,$value);
 				}
 			}
 		}
@@ -93,9 +92,20 @@ class CFormElementCollection extends CMap
 		{
 			if(property_exists($value,'name') && is_string($key))
 				$value->name=$key;
-			parent::add($key,$value);
+			$element=$value;
 		}
 		else
-			parent::add($key,new CFormStringElement($this->_form,array('content'=>$value)));
+			$element=new CFormStringElement($this->_form,array('content'=>$value));
+		parent::add($key,$element);
+		$this->_form->addedElement($key,$element,$this->_forButtons);
+	}
+
+	public function remove($key)
+	{
+		if($this->exists($key))
+		{
+			$item=parent::remove($key);
+			$this->_form->removedElement($key,$item,$this->_forButtons);
+		}
 	}
 }
