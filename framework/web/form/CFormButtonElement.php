@@ -62,17 +62,6 @@ class CFormButtonElement extends CFormElement
 	private $_on;
 
 	/**
-	 * Evaluates the visibility of this element.
-	 * This method will check the {@link on} property to see if
-	 * the model is in a scenario that should have this string displayed.
-	 * @return boolean whether this element is visible.
-	 */
-	protected function evaluateVisible()
-	{
-		return empty($this->_on) || in_array($this->getParent()->getModel()->getScenario(),$this->_on);
-	}
-
-	/**
 	 * Returns a value indicating under which scenarios this button is visible.
 	 * If the value is empty, it means the button is visible under all scenarios.
 	 * Otherwise, only when the model is in the scenario whose name can be found in
@@ -122,5 +111,16 @@ class CFormButtonElement extends CFormElement
 			$this->getParent()->getOwner()->widget($this->type, $attributes);
 			return ob_get_clean();
 		}
+	}
+
+	/**
+	 * Evaluates the visibility of this element.
+	 * This method will check the {@link on} property to see if
+	 * the model is in a scenario that should have this string displayed.
+	 * @return boolean whether this element is visible.
+	 */
+	protected function evaluateVisible()
+	{
+		return empty($this->_on) || in_array($this->getParent()->getModel()->getScenario(),$this->_on);
 	}
 }

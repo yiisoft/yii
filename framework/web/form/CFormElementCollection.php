@@ -43,7 +43,7 @@ class CFormElementCollection extends CMap
 	{
 		parent::__construct();
 		$this->_form=$form;
-		$this->_forButtons=$buttonOnly;
+		$this->_forButtons=$forButtons;
 	}
 
 	/**

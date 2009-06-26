@@ -80,17 +80,6 @@ class CFormInputElement extends CFormElement
 	private $_label;
 
 	/**
-	 * Evaluates the visibility of this element.
-	 * This method will check the {@link on} property to see if
-	 * the model is in a scenario that should have this string displayed.
-	 * @return boolean whether this element is visible.
-	 */
-	protected function evaluateVisible()
-	{
-		return $this->getParent()->getModel()->isAttributeSafe($this->name);
-	}
-
-	/**
 	 * @return boolean whether this input is required. The value is determined by calling
 	 * {@link CModel::isAttributeRequired} for the associated model and attribute of this input.
 	 */
@@ -140,7 +129,7 @@ class CFormInputElement extends CFormElement
 	 */
 	public function renderLabel()
 	{
-		return CHtml::activeLabelEx($this->getForm()->getModel(), $this->name, array('label'=>$this->getLabel()));
+		return CHtml::activeLabelEx($this->getParent()->getModel(), $this->name, array('label'=>$this->getLabel()));
 	}
 
 	/**
@@ -154,14 +143,14 @@ class CFormInputElement extends CFormElement
 		{
 			$method=self::$coreTypes[$this->type];
 			if(strpos($method,'List')!==false)
-				return CHtml::$method($this->getForm()->getModel(), $this->name, $this->items, $this->attributes);
+				return CHtml::$method($this->getParent()->getModel(), $this->name, $this->items, $this->attributes);
 			else
-				return CHtml::$method($this->getForm()->getModel(), $this->name, $this->attributes);
+				return CHtml::$method($this->getParent()->getModel(), $this->name, $this->attributes);
 		}
 		else
 		{
 			$attributes=$this->attributes;
-			$attributes['model']=$this->getForm()->getModel();
+			$attributes['model']=$this->getParent()->getModel();
 			$attributes['attribute']=$this->name;
 			ob_start();
 			$this->getParent()->getOwner()->widget($this->type, $attributes);
@@ -176,7 +165,7 @@ class CFormInputElement extends CFormElement
 	 */
 	public function renderError()
 	{
-		return CHtml::error($this->getForm()->getModel(), $this->name);
+		return CHtml::error($this->getParent()->getModel(), $this->name);
 	}
 
 	/**
@@ -187,5 +176,16 @@ class CFormInputElement extends CFormElement
 	public function renderHint()
 	{
 		return $this->hint===null ? '' : '<p class="hint">'.$this->hint.'</p>';
+	}
+
+	/**
+	 * Evaluates the visibility of this element.
+	 * This method will check the {@link on} property to see if
+	 * the model is in a scenario that should have this string displayed.
+	 * @return boolean whether this element is visible.
+	 */
+	protected function evaluateVisible()
+	{
+		return $this->getParent()->getModel()->isAttributeSafe($this->name);
 	}
 }

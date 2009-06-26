@@ -24,12 +24,8 @@ abstract class CFormElement extends CComponent
 	 * @var array list of attributes (name=>value) for the HTML element represented by this object.
 	 */
 	public $attributes=array();
-	/**
-	 * @var mixed the direct parent of this element. This could be either a {@link CForm} object or a {@link CBaseController} object
-	 * (a controller or a widget).
-	 */
-	public $parent;
 
+	private $_parent;
 	private $_visible;
 
 	/**
@@ -46,7 +42,7 @@ abstract class CFormElement extends CComponent
 	 */
 	public function __construct($parent,$config=null)
 	{
-		$this->parent=$parent;
+		$this->_parent=$parent;
 		$this->configure($config);
 	}
 
@@ -144,6 +140,15 @@ abstract class CFormElement extends CComponent
 	public function setVisible($value)
 	{
 		$this->_visible=$value;
+	}
+
+	/**
+	 * @return mixed the direct parent of this element. This could be either a {@link CForm} object or a {@link CBaseController} object
+	 * (a controller or a widget).
+	 */
+	public function getParent()
+	{
+		return $this->_parent;
 	}
 
 	/**

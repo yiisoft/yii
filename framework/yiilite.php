@@ -409,6 +409,12 @@ class YiiBase
 		'CFilter' => '/web/filters/CFilter.php',
 		'CFilterChain' => '/web/filters/CFilterChain.php',
 		'CInlineFilter' => '/web/filters/CInlineFilter.php',
+		'CForm' => '/web/form/CForm.php',
+		'CFormButtonElement' => '/web/form/CFormButtonElement.php',
+		'CFormElement' => '/web/form/CFormElement.php',
+		'CFormElementCollection' => '/web/form/CFormElementCollection.php',
+		'CFormInputElement' => '/web/form/CFormInputElement.php',
+		'CFormStringElement' => '/web/form/CFormStringElement.php',
 		'CGoogleApi' => '/web/helpers/CGoogleApi.php',
 		'CHtml' => '/web/helpers/CHtml.php',
 		'CJSON' => '/web/helpers/CJSON.php',
@@ -1587,7 +1593,12 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 	public function add($key,$value)
 	{
 		if(!$this->_r)
-			$this->_d[$key]=$value;
+		{
+			if($key===null)
+				$this->_d[]=$value;
+			else
+				$this->_d[$key]=$value;
+		}
 		else
 			throw new CException(Yii::t('yii','The map is read only.'));
 	}
@@ -5107,6 +5118,11 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 				return true;
 		}
 		return false;
+	}
+	public function isAttributeSafe($attribute)
+	{
+		$attributes=$this->getSafeAttributeNames();
+		return in_array($attribute,$attributes);
 	}
 	public function getAttributeLabel($attribute)
 	{
