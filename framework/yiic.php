@@ -15,8 +15,7 @@
 // fix for fcgi
 defined('STDIN') or define('STDIN', fopen('php://stdin', 'r'));
 
-// disable E_NOTICE so that "yiic shell" is more friendly
-error_reporting(E_ALL ^ E_NOTICE);
+defined('YII_DEBUG') or define('YII_DEBUG',true);
 
 require_once(dirname(__FILE__).'/yii.php');
 

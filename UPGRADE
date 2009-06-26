@@ -17,6 +17,9 @@ Please read the Guide for details on how to upgrade from v1.0.x to v1.1.
 
 Upgrading from v1.0.6
 ---------------------
+- Default named scope will no longer be applied to INSERT, UPDATE and
+DELETE queries. It is only applied to SELECT queries. You should be aware
+of this change if you override CActiveRecord::defaultScope() in your code.
 
 
 Upgrading from v1.0.5

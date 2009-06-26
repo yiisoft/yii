@@ -150,15 +150,15 @@ a column in the `Post` table, and CActiveRecord makes it accessible as a
 property with the help of the PHP `__get()` magic method. An exception will
 be thrown if we attempt to access a non-existing column in the same way.
 
-> Info: For better readability, we suggest naming table columns in camel case.
-In particular, column names are formed by capitalizing each word except
-the first one in the name and concatenating them without spaces. For example, we
-may use `createTime` to name a column storing the creation time of a row.
-Naming of tables depends on your personal taste. In this guide, we also follow
-camel case naming convention except that the first letter is in upper case as well.
-For example, we use `Post` to name the table storing post data.
-Note, however, using camel case for table names may bring you inconvenience
-for some DBMS, such as MySQL, as they may behave differently on different operation systems.
+> Info: In this guide, we name columns using camel cases (e.g. `createTime`).
+This is because columns are accessed in the way as normal object properties
+which also uses camel-case naming. While using camel case does make our PHP
+code look more consistent in naming, it may introduce case-sensitivity problem
+for some DBMS. For example, PostgreSQL treats column names as case-insensitive
+by default, and we must quote a column in a query condition if the column
+contains mixed-case letters. For this reason, it may be wise to name columns
+(and also tables) only in lower-case letters (e.g. `create_time`) to avoid
+any potential case-sensitivity issues.
 
 
 Creating Record
@@ -266,6 +266,11 @@ should be bound to the placeholders in `$condition`. For example,
 // find the row with postID=10
 $post=Post::model()->find('postID=:postID', array(':postID'=>10));
 ~~~
+
+> Note: In the above, we may need to escape the reference to the `postID` column
+for certain DBMS. For example, if we are using PostgreSQL, we would have to write
+the condition as `"postID"=:postID`, because PostgreSQL by default will treat column
+names as case-insensitive.
 
 We can also use `$condition` to specify more complex query conditions.
 Instead of a string, we let `$condition` be a [CDbCriteria] instance, which
@@ -626,5 +631,6 @@ Now, if the following method call will automatically use the query criteria as d
 $contents=Content::model()->findAll();
 ~~~
 
+Note that default named scope only applies to `SELECT` queries. It is ignored for `INSERT`, `UPDATE` and `DELETE` queries.
 
 <div class="revision">$Id$</div>

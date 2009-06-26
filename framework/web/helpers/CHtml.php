@@ -985,7 +985,13 @@ EOD;
 	 */
 	public static function activeLabel($model,$attribute,$htmlOptions=array())
 	{
-		$for=self::getIdByName(self::resolveName($model,$attribute));
+		if(isset($htmlOptions['for']))
+		{
+			$for=$htmlOptions['for'];
+			unset($htmlOptions['for']);
+		}
+		else
+			$for=self::getIdByName(self::resolveName($model,$attribute));
 		if(isset($htmlOptions['label']))
 		{
 			$label=$htmlOptions['label'];
@@ -1609,6 +1615,9 @@ EOD;
 	 * <ul>
 	 * <li>submit: string, specifies the URL that the button should submit to. If empty, the current requested URL will be used.</li>
 	 * <li>params: array, name-value pairs that should be submitted together with the form. This is only used when 'submit' option is specified.</li>
+	 * <li>csrf: boolean, whether a CSRF token should be submitted when {@link CHttpRequest::enableCsrfValidation} is true. Defaults to false.
+	 * This option has been available since version 1.0.7. You may want to set this to be true if there is no enclosing
+	 * form around this element. This option is meaningful only when 'submit' option is set.</li>
 	 * <li>return: boolean, the return value of the javascript. Defaults to false, meaning that the execution of
 	 * javascript would not cause the default behavior of the event. This option has been available since version 1.0.2.</li>
 	 * <li>confirm: string, specifies the message that should show in a pop-up confirmation dialog.</li>
@@ -1641,14 +1650,16 @@ EOD;
 		$cs=Yii::app()->getClientScript();
 		$cs->registerCoreScript('jquery');
 
-		if(isset($htmlOptions['params']))
-			$params=CJavaScript::encode($htmlOptions['params']);
-		else
-			$params='{}';
-
 		if(isset($htmlOptions['submit']))
 		{
 			$cs->registerCoreScript('yii');
+			$request=Yii::app()->getRequest();
+			if($request->enableCsrfValidation && isset($htmlOptions['csrf']) && $htmlOptions['csrf'])
+				$htmlOptions['params'][$request->csrfTokenName]=$request->getCsrfToken();
+			if(isset($htmlOptions['params']))
+				$params=CJavaScript::encode($htmlOptions['params']);
+			else
+				$params='{}';
 			if($htmlOptions['submit']!=='')
 				$url=CJavaScript::quote(self::normalizeUrl($htmlOptions['submit']));
 			else
@@ -1669,7 +1680,7 @@ EOD;
 		}
 
 		$cs->registerScript('Yii.CHtml.#'.$id,"jQuery('#$id').$event(function(){{$handler}});");
-		unset($htmlOptions['params'],$htmlOptions['submit'],$htmlOptions['ajax'],$htmlOptions['confirm'],$htmlOptions['return']);
+		unset($htmlOptions['params'],$htmlOptions['submit'],$htmlOptions['ajax'],$htmlOptions['confirm'],$htmlOptions['return'],$htmlOptions['csrf']);
 	}
 
 	/**

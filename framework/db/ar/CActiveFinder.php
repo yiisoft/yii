@@ -623,7 +623,11 @@ class CJoinElement
 					$fpk=0;
 				if(!isset($this->_related[$pk][$child->relation->name][$fpk]))
 				{
-					$record->addRelatedRecord($child->relation->name,$childRecord,true);
+					if($childRecord instanceof CActiveRecord && $child->relation->index!==null)
+						$index=$childRecord->{$child->relation->index};
+					else
+						$index=true;
+					$record->addRelatedRecord($child->relation->name,$childRecord,$index);
 					$this->_related[$pk][$child->relation->name][$fpk]=true;
 				}
 			}

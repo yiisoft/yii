@@ -59,14 +59,11 @@ class CLogRouter extends CApplicationComponent
 	public function init()
 	{
 		parent::init();
-		foreach($this->_routes as $i=>$route)
+		foreach($this->_routes as $name=>$route)
 		{
-			if(is_array($route))
-			{
-				$route=Yii::createComponent($route);
-				$route->init();
-				$this->_routes[$i]=$route;
-			}
+			$route=Yii::createComponent($route);
+			$route->init();
+			$this->_routes[$name]=$route;
 		}
 		Yii::app()->attachEventHandler('onEndRequest',array($this,'collectLogs'));
 	}
@@ -89,12 +86,8 @@ class CLogRouter extends CApplicationComponent
 	 */
 	public function setRoutes($config)
 	{
-		foreach($config as $c)
-		{
-			if(is_string($c))
-				$c=array('class'=>$c);
-			$this->_routes[]=$c;
-		}
+		foreach($config as $name=>$route)
+			$this->_routes[$name]=$route;
 	}
 
 	/**
@@ -106,6 +99,9 @@ class CLogRouter extends CApplicationComponent
 	{
 		$logger=Yii::getLogger();
 		foreach($this->getRoutes() as $route)
-			$route->collectLogs($logger);
+		{
+			if($route->enabled)
+				$route->collectLogs($logger);
+		}
 	}
 }

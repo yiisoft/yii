@@ -21,6 +21,10 @@ Version 1.0.7
  * Added support for displaying call stack information in trace messages
      - [Logging Context Information](/doc/guide/topics.logging#logging-context-information)
 
+ * Added `index` option to AR relations so that related objects can be indexed
+using the values of a specific column
+     - [Relational Query Options](/doc/guide/database.arr#relational-query-options)
+
 Version 1.0.6
 -------------
 

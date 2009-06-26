@@ -24,15 +24,21 @@ $.yii = {
 		if (typeof url == 'string' && url != '') {
 			f.action = url;
 		};
+		var inputs = [];
 		jQuery.each(params, function(name, value) {
 			var input = document.createElement("input");
 			input.setAttribute("type", "hidden");
 			input.setAttribute("name", name);
 			input.setAttribute("value", value);
 			f.appendChild(input);
+			inputs.push(input);
 		});
 
 		f.submit();
+
+		for (input in inputs) {
+			f.removeChild(inputs[input]);
+		}
 	}
 };
 

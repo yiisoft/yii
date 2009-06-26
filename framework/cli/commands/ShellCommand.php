@@ -88,6 +88,9 @@ EOD;
 			Yii::createWebApplication($config);
 		}
 
+		restore_error_handler();
+		restore_exception_handler();
+
 		$yiiVersion=Yii::getVersion();
 		echo <<<EOD
 Yii Interactive Tool v1.0 (based on Yii v{$yiiVersion})
@@ -118,6 +121,9 @@ EOD;
 
 	protected function runShell()
 	{
+		// disable E_NOTICE so that the shell is more friendly
+		error_reporting(E_ALL ^ E_NOTICE);
+
 		$_runner_=new CConsoleCommandRunner;
 		$_runner_->addCommands(dirname(__FILE__).'/shell');
 		$_runner_->addCommands(Yii::getPathOfAlias('application.commands.shell'));
