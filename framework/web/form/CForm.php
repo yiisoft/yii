@@ -20,27 +20,77 @@
  */
 class CForm extends CFormElement implements ArrayAccess
 {
+	/**
+	 * @var string the legend for this form. If this is set, a fieldset may be rendered
+	 * around the form body with the specified legend text. Defaults to null.
+	 */
 	public $legend;
-	public $description;  // TODO!!!
+	/**
+	 * @var string the description of this form.
+	 */
+	public $description;
+	/**
+	 * @var string the submission method of this form. Defaults to 'post'.
+	 * This property is ignored when this form is a sub-form.
+	 */
 	public $method='post';
+	/**
+	 * @var mixed the form action URL (see {@link CHtml::normalizeUrl} for details about this parameter.)
+	 * Defaults to an empty string, meaning the current request URL.
+	 * This property is ignored when this form is a sub-form.
+	 */
 	public $action='';
-	public $on;
-
+	/**
+	 * @var string the name of the class for representing a form input element. Defaults to 'CFormInputElement'.
+	 */
 	public $inputElementClass='CFormInputElement';
+	/**
+	 * @var string the name of the class for representing a form button element. Defaults to 'CFormButtonElement'.
+	 */
 	public $buttonElementClass='CFormButtonElement';
-	public $formElementClass='CForm';
 
 	private $_model;
-
 	private $_elements;
 	private $_buttons;
 
-	public function __construct($parent,$model=null)
+	/**
+	 * Constructor.
+	 * If you override this method, make sure you do not modify the method
+	 * signature, and also make sure you call the parent implementation.
+	 * @param mixed the direct parent of this form. This could be either a {@link CBaseController}
+	 * object (a controller or a widget), or a {@link CForm} object.
+	 * If the former, it means the form is a top-level form; if the latter, it means this form is a sub-form.
+	 * @param CModel the model object associated with this form. If it is null,
+	 * the parent's model will be used instead.
+	 * @param mixed the configuration for this form. It can be a configuration array
+	 * or the name of a PHP script file that returns a configuration array.
+	 * The configuration array consists of name-value pairs that are used to initialize
+	 * the properties of this form.
+	 */
+	public function __construct($parent,$model=null,$config=null)
 	{
-		parent::__construct($parent);
 		$this->_model=$model;
+		parent::__construct($parent,$config);
+		$this->init();
 	}
 
+	/**
+	 * Initializes this form.
+	 * This method is invoked at the end of the constructor.
+	 * You may override this method to provide customized initialization (such as
+	 * configuring the form object).
+	 */
+	protected function init()
+	{
+	}
+
+	/**
+	 * Returns a value indicating whether this form is submitted.
+	 * @param boolean whether to call {@link loadData} if the form is submitted so that
+	 * the submitted data can be populated to the associated models.
+	 * @return boolean whether this form is submitted.
+	 * @see loadData
+	 */
 	public function submitted($loadData=true)
 	{
 		$ret=$this->clicked($this->getUniqueId());
@@ -49,6 +99,12 @@ class CForm extends CFormElement implements ArrayAccess
 		return $ret;
 	}
 
+	/**
+	 * Loads the submitted data into the associated model(s) to the form.
+	 * This method will go through all models associated with this form and its sub-forms
+	 * and massively assign the submitted data to the models.
+	 * @see submitted
+	 */
 	public function loadData()
 	{
 		if($this->_model!==null)
@@ -69,6 +125,11 @@ class CForm extends CFormElement implements ArrayAccess
 		}
 	}
 
+	/**
+	 * Returns a value indicating whether the specified button is clicked.
+	 * @param string the button name
+	 * @return boolean whether the button is clicked.
+	 */
 	public function clicked($name)
 	{
 		if($this->getRoot()->method==='get')
@@ -77,6 +138,9 @@ class CForm extends CFormElement implements ArrayAccess
 			return isset($_POST[$name]);
 	}
 
+	/**
+	 * @return CForm the top-level form object
+	 */
 	public function getRoot()
 	{
 		$root=$this;
@@ -85,6 +149,10 @@ class CForm extends CFormElement implements ArrayAccess
 		return $root;
 	}
 
+	/**
+	 * @return CBaseController the owner of this form. This refers to either a controller or a widget
+	 * in which the form is created.
+	 */
 	public function getOwner()
 	{
 		$owner=$this->getParent();
@@ -93,6 +161,10 @@ class CForm extends CFormElement implements ArrayAccess
 		return $owner;
 	}
 
+	/**
+	 * @return CModel the model associated with this form. If this form does not have a model,
+	 * it will look for a model in its ancestors.
+	 */
 	public function getModel()
 	{
 		$form=$this;
@@ -101,11 +173,21 @@ class CForm extends CFormElement implements ArrayAccess
 		return $form->_model;
 	}
 
+	/**
+	 * @param CModel the model to be associated with this form
+	 */
 	public function setModel($model)
 	{
 		$this->_model=$model;
 	}
 
+	/**
+	 * Returns the input elements of this form.
+	 * This includes text strings, input elements and sub-forms.
+	 * Note that the returned result is a {@link CFormElementCollection} object, which
+	 * means you can use it like an array. For more details, see {@link CMap}.
+	 * @return CFormElementCollection the form elements.
+	 */
 	public function getElements()
 	{
 		if($this->_elements===null)
@@ -113,6 +195,15 @@ class CForm extends CFormElement implements ArrayAccess
 		return $this->_elements;
 	}
 
+	/**
+	 * Configures the input elements of this form.
+	 * The configuration must be an array of input configuration array indexed by input name.
+	 * Each input configuration array consists of name-value pairs that are used to initialize
+	 * a {@link CFormStringElement} object (when 'type' is 'string'), a {@link CFormElement} object
+	 * (when 'type' is a string ending with 'Form'), or a {@link CFormInputElement} object in
+	 * all other cases.
+	 * @param array the button configurations
+	 */
 	public function setElements($elements)
 	{
 		$collection=$this->getElements();
@@ -120,6 +211,12 @@ class CForm extends CFormElement implements ArrayAccess
 			$collection->add($name,$config);
 	}
 
+	/**
+	 * Returns the button elements of this form.
+	 * Note that the returned result is a {@link CFormElementCollection} object, which
+	 * means you can use it like an array. For more details, see {@link CMap}.
+	 * @return CFormElementCollection the form elements.
+	 */
 	public function getButtons()
 	{
 		if($this->_buttons===null)
@@ -127,6 +224,13 @@ class CForm extends CFormElement implements ArrayAccess
 		return $this->_buttons;
 	}
 
+	/**
+	 * Configures the buttons of this form.
+	 * The configuration must be an array of button configuration array indexed by button name.
+	 * Each button configuration array consists of name-value pairs that are used to initialize
+	 * a {@link CFormButtonElement} object.
+	 * @param array the button configurations
+	 */
 	public function setButtons($buttons)
 	{
 		$collection=$this->getButtons();
@@ -134,6 +238,12 @@ class CForm extends CFormElement implements ArrayAccess
 			$collection->add($name,$config);
 	}
 
+	/**
+	 * Renders the form.
+	 * If this is a sub-form, only the {@link body} will be rendered.
+	 * Otherwise, the whole form will be rendered, including the open and close tag.
+	 * @return string the rendering result
+	 */
 	public function render()
 	{
 		if($this->getParent() instanceof self) // is a sub-form
@@ -142,31 +252,40 @@ class CForm extends CFormElement implements ArrayAccess
 			return $this->begin() . $this->body() . $this->end();
 	}
 
-	public function token()
-	{
-		return '<div style="visibility:none">'.CHtml::hiddenField($this->getUniqueID(),1).'</div>';
-	}
-
+	/**
+	 * Renders the open tag of the form.
+	 * The default implementation will render the open tag as well as {@link token}.
+	 * @return string the rendering result
+	 */
 	public function begin()
 	{
 		$output=CHtml::beginForm($this->action,$this->method,$this->attributes);
 		$output.=$this->token();
-		if($this->legend!==null)
-			$output.="\n<fieldset>\n<legend>\n".$this->legend."</legend>\n";
 		return $output;
 	}
 
+	/**
+	 * Renders the close tag of the form.
+	 * @return string the rendering result
+	 */
 	public function end()
 	{
-		if($this->legend!==null)
-			return "</fieldset>\n".CHtml::endForm();
-		else
-			return CHtml::endForm();
+		return CHtml::endForm();
 	}
 
+	/**
+	 * Renders the body content of this form.
+	 * The form tag will not be rendered. Please call {@link begin} and {@link end}
+	 * to render the open and close tags of the form.
+	 * You may override this method to customize the rendering of the form.
+	 * @return string the rendering result
+	 */
 	public function body()
 	{
-		$output=CHtml::errorSummary($this->getModel());
+		$output='';
+		if($this->legend!==null)
+			$output.="\n<fieldset>\n<legend>\n".$this->legend."</legend>\n";
+		$output.=CHtml::errorSummary($this->getModel());
 		$output.="<ul>\n";
 		foreach($this->getElements() as $element)
 		{
@@ -187,7 +306,21 @@ class CForm extends CFormElement implements ArrayAccess
 			}
 		}
 		$output.="</ul>\n";
+		if($this->legend!==null)
+			$output.="</fieldset>\n";
 		return $output;
+	}
+
+	/**
+	 * Renders a special token that can be used to identify the form.
+	 * This token is rendered in terms of a hidden field so that we can use this token to
+	 * check if the form is submitted or not.
+	 * The default implementation of {@link begin} includes the rendering of this token.
+	 * @return string the rendering result.
+	 */
+	public function token()
+	{
+		return '<div style="visibility:none">'.CHtml::hiddenField($this->getUniqueID(),1).'</div>';
 	}
 
 	/**
