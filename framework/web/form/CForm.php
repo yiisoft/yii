@@ -9,9 +9,56 @@
  */
 
 /**
- * CForm represents a form object that contains form input specification.
+ * CForm represents a form object that contains form input specifications.
  *
+ * The main purpose of introducing the abstraction of form objects is to enhance the
+ * reusability of forms. In particular, we can divide a form in two parts: those
+ * that specify each individual form inputs, and those that decorate the form inputs.
+ * A CForm object represents the former part. It relies on the rendering process to
+ * accomplish form input decoration. Reusability is mainly achieved in the rendering process.
+ * That is, a rendering process can be reused to render different CForm objects.
  *
+ * A form can be rendered in different ways. One can call the {@link render} method
+ * to get a quick form rendering without writing any HTML code; one can also override
+ * {@link render} to render the form in a different layout; and one can use an external
+ * view template to render each form element explicitly. In these ways, the {@link render}
+ * method can be applied to all kinds of forms and thus achieves maximum reusability;
+ * while the external view template keeps maximum flexibility in rendering complex forms.
+ *
+ * Form input specifications are organized in terms of a form element hierarchy.
+ * At the root of the hierarchy, it is the root CForm object. The root form object maintains
+ * its children in two collections: {@link elements} and {@link buttons}.
+ * The former contains non-button form elements ({@link CFormStringElement},
+ * {@link CFormInputElement} and CForm); while the latter mainly contains
+ * button elements ({@link CFormButtonElement}). When a CForm object is embedded in the
+ * {@link elements} collection, it is called a sub-form which can have its own {@link elements}
+ * and {@link buttons} collections and thus form the whole form hierarchy.
+ *
+ * Sub-forms are mainly used to handle multiple models. For example, in a user
+ * registration form, we can have the root form to collect input for the user
+ * table while a sub-form to collect input for the profile table. Sub-form is also
+ * a good way to partition a lengthy form into shorter ones, even though all inputs
+ * may belong to the same model.
+ *
+ * Form input specifications are given in terms of a configuration array which is
+ * used to initialize the property values of a CForm object. The {@link elements} and
+ * {@link buttons} properties need special attention as they are the main properties
+ * to be configured. To configure {@link elements}, we should give it an array like
+ * the following:
+ * <pre>
+ * 'elements'=>array(
+ *     'username'=>array('type'=>'text', 'maxlength'=>80),
+ *     'password'=>array('type'=>'password', 'maxlength'=>80),
+ * )
+ * </pre>
+ * The above code specifies two input elements: 'username' and 'password'. Note the model
+ * object must have exactly the same attributes 'username' and 'password'. Each element
+ * has a type which specifies what kind of input should be used. The rest of the array elements
+ * (e.g. 'maxlength') in an input specification are rendered as HTML element attributes
+ * when the input field is rendered. The {@link buttons} property is configured similarly.
+ *
+ * For more details about configuring form elements, please refer to {@link CFormInputElement}
+ * and {@link CFormButtonElement}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
@@ -48,6 +95,10 @@ class CForm extends CFormElement implements ArrayAccess
 	 * @var string the name of the class for representing a form button element. Defaults to 'CFormButtonElement'.
 	 */
 	public $buttonElementClass='CFormButtonElement';
+	/**
+	 * @var array attribute values for the form tag
+	 */
+	public $attributes=array('class'=>'form');
 
 	private $_model;
 	private $_elements;
@@ -152,7 +203,7 @@ class CForm extends CFormElement implements ArrayAccess
 
 	/**
 	 * @return CBaseController the owner of this form. This refers to either a controller or a widget
-	 * in which the form is created.
+	 * by which the form is created and rendered.
 	 */
 	public function getOwner()
 	{
@@ -300,7 +351,7 @@ class CForm extends CFormElement implements ArrayAccess
 		foreach($this->getHiddenElements() as $element)
 			$output.=CHtml::activeHiddenField($model,$element->name,$element->attributes)."\n";
 		if($output!=='')
-			return "<div style=\"visibility:none\">\n".$output.'</div>';
+			return "<div style=\"visibility:hidden\">\n".$output.'</div>';
 		else
 			return '';
 	}
@@ -317,30 +368,31 @@ class CForm extends CFormElement implements ArrayAccess
 		$output=$this->renderHiddenFields();
 
 		if($this->legend!==null)
-			$output.="\n<fieldset>\n<legend>\n".$this->legend."</legend>\n";
+			$output.="<fieldset>\n<legend>\n".$this->legend."</legend>\n";
+
+		if($this->description!==null)
+			$output.="<div class=\"description\">\n".$this->description."</div>\n";
+
 		$output.=CHtml::errorSummary($this->getModel());
-		$output.="<ul>\n";
+
 		foreach($this->getElements() as $element)
 		{
 			if($element->getVisible())
-			{
-				$output.="<li>";
-				$output.=$element;
-				$output.="</li>\n";
-			}
+				$output.="<div class=\"row\">\n".$element."</div>\n";
 		}
+
+		$buttons='';
 		foreach($this->getButtons() as $button)
 		{
 			if($button->getVisible())
-			{
-				$output.="<li>";
-				$output.=$button;
-				$output.="</li>\n";
-			}
+				$buttons.=$button."\n";
 		}
-		$output.="</ul>\n";
+		if($buttons!=='')
+			$output.="<div class=\"row action\">".$buttons."</div>\n";
+
 		if($this->legend!==null)
 			$output.="</fieldset>\n";
+
 		return $output;
 	}
 
