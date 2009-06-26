@@ -129,7 +129,12 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 	public function add($key,$value)
 	{
 		if(!$this->_r)
-			$this->_d[$key]=$value;
+		{
+			if($key===null)
+				$this->_d[]=$value;
+			else
+				$this->_d[$key]=$value;
+		}
 		else
 			throw new CException(Yii::t('yii','The map is read only.'));
 	}

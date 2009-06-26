@@ -9,9 +9,9 @@
  */
 
 /**
- * CForm is the base class providing the common features needed by data model objects.
+ * CForm represents a form object that contains form input specification.
  *
- * CForm defines the basic framework for data models that need to be validated.
+ *
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
@@ -37,7 +37,7 @@ class CForm extends CFormElement implements ArrayAccess
 
 	public function __construct($parent,$model=null)
 	{
-		$this->parent=$parent;
+		parent::__construct($parent);
 		$this->_model=$model;
 	}
 
@@ -49,25 +49,12 @@ class CForm extends CFormElement implements ArrayAccess
 		return $ret;
 	}
 
-	protected function getUniqueId()
-	{
-		if(isset($this->attributes['id']))
-			return 'yform_'.$this->attributes['id'];
-		else
-			return 'yform_'.sprintf('%x',crc32(serialize(array_keys($this->getElements()->toArray()))));
-	}
-
-	public function getSubmitMethod()
-	{
-		return strcasecmp($this->getRoot()->method,'get') ? 'post' : 'get';
-	}
-
 	public function loadData()
 	{
 		if($this->_model!==null)
 		{
 			$class=get_class($this->_model);
-			if($this->getSubmitMethod()==='get')
+			if($this->getRoot()->method==='get')
 			{
 				if(isset($_GET[$class]))
 					$this->_model->setAttributes($_GET[$class]);
@@ -84,41 +71,33 @@ class CForm extends CFormElement implements ArrayAccess
 
 	public function clicked($name)
 	{
-		if($this->getSubmitMethod()==='get')
+		if($this->getRoot()->method==='get')
 			return isset($_GET[$name]);
 		else
 			return isset($_POST[$name]);
 	}
 
-	protected function evaluateVisible()
-	{
-		foreach($this->getElements() as $element)
-			if($element->getVisible())
-				return true;
-		return false;
-	}
-
 	public function getRoot()
 	{
 		$root=$this;
-		while($root->parent instanceof self)
-			$root=$root->parent;
+		while($root->getParent() instanceof self)
+			$root=$root->getParent();
 		return $root;
 	}
 
 	public function getOwner()
 	{
-		$owner=$this->parent;
+		$owner=$this->getParent();
 		while($owner instanceof self)
-			$owner=$owner->parent;
+			$owner=$owner->getParent();
 		return $owner;
 	}
 
 	public function getModel()
 	{
 		$form=$this;
-		while($form->_model===null && $form->parent instanceof self)
-			$form=$form->parent;
+		while($form->_model===null && $form->getParent() instanceof self)
+			$form=$form->getParent();
 		return $form->_model;
 	}
 
@@ -157,30 +136,23 @@ class CForm extends CFormElement implements ArrayAccess
 
 	public function render()
 	{
-		$output='';
-		if(!$this->parent instanceof self)
-			$output.=$this->begin();
-		$output.=$this->body();
-		if(!$this->parent instanceof self)
-			$output.=$this->end();
-		return $output;
+		if($this->getParent() instanceof self) // is a sub-form
+			return $this->body();
+		else
+			return $this->begin() . $this->body() . $this->end();
 	}
 
 	public function token()
 	{
-		if(isset($this->attributes['name']))
-			$name=$this->attributes['name'];
-		else
-			$name='yform';
-		return CHtml::hiddenField($this->getUniqueID(),1);
+		return '<div style="visibility:none">'.CHtml::hiddenField($this->getUniqueID(),1).'</div>';
 	}
 
 	public function begin()
 	{
 		$output=CHtml::beginForm($this->action,$this->method,$this->attributes);
+		$output.=$this->token();
 		if($this->legend!==null)
 			$output.="\n<fieldset>\n<legend>\n".$this->legend."</legend>\n";
-		$output.='<div style="visibility:none">'.$this->token().'</div>';
 		return $output;
 	}
 
@@ -216,6 +188,32 @@ class CForm extends CFormElement implements ArrayAccess
 		}
 		$output.="</ul>\n";
 		return $output;
+	}
+
+	/**
+	 * Evaluates the visibility of this form.
+	 * This method will check the visibility of the {@link elements}.
+	 * If any one of them is visible, the form is considered as visible. Otherwise, it is invisible.
+	 * @return boolean whether this form is visible.
+	 */
+	protected function evaluateVisible()
+	{
+		foreach($this->getElements() as $element)
+			if($element->getVisible())
+				return true;
+		return false;
+	}
+
+	/**
+	 * Returns a unique ID that identifies this form in the current page.
+	 * @return string the unique ID identifying this form
+	 */
+	protected function getUniqueId()
+	{
+		if(isset($this->attributes['id']))
+			return 'yform_'.$this->attributes['id'];
+		else
+			return 'yform_'.sprintf('%x',crc32(serialize(array_keys($this->getElements()->toArray()))));
 	}
 
 	/**
@@ -261,5 +259,3 @@ class CForm extends CFormElement implements ArrayAccess
 		$this->getElements()->remove($offset);
 	}
 }
-
-

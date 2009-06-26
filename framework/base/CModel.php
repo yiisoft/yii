@@ -263,6 +263,18 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	}
 
 	/**
+	 * Returns a value indicating whether the attribute is safe for massive assignments.
+	 * @param string attribute name
+	 * @return boolean whether the attribute is safe for massive assignments
+	 * @since 1.1
+	 */
+	public function isAttributeSafe($attribute)
+	{
+		$attributes=$this->getSafeAttributeNames();
+		return in_array($attribute,$attributes);
+	}
+
+	/**
 	 * Returns the text label for the specified attribute.
 	 * @param string the attribute name
 	 * @return string the attribute label

@@ -64,6 +64,6 @@ class CFormStringElement extends CFormElement
 	 */
 	protected function evaluateVisible()
 	{
-		return empty($this->_on) || in_array($this->getForm()->getModel()->getScenario(),$this->_on);
+		return empty($this->_on) || in_array($this->getParent()->getModel()->getScenario(),$this->_on);
 	}
 }
