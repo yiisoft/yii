@@ -1,6 +1,24 @@
 <?php
+/**
+ * CForm class file.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @link http://www.yiiframework.com/
+ * @copyright Copyright &copy; 2008-2009 Yii Software LLC
+ * @license http://www.yiiframework.com/license/
+ */
 
-class CForm extends CBaseFormElement implements ArrayAccess
+/**
+ * CForm is the base class providing the common features needed by data model objects.
+ *
+ * CForm defines the basic framework for data models that need to be validated.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id$
+ * @package system.web.form
+ * @since 1.1
+ */
+class CForm extends CFormElement implements ArrayAccess
 {
 	public $legend;
 	public $description;  // TODO!!!
@@ -12,7 +30,6 @@ class CForm extends CBaseFormElement implements ArrayAccess
 	public $buttonElementClass='CFormButtonElement';
 	public $formElementClass='CForm';
 
-	private $_parent;
 	private $_model;
 
 	private $_elements;
@@ -20,7 +37,7 @@ class CForm extends CBaseFormElement implements ArrayAccess
 
 	public function __construct($parent,$model=null)
 	{
-		$this->_parent=$parent;
+		$this->parent=$parent;
 		$this->_model=$model;
 	}
 
@@ -42,7 +59,7 @@ class CForm extends CBaseFormElement implements ArrayAccess
 
 	public function getSubmitMethod()
 	{
-		return strcasecmp($this->getRootForm()->method,'get') ? 'post' : 'get';
+		return strcasecmp($this->getRoot()->method,'get') ? 'post' : 'get';
 	}
 
 	public function loadData()
@@ -81,33 +98,28 @@ class CForm extends CBaseFormElement implements ArrayAccess
 		return false;
 	}
 
-	public function getParentForm()
-	{
-		return $this->_parent instanceof self ? $this->_parent : null;
-	}
-
-	public function getRootForm()
+	public function getRoot()
 	{
 		$root=$this;
-		while($root->_parent instanceof self)
-			$root=$root->_parent;
+		while($root->parent instanceof self)
+			$root=$root->parent;
 		return $root;
 	}
 
 	public function getOwner()
 	{
-		$owner=$this->_parent;
+		$owner=$this->parent;
 		while($owner instanceof self)
-			$owner=$owner->_parent;
+			$owner=$owner->parent;
 		return $owner;
 	}
 
 	public function getModel()
 	{
-		if($this->_model!==null)
-			return $this->_model;
-		else if($this->_parent instanceof self)
-			return $this->_parent->getModel();
+		$form=$this;
+		while($form->_model===null && $form->parent instanceof self)
+			$form=$form->parent;
+		return $form->_model;
 	}
 
 	public function setModel($model)
@@ -118,7 +130,7 @@ class CForm extends CBaseFormElement implements ArrayAccess
 	public function getElements()
 	{
 		if($this->_elements===null)
-			$this->_elements=new CFormInputCollection($this);
+			$this->_elements=new CFormElementCollection($this,false);
 		return $this->_elements;
 	}
 
@@ -132,7 +144,7 @@ class CForm extends CBaseFormElement implements ArrayAccess
 	public function getButtons()
 	{
 		if($this->_buttons===null)
-			$this->_buttons=new CFormButtonCollection($this);
+			$this->_buttons=new CFormElementCollection($this,true);
 		return $this->_buttons;
 	}
 
@@ -146,10 +158,10 @@ class CForm extends CBaseFormElement implements ArrayAccess
 	public function render()
 	{
 		$output='';
-		if(!$this->_parent instanceof self)
+		if(!$this->parent instanceof self)
 			$output.=$this->begin();
 		$output.=$this->body();
-		if(!$this->_parent instanceof self)
+		if(!$this->parent instanceof self)
 			$output.=$this->end();
 		return $output;
 	}
@@ -225,8 +237,7 @@ class CForm extends CBaseFormElement implements ArrayAccess
 	 */
 	public function offsetGet($offset)
 	{
-		if($this->getElements()->contains($offset))
-			return $this->getElements()->itemAt($offset);
+		return $this->getElements()->itemAt($offset);
 	}
 
 	/**
