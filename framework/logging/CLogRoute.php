@@ -32,6 +32,11 @@
 abstract class CLogRoute extends CComponent
 {
 	/**
+	 * @var boolean whether to enable this log route. Defaults to true.
+	 * @since 1.0.7
+	 */
+	public $enabled=true;
+	/**
 	 * @var string list of levels separated by comma or space. Defaults to empty, meaning all levels.
 	 */
 	public $levels='';

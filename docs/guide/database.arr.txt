@@ -268,6 +268,12 @@ referenced in this option should be disambiguated..
 referenced in this option should be disambiguated.
 Note: option has been available since version 1.0.1.
 
+   - `index`: the name of the column whose values should be used as keys
+of the array that stores related objects. Without setting this option,
+an related object array would use zero-based integer index.
+This option can only be set for `HAS_MANY` and `MANY_MANY` relations.
+This option has been available since version 1.0.7.
+
 
 In addition, the following options are available for certain relationships
 during lazy loading:

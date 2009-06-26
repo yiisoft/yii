@@ -63,7 +63,6 @@ class CNumberValidator extends CValidator
 				$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} must be an integer.');
 				$this->addError($object,$attribute,$message);
 			}
-			$value=(int)$value;
 		}
 		else
 		{
@@ -72,7 +71,6 @@ class CNumberValidator extends CValidator
 				$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} must be a number.');
 				$this->addError($object,$attribute,$message);
 			}
-			$value=(double)$value;
 		}
 		if($this->min!==null && $value<$this->min)
 		{
