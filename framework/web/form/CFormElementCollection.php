@@ -59,13 +59,14 @@ class CFormElementCollection extends CMap
 	{
 		if(is_array($value))
 		{
-			$value['name']=$key;
+			if(is_string($key))
+				$value['name']=$key;
 
 			if($this->_forButtons)
 			{
 				$class=$this->_form->buttonElementClass;
 				$button=new $class($this->_form,$value);
-				parent::add($key, $button);
+				parent::add($key,$button);
 			}
 			else
 			{
@@ -74,27 +75,27 @@ class CFormElementCollection extends CMap
 				if($value['type']==='string')
 				{
 					unset($value['type'],$value['name']);
-					$class='CFormStringElement';
+					parent::add($key,new CFormStringElement($this->_form,$value));
 				}
-				else if($value['type']==='form')
+				else if(!strcasecmp(substr($value['type'],-4),'form'))	// a form
 				{
-					unset($value['type']);
-					$class=$this->_form->formElementClass;
+					$class=Yii::import($value['type']);
+					parent::add($key,new $class($this->_form,null,$value));
 				}
 				else
+				{
 					$class=$this->_form->inputElementClass;
-				parent::add($key,new $class($this->_form,$value));
+					parent::add($key,new $class($this->_form,$value));
+				}
 			}
 		}
 		else if($value instanceof CFormElement)
 		{
-			if(property_exists($value,'name'))
+			if(property_exists($value,'name') && is_string($key))
 				$value->name=$key;
 			parent::add($key,$value);
 		}
-		else if(is_string($value))
-			parent::add($key,new CFormStringElement($this->_form,array('content'=>$value)));
 		else
-			throw new CException(Yii::t('yii','The element "{name}" must be a configuration array, a string or a CFormElement object.',array('{name}'=>$key)));
+			parent::add($key,new CFormStringElement($this->_form,array('content'=>$value)));
 	}
 }
