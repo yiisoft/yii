@@ -73,7 +73,7 @@ class CLogRouter extends CApplicationComponent
 	 */
 	public function getRoutes()
 	{
-		return new CList($this->_routes);
+		return new CMap($this->_routes);
 	}
 
 	/**
