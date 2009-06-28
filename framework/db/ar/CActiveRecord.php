@@ -1110,8 +1110,9 @@ abstract class CActiveRecord extends CModel
 	 */
 	protected function beforeSave()
 	{
-		$this->onBeforeSave(new CEvent($this));
-		return true;
+		$event=new CModelEvent($this);
+		$this->onBeforeSave($event);
+		return $event->isValid;
 	}
 
 	/**
@@ -1134,8 +1135,9 @@ abstract class CActiveRecord extends CModel
 	 */
 	protected function beforeDelete()
 	{
-		$this->onBeforeDelete(new CEvent($this));
-		return true;
+		$event=new CModelEvent($this);
+		$this->onBeforeDelete($event);
+		return $event->isValid;
 	}
 
 	/**
