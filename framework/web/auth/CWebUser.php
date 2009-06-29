@@ -187,13 +187,21 @@ class CWebUser extends CApplicationComponent implements IWebUser
 
 	/**
 	 * Logs out the current user.
-	 * The session will be destroyed.
+	 * This will remove authentication-related session data.
+	 * If the parameter is true, the whole session will be destroyed as well.
+	 * @param boolean whether to destroy the whole session. Defaults to true. If false,
+	 * then {@link clearStates} will be called, which removes only the data stored via {@link setState}.
+	 * This parameter has been available since version 1.0.7. Before 1.0.7, the behavior
+	 * is to destroy the whole session.
 	 */
-	public function logout()
+	public function logout($destroySession=true)
 	{
 		if($this->allowAutoLogin)
 			Yii::app()->getRequest()->getCookies()->remove($this->getStateKeyPrefix());
-		$this->clearStates();
+		if($destroySession)
+			Yii::app()->getSession()->destroy();
+		else
+			$this->clearStates();
 	}
 
 	/**
@@ -419,11 +427,18 @@ class CWebUser extends CApplicationComponent implements IWebUser
 
 	/**
 	 * Clears all user identity information from persistent storage.
-	 * The default implementation simply destroys the session.
+	 * This will remove the data stored via {@link setState}.
 	 */
 	public function clearStates()
 	{
-		Yii::app()->getSession()->destroy();
+		$keys=array_keys($_SESSION);
+		$prefix=$this->getStateKeyPrefix();
+		$n=strlen($prefix);
+		foreach($keys as $key)
+		{
+			if(!strncmp($key,$prefix,$n))
+				unset($_SESSION[$key]);
+		}
 	}
 
 	/**

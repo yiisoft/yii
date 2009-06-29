@@ -19,6 +19,7 @@ Version 1.0.7 to be released
 - Bug: yiic shell controller command does not generate correct controller class file when the controller is under a sub-folder (Qiang)
 - Chg #391: defaultScope should not be applied to UPDATE (Qiang)
 - New #360: Added anchor parameter to CController::redirect (Qiang)
+- New #375: Added support to allow logout a user without cleaning up non-auth session data (Qiang)
 - New #378: Added support to allow dynamically turning off and on log routes (Qiang)
 - New #396: Improved error display when running yiic commands (Qiang)
 - New #406: Added support to allow stopping saving and deletion by an ActiveRecord behavior (Qiang)
