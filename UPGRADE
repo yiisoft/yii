@@ -21,6 +21,9 @@ Upgrading from v1.0.6
 DELETE queries. It is only applied to SELECT queries. You should be aware
 of this change if you override CActiveRecord::defaultScope() in your code.
 
+- The signature of CWebUser::logout() is changed. If you override this method,
+you will need to modify your method declaration accordingly.
+
 
 Upgrading from v1.0.5
 ---------------------

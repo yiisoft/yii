@@ -66,20 +66,16 @@ class CUploadedFile extends CComponent
 				{
 					if(is_array($info['name']))
 					{
-						$first=reset($info['name']);
 						$keys=array_keys($info['name']);
-						if(is_array($first))
+						foreach($keys as $key)
 						{
-							foreach($keys as $key)
+							if(is_array($info['name'][$key]))
 							{
 								$subKeys=array_keys($info['name'][$key]);
 								foreach($subKeys as $subKey)
 									$files["{$class}[{$key}][{$subKey}]"]=new CUploadedFile($info['name'][$key][$subKey],$info['tmp_name'][$key][$subKey],$info['type'][$key][$subKey],$info['size'][$key][$subKey],$info['error'][$key][$subKey]);
 							}
-						}
-						else
-						{
-							foreach($keys as $key)
+							else
 								$files["{$class}[{$key}]"]=new CUploadedFile($info['name'][$key],$info['tmp_name'][$key],$info['type'][$key],$info['size'][$key],$info['error'][$key]);
 						}
 					}
@@ -89,7 +85,7 @@ class CUploadedFile extends CComponent
 			}
 		}
 
-		return isset($files[$name]) ? $files[$name] : null;
+		return isset($files[$name]) && $files[$name]->getError()!=UPLOAD_ERR_NO_FILE ? $files[$name] : null;
 	}
 
 	/**

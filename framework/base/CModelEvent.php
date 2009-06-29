@@ -22,8 +22,11 @@
 class CModelEvent extends CEvent
 {
 	/**
-	 * @var boolean whether the model is valid. Defaults to true.
-	 * If this is set false, {@link CModel::validate()} will return false and quit the current validation process.
+	 * @var boolean whether the model is in valid status and should continue its normal method execution cycles. Defaults to true.
+	 * For example, when this event is raised in a {@link CFormModel} object when executing {@link CModel::beforeValidate},
+	 * if this property is false by the event handler, the {@link CModel::validate} method will quit after handling this event.
+	 * If true, the normal execution cycles will continue, including performing the real validations and calling
+	 * {@link CModel::afterValidate}.
 	 */
 	public $isValid=true;
 }
