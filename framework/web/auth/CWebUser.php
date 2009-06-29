@@ -52,6 +52,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 {
 	const FLASH_KEY_PREFIX='Yii.CWebUser.flash.';
 	const FLASH_COUNTERS='Yii.CWebUser.flash.counters';
+	const STATES_VAR='__states';
 
 	/**
 	 * @var boolean whether to enable cookie-based login. Defaults to false.
@@ -226,7 +227,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function getName()
 	{
-		if(($name=$this->getState('_name'))!==null)
+		if(($name=$this->getState('__name'))!==null)
 			return $name;
 		else
 			return $this->guestName;
@@ -239,7 +240,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function setName($value)
 	{
-		$this->setState('_name',$value);
+		$this->setState('__name',$value);
 	}
 
 	/**
@@ -251,7 +252,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function getReturnUrl()
 	{
-		return $this->getState('_returnUrl',Yii::app()->getRequest()->getScriptUrl());
+		return $this->getState('__returnUrl',Yii::app()->getRequest()->getScriptUrl());
 	}
 
 	/**
@@ -259,7 +260,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function setReturnUrl($value)
 	{
-		$this->setState('_returnUrl',$value);
+		$this->setState('__returnUrl',$value);
 	}
 
 	/**
@@ -495,7 +496,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	protected function saveIdentityStates()
 	{
 		$states=array();
-		foreach($this->getState('__states',array()) as $name=>$dummy)
+		foreach($this->getState(self::STATES_VAR,array()) as $name=>$dummy)
 			$states[$name]=$this->getState($name);
 		return $states;
 	}
@@ -506,18 +507,16 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	protected function loadIdentityStates($states)
 	{
+		$names=array();
 		if(is_array($states))
 		{
-			$names=array();
 			foreach($states as $name=>$value)
 			{
 				$this->setState($name,$value);
 				$names[$name]=true;
 			}
-			$this->setState('__states',$names);
 		}
-		else
-			$this->setState('__states',array());
+		$this->setState(self::STATES_VAR,$names);
 	}
 
 	/**
