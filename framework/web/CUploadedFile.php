@@ -84,7 +84,7 @@ class CUploadedFile extends CComponent
 				}
 			}
 		}
-print_r($files);die();
+
 		return isset($files[$name]) && $files[$name]->getError()!=UPLOAD_ERR_NO_FILE ? $files[$name] : null;
 	}
 
