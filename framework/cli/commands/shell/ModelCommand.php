@@ -378,6 +378,7 @@ EOD;
 			foreach($table->columns as $column)
 			{
 				$label=ucwords(trim(strtolower(str_replace(array('-','_'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $column->name)))));
+				$label=preg_replace('/\s+/',' ',$label);
 				if(strcasecmp(substr($label,-3),' id')===0)
 					$label=substr($label,0,-3);
 				$labels[]="'{$column->name}'=>'$label'";

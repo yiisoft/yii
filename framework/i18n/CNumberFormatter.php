@@ -138,8 +138,9 @@ class CNumberFormatter extends CComponent
 	 * @param array format with the following structure:
 	 * <pre>
 	 * array(
-	 * 	'decimalDigits'=>2,     // number of required digits after decimal point; if -1, it means we should drop decimal point
-	 * 	'integerDigits'=>1,     // number of required digits before decimal point
+	 * 	'decimalDigits'=>2,     // number of required digits after decimal point; 0s will be padded if not enough digits; if -1, it means we should drop decimal point
+	 *  'maxDecimalDigits'=>3,  // maximum number of digits after decimal point. Additional digits will be truncated.
+	 * 	'integerDigits'=>1,     // number of required digits before decimal point; 0s will be padded if not enough digits
 	 * 	'groupSize1'=>3,        // the primary grouping size; if 0, it means no grouping
 	 * 	'groupSize2'=>0,        // the secondary grouping size; if 0, it means no secondary grouping
 	 * 	'positivePrefix'=>'+',  // prefix to positive number
@@ -156,17 +157,24 @@ class CNumberFormatter extends CComponent
 	{
 		$negative=$value<0;
 		$value=abs($value*$format['multiplier']);
-		if($format['decimalDigits']>=0)
-			$value=round($value,$format['decimalDigits']);
-		list($integer,$decimal)=explode('.',sprintf('%F',$value));
-
-		if($format['decimalDigits']>=0)
+		if($format['maxDecimalDigits']>=0)
+			$value=round($value,$format['maxDecimalDigits']);
+		$value="$value";
+		if(($pos=strpos($value,'.'))!==false)
 		{
-			$decimal=rtrim(substr($decimal,0,$format['decimalDigits']),'0');
-			$decimal=$this->_locale->getNumberSymbol('decimal').str_pad($decimal,$format['decimalDigits'],'0');
+			$integer=substr($value,0,$pos);
+			$decimal=substr($value,$pos+1);
 		}
 		else
+		{
+			$integer=$value;
 			$decimal='';
+		}
+
+		if($format['decimalDigits']>strlen($decimal))
+			$decimal=str_pad($decimal,$format['decimalDigits'],'0');
+		if(strlen($decimal)>0)
+			$decimal=$this->_locale->getNumberSymbol('decimal').$decimal;
 
 		$integer=str_pad($integer,$format['integerDigits'],'0',STR_PAD_LEFT);
 		if($format['groupSize1']>0 && strlen($integer)>$format['groupSize1'])
@@ -202,13 +210,22 @@ class CNumberFormatter extends CComponent
 
 		// find out prefix and suffix for positive and negative patterns
 		$patterns=explode(';',$pattern);
-		list($format['positivePrefix'],$format['positiveSuffix'])=preg_split('/[#,\.0]+/',$patterns[0]);
-		if(isset($patterns[1]))  // with a negative pattern
-			list($format['negativePrefix'],$format['negativeSuffix'])=preg_split('/[#,\.0]+/',$patterns[1]);
+		$format['positivePrefix']=$format['positiveSuffix']=$format['negativePrefix']=$format['negativeSuffix']='';
+		if(preg_match('/^(.*?)[#,\.0]+(.*?)$/',$patterns[0],$matches))
+		{
+			$format['positivePrefix']=$matches[1];
+			$format['positiveSuffix']=$matches[2];
+		}
+
+		if(isset($patterns[1]) && preg_match('/^(.*?)[#,\.0]+(.*?)$/',$patterns[1],$matches))  // with a negative pattern
+		{
+			$format['negativePrefix']=$matches[1];
+			$format['negativeSuffix']=$matches[2];
+		}
 		else
 		{
-			$format['negativePrefix']=$this->_locale->getNumberSymbol('minusSign');
-			$format['negativeSuffix']='';
+			$format['negativePrefix']=$this->_locale->getNumberSymbol('minusSign').$format['positivePrefix'];
+			$format['negativeSuffix']=$format['positiveSuffix'];
 		}
 		$pattern=$patterns[0];
 
@@ -227,21 +244,30 @@ class CNumberFormatter extends CComponent
 				$format['decimalDigits']=$pos2-$pos;
 			else
 				$format['decimalDigits']=0;
+			if(($pos3=strrpos($pattern,'#'))>=$pos2)
+				$format['maxDecimalDigits']=$pos3-$pos;
+			else
+				$format['maxDecimalDigits']=$format['decimalDigits'];
 			$pattern=substr($pattern,0,$pos);
 		}
 		else   // no decimal part
-			$format['decimalDigits']=-1; // do not display decimal point
+		{
+			$format['decimalDigits']=0;
+			$format['maxDecimalDigits']=0;
+		}
 
 		// find out things about integer part
-		if(($pos=strpos($pattern,'0'))!==false)
-			$format['integerDigits']=strlen(str_replace(',','',substr($pattern,$pos)));
+		$p=str_replace(',','',$pattern);
+		if(($pos=strpos($p,'0'))!==false)
+			$format['integerDigits']=strrpos($p,'0')-$pos+1;
 		else
 			$format['integerDigits']=0;
 		// find out group sizes. some patterns may have two different group sizes
+		$p=str_replace('#','0',$pattern);
 		if(($pos=strrpos($pattern,','))!==false)
 		{
-			$format['groupSize1']=strlen($pattern)-$pos-1;
-			if(($pos2=strrpos(substr($pattern,0,$pos),','))!==false)
+			$format['groupSize1']=strrpos($p,'0')-$pos;
+			if(($pos2=strrpos(substr($p,0,$pos),','))!==false)
 				$format['groupSize2']=$pos-$pos2-1;
 			else
 				$format['groupSize2']=0;

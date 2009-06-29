@@ -73,7 +73,7 @@ class CLogRouter extends CApplicationComponent
 	 */
 	public function getRoutes()
 	{
-		return $this->_routes;
+		return new CMap($this->_routes);
 	}
 
 	/**
@@ -98,7 +98,7 @@ class CLogRouter extends CApplicationComponent
 	public function collectLogs($param)
 	{
 		$logger=Yii::getLogger();
-		foreach($this->getRoutes() as $route)
+		foreach($this->_routes as $route)
 		{
 			if($route->enabled)
 				$route->collectLogs($logger);

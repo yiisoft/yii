@@ -15,7 +15,7 @@
 class <?php echo $className; ?> extends CActiveRecord
 {
 	/**
-     * The followings are the available columns in table '<?php echo $tableName; ?>':
+	 * The followings are the available columns in table '<?php echo $tableName; ?>':
 <?php foreach($columns as $column): ?>
 	 * @var <?php echo $column->type.' $'.$column->name."\n"; ?>
 <?php endforeach; ?>
