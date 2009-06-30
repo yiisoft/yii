@@ -23,6 +23,7 @@ Version 1.0.7 to be released
 - New #378: Added support to allow dynamically turning off and on log routes (Qiang)
 - New #396: Improved error display when running yiic commands (Qiang)
 - New #406: Added support to allow stopping saving and deletion by an ActiveRecord behavior (Qiang)
+- New #415: Added HTML options to CHtml::errorSummary() and error() methods (Qiang)
 - New: Rolled back the change about treating tinyint(1) in MySQL as boolean (Qiang)
 - New: Added support for displaying call stack information in trace messages (Qiang)
 - New: Added 'index' option to AR relations so that related objects can be indexed by specific column value (Qiang)
