@@ -31,6 +31,7 @@ Version 1.0.7 to be released
 - New: Allow CHtml::activeLabel to override the automatically generated 'for' attribute (Qiang)
 - New: Added 'csrf' to CHtml client options so that js-based form submission can submit CSRF token (Qiang)
 - New: Removed typcasting in CNumberValidator so that it won't lose precision (Qiang)
+- New: Added userAgent parameter to CHttpRequest::getBrowser() (Qiang)
 
 Version 1.0.6 June 7, 2009
 --------------------------
