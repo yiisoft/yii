@@ -129,7 +129,7 @@ class CFormInputElement extends CFormElement
 	 */
 	public function renderLabel()
 	{
-		return CHtml::activeLabelEx($this->getParent()->getModel(), $this->name, array('label'=>$this->getLabel()));
+		return '<div class="label">'.CHtml::activeLabelEx($this->getParent()->getModel(), $this->name, array('label'=>$this->getLabel())).'</div>';
 	}
 
 	/**
@@ -175,7 +175,7 @@ class CFormInputElement extends CFormElement
 	 */
 	public function renderHint()
 	{
-		return $this->hint===null ? '' : '<p class="hint">'.$this->hint.'</p>';
+		return $this->hint===null ? '' : '<div class="hint">'.$this->hint.'</div>';
 	}
 
 	/**

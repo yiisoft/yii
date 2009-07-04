@@ -152,6 +152,26 @@ class CForm extends CFormElement implements ArrayAccess
 	}
 
 	/**
+	 * Validates the models associated with this form.
+	 * All models, including those associated with sub-forms, will perform
+	 * the validation. You may use {@link CModel::getErrors()} to retrieve the validation
+	 * error messages.
+	 * @return boolean whether all models are valid
+	 */
+	public function validate()
+	{
+		$ret=true;
+		if($this->_model!==null)
+			$ret=$this->_model->validate() && $ret;
+		foreach($this->getElements() as $element)
+		{
+			if($element instanceof self)
+				$ret=$element->validate() && $ret;
+		}
+		return $ret;
+	}
+
+	/**
 	 * Loads the submitted data into the associated model(s) to the form.
 	 * This method will go through all models associated with this form and its sub-forms
 	 * and massively assign the submitted data to the models.
