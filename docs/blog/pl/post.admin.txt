@@ -1,0 +1,129 @@
+Administrowanie wiadomościami
+==============
+
+Administrowanie wiadomościami przede wszystkim odnosi się do wylistowania wiadomości
+w widoku administratora oraz usuwania wiadomości. Są one wykonywane odpowiednio przez operację
+`admin` oraz operację usuwania `delete`. Kod wygenerowany przez narzędzie `yiic` nie  
+wymaga zbytniej modyfikacji. Poniżej wyjaśniamy przede wszystkim jak te dwie operacje 
+zostały zaimplementowane.
+
+Wyświetlenie listy wiadomości w widoku tabelarycznym
+-----------------------------
+
+Operacja `admin` wyświetla wszystkie wiadomości (włączając zarówno opublikowane jak i nieopublikowane)
+w widoku tabelarycznym. Widok wspiera wielokolumnowe sortowanie oraz stronicowanie. Poniżej
+znajduje się metoda `actionAdmin()` kontrolera `PostController`:
+
+~~~
+[php]
+public function actionAdmin()
+{
+	$criteria=new CDbCriteria;
+
+	$pages=new CPagination(Post::model()->count());
+	$pages->applyLimit($criteria);
+
+	$sort=new CSort('Post');
+	$sort->defaultOrder='status ASC, createTime DESC';
+	$sort->applyOrder($criteria);
+
+	$posts=Post::model()->findAll($criteria);
+
+	$this->render('admin',array(
+		'posts'=>$posts,
+		'pages'=>$pages,
+		'sort'=>$sort,
+	));
+}
+~~~
+
+Powyższy kod jest bardzo podobny do tego z akcji `actionList()`. Główna różnica to, że
+tutaj używamy obiektu [CSort] do reprezentowania informacji o sortowaniu (np. która   
+kolumna będzie posortowana i w jakim kierunku). Obiekt [CSort] jest używany przez 
+widok `admin` w celu generowania odpowiednich odnośników w komórkach nagłówkowych tabelki.
+Klikanie na tych linkach spowoduje, że aktualna strona zostanie odświeżona a dane  
+zostaną posortowane przy użyciu tej kolumny.
+
+Poniżej znajduje się kod dla widoku `admin`:
+
+~~~
+[php]
+<h2>Manage Posts</h2>
+
+<table class="dataGrid">
+  <tr>
+    <th><?php echo $sort->link('status'); ?></th>
+    <th><?php echo $sort->link('title'); ?></th>
+    <th><?php echo $sort->link('createTime'); ?></th>
+    <th><?php echo $sort->link('updateTime'); ?></th>
+  </tr>
+<?php foreach($posts as $n=>$post): ?>
+  <tr class="<?php echo $n%2?'even':'odd';?>">
+    <td><?php echo CHtml::encode($post->statusText); ?></td>
+    <td><?php echo CHtml::link(CHtml::encode($post->title),
+    	array('show','id'=>$post->id)); ?></td>
+    <td><?php echo date('F j, Y',$post->createTime); ?></td>
+    <td><?php echo date('F j, Y',$post->updateTime); ?></td>
+  </tr>
+<?php endforeach; ?>
+</table>
+
+<br/>
+<?php $this->widget('CLinkPager',array('pages'=>$pages)); ?>
+~~~
+
+Kod ten jest bardzo prosty. Iterujemy listę wiadomości i wyświetlamy je w postaci tabelki.
+W komórkach nagłówkowych tabelki używamy obiektu [CSort] do wygenerowania odnośników w celu 
+sortowania. Na końcu, osadzamy widżet [CLinkPager] aby wyświetlał przyciski stronicowania
+jeśli zajdzie taka potrzeba.
+
+> Tip|Wskazówka: Podczas wyświetlania tekstu wołamy metodę [CHtml::encode()] do zakodowania 
+znajdujących się w nim wpisów HTML. Chroni to przed [atakami XSS](http://www.yiiframework.com/doc/guide/topics.security).
+
+
+Usuwanie wiadomości
+--------------
+
+Podczas gdy wiadomość jest wyświetlana przy użyciu operacji `show`, pokazujemy link 
+`delete` jeśli aktualny użytkownik jest właścicielem systemu. Kliknięcie na tym przycisku 
+spowoduje usunięcie wiadomości. Ze względu na to, że usunięcie wiadomości zmienia dane 
+po stronie serwera, używamy żądania POST aby wywołać usuwanie.  Zatem, używamy następującego 
+kodu do wygenerowania przycisku usuwania `delete`:
+
+~~~
+[php]
+<?php echo CHtml::linkButton('Delete',array(
+   'submit'=>array('post/delete','id'=>$post->id),
+   'confirm'=>"Are you sure to delete this post?",
+)); ?>
+~~~
+
+Metoda [CHtml::linkButton()] generuje przycisk łącza (ang. link button), który 
+tak jak zwykły przycisk. Kliknięcie na ten link spowoduje przesłanie zakodowanego  
+formularza HTML w postaci metody POST. Tutaj określamy, że formularz powinien zostać 
+przesłany do URLa wygenerowane zgodnie z `array('post/delete','id'=>$post->id)`.
+W naszej aplikacji bloga wygenerowany URL będzie miał następującą postać 
+`/blog/index.php?r=post/delete&id=1`, która odpowiada akcji `delete` w kontrolerze `PostController`.
+Określiliśmy również, że okno zawierające potwierdzeniem powinno wyskoczyć w momencie 
+kliknięcia na ten link. Daje to użytkownikowi szansę na ponowne rozpatrzenie swojego 
+żądania usunięcia. 
+
+Kod dla operacji `delete` jest oczywisty. Nie będziemy do wyjaśniać tutaj.
+
+~~~
+[php]
+public function actionDelete()
+{
+	if(Yii::app()->request->isPostRequest)
+	{
+		// we only allow deletion via POST request
+		$this->loadPost()->delete();
+		$this->redirect(array('list'));
+	}
+	else
+		throw new CHttpException(400,'Invalid request...');
+}
+~~~
+
+
+<div class="revision">$Id: post.admin.txt 1050 2009-05-22 20:06:18Z qiang.xue $</div>

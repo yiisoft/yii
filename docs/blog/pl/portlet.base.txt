@@ -1,0 +1,109 @@
+Ustalanie architektury portletu
+=============================
+
+Funkcjonalności takie jak "ostatnie komentarze", "chmurka tagów" najlepiej jest zaimplementować 
+w postaci [portletu](http://en.wikipedia.org/wiki/Portlet). Portlet jest podobnym do wtyczki 
+komponentem interfejsu użytkownika, który generuje fragment kodu HTML. W części tej opiszemy 
+jak ustanowić architekture portletu dla naszej aplikacji blogowej.
+
+Opierając się na analizie wymagań, potrzebujemy czterech różnych portletów:
+portlet logowania, portlet "menu użytkownika", portlet "chmurki tagów" oraz
+portlet "ostatnich postów". Portlety te zostaną umieszczone w bocznym pasku każdej strony.
+
+Tworzenie klasy `Portlet`
+------------------------
+
+Definiujemy klasę o nazwie `Portlet` by służyła jako klasa podstawowa dla wszystkich 
+naszych czterech portletów. Klasa bazowa zawiera wspólne właściwości oraz metody   
+współdzielone przez wszystkie portlety. Na przykład, definiuje właściwość tytułu `title`,
+która reprezentuj tytuł portletu; definiuje jak ozdobić portlet używając okalającej
+ramki z obramowaniem z kolorowym tłem.
+
+Następujący kod pokazuje definicję klasy bazowej portletu `Portlet`. Ponieważ portlet często 
+zawiera zarówno logikę oraz prezentację zdefinowaliśmy klasę `Portlet` jako dziedziczącą 
+po [CWidget], co oznacza iż portlet jest [widżetem](http://www.yiiframework.com/doc/guide/basics.view) 
+i może zostać osadzony w widoku poprzez użycie metody [widget()|CBaseController::widget].
+
+~~~
+[php]
+class Portlet extends CWidget
+{
+	public $title; // the portlet title
+	public $visible=true; // whether the portlet is visible
+	// ...other properties...
+
+	public function init()
+	{
+		if($this->visible)
+		{
+			// render the portlet starting frame
+			// render the portlet title
+		}
+	}
+
+	public function run()
+	{
+		if($this->visible)
+		{
+			$this->renderContent();
+			// render the portlet ending frame
+		}
+	}
+
+	protected function renderContent()
+	{
+		// klasa pochodna powinna nadpisać tą metodę
+		// aby móc generować swą aktualną zawartość
+	}
+}
+~~~
+
+W powyższym kodzie, metody `init()` oraz `run()` są metodami wymaganymi przez klasę [CWidget] 
+i są one wołane automatycznie kiedy widżet jest renderowany w widoku. Klasa dziedzicząca z
+`Portlet` przede wszystkim musi nadpisać metodę `renderContent()` aby wygenerować aktualną 
+zawartość portletu.
+
+
+Dostosowywanie układu strony (ang. Customizing Page Layout)
+-----------------------
+
+Nadszedł czas, aby dopasować układ strony, tak, abyśmy mogli umieścić portlety
+w pasku bocznym. Układ strony jest wyłącznie determinowany przez plik widoku układu  
+`/wwwroot/blog/protected/views/layouts/main.php`. Generuje on wspólne części 
+(np. nagłówek, stopkę) różnych stron i osadza w odpowiednich miejscach dynamiczną 
+zawartość, która została wygenerowana przez poszczególne widoki akcji.
+
+Nasz blog będzie używał następującego układu:
+
+~~~
+[php]
+<html>
+<head>
+......
+<?php echo CHtml::cssFile(Yii::app()->baseUrl.'/css/main.css'); ?>
+<title><?php echo $this->pageTitle; ?></title>
+</head>
+
+<body>
+
+...nagłówek...
+
+<div id="sidebar">
+...lista portletów...
+</div>
+
+<div id="content">
+<?php echo $content; ?>
+</div>
+
+...stópka...
+
+</body>
+</html>
+~~~
+
+Poza dostosowaniem pliku widoku układu, musimy również dopasować plik CSS
+`/wwwroot/blog/css/main.css`, tak aby końcowy wygląd miał postać tego co widzimy na
+[blogu demo](http://www.yiiframework.com/demos/blog/). Nie będziemy wchodzić tutaj w szczegóły.
+
+<div class="revision">$Id: portlet.base.txt 682 2009-02-16 05:01:41Z qiang.xue $</div>

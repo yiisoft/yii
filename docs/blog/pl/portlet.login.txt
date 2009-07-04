@@ -1,0 +1,141 @@
+Tworzenie portletu logowania
+======================
+
+Szkielet aplikacji, który stworzyliśmy zawiera stronę logowania. W części tej, 
+przekonwertujemy tą stronę na portlet logowania o nazwie `UserLogin`. 
+Portlet będzie wyświetlany w pasku bocznym strony, jeśli aktualny użytkownik
+jest nieuwierzytelnionym gościem. Jeśli logowanie powiedzie się, portlet zniknie  
+a pojawi się w jego miejsce wcześniej przez nas stworzone portlet z menu użytkownika.
+
+
+Tworzenie klasy `UserLogin`
+--------------------------
+
+Tak jak w przypadku portletu menu użytkownika utworzymy klasę `UserLogin`, która 
+będzie zawierała logikę portletu logowania użytkownika oraz zapiszemy ją w pliku
+`/wwwroot/blog/protected/components/UserLogin.php`. Plik ten ma następującą zawartość:
+
+~~~
+[php]
+<?php
+class UserLogin extends Portlet
+{
+	public $title='Login';
+
+	protected function renderContent()
+	{
+		$form=new LoginForm;
+		if(isset($_POST['LoginForm']))
+		{
+			$form->attributes=$_POST['LoginForm'];
+			if($form->validate())
+				$this->controller->refresh();
+		}
+		$this->render('userLogin',array('form'=>$form));
+	}
+}
+~~~
+
+
+Kod w metodzie `renderContent()` został skopiowany z metody `actionLogin()` kontrolera
+`SiteController`, który wygenerowaliśmy na początku przy użyciu narzędzia `yiic`.
+Zmienimy głównie wywołanie metody `render()` na generowanie widoku o nazwie `userLogin`.
+Zauważ również, że utworzyliśmy obiekt klasy `LoginForm` w tej metodzie. Klasa ta  
+reprezentuje dane wejściowe użytkownika, które zbieramy z formularza logowania.
+Znajduje się ona w pliku `/wwwroot/blog/protected/models/LoginForm.php`  
+i została wygenerowana przez narzędzie `yiic` podczas tworzenia szkieletu aplikacji.
+
+
+Tworzenie widoku `userLogin`
+-------------------------
+
+Zawartość widoku `userLogin` również pochodzi w większej części z widoku `login` 
+z akcji `login` kontrolera `SiteController`. Widok zapisany jest w pliku  
+`/wwwroot/blog/protected/components/views/userLogin.php` i posiada następującą zawartość:
+
+~~~
+[php]
+<?php echo CHtml::beginForm(); ?>
+<div class="row">
+<?php echo CHtml::activeLabel($form,'username'); ?>
+<br/>
+<?php echo CHtml::activeTextField($form,'username') ?>
+<?php echo CHtml::error($form,'username'); ?>
+</div>
+<div class="row">
+<?php echo CHtml::activeLabel($form,'password'); ?>
+<br/>
+<?php echo CHtml::activePasswordField($form,'password') ?>
+<?php echo CHtml::error($form,'password'); ?>
+</div>
+<div class="row">
+<?php echo CHtml::activeCheckBox($form,'rememberMe'); ?>
+<?php echo CHtml::label('Remember me next time',CHtml::getActiveId($form,'rememberMe')); ?>
+</div>
+<div class="row">
+<?php echo CHtml::submitButton('Login'); ?>
+<p class="hint">You may login with <b>demo/demo</b></p>
+</div>
+<?php echo CHtml::endForm(); ?>
+~~~
+
+W formularzu logowania wyświetlamy pole tekstowe dla nazwy użytkownika oraz pole 
+przeznaczone do wpisywania hasła. Wyświetlamy również checkbox wskazujący kiedy stan 
+zalogowania użytkownika powinien być zapamiętywany nawet jeśli przeglądarka zostanie 
+zamknięta. Widok posiada lokalną zmienną nazwaną `$form`, która pochodzi z danych 
+przesłanych z wywołania metody `render()` w `UserLogin::renderContent()`.
+
+Ponieważ model danych `LoginForm` posiada reguły sprawdzania poprawności (podobnie 
+jak model `Post`), podczas przesyłania przez użytkownika formularza, model dokona  
+operacji sprawdzania poprawności danych. Jeśli wystąpił jakikolwiek błąd podczas sprawdzania
+formularz wyświetli informację o nim tuż przy niepoprawnie wypełnionym polu wejściowym
+przy pomocy [CHtml::error()].
+
+
+Używanie portletu `UserLogin`
+-------------------------
+
+Użyjemy porltetu `UserLogin` podobnie jak `UserMenu` poprzez zmodyfikowania pliku 
+widoku `/wwwroot/blog/protected/views/layouts/main.php` w następujący sposób:
+
+~~~
+[php]
+......
+<div id="sidebar">
+
+<?php $this->widget('UserLogin',array('visible'=>Yii::app()->user->isGuest)); ?>
+
+<?php $this->widget('UserMenu',array('visible'=>!Yii::app()->user->isGuest)); ?>
+
+</div>
+......
+~~~
+
+Zauważ, że portlet `UserLogin` jest widoczny tylko gdy aktualny użytkownik jest gościem,
+w przeciwieństwie do portletu `UserMenu`.
+
+
+Testowanie portletu `UserLogin`
+---------------------------
+Aby przetestować portlet `UserLogin`, wykonaj następujące kroki:
+
+ 1. Otwórz adres URL `http://www.example.com/blog/index.php`. Jeśli bieżący użytkownik  
+ nie jest zalogowany, powinniśmy być w stanie zobaczyć portlet `UserLogin`.
+ 2. Bez wprowadzania jakichkolwiek danych do formularza logowania, po kliknięciu w przycisk 
+ logowania `Login` powinniśmy zobaczyć wiadomości o błędach.
+ 3. Spróbuj zalogować się przy użyciu nazwy użytkownika `demo` oraz hasła `demo`. 
+ Aktualna strona zostanie odświeżona, porltet `UserLogin` zniknie a portlet `UserMenu` 
+ pojawi się.
+ 4. Kliknij w pozycję menu `Logout` w portecie `UserMenu`, powinieneś zauważyć, ze portlet
+ `UserMenu` zniknął podczas gdy portlet `UserLogin` pojawił się znów.
+
+
+Podsumowania
+-------
+
+Pottlet `UserLogin` jest typowym przykładem, który jest zgodny z wzorcem
+projektowym MVC. Używa on modelu `LoginForm` do reprezentowania danych oraz reguł biznesowych; 
+używa on widoku `userLogin` do generowania interfejsu użytkownika oraz używa klasy 
+`UserLogin` (jako minikontroler) do zarządzania modelem oraz widokiem.
+
+<div class="revision">$Id: portlet.login.txt 884 2009-03-24 11:08:27Z qiang.xue $</div>

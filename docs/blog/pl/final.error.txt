@@ -1,0 +1,21 @@
+Dostosowywanie wyświetlania błędów
+=========================
+
+Nasza aplikacja blogowa używa szablonu dostarczanego przez Yii do wyświetlania różnych 
+błędów. Ponieważ styl oraz redakcja tekstu różni się od tego czego oczekujemy, chcemy
+dostosować te szablony. Aby to zrobić, utworzymy szereg plików widoku w katalogu
+`/wwwroot/blog/protected/views/system`.
+
+Najpierw utworzymy plik nazwany `error.php`. Jest to domyślny widok, który będzie  
+używany do wyświetlania wszystkich rodzajów błędów, jeśli bardziej szczegółowy 
+plik widoku błędów nie będzie dostępny. Ponieważ ten plik widoku jest używany 
+kiedy wystąpi błąd, nie powinien on zawierać bardzo skomplikowanej logiki PHP, która 
+może powodować dalsze błędy. Zauważ również, że pliki widoków błędów nie używają układu.
+Dlatego też, powinien posiadać kompletny wygląd strony.  
+
+Tworzymy również plik o nazwie `error403.php` w celu wyświetlania błędu HTTP 403 (brak uwierzytelnienia) 
+oraz plik o nazwie `error404.php` do wyświetlania błędu HTTP 404 (nie znaleziono strony).
+
+Aby poznać więcej szczegółów o nazywaniu tych plików widoku błędów, spójrz do [Przewodnika](http://www.yiiframework.com/doc/guide/topics.error#displaying-errors).
+
+<div class="revision">$Id: final.error.txt 1049 2009-05-22 20:00:35Z qiang.xue $</div>

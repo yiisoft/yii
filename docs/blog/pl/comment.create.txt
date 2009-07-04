@@ -1,0 +1,120 @@
+Tworzenie i wyświetlanie komentarzy
+================================
+
+W części tej zaimplementujemy funkcje wyświetlania oraz tworzenia komentarzy.
+
+
+Wyświetlanie komentarzy
+-------------------
+
+Zamiast osobnych stron do wyświetlania i tworzenia komentarzy użyjemy strony 
+wyświetlającej wiadomości. Poniżej wyświetlonej zawartości każdej wiadomości,  
+wyświetlimy listę komentarzy należących do tej wiadomości a pod nimi formularz 
+tworzenia komentarza.
+
+W celu wyświetlenia komentarzy na stronie wiadomości, zmienimy metodę `actionShow()` 
+kontrolera `PostController` w następujacy sposób:
+
+~~~
+[php]
+public function actionShow()
+{
+	$post=$this->loadPost();
+	$this->render('show',array(
+		'post'=>$post,
+		'comments'=>$post->comments,
+	));
+}
+~~~
+
+Zauważ, że wyrażenie `$post->comments` jest poprawne ponieważ zdefiniowaliśmy relację  
+`comments` w klasie `Post`. Wywołanie tego wyrażenia uruchomi ukryte zapytanie 
+JOIN do bazy danych, które zwróci komentarze należące do aktualnej wiadomości.
+Funkcjonalność ta znana jest jako [leniwe zapytanie relacyjne](http://www.yiiframework.com/doc/guide/database.arr).
+
+Zmodyfikujemy również widok `show` poprzez dołączenie wyświetlania komentarzy  
+na końcu wyświetlania wiadomości, nad czym nie będziemy się tutaj zbytnio rozwodzić.
+
+Tworzenie komentarzy
+-----------------
+
+Aby obsłużyć tworzenie komentarzy, najpierw zmienimy metodę `actionShow()` kontrolera `PostController`
+w następujący sposób:
+
+~~~
+[php]
+public function actionShow()
+{
+	$post=$this->loadPost();
+	$comment=$this->newComment($post);
+	$this->render('show',array(
+		'post'=>$post,
+		'comments'=>$post->comments,
+		'newComment'=>$comment,
+	));
+}
+
+protected function newComment($post)
+{
+	$comment=new Comment;
+	if(isset($_POST['Comment']))
+	{
+		$comment->attributes=$_POST['Comment'];
+		$comment->postId=$post->id;
+		$comment->status=Comment::STATUS_PENDING;
+
+		if(isset($_POST['previewComment']))
+			$comment->validate('insert');
+		else if(isset($_POST['submitComment']) && $comment->save())
+		{
+			Yii::app()->user->setFlash('commentSubmitted','Thank you...');
+			$this->refresh();
+		}
+	}
+	return $comment;
+}
+~~~
+
+W powyższym kodzie, wołamy metodę `newComment()` zanim wygenerujemy widok `show`. 
+W metodzie `newComment()` generujemy instancję komentarza `Comment` i sprawdzamy 
+czy formularz komentarza został przesłany. Formularz może zostać przesłany poprzez
+kliknięcie zarówno przycisku submit lub też przycisku podglądu. Dla pierwszego  
+spróbujemy zapisać komentarz i wyświetlić migawkę (ang. flash message). 
+Migawka jest wyświetlana tylko raz, co oznacza zniknie ona, że jeśli odświeżymy stronę. 
+
+Zmodyfikujemy również widok `show` poprzez dołączenie formularza tworzenia komentarza.
+
+~~~
+[php]
+......
+<?php $this->renderPartial('/comment/_form',array(
+	'comment'=>$newComment,
+	'update'=>false,
+)); ?>
+~~~
+
+Osadziliśmy formularz tworzenia komentarza w częściowym widoku `/wwwroot/blog/protected/views/comment/_form.php`. 
+Zmienna `$newComment` jest przekazywana do metody `actionShow`. Jej głównym zadaniem jest 
+przechowywanie informacji o danych wejściowych użytkownika. Zmienna `update` 
+ustawiona jest na wartość false, co oznacza, że formularz komentarza jest używany do 
+tworzenia nowego komentarza.
+
+W celu wsparcia podglądu komentarza, dodamy przycisk podglądu do formularza tworzenia
+komentarza. Gdy przycisk podglądu zostanie kliknięty, podgląd komentarza jest wyświetlany 
+na górze strony. Poniżej znajduje się zaktualizowany kod formularza komentarza:
+
+~~~
+[php]
+...formularz komentarza z przyciskiem podglądu...
+
+<?php if(isset($_POST['previewComment']) && !$comment->hasErrors()): ?>
+<h3>Preview</h3>
+<div class="comment">
+  <div class="author"><?php echo $comment->authorLink; ?> says:</div>
+  <div class="time"><?php echo date('F j, Y \a\t h:i a',$comment->createTime); ?></div>
+  <div class="content"><?php echo $comment->contentDisplay; ?></div>
+</div><!-- post preview -->
+<?php endif; ?>
+~~~
+
+<div class="revision">$Id: comment.create.txt 1157 2009-06-22 15:25:02Z qiang.xue $</div>
