@@ -458,12 +458,15 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Returns information about the capabilities of user browser.
+	 * @param string the user agent to be analyzed. Defaults to null, meaning using the
+	 * current User-Agent HTTP header information.
 	 * @return array user browser capabilities.
 	 * @see http://www.php.net/manual/en/function.get-browser.php
 	 */
-	public function getBrowser()
+	public function getBrowser($userAgent=null)
 	{
-		return get_browser();
+		return get_browser($userAgent,true);
 	}
 
 	/**
