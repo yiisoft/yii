@@ -1368,11 +1368,13 @@ EOD;
 	 * a single model or an array of models.
 	 * @param string a piece of HTML code that appears in front of the errors
 	 * @param string a piece of HTML code that appears at the end of the errors
+	 * @param array additional HTML attributes to be rendered in the container div tag.
+	 * This parameter has been available since version 1.0.7.
 	 * @return string the error summary. Empty if no errors are found.
 	 * @see CModel::getErrors
 	 * @see errorSummaryCss
 	 */
-	public static function errorSummary($model,$header=null,$footer=null)
+	public static function errorSummary($model,$header=null,$footer=null,$htmlOptions=array())
 	{
 		$content='';
 		if(!is_array($model))
@@ -1392,7 +1394,9 @@ EOD;
 		{
 			if($header===null)
 				$header='<p>'.Yii::t('yii','Please fix the following input errors:').'</p>';
-			return self::tag('div',array('class'=>self::$errorSummaryCss),$header."\n<ul>\n$content</ul>".$footer);
+			if(!isset($htmlOptions['class']))
+				$htmlOptions['class']=self::$errorSummaryCss;
+			return self::tag('div',$htmlOptions,$header."\n<ul>\n$content</ul>".$footer);
 		}
 		else
 			return '';
@@ -1402,15 +1406,21 @@ EOD;
 	 * Displays the first validation error for a model attribute.
 	 * @param CModel the data model
 	 * @param string the attribute name
+	 * @param array additional HTML attributes to be rendered in the container div tag.
+	 * This parameter has been available since version 1.0.7.
 	 * @return string the error display. Empty if no errors are found.
 	 * @see CModel::getErrors
 	 * @see errorMessageCss
 	 */
-	public static function error($model,$attribute)
+	public static function error($model,$attribute,$htmlOptions=array())
 	{
 		$error=$model->getError($attribute);
 		if($error!='')
-			return self::tag('div',array('class'=>self::$errorMessageCss),$error);
+		{
+			if(!isset($htmlOptions['class']))
+				$htmlOptions['class']=self::$errorMessageCss;
+			return self::tag('div',$htmlOptions,$error);
+		}
 		else
 			return '';
 	}

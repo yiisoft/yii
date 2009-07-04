@@ -65,7 +65,7 @@ class CMssqlSchema extends CDbSchema
 
 	/**
 	 * Creates a table instance representing the metadata for the named table.
-	 * @return CMysqlTableSchema driver dependent table metadata. Null if the table does not exist.
+	 * @return CMssqlTableSchema driver dependent table metadata. Null if the table does not exist.
 	 */
 	protected function createTable($name)
 	{
@@ -84,7 +84,7 @@ class CMssqlSchema extends CDbSchema
 
 	/**
 	 * Generates various kinds of table names.
-	 * @param CMysqlTableSchema the table instance
+	 * @param CMssqlTableSchema the table instance
 	 * @param string the unquoted table name
 	 */
 	protected function resolveTableNames($table,$name)
@@ -211,7 +211,7 @@ EOD;
 
 	/**
 	 * Collects the table column metadata.
-	 * @param CMysqlTableSchema the table metadata
+	 * @param CMssqlTableSchema the table metadata
 	 * @return boolean whether the table exists in the database
 	 */
 	protected function findColumns($table)

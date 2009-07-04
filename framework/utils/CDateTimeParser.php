@@ -137,7 +137,7 @@ class CDateTimeParser
 				{
 					if(($second=self::parseInteger($value,$i,1,2))===false)
 						return false;
-					$i+=strlen($seconds);
+					$i+=strlen($second);
 					break;
 				}
 				case 'ss':

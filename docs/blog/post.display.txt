@@ -36,7 +36,7 @@ protected function loadPost($id=null)
 }
 ~~~
 
-Our change mainly lies in the `loadPost()` method. In this method, we query the `Post` table according to the `id` GET parameter. If the post is not found or if it is not published (when the user is a guest), we will throw a 500 HTTP error. Otherwise the post object is returned to `actionShow()` which in turn passes the post object to the `show` view for further display.
+Our change mainly lies in the `loadPost()` method. In this method, we query the `Post` table according to the `id` GET parameter. If the post is not found or if it is not published (when the user is a guest), we will throw a 404 HTTP error. Otherwise the post object is returned to `actionShow()` which in turn passes the post object to the `show` view for further display.
 
 > Tip: Yii captures HTTP exceptions (instances of [CHttpException]) and displays them in error pages using some predefined templates. These templates can be customized per application, which we will describe in detail at the end of this tutorial.
 
