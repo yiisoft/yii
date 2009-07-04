@@ -173,7 +173,7 @@ If you have a 'db' database connection, you can test it now with:
 >> crud User
    generate UserController.php
    generate create.php
-      mkdir D:/wwwroot/testdrive/protected/views/user
+   mkdir D:/wwwroot/testdrive/protected/views/user
    generate update.php
    generate list.php
    generate show.php
@@ -185,7 +185,7 @@ http://hostname/path/to/index.php?r=user
 Ovan används `shell`-kommandot i `yiic` till att interagera med mallapplikationen. 
 Vid kommandoprompten kör vi två underkommandon: `model User` och `crud User`. 
 Den förra skapar en modellklass för tabellen `User`, medan den senare läser 
-`User`-modellen och genererar koden som erfordras för CRUD-operationerna.
+`User`-modellen och genererar koden som implementerar CRUD-operationerna.
 
 > Note|Märk: Det kan hända att felmeddelanden i stil med "...could not find driver"
 > uppstår, även om systemkravskontrollen visar att PDO och motsvarande databasdrivrutin 
@@ -236,4 +236,4 @@ Allt detta uppnåddes utan att skriva en enda rad kod!
 
 
 
-<div class="revision">$Id: quickstart.first-app.txt 891 2009-03-25 15:20:56Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app.txt 968 2009-04-29 13:32:46Z qiang.xue $</div>

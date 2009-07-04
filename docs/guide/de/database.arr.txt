@@ -293,6 +293,12 @@ dass Spaltenreferenzen mit `aliasToken` eindeutig gekennzeichnet werden müssen 
 dass Spaltenreferenzen mit `aliasToken` eindeutig gekennzeichnet werden müssen (z.B. `??.age`).
 Diese Option ist seit Version 1.0.1. verfügbar.
 
+   - `index`: Der Name der Spalte, deren Wert als Schlüssel für den Array mit
+relationalen Objekten verwendet werden soll. Wird diese Option nicht gesetzt, 
+wird ein 0-basierter ganzzahliger Index verwendet.
+Diese Option kann nur für `HAS_MANY`- und `MANY_MANY`-Beziehungen gesetzt
+werden. Diese Option ist seit Version 1.0.7 verfügbar.
+
 Zusätzlich sind für bestimmte Beziehungen folgende Optionen beim `lazy loading`
 verfügbar:
 
@@ -512,4 +518,4 @@ class User extends CActiveRecord
 verwendet werden, die in [CActiveRecord::scopes] definiert wurden. Daher
 können diese hier auch nicht parametrisiert werden.
 
-<div class="revision">$Id: database.arr.txt 1024 2009-05-12 16:35:09Z qiang.xue $</div>
+<div class="revision">$Id: database.arr.txt 1168 2009-06-23 14:52:48Z qiang.xue $</div>

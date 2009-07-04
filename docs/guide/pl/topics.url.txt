@@ -224,9 +224,9 @@ Po pierwsze musimy skonfigurować web serwer tak, by adres URL pozbawiony
 skryptu wejściowego mógł być zawsze obsługiwany z uwzględnieniem skryptu.
 W przypadku [serwera HTTP Apache](http://httpd.apache.org/) może to być zrealizowane poprzez
 włączenie tzw. mechanizmu nadpisywania URL (ang. URL rewriting engine)
-i zdefiniowanie kilku reguł nadpisywania. Taka konfiguracja może zostać
-umieszczona w pliku `.htaccess`, wewnątrz katalogu zawierającego skrypt
-wejściowy. Poniżej przykładowa:
+i zdefiniowanie kilku reguł nadpisywania. Możemy stworzyć plik `/wwwroot/blog/.htaccess` 
+z następującą zawartością. Zauważ, że ta sama zawartość może zostać umieszczona 
+w pliku konfiguracji Apache'a wewnątrz elementu `Directory` dla `/wwwroot/blog`.
 
 ~~~
 Options +FollowSymLinks
@@ -256,4 +256,4 @@ do strony statycznej. Aby to zrobić po prostu skonfiguruj komponent
 [urlManager|CWebApplication::urlManager] ustawiając jego właściwość
 [urlSuffix|CUrlManager::urlSuffix] na taki sufiks, jaki ci odpowiada.
 
-<div class="revision">$Id: topics.url.txt 1045 2009-05-21 22:13:50Z qiang.xue $</div>
+<div class="revision">$Id: topics.url.txt 1098 2009-06-06 20:55:07Z qiang.xue $</div>

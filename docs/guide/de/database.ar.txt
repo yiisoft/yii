@@ -157,18 +157,16 @@ magischen PHP Methode `__get()` erlaubt, darauf wie auf eine Eigenschaft
 zuzugreifen. Falls wir auf diese Weise versuchen, ein nicht existierendes Feld
 anzusprechen, wird eine Exception ausgelöst.
 
-> Info|Info: Zur besseren Lesbarkeit empfehlen wir, die Spalten einer Tabelle
-in sog. CamelCase-Schreibweise zu benennen. Das bedeutet, dass außder dem
-ersten, alle Worte im Namen mit Großbuchstaben beginnen und diese ohne Leerzeichen
-aneinandergereiht werden. Beispielsweise könnten wir `erstellZeit` verwenden,
-um die Spalte zum Speichern des Erstellzeitpunkts einer Zeile zu benennen.
-Die Benennung von Tabellen unterliegt dem persönlichen Geschmack. In diesem
-Handbuch verwenden wir auch dafür CamelCase, mit dem Unterschied, dass der erste Buchstabe
-hier ebenfalls groß geschrieben wird. Wir verwenden zum Beispiel `Post`
-(Beitrag) als Namen für die Tabelle, in der Beitragsdaten abgelegt werden sollen.
-Beachten Sie jedoch, dass die CamelCase-Schreibweise bei einigen DBMS, wie z.B. MySQL, 
-auch zu Unannehmlichkeiten führen kann, da diese sich je nach Betriebssystem
-unterschiedlich verhalten.
+> Info|Info: In diesem Handbuch benennen wir Spalten in sog.
+CamelCase-Schreibweise (z.B. `createTime`), da sie wie normale
+Objekteigenschaften angesprochen werden, die ja ebenfalls
+CamelCase verwenden. Während dies für mehr Konsistenz in unserem
+PHP-Code sorgt, kann es auf der anderen Seite bei manchen Datenbanksystemen zu
+Problemen führen. Bei PostgreSQL spielt die Groß-/Kleinschreibung zum Beispiel
+standardmäßig keine Rolle und wir müssen eine Spalte in Anführungszeichen setzen, 
+falls sie gemischte Groß-/Kleinschreibung verwendet. Es kann daher ratsam sein, 
+Spalten- und Tabellennamen nur in Kleinbuchstaben zu benennen (z.B. `create_time`) um
+möglichen Problemen mit der Schreibweise vorzubeugen.
 
 
 Einfügen von Datensätzen
@@ -280,6 +278,11 @@ Zum Beispiel:
 // Finde die Zeile mit postID=10
 $post=Post::model()->find('postID=:postID', array(':postID'=>10));
 ~~~
+
+> Note|Hinweis: Bei manchen Datenbanksystemen muss die `postID`-Spalte in
+obigem Beispiel escaped werden. Verwenden wir zum Beispiel PostgreSQL, müssten
+wir die Kondition als `"postID"=:postID` schreiben, da PostgreSQL
+standardmäßig die Groß-/Kleinschreibung von Spaltennamen nicht berücksichtigt.
 
 Wir können `$condition` auch für komplexere Abfragebedingungen verwenden.
 Statt eines Strings kann `$condition` auch eine Instanz von [CDbCriteria]
@@ -677,4 +680,4 @@ Abfragekriterium.
 [php]
 $contents=Content::model()->findAll();
 ~~~
-<div class="revision">$Id: database.ar.txt 1025 2009-05-12 17:47:04Z qiang.xue $</div>
+<div class="revision">$Id: database.ar.txt 1167 2009-06-23 02:56:45Z qiang.xue $</div>

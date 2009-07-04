@@ -1,0 +1,201 @@
+Tworzenie i aktualizowanie wiadomości
+===========================
+
+Mając gotowy model wiadomości `Post`, potrzebujemy dopracować akcje oraz widoki dla 
+kontrolera wiadomości `PostController`. W części tej najpierw dostosujemy kontrolę dostępności 
+operacji CRUD; następnie zmodyfikujemy kod implementujący operacje tworzenia `create` oraz 
+aktualizowania `update`; na koniec zaimplementujemy funkcję podglądu dla obu operacji.
+
+
+Dostosowywanie kontroli dostępności
+--------------------------
+
+Pierwszą rzeczą jaką chcemy zrobić jest dostosowanie 
+[kontroli dostępu](http://www.yiiframework.com/doc/guide/topics.auth#access-control-filter) 
+ze względu na to, że kod wygenerowany przez `yiic` nie pasuje do naszych wymagań.
+
+Modyfikujemy metodę `accessRules()` w pliku `/wwwroot/blog/protected/controllers/PostController.php`
+w następujący sposób:
+
+~~~
+[php]
+public function accessRules()
+{
+	return array(
+		array('allow',  // zezwól wszystkim użytkownikom wykonać akcje 'list' oraz 'show'
+			'actions'=>array('list', 'show'),
+			'users'=>array('*'),
+		),
+		array('allow', // zezwól uwierzytelnionym użytkownikom wykonywać każdą akcję
+			'users'=>array('@'),
+		),
+		array('deny',  // odmów wszystkim użytkownikom
+			'users'=>array('*'),
+		),
+	);
+}
+~~~
+
+Powyższe reguły oznaczają, że wszyscy użytkownicy mogą uzyskać dostęp do akcji
+listowania `list` oraz wyświetlania `show`, zaś uwierzytelnieni użytkownicy mogą 
+uzyskać dostęp do każdej akcji, włączając w to akcję administratora `admin`.
+Użytkownik powinien spotkać się z odmową dla każdego innego scenariusza. 
+Zauważ, że reguły te przetwarzane są w kolejności w jakiej zostały tutaj pokazane.
+Pierwsza reguła pasująca do aktualnego kontekstu decyduje o uzyskaniu dostępu. 
+Na przykład, jeśli aktualny użytkownik to właściciel systemu, który próbuje 
+odwiedzić stronę służącą do tworzenia wiadomości, druga reguła będzie pasowała 
+i zagwarantuje ona dostęp dla tego użytkownika.
+
+Dostosowywanie operacji tworzenia `create` oraz aktualizacji `update`
+--------------------------------------------
+
+Operacje tworzenia `create` i aktualizacji `update` są bardzo podobne.
+Obie potrzebują wyświetlić formularz HTML w celu zebrania danych wejściowych od użytkownika,
+sprawdzenia ich poprawności i zapisania ich w bazie danych. Główną różnicą jest to,  
+że operacja aktualizacji `update` wypełni wstępnie formularz danymi z istniejącej  
+wiadomości znalezionymi w bazie danych. Z tego też powodu, narzędzie `yiic` 
+generuje częściowy widok`/wwwroot/blog/protected/views/post/_form.php`, który jest  
+osadzany w obu widokach `create` oraz `update` w celu wygenerowania potrzebnego formularza HTML.
+
+Na początek zmienimy plik `_form.php`, tak że formularz HTML będzie zbierał jedynie  
+dane wejściowe, które chcemy: tytuł, `title`, zawartość `content` oraz status `status`. 
+Używamy pól ze zwykłym tekstem aby zebrać dane wejściowe dla pierwszych dwóch atrybutów
+oraz listy rozwijanej do zebrania danych wejściowych dla statusu `status`. Opcje listy rozwijanej 
+stanowią teksty wyświetlające dopuszczalne statusy wiadomości:
+
+~~~
+[php]
+<?php echo CHtml::activeDropDownList($post,'status',Post::model()->statusOptions); ?>
+~~~
+
+> Tip|Wskazówka: W powyższym kodzie, możemy również użyć `Post::model()->getStatusOptions()` zamiast 
+`Post::model()->statusOptions` aby zwrócić dopuszczalne opcje statusu. Powodem dla którego  
+używamy ostatniego wyrażenia jest to, że `Post` jest komponentem, który pozwala nam uzyskać 
+dostęp do [właściwości](http://www.yiiframework.com/doc/guide/basics.component#component-property) 
+zdefiniowanych pod postacią metod getterów.
+defined in terms of getter methods.
+
+Następnie zmodyfikujemy klasę wiadomości `Post`, tak, że będzie ona automatycznie ustawiać 
+pewne atrybuty (np. czas utworzenia `createTime`, ID autora `authorId`) zanim wiadomość 
+zapisywana jest do bazy danych. Nadpisujemy metodę `beforeValidate()` następująco:
+
+~~~
+[php]
+protected function beforeValidate($on)
+{
+	$parser=new CMarkdownParser;
+	$this->contentDisplay=$parser->safeTransform($this->content);
+	if($this->isNewRecord)
+	{
+		$this->createTime=$this->updateTime=time();
+		$this->authorId=Yii::app()->user->id;
+	}
+	else
+		$this->updateTime=time();
+	return true;
+}
+~~~
+
+W metodzie tej używamy [CMarkdownParser] aby skonwertować zawartość w 
+[formacie Markdown](http://daringfireball.net/projects/markdown/) do postaci HTML 
+i zapisania rezultatu do `contentDisplay`. Pozwala to uniknąć powtarzającej się  
+konwersji pomiędzy formatami podczas wyświetlania wiadomości. Jeśli mamy do czynienia  
+z nową wiadomości, ustawiamy jej atrybuty czas utworzenia `createTime` oraz 
+ID autora `authorId`; w przeciwnym przypadku ustawiamy datę aktualizacji `updateTime` 
+aby wskazywała aktualny czas. Zauważ, że metoda ta będzie wywołana automatycznie 
+gdy wywołamy metodę sprawdzenia poprawności `validate()` lub zapisu `save()` modelu.
+
+
+Ponieważ chcemy zapisać otagowania wiadomości do tabeli `Tag` potrzebujemy również następującej 
+metody w klasie `Post`, która będzie wywołana automatycznie po zapisaniu wiadomości 
+do bazy danych:
+
+~~~
+[php]
+protected function afterSave()
+{
+	if(!$this->isNewRecord)
+		$this->dbConnection->createCommand(
+			'DELETE FROM PostTag WHERE postId='.$this->id)->execute();
+
+	foreach($this->getTagArray() as $name)
+	{
+		if(($tag=Tag::model()->findByAttributes(array('name'=>$name)))===null)
+		{
+			$tag=new Tag(array('name'=>$name));
+			$tag->save();
+		}
+		$this->dbConnection->createCommand(
+			"INSERT INTO PostTag (postId, tagId) VALUES ({$this->id},{$tag->id})")->execute();
+	}
+}
+
+public function getTagArray()
+{
+	// rozbij ciąg tagów na zestaw tagów
+	return array_unique(
+		preg_split('/\s*,\s*/',trim($this->tags),-1,PREG_SPLIT_NO_EMPTY)
+	);
+}
+~~~
+
+Powyżej, najpierw czyścimy tabelę `PostTag` z wierszy powiązanych z aktualną wiadomością. 
+Następnie wstawiamy nowe tagi do tabeli `Tag` i dodajemy referencję do tabeli `PostTag`.
+Zawarta tu logika jest trochę złożona. Zamiast używania 
+[rekordu aktywnego](http://www.yiiframework.com/doc/guide/database.ar)
+napisaliśmy czyste zapytanie SQL i wywołaliśmy je przy użyciu połączenia do bazy danych.
+
+> Tip|Wskazówka: Jest dobrym zwyczajem trzymać logikę biznesową, taką jak powyższy kod 
+`beforeValidate()` oraz `afterSave()` w modelu zamiast w kontrolerze.
+
+
+Implementacja funkcji podglądu
+----------------------------
+
+Poza powyższymi dostosowaniami, chcemy również dodać funkcję podglądu, która pozwoli nam
+podejrzeć wiadomość zanim zapiszemy ją do bazy danych.
+
+Najpierw zmienimy plik widoku `_form.php` w celu dodatnia przycisku podglądu `preview` 
+oraz wyświetlenia podglądu. Podgląd jest wyświetlany jedynie wtedy, gdy przycisk  
+podglądu został naciśnięty i nie wystąpił żaden błąd podczas sprawdzania poprawności.
+
+~~~
+[php]
+<?php echo CHtml::submitButton('Preview',array('name'=>'previewPost')); ?>
+......
+<?php if(isset($_POST['previewPost']) && !$post->hasErrors()): ?>
+...wyświetl podgląd wiadomości $post tutaj...
+<?php endif; ?>
+~~~
+
+Następnie zmieniamy metody `actionCreate()` oraz `actionUpdate()` kontrolera `PostController` 
+aby odpowiadały na żądanie podglądu. Poniżej prezentujemy zaktualizowany kod 
+`actionCreate()`, który jest bardzo podobny do tego w `actionUpdate()`:
+
+~~~
+[php]
+public function actionCreate()
+{
+	$post=new Post;
+	if(isset($_POST['Post']))
+	{
+		$post->attributes=$_POST['Post'];
+		if(isset($_POST['previewPost']))
+			$post->validate();
+		else if(isset($_POST['submitPost']) && $post->save())
+			$this->redirect(array('show','id'=>$post->id));
+	}
+	$this->render('create',array('post'=>$post));
+}
+~~~
+
+W powyższym kodzie, jeśli przycisk podglądu został kliknięty, wywołujemy metodę 
+`$post->validate()` aby sprawdzić poprawność danych wejściowych; w przeciwnym przypadku 
+jeśli przycisk submit (prześlij) został kliknięty, spróbujemy zapisach wiadomość 
+poprzez wywołanie metody `$post->save()`, która w ukryciu dokona sprawdzenia poprawności.
+Jeśli zapis powiódł się (nie wystąpiły żadne błędy sprawdzani poprawności i dane zostały 
+zapisane do bazy danych bez błędów), przekierowujemy przeglądarkę użytkownika 
+aby pokazała nowo utworzoną wiadomość.
+
+
+<div class="revision">$Id: post.create.txt 763 2009-02-27 14:42:50Z qiang.xue $</div>

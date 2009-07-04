@@ -50,6 +50,7 @@ fullständig information. Nedan återges en lista med vanligtvis använda DSN-fo
    - MySQL: `mysql:host=localhost;dbname=testdb`
    - PostgreSQL: `pgsql:host=localhost;port=5432;dbname=testdb`
    - SQL Server: `mssql:host=localhost;dbname=testdb`
+   - Oracle: `oci:dbname=//localhost:1521/testdb`
 
 Eftersom [CDbConnection] är en utvidgning av [CApplicationComponent], kan vi 
 även använda den som just en 
@@ -167,7 +168,7 @@ try
 	//.... other SQL executions
 	$transaction->commit();
 }
-catch(Exception $e) // an exception is raised if a query fails will be raised
+catch(Exception $e) // an exception is raised if a query fails
 {
 	$transaction->rollBack();
 }
@@ -235,4 +236,4 @@ while($dataReader->read()!==false)
 }
 ~~~
 
-<div class="revision">$Id: database.dao.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>
+<div class="revision">$Id: database.dao.txt 962 2009-04-28 12:44:39Z qiang.xue $</div>

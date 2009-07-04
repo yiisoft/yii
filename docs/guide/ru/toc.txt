@@ -1,8 +1,9 @@
 * Начало
 	- [Обзор](index)
     - [Что такое Yii](quickstart.what-is-yii)
+    - [Новые возможности](changes)
     - [Установка](quickstart.installation)
-    - [Создание первого Yii-приложения](quickstart.first-app)
+    - [Создание первого приложения](quickstart.first-app)
 
 * Основы
     - [Модель - Представление - Контроллер (MVC)](basics.mvc)
@@ -27,8 +28,8 @@
 * Работа с БД
     - [Обзор](database.overview)
     - [Объекты доступа к данным (DAO)](database.dao)
-    - [Активная запись](database.ar)
-    - [Реляционная активная запись](database.arr)
+    - [Active Record](database.ar)
+    - [Реляционная Active Record](database.arr)
 
 * Кэширование
     - [Обзор](caching.overview)
@@ -47,7 +48,7 @@
     - [Красивые адреса URL](topics.url)
     - [Аутентификация и авторизация](topics.auth)
     - [Темы оформления](topics.theming)
-    - [Протоколирование](topics.logging)
+    - [Журналирование](topics.logging)
     - [Обработка ошибок](topics.error)
     - [Веб-сервисы](topics.webservice)
     - [Интернационализация (I18N)](topics.i18n)
