@@ -26,7 +26,7 @@ public function filters()
 {
 	return array(
 		array(
-			'system.web.widgets.COutputCache',
+			'COutputCache',
 			'duration'=>100,
 			'varyByParam'=>array('id'),
 		),
@@ -45,4 +45,4 @@ filter. Faktum är att sättet en widget arbetar på är mycket likt ett filter:
 widget (filter) börjar innan något omslutet innehåll (åtgärd) utvärderas, och 
 denna widget (filter) slutar efter utvärdering av omslutet innehåll (åtgärd).
 
-<div class="revision">$Id: caching.page.txt 162 2008-11-05 12:44:08Z weizhuo $</div>
+<div class="revision">$Id: caching.page.txt 1012 2009-05-10 01:21:58Z qiang.xue $</div>

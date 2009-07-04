@@ -11,7 +11,7 @@ Dienst beherbergt. Ein [flex](http://www.adobe.com/products/flex/)-basierter
 Client könnte zum Beispiel serverseitig Funktionen einer PHP-basierten
 Webanwendung aufrufen. Webservices bauen auf
 [SOAP](http://de.wikipedia.org/wiki/SOAP) als grundlegendem
-Kommunikations-Protokollstack auf.
+Kommunikations-Protokollstapel auf.
 
 Um die Verwirklichung von Webservices in einer Webanwendung zu 
 vereinfachen, beinhaltet Yii [CWebService] und [CWebServiceAction]. Die APIs

@@ -158,7 +158,9 @@ $author=$post->author;
 > Info: Om det saknas en relaterad instans i ett samband kan den motsvarande 
 propertyn anta värdet null eller en tom array. För sambanden `BELONGS_TO` och 
 `HAS_ONE` , är resultatet null; för `HAS_MANY` och `MANY_MANY`, är det en tom 
-array.
+array. Märk att sambandstyperna `HAS_MANY` och `MANY_MANY` returnerar arrayer 
+av objekt, därför behöver man iterera över resultatet för att komma åt propertyn.
+Om man inte gör detta erhålls felet "Trying to get property of non-object".
 
 Tillvägagångssättet med lazy loading är mycket bekvämt att använda, men har 
 lägre prestanda i vissa scenarier. Till exempel, om vi vill få tillgång till 
@@ -276,8 +278,8 @@ tillgängligt från och med version 1.0.2.
    `??.age DESC`).
 
    - `with`: en lista med underordnade relaterade objekt som skall laddas 
-   tillsammans med detta objekt. Märk att detta bara beaktas vid lazy loading, 
-   ej vid eager loading.
+   tillsammans med detta objekt. Var uppmärksam på att om detta alternativ 
+   används olämpligt, kan det leda till en ändlös slinga av relationer.
 
    - `joinType`: typ av sammanslagning för detta samband. Den är som standard 
    `LEFT OUTER JOIN`.
@@ -308,6 +310,13 @@ tillgängligt från och med version 1.0.2.
    `??.age`). Detta alternativ har varit tillgängligt från och med 
    version 1.0.1.
 
+   - `index`: namnet på kolumnen vars värden skall användas som nycklar 
+   i den array som lagrar relaterade objekt. Om detta alternativ inte sätts 
+   kommer en relaterad objektarray att använda ett nollbaserat heltalsindex. 
+   Detta alternativ kan endast sättas för sambandstyperna `HAS_MANY` och `MANY_MANY`. 
+   Detta alternativ har varit tillgängligt sedan version 1.0.7.
+
+
 Dessutom är följande alternativ tillgängliga för vissa samband när lazy loading används:
 
    - `limit`: begränsar antalet rader som kan selekteras. Detta alternativ är 
@@ -326,7 +335,7 @@ class User extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'posts'=>array(self::HAS_MANY, 'Post', 'authorID'
+			'posts'=>array(self::HAS_MANY, 'Post', 'authorID',
 							'order'=>'??.createTime DESC',
 							'with'=>'categories'),
 			'profile'=>array(self::HAS_ONE, 'Profile', 'ownerID'),
@@ -364,10 +373,23 @@ ordningsföljd), kan man göra följande:
 ~~~
 [php]
 User::model()->with(array(
-	'posts'=>array('order'=>'??.createTime DESC'),
+	'posts'=>array('order'=>'??.createTime ASC'),
 	'profile',
 ))->findAll();
 ~~~
+
+Med start fr o m version 1.0.5 kan dynamiska frågealternativ även användas 
+med relationella frågor som använder tillvägagångssättet lazy loading. 
+För att göra så, anropa en metod vars namn är lika sambandsnamnet och lämna med 
+de dynamiska frågealternativen som metodparameter. Till exempel returnerar 
+följande kod de av en användares postningar vars status` är lika med 1:
+
+~~~
+[php]
+$user=User::model()->findByPk(1);
+$posts=$user->posts(array('condition'=>'status=1'));
+~~~
+
 
 Statistikfråga
 --------------
@@ -443,4 +465,58 @@ De skall anges som en array av namn-värdepar.
    - `having`: `HAVING`-ledet. Som standard tomt.
 
 
-<div class="revision">$Id: database.arr.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>
+Relationell fråga med namngivna omfång
+--------------------------------------
+
+> Note|Märk: Stödet för namngivna omfång har varit tillgängligt sedan version 1.0.5.
+
+Relationella frågor kan även utföras i kombination med [namngivna omfång](/doc/guide/database.ar#named-scopes). 
+Detta kan ske i två former. I den första formen appliceras namngivna omfång på huvudmodellen. 
+I den andra formen appliceras namngivna omfång på relaterade modeller.
+
+Följande kod visar hur namngivna omfång appliceras på huvudmodellen.
+
+~~~
+[php]
+$posts=Post::model()->published()->recently()->with('comments')->findAll();
+~~~
+
+Detta är mycket snarlikt icke-relationella frågor. Den enda skillnaden är 
+anropet av `with()` efter kedjan av namngivna omfång. Ovanstående fråga skulle 
+hämta nyligen publicerade postningar tillsammans med dess kommentarer.
+
+Fäljande kod visar hur namngivna omfång appliceras på relaterade modeller.
+
+~~~
+[php]
+$posts=Post::model()->with('comments:recently:approved')->findAll();
+~~~
+
+Ovanstående fråga skulle hämta alla postningar tillsammans med deras för publicering 
+godkända kommentarer. Märk att `comments` refererar till sambandsnamnet, 
+medan `recently` och `approved` refererar till två namngivna omfång som deklarerats 
+i modellklassen `Comment`. Sambandsnamnet och de namngivna omfången skall separeras med kolon.
+
+Namngivna omfång kan även specificeras med alternativet `with` i sambandsdeklarationen i 
+[CActiveRecord::relations()]. I följande exempel kommer - om vi accessar `$user->posts` - 
+alla postningarnas  *godkända* (för publicering) kommentarer att hämtas.
+
+~~~
+[php]
+class User extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+			'posts'=>array(self::HAS_MANY, 'Post', 'authorID',
+				'with'=>'comments:approved'),
+		);
+	}
+}
+~~~
+
+> Note|Märk: Namngivna omfång som appliceras på relaterade modeller måste specificeras i 
+[CActiveRecord::scopes]. Detta innebär också att de inte kan parametriseras.
+
+
+<div class="revision">$Id: database.arr.txt 1168 2009-06-23 14:52:48Z qiang.xue $</div>

@@ -68,13 +68,13 @@ Fehler zur Anzeige für den Endanwender gedacht ist (wie z.B.
 den HTTP-Statuscode steht (z.B. 400, 404, 500). Falls es sich um einen
 internen Fehler handelt und dieser nur Entwicklern angezeigt werden soll,
 verwendet sie einen View namens `exception`. In letzterem Fall wird der
-vollständige Aufrufstack (engl.: call stack) sowie Informationen zur Zeile, 
+vollständige Aufrufstapel (engl.: call stack) sowie Informationen zur Zeile, 
 in der der Fehler aufgetreten ist, angezeigt. 
 
 > Info: Falls die Anwendung im
 [Produktivmodus](/doc/guide/basics.entry#debug-mode) läuft, werden alle
 (inkl. interne) Fehler mit dem View `errorXXX` angezeigt, da
-der Aufrufstack evtl. sensible Daten enthalten kann. In diesem Fall sollte der
+der Aufrufstapel evtl. sensible Daten enthalten kann. In diesem Fall sollte der
 Entwickler Fehlerprotokolle verwenden, um die wahre Ursache des Fehlers
 herauszufinden.
 
@@ -140,7 +140,7 @@ zurückgegebene Fehlerinformation ist ein Array mit den folgenden Feldern:
  * `message`: die Fehlernachricht;
  * `file`: der Name des PHP-Scripts, in dem der Fehler aufgetreten ist;
  * `line`: die Nummer der Zeile, in der der Fehler aufgetreten ist;
- * `trace`: der Aufrufstack des Fehlers;
+ * `trace`: der Aufrufstapel des Fehlers;
  * `source`: der Quelltextbereich, in dem der Fehler aufgetreten ist.
 
 > Tip|Tipp: Die Prüfung, ob [CErrorHandler::error] leer ist oder nicht, führen

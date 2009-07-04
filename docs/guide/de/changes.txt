@@ -3,6 +3,16 @@ Neue Features
 
 Diese Seite fasst die wesentlichen neuen Features jeder Yii-Version zusammen.
 
+Version 1.0.7
+-------------
+
+ * Nachrichten können nun mit Informationen aus dem Aufrufstapel geloggt werden
+     - [Loggen von Kontextinformationen](/doc/guide/topics.logging#logging-context-information)
+
+ * ActiveRecord-Relationen können nun die Option `index` verwenden, um
+relationale Objekte anhand den Werten einer bestimmten Spalte zu indizieren
+     - [Optionen für relationale Abfragen](/doc/guide/database.arr#relational-query-options)
+
 Version 1.0.6
 -------------
 
@@ -14,6 +24,9 @@ Version 1.0.6
 
  * SQL-Anweisungen können nun ebenfalls einer Leistungsmessung unterzogen werden
      - [Leistungsmessung von SQL-Anweisungen](/doc/guide/topics.logging#profiling-sql-executions)
+
+ * Nachrichten können nun auch mit zusätzlichen Kontextinformationen geloggt werden 
+     - [Loggen von Kontextinformationen](/doc/guide/topics.logging#logging-context-information)
 
  * URL-Regeln können nun mit den Optionen urlFormat und caseSensitive weiter angepasst werden:
      - [Benutzerfreundliche URLs](/doc/guide/topics.url#user-friendly-urls)
@@ -36,4 +49,4 @@ Version 1.0.5
 einer URL. Siehe:
      - [Parametrisierte Routen in URL-Regeln](/doc/guide/topics.url#parameterizing-routes)
 
-<div class="revision">$Id: changes.txt 1053 2009-05-23 02:34:03Z qiang.xue $</div>
+<div class="revision">$Id: changes.txt 1168 2009-06-23 14:52:48Z qiang.xue $</div>

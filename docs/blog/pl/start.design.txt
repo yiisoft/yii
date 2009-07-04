@@ -1,48 +1,46 @@
 Ogólna koncepcja
 ==============
 
-Biorąc pod uwage analizę wymagań, zidentyfikowaliśmy potrzebę posiadania w naszej aplikacji 
-czterech tabel bazodanowych, przechowujących informacje: `User` (użytkownik), `Post` (wiadomość), 
-`Comment` (komentarz) and `Tag` (otagowanie):
+Biorąc pod uwagę analizę wymagań, zidentyfikowaliśmy potrzebę posiadania w naszej aplikacji 
+czterech tabel bazodanowych, przechowujących informacje o: użytkowniku `User`, wiadomościach `Post`, 
+komentarzach `Comment` oraz otagowaniu `Tag`:
 
- * Tabela `User` przechowuje infomracje o użytkownikach, włączając w to ich nazwy oraz hasła.
- * Table `Post` przechowuje informacje o wiadomościach. Składa się ona głównie następujących kolumn: 
+ * Tabela `User` przechowuje informacje o użytkownikach, włączając w to ich nazwy oraz hasła.
+ * Table `Post` przechowuje informacje o wiadomościach. Składa się ona przede wszystkim z następujących kolumn: 
  	 - `title` (tytuł): wymagany, tytuł wiadomości;
 	 - `content` (zawartość): wymagana, zawartość treści wiadomości, zapisana w [formacie Markdown](http://daringfireball.net/projects/markdown/syntax);
 	 - `status` (status): wymagany, status wiadomości, który może przyjmować następujące wartości:
 		 * `draft` (wersja robocza): wiadomość znajduje się w wersji roboczej i nie jest widoczna publicznie;
-		 * `published` (opublikowana): wiadomośc jest upubliczniona;
+		 * `published` (opublikowana): wiadomość jest upubliczniona;
 		 * `archived` (zarchiwizowana): wiadomość jest przedawniona i nie jest widoczna publicznie. 
-	 - `tags` (otagowanie): opcjonalne, lista rozdzielonych przecinkami słow, kategoryzujących wiadomość.
- * Komentarz `Comment` przechowuje informacje o komentarzach do wiadomości. Każdy komentarz jest powiązany z postem
- i głównie zawiera następujące kolumny:
+	 - `tags` (otagowanie): opcjonalne, lista rozdzielonych przecinkami słów, kategoryzujących wiadomość.
+ * Tabela `Comment` przechowuje informacje o komentarzach do wiadomości. Każdy komentarz jest powiązany z postem i przede wszystkim zawiera następujące kolumny:
 	 - `name` (nazwa): wymagana, nazwa autora komentarza;
-	 - `email` (email): wymagany, mail autora komentarza;
+	 - `email` (email): wymagany, e-mail autora komentarza;
 	 - `website` (strona WWW): opcjonalna, strona WWW autora komentarza;
-	 - `content` (zawartość): wymagana, zawartość komentarza zapisanego przy pomocy 
-	 [formatu Markdown](http://daringfireball.net/projects/markdown/syntax).
+	 - `content` (zawartość): wymagana, zawartość komentarza zapisanego przy pomocy [formatu Markdown](http://daringfireball.net/projects/markdown/syntax).
 	 
 	 - `status` (status): wymagany, status komentarza determinujący czy komentarz został zatwierdzony (wartość 1) lub nie (wartość 0).  
- * `Tag` (otagowanie) zawiera informację o tagach wiadomości. Każda wiadomość może posiadać wiele tagów, ale 
- także każdy tag może być przypisany do wielu wiadomości. Tabela `Tag` jest używana głównie przez portlet  
- chmurki tagów, który potrzebuje obliczyć jak często używany jest każdy z tagów.
+ * Tabela `Tag` (otagowanie) zawiera informację o tagach wiadomości. Każda wiadomość może posiadać wiele tagów, ale 
+ także każdy tag może być przypisany do wielu wiadomości. Tabela `Tag` jest używana przede wszystkim przez portlet chmurki tagów, 
+ który potrzebuje obliczyć jak często używany jest każdy z tagów.
 
 Następujący diagram (ER) relacji encji (ang. entity-relation diagram), pokazuje strukturę oraz 
 relacje dla wyżej opisanych tabel. Zauważ, że relacja pomiędzy tabelami `Post` oraz `Tag` 
-to wiele-do-wielu. Używamy tabelę `PostTag` do rozbicia tej relacji na dwie relacje jeden-do-wielu.
+to wiele-do-wielu. Tabela `PostTag` służy do rozbicia tej relacji na dwie relacje jeden-do-wielu.
 
 ![Diagram relacji encji dla bazy danych blogu](schema.png)
 
-Wszystkie wyrażenia SQL, odpowiadające powyższemu diagramowi ER, można znaleźć w [demo blogu](http://www.yiiframework.com/demos/blog/).
-Dla naszej instalacji Yii, można jest znaleźć w pliku `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql`.
+Wszystkie wyrażenia SQL, odpowiadające powyższemu diagramowi ER, można znaleźć w [demonstracyjnym blogu](http://www.yiiframework.com/demos/blog/).
+Dla naszej instalacji Yii, można je odnaleźć w pliku `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql`.
 
 
-Podzieliliśmy proces tworzenia naszej aplikacji na następujące kroki milowe.
+Proces tworzenia naszej aplikacji podzieliliśmy na następujące kamienie milowe.
 
- * 1-szy krok milowy: tworzenie prototypu ssytemu blog. Powinien on zawierać większość z wymaganych funkcjonalności.
- * 2-gi krok milowy: końcenie zarządzania wiadomościami. Zawiera tworzenie, listowanie, wyświetlanie, aktualizowanie oraz usuwanie wiadomości.
- * 3-ci krok milowy: kończenie zarządzania kometarzami. Zawiera tworzenie, listowanie, zatwierdzanie, aktualizowanie oraz usuwanie komentarzy wiadomości.
- * 4-ty krok milowy: implementacja potletów. Zawiera menu użytkownika, logowanie, chmurke tagów oraz portlet najnowszych komentarzy.
- * 5-ty krok milowy: końcowe dopracowywanie oraz uruchomienie.
+ * 1-szy kamień milowy: tworzenie prototypu sytemu blog, który powinien zawierać większość z wymaganych funkcjonalności.
+ * 2-gi kamień milowy: dopracowywanie zarządzania wiadomościami obejmujące tworzenie, listowanie, wyświetlanie, aktualizowanie oraz usuwanie wiadomości.
+ * 3-ci kamień milowy: dopracowywanie zarządzania komentarzami obejmujące tworzenie, listowanie, zatwierdzanie, aktualizowanie oraz usuwanie komentarzy do wiadomości.
+ * 4-ty kamień milowy: implementacja portletów, zawierających menu użytkownika, logowanie, chmurkę tagów oraz najnowsze komentarze.
+ * 5-ty kamień milowy: końcowe dopracowywanie aplikacji oraz jej uruchomienie.
 
 <div class="revision">$Id: start.design.txt 687 2009-02-17 02:57:56Z qiang.xue $</div>

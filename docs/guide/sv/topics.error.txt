@@ -90,6 +90,61 @@ systemvyer. Varje vyfil är ett vanligt PHP-skript, huvudsakligen innehållande
 HTML-kod. För fler detaljer, studera standardvyfilerna under ramverkets `view`-
 katalog.
 
+
+### Felhantering med hjälp av en Åtgärd
+
+Från och med version 1.0.6 tillåter Yii att man använder en 
+[kontrolleråtgärd](/doc/guide/basics.controller#action) för att hantera uppgiften 
+felpresentation. För att åstadkomma detta skall felhanteringskomponenten i 
+applikationskonfigurationen konfigureras på följande sätt:
+
+~~~
+[php]
+return array(
+	......
+	'components'=>array(
+		'errorHandler'=>array(
+			'errorAction'=>'site/error',
+		),
+	),
+);
+~~~
+
+Ovan konfigureras propertyn [CErrorHandler::errorAction] att vara vägen `site/error` 
+som refererar till åtgärden `error` i `SiteController`. En annan väg kan användas allt 
+efter behov.
+
+Åtgärden `error` kan skrivas i stil med följande:
+
+~~~
+[php]
+public function actionError()
+{
+	if($error=Yii::app()->errorHandler->error)
+		$this->render('error', $error);
+}
+~~~
+
+I åtgärden hämtas först detaljerad information om felet från [CErrorHandler::error].
+Förutsatt att något returnerades renderas `error`-vyn tillsammans med den hämtade informationen.
+Informationen som returneras från [CErrorHandler::error] utgörs av en array med följande fält:
+
+ * `code`: HTTP statuskod (t.ex. 403, 500);
+ * `type`: Typ av fel (t.ex. [CHttpException], `PHP-fel`);
+ * `message`: felmeddelande;
+ * `file`: namn på PHP-skriptet där felet uppträdde;
+ * `line`: radnummer där felet uppträdde;
+ * `trace`: anropsstacken;
+ * `source`: källkodskontext där felet uppträdde.
+
+> Tip|Tips: Anledningen till att vi testar om något returneras från [CErrorHandler::error] 
+är att åtgärden `error` skulle kunna anropas direkt av en användare, i vilket fall det 
+inte finns någon felinformation.
+Eftersom vyn erhåller arrayen `$error`, kommer den senare att automatiskt expanderas 
+till individuella variabler. Därmed kan vi i vyn direkt använda variablerna 
+ex. `$code`, `$type`.
+
+
 Meddelandeloggning
 ------------------
 
@@ -102,4 +157,4 @@ kategori). Man kan därför dra fördel av finessen
 [loggning](/doc/guide/topics.logging) till att monitorera fel som inträffat när 
 applikationen kördes.
 
-<div class="revision">$Id: topics.error.txt 772 2009-02-28 18:23:17Z qiang.xue $</div>
+<div class="revision">$Id: topics.error.txt 1053 2009-05-23 02:34:03Z qiang.xue $</div>

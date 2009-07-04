@@ -1,5 +1,6 @@
 * Komma igång
 	- [Översikt](index)
+	- [Nyheter och ändringar](changes)
     - [Vad är Yii](quickstart.what-is-yii)
     - [Installation](quickstart.installation)
     - [Skapa en första Yii-applikation](quickstart.first-app)
@@ -56,4 +57,4 @@
     - [Säkerhet](topics.security)
     - [Prestandaoptimering](topics.performance)
 
-<div class="revision">$Id: toc.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>
+<div class="revision">$Id: toc.txt 946 2009-04-17 21:39:08Z qiang.xue@gmail.com $</div>

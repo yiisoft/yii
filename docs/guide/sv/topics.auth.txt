@@ -242,7 +242,8 @@ En åtkomstregel kan matcha följande kontextparametrar:
    detaljerat, regeln appliceras om [CWebUser::checkAccess] returnerar true för 
    någon av rollerna. Lägg märke till att roller huvudsakligen bör användas i en 
    `allow`-regel eftersom, per definition, representerar en roll tillåtelse att 
-   göra något.
+   göra något.  Märk också att, även om termen `roles` används här, kan dess 
+   värde utgöras av varje auth-element, inklusive roller, uppgifter och operationer.
 
    - [ips|CAccessRule::ips]: specificerar vilka (klient) ip-adresser denna regel 
    matchar.
@@ -260,7 +261,7 @@ tilltänkta åtgärden, kan ett av följande två scenarier utspela sig:
    [loginUrl|CWebUser::loginUrl] konfigurerats att vara inloggningssidans URL, kommer 
    webbläsaren att styras om till den sidan.
 
-   - I annat fall kommer en HTTP-exception att presenteras, med felkod 401.
+   - I annat fall kommer en HTTP-exception att presenteras, med felkod 403.
 
 När [loginUrl|CWebUser::loginUrl]-propertyn konfigureras kan man ange en relativ 
 eller absolut URL. Man kan även ange en array som då kommer att användas vid 
@@ -554,4 +555,4 @@ $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('guest', 'guest user', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 878 2009-03-23 15:31:21Z qiang.xue $</div>
+<div class="revision">$Id: topics.auth.txt 1078 2009-05-29 00:45:13Z qiang.xue $</div>

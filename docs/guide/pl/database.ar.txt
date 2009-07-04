@@ -156,6 +156,17 @@ Na przykład, używamy `Post` by nazwać tabelę, przechowująca dane postów.
 Pamiętaj jednak, że używanie notacji wielbłąda może powodować również kłopoty dla niektórych
 DBMS, takich jak MySQL, ponieważ zachowują się one różnie na różnych systemach operacyjnych.
 
+
+> Info|Info: W tym poradniku nazywamy kolumny przy użyciu notacji wielbłąda (np. `createTime`).
+Czynimy tak, ze względu na to, że kolumny dostępne są w taki sam sposób jak zwykłe właściwości obiektu,
+które również używają notacji wielbłąda. Chociaż, używanie notacji wielbłąda czyni nasz kod PHP 
+bardziej konsekwentnym w nazewnictwie, może to powodować problemy związane z wielkością liter w pewnych DBMS.
+Na przykład, PostgreSQL traktuje domyślnie nazwy kolumn jako niezależne od wielkości liter i dlatego musimy
+używać nazwy kolumn podanej w cudzysłowiu w warunkach zapytania jeśli kolumna zawiera pomieszane duże i małe litery.
+Z tego powodu, mądrą decyzją jest nazywanie kolumn (a także tabel) jedynie przy użyciu małych liter (np. `create_time`) 
+w celu uniknięcia potencjalnych problemów z wielkością liter.
+
+
 Tworzenie rekordu
 ---------------
 
@@ -258,6 +269,10 @@ powinny być przypięte do placeholderów w `$condition`. Na przykład:
 // znajdź wiersz z postID=10
 $post=Post::model()->find('postID=:postID', array(':postID'=>10));
 ~~~
+
+> Note|Uwaga: W powyższym przykładzie będziemy musieli unikać referencji do kolumny `postID`
+dla pewnych DBMS. Na przykład,  jesli używamy PostrgreSQL, będziemy musieli zapisać warunek jako `"postID"=:postID`,
+ze względu na to, że PostgreSQL domyślnie rozróżnia wielkość liter kolumn.
 
 Możemy również używać `$condition` do zdefiniowania bardziej rozbudowanych warunków 
 zapytań. Zamiast łańcuchem znaków, `$condition` może być instancją [CDbCriteria], 
@@ -622,4 +637,6 @@ kreteriów zapytania:
 $contents=Content::model()->findAll();
 ~~~
 
-<div class="revision">$Id: database.ar.txt 1027 2009-05-12 17:59:03Z qiang.xue $</div>
+Zauważ, że domyślne nazwane podzbiory mają zastosowanie tylko dla zapytań `SELECT`. Są one ignorowane dla zapytań `INSERT`, `UPDATE` oraz `DELETE`.
+
+<div class="revision">$Id: database.ar.txt 1167 2009-06-23 02:56:45Z qiang.xue $</div>
