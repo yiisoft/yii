@@ -55,6 +55,6 @@
     - [Alternatywne składnie szablonów](topics.prado)
     - [Aplikacje konsolowe](topics.console)
     - [Bezpieczeństwo](topics.security)
-    - [Polepszanie wydajności](topics.performance)
+    - [Zwiększanie wydajności](topics.performance)
 
 <div class="revision">$Id: toc.txt 956 2009-04-21 15:16:03Z qiang.xue@gmail.com $</div>

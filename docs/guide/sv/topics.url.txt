@@ -105,10 +105,22 @@ array(
 ~~~
 
 Reglerna specificeras i form av en array av mönster-routepar, vart och ett 
-motsvarande en enstaka regel. Mönstret i en regel måste vara ett giltigt 
-reguljärt uttryck (regexp) utan avgränsare och modifierare. Det används till att 
-matcha pathinfo-delen av URL:erna. [route](/doc/guide/basics.controller#route) 
-skall referera till en giltig kontrollerroute.
+motsvarande en enstaka regel. Mönstret i en regel utgörs av en sträng som 
+används till att matcha pathinfo-delen av URL:erna. Routedelen av en regel 
+skall referera till en giltig [kontrollerroute](/doc/guide/basics.controller#route).
+
+> Info: med start fr o m version 1.0.6, kan en regel anpassas ytterligare med  
+> hjälp av dess `urlSuffix`- och `caseSensitive`-alternativ. För att göra detta,
+> specificera routedelen av regeln i form av en array, i stil med följande:
+>
+> ~~~
+> [php]
+> 'pattern1'=>array('route1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
+> ~~~
+>
+
+
+### Using Named Parameters
 
 En regel kan associeras med några GET-parametrar. Dessa GET-parametrar upprtäder 
 i regelns mönster som speciella symboler på följande format:
@@ -170,8 +182,41 @@ regeln i ovanstående exempel att appliceras, vilket löses upp till en route
 
 > Note|Märk: Användning av URL-regler försämrar applikationen prestanda. Detta 
 beror på att vid parsning av request-URL:en, kommer [CUrlManager] att försöka 
-matcha den mot varje regel tills någon kan appliceras. Av denna anledning skall 
-en webbapplikation med intensiv trafik minimera sin användning av URL-regler.
+matcha den mot varje regel tills någon kan appliceras. Ju fler regler, desto 
+större prestandaförlust. Av denna anledning skall en webbapplikation med 
+intensiv trafik minimera sin användning av URL-regler.
+
+
+### Parametrisering av route
+
+Med start fr o m version 1.0.5, kan vi referera till namngivna parametrar i 
+routedelen av en regel. Detta medger att regeln appliceras på multipla route 
+baserat på matchningskriterium. Det kan även hjälpa till att reducera antalet 
+regler i en applikation och därmed förbättra totalprestanda.
+
+Följande exempelregler illustrerar hur route parametriseras med hjälp av 
+namngivna parametrar:
+
+~~~
+[php]
+array(
+	'<_c:(post|comment)>/<id:\d+>/<_a:(create|update|delete)>' => '<_c>/<_a>',
+	'<_c:(post|comment)>/<id:\d+>' => '<_c>/read',
+	'<_c:(post|comment)>s' => '<_c>/list',
+)
+~~~
+
+Ovan används två namngivna parametrar i routedeln av reglerna:
+`_c` och `_a`. Den förra matchar ett kontroller-ID till att vara antingen 
+`post` eller `comment`, medan den senare matchar ett  åtgärds-ID till att vara 
+`create`, `update` eller `delete`. Parametrarna kan namnges annorlunda så länge 
+de inte kommer i konflikt med GET-parametrar som kan finnas i URL:er.
+
+Med användning av ovanstående regler kommer URL:en `/index.php/post/123/create` 
+att tolkas som routen `post/create` med GET-parametern `id=123`.
+Och givet routen `comment/list` och GET-parametern `page=2`, kan vi generera 
+URL:en `/index.php/comments?page=2`.
+
 
 ### Gömma `index.php`
 
@@ -183,9 +228,10 @@ konfigurerar webbservern såväl som applikationskomponenten
 Webbservern behöver konfigureras så att URL:en utan startskriptdelen fortfarande 
 kommer att hanteras av startskriptet. För [Apache HTTP-server](http://httpd.apache.org/), 
 kan detta åstadkommas genom att slå på URL rewriting engine och 
-specificera några rewriting-regler. Båda dessa saker 
-kan härbärgeras i en `.htaccess`-fil placerad i katalogen som innehåller 
-startskriptet. Följande är ett exempel:
+specificera några rewriting-regler. Vi t ex kan skapa filen 
+`/wwwroot/blog/.htaccess` med nedanstående innehåll.
+Märk att samma innehåll även kan placeras i Apaches konfigurationsfil
+inuti elementet `Directory` för `/wwwroot/blog`.
 
 ~~~
 Options +FollowSymLinks
@@ -215,4 +261,4 @@ statisk webbsida. För att göra så, konfigurera komponenten
 [urlManager|CWebApplication::urlManager] genom att sätta dess property 
 [urlSuffix|CUrlManager::urlSuffix] till önskad suffixsträng.
 
-<div class="revision">$Id: topics.url.txt 229 2008-11-16 21:14:59Z qiang.xue $</div>
+<div class="revision">$Id: topics.url.txt 1098 2009-06-06 20:55:07Z qiang.xue $</div>

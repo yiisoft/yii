@@ -1,0 +1,118 @@
+Wyświetlanie wiadomości
+================
+
+W naszej aplikacji blogowej wiadomość może być wyświetlana wśród listy wiadomości lub
+samodzielnie. Pierwszy przypadek zaimplementowany jest jako operacja `list`,
+drugi przypadek jako operacja `show`. W części tej, dostosujemy obie operacje,
+aby spełniały nasze początkowe wymagania.
+
+Dostosowywanie operacji wyświetlania `show`
+----------------------------
+
+Operacja wyświetlania `show` jest zaimplementowana poprzez metodę `actionShow()`
+w kontrolerze `PostController`. To co wyświetla jest generowane przez widok `show`
+znajdujący się w pliku `/wwwroot/blog/protected/views/post/show.php`.
+
+Poniżej znajduje się odpowiedni kod implementujący operację wyświetlania `show`
+w kontrolerze `PostController`:
+
+~~~
+[php]
+public function actionShow()
+{
+	$this->render('show',array(
+		'post'=>$this->loadPost(),
+	));
+}
+
+private $_post;
+
+protected function loadPost($id=null)
+{
+	if($this->_post===null)
+	{
+		if($id!==null || isset($_GET['id']))
+			$this->_post=Post::model()->findbyPk($id!==null ? $id : $_GET['id']);
+		if($this->_post===null || Yii::app()->user->isGuest &&
+			$this->_post->status!=Post::STATUS_PUBLISHED)
+			throw new CHttpException(404,'The requested post does not exist.');
+	}
+	return $this->_post;
+}
+~~~
+
+Nasza zmiana dotyczy przede wszystkim metody `loadPost()`. W metodzie tej odpytujemy
+tabelę z wiadomościami `Post` w zależności od parametru `id` GET. Jeśli wiadomość nie
+została znalezione lub jeśli nie jest ona opublikowana (gdy użytkownik jest gościem),
+rzucimy błędem HTTP 404. W przeciwnym przypadku obiekt wiadomości jest zwracany
+do metody `actionShow()`, która z kolei przekazuje obiekt wiadomości do widoku `show`
+w celu późniejszego jej wyświetlenia.
+
+> Tip|Wskazówka: Yii przechwytuje wyjątki HTTP (instancje [CHttpException]) i wyświetla
+je na stronie błędów używającej pewnych predefiniowanych szablonów. Szablony te
+można dostosować dla aplikacji, co zostanie opisane w szczegółach na końcu tego samouczka.
+
+Zmiana w widoku `show` dotyczy przede wszystkim dostosowania formatowania oraz stylów
+wyświetlenia wiadomości. Nie będziemy tutaj wdawać się w szczegóły.
+
+
+Dostosowywanie operacji wyświetlenia listy `list`
+----------------------------
+
+Podobnie jak operację wyświetlenie `show`, dostosujemy operację wyświetlenia listy `list`
+w dwóch miejscach: metodzie `actionList()` w kontrolerze `PostController` oraz
+pliku widoku  `/wwwroot/blog/protected/views/post/list.php`. Musimy przede wszsytkim dodać
+wsparcie dla wyświetlania listy wiadomości, które powiązane są z określonym tagiem.
+
+Poniżej znajduje się zmieniona metoda `actionList()` kontrolera `PostController`:
+
+~~~
+[php]
+public function actionList()
+{
+	$criteria=new CDbCriteria;
+	$criteria->condition='status='.Post::STATUS_PUBLISHED;
+	$criteria->order='createTime DESC';
+
+	$withOption=array('author');
+	if(!empty($_GET['tag']))
+	{
+		$withOption['tagFilter']['params'][':tag']=$_GET['tag'];
+		$postCount=Post::model()->with($withOption)->count($criteria);
+	}
+	else
+		$postCount=Post::model()->count($criteria);
+
+	$pages=new CPagination($postCount);
+	$pages->applyLimit($criteria);
+
+	$posts=Post::model()->with($withOption)->findAll($criteria);
+
+	$this->render('list',array(
+		'posts'=>$posts,
+		'pages'=>$pages,
+	));
+}
+~~~
+
+W powyższym kodzie, najpierw tworzymy kryteria, które mówią, że wyłącznie opublikowane
+wiadomości powinny zostać wylistowane i posortowane zgodnie z ich datą utworzenia
+w porządku malejącym. Następnie obliczamy całkowitą ilość wiadomości spełniających
+kryteria. Ilość ta jest używana przez komponent stronicowania, aby poprawnie obliczyć
+na jak wielu stronach powinna zostać wyświetlona lista wiadomości. Na koniec pobieramy
+dane wiadomości z bazy danej i przesyłamy je do widoku `list` aby je wyświetlić.
+
+Zauważ, że jeśli w zmiennej GET znajduje się parametr `tag`, będziemy odpytywać bazę,
+przy użyciu relacji `tagFilter` używając odpowiednich wartości parametru GET.
+Dołączenie `tagFilter` do zapytania relacyjnego zapewni, że tylko pojedyncze zapytanie SQL JOIN
+jest używane aby uzyskać wiadomości o określonym tagu. Bez tego wywołania, Yii podzieli
+zapytanie na dwa oddzielne zapytania SQL (w powodu wydajności) i zwróci niepoprawny rezultat.
+
+Dwie zmienne są przekazywane do widoku `list`: wiadomości `$posts` oraz strony `$pages`.
+Pierwsza określa listę wiadomości, które mają zostać wyświetlone,  druga zaś zawiera
+informacje o stronicowaniu (np. jak wiele stron mamy w ogóle, jaką mamy aktualnie stronę).
+Widok `list` zawiera [widżet](http://www.yiiframework.com/doc/guide/basics.view#widget)
+stronicowania, który automatycznie wyświetla wiadomości w oddzielnych stronach jeśli
+jest ich zbyt wiele.
+
+<div class="revision">$Id: post.display.txt 1200 2009-07-04 17:46:06Z qiang.xue $</div>

@@ -3,9 +3,17 @@
 
 Данное руководство выпущено в соответствии с [положениями о документации Yii](http://www.yiiframework.com/doc/terms/).
 
-Все права защищены.
+Переводчики
+-----------
+- Bethrezen
+- Scott Tiger, krugloff.sergey
+- Александр Макаров, Sam Dark ([rmcreative.ru](http://rmcreative.ru/))
+- Константин Мирин, Konstantin Mirin ([programmersnotes.info](http://programmersnotes.info/))
+- xenon
+- Алексей Лукьяненко, Caveman ([caveman.ru](http://caveman.ru/))
+- multif
+- cr0t
 
-2008-2009 &copy; Yii Software LLC.
-
+© 2008—2009, Yii Software LLC.
 
 <div class="revision">$Id: index.txt 687 2009-02-17 02:57:56Z qiang.xue $</div>

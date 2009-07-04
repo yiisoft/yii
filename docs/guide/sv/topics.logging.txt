@@ -10,7 +10,7 @@ Meddelandeloggning
 ------------------
 
 Meddelanden kan loggas genom anrop till antingen [Yii::log] eller [Yii::trace]. 
-Skillanden mellan dess två metoder är att den senare loggar ett meddelande 
+Skillnaden mellan dess två metoder är att den senare loggar ett meddelande 
 endast när applikationen är i [debugläge](/doc/guide/basics.entry#debug-mode).
 
 ~~~
@@ -74,7 +74,7 @@ array(
 				array(
 					'class'=>'CEmailLogRoute',
 					'levels'=>'error, warning',
-					'email'=>'admin@example.com',
+					'emails'=>'admin@example.com',
 				),
 			),
 		),
@@ -118,6 +118,59 @@ som en kategorihierkarki. Närmare bestämt, säger vi att `xxx` är förälder 
 användas för att representera kategori `xxx` samt alla dess barn- och 
 barnbarnskategorier.
 
+### Loggning av kontextinformation
+
+Från och med version 1.0.6, är det möjligt att specificera loggning av ytterligare 
+kontextinformation, såsom fördefinierade PHP-variabler (t.ex. `$_GET`, `$_SERVER`), 
+sessions-ID, användarnamn, etc. Detta åstadkommmes genom att propertyn 
+[CLogRoute::filter] för en loggningsväg specificeras till ett passande loggningsfilter.
+
+Yii-ramverket innehåller det praktiska [CLogFilter] som i de flesta fall kan användas 
+när ett loggningsfilter erfordras. Som standard loggar [CLogFilter] ett meddelande 
+tillsammans med variabler som `$_GET`, `$_SERVER`, vilka ofta innehåller värdefull 
+information om systemkontext.
+[CLogFilter] kan även konfigureras att föregå varje loggat meddelande med sessions-ID, 
+användarnamn, etc., vilket i stor utsträckning kan förenkla global sökning i en större 
+mängd loggade meddelanden.
+
+Följande konfiguration visar hur man aktiverar loggning av kontextinformation. 
+Lägg märke till att varje loggningsväg kan ha sitt eget loggningsfilter. Som standard 
+har en loggningsväg inget filter.
+
+~~~
+[php]
+array(
+	......
+	'preload'=>array('log'),
+	'components'=>array(
+		......
+		'log'=>array(
+			'class'=>'CLogRouter',
+			'routes'=>array(
+				array(
+					'class'=>'CFileLogRoute',
+					'levels'=>'error',
+					'filter'=>'CLogFilter',
+				),
+				...other log routes...
+			),
+		),
+	),
+)
+~~~
+
+
+Från och med version 1.0.7 stöder Yii loggning av anropsstacken i meddelanden 
+som loggas genom anrop till `Yii::trace`. Denna finess är som standard inte aktiverad, 
+eftersom den sätter ned prestanda. För att använda denna finess, definiera helt enkelt 
+konstanten `YII_TRACE_LEVEL` placerad i början av startskriptet (före inkludering av 
+`yii.php`) till ett heltal större än 0. Yii kommer då att komplettera varje 
+trace-meddelande med filnamn och radnummer för anrop som tillhör applikationskod. 
+Värdet av `YII_TRACE_LEVEL` avgör hur många nivåer av anropsstacken som skall 
+registreras. Denna information är i synnerhet användbar i utvecklingsfasen, eftersom 
+den kan hjälpa till att identifiera ställen som triggar trace-meddelanden.
+
+
 Prestandaprofilering
 --------------------
 
@@ -147,4 +200,21 @@ För att presentera resultatet av profileringen behöver en applikationskomponen
 detsamma som vi gör vid vanlig meddelandestyrning. [CProfileLogRoute]-loggningsvägen 
 kommer att presentera prestandaresultaten vid slutet av den aktuella sidan.
 
-<div class="revision">$Id: topics.logging.txt 170 2008-11-06 20:33:35Z qiang.xue $</div>
+
+### Profilering av SQL-exekvering
+
+Profilering är speciellt användbar vid arbete med databaser eftersom SQL-exekvering 
+ofta står för den huvudsakliga prestandaförlusten i en applikation. Utöver att vi 
+manuellt kan sätta in `beginProfile`- och `endProfile`-satser på lämpliga ställen, 
+för att mäta tidåtgången i varje SQL-exekvering, tillhandahåller Yii från och med 
+version 1.0.6 ett mer systematiskt tillvägagångssätt för att lösa detta problem.
+
+Genom att sätta [CDbConnection::enableProfiling] till true i applikationskonfigurationen,
+kommer exekveringen av varje SQL-sats att profileras. Resultatet kan med lätthet 
+presenteras genom användning av nämnda [CProfileLogRoute], som kan visa oss hur lång tid 
+som spenderas för exekvering av respektive SQL-sats. Vi kan även anropa 
+[CDbConnection::getStats()] för att erhålla det totala antalet exekverade SQL-satser 
+samt total exekveringstid.
+
+
+<div class="revision">$Id: topics.logging.txt 1142 2009-06-17 21:42:08Z qiang.xue $</div>

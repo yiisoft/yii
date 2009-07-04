@@ -233,9 +233,10 @@ Zunächst richten wir den Webserver so ein, dass eine URL, bei der das
 Eingangsscript fehlt, immer noch vom Eingangsscript bearbeitet wird. Im Falle
 des [Apache HTTP-Servers](http://httpd.apache.org/) erreichen wir das, indem
 wir die Rewrite-Engine (sinngem.: Umschreibemaschine) einschalten und einige
-Rewrite-Rules (sinngem.: Umschreiberegeln) definieren. Beides kann in einer
-`.htaccess`-Datei erfolgen, die man in das Verzeichnis mit dem Eingangsscript
-ablegt. Hier ein Beispiel:
+Rewrite-Rules (sinngem.: Umschreiberegeln) definieren. Wir können dazu die
+Datei `/wwwroot/blog/.htaccess` mit folgendem Inhalt anlegen. Beachten Sie,
+dass der selbe Inhalt auch direkt in der Apache-Konfiguration in einem
+`Directory`-Element für `/wwwroot/blog` abgelegt werden kann.
 
 ~~~
 Options +FollowSymLinks
@@ -265,4 +266,4 @@ einer statischen Webseite aus. Setzen Sie dazu einfach die gewünschte Endung
 über die Eigenschaft [urlSuffix|CUrlManager::urlSuffix] der
 [urlManager|CWebApplication::urlManager]-Komponente.
 
-<div class="revision">$Id: topics.url.txt 1045 2009-05-21 22:13:50Z qiang.xue $</div>
+<div class="revision">$Id: topics.url.txt 1098 2009-06-06 20:55:07Z qiang.xue $</div>

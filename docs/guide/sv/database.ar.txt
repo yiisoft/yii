@@ -43,6 +43,7 @@ bäst till användning för att modellera databastabeller i form av PHP-konstruk
 samt genomföra sådana frågor som inte inbegriper komplexa SQL-satser. Yii:s DAO 
 bör användas för mer komplexa scenarier.
 
+
 Upprätta en databasanslutning
 -----------------------------
 
@@ -78,6 +79,10 @@ stöds endast följande databashanterare:
    - [PostgreSQL 7.3 eller senare](http://www.postgres.com)
    - [SQLite 2 och 3](http://www.sqlite.org)
    - [Microsoft SQL Server 2000 eller senare](http://www.microsoft.com/sqlserver/)
+   - [Oracle](http://www.oracle.com)
+
+> Note|Märk: Stöd för Microsoft SQL Server har varit tillgängligt sedan version 1.0.4;
+> Stöd för Oracle har varit tillgängligt sedan version 1.0.5.
 
 Vid önskemål om att använda en annan applikationskomponent än `db`, eller om att 
 använda AR till att arbeta mot flera databaser, åsidosätt 
@@ -143,15 +148,15 @@ kan vi fortfarande få tillgång till den i ovanstående kod. Detta beror på at
 en property med hjälp av PHP:s "magiska" metod `__get()`. En exception 
 signaleras vid försök att tillgå en icke-existerande kolumn på detta sätt.
 
-> Info: För bättre läsbarhet, rekommenderas att databastabeller och kolumner 
-namnges i kamelnotation. Närmare bestämt, tabellnamn framställs genom att varje 
-ord i namnet ges inledande versal varefter orden sätts samman utan blanksteg; 
-kolumnnamn är lika som tabellnamn förutom att deras första bokstav är gemen. 
-Till exempel används `Post` som namn på tabellen som lagrar postningar; 
-`createTime` är namnet på en av dess kolumner. Detta gör att tabeller mer liknar 
-klasstyper och att kolumner liknar variabler. Lägg dock märke till att användning 
-av kamelnotation även kan innebära komplikationer tillsammans med vissa 
-databashanterare, t ex MySQL, eftersom beteendet kan variera mellan olika operativsystem.
+> Info: I denna guide namnges kolumner med kamelnotation (t.ex. `createTime`).
+Detta beror på att kolumner adresseras som vanliga objektpropertyn, 
+vilka också de namnges med kamelnotation. Men även om kamelnotation får PHP-koden 
+att se mer konsekvent ut i fråga om namngivning, kan detta introducera problem 
+med skiftlägeskänslighet (case-sensitivity) för vissa DBMS. Till exempel PostgreSQL 
+betraktar som standard kolumnnamn som oberoende av skiftläge, och om ett kolumnnamn 
+i en fråga innehåller både gemena och versaler måste det omges av citationstecken.
+Av denna anledning kan det vara klokt att namnge kolumner (och även tabeller) enbart 
+med gemena (t.ex. `create_time`), för att undvika ev. skiftlägesrelaterade problem.
 
 
 Skapa DB-post
@@ -206,6 +211,15 @@ $post->createTime=new CDbExpression('NOW()');
 $post->save();
 ~~~
 
+> Tip|Tips: Även om AR tillåter oss att utföra databasoperationer utan att skriva
+arbetskrävande SQL-satser, vill vi ofta veta vilka SQL-satser som exekveras av AR.
+Detta kan uppnås genom att slå på Yii:s [loggningsfiness](/doc/guide/topics.logging).
+Till exempel kan vi aktivera [CWebLogRoute] i applikationskonfigurationen, vilket 
+leder till att exekverade SQL-satser kan avläsas i slutet av varje webbsida.
+Sedan version 1.0.5, kan vi sätta [CDbConnection::enableParamLogging] till true i
+applikationskonfigurationen så att även parametervärden knutna till SQL-satserna 
+loggas.
+
 
 Läsa DB-post
 ------------
@@ -247,6 +261,11 @@ kopplas till platshållaren i `$condition`. Till exempel,
 // find the row with postID=10
 $post=Post::model()->find('postID=:postID', array(':postID'=>10));
 ~~~
+
+> Note|Märk: I ovanstående exempel kan, för vissa databashanterare, referensen 
+till kolumen `postID` behöva omges av escapetecken. Till exempel, om PostgreSQL 
+används, behöver vi skriva villkoret som `"postID"=:postID` eftersom PostgreSQL 
+som standard betraktar kolumnnamn som skiftlägesokänsliga.
 
 `$condition` kan också användas för att specificera mer komplexa frågevillkor. I 
 stället för en sträng kan `$condition` vara en instans av [CDbCriteria], vilken 
@@ -504,4 +523,134 @@ catch(Exception $e)
 }
 ~~~
 
-<div class="revision">$Id: database.ar.txt 891 2009-03-25 15:20:56Z qiang.xue $</div>
+
+Namngivna omfång
+----------------
+
+> Note|Märk: Stöd för namngivna omfång (named scopes) har varit tillgängligt sedan 
+> version 1.0.5. Ursprungsidén är hämtad från Ruby on Rails.
+
+Ett *namngivet omfång* representerar ett *namngivet* frågekriterium som kan kombineras 
+med andra namngivna omfång och appliceras på en Active Record-fråga.
+
+Namngivna omfång deklareras huvudsakligen i metoden [CActiveRecord::scopes()], 
+i form av par av namn-kriterium. Följande kod deklarerar två namngivna omfång, 
+`published` och `recently`, i modellklassen `Post`:
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	......
+	public function scopes()
+	{
+		return array(
+			'published'=>array(
+				'condition'=>'status=1',
+			),
+			'recently'=>array(
+				'order'=>'createTime DESC',
+				'limit'=>5,
+			),
+		);
+	}
+}
+~~~
+
+Varje namngivet omfång deklareras som en array vilken kan användas för att 
+initialisera en instans av [CDbCriteria]. Till exempel, det namngivna omfånget 
+`recently` specificerar att propertyn `order` till att vara `createTime DESC` 
+och propertyn `limit` till 5, vilket leder till ett frågekriterium som skulle 
+returnera de fem senast publicerade postningarna.
+
+Namngivna omfång används huvudsakligen som modifierare till metodanrop i `find`-familjen. 
+Multipla namngivna omfång kan länkas till varandra och resultera i en mer restriktiv 
+resultatmängd från en fråga. Till exempel, för att hitta de senast publicerade postningarna 
+kan följande kod användas:
+
+~~~
+[php]
+$posts=Post::model()->published()->recently()->findAll();
+~~~
+
+Generellt måste namngivna omfång placeras till vänster om ett anrop till en `find`-metod. 
+Vart och ett av dem tillhandahåller ett frågekriterium som kombineras med andra kriterier, 
+inklusive det som lämnas med i anropet `find`-metoden. Nettoeffekten blir som att lägga till 
+en lista av filter till en fråga.
+
+Med start fr o m version 1.0.6 kan namngivna omfång även användas med metoderna `update` och 
+`delete`. Till exempel följande kod skulle ta bort alla nyligen publicerade postningar:
+
+~~~
+[php]
+Post::model()->published()->recently()->delete();
+~~~
+
+> Note|Märk: Namngivna omfång kan endast användas för metoder på klassnivå. 
+Det innebär att metoden måste anropas på formatet `Klassnamn::modell()`.
+
+
+### Parametriserade namngivna omfång
+
+Namngivna omfång kan parametriseras. Ett exempel kan vara att anpassa antalet 
+postningar som adresseras av det namngivna omfånget `recently`. För att åstadkomma 
+det behöver vi - istället för att deklarera det namngivna omfånget i metoden 
+[CActiveRecord::scopes] - definiera en ny metod med lika namn som det namngivna omfånget:
+
+~~~
+[php]
+public function recently($limit=5)
+{
+	$this->getDbCriteria()->mergeWith(array(
+		'order'=>'createTime DESC',
+		'limit'=>$limit,
+	));
+	return $this;
+}
+~~~
+
+Därefter kan följande sats användas för att hämta de tre senast publicerade 
+postningarna:
+
+~~~
+[php]
+$posts=Post::model()->published()->recently(3)->findAll();
+~~~
+
+Om parametern 3 ovan utelämnas kommer de fem senaste postningarna att 
+hämtas, enligt förbestämt standardvärde.
+
+
+### Förbestämt namngivet omfång
+
+En modellklass kan ha ett förbestämt namngivet omfång som kommer att åsättas 
+alla frågor (inklusive relationella sådana) avseende modellen. Till exempel kan  
+en webbplats som stöder flera språk vilja begränsa innehåll som visas till 
+det språk den aktuella användaren valt. Eftersom det kan bli många frågor 
+gällande webbplatsens innehåll, kan ett förbestämt namngivet omfång lindra 
+detta problem. För att göra detta, åsidosätt metoden [CActiveRecord::defaultScope] enligt följande,
+
+~~~
+[php]
+class Content extends CActiveRecord
+{
+	public function defaultScope()
+	{
+		return array(
+			'condition'=>"language='".Yii::app()->language."'",
+		);
+	}
+}
+~~~
+
+Nu kommer följande metodanrop att automatiskt använda frågekriteriet som definierades ovan:
+
+~~~
+[php]
+$contents=Content::model()->findAll();
+~~~
+
+Märk att ett förbestämt namngivet omfång endast gäller för `SELECT`-frågor. 
+Det ignoreras för `INSERT`-, `UPDATE`- och `DELETE`-frågor.
+
+<div class="revision">$Id: database.ar.txt 1167 2009-06-23 02:56:45Z qiang.xue $</div>

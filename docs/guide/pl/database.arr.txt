@@ -292,6 +292,10 @@ DESC`).
    muszą zostać rozróżnione przy użyciu `aliasToken` (np. `??.age`). Uwaga, opcja ta jest dostępna 
    od wersji 1.0.1.
    
+   - `index`: nazwa kolumny, której wartość powinna zostać użyta jako klucz tablicy, która zawiera powiązane obiekty. 
+   Bez ustawienia tej opcji, tablica obiektów powiązanych będzie używała indeksu całkowitoliczbowego rozpoczynającego się od liczby zero.
+   Opcja ta może zotać ustawiona tylko dla relacji `HAS_MANY` oraz `MANY_MANY`. Opcja ta jest dostępna od wesji 1.0.7.   
+   
 Dodatkowo, następujące opcje są dostępne dla wybranych relacji podczas opóźnionego 
 ładowania:   
 
@@ -482,4 +486,4 @@ class User extends CActiveRecord
 w [CActiveRecord::scopes]. W rezultacie, nie mogą one zostać sparametryzowane.
 
 
-<div class="revision">$Id: database.arr.txt 1027 2009-05-12 17:59:03Z qiang.xue $</div>
+<div class="revision">$Id: database.arr.txt 1168 2009-06-23 14:52:48Z qiang.xue $</div>

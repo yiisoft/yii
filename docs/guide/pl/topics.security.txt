@@ -92,15 +92,15 @@ Ochrona ciasteczek przed atakami jest szczególnie ważna, ponieważ ID sesji je
 zazwyczaj przechowywane w ciasteczkach. Jeśli ktoś może posiąść ID sesji, 
 może właściwie posiąść wszystkie odpowiadające sesji informacje.
 
-???TODO??There are several countermeasures to prevent cookies from being attacked.
+Istnieje kilka środków zaradczych, aby zapobiec atakom przy wykorzystaniu ciasteczek.
 
 * Aplikacja może używać SSL do utworzenia bezpiecznego kanału komunikacji i jedynie 
   przekazywać ciasteczko identyfikujące przez połączenie HTTPS. Dlatego atakujący
   nie mogą odszyfrować zawartości przekazywanej w ciasteczku. 
-* Expire sessions appropriately, including all cookies and session tokens,
-  to reduce the likelihood of being attacked.
-* Prevent cross-site scripting which causes arbitrary code to run in a
-  user's browser and expose his cookies.
+* Wygaszaj sesje poprawnie, włączając w to wszystkie ciasteczka oraz tokeny sesji,
+ w celu zmniejszenia prawdopodobieństwa ataku.
+* Zapobiegaj atakom XSS, które powodują wykonanie samowolnie obcego kodu w przeglądarce użytkownika 
+i odsłaniają zawartość jego ciasteczek.
 * Sprawdzaj zawartość ciasteczek i sprawdzaj czy ich zawartość nie została zmieniona.
 
 Yii implementuje system sprawdzania poprawności ciasteczek, który chronik ciasteczka przed

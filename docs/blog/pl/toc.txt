@@ -4,33 +4,35 @@
     - [Analiza wymagań](start.requirements)
     - [Ogólna koncepcja](start.design)
 
-* Initial Prototyping
+* Wstępne prototypowanie
     - [Ustawienia bazy danych](prototype.database)
     - [Scaffolding](prototype.scaffold)
-    - [Authenticating User](prototype.auth)
-    - [Summary](prototype.summary)
+    - [Uwierzytelnianie użytkownika](prototype.auth)
+    - [Podsumowanie](prototype.summary)
 
-* Post Management
-    - [Customizing Post Model](post.model)
-    - [Creating and Updating Posts](post.create)
-    - [Displaying Posts](post.display)
-    - [Managing Posts](post.admin)
+* Zarządzanie wiadomościami
+    - [Dostosowywanie modelu wiadomości](post.model)
+    - [Tworzenie i aktualizowanie wiadomości](post.create)
+    - [Wyświetlanie wiadomości](post.display)
+    - [Administrowanie wiadomościami](post.admin)
 
-* Comment Management
-	- [Customizing Comment Model](comment.model)
-    - [Creating and Displaying Comments](comment.create)
-    - [Managing Comments](comment.admin)
+* Zarządzanie komentarzami
+	  - [Dostosowywanie modelu komentarza](comment.model)
+    - [Tworzenie i wyświetlanie komentarzy](comment.create)
+    - [Administrowanie komentarzami](comment.admin)
 
-* Portlets
-	- [Establishing Portlet Architecture](portlet.base)
-	- [Creating User Menu Portlet](portlet.menu)
-	- [Creating Login Portlet](portlet.login)
-	- [Creating Tag Cloud Portlet](portlet.tags)
-	- [Creating Recent Comments Portlet](portlet.comments)
+* Portlety
+	- [Ustalanie architektury portletu](portlet.base)
+	- [Tworzenie portletu menu użytkownika](portlet.menu)
+	- [Tworzenie portletu logowania](portlet.login)
+	- [Tworzenie portletu chmurki tagów](portlet.tags)
+	- [Tworzenie portletu ostatnich komentarzy](portlet.comments)
 
 * Final Work
-	- [Beautifying URLs](final.url)
-	- [Logging Errors](final.logging)
-    - [Customizing Error Display](final.error)
-    - [Final Tune-up and Deployment](final.deployment)
-    - [Future Enhancements](final.future)
+	- [Upiększanie URLs](final.url)
+	- [Logowanie błędów](final.logging)
+    - [Dostosowywanie wyświetlania błędów](final.error)
+    - [Końcowe dopieszczanie oraz wdrażanie](final.deployment)
+    - [Dalsze rozszerzanie](final.future)
+
+<div class="revision">$Id: toc.txt 1201 2009-07-04 17:49:23Z qiang.xue $</div>

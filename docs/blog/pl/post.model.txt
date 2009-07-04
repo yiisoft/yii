@@ -1,0 +1,204 @@
+Dostosowywanie modelu wiadomości
+======================
+
+Klasa postu `Post`, wygenerowana przez narzędzie `yiic` musi zostać zmodyfikowana przede głównie w trzech miejscach:
+
+ - w metodzie `rules()`: określającej reguły sprawdzania poprawności dla atrybutów modelu;
+ - w metodzie `relations()`: definiującej obiekty pokrewne;
+ - w metodzie `safeAttributes()`: określającej które atrybuty mogą zostać masowo przypisane (używanie głównie podczas przekazywania danych wejściowych użytkownika do modelu);
+
+> Info|Info: [Model](http://www.yiiframework.com/doc/guide/basics.model) zawiera listę 
+atrybutów, każdy z nich jest powiązany z odpowiadającą mu kolumną w bazie danych. 
+Atrybuty mogą być zadeklarowane bezpośrednio jako jako zmienne klasy lub też pośrednio bez żadnej deklaracji. 
+
+
+Dostosowywanie metody `rules()`
+----------------------------
+
+Najpierw określamy zasady sprawdzania poprawności, które pozwalają nam upewnić się, 
+że wartości atrybutów dostarczone przez dane wprowadzone przez użytkownika są poprawne,
+zanim zostaną zapisane do bazy danych. Na przykład, atrybut `status` dla postu `Post` 
+powinien posiadać wartość 0, 1 lub 2. Narzędzie `yiic` również generuje zasady sprawdzania 
+poprawności dla każdego modelu. Jednakże, reguły te bazują na infomracjach o kolumnie 
+tabeli i mogą być nieodpowiednie.
+
+W oparciu o analizę potrzeb, modyfikujemy metodę `rules()` w następujący sposób:
+
+~~~
+[php]
+public function rules()
+{
+	return array(
+		array('title, content, status', 'required'),
+		array('title', 'length', 'max'=>128),
+		array('status', 'in', 'range'=>array(0, 1, 2)),
+		array('tags', 'match', 'pattern'=>'/^[\w\s,]+$/',
+			'message'=>'Tagi mogą posiadać wyłącznie znaki słów.'),
+	);
+}
+~~~
+
+W powyższym kodzie określiliśmy, że atrybuty tytułu `title`, zawartości `content` i statusu `status` są 
+atrybutami wymaganymi (muszą być wypełnione); długość tytułu `title` nie powinna 
+przekraczać 128 (znaków); wartość atrybutu statusu `status` powinna być 0 (wersja robocza, ang. draft), 
+1 (opublikowana, ang. published) lub 2 (zarchiwizowana, ang. archived); a atrybut otagowania `tags`
+powinien zawierać wyłącznie znaki słów oraz przecinki. Wszystkie pozostałe atrybuty  
+(np. `id`, `createTime`) nie będą sprawdzane ponieważ ich wartości nei pochodzą  
+za danych wprowadzonych przez użytkownika.
+
+Po wprowadzeniu tych zmian, możemy odwiedzić ponownie stronę tworzenia postów 
+w celu weryfikacji czy nowe zasady sprawdzania poprawności mają miejsce.
+
+> Info|Info: Reguły sprawdzania poprawności używane są podczas wywołania metody 
+[validate()|CModel::validate] lub metody [save()|CActiveRecord::save] instancji modelu. 
+Aby uzyskać więcej informacji o tym jak budować reguły walidacji, spójrz do [Przewodnika](http://www.yiiframework.com/doc/guide/form.model#declaring-validation-rules).
+
+
+Dostosowywanie metody `safeAttributes()`
+-------------------------------------
+
+Następnie dostosowujemy metodę `safeAttributes()` aby określić, które atrybuty mogą zostać
+grupowo przypisane. Podczas przekazywania danych wprowadzonych przez użytkownika do instancji
+modelu, często używamy następującego grupowego przypisania w celu uproszczenia naszego kodu:
+
+~~~
+[php]
+$post->attributes=$_POST['Post'];
+~~~
+
+Bez używanie powyższego grupowego przypisanie, mielibyśmy do czynienia z następującym, długim kodem:
+
+~~~
+[php]
+$post->title=$_POST['Post']['title'];
+$post->content=$_POST['Post']['content'];
+......
+~~~
+
+Chociaż grupowe przypisanie jest bardzo wygodne, posiada ono potencjalnie niebezpieczeństwo,
+ że złosliwy użytkownik może próbować wypełnić atrybut, którego wartość powinna 
+ być tylko do odczytu luv też powinna być zmieniana przez programistę wyłącznie w kodzie.
+ Na przykład, ID postu `id`, który jest aktualnie aktualizowany nie powinno zostać zmienione.
+
+Aby zabezpieczyć się przed takim niebezpieczeństwem powinniśmy dostosować metodę `safeAttributes()` 
+następująco, tak, że pozwala ona tylko atrybutom tytułu `title`, zawartości `content`, statusu `status` 
+i otagowania `tags` być przypisanymi grupowo:
+
+~~~
+[php]
+public function safeAttributes()
+{
+	return array('title', 'content', 'status', 'tags');
+}
+~~~
+
+> Tip|Wskazówka: Prostym sposobem do zidentyfikownia, które atrybuty powinny być  
+umieszczone na bezpiecznej liście jest obserwacja formularza HTML, który jest  
+używany do zbierania danych od użytkownika. Atrybuty modelu, które pojawiają się 
+w formularzu w celu otrzymania danych wprowadzonych przez użytkownika mogą zostać 
+zadeklarowane jako bezpieczne. Ponieważ te atrybuty otrzymywane są z wejść wprowadzonych 
+przez użytkowników końcowych, powinny one zazwyczaj być powiązane z pewnymi regułami
+sprawdzania poprawności.
+
+
+Dostosowywanie metody `relations()`
+--------------------------------
+
+Na samym końcu dostosowujemy metodę `relations()` w celu zdefiniowania obiektów powiązanych 
+przez do wiadomości. Poprzez zadeklarowanie tych powiązanych obiektów w metodzie 
+`relations()`, możemy wykorzystać potęgę funkcji 
+[relacyjnego aktywnego rekordu (RAR)](http://www.yiiframework.com/doc/guide/database.arr) 
+w celu uzyskanie dostępu do informacji z powiązanych z wiadomością obiektów, takich jak
+jej autor oraz komentarze, bez potrzeby pisanie złożonych wyrażeń SQL z JOIN.
+
+Dostosowujemy metodę `relations()` w następujący sposób:
+
+~~~
+[php]
+public function relations()
+{
+	return array(
+		'author'=>array(self::BELONGS_TO, 'User', 'authorId'),
+		'comments'=>array(self::HAS_MANY, 'Comment', 'postId',
+			'order'=>'??.createTime'),
+		'tagFilter'=>array(self::MANY_MANY, 'Tag', 'PostTag(postId, tagId)',
+			'together'=>true,
+			'joinType'=>'INNER JOIN',
+			'condition'=>'??.name=:tag'),
+	);
+}
+~~~
+
+Powyższe relacje stwierdzają, że:
+
+ * Wiadomość należy do autora, którego reprezentuje klasa `User` a relacja pomiędzy nimi zostaje określona 
+ w oparciu o wartość atrybutu `authorId` wiadomości;
+ * Wiadomość posiada wiele komentarzy, które reprezentuje klasa `Comment` a relacja 
+ pomiędzy nimi zostaje określona w oparciu o wartość atrybutu `postId` tych komentarzy.
+ Komentarze te powinny zostać posortowane odpowiednio do czasu ich utworzenia.
+ 
+
+Relacja filtru tagów `tagFilter` jest trochę złożona. Jest ona używana do jawnego połączenia 
+tabeli wiadomości `Post` z tabelą otagowania `Tag` i wybrania tylko tych wierszy zawierających
+określony tag. Pokażemy jak używać tej relacji gdy zaimplementujemy funkcjonalność 
+wyświetlania wiadomości.
+
+Przy użyciu powyższej deklaracji relacji, możemy w łatwy sposób uzyskać dostęp do 
+autora oraz komentarzy wiadomości w następujący sposób:
+
+~~~
+[php]
+$author=$post->author;
+echo $author->username;
+
+$comments=$post->comments;
+foreach($comments as $comment)
+	echo $comment->content;
+~~~
+
+Aby uzyskać więcej informacji o tym jak deklarować i używać relacji, sprawdź [Poradnik](http://www.yiiframework.com/doc/guide/database.arr).
+
+
+Reprezentacja statusu pod postacią tekstu
+---------------------------
+
+Ponieważ status wiadomości jest przechowywany jako wartość całkowita (integer) w bazie danych
+potrzebujemy dostarczyć jego reprezentacji tekstowej, po to aby była ona wyświetlona w bardziej 
+przystępnym formacie dla użytkownika końcowego. Z tego też powodu, zmodyfikujemy model `Post` 
+w następujący sposób:
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	const STATUS_DRAFT=0;
+	const STATUS_PUBLISHED=1;
+	const STATUS_ARCHIVED=2;
+
+	......
+
+	public function getStatusOptions()
+	{
+		return array(
+			self::STATUS_DRAFT=>'Draft',
+			self::STATUS_PUBLISHED=>'Published',
+			self::STATUS_ARCHIVED=>'Archived',
+		);
+	}
+
+	public function getStatusText()
+	{
+		$options=$this->statusOptions;
+		return isset($options[$this->status]) ? $options[$this->status]
+			: "unknown ({$this->status})";
+	}
+}
+~~~
+
+W powyższym kodzie zdefiniowaliśmy stałe w klasie w celu reprezentowania możliwych wartości 
+statusów. Stałe te są przede wszystkim używane w kodzie, aby uczynić go łatwiejszym w utrzymaniu.
+Definiujemy również metodę `getStatusOptions()`, która zwraca mapowanie pomiędzy wartością całkowitą 
+statusu a wyświetlanym tekstem. I wreszcie, definiujemy metodę `getStatusText()`, 
+która po prostu zwraca tekstowy status wyświetlany użytkownikowi końcowemu.
+
+<div class="revision">$Id: post.model.txt 796 2009-03-09 02:17:07Z qiang.xue $</div>

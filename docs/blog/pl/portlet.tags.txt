@@ -1,0 +1,70 @@
+Tworzenie portletu chmurki tagów
+==========================
+
+[Chmurka tagów](http://en.wikipedia.org/wiki/Tag_cloud) wyświetla listę tagów 
+wiadomości wraz z wizualnymi ozdobnikami, podpowiadającymi jak bardzo popularny 
+jest każdy z tagów. 
+
+
+Tworzenie klasy `TagCloud`
+-------------------------
+
+Tworzymy klasę `TagCloud` w pliku `/wwwroot/blog/protected/components/TagCloud.php`. 
+Plik ten ma następującą zawartość:
+
+~~~
+[php]
+<?php
+class TagCloud extends Portlet
+{
+	public $title='Tags';
+
+	public function getTagWeights()
+	{
+		return Tag::model()->findTagWeights();
+	}
+
+	protected function renderContent()
+	{
+		$this->render('tagCloud');
+	}
+}
+~~~
+
+Powyżej wywołaliśmy metodę `findTagWeights` zdefiniowaną w klasie `Tag`. Metoda ta  
+zwraca listę tagów wraz z ich relatywną wagą częstości. Jeśli tag powiązany jest  
+z większą ilością wiadomości, otrzymuje on wyższą wagę. Będziemy używali tych wag
+do kontroli sposoby wyświetlania tagów. 
+
+
+Tworzenie widoku `tagCloud`
+-------------------------
+
+Widok `tagCloud` jest zapisany w pliku `/wwwroot/blog/protected/components/views/tagCloud.php`. 
+Dla każdego tagu zwróconego przez `TagCloud::getTagWeights()`, wyświetla on hyperlink,  
+który będzie wiódł do strony wyświetlającej wiadomości zawierające ten tag. Rozmiar 
+czcionki tego linku zależy od wartości wagi tagu. Im większa waga, tym większy rozmiar czcionki.
+
+
+Używanie portletu `TagCloud`
+-------------------------
+
+Używanie portletu chmurki tagów `TagCloud` jest bardzo proste. Modyfikujemy wplik układu
+`/wwwroot/blog/protected/views/layouts/main.php` w następujący sposób:
+
+~~~
+[php]
+......
+<div id="sidebar">
+
+<?php $this->widget('UserLogin',array('visible'=>Yii::app()->user->isGuest)); ?>
+
+<?php $this->widget('UserMenu',array('visible'=>!Yii::app()->user->isGuest)); ?>
+
+<?php $this->widget('TagCloud'); ?>
+
+</div>
+......
+~~~
+
+<div class="revision">$Id: portlet.tags.txt 671 2009-02-13 21:55:24Z qiang.xue $</div>
