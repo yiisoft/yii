@@ -11,6 +11,7 @@ Version 1.0.7 to be released
 - Bug #393: Greek language code should be 'el' insead of 'gr' (Qiang)
 - Bug #402: CNumberFormatter does not format decimals and percentages correctly (Qiang)
 - Bug #404: AR would fail when CDbLogRoute uses the same DB connection (Qiang)
+- Bug #421: Undefined variable: seconds in CDateTimeParser.php(140) (Qiang)
 - Bug: CMemCache has a typo when using memcached (Qiang)
 - Bug: COciCommandBuilder is referencing undefined variable (Qiang)
 - Bug: yiic webapp may generate incorrect path to yii.php (Qiang)
