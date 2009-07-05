@@ -24,6 +24,7 @@
 
 defined('YII_BEGIN_TIME') or define('YII_BEGIN_TIME',microtime(true));
 defined('YII_DEBUG') or define('YII_DEBUG',false);
+defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',0);
 defined('YII_ENABLE_EXCEPTION_HANDLER') or define('YII_ENABLE_EXCEPTION_HANDLER',true);
 defined('YII_ENABLE_ERROR_HANDLER') or define('YII_ENABLE_ERROR_HANDLER',true);
 defined('YII_PATH') or define('YII_PATH',dirname(__FILE__));
@@ -36,7 +37,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.0.6';
+		return '1.0.7';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -183,7 +184,27 @@ class YiiBase
 	public static function trace($msg,$category='application')
 	{
 		if(YII_DEBUG)
+		{
+			if(YII_TRACE_LEVEL>0)
+			{
+				$traces=debug_backtrace();
+				$count=0;
+				foreach($traces as $trace)
+				{
+					if(isset($trace['file'],$trace['line']))
+					{
+						$className=substr(basename($trace['file']),0,-4);
+						if(!isset(self::$_coreClasses[$className]) && $className!=='YiiBase')
+						{
+							$msg.="\nin ".$trace['file'].' ('.$trace['line'].')';
+							if(++$count>=YII_TRACE_LEVEL)
+								break;
+						}
+					}
+				}
+			}
 			self::log($msg,CLogger::LEVEL_TRACE,$category);
+		}
 	}
 	public static function log($msg,$level=CLogger::LEVEL_INFO,$category='application')
 	{
@@ -1672,6 +1693,125 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 		$this->remove($offset);
 	}
 }
+class CLogger extends CComponent
+{
+	const LEVEL_TRACE='trace';
+	const LEVEL_WARNING='warning';
+	const LEVEL_ERROR='error';
+	const LEVEL_INFO='info';
+	const LEVEL_PROFILE='profile';
+	private $_logs=array();
+	private $_levels;
+	private $_categories;
+	private $_timings;
+	public function log($message,$level='info',$category='application')
+	{
+		$this->_logs[]=array($message,$level,$category,microtime(true));
+	}
+	public function getLogs($levels='',$categories='')
+	{
+		$this->_levels=preg_split('/[\s,]+/',strtolower($levels),-1,PREG_SPLIT_NO_EMPTY);
+		$this->_categories=preg_split('/[\s,]+/',strtolower($categories),-1,PREG_SPLIT_NO_EMPTY);
+		if(empty($levels) && empty($categories))
+			return $this->_logs;
+		else if(empty($levels))
+			return array_values(array_filter(array_filter($this->_logs,array($this,'filterByCategory'))));
+		else if(empty($categories))
+			return array_values(array_filter(array_filter($this->_logs,array($this,'filterByLevel'))));
+		else
+		{
+			$ret=array_values(array_filter(array_filter($this->_logs,array($this,'filterByLevel'))));
+			return array_values(array_filter(array_filter($ret,array($this,'filterByCategory'))));
+		}
+	}
+	private function filterByCategory($value)
+	{
+		foreach($this->_categories as $category)
+		{
+			$cat=strtolower($value[2]);
+			if($cat===$category || (($c=rtrim($category,'.*'))!==$category && strpos($cat,$c)===0))
+				return $value;
+		}
+		return false;
+	}
+	private function filterByLevel($value)
+	{
+		return in_array(strtolower($value[1]),$this->_levels)?$value:false;
+	}
+	public function getExecutionTime()
+	{
+		return microtime(true)-YII_BEGIN_TIME;
+	}
+	public function getMemoryUsage()
+	{
+		if(function_exists('memory_get_usage'))
+			return memory_get_usage();
+		else
+		{
+			$output=array();
+			if(strncmp(PHP_OS,'WIN',3)===0)
+			{
+				exec('tasklist /FI "PID eq ' . getmypid() . '" /FO LIST',$output);
+				return isset($output[5])?preg_replace('/[\D]/','',$output[5])*1024 : 0;
+			}
+			else
+			{
+				$pid=getmypid();
+				exec("ps -eo%mem,rss,pid | grep $pid", $output);
+				$output=explode("  ",$output[0]);
+				return isset($output[1]) ? $output[1]*1024 : 0;
+			}
+		}
+	}
+	public function getProfilingResults($token=null,$category=null,$refresh=false)
+	{
+		if($this->_timings===null || $refresh)
+			$this->calculateTimings();
+		if($token===null && $category===null)
+			return $this->_timings;
+		$results=array();
+		foreach($this->_timings as $timing)
+		{
+			if(($category===null || $timing[1]===$category) && ($token===null || $timing[0]===$token))
+				$results[]=$timing[2];
+		}
+		return $results;
+	}
+	private function calculateTimings()
+	{
+		$this->_timings=array();
+		$stack=array();
+		foreach($this->_logs as $log)
+		{
+			if($log[1]!==CLogger::LEVEL_PROFILE)
+				continue;
+			list($message,$level,$category,$timestamp)=$log;
+			if(!strncasecmp($message,'begin:',6))
+			{
+				$log[0]=substr($message,6);
+				$stack[]=$log;
+			}
+			else if(!strncasecmp($message,'end:',4))
+			{
+				$token=substr($message,4);
+				if(($last=array_pop($stack))!==null && $last[0]===$token)
+				{
+					$delta=$log[3]-$last[3];
+					$this->_timings[]=array($message,$category,$delta);
+				}
+				else
+					throw new CException(Yii::t('yii','CProfileLogRoute found a mismatching code block "{token}". Make sure the calls to Yii::beginProfile() and Yii::endProfile() be properly nested.',
+						array('{token}'=>$token)));
+			}
+		}
+		$now=microtime(true);
+		while(($last=array_pop($stack))!==null)
+		{
+			$delta=$now-$last[3];
+			$this->_timings[]=array($last[0],$last[2],$delta);
+		}
+	}
+}
 abstract class CApplicationComponent extends CComponent implements IApplicationComponent
 {
 	public $behaviors=array();
@@ -1913,9 +2053,9 @@ class CHttpRequest extends CApplicationComponent
 		else
 			return $this->_scriptFile=realpath($_SERVER['SCRIPT_FILENAME']);
 	}
-	public function getBrowser()
+	public function getBrowser($userAgent=null)
 	{
-		return get_browser();
+		return get_browser($userAgent,true);
 	}
 	public function getAcceptTypes()
 	{
@@ -2820,9 +2960,9 @@ class CController extends CBaseController
 		}
 		Yii::app()->getRequest()->redirect($url,$terminate,$statusCode);
 	}
-	public function refresh($terminate=true)
+	public function refresh($terminate=true,$anchor='')
 	{
-		$this->redirect(Yii::app()->getRequest()->getUrl(),$terminate);
+		$this->redirect(Yii::app()->getRequest()->getUrl().$anchor,$terminate);
 	}
 	public function recordCachingAction($context,$method,$params)
 	{
@@ -2952,6 +3092,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 {
 	const FLASH_KEY_PREFIX='Yii.CWebUser.flash.';
 	const FLASH_COUNTERS='Yii.CWebUser.flash.counters';
+	const STATES_VAR='__states';
 	public $allowAutoLogin=false;
 	public $guestName='Guest';
 	public $loginUrl=array('site/login');
@@ -3006,11 +3147,14 @@ class CWebUser extends CApplicationComponent implements IWebUser
 					array('{class}'=>get_class($this))));
 		}
 	}
-	public function logout()
+	public function logout($destroySession=true)
 	{
 		if($this->allowAutoLogin)
 			Yii::app()->getRequest()->getCookies()->remove($this->getStateKeyPrefix());
-		$this->clearStates();
+		if($destroySession)
+			Yii::app()->getSession()->destroy();
+		else
+			$this->clearStates();
 	}
 	public function getIsGuest()
 	{
@@ -3026,22 +3170,22 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	}
 	public function getName()
 	{
-		if(($name=$this->getState('_name'))!==null)
+		if(($name=$this->getState('__name'))!==null)
 			return $name;
 		else
 			return $this->guestName;
 	}
 	public function setName($value)
 	{
-		$this->setState('_name',$value);
+		$this->setState('__name',$value);
 	}
 	public function getReturnUrl()
 	{
-		return $this->getState('_returnUrl',Yii::app()->getRequest()->getScriptUrl());
+		return $this->getState('__returnUrl',Yii::app()->getRequest()->getScriptUrl());
 	}
 	public function setReturnUrl($value)
 	{
-		$this->setState('_returnUrl',$value);
+		$this->setState('__returnUrl',$value);
 	}
 	public function loginRequired()
 	{
@@ -3124,7 +3268,14 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	}
 	public function clearStates()
 	{
-		Yii::app()->getSession()->destroy();
+		$keys=array_keys($_SESSION);
+		$prefix=$this->getStateKeyPrefix();
+		$n=strlen($prefix);
+		foreach($keys as $key)
+		{
+			if(!strncmp($key,$prefix,$n))
+				unset($_SESSION[$key]);
+		}
 	}
 	public function getFlash($key,$defaultValue=null,$delete=true)
 	{
@@ -3156,24 +3307,22 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	protected function saveIdentityStates()
 	{
 		$states=array();
-		foreach($this->getState('__states',array()) as $name=>$dummy)
+		foreach($this->getState(self::STATES_VAR,array()) as $name=>$dummy)
 			$states[$name]=$this->getState($name);
 		return $states;
 	}
 	protected function loadIdentityStates($states)
 	{
+		$names=array();
 		if(is_array($states))
 		{
-			$names=array();
 			foreach($states as $name=>$value)
 			{
 				$this->setState($name,$value);
 				$names[$name]=true;
 			}
-			$this->setState('__states',$names);
 		}
-		else
-			$this->setState('__states',array());
+		$this->setState(self::STATES_VAR,$names);
 	}
 	protected function updateFlash()
 	{
@@ -3843,7 +3992,13 @@ EOD;
 	}
 	public static function activeLabel($model,$attribute,$htmlOptions=array())
 	{
-		$for=self::getIdByName(self::resolveName($model,$attribute));
+		if(isset($htmlOptions['for']))
+		{
+			$for=$htmlOptions['for'];
+			unset($htmlOptions['for']);
+		}
+		else
+			$for=self::getIdByName(self::resolveName($model,$attribute));
 		if(isset($htmlOptions['label']))
 		{
 			$label=$htmlOptions['label'];
@@ -3972,7 +4127,7 @@ EOD;
 	{
 		return self::activeId($model,$attribute);
 	}
-	public static function errorSummary($model,$header=null,$footer=null)
+	public static function errorSummary($model,$header=null,$footer=null,$htmlOptions=array())
 	{
 		$content='';
 		if(!is_array($model))
@@ -3992,16 +4147,22 @@ EOD;
 		{
 			if($header===null)
 				$header='<p>'.Yii::t('yii','Please fix the following input errors:').'</p>';
-			return self::tag('div',array('class'=>self::$errorSummaryCss),$header."\n<ul>\n$content</ul>".$footer);
+			if(!isset($htmlOptions['class']))
+				$htmlOptions['class']=self::$errorSummaryCss;
+			return self::tag('div',$htmlOptions,$header."\n<ul>\n$content</ul>".$footer);
 		}
 		else
 			return '';
 	}
-	public static function error($model,$attribute)
+	public static function error($model,$attribute,$htmlOptions=array())
 	{
 		$error=$model->getError($attribute);
 		if($error!='')
-			return self::tag('div',array('class'=>self::$errorMessageCss),$error);
+		{
+			if(!isset($htmlOptions['class']))
+				$htmlOptions['class']=self::$errorMessageCss;
+			return self::tag('div',$htmlOptions,$error);
+		}
 		else
 			return '';
 	}
@@ -4129,13 +4290,16 @@ EOD;
 			$id=$htmlOptions['id']=isset($htmlOptions['name'])?$htmlOptions['name']:self::ID_PREFIX.self::$count++;
 		$cs=Yii::app()->getClientScript();
 		$cs->registerCoreScript('jquery');
-		if(isset($htmlOptions['params']))
-			$params=CJavaScript::encode($htmlOptions['params']);
-		else
-			$params='{}';
 		if(isset($htmlOptions['submit']))
 		{
 			$cs->registerCoreScript('yii');
+			$request=Yii::app()->getRequest();
+			if($request->enableCsrfValidation && isset($htmlOptions['csrf']) && $htmlOptions['csrf'])
+				$htmlOptions['params'][$request->csrfTokenName]=$request->getCsrfToken();
+			if(isset($htmlOptions['params']))
+				$params=CJavaScript::encode($htmlOptions['params']);
+			else
+				$params='{}';
 			if($htmlOptions['submit']!=='')
 				$url=CJavaScript::quote(self::normalizeUrl($htmlOptions['submit']));
 			else
@@ -4153,7 +4317,7 @@ EOD;
 				$handler="return $confirm;";
 		}
 		$cs->registerScript('Yii.CHtml.#'.$id,"jQuery('#$id').$event(function(){{$handler}});");
-		unset($htmlOptions['params'],$htmlOptions['submit'],$htmlOptions['ajax'],$htmlOptions['confirm'],$htmlOptions['return']);
+		unset($htmlOptions['params'],$htmlOptions['submit'],$htmlOptions['ajax'],$htmlOptions['confirm'],$htmlOptions['return'],$htmlOptions['csrf']);
 	}
 	protected static function resolveNameID($model,&$attribute,&$htmlOptions)
 	{
@@ -5484,14 +5648,19 @@ abstract class CActiveRecord extends CModel
 			return false;
 		return true;
 	}
-	public function addRelatedRecord($name,$record,$multiple)
+	public function addRelatedRecord($name,$record,$index)
 	{
-		if($multiple)
+		if($index!==false)
 		{
 			if(!isset($this->_related[$name]))
 				$this->_related[$name]=array();
 			if($record instanceof CActiveRecord)
-				$this->_related[$name][]=$record;
+			{
+				if($index===true)
+					$this->_related[$name][]=$record;
+				else
+					$this->_related[$name][$index]=$record;
+			}
 		}
 		else if(!isset($this->_related[$name]))
 			$this->_related[$name]=$record;
@@ -5565,8 +5734,9 @@ abstract class CActiveRecord extends CModel
 	}
 	protected function beforeSave()
 	{
-		$this->onBeforeSave(new CEvent($this));
-		return true;
+		$event=new CModelEvent($this);
+		$this->onBeforeSave($event);
+		return $event->isValid;
 	}
 	protected function afterSave()
 	{
@@ -5574,8 +5744,9 @@ abstract class CActiveRecord extends CModel
 	}
 	protected function beforeDelete()
 	{
-		$this->onBeforeDelete(new CEvent($this));
-		return true;
+		$event=new CModelEvent($this);
+		$this->onBeforeDelete($event);
+		return $event->isValid;
 	}
 	protected function afterDelete()
 	{
@@ -5807,7 +5978,6 @@ abstract class CActiveRecord extends CModel
 		$builder=$this->getCommandBuilder();
 		$table=$this->getTableSchema();
 		$criteria=$builder->createPkCriteria($table,$pk,$condition,$params);
-		$this->applyScopes($criteria);
 		$command=$builder->createUpdateCommand($table,$attributes,$criteria);
 		return $command->execute();
 	}
@@ -5815,7 +5985,6 @@ abstract class CActiveRecord extends CModel
 	{
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
-		$this->applyScopes($criteria);
 		$command=$builder->createUpdateCommand($this->getTableSchema(),$attributes,$criteria);
 		return $command->execute();
 	}
@@ -5823,7 +5992,6 @@ abstract class CActiveRecord extends CModel
 	{
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
-		$this->applyScopes($criteria);
 		$command=$builder->createUpdateCounterCommand($this->getTableSchema(),$counters,$criteria);
 		return $command->execute();
 	}
@@ -5831,7 +5999,6 @@ abstract class CActiveRecord extends CModel
 	{
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createPkCriteria($this->getTableSchema(),$pk,$condition,$params);
-		$this->applyScopes($criteria);
 		$command=$builder->createDeleteCommand($this->getTableSchema(),$criteria);
 		return $command->execute();
 	}
@@ -5839,7 +6006,6 @@ abstract class CActiveRecord extends CModel
 	{
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
-		$this->applyScopes($criteria);
 		$command=$builder->createDeleteCommand($this->getTableSchema(),$criteria);
 		return $command->execute();
 	}
@@ -6020,6 +6186,7 @@ class CHasManyRelation extends CActiveRelation
 {
 	public $limit=-1;
 	public $offset=-1;
+	public $index;
 	public function mergeWith($criteria)
 	{
 		parent::mergeWith($criteria);
@@ -6027,6 +6194,8 @@ class CHasManyRelation extends CActiveRelation
 			$this->limit=$criteria['limit'];
 		if(isset($criteria['offset']) && $criteria['offset']>=0)
 			$this->offset=$criteria['offset'];
+		if(isset($criteria['index']))
+			$this->index=$criteria['index'];
 	}
 }
 class CManyManyRelation extends CHasManyRelation
@@ -6621,6 +6790,7 @@ class CDbCommand extends CComponent
 		try
 		{
 			if($this->_connection->enableProfiling)
+				Yii::beginProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
 			if($this->_statement instanceof PDOStatement)
 			{
 				$this->_statement->execute();
@@ -6629,11 +6799,13 @@ class CDbCommand extends CComponent
 			else
 				$n=$this->getConnection()->getPdoInstance()->exec($this->getText());
 			if($this->_connection->enableProfiling)
+				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
 			return $n;
 		}
 		catch(Exception $e)
 		{
 			if($this->_connection->enableProfiling)
+				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
 			Yii::log('Error in executing SQL: '.$this->getText().$params,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
 				array('{error}'=>$e->getMessage())));
@@ -6669,6 +6841,7 @@ class CDbCommand extends CComponent
 		try
 		{
 			if($this->_connection->enableProfiling)
+				Yii::beginProfile('system.db.CDbCommand.query('.$this->getText().')','system.db.CDbCommand.query');
 			if($this->_statement instanceof PDOStatement)
 				$this->_statement->execute();
 			else
@@ -6681,11 +6854,13 @@ class CDbCommand extends CComponent
 				$this->_statement->closeCursor();
 			}
 			if($this->_connection->enableProfiling)
+				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().')','system.db.CDbCommand.query');
 			return $result;
 		}
 		catch(Exception $e)
 		{
 			if($this->_connection->enableProfiling)
+				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().')','system.db.CDbCommand.query');
 			Yii::log('Error in querying SQL: '.$this->getText().$params,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
 				array('{error}'=>$e->getMessage())));
