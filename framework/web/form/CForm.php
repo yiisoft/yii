@@ -415,7 +415,7 @@ class CForm extends CFormElement implements ArrayAccess
 				$buttons.=$button."\n";
 		}
 		if($buttons!=='')
-			$output.="<div class=\"row action\">".$buttons."</div>\n";
+			$output.="<div class=\"row buttons\">".$buttons."</div>\n";
 
 		if($this->legend!==null)
 			$output.="</fieldset>\n";
