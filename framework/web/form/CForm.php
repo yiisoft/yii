@@ -270,7 +270,7 @@ class CForm extends CFormElement implements ArrayAccess
 			if($element instanceof self)
 				$models=array_merge($models,$element->getModels());
 		}
-		return $models();
+		return $models;
 	}
 
 	/**
