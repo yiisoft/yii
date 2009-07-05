@@ -98,7 +98,11 @@ class CForm extends CFormElement implements ArrayAccess
 	/**
 	 * @var array attribute values for the form tag
 	 */
-	public $attributes=array('class'=>'form');
+	public $attributes=array();
+	/**
+	 * @var boolean whether to show error summary. Defaults to false.
+	 */
+	public $showErrorSummary=false;
 
 	private $_model;
 	private $_elements;
@@ -161,13 +165,8 @@ class CForm extends CFormElement implements ArrayAccess
 	public function validate()
 	{
 		$ret=true;
-		if($this->_model!==null)
-			$ret=$this->_model->validate() && $ret;
-		foreach($this->getElements() as $element)
-		{
-			if($element instanceof self)
-				$ret=$element->validate() && $ret;
-		}
+		foreach($this->getModels() as $model)
+			$ret=$model->validate() && $ret;
 		return $ret;
 	}
 
@@ -234,11 +233,15 @@ class CForm extends CFormElement implements ArrayAccess
 	}
 
 	/**
+	 * Returns the model that this form is associated with.
+	 * @param boolean whether to return parent's model if this form doesn't have model by itself.
 	 * @return CModel the model associated with this form. If this form does not have a model,
 	 * it will look for a model in its ancestors.
 	 */
-	public function getModel()
+	public function getModel($checkParent=true)
 	{
+		if(!$checkParent)
+			return $this->_model;
 		$form=$this;
 		while($form->_model===null && $form->getParent() instanceof self)
 			$form=$form->getParent();
@@ -251,6 +254,23 @@ class CForm extends CFormElement implements ArrayAccess
 	public function setModel($model)
 	{
 		$this->_model=$model;
+	}
+
+	/**
+	 * Returns all models that are associated with this form or its sub-forms.
+	 * @return array the models that are associated with this form or its sub-forms.
+	 */
+	public function getModels()
+	{
+		$models=array();
+		if($this->_model!==null)
+			$models[]=$this->_model;
+		foreach($this->getElements() as $element)
+		{
+			if($element instanceof self)
+				$models=array_merge($models,$element->getModels());
+		}
+		return $models();
 	}
 
 	/**
@@ -349,7 +369,11 @@ class CForm extends CFormElement implements ArrayAccess
 	 */
 	public function renderBegin()
 	{
-		return CHtml::beginForm($this->action,$this->method,$this->attributes);
+		$output=CHtml::beginForm($this->action,$this->method,$this->attributes);
+		if($this->showErrorSummary)
+			return $output . "\n" . CHtml::errorSummary($this->getModels());
+		else
+			return $output;
 	}
 
 	/**
@@ -392,8 +416,6 @@ class CForm extends CFormElement implements ArrayAccess
 
 		if($this->description!==null)
 			$output.="<div class=\"description\">\n".$this->description."</div>\n";
-
-		$output.=CHtml::errorSummary($this->getModel());
 
 		foreach($this->getElements() as $element)
 		{

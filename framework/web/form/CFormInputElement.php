@@ -111,15 +111,19 @@ class CFormInputElement extends CFormElement
 	/**
 	 * Renders everything for this input.
 	 * The default implementation simply returns the result of {@link renderLabel}, {@link renderInput},
-	 * {@link renderHint} and {@link renderError}.
+	 * {@link renderHint}. When {@link CForm::showErrorSummary} is false, {@link renderError} is also called
+	 * to show error messages after individual input fields.
 	 * @return string the complete rendering result for this input, including label, input field, hint, and error.
 	 */
 	public function render()
 	{
-		return $this->renderLabel() . "\n"
+		$output=$this->renderLabel() . "\n"
 			. $this->renderInput() . "\n"
-			. $this->renderHint() . "\n"
-			. $this->renderError();
+			. $this->renderHint();
+		if($this->getParent()->showErrorSummary)
+			return $output;
+		else
+			return $output . "\n" . $this->renderError();
 	}
 
 	/**
