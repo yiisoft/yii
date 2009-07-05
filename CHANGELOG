@@ -11,8 +11,11 @@ Version 1.1a to be released
 - Chg: Changed AR eager loading so that it generates and executes a single SQL statement by default (Qiang)
 - Chg: Changed AR table aliasing so that it uses relation names as default table aliases (Qiang)
 
-Version 1.0.7 to be released
+Version 1.0.8 To be released
 ----------------------------
+
+Version 1.0.7 July 5, 2009
+--------------------------
 - Bug #367: CUploadedFile may fail if a form contains multiple file uploads in different array dimensions (Qiang)
 - Bug #368: CUploadedFile::getInstance() should return null if no file is uploaded (Qiang)
 - Bug #372: CCacheHttpSession should initialize cache first before using it (Qiang)
