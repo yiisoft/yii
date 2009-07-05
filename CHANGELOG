@@ -2,6 +2,10 @@
                    Yii Framework Change Log
                    ========================
 
+Version 1.0.8 To be released
+----------------------------
+
+
 Version 1.0.7 July 5, 2009
 --------------------------
 - Bug #367: CUploadedFile may fail if a form contains multiple file uploads in different array dimensions (Qiang)
