@@ -123,9 +123,11 @@ class CForm extends CFormElement implements ArrayAccess
 	 * The configuration array consists of name-value pairs that are used to initialize
 	 * the properties of this form.
 	 */
-	public function __construct($parent,$model=null,$config=null)
+	public function __construct($config,$model,$parent=null)
 	{
 		$this->_model=$model;
+		if($parent===null)
+			$parent=Yii::app()->getController();
 		parent::__construct($parent,$config);
 		$this->init();
 	}

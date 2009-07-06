@@ -36,14 +36,14 @@ abstract class CFormElement extends CComponent
 
 	/**
 	 * Constructor.
-	 * @param mixed the direct parent of this element.
 	 * @param mixed the configuration for this element.
+	 * @param mixed the direct parent of this element.
 	 * @see configure
 	 */
-	public function __construct($parent,$config=null)
+	public function __construct($config,$parent)
 	{
-		$this->_parent=$parent;
 		$this->configure($config);
+		$this->_parent=$parent;
 	}
 
 	/**
