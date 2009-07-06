@@ -16,7 +16,7 @@
  * <pre>
  * $element=$collection['username'];
  * $collection['username']=array('type'=>'text', 'maxlength'=>128);
- * $collection['password']=new CFormInputElement($form, array('type'=>'password'));
+ * $collection['password']=new CFormInputElement(array('type'=>'password'),$form);
  * $collection[]='some string';
  * </pre>
  *
@@ -65,7 +65,7 @@ class CFormElementCollection extends CMap
 			if($this->_forButtons)
 			{
 				$class=$this->_form->buttonElementClass;
-				$element=new $class($this->_form,$value);
+				$element=new $class($value,$this->_form);
 			}
 			else
 			{
@@ -74,17 +74,17 @@ class CFormElementCollection extends CMap
 				if($value['type']==='string')
 				{
 					unset($value['type'],$value['name']);
-					$element=new CFormStringElement($this->_form,$value);
+					$element=new CFormStringElement($value,$this->_form);
 				}
 				else if(!strcasecmp(substr($value['type'],-4),'form'))	// a form
 				{
 					$class=Yii::import($value['type']);
-					$element=new $class($this->_form,null,$value);
+					$element=new $class($value,null,$this->_form);
 				}
 				else
 				{
 					$class=$this->_form->inputElementClass;
-					$element=new $class($this->_form,$value);
+					$element=new $class($value,$this->_form);
 				}
 			}
 		}
@@ -95,7 +95,7 @@ class CFormElementCollection extends CMap
 			$element=$value;
 		}
 		else
-			$element=new CFormStringElement($this->_form,array('content'=>$value));
+			$element=new CFormStringElement(array('content'=>$value),$this->_form);
 		parent::add($key,$element);
 		$this->_form->addedElement($key,$element,$this->_forButtons);
 	}
