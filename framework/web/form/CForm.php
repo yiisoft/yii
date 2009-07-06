@@ -128,7 +128,7 @@ class CForm extends CFormElement implements ArrayAccess
 		$this->_model=$model;
 		if($parent===null)
 			$parent=Yii::app()->getController();
-		parent::__construct($parent,$config);
+		parent::__construct($config,$parent);
 		$this->init();
 	}
 

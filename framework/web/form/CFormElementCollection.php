@@ -78,7 +78,7 @@ class CFormElementCollection extends CMap
 				}
 				else if(!strcasecmp(substr($value['type'],-4),'form'))	// a form
 				{
-					$class=Yii::import($value['type']);
+					$class=$value['type']==='form' ? get_class($this->_form) : Yii::import($value['type']);
 					$element=new $class($value,null,$this->_form);
 				}
 				else
