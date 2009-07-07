@@ -297,10 +297,7 @@ class CDbConnection extends CApplicationComponent
 		if($this->charset!==null)
 		{
 			if(strcasecmp($pdo->getAttribute(PDO::ATTR_DRIVER_NAME),'sqlite'))
-			{
-				$stmt=$pdo->prepare('SET NAMES ?');
-				$stmt->execute(array($this->charset));
-			}
+				$pdo->exec('SET NAMES '.$pdo->quote($this->charset));
 		}
 	}
 
