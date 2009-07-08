@@ -114,7 +114,7 @@ abstract class CFormElement extends CComponent
 	public function configure($config)
 	{
 		if(is_string($config))
-			$config=require($config);
+			$config=require(Yii::getPathOfAlias($config).'.php');
 		if(is_array($config))
 		{
 			foreach($config as $name=>$value)
