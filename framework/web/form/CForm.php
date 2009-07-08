@@ -113,15 +113,15 @@ class CForm extends CFormElement implements ArrayAccess
 	 * Constructor.
 	 * If you override this method, make sure you do not modify the method
 	 * signature, and also make sure you call the parent implementation.
+	 * @param mixed the configuration for this form. It can be a configuration array
+	 * or the path alias of a PHP script file that returns a configuration array.
+	 * The configuration array consists of name-value pairs that are used to initialize
+	 * the properties of this form.
+	 * @param CModel the model object associated with this form. If it is null,
+	 * the parent's model will be used instead.
 	 * @param mixed the direct parent of this form. This could be either a {@link CBaseController}
 	 * object (a controller or a widget), or a {@link CForm} object.
 	 * If the former, it means the form is a top-level form; if the latter, it means this form is a sub-form.
-	 * @param CModel the model object associated with this form. If it is null,
-	 * the parent's model will be used instead.
-	 * @param mixed the configuration for this form. It can be a configuration array
-	 * or the name of a PHP script file that returns a configuration array.
-	 * The configuration array consists of name-value pairs that are used to initialize
-	 * the properties of this form.
 	 */
 	public function __construct($config,$model,$parent=null)
 	{
