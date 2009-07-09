@@ -147,7 +147,7 @@ class CFormInputElement extends CFormElement
 	 */
 	public function renderLabel()
 	{
-		return '<div class="label">'.CHtml::activeLabelEx($this->getParent()->getModel(), $this->name, array('label'=>$this->getLabel())).'</div>';
+		return '<div class="label">'.CHtml::activeLabel($this->getParent()->getModel(), $this->name, array('label'=>$this->getLabel(),'required'=>$this->getRequired())).'</div>';
 	}
 
 	/**
