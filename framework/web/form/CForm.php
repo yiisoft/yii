@@ -415,7 +415,7 @@ class CForm extends CFormElement implements ArrayAccess
 		$output=$this->renderHiddenFields();
 
 		if($this->legend!==null)
-			$output.="<fieldset>\n<legend>\n".$this->legend."</legend>\n";
+			$output.="<fieldset>\n<legend>".$this->legend."</legend>\n";
 
 		if($this->description!==null)
 			$output.="<div class=\"description\">\n".$this->description."</div>\n";
