@@ -152,7 +152,7 @@ class CForm extends CFormElement implements ArrayAccess
 	 */
 	public function submitted($buttonName='submit',$loadData=true)
 	{
-		$ret=$this->clicked($this->getUniqueId()) && $this->clicked($buttonName)
+		$ret=$this->clicked($this->getUniqueId()) && $this->clicked($buttonName);
 		if($ret && $loadData)
 			$this->loadData();
 		return $ret;
@@ -165,7 +165,7 @@ class CForm extends CFormElement implements ArrayAccess
 	 */
 	public function clicked($name)
 	{
-		if(strcasecmp($this->getRoot()->method))
+		if(strcasecmp($this->getRoot()->method,'get'))
 			return isset($_POST[$name]);
 		else
 			return isset($_GET[$name]);
@@ -197,13 +197,13 @@ class CForm extends CFormElement implements ArrayAccess
 		if($this->_model!==null)
 		{
 			$class=get_class($this->_model);
-			if($this->getRoot()->method==='get')
+			if(strcasecmp($this->getRoot()->method,'get'))
 			{
-				if(isset($_GET[$class]))
-					$this->_model->setAttributes($_GET[$class]);
+				if(isset($_POST[$class]))
+					$this->_model->setAttributes($_POST[$class]);
 			}
-			else if(isset($_POST[$class]))
-				$this->_model->setAttributes($_POST[$class]);
+			else if(isset($_GET[$class]))
+				$this->_model->setAttributes($_GET[$class]);
 		}
 		foreach($this->getElements() as $element)
 		{
