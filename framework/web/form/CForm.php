@@ -394,12 +394,14 @@ class CForm extends CFormElement implements ArrayAccess
 	public function renderEnd()
 	{
 		if($this->legend!==null)
-			$output.="</fieldset>\n";
+			$output="</fieldset>\n";
+		else
+			$output='';
 
 		if($this->getParent() instanceof self)
-			return CHtml::endForm();
+			return $output.CHtml::endForm();
 		else
-			return '';
+			return $output;
 	}
 
 	/**
