@@ -353,28 +353,36 @@ class CForm extends CFormElement implements ArrayAccess
 
 	/**
 	 * Renders the form.
-	 * If this is a sub-form, only the {@link renderBody} will be rendered.
-	 * Otherwise, the whole form will be rendered, including the open and close tag.
+	 * The default implementation simply calls {@link renderBegin}, {@link renderBody} and {@link renderEnd}.
 	 * @return string the rendering result
 	 */
 	public function render()
 	{
-		if($this->getParent() instanceof self) // is a sub-form
-			return $this->renderBody();
-		else
-			return $this->renderBegin() . $this->renderBody() . $this->renderEnd();
+		return $this->renderBegin() . $this->renderBody() . $this->renderEnd();
 	}
 
 	/**
 	 * Renders the open tag of the form.
-	 * The default implementation will render the open tag.
+	 * The default implementation will render the open form tag.
+	 * If {@link legend} or {@link description} is specified, they will be rendered as well.
+	 * And if the associated model contains error, the error summary may also be displayed.
 	 * @return string the rendering result
 	 */
 	public function renderBegin()
 	{
-		$output=CHtml::beginForm($this->action,$this->method,$this->attributes);
-		if($this->showErrorSummary)
-			return $output . "\n" . CHtml::errorSummary($this->getModels());
+		if($this->getParent() instanceof self)
+			$output=CHtml::beginForm($this->action,$this->method,$this->attributes);
+		else
+			$output='';
+
+		if($this->legend!==null)
+			$output.="<fieldset>\n<legend>".$this->legend."</legend>\n";
+
+		if($this->description!==null)
+			$output.="<div class=\"description\">\n".$this->description."</div>\n";
+
+		if($this->showErrorSummary && ($model=$this->getModel(false))!==null)
+			return $output . "\n" . CHtml::errorSummary($model);
 		else
 			return $output;
 	}
@@ -385,7 +393,13 @@ class CForm extends CFormElement implements ArrayAccess
 	 */
 	public function renderEnd()
 	{
-		return CHtml::endForm();
+		if($this->legend!==null)
+			$output.="</fieldset>\n";
+
+		if($this->getParent() instanceof self)
+			return CHtml::endForm();
+		else
+			return '';
 	}
 
 	/**
@@ -405,6 +419,7 @@ class CForm extends CFormElement implements ArrayAccess
 
 	/**
 	 * Renders the body content of this form.
+	 * This method mainly renders hidden fields, input fields and buttons.
 	 * The form tag will not be rendered. Please call {@link renderBegin} and {@link renderEnd}
 	 * to render the open and close tags of the form.
 	 * You may override this method to customize the rendering of the form.
@@ -413,12 +428,6 @@ class CForm extends CFormElement implements ArrayAccess
 	public function renderBody()
 	{
 		$output=$this->renderHiddenFields();
-
-		if($this->legend!==null)
-			$output.="<fieldset>\n<legend>".$this->legend."</legend>\n";
-
-		if($this->description!==null)
-			$output.="<div class=\"description\">\n".$this->description."</div>\n";
 
 		foreach($this->getElements() as $element)
 		{
@@ -441,9 +450,6 @@ class CForm extends CFormElement implements ArrayAccess
 		}
 		if($buttons!=='')
 			$output.="<div class=\"row buttons\">".$buttons."</div>\n";
-
-		if($this->legend!==null)
-			$output.="</fieldset>\n";
 
 		return $output;
 	}
