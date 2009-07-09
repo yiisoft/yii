@@ -144,17 +144,31 @@ class CForm extends CFormElement implements ArrayAccess
 
 	/**
 	 * Returns a value indicating whether this form is submitted.
+	 * @param string the name of the submit button
 	 * @param boolean whether to call {@link loadData} if the form is submitted so that
 	 * the submitted data can be populated to the associated models.
 	 * @return boolean whether this form is submitted.
 	 * @see loadData
 	 */
-	public function submitted($loadData=true)
+	public function submitted($buttonName='submit',$loadData=true)
 	{
-		$ret=$this->clicked($this->getUniqueId());
+		$ret=$this->clicked($this->getUniqueId()) && $this->clicked($buttonName)
 		if($ret && $loadData)
 			$this->loadData();
 		return $ret;
+	}
+
+	/**
+	 * Returns a value indicating whether the specified button is clicked.
+	 * @param string the button name
+	 * @return boolean whether the button is clicked.
+	 */
+	public function clicked($name)
+	{
+		if(strcasecmp($this->getRoot()->method))
+			return isset($_POST[$name]);
+		else
+			return isset($_GET[$name]);
 	}
 
 	/**
@@ -196,19 +210,6 @@ class CForm extends CFormElement implements ArrayAccess
 			if($element instanceof self)
 				$element->loadData();
 		}
-	}
-
-	/**
-	 * Returns a value indicating whether the specified button is clicked.
-	 * @param string the button name
-	 * @return boolean whether the button is clicked.
-	 */
-	public function clicked($name)
-	{
-		if($this->getRoot()->method==='get')
-			return isset($_GET[$name]);
-		else
-			return isset($_POST[$name]);
 	}
 
 	/**
