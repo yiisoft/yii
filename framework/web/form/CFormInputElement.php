@@ -78,14 +78,28 @@ class CFormInputElement extends CFormElement
 	public $items=array();
 
 	private $_label;
+	private $_required;
 
 	/**
-	 * @return boolean whether this input is required. The value is determined by calling
+	 * Gets the value indicating whether this input is required.
+	 * If this property is not set explicitly, it will be determined by calling
 	 * {@link CModel::isAttributeRequired} for the associated model and attribute of this input.
+	 * @return boolean whether this input is required.
 	 */
 	public function getRequired()
 	{
-		return $this->getParent()->getModel()->isAttributeRequired($this->name);
+		if($this->_required!==null)
+			return $this->_required;
+		else
+			return $this->getParent()->getModel()->isAttributeRequired($this->name);
+	}
+
+	/**
+	 * @param boolean whether this input is required.
+	 */
+	public function setRequired($value)
+	{
+		$this->_required=$value;
 	}
 
 	/**
