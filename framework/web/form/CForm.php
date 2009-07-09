@@ -434,7 +434,7 @@ class CForm extends CFormElement implements ArrayAccess
 			if($element->getVisible())
 			{
 				if($element instanceof self)
-					$output.=$element->renderBody();
+					$output.=$element->render();
 				else if($element instanceof CFormInputElement)
 					$output.="<div class=\"row {$element->name}\">\n".$element->render()."</div>\n";
 				else
