@@ -979,6 +979,7 @@ EOD;
 	 * {@link CHtml::afterRequiredLabel}. This option has been available since version 1.0.2.</li>
 	 * <li>label: this specifies the label to be displayed. If this is not set,
 	 * {@link CModel::getAttributeLabel} will be called to get the label for display.
+	 * If the label is specified as false, no label will be rendered.
 	 * This option has been available since version 1.0.4.</li>
 	 * </ul>
 	 * @return string the generated label tag
@@ -994,7 +995,8 @@ EOD;
 			$for=self::getIdByName(self::resolveName($model,$attribute));
 		if(isset($htmlOptions['label']))
 		{
-			$label=$htmlOptions['label'];
+			if(($label=$htmlOptions['label'])===false)
+				return '';
 			unset($htmlOptions['label']);
 		}
 		else

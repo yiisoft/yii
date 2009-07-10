@@ -136,6 +136,8 @@ class CFormInputElement extends CFormElement
 	 */
 	public function render()
 	{
+		if($this->type==='hidden')
+			return $this->renderInput();
 		$output=array(
 			'{label}'=>$this->renderLabel(),
 			'{input}'=>$this->renderInput(),
@@ -205,12 +207,12 @@ class CFormInputElement extends CFormElement
 
 	/**
 	 * Evaluates the visibility of this element.
-	 * This method will check the {@link on} property to see if
-	 * the model is in a scenario that should have this string displayed.
+	 * This method will check if the attribute associated with this input is safe for
+	 * the current model scenario.
 	 * @return boolean whether this element is visible.
 	 */
 	protected function evaluateVisible()
 	{
-		return $this->type!=='hidden' && $this->getParent()->getModel()->isAttributeSafe($this->name);
+		return $this->getParent()->getModel()->isAttributeSafe($this->name);
 	}
 }
