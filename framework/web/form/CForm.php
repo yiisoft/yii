@@ -432,28 +432,34 @@ class CForm extends CFormElement implements ArrayAccess
 		$output=$this->renderHiddenFields();
 
 		foreach($this->getElements() as $element)
-		{
-			if($element->getVisible())
-			{
-				if($element instanceof self)
-					$output.=$element->render();
-				else if($element instanceof CFormInputElement)
-					$output.="<div class=\"row field_{$element->name}\">\n".$element->render()."</div>\n";
-				else
-					$output.=$element->render();
-			}
-		}
+			$output.=$this->renderElement($element);
 
 		$buttons='';
 		foreach($this->getButtons() as $button)
-		{
-			if($button->getVisible())
-				$buttons.=$button."\n";
-		}
+			$buttons.=$this->renderElement($button);
 		if($buttons!=='')
 			$output.="<div class=\"row buttons\">".$buttons."</div>\n";
 
 		return $output;
+	}
+
+	/**
+	 * Renders a single element which could be an input element, a sub-form, a string, or a button.
+	 * @param CFormElement the form element to be rendered
+	 * @return string the rendering result
+	 */
+	public function renderElement($element)
+	{
+		if($element->getVisible())
+		{
+			if($element instanceof CFormInputElement)
+				return "<div class=\"row field_{$element->name}\">\n".$element->render()."</div>\n";
+			else if($element instanceof CFormButtonElement)
+				return $element->render()."\n";
+			else
+				return $element->render();
+		}
+		return '';
 	}
 
 	/**
