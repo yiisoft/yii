@@ -76,6 +76,11 @@ class CFormInputElement extends CFormElement
 	 * Please see {@link CHtml::listData} for details of generating this property value.
 	 */
 	public $items=array();
+	/**
+	 * @var string the template used to render label, input, hint and error. They correspond to the placeholders
+	 * "{label}", "{input}", "{hint}" and "{error}".
+	 */
+	public $template="{label}\n{input}\n{hint}\n{error}";
 
 	private $_label;
 	private $_required;
@@ -131,13 +136,13 @@ class CFormInputElement extends CFormElement
 	 */
 	public function render()
 	{
-		$output=$this->renderLabel() . "\n"
-			. $this->renderInput() . "\n"
-			. $this->renderHint();
-		if($this->getParent()->showErrorSummary)
-			return $output;
-		else
-			return $output . "\n" . $this->renderError();
+		$output=array(
+			'{label}'=>$this->renderLabel(),
+			'{input}'=>$this->renderInput(),
+			'{hint}'=>$this->renderHint(),
+			'{error}'=>$this->getParent()->showErrorSummary ? '' : $this->renderError(),
+		);
+		return strtr($this->template,$output);
 	}
 
 	/**
@@ -178,7 +183,7 @@ class CFormInputElement extends CFormElement
 
 	/**
 	 * Renders the error display of this input.
-	 * The default implementation returns the result of {@link CHtml::error}.
+	 * The default implementation returns the result of {@link CHtml::error}
 	 * @return string the rendering result
 	 */
 	public function renderError()
