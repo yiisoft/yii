@@ -41,8 +41,8 @@ class CCompareValidator extends CValidator
 	 */
 	public $strict=false;
 	/**
-	 * @var boolean whether the attribute value can be null or empty. Defaults to true,
-	 * meaning that if the attribute is empty, it is considered valid.
+	 * @var boolean whether the attribute value can be null or empty. Defaults to false.
+	 * If this is true, it means the attribute is considered valid when it is empty.
 	 */
 	public $allowEmpty=true;
 

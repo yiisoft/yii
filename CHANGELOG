@@ -10,6 +10,7 @@ Version 1.1a to be released
 - New: Added CForm and relevant classes to allow reusing form representation and rendering (Qiang)
 - Chg: Changed AR eager loading so that it generates and executes a single SQL statement by default (Qiang)
 - Chg: Changed AR table aliasing so that it uses relation names as default table aliases (Qiang)
+- Chg: Changed the default value of allowEmpty to be false for CCompareValidator. (Qiang)
 
 Version 1.0.8 To be released
 ----------------------------
