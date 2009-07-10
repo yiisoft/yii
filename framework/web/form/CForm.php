@@ -68,10 +68,10 @@
 class CForm extends CFormElement implements ArrayAccess
 {
 	/**
-	 * @var string the legend for this form. If this is set, a fieldset may be rendered
-	 * around the form body with the specified legend text. Defaults to null.
+	 * @var string the title for this form. By default, if this is set, a fieldset may be rendered
+	 * around the form body using the title as its legend. Defaults to null.
 	 */
-	public $legend;
+	public $title;
 	/**
 	 * @var string the description of this form.
 	 */
@@ -364,27 +364,17 @@ class CForm extends CFormElement implements ArrayAccess
 	/**
 	 * Renders the open tag of the form.
 	 * The default implementation will render the open form tag.
-	 * If {@link legend} or {@link description} is specified, they will be rendered as well.
+	 * If {@link title} or {@link description} is specified, they will be rendered as well.
 	 * And if the associated model contains error, the error summary may also be displayed.
 	 * @return string the rendering result
 	 */
 	public function renderBegin()
 	{
 		if($this->getParent() instanceof self)
-			$output='';
+			return '';
 		else
-			$output=CHtml::beginForm($this->action,$this->method,$this->attributes);
-
-		if($this->legend!==null)
-			$output.="<fieldset>\n<legend>".$this->legend."</legend>\n";
-
-		if($this->description!==null)
-			$output.="<div class=\"description\">\n".$this->description."</div>\n";
-
-		if($this->showErrorSummary && ($model=$this->getModel(false))!==null)
-			return $output . "\n" . CHtml::errorSummary($model);
-		else
-			return $output;
+			return CHtml::beginForm($this->action,$this->method,$this->attributes) . "\n"
+					. "<div style=\"visibility:hidden\">".CHtml::hiddenField($this->getUniqueID(),1)."</div>\n";
 	}
 
 	/**
@@ -393,35 +383,15 @@ class CForm extends CFormElement implements ArrayAccess
 	 */
 	public function renderEnd()
 	{
-		if($this->legend!==null)
-			$output="</fieldset>\n";
-		else
-			$output='';
-
 		if($this->getParent() instanceof self)
-			return $output;
-		else
-			return $output.CHtml::endForm();
-	}
-
-	/**
-	 * Renders the hidden fields that this form has.
-	 */
-	public function renderHiddenFields()
-	{
-		$output=$this->getParent() instanceof self ? '' : CHtml::hiddenField($this->getUniqueID(),1)."\n";
-		$model=$this->getModel();
-		foreach($this->getHiddenElements() as $element)
-			$output.=CHtml::activeHiddenField($model,$element->name,$element->attributes)."\n";
-		if($output!=='')
-			return "<div style=\"visibility:hidden\">\n".$output.'</div>';
-		else
 			return '';
+		else
+			return CHtml::endForm();
 	}
 
 	/**
 	 * Renders the body content of this form.
-	 * This method mainly renders hidden fields, input fields and buttons.
+	 * This method mainly renders {@link elements} and {@link buttons}.
 	 * The form tag will not be rendered. Please call {@link renderBegin} and {@link renderEnd}
 	 * to render the open and close tags of the form.
 	 * You may override this method to customize the rendering of the form.
@@ -429,18 +399,46 @@ class CForm extends CFormElement implements ArrayAccess
 	 */
 	public function renderBody()
 	{
-		$output=$this->renderHiddenFields();
+		$output='';
+		if($this->title!==null)
+			$output.="<fieldset>\n<legend>".$this->title."</legend>\n";
 
-		foreach($this->getElements() as $element)
-			$output.=$this->renderElement($element);
+		if($this->description!==null)
+			$output.="<div class=\"description\">\n".$this->description."</div>\n";
 
-		$buttons='';
-		foreach($this->getButtons() as $button)
-			$buttons.=$this->renderElement($button);
-		if($buttons!=='')
-			$output.="<div class=\"row buttons\">".$buttons."</div>\n";
+		if($this->showErrorSummary && ($model=$this->getModel(false))!==null)
+			$output.=CHtml::errorSummary($model)."\n";
+
+		$output.=$this->renderElements()."\n".$this->renderButtons()."\n";
+
+		if($this->title!==null)
+			$output.="</fieldset>\n";
 
 		return $output;
+	}
+
+	/**
+	 * Renders the {@link elements} in this form.
+	 * @return string the rendering result
+	 */
+	public function renderElements()
+	{
+		$output='';
+		foreach($this->getElements() as $element)
+			$output.=$this->renderElement($element);
+		return $output;
+	}
+
+	/**
+	 * Renders the {@link buttons} in this form.
+	 * @return string the rendering result
+	 */
+	public function renderButtons()
+	{
+		$output='';
+		foreach($this->getButtons() as $button)
+			$output.=$this->renderElement($button);
+		return $output!=='' ? "<div class=\"row buttons\">".$output."</div>\n" : '';
 	}
 
 	/**
@@ -461,7 +459,12 @@ class CForm extends CFormElement implements ArrayAccess
 		if($element->getVisible())
 		{
 			if($element instanceof CFormInputElement)
-				return "<div class=\"row field_{$element->name}\">\n".$element->render()."</div>\n";
+			{
+				if($element->type==='hidden')
+					return "<div style=\"visibility:hidden\">\n".$element->render()."</div>\n";
+				else
+					return "<div class=\"row field_{$element->name}\">\n".$element->render()."</div>\n";
+			}
 			else if($element instanceof CFormButtonElement)
 				return $element->render()."\n";
 			else
