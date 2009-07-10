@@ -371,9 +371,9 @@ class CForm extends CFormElement implements ArrayAccess
 	public function renderBegin()
 	{
 		if($this->getParent() instanceof self)
-			$output=CHtml::beginForm($this->action,$this->method,$this->attributes);
-		else
 			$output='';
+		else
+			$output=CHtml::beginForm($this->action,$this->method,$this->attributes);
 
 		if($this->legend!==null)
 			$output.="<fieldset>\n<legend>".$this->legend."</legend>\n";
@@ -399,9 +399,9 @@ class CForm extends CFormElement implements ArrayAccess
 			$output='';
 
 		if($this->getParent() instanceof self)
-			return $output.CHtml::endForm();
-		else
 			return $output;
+		else
+			return $output.CHtml::endForm();
 	}
 
 	/**
@@ -438,7 +438,7 @@ class CForm extends CFormElement implements ArrayAccess
 				if($element instanceof self)
 					$output.=$element->render();
 				else if($element instanceof CFormInputElement)
-					$output.="<div class=\"row {$element->name}\">\n".$element->render()."</div>\n";
+					$output.="<div class=\"row field_{$element->name}\">\n".$element->render()."</div>\n";
 				else
 					$output.=$element->render();
 			}
