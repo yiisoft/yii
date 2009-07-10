@@ -77,10 +77,10 @@ class CFormInputElement extends CFormElement
 	 */
 	public $items=array();
 	/**
-	 * @var string the template used to render label, input, hint and error. They correspond to the placeholders
+	 * @var string the layout used to render label, input, hint and error. They correspond to the placeholders
 	 * "{label}", "{input}", "{hint}" and "{error}".
 	 */
-	public $template="{label}\n{input}\n{hint}\n{error}";
+	public $layout="{label}\n{input}\n{hint}\n{error}";
 
 	private $_label;
 	private $_required;
@@ -144,7 +144,7 @@ class CFormInputElement extends CFormElement
 			'{hint}'=>$this->renderHint(),
 			'{error}'=>$this->getParent()->showErrorSummary ? '' : $this->renderError(),
 		);
-		return strtr($this->template,$output);
+		return strtr($this->layout,$output);
 	}
 
 	/**
