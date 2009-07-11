@@ -26,6 +26,15 @@ class CrudCommand extends CConsoleCommand
 	 * the default views will be used.
 	 */
 	public $templatePath;
+	/**
+	 * @var string the directory that contains functional test classes.
+	 * Defaults to null, meaning using 'protected/tests/functional'.
+	 */
+	public $functionalTestPath;
+	/**
+	 * @var array list of actions to be created. Each action must be associated with a template file with the same name.
+	 */
+	public $actions=array('create','update','list','show','admin','_form');
 
 	public function getHelp()
 	{
@@ -135,6 +144,8 @@ EOD;
 		}
 
 		$templatePath=$this->templatePath===null?YII_PATH.'/cli/views/shell/crud':$this->templatePath;
+		$functionalTestPath=$this->functionalTestPath===null?Yii::getPathOfAlias('application.tests.functional'):$this->functionalTestPath;
+
 		$viewPath=$module->viewPath.DIRECTORY_SEPARATOR.str_replace('.',DIRECTORY_SEPARATOR,$controllerID);
 		$fixtureName=$this->pluralize($modelClass);
 		$fixtureName[0]=strtolower($fixtureName);
@@ -147,13 +158,13 @@ EOD;
 			),
 			$modelClass.'Test.php'=>array(
 				'source'=>$templatePath.'/test.php',
-				'target'=>Yii::getPathOfAlias('application.tests.functional').DIRECTORY_SEPARATOR.$modelClass.'Test.php',
+				'target'=>$functionalTestPath.DIRECTORY_SEPARATOR.$modelClass.'Test.php',
 				'callback'=>array($this,'generateTest'),
 				'params'=>array($controllerID,$fixtureName,$modelClass),
 			),
 		);
 
-		foreach(array('create','update','list','show','admin','_form') as $action)
+		foreach($this->actions as $action)
 		{
 			$list[$action.'.php']=array(
 				'source'=>$templatePath.'/'.$action.'.php',
@@ -200,12 +211,6 @@ EOD;
 		$table=$model->getTableSchema();
 		$columns=$table->columns;
 		unset($columns[$table->primaryKey]);
-		if(basename($source)==='admin.php')
-		{
-			foreach($columns as $name=>$column)
-				if(stripos($column->dbType,'text')!==false)
-					unset($columns[$name]);
-		}
 		if(!is_file($source))  // fall back to default ones
 			$source=YII_PATH.'/cli/views/shell/crud/'.basename($source);
 		return $this->renderFile($source,array(
