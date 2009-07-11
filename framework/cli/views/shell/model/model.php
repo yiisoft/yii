@@ -6,7 +6,7 @@
  * - $tableName: the table name
  * - $columns: a list of table column schema objects
  * - $rules: a list of validation rules (string)
- * - $labels: a list of labels (string)
+ * - $labels: a list of labels (column name => label)
  * - $relations: a  list of relations (string)
  */
 ?>
@@ -72,8 +72,8 @@ class <?php echo $className; ?> extends CActiveRecord
 	public function attributeLabels()
 	{
 		return array(
-<?php foreach($labels as $label): ?>
-			<?php echo $label.",\n"; ?>
+<?php foreach($labels as $column=>$label): ?>
+			<?php echo "'$column' => '$label',\n"; ?>
 <?php endforeach; ?>
 		);
 	}

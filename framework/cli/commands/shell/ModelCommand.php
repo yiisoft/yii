@@ -376,7 +376,7 @@ EOD;
 				$label=preg_replace('/\s+/',' ',$label);
 				if(strcasecmp(substr($label,-3),' id')===0)
 					$label=substr($label,0,-3);
-				$labels[]="'{$column->name}'=>'$label'";
+				$labels[$column->name]=$label;
 				if($column->isPrimaryKey && $table->sequenceName!==null || $column->isForeignKey)
 					continue;
 				$r=!$column->allowNull && $column->defaultValue===null;
