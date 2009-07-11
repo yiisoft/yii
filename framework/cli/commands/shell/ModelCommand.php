@@ -20,11 +20,6 @@
 class ModelCommand extends CConsoleCommand
 {
 	/**
-	 * @var string the template file for the model class.
-	 * Defaults to null, meaning using 'framework/cli/views/shell/model/model.php'.
-	 */
-	public $templateFile;
-	/**
 	 * @var string the directory that contains templates for the model command.
 	 * Defaults to null, meaning using 'framework/cli/views/shell/model'.
 	 * If you set this path and some views are missing in the directory,
