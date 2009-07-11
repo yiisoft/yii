@@ -26,6 +26,16 @@ class ModelCommand extends CConsoleCommand
 	 * the default views will be used.
 	 */
 	public $templatePath;
+	/**
+	 * @var string the directory that contains test fixtures.
+	 * Defaults to null, meaning using 'protected/tests/fixtures'.
+	 */
+	public $fixturePath;
+	/**
+	 * @var string the directory that contains unit test classes.
+	 * Defaults to null, meaning using 'protected/tests/unit'.
+	 */
+	public $unitTestPath;
 
 	private $_schema;
 	private $_relations; // where we keep table relations
@@ -308,6 +318,9 @@ EOD;
 		}
 
 		$templatePath=$this->templatePath===null?YII_PATH.'/cli/views/shell/model':$this->templatePath;
+		$fixturePath=$this->fixturePath===null?Yii::getPathOfAlias('application.tests.fixtures'):$this->fixturePath;
+		$unitTestPath=$this->unitTestPath===null?Yii::getPathOfAlias('application.tests.unit'):$this->unitTestPath;
+
 		$list=array();
 		foreach ($this->_classes as $tableName=>$className)
 		{
@@ -318,17 +331,17 @@ EOD;
 				'callback'=>array($this,'generateModel'),
 				'params'=>array($className,$tableName),
 			);
-			$list['tests/fixtures/'.$tableName.'.php']=array(
+			$list['fixtures/'.$tableName.'.php']=array(
 				'source'=>$templatePath.DIRECTORY_SEPARATOR.'fixture.php',
-				'target'=>Yii::getPathOfAlias('application.tests.fixtures').DIRECTORY_SEPARATOR.$tableName.'.php',
+				'target'=>$fixturePath.DIRECTORY_SEPARATOR.$tableName.'.php',
 				'callback'=>array($this,'generateFixture'),
 				'params'=>$this->_schema->getTable($tableName),
 			);
 			$fixtureName=$this->pluralize($className);
 			$fixtureName[0]=strtolower($fixtureName);
-			$list['tests/unit/'.$className.'Test.php']=array(
+			$list['unit/'.$className.'Test.php']=array(
 				'source'=>$templatePath.DIRECTORY_SEPARATOR.'test.php',
-				'target'=>Yii::getPathOfAlias('application.tests.unit').DIRECTORY_SEPARATOR.$className.'Test.php',
+				'target'=>$unitTestPath.DIRECTORY_SEPARATOR.$className.'Test.php',
 				'callback'=>array($this,'generateTest'),
 				'params'=>array($className,$fixtureName),
 			);
