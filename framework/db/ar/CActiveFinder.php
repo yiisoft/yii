@@ -505,7 +505,7 @@ class CJoinElement
 		$this->_finder->joinAll=true;
 		$this->buildQuery($query);
 
-		if($criteria->select!=='*')
+		if($criteria->select!=='*' && stripos($criteria->select,'count')!==false)
 			$query->selects=array($criteria->select);
 		else if(is_string($this->_table->primaryKey))
 		{
