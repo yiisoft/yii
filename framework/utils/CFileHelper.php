@@ -196,12 +196,12 @@ class CFileHelper
 	{
 		if(function_exists('finfo_open'))
 		{
-			if($info=finfo_open(FILEINFO_MIME))
-				return finfo_file($info,$file);
+			if(($info=finfo_open(FILEINFO_MIME)) && ($result=finfo_file($info,$file))!==false)
+				return $result;
 		}
 
-		if(function_exists('mime_content_type'))
-			return mime_content_type($file);
+		if(function_exists('mime_content_type') && ($result=mime_content_type($file))!==false)
+			return $result;
 
 		return self::getMimeTypeByExtension($file);
 	}
