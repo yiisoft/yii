@@ -158,7 +158,11 @@ abstract class CModule extends CComponent
 		if($this->_params!==null)
 			return $this->_params;
 		else
-			return $this->_params=new CAttributeCollection;
+		{
+			$this->_params=new CAttributeCollection;
+			$this->_params->caseSensitive=true;
+			return $this->_params;
+		}
 	}
 
 	/**
