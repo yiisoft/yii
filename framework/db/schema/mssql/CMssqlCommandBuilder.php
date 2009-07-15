@@ -77,6 +77,7 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 		$fields=array();
 		$values=array();
 		$bindByPosition=isset($criteria->params[0]);
+		$i=0;
 		foreach($data as $name=>$value)
 		{
 			if(($column=$table->getColumn($name))!==null)
@@ -91,8 +92,9 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 				}
 				else
 				{
-					$fields[]=$column->rawName.'=:'.$name;
-					$values[':'.$name]=$column->typecast($value);
+					$fields[]=$column->rawName.'='.self::PARAM_PREFIX.$i;
+					$values[self::PARAM_PREFIX.$i]=$column->typecast($value);
+					$i++;
 				}
 			}
 		}

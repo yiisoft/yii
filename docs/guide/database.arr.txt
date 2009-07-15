@@ -241,8 +241,8 @@ $posts=Post::model()->with(
 ~~~
 
 The above query will be done in one SQL query. Without calling [together|CActiveFinder::together],
-this will need two SQL queries: one joins `Post`, `User` and `Profile` tables,
-and the other joins `User` and `Post` tables.
+this will need three SQL queries: one joins `Post`, `User` and `Profile` tables,
+one joins `User` and `Post` tables, and one joins `Post`, `PostCategory` and `Category` tables.
 
 
 Relational Query Options
