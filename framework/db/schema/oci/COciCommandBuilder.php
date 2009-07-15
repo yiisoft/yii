@@ -85,6 +85,7 @@ EOD;
 		$fields=array();
 		$values=array();
 		$placeholders=array();
+		$i=0;
 		foreach($data as $name=>$value)
 		{
 			if(($column=$table->getColumn($name))!==null && ($value!==null || $column->allowNull))
@@ -94,8 +95,9 @@ EOD;
 					$placeholders[]=(string)$value;
 				else
 				{
-					$placeholders[]=':'.$name;
-					$values[':'.$name]=$column->typecast($value);
+					$placeholders[]=self::PARAM_PREFIX.$i;
+					$values[self::PARAM_PREFIX.$i]=$column->typecast($value);
+					$i++;
 				}
 			}
 		}
