@@ -12,7 +12,10 @@ for both A and B.
 
 Upgrading from v1.0.x
 ---------------------
-Please read the Guide for details on how to upgrade from v1.0.x to v1.1.
+- Application and module parameter names are changed to be case-sensitive.
+In 1.0.x, they are case-insensitive.
+
+- Please read the Guide for further details on how to upgrade from v1.0.x to v1.1.
 
 
 Upgrading from v1.0.7
