@@ -119,7 +119,7 @@ EOD;
 					$module=$m;
 				else
 				{
-					$controllerFile=$first.'/'.$controllerClass;
+					$controllerFile=$first.'/'.$controllerFile;
 					$controllerID=$first.'/'.$controllerID;
 				}
 
