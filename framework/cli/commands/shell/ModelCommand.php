@@ -239,7 +239,7 @@ EOD;
 			'/(?:([^f])fe|([lr])f)$/i' => '\1\2ves',
 			'/(m)an$/i' => '\1en',
 			'/(child)$/i' => '\1ren',
-			'/(r)y$/i' => '\1ies',
+			'/(r|t|b|d)y$/i' => '\1ies',
 			'/s$/' => 's',
 		);
 		foreach($rules as $rule=>$replacement)
