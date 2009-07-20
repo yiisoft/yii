@@ -6,6 +6,7 @@ Version 1.0.8 To be released
 ----------------------------
 - Bug #435: Setting charset for PostgreSQL database connection may fail to work on some servers (Qiang)
 - Bug #440: typo in COciColumnSchema (Qiang)
+- Bug #444: typo in blog demo (Qiang)
 - Bug #446: Fixed bugs in MSSQL driver that cause problem when updating attribues and a column is of timestamp type (Qiang)
 - New #436: Added error templates in Russian (idlesign)
 - New: CDbCommand::bindParam() and bindValue() now return the command object so that they can be used in a chainable fashion (Qiang)
