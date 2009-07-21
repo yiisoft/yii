@@ -57,8 +57,21 @@ abstract class CActiveRecord extends CModel
 		$this->setIsNewRecord(true);
 		$this->_attributes=$this->getMetaData()->attributeDefaults;
 
+		$this->init();
+
 		$this->attachBehaviors($this->behaviors());
 		$this->afterConstruct();
+	}
+
+	/**
+	 * Initializes this model.
+	 * This method is invoked in the constructor right after {@link scenario} is set.
+	 * You may override this method to provide code that is needed to initialize the model (e.g. setting
+	 * initial property values.)
+	 * @since 1.0.8
+	 */
+	public function init()
+	{
 	}
 
 	/**

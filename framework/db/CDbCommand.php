@@ -138,6 +138,7 @@ class CDbCommand extends CComponent
 	 * @param mixed Name of the PHP variable to bind to the SQL statement parameter
 	 * @param int SQL data type of the parameter. If null, the type is determined by the PHP type of the value.
 	 * @param int length of the data type
+	 * @return CDbCommand the current command being executed (this is available since version 1.0.8)
 	 * @see http://www.php.net/manual/en/function.PDOStatement-bindParam.php
 	 */
 	public function bindParam($name, &$value, $dataType=null, $length=null)
@@ -151,6 +152,7 @@ class CDbCommand extends CComponent
 			$this->_statement->bindParam($name,$value,$dataType,$length);
 		if($this->_connection->enableParamLogging)
 			$this->_params[]=$name.'=['.gettype($value).']';
+		return $this;
 	}
 
 	/**
@@ -161,6 +163,7 @@ class CDbCommand extends CComponent
 	 * placeholders, this will be the 1-indexed position of the parameter.
 	 * @param mixed The value to bind to the parameter
 	 * @param int SQL data type of the parameter. If null, the type is determined by the PHP type of the value.
+	 * @return CDbCommand the current command being executed (this is available since version 1.0.8)
 	 * @see http://www.php.net/manual/en/function.PDOStatement-bindValue.php
 	 */
 	public function bindValue($name, $value, $dataType=null)
@@ -172,6 +175,7 @@ class CDbCommand extends CComponent
 			$this->_statement->bindValue($name,$value,$dataType);
 		if($this->_connection->enableParamLogging)
 			$this->_params[]=$name.'='.var_export($value,true);
+		return $this;
 	}
 
 	/**
