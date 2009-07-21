@@ -61,6 +61,7 @@
 class CNumberFormatter extends CComponent
 {
 	private $_locale;
+	private $_formats=array();
 
 	/**
 	 * Constructor.
@@ -202,9 +203,8 @@ class CNumberFormatter extends CComponent
 	 */
 	protected function parseFormat($pattern)
 	{
-		static $formats=array();  // cache
-		if(isset($formats[$pattern]))
-			return $formats[$pattern];
+		if(isset($this->_formats[$pattern]))
+			return $this->_formats[$pattern];
 
 		$format=array();
 
@@ -227,28 +227,28 @@ class CNumberFormatter extends CComponent
 			$format['negativePrefix']=$this->_locale->getNumberSymbol('minusSign').$format['positivePrefix'];
 			$format['negativeSuffix']=$format['positiveSuffix'];
 		}
-		$pattern=$patterns[0];
+		$pat=$patterns[0];
 
 		// find out multiplier
-		if(strpos($pattern,'%')!==false)
+		if(strpos($pat,'%')!==false)
 			$format['multiplier']=100;
-		else if(strpos($pattern,'‰')!==false)
+		else if(strpos($pat,'‰')!==false)
 			$format['multiplier']=1000;
 		else
 			$format['multiplier']=1;
 
 		// find out things about decimal part
-		if(($pos=strpos($pattern,'.'))!==false)
+		if(($pos=strpos($pat,'.'))!==false)
 		{
-			if(($pos2=strrpos($pattern,'0'))>$pos)
+			if(($pos2=strrpos($pat,'0'))>$pos)
 				$format['decimalDigits']=$pos2-$pos;
 			else
 				$format['decimalDigits']=0;
-			if(($pos3=strrpos($pattern,'#'))>=$pos2)
+			if(($pos3=strrpos($pat,'#'))>=$pos2)
 				$format['maxDecimalDigits']=$pos3-$pos;
 			else
 				$format['maxDecimalDigits']=$format['decimalDigits'];
-			$pattern=substr($pattern,0,$pos);
+			$pat=substr($pat,0,$pos);
 		}
 		else   // no decimal part
 		{
@@ -257,14 +257,14 @@ class CNumberFormatter extends CComponent
 		}
 
 		// find out things about integer part
-		$p=str_replace(',','',$pattern);
+		$p=str_replace(',','',$pat);
 		if(($pos=strpos($p,'0'))!==false)
 			$format['integerDigits']=strrpos($p,'0')-$pos+1;
 		else
 			$format['integerDigits']=0;
 		// find out group sizes. some patterns may have two different group sizes
-		$p=str_replace('#','0',$pattern);
-		if(($pos=strrpos($pattern,','))!==false)
+		$p=str_replace('#','0',$pat);
+		if(($pos=strrpos($pat,','))!==false)
 		{
 			$format['groupSize1']=strrpos($p,'0')-$pos;
 			if(($pos2=strrpos(substr($p,0,$pos),','))!==false)
@@ -275,6 +275,6 @@ class CNumberFormatter extends CComponent
 		else
 			$format['groupSize1']=$format['groupSize2']=0;
 
-		return $formats[$pattern]=$format;
+		return $this->_formats[$pattern]=$format;
 	}
 }
