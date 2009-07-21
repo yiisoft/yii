@@ -35,7 +35,7 @@ name without the `action` prefix. For example, if a controller class
 contains a method named `actionEdit`, the ID of the corresponding action
 would be `edit`.
 
-> Note: Before version 1.0.3, the controller ID format is `path.to.xyz`
+> Note: Before version 1.0.3, the controller ID format was `path.to.xyz`
 instead of `path/to/xyz`.
 
 Users request for a particular controller and action in terms of route. A
