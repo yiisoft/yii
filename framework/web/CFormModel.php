@@ -37,7 +37,19 @@ class CFormModel extends CModel
 	public function __construct($scenario='')
 	{
 		$this->setScenario($scenario);
+		$this->init();
 		$this->attachBehaviors($this->behaviors());
+	}
+
+	/**
+	 * Initializes this model.
+	 * This method is invoked in the constructor right after {@link scenario} is set.
+	 * You may override this method to provide code that is needed to initialize the model (e.g. setting
+	 * initial property values.)
+	 * @since 1.0.8
+	 */
+	public function init()
+	{
 	}
 
 	/**

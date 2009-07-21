@@ -635,7 +635,7 @@ class CHtml
 	/**
 	 * Generates a list box.
 	 * @param string the input name
-	 * @param string the selected value
+	 * @param mixed the selected value(s). This can be either a string for single selection or an array for multiple selections.
 	 * @param array data for generating the list options (value=>display)
 	 * You may use {@link listData} to generate this data.
 	 * Please refer to {@link listOptions} on how this data is used to generate the list options.

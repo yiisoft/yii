@@ -15,6 +15,7 @@
 </div>
 
 <table class="dataGrid">
+  <thead>
   <tr>
     <th><?php echo "<?php echo \$sort->link('$ID'); ?>"; ?></th>
 <?php foreach($columns as $column): ?>
@@ -22,6 +23,8 @@
 <?php endforeach; ?>
 	<th>Actions</th>
   </tr>
+  </thead>
+  <tbody>
 <?php echo "<?php foreach(\$models as \$n=>\$model): ?>\n"; ?>
   <tr class="<?php echo "<?php echo \$n%2?'even':'odd';?>"; ?>">
     <td><?php echo "<?php echo CHtml::link(\$model->{$ID},array('show','id'=>\$model->{$ID})); ?>"; ?></td>
@@ -37,6 +40,7 @@
 	</td>
   </tr>
 <?php echo "<?php endforeach; ?>\n"; ?>
+  </tbody>
 </table>
 <br/>
 <?php echo "<?php \$this->widget('CLinkPager',array('pages'=>\$pages)); ?>" ?>

@@ -77,11 +77,13 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 		$fields=array();
 		$values=array();
 		$bindByPosition=isset($criteria->params[0]);
+		$i=0;
 		foreach($data as $name=>$value)
 		{
 			if(($column=$table->getColumn($name))!==null)
 			{
 				if ($table->sequenceName !== null && $column->isPrimaryKey === true) continue;
+				if ($column->dbType === 'timestamp') continue;
 				if($value instanceof CDbExpression)
 					$fields[]=$column->rawName.'='.(string)$value;
 				else if($bindByPosition)
@@ -91,8 +93,9 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 				}
 				else
 				{
-					$fields[]=$column->rawName.'=:'.$name;
-					$values[':'.$name]=$column->typecast($value);
+					$fields[]=$column->rawName.'='.self::PARAM_PREFIX.$i;
+					$values[self::PARAM_PREFIX.$i]=$column->typecast($value);
+					$i++;
 				}
 			}
 		}

@@ -501,18 +501,18 @@ class CJoinElement
 		$this->_finder->joinAll=true;
 		$this->buildQuery($query);
 
-		if(is_string($this->_table->primaryKey))
+		if($criteria->select!=='*' && stripos($criteria->select,'count')!==false)
+			$query->selects=array($criteria->select);
+		else if(is_string($this->_table->primaryKey))
 		{
 			$prefix=$this->getColumnPrefix();
 			$schema=$this->_builder->getSchema();
 			$column=$prefix.$schema->quoteColumnName($this->_table->primaryKey);
+			$query->selects=array("COUNT(DISTINCT $column)");
 		}
-		else if($criteria->select!=='*')
-			$column=$criteria->select;
 		else
-			throw new CDbException(Yii::t('yii','Unable to count records with composite primary keys. Please explicitly specify the SELECT option in the query criteria.'));
+			$query->selects=array("COUNT(*)");
 
-		$query->selects=array("COUNT(DISTINCT $column)");
 		$query->orders=$query->groups=$query->havings=array();
 		$command=$query->createCommand($this->_builder);
 		return $command->queryScalar();

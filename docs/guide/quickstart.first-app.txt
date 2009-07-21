@@ -177,11 +177,13 @@ If you have a 'db' database connection, you can test it now with:
 
 >> crud User
    generate UserController.php
-   generate create.php
    mkdir D:/wwwroot/testdrive/protected/views/user
+   generate create.php
    generate update.php
    generate list.php
    generate show.php
+   generate admin.php
+   generate _form.php
 
 Crud 'user' has been successfully created. You may access it via:
 http://hostname/path/to/index.php?r=user

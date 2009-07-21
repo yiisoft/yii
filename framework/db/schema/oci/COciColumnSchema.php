@@ -46,7 +46,7 @@ class COciColumnSchema extends CDbColumnSchema
 
 	protected function extractDefault($defaultValue)
 	{
-		if(strpos($dbType,'timestamp')!==false)
+		if(stripos($defaultValue,'timestamp')!==false)
 			$this->defaultValue=null;
 		else
 			parent::extractDefault($defaultValue);

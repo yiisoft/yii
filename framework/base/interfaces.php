@@ -448,10 +448,10 @@ interface IAuthManager
 	 */
 	public function getAuthAssignment($itemName,$userId);
 	/**
-	 * Revokes an authorization item assignment.
-	 * @param string the item name
+	 * Returns the item assignments for the specified user.
 	 * @param mixed the user ID (see {@link IWebUser::getId})
-	 * @return boolean whether removal is successful
+	 * @return array the item assignment information for the user. An empty array will be
+	 * returned if there is no item assigned to the user.
 	 */
 	public function getAuthAssignments($userId);
 	/**

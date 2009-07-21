@@ -148,7 +148,7 @@ class CAssetManager extends CApplicationComponent
 
 				return $this->_published[$path]=$this->getBaseUrl()."/$dir/$fileName";
 			}
-			else
+			else if(is_dir($src))
 			{
 				$dir=$this->hash($hashByName ? basename($src) : $src);
 				$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
@@ -159,9 +159,8 @@ class CAssetManager extends CApplicationComponent
 				return $this->_published[$path]=$this->getBaseUrl().'/'.$dir;
 			}
 		}
-		else
-			throw new CException(Yii::t('yii','The asset "{asset}" to be published does not exist.',
-				array('{asset}'=>$path)));
+		throw new CException(Yii::t('yii','The asset "{asset}" to be published does not exist.',
+			array('{asset}'=>$path)));
 	}
 
 	/**
