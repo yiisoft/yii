@@ -20,10 +20,12 @@
 class ModelCommand extends CConsoleCommand
 {
 	/**
-	 * @var string the template file for the model class.
-	 * Defaults to null, meaning using 'framework/cli/views/shell/model/model.php'.
+	 * @var string the directory that contains templates for the model command.
+	 * Defaults to null, meaning using 'framework/cli/views/shell/model'.
+	 * If you set this path and some views are missing in the directory,
+	 * the default views will be used.
 	 */
-	public $templateFile;
+	public $templatePath;
 
 	private $_schema;
 	private $_relations; // where we keep table relations
@@ -328,13 +330,14 @@ EOD;
 				return;
 		}
 
+		$templatePath=$this->templatePath===null?YII_PATH.'/cli/views/shell/model':$this->templatePath;
+
 		$list=array();
 		foreach ($this->_classes as $tableName=>$className)
 		{
 			$files[$className]=$classFile=$basePath.DIRECTORY_SEPARATOR.$className.'.php';
-			$templateFile=$this->templateFile===null?YII_PATH.'/cli/views/shell/model/model.php':$this->templateFile;
 			$list[$className.'.php']=array(
-				'source'=>$templateFile,
+				'source'=>$templatePath.DIRECTORY_SEPARATOR.'model.php',
 				'target'=>$classFile,
 				'callback'=>array($this,'generateModel'),
 				'params'=>array($className,$tableName),
@@ -381,7 +384,7 @@ EOD;
 				$label=preg_replace('/\s+/',' ',$label);
 				if(strcasecmp(substr($label,-3),' id')===0)
 					$label=substr($label,0,-3);
-				$labels[]="'{$column->name}'=>'$label'";
+				$labels[$column->name]=$label;
 				if($column->isPrimaryKey && $table->sequenceName!==null || $column->isForeignKey)
 					continue;
 				if(!$column->allowNull && $column->defaultValue===null)
@@ -405,6 +408,9 @@ EOD;
 		}
 		else
 			echo "Warning: the table '$tableName' does not exist in the database.\n";
+
+		if(!is_file($source))  // fall back to default ones
+			$source=YII_PATH.'/cli/views/shell/model/'.basename($source);
 
 		return $this->renderFile($source,array(
 			'className'=>$className,
