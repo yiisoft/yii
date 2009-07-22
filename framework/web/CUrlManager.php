@@ -407,6 +407,13 @@ class CUrlRule extends CComponent
 	 */
 	public $caseSensitive;
 	/**
+	 * @var array the default GET parameters (name=>value) that this rule provides.
+	 * When this rule is used to parse the incoming request, the values declared in this property
+	 * will be injected into $_GET.
+	 * @since 1.0.8
+	 */
+	public $defaultParams=array();
+	/**
 	 * @var string the controller/action pair
 	 */
 	public $route;
@@ -450,6 +457,8 @@ class CUrlRule extends CComponent
 				$this->urlSuffix=$route['urlSuffix'];
 			if(isset($route['caseSensitive']))
 				$this->caseSensitive=$route['caseSensitive'];
+			if(isset($route['defaultParams']))
+				$this->defaultParams=$route['defaultParams'];
 			$route=$this->route=$route[0];
 		}
 		else
@@ -573,6 +582,11 @@ class CUrlRule extends CComponent
 		$pathInfo.='/';
 		if(preg_match($this->pattern.$case,$pathInfo,$matches))
 		{
+			foreach($this->defaultParams as $name=>$value)
+			{
+				if(!isset($_GET[$name]))
+					$_GET[$name]=$value;
+			}
 			$tr=array();
 			foreach($matches as $key=>$value)
 			{
