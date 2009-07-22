@@ -116,7 +116,7 @@ class CFileValidator extends CValidator
 
 		if($this->minSize!==null && $file->getSize()<$this->minSize)
 		{
-			$message=$this->tooSmall!==null?$this->tooLarge : Yii::t('yii','The file "{file}" is too small. Its size cannot be smaller than {limit} bytes.');
+			$message=$this->tooSmall!==null?$this->tooSmall : Yii::t('yii','The file "{file}" is too small. Its size cannot be smaller than {limit} bytes.');
 			$this->addError($object,$attribute,$message,array('{file}'=>$file->getName(), '{limit}'=>$this->minSize));
 		}
 
