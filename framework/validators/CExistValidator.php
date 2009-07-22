@@ -39,6 +39,13 @@ class CExistValidator extends CValidator
 	 */
 	public $attributeName;
 	/**
+	 * @var array additional query criteria. This will be combined with the condition
+	 * that checks if the attribute value exists in the corresponding table column.
+	 * This array will be used to instantiate a {@link CDbCriteria} object.
+	 * @since 1.0.8
+	 */
+	public $criteria=array();
+	/**
 	 * @var boolean whether the attribute value can be null or empty. Defaults to true,
 	 * meaning that if the attribute is empty, it is considered valid.
 	 */
@@ -58,12 +65,20 @@ class CExistValidator extends CValidator
 
 		$className=$this->className===null?get_class($object):Yii::import($this->className);
 		$attributeName=$this->attributeName===null?$attribute:$this->attributeName;
-
 		$finder=CActiveRecord::model($className);
-		$select=$finder->getTableSchema()->primaryKey;
-		$result=$finder->findByAttributes(array($attributeName=>$value),array('select'=>$select));
+		$table=$finder->getTableSchema();
+		if(($column=$table->getColumn($attributeName))===null)
+			throw new CException(Yii::t('yii','Column "{column} does not exist in table "{table}".',
+				array('{column}'=>$attributeName,'{table}'=>$table->name)));
 
-		if($result===null)
+		$criteria=array('condition'=>$column->rawName.'=:vp','params'=>array(':vp'=>$value));
+		if($this->criteria!==array())
+		{
+			$criteria=new CDbCriteria($criteria);
+			$criteria->mergeWith($this->criteria);
+		}
+
+		if(!$finder->exists($criteria))
 		{
 			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} "{value}" is invalid.');
 			$this->addError($object,$attribute,$message,array('{value}'=>$value));
