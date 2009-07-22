@@ -1535,7 +1535,6 @@ abstract class CActiveRecord extends CModel
 
 	/**
 	 * Finds the number of rows using the given SQL statement.
-	 * See {@link find()} for detailed explanation about $condition and $params.
 	 * @param string the SQL statement
 	 * @param array parameters to be bound to the SQL statement
 	 * @return integer the number of rows using the given SQL statement.
