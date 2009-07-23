@@ -20,6 +20,7 @@ Version 1.0.8 To be released
 - New: Improved yiic shell commands so that they are easier to be extended (Qiang)
 - New: Added CExistValidator.criteria property (Qiang)
 - Chg: Modified the count() method of relational AR to support counting composite keys (Qiang)
+- Chg: Reverted back the support for assigning a related object to an AR object (Qiang)
 
 Version 1.0.7 July 5, 2009
 --------------------------

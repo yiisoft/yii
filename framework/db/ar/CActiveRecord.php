@@ -440,7 +440,12 @@ abstract class CActiveRecord extends CModel
 	public function __set($name,$value)
 	{
 		if($this->setAttribute($name,$value)===false)
-			parent::__set($name,$value);
+		{
+			if(isset($this->getMetaData()->relations[$name]))
+				$this->_related[$name]=$value;
+			else
+				parent::__set($name,$value);
+		}
 	}
 
 	/**
