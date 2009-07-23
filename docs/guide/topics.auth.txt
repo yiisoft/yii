@@ -261,7 +261,8 @@ specified action, one of the following two scenarios may happen:
 
    - If the user is not logged in and if the [loginUrl|CWebUser::loginUrl]
 property of the user component is configured to be the URL of the login
-page, the browser will be redirected to that page.
+page, the browser will be redirected to that page. Note that by default,
+[loginUrl|CWebUser::loginUrl] points to the `site/login` page.
 
    - Otherwise an HTTP exception will be displayed with error code 403.
 
