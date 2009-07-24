@@ -100,6 +100,10 @@ class CFormElementCollection extends CMap
 		$this->_form->addedElement($key,$element,$this->_forButtons);
 	}
 
+	/**
+	 * Removes the specified element by key.
+	 * @param string the name of the element to be removed from the collection
+	 */
 	public function remove($key)
 	{
 		if($this->exists($key))
