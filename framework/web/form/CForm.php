@@ -107,7 +107,6 @@ class CForm extends CFormElement implements ArrayAccess
 	private $_model;
 	private $_elements;
 	private $_buttons;
-	private $_hiddens=array();
 
 	/**
 	 * Constructor.
@@ -334,24 +333,6 @@ class CForm extends CFormElement implements ArrayAccess
 	}
 
 	/**
-	 * Returns the hidden elements of this form.
-	 * The hidden elements are obtained from {@link elements} collection.
-	 * Only the currently "renderable" elements are returned.
-	 * @return array the "renderable" hidden elements of this form.
-	 */
-	public function getHiddenElements()
-	{
-		$model=$this->getModel();
-		$elements=array();
-		foreach($this->_hiddens as $name=>$element)
-		{
-			if($model->isAttributeSafe($name))
-				$elements[$name]=$element;
-		}
-		return $elements;
-	}
-
-	/**
 	 * Renders the form.
 	 * The default implementation simply calls {@link renderBegin}, {@link renderBody} and {@link renderEnd}.
 	 * @return string the rendering result
@@ -477,12 +458,11 @@ class CForm extends CFormElement implements ArrayAccess
 	 * This method is called after an element is added to the element collection.
 	 * @param string the name of the element
 	 * @param CFormElement the element that is added
-	 * @param boolean whether the element is added to the {@link buttons} collection
+	 * @param boolean whether the element is added to the {@link buttons} collection.
+	 * If false, it means the element is added to the {@link elements} collection.
 	 */
 	public function addedElement($name,$element,$forButtons)
 	{
-		if($element instanceof CFormInputElement && $element->type==='hidden')
-			$this->_hiddens[$name]=$element;
 	}
 
 	/**
@@ -490,11 +470,10 @@ class CForm extends CFormElement implements ArrayAccess
 	 * @param string the name of the element
 	 * @param CFormElement the element that is removed
 	 * @param boolean whether the element is removed from the {@link buttons} collection
+	 * If false, it means the element is removed from the {@link elements} collection.
 	 */
 	public function removedElement($name,$element,$forButtons)
 	{
-		if($element instanceof CFormInputElement && $element->type==='hidden')
-			unset($this->_hiddens[$name]);
 	}
 
 	/**
