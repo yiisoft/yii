@@ -19,6 +19,7 @@ Version 1.0.8 To be released
 - New: Improved CFileHelper::getMimeType() so that it can return a meaningful result in most cases (Qiang)
 - New: Improved yiic shell commands so that they are easier to be extended (Qiang)
 - New: Added CExistValidator.criteria property (Qiang)
+- New: Improved CHtml::statefulForm() to make it XHTML-compliant (Qinag)
 - Chg: Modified the count() method of relational AR to support counting composite keys (Qiang)
 - Chg: Reverted back the support for assigning a related object to an AR object (Qiang)
 
