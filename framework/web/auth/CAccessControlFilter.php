@@ -24,7 +24,7 @@
  *   'actions'=>array('edit', 'delete'),
  *   // optional, list of controller IDs (case insensitive) that this rule applies to
  *   // This option is available since version 1.0.3.
- *   'controllers'=>array('post', 'admin.user'),
+ *   'controllers'=>array('post', 'admin/user'),
  *   // optional, list of usernames (case insensitive) that this rule applies to
  *   // Use * to represent all users, ? guest users, and @ authenticated users
  *   'users'=>array('thomas', 'kevin'),
