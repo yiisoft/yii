@@ -12,6 +12,7 @@ Version 1.0.8 To be released
 - Bug #460: CFileValidator would display wrong error message when the uploaded file size is too small (Qiang)
 - Bug #486: CDbExpression does not work as expected for PHP versions prior to 5.2.0 (Qiang)
 - Bug: Fixed an issue in CNumberFormatter which incorrectly cached parsed formats (Qiang)
+- New #424: Improved CCaptcha to allow clicking on CAPTCHA image to refresh it (Qiang)
 - New #425: Added defaultParams option to the rules used by CUrlManager (Qiang)
 - New #436: Added error templates in Russian (idlesign)
 - New #467: Improved the algorithm for determining script URL by CHttpRequest (Qiang)
