@@ -18,8 +18,11 @@
  * by an action of class {@link CCaptchaAction} belonging to the current controller.
  * By default, the action ID should be 'captcha', which can be changed by setting {@link captchaAction}.
  *
- * CCaptcha also renders a button next to the CAPTCHA image. Clicking on the button
+ * CCaptcha may also render a button next to the CAPTCHA image. Clicking on the button
  * will change the CAPTCHA image to be a new one in an AJAX way.
+ *
+ * Since version 1.0.8, if {@link clickableImage} is set true, clicking on the CAPTCHA image
+ * will refresh the CAPTCHA.
  *
  * A {@link CCaptchaValidator} may be used to validate that the user enters
  * a verification code matching the code displayed in the CAPTCHA image.
