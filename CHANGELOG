@@ -11,6 +11,7 @@ Version 1.0.8 To be released
 - Bug #451: CAssetManager::publish() may not report error when an asset is missing on BSD (Qiang)
 - Bug #460: CFileValidator would display wrong error message when the uploaded file size is too small (Qiang)
 - Bug #477: CUrlManager generates unwanted homepage URL when URL suffix is used (Qiang)
+- Bug #484: CDbCommandBuilder generates an invalid SQL when inserting a row with all default values (Qiang)
 - Bug #486: CDbExpression does not work as expected for PHP versions prior to 5.2.0 (Qiang)
 - Bug: Fixed an issue in CNumberFormatter which incorrectly cached parsed formats (Qiang)
 - New #424: Improved CCaptcha to allow clicking on CAPTCHA image to refresh it (Qiang)

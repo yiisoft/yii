@@ -146,6 +146,15 @@ class CDbCommandBuilder extends CComponent
 				}
 			}
 		}
+		if($fields===array())
+		{
+			$pks=is_array($table->primaryKey) ? $table->primaryKey : array($table->primaryKey);
+			foreach($pks as $pk)
+			{
+				$fields[]=$table->getColumn($pk)->rawName;
+				$placeholders[]='NULL';
+			}
+		}
 		$sql="INSERT INTO {$table->rawName} (".implode(', ',$fields).') VALUES ('.implode(', ',$placeholders).')';
 		$command=$this->_connection->createCommand($sql);
 
