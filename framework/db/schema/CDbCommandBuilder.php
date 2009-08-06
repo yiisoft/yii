@@ -137,13 +137,22 @@ class CDbCommandBuilder extends CComponent
 			{
 				$fields[]=$column->rawName;
 				if($value instanceof CDbExpression)
-					$placeholders[]=(string)$value;
+					$placeholders[]=$value->expression;
 				else
 				{
 					$placeholders[]=self::PARAM_PREFIX.$i;
 					$values[self::PARAM_PREFIX.$i]=$column->typecast($value);
 					$i++;
 				}
+			}
+		}
+		if($fields===array())
+		{
+			$pks=is_array($table->primaryKey) ? $table->primaryKey : array($table->primaryKey);
+			foreach($pks as $pk)
+			{
+				$fields[]=$table->getColumn($pk)->rawName;
+				$placeholders[]='NULL';
 			}
 		}
 		$sql="INSERT INTO {$table->rawName} (".implode(', ',$fields).') VALUES ('.implode(', ',$placeholders).')';
@@ -174,7 +183,7 @@ class CDbCommandBuilder extends CComponent
 			if(($column=$table->getColumn($name))!==null)
 			{
 				if($value instanceof CDbExpression)
-					$fields[]=$column->rawName.'='.(string)$value;
+					$fields[]=$column->rawName.'='.$value->expression;
 				else if($bindByPosition)
 				{
 					$fields[]=$column->rawName.'=?';

@@ -92,7 +92,7 @@ EOD;
 			{
 				$fields[]=$column->rawName;
 				if($value instanceof CDbExpression)
-					$placeholders[]=(string)$value;
+					$placeholders[]=$value->expression;
 				else
 				{
 					$placeholders[]=self::PARAM_PREFIX.$i;

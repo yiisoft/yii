@@ -501,8 +501,9 @@ class CJoinElement
 		$this->_finder->joinAll=true;
 		$this->buildQuery($query);
 
-		if($criteria->select!=='*' && stripos($criteria->select,'count')!==false)
-			$query->selects=array($criteria->select);
+		$select=is_array($criteria->select) ? implode(',',$criteria->select) : $criteria->select;
+		if($select!=='*' && !strncasecmp($select,'count',5))
+			$query->selects=array($select);
 		else if(is_string($this->_table->primaryKey))
 		{
 			$prefix=$this->getColumnPrefix();

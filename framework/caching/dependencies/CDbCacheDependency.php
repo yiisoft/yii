@@ -29,6 +29,7 @@ class CDbCacheDependency extends CCacheDependency
 	public $connectionID='db';
 	/**
 	 * @var string the SQL statement whose result is used to determine if the dependency has been changed.
+	 * Note, the SQL statement should return back a single value.
 	 */
 	public $sql;
 

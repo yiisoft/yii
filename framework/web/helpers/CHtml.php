@@ -295,7 +295,8 @@ class CHtml
 	 */
 	public static function statefulForm($action='',$method='post',$htmlOptions=array())
 	{
-		return self::form($action,$method,$htmlOptions)."\n".self::pageStateField('');
+		return self::form($action,$method,$htmlOptions)."\n".
+			self::tag('div',array('style'=>'visibility:hidden'),self::pageStateField(''));
 	}
 
 	/**

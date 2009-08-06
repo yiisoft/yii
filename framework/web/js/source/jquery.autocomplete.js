@@ -1,5 +1,5 @@
 /*
- * Autocomplete - jQuery plugin 1.0
+ * Autocomplete - jQuery plugin 1.0.2
  *
  * Copyright (c) 2007 Dylan Verheul, Dan G. Switzer, Anjesh Tuladhar, Jörn Zaefferer
  *
@@ -7,7 +7,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * Revision: $Id: jquery.autocomplete.js 5329 2008-04-27 13:07:34Z joern.zaefferer $
+ * Revision: $Id: jquery.autocomplete.js 5747 2008-06-25 18:30:55Z joern.zaefferer $
  *
  */
 
@@ -78,7 +78,18 @@ $.Autocompleter = function(input, options) {
 	};
 	var select = $.Autocompleter.Select(options, input, selectCurrent, config);
 	
-	$input.keydown(function(event) {
+	var blockSubmit;
+	
+	// prevent form submit in opera when selecting with return key
+	$.browser.opera && $(input.form).bind("submit.autocomplete", function() {
+		if (blockSubmit) {
+			blockSubmit = false;
+			return false;
+		}
+	});
+	
+	// only opera doesn't trigger keydown multiple times while pressed, others don't work with keypress at all
+	$input.bind(($.browser.opera ? "keypress" : "keydown") + ".autocomplete", function(event) {
 		// track last key pressed
 		lastKeyPressCode = event.keyCode;
 		switch(event.keyCode) {
@@ -123,11 +134,11 @@ $.Autocompleter = function(input, options) {
 			case options.multiple && $.trim(options.multipleSeparator) == "," && KEY.COMMA:
 			case KEY.TAB:
 			case KEY.RETURN:
-				if( selectCurrent() ){
-					// make sure to blur off the current field
-					if( !options.multiple )
-						$input.blur();
+				if( selectCurrent() ) {
+					// stop default to prevent a form submit, Opera needs special handling
 					event.preventDefault();
+					blockSubmit = true;
+					return false;
 				}
 				break;
 				
@@ -140,8 +151,6 @@ $.Autocompleter = function(input, options) {
 				timeout = setTimeout(onChange, options.delay);
 				break;
 		}
-	}).keypress(function() {
-		// having fun with opera - remove this binding and Opera submits the form when we select an entry via return
 	}).focus(function(){
 		// track whether the field has focus, we shouldn't process any
 		// results if the field no longer has focus
@@ -185,6 +194,7 @@ $.Autocompleter = function(input, options) {
 	}).bind("unautocomplete", function() {
 		select.unbind();
 		$input.unbind();
+		$(input.form).unbind(".autocomplete");
 	});
 	
 	
@@ -275,6 +285,7 @@ $.Autocompleter = function(input, options) {
 	};
 
 	function hideResultsNow() {
+		var wasVisible = select.visible();
 		select.hide();
 		clearTimeout(timeout);
 		stopLoading();
@@ -283,10 +294,20 @@ $.Autocompleter = function(input, options) {
 			$input.search(
 				function (result){
 					// if no value found, clear the input box
-					if( !result ) $input.val("");
+					if( !result ) {
+						if (options.multiple) {
+							var words = trimWords($input.val()).slice(0, -1);
+							$input.val( words.join(options.multipleSeparator) + (words.length ? options.multipleSeparator : "") );
+						}
+						else
+							$input.val( "" );
+					}
 				}
 			);
 		}
+		if (wasVisible)
+			// position cursor at end of input field
+			$.Autocompleter.Selection(input, input.value.length, input.value.length);
 	};
 
 	function receiveData(q, data) {
@@ -550,7 +571,7 @@ $.Autocompleter.Select = function (options, input, select, config) {
 		.css("position", "absolute")
 		.appendTo(document.body);
 	
-		list = $("<ul>").appendTo(element).mouseover( function(event) {
+		list = $("<ul/>").appendTo(element).mouseover( function(event) {
 			if(target(event).nodeName && target(event).nodeName.toUpperCase() == 'LI') {
 	            active = $("li", list).removeClass(CLASSES.ACTIVE).index(target(event));
 			    $(target(event)).addClass(CLASSES.ACTIVE);            
@@ -558,6 +579,7 @@ $.Autocompleter.Select = function (options, input, select, config) {
 		}).click(function(event) {
 			$(target(event)).addClass(CLASSES.ACTIVE);
 			select();
+			// TODO provide option to avoid setting focus again after selection? useful for cleanup-on-focus
 			input.focus();
 			return false;
 		}).mousedown(function() {
@@ -623,7 +645,7 @@ $.Autocompleter.Select = function (options, input, select, config) {
 			var formatted = options.formatItem(data[i].data, i+1, max, data[i].value, term);
 			if ( formatted === false )
 				continue;
-			var li = $("<li>").html( options.highlight(formatted, term) ).addClass(i%2 == 0 ? "ac_event" : "ac_odd").appendTo(list)[0];
+			var li = $("<li/>").html( options.highlight(formatted, term) ).addClass(i%2 == 0 ? "ac_even" : "ac_odd").appendTo(list)[0];
 			$.data(li, "ac_data", data[i]);
 		}
 		listItems = list.find("li");
@@ -631,7 +653,9 @@ $.Autocompleter.Select = function (options, input, select, config) {
 			listItems.slice(0, 1).addClass(CLASSES.ACTIVE);
 			active = 0;
 		}
-		list.bgiframe();
+		// apply bgiframe if available
+		if ( $.fn.bgiframe )
+			list.bgiframe();
 	}
 	
 	return {
@@ -663,6 +687,7 @@ $.Autocompleter.Select = function (options, input, select, config) {
 		},
 		hide: function() {
 			element && element.hide();
+			listItems && listItems.removeClass(CLASSES.ACTIVE);
 			active = -1;
 		},
 		visible : function() {
