@@ -141,6 +141,17 @@ class CMemCache extends CCache
 	}
 
 	/**
+	 * Retrieves multiple values from cache with the specified keys.
+	 * @param array a list of keys identifying the cached values
+	 * @return array a list of cached values indexed by the keys
+	 * @since 1.0.8
+	 */
+	protected function getValues($keys)
+	{
+		return array_combine($keys,$this->_cache->get($keys));
+	}
+
+	/**
 	 * Stores a value identified by a key in cache.
 	 * This is the implementation of the method declared in the parent class.
 	 *

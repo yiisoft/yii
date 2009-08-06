@@ -3,6 +3,12 @@ New Features
 
 This page summarizes the main new features introduced in each Yii release.
 
+Version 1.0.8
+-------------
+
+ * Added support for retrieving multiple cached values at one time
+	 - [Data Caching](/doc/guide/caching.data)
+
 Version 1.0.7
 -------------
 

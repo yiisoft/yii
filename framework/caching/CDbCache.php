@@ -159,6 +159,29 @@ EOD;
 	}
 
 	/**
+	 * Retrieves multiple values from cache with the specified keys.
+	 * @param array a list of keys identifying the cached values
+	 * @return array a list of cached values indexed by the keys
+	 * @since 1.0.8
+	 */
+	protected function getValues($keys)
+	{
+		if(empty($keys))
+			return array();
+
+		$ids=implode("','",$keys);
+		$time=time();
+		$sql="SELECT id, value FROM {$this->cacheTableName} WHERE id IN ('$ids') AND (expire=0 OR expire>$time)";
+		$rows=$this->getDbConnection()->createCommand($sql)->queryRows();
+		$results=array();
+		foreach($keys as $key)
+			$results[$key]=false;
+		foreach($rows as $row)
+			$results[$row['id']]=$results[$row['value']];
+		return $results;
+	}
+
+	/**
 	 * Stores a value identified by a key in cache.
 	 * This is the implementation of the method declared in the parent class.
 	 *
