@@ -98,15 +98,19 @@ abstract class CBaseUserIdentity extends CComponent implements IUserIdentity
 	 * Sets the named state with a given value.
 	 * @param string the name of the state
 	 * @param mixed the value of the named state
-	 * @param mixed the default value for the named state.
-	 * If the given value is the same as this value, the state will be removed
-	 * from the storage.
 	 */
-	public function setState($name,$value,$defaultValue=null)
+	public function setState($name,$value)
 	{
-		if($value===$defaultValue)
-			unset($this->_state[$name]);
-		else
-			$this->_state[$name]=$value;
+		$this->_state[$name]=$value;
+	}
+
+	/**
+	 * Removes the specified state.
+	 * @param string the name of the state
+	 * @since 1.0.8
+	 */
+	public function clearState($name)
+	{
+		unset($this->_state[$name]);
 	}
 }

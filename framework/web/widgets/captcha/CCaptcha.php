@@ -18,8 +18,11 @@
  * by an action of class {@link CCaptchaAction} belonging to the current controller.
  * By default, the action ID should be 'captcha', which can be changed by setting {@link captchaAction}.
  *
- * CCaptcha also renders a button next to the CAPTCHA image. Clicking on the button
+ * CCaptcha may also render a button next to the CAPTCHA image. Clicking on the button
  * will change the CAPTCHA image to be a new one in an AJAX way.
+ *
+ * Since version 1.0.8, if {@link clickableImage} is set true, clicking on the CAPTCHA image
+ * will refresh the CAPTCHA.
  *
  * A {@link CCaptchaValidator} may be used to validate that the user enters
  * a verification code matching the code displayed in the CAPTCHA image.
@@ -44,6 +47,15 @@ class CCaptcha extends CWidget
 	 * will cause the CAPTCHA image to be changed to a new one. Defaults to true.
 	 */
 	public $showRefreshButton=true;
+	/**
+	 * @var boolean whether to allow clicking on the CAPTCHA image to refresh the CAPTCHA letters.
+	 * Defaults to false. Hint: you may want to set {@link showRefreshButton} to false if you set
+	 * this property to be true because they serve for the same purpose.
+	 * To enhance accessibility, you may set {@link imageOptions} to provide hints to end-users that
+	 * the image is clickable.
+	 * @since 1.0.8
+	 */
+	public $clickableImage=false;
 	/**
 	 * @var string the label for the refresh button. Defaults to 'Get a new code'.
 	 */
@@ -93,17 +105,28 @@ class CCaptcha extends CWidget
 	 */
 	public function registerClientScript()
 	{
+		$cs=Yii::app()->clientScript;
+		$id=$this->imageOptions['id'];
+		$url=$this->getController()->createUrl($this->captchaAction,array(CCaptchaAction::REFRESH_GET_VAR=>true));
+
 		if($this->showRefreshButton)
 		{
-			$cs=Yii::app()->clientScript;
-			$id=$this->imageOptions['id'];
 			$cs->registerScript('Yii.CCaptcha#'.$id,'dummy');
 			$label=$this->buttonLabel===null?Yii::t('yii','Get a new code'):$this->buttonLabel;
 			$button=$this->buttonType==='button'?'ajaxButton':'ajaxLink';
-			$url=$this->getController()->createUrl($this->captchaAction,array(CCaptchaAction::REFRESH_GET_VAR=>true));
 			$html=CHtml::$button($label,$url,array('success'=>'js:function(html){jQuery("#'.$id.'").attr("src",html)}'),$this->buttonOptions);
 			$js="jQuery('img#$id').after(\"".CJavaScript::quote($html).'");';
 			$cs->registerScript('Yii.CCaptcha#'.$id,$js);
+		}
+
+		if($this->clickableImage)
+		{
+			$js="jQuery('#$id').click(function(){"
+				.CHtml::ajax(array(
+					'url'=>$url,
+					'success'=>"js:function(html){jQuery('#$id').attr('src',html)}",
+				)).'});';
+			$cs->registerScript('Yii.CCaptcha#2'.$id,$js);
 		}
 	}
 }

@@ -261,7 +261,8 @@ specified action, one of the following two scenarios may happen:
 
    - If the user is not logged in and if the [loginUrl|CWebUser::loginUrl]
 property of the user component is configured to be the URL of the login
-page, the browser will be redirected to that page.
+page, the browser will be redirected to that page. Note that by default,
+[loginUrl|CWebUser::loginUrl] points to the `site/login` page.
 
    - Otherwise an HTTP exception will be displayed with error code 403.
 
@@ -473,7 +474,7 @@ hierarchy more intuitively.
 
 ### Using Business Rules
 
-When we are defining the authorization hierarchy, we can associate a role, a task or an operation with a so-called *business rule*. We may also associate a business rule when we assign a role to a user. A business rule is a piece of PHP code (PHP statements to be exactly) that is executed when we perform access checking. The returning value of the code is used to determine if the role or assignment applies to the current user. In the example above, we associated a business rule with the `updateOwnPost` task. In the business rule we simply check if the current user ID is the same as the specified post's author ID. The post information in the `$params` array is supplied by developers when performing access checking.
+When we are defining the authorization hierarchy, we can associate a role, a task or an operation with a so-called *business rule*. We may also associate a business rule when we assign a role to a user. A business rule is a piece of PHP code that is executed when we perform access checking. The returning value of the code is used to determine if the role or assignment applies to the current user. In the example above, we associated a business rule with the `updateOwnPost` task. In the business rule we simply check if the current user ID is the same as the specified post's author ID. The post information in the `$params` array is supplied by developers when performing access checking.
 
 
 ### Access Checking

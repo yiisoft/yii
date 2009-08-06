@@ -85,7 +85,7 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 				if ($table->sequenceName !== null && $column->isPrimaryKey === true) continue;
 				if ($column->dbType === 'timestamp') continue;
 				if($value instanceof CDbExpression)
-					$fields[]=$column->rawName.'='.(string)$value;
+					$fields[]=$column->rawName.'='.$value->expression;
 				else if($bindByPosition)
 				{
 					$fields[]=$column->rawName.'=?';

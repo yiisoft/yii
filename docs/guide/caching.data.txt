@@ -48,6 +48,13 @@ is NOT required that the ID is unique across applications because the cache
 component is intelligent enough to differentiate IDs for different
 applications.
 
+Some cache storages, such as MemCache, APC, support retrieving
+multiple cached values in a batch mode, which may reduce the overhead involved
+in retrieving cached data. Starting from version 1.0.8, a new method named
+[mget()|CCache::mget] is provided to exploit this feature. In case the underlying
+cache storage does not support this feature, [mget()|CCache::mget] will still
+simulate it.
+
 To remove a cached value from cache, call [delete()|CCache::delete]; and
 to remove everything from cache, call [flush()|CCache::flush]. Be very
 careful when calling [flush()|CCache::flush] because it also removes cached

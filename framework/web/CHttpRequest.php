@@ -276,6 +276,8 @@ class CHttpRequest extends CApplicationComponent
 				$this->_scriptUrl=$_SERVER['ORIG_SCRIPT_NAME'];
 			else if(($pos=strpos($_SERVER['PHP_SELF'],'/'.$scriptName))!==false)
 				$this->_scriptUrl=substr($_SERVER['SCRIPT_NAME'],0,$pos).'/'.$scriptName;
+			else if(isset($_SERVER['DOCUMENT_ROOT']) && strpos($_SERVER['SCRIPT_FILENAME'],$_SERVER['DOCUMENT_ROOT'])===0)
+				$this->_scriptUrl=str_replace('\\','/',str_replace($_SERVER['DOCUMENT_ROOT'],'',$_SERVER['SCRIPT_FILENAME']));
 			else
 				throw new CException(Yii::t('yii','CHttpRequest is unable to determine the entry script URL.'));
 		}

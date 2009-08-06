@@ -114,7 +114,12 @@ abstract class CActiveRecord extends CModel
 	public function __set($name,$value)
 	{
 		if($this->setAttribute($name,$value)===false)
-			parent::__set($name,$value);
+		{
+			if(isset($this->getMetaData()->relations[$name]))
+				$this->_related[$name]=$value;
+			else
+				parent::__set($name,$value);
+		}
 	}
 
 	/**
@@ -1178,7 +1183,6 @@ abstract class CActiveRecord extends CModel
 
 	/**
 	 * Finds the number of rows using the given SQL statement.
-	 * See {@link find()} for detailed explanation about $condition and $params.
 	 * @param string the SQL statement
 	 * @param array parameters to be bound to the SQL statement
 	 * @return integer the number of rows using the given SQL statement.
