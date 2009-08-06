@@ -199,6 +199,7 @@ class CUrlManager extends CApplicationComponent
 		}
 		else
 			$anchor='';
+		$route=trim($route,'/');
 		foreach($this->_rules as $rule)
 		{
 			if(($url=$rule->createUrl($this,$route,$params,$ampersand))!==false)
@@ -221,11 +222,13 @@ class CUrlManager extends CApplicationComponent
 			$url=rtrim($this->getBaseUrl().'/'.$route,'/');
 			if($this->appendParams)
 			{
-				$url.='/'.$this->createPathInfo($params,'/','/');
-				return rtrim($url,'/').$this->urlSuffix;
+				$url=rtrim($url.'/'.$this->createPathInfo($params,'/','/'),'/');
+				return $route==='' ? $url : $url.$this->urlSuffix;
 			}
 			else
 			{
+				if($route!=='')
+					$url.=$this->urlSuffix;
 				$query=$this->createPathInfo($params,'=',$ampersand);
 				return $query==='' ? $url : $url.'?'.$query;
 			}
