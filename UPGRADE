@@ -12,6 +12,16 @@ for both A and B.
 
 Upgrading from v1.0.7
 ---------------------
+- A directory imported using Yii::import() will have precedence over
+any existing include paths. For example, if we import 'application.models.*',
+then the corresponding directory will be searched before any other
+existing include paths. This also means, a directory imported later will
+have precedence over directories imported earlier. Previously, this order
+was reversed. This change may affect you if you have several classes with
+the same name and they are imported via different directories. You will need
+to adjust the import order of these directories to make sure your existing
+applications are not broken due to this change.
+
 
 Upgrading from v1.0.6
 ---------------------

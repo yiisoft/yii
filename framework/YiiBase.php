@@ -54,6 +54,7 @@ class YiiBase
 	private static $_aliases=array('system'=>YII_PATH); // alias => path
 	private static $_imports=array();					// alias => class name or directory
 	private static $_classes=array();
+	private static $_includePaths;						// list of include paths
 	private static $_app;
 	private static $_logger;
 
@@ -249,7 +250,14 @@ class YiiBase
 			}
 			else  // a directory
 			{
-				set_include_path(get_include_path().PATH_SEPARATOR.$path);
+				if(self::$_includePaths===null)
+				{
+					self::$_includePaths=array_unique(explode(PATH_SEPARATOR,get_include_path()));
+					if(($pos=array_search('.',self::$_includePaths,true))!==false)
+						unset(self::$_includePaths[$pos]);
+				}
+				array_unshift(self::$_includePaths,$path);
+				set_include_path('.'.PATH_SEPARATOR.implode(PATH_SEPARATOR,self::$_includePaths));
 				return self::$_imports[$alias]=$path;
 			}
 		}
