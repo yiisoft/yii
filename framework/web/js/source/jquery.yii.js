@@ -34,7 +34,7 @@ $.yii = {
 			inputs.push(input);
 		});
 
-		f.submit();
+		f.trigger('submit');
 
 		for (input in inputs) {
 			f.removeChild(inputs[input]);
