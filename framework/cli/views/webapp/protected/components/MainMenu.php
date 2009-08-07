@@ -35,7 +35,7 @@ class MainMenu extends CWidget
 			$item2=array();
 			$item2['label']=$item['label'];
 			if(is_array($item['url']))
-				$item2['url']=$controller->createUrl($item['url'][0]);
+				$item2['url']=$controller->createUrl($item['url'][0],array_splice($item['url'],1));
 			else
 				$item2['url']=$item['url'];
 			$pattern=isset($item['pattern'])?$item['pattern']:$item['url'];

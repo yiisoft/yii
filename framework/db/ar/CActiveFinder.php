@@ -368,7 +368,10 @@ class CJoinElement
 
 		// set up column aliases, such as t1_c2
 		$table=$this->_table;
-		$prefix='t'.$id.'_c';
+		if($this->model->getDbConnection()->getDriverName()==='oci')  // Issue 482
+			$prefix='T'.$id.'_C';
+		else
+			$prefix='t'.$id.'_c';
 		foreach($table->getColumnNames() as $key=>$name)
 		{
 			$alias=$prefix.$key;

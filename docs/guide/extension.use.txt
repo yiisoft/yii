@@ -12,13 +12,19 @@ Using an extension usually involves the following three steps:
 
 Each extension has a name that uniquely identifies it among all extensions.
 Given an extension named as `xyz`, we can always use the path alias
-`application.extensions.xyz` to locate its base directory which contains
-all files of `xyz`.
+`ext.xyz` to locate its base directory which contains all files of `xyz`.
+
+> Note: The root path alias `ext` has been available since version 1.0.8.
+Previously, we would need to use `application.extensions` to refer to the
+directory containing all extensions. In the following description, we
+assume `ext` is defined. You will need to replace it with `application.extensions`
+if you are using version 1.0.7 or lower.
 
 Different extensions have different requirements about importing,
 configuration and usage. In the following, we summarize common usage scenarios
 about extensions, according to their categorization described in the
 [overview](/doc/guide/extension.overview).
+
 
 Application Component
 ---------------------
@@ -33,7 +39,7 @@ return array(
     // 'preload'=>array('xyz',...),
     'components'=>array(
         'xyz'=>array(
-            'class'=>'application.extensions.xyz.XyzClass',
+            'class'=>'ext.xyz.XyzClass',
             'property1'=>'value1',
             'property2'=>'value2',
         ),
@@ -57,12 +63,12 @@ a view as follows,
 ~~~
 [php]
 // widget that does not need body content
-<?php $this->widget('application.extensions.xyz.XyzClass', array(
+<?php $this->widget('ext.xyz.XyzClass', array(
     'property1'=>'value1',
     'property2'=>'value2')); ?>
 
 // widget that can contain body content
-<?php $this->beginWidget('application.extensions.xyz.XyzClass', array(
+<?php $this->beginWidget('ext.xyz.XyzClass', array(
     'property1'=>'value1',
     'property2'=>'value2')); ?>
 
@@ -87,7 +93,7 @@ class TestController extends CController
 	{
 		return array(
 			'xyz'=>array(
-				'class'=>'application.extensions.xyz.XyzClass',
+				'class'=>'ext.xyz.XyzClass',
 				'property1'=>'value1',
 				'property2'=>'value2',
 			),
@@ -117,7 +123,7 @@ class TestController extends CController
 	{
 		return array(
 			array(
-				'application.extensions.xyz.XyzClass',
+				'ext.xyz.XyzClass',
 				'property1'=>'value1',
 				'property2'=>'value2',
 			),
@@ -143,7 +149,7 @@ configure the [CWebApplication::controllerMap] property in the
 return array(
 	'controllerMap'=>array(
 		'xyz'=>array(
-			'class'=>'application.extensions.xyz.XyzClass',
+			'class'=>'ext.xyz.XyzClass',
 			'property1'=>'value1',
 			'property2'=>'value2',
 		),
@@ -172,7 +178,7 @@ class MyModel extends CActiveRecord // or CFormModel
 		return array(
 			array(
 				'attr1, attr2',
-				'application.extensions.xyz.XyzClass',
+				'ext.xyz.XyzClass',
 				'property1'=>'value1',
 				'property2'=>'value2',
 			),
@@ -194,7 +200,7 @@ the configuration for the console application:
 return array(
 	'commandMap'=>array(
 		'xyz'=>array(
-			'class'=>'application.extensions.xyz.XyzClass',
+			'class'=>'ext.xyz.XyzClass',
 			'property1'=>'value1',
 			'property2'=>'value2',
 		),
@@ -224,7 +230,7 @@ To use a generic [component](/doc/guide/basics.component), we first
 need to include its class file by using
 
 ~~~
-Yii::import('application.extensions.xyz.XyzClass');
+Yii::import('ext.xyz.XyzClass');
 ~~~
 
 Then, we can either create an instance of the class, configure its properties,

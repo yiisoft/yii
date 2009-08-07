@@ -21,6 +21,10 @@ Version 1.0.8
  * Added support for retrieving multiple cached values at one time
 	 - [Data Caching](/doc/guide/caching.data)
 
+ * Introduced a new default root path alias `ext` which points to the directory
+containing all third-party extensions.
+	 - [Using Extensions](/doc/guide/extension.use)
+
 Version 1.0.7
 -------------
 

@@ -381,6 +381,29 @@ class CHtml
 	}
 
 	/**
+	 * Generates a button using HTML button tag.
+	 * This method is similar to {@link button} except that it generates a 'button'
+	 * tag instead of 'input' tag.
+	 * @param string the button label
+	 * @param array additional HTML attributes. Besides normal HTML attributes, a few special
+	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
+	 * @return string the generated button tag
+	 * @see clientChange
+	 * @since 1.0.8
+	 */
+	public static function htmlButton($label='button',$htmlOptions=array())
+	{
+		if(!isset($htmlOptions['name']))
+			$htmlOptions['name']=self::ID_PREFIX.self::$count++;
+		if(!isset($htmlOptions['type']))
+			$htmlOptions['type']='button';
+		if(!isset($htmlOptions['value']))
+			$htmlOptions['value']=$label;
+		self::clientChange('click',$htmlOptions);
+		return self::tag('button',$htmlOptions);
+	}
+
+	/**
 	 * Generates a submit button.
 	 * @param string the button label
 	 * @param array additional HTML attributes. Besides normal HTML attributes, a few special

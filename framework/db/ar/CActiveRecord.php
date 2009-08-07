@@ -341,6 +341,22 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Refreshes the meta data for this AR class.
+	 * By calling this method, this AR class will regenerate the meta data needed.
+	 * This is useful if the table schema has been changed and you want to use the latest
+	 * available table schema. Make sure you have called {@link CDbSchema::refresh}
+	 * before you call this method. Otherwise, old table schema data will still be used.
+	 * @since 1.0.8
+	 */
+	public function refreshMetaData()
+	{
+		$finder=self::model(get_class($this));
+		$finder->_md=new CActiveRecordMetaData($finder);
+		if($this!==$finder)
+			$this->_md=$finder->_md;
+	}
+
+	/**
 	 * Returns the name of the associated database table.
 	 * By default this method returns the class name as the table name.
 	 * You may override this method if the table is not named after this convention.
@@ -1112,6 +1128,7 @@ abstract class CActiveRecord extends CModel
 	 * Finds a single active record that has the specified attribute values.
 	 * See {@link find()} for detailed explanation about $condition and $params.
 	 * @param array list of attribute values (indexed by attribute names) that the active records should match.
+	 * Since version 1.0.8, an attribute value can be an array which will be used to generate an IN condition.
 	 * @param mixed query condition or criteria.
 	 * @param array parameters to be bound to an SQL statement.
 	 * @return CActiveRecord the record found. Null if none is found.
@@ -1128,6 +1145,7 @@ abstract class CActiveRecord extends CModel
 	 * Finds all active records that have the specified attribute values.
 	 * See {@link find()} for detailed explanation about $condition and $params.
 	 * @param array list of attribute values (indexed by attribute names) that the active records should match.
+	 * Since version 1.0.8, an attribute value can be an array which will be used to generate an IN condition.
 	 * @param mixed query condition or criteria.
 	 * @param array parameters to be bound to an SQL statement.
 	 * @return array the records found. An empty array is returned if none is found.
@@ -1643,15 +1661,6 @@ class CActiveRelation extends CBaseActiveRelation
 	 */
 	public function mergeWith($criteria)
 	{
-		if(isset($criteria['condition']) && $this->on!==$criteria['condition'])
-		{
-			if($this->on==='')
-				$this->on=$criteria['condition'];
-			else if($criteria['condition']!=='')
-				$this->on="({$this->on}) AND ({$criteria['condition']})";
-		}
-		unset($criteria['condition']);
-
 		parent::mergeWith($criteria);
 
 		if(isset($criteria['joinType']))

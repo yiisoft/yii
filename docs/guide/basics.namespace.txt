@@ -15,7 +15,8 @@ we can define new path aliases.For convenience, Yii predefines the following roo
  - `system`: refers to the Yii framework directory;
  - `application`: refers to the application's [base directory](/doc/guide/basics.application#application-base-directory);
  - `webroot`: refers to the directory containing the [entry script](/doc/guide/basics.entry) file. This alias has been available since version 1.0.3.
- 
+ - `ext`: refers to the directory containing all third-party [extensions]((/doc/guide/extension.overview). This alias has been available since version 1.0.8.
+
 Additionally, if the application uses [modules](/doc/guide/basics.module), a root alias is also predefined for each module ID and refers to the base path of the corresponding module. This feature has been available since version 1.0.3.
 
 By using [YiiBase::getPathOfAlias()], an alias can be translated to its
