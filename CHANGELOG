@@ -10,6 +10,7 @@ Version 1.0.8 To be released
 - Bug #446: Fixed bugs in MSSQL driver that cause problem when updating attribues and a column is of timestamp type (Qiang)
 - Bug #451: CAssetManager::publish() may not report error when an asset is missing on BSD (Qiang)
 - Bug #460: CFileValidator would display wrong error message when the uploaded file size is too small (Qiang)
+- Bug #475: MainMenu widget in webapp ignores URL parameters (Qiang)
 - Bug #477: CUrlManager generates unwanted homepage URL when URL suffix is used (Qiang)
 - Bug #482: Relational AR would fail when using Oracle due to column case issue (Qiang)
 - Bug #484: CDbCommandBuilder generates an invalid SQL when inserting a row with all default values (Qiang)
