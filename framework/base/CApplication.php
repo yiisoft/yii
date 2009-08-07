@@ -86,7 +86,7 @@ abstract class CApplication extends CModule
 	 * Constructor.
 	 * @param mixed application configuration.
 	 * If a string, it is treated as the path of the file that contains the configuration;
-	 * If an array or CConfiguration, it is the actual configuration information.
+	 * If an array, it is the actual configuration information.
 	 * Please make sure you specify the {@link getBasePath basePath} property in the configuration,
 	 * which should point to the directory containing all application logic, template and data.
 	 * If not, the directory will be defaulted to 'protected'.
@@ -107,6 +107,7 @@ abstract class CApplication extends CModule
 			$this->setBasePath('protected');
 		Yii::setPathOfAlias('application',$this->getBasePath());
 		Yii::setPathOfAlias('webroot',dirname($_SERVER['SCRIPT_FILENAME']));
+		Yii::setPathOfAlias('ext',$this->getBasePath().DIRECTORY_SEPARATOR.'extensions');
 
 		$this->preinit();
 
@@ -236,15 +237,22 @@ abstract class CApplication extends CModule
 
 	/**
 	 * Returns the root directory that holds all third-party extensions.
-	 * Note, this property cannot be changed or overridden. It is always 'AppBasePath/extensions'.
-	 * @return string the directory that contains all extensions.
+	 * @return string the directory that contains all extensions. Defaults to the 'extensions' directory under 'protected'.
 	 */
-	final public function getExtensionPath()
+	public function getExtensionPath()
 	{
-		if($this->_extensionPath!==null)
-			return $this->_extensionPath;
-		else
-			return $this->_extensionPath=$this->getBasePath().DIRECTORY_SEPARATOR.'extensions';
+		return Yii::getPathOfAlias('ext');
+	}
+
+	/**
+	 * @param string the directory that contains all third-party extensions.
+	 */
+	public function setExtensionPath($path)
+	{
+		if(($extensionPath=realpath($path))===false || !is_dir($extensionPath))
+			throw new CException(Yii::t('yii','Extension path "{path}" does not exist.',
+				array('{path}'=>$path)));
+		Yii::setPathOfAlias('ext',$extensionPath);
 	}
 
 	/**

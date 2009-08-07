@@ -11,8 +11,6 @@
 /**
  * CUniqueValidator validates that the attribute value is unique in the corresponding database table.
  *
- * CUniqueValidator can only be used for active record objects.
- *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.validators
@@ -30,6 +28,31 @@ class CUniqueValidator extends CValidator
 	 * meaning that if the attribute is empty, it is considered valid.
 	 */
 	public $allowEmpty=true;
+	/**
+	 * @var string the ActiveRecord class name that should be used to
+	 * look for the attribute value being validated. Defaults to null, meaning using
+	 * the class of the object currently being validated.
+	 * You may use path alias to reference a class name here.
+	 * @see attributeName
+	 * @since 1.0.8
+	 */
+	public $className;
+	/**
+	 * @var string the ActiveRecord class attribute name that should be
+	 * used to look for the attribute value being validated. Defaults to null,
+	 * meaning using the name of the attribute being validated.
+	 * @see className
+	 * @since 1.0.8
+	 */
+	public $attributeName;
+	/**
+	 * @var array additional query criteria. This will be combined with the condition
+	 * that checks if the attribute value exists in the corresponding table column.
+	 * This array will be used to instantiate a {@link CDbCriteria} object.
+	 * @since 1.0.8
+	 */
+	public $criteria=array();
+
 
 	/**
 	 * Validates the attribute of the object.
@@ -43,23 +66,29 @@ class CUniqueValidator extends CValidator
 		if($this->allowEmpty && ($value===null || $value===''))
 			return;
 
-		$column=$object->getTableSchema()->getColumn($attribute);
-		if($column===null)
-			throw new CException(Yii::t('yii','{class} does not have attribute "{attribute}".',
-				array('{class}'=>get_class($object), '{attribute}'=>$attribute)));
+		$className=$this->className===null?get_class($object):Yii::import($this->className);
+		$attributeName=$this->attributeName===null?$attribute:$this->attributeName;
+		$finder=CActiveRecord::model($className);
+		$table=$finder->getTableSchema();
+		if(($column=$table->getColumn($attributeName))===null)
+			throw new CException(Yii::t('yii','Column "{column} does not exist in table "{table}".',
+				array('{column}'=>$attributeName,'{table}'=>$table->name)));
 
 		$columnName=$column->rawName;
-		$criteria=array(
+		$criteria=new CDbCriteria(array(
 			'condition'=>$this->caseSensitive ? "$columnName=:value" : "LOWER($columnName)=LOWER(:value)",
 			'params'=>array(':value'=>$value),
-		);
-		if($column->isPrimaryKey)
-			$exists=$object->exists($criteria);
+		));
+		if($this->criteria!==array())
+			$criteria->mergeWith($this->criteria);
+
+		if($column->isPrimaryKey || $this->className!==null)
+			$exists=$finder->exists($criteria);
 		else
 		{
 			// need to exclude the current record based on PK
-			$criteria['limit']=2;
-			$objects=CActiveRecord::model(get_class($object))->findAll($criteria);
+			$criteria->limit=2;
+			$objects=$finder->findAll($criteria);
 			$n=count($objects);
 			if($n===1)
 				$exists=$objects[0]->getPrimaryKey()!=$object->getPrimaryKey();
