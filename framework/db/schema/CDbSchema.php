@@ -121,7 +121,19 @@ abstract class CDbSchema extends CComponent
 	 */
 	public function refresh()
 	{
+		if(($duration=$this->_connection->schemaCachingDuration)>0 && ($cache=Yii::app()->getCache())!==null)
+		{
+			foreach(array_keys($this->_tables) as $name)
+			{
+				if(!isset($this->_cacheExclude[$name]))
+				{
+					$key='yii:dbschema'.$this->_connection->connectionString.':'.$this->_connection->username.':'.$name;
+					$cache->delete($key);
+				}
+			}
+		}
 		$this->_tables=array();
+		$this->_tableNames=array();
 		$this->_builder=null;
 	}
 

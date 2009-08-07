@@ -667,6 +667,22 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Refreshes the meta data for this AR class.
+	 * By calling this method, this AR class will regenerate the meta data needed.
+	 * This is useful if the table schema has been changed and you want to use the latest
+	 * available table schema. Make sure you have called {@link CDbSchema::refresh}
+	 * before you call this method. Otherwise, old table schema data will still be used.
+	 * @since 1.0.8
+	 */
+	public function refreshMetaData()
+	{
+		$finder=self::model(get_class($this));
+		$finder->_md=new CActiveRecordMetaData($finder);
+		if($this!==$finder)
+			$this->_md=$finder->_md;
+	}
+
+	/**
 	 * Returns the name of the associated database table.
 	 * By default this method returns the class name as the table name.
 	 * You may override this method if the table is not named after this convention.

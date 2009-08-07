@@ -21,6 +21,7 @@ Version 1.0.8 To be released
 - New #426: Added CApplication::setExtensionPath() (Qiang)
 - New #436: Added error templates in Russian (idlesign)
 - New #467: Improved the algorithm for determining script URL by CHttpRequest (Qiang)
+- New #474: Added CActiveRecord::refreshMetaData() to allow using the latest table meta data (Qiang)
 - New #478: Enhanced CActiveRecord::findByAttributes and findAllByAttributes so that when an attribute value is array, an IN condition is generated for searching (Qiang)
 - New #480: Improved CUniqueValidator to allow specifying AR class and attribute to validate against (Qiang)
 - New #488: Added CCache::mget() to support retrieving multiple cached values at a time (Qiang)
