@@ -2029,15 +2029,6 @@ class CActiveRelation extends CBaseActiveRelation
 	 */
 	public function mergeWith($criteria)
 	{
-		if(isset($criteria['condition']) && $this->on!==$criteria['condition'])
-		{
-			if($this->on==='')
-				$this->on=$criteria['condition'];
-			else if($criteria['condition']!=='')
-				$this->on="({$this->on}) AND ({$criteria['condition']})";
-		}
-		unset($criteria['condition']);
-
 		parent::mergeWith($criteria);
 
 		if(isset($criteria['joinType']))
