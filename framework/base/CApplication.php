@@ -86,7 +86,7 @@ abstract class CApplication extends CModule
 	 * Constructor.
 	 * @param mixed application configuration.
 	 * If a string, it is treated as the path of the file that contains the configuration;
-	 * If an array or CConfiguration, it is the actual configuration information.
+	 * If an array, it is the actual configuration information.
 	 * Please make sure you specify the {@link getBasePath basePath} property in the configuration,
 	 * which should point to the directory containing all application logic, template and data.
 	 * If not, the directory will be defaulted to 'protected'.
