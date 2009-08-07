@@ -80,10 +80,7 @@ class CUniqueValidator extends CValidator
 			'params'=>array(':value'=>$value),
 		));
 		if($this->criteria!==array())
-		{
-			$criteria=new CDbCriteria($criteria);
 			$criteria->mergeWith($this->criteria);
-		}
 
 		if($column->isPrimaryKey || $this->className!==null)
 			$exists=$finder->exists($criteria);
