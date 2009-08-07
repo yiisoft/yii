@@ -1469,6 +1469,7 @@ abstract class CActiveRecord extends CModel
 	 * Finds a single active record that has the specified attribute values.
 	 * See {@link find()} for detailed explanation about $condition and $params.
 	 * @param array list of attribute values (indexed by attribute names) that the active records should match.
+	 * Since version 1.0.8, an attribute value can be an array which will be used to generate an IN condition.
 	 * @param mixed query condition or criteria.
 	 * @param array parameters to be bound to an SQL statement.
 	 * @return CActiveRecord the record found. Null if none is found.
@@ -1485,6 +1486,7 @@ abstract class CActiveRecord extends CModel
 	 * Finds all active records that have the specified attribute values.
 	 * See {@link find()} for detailed explanation about $condition and $params.
 	 * @param array list of attribute values (indexed by attribute names) that the active records should match.
+	 * Since version 1.0.8, an attribute value can be an array which will be used to generate an IN condition.
 	 * @param mixed query condition or criteria.
 	 * @param array parameters to be bound to an SQL statement.
 	 * @return array the records found. An empty array is returned if none is found.

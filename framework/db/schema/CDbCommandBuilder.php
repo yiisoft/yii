@@ -473,7 +473,9 @@ class CDbCommandBuilder extends CComponent
 		{
 			if(($column=$table->getColumn($name))!==null)
 			{
-				if($value!==null)
+				if(is_array($value))
+					$conditions[]=$this->createInCondition($table,$name,$value);
+				else if($value!==null)
 				{
 					if($bindByPosition)
 					{
