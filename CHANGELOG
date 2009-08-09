@@ -2,7 +2,7 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.0.8 To be released
+Version 1.0.8 August 9, 2009
 ----------------------------
 - Bug #435: Setting charset for PostgreSQL database connection may fail to work on some servers (Qiang)
 - Bug #440: typo in COciColumnSchema (Qiang)
