@@ -13,7 +13,10 @@ Version 1.1a to be released
 - Chg: Changed AR table aliasing so that it uses relation names as default table aliases (Qiang)
 - Chg: Changed the default value of allowEmpty to be false for CCompareValidator. (Qiang)
 
-Version 1.0.8 To be released
+Version 1.0.9 to be released
+----------------------------
+
+Version 1.0.8 August 9, 2009
 ----------------------------
 - Bug #435: Setting charset for PostgreSQL database connection may fail to work on some servers (Qiang)
 - Bug #440: typo in COciColumnSchema (Qiang)
