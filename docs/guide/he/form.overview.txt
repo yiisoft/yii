@@ -1,19 +1,16 @@
-Working with Form
+עבודה עם טפסים
 =================
 
-Collecting user data via HTML forms is one of the major tasks in Web
-application development. Besides designing forms, developers need to
-populate the form with existing data or default values, validate user
-input, display appropriate error messages for invalid input, and save the
-input to persistent storage. Yii greatly simplifies this workflow with its
-MVC architecture.
+איסוף מידע מהמשתמש בעזרת טפסי HTML הוא אחד מהמטלות הגדולות בפיתוח אפליקציות ווב. מלבד עיצוב הטפסים, מפתחים צריכים להציג את הטופס עם מידע קיים או
+להגדיר ערכים שיהוו בתור ערכי ברירת המחדל בטופס, לאמת את הקלט של המשתמש, הצגת שגיאות מותאמות לקלט לא תקני, ושמירת הנתונים למאגר נתונים קבוע כלשהו.
+Yii מפשטת את כל התהליך הזה עם הארכיטקטורה שלה.
 
-The following steps are typically needed when dealing with forms in Yii:
+השלבים הבאים בדרך כלל נחוצים כדי לעבוד עם טפסים במערכת ה Yii:
 
-   1. Create a model class representing the data fields to be collected;
-   1. Create a controller action with code that responds to form submission.
-   1. Create a form in the view script file associated with the controller action.
-
-In the next subsections, we describe each of these steps in detail.
+ 1. יצירת מודל המייצג את המידע אשר נאסף מהטופס.
+ 2. יצירת קונטרולר עם מתודה אשר מגיבה בעת שליחת הטופס.
+ 3. יצירת טופס בסקריפט התצוגה אשר משותף למתודה בקונטרולר.
+ 
+בחלקים הבאים אנחנו מציגים כל שלב בפרטי פרטים.
 
 <div class="revision">$Id: form.overview.txt 163 2008-11-05 12:51:48Z weizhuo $</div>

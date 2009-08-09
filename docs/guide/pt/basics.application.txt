@@ -148,7 +148,7 @@ do caching de dados. Note que você deve especificar a classe atual (ex.:
 o componente.
 
    - [clientScript|CWebApplication::clientScript]: [CClientScript] -
-gerencia o cliente de scripts (javascripts e CSS).
+gerencia os scripts (javascripts e CSS) do cliente.
 
    - [coreMessages|CApplication::coreMessages]: [CPhpMessageSource] -
 fornece as principais mensagens traduzidas usadas pelo framework Yii.
@@ -191,22 +191,25 @@ Ciclo de Vida de uma Aplicação
 Quando processa uma solicitação de um usuário, a aplicação segue o ciclo 
 de vida descrito a seguir:
 
-   1. Configurar as classes auto-inicializáveis e corrigir erros;
+   0. Pré-inicia a aplicação com o método  [CApplication::preinit()];
 
-   2. Registrar os principais componentes da aplicação;
+   1. Configura as o auto-carregamento de classes (autoloader) e o tratamento de erros;
 
-   3. Carregar as configurações da aplicação;
+   2. Registra os principais componentes da aplicação;
 
-   4. Inicializar a aplicação com o [CApplication::init()]:
-	   - Carregar os componentes estáticos da aplicação;
+   3. Carrega as configurações da aplicação;
 
-   5. Processar o evento [onBeginRequest|CApplication::onBeginRequest] (no início da requisição);
+   4. Inicia a aplicação com o [CApplication::init()]:
+       - Registra os comportamentos (behaviors) da aplicação;
+	   - Carrega os componentes estáticos da aplicação;
 
-   6. Processar a requisição do usuário:
-	   - Resolver a requisição do usuário;
-	   - Criar um controle;
-	   - Executar o controle;
+   5. Dispara o evento [onBeginRequest|CApplication::onBeginRequest] (no início da requisição);
 
-   7. Processar o evento [onEndRequest|CApplication::onEndRequest] (ao fim da requisição);
+   6. Processa a requisição do usuário:
+	   - Resolve a requisição do usuário;
+	   - Cria um controle;
+	   - Executa o controle;
 
-<div class="revision">$Id: basics.application.txt 626 2009-02-04 20:51:13Z qiang.xue $</div>
+   7. Dispara o evento [onEndRequest|CApplication::onEndRequest] (ao fim da requisição);
+
+<div class="revision">$Id: basics.application.txt 846 2009-03-17 17:35:33Z qiang.xue $</div>

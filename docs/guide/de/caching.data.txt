@@ -48,6 +48,13 @@ eindeutige ID wählen. Es ist allerdings NICHT nötig, dass die ID auch zwischen
 unterschiedlichen Applikationen eindeutig ist. Die Cache-Komponente ist 
 intelligent genug, um zwischen IDs von unterschiedlichen Anwendungen zu unterscheiden.
 
+Einige Cachespeicher, wie MemCache oder APC, unterstützen die Abfrage mehrerer
+gespeicherter Werte auf einmal. Dadurch kann der Overhead beim Abrufen von
+gecachten Daten reduziert wreden. Seit Version 1.0.8 unterstützt die neue
+Funktion [mget()|CCache::mget] dieses Feature. Falls der zugrundeliegende
+Cachespeicher dieses Feature nicht unterstützt, wird es von
+[mget()|CCache::mget] simuliert.
+
 Rufen Sie [delete()|CCache::delete] auf, um einen gecachten Eintrag aus dem
 Cache zu entfernen, bzw. [flush()|CCache::flush] um den Cache komplett zu
 leeren. Seien Sie beim Aufruf von [flush()|CCache::flush] jedoch vorsichtig,
@@ -112,4 +119,4 @@ wenn bei einer der Abhängigkeiten der Kette eine Änderung eingetreten ist.
 wenn das Ergebnis des angegebenen PHP-Ausdrucks sich ändert. Diese Klasse
 steht seit Version 1.0.4 zur Verfügung.
 
-<div class="revision">$Id: caching.data.txt 891 2009-03-25 15:20:56Z qiang.xue $</div>
+<div class="revision">$Id: caching.data.txt 1290 2009-08-06 16:13:11Z qiang.xue $</div>

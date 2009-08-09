@@ -1,32 +1,28 @@
-Installation
+התקנה
 ============
 
-Installation of Yii mainly involves the following two steps:
+התקנת מערכת ה Yii כוללת את הצעדים הבאים:
 
-   1. Download Yii Framework from [yiiframework.com](http://www.yiiframework.com/).
-   2. Unpack the Yii release file to a Web-accessible directory.
+   1. הורדת המערכת מהאתר הרשמי [yiiframework.com](http://www.yiiframework.com/).
+   2. חלץ את קבצי המערכת אל תיקיה אשר נתן לגשת אליה דרך הדפדפן
 
-> Tip: Yii does not need to be installed under a Web-accessible directory.
-An Yii application has one entry script which is usually the only file that
-needs to be exposed to Web users. Other PHP scripts, including those from
-Yii, should be protected from Web access since they may be exploited for
-hacking.
+> Tip|טיפ: מערכת ה Yii אינה צריכה להיות תחת תיקיה ציבורים בשרת אשר כל משתמש יכול לגשת אליה.
+אפליקציה הכתובה בעזרת Yii מכילה קובץ הרצה אחד שרק הוא אמור להיות תחת תיקיה ציבורית אשר חשופה לכולם.
+תיקיות וקבצים אחרים הכוללים את התיקיה של Yii צריכים להיות תחת תיקיה שלא ניתן יהיה לגשת אליה ומוגדרת בתור תיקיה פרטים ולא ציבורים, מאחר וזה יכול לגרום
+לבעיות אבטחה.
 
-Requirements
+דרישות
 ------------
 
-After installing Yii, you may want to verify that your server satisfies
-all the requirements of using Yii. You can do so by accessing the
-requirement checker script at the following URL in a Web browser:
+לאחר התקנת המערכת Yii, תרצה לאמת שהשרת שבו אתה מריץ אותו תומך בכל הדרישות של המערכת.
+תוכל לעשות זאת על ידי כניסה דרך הדפדפן לסקריפט הבדיקה שמגיע עם ההתקנה של המערכת וניתן להגיע אליו בקישור הבא:
 
 ~~~
 http://hostname/path/to/yii/requirements/index.php
 ~~~
 
-The minimum requirement by Yii is that your Web server supports PHP 5.1.0
-or above. Yii has been tested with [Apache HTTP
-server](http://httpd.apache.org/) on Windows and Linux operating systems.
-It may also run on other Web servers and platforms provided PHP 5 is
-supported.
+דרישות המינימום של Yii הם שהשרת יתמוך ב PHP 5.1.0 ומעלה. Yii נבדק עם גבי שרת [Apache HTTP
+server](http://httpd.apache.org/) על גבי מערכת ההפעלה מסוג וינדוס ולינוקס.
+כמו כן ניתן להריץ את Yii על גבי שרתים אחרים התומכים בגרסא ההכרחית של PHP 5.
 
-<div class="revision">$Id: quickstart.installation.txt 359 2008-12-14 19:50:41Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.installation.txt 349 2008-12-11 15:11:45Z qiang.xue $</div>

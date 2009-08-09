@@ -1,0 +1,51 @@
+אפשרויות חדשות
+===============
+
+עמוד זה מסכם את האפשרויות החדשות שנוספו למערכת ה Yii בכל גרסא.
+
+גרסא 1.0.7
+-------------
+
+ * נוספה תמיכה להצגת ערמות המידע אשר נקראו על ידי האפליקציה בהודעות המעקב
+     - [שמירת מידע אודות השרת ופרמטרים גלובאלים](/doc/guide/topics.logging#logging-context-information)
+
+ * נוספה האפשרות של הוספת 'index' לרשומות הפעילות של המסד כדי שיהיה ניתן לאנדקס אובייקטים משוייכים על ידי שימוש בערכים של עמודה מסויימת 
+     - [אפשרויות שאילתות מקושרות](/doc/guide/database.arr#relational-query-options)
+
+גרסא 1.0.6
+-------------
+
+ * נוספה תמיכה לשימוש במרחבי שמות במתודות כמו עדכון ומחיקה:
+     - [מרחבי שמות](/doc/guide/database.ar#named-scopes)
+
+ * נוספה תמיכה במרחבי שמות באפשרות של 'with' בחוקים מקושרים:
+     - [שאילתות מקושרות עם מרחבי שמות](/doc/guide/database.arr#relational-query-with-named-scopes)
+
+ * נוספה תמיכה בביצוע פרופילינג של שאילתות SQL
+     - [פרופילינג לשאילתות SQL](/doc/guide/topics.logging#profiling-sql-executions)
+
+ * נוספה תמיכה לשמירת מידע אודות ערכים גלובאלים
+     - [שמירת מידע אודות השרת ופרמטרים גלובאלים](/doc/guide/topics.logging#logging-context-information)
+
+ * נוספה תמיכה לעריכה של חוק קישור בודד על ידי הגדרת אפשרויות ה 'urlFormat' ו 'caseSensitive':
+     - [קישורים ידידותיים](/doc/guide/topics.url#user-friendly-urls)
+
+ * נוספה תמיכה להצגת שגיאות מערכת על ידי מתודה בקונטרולר:
+     - [טיפול בשגיאות על ידי מתודות](/doc/guide/topics.error#handling-errors-using-an-action)
+
+גרסא 1.0.5
+-------------
+
+ * נוספה תמיכה במרחבי שמות לרשומות הפעילות. ראה:
+     - [מרחיב שמות](/doc/guide/database.ar#named-scopes)
+     - [מרחבי שמות ברירת מחדל](/doc/guide/database.ar#default-named-scope)
+     - [שאילתת קישור עם מרחבי שמות](/doc/guide/database.arr#relational-query-with-named-scopes)
+
+
+ * נוספה תמיכה בטעינה עצלה בשימוש עם אפשריות שאילתות דינאמיות ברשומות הפעילות. ראה:	 
+     - [אפשרויות דינאמיות לשאילתות מקושרות](/doc/guide/database.arr#dynamic-relational-query-options)
+
+ * נוספה אפשרות ב [CUrlManager] כדי לתמוך בהוספת פרמטרים לחלקים בנתיב בחוקי הקישורים. ראה:
+     - [הוספת פרמטרים לחוקי קישורים](/doc/guide/topics.url#parameterizing-routes)
+
+<div class="revision">$Id: changes.txt 1168 2009-06-23 14:52:48Z qiang.xue $</div>

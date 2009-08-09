@@ -233,11 +233,11 @@ $posts=Post::model()->with(
 ~~~
 
 Powyższe zapytanie wykona się w jednym zapytaniu SQL. Bez wywołania metody 
-[together|CActiveFinder::together], wymagane będą dwa zapytania SQL: jedno 
-łączące tabele `Post`, `User` oraz `Profile`, drugie połączy tabele `User` i `Post`.
+[together|CActiveFinder::together], wymagane będą trzy zapytania SQL: jedno 
+łączące tabele `Post`, `User` oraz `Profile`, drugie połączy tabele `User` i `Post`
+a trzecie połączy tabele `Post`, `PostCategory` oraz `Category`.
 
-
-Opcje zapyta relacyjnych
+Opcje zapytań relacyjnych
 ------------------------
 
 Wspominaliśmy, że dodatkowe opcje mogą być dookreślone w deklaracji relacji. 
@@ -486,4 +486,4 @@ class User extends CActiveRecord
 w [CActiveRecord::scopes]. W rezultacie, nie mogą one zostać sparametryzowane.
 
 
-<div class="revision">$Id: database.arr.txt 1168 2009-06-23 14:52:48Z qiang.xue $</div>
+<div class="revision">$Id: database.arr.txt 1248 2009-07-15 19:40:44Z qiang.xue $</div>

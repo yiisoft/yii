@@ -242,9 +242,9 @@ $posts=Post::model()->with(
 ~~~
 
 Ovanstående fråga kommer att utföras i en enda SQL-fråga. Utan anropet till 
-[together|CActiveFinder::together], skulle det behövas två SQL-frågor: en slår 
-samman tabellerna `Post`, `User` och `Profile`, den andra slår samman tabellerna 
-`User` och `Post`.
+[together|CActiveFinder::together], skulle det behövas tre SQL-frågor: en slår 
+samman tabellerna `Post`, `User` och `Profile`, en slår samman tabellerna 
+`User` och `Post` och en slår samman `Post`, `PostCategory` och `Category`.
 
 
 Alternativ för relationella frågor
@@ -519,4 +519,4 @@ class User extends CActiveRecord
 [CActiveRecord::scopes]. Detta innebär också att de inte kan parametriseras.
 
 
-<div class="revision">$Id: database.arr.txt 1168 2009-06-23 14:52:48Z qiang.xue $</div>
+<div class="revision">$Id: database.arr.txt 1248 2009-07-15 19:40:44Z qiang.xue $</div>

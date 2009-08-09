@@ -14,8 +14,14 @@ Användning av en utvidgning involverar vanligtvis följande tre steg:
 
 Varje utvidgning har ett namn som unikt identifierar den bland alla 
 utvidgningar. Givet en utvidgning med namnet `xyz`, kan alltid aliassökvägen 
-`application.extensions.xyz` användas för att lokalisera dess rotkatalog, vilken 
-innehåller alla filer som tillhör `xyz`.
+`ext.xyz` användas för att lokalisera dess rotkatalog, vilken innehåller 
+alla filer som tillhör `xyz`.
+
+> Note|Märk: Rotsökvägsalias `ext` har varit tillgängligt sedan version 1.0.8.
+Tidigare behövde man använda `application.extensions` för att referera till
+katalogen med alla utvidgningar. Exemplen i nedanstående stycken förutsätter att 
+`ext` är definierad. För version 1.0.7 eller lägre måste 
+`application.extensions` användas istället.
 
 Olika utvidgningar har varierande krav kring import av konfiguration samt 
 användning. I det följande sammanfattas vanliga användningsfall för 
@@ -36,7 +42,7 @@ return array(
     // 'preload'=>array('xyz',...),
     'components'=>array(
         'xyz'=>array(
-            'class'=>'application.extensions.xyz.XyzClass',
+            'class'=>'ext.xyz.XyzClass',
             'property1'=>'value1',
             'property2'=>'value2',
         ),
@@ -61,12 +67,12 @@ utvidgningen `xyz`, kan denna användas i en vy på följande sätt,
 ~~~
 [php]
 // widget that does not need body content
-<?php $this->widget('application.extensions.xyz.XyzClass', array(
+<?php $this->widget('ext.xyz.XyzClass', array(
     'property1'=>'value1',
     'property2'=>'value2')); ?>
 
 // widget that can contain body content
-<?php $this->beginWidget('application.extensions.xyz.XyzClass', array(
+<?php $this->beginWidget('ext.xyz.XyzClass', array(
     'property1'=>'value1',
     'property2'=>'value2')); ?>
 
@@ -92,7 +98,7 @@ class TestController extends CController
 	{
 		return array(
 			'xyz'=>array(
-				'class'=>'application.extensions.xyz.XyzClass',
+				'class'=>'ext.xyz.XyzClass',
 				'property1'=>'value1',
 				'property2'=>'value2',
 			),
@@ -123,7 +129,7 @@ class TestController extends CController
 	{
 		return array(
 			array(
-				'application.extensions.xyz.XyzClass',
+				'ext.xyz.XyzClass',
 				'property1'=>'value1',
 				'property2'=>'value2',
 			),
@@ -150,7 +156,7 @@ behöver propertyn [CWebApplication::controllerMap] konfigureras i
 return array(
 	'controllerMap'=>array(
 		'xyz'=>array(
-			'class'=>'application.extensions.xyz.XyzClass',
+			'class'=>'ext.xyz.XyzClass',
 			'property1'=>'value1',
 			'property2'=>'value2',
 		),
@@ -178,7 +184,7 @@ class MyModel extends CActiveRecord // or CFormModel
 		return array(
 			array(
 				'attr1, attr2',
-				'application.extensions.xyz.XyzClass',
+				'ext.xyz.XyzClass',
 				'property1'=>'value1',
 				'property2'=>'value2',
 			),
@@ -201,7 +207,7 @@ konfigurera konfigurationen för en konsolapplikation:
 return array(
 	'commandMap'=>array(
 		'xyz'=>array(
-			'class'=>'application.extensions.xyz.XyzClass',
+			'class'=>'ext.xyz.XyzClass',
 			'property1'=>'value1',
 			'property2'=>'value2',
 		),
@@ -230,11 +236,11 @@ Generell komponent
 För att använda en generell [komponent](/doc/guide/basics.component), behöver först dess klassfil inkluderas genom:
 
 ~~~
-Yii::import('application.extensions.xyz.XyzClass');
+Yii::import('ext.xyz.XyzClass');
 ~~~
 
 Sedan kan en instans av klassen skapas, dess propertyn konfigureras och dess 
 metoder anropas. Man kan även ärva och utvidga komponentens klass.
 
 
-<div class="revision">$Id: extension.use.txt 749 2009-02-26 02:11:31Z qiang.xue $</div>
+<div class="revision">$Id: extension.use.txt 1299 2009-08-07 00:25:55Z qiang.xue $</div>

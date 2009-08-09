@@ -16,6 +16,7 @@ följande rot-alias:
  - `system`: refererar till Yii:s framework-katalog;
  - `application`: refererar till applikationens [rotkatalog](/doc/guide/basics.application#application-base-directory);
  - `webroot`: refererar till katalogen som innehåller [startskriptet](/doc/guide/basics.entry). Detta alias har varit tillgängligt sedan version 1.0.3.
+ - `ext`: refererar till katalogen som innehåller alla [tredjepartstillägg](/doc/guide/extension.overview). Detta alias har varit tillgängligt sedan version 1.0.8.
 
 Om applikationen dessutom använder sig av [moduler](/doc/guide/basics.module), 
 fördefinieras också ett rotalias för varje modul-ID. Detta alias refererar till modulens rotsökväg.
@@ -67,4 +68,4 @@ att de kan skiljas från användardefinierade klasser. Det rekommenderas att C-
 prefixet reserveras för användning endast av Yii-ramverket, och att 
 användardefinierade klasser förses med någon annan prefixbokstav.
 
-<div class="revision">$Id: basics.namespace.txt 766 2009-02-27 17:22:13Z qiang.xue $</div>
+<div class="revision">$Id: basics.namespace.txt 1299 2009-08-07 00:25:55Z qiang.xue $</div>

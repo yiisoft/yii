@@ -157,11 +157,13 @@ If you have a 'db' database connection, you can test it now with:
 
 >> crud User
    generate UserController.php
-   generate create.php
    mkdir D:/wwwroot/testdrive/protected/views/user
+   generate create.php
    generate update.php
    generate list.php
    generate show.php
+   generate admin.php
+   generate _form.php
 
 Crud 'user' has been successfully created. You may access it via:
 http://hostname/path/to/index.php?r=user
@@ -208,10 +210,10 @@ http://hostname/testdrive/index.php?r=user/admin
 таблицы, чтобы упорядочить записи по значениям соответствующего столбца. 
 Здесь также используется разбивка на страницы.
 
-Все эти возможности доступны без написания единой строчки кода!
+Все эти возможности не требуют написания кода!
 
 ![Страница управления пользователями](first-app6.png)
 
 ![Страница добавления нового пользователя](first-app7.png)
 
-<div class="revision">$Id: quickstart.first-app.txt 978 2009-05-06 03:36:09Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app.txt 1253 2009-07-15 20:17:23Z qiang.xue $</div>

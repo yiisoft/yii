@@ -259,7 +259,8 @@ tilltänkta åtgärden, kan ett av följande två scenarier utspela sig:
 
    - Om användaren inte är inloggad samt user-komponentens property 
    [loginUrl|CWebUser::loginUrl] konfigurerats att vara inloggningssidans URL, kommer 
-   webbläsaren att styras om till den sidan.
+   webbläsaren att styras om till den sidan. Lägg märke till att som standard 
+   pekar [loginUrl|CWebUser::loginUrl] till sidan `site/login`.
 
    - I annat fall kommer en HTTP-exception att presenteras, med felkod 403.
 
@@ -467,17 +468,19 @@ $auth->assign('admin','adminD');
 någon form av användargränssnitt som slutanvändare sedan kan använda för att, på 
 ett mer intuitivt sätt, åstadkomma en auktoriseringshierarki.
 
-### Using Business Rules
+
+### Använda affärsregler
 
 När vi definierar en auktoriseringshierarki kan vi associera en roll, en uppgift 
 eller en operation med en så kallad *affärsregel*. Vi kan även associera en affärsregel 
 när vi tilldelar en roll till en användare. En affärsregel är ett stycke PHP-kod 
-(PHP-satser mer exakt) som exekveras vid åtkomstkontroll. Returvärdet från 
-denna kod används för att avgöra om rollen eller tilldelningen avser aktuell användare.
-I ovanstående exempel associerades en affärsregel till uppgiften `updateOwnPost`. 
-I affärsregeln undersöker vi helt enkelt huruvida aktuell användares ID är 
-identiskt med den specificerade postningens författar-ID. Information om 
-postningen, i arrayen `$params`, levereras av utvecklare när åtkomstkontroll utförs.
+som exekveras vid åtkomstkontroll. Returvärdet från denna kod används för att avgöra 
+huruvida rollen eller tilldelningen avser aktuell användare. I ovanstående exempel 
+associerades en affärsregel till uppgiften `updateOwnPost`. I affärsregeln undersöker 
+vi helt enkelt huruvida aktuell användares ID är identiskt med den specificerade 
+postningens författar-ID. Information om postningen, i arrayen `$params`, levereras 
+av utvecklare när åtkomstkontroll utförs.
+
 
 ### Åtkomstkontroll
 
@@ -555,4 +558,4 @@ $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('guest', 'guest user', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 1078 2009-05-29 00:45:13Z qiang.xue $</div>
+<div class="revision">$Id: topics.auth.txt 1282 2009-08-01 01:07:54Z qiang.xue $</div>

@@ -237,9 +237,10 @@ $posts=Post::model()->with(
 ~~~
 
 Die obige Abfrage wird über eine einzelne SQL-Abfrage ausgeführt. Ohne 
-den Aufruf von [together|CActiveFinder::together] würden zwei SQL Abfragen 
-benötigt werden: eine, für den Verbund der Tabellen `Post`, `User` und `Profile`
-und eine, die die Tabellen `User` und `Post` verbindet.
+den Aufruf von [together|CActiveFinder::together] würden drei SQL Abfragen 
+benötigt werden: eine für den Verbund der Tabellen `Post`, `User` und
+`Profile`, eine, die die Tabellen `User` und `Post` verbindet und eine 
+weitere die `Post`, `PostCategory` und `Category` zusammenführt.
 
 Optionen für relationale Abfragen
 ---------------------------------
@@ -518,4 +519,4 @@ class User extends CActiveRecord
 verwendet werden, die in [CActiveRecord::scopes] definiert wurden. Daher
 können diese hier auch nicht parametrisiert werden.
 
-<div class="revision">$Id: database.arr.txt 1168 2009-06-23 14:52:48Z qiang.xue $</div>
+<div class="revision">$Id: database.arr.txt 1248 2009-07-15 19:40:44Z qiang.xue $</div>

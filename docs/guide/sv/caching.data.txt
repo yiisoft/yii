@@ -46,6 +46,13 @@ alla andra variabler som kan komma att cachas i applikationen. Det är INTE ett
 krav att ID:t är unikt över fler applikationer då cachekomponenten är 
 intelligent nog att åtskilja ID:n tillhörande skilda applikationer.
 
+Vissa cachelagringar, så som MemCache, APC, stöder återhämtning av multipla
+cachelagrade värden genom ett satsvis arbetssätt, vilket kan reducera
+onödig resursanvändning vid återhämtning av cachelagrad data. Med start fr o m 
+version 1.0.8, tillhandahålls en ny metod, [mget()|CCache::mget], för att dra 
+nytta av finessen. I händelse av att den underliggande cachelagringen inte stöder
+nämnda finess, simuleras den av [mget()|CCache::mget].
+
 För att ta bort ett cachat värde, anropa [delete()|CCache::delete]; för att ta 
 bort allting från cache, anropa [flush()|CCache::flush]. Var mycket försiktig 
 med att anropa [flush()|CCache::flush] eftersom även cachelagrat data från andra 
@@ -98,4 +105,4 @@ Nedan följer en sammanställning av tillgängliga cacheberoenden:
    - [CExpressionDependency]: beroendet ändras om värdet av det specificerade PHP-uttrycket ändras. 
 Denna klass har varit tillgänglig fr o m version 1.0.4.
 
-<div class="revision">$Id: caching.data.txt 891 2009-03-25 15:20:56Z qiang.xue $</div>
+<div class="revision">$Id: caching.data.txt 1290 2009-08-06 16:13:11Z qiang.xue $</div>
