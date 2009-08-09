@@ -141,8 +141,7 @@ błąd spowodowany przez ostrzeżenie lub wiadomość PHP, komunikat będzie zal
 przy użyciu kategorii `php`; jeśli błąd spowodowany jest przez nieprzechwycony wyjątek 
 kategorią będzie `exception.ExceptionClassName` (dla [CHttpException] jego 
 [kod statusu|CHttpException::statusCode] będzie również dołączony do kategorii).
-Można więc wykorzystać tą funkcjonalność [logowania](/doc/guide/topics.logging
+Można więc wykorzystać tą funkcjonalność [logowania](/doc/guide/topics.logging)
 do monitorowania błędów powstałych podczas działania aplikacji.
-feature to monitor errors happened during application execution.
 
 <div class="revision">$Id: topics.error.txt 1064 2009-05-26 00:15:33Z qiang.xue $</div>

@@ -14,8 +14,14 @@ drei Schritte erforderlich:
 
 Jede Erweiterung hat einen eindeutigen Namen, um sie klar von anderen
 Erweiterungen zu unterscheiden. Im Falle der Erweiterung namens `xyz` können
-wir überall den Pfad-Alias `application.extensions.xyz` verwenden, um das
+wir überall den Pfad-Alias `ext.xyz` verwenden, um das
 Basisverzeichnis mit allen Dateien von `xyz` anzusprechen.
+
+> Note|Hinweis: Der RootAlias `ext` steht seit Version 1.0.8 zur Verfügung.
+Vorher mussten wir `ext` für das Erweiterungsverzeichnis
+verwenden. Im folgenden gehen wir davon aus, dass `ext` zur Verfügung steht.
+Sie müssen es durch `ext` ersetzen, falls Sie Version 1.0.7
+oder kleiner verwenden.
 
 Jede Erweiterung stellt andere Anforderungen an die Art und Weise wie sie
 importiert, konfiguriert und angewendet wird. Entsprechend den bereits in
@@ -38,7 +44,7 @@ return array(
     // 'preload'=>array('xyz',...),
     'components'=>array(
         'xyz'=>array(
-            'class'=>'application.extensions.xyz.XyzClass',
+            'class'=>'ext.xyz.XyzClass',
             'property1'=>'value1',
             'property2'=>'value2',
         ),
@@ -63,12 +69,12 @@ der `xyz`-Erweiterung kann im View wie folgt verwendet werden:
 ~~~
 [php]
 // Widget ohne eingebetteten Inhalt
-<?php $this->widget('application.extensions.xyz.XyzClass', array(
+<?php $this->widget('ext.xyz.XyzClass', array(
     'property1'=>'value1',
     'property2'=>'value2')); ?>
 
 // Widget, das eingebetteten Inhalt enthalten kann
-<?php $this->beginWidget('application.extensions.xyz.XyzClass', array(
+<?php $this->beginWidget('ext.xyz.XyzClass', array(
     'property1'=>'value1',
     'property2'=>'value2')); ?>
 
@@ -94,7 +100,7 @@ class TestController extends CController
 	{
 		return array(
 			'xyz'=>array(
-				'class'=>'application.extensions.xyz.XyzClass',
+				'class'=>'ext.xyz.XyzClass',
 				'property1'=>'value1',
 				'property2'=>'value2',
 			),
@@ -125,7 +131,7 @@ class TestController extends CController
 	{
 		return array(
 			array(
-				'application.extensions.xyz.XyzClass',
+				'ext.xyz.XyzClass',
 				'property1'=>'value1',
 				'property2'=>'value2',
 			),
@@ -152,7 +158,7 @@ die Eigenschaft [CWebApplication::controllerMap] anpassen:
 return array(
 	'controllerMap'=>array(
 		'xyz'=>array(
-			'class'=>'application.extensions.xyz.XyzClass',
+			'class'=>'ext.xyz.XyzClass',
 			'property1'=>'value1',
 			'property2'=>'value2',
 		),
@@ -181,7 +187,7 @@ class MyModel extends CActiveRecord // oder CFormModel
 		return array(
 			array(
 				'attr1, attr2',
-				'application.extensions.xyz.XyzClass',
+				'ext.xyz.XyzClass',
 				'property1'=>'value1',
 				'property2'=>'value2',
 			),
@@ -203,7 +209,7 @@ Anpassung der Konfiguration für Konsolenanwendungen verwenden:
 return array(
 	'commandMap'=>array(
 		'xyz'=>array(
-			'class'=>'application.extensions.xyz.XyzClass',
+			'class'=>'ext.xyz.XyzClass',
 			'property1'=>'value1',
 			'property2'=>'value2',
 		),
@@ -234,7 +240,7 @@ Um eine allgemeine [Komponente](/doc/guide/basics.component) einzusetzen,
 müssen wir zunächst deren Klassendatei wie folgt einbinden:
 
 ~~~
-Yii::import('application.extensions.xyz.XyzClass');
+Yii::import('ext.xyz.XyzClass');
 ~~~
 
 Wir können dann entweder eine Instanz von dieser Klasse erzeugen, ihre
@@ -242,4 +248,4 @@ Eigenschaften konfigurieren oder ihre Methoden aufrufen. Möglicherweise
 möchten wir sie auch erweitern, um neue Kindklassen zu erstellen.
 
 
-<div class="revision">$Id: extension.use.txt 749 2009-02-26 02:11:31Z qiang.xue $</div>
+<div class="revision">$Id: extension.use.txt 1299 2009-08-07 00:25:55Z qiang.xue $</div>

@@ -105,14 +105,24 @@ używanym w celu dopasowania części informacyjnej adresu URL do wzorca.
 [Trasa](/doc/guide/basics.controller#route) powinna odnosić się do poprawnej trasy kontrolera.
 
 > Info|Info: Rozpoczynając od wersji 1.0.6, reguła może zostać jeszcze bardziej dostosowana
-> poprzez ustawienie jej opcji `urlSuffix` oraz `caseSensitive`. Aby to uczynić, powinniśmy
-> zdefiniować część trasy reguły jako tablicę, jak pokazano dalej:
+> poprzez ustawienie jej opcji `urlSuffix` oraz `caseSensitive`. Poczynając od wersji 1.0.8 
+> reguła może również posiadać domyślne parametry `defaultParams`, które reprezentują
+> listę par nazwa-wartość, które będą dołączone do zmiennej globalnej `$_GET`. 
+> Aby wzbogacić regułę o te opcje, powinniśmy zdefiniować część trasy reguły jako
+> tablicę, jak pokazano dalej:
 >
 > ~~~
 > [php]
 > 'pattern1'=>array('route1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
 > ~~~
 >
+
+> Info: Starting from version 1.0.6, a rule may be further customized
+> by setting its `urlSuffix` and `caseSensitive` options. And starting
+> from version 1.0.8, a rule may also have `defaultParams` which represents
+> a list of name-value pairs to be merged into `$_GET`. To customize a rule
+> with these options, we should specify the route part of the rule as an array,
+> like the following:
 
 
 ### Używanie nazwanych parametrów
@@ -256,4 +266,4 @@ do strony statycznej. Aby to zrobić po prostu skonfiguruj komponent
 [urlManager|CWebApplication::urlManager] ustawiając jego właściwość
 [urlSuffix|CUrlManager::urlSuffix] na taki sufiks, jaki ci odpowiada.
 
-<div class="revision">$Id: topics.url.txt 1098 2009-06-06 20:55:07Z qiang.xue $</div>
+<div class="revision">$Id: topics.url.txt 1273 2009-07-22 21:32:23Z qiang.xue $</div>

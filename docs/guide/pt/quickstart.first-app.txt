@@ -7,28 +7,28 @@ usada para automatizar a criação de código para várias finalidades. Assumire
 `YiiRoot` é o diretório onde o Yii está instalado e `WebRoot` é o diretório raíz
 do servidor Web.
 
-A partir da versão 1.0.3, cada lançamento do Yii inclui um esqueleto da aplicação 
-de teste localizado sob o diretório `YiiRoot/testdrive`. Iremos utilizá-lo como o
-ponto de partida para nosso primeiro aplicativo Yii.
+Execute o `yiic` pela linha de comando, como no exemplo a seguir:
 
- 1. Copie o diretório `YiiRoot/testdrive` para o `WebRoot`;
- 2. Edite o arquivo `WebRoot/testdrive/index.php` setando a variável `$yii` para `YiiRoot/framework/index.php`;
- 3. Edite o arquivo `WebRoot/testdrive/protected/yiic.php` setando a variavel `$yiic` para `YiiRoot/framework/yiic.php`;
- 4. Modifique a permissão das pastas `WebRoot/testdrive/assets` e `WebRoot/testdrive/protected/runtime` para permitir a escrita pelo servidor Web;
- 5. Caso esteja no Linux ou Unix, mude a permissão do `WebRoot/testdrive/protected/yiic` para permitir a execução deste arquivo.
+~~~
+% YiiRoot/framework/yiic webapp WebRoot/testdrive
+~~~
 
-> Note|Nota: Antes da versão 1.0.3, utilizávamos a ferramenta `yiic` para gerar
-> o esqueleto da aplicação. Para isso o seguinte comando deve ser executado na linha do
-> prompt de comando:
+> Note|Nota: Quando executamos o `yiic` no Mac OS, Linux ou Unix, devemos 
+> alterar a permissão do arquivo `yiic` para torna-lo executável.
+>
+> Como forma alternativa, você pode executa-lo da seguinte maneira:
 >
 > ~~~
-> YiiRoot/framework/yiic webapp WebRoot/testdrive
+> % cd WebRoot/testdrive
+> % php YiiRoot/framework/yiic.php webapp WebRoot/testdrive
 > ~~~
->
-> Esse comando cria o esqueleto da aplicação dentro do diretório
-> `WebRoot/testdrive`.
 
-Podemos testar nossa primeira aplicação Yii, acessando a seguinte URL:
+Esse comando irá criar o esquele de uma aplicação Yii, no diretório `WebRoot/testdrive`. 
+A aplicação tem um estrutura de diretórios que é a necessária para a maioria das 
+aplicações feitas no Yii.
+
+Sem ter escrito uma única linha de código, ja podemos testar nossa primeira aplicação Yii, 
+acessando a seguinte URL:
 
 ~~~
 http://nomedoservidor/testdrive/index.php
@@ -52,7 +52,7 @@ o conteúdo privilegiado. Veja as imagens a seguir para mais detalhes:
 ![Página de Login](first-app5.png)
 
 
-O gráfico seguinte mostra a estrutura de diretórios da nossa aplicação.
+A listagem seguinte mostra a estrutura de diretórios da nossa aplicação.
 Por favor, veja as [Convenções](/doc/guide/basics.convention#directory) para
 obter explicações detalhadas sobre essa estrutura.
 
@@ -139,6 +139,9 @@ CREATE TABLE User (
 );
 ~~~
 
+> Note|Nota: Se estiver utilizando um banco de dados MySQL, você deve substituir o 
+`AUTOINCREMENT`, utilizado no código acima, por `AUTO_INCREMENT`.
+
 Por simplicidade, criamos somente uma única tabela: `User` no nosso banco de dados.
 O arquivo do banco de dados SQLite foi salvo em `WebRoot/testdrive/protected/data/source.db`.
 Observe que tanto o arquivo quanto o diretório devem ter permissão de leitura do servidor Web,
@@ -150,8 +153,8 @@ Implementando operações do tipo CRUD
 
 Agora começa a parte divertida. Iremos implementar operações CRUD (create, read,
 update and delete) quer realizará inserções, leituras, edições e deleções na 
-tabela `User` que acabamos de criar. Este tipo de operação é freqüetemente necessário
-em aplicações dinâmicas.
+tabela `User` que acabamos de criar. Este tipo de operação é frequetemente necessário
+em aplicações reais.
 
 Em vez da dificuldade na escrita de um código real, iremos utilizar a poderosa ferramenta
 `yiic` para gerar automaticamente o código. Este processo é também conhecido como *scaffolding*.
@@ -174,11 +177,13 @@ If you have a 'db' database connection, you can test it now with:
 
 >> crud User
    generate UserController.php
+   mkdir D:/wwwroot/testdrive/protected/views/user
    generate create.php
-      mkdir D:/wwwroot/testdrive/protected/views/user
    generate update.php
    generate list.php
    generate show.php
+   generate admin.php
+   generate _form.php
 
 Crud 'user' has been successfully created. You may access it via:
 http://hostname/path/to/index.php?r=user
@@ -190,20 +195,7 @@ aplicação esqueleto. Na linha de comando, podemos digitar dois subcomandos:
 `User`, enquanto que o segundo comando lê a classe modelo `User` e gera 
 o código necessário para as operações do tipo CRUD.
 
-> Note|Nota: Quando rodar o `yiic` no Mac OS, Linux ou Unix, você terá de
-> mudar a permissão do arquivo `yiic` para torná-lo executável.
-> Alternativamente, você poderá executar a ferramenta como a seguir:
->
-> ~~~
-> % cd WebRoot/testdrive
-> % php protected/yiic.php shell
-> ~~~
->
-> Uma vez no prompt, se você realizar alguma alteração no arquivo de configuração,
-> lembre-se de reiniciar a ferramenta para que as alterações surtam efeito.
->
-> Também, certifique-se de estar usando o PHP CLI correto para executar o `yiic`.
-> Você poderá encontrar erros como "...could not find driver" ou "...driver não encontrado", 
+> Note|Nota: Você poderá encontrar erros como "...could not find driver" ou "...driver não encontrado", 
 > mesmo que o verificador de requisitos mostre que você já tem o PDO ativado e o driver PDO
 > correspondente ao Banco de Dados. Caso isso ocorra, você deve tentar rodar a ferramenta
 > `yiic` do seguinte modo:
@@ -234,7 +226,7 @@ Repita as etapas acima para adicionar novos usuários. Repare que a tabela de
 usuários será automaticamente paginada, caso existam muitos usuários a serem
 exibidos em uma página.
 
-Se logarmos como administrado utilizando o login/senha: `admin/admin`, veremos
+Se logarmos como administrador utilizando o login/senha: `admin/admin`, veremos
 a página de administração de usuários pela seguinte URL:
 
 ~~~
@@ -246,7 +238,7 @@ para ordenar as colunas correspondentes. E como na página de listagem dos usuá
 a página de administração dos usuários também realiza a paginação quando existem
 muitos usuários a serem exibidos.
 
-Todas essas incríveis implementações foram criadas sem escrever uma única linha de código!
+Todas essas incríveis funcionalidades foram criadas sem escrever uma única linha de código!
 
 ![Página de administração dos usuários](first-app6.png)
 
@@ -254,4 +246,4 @@ Todas essas incríveis implementações foram criadas sem escrever uma única li
 
 
 
-<div class="revision">$Id: quickstart.first-app.txt 446 2009-01-02 04:42:53Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app.txt 1253 2009-07-15 20:17:23Z qiang.xue $</div>

@@ -520,8 +520,8 @@ intuitiver erstellt werden können.
 Beim Definieren einer Autorisierungshierarchie können wir eine Rolle, eine
 Tätigkeit oder eine Operation mit einer sogenannten *Geschäftsregel* versehen.
 Auch beim Zuweisen einer Rolle an einen Benutzer können wir eine
-Geschäftsregel angeben. Eine Geschäftsregel ist ein Stück PHP-Code
-(PHP-Anweisungen, um genau zu sein), der bei der Zugriffsprüfung ausgeführt
+Geschäftsregel angeben. Eine Geschäftsregel ist ein Stück PHP-Code, 
+der bei der Zugriffsprüfung ausgeführt
 wird. In obigem Beispiel haben wir der Tätigkeit `aktualisiereEigenenBeitrag`
 eine Geschäftsregel zugeordnet. In dieser Geschäftsregel prüfen wir einfach,
 ob die ID des aktuellen Benutzers mit der Autor-ID des Beitrags übereinstimmt.
@@ -606,4 +606,4 @@ $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('gast','Gast-Benutzer', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 1078 2009-05-29 00:45:13Z qiang.xue $</div>
+<div class="revision">$Id: topics.auth.txt 1282 2009-08-01 01:07:54Z qiang.xue $</div>

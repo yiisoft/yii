@@ -145,18 +145,6 @@ w tabeli `Post` a CActiveRecord czyni ją dostępną poprzez właściwość przy
 magicznej metody PHP `__get()`. Jeśli w ten sam sposób spróbujemy uzyskać dostęp 
 do nieistniejącej kolumny wyjątek zostanie rzucony.
 
-> Info|Info: Celem uzyskania lepszej przejrzystości, sugerujemy aby nazywać tabele bazy danych 
-oraz kolumny stosując notację wielbłąda (ang. camel case). W szczególności nazwy kolumn są 
-sformatowane poprzez używanie dużej litery w każdym słowie, oprócz pierwszego, występującym
-w jej nazwie a ich połączenie (słów) występuję bez spacji. 
-Na przykład możemy używać `createTime` by nazwać kolumnę przechowującą czas utworzenia wiersza danych.
-Nazwy tabel zależą zaś od twoich przyzwyczajeń. W tym poradniku, stosujemy również
-notację wielbłąda dla nazw tabel, z tą różnicą, że pierwsza litera jest dużą literą.
-Na przykład, używamy `Post` by nazwać tabelę, przechowująca dane postów.
-Pamiętaj jednak, że używanie notacji wielbłąda może powodować również kłopoty dla niektórych
-DBMS, takich jak MySQL, ponieważ zachowują się one różnie na różnych systemach operacyjnych.
-
-
 > Info|Info: W tym poradniku nazywamy kolumny przy użyciu notacji wielbłąda (np. `createTime`).
 Czynimy tak, ze względu na to, że kolumny dostępne są w taki sam sposób jak zwykłe właściwości obiektu,
 które również używają notacji wielbłąda. Chociaż, używanie notacji wielbłąda czyni nasz kod PHP 

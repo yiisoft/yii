@@ -167,6 +167,11 @@ class Post extends CActiveRecord
 	 * @soap
 	 */
 	public $title;
+
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
 }
 ~~~
 
@@ -205,4 +210,4 @@ class PostController extends CController
 вызываемого метода. Если метод по каким либо причинам (например, отсутствие прав
 на его выполнение) не должен быть вызван, необходимо вернуть false.
 
-<div class="revision">$Id: topics.webservice.txt 265 2008-11-23 12:30:16Z weizhuo $</div>
+<div class="revision">$Id: topics.webservice.txt 1300 2009-08-07 00:39:21Z qiang.xue $</div>
