@@ -43,10 +43,26 @@ summary of the available cache components:
    - [CXCache]: uses PHP [XCache extension](http://xcache.lighttpd.net/).
 Note, this has been available since version 1.0.1.
 
+   - [CEAcceleratorCache]: uses PHP [EAccelerator extension](http://eaccelerator.net/).
+
    - [CDbCache]: uses a database table to store cached data. By default,
 it will create and use a SQLite3 database under the runtime directory. You
 can explicitly specify a database for it to use by setting its
 [connectionID|CDbCache::connectionID] property.
+
+   - [CZendDataCache]: uses Zend Data Cache as the underlying caching medium.
+Note, this has been available since version 1.0.4.
+
+   - [CFileCache]: uses files to store cached data. This is particular suitable to
+cache large chunk of data (such as pages). Not, this has been available since version 1.0.6.
+
+   - [CDummyCache]: presents dummy cache that does no caching at all. The purpose
+of this component is to simplify the code that needs to check the availability of cache.
+For example, during development or if the server doesn't have actual cache support, we
+can use this cache component. When an actual cache support is enabled, we can switch
+to use the corresponding cache component. In both cases, we can use the same code
+`Yii::app()->cache->get($key)` to attempt retrieving a piece of data without worrying
+that `Yii::app()->cache` might be `null`. This component has been available since version 1.0.5.
 
 > Tip: Because all these cache components extend from the same base class
 [CCache], one can switch to use a different type of cache without modifying
@@ -66,4 +82,4 @@ ensure the existence of the cached data even if it does not expire.
 Therefore, do not use cache as a persistent storage (e.g. do not use cache
 to store session data).
 
-<div class="revision">$Id: caching.overview.txt 468 2009-01-04 20:57:35Z qiang.xue $</div>
+<div class="revision">$Id: caching.overview.txt 1084 2009-06-02 17:35:38Z qiang.xue $</div>

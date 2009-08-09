@@ -68,7 +68,7 @@ class LoginForm extends CFormModel
 		return array(
 			array('username, password', 'required'),
 			array('password', 'authenticate'),
-		);
+	);
 	}
 
 	public function authenticate($attribute,$params)
@@ -89,7 +89,7 @@ class LoginForm extends CFormModel
 ~~~
 
 The above code specifies that `username` and `password` are both required,
-and `password` should be authenticated.
+`password` should be authenticated.
 
 Each rule returned by `rules()` must be of the following format:
 
@@ -146,6 +146,12 @@ equal to another attribute or constant.
    - `email`: alias of [CEmailValidator], ensuring the attribute is a
 valid email address.
 
+   - `default`: alias of [CDefaultValueValidator], assigning a default value
+to the specified attributes.
+
+   - `exist`: alias of [CExistValidator], ensuring the attribute value
+can be found in the specified table column.
+
    - `file`: alias of [CFileValidator], ensuring the attribute contains
 the name of an uploaded file.
 
@@ -179,61 +185,153 @@ Below we list some examples of using the predefined validators:
 
 ~~~
 [php]
-// ensure password attribute is the same as password2 attribute
-array('password', 'compare', 'compareAttribute'=>'password2')
-// ensure username's length is between 3 and 12
-array('username', 'length', 'min'=>3, 'max'=>12)
-// ensure age is a non-negative integer
-array('age', 'numeric', 'integerOnly'=>true, 'min'=>0)
+// username is required
+array('username', 'required'),
+// username must be between 3 and 12 characters
+array('username', 'length', 'min'=>3, 'max'=>12),
+// when in register scenario, password must match password2
+array('password', 'compare', 'compareAttribute'=>'password2', 'on'=>'register'),
+// when in login scenario, password must be authenticated
+array('password', 'authenticate', 'on'=>'login'),
 ~~~
+
+
+Securing Attribute Assignments
+------------------------------
+
+> Note: scenario-based attribute assignment has been available since version 1.0.2.
+
+After a model instance is created, we often need to populate its
+attributes with the data submitted by end-users. This can be done
+conveniently using the following massive assignment:
+
+~~~
+[php]
+$model=new LoginForm;
+$model->scenario='login';
+if(isset($_POST['LoginForm']))
+	$model->attributes=$_POST['LoginForm'];
+~~~
+
+> Note: The [scenario|CModel::scenario] property has been available
+> since version 1.0.4. The massive assignment will take this property
+> value to determine which attributes can be massively assigned.
+> In version 1.0.2 and 1.0.3, we need to use the following way to
+> perform massive assignment for a specific scenario:
+>
+> ~~~
+> [php]
+> $model->setAttributes($_POST['LoginForm'], 'login');
+> ~~~
+
+The last statement is a massive assignment which assigns every entry
+in `$_POST['LoginForm']` to the corresponding model attribute in the
+`login` scenario. It is equivalent to the following assignments:
+
+~~~
+[php]
+foreach($_POST['LoginForm'] as $name=>$value)
+{
+	if($name is a safe attribute)
+		$model->$name=$value;
+}
+~~~
+
+The task of deciding whether a data entry is safe or not is based on
+the return value of a method named `safeAttributes` and the specified
+scenario. By default, the method returns all public member variables
+as safe attributes for [CFormModel], while it returns all table columns
+except the primary key as safe attributes for [CActiveRecord]. We may
+override this method to limit safe attributes according to scenarios.
+For example, a user model may contain many attributes, but in `login`
+scenario we only need to use `username` and `password` attributes.
+We can specify this limit as follows:
+
+~~~
+[php]
+public function safeAttributes()
+{
+	return array(
+		parent::safeAttributes(),
+		'login' => 'username, password',
+	);
+}
+~~~
+
+More accurately, the return value of the `safeAttributes` method should be
+of the following structure:
+
+~~~
+[php]
+array(
+   // these attributes can be massively assigned in any scenario
+   // that is not explicitly specified below
+   'attr1, attr2, ...',
+	 *
+   // these attributes can be massively assigned only in scenario 1
+   'scenario1' => 'attr2, attr3, ...',
+	 *
+   // these attributes can be massively assigned only in scenario 2
+   'scenario2' => 'attr1, attr3, ...',
+)
+~~~
+
+If the model is not scenario-sensitive (i.e., it is only used
+in one scenario, or all scenarios share the same set of safe attributes),
+the return value can be simplified as a single string:
+
+~~~
+[php]
+'attr1, attr2, ...'
+~~~
+
+For data entries that are not safe, we need to assign them to the corresponding
+attributes using individual assign statements, like the following:
+
+~~~
+[php]
+$model->permission='admin';
+$model->id=1;
+~~~
+
 
 Triggering Validation
 ---------------------
 
-To trigger validation, we can call [CModel::validate()]. The method
-returns a value indicating whether the validation is successful without any
-error. For active record model, when we call [save()|CActiveRecord::save]
-to save the model to database, validation will be automatically performed.
+Once a model is populated with user-submitted data, we can call [CModel::validate()]
+to trigger the data validation process. The method returns a value
+indicating whether the validation is successful or not. For [CActiveRecord] model,
+validation may also be automatically triggered when we call its [CActiveRecord::save()]
+method.
 
-By default, when we call [validate()|CModel::validate], all attributes
-specified in [rules()|CModel::rules] will be validated. Sometimes we may
-only want to validate part of those attributes. To do so, we can pass
-the names of the attributes to be validated as the first parameter of the
-[validate()|CModel::validate] call, like the following:
-
-~~~
-[php]
-$model->validate(array('username','password'));
-~~~
-
-
-Scenario-based Validation
--------------------------
-
-> Note: scenario-based validation has been available since version 1.0.1.
-
-It is often needed that a model be used in different scenarios. For example,
-a user model may be used in `login`, 'register`, `insert` or `update` scenarios.
-Different scenario may require different validation rules. We call this
-scenario-based validation.
-
-Scenario-based validation can be achieved by using the `on` parameter mentioned
-in the [Declaring Validation Rules](#declaring-validation-rules) section.
-In particular, if a validation rule should only be applied in certain scenarios,
-we would assign to its `on` parameter with the list of the scenario names.
-And then, when we call [validate()|CModel::validate] to perform the validation,
-we will specify the second parameter as the needed scenario name.
+When we call [CModel::validate()], we may specify a scenario parameter.
+Only the validation rules that apply to the specified scenario will be
+executed. A validation rule applies to a scenario if the `on` option
+of the rule is not set or contains the specified scenario name. If we do
+not specify the scenario when calling [CModel::validate()], only those
+rules whose `on` option is not set will be executed.
 
 For example, we execute the following statement to perform the validation
 when registering a user:
 
 ~~~
 [php]
-$model->validate(array('username','password','password_repeat'), 'register');
+$model->scenario='register';
+$model->validate();
 ~~~
 
-Because the validation is done in the `register` scenario, we would need
-the following rules:
+> Note: The [scenario|CModel::scenario] property has been available
+> since version 1.0.4. The validation method will take this property
+> value to determine which rules to be checked with. In version 1.0.2
+> and 1.0.3, we need to use the following way to perform scenario-based
+> validation:
+>
+> ~~~
+> [php]
+> $model->validate('register');
+> ~~~
+
+We may declare the validation rules in the form model class as follows,
 
 ~~~
 [php]
@@ -249,6 +347,8 @@ public function rules()
 
 As a result, the first rule will be applied in all scenarios, while the
 next two rules will only be applied in the `register` scenario.
+
+> Note: scenario-based validation has been available since version 1.0.1.
 
 
 Retrieving Validation Errors
@@ -274,4 +374,4 @@ label. This can be customized by overriding the
 following subsections, specifying labels in the model allows us to create a
 form more quickly and powerful.
 
-<div class="revision">$Id: form.model.txt 367 2008-12-16 20:18:30Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 911 2009-04-03 16:05:18Z qiang.xue $</div>

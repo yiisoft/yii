@@ -1,6 +1,6 @@
 * Komma igång
 	- [Översikt](index)
-	- [Nyheter och ändringar](changes)
+	- [Nyheter och ändringar (eng)](changes)
     - [Vad är Yii](quickstart.what-is-yii)
     - [Installation](quickstart.installation)
     - [Skapa en första Yii-applikation](quickstart.first-app)

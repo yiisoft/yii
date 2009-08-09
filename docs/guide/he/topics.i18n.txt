@@ -23,8 +23,8 @@ and any special variant preferences that the user wants to see in their
 user interface. It is usually identified by an ID consisting of a language
 ID and a region ID. For example, the ID `en_US` stands for the locale of
 English and United States. For consistency, all locale IDs in Yii are
-canonicalized to the format of `LanguageID_RegionID` in lower case (e.g.
-`en_us`).
+canonicalized to the format of `LanguageID` or `LanguageID_RegionID`
+in lower case (e.g. `en`, `en_us`).
 
 Locale data is represented as a [CLocale] instance. It provides
 locale-dependent information, including currency symbols, number symbols,
@@ -37,8 +37,7 @@ Given a locale ID, one can get the corresponding [CLocale] instance by
 `CLocale::getInstance($localeID)` or `CApplication::getLocale($localeID)`.
 
 > Info: Yii comes with locale data for nearly every language and region.
-The data is obtained from [Common Locale Data Data
-Repository](http://unicode.org/cldr/) (CLDR). For each locale, only a
+The data is obtained from [Common Locale Data Repository](http://unicode.org/cldr/) (CLDR). For each locale, only a
 subset of the CLDR data is provided as the original data contains much
 rarely used information.
 
@@ -95,7 +94,7 @@ example, the following message translation request would replace the
 ~~~
 [php]
 Yii::t('yii', 'Path alias "{alias}" is redefined.',
-array('{alias}'=>$alias))
+	array('{alias}'=>$alias))
 ~~~
 
 > Note: Messages to be translated must be constant strings. They should
@@ -141,13 +140,55 @@ needed:
 
    2. Create PHP translation files as
 `protected/messages/LocaleID/CategoryName.php`. Each file simply returns an
-array of message translations.
+array of message translations. Note, this assumes you are using the default
+[CPhpMessageSource] to store the translated messages.
 
    3. Configure [CApplication::sourceLanguage] and [CApplication::language].
 
-> Tip: The `yiic` tool in Yii can be used to manage message translations.
-Using its `message` command, we can extract messages to be translated from
-source files and merge them with existing translations.
+> Tip: The `yiic` tool in Yii can be used to manage message translations
+when [CPhpMessageSource] is used as the message source. Its `message` command
+can automatically extract messages to be translated from selected source files
+and merge them with existing translations if necessary.
+
+Since version 1.0.2, Yii has added the support for [choice format|CChoiceFormat]. Choice format
+refers to choosing a translated according to a given number value. For example,
+in English the word 'book' may either take a singular form or a plural form
+depending on the number of books, while in other languages, the word may not have
+different form (such as Chinese) or may have more complex 	plural form rules
+(such as Russian). Choice format solves this problem in a simple yet effective way.
+
+To use choice format, a translated message must consist of a sequence of
+expression-message pairs separated by `|`, as shown below:
+
+~~~
+[php]
+'expr1#message1|expr2#message2|expr3#message3'
+~~~
+
+where `exprN` refers to a valid PHP expression which evaluates to a boolean value
+indicating whether the corresponding message should be returned. Only the message
+corresponding to the first expression that evaluates to true will be returned.
+An expression can contain a special variable named `n` (note, it is not `$n`)
+which will take the number value passed as the first message parameter. For example,
+assuming a translated message is:
+
+~~~
+[php]
+'n==1#one book|n>1#many books'
+~~~
+
+and we are passing a number value 2 in the message parameter array when
+calling [Yii::t()|YiiBase::t], we would obtain `many books` as the final
+translated message.
+
+As a shortcut notation, if an expression is a number, it will be treated as
+`n==Number`. Therefore, the above translated message can be also be written as:
+
+~~~
+[php]
+'1#one book|n>1#many books'
+~~~
+
 
 ### File Translation
 
@@ -227,4 +268,4 @@ predefined in the target locale data.
 formats the given number using the percentage pattern predefined in the
 target locale data.
 
-<div class="revision">$Id: topics.i18n.txt 280 2008-11-26 12:45:25Z qiang.xue $</div>
+<div class="revision">$Id: topics.i18n.txt 769 2009-02-27 19:32:30Z qiang.xue $</div>

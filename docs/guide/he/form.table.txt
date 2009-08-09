@@ -43,7 +43,7 @@ display the input fields in an HTML table.
 ~~~
 [php]
 <div class="yiiForm">
-<?php echo CHtml::form(); ?>
+<?php echo CHtml::beginForm(); ?>
 <table>
 <tr><th>Name</th><th>Price</th><th>Count</th><th>Description</th></tr>
 <?php foreach($items as $i=>$item): ?>
@@ -57,7 +57,7 @@ display the input fields in an HTML table.
 </table>
 
 <?php echo CHtml::submitButton('Save'); ?>
-</form>
+<?php echo CHtml::endForm(); ?>
 </div><!-- yiiForm -->
 ~~~
 
@@ -68,4 +68,4 @@ If there is anything validation error, the corresponding input fields will
 be highlighted automatically, just like the single model input we described
 earlier on.
 
-<div class="revision">$Id: form.table.txt 468 2009-01-04 20:57:35Z qiang.xue $</div>
+<div class="revision">$Id: form.table.txt 844 2009-03-16 22:06:41Z qiang.xue $</div>

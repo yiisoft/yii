@@ -17,14 +17,14 @@
 
 * Trabalhando com Formulários
     - [Visão Geral](form.overview)
-    - [Criando a Model](form.model)
-    - [Criando a Action](form.action)
+    - [Criando um Modelo](form.model)
+    - [Criando uma Ação](form.action)
     - [Criando o Formulário](form.view)
     - [Coletando Entradas Tabulares](form.table)
 
 * Trabalhando com Banco de Dados
     - [Visão Geral](database.overview)
-    - [Database Access Objects (DAO)](database.dao)
+    - [Data Access Objects (DAO)](database.dao)
     - [Active Record](database.ar)
     - [Active Record Relacional](database.arr)
 

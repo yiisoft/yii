@@ -20,6 +20,9 @@ vordefiniert:
  - `webroot`: Verweist auf das Verzeichnis, das das
 [Eingangsscript](/doc/guide/basics.entry) enthält. Dieser Alias ist seit
 Version 1.0.3 verfügbar.
+ - `ext`: Verweist auf das Verzeichnis, das alle
+[Erweiterungen]((/doc/guide/extension.overview) enthält. Dieser Alias steht
+seit Version 1.0.8 zur Verfügung.
 
 Falls die Anwendung [Module](/doc/guide/basics.module) verwendet, wird für
 jedes Modul ein zusätzlicher RootAlias für jede ModulID auf das
@@ -79,4 +82,4 @@ Ein Pfad-Alias kollidiert nicht mit einem Namespace.
 > reserviert bleibt und benutzerdefinierte Klassen mit anderen Präfixen
 > versehen werden.
 
-<div class="revision">$Id: basics.namespace.txt 766 2009-02-27 17:22:13Z qiang.xue $</div>
+<div class="revision">$Id: basics.namespace.txt 1299 2009-08-07 00:25:55Z qiang.xue $</div>

@@ -3,6 +3,16 @@ Neue Features
 
 Diese Seite fasst die wesentlichen neuen Features jeder Yii-Version zusammen.
 
+Version 1.0.8
+-------------
+
+ * Es können nun auch mehrere gecachete Werte auf einmal abgerufen werden
+	 - [Cachen von Daten](/doc/guide/caching.data)
+
+ * Der neue Standard-RootAlias `ext` verweist auf das Verzeichnis mit allen
+Erweiterungen Dritter.
+	 - [Erweiterungen verwenden](/doc/guide/extension.use)
+
 Version 1.0.7
 -------------
 
@@ -49,4 +59,4 @@ Version 1.0.5
 einer URL. Siehe:
      - [Parametrisierte Routen in URL-Regeln](/doc/guide/topics.url#parameterizing-routes)
 
-<div class="revision">$Id: changes.txt 1168 2009-06-23 14:52:48Z qiang.xue $</div>
+<div class="revision">$Id: changes.txt 1299 2009-08-07 00:25:55Z qiang.xue $</div>

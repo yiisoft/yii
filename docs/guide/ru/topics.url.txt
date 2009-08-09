@@ -1,4 +1,4 @@
-﻿Красивые адреса URL
+Красивые адреса URL
 ===================
 
 Управление URL-адресами в веб-приложениях включает в себя два аспекта. Во-первых,
@@ -16,7 +16,7 @@
 $url=$this->createUrl($route,$params);
 ~~~
 
-где `$this` относится к экземпляру контроллера; `$route` соответствует на [маршруту](/doc/guide/basics.controller#route) запроса, 
+где `$this` относится к экземпляру контроллера; `$route` соответствует [маршруту](/doc/guide/basics.controller#route) запроса,
 а `$params` является списком параметров `GET` для добавления к URL.
 
 По умолчанию, адреса создаются посредством [createUrl|CController::createUrl] в `get`-формате. 
@@ -96,9 +96,11 @@ array(
 указывать на существующий [путь контроллера](/doc/guide/basics.controller#route).
 
 > Info|Инфо: Начиная с версии 1.0.6, правилу можно задать свои
-> опции `urlSuffix` и `caseSensitive`. Для этого необходимо указать путь в правиле
-> как массив:
->
+> опции `urlSuffix` и `caseSensitive`. Начиная с версии 1.0.8,
+> правило может содержать параметр `defaultParams`, который представляет собой
+> список пар имя-значение, которые станут частью массива `$_GET`. Для настройки
+> правила с этими параметрами, мы должны определить часть правила, отвечающую
+> за маршрут, как массив:
 > ~~~
 > [php]
 > 'pattern1'=>array('route1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
@@ -226,4 +228,4 @@ RewriteRule . index.php
 Для этого нужно просто настроить компонент [urlManager|CWebApplication::urlManager] путем назначения свойству 
 [urlSuffix|CUrlManager::urlSuffix] любого желаемого окончания.
 
-<div class="revision">$Id: topics.url.txt 1098 2009-06-06 20:55:07Z qiang.xue $</div>
+<div class="revision">$Id: topics.url.txt 1273 2009-07-22 21:32:23Z qiang.xue $</div>

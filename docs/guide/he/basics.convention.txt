@@ -111,6 +111,9 @@ writable by Web server process. It can be customized via
    - `WebRoot/protected/extensions`: this directory holds all third-party
 extensions. It can be customized via [CApplication::extensionPath].
 
+   - `WebRoot/protected/modules`: this directory holds all application
+[modules](/doc/guide/basics.module), each represented as a subdirectory.
+
    - `WebRoot/protected/controllers`: this directory holds all controller
 class files. It can be customized via [CWebApplication::controllerPath].
 
@@ -139,4 +142,4 @@ applied to the application. Each subdirectory represents a single theme
 whose name is the subdirectory name. It can be customized via
 [CThemeManager::basePath].
 
-<div class="revision">$Id: basics.convention.txt 170 2008-11-06 20:33:35Z qiang.xue $</div>
+<div class="revision">$Id: basics.convention.txt 747 2009-02-26 01:10:13Z qiang.xue $</div>

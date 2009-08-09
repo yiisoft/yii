@@ -51,4 +51,4 @@ with this action. The action is executed if it is allowed by the filters.
    11. The action completes the view rendering and displays the result to the user.
 
 
-<div class="revision">$Id: basics.mvc.txt 419 2008-12-28 05:35:39Z qiang.xue $</div>
+<div class="revision">$Id: basics.mvc.txt 418 2008-12-28 05:34:24Z qiang.xue $</div>

@@ -21,9 +21,9 @@ Yii::log($message, $level, $category);
 Yii::trace($message, $category);
 ~~~
 
-Gdy logujemy komunikaty, musimy określić jego kategorię oraz poziom. 
-Kategoria jest ciągiem w formacie `xxx.yyy.zzz` który przypomina  
-[alias ścieżki](/doc/guide/basics.namespace). Na przykład, jeśli komunikat jest  
+Gdy logujemy komunikaty, musimy określić ich kategorię oraz poziom. 
+Kategoria jest ciągiem w formacie `xxx.yyy.zzz` który przypomina 
+[alias ścieżki](/doc/guide/basics.namespace). Na przykład, jeśli komunikat jest 
 logowany w kontrolerze [CController], możemy użyć kategorii `system.web.CController`.
 Poziom komunikatu powinien przyjmować jedną z poniższych wartości:
 
@@ -43,16 +43,16 @@ Przekierowywanie komunikatów
 
 Komunikaty rejestrowane przy użyciu metod [Yii::log] oraz [Yii::trace] trzymane są w pamięci.
 Zazwyczaj potrzebujemy wyświetlić je w oknie przeglądarki lub też zapisać je w pewnej 
-stałej pamięci danych takiej pliki, maile. Nazywamy to *przekierowywaniem komunikatów* 
+trwałej pamięci danych takiej pliki czy też maile. Nazywamy to *przekierowywaniem komunikatów* 
 (ang. message routing), np. wysyłanie komunikatów do różnych miejsc przeznaczenia.
 W Yii przekierowywanie komunikatów zarządzane jest przez komponent aplikacji [CLogRouter].
-Zarządza on zestawem tak zwanych *dziennikiem tras*. Każdy dziennik trasy reprezentuje
+Zarządza on zestawem tak zwanych *dzienników tras*. Każdy dziennik trasy reprezentuje
 pojedyncze miejsce przeznaczenia dziennika. Komunikaty wysłane przez dziennik trasy 
 mogą zostać przefiltrowane w zależności od swoich poziomów oraz kategorii.
 
 Aby używać przekierowania komunikatów musimy zainstalować i inicjalnie załadować 
 komponent aplikacji [CLogRouter]. Musimy również skonfigurować jego właściwość [routes|CLogRouter::routes]
-zawierająca pożądane przez nas dzienniki tras. Następujący kod pokazuje przykład  
+zawierająca pożądane przez nas dzienniki tras. Następujący kod pokazuje przykład 
 pożądanej [konfiguracji aplikacji](/doc/guide/basics.application#application-configuration):
 
 ~~~

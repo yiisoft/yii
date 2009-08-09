@@ -25,7 +25,8 @@ $post->save();
 In the following we describe how to set up AR and use it to perform CRUD
 operations. We will show how to use AR to deal with database relationships
 in the next section. For simplicity, we use the following database table
-for our examples in this section.
+for our examples in this section. Note that if you are using MySQL database,
+you should replace `AUTOINCREMENT` with `AUTO_INCREMENT` in the following SQL.
 
 ~~~
 [sql]
@@ -41,6 +42,7 @@ CREATE TABLE Post (
 used for modeling database tables in PHP constructs and performing queries
 that do not involve complex SQLs. Yii DAO should be used for those complex
 scenarios.
+
 
 Establishing DB Connection
 --------------------------
@@ -77,6 +79,11 @@ supported:
    - [MySQL 4.1 or later](http://www.mysql.com)
    - [PostgreSQL 7.3 or later](http://www.postgres.com)
    - [SQLite 2 and 3](http://www.sqlite.org)
+   - [Microsoft SQL Server 2000 or later](http://www.microsoft.com/sqlserver/)
+   - [Oracle](http://www.oracle.com)
+
+> Note: The support for Microsoft SQL Server has been available since version 1.0.4;
+> And the support for Oracle has been available since version 1.0.5.
 
 If you want to use an application component other than `db`, or if you
 want to work with multiple databases using AR, you should override
@@ -143,13 +150,15 @@ a column in the `Post` table, and CActiveRecord makes it accessible as a
 property with the help of the PHP `__get()` magic method. An exception will
 be thrown if we attempt to access a non-existing column in the same way.
 
-> Info: For better readability, we suggest naming database tables and
-columns in camel case. In particular, table names are formed by
-capitalizing each word in the name and joining them without spaces; column
-names are similar to table names except their first letter is in lower
-case. For example, we use `Post` to name the table storing posts; and we
-use `createTime` to name the table's primary key column. This makes tables
-look more like class types and columns like variables.
+> Info: In this guide, we name columns using camel cases (e.g. `createTime`).
+This is because columns are accessed in the way as normal object properties
+which also uses camel-case naming. While using camel case does make our PHP
+code look more consistent in naming, it may introduce case-sensitivity problem
+for some DBMS. For example, PostgreSQL treats column names as case-insensitive
+by default, and we must quote a column in a query condition if the column
+contains mixed-case letters. For this reason, it may be wise to name columns
+(and also tables) only in lower-case letters (e.g. `create_time`) to avoid
+any potential case-sensitivity issues.
 
 
 Creating Record
@@ -192,6 +201,30 @@ $post=new Post;
 echo $post->title;  // this would display: please enter a title
 ~~~
 
+Starting from version 1.0.2, an attribute can be assigned a value of [CDbExpression]
+type before the record is saved (either insertion or updating) to the database.
+For example, in order to save a timestamp returned by the MySQL `NOW()` function,
+we can use the following code:
+
+~~~
+[php]
+$post=new Post;
+$post->createTime=new CDbExpression('NOW()');
+// $post->createTime='NOW()'; will not work because
+// 'NOW()' will be treated as a string
+$post->save();
+~~~
+
+> Tip: While AR allows us to perform database operations without writing
+cumbersom SQL statements, we often want to know what SQL statements are executed
+by AR underneath. This can be achieved by turning on the [logging feature](/doc/guide/topics.logging)
+of Yii. For example, we can turn on [CWebLogRoute] in the application configuration,
+and we will see the executed SQL statements being displayed at the end of each Web page.
+Since version 1.0.5, we can set [CDbConnection::enableParamLogging] to be true in
+the application configuration so that the parameter values bound to the SQL
+statements are also logged.
+
+
 Reading Record
 --------------
 
@@ -233,6 +266,11 @@ should be bound to the placeholders in `$condition`. For example,
 // find the row with postID=10
 $post=Post::model()->find('postID=:postID', array(':postID'=>10));
 ~~~
+
+> Note: In the above, we may need to escape the reference to the `postID` column
+for certain DBMS. For example, if we are using PostgreSQL, we would have to write
+the condition as `"postID"=:postID`, because PostgreSQL by default will treat column
+names as case-insensitive.
 
 We can also use `$condition` to specify more complex query conditions.
 Instead of a string, we let `$condition` be a [CDbCriteria] instance, which
@@ -384,7 +422,7 @@ AR performs data validation automatically when
 [save()|CActiveRecord::save] is being invoked. The validation is based on
 the rules specified by in the [rules()|CModel::rules] method of the AR class.
 For more details about how to specify validation rules, refer to
-the [Data Validation](/doc/guide/form.model#declaring-validation-rules)
+the [Declaring Validation Rules](/doc/guide/form.model#declaring-validation-rules)
 section. Below is the typical workflow needed by saving a record:
 
 ~~~
@@ -413,32 +451,16 @@ $post->save();
 If there are many columns, we would see a long list of such assignments.
 This can be alleviated by making use of the
 [attributes|CActiveRecord::attributes] property as shown below. More
-details can be found in the [Creating Action](/doc/guide/form.action) section.
+details can be found in the [Securing Attribute Assignments](/doc/guide/form.model#securing-attribute-assignments)
+section and the [Creating Action](/doc/guide/form.action) section.
 
 ~~~
 [php]
-// assume $_POST['Post'] is an array of column values indexed by column
-names
+// assume $_POST['Post'] is an array of column values indexed by column names
 $post->attributes=$_POST['Post'];
 $post->save();
 ~~~
 
-By default, all columns except primary key(s) can be massively assigned
-like the above. This can be changed by overriding either
-[protectedAttributes()|CActiveRecord::protectedAttributes] or
-[safeAttributes()|CActiveRecord::safeAttributes] in the AR
-class. For example, if we do not want the `content` property to be
-massively assigned, we can write:
-
-~~~
-[php]
-public function protectedAttributes()
-{
-	return array('content');
-}
-~~~
-
-Protected columns can only be assigned individually.
 
 Comparing Records
 -----------------
@@ -507,4 +529,108 @@ catch(Exception $e)
 }
 ~~~
 
-<div class="revision">$Id: database.ar.txt 440 2009-01-01 04:14:09Z qiang.xue $</div>
+
+Named Scopes
+------------
+
+> Note: The support for named scopes has been available since version 1.0.5.
+> The original idea of named scopes came from Ruby on Rails.
+
+A *named scope* represents a *named* query criteria that can be combined with other named scopes and applied to an active record query.
+
+Named scopes are mainly declared in the [CActiveRecord::scopes()] method as name-criteria pairs. The following code declares two named scopes, `published` and `recently`, in the `Post` model class:
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	......
+	public function scopes()
+	{
+		return array(
+			'published'=>array(
+				'condition'=>'status=1',
+			),
+			'recently'=>array(
+				'order'=>'createTime DESC',
+				'limit'=>5,
+			),
+		);
+	}
+}
+~~~
+
+Each named scope is declared as an array which can be used to initialize a [CDbCriteria] instance. For example, the `recently` named scope specifies that the `order` property to be `createTime DESC` and the `limit` property to be 5, which translates to a query criteria that should bring back the most recent 5 posts.
+
+Named scopes are mostly used as modifiers to the `find` method calls. Several named scopes may be chained together and result in a more restrictive query result set. For example, to find the recently published posts, we can use the following code:
+
+~~~
+[php]
+$posts=Post::model()->published()->recently()->findAll();
+~~~
+
+In general, named scopes must appear to the left of a `find` method call. Each of them provides a query criteria, which is combined with other criterias, including the one passed to the `find` method call. The net effect is like adding a list of filters to a query.
+
+Starting from version 1.0.6, named scopes can also be used with `update` and `delete` methods. For example, the following code would delete all recently published posts:
+
+~~~
+[php]
+Post::model()->published()->recently()->delete();
+~~~
+
+> Note: Named scopes can only be used with class-level methods. That is, the method must be called using `ClassName::model()`.
+
+
+### Parameterized Named Scopes
+
+Named scopes can be parameterized. For example, we may want to customize the number of posts specified by the `recently` named scope. To do so, instead of declaring the named scope in the [CActiveRecord::scopes] method, we need to define a new method whose name is the same as the scope name:
+
+~~~
+[php]
+public function recently($limit=5)
+{
+	$this->getDbCriteria()->mergeWith(array(
+		'order'=>'createTime DESC',
+		'limit'=>$limit,
+	));
+	return $this;
+}
+~~~
+
+Then, we can use the following statement to retrieve the 3 recently published posts:
+
+~~~
+[php]
+$posts=Post::model()->published()->recently(3)->findAll();
+~~~
+
+If we do not supply the parameter 3 in the above, we would retrieve the 5 recently published posts by default.
+
+
+### Default Named Scope
+
+A model class can have a default named scope that would be applied for all queries (including relational ones) about the model. For example, a website supporting multiple languages may only want to display contents that are in the language the current user specifies. Because there may be many queries about the site contents, we can define a default named scope to solve this problem. To do so, we override the [CActiveRecord::defaultScope] method as follows,
+
+~~~
+[php]
+class Content extends CActiveRecord
+{
+	public function defaultScope()
+	{
+		return array(
+			'condition'=>"language='".Yii::app()->language."'",
+		);
+	}
+}
+~~~
+
+Now, if the following method call will automatically use the query criteria as defined above:
+
+~~~
+[php]
+$contents=Content::model()->findAll();
+~~~
+
+Note that default named scope only applies to `SELECT` queries. It is ignored for `INSERT`, `UPDATE` and `DELETE` queries.
+
+<div class="revision">$Id: database.ar.txt 1167 2009-06-23 02:56:45Z qiang.xue $</div>

@@ -202,10 +202,10 @@ class MyCommand extends CConsoleCommand
 
 Module
 ------
-The general guideline for developing a module is that it should be self-contained.
-Resource files (such as CSS, JavaScript, images) that are used by a module should
-be distributed together with the module. And the module should publish them
-so that they can be Web accessible.
+Please refer to the section about [modules](/doc/guide/basics.module#creating-module) on how to create a module.
+
+A general guideline for developing a module is that it should be self-contained. Resource files (such as CSS, JavaScript, images) that are used by a module should be distributed together with the module. And the module should publish them so that they can be Web-accessible.
+
 
 Generic Component
 -----------------
@@ -213,4 +213,4 @@ Developing a generic component extension is like writing a class. Again, the com
 should also be self-contained so that it can be easily used by other developers.
 
 
-<div class="revision">$Id: extension.create.txt 273 2008-11-25 03:11:45Z qiang.xue $</div>
+<div class="revision">$Id: extension.create.txt 747 2009-02-26 01:10:13Z qiang.xue $</div>

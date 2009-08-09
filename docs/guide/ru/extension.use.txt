@@ -1,4 +1,4 @@
-﻿Использование расширений
+Использование расширений
 ================
 
 Порядок использования расширений, как правило, включает три шага:
@@ -9,19 +9,27 @@
      где `xyz` - имя расширения;
   3. Подключить, настроить и использовать расширение.
 
-Каждое расширение уникально идентифицируется по имени. Если расширение называется `xyz`, то, 
-используя псевдоним пути `application.extensions.xyz`, мы всегда можем определить папку, 
-в которой хранятся файлы данного расширения.
+Каждое расширение уникально идентифицируется по имени. Если расширение
+называется `xyz`, то, используя псевдоним пути `ext.xyz`, мы всегда можем
+определить папку, в которой хранятся файлы данного расширения.
+
+> Note|Примечание: Псевдоним `ext` доступен с версии 1.0.8. Ранее мы должны
+были использовать псевдоним `application.extensions` для обращения к
+директории, содержащей все расширения. В дальнейшем, мы предполагаем, что
+определен псевдоним `ext`. Поэтому, если Вы используете версию 1.0.7 или ниже,
+Вы должны заменить `ext` на `application.extensions`.
   
-Разные расширения предъявляют разные требования к импорту, настройке и порядку использования.
-Ниже, мы приведем несколько общих вариантов использования расширений согласно классификации, представленной в 
+Разные расширения предъявляют разные требования к импорту, настройке и порядку
+использования. Ниже, мы приведем несколько общих вариантов использования
+расширений согласно классификации, представленной в 
 [обзоре](/doc/guide/extension.overview).
   
 Компонент приложения
 ---------------------
 
-Для использования [компонента приложения](/doc/guide/basics.application#application-component) в первую очередь 
-необходимо изменить [конфигурацию приложения](/doc/guide/basics.application#application-component),
+Для использования [компонента приложения](/doc/guide/basics.application#application-component)
+в первую очередь необходимо изменить
+[конфигурацию приложения](/doc/guide/basics.application#application-component),
 добавив новый элемент в свойство `components`:
 
 ~~~
@@ -30,7 +38,7 @@ return array(
     // 'preload'=>array('xyz',...),
     'components'=>array(
         'xyz'=>array(
-            'class'=>'application.extensions.xyz.XyzClass',
+            'class'=>'ext.xyz.XyzClass',
             'property1'=>'value1',
             'property2'=>'value2',
         ),
@@ -39,25 +47,25 @@ return array(
 );
 ~~~
 
-Теперь можно обращаться к компоненту в любом месте приложения через `Yii::app()->xyz`. 
-Компонент будет создан отложенно (т.е. в момент первого обращения), если, конечно,
-мы не укажем его в свойстве `preload`.
+Теперь можно обращаться к компоненту в любом месте приложения через
+`Yii::app()->xyz`. Компонент будет создан отложенно (т.е. в момент первого
+обращения), если, конечно, мы не укажем его в свойстве `preload`.
 
 Виджет
 ------
 
-Виджеты в основном используются в представлениях. Виджетом класса `XyzClass` расширения `xyz`, можно 
-воспользоваться в представлении следующим образом:
+Виджеты в основном используются в представлениях. Виджетом класса `XyzClass`
+расширения `xyz`, можно воспользоваться в представлении следующим образом:
 
 ~~~
 [php]
 // виджет без внутреннего содержимого
-<?php $this->widget('application.extensions.xyz.XyzClass', array(
+<?php $this->widget('ext.xyz.XyzClass', array(
     'property1'=>'value1',
     'property2'=>'value2')); ?>
 
 // виджет, который может иметь внутреннее содержимое
-<?php $this->beginWidget('application.extensions.xyz.XyzClass', array(
+<?php $this->beginWidget('ext.xyz.XyzClass', array(
     'property1'=>'value1',
     'property2'=>'value2')); ?>
 
@@ -69,9 +77,10 @@ return array(
 Действие
 ------
 
-[Действия](/doc/guide/basics.controller#action)  используются в [контроллерах](/doc/guide/basics.controller) 
-для обработки запросов пользователя. Действие класса `XyzClass`
-расширения `xyz` можно использовать путем переопределения метода [CController::actions] класса нашего контроллера:
+[Действия](/doc/guide/basics.controller#action)  используются в
+[контроллерах](/doc/guide/basics.controller) для обработки запросов
+пользователя. Действие класса `XyzClass` расширения `xyz` можно использовать
+путем переопределения метода [CController::actions] класса нашего контроллера:
 
 ~~~
 [php]
@@ -81,7 +90,7 @@ class TestController extends CController
 	{
 		return array(
 			'xyz'=>array(
-				'class'=>'application.extensions.xyz.XyzClass',
+				'class'=>'ext.xyz.XyzClass',
 				'property1'=>'value1',
 				'property2'=>'value2',
 			),
@@ -91,14 +100,17 @@ class TestController extends CController
 }
 ~~~
 
-Теперь к действию можно обратиться по [маршруту(/doc/guide/basics.controller#route)
+Теперь к действию можно обратиться по [маршруту](/doc/guide/basics.controller#route)
 `test/xyz`.
 
 Фильтры
 ------
-[Фильтры](/doc/guide/basics.controller#filter) также используются в [контроллерах](/doc/guide/basics.controller).
-В основном они используются в [действиях](/doc/guide/basics.controller#action) для осуществления пред- и пост-обработки пользовательского запроса.
-Фильтр класса `XyzClass` расширения `xyz` можно использовать путем переопределения метода [CController::filters] в нашем классе контроллера:
+[Фильтры](/doc/guide/basics.controller#filter) также используются в
+[контроллерах](/doc/guide/basics.controller). В основном они используются в
+[действиях](/doc/guide/basics.controller#action) для осуществления пред- и
+пост-обработки пользовательского запроса. Фильтр класса `XyzClass` расширения
+`xyz` можно использовать путем переопределения метода [CController::filters]
+в нашем классе контроллера:
 
 ~~~
 [php]
@@ -108,7 +120,7 @@ class TestController extends CController
 	{
 		return array(
 			array(
-				'application.extensions.xyz.XyzClass',
+				'ext.xyz.XyzClass',
 				'property1'=>'value1',
 				'property2'=>'value2',
 			),
@@ -118,22 +130,24 @@ class TestController extends CController
 }
 ~~~
 
-Выше мы можем использовать операторы '+' и '-' в первом элементе массива для применения фильтра только 
-к определенным действия. Подробнее ознакомиться можно в документации к [CController].
+Выше мы можем использовать операторы '+' и '-' в первом элементе массива для
+применения фильтра только к определенным действия. Подробнее ознакомиться можно
+в документации к [CController].
 
 Контроллер
 ----------
 
-[Контроллер](/doc/guide/basics.controller) предоставляет набор действий, которые могут быть запрошены пользователем. 
-Для использования расширения контроллера необходимо настроить свойство [CWebApplication::controllerMap] 
-в [конфигурации приложения](/doc/guide/basics.application#application-configuration):
+[Контроллер](/doc/guide/basics.controller) предоставляет набор действий,
+которые могут быть запрошены пользователем. Для использования расширения
+контроллера необходимо настроить свойство [CWebApplication::controllerMap] в
+[конфигурации приложения](/doc/guide/basics.application#application-configuration):
 
 ~~~
 [php]
 return array(
 	'controllerMap'=>array(
 		'xyz'=>array(
-			'class'=>'application.extensions.xyz.XyzClass',
+			'class'=>'ext.xyz.XyzClass',
 			'property1'=>'value1',
 			'property2'=>'value2',
 		),
@@ -142,13 +156,15 @@ return array(
 );
 ~~~
 
-Теперь к действию `a` контроллера можно обратиться через [маршрут](/doc/guide/basics.controller#route) `xyz/a`.
+Теперь к действию `a` контроллера можно обратиться через
+[маршрут](/doc/guide/basics.controller#route) `xyz/a`.
 
 Валидатор
 ---------
-Валидатор применяется в классе [модели](/doc/guide/basics.model) (наследующего либо [CFormModel] или [CActiveRecord]).
-Класс валидатора `XyzClass` расширения `xyz` используется путем переопределения метода [CModel::rules]
-в нашем классе модели:
+Валидатор применяется в классе [модели](/doc/guide/basics.model) (наследующего
+либо [CFormModel] или [CActiveRecord]). Класс валидатора `XyzClass` расширения
+`xyz` используется путем переопределения метода [CModel::rules] в нашем классе
+модели:
 
 ~~~
 [php]
@@ -159,7 +175,7 @@ class MyModel extends CActiveRecord // or CFormModel
 		return array(
 			array(
 				'attr1, attr2',
-				'application.extensions.xyz.XyzClass',
+				'ext.xyz.XyzClass',
 				'property1'=>'value1',
 				'property2'=>'value2',
 			),
@@ -171,15 +187,17 @@ class MyModel extends CActiveRecord // or CFormModel
 
 Команда консоли
 ---------------
-Расширение [консольной команды](/doc/guide/topics.console), как правило, используется для добавления новой команды в утилите `yiic`. 
-Консольную команду `XyzClass` расширения `xyz` можно использовать, настроив конфигурацию консольного приложения:
+Расширение [консольной команды](/doc/guide/topics.console), как правило,
+используется для добавления новой команды в утилите `yiic`. Консольную команду
+`XyzClass` расширения `xyz` можно использовать, настроив конфигурацию
+консольного приложения:
 
 ~~~
 [php]
 return array(
 	'commandMap'=>array(
 		'xyz'=>array(
-			'class'=>'application.extensions.xyz.XyzClass',
+			'class'=>'ext.xyz.XyzClass',
 			'property1'=>'value1',
 			'property2'=>'value2',
 		),
@@ -190,22 +208,28 @@ return array(
 
 Теперь в утилите `yiic` добавилась еще одна команда `xyz`.
 
-> Note|Примечание: Консольное приложение, как правило, использует иной файл конфигурации нежели веб-приложение. Если приложение 
-было создано командой консоли `yiic webapp`, то конфигурационный файл для консоли `protected/yiic` находится в 
-`protected/config/console.php`, а конфигурация веб-приложения - в `protected/config/main.php`.
+> Note|Примечание: Консольное приложение, как правило, использует иной файл
+конфигурации нежели веб-приложение. Если приложение было создано командой
+консоли `yiic webapp`, то конфигурационный файл для консоли `protected/yiic`
+находится в `protected/config/console.php`, а конфигурация веб-приложения - в
+`protected/config/main.php`.
 
 Модуль
 ------
-Информация о порядке использования и создания модулей представлена в разделе [Модуль](/doc/guide/basics.module#using-module).
+Информация о порядке использования и создания модулей представлена в разделе
+[Модуль](/doc/guide/basics.module#using-module).
 
 Компонент общего вида
 -----------------
-Чтобы использовать [компонент](/doc/guide/basics.component) общего вида, нужно для начала включить его класс:
+Чтобы использовать [компонент](/doc/guide/basics.component) общего вида,
+нужно для начала включить его класс:
 
 ~~~
-Yii::import('application.extensions.xyz.XyzClass');
+Yii::import('ext.xyz.XyzClass');
 ~~~
 
-Теперь мы можем создавать экземпляр этого класса, настроить его свойства, вызывать его методы. Кроме того, можно его расширить для создания дочерних классов.
+Теперь мы можем создавать экземпляр этого класса, настроить его свойства,
+вызывать его методы. Кроме того, можно его расширить для создания дочерних
+классов.
 
-<div class="revision">$Id: extension.use.txt 749 2009-02-26 02:11:31Z qiang.xue $</div>
+<div class="revision">$Id: extension.use.txt 1299 2009-08-07 00:25:55Z qiang.xue $</div>

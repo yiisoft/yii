@@ -109,8 +109,11 @@ einer URL verwendet wird. Die [Route](/doc/guide/basics.controller#route)
 sollte einer gültigen Controller-Route entsprechen.
 
 > Info: Seit version 1.0.6 kann eine Regel über die Optionen `urlSuffix` und
-> `caseSensitive` noch weiter angepasst werden. Dazu müssen wir den Routenteil
-> der Regel als Array wie folgt angeben:
+> `caseSensitive` noch weiter angepasst werden. Und seit Version 1.0.8
+> können bei einer Regel auch `defaultParams` angegeben werden. Sie stehen 
+> für eine Reihe von Schlüssel-Werte-Paaren, die in `$_GET` übernommen 
+> werden sollen. Zum Anpassen der Regeln müssen wir den Routenteil
+> als Array wie folgt angeben:
 >
 > ~~~
 > [php]
@@ -266,4 +269,4 @@ einer statischen Webseite aus. Setzen Sie dazu einfach die gewünschte Endung
 über die Eigenschaft [urlSuffix|CUrlManager::urlSuffix] der
 [urlManager|CWebApplication::urlManager]-Komponente.
 
-<div class="revision">$Id: topics.url.txt 1098 2009-06-06 20:55:07Z qiang.xue $</div>
+<div class="revision">$Id: topics.url.txt 1273 2009-07-22 21:32:23Z qiang.xue $</div>

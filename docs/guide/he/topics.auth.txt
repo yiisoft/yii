@@ -43,16 +43,17 @@ session.
 
 In the following example, we validate the given username and password
 against the user table in a database using [Active
-Record](/doc/guide/database.ar). We also define the `title` property to be
-persistent using [CBaseUserIdentity::getState] and
-[CBaseUserIdentity::setState] methods. As a result, during the whole user
-session, we can obtain the user title information via
-`Yii::app()->user->getState('title')`.
+Record](/doc/guide/database.ar). We also override the `getId` method to
+return the `_id` variable which is set during authentication (the default
+implementation would return the username as the ID). During authentication,
+we store the retrieved `title` information in a state with the same name by
+calling [CBaseUserIdentity::setState].
 
 ~~~
 [php]
 class UserIdentity extends CUserIdentity
 {
+	private $_id;
 	public function authenticate()
 	{
 		$record=User::model()->findByAttributes(array('username'=>$this->username));
@@ -62,23 +63,26 @@ class UserIdentity extends CUserIdentity
 			$this->errorCode=self::ERROR_PASSWORD_INVALID;
 		else
 		{
-			$this->title=$record->title;
+			$this->_id=$record->id;
+			$this->setState('title', $record->title);
 			$this->errorCode=self::ERROR_NONE;
 		}
 		return !$this->errorCode;
     }
 
-	public function getTitle()
+	public function getId()
 	{
-		return $this->getState('title');
-	}
-
-	public function setTitle($value)
-	{
-		$this->setState('title',$value);
+		return $this->_id;
 	}
 }
 ~~~
+
+Information stored in a state (by calling [CBaseUserIdentity::setState]) will be passed
+to [CWebUser] which stores them in a persistent storage, such as session.
+These information can be accessed like properties of [CWebUser]. For example, we
+can obtain the `title` information of the current user by `Yii::app()->user->title`
+(This has been available since version 1.0.3. In prior versions, we should use
+`Yii::app()->user->getState('title')`, instead.)
 
 > Info: By default, [CWebUser] uses session as persistent storage for user
 identity information. If cookie-based login is enabled (by setting
@@ -89,7 +93,7 @@ also be saved in cookie. Make sure you do not declare sensitive information
 Login and Logout
 ----------------
 
-Using the identity class and the user component user component, we can
+Using the identity class and the user component, we can
 implement login and logout actions easily.
 
 ~~~
@@ -105,13 +109,13 @@ else
 Yii::app()->user->logout();
 ~~~
 
-By default, a user will be logged out once he closes his browser window.
-To change this behavior, we can set the
-[allowAutoLogin|CWebUser::allowAutoLogin] property of the user component to
-be true and pass a duration parameter to the [CWebUser::login] method. The
-user will then remain logged in for the specified duration, even if he
-closes his browser window. Note that this feature requires the user's
-browser to accept cookies.
+By default, a user will be logged out after a certain period of inactivity,
+depending on the [session configuration](http://www.php.net/manual/en/session.configuration.php).
+To change this behavior, we can set the [allowAutoLogin|CWebUser::allowAutoLogin]
+property of the user component to be true and pass a duration parameter to
+the [CWebUser::login] method. The user will then remain logged in for
+the specified duration, even if he closes his browser window. Note that
+this feature requires the user's browser to accept cookies.
 
 ~~~
 [php]
@@ -216,11 +220,15 @@ be executed.
 An access rule can match the following context parameters:
 
    - [actions|CAccessRule::actions]: specifies which actions this rule
-matches.
+matches. This should be an array of action IDs. The comparison is case-insensitive.
+
+   - [controllers|CAccessRule::controllers]: specifies which controllers this rule
+matches. This should be an array of controller IDs. The comparison is case-insensitive.
+This option has been available since version 1.0.4.
 
    - [users|CAccessRule::users]: specifies which users this rule matches.
-The current user's [name|CWebUser::name] is used for matching. Three
-special characters can be used here:
+The current user's [name|CWebUser::name] is used for matching. The comparison
+is case-insensitive. Three special characters can be used here:
 
 	   - `*`: any user, including both anonymous and authenticated users.
 	   - `?`: anonymous users.
@@ -231,13 +239,19 @@ This makes use of the [role-based access control](#role-based-access-control)
 feature to be described in the next subsection. In particular, the rule
 is applied if [CWebUser::checkAccess] returns true for one of the roles.
 Note, you should mainly use roles in an `allow` rule because by definition,
-a role represents a permission to do something.
+a role represents a permission to do something. Also note, although we use the
+term `roles` here, its value can actually be any auth item, including roles,
+tasks and operations.
 
    - [ips|CAccessRule::ips]: specifies which client IP addresses this rule
 matches.
 
    - [verbs|CAccessRule::verbs]: specifies which request types (e.g.
-`GET`, `POST`) this rule matches.
+`GET`, `POST`) this rule matches. The comparison is case-insensitive.
+
+   - [expression|CAccessRule::expression]: specifies a PHP expression whose value
+indicates whether this rule matches. In the expression, you can use variable `$user`
+which refers to `Yii::app()->user`. This option has been available since version 1.0.3.
 
 
 ### Handling Authorization Result
@@ -249,7 +263,7 @@ specified action, one of the following two scenarios may happen:
 property of the user component is configured to be the URL of the login
 page, the browser will be redirected to that page.
 
-   - Otherwise an HTTP exception will be displayed with error code 401.
+   - Otherwise an HTTP exception will be displayed with error code 403.
 
 When configuring the [loginUrl|CWebUser::loginUrl] property, one can
 provide a relative or absolute URL. One can also provide an array which
@@ -451,15 +465,16 @@ $auth->assign('editor','editorC');
 $auth->assign('admin','adminD');
 ~~~
 
-Note that we associate a business rule with the `updateOwnPost` task. In
-the business rule we simply check if the current user ID is the same as the
-specified post's author ID. The post information in the `$params` array is
-supplied by developers when performing access checking.
-
 > Info: While the above example looks long and tedious, it is mainly for
 demonstrative purpose. Developers usually need to develop some user
 interfaces so that end users can use to establish an authorization
 hierarchy more intuitively.
+
+
+### Using Business Rules
+
+When we are defining the authorization hierarchy, we can associate a role, a task or an operation with a so-called *business rule*. We may also associate a business rule when we assign a role to a user. A business rule is a piece of PHP code (PHP statements to be exactly) that is executed when we perform access checking. The returning value of the code is used to determine if the role or assignment applies to the current user. In the example above, we associated a business rule with the `updateOwnPost` task. In the business rule we simply check if the current user ID is the same as the specified post's author ID. The post information in the `$params` array is supplied by developers when performing access checking.
+
 
 ### Access Checking
 
@@ -490,4 +505,50 @@ if(Yii::app()->user->checkAccess('updateOwnPost',$params))
 }
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 295 2008-11-30 22:50:45Z qiang.xue $</div>
+
+### Using Default Roles
+
+> Note: The default role feature has been available since version 1.0.3
+
+Many Web applications need some very special roles that would be assigned to
+every or most of the system users. For example, we may want to assign some
+privileges to all authenticated users. It poses a lot of maintenance trouble
+if we explicitly specify and store these role assignments. We can exploit
+*default roles* to solve this problem.
+
+A default role is a role that is implicitly assigned to every user, including
+both authenticated and guest. We do not need to explicitly assign it to a user.
+When [CWebUser::checkAccess] is invoked, default roles will be checked first as if they are
+assigned to the user.
+
+Default roles must be declared in the [CAuthManager::defaultRoles] property.
+For example, the following configuration declares two roles to be default roles: `authenticated` and `guest`.
+
+~~~
+[php]
+return array(
+	'components'=>array(
+		'authManager'=>array(
+			'class'=>'CDbAuthManager',
+			'defaultRoles'=>array('authenticated', 'guest'),
+		),
+	),
+);
+~~~
+
+Because a default role is assigned to every user, it usually needs to be
+associated with a business rule that determines whether the role
+really applies to the user. For example, the following code defines two
+roles, `authenticated` and `guest`, which effectively apply to authenticated
+users and guest users, respectively.
+
+~~~
+[php]
+$bizRule='return !Yii::app()->user->isGuest;';
+$auth->createRole('authenticated', 'authenticated user', $bizRule);
+
+$bizRule='return Yii::app()->user->isGuest;';
+$auth->createRole('guest', 'guest user', $bizRule);
+~~~
+
+<div class="revision">$Id: topics.auth.txt 1078 2009-05-29 00:45:13Z qiang.xue $</div>

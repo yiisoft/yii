@@ -19,7 +19,7 @@ section.
 
 ![ER Diagram](er.png)
 
-> Info: Support for foreign key contraints varies in different DBMS.
+> Info: Support for foreign key constraints varies in different DBMS.
 >
 > SQLite does not support foreign key constraints, but you can still
 > declare the constraints when creating tables. AR can exploit these
@@ -160,6 +160,9 @@ $author=$post->author;
 corresponding property could be either null or an empty array. For
 `BELONGS_TO` and `HAS_ONE` relationships, the result is null; for
 `HAS_MANY` and `MANY_MANY`, it is an empty array.
+Note that the `HAS_MANY` and `MANY_MANY` relationships return arrays of objects,
+you will need to loop through the results before trying to access any properties.
+Otherwise, you may receive "Trying to get property of non-object" errors.
 
 The lazy loading approach is very convenient to use, but it is not
 efficient in some scenarios. For example, if we want to access the author
@@ -200,28 +203,47 @@ the [with()|CActiveRecord::with] method, like the following,
 
 ~~~
 [php]
-$posts=Post::model()->with(array(
-	'author'=>array(
-		'profile',
-		'posts'),
-	'categories'))->findAll();
+$posts=Post::model()->with(
+	'author.profile',
+	'author.posts',
+	'categories')->findAll();
 ~~~
 
 The above example will bring back all posts together with their author and
 categories. It will also bring back each author's profile and posts.
 
-> Info: The AR implementation in Yii is very efficient. When eager loading
+> Note: The usage of the [with()|CActiveRecord::with] method has been changed
+> since version 1.0.2. Please read the corresponding API documentation carefully.
+
+The AR implementation in Yii is very efficient. When eager loading
 a hierarchy of related objects involving `N` `HAS_MANY` or `MANY_MANY`
 relationships, it will take `N+1` SQL queries to obtain the needed results.
 This means it needs to execute 3 SQL queries in the last example because of
 the `posts` and `categories` properties. Other frameworks take a more
-radical approach by using only one SQL query. At first look, this approach
+radical approach by using only one SQL query. At first look, the radical approach
 seems more efficient because fewer queries are being parsed and executed by
 DBMS. It is in fact impractical in reality for two reasons. First, there
 are many repetitive data columns in the result which takes extra time to
 transmit and process. Second, the number of rows in the result set grows
 exponentially with the number of tables involved, which makes it simply
 unmanageable as more relationships are involved.
+
+Since version 1.0.2, you can also enforce the relational query to be done with
+only one SQL query. Simply append a [together()|CActiveFinder::together] call
+after [with()|CActiveRecord::with]. For example,
+
+~~~
+[php]
+$posts=Post::model()->with(
+	'author.profile',
+	'author.posts',
+	'categories')->together()->findAll();
+~~~
+
+The above query will be done in one SQL query. Without calling [together|CActiveFinder::together],
+this will need two SQL queries: one joins `Post`, `User` and `Profile` tables,
+and the other joins `User` and `Post` tables.
+
 
 Relational Query Options
 ------------------------
@@ -238,13 +260,23 @@ disambiguated using `aliasToken` if they appear in an expression (e.g.
    - `condition`: the `WHERE` clause. It defaults to empty. Note, column
 references need to be disambiguated using `aliasToken` (e.g. `??.id=10`).
 
+   - `params`: the parameters to be bound to the generated SQL statement.
+This should be given as an array of name-value pairs. This option has been
+available since version 1.0.3.
+
+   - `on`: the `ON` clause. The condition specified here will be appended
+to the joining condition using the `AND` operator. Note, column
+references need to be disambiguated using `aliasToken` (e.g. `??.id=10`).
+This option does not apply to `MANY_MANY` relations. This option has been
+available since version 1.0.2.
+
    - `order`: the `ORDER BY` clause. It defaults to empty. Note, column
 references need to be disambiguated using `aliasToken` (e.g. `??.age
 DESC`).
 
    - `with`: a list of child related objects that should be loaded
-together with this object. Note, this is only honored by lazy loading, not
-eager loading.
+together with this object. Be aware that using this option inappropriately
+may form an infinite relation loop.
 
    - `joinType`: type of join for this relationship. It defaults to `LEFT
 OUTER JOIN`.
@@ -259,17 +291,25 @@ meaning the table alias is automatically generated. This is different
 from `aliasToken` in that the latter is just a placeholder and will be
 replaced by the actual table alias.
 
-In addition, the following options are available for certain relationships
-during lazy loading:
+   - `together`: whether the table associated with this relationship should
+be forced to join together with the primary table. This option is only meaningful for HAS_MANY and MANY_MANY relations. If this option is not set or false, each HAS_MANY or MANY_MANY relation will have their own JOIN statement to improve performance. This option has been available since version 1.0.3.
 
    - `group`: the `GROUP BY` clause. It defaults to empty. Note, column
 references need to be disambiguated using `aliasToken` (e.g. `??.age`).
-This option only applies to `HAS_MANY` and `MANY_MANY` relationships.
 
    - `having`: the `HAVING` clause. It defaults to empty. Note, column
 references need to be disambiguated using `aliasToken` (e.g. `??.age`).
-This option only applies to `HAS_MANY` and `MANY_MANY` relationships. Note:
-option has been available since version 1.0.1.
+Note: option has been available since version 1.0.1.
+
+   - `index`: the name of the column whose values should be used as keys
+of the array that stores related objects. Without setting this option,
+an related object array would use zero-based integer index.
+This option can only be set for `HAS_MANY` and `MANY_MANY` relations.
+This option has been available since version 1.0.7.
+
+
+In addition, the following options are available for certain relationships
+during lazy loading:
 
    - `limit`: limit of the rows to be selected. This option does NOT apply
 to `BELONGS_TO` relation.
@@ -287,7 +327,7 @@ class User extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'posts'=>array(self::HAS_MANY, 'Post', 'authorID'
+			'posts'=>array(self::HAS_MANY, 'Post', 'authorID',
 							'order'=>'??.createTime DESC',
 							'with'=>'categories'),
 			'profile'=>array(self::HAS_ONE, 'Profile', 'ownerID'),
@@ -310,4 +350,129 @@ use a placeholder to indicate the existence of a column which needs to be
 disambiguated. AR will replace the placeholder with a suitable table alias
 and properly disambiguate the column.
 
-<div class="revision">$Id: database.arr.txt 401 2008-12-23 13:09:14Z qiang.xue $</div>
+Dynamic Relational Query Options
+--------------------------------
+
+Starting from version 1.0.2, we can use dynamic relational query options
+in both [with()|CActiveRecord::with] and the `with` option. The dynamic
+options will overwrite existing options as specified in the [relations()|CActiveRecord::relations]
+method. For example, with the above `User` model, if we want to use eager
+loading approach to bring back posts belonging to an author in *ascending order*
+(the `order` option in the relation specification is descending order), we
+can do the following:
+
+~~~
+[php]
+User::model()->with(array(
+	'posts'=>array('order'=>'??.createTime ASC'),
+	'profile',
+))->findAll();
+~~~
+
+Starting from version 1.0.5, dynamic query options can also be used when using the lazy loading approach to perform relational query. To do so, we should call a method whose name is the same as the relation name and pass the dynamic query options as the method parameter. For example, the following code returns a user's posts whose `status` is 1:
+
+~~~
+[php]
+$user=User::model()->findByPk(1);
+$posts=$user->posts(array('condition'=>'status=1'));
+~~~
+
+
+Statistical Query
+-----------------
+
+> Note: Statistical query has been supported since version 1.0.4.
+
+Besides the relational query described above, Yii also supports the so-called statistical query (or aggregational query). It refers to retrieving the aggregational information about the related objects, such as the number of comments for each post, the average rating for each product, etc. Statistical query can only be performed for objects related in `HAS_MANY` (e.g. a post has many comments) or `MANY_MANY` (e.g. a post belongs to many categories and a category has many posts).
+
+Performing statistical query is very similar to performing relation query as we described before. We first need to declare the statistical query in the [relations()|CActiveRecord::relations] method of [CActiveRecord] like we do with relational query.
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+			'commentCount'=>array(self::STAT, 'Comment', 'postID'),
+			'categoryCount'=>array(self::STAT, 'Category', 'PostCategory(postID, categoryID)'),
+		);
+	}
+}
+~~~
+
+In the above, we declare two statistical queries: `commentCount` calculates the number of comments belonging to a post, and `categoryCount` calculates the number of categories that a post belongs to. Note that the relationship between `Post` and `Comment` is `HAS_MANY`, while the relationship between `Post` and `Category` is `MANY_MANY` (with the joining table `PostCategory`). As we can see, the declaration is very similar to those relations we described in earlier subsections. The only difference is that the relation type is `STAT` here.
+
+
+With the above declaration, we can retrieve the number of comments for a post using the expression `$post->commentCount`. When we access this property for the first time, a SQL statement will be executed implicitly to retrieve the corresponding result. As we already know, this is the so-called *lazy loading* approach. We can also use the *eager loading* approach if we need to determine the comment count for multiple posts:
+
+~~~
+[php]
+$posts=Post::model()->with('commentCount', 'categoryCount')->findAll();
+~~~
+
+The above statement will execute three SQLs to bring back all posts together with their comment counts and category counts. Using the lazy loading approach, we would end up with `2*N+1` SQL queries if there are `N` posts.
+
+By default, a statistical query will calculate the `COUNT` expression (and thus the comment count and category count in the above example). We can customize it by specifying additional options when we declare it in [relations()|CActiveRecord::relations]. The available options are summarized as below.
+
+   - `select`: the statistical expression. Defaults to `COUNT(*)`, meaning the count of child objects.
+
+   - `defaultValue`: the value to be assigned to those records that do not receive a statistical query result. For example, if a post does not have any comments, its `commentCount` would receive this value. The default value for this option is 0.
+
+   - `condition`: the `WHERE` clause. It defaults to empty.
+
+   - `params`: the parameters to be bound to the generated SQL statement.
+This should be given as an array of name-value pairs.
+
+   - `order`: the `ORDER BY` clause. It defaults to empty.
+
+   - `group`: the `GROUP BY` clause. It defaults to empty.
+
+   - `having`: the `HAVING` clause. It defaults to empty.
+
+
+Relational Query with Named Scopes
+----------------------------------
+
+> Note: The support for named scopes has been available since version 1.0.5.
+
+Relational query can also be performed in combination with [named scopes](/doc/guide/database.ar#named-scopes). It comes in two forms. In the first form, named scopes are applied to the main model. In the second form, named scopes are applied to the related models.
+
+The following code shows how to apply named scopes to the main model.
+
+~~~
+[php]
+$posts=Post::model()->published()->recently()->with('comments')->findAll();
+~~~
+
+This is very similar to non-relational queries. The only difference is that we have the `with()` call after the named-scope chain. This query would bring back recently published posts together with their comments.
+
+And the following code shows how to apply named scopes to the related models.
+
+~~~
+[php]
+$posts=Post::model()->with('comments:recently:approved')->findAll();
+~~~
+
+The above query will bring back all posts together with their approved comments. Note that `comments` refers to the relation name, while `recently` and `approved` refer to two named scopes declared in the `Comment` model class. The relation name and the named scopes should be separated by colons.
+
+Named scopes can also be specified in the `with` option of the relational rules declared in [CActiveRecord::relations()]. In the following example, if we access `$user->posts`, it would bring back all *approved* comments of the posts.
+
+~~~
+[php]
+class User extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+			'posts'=>array(self::HAS_MANY, 'Post', 'authorID',
+				'with'=>'comments:approved'),
+		);
+	}
+}
+~~~
+
+> Note: Named scopes applied to related models must be specified in [CActiveRecord::scopes]. As a result, they cannot be parameterized.
+
+
+<div class="revision">$Id: database.arr.txt 1168 2009-06-23 14:52:48Z qiang.xue $</div>

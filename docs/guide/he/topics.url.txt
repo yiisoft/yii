@@ -102,14 +102,25 @@ array(
 ~~~
 
 The rules are specified as an array of pattern-route pairs, each
-corresponding to a single rule. The pattern of a rule must be a valid
-regular expression without delimiters and modifiers. It is used to match
-the path info part of URLs. And the
-[route](/doc/guide/basics.controller#route) should refer to a valid
-controller route.
+corresponding to a single rule. The pattern of a rule is a string
+used to match the path info part of URLs. And the route of a rule
+should refer to a valid controller [route](/doc/guide/basics.controller#route).
+
+> Info: Starting from version 1.0.6, a rule may be further customized
+> by setting its `urlSuffix` and `caseSensitive` options. To do so,
+> we should specify the route part of the rule as an array, like the following:
+>
+> ~~~
+> [php]
+> 'pattern1'=>array('route1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
+> ~~~
+>
+
+
+### Using Named Parameters
 
 A rule can be associated with a few GET parameters. These GET parameters
-appear in the rule's pattern as special tokens of the following format:
+appear in the rule's pattern as special tokens in the following format:
 
 ~~~
 &lt;ParamName:ParamPattern&gt;
@@ -169,10 +180,44 @@ when a user requests for `/index.php/post/100`, the second rule in the
 above example will apply, which resolves in the route `post/read` and the
 GET parameter `array('id'=>100)` (accessible via `$_GET`).
 
+
 > Note: Using URL rules will degrade application performance. This is
 because when parsing the request URL, [CUrlManager] will attempt to match
-it with each rule until one can be applied. Therefore, a high-traffic Web
+it with each rule until one can be applied. The more the number of rules,
+the more the performance impact. Therefore, a high-traffic Web
 application should minimize its use of URL rules.
+
+
+### Parameterizing Routes
+
+Starting from version 1.0.5, we may reference named parameters in the route part
+of a rule. This allows a rule to be applied to multiple routes based on matching
+criteria. It may also help reduce the number of rules needed for an application,
+and thus improve the overall performance.
+
+We use the following example rules to illustrate how to parameterize routes
+with named parameters:
+
+~~~
+[php]
+array(
+	'<_c:(post|comment)>/<id:\d+>/<_a:(create|update|delete)>' => '<_c>/<_a>',
+	'<_c:(post|comment)>/<id:\d+>' => '<_c>/read',
+	'<_c:(post|comment)>s' => '<_c>/list',
+)
+~~~
+
+In the above, we use two named parameters in the route part of the rules:
+`_c` and `_a`. The former matches a controller ID to be either `post` or `comment`,
+while the latter matches an action ID to be `create`, `update` or `delete`.
+You may name the parameters differently as long as they do not conflict with
+GET parameters that may appear in URLs.
+
+Using the aboving rules, the URL `/index.php/post/123/create`
+would be parsed as the route `post/create` with GET parameter `id=123`.
+And given the route `comment/list` and GET parameter `page=2`, we can create a URL
+`/index.php/comments?page=2`.
+
 
 ### Hiding `index.php`
 
@@ -184,9 +229,10 @@ configure the Web server as well as the
 We first need to configure the Web server so that a URL without the entry
 script can still be handled by the entry script. For [Apache HTTP
 server](http://httpd.apache.org/), this can be done by turning on the URL
-rewriting engine and specifying some rewriting rules. Both can be in a
-`.htaccess` file that is placed under the directory containing the entry
-script. The following is an example:
+rewriting engine and specifying some rewriting rules. We can create
+the file `/wwwroot/blog/.htaccess` with the following content.
+Note that the same content can also be put in the Apache configuration
+file within the `Directory` element for `/wwwroot/blog`.
 
 ~~~
 Options +FollowSymLinks
@@ -217,4 +263,4 @@ to a static Web page. To do so, simply configure the
 [urlManager|CWebApplication::urlManager] component by setting its
 [urlSuffix|CUrlManager::urlSuffix] property to the suffix you like.
 
-<div class="revision">$Id: topics.url.txt 229 2008-11-16 21:14:59Z qiang.xue $</div>
+<div class="revision">$Id: topics.url.txt 1098 2009-06-06 20:55:07Z qiang.xue $</div>

@@ -29,18 +29,18 @@ the variable `$user` represents `LoginForm` instance.
 ~~~
 [php]
 <div class="yiiForm">
-<?php echo CHtml::form(); ?>
+<?php echo CHtml::beginForm(); ?>
 
 <?php echo CHtml::errorSummary($user); ?>
 
 <div class="simple">
 <?php echo CHtml::activeLabel($user,'username'); ?>
-<?php echo CHtml::activeTextField($user,'username') ?>
+<?php echo CHtml::activeTextField($user,'username'); ?>
 </div>
 
 <div class="simple">
 <?php echo CHtml::activeLabel($user,'password'); ?>
-<?php echo CHtml::activePasswordField($user,'password')
+<?php echo CHtml::activePasswordField($user,'password');
 ?>
 </div>
 
@@ -50,7 +50,7 @@ Remember me next time<br/>
 <?php echo CHtml::submitButton('Login'); ?>
 </div>
 
-</form>
+<?php echo CHtml::endForm(); ?>
 </div><!-- yiiForm -->
 ~~~
 
@@ -60,8 +60,7 @@ model attribute. If the attribute has an input error, the label's CSS class
 will be changed to `error`, which changes the appearance of the label with
 appropriate CSS styles. Similarly, [CHtml::activeTextField()] generates a
 text input field for the specified model attribute and changes its CSS
-class upon any input error. For more details about using [CHtml], see
-[Using Helpers](/doc/guide/view.helper).
+class upon any input error.
 
 If we use the CSS style file `form.css` provided by the `yiic` script, the
 generated form would be like the following:
@@ -70,4 +69,4 @@ generated form would be like the following:
 
 ![The login with error page](login2.png)
 
-<div class="revision">$Id: form.view.txt 297 2008-11-30 23:01:07Z qiang.xue $</div>
+<div class="revision">$Id: form.view.txt 844 2009-03-16 22:06:41Z qiang.xue $</div>

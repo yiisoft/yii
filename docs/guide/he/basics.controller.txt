@@ -27,13 +27,16 @@ Route
 -----
 
 Controllers and actions are identified by IDs. Controller ID is in the
-format of `path.to.xyz` which corresponds to the controller class file
+format of `path/to/xyz` which corresponds to the controller class file
 `protected/controllers/path/to/XyzController.php`, where the token `xyz`
 should be replaced by actual names (e.g. `post` corresponds to
 `protected/controllers/PostController.php`). Action ID is the action method
 name without the `action` prefix. For example, if a controller class
 contains a method named `actionEdit`, the ID of the corresponding action
 would be `edit`.
+
+> Note: Before version 1.0.3, the controller ID format is `path.to.xyz`
+instead of `path/to/xyz`.
 
 Users request for a particular controller and action in terms of route. A
 route is formed by concatenating a controller ID and an action ID separated
@@ -44,10 +47,13 @@ and action.
 
 >Note: By default, routes are case-sensitive. Since version 1.0.1, it is
 >possible to make routes case-insensitive by setting [CUrlManager::caseSensitive]
->to be true in the application configuration. When in case-insensitive mode,
+>to be false in the application configuration. When in case-insensitive mode,
 >make sure you follow the convention that directories containing controller
 >class files are in lower case, and both [controller map|CWebApplication::controllerMap]
->[action map|CController::actions] are using keys in lower case.
+>and [action map|CController::actions] are using keys in lower case.
+
+Since version 1.0.3, an application can contain [modules](/doc/guide/basics.module). The route for a controller action inside a module is in the format of `moduleID/controllerID/actionID`. For more details, see the [section about modules](/doc/guide/basics.module).
+
 
 Controller Instantiation
 ------------------------
@@ -66,12 +72,14 @@ maintenance mode and display a static notice page.
 corresponding controller configuration will be used to create the
 controller instance.
 
-   - If the ID is in the format of `'path.to.xyz'`, the controller class
-name is assumed to be `Xyz` and the corresponding class file is
+   - If the ID is in the format of `'path/to/xyz'`, the controller class
+name is assumed to be `XyzController` and the corresponding class file is
 `protected/controllers/path/to/XyzController.php`. For example, a controller
-ID `admin.user` would be resolved as the controller class `UserController`
+ID `admin/user` would be resolved as the controller class `UserController`
 and the class file `protected/controllers/admin/UserController.php`.
 If the class file does not exist, a 404 [CHttpException] will be raised.
+
+In case when [modules](/doc/guide/basics.module) are used (available since version 1.0.3), the above process is slighly different. In particular, the application will check if the ID refers to a controller inside a module, and if so, the module instance will be created first followed by the controller instance.
 
 
 Action
@@ -146,7 +154,7 @@ spent in the action execution.
 
 An action can have multiple filters. The filters are executed in the order
 that they appear in the filter list. A filter can prevent the execution of
-the action and the rest unexecuted filters.
+the action and the rest of the unexecuted filters.
 
 A filter can be defined as a controller class method. The method name must
 begin with `filter`. For example, the existence of the
@@ -225,4 +233,4 @@ should be applied to the `edit` and `create` actions, while
 `create`. If neither plus nor minus appears in the filter configuration,
 the filter will be applied to all actions.
 
-<div class="revision">$Id: basics.controller.txt 416 2008-12-28 05:28:11Z qiang.xue $</div>
+<div class="revision">$Id: basics.controller.txt 744 2009-02-25 21:44:08Z qiang.xue $</div>

@@ -1,4 +1,4 @@
-Working with Database
+עבודה עם מסדי נתונים
 =====================
 
 Yii provides powerful support for database programming. Built on top of

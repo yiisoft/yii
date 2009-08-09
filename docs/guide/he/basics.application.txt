@@ -195,16 +195,25 @@ Application Lifecycles
 When handling a user request, an application will undergo the following
 lifecycles:
 
+   0. Pre-initializes the application with [CApplication::preinit()];
+
    1. Set up class autoloader and error handling;
+
    2. Register core application components;
+
    3. Load application configuration;
-   4. Initialize application with [CApplication::init()]
+
+   4. Initialize the application with [CApplication::init()]
+       - Register application behaviors;
 	   - Load static application components;
+
    5. Raise [onBeginRequest|CApplication::onBeginRequest] event;
+
    6. Process the user request:
 	   - Resolve the user request;
 	   - Create controller;
 	   - Run controller;
+
    7.Raise [onEndRequest|CApplication::onEndRequest] event;
 
-<div class="revision">$Id: basics.application.txt 416 2008-12-28 05:28:11Z qiang.xue $</div>
+<div class="revision">$Id: basics.application.txt 846 2009-03-17 17:35:33Z qiang.xue $</div>
