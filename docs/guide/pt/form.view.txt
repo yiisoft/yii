@@ -1,0 +1,74 @@
+Criando um Formulário
+=====================
+
+Escrever a visão `login` é algo bem simples. Devemos começar com uma tag 
+`form`, cujo atributo action deve ser a URL da ação `login`, descrita 
+anteriormente. Em seguida inserimos os rótulos e os campos para os atributos 
+declarados na classe `LoginForm`. Por fim, inserimos um botão de envio (submit) 
+que pode ser utilizado pelos usuários para enviar o formulário. Tudo isso pode 
+ser feito puramente com HTML.
+
+O Yii fornece algumas classes auxiliares para facilitar a composição da visão. 
+Por exemplo, para criar um caixa de texto, podemos utilizar o método 
+[CHtml::textField()]; para criar uma lista do tipo drop-down, utilizamos 
+[CHtml::dropDownList()].
+
+> Info|Informação: Você deve estar se perguntando qual a vantagem de se utilizar 
+> uma classe auxiliar, se elas utilizam a mesma quantidade de código do que o 
+> equivalente em HTML. A resposta é que as classes auxiliares geram mais 
+> do que somente código HTML. Por exemplo, o código a seguir gera uma caixa de texto 
+> que dispara o envio do formulário caso seu valor seja alterado pelo usuário:
+>
+> ~~~
+> [php]
+> CHtml::textField($name,$value,array('submit'=>''));
+> ~~~
+>
+> Se não fosse assim, seria necessário um monte de código em JavaScript espalhado.
+
+No exemplo a seguir, utilizamos a classe [CHtml] para criar o formulário de login. 
+Assumimos que a variável `$user` representa uma instância de `LoginForm`.
+
+~~~
+[php]
+<div class="yiiForm">
+<?php echo CHtml::beginForm(); ?>
+
+<?php echo CHtml::errorSummary($user); ?>
+
+<div class="simple">
+<?php echo CHtml::activeLabel($user,'username'); ?>
+<?php echo CHtml::activeTextField($user,'username'); ?>
+</div>
+
+<div class="simple">
+<?php echo CHtml::activeLabel($user,'password'); ?>
+<?php echo CHtml::activePasswordField($user,'password');
+?>
+</div>
+
+<div class="action">
+<?php echo CHtml::activeCheckBox($user,'rememberMe'); ?>
+Remember me next time<br/>
+<?php echo CHtml::submitButton('Login'); ?>
+</div>
+
+<?php echo CHtml::endForm(); ?>
+</div><!-- yiiForm -->
+~~~
+
+Esse código gera um formulário mais dinâmico. Por exemplo, o método [CHtml::activeLabel()] 
+gera um rótulo associado ao atributo do modelo especificado. Se o ocorrer um erro 
+com a validação desse atributo, a classe CSS do rótulo será alterada para `error`, 
+o que mudará a aparência do rótulo. Da mesma forma, o método [CHtml::activeTextField()] 
+gera uma caixa de texto para o atributo especificado e, também, altera sua 
+classe CSS na ocorrência de erros.
+
+Se utilizarmos o arquivo css `form.css`, fornecido pelo script do `yiic`, o 
+formulário gerado terá a seguinte aparência:
+
+![A Página de Login](login1.png)
+
+![A Página de Login com Erros](login2.png)
+
+<div class="revision">$Id: form.view.txt 844 2009-03-16 22:06:41Z qiang.xue $</div>
