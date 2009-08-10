@@ -15,6 +15,7 @@ Version 1.1a to be released
 
 Version 1.0.9 to be released
 ----------------------------
+- New: Added CLocale::getMonthNames and CLocale::getWeekDayNames (Qiang)
 
 Version 1.0.8 August 9, 2009
 ----------------------------
@@ -53,6 +54,7 @@ Version 1.0.8 August 9, 2009
 - New: Improved CHtml::statefulForm() to make it XHTML-compliant (Qinag)
 - New: Added CBaseUserIdentity::clearState() (Qiang)
 - New: Added 'ext' root path alias which points to the directory containing all extensions (Qiang)
+- New: Added Greek translation of core messages (Vasileios)
 - Chg #479: Imported path aliases now have precedence over existing include paths (Qiang)
 - Chg: Modified the count() method of relational AR to support counting composite keys (Qiang)
 - Chg: Reverted back the support for assigning a related object to an AR object (Qiang)
