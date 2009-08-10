@@ -180,13 +180,33 @@ class CLocale extends CComponent
 	}
 
 	/**
-	 * @param integer weekday (0-6)
+	 * Returns the month names in the specified width.
+	 * @param string month name width. It can be 'wide', 'abbreviated' or 'narrow'.
+	 * @return array month names indexed by month values (1-12)
+	 */
+	public function getMonthNames($width='wide')
+	{
+		return $this->_data['monthNames'][$width];
+	}
+
+	/**
+	 * @param integer weekday (0-6, 0 means Sunday)
 	 * @param string weekday name width.  It can be 'wide', 'abbreviated' or 'narrow'.
 	 * @return string the weekday name
 	 */
 	public function getWeekDayName($day,$width='wide')
 	{
 		return $this->_data['weekDayNames'][$width][$day];
+	}
+
+	/**
+	 * Returns the week day names in the specified width.
+	 * @param string weekday name width.  It can be 'wide', 'abbreviated' or 'narrow'.
+	 * @return array the weekday names indexed by weekday values (0-6, 0 means Sunday, 1 Monday, etc.)
+	 */
+	public function getWeekDayNames($width='wide')
+	{
+		return $this->_data['weekDayNames'][$width];
 	}
 
 	/**

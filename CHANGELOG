@@ -4,6 +4,7 @@
 
 Version 1.0.9 to be released
 ----------------------------
+- New: Added CLocale::getMonthNames and CLocale::getWeekDayNames (Qiang)
 
 Version 1.0.8 August 9, 2009
 ----------------------------
