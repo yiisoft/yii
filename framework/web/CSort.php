@@ -112,7 +112,10 @@ class CSort extends CComponent
 	}
 
 	/**
-	 * Modifies the query criteria by changing its ORDER BY property.
+	 * Modifies the query criteria by changing its {@link CDbCriteria::order} property.
+	 * This method will use {@link directions} to determine which columns need to be sorted.
+	 * They will be put in the ORDER BY clause. If the criteria already has non-empty {@link CDbCriteria::order} value,
+	 * the new value will be appended to it.
 	 * @param CDbCriteria the query criteria
 	 */
 	public function applyOrder($criteria)
