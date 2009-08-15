@@ -389,7 +389,8 @@ class CHtml
 	 * Generates a button using HTML button tag.
 	 * This method is similar to {@link button} except that it generates a 'button'
 	 * tag instead of 'input' tag.
-	 * @param string the button label
+	 * @param string the button label. Note that this value will be directly inserted in the button element
+	 * without being HTML-encoded.
 	 * @param array additional HTML attributes. Besides normal HTML attributes, a few special
 	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
 	 * @return string the generated button tag
@@ -402,10 +403,8 @@ class CHtml
 			$htmlOptions['name']=self::ID_PREFIX.self::$count++;
 		if(!isset($htmlOptions['type']))
 			$htmlOptions['type']='button';
-		if(!isset($htmlOptions['value']))
-			$htmlOptions['value']=$label;
 		self::clientChange('click',$htmlOptions);
-		return self::tag('button',$htmlOptions);
+		return self::tag('button',$htmlOptions,$label);
 	}
 
 	/**

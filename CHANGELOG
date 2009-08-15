@@ -4,6 +4,7 @@
 
 Version 1.0.9 to be released
 ----------------------------
+- Bug #510: CHtml::htmlButton() should render the label as the element body rather than value attribute (Qiang)
 - Bug #513: CNumberValidator does not validate as expected when the attribute value is not string (Qiang)
 - Enh #512: CHtml::beginForm() is made XHTML-compliant when CSRF is enabled (Qiang)
 - New: Added CLocale::getMonthNames and CLocale::getWeekDayNames (Qiang)
