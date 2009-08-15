@@ -390,7 +390,7 @@ EOD;
 				if(strcasecmp(substr($label,-3),' id')===0)
 					$label=substr($label,0,-3);
 				$labels[$column->name]=$label;
-				if($column->isPrimaryKey && $table->sequenceName!==null || $column->isForeignKey)
+				if($column->isPrimaryKey && $table->sequenceName!==null)
 					continue;
 				$r=!$column->allowNull && $column->defaultValue===null;
 				if($r)
