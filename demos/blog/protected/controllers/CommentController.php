@@ -109,7 +109,7 @@ class CommentController extends CController
 		$criteria=new CDbCriteria;
 		$criteria->condition='Comment.status='.Comment::STATUS_PENDING;
 
-		$pages=new CPagination(Comment::model()->count());
+		$pages=new CPagination(Comment::model()->count($criteria));
 		$pages->pageSize=self::PAGE_SIZE;
 		$pages->applyLimit($criteria);
 
