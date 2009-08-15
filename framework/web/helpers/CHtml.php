@@ -272,7 +272,7 @@ class CHtml
 		if($request->enableCsrfValidation)
 		{
 			$token=self::hiddenField($request->csrfTokenName,$request->getCsrfToken(),array('id'=>false));
-			$form.="\n".$token;
+			$form.="\n".self::tag('div',array('style'=>'display:none'),$token);
 		}
 		return $form;
 	}
@@ -301,7 +301,7 @@ class CHtml
 	public static function statefulForm($action='',$method='post',$htmlOptions=array())
 	{
 		return self::form($action,$method,$htmlOptions)."\n".
-			self::tag('div',array('style'=>'visibility:hidden'),self::pageStateField(''));
+			self::tag('div',array('style'=>'display:none'),self::pageStateField(''));
 	}
 
 	/**
