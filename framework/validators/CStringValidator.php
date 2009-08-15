@@ -55,7 +55,7 @@ class CStringValidator extends CValidator
 	protected function validateAttribute($object,$attribute)
 	{
 		$value=$object->$attribute;
-		if($this->allowEmpty && ($value===null || $value===''))
+		if($this->allowEmpty && $this->isEmpty($value))
 			return;
 		$length=strlen($value);
 		if($this->min!==null && $length<$this->min)

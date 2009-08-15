@@ -37,7 +37,7 @@ class CRegularExpressionValidator extends CValidator
 	protected function validateAttribute($object,$attribute)
 	{
 		$value=$object->$attribute;
-		if($this->allowEmpty && ($value===null || $value===''))
+		if($this->allowEmpty && $this->isEmpty($value))
 			return;
 		if($this->pattern===null)
 			throw new CException(Yii::t('yii','The "pattern" property must be specified with a valid regular expression.'));
