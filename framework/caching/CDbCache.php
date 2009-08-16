@@ -58,6 +58,7 @@ class CDbCache extends CCache
 	 */
 	private $_db;
 	private $_gcProbability=100;
+	private $_gced=false;
 
 	/**
 	 * Destructor.
