@@ -183,6 +183,7 @@ EOD;
 					$table->primaryKey=array($table->primaryKey,$c->name);
 				else
 					$table->primaryKey[]=$c->name;
+				$table->sequenceName='';
 			}
 		}
 		return true;
