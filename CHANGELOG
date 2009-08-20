@@ -23,7 +23,7 @@ Version 1.0.9 to be released
 - Enh #526: Added CSort::params and CPagination::params to allow customizing additional GET parameters in the generated URLs (Qiang)
 - Enh: Added CWebUser::setStateKeyPrefix() (Qiang)
 - Enh: Added CLocale::getMonthNames and CLocale::getWeekDayNames (Qiang)
-- New: Added core message translation in Bulgarian (Nikolai)
+- New: Added core message and system view translations in Bulgarian (Nikolai)
 
 Version 1.0.8 August 9, 2009
 ----------------------------
