@@ -445,6 +445,8 @@ class CJoinElement
 		$query->selects[]=$child->getColumnSelect($child->relation->select);
 		$query->conditions=array();
 		$query->conditions[]=$child->getCondition();
+		if(!empty($child->relation->on))
+			$query->conditions[]=str_replace($child->relation->aliasToken.'.', $child->tableAlias.'.', $child->relation->on);
 		$query->groups[]=$child->getGroupBy();
 		$query->havings[]=$child->getHaving();
 		$query->orders[]=$child->getOrder();
