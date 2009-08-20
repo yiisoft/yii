@@ -455,8 +455,6 @@ class CJoinElement
 		{
 			$query->limit=$child->relation->limit;
 			$query->offset=$child->relation->offset;
-			if($this->_finder->baseLimited===null)
-				$this->_finder->baseLimited=($query->offset>=0 || $query->limit>=0);
 		}
 
 		$child->applyLazyCondition($query,$baseRecord);
