@@ -131,7 +131,9 @@ appear in the rule's pattern as special tokens in the following format:
 
 where `ParamName` specifies the name of a GET parameter, and the optional
 `ParamPattern` specifies the regular expression that should be used to
-match the value of the GET parameter. When creating a URL, these parameter
+match the value of the GET parameter. In case when `ParamPattern` is omitted,
+it means the parameter should match any characters except the slash `/`.
+When creating a URL, these parameter
 tokens will be replaced with the corresponding parameter values; when
 parsing a URL, the corresponding GET parameters will be populated with the
 parsed results.

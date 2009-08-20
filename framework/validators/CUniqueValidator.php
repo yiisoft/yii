@@ -63,7 +63,7 @@ class CUniqueValidator extends CValidator
 	protected function validateAttribute($object,$attribute)
 	{
 		$value=$object->$attribute;
-		if($this->allowEmpty && ($value===null || $value===''))
+		if($this->allowEmpty && $this->isEmpty($value))
 			return;
 
 		$className=$this->className===null?get_class($object):Yii::import($this->className);

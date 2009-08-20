@@ -98,6 +98,12 @@ class CSort extends CComponent
 	 * and the corresponding sort direction. Defaults to array('-','.').
 	 */
 	public $separators=array('-','.');
+	/**
+	 * @var array the additional GET parameters (name=>value) that should be used when generating sort URLs.
+	 * Defaults to null, meaning using the currently available GET parameters.
+	 * @since 1.0.9
+	 */
+	public $params;
 
 	private $_directions;
 
@@ -112,7 +118,10 @@ class CSort extends CComponent
 	}
 
 	/**
-	 * Modifies the query criteria by changing its ORDER BY property.
+	 * Modifies the query criteria by changing its {@link CDbCriteria::order} property.
+	 * This method will use {@link directions} to determine which columns need to be sorted.
+	 * They will be put in the ORDER BY clause. If the criteria already has non-empty {@link CDbCriteria::order} value,
+	 * the new value will be appended to it.
 	 * @param CDbCriteria the query criteria
 	 */
 	public function applyOrder($criteria)
@@ -248,7 +257,7 @@ class CSort extends CComponent
 				$attribute=$this->attributes[$attribute];
 			$sorts[]=$descending ? $attribute.$this->separators[1].'desc' : $attribute;
 		}
-		$params=$_GET;
+		$params=$this->params===null ? $_GET : $this->params;
 		$params[$this->sortVar]=implode($this->separators[0],$sorts);
 		return $controller->createUrl($this->route,$params);
 	}

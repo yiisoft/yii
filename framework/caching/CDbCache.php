@@ -49,6 +49,7 @@ class CDbCache extends CCache
 	public $cacheTableName='YiiCache';
 	/**
 	 * @var boolean whether the cache DB table should be created automatically if it does not exist. Defaults to true.
+	 * If you already have the table created, it is recommended you set this property to be false to improve performance.
 	 * @see cacheTableName
 	 */
 	public $autoCreateCacheTable=true;
@@ -56,6 +57,8 @@ class CDbCache extends CCache
 	 * @var CDbConnection the DB connection instance
 	 */
 	private $_db;
+	private $_gcProbability=100;
+	private $_gced=false;
 
 	/**
 	 * Destructor.
@@ -81,20 +84,44 @@ class CDbCache extends CCache
 		$db=$this->getDbConnection();
 		$db->setActive(true);
 
-		$sql="DELETE FROM {$this->cacheTableName} WHERE expire>0 AND expire<".time();
-		try
+		if($this->autoCreateCacheTable)
 		{
-			$db->createCommand($sql)->execute();
-		}
-		catch(Exception $e)
-		{
-			// The cache table does not exist
-			if($this->autoCreateCacheTable)
+			$sql="DELETE FROM {$this->cacheTableName} WHERE expire>0 AND expire<".time();
+			try
+			{
+				$db->createCommand($sql)->execute();
+			}
+			catch(Exception $e)
+			{
 				$this->createCacheTable($db,$this->cacheTableName);
-			else
-				throw new CException(Yii::t('yii','Cache table "{tableName}" does not exist.',
-					array('{tableName}'=>$this->cacheTableName)));
+			}
 		}
+	}
+
+	/**
+	 * @return integer the probability (parts per million) that garbage collection (GC) should be performed
+	 * when storing a piece of data in the cache. Defaults to 100, meaning 0.01% chance.
+	 * @since 1.0.9
+	 */
+	public function getGCProbability()
+	{
+		return $this->_gcProbability;
+	}
+
+	/**
+	 * @param integer the probability (parts per million) that garbage collection (GC) should be performed
+	 * when storing a piece of data in the cache. Defaults to 100, meaning 0.01% chance.
+	 * This number should be between 0 and 1000000. A value 0 meaning no GC will be performed at all.
+	 * @since 1.0.9
+	 */
+	public function setGCProbability($value)
+	{
+		$value=(int)$value;
+		if($value<0)
+			$value=0;
+		if($value>1000000)
+			$value=1000000;
+		$this->_gcProbability=$value;
 	}
 
 	/**
@@ -207,6 +234,12 @@ EOD;
 	 */
 	protected function addValue($key,$value,$expire)
 	{
+		if(!$this->_gced && mt_rand(0,1000000)<$this->_gcProbability)
+		{
+			$this->gc();
+			$this->_gced=true;
+		}
+
 		if($expire>0)
 			$expire+=time();
 		else

@@ -367,13 +367,13 @@ class CActiveRecordTest extends CTestCase
 		$post=Post::model()->findByPk(2);
 		$this->assertEquals(2,count($post->categories));
 		$this->assertEquals(array(
-			'id'=>4,
-			'name'=>'cat 4',
-			'parent_id'=>1),$post->categories[0]->attributes);
-		$this->assertEquals(array(
 			'id'=>1,
 			'name'=>'cat 1',
-			'parent_id'=>null),$post->categories[1]->attributes);
+			'parent_id'=>null),$post->categories[0]->attributes);
+		$this->assertEquals(array(
+			'id'=>4,
+			'name'=>'cat 4',
+			'parent_id'=>1),$post->categories[1]->attributes);
 		$post=Post::model()->findByPk(4);
 		$this->assertEquals(array(),$post->categories);
 
@@ -765,7 +765,7 @@ class CActiveRecordTest extends CTestCase
 	public function testDuplicateLazyLoadingBug()
 	{
 		$user=User::model()->with(array(
-			'posts'=>array('condition'=>'posts.id=-1')
+			'posts'=>array('on'=>'posts.id=-1')
 		))->findByPk(1);
 		// with the bug, an eager loading for 'posts' would be trigger in the following
 		// and result with non-empty posts

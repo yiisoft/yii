@@ -249,7 +249,7 @@ abstract class CModule extends CComponent
 	 */
 	public function getModule($id)
 	{
-		if(array_key_exists($id,$this->_modules))
+		if(isset($this->_modules[$id]) || array_key_exists($id,$this->_modules))
 			return $this->_modules[$id];
 		else if(isset($this->_moduleConfig[$id]))
 		{
