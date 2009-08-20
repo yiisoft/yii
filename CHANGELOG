@@ -16,6 +16,7 @@ Version 1.0.9 to be released
 - Enh #509: Enhanced CRequiredValidator to check for empty array value (Qiang)
 - Enh #511: CHtml::activeCheckBox and activeRadioButton should respect the value attribute (Qiang)
 - Enh #512: CHtml::beginForm() is made XHTML-compliant when CSRF is enabled (Qiang)
+- Enh #526: Added CSort::params to allow customizing additional GET parameters in the pagination URLs (Qiang)
 - New: Added CLocale::getMonthNames and CLocale::getWeekDayNames (Qiang)
 - New: Added core message translation in Bulgarian (Nikolai)
 
