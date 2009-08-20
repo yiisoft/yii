@@ -16,6 +16,7 @@ Version 1.0.9 to be released
 - Enh #509: Enhanced CRequiredValidator to check for empty array value (Qiang)
 - Enh #512: CHtml::beginForm() is made XHTML-compliant when CSRF is enabled (Qiang)
 - New: Added CLocale::getMonthNames and CLocale::getWeekDayNames (Qiang)
+- New: Added core message translation in Bulgarian (Nikolai)
 
 Version 1.0.8 August 9, 2009
 ----------------------------
