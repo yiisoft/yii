@@ -99,7 +99,7 @@ class CSort extends CComponent
 	 */
 	public $separators=array('-','.');
 	/**
-	 * @var array the additional GET parameters (name=>value) that should be used when generating pagination URLs.
+	 * @var array the additional GET parameters (name=>value) that should be used when generating sort URLs.
 	 * Defaults to null, meaning using the currently available GET parameters.
 	 * @since 1.0.9
 	 */
