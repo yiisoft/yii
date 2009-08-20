@@ -1,7 +1,7 @@
-﻿/// <reference path="../../../lib/jquery-1.2.6.js" />
+/// <reference path="../../../lib/jquery-1.2.6.js" />
 /*
 * Copyright (c) 2007-2008 Josh Bush (digitalbush.com)
-* 
+*
 * Permission is hereby granted, free of charge, to any person
 * obtaining a copy of this software and associated documentation
 * files (the "Software"), to deal in the Software without
@@ -12,7 +12,7 @@
 * conditions:
 * The above copyright notice and this permission notice shall be
 * included in all copies or substantial portions of the Software.
-* 
+*
 * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -20,7 +20,7 @@
 * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-* OTHER DEALINGS IN THE SOFTWARE. 
+* OTHER DEALINGS IN THE SOFTWARE.
 */
 
 /*
@@ -101,7 +101,7 @@
 				var ignore = false;  			//Variable for ignoring control keys
 				var firstNonMaskPos = null;
 
-				//Build buffer layout from mask & determine the first non masked character			
+				//Build buffer layout from mask & determine the first non masked character
 				$.each(mask.split(""), function(i, c) {
 					locked[i] = ($.mask.definitions[c] == null);
 					buffer[i] = locked[i] ? c : settings.placeholder;
@@ -128,7 +128,7 @@
 						clearBuffer(pos.begin, pos.end);
 					}
 					//backspace and delete get special treatment
-					if (k == 8) {//backspace					
+					if (k == 8) {//backspace
 						while (pos.begin-- >= 0) {
 							if (!locked[pos.begin]) {
 								buffer[pos.begin] = settings.placeholder;
@@ -221,7 +221,7 @@
 					}
 					return mask.length;
 				};
-				
+
 				input
 					.one("unmask", function() {
 						input
