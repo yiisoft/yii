@@ -10,6 +10,7 @@ Version 1.0.9 to be released
 - Bug #518: CFilterValidator uses call_user_func_array() incorrectly (Qiang)
 - Bug #522: array-like parameters in path info are not parsed correctly by CUrlManager (Qiang)
 - Bug #525: Invalid first chars in jquery.maskedinput.js (Qiang)
+- Bug #527: Typo in CActiveFinder.php:581 (Wei)
 - Bug: Set sequenceName in Oracle tables to be empty string so that yiic model command generates correct validation rules for PK (Qiang)
 - Enh #419: Improved the performance of lazy relational AR by avoiding joining when possible (Qiang)
 - Enh #500: Added CDbCache::gcProbability (Qiang)

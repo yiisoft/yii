@@ -578,7 +578,7 @@ class CJoinElement
 					else if(is_array($parent->_table->primaryKey)) // composite PK
 						$pk=$parent->_table->primaryKey[$i];
 					else
-						$pk=$parent->primaryKey;
+						$pk=$parent->_table->primaryKey;
 					$params[$fk]=$record->$pk;
 				}
 			}
