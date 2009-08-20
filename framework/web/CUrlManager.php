@@ -296,10 +296,16 @@ class CUrlManager extends CApplicationComponent
 			$key=$segs[$i];
 			if($key==='') continue;
 			$value=$segs[$i+1];
-			if(($pos=strpos($key,'[]'))!==false)
+			if(($pos=strpos($key,'['))!==false && ($pos2=strpos($key,']',$pos+1))!==false)
 			{
 				$name=substr($key,0,$pos);
-				$_REQUEST[$name][]=$_GET[$name][]=$value;
+				if($pos2===$pos+1)
+					$_REQUEST[$name][]=$_GET[$name][]=$value;
+				else
+				{
+					$key=substr($key,$pos+1,$pos2-$pos-1);
+					$_REQUEST[$name][$key]=$_GET[$name][$key]=$value;
+				}
 			}
 			else
 				$_REQUEST[$key]=$_GET[$key]=$value;
