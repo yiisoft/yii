@@ -26,8 +26,7 @@ class CRequiredValidator extends CValidator
 	 */
 	protected function validateAttribute($object,$attribute)
 	{
-		$value=$object->$attribute;
-		if($value===null || trim($value)==='')
+		if($this->isEmpty($object->$attribute,true))
 		{
 			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} cannot be blank.');
 			$this->addError($object,$attribute,$message);

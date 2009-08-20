@@ -74,7 +74,7 @@ class CCompareValidator extends CValidator
 	protected function validateAttribute($object,$attribute)
 	{
 		$value=$object->$attribute;
-		if($this->allowEmpty && ($value===null || $value===''))
+		if($this->allowEmpty && $this->isEmpty($value))
 			return;
 		if($this->compareValue!==null)
 			$compareTo=$compareValue=$this->compareValue;

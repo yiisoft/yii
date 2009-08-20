@@ -361,12 +361,21 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	/**
 	 * @return string a prefix for the name of the session variables storing user session data.
 	 */
-	protected function getStateKeyPrefix()
+	public function getStateKeyPrefix()
 	{
 		if($this->_keyPrefix!==null)
 			return $this->_keyPrefix;
 		else
 			return $this->_keyPrefix=md5('Yii.'.get_class($this).'.'.Yii::app()->getId());
+	}
+
+	/**
+	 * @param string a prefix for the name of the session variables storing user session data.
+	 * @since 1.0.9
+	 */
+	public function setStateKeyPrefix($value)
+	{
+		$this->_keyPrefix=$value;
 	}
 
 	/**

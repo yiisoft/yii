@@ -45,7 +45,7 @@ class CCaptchaValidator extends CValidator
 	protected function validateAttribute($object,$attribute)
 	{
 		$value=$object->$attribute;
-		if($this->allowEmpty && ($value===null || $value===''))
+		if($this->allowEmpty && $this->isEmpty($value))
 			return;
 
 		if(($captcha=Yii::app()->getController()->createAction($this->captchaAction))===null)

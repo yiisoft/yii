@@ -54,11 +54,11 @@ class CNumberValidator extends CValidator
 	protected function validateAttribute($object,$attribute)
 	{
 		$value=$object->$attribute;
-		if($this->allowEmpty && ($value===null || $value===''))
+		if($this->allowEmpty && $this->isEmpty($value))
 			return;
 		if($this->integerOnly)
 		{
-			if(is_string($value) && !preg_match('/^\s*[+-]?\d+\s*$/',$value))
+			if(!preg_match('/^\s*[+-]?\d+\s*$/',"$value"))
 			{
 				$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} must be an integer.');
 				$this->addError($object,$attribute,$message);
@@ -66,7 +66,7 @@ class CNumberValidator extends CValidator
 		}
 		else
 		{
-			if(is_string($value) && !preg_match('/^\s*[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?\s*$/',$value))
+			if(!preg_match('/^\s*[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?\s*$/',"$value"))
 			{
 				$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} must be a number.');
 				$this->addError($object,$attribute,$message);

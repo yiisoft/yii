@@ -436,23 +436,156 @@ class CJoinElement
 			return;
 
 		$child=reset($this->children);
-		$query=new CJoinQuery($this);
-		$this->_joined=true;
-		$child->_joined=true;
-		$query->join($child);
+		$query=new CJoinQuery($child);
+		$query->selects=array();
+		$query->selects[]=$child->getColumnSelect($child->relation->select);
+		$query->conditions=array();
+		$query->conditions[]=$child->relation->condition;
+		$query->groups[]=$child->relation->group;
+		$query->havings[]=$child->relation->having;
+		$query->orders[]=$child->relation->order;
+		if(is_array($child->relation->params))
+			$query->params=$child->relation->params;
+		$query->elements[$child->id]=true;
 		if($child->relation instanceof CHasManyRelation)
 		{
 			$query->limit=$child->relation->limit;
 			$query->offset=$child->relation->offset;
-			$this->_finder->baseLimited=($query->offset>=0 || $query->limit>=0);
-			$query->groups[]=$child->relation->group;
-			$query->havings[]=$child->relation->having;
 		}
-		$child->buildQuery($query);
+
+		$child->applyLazyCondition($query,$baseRecord);
+
+		$this->_joined=true;
+		$child->_joined=true;
+
 		$this->_finder->baseLimited=false;
-		$this->runQuery($query);
+		$child->buildQuery($query);
+		$child->runQuery($query);
 		foreach($child->children as $c)
 			$c->find();
+
+		if(empty($child->records))
+			return;
+		if($child->relation instanceof CHasOneRelation || $child->relation instanceof CBelongsToRelation)
+			$baseRecord->addRelatedRecord($child->relation->name,reset($child->records),false);
+		else // has_many and many_many
+		{
+			foreach($child->records as $record)
+			{
+				if($child->relation->index!==null)
+					$index=$record->{$child->relation->index};
+				else
+					$index=true;
+				$baseRecord->addRelatedRecord($child->relation->name,$record,$index);
+			}
+		}
+	}
+
+	private function applyLazyCondition($query,$record)
+	{
+		$schema=$this->_builder->getSchema();
+		$parent=$this->_parent;
+		if($this->relation instanceof CManyManyRelation)
+		{
+			if(!preg_match('/^\s*(.*?)\((.*)\)\s*$/',$this->relation->foreignKey,$matches))
+				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".',
+					array('{class}'=>get_class($parent->model),'{relation}'=>$this->relation->name)));
+
+			if(($joinTable=$schema->getTable($matches[1]))===null)
+				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is not specified correctly: the join table "{joinTable}" given in the foreign key cannot be found in the database.',
+					array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{joinTable}'=>$matches[1])));
+			$fks=preg_split('/[\s,]+/',$matches[2],-1,PREG_SPLIT_NO_EMPTY);
+
+
+			$joinAlias=$this->relation->name.'_'.$this->tableAlias;
+			$parentCondition=array();
+			$childCondition=array();
+			$count=0;
+			$params=array();
+			foreach($fks as $i=>$fk)
+			{
+				if(isset($joinTable->foreignKeys[$fk]))  // FK defined
+				{
+					list($tableName,$pk)=$joinTable->foreignKeys[$fk];
+					if(!isset($parentCondition[$pk]) && $schema->compareTableNames($parent->_table->rawName,$tableName))
+					{
+						$parentCondition[$pk]=$joinAlias.'.'.$schema->quoteColumnName($fk).'=:ypl'.$count;
+						$params[':ypl'.$count]=$record->$pk;
+						$count++;
+					}
+					else if(!isset($childCondition[$pk]) && $schema->compareTableNames($this->_table->rawName,$tableName))
+						$childCondition[$pk]=$this->getColumnPrefix().$schema->quoteColumnName($pk).'='.$joinAlias.'.'.$schema->quoteColumnName($fk);
+					else
+						throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". The foreign key does not point to either joining table.',
+							array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{key}'=>$fk)));
+				}
+				else // FK constraints not defined
+				{
+					if($i<count($parent->_table->primaryKey))
+					{
+						$pk=is_array($parent->_table->primaryKey) ? $parent->_table->primaryKey[$i] : $parent->_table->primaryKey;
+						$parentCondition[$pk]=$joinAlias.'.'.$schema->quoteColumnName($fk).'=:ypl'.$count;
+						$params[':ypl'.$count]=$record->$pk;
+						$count++;
+					}
+					else
+					{
+						$j=$i-count($parent->_table->primaryKey);
+						$pk=is_array($this->_table->primaryKey) ? $this->_table->primaryKey[$j] : $this->_table->primaryKey;
+						$childCondition[$pk]=$this->getColumnPrefix().$schema->quoteColumnName($pk).'='.$joinAlias.'.'.$schema->quoteColumnName($fk);
+					}
+				}
+			}
+			if($parentCondition!==array() && $childCondition!==array())
+			{
+				$join='INNER JOIN '.$joinTable->rawName.' '.$joinAlias.' ON ';
+				$join.='('.implode(') AND (',$parentCondition).') AND ('.implode(') AND (',$childCondition).')';
+				if(!empty($this->relation->on))
+					$join.=' AND ('.str_replace($this->relation->aliasToken.'.', $this->tableAlias.'.', $this->relation->on).')';
+				$query->joins[]=$join;
+				foreach($params as $name=>$value)
+					$query->params[$name]=$value;
+			}
+			else
+				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an incomplete foreign key. The foreign key must consist of columns referencing both joining tables.',
+					array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name)));
+		}
+		else
+		{
+			$fks=preg_split('/[\s,]+/',$this->relation->foreignKey,-1,PREG_SPLIT_NO_EMPTY);
+			$params=array();
+			foreach($fks as $i=>$fk)
+			{
+				if($this->relation instanceof CBelongsToRelation)
+				{
+					if(isset($parent->_table->foreignKeys[$fk]))  // FK defined
+						$pk=$parent->_table->foreignKeys[$fk][1];
+					else if(is_array($this->_table->primaryKey)) // composite PK
+						$pk=$this->_table->primaryKey[$i];
+					else
+						$pk=$this->_table->primaryKey;
+					$params[$pk]=$record->$fk;
+				}
+				else
+				{
+					if(isset($this->_table->foreignKeys[$fk]))  // FK defined
+						$pk=$this->_table->foreignKeys[$fk][1];
+					else if(is_array($parent->_table->primaryKey)) // composite PK
+						$pk=$parent->_table->primaryKey[$i];
+					else
+						$pk=$parent->_table->primaryKey;
+					$params[$fk]=$record->$pk;
+				}
+			}
+			$prefix=$this->getColumnPrefix();
+			$count=0;
+			foreach($params as $name=>$value)
+			{
+				$query->conditions[]=$prefix.$schema->quoteColumnName($name).'=:ypl'.$count;
+				$query->params[':ypl'.$count]=$value;
+				$count++;
+			}
+		}
 	}
 
 	/**

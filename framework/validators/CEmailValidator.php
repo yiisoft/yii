@@ -62,7 +62,7 @@ class CEmailValidator extends CValidator
 	protected function validateAttribute($object,$attribute)
 	{
 		$value=$object->$attribute;
-		if($this->allowEmpty && ($value===null || $value===''))
+		if($this->allowEmpty && $this->isEmpty($value))
 			return;
 		$valid=preg_match($this->pattern,$value) || $this->allowName && preg_match($this->fullPattern,$value);
 		if($valid)

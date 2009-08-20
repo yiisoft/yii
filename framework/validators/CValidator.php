@@ -194,5 +194,19 @@ abstract class CValidator extends CComponent
 		$params['{attribute}']=$object->getAttributeLabel($attribute);
 		$object->addError($attribute,strtr($message,$params));
 	}
+
+	/**
+	 * Checks if the given value is empty.
+	 * A value is considered empty if it is null, an empty array, or the trimmed result is an empty string.
+	 * Note that this method is different from PHP empty(). It will return false when the value is 0.
+	 * @param mixed the value to be checked
+	 * @param boolean whether to perform trimming before checking if the string is empty. Defaults to false.
+	 * @return boolean whether the value is empty
+	 * @since 1.0.9
+	 */
+	protected function isEmpty($value,$trim=false)
+	{
+		return $value===null || $value===array() || $value==='' || $trim && !is_array($value) && trim($value)==='';
+	}
 }
 

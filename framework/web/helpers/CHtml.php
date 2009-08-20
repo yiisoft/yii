@@ -267,7 +267,7 @@ class CHtml
 		if($request->enableCsrfValidation)
 		{
 			$token=self::hiddenField($request->csrfTokenName,$request->getCsrfToken(),array('id'=>false));
-			$form.="\n".$token;
+			$form.="\n".self::tag('div',array('style'=>'display:none'),$token);
 		}
 		return $form;
 	}
@@ -296,7 +296,7 @@ class CHtml
 	public static function statefulForm($action='',$method='post',$htmlOptions=array())
 	{
 		return self::form($action,$method,$htmlOptions)."\n".
-			self::tag('div',array('style'=>'visibility:hidden'),self::pageStateField(''));
+			self::tag('div',array('style'=>'display:none'),self::pageStateField(''));
 	}
 
 	/**
@@ -384,7 +384,8 @@ class CHtml
 	 * Generates a button using HTML button tag.
 	 * This method is similar to {@link button} except that it generates a 'button'
 	 * tag instead of 'input' tag.
-	 * @param string the button label
+	 * @param string the button label. Note that this value will be directly inserted in the button element
+	 * without being HTML-encoded.
 	 * @param array additional HTML attributes. Besides normal HTML attributes, a few special
 	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
 	 * @return string the generated button tag
@@ -397,10 +398,8 @@ class CHtml
 			$htmlOptions['name']=self::ID_PREFIX.self::$count++;
 		if(!isset($htmlOptions['type']))
 			$htmlOptions['type']='button';
-		if(!isset($htmlOptions['value']))
-			$htmlOptions['value']=$label;
 		self::clientChange('click',$htmlOptions);
-		return self::tag('button',$htmlOptions);
+		return self::tag('button',$htmlOptions,$label);
 	}
 
 	/**
@@ -1162,7 +1161,7 @@ EOD;
 		self::resolveNameID($model,$attribute,$htmlOptions);
 		if(!isset($htmlOptions['value']))
 			$htmlOptions['value']=1;
-		if($model->$attribute)
+		if(!isset($htmlOptions['checked']) && $model->$attribute==$htmlOptions['value'])
 			$htmlOptions['checked']='checked';
 		self::clientChange('click',$htmlOptions);
 		// add a hidden field so that if the radio button is not selected, it still submits a value
@@ -1190,7 +1189,7 @@ EOD;
 		self::resolveNameID($model,$attribute,$htmlOptions);
 		if(!isset($htmlOptions['value']))
 			$htmlOptions['value']=1;
-		if($model->$attribute)
+		if(!isset($htmlOptions['checked']) && $model->$attribute==$htmlOptions['value'])
 			$htmlOptions['checked']='checked';
 		self::clientChange('click',$htmlOptions);
 

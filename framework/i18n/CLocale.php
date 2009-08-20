@@ -183,6 +183,7 @@ class CLocale extends CComponent
 	 * Returns the month names in the specified width.
 	 * @param string month name width. It can be 'wide', 'abbreviated' or 'narrow'.
 	 * @return array month names indexed by month values (1-12)
+	 * @since 1.0.9
 	 */
 	public function getMonthNames($width='wide')
 	{
@@ -203,6 +204,7 @@ class CLocale extends CComponent
 	 * Returns the week day names in the specified width.
 	 * @param string weekday name width.  It can be 'wide', 'abbreviated' or 'narrow'.
 	 * @return array the weekday names indexed by weekday values (0-6, 0 means Sunday, 1 Monday, etc.)
+	 * @since 1.0.9
 	 */
 	public function getWeekDayNames($width='wide')
 	{

@@ -129,7 +129,7 @@ To use a behavior, it must be attached to a component first by calling the behav
 ~~~
 [php]
 // $name uniquely identifies the behavior in the component
-$behavior->attach($name,$component);
+$component->attachBehavior($name,$behavior);
 // test() is a method of $behavior
 $component->test();
 ~~~

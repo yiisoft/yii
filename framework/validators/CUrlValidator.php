@@ -37,9 +37,9 @@ class CUrlValidator extends CValidator
 	protected function validateAttribute($object,$attribute)
 	{
 		$value=$object->$attribute;
-		if($this->allowEmpty && ($value===null || $value===''))
+		if($this->allowEmpty && $this->isEmpty($value))
 			return;
-		if(!preg_match($this->pattern,$value))
+		if(!is_string($value) || !preg_match($this->pattern,$value))
 		{
 			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} is not a valid URL.');
 			$this->addError($object,$attribute,$message);

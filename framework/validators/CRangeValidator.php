@@ -41,7 +41,7 @@ class CRangeValidator extends CValidator
 	protected function validateAttribute($object,$attribute)
 	{
 		$value=$object->$attribute;
-		if($this->allowEmpty && ($value===null || $value===''))
+		if($this->allowEmpty && $this->isEmpty($value))
 			return;
 		if(is_array($this->range) && !in_array($value,$this->range,$this->strict))
 		{
