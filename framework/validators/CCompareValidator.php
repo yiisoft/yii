@@ -134,18 +134,4 @@ class CCompareValidator extends CValidator
 				throw new CException(Yii::t('yii','Invalid operator "{operator}".',array('{operator}'=>$this->operator)));
 		}
 	}
-
-	protected function compareValues($value,$value2)
-	{
-		switch($this->operator)
-		{
-			case '=':
-			case '==':
-				return ($this->strict && $value===$compareValue) || (!$this->strict && $value==$compareValue);
-			case '!=':
-				return ($this->strict && $value!==$compareValue) || (!$this->strict && $value!=$compareValue);
-			case '>':
-				return $value>$compareValue;
-		}
-	}
 }
