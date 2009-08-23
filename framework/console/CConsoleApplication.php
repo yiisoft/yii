@@ -44,7 +44,7 @@
 class CConsoleApplication extends CApplication
 {
 	/**
-	 * @var array mapping from controller ID to controller configurations.
+	 * @var array mapping from command name to command configurations.
 	 * Each command configuration can be either a string or an array.
 	 * If the former, the string should be the file path of the command class.
 	 * If the latter, the array must contain a 'class' element which specifies
