@@ -1555,6 +1555,7 @@ EOD;
 
 	/**
 	 * Generates input field name for a model attribute.
+	 * Unlike {@link resolveName}, this method does NOT modify the attribute name.
 	 * @param CModel the data model
 	 * @param string the attribute
 	 * @return string the generated input field name
@@ -1737,11 +1738,13 @@ EOD;
 	/**
 	 * Generates input name and ID for a model attribute.
 	 * This method will update the HTML options by setting appropriate 'name' and 'id' attributes.
+	 * This method may also modify the attribute name if the name
+	 * contains square brackets (mainly used in tabular input).
 	 * @param CModel the data model
 	 * @param string the attribute
 	 * @param array the HTML options
 	 */
-	protected static function resolveNameID($model,&$attribute,&$htmlOptions)
+	public static function resolveNameID($model,&$attribute,&$htmlOptions)
 	{
 		if(!isset($htmlOptions['name']))
 			$htmlOptions['name']=self::resolveName($model,$attribute);
@@ -1751,12 +1754,14 @@ EOD;
 
 	/**
 	 * Generates input name for a model attribute.
+	 * Note, the attribute name may be modified after calling this method if the name
+	 * contains square brackets (mainly used in tabular input).
 	 * @param CModel the data model
 	 * @param string the attribute
 	 * @return string the input name
 	 * @since 1.0.2
 	 */
-	protected static function resolveName($model,&$attribute)
+	public static function resolveName($model,&$attribute)
 	{
 		if(($pos=strpos($attribute,'['))!==false)
 		{
