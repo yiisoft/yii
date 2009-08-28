@@ -106,18 +106,24 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 */
 	public function mget($ids)
 	{
-		$values=$this->getValues($ids);
+		$uniqueIDs=array();
 		$results=array();
-		foreach($values as $id=>$value)
+		foreach($ids as $id)
 		{
-			$data=unserialize($value);
+			$uniqueIDs[$id]=$this->generateUniqueKey($id);
+			$results[$id]=false;
+		}
+		$values=$this->getValues($uniqueIDs);
+		foreach($uniqueIDs as $id=>$uniqueID)
+		{
+			if(!isset($values[$uniqueID]))
+				continue;
+			$data=unserialize($values[$uniqueID]);
 			if(is_array($data) && (!($data[1] instanceof ICacheDependency) || !$data[1]->getHasChanged()))
 			{
 				Yii::trace('Serving "'.$id.'" from cache','system.caching.'.get_class($this));
 				$results[$id]=$data[0];
 			}
-			else
-				$results[$id]=false;
 		}
 	}
 
