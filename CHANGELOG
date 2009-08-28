@@ -12,6 +12,7 @@ Version 1.0.9 to be released
 - Bug #525: Invalid first chars in jquery.maskedinput.js (Qiang)
 - Bug #527: Typo in CActiveFinder.php:581 (Wei)
 - Bug #548: STAT queries don't work when the FK constraints are not defined in DB (Qiang)
+- Bug #550: CCaptcha does not respect image alt option (Qiang)
 - Bug #551: multiget in caching components does not use proper keys (Qiang)
 - Bug: Set sequenceName in Oracle tables to be empty string so that yiic model command generates correct validation rules for PK (Qiang)
 - Enh #419: Improved the performance of lazy relational AR by avoiding joining when possible (Qiang)
