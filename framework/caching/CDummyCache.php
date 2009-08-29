@@ -21,6 +21,22 @@
 class CDummyCache extends CApplicationComponent implements ICache, ArrayAccess
 {
 	/**
+	 * @var string a string prefixed to every cache key so that it is unique. Defaults to {@link CApplication::getId() application ID}.
+	 */
+	public $keyPrefix;
+
+	/**
+	 * Initializes the application component.
+	 * This method overrides the parent implementation by setting default cache key prefix.
+	 */
+	public function init()
+	{
+		parent::init();
+		if($this->keyPrefix===null)
+			$this->keyPrefix=Yii::app()->getId();
+	}
+
+	/**
 	 * Retrieves a value from cache with a specified key.
 	 * @param string a key identifying the cached value
 	 * @return mixed the value stored in cache, false if the value is not in the cache, expired or the dependency has changed.

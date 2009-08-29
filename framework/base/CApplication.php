@@ -130,9 +130,11 @@ abstract class CApplication extends CModule
 	 */
 	public function run()
 	{
-		$this->onBeginRequest(new CEvent($this));
+		if($this->hasEventHandler('onBeginRequest'))
+			$this->onBeginRequest(new CEvent($this));
 		$this->processRequest();
-		$this->onEndRequest(new CEvent($this));
+		if($this->hasEventHandler('onEndRequest'))
+			$this->onEndRequest(new CEvent($this));
 	}
 
 	/**
@@ -143,7 +145,8 @@ abstract class CApplication extends CModule
 	 */
 	public function end($status=0)
 	{
-		$this->onEndRequest(new CEvent($this));
+		if($this->hasEventHandler('onEndRequest'))
+			$this->onEndRequest(new CEvent($this));
 		exit($status);
 	}
 

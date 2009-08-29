@@ -22,6 +22,9 @@ Version 1.0.9 to be released
 - Bug #522: array-like parameters in path info are not parsed correctly by CUrlManager (Qiang)
 - Bug #525: Invalid first chars in jquery.maskedinput.js (Qiang)
 - Bug #527: Typo in CActiveFinder.php:581 (Wei)
+- Bug #548: STAT queries don't work when the FK constraints are not defined in DB (Qiang)
+- Bug #550: CCaptcha does not respect image alt option (Qiang)
+- Bug #551: multiget in caching components does not use proper keys (Qiang)
 - Bug: Set sequenceName in Oracle tables to be empty string so that yiic model command generates correct validation rules for PK (Qiang)
 - Enh #419: Improved the performance of lazy relational AR by avoiding joining when possible (Qiang)
 - Enh #473: Upgraded jquery multifile plugin to version 1.46 (Qiang)
@@ -31,10 +34,17 @@ Version 1.0.9 to be released
 - Enh #509: Enhanced CRequiredValidator to check for empty array value (Qiang)
 - Enh #511: CHtml::activeCheckBox and activeRadioButton should respect the value attribute (Qiang)
 - Enh #512: CHtml::beginForm() is made XHTML-compliant when CSRF is enabled (Qiang)
+- Enh #521: Added CActiveRecord::deleteAllByAttributes() (Qiang)
 - Enh #526: Added CSort::params and CPagination::params to allow customizing additional GET parameters in the generated URLs (Qiang)
+- Enh #534: Allow using slash character as URL suffix when strict parsing is enabled (Qiang)
+- Enh #542: Improved CInputWidget and all its descendant classes so that they can be used in tabular data input (Qiang)
+- Enh #547: Changed CSort::resolveLabel and validateAttribute to be public (Qiang)
+- Enh #549: Changed hour pattern in CDateTimeParser so that it is consistent with CDateFormatter (Qiang)
 - Enh: Added CWebUser::setStateKeyPrefix() (Qiang)
 - Enh: Added CLocale::getMonthNames and CLocale::getWeekDayNames (Qiang)
-- New: Added core message translation in Bulgarian (Nikolai)
+- Enh: Added uncheckValue option for CHtml::activeRadioButton (Qiang)
+- Enh: Added CDbCriteria::addCondition() (Qiang)
+- New: Added core message and system view translations in Bulgarian (Nikolai)
 
 Version 1.0.8 August 9, 2009
 ----------------------------

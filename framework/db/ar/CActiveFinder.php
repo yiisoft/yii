@@ -1254,8 +1254,10 @@ class CStatElement
 			}
 			else  // FK constraints undefined
 			{
-				if(is_array($table->primaryKey)) // composite PK
-					$map[$table->primaryKey[$i]]=$fk;
+				if(is_array($pkTable->primaryKey)) // composite PK
+					$map[$pkTable->primaryKey[$i]]=$fk;
+				else
+					$map[$pkTable->primaryKey]=$fk;
 			}
 		}
 

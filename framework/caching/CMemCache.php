@@ -148,7 +148,7 @@ class CMemCache extends CCache
 	 */
 	protected function getValues($keys)
 	{
-		return array_combine($keys,$this->_cache->get($keys));
+		return $this->useMemcached ? $this->_cache->getMulti($keys) : $this->_cache->get($keys);
 	}
 
 	/**
