@@ -1368,6 +1368,26 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Deletes rows which match the specified attribute values.
+	 * See {@link find()} for detailed explanation about $condition and $params.
+	 * @param array list of attribute values (indexed by attribute names) that the active records should match.
+	 * Since version 1.0.8, an attribute value can be an array which will be used to generate an IN condition.
+	 * @param mixed query condition or criteria.
+	 * @param array parameters to be bound to an SQL statement.
+	 * @return CActiveRecord the record found. Null if none is found.
+	 * @since 1.0.9
+	 */
+	public function deleteAllByAttributes($attributes,$condition='',$params=array())
+	{
+		Yii::trace(get_class($this).'.deleteAllByAttributes()','system.db.ar.CActiveRecord');
+		$builder=$this->getCommandBuilder();
+		$table=$this->getTableSchema();
+		$criteria=$builder->createColumnCriteria($table,$attributes,$condition,$params);
+		$command=$builder->createDeleteCommand($table,$criteria);
+		return $command->execute();
+	}
+
+	/**
 	 * Creates an active record with the given attributes.
 	 * This method is internally used by the find methods.
 	 * @param array attribute values (column name=>column value)

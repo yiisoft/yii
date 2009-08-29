@@ -586,10 +586,13 @@ class CUrlRule extends CComponent
 			$pathInfo=$manager->removeUrlSuffix($rawPathInfo,$this->urlSuffix);
 
 		// URL suffix required, but not found in the requested URL
-		if($manager->useStrictParsing && $pathInfo===$rawPathInfo
-			&& ($this->urlSuffix!='' || $this->urlSuffix===null && $manager->urlSuffix!=''))
-			throw new CHttpException(404,Yii::t('yii','Unable to resolve the request "{route}".',
-				array('{route}'=>$rawPathInfo)));
+		if($manager->useStrictParsing && $pathInfo===$rawPathInfo)
+		{
+			$urlSuffix=$this->urlSuffix===null ? $manager->urlSuffix : $this->urlSuffix;
+			if($urlSuffix!='' && $urlSuffix!=='/')
+				throw new CHttpException(404,Yii::t('yii','Unable to resolve the request "{route}".',
+					array('{route}'=>$rawPathInfo)));
+		}
 
 		$pathInfo.='/';
 		if(preg_match($this->pattern.$case,$pathInfo,$matches))

@@ -158,7 +158,7 @@ class CSort extends CComponent
 	 * If it is an attribute of a related AR object, the name should be prefixed with
 	 * the relation name (e.g. 'author.name', where 'author' is the relation name).
 	 * @param string the link label. If null, the label will be determined according
-	 * to the attribute (see {@link CActiveRecord::getAttributeLabel}).
+	 * to the attribute (see {@link resolveLabel}).
 	 * @param array additional HTML attributes for the hyperlink tag
 	 * @return string the generated hyperlink
 	 */
@@ -186,11 +186,12 @@ class CSort extends CComponent
 
 	/**
 	 * Resolves the attribute label based on label definition in the AR class.
+	 * This will invoke {@link CActiveRecord::getAttributeLabel} to determine what label to use.
 	 * @param string the attribute name.
 	 * @return string the attribute label
 	 * @since 1.0.2
 	 */
-	protected function resolveLabel($attribute)
+	public function resolveLabel($attribute)
 	{
 		if(($pos=strpos($attribute,'.'))!==false)
 		{
@@ -271,7 +272,7 @@ class CSort extends CComponent
 	 * @param string the attribute name (could be an alias) that the user requests to sort on
 	 * @return string the real attribute name. False if the attribute cannot be sorted
 	 */
-	protected function validateAttribute($attribute)
+	public function validateAttribute($attribute)
 	{
 		if(empty($this->attributes))
 			$attributes=CActiveRecord::model($this->modelClass)->attributeNames();
