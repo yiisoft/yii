@@ -24,6 +24,7 @@ Version 1.0.9 to be released
 - Enh #511: CHtml::activeCheckBox and activeRadioButton should respect the value attribute (Qiang)
 - Enh #512: CHtml::beginForm() is made XHTML-compliant when CSRF is enabled (Qiang)
 - Enh #526: Added CSort::params and CPagination::params to allow customizing additional GET parameters in the generated URLs (Qiang)
+- Enh #534: Allow using slash character as URL suffix when strict parsing is enabled (Qiang)
 - Enh #542: Improved CInputWidget and all its descendant classes so that they can be used in tabular data input (Qiang)
 - Enh #547: Changed CSort::resolveLabel and validateAttribute to be public (Qiang)
 - Enh #549: Changed hour pattern in CDateTimeParser so that it is consistent with CDateFormatter (Qiang)
