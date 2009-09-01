@@ -152,6 +152,7 @@ class PostController extends CController
 		{
 			$withOption['tagFilter']['params'][':tag']=$_GET['tag'];
 			$postCount=Post::model()->with($withOption)->count($criteria);
+			$criteria->distinct=true;
 		}
 		else
 			$postCount=Post::model()->count($criteria);
@@ -159,7 +160,6 @@ class PostController extends CController
 		$pages=new CPagination($postCount);
 		$pages->pageSize=Yii::app()->params['postsPerPage'];
 		$pages->applyLimit($criteria);
-		$criteria->distinct=true;
 
 		$posts=Post::model()->with($withOption)->findAll($criteria);
 		$this->render('list',array(
