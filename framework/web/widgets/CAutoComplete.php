@@ -196,22 +196,19 @@ class CAutoComplete extends CInputWidget
 	public function init()
 	{
 		list($name,$id)=$this->resolveNameID();
-		$this->htmlOptions['id']=$id;
-		$this->htmlOptions['name']=$name;
+		if(!isset($this->htmlOptions['id']))
+			$this->htmlOptions['id']=$id;
+		if(!isset($this->htmlOptions['name']))
+			$this->htmlOptions['name']=$name;
 
 		$this->registerClientScript();
 
+		$field=$this->textArea ? 'activeTextArea' : 'activeTextField';
 
 		if($this->hasModel())
-		{
-			$field=$this->textArea ? 'activeTextArea' : 'activeTextField';
 			echo CHtml::$field($this->model,$this->attribute,$this->htmlOptions);
-		}
 		else
-		{
-			$field=$this->textArea ? 'textArea' : 'textField';
 			echo CHtml::$field($name,$this->value,$this->htmlOptions);
-		}
 	}
 
 	/**

@@ -44,6 +44,7 @@ Version 1.0.9 to be released
 - Enh: Added CLocale::getMonthNames and CLocale::getWeekDayNames (Qiang)
 - Enh: Added uncheckValue option for CHtml::activeRadioButton (Qiang)
 - Enh: Added CDbCriteria::addCondition() (Qiang)
+- Enh: Added support for specifying DISTINCT when performing AR and relational AR queries (Qiang)
 - New: Added core message and system view translations in Bulgarian (Nikolai)
 
 Version 1.0.8 August 9, 2009

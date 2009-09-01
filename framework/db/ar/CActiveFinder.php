@@ -1044,6 +1044,11 @@ class CJoinQuery
 	 */
 	public $selects=array();
 	/**
+	 * @var boolean whether to select distinct result set
+	 * @since 1.0.9
+	 */
+	public $distinct=false;
+	/**
 	 * @var array list of join statement
 	 */
 	public $joins=array();
@@ -1099,6 +1104,8 @@ class CJoinQuery
 			$this->limit=$criteria->limit;
 			$this->offset=$criteria->offset;
 			$this->params=$criteria->params;
+			if(!$this->distinct && $criteria->distinct)
+				$this->distinct=true;
 		}
 		else
 		{
@@ -1139,7 +1146,7 @@ class CJoinQuery
 	 */
 	public function createCommand($builder)
 	{
-		$sql='SELECT ' . implode(', ',$this->selects);
+		$sql=($this->distinct ? 'SELECT DISTINCT ':'SELECT ') . implode(', ',$this->selects);
 		$sql.=' FROM ' . implode(' ',$this->joins);
 
 		$conditions=array();
