@@ -25,6 +25,12 @@ class CDbCriteria
 	 */
 	public $select='*';
 	/**
+	 * @var boolean whether to select distinct rows of data only. If this is set true,
+	 * the SELECT clause would be changed to SELECT DISTINCT.
+	 * @since 1.0.9
+	 */
+	public $distinct=false;
+	/**
 	 * @var string query condition. This refers to the WHERE clause in an SQL statement.
 	 * For example, <code>age>31 AND team=1</code>.
 	 */
@@ -176,6 +182,9 @@ class CDbCriteria
 			else if($criteria->having!=='')
 				$this->having="({$this->having}) $and ({$criteria->having})";
 		}
+
+		if($criteria->distinct>0)
+			$this->distinct=$criteria->distinct;
 	}
 
 	/**
@@ -185,7 +194,7 @@ class CDbCriteria
 	public function toArray()
 	{
 		$result=array();
-		foreach(array('select', 'condition', 'params', 'limit', 'offset', 'order', 'group', 'join', 'having') as $name)
+		foreach(array('select', 'condition', 'params', 'limit', 'offset', 'order', 'group', 'join', 'having', 'distinct') as $name)
 			$result[$name]=$this->$name;
 		return $result;
 	}

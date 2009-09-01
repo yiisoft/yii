@@ -72,7 +72,7 @@ class CDbCommandBuilder extends CComponent
 	{
 		$this->ensureTable($table);
 		$select=is_array($criteria->select) ? implode(', ',$criteria->select) : $criteria->select;
-		$sql="SELECT {$select} FROM {$table->rawName}";
+		$sql=($criteria->distinct ? 'SELECT DISTINCT':'SELECT')." {$select} FROM {$table->rawName}";
 		$sql=$this->applyJoin($sql,$criteria->join);
 		$sql=$this->applyCondition($sql,$criteria->condition);
 		$sql=$this->applyGroup($sql,$criteria->group);
