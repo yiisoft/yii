@@ -56,8 +56,10 @@ class CMaskedTextField extends CInputWidget
 	public function run()
 	{
 		list($name,$id)=$this->resolveNameID();
-		$this->htmlOptions['id']=$id;
-		$this->htmlOptions['name']=$name;
+		if(!isset($this->htmlOptions['id']))
+			$this->htmlOptions['id']=$id;
+		if(!isset($this->htmlOptions['name']))
+			$this->htmlOptions['name']=$name;
 
 		$this->registerClientScript();
 

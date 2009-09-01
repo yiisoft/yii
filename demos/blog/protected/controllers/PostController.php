@@ -152,6 +152,7 @@ class PostController extends CController
 		{
 			$withOption['tagFilter']['params'][':tag']=$_GET['tag'];
 			$postCount=Post::model()->with($withOption)->count($criteria);
+			$criteria->distinct=true;
 		}
 		else
 			$postCount=Post::model()->count($criteria);
