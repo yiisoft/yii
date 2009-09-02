@@ -40,6 +40,7 @@ Version 1.0.9 to be released
 - Enh #542: Improved CInputWidget and all its descendant classes so that they can be used in tabular data input (Qiang)
 - Enh #547: Changed CSort::resolveLabel and validateAttribute to be public (Qiang)
 - Enh #549: Changed hour pattern in CDateTimeParser so that it is consistent with CDateFormatter (Qiang)
+- Enh #554: Added CViewRenderer::fileExtension (Qiang)
 - Enh: Added CWebUser::setStateKeyPrefix() (Qiang)
 - Enh: Added CLocale::getMonthNames and CLocale::getWeekDayNames (Qiang)
 - Enh: Added uncheckValue option for CHtml::activeRadioButton (Qiang)

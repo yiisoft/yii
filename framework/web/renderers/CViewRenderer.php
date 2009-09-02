@@ -42,6 +42,11 @@ abstract class CViewRenderer extends CApplicationComponent implements IViewRende
 	 * generated during parsing. Defaults to 0755 (owner rwx, group rx and others rx).
 	 */
 	public $filePermission=0755;
+	/**
+	 * @var string the extension name of the view file. Defaults to '.php'.
+	 * @since 1.0.9
+	 */
+	public $fileExtension='.php';
 
 	/**
 	 * Parses the source view file and saves the results as another file.
