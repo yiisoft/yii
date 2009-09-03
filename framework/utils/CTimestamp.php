@@ -176,236 +176,18 @@ class CTimestamp
 	 */
 	public static function getDate($d=false,$fast=false,$gmt=false)
 	{
-		if ($d === false) return getdate();
-		// check if number in 32-bit signed range
-		if ((abs($d) <= 0x7FFFFFFF))
+		if($gmt)
 		{
-			if ($d >= 0) // if windows, must be +ve integer
-				return @getdate($d);
+			$tz = date_default_timezone_get();
+			date_default_timezone_set('GMT');
+			$result = getdate($d);
+			date_default_timezone_set($tz);
 		}
-		return self::getDateInternal($d,$fast,$gmt);
-	}
-
-	/**
-	 * Low-level static function that returns the getdate() array. We have a special
-	 * $fast flag, which if set to true, will return fewer array values,
-	 * and is much faster as it does not calculate dow, etc.
-	 * @param float original date
-	 * @param boolean false to compute the day of the week, default is true
-	 * @param boolean true to calculate the GMT dates
-	 * @return array an array with date info.
-	 */
-	private static function getDateInternal($origd=false,$fast=true,$is_gmt=false)
-	{
-		static $YRS;
-
-		$d =  $origd - ($is_gmt ? 0 : self::getGMTDiff());
-
-		$_day_power = 86400;
-		$_hour_power = 3600;
-		$_min_power = 60;
-
-		if ($d < -12219321600)
-			$d -= 86400*10; // if 15 Oct 1582 or earlier, gregorian correction
-
-		$_month_table_normal =& self::$_monthNormal;
-		$_month_table_leaf = & self::$_monthLeaf;
-
-		$d366 = $_day_power * 366;
-		$d365 = $_day_power * 365;
-		$month = $ndays = 0;
-
-		if ($d < 0)
+		else
 		{
-			if (empty($YRS))
-				$YRS = array(
-					1970 => 0,
-					1960 => -315619200,
-					1950 => -631152000,
-					1940 => -946771200,
-					1930 => -1262304000,
-					1920 => -1577923200,
-					1910 => -1893456000,
-					1900 => -2208988800,
-					1890 => -2524521600,
-					1880 => -2840140800,
-					1870 => -3155673600,
-					1860 => -3471292800,
-					1850 => -3786825600,
-					1840 => -4102444800,
-					1830 => -4417977600,
-					1820 => -4733596800,
-					1810 => -5049129600,
-					1800 => -5364662400,
-					1790 => -5680195200,
-					1780 => -5995814400,
-					1770 => -6311347200,
-					1760 => -6626966400,
-					1750 => -6942499200,
-					1740 => -7258118400,
-					1730 => -7573651200,
-					1720 => -7889270400,
-					1710 => -8204803200,
-					1700 => -8520336000,
-					1690 => -8835868800,
-					1680 => -9151488000,
-					1670 => -9467020800,
-					1660 => -9782640000,
-					1650 => -10098172800,
-					1640 => -10413792000,
-					1630 => -10729324800,
-					1620 => -11044944000,
-					1610 => -11360476800,
-					1600 => -11676096000);
-
-			if ($is_gmt)
-				$origd = $d;
-			// The valid range of a 32bit signed timestamp is typically from
-			// Fri, 13 Dec 1901 20:45:54 GMT to Tue, 19 Jan 2038 03:14:07 GMT
-			//
-
-			# old algorithm iterates through all years. new algorithm does it in
-			# 10 year blocks
-
-			/*
-			# old algo
-			for ($a = 1970 ; --$a >= 0;) {
-				$lastd = $d;
-
-				if ($leaf = _adodb_is_leap_year($a)) $d += $d366;
-				else $d += $d365;
-
-				if ($d >= 0) {
-					$year = $a;
-					break;
-				}
-			}
-			*/
-
-			$lastsecs = 0;
-			$lastyear = 1970;
-			foreach($YRS as $year => $secs)
-			{
-				if ($d >= $secs)
-				{
-					$a = $lastyear;
-					break;
-				}
-				$lastsecs = $secs;
-				$lastyear = $year;
-			}
-
-			$d -= $lastsecs;
-			if (!isset($a)) $a = $lastyear;
-
-			//echo ' yr=',$a,' ', $d,'.';
-
-			for (; --$a >= 0;)
-			{
-				$lastd = $d;
-
-				if ($leaf = self::isLeapYear($a))
-					$d += $d366;
-				else
-					$d += $d365;
-
-				if ($d >= 0)
-				{
-					$year = $a;
-					break;
-				}
-			}
-			/**/
-
-			$secsInYear = 86400 * ($leaf ? 366 : 365) + $lastd;
-
-			$d = $lastd;
-			$mtab = ($leaf) ? $_month_table_leaf : $_month_table_normal;
-			for ($a = 13 ; --$a > 0;)
-			{
-				$lastd = $d;
-				$d += $mtab[$a] * $_day_power;
-				if ($d >= 0)
-				{
-					$month = $a;
-					$ndays = $mtab[$a];
-					break;
-				}
-			}
-
-			$d = $lastd;
-			$day = $ndays + ceil(($d+1) / ($_day_power));
-
-			$d += ($ndays - $day+1)* $_day_power;
-			$hour = floor($d/$_hour_power);
-
-		} else {
-			for ($a = 1970 ;; $a++)
-			{
-				$lastd = $d;
-
-				if ($leaf = self::isLeapYear($a)) $d -= $d366;
-				else $d -= $d365;
-				if ($d < 0)
-				{
-					$year = $a;
-					break;
-				}
-			}
-			$secsInYear = $lastd;
-			$d = $lastd;
-			$mtab = ($leaf) ? $_month_table_leaf : $_month_table_normal;
-			for ($a = 1 ; $a <= 12; $a++)
-			{
-				$lastd = $d;
-				$d -= $mtab[$a] * $_day_power;
-				if ($d < 0)
-				{
-					$month = $a;
-					$ndays = $mtab[$a];
-					break;
-				}
-			}
-			$d = $lastd;
-			$day = ceil(($d+1) / $_day_power);
-			$d = $d - ($day-1) * $_day_power;
-			$hour = floor($d /$_hour_power);
+			$result = getdate($d);
 		}
-
-		$d -= $hour * $_hour_power;
-		$min = floor($d/$_min_power);
-		$secs = $d - $min * $_min_power;
-		if ($fast)
-		{
-			return array(
-			'seconds' => $secs,
-			'minutes' => $min,
-			'hours' => $hour,
-			'mday' => $day,
-			'mon' => $month,
-			'year' => $year,
-			'yday' => floor($secsInYear/$_day_power),
-			'leap' => $leaf,
-			'ndays' => $ndays
-			);
-		}
-
-
-		$dow = self::getDayofWeek($year,$month,$day);
-
-		return array(
-			'seconds' => $secs,
-			'minutes' => $min,
-			'hours' => $hour,
-			'mday' => $day,
-			'wday' => $dow,
-			'mon' => $month,
-			'year' => $year,
-			'yday' => floor($secsInYear/$_day_power),
-			'weekday' => gmdate('l',$_day_power*(3+$dow)),
-			'month' => gmdate('F',mktime(0,0,0,$month,2,1971)),
-			0 => $origd
-		);
+		return $result;
 	}
 
 	/**
@@ -417,20 +199,7 @@ class CTimestamp
 	 */
 	public static function isValidDate($y,$m,$d)
 	{
-		if (self::isLeapYear($y))
-			$marr =& self::$_monthLeaf;
-		else
-			$marr =& self::$_monthNormal;
-
-		if ($m > 12 || $m < 1) return false;
-
-		if ($d > 31 || $d < 1) return false;
-
-		if ($marr[$m] < $d) return false;
-
-		if ($y < 1000 && $y > 3000) return false;
-
-		return true;
+		return checkdate($m, $d, $y);
 	}
 
 	/**
