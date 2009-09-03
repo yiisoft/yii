@@ -284,6 +284,30 @@ abstract class CApplication extends CModule
 	}
 
 	/**
+	 * Returns the time zone used by this application.
+	 * This is a simple wrapper of PHP function date_default_timezone_get().
+	 * @return string the time zone used by this application.
+	 * @see http://php.net/manual/en/function.date-default-timezone-get.php
+	 * @since 1.0.9
+	 */
+	public function getTimeZone()
+	{
+		return date_default_timezone_get();
+	}
+
+	/**
+	 * Sets the time zone used by this application.
+	 * This is a simple wrapper of PHP function date_default_timezone_set().
+	 * @param string the time zone used by this application.
+	 * @see http://php.net/manual/en/function.date-default-timezone-set.php
+	 * @since 1.0.9
+	 */
+	public function setTimeZone($value)
+	{
+		date_default_timezone_set($value);
+	}
+
+	/**
 	 * Returns the localized version of a specified file.
 	 *
 	 * The searching is based on the specified language code. In particular,
