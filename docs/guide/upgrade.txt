@@ -45,3 +45,9 @@ Changes Related with Table Alias in Relational Active Record
 relation name. Previously in version 1.0.x, by default Yii would automatically
 generate a table alias for each relational table, and we had to use the prefix
 `??.` to refer to this automatically generated alias.
+
+Changes Related with Tabular Input
+----------------------------------
+
+- For attribute names, using Field[$i] is not valid anymore, they should look
+like [$i]Field in order to support array-typed fields (e.g. [$i]Field[$index]).
