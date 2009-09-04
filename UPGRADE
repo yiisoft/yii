@@ -15,6 +15,10 @@ Upgrading from v1.0.x
 - Application and module parameter names are changed to be case-sensitive.
 In 1.0.x, they are case-insensitive.
 
+- For tabular input, using Field[$i] is not valid anymore. Attribute names
+should look like [$i]Field in order to support array-typed fields
+(e.g. [$i]Field[$index]).
+
 - Please read the Guide for further details on how to upgrade from v1.0.x to v1.1.
 
 Upgrading from v1.0.8
