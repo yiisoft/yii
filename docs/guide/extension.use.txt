@@ -53,6 +53,69 @@ will be lazily created (that is, created when it is accessed for the first time)
 unless we list it the `preload` property.
 
 
+Behavior
+--------
+
+[Behavior](/doc/guide/basics.component#component-behavior) can be used in all sorts of components.
+Its usage involves two steps. In the first step, a behavior is attached to a target component.
+In the second step, a behavior method is called via the target component. For example:
+
+~~~
+[php]
+// $name uniquely identifies the behavior in the component
+$component->attachBehavior($name,$behavior);
+// test() is a method of $behavior
+$component->test();
+~~~
+
+More often, a behavior is attached to a component using a configurative way instead of
+calling the `attachBehavior` method. For example, to attach a behavior to an
+[application component](/doc/guide/basics.application#application-component), we could
+use the following
+[application configuration](/doc/guide/basics.application#application-configuration):
+
+~~~
+[php]
+return array(
+	'components'=>array(
+		'db'=>array(
+			'class'=>'CDbConnection',
+			'behaviors'=>array(
+				'xyz'=>array(
+					'class'=>'ext.xyz.XyzBehavior',
+					'property1'=>'value1',
+					'property2'=>'value2',
+				),
+			),
+		),
+		//....
+	),
+);
+~~~
+
+The above code attaches the `xyz` behavior to the `db` application component. We can do so
+because [CApplicationComponent] defines a property named `behaviors`. By setting this property
+with a list of behavior configurations, the component will attach the corresponding behaviors
+when it is being initialized.
+
+For [CController], [CFormModel] and [CActiveModel] classes which usually need to be extended,
+attaching behaviors is done by overriding their `behaviors()` method. For example,
+
+~~~
+[php]
+public function behaviors()
+{
+	return array(
+		'xyz'=>array(
+			'class'=>'ext.xyz.XyzBehavior',
+			'property1'=>'value1',
+			'property2'=>'value2',
+		),
+	);
+}
+~~~
+
+
 Widget
 ------
 
