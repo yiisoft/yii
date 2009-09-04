@@ -1767,11 +1767,11 @@ EOD;
 	 */
 	public static function resolveName($model,&$attribute)
 	{
-		if(($pos=strpos($attribute,'['))!==false)
+		if(preg_match('#\[(\w+)\](\w+)(\[(\w+)\])?#', $attribute, $matches))
 		{
-			$sub=substr($attribute,$pos);
-			$attribute=substr($attribute,0,$pos);
-			return get_class($model).$sub.'['.$attribute.']';
+			$attribute=$matches[2];
+			unset($matches[0], $matches[3]); // remove full pattern and last index with brackets
+			return get_class($model).'['.implode('][', $matches).']';
 		}
 		else
 			return get_class($model).'['.$attribute.']';
