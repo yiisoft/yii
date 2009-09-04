@@ -32,6 +32,7 @@ Version 1.0.9 to be released
 - Enh #549: Changed hour pattern in CDateTimeParser so that it is consistent with CDateFormatter (Qiang)
 - Enh #554: Added CViewRenderer::fileExtension (Qiang)
 - Enh #555: Added CApplication::timeZone (Qiang)
+- Enh: improved AR performance by not raising event when no handlers (Qiang)
 - Enh: Added CWebUser::setStateKeyPrefix() (Qiang)
 - Enh: Added CLocale::getMonthNames and CLocale::getWeekDayNames (Qiang)
 - Enh: Added uncheckValue option for CHtml::activeRadioButton (Qiang)

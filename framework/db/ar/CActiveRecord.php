@@ -1147,9 +1147,14 @@ abstract class CActiveRecord extends CModel
 	 */
 	protected function beforeSave()
 	{
-		$event=new CModelEvent($this);
-		$this->onBeforeSave($event);
-		return $event->isValid;
+		if($this->hasEventHandler('onBeforeSave'))
+		{
+			$event=new CModelEvent($this);
+			$this->onBeforeSave($event);
+			return $event->isValid;
+		}
+		else
+			return true;
 	}
 
 	/**
@@ -1160,7 +1165,8 @@ abstract class CActiveRecord extends CModel
 	 */
 	protected function afterSave()
 	{
-		$this->onAfterSave(new CEvent($this));
+		if($this->hasEventHandler('onAfterSave'))
+			$this->onAfterSave(new CEvent($this));
 	}
 
 	/**
@@ -1172,9 +1178,14 @@ abstract class CActiveRecord extends CModel
 	 */
 	protected function beforeDelete()
 	{
-		$event=new CModelEvent($this);
-		$this->onBeforeDelete($event);
-		return $event->isValid;
+		if($this->hasEventHandler('onBeforeDelete'))
+		{
+			$event=new CModelEvent($this);
+			$this->onBeforeDelete($event);
+			return $event->isValid;
+		}
+		else
+			return true;
 	}
 
 	/**
@@ -1185,7 +1196,8 @@ abstract class CActiveRecord extends CModel
 	 */
 	protected function afterDelete()
 	{
-		$this->onAfterDelete(new CEvent($this));
+		if($this->hasEventHandler('onAfterDelete'))
+			$this->onAfterDelete(new CEvent($this));
 	}
 
 	/**
@@ -1196,7 +1208,8 @@ abstract class CActiveRecord extends CModel
 	 */
 	protected function afterConstruct()
 	{
-		$this->onAfterConstruct(new CEvent($this));
+		if($this->hasEventHandler('onAfterConstruct'))
+			$this->onAfterConstruct(new CEvent($this));
 	}
 
 	/**
@@ -1207,7 +1220,8 @@ abstract class CActiveRecord extends CModel
 	 */
 	protected function afterFind()
 	{
-		$this->onAfterFind(new CEvent($this));
+		if($this->hasEventHandler('onAfterFind'))
+			$this->onAfterFind(new CEvent($this));
 	}
 
 	/**
