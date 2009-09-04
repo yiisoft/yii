@@ -497,7 +497,11 @@ after an AR instance is deleted.
    - [afterConstruct|CActiveRecord::afterConstruct]: this is invoked for
 every AR instance created using the `new` operator.
 
-   - [afterFind|CActiveRecord::afterFind]: this is invoked for every AR
+   - [beforeFind|CActiveRecord::beforeFind]: this is invoked before an AR finder
+is used to perform a query (e.g. `find()`, `findAll()`). This has been available
+since version 1.0.9.
+
+   - [afterFind|CActiveRecord::afterFind]: this is invoked after every AR
 instance created as a result of query.
 
 
