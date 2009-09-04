@@ -1767,14 +1767,11 @@ EOD;
 	 */
 	public static function resolveName($model,&$attribute)
 	{
-		if(preg_match('#(\[(\w+)\])?(\w+)(\[(\w+)\])?#', $attribute, $matches))
-		{
-			$attribute=$matches[3];
-			unset($matches[0], $matches[1], $matches[4]); // remove full pattern and indexes with brackets
-			return get_class($model).'['.implode('][', array_filter($matches)).']';
-		}
+		if('['===$attribute[0])
+			list($i, $attribute, $index)=array(strtok($attribute, '[]'), strtok('['), strtok(']'));
 		else
-			return get_class($model).'['.$attribute.']';
+			list($attribute, $index)=array(strtok($attribute, '['), strtok(']'));
+		return get_class($model).(isset($i) ? '['.$i.']' : '').'['.$attribute.']'.(false!==$index ? '['.$index.']' : '');
 	}
 
 	/**
