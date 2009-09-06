@@ -78,7 +78,7 @@ public function actionList()
 	$criteria=new CDbCriteria;
 	$criteria->condition='Comment.status='.Comment::STATUS_PENDING;
 
-	$pages=new CPagination(Comment::model()->count());
+	$pages=new CPagination(Comment::model()->count($criteria));
 	$pages->pageSize=self::PAGE_SIZE;
 	$pages->applyLimit($criteria);
 
@@ -110,4 +110,4 @@ Zaleca się aby żądania GET nie modyfikowały danych na serwerze. W przeciwnym
 możemy mieć do czynienia z niebezpieczeństwem, że użytkownik nieumyślnie może zmienić   
 dane po stronie serwera parokrotnie jeśli będzie odświeżał stronę kilka razy.
 
-<div class="revision">$Id: comment.admin.txt 1050 2009-05-22 20:06:18Z qiang.xue $</div>
+<div class="revision">$Id: comment.admin.txt 1335 2009-08-15 20:34:36Z qiang.xue $</div>

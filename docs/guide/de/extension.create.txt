@@ -47,6 +47,42 @@ ersten mal auf sie zugegriffen wird. Falls eine Anwendungskomponente
 unmittelbar nach der Anwendungsinstanz erzeugt werden muss, sollte der
 Anwender sie in der Eigenschaft [CApplication::preload] aufführen.
 
+Behavior
+--------
+
+Um ein Behavior zu erstellen, muss das [IBehavior]-Interface implementiert
+werden. Bequemerweise enthält Yii bereits die Basisklasse [CBehavior],
+die dieses Interface implementiert und einige weitere Komfortfunktionen
+anbietet. Kindklassen müssen hauptsächlich die Methoden implementieren, die
+sie ihren Komponenten bereitstellen wollen.
+
+Wenn man Behaviors für [CModel] und [CActiveRecord] entwickeln möchte, kann
+man auch [CModelBehavior] bzw. [CActiveRecordBehavior] erweitern. Diese
+Basisklassen bieten zusätzliche, an [CModel] bzw. [CActiveRecord] angepasste
+Features. Die [CActiveRecordBehavior]-Klasse implementiert z.B. eine Reihe von
+Methoden, die auf die Events im Lebenszyklus eines ActiveRecord-Objekts
+reagieren. Eine Kindklasse kann diese Methoden überschreiben, um so
+angepassten Code einzuschleusen, der im Lebenszyklus eines AR ausgeführt wird.
+
+Der folgende Code zeigt ein Beispiel eines ActiveRecord-Behaviors. Wenn dieses
+Behavior an ein AR-Objekt angebunden und dann dessen `save()`-Methode
+aufgerufen wird, setzt es automatisch die Attribute `create_time` und
+`update_time` auf den aktuellen Zeitstempel.
+
+[code]
+class TimestampBehavior extends CActiveRecordBehavior
+{
+	public function beforeSave($event)
+	{
+		if($this->owner->isNewRecord)
+			$this->owner->create_time=time();
+		else
+			$this->owner->update_time=time();
+	}
+}
+[/code]
+
+
 Widget
 ------
 
@@ -228,4 +264,4 @@ Eine allgemeine Erweiterungskomponente zu entwickeln, bedeutet, eine Klasse zu
 schreiben. Auch hier gilt: Die Komponente sollte in sich geschlossen sein, so
 dass sie von anderen Entwicklern einfach eingesetzt werden kann.
 
-<div class="revision">$Id: extension.create.txt 749 2009-02-26 02:11:31Z qiang.xue $</div>
+<div class="revision">$Id: extension.create.txt 1392 2009-09-04 20:39:11Z qiang.xue $</div>

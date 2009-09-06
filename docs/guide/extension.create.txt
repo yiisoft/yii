@@ -41,6 +41,39 @@ needs to be created right after the application instance is created, it should
 require the user to list its ID in the [CApplication::preload] property.
 
 
+Behavior
+--------
+
+To create a behavior, one must implement the [IBehavior] interface. For convenience,
+Yii provides a base class [CBehavior] that already implements this interface and
+provides some additional convenient methods. Child classes mainly need to implement
+the extra methods that they intend to make available to the components being attached to.
+
+When developing behaviors for [CModel] and [CActiveRecord], one can also extend
+[CModelBehavior] and [CActiveRecordBehavior], respectively. These base classes offer
+additional features that are specifically made for [CModel] and [CActiveRecord].
+For example, the [CActiveRecordBehavior] class implements a set of methods to respond
+to the life cycle events raised in an ActiveRecord object. A child class can thus
+override these methods to put in customized code which will participate in the AR life cycles.
+
+The following code shows an example of an ActiveRecord behavior. When this behavior is
+attached to an AR object and when the AR object is being saved by calling `save()`, it will
+automatically sets the `create_time` and `update_time` attributes with the current timestamp.
+
+[code]
+class TimestampBehavior extends CActiveRecordBehavior
+{
+	public function beforeSave($event)
+	{
+		if($this->owner->isNewRecord)
+			$this->owner->create_time=time();
+		else
+			$this->owner->update_time=time();
+	}
+}
+[/code]
+
+
 Widget
 ------
 

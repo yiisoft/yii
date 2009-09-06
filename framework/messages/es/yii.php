@@ -208,7 +208,7 @@ return array (
   '{attribute} is not in the list.' => '{attribute} no se encuentra en la lista.',
   '{attribute} is of the wrong length (should be {length} characters).' => '{attribute} tiene un largo incorrecto (debe ser de {length} caracteres)',
   '{attribute} is too big (maximum is {max}).' => '{attribute} es muy grande (el máximo es {max}).',
-  '{attribute} is too long (maximum is {max} characters).' => '{attribute} es muy largo (el máximo es de {min} caracteres)',
+  '{attribute} is too long (maximum is {max} characters).' => '{attribute} es muy largo (el máximo es de {max} caracteres)',
   '{attribute} is too short (minimum is {min} characters).' => '{attribute} es muy corto (el mínimo es de {min} caracteres)',
   '{attribute} is too small (minimum is {min}).' => '{attribute} es muy chico (el mínimo es {min}).',
   '{attribute} must be a number.' => '{attribute} debe ser un número.',

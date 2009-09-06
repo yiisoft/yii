@@ -1,4 +1,4 @@
-﻿Компонент
+Компонент
 =========
 Yii-приложения состоят из компонентов–объектов, созданных согласно спецификациям.
 Компонент (component) - это экземпляр класса [CComponent] или производного от него. 
@@ -122,7 +122,7 @@ function methodName($event)
 ~~~
 [php]
 // $name уникально идентифицирует поведения в компоненте
-$behavior->attach($name,$component);
+$component->attachBehavior($name,$behavior);
 // test() является методом $behavior
 $component->test();
 ~~~
@@ -158,4 +158,4 @@ $component->test();
 Поведение, прикрепленное к компоненту, может присваивать некоторые свои методы событиям компонента.
 В этом случае, поведение получает возможность следить или менять нормальный ход выполнения компонента.
 
-<div class="revision">$Id: basics.component.txt 683 2009-02-16 05:20:17Z qiang.xue $</div>
+<div class="revision">$Id: basics.component.txt 1328 2009-08-15 18:45:51Z qiang.xue $</div>

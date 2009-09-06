@@ -454,7 +454,12 @@ $post->save();
    - [afterConstruct|CActiveRecord::afterConstruct]: метод вызывается для каждого экземпляра AR, 
 созданного с использованием оператора `new`;
 
-   - [afterFind|CActiveRecord::afterFind]: метод вызывается для каждого экземпляра AR, созданного в результате выполнения запроса.
+   - [beforeFind|CActiveRecord::beforeFind]: метод вызывается перед тем, как
+     finder AR выполнит запрос (например, `find()`, `findAll()`). Данный метод
+     доступен с версии 1.0.9.
+
+   - [afterFind|CActiveRecord::afterFind]: метод вызывается для каждого экземпляра AR,
+     созданного в результате выполнения запроса.
 
 Использование транзакций с AR
 -------------------------
@@ -610,4 +615,4 @@ $contents=Content::model()->findAll();
 Заметим, что именованная группа условий по умолчанию применяется только к
 `SELECT` запросам. Она игнорируется в `INSERT`, `UPDATE` и `DELETE` запросах.
 
-<div class="revision">$Id: database.ar.txt 1167 2009-06-23 02:56:45Z qiang.xue $</div>
+<div class="revision">$Id: database.ar.txt 1391 2009-09-04 19:46:04Z qiang.xue $</div>

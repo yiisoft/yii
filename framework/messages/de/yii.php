@@ -118,7 +118,7 @@ return array (
   'Queue data must be an array or an object implementing Traversable.' => 'Queue-Daten müssen ein Array sein oder ein Objekt, das das Interface Traversable implementiert.',
   'Relation "{name}" is not defined in active record class "{class}".' => 'Relation "{name}" ist in der ActiveRecord-Klasse "{class}" nicht definiert.',
   'Stack data must be an array or an object implementing Traversable.' => 'Stack-Daten müssen ein Array sein oder ein Objekt, das das Interface Traversable implementiert.',
-  'Table "{table}" does not have a column named "{column}".' => 'Tabelle "{table}" hat kein Feld namens "{column"}.',
+  'Table "{table}" does not have a column named "{column}".' => 'Tabelle "{table}" hat kein Feld namens "{column}".',
   'The "filter" property must be specified with a valid callback.' => 'Für "filter" muss ein gültiger Callback angegeben werden.',
   'The "pattern" property must be specified with a valid regular expression.' => 'Für "pattern" muss ein gültiger Regulärer Ausdruck angegeben werden.',
   'The CSRF token could not be verified.' => 'Der CSRF-Token konnte nicht verifiziert werden.',

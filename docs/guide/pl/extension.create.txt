@@ -40,6 +40,41 @@ aplikacji musi być utworzony zaraz po tym jak instancja aplikacji została utwo
 powinien jedo ID zostać dodane do listy we właściwości [CApplication::preload].
 
 
+Zachowanie (ang. Behavior)
+--------
+
+Aby utworzyć zachowanie nalezy zaimplementować interfejs [IBehavior]. Dla ułatwienia 
+Yii dostarcza klasę bazową [CBehavior], która już implementuje ten interfejs oraz  
+dostarcza pewne dodatkowe, przydatne metody. Klasy potomne muszą głównie implementować 
+dodatkowe metody, które zamierzamy udostepnić komponentom, do których dołączamy zachowanie.
+
+Podczas tworzenia zachowań dla klas [CModel] oraz [CActiveRecord], możemy odpowiednio 
+rozszerzać odpowiadające im klasy zachowań [CModelBehavior] oraz [CActiveRecordBehavior].
+Te bazowe klasy oferują dodatkowe funkcjonalności, które zostały stworzone specjalnie dla
+klas [CModel] oraz [CActiveRecord]. Na przykład klasa [CActiveRecordBehavior] implementuje 
+zestaw metod, które odpowiadają zdarzeniom wywoływanym w obiekcie AR w trakcie jego cyklu życia.
+Metoda pochodna może zatem nadpisywać te metody, aby "wtrącić" dodatkowy kod, który
+będzie uczestniczyć w cyklu życia AR.
+
+Następujący kod pokazuje przykład zachowanie dla rekordu aktywnego (AR).  
+Kiedy takie zachowanie jest dołączane do obiektu AR oraz kiedy obiek AR jest zapisywany
+poprzez wywołanie metody `save()`, przypisze ono automatycznie atrybutom `create_time`
+oraz `update_time` wartość znacznika czasu (ang. timestamp).
+
+[code]
+class TimestampBehavior extends CActiveRecordBehavior
+{
+  public function beforeSave($event)
+  {
+    if($this->owner->isNewRecord)
+      $this->owner->create_time=time();
+    else
+      $this->owner->update_time=time();
+  }
+}
+[/code]
+
+
 Widżet
 ------
 
@@ -208,4 +243,4 @@ Tworzenie rozszerzeń generycznych komponentów to jak pianie klasy. Również t
 komponent powinien być samowystarczalny, tak że może ony być w łatwy sposób
 wykorzystany przez innych deweloperów.
 
-<div class="revision">$Id: extension.create.txt 749 2009-02-26 02:11:31Z qiang.xue $</div>
+<div class="revision">$Id: extension.create.txt 1392 2009-09-04 20:39:11Z qiang.xue $</div>

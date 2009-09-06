@@ -62,4 +62,4 @@ Yii::import('system.web.*');
 пользовательских классов. Для пользовательских классов рекомендуется использовать другие префиксы,
 сохранив префикс 'C' зарезервированным для  Yii-фреймворка.
 
-<div class="revision">$Id: basics.namespace.txt 1299 2009-08-07 00:25:55Z qiang.xue $</div>
+<div class="revision">$Id: basics.namespace.txt 1310 2009-08-08 16:03:46Z qiang.xue $</div>

@@ -764,6 +764,17 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * This event is raised before an AR finder performs a find call.
+	 * @param CEvent the event parameter
+	 * @see beforeFind
+	 * @since 1.0.9
+	 */
+	public function onBeforeFind($event)
+	{
+		$this->raiseEvent('onBeforeFind',$event);
+	}
+
+	/**
 	 * This event is raised after the record is instantiated by a find method.
 	 * @param CEvent the event parameter
 	 * @since 1.0.2
@@ -784,9 +795,14 @@ abstract class CActiveRecord extends CModel
 	 */
 	protected function beforeSave()
 	{
-		$event=new CModelEvent($this);
-		$this->onBeforeSave($event);
-		return $event->isValid;
+		if($this->hasEventHandler('onBeforeSave'))
+		{
+			$event=new CModelEvent($this);
+			$this->onBeforeSave($event);
+			return $event->isValid;
+		}
+		else
+			return true;
 	}
 
 	/**
@@ -797,7 +813,8 @@ abstract class CActiveRecord extends CModel
 	 */
 	protected function afterSave()
 	{
-		$this->onAfterSave(new CEvent($this));
+		if($this->hasEventHandler('onAfterSave'))
+			$this->onAfterSave(new CEvent($this));
 	}
 
 	/**
@@ -809,9 +826,14 @@ abstract class CActiveRecord extends CModel
 	 */
 	protected function beforeDelete()
 	{
-		$event=new CModelEvent($this);
-		$this->onBeforeDelete($event);
-		return $event->isValid;
+		if($this->hasEventHandler('onBeforeDelete'))
+		{
+			$event=new CModelEvent($this);
+			$this->onBeforeDelete($event);
+			return $event->isValid;
+		}
+		else
+			return true;
 	}
 
 	/**
@@ -822,7 +844,8 @@ abstract class CActiveRecord extends CModel
 	 */
 	protected function afterDelete()
 	{
-		$this->onAfterDelete(new CEvent($this));
+		if($this->hasEventHandler('onAfterDelete'))
+			$this->onAfterDelete(new CEvent($this));
 	}
 
 	/**
@@ -833,7 +856,23 @@ abstract class CActiveRecord extends CModel
 	 */
 	protected function afterConstruct()
 	{
-		$this->onAfterConstruct(new CEvent($this));
+		if($this->hasEventHandler('onAfterConstruct'))
+			$this->onAfterConstruct(new CEvent($this));
+	}
+
+	/**
+	 * This method is invoked before an AR finder executes a find call.
+	 * The find calls include {@link find}, {@link findAll}, {@link findByPk},
+	 * {@link findAllByPk}, {@link findByAttributes} and {@link findAllByAttributes}.
+	 * The default implementation raises the {@link onBeforeFind} event.
+	 * If you override this method, make sure you call the parent implementation
+	 * so that the event is raised properly.
+	 * @since 1.0.9
+	 */
+	protected function beforeFind()
+	{
+		if($this->hasEventHandler('onBeforeFind'))
+			$this->onBeforeFind(new CEvent($this));
 	}
 
 	/**
@@ -844,7 +883,8 @@ abstract class CActiveRecord extends CModel
 	 */
 	protected function afterFind()
 	{
-		$this->onAfterFind(new CEvent($this));
+		if($this->hasEventHandler('onAfterFind'))
+			$this->onAfterFind(new CEvent($this));
 	}
 
 	/**
@@ -1045,6 +1085,7 @@ abstract class CActiveRecord extends CModel
 
 	private function query($criteria,$all=false)
 	{
+		$this->beforeFind();
 		$this->applyScopes($criteria);
 		$command=$this->getCommandBuilder()->createFindCommand($this->getTableSchema(),$criteria);
 		return $all ? $this->populateRecords($command->queryAll()) : $this->populateRecord($command->queryRow());

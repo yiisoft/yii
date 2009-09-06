@@ -818,7 +818,7 @@ abstract class CModule extends CComponent
 	}
 	public function getModule($id)
 	{
-		if(array_key_exists($id,$this->_modules))
+		if(isset($this->_modules[$id]) || array_key_exists($id,$this->_modules))
 			return $this->_modules[$id];
 		else if(isset($this->_moduleConfig[$id]))
 		{
@@ -962,13 +962,16 @@ abstract class CApplication extends CModule
 	}
 	public function run()
 	{
-		$this->onBeginRequest(new CEvent($this));
+		if($this->hasEventHandler('onBeginRequest'))
+			$this->onBeginRequest(new CEvent($this));
 		$this->processRequest();
-		$this->onEndRequest(new CEvent($this));
+		if($this->hasEventHandler('onEndRequest'))
+			$this->onEndRequest(new CEvent($this));
 	}
 	public function end($status=0)
 	{
-		$this->onEndRequest(new CEvent($this));
+		if($this->hasEventHandler('onEndRequest'))
+			$this->onEndRequest(new CEvent($this));
 		exit($status);
 	}
 	public function onBeginRequest($event)
@@ -1039,6 +1042,14 @@ abstract class CApplication extends CModule
 	public function setLanguage($language)
 	{
 		$this->_language=$language;
+	}
+	public function getTimeZone()
+	{
+		return date_default_timezone_get();
+	}
+	public function setTimeZone($value)
+	{
+		date_default_timezone_set($value);
 	}
 	public function findLocalizedFile($srcFile,$srcLanguage=null,$language=null)
 	{
@@ -2404,10 +2415,19 @@ class CUrlManager extends CApplicationComponent
 			$key=$segs[$i];
 			if($key==='') continue;
 			$value=$segs[$i+1];
-			if(($pos=strpos($key,'[]'))!==false)
-				$_GET[substr($key,0,$pos)][]=$value;
+			if(($pos=strpos($key,'['))!==false && ($pos2=strpos($key,']',$pos+1))!==false)
+			{
+				$name=substr($key,0,$pos);
+				if($pos2===$pos+1)
+					$_REQUEST[$name][]=$_GET[$name][]=$value;
+				else
+				{
+					$key=substr($key,$pos+1,$pos2-$pos-1);
+					$_REQUEST[$name][$key]=$_GET[$name][$key]=$value;
+				}
+			}
 			else
-				$_GET[$key]=$value;
+				$_REQUEST[$key]=$_GET[$key]=$value;
 		}
 	}
 	public function createPathInfo($params,$equal,$ampersand)
@@ -2564,17 +2584,20 @@ class CUrlRule extends CComponent
 		if($this->urlSuffix!==null)
 			$pathInfo=$manager->removeUrlSuffix($rawPathInfo,$this->urlSuffix);
 		// URL suffix required, but not found in the requested URL
-		if($manager->useStrictParsing && $pathInfo===$rawPathInfo
-			&& ($this->urlSuffix!='' || $this->urlSuffix===null && $manager->urlSuffix!=''))
-			throw new CHttpException(404,Yii::t('yii','Unable to resolve the request "{route}".',
-				array('{route}'=>$rawPathInfo)));
+		if($manager->useStrictParsing && $pathInfo===$rawPathInfo)
+		{
+			$urlSuffix=$this->urlSuffix===null ? $manager->urlSuffix : $this->urlSuffix;
+			if($urlSuffix!='' && $urlSuffix!=='/')
+				throw new CHttpException(404,Yii::t('yii','Unable to resolve the request "{route}".',
+					array('{route}'=>$rawPathInfo)));
+		}
 		$pathInfo.='/';
 		if(preg_match($this->pattern.$case,$pathInfo,$matches))
 		{
 			foreach($this->defaultParams as $name=>$value)
 			{
 				if(!isset($_GET[$name]))
-					$_GET[$name]=$value;
+					$_REQUEST[$name]=$_GET[$name]=$value;
 			}
 			$tr=array();
 			foreach($matches as $key=>$value)
@@ -2582,7 +2605,7 @@ class CUrlRule extends CComponent
 				if(isset($this->references[$key]))
 					$tr[$this->references[$key]]=$value;
 				else if(isset($this->params[$key]))
-					$_GET[$key]=$value;
+					$_REQUEST[$key]=$_GET[$key]=$value;
 			}
 			if($pathInfo!==$matches[0]) // there're additional GET params
 				CUrlManager::parsePathInfo(ltrim(substr($pathInfo,strlen($matches[0])),'/'));
@@ -2913,12 +2936,16 @@ class CController extends CBaseController
 	{
 		if(empty($viewName))
 			return false;
-		if($viewName[0]==='/')
-			$viewFile=$basePath.$viewName.'.php';
-		else if(strpos($viewName,'.'))
-			$viewFile=Yii::getPathOfAlias($viewName).'.php';
+		if(($renderer=Yii::app()->getViewRenderer())!==null)
+			$extension=$renderer->fileExtension;
 		else
-			$viewFile=$viewPath.DIRECTORY_SEPARATOR.$viewName.'.php';
+			$extension='.php';
+		if($viewName[0]==='/')
+			$viewFile=$basePath.$viewName.$extension;
+		else if(strpos($viewName,'.'))
+			$viewFile=Yii::getPathOfAlias($viewName).$extension;
+		else
+			$viewFile=$viewPath.DIRECTORY_SEPARATOR.$viewName.$extension;
 		return is_file($viewFile) ? Yii::app()->findLocalizedFile($viewFile) : false;
 	}
 	public function getClips()
@@ -3301,12 +3328,16 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		}
 		return $cookie;
 	}
-	protected function getStateKeyPrefix()
+	public function getStateKeyPrefix()
 	{
 		if($this->_keyPrefix!==null)
 			return $this->_keyPrefix;
 		else
 			return $this->_keyPrefix=md5('Yii.'.get_class($this).'.'.Yii::app()->getId());
+	}
+	public function setStateKeyPrefix($value)
+	{
+		$this->_keyPrefix=$value;
 	}
 	public function getState($key,$defaultValue=null)
 	{
@@ -3742,7 +3773,7 @@ class CHtml
 		if($request->enableCsrfValidation)
 		{
 			$token=self::hiddenField($request->csrfTokenName,$request->getCsrfToken(),array('id'=>false));
-			$form.="\n".$token;
+			$form.="\n".self::tag('div',array('style'=>'display:none'),$token);
 		}
 		return $form;
 	}
@@ -3753,7 +3784,7 @@ class CHtml
 	public static function statefulForm($action='',$method='post',$htmlOptions=array())
 	{
 		return self::form($action,$method,$htmlOptions)."\n".
-			self::tag('div',array('style'=>'visibility:hidden'),self::pageStateField(''));
+			self::tag('div',array('style'=>'display:none'),self::pageStateField(''));
 	}
 	public static function pageStateField($value)
 	{
@@ -3795,10 +3826,8 @@ class CHtml
 			$htmlOptions['name']=self::ID_PREFIX.self::$count++;
 		if(!isset($htmlOptions['type']))
 			$htmlOptions['type']='button';
-		if(!isset($htmlOptions['value']))
-			$htmlOptions['value']=$label;
 		self::clientChange('click',$htmlOptions);
-		return self::tag('button',$htmlOptions);
+		return self::tag('button',$htmlOptions,$label);
 	}
 	public static function submitButton($label='submit',$htmlOptions=array())
 	{
@@ -4127,30 +4156,37 @@ EOD;
 		self::resolveNameID($model,$attribute,$htmlOptions);
 		if(!isset($htmlOptions['value']))
 			$htmlOptions['value']=1;
-		if($model->$attribute)
+		if(!isset($htmlOptions['checked']) && $model->$attribute==$htmlOptions['value'])
 			$htmlOptions['checked']='checked';
 		self::clientChange('click',$htmlOptions);
-		// add a hidden field so that if the radio button is not selected, it still submits a value
-		return self::hiddenField($htmlOptions['name'],$htmlOptions['value']?0:-1,array('id'=>self::ID_PREFIX.$htmlOptions['id']))
-			. self::activeInputField('radio',$model,$attribute,$htmlOptions);
-	}
-	public static function activeCheckBox($model,$attribute,$htmlOptions=array())
-	{
-		self::resolveNameID($model,$attribute,$htmlOptions);
-		if(!isset($htmlOptions['value']))
-			$htmlOptions['value']=1;
-		if($model->$attribute)
-			$htmlOptions['checked']='checked';
-		self::clientChange('click',$htmlOptions);
-		if(isset($htmlOptions['uncheckValue']))
+		if(array_key_exists('uncheckValue',$htmlOptions))
 		{
 			$uncheck=$htmlOptions['uncheckValue'];
 			unset($htmlOptions['uncheckValue']);
 		}
 		else
 			$uncheck='0';
-		return self::hiddenField($htmlOptions['name'],$uncheck,array('id'=>self::ID_PREFIX.$htmlOptions['id']))
-			. self::activeInputField('checkbox',$model,$attribute,$htmlOptions);
+		$hidden=$uncheck!==null ? self::hiddenField($htmlOptions['name'],$uncheck,array('id'=>self::ID_PREFIX.$htmlOptions['id'])) : '';
+		// add a hidden field so that if the radio button is not selected, it still submits a value
+		return $hidden . self::activeInputField('radio',$model,$attribute,$htmlOptions);
+	}
+	public static function activeCheckBox($model,$attribute,$htmlOptions=array())
+	{
+		self::resolveNameID($model,$attribute,$htmlOptions);
+		if(!isset($htmlOptions['value']))
+			$htmlOptions['value']=1;
+		if(!isset($htmlOptions['checked']) && $model->$attribute==$htmlOptions['value'])
+			$htmlOptions['checked']='checked';
+		self::clientChange('click',$htmlOptions);
+		if(array_key_exists('uncheckValue',$htmlOptions))
+		{
+			$uncheck=$htmlOptions['uncheckValue'];
+			unset($htmlOptions['uncheckValue']);
+		}
+		else
+			$uncheck='0';
+		$hidden=$uncheck!==null ? self::hiddenField($htmlOptions['name'],$uncheck,array('id'=>self::ID_PREFIX.$htmlOptions['id'])) : '';
+		return $hidden . self::activeInputField('checkbox',$model,$attribute,$htmlOptions);
 	}
 	public static function activeDropDownList($model,$attribute,$data,$htmlOptions=array())
 	{
@@ -4391,23 +4427,21 @@ EOD;
 		$cs->registerScript('Yii.CHtml.#'.$id,"jQuery('#$id').$event(function(){{$handler}});");
 		unset($htmlOptions['params'],$htmlOptions['submit'],$htmlOptions['ajax'],$htmlOptions['confirm'],$htmlOptions['return'],$htmlOptions['csrf']);
 	}
-	protected static function resolveNameID($model,&$attribute,&$htmlOptions)
+	public static function resolveNameID($model,&$attribute,&$htmlOptions)
 	{
+		$name=self::resolveName($model,$attribute);
 		if(!isset($htmlOptions['name']))
-			$htmlOptions['name']=self::resolveName($model,$attribute);
+			$htmlOptions['name']=$name;
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=self::getIdByName($htmlOptions['name']);
 	}
-	protected static function resolveName($model,&$attribute)
+	public static function resolveName($model,&$attribute)
 	{
-		if(($pos=strpos($attribute,'['))!==false)
-		{
-			$sub=substr($attribute,$pos);
-			$attribute=substr($attribute,0,$pos);
-			return get_class($model).$sub.'['.$attribute.']';
-		}
+		if('['===$attribute[0])
+			list($i, $attribute, $index)=array(strtok($attribute, '[]'), strtok('['), strtok(']'));
 		else
-			return get_class($model).'['.$attribute.']';
+			list($attribute, $index)=array(strtok($attribute, '['), strtok(']'));
+		return get_class($model).(isset($i) ? '['.$i.']' : '').'['.$attribute.']'.(false!==$index ? '['.$index.']' : '');
 	}
 	protected static function addErrorCss(&$htmlOptions)
 	{
@@ -4492,10 +4526,14 @@ class CWidget extends CBaseController
 	}
 	public function getViewFile($viewName)
 	{
-		if(strpos($viewName,'.')) // a path alias
-			$viewFile=Yii::getPathOfAlias($viewName).'.php';
+		if(($renderer=Yii::app()->getViewRenderer())!==null)
+			$extension=$renderer->fileExtension;
 		else
-			$viewFile=$this->getViewPath().DIRECTORY_SEPARATOR.$viewName.'.php';
+			$extension='.php';
+		if(strpos($viewName,'.')) // a path alias
+			$viewFile=Yii::getPathOfAlias($viewName).$extension;
+		else
+			$viewFile=$this->getViewPath().DIRECTORY_SEPARATOR.$viewName.$extension;
 		return is_file($viewFile) ? Yii::app()->findLocalizedFile($viewFile) : false;
 	}
 	public function render($view,$data=null,$return=false)
@@ -5780,37 +5818,60 @@ abstract class CActiveRecord extends CModel
 	{
 		$this->raiseEvent('onAfterConstruct',$event);
 	}
+	public function onBeforeFind($event)
+	{
+		$this->raiseEvent('onBeforeFind',$event);
+	}
 	public function onAfterFind($event)
 	{
 		$this->raiseEvent('onAfterFind',$event);
 	}
 	protected function beforeSave()
 	{
-		$event=new CModelEvent($this);
-		$this->onBeforeSave($event);
-		return $event->isValid;
+		if($this->hasEventHandler('onBeforeSave'))
+		{
+			$event=new CModelEvent($this);
+			$this->onBeforeSave($event);
+			return $event->isValid;
+		}
+		else
+			return true;
 	}
 	protected function afterSave()
 	{
-		$this->onAfterSave(new CEvent($this));
+		if($this->hasEventHandler('onAfterSave'))
+			$this->onAfterSave(new CEvent($this));
 	}
 	protected function beforeDelete()
 	{
-		$event=new CModelEvent($this);
-		$this->onBeforeDelete($event);
-		return $event->isValid;
+		if($this->hasEventHandler('onBeforeDelete'))
+		{
+			$event=new CModelEvent($this);
+			$this->onBeforeDelete($event);
+			return $event->isValid;
+		}
+		else
+			return true;
 	}
 	protected function afterDelete()
 	{
-		$this->onAfterDelete(new CEvent($this));
+		if($this->hasEventHandler('onAfterDelete'))
+			$this->onAfterDelete(new CEvent($this));
 	}
 	protected function afterConstruct()
 	{
-		$this->onAfterConstruct(new CEvent($this));
+		if($this->hasEventHandler('onAfterConstruct'))
+			$this->onAfterConstruct(new CEvent($this));
+	}
+	protected function beforeFind()
+	{
+		if($this->hasEventHandler('onBeforeFind'))
+			$this->onBeforeFind(new CEvent($this));
 	}
 	protected function afterFind()
 	{
-		$this->onAfterFind(new CEvent($this));
+		if($this->hasEventHandler('onAfterFind'))
+			$this->onAfterFind(new CEvent($this));
 	}
 	public function afterFindInternal()
 	{
@@ -5935,6 +5996,7 @@ abstract class CActiveRecord extends CModel
 	}
 	private function query($criteria,$all=false)
 	{
+		$this->beforeFind();
 		$this->applyScopes($criteria);
 		$command=$this->getCommandBuilder()->createFindCommand($this->getTableSchema(),$criteria);
 		return $all ? $this->populateRecords($command->queryAll()) : $this->populateRecord($command->queryRow());
@@ -6060,6 +6122,14 @@ abstract class CActiveRecord extends CModel
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
 		$command=$builder->createDeleteCommand($this->getTableSchema(),$criteria);
+		return $command->execute();
+	}
+	public function deleteAllByAttributes($attributes,$condition='',$params=array())
+	{
+		$builder=$this->getCommandBuilder();
+		$table=$this->getTableSchema();
+		$criteria=$builder->createColumnCriteria($table,$attributes,$condition,$params);
+		$command=$builder->createDeleteCommand($table,$criteria);
 		return $command->execute();
 	}
 	public function populateRecord($attributes,$callAfterFind=true)

@@ -25,7 +25,7 @@ return array (
   'Alias "{alias}" is invalid. Make sure it points to an existing directory or file.' => 'Псевдонім "{alias}" недійсний. Переконайтеся що він вказує на існуючу директорію або файл.',
   'Application base path "{path}" is not a valid directory.' => 'Базовий шлях аплікації "{path}" вказує на недійсну директорію.',
   'Application runtime path "{path}" is not valid. Please make sure it is a directory writable by the Web server process.' => 'Шлях виконання (runtime) аплікації "{path}" недійсний. Будь ласка, переконайтеся що ця директорія доступна для запису процесом веб-сервера.',
-  'Authorization item "{item}" has already been assigned to user "{user}".' => 'Авторизація елемента "{item}" вже було призначено користувачеві користувачеві "{user}".',
+  'Authorization item "{item}" has already been assigned to user "{user}".' => 'Авторизація елемента "{item}" вже було призначено користувачеві "{user}".',
   'CApcCache requires PHP apc extension to be loaded.' => 'CApcCache вимагає завантаженого розширення PHP apc.',
   'CAssetManager.basePath "{path}" is invalid. Please make sure the directory exists and is writable by the Web server process.' => 'Шлях CAssetManager.basePath "{path}" недійсний. Будь ласка, переконайтеся що ця директорія доступна для запису процесом веб-сервера.',
   'CCacheHttpSession.cacheID is invalid. Please make sure "{id}" refers to a valid cache application component.' => 'Ідентифікатор CCacheHttpSession.cacheID недійсний. Будь ласка, переконайтеся що "{id}" вказує на дійсний компонент кешу аплікації.',

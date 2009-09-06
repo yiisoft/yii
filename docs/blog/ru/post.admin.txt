@@ -1,0 +1,127 @@
+Управление записями
+===================
+
+Под управлением записями подразумевается отображение их списка в административном
+разделе и их удаление. Этот функционал реализуется в действиях `admin` и `delete`
+соответственно. Код, сгенерированный при помощи `yiic` почти не нуждается в
+изменениях. Ниже мы объясним, как реализованы эти действия.
+
+
+Отображение записей в виде таблицы
+----------------------------------
+
+Действие `admin` выводит все записи (включая неопубликованные) в виде таблицы,
+разбитой на несколько страниц и поддерживающей сортировку по нескольким колонкам.
+Далее приведён метод `actionAdmin()` контроллера `PostController`:
+
+~~~
+[php]
+public function actionAdmin()
+{
+	$criteria=new CDbCriteria;
+
+	$pages=new CPagination(Post::model()->count());
+	$pages->applyLimit($criteria);
+
+	$sort=new CSort('Post');
+	$sort->defaultOrder='status ASC, createTime DESC';
+	$sort->applyOrder($criteria);
+
+	$posts=Post::model()->findAll($criteria);
+
+	$this->render('admin',array(
+		'posts'=>$posts,
+		'pages'=>$pages,
+		'sort'=>$sort,
+	));
+}
+~~~
+
+Данный код очень похож на используемый в `actionList()`. Главное отличие в том,
+что мы используем объект [CSort] для представления информации о сортировке
+(т.е. какие колонки и в каком порядке сортировать). [CSort] используется
+отображением `admin` для создания ссылок в заголовке таблицы. Щелчок по такой
+ссылке вызывает перезагрузку страницы с сортировкой данных по данной колонке.
+
+Ниже приведён код отображения `admin`:
+
+~~~
+[php]
+<h2>Manage Posts</h2>
+
+<table class="dataGrid">
+  <tr>
+    <th><?php echo $sort->link('status'); ?></th>
+    <th><?php echo $sort->link('title'); ?></th>
+    <th><?php echo $sort->link('createTime'); ?></th>
+    <th><?php echo $sort->link('updateTime'); ?></th>
+  </tr>
+<?php foreach($posts as $n=>$post): ?>
+  <tr class="<?php echo $n%2?'even':'odd';?>">
+    <td><?php echo CHtml::encode($post->statusText); ?></td>
+    <td><?php echo CHtml::link(CHtml::encode($post->title),
+    	array('show','id'=>$post->id)); ?></td>
+    <td><?php echo date('F j, Y',$post->createTime); ?></td>
+    <td><?php echo date('F j, Y',$post->updateTime); ?></td>
+  </tr>
+<?php endforeach; ?>
+</table>
+
+<br/>
+<?php $this->widget('CLinkPager',array('pages'=>$pages)); ?>
+~~~
+
+Понять код довольно просто. Мы делаем цикл по всем записям и каждую отображаем
+в строке таблицы. В заголовке мы используем [CSort] для создания ссылок для
+сортировки. В самом конце мы подключаем виджет [CLinkPager], который отображает
+при необходимости постраничную разбивку.
+
+> Tip|Подсказка: При выводе текста мы используем [CHtml::encode()] для
+  кодирования сущностей HTML. Это позволяет избежать атак через [межсайтовый
+  скриптинг](/doc/guide/ru/topics.security).
+
+
+Удаление записей
+----------------
+
+При выводе записи с использованием действия `show` мы показываем ссылку
+`удалить`(`delete`) если текущий пользователь является владельцем системы.
+При нажатии на ссылку запись будет удалена. Так как удаление записи вызывает
+изменение данных, логично использовать для этого метод POST, поэтому для генерации
+кнопки `удалить` мы воспользуемся следующим кодом:
+
+~~~
+[php]
+<?php echo CHtml::linkButton('Delete',array(
+   'submit'=>array('post/delete','id'=>$post->id),
+   'confirm'=>"Вы уверены, что хотите удалить запись?",
+)); ?>
+~~~
+
+Метод [CHtml::linkButton()] генерирует ссылку, нажатие на которую вызывает отправку
+методом POST формы, в которой она располагается. Здесь мы указываем, что форма
+должна быть отправлена по URL, сгенерированному в соответствии с
+`array('post/delete','id'=>$post->id)`. В нашем приложении это будет
+`/blog/index.php?r=post/delete&id=1`. То есть действие `delete` контроллера
+`PostController`. Также мы указываем, что при нажатии должен быть показан диалог
+подтверждения. Это даёт пользователю шанс отказаться от удаления записи.
+
+Код действия `delete` говорит сам за себя, поэтому приведём его как есть:
+
+~~~
+[php]
+public function actionDelete()
+{
+	if(Yii::app()->request->isPostRequest)
+	{
+		// we only allow deletion via POST request
+		$this->loadPost()->delete();
+		$this->redirect(array('list'));
+	}
+	else
+		throw new CHttpException(400,'Плохой запрос какой-то…');
+}
+~~~
+
+
+<div class="revision">$Id: post.admin.txt 1050 2009-05-22 20:06:18Z qiang.xue $</div>

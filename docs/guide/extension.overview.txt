@@ -11,6 +11,7 @@ An extension usually serves for a single purpose. In Yii's terms, it can be
 classified as follows,
 
  * [application component](/doc/guide/basics.application#application-component)
+ * [behavior](/doc/guide/basics.component#component-behavior)
  * [widget](/doc/guide/basics.view#widget)
  * [controller](/doc/guide/basics.controller)
  * [action](/doc/guide/basics.controller#action)

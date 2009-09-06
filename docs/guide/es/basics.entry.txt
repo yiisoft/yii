@@ -19,7 +19,7 @@ $configFile='path/to/config/file.php';
 Yii::createWebApplication($configFile)->run();
 ~~~
 
-Este script incluyer el archivo principal de Yii framework `yii.php`, crea la instancia
+Este script incluye el archivo principal de Yii framework `yii.php`, crea la instancia
 de aplicación web con la configuración especificada y inicia su ejecución.
 
 Modo Debug

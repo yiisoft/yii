@@ -131,7 +131,7 @@ poprzez komponent:
 ~~~
 [php]
 // $name jednoznacznie identyfikuje zdarzenie komponentu
-$behavior->attach($name,$component);
+$component->attachBehavior($name,$behavior);
 // test() jest metodą $behavior
 $component->test();
 ~~~
@@ -170,4 +170,4 @@ potężne. Zachowanie, dołączane do komponentu, może dołączyć pewną czę�
 do pewnych zdarzeń komponentu. W taki sposób, zdarzeniu udostępnia się możliwość
 obserwowania lub zmiany zwykłego przepływu wykonywania czynności komponentu. 
 
-<div class="revision">$Id: basics.component.txt 683 2009-02-16 05:20:17Z qiang.xue $</div>
+<div class="revision">$Id: basics.component.txt 1328 2009-08-15 18:45:51Z qiang.xue $</div>

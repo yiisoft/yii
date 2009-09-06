@@ -477,6 +477,9 @@ w klasach potomnych aby dostosować ich sterowanie kolejnością zadań (ang. wo
    - [afterConstruct|CActiveRecord::afterConstruct]: jest wywoływana dla każdej instancji AR 
    utworzonej za pomocą operatora `new`.
 
+   - [beforeFind|CActiveRecord::beforeFind]: jest wywoływana zanim instancja AR zostanie
+   użyta do wykonania zapytania (np. `find()`, `findAll()`). Dostępna od wersji 1.0.9.
+
    - [afterFind|CActiveRecord::afterFind]: jest wywoływana dla każdej instancji AR utworzonej 
    jako rezultat zapytania.
 
@@ -627,4 +630,4 @@ $contents=Content::model()->findAll();
 
 Zauważ, że domyślne nazwane podzbiory mają zastosowanie tylko dla zapytań `SELECT`. Są one ignorowane dla zapytań `INSERT`, `UPDATE` oraz `DELETE`.
 
-<div class="revision">$Id: database.ar.txt 1167 2009-06-23 02:56:45Z qiang.xue $</div>
+<div class="revision">$Id: database.ar.txt 1391 2009-09-04 19:46:04Z qiang.xue $</d

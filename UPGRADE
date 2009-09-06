@@ -21,8 +21,18 @@ should look like [$i]Field in order to support array-typed fields
 
 - Please read the Guide for further details on how to upgrade from v1.0.x to v1.1.
 
+Upgrading from v1.0.9
+---------------------
+
 Upgrading from v1.0.8
 ---------------------
+- ActiveRecord lazy loading is changed for optimization purpose. Previously,
+when lazy loading occurs, the related table will be joined with the primary
+table. Now, the related table will be queried without joining the primary table.
+As a result, if you are using lazy loading and the corresponding relation
+declaration includes reference to the primary table, the query will fail.
+To fix this problem, please specify the lazy loading query options with the
+actual primary table column values.
 
 Upgrading from v1.0.7
 ---------------------
