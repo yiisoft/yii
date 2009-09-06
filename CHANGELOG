@@ -2,8 +2,8 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.0.9 to be released
-----------------------------
+Version 1.0.9 September 6, 2009
+-------------------------------
 - Bug #470: Fixed CTimestamp getdate bug which is related with timezone setting (Qiang)
 - Bug #499: Blog demo approve comment page doesn't have proper pagination (Qiang)
 - Bug #510: CHtml::htmlButton() should render the label as the element body rather than value attribute (Qiang)
