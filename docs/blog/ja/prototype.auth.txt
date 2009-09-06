@@ -42,11 +42,11 @@ class UserIdentity extends CUserIdentity
 }
 ~~~
 
-`authenticate()` メソッドにおいて、 `User` クラスを用いて `User` テーブルの行を参照しています。`User` テーブルの `username` 列は特定のユーザ名（大文字小文字の区別なし）と同一です。`User` クラスは前のセクションで `yiic` ツールによって作られたものであることを思い出してください。`User` クラスは [CActiveRecord] を継承しているため、 [ActiveRecord 機能](http://www.yiiframework.com/doc/guide/database.ar)を、オブジェクト指向に(OOP)のっとったやり方で `User` テーブルにアクセスすることができます。
+`authenticate()` メソッドにおいて、 `User` クラスを用いて `User` テーブルの行を参照しています。`User` テーブルの `username` 列は特定のユーザ名（大文字小文字の区別なし）と同一です。`User` クラスは前のセクションで `yiic` ツールによって作られたものであることを思い出してください。`User` クラスは [CActiveRecord] を継承しているため、 [ActiveRecord 機能](http://www.yiiframework.com/doc/guide/database.ar)を、オブジェクト指向(OOP)にのっとったやり方で `User` テーブルにアクセスすることができます。
 
 `UserIdentity` クラスでは、`getId()` メソッドをオーバーライドして、`User` テーブルから見つかったユーザの `id` を返すようにしています。元の実装では、代わりにユーザ名を返すようになっていました。`username` と `id` プロパティはともにユーザセッションに保存され、コードのどこからでも `Yii::app()->user` でアクセスすることが可能です。
 
-> Tip|ヒント: `UserIdentity` クラスにおいて、対応するクラスファイルを読み込むことなく [CUserIdentity] を参照しています。 これは [CUserIdentity] が Yii framework のコアクラスであるためです。Yii は任意のコアクラスが最初に参照されたときに、自動的のそのクラスファイルを読み込みます。`User` クラスでも同じことが行われています。 なぜなら、 `User` クラスファイルが、`/wwwroot/blog/protected/models` ディレクトリ以下にあり、アプリケーション初期構成の書きコードで PHP の `include_path` に追加されているからです。
+> Tip|ヒント: `UserIdentity` クラスにおいて、対応するクラスファイルを読み込むことなく [CUserIdentity] を参照しています。 これは [CUserIdentity] が Yii framework のコアクラスであるためです。Yii は任意のコアクラスが最初に参照されたときに、自動的のそのクラスファイルを読み込みます。`User` クラスでも同じことが行われています。 なぜなら、 `User` クラスファイルが、`/wwwroot/blog/protected/models` ディレクトリ以下にあり、アプリケーション初期構成の下記コードで PHP の `include_path` に追加されているからです。
 >
 > ~~~
 > [php]

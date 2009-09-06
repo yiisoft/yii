@@ -82,4 +82,4 @@ Ein Pfad-Alias kollidiert nicht mit einem Namespace.
 > reserviert bleibt und benutzerdefinierte Klassen mit anderen Präfixen
 > versehen werden.
 
-<div class="revision">$Id: basics.namespace.txt 1299 2009-08-07 00:25:55Z qiang.xue $</div>
+<div class="revision">$Id: basics.namespace.txt 1310 2009-08-08 16:03:46Z qiang.xue $</div>

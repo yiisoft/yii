@@ -1,0 +1,146 @@
+Доработка модели Comment
+========================
+
+Также, как и в модели `Post`, в модели `Comment` нам необходимо поправить методы
+`rules()`, `relations()` и `safeAttributes()`. Кроме того, нужно задать свои
+подписи некоторым полям в методе `attributeLabels()`.
+
+
+Изменение метода `rules()`
+--------------------------
+
+Начнём с уточнения правил валидации, сгенерированных при помощи `yiic`.
+Для комментариев будем использовать следующие правила:
+
+~~~
+[php]
+public function rules()
+{
+	return array(
+		array('author,email,content', 'required'),
+		array('author,email,url','length','max'=>128),
+		array('email','email'),
+		array('url','url'),
+		array('verifyCode', 'captcha', 'on'=>'insert',
+			'allowEmpty'=>!Yii::app()->user->isGuest),
+	);
+}
+~~~
+
+Здесь мы указываем, что атрибуты `author`, `email` и `content` обязательны.
+Длина `author`, `email` и `url` не может превышать 128 символов. Атрибут `email`
+должен содержать корректный email-адрес. `url` должен содержать корректный URL.
+Атрибут `verifyCode` должен проверяться как код [CAPTCHA](http://ru.wikipedia.org/wiki/Captcha).
+
+Здесь `verifyCode` используется для хранения кода подтверждения, введённого
+пользователем для того, чтобы оставить комментарий. Так как в таблице `Comment`
+поля `verifyCode` нет, нам надо явно описать его как public свойство класса.
+Для его валидации используется специальный валидатор `captcha`, которому
+соответствует класс [CCaptchaValidator]. Более того, валидация будет проводиться
+только при добавлении нового комментария(см. параметр `on`). Для аутентифицированных
+пользователей валидация не требуется(см. параметра `allowEmpty`).
+
+
+Изменение метода `safeAttributes()`
+-----------------------------------
+
+Далее изменим метод `safeAttributes()`. Укажем атрибуты, которые могут быть
+назначены пакетно.
+
+~~~
+[php]
+public function safeAttributes()
+{
+	return array('author', 'email', 'url', 'content', 'verifyCode');
+}
+~~~
+
+Приведённый выше код также показывает, что форма комментирования будет состоять
+из нескольких полей: автор, почта, URL, текст и код подтверждения.
+
+
+Изменение метода `relations()`
+------------------------------
+
+При разработке портлета «последние комментарии» нам необходимо получить список
+последних комментариев с информации о записях, связанных с ними. Поэтому мы
+добавляем информацию об отношении в метод `relations()`:
+
+~~~
+[php]
+public function relations()
+{
+	return array(
+		'post'=>array(self::BELONGS_TO, 'Post', 'postId',
+			'joinType'=>'INNER JOIN'),
+	);
+}
+~~~
+
+Стоит отметить, что тип join для отношения `post` — `INNER JOIN`. Сделано это
+так как комментарий должен относиться к записи.
+
+
+Изменение метода `attributeLabels()`
+------------------------------------
+
+Изменим метод `attributeLabels()`. Зададим свои подписи атрибутам. Метод возвращает
+массив пар имя атрибута-подпись. При вызове [CHtml::activeLabel()], сначала
+будет проверено, существует ли своя подпись. Если подпись не задана — будет
+сгенерирована подпись по умолчанию.
+
+~~~
+[php]
+public function attributeLabels()
+{
+	return array(
+		'author'=>'Имя',
+		'url'=>'Сайт',
+		'content'=>'Комментарий',
+		'verifyCode'=>'Код подтверждения',
+	);
+}
+~~~
+
+> Tip|Подсказка: Подпись по умолчанию генерируется на основе имени атрибута.
+  Сначала имя разбивается на слова учитывая camelCase. Затем каждый символ каждого
+  слова переводится в верхний регистр. К примеру, атрибуту с именем `verifyCode`
+  будет присвоена подпись `Verify Code`.
+
+
+Изменение процесса сохранения
+-----------------------------
+
+Так как мы хотим обновлять количество комментариев для каждой записи при удалении
+или публикации нового комментария, нам необходимо изменять соответствующее поле
+записи. Для этого переопределим методы `afterSave()` и `afterDelete()` модели
+`Comment`. Также переопределим метод `beforeValidate()`. Это позволит нам
+конвертировать текст из формата Markdown в HTML и выставлять время создания
+комментария.
+
+~~~
+[php]
+protected function beforeValidate($on)
+{
+	$parser=new CMarkdownParser;
+	$this->contentDisplay=$parser->safeTransform($this->content);
+	if($this->isNewRecord)
+		$this->createTime=time();
+	return true;
+}
+
+protected function afterSave()
+{
+	if($this->isNewRecord && $this->status==Comment::STATUS_APPROVED)
+		Post::model()->updateCounters(array('commentCount'=>1), "id={$this->postId}");
+}
+
+protected function afterDelete()
+{
+	if($this->status==Comment::STATUS_APPROVED)
+		Post::model()->updateCounters(array('commentCount'=>-1), "id={$this->postId}");
+}
+~~~
+
+
+<div class="revision">$Id: comment.model.txt 814 2009-03-10 18:00:11Z qiang.xue $</div>

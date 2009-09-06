@@ -59,6 +59,72 @@ erst dann, wenn zum ersten mal auf sie zugegriffen wird), außer, wir führen
 sie in der Eigenschaft `preload` auf.
 
 
+Behavior
+--------
+
+[Behavior](/doc/guide/basics.component#component-behavior) können mit allen
+möglichen Komponenten verwendet werden. Dies erfordert zwei Schritte. Zunächst
+wird das Behavior an die gewünschte Komponente angebunden. Danach wird eine
+Behaviormethode über die Komponente aufgerufen. Zum Beispiel:
+
+~~~
+[php]
+// $name ist ein eindeutiger Bezeichner des Behaviors in der Komponente
+$component->attachBehavior($name,$behavior);
+// test() ist eine Methode des Behaviors
+$component->test();
+~~~
+
+Statt über die `attachBehavior`-Methode wird ein Behavior in der Regel meist 
+per Konfiguration an eine Komponente angebunden. Der folgende
+[Konfigurationsausschnitt](/doc/guide/basics.application#application-configuration)
+würde z.B. ein Behavior an eine [Applikationskomponente](/doc/guide/basics.application#application-component) 
+anbinden:
+
+~~~
+[php]
+return array(
+	'components'=>array(
+		'db'=>array(
+			'class'=>'CDbConnection',
+			'behaviors'=>array(
+				'xyz'=>array(
+					'class'=>'ext.xyz.XyzBehavior',
+					'property1'=>'value1',
+					'property2'=>'value2',
+				),
+			),
+		),
+		//....
+	),
+);
+~~~
+
+Dieser Code bindet das Behavoir `xyz` and die `db`-Komponente der Anwendung
+an. Dies wird durch die in [CApplicationComponent] definierte Eigenschaft `behaviors` 
+ermöglicht. Indem wir in dieser Eigenschaft eine Liste von
+Behaviorkonfigurationen übergeben, bindet die Komponente die entsprechenden
+Behaviors beim Initialisieren an.
+
+Bei [CController]-, [CFormModel]- and [CActiveModel]-Klassen, die in der Regel
+erweitert werden, werden Behavior durch Überschreiben der
+`behaviors()`-Methode angebunden. Zum Beispiel:
+
+~~~
+[php]
+public function behaviors()
+{
+	return array(
+		'xyz'=>array(
+			'class'=>'ext.xyz.XyzBehavior',
+			'property1'=>'value1',
+			'property2'=>'value2',
+		),
+	);
+}
+
+
+~~~
 Widget
 ------
 
@@ -248,4 +314,4 @@ Eigenschaften konfigurieren oder ihre Methoden aufrufen. Möglicherweise
 möchten wir sie auch erweitern, um neue Kindklassen zu erstellen.
 
 
-<div class="revision">$Id: extension.use.txt 1299 2009-08-07 00:25:55Z qiang.xue $</div>
+<div class="revision">$Id: extension.use.txt 1392 2009-09-04 20:39:11Z qiang.xue $</div>
