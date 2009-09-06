@@ -2,6 +2,10 @@
                    Yii Framework Change Log
                    ========================
 
+Version 1.0.10 to be released
+-----------------------------
+
+
 Version 1.0.9 September 6, 2009
 -------------------------------
 - Bug #470: Fixed CTimestamp getdate bug which is related with timezone setting (Qiang)
