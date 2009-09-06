@@ -143,12 +143,12 @@ aufrufen.
 ~~~
 [php]
 // $name ist ein eindeutiger Bezeichner des Behaviors in der Komponente
-$behavior->attach($name,$component);
+$component->attachBehavior($name,$behavior);
 // test() ist eine Methode des Behaviors
 $component->test();
 ~~~
 
-Auf ein verbundenes Verhalten kann wie auf eine normale Eigenschaft der Komponente
+Auf ein verbundenes Behavior kann wie auf eine normale Eigenschaft der Komponente
 zugegriffen weden. Wenn zum Beispiel ein Behavior namens `tree` mit einer
 Komponente verbunden ist, erhalten wir eine Referenz auf dieses Behavior wie
 folgt erhalten:
@@ -183,4 +183,4 @@ es eine oder mehrere seiner Methoden mit einigen Events der Komponente
 verbinden. Dadurch kann kann das Behavior den normalen Prozessablauf innerhalb
 einer Komponente überwachen oder verändern.
 
-<div class="revision">$Id: basics.component.txt 683 2009-02-16 05:20:17Z qiang.xue $</div>
+<div class="revision">$Id: basics.component.txt 1328 2009-08-15 18:45:51Z qiang.xue $</div>

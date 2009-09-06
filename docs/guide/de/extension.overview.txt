@@ -12,6 +12,7 @@ Eine Erweiterung dient normalerweise einem bestimmten Zweck. In Yii-Begriffen
 kann sie wie folgt klassifiziert werden:
 
  * [Anwendungskomponente](/doc/guide/basics.application#application-component)
+ * [Behavior](/doc/guide/basics.component#component-behavior)
  * [Widget](/doc/guide/basics.view#widget)
  * [Controller](/doc/guide/basics.controller)
  * [Action](/doc/guide/basics.controller#action)
@@ -35,4 +36,4 @@ Kategorien fällt. Tatsächlich ist Yii so konzipiert, dass fast sein gesamter
 Code erweitert oder angepasst werden kann, um individuellen Bedürfnissen
 gerecht zu werden.
 
-<div class="revision">$Id: extension.overview.txt 759 2009-02-26 21:23:53Z qiang.xue $</div>
+<div class="revision">$Id: extension.overview.txt 1392 2009-09-04 20:39:11Z qiang.xue $</div>

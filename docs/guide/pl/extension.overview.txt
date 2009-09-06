@@ -11,6 +11,7 @@ Rozszerzenie zazwyczaj służy jednemu celu. W nazewnictwie Yii, można to sklas
 następująco:
 
  * [komponent aplikacji](/doc/guide/basics.application#application-component)
+ * [zachowanie](/doc/guide/basics.component#component-behavior) 
  * [widżet](/doc/guide/basics.view#widget)
  * [kontroler](/doc/guide/basics.controller)
  * [akcja](/doc/guide/basics.controller#action)
@@ -30,4 +31,4 @@ Rozszerzenie może być również komponentem, który nie należy do żadnej z w
 wymienionych kategorii. W rzeczy samej, framework Yii jest starannie zaprojektowany, tak że
 niemal każda jego część kodu może być rozszerzona oraz dostosowana do indywidualnych potrzeb.
 
-<div class="revision">$Id: extension.overview.txt 759 2009-02-26 21:23:53Z qiang.xue $</div>
+<div class="revision">$Id: extension.overview.txt 1392 2009-09-04 20:39:11Z qiang.xue $</div>

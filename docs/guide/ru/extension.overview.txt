@@ -1,4 +1,4 @@
-﻿Обзор
+Обзор
 ========
 
 Дописывание Yii путем расширения - стандартная практика в процессе разработки. Например, 
@@ -6,21 +6,22 @@
 [CController]; для написания виджета - класса [CWidget] или класса уже существующего виджета.
 Если дописанный код оформлен для использования сторонними разработчиками, мы называем его *расширением (extension)*.
 
-Как правило, каждое расширение служит только одной цели. Используя терминологию, принятую в Yii, 
+Как правило, каждое расширение служит только для одной цели. Используя терминологию, принятую в Yii,
 расширения можно классифицировать следующим образом:
 
- * [компонент приложения](/doc/guide/basics.application#application-component);
- * [виджет](/doc/guide/basics.view#widget);
- * [контроллер](/doc/guide/basics.controller);
- * [действие](/doc/guide/basics.controller#action);
- * [фильтр](/doc/guide/basics.controller#filter);
- * [команда консоли](/doc/guide/topics.console);
+ * [компонент приложения](/doc/guide/ru/basics.application#application-component);
+ * [поведение](/doc/guide/ru/basics.component#component-behavior);
+ * [виджет](/doc/guide/ru/basics.view#widget);
+ * [контроллер](/doc/guide/ru/basics.controller);
+ * [действие](/doc/guide/ru/basics.controller#action);
+ * [фильтр](/doc/guide/ru/basics.controller#filter);
+ * [команда консоли](/doc/guide/ru/topics.console);
  * валидатор: компонент, наследующий класс [CValidator];
  * помощник: класс, содержащий только статические методы, схожий с глобальной функцией, использующей имя класса в качестве пространства имен;
- * [модуль](/doc/guide/basics.module): самодостаточная программная единица, состоящая из [моделей](/doc/guide/basics.model), [действий](/doc/guide/basics.view), [контроллеров](/doc/guide/basics.controller) и необходимых компонентов.  Модуль во многом схож с [приложением](/doc/guide/basics.application).
+ * [модуль](/doc/guide/ru/basics.module): самодостаточная программная единица, состоящая из [моделей](/doc/guide/ru/basics.model), [действий](/doc/guide/ru/basics.view), [контроллеров](/doc/guide/ru/basics.controller) и необходимых компонентов.  Модуль во многом схож с [приложением](/doc/guide/ru/basics.application).
 Основное отличие состоит в том, что модули входят в состав приложения. Например, у нас может быть модуль, реализующий функционал управления пользователями.
  
 Впрочем, расширение может и не соответствовать ни одной из перечисленных категорий. Yii изначально был
 спроектирован таким образом, чтобы любую его часть можно было изменить и дополнить для любых нужд.
 
-<div class="revision">$Id: extension.overview.txt 759 2009-02-26 21:23:53Z qiang.xue $</div>
+<div class="revision">$Id: extension.overview.txt 1392 2009-09-04 20:39:11Z qiang.xue $</div>

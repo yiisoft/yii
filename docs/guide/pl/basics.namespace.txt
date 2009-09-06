@@ -15,10 +15,11 @@ możemy zdefiniować nowe aliasy ścieżek. Dla wygody, Yii predefiniuje domyśl
  - `system`: wskazuje katalog framework Yii;
  - `application`: wskazuje do [folderu głównego aplikacji](/doc/guide/basics.application#application-base-directory);
  - `webroot`: wskazuje na katalog zawierający plik [skryptu wejściowego](/doc/guide/basics.entry). Alias ten został wprowadzony wraz z wersją 1.0.3.
+ - `ext`: wskazuje na katalog zawierający wszystkie [rozszerzenia](/doc/guide/extension.overview) stron trzecich. Alias ten został wprowadzony wraz z wersją 1.0.8. 
  
 Dodatkowo, jeśli aplikacja używa [modułów](/doc/guide/basics.module) 
 alias główny jest również predefiniowany dla każdego ID modułu i wskazuje na 
-katalog główny odpowiedniego modułu. Funkcjonalność ta jest dostępna od version 1.0.3.
+katalog główny odpowiedniego modułu. Funkcjonalność ta jest dostępna od wersji 1.0.3.
 
 Używając [YiiBase::getPathOfAlias()] alias może zostać przetłumaczony na odpowiadającą 
 mu ścieżkę. Na przykład `system.web.CController` będzie przetłumaczony jako `yii/framework/web/CController`.
@@ -64,4 +65,4 @@ od klas zdefiniowanych przez użytkownika. Zaleca się, aby prefix 'C' był zare
 wyłącznie dla frameworku Yii a klasy użytkownika były poprzedzone prefiksem składającym 
 się z innej litery.
 
-<div class="revision">$Id: basics.namespace.txt 766 2009-02-27 17:22:13Z qiang.xue $</div>
+<div class="revision">$Id: basics.namespace.txt 1315 2009-08-09 04:07:35Z qiang.xue $</div>

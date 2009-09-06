@@ -14,8 +14,14 @@ Version 1.1a to be released
 - Chg: Changed AR table aliasing so that it uses relation names as default table aliases (Qiang)
 - Chg: Changed the default value of allowEmpty to be false for CCompareValidator. (Qiang)
 
-Version 1.0.9 to be released
-----------------------------
+
+Version 1.0.10 to be released
+-----------------------------
+
+
+Version 1.0.9 September 6, 2009
+-------------------------------
+- Bug #470: Fixed CTimestamp getdate bug which is related with timezone setting (Qiang)
 - Bug #499: Blog demo approve comment page doesn't have proper pagination (Qiang)
 - Bug #510: CHtml::htmlButton() should render the label as the element body rather than value attribute (Qiang)
 - Bug #513: CNumberValidator does not validate as expected when the attribute value is not string (Qiang)
@@ -27,6 +33,7 @@ Version 1.0.9 to be released
 - Bug #550: CCaptcha does not respect image alt option (Qiang)
 - Bug #551: multiget in caching components does not use proper keys (Qiang)
 - Bug: Set sequenceName in Oracle tables to be empty string so that yiic model command generates correct validation rules for PK (Qiang)
+- Enh #417: Added CActiveRecord::beforeFind and onBeforeFind event (Qiang)
 - Enh #419: Improved the performance of lazy relational AR by avoiding joining when possible (Qiang)
 - Enh #473: Upgraded jquery multifile plugin to version 1.46 (Qiang)
 - Enh #500: Added CDbCache::gcProbability (Qiang)
@@ -42,6 +49,8 @@ Version 1.0.9 to be released
 - Enh #547: Changed CSort::resolveLabel and validateAttribute to be public (Qiang)
 - Enh #549: Changed hour pattern in CDateTimeParser so that it is consistent with CDateFormatter (Qiang)
 - Enh #554: Added CViewRenderer::fileExtension (Qiang)
+- Enh #555: Added CApplication::timeZone (Qiang)
+- Enh: Improved AR performance by not raising events when no event handlers (Qiang)
 - Enh: Added CWebUser::setStateKeyPrefix() (Qiang)
 - Enh: Added CLocale::getMonthNames and CLocale::getWeekDayNames (Qiang)
 - Enh: Added uncheckValue option for CHtml::activeRadioButton (Qiang)

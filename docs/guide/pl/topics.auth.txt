@@ -466,8 +466,8 @@ ich uzywać do tworzenia hierarchii autoryzacji w sposób bardziej intuicyjny.
 ### Używanie reguł biznesowych
 
 Podczas definiowania hierarchii autoryzacji, możemy powiązać rolę, zadanie lub operację z tak zwaną *reguły biznesowej* (ang. business rule). 
-Możemy również powiązać regułę biznesową podczas przypisywania roli do użytkownika. Reguła biznesowa jest fragmentem kodu PHP (dokładniej rzecz ujmując wyrażeniem PHP ),
-które jest wykonywane podczas sprawdzania dostępności. Zwracana przez kod wartość jest używana do określenia, czy rola lub przypisanie ma zastosowanie dla aktualnego 
+Możemy również powiązać regułę biznesową podczas przypisywania roli do użytkownika. Reguła biznesowa jest fragmentem kodu PHP,
+który jest wykonywany podczas sprawdzania dostępności. Zwracana przez kod wartość jest używana do określenia, czy rola lub przypisanie ma zastosowanie dla aktualnego 
 użytkownika. W powyższym przykładzie, powiązaliśmy regułe bizesową z zadaniem `updateOwnPost` task. W regule biznesowej po prostu sprawdzamy czy ID aktualnego użytkownika 
 jest identyczne jak to określone przez ID autora postu. Informacja o poście w ablicy `$params` jest dostarczana przez programistę podczas sprawdzania dostępności.
 
@@ -550,4 +550,4 @@ $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('guest','gość', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 1275 2009-07-23 20:05:48Z qiang.xue $</div>
+<div class="revision">$Id: topics.auth.txt 1282 2009-08-01 01:07:54Z qiang.xue $</div>

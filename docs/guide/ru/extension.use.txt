@@ -51,6 +51,68 @@ return array(
 `Yii::app()->xyz`. Компонент будет создан отложенно (т.е. в момент первого
 обращения), если, конечно, мы не укажем его в свойстве `preload`.
 
+Поведение
+---------
+
+[Поведение](/doc/guide/ru/basics.component#component-behavior) может быть
+использовано в любом компоненте. Делается это в два шага: присоединение
+к компоненту и вызов метода поведения из компонента. К примеру:
+
+~~~
+[php]
+// $name соответствует уникальному поведению компонента
+$component->attachBehavior($name,$behavior);
+// test() является методом $behavior
+$component->test();
+~~~
+
+Чаще всего поведение присоединяется к компоненту с использованием конфигурации, а
+не вызовом метода `attachBehavior`. К примеру, чтобы присоединить поведение к
+[компоненту приложения](/doc/guide/ru/basics.application#application-component),
+мы можем использовать следующую
+[конфигурацию](/doc/guide/ru/basics.application#application-configuration):
+
+~~~
+[php]
+return array(
+	'components'=>array(
+		'db'=>array(
+			'class'=>'CDbConnection',
+			'behaviors'=>array(
+				'xyz'=>array(
+					'class'=>'ext.xyz.XyzBehavior',
+					'property1'=>'value1',
+					'property2'=>'value2',
+				),
+			),
+		),
+		//....
+	),
+);
+~~~
+
+Приведённый выше код присоединяет поведение `xyz` к компоненту приложения `db`.
+Это возможно так как [CApplicationComponent] определяет свойство `behaviors`.
+При инициализации компонент присоединит перечисленные в нём поведения.
+
+Для классов [CController], [CFormModel] и [CActiveModel], которые необходимо расширять,
+присоединение поведений присходит при помощи переопределения метода `behaviors()`.
+К примеру:
+
+~~~
+[php]
+public function behaviors()
+{
+	return array(
+		'xyz'=>array(
+			'class'=>'ext.xyz.XyzBehavior',
+			'property1'=>'value1',
+			'property2'=>'value2',
+		),
+	);
+}
+~~~
+
 Виджет
 ------
 
@@ -232,4 +294,4 @@ Yii::import('ext.xyz.XyzClass');
 вызывать его методы. Кроме того, можно его расширить для создания дочерних
 классов.
 
-<div class="revision">$Id: extension.use.txt 1299 2009-08-07 00:25:55Z qiang.xue $</div>
+<div class="revision">$Id: extension.use.txt 1392 2009-09-04 20:39:11Z qiang.xue $</div>

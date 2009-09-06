@@ -47,6 +47,14 @@ unikalne spośród wszystkich innych zmiennych, które mogą być zbuforowane w 
 NIE WYMAGA się, aby ID było unikalne pomiędzy aplikacjami, ponieważ komponent cache
 jest wystarczająco zmyślny aby rozróżniać te same ID w różnych aplikacjach.
 
+
+Część systemów buforowania pamięci, takich jak MemCache, APC, wspierają pobieranie 
+wartości wielokrotnie zbuforowanych w trybie wsadowym, co może objawić się zredukowaniem
+obciążenia związanego z pobieraniem zbuforowanych danych. Poczynając od wersji 1.0.8 
+nowa metoda [mget()|CCache::mget] została dostarczona w celu wykorzystania tej właściwości. 
+W przypadku kiedy używany system buforowania nie wspiera tej funkcjonalności 
+metoda [mget()|CCache::mget] zasymuluje ją.
+
 Aby usunąć zbuforowaną wartość z bufora wywołujemy metodę [delete()|CCache::delete];
 aby usunąć całą wartość z bufora wołamy [flush()|CCache::flush]. Bądź bardzo ostrożny
 podczas wywoływania [flush()|CCache::flush] ponieważ usuwa ono dane, które zostały 
@@ -104,4 +112,4 @@ Poniżej znajduje się podsumowanie dostępnych zależności buforowania:
    - [CExpressionDependency]: zależność jest zmieniona jeśli zmieni się rezultat określonego wyrażenia PHP. Klasa ta jest dostępna od
    wersji 1.0.4.
 
-<div class="revision">$Id: caching.data.txt 891 2009-03-25 15:20:56Z qiang.xue $</div>
+<div class="revision">$Id: caching.data.txt 1290 2009-08-06 16:13:11Z qiang.xue $</div>

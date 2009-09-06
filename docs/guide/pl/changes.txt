@@ -3,6 +3,17 @@ Nowe funkcjonalności
 
 Ta strona zawiera streszczenie najważniejszych nowych funkcji wprowadzonych w każdym wydaniu Yii. 
 
+Wersja 1.0.8
+-------------
+
+ * Dodano wsparcie dla pobierania wartości wielokrotnie buforowanych w jendym czasie
+   - [Buforowanie danych](/doc/guide/caching.data)
+
+ * Wprowadzono nowy, domyślny alias dla ścieżki głównej `ext`, który wskazuje na katalog zawierający wszystkie 
+ rozszerzenia stron trzecich.
+   - [Używanie rozszerzeń](/doc/guide/extension.use)
+
+
 Wersja 1.0.7
 -------------
 
@@ -49,4 +60,4 @@ Wersja 1.0.5
  * Rozszerzono[CUrlManager] o wsparcie dla parametryzacji reguł dla części URL zawierającej trasę. Zobacz:
      - [Parametryzacja trasy w regułach URL](/doc/guide/topics.url#parameterizing-routes)
 
-<div class="revision">$Id: changes.txt 1168 2009-06-23 14:52:48Z qiang.xue $</div>
+<div class="revision">$Id: changes.txt 1299 2009-08-07 00:25:55Z qiang.xue $</div>

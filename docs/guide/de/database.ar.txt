@@ -515,6 +515,10 @@ eine AR-Instanz gelöscht wird/wurde.
    - [afterConstruct|CActiveRecord::afterConstruct]: diese wird aufgerufen, nachdem
 eine AR-Instanz mit dem `new` Operator erstellt wurde.
 
+   - [beforeFind|CActiveRecord::beforeFind]: diese wird aufgerufen, bevor eine 
+Abfrage (z.B. `find()`, `findAll()`) mit einem AR-Finder durchgeführt wird.
+Diese Methode steht seit Version 1.0.9 zur Verfügung.
+
    - [afterFind|CActiveRecord::afterFind]: diese wird aufgerufen, nachdem
 eine AR-Instanz als Ergebnis einer Abfrage erstellt wurde.
 
@@ -680,4 +684,8 @@ Abfragekriterium.
 [php]
 $contents=Content::model()->findAll();
 ~~~
-<div class="revision">$Id: database.ar.txt 1167 2009-06-23 02:56:45Z qiang.xue $</div>
+
+Beachten Sie, dass der Standardbereich nur für
+`SELECT`-Abfragen verwendet wird. Bei `INSERT`-, `UPDATE`- und
+`DELETE`-Statements wird er ignoriert.
+<div class="revision">$Id: database.ar.txt 1391 2009-09-04 19:46:04Z qiang.xue $</div>
