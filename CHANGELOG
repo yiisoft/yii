@@ -4,7 +4,7 @@
 
 Version 1.0.10 to be released
 -----------------------------
-
+- Bug #550: Fixed image alt bug in CCaptcha (Qiang)
 
 Version 1.0.9 September 6, 2009
 -------------------------------
