@@ -37,6 +37,10 @@ defined('YII_ENABLE_ERROR_HANDLER') or define('YII_ENABLE_ERROR_HANDLER',true);
  * Defines the Yii framework installation path.
  */
 defined('YII_PATH') or define('YII_PATH',dirname(__FILE__));
+/**
+ * Defines the Zii library installation path.
+ */
+defined('YII_ZII_PATH') or define('YII_ZII_PATH',YII_PATH.DIRECTORY_SEPARATOR.'zii');
 
 /**
  * YiiBase is a helper class serving common framework functionalities.
@@ -51,7 +55,7 @@ defined('YII_PATH') or define('YII_PATH',dirname(__FILE__));
  */
 class YiiBase
 {
-	private static $_aliases=array('system'=>YII_PATH); // alias => path
+	private static $_aliases=array('system'=>YII_PATH,'zii'=>YII_ZII_PATH); // alias => path
 	private static $_imports=array();					// alias => class name or directory
 	private static $_classes=array();
 	private static $_includePaths;						// list of include paths
