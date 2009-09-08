@@ -179,7 +179,8 @@ class CWebService extends CComponent
 			{
 				$message=$e->getMessage().' ('.$e->getFile().':'.$e->getLine().')';
 				// only log for non-PHP-error case because application's error handler already logs it
-				Yii::log((string)$e,CLogger::LEVEL_ERROR,'application');
+				// php <5.2 doesn't support string conversion auto-magically
+				Yii::log($e->__toString(),CLogger::LEVEL_ERROR,'application');
 			}
 			if(YII_DEBUG)
 				$message.="\n".$e->getTraceAsString();

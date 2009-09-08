@@ -7,6 +7,7 @@ Version 1.0.10 to be released
 - Bug #550: Fixed image alt bug in CCaptcha (Qiang)
 - Bug #551: CCache::mget() should return values (Qiang)
 - Bug #561: CTabView fails to switch tabs on IE (pestaa)
+- Bug #567: PHP <5.2 cannot convert exception class to string (pestaa)
 
 Version 1.0.9 September 6, 2009
 -------------------------------
