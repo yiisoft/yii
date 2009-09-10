@@ -12,7 +12,7 @@
  * CBooleanValidator validates that the attribute value is either {@link trueValue}  or {@link falseValue}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: CBooleanValidator.php 1333 2009-08-15 20:20:36Z qiang.xue $
+ * @version $Id$
  * @package system.validators
  * @since 1.0.10
  */
