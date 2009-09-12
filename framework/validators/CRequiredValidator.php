@@ -44,16 +44,16 @@ class CRequiredValidator extends CValidator
 	protected function validateAttribute($object,$attribute)
 	{
 		$value=$object->$attribute;
-		if($this->requiredValue===null && $this->isEmpty($value,true))
-		{
-			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} cannot be blank.');
-			$this->addError($object,$attribute,$message);
-		}
-		else if($this->requiredValue!==null)
+		if($this->requiredValue!==null)
 		{
 			if(!$this->strict && $value!=$this->requiredValue || $this->strict && $value!==$this->requiredValue)
 			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} must be {value}.',
 				array('{value}'=>$this->requiredValue));
+			$this->addError($object,$attribute,$message);
+		}
+		else if($this->isEmpty($value,true))
+		{
+			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} cannot be blank.');
 			$this->addError($object,$attribute,$message);
 		}
 	}
