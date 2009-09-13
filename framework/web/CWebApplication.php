@@ -154,10 +154,6 @@ class CWebApplication extends CApplication
 			'clientScript'=>array(
 				'class'=>'CClientScript',
 			),
-			'widgetFactory'=>array(
-				'class'=>'CWidgetFactory',
-				'enabled'=>false,
-			),
 		);
 
 		$this->setComponents($components);
