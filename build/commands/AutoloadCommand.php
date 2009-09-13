@@ -56,6 +56,7 @@ EOD;
 				'/i18n/data',
 				'/utils/mimeTypes.php',
 				'/test',
+				'/zii',
 			),
 		);
 		$files=CFileHelper::findFiles(YII_PATH,$options);

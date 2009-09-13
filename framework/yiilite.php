@@ -28,9 +28,10 @@ defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',0);
 defined('YII_ENABLE_EXCEPTION_HANDLER') or define('YII_ENABLE_EXCEPTION_HANDLER',true);
 defined('YII_ENABLE_ERROR_HANDLER') or define('YII_ENABLE_ERROR_HANDLER',true);
 defined('YII_PATH') or define('YII_PATH',dirname(__FILE__));
+defined('YII_ZII_PATH') or define('YII_ZII_PATH',YII_PATH.DIRECTORY_SEPARATOR.'zii');
 class YiiBase
 {
-	private static $_aliases=array('system'=>YII_PATH); // alias => path
+	private static $_aliases=array('system'=>YII_PATH,'zii'=>YII_ZII_PATH); // alias => path
 	private static $_imports=array();					// alias => class name or directory
 	private static $_classes=array();
 	private static $_includePaths;						// list of include paths
@@ -402,6 +403,7 @@ class YiiBase
 		'CUrlManager' => '/web/CUrlManager.php',
 		'CWebApplication' => '/web/CWebApplication.php',
 		'CWebModule' => '/web/CWebModule.php',
+		'CWidgetFactory' => '/web/CWidgetFactory.php',
 		'CAction' => '/web/actions/CAction.php',
 		'CInlineAction' => '/web/actions/CInlineAction.php',
 		'CViewAction' => '/web/actions/CViewAction.php',
@@ -1352,6 +1354,10 @@ class CWebApplication extends CApplication
 			'clientScript'=>array(
 				'class'=>'CClientScript',
 			),
+			'widgetFactory'=>array(
+				'class'=>'CWidgetFactory',
+				'enabled'=>false,
+			),
 		);
 		$this->setComponents($components);
 	}
@@ -1386,6 +1392,10 @@ class CWebApplication extends CApplication
 	public function getClientScript()
 	{
 		return $this->getComponent('clientScript');
+	}
+	public function getWidgetFactory()
+	{
+		return $this->getComponent('widgetFactory');
 	}
 	public function getThemeManager()
 	{
@@ -2657,10 +2667,15 @@ abstract class CBaseController extends CComponent
 	}
 	public function createWidget($className,$properties=array())
 	{
-		$className=Yii::import($className,true);
-		$widget=new $className($this);
-		foreach($properties as $name=>$value)
-			$widget->$name=$value;
+		if(($factory=Yii::app()->getWidgetFactory())!==null)
+			$widget=$factory->createWidget($this,$className,$properties);
+		else
+		{
+			$className=Yii::import($className,true);
+			$widget=new $className($this);
+			foreach($properties as $name=>$value)
+				$widget->$name=$value;
+		}
 		$widget->init();
 		return $widget;
 	}
@@ -4473,6 +4488,7 @@ EOD;
 class CWidget extends CBaseController
 {
 	public $actionPrefix;
+	public $skin='default';
 	private static $_viewPaths;
 	private static $_counter=0;
 	private $_id;
@@ -7168,5 +7184,9 @@ interface IBehavior
 	public function detach($component);
 	public function getEnabled();
 	public function setEnabled($value);
+}
+interface IWidgetFactory
+{
+	public function createWidget($owner,$className,$properties=array());
 }
 ?>

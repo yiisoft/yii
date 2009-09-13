@@ -154,6 +154,10 @@ class CWebApplication extends CApplication
 			'clientScript'=>array(
 				'class'=>'CClientScript',
 			),
+			'widgetFactory'=>array(
+				'class'=>'CWidgetFactory',
+				'enabled'=>false,
+			),
 		);
 
 		$this->setComponents($components);
@@ -226,6 +230,16 @@ class CWebApplication extends CApplication
 	public function getClientScript()
 	{
 		return $this->getComponent('clientScript');
+	}
+
+	/**
+	 * Returns the widget factory.
+	 * @return IWidgetFactory the widget factory
+	 * @since 1.1
+	 */
+	public function getWidgetFactory()
+	{
+		return $this->getComponent('widgetFactory');
 	}
 
 	/**

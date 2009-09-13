@@ -628,6 +628,7 @@ class YiiBase
 		'CUrlManager' => '/web/CUrlManager.php',
 		'CWebApplication' => '/web/CWebApplication.php',
 		'CWebModule' => '/web/CWebModule.php',
+		'CWidgetFactory' => '/web/CWidgetFactory.php',
 		'CAction' => '/web/actions/CAction.php',
 		'CInlineAction' => '/web/actions/CInlineAction.php',
 		'CViewAction' => '/web/actions/CViewAction.php',
