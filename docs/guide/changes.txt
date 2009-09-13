@@ -8,6 +8,8 @@ Version 1.1.0
 
  * [Added support for writing unit and functional tests](/doc/guide/test.overview)
 
+ * [Added support for using widget skins](/doc/guide/topics.theming#skin)
+
  * Improved the way of declaring safe model attributes.
 
  * Changed the default eager loading algorithm for relational active record queries so that all tables are joined in one single SQL statement.

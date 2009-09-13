@@ -54,7 +54,7 @@
 * Special Topics
     - [URL Management](topics.url)
     - [Authentication and Authorization](topics.auth)
-    - [Theming](topics.theming)
+    - [Theming and Skin](topics.theming)
     - [Logging](topics.logging)
     - [Error Handling](topics.error)
     - [Web Service](topics.webservice)

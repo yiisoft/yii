@@ -34,7 +34,8 @@ class CWidget extends CBaseController
 	 */
 	public $actionPrefix;
 	/**
-	 * @var string the name of the skin to be used by this widget. Defaults to 'default'.
+	 * @var mixed the name of the skin to be used by this widget. Defaults to 'default'.
+	 * If this is set as false, no skin will be applied to this widget.
 	 * @see CWidgetFactory
 	 * @since 1.1
 	 */
