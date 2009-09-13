@@ -71,14 +71,14 @@ While using a theme we can quickly change the outlook of views, we can use skins
 
 A skin is an array of name-value pairs that can be used to initialize the properties of a widget. A skin belongs to a widget class, and a widget class can have multiple skins identified by their names. For example, we can have a skin for the [CLinkPager] widget and the skin is named as `classic`.
 
-In order to use the skin feature, we first need to modify the application configuration by enabling the `widgetFactory` component:
+In order to use the skin feature, we first need to modify the application configuration by installing the `widgetFactory` component:
 
 ~~~
 [php]
 return array(
     'components'=>array(
         'widgetFactory'=>array(
-            'enabled'=>true,
+            'class'=>'CWidgetFactory',
         ),
     ),
 );
@@ -101,10 +101,12 @@ return array(
 );
 ~~~
 
-In the above, we create two skins for the [CLinkPager] widget: `default` and `classic`. The former is the skin that will be applied to any [CLinkPager] widget that we do not explicitly specify its `skin` property, while the latter is the skin to be applied to a [CLinkPager] widget whose `skin` property is specified as `classic`. For example, the following view code will use the `classic` skin for the pager:
+In the above, we create two skins for the [CLinkPager] widget: `default` and `classic`. The former is the skin that will be applied to any [CLinkPager] widget that we do not explicitly specify its `skin` property, while the latter is the skin to be applied to a [CLinkPager] widget whose `skin` property is specified as `classic`. For example, in the following view code, the first pager will use the `default` skin while the second the `classic` skin:
 
 ~~~
 [php]
+<?php $this->widget('CLinkPager'); ?>
+
 <?php $this->widget('CLinkPager', array('skin'=>'classic')); ?>
 ~~~
 

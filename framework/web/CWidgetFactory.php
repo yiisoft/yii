@@ -15,8 +15,18 @@
  * CWidgetFactory is used as the default "widgetFactory" application component.
  *
  * When calling {@link CBaseController::createWidget}, {@link CBaseController::widget}
- * or {@link CBaseController::beginWidget}, if the "widgetFactory" component is enabled
- * (disabled by default), it will be used to create the requested widget.
+ * or {@link CBaseController::beginWidget}, if the "widgetFactory" component is installed,
+ * it will be used to create the requested widget. To install the "widgetFactory" component,
+ * we should have the following application configuration:
+ * <pre>
+ * return array(
+ *     'components'=>array(
+ *         'widgetFactory'=>array(
+ *             'class'=>'CWidgetFactory',
+ *         ),
+ *     ),
+ * )
+ * </pre>
  *
  * CWidgetFactory implements the "skin" feature, which allows a new widget to be created
  * and initialized with a set of predefined property values (called skin).
@@ -60,18 +70,6 @@
  * the theme's {@link CTheme::viewPath} (as well as the aforementioned skin directory).
  * In case the specified skin is not found, a widget will still be created
  * normally without causing any error.
- *
- * Note that by default, the "widgetFactory" component is not enabled. It may be enabled
- * by configuring the component in the application configuration like the following:
- * <pre>
- * return array(
- *     'components'=>array(
- *         'widgetFactory'=>array(
- *             'enabled'=>true,
- *         ),
- *     ),
- * )
- * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
