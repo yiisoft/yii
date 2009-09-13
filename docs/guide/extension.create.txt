@@ -60,7 +60,8 @@ The following code shows an example of an ActiveRecord behavior. When this behav
 attached to an AR object and when the AR object is being saved by calling `save()`, it will
 automatically sets the `create_time` and `update_time` attributes with the current timestamp.
 
-[code]
+~~~
+[php]
 class TimestampBehavior extends CActiveRecordBehavior
 {
 	public function beforeSave($event)
@@ -71,7 +72,7 @@ class TimestampBehavior extends CActiveRecordBehavior
 			$this->owner->update_time=time();
 	}
 }
-[/code]
+~~~
 
 
 Widget
