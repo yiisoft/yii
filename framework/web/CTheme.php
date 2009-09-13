@@ -76,6 +76,15 @@ class CTheme extends CComponent
 	}
 
 	/**
+	 * @return string the path for widget skins. Defaults to 'ThemeRoot/views/skins'.
+	 * @since 1.1
+	 */
+	public function getSkinPath()
+	{
+		return $this->getViewPath().DIRECTORY_SEPARATOR.'skins';
+	}
+
+	/**
 	 * Finds the view file for the specified controller's view.
 	 * @param CController the controller
 	 * @param string the view name

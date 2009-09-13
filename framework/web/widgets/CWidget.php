@@ -33,6 +33,12 @@ class CWidget extends CBaseController
 	 * @since 1.0.1
 	 */
 	public $actionPrefix;
+	/**
+	 * @var string the name of the skin to be used by this widget. Defaults to 'default'.
+	 * @see CWidgetFactory
+	 * @since 1.1
+	 */
+	public $skin='default';
 
 	/**
 	 * @var array view paths for different types of widgets
