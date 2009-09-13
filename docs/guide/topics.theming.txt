@@ -62,4 +62,68 @@ Otherwise, it falls back to the default location as specified by
 > ~~~
 >
 
+Skin
+----
+
+> Note: The skin feature has been available since version 1.1.0.
+
+While using a theme we can quickly change the outlook of views, we can use skins to systematically customize the outlook of the [widgets](/doc/guide/basics.view#widget) used in the views.
+
+A skin is an array of name-value pairs that can be used to initialize the properties of a widget. A skin belongs to a widget class, and a widget class can have multiple skins identified by their names. For example, we can have a skin for the [CLinkPager] widget and the skin is named as `classic`.
+
+In order to use the skin feature, we first need to modify the application configuration by enabling the `widgetFactory` component:
+
+~~~
+[php]
+return array(
+    'components'=>array(
+        'widgetFactory'=>array(
+            'enabled'=>true,
+        ),
+    ),
+);
+~~~
+
+We then create the needed skins. Skins belonging to the same widget class are stored in a single PHP script file whose name is the widget class name. All these skin files are stored under `protected/views/skins`, by default. If you want to change this to be a different directory, you may configure the `skinPath` property of the `widgetFactory` component. As an example, we may create under `protected/views/skins` a file named `CLinkPager.php` whose content is as follows,
+
+~~~
+[php]
+<?php
+return array(
+    'default'=>array(
+        'nextPageLabel'=>'&gt;&gt;',
+        'prevPageLabel'=>'&lt;&lt;',
+    ),
+    'classic'=>array(
+        'header'=>'',
+        'maxButtonCount'=>5,
+    ),
+);
+~~~
+
+In the above, we create two skins for the [CLinkPager] widget: `default` and `classic`. The former is the skin that will be applied to any [CLinkPager] widget that we do not explicitly specify its `skin` property, while the latter is the skin to be applied to a [CLinkPager] widget whose `skin` property is specified as `classic`. For example, the following view code will use the `classic` skin for the pager:
+
+~~~
+[php]
+<?php $this->widget('CLinkPager', array('skin'=>'classic')); ?>
+~~~
+
+If we create a widget with a set of initial property values, they will take precedence and be merged with any applicable skin. For example, the following view code will create a pager whose initial values will be `array('header'=>'', 'maxButtonCount'=>6, 'cssFile'=>false)`, which is the result of merging the initial property values specified in the view and the `classic` skin.
+
+~~~
+[php]
+<?php $this->widget('CLinkPager', array(
+    'skin'=>'classic',
+    'maxButtonCount'=>6,
+    'cssFile'=>false,
+)); ?>
+~~~
+
+Note that the skin feature does NOT require using themes. However, when a theme is active, Yii will also look for skins under the `skins` directory of the theme's view directory (e.g. `WebRoot/themes/classic/views/skins`). In case a skin with the same name exists in both the theme and the main application view directories, the theme skin will take precedence.
+
+If a widget is using a skin that does not exist, Yii will still create the widget as usual without any error.
+
+> Info: Using skin may degrade the performance because Yii needs to look for the skin file the first time a widget is being created.
+
+
 <div class="revision">$Id$</div>

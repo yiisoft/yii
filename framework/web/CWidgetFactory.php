@@ -32,7 +32,7 @@
  * It is thus represented as an associative array of name-value pairs.
  * Skins are stored in PHP scripts like other configurations. Each script file stores the skins
  * for a particular widget type and is named as the wiget class name (e.g. CLinkPager.php).
- * Each widget type may have one or several skins, identified by the skin ID set via
+ * Each widget type may have one or several skins, identified by the skin name set via
  * {@link CWidget::skin} property. If the {@link CWidget::skin} property is not set for a given
  * widget, it means the default skin would be used. The following shows the possible skins for
  * the {@link CLinkPager} widget:
@@ -57,7 +57,8 @@
  * By default, CWidgetFactory looks for the skin of a widget under the "skins" directory
  * of the current application's {@link CWebApplication::viewPath} (e.g. protected/views/skins).
  * If a theme is being used, it will look for the skin under the "skins" directory of
- * the theme's {@link CTheme::viewPath}. In case the specified skin is not found, a widget will still be created
+ * the theme's {@link CTheme::viewPath} (as well as the aforementioned skin directory).
+ * In case the specified skin is not found, a widget will still be created
  * normally without causing any error.
  *
  * Note that by default, the "widgetFactory" component is not enabled. It may be enabled
@@ -95,9 +96,7 @@ class CWidgetFactory extends CApplicationComponent implements IWidgetFactory
 	{
 		parent::init();
 
-		if(($theme=Yii::app()->getTheme())!==null)
-			$this->skinPath=$theme->getSkinPath();
-		else if($this->skinPath===null)
+		if($this->skinPath===null)
 			$this->skinPath=Yii::app()->getViewPath().DIRECTORY_SEPARATOR.'skins';
 	}
 
@@ -113,10 +112,11 @@ class CWidgetFactory extends CApplicationComponent implements IWidgetFactory
 		$className=Yii::import($className,true);
 		$widget=new $className($this);
 		$skinName=isset($properties['skin']) ? $properties['skin'] : 'default';
-		if(($skin=$this->getSkin($className,$skinName))!==array())
+		if($skinName!==false && ($skin=$this->getSkin($className,$skinName))!==array())
 			$properties=$properties===array() ? $skin : CMap::mergeArray($skin,$properties);
 		foreach($properties as $name=>$value)
 			$widget->$name=$value;
+		return $widget;
 	}
 
 	/**
@@ -134,6 +134,18 @@ class CWidgetFactory extends CApplicationComponent implements IWidgetFactory
 				$this->_skins[$className]=require($skinFile);
 			else
 				$this->_skins[$className]=array();
+
+			if(($theme=Yii::app()->getTheme())!==null)
+			{
+				$skinFile=$theme->getSkinPath().DIRECTORY_SEPARATOR.$className.'.php';
+				if(is_file($skinFile))
+				{
+					$skins=require($skinFile);
+					foreach($skins as $name=>$skin)
+						$this->_skins[$className][$name]=$skin;
+				}
+			}
+
 			if(!isset($this->_skins[$className][$skinName]))
 				$this->_skins[$className][$skinName]=array();
 		}
