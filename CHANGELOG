@@ -10,6 +10,7 @@ Version 1.0.10 to be released
 - Bug #567: PHP <5.2 cannot convert exception class to string (pestaa)
 - Bug #573: Typo in API (pestaa)
 - Enh: Enhanced CRequiredValidator so that it can validate an attribute contains the specified value (Qiang)
+- Chg: Made request and urlManager components to be available for both console and web applications (Qiang)
 - New: Added CBooleanValidator (Qiang)
 
 Version 1.0.9 September 6, 2009

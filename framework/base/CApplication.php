@@ -422,6 +422,22 @@ abstract class CApplication extends CModule
 	}
 
 	/**
+	 * @return CHttpRequest the request component
+	 */
+	public function getRequest()
+	{
+		return $this->getComponent('request');
+	}
+
+	/**
+	 * @return CUrlManager the URL manager component
+	 */
+	public function getUrlManager()
+	{
+		return $this->getComponent('urlManager');
+	}
+
+	/**
 	 * Returns a global value.
 	 *
 	 * A global value is one that is persistent across users sessions and requests.
@@ -738,6 +754,12 @@ abstract class CApplication extends CModule
 			),
 			'statePersister'=>array(
 				'class'=>'CStatePersister',
+			),
+			'urlManager'=>array(
+				'class'=>'CUrlManager',
+			),
+			'request'=>array(
+				'class'=>'CHttpRequest',
 			),
 		);
 
