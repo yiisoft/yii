@@ -78,6 +78,10 @@
  * or {@link disableBehavior}, respectively. When disabled, the behavior methods cannot
  * be invoked via the component.
  *
+ * Starting from version 1.1.0, a behavior's properties (either its public member variables or
+ * its properties defined via getters and/or setters) can be accessed through the component it
+ * is attached to.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.base
@@ -116,9 +120,16 @@ class CComponent
 		}
 		else if(isset($this->_m[$name]))
 			return $this->_m[$name];
-		else
-			throw new CException(Yii::t('yii','Property "{class}.{property}" is not defined.',
-				array('{class}'=>get_class($this), '{property}'=>$name)));
+		else if(is_array($this->_m))
+		{
+			foreach($this->_m as $object)
+			{
+				if($object->getEnabled() && (property_exists($object,$name) || $object->canGetProperty($name)))
+					return $object->$name;
+			}
+		}
+		throw new CException(Yii::t('yii','Property "{class}.{property}" is not defined.',
+			array('{class}'=>get_class($this), '{property}'=>$name)));
 	}
 
 	/**
@@ -138,16 +149,24 @@ class CComponent
 	{
 		$setter='set'.$name;
 		if(method_exists($this,$setter))
-			$this->$setter($value);
+			return $this->$setter($value);
 		else if(strncasecmp($name,'on',2)===0 && method_exists($this,$name))
 		{
 			// duplicating getEventHandlers() here for performance
 			$name=strtolower($name);
 			if(!isset($this->_e[$name]))
 				$this->_e[$name]=new CList;
-			$this->_e[$name]->add($value);
+			return $this->_e[$name]->add($value);
 		}
-		else if(method_exists($this,'get'.$name))
+		else if(is_array($this->_m))
+		{
+			foreach($this->_m as $object)
+			{
+				if($object->getEnabled() && (property_exists($object,$name) || $object->canSetProperty($name)))
+					return $object->$name=$value;
+			}
+		}
+		if(method_exists($this,'get'.$name))
 			throw new CException(Yii::t('yii','Property "{class}.{property}" is read only.',
 				array('{class}'=>get_class($this), '{property}'=>$name)));
 		else
@@ -211,7 +230,7 @@ class CComponent
 		{
 			foreach($this->_m as $object)
 			{
-				if($object->enabled && method_exists($object,$name))
+				if($object->getEnabled() && method_exists($object,$name))
 					return call_user_func_array(array($object,$name),$parameters);
 			}
 		}

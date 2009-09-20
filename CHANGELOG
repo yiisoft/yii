@@ -9,6 +9,7 @@ Version 1.1a to be released
 - New: Added phpunit-based testing framework (Qiang)
 - New: Added CForm and relevant classes to allow reusing form representation and rendering (Qiang)
 - New: Added support for widget skins (Qiang)
+- New: Added support for accessing behavior's properties via the component it is attached to (Qiang)
 - Chg #433: Changed application and module parameter names to be case-sensitive (Qiang)
 - Chg #556: CHtml::resolveName now supports array-typed properties (pestaa)
 - Chg: Changed AR eager loading so that it generates and executes a single SQL statement by default (Qiang)
