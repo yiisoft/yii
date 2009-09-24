@@ -83,6 +83,13 @@ class CWidgetFactory extends CApplicationComponent implements IWidgetFactory
 	 * meaning using the "skin" directory under the current application's {@link CWebApplication::viewPath}.
 	 */
 	public $skinPath;
+	/**
+	 * @var array list of widget class names that can be skinned.
+	 * Because skinning widgets has performance impact, you may want to specify this property
+	 * to limit skinning only to specific widgets. Any widgets that are not in this list
+	 * will not be skinned. Defaults to null, meaning all widgets can be skinned.
+	 */
+	public $widgets;
 
 	private $_skins=array();  // class name, skin name, property name => value
 
@@ -109,9 +116,12 @@ class CWidgetFactory extends CApplicationComponent implements IWidgetFactory
 	{
 		$className=Yii::import($className,true);
 		$widget=new $className($this);
-		$skinName=isset($properties['skin']) ? $properties['skin'] : 'default';
-		if($skinName!==false && ($skin=$this->getSkin($className,$skinName))!==array())
-			$properties=$properties===array() ? $skin : CMap::mergeArray($skin,$properties);
+		if($this->widgets===null || in_array($className,$this->widgets))
+		{
+			$skinName=isset($properties['skin']) ? $properties['skin'] : 'default';
+			if($skinName!==false && ($skin=$this->getSkin($className,$skinName))!==array())
+				$properties=$properties===array() ? $skin : CMap::mergeArray($skin,$properties);
+		}
 		foreach($properties as $name=>$value)
 			$widget->$name=$value;
 		return $widget;
