@@ -23,6 +23,8 @@
  */
 class CUploadedFile extends CComponent
 {
+	static private $_files;
+
 	private $_name;
 	private $_tempName;
 	private $_type;
@@ -40,52 +42,63 @@ class CUploadedFile extends CComponent
 	 */
 	public static function getInstance($model,$attribute)
 	{
-		if(($pos=strpos($attribute,'['))!==false)
-			$name=get_class($model).substr($attribute,$pos).'['.substr($attribute,0,$pos).']';
-		else
-			$name=get_class($model).'['.$attribute.']';
-		return self::getInstanceByName($name);
+		return self::getInstanceByName(CHtml::resolveName($model, $attribute), true);
 	}
 
 	/**
 	 * Returns an instance of the specified uploaded file.
 	 * The name can be a plain string or a string like an array element (e.g. 'Post[imageFile]', or 'Post[0][imageFile]').
 	 * @param string the name of the file input field.
+	 * @param boolean whether search should be initiated in possible subarrays
 	 * @return CUploadedFile the instance of the uploaded file.
 	 * Null is returned if no file is uploaded for the specified name.
+	 * An array of CUploadedFile is returned if search is needed, but
+	 * empty array is returned if no file is available.
 	 */
-	public static function getInstanceByName($name)
+	public static function getInstanceByName($name, $search=false)
 	{
-		static $files;
-		if($files===null)
+		if(null===self::$_files)
 		{
-			$files=array();
-			if(isset($_FILES) && is_array($_FILES))
-			{
-				foreach($_FILES as $class=>$info)
-				{
-					if(is_array($info['name']))
-					{
-						$keys=array_keys($info['name']);
-						foreach($keys as $key)
-						{
-							if(is_array($info['name'][$key]))
-							{
-								$subKeys=array_keys($info['name'][$key]);
-								foreach($subKeys as $subKey)
-									$files["{$class}[{$key}][{$subKey}]"]=new CUploadedFile($info['name'][$key][$subKey],$info['tmp_name'][$key][$subKey],$info['type'][$key][$subKey],$info['size'][$key][$subKey],$info['error'][$key][$subKey]);
-							}
-							else
-								$files["{$class}[{$key}]"]=new CUploadedFile($info['name'][$key],$info['tmp_name'][$key],$info['type'][$key],$info['size'][$key],$info['error'][$key]);
-						}
-					}
-					else
-						$files[$class]=new CUploadedFile($info['name'],$info['tmp_name'],$info['type'],$info['size'],$info['error']);
-				}
-			}
+			self::$_files = array();
+
+			if(!isset($_FILES) || !is_array($_FILES))
+				return null;
+
+			foreach($_FILES as $class=>$info)
+				self::_collectFiles($class, $info['name'], $info['tmp_name'], $info['type'], $info['type'], $info['size'], $info['error']);
 		}
 
-		return isset($files[$name]) && $files[$name]->getError()!=UPLOAD_ERR_NO_FILE ? $files[$name] : null;
+		if($search)
+		{
+			$len=strlen($name);
+			$results=array();
+			foreach(array_keys(self::$_files) as $key)
+				if(0===strncmp($key, $name, $len))
+					$results[] = self::$_files[$key];
+			return $results;
+		}
+		else
+			return isset(self::$_files[$name]) && self::$_files[$name]->getError()!=UPLOAD_ERR_NO_FILE ? self::$_files[$name] : null;
+	}
+
+	/**
+	 * Processes incoming files for {@link getInstanceByName}.
+	 * @param string key for identifiing uploaded file: class name and subarray indexes
+	 * @param mixed file names provided by PHP
+	 * @param mixed temporary file names provided by PHP
+	 * @param mixed filetypes provided by PHP
+	 * @param mixed file sizes provided by PHP
+	 * @param mixed uploading issues provided by PHP
+	 */
+	protected static function _collectFiles($key, $names, $tmp_names, $types, $sizes, $errors)
+	{
+		if(is_array($names))
+		{
+			foreach($names as $item=>$name)
+				self::_collectFiles($key.'['.$item.']', $names[$item], $tmp_names[$item], $types[$item], $sizes[$item], $errors[$item]);
+		}
+		else
+			self::$_files[$key] = new CUploadedFile($names, $tmp_names, $types, $sizes, $errors);
 	}
 
 	/**

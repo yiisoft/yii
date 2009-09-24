@@ -85,51 +85,55 @@ class CFileValidator extends CValidator
 	 */
 	protected function validateAttribute($object,$attribute)
 	{
-		$file=$object->$attribute;
-		if(!($file instanceof CUploadedFile))
-			$file=CUploadedFile::getInstance($object,$attribute);
+		$files=$object->$attribute;
+		if($files instanceof CUploadedFile)
+			$files=array($files);
+		if(!is_array($files))
+			$files=CUploadedFile::getInstance($object,$attribute);
 
-		if($this->allowEmpty && ($file===null || $file->getError()==UPLOAD_ERR_NO_FILE))
-			return;
-
-		if($file===null || $file->getError()==UPLOAD_ERR_NO_FILE)
+		foreach($files as $file)
 		{
-			$message=$this->message!==null?$this->message : Yii::t('yii','{attribute} cannot be blank.');
-			$this->addError($object,$attribute,$message);
-			return;
-		}
-
-		$error=$file->getError();
-		if($error==UPLOAD_ERR_INI_SIZE || $error==UPLOAD_ERR_FORM_SIZE || $this->maxSize!==null && $file->getSize()>$this->maxSize)
-		{
-			$message=$this->tooLarge!==null?$this->tooLarge : Yii::t('yii','The file "{file}" is too large. Its size cannot exceed {limit} bytes.');
-			$this->addError($object,$attribute,$message,array('{file}'=>$file->getName(), '{limit}'=>$this->getSizeLimit()));
-		}
-		else if($error==UPLOAD_ERR_PARTIAL)
-			throw new CException(Yii::t('yii','The file "{file}" was only partially uploaded.',array('{file}'=>$file->getName())));
-		else if($error==UPLOAD_ERR_NO_TMP_DIR)
-			throw new CException(Yii::t('yii','Missing the temporary folder to store the uploaded file "{file}".',array('{file}'=>$file->getName())));
-		else if($error==UPLOAD_ERR_CANT_WRITE)
-			throw new CException(Yii::t('yii','Failed to write the uploaded file "{file}" to disk.',array('{file}'=>$file->getName())));
-		else if(defined('UPLOAD_ERR_EXTENSION') && $error==UPLOAD_ERR_EXTENSION)  // available for PHP 5.2.0 or above
-			throw new CException(Yii::t('yii','File upload was stopped by extension.'));
-
-		if($this->minSize!==null && $file->getSize()<$this->minSize)
-		{
-			$message=$this->tooSmall!==null?$this->tooSmall : Yii::t('yii','The file "{file}" is too small. Its size cannot be smaller than {limit} bytes.');
-			$this->addError($object,$attribute,$message,array('{file}'=>$file->getName(), '{limit}'=>$this->minSize));
-		}
-
-		if($this->types!==null)
-		{
-			if(is_string($this->types))
-				$types=preg_split('/[\s,]+/',strtolower($this->types),-1,PREG_SPLIT_NO_EMPTY);
-			else
-				$types=$this->types;
-			if(!in_array(strtolower($file->getExtensionName()),$types))
+			$error=$file->getError();
+			if($error==UPLOAD_ERR_NO_FILE)
 			{
-				$message=$this->wrongType!==null?$this->wrongType : Yii::t('yii','The file "{file}" cannot be uploaded. Only files with these extensions are allowed: {extensions}.');
-				$this->addError($object,$attribute,$message,array('{file}'=>$file->getName(), '{extensions}'=>implode(', ',$types)));
+				if(!$this->allowEmpty)
+				{
+					$message=$this->message!==null?$this->message : Yii::t('yii','{attribute} cannot be blank.');
+					$this->addError($object,$attribute,$message);
+				}
+				return; // regardless of other uploads
+			}
+			else if($error==UPLOAD_ERR_INI_SIZE || $error==UPLOAD_ERR_FORM_SIZE || $this->maxSize!==null && $file->getSize()>$this->maxSize)
+			{
+				$message=$this->tooLarge!==null?$this->tooLarge : Yii::t('yii','The file "{file}" is too large. Its size cannot exceed {limit} bytes.');
+				$this->addError($object,$attribute,$message,array('{file}'=>$file->getName(), '{limit}'=>$this->getSizeLimit()));
+			}
+			else if($error==UPLOAD_ERR_PARTIAL)
+				throw new CException(Yii::t('yii','The file "{file}" was only partially uploaded.',array('{file}'=>$file->getName())));
+			else if($error==UPLOAD_ERR_NO_TMP_DIR)
+				throw new CException(Yii::t('yii','Missing the temporary folder to store the uploaded file "{file}".',array('{file}'=>$file->getName())));
+			else if($error==UPLOAD_ERR_CANT_WRITE)
+				throw new CException(Yii::t('yii','Failed to write the uploaded file "{file}" to disk.',array('{file}'=>$file->getName())));
+			else if(defined('UPLOAD_ERR_EXTENSION') && $error==UPLOAD_ERR_EXTENSION)  // available for PHP 5.2.0 or above
+				throw new CException(Yii::t('yii','File upload was stopped by extension.'));
+
+			if($this->minSize!==null && $file->getSize()<$this->minSize)
+			{
+				$message=$this->tooSmall!==null?$this->tooSmall : Yii::t('yii','The file "{file}" is too small. Its size cannot be smaller than {limit} bytes.');
+				$this->addError($object,$attribute,$message,array('{file}'=>$file->getName(), '{limit}'=>$this->minSize));
+			}
+
+			if($this->types!==null)
+			{
+				if(is_string($this->types))
+					$types=preg_split('/[\s,]+/',strtolower($this->types),-1,PREG_SPLIT_NO_EMPTY);
+				else
+					$types=$this->types;
+				if(!in_array(strtolower($file->getExtensionName()),$types))
+				{
+					$message=$this->wrongType!==null?$this->wrongType : Yii::t('yii','The file "{file}" cannot be uploaded. Only files with these extensions are allowed: {extensions}.');
+					$this->addError($object,$attribute,$message,array('{file}'=>$file->getName(), '{extensions}'=>implode(', ',$types)));
+				}
 			}
 		}
 	}
