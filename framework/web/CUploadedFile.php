@@ -65,7 +65,7 @@ class CUploadedFile extends CComponent
 				return null;
 
 			foreach($_FILES as $class=>$info)
-				self::_collectFiles($class, $info['name'], $info['tmp_name'], $info['type'], $info['type'], $info['size'], $info['error']);
+				self::collectFiles($class, $info['name'], $info['tmp_name'], $info['type'], $info['type'], $info['size'], $info['error']);
 		}
 
 		if($search)
@@ -90,12 +90,12 @@ class CUploadedFile extends CComponent
 	 * @param mixed file sizes provided by PHP
 	 * @param mixed uploading issues provided by PHP
 	 */
-	protected static function _collectFiles($key, $names, $tmp_names, $types, $sizes, $errors)
+	protected static function collectFiles($key, $names, $tmp_names, $types, $sizes, $errors)
 	{
 		if(is_array($names))
 		{
 			foreach($names as $item=>$name)
-				self::_collectFiles($key.'['.$item.']', $names[$item], $tmp_names[$item], $types[$item], $sizes[$item], $errors[$item]);
+				self::collectFiles($key.'['.$item.']', $names[$item], $tmp_names[$item], $types[$item], $sizes[$item], $errors[$item]);
 		}
 		else
 			self::$_files[$key] = new CUploadedFile($names, $tmp_names, $types, $sizes, $errors);
