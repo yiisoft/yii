@@ -4,6 +4,7 @@
 
 Version 1.1a to be released
 ---------------------------
+- New #429: CFileValidator and CUploadedFile now accept multiple uploads (pestaa)
 - New: Refactored scenario-based validation and massive assignments (Qiang)
 - New: Added CDbSchema::checkIntegrity() and resetSequence() (Qiang)
 - New: Added phpunit-based testing framework (Qiang)
