@@ -125,6 +125,7 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 				$results[$id]=$data[0];
 			}
 		}
+		return $results;
 	}
 
 	/**

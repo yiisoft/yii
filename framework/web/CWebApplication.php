@@ -130,12 +130,6 @@ class CWebApplication extends CApplication
 		parent::registerCoreComponents();
 
 		$components=array(
-			'urlManager'=>array(
-				'class'=>'CUrlManager',
-			),
-			'request'=>array(
-				'class'=>'CHttpRequest',
-			),
 			'session'=>array(
 				'class'=>'CHttpSession',
 			),
@@ -157,22 +151,6 @@ class CWebApplication extends CApplication
 		);
 
 		$this->setComponents($components);
-	}
-
-	/**
-	 * @return CHttpRequest the request component
-	 */
-	public function getRequest()
-	{
-		return $this->getComponent('request');
-	}
-
-	/**
-	 * @return CUrlManager the URL manager component
-	 */
-	public function getUrlManager()
-	{
-		return $this->getComponent('urlManager');
 	}
 
 	/**

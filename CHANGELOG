@@ -20,7 +20,18 @@ Version 1.1a to be released
 
 Version 1.0.10 to be released
 -----------------------------
-
+- Bug #550: Fixed image alt bug in CCaptcha (Qiang)
+- Bug #551: CCache::mget() should return values (Qiang)
+- Bug #561: CTabView fails to switch tabs on IE (pestaa)
+- Bug #567: PHP <5.2 cannot convert exception class to string (pestaa)
+- Bug #573: Typo in API (pestaa)
+- Bug #584: CAutoComplete API was missing a fact (pestaa)
+- Bug #596: CActiveFinder undefined $parent variable on line 1297 (Qiang)
+- Bug: Fixed a bug in Oracle driver when performing relational AR queries (Qiang)
+- Enh #585: Added CChainedCacheDependency::setDependencies() (Qiang)
+- Enh: Enhanced CRequiredValidator so that it can validate an attribute contains the specified value (Qiang)
+- Chg: Made request and urlManager components to be available for both console and web applications (Qiang)
+- New: Added CBooleanValidator (Qiang)
 
 Version 1.0.9 September 6, 2009
 -------------------------------

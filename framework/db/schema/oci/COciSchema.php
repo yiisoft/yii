@@ -231,7 +231,7 @@ EOD;
 			if($row['CONSTRAINT_TYPE']==='R')   // foreign key
 			{
 				$name = $row["COLUMN_NAME"];
-				$table->foreignKeys[$name]=array($row["TABLE_REF"], array($row["COLUMN_REF"]));
+				$table->foreignKeys[$name]=array($row["TABLE_REF"], $row["COLUMN_REF"]);
 				if(isset($table->columns[$name]))
 					$table->columns[$name]->isForeignKey=true;
 			}

@@ -119,11 +119,8 @@ class CTabView extends CWidget
 
 		if($this->activeTab===null || !isset($this->tabs[$this->activeTab]))
 		{
-			foreach($this->tabs as $id=>$tab)
-			{
-				$this->activeTab=$id;
-				break;
-			}
+			reset($this->tabs);
+			list($this->activeTab, )=each($this->tabs);
 		}
 
 		$htmlOptions=$this->htmlOptions;

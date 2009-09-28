@@ -422,6 +422,22 @@ abstract class CApplication extends CModule
 	}
 
 	/**
+	 * @return CHttpRequest the request component
+	 */
+	public function getRequest()
+	{
+		return $this->getComponent('request');
+	}
+
+	/**
+	 * @return CUrlManager the URL manager component
+	 */
+	public function getUrlManager()
+	{
+		return $this->getComponent('urlManager');
+	}
+
+	/**
 	 * Returns a global value.
 	 *
 	 * A global value is one that is persistent across users sessions and requests.
@@ -530,7 +546,8 @@ abstract class CApplication extends CModule
 		$category='exception.'.get_class($exception);
 		if($exception instanceof CHttpException)
 			$category.='.'.$exception->statusCode;
-		$message=(string)$exception;
+		// php <5.2 doesn't support string conversion auto-magically
+		$message=$exception->__toString();
 		if(isset($_SERVER['REQUEST_URI']))
 			$message.=' REQUEST_URI='.$_SERVER['REQUEST_URI'];
 		Yii::log($message,CLogger::LEVEL_ERROR,$category);
@@ -737,6 +754,12 @@ abstract class CApplication extends CModule
 			),
 			'statePersister'=>array(
 				'class'=>'CStatePersister',
+			),
+			'urlManager'=>array(
+				'class'=>'CUrlManager',
+			),
+			'request'=>array(
+				'class'=>'CHttpRequest',
 			),
 		);
 
