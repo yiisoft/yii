@@ -1235,7 +1235,8 @@ class CStatElement
 		$builder=$model->getCommandBuilder();
 		$schema=$builder->getSchema();
 		$table=$model->getTableSchema();
-		$pkTable=$this->_parent->model->getTableSchema();
+		$parent=$this->_parent;
+		$pkTable=$parent->model->getTableSchema();
 
 		$fks=preg_split('/[\s,]+/',$relation->foreignKey,-1,PREG_SPLIT_NO_EMPTY);
 		if(count($fks)!==count($pkTable->primaryKey))

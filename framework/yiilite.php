@@ -363,6 +363,7 @@ class YiiBase
 		'CPropertyValue' => '/utils/CPropertyValue.php',
 		'CTimestamp' => '/utils/CTimestamp.php',
 		'CVarDumper' => '/utils/CVarDumper.php',
+		'CBooleanValidator' => '/validators/CBooleanValidator.php',
 		'CCaptchaValidator' => '/validators/CCaptchaValidator.php',
 		'CCompareValidator' => '/validators/CCompareValidator.php',
 		'CDefaultValueValidator' => '/validators/CDefaultValueValidator.php',
@@ -1158,7 +1159,8 @@ abstract class CApplication extends CModule
 		$category='exception.'.get_class($exception);
 		if($exception instanceof CHttpException)
 			$category.='.'.$exception->statusCode;
-		$message=(string)$exception;
+		// php <5.2 doesn't support string conversion auto-magically
+		$message=$exception->__toString();
 		if(isset($_SERVER['REQUEST_URI']))
 			$message.=' REQUEST_URI='.$_SERVER['REQUEST_URI'];
 		Yii::log($message,CLogger::LEVEL_ERROR,$category);

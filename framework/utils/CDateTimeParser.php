@@ -18,7 +18,7 @@
  * Pattern |      Description
  * ----------------------------------------------------
  * d       | Day of month 1 to 31, no padding
- * dd      | Day of monath 01 to 31, zero leading
+ * dd      | Day of month 01 to 31, zero leading
  * M       | Month digit 1 to 12, no padding
  * MM      | Month digit 01 to 12, zero leading
  * yy      | 2 year digit, e.g., 96, 05

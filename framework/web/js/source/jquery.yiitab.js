@@ -14,7 +14,7 @@
 		yiitab: function() {
 
 			function activate(id) {
-				var $tab=$(id);
+				var $tab=$(id.replace(window.location.href, ''));
 				var $container=$tab.parent();
 				$container.find('>ul a').removeClass('active');
 				$container.find('>ul a[href="'+id+'"]').addClass('active');

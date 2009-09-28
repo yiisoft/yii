@@ -38,6 +38,17 @@ class CChainedCacheDependency extends CComponent implements ICacheDependency
 	}
 
 	/**
+	 * @param array list of dependency objects to be added to this chain.
+	 * @since 1.0.10
+	 */
+	public function setDependencies($values)
+	{
+		$dependencies=$this->getDependencies();
+		foreach($values as $value)
+			$dependencies->add($value);
+	}
+
+	/**
 	 * Evaluates the dependency by generating and saving the data related with dependency.
 	 */
 	public function evaluateDependency()

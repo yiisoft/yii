@@ -136,6 +136,10 @@ above example, the name `required` is the alias to [CRequiredValidator]
 which ensures the attribute value being validated is not empty. Below is
 the complete list of predefined validator aliases:
 
+   - `boolean`: alias of [CBooleanValidator], ensuring the attribute has
+a value that is either [CBooleanValidator::trueValue] or
+[CBooleanValidator::falseValue].
+
    - `captcha`: alias of [CCaptchaValidator], ensuring the attribute is
 equal to the verification code displayed in a
 [CAPTCHA](http://en.wikipedia.org/wiki/Captcha).

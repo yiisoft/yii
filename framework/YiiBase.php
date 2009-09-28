@@ -588,6 +588,7 @@ class YiiBase
 		'CPropertyValue' => '/utils/CPropertyValue.php',
 		'CTimestamp' => '/utils/CTimestamp.php',
 		'CVarDumper' => '/utils/CVarDumper.php',
+		'CBooleanValidator' => '/validators/CBooleanValidator.php',
 		'CCaptchaValidator' => '/validators/CCaptchaValidator.php',
 		'CCompareValidator' => '/validators/CCompareValidator.php',
 		'CDefaultValueValidator' => '/validators/CDefaultValueValidator.php',
