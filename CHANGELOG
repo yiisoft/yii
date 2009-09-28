@@ -10,6 +10,7 @@ Version 1.0.10 to be released
 - Bug #567: PHP <5.2 cannot convert exception class to string (pestaa)
 - Bug #573: Typo in API (pestaa)
 - Bug #584: CAutoComplete API was missing a fact (pestaa)
+- Bug #596: CActiveFinder undefined $parent variable on line 1297 (Qiang)
 - Bug: Fixed a bug in Oracle driver when performing relational AR queries (Qiang)
 - Enh #585: Added CChainedCacheDependency::setDependencies() (Qiang)
 - Enh: Enhanced CRequiredValidator so that it can validate an attribute contains the specified value (Qiang)
