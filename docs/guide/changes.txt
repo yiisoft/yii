@@ -10,7 +10,8 @@ Version 1.1.0
 
  * [Added support for using widget skins](/doc/guide/topics.theming#skin)
 
- * Improved the way of declaring safe model attributes.
+ * Improved the way of declaring safe model attributes. See
+ [Securing Attribute Assignments](/doc/guide/form.model#securing-attribute-assignments).
 
  * Changed the default eager loading algorithm for relational active record queries so that all tables are joined in one single SQL statement.
 

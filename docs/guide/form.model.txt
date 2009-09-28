@@ -203,8 +203,6 @@ array('password', 'authenticate', 'on'=>'login'),
 Securing Attribute Assignments
 ------------------------------
 
-> Note: scenario-based attribute assignment has been available since version 1.0.2.
-
 After a model instance is created, we often need to populate its
 attributes with the data submitted by end-users. This can be done
 conveniently using the following massive assignment:
@@ -212,25 +210,13 @@ conveniently using the following massive assignment:
 ~~~
 [php]
 $model=new LoginForm;
-$model->scenario='login';
 if(isset($_POST['LoginForm']))
 	$model->attributes=$_POST['LoginForm'];
 ~~~
 
-> Note: The [scenario|CModel::scenario] property has been available
-> since version 1.0.4. The massive assignment will take this property
-> value to determine which attributes can be massively assigned.
-> In version 1.0.2 and 1.0.3, we need to use the following way to
-> perform massive assignment for a specific scenario:
->
-> ~~~
-> [php]
-> $model->setAttributes($_POST['LoginForm'], 'login');
-> ~~~
-
-The last statement is a massive assignment which assigns every entry
-in `$_POST['LoginForm']` to the corresponding model attribute in the
-`login` scenario. It is equivalent to the following assignments:
+The last statement is called *massive assignment* which assigns every entry
+in `$_POST['LoginForm']` to the corresponding model attribute.
+It is equivalent to the following assignments:
 
 ~~~
 [php]
@@ -241,7 +227,79 @@ foreach($_POST['LoginForm'] as $name=>$value)
 }
 ~~~
 
-The task of deciding whether a data entry is safe or not is based on
+It is crucial to determine which attributes are safe. For example, if we
+expose the primary key of a table to be safe, then an attacker could
+get a chance to modify the primary key of the given record and thus tamper
+the data he is not authorized to.
+
+The policy of deciding which attributes are safe is different in version 1.0
+and 1.1. In the following, we will describe them separately.
+
+***Safe Attributes in 1.1
+
+In version 1.1, an attribute is considered safe if it appears in a validation
+rule that is applicable in the given scenario. For example,
+
+~~~
+[php]
+array('username, password', 'required', 'on'=>'login, register'),
+array('email', 'required', 'on'=>'register'),
+~~~
+
+In the above, the `username` and `password` attributes are required in `login`
+scenario, while the `username`, `password` and `email` attributes are required
+in `register` scenario. As a result, if we perform a massive assign when in
+`login` scenario, only `username` and `password` will be massively assigned
+since they are the only attributes appearing in the validation rules for `login`.
+On the other hand, if the scenario is `register`, the three attributes can
+all be massively assigned.
+
+~~~
+[php]
+// in login scenario
+$model=new User('login');
+if(isset($_POST['User']))
+	$model->attributes=$_POST['User'];
+
+// in register scenario
+$model=new User('register');
+if(isset($_POST['User']))
+	$model->attributes=$_POST['User'];
+~~~
+
+So why do we use such a policy to determine if an attribute is safe or not?
+The rationale behind is that if an attribute already has one or several validation rules
+to check its validity, what else should we worry about it?
+
+It is important to remember that validation rules are used to check user input data
+rather than the data that we generate in the code (e.g. timestamp, auto-generated primary key).
+Therefore, DO NOT add validation rules for those attributes which do not expect inputs
+from end-users.
+
+Sometimes, we want to declare an attribute to be safe, even though we do not really have
+any specific rule for it. An example is an article's content attribute which can take any
+user input. We can use the special `safe` rule to achieve this goal:
+
+~~~
+[php]
+array('content', 'safe')
+~~~
+
+For completeness, there is also an `unsafe` rule which is used to explicitly declare an
+attribute to be unsafe:
+
+~~~
+[php]
+array('permission', 'unsafe')
+~~~
+
+The `unsafe` rule is rarely used, and it is an exception to our previous definition of safe
+attributes.
+
+
+***Safe Attributes in 1.0
+
+In version 1.0, the task of deciding whether a data entry is safe or not is based on
 the return value of a method named `safeAttributes` and the specified
 scenario. By default, the method returns all public member variables
 as safe attributes for [CFormModel], while it returns all table columns
