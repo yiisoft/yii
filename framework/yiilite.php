@@ -482,24 +482,39 @@ class CComponent
 		}
 		else if(isset($this->_m[$name]))
 			return $this->_m[$name];
-		else
-			throw new CException(Yii::t('yii','Property "{class}.{property}" is not defined.',
-				array('{class}'=>get_class($this), '{property}'=>$name)));
+		else if(is_array($this->_m))
+		{
+			foreach($this->_m as $object)
+			{
+				if($object->getEnabled() && (property_exists($object,$name) || $object->canGetProperty($name)))
+					return $object->$name;
+			}
+		}
+		throw new CException(Yii::t('yii','Property "{class}.{property}" is not defined.',
+			array('{class}'=>get_class($this), '{property}'=>$name)));
 	}
 	public function __set($name,$value)
 	{
 		$setter='set'.$name;
 		if(method_exists($this,$setter))
-			$this->$setter($value);
+			return $this->$setter($value);
 		else if(strncasecmp($name,'on',2)===0 && method_exists($this,$name))
 		{
 			// duplicating getEventHandlers() here for performance
 			$name=strtolower($name);
 			if(!isset($this->_e[$name]))
 				$this->_e[$name]=new CList;
-			$this->_e[$name]->add($value);
+			return $this->_e[$name]->add($value);
 		}
-		else if(method_exists($this,'get'.$name))
+		else if(is_array($this->_m))
+		{
+			foreach($this->_m as $object)
+			{
+				if($object->getEnabled() && (property_exists($object,$name) || $object->canSetProperty($name)))
+					return $object->$name=$value;
+			}
+		}
+		if(method_exists($this,'get'.$name))
 			throw new CException(Yii::t('yii','Property "{class}.{property}" is read only.',
 				array('{class}'=>get_class($this), '{property}'=>$name)));
 		else
@@ -536,7 +551,7 @@ class CComponent
 		{
 			foreach($this->_m as $object)
 			{
-				if($object->enabled && method_exists($object,$name))
+				if($object->getEnabled() && method_exists($object,$name))
 					return call_user_func_array(array($object,$name),$parameters);
 			}
 		}
@@ -1105,6 +1120,14 @@ abstract class CApplication extends CModule
 	{
 		return $this->getComponent('messages');
 	}
+	public function getRequest()
+	{
+		return $this->getComponent('request');
+	}
+	public function getUrlManager()
+	{
+		return $this->getComponent('urlManager');
+	}
 	public function getGlobalState($key,$defaultValue=null)
 	{
 		if($this->_globalState===null)
@@ -1299,6 +1322,12 @@ abstract class CApplication extends CModule
 			'statePersister'=>array(
 				'class'=>'CStatePersister',
 			),
+			'urlManager'=>array(
+				'class'=>'CUrlManager',
+			),
+			'request'=>array(
+				'class'=>'CHttpRequest',
+			),
 		);
 		$this->setComponents($components);
 	}
@@ -1332,12 +1361,6 @@ class CWebApplication extends CApplication
 	{
 		parent::registerCoreComponents();
 		$components=array(
-			'urlManager'=>array(
-				'class'=>'CUrlManager',
-			),
-			'request'=>array(
-				'class'=>'CHttpRequest',
-			),
 			'session'=>array(
 				'class'=>'CHttpSession',
 			),
@@ -1356,20 +1379,8 @@ class CWebApplication extends CApplication
 			'clientScript'=>array(
 				'class'=>'CClientScript',
 			),
-			'widgetFactory'=>array(
-				'class'=>'CWidgetFactory',
-				'enabled'=>false,
-			),
 		);
 		$this->setComponents($components);
-	}
-	public function getRequest()
-	{
-		return $this->getComponent('request');
-	}
-	public function getUrlManager()
-	{
-		return $this->getComponent('urlManager');
 	}
 	public function getAuthManager()
 	{
