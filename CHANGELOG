@@ -2,6 +2,9 @@
                    Yii Framework Change Log
                    ========================
 
+Version 1.1b to be released
+---------------------------
+
 Version 1.1a October 1, 2009
 ----------------------------
 - New #429: CFileValidator and CUploadedFile now accept multiple uploads (pestaa)
