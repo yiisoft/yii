@@ -134,6 +134,9 @@ No exemplo acima, o nome `required` é um alias para a classe [CRequiredValidato
 valida se o valor do atributo não está vazio. Abaixo, temos uma lista completa dos 
 aliases (apelidos) predefinidos:
 
+   - `boolean`: alias para [CBooleanValidator], garante que o valor de um atributo seja somente  
+[CBooleanValidator::trueValue] ou [CBooleanValidator::falseValue].
+
    - `captcha`: alias para [CCapthcaValidator], garante que o atributo é igual ao código 
 de verificação exibido em um [CAPTCHA](http://en.wikipedia.org/wiki/Captcha).
 
@@ -361,4 +364,4 @@ Essa característica pode ser alterada sobrescrevendo o método
 especificando rótulos nos modelos nos permite criar formulários poderosos de uma 
 maneira mais rápida.
 
-<div class="revision">$Id: form.model.txt 911 2009-04-03 16:05:18Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 1405 2009-09-10 19:18:30Z qiang.xue $</div>
