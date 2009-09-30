@@ -1,0 +1,110 @@
+Управление комментариями
+========================
+
+Управление комментариями включает обновление, удаление и одобрение комментариев.
+Эти операции реализованы как действия класса `CommentController`.
+
+
+Обновление и удаление комментариев
+----------------------------------
+
+Код, сгенерированный утилитой `yiic` для обновления и удаления комментариев,
+остается, в основном, неизменным. Поскольку мы поддерживаем предварительный
+просмотр комментария при его обновлении, мы должны только изменить метод
+`actionUpdate()` контроллера `CommentController` следующим образом,
+
+~~~
+[php]
+public function actionUpdate()
+{
+	$comment=$this->loadComment();
+
+	if(isset($_POST['Comment']))
+	{
+		$comment->attributes=$_POST['Comment'];
+		if(isset($_POST['previewComment']))
+			$comment->validate('update');
+		else if(isset($_POST['submitComment']) && $comment->save())
+			$this->redirect(array('post/show',
+				'id'=>$comment->postId,
+				'#'=>'c'.$comment->id));
+	}
+
+	$this->render('update',array('comment'=>$comment));
+}
+~~~
+
+Похожее есть в контроллере `PostController`.
+
+Одобрение комментариев
+----------------------
+
+Недавно созданные комментарии находятся в статусе ожидающих одобрения и должны быть одобрены, чтобы стать видимыми для гостевого пользователя. Одобрение комментария - это, главным образом, изменение столбца состояния комментария.
+
+Мы создаем метод `actionApprove()` в классе `CommentController` следующим образом,
+
+~~~
+[php]
+public function actionApprove()
+{
+	if(Yii::app()->request->isPostRequest)
+	{
+		$comment=$this->loadComment();
+		$comment->approve();
+		$this->redirect(array('post/show',
+			'id'=>$comment->postId,
+			'#'=>'c'.$comment->id));
+	}
+	else
+		throw new CHttpException(400, 'Invalid request...');
+}
+~~~
+
+Выше, когда действие `approve` вызывается через запрос POST, мы вызываем метод
+`approve()`, определенный в модели `Comment`, для изменения статуса. Затем мы
+переадресовываем браузер пользователя к странице, отображающей запись, к которой
+относится этот комментарий.
+
+Мы также изменяем метод `actionList()` контроллера `Comment`, чтобы показать
+список комментариев, ожидающих одобрения.
+
+~~~
+[php]
+public function actionList()
+{
+	$criteria=new CDbCriteria;
+	$criteria->condition='Comment.status='.Comment::STATUS_PENDING;
+
+	$pages=new CPagination(Comment::model()->count($criteria));
+	$pages->pageSize=self::PAGE_SIZE;
+	$pages->applyLimit($criteria);
+
+	$comments=Comment::model()->with('post')->findAll($criteria);
+
+	$this->render('list',array(
+		'comments'=>$comments,
+		'pages'=>$pages,
+	));
+}
+~~~
+
+В представлении `list` мы отображаем детально каждый комментарий, ожидающий
+одобрение. В частности, мы показываем кнопку `Одобрить` следующим образом,
+
+~~~
+[php]
+<?php if($comment->status==Comment::STATUS_PENDING): ?>
+	<span class="pending">Ожидают одобрения</span> |
+	<?php echo CHtml::linkButton('Одобрить', array(
+	    'submit'=>array('comment/approve','id'=>$comment->id),
+	)); ?> |
+<?php endif; ?>
+~~~
+
+Мы используем метод [CHtml::linkButton()] вместо [CHtml::link()], потому что
+первый вызвал бы запрос POST, в то время как второй вызывает запрос GET.
+Рекомендуется, чтобы запрос GET не изменял данные на сервере. Иначе мы
+оказываемся перед опасностью, что пользователь может неосторожно изменить
+данные на сервере несколько раз, если он обновит страницу.
+
+<div class="revision">$Id: comment.admin.txt 1335 2009-08-15 20:34:36Z qiang.xue $</div>

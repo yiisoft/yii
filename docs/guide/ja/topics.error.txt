@@ -95,6 +95,56 @@ mode](/doc/guide/basics.entry#debug-mode)で実行された時、内部的なエ
 成り立った通常のPHPスクリプトです。詳細はframeworkの`view`ディレクトリの
 デフォルトのビューファイルを参考にして下さい。
 
+### アクションを用いたエラーハンドリング
+
+1.0.6からはコントローラアクション[controller action](/doc/guide/basics.controller#action)を用いた
+エラー表示を受け付けます。
+これを行うために、アプリケーション構成ファイル中のエラーハンドラを以下のように構成します。
+
+~~~
+[php]
+return array(
+       ......
+       'components'=>array(
+	'errorHandler'=>array(
+			'errorAction'=>'site/error',
+				),
+			),
+);
+~~~
+
+上記において、[CErrorHandler::errorAction]プロパティは`site/error`を示すように
+します。これは`SiteController`コントローラの`error`アクションを意味します。
+もし違う名前のコントローラ/アクションを使いたい場合はそれを用いても構いません。
+
+`error`アクションは以下のように記述されます。
+
+~~~
+[php]
+public function actionError()
+{
+	if($error=Yii::app()->errorHandler->error)
+		$this->render('error', $error);
+}
+~~~
+
+このアクションにおいて、最初に詳細なエラー情報を[CErrorHandler::error]から入手します。
+もしこれが空でない場合は、このエラー情報にもとづき`error`ビューを表示します。
+[CErrorHandler::error]で返されるエラー情報は以下のフィールドを持つ配列です。
+
+ * `code`: HTTPステータスコード (例: 403, 500);
+ * `type`: エラータイプ (例: [CHttpException], `PHP Error`);
+ * `message`: エラーメッセージ
+ * `file`: エラーの起きたPHPスクリプトファイル名
+ * `line`: エラーの起きた行番号
+ * `trace`: エラーのコールスタック
+ * `source`: エラーの起きたソースコード
+
+> Tip|ヒント: [CErrorHandler::error]が空であるかないかをチェックする理由は、`error`
+アクションは、エラーが無い場合でもエンドユーザによって要求されることがあるためです。
+`$error`配列をビューに渡す場合、それは自動的に個々の変数に展開されます。従って、ビューにおいては
+それらの変数は例えば`$code`, `$type`のように直接アクセスすることができます。
+
 メッセージのログ処理
 ---------------
 
@@ -108,4 +158,4 @@ mode](/doc/guide/basics.entry#debug-mode)で実行された時、内部的なエ
 このようにアプリケーションの実行の間に起きるエラーをモニターする為の
 [logging](/doc/guide/topics.logging)機能を利用することが出来ます。
 
-<div class="revision">$Id: topics.error.txt 772 2008-11-06 20:33:35Z qiang.xue $</div>
+<div class="revision">$Id: topics.error.txt 1053 2008-11-06 20:33:35Z qiang.xue $</div>

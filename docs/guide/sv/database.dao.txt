@@ -70,6 +70,7 @@ array(
 			'connectionString'=>'mysql:host=localhost;dbname=testdb',
 			'username'=>'root',
 			'password'=>'password',
+			'emulatePrepare'=>true,  // erfordras i vissa MySQL-installationer
 		),
 	),
 )
@@ -236,4 +237,4 @@ while($dataReader->read()!==false)
 }
 ~~~
 
-<div class="revision">$Id: database.dao.txt 962 2009-04-28 12:44:39Z qiang.xue $</div>
+<div class="revision">$Id: database.dao.txt 1413 2009-09-14 23:38:53Z qiang.xue $</div>

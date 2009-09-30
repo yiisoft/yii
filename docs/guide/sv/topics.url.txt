@@ -125,7 +125,7 @@ skall referera till en giltig [kontrollerroute](/doc/guide/basics.controller#rou
 
 ### Using Named Parameters
 
-En regel kan associeras med några GET-parametrar. Dessa GET-parametrar upprtäder 
+En regel kan associeras med några GET-parametrar. Dessa GET-parametrar uppträder 
 i regelns mönster som speciella symboler på följande format:
 
 ~~~
@@ -134,9 +134,11 @@ i regelns mönster som speciella symboler på följande format:
 
 där `ParamName` specificerar namnet på en GET-parameter och det frivilliga 
 `ParamPattern` specificerar det reguljära uttrycket som skall användas för att 
-matcha GET-parameterns värde. När en URL skapas kommer dessa parametersymboler 
-att ersättas med motsvarande parametervärden; vid parsning av en URL, kommer de 
-motsvarande GET-parametrarna att erhålla värden från resultatet av parsningen.
+matcha GET-parameterns värde. Om `ParamPattern` utelämnas, innebär detta att 
+parametern skall matcha alla tecken med undantag för snedstreck `/`.
+När en URL skapas kommer dessa parametersymboler att ersättas med motsvarande 
+parametervärden; vid parsning av en URL, kommer de motsvarande GET-parametrarna 
+att erhålla värden från resultatet av parsningen.
 
 Några exempel följer nu för att belysa hur URL-regler fungerar. 
 Regeluppsättningen antas innehålla tre regler:
@@ -264,4 +266,4 @@ statisk webbsida. För att göra så, konfigurera komponenten
 [urlManager|CWebApplication::urlManager] genom att sätta dess property 
 [urlSuffix|CUrlManager::urlSuffix] till önskad suffixsträng.
 
-<div class="revision">$Id: topics.url.txt 1273 2009-07-22 21:32:23Z qiang.xue $</div>
+<div class="revision">$Id: topics.url.txt 1342 2009-08-17 14:55:58Z qiang.xue $</div>

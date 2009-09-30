@@ -139,6 +139,10 @@ Im obigen Beispiel ist der Name `required` (benötigt) ein Alias zu [CRequiredVa
 Damit ist sichergestellt, dass der Wert des zu prüfenden Attributs nicht leer ist.
 Nachfolgend die komplette Liste der vordefinierten Validatoraliase:
 
+   - `boolean`: Alias für [CBooleanValidator], garantiert dass das Attribut
+entweder den Wert [CBooleanValidator::trueValue] oder
+[CBooleanValidator::falseValue] hat.
+
    - `captcha`: Alias für [CCaptchaValidator], garantiert die Übereinstimmung des Attributs
 mit dem angezeigten [CAPTCHA](http://de.wikipedia.org/wiki/Captcha) Verifikationscode.
 
@@ -376,4 +380,4 @@ angepasst werden. Wie wir in den folgenden Kapiteln sehen werden, erlaubt
 uns die Angabe von Labels im Model, ein Formular schneller und wirkungsvoller zu
 erstellen.
 
-<div class="revision">$Id: form.model.txt 922 2009-04-05 21:36:33Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 1405 2009-09-10 19:18:30Z qiang.xue $</div>

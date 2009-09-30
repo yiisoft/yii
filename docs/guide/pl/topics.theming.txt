@@ -62,4 +62,93 @@ i [layoutPath|CWebApplication::layoutPath].
 > ~~~
 >
 
-<div class="revision">$Id: topics.theming.txt 878 2009-03-23 15:31:21Z qiang.xue $</div>
+Skórki
+----
+
+> Note|Uwaga: Funkcja skórek jest dostępna od wersji 1.1.0.
+
+Używając tematów możemy szybko zmieniać wygląd widoków. Możemy używać skórek do 
+systematycznego dostosowywania wyglądu [widżetów](/doc/guide/basics.view#widget) używanych w widoku.
+
+Skórka jest tavblicą par nazwa-wartość, która może zostać użyta do zainicjalizowania
+właściwości widżetu. Skórka należy do klasy widżetu, a klasa widżetu może posiadać  
+wiele skórek identyfikowanych przez ich nazwę. Na przykład, możemy mieć skórkę dla widżetu 
+[CLinkPager] nazwanej `classic`.
+
+Aby móc skorzystać z funkcjonalności skórek musimy najpierw zmodyfikować konfigurację
+aplikacji poprzez zainstalowanie komponentu `widgetFactory`:
+
+~~~
+[php]
+return array(
+    'components'=>array(
+        'widgetFactory'=>array(
+            'class'=>'CWidgetFactory',
+        ),
+    ),
+);
+~~~
+
+Następnie tworzymy potrzebne skórki. Skórki należa do tego samej klasy widżetu
+są przechowywane w pojedynczym skrypcie pliku, którego nazwa jest taka jak nazwa
+klasy widżetu. Wszystkie pliki skórek przechowywane są domyślnie w katalogu `protected/views/skins`.
+Jeśli chcesz zmienić go na inny katalog, możesz skonfigurować właściwość `skinPath` 
+komponentu `widgetFactory`. Na przykład możemy stworzyć w katalogu `protected/views/skins` 
+plik o nazwie `CLinkPager.php`, którego zawartość jest następująca:
+
+~~~
+[php]
+<?php
+return array(
+    'default'=>array(
+        'nextPageLabel'=>'&gt;&gt;',
+        'prevPageLabel'=>'&lt;&lt;',
+    ),
+    'classic'=>array(
+        'header'=>'',
+        'maxButtonCount'=>5,
+    ),
+);
+~~~
+
+W powyższym przykładzie, utworzyliśmy skórki dla widżetu [CLinkPager]: domyślną `default` 
+oraz klasyczną `classic`. Pierwsza skórka stosowana jest do wszystkich widżetów [CLinkPager]
+dla których nie określiliśmy bezpośrednio ich właściwości `skin`, gdy zaś druga jest 
+skórką stosowaną do widżetu [CLinkPager], którego właściwość `skin` jest określona jako `classic`. 
+Na przykład, w następującym kodzie widoku, pierwszy pager będzie używał skórki `default`
+gdy zaś drugi użyje skórki `classic`:
+
+~~~
+[php]
+<?php $this->widget('CLinkPager'); ?>
+
+<?php $this->widget('CLinkPager', array('skin'=>'classic')); ?>
+~~~
+Jeśli utworzymy widżet wraz z zestawem inicjalnych wartości właściwości, będą one miały 
+pierwszeństwo oraz zostaną złączone z każdą zastosowaną skórką. Na przykład, następujący 
+kod widoku utworzy pager, którego inicjalne wartości będą tablicą 
+`array('header'=>'', 'maxButtonCount'=>6, 'cssFile'=>false)`, która jest wynikiem 
+połączenia inicjalnych wartości właściwości określonych w widoku oraz skórki `classic`.
+
+~~~
+[php]
+<?php $this->widget('CLinkPager', array(
+    'skin'=>'classic',
+    'maxButtonCount'=>6,
+    'cssFile'=>false,
+)); ?>
+~~~
+
+Zauważ, że funkcjonalność skórek nie wymaga stosowanie tematów. Jednakże, jeśli temat jest
+aktywny, Yii również będzie poszukiwało skórek w katalogu `skins` dla katalogu tematu widoku 
+(np. `WebRoot/themes/classic/views/skins`). W przypadku gdy skórka o tej samej nazwie istnieje 
+zarówno w temacie jak i w katalogach widoków głównej aplikacji, skórka tematu będzie miała pierwszeństwo.
+
+Jeśli widżet używa skórki, która nie istnieje, Yii pomimo tego faktu utwoży widżet 
+tak jak to czyni zazwyczaj, bez zgłaszani błędu. 
+
+> Info|Info: Używanie skórek może zmiejszyć wydajność, ponieważ Yii musi znaleźć  
+plik skórki gdy widżet jest tworzony po raz pierwszy.
+
+
+<div class="revision">$Id: topics.theming.txt 1410 2009-09-13 19:34:39Z qiang.xue $</div>

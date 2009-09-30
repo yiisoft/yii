@@ -1,18 +1,17 @@
-﻿Полное руководство по Yii
+Полное руководство по Yii
 ===========================
 
 Данное руководство выпущено в соответствии с [положениями о документации Yii](http://www.yiiframework.com/doc/terms/).
 
 Переводчики
 -----------
-- Bethrezen
-- Scott Tiger, krugloff.sergey
-- Александр Макаров, Sam Dark ([rmcreative.ru](http://rmcreative.ru/))
 - Константин Мирин, Konstantin Mirin ([programmersnotes.info](http://programmersnotes.info/))
-- xenon
+- Александр Макаров, Sam Dark ([rmcreative.ru](http://rmcreative.ru/))
 - Алексей Лукьяненко, Caveman ([caveman.ru](http://caveman.ru/))
+- xenon
 - multif
 - cr0t
+- Bethrezen
 
 © 2008—2009, Yii Software LLC.
 
