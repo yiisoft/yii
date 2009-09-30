@@ -129,10 +129,10 @@ seguinte maneira:
 
 ~~~
 [php]
-// $name identifica únicamente o comportamento dento do componente
-$behavior->attach($name,$component);
-// test() é um método de $behavior
-$component->test();
+// $nome identifica únicamente o comportamento dento do componente
+$componente->attachBehavior($nome, $comportamento);
+// test() é um método de $comportamento
+$componente->test();
 ~~~
 
 Um comportamento atribuído pode ser acessado normalmente, como uma propriedade do componente. 
@@ -167,4 +167,4 @@ comportamento, quando atribuído a um componente, pode utilizar alguns de seus m
 para os eventos do componente. Dessa forma, o comportamento tem a possibilidade de observar ou alterar 
 o fluxo de execução do componente.
 
-<div class="revision">$Id: basics.component.txt 679 2009-02-14 20:19:55Z qiang.xue $</div>
+<div class="revision">$Id: basics.component.txt 1328 2009-08-15 18:45:51Z qiang.xue $</div>
