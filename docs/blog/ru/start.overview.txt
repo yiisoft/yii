@@ -17,13 +17,7 @@
 
 Переводчики
 -----------
-- Bethrezen
-- Scott Tiger, krugloff.sergey
 - Александр Макаров, Sam Dark ([rmcreative.ru](http://rmcreative.ru/))
-- Константин Мирин, Konstantin Mirin ([programmersnotes.info](http://programmersnotes.info/))
-- xenon
 - Алексей Лукьяненко, Caveman ([caveman.ru](http://caveman.ru/))
-- multif
-- cr0t
 
 <div class="revision">$Id: start.overview.txt 683 2009-02-16 05:20:17Z qiang.xue $</div>

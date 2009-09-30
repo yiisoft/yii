@@ -57,6 +57,74 @@ Därefter kan komponenten kommas åt från valfri plats i koden med hjälp av
 den inte listas i propertyn `preload`.
 
 
+Behavior
+--------
+
+[Behavior](/doc/guide/basics.component#component-behavior) kan användas i alla 
+slags komponenter. Dess användning omfattas av två steg. I det första steget 
+kopplas en behavior till en målkomponent. I det andra steget anropas en 
+behaviormetod via målkomponenten. Till exempel:
+
+~~~
+[php]
+// $name uniquely identifies the behavior in the component
+$component->attachBehavior($name,$behavior);
+// test() is a method of $behavior
+$component->test();
+~~~
+
+Mer vanligt är att koppla en behavior till en komponent genom konfiguration, 
+istället för anrop till metoden `attachBehavior`. Till exempel, för att koppla 
+en behavior till en 
+[applikationskomponent](/doc/guide/basics.application#application-component)
+kan följande
+[applikationskonfiguration](/doc/guide/basics.application#application-configuration)
+användas:
+
+~~~
+[php]
+return array(
+	'components'=>array(
+		'db'=>array(
+			'class'=>'CDbConnection',
+			'behaviors'=>array(
+				'xyz'=>array(
+					'class'=>'ext.xyz.XyzBehavior',
+					'property1'=>'value1',
+					'property2'=>'value2',
+				),
+			),
+		),
+		//....
+	),
+);
+~~~
+
+Ovanstående kod kopplar behavior:n `xyz` till applikationskomponenten `db`. 
+Detta låter sig göras eftersom [CApplicationComponent] definierar propertyn 
+`behaviors`. Genom att sätta denna property till en lista med 
+behaviorkonfigurationer kommer komponenten, när den initialiseras, 
+att koppla alla motsvarande behavior.
+
+För klasserna [CController], [CFormModel] och [CActiveModel], vilka vanligtvis 
+behöver utökas, sker koppling av behavior genom att deras respektive metod 
+`behaviors()` åsidosätts och omdefinieras. Till exempel,
+
+~~~
+[php]
+public function behaviors()
+{
+	return array(
+		'xyz'=>array(
+			'class'=>'ext.xyz.XyzBehavior',
+			'property1'=>'value1',
+			'property2'=>'value2',
+		),
+	);
+}
+~~~
+
+
 Widget
 ------
 
@@ -194,7 +262,7 @@ class MyModel extends CActiveRecord // or CFormModel
 }
 ~~~
 
-Konsolkommande
+Konsolkommando
 --------------
 
 En [konsolkommando](/doc/guide/topics.console)-utvidgning berikar vanligtvis 
@@ -243,4 +311,4 @@ Sedan kan en instans av klassen skapas, dess propertyn konfigureras och dess
 metoder anropas. Man kan även ärva och utvidga komponentens klass.
 
 
-<div class="revision">$Id: extension.use.txt 1299 2009-08-07 00:25:55Z qiang.xue $</div>
+<div class="revision">$Id: extension.use.txt 1392 2009-09-04 20:39:11Z qiang.xue $</div>

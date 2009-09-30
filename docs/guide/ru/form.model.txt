@@ -1,4 +1,4 @@
-﻿Создание модели
+Создание модели
 ==============
 
 Прежде, чем писать HTML код для формы, нам нужно определить, какие данные мы 
@@ -128,6 +128,9 @@ public function ValidatorName($attribute,$params) { ... }
 `required` - это псевдоним класса [CRequiredValidator], который проверяет, чтобы 
 проверяемое значение атрибута не было пустым. Ниже приведен полный список предопределенных псевдонимов валидаторов, 
 включенных в состав Yii:
+
+   - `boolean`: псевдоним класса [CBooleanValidator], который проверяет, чтобы 
+атрибут имел значение либо [CBooleanValidator::trueValue] либо [CBooleanValidator::falseValue];
 
    - `captcha`: псевдоним класса [CCaptchaValidator], который проверяет, чтобы 
 значение атрибута было равно коду верификации на [капче](http://ru.wikipedia.org/wiki/Captcha);
@@ -350,4 +353,4 @@ public function rules()
 
 Далее мы увидим, что возможность указания меток в модели данных позволяет быстро создавать сложные формы.
 
-<div class="revision">$Id: form.model.txt 922 2009-04-05 21:36:33Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 1405 2009-09-10 19:18:30Z qiang.xue $</div>
