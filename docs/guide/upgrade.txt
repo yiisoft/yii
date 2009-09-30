@@ -49,5 +49,5 @@ generate a table alias for each relational table, and we had to use the prefix
 Changes Related with Tabular Input
 ----------------------------------
 
-- For attribute names, using Field[$i] is not valid anymore, they should look
-like [$i]Field in order to support array-typed fields (e.g. [$i]Field[$index]).
+- For attribute names, using `Field[$i]` is not valid anymore, they should look
+like `[$i]Field` in order to support array-typed fields (e.g. `[$i]Field[$index]`).
