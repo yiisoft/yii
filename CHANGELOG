@@ -2,8 +2,8 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.1a to be released
----------------------------
+Version 1.1a October 1, 2009
+----------------------------
 - New #429: CFileValidator and CUploadedFile now accept multiple uploads (pestaa)
 - New: Refactored scenario-based validation and massive assignments (Qiang)
 - New: Added CDbSchema::checkIntegrity() and resetSequence() (Qiang)
