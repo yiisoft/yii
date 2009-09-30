@@ -23,7 +23,7 @@ sig av utvidgningen.
 tänkt att kunna användas i projekt med öppen källkod såväl som sådana med 
 proprietär kod, bör licenser som BSD, MIT etc. men inte GPL, övervägas, då den 
 senare kräver att även resulterande arbeten där den ingår måste göras tillgänglig 
-som  öppen källkod.
+som öppen källkod.
 
 I det följande beskrivs hur en ny utvidgning skapas, enligt respektive 
 kategorier, beskrivna i  [översikt](/doc/guide/extension.overview). Dessa 
@@ -47,6 +47,44 @@ anropas för första gången i samband med hantering av användarens request. Om
 applikationskomponent behöver skapas direkt efter instansiering av 
 applikationen, bör den ställa kravet på användaren att dess ID listas i 
 propertyn [CApplication::preload].
+
+
+Behavior
+--------
+
+För att skapa en behavior, måste man implementera ett [IBehavior] interface.
+För bekvämlighets skull innehåller Yii en basklass [CBehavior] som redan 
+implementerar detta interface och dessutom tillhandahåller fler passande 
+metoder. Ärvda klasser behöver i huvudsak implementera de extra metoder som 
+de avser att göra tillgängliga för komponenterna de skall kopplas till.
+
+Vid utveckling av behavior för [CModel] och [CActiveRecord] kan man även utöka 
+[CModelBehavior] respektive [CActiveRecordBehavior]. Dessa basklasser erbjuder 
+ytterligare finesser speciellt ämnade för [CModel] och [CActiveRecord].
+Till exempel, klassen [CActiveRecordBehavior] implementerar en uppsättning metoder 
+som svarar på händelser som ett ActiveRecord-objekt signalerar under sin livscykel. 
+En ärvd klass kan därmed åsidosätta dessa metoder och tillföra anpassad kod 
+som kommer att utgöra en del av AR-objektets livscykel.
+
+Följande kod visar ett exempel på en ActiveRecord behavior. När denna behavior har 
+kopplats till ett AR-objekt och AR-objektet sparas genom anrop till `save()`, 
+förser den automatiskt `create_time`- och `update_time`-attributen med en aktuell 
+tidstämpel.
+
+~~~
+[php]
+class TimestampBehavior extends CActiveRecordBehavior
+{
+	public function beforeSave($event)
+	{
+		if($this->owner->isNewRecord)
+			$this->owner->create_time=time();
+		else
+			$this->owner->update_time=time();
+	}
+}
+~~~
+
 
 
 Widget
@@ -232,4 +270,4 @@ Utveckling av en generell utvidgningskomponent är som att skriva en klass.
 lätthet kan användas av andra utvecklare.
 
 
-<div class="revision">$Id: extension.create.txt 749 2009-02-26 02:11:31Z qiang.xue $</div>
+<div class="revision">$Id: extension.create.txt 1411 2009-09-13 23:15:05Z qiang.xue $</div>

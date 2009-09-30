@@ -491,8 +491,12 @@ klasser för att anpassa arbetsflödet i dessa.
    - [afterConstruct|CActiveRecord::afterConstruct]: körs varje gång en AR-
    instans skapas med hjälp av operatorn `new`.
 
+   - [beforeFind|CActiveRecord::beforeFind]: körs innan någon av AR:s 
+   'find'-metoder används för att exekvera en fråga (t.ex. `find()`, `findAll()`). 
+   Detta har varit tillgängligt sedan version 1.0.9.
+
    - [afterFind|CActiveRecord::afterFind]: körs varje gång en AR-instans 
-   skapas som resultat av en fråga.
+   har skapats som resultat av en fråga.
 
 
 Använda Transaction med AR
@@ -653,4 +657,4 @@ $contents=Content::model()->findAll();
 Märk att ett förbestämt namngivet omfång endast gäller för `SELECT`-frågor. 
 Det ignoreras för `INSERT`-, `UPDATE`- och `DELETE`-frågor.
 
-<div class="revision">$Id: database.ar.txt 1167 2009-06-23 02:56:45Z qiang.xue $</div>
+<div class="revision">$Id: database.ar.txt 1391 2009-09-04 19:46:04Z qiang.xue $</div>

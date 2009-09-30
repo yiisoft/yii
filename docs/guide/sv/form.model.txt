@@ -137,6 +137,10 @@ validerarklass. I ovanstående exempel är namnet `required` ett alias för
 är tomt. Nedan följer den kompletta förteckningen över validerarklassers 
 aliasnamn:
 
+   - `boolean`: alias för [CBooleanValidator], garanterar att attributet 
+   har ett värde som är antingen [CBooleanValidator::trueValue] eller 
+   [CBooleanValidator::falseValue].
+
    - `captcha`: alias för [CCaptchaValidator], garanterar att attributet 
    överensstämmer med verifieringskoden som visades i 
    [CAPTCHA](http://en.wikipedia.org/wiki/Captcha).
@@ -377,4 +381,4 @@ ledtext. Detta kan anpassas genom att åsidosätta metoden
 avsnitt, tillåter specificering av ledtexter i modellen, oss att skapa formulär 
 snabbare och mer kraftfullt.
 
-<div class="revision">$Id: form.model.txt 911 2009-04-03 16:05:18Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 1405 2009-09-10 19:18:30Z qiang.xue $</div>

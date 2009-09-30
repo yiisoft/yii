@@ -132,7 +132,7 @@ kan vi anropa en behavior-metod via komponenten.
 ~~~
 [php]
 // $name uniquely identifies the behavior in the component
-$behavior->attach($name,$component);
+$component->attachBehavior($name,$behavior);
 // test() is a method of $behavior
 $component->test();
 ~~~
@@ -171,4 +171,4 @@ koppla någon/några av sina metoder till komponentens händelser (events). En
 behavior kan, genom att göra detta, ges en chans att observera eller ändra 
 komponentens normala exekveringsflöde.
 
-<div class="revision">$Id: basics.component.txt 683 2009-02-16 05:20:17Z qiang.xue $</div>
+<div class="revision">$Id: basics.component.txt 1328 2009-08-15 18:45:51Z qiang.xue $</div>

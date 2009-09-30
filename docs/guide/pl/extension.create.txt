@@ -44,7 +44,7 @@ Zachowanie (ang. Behavior)
 --------
 
 Aby utworzyć zachowanie nalezy zaimplementować interfejs [IBehavior]. Dla ułatwienia 
-Yii dostarcza klasę bazową [CBehavior], która już implementuje ten interfejs oraz  
+Yii dostarcza klasę bazową [CBehavior], która już implementuje ten interfejs oraz 
 dostarcza pewne dodatkowe, przydatne metody. Klasy potomne muszą głównie implementować 
 dodatkowe metody, które zamierzamy udostepnić komponentom, do których dołączamy zachowanie.
 
@@ -56,12 +56,13 @@ zestaw metod, które odpowiadają zdarzeniom wywoływanym w obiekcie AR w trakci
 Metoda pochodna może zatem nadpisywać te metody, aby "wtrącić" dodatkowy kod, który
 będzie uczestniczyć w cyklu życia AR.
 
-Następujący kod pokazuje przykład zachowanie dla rekordu aktywnego (AR).  
+Następujący kod pokazuje przykład zachowanie dla rekordu aktywnego (AR). 
 Kiedy takie zachowanie jest dołączane do obiektu AR oraz kiedy obiek AR jest zapisywany
 poprzez wywołanie metody `save()`, przypisze ono automatycznie atrybutom `create_time`
 oraz `update_time` wartość znacznika czasu (ang. timestamp).
 
-[code]
+~~~
+[php]
 class TimestampBehavior extends CActiveRecordBehavior
 {
   public function beforeSave($event)
@@ -72,7 +73,7 @@ class TimestampBehavior extends CActiveRecordBehavior
       $this->owner->update_time=time();
   }
 }
-[/code]
+~~~
 
 
 Widżet
@@ -243,4 +244,4 @@ Tworzenie rozszerzeń generycznych komponentów to jak pianie klasy. Również t
 komponent powinien być samowystarczalny, tak że może ony być w łatwy sposób
 wykorzystany przez innych deweloperów.
 
-<div class="revision">$Id: extension.create.txt 1392 2009-09-04 20:39:11Z qiang.xue $</div>
+<div class="revision">$Id: extension.create.txt 1411 2009-09-13 23:15:05Z qiang.xue $</div>

@@ -2,7 +2,7 @@
 /*<![CDATA[*/
 if(typeof(console)=='object')
 {
-	console.group("Application Log");
+	console.group("アプリケーションログ");
 <?php
 foreach($data as $index=>$log)
 {

@@ -136,45 +136,48 @@ W powyższym przykładzie, nazwa `required` (wymagany) jest aliasem  do klasy [C
 która sprawdza czy wartość atrybutu sprawdzanego nie jest pusta. Poniżej znajduje się
 pełna lista predefiniowanych aliasów walidatorów:
 
-   - `captcha`: alias dla klasy [CCaptchaValidator], sprawdza czy atrybut zgadza się
+    - `boolean`: alias klasy [CBooleanValidator], sprawdza czy atrybut posiada wartość
+    zarówno [CBooleanValidator::trueValue] czy też [CBooleanValidator::falseValue].
+
+   - `captcha`: alias klasy [CCaptchaValidator], sprawdza czy atrybut zgadza się
    z kodem weryfikującym wyświetlanym przy użyciu [CAPTCHA](http://en.wikipedia.org/wiki/Captcha).
 
-   - `compare`: alias dla klasy [CCompareValidator], sprawdza czy atrybut jest równy
+   - `compare`: alias klasy [CCompareValidator], sprawdza czy atrybut jest równy
    innemu atrybutowi bądź stałej.
 
-   - `email`: alias dla klasy [CEmailValidator], sprawdza czy atrybut jest poprawnym
+   - `email`: alias klasy [CEmailValidator], sprawdza czy atrybut jest poprawnym
    adresem email.
 
-   - `default`: alias dla klasy [CDefaultValueValidator], przypisuje domyślną wartość 
+   - `default`: alias klasy [CDefaultValueValidator], przypisuje domyślną wartość 
    do danego atrybutu.
    
-   - `exist`: alias dla klasy [CExistValidator], sprawdza czy wartość atrybutu znajduje się w określonej kolumnie tabeli.
+   - `exist`: alias klasy [CExistValidator], sprawdza czy wartość atrybutu znajduje się w określonej kolumnie tabeli.
 
-   - `file`: alias dla klasy [CFileValidator], sprawdza czy atrybut zawiera nazwę
+   - `file`: alias klasy [CFileValidator], sprawdza czy atrybut zawiera nazwę
    wczytywanego pliku.
 
-   - `filter`: alias dla klasy [CFilterValidator], transformuje atrybut przy użyciu filtra.
+   - `filter`: alias klasy [CFilterValidator], transformuje atrybut przy użyciu filtra.
 
-   - `in`: alias dla klasy [CRangeValidator], sprawdza czy dana zawiera się 
+   - `in`: alias klasy [CRangeValidator], sprawdza czy dana zawiera się 
    określonej wcześniej liście wartości.
 
-   - `length`: alias dla klasy [CStringValidator], sprawdza czy długość danych zgadza się 
+   - `length`: alias klasy [CStringValidator], sprawdza czy długość danych zgadza się 
    z pewną wartością.
 
-   - `match`: alias dla klasy [CRegularExpressionValidator], sprawdza czy dane 
+   - `match`: alias klasy [CRegularExpressionValidator], sprawdza czy dane 
    pasują do wyrażenia regularnego.
 
-   - `numerical`: alias dla klasy [CNumberValidator], sprawdza czy dane są poprawnym 
+   - `numerical`: alias klasy [CNumberValidator], sprawdza czy dane są poprawnym 
    numerem.
 
-   - `required`: alias dla klasy [CRequiredValidator], sprawdza czy atrybut nie jest pusty.
+   - `required`: alias klasy [CRequiredValidator], sprawdza czy atrybut nie jest pusty.
 
-   - `type`: alias dla klasy [CTypeValidator], sprawdza czy atrybut jest określonego typu.
+   - `type`: alias klasy [CTypeValidator], sprawdza czy atrybut jest określonego typu.
 
-   - `unique`: alias dla klasy [CUniqueValidator], sprawdza czy dana jest unikalna w kolumnie 
+   - `unique`: alias klasy [CUniqueValidator], sprawdza czy dana jest unikalna w kolumnie 
    tabeli bazy danych.
 
-   - `url`: alias dla klasy [CUrlValidator], sprawdza czy dana jest poprawnym adresem URL.
+   - `url`: alias klasy [CUrlValidator], sprawdza czy dana jest poprawnym adresem URL.
 
 Poniżej pokazujemy przykłady pokazujące sposób użycia predefiniowanych walidatorów:
 
@@ -370,4 +373,4 @@ potrzeb poprzez nadpisanie metody [attributeLabels()|CModel::attributeLabels].
 Jak zobaczymy w następnych punktach, zdefiniowanie etykiet w modelu umożliwia nam tworzenie 
 formularzy szybciej i lepiej.
 
-<div class="revision">$Id: form.model.txt 922 2009-04-05 21:36:33Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 1405 2009-09-10 19:18:30Z qiang.xue $</div>

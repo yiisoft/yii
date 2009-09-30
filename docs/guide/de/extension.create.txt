@@ -69,7 +69,8 @@ Behavior an ein AR-Objekt angebunden und dann dessen `save()`-Methode
 aufgerufen wird, setzt es automatisch die Attribute `create_time` und
 `update_time` auf den aktuellen Zeitstempel.
 
-[code]
+~~~
+[php]
 class TimestampBehavior extends CActiveRecordBehavior
 {
 	public function beforeSave($event)
@@ -80,7 +81,7 @@ class TimestampBehavior extends CActiveRecordBehavior
 			$this->owner->update_time=time();
 	}
 }
-[/code]
+~~~
 
 
 Widget
@@ -264,4 +265,4 @@ Eine allgemeine Erweiterungskomponente zu entwickeln, bedeutet, eine Klasse zu
 schreiben. Auch hier gilt: Die Komponente sollte in sich geschlossen sein, so
 dass sie von anderen Entwicklern einfach eingesetzt werden kann.
 
-<div class="revision">$Id: extension.create.txt 1392 2009-09-04 20:39:11Z qiang.xue $</div>
+<div class="revision">$Id: extension.create.txt 1411 2009-09-13 23:15:05Z qiang.xue $</div>

@@ -1,0 +1,85 @@
+Создание портлета последних комментариев
+================================
+
+В этом разделе мы создаем последний портлет, который отображает список недавно
+опубликованных комментариев.
+
+
+Создание класса `RecentComments`
+-------------------------------
+
+Мы создаем класс `RecentComments` в файле
+`/wwwroot/blog/protected/components/RecentComments.php`.
+Содержимое файла:
+
+~~~
+[php]
+<?php
+class RecentComments extends Portlet
+{
+	public $title='Recent Comments';
+
+	public function getRecentComments()
+	{
+		return Comment::model()->findRecentComments();
+	}
+
+	protected function renderContent()
+	{
+		$this->render('recentComments');
+	}
+}
+~~~
+
+В коде выше мы вызываем метод `findRecentComments`, который определен в классе `Comment` следующим образом,
+
+~~~
+[php]
+class Comment extends CActiveRecord
+{
+	......
+
+	public function findRecentComments($limit=10)
+	{
+		$criteria=array(
+			'condition'=>'Comment.status='.self::STATUS_APPROVED,
+			'order'=>'Comment.createTime DESC',
+			'limit'=>$limit,
+		);
+		return $this->with('post')->findAll($criteria);
+	}
+}
+~~~
+
+
+Создание представления `recentComments`
+-------------------------
+
+Представление `recentComments` сохранено в файле `/wwwroot/blog/protected/components/views/recentComments.php`.
+Представление просто отображает каждый комментарий, возвращенный методом `RecentComments::getRecentComments()`.
+
+
+Использование портлета `RecentComments`
+------------------------------
+
+Мы изменяем файл макета `/wwwroot/blog/protected/views/layouts/main.php`
+для включения нашего последнего портлета:
+
+~~~
+[php]
+......
+<div id="sidebar">
+
+<?php $this->widget('UserLogin',array('visible'=>Yii::app()->user->isGuest)); ?>
+
+<?php $this->widget('UserMenu',array('visible'=>!Yii::app()->user->isGuest)); ?>
+
+<?php $this->widget('TagCloud'); ?>
+
+<?php $this->widget('RecentComments'); ?>
+
+</div>
+......
+~~~
+
+<div class="revision">$Id: portlet.comments.txt 677 2009-02-14 04:27:48Z qiang.xue $</div>

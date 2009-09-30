@@ -2,7 +2,7 @@
 /*<![CDATA[*/
 if(typeof(console)=='object')
 {
-	console.group("Profiling Callstack Report");
+	console.group("プロファイリングコールスタックレポート");
 <?php
 foreach($data as $index=>$entry)
 {
