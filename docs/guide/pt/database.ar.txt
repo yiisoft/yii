@@ -494,7 +494,11 @@ depois que uma instância AR é excluída.
    - [afterConstruct|CActiveRecord::afterConstruct]: esse método é utilizado 
 para toda instância AR criada por meio do operador `new`.
 
-   - [afterFind|CActiveRecord::afterFind]: esse método é utilizado para toda 
+   - [beforeFind|CActiveRecord::beforeFind]: esse método é chamado antes 
+que um objeto AR finder seja utilizado para executar uma consulta (por exemplo, 
+`find()`, `findAll()`). Ele está disponível a partir da versão 1.0.9.
+
+   - [afterFind|CActiveRecord::afterFind]: esse método é chamado após cada 
 instância AR criada como resultado de um consulta.
 
 Utilizando Transações com AR
@@ -652,4 +656,4 @@ $contents=Content::model()->findAll();
 Note que o named scope padrão é aplicado somente as consultas utilizando `SELECT`. 
 Ele é ignorado nas consultas com `INSERT`, `UPDATE` e `DELETE`.
 
-<div class="revision">$Id: database.ar.txt 1167 2009-06-23 02:56:45Z qiang.xue $</div>
+<div class="revision">$Id: database.ar.txt 1391 2009-09-04 19:46:04Z qiang.xue $</div>

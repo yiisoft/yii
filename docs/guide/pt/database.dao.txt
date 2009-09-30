@@ -67,6 +67,7 @@ array(
 			'connectionString'=>'mysql:host=localhost;dbname=testdb',
 			'username'=>'root',
 			'password'=>'password',
+			'emulatePrepare'=>true,  // necessário em algumas instalações do MySQL
 		),
 	),
 )
@@ -168,7 +169,7 @@ try
 	//.... outras execuções de comandos SQL
 	$transaction->commit();
 }
-catch(Exception $e) // uma exceção é disparada caso uma instrução falhe
+catch(Exception $e) // uma exceção é disparada caso uma das consultas falhe
 {
 	$transaction->rollBack();
 }
@@ -235,4 +236,4 @@ while($dataReader->read()!==false)
 }
 ~~~
 
-<div class="revision">$Id: database.dao.txt 962 2009-04-28 12:44:39Z qiang.xue $</div>
+<div class="revision">$Id: database.dao.txt 1413 2009-09-14 23:38:53Z qiang.xue $</div>

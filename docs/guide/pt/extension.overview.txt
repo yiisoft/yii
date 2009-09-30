@@ -11,6 +11,7 @@ Uma extensão normalmente atende a um único propósito. No Yii, ela pode ser cl
 como:
 
  * [componente da aplicação](/doc/guide/basics.application#application-component)
+ * [comportamento](/doc/guide/basics.component#component-behavior)
  * [widget](/doc/guide/basics.view#widget)
  * [controle](/doc/guide/basics.controller)
  * [ação](/doc/guide/basics.controller#action)
@@ -30,4 +31,4 @@ Uma extensão também pode ser um componente que não se encaixe em nenhuma das 
 acima. Na verdade, o Yii é cuidadosamente projetado de forma que, praticamente 
 todo seu código possa ser estendido e customizado para atender necessidades individuais.
 
-<div class="revision">$Id: extension.overview.txt 755 2009-02-26 17:46:33Z qiang.xue $</div>
+<div class="revision">$Id: extension.overview.txt 1392 2009-09-04 20:39:11Z qiang.xue $</div>
