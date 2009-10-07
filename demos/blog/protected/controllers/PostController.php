@@ -243,7 +243,7 @@ class PostController extends CController
 				$comment->status=Comment::STATUS_APPROVED;
 
 			if(isset($_POST['previewComment']))
-				$comment->validate('insert');
+				$comment->validate();
 			else if(isset($_POST['submitComment']) && $comment->save())
 			{
 				if($comment->status==Comment::STATUS_PENDING)
