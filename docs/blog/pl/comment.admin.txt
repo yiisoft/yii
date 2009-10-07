@@ -1,16 +1,16 @@
 Administrowanie komentarzami
 =================
 
-Administrowanie komentarzami zawiera aktualizowanie, usuwanie oraz zatwierdzanie komentarzy. 
+Administrowanie komentarzami zawiera aktualizowanie, usuwanie oraz zatwierdzanie komentarzy.
 Operacja te są zaimplementowane jako akcje w klasie kontrolera `CommentController`.
 
 
 Aktualizowanie i usuwanie komentarzami
 ------------------------------
 
-Kod wygenerowany przez narzędzie `yiic` do aktualizowania oraz usuwania komentarzy 
-pozostaje w większej części niezmieniony. Ponieważ wspieramy podgląd komentarza 
-podczas aktualizacji komentarza, musimy tylko zmienić metodę `actionUpdate()` 
+Kod wygenerowany przez narzędzie `yiic` do aktualizowania oraz usuwania komentarzy
+pozostaje w większej części niezmieniony. Ponieważ wspieramy podgląd komentarza
+podczas aktualizacji komentarza, musimy tylko zmienić metodę `actionUpdate()`
 kontrolera `CommentController` w następujący sposób:
 
 ~~~
@@ -23,7 +23,7 @@ public function actionUpdate()
 	{
 		$comment->attributes=$_POST['Comment'];
 		if(isset($_POST['previewComment']))
-			$comment->validate('update');
+			$comment->validate();
 		else if(isset($_POST['submitComment']) && $comment->save())
 			$this->redirect(array('post/show',
 				'id'=>$comment->postId,
@@ -40,8 +40,8 @@ Kod ten jest bardzo podobny do tego z PostController`.
 Zatwierdzanie komentarzy
 ------------------
 
-Kiedy komentarz jest nowo utworzony, oczekuje on na zatwierdzenie i musi zostać zatwierdzony 
-jeśli ma on być widoczny dla gości. Zatwierdzanie komentarza to przede wszystkim zmiana 
+Kiedy komentarz jest nowo utworzony, oczekuje on na zatwierdzenie i musi zostać zatwierdzony
+jeśli ma on być widoczny dla gości. Zatwierdzanie komentarza to przede wszystkim zmiana
 kolumny zawierającej status komentarza.
 
 Utworzymy metodę `actionApprove()` w kontrolerze `CommentController` następująco:
@@ -63,12 +63,12 @@ public function actionApprove()
 }
 ~~~
 
-W powyższym kodzie, gdy akcja zatwierdzenia `approve` jest wywoływana poprzez żądanie 
-POST, wywołujemy metodę `approve()` zdefiniowaną w modelu komentarza `Comment` aby zmienić 
-status. Następnie przekierowujemy przeglądarkę użytkownika do strony wyświetlającej wiadomość, 
+W powyższym kodzie, gdy akcja zatwierdzenia `approve` jest wywoływana poprzez żądanie
+POST, wywołujemy metodę `approve()` zdefiniowaną w modelu komentarza `Comment` aby zmienić
+status. Następnie przekierowujemy przeglądarkę użytkownika do strony wyświetlającej wiadomość,
 do której należy ten komentarz.
 
-Modyfikujemy również metodę `actionList()` modelu komentarza `Comment` aby 
+Modyfikujemy również metodę `actionList()` modelu komentarza `Comment` aby
 wyświetlała listę komentarzy, które czekają na zatwierdzenie.
 
 ~~~
@@ -91,8 +91,8 @@ public function actionList()
 }
 ~~~
 
-W widoku `list` wyświetlamy szczegóły każdego komentarza, który oczekuje na zatwierdzenie. 
-W szczególności, pokazujemy link do zatwierdzenia  `approve` w następujący sposób: 
+W widoku `list` wyświetlamy szczegóły każdego komentarza, który oczekuje na zatwierdzenie.
+W szczególności, pokazujemy link do zatwierdzenia  `approve` w następujący sposób:
 
 ~~~
 [php]
@@ -104,10 +104,10 @@ W szczególności, pokazujemy link do zatwierdzenia  `approve` w następujący s
 <?php endif; ?>
 ~~~
 
-Używamy [CHtml::linkButton()] zamiast [CHtml::link()] ponieważ pierwsza powoduje wywołanie 
+Używamy [CHtml::linkButton()] zamiast [CHtml::link()] ponieważ pierwsza powoduje wywołanie
 żądania POST, w odróżnieniu od drugiej, wywołującej żądanie GET.
 Zaleca się aby żądania GET nie modyfikowały danych na serwerze. W przeciwnym przypadku
-możemy mieć do czynienia z niebezpieczeństwem, że użytkownik nieumyślnie może zmienić   
+możemy mieć do czynienia z niebezpieczeństwem, że użytkownik nieumyślnie może zmienić
 dane po stronie serwera parokrotnie jeśli będzie odświeżał stronę kilka razy.
 
 <div class="revision">$Id: comment.admin.txt 1335 2009-08-15 20:34:36Z qiang.xue $</div>

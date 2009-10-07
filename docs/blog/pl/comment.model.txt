@@ -1,8 +1,8 @@
 Dostosowywanie modelu komentarza
 =========================
 
-Tak jak model wiadomości `Post`, musimy dostosować metody  `rules()`, `relations()` 
-oraz `safeAttributes()` dla modelu `Comment`. Dodatkowo potrzebujemy zmienić  
+Tak jak model wiadomości `Post`, musimy dostosować metody  `rules()`, `relations()`
+oraz `safeAttributes()` dla modelu `Comment`. Dodatkowo potrzebujemy zmienić
 metodę `attributeLabels()` aby zdeklarować niestandardowe etykiety dla pewnych atrybutów.
 
 
@@ -28,24 +28,24 @@ public function rules()
 ~~~
 
 W powyższym kodzie, określamy, że atrybuty: autor `author`, e-mail `email` oraz zawartość `content`
-są atrybutami wymaganymi (nie mogą być puste); długość atrybutu autor `author`, e-mail `email` oraz adres URL `url` 
-nie może przekraczać 128 (znaków); atrybut e-maila `email` musi być poprawnym adresem mailowym;  
-atrybut adresu URL `url` musi być poprawnym adresem URL; a atrybut weryfikacji kodu `verifyCode` 
+są atrybutami wymaganymi (nie mogą być puste); długość atrybutu autor `author`, e-mail `email` oraz adres URL `url`
+nie może przekraczać 128 (znaków); atrybut e-maila `email` musi być poprawnym adresem mailowym;
+atrybut adresu URL `url` musi być poprawnym adresem URL; a atrybut weryfikacji kodu `verifyCode`
 powinien zostać sprawdzony pod względem zgodności z kodem wygenerowanym przez [CAPTCHA](http://en.wikipedia.org/wiki/Captcha).
 
-Powyższy atrybut `verifyCode` jest używany przede wszystkim do przechowywania kodu weryfikującego, 
-który użytkownik wprowadził aby dodać komentarz. Ponieważ nie jest on obecny w tabeli 
+Powyższy atrybut `verifyCode` jest używany przede wszystkim do przechowywania kodu weryfikującego,
+który użytkownik wprowadził aby dodać komentarz. Ponieważ nie jest on obecny w tabeli
 komentarzy `Comment`, musimy zadeklarować go bezpośrednio jako publiczną zmienną.
-Do sprawdzania jego poprawności używamy specjalnego walidatora o nazwie `captcha`, 
-który reprezentuje klasę [CCaptchaValidator]. Ponadto sprawdzenie poprawności   
-odbędzie się podczas wstawiania (ang. insert) nowego komentarza (popatrz na opcję `on`). 
+Do sprawdzania jego poprawności używamy specjalnego walidatora o nazwie `captcha`,
+który reprezentuje klasę [CCaptchaValidator]. Ponadto sprawdzenie poprawności
+odbędzie się podczas wstawiania (ang. insert) nowego komentarza (popatrz na opcję `on`).
 Dla uwierzytelnionych użytkowników nie ma potrzeby tego czynić (popatrz na opcję  `allowEmpty`).
 
 
 Dostosowywanie metody `safeAttributes()`
 -------------------------------------
 
-Następnie dostosowujemy metodę `safeAttributes()` aby zdefiniować, które atrybuty  
+Następnie dostosowujemy metodę `safeAttributes()` aby zdefiniować, które atrybuty
 mogą być przypisywane grupowo.
 
 ~~~
@@ -64,7 +64,7 @@ Dostosowywanie metody `relations()`
 --------------------------------
 
 Podczas tworzenia portletu "ostatnich komentarzy", potrzebujemy wylistować ostatnie
-komentarze wraz z odpowiadającymi im informacjami o wiadomościach. Dlatego też,  
+komentarze wraz z odpowiadającymi im informacjami o wiadomościach. Dlatego też,
 musimy dostosować metodę `relations()` aby określić relację z wiadomością.
 
 ~~~
@@ -78,17 +78,17 @@ public function relations()
 }
 ~~~
 
-Zauważ, że typ złączenia dla relacji `post` to `INNER JOIN`. Dzieje się tak, ponieważ 
+Zauważ, że typ złączenia dla relacji `post` to `INNER JOIN`. Dzieje się tak, ponieważ
 komentarz należy do wiadomości.
 
 
 Dostosowywanie metody `attributeLabels()`
 --------------------------------------
 
-Na koniec potrzebujemy dostosować metodę `attributeLabels()` aby zdefiniować 
+Na koniec potrzebujemy dostosować metodę `attributeLabels()` aby zdefiniować
 niestandardowe etykiety dla atrybutów. Metoda da zwraca tablicę zawierająca pary
-nazwa-etykieta. Podczas wywoływania metody [CHtml::activeLabel()] w celu wyświetlenia  
-etykiety atrybutu, sprawdzi ona najpierw czy zadeklarowana niestandardową etykietę. 
+nazwa-etykieta. Podczas wywoływania metody [CHtml::activeLabel()] w celu wyświetlenia
+etykiety atrybutu, sprawdzi ona najpierw czy zadeklarowana niestandardową etykietę.
 Jeśli nie, użyje ona algorytmu do wygenerowania domyślnych etykiet.
 
 ~~~
@@ -104,8 +104,8 @@ public function attributeLabels()
 }
 ~~~
 
-> Tip|Wskazówka: Algorytm służący do generowania domyślnych etykiet oparty jest na  
-nazwach atrybutów. Najpierw dzieli nazwę na słowa biorąc po uwagę wielkość liter.  
+> Tip|Wskazówka: Algorytm służący do generowania domyślnych etykiet oparty jest na
+nazwach atrybutów. Najpierw dzieli nazwę na słowa biorąc po uwagę wielkość liter.
 Następnie zmienia pierwszą literę w każdym słowie na dużą literę. Na przykład,
 nazwa `verifyCode` otrzyma domyślną etykietę `Verify Code`.
 
@@ -113,16 +113,16 @@ nazwa `verifyCode` otrzyma domyślną etykietę `Verify Code`.
 Dostosowywanie procesu zapisywania
 --------------------------
 
-Ponieważ chcemy przechowywać w wiadomości ilość komentarzy, gdy dodajemy lub usuwamy 
-komentarz, musimy poprawić odpowiadającą wiadomości ilość komentarzy. Uzyskujemy to 
+Ponieważ chcemy przechowywać w wiadomości ilość komentarzy, gdy dodajemy lub usuwamy
+komentarz, musimy poprawić odpowiadającą wiadomości ilość komentarzy. Uzyskujemy to
 poprzez nadpisanie metod `afterSave()` oraz `afterDelete()` dla modelu komentarza `Comment`.
-Również nadpisujemy metodę `beforeValidate()` modelu, tak że możemy konwertować zawartość  
+Również nadpisujemy metodę `beforeValidate()` modelu, tak że możemy konwertować zawartość
 z formatu Markdown do formatu HTML oraz zapisywać czas utworzenia.
- 
+
 
 ~~~
 [php]
-protected function beforeValidate($on)
+protected function beforeValidate()
 {
 	$parser=new CMarkdownParser;
 	$this->contentDisplay=$parser->safeTransform($this->content);

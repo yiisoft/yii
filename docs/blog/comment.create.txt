@@ -56,7 +56,7 @@ protected function newComment($post)
 		$comment->status=Comment::STATUS_PENDING;
 
 		if(isset($_POST['previewComment']))
-			$comment->validate('insert');
+			$comment->validate();
 		else if(isset($_POST['submitComment']) && $comment->save())
 		{
 			Yii::app()->user->setFlash('commentSubmitted','Thank you...');
