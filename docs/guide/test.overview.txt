@@ -52,15 +52,15 @@ To execute tests (whether unit tests or functional tests), we can execute the fo
 
 ~~~
 % cd testdrive/protected/tests
-% phpunit functional/PostTest.php <-- executes an individual test
-% phpunit --verbose functional    <-- executes all tests under 'functional'
+% phpunit functional/PostTest.php    // executes an individual test
+% phpunit --verbose functional       // executes all tests under 'functional'
 % phpunit --coverage-html ./report unit
 ~~~
 
 In the above, the last command will execute all tests under the `unit` directory and generate a code-coverage report under the `report` directory. Note that [xdebug extension](http://www.xdebug.org/) must be installed and enabled in order to generate code-coverage reports.
 
 
-Test Boostrap Script
+Test Bootstrap Script
 ====================
 
 Let's take a look what may be in the `bootstrap.php` file. This file is so special because it is like the [entry script](/doc/guide/basics.entry) and is the starting point when we execute a set of tests.
