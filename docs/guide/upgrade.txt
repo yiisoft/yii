@@ -51,3 +51,5 @@ Changes Related with Tabular Input
 
 - For attribute names, using `Field[$i]` is not valid anymore, they should look
 like `[$i]Field` in order to support array-typed fields (e.g. `[$i]Field[$index]`).
+
+<div class="revision">$Id$</div>
