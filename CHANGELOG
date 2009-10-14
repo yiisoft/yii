@@ -19,6 +19,7 @@ Version 1.0.10 to be released
 - Enh: Enhanced CRequiredValidator so that it can validate an attribute contains the specified value (Qiang)
 - Chg: Made request and urlManager components to be available for both console and web applications (Qiang)
 - New #577: Enhanced the 'empty' option in CHtml so that it can render multiple extra list options with specific values (Qiang)
+- New #621: Added YiiBase::createApplication (Qiang)
 - New: Added CBooleanValidator (Qiang)
 
 Version 1.0.9 September 6, 2009
