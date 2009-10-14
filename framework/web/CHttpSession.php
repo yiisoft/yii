@@ -95,12 +95,9 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 */
 	public function open()
 	{
-		if(session_id()==='')
-		{
-			if($this->getUseCustomStorage())
-				session_set_save_handler(array($this,'openSession'),array($this,'closeSession'),array($this,'readSession'),array($this,'writeSession'),array($this,'destroySession'),array($this,'gcSession'));
-			session_start();
-		}
+		if($this->getUseCustomStorage())
+			@session_set_save_handler(array($this,'openSession'),array($this,'closeSession'),array($this,'readSession'),array($this,'writeSession'),array($this,'destroySession'),array($this,'gcSession'));
+		@session_start();
 	}
 
 	/**

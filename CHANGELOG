@@ -14,6 +14,7 @@ Version 1.0.10 to be released
 - Bug: Fixed a bug in Oracle driver when performing relational AR queries (Qiang)
 - Enh #585: Added CChainedCacheDependency::setDependencies() (Qiang)
 - Enh #598: Added CCaptchaAction::transparent (Qiang)
+- Enh #600: Modified CHttpSession to allow open and close session multiple times (Qiang)
 - Enh #613: Enhanced Oracle driver to allow using views with AR (Qiang)
 - Enh: Enhanced CRequiredValidator so that it can validate an attribute contains the specified value (Qiang)
 - Chg: Made request and urlManager components to be available for both console and web applications (Qiang)
