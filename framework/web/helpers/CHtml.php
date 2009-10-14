@@ -632,7 +632,9 @@ class CHtml
 	 * In addition, the following options are also supported specifically for dropdown list:
 	 * <ul>
 	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty.</li>
-	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.</li>
+	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.
+	 * Starting from version 1.0.10, the 'empty' option can also be an array of value-label pairs.
+	 * Each pair will be used to render a list option at the beginning.</li>
 	 * <li>options: array, specifies additional attributes for each OPTION tag.
 	 *     The array keys must be the option values, and the array values are the extra
 	 *     OPTION tag attributes in the name-value pairs. For example,
@@ -673,7 +675,9 @@ class CHtml
 	 * In addition, the following options are also supported specifically for list box:
 	 * <ul>
 	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty.</li>
-	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.</li>
+	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.
+	 * Starting from version 1.0.10, the 'empty' option can also be an array of value-label pairs.
+	 * Each pair will be used to render a list option at the beginning.</li>
 	 * <li>options: array, specifies additional attributes for each OPTION tag.
 	 *     The array keys must be the option values, and the array values are the extra
 	 *     OPTION tag attributes in the name-value pairs. For example,
@@ -1236,7 +1240,9 @@ EOD;
 	 * In addition, the following options are also supported:
 	 * <ul>
 	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty.</li>
-	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.</li>
+	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.
+	 * Starting from version 1.0.10, the 'empty' option can also be an array of value-label pairs.
+	 * Each pair will be used to render a list option at the beginning.</li>
 	 * <li>options: array, specifies additional attributes for each OPTION tag.
 	 *     The array keys must be the option values, and the array values are the extra
 	 *     OPTION tag attributes in the name-value pairs. For example,
@@ -1285,7 +1291,9 @@ EOD;
 	 * In addition, the following options are also supported:
 	 * <ul>
 	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty.</li>
-	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.</li>
+	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.
+	 * Starting from version 1.0.10, the 'empty' option can also be an array of value-label pairs.
+	 * Each pair will be used to render a list option at the beginning.</li>
 	 * <li>options: array, specifies additional attributes for each OPTION tag.
 	 *     The array keys must be the option values, and the array values are the extra
 	 *     OPTION tag attributes in the name-value pairs. For example,
@@ -1599,7 +1607,9 @@ EOD;
 	 * <ul>
 	 * <li>encode: boolean, specifies whether to encode the values. Defaults to true. This option has been available since version 1.0.5.</li>
 	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty.</li>
-	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.</li>
+	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.
+	 * Starting from version 1.0.10, the 'empty' option can also be an array of value-label pairs.
+	 * Each pair will be used to render a list option at the beginning.</li>
 	 * <li>options: array, specifies additional attributes for each OPTION tag.
 	 *     The array keys must be the option values, and the array values are the extra
 	 *     OPTION tag attributes in the name-value pairs. For example,
@@ -1625,7 +1635,15 @@ EOD;
 		}
 		if(isset($htmlOptions['empty']))
 		{
-			$content.='<option value="">'.($raw?$htmlOptions['empty'] : self::encode($htmlOptions['empty']))."</option>\n";
+			if(!is_array($htmlOptions['empty']))
+				$htmlOptions['empty']=array(''=>$htmlOptions['empty']);
+			foreach($htmlOptions['empty'] as $value=>$label)
+			{
+				if($raw)
+					$content.='<option value="'.$value.'">'.$label."</option>\n";
+				else
+					$content.='<option value="'.self::encode($value).'">'.self::encode($label)."</option>\n";
+			}
 			unset($htmlOptions['empty']);
 		}
 
