@@ -140,12 +140,11 @@ CREATE TABLE $tableName
 	public function readSession($id)
 	{
 		$now=time();
-		$id=md5($id);
 		$sql="
 SELECT data FROM {$this->sessionTableName}
-WHERE expire>$now AND id='$id'
+WHERE expire>$now AND id=:id
 ";
-		$data=$this->getDbConnection()->createCommand($sql)->queryScalar();
+		$data=$this->getDbConnection()->createCommand($sql)->bindValue(':id',$id)->queryScalar();
 		return $data===false?'':$data;
 	}
 
@@ -159,16 +158,13 @@ WHERE expire>$now AND id='$id'
 	public function writeSession($id,$data)
 	{
 		$expire=time()+$this->getTimeout();
-		$id=md5($id);
 		$db=$this->getDbConnection();
-		$sql="SELECT id FROM {$this->sessionTableName} WHERE id='$id'";
-		if($db->createCommand($sql)->queryScalar()===false)
-			$sql="INSERT INTO {$this->sessionTableName} (id, data, expire) VALUES ('$id', :data, $expire)";
+		$sql="SELECT id FROM {$this->sessionTableName} WHERE id=:id";
+		if($db->createCommand($sql)->bindValue(':id',$id)->queryScalar()===false)
+			$sql="INSERT INTO {$this->sessionTableName} (id, data, expire) VALUES (:id, :data, $expire)";
 		else
-			$sql="UPDATE {$this->sessionTableName} SET expire=$expire, data=:data WHERE id='$id'";
-		$command=$db->createCommand($sql);
-		$command->bindParam(':data',$data);
-		$command->execute();
+			$sql="UPDATE {$this->sessionTableName} SET expire=$expire, data=:data WHERE id=:id";
+		$db->createCommand($sql)->bindValue(':id',$id)->bindValue(':data',$data)->execute();
 		return true;
 	}
 
@@ -180,9 +176,8 @@ WHERE expire>$now AND id='$id'
 	 */
 	public function destroySession($id)
 	{
-		$id=md5($id);
-		$sql="DELETE FROM {$this->sessionTableName} WHERE id='$id'";
-		$this->getDbConnection()->createCommand($sql)->execute();
+		$sql="DELETE FROM {$this->sessionTableName} WHERE id=:id";
+		$this->getDbConnection()->createCommand($sql)->bindValue(':id',$id)->execute();
 		return true;
 	}
 
