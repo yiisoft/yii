@@ -194,13 +194,9 @@ class CDbCommand extends CComponent
 			if($this->_connection->enableProfiling)
 				Yii::beginProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
 
-			if($this->_statement instanceof PDOStatement)
-			{
-				$this->_statement->execute();
-				$n=$this->_statement->rowCount();
-			}
-			else
-				$n=$this->getConnection()->getPdoInstance()->exec($this->getText());
+			$this->prepare();
+			$this->_statement->execute();
+			$n=$this->_statement->rowCount();
 
 			if($this->_connection->enableProfiling)
 				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
