@@ -12,6 +12,7 @@ Version 1.0.10 to be released
 - Bug #584: CAutoComplete API was missing a fact (pestaa)
 - Bug #594: The for-loop in jquery.yii.js breaks on IE (Qiang)
 - Bug #596: CActiveFinder undefined $parent variable on line 1297 (Qiang)
+- Bug #606: CMemCache does not work when useMemcached is set true (Qiang)
 - Bug: Fixed a bug in Oracle driver when performing relational AR queries (Qiang)
 - Bug: Fixed the problem of executing an SQL using CDbCommand may cause subsequent SQL executions to fail (Qiang)
 - Enh #571: Enhanced CDbCriteria by adding several methods to help building common query conditions (Qiang)
