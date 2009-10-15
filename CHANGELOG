@@ -18,6 +18,7 @@ Version 1.0.10 to be released
 - Enh #598: Added CCaptchaAction::transparent (Qiang)
 - Enh #600: Modified CHttpSession to allow open and close session multiple times (Qiang)
 - Enh #613: Enhanced Oracle driver to allow using views with AR (Qiang)
+- Enh #626: Added labelOptions for checkbox and radiobutton lists in CHtml (Qiang)
 - Enh: Enhanced CRequiredValidator so that it can validate an attribute contains the specified value (Qiang)
 - Chg: Made request and urlManager components to be available for both console and web applications (Qiang)
 - New #577: Enhanced the 'empty' option in CHtml so that it can render multiple extra list options with specific values (Qiang)

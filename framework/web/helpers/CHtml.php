@@ -732,6 +732,8 @@ class CHtml
 	 * displayed at the end of the checkbox list. If this option is not set (default)
 	 * or is false, the 'check all' checkbox will be displayed at the beginning of
 	 * the checkbox list. This option has been available since version 1.0.4.</li>
+	 * <li>labelOptions: array, specifies the additional HTML attributes to be rendered
+	 * for every label tag in the list. This option has been available since version 1.0.10.</li>
 	 * </ul>
 	 * @return string the generated check box list
 	 */
@@ -762,7 +764,7 @@ class CHtml
 			$htmlOptions['value']=$value;
 			$htmlOptions['id']=$baseID.'_'.$id++;
 			$option=self::checkBox($name,$checked,$htmlOptions);
-			$label=self::label($label,$htmlOptions['id']);
+			$label=self::label($label,$htmlOptions['id'],isset($htmlOptions['labelOptions'])?$htmlOptions['labelOptions']:array());
 			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
 		}
 
@@ -771,7 +773,7 @@ class CHtml
 			$htmlOptions['value']=1;
 			$htmlOptions['id']=$id=$baseID.'_all';
 			$option=self::checkBox($id,$checkAll,$htmlOptions);
-			$label=self::label($checkAllLabel,$id);
+			$label=self::label($checkAllLabel,$id,isset($htmlOptions['labelOptions'])?$htmlOptions['labelOptions']:array());
 			$item=strtr($template,array('{input}'=>$option,'{label}'=>$label));
 			if($checkAllLast)
 				$items[]=$item;
@@ -815,6 +817,8 @@ EOD;
 	 * to "{input} {label}", where "{input}" will be replaced by the generated
 	 * radio button input tag while "{label}" be replaced by the corresponding radio button label.</li>
 	 * <li>separator: string, specifies the string that separates the generated radio buttons.</li>
+	 * <li>labelOptions: array, specifies the additional HTML attributes to be rendered
+	 * for every label tag in the list. This option has been available since version 1.0.10.</li>
 	 * </ul>
 	 * @return string the generated radio button list
 	 */
@@ -833,7 +837,7 @@ EOD;
 			$htmlOptions['value']=$value;
 			$htmlOptions['id']=$baseID.'_'.$id++;
 			$option=self::radioButton($name,$checked,$htmlOptions);
-			$label=self::label($label,$htmlOptions['id']);
+			$label=self::label($label,$htmlOptions['id'],isset($htmlOptions['labelOptions'])?$htmlOptions['labelOptions']:array());
 			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
 		}
 		return implode($separator,$items);
