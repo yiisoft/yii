@@ -753,10 +753,14 @@ class CHtml
 		}
 		unset($htmlOptions['checkAll'],$htmlOptions['checkAllLast']);
 
+		$labelOptions=isset($htmlOptions['labelOptions'])?$htmlOptions['labelOptions']:array();
+		unset($htmlOptions['labelOptions']);
+
 		$items=array();
 		$baseID=self::getIdByName($name);
 		$id=0;
 		$checkAll=true;
+
 		foreach($data as $value=>$label)
 		{
 			$checked=!is_array($select) && !strcmp($value,$select) || is_array($select) && in_array($value,$select);
@@ -764,7 +768,7 @@ class CHtml
 			$htmlOptions['value']=$value;
 			$htmlOptions['id']=$baseID.'_'.$id++;
 			$option=self::checkBox($name,$checked,$htmlOptions);
-			$label=self::label($label,$htmlOptions['id'],isset($htmlOptions['labelOptions'])?$htmlOptions['labelOptions']:array());
+			$label=self::label($label,$htmlOptions['id'],$labelOptions);
 			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
 		}
 
@@ -773,7 +777,7 @@ class CHtml
 			$htmlOptions['value']=1;
 			$htmlOptions['id']=$id=$baseID.'_all';
 			$option=self::checkBox($id,$checkAll,$htmlOptions);
-			$label=self::label($checkAllLabel,$id,isset($htmlOptions['labelOptions'])?$htmlOptions['labelOptions']:array());
+			$label=self::label($checkAllLabel,$id,$labelOptions);
 			$item=strtr($template,array('{input}'=>$option,'{label}'=>$label));
 			if($checkAllLast)
 				$items[]=$item;
@@ -828,6 +832,9 @@ EOD;
 		$separator=isset($htmlOptions['separator'])?$htmlOptions['separator']:"<br/>\n";
 		unset($htmlOptions['template'],$htmlOptions['separator']);
 
+		$labelOptions=isset($htmlOptions['labelOptions'])?$htmlOptions['labelOptions']:array();
+		unset($htmlOptions['labelOptions']);
+
 		$items=array();
 		$baseID=self::getIdByName($name);
 		$id=0;
@@ -837,7 +844,7 @@ EOD;
 			$htmlOptions['value']=$value;
 			$htmlOptions['id']=$baseID.'_'.$id++;
 			$option=self::radioButton($name,$checked,$htmlOptions);
-			$label=self::label($label,$htmlOptions['id'],isset($htmlOptions['labelOptions'])?$htmlOptions['labelOptions']:array());
+			$label=self::label($label,$htmlOptions['id'],$labelOptions);
 			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
 		}
 		return implode($separator,$items);
