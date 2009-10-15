@@ -228,8 +228,7 @@ class CActiveRecord2Test extends CTestCase
 		$this->assertEquals(2,Post2::model()->findByPk(2)->author_id);
 		$this->assertEquals(2,Post2::model()->findByPk(3)->author_id);
 		$this->assertEquals(2,Post2::model()->findByPk(4)->author_id);
-		// not sure why, but the following query returns 1, instead of 3
-		$this->assertEquals(1,Post2::model()->updateCounters(array('author_id'=>-1),'id>2'));
+		$this->assertEquals(3,Post2::model()->updateCounters(array('author_id'=>-1),'id>2'));
 		$this->assertEquals(2,Post2::model()->findByPk(2)->author_id);
 		$this->assertEquals(1,Post2::model()->findByPk(3)->author_id);
 		$this->assertEquals(1,Post2::model()->findByPk(4)->author_id);
@@ -244,8 +243,7 @@ class CActiveRecord2Test extends CTestCase
 
 		$this->assertTrue(Post2::model()->findByPk(2) instanceof Post2);
 		$this->assertTrue(Post2::model()->findByPk(3) instanceof Post2);
-		// not sure why, but the following query returns 1, instead of 2
-		$this->assertEquals(1,Post2::model()->deleteByPk(array(2,3)));
+		$this->assertEquals(2,Post2::model()->deleteByPk(array(2,3)));
 		$this->assertNull(Post2::model()->findByPk(2));
 		$this->assertNull(Post2::model()->findByPk(3));
 

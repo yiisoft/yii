@@ -83,7 +83,7 @@ class CDbCommandTest extends CTestCase
 		$this->assertEquals($command->execute(),1);
 		$this->assertEquals($command->execute(),1);
 		$command=$this->_connection->createCommand('SELECT * FROM comments WHERE content=\'test comment\'');
-		$this->assertEquals($command->execute(),1);
+		$this->assertEquals($command->execute(),0);
 		$command=$this->_connection->createCommand('SELECT COUNT(*) FROM comments WHERE content=\'test comment\'');
 		$this->assertEquals($command->queryScalar(),2);
 
