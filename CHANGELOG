@@ -10,6 +10,7 @@ Version 1.0.10 to be released
 - Bug #567: PHP <5.2 cannot convert exception class to string (pestaa)
 - Bug #573: Typo in API (pestaa)
 - Bug #584: CAutoComplete API was missing a fact (pestaa)
+- Bug #594: The for-loop in jquery.yii.js breaks on IE (Qiang)
 - Bug #596: CActiveFinder undefined $parent variable on line 1297 (Qiang)
 - Bug: Fixed a bug in Oracle driver when performing relational AR queries (Qiang)
 - Bug: Fixed the problem of executing an SQL using CDbCommand may cause subsequent SQL executions to fail (Qiang)
