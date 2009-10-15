@@ -92,6 +92,7 @@ class CDbCriteria
 	 * After calling this method, the {@link condition} property will be modified.
 	 * @param mixed the new condition. It can be either a string or an array of strings.
 	 * @param string the operator to join different conditions. Defaults to 'AND'.
+	 * @return CDbCriteria the criteria object itself
 	 * @since 1.0.9
 	 */
 	public function addCondition($condition,$operator='AND')
@@ -99,13 +100,14 @@ class CDbCriteria
 		if(is_array($condition))
 		{
 			if($condition===array())
-				return;
+				return $this;
 			$condition='('.implode(') '.$operator.' (',$condition).')';
 		}
 		if($this->condition==='')
 			$this->condition=$condition;
 		else
 			$this->condition='('.$this->condition.') '.$operator.' ('.$condition.')';
+		return $this;
 	}
 
 	/**
@@ -123,6 +125,7 @@ class CDbCriteria
 	 * matching without any change.
 	 * @param string the operator used to concatenate the new condition with the existing one.
 	 * Defaults to 'AND'.
+	 * @return CDbCriteria the criteria object itself
 	 * @since 1.0.10
 	 */
 	public function addSearchCondition($column,$keyword,$escape=true,$operator='AND')
@@ -131,7 +134,7 @@ class CDbCriteria
 			$keyword='%'.strtr($keyword,array('%'=>'\%', '_'=>'\_')).'%';
 		$condition=$column.' LIKE '.self::PARAM_PREFIX.$this->_paramCount;
 		$this->params[self::PARAM_PREFIX.$this->_paramCount++]=$keyword;
-		$this->addCondition($condition, $operator);
+		return $this->addCondition($condition, $operator);
 	}
 
 	/**
@@ -144,6 +147,7 @@ class CDbCriteria
 	 * @param array list of values that the column value should be in
 	 * @param string the operator used to concatenate the new condition with the existing one.
 	 * Defaults to 'AND'.
+	 * @return CDbCriteria the criteria object itself
 	 * @since 1.0.10
 	 */
 	public function addInCondition($column,$values,$operator='AND')
@@ -167,7 +171,7 @@ class CDbCriteria
 			}
 			$condition=$column.' IN ('.implode(', ',$params).')';
 		}
-		$this->addCondition($condition,$operator);
+		return $this->addCondition($condition,$operator);
 	}
 
 	/**
@@ -179,6 +183,7 @@ class CDbCriteria
 	 * @param string the operator to concatenate multiple column matching condition. Defaults to 'AND'.
 	 * @param string the operator used to concatenate the new condition with the existing one.
 	 * Defaults to 'AND'.
+	 * @return CDbCriteria the criteria object itself
 	 * @since 1.0.10
 	 */
 	public function addColumnCondition($columns,$columnOperator='AND',$operator='AND')
@@ -189,7 +194,7 @@ class CDbCriteria
 			$params[]=$name.'='.self::PARAM_PREFIX.$this->_paramCount;
 			$this->params[self::PARAM_PREFIX.$this->_paramCount++]=$value;
 		}
-		$this->addCondition(implode(" $columnOperator ",$params), $operator);
+		return $this->addCondition(implode(" $columnOperator ",$params), $operator);
 	}
 
 	/**
