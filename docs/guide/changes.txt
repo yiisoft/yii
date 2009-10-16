@@ -3,6 +3,12 @@ New Features
 
 This page summarizes the main new features introduced in each Yii release.
 
+Version 1.0.10
+--------------
+
+ * Enhanced support for using CPhpMessageSource to manage module messages
+     - [Message Translation](/doc/guide/topics.i18n#message-translation)
+
 Version 1.0.8
 -------------
 
