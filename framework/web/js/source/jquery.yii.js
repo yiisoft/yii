@@ -36,9 +36,9 @@ $.yii = {
 
 		jQuery(f).trigger('submit');
 
-		for (input in inputs) {
-			f.removeChild(inputs[input]);
-		}
+		jQuery.each(inputs, function() {
+			f.removeChild(this);
+		});
 	}
 };
 

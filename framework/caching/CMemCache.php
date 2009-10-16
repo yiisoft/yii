@@ -167,7 +167,7 @@ class CMemCache extends CCache
 		else
 			$expire=0;
 
-		return $this->_cache->set($key,$value,0,$expire);
+		return $this->useMemcached ? $this->_cache->set($key,$value,$expire) : $this->_cache->set($key,$value,0,$expire);
 	}
 
 	/**
@@ -186,7 +186,7 @@ class CMemCache extends CCache
 		else
 			$expire=0;
 
-		return $this->_cache->add($key,$value,0,$expire);
+		return $this->useMemcached ? $this->_cache->add($key,$value,$expire) : $this->_cache->add($key,$value,0,$expire);
 	}
 
 	/**

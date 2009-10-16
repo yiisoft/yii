@@ -121,7 +121,7 @@ return array(
 
 To make use of the cookie validation scheme provided by Yii, we also need to
 access cookies through the [cookies|CHttpRequest::cookies] collection, instead
-of directly trhough `$_COOKIES`:
+of directly through `$_COOKIES`:
 
 ~~~
 [php]

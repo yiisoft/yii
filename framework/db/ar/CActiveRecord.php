@@ -1442,12 +1442,12 @@ abstract class CActiveRecord extends CModel
 		if($attributes!==false)
 		{
 			$record=$this->instantiate($attributes);
-			$record->_md=$this->getMetaData();
+			$md=$record->getMetaData();
 			foreach($attributes as $name=>$value)
 			{
 				if(property_exists($record,$name))
 					$record->$name=$value;
-				else if(isset($record->_md->columns[$name]))
+				else if(isset($md->columns[$name]))
 					$record->_attributes[$name]=$value;
 			}
 			$record->attachBehaviors($record->behaviors());
@@ -1471,11 +1471,10 @@ abstract class CActiveRecord extends CModel
 	{
 		$records=array();
 		$md=$this->getMetaData();
-		$table=$md->tableSchema;
 		foreach($data as $attributes)
 		{
 			$record=$this->instantiate($attributes);
-			$record->_md=$md;
+			$md=$record->getMetaData();
 			foreach($attributes as $name=>$value)
 			{
 				if(property_exists($record,$name))

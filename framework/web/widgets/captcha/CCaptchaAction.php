@@ -68,6 +68,11 @@ class CCaptchaAction extends CAction
 	 */
 	public $foreColor=0x2040A0;
 	/**
+	 * @var boolean whether to use transparent background. Defaults to false.
+	 * @since 1.0.10
+	 */
+	public $transparent=false;
+	/**
 	 * @var integer the minimum length for randomly generated word. Defaults to 6.
 	 */
 	public $minLength=6;
@@ -188,12 +193,16 @@ class CCaptchaAction extends CAction
 	protected function renderImage($code)
 	{
 		$image=imagecreatetruecolor($this->width,$this->height);
+
 		$backColor=imagecolorallocate($image,
 			(int)($this->backColor%0x1000000/0x10000),
 			(int)($this->backColor%0x10000/0x100),
 			$this->backColor%0x100);
         imagefilledrectangle($image,0,0,$this->width,$this->height,$backColor);
         imagecolordeallocate($image,$backColor);
+
+        if($this->transparent)
+			imagecolortransparent($image,$backColor);
 
 		$foreColor=imagecolorallocate($image,
 			(int)($this->foreColor%0x1000000/0x10000),
