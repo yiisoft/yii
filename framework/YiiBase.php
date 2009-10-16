@@ -82,7 +82,7 @@ class YiiBase
 	 */
 	public static function createWebApplication($config=null)
 	{
-		return new CWebApplication($config);
+		return self::createApplication('CWebApplication',$config);
 	}
 
 	/**
@@ -96,7 +96,20 @@ class YiiBase
 	 */
 	public static function createConsoleApplication($config=null)
 	{
-		return new CConsoleApplication($config);
+		return self::createApplication('CConsoleApplication',$config);
+	}
+
+	/**
+	 * Creates an application of the specified class.
+	 * @param string the application class name
+	 * @param mixed application configuration. This parameter will be passed as the parameter
+	 * to the constructor of the application class.
+	 * @return mixed the application instance
+	 * @since 1.0.10
+	 */
+	public static function createApplication($class,$config=null)
+	{
+		return new $class($config);
 	}
 
 	/**

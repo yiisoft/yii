@@ -627,7 +627,9 @@ class CHtml
 	 * In addition, the following options are also supported specifically for dropdown list:
 	 * <ul>
 	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty.</li>
-	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.</li>
+	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.
+	 * Starting from version 1.0.10, the 'empty' option can also be an array of value-label pairs.
+	 * Each pair will be used to render a list option at the beginning.</li>
 	 * <li>options: array, specifies additional attributes for each OPTION tag.
 	 *     The array keys must be the option values, and the array values are the extra
 	 *     OPTION tag attributes in the name-value pairs. For example,
@@ -668,7 +670,9 @@ class CHtml
 	 * In addition, the following options are also supported specifically for list box:
 	 * <ul>
 	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty.</li>
-	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.</li>
+	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.
+	 * Starting from version 1.0.10, the 'empty' option can also be an array of value-label pairs.
+	 * Each pair will be used to render a list option at the beginning.</li>
 	 * <li>options: array, specifies additional attributes for each OPTION tag.
 	 *     The array keys must be the option values, and the array values are the extra
 	 *     OPTION tag attributes in the name-value pairs. For example,
@@ -723,6 +727,8 @@ class CHtml
 	 * displayed at the end of the checkbox list. If this option is not set (default)
 	 * or is false, the 'check all' checkbox will be displayed at the beginning of
 	 * the checkbox list. This option has been available since version 1.0.4.</li>
+	 * <li>labelOptions: array, specifies the additional HTML attributes to be rendered
+	 * for every label tag in the list. This option has been available since version 1.0.10.</li>
 	 * </ul>
 	 * @return string the generated check box list
 	 */
@@ -742,10 +748,14 @@ class CHtml
 		}
 		unset($htmlOptions['checkAll'],$htmlOptions['checkAllLast']);
 
+		$labelOptions=isset($htmlOptions['labelOptions'])?$htmlOptions['labelOptions']:array();
+		unset($htmlOptions['labelOptions']);
+
 		$items=array();
 		$baseID=self::getIdByName($name);
 		$id=0;
 		$checkAll=true;
+
 		foreach($data as $value=>$label)
 		{
 			$checked=!is_array($select) && !strcmp($value,$select) || is_array($select) && in_array($value,$select);
@@ -753,7 +763,7 @@ class CHtml
 			$htmlOptions['value']=$value;
 			$htmlOptions['id']=$baseID.'_'.$id++;
 			$option=self::checkBox($name,$checked,$htmlOptions);
-			$label=self::label($label,$htmlOptions['id']);
+			$label=self::label($label,$htmlOptions['id'],$labelOptions);
 			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
 		}
 
@@ -762,7 +772,7 @@ class CHtml
 			$htmlOptions['value']=1;
 			$htmlOptions['id']=$id=$baseID.'_all';
 			$option=self::checkBox($id,$checkAll,$htmlOptions);
-			$label=self::label($checkAllLabel,$id);
+			$label=self::label($checkAllLabel,$id,$labelOptions);
 			$item=strtr($template,array('{input}'=>$option,'{label}'=>$label));
 			if($checkAllLast)
 				$items[]=$item;
@@ -806,6 +816,8 @@ EOD;
 	 * to "{input} {label}", where "{input}" will be replaced by the generated
 	 * radio button input tag while "{label}" be replaced by the corresponding radio button label.</li>
 	 * <li>separator: string, specifies the string that separates the generated radio buttons.</li>
+	 * <li>labelOptions: array, specifies the additional HTML attributes to be rendered
+	 * for every label tag in the list. This option has been available since version 1.0.10.</li>
 	 * </ul>
 	 * @return string the generated radio button list
 	 */
@@ -814,6 +826,9 @@ EOD;
 		$template=isset($htmlOptions['template'])?$htmlOptions['template']:'{input} {label}';
 		$separator=isset($htmlOptions['separator'])?$htmlOptions['separator']:"<br/>\n";
 		unset($htmlOptions['template'],$htmlOptions['separator']);
+
+		$labelOptions=isset($htmlOptions['labelOptions'])?$htmlOptions['labelOptions']:array();
+		unset($htmlOptions['labelOptions']);
 
 		$items=array();
 		$baseID=self::getIdByName($name);
@@ -824,7 +839,7 @@ EOD;
 			$htmlOptions['value']=$value;
 			$htmlOptions['id']=$baseID.'_'.$id++;
 			$option=self::radioButton($name,$checked,$htmlOptions);
-			$label=self::label($label,$htmlOptions['id']);
+			$label=self::label($label,$htmlOptions['id'],$labelOptions);
 			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
 		}
 		return implode($separator,$items);
@@ -1239,7 +1254,9 @@ EOD;
 	 * In addition, the following options are also supported:
 	 * <ul>
 	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty.</li>
-	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.</li>
+	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.
+	 * Starting from version 1.0.10, the 'empty' option can also be an array of value-label pairs.
+	 * Each pair will be used to render a list option at the beginning.</li>
 	 * <li>options: array, specifies additional attributes for each OPTION tag.
 	 *     The array keys must be the option values, and the array values are the extra
 	 *     OPTION tag attributes in the name-value pairs. For example,
@@ -1288,7 +1305,9 @@ EOD;
 	 * In addition, the following options are also supported:
 	 * <ul>
 	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty.</li>
-	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.</li>
+	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.
+	 * Starting from version 1.0.10, the 'empty' option can also be an array of value-label pairs.
+	 * Each pair will be used to render a list option at the beginning.</li>
 	 * <li>options: array, specifies additional attributes for each OPTION tag.
 	 *     The array keys must be the option values, and the array values are the extra
 	 *     OPTION tag attributes in the name-value pairs. For example,
@@ -1602,7 +1621,9 @@ EOD;
 	 * <ul>
 	 * <li>encode: boolean, specifies whether to encode the values. Defaults to true. This option has been available since version 1.0.5.</li>
 	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty.</li>
-	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.</li>
+	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.
+	 * Starting from version 1.0.10, the 'empty' option can also be an array of value-label pairs.
+	 * Each pair will be used to render a list option at the beginning.</li>
 	 * <li>options: array, specifies additional attributes for each OPTION tag.
 	 *     The array keys must be the option values, and the array values are the extra
 	 *     OPTION tag attributes in the name-value pairs. For example,
@@ -1628,7 +1649,15 @@ EOD;
 		}
 		if(isset($htmlOptions['empty']))
 		{
-			$content.='<option value="">'.($raw?$htmlOptions['empty'] : self::encode($htmlOptions['empty']))."</option>\n";
+			if(!is_array($htmlOptions['empty']))
+				$htmlOptions['empty']=array(''=>$htmlOptions['empty']);
+			foreach($htmlOptions['empty'] as $value=>$label)
+			{
+				if($raw)
+					$content.='<option value="'.$value.'">'.$label."</option>\n";
+				else
+					$content.='<option value="'.self::encode($value).'">'.self::encode($label)."</option>\n";
+			}
 			unset($htmlOptions['empty']);
 		}
 
