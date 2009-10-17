@@ -111,6 +111,13 @@ class CDbConnection extends CApplicationComponent
 	 */
 	public $schemaCachingExclude=array();
 	/**
+	 * @var string the ID of the cache application component that is used to cache the table metadata.
+	 * Defaults to 'cache' which refers to the primary cache application component.
+	 * Set this property to false if you want to disable caching table metadata.
+	 * @since 1.0.10
+	 */
+	public $schemaCacheID='cache';
+	/**
 	 * @var boolean whether the database connection should be automatically established
 	 * the component is being initialized. Defaults to true. Note, this property is only
 	 * effective when the CDbConnection object is used as an application component.

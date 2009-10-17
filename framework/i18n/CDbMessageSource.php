@@ -60,6 +60,13 @@ class CDbMessageSource extends CMessageSource
 	 * Defaults to 0, meaning the caching is disabled.
 	 */
 	public $cachingDuration=0;
+	/**
+	 * @var string the ID of the cache application component that is used to cache the messages.
+	 * Defaults to 'cache' which refers to the primary cache application component.
+	 * Set this property to false if you want to disable caching the messages.
+	 * @since 1.0.10
+	 */
+	public $cacheID='cache';
 
 	private $_db;
 
@@ -86,7 +93,7 @@ class CDbMessageSource extends CMessageSource
 	 */
 	protected function loadMessages($category,$language)
 	{
-		if($this->cachingDuration>0 && ($cache=Yii::app()->getCache())!==null)
+		if($this->cachingDuration>0 && $this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID))!==null)
 		{
 			$key=self::CACHE_KEY_PREFIX.'.messages';
 			if(($data=$cache->get($key))!==false)

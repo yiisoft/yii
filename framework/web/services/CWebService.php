@@ -46,6 +46,13 @@ class CWebService extends CComponent
 	 */
 	public $wsdlCacheDuration=0;
 	/**
+	 * @var string the ID of the cache application component that is used to cache the generated WSDL.
+	 * Defaults to 'cache' which refers to the primary cache application component.
+	 * Set this property to false if you want to disable caching WSDL.
+	 * @since 1.0.10
+	 */
+	public $cacheID='cache';
+	/**
 	 * @var string encoding of the Web service. Defaults to 'UTF-8'.
 	 */
 	public $encoding='UTF-8';
@@ -123,7 +130,7 @@ class CWebService extends CComponent
 	public function generateWsdl()
 	{
 		$providerClass=is_object($this->provider) ? get_class($this->provider) : Yii::import($this->provider,true);
-		if($this->wsdlCacheDuration>0 && ($cache=Yii::app()->getCache())!==null)
+		if($this->wsdlCacheDuration>0 && $this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID))!==null)
 		{
 			$key='Yii.CWebService.'.$providerClass.$this->serviceUrl.$this->encoding;
 			if(($wsdl=$cache->get($key))!==false)

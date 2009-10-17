@@ -42,11 +42,15 @@ class YiiBase
 	}
 	public static function createWebApplication($config=null)
 	{
-		return new CWebApplication($config);
+		return self::createApplication('CWebApplication',$config);
 	}
 	public static function createConsoleApplication($config=null)
 	{
-		return new CConsoleApplication($config);
+		return self::createApplication('CConsoleApplication',$config);
+	}
+	public static function createApplication($class,$config=null)
+	{
+		return new $class($config);
 	}
 	public static function app()
 	{
@@ -256,6 +260,12 @@ class YiiBase
 			unset($params[0]);
 		}
 		return $params!==array() ? strtr($message,$params) : $message;
+	}
+	public static function registerAutoloader($callback)
+	{
+		spl_autoload_unregister(array('YiiBase','autoload'));
+		spl_autoload_register($callback);
+		spl_autoload_register(array('YiiBase','autoload'));
 	}
 	private static $_coreClasses=array(
 		'CApplication' => '/base/CApplication.php',
@@ -1091,6 +1101,14 @@ abstract class CApplication extends CModule
 	{
 		return $this->getComponent('messages');
 	}
+	public function getRequest()
+	{
+		return $this->getComponent('request');
+	}
+	public function getUrlManager()
+	{
+		return $this->getComponent('urlManager');
+	}
 	public function getGlobalState($key,$defaultValue=null)
 	{
 		if($this->_globalState===null)
@@ -1285,6 +1303,12 @@ abstract class CApplication extends CModule
 			'statePersister'=>array(
 				'class'=>'CStatePersister',
 			),
+			'urlManager'=>array(
+				'class'=>'CUrlManager',
+			),
+			'request'=>array(
+				'class'=>'CHttpRequest',
+			),
 		);
 		$this->setComponents($components);
 	}
@@ -1318,12 +1342,6 @@ class CWebApplication extends CApplication
 	{
 		parent::registerCoreComponents();
 		$components=array(
-			'urlManager'=>array(
-				'class'=>'CUrlManager',
-			),
-			'request'=>array(
-				'class'=>'CHttpRequest',
-			),
 			'session'=>array(
 				'class'=>'CHttpSession',
 			),
@@ -1344,14 +1362,6 @@ class CWebApplication extends CApplication
 			),
 		);
 		$this->setComponents($components);
-	}
-	public function getRequest()
-	{
-		return $this->getComponent('request');
-	}
-	public function getUrlManager()
-	{
-		return $this->getComponent('urlManager');
 	}
 	public function getAuthManager()
 	{
@@ -3441,12 +3451,9 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 	public function open()
 	{
-		if(session_id()==='')
-		{
-			if($this->getUseCustomStorage())
-				session_set_save_handler(array($this,'openSession'),array($this,'closeSession'),array($this,'readSession'),array($this,'writeSession'),array($this,'destroySession'),array($this,'gcSession'));
-			session_start();
-		}
+		if($this->getUseCustomStorage())
+			@session_set_save_handler(array($this,'openSession'),array($this,'closeSession'),array($this,'readSession'),array($this,'writeSession'),array($this,'destroySession'),array($this,'gcSession'));
+		@session_start();
 	}
 	public function close()
 	{
@@ -3933,6 +3940,8 @@ class CHtml
 			$checkAllLast=isset($htmlOptions['checkAllLast']) && $htmlOptions['checkAllLast'];
 		}
 		unset($htmlOptions['checkAll'],$htmlOptions['checkAllLast']);
+		$labelOptions=isset($htmlOptions['labelOptions'])?$htmlOptions['labelOptions']:array();
+		unset($htmlOptions['labelOptions']);
 		$items=array();
 		$baseID=self::getIdByName($name);
 		$id=0;
@@ -3944,7 +3953,7 @@ class CHtml
 			$htmlOptions['value']=$value;
 			$htmlOptions['id']=$baseID.'_'.$id++;
 			$option=self::checkBox($name,$checked,$htmlOptions);
-			$label=self::label($label,$htmlOptions['id']);
+			$label=self::label($label,$htmlOptions['id'],$labelOptions);
 			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
 		}
 		if(isset($checkAllLabel))
@@ -3952,7 +3961,7 @@ class CHtml
 			$htmlOptions['value']=1;
 			$htmlOptions['id']=$id=$baseID.'_all';
 			$option=self::checkBox($id,$checkAll,$htmlOptions);
-			$label=self::label($checkAllLabel,$id);
+			$label=self::label($checkAllLabel,$id,$labelOptions);
 			$item=strtr($template,array('{input}'=>$option,'{label}'=>$label));
 			if($checkAllLast)
 				$items[]=$item;
@@ -3981,6 +3990,8 @@ EOD;
 		$template=isset($htmlOptions['template'])?$htmlOptions['template']:'{input} {label}';
 		$separator=isset($htmlOptions['separator'])?$htmlOptions['separator']:"<br/>\n";
 		unset($htmlOptions['template'],$htmlOptions['separator']);
+		$labelOptions=isset($htmlOptions['labelOptions'])?$htmlOptions['labelOptions']:array();
+		unset($htmlOptions['labelOptions']);
 		$items=array();
 		$baseID=self::getIdByName($name);
 		$id=0;
@@ -3990,7 +4001,7 @@ EOD;
 			$htmlOptions['value']=$value;
 			$htmlOptions['id']=$baseID.'_'.$id++;
 			$option=self::radioButton($name,$checked,$htmlOptions);
-			$label=self::label($label,$htmlOptions['id']);
+			$label=self::label($label,$htmlOptions['id'],$labelOptions);
 			$items[]=strtr($template,array('{input}'=>$option,'{label}'=>$label));
 		}
 		return implode($separator,$items);
@@ -4331,7 +4342,15 @@ EOD;
 		}
 		if(isset($htmlOptions['empty']))
 		{
-			$content.='<option value="">'.($raw?$htmlOptions['empty'] : self::encode($htmlOptions['empty']))."</option>\n";
+			if(!is_array($htmlOptions['empty']))
+				$htmlOptions['empty']=array(''=>$htmlOptions['empty']);
+			foreach($htmlOptions['empty'] as $value=>$label)
+			{
+				if($raw)
+					$content.='<option value="'.$value.'">'.$label."</option>\n";
+				else
+					$content.='<option value="'.self::encode($value).'">'.self::encode($label)."</option>\n";
+			}
 			unset($htmlOptions['empty']);
 		}
 		if(isset($htmlOptions['options']))
@@ -6160,12 +6179,12 @@ abstract class CActiveRecord extends CModel
 		if($attributes!==false)
 		{
 			$record=$this->instantiate($attributes);
-			$record->_md=$this->getMetaData();
+			$md=$record->getMetaData();
 			foreach($attributes as $name=>$value)
 			{
 				if(property_exists($record,$name))
 					$record->$name=$value;
-				else if(isset($record->_md->columns[$name]))
+				else if(isset($md->columns[$name]))
 					$record->_attributes[$name]=$value;
 			}
 			$record->attachBehaviors($record->behaviors());
@@ -6180,11 +6199,10 @@ abstract class CActiveRecord extends CModel
 	{
 		$records=array();
 		$md=$this->getMetaData();
-		$table=$md->tableSchema;
 		foreach($data as $attributes)
 		{
 			$record=$this->instantiate($attributes);
-			$record->_md=$md;
+			$md=$record->getMetaData();
 			foreach($attributes as $name=>$value)
 			{
 				if(property_exists($record,$name))
@@ -6386,6 +6404,7 @@ class CDbConnection extends CApplicationComponent
 	public $password='';
 	public $schemaCachingDuration=0;
 	public $schemaCachingExclude=array();
+	public $schemaCacheID='cache';
 	public $autoConnect=true;
 	public $charset;
 	public $emulatePrepare=false;
@@ -6686,7 +6705,7 @@ abstract class CDbSchema extends CComponent
 	{
 		if(isset($this->_tables[$name]))
 			return $this->_tables[$name];
-		else if(!isset($this->_cacheExclude[$name]) && ($duration=$this->_connection->schemaCachingDuration)>0 && ($cache=Yii::app()->getCache())!==null)
+		else if(!isset($this->_cacheExclude[$name]) && ($duration=$this->_connection->schemaCachingDuration)>0 && $this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID))!==null)
 		{
 			$key='yii:dbschema'.$this->_connection->connectionString.':'.$this->_connection->username.':'.$name;
 			if(($table=$cache->get($key))===false)
@@ -6721,7 +6740,7 @@ abstract class CDbSchema extends CComponent
 	}
 	public function refresh()
 	{
-		if(($duration=$this->_connection->schemaCachingDuration)>0 && ($cache=Yii::app()->getCache())!==null)
+		if(($duration=$this->_connection->schemaCachingDuration)>0 && $this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID))!==null)
 		{
 			foreach(array_keys($this->_tables) as $name)
 			{
@@ -6860,7 +6879,7 @@ class CDbCommand extends CComponent
 	private $_connection;
 	private $_text='';
 	private $_statement=null;
-	private $_params;
+	private $_params=array();
 	public function __construct(CDbConnection $connection,$text)
 	{
 		$this->_connection=$connection;
@@ -6919,7 +6938,7 @@ class CDbCommand extends CComponent
 		else
 			$this->_statement->bindParam($name,$value,$dataType,$length);
 		if($this->_connection->enableParamLogging)
-			$this->_params[]=$name.'=['.gettype($value).']';
+			$this->_params[$name]='['.gettype($value).']';
 		return $this;
 	}
 	public function bindValue($name, $value, $dataType=null)
@@ -6930,23 +6949,26 @@ class CDbCommand extends CComponent
 		else
 			$this->_statement->bindValue($name,$value,$dataType);
 		if($this->_connection->enableParamLogging)
-			$this->_params[]=$name.'='.var_export($value,true);
+			$this->_params[$name]=var_export($value,true);
 		return $this;
 	}
-	public function execute()
+	public function execute($params=array())
 	{
-		$params=$this->_connection->enableParamLogging && !empty($this->_params) ? '. Bind with parameter ' . implode(', ',$this->_params) : '';
+		if($this->_connection->enableParamLogging && ($pars=array_merge($this->_params,$params))!==array())
+		{
+			foreach($pars as $name=>$value)
+				$pars[$name]=$name.'='.$value;
+			$par='. Bind with parameter ' .implode(', ',$pars);
+		}
+		else
+			$par='';
 		try
 		{
 			if($this->_connection->enableProfiling)
 				Yii::beginProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
-			if($this->_statement instanceof PDOStatement)
-			{
-				$this->_statement->execute();
-				$n=$this->_statement->rowCount();
-			}
-			else
-				$n=$this->getConnection()->getPdoInstance()->exec($this->getText());
+			$this->prepare();
+			$this->_statement->execute($params===array() ? null : $params);
+			$n=$this->_statement->rowCount();
 			if($this->_connection->enableProfiling)
 				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
 			return $n;
@@ -6955,46 +6977,51 @@ class CDbCommand extends CComponent
 		{
 			if($this->_connection->enableProfiling)
 				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
-			Yii::log('Error in executing SQL: '.$this->getText().$params,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
-			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
+			Yii::log('Error in executing SQL: '.$this->getText().$par,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
+			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}'.$this->text,
 				array('{error}'=>$e->getMessage())));
 		}
 	}
-	public function query()
+	public function query($params=array())
 	{
-		return $this->queryInternal('',0);
+		return $this->queryInternal('',0,$params);
 	}
-	public function queryAll($fetchAssociative=true)
+	public function queryAll($fetchAssociative=true,$params=array())
 	{
-		return $this->queryInternal('fetchAll',$fetchAssociative ? PDO::FETCH_ASSOC : PDO::FETCH_NUM);
+		return $this->queryInternal('fetchAll',$fetchAssociative ? PDO::FETCH_ASSOC : PDO::FETCH_NUM, $params);
 	}
-	public function queryRow($fetchAssociative=true)
+	public function queryRow($fetchAssociative=true,$params=array())
 	{
-		return $this->queryInternal('fetch',$fetchAssociative ? PDO::FETCH_ASSOC : PDO::FETCH_NUM);
+		return $this->queryInternal('fetch',$fetchAssociative ? PDO::FETCH_ASSOC : PDO::FETCH_NUM, $params);
 	}
-	public function queryScalar()
+	public function queryScalar($params=array())
 	{
-		$result=$this->queryInternal('fetchColumn',0);
+		$result=$this->queryInternal('fetchColumn',0,$params);
 		if(is_resource($result) && get_resource_type($result)==='stream')
 			return stream_get_contents($result);
 		else
 			return $result;
 	}
-	public function queryColumn()
+	public function queryColumn($params=array())
 	{
-		return $this->queryInternal('fetchAll',PDO::FETCH_COLUMN);
+		return $this->queryInternal('fetchAll',PDO::FETCH_COLUMN,$params);
 	}
-	private function queryInternal($method,$mode)
+	private function queryInternal($method,$mode,$params=array())
 	{
-		$params=$this->_connection->enableParamLogging && !empty($this->_params) ? '. Bind with parameter ' . implode(', ',$this->_params) : '';
+		if($this->_connection->enableParamLogging && ($pars=array_merge($this->_params,$params))!==array())
+		{
+			foreach($pars as $name=>$value)
+				$pars[$name]=$name.'='.$value;
+			$par='. Bind with parameter ' .implode(', ',$pars);
+		}
+		else
+			$par='';
 		try
 		{
 			if($this->_connection->enableProfiling)
 				Yii::beginProfile('system.db.CDbCommand.query('.$this->getText().')','system.db.CDbCommand.query');
-			if($this->_statement instanceof PDOStatement)
-				$this->_statement->execute();
-			else
-				$this->_statement=$this->getConnection()->getPdoInstance()->query($this->getText());
+			$this->prepare();
+			$this->_statement->execute($params===array() ? null : $params);
 			if($method==='')
 				$result=new CDbDataReader($this);
 			else
@@ -7010,7 +7037,7 @@ class CDbCommand extends CComponent
 		{
 			if($this->_connection->enableProfiling)
 				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().')','system.db.CDbCommand.query');
-			Yii::log('Error in querying SQL: '.$this->getText().$params,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
+			Yii::log('Error in querying SQL: '.$this->getText().$par,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
 				array('{error}'=>$e->getMessage())));
 		}
