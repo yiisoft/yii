@@ -99,6 +99,16 @@ the `raiseEvent()` call). The `$event` parameter is an instance of [CEvent] or
 its derived class. At the minimum, it contains the information about who
 raises the event.
 
+Starting from version 1.0.10, an event handler can also be an anonymous function
+which is supported by PHP 5.3 or above. For example,
+
+~~~
+[php]
+$component->onClicked=function($event) {
+	......
+}
+~~~
+
 If we call `onClicked()` now, the `onClicked` event will be raised (inside
 `onClicked()`), and the attached event handler will be invoked
 automatically.
