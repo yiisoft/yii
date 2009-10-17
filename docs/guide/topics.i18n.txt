@@ -150,6 +150,19 @@ when [CPhpMessageSource] is used as the message source. Its `message` command
 can automatically extract messages to be translated from selected source files
 and merge them with existing translations if necessary.
 
+Starting from version 1.0.10, when using [CPhpMessageSource] to manage message source,
+messages for a module can be specially managed and used. In particular, if a message
+belongs to a module whose class name is `Xyz`, then the message category can be specified
+in the format of `Xyz.categoryName`. The corresponding message file will be assumed to be
+`ModulePath/messages/LanguageID/categoryName.php`, where `ModulePath` refers to
+the directory that contains the module class file. And when using `Yii::t()` to
+translate a module message, the following format should be used, instead:
+
+~~~
+[php]
+Yii::t('Xyz.categoryName', 'message to be translated')
+~~~
+
 Since version 1.0.2, Yii has added the support for [choice format|CChoiceFormat]. Choice format
 refers to choosing a translated according to a given number value. For example,
 in English the word 'book' may either take a singular form or a plural form

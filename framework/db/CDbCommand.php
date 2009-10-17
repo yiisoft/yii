@@ -38,7 +38,7 @@ class CDbCommand extends CComponent
 	private $_connection;
 	private $_text='';
 	private $_statement=null;
-	private $_params;
+	private $_params=array();
 
 	/**
 	 * Constructor.

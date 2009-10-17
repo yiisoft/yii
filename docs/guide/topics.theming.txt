@@ -62,6 +62,53 @@ Otherwise, it falls back to the default location as specified by
 > ~~~
 >
 
+Below is an example of directory organization for an application with two themes `basic` and `fancy`.
+
+~~~
+WebRoot/
+	assets
+	protected/
+		.htaccess
+		components/
+		controllers/
+		models/
+		views/
+			layouts/
+				main.php
+			site/
+				index.php
+	themes/
+		basic/
+			views/
+				.htaccess
+				layouts/
+					main.php
+				site/
+					index.php
+		fancy/
+			views/
+				.htaccess
+				layouts/
+					main.php
+				site/
+					index.php
+~~~
+
+In the application configuration, if we configure
+
+~~~
+[php]
+return array(
+	'theme'=>'basic',
+	......
+);
+~~~
+
+then the `basic` theme will be in effect, which means the application's layout will use
+the one under the directory `themes/basic/views/layouts`, and the site's index view will
+use the one under `themes/basic/views/site`. In case a view file is not found in the theme,
+it will fall back to the one under the `protected/views` directory.
+
 Skin
 ----
 

@@ -18,6 +18,12 @@ Version 1.1.0
  * Changed the default table alias to be the name of active record relations.
 
 
+Version 1.0.10
+--------------
+
+ * Enhanced support for using CPhpMessageSource to manage module messages
+     - [Message Translation](/doc/guide/topics.i18n#message-translation)
+
 Version 1.0.8
 -------------
 
