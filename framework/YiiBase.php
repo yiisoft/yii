@@ -492,6 +492,20 @@ class YiiBase
 	}
 
 	/**
+	 * Registers a new class autoloader.
+	 * The new autoloader will be placed before {@link autoload} and after
+	 * any other existing autoloaders.
+	 * @param callback a valid PHP callback (function name or array($className,$methodName)).
+	 * @since 1.0.10
+	 */
+	public static function registerAutoloader($callback)
+	{
+		spl_autoload_unregister(array('YiiBase','autoload'));
+		spl_autoload_register($callback);
+		spl_autoload_register(array('YiiBase','autoload'));
+	}
+
+	/**
 	 * @var array class map for core Yii classes.
 	 * NOTE, DO NOT MODIFY THIS ARRAY MANUALLY. IF YOU CHANGE OR ADD SOME CORE CLASSES,
 	 * PLEASE RUN 'build autoload' COMMAND TO UPDATE THIS ARRAY.

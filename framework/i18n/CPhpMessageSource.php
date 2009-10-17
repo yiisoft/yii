@@ -29,6 +29,13 @@
  * </ul>
  * When {@link cachingDuration} is set as a positive number, message translations will be cached.
  *
+ * Starting from version 1.0.10, messages for a module can be specially managed and used.
+ * In particular, if a message belongs to a module whose class name is Xyz, then the message category
+ * can be specified in the format of 'Xyz.categoryName'. And the corresponding message file
+ * is assumed to be 'ModulePath/messages/LanguageID/categoryName.php', where 'ModulePath' refers to
+ * the directory that contains the module class file. When using Yii::t() to translate a module message,
+ * we should use: Yii::t('Xyz.categoryName', 'message to be translated').
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.i18n
@@ -49,6 +56,8 @@ class CPhpMessageSource extends CMessageSource
 	 */
 	public $basePath;
 
+	private $_files=array();
+
 	/**
 	 * Initializes the application component.
 	 * This method overrides the parent implementation by preprocessing
@@ -62,6 +71,34 @@ class CPhpMessageSource extends CMessageSource
 	}
 
 	/**
+	 * Determines the message file name based on the given category and language.
+	 * If the category name contains a dot, it will be split into the module class name and the category name.
+	 * In this case, the message file will be assumed to be located within the 'messages' subdirectory of
+	 * the directory containing the module class file.
+	 * Otherwise, the message file is assumed to be under the {@link basePath}.
+	 * @param string category name
+	 * @param string language ID
+	 * @return string the message file path
+	 * @since 1.0.10
+	 */
+	protected function getMessageFile($category,$language)
+	{
+		if(!isset($this->_files[$category][$language]))
+		{
+			if(($pos=strpos($category,'.'))!==false)
+			{
+				$moduleClass=substr($category,0,$pos);
+				$moduleCategory=substr($category,$pos+1);
+				$class=new ReflectionClass($moduleClass);
+				$this->_files[$category][$language]=dirname($class->getFileName()).DIRECTORY_SEPARATOR.'messages'.DIRECTORY_SEPARATOR.$language.DIRECTORY_SEPARATOR.$moduleCategory.'.php';
+			}
+			else
+				$this->_files[$category][$language]=$this->basePath.DIRECTORY_SEPARATOR.$language.DIRECTORY_SEPARATOR.$category.'.php';
+		}
+		return $this->_files[$category][$language];
+	}
+
+	/**
 	 * Loads the message translation for the specified language and category.
 	 * @param string the message category
 	 * @param string the target language
@@ -69,7 +106,7 @@ class CPhpMessageSource extends CMessageSource
 	 */
 	protected function loadMessages($category,$language)
 	{
-		$messageFile=$this->basePath.DIRECTORY_SEPARATOR.$language.DIRECTORY_SEPARATOR.$category.'.php';
+		$messageFile=$this->getMessageFile($category,$language);
 
 		if($this->cachingDuration>0 && ($cache=Yii::app()->getCache())!==null)
 		{
