@@ -48,6 +48,13 @@ class CStatePersister extends CApplicationComponent implements IStatePersister
 	 * make sure the path is correct.
 	 */
 	public $stateFile;
+	/**
+	 * @var string the ID of the cache application component that is used to cache the state values.
+	 * Defaults to 'cache' which refers to the primary cache application component.
+	 * Set this property to false if you want to disable caching state values.
+	 * @since 1.0.10
+	 */
+	public $cacheID='cache';
 
 	/**
 	 * Initializes the component.
@@ -72,7 +79,7 @@ class CStatePersister extends CApplicationComponent implements IStatePersister
 	public function load()
 	{
 		$stateFile=$this->stateFile;
-		if(($cache=Yii::app()->getCache())!==null)
+		if($this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID))!==null)
 		{
 			$cacheKey='Yii.CStatePersister.'.$stateFile;
 			if(($value=$cache->get($cacheKey))!==false)

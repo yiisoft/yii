@@ -23,8 +23,12 @@ Version 1.1a October 1, 2009
 - Chg: Changed the default value of allowEmpty to be false for CCompareValidator. (Qiang)
 
 
-Version 1.0.10 to be released
+Version 1.0.11 to be released
 -----------------------------
+
+
+Version 1.0.10 October 18, 2009
+-------------------------------
 - Bug #550: Fixed image alt bug in CCaptcha (Qiang)
 - Bug #551: CCache::mget() should return values (Qiang)
 - Bug #561: CTabView fails to switch tabs on IE (pestaa)
@@ -42,10 +46,13 @@ Version 1.0.10 to be released
 - Enh #600: Modified CHttpSession to allow open and close session multiple times (Qiang)
 - Enh #612: Added YiiBase::registerAutoloader (Qiang)
 - Enh #613: Enhanced Oracle driver to allow using views with AR (Qiang)
+- Enh #615: Added cacheID property to several core components to allow specifying which cache component to use (Qiang)
+- Enh #616: Added support to use anonymous functions (PHP 5.3+) as event handlers (Qiang)
 - Enh #620: Enhanced message translation for modules (Qiang)
-- Enh #626: Added labelOptions for checkbox and radiobutton lists in CHtml (Qiang)
 - Enh #623: Added the optional $params to CDbCommand::execute() and query*() methods (Qiang)
+- Enh #626: Added labelOptions for checkbox and radiobutton lists in CHtml (Qiang)
 - Enh #627: Improved AR metadata assignment to support single table inheritance (Qiang)
+- Enh #628: Console commands are listed in alphabetical order now (Qiang)
 - Enh: Enhanced CRequiredValidator so that it can validate an attribute contains the specified value (Qiang)
 - Chg: Made request and urlManager components to be available for both console and web applications (Qiang)
 - New #577: Enhanced the 'empty' option in CHtml so that it can render multiple extra list options with specific values (Qiang)

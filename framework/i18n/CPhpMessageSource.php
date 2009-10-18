@@ -51,6 +51,13 @@ class CPhpMessageSource extends CMessageSource
 	 */
 	public $cachingDuration=0;
 	/**
+	 * @var string the ID of the cache application component that is used to cache the messages.
+	 * Defaults to 'cache' which refers to the primary cache application component.
+	 * Set this property to false if you want to disable caching the messages.
+	 * @since 1.0.10
+	 */
+	public $cacheID='cache';
+	/**
 	 * @var string the base path for all translated messages. Defaults to null, meaning
 	 * the "messages" subdirectory of the application directory (e.g. "protected/messages").
 	 */
@@ -108,7 +115,7 @@ class CPhpMessageSource extends CMessageSource
 	{
 		$messageFile=$this->getMessageFile($category,$language);
 
-		if($this->cachingDuration>0 && ($cache=Yii::app()->getCache())!==null)
+		if($this->cachingDuration>0 && $this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID))!==null)
 		{
 			$key=self::CACHE_KEY_PREFIX . $messageFile;
 			if(($data=$cache->get($key))!==false)

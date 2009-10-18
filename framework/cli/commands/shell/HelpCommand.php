@@ -35,7 +35,9 @@ class HelpCommand extends CConsoleCommand
 At the prompt, you may enter a PHP statement or one of the following commands:
 
 EOD;
-			echo ' - '.implode("\n - ",array_keys($commands));
+			$commandNames=array_keys($commands);
+			sort($commandNames);
+			echo ' - '.implode("\n - ",$commandNames);
 			echo "\nType 'help <command-name>' for details about a command.\n";
 		}
 		else
