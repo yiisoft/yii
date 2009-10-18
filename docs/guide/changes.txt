@@ -24,6 +24,9 @@ Version 1.0.10
  * Enhanced support for using CPhpMessageSource to manage module messages
      - [Message Translation](/doc/guide/topics.i18n#message-translation)
 
+ * Added support for attaching anonymous functions as event handlers
+     - [Component Event](/doc/guide/basics.component#component-event)
+
 Version 1.0.8
 -------------
 
