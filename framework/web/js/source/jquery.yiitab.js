@@ -14,7 +14,11 @@
 		yiitab: function() {
 
 			function activate(id) {
-				var $tab=$(id.replace(window.location.href, ''));
+				var pos = id.indexOf("#");
+				if (pos>=0) {
+					id = id.substring(pos);
+				}
+				var $tab=$(id);
 				var $container=$tab.parent();
 				$container.find('>ul a').removeClass('active');
 				$container.find('>ul a[href="'+id+'"]').addClass('active');
@@ -24,8 +28,7 @@
 
 			this.find('>ul a').click(function(event) {
 				activate($(event.target).attr('href'));
-				if($(this).attr('href')[0]=='#')
-					return false;
+				return false;
 			});
 
 			// activate a tab based on the current anchor
