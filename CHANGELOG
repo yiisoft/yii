@@ -2,6 +2,10 @@
                    Yii Framework Change Log
                    ========================
 
+Version 1.0.11 to be released
+-----------------------------
+
+
 Version 1.0.10 October 18, 2009
 -------------------------------
 - Bug #550: Fixed image alt bug in CCaptcha (Qiang)
