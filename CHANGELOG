@@ -4,6 +4,7 @@
 
 Version 1.1b to be released
 ---------------------------
+- Bug: Using CFileValidator causes an error about accessing a method of a non-object (Qiang)
 - Chg #574: session ID is no longer hashed for CDbHttpSession (Qiang)
 
 Version 1.1a October 1, 2009
