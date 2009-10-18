@@ -38,7 +38,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.0.10-dev';
+		return '1.0.10';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -661,15 +661,20 @@ class CComponent
 					call_user_func($handler,$event);
 				else if(is_callable($handler,true))
 				{
-					// an array: 0 - object, 1 - method name
-					list($object,$method)=$handler;
-					if(is_string($object))	// static method call
+					if(is_array($handler))
+					{
+						// an array: 0 - object, 1 - method name
+						list($object,$method)=$handler;
+						if(is_string($object))	// static method call
+							call_user_func($handler,$event);
+						else if(method_exists($object,$method))
+							$object->$method($event);
+						else
+							throw new CException(Yii::t('yii','Event "{class}.{event}" is attached with an invalid handler "{handler}".',
+								array('{class}'=>get_class($this), '{event}'=>$name, '{handler}'=>$handler[1])));
+					}
+					else // PHP 5.3: anonymous function
 						call_user_func($handler,$event);
-					else if(method_exists($object,$method))
-						$object->$method($event);
-					else
-						throw new CException(Yii::t('yii','Event "{class}.{event}" is attached with an invalid handler "{handler}".',
-							array('{class}'=>get_class($this), '{event}'=>$name, '{handler}'=>$handler[1])));
 				}
 				else
 					throw new CException(Yii::t('yii','Event "{class}.{event}" is attached with an invalid handler "{handler}".',
@@ -6705,7 +6710,7 @@ abstract class CDbSchema extends CComponent
 	{
 		if(isset($this->_tables[$name]))
 			return $this->_tables[$name];
-		else if(!isset($this->_cacheExclude[$name]) && ($duration=$this->_connection->schemaCachingDuration)>0 && $this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID))!==null)
+		else if(!isset($this->_cacheExclude[$name]) && ($duration=$this->_connection->schemaCachingDuration)>0 && $this->_connection->schemaCacheID!==false && ($cache=Yii::app()->getComponent($this->_connection->schemaCacheID))!==null)
 		{
 			$key='yii:dbschema'.$this->_connection->connectionString.':'.$this->_connection->username.':'.$name;
 			if(($table=$cache->get($key))===false)
@@ -6740,7 +6745,7 @@ abstract class CDbSchema extends CComponent
 	}
 	public function refresh()
 	{
-		if(($duration=$this->_connection->schemaCachingDuration)>0 && $this->cacheID!==false && ($cache=Yii::app()->getComponent($this->cacheID))!==null)
+		if(($duration=$this->_connection->schemaCachingDuration)>0 && $this->_connection->schemaCacheID!==false && ($cache=Yii::app()->getComponent($this->_connection->schemaCacheID))!==null)
 		{
 			foreach(array_keys($this->_tables) as $name)
 			{
