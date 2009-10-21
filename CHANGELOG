@@ -4,6 +4,7 @@
 
 Version 1.0.11 to be released
 -----------------------------
+- Bug #641: CDbCache::gc() is not defined (Qiang)
 - Enh: Added core message translation in Thai (Peerajak)
 
 Version 1.0.10 October 18, 2009
