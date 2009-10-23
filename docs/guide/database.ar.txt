@@ -134,6 +134,19 @@ name. Override the [tableName()|CActiveRecord::tableName] method if they
 are different. The [model()|CActiveRecord::model] method is declared as
 such for every AR class (to be explained shortly).
 
+> Info: To use the [table prefix feature](/doc/guide/database.dao#using-table-prefix)
+> introduced in version 1.1.0, the [tableName()|CActiveRecord::tableName] method
+> for an AR class may be overridden as follows,
+> ~~~
+> [php]
+> public function tableName()
+> {
+>     return '{{post}}';
+> }
+> ~~~
+> That is, instead of returning the fully qualified table name, we return
+> the table name without the prefix and enclose it in double curly brackets.
+
 Column values of a table row can be accessed as properties of the
 corresponding AR class instance. For example, the following code sets the
 `title` column (attribute):

@@ -17,6 +17,8 @@ Version 1.1.0
 
  * Changed the default table alias to be the name of active record relations.
 
+ * [Added support for using table prefix](/doc/guide/database.dao#using-table-prefix).
+
 
 Version 1.0.10
 --------------
