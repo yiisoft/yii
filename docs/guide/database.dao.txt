@@ -238,4 +238,26 @@ while($dataReader->read()!==false)
 }
 ~~~
 
+Using Table Prefix
+------------------
+
+Starting from version 1.1.0, Yii provides integrated support for using
+table prefix. Table prefix means a string that is prepended to the names of
+the tables in the currently connected database. It is mostly used in a shared
+hosting environment where multiple applications share a single database and use
+different table prefixes to differentiate from each other. For example, one
+application could use `tbl_` as prefix while the other `yii_`.
+
+To use table prefix, configure the [CDbConnection::tablePrefix] property to be
+the desired table prefix. Then, in SQL statements use `{{TableName}}` to refer
+to table names, where `TableName` means the table name without prefix. For example,
+if the database contains a table named `tbl_users` where `tbl_` is configured as the
+table prefix, then we can use the following code to query about users:
+
+~~~
+[php]
+$sql='SELECT * FROM {{users}}';
+$users=$connection->createCommand($sql)->queryAll();
+~~~
+
 <div class="revision">$Id$</div>

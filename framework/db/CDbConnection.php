@@ -152,6 +152,13 @@ class CDbConnection extends CApplicationComponent
 	 * @since 1.0.6
 	 */
 	public $enableProfiling=false;
+	/**
+	 * @var string the default prefix for table names. Defaults to null, meaning no table prefix.
+	 * By setting this property, any token like '{{tableName}}' in {@link CDbCommand::text} will
+	 * be replaced by 'prefixTableName', where 'prefix' refers to this property value.
+	 * @since 1.1.0
+	 */
+	public $tablePrefix;
 
 	private $_attributes=array();
 	private $_active=false;

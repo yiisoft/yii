@@ -75,7 +75,10 @@ class CDbCommand extends CComponent
 	 */
 	public function setText($value)
 	{
-		$this->_text=$value;
+		if($this->_connection->tablePrefix!==null)
+			$this->_text=preg_replace('/{{(.*?)}}/',$this->_connection->tablePrefix.'\1',$value);
+		else
+			$this->_text=$value;
 		$this->cancel();
 	}
 
