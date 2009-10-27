@@ -49,7 +49,7 @@ EOD;
 		$path=strtr($args[0],'/\\',DIRECTORY_SEPARATOR);
 		if(strpos($path,DIRECTORY_SEPARATOR)===false)
 			$path='.'.DIRECTORY_SEPARATOR.$path;
-		$dir=realpath(dirname($path));
+		$dir=rtrim(realpath(dirname($path)),'\\/');
 		if($dir===false || !is_dir($dir))
 			$this->usageError("The directory '$path' is not valid. Please make sure the parent directory exists.");
 		if(basename($path)==='.')
