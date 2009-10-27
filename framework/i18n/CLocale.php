@@ -20,6 +20,13 @@
  */
 class CLocale extends CComponent
 {
+	/**
+	 * @var string the directory that contains the locale data. If this property is not set,
+	 * the locale data will be loaded from 'framework/i18n/data'.
+	 * @since 1.1.0
+	 */
+	public static $dataPath;
+
 	private $_id;
 	private $_data;
 	private $_dateFormatter;
@@ -50,7 +57,7 @@ class CLocale extends CComponent
 		if($locales===null)
 		{
 			$locales=array();
-			$dataPath=dirname(__FILE__).DIRECTORY_SEPARATOR.'data';
+			$dataPath=self::$dataPath===null ? dirname(__FILE__).DIRECTORY_SEPARATOR.'data' : self::$dataPath;
 			$folder=@opendir($dataPath);
 			while($file=@readdir($folder))
 			{
@@ -73,7 +80,8 @@ class CLocale extends CComponent
 	protected function __construct($id)
 	{
 		$this->_id=self::getCanonicalID($id);
-		$dataFile=dirname(__FILE__).DIRECTORY_SEPARATOR.'data'.DIRECTORY_SEPARATOR.$this->_id.'.php';
+		$dataPath=self::$dataPath===null ? dirname(__FILE__).DIRECTORY_SEPARATOR.'data' : self::$dataPath;
+		$dataFile=$dataPath.DIRECTORY_SEPARATOR.$this->_id.'.php';
 		if(is_file($dataFile))
 			$this->_data=require($dataFile);
 		else
