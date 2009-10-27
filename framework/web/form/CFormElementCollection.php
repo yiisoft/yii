@@ -106,10 +106,7 @@ class CFormElementCollection extends CMap
 	 */
 	public function remove($key)
 	{
-		if($this->exists($key))
-		{
-			$item=parent::remove($key);
+		if(($item=parent::remove($key))!==null)
 			$this->_form->removedElement($key,$item,$this->_forButtons);
-		}
 	}
 }
