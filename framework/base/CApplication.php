@@ -348,6 +348,24 @@ abstract class CApplication extends CModule
 	}
 
 	/**
+	 * @return string the directory that contains the locale data. It defaults to 'framework/i18n/data'.
+	 * @since 1.1.0
+	 */
+	public function getLocaleDataPath()
+	{
+		return CLocale::$dataPath===null ? Yii::getPathOfAlias('system.i18n.data') : CLocale::$dataPath;
+	}
+
+	/**
+	 * @param string the directory that contains the locale data.
+	 * @since 1.1.0
+	 */
+	public function setLocaleDataPath($value)
+	{
+		CLocale::$dataPath=$value;
+	}
+
+	/**
 	 * @return CNumberFormatter the locale-dependent number formatter.
 	 * The current {@link getLocale application locale} will be used.
 	 */

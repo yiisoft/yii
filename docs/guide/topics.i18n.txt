@@ -38,8 +38,12 @@ Given a locale ID, one can get the corresponding [CLocale] instance by
 
 > Info: Yii comes with locale data for nearly every language and region.
 The data is obtained from [Common Locale Data Repository](http://unicode.org/cldr/) (CLDR). For each locale, only a
-subset of the CLDR data is provided as the original data contains much
-rarely used information.
+subset of the CLDR data is provided as the original data contains a lot of
+rarely used information. Starting from version 1.1.0, users can also supply
+their own customized locale data. To do so, configure the [CApplication::localeDataPath]
+property with the directory that contains the customized locale data.
+Please refer to the locale data files under `framework/i18n/data` in order
+to create customized locale data files.
 
 For an Yii application, we differentiate its [target
 language|CApplication::language] from [source
