@@ -272,6 +272,15 @@ EOD;
 	}
 
 	/**
+	 * Removes the expired data values.
+	 * @since 1.0.11
+	 */
+	protected function gc()
+	{
+		$this->getDbConnection()->createCommand("DELETE FROM {$this->cacheTableName} WHERE expire>0 AND expire<".time())->execute();
+	}
+
+	/**
 	 * Deletes all values from cache.
 	 * Be careful of performing this operation if the cache is shared by multiple applications.
 	 */

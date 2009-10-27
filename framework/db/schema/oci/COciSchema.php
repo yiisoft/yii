@@ -159,7 +159,7 @@ FROM ALL_TAB_COLUMNS A
 inner join ALL_OBJECTS B ON b.owner = a.owner and ltrim(B.OBJECT_NAME) = ltrim(A.TABLE_NAME)
 WHERE
     a.owner = '{$schemaName}'
-	and b.object_type = 'TABLE' or b.object_type = 'VIEW'
+	and (b.object_type = 'TABLE' or b.object_type = 'VIEW')
 	and b.object_name = '{$tableName}'
 ORDER by a.column_id
 EOD;

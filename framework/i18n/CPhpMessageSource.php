@@ -29,11 +29,11 @@
  * </ul>
  * When {@link cachingDuration} is set as a positive number, message translations will be cached.
  *
- * Starting from version 1.0.10, messages for a module can be specially managed and used.
- * In particular, if a message belongs to a module whose class name is Xyz, then the message category
+ * Starting from version 1.0.10, messages for an extension class (e.g. a widget, a module) can be specially managed and used.
+ * In particular, if a message belongs to an extension whose class name is Xyz, then the message category
  * can be specified in the format of 'Xyz.categoryName'. And the corresponding message file
- * is assumed to be 'ModulePath/messages/LanguageID/categoryName.php', where 'ModulePath' refers to
- * the directory that contains the module class file. When using Yii::t() to translate a module message,
+ * is assumed to be 'BasePath/messages/LanguageID/categoryName.php', where 'BasePath' refers to
+ * the directory that contains the extension class file. When using Yii::t() to translate an extension message,
  * we should use: Yii::t('Xyz.categoryName', 'message to be translated').
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
