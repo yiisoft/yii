@@ -42,7 +42,7 @@
  * <pre>
  * array(
  *     'articles'=>'article/list',
- *     'article/<id:\d+>/*'=>'article/read',
+ *     'article/&lt;id:\d+&gt;/*'=>'article/read',
  * )
  * </pre>
  * Two rules are specified in the above:
@@ -61,9 +61,9 @@
  * For example,
  * <pre>
  * array(
- *      '<_c:(post|comment)>/<id:\d+>/<_a:(create|update|delete)>'=>'<_c>/<_a>',
- *      '<_c:(post|comment)>/<id:\d+>'=>'<_a>/view',
- *      '<_c:(post|comment)>s/*'=>'<_a>/list',
+ *      '&lt;_c:(post|comment)&gt;/&lt;id:\d+&gt;/&lt;_a:(create|update|delete)&gt;'=>'&lt;_c&gt;/&lt;_a&gt;',
+ *      '&lt;_c:(post|comment)&gt;/&lt;id:\d+&gt;'=>'&lt;_a&gt;/view',
+ *      '&lt;_c:(post|comment)&gt;s/*'=>'&lt;_a>/list',
  * )
  * </pre>
  * In the above, we use two named parameters '<_c>' and '<_a>' in the route part. The '<_c>'
