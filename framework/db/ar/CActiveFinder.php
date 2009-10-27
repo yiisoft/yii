@@ -328,6 +328,10 @@ class CJoinElement
 	 * @var string table alias for this join element
 	 */
 	public $tableAlias;
+	/**
+	 * @var string the quoted table alias for this element
+	 */
+	public $rawTableAlias;
 
 	private $_finder;
 	private $_builder;
@@ -356,6 +360,7 @@ class CJoinElement
 			$this->_parent=$parent;
 			$this->_builder=$parent->_builder;
 			$this->tableAlias=$relation->alias===null?$relation->name:$relation->alias;
+			$this->rawTableAlias=$this->_builder->getSchema()->quoteTableName($this->tableAlias);
 			$this->model=CActiveRecord::model($relation->className);
 			$this->_table=$this->model->getTableSchema();
 		}
@@ -498,7 +503,7 @@ class CJoinElement
 			$fks=preg_split('/[\s,]+/',$matches[2],-1,PREG_SPLIT_NO_EMPTY);
 
 
-			$joinAlias=$this->relation->name.'_'.$this->tableAlias;
+			$joinAlias=$schema->quoteTableName($this->relation->name.'_'.$this->tableAlias);
 			$parentCondition=array();
 			$childCondition=array();
 			$count=0;
@@ -542,7 +547,7 @@ class CJoinElement
 				$join='INNER JOIN '.$joinTable->rawName.' '.$joinAlias.' ON ';
 				$join.='('.implode(') AND (',$parentCondition).') AND ('.implode(') AND (',$childCondition).')';
 				if(!empty($this->relation->on))
-					$join.=' AND ('.str_replace($this->relation->aliasToken.'.', $this->tableAlias.'.', $this->relation->on).')';
+					$join.=' AND ('.$this->relation->on.')';
 				$query->joins[]=$join;
 				foreach($params as $name=>$value)
 					$query->params[$name]=$value;
@@ -780,7 +785,7 @@ class CJoinElement
 	public function getTableNameWithAlias()
 	{
 		if($this->tableAlias!==null)
-			return $this->_table->rawName . ' ' . $this->tableAlias;
+			return $this->_table->rawName . ' ' . $this->rawTableAlias;
 		else
 			return $this->_table->rawName;
 	}
@@ -887,7 +892,7 @@ class CJoinElement
 	public function getColumnPrefix()
 	{
 		if($this->tableAlias!==null)
-			return $this->tableAlias.'.';
+			return $this->rawTableAlias.'.';
 		else
 			return $this->_table->rawName.'.';
 	}
@@ -977,7 +982,7 @@ class CJoinElement
 	private function joinManyMany($joinTable,$fks,$parent)
 	{
 		$schema=$this->_builder->getSchema();
-		$joinAlias=$this->relation->name.'_'.$this->tableAlias;
+		$joinAlias=$schema->quoteTableName($this->relation->name.'_'.$this->tableAlias);
 		$parentCondition=array();
 		$childCondition=array();
 		foreach($fks as $i=>$fk)
