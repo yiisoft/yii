@@ -172,6 +172,10 @@ class CAccessRule extends CComponent
 	/**
 	 * @var string a PHP expression whose value indicates whether this rule should be applied.
 	 * In this expression, you can use <code>$user</code> which refers to <code>Yii::app()->user</code>.
+	 * Starting from version 1.0.11, the expression can also be a valid PHP callback,
+	 * including function name, class method name (array(ClassName/Object, MethodName)),
+	 * or anonymous function (PHP 5.3.0+). The function/method will be passed a single
+	 * parameter which is the user object.
 	 * @since 1.0.3
 	 */
 	public $expression;
@@ -290,6 +294,9 @@ class CAccessRule extends CComponent
 	{
 		if($this->expression===null)
 			return true;
-		return @eval('return '.$this->expression.';');
+		if(is_callable($this->expression))
+			return call_user_func($this->expression, $user);
+		else
+			return @eval('return '.$this->expression.';');
 	}
 }
