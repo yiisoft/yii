@@ -43,7 +43,7 @@ class Post2 extends CActiveRecord
 	{
 		return array(
 			'author'=>array(self::BELONGS_TO,'User2','author_id'),
-			'firstComment'=>array(self::HAS_ONE,'Comment2','post_id','order'=>'firstComment.content'),
+			'firstComment'=>array(self::HAS_ONE,'Comment2','post_id','order'=>'"firstComment".content'),
 			'comments'=>array(self::HAS_MANY,'Comment2','post_id','order'=>'comments.content DESC'),
 			'categories'=>array(self::MANY_MANY,'Category2','test.post_category(post_id,category_id)','order'=>'categories.id DESC'),
 		);

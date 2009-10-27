@@ -66,11 +66,6 @@ class CActiveRecord2Test extends CTestCase
 		$this->assertEquals('id',$model->tableSchema->primaryKey);
 		$this->assertEquals('test.posts_id_seq',$model->tableSchema->sequenceName);
 		$this->assertEquals(array(),$model->attributeLabels());
-		$this->assertEquals(array(
-			'author'=>array(CActiveRecord::BELONGS_TO,'User2','author_id'),
-			'firstComment'=>array(CActiveRecord::HAS_ONE,'Comment2','post_id','order'=>'firstComment.content'),
-			'comments'=>array(CActiveRecord::HAS_MANY,'Comment2','post_id','order'=>'comments.content DESC'),
-			'categories'=>array(CActiveRecord::MANY_MANY,'Category2','test.post_category(post_id,category_id)','order'=>'categories.id DESC')),$model->relations());
 		$this->assertEquals('Id',$model->getAttributeLabel('id'));
 		$this->assertEquals('Author Id',$model->getAttributeLabel('author_id'));
 		$this->assertTrue($model->getActiveRelation('author') instanceof CBelongsToRelation);
