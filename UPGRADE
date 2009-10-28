@@ -11,6 +11,10 @@ for both A and B.
 
 Upgrading from v1.1a
 --------------------
+- CSort::attributes is changed. Now the array keys refer to attribute names
+and array values refer to virtual attribute definitions. Please read the
+API documentation for this property to learn more details. This change will
+affect your code only when you explicitly specify this property.
 
 Upgrading from v1.0.x
 ---------------------

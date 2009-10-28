@@ -18,34 +18,23 @@
  * CSort is designed to be used together with {@link CActiveRecord}.
  * When creating a CSort instance, you need to specify {@link modelClass}.
  * You can use CSort to generate hyperlinks by calling {@link link}.
- * You can also use CSort to modify a {@link CDbCriteria} instance so that
+ * You can also use CSort to modify a {@link CDbCriteria} instance by calling {@link applyOrder} so that
  * it can cause the query results to be sorted according to the specified
  * attributes.
  *
- * CSort is primarily used for active record involving a single DB table.
- * In order to use it with relational active record, special care needs to be taken.
- * We use an example to illustrate this use case. Assume 'Post' is the main
- * active record class, and 'author' is one of its related attributes. We would
- * like to sort by post's title as well as its author's name. First, we need
- * to define aliases for the two attributes by setting the {@link attributes} property:
- * <pre>
- * array(
- *     'title',
- *     'author.name'=>'authorName',
- * )
- * </pre>
+ * In order to prevent SQL injection attacks, CSort ensures that only valid model attributes
+ * can be sorted. This is determined based on {@link modelClass} and {@link attributes}.
+ * When {@link attributes} is not set, all attributes belonging to {@link modelClass}
+ * can be sorted. When {@link attributes} is set, only those attributes declared in the property
+ * can be sorted.
  *
- * We also need to modify the 'author' relation in 'Post' class and explicitly
- * specify the 'alias' option with value 'author':
- * <pre>
- * 'author'=>array(self::BELONGS_TO, 'User', 'alias'=>'author')
- * </pre>
+ * By configuring {@link attributes}, one can perform more complex sorts that may
+ * consist of things like compound attributes (e.g. sort based on the combination of
+ * first name and last name of users).
  *
- * Finally, we can use the following code to generate hyperlinks:
- * <pre>
- * echo CSort::link('title');
- * echo CSort::link('author.name');
- * </pre>
+ * The property {@link attributes} should be an array of key-value pairs, where the keys
+ * represent the attribute names, while the values represent the virtual attribute definitions.
+ * For more details, please check the documentation about {@link attributes}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
@@ -60,20 +49,51 @@ class CSort extends CComponent
 	 */
 	public $multiSort=true;
 	/**
-	 * @var string the class name of data models that need to be sorted.
-	 * This should be a child class of {@link CActiveRecord}.
+	 * @var string the name of the model class whose attributes can be sorted.
+	 * The model class must be a child class of {@link CActiveRecord}.
 	 */
 	public $modelClass;
 	/**
 	 * @var array list of attributes that are allowed to be sorted.
 	 * For example, array('user_id','create_time') would specify that only 'user_id'
-	 * and 'create_time' can be sorted.
-	 * Defaults to null, meaning all attributes of the {@link modelClass} can be sorted.
-	 * This property can also be used to specify attribute aliases that should appear
-	 * in the 'sort' GET parameter in place of the original attribute names.
-	 * In this case, the aliases should be array values while the attribute names
-	 * should be the corresponding array keys. Do not use '-' and '.' in the aliases
-	 * as they are used as {@link separators}.
+	 * and 'create_time' of the model {@link modelClass} can be sorted.
+	 * By default, this property is null, which means all attributes in
+	 * {@link modelClass} are allowed to be sorted.
+	 *
+	 * This property can also be used to specify complex sorting. To do so,
+	 * a virtual attribute can be declared in terms of a key-value pair in the array.
+	 * The key refers to the name of the virtual attribute that may appear in the sort request,
+	 * while the value specifies the definition of the virtual attribute.
+	 *
+	 * In the simple case, a key-value pair can be like <code>'user'=>'user_id'</code>
+	 * where 'user' is the name of the virtual attribute while 'user_id' means the virtual
+	 * attribute is the 'user_id' attribute in the {@link modelClass}.
+	 *
+	 * A more flexible way is to specify the key-value pair as
+	 * <pre>
+	 * 'user'=>array(
+	 *     'asc'=>'first_name, last_name',
+	 *     'desc'=>'first_name DESC, last_name DESC',
+	 *     'label'=>'Name'
+	 * )
+	 * </pre>
+	 * where 'user' is the name of the virtual attribute that specifies the full name of user
+	 * (a compound attribute consisting of first name and last name of user). In this case,
+	 * we have to use an array to define the virtual attribute with three elements: 'asc',
+	 * 'desc' and 'label'.
+	 *
+	 * The above approach can also be used to declare virtual attributes that consist of relational
+	 * attributes. For example,
+	 * <pre>
+	 * 'price'=>array(
+	 *     'asc'=>'item.price',
+	 *     'desc'=>'item.price DESC',
+	 *     'label'=>'Item Price'
+	 * )
+	 * </pre>
+	 *
+	 * Note, the attribute name should not contain '-' or '.' characters because
+	 * they are used as {@link separators}.
 	 */
 	public $attributes;
 	/**
@@ -82,8 +102,14 @@ class CSort extends CComponent
 	 */
 	public $sortVar='sort';
 	/**
+	 * @var string the tag appeared in the GET parameter that indicates the attribute should be sorted
+	 * in descending order. Defaults to 'desc'.
+	 */
+	public $descTag='desc';
+	/**
 	 * @var string the default order that should be applied to the query criteria when
-	 * the current request does not specify any sort.
+	 * the current request does not specify any sort. For example, 'create_time DESC', or
+	 * 'name, create_time DESC'.
 	 */
 	public $defaultOrder;
 	/**
@@ -112,7 +138,7 @@ class CSort extends CComponent
 	 * @param string the class name of data models that need to be sorted.
 	 * This should be a child class of {@link CActiveRecord}.
 	 */
-	public function __construct($modelClass)
+	public function __construct($modelClass=null)
 	{
 		$this->modelClass=$modelClass;
 	}
@@ -131,15 +157,31 @@ class CSort extends CComponent
 			$order=$this->defaultOrder;
 		else
 		{
-			$schema=CActiveRecord::model($this->modelClass)->getDbConnection()->getSchema();
+			if($this->modelClass!==null)
+				$schema=CActiveRecord::model($this->modelClass)->getDbConnection()->getSchema();
 			$orders=array();
 			foreach($directions as $attribute=>$descending)
 			{
-				if(($pos=strpos($attribute,'.'))!==false)
-					$attribute=$schema->quoteTableName(substr($attribute,0,$pos)).'.'.$schema->quoteColumnName(substr($attribute,$pos+1));
+				$definition=$this->resolveAttribute($attribute);
+				if(is_array($definition))
+				{
+					if(isset($definition['asc'], $definition['desc']))
+						$orders[]=$descending ? $definition['desc'] : $definition['asc'];
+					else
+						throw new CException(Yii::t('yii','Virtual attribute {name} must specify "asc" and "desc" options.',array('{name}'=>$attribute)));
+				}
 				else
-					$attribute=$schema->quoteColumnName($attribute);
-				$orders[]=$descending?$attribute.' DESC':$attribute;
+				{
+					$attribute=$definition;
+					if(isset($schema))
+					{
+						if(($pos=strpos($attribute,'.'))!==false)
+							$attribute=$schema->quoteTableName(substr($attribute,0,$pos)).'.'.$schema->quoteColumnName(substr($attribute,$pos+1));
+						else
+							$attribute=$schema->quoteColumnName($attribute);
+					}
+					$orders[]=$descending?$attribute.' DESC':$attribute;
+				}
 			}
 			$order=implode(', ',$orders);
 		}
@@ -185,23 +227,27 @@ class CSort extends CComponent
 	}
 
 	/**
-	 * Resolves the attribute label based on label definition in the AR class.
+	 * Resolves the attribute label for the specified attribute.
 	 * This will invoke {@link CActiveRecord::getAttributeLabel} to determine what label to use.
+	 * If the attribute refers to a virtual attribute declared in {@link attributes},
+	 * then the label given in the {@link attributes} will be returned instead.
 	 * @param string the attribute name.
 	 * @return string the attribute label
-	 * @since 1.0.2
 	 */
 	public function resolveLabel($attribute)
 	{
-		if(($pos=strpos($attribute,'.'))!==false)
+		$definition=$this->resolveAttribute($attribute);
+		if(is_array($definition))
 		{
-			$baseModel=CActiveRecord::model($this->modelClass);
-			if(($relation=$baseModel->getActiveRelation(substr($attribute,0,$pos)))!==null)
-				return CActiveRecord::model($relation->className)->getAttributeLabel(substr($attribute,$pos+1));
-			else
-				return $baseModel->getAttributeLabel(substr($attribute,$pos+1));
+			if(isset($definition['label']))
+				return $definition['label'];
 		}
-		return CActiveRecord::model($this->modelClass)->getAttributeLabel($attribute);
+		else if(is_string($definition))
+			$attribute=$definition;
+		if($this->modelClass!==null)
+			return CActiveRecord::model($this->modelClass)->getAttributeLabel($attribute);
+		else
+			return $attribute;
 	}
 
 	/**
@@ -222,23 +268,34 @@ class CSort extends CComponent
 				{
 					if(($pos=strpos($attribute,$this->separators[1]))!==false)
 					{
-						$descending=substr($attribute,$pos+1)==='desc';
+						$descending=substr($attribute,$pos+1)===$this->descTag;
 						$attribute=substr($attribute,0,$pos);
 					}
 					else
 						$descending=false;
 
-					if(($attribute=$this->validateAttribute($attribute))!==false)
+					if(($this->resolveAttribute($attribute))!==false)
+					{
 						$this->_directions[$attribute]=$descending;
-				}
-				if(!$this->multiSort)
-				{
-					foreach($this->_directions as $attribute=>$descending)
-						return $this->_directions=array($attribute=>$descending);
+						if(!$this->multiSort)
+							return $this->_directions;
+					}
 				}
 			}
 		}
 		return $this->_directions;
+	}
+
+	/**
+	 * Returns the sort direction of the specified attribute in the current request.
+	 * @param string the attribute name
+	 * @return mixed the sort direction of the attribut. True if the attribute should be sorted in descending order,
+	 * false if in ascending order, and null if the attribute doesn't need to be sorted.
+	 */
+	public function getDirection($attribute)
+	{
+		$this->getDirections();
+		return isset($this->_directions[$attribute]) ? $this->_directions[$attribute] : null;
 	}
 
 	/**
@@ -253,35 +310,40 @@ class CSort extends CComponent
 	{
 		$sorts=array();
 		foreach($directions as $attribute=>$descending)
-		{
-			if(is_array($this->attributes) && isset($this->attributes[$attribute]))
-				$attribute=$this->attributes[$attribute];
-			$sorts[]=$descending ? $attribute.$this->separators[1].'desc' : $attribute;
-		}
+			$sorts[]=$descending ? $attribute.$this->separators[1].$this->descTag : $attribute;
 		$params=$this->params===null ? $_GET : $this->params;
 		$params[$this->sortVar]=implode($this->separators[0],$sorts);
 		return $controller->createUrl($this->route,$params);
 	}
 
 	/**
-	 * Validates an attribute that is requested to be sorted.
-	 * The validation is based on {@link attributes} and {@link CActiveRecord::attributeNames}.
-	 * False will be returned if the attribute is not allowed to be sorted.
-	 * If the attribute is aliased via {@link attributes}, the original
-	 * attribute name will be returned.
-	 * @param string the attribute name (could be an alias) that the user requests to sort on
-	 * @return string the real attribute name. False if the attribute cannot be sorted
+	 * Returns the real definition of an attribute given its name.
+	 * The resolution is based on {@link attributes} and {@link CActiveRecord::attributeNames}.
+	 * When {@link attributes} is not set, if the name refers to an attribute of {@link modelClass},
+	 * then the name is returned back.
+	 * When {@link attributes} is set, if the name refers to an attribute declared in {@link attributes},
+	 * then the corresponding virtual attribute definition is returned.
+	 * In all other cases, false is returned, meaning the name does not refer to a valid attribute.
+	 * @param string the attribute name that the user requests to sort on
+	 * @return mixed the attribute name or the virtual attribute definition. False if the attribute cannot be sorted.
 	 */
-	public function validateAttribute($attribute)
+	public function resolveAttribute($attribute)
 	{
-		if(empty($this->attributes))
+		if(is_array($this->attributes))
+			$attributes=$this->attributes;
+		else if($this->modelClass!==null)
 			$attributes=CActiveRecord::model($this->modelClass)->attributeNames();
 		else
-			$attributes=$this->attributes;
-		foreach($attributes as $name=>$alias)
+			return false;
+		foreach($attributes as $name=>$definition)
 		{
-			if($alias===$attribute)
-				return is_string($name) ? $name : $alias;
+			if(is_string($name))
+			{
+				if($name===$attribute)
+					return $definition;
+			}
+			else if($definition===$attribute)
+				return $attribute;
 		}
 		return false;
 	}
