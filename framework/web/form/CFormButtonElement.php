@@ -13,6 +13,9 @@
  *
  * CFormButtonElement can represent the following types of button based on {@link type} property:
  * <ul>
+ * <li>htmlButton: a normal button generated using {@link CHtml::htmlButton}</li>
+ * <li>htmlReset a reset button generated using {@link CHtml::htmlButton}</li>
+ * <li>htmlSubmit: a submit button generated using {@link CHtml::htmlButton}</li>
  * <li>submit: a submit button generated using {@link CHtml::submitButton}</li>
  * <li>button: a normal button generated using {@link CHtml::button}</li>
  * <li>image: an image button generated using {@link CHtml::imageButton}</li>
@@ -38,16 +41,19 @@ class CFormButtonElement extends CFormElement
 	 * @var array Core button types (alias=>CHtml method name)
 	 */
 	public static $coreTypes=array(
-		'submit'=>'submitButton',
+		'htmlButton'=>'htmlButton',
+		'htmlSubmit'=>'htmlButton',
+		'htmlReset'=>'htmlButton',
 		'button'=>'button',
-		'image'=>'imageButton',
+		'submit'=>'submitButton',
 		'reset'=>'resetButton',
+		'image'=>'imageButton',
 		'link'=>'linkButton',
 	);
 
 	/**
 	 * @var string the type of this button. This can be a class name, a path alias of a class name,
-	 * or a button type alias (submit, button, image, reset, or link).
+	 * or a button type alias (submit, button, image, reset, link, htmlButton, htmlSubmit, htmlReset).
 	 */
 	public $type;
 	/**
@@ -96,9 +102,14 @@ class CFormButtonElement extends CFormElement
 			{
 				if(!isset($attributes['params'][$this->name]))
 					$attributes['params'][$this->name]=1;
-				return CHtml::linkButton($this->label,$attributes);
 			}
-			$attributes['name']=$this->name;
+			else if($method==='htmlButton')
+			{
+				$attributes['type']==$this->type==='submitButton' ? 'submit' : ($type->type==='resetButton' ? 'reset' : 'button');
+				$attributes['name']=$this->name;
+			}
+			else
+				$attributes['name']=$this->name;
 			if($method==='imageButton')
 				return CHtml::imageButton(isset($attributes['src']) ? $attributes['src'] : '',$attributes);
 			else

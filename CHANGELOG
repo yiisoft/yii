@@ -9,6 +9,7 @@ Version 1.1b to be released
 - Bug #652: Calling CFormElementCollection::remove() triggers a method-not-defined error (Qiang)
 - Bug: Using CFileValidator causes an error about accessing a method of a non-object (Qiang)
 - Enh #570: Improved CSort so that it can support sorting by complex expressions or compound attributes (Qiang)
+- Enh #622: Added support for using HTML button tags in form builder (Qiang)
 - Chg #574: session ID is no longer hashed for CDbHttpSession (Qiang)
 - New #633: Added support to allow using customized locale data (Qiang)
 - New: Added support for using table prefixes (Qiang)
