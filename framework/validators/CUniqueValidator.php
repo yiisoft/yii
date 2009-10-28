@@ -82,16 +82,20 @@ class CUniqueValidator extends CValidator
 		if($this->criteria!==array())
 			$criteria->mergeWith($this->criteria);
 
-		if($column->isPrimaryKey || $this->className!==null)
+		if($object->tableName()!==$finder->tableName())  // not in the same table
 			$exists=$finder->exists($criteria);
 		else
 		{
-			// need to exclude the current record based on PK
 			$criteria->limit=2;
 			$objects=$finder->findAll($criteria);
 			$n=count($objects);
 			if($n===1)
-				$exists=$objects[0]->getPrimaryKey()!=$object->getPrimaryKey();
+			{
+				if($column->isPrimaryKey)  // primary key is modified and not unique
+					$exists=$object->getOldPrimaryKey()!=$object->getPrimaryKey();
+				else // non-primary key, need to exclude the current record based on PK
+					$exists=$objects[0]->getPrimaryKey()!=$object->getPrimaryKey();
+			}
 			else
 				$exists=$n>1;
 		}
