@@ -11,6 +11,7 @@ Version 1.0.11 to be released
 - Bug #653: CDbMessageSource does translate messages when caching is enabled (Qiang)
 - Enh #643: Enhanced CAccessControlFilter::expression, COutputCache::varyByExpression and CExpressionDependency::expression so that they can use PHP callback (Qiang)
 - Enh: Added core message translation in Thai (Peerajak)
+- Enh: Allow CHtml::label() and CHtml::activeLabel() not to render the 'for' attribute when it is set false (Qiang)
 
 Version 1.0.10 October 18, 2009
 -------------------------------
