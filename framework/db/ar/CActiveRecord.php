@@ -42,6 +42,7 @@ abstract class CActiveRecord extends CModel
 	private $_attributes=array();				// attribute name => attribute value
 	private $_related=array();					// attribute name => related objects
 	private $_c;								// query criteria (used by finder only)
+	private $_pk;								// old primary key value
 
 
 	/**
@@ -966,7 +967,7 @@ abstract class CActiveRecord extends CModel
 		if($this->beforeSave())
 		{
 			Yii::trace(get_class($this).'.update()','system.db.ar.CActiveRecord');
-			$this->updateByPk($this->getPrimaryKey(),$this->getAttributes($attributes));
+			$this->updateByPk($this->getOldPrimaryKey(),$this->getAttributes($attributes));
 			$this->afterSave();
 			return true;
 		}
@@ -1005,7 +1006,7 @@ abstract class CActiveRecord extends CModel
 				else
 					$values[$name]=$this->$name=$value;
 			}
-			return $this->updateByPk($this->getPrimaryKey(),$values)>0;
+			return $this->updateByPk($this->getOldPrimaryKey(),$values)>0;
 		}
 		else
 			throw new CDbException(Yii::t('yii','The active record cannot be updated because it is new.'));
@@ -1081,6 +1082,41 @@ abstract class CActiveRecord extends CModel
 		}
 		else
 			return null;
+	}
+
+	/**
+	 * Sets the primary key value.
+	 * After calling this method, the old primary key value can be obtained from {@link oldPrimaryKey}.
+	 * @param mixed the new primary key value. If the primary key is composite, the new value
+	 * should be provided as an array (column name=>column value).
+	 * @since 1.1.0
+	 */
+	public function setPrimaryKey($value)
+	{
+		$this->_pk=$this->getPrimaryKey();
+		$table=$this->getMetaData()->tableSchema;
+		if(is_string($table->primaryKey))
+			$this->{$table->primaryKey}=$value;
+		else if(is_array($table->primaryKey))
+		{
+			$values=array();
+			foreach($table->primaryKey as $name)
+				$this->$name=$values[$name];
+		}
+	}
+
+	/**
+	 * Returns the old primary key value.
+	 * This refers to the primary key value that is populated into the record
+	 * after executing a find method (e.g. find(), findAll()).
+	 * The value remains unchanged even if the primary key attribute is manually assigned with a different value.
+	 * @return mixed the old primary key value. An array (column name=>column value) is returned if the primary key is composite.
+	 * If primary key is not defined, null will be returned.
+	 * @since 1.1.0
+	 */
+	public function getOldPrimaryKey()
+	{
+		return $this->_pk;
 	}
 
 	private function query($criteria,$all=false)
@@ -1442,6 +1478,7 @@ abstract class CActiveRecord extends CModel
 		if($attributes!==false)
 		{
 			$record=$this->instantiate($attributes);
+			$record->setScenario('update');
 			$md=$record->getMetaData();
 			foreach($attributes as $name=>$value)
 			{
@@ -1450,6 +1487,7 @@ abstract class CActiveRecord extends CModel
 				else if(isset($md->columns[$name]))
 					$record->_attributes[$name]=$value;
 			}
+			$record->_pk=$record->getPrimaryKey();
 			$record->attachBehaviors($record->behaviors());
 			if($callAfterFind)
 				$record->afterFind();
@@ -1470,23 +1508,8 @@ abstract class CActiveRecord extends CModel
 	public function populateRecords($data,$callAfterFind=true)
 	{
 		$records=array();
-		$md=$this->getMetaData();
 		foreach($data as $attributes)
-		{
-			$record=$this->instantiate($attributes);
-			$md=$record->getMetaData();
-			foreach($attributes as $name=>$value)
-			{
-				if(property_exists($record,$name))
-					$record->$name=$value;
-				else if(isset($record->_md->columns[$name]))
-					$record->_attributes[$name]=$value;
-			}
-			$record->attachBehaviors($record->behaviors());
-			if($callAfterFind)
-				$record->afterFind();
-			$records[]=$record;
-		}
+			$records[]=$this->populateRecord($attributes,$callAfterFind);
 		return $records;
 	}
 
@@ -1505,7 +1528,6 @@ abstract class CActiveRecord extends CModel
 	{
 		$class=get_class($this);
 		$model=new $class(null);
-		$model->setScenario('update');
 		return $model;
 	}
 
