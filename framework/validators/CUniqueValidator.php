@@ -82,7 +82,7 @@ class CUniqueValidator extends CValidator
 		if($this->criteria!==array())
 			$criteria->mergeWith($this->criteria);
 
-		if($object->tableName()!==$finder->tableName())  // not in the same table
+		if($object->isNewRecord || $object->tableName()!==$finder->tableName())
 			$exists=$finder->exists($criteria);
 		else
 		{
