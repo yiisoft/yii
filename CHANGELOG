@@ -8,6 +8,7 @@ Version 1.1b to be released
 - Bug #642: CPgsqlSchema::findTableNames() should not include view names in the result (Qiang)
 - Bug #652: Calling CFormElementCollection::remove() triggers a method-not-defined error (Qiang)
 - Bug: Using CFileValidator causes an error about accessing a method of a non-object (Qiang)
+- Enh #570: Improved CSort so that it can support sorting by complex expressions or compound attributes (Qiang)
 - Chg #574: session ID is no longer hashed for CDbHttpSession (Qiang)
 - New #633: Added support to allow using customized locale data (Qiang)
 - New: Added support for using table prefixes (Qiang)
