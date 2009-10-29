@@ -70,6 +70,26 @@ abstract class CWebTestCase extends PHPUnit_Extensions_SeleniumTestCase
 	}
 
 	/**
+	 * @param string the fixture name (the key value in {@link fixtures}).
+	 * @return array the named fixture data
+	 */
+	public function getFixtureData($name)
+	{
+		return $this->getFixtureManager()->getRows($name);
+	}
+
+	/**
+	 * @param string the fixture name (the key value in {@link fixtures}).
+	 * @param string the alias of the fixture data row
+	 * @return CActiveRecord the ActiveRecord instance corresponding to the specified alias in the named fixture.
+	 * False is returned if there is no such fixture or the record cannot be found.
+	 */
+	public function getFixtureRecord($name,$alias)
+	{
+		return $this->getFixtureManager()->getRecord($name,$alias);
+	}
+
+	/**
 	 * Sets up the fixture before executing a test method.
 	 * If you override this method, make sure the parent implementation is invoked.
 	 * Otherwise, the database fixtures will not be managed properly.

@@ -11,6 +11,7 @@ Version 1.1b to be released
 - Enh #570: Improved CSort so that it can support sorting by complex expressions or compound attributes (Qiang)
 - Enh #597: Added support for modifying primary key of an AR instance by calling save() directly (Qiang)
 - Enh #622: Added support for using HTML button tags in form builder (Qiang)
+- Enh: Added getFixtureData() and getFixtureRecord() to CDbTestCase and CWebTestCase (Qiang)
 - Chg #574: session ID is no longer hashed for CDbHttpSession (Qiang)
 - New #633: Added support to allow using customized locale data (Qiang)
 - New: Added support for using table prefixes (Qiang)
