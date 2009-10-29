@@ -1,7 +1,7 @@
 Customizing Comment Model
 =========================
 
-Like the `Post` model, we need to customize the `rules()`, `relations()` and `safeAttributes()` methods of the `Comment` model. In addition, we also need to modify the `attributeLabels()` to declare the customized labels for some attributes.
+Like the `Post` model, we need to customize the `rules()` and `relations()` methods of the `Comment` model. In addition, we also need to modify the `attributeLabels()` to declare the customized labels for some attributes.
 
 
 Customizing `rules()` Method
@@ -27,22 +27,6 @@ public function rules()
 In the above, we specify that the `author`, `email` and `content` attributes are required; the length of `author`, `email` and `url` cannot exceed 128; the `email` attribute must be a valid email address; the `url` attribute must be a valid URL; and the `verifyCode` attribute should be validated as a [CAPTCHA](http://en.wikipedia.org/wiki/Captcha) code.
 
 The `verifyCode` attribute in the above is mainly used to store the verification code that a user enters in order to leave a comment. Because it is not present in the `Comment` table, we need to explicitly declare it as a public member variable. Its validation is using a special validator named `captcha` which refers to the [CCaptchaValidator] class. Moreover, the validation will only be performed when a new comment is being inserted (see the `on` option). And for authenticated users, this is not needed (see the `allowEmpty` option).
-
-
-Customizing `safeAttributes()` Method
--------------------------------------
-
-We then customize the `safeAttributes()` method to specify which attributes can be massively assigned.
-
-~~~
-[php]
-public function safeAttributes()
-{
-	return array('author', 'email', 'url', 'content', 'verifyCode');
-}
-~~~
-
-This also indicates that the comment form would consist of fields to collect the information about author, email, URL, content and verification code.
 
 
 Customizing `relations()` Method
