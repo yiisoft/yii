@@ -105,7 +105,7 @@ class CFormButtonElement extends CFormElement
 			}
 			else if($method==='htmlButton')
 			{
-				$attributes['type']==$this->type==='submitButton' ? 'submit' : ($type->type==='resetButton' ? 'reset' : 'button');
+				$attributes['type']=$this->type==='submitButton' ? 'submit' : ($this->type==='resetButton' ? 'reset' : 'button');
 				$attributes['name']=$this->name;
 			}
 			else
