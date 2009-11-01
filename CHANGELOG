@@ -2,6 +2,10 @@
                    Yii Framework Change Log
                    ========================
 
+Version 1.1rc to be released
+----------------------------
+
+
 Version 1.1b November 1, 2009
 -----------------------------
 - Bug #611: When using relation name as table alias, it should be properly quoted to avoid name conflict (Qiang)
