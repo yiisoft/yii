@@ -11,14 +11,20 @@ Menggunakan ekstensi biasanya berkaitan dengan tiga langkah berikut:
   3. Impor, konfigurasi dan gunakan ekstensi.
 
 Setiap ekstensi memiliki nama yang secara identitas unik diantara semua ekstensi.
-Ekstensi diberi nama `xyz`, kita dapat menggunakan alias path
-`application.extensions.xyz` untuk menempatkannya pada basis direktori yang berisi
-semua file `xyz`.
+Ekstensi diberi nama `xyz`, kita dapat menggunakan alias path `ext.xyz` untuk 
+menempatkannya pada basis direktori yang berisi semua file `xyz`.
+
+> Note|Catatan: Alias path root `ext` sudah tersedia sejak versi 1.0.8.
+Sebelumnya, kita perlu menggunakan `application.extensions` untuk merujuk ke
+direktori yang berisi semua ekstensi. Dalam penjelasan berikut, kita
+menganggap `ext` sudah didefinisikan. Anda perlu menggantinya dengan `application.extensions`
+jika Anda menggunakan versi 1.0.7 atau lebih rendah.
 
 Ekstensi yang berbeda memiliki persyaratan mengenai pengimporan,
 konfigurasi dan pemakaian. Selanjutnya, kita meringkas skenario pemakaian umum
 mengenai ekstensi, berdasarkan pada kategorisasinya seperti dijelaskan dalam
 [tinjauan](/doc/guide/extension.overview).
+
 
 Komponen Aplikasi
 -----------------
@@ -33,7 +39,7 @@ return array(
     // 'preload'=>array('xyz',...),
     'components'=>array(
         'xyz'=>array(
-            'class'=>'application.extensions.xyz.XyzClass',
+            'class'=>'ext.xyz.XyzClass',
             'property1'=>'value1',
             'property2'=>'value2',
         ),
@@ -43,8 +49,71 @@ return array(
 ~~~
 
 Selanjutnya, kita dapat mengakses komponen di mana saja mengunakan `Yii::app()->xyz`. Komponen
-akan dibuat secara lazy (yakni, dibuat saat diakses untuk pertama kali)
+ini akan dibuat secara lazy (yakni, dibuat saat diakses untuk pertama kali)
 kecuali kita mendaftar properti `preload`.
+
+
+Behavior
+--------
+
+[Behavior](/doc/guide/basics.component#component-behavior) bisa dipakai dalam semua komponen.
+Pemakaiannya mencakup dua langkah. Dalam langkah pertama, behavior dilampirkan ke sasaran komponen.
+Dalam langkah kedua, metode behavior dipanggil melalui sasaran komponen. Sebagai contoh:
+
+~~~
+[php]
+// $name secara unik mengidentifikasi behavior dalam komponen
+$component->attachBehavior($name,$behavior);
+// test() adalah metode $behavior
+$component->test();
+~~~
+
+Seringkali sebuah behavior dilampirkan ke komponen menggunakan cara konfiguratif dariapada
+memanggil metode `attachBehavior`. Sebagai contoh, untuk melampirkan behavior ke sebuah
+[komponen aplikasi](/doc/guide/basics.application#application-component), kita dapat
+menggunakan
+[konfigurasi aplikasi](/doc/guide/basics.application#application-configuration) berikut:
+
+~~~
+[php]
+return array(
+	'components'=>array(
+		'db'=>array(
+			'class'=>'CDbConnection',
+			'behaviors'=>array(
+				'xyz'=>array(
+					'class'=>'ext.xyz.XyzBehavior',
+					'property1'=>'value1',
+					'property2'=>'value2',
+				),
+			),
+		),
+		//....
+	),
+);
+~~~
+
+Kode di atas melampirkan behavior `xyz` ke komponen aplikasi `db`. Kita dapat melakukannya
+karena [CApplicationComponent] mendefinisikan properti bernama `behaviors`. Dengan menyetel properti ini
+dengan sebuah daftar konfigurasi behavior, komponen akan melampirkan behavior terkait
+saat ia diinisialisasi.
+
+Untuk kelas [CController], [CFormModel] dan [CActiveModel] yang biasanya harus diperluas,
+melampirkan behaviors dikerjakan dengan menimpa metode `behaviors()`. Sebagai contoh,
+
+~~~
+[php]
+public function behaviors()
+{
+	return array(
+		'xyz'=>array(
+			'class'=>'ext.xyz.XyzBehavior',
+			'property1'=>'value1',
+			'property2'=>'value2',
+		),
+	);
+}
+~~~
 
 
 Widget
@@ -224,11 +293,11 @@ Untuk menggunakan [komponen](/doc/guide/basics.component) generik, pertama
 kita perlu menyertakan file kelasnya dengan menggunakan
 
 ~~~
-Yii::import('application.extensions.xyz.XyzClass');
+Yii::import('ext.xyz.XyzClass');
 ~~~
 
 Selanjutnya, kita dapat membuat turunan kelas, mengkonfigurasi propertinya,
 dan memanggi metodenya. Kita juga bisa memperluasnya untuk membuat anak kelas baru.
 
 
-<div class="revision">$Id: extension.use.txt 749 2009-02-26 02:11:31Z qiang.xue $</div>
+<div class="revision">$Id: extension.use.txt 1392 2009-09-04 20:39:11Z qiang.xue $</div>

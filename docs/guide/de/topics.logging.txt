@@ -233,4 +233,4 @@ und den dafür benötigten Zeiten angezeigt werden. Durch Aufruf von
 [CDbConnection::getStats()] können wir auch die Gesamtzahl aller
 SQL-Anweisungen sowie deren gesamte Ausführungszeit abfragen.
 
-<div class="revision">$Id: topics.logging.txt 1142 2009-06-17 21:42:08Z qiang.xue $</div>
+<div class="revision">$Id: topics.logging.txt 1147 2009-06-18 19:14:12Z qiang.xue $</div>

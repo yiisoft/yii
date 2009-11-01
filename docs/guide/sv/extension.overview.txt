@@ -24,4 +24,4 @@ En extension kan även vara en komponent som inte faller inom någon av ovannäm
 kategorier. Faktum är att Yii omsorgsfullt konstruerats så att nästan varje del 
 av dess kodbas kan utvidgas och anpassas till individuella behov.
 
-<div class="revision">$Id: extension.overview.txt 1392 2009-09-04 20:39:11Z qiang.xue $</div>
+<div class="revision">$Id: extension.overview.txt 1398 2009-09-06 01:15:01Z qiang.xue $</div>

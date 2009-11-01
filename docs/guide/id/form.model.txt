@@ -136,6 +136,10 @@ contoh di atas, nama `required` adalah alias untuk [CRequiredValidator]
 yang memastikan nilai atribut yang divalidasi tidak kosong. Di bawah ini
 adalah daftar lengkap alias pradefinisi validator aliases:
 
+   - `boolean`: alias [CBooleanValidator], memastikan atribut memiliki
+nilai baik berupa [CBooleanValidator::trueValue] ataupun
+[CBooleanValidator::falseValue].
+
    - `captcha`: alias [CCaptchaValidator], memastikan atribut sama dengan
 kode verifikasi yang ditampilkan dalam
 [CAPTCHA](http://en.wikipedia.org/wiki/Captcha).
@@ -224,7 +228,7 @@ if(isset($_POST['LoginForm']))
 > $model->setAttributes($_POST['LoginForm'], 'login');
 > ~~~
 
-Penempatan terakhir adalah penempatan masal yang menempatkan setiap entri
+Pernyataan terakhir adalah penempatan masal yang menempatkan setiap entri
 dalam `$_POST['LoginForm']` ke atribut model terkait dalam skenario
 `login`. Ini sama dengan penempatan berikut:
 
@@ -324,7 +328,7 @@ $model->validate();
 > sejak versi 1.0.4. Metode validasi akan mengambil nilai properti
 > untuk menguji aturan mana yang bisa diperiksa.
 > Dalam versi 1.0.2 dan 1.0.3, kita perlu menggunakan cara berikut untuk
-> melakukan validasi pada skenario tertentu:
+> melakukan validasi berbasis skenario:
 >
 > ~~~
 > [php]
@@ -374,4 +378,4 @@ Ini dapat dikustomisasi dengan menimpa metode
 subskenario berikutnya, menetapkan label dalam model mengijinkan kita untuk membuat
 formulir lebih cepat dan bertenaga.
 
-<div class="revision">$Id: form.model.txt 922 2009-04-05 21:36:33Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 1405 2009-09-10 19:18:30Z qiang.xue $</div>

@@ -9,16 +9,16 @@
 Как правило, каждое расширение служит только для одной цели. Используя терминологию, принятую в Yii,
 расширения можно классифицировать следующим образом:
 
- * [компонент приложения](/doc/guide/ru/basics.application#application-component);
- * [поведение](/doc/guide/ru/basics.component#component-behavior);
- * [виджет](/doc/guide/ru/basics.view#widget);
- * [контроллер](/doc/guide/ru/basics.controller);
- * [действие](/doc/guide/ru/basics.controller#action);
- * [фильтр](/doc/guide/ru/basics.controller#filter);
- * [команда консоли](/doc/guide/ru/topics.console);
+ * [компонент приложения](/doc/guide/basics.application#application-component);
+ * [поведение](/doc/guide/basics.component#component-behavior);
+ * [виджет](/doc/guide/basics.view#widget);
+ * [контроллер](/doc/guide/basics.controller);
+ * [действие](/doc/guide/basics.controller#action);
+ * [фильтр](/doc/guide/basics.controller#filter);
+ * [команда консоли](/doc/guide/topics.console);
  * валидатор: компонент, наследующий класс [CValidator];
  * помощник: класс, содержащий только статические методы, схожий с глобальной функцией, использующей имя класса в качестве пространства имен;
- * [модуль](/doc/guide/ru/basics.module): самодостаточная программная единица, состоящая из [моделей](/doc/guide/ru/basics.model), [действий](/doc/guide/ru/basics.view), [контроллеров](/doc/guide/ru/basics.controller) и необходимых компонентов.  Модуль во многом схож с [приложением](/doc/guide/ru/basics.application).
+ * [модуль](/doc/guide/basics.module): самодостаточная программная единица, состоящая из [моделей](/doc/guide/basics.model), [действий](/doc/guide/basics.view), [контроллеров](/doc/guide/basics.controller) и необходимых компонентов.  Модуль во многом схож с [приложением](/doc/guide/basics.application).
 Основное отличие состоит в том, что модули входят в состав приложения. Например, у нас может быть модуль, реализующий функционал управления пользователями.
  
 Впрочем, расширение может и не соответствовать ни одной из перечисленных категорий. Yii изначально был

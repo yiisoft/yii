@@ -41,6 +41,40 @@ memerlukan untuk dibuat segera setelah turunan aplikasi dibuat, ia akan
 memerlukan pengguna untuk mendaftar ID-nya dalam properti [CApplication::preload].
 
 
+Behavior
+--------
+
+Untuk membuat sebuah behavior, kita harus mengimplementasikan antar muka [IBehavior]. Untuk kenyamanan,
+Yii menyediakan kelas basis [CBehavior] yang sudah mengimplementasikan antar muka ini dan
+menyediakan tambahan beberapa metode lugas. Kelas anak memerlukan terutama untuk mengimplementasikan
+metode ekstra yang ditujukan agar tersedia bagi komponen yang melampirkannya.
+
+Ketika mengembangkan behaviors untuk [CModel] dan [CActiveRecord], kita juga masing-masing
+memperluas [CModelBehavior] dan [CActiveRecordBehavior]. Kelas-kelas ini menawarkan
+fitur tambahan yang khusus dibuat untuk [CModel] dan [CActiveRecord].
+Sebagai contoh, kelas [CActiveRecordBehavior] mengimplementasikan satu set metode untuk merespon
+event siklus hidup yang dimunculkan dalam sebuah obyek ActiveRecord. Selanjutnya kelas anak bisa
+menimpa metode-metode ini untuk menyimpan kode yang dikustomisasi yang akan berartisipasi dalam siklus hidup AR.
+
+Kode berikut memperlihatkan contoh behavior ActiveRecord. Ketika behavior ini dilampirkan
+ke obyek AR dan ketika obyek AR sedang disimpan dengan memanggil `save()`, ia akan menyetel
+secara otomatis atribut `create_time` dan `update_time` dengan cap waktu saat ini.
+
+~~~
+[php]
+class TimestampBehavior extends CActiveRecordBehavior
+{
+	public function beforeSave($event)
+	{
+		if($this->owner->isNewRecord)
+			$this->owner->create_time=time();
+		else
+			$this->owner->update_time=time();
+	}
+}
+~~~
+
+
 Widget
 ------
 
@@ -213,4 +247,4 @@ Mengembangkan ekstensi komponen generik mirip dengan pembuatan sebuah kelas. Sek
 juga harus berdiri sendiri agar dapat dipakai dengan mudah oleh pengembang yang lain.
 
 
-<div class="revision">$Id: extension.create.txt 749 2009-02-26 02:11:31Z qiang.xue $</div>
+<div class="revision">$Id: extension.create.txt 1411 2009-09-13 23:15:05Z qiang.xue $</div>

@@ -270,4 +270,4 @@ Utveckling av en generell utvidgningskomponent är som att skriva en klass.
 lätthet kan användas av andra utvecklare.
 
 
-<div class="revision">$Id: extension.create.txt 1411 2009-09-13 23:15:05Z qiang.xue $</div>
+<div class="revision">$Id: extension.create.txt 1423 2009-09-28 01:54:38Z qiang.xue $</div>

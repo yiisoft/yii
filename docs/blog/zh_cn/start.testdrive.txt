@@ -1,0 +1,81 @@
+Yii的目录结构 
+====================
+
+在这里，我们将说明如何建立一个基本框架，使它成为我们建立系统的开端。通常，我们总是会使用/wwwroot作为网站的Root根，同时把http://www.yiiframework.com作为访问它的URL地址。
+
+安装 Yii
+--------------
+
+首先，我们来安装Yii框架。请在[www.yiiframework.com](http://www.yiiframework.com/download)上下载Yii框架文件(1.0.3版本或以上)，下载后解压到/wwwroot/yii目录。确认加压后目录是这样的/wwwroot/yii/framework。
+
+> Tip|技巧: Yii框架可以被安装在任何文件系统目录上，而无需直接被浏览器所访问到。只要在Yii编写的应用系统在运行时，能读取到yii核心框架文件就可以了。多个Yii应用系统可以同时共享一个yii核心框架文件。
+
+Yii被安装后，打开浏览器，并在地址栏上输入http://www.example.com/yii/requirements/index.php 。它将自行检测Yii环境，如果有问题，请确认Yii所需要的最小Web和PHP运行环境。同时，为了下面步骤正常运行，请检测PHP是否支持pdo和pdo_sqlite扩展数据库的支持。
+
+建立基本系统
+-----------------------------
+
+现在我们可以使用yiic工具在/wwwroot/blog目录上来建立基本系统了。这个yiic tool 是一个包含于Yii发行包的命令行程序。它能完成可控制的自行生成代码功能。
+
+打开命令行窗口，执行以下命令:
+
+~~~
+% /wwwroot/yii/framework/yiic webapp /wwwroot/blog
+Create a Web application under '/wwwroot/blog'? [Yes|No]y
+......
+~~~
+
+> Tip|技巧: 为了能正确执行yiic工具，CLI PHP 程序必须在默认路径。如果不是默认路径，请使用一下方式来尝试:
+>
+>~~~
+> path/to/php /wwwroot/yii/framework/yiic.php webapp /wwwroot/blog
+>~~~
+
+按照以上方式我们的基本应用程序就被建立了，打开浏览器窗口，在URL地址栏上输入： http://www.example.com/blog/index.php 。我们应当可以看到三个页面: 首页、内容页和登录页面。
+
+到现在，我们已经拥有了基本系统了。
+
+###入口脚本
+
+我们生成的[入口脚本](http://www.yiiframework.com/doc/guide/basics.entry)/wwwroot/blog/index.php 包括以下代码:
+
+~~~
+[php]
+<?php
+$yii='/wwwroot/framework/yii.php';
+$config=dirname(__FILE__).'/protected/config/main.php';
+
+// remove the following line when in production mode
+defined('YII_DEBUG') or define('YII_DEBUG',true);
+
+require_once($yii);
+Yii::createWebApplication($config)->run();
+~~~
+
+以上生成的代码是web用户直接可以访问的。这个代码首先包含了Yii启动文件yii.php。 它将根据特定的配置文件然后执行[应用程序](http://www.yiiframework.com/doc/guide/basics.application)。
+
+###基本应用系统目录
+
+我们可以查阅一下[应用程序目录](http://www.yiiframework.com/doc/guide/basics.application#application-base-directory)，看 /wwwroot/blog/protected 。应用程序主要的代码将都在这个目录下，然而这个目录并不被web用户直接访问。对于[Apache httpd Web server](http://httpd.apache.org/)来说，我们可以在这个目录下放入 .htaccess 文件，来阻止web用户访问:
+
+~~~
+deny from all
+~~~
+
+如果你是其他Web服务器，可以通过其他手段禁止web用户访问这个目录。
+
+应用程序工作流
+--------------------
+
+为了更好的帮助您理解Yii是如何工作的，我们将描述一下一个用户访问内容页将经过哪些步骤。
+
+ 1. [入口脚本](http://www.yiiframework.com/doc/guide/basics.entry)有web进程请求执行； 
+ 2. Yii[应用程序](http://www.yiiframework.com/doc/guide/basics.application)进程建立并初始化内建参数，其一般由 /wwwroot/blog/protected/config/main.php 作为主要参数来源; 
+ 3. 应用程序将请求寻找对应[控制器](http://www.yiiframework.com/doc/guide/basics.controller)以及[动作](http://www.yiiframework.com/doc/guide/basics.controller#action)。对于内容页请求，你可以看到site控制器和contact执行方法； 
+ 4. 应用程序siteController调入类并执行它; 
+ 5. 应用程序类siteController继续执行名为actionContact()方法已实现 contract 动作; 
+ 6. 最后，这个actionContact 方法对[视图](http://www.yiiframework.com/doc/guide/basics.view)进行渲染。这个过程包括对 /wwwroot/blog/protected/views/layouts/main.php 这个整体[页面层](http://www.yiiframework.com/doc/guide/basics.view#layout)，也包括将 /wwwroot/blog/protected/views/site/contact.php 内容输出并内嵌进去。
+
+
+
+<div class="revision">$Id: start.testdrive.txt 683 2009-10-21 05:20:17Z qiang.xue $</div>

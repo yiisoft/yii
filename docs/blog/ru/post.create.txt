@@ -79,7 +79,7 @@ public function accessRules()
 
 ~~~
 [php]
-protected function beforeValidate($on)
+protected function beforeValidate()
 {
 	$parser=new CMarkdownParser;
 	$this->contentDisplay=$parser->safeTransform($this->content);
@@ -195,4 +195,4 @@ public function actionCreate()
 (не возникли ошибки валидации и данные сохранились в БД без ошибки) —
 перенаправляем пользователя на страницу только что созданной записи.
 
-<div class="revision">$Id: post.create.txt 766 2009-02-27 17:22:13Z qiang.xue $</div>
+<div class="revision">$Id: post.create.txt 1065 2009-05-26 14:47:59Z qiang.xue $</div>

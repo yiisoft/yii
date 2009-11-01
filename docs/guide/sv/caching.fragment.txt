@@ -148,4 +148,4 @@ omvänd ordning. Om den yttre cachen innehåller giltig data kommer alltid den
 cachelagrade kopian att tillhandahållas, även om innehållet i den inre cachen 
 redan blivit för gammalt och klassat ogiltigt.
 
-<div class="revision">$Id: caching.fragment.txt 932 2009-04-14 01:27:30Z qiang.xue@gmail.com $</div>
+<div class="revision">$Id: caching.fragment.txt 956 2009-04-21 15:16:03Z qiang.xue@gmail.com $</div>

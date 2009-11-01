@@ -288,7 +288,8 @@ Situationen vor:
 
    - Falls der Benutzer nicht angemeldet ist und die Eigenschaft
 [loginUrl|CWebUser::loginUrl] der Userkomponente auf die URL der Anmeldeseite
-gesetzt wurde, wird der Browser auf diese Seite umgeleitet.
+gesetzt wurde, wird der Browser auf diese Seite umgeleitet. Beachten Sie, dass
+[loginUrl|CWebUser::loginUrl] standardmäßig auf die Seite `site/login` zeigt.
 
    - Andernfalls wird eine HTTP-Exception mit dem Fehlercode 403 angezeigt.
 
@@ -606,4 +607,4 @@ $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('gast','Gast-Benutzer', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 1282 2009-08-01 01:07:54Z qiang.xue $</div>
+<div class="revision">$Id: topics.auth.txt 1295 2009-08-06 20:00:34Z qiang.xue $</div>

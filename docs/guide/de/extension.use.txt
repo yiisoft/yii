@@ -314,4 +314,4 @@ Eigenschaften konfigurieren oder ihre Methoden aufrufen. Möglicherweise
 möchten wir sie auch erweitern, um neue Kindklassen zu erstellen.
 
 
-<div class="revision">$Id: extension.use.txt 1392 2009-09-04 20:39:11Z qiang.xue $</div>
+<div class="revision">$Id: extension.use.txt 1398 2009-09-06 01:15:01Z qiang.xue $</div>

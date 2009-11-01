@@ -311,4 +311,4 @@ Sedan kan en instans av klassen skapas, dess propertyn konfigureras och dess
 metoder anropas. Man kan även ärva och utvidga komponentens klass.
 
 
-<div class="revision">$Id: extension.use.txt 1392 2009-09-04 20:39:11Z qiang.xue $</div>
+<div class="revision">$Id: extension.use.txt 1398 2009-09-06 01:15:01Z qiang.xue $</div>

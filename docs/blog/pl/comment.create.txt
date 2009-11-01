@@ -7,12 +7,12 @@ W części tej zaimplementujemy funkcje wyświetlania oraz tworzenia komentarzy.
 Wyświetlanie komentarzy
 -------------------
 
-Zamiast osobnych stron do wyświetlania i tworzenia komentarzy użyjemy strony
-wyświetlającej wiadomości. Poniżej wyświetlonej zawartości każdej wiadomości,
-wyświetlimy listę komentarzy należących do tej wiadomości a pod nimi formularz
+Zamiast osobnych stron do wyświetlania i tworzenia komentarzy użyjemy strony 
+wyświetlającej wiadomości. Poniżej wyświetlonej zawartości każdej wiadomości,  
+wyświetlimy listę komentarzy należących do tej wiadomości a pod nimi formularz 
 tworzenia komentarza.
 
-W celu wyświetlenia komentarzy na stronie wiadomości, zmienimy metodę `actionShow()`
+W celu wyświetlenia komentarzy na stronie wiadomości, zmienimy metodę `actionShow()` 
 kontrolera `PostController` w następujacy sposób:
 
 ~~~
@@ -27,12 +27,12 @@ public function actionShow()
 }
 ~~~
 
-Zauważ, że wyrażenie `$post->comments` jest poprawne ponieważ zdefiniowaliśmy relację
-`comments` w klasie `Post`. Wywołanie tego wyrażenia uruchomi ukryte zapytanie
+Zauważ, że wyrażenie `$post->comments` jest poprawne ponieważ zdefiniowaliśmy relację  
+`comments` w klasie `Post`. Wywołanie tego wyrażenia uruchomi ukryte zapytanie 
 JOIN do bazy danych, które zwróci komentarze należące do aktualnej wiadomości.
 Funkcjonalność ta znana jest jako [leniwe zapytanie relacyjne](http://www.yiiframework.com/doc/guide/database.arr).
 
-Zmodyfikujemy również widok `show` poprzez dołączenie wyświetlania komentarzy
+Zmodyfikujemy również widok `show` poprzez dołączenie wyświetlania komentarzy  
 na końcu wyświetlania wiadomości, nad czym nie będziemy się tutaj zbytnio rozwodzić.
 
 Tworzenie komentarzy
@@ -64,7 +64,7 @@ protected function newComment($post)
 		$comment->status=Comment::STATUS_PENDING;
 
 		if(isset($_POST['previewComment']))
-			$comment->validate();
+			$comment->validate('insert');
 		else if(isset($_POST['submitComment']) && $comment->save())
 		{
 			Yii::app()->user->setFlash('commentSubmitted','Thank you...');
@@ -75,12 +75,12 @@ protected function newComment($post)
 }
 ~~~
 
-W powyższym kodzie, wołamy metodę `newComment()` zanim wygenerujemy widok `show`.
-W metodzie `newComment()` generujemy instancję komentarza `Comment` i sprawdzamy
+W powyższym kodzie, wołamy metodę `newComment()` zanim wygenerujemy widok `show`. 
+W metodzie `newComment()` generujemy instancję komentarza `Comment` i sprawdzamy 
 czy formularz komentarza został przesłany. Formularz może zostać przesłany poprzez
-kliknięcie zarówno przycisku submit lub też przycisku podglądu. Dla pierwszego
-spróbujemy zapisać komentarz i wyświetlić migawkę (ang. flash message).
-Migawka jest wyświetlana tylko raz, co oznacza zniknie ona, że jeśli odświeżymy stronę.
+kliknięcie zarówno przycisku submit lub też przycisku podglądu. Dla pierwszego  
+spróbujemy zapisać komentarz i wyświetlić migawkę (ang. flash message). 
+Migawka jest wyświetlana tylko raz, co oznacza zniknie ona, że jeśli odświeżymy stronę. 
 
 Zmodyfikujemy również widok `show` poprzez dołączenie formularza tworzenia komentarza.
 
@@ -93,14 +93,14 @@ Zmodyfikujemy również widok `show` poprzez dołączenie formularza tworzenia k
 )); ?>
 ~~~
 
-Osadziliśmy formularz tworzenia komentarza w częściowym widoku `/wwwroot/blog/protected/views/comment/_form.php`.
-Zmienna `$newComment` jest przekazywana do metody `actionShow`. Jej głównym zadaniem jest
-przechowywanie informacji o danych wejściowych użytkownika. Zmienna `update`
-ustawiona jest na wartość false, co oznacza, że formularz komentarza jest używany do
+Osadziliśmy formularz tworzenia komentarza w częściowym widoku `/wwwroot/blog/protected/views/comment/_form.php`. 
+Zmienna `$newComment` jest przekazywana do metody `actionShow`. Jej głównym zadaniem jest 
+przechowywanie informacji o danych wejściowych użytkownika. Zmienna `update` 
+ustawiona jest na wartość false, co oznacza, że formularz komentarza jest używany do 
 tworzenia nowego komentarza.
 
 W celu wsparcia podglądu komentarza, dodamy przycisk podglądu do formularza tworzenia
-komentarza. Gdy przycisk podglądu zostanie kliknięty, podgląd komentarza jest wyświetlany
+komentarza. Gdy przycisk podglądu zostanie kliknięty, podgląd komentarza jest wyświetlany 
 na górze strony. Poniżej znajduje się zaktualizowany kod formularza komentarza:
 
 ~~~

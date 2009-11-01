@@ -161,6 +161,20 @@ dem `message`-Kommando können Sie die zu übersetzenden Nachrichten aus
 ausgewählten Quelldateien extrahieren und bei Bedarf mit bereits vorhandenen 
 Übersetzungen zusammenführen.
 
+Seit Version 1.0.10 können Modulnachrichten gesondert behandelt werden, sofern
+[CPhpMessageSource] zum Verwalten verwendet wird. Falls eine Nachricht zu
+einem Modul `Xyz` gehört, kann die Nachrichtenkategorie im Format
+`Xyz.kategorieName` angegeben werden. Die entsprechende Nachrichtendatei wird
+dann in `ModulPfad/messages/SprachID/kategorieName.php` gesucht, wobei
+`ModulPfad` dem Verzeichnis entspricht, in dem die Klassendatei des Moduls
+liegt. Wenn man `Yii::t()` zum Übersetzen von Modulnachrichten verwendet,
+sollte man also stattdessen dieses Format verwenden:
+
+~~~
+[php]
+Yii::t('Xyz.kategorieName', 'Zu übersetzende Nachricht')
+~~~
+
 Seit Version 1.0.2 unterstütz Yii das [Auswahlformat|CChoiceFormat] (engl.:
 choice format). Dieses Format bezieht sich auf die Auswahl einer Übersetzung
 in Abhängigkeit von einem gegebenen Zahlenwert. Zum Beispiel gibt es für das 
@@ -285,4 +299,4 @@ Ziel-Locale vorgegebene Währungsmuster verwendet.
 formatiert die gegebene Zahl, indem sie das in der Ziel-Locale vorgegebene 
 Prozentsatz-Muster verwendet.
 
-<div class="revision">$Id: topics.i18n.txt 772 2009-02-28 18:23:17Z qiang.xue $</div>
+<div class="revision">$Id: topics.i18n.txt 1463 2009-10-17 01:49:02Z qiang.xue $</div>

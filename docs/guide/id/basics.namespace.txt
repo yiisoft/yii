@@ -15,6 +15,7 @@ kita dapat menetapkan alias path baru. Demi kenyamanan, Yii sudah mendefinisikan
  - `system`: merujuk pada direktori Yii framework;
  - `application`: merujuk pada [basis direktori](/doc/guide/basics.application#application-base-directory) aplikasi;
  - `webroot`: merujuk pada direktori yang berisi file [naskah entri](/doc/guide/basics.entry). Alias ini sudah tersedia sejak versi 1.0.3.
+ - `ext`: merujuk ke direktori yang berisi semua [extensions|ekstensi](/doc/guide/extension.overview) pihak ketiga. Alias ini sudah tersedia sejak versi 1.0.8.
  
 Sebagai tambahan, jika aplikasi menggunakan [modul](/doc/guide/basics.module), alias root juga didefinisikan untuk setiap ID modul dan merujuk pada basis path modul terkait. Fitur ini sudah tersedia sejak versi 1.0.3.
 
@@ -31,7 +32,7 @@ kita dapat memanggil seperti berikut:
 Yii::import('system.web.CController');
 ~~~
 
-Metode [import|YiiBase::import] berbeda dari `include` dan `require`
+Metode [import|YiiBase::import] berbeda dengan `include` dan `require`
 dalam hal ia lebih efisien. Definisi kelas yang sedang diimpor
 sebenarnya tidak disertakan sampai ia dirujuk untuk pertama kali. Mengimpor
 namespace yang sama berkali-kali juga lebih cepat daripada `include_once`
@@ -67,4 +68,4 @@ framework diawali dengan huruf 'C' (berarti 'class') agar bisa dibedakan dari
 kelas yang didefinisikan-pengguna. Direkomendasikan bahwa prefiks 'C' khusus dipakai hanya untuk pemakaian Yii framework saja, dan kelas yang didefinisikan-pengguna diawali
 dengan huruf lainnya.
 
-<div class="revision">$Id: basics.namespace.txt 766 2009-02-27 17:22:13Z qiang.xue $</div>
+<div class="revision">$Id: basics.namespace.txt 1310 2009-08-08 16:03:46Z qiang.xue $</div>

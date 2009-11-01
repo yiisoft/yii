@@ -43,8 +43,7 @@ Assumimos que a variável `$user` representa uma instância de `LoginForm`.
 
 <div class="simple">
 <?php echo CHtml::activeLabel($user,'password'); ?>
-<?php echo CHtml::activePasswordField($user,'password');
-?>
+<?php echo CHtml::activePasswordField($user,'password'); ?>
 </div>
 
 <div class="action">
@@ -71,4 +70,4 @@ formulário gerado terá a seguinte aparência:
 
 ![A Página de Login com Erros](login2.png)
 
-<div class="revision">$Id: form.view.txt 844 2009-03-16 22:06:41Z qiang.xue $</div>
+<div class="revision">$Id: form.view.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>

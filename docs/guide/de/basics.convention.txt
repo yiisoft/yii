@@ -146,8 +146,8 @@ veröffentlicht werden kann, um sie einem Web-Besucher zugänglich zu machen.
 Der Webserver-Prozess muss in dieses Verzeichnis schreiben können.
 Sein Ort kann über [CAssetManager::basePath] angepasst werden.
 
-   - `WebRoot/themes`: Dieses Verzeichnis enthält verschiedene Themes
-(Motive), die auf eine Applikation angewendet werden können. Sein Ort kann
+   - `WebRoot/themes`: Dieses Verzeichnis enthält verschiedene Themes, 
+die auf eine Applikation angewendet werden können. Sein Ort kann
 über [CThemeManager::basePath] angepasst werden.
 
 <div class="revision">$Id: basics.convention.txt 749 2009-02-26 02:11:31Z qiang.xue $</div>

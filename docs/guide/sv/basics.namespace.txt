@@ -14,6 +14,7 @@ genom anrop av [YiiBase::setPathOfAlias()]. För att underlätta fördefinierar 
 följande rot-alias:
 
  - `system`: refererar till Yii:s framework-katalog;
+ - `zii`: refererar till Zii-bibliotekets katalog;
  - `application`: refererar till applikationens [rotkatalog](/doc/guide/basics.application#application-base-directory);
  - `webroot`: refererar till katalogen som innehåller [startskriptet](/doc/guide/basics.entry). Detta alias har varit tillgängligt sedan version 1.0.3.
  - `ext`: refererar till katalogen som innehåller alla [tredjepartstillägg](/doc/guide/extension.overview). Detta alias har varit tillgängligt sedan version 1.0.8.
@@ -68,4 +69,4 @@ att de kan skiljas från användardefinierade klasser. Det rekommenderas att C-
 prefixet reserveras för användning endast av Yii-ramverket, och att 
 användardefinierade klasser förses med någon annan prefixbokstav.
 
-<div class="revision">$Id: basics.namespace.txt 1310 2009-08-08 16:03:46Z qiang.xue $</div>
+<div class="revision">$Id: basics.namespace.txt 1400 2009-09-07 12:45:17Z qiang.xue $</div>

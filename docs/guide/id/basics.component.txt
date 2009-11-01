@@ -166,4 +166,4 @@ Sebuah perilaku, bila dilampirkan ke sebuah komponen dapat melampirkan beberapa 
 komponen. Dengan melakukan itu, perilaku mendapat kesempatan untuk mengawasi atau mengubah alur
 eksekusi normal komponen.
 
-<div class="revision">$Id: basics.component.txt 683 2009-02-16 05:20:17Z qiang.xue $</div>
+<div class="revision">$Id: basics.component.txt 1328 2009-08-15 18:45:51Z qiang.xue $</div>

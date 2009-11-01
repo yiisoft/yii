@@ -204,8 +204,6 @@ array('password', 'authenticate', 'on'=>'login'),
 Absichern von Attributzuweisungen
 ---------------------------------
 
-> Note|Hinweis: Die szenarienbasierte Attributzuweisung ist seit der Version 1.0.2 verfügbar
-
 Nachdem ein Model instanziiert wurde, müssen wir seine Attributwerte oft mit
 Daten befüllen, die von Endbenutzern geliefert werden. Das kann bequem über 
 folgende Massenzuweisung geschehen:
@@ -213,25 +211,13 @@ folgende Massenzuweisung geschehen:
 ~~~
 [php]
 $model=new LoginForm;
-$model->scenario='login';
 if(isset($_POST['LoginForm']))
 	$model->attributes=$_POST['LoginForm'];
 ~~~
 
-> Note|Hinweis: Die Eigenschaft [scenario|CModel::scenario] ist seit
-> Version 1.0.4 verfügbar. Diese Eigenschaft wird bei der Massenzuweisung
-> verwendet, um festzustellen, welche Attribute zugewiesen werden können.
-> In den Versionen 1.0.2 und 1.0.3 mussten wir eine Massenzuweisung wie folgt
-> durchführen, um das entsprechende Szenario anzugeben:
->
-> ~~~
-> [php]
-> $model->setAttributes($_POST['LoginForm'], 'login');
-> ~~~
-
-Die letzte Anweisung ist eine Massenzuweisung, bei der jeder Eintrag in
-`$_POST['LoginForm']` dem entsprechenden Model-Attribut im `login`-Szenario
-zugewiesen wird. Dies ist äquivalent zu folgender Zuweisung:
+Die letzte Anweisung ist eine *Massenzuweisung*, bei der jeder Eintrag in
+`$_POST['LoginForm']` dem entsprechenden Model-Attribut zugewiesen wird. 
+Dies ist äquivalent zu folgender Zuweisung:
 
 ~~~
 [php]
@@ -242,7 +228,82 @@ foreach($_POST['LoginForm'] as $name=>$value)
 }
 ~~~
 
-Die Entscheidung, ob eine Attribut sicher ist oder nicht, basiert auf 
+Es ist von entscheidender Bedeutung, die sicheren Attribute zu bestimmen.
+Würden wir zum Beispiel den Primärschlüssel einer Tabelle als sicher
+ausweisen, könnte ein Angreifer diesen möglicherweise bei einem gegebenen
+Record verändern und sich so evtl. Zugang zu Daten verschaffen, zu denen er
+nicht autorisiert ist.
+
+Die Regeln anhand derer entschieden wird, ob ein Attribut sicher ist oder nicht, 
+unterscheiden sich zwischen Version 1.0 und 1.1. Daher beschreiben wir
+im Folgenden beide Versionen.
+
+***Sichere Attribute in 1.1
+
+In Version 1.1 gilt ein Attribut als sicher, wenn es dafür eine
+Validierungsregel im gegebenen Szenario gibt. Zum Beispiel:
+
+~~~
+[php]
+array('username, password', 'required', 'on'=>'login, register'),
+array('email', 'required', 'on'=>'register'),
+~~~
+
+Im Szenario `login` sind hier die Attribute `username` und `password` zwingend
+erforderlich, im Szenario `register` die Attribute `username`, `password` und
+`email`. Führen wir also eine Massenzuweisung im Szenario `login` durch,
+werden nur `username` und `password` zugewiesen, da dies die einzigen
+Attribute sind, die auch Validierungsregeln in diesem Szenario haben.
+Im Szenario `register` können hingegen alle drei Attribute per Massenzuweisung
+befüllt werden.
+
+~~~
+[php]
+// Im Szenario login
+$model=new User('login');
+if(isset($_POST['User']))
+	$model->attributes=$_POST['User'];
+
+// Im Szenario register
+$model=new User('register');
+if(isset($_POST['User']))
+	$model->attributes=$_POST['User'];
+~~~
+
+Warum gehen wir davon aus, dass diese Attribute als sicher gelten?
+Hintergedanke war, dass wir uns um Attribute, die bereits eine oder mehrere
+Validierungsregeln haben, keine Gedanken mehr machen müssen.
+
+Man bedenke, dass Validierungsregeln dazu da sind, um Benutzerdaten zu prüfen,
+nicht Daten, die wir per Code generieren (z.B. Zeitstempel, autogenerierte
+Primärschlüssel). Fügen Sie daher KEINE Validierungsregeln für jene Attribute
+hinzu, die keine Daten von Endbenutzern erwarten.
+
+Manchmal möchten wir ein Attribut als sicher definieren, obwohl es keine
+spezielle Regel dafür gibt. Ein Beispiel könnte z.B. das Attribut inhalt eines
+Artikels sein, für das jede Benutzereingabe gültig sein soll. Dazu können wir
+die spezielle Regel `safe` verwenden:
+
+~~~
+[php]
+array('inhalt', 'safe')
+~~~
+
+Der Vollständigkeit halber gibt es auch eine `unsafe`-Regel, die ein Attribut
+explizit als `nicht sicher` deklariert:
+
+~~~
+[php]
+array('erlaubnis', 'unsafe')
+~~~
+
+Diese Regel wird nur selten verwendet. Sie ist eine Ausnahme zu unserer
+vorhergehenden Definition sicherer Attribute.
+
+
+***Sichere Attribute in 1.0
+
+In Version 1.0 basierte die Entscheidung, ob ein Attribut sicher ist oder nicht, 
 auf dem Rückgabewert der Methode `safeAttributes` (sichere Attribute) und 
 dem angegebenen Szenario.
 Als Standardwert liefert diese Methode für [CFormModel] alle als public deklarierten 
@@ -380,4 +441,4 @@ angepasst werden. Wie wir in den folgenden Kapiteln sehen werden, erlaubt
 uns die Angabe von Labels im Model, ein Formular schneller und wirkungsvoller zu
 erstellen.
 
-<div class="revision">$Id: form.model.txt 1405 2009-09-10 19:18:30Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 1425 2009-09-28 03:28:17Z qiang.xue $</div>

@@ -36,4 +36,4 @@ Kategorien fällt. Tatsächlich ist Yii so konzipiert, dass fast sein gesamter
 Code erweitert oder angepasst werden kann, um individuellen Bedürfnissen
 gerecht zu werden.
 
-<div class="revision">$Id: extension.overview.txt 1392 2009-09-04 20:39:11Z qiang.xue $</div>
+<div class="revision">$Id: extension.overview.txt 1398 2009-09-06 01:15:01Z qiang.xue $</div>

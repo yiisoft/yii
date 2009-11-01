@@ -66,7 +66,7 @@ testdrive/
    assets/                   enthält veröffentlichte Quelldateien
    css/                      enthält CSS-Dateien
    images/                   enthält Bilddateien
-   themes/                   enthält Anwendungs-Themes (Motive)
+   themes/                   enthält Anwendungs-Themes 
    protected/                enthält geschützte Anwendungsdateien
       yiic                   yiic-Script für die Kommandozeile
       yiic.bat               yiic-Script für die Kommandozeile unter Windows
@@ -264,4 +264,4 @@ schreiben müssen!
 
 
 
-<div class="revision">$Id: quickstart.first-app.txt 1253 2009-07-15 20:17:23Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app.txt 1264 2009-07-21 19:34:55Z qiang.xue $</div>

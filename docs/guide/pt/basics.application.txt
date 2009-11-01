@@ -212,4 +212,4 @@ de vida descrito a seguir:
 
    7. Dispara o evento [onEndRequest|CApplication::onEndRequest] (ao fim da requisição);
 
-<div class="revision">$Id: basics.application.txt 846 2009-03-17 17:35:33Z qiang.xue $</div>
+<div class="revision">$Id: basics.application.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>

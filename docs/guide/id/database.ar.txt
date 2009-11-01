@@ -38,10 +38,11 @@ CREATE TABLE Post (
 );
 ~~~
 
-> Note|Catatan: AR tidak ditujukan untuk memecahkan semua tugas-tugas terkait-database. Hal terbaik
-dipakai untuk memodelkan tabel database dalam konstruksi PHP dan melakukan queri yang
-tidak melibatkan SQL yang kompleks. Yii DAO harus dipakai untuk skenario kompleks
-tersebut.
+> Note|Catatan: AR tidak ditujukan untuk memecahkan semua tugas-tugas terkait-database. 
+Hal terbaik dipakai untuk memodelkan tabel database dalam konstruksi PHP dan melakukan 
+queri yang tidak melibatkan SQL yang kompleks. Yii DAO harus dipakai untuk skenario 
+kompleks tersebut.
+
 
 Membuat Koneksi DB
 --------------------
@@ -266,6 +267,11 @@ ke tempat di dalam `$condition`. Sebagai contoh,
 $post=Post::model()->find('postID=:postID', array(':postID'=>10));
 ~~~
 
+> Note|Catatan: Dalam contoh di atas, kita mungkin perlu melapisi referensi pada kolom `postID`
+untuk DBMS tertentu. Sebagai contoh, jika kita menggunakan PostgreSQL, kita harus menulis 
+kondisi sebagai `"postID"=:postID`, karena PostgreSQL standarnya akan memperlakukan nama
+kolom tidak sensitif jenis huruf.
+
 Kita juga bisa menggunakan `$condition` untuk menetapkan kondisi queri lebih kompleks
 Daripada sebuah string kita membiarkan `$condition` menjadi turunan [CDbCriteria] yang
 mengijinkan kita untuk menetapkan kondisi selain klausul `WHERE`. Sebagai contoh,
@@ -313,11 +319,11 @@ pasangan metode `find`, seperti yang sudah kami jelaskan.
 [php]
 // cari seluruh baris yang sesuai dengan kondisi yang ditetapkan
 $posts=Post::model()->findAll($condition,$params);
-// find all rows with the specified primary keys
+// cari seluruh baris dengan kunci primer yang ditetapkan
 $posts=Post::model()->findAllByPk($postIDs,$condition,$params);
-// find all rows with the specified attribute values
+// cari seluruh baris dengan nilai atribut yang ditetapkan
 $posts=Post::model()->findAllByAttributes($attributes,$condition,$params);
-// find all rows using the specified SQL statement
+// cari seluruh baris dengan pernyataan SQL yang ditetapkan
 $posts=Post::model()->findAllBySql($sql,$params);
 ~~~
 
@@ -491,6 +497,10 @@ turunan AR dihapus.
    - [afterConstruct|CActiveRecord::afterConstruct]: ini dipanggil untuk
 setiap turunan AR yang dibuat menggunakan operator `new`.
 
+   - [beforeFind|CActiveRecord::beforeFind]: ini dipanggil sebelum pencari AR
+dipakai untuk melakukan queri (misal `find()`, `findAll()`). Ini sudah tersedia
+sejak versi 1.0.9.
+
    - [afterFind|CActiveRecord::afterFind]: ini dipanggil untuk setiap turunan AR
 yang dibuat sebagai hasil dari queri.
 
@@ -574,6 +584,7 @@ Post::model()->published()->recently()->delete();
 
 > Note|Catatan: Lingkup bernama hanya bisa dipakai dengan metode tingkat-kelas. Yakni, metode harus dipanggil menggunakan `ClassName::model()`.
 
+
 ### Parameterisasi Lingkup Bernama
 
 Named scopes dapat diparameterkan. Sebagai contoh, kita mungkin ingin mengkustomisasi sejumlah tulisan dengan lingkup bernama `recently`. Untuk melakukannya, daripada mendeklarasikan lingkup bernama dalam metode [CActiveRecord::scopes], kita perlu mendefinisikan sebuah metode baru yang namanya sama seperti nama lingkup tadi:
@@ -624,5 +635,6 @@ Sekarang, jika metode di bawah ini dipanggil, ia akan secara otomatis menggunaka
 $contents=Content::model()->findAll();
 ~~~
 
+Catatan bahwa standar lingkup bernama hanya berlaku pada queri `SELECT`. Ia diabaikan untuk queri `INSERT`, `UPDATE` dan `DELETE`.
 
-<div class="revision">$Id: database.ar.txt 1027 2009-05-12 17:59:03Z qiang.xue $</div>
+<div class="revision">$Id: database.ar.txt 1391 2009-09-04 19:46:04Z qiang.xue $</div>

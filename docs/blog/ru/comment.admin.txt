@@ -23,7 +23,7 @@ public function actionUpdate()
 	{
 		$comment->attributes=$_POST['Comment'];
 		if(isset($_POST['previewComment']))
-			$comment->validate('update');
+			$comment->validate();
 		else if(isset($_POST['submitComment']) && $comment->save())
 			$this->redirect(array('post/show',
 				'id'=>$comment->postId,
@@ -75,7 +75,7 @@ public function actionList()
 	$criteria=new CDbCriteria;
 	$criteria->condition='Comment.status='.Comment::STATUS_PENDING;
 
-	$pages=new CPagination(Comment::model()->count($criteria));
+	$pages=new CPagination(Comment::model()->count());
 	$pages->pageSize=self::PAGE_SIZE;
 	$pages->applyLimit($criteria);
 
@@ -107,4 +107,4 @@ public function actionList()
 оказываемся перед опасностью, что пользователь может неосторожно изменить
 данные на сервере несколько раз, если он обновит страницу.
 
-<div class="revision">$Id: comment.admin.txt 1335 2009-08-15 20:34:36Z qiang.xue $</div>
+<div class="revision">$Id: comment.admin.txt 1438 2009-10-07 23:44:27Z qiang.xue $</div>

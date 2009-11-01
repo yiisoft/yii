@@ -1,34 +1,34 @@
-Motive
+Themes
 ======
 
-Motive (engl.: themes) stellen eine Methode dar, das Aussehen einer Webseite
-systematisch anzupassen. Durch das Anwenden eines Motivs kann man das komplette
+Themes (sinngem.: Thema, Leitmotiv) stellen eine Methode dar, das Aussehen einer Webseite
+systematisch anzupassen. Durch das Anwenden eines Themes kann man das komplette
 Erscheinungsbild einer Webanwendung praktisch auf Knopfdruck grundlegend
 verändern. 
 
-Jedes Motiv wird in Yii von einem Verzeichnis dargestellt, das View-, Layout-
+Jedes Theme wird in Yii von einem Verzeichnis dargestellt, das View-, Layout-
 und andere relevante Ressourcedateien, wie Bilder, CSS- und Javascript-Dateien 
-enthält. Der Name eines Motivs entspricht dem Verzeichnisnamen. Alle Motive
-befinden sich unterhalb von `WebRoot/themes`. Es kann jeweils immer nur ein Motiv
+enthält. Der Name eines Themes entspricht dem Verzeichnisnamen. Alle Themes
+befinden sich unterhalb von `WebRoot/themes`. Es kann jeweils immer nur ein Theme
 aktiv sein.
 
-> Tip|Tipp: Das Standardverzeichnis für Motive kann auch an einem anderen Ort
+> Tip|Tipp: Das Standardverzeichnis für Themes kann auch an einem anderen Ort
 als `WebRoot/themes` liegen. Konfigurieren Sie dazu einfach die beiden
 Eigenschaften [basePath|CThemeManager::basePath] (Basispfad) und
 [baseUrl|CThemeManager::baseUrl] (Basis-URL) der
 [themeManager|CWebApplication::themeManager]-Anwendungskomponente.
 
 Setzen Sie die Eigenschaft [theme|CWebApplication::theme] der Webanwendung auf
-den Namen des gewünschten Motivs, um ein Motiv anzuwenden. Dies kann
+den Namen des gewünschten Themes, um ein Theme anzuwenden. Dies kann
 entweder in der
 [Anwendungskonfiguration](/doc/guide/basics.application#application-configuration)
 oder während der Laufzeit in einer Controller-Action geschehen. 
 
-> Note|Hinweis: Beim Namen eines Motivs spielt die Groß-/Kleinschreibung eine
-> Rolle. Wenn Sie versuchen, ein Motiv anzuwenden, das es gar nicht gibt,
+> Note|Hinweis: Beim Namen eines Themes spielt die Groß-/Kleinschreibung eine
+> Rolle. Wenn Sie versuchen, ein Theme anzuwenden, das es gar nicht gibt,
 > liefert `Yii::app()->theme` den Wert `null` zurück. 
 
-Die Inhalte eines Motivverzeichnisses sollten genau wie im [Stammverzeichnis
+Die Inhalte eines Themeverzeichnisses sollten genau wie im [Stammverzeichnis
 der Anwendung](/doc/guide/basics.application#application-base-directory)
 abgelegt werden. Alle View-Dateien müssen sich zum Beispiel in `views`,
 Layout-Dateien in `views/layout` und System-View-Dateien unter `views/system`
@@ -38,7 +38,7 @@ View des Themes `classic` ersetzen möchten, sollten wir die neue Datei unter
 
 Für die View-Dateien eines Controllers, der in einem
 [Modul](/doc/guide/basics.module) enthalten ist, sollte die entsprechende
-View-Datei des Motivs ebenfalls unterhalb des `views`-Verzeichnisses abgelegt
+View-Datei des Themes ebenfalls unterhalb des `views`-Verzeichnisses abgelegt
 werden. Wenn der genannte `PostController` zum Beispiel in einem Modul namens
 `forum` enthalten ist, sollten wir die View-Datei für `create` unter
 `WebRoot/themes/classic/views/forum/post/create.php` abspeichern. Falls das
@@ -52,15 +52,15 @@ könnte, sollten Sie dafür sorgen, dass es nicht vom Web aus zugänglich ist.
 Wenn wir [render|CController::render] oder
 [renderPartial|CController::renderPartial] zum Anzeigen eines Views aufrufen,
 werden die entsprechenden View- und Layout-Dateien im Verzeichnis des gerade 
-aktiven Motivs gesucht und, falls dort vorgefunden, zum Rendern verwendet.
+aktiven Themes gesucht und, falls dort vorgefunden, zum Rendern verwendet.
 Andernfalls werden sie an den Standardorten gesucht, wie mit
 [viewPath|CController::viewPath] und [layoutPath|CWebApplication::layoutPath]
 vorgegeben. 
 
-> Tip|Tipp: Innerhalb eines Motiv-Views müssen wir evtl. öfter auf andere
-> Ressource-Dateien des Motivs verlinken. Zum Beispiel könnten wir eine
-> Bilddatei im Ordner `images` des Motivs anzeigen wollen. Mit Hilfe der
-> Eigenschaft [baseUrl|CTheme::baseUrl] des aktuellen Motivs können wir die
+> Tip|Tipp: Innerhalb eines Theme-Views müssen wir evtl. öfter auf andere
+> Ressource-Dateien des Theme verlinken. Zum Beispiel könnten wir eine
+> Bilddatei im Ordner `images` des Themes anzeigen wollen. Mit Hilfe der
+> Eigenschaft [baseUrl|CTheme::baseUrl] des aktuellen Themes können wir die
 > Bild-URL wie folgt zusammenbauen:
 >
 > ~~~
@@ -68,4 +68,147 @@ vorgegeben.
 > Yii::app()->theme->baseUrl . '/images/BildName.gif'
 > ~~~
 
-<div class="revision">$Id: topics.theming.txt 878 2009-03-23 15:31:21Z qiang.xue $</div>
+Nachfolgend ein Beispiel für die Verzeichnisstruktur einer Anwendung mit den
+beiden Themes `basic` und `fancy`.
+
+~~~
+WebRoot/
+	assets
+	protected/
+		.htaccess
+		components/
+		controllers/
+		models/
+		views/
+			layouts/
+				main.php
+			site/
+				index.php
+	themes/
+		basic/
+			views/
+				.htaccess
+				layouts/
+					main.php
+				site/
+					index.php
+		fancy/
+			views/
+				.htaccess
+				layouts/
+					main.php
+				site/
+					index.php
+~~~
+
+Wenn wir die Anwendung so konfigurieren:
+
+~~~
+[php]
+return array(
+	'theme'=>'basic',
+	......
+);
+~~~
+
+wird das Theme `basic` verwendet. Das bedeutet, dass das Layout in
+`themes/basic/views/layouts` der Index-View in `themes/basics/views/site` 
+verwendet wird. Falls eine Viewdatei
+im Theme nicht gefunden wird, wird auf die Datei in `protected/views`
+zurückgegriffen.
+
+Skin
+----
+
+> Note|Hinweis: Das Skin-Feature ist seit Version 1.1.0 verfügbar.
+
+Während wir mit Themes das Aussehen von Views schnell verändern können,
+erlauben uns Skins (sinngem.: Haut, Verkleidung), das Aussehen von
+[Widgets](/doc/guide/basics.view#widget) systematisch anzupassen.
+
+Eine Skin ist ein Array von Name-Wert-Paaren, die zum Initalisieren der
+Eigenschaften eines Widgets verwendet werden können. Eine Skin gehört dabei zu
+einer Widgetklasse. Und eine Widgetklasse kann mehrere Skins haben, die über
+ihren Namen identifiziert werden können. So kann es zum Beispiel eine Skin
+für das [CLinkPager]-Widget namens `classic` geben.
+
+Um Skins verwenden zu können, müssen wir in der Anwendungskonfiguration die
+Komponente `widgetFactory` (sinngem.: Widget-Fabrik) installieren:
+
+~~~
+[php]
+return array(
+    'components'=>array(
+        'widgetFactory'=>array(
+            'class'=>'CWidgetFactory',
+        ),
+    ),
+);
+~~~
+
+Danach erstellen wir die benötigten Skins. Alle Skins, die zu einem bestimmten
+Widget gehören, werden gemeinsam in einem PHP-Script mit dem Namen der
+Widgetklasse gespeichert. Skindateien werden standardmäßig unter
+`protected/views/skins` abgelegt. Wenn Sie dieses Verzeichnis ändern möchten,
+können Sie die Eigenschaft `skinPath` der Komponente `widgetFactory` anpassen.
+Als Beispiel legen wir in diesem Verzeichnis die Datei `CLinkPager.php` mit
+folgendem Inhalt an:
+
+~~~
+[php]
+<?php
+return array(
+    'default'=>array(
+        'nextPageLabel'=>'&gt;&gt;',
+        'prevPageLabel'=>'&lt;&lt;',
+    ),
+    'classic'=>array(
+        'header'=>'',
+        'maxButtonCount'=>5,
+    ),
+);
+~~~
+
+Hier erstellen wir zwei Skins für das [CLinkPager]-Widget: `default` und
+`classic`. Erstere wird für jedes [CLinkPager]-Widget verwendet, bei dem 
+keine explizite `skin`-Eigenschaft gesetzt wurde, während zweitere für jene
+[CLinkPager] verwendet wird, bei denen `skin` auf `classic` gesetzt wurde.
+Der erste Pager im folgenden Beispiel verwendet also die `default`-Skin, der
+Zweite die Skin `classic`:
+
+~~~
+[php]
+<?php $this->widget('CLinkPager'); ?>
+
+<?php $this->widget('CLinkPager', array('skin'=>'classic')); ?>
+~~~
+
+Wenn wir bei einem Widget einige Eigenschaften direkt setzen, haben diese
+Vorrang und werden mit den Eigenschaften in der Skin zusammengeführt. Der folgende
+Viewcode erzeugt zum Beispiel einen Pager mit den Starteigenschaften
+`array('header'=>'', 'maxButtonCount'=>6, 'cssFile'=>false)`, also den
+überlagerten Eigenschaften aus dem View und der `classic`-Skin.
+
+~~~
+[php]
+<?php $this->widget('CLinkPager', array(
+    'skin'=>'classic',
+    'maxButtonCount'=>6,
+    'cssFile'=>false,
+)); ?>
+~~~
+
+Beachten Sie, dass der Einsatz von Skins keine Themes voraussetzt. Ist
+allerdings ein Theme aktiv, sucht Yii auch im Verzeichnis `skins` im
+View-Verzeichnis des Themes nach Skins (z.B.
+`WebRoot/themes/classic/views/skins`). Falls sowohl im Theme als auch
+im Hauptverzeichnis eine Skindatei mit dem gleichen Namen existiert, hat die
+Theme-Skin Vorrang.
+
+Falls ein Widget eine Skin verwendet, die es nicht gibt, erzeugt Yii das
+Widget wie gewohnt ohne Fehler.
+
+> Info|Info: Die Verwendung von Skins kann die Leistung negativ beeinflussen,
+> da Yii beim ersten Einsatz eines Widgets nach Skindateien suchen muss.
+
+<div class="revision">$Id: topics.theming.txt 1463 2009-10-17 01:49:02Z qiang.xue $</div>

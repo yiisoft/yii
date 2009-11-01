@@ -301,6 +301,12 @@ kolom perlu disatukan menggunakan `aliasToken` (misalnya `??.age`).
 kolom untuk disatukan menggunakan `aliasToken` (misalnya `??.age`).
 Catatan: opsi sudah tersedia sejak versi 1.0.1.
 
+   - `index`: nama kolom yang nilainya harus dipakai sebagai kunci
+array yang menyimpan obyek terkait. Tanpa menyetel opsi ini,
+array obyek terkait akan menggunakan indeks integer berbasis-nol.
+Opsi ini hanya bisa disetel untuk relasi `HAS_MANY` dan `MANY_MANY`.
+Opsi ini sudah tersedia sejak versi 1.0.7.
+
 
 Sebagai tambahan, opsi berikut tersedia untuk hubungan tertentu
 selama lazy loading:
@@ -469,4 +475,4 @@ class User extends CActiveRecord
 > Note|Catatan: Lingkup bernama yang diterapkan ke model terkait harus ditetapkan dalam [CActiveRecord::scopes]. Sebagai hasilnya, ia tidak bisa diparameterisasi.
 
 
-<div class="revision">$Id: database.arr.txt 1027 2009-05-12 17:59:03Z qiang.xue $</div>
+<div class="revision">$Id: database.arr.txt 1248 2009-07-15 19:40:44Z qiang.xue $</div>

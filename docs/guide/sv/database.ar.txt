@@ -657,4 +657,4 @@ $contents=Content::model()->findAll();
 Märk att ett förbestämt namngivet omfång endast gäller för `SELECT`-frågor. 
 Det ignoreras för `INSERT`-, `UPDATE`- och `DELETE`-frågor.
 
-<div class="revision">$Id: database.ar.txt 1391 2009-09-04 19:46:04Z qiang.xue $</div>
+<div class="revision">$Id: database.ar.txt 1398 2009-09-06 01:15:01Z qiang.xue $</div>
