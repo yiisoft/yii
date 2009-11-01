@@ -142,11 +142,13 @@ EOD;
 				$className0=$this->getClassName($table0);
 				$className1=$this->getClassName($table1);
 
+				$unprefixedTableName=$this->removePrefix($tableName,true);
+
 				$relationName=$this->generateRelationName($table0, $table1, true);
-				$this->_relations[$className0][$relationName]="array(self::MANY_MANY, '$className1', '$tableName($pks[0], $pks[1])')";
+				$this->_relations[$className0][$relationName]="array(self::MANY_MANY, '$className1', '$unprefixedTableName($pks[0], $pks[1])')";
 
 				$relationName=$this->generateRelationName($table1, $table0, true);
-				$this->_relations[$className1][$relationName]="array(self::MANY_MANY, '$className0', '$tableName($pks[0], $pks[1])')";
+				$this->_relations[$className1][$relationName]="array(self::MANY_MANY, '$className0', '$unprefixedTableName($pks[0], $pks[1])')";
 			}
 			else
 			{
@@ -285,6 +287,7 @@ EOD;
 			else
 			{
 				$tableName=isset($args[1])?$args[1]:$className;
+				$tableName=$this->addPrefix($tableName);
 				$this->_tables[$tableName]=$className;
 				$this->generateRelations();
 				$this->_classes=array($tableName=>$className);
@@ -426,12 +429,9 @@ EOD;
 
 		if(!is_file($source))  // fall back to default ones
 			$source=YII_PATH.'/cli/views/shell/model/'.basename($source);
-		$tablePrefix=Yii::app()->getDb()->tablePrefix;
-		if($tablePrefix!='' && !strncmp($tableName,$tablePrefix,strlen($tablePrefix)))
-			$tableName='{{'.substr($tableName,strlen($tablePrefix)).'}}';
 		return $this->renderFile($source,array(
 			'className'=>$className,
-			'tableName'=>$tableName,
+			'tableName'=>$this->removePrefix($tableName,true),
 			'columns'=>isset($table) ? $table->columns : array(),
 			'rules'=>$rules,
 			'labels'=>$labels,
@@ -457,5 +457,25 @@ EOD;
 			'className'=>$className,
 			'fixtureName'=>$fixtureName,
 		),true);
+	}
+
+	protected function removePrefix($tableName,$addBrackets=false)
+	{
+		$tablePrefix=Yii::app()->getDb()->tablePrefix;
+		if($tablePrefix!='' && !strncmp($tableName,$tablePrefix,strlen($tablePrefix)))
+		{
+			$tableName=substr($tableName,strlen($tablePrefix));
+			if($addBrackets)
+				$tableName='{{'.$tableName.'}}';
+		}
+		return $tableName;
+	}
+
+	protected function addPrefix($tableName)
+	{
+		$tablePrefix=Yii::app()->getDb()->tablePrefix;
+		if($tablePrefix!='' && strncmp($tableName,$tablePrefix,strlen($tablePrefix)))
+			$tableName=$tablePrefix.$tableName;
+		return $tableName;
 	}
 }
