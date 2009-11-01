@@ -217,4 +217,4 @@ som spenderas för exekvering av respektive SQL-sats. Vi kan även anropa
 samt total exekveringstid.
 
 
-<div class="revision">$Id: topics.logging.txt 1142 2009-06-17 21:42:08Z qiang.xue $</div>
+<div class="revision">$Id: topics.logging.txt 1147 2009-06-18 19:14:12Z qiang.xue $</div>

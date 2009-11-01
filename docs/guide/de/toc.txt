@@ -1,6 +1,7 @@
 * Der schnelle Einstieg
     - [Übersicht](index)
     - [Neue Features](changes)
+	- [Upgrade von 1.0 auf 1.1](upgrade)
     - [Was ist Yii](quickstart.what-is-yii)
     - [Installation](quickstart.installation)
     - [Erstellen der ersten Yii-Anwendung](quickstart.first-app)
@@ -44,10 +45,16 @@
     - [Erweiterungen erstellen](extension.create)
     - [Andere Bibliotheken verwenden](extension.integration)
 
+* Tests
+	- [Übersicht](test.overview)
+	- [Fixtures definieren](test.fixture)
+	- [Unittests](test.unit)
+	- [Funktionstests](test.functional)
+
 * Spezialthemen
     - [URL-Management](topics.url)
     - [Authentifizierung und Berechtigung](topics.auth)
-    - [Motive (Themes)](topics.theming)
+    - [Themes und Skins](topics.theming)
     - [Protokolle (Logging)](topics.logging)
     - [Fehlerbehandlung](topics.error)
     - [Webservice](topics.webservice)
@@ -57,4 +64,4 @@
     - [Sicherheit](topics.security)
     - [Leistungsoptimierung](topics.performance)
 
-<div class="revision">$Id: toc.txt 956 2009-04-21 15:16:03Z qiang.xue@gmail.com $</div>
+<div class="revision">$Id: toc.txt 1409 2009-09-13 19:21:34Z qiang.xue $</div>

@@ -48,10 +48,10 @@ inmatningsfälten i form av en HTML-tabell.
 <tr><th>Name</th><th>Price</th><th>Count</th><th>Description</th></tr>
 <?php foreach($items as $i=>$item): ?>
 <tr>
-<td><?php echo CHtml::activeTextField($item,"name[$i]"); ?></td>
-<td><?php echo CHtml::activeTextField($item,"price[$i]"); ?></td>
-<td><?php echo CHtml::activeTextField($item,"count[$i]"); ?></td>
-<td><?php echo CHtml::activeTextArea($item,"description[$i]"); ?></td>
+<td><?php echo CHtml::activeTextField($item,"[$i]name"); ?></td>
+<td><?php echo CHtml::activeTextField($item,"[$i]price"); ?></td>
+<td><?php echo CHtml::activeTextField($item,"[$i]count"); ?></td>
+<td><?php echo CHtml::activeTextArea($item,"[$i]description"); ?></td>
 </tr>
 <?php endforeach; ?>
 </table>
@@ -61,11 +61,11 @@ inmatningsfälten i form av en HTML-tabell.
 </div><!-- yiiForm -->
 ~~~
 
-Notera att i ovanstående används `"name[$i]"` i stället för `"name"` som andra 
+Notera att i ovanstående används `"[$i]name"` i stället för `"name"` som andra 
 parameter i anropet till [CHtml::activeTextField].
 
 Om det uppstår något valideringsfel kommer motsvarande inmatningsfält att 
 framhävas automatiskt, precis som tidigare beskrivits i fråga om inmatning av en 
 enstaka modellinstans.
 
-<div class="revision">$Id: form.table.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>
+<div class="revision">$Id: form.table.txt 1389 2009-09-04 14:03:35Z istvan.beregszaszi $</div>

@@ -198,7 +198,8 @@ Aturan akses dievaluasi satu demi satu sesuai urutan yang ditetapkan.
 Aturan pertama yang sesuai dengan pola saat ini (misalnya nama pengguna, roles,
 alamat IP klien) menentukan hasil otorisasi. Jika aturan ini adalah aturan `allow`,
 aksi bisa dijalankan; jika aturan `deny`, aksi tidak bisa dijalankan;
-jika tidak ada aturan yang sesuai konteks, aksi masih bisa dijalankan.
+jika tidak ada aturan yang sesuai konteks, aksi masih bisa 
+dijalankan.
 
 > Tip: Untuk memastikan aksi tidak bisa dijalankan pada konteks tertentu,
 > sangat bermanfaat untuk selalu menetapkan semuanya sesuai aturan `deny` di akhir
@@ -238,7 +239,9 @@ Pemakaian fitur [kontrol akses berbasis-role](#role-based-access-control)
 dijelaskan pada subseksi berikutnya. Aturan diterapkan khususnya jika
 [CWebUser::checkAccess] mengembalikan true pada salah satu set aturan.
 Catatan, Anda harus menggunakan set aturan terutama dalam aturan `allow` karena secara definisi,
-aturan mewakili perijinan untuk melakukan sesuatu.
+aturan mewakili perijinan untuk melakukan sesuatu. Juga harp dicatat, meskipun kita menggunakan
+batasan `roles` di sini, nilainya sebenarnya dapat berupa item otentikasi, termasuk roles,
+tugas dan operasi.
 
    - [ip|CAccessRule::ips]: menetapkan alamat IP klien mana yang sesuai aturan
 ini.
@@ -258,7 +261,8 @@ aksi yang ditetapkan, salah satu dari dua skenario berikut mungkin terjadi:
 
    - Jika pengguna tidak masuk dan jika properti [loginUrl|CWebUser::loginUrl]
 komponen pengguna dikonfigurasi menjadi URL halaman login,
-browser akan mengalihkan ke halaman itu.
+browser akan mengalihkan ke halaman itu. Catatan bahwa standarnya,
+[loginUrl|CWebUser::loginUrl] merujuk ke halaman `site/login`.
 
    - Sebaliknya eksepsi HTTP akan ditampilkan dengan kode kesalahan 401.
 
@@ -321,7 +325,8 @@ Sebagai contoh, kita bisa memiliki sistem dengan role `administrator` yang terdi
 tugas `post management` dan tugas `user management`. Tugas `user management`
 terdiri dari operasi `create user`, `update user` dan `delete user`.
 Agar lebih fleksibel, Yii juga mengijinkan role terdiri dari role atau operasi
-lain, tugas terdiri dari tugas lain, dan operasi terdiri dari operasi lainnya.
+lain, tugas terdiri dari tugas lain, dan operasi terdiri dari operasi lainnya, 
+tugas terdiri dari tugas-tugas lain, dan operasi terdiri dari operasi-operasi lainnya.
 
 Item otorisasi secara unik diidentifikasi dengan namanya.
 
@@ -547,4 +552,4 @@ $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('guest', 'guest user', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 1051 2009-05-22 20:14:05Z qiang.xue $</div>
+<div class="revision">$Id: topics.auth.txt 1282 2009-08-01 01:07:54Z qiang.xue $</div>

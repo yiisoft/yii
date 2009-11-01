@@ -240,4 +240,4 @@ Filter angewendet werden soll und auf welche nicht. Oben soll der Filter
 weder Plus noch Minus in der Filterkonfiguration auftauchen, wird der Filter
 auf alle Actions angewendet.
 
-<div class="revision">$Id: basics.controller.txt 1263 2009-07-21 19:22:00Z qiang.xue $</div>
+<div class="revision">$Id: basics.controller.txt 1264 2009-07-21 19:34:55Z qiang.xue $</div>

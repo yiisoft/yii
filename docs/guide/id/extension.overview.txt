@@ -11,6 +11,7 @@ Ekstensi biasanya melayani satu kebutuhan tertentu. Dalam batasan Yii, ia dapat
 diklasifikasikan sebagai berikut,
 
  * [komponen aplikasi](/doc/guide/basics.application#application-component)
+ * [behavior](/doc/guide/basics.component#component-behavior)
  * [widget](/doc/guide/basics.view#widget)
  * [kontroler](/doc/guide/basics.controller)
  * [aksi](/doc/guide/basics.controller#action)
@@ -26,4 +27,4 @@ di atas. Bahkan, Yii didesain secara hati-hati sehingga hampir seluruh kodenya
 dapat diperluas dan dikustomisasi agar sesuai dengan kebutuhan secara
 individual.
 
-<div class="revision">$Id: extension.overview.txt 759 2009-02-26 21:23:53Z qiang.xue $</div>
+<div class="revision">$Id: extension.overview.txt 1392 2009-09-04 20:39:11Z qiang.xue $</div>

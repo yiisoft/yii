@@ -3,7 +3,7 @@ Data Caching
 
 Data caching sebenarnya tentang penyimpanan beberapa variabel PHP dalam cache dan mengambilnya
 kemudian dari cache. Untuk keperluan ini, basis komponen cache [CCache]
-menyediakan dua metode yang dipakai dari waktu ke waktuprovides two methods that are used in most of the time: [set()|CCache::set]
+menyediakan dua metode yang dipakai dari waktu ke waktu: [set()|CCache::set]
 dan [get()|CCache::get].
 
 Untuk menyimpan variabel `$value` dalam cache, kita memilih ID unik dan memanggil 
@@ -27,7 +27,8 @@ Yii::app()->cache->set($id, $value, 30);
 ~~~
 
 Selanjutnya, saat kita perlu mengakses variabel ini (baik dalam permintaan Web 
-yang sama atau berbeda), kita memanggil [get()|CCache::get] dengan ID untuk mengambilnya dari cache. Jika nilai yang dikembalikan false, ini berarti nilai
+yang sama atau berbeda), kita memanggil [get()|CCache::get] dengan ID untuk mengambilnya 
+dari cache. Jika nilai yang dikembalikan false, ini berarti nilai
 tidak tersedia dalam cache dan kita harus membuatnya kembali.
 
 ~~~
@@ -44,11 +45,20 @@ if($value===false)
 Ketika memilih ID untuk variabel yang di-cache, pastikan ID unik diantara
 semua variabel lain yang mungkin di-cache dalam aplikasi. ID tidak perlu
 unik diantara berbagai aplikasi karena komponen cache cukup pintar
-untuk membedakan ID pada aplikasi yang berbeda.
+untuk membedakan ID pada aplikasi yang 
+berbeda.
+
+Beberapa penyimpanan cache, seperti MemCache, APC, mendukung pengambilan
+multipel nilai yang di-cache dalam mode batch, ini dapat mengurangi beban terkait
+pada pengambilan data cache. Mulai dari versi 1.0.8, metode baru bernama
+[mget()|CCache::mget] disediakan guna mengeksploitasi fitur ini. Dalam hal penyimpanan
+cache lapisan bawah tidak mendukung fitur ini, [mget()|CCache::mget] masih tetap akan
+mensimulasikannya.
 
 Untuk menghapus nilai yang di-cache dari cache, panggil [delete()|CCache::delete]; dan
 untuk menghapus semuanya dari cache, panggil [flush()|CCache::flush]. Harap
-berhati-hati saat memanggil [flush()|CCache::flush] karena ia juga menghapus data yang di-cache yang berasal dari aplikasi lain.
+berhati-hati saat memanggil [flush()|CCache::flush] karena ia juga menghapus data 
+yang di-cache yang berasal dari aplikasi lain.
 
 > Tip: Karena [CCache] mengimplementasikan `ArrayAccess`, komponen cache bisa
 > dipakai layaknya sebuah. Berikut adalah beberapa contoh:
@@ -64,7 +74,8 @@ Ketergantungan Cache
 
 Selain setelan masa hidup, data yang di-cache juga bisa disegarkan berdasarkan
 pada beberapa perubahan ketergantungan. Sebagai contoh, jika kita men-cache konten
-beberapa file dan file berubah, kita harus menyegarkan duplikat yang di-cache dan membaca konten terbaru dari file daripada cache.
+beberapa file dan file berubah, kita harus menyegarkan duplikat yang di-cache 
+dan membaca konten terbaru dari file daripada cache.
 
 Kami menyajikan ketergantungan sebagai turunan dari [CCacheDependency] atau anak
 kelasnya. Kami mengoper turunan ketergantungan bersamaan dengan data yang di
@@ -78,13 +89,16 @@ Yii::app()->cache->set($id, $value, 30, new CFileCacheDependency('FileName'));
 ~~~
 
 Sekarang, jika kita mengambil `$value` dari cache dengan memanggil [get()|CCache::get], 
-ketergantungan akan dievaluasi dan jika ia berubah, kita akan mendapat nilai false yang menunjukan data perlu dibuat ulang.
+ketergantungan akan dievaluasi dan jika ia berubah, kita akan mendapat nilai false 
+yang menunjukan data perlu dibuat ulang.
 
 Di bawah ini adalah ringkasan ketergantungan cache yang tersedia:
 
-   - [CFileCacheDependency]: ketergantungan diubah jika waktu modifikasi file terakhir diubah.
+   - [CFileCacheDependency]: ketergantungan diubah jika waktu modifikasi 
+   file terakhir diubah.
 
-   - [CDirectoryCacheDependency]: ketergantungan diubah jika file di bawah direktori dan subdirektorinya berubah.
+   - [CDirectoryCacheDependency]: ketergantungan diubah jika file di
+   bawah direktori dan subdirektorinya berubah.
 
    - [CDbCacheDependency]: ketergantungan diubah jika hasil queri
 pernyataan SQL yang ditetapkan berubah.
@@ -94,6 +108,11 @@ kondisi global yang ditetapkan berubah. Kondisi global adalah variabel
 yang persisten pada multipel permintaan dan multipel sesi dalam aplikasi.
 Ini didefinisikan melalui [CApplication::setGlobalState()].
 
-   - [CChainedCacheDependency]: ketergantungan diubah jika salah satu rantai berubah.
+   - [CChainedCacheDependency]: ketergantungan diubah jika salah satu 
+   rantai berubah.
 
-<div class="revision">$Id: caching.data.txt 169 2008-11-06 19:43:44Z qiang.xue $</div>
+   - [CExpressionDependency]: ketergantungan berubah jika hasil yang 
+   ditetapkan ekspresi PHP 
+   diubah. Kelas ini sudah tersedia sejak versi 1.0.4.
+
+<div class="revision">$Id: caching.data.txt 1290 2009-08-06 16:13:11Z qiang.xue $</div>

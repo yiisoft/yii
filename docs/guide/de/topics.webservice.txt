@@ -232,4 +232,4 @@ von [CWebService] beziehen und den Namen der angeforderten Methode über
 entfernte Methode aus irgendeinem Grund nicht ausgeführt werden soll (z.B.
 bei unberechtigtem Zugriff).
 
-<div class="revision">$Id: topics.webservice.txt 1300 2009-08-07 00:39:21Z qiang.xue $</div>
+<div class="revision">$Id: topics.webservice.txt 1308 2009-08-07 23:43:11Z qiang.xue $</div>

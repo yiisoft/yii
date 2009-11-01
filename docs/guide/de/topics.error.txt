@@ -81,8 +81,8 @@ herauszufinden.
 [CErrorHandler] sucht in dieser Reihenfolge nach der entsprechenden 
 View-Datei:
 
-   1. `WebRoot/themes/MotivName/views/system`: dies ist das Verzeichnis für
-`system`-Views im gerade aktiven Motiv (engl: theme).
+   1. `WebRoot/themes/ThemeName/views/system`: dies ist das Verzeichnis für
+`system`-Views im gerade aktiven Theme.
 
    2. `WebRoot/protected/views/system`: dies ist das Standardverzeichnis
 für `system`-Views einer Anwendung.
@@ -92,7 +92,7 @@ für `system`-Views einer Anwendung.
 
 Wenn wir also die Darstellung der Fehler anpassen möchten, können wir einfach
 im system-View-Verzeichnis unserer Anwendung oder unseres
-Motivs View-Dateien anlegen. Jede View-Datei ist ein gewöhnliches PHP-Script, das
+Themes View-Dateien anlegen. Jede View-Datei ist ein gewöhnliches PHP-Script, das
 hauptsächlich aus HTML-Code besteht. Mehr Details finden sie in den
 vorgegebenen View-Dateien im `view`-Verzeichnis des Frameworks.
 
@@ -163,4 +163,4 @@ einer nicht-abgefangenen Exception, lautet die Kategorie
 somit die Verfahren zur [Protokollierung](/doc/guide/topics.logging) benutzen,
 um Ausführungsfehler einer Anwendung zu überwachen.
 
-<div class="revision">$Id: topics.error.txt 1053 2009-05-23 02:34:03Z qiang.xue $</div>
+<div class="revision">$Id: topics.error.txt 1064 2009-05-26 00:15:33Z qiang.xue $</div>

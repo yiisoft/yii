@@ -45,4 +45,4 @@ filter. Faktum är att sättet en widget arbetar på är mycket likt ett filter:
 widget (filter) börjar innan något omslutet innehåll (åtgärd) utvärderas, och 
 denna widget (filter) slutar efter utvärdering av omslutet innehåll (åtgärd).
 
-<div class="revision">$Id: caching.page.txt 1012 2009-05-10 01:21:58Z qiang.xue $</div>
+<div class="revision">$Id: caching.page.txt 1014 2009-05-10 12:25:55Z qiang.xue $</div>

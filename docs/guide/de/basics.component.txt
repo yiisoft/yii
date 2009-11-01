@@ -108,6 +108,16 @@ aus dem Aufruf von `raiseEvent()`). Der Event-Parameter ist eine Instanz vom
 Typ [CEvent] oder einer davon abgeleiteten Klasse. Er enthält mindestens die
 Information, wer das Event ausgelöst hat.
 
+Seit Version 1.0.10 kann ein Eventhandler auch eine anonyme Funktion sein, die
+seit PHP 5.3 oder höher unterstützt werden. Zum Beispiel:
+
+~~~
+[php]
+$component->onClicked=function($event) {
+	......
+}
+~~~
+
 Wenn wir nun `onClicked()` aufrufen, wird das Event `onClicked` ausgelöst
 (innerhalb `onClicked()`) und der verbundene Eventhandler wird automatisch
 aufgerufen.
@@ -183,4 +193,12 @@ es eine oder mehrere seiner Methoden mit einigen Events der Komponente
 verbinden. Dadurch kann kann das Behavior den normalen Prozessablauf innerhalb
 einer Komponente überwachen oder verändern.
 
-<div class="revision">$Id: basics.component.txt 1328 2009-08-15 18:45:51Z qiang.xue $</div>
+Beginnend mit Version 1.1.0 kann auch von einer Komponente aus auf
+Eigenschaften eines angebundenen Behaviors zugegriffen werden. Die
+zugänglichen Eigenschaften umfassen öffentliche Variablen und Eigenschaften
+die mit getter-/setter-Methoden im Behavior definiert wurden. Falls ein
+Behavior zum Beispiel eine Eigenschaft namens `xyz` besitzt und an eine
+Komponente `$a` angebunden wurde, kann mit `$a->xyz` darauf zugegriffen
+werden.
+
+<div class="revision">$Id: basics.component.txt 1474 2009-10-18 21:13:52Z qiang.xue $</div>

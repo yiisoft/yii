@@ -2,7 +2,7 @@
 ========================
 
 Также, как и в модели `Post`, в модели `Comment` нам необходимо поправить методы
-`rules()`, `relations()` и `safeAttributes()`. Кроме того, нужно задать свои
+`rules()` и `relations()`. Кроме того, нужно задать свои
 подписи некоторым полям в методе `attributeLabels()`.
 
 
@@ -40,23 +40,6 @@ public function rules()
 только при добавлении нового комментария(см. параметр `on`). Для аутентифицированных
 пользователей валидация не требуется(см. параметра `allowEmpty`).
 
-
-Изменение метода `safeAttributes()`
------------------------------------
-
-Далее изменим метод `safeAttributes()`. Укажем атрибуты, которые могут быть
-назначены пакетно.
-
-~~~
-[php]
-public function safeAttributes()
-{
-	return array('author', 'email', 'url', 'content', 'verifyCode');
-}
-~~~
-
-Приведённый выше код также показывает, что форма комментирования будет состоять
-из нескольких полей: автор, почта, URL, текст и код подтверждения.
 
 
 Изменение метода `relations()`
@@ -120,7 +103,7 @@ public function attributeLabels()
 
 ~~~
 [php]
-protected function beforeValidate($on)
+protected function beforeValidate()
 {
 	$parser=new CMarkdownParser;
 	$this->contentDisplay=$parser->safeTransform($this->content);
@@ -143,4 +126,4 @@ protected function afterDelete()
 ~~~
 
 
-<div class="revision">$Id: comment.model.txt 814 2009-03-10 18:00:11Z qiang.xue $</div>
+<div class="revision">$Id: comment.model.txt 1495 2009-10-29 17:24:41Z qiang.xue $</div>

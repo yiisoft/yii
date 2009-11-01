@@ -688,4 +688,5 @@ $contents=Content::model()->findAll();
 Beachten Sie, dass der Standardbereich nur für
 `SELECT`-Abfragen verwendet wird. Bei `INSERT`-, `UPDATE`- und
 `DELETE`-Statements wird er ignoriert.
-<div class="revision">$Id: database.ar.txt 1391 2009-09-04 19:46:04Z qiang.xue $</div>
+
+<div class="revision">$Id: database.ar.txt 1398 2009-09-06 01:15:01Z qiang.xue $</div>

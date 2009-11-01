@@ -1,0 +1,39 @@
+* 开始
+	- [概述](start.overview)
+    - [目录结构](start.testdrive)
+    - [需求分析](start.requirements)
+    - [整体设计](start.design)
+
+* 前期制作
+    - [设置数据库](prototype.database)
+    - [脚手架](prototype.scaffold)
+    - [用户认证](prototype.auth)
+    - [小结](prototype.summary)
+
+* 文章(Post)管理
+    - [调整文章模型l](post.model)
+    - [建立和修改文章](post.create)
+    - [显示文章](post.display)
+    - [管理文章](post.admin)
+
+* 评论(Comment)管理
+	- [调整评论模型](comment.model)
+    - [建立和显示评论](comment.create)
+    - [管理评论](comment.admin)
+
+* Portlet 搭建
+	- [建立Portlet基类](portlet.base)
+	- [用户菜单](portlet.menu)
+	- [登陆位置](portlet.login)
+	- [标签云](portlet.tags)
+	- [建立最新评论](portlet.comments)
+
+* 结尾工作
+	- [漂亮的URLs](final.url)
+	- [错误日志](final.logging)
+    - [自定义错误页](final.error)
+    - [调节与部署](final.deployment)
+    - [改进](final.future)
+
+
+<div class="revision">$Id: toc.txt 1202 2009-10-21 17:56:59Z qiang.xue $</div>

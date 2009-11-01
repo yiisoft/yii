@@ -23,7 +23,8 @@ Konfigurasi adalah array pasangan kunci-nilai. Setiap kunci mewakili nama
 properti turunan aplikasi, dan setiap nilai adalah nilai awal dari properti
 tersebut. Sebagai contoh, koonfigurasi berikut
 mengkonfigurasi aplikasi [name|CApplication::name] dan properti 
-[defaultController|CWebApplication::defaultController].
+[defaultController|CWebApplication::defaultController]
+aplikasi.
 
 ~~~
 [php]
@@ -194,6 +195,8 @@ Siklus Aplikasi
 Ketika menangani permintaan pengguna, aplikasi akan berada dalam siklus masa hidup
 sebagai berikut:
 
+   0. Pra-inisialisasi aplikasi dengan [CApplication::preinit()];
+
    1. Menyiapkan kelas autoloader dan penanganan kesalahan;
 
    2. Meregistrasi komponen inti aplikasi;
@@ -202,6 +205,7 @@ sebagai berikut:
 
    4. Menginisialisasi aplikasi dengan [CApplication::init()]
 	   - Mengambil komponen statis aplikasi;
+	   - Mengambil komponen aplikasi statis;
 
    5. Menghidupkan event [onBeginRequest|CApplication::onBeginRequest];
 
@@ -212,4 +216,4 @@ sebagai berikut:
 
    7. Menghidupkan event [onEndRequest|CApplication::onEndRequest];
 
-<div class="revision">$Id: basics.application.txt 626 2009-02-04 20:51:13Z qiang.xue $</div>
+<div class="revision">$Id: basics.application.txt 846 2009-03-17 17:35:33Z qiang.xue $</div>

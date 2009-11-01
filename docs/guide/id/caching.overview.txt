@@ -53,6 +53,9 @@ dapat menetapkan secara eksplisit database yang dipilih dengan menyetel properti
    - [CZendDataCache]: menggunakan Zend Data Cache sebagi lapisan medium caching.
 Catatan, ini sudah tersedia sejak versi 1.0.4.
 
+   - [CFileCache]: menggunakan file untuk menyimpan data cache. Ini seringkali sesuai untuk
+potongan besar data cache (misalnya halaman). Catatan bahwa ini sudah tersedia sejak versi 1.0.6.
+
    - [CDummyCache]: menyajikan cache dummy yang tidak melakukan cache sama sekali. Maksud
 komponen ini adalah untuk menyederhanakan kode yang harus memeriksa ketersediaan cache.
 Sebagai contoh, selama pengembangan atau jika server tidak memiliki dukungan cache sebenarnya, kita
@@ -75,7 +78,7 @@ cache pada tingkatan ini.
 
 > Note|Catatan: Secara definisi, cache adalah medium penyimpanan volatil. Ia tidak
 memastikan keberadaan data yang di-cache meskipun belum berakhir.
-Oleh karena itu, jangan gunakan cache sebagai penyimpanan persisten (contoh, jangan gunakan cache
-untuk menyimpan data sesi).
+Oleh karena itu, jangan gunakan cache sebagai penyimpanan persisten (contoh, jangan 
+gunakan cache untuk menyimpan data sesi).
 
-<div class="revision">$Id: caching.overview.txt 1034 2009-05-19 21:33:55Z qiang.xue $</div>
+<div class="revision">$Id: caching.overview.txt 1309 2009-08-08 12:37:23Z qiang.xue $</div>

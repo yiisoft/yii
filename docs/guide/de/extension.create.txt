@@ -265,4 +265,4 @@ Eine allgemeine Erweiterungskomponente zu entwickeln, bedeutet, eine Klasse zu
 schreiben. Auch hier gilt: Die Komponente sollte in sich geschlossen sein, so
 dass sie von anderen Entwicklern einfach eingesetzt werden kann.
 
-<div class="revision">$Id: extension.create.txt 1411 2009-09-13 23:15:05Z qiang.xue $</div>
+<div class="revision">$Id: extension.create.txt 1423 2009-09-28 01:54:38Z qiang.xue $</div>

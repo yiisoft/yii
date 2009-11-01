@@ -1,6 +1,7 @@
 * Начало
 	- [Обзор](index)
     - [Новые возможности](changes)
+	- [Обновление с версии 1.0 до версии 1.1](upgrade)
     - [Что такое Yii](quickstart.what-is-yii)
     - [Установка](quickstart.installation)
     - [Создание первого приложения](quickstart.first-app)
@@ -44,10 +45,16 @@
     - [Создание расширений](extension.create)
     - [Использование сторонних библиотек](extension.integration)
 
+* Тестирование
+	- [Обзор](test.overview)
+	- [Определение фикстур](test.fixture)
+	- [Модульное тестирование](test.unit)
+	- [Функциональное тестирование](test.functional)
+
 * Специальные темы
     - [Красивые адреса URL](topics.url)
     - [Аутентификация и авторизация](topics.auth)
-    - [Темы оформления](topics.theming)
+    - [Темы оформления и скины](topics.theming)
     - [Журналирование](topics.logging)
     - [Обработка ошибок](topics.error)
     - [Веб-сервисы](topics.webservice)
@@ -57,4 +64,4 @@
     - [Безопасность](topics.security)
     - [Улучшение производительности](topics.performance)
 
-<div class="revision">$Id: toc.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>
+<div class="revision">$Id: toc.txt 1409 2009-09-13 19:21:34Z qiang.xue $</div>

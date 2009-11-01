@@ -15,13 +15,14 @@ definieren. Der Einfachheit halber sind schon folgende RootAliase
 vordefiniert:
 
  - `system`: Verweist auf das Frameworkverzeichnis von Yii
+ - `zii`: Verweist auf das Verzeichnis der Zii-Bibliothek.
  - `application`: Verweist auf das
 [Stammverzeichnis](/doc/guide/basics.application#application-base-directory) der Anwendung
  - `webroot`: Verweist auf das Verzeichnis, das das
 [Eingangsscript](/doc/guide/basics.entry) enthält. Dieser Alias ist seit
 Version 1.0.3 verfügbar.
  - `ext`: Verweist auf das Verzeichnis, das alle
-[Erweiterungen]((/doc/guide/extension.overview) enthält. Dieser Alias steht
+[Erweiterungen](/doc/guide/extension.overview) enthält. Dieser Alias steht
 seit Version 1.0.8 zur Verfügung.
 
 Falls die Anwendung [Module](/doc/guide/basics.module) verwendet, wird für
@@ -82,4 +83,4 @@ Ein Pfad-Alias kollidiert nicht mit einem Namespace.
 > reserviert bleibt und benutzerdefinierte Klassen mit anderen Präfixen
 > versehen werden.
 
-<div class="revision">$Id: basics.namespace.txt 1310 2009-08-08 16:03:46Z qiang.xue $</div>
+<div class="revision">$Id: basics.namespace.txt 1400 2009-09-07 12:45:17Z qiang.xue $</div>

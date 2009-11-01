@@ -23,7 +23,7 @@ di mana `$this` merujuk ke turunan kontroler; `$route` menetapkan
 [rute](/doc/guide/basics.controller#route) permintaan; dan `$params`
 adalah daftar parameter `GET` yang akan ditambahkan ke URL.
 
-Distandarkan, URL yang dibuat dengan  [createUrl|CController::createUrl] adalah
+Standarnya, URL yang dibuat dengan  [createUrl|CController::createUrl] adalah
 apa yang disebut dengan format `get`. Sebagai contoh, `$route='post/read'` dan
 `$params=array('id'=>100)`, kita akan mendapatkan URL seperti berikut:
 
@@ -107,8 +107,11 @@ tanpa pemisah dan pembeda. Ini dipakai untuk menyamakan bagian info path
 URL. Dan [rute](/doc/guide/basics.controller#route) harus merujuk ke kontroler rute yang sesuai.
 
 > Info: Mulai dari versi 1.0.6, aturan selanjutnya bisa dikustomisasi
-> dengan menyetel opsi `urlSuffix` dan `caseSensitive`. Untuk melakukannya,
-> kita harus menetapkan bagian rute sebagai sebuah array, seperti berikut:
+> dengan menyetel opsi `urlSuffix` dan `caseSensitive`. Dan mulai dari
+> versi 1.0.8, sebuah aturan juga bisa memiliki `defaultParams` yang menwakili
+> sebuah daftar pasangan nama-nilai yang digabung ke dalam `$_GET`. Untuk mengkustomisasi aturan
+> dengan opsi ini, kita harus menetapkan bagian rute pada aturan sebagai sebuah array,
+> seperti berikut:
 >
 > ~~~
 > [php]
@@ -128,7 +131,9 @@ muncul dalam pola aturan sebagai token khusus dengan format sebagai berikut:
 
 di mana `ParamName` menetapkan nama parameter GET, dan opsional
 `ParamPattern` menetapkan ekspresi reguler yang harus dipakai untuk
-menyamakan nilai parameter GET. Ketika membuat URL, token parameter ini
+menyamakan nilai parameter GET. Dalam hal ketika `ParamPattern` disertakan,
+ini berarti parameter harus sesuai dengan setiap karakter kecuali garis miring `/`.
+Ketika membuat URL, token parameter ini
 akan diganti dengan nilai parameter terkait; saat penguraian
 URL, parameter GET tersebut akan dipopulasi dengan hasil
 penguraian.
@@ -190,7 +195,7 @@ aturan URL.
 
 ### Parameterisasi Rute
 
-Mulai dari versi 1.0.5, kita dapat rujuk parameter bernama dalam bagian rute pada sebuah
+Mulai dari versi 1.0.5, kita dapat merujuk parameter bernama dalam bagian rute pada sebuah
 aturan. Ini mengijinkan aturan untuk diterapkan pada multi rute berdasarkan pada kriteria
 yang sesuai. Ini juga membantu mengurangi jumlah aturan yang diperlukan oleh aplikasi,
 Selanjutnya tentunya meingkatkan performansi secara keseluruhan.
@@ -229,20 +234,21 @@ mengkonfigurasi server Web dan juga komponen aplikasi
 Pertama kita harus mengkonfigurasi server Web agar URL tanpa naskah entri
 masih dapat ditangani oleh naskah entri. Untuk [Apache HTTP
 server](http://httpd.apache.org/), ini bisa dikerjakan dengan menghidupkan URL
-rewriting engine dan menetapkan beberapa aturan penulisannya. Keduanya bisa dilakukan dalam
-file `.htaccess` yang ditempatkan di bawah direktori yang berisi naskah entri.
-Berikut ini adalah sebuah contohnya:
+rewriting engine dan menetapkan beberapa aturan penulisannya. Kita dapat membuat
+ file `/wwwroot/blog/.htaccess` dengan konten berikut.
+Catatan bahwa konten yang sama juga bisa disimpan dalam file konfigurasi Apache
+di dalam elemen `Directory` untuk `/wwwroot/blog`.
 
 ~~~
 Options +FollowSymLinks
 IndexIgnore */*
 RewriteEngine on
 
-# if a directory or a file exists, use it directly
+# jika ia berupa direktori atau file sudah ada, gunakan langsung
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
-# otherwise forward it to index.php
+# sebaliknya teruskan ia ke index.php
 RewriteRule . index.php
 ~~~
 
@@ -262,4 +268,4 @@ halaman Web statis. Untuk melakukannya, cukup konfigurasi komponen
 [urlManager|CWebApplication::urlManager] dengan menyetel properti
 [urlSuffix|CUrlManager::urlSuffix] ke sufiks yang Anda inginkan.
 
-<div class="revision">$Id: topics.url.txt 1051 2009-05-22 20:14:05Z qiang.xue $</div>
+<div class="revision">$Id: topics.url.txt 1342 2009-08-17 14:55:58Z qiang.xue $</div>

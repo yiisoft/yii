@@ -64,7 +64,7 @@ protected function newComment($post)
 		$comment->status=Comment::STATUS_PENDING;
 
 		if(isset($_POST['previewComment']))
-			$comment->validate('insert');
+			$comment->validate();
 		else if(isset($_POST['submitComment']) && $comment->save())
 		{
 			Yii::app()->user->setFlash('commentSubmitted','Спасибо...');
@@ -119,4 +119,4 @@ protected function newComment($post)
 <?php endif; ?>
 ~~~
 
-<div class="revision">$Id: comment.create.txt 1157 2009-06-22 15:25:02Z qiang.xue $</div>
+<div class="revision">$Id: comment.create.txt 1438 2009-10-07 23:44:27Z qiang.xue $</div>

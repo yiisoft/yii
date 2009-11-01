@@ -52,9 +52,7 @@ aksi ini.
 >dalam huruf kecil, dan [peta kontroler|CWebApplication::controllerMap]
 >serta [peta aksi|CController::actions] keduanya menggunakan kunci dalam huruf kecil.
 
-Sejak versi 1.0.3, sebuah aplikasi bisa berisi [modul](/doc/guide/basics.module). 
-Rute aksi kontroler di dalam sebuah modul yakni dalam format `moduleID/controllerID/actionID`. 
-Untuk lebih rinci, lihat [seksi mengenai modul](/doc/guide/basics.module).
+Sejak versi 1.0.3, sebuah aplikasi bisa berisi [modul](/doc/guide/basics.module). Rute aksi kontroler di dalam sebuah modul yakni dalam format `moduleID/controllerID/actionID`. Untuk lebih rinci, lihat [seksi mengenai modul](/doc/guide/basics.module).
 
 
 Penurunan Kontroler
@@ -235,4 +233,4 @@ harus diterapkan ke aksi `edit` dan `create`, sementara
 `create`. Jika plus maupun minus tidak muncul dalam konfigurasi filter,
 maka filter akan diterapkan ke semua aksi.
 
-<div class="revision">$Id: basics.controller.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>
+<div class="revision">$Id: basics.controller.txt 1263 2009-07-21 19:22:00Z qiang.xue $</div>

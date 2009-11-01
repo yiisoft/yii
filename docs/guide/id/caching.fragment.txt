@@ -2,15 +2,16 @@ Cache Fragmen
 =============
 
 Cache fragmen merujuk pada melakukan cache fragmen sebuah halaman. Sebagai 
-contoh, jika halaman menampilkan ringkasan penjualan tahunan dalam sebuah tabel,
-kita dapat menyimpan tabel ini dalam cache untuk mengeliminasi waktu yang dibutuhkan dalam membuatnya untuk setiap permintaan.
+contoh, jika halaman menampilkan ringkasan penjualan tahunan berbentuk tabel,
+kita dapat menyimpan tabel ini pada cache guna mengeliminasi waktu yang 
+dibutuhkan dalam membuatnya untuk setiap permintaan.
 
 Untuk menggunakan cache fragmen, kita memanggil
 [CController::beginCache()|CBaseController::beginCache()] dan
 [CController::endCache()|CBaseController::endCache()] dalam naskah tampilan 
-kontroler. Masing-masing dari dua metode menandai awal dan akhir konten halaman yang harus di-cache. Seperti [cache
-data](/doc/guide/caching.data), kita memerlukan ID guna mengidentifikasi
-fragmen yang sedang di-cache.
+kontroler. Masing-masing dari dua metode menandai awal dan akhir konten halaman 
+yang harus di-cache. Seperti [cache data](/doc/guide/caching.data), kita memerlukan 
+ID guna mengidentifikasi fragmen yang sedang di-cache.
 
 ~~~
 [php]
@@ -29,15 +30,19 @@ cache saat [endCache()|CBaseController::endCache()] dipanggil.
 Opsi Cache
 ----------
 
-Ketika memanggil [beginCache()|CBaseController::beginCache()], kita dapat menyediakan array sebagai parameter kedua yang terdiri dari opsi cache untuk mengkustomisasi cache fragmen. Bahkan dalam kenyataanya, metode 
-[beginCache()|CBaseController::beginCache()] dan
-[endCache()|CBaseController::endCache()] adalah pelapis yang nyaman untuk widget [COutputCache]. Oleh karena itu, opsi cache dapat bernilai awal untuk
-setiap properti [COutputCache].
+Ketika memanggil [beginCache()|CBaseController::beginCache()], kita dapat 
+menyediakan array sebagai parameter kedua yang terdiri dari opsi cache untuk 
+mengkustomisasi cache fragmen. Bahkan pada dasarnya, metode 
+[beginCache()|CBaseController::beginCache()] dan 
+metode [endCache()|CBaseController::endCache()] 
+adalah pelapis nyaman untuk widget [COutputCache]. Oleh karenanya, opsi 
+cache dapat bernilai awal untuk setiap properti [COutputCache].
 
 ### Durasi
 
 Barangkali, opsi paling umum adalah [duration|COutputCache::duration]
-yang menetapkan berapa lama konten tetap benar dalam cache. Ia mirip dengan parameter masa hidup [CCache::set()]. Kode berikut melakukan 
+yang menetapkan berapa lama konten tetap benar dalam cache. Ia mirip 
+dengan parameter masa hidup [CCache::set()]. Kode berikut melakukan 
 cache fragmen konten untuk satu jam:
 
 ~~~
@@ -49,14 +54,19 @@ cache fragmen konten untuk satu jam:
 ...konten HTML lain...
 ~~~
 
-Jika kita tida menyetel durasi, standarnya adalah 60, berarti konten di-cache akan disegarkan setelah 60 detik.
+Jika kita tida menyetel durasi, standarnya adalah 60, berarti konten 
+di-cache akan disegarkan setelah 60 detik.
 
 ### Ketergantungan
 
-Seperti halnya [cache data](/doc/guide/caching.data), fragmen konten yang sedang di- cache juga bisa memiliki ketergantungan. Sebagai contoh, konten tulisan yang sedang ditampilkan tergantung apakah tulisan dimodifikasi atau tidak.
+Seperti halnya [cache data](/doc/guide/caching.data), fragmen konten yang 
+sedang di-cache juga bisa memiliki ketergantungan. Sebagai contoh, konten 
+tulisan yang sedang ditampilkan tergantung apakah tulisan dimodifikasi atau tidak.
 
 Untuk menetapkan ketergantungan, kita menyetel opsi [dependency|COutputCache::dependency],
-yang bisa berupa obyek yang mengimplementasi [ICacheDependency] atau array konfigurasi yang dapat dipakai guna menghasilkan obyek dependensi. Kode berikut menetapkan konten fragmen yang tergantung pada perubahan nilai kolom 
+yang bisa berupa obyek yang mengimplementasi [ICacheDependency] atau array 
+konfigurasi yang dapat dipakai guna menghasilkan obyek dependensi. Kode berikut 
+menetapkan konten fragmen yang tergantung pada perubahan nilai kolom 
 `lastModified`:
 
 ~~~
@@ -72,8 +82,8 @@ yang bisa berupa obyek yang mengimplementasi [ICacheDependency] atau array konfi
 
 ### Variasi
 
-Konten yang sedang di-cache dapat divariasikan berdasarkan pada beberapa parameter. Sebagai
-contoh, profil personal bisa terlihat berbeda bagi pengguna yang berbeda. 
+Konten yang sedang di-cache dapat divariasikan berdasarkan pada beberapa parameter.
+Sebagai contoh, profil personal bisa terlihat berbeda bagi pengguna yang berbeda. 
 Untuk men-cache konten profil, kita ingin duplikat yang di-cache divariasikan
 berdasarkan ID pengguna. Secara esensial ini berarti bahwa kita harus 
 menggunakan ID berbeda saat memanggil 
@@ -121,7 +131,10 @@ kita dapat menetapkan opsi [requestTypes|COutputCache::requestTypes]:
 Cache Berulang
 --------------
 
-Cache fragmen dapat diulang. Yaitu, fragmen yang di-cache disertakan dalam fragmen yang lebih besar yang juga di-cache. Sebagai contoh, komentar di-cache dalam fragmen cache lebih dalam, dan di-cache bersama dengan konten tulisan di cache fragmen lebih luar.
+Cache fragmen dapat diulang. Yaitu, fragmen yang di-cache disertakan dalam 
+fragmen yang lebih besar yang juga di-cache. Sebagai contoh, komentar di-cache 
+dalam fragmen cache lebih dalam, dan di-cache bersama dengan konten tulisan di 
+cache fragmen lebih luar.
 
 ~~~
 [php]
@@ -137,8 +150,11 @@ Cache fragmen dapat diulang. Yaitu, fragmen yang di-cache disertakan dalam fragm
 ~~~
 
 Opsi cache yang berbeda dapat disetel untuk pengulangan cache. Sebagai contoh,
-cache lebih dalam dan cache lebih luar dalam contoh di atas dapat disetel dengan nilai durasi yang berbeda. Saat data di-cache dalam cahce lebih luar
+cache lebih dalam dan cache lebih luar dalam contoh di atas dapat disetel dengan 
+nilai durasi yang berbeda. Saat data di-cache dalam cahce lebih luar
 disegarkan, cache mungkin menyediakan fragmen lebih dalam yang masih.
-Akan tetapi, tidak benar jika dilakukan sebaliknya. Jika cache lebih luar berisi data yang benar, ia akan selalu menyediakan duplikat yang di-cache, meskipun konten cache lebih dalam sudah berakhir.
+Akan tetapi, tidak benar jika dilakukan sebaliknya. Jika cache lebih luar berisi 
+data yang benar, ia akan selalu menyediakan duplikat yang di-cache, meskipun konten 
+cache lebih dalam sudah berakhir.
 
-<div class="revision">$Id: caching.fragment.txt 323 2008-12-04 01:40:16Z qiang.xue $</div>
+<div class="revision">$Id: caching.fragment.txt 932 2009-04-14 01:27:30Z qiang.xue@gmail.com $</div>

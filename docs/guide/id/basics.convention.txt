@@ -142,4 +142,4 @@ pada aplikasi. Setiap subdirektori mewakili satu tema yang namanya adalah nama
 subdirektori. Ia dapat dikustomisasi melalui
 [CThemeManager::basePath].
 
-<div class="revision">$Id: basics.convention.txt 749 2009-02-26 02:11:31Z qiang.xue $</div>
+<div class="revision">$Id: basics.convention.txt 747 2009-02-26 01:10:13Z qiang.xue $</div>

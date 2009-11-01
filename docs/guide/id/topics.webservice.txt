@@ -13,16 +13,16 @@ Layanan Web bergantung pada
 protokol komunikasinya.
 
 Yii menyediakan [CWebService] dan [CWebServiceAction] untuk menyederhanakan pekerjaan
-implementasi layanan Web dalam aplikasi Web. The APIs are grouped into
-classes, called *service providers*. Yii will generate for each
-class a [WSDL](http://www.w3.org/TR/wsdl) specification which describes
-what APIs are available and how they should be invoked by client. When an
-API is invoked by a client, Yii will instantiate the corresponding service
-provider and call the requested API to fulfill the request.
+implementasi layanan Web dalam aplikasi Web. APIs dikelompokkan ke dalam
+kelas, disebut *service providers*. Yii akan membuat sebuah
+spesifikasi [WSDL](http://www.w3.org/TR/wsdl) untuk setiap kelas yang menjelaskan
+API apa yang bersifat variabel dan bagaimana ia harus dipanggil oleh klien. Ketika
+sebuah API dipanggil oleh klien, Yii akan menginisiasi penyedia layanan terkait
+dan memanggil API yang diminta guna memenuhi permintaan.
 
-> Note: [CWebService] relies on the [PHP SOAP
-extension](http://www.php.net/manual/en/ref.soap.php). Make sure you have
-enabled it before trying the examples displayed in this section.
+> Note: [CWebService] bergantung pada [PHP SOAP
+extension](http://www.php.net/manual/en/ref.soap.php). Pastikan Anda menghidupkannya
+sebelum mencoba menampilkan contoh dalam seksi ini.
 
 Mendefinisikan Penyedia Layanan
 -------------------------------
@@ -177,6 +177,11 @@ class Post extends CActiveRecord
 	 * @soap
 	 */
 	public $title;
+
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
 }
 ~~~
 
@@ -218,4 +223,4 @@ via [CWebService::methodName]. Ini dapat menghasilkan false jika metode
 remote seharusnya tidak dipanggil untuk beberapa alasan (misalnya
 akses tidak diotorisasi).
 
-<div class="revision">$Id: topics.webservice.txt 265 2008-11-23 12:30:16Z weizhuo $</div>
+<div class="revision">$Id: topics.webservice.txt 1300 2009-08-07 00:39:21Z qiang.xue $</div>

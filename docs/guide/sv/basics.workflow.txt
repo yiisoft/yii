@@ -44,4 +44,4 @@ applikationen.
 För vart och ett av ovanstående steg kan testfall behöva skapas och utföras.
 
 
-<div class="revision">$Id: basics.workflow.txt 1030 2009-05-17 11:49:15Z qiang.xue $</div>
+<div class="revision">$Id: basics.workflow.txt 1034 2009-05-19 21:33:55Z qiang.xue $</div>

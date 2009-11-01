@@ -3,7 +3,27 @@ Fitur Baru
 
 Halaman ini meringkas fitur-fitur utama baru yang diperkenalkan dalam setiap rilis Yii.
 
-Version 1.0.6
+Versi 1.0.8
+-----------
+
+ * Ditambahkan dukungan untuk mengambil multipel nilai yang di-cache sekali waktu
+	 - [Cache Data](/doc/guide/caching.data)
+
+ * Diperkenalkan standar alias path root `ext` baru yang merujuk ke direktori
+yang berisi semua ekstensi pihak ketiga.
+	 - [Menggunakan Ekstensi](/doc/guide/extension.use)
+
+Versi 1.0.7
+-----------
+
+ * Ditambahkan dukungan untuk menampilkan informasi stack pemanggilan dalam pesan pelacakan
+     - [Informasi Konteks Pencatatan](/doc/guide/topics.logging#logging-context-information)
+
+ * Ditambahkan opsi `index` pada relasi AR agar obyek terkait bisa diindeks
+menggunakan nilai kolom tertentu
+     - [Opsi Queri Relasional](/doc/guide/database.arr#relational-query-options)
+
+Versi 1.0.6
 -------------
 
  * Ditambahkan dukungan untuk pemakaian lingkup bernama dengan metode `update` dan `delete`:
@@ -32,4 +52,4 @@ Versi 1.0.5
  * Peningkatan [CUrlManager] untuk mendukung parameterisasi bagian rute dalam aturan URL. Lihat:
      - [Parameterisasi Rute dalam Aturan URL](/doc/guide/topics.url#parameterizing-routes)
 
-<div class="revision">$Id: changes.txt 1051 2009-05-22 20:14:05Z qiang.xue $</div>
+<div class="revision">$Id: changes.txt 1299 2009-08-07 00:25:55Z qiang.xue $</div>

@@ -119,4 +119,4 @@ wenn bei einer der Abhängigkeiten der Kette eine Änderung eingetreten ist.
 wenn das Ergebnis des angegebenen PHP-Ausdrucks sich ändert. Diese Klasse
 steht seit Version 1.0.4 zur Verfügung.
 
-<div class="revision">$Id: caching.data.txt 1290 2009-08-06 16:13:11Z qiang.xue $</div>
+<div class="revision">$Id: caching.data.txt 1295 2009-08-06 20:00:34Z qiang.xue $</div>

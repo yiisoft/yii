@@ -222,4 +222,4 @@ efterfrågas via [CWebService::methodName]. Den kan returnera false
 om fjärrmetoden inte invokeras av någon anledning (t.ex. icke-auktoriserad 
 åtkomst).
 
-<div class="revision">$Id: topics.webservice.txt 1300 2009-08-07 00:39:21Z qiang.xue $</div>
+<div class="revision">$Id: topics.webservice.txt 1308 2009-08-07 23:43:11Z qiang.xue $</div>
