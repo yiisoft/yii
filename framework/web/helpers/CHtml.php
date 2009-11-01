@@ -463,7 +463,8 @@ class CHtml
 	/**
 	 * Generates a label tag.
 	 * @param string label text. Note, you should HTML-encode the text if needed.
-	 * @param string the ID of the HTML element that this label is associated with
+	 * @param string the ID of the HTML element that this label is associated with.
+	 * If this is false, the 'for' attribute for the label tag will not be rendered (since version 1.0.11).
 	 * @param array additional HTML attributes.
 	 * Starting from version 1.0.2, the following HTML option is recognized:
 	 * <ul>
@@ -476,7 +477,10 @@ class CHtml
 	 */
 	public static function label($label,$for,$htmlOptions=array())
 	{
-		$htmlOptions['for']=$for;
+		if($for===false)
+			unset($htmlOptions['for']);
+		else
+			$htmlOptions['for']=$for;
 		if(isset($htmlOptions['required']))
 		{
 			if($htmlOptions['required'])
