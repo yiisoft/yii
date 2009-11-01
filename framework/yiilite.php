@@ -39,7 +39,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1b-dev';
+		return '1.1b';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -1098,6 +1098,14 @@ abstract class CApplication extends CModule
 	public function getLocale($localeID=null)
 	{
 		return CLocale::getInstance($localeID===null?$this->getLanguage():$localeID);
+	}
+	public function getLocaleDataPath()
+	{
+		return CLocale::$dataPath===null ? Yii::getPathOfAlias('system.i18n.data') : CLocale::$dataPath;
+	}
+	public function setLocaleDataPath($value)
+	{
+		CLocale::$dataPath=$value;
 	}
 	public function getNumberFormatter()
 	{
@@ -3893,7 +3901,10 @@ class CHtml
 	}
 	public static function label($label,$for,$htmlOptions=array())
 	{
-		$htmlOptions['for']=$for;
+		if($for===false)
+			unset($htmlOptions['for']);
+		else
+			$htmlOptions['for']=$for;
 		if(isset($htmlOptions['required']))
 		{
 			if($htmlOptions['required'])
@@ -5323,7 +5334,10 @@ class CAccessRule extends CComponent
 	{
 		if($this->expression===null)
 			return true;
-		return @eval('return '.$this->expression.';');
+		if(is_callable($this->expression))
+			return call_user_func($this->expression, $user);
+		else
+			return @eval('return '.$this->expression.';');
 	}
 }
 abstract class CModel extends CComponent implements IteratorAggregate, ArrayAccess
@@ -5563,6 +5577,7 @@ abstract class CActiveRecord extends CModel
 	private $_attributes=array();				// attribute name => attribute value
 	private $_related=array();					// attribute name => related objects
 	private $_c;								// query criteria (used by finder only)
+	private $_pk;								// old primary key value
 	public function __construct($scenario='insert')
 	{
 		if($scenario===null) // internally used by populateRecord() and model()
@@ -5975,7 +5990,7 @@ abstract class CActiveRecord extends CModel
 			throw new CDbException(Yii::t('yii','The active record cannot be updated because it is new.'));
 		if($this->beforeSave())
 		{
-			$this->updateByPk($this->getPrimaryKey(),$this->getAttributes($attributes));
+			$this->updateByPk($this->getOldPrimaryKey(),$this->getAttributes($attributes));
 			$this->afterSave();
 			return true;
 		}
@@ -5994,7 +6009,7 @@ abstract class CActiveRecord extends CModel
 				else
 					$values[$name]=$this->$name=$value;
 			}
-			return $this->updateByPk($this->getPrimaryKey(),$values)>0;
+			return $this->updateByPk($this->getOldPrimaryKey(),$values)>0;
 		}
 		else
 			throw new CDbException(Yii::t('yii','The active record cannot be updated because it is new.'));
@@ -6046,6 +6061,23 @@ abstract class CActiveRecord extends CModel
 		}
 		else
 			return null;
+	}
+	public function setPrimaryKey($value)
+	{
+		$this->_pk=$this->getPrimaryKey();
+		$table=$this->getMetaData()->tableSchema;
+		if(is_string($table->primaryKey))
+			$this->{$table->primaryKey}=$value;
+		else if(is_array($table->primaryKey))
+		{
+			$values=array();
+			foreach($table->primaryKey as $name)
+				$this->$name=$values[$name];
+		}
+	}
+	public function getOldPrimaryKey()
+	{
+		return $this->_pk;
 	}
 	private function query($criteria,$all=false)
 	{
@@ -6190,6 +6222,7 @@ abstract class CActiveRecord extends CModel
 		if($attributes!==false)
 		{
 			$record=$this->instantiate($attributes);
+			$record->setScenario('update');
 			$md=$record->getMetaData();
 			foreach($attributes as $name=>$value)
 			{
@@ -6198,6 +6231,7 @@ abstract class CActiveRecord extends CModel
 				else if(isset($md->columns[$name]))
 					$record->_attributes[$name]=$value;
 			}
+			$record->_pk=$record->getPrimaryKey();
 			$record->attachBehaviors($record->behaviors());
 			if($callAfterFind)
 				$record->afterFind();
@@ -6209,30 +6243,14 @@ abstract class CActiveRecord extends CModel
 	public function populateRecords($data,$callAfterFind=true)
 	{
 		$records=array();
-		$md=$this->getMetaData();
 		foreach($data as $attributes)
-		{
-			$record=$this->instantiate($attributes);
-			$md=$record->getMetaData();
-			foreach($attributes as $name=>$value)
-			{
-				if(property_exists($record,$name))
-					$record->$name=$value;
-				else if(isset($record->_md->columns[$name]))
-					$record->_attributes[$name]=$value;
-			}
-			$record->attachBehaviors($record->behaviors());
-			if($callAfterFind)
-				$record->afterFind();
-			$records[]=$record;
-		}
+			$records[]=$this->populateRecord($attributes,$callAfterFind);
 		return $records;
 	}
 	protected function instantiate($attributes)
 	{
 		$class=get_class($this);
 		$model=new $class(null);
-		$model->setScenario('update');
 		return $model;
 	}
 	public function offsetExists($offset)
@@ -6413,6 +6431,7 @@ class CDbConnection extends CApplicationComponent
 	public $emulatePrepare=false;
 	public $enableParamLogging=false;
 	public $enableProfiling=false;
+	public $tablePrefix;
 	private $_attributes=array();
 	private $_active=false;
 	private $_pdo;
@@ -6923,7 +6942,10 @@ class CDbCommand extends CComponent
 	}
 	public function setText($value)
 	{
-		$this->_text=$value;
+		if($this->_connection->tablePrefix!==null)
+			$this->_text=preg_replace('/{{(.*?)}}/',$this->_connection->tablePrefix.'\1',$value);
+		else
+			$this->_text=$value;
 		$this->cancel();
 	}
 	public function getConnection()
