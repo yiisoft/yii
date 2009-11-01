@@ -426,6 +426,9 @@ EOD;
 
 		if(!is_file($source))  // fall back to default ones
 			$source=YII_PATH.'/cli/views/shell/model/'.basename($source);
+		$tablePrefix=Yii::app()->getDb()->tablePrefix;
+		if($tablePrefix!='' && !strncmp($tableName,$tablePrefix,strlen($tablePrefix)))
+			$tableName='{{'.substr($tableName,strlen($tablePrefix)).'}}';
 		return $this->renderFile($source,array(
 			'className'=>$className,
 			'tableName'=>$tableName,
