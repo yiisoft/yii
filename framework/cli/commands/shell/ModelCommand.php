@@ -29,11 +29,13 @@ class ModelCommand extends CConsoleCommand
 	/**
 	 * @var string the directory that contains test fixtures.
 	 * Defaults to null, meaning using 'protected/tests/fixtures'.
+	 * If this is false, it means fixture file should NOT be generated.
 	 */
 	public $fixturePath;
 	/**
 	 * @var string the directory that contains unit test classes.
 	 * Defaults to null, meaning using 'protected/tests/unit'.
+	 * If this is false, it means unit test file should NOT be generated.
 	 */
 	public $unitTestPath;
 
@@ -334,20 +336,26 @@ EOD;
 				'callback'=>array($this,'generateModel'),
 				'params'=>array($className,$tableName),
 			);
-			$list['fixtures/'.$tableName.'.php']=array(
-				'source'=>$templatePath.DIRECTORY_SEPARATOR.'fixture.php',
-				'target'=>$fixturePath.DIRECTORY_SEPARATOR.$tableName.'.php',
-				'callback'=>array($this,'generateFixture'),
-				'params'=>$this->_schema->getTable($tableName),
-			);
-			$fixtureName=$this->pluralize($className);
-			$fixtureName[0]=strtolower($fixtureName);
-			$list['unit/'.$className.'Test.php']=array(
-				'source'=>$templatePath.DIRECTORY_SEPARATOR.'test.php',
-				'target'=>$unitTestPath.DIRECTORY_SEPARATOR.$className.'Test.php',
-				'callback'=>array($this,'generateTest'),
-				'params'=>array($className,$fixtureName),
-			);
+			if($fixturePath!==false)
+			{
+				$list['fixtures/'.$tableName.'.php']=array(
+					'source'=>$templatePath.DIRECTORY_SEPARATOR.'fixture.php',
+					'target'=>$fixturePath.DIRECTORY_SEPARATOR.$tableName.'.php',
+					'callback'=>array($this,'generateFixture'),
+					'params'=>$this->_schema->getTable($tableName),
+				);
+			}
+			if($unitTestPath!==false)
+			{
+				$fixtureName=$this->pluralize($className);
+				$fixtureName[0]=strtolower($fixtureName);
+				$list['unit/'.$className.'Test.php']=array(
+					'source'=>$templatePath.DIRECTORY_SEPARATOR.'test.php',
+					'target'=>$unitTestPath.DIRECTORY_SEPARATOR.$className.'Test.php',
+					'callback'=>array($this,'generateTest'),
+					'params'=>array($className,$fixtureName),
+				);
+			}
 		}
 
 		$this->copyFiles($list);
