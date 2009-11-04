@@ -29,6 +29,7 @@ class CrudCommand extends CConsoleCommand
 	/**
 	 * @var string the directory that contains functional test classes.
 	 * Defaults to null, meaning using 'protected/tests/functional'.
+	 * If this is false, it means functional test file should NOT be generated.
 	 */
 	public $functionalTestPath;
 	/**
@@ -156,13 +157,17 @@ EOD;
 				'callback'=>array($this,'generateController'),
 				'params'=>array($controllerClass,$modelClass),
 			),
-			$modelClass.'Test.php'=>array(
+		);
+
+		if($functionalTestPath!==false)
+		{
+			$list[$modelClass.'Test.php']=array(
 				'source'=>$templatePath.'/test.php',
 				'target'=>$functionalTestPath.DIRECTORY_SEPARATOR.$modelClass.'Test.php',
 				'callback'=>array($this,'generateTest'),
 				'params'=>array($controllerID,$fixtureName,$modelClass),
-			),
-		);
+			);
+		}
 
 		foreach($this->actions as $action)
 		{
