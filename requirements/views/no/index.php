@@ -46,7 +46,7 @@ Desverre tilfredstiller ikke konfigurasjonen av serveren minimumskravene til Yii
 	<?php echo $requirement[0]; ?>
 	</td>
 	<td class="<?php echo $requirement[2] ? 'ok' : ($requirement[1] ? 'feil' : 'advarsel'); ?>">
-	<?php echo $requirement[2] ? 'Ok' : 'Feil'; ?>
+	<?php echo $requirement[2] ? 'Ok' : ($requirement[1] ? 'Feil' : 'Warning'); ?>
 	</td>
 	<td>
 	<?php echo $requirement[3]; ?>

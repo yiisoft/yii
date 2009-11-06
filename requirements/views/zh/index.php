@@ -41,7 +41,7 @@
 	<?php echo $requirement[0]; ?>
 	</td>
 	<td class="<?php echo $requirement[2] ? 'passed' : ($requirement[1] ? 'failed' : 'warning'); ?>">
-	<?php echo $requirement[2] ? '通过' : '未通过'; ?>
+	<?php echo $requirement[2] ? '通过' : ($requirement[1] ? '未通过' : 'Warning'); ?>
 	</td>
 	<td>
 	<?php echo $requirement[3]; ?>
