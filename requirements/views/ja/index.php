@@ -45,7 +45,7 @@
 	<?php echo $requirement[0]; ?>
 	</td>
 	<td class="<?php echo $requirement[2] ? 'passed' : ($requirement[1] ? 'failed' : 'warning'); ?>">
-	<?php echo $requirement[2] ? '合格' : '不合格'; ?>
+	<?php echo $requirement[2] ? '合格' : ($requirement[1] ? '不合格' : 'Warning'); ?>
 	</td>
 	<td>
 	<?php echo $requirement[3]; ?>
