@@ -209,6 +209,11 @@ class CSort extends CComponent
 		$directions=$this->getDirections();
 		if(isset($directions[$attribute]))
 		{
+			$class=$directions[$attribute] ? 'desc' : 'asc';
+			if(isset($htmlOptions['class']))
+				$htmlOptions['class'].=' '.$class;
+			else
+				$htmlOptions['class']=$class;
 			$descending=!$directions[$attribute];
 			unset($directions[$attribute]);
 		}
