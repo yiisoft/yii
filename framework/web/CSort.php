@@ -57,7 +57,7 @@ class CSort extends CComponent
 	 * @var array list of attributes that are allowed to be sorted.
 	 * For example, array('user_id','create_time') would specify that only 'user_id'
 	 * and 'create_time' of the model {@link modelClass} can be sorted.
-	 * By default, this property is null, which means all attributes in
+	 * By default, this property is an empty array, which means all attributes in
 	 * {@link modelClass} are allowed to be sorted.
 	 *
 	 * This property can also be used to specify complex sorting. To do so,
@@ -95,7 +95,7 @@ class CSort extends CComponent
 	 * Note, the attribute name should not contain '-' or '.' characters because
 	 * they are used as {@link separators}.
 	 */
-	public $attributes;
+	public $attributes=array();
 	/**
 	 * @var string the name of the GET parameter that specifies which attributes to be sorted
 	 * in which direction. Defaults to 'sort'.
@@ -324,9 +324,9 @@ class CSort extends CComponent
 	/**
 	 * Returns the real definition of an attribute given its name.
 	 * The resolution is based on {@link attributes} and {@link CActiveRecord::attributeNames}.
-	 * When {@link attributes} is not set, if the name refers to an attribute of {@link modelClass},
+	 * When {@link attributes} is an empty array, if the name refers to an attribute of {@link modelClass},
 	 * then the name is returned back.
-	 * When {@link attributes} is set, if the name refers to an attribute declared in {@link attributes},
+	 * When {@link attributes} is not empty, if the name refers to an attribute declared in {@link attributes},
 	 * then the corresponding virtual attribute definition is returned.
 	 * In all other cases, false is returned, meaning the name does not refer to a valid attribute.
 	 * @param string the attribute name that the user requests to sort on
@@ -334,7 +334,7 @@ class CSort extends CComponent
 	 */
 	public function resolveAttribute($attribute)
 	{
-		if(is_array($this->attributes))
+		if($this->attributes!==array())
 			$attributes=$this->attributes;
 		else if($this->modelClass!==null)
 			$attributes=CActiveRecord::model($this->modelClass)->attributeNames();
