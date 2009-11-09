@@ -45,9 +45,9 @@ class CSort extends CComponent
 {
 	/**
 	 * @var boolean whether the sorting can be applied to multiple attributes simultaneously.
-	 * Defaults to true. If false, each time the data can only be sorted by one attribute.
+	 * Defaults to false, which means each time the data can only be sorted by one attribute.
 	 */
-	public $multiSort=true;
+	public $multiSort=false;
 	/**
 	 * @var string the name of the model class whose attributes can be sorted.
 	 * The model class must be a child class of {@link CActiveRecord}.
