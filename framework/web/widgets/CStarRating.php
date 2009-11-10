@@ -157,7 +157,9 @@ class CStarRating extends CInputWidget
 	{
 		$inputCount=(int)(($this->maxRating-$this->minRating)/$this->ratingStepSize+1);
 		$starSplit=(int)($inputCount/$this->starCount);
-		$selection=$this->hasModel() ? $this->model->{$this->attribute} : $this->value;
+		$attr=$this->attribute;
+		CHtml::resolveName($this->model,$attr);
+		$selection=$this->hasModel() ? $this->model->$attr : $this->value;
 		$options=$starSplit>1 ? array('class'=>"{split:{$starSplit}}") : array();
 		for($value=$this->minRating, $i=0;$i<$inputCount; ++$i, $value+=$this->ratingStepSize)
 		{

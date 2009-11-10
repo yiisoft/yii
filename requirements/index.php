@@ -196,7 +196,7 @@ function getServerInfo()
 {
 	$info[]=isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : '';
 	$info[]='<a href="http://www.yiiframework.com/">Yii Framework</a>/'.getYiiVersion();
-	$info[]=@strftime('%Y-%m-%d %H:%m',time());
+	$info[]=@strftime('%Y-%m-%d %H:%M',time());
 
 	return implode(' ',$info);
 }
@@ -208,18 +208,14 @@ function renderFile($_file_,$_params_=array())
 }
 
 $result=1;  // 1: all pass, 0: fail, -1: pass with warnings
-$n=count($requirements);
-for($i=0;$i<$n;++$i)
+
+foreach($requirements as $i=>$requirement)
 {
-	$requirement=$requirements[$i];
 	if($requirement[1] && !$requirement[2])
 		$result=0;
 	else if($result>0 && !$requirement[1] && !$requirement[2])
 		$result=-1;
-	$requirements[$i][0]=$requirements[$i][0];
-	$requirements[$i][3]=$requirements[$i][3];
-	$requirements[$i][4]=$requirements[$i][4];
-	if($requirements[$i][4]==='')
+	if($requirement[4]==='')
 		$requirements[$i][4]='&nbsp;';
 }
 

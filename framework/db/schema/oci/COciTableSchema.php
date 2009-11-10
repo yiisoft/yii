@@ -9,7 +9,7 @@
  */
 
 /**
- * COciTableSchema represents the metadata for a Ora table.
+ * COciTableSchema represents the metadata for a Oracle table.
  *
  * @author Ricardo Grana <rickgrana@yahoo.com.br>
  * @version $Id$

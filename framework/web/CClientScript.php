@@ -219,9 +219,9 @@ class CClientScript extends CApplicationComponent
 	{
 		$html='';
 		foreach($this->_metas as $meta)
-			$html.=CHtml::metaTag($meta['content'],null,null,$meta);
+			$html.=CHtml::metaTag($meta['content'],null,null,$meta)."\n";
 		foreach($this->_links as $link)
-			$html.=CHtml::linkTag(null,null,null,null,$link);
+			$html.=CHtml::linkTag(null,null,null,null,$link)."\n";
 		foreach($this->cssFiles as $url=>$media)
 			$html.=CHtml::cssFile($url,$media)."\n";
 		foreach($this->_css as $css)
