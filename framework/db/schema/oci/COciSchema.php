@@ -9,7 +9,7 @@
  */
 
 /**
- * COciSchema is the class for retrieving metadata information from a PostgreSQL database.
+ * COciSchema is the class for retrieving metadata information from an Oracle database.
  *
  * @author Ricardo Grana <rickgrana@yahoo.com.br>
  * @version $Id$
