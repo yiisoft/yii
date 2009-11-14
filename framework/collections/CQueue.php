@@ -109,7 +109,7 @@ class CQueue extends CComponent implements IteratorAggregate,Countable
 		if($this->_c===0)
 			throw new CException(Yii::t('yii','The queue is empty.'));
 		else
-			return $this->_d[$this->_c-1];
+			return $this->_d[0];
 	}
 
 	/**
