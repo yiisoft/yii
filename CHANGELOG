@@ -14,6 +14,7 @@ Version 1.0.11 to be released
 - Enh #643: Enhanced CAccessControlFilter::expression, COutputCache::varyByExpression and CExpressionDependency::expression so that they can use PHP callback (Qiang)
 - Enh #665: Added support for using CStarRating to collect tabular input (Qiang)
 - Enh #672: Added Italian translation of error views (Qiang)
+- Enh #679: Added support for parsing and creating URLs with parameterized hostnames (Qiang)
 - Enh: Added core message translation in Thai (Peerajak)
 - Enh: Allow CHtml::label() and CHtml::activeLabel() not to render the 'for' attribute when it is set false (Qiang)
 

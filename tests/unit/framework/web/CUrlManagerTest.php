@@ -44,6 +44,7 @@ class CUrlManagerTest extends CTestCase
 			'<c:(post|comment)>/<id:\d+>/<a:(create|update|delete)>'=>'<c>/<a>',
 			'<c:(post|comment)>/<id:\d+>'=>'<c>/view',
 			'<c:(post|comment)>s/*'=>'<c>/list',
+			'http://<user:\w+>.example.com/<lang:\w+>/profile'=>'user/profile',
 		);
 		$entries=array(
 			array(
@@ -136,6 +137,11 @@ class CUrlManagerTest extends CTestCase
 				'route'=>'post/3/delete/a',
 				'params'=>array(),
 			),
+			array(
+				'pathInfo'=>'en/profile',
+				'route'=>'user/profile',
+				'params'=>array('user'=>'admin','lang'=>'en'),
+			),
 		);
 		$config=array(
 			'basePath'=>dirname(__FILE__),
@@ -149,6 +155,7 @@ class CUrlManagerTest extends CTestCase
 		$app=new TestApplication($config);
 		$app->controllerPath=dirname(__FILE__).DIRECTORY_SEPARATOR.'controllers';
 		$request=$app->request;
+		$_SERVER['HTTP_HOST']='admin.example.com';
 		$um=new CUrlManager;
 		$um->urlSuffix='.html';
 		$um->urlFormat='path';
@@ -181,6 +188,7 @@ class CUrlManagerTest extends CTestCase
 			'<c:(post|comment)>/<id:\d+>/<a:(create|update|delete)>'=>'<c>/<a>',
 			'<c:(post|comment)>/<id:\d+>'=>'<c>/view',
 			'<c:(post|comment)>s/*'=>'<c>/list',
+			'http://<user:\w+>.example.com/<lang:\w+>/profile'=>'user/profile',
 		);
 		$config=array(
 			'basePath'=>dirname(__FILE__),
@@ -279,6 +287,17 @@ class CUrlManagerTest extends CTestCase
 				'params'=>array(
 					'id'=>'123',
 					'name1'=>'value1',
+				),
+			),
+			array(
+				'scriptUrl'=>'/index.php',
+				'url'=>'http://admin.example.com/en/profile',
+				'url2'=>'http://admin.example.com/en/profile',
+				'url3'=>'http://admin.example.com/en/profile.html',
+				'route'=>'user/profile',
+				'params'=>array(
+					'user'=>'admin',
+					'lang'=>'en',
 				),
 			),
 		);
