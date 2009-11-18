@@ -603,9 +603,10 @@ class CUrlRule extends CComponent
 		}
 
 		if($this->hasHostInfo)
-			$pathInfo=$request->getHostInfo().'/'.$pathInfo;
+			$pathInfo=$request->getHostInfo().rtrim('/'.$pathInfo,'/');
 
 		$pathInfo.='/';
+
 		if(preg_match($this->pattern.$case,$pathInfo,$matches))
 		{
 			foreach($this->defaultParams as $name=>$value)
