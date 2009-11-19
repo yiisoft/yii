@@ -556,3 +556,52 @@ interface IWidgetFactory
 	 */
 	public function createWidget($owner,$className,$properties=array());
 }
+
+/**
+ * IDataProvider is the interface that must be implemented by data provider classes.
+ *
+ * Data providers are components that can feed data for widgets such as data grid, data list.
+ * Besides providing data, they also support pagination and sorting.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id$
+ * @package system.web
+ * @since 1.1
+ */
+interface IDataProvider
+{
+	/**
+	 * @return string the unique ID that identifies the data provider from other data providers.
+	 */
+	public function getId();
+	/**
+	 * Returns the total number of data items.
+	 * Note that when pagination is used, this number refers to the total number of data items
+	 * without pagination. So it could be greater than
+	 * the number of data items returned by {@link data}.
+	 * @param boolean whether the total number of data items should be re-calculated.
+	 * @return integer total number of possible data items.
+	 */
+	public function getTotalCount($refresh=false);
+	/**
+	 * Returns the data items currently available.
+	 * @param boolean whether the data should be re-fetched from persistent storage.
+	 * @return array the list of data items currently available in this data provider.
+	 */
+	public function getData($refresh=false);
+	/**
+	 * Returns the key values associated with the data items.
+	 * @param boolean whether the keys should be re-calculated.
+	 * @return array the list of key values corresponding to {@link data}. Each data item in {@link data}
+	 * is uniquely identified by the corresponding key value in this array.
+	 */
+	public function getKeys($refresh=false);
+	/**
+	 * @return CSort the sorting object. If this is false, it means the sorting is disabled.
+	 */
+	public function getSort();
+	/**
+	 * @return CPagination the pagination object. If this is false, it means the pagination is disabled.
+	 */
+	public function getPagination();
+}
