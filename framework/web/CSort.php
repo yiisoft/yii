@@ -152,9 +152,25 @@ class CSort extends CComponent
 	 */
 	public function applyOrder($criteria)
 	{
+		$order=$this->getOrderBy();
+		if(!empty($order))
+		{
+			if(!empty($criteria->order))
+				$criteria->order.=', ';
+			$criteria->order.=$order;
+		}
+	}
+
+	/**
+	 * @return string the order-by columns represented by this sort object.
+	 * This can be put in the ORDER BY clause of a SQL statement.
+	 * @since 1.1.0
+	 */
+	public function getOrderBy()
+	{
 		$directions=$this->getDirections();
 		if(empty($directions))
-			$order=$this->defaultOrder;
+			return $this->defaultOrder;
 		else
 		{
 			if($this->modelClass!==null)
@@ -183,14 +199,7 @@ class CSort extends CComponent
 					$orders[]=$descending?$attribute.' DESC':$attribute;
 				}
 			}
-			$order=implode(', ',$orders);
-		}
-
-		if(!empty($order))
-		{
-			if(!empty($criteria->order))
-				$criteria->order.=', ';
-			$criteria->order.=$order;
+			return implode(', ',$orders);
 		}
 	}
 
