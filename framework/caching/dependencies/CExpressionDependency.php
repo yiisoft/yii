@@ -27,7 +27,7 @@ class CExpressionDependency extends CCacheDependency
 	 * @var string the PHP expression whose result is used to determine the dependency.
 	 * Starting from version 1.0.11, the expression can also be a valid PHP callback,
 	 * including class method name (array(ClassName/Object, MethodName)),
-	 * or anonymous function (PHP 5.3.0+). The function/method will be passed a single
+	 * or anonymous function (PHP 5.3.0+). The function/method will be passed with a
 	 * parameter which is the dependency object itself.
 	 */
 	public $expression;
@@ -48,9 +48,6 @@ class CExpressionDependency extends CCacheDependency
 	 */
 	protected function generateDependentData()
 	{
-		if(!is_string($this->expression) && is_callable($this->expression))
-			return call_user_func($this->expression, $this);
-		else
-			return @eval('return '.$this->expression.';');
+		return $this->evaluateExpression($this->expression);
 	}
 }

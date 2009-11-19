@@ -97,8 +97,11 @@ class COutputCache extends CFilterWidget
 	 * for each different expression result.
 	 * Starting from version 1.0.11, the expression can also be a valid PHP callback,
 	 * including class method name (array(ClassName/Object, MethodName)),
-	 * or anonymous function (PHP 5.3.0+). The function/method will be passed a single
-	 * parameter which is the output cache object itself.
+	 * or anonymous function (PHP 5.3.0+). The function/method signature should be as follows:
+	 * <pre>
+	 * function foo($cache) { ... }
+	 * </pre>
+	 * where $cache refers to the output cache component.
 	 * @since 1.0.4
 	 */
 	public $varyByExpression;
@@ -289,14 +292,6 @@ class COutputCache extends CFilterWidget
 
 			return $this->_key=$key;
 		}
-	}
-
-	private function evaluateExpression($expression)
-	{
-		if(!is_string($expression) && is_callable($expression))
-			return call_user_func($expression, $this);
-		else
-			return @eval('return '.$expression.';');
 	}
 
 	/**

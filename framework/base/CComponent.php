@@ -16,7 +16,7 @@
  * A property is defined by a getter method, and/or a setter method.
  * Properties can be accessed in the way like accessing normal object members.
  * Reading or writing a property will cause the invocation of the corresponding
- * getter or setter method, e.g.,
+ * getter or setter method, e.g
  * <pre>
  * $a=$component->text;     // equivalent to $a=$component->getText();
  * $component->text='abc';  // equivalent to $component->setText('abc');
@@ -555,6 +555,42 @@ class CComponent
 		else if(YII_DEBUG && !$this->hasEvent($name))
 			throw new CException(Yii::t('yii','Event "{class}.{event}" is not defined.',
 				array('{class}'=>get_class($this), '{event}'=>$name)));
+	}
+
+	/**
+	 * Evaluates a PHP expression or callback under the context of this component.
+	 *
+	 * Valid PHP callback can be global function name, class method name in the form of
+	 * array(ClassName/Object, MethodName), and anonymous function (only available in PHP 5.3.0 or above).
+	 *
+	 * If a PHP callback is used, the corresponding function/method signature should be
+	 * <pre>
+	 * function foo($param1, $param2, ..., $component) { ... }
+	 * </pre>
+	 * where the array elements in the second parameter to this method will be passed
+	 * to the callback as $param1, $param2, ...; and the last parameter will be the component itself.
+	 *
+	 * If a PHP expression is used, the second parameter will be "extracted" into PHP variables
+	 * that can be directly accessed in the expression. See {@link http://us.php.net/manual/en/function.extract.php PHP extract}
+	 * for more details. In the expression, the component object can be accessed using $this.
+	 *
+	 * @var mixed a PHP expression or PHP callback to be evaluated.
+	 * @param array additional parameters to be passed to the above expression/callback.
+	 * @return mixed the expression result
+	 * @since 1.1.0
+	 */
+	public function evaluateExpression($_expression_,$_data_=array())
+	{
+		if(!is_string($_expression_) || is_callable($_expression_))
+		{
+			$_data_[]=$this;
+			return call_user_func_array($_expression_, $_data_);
+		}
+		else
+		{
+			extract($_data_);
+			return @eval('return '.$_expression_.';');
+		}
 	}
 }
 
