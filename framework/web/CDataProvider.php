@@ -21,22 +21,19 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 
 	/**
 	 * Fetches the data from the persistent data storage.
-	 * @param boolean whether this call is triggered by an explicit refresh
 	 * @return array list of data items
 	 */
-	abstract protected function fetchData($refresh);
+	abstract protected function fetchData();
 	/**
 	 * Fetches the data item keys from the persistent data storage.
-	 * @param boolean whether this call is triggered by an explicit refresh
 	 * @return array list of data item keys.
 	 */
-	abstract protected function fetchKeys($refresh);
+	abstract protected function fetchKeys();
 	/**
 	 * Calculates the total number of data items.
-	 * @param boolean whether this call is triggered by an explicit refresh
 	 * @return integer the total number of data items.
 	 */
-	abstract protected function calculateTotalCount($refresh);
+	abstract protected function calculateTotalCount();
 
 	/**
 	 * @return string the unique ID that uniquely identifies the data provider among all data providers.
@@ -122,7 +119,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	public function getData($refresh=false)
 	{
 		if($this->_data===null || $refresh)
-			$this->_data=$this->fetchData($refresh);
+			$this->_data=$this->fetchData();
 		return $this->_data;
 	}
 
@@ -143,7 +140,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	public function getKeys($refresh=false)
 	{
 		if($this->_keys===null || $refresh)
-			$this->_keys=$this->fetchKeys($refresh);
+			$this->_keys=$this->fetchKeys();
 		return $this->_keys;
 	}
 
@@ -166,7 +163,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	public function getTotalCount($refresh=false)
 	{
 		if($this->_totalCount===null || $refresh)
-			$this->_totalCount=$this->calculateTotalCount($refresh);
+			$this->_totalCount=$this->calculateTotalCount();
 		return $this->_totalCount;
 	}
 }

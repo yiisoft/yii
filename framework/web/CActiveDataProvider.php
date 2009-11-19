@@ -83,15 +83,14 @@ class CActiveDataProvider extends CDataProvider
 
 	/**
 	 * Fetches the data from the persistent data storage.
-	 * @param boolean whether this call is triggered by an explicit refresh
 	 * @return array list of data items
 	 */
-	protected function fetchData($refresh)
+	protected function fetchData()
 	{
 		$criteria=clone $this->getCriteria();
 		if(($pagination=$this->getPagination())!==false)
 		{
-			$pagination->setItemCount($this->getTotalCount($refresh));
+			$pagination->setItemCount($this->getTotalCount(true));
 			$pagination->applyLimit($criteria);
 		}
 		if(($sort=$this->getSort())!==false)
@@ -109,15 +108,14 @@ class CActiveDataProvider extends CDataProvider
 
 	/**
 	 * Fetches the data item keys from the persistent data storage.
-	 * @param boolean whether this call is triggered by an explicit refresh
 	 * @return array list of data item keys.
 	 */
-	protected function fetchKeys($refresh)
+	protected function fetchKeys()
 	{
 		$keys=array();
 		if($this->keyAttribute===null)
 		{
-			foreach($this->getData($refresh) as $i=>$data)
+			foreach($this->getData() as $i=>$data)
 				$keys[$i]=$data->getPrimaryKey();
 		}
 		else
@@ -130,10 +128,9 @@ class CActiveDataProvider extends CDataProvider
 
 	/**
 	 * Calculates the total number of data items.
-	 * @param boolean whether this call is triggered by an explicit refresh
 	 * @return integer the total number of data items.
 	 */
-	protected function calculateTotalCount($refresh)
+	protected function calculateTotalCount()
 	{
 		$finder=CActiveRecord::model($this->modelClass);
 		if($this->with===null)
