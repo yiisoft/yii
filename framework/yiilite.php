@@ -393,11 +393,13 @@ class YiiBase
 		'CUnsafeValidator' => '/validators/CUnsafeValidator.php',
 		'CUrlValidator' => '/validators/CUrlValidator.php',
 		'CValidator' => '/validators/CValidator.php',
+		'CActiveDataProvider' => '/web/CActiveDataProvider.php',
 		'CAssetManager' => '/web/CAssetManager.php',
 		'CBaseController' => '/web/CBaseController.php',
 		'CCacheHttpSession' => '/web/CCacheHttpSession.php',
 		'CClientScript' => '/web/CClientScript.php',
 		'CController' => '/web/CController.php',
+		'CDataProvider' => '/web/CDataProvider.php',
 		'CDbHttpSession' => '/web/CDbHttpSession.php',
 		'CExtController' => '/web/CExtController.php',
 		'CFormModel' => '/web/CFormModel.php',
@@ -4737,9 +4739,9 @@ class CClientScript extends CApplicationComponent
 	{
 		$html='';
 		foreach($this->_metas as $meta)
-			$html.=CHtml::metaTag($meta['content'],null,null,$meta);
+			$html.=CHtml::metaTag($meta['content'],null,null,$meta)."\n";
 		foreach($this->_links as $link)
-			$html.=CHtml::linkTag(null,null,null,null,$link);
+			$html.=CHtml::linkTag(null,null,null,null,$link)."\n";
 		foreach($this->cssFiles as $url=>$media)
 			$html.=CHtml::cssFile($url,$media)."\n";
 		foreach($this->_css as $css)
@@ -5334,7 +5336,7 @@ class CAccessRule extends CComponent
 	{
 		if($this->expression===null)
 			return true;
-		if(is_callable($this->expression))
+		if(!is_string($this->expression) && is_callable($this->expression))
 			return call_user_func($this->expression, $user);
 		else
 			return @eval('return '.$this->expression.';');
@@ -7255,5 +7257,14 @@ interface IBehavior
 interface IWidgetFactory
 {
 	public function createWidget($owner,$className,$properties=array());
+}
+interface IDataProvider
+{
+	public function getId();
+	public function getTotalCount($refresh=false);
+	public function getData($refresh=false);
+	public function getKeys($refresh=false);
+	public function getSort();
+	public function getPagination();
 }
 ?>
