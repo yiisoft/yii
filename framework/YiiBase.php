@@ -238,16 +238,10 @@ class YiiBase
 		if(class_exists($alias,false) || interface_exists($alias,false))
 			return self::$_imports[$alias]=$alias;
 
-		if(isset(self::$_coreClasses[$alias]) || ($pos=strrpos($alias,'.'))===false)  // a simple class name
+		if(($pos=strrpos($alias,'.'))===false)  // a simple class name
 		{
-			self::$_imports[$alias]=$alias;
-			if($forceInclude)
-			{
-				if(isset(self::$_coreClasses[$alias])) // a core class
-					require(YII_PATH.self::$_coreClasses[$alias]);
-				else
-					require($alias.'.php');
-			}
+			if($forceInclude && self::autoload($alias))
+				self::$_imports[$alias]=$alias;
 			return $alias;
 		}
 
@@ -258,9 +252,11 @@ class YiiBase
 		{
 			if($className!=='*')
 			{
-				self::$_imports[$alias]=$className;
 				if($forceInclude)
+				{
 					require($path.'.php');
+					self::$_imports[$alias]=$className;
+				}
 				else
 					self::$_classes[$className]=$path.'.php';
 				return $className;
