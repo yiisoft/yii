@@ -715,6 +715,19 @@ class CComponent
 			throw new CException(Yii::t('yii','Event "{class}.{event}" is not defined.',
 				array('{class}'=>get_class($this), '{event}'=>$name)));
 	}
+	public function evaluateExpression($_expression_,$_data_=array())
+	{
+		if(!is_string($_expression_) || is_callable($_expression_))
+		{
+			$_data_[]=$this;
+			return call_user_func_array($_expression_, $_data_);
+		}
+		else
+		{
+			extract($_data_);
+			return @eval('return '.$_expression_.';');
+		}
+	}
 }
 class CEvent extends CComponent
 {
@@ -5336,10 +5349,8 @@ class CAccessRule extends CComponent
 	{
 		if($this->expression===null)
 			return true;
-		if(!is_string($this->expression) && is_callable($this->expression))
-			return call_user_func($this->expression, $user);
 		else
-			return @eval('return '.$this->expression.';');
+			return $this->evaluateExpression($this->expression, array('user'=>$user));
 	}
 }
 abstract class CModel extends CComponent implements IteratorAggregate, ArrayAccess
