@@ -164,4 +164,25 @@ class CPagination extends CComponent
 		$criteria->limit=$this->pageSize;
 		$criteria->offset=$this->currentPage*$this->pageSize;
 	}
+
+	/**
+	 * @return integer the offset of the data. This may be used to set the
+	 * OFFSET value for a SQL statement for fetching the current page of data.
+	 * @since 1.1.0
+	 */
+	public function getOffset()
+	{
+		return $this->currentPage*$this->pageSize;
+	}
+
+	/**
+	 * @return integer the limit of the data. This may be used to set the
+	 * LIMIT value for a SQL statement for fetching the current page of data.
+	 * This returns the same value as {@link pageSize}.
+	 * @since 1.1.0
+	 */
+	public function getLimit()
+	{
+		return $this->pageSize;
+	}
 }
