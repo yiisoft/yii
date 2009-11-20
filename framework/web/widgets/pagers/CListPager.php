@@ -9,7 +9,6 @@
  */
 
 
-
 /**
  * CListPager displays a dropdown list that contains options leading to different pages of target.
  *
@@ -42,6 +41,20 @@ class CListPager extends CBasePager
 	 */
 	public $htmlOptions=array();
 
+	/**
+	 * Initializes the pager by setting some default property values.
+	 */
+	public function init()
+	{
+		if($this->header===null)
+			$this->header=Yii::t('yii','Go to page: ');
+		if(!isset($this->htmlOptions['id']))
+			$this->htmlOptions['id']=$this->getId();
+		if($this->promptText!==null)
+			$this->htmlOptions['prompt']=$this->promptText;
+		if(!isset($this->htmlOptions['onchange']))
+			$this->htmlOptions['onchange']="if(this.value!='') {window.location=this.value;};";
+	}
 
 	/**
 	 * Executes the widget.
@@ -55,18 +68,9 @@ class CListPager extends CBasePager
 		for($i=0;$i<$pageCount;++$i)
 			$pages[$this->createPageUrl($i)]=$this->generatePageText($i);
 		$selection=$this->createPageUrl($this->getCurrentPage());
-		$options=array('onchange'=>'if(this.value!=\'\') {window.location=this.value;};');
-		if($this->promptText!==null)
-			$options['prompt']=$this->promptText;
-		$content=CHtml::dropDownList($this->getId(),$selection,$pages,$options);
-		$htmlOptions=$this->htmlOptions;
-		if(!isset($htmlOptions['id']))
-			$htmlOptions['id']=$this->getId();
-
-		if($this->header===null)
-			$this->header=Yii::t('yii','Go to page: ');
-
-		echo CHtml::tag('div',$htmlOptions,$this->header.$content.$this->footer);
+		echo $this->header;
+		echo CHtml::dropDownList($this->getId(),$selection,$pages,$this->htmlOptions);
+		echo $this->footer;
 	}
 
 	/**
