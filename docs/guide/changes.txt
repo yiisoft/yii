@@ -20,6 +20,13 @@ Version 1.1.0
  * [Added support for using table prefix](/doc/guide/database.dao#using-table-prefix).
 
 
+Version 1.0.11
+--------------
+
+ * Added support for parsing and creating URLs with parameterized hostnames
+     - [Parameterizing Hostnames](/doc/guide/topics.url#parameterizing-hostnames)
+
+
 Version 1.0.10
 --------------
 

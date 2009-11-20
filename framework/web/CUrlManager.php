@@ -203,7 +203,7 @@ class CUrlManager extends CApplicationComponent
 		foreach($this->_rules as $rule)
 		{
 			if(($url=$rule->createUrl($this,$route,$params,$ampersand))!==false)
-				return $this->getBaseUrl().'/'.$url.$anchor;
+				return $rule->hasHostInfo ? $url.$anchor : $this->getBaseUrl().'/'.$url.$anchor;
 		}
 		return $this->createUrlDefault($route,$params,$ampersand).$anchor;
 	}
@@ -263,7 +263,7 @@ class CUrlManager extends CApplicationComponent
 			$pathInfo=$this->removeUrlSuffix($rawPathInfo,$this->urlSuffix);
 			foreach($this->_rules as $rule)
 			{
-				if(($r=$rule->parseUrl($this,$pathInfo,$rawPathInfo))!==false)
+				if(($r=$rule->parseUrl($this,$request,$pathInfo,$rawPathInfo))!==false)
 					return isset($_GET[$this->routeVar]) ? $_GET[$this->routeVar] : $r;
 			}
 			if($this->useStrictParsing)
@@ -455,6 +455,11 @@ class CUrlRule extends CComponent
 	 * @var boolean whether the URL allows additional parameters at the end of the path info.
 	 */
 	public $append;
+	/**
+	 * @var boolean whether host info should be considered for this rule
+	 * @since 1.0.11
+	 */
+	public $hasHostInfo;
 
 	/**
 	 * Constructor.
@@ -483,6 +488,8 @@ class CUrlRule extends CComponent
 			foreach($matches2[1] as $name)
 				$this->references[$name]="<$name>";
 		}
+
+		$this->hasHostInfo=!strncasecmp($pattern,'http://',7) || !strncasecmp($pattern,'https://',8);
 
 		if(preg_match_all('/<(\w+):?(.*?)?>/',$pattern,$matches))
 		{
@@ -571,11 +578,12 @@ class CUrlRule extends CComponent
 	/**
 	 * Parases a URL based on this rule.
 	 * @param CUrlManager the URL manager
+	 * @param CHttpRequest the request object
 	 * @param string path info part of the URL
 	 * @param string path info that contains the potential URL suffix
 	 * @return string the route that consists of the controller ID and action ID
 	 */
-	public function parseUrl($manager,$pathInfo,$rawPathInfo)
+	public function parseUrl($manager,$request,$pathInfo,$rawPathInfo)
 	{
 		if($manager->caseSensitive && $this->caseSensitive===null || $this->caseSensitive)
 			$case='';
@@ -594,7 +602,11 @@ class CUrlRule extends CComponent
 					array('{route}'=>$rawPathInfo)));
 		}
 
+		if($this->hasHostInfo)
+			$pathInfo=$request->getHostInfo().rtrim('/'.$pathInfo,'/');
+
 		$pathInfo.='/';
+
 		if(preg_match($this->pattern.$case,$pathInfo,$matches))
 		{
 			foreach($this->defaultParams as $name=>$value)
