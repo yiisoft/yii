@@ -66,12 +66,10 @@ class CLinkPager extends CBasePager
 	 */
 	public $htmlOptions=array();
 
-
 	/**
-	 * Executes the widget.
-	 * This overrides the parent implementation by displaying the generated page buttons.
+	 * Initializes the pager by setting some default property values.
 	 */
-	public function run()
+	public function init()
 	{
 		if($this->nextPageLabel===null)
 			$this->nextPageLabel=Yii::t('yii','Next &gt;');
@@ -84,20 +82,24 @@ class CLinkPager extends CBasePager
 		if($this->header===null)
 			$this->header=Yii::t('yii','Go to page: ');
 
-		$buttons=$this->createPageButtons();
+		if(!isset($this->htmlOptions['id']))
+			$this->htmlOptions['id']=$this->getId();
+		if(!isset($this->htmlOptions['class']))
+			$this->htmlOptions['class']='yiiPager';
+	}
 
+	/**
+	 * Executes the widget.
+	 * This overrides the parent implementation by displaying the generated page buttons.
+	 */
+	public function run()
+	{
+		$buttons=$this->createPageButtons();
 		if(empty($buttons))
 			return;
-
 		$this->registerClientScript();
-
-		$htmlOptions=$this->htmlOptions;
-		if(!isset($htmlOptions['id']))
-			$htmlOptions['id']=$this->getId();
-		if(!isset($htmlOptions['class']))
-			$htmlOptions['class']='yiiPager';
 		echo $this->header;
-		echo CHtml::tag('ul',$htmlOptions,implode("\n",$buttons));
+		echo CHtml::tag('ul',$this->htmlOptions,implode("\n",$buttons));
 		echo $this->footer;
 	}
 
