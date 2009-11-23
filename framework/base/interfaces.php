@@ -575,14 +575,20 @@ interface IDataProvider
 	 */
 	public function getId();
 	/**
+	 * Returns the number of data items in the current page.
+	 * This is equivalent to <code>count($provider->getData())</code>.
+	 * When {@link pagination} is set false, this returns the same value as {@link totalItemCount}.
+	 * @param boolean whether the number of data items should be re-calculated.
+	 * @return integer the number of data items in the current page.
+	 */
+	public function getItemCount($refresh=false);
+	/**
 	 * Returns the total number of data items.
-	 * Note that when pagination is used, this number refers to the total number of data items
-	 * without pagination. So it could be greater than
-	 * the number of data items returned by {@link data}.
+	 * When {@link pagination} is set false, this returns the same value as {@link itemCount}.
 	 * @param boolean whether the total number of data items should be re-calculated.
 	 * @return integer total number of possible data items.
 	 */
-	public function getTotalCount($refresh=false);
+	public function getTotalItemCount($refresh=false);
 	/**
 	 * Returns the data items currently available.
 	 * @param boolean whether the data should be re-fetched from persistent storage.
