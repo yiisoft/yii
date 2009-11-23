@@ -3,7 +3,7 @@
  * CDataProvider is a base class that implements the {@link IDataProvider} interface.
  *
  * Derived classes mainly need to implement three methods: {@link fetchData},
- * {@link fetchKeys} and {@link calculateTotalCount}.
+ * {@link fetchKeys} and {@link calculateTotalItemCount}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
@@ -15,7 +15,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	private $_id;
 	private $_data;
 	private $_keys;
-	private $_totalCount;
+	private $_totalItemCount;
 	private $_sort;
 	private $_pagination;
 
@@ -33,7 +33,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	 * Calculates the total number of data items.
 	 * @return integer the total number of data items.
 	 */
-	abstract protected function calculateTotalCount();
+	abstract protected function calculateTotalItemCount();
 
 	/**
 	 * @return string the unique ID that uniquely identifies the data provider among all data providers.
@@ -153,17 +153,27 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	}
 
 	/**
+	 * Returns the number of data items in the current page.
+	 * This is equivalent to <code>count($provider->getData())</code>.
+	 * When {@link pagination} is set false, this returns the same value as {@link totalItemCount}.
+	 * @param boolean whether the number of data items should be re-calculated.
+	 * @return integer the number of data items in the current page.
+	 */
+	public function getItemCount($refresh=false)
+	{
+		return count($this->getData($refresh));
+	}
+
+	/**
 	 * Returns the total number of data items.
-	 * Note that when pagination is used, this number refers to the total number of data items
-	 * without pagination. So it could be greater than
-	 * the number of data items returned by {@link data}.
+	 * When {@link pagination} is set false, this returns the same value as {@link itemCount}.
 	 * @param boolean whether the total number of data items should be re-calculated.
 	 * @return integer total number of possible data items.
 	 */
-	public function getTotalCount($refresh=false)
+	public function getTotalItemCount($refresh=false)
 	{
-		if($this->_totalCount===null || $refresh)
-			$this->_totalCount=$this->calculateTotalCount();
-		return $this->_totalCount;
+		if($this->_totalItemCount===null || $refresh)
+			$this->_totalItemCount=$this->calculateTotalItemCount();
+		return $this->_totalItemCount;
 	}
 }

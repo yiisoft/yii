@@ -90,7 +90,7 @@ class CActiveDataProvider extends CDataProvider
 		$criteria=clone $this->getCriteria();
 		if(($pagination=$this->getPagination())!==false)
 		{
-			$pagination->setItemCount($this->getTotalCount(true));
+			$pagination->setItemCount($this->getTotalItemCount(true));
 			$pagination->applyLimit($criteria);
 		}
 		if(($sort=$this->getSort())!==false)
@@ -130,7 +130,7 @@ class CActiveDataProvider extends CDataProvider
 	 * Calculates the total number of data items.
 	 * @return integer the total number of data items.
 	 */
-	protected function calculateTotalCount()
+	protected function calculateTotalItemCount()
 	{
 		$finder=CActiveRecord::model($this->modelClass);
 		if($this->with===null)
