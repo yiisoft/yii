@@ -581,15 +581,15 @@ class CComponent
 	 */
 	public function evaluateExpression($_expression_,$_data_=array())
 	{
-		if(!is_string($_expression_) || is_callable($_expression_))
-		{
-			$_data_[]=$this;
-			return call_user_func_array($_expression_, $_data_);
-		}
-		else
+		if(is_string($_expression_) && !function_exists($_expression_))
 		{
 			extract($_data_);
 			return @eval('return '.$_expression_.';');
+		}
+		else
+		{
+			$_data_[]=$this;
+			return call_user_func_array($_expression_, $_data_);
 		}
 	}
 }
