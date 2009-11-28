@@ -103,7 +103,7 @@ class CActiveDataProvider extends CDataProvider
 		if($this->with===null)
 			return $finder->findAll($criteria);
 		else
-			return $finder->with($with)->findAll($criteria);
+			return $finder->with($this->with)->findAll($criteria);
 	}
 
 	/**
@@ -136,6 +136,6 @@ class CActiveDataProvider extends CDataProvider
 		if($this->with===null)
 			return $finder->count($this->getCriteria());
 		else
-			return $finder->with($with)->count($this->getCriteria());
+			return $finder->with($this->with)->count($this->getCriteria());
 	}
 }

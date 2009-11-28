@@ -215,6 +215,10 @@ class CSort extends CComponent
 	 */
 	public function link($attribute,$label=null,$htmlOptions=array())
 	{
+		if($label===null)
+			$label=$this->resolveLabel($attribute);
+		if($this->resolveAttribute($attribute)===false)
+			return $label;
 		$directions=$this->getDirections();
 		if(isset($directions[$attribute]))
 		{
@@ -233,8 +237,6 @@ class CSort extends CComponent
 		else
 			$directions=array($attribute=>$descending);
 
-		if($label===null)
-			$label=$this->resolveLabel($attribute);
 		$url=$this->createUrl(Yii::app()->getController(),$directions);
 
 		return $this->createLink($attribute,$label,$url,$htmlOptions);
