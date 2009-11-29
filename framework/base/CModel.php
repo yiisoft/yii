@@ -381,7 +381,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 */
 	public function generateAttributeLabel($name)
 	{
-		return ucwords(trim(strtolower(str_replace(array('-','_'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $name)))));
+		return ucwords(trim(strtolower(str_replace(array('-','_','.'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $name)))));
 	}
 
 	/**
