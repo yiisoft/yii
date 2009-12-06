@@ -15,6 +15,7 @@ Version 1.0.11 to be released
 - Enh #643: Enhanced CAccessControlFilter::expression, COutputCache::varyByExpression and CExpressionDependency::expression so that they can use PHP callback (Qiang)
 - Enh #665: Added support for using CStarRating to collect tabular input (Qiang)
 - Enh #672: Added Italian translation of error views (Qiang)
+- Enh #677: Improved CPgsqlColumnSchema to recognize more column data types (Qiang)
 - Enh #679: Added support for parsing and creating URLs with parameterized hostnames (Qiang)
 - Enh #690: Enhanced the email validator pattern to capture 99% valid email addresses (Qiang)
 - Enh: Added core message translation in Thai (Peerajak)
