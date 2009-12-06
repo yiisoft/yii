@@ -43,6 +43,7 @@ class CDateFormatter extends CComponent
 		'G'=>'formatEra',
 		'y'=>'formatYear',
 		'M'=>'formatMonth',
+		'L'=>'formatMonth',
 		'd'=>'formatDay',
 		'h'=>'formatHour12',
 		'H'=>'formatHour24',
@@ -230,8 +231,18 @@ class CDateFormatter extends CComponent
 				return $this->_locale->getMonthName($month,'wide');
 			case 'MMMMM':
 				return $this->_locale->getMonthName($month,'narrow');
+			case 'L':
+				return $month;
+			case 'LL':
+				return str_pad($month,2,'0',STR_PAD_LEFT);
+			case 'LLL':
+				return $this->_locale->getMonthName($month,'abbreviated', true);
+			case 'LLLL':
+				return $this->_locale->getMonthName($month,'wide', true);
+			case 'LLLLL':
+				return $this->_locale->getMonthName($month,'narrow', true);
 			default:
-				throw new CException(Yii::t('yii','The pattern for month must be "M", "MM", "MMM", or "MMMM".'));
+				throw new CException(Yii::t('yii','The pattern for month must be "M", "MM", "MMM", "MMMM", "L", "LL", "LLL" or "LLLL".'));
 		}
 	}
 

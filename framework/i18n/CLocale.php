@@ -180,22 +180,30 @@ class CLocale extends CComponent
 	/**
 	 * @param integer month (1-12)
 	 * @param string month name width. It can be 'wide', 'abbreviated' or 'narrow'.
+	 * @param boolean whether the month name should be returned in stand-alone format
 	 * @return string the month name
 	 */
-	public function getMonthName($month,$width='wide')
+	public function getMonthName($month,$width='wide',$standAlone=false)
 	{
-		return $this->_data['monthNames'][$width][$month];
+		if($standAlone)
+			return isset($this->_data['monthNamesSA'][$width][$month]) ? $this->_data['monthNamesSA'][$width][$month] : $this->_data['monthNames'][$width][$month];
+		else
+			return isset($this->_data['monthNames'][$width][$month]) ? $this->_data['monthNames'][$width][$month] : $this->_data['monthNamesSA'][$width][$month];
 	}
 
 	/**
 	 * Returns the month names in the specified width.
 	 * @param string month name width. It can be 'wide', 'abbreviated' or 'narrow'.
+	 * @param boolean whether the month names should be returned in stand-alone format
 	 * @return array month names indexed by month values (1-12)
 	 * @since 1.0.9
 	 */
-	public function getMonthNames($width='wide')
+	public function getMonthNames($width='wide',$standAlone=false)
 	{
-		return $this->_data['monthNames'][$width];
+		if($standAlone)
+			return isset($this->_data['monthNamesSA'][$width]) ? $this->_data['monthNamesSA'][$width] : $this->_data['monthNames'][$width];
+		else
+			return isset($this->_data['monthNames'][$width]) ? $this->_data['monthNames'][$width] : $this->_data['monthNamesSA'][$width];
 	}
 
 	/**

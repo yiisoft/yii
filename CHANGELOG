@@ -9,6 +9,7 @@ Version 1.1rc to be released
 - Enh: Added CPagination::offset and CPagination::limit (Qiang)
 - Chg: CSort.multiSort is changed to sort by single attribute by default (Qiang)
 - New: Added CDataProvider and CActiveDataProvider (Qiang)
+- New: Updated I18N data to CLDR 1.7.1.2 and added support for stand-alone month and day names (Qiang)
 
 Version 1.1b November 1, 2009
 -----------------------------
