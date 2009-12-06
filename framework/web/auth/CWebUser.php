@@ -78,6 +78,16 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * @since 1.0.5
 	 */
 	public $identityCookie;
+	/**
+	 * @var boolean whether to automatically renew the identity cookie each time a page is requested.
+	 * Defaults to false. This property is effective only when {@link allowAutoLogin} is true.
+	 * When this is false, the identity cookie will expire after the specified duration since the user
+	 * is initially logged in. When this is true, the identity cookie will expire after the specified duration
+	 * since the user visits the site the last time.
+	 * @see allowAutoLogin
+	 * @since 1.1.0
+	 */
+	public $autoRenewCookie=false;
 
 	private $_keyPrefix;
 	private $_access=array();
@@ -311,10 +321,15 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		if($cookie && !empty($cookie->value) && ($data=$app->getSecurityManager()->validateData($cookie->value))!==false)
 		{
 			$data=unserialize($data);
-			if(isset($data[0],$data[1],$data[2]))
+			if(isset($data[0],$data[1],$data[2],$data[3]))
 			{
-				list($id,$name,$states)=$data;
+				list($id,$name,$duration,$states)=$data;
 				$this->changeIdentity($id,$name,$states);
+				if($this->autoRenewCookie)
+				{
+					$cookie->expire=time()+$duration;
+					$app->getRequest()->getCookies()->add($cookie->name,$cookie);
+				}
 			}
 		}
 	}
@@ -335,6 +350,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		$data=array(
 			$this->getId(),
 			$this->getName(),
+			$duration,
 			$this->saveIdentityStates(),
 		);
 		$cookie->value=$app->getSecurityManager()->hashData(serialize($data));
