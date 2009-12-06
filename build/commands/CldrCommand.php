@@ -206,11 +206,17 @@ EOD;
 		if(!isset($data['monthNames']['abbreviated']))
 			$data['monthNames']['abbreviated']=$data['monthNames']['wide'];
 
-		$monthTypes=$xml->xpath('/ldml/dates/calendars/calendar[@type=\'gregorian\']/months/monthContext[@type=\'stand-alone\']/monthWidth[@type=\'narrow\']');
-		if(is_array($monthTypes) && isset($monthTypes[0]))
+		$monthTypes=$xml->xpath('/ldml/dates/calendars/calendar[@type=\'gregorian\']/months/monthContext[@type=\'stand-alone\']/monthWidth');
+		if(is_array($monthTypes))
 		{
-			foreach($monthTypes[0]->xpath('month') as $month)
-				$data['monthNames']['narrow'][(string)$month['type']]=(string)$month;
+			foreach($monthTypes as $monthType)
+			{
+				$names=array();
+				foreach($monthType->xpath('month') as $month)
+					$names[(string)$month['type']]=(string)$month;
+				if($names!==array())
+					$data['monthNamesSA'][(string)$monthType['type']]=$names;
+			}
 		}
 	}
 
@@ -241,14 +247,17 @@ EOD;
 		if(!isset($data['weekDayNames']['abbreviated']))
 			$data['weekDayNames']['abbreviated']=$data['weekDayNames']['wide'];
 
-		$dayTypes=$xml->xpath('/ldml/dates/calendars/calendar[@type=\'gregorian\']/days/dayContext[@type=\'stand-alone\']/dayWidth[@type=\'narrow\']');
-		if(is_array($dayTypes) && isset($dayTypes[0]))
+		$dayTypes=$xml->xpath('/ldml/dates/calendars/calendar[@type=\'gregorian\']/days/dayContext[@type=\'stand-alone\']/dayWidth');
+		if(is_array($dayTypes))
 		{
-			$names=array();
-			foreach($dayTypes[0]->xpath('day') as $day)
-				$names[$mapping[(string)$day['type']]]=(string)$day;
-			if($names!==array())
-				$data['weekDayNames']['narrow']=$names;
+			foreach($dayTypes as $dayType)
+			{
+				$names=array();
+				foreach($dayType->xpath('day') as $day)
+					$names[$mapping[(string)$day['type']]]=(string)$day;
+				if($names!==array())
+					$data['weekDayNamesSA'][(string)$dayType['type']]=$names;
+			}
 		}
 	}
 
