@@ -213,7 +213,6 @@ class CActiveFinder extends CComponent
 		$this->_joinTree->lazyFind($baseRecord);
 		if(!empty($this->_joinTree->children))
 		{
-			$child->beforeFind();
 			$child=reset($this->_joinTree->children);
 			$child->afterFind();
 		}
@@ -349,8 +348,8 @@ class CJoinElement
 	/**
 	 * Constructor.
 	 * @param CActiveFinder the finder
-	 * @param mixed the relation (if the second parameter is not null)
-	 * or the model (if the second parameter is null) associated with this tree node.
+	 * @param mixed the relation (if the third parameter is not null)
+	 * or the model (if the third parameter is null) associated with this tree node.
 	 * @param CJoinElement the parent tree node
 	 * @param integer the ID of this tree node that is unique among all the tree nodes
 	 */
