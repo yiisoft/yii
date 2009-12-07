@@ -889,6 +889,16 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Calls {@link beforeFind}.
+	 * This method is internally used.
+	 * @since 1.0.11
+	 */
+	public function beforeFindInternal()
+	{
+		$this->beforeFind();
+	}
+
+	/**
 	 * Calls {@link afterFind}.
 	 * This method is internally used.
 	 * @since 1.0.3

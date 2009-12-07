@@ -167,7 +167,7 @@ class CUploadedFile extends CComponent
 	 */
 	public function saveAs($file,$deleteTempFile=true)
 	{
-		if($this->_error===UPLOAD_ERR_OK)
+		if($this->_error==UPLOAD_ERR_OK)
 		{
 			if($deleteTempFile)
 				return move_uploaded_file($this->_tempName,$file);
