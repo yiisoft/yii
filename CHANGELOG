@@ -50,13 +50,21 @@ Version 1.0.11 to be released
 - Bug #651: Fixed a bug in Oracle driver that may cause big loop (Qiang)
 - Bug #653: CDbMessageSource does translate messages when caching is enabled (Qiang)
 - Bug #670: Requirements checker page shows wrong minute (Qiang)
+- Bug #710: CRequiredValidator does not work as expected when its requiredValue is not null (Qiang)
 - Bug: CQueue::peek() should return the first item in the queue (Qiang)
 - Enh #643: Enhanced CAccessControlFilter::expression, COutputCache::varyByExpression and CExpressionDependency::expression so that they can use PHP callback (Qiang)
 - Enh #665: Added support for using CStarRating to collect tabular input (Qiang)
 - Enh #672: Added Italian translation of error views (Qiang)
+- Enh #674: Improved CPgsqlSchema to support auto-incremental column in composite primary  key (Qiang)
+- Enh #677: Improved CPgsqlColumnSchema to recognize more column data types (Qiang)
 - Enh #679: Added support for parsing and creating URLs with parameterized hostnames (Qiang)
+- Enh #684: Improved Yii::import() to throw exception when set_include_path fails (Qiang)
+- Enh #685: Added support for recognizing "Z" in CDateFormatter (Qiang)
+- Enh #690: Enhanced the email validator pattern to capture 99% valid email addresses (Qiang)
+- Enh #703: Upgraded autocomplete js code to version 1.1.0 (Qiang)
 - Enh: Added core message translation in Thai (Peerajak)
 - Enh: Allow CHtml::label() and CHtml::activeLabel() not to render the 'for' attribute when it is set false (Qiang)
+- New #709: Added core message translation in Bosnian language (kenci81)
 
 Version 1.0.10 October 18, 2009
 -------------------------------

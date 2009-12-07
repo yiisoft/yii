@@ -24,12 +24,14 @@ class CPgsqlColumnSchema extends CDbColumnSchema
 	 */
 	protected function extractType($dbType)
 	{
-		if(strpos($dbType,'integer')!==false || strpos($dbType,'oid')===0)
-			$this->type='integer';
+		if(strpos($dbType,'char')!==false || strpos($dbType,'text')!==false)
+			$this->type='string';
 		else if(strpos($dbType,'bool')!==false)
 			$this->type='boolean';
 		else if(preg_match('/(real|float|double)/',$dbType))
 			$this->type='double';
+		else if(preg_match('/(integer|oid|serial|bigint|smallint)/',$dbType))
+			$this->type='integer';
 		else
 			$this->type='string';
 	}

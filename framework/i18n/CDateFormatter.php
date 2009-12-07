@@ -58,6 +58,7 @@ class CDateFormatter extends CComponent
 		'k'=>'formatHourInDay',
 		'K'=>'formatHourInPeriod',
 		'z'=>'formatTimeZone',
+		'Z'=>'formatTimeZone',
 		'v'=>'formatTimeZone',
 	);
 
@@ -487,6 +488,8 @@ class CDateFormatter extends CComponent
 	{
 		if($pattern==='z' | $pattern==='v')
 			return @date('T', @mktime($date['hours'], $date['minutes'], $date['seconds'], $date['mon'], $date['mday'], $date['year']));
+		elseif($pattern==='Z')
+			return @date('O', @mktime($date['hours'], $date['minutes'], $date['seconds'], $date['mon'], $date['mday'], $date['year']));
 		else
 			throw new CException(Yii::t('yii','The pattern for time zone must be "z" or "v".'));
 	}

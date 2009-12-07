@@ -20,15 +20,16 @@ class CEmailValidator extends CValidator
 {
 	/**
 	 * @var string the regular expression used to validate the attribute value.
+	 * @see http://www.regular-expressions.info/email.html
 	 */
-	public $pattern='/^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$/';
+	public $pattern='/^[a-z0-9!#$%&\'*+\\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+\\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/';
 	/**
 	 * @var string the regular expression used to validate email addresses with the name part.
 	 * This property is used only when {@link allowName} is true.
 	 * @since 1.0.5
 	 * @see allowName
 	 */
-	public $fullPattern='/^[^@]*<\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*>$/';
+	public $fullPattern='/^[^@]*<[a-z0-9!#$%&\'*+\\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+\\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?>$/';
 	/**
 	 * @var boolean whether to allow name in the email address (e.g. "Qiang Xue <qiang.xue@gmail.com>"). Defaults to false.
 	 * @since 1.0.5
