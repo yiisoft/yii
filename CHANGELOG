@@ -19,6 +19,7 @@ Version 1.0.11 to be released
 - Enh #677: Improved CPgsqlColumnSchema to recognize more column data types (Qiang)
 - Enh #679: Added support for parsing and creating URLs with parameterized hostnames (Qiang)
 - Enh #684: Improved Yii::import() to throw exception when set_include_path fails (Qiang)
+- Enh #685: Added support for recognizing "Z" in CDateFormatter (Qiang)
 - Enh #690: Enhanced the email validator pattern to capture 99% valid email addresses (Qiang)
 - Enh #703: Upgraded autocomplete js code to version 1.1.0 (Qiang)
 - Enh: Added core message translation in Thai (Peerajak)
