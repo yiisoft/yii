@@ -18,6 +18,7 @@ Version 1.0.11 to be released
 - Enh #677: Improved CPgsqlColumnSchema to recognize more column data types (Qiang)
 - Enh #679: Added support for parsing and creating URLs with parameterized hostnames (Qiang)
 - Enh #690: Enhanced the email validator pattern to capture 99% valid email addresses (Qiang)
+- Enh #703: Upgraded autocomplete js code to version 1.1.0 (Qiang)
 - Enh: Added core message translation in Thai (Peerajak)
 - Enh: Allow CHtml::label() and CHtml::activeLabel() not to render the 'for' attribute when it is set false (Qiang)
 - New #709: Added core message translation in Bosnian language (kenci81)
