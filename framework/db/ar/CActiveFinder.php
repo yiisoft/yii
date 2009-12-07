@@ -77,6 +77,7 @@ class CActiveFinder extends CComponent
 			$criteria=$this->_criteria;
 		}
 
+		$this->_joinTree->beforeFind();
 		$this->_joinTree->find($criteria);
 		$this->_joinTree->afterFind();
 
@@ -157,6 +158,7 @@ class CActiveFinder extends CComponent
 		if(($row=$this->_builder->createSqlCommand($sql,$params)->queryRow())!==false)
 		{
 			$baseRecord=$this->_joinTree->model->populateRecord($row,false);
+			$this->_joinTree->beforeFind();
 			$this->_joinTree->findWithBase($baseRecord);
 			$this->_joinTree->afterFind();
 			return $baseRecord;
@@ -172,6 +174,7 @@ class CActiveFinder extends CComponent
 		if(($rows=$this->_builder->createSqlCommand($sql,$params)->queryAll())!==array())
 		{
 			$baseRecords=$this->_joinTree->model->populateRecords($rows,false);
+			$this->_joinTree->beforeFind();
 			$this->_joinTree->findWithBase($baseRecords);
 			$this->_joinTree->afterFind();
 			return $baseRecords;
@@ -659,6 +662,15 @@ class CJoinElement
 		$query->orders=$query->groups=$query->havings=array();
 		$command=$query->createCommand($this->_builder);
 		return $command->queryScalar();
+	}
+
+	/**
+	 * Calls {@link CActiveRecord::beforeFind}.
+	 * @since 1.0.11
+	 */
+	public function beforeFind()
+	{
+		$this->model->beforeFindInternal();
 	}
 
 	/**
