@@ -4,11 +4,11 @@
  * This filter extracts <style> blocks from input HTML, cleans them up
  * using CSSTidy, and then places them in $purifier->context->get('StyleBlocks')
  * so they can be used elsewhere in the document.
- * 
+ *
  * @note
  *      See tests/HTMLPurifier/Filter/ExtractStyleBlocksTest.php for
  *      sample usage.
- * 
+ *
  * @note
  *      This filter can also be used on stylesheets not included in the
  *      document--something purists would probably prefer. Just directly
@@ -16,15 +16,15 @@
  */
 class HTMLPurifier_Filter_ExtractStyleBlocks extends HTMLPurifier_Filter
 {
-    
+
     public $name = 'ExtractStyleBlocks';
     private $_styleMatches = array();
     private $_tidy;
-    
+
     public function __construct() {
         $this->_tidy = new csstidy();
     }
-    
+
     /**
      * Save the contents of CSS blocks to style matches
      * @param $matches preg_replace style $matches array
@@ -32,13 +32,13 @@ class HTMLPurifier_Filter_ExtractStyleBlocks extends HTMLPurifier_Filter
     protected function styleCallback($matches) {
         $this->_styleMatches[] = $matches[1];
     }
-    
+
     /**
      * Removes inline <style> tags from HTML, saves them for later use
      * @todo Extend to indicate non-text/css style blocks
      */
     public function preFilter($html, $config, $context) {
-        $tidy = $config->get('FilterParam', 'ExtractStyleBlocksTidyImpl');
+        $tidy = $config->get('Filter.ExtractStyleBlocks.TidyImpl');
         if ($tidy !== null) $this->_tidy = $tidy;
         $html = preg_replace_callback('#<style(?:\s.*)?>(.+)</style>#isU', array($this, 'styleCallback'), $html);
         $style_blocks = $this->_styleMatches;
@@ -51,7 +51,7 @@ class HTMLPurifier_Filter_ExtractStyleBlocks extends HTMLPurifier_Filter
         }
         return $html;
     }
-    
+
     /**
      * Takes CSS (the stuff found in <style>) and cleans it.
      * @warning Requires CSSTidy <http://csstidy.sourceforge.net/>
@@ -62,7 +62,7 @@ class HTMLPurifier_Filter_ExtractStyleBlocks extends HTMLPurifier_Filter
      */
     public function cleanCSS($css, $config, $context) {
         // prepare scope
-        $scope = $config->get('FilterParam', 'ExtractStyleBlocksScope');
+        $scope = $config->get('Filter.ExtractStyleBlocks.Scope');
         if ($scope !== null) {
             $scopes = array_map('trim', explode(',', $scope));
         } else {
@@ -120,7 +120,7 @@ class HTMLPurifier_Filter_ExtractStyleBlocks extends HTMLPurifier_Filter
         $css = $this->_tidy->print->plain();
         // we are going to escape any special characters <>& to ensure
         // that no funny business occurs (i.e. </style> in a font-family prop).
-        if ($config->get('FilterParam', 'ExtractStyleBlocksEscaping')) {
+        if ($config->get('Filter.ExtractStyleBlocks.Escaping')) {
             $css = str_replace(
                 array('<',    '>',    '&'),
                 array('\3C ', '\3E ', '\26 '),
@@ -129,6 +129,7 @@ class HTMLPurifier_Filter_ExtractStyleBlocks extends HTMLPurifier_Filter
         }
         return $css;
     }
-    
+
 }
 
+// vim: et sw=4 sts=4

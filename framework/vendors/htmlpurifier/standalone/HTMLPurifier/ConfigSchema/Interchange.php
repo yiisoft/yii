@@ -7,32 +7,17 @@
  */
 class HTMLPurifier_ConfigSchema_Interchange
 {
-    
+
     /**
      * Name of the application this schema is describing.
      */
     public $name;
-    
-    /**
-     * Array of Namespace ID => array(namespace info)
-     */
-    public $namespaces = array();
-    
+
     /**
      * Array of Directive ID => array(directive info)
      */
     public $directives = array();
-    
-    /**
-     * Adds a namespace array to $namespaces
-     */
-    public function addNamespace($namespace) {
-        if (isset($this->namespaces[$i = $namespace->namespace])) {
-            throw new HTMLPurifier_ConfigSchema_Exception("Cannot redefine namespace '$i'");
-        }
-        $this->namespaces[$i] = $namespace;
-    }
-    
+
     /**
      * Adds a directive array to $directives
      */
@@ -42,7 +27,7 @@ class HTMLPurifier_ConfigSchema_Interchange
         }
         $this->directives[$i] = $directive;
     }
-    
+
     /**
      * Convenience function to perform standard validation. Throws exception
      * on failed validation.
@@ -51,5 +36,7 @@ class HTMLPurifier_ConfigSchema_Interchange
         $validator = new HTMLPurifier_ConfigSchema_Validator();
         return $validator->validate($this);
     }
-    
+
 }
+
+// vim: et sw=4 sts=4
