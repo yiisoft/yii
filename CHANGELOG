@@ -15,6 +15,7 @@ Version 1.0.11 to be released
 - Enh #643: Enhanced CAccessControlFilter::expression, COutputCache::varyByExpression and CExpressionDependency::expression so that they can use PHP callback (Qiang)
 - Enh #665: Added support for using CStarRating to collect tabular input (Qiang)
 - Enh #672: Added Italian translation of error views (Qiang)
+- Enh #674: Improved CPgsqlSchema to support auto-incremental column in composite primary  key (Qiang)
 - Enh #677: Improved CPgsqlColumnSchema to recognize more column data types (Qiang)
 - Enh #679: Added support for parsing and creating URLs with parameterized hostnames (Qiang)
 - Enh #684: Improved Yii::import() to throw exception when set_include_path fails (Qiang)
