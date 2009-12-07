@@ -89,6 +89,17 @@ class CPgsqlSchema extends CDbSchema
 
 		if(is_string($table->primaryKey) && isset($this->_sequences[$table->primaryKey]))
 			$table->sequenceName=$this->_sequences[$table->primaryKey];
+		else if(is_array($table->primaryKey))
+		{
+			foreach($table->primaryKey as $pk)
+			{
+				if(isset($this->_sequences[$pk]))
+				{
+					$table->sequenceName=$this->_sequences[$pk];
+					break;
+				}
+			}
+		}
 
 		return $table;
 	}

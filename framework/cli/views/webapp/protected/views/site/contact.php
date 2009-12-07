@@ -9,7 +9,7 @@
 <?php else: ?>
 
 <p>
-If you have business inquries or other questions, please fill out the following form to contact us. Thank you.
+If you have business inquiries or other questions, please fill out the following form to contact us. Thank you.
 </p>
 
 <div class="yiiForm">

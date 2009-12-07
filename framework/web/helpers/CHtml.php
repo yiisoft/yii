@@ -961,12 +961,22 @@ EOD;
 	}
 
 	/**
-	 * Generates a URL if the input specifies the route to a controller action.
-	 * @param mixed the URL to be normalized. If a string, the URL is returned back;
-	 * if an array, it is considered as a route to a controller action and will
-	 * be used to generate a URL using {@link CController::createUrl}; if the URL is empty,
-	 * the currently requested URL is returned.
-	 * @param string the URL
+	 * Normalizes the input parameter to be a valid URL.
+	 *
+	 * If the input parameter is an empty string, the currently requested URL will be returned.
+	 *
+	 * If the input parameter is a non-empty string, it is treated as a valid URL and will
+	 * be returned without any change.
+	 *
+	 * If the input parameter is an array, it is treated as a controller route and a list of
+	 * GET parameters, and the {@link CController::createUrl} method will be invoked to
+	 * create a URL. In this case, the first array element refers to the controller route,
+	 * and the rest key-value pairs refer to the additional GET parameters for the URL.
+	 * For example, <code>array('post/list', 'page'=>3)</code> may be used to generate the URL
+	 * <code>/index.php?r=post/list&page=3</code>.
+	 *
+	 * @param mixed the parameter to be used to generate a valid URL
+	 * @param string the normalized URL
 	 */
 	public static function normalizeUrl($url)
 	{
