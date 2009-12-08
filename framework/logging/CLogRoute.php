@@ -54,6 +54,11 @@ abstract class CLogRoute extends CComponent
 	 * @since 1.0.6
 	 */
 	public $filter;
+	/**
+	 * @var array the logs that are collected so far by this log route.
+	 * @since 1.1.0
+	 */
+	public $logs;
 
 
 	/**
@@ -80,16 +85,22 @@ abstract class CLogRoute extends CComponent
 	/**
 	 * Retrieves filtered log messages from logger for further processing.
 	 * @param CLogger logger instance
+	 * @param boolean whether to process the logs after they are collected from the logger
 	 */
-	public function collectLogs($logger)
+	public function collectLogs($logger, $processLogs=false)
 	{
 		$logs=$logger->getLogs($this->levels,$this->categories);
 		if(!empty($logs))
 		{
 			if($this->filter!==null)
 				Yii::createComponent($this->filter)->filter($logs);
-			$this->processLogs($logs);
+			if(empty($this->logs))
+				$this->logs=$logs;
+			else
+				$this->logs=array_merge($this->logs,$logs);
 		}
+		if($processLogs && !empty($this->logs))
+			$this->processLogs($this->logs);
 	}
 
 	/**
