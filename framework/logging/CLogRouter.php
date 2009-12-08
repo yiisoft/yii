@@ -65,7 +65,8 @@ class CLogRouter extends CApplicationComponent
 			$route->init();
 			$this->_routes[$name]=$route;
 		}
-		Yii::app()->attachEventHandler('onEndRequest',array($this,'collectLogs'));
+		Yii::getLogger()->attachEventHandler('onFlush',array($this,'collectLogs'));
+		Yii::app()->attachEventHandler('onEndRequest',array($this,'processLogs'));
 	}
 
 	/**
@@ -92,16 +93,32 @@ class CLogRouter extends CApplicationComponent
 
 	/**
 	 * Collects log messages from a logger.
-	 * This method is an event handler to application's onEndRequest event.
-	 * @param mixed event parameter
+	 * This method is an event handler to the {@link CLogger::onFlush} event.
+	 * @param CEvent event parameter
 	 */
-	public function collectLogs($param)
+	public function collectLogs($event)
 	{
 		$logger=Yii::getLogger();
 		foreach($this->_routes as $route)
 		{
 			if($route->enabled)
-				$route->collectLogs($logger);
+				$route->collectLogs($logger,false);
+		}
+	}
+
+	/**
+	 * Collects and processes log messages from a logger.
+	 * This method is an event handler to the {@link CApplication::onEndRequest} event.
+	 * @param CEvent event parameter
+	 * @since 1.1.0
+	 */
+	public function processLogs($event)
+	{
+		$logger=Yii::getLogger();
+		foreach($this->_routes as $route)
+		{
+			if($route->enabled)
+				$route->collectLogs($logger,true);
 		}
 	}
 }
