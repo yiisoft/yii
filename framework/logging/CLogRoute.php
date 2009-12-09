@@ -90,17 +90,13 @@ abstract class CLogRoute extends CComponent
 	public function collectLogs($logger, $processLogs=false)
 	{
 		$logs=$logger->getLogs($this->levels,$this->categories);
-		if(!empty($logs))
+		$this->logs=empty($this->logs) ? $logs : array_merge($this->logs,$logs);
+		if($processLogs && !empty($this->logs))
 		{
 			if($this->filter!==null)
-				Yii::createComponent($this->filter)->filter($logs);
-			if(empty($this->logs))
-				$this->logs=$logs;
-			else
-				$this->logs=array_merge($this->logs,$logs);
-		}
-		if($processLogs && !empty($this->logs))
+				Yii::createComponent($this->filter)->filter($this->logs);
 			$this->processLogs($this->logs);
+		}
 	}
 
 	/**
