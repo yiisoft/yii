@@ -14,7 +14,7 @@
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.validators
- * @since 1.0
+ * @since 1.1
  */
 class CSafeValidator extends CValidator
 {
