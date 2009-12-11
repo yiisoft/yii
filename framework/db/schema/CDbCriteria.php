@@ -248,7 +248,7 @@ class CDbCriteria
 			if($this->order==='')
 				$this->order=$criteria->order;
 			else if($criteria->order!=='')
-				$this->order.=', '.$criteria->order;
+				$this->order=$criteria->order.', '.$this->order;
 		}
 
 		if($this->group!==$criteria->group)
