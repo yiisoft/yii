@@ -1685,7 +1685,9 @@ EOD;
 			if(is_array($value))
 			{
 				$content.='<optgroup label="'.($raw?$key : self::encode($key))."\">\n";
-				$dummy=array();
+				$dummy=array('options'=>$options);
+				if(isset($htmlOptions['encode']))
+					$dummy['encode']=$htmlOptions['encode'];
 				$content.=self::listOptions($selection,$value,$dummy);
 				$content.='</optgroup>'."\n";
 			}

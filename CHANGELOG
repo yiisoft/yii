@@ -11,6 +11,7 @@ Version 1.0.11 to be released
 - Bug #653: CDbMessageSource does translate messages when caching is enabled (Qiang)
 - Bug #670: Requirements checker page shows wrong minute (Qiang)
 - Bug #691: CUploadedFile::saveAs() may not return correct value for some PHP versions (Qiang)
+- Bug #692: CHtml::listOptions() ignores the HTML options when handling nested options (Qiang)
 - Bug #710: CRequiredValidator does not work as expected when its requiredValue is not null (Qiang)
 - Bug: CQueue::peek() should return the first item in the queue (Qiang)
 - Enh #643: Enhanced CAccessControlFilter::expression, COutputCache::varyByExpression and CExpressionDependency::expression so that they can use PHP callback (Qiang)
