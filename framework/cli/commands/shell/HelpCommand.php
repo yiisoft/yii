@@ -38,7 +38,17 @@ EOD;
 			$commandNames=array_keys($commands);
 			sort($commandNames);
 			echo ' - '.implode("\n - ",$commandNames);
-			echo "\nType 'help <command-name>' for details about a command.\n";
+			echo <<<EOD
+
+
+Type 'help <command-name>' for details about a command.
+
+To expand the above command list, place your command class files
+under 'protected/commands/shell', or a directory specified
+by the 'YIIC_SHELL_COMMAND_PATH' environment variable. The command class
+must extend from CConsoleCommand.
+
+EOD;
 		}
 		else
 			echo $runner->createCommand($name)->getHelp();
