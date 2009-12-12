@@ -1160,6 +1160,8 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function find($condition='',$params=array())
 	{
+		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
+			return $this->with($condition->with)->find($condition);
 		Yii::trace(get_class($this).'.find()','system.db.ar.CActiveRecord');
 		$criteria=$this->getCommandBuilder()->createCriteria($condition,$params);
 		$criteria->limit=1;
@@ -1175,6 +1177,8 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findAll($condition='',$params=array())
 	{
+		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
+			return $this->with($condition->with)->findAll($condition);
 		Yii::trace(get_class($this).'.findAll()','system.db.ar.CActiveRecord');
 		$criteria=$this->getCommandBuilder()->createCriteria($condition,$params);
 		return $this->query($criteria,true);
@@ -1190,6 +1194,8 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findByPk($pk,$condition='',$params=array())
 	{
+		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
+			return $this->with($condition->with)->findByPk($pk,$condition);
 		Yii::trace(get_class($this).'.findByPk()','system.db.ar.CActiveRecord');
 		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk,$condition,$params);
 		$criteria->limit=1;
@@ -1206,6 +1212,8 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findAllByPk($pk,$condition='',$params=array())
 	{
+		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
+			return $this->with($condition->with)->findAllByPk($pk,$condition);
 		Yii::trace(get_class($this).'.findAllByPk()','system.db.ar.CActiveRecord');
 		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk,$condition,$params);
 		return $this->query($criteria,true);
@@ -1222,6 +1230,8 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findByAttributes($attributes,$condition='',$params=array())
 	{
+		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
+			return $this->with($condition->with)->findByAttributes($attributes,$condition);
 		Yii::trace(get_class($this).'.findByAttributes()','system.db.ar.CActiveRecord');
 		$criteria=$this->getCommandBuilder()->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params);
 		$criteria->limit=1;
@@ -1239,6 +1249,8 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function findAllByAttributes($attributes,$condition='',$params=array())
 	{
+		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
+			return $this->with($condition->with)->findAllByAttributes($attributes,$condition);
 		Yii::trace(get_class($this).'.findAllByAttributes()','system.db.ar.CActiveRecord');
 		$criteria=$this->getCommandBuilder()->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params);
 		return $this->query($criteria,true);
@@ -1279,6 +1291,8 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function count($condition='',$params=array())
 	{
+		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
+			return $this->with($condition->with)->count($condition);
 		Yii::trace(get_class($this).'.count()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);

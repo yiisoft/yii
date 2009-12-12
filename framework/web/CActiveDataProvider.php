@@ -10,10 +10,10 @@
  * CActiveDataProvider may be used in the following way:
  * <pre>
  * $dataProvider=new CActiveDataProvider('Post', array(
- *     'with'=>'author',
  *     'criteria'=>array(
  *         'condition'=>'status=1 AND tags LIKE :tags',
  *         'params'=>array(':tags'=>$_GET['tags']),
+ *         'with'=>array('author'),
  *     ),
  *     'pagination'=>array(
  *         'pageSize'=>20,
@@ -34,12 +34,6 @@ class CActiveDataProvider extends CDataProvider
 	 * will return a list of objects of this class.
 	 */
 	public $modelClass;
-	/**
-	 * @var array the relational query options. This property value will be passed to
-	 * the {@link CActiveRecord::with()} method to perform relational AR query.
-	 * If not set, a non-relational query will be performed.
-	 */
-	public $with;
 	/**
 	 * @var string the name of key attribute for {@link modelClass}. If not set,
 	 * it means the primary key of the corresponding database table will be used.
@@ -99,11 +93,7 @@ class CActiveDataProvider extends CDataProvider
 			$sort->applyOrder($criteria);
 		}
 
-		$finder=CActiveRecord::model($this->modelClass);
-		if($this->with===null)
-			return $finder->findAll($criteria);
-		else
-			return $finder->with($this->with)->findAll($criteria);
+		return CActiveRecord::model($this->modelClass)->findAll($criteria);
 	}
 
 	/**
@@ -132,10 +122,6 @@ class CActiveDataProvider extends CDataProvider
 	 */
 	protected function calculateTotalItemCount()
 	{
-		$finder=CActiveRecord::model($this->modelClass);
-		if($this->with===null)
-			return $finder->count($this->getCriteria());
-		else
-			return $finder->with($this->with)->count($this->getCriteria());
+		return CActiveRecord::model($this->modelClass)->count($this->getCriteria());
 	}
 }
