@@ -71,6 +71,23 @@ class CDbCriteria
 	 * @since 1.0.1
 	 */
 	public $having='';
+	/**
+	 * @var array the relational query criteria. This is used for fetching related objects in eager loading fashion.
+	 * This property is effective only when the criteria is passed as a parameter to the following methods of CActiveRecord:
+	 * <ul>
+	 * <li>{@link CActiveRecord::find()}</li>
+	 * <li>{@link CActiveRecord::findAll()}</li>
+	 * <li>{@link CActiveRecord::findByPk()}</li>
+	 * <li>{@link CActiveRecord::findAllByPk()}</li>
+	 * <li>{@link CActiveRecord::findByAttributes()}</li>
+	 * <li>{@link CActiveRecord::findAllByAttributes()}</li>
+	 * <li>{@link CActiveRecord::count()}</li>
+	 * </ul>
+	 * The property value will be used as the parameter to the {@link CActiveRecord::with()} method
+	 * to perform the eager loading. Please refer to {@link CActiveRecord::with()} on how to specify this parameter.
+	 * @since 1.1.0
+	 */
+	public $with;
 
 	/**
 	 * Constructor.

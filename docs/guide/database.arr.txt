@@ -212,8 +212,32 @@ $posts=Post::model()->with(
 The above example will bring back all posts together with their author and
 categories. It will also bring back each author's profile and posts.
 
-> Note: The usage of the [with()|CActiveRecord::with] method has been changed
-> since version 1.0.2. Please read the corresponding API documentation carefully.
+Starting from version 1.1.0, eager loading may also be executed by specifying
+the [CDbCriteria::with] property, like the following:
+
+~~~
+[php]
+$criteria=new CDbCriteria;
+$criteria->with=array(
+	'author.profile',
+	'author.posts',
+	'categories',
+);
+$posts=Post::model()->findAll($criteria);
+~~~
+
+or
+
+~~~
+[php]
+$posts=Post::model()->findAll(array(
+	'with'=>array(
+		'author.profile',
+		'author.posts',
+		'categories',
+	)
+);
+~~~
 
 
 Relational Query Options
