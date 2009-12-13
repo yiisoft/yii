@@ -3,6 +3,40 @@ Nowe funkcjonalności
 
 Ta strona zawiera streszczenie najważniejszych nowych funkcji wprowadzonych w każdym wydaniu Yii. 
 
+Wersja 1.1.0
+-------------
+
+ * [Dodano wsparcie dla pisana testów jednostkowych i funkcjonalnych](/doc/guide/test.overview)
+
+ * [Dodano wsparcie dla używania skórek w widżetach](/doc/guide/topics.theming#skin)
+
+ * Ulepszono sposób deklarowania bezpiecznych atrybutów modelu. Zobacz
+ [zabezpieczanie przypisywania atrybutów](/doc/guide/form.model#securing-attribute-assignments).
+
+ * Zmieniono domyślny algorytm gorliwego ładowania dla zapytań dla relacyjnych rekordów aktywnych, 
+ tak że wszystkie tabele są łączone w jednym zapytaniu SQL.
+
+ * Zmieniono domyślny alias tabeli, tak aby wskazywał na nazwę relacji rekordu aktywnego.
+
+ * [Dodano wsparcie dla prefiksów tabel](/doc/guide/database.dao#using-table-prefix).
+
+
+Wersja 1.0.11
+--------------
+
+ * Dodano wsparcie dla parsowania i tworzenia adresów URL z użyciem sparametryzowanych nazw hostów
+     - [Parametryzowanie nazw hostów](/doc/guide/topics.url#parameterizing-hostnames)
+
+
+Wersja 1.0.10
+--------------
+
+ * Rozszerzono zarządzanie modułami wiadomości o obsługę CPhpMessageSource 
+     - [Tłumaczenia wiadomości](/doc/guide/topics.i18n#message-translation)
+
+ * Dodano wsparcie dla dołączania anonimowych funkcji jako uchwyty zdarzeń
+     - [Zdarzenia komponentów](/doc/guide/basics.component#component-event)
+
 Wersja 1.0.8
 -------------
 
@@ -60,4 +94,4 @@ Wersja 1.0.5
  * Rozszerzono[CUrlManager] o wsparcie dla parametryzacji reguł dla części URL zawierającej trasę. Zobacz:
      - [Parametryzacja trasy w regułach URL](/doc/guide/topics.url#parameterizing-routes)
 
-<div class="revision">$Id: changes.txt 1299 2009-08-07 00:25:55Z qiang.xue $</div>
+<div class="revision">$Id: changes.txt 1533 2009-11-20 14:10:46Z qiang.xue $</div>

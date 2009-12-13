@@ -14,7 +14,7 @@ Yii изначально спроектирован таким образом, �
 [Zend_Search_Lucene](http://www.zendframework.com/manual/en/zend.search.lucene.html)
 из [Zend framework](http://www.zendframework.com).
 
-Первым делом, распаковываем релиз с Zend framework в папку `protected/vendors`, где `protected` - 
+Первым делом, распаковываем релиз с Zend framework в папку `protected/vendors`, где `protected` —
 это [базовая директория приложения](/doc/guide/basics.application#application-base-directory).
 Убедитесь в том, что файл `protected/vendors/Zend/Search/Lucene.php` существует.
 

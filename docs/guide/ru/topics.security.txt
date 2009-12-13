@@ -29,7 +29,7 @@ Yii включает в себя библиотеку [HTMLPurifier](http://html
 ~~~
 [php]
 <?php $this->beginWidget('CHtmlPurifier'); ?>
-...этот текст будет подвергнут деликатной санобработке...
+…этот текст будет подвергнут деликатной санобработке…
 <?php $this->endWidget(); ?>
 ~~~
 
@@ -115,7 +115,7 @@ return array(
 // Получаем cookie с заданным именем
 $cookie=Yii::app()->request->cookies[$name];
 $value=$cookie->value;
-......
+…
 // Отсылаем cookie
 $cookie=new CHttpCookie($name,$value);
 Yii::app()->request->cookies[$name]=$cookie;

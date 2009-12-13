@@ -656,4 +656,4 @@ $contents=Content::model()->findAll();
 Note que o named scope padrão é aplicado somente as consultas utilizando `SELECT`. 
 Ele é ignorado nas consultas com `INSERT`, `UPDATE` e `DELETE`.
 
-<div class="revision">$Id: database.ar.txt 1391 2009-09-04 19:46:04Z qiang.xue $</div>
+<div class="revision">$Id: database.ar.txt 1479 2009-10-23 13:24:20Z qiang.xue $</div>

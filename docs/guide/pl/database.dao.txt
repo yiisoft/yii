@@ -230,6 +230,26 @@ while($dataReader->read()!==false)
 }
 ~~~
 
+Używanie prefiksów w tabelach
+------------------
+
+Poczynając od wersji 1.1.0, Yii dostarcza zintegrowanego wsparcia dla prefiksów tabel.
+Prefiks tabeli oznacza łańcuch znaków, który poprzedza nazwy tabel, w aktualnym połączeniu
+z bazą danych. Prefików używa się najczęsciej we współdzielonych środowiku hostingowym, 
+gdzie wiele aplikacji dzieli jedną tabelę bazoanową i używa różnych prefiksów tabeli 
+w celu rozróżnienia ich od siebie. Na przykład, jedna aplikacja może używać prefiksu
+`tbl_`, druga zaś innego, np. `yii_`.
+
+Aby móc używać prefiksów tabel, należy przypisać właściwości [CDbConnection::tablePrefix] 
+pożądany prefiks tabeli. Następnie, w zapytaniach SQL należy używać `{{TableName}}`,
+które wskazuje na nazwę tabeli bez prefiksu. Na przykład, jeśli baza danych zawiera 
+tabelę o nazwie `tbl_users`, gdzie `tbl_` jest skonfigurowane jako prefiks tabeli, 
+wtedy możemy używać następującego kodu, aby zapytać o użytkowników:
+
+~~~
+[php]
+$sql='SELECT * FROM {{users}}';
+$users=$connection->createCommand($sql)->queryAll();
 ~~~
 
-<div class="revision">$Id: database.dao.txt 1413 2009-09-14 23:38:53Z qiang.xue $</div>
+<div class="revision">$Id: database.dao.txt 1479 2009-10-23 13:24:20Z qiang.xue $</div>

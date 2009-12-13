@@ -44,7 +44,7 @@ similaire lorsque l'on y accède en écriture, la méthode `setTextWidth()` est
 appelé. Si le setter n'est pas défini, la propriété est accessible en
 lecture seule et un accès en écriture lève une exception. L'utilisation
 de getter et setter à l'avantage de permettre d'insérer de la logique de traitement
-lors de l'accès à la propriété (e.g. effectuer une validation, leverun événement).
+lors de l'accès à la propriété (e.g. effectuer une validation, lever un événement).
 
 
 >Attention: Il existe une légère différence entre une propriété définie
@@ -97,12 +97,21 @@ function methodName($event)
 }
 ~~~
 
-where `$event` is the parameter describing the event (it originates from
-the `raiseEvent()` call).
 ou le paramètre `$event` décrit l'évènement (il provient de l'appel de
 `raiseEvent()`). Le paramètre `$event` doit être une instance de [CEvent]
 ou de l'une de ses classes dérivées. A minima, il doit permettre de
 savoir qui à levé l'évènement.
+
+A partir de la version 1.0.10, un gestionnaire d'évènement peut être une fonction anonyme (ou lambda function)
+ce qui est supporté depuis PHP 5.3. Par exemple,
+
+~~~
+[php]
+$component->onClicked=function($event) {
+	......
+}
+~~~
+
 
 Désormais, si l'on appelle `onClicked()`, l'évènement `onClicked` va être
 levé (a l'intérieur de `onClicked()`), et le gestionnaire d'évènement
@@ -179,4 +188,10 @@ composant, peut attacher certaines de ses méthodes à des évènements du compo
 Cela permet à un comportement d'observer et/ou de changer le cycle d'exécution du
 composant.
 
-<div class="revision">$Id: basics.component.txt 683 $</div>
+Depuis la version 1.1.0, les propriétés d'un `comportement` sont accessibles directement depuis
+le composant auquel il est rattaché. Les propriétés intègrent à la fois les variables publiques
+et les propriétés du comportement définies par getter/setter. Par exemple, si un comportement
+à une propriété `xyz` et que ce comportement est attaché à un composant `$a`. Alors il devient possible
+d'utiliser l'expression `$a->xyz` pour accéder à la propriété du comportement.
+
+<div class="revision">$Id: basics.component.txt 1474 $</div>

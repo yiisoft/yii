@@ -2,12 +2,12 @@
 	- [Обзор](index)
     - [Новые возможности](changes)
 	- [Обновление с версии 1.0 до версии 1.1](upgrade)
-    - [Что такое Yii](quickstart.what-is-yii)
+    - [Что такое Yii](quickstart.what-is-yii)    
     - [Установка](quickstart.installation)
     - [Создание первого приложения](quickstart.first-app)
 
 * Основы
-    - [Модель - Представление - Контроллер (MVC)](basics.mvc)
+    - [Модель — Представление — Контроллер (MVC)](basics.mvc)
     - [Входной скрипт](basics.entry)
     - [Приложение](basics.application)
     - [Контроллер](basics.controller)

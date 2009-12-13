@@ -296,4 +296,4 @@ Yii::import('ext.xyz.XyzClass');
 Feito isso, podemos criar uma instância dessa classe, configurar suas propriedades e 
 chamar seus métodos. Podemos também estendê-lo para criar novas classes.
 
-<div class="revision">$Id: extension.use.txt 1392 2009-09-04 20:39:11Z qiang.xue $</div>
+<div class="revision">$Id: extension.use.txt 1398 2009-09-06 01:15:01Z qiang.xue $</div>

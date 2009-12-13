@@ -139,6 +139,9 @@ CREATE TABLE User (
 );
 ~~~
 
+> Note: Si vous utilisez MySQL, vous devez remplacer `AUTOINCREMENT`
+> par `AUTO_INCREMENT` dans le code SQL ci-dessus.
+
 Par souci de simplification, nous créeons seulement une table `User` dans notre
 base. Le fichier de base de donnée SQLite est sauvé sous le nom
 
@@ -157,7 +160,7 @@ plupart du temps.
 
 Plutot que d'écrire du code, nous allons encore nous servir du puissant outil `yiic`,
 afin de générer automatiquement le code. Ce processus est aussi connu sous le nom de
-*scaffolding*. Ouvrez une fenêtre de ligne de commande, et exécutez les commandes suivantes : 
+*scaffolding*. Ouvrez une fenêtre de ligne de commande, et exécutez les commandes suivantes :
 
 ~~~
 % cd WebRoot/testdrive
@@ -176,8 +179,8 @@ If you have a 'db' database connection, you can test it now with:
 
 >> crud User
    generate UserController.php
+   mkdir D:/wwwroot/testdrive/protected/views/user
    generate create.php
-      mkdir D:/wwwroot/testdrive/protected/views/user
    generate update.php
    generate list.php
    generate show.php
@@ -186,10 +189,10 @@ Crud 'user' has been successfully created. You may access it via:
 http://hostname/path/to/index.php?r=user
 ~~~
 
-Ci-dessous, nous utilisons la commande `yiic shell` pour interagir avec notre
+Ci-dessus, nous utilisons la commande `yiic shell` pour interagir avec notre
 application. Au prompt, nous exécutons 2 sous-commandes : `model User`, et `crud User`.
 La première genère une class "Model" pour la table `User`, et la seconde lit ce modèle
-pour générer le code nécessaire aux opérations CRUD.
+pour générer le code qui implémente les traitements CRUD.
 
 > Note|Note : Si vous rencontrez des erreurs comme "...could not find driver", alors
 > que le script de test des pré-requis signale que PDO et les drivers associés sont
@@ -242,4 +245,4 @@ Toutes ces fonctionnalités ont été réalisées sans écrire une seule ligne d
 
 
 
-<div class="revision">$Id: quickstart.first-app.txt 723 $</div>
+<div class="revision">$Id: quickstart.first-app.txt 1264 $</div>

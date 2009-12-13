@@ -292,4 +292,4 @@ Następnie, możemy utworzyć instancję tej klasy, skonfigurować jej właściw
 oraz zawołać jej metody. Możemy również rozszerzyć go do tworzenia nowych
 klas potomnych.
 
-<div class="revision">$Id: extension.use.txt 1392 2009-09-04 20:39:11Z qiang.xue $</div>
+<div class="revision">$Id: extension.use.txt 1398 2009-09-06 01:15:01Z qiang.xue $</div>

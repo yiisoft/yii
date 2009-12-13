@@ -130,6 +130,19 @@ Domyślnie, nazwa klasy AR jest identyczna z nazwą tabeli w bazie danych. Jeśl
 klasy różni się, nadpisz metodę [tableName()|CActiveRecord::tableName]. Metoda [model()|CActiveRecord::model] 
 jest zadeklarowana jako taka dla każdej klasy AR (wyjaśnienie tego nastąpi później).
 
+> Info|Info: Aby móc używać [prefiksów tablic](/doc/guide/database.dao#using-table-prefix)
+> wprowadzonych w wersji 1.1.0, metoda [tableName()|CActiveRecord::tableName] dla klasy AR
+> może być nadpisana następująco,
+> ~~~
+> [php]
+> public function tableName()
+> {
+>     return '{{post}}';
+> }
+> ~~~
+> Oznacza to, że zamiast zwracać pełną i dokładną nazwę tabeli, zwracamy jej nazwę bez 
+> prefiksu, dodatkowo zamkniętą w podwójnych nawiasach klamrowych.  
+
 Wartości kolumn wiersza tabeli są dostępne jako właściwości odpowiednich instancji klasy AR.
 Na przykład, następujący kod ustawia kolumnę (atrybut) `title`:
 
@@ -630,4 +643,4 @@ $contents=Content::model()->findAll();
 
 Zauważ, że domyślne nazwane podzbiory mają zastosowanie tylko dla zapytań `SELECT`. Są one ignorowane dla zapytań `INSERT`, `UPDATE` oraz `DELETE`.
 
-<div class="revision">$Id: database.ar.txt 1391 2009-09-04 19:46:04Z qiang.xue $</d
+<div class="revision">$Id: database.ar.txt 1479 2009-10-23 13:24:20Z qiang.xue $</div>

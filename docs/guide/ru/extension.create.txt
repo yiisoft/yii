@@ -21,7 +21,7 @@
 ---------------------
 
 [Компонент приложения](/doc/guide/basics.application#application-component) должен реализовывать интерфейс [IApplicationComponent]
-или расширять класс [CApplicationComponent]. Основной метод, который необходимо реализовать, - [IApplicationComponent::init].
+или расширять класс [CApplicationComponent]. Основной метод, который необходимо реализовать, — [IApplicationComponent::init].
 В этом методе компонент инициализируется. Метод вызывается после того, как компонент создан и получены начальные значения,
  обозначенные в [конфигурации приложения](/doc/guide/basics.application#application-configuration).
 
@@ -68,7 +68,7 @@ class TimestampBehavior extends CActiveRecordBehavior
 
 [Виджет](/doc/guide/basics.view#widget) должен расширять класс [CWidget] или производные от него.
 
-Наиболее простой способ создать виджет - расширить существующий виджет и переопределить его методы или заменить значения по умолчанию.
+Наиболее простой способ создать виджет — расширить существующий виджет и переопределить его методы или заменить значения по умолчанию.
 Например, если вы хотите заменить CSS-стиль для [CTabView], то, используя виджет, нужно сконфигурировать свойство [CTabView::cssFile]. Можно также расширить класс
 [CTabView], чтобы при использовании виджета не требовалась постоянная конфигурация, следующим образом:
 
@@ -95,7 +95,7 @@ class MyTabView extends CTabView
 
 Чтобы написать виджет с нуля, нужно, как правило, реализовать два метода: [CWidget::init] и [CWidget::run]. 
 Первый метод вызывается, когда мы используем конструкцию `$this->beginWidget` для вставки виджета в представление, 
-а второй - когда используется конструкция `$this->endWidget`.
+а второй — когда используется конструкция `$this->endWidget`.
 Если необходимо получить и обработать некоторый контент между вызовами этих двух функций
 можно запустить [буферизацию вывода](http://us3.php.net/manual/en/book.outcontrol.php) в 
 [CWidget::init] и получать сохраненный вывод для дальнейшей обработки в методе [CWidget::run].
@@ -111,7 +111,7 @@ class MyWidget extends CWidget
 {
 	protected function registerClientScript()
 	{
-		// ...publish CSS or JavaScript file here...
+		// …подключаем здесь файлы CSS или JavaScript…
 		$cs=Yii::app()->clientScript;
 		$cs->registerCssFile($cssFile);
 		$cs->registerScriptFile($jsFile);
@@ -126,14 +126,14 @@ class MyWidget extends CWidget
 Действие
 ------
 
-[Действие](/doc/guide/basics.controller#action) должно расширять класс [CAction] или производные от него. [IAction::run] - основной метод, который необходимо 
+[Действие](/doc/guide/basics.controller#action) должно расширять класс [CAction] или производные от него. [IAction::run] — основной метод, который необходимо
 реализовать для действия.
 
 Фильтр
 ------
 
 Фильтр должен расширять класс [CFilter] или производные от него. Основными методами, которые необходимо реализоваться,
-являются [CFilter::preFilter] и [CFilter::postFilter]. Первый вызывается до выполнения действия, второй - после.
+являются [CFilter::preFilter] и [CFilter::postFilter]. Первый вызывается до выполнения действия, второй — после.
 
 ~~~
 [php]
@@ -152,7 +152,7 @@ class MyFilter extends CFilter
 }
 ~~~
 
-Параметр `$filterChain` - экземпляр класса [CFilterChain], содержащий информацию о действии, к которому применяются фильтры в настоящий момент.
+Параметр `$filterChain` — экземпляр класса [CFilterChain], содержащий информацию о действии, к которому применяются фильтры в настоящий момент.
 
 
 Контроллер
@@ -195,7 +195,7 @@ class MyCommand extends CConsoleCommand
 {
 	public function run($args)
 	{
-		// $args - массив аргументов, переданных с командой
+		// $args — массив аргументов, переданных с командой
 	}
 
 	public function getHelp()

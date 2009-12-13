@@ -247,4 +247,27 @@ while($dataReader->read()!==false)
 }
 ~~~
 
-<div class="revision">$Id: database.dao.txt 1423 2009-09-28 01:54:38Z qiang.xue $</div>
+Verwenden eines Tabellenpräfix
+------------------------------
+
+Seit Version 1.1.0 unterstützt Yii auch Tabellenpräfixe. Ein Präfix ist ein
+String, der allen Tabellennamen der aktuellen Verbindung vorangestellt wird.
+Es wird meist in gemeinsam genutzten Hosting-Umgebungen verwendet, wo mehrere
+Anwendungen sich eine einzelne Datenbank teilen und zur Unterscheidung 
+verschiedene Präfixe verwenden. Eine Anwendung könnte z.B. `tbl_`, eine andere
+`yii_` als Präfix verwenden.
+
+Um ein Tabellenpräfix zu verwenden, konfigurieren Sie es in der Eigenschaft
+[CDbConnection::tablePrefix]. In SQL-Ausdrücken verwenden Sie dann
+`{{TabellenName}}` um sich auf Tabellennamen zu beziehen, wobei `TabellenName`
+für den Namen der Tabelle ohne Präfix steht. Wenn die Datenbank z.B. eine
+Tabelle `tbl_users` enthält und `tbl_` als Tabellenpräfix konfiguriert wurde,
+können wir so eine Abfrage auf dieser Tabelle durchführen:
+
+~~~
+[php]
+$sql='SELECT * FROM {{users}}';
+$users=$connection->createCommand($sql)->queryAll();
+~~~
+
+<div class="revision">$Id: database.dao.txt 1479 2009-10-23 13:24:20Z qiang.xue $</div>

@@ -39,7 +39,7 @@
 ~~~
 % /wwwroot/yii/framework/yiic webapp /wwwroot/blog
 Create a Web application under '/wwwroot/blog'? [Yes|No]y
-......
+…
 ~~~
 
 > Tip|Подсказка: Чтобы использовать утилиту `yiic` как показано выше, путь к

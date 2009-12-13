@@ -229,7 +229,7 @@ kann die Action immer noch ausgeführt werden.
 >     // ... Andere Regeln ...
 >     // Die folgende Regel verbietet die 'delete'-Action in jedem Kontext
 >     array('deny',
->         'action'=>'delete',
+>         'action'=>array('delete'),
 >     ),
 > );
 > ~~~
@@ -607,4 +607,4 @@ $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('gast','Gast-Benutzer', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 1295 2009-08-06 20:00:34Z qiang.xue $</div>
+<div class="revision">$Id: topics.auth.txt 1483 2009-10-27 15:57:33Z qiang.xue $</div>

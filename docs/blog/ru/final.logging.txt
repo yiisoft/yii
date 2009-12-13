@@ -14,7 +14,7 @@
 return array(
 	'preload'=>array('log'),
 
-	......
+	…
 
 	'components'=>array(
 		'log'=>array(
@@ -26,7 +26,7 @@ return array(
 				),
 			),
 		),
-		......
+		…
 	),
 );
 ~~~

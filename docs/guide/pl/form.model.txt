@@ -195,11 +195,8 @@ array('password', 'authenticate', 'on'=>'login'),
 ~~~
 
 
-Ochrona przypisania atrybutów (ang. Securing Attribute Assignments)
+Zabezpieczanie przypisywania atrybutów (ang. Securing Attribute Assignments)
 ------------------------------
-
-> Note|Uwaga: przypisywanie atrybutów w zależności od scenariusza zostało udostępnione 
-> od wersji 1.0.2
 
 Po utworzeniu instancji modelu, często potrzebujemy wypełnić jej atrybuty danymi 
 dostarczonymi przez użytkowników końcowych. Można to zrobić wygodnie przy użyciu 
@@ -208,20 +205,9 @@ następującego grupowego przypisania:
 ~~~
 [php]
 $model=new LoginForm;
-$model->scenario='login';
 if(isset($_POST['LoginForm']))
   $model->attributes=$_POST['LoginForm'];
 ~~~
-
-> Note|Uwaga: Właściwość [scenario|CModel::scenario] jest dostępna od wersji 1.0.4.
-> Grupowe przypisywanie będzie używać wartości tej właściwości w celu określenia które atrybuty
-> mogą być grupowo przypisane. W wersjach 1.0.2 oraz 1.0.3, musieliśmy używać następującego kodu
-> aby dokonać grupowego przypisania dla określonego scenariusza:
->
-> ~~~
-> [php]
-> $model->setAttributes($_POST['LoginForm'], 'login');
-> ~~~
 
 Ostatnia linia jest grupowym przypisaniem, które przypisuje każdy wpis w `$_POST['LoginForm']` 
 do odpowiadającego mu atrybutu w modelu dla scenariusza logowania `login`. Jest to równoznaczne z następującym przypisaniem:
@@ -235,7 +221,80 @@ foreach($_POST['LoginForm'] as $name=>$value)
 }
 ~~~
 
-Decyzja o tym, czy dane wejściowe są bezpieczne czy też nie jest podejmowana
+
+Kluczową sprawą jest, aby określić, które atrybuty są bezpieczne. Na przykład, jeśli 
+uwidocznimy klucz główny  tablicy jako bezpieczny, wtedy osoba atakująca dostanie
+szanse do zmodyfikowania klucza głównego danego rekordu i tym samym manipulację danych,
+do których nie jest on upoważniony.
+
+Polityka decydowania, które atrybuty są bezpieczne różnic się w wersjach 1.0 
+oraz 1.1. W następnych akapitach opiszemy ją osobno dla każdej z wersji.
+
+***Bezpieczne atrybuty w wersji 1.1
+
+W wersji 1.1, atrybut rozważany jest jako bezpieczny jeśli pojawia się on w regule 
+sprawdzania poprawności, która ma zastosowanie w danym scenariuszu. Na przykład,
+
+~~~
+[php]
+array('username, password', 'required', 'on'=>'login, register'),
+array('email', 'required', 'on'=>'register'),
+~~~
+
+W powyższym kodzie, atrybuty `username` oraz `password` są wymaganymi atrybutami  
+w scenariuszu `register`. W rezultacie, jesli dokonamy masowego przypisania  
+w scenariuszu `login`, tylko `username` oraz `password` będą masowo przypiane, gdyż 
+tylko one są atrybutami, które pojawiły się w regule sprawdzania poprawności dla
+scenariusza `login`. Z drugiej strony, jeśli będzie to scenariusz `register`,
+wszystkie trzy atrybuty będą masowo przypisane.
+
+~~~
+[php]
+// scenariusz login
+$model=new User('login');
+if(isset($_POST['User']))
+  $model->attributes=$_POST['User'];
+
+// scenariusz register 
+$model=new User('register');
+if(isset($_POST['User']))
+  $model->attributes=$_POST['User'];
+~~~
+
+Dlaczego więc korzystać z takiej polityki w celu określenia czy atrybut jest bezpieczny
+czy też nie? Uzasadnieniem tego jest to, że jeśli atrybut posiada już jedną lub kilka
+reguł sprawdzania poprawności nie musimy się o nic więcej martwić.  
+
+Należy pamiętać, co ważne, iż reguły sprawdzania poprawności są używane do sprawdzania
+danych wprowadzanych przez użytkownika, rzadziej do danych, które generujemy w kodzie
+(np. stempel czasu, automatycznie generowany klucz główny). Dlatego też NIE NALEŻY
+DODAWAĆ reguł walidacji dla tych atrybutów, które nie są oczekiwane jako dane wejściowe
+od użytkownika.
+Czasami, chcemy zadeklarować atrybut jako bezpieczny, pomimo tego, że nie mamy dla niego żadnej 
+określonej reguły. Dobryn przykładem jest atrybut reprezentujący zawartość aartykułu.
+który może zawierać dowolne dane wprowadzone przez użytkownika. W tym celu możemy
+użyć specjalnej reguły `safe` aby osiągnąc ten cel:
+
+~~~
+[php]
+array('content', 'safe')
+~~~
+
+Dla komplementarności, istnieje również reguła `unsafe`, które używana jest do zadeklarowania 
+wprost, iż atrybut jest niebezpieczny: 
+
+~~~
+[php]
+array('permission', 'unsafe')
+~~~
+
+Atrybut `unsafe` jest używany rzadko i jest wyjątkiem do naszego wcześniej zdefiniowanego
+atrybutu `safe`.
+
+
+***Bezpieczne atrybuty w wersji 1.0
+
+W wersji 1.0, decyzja o tym, czy dane wejściowe są bezpieczne czy też nie jest podejmowana
 na podstawie wartości zwracanej przez metodę `safeAttributes` dla wybranego scenariusza. 
 Domyślnie metoda ta zwraca wszystkie publiczne zmienne jako bezpieczne atrybuty,
 dla klasy [CFormModel], jednakże dla klasy [CActiveRecord] zwracane są wszystkie 
@@ -373,4 +432,4 @@ potrzeb poprzez nadpisanie metody [attributeLabels()|CModel::attributeLabels].
 Jak zobaczymy w następnych punktach, zdefiniowanie etykiet w modelu umożliwia nam tworzenie 
 formularzy szybciej i lepiej.
 
-<div class="revision">$Id: form.model.txt 1405 2009-09-10 19:18:30Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 1425 2009-09-28 03:28:17Z qiang.xue $</div>

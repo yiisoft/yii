@@ -121,7 +121,7 @@ $cs->scriptMap=array(
 	'jquery.js'=>'/js/all.js',
 	'jquery.ajaxqueue.js'=>'/js/all.js',
 	'jquery.metadata.js'=>'/js/all.js',
-	......
+	…
 );
 ~~~
 
@@ -147,7 +147,7 @@ $cs->scriptMap=array(
 	'jquery.js'=>false,
 	'jquery.ajaxqueue.js'=>false,
 	'jquery.metadata.js'=>false,
-	......
+	…
 );
 ~~~
 
@@ -164,7 +164,7 @@ $cs->scriptMap=array(
 	CGoogleApi::load('jquery.ajaxqueue.js') . "\n" .
 	CGoogleApi::load('jquery.metadata.js')
 ); ?>
-......
+…
 </head>
 ~~~
 

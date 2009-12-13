@@ -1,4 +1,7 @@
 * Primeiros Passos
+	- [Visão Geral](index)
+	- [Novos Recursos](changes)
+	- [Atualizando a versão 1.0 para 1.1](upgrade)
     - [O que é Yii?](quickstart.what-is-yii)
     - [Instalação](quickstart.installation)
     - [Criando a primeira aplicação Yii](quickstart.first-app)
@@ -11,6 +14,7 @@
     - [Modelo](basics.model)
     - [Visão](basics.view)
     - [Componentes](basics.component)
+    - [Módulo](basics.module)
     - [Path Alias and Namespace](basics.namespace)
     - [Convenções](basics.convention)
     - [Fluxo de Trabalho](basics.workflow)
@@ -40,7 +44,13 @@
     - [Usando Extensões](extension.use)
     - [Criando Extensões](extension.create)
     - [Utilizando Bibliotecas de Terceiros](extension.integration)
-
+    
+* Testes
+	- [Visão Geral](test.overview)
+	- [Definindo Fixtures](test.fixture)
+	- [Testes Unitários](test.unit)
+	- [Testes Funcionais](test.functional)
+	
 * Tópicos Especiais
     - [Gerenciamento de URL](topics.url)
     - [Autenticação e Autorização](topics.auth)
@@ -53,3 +63,5 @@
     - [Aplicativos de Console](topics.console)
     - [Segurança](topics.security)
     - [Ajustes no Desempenho](topics.performance)
+    
+<div class="revision">$Id: toc.txt 1409 2009-09-13 19:21:34Z qiang.xue $</div>

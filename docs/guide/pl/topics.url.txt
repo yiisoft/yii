@@ -225,6 +225,31 @@ trasę `post/create` z parametrem GET `id=123`. A biorąc pod uwagę trasę
 `comment/list` oraz parametr GET `page=2`, możemy stworzyć URL
 `/index.php/comments?page=2`.
 
+### Parametryzowanie nazw hostów
+
+Zaczynając od wersji 1.0.11, możliwym jest dołaczanie nazwy hosta do reguł parsowania 
+oraz tworzenia URLi. Można wyodrębnić część nazwy hosta do parametru GET. Na przykład,
+adres URL `http://admin.example.com/en/profile` może zostać sparsowany do parametrów 
+GET `user=admin` oraz `lang=en`. Z drugiej strony, reguły z nazwą hosta mogą zostać użyte 
+do utworzenia URLi z parametryzowanymi nazwami hostów.
+
+W celu używania parametryzowanych nazw hostów, po prostu zadeklaruj regułę URL z  
+informacją o hoście, np: 
+
+~~~
+[php]
+array(
+  'http://<user:\w+>.example.com/<lang:\w+>/profile' => 'user/profile',
+)
+~~~
+
+Powyższy przykład mówi, iż pierwszy segment w nazwie hosta powinien być traktowany jako
+parametr `user`, zaś pierwszy segment w ścieżce powinien być parametrem `lang`. 
+Reguła odpowiada trasie `user/profile`.
+
+Zauważ, że [CUrlManager::showScriptName] nie będzie działało, jeśli URL zostanie  
+utworzony za pomocę reguły z parametryzowaną nazwą hosta.
+
 ### Ukrywanie `index.php`
 
 Czyszcząc adresy URL możemy zrobić jeszcze jedną rzecz więcej ukrywając
@@ -267,4 +292,4 @@ do strony statycznej. Aby to zrobić po prostu skonfiguruj komponent
 [urlManager|CWebApplication::urlManager] ustawiając jego właściwość
 [urlSuffix|CUrlManager::urlSuffix] na taki sufiks, jaki ci odpowiada.
 
-<div class="revision">$Id: topics.url.txt 1342 2009-08-17 14:55:58Z qiang.xue $</div>
+<div class="revision">$Id: topics.url.txt 1533 2009-11-20 14:10:46Z qiang.xue $</div>

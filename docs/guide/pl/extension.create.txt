@@ -244,4 +244,4 @@ Tworzenie rozszerzeń generycznych komponentów to jak pianie klasy. Również t
 komponent powinien być samowystarczalny, tak że może ony być w łatwy sposób
 wykorzystany przez innych deweloperów.
 
-<div class="revision">$Id: extension.create.txt 1411 2009-09-13 23:15:05Z qiang.xue $</div>
+<div class="revision">$Id: extension.create.txt 1423 2009-09-28 01:54:38Z qiang.xue $</div>

@@ -18,12 +18,20 @@ Version 1.1.0
 
  * Der verwendete Tabellen-Alias entspricht nun dem Namen der Beziehung im AR.
 
+ * [Unterstützung von Tabellenpräfixen](/doc/guide/database.dao#using-table-prefix).
+
+
+Version 1.0.11
+--------------
+
+ * URLs können nun auch mit parametrisierten Hostnamen erzeugt und ausgewertet werden
+     - [Parametrisierte Hostnamen](/doc/guide/topics.url#parameterizing-hostnames)
+
 
 Version 1.0.10
 --------------
 
- * Modulnachrichten können nun einfacher mit CPhpMessageSource übersetzt
- werden
+ * Modulnachrichten können nun einfacher mit CPhpMessageSource übersetzt werden
      - [Übersetzen von Textnachrichten](/doc/guide/topics.i18n#message-translation)
 
  * Als Event-Handler können nun auch anonyme Funktionen verwendet werden
@@ -85,4 +93,4 @@ Version 1.0.5
 einer URL. Siehe:
      - [Parametrisierte Routen in URL-Regeln](/doc/guide/topics.url#parameterizing-routes)
 
-<div class="revision">$Id: changes.txt 1474 2009-10-18 21:13:52Z qiang.xue $</div>
+<div class="revision">$Id: changes.txt 1533 2009-11-20 14:10:46Z qiang.xue $</div>

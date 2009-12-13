@@ -236,4 +236,4 @@ while($dataReader->read()!==false)
 }
 ~~~
 
-<div class="revision">$Id: database.dao.txt 1413 2009-09-14 23:38:53Z qiang.xue $</div>
+<div class="revision">$Id: database.dao.txt 1479 2009-10-23 13:24:20Z qiang.xue $</div>

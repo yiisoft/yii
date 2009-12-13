@@ -227,6 +227,33 @@ gegebener Route `comment/list` mit dem GET-Parameter `page=2` wird die
 URL `/index.php/comments?page=2` erzeugt.
 
 
+### Parametrisierte Hostnamen
+
+Seit Version 1.0.11 kann auch der Hostname in URL-Regeln verwendet werden.
+Teile des Hostnamens können extrahiert und in GET-Parameter überführt werden.
+Die URL `http://admin.example.com/en/profile` kann zum Beispiel in die
+GET-Parameter `user=admin` und `lang=en` ausgewertet werden. Regeln mit
+Hostnamen können andererseits genauso zum Erzeugen von URLs mit parametrisierten Hostnamen
+verwendet werden.
+
+Um parametrisierte Hostnamen zu verwenden, definieren Sie einfach URL-Regeln
+mit Host-Informationen. Zum Beispiel:
+
+~~~
+[php]
+array(
+	'http://<user:\w+>.example.com/<lang:\w+>/profile' => 'user/profile',
+)
+~~~
+
+Dieses Beispiel legt fest, dass der erste Teil des Hostnamen als `user`- und
+der erste Teil des Pfades als `lang`-Parameter verwendet werden soll. Die
+Regel verweist auf die `user/profile`-Route.
+
+Beachten Sie, dass [CUrlManager::showScriptName] keine Wirkung hat, wenn eine
+URL über eine Regel mit parametrisierten Hostnamen erzeugt wird.
+
+
 ### Verbergen von `index.php`
 
 Wir können eine weitere Maßnahme zum Bereinigen unserer URLs durchführen: das
@@ -271,4 +298,4 @@ einer statischen Webseite aus. Setzen Sie dazu einfach die gewünschte Endung
 über die Eigenschaft [urlSuffix|CUrlManager::urlSuffix] der
 [urlManager|CWebApplication::urlManager]-Komponente.
 
-<div class="revision">$Id: topics.url.txt 1354 2009-08-20 18:15:14Z qiang.xue $</div>
+<div class="revision">$Id: topics.url.txt 1533 2009-11-20 14:10:46Z qiang.xue $</div>

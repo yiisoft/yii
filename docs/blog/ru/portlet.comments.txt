@@ -37,7 +37,7 @@ class RecentComments extends Portlet
 [php]
 class Comment extends CActiveRecord
 {
-	......
+	…
 
 	public function findRecentComments($limit=10)
 	{
@@ -67,7 +67,7 @@ class Comment extends CActiveRecord
 
 ~~~
 [php]
-......
+…
 <div id="sidebar">
 
 <?php $this->widget('UserLogin',array('visible'=>Yii::app()->user->isGuest)); ?>
@@ -79,7 +79,7 @@ class Comment extends CActiveRecord
 <?php $this->widget('RecentComments'); ?>
 
 </div>
-......
+…
 ~~~
 
 <div class="revision">$Id: portlet.comments.txt 677 2009-02-14 04:27:48Z qiang.xue $</div>

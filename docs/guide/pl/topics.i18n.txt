@@ -39,6 +39,11 @@ Mając ID ustawień lokalnych można otrzymać odpowiadającą mu instancję [CL
 Dane uzyskano z [Wspólnego repozytorium danych lokalnych ](http://unicode.org/cldr/) (CLDR). 
 Dla każdego ustawienia lokalnego wyłącznie zbiór danych pochodzących z CLDR jest dostarczany,
 gdyż w oryginalnych danych dostępnych jest wiele rzadko używanych informacji.
+Poczynając od wersji 1.1.0, użytkownicy mogą również wspierać swoje własne, niestandardowe
+dane lokalne. Aby to zrobić, ustaw właściwość [CApplication::localeDataPath]
+by wskazywała na katalog, który zawiera niestandardowe dane lokalne. Aby stworzyć
+pliki z niestandardowymi danymi lokalnymi, prosze wzoruj sie na plikach lokalnych
+danych znajdujących się w katalogu `framework/i18n/data`.
 
 Dla aplikacji Yii rozróżniamy jej [język docelowy|CApplication::language] od [języka źródłowego|CApplication::sourceLanguage]. 
 Język docelowy jest językiem (lokalnego) użytkownika do którego skierowana jest aplikacja, 
@@ -135,6 +140,20 @@ Podsumowując, w celu korzystania z tłumaczenia komunikatów, nastepujące krok
 jeśli używamy [CPhpMessageSource] jako źródło komunikatów. Jego polecenie `message`  
 może automatycznie wydobyć komunikaty, które powinny zostać przetłumaczone z wybranego pliku źródłowego
 oraz połączyć je do istniejącymi tłumaczeniami, jeśli jest to konieczne. 
+
+Poczynając od wersji 1.0.10, podczas używania klasy [CPhpMessageSource] do zarządzania źródłem 
+wiadomości, wiadomości dla klas rozszerzeń (np. widżetów, modułów)mogą być specjalnie 
+zarządzane i używane. W szczególności, jeśli wiadomość należy do rozszerzenia, którego nazwa 
+to `Xyz`, wtedy kategoria wiadomości może zostać określona w formacie `Xyz.categoryName`. 
+Przyjmuje się, że odpowiadający wiadomości plik to `BasePath/messages/LanguageID/categoryName.php`, 
+gdzie `BasePath` wskazuje na katalog, który zawiera plik klasy rozszerzenia. 
+Podczas używania `Yii::t()` do tłumaczenia wiadomości rozrszerzeń, następujący 
+format powinien byc używany w zamian:
+
+~~~
+[php]
+Yii::t('Xyz.categoryName', 'wiadomość do przetłumaczenia')
+~~~
 
 Od wersji 1.0.2, Yii posiada dodane wsparcie dla [alternatywnych formatów|CChoiceFormat]. 
 Alternatywny format odnosi się do wybierania tłumaczenia w zależności od podanej wartości numerycznej.
@@ -241,4 +260,4 @@ lub zmiennoprzeciwkową.
    - [formatPercentage|CNumberFormatter::formatPercentage]: metoda ta formatuje podaną liczbę używając 
    wzorca procentowego predefiniowanego w danych źródłowych lokalnych ustawień.
 
-<div class="revision">$Id: topics.i18n.txt 769 2009-02-27 19:32:30Z qiang.xue $</div>
+<div class="revision">$Id: topics.i18n.txt 1489 2009-10-27 21:13:26Z qiang.xue $</div>

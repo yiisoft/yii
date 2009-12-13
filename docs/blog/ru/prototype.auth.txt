@@ -82,12 +82,12 @@ class UserIdentity extends CUserIdentity
 > ~~~
 > [php]
 > return array(
->     ......
+>     …
 >     'import'=>array(
 >         'application.models.*',
 >         'application.components.*',
 >     ),
->     ......
+>     …
 > );
 > ~~~
 >
@@ -109,7 +109,7 @@ switch($identity->errorCode)
 	case UserIdentity::ERROR_NONE:
 		Yii::app()->user->login($identity);
 		break;
-	......
+	…
 }
 ~~~
 

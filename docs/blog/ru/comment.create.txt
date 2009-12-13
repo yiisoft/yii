@@ -67,7 +67,7 @@ protected function newComment($post)
 			$comment->validate();
 		else if(isset($_POST['submitComment']) && $comment->save())
 		{
-			Yii::app()->user->setFlash('commentSubmitted','Спасибо...');
+			Yii::app()->user->setFlash('commentSubmitted','Спасибо…');
 			$this->refresh();
 		}
 	}
@@ -86,7 +86,7 @@ protected function newComment($post)
 
 ~~~
 [php]
-......
+…
 <?php $this->renderPartial('/comment/_form',array(
 	'comment'=>$newComment,
 	'update'=>false,
@@ -95,7 +95,7 @@ protected function newComment($post)
 
 Здесь мы включаем форму создания комментария рендерингом частичного
 представления `/wwwroot/blog/protected/views/comment/_form.php`. Переменная
-`$newComment` передается методом `actionShow`. Её назначение - хранение
+`$newComment` передается методом `actionShow`. Её назначение — хранение
 введенного пользовательского комментария. Переменная `update` установлена в
 значение false, которое указывает, что форма комментария используется для
 создания нового комментария.
@@ -107,7 +107,7 @@ protected function newComment($post)
 
 ~~~
 [php]
-... форма комментария с кнопкой предварительного просмотра...
+…форма комментария с кнопкой предварительного просмотра…
 
 <?php if(isset($_POST['previewComment']) && !$comment->hasErrors()): ?>
 <h3>Предварительный просмотр</h3>
