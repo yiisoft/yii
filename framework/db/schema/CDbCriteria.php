@@ -138,7 +138,7 @@ class CDbCriteria
 	 * @param boolean whether the keyword should be escaped if it contains characters % or _.
 	 * When this parameter is true (default), the special characters % (matches 0 or more characters)
 	 * and _ (matches a single character) will be escaped, and the keyword will be surrounded with a %
-	 * character on both ends. When this parameter is false, the keyword will not be directly used for
+	 * character on both ends. When this parameter is false, the keyword will be directly used for
 	 * matching without any change.
 	 * @param string the operator used to concatenate the new condition with the existing one.
 	 * Defaults to 'AND'.
@@ -265,7 +265,7 @@ class CDbCriteria
 			if($this->order==='')
 				$this->order=$criteria->order;
 			else if($criteria->order!=='')
-				$this->order.=', '.$criteria->order;
+				$this->order=$criteria->order.', '.$this->order;
 		}
 
 		if($this->group!==$criteria->group)

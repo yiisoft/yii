@@ -573,7 +573,7 @@ class CHtml
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=self::getIdByName($name);
 		self::clientChange('change',$htmlOptions);
-		return self::tag('textarea',$htmlOptions,self::encode($value));
+		return self::tag('textarea',$htmlOptions,isset($htmlOptions['encode']) && !$htmlOptions['encode'] ? $value : self::encode($value));
 	}
 
 	/**
@@ -1150,7 +1150,7 @@ EOD;
 		self::clientChange('change',$htmlOptions);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
-		return self::tag('textarea',$htmlOptions,self::encode($model->$attribute));
+		return self::tag('textarea',$htmlOptions,isset($htmlOptions['encode']) && !$htmlOptions['encode'] ? $model->$attribute : self::encode($model->$attribute));
 	}
 
 	/**
@@ -1688,7 +1688,9 @@ EOD;
 			if(is_array($value))
 			{
 				$content.='<optgroup label="'.($raw?$key : self::encode($key))."\">\n";
-				$dummy=array();
+				$dummy=array('options'=>$options);
+				if(isset($htmlOptions['encode']))
+					$dummy['encode']=$htmlOptions['encode'];
 				$content.=self::listOptions($selection,$value,$dummy);
 				$content.='</optgroup>'."\n";
 			}

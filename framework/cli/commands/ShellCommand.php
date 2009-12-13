@@ -30,7 +30,7 @@ USAGE
 
 DESCRIPTION
   This command allows you to interact with a Web application
-  on the command line. It provides tools to automatically
+  on the command line. It also provides tools to automatically
   generate new controllers, views and data models.
 
   It is recommended that you execute this command under
@@ -127,6 +127,8 @@ EOD;
 		$_runner_=new CConsoleCommandRunner;
 		$_runner_->addCommands(dirname(__FILE__).'/shell');
 		$_runner_->addCommands(Yii::getPathOfAlias('application.commands.shell'));
+		if(($_path_=@getenv('YIIC_SHELL_COMMAND_PATH'))!==false)
+			$_runner_->addCommands($_path_);
 		$_commands_=$_runner_->commands;
 
 		while(($_line_=$this->readline("\n>> "))!==false)

@@ -30,6 +30,9 @@ should look like [$i]Field in order to support array-typed fields
 
 - Please read the Guide for further details on how to upgrade from v1.0.x to v1.1.
 
+Upgrading from v1.0.11
+----------------------
+
 Upgrading from v1.0.10
 ----------------------
 

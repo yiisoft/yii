@@ -114,16 +114,10 @@ class YiiBase
 			return self::$_imports[$alias];
 		if(class_exists($alias,false) || interface_exists($alias,false))
 			return self::$_imports[$alias]=$alias;
-		if(isset(self::$_coreClasses[$alias]) || ($pos=strrpos($alias,'.'))===false)  // a simple class name
+		if(($pos=strrpos($alias,'.'))===false)  // a simple class name
 		{
-			self::$_imports[$alias]=$alias;
-			if($forceInclude)
-			{
-				if(isset(self::$_coreClasses[$alias])) // a core class
-					require(YII_PATH.self::$_coreClasses[$alias]);
-				else
-					require($alias.'.php');
-			}
+			if($forceInclude && self::autoload($alias))
+				self::$_imports[$alias]=$alias;
 			return $alias;
 		}
 		if(($className=(string)substr($alias,$pos+1))!=='*' && (class_exists($className,false) || interface_exists($className,false)))
@@ -132,9 +126,11 @@ class YiiBase
 		{
 			if($className!=='*')
 			{
-				self::$_imports[$alias]=$className;
 				if($forceInclude)
+				{
 					require($path.'.php');
+					self::$_imports[$alias]=$className;
+				}
 				else
 					self::$_classes[$className]=$path.'.php';
 				return $className;
@@ -148,7 +144,8 @@ class YiiBase
 						unset(self::$_includePaths[$pos]);
 				}
 				array_unshift(self::$_includePaths,$path);
-				set_include_path('.'.PATH_SEPARATOR.implode(PATH_SEPARATOR,self::$_includePaths));
+				if(set_include_path('.'.PATH_SEPARATOR.implode(PATH_SEPARATOR,self::$_includePaths))===false)
+					throw new CException(Yii::t('yii','Unable to import "{alias}". Please check your server configuration to make sure you are allowed to change PHP include_path.',array('{alias}'=>$alias)));
 				return self::$_imports[$alias]=$path;
 			}
 		}
@@ -717,15 +714,15 @@ class CComponent
 	}
 	public function evaluateExpression($_expression_,$_data_=array())
 	{
-		if(!is_string($_expression_) || is_callable($_expression_))
-		{
-			$_data_[]=$this;
-			return call_user_func_array($_expression_, $_data_);
-		}
-		else
+		if(is_string($_expression_) && !function_exists($_expression_))
 		{
 			extract($_data_);
 			return @eval('return '.$_expression_.';');
+		}
+		else
+		{
+			$_data_[]=$this;
+			return call_user_func_array($_expression_, $_data_);
 		}
 	}
 }
@@ -1819,13 +1816,18 @@ class CLogger extends CComponent
 	const LEVEL_ERROR='error';
 	const LEVEL_INFO='info';
 	const LEVEL_PROFILE='profile';
+	public $autoFlush=10000;
 	private $_logs=array();
+	private $_logCount=0;
 	private $_levels;
 	private $_categories;
 	private $_timings;
 	public function log($message,$level='info',$category='application')
 	{
 		$this->_logs[]=array($message,$level,$category,microtime(true));
+		$this->_logCount++;
+		if($this->autoFlush>0 && $this->_logCount>=$this->autoFlush)
+			$this->flush();
 	}
 	public function getLogs($levels='',$categories='')
 	{
@@ -1929,6 +1931,16 @@ class CLogger extends CComponent
 			$delta=$now-$last[3];
 			$this->_timings[]=array($last[0],$last[2],$delta);
 		}
+	}
+	public function flush()
+	{
+		$this->onFlush(new CEvent($this));
+		$this->_logs=array();
+		$this->_logCount=0;
+	}
+	public function onFlush($event)
+	{
+		$this->raiseEvent('onFlush', $event);
 	}
 }
 abstract class CApplicationComponent extends CComponent implements IApplicationComponent
@@ -2403,7 +2415,7 @@ class CUrlManager extends CApplicationComponent
 		foreach($this->_rules as $rule)
 		{
 			if(($url=$rule->createUrl($this,$route,$params,$ampersand))!==false)
-				return $this->getBaseUrl().'/'.$url.$anchor;
+				return $rule->hasHostInfo ? $url.$anchor : $this->getBaseUrl().'/'.$url.$anchor;
 		}
 		return $this->createUrlDefault($route,$params,$ampersand).$anchor;
 	}
@@ -2449,7 +2461,7 @@ class CUrlManager extends CApplicationComponent
 			$pathInfo=$this->removeUrlSuffix($rawPathInfo,$this->urlSuffix);
 			foreach($this->_rules as $rule)
 			{
-				if(($r=$rule->parseUrl($this,$pathInfo,$rawPathInfo))!==false)
+				if(($r=$rule->parseUrl($this,$request,$pathInfo,$rawPathInfo))!==false)
 					return isset($_GET[$this->routeVar]) ? $_GET[$this->routeVar] : $r;
 			}
 			if($this->useStrictParsing)
@@ -2550,6 +2562,7 @@ class CUrlRule extends CComponent
 	public $template;
 	public $params=array();
 	public $append;
+	public $hasHostInfo;
 	public function __construct($route,$pattern)
 	{
 		if(is_array($route))
@@ -2570,6 +2583,7 @@ class CUrlRule extends CComponent
 			foreach($matches2[1] as $name)
 				$this->references[$name]="<$name>";
 		}
+		$this->hasHostInfo=!strncasecmp($pattern,'http://',7) || !strncasecmp($pattern,'https://',8);
 		if(preg_match_all('/<(\w+):?(.*?)?>/',$pattern,$matches))
 		{
 			$tokens=array_combine($matches[1],$matches[2]);
@@ -2636,7 +2650,7 @@ class CUrlRule extends CComponent
 		}
 		return $url;
 	}
-	public function parseUrl($manager,$pathInfo,$rawPathInfo)
+	public function parseUrl($manager,$request,$pathInfo,$rawPathInfo)
 	{
 		if($manager->caseSensitive && $this->caseSensitive===null || $this->caseSensitive)
 			$case='';
@@ -2652,6 +2666,8 @@ class CUrlRule extends CComponent
 				throw new CHttpException(404,Yii::t('yii','Unable to resolve the request "{route}".',
 					array('{route}'=>$rawPathInfo)));
 		}
+		if($this->hasHostInfo)
+			$pathInfo=$request->getHostInfo().rtrim('/'.$pathInfo,'/');
 		$pathInfo.='/';
 		if(preg_match($this->pattern.$case,$pathInfo,$matches))
 		{
@@ -3250,6 +3266,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	public $guestName='Guest';
 	public $loginUrl=array('site/login');
 	public $identityCookie;
+	public $autoRenewCookie=false;
 	private $_keyPrefix;
 	private $_access=array();
 	public function __get($name)
@@ -3364,10 +3381,15 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		if($cookie && !empty($cookie->value) && ($data=$app->getSecurityManager()->validateData($cookie->value))!==false)
 		{
 			$data=unserialize($data);
-			if(isset($data[0],$data[1],$data[2]))
+			if(isset($data[0],$data[1],$data[2],$data[3]))
 			{
-				list($id,$name,$states)=$data;
+				list($id,$name,$duration,$states)=$data;
 				$this->changeIdentity($id,$name,$states);
+				if($this->autoRenewCookie)
+				{
+					$cookie->expire=time()+$duration;
+					$app->getRequest()->getCookies()->add($cookie->name,$cookie);
+				}
 			}
 		}
 	}
@@ -3379,6 +3401,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		$data=array(
 			$this->getId(),
 			$this->getName(),
+			$duration,
 			$this->saveIdentityStates(),
 		);
 		$cookie->value=$app->getSecurityManager()->hashData(serialize($data));
@@ -3958,7 +3981,7 @@ class CHtml
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=self::getIdByName($name);
 		self::clientChange('change',$htmlOptions);
-		return self::tag('textarea',$htmlOptions,self::encode($value));
+		return self::tag('textarea',$htmlOptions,isset($htmlOptions['encode']) && !$htmlOptions['encode'] ? $value : self::encode($value));
 	}
 	public static function radioButton($name,$checked=false,$htmlOptions=array())
 	{
@@ -4211,7 +4234,7 @@ EOD;
 		self::clientChange('change',$htmlOptions);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
-		return self::tag('textarea',$htmlOptions,self::encode($model->$attribute));
+		return self::tag('textarea',$htmlOptions,isset($htmlOptions['encode']) && !$htmlOptions['encode'] ? $model->$attribute : self::encode($model->$attribute));
 	}
 	public static function activeFileField($model,$attribute,$htmlOptions=array())
 	{
@@ -4439,7 +4462,9 @@ EOD;
 			if(is_array($value))
 			{
 				$content.='<optgroup label="'.($raw?$key : self::encode($key))."\">\n";
-				$dummy=array();
+				$dummy=array('options'=>$options);
+				if(isset($htmlOptions['encode']))
+					$dummy['encode']=$htmlOptions['encode'];
 				$content.=self::listOptions($selection,$value,$dummy);
 				$content.='</optgroup>'."\n";
 			}
@@ -5497,7 +5522,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	}
 	public function generateAttributeLabel($name)
 	{
-		return ucwords(trim(strtolower(str_replace(array('-','_'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $name)))));
+		return ucwords(trim(strtolower(str_replace(array('-','_','.'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $name)))));
 	}
 	public function getAttributes($names=null)
 	{
@@ -5954,6 +5979,10 @@ abstract class CActiveRecord extends CModel
 		if($this->hasEventHandler('onAfterFind'))
 			$this->onAfterFind(new CEvent($this));
 	}
+	public function beforeFindInternal()
+	{
+		$this->beforeFind();
+	}
 	public function afterFindInternal()
 	{
 		$this->afterFind();
@@ -6110,34 +6139,46 @@ abstract class CActiveRecord extends CModel
 	}
 	public function find($condition='',$params=array())
 	{
+		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
+			return $this->with($condition->with)->find($condition);
 		$criteria=$this->getCommandBuilder()->createCriteria($condition,$params);
 		$criteria->limit=1;
 		return $this->query($criteria);
 	}
 	public function findAll($condition='',$params=array())
 	{
+		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
+			return $this->with($condition->with)->findAll($condition);
 		$criteria=$this->getCommandBuilder()->createCriteria($condition,$params);
 		return $this->query($criteria,true);
 	}
 	public function findByPk($pk,$condition='',$params=array())
 	{
+		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
+			return $this->with($condition->with)->findByPk($pk,$condition);
 		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk,$condition,$params);
 		$criteria->limit=1;
 		return $this->query($criteria);
 	}
 	public function findAllByPk($pk,$condition='',$params=array())
 	{
+		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
+			return $this->with($condition->with)->findAllByPk($pk,$condition);
 		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk,$condition,$params);
 		return $this->query($criteria,true);
 	}
 	public function findByAttributes($attributes,$condition='',$params=array())
 	{
+		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
+			return $this->with($condition->with)->findByAttributes($attributes,$condition);
 		$criteria=$this->getCommandBuilder()->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params);
 		$criteria->limit=1;
 		return $this->query($criteria);
 	}
 	public function findAllByAttributes($attributes,$condition='',$params=array())
 	{
+		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
+			return $this->with($condition->with)->findAllByAttributes($attributes,$condition);
 		$criteria=$this->getCommandBuilder()->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params);
 		return $this->query($criteria,true);
 	}
@@ -6153,6 +6194,8 @@ abstract class CActiveRecord extends CModel
 	}
 	public function count($condition='',$params=array())
 	{
+		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
+			return $this->with($condition->with)->count($condition);
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
 		$this->applyScopes($criteria);
@@ -7272,7 +7315,8 @@ interface IWidgetFactory
 interface IDataProvider
 {
 	public function getId();
-	public function getTotalCount($refresh=false);
+	public function getItemCount($refresh=false);
+	public function getTotalItemCount($refresh=false);
 	public function getData($refresh=false);
 	public function getKeys($refresh=false);
 	public function getSort();
