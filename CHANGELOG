@@ -2,6 +2,10 @@
                    Yii Framework Change Log
                    ========================
 
+Version 1.1.0 to be released
+----------------------------
+
+
 Version 1.1rc December 13, 2009
 -------------------------------
 - Bug #713: webapp command generates incorrect test bootstrap script (Qiang)
