@@ -93,8 +93,12 @@ class CDbCommandBuilder extends CComponent
 	public function createCountCommand($table,$criteria)
 	{
 		$this->ensureTable($table);
-		$criteria->select='COUNT(*)';
-		return $this->createFindCommand($table,$criteria);
+		$sql=($criteria->distinct ? 'SELECT DISTINCT':'SELECT')." COUNT(*) FROM {$table->rawName}";
+		$sql=$this->applyJoin($sql,$criteria->join);
+		$sql=$this->applyCondition($sql,$criteria->condition);
+		$command=$this->_connection->createCommand($sql);
+		$this->bindValues($command,$criteria->params);
+		return $command;
 	}
 
 	/**

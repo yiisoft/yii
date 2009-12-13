@@ -660,6 +660,7 @@ class CJoinElement
 			$query->selects=array("COUNT(*)");
 
 		$query->orders=$query->groups=$query->havings=array();
+		$query->limit=$query->offset=-1;
 		$command=$query->createCommand($this->_builder);
 		return $command->queryScalar();
 	}
