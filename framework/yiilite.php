@@ -38,7 +38,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.0.10';
+		return '1.0.11';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -147,7 +147,8 @@ class YiiBase
 						unset(self::$_includePaths[$pos]);
 				}
 				array_unshift(self::$_includePaths,$path);
-				set_include_path('.'.PATH_SEPARATOR.implode(PATH_SEPARATOR,self::$_includePaths));
+				if(set_include_path('.'.PATH_SEPARATOR.implode(PATH_SEPARATOR,self::$_includePaths))===false)
+					throw new CException(Yii::t('yii','Unable to import "{alias}". Please check your server configuration to make sure you are allowed to change PHP include_path.',array('{alias}'=>$alias)));
 				return self::$_imports[$alias]=$path;
 			}
 		}
@@ -2342,7 +2343,7 @@ class CUrlManager extends CApplicationComponent
 		foreach($this->_rules as $rule)
 		{
 			if(($url=$rule->createUrl($this,$route,$params,$ampersand))!==false)
-				return $this->getBaseUrl().'/'.$url.$anchor;
+				return $rule->hasHostInfo ? $url.$anchor : $this->getBaseUrl().'/'.$url.$anchor;
 		}
 		return $this->createUrlDefault($route,$params,$ampersand).$anchor;
 	}
@@ -2388,7 +2389,7 @@ class CUrlManager extends CApplicationComponent
 			$pathInfo=$this->removeUrlSuffix($rawPathInfo,$this->urlSuffix);
 			foreach($this->_rules as $rule)
 			{
-				if(($r=$rule->parseUrl($this,$pathInfo,$rawPathInfo))!==false)
+				if(($r=$rule->parseUrl($this,$request,$pathInfo,$rawPathInfo))!==false)
 					return isset($_GET[$this->routeVar]) ? $_GET[$this->routeVar] : $r;
 			}
 			if($this->useStrictParsing)
@@ -2489,6 +2490,7 @@ class CUrlRule extends CComponent
 	public $template;
 	public $params=array();
 	public $append;
+	public $hasHostInfo;
 	public function __construct($route,$pattern)
 	{
 		if(is_array($route))
@@ -2509,6 +2511,7 @@ class CUrlRule extends CComponent
 			foreach($matches2[1] as $name)
 				$this->references[$name]="<$name>";
 		}
+		$this->hasHostInfo=!strncasecmp($pattern,'http://',7) || !strncasecmp($pattern,'https://',8);
 		if(preg_match_all('/<(\w+):?(.*?)?>/',$pattern,$matches))
 		{
 			$tokens=array_combine($matches[1],$matches[2]);
@@ -2575,7 +2578,7 @@ class CUrlRule extends CComponent
 		}
 		return $url;
 	}
-	public function parseUrl($manager,$pathInfo,$rawPathInfo)
+	public function parseUrl($manager,$request,$pathInfo,$rawPathInfo)
 	{
 		if($manager->caseSensitive && $this->caseSensitive===null || $this->caseSensitive)
 			$case='';
@@ -2591,6 +2594,8 @@ class CUrlRule extends CComponent
 				throw new CHttpException(404,Yii::t('yii','Unable to resolve the request "{route}".',
 					array('{route}'=>$rawPathInfo)));
 		}
+		if($this->hasHostInfo)
+			$pathInfo=$request->getHostInfo().rtrim('/'.$pathInfo,'/');
 		$pathInfo.='/';
 		if(preg_match($this->pattern.$case,$pathInfo,$matches))
 		{
@@ -3851,7 +3856,10 @@ class CHtml
 	}
 	public static function label($label,$for,$htmlOptions=array())
 	{
-		$htmlOptions['for']=$for;
+		if($for===false)
+			unset($htmlOptions['for']);
+		else
+			$htmlOptions['for']=$for;
 		if(isset($htmlOptions['required']))
 		{
 			if($htmlOptions['required'])
@@ -3890,7 +3898,7 @@ class CHtml
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=self::getIdByName($name);
 		self::clientChange('change',$htmlOptions);
-		return self::tag('textarea',$htmlOptions,self::encode($value));
+		return self::tag('textarea',$htmlOptions,isset($htmlOptions['encode']) && !$htmlOptions['encode'] ? $value : self::encode($value));
 	}
 	public static function radioButton($name,$checked=false,$htmlOptions=array())
 	{
@@ -4142,7 +4150,7 @@ EOD;
 		self::clientChange('change',$htmlOptions);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
-		return self::tag('textarea',$htmlOptions,self::encode($model->$attribute));
+		return self::tag('textarea',$htmlOptions,isset($htmlOptions['encode']) && !$htmlOptions['encode'] ? $model->$attribute : self::encode($model->$attribute));
 	}
 	public static function activeFileField($model,$attribute,$htmlOptions=array())
 	{
@@ -4370,7 +4378,9 @@ EOD;
 			if(is_array($value))
 			{
 				$content.='<optgroup label="'.($raw?$key : self::encode($key))."\">\n";
-				$dummy=array();
+				$dummy=array('options'=>$options);
+				if(isset($htmlOptions['encode']))
+					$dummy['encode']=$htmlOptions['encode'];
 				$content.=self::listOptions($selection,$value,$dummy);
 				$content.='</optgroup>'."\n";
 			}
@@ -4685,9 +4695,9 @@ class CClientScript extends CApplicationComponent
 	{
 		$html='';
 		foreach($this->_metas as $meta)
-			$html.=CHtml::metaTag($meta['content'],null,null,$meta);
+			$html.=CHtml::metaTag($meta['content'],null,null,$meta)."\n";
 		foreach($this->_links as $link)
-			$html.=CHtml::linkTag(null,null,null,null,$link);
+			$html.=CHtml::linkTag(null,null,null,null,$link)."\n";
 		foreach($this->cssFiles as $url=>$media)
 			$html.=CHtml::cssFile($url,$media)."\n";
 		foreach($this->_css as $css)
@@ -5282,7 +5292,10 @@ class CAccessRule extends CComponent
 	{
 		if($this->expression===null)
 			return true;
-		return @eval('return '.$this->expression.';');
+		if(!is_string($this->expression) && is_callable($this->expression))
+			return call_user_func($this->expression, $user);
+		else
+			return @eval('return '.$this->expression.';');
 	}
 }
 abstract class CModel extends CComponent implements IteratorAggregate, ArrayAccess
@@ -5920,6 +5933,10 @@ abstract class CActiveRecord extends CModel
 	{
 		if($this->hasEventHandler('onAfterFind'))
 			$this->onAfterFind(new CEvent($this));
+	}
+	public function beforeFindInternal()
+	{
+		$this->beforeFind();
 	}
 	public function afterFindInternal()
 	{

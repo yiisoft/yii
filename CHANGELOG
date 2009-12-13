@@ -2,8 +2,8 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.0.11 to be released
------------------------------
+Version 1.0.11 December 13, 2009
+--------------------------------
 - Bug #608: yiic webapp command may generate incorrect path referring to yii scripts (Qiang)
 - Bug #637: CDateTimeParser::parse() may generate unexpected result offset by the timezone in some environment (Qiang)
 - Bug #639: CJSON::decode() should respect the second parameter recursively (Qiang)
