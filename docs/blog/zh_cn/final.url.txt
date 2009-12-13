@@ -1,0 +1,42 @@
+漂亮的 URLs
+================
+
+我们的博客系统因为有各种特点使得URLs看起来不美观。举例来说，显示文章页的链接就像下面那样:
+
+~~~
+/index.php?r=post/show&id=1   
+~~~
+ 
+这节中，我们介绍如何使得我们的URLs看起来对SEO友好一些。我们的目标如下:
+
+ * `/index.php/tag/yii` : 指向到标签为yii的文章列表; 
+ * `/index.php/posts` : 指向到最新文章页; 
+ * `/index.php/post/1` : 指向到文章ID为1的详细页; 
+ * `/index.php/post/update/1` : 指向到文章ID为1的修改页.
+
+为了达到这个目标，我们需要修改应用系统的设置[application configuration](http://www.yiiframework.com/doc/guide/basics.application#application-configuration)，
+
+~~~
+[php]
+return array(
+    ......
+    'components'=>array(
+        ......
+        'urlManager'=>array(
+            'urlFormat'=>'path',
+            'rules'=>array(
+                'tag/<tag>'=>'post/list',
+                'posts'=>'post/list',
+                'post/<id:\d+>'=>'post/show',
+                'post/update/<id:\d+>'=>'post/update',
+            ),
+        ),
+    ),
+);   
+~~~
+
+上面代码中，我们设置了 [urlManager](http://www.yiiframework.com/doc/guide/topics.url) 组件的 `urlFormat` 设置，以及`URls`路径规则。
+
+这个规则被用在 `urlManager` 的处理方式和在建立URLs时的方式。举例来说，第一个规则是说，如果一个 `/index.php/tag/yii` 被请求，`urlMagager` 组件将根据 [route](http://www.yiiframework.com/doc/guide/basics.controller#route) 把请求转向到 `post/list` 然后以GET参数值tag为yii。另一方面，如果要建立一个URL为 `post/list` 以及参数tag，`urlmanager` 组件会生成为 `/index.php/tag/yii` 。所以说，`urlManager` 是富的URl解释管理器。
+
+`urlManager` 组件能生成更为灵活的URLs，甚至可以隐含`index.php`这个文件，后面加上`.html`。我们可以非常简单的使用 `urlManager` 的参数实现这个功能。具体请参阅[手册](http://www.yiiframework.com/doc/guide/topics.url)。

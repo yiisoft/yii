@@ -1,0 +1,117 @@
+调整评论模型
+=========================
+
+和文章模型一样，我们需要调整一下评论模型中的 `rules()`, `relations()` 和 `safeAttributes()` 方法。另外，我们同时修改一下 `attributelabels()` 来声明自定义一些属性的 `labels` 。
+
+
+调整 `rules()` 方法
+----------------------------
+
+首先看一下yiic工具生成的校验规则:
+
+~~~
+[php]
+public function rules()
+{
+    return array(
+        array('author,email,content', 'required'),
+        array('author,email,url','length','max'=>128),
+        array('email','email'),
+        array('url','url'),
+        array('verifyCode', 'captcha', 'on'=>'insert',
+            'allowEmpty'=>!Yii::app()->user->isGuest),
+    );
+}   
+~~~
+
+上面，我们将作者，邮件和内容属性指定为必须；作者，邮件和url长度不能超过128；邮件必须有效；url地址也必须有效；以及加了一个 `verifyCode` [CAPTCHA](http://en.wikipedia.org/wiki/Captcha)校验码。
+
+这个校验码属性主要是当用户回复一个评论。因为它并不保存在数据库表中，所以我们对它做一些参数变量上的声明。这个校验功能是有一个名为 [CCaptchaValidator] 类来实现的。我们看到这个校验码只在作为新评论是才需要(看on参数)。另外作为已认证用户，它是可以为空的(看 `allowEmpty` 参数)。
+
+
+
+
+调整  `safeAttributes()` 方法 (适用于Yii 1.0.x版本)
+--------------------------------
+
+然后我们来定义一下 `safeAttributes()` 方法中那些属性可以被分配。
+
+~~~
+[php]
+public function safeAttributes()
+{
+    return array('author', 'email', 'url', 'content', 'verifyCode');
+}   
+~~~
+
+经过上面定义，我们就能从表单中收集关于评论的 `author`, `email`, `URL`, `content` 和 `verification code` 数据了。
+
+
+调整 relations() 方法
+--------------------------------
+
+一般情况下，评论是跟着文章后面的。就像，此篇文章的最新评论信息。所以，我们的关联是与文章相关定义的。
+
+~~~
+[php]
+public function relations()
+{
+    return array(
+        'post'=>array(self::BELONGS_TO, 'Post', 'postId',
+            'joinType'=>'INNER JOIN'),
+    );
+}   
+~~~
+
+注意，这里join方式是以INNER JOIN方式。它们的关系是，评论隶属于文章。
+
+
+调整 attributeLabels() 方法
+--------------------------------
+
+现在，我们来定义 `attributeLabels()` 方法来对属性名称做自定义。这个方法返回一个命名集合。当我们使用 `CHtml::activelable()` 来显示属性名称时，它才会被检测使用。如果么有发现这个，它会使用默认的名称。
+
+~~~
+[php]
+public function attributeLabels()
+{
+    return array(
+        'author'=>'Name',
+        'url'=>'Website',
+        'content'=>'Comment',
+        'verifyCode'=>'Verification Code',
+    );
+}   
+~~~
+
+> Tip|技巧: 默认情况下属性名称基于数据表中的字段属性名来生成。首先将含有大写字母的地方分割开，插入一个空格。然后将第一个字母改成大写。举例来说，verifyCode将改成Verify Code。
+
+
+调整保存进程
+--------------------------------
+
+因为我们文章表中有评论数这个字段，所以每当我们加入或删除一个评论，我们需要调整文章评论数这个字段。我们覆盖了 `afterSave()` 和 `afterDelete()` 两个评论模型中的两个方法。另外，在校验前，也就是 `beforeValidaet()` 方法中，我们还需要使用Markdown来转换HTML格式，当然如果是新记录那么再调整一下当前时间。
+
+~~~
+[php]
+protected function beforeValidate()
+{
+    $parser=new CMarkdownParser;
+    $this->contentDisplay=$parser->safeTransform($this->content);
+    if($this->isNewRecord)
+        $this->createTime=time();
+    return true;
+}
+ 
+protected function afterSave()
+{
+    if($this->isNewRecord && $this->status==Comment::STATUS_APPROVED)
+        Post::model()->updateCounters(array('commentCount'=>1), "id={$this->postId}");
+}
+ 
+protected function afterDelete()
+{
+    if($this->status==Comment::STATUS_APPROVED)
+        Post::model()->updateCounters(array('commentCount'=>-1), "id={$this->postId}");
+}   
+~~~

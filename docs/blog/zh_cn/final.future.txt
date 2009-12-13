@@ -1,0 +1,50 @@
+改进
+===================
+
+使用主题
+-------------
+
+虽然我们没有涉及任何主题代码，但我们的博客已经具有这样的功能。使用[主题](http://www.yiiframework.com/doc/guide/topics.theming)，我们主要修改主题的视图文件。举例来说，我们命名一个主题为classic，把它作为一部不同的视图层，然后在建立这样的视图层文件 `/wwwroot/blog/themes/classic/views/layouts/main.php` 。然后修改一下配置文件，以便于您可以选择它作为主题：
+
+~~~
+[php]
+return array(
+    ......
+    'theme'=>'classic',
+    ......
+);   
+~~~
+
+国际化
+--------------------
+我们如果需要将我们的博客系统国际化(多语言)，主要在两种形式：
+
+首先，我们将不同语言视图文件。举例，`PostController` 文章列表，我们可以建立 `/wwwroot/blog/protected/views/post/zh_cn/list.php` 。当我们设置将中文(语言代码zh_cn)，Yii自动替换试图文件渲染。
+
+另外一种，我们可以使用代码方式来翻译。翻译文件应在 `/wwwroot/blog/protected/messages` 。我们可以修改代码，使用 `Yii:t()` 方法来强制在不同字符中转换。
+
+详细操作请参阅[手册](http://www.yiiframework.com/doc/guide/topics.i18n)。
+
+
+利用缓存提升性能
+--------------------------------
+
+作为Yii框架本身，性能已[非常优秀](http://www.yiiframework.com/performance/)了，但不意味着使用这个框架的也能同样优秀。我们的博客系统还有一些地方可以提升性能。举例，标签云可以被缓存，因为它每次调用都要花费复杂的数据库查询和PHP逻辑。
+
+Yii已经提供这样的灵活的[缓存](http://www.yiiframework.com/doc/guide/caching.overview)机制。其中之一就是 [COutputCache] ,可以理解为部分缓存，它可以不用每次请求都去执行复杂的代码。例如在 `/wwwroot/blog/protected/views/layout/main.php` 文件，我们强制使用 [COutputCache] 来作为标签云部分:
+
+~~~
+[php]
+<?php if($this->beginCache('tagCloud', array('duration'=>3600))) { ?>
+
+<?php $this->widget('TagCloud'); ?>
+
+<?php $this->endCache(); } ?>   
+~~~
+
+上面代码将标签云输出缓存3600秒，在缓存期间，标签云的数据库查询等都不执行。加快了性能。
+
+更多特征
+-------------------
+
+在我们的博客系统中使用了大部分基本功能。但作为复杂博客系统，可以有更多的特征，比如，日历、邮件提醒、文章分类、归档等等。我们把这些留给更有兴趣的读者来扩展吧~

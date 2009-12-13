@@ -1,0 +1,82 @@
+用户认证
+===================
+
+我们博客系统需要区分系统用户和游客。因此，我们需要用户认证特征。
+
+正如你看到的那样，框架系统已经包含了用户登录认证[user authentication](http://www.yiiframework.com/doc/guide/topics.auth)。在这里，我们将修改部分代码使得它能和用户数据对应起来。
+
+用户认证需要`IUserIdentity`接口。现有的框架使用UserIdentity作为实现类，它在`/wwwroot/blog/protected/components/UserIdentity.php`。
+
+> Tip|技巧: 按照约定惯例，类文件名必须和类名相同，将`.php`作为扩展名。根据这个约定，我们调用类将使用[path alias](http://www.yiiframework.com/doc/guide/basics.namespace)。举例，我们调用`UserIdentity`类，应该是这样的 `application.components.UserIdentity` 。我们在大部分Yii中应当使用路径别名[Yii::createComponent()|YiiBase::createComponent])的方式，而不应该直接使用绝对路径，否则它常常会在后续系统部署时带来不必要的麻烦。
+
+我们根据以下方式修改 `UserIdentity` 类,
+
+~~~
+[php]
+<?php
+class UserIdentity extends CUserIdentity
+{
+    private $_id;
+ 
+    public function authenticate()
+    {
+        $username=strtolower($this->username);
+        $user=User::model()->find('LOWER(username)=?',array($username));
+        if($user===null)
+            $this->errorCode=self::ERROR_USERNAME_INVALID;
+        else if(md5($this->password)!==$user->password)
+            $this->errorCode=self::ERROR_PASSWORD_INVALID;
+        else
+        {
+            $this->_id=$user->id;
+            $this->username=$user->username;
+            $this->errorCode=self::ERROR_NONE;
+        }
+        return !$this->errorCode;
+    }
+ 
+    public function getId()
+    {
+        return $this->_id;
+    }
+}   
+~~~
+
+在 `authenticate()` 方法中，我们使用User类去寻找一条符合用户名(强制小写)和密码用户记录。记得我们已经使用yiic工具建立 `User` 类了。因为User类是扩展[CActiveRecord]的，我们可以使用这个OOP类的所有特征从而取得数据。
+
+在 `UserIdentity` 类中，我们覆盖了 `getId()` 方法，使得在找到用户记录后返回它的`id`。这个类还返回了`username`。用户的`username`和`id`都会保存在session中，我们可以在任何地方通过 `Yii:app()->user` 来获得这些数据。
+
+> Tip|技巧: 在 `UserIdentity` 类中，我们并没有直接 `includeing CUserIdentity` 这个类。这好似因为 `CUserIdentity` 是Yii核心类。Yii自行会在必要时包含这个类文件。它同样适用于`User`类。这是因为User类文件在 `/wwwroot/blog/protected/models` 中，这个位置在Yii启动时根据配置脚本添加到PHP的include_path位置，从而自行调用的:
+
+~~~
+[php]
+return array(
+    ......
+    'import'=>array(
+        'application.models.*',
+        'application.components.*',
+    ),
+    ......
+);   
+~~~
+
+以上配置文件表示了 `/wwwroot/blog/protected/models` 或 `/wwwroot/blog/protected/components` 下的文件都会被自行调用。
+
+`UserIdentity`类主要被 `LoginForm` 类来作为用户名和密码验证表单使用。下列代码表示它是如何被使用的：
+
+~~~
+[php]
+$identity=new UserIdentity($username,$password);
+$identity->authenticate();
+switch($identity->errorCode)
+{
+    case UserIdentity::ERROR_NONE:
+        Yii::app()->user->login($identity);
+        break;
+    ......
+}   
+~~~
+
+信息(翻译的不一定非常准确)：人们常常疑惑身份和用户组件区别。表单只是接受登陆认证，然后将用户信息存入当前用户。一个系统需要的话至少一个user组件，当它也可以有多个，这个依赖于系统需要被认证的支持程度。一旦认证，identity容器就将user组件放入session中便于全局访问。
+
+接下来，我们来测试一下修改过的UiserIdentity类，我们可以使用浏览器打开 `http://www.example.com/blog/index.php` 并使用我们存放在用户表中的用户名和密码。如果你之前使用博客的demo，我们可以使用demo作为用户名和密码登陆。注意，这个博客系统没有提供用户管理功能。所以，我们不能在web界面改变用户账号或新建一个账号。用户管理界面，我们可能在未来的博客系统中实现给大家。

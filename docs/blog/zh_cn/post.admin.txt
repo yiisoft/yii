@@ -1,0 +1,102 @@
+管理文章
+==============
+
+管理文章是指对所有文章进行列表，并具有查阅和删除文章功能。它们是由管理员进行的操作。这些代码是 `yiic` 来实现的，甚至不需要有太多的修改。下面我们主要解释如何对这些操作进行完善。
+
+
+使用表方式显示列表
+-----------------------------
+
+管理员的操作将可以在视图中看到所有的文章列表。这个视图可以支持排序和翻页功能。下面是 `PostController` 控制器的 `actionAdmin()` 方法：
+
+~~~
+[php]
+public function actionAdmin()
+{
+    $criteria=new CDbCriteria;
+ 
+    $pages=new CPagination(Post::model()->count());
+    $pages->applyLimit($criteria);
+ 
+    $sort=new CSort('Post');
+    $sort->defaultOrder='status ASC, createTime DESC';
+    $sort->applyOrder($criteria);
+ 
+    $posts=Post::model()->findAll($criteria);
+ 
+    $this->render('admin',array(
+        'posts'=>$posts,
+        'pages'=>$pages,
+        'sort'=>$sort,
+    ));
+}   
+~~~
+
+上面代码非常接近于 `actionList()` 。主要的区别是我们这里使用了 [CSort] 对象来对信息进行排序。 [CSort] 方法能在管理员视图中自动对顶部的字段增加排序链接。点击链接后当前页被刷新同时按字段排序。
+
+下面是管理员视图:
+
+~~~
+[php]
+<h2>Manage Posts</h2>
+ 
+<table class="dataGrid">
+  <tr>
+    <th><?php echo $sort->link('status'); ?></th>
+    <th><?php echo $sort->link('title'); ?></th>
+    <th><?php echo $sort->link('createTime'); ?></th>
+    <th><?php echo $sort->link('updateTime'); ?></th>
+  </tr>
+<?php foreach($posts as $n=>$post): ?>
+  <tr class="<?php echo $n%2?'even':'odd';?>">
+    <td><?php echo CHtml::encode($post->statusText); ?></td>
+    <td><?php echo CHtml::link(CHtml::encode($post->title),
+        array('show','id'=>$post->id)); ?></td>
+    <td><?php echo date('F j, Y',$post->createTime); ?></td>
+    <td><?php echo date('F j, Y',$post->updateTime); ?></td>
+  </tr>
+<?php endforeach; ?>
+</table>
+ 
+<br/>
+<?php $this->widget('CLinkPager',array('pages'=>$pages)); ?>   
+~~~
+
+这段代码非常直接的将文章列表显示在一个表中。顶部是字段，我们使用 [CSort]  对象来生成这些排序的链接模式。最后部分，我们使用了Widget功能，内嵌了 [CLinkPager] 来显示翻页按钮。
+
+技巧:在上面代码中，我们使用 `CHtml::encode()` 来显示HTML内容。这个功能提高代码脚本安全性[cross-site scripting attack](http://www.yiiframework.com/doc/guide/topics.security)。
+
+
+删除文章
+-----------------------------
+
+当一个文章被当前用户浏览显示时，我们增加一个 `delete` 链接。点击这个链接，就能删除这个文章。因为这个操作将改变服务端的数据，我们使用 `POST` 请求方式。我们使用下列代码来实现这个按钮：
+
+~~~
+[php]
+<?php echo CHtml::linkButton('Delete',array(
+   'submit'=>array('post/delete','id'=>$post->id),
+   'confirm'=>"Are you sure to delete this post?",
+)); ?>   
+~~~
+
+这个 `CHtml::linkButton()` 方法生成的按钮和一般按钮看上去一样。但点击后，它将实现HTML的 `Post` 方法来递交。这里递交表单的URL将使用 `array('post/delete','id'=>$postid)` 来生成。在我们博客系统中最终格式为 `/blog/index.php?r=post/delete&id=1` ，也就是使用 `PostController` 的 `delete` 动作。我们还使用了一个确认对话框来为用户删除这个文章做确认。
+
+以下删除操作代码非常浅显，我们就不做解释了。
+
+~~~
+[php]
+public function actionDelete()
+{
+    if(Yii::app()->request->isPostRequest)
+    {
+        // we only allow deletion via POST request
+        $this->loadPost()->delete();
+        $this->redirect(array('list'));
+    }
+    else
+        throw new CHttpException(400,'Invalid request...');
+}   
+~~~
+
+(译者注: 上面的`loadPost()`方法就是我们上一节显示时已经写那段代码，请查阅)

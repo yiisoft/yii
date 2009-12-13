@@ -1,0 +1,85 @@
+显示文章
+================
+
+在我们的博客系统中，文章可以列表以及被显示内容。我们来看一下。
+
+定义显示操作
+----------------------------
+
+显示单独的文章我们在 `PostController` 控制器中的 `actionShow()` 方法来实现。它最终由视图文件 `/wwwroot/blog/porotected/views/port/show.php` 来显示。
+
+下面是代码和实现方法:
+
+~~~
+[php]
+public function actionShow()
+{
+    $this->render('show',array(
+        'post'=>$this->loadPost(),
+    ));
+}
+ 
+private $_post;
+ 
+protected function loadPost($id=null)
+{
+    if($this->_post===null)
+    {
+        if($id!==null || isset($_GET['id']))
+            $this->_post=Post::model()->findbyPk($id!==null ? $id : $_GET['id']);
+        if($this->_post===null || Yii::app()->user->isGuest &&
+            $this->_post->status!=Post::STATUS_PUBLISHED)
+            throw new CHttpException(404,'The requested post does not exist.');
+    }
+    return $this->_post;
+}   
+~~~
+
+我们主要修改了 `loadPost()` 方法。这个方法，我们通过 `_GET` 来获得id参数。如果文章未找到或者它不属于被显示状态(可能浏览者是游客)，我们将抛出404 HTTP错误。要不，文章对象将返回给 `actionShow()` ，进而将结果转给show视图进行显示。
+
+> Tip|技巧: Yii有自己的HTTP违例处理( [CHttpException] 容器)和显示错误页面的模板。这些模板也可以被系统修改，在我们的教程中，你可以看到详细的错误信息。
+
+至于显示内容不包含漂亮的风格和格式，它不属于此教程范围内，请参阅其它资源。
+
+
+定义列表操作
+----------------------------
+
+和显示操作一样，我们在两个地方定义列表操作：`actionList()` 方法的实现和视图文件 `/wwwroot/blog/protected/view/post/list.php` 。 这里我们得需要加上能支持标签的显示功能。
+
+下面是 `PostController` 控制器中 `actionList()` 方法代码：
+
+~~~
+[php]
+public function actionList()
+{
+    $criteria=new CDbCriteria;
+    $criteria->condition='status='.Post::STATUS_PUBLISHED;
+    $criteria->order='createTime DESC';
+ 
+    $withOption=array('author');
+    if(!empty($_GET['tag']))
+    {
+        $withOption['tagFilter']['params'][':tag']=$_GET['tag'];
+        $postCount=Post::model()->with($withOption)->count($criteria);
+    }
+    else
+        $postCount=Post::model()->count($criteria);
+ 
+    $pages=new CPagination($postCount);
+    $pages->applyLimit($criteria);
+ 
+    $posts=Post::model()->with($withOption)->findAll($criteria);
+ 
+    $this->render('list',array(
+        'posts'=>$posts,
+        'pages'=>$pages,
+    ));
+}   
+~~~
+
+上面的代码中，我们首先使用查询 `criteria` 来特指那些只被发布显示的，以及按时间倒序方式排列。我们还计算了这些列表的总数，它是被用于Page翻页处理所需要的，在视图中已翻页方式显示出来。最后，我们将查询到数据转给视图文件。
+
+需要注意的是，这里有个`tag` GET 参数，我们将使用它和`tagFilter`共同用作于当有标签参数传入时，查询相关联对应的文章列表。在这里是为了区分单SQL和多SQL查询，是为了提高效率而设计的。没有这个部分，Yii可能会拆分成两个SQL得到不准确的结果。(译者注: 我们可以理解为如果没有查询标签，则直接按发表的文章查询数量，如果有标签查询，则包含标签查询的数据；否则，最终的页码效果会出现错误。)
+
+有两个变量传入视图文件: `$posts` 和 `$pages` 。`$posts` 将是文章列表，后者是 `pagination` 信息(包括多少页和当前页)。列表视图包含一个 `Page` [widget](http://www.yiiframework.com/doc/guide/basics.view#widget)，它在多页时自动显示出来。

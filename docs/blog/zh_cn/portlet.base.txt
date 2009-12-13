@@ -1,0 +1,87 @@
+建立Portlet基类
+=============================
+
+类似于"最新评论"，"标签云"都在[portlets](http://en.wikipedia.org/wiki/Portlet) (译者：我命名为portlet)中来实现。一个展示点(portlet)由组件方式渲染HTML代码。在这里，我们将解释如何在我们博客系统中使用这个展示点(portlet)。
+
+基于需求分析，我们需要四个展示点:登陆点，用户菜单，标签云和最新评论。这些展示点会出现在每一页面中。
+
+
+建立展示点 `Portlet` 类
+------------------------
+
+我们来建议一个展示点 `Portlet` 的父类。所有其他展示点都共享这个类的属性和方法。举例来说，每个展示点都定义了一个标题 `title` 和一个使用有色彩背景的展示方式。
+
+下面代码显示了定义 `Portlet` 的基类。因为portlet常常包含一些逻辑和外观，我们将它作为[CWidget]的扩展类，我们也可以理解为 `portlet` 就是一个[widget](http://www.yiiframework.com/doc/guide/basics.view)，同时拥有widget的可内嵌的视图方法。
+
+~~~
+[php]
+class Portlet extends CWidget
+{
+    public $title; // the portlet title
+    public $visible=true; // whether the portlet is visible
+    // ...other properties...
+ 
+    public function init()
+    {
+        if($this->visible)
+        {
+            // 开始渲染这个展示点
+            // 渲染Title
+        }
+    }
+ 
+    public function run()
+    {
+        if($this->visible)
+        {
+            $this->renderContent();
+            // 最终渲染这个视图
+        }
+    }
+ 
+    protected function renderContent()
+    {
+        // 子类应当覆盖整个方法
+        // 使得可以渲染html
+    }
+}   
+~~~
+
+上面代码中，`init()` 和 `run()` 方法由 [CWidget] 来请求，它会在  [widget](http://www.yiiframework.com/doc/guide/basics.view) 要渲染时自动被执行。继承 `Portlet` 这个类中的 `renderContent()` 方法需要被覆盖，这个方法就是最终生成内容。
+
+
+定义页层
+------------------------
+
+在页面层次上，我们将portlet放在侧边栏中。页层是有 `/wwwroot/blog/protected/views/layouts/main.php` 来制作的。它将不同页中的公共部分(header,footer)，以及由独立的动作视图显示的动态内容，让在这个页 `main.php` 中。
+
+我们的博客系统使用下面布局:
+
+~~~
+[php]
+<html>
+<head>
+......
+<?php echo CHtml::cssFile(Yii::app()->baseUrl.'/css/main.css'); ?>
+<title><?php echo $this->pageTitle; ?></title>
+</head>
+ 
+<body>
+ 
+...header...
+ 
+<div id="sidebar">
+...list of portlets...
+</div>
+ 
+<div id="content">
+<?php echo $content; ?>
+</div>
+ 
+...footer...
+ 
+</body>
+</html>   
+~~~
+
+当然可以自己定义视图布局文件，我们同时需要 `/wwwroot/blog/css/main.css` 来作为CSS文件，它能改变我们的博客系统外观。我们不打算在这里详细描述。

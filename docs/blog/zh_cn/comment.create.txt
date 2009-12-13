@@ -1,0 +1,96 @@
+建立和显示评论
+================================
+
+在这一节，我们来为评论完善一下显示和建立功能。
+
+
+显示评论
+-------------------
+
+我们将单独的评论页显示替换到文章显示中去。下面是文章内容的显示，我们将某一文章显示和一组评论列表，然后还是评论建立表单。
+
+~~~
+[php]
+public function actionShow()
+{
+    $post=$this->loadPost();
+    $this->render('show',array(
+        'post'=>$post,
+        'comments'=>$post->comments,
+    ));
+}   
+~~~
+
+注意这里 `$post->comments` 是有效的，它在 `Post` 模型中我们已经声明了关联。它会在调入文章时使用JOIN方式查询相应的评论信息。当然，这个特征是惰性方式查询。
+
+我们还得在文章显示页面的底部加上评论表单，这个下面说。
+
+建立评论
+-----------------
+
+这里我们只要修改一下 `PostController` 中的 `actionShow()` 方法就行:
+
+~~~
+[php]
+public function actionShow()
+{
+    $post=$this->loadPost();
+    $comment=$this->newComment($post);
+    $this->render('show',array(
+        'post'=>$post,
+        'comments'=>$post->comments,
+        'newComment'=>$comment,
+    ));
+}
+ 
+protected function newComment($post)
+{
+    $comment=new Comment;
+    if(isset($_POST['Comment']))
+    {
+        $comment->attributes=$_POST['Comment'];
+        $comment->postId=$post->id;
+        $comment->status=Comment::STATUS_PENDING;
+ 
+        if(isset($_POST['previewComment']))
+            $comment->validate('insert');
+        else if(isset($_POST['submitComment']) && $comment->save())
+        {
+            Yii::app()->user->setFlash('commentSubmitted','Thank you...');
+            $this->refresh();
+        }
+    }
+    return $comment;
+}   
+~~~
+
+上面代码中，我们在显示文章时使用 `newComment()` 方法。在这个方法中，我们建立评论容器并检测是否有新评论递交。这里还同时检测，是预览评论还是保存评论。对于这个表单，我们还尝试显示一个消息，表明是否成功或错误。这个消息只有当递交时才出现，查阅文章是不出现的。
+
+我们修改视图来加入一个评论表单:
+
+~~~
+[php]
+......
+<?php $this->renderPartial('/comment/_form',array(
+    'comment'=>$newComment,
+    'update'=>false,
+)); ?>   
+~~~
+
+这里我们内嵌一个表单 `/wwwroot/blog/pretected/views/comment/_form.php` 。变量 `$newComments` 是由 `actionShow()` 方法来提供。主要存放用户表单输入位置。这个变量不会被修改，它总是被新建一个。
+
+为了能支持评论预览，我们加入预览按钮。当预览被点击，那么下面代码则显示出相应的信息:
+
+~~~
+[php]
+...comment form with preview button...
+ 
+<?php if(isset($_POST['previewComment']) && !$comment->hasErrors()): ?>
+<h3>Preview</h3>
+<div class="comment">
+  <div class="author"><?php echo $comment->authorLink; ?> says:</div>
+  <div class="time"><?php echo date('F j, Y \a\t h:i a',$comment->createTime); ?></div>
+  <div class="content"><?php echo $comment->contentDisplay; ?></div>
+</div><!-- post preview -->
+<?php endif; ?>
+~~~

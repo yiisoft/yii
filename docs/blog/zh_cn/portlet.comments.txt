@@ -1,0 +1,73 @@
+最新评论Portlet
+================================
+
+这一节，我们建立最后一个portlet，就是显示出最新的已审核了的评论列表。
+
+
+建立 `RecentComments` 类
+-------------------------------
+
+我们建立 `RecentComments` 类在 `/wwwroot/blog/protected/components/RecentComments.php` 。这个文件如下:
+
+~~~
+[php]
+<?php
+class RecentComments extends Portlet
+{
+    public $title='Recent Comments';
+ 
+    public function getRecentComments()
+    {
+        return Comment::model()->findRecentComments();
+    }
+ 
+    protected function renderContent()
+    {
+        $this->render('recentComments');
+    }
+}   
+~~~
+
+上面我们定义了 `findRecentComments` 方法在 `Comment` 模型中, 我们是这样写的。
+
+~~~
+[php]
+class Comment extends CActiveRecord
+{
+    ......
+ 
+    public function findRecentComments($limit=10)
+    {
+        $criteria=array(
+            'condition'=>'Comment.status='.self::STATUS_APPROVED,
+            'order'=>'Comment.createTime DESC',
+            'limit'=>$limit,
+        );
+        return $this->with('post')->findAll($criteria);
+    }
+}   
+~~~
+
+
+建立 `recentComments` 视图
+-------------------------------
+
+我们将视图文件保存在 `/wwwroot/blog/protected/components/view/recentComments.php` 。它将 `RecentComments::getRecentComments()` 中得到的每个评论显示出来。
+
+
+使用 RecentComments Portlet
+-------------------------------
+
+我们来修改视图层文件把上面的 `portlet` 放进去,
+
+~~~
+[php]
+......
+<div id="sidebar">
+ <?php $this->widget('UserLogin',array('visible'=>Yii::app()->user->isGuest)); ?>
+ <?php $this->widget('UserMenu',array('visible'=>!Yii::app()->user->isGuest)); ?>
+ <?php $this->widget('TagCloud'); ?>
+ <?php $this->widget('RecentComments'); ?>
+ </div>
+......
+~~~
