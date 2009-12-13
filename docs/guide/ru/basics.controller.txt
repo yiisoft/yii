@@ -25,13 +25,13 @@ class SiteController extends CController
 
 Маршрут
 -------
-Контроллеры и действия опознаются по их идентификаторам. 
+Контроллеры и действия опознаются по их идентификаторам.
 Идентификатор контроллера — это запись формата `path/to/xyz`, соответствующая
 файлу класса контроллера `protected/controllers/path/to/XyzController.php`, где `xyz` 
 следует заменить реальным названием класса (например, `post` соответствует 
-`protected/controllers/PostController.php`). Идентификатор действия - это название 
+`protected/controllers/PostController.php`). Идентификатор действия — это название
 метода без префикса `action`. Например, если класс контроллера содержит метод 
-`actionEdit`, то идентификатор соответствующего действия - `edit`.
+`actionEdit`, то идентификатор соответствующего действия — `edit`.
 
 > Note|Примечание: До версии 1.0.3 идентификатор контроллера указывался как 
 `path.to.xyz` вместо `path/to/xyz`.
@@ -69,7 +69,7 @@ class SiteController extends CController
 контроллера определяется как `XyzController`, а соответствующий класс как
 `protected/controllers/path/to/XyzController.php`. 
 Например, идентификатор контроллера `admin/user` будет распознан как класс
-контроллера - `UserController` и файл класса —
+контроллера — `UserController` и файл класса —
 `protected/controllers/admin/UserController.php`. Если файл класса не существует,
 будет вызвано исключение [CHttpException] с кодом ошибки 404.
 
@@ -84,7 +84,7 @@ class SiteController extends CController
 --------
 Как было упомянуто выше, действие — это метод, имя которого начинается на `action`.
 Более продвинутый способ — создать класс действия и указать контроллеру создавать
-экземпляр этого класса при необходимости. Такой подход позволяет  использовать
+экземпляр этого класса при необходимости. Такой подход позволяет использовать
 действия повторно.
 
 
@@ -162,7 +162,7 @@ public function filterAccessControl($filterChain)
 }
 ~~~
 
-где `$filterChain` - экземпляр класса [CFilterChain], представляющего собой список
+где `$filterChain` — экземпляр класса [CFilterChain], представляющего собой список
 фильтров, ассоциированных с запрошенным действием. В коде фильтра можно вызвать
 `$filterChain->run()` для того, чтобы продолжить выполнение последующих фильтров и действия.
 
@@ -176,7 +176,7 @@ class PerformanceFilter extends CFilter
 	protected function preFilter($filterChain)
 	{
 		// код, выполняемый до выполнения действия
-		return true; // false - для случая, когда действие не должно быть выполнено
+		return true; // false — для случая, когда действие не должно быть выполнено
 	}
 
 	protected function postFilter($filterChain)
@@ -193,7 +193,7 @@ class PerformanceFilter extends CFilter
 [php]
 class PostController extends CController
 {
-	......
+	…
 	public function filters()
 	{
 		return array(
@@ -209,7 +209,7 @@ class PostController extends CController
 
 Данный код определяет два фильтра: `postOnly` и `PerformanceFilter`.
 Фильтр `postOnly` задан как метод (соответствующий метод уже определен в 
-[CController]), в то время как `PerformanceFilter` - фильтр на базе класса.
+[CController]), в то время как `PerformanceFilter` — фильтр на базе класса.
 Псевдоним `application.filters.PerformanceFilter` указывает на файл класса фильтра —
 `protected/filters/PerformanceFilter`. Для конфигурации `PerformanceFilter`
 использован массив, поэтому возможно инициализировать значения свойства фильтра.

@@ -246,4 +246,4 @@ Todas essas incríveis funcionalidades foram criadas sem escrever uma única lin
 
 
 
-<div class="revision">$Id: quickstart.first-app.txt 1253 2009-07-15 20:17:23Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app.txt 1264 2009-07-21 19:34:55Z qiang.xue $</div>

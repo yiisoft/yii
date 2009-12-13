@@ -62,6 +62,54 @@ i [layoutPath|CWebApplication::layoutPath].
 > ~~~
 >
 
+Poniżej znajduje się przykład organizacji katalogów dla aplikacji,
+która posiada dwa tematy podstawowy `basic` oraz fantazyjny `fancy`.
+
+~~~
+WebRoot/
+  assets
+  protected/
+    .htaccess
+    components/
+    controllers/
+    models/
+    views/
+      layouts/
+        main.php
+      site/
+        index.php
+  themes/
+    basic/
+      views/
+        .htaccess
+        layouts/
+          main.php
+        site/
+          index.php
+    fancy/
+      views/
+        .htaccess
+        layouts/
+          main.php
+        site/
+          index.php
+~~~
+
+W konfiguracji aplikacji, jeśli użyć następującej skonfiguracji
+
+~~~
+[php]
+return array(
+  'theme'=>'basic',
+  ......
+);
+~~~
+
+to będzie obowiązywać temat podstawowy `basic`, co oznacza iż aplikacja będzie
+używać tego tematu z katalogu `themes/basic/views/layouts`, natomiast indeks strony 
+będzie używał tego z katalogu `themes/basic/views/site`. W przypadku plik widoku nie  
+zostanie znaleziony w temacie, to wykorzystamy ten znajdujący się w katalogu `protected/views`.
+
 Skórki
 ----
 
@@ -151,4 +199,4 @@ tak jak to czyni zazwyczaj, bez zgłaszani błędu.
 plik skórki gdy widżet jest tworzony po raz pierwszy.
 
 
-<div class="revision">$Id: topics.theming.txt 1410 2009-09-13 19:34:39Z qiang.xue $</div>
+<div class="revision">$Id: topics.theming.txt 1463 2009-10-17 01:49:02Z qiang.xue $</div>

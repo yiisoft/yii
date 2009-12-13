@@ -211,4 +211,4 @@ czasu zostało spędzone na wykonywaniu danego zapytania SQL. Możemy również 
 [CDbConnection::getStats()] aby otrzymać całkowitą ilość wywołań zapytań SQL oraz ich całkowity czas wykonania.
 
 
-<div class="revision">$Id: topics.logging.txt 1142 2009-06-17 21:42:08Z qiang.xue $</div>
+<div class="revision">$Id: topics.logging.txt 1147 2009-06-18 19:14:12Z qiang.xue $</div>

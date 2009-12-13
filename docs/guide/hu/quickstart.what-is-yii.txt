@@ -3,18 +3,18 @@ Mi is a Yii?
 
 A Yii egy nagyteljesítményű, komponens alapú PHP keretrendszer nagyszabású
 webalkalmazások fejlesztéséhez. Maximális újrahasznosíthatóságot tesz lehetővé
-a webprogramozás terén és a fejlesztési folyamatot is jelentősen meggyorsíthatja.
+a webprogramozás terén, és a fejlesztési folyamatot is jelentősen meggyorsítja.
 A Yii név (ejtsd: angolosan `Yee` vagy fonetikusan `[ji:]`) a következő szavakból
-ered: *easy* (egyszerű), *efficient* (hatékony) és *extensible* (kiterjeszthető).
+ered: *easy (egyszerű)*, *efficient (hatékony)* és *extensible (kiterjeszthető)*.
 
 Követelmények
 -------------
 
-Egy Yii alapú webalkalmazás futtatásához egy webszerverre van szükség PHP 5.1.0
-(vagy későbbi) támogatással.
+Egy Yii alapú webalkalmazás futtatásához egy webszerverre van szükség, mely
+rendelkezik PHP 5.1.0 (vagy későbbi) támogatással.
 
 Azoknak a fejlesztőknek, akik Yii-vel akarnak dolgozni, az objektum-orientált
-programozás (OOP) megértése meglehetősen hasznosnak bizonyul, lévén a Yii egy
+programozás (OOP) megértése meglehetősen hasznosnak bizonyul, mivel a Yii egy
 tisztán OOP keretrendszer.
 
 Mire jó a Yii?

@@ -22,9 +22,9 @@ URL, связывающие различные страницы нашего п�
 ~~~
 [php]
 return array(
-	......
+	…
 	'components'=>array(
-		......
+		…
 		'urlManager'=>array(
 			'urlFormat'=>'path',
 			'rules'=>array(

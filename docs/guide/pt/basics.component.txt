@@ -167,4 +167,4 @@ comportamento, quando atribuído a um componente, pode utilizar alguns de seus m
 para os eventos do componente. Dessa forma, o comportamento tem a possibilidade de observar ou alterar 
 o fluxo de execução do componente.
 
-<div class="revision">$Id: basics.component.txt 1328 2009-08-15 18:45:51Z qiang.xue $</div>
+<div class="revision">$Id: basics.component.txt 1474 2009-10-18 21:13:52Z qiang.xue $</div>

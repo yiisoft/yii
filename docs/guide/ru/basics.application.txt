@@ -1,6 +1,6 @@
-﻿Приложение
+Приложение
 ==========
-Приложение (application) — это контекст выполнения запроса. Основная задача приложения - предварительная обработка
+Приложение (application) — это контекст выполнения запроса. Основная задача приложения — предварительная обработка
 запроса (request resolving) пользователя и передача его соответствующему
 контроллеру для дальнейшей обработки. Другой задачей приложения является хранение параметров конфигурации
 уровня приложения (application-level configuration). Поэтому приложение
@@ -12,12 +12,12 @@
 
 Конфигурация приложения
 -----------------------
-По умолчанию, приложение - это экземпляр класса [CWebApplication], который может быть настроен с использованием 
+По умолчанию, приложение — это экземпляр класса [CWebApplication], который может быть настроен с использованием
 конфигурационного файла (или массива). 
 Необходимые значения свойств устанавливаются в момент создания экземпляра приложения.
-Альтернативный путь настройки приложения - расширение класса [CWebApplication].
+Альтернативный путь настройки приложения — расширение класса [CWebApplication].
 
-Конфигурация - это массив пар ключ-значение, где каждый ключ представляет собой имя свойства экземпляра приложения, а значение -
+Конфигурация — это массив пар ключ-значение, где каждый ключ представляет собой имя свойства экземпляра приложения, а значение -
 начальное значение соответствующего свойства. 
 Например, следующая конфигурация устанавливает значения свойств приложения
 [name|CApplication::name] и [defaultController|CWebApplication::defaultController]:
@@ -35,7 +35,7 @@ array(
 
 ~~~
 [php]
-return array(...);
+return array(…);
 ~~~
 
 Чтобы воспользоваться конфигурацией, необходимо передать имя конфигурационного
@@ -83,9 +83,9 @@ deny from all
 ~~~
 [php]
 array(
-	......
+	…
 	'components'=>array(
-		......
+		…
 		'cache'=>array(
 			'class'=>'CMemCache',
 			'servers'=>array(
@@ -101,14 +101,14 @@ array(
 Элемент `cache` указывает, что классом компонента является `CMemCache`, а также устанавливает его свойство `servers`.
 
 Для доступа к компоненту приложения используйте `Yii::app()->ComponentID`, где 
-`ComponentID` - это идентификатор компонента (например, `Yii::app()->cache`).
+`ComponentID` — это идентификатор компонента (например, `Yii::app()->cache`).
 
 Компонент может быть деактивирован путем установки параметра `enabled` в его конфигурации равным false. 
 При обращении к деактивированному компоненту будет возвращен null.
 
 > Tip|Подсказка: По умолчанию, компоненты приложения создаются по требованию. 
 Это означает, что экземпляр компонента может быть не создан вообще, в случае, 
-если это не требуется при обработке пользовательского запроса. Как результат - общая
+если это не требуется при обработке пользовательского запроса. Как результат — общая
 производительность приложения не пострадает, даже если конфигурация 
 приложения включает множество компонентов.
 
@@ -126,64 +126,64 @@ Yii предопределяет набор ключевых (core) компон
 
 Далее перечислены ключевые компоненты, предопределенные классом [CWebApplication]:
 
-   - [assetManager|CWebApplication::assetManager]: [CAssetManager] - управляет публикацией файлов ресурсов (asset files);
+   - [assetManager|CWebApplication::assetManager]: [CAssetManager] — управляет публикацией файлов ресурсов (asset files);
 
-   - [authManager|CWebApplication::authManager]: [CAuthManager] - контролирует доступ на основе ролей (RBAC);
+   - [authManager|CWebApplication::authManager]: [CAuthManager] — контролирует доступ на основе ролей (RBAC);
 
-   - [cache|CApplication::cache]: [CCache] - предоставляет возможности кэширования данных; учтите, что вы 
+   - [cache|CApplication::cache]: [CCache] — предоставляет возможности кэширования данных; учтите, что вы
 должны указать используемый класс (например, [CMemCache], [CDbCache]), иначе при обращении к компоненту будет возвращен null;
 
-   - [clientScript|CWebApplication::clientScript]: [CClientScript] - управляет клиентскими скриптами (javascripts и CSS);
+   - [clientScript|CWebApplication::clientScript]: [CClientScript] — управляет клиентскими скриптами (javascripts и CSS);
 
-   - [coreMessages|CApplication::coreMessages]: [CPhpMessageSource] - предоставляет переводы системных сообщений Yii-фреймворка;
+   - [coreMessages|CApplication::coreMessages]: [CPhpMessageSource] — предоставляет переводы системных сообщений Yii-фреймворка;
 
-   - [db|CApplication::db]: [CDbConnection] - обслуживает соединение с базой данных; обратите внимание, что 
+   - [db|CApplication::db]: [CDbConnection] — обслуживает соединение с базой данных; обратите внимание, что
 для использования компонента необходимо установить свойство [connectionString|CDbConnection::connectionString];
 
-   - [errorHandler|CApplication::errorHandler]: [CErrorHandler] - обрабатывает непойманные ошибки и исключения PHP;
+   - [errorHandler|CApplication::errorHandler]: [CErrorHandler] — обрабатывает не пойманные ошибки и исключения PHP;
 
-   - [messages|CApplication::messages]: [CPhpMessageSource] - предоставляет переводы сообщений, используемых в Yii-приложении;
+   - [messages|CApplication::messages]: [CPhpMessageSource] — предоставляет переводы сообщений, используемых в Yii-приложении;
 
-   - [request|CWebApplication::request]: [CHttpRequest] - предоставляет информацию, относящуюся к пользовательскому запросу;
+   - [request|CWebApplication::request]: [CHttpRequest] — предоставляет информацию, относящуюся к пользовательскому запросу;
 
-   - [securityManager|CApplication::securityManager]: [CSecurityManager] - предоставляет функции,
+   - [securityManager|CApplication::securityManager]: [CSecurityManager] — предоставляет функции,
    связанные с безопасностью (например, хеширование, шифрование);
 
-   - [session|CWebApplication::session]: [CHttpSession] - обеспечивает функциональность, связанную с сессиями;
+   - [session|CWebApplication::session]: [CHttpSession] — обеспечивает функциональность, связанную с сессиями;
 
-   - [statePersister|CApplication::statePersister]: [CStatePersister] - предоставляет метод для сохранения 
+   - [statePersister|CApplication::statePersister]: [CStatePersister] — предоставляет метод для сохранения
 глобального состояния;
 
-   - [urlManager|CWebApplication::urlManager]: [CUrlManager] - предоставляет функции парсинга и формирования URL;
+   - [urlManager|CWebApplication::urlManager]: [CUrlManager] — предоставляет функции парсинга и формирования URL;
 
-   - [user|CWebApplication::user]: [CWebUser] - предоставляет идентификационную информацию текущего пользователя;
+   - [user|CWebApplication::user]: [CWebUser] — предоставляет идентификационную информацию текущего пользователя;
 
-   - [themeManager|CWebApplication::themeManager]: [CThemeManager] - управляет темами оформления.
+   - [themeManager|CWebApplication::themeManager]: [CThemeManager] — управляет темами оформления.
 
 
 Жизненный цикл приложения
 -------------------------
 Жизненный цикл приложения при обработке пользовательского запроса:
 
-   0. предварительная инициализация приложения посредством [CApplication::preinit()];
+   0. Предварительная инициализация приложения через [CApplication::preinit()].
 
-   1. установка автозагрузчика класса и обработку ошибок;
+   1. Инициализация автозагрузчика классов и обработчика ошибок.
 
-   2. регистрация ключевых компонентов приложения;
+   2. Регистрация компонент ядра.
 
-   3. загрузка конфигурации приложения;
+   3. Загрузка конфигурации приложения.
 
-   4. инициализация приложения [CApplication::init()]:
+   4. Инициализация приложения [CApplication::init()]:
       - регистрация поведений приложения;
       - загрузка статических компонентов приложения;
 
-   5. вызов события [onBeginRequest|CApplication::onBeginRequest];
+   5. Вызов события [onBeginRequest|CApplication::onBeginRequest].
 
-   6. обработка пользовательского запроса:
-      - предварительная обработка (resolve) пользовательского запроса;
+   6. Обработка запроса:
+      - разбор запроса;
       - создание контроллера;
       - запуск контроллера на исполнение;
 
-   7. вызов события [onEndRequest|CApplication::onEndRequest].
+   7. Вызов события [onEndRequest|CApplication::onEndRequest].
 
 <div class="revision">$Id: basics.application.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>

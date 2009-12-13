@@ -81,4 +81,4 @@ W następnych dwóch podpunktach opowiemy jak używać buforowania na tych pozio
 buforowanych danych nawet jeśli nie wygasa. Dlatego też, nie używaj buforu jako 
 miejsca stałego składowania (np. nie używaj buforu do przechowywania danych sesji).
 
-<div class="revision">$Id: caching.overview.txt 1309 2009-08-08 12:37:23Z qiang.xue $</div>
+<div class="revision">$Id: caching.overview.txt 1315 2009-08-09 04:07:35Z qiang.xue $</div>

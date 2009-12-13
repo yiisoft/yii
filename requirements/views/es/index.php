@@ -44,7 +44,7 @@ Desafortunadamente la configuración de su servidor no satisface los requerimien
 	<?php echo $requirement[0]; ?>
 	</td>
 	<td class="<?php echo $requirement[2] ? 'passed' : ($requirement[1] ? 'failed' : 'warning'); ?>">
-	<?php echo $requirement[2] ? 'Paso' : ($requirement[1] ? 'Fallo' : 'Warning'); ?>
+	<?php echo $requirement[2] ? 'Paso' : 'Fallo'; ?>
 	</td>
 	<td>
 	<?php echo $requirement[3]; ?>

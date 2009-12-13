@@ -225,4 +225,4 @@ powinien zostać zastosowany dla akcji `edit` oraz `create`, zaś filtr
 `edit` oraz `create`. Jeśli żaden z operatorów plus lub minus nie pojawia się 
 w konfiguracji filtra, filtr będzie zastosowany do wszystkich akcji.
 
-<div class="revision">$Id: basics.controller.txt 1263 2009-07-21 19:22:00Z qiang.xue $</div>
+<div class="revision">$Id: basics.controller.txt 1264 2009-07-21 19:34:55Z qiang.xue $</div>

@@ -1,12 +1,14 @@
 * Első lépések
 	- [Áttekintés](index)
+	- [Újdonságok] (changes)
+	- [Frissítés 1.0-ról 1.1-re] (upgrade)
     - [Mi is a Yii](quickstart.what-is-yii)
     - [Telepítés](quickstart.installation)
     - [Az első Yii alkalmazás létrehozása](quickstart.first-app)
 
 * Alapok
     - [Model-View-Controller (MVC)](basics.mvc)
-    - [Belépési szkript](basics.entry)
+    - [Belépési parancsfájl](basics.entry)
     - [Alkalmazás](basics.application)
     - [Controller](basics.controller)
     - [Model](basics.model)
@@ -19,9 +21,9 @@
 
 * Munka űrlapokkal/formokkal
     - [Áttekintés](form.overview)
-    - [Modell létrehozása](form.model)
+    - [Model létrehozása](form.model)
     - [Tevékenység létrehozása](form.action)
-    - [Űrlap/form létrehozása](form.view)
+    - [Űrlap létrehozása](form.view)
     - [Táblázatos adatbevitel](form.table)
 
 * Munka adatbázisokkal
@@ -43,6 +45,12 @@
     - [Kiterjesztések létrehozsáa](extension.create)
     - [Harmadik féltől származó könyvtárak használata](extension.integration)
 
+* Tesztelés
+	- [Áttekintés](test.overview)
+	- [Defining Fixtures](test.fixture)
+	- [Unit tesztelés](test.unit)
+	- [Funkcionális tesztelés](test.functional)
+
 * Speciális témakörök
     - [URL kezelés](topics.url)
     - [Azonosítás és jogosultság vizsgálat](topics.auth)
@@ -52,8 +60,8 @@
     - [Webszolgáltatások (Web Service)](topics.webservice)
     - [Többnyelvűsítés (I18N)](topics.i18n)
     - [Más sablonnyelv használata](topics.prado)
-    - [Konzol alkalmazások](topics.console)
+    - [Parancssori alkalmazások](topics.console)
     - [Biztonság](topics.security)
     - [Teljesítmény finomhangolás](topics.performance)
 
-<div class="revision">$Id: toc.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>
+<div class="revision">$Id: toc.txt 1409 2009-09-13 19:21:34Z qiang.xue $</div>

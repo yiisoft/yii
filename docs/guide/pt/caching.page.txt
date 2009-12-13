@@ -44,4 +44,4 @@ De fato, o jeito como um widget funciona é bastante similar a um filtro: um wid
 (filtro) é iniciado antes que conteúdo por ele delimitado (ação) seja gerado, e termina 
 depois que seu conteúdo delimitado (ação) foi gerado.
 
-<div class="revision">$Id: caching.page.txt 1012 2009-05-10 01:21:58Z qiang.xue $</div>
+<div class="revision">$Id: caching.page.txt 1014 2009-05-10 12:25:55Z qiang.xue $</div>

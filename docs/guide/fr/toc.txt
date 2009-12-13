@@ -1,5 +1,7 @@
 * Introduction
 	- [Vue d'ensemble](index)
+	- [Nouvelles fonctionnalités](changes)
+	- [Migrer de la version 1.0 à la 1.1](upgrade)
     - [Qu'est-ce que Yii](quickstart.what-is-yii)
     - [Installation](quickstart.installation)
     - [Créer sa première application Yii](quickstart.first-app)
@@ -43,10 +45,16 @@
     - [Créer des extensions](extension.create)
     - [Utiliser des librairies tierces](extension.integration)
 
+* Testing
+	- [Vue d'ensemble](test.overview)
+	- [Définir les Fixtures](test.fixture)
+	- [Test unitaire](test.unit)
+	- [Test Fonctionnel](test.functional)
+
 * Sujets avancés
     - [Gestion des URLs](topics.url)
     - [Autentification et autorisation](topics.auth)
-    - [Thèmes](topics.theming)
+    - [Thèmes et Habillages](topics.theming)
     - [Logging](topics.logging)
     - [Gestion des erreurs](topics.error)
     - [Web Service](topics.webservice)
@@ -56,4 +64,4 @@
     - [Securité](topics.security)
     - [Optimisation](topics.performance)
 
-<div class="revision">$Id: toc.txt 745 $</div>
+<div class="revision">$Id: toc.txt 1409 $</div>

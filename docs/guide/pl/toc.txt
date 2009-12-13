@@ -43,11 +43,17 @@
     - [Używanie rozszerzeń](extension.use)
     - [Tworzenie rozszerzeń](extension.create)
     - [Używanie zewnętrznych bibliotek](extension.integration)
+    
+* Testowanie
+  - [Przegląd](test.overview)
+  - [Definiowanie konfiguracji testu](test.fixture)
+  - [Testy jednostkowe](test.unit)
+  - [Testy funkcjonalne](test.functional)    
 
 * Tematy specjalne
     - [Zarządzanie adresami URL](topics.url)
     - [Uwierzytelnienie i autoryzacja](topics.auth)
-    - [Używanie tematów](topics.theming)
+    - [Używanie tematów i skórek](topics.theming)
     - [Logowanie](topics.logging)
     - [Kontrola błędów](topics.error)
     - [Webserwisy](topics.webservice)
@@ -57,4 +63,4 @@
     - [Bezpieczeństwo](topics.security)
     - [Zwiększanie wydajności](topics.performance)
 
-<div class="revision">$Id: toc.txt 956 2009-04-21 15:16:03Z qiang.xue@gmail.com $</div>
+<div class="revision">$Id: toc.txt 1409 2009-09-13 19:21:34Z qiang.xue $</div>

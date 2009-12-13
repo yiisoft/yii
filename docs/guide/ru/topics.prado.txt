@@ -28,7 +28,7 @@ Prado или Smarty) для описания представлений конт
 [php]
 return array(
 	'components'=>array(
-		......,
+		…,
 		'viewRenderer'=>array(
 			'class'=>'CPradoViewRenderer',
 		),
@@ -75,12 +75,12 @@ PHP также, как и в обычных представлениях.
 
 ~~~
 [php]
-<com:WidgetClass property1=value1 property2=value2 ...>
+<com:WidgetClass property1=value1 property2=value2 …>
 	// содержимое виджета
 </com:WidgetClass>
 
 // виджет без содержимого
-<com:WidgetClass property1=value1 property2=value2 .../>
+<com:WidgetClass property1=value1 property2=value2 …/>
 ~~~
 
 Здесь `WidgetClass` определяет имя класса виджета или
@@ -112,7 +112,7 @@ PHP также, как и в обычных представлениях.
 
 ~~~
 [php]
-<cache:fragmentID property1=value1 property2=value2 ...>
+<cache:fragmentID property1=value1 property2=value2 …>
 	// содержимое, которое необходимо кэшировать
 </cache:fragmentID >
 ~~~

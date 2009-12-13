@@ -140,6 +140,19 @@ Standardmäßig hat die AR-Klasse den gleichen Namen wie die Datenbanktabelle.
 sie sich unterscheiden sollen. Die [model()|CActiveRecord::model]-Methode wird in jedem
 AR deklariert (worauf wir in Kürze eingehen werden).
 
+> Info: Um ein [Tabellenpräfix](/doc/guide/database.dao#using-table-prefix) zu
+> verwenden, wie es seit Version 1.1.0 verfügbar ist, kann man die 
+> [tableName()|CActiveRecord::tableName]-Methode wie folgt überschreiben:
+> ~~~
+> [php]
+> public function tableName()
+> {
+>     return '{{post}}';
+> }
+> ~~~
+> Statt eines vollständigen Tabellennamens geben wir also den Namen der
+> Tabelle ohne Präfix, aber dafür in doppelten geschweiften Klammern zurück.
+
 Über die Eigenschaften der entsprechenden AR-Instanz, kann auf die Felder 
 einer Tabellenzeile zugegriffen werden. Der folgende Code setzt zum Beispiel das
 `title`-Feld (Attribut).
@@ -689,4 +702,4 @@ Beachten Sie, dass der Standardbereich nur für
 `SELECT`-Abfragen verwendet wird. Bei `INSERT`-, `UPDATE`- und
 `DELETE`-Statements wird er ignoriert.
 
-<div class="revision">$Id: database.ar.txt 1398 2009-09-06 01:15:01Z qiang.xue $</div>
+<div class="revision">$Id: database.ar.txt 1479 2009-10-23 13:24:20Z qiang.xue $</div>

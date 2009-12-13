@@ -31,4 +31,4 @@ Uma extensão também pode ser um componente que não se encaixe em nenhuma das 
 acima. Na verdade, o Yii é cuidadosamente projetado de forma que, praticamente 
 todo seu código possa ser estendido e customizado para atender necessidades individuais.
 
-<div class="revision">$Id: extension.overview.txt 1392 2009-09-04 20:39:11Z qiang.xue $</div>
+<div class="revision">$Id: extension.overview.txt 1398 2009-09-06 01:15:01Z qiang.xue $</div>

@@ -100,7 +100,7 @@ if($identity->authenticate())
 	Yii::app()->user->login($identity);
 else
 	echo $identity->errorMessage;
-......
+…
 // Выходим
 Yii::app()->user->logout();
 ~~~
@@ -141,7 +141,7 @@ Yii::app()->user->login($identity,3600*24*7);
 [php]
 class PostController extends CController
 {
-	......
+	…
 	public function filters()
 	{
 		return array(
@@ -160,7 +160,7 @@ control|CController::filterAccessControl] применяется ко всем �
 [php]
 class PostController extends CController
 {
-	......
+	…
 	public function accessRules()
 	{
 		return array(
@@ -199,7 +199,7 @@ IP) определяет результат авторизации. Если э�
 > ~~~
 > [php]
 > return array(
->     // ... разные правила ...
+>     // … разные правила …
 >     // это правило полностью запрещает действие 'delete'
 >     array('deny',
 >         'action'=>array('delete'),
@@ -265,7 +265,7 @@ IP) определяет результат авторизации. Если э�
 ~~~
 [php]
 array(
-	......
+	…
 	'components'=>array(
 		'user'=>array(
 			// это значение устанавливается по умолчанию

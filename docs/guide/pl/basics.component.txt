@@ -99,6 +99,16 @@ gdzie `$event` jest parametrem opisującym zdarzenie (pochodzi z `raiseEvent()`)
 Parametr `$event` jest instancją klasy [CEvent] lub jej klasy pochodnych. 
 Musi ona posiadać co najmniej informację o tym kto wywołuje zdarzenie.
 
+Poczynając od wersji 1.0.10, uchwytem zdarzenia może być również anonimowa funkcja,
+co jest wpierane przez PHP w wersji 5.3 lub wyższej. Na przykład
+
+~~~
+[php]
+$component->onClicked=function($event) {
+  ......
+}
+~~~
+
 Jeśli wywołamy teraz `onClicked() zdarzenie `onClicked` zostanie wywołane 
 (wewnątrz `onClicked()`) i dołączony uchwyt zdarzenia będzie wywołany automatycznie.
 
@@ -170,4 +180,10 @@ potężne. Zachowanie, dołączane do komponentu, może dołączyć pewną czę�
 do pewnych zdarzeń komponentu. W taki sposób, zdarzeniu udostępnia się możliwość
 obserwowania lub zmiany zwykłego przepływu wykonywania czynności komponentu. 
 
-<div class="revision">$Id: basics.component.txt 1328 2009-08-15 18:45:51Z qiang.xue $</div>
+Poczynając od wersji 1.1.0, właściwości zachowania są dostępne poprzez komponent,
+do którego są one przypisane. Właściwości obejmują zarówno publiczne zmienne klasy
+jak i metody get (gettery) i set (settery) zachowania. Na przykład, jeśli zachowanie   
+posiada właściwość o nazwie `xyz` i jest ono powiązane z komponentem `$a`, to możemy 
+użyć wyrażenia `$a->xyz` w celu otrzymania dostępu do właściwości zachowania.
+
+<div class="revision">$Id: basics.component.txt 1474 2009-10-18 21:13:52Z qiang.xue $</div>

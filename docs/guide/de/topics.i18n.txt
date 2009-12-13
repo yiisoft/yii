@@ -44,6 +44,10 @@ Für eine gegebene Locale-ID erhält man die entsprechende Instanz von [CLocale]
 stammen vom [Common Locale Data Repository](http://unicode.org/cldr/) (CLDR). 
 Jede Locale bietet nur einen Teil der CLDR-Daten, da in den
 Originaldaten viele kaum verwendete Informationen enthalten sind.
+Seit Version 1.1.0 können Sie auch Ihre eigenen, angepassten Locale-Daten
+verwenden. Dazu setzen Sie die Eigenschaft [CApplication::localeDataPath]
+auf das Verzeichnis, dass die angepassten Locale-Daten enthält. Zum Anlegen
+dieser Dateien verweisen wir auf die Dateien unter `framework/i18n/data`.
 
 Bei einer Yii-Anwendung unterscheiden wir zwischen
 [Zielsprache|CApplication::language] und
@@ -161,13 +165,15 @@ dem `message`-Kommando können Sie die zu übersetzenden Nachrichten aus
 ausgewählten Quelldateien extrahieren und bei Bedarf mit bereits vorhandenen 
 Übersetzungen zusammenführen.
 
-Seit Version 1.0.10 können Modulnachrichten gesondert behandelt werden, sofern
+Seit Version 1.0.10 können Nachrichten einer Erweiterung (z.B. einem Widget
+oder einem Modul) gesondert behandelt werden, sofern
 [CPhpMessageSource] zum Verwalten verwendet wird. Falls eine Nachricht zu
-einem Modul `Xyz` gehört, kann die Nachrichtenkategorie im Format
+einer Erweiterung `Xyz` gehört, kann die Nachrichtenkategorie im Format
 `Xyz.kategorieName` angegeben werden. Die entsprechende Nachrichtendatei wird
-dann in `ModulPfad/messages/SprachID/kategorieName.php` gesucht, wobei
-`ModulPfad` dem Verzeichnis entspricht, in dem die Klassendatei des Moduls
-liegt. Wenn man `Yii::t()` zum Übersetzen von Modulnachrichten verwendet,
+dann in `BasisPfad/messages/SprachID/kategorieName.php` gesucht, wobei
+`BasisPfad` dem Verzeichnis entspricht, in dem die Klassendatei der
+Erweiterung liegt. Wenn man `Yii::t()` zum Übersetzen von
+Erweiterungsnachrichten verwendet,
 sollte man also stattdessen dieses Format verwenden:
 
 ~~~
@@ -299,4 +305,4 @@ Ziel-Locale vorgegebene Währungsmuster verwendet.
 formatiert die gegebene Zahl, indem sie das in der Ziel-Locale vorgegebene 
 Prozentsatz-Muster verwendet.
 
-<div class="revision">$Id: topics.i18n.txt 1463 2009-10-17 01:49:02Z qiang.xue $</div>
+<div class="revision">$Id: topics.i18n.txt 1489 2009-10-27 21:13:26Z qiang.xue $</div>

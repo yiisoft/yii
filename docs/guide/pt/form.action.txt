@@ -70,4 +70,4 @@ o campo correspondente ao atributo `username` do modelo `LoginForm`.
 O trabalho restante agora é criar a visão `login` que deve conter um formulário 
 HTML com os campos necessários.
 
-<div class="revision">$Id: form.action.txt 625 2009-02-04 20:48:21Z qiang.xue $</div>
+<div class="revision">$Id: form.action.txt 626 2009-02-04 20:51:13Z qiang.xue $</div>

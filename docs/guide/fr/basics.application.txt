@@ -194,16 +194,25 @@ Cycle de vie d'une Application
 Lors de la prise en charge d'une requête, l'application passe
 par les étapes suivantes :
 
+   0. Pré-initialisation de l'application via [CApplication::preinit()];
+
    1. Mise en place de l'autoloader et de la gestion des erreurs;
+
    2. Chargement des composants du noyau;
+
    3. Chargement de la configuration de l'application;
+
    4. Initialisation de l'application avec [CApplication::init()]
+	   - Enregistrement des "comportements" de l'application;
 	   - Chargement des composants statiques;
+
    5. Levée de l'évènement [onBeginRequest|CApplication::onBeginRequest];
+
    6. Traitement de la requête utilisateur:
 	   - Résolution de la requête;
 	   - Création du contrôleur;
 	   - Exécution du contrôleur;
+
    7. Levée de l'évènement [onEndRequest|CApplication::onEndRequest];
 
-<div class="revision">$Id: basics.application.txt 626 $</div>
+<div class="revision">$Id: basics.application.txt 857 $</div>

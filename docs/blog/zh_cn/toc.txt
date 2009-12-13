@@ -11,7 +11,7 @@
     - [小结](prototype.summary)
 
 * 文章(Post)管理
-    - [调整文章模型l](post.model)
+    - [调整文章模型](post.model)
     - [建立和修改文章](post.create)
     - [显示文章](post.display)
     - [管理文章](post.admin)

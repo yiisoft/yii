@@ -40,15 +40,15 @@ Web-сервера, как этого требует SQLite. Мы можем п�
 ~~~
 [php]
 return array(
-	......
+	…
 	'components'=>array(
-		......
+		…
 		'db'=>array(
 			'class'=>'CDbConnection',
 			'connectionString'=>'sqlite:/wwwroot/blog/protected/data/blog.db',
 		),
 	),
-	......
+	…
 );
 ~~~
 

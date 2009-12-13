@@ -19,6 +19,14 @@
 
  * [Добавлена поддержка использования префикса таблиц](/doc/guide/database.dao#using-table-prefix).
 
+
+Версия 1.0.11
+-------------
+
+ * Добавлена поддержка разбора и создания URL с параметризованными именами хостов
+     - [Параметризация имен хостов](/doc/guide/topics.url#parameterizing-hostnames)
+
+
 Версия 1.0.10
 -------------
 
@@ -83,4 +91,4 @@
  * Расширен класс [CUrlManager] поодержкой параметризованных маршрутов в URL-правилах:
      - [Параметризация маршрутов](/doc/guide/topics.url#parameterizing-routes)
 
-<div class="revision">$Id: changes.txt 1479 2009-10-23 13:24:20Z qiang.xue $</div>
+<div class="revision">$Id: changes.txt 1533 2009-11-20 14:10:46Z qiang.xue $</div>

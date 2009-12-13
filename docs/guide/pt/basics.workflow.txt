@@ -41,4 +41,4 @@ apropriadas de [caching](/doc/guide/caching.overview).
    
 Para cada um dos passos acima, testes devem ser criados e executados.
 
-<div class="revision">$Id: basics.workflow.txt 1030 2009-05-17 11:49:15Z qiang.xue $</div>
+<div class="revision">$Id: basics.workflow.txt 1034 2009-05-19 21:33:55Z qiang.xue $</div>

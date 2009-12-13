@@ -112,4 +112,4 @@ Poniżej znajduje się podsumowanie dostępnych zależności buforowania:
    - [CExpressionDependency]: zależność jest zmieniona jeśli zmieni się rezultat określonego wyrażenia PHP. Klasa ta jest dostępna od
    wersji 1.0.4.
 
-<div class="revision">$Id: caching.data.txt 1290 2009-08-06 16:13:11Z qiang.xue $</div>
+<div class="revision">$Id: caching.data.txt 1295 2009-08-06 20:00:34Z qiang.xue $</div>

@@ -1,12 +1,12 @@
 Использование расширений
-================
+========================
 
 Порядок использования расширений, как правило, включает три шага:
 
   1. Скачать расширение из [репозитория](http://www.yiiframework.com/extensions/) Yii;
   2. Распаковать расширение в подпапку `extensions/xyz` 
      [базовой директории приложения](/doc/guide/basics.application#application-base-directory),
-     где `xyz` - имя расширения;
+     где `xyz` — имя расширения;
   3. Подключить, настроить и использовать расширение.
 
 Каждое расширение уникально идентифицируется по имени. Если расширение
@@ -35,7 +35,7 @@
 ~~~
 [php]
 return array(
-    // 'preload'=>array('xyz',...),
+    // 'preload'=>array('xyz',…),
     'components'=>array(
         'xyz'=>array(
             'class'=>'ext.xyz.XyzClass',
@@ -54,7 +54,7 @@ return array(
 Поведение
 ---------
 
-[Поведение](/doc/guide/ru/basics.component#component-behavior) может быть
+[Поведение](/doc/guide/basics.component#component-behavior) может быть
 использовано в любом компоненте. Делается это в два шага: присоединение
 к компоненту и вызов метода поведения из компонента. К примеру:
 
@@ -68,9 +68,9 @@ $component->test();
 
 Чаще всего поведение присоединяется к компоненту с использованием конфигурации, а
 не вызовом метода `attachBehavior`. К примеру, чтобы присоединить поведение к
-[компоненту приложения](/doc/guide/ru/basics.application#application-component),
+[компоненту приложения](/doc/guide/basics.application#application-component),
 мы можем использовать следующую
-[конфигурацию](/doc/guide/ru/basics.application#application-configuration):
+[конфигурацию](/doc/guide/basics.application#application-configuration):
 
 ~~~
 [php]
@@ -86,7 +86,7 @@ return array(
 				),
 			),
 		),
-		//....
+		//…
 	),
 );
 ~~~
@@ -131,7 +131,7 @@ public function behaviors()
     'property1'=>'value1',
     'property2'=>'value2')); ?>
 
-...содержимое виджета...
+…содержимое виджета…
 
 <?php $this->endWidget(); ?>
 ~~~
@@ -273,7 +273,7 @@ return array(
 > Note|Примечание: Консольное приложение, как правило, использует иной файл
 конфигурации нежели веб-приложение. Если приложение было создано командой
 консоли `yiic webapp`, то конфигурационный файл для консоли `protected/yiic`
-находится в `protected/config/console.php`, а конфигурация веб-приложения - в
+находится в `protected/config/console.php`, а конфигурация веб-приложения — в
 `protected/config/main.php`.
 
 Модуль
