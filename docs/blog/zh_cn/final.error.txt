@@ -1,0 +1,10 @@
+自定义错误页
+=========================
+
+我们博客系统使用模板方式来显示Yii错误信息。这样你就可以自己定义显示的格式。我们可以在 `/wwwroot/blog/protected/views/system` 下面定义一些视图文件。
+
+我们首先建议一个名为 `error.php` 的文件。它被用来默认作为显示各种类型错误的视图文件。因为它被用来显示错误信息，所以它无需有复杂的PHP逻辑。注意，错误视图没有使用视图层。因此，每个是与文件都是一个完整的显示页面。
+
+我们同时定义一个名为 `error403.php` 来显示403(unauthenticated)HTTP错误。
+
+更多详细的错误视图，请参阅[手册](http://www.yiiframework.com/doc/guide/topics.error#displaying-errors)。 

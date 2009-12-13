@@ -1,0 +1,140 @@
+建立和修改文章
+===========================
+
+文章模型已经准备就绪了，现在就是对PostController控制器中动作和视图加以完善了。我们首先来定义一些CRUD操作权限；然后是建立和修改操作；最终，再加个文章的预览功能。
+
+
+定义权限操作
+--------------------------
+
+权限  [access control](http://www.yiiframework.com/doc/guide/topics.auth#access-control-filter) 操作是yiic功能未能完成步骤，现在我们来完成它。
+
+我们修改 `accessRules()` 方法，文件是 `/wwwroot/blog/protected/controllers/PostController.php` ，
+
+~~~
+[php]
+public function accessRules()
+{
+    return array(
+        array('allow',  // allow all users to perform 'list' and 'show' actions
+            'actions'=>array('list', 'show'),
+            'users'=>array('*'),
+        ),
+        array('allow', // allow authenticated users to perform any action
+            'users'=>array('@'),
+        ),
+        array('deny',  // deny all users
+            'users'=>array('*'),
+        ),
+    );
+}   
+~~~
+
+(译者: 具体可以看原文，这里是译者理解所写，可能有误解，但不会太大。)从以上规则来看，所有用户可以访问list和show动作，认证用户可以访问所有动作，包括admin动作。所有用户被禁止所有操作。注意，这些规则的顺序。游客用户应当被禁止操作其他未声明的动作。举例来说，当前用户所有者访问文章的建立，第二条规则给出通过许可。
+
+定义建立和修改操作
+--------------------------------------------
+
+建立和修改操作非常类似。它们都是需要显示HTML表单并收集用户输入数据，然后校验和保存到数据库。它们主要区别是，修改是从已存在的文章调入。因为yiic工具生成时，将表单统一生成为 `/wwwroot/blog/protected/views/post/_form.php` 。它在建立和修改视图中同时作为内嵌而输出。
+
+我们需要修改_form.php文件，将其仅仅收集需要的:标题、内容和状态。我们需要两个文本表单收集前两个属性，使用下拉式表单收集状态。下拉式选项已文本方式显示出可能的文章状态:
+
+~~~
+[php]
+<?php echo CHtml::activeDropDownList($post,'status',Post::model()->statusOptions); ?>   
+~~~
+
+> Tip|技巧: 上面的代码中我们也可以使用 `Post::model()->getStatusOptions()` 替换 `Post:model()->statusOptions` 已返回出状态。我们只所以使用后者，因为文章模型中直接可以属性获得。
+
+我们需要在文章存入数据库之前修改这个模型，将部分属性进行自动添加。可以通过覆盖 `beforeValidate()` 方法来实现：
+
+~~~
+[php]
+protected function beforeValidate()
+{
+    $parser=new CMarkdownParser;
+    $this->contentDisplay=$parser->safeTransform($this->content);
+    if($this->isNewRecord)
+    {
+        $this->createTime=$this->updateTime=time();
+        $this->authorId=Yii::app()->user->id;
+    }
+    else
+        $this->updateTime=time();
+    return true;
+}   
+~~~
+
+上述方法中，我们使用 `CMarkdownParser` 来将用户递交的内容部分进行 [Markdown format](http://daringfireball.net/projects/markdown/) 方式的HTML转换，并保存。当显示的时候就不需要再进行转换了。如果文章是新记录，我们就将 `createTime` 和 `authorId` 属性赋值；另外还有将 `updateTime` 赋值为当前时间。注意这个方法会在调用 `validate()` 或者 `save()` 方法是执行。
+
+因为我们还得同时保存文章的标签到标签表，我们还需要修改下面的文章方法，它将在最终文章保存时自行执行:
+
+~~~
+[php]
+protected function afterSave()
+{
+    if(!$this->isNewRecord)
+        $this->dbConnection->createCommand(
+            'DELETE FROM PostTag WHERE postId='.$this->id)->execute();
+ 
+    foreach($this->getTagArray() as $name)
+    {
+        if(($tag=Tag::model()->findByAttributes(array('name'=>$name)))===null)
+        {
+            $tag=new Tag(array('name'=>$name));
+            $tag->save();
+        }
+        $this->dbConnection->createCommand(
+            "INSERT INTO PostTag (postId, tagId) VALUES ({$this->id},{$tag->id})")->execute();
+    }
+}
+ 
+public function getTagArray()
+{
+    // break tag string into a set of tags
+    return array_unique(
+        preg_split('/\s*,\s*/',trim($this->tags),-1,PREG_SPLIT_NO_EMPTY)
+    );
+}   
+~~~
+
+上述代码中，我们首先清理掉之前与当前文章关联的记录。然后再将新的关联标签保存在PostTag表中。这里的逻辑略微复杂一些。但我们使用 [ActiveRecord](http://www.yiiframework.com/doc/guide/database.ar) ，只需要写上述代码就可以执行数据的所有操作了。
+
+> Tip|技巧: 保持业务逻辑是比较好的实践习惯，就像上述代码一样beforeValidate()和afterSave()代码，将逻辑放在模型而不是控制器中。
+
+增加一个预览功能
+----------------------------
+
+基于上面的代码模式，我们可以加一个预览功能，用户可以在保存数据到数据库之前使用预览来实现。
+
+首先，我们修改一下 `_form.php` 文件，加一个预览按钮和预览的显示位置。这个预览按钮被点击后能显示内容并且校验数据内容。
+
+~~~
+[php]
+<?php echo CHtml::submitButton('Preview',array('name'=>'previewPost')); ?>
+......
+<?php if(isset($_POST['previewPost']) && !$post->hasErrors()): ?>
+...display preview of $post here...
+<?php endif; ?>   
+~~~
+
+接下来我们修改 `PostController` 中的 `actionCreate()` 和 `actionUpdate()` 方法来接收预览请求。下面代码显示出 `actionCreate()` 中修改的部分，它非常类似于`actionUpdate()` :
+
+~~~
+[php]
+public function actionCreate()
+{
+    $post=new Post;
+    if(isset($_POST['Post']))
+    {
+        $post->attributes=$_POST['Post'];
+        if(isset($_POST['previewPost']))
+            $post->validate();
+        else if(isset($_POST['submitPost']) && $post->save())
+            $this->redirect(array('show','id'=>$post->id));
+    }
+    $this->render('create',array('post'=>$post));
+}   
+~~~
+
+我们看到，用户当点击clicked后，我们执行了 `$post->validate()` 来校验用户表单；如果是递交点击，我们则执行 `$post->save()` 来执行校验(它同时尝试保存)。如果保存成功(没有任何校验和数据库错误)，我们则直接转向用户浏览器，显示出最新的文章内容。

@@ -1,0 +1,155 @@
+调整文章模型
+======================
+
+`Post`模型由yiic工具生成后，仍有两个地方需要修改:
+
+ - rules() method: 指定模型属性和规则; 
+ - relations() method: 指定关联对象; 
+
+> Info|信息: 一个[model](http://www.yiiframework.com/doc/guide/basics.model)模型的属性表就是数据库的字段。这些属性无需声明，在建立模型时自行产生。
+
+请注意，如果你仍使用Yii1.0.x版本，你需要定义`safeAttributes()`方法，由它指定哪些属性能被直接定义 (主要被用于用户递交时内容)。但从1.1.0版本来时，它不再被需要定义，取代的是定义在`rules()`中的规则校验。
+
+定义 rules() 方法
+----------------------------
+
+我们之所以加入这个校验规则是为了确认这些属性在用户递交数据之后，保存到数据库之前做检查。举例来说，这个Post文章状态是0,1,2。yiic工具为每一个模型生成时都会添加。然而，这些规则并不完全适用于真实情况。
+
+基于需求分析，我们修改这些规则`rules()`如下：
+
+~~~
+[php]
+public function rules()
+{
+    return array(
+        array('title, content, status', 'required'),
+        array('title', 'length', 'max'=>128),
+        array('status', 'in', 'range'=>array(0, 1, 2)),
+        array('tags', 'match', 'pattern'=>'/^[\w\s,]+$/',
+            'message'=>'Tags can only contain word characters.'),
+    );
+}   
+~~~
+
+根据上面所写，我们制定标题、内容和状态属性是必须的；标题长度不大于128；状态有三个0(草稿),1(发布)和2(过期)；其中标签将符合单词和字母方式。所有其他属性(包括id,createTime)都将不在校验，因为它们的值不再用户递交范围内。
+
+经过以上调整，我们可以再尝试看一下递交页面，看看是否生效。
+
+> Info|信息: 检验规则我们可以使用模型的 [validate()|CModel::validate] 或者 [save()|CActiveRecord::save] 方法。更多信息可以查阅 [the Guide](http://www.yiiframework.com/doc/guide/form.model#declaring-validation-rules) 。
+
+
+自定 relations() 方法
+----------------------------
+
+最后我们来定义一下 `relations()` 方法将关联对象放入文章模型中。声明这些关联对象需要 `relations()` ，我们可以使用优秀的 [Relational ActiveRecord (RAR)](http://www.yiiframework.com/doc/guide/database.arr) 特征来关联文章模型，比如，用户和评论，不需要写任何SQL JOIN语句。
+
+我们是这样定义的：
+
+~~~
+[php]
+public function relations()
+{
+    return array(
+        'author'=>array(self::BELONGS_TO, 'User', 'authorId'),
+        'comments'=>array(self::HAS_MANY, 'Comment', 'postId',
+            'order'=>'comments.createTime'),
+        'tagFilter'=>array(self::MANY_MANY, 'Tag', 'PostTag(postId, tagId)',
+            'together'=>true,
+            'joinType'=>'INNER JOIN',
+            'condition'=>'tagFilter.name=:tag'),
+    );
+}   
+~~~
+
+以上关联的含义是:
+
+ * 文章属于作者(也就是User类)关联，使用authorId字段进行连接; 
+ * 一片文章包含多个评论(Comment类)，使用postId属性进行关联。这些评论排序有建立时间决定。
+
+tagFilter略微有点难以理解。它被用户Post表和Tag表之间关联。因为我们还得通过标签来寻找文章。所以两者需要中间表来完成也就是PostTag。(译者：具体可以看一些其它有关例子 Qeephp 和 Fleaphp 有更详细的中文说明。)
+
+根据以上的关联定义，我们就可以非常方便的查询到一个文章的作者和评论信息了：
+
+~~~
+[php]
+$author=$post->author;
+echo $author->username;
+ 
+$comments=$post->comments;
+foreach($comments as $comment)
+    echo $comment->content;   
+~~~
+
+更多的详细介绍如何定义关联的，请查询 [the Guide](http://www.yiiframework.com/doc/guide/database.arr) 。
+
+
+文章的状态
+---------------------------
+
+因为文章的状态数据库是以数字形式保存的，我们得需要转换成文本使得方便的展示给最终用户。因此，我们按下列方法来修改:
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+    const STATUS_DRAFT=0;
+    const STATUS_PUBLISHED=1;
+    const STATUS_ARCHIVED=2;
+ 
+    ......
+ 
+    public function getStatusOptions()
+    {
+        return array(
+            self::STATUS_DRAFT=>'Draft',
+            self::STATUS_PUBLISHED=>'Published',
+            self::STATUS_ARCHIVED=>'Archived',
+        );
+    }
+ 
+    public function getStatusText()
+    {
+        $options=$this->statusOptions;
+        return isset($options[$this->status]) ? $options[$this->status]
+            : "unknown ({$this->status})";
+    }
+}   
+~~~
+
+以上代码，我们定义可能的三种状态。它被写成更已扩展的方式。首先定义getStatusOptions()方法来返回一个由数字与文本对应的数组。然后，我们定义 `getStatusText()` 方法来获取当前的状态文本。
+
+
+以下适用于Yii1.0.x版本
+
+定义 safeAttributes() 方法
+--------------------------------
+
+现在我们可以定义safeAttributes()方法来指定哪些属性可以直接被赋值。它被用来，当用户递交表单后，给模型赋值时用到。我们可以使用以下方法来给用户递交的数据给模型赋值。
+
+~~~
+[php]
+$post->attributes=$_POST['Post'];   
+~~~
+
+类同于以下代码：
+
+~~~
+[php]
+$post->title=$_POST['Post']['title'];
+$post->content=$_POST['Post']['content'];
+......   
+~~~
+
+我们看到attributes赋值的方法非常方便直接，但它需要一定保护。有些值用户可以在递交时直接修改并转入到模型的属性中。举例来说，文章的id不能直接赋值到模型中，且不能被修改。
+
+对于这个问题，我们应该使用safeAttributes()方法，经仅可以赋值的内容加进去，就像标题，内容，状态和标签。
+
+~~~
+[php]
+public function safeAttributes()
+{
+    return array('title', 'content', 'status', 'tags');
+}   
+~~~
+
+> Tip|技巧: 上述简单的方式就可以安全的把HTML中表单内容收集起来放入模型中。同时，模型属性的安全性还需要rule()来作为校验。两者缺一不可。

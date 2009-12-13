@@ -1,0 +1,18 @@
+小结
+=======
+
+我们已经完成了一个里程碑。暂时让我们回顾一下我们已经完成的内容：
+
+ 1. 我们设计了需求; 
+ 2. 我们安装了Yii框架; 
+ 3. 我们建立系统框架; 
+ 4. 我们设计和建立了数据库; 
+ 5. 我们修改系统的配置文件以便于和数据库连接; 
+ 6. 我们使用脚手架生成了基本文章和评论的CRUD操作文件; 
+ 7. 我们修改认证方法，使其能与User表对应.
+
+作为一个新项目，大部分时间可能花在1到4步。
+
+然而，yiic代码生成工具为数据库表提供了完整的CRUD操作，但它一般是需要修改的。所以，下一个里程碑，我们的工作将是修改这些被生成的CRUD代码，使得文章和评论操作接近我们的需求。
+
+我们还需要修改模型[model](http://www.yiiframework.com/doc/guide/basics.model)文件，增加一些校验[validation](http://www.yiiframework.com/doc/guide/form.model#declaring-validation-rules)规则和关联[relational objects](http://www.yiiframework.com/doc/guide/database.arr#declaring-relationship)。最后，根据CRUD的操作需要，我们还需要对控制器[controller action](http://www.yiiframework.com/doc/guide/basics.controller)和视图[view](http://www.yiiframework.com/doc/guide/basics.view)文件作一些调整。

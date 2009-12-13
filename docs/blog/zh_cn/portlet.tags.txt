@@ -1,0 +1,54 @@
+标签云
+==========================
+
+标签云[Tag cloud](http://en.wikipedia.org/wiki/Tag_cloud) 会将每个标签按流行度进行显示。
+
+
+建立 `TagCloud` 类
+-------------------------
+
+我们在建立 `/wwwroot/blog/protected/components/TabCloud.php` 类文件。这个文件是这样的:
+
+~~~
+[php]
+<?php
+class TagCloud extends Portlet
+{
+    public $title='Tags';
+ 
+    public function getTagWeights()
+    {
+        return Tag::model()->findTagWeights();
+    }
+ 
+    protected function renderContent()
+    {
+        $this->render('tagCloud');
+    }
+}   
+~~~
+
+上面代码中有个 `findTagWeights` 方法，这个方法定义在 `Tag` 类中。它将返回标签列表，并含有使用频率。如果一个标签在多个文章中都有联系，它将提高它的比率。我们将使用比率来控制显示方式。
+
+
+建立 tagCloud 视图
+-------------------------
+
+标签云的视图文件在 `/wwwroot/blog/protected/components/views/tagCloud.php` 。对于每个标签都返回一个 `TagCloud::getTagWeights()`，它含有一个链接只想到含有这个标签的文章列表。标签显示的字体大小由标签含有的使用比率决定。
+
+
+使用 `TagCloud` Portlet
+-------------------------
+
+使用 `TagCloudportlet` 是非常简单的。我们修改视图层 `/wwwroot/blog/protected/views/layouts/main.php` 文件如下
+
+~~~
+[php]
+......
+<div id="sidebar">
+ <?php $this->widget('UserLogin',array('visible'=>Yii::app()->user->isGuest)); ?>
+ <?php $this->widget('UserMenu',array('visible'=>!Yii::app()->user->isGuest)); ?>
+ <?php $this->widget('TagCloud'); ?>
+ </div>
+......
+~~~

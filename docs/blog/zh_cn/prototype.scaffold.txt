@@ -1,0 +1,80 @@
+脚手架
+===========
+
+Create, read, update 和 delete(CRUD)是四个基本数据操作。在我们的博客系统中这些CRUD操作主要是文章和评论部分。这个部分，我们可以使用yiic工具来完成这个任务，它也就是我们常被称为脚手架的工具。
+
+打开命令行窗口然后运行下列命令：
+
+~~~
+% /wwwroot/yii/framework/yiic shell /wwwroot/blog/index.php
+Yii Interactive Tool v1.0
+Please type 'help' for help. Type 'exit' to quit.
+>> model User
+......
+>> model Post
+......
+>> model Tag
+......
+>> model Comment
+......
+>> crud Post
+......
+>> crud Comment
+......
+>> exit   
+~~~
+
+> Info|注意: 有些PHP安装使用不同的php.ini文件配置。因为这个原因，当使用上面yiic命令你可能或得到"YiiBase::include(PDO.php): failed to open stream..."或者"...could not find driver"的错误信息。所以，你需要可能得使用下面命令来运行:
+> 
+> ~~~
+> php -r "phpinfo();" 
+> ~~~
+> 
+> 通过上面命令你可以查阅到php是否正确调用了必须的php扩展。如果上面命令有错误，你还得指定php运行时使用的php.ini配置文件，就像下面命令输入方式一样:
+> 
+> ~~~
+> php -c php.ini /wwwroot/yii/framework/yiic.php shell /wwwroot/blog/index.php
+> ~~~
+
+以上命令完成两个任务。首先是根据数据库生成相应的[model](http://www.yiiframework.com/doc/guide/basics.model)类；其次，再建立基于`Post`和`Comment`的models的CRUD操作的相应文件(会有多个文件生成)。
+
+生成完毕，你就可以通过URLs来访问那些文件了:
+
+~~~
+http://www.example.com/blog/index.php?r=post
+http://www.example.com/blog/index.php?r=comment   
+~~~
+
+我们可以看到了文章和评论基本功能都有脚手架基本生成了。当然，当我们建立新文章或评论时还需要其它的特征，犹如，authID或者建立时间等，这些实际最终还有应用程序编码完成的。别着急。我们将修复这些问题。现在基本满意这些已经完成了的特征，我们逐步将完善这个博客应用程序。
+
+我们来查阅一下生成的文件。它们在/wwwroot/blog/protected中。它们有些是[model](http://www.yiiframework.com/doc/guide/basics.model)文件，[controller](http://www.yiiframework.com/doc/guide/basics.controller)文件和[view](http://www.yiiframework.com/doc/guide/basics.view)文件，将是下一步的开始：
+
+
+ - model 模型文件: 
+	 * `models/User.php` 包含了`user`用户类继承 [CActiveRecord] ，它被用于访问用户数据库表; 
+	 * `models/Post.php` 包含了`Post`文章类继承 [CActiveRecord] ，它被用户访问文章数据库表; 
+	 * `models/Tag.php` 包含了`Tag`标签类继承了 [CActiveRecord] ，它被用于访问标签数据库表; 
+	 * `models/Comment.php` 包含了评论类继承 [CActiveRecord] ，它被用于访问评论数据库表;
+
+
+ - controller控制器文件: 
+	 * `controllers/PostController.php` 包含了 [PostController] 类，用于有关文章递交的CRUD有关的操作; 
+	 * `controllers/CommentController.php` 包含了 [CommentController] 类，用于有关评论的CRUD有关的操作;
+
+ - view视图文件: 
+	 * `views/post/create.php` 用于显示新建文章的视图文件(含表单); 
+	 * `views/post/update.php` 用于显示修改已存在的文章的视图文件(含表单); 
+	 * `views/post/show.php` 用于显示文章的详细内容的视图文件; 
+	 * `views/post/list.php` 用于显示文章列表的视图文件; 
+	 * `views/post/admin.php` 用于给管理员显示文章列表并含有功能的表视图文件. 
+	 * `views/post/_form.php` 一个内嵌在create和update中用于显示HTML表单的文件，通过它来收集用户递交的文章信息. 
+	 * 一组和上述相近有关评论的视图文件.
+
+为了更好理解上述文件是如何被使用的，我们例举了当显示文章列表时，系统工作流程是如何工作的：
+
+
+ 1. 第一个脚本[entry script](http://www.yiiframework.com/doc/guide/basics.entry)根据请求被web服务器建立及初始化[application](http://www.yiiframework.com/doc/guide/basics.application); 
+ 2. 系统建立 `PostCntroller` 类被执行; 
+ 3. `PostController` 类被请求执行list动作并执行actionList()方法; 
+ 4. `actionList()` 方法查询数据库并带回最近被发布的文章列表信息; 
+ 5. `actionList()` 方法将输出文章列表数据发给list视图.

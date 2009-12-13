@@ -1,0 +1,39 @@
+设置数据库
+==============
+
+建立了基本框架以及数据库设计后，接下来我们来为应用程序建立博客数据库的工作。
+
+建立数据库
+-----------------
+
+在这里，我们选择SQLite数据库方式。这个数据库是首选内建[PDO](http://www.php.net/manual/en/book.pdo.php)在Yii中的，当然，我们也可以非常方便的转到其他数据库(类似Mysql,Postgre)，甚至不需要对我们的代码做任何修改。
+
+SQLite数据库是文件数据库blog.db，在目录`/wwwroot/blog/protected/data`中可以找到它。注意，这个目录和数据库文件需要能被web服务进行写操作。简单的方式是直接从博客demo中复制这个数据库文件(在`/wwwroot/yii/demos/blog/protected/data/blog.db`)到我们安装的目录中。我们也可以通执行过`/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql`这个文件直接去生成需要的blog.db数据库文件。
+
+> Tip|技巧: 执行SQL命令，我们可以在SQLite网站上找到sqlite3这个命令行程序[the SQLite official website](http://www.sqlite.org/download.html)，下载后去使用它。
+
+建立数据库连接
+--------------------------------
+
+在我们已建系统框架的基础上使用博客数据库，需要修改[应用程序配置](http://www.yiiframework.com/doc/guide/basics.application#application-configuration)文件，它是一个PHP脚本，在`/wwwroot/blog/protected/config/main.php`。这个脚本会返回一组含有命名方式的数组，每一项都被用于初始化[应用系统](http://www.yiiframework.com/doc/guide/basics.application)。
+
+我们在这个数组中添加以下几个数组内容,
+
+~~~
+[php]
+return array(
+    ......
+    'components'=>array(
+        ......
+        'db'=>array(
+            'class'=>'CDbConnection',
+            'connectionString'=>'sqlite:/wwwroot/blog/protected/data/blog.db',
+        ),
+    ),
+    ......
+);   
+~~~
+
+以上设置内容表示我们将使用`db`[组件](http://www.yiiframework.com/doc/guide/basics.application#application-component)，并使用[CDbConnection]类以及connectionString字符串表示我们使用sqlite，文件在/wwwroot/blog/protected/data/blog.db。
+
+有了以上配置，我们可以在应用程序中的任何位置，通过Yii:app()->db来获得数据库连接。注意，我们在初始化php(第一个被访问到文件)中已经声明了Yii:app()。如果你对这个类的方法和属性有兴趣，可以参阅 [class reference|CDbConnection] 。然而，大部分情况我们不需要直接从底层获取数据库连接，而是使用 [ActiveRecord](http://www.yiiframework.com/doc/guide/database.ar)类来访问数据库。

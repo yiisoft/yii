@@ -1,0 +1,94 @@
+管理评论
+=================
+
+评论管理包括，修改、删除和审核。这些操作有 `CommentController` 类来实现。
+
+
+修改和删除评论
+------------------------------
+由 `yiic` 来实现的修改和删除代码大部分不需要改变。因为我们支持预览功能，所以我们只需要调整一下 `actionUpdate()` 方法,
+
+~~~
+[php]
+public function actionUpdate()
+{
+    $comment=$this->loadComment();
+ 
+    if(isset($_POST['Comment']))
+    {
+        $comment->attributes=$_POST['Comment'];
+        if(isset($_POST['previewComment']))
+            $comment->validate('update');
+        else if(isset($_POST['submitComment']) && $comment->save())
+            $this->redirect(array('post/show',
+                'id'=>$comment->postId,
+                '#'=>'c'.$comment->id));
+    }
+ 
+    $this->render('update',array('comment'=>$comment));
+}   
+~~~
+
+非常类似于 `PostController` 。
+
+
+审核评论
+------------------
+
+当评论被添加后，评论的状态时待审核的，需要被审核后才能显示给游客看到。审核主要就是改变状态字段。
+我们在 `CommentController` 控制器中建立 `actionApprove()` 方法,
+
+~~~
+[php]
+public function actionApprove()
+{
+    if(Yii::app()->request->isPostRequest)
+    {
+        $comment=$this->loadComment();
+        $comment->approve();
+        $this->redirect(array('post/show',
+            'id'=>$comment->postId,
+            '#'=>'c'.$comment->id));
+    }
+    else
+        throw new CHttpException(400,'Invalid request...');
+}   
+~~~
+
+上面我们将 `POST` 请求与 `approve()` 动作关联起来，它能改变默认的评论状态。然后我们直接使浏览器转到当前显示文章的这个地址。
+
+我们再来修改一下 `Comment` 的 `actionList()` 方法，确认显示未审核了的评论。
+
+~~~
+[php]
+public function actionList()
+{
+    $criteria=new CDbCriteria;
+    $criteria->condition='Comment.status='.Comment::STATUS_PENDING;
+ 
+    $pages=new CPagination(Comment::model()->count($criteria));
+    $pages->pageSize=self::PAGE_SIZE;
+    $pages->applyLimit($criteria);
+ 
+    $comments=Comment::model()->with('post')->findAll($criteria);
+ 
+    $this->render('list',array(
+        'comments'=>$comments,
+        'pages'=>$pages,
+    ));
+}   
+~~~
+
+下面列表中，我们需要显示出每个评论,当这条评论未被审核，则需要加一个审核的链接按钮，
+
+~~~
+[php]
+<?php if($comment->status==Comment::STATUS_PENDING): ?>
+    <span class="pending">Pending approval</span> |
+    <?php echo CHtml::linkButton('Approve', array(
+        'submit'=>array('comment/approve','id'=>$comment->id),
+    )); ?> |
+<?php endif; ?>   
+~~~
+
+我们使用 `CHtml::linkButton()` 来替换 `CHtml::link()` ，是因为前者使用 `POST` 请求，而后者是 `GET` 请求。对于 `GET` 请求不应该直接修改服务器数据。因此，我们回避这个问题，尤其用户反复刷新这个页面时，将不断修改服务器数据。

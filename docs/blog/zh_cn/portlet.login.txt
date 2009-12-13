@@ -1,0 +1,69 @@
+建立用户登录的 Portlet
+======================
+
+在基本框架中，我们已经建立保护登陆的页面。在这一节中，我们将把这页转换成登陆的portlet，并命名为 `UserLogin` 。这个Portlet将在一个游客访问的情况下显示在页面的侧面。如果是已经登录成功，这个部分将变成上节我们制作的portlet。
+
+
+建立 `UserLogin` 类
+--------------------------
+
+和用户菜单的portlet一样，我们建立 `UserLogin` 类实现登陆逻辑功能，它保存在 `/wwwroot/blog/protected/components/UserLogin.php` ，内容如下：
+
+~~~
+[php]
+<?php
+class UserLogin extends Portlet
+{
+    public $title='Login';
+ 
+    protected function renderContent()
+    {
+        $form=new LoginForm;
+        if(isset($_POST['LoginForm']))
+        {
+            $form->attributes=$_POST['LoginForm'];
+            if($form->validate())
+                $this->controller->refresh();
+        }
+        $this->render('userLogin',array('form'=>$form));
+    }
+}   
+~~~
+
+这里的 `renderContent()` 方法是从 `SiteController` 类的 `actionLogin()` 方法中复制过来的，`SiteController` 是由我们开始的时候，用 `yiic` 工具自动生成的。我们主要还是改变 `render()` 方法，也就是名为 `userLogin` 的视图。注意在这个方法中，我们使用 `LoginFrom` 类。这个类来帮助我们从用户那里收集登陆表单信息。这个表单文件是 `/wwwroot/blog/protected/models/LoginForm.php` 。它也是由我们开始的时候，使用 `yiic` 工具生成的。
+
+
+建立 userLogin 视图
+--------------------------
+
+这里 `userLogin` 的内容大部分是从 `SiteContorller` 的登录视图内容。这里的视图文件是 `/wwwroot/blog/protected/components/views/userLogin.php` ，如下:
+
+~~~
+[php]
+<?php echo CHtml::beginForm(); ?>
+<div class="row">
+<?php echo CHtml::activeLabel($form,'username'); ?>
+<br/>
+<?php echo CHtml::activeTextField($form,'username') ?>
+<?php echo CHtml::error($form,'username'); ?>
+</div>
+<div class="row">
+<?php echo CHtml::activeLabel($form,'password'); ?>
+<br/>
+<?php echo CHtml::activePasswordField($form,'password') ?>
+<?php echo CHtml::error($form,'password'); ?>
+</div>
+<div class="row">
+<?php echo CHtml::activeCheckBox($form,'rememberMe'); ?>
+<?php echo CHtml::label('Remember me next time',CHtml::getActiveId($form,'rememberMe')); ?>
+</div>
+<div class="row">
+<?php echo CHtml::submitButton('Login'); ?>
+<p class="hint">You may login with <b>demo/demo</b></p>
+</div>
+<?php echo CHtml::endForm(); ?>   
+~~~
+
+在登录表单中，我们现实了用户文本表单和密码表单。我们还显示了一个可选框来表示状态如果浏览器被关闭后，是否需要记住这个登录状态。这个视图的本地变量是 `$form`，它是从 `UserLogin::renderContent()` 这个方法中从数据库获取的。
+
+因为这个 `LoingForm` 数据模型包括校验规则(和 `Post` 模型一样)，当用户递交表单，这个模型也会被数据校验。如果有任何的数据校验错误，这个表单将使用 [CHtml::error()] 来显示输入错误的字段。
