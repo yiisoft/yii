@@ -1995,7 +1995,7 @@ class CBaseActiveRelation extends CComponent
 			if($this->order==='')
 				$this->order=$criteria['order'];
 			else if($criteria['order']!=='')
-				$this->order.=', '.$criteria['order'];
+				$this->order=$criteria['order'].', '.$this->order;
 		}
 
 		if(isset($criteria['group']) && $this->group!==$criteria['group'])
