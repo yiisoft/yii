@@ -244,7 +244,7 @@ class CActiveFinder extends CComponent
 			$model=CActiveRecord::model($relation->className);
 			if(($scope=$model->defaultScope())!==array())
 				$relation->mergeWith($scope);
-			if(isset($scopes) && !empty($scopes))
+			if(!empty($scopes))
 			{
 				$scs=$model->scopes();
 				foreach($scopes as $scope)
