@@ -37,18 +37,15 @@ class CActiveFinder extends CComponent
 	private $_joinCount=0;
 	private $_joinTree;
 	private $_builder;
-	private $_criteria;  // the criteria generated via named scope
 
 	/**
 	 * Constructor.
 	 * A join tree is built up based on the declared relationships between active record classes.
 	 * @param CActiveRecord the model that initiates the active finding process
 	 * @param mixed the relation names to be actively looked for
-	 * @param CDbCriteria the criteria associated with the named scopes (since version 1.0.5)
 	 */
-	public function __construct($model,$with,$criteria=null)
+	public function __construct($model,$with)
 	{
-		$this->_criteria=$criteria;
 		$this->_builder=$model->getCommandBuilder();
 		$this->_joinTree=new CJoinElement($this,$model);
 		$this->buildJoinTree($this->_joinTree,$with);
@@ -75,13 +72,8 @@ class CActiveFinder extends CComponent
 
 	private function query($criteria,$all=false)
 	{
-		if($this->_criteria!==null)
-		{
-			$this->_criteria->mergeWith($criteria);
-			$criteria=$this->_criteria;
-		}
-
 		$this->_joinTree->beforeFind();
+		$this->_joinTree->model->applyScopes($criteria);
 		$this->_joinTree->find($criteria);
 		$this->_joinTree->afterFind();
 
@@ -195,11 +187,7 @@ class CActiveFinder extends CComponent
 	{
 		Yii::trace(get_class($this->_joinTree->model).'.count() eagerly','system.db.ar.CActiveRecord');
 		$criteria=$this->_builder->createCriteria($condition,$params);
-		if($this->_criteria!==null)
-		{
-			$this->_criteria->mergeWith($criteria);
-			$criteria=$this->_criteria;
-		}
+		$this->_joinTree->model->applyScopes($criteria);
 		return $this->_joinTree->count($criteria);
 	}
 

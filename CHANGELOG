@@ -4,7 +4,7 @@
 
 Version 1.0.12 to be released
 -----------------------------
-
+- Enh #730: Relational queries now respect changes made to CActiveRecord::dbCriteria in the onBeforeFind event (Qiang)
 
 Version 1.0.11 December 13, 2009
 --------------------------------
