@@ -202,7 +202,7 @@ class CTreeView extends CWidget
 				if($css!=='')
 					$css=' class="'.$css.'"';
 				$html.="<li{$id}{$css}>{$node['text']}";
-				if(isset($node['children']) && !empty($node['children']))
+				if(!empty($node['children']))
 				{
 					$html.="\n<ul>\n";
 					$html.=self::saveDataAsHtml($node['children']);
