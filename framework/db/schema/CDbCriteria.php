@@ -303,7 +303,7 @@ class CDbCriteria
 	public function toArray()
 	{
 		$result=array();
-		foreach(array('select', 'condition', 'params', 'limit', 'offset', 'order', 'group', 'join', 'having', 'distinct') as $name)
+		foreach(array('select', 'condition', 'params', 'limit', 'offset', 'order', 'group', 'join', 'having', 'distinct', 'with') as $name)
 			$result[$name]=$this->$name;
 		return $result;
 	}

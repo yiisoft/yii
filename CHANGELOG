@@ -4,7 +4,7 @@
 
 Version 1.1.0 to be released
 ----------------------------
-
+- Bug #735: CDbCriteria should save 'with' attribute when toArray() is called (Qiang)
 
 Version 1.1rc December 13, 2009
 -------------------------------
