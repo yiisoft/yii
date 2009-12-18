@@ -445,7 +445,7 @@ some complex UI elements here
 some complex UI elements here
 ~~~
 
-In the last approach, the form builder does not really bring us much benefit, as we need to write
+In the last approach, the form builder seems not to bring us much benefit, as we still need to write
 similar amount of form code. It is still beneficial, however, that the form is specified using
 a separate configuration file as it helps developers to better focus on the logic.
 
