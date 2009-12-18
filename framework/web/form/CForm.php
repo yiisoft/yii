@@ -122,7 +122,7 @@ class CForm extends CFormElement implements ArrayAccess
 	 * object (a controller or a widget), or a {@link CForm} object.
 	 * If the former, it means the form is a top-level form; if the latter, it means this form is a sub-form.
 	 */
-	public function __construct($config,$model,$parent=null)
+	public function __construct($config,$model=null,$parent=null)
 	{
 		$this->_model=$model;
 		if($parent===null)
