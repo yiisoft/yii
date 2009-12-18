@@ -608,6 +608,7 @@ class YiiBase
 		'CWebLogRoute' => '/logging/CWebLogRoute.php',
 		'CDateTimeParser' => '/utils/CDateTimeParser.php',
 		'CFileHelper' => '/utils/CFileHelper.php',
+		'CFormatter' => '/utils/CFormatter.php',
 		'CMarkdownParser' => '/utils/CMarkdownParser.php',
 		'CPropertyValue' => '/utils/CPropertyValue.php',
 		'CTimestamp' => '/utils/CTimestamp.php',

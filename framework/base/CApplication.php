@@ -779,6 +779,9 @@ abstract class CApplication extends CModule
 			'request'=>array(
 				'class'=>'CHttpRequest',
 			),
+			'format'=>array(
+				'class'=>'CFormatter',
+			),
 		);
 
 		$this->setComponents($components);
