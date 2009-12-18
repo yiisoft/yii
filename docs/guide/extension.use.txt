@@ -26,6 +26,27 @@ about extensions, according to their categorization described in the
 [overview](/doc/guide/extension.overview).
 
 
+Zii Extensions
+--------------
+
+Before we start describing the usage of third-party extensions, we would like to introduce
+the Zii extension library, which is a set of extensions developed by the Yii developer team
+and included in every release since Yii version 1.1.0. The Zii library is hosted as a
+Google project called [zii](http://code.google.com/p/zii/).
+
+When using a Zii extension, one must refer to the corresponding class using a path alias
+in the form of `zii.path.to.ClassName`. Here the root alias `zii` is predefined by Yii. It refers
+to the root directory of the Zii library. For example, to use [CGridView], we would use the
+following code in a view script when referring to the extension:
+
+~~~
+[php]
+$this->widget('zii.widgets.grid.CGridView', array(
+	'dataProvider'=>$dataProvider,
+));
+~~~
+
+
 Application Component
 ---------------------
 

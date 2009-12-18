@@ -10,6 +10,8 @@ Version 1.1.0
 
  * [Added support for using widget skins](/doc/guide/topics.theming#skin)
 
+ * [Added an extensible form builder](/doc/guide/form.builder)
+
  * Improved the way of declaring safe model attributes. See
  [Securing Attribute Assignments](/doc/guide/form.model#securing-attribute-assignments).
 
@@ -18,6 +20,8 @@ Version 1.1.0
  * Changed the default table alias to be the name of active record relations.
 
  * [Added support for using table prefix](/doc/guide/database.dao#using-table-prefix).
+
+ * Added a whole set of new extensions known as the [Zii library](http://code.google.com/p/zii/).
 
 
 Version 1.0.11
