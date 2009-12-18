@@ -39,7 +39,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1rc';
+		return '1.1.0-dev';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -366,6 +366,7 @@ class YiiBase
 		'CWebLogRoute' => '/logging/CWebLogRoute.php',
 		'CDateTimeParser' => '/utils/CDateTimeParser.php',
 		'CFileHelper' => '/utils/CFileHelper.php',
+		'CFormatter' => '/utils/CFormatter.php',
 		'CMarkdownParser' => '/utils/CMarkdownParser.php',
 		'CPropertyValue' => '/utils/CPropertyValue.php',
 		'CTimestamp' => '/utils/CTimestamp.php',
@@ -1362,6 +1363,9 @@ abstract class CApplication extends CModule
 			),
 			'request'=>array(
 				'class'=>'CHttpRequest',
+			),
+			'format'=>array(
+				'class'=>'CFormatter',
 			),
 		);
 		$this->setComponents($components);
@@ -6360,7 +6364,7 @@ class CBaseActiveRelation extends CComponent
 			if($this->order==='')
 				$this->order=$criteria['order'];
 			else if($criteria['order']!=='')
-				$this->order.=', '.$criteria['order'];
+				$this->order=$criteria['order'].', '.$this->order;
 		}
 		if(isset($criteria['group']) && $this->group!==$criteria['group'])
 		{

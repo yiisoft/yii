@@ -165,6 +165,9 @@ to use this component.
    - [errorHandler|CApplication::errorHandler]: [CErrorHandler] - handles
 uncaught PHP errors and exceptions.
 
+   - [format|CApplication::format]: [CFormatter] - formats data values
+for display purpose. This has been available since version 1.1.0.
+
    - [messages|CApplication::messages]: [CPhpMessageSource] - provides
 translated messaged used by Yii application.
 
