@@ -25,7 +25,7 @@
     - [Creating Action](form.action)
     - [Creating Form](form.view)
     - [Collecting Tabular Input](form.table)
-    - [Using Form Builder(form.builder)
+    - [Using Form Builder](form.builder)
 
 * Working with Databases
     - [Overview](database.overview)
