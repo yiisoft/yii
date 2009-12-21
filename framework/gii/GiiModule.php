@@ -52,17 +52,23 @@ class GiiModule extends CModule {
 	 * (non-PHPdoc)
 	 * @see framework/base/CModule#init()
 	 */
-	public function init()
+	public function preinit()
 	{
+		$a = new CWebUser();
 		// Verify the user login
-		$this->user = new CWebUser();
-		$this->user->setStateKeyPrefix(Yii::app()->name.'.gii');
+		$this->_components = array('user'=>array(
+							'class'=>'CWebUser',
+							'stateKeyPrefix'=>md5('Yii.'.get_class($this).'.'.Yii::app()->getId()),
+						)
+					);
+	}
 
+	public function init(){
 		
 		// import the module-level models and components
 		$this->setImport(array(
 			'gii.components.*',
-			'gii.models.*',
+
 		));
 	}
 
