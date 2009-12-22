@@ -5,7 +5,7 @@
  * It contains the authentication method that checks if the provided
  * data can identity the user.
  */
-class GUserIdentity extends CUserIdentity
+class UserIdentity extends CUserIdentity
 {
 	/**
 	 * Authenticates a user.
