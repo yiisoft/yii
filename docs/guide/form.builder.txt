@@ -328,32 +328,34 @@ Next, we write the form configuration file `protected/views/user/registerForm.ph
 ~~~
 [php]
 return array(
-	'user'=>array(
-		'type'=>'form',
-		'title'=>'Login information',
-		'elements'=>array(
-	        'username'=>array(
-	            'type'=>'text',
-	        ),
-	        'password'=>array(
-	            'type'=>'password',
-	        ),
-	        'email'=>array(
-	            'type'=>'text',
-	        )
+	'elements'=>array(
+		'user'=>array(
+			'type'=>'form',
+			'title'=>'Login information',
+			'elements'=>array(
+		        'username'=>array(
+		            'type'=>'text',
+		        ),
+		        'password'=>array(
+		            'type'=>'password',
+		        ),
+		        'email'=>array(
+		            'type'=>'text',
+		        )
+			),
 		),
-	),
 
-	'profile'=>array(
-		'type'=>'form',
-		'title'=>'Profile information',
-		'elements'=>array(
-	        'firstName'=>array(
-	            'type'=>'text',
-	        ),
-	        'lastName'=>array(
-	            'type'=>'text',
-	        ),
+		'profile'=>array(
+			'type'=>'form',
+			'title'=>'Profile information',
+			'elements'=>array(
+		        'firstName'=>array(
+		            'type'=>'text',
+		        ),
+		        'lastName'=>array(
+		            'type'=>'text',
+		        ),
+			),
 		),
 	),
 
