@@ -317,7 +317,7 @@ class CUrlManager extends CApplicationComponent
 	 * @param array list of GET parameters
 	 * @param string the separator between name and value
 	 * @param string the separator between name-value pairs
-	 * @param string only meant to used recursively.  The key to the path.
+	 * @param string only meant to be used recursively.  The key to the path.
 	 * @return string the created path info
 	 * @since 1.0.3
 	 */
