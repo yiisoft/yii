@@ -317,21 +317,20 @@ class CUrlManager extends CApplicationComponent
 	 * @param array list of GET parameters
 	 * @param string the separator between name and value
 	 * @param string the separator between name-value pairs
+	 * @param string only meant to used recursively.  The key to the path.
 	 * @return string the created path info
 	 * @since 1.0.3
 	 */
-	public function createPathInfo($params,$equal,$ampersand)
+	public function createPathInfo($params,$equal,$ampersand, $key='')
 	{
-		$pairs=array();
-		foreach($params as $key=>$value)
-		{
-			if(is_array($value))
-			{
-				foreach($value as $k=>$v)
-					$pairs[]=urlencode($key).'['.urlencode($k).']'.$equal.urlencode($v);
-			}
+		$pairs = array();
+		foreach($params as $k => $v) {
+			if (!empty($key)) $k = $key.'['.urlencode($k).']';
+
+			if (is_array($v) || is_object($v))
+				array_push($pairs, $this->createPathInfo($v,$equal,$ampersand, $k));
 			else
-				$pairs[]=urlencode($key).$equal.urlencode($value);
+				array_push($pairs,$k.$equal.urlencode($v));
 		}
 		return implode($ampersand,$pairs);
 	}
