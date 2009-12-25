@@ -2,31 +2,61 @@
 
 <h1>Login</h1>
 
-<div class="yiiForm">
+<p>Please fill out the following form with your login credentials:</p>
+
+<div class="form">
 <?php echo CHtml::beginForm(); ?>
 
-<?php echo CHtml::errorSummary($form); ?>
+	<p class="note">Fields with <span class="required">*</span> are required.</p>
 
-<div class="simple">
-<?php echo CHtml::activeLabel($form,'username'); ?>
-<?php echo CHtml::activeTextField($form,'username') ?>
-</div>
+	<?php echo CHtml::errorSummary($model); ?>
 
-<div class="simple">
-<?php echo CHtml::activeLabel($form,'password'); ?>
-<?php echo CHtml::activePasswordField($form,'password') ?>
-<p class="hint">
-Hint: You may login with <tt>demo/demo</tt> or <tt>admin/admin</tt>.
-</p>
-</div>
+	<div class="row">
+		<?php echo CHtml::activeLabelEx($model,'username'); ?>
+		<?php echo CHtml::activeTextField($model,'username') ?>
+	</div>
 
-<div class="action">
-<?php echo CHtml::activeCheckBox($form,'rememberMe'); ?>
-<?php echo CHtml::activeLabel($form,'rememberMe'); ?>
-<br/>
-<?php echo CHtml::submitButton('Login'); ?>
-</div>
+	<div class="row">
+		<?php echo CHtml::activeLabelEx($model,'password'); ?>
+		<?php echo CHtml::activePasswordField($model,'password') ?>
+		<p class="hint">
+			Hint: You may login with <tt>demo/demo</tt> or <tt>admin/admin</tt>.
+		</p>
+	</div>
+
+	<div class="row rememberMe">
+		<?php echo CHtml::activeCheckBox($model,'rememberMe'); ?>
+		<?php echo CHtml::activeLabel($model,'rememberMe'); ?>
+	</div>
+
+	<div class="row submit">
+		<?php echo CHtml::submitButton('Login'); ?>
+	</div>
 
 <?php echo CHtml::endForm(); ?>
+</div><!-- form -->
 
-</div><!-- yiiForm -->
+<?php
+$form = new CForm(array(
+    'elements'=>array(
+        'username'=>array(
+            'type'=>'text',
+            'maxlength'=>32,
+        ),
+        'password'=>array(
+            'type'=>'password',
+            'maxlength'=>32,
+        ),
+        'rememberMe'=>array(
+            'type'=>'checkbox',
+        )
+    ),
+
+    'buttons'=>array(
+        'login'=>array(
+            'type'=>'submit',
+            'label'=>'Login',
+        ),
+    ),
+), $model);
+?>

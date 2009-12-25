@@ -424,7 +424,7 @@ class CForm extends CFormElement implements ArrayAccess
 		$output='';
 		foreach($this->getButtons() as $button)
 			$output.=$this->renderElement($button);
-		return $output!=='' ? "<div class=\"row buttons\">".$output."</div>\n" : '';
+		return $output!=='' ? "<div class=\"row submit\">".$output."</div>\n" : '';
 	}
 
 	/**

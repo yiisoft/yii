@@ -20,15 +20,6 @@ return array(
 
 	// application components
 	'components'=>array(
-		'log'=>array(
-			'class'=>'CLogRouter',
-			'routes'=>array(
-				array(
-					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning',
-				),
-			),
-		),
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
@@ -39,6 +30,25 @@ return array(
 			'connectionString'=>'Your DSN',
 		),
 		*/
+		'errorHandler'=>array(
+			// use 'site/error' action to display errors
+            'errorAction'=>'site/error',
+        ),
+		'log'=>array(
+			'class'=>'CLogRouter',
+			'routes'=>array(
+				array(
+					'class'=>'CFileLogRoute',
+					'levels'=>'error, warning',
+				),
+				// uncomment the following to show log messages on web pages
+				/*
+				array(
+					'class'=>'CWebLogRoute',
+				),
+				*/
+			),
+		),
 	),
 
 	// application-level parameters that can be accessed

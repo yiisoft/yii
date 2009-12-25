@@ -1,43 +1,16 @@
 <?php $this->pageTitle=Yii::app()->name; ?>
 
-<h1>
-	Welcome, <?php echo Yii::app()->user->name; ?>!
-</h1>
-<p>
-This is the homepage of <em><?php echo Yii::app()->name; ?></em>. You may modify the following files to customize the content of this page:
-</p>
-<dl>
-	<dt><?php echo Yii::app()->controllerPath . DIRECTORY_SEPARATOR . 'SiteController.php'; ?></dt>
-	<dd>This file contains the <tt>SiteController</tt> class which is
-	the default application controller. Its default <tt>index</tt> action
-	renders the content of the following two files.
-	</dd>
-	<dt><?php echo __FILE__; ?></dt>
-	<dd>This is the view file that contains the body content of this page.</dd>
-	<dt><?php echo Yii::app()->layoutPath . DIRECTORY_SEPARATOR . 'main.php'; ?></dt>
-	<dd>This is the layout file that contains common presentation (such as header, footer)	shared by all view files.</dd>
-</dl>
+<h1>Welcome to <i><?php echo CHtml::encode(Yii::app()->name); ?></i></h1>
 
-<h3>What's Next</h3>
+<p>Congratulations! You have successfully created your Yii application.</p>
+
+<p>You may change the content of this page by modifying the following two files:</p>
 <ul>
-	<li>Implement new actions in <tt>SiteController</tt>, and create corresponding views under <?php echo Yii::app()->viewPath . DIRECTORY_SEPARATOR . 'site'; ?></li>
-	<li>Create new controllers and actions manually or using the <tt>yiic</tt> tool.</li>
-	<li>If your Web application should be driven by database, do the following:
-		<ul>
-			<li>Set up a database connection by configuring the <code>db</code> component in the application configuration
-			<tt><?php echo Yii::app()->basePath . DIRECTORY_SEPARATOR . 'config' . DIRECTORY_SEPARATOR .'main.php'; ?></tt></li>
-			<li>Create model classes under the directory
-			<tt><?php echo Yii::app()->basePath . DIRECTORY_SEPARATOR . 'models'; ?></tt></li>
-			<li>Implement CRUD operations for each model. For example, for the <tt>Post</tt> model class,
-			you would create a <tt>PostController</tt> class together with <tt>create</tt>, <tt>read</tt>,
-			<tt>update</tt> and <tt>delete</tt> actions.</li>
-		</ul>
-		Note that the <tt>yiic</tt> tool can automate the task of creating model classes and CRUD operations.
-	</li>
+	<li>View file: <tt><?php echo __FILE__; ?></tt></li>
+	<li>Layout file: <tt><?php echo $this->getLayoutFile('main'); ?></tt></li>
 </ul>
 
-<p>
-If you have problems in accomplishing any of the above tasks,
-please read <a href="http://www.yiiframework.com/doc/">Yii documentation</a>
-or visit <a href="http://www.yiiframework.com/forum/">Yii forum</a> for help.
-</p>
+<p>For more details on how to further develop this application, please read
+the <a href="http://www.yiiframework.com/doc/">documentation</a>.
+Feel free to ask in the <a href="http://www.yiiframework.com/forum/">forum</a>,
+should you have any questions.</p>

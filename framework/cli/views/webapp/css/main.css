@@ -1,45 +1,56 @@
-/* begin overall style */
 body
 {
 	margin: 0;
 	padding: 0;
-	background: white;
-	color: #444;
+	color: #555;
 	font: normal 10pt Arial,Helvetica,sans-serif;
-	background:white url(bg.gif) repeat-x left top;
+	background: #EFEFEF;
 }
 
 #page
 {
-	width: 750px;
-	margin: 0 auto;
-	padding: 0;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	background: white;
+	border: 1px solid #C9E0ED;
 }
 
 #header
 {
 	margin: 0;
 	padding: 0;
-	height: 95px;
+	border-top: 3px solid #C9E0ED;
+}
+
+#content
+{
+    padding: 20px;
+}
+
+#footer
+{
+	padding: 10px;
+	margin: 10px 20px;
+	font-size: 0.8em;
+	text-align: center;
+	border-top: 1px solid #C9E0ED;
 }
 
 #logo
 {
-	padding: 20px 0 20px 10px;
+	padding: 10px 20px;
 	font-size: 200%;
 }
 
 #mainmenu
 {
-	position: absolute;
-	top: 59px;
+	background:white url(bg.gif) repeat-x left top;
 }
 
 #mainmenu ul
 {
-	padding: 0;
-	margin: 0;
-	padding: 0.4em 0 0.3em 0;
+	padding:6px 20px 5px 20px;
+	margin:0px;
 }
 
 #mainmenu ul li
@@ -49,76 +60,65 @@ body
 
 #mainmenu ul li a
 {
-	padding: 0.4em 0.4em;
-	color: white;
-	text-decoration: none;
-	font-weight: bold;
+	color:#ffffff;
+	background-color:transparent;
+	font-size:12px;
+	font-weight:bold;
+	text-decoration:none;
+	padding:5px 8px;
 }
 
 #mainmenu ul li a:hover, #mainmenu ul li a.active
 {
-	background: #E6F2FF;
 	color: #6399cd;
+	background-color:#EFF4FA;
+	text-decoration:none;
 }
 
-#content
+div.error, div.notice, .success
 {
-    position: relative;
-    width: 95%;
-    margin: 0 auto;
-    padding: 0px;
+	padding:.8em;
+	margin-bottom:1em;
+	border:2px solid #ddd;
 }
 
-#footer
+div.error
 {
-	padding: 15px;
-	margin: 20px 0 0 0;
-	font-size: 0.8em;
-	text-align: center;
-	border-top: 1px solid #EEE;
-}
-/* end of overall style */
-
-/* begin data grid style */
-table.dataGrid
-{
-	background: white;
-	border-collapse: collapse;
-	width: 100%;
+	background:#FBE3E4;
+	color:#8a1f11;
+	border-color:#FBC2C4;
 }
 
-table.dataGrid th, table.dataGrid td
+div.notice
 {
-	font-size: 0.9em;
-	border: 1px #4F81BD solid;
-	padding: 0.3em;
+	background:#FFF6BF;
+	color:#514721;
+	border-color:#FFD324;
 }
 
-table.dataGrid th
+div.success
 {
-	background: #d3dfee;
-	text-align: center;
+	background:#E6EFC2;
+	color:#264409;
+	border-color:#C6D880;
 }
 
-table.dataGrid th.label
+div.error a
 {
-	width: 150px;
+	color:#8a1f11;
 }
 
-table.dataGrid tr.odd
+div.notice a
 {
-	background: #E6F2FF;
-}
-/* end of data grid style */
-
-.actionBar
-{
-	margin: 10px;
+	color:#514721;
 }
 
-div.item
+div.success a
 {
-	margin: 10px 0 0 0;
-	border: 1px solid silver;
-	padding: 5px;
+	color:#264409;
+}
+
+div.form .rememberMe label
+{
+	display: inline;
 }
