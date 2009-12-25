@@ -104,7 +104,9 @@ Finally, we write the `login` view script, which can be as simple as follows,
 [php]
 <h1>Login</h1>
 
+<div class="form">
 <?php echo $form; ?>
+</div>
 ~~~
 
 > Tip: The above code `echo $form;` is equivalent to `echo $form->render();`.
@@ -378,7 +380,9 @@ Finally, we write the simple `register` view script:
 [php]
 <h1>Register</h1>
 
+<div class="form">
 <?php echo $form; ?>
+</div>
 ~~~
 
 
@@ -428,7 +432,9 @@ To use this view script, we can simply call:
 
 ~~~
 [php]
+<div class="form">
 $this->renderPartial('_form', array('form'=>$form));
+</div>
 ~~~
 
 If a generic form rendering does not work for a particular form (for example, the form needs some
