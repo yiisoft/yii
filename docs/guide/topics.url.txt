@@ -5,7 +5,7 @@ Complete URL management for a Web application involves two aspects. First,
 when a user request comes in terms of a URL, the application needs to parse
 it into understandable parameters. Second, the application needs to provide
 a way of creating URLs so that the created URLs can be understood by the
-application. For an Yii application, these are accomplished with the help
+application. For a Yii application, these are accomplished with the help
 of [CUrlManager].
 
 Creating URLs

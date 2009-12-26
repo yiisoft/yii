@@ -7,7 +7,7 @@ complex configurations. Of course, Yii can still be customized in nearly
 every aspect with configurations when needed.
 
 Below we describe conventions that are recommended for Yii programming.
-For convenience, we assume that `WebRoot` is the directory that an Yii
+For convenience, we assume that `WebRoot` is the directory that a Yii
 application is installed at.
 
 URL

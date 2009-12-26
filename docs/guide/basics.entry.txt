@@ -5,7 +5,7 @@ Entry script is the bootstrap PHP script that handles user requests
 initially. It is the only PHP script that end users can directly request to
 execute.
 
-In most cases, entry script of an Yii application contains the code that
+In most cases, entry script of a Yii application contains the code that
 is as simple as follows,
 
 ~~~
@@ -26,7 +26,7 @@ and runs it.
 Debug Mode
 ----------
 
-An Yii application can run in either debug or production mode according to
+A Yii application can run in either debug or production mode according to
 the constant value `YII_DEBUG`. By default, this constant value is defined
 as `false`, meaning production mode. To run in debug mode, define this
 constant as `true` before including the `yii.php` file. Running application

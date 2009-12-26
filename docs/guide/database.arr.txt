@@ -31,15 +31,15 @@ section.
 > you can perform relational queries using AR:
 > ~~~
 > [sql]
-> CREATE TABLE Foo
+> CREATE TABLE foo
 > (
 >   id INTEGER NOT NULL PRIMARY KEY
 > );
 > CREATE TABLE bar
 > (
 >   id INTEGER NOT NULL PRIMARY KEY,
->   fooID INTEGER
->      COMMENT 'CONSTRAINT FOREIGN KEY (fooID) REFERENCES Foo(id)'
+>   foo_id INTEGER
+>      COMMENT 'CONSTRAINT FOREIGN KEY (foo_id) REFERENCES foo(id)'
 > );
 > ~~~
 > In the above, we use `COMMENT` keyword to describe the foreign key constraint
@@ -56,9 +56,9 @@ one AR class is related with another.
 Relationship between two AR classes is directly associated with the
 relationship between the database tables represented by the AR classes.
 From database point of view, a relationship between two tables A and B has
-three types: one-to-many (e.g. `User` and `Post`), one-to-one (e.g.
-`User` and `Profile`) and many-to-many (e.g. `Category` and `Post`). In AR,
-there are four types of relationships:
+three types: one-to-many (e.g. `tbl_user` and `tbl_post`), one-to-one (e.g.
+`tbl_user` and `tbl_profile`) and many-to-many (e.g. `tbl_category` and `tbl_post`).
+In AR, there are four types of relationships:
 
    - `BELONGS_TO`: if the relationship between table A and B is
 one-to-many, then B belongs to A (e.g. `Post` belongs to `User`);
@@ -73,7 +73,7 @@ B (e.g. `User` has at most one `Profile`);
 database. An associative table is needed to break a many-to-many
 relationship into one-to-many relationships, as most DBMS do not support
 many-to-many relationship directly. In our example database schema, the
-`PostCategory` serves for this purpose. In AR terminology, we can explain
+`tbl_post_category` serves for this purpose. In AR terminology, we can explain
 `MANY_MANY` as the combination of `BELONGS_TO` and `HAS_MANY`. For example,
 `Post` belongs to many `Category` and `Category` has many `Post`.
 
@@ -102,22 +102,26 @@ and `Post` classes.
 [php]
 class Post extends CActiveRecord
 {
+	......
+
 	public function relations()
 	{
 		return array(
-			'author'=>array(self::BELONGS_TO, 'User', 'authorID'),
-			'categories'=>array(self::MANY_MANY, 'Category', 'PostCategory(postID, categoryID)'),
+			'author'=>array(self::BELONGS_TO, 'User', 'author_id'),
+			'categories'=>array(self::MANY_MANY, 'Category', 'tbl_post_category(post_id, category_id)'),
 		);
 	}
 }
 
 class User extends CActiveRecord
 {
+	......
+
 	public function relations()
 	{
 		return array(
-			'posts'=>array(self::HAS_MANY, 'Post', 'authorID'),
-			'profile'=>array(self::HAS_ONE, 'Profile', 'ownerID'),
+			'posts'=>array(self::HAS_MANY, 'Post', 'author_id'),
+			'profile'=>array(self::HAS_ONE, 'Profile', 'owner_id'),
 		);
 	}
 }
@@ -128,7 +132,7 @@ In this case, we should concatenate the names of the foreign key columns
 and separate them with space or comma. For `MANY_MANY` relationship type,
 the associative table name must also be specified in the foreign key. For
 example, the `categories` relationship in `Post` is specified with the
-foreign key `PostCategory(postID, categoryID)`.
+foreign key `tbl_post_category(post_id, category_id)`.
 
 The declaration of relationships in an AR class implicitly adds a property
 to the class for each relationship. After a relational query is performed,
@@ -318,10 +322,10 @@ class User extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'posts'=>array(self::HAS_MANY, 'Post', 'authorID',
-							'order'=>'posts.createTime DESC',
+			'posts'=>array(self::HAS_MANY, 'Post', 'author_id',
+							'order'=>'posts.create_time DESC',
 							'with'=>'categories'),
-			'profile'=>array(self::HAS_ONE, 'Profile', 'ownerID'),
+			'profile'=>array(self::HAS_ONE, 'Profile', 'owner_id'),
 		);
 	}
 }
@@ -351,15 +355,15 @@ in the following statement, the alias name for `Post` and `Comment` is
 $posts=Post::model()->with('comments')->findAll();
 ~~~
 
-Now assume both `Post` and `Comment` have a column called `createTime` indicating
+Now assume both `Post` and `Comment` have a column called `create_time` indicating
 the creation time of a post or comment, and we would like to fetch posts together
 with their comments by ordering first the posts' creation time and then the comments'
-creation time. We need to disambiguate the `createTime` column like the following:
+creation time. We need to disambiguate the `create_time` column like the following:
 
 ~~~
 [php]
 $posts=Post::model()->with('comments')->findAll(array(
-	'order'=>'Post.createTime, comments.createTime'
+	'order'=>'Post.create_time, comments.create_time'
 ));
 ~~~
 
@@ -383,7 +387,7 @@ can do the following:
 ~~~
 [php]
 User::model()->with(array(
-	'posts'=>array('order'=>'posts.createTime ASC'),
+	'posts'=>array('order'=>'posts.create_time ASC'),
 	'profile',
 ))->findAll();
 ~~~
@@ -430,7 +434,7 @@ in `Post` class as follows,
 public function relations()
 {
 	return array(
-		'comments' => array(self::HAS_MANY, 'Comment', 'postID', 'together'=>false),
+		'comments' => array(self::HAS_MANY, 'Comment', 'post_id', 'together'=>false),
 	);
 }
 ~~~
@@ -474,8 +478,8 @@ class Post extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'commentCount'=>array(self::STAT, 'Comment', 'postID'),
-			'categoryCount'=>array(self::STAT, 'Category', 'PostCategory(postID, categoryID)'),
+			'commentCount'=>array(self::STAT, 'Comment', 'post_id'),
+			'categoryCount'=>array(self::STAT, 'Category', 'PostCategory(post_id, category_id)'),
 		);
 	}
 }
@@ -545,7 +549,7 @@ class User extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'posts'=>array(self::HAS_MANY, 'Post', 'authorID',
+			'posts'=>array(self::HAS_MANY, 'Post', 'author_id',
 				'with'=>'comments:approved'),
 		);
 	}

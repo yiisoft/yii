@@ -12,7 +12,7 @@ Each AR class represents a database table (or view) whose attributes are
 represented as the AR class properties, and an AR instance represents a row
 in that table. Common CRUD operations are implemented as AR methods. As a
 result, we can access our data in a more object-oriented way. For example,
-we can use the following code to insert a new row to the `Post` table:
+we can use the following code to insert a new row to the `tbl_post` table:
 
 ~~~
 [php]
@@ -30,11 +30,11 @@ you should replace `AUTOINCREMENT` with `AUTO_INCREMENT` in the following SQL.
 
 ~~~
 [sql]
-CREATE TABLE Post (
+CREATE TABLE tbl_post (
 	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	title VARCHAR(128) NOT NULL,
 	content TEXT NOT NULL,
-	createTime INTEGER NOT NULL
+	create_time INTEGER NOT NULL
 );
 ~~~
 
@@ -103,7 +103,7 @@ To access a database table, we first need to define an AR class by
 extending [CActiveRecord]. Each AR class represents a single database
 table, and an AR instance represents a row in that table. The following
 example shows the minimal code needed for the AR class representing the
-`Post` table.
+`tbl_post` table.
 
 ~~~
 [php]
@@ -112,6 +112,11 @@ class Post extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	public function tableName()
+	{
+		return 'tbl_post';
 	}
 }
 ~~~
@@ -148,7 +153,7 @@ such for every AR class (to be explained shortly).
 > the table name without the prefix and enclose it in double curly brackets.
 
 Column values of a table row can be accessed as properties of the
-corresponding AR class instance. For example, the following code sets the
+corresponding AR instance. For example, the following code sets the
 `title` column (attribute):
 
 ~~~
@@ -159,19 +164,15 @@ $post->title='a sample post';
 
 Although we never explicitly declare the `title` property in the `Post`
 class, we can still access it in the above code. This is because `title` is
-a column in the `Post` table, and CActiveRecord makes it accessible as a
+a column in the `tbl_post` table, and CActiveRecord makes it accessible as a
 property with the help of the PHP `__get()` magic method. An exception will
 be thrown if we attempt to access a non-existing column in the same way.
 
-> Info: In this guide, we name columns using camel cases (e.g. `createTime`).
-This is because columns are accessed in the way as normal object properties
-which also uses camel-case naming. While using camel case does make our PHP
-code look more consistent in naming, it may introduce case-sensitivity problem
-for some DBMS. For example, PostgreSQL treats column names as case-insensitive
+> Info: In this guide, we use lower case for all table names and column names.
+This is because different DBMS handle case-sensitivity differently.
+For example, PostgreSQL treats column names as case-insensitive
 by default, and we must quote a column in a query condition if the column
-contains mixed-case letters. For this reason, it may be wise to name columns
-(and also tables) only in lower-case letters (e.g. `create_time`) to avoid
-any potential case-sensitivity issues.
+contains mixed-case letters. Using lower case would help eliminate this problem.
 
 
 Creating Record
@@ -187,7 +188,7 @@ insertion.
 $post=new Post;
 $post->title='sample post';
 $post->content='content for the sample post';
-$post->createTime=time();
+$post->create_time=time();
 $post->save();
 ~~~
 
@@ -222,8 +223,8 @@ we can use the following code:
 ~~~
 [php]
 $post=new Post;
-$post->createTime=new CDbExpression('NOW()');
-// $post->createTime='NOW()'; will not work because
+$post->create_time=new CDbExpression('NOW()');
+// $post->create_time='NOW()'; will not work because
 // 'NOW()' will be treated as a string
 $post->save();
 ~~~
@@ -569,7 +570,7 @@ class Post extends CActiveRecord
 				'condition'=>'status=1',
 			),
 			'recently'=>array(
-				'order'=>'createTime DESC',
+				'order'=>'create_time DESC',
 				'limit'=>5,
 			),
 		);
@@ -577,7 +578,7 @@ class Post extends CActiveRecord
 }
 ~~~
 
-Each named scope is declared as an array which can be used to initialize a [CDbCriteria] instance. For example, the `recently` named scope specifies that the `order` property to be `createTime DESC` and the `limit` property to be 5, which translates to a query criteria that should bring back the most recent 5 posts.
+Each named scope is declared as an array which can be used to initialize a [CDbCriteria] instance. For example, the `recently` named scope specifies that the `order` property to be `create_time DESC` and the `limit` property to be 5, which translates to a query criteria that should bring back the most recent 5 posts.
 
 Named scopes are mostly used as modifiers to the `find` method calls. Several named scopes may be chained together and result in a more restrictive query result set. For example, to find the recently published posts, we can use the following code:
 
@@ -607,7 +608,7 @@ Named scopes can be parameterized. For example, we may want to customize the num
 public function recently($limit=5)
 {
 	$this->getDbCriteria()->mergeWith(array(
-		'order'=>'createTime DESC',
+		'order'=>'create_time DESC',
 		'limit'=>$limit,
 	));
 	return $this;

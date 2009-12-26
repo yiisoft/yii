@@ -45,7 +45,7 @@ property with the directory that contains the customized locale data.
 Please refer to the locale data files under `framework/i18n/data` in order
 to create customized locale data files.
 
-For an Yii application, we differentiate its [target
+For a Yii application, we differentiate its [target
 language|CApplication::language] from [source
 language|CApplication::sourceLanguage]. The target language is the language
 (locale) of the users that the application is targeted at, while the source
