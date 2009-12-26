@@ -10,14 +10,19 @@
 <div class="view">
 
 <?php
-foreach($columns as $i=>$column)
+echo "\t<b><?php echo CHtml::encode(\$data->getAttributeLabel('{$ID}')); ?>:</b>\n";
+echo "\t<?php echo CHtml::link(CHtml::encode(\$data->{$ID}), array('view', 'id'=>\$data->{$ID})); ?>\n\t<br />\n\n";
+$count=0;
+foreach($columns as $column)
 {
-	if($i==6)
+	if($column->isPrimaryKey)
+		continue;
+	if(++$count==7)
 		echo "\t<?php /*\n";
-	echo "\t<?php echo CHtml::encode(\$data->getAttributeLabel('{$column->name}')); ?>:\n";
+	echo "\t<b><?php echo CHtml::encode(\$data->getAttributeLabel('{$column->name}')); ?>:</b>\n";
 	echo "\t<?php echo CHtml::encode(\$data->{$column->name}); ?>\n\t<br />\n\n";
 }
-if($i>=6)
+if($count>=7)
 	echo "\t*/ ?>\n";
 ?>
 
