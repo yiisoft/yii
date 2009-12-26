@@ -9,10 +9,10 @@
 ?>
 <h2>Managing <?php echo $modelClass; ?></h2>
 
-<div class="actionBar">
-[<?php echo "<?php echo CHtml::link('{$modelClass} List',array('list')); ?>"; ?>]
-[<?php echo "<?php echo CHtml::link('New {$modelClass}',array('create')); ?>"; ?>]
-</div>
+<ul class="actions">
+	<li><?php echo "<?php echo CHtml::link('List {$modelClass}',array('index')); ?>"; ?></li>
+	<li><?php echo "<?php echo CHtml::link('Create {$modelClass}',array('create')); ?>"; ?></li>
+</ul><!-- actions -->
 
 <table class="dataGrid">
   <thead>

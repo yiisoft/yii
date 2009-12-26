@@ -9,12 +9,9 @@
 ?>
 <h2>New <?php echo $modelClass; ?></h2>
 
-<div class="actionBar">
-[<?php echo "<?php echo CHtml::link('{$modelClass} List',array('list')); ?>"; ?>]
-[<?php echo "<?php echo CHtml::link('Manage {$modelClass}',array('admin')); ?>"; ?>]
-</div>
+<ul class="actions">
+	<li><?php echo "<?php echo CHtml::link('List {$modelClass}',array('index')); ?>"; ?></li>
+	<li><?php echo "<?php echo CHtml::link('Manage {$modelClass}',array('admin')); ?>"; ?></li>
+</ul><!-- actions -->
 
-<?php echo "<?php echo \$this->renderPartial('_form', array(
-	'model'=>\$model,
-	'update'=>false,
-)); ?>"; ?>
+<?php echo "<?php echo \$this->renderPartial('_form', array('model'=>\$model)); ?>"; ?>

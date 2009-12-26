@@ -14,11 +14,6 @@ class <?php echo $controllerClass; ?> extends CController
 	const PAGE_SIZE=10;
 
 	/**
-	 * @var string specifies the default action to be 'list'.
-	 */
-	public $defaultAction='list';
-
-	/**
 	 * @var CActiveRecord the currently loaded data model instance.
 	 */
 	private $_model;
@@ -41,8 +36,8 @@ class <?php echo $controllerClass; ?> extends CController
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'list' and 'show' actions
-				'actions'=>array('list','show'),
+			array('allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array('index','view'),
 				'users'=>array('*'),
 			),
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
@@ -60,16 +55,16 @@ class <?php echo $controllerClass; ?> extends CController
 	}
 
 	/**
-	 * Shows a particular model.
+	 * Displays a particular model.
 	 */
-	public function actionShow()
+	public function actionView()
 	{
-		$this->render('show',array('model'=>$this->load<?php echo $modelClass; ?>()));
+		$this->render('view',array('model'=>$this->load<?php echo $modelClass; ?>()));
 	}
 
 	/**
 	 * Creates a new model.
-	 * If creation is successful, the browser will be redirected to the 'show' page.
+	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
 	public function actionCreate()
 	{
@@ -78,14 +73,14 @@ class <?php echo $controllerClass; ?> extends CController
 		{
 			$model->attributes=$_POST['<?php echo $modelClass; ?>'];
 			if($model->save())
-				$this->redirect(array('show','id'=>$model-><?php echo $ID; ?>));
+				$this->redirect(array('view','id'=>$model-><?php echo $ID; ?>));
 		}
 		$this->render('create',array('model'=>$model));
 	}
 
 	/**
 	 * Updates a particular model.
-	 * If update is successful, the browser will be redirected to the 'show' page.
+	 * If update is successful, the browser will be redirected to the 'view' page.
 	 */
 	public function actionUpdate()
 	{
@@ -94,14 +89,14 @@ class <?php echo $controllerClass; ?> extends CController
 		{
 			$model->attributes=$_POST['<?php echo $modelClass; ?>'];
 			if($model->save())
-				$this->redirect(array('show','id'=>$model-><?php echo $ID; ?>));
+				$this->redirect(array('view','id'=>$model-><?php echo $ID; ?>));
 		}
 		$this->render('update',array('model'=>$model));
 	}
 
 	/**
 	 * Deletes a particular model.
-	 * If deletion is successful, the browser will be redirected to the 'list' page.
+	 * If deletion is successful, the browser will be redirected to the 'index' page.
 	 */
 	public function actionDelete()
 	{
@@ -109,7 +104,7 @@ class <?php echo $controllerClass; ?> extends CController
 		{
 			// we only allow deletion via POST request
 			$this->load<?php echo $modelClass; ?>()->delete();
-			$this->redirect(array('list'));
+			$this->redirect(array('index'));
 		}
 		else
 			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
@@ -118,7 +113,7 @@ class <?php echo $controllerClass; ?> extends CController
 	/**
 	 * Lists all models.
 	 */
-	public function actionList()
+	public function actionIndex()
 	{
 		$criteria=new CDbCriteria;
 
@@ -128,7 +123,7 @@ class <?php echo $controllerClass; ?> extends CController
 
 		$models=<?php echo $modelClass; ?>::model()->findAll($criteria);
 
-		$this->render('list',array(
+		$this->render('index',array(
 			'models'=>$models,
 			'pages'=>$pages,
 		));

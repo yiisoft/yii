@@ -35,7 +35,7 @@ class CrudCommand extends CConsoleCommand
 	/**
 	 * @var array list of actions to be created. Each action must be associated with a template file with the same name.
 	 */
-	public $actions=array('create','update','list','show','admin','_form');
+	public $actions=array('create','update','index','view','admin','_form');
 
 	public function getHelp()
 	{
