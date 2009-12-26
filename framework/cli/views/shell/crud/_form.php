@@ -15,14 +15,20 @@
 
 	<?php echo "<?php echo CHtml::errorSummary(\$model); ?>\n"; ?>
 
-<?php foreach($columns as $name=>$column): ?>
+<?php
+foreach($columns as $column)
+{
+	if($column->isPrimaryKey)
+		continue;
+?>
 	<div class="row">
 		<?php echo "<?php echo ".$this->generateInputLabel($modelClass,$column)."; ?>\n"; ?>
 		<?php echo "<?php echo ".$this->generateInputField($modelClass,$column)."; ?>\n"; ?>
 	</div>
 
-<?php endforeach; ?>
-
+<?php
+}
+?>
 	<div class="row buttons">
 		<?php echo "<?php echo CHtml::submitButton(\$model->isNewRecord ? 'Create' : 'Save'); ?>\n"; ?>
 	</div>

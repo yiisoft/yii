@@ -35,7 +35,7 @@ class CrudCommand extends CConsoleCommand
 	/**
 	 * @var array list of actions to be created. Each action must be associated with a template file with the same name.
 	 */
-	public $actions=array('create','update','index','view','admin','_form');
+	public $actions=array('create','update','index','view','admin','_form','_view');
 
 	public function getHelp()
 	{
@@ -215,13 +215,12 @@ EOD;
 		$model=CActiveRecord::model($modelClass);
 		$table=$model->getTableSchema();
 		$columns=$table->columns;
-		unset($columns[$table->primaryKey]);
 		if(!is_file($source))  // fall back to default ones
 			$source=YII_PATH.'/cli/views/shell/crud/'.basename($source);
 		return $this->renderFile($source,array(
 			'ID'=>$table->primaryKey,
 			'modelClass'=>$modelClass,
-			'columns'=>$columns),true);
+			'columns'=>array_values($columns)),true);
 	}
 
 	public function generateTest($source,$params)
