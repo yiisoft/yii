@@ -1,2 +1,3 @@
-This is the view content for action "<?php echo '<?php'; ?> echo $this->action->id; ?>" of controller "<?php echo '<?php'; ?> echo $this->id; ?>".
-<br />You may customize this view by editing the file "<?php echo '<?php'; ?> echo __FILE__; ?>".
+<h2><?php echo '<?php'; ?> echo $this->id . '/' . $this->action->id; ?></h2>
+
+<p>You may change the content of this page by modifying the file <tt><?php echo '<?php'; ?> echo __FILE__; ?>.</p>

@@ -17,7 +17,7 @@ class <?php echo $modelClass; ?>Test extends WebTestCase
 
 	public function testShow()
 	{
-		$this->open('?r=<?php echo $controllerID; ?>/show&id=1');
+		$this->open('?r=<?php echo $controllerID; ?>/view&id=1');
 	}
 
 	public function testCreate()
@@ -32,12 +32,12 @@ class <?php echo $modelClass; ?>Test extends WebTestCase
 
 	public function testDelete()
 	{
-		$this->open('?r=<?php echo $controllerID; ?>/show&id=1');
+		$this->open('?r=<?php echo $controllerID; ?>/view&id=1');
 	}
 
 	public function testList()
 	{
-		$this->open('?r=<?php echo $controllerID; ?>/list');
+		$this->open('?r=<?php echo $controllerID; ?>/index');
 	}
 
 	public function testAdmin()
