@@ -15,7 +15,7 @@ class files.
 
 Below we use an example to illustrate how to use the
 [Zend_Search_Lucene](http://www.zendframework.com/manual/en/zend.search.lucene.html)
-component from the [Zend framework](http://www.zendframework.com) in an Yii application.
+component from the [Zend framework](http://www.zendframework.com) in a Yii application.
 
 First, we extract the Zend framework release file to a directory
 under `protected/vendors`, assuming `protected` is the

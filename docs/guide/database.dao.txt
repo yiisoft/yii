@@ -195,7 +195,7 @@ must be done before the SQL statement is executed.
 ~~~
 [php]
 // an SQL with two placeholders ":username" and ":email"
-$sql="INSERT INTO users(username, email) VALUES(:username,:email)";
+$sql="INSERT INTO tbl_user (username, email) VALUES(:username,:email)";
 $command=$connection->createCommand($sql);
 // replace the placeholder ":username" with the actual username value
 $command->bindParam(":username",$username,PDO::PARAM_STR);
@@ -226,7 +226,7 @@ row is fetched.
 
 ~~~
 [php]
-$sql="SELECT username, email FROM users";
+$sql="SELECT username, email FROM tbl_user";
 $dataReader=$connection->createCommand($sql)->query();
 // bind the 1st column (username) with the $username variable
 $dataReader->bindColumn(1,$username);
@@ -251,12 +251,12 @@ application could use `tbl_` as prefix while the other `yii_`.
 To use table prefix, configure the [CDbConnection::tablePrefix] property to be
 the desired table prefix. Then, in SQL statements use `{{TableName}}` to refer
 to table names, where `TableName` means the table name without prefix. For example,
-if the database contains a table named `tbl_users` where `tbl_` is configured as the
+if the database contains a table named `tbl_user` where `tbl_` is configured as the
 table prefix, then we can use the following code to query about users:
 
 ~~~
 [php]
-$sql='SELECT * FROM {{users}}';
+$sql='SELECT * FROM {{user}}';
 $users=$connection->createCommand($sql)->queryAll();
 ~~~
 

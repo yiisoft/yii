@@ -24,10 +24,17 @@ return array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
 		),
-		// uncomment the following to set up database
+		'db'=>array(
+			'connectionString' => 'sqlite:protected/data/testdrive.db',
+		),
+		// uncomment the following to use a MySQL database
 		/*
 		'db'=>array(
-			'connectionString'=>'Your DSN',
+			'connectionString' => 'mysql:host=localhost;dbname=testdrive',
+			'emulatePrepare' => true,
+			'username' => 'root',
+			'password' => '',
+			'charset' => 'utf8',
 		),
 		*/
 		'errorHandler'=>array(

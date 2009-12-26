@@ -19,7 +19,7 @@ spent in parsing PHP scripts for every incoming request.
 Disabling Debug Mode
 --------------------
 
-Disabling debug mode is another easy way to improve performance. An Yii
+Disabling debug mode is another easy way to improve performance. A Yii
 application runs in debug mode if the constant `YII_DEBUG` is defined as
 true. Debug mode is useful during development stage, but it would impact
 performance because some components cause extra burden in debug mode. For
@@ -31,7 +31,7 @@ Using `yiilite.php`
 
 When the [PHP APC extension](http://www.php.net/manual/en/book.apc.php) is
 enabled, we can replace `yii.php` with a different Yii bootstrap file named
-`yiilite.php` to further boost the performance of an Yii-powered application.
+`yiilite.php` to further boost the performance of a Yii-powered application.
 
 The file `yiilite.php` comes with every Yii release. It is the result of
 merging some commonly used Yii class files. Both comments and trace
