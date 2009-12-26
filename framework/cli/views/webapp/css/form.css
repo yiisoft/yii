@@ -14,7 +14,7 @@
  *         <input name="inputid" id="inputid" type="text" />
  *         <p class="hint">hint text</p>
  *     </div>
- *     <div class="row submit">
+ *     <div class="row buttons">
  *         <label for="inputid">xyz</label>
  *         <input name="inputid" id="inputid" type="text" />
  *         <p class="hint">hint text</p>
@@ -139,7 +139,7 @@ div.wide form .row
 	clear: left;
 }
 
-div.wide form .submit
+div.wide form .buttons
 {
 	clear: left;
 	padding-left: 110px;
