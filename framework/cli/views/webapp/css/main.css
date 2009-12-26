@@ -122,3 +122,41 @@ div.form .rememberMe label
 {
 	display: inline;
 }
+
+.actions
+{
+	margin: 0 0 10px 0;
+	padding: 0;
+}
+
+.actions li
+{
+	display: inline;
+	margin: 0;
+	padding: 0;
+}
+
+.actions li a
+{
+	padding: 5px;
+	margin: 0;
+	color: #298dcd;
+	text-decoration: none;
+	font-size: 0.8em;
+	font-weight: bold;
+	background: #e0f5fa;
+	border-left: 5px solid #298dcd;
+}
+
+.actions li a:hover, .actions li a.active
+{
+	background: #298dcd;
+	color: white;
+}
+
+div.view
+{
+	padding: 10px;
+	margin: 10px 0;
+	border: 1px solid #C9E0ED;
+}

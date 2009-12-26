@@ -59,7 +59,9 @@ class <?php echo $controllerClass; ?> extends CController
 	 */
 	public function actionView()
 	{
-		$this->render('view',array('model'=>$this->load<?php echo $modelClass; ?>()));
+		$this->render('view',array(
+			'model'=>$this->loadModel(),
+		));
 	}
 
 	/**
@@ -75,7 +77,10 @@ class <?php echo $controllerClass; ?> extends CController
 			if($model->save())
 				$this->redirect(array('view','id'=>$model-><?php echo $ID; ?>));
 		}
-		$this->render('create',array('model'=>$model));
+
+		$this->render('create',array(
+			'model'=>$model,
+		));
 	}
 
 	/**
@@ -84,14 +89,17 @@ class <?php echo $controllerClass; ?> extends CController
 	 */
 	public function actionUpdate()
 	{
-		$model=$this->load<?php echo $modelClass; ?>();
+		$model=$this->loadModel();
 		if(isset($_POST['<?php echo $modelClass; ?>']))
 		{
 			$model->attributes=$_POST['<?php echo $modelClass; ?>'];
 			if($model->save())
 				$this->redirect(array('view','id'=>$model-><?php echo $ID; ?>));
 		}
-		$this->render('update',array('model'=>$model));
+
+		$this->render('update',array(
+			'model'=>$model,
+		));
 	}
 
 	/**
@@ -103,8 +111,12 @@ class <?php echo $controllerClass; ?> extends CController
 		if(Yii::app()->request->isPostRequest)
 		{
 			// we only allow deletion via POST request
-			$this->load<?php echo $modelClass; ?>()->delete();
-			$this->redirect(array('index'));
+			$this->loadModel()->delete();
+
+			// if AJAX request (triggered by deletion via admin grid view)
+			// we should not redirect the browser
+			if(!Yii::app()->request->isAjaxRequest)
+				$this->redirect(array('index'));
 		}
 		else
 			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
@@ -115,17 +127,14 @@ class <?php echo $controllerClass; ?> extends CController
 	 */
 	public function actionIndex()
 	{
-		$criteria=new CDbCriteria;
-
-		$pages=new CPagination(<?php echo $modelClass; ?>::model()->count($criteria));
-		$pages->pageSize=self::PAGE_SIZE;
-		$pages->applyLimit($criteria);
-
-		$models=<?php echo $modelClass; ?>::model()->findAll($criteria);
+		$dataProvider=new CActiveDataProvider('<?php echo $modelClass; ?>', array(
+			'pagination'=>array(
+				'pageSize'=>self::PAGE_SIZE,
+			),
+		));
 
 		$this->render('index',array(
-			'models'=>$models,
-			'pages'=>$pages,
+			'dataProvider'=>$dataProvider,
 		));
 	}
 
@@ -134,53 +143,30 @@ class <?php echo $controllerClass; ?> extends CController
 	 */
 	public function actionAdmin()
 	{
-		$this->processAdminCommand();
-
-		$criteria=new CDbCriteria;
-
-		$pages=new CPagination(<?php echo $modelClass; ?>::model()->count($criteria));
-		$pages->pageSize=self::PAGE_SIZE;
-		$pages->applyLimit($criteria);
-
-		$sort=new CSort('<?php echo $modelClass; ?>');
-		$sort->applyOrder($criteria);
-
-		$models=<?php echo $modelClass; ?>::model()->findAll($criteria);
+		$dataProvider=new CActiveDataProvider('<?php echo $modelClass; ?>', array(
+			'pagination'=>array(
+				'pageSize'=>self::PAGE_SIZE,
+			),
+		));
 
 		$this->render('admin',array(
-			'models'=>$models,
-			'pages'=>$pages,
-			'sort'=>$sort,
+			'dataProvider'=>$dataProvider,
 		));
 	}
 
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
-	 * @param integer the primary key value. Defaults to null, meaning using the 'id' GET variable
 	 */
-	public function load<?php echo $modelClass; ?>($id=null)
+	public function loadModel()
 	{
 		if($this->_model===null)
 		{
-			if($id!==null || isset($_GET['id']))
-				$this->_model=<?php echo $modelClass; ?>::model()->findbyPk($id!==null ? $id : $_GET['id']);
+			if(isset($_GET['id']))
+				$this->_model=<?php echo $modelClass; ?>::model()->findbyPk($_GET['id']);
 			if($this->_model===null)
 				throw new CHttpException(404,'The requested page does not exist.');
 		}
 		return $this->_model;
-	}
-
-	/**
-	 * Executes any command triggered on the admin page.
-	 */
-	protected function processAdminCommand()
-	{
-		if(isset($_POST['command'], $_POST['id']) && $_POST['command']==='delete')
-		{
-			$this->load<?php echo $modelClass; ?>($_POST['id'])->delete();
-			// reload the current page to avoid duplicated delete actions
-			$this->refresh();
-		}
 	}
 }
