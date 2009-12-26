@@ -24,6 +24,7 @@ foreach($columns as $column)
 	<div class="row">
 		<?php echo "<?php echo ".$this->generateInputLabel($modelClass,$column)."; ?>\n"; ?>
 		<?php echo "<?php echo ".$this->generateInputField($modelClass,$column)."; ?>\n"; ?>
+		<?php echo "<?php echo CHtml::error(\$model,'{$column->name}'); ?>\n"; ?>
 	</div>
 
 <?php
