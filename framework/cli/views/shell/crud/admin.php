@@ -18,13 +18,14 @@
 	'dataProvider'=>$dataProvider,
 	'columns'=>array(
 <?php
-foreach($columns as $i=>$column)
+$count=0;
+foreach($columns as $column)
 {
-	if($i==6)
+	if(++$count==7)
 		echo "\t\t/*\n";
 	echo "\t\t'".$column->name."',\n";
 }
-if($i>=6)
+if($count>=7)
 	echo "\t\t*/\n";
 ?>
 		array(

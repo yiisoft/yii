@@ -144,13 +144,13 @@ div.form .rememberMe label
 	text-decoration: none;
 	font-size: 0.8em;
 	font-weight: bold;
-	background: #e0f5fa;
-	border-left: 5px solid #298dcd;
+	background: #DFF4FF;
+	border-left: 5px solid #589FC8;
 }
 
 .actions li a:hover, .actions li a.active
 {
-	background: #298dcd;
+	background: #589FC8;
 	color: white;
 }
 

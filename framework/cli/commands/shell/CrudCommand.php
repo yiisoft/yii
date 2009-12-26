@@ -220,7 +220,7 @@ EOD;
 		return $this->renderFile($source,array(
 			'ID'=>$table->primaryKey,
 			'modelClass'=>$modelClass,
-			'columns'=>array_values($columns)),true);
+			'columns'=>$columns),true);
 	}
 
 	public function generateTest($source,$params)
