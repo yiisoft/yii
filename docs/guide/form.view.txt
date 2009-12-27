@@ -24,7 +24,7 @@ create a drop-down list, call [CHtml::dropDownList()].
 > It would otherwise require writing clumsy JavaScript everywhere.
 
 In the following, we use [CHtml] to create the login form. We assume that
-the variable `$user` represents `LoginForm` instance.
+the variable `$model` represents `LoginForm` instance.
 
 ~~~
 [php]
