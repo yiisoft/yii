@@ -13,9 +13,9 @@ CModel::setAttributes(), CModel::getSafeAttributeNames()
 The 'scenario' parameter is removed. You should get and set the model scenario
 via CModel::scenario.
 
-- Changed CModel::getValidators() and CModel::getValidatorsForAttribute().
-They now only return validators applicable to the scenario as specified
-by the model's scenario property.
+- Changed CModel::getValidators() and removed CModel::getValidatorsForAttribute().
+CModel::getValidators() now only returns validators applicable to the scenario
+as specified by the model's scenario property.
 
 - Changed CModel::isAttributeRequired() and CModel::getValidatorsForAttribute().
 The scenario parameter is removed. The model's scenario property will be
