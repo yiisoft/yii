@@ -52,6 +52,11 @@ class CUniqueValidator extends CValidator
 	 * @since 1.0.8
 	 */
 	public $criteria=array();
+	/**
+	 * @var string the user-defined error message. The placeholders "{attribute}" and "{value}"
+	 * are recognized, which will be replaced with the actual attribute name and value, respectively.
+	 */
+	public $message;
 
 
 	/**
