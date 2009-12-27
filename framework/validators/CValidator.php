@@ -111,6 +111,7 @@ abstract class CValidator extends CComponent
 	 * @param mixed list of attributes to be validated. This can be either an array of
 	 * the attribute names or a string of comma-separated attribute names.
 	 * @param array initial values to be applied to the validator properties
+	 * @return CValidator the validator
 	 */
 	public static function createValidator($name,$object,$attributes,$params)
 	{

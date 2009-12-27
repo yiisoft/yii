@@ -256,7 +256,7 @@ It defaults to '*', meaning all columns. Column names referenced in this option
 should be disambiguated.
 
    - `condition`: the `WHERE` clause. It defaults to empty. Column names
-referenced in this option should be disambiguated..
+referenced in this option should be disambiguated.
 
    - `params`: the parameters to be bound to the generated SQL statement.
 This should be given as an array of name-value pairs. This option has been
@@ -264,12 +264,12 @@ available since version 1.0.3.
 
    - `on`: the `ON` clause. The condition specified here will be appended
 to the joining condition using the `AND` operator. Column names referenced
-in this option should be disambiguated..
+in this option should be disambiguated.
 This option does not apply to `MANY_MANY` relations. This option has been
 available since version 1.0.2.
 
    - `order`: the `ORDER BY` clause. It defaults to empty. Column names
-referenced in this option should be disambiguated..
+referenced in this option should be disambiguated.
 
    - `with`: a list of child related objects that should be loaded
 together with this object. Be aware that using this option inappropriately
@@ -290,7 +290,7 @@ which may improve overall query performance. For more details, see the section
 "Relational Query Performance". This option has been available since version 1.0.3.
 
    - `group`: the `GROUP BY` clause. It defaults to empty. Column names
-referenced in this option should be disambiguated..
+referenced in this option should be disambiguated.
 
    - `having`: the `HAVING` clause. It defaults to empty. Column names
 referenced in this option should be disambiguated.
