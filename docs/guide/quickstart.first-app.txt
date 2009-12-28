@@ -120,7 +120,7 @@ return array(
 ~~~
 
 The above code instructs Yii that the application should connect to the SQLite database
-`WebRoot/testdrive/protected/data/source.db` when needed. Note that the SQLite database
+`WebRoot/testdrive/protected/data/testdrive.db` when needed. Note that the SQLite database
 is already included in the skeleton application that we just generated. The database
 contains only a single table named `tbl_user`:
 
