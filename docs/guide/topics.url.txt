@@ -128,7 +128,8 @@ When this rule is used to parse the incoming request, the values declared in thi
 will be injected into $_GET.
 
    - [matchValue|CUrlRule::matchValue]: whether the GET parameter values should match the corresponding
-sub-patterns in the rule when creating a URL. Defaults to false, meaning
+sub-patterns in the rule when creating a URL. Defaults to null,
+meaning using the value of [CUrlManager::matchValue]. If this property is false, it means
 a rule will be used for creating a URL if its route and parameter names match the given ones.
 If this property is set true, then the given parameter values must also match the corresponding
 parameter sub-patterns. Note that setting this property to true will degrade performance.
