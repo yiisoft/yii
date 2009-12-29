@@ -595,7 +595,7 @@ class CUrlRule extends CComponent
 		{
 			foreach($this->params as $key=>$value)
 			{
-				if(!preg_match('/'.$value.'/'.$case,$value))
+				if(!preg_match('/'.$value.'/'.$case,$params[$key]))
 					return false;
 			}
 		}
