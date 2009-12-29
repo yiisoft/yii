@@ -106,18 +106,32 @@ corresponding to a single rule. The pattern of a rule is a string
 used to match the path info part of URLs. And the route of a rule
 should refer to a valid controller [route](/doc/guide/basics.controller#route).
 
-> Info: Starting from version 1.0.6, a rule may be further customized
-> by setting its `urlSuffix` and `caseSensitive` options. And starting
-> from version 1.0.8, a rule may also have `defaultParams` which represents
-> a list of name-value pairs to be merged into `$_GET`. To customize a rule
-> with these options, we should specify the route part of the rule as an array,
-> like the following:
->
-> ~~~
-> [php]
-> 'pattern1'=>array('route1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
-> ~~~
->
+Besides the above pattern-route format, a rule may also be specified
+with customized options, like the following:
+
+~~~
+[php]
+'pattern1'=>array('route1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
+~~~
+
+In the above, the array contains a list of customized options. As of version 1.1.0,
+the following options are available:
+
+   - [urlSuffix|CUrlRule::urlSuffix]: the URL suffix used specifically for this rule. Defaults to null,
+meaning using the value of [CUrlManager::urlSuffix].
+
+   - [caseSensitive|CUrlRule::caseSensitive]: whether this rule is case sensitive. Defaults to null,
+meaning using the value of [CUrlManager::caseSensitive].
+
+   - [defaultParams|CUrlRule::defaultParams]: the default GET parameters (name=>value) that this rule provides.
+When this rule is used to parse the incoming request, the values declared in this property
+will be injected into $_GET.
+
+   - [matchValue|CUrlRule::matchValue]: whether the GET parameter values should match the corresponding
+sub-patterns in the rule when creating a URL. Defaults to false, meaning
+a rule will be used for creating a URL if its route and parameter names match the given ones.
+If this property is set true, then the given parameter values must also match the corresponding
+parameter sub-patterns. Note that setting this property to true will degrade performance.
 
 
 ### Using Named Parameters

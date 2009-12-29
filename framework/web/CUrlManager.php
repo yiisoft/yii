@@ -75,6 +75,19 @@
  * And given the route 'post/list' and GET parameter 'page' being 2, we should get a URL
  * '/index.php/posts/page/2'.
  *
+ * Starting from version 1.0.11, it is also possible to include hostname into the rules
+ * for parsing and creating URLs. One may extract part of the hostname to be a GET parameter.
+ * For example, the URL <code>http://admin.example.com/en/profile</code> may be parsed into GET parameters
+ * <code>user=admin</code> and <code>lang=en</code>. On the other hand, rules with hostname may also be used to
+ * create URLs with paratermized hostnames.
+ *
+ * In order to use parameterized hostnames, simply declare URL rules with host info, e.g.:
+ * <pre>
+ * array(
+ *     'http://&lt;user:\w+&gt;.example.com/&lt;lang:\w+&gt;/profile' => 'user/profile',
+ * )
+ * </pre>
+ *
  * CUrlManager is a default application component that may be accessed via
  * {@link CWebApplication::getUrlManager()}.
  *
@@ -172,9 +185,22 @@ class CUrlManager extends CApplicationComponent
 			}
 		}
 		foreach($this->rules as $pattern=>$route)
-			$this->_rules[]=new CUrlRule($route,$pattern);
+			$this->_rules[]=$this->createUrlRule($route,$pattern);
 		if(isset($cache))
 			$cache->set(self::CACHE_KEY,array($this->_rules,$hash));
+	}
+
+	/**
+	 * Creates a URL rule instance.
+	 * The default implementation returns a CUrlRule object.
+	 * @param string the pattern part of the rule
+	 * @param mixed the route part of the rule. This could be a string or an array
+	 * @return CUrlRule the URL rule instance
+	 * @since 1.1.0
+	 */
+	protected function createUrlRule($route,$pattern)
+	{
+		return new CUrlRule($route,$pattern);
 	}
 
 	/**
@@ -426,6 +452,15 @@ class CUrlRule extends CComponent
 	 */
 	public $defaultParams=array();
 	/**
+	 * @var boolean whether the GET parameter values should match the corresponding
+	 * sub-patterns in the rule when creating a URL. Defaults to false, meaning
+	 * a rule will be used for creating a URL if its route and parameter names match the given ones.
+	 * If this property is set true, then the given parameter values must also match the corresponding
+	 * parameter sub-patterns. Note that setting this property to true will degrade performance.
+	 * @since 1.1.0
+	 */
+	public $matchValue=false;
+	/**
 	 * @var string the controller/action pair
 	 */
 	public $route;
@@ -476,6 +511,8 @@ class CUrlRule extends CComponent
 				$this->caseSensitive=$route['caseSensitive'];
 			if(isset($route['defaultParams']))
 				$this->defaultParams=$route['defaultParams'];
+			if(isset($route['matchValue']))
+				$this->matchValue=$route['matchValue'];
 			$route=$this->route=$route[0];
 		}
 		else
@@ -496,7 +533,9 @@ class CUrlRule extends CComponent
 			$tokens=array_combine($matches[1],$matches[2]);
 			foreach($tokens as $name=>$value)
 			{
-				$tr["<$name>"]="(?P<$name>".($value!==''?$value:'[^\/]+').')';
+				if($value==='')
+					$value='[^\/]+';
+				$tr["<$name>"]="(?P<$name>$value)";
 				if(isset($this->references[$name]))
 					$tr2["<$name>"]=$tr["<$name>"];
 				else
@@ -551,6 +590,15 @@ class CUrlRule extends CComponent
 		foreach($this->params as $key=>$value)
 			if(!isset($params[$key]))
 				return false;
+
+		if($this->matchValue)
+		{
+			foreach($this->params as $key=>$value)
+			{
+				if(!preg_match('/'.$value.'/'.$case,$value))
+					return false;
+			}
+		}
 
 		foreach($this->params as $key=>$value)
 		{
