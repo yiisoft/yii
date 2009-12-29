@@ -138,6 +138,15 @@ class CUrlManager extends CApplicationComponent
 	 */
 	public $caseSensitive=true;
 	/**
+	 * @var boolean whether the GET parameter values should match the corresponding
+	 * sub-patterns in a rule before using it to create a URL. Defaults to false, meaning
+	 * a rule will be used for creating a URL only if its route and parameter names match the given ones.
+	 * If this property is set true, then the given parameter values must also match the corresponding
+	 * parameter sub-patterns. Note that setting this property to true will degrade performance.
+	 * @since 1.1.0
+	 */
+	public $matchValue=false;
+	/**
 	 * @var string the ID of the cache application component that is used to cache the parsed URL rules.
 	 * Defaults to 'cache' which refers to the primary cache application component.
 	 * Set this property to false if you want to disable caching URL rules.
@@ -453,13 +462,14 @@ class CUrlRule extends CComponent
 	public $defaultParams=array();
 	/**
 	 * @var boolean whether the GET parameter values should match the corresponding
-	 * sub-patterns in the rule when creating a URL. Defaults to false, meaning
+	 * sub-patterns in the rule when creating a URL. Defaults to null, meaning using the value
+	 * of {@link CUrlManager::matchValue}. When this property is false, it means
 	 * a rule will be used for creating a URL if its route and parameter names match the given ones.
 	 * If this property is set true, then the given parameter values must also match the corresponding
 	 * parameter sub-patterns. Note that setting this property to true will degrade performance.
 	 * @since 1.1.0
 	 */
-	public $matchValue=false;
+	public $matchValue;
 	/**
 	 * @var string the controller/action pair
 	 */
@@ -591,7 +601,7 @@ class CUrlRule extends CComponent
 			if(!isset($params[$key]))
 				return false;
 
-		if($this->matchValue)
+		if($manager->matchValue && $this->matchValue===null || $this->matchValue)
 		{
 			foreach($this->params as $key=>$value)
 			{
