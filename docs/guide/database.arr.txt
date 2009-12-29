@@ -286,7 +286,8 @@ meaning the table alias is the same as the relation name.
 be forced to join together with the primary table. This option is only meaningful
 for HAS_MANY and MANY_MANY relations. If this option is set false,
 each HAS_MANY or MANY_MANY relation will have a separate SQL query that joins
-with the primary table, which may improve overall query performance. The default
+with the primary table and fetches only the primary table's primary key column,
+which may improve the overall query performance. The default
 value is true. For more details, see the section "Relational Query Performance".
 This option has been available since version 1.0.3.
 
