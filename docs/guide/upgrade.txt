@@ -21,9 +21,7 @@ as specified by the model's scenario property.
 The scenario parameter is removed. The model's scenario property will be
 used, instead.
 
-- Removed CModel::getValidatorsForAttribute(). Please use CModel::getValidators() instead.
-
-- Removed CHtml::scenario
+- Removed CHtml::scenario. CHtml will use the model's scenario property instead.
 
 
 Changes Related with Eager Loading for Relational Active Record
