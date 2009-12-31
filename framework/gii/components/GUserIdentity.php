@@ -1,28 +1,35 @@
 <?php
+/**
+ * This file contains the Gii module User Identity.
+ *
+ * @author Sebastian Thierer <sebathi@gmail.com>
+ * @link http://www.yiiframework.com/
+ * @copyright Copyright &copy; 2008-2009 Yii Software LLC
+ * @license http://www.yiiframework.com/license/
+ */
 
 /**
- * UserIdentity represents the data needed to identity a user.
- * It contains the authentication method that checks if the provided
- * data can identity the user.
+ * Gii is the web-based Code Generator for the Yii Framework.
+ * 
+ * This file is used as the CUserIdentity verifier for the Gii module
+ *
+ * @author Sebastian Thierer <sebathi@gmail.com>
+ * @version $Id$
+ * @package system.gii
+ * @since 1.1
  */
-class UserIdentity extends CUserIdentity
+class GUserIdentity extends CUserIdentity
 {
 	/**
 	 * Authenticates a user.
-	 * The example implementation makes sure if the username and password
-	 * are both 'demo'.
-	 * In practical applications, this should be changed to authenticate
-	 * against some persistent user identity storage (e.g. database).
 	 * @return boolean whether authentication succeeds.
 	 */
 	public function authenticate()
 	{
 		$module = Yii::app()->getModule('gii');
 		
-        if (strcmp($module->username, $this->username)==0 && strcmp($module->password, $this->password)){
+		if (strcmp($module->username, $this->username)==0 && strcmp($module->password, $this->password)==0){
 			$this->errorCode=self::ERROR_NONE;
-            $user->save(false);
-            $this->setState('iduser', $user->idusuario);
         }else{
             $this->errorCode = self::ERROR_UNKNOWN_IDENTITY;
         }
