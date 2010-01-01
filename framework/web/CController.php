@@ -474,6 +474,15 @@ class CController extends CBaseController
 	}
 
 	/**
+	 * @return string the route (module ID, controller ID and action ID) of the current request.
+	 * @since 1.1.0
+	 */
+	public function getRoute()
+	{
+		return $this->getUniqueId().'/'.$this->getAction()->getId();
+	}
+
+	/**
 	 * @return CWebModule the module that this controller belongs to. It returns null
 	 * if the controller does not belong to any module
 	 * @since 1.0.3
@@ -618,6 +627,23 @@ class CController extends CBaseController
 			return $this->_clips;
 		else
 			return $this->_clips=new CMap;
+	}
+
+	/**
+	 * Processes the request using another controller action.
+	 * This is like {@link redirect}, but the user browser's URL remains unchanged.
+	 * In most cases, you should call {@link redirect} instead of this method.
+	 * @param string the route of the new controller action. This can be an action ID, or a complete route
+	 * with module ID, controller ID and action ID. If the former, the action is assumed
+	 * to be located within the current controller.
+	 * @since 1.1.0
+	 */
+	public function forward($route)
+	{
+		if(strpos($route,'/')===false) // an action of the current controller
+			$this->run($route);
+		else
+			Yii::app()->runController($route);
 	}
 
 	/**
