@@ -26,7 +26,7 @@
 	</div><!-- header -->
 
 	<div id="mainmenu">
-		<?php $this->widget('application.components.MainMenu',array(
+		<?php $this->widget('zii.widgets.CMenu',array(
 			'items'=>array(
 				array('label'=>'Home', 'url'=>array('/site/index')),
 				array('label'=>'Contact', 'url'=>array('/site/contact')),
