@@ -69,17 +69,18 @@ testdrive/
       commands/              containing customized 'yiic' commands
          shell/              containing customized 'yiic shell' commands
       components/            containing reusable user components
-         MainMenu.php        the 'MainMenu' widget class
+         Controller.php      the base class for all controller classes
          Identity.php        the 'Identity' class used for authentication
-         views/              containing view files for widgets
-            mainMenu.php     the view file for 'MainMenu' widget
       config/                containing configuration files
          console.php         the console application configuration
          main.php            the Web application configuration
          test.php            the configuration for the functional tests
       controllers/           containing controller class files
          SiteController.php  the default controller class
-      data/                  containing the sample SQLite database
+      data/                  containing the sample database
+         schema.mysql.sql    the DB schema for the sample MySQL database
+         schema.sqlite.sql   the DB schema for the sample SQLite database
+         testdrive.db        the sample SQLite database file
       extensions/            containing third-party extensions
       messages/              containing translated messages
       models/                containing model class files
@@ -92,7 +93,7 @@ testdrive/
             main.php         the default layout for all views
          site/               containing view files for the 'site' controller
          	pages/           containing "static" pages
-         	    about.php    the view for the "about" page
+         	   about.php    the view for the "about" page
             contact.php      the view for 'contact' action
             error.php        the view for 'error' action (displaying external errors)
             index.php        the view for 'index' action
