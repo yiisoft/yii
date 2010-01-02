@@ -123,7 +123,7 @@ customized via [CWebApplication::viewPath].
 
    - `WebRoot/protected/views/ControllerID`: this directory holds view
 files for a single controller class. Here `ControllerID` stands for the ID
-of the controller. It can be customized via [CController::getViewPath].
+of the controller. It can be customized via [CController::viewPath].
 
    - `WebRoot/protected/views/layouts`: this directory holds all layout
 view files. It can be customized via [CWebApplication::layoutPath].

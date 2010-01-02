@@ -94,7 +94,7 @@ class CLogFilter extends CComponent
 
 		foreach($this->logVars as $name)
 		{
-			if(isset($GLOBALS[$name]) && !empty($GLOBALS[$name]))
+			if(!empty($GLOBALS[$name]))
 				$context[]="\${$name}=".var_export($GLOBALS[$name],true);
 		}
 

@@ -1137,7 +1137,14 @@ abstract class CActiveRecord extends CModel
 		return $all ? $this->populateRecords($command->queryAll()) : $this->populateRecord($command->queryRow());
 	}
 
-	private function applyScopes(&$criteria)
+	/**
+	 * Applies the query scopes to the given criteria.
+	 * This method merges {@link dbCriteria} with the given criteria parameter.
+	 * It then resets {@link dbCriteria} to be null.
+	 * @param CDbCriteria the query criteria. This parameter may be modified by merging {@link dbCriteria}.
+	 * @since 1.0.12
+	 */
+	public function applyScopes(&$criteria)
 	{
 		if(($c=$this->getDbCriteria(false))!==null)
 		{
@@ -1371,9 +1378,7 @@ abstract class CActiveRecord extends CModel
 			$with=func_get_args();
 			if(is_array($with[0]))  // the parameter is given as an array
 				$with=$with[0];
-			$finder=new CActiveFinder($this,$with,$this->getDbCriteria(false));
-			$this->_c=null;
-			return $finder;
+			return new CActiveFinder($this,$with);
 		}
 		else
 			return $this;

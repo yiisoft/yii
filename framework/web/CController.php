@@ -1064,7 +1064,7 @@ class CController extends CBaseController
 	 */
 	protected function loadPageStates()
 	{
-		if(isset($_POST[self::STATE_INPUT_NAME]) && !empty($_POST[self::STATE_INPUT_NAME]))
+		if(!empty($_POST[self::STATE_INPUT_NAME]))
 		{
 			if(($data=base64_decode($_POST[self::STATE_INPUT_NAME]))!==false)
 			{

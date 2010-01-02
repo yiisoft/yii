@@ -208,8 +208,13 @@ class CDbCriteria
 		$params=array();
 		foreach($columns as $name=>$value)
 		{
-			$params[]=$name.'='.self::PARAM_PREFIX.$this->_paramCount;
-			$this->params[self::PARAM_PREFIX.$this->_paramCount++]=$value;
+			if($value===null)
+				$params[]=$name.' IS NULL';
+			else
+			{
+				$params[]=$name.'='.self::PARAM_PREFIX.$this->_paramCount;
+				$this->params[self::PARAM_PREFIX.$this->_paramCount++]=$value;
+			}
 		}
 		return $this->addCondition(implode(" $columnOperator ",$params), $operator);
 	}
