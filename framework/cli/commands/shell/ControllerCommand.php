@@ -138,7 +138,7 @@ EOD;
 				'source'=>$templatePath.DIRECTORY_SEPARATOR.'view.php',
 				'target'=>$viewPath.DIRECTORY_SEPARATOR.$name.'.php',
 				'callback'=>array($this,'generateAction'),
-				'params'=>array(),
+				'params'=>array('controller'=>$controllerClass, 'action'=>$name),
 			);
 		}
 
@@ -171,6 +171,6 @@ EOD;
 	{
 		if(!is_file($source))  // fall back to default ones
 			$source=YII_PATH.'/cli/views/shell/controller/'.basename($source);
-		return $this->renderFile($source,array(),true);
+		return $this->renderFile($source,$params,true);
 	}
 }

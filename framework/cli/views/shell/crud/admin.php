@@ -7,7 +7,16 @@
  * - $columns: a list of column schema objects
  */
 ?>
-<h2>Managing <?php echo $modelClass; ?></h2>
+<?php
+echo "<?php\n";
+$label=$this->class2name($modelClass,true);
+echo "\$this->breadcrumbs=array(
+	'$label'=>array('index'),
+	'Manage',
+);\n";
+?>
+?>
+<h1>Managing <?php echo $this->class2name($modelClass,true); ?></h1>
 
 <ul class="actions">
 	<li><?php echo "<?php echo CHtml::link('List {$modelClass}',array('index')); ?>"; ?></li>

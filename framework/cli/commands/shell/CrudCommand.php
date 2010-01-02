@@ -263,4 +263,31 @@ EOD;
 			}
 		}
 	}
+
+	public function guessNameColumn($columns)
+	{
+		foreach($columns as $column)
+		{
+			if(!strcasecmp($column->name,'name'))
+				return $column->name;
+		}
+		foreach($columns as $column)
+		{
+			if(!strcasecmp($column->name,'title'))
+				return $column->name;
+		}
+		foreach($columns as $column)
+		{
+			if($column->isPrimaryKey)
+				return $column->name;
+		}
+		return 'id';
+	}
+
+	public function class2name($className,$pluralize=false)
+	{
+		if($pluralize)
+			$className=$this->pluralize($className);
+		return ucwords(trim(strtolower(str_replace(array('-','_'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $className)))));
+	}
 }

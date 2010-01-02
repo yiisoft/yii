@@ -9,7 +9,7 @@
 ?>
 <?php echo "<?php\n"; ?>
 
-class <?php echo $controllerClass; ?> extends CController
+class <?php echo $controllerClass; ?> extends Controller
 {
 	const PAGE_SIZE=10;
 
