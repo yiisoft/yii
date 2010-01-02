@@ -371,7 +371,8 @@ class CUrlManager extends CApplicationComponent
 	}
 
 	/**
-	 * @return string the URL format. Defaults to 'path'.
+	 * @return string the URL format. Defaults to 'path'. Valid values include 'path' and 'get'.
+	 * Please refer to the guide for more details about the difference between these two formats.
 	 */
 	public function getUrlFormat()
 	{
