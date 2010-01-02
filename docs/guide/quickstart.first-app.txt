@@ -33,11 +33,11 @@ application by accessing the following URL in a Web browser:
 http://hostname/testdrive/index.php
 ~~~
 
-As we can see, the application has three pages: the homepage, the contact page
-and the login page, where the contact page displays a contact form that users
-can fill in to submit their inquiries to the webmaster, and the login page allows
-users to be authenticated before accessing privileged contents.
-See the following screenshots for more details.
+As we can see, the application has four pages: the homepage, the about page,
+the contact page and the login page. The contact page displays a contact
+form that users can fill in to submit their inquiries to the webmaster,
+and the login page allows users to be authenticated before accessing privileged
+contents. See the following screenshots for more details.
 
 ![Home page](first-app1.png)
 
@@ -91,6 +91,8 @@ testdrive/
          layouts/            containing layout view files
             main.php         the default layout for all views
          site/               containing view files for the 'site' controller
+         	pages/           containing "static" pages
+         	    about.php    the view for the "about" page
             contact.php      the view for 'contact' action
             error.php        the view for 'error' action (displaying external errors)
             index.php        the view for 'index' action
