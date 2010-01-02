@@ -7,11 +7,24 @@
  * - $columns: a list of column schema objects
  */
 ?>
-<h2>Update <?php echo $modelClass." <?php echo \$model->{$ID}; ?>"; ?></h2>
+<?php
+echo "<?php\n";
+$nameColumn=$this->guessNameColumn($columns);
+$label=$this->class2name($modelClass,true);
+echo "\$this->breadcrumbs=array(
+	'$label'=>array('index'),
+	\$model->{$nameColumn}=>array('view','id'=>\$model->{$ID}),
+	'Update',
+);\n";
+?>
+?>
+
+<h1>Update <?php echo $modelClass." <?php echo \$model->{$ID}; ?>"; ?></h1>
 
 <ul class="actions">
 	<li><?php echo "<?php echo CHtml::link('List {$modelClass}',array('index')); ?>"; ?></li>
 	<li><?php echo "<?php echo CHtml::link('Create {$modelClass}',array('create')); ?>"; ?></li>
+	<li><?php echo "<?php echo CHtml::link('View {$modelClass}',array('view','id'=>\$model->{$ID})); ?>"; ?></li>
 	<li><?php echo "<?php echo CHtml::link('Manage {$modelClass}',array('admin')); ?>"; ?></li>
 </ul><!-- actions -->
 

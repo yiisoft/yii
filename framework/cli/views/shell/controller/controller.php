@@ -8,7 +8,7 @@
 ?>
 <?php echo "<?php\n"; ?>
 
-class <?php echo $className; ?> extends CController
+class <?php echo $className; ?> extends Controller
 {
 <?php foreach($actions as $action): ?>
 	public function action<?php echo ucfirst($action); ?>()
