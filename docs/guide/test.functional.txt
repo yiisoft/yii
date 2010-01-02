@@ -5,9 +5,9 @@ Before reading this section, it is recommended that you read the [Selenium docum
 
  * Like unit test, a functional test is written in terms of a class `XyzTest` which extends from [CWebTestCase], where `Xyz` stands for the class being tested. Because `PHPUnit_Extensions_SeleniumTestCase` is the ancestor class for [CWebTestCase], we can use all methods inherited from this class.
 
- * The functional test class is saved in a PHP file named as `XyzTest.php`. By convention, the unit test file may be stored under the directory `protected/tests/functional`.
+ * The functional test class is saved in a PHP file named as `XyzTest.php`. By convention, the functional test file may be stored under the directory `protected/tests/functional`.
 
- * The test class mainly contains a set of test methods named as `testAbc`, wherer `Abc` is often the name of a feature to be tested. For example, to test the user login feature, we can have a test method named as `testLogin`.
+ * The test class mainly contains a set of test methods named as `testAbc`, where `Abc` is often the name of a feature to be tested. For example, to test the user login feature, we can have a test method named as `testLogin`.
 
  * A test method usually contains a sequence of statements that would issue commands to Selenium RC to interact with the Web application being tested. It also contains assertion statements to verify that the Web application responds as expected.
 
