@@ -45,7 +45,7 @@ $post = $this->post('sample1');
 
 > Note: If a fixture is declared using its table name (e.g. `'posts'=>':Post'`), then the third usage in the above is not valid because we have no information about which model class the table is associated with.
 
-Next, we write the `testApprove` method to test the `approve` method in the `Comment` model class. The code is very straightfoward: we first insert a comment that is pending status; we then verify this comment is in pending status by retrieving it from database; and finally we call the `approve` method and verify the status is changed as expected.
+Next, we write the `testApprove` method to test the `approve` method in the `Comment` model class. The code is very straightforward: we first insert a comment that is pending status; we then verify this comment is in pending status by retrieving it from database; and finally we call the `approve` method and verify the status is changed as expected.
 
 ~~~
 [php]
