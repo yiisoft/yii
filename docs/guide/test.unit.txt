@@ -7,7 +7,7 @@ Because the Yii testing framework is built on top of [PHPUnit](http://www.phpuni
 
  * The unit test class is saved in a PHP file named as `XyzTest.php`. By convention, the unit test file may be stored under the directory `protected/tests/unit`.
 
- * The test class mainly contains a set of test methods named as `testAbc`, wherer `Abc` is often the name of the class method to be tested.
+ * The test class mainly contains a set of test methods named as `testAbc`, where `Abc` is often the name of the class method to be tested.
 
  * A test method usually contains a sequence of assertion statements (e.g. `assertTrue`, `assertEquals`) which serve as checkpoints on validating the behavior of the target class.
 
