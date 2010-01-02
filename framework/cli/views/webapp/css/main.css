@@ -160,3 +160,14 @@ div.view
 	margin: 10px 0;
 	border: 1px solid #C9E0ED;
 }
+
+div.breadcrumbs
+{
+	font-size: 0.9em;
+	padding: 5px 20px;
+}
+
+div.breadcrumbs span
+{
+	font-weight: bold;
+}
