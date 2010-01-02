@@ -352,21 +352,22 @@ class CUrlManager extends CApplicationComponent
 	 * @param array list of GET parameters
 	 * @param string the separator between name and value
 	 * @param string the separator between name-value pairs
+	 * @param string this is used internally.
 	 * @return string the created path info
 	 * @since 1.0.3
 	 */
-	public function createPathInfo($params,$equal,$ampersand)
+	public function createPathInfo($params,$equal,$ampersand, $key=null)
 	{
-		$pairs=array();
-		foreach($params as $key=>$value)
+		$pairs = array();
+		foreach($params as $k => $v)
 		{
-			if(is_array($value))
-			{
-				foreach($value as $k=>$v)
-					$pairs[]=urlencode($key).'['.urlencode($k).']'.$equal.urlencode($v);
-			}
+			if ($key!==null)
+				$k = $key.'['.urlencode($k).']';
+
+			if (is_array($v))
+				$pairs[]=$this->createPathInfo($v,$equal,$ampersand, $k);
 			else
-				$pairs[]=urlencode($key).$equal.urlencode($value);
+				$pairs[]=$k.$equal.urlencode($v);
 		}
 		return implode($ampersand,$pairs);
 	}
@@ -405,7 +406,8 @@ class CUrlManager extends CApplicationComponent
 	}
 
 	/**
-	 * @return string the URL format. Defaults to 'path'.
+	 * @return string the URL format. Defaults to 'path'. Valid values include 'path' and 'get'.
+	 * Please refer to the guide for more details about the difference between these two formats.
 	 */
 	public function getUrlFormat()
 	{

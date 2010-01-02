@@ -58,6 +58,11 @@ Version 1.1a October 1, 2009
 
 Version 1.0.12 to be released
 -----------------------------
+- Bug #731: When using CWebService to generate WSDL, it may cause the error about Premature end of data in tag definitions in SoapClient (Qiang)
+- Bug #740: CDbCriteria::addColumnCondition() should handle NULL parameter correctly (Qiang)
+- Bug #742: CEmailValidator should allow upper case email addresses (Qiang)
+- Enh #730: Relational queries now respect changes made to CActiveRecord::dbCriteria in the onBeforeFind event (Qiang)
+- Enh #737: CUrlManager::createUrl() now supports multidimensional array params (Jonah)
 
 Version 1.0.11 December 13, 2009
 --------------------------------
