@@ -76,6 +76,16 @@ class CActiveDataProvider extends CDataProvider
 	}
 
 	/**
+	 * @return CSort the sorting object. If this is false, it means the sorting is disabled.
+	 */
+	public function getSort()
+	{
+		if(($sort=parent::getSort())!==false)
+			$sort->modelClass=$this->modelClass;
+		return $sort;
+	}
+
+	/**
 	 * Fetches the data from the persistent data storage.
 	 * @return array list of data items
 	 */
@@ -88,10 +98,7 @@ class CActiveDataProvider extends CDataProvider
 			$pagination->applyLimit($criteria);
 		}
 		if(($sort=$this->getSort())!==false)
-		{
-			$sort->modelClass=$this->modelClass;
 			$sort->applyOrder($criteria);
-		}
 
 		return CActiveRecord::model($this->modelClass)->findAll($criteria);
 	}
