@@ -16,7 +16,7 @@ echo "\$this->breadcrumbs=array(
 );\n";
 ?>
 ?>
-<h1>New <?php echo $modelClass; ?></h1>
+<h1>Create <?php echo $modelClass; ?></h1>
 
 <ul class="actions">
 	<li><?php echo "<?php echo CHtml::link('List {$modelClass}',array('index')); ?>"; ?></li>

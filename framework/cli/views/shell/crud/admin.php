@@ -16,7 +16,7 @@ echo "\$this->breadcrumbs=array(
 );\n";
 ?>
 ?>
-<h1>Managing <?php echo $this->class2name($modelClass,true); ?></h1>
+<h1>Manage <?php echo $this->class2name($modelClass,true); ?></h1>
 
 <ul class="actions">
 	<li><?php echo "<?php echo CHtml::link('List {$modelClass}',array('index')); ?>"; ?></li>
