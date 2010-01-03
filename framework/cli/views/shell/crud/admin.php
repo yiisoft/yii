@@ -38,7 +38,7 @@ if($count>=7)
 	echo "\t\t*/\n";
 ?>
 		array(
-			'class'=>'CRudColumn',
+			'class'=>'CButtonColumn',
 		),
 	),
 )); ?>
