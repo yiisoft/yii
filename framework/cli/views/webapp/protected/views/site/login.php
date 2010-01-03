@@ -18,12 +18,12 @@ $this->breadcrumbs=array(
 
 	<div class="row">
 		<?php echo CHtml::activeLabelEx($model,'username'); ?>
-		<?php echo CHtml::activeTextField($model,'username') ?>
+		<?php echo CHtml::activeTextField($model,'username'); ?>
 	</div>
 
 	<div class="row">
 		<?php echo CHtml::activeLabelEx($model,'password'); ?>
-		<?php echo CHtml::activePasswordField($model,'password') ?>
+		<?php echo CHtml::activePasswordField($model,'password'); ?>
 		<p class="hint">
 			Hint: You may login with <tt>demo/demo</tt> or <tt>admin/admin</tt>.
 		</p>
