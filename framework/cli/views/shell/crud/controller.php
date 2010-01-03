@@ -113,9 +113,8 @@ class <?php echo $controllerClass; ?> extends Controller
 			// we only allow deletion via POST request
 			$this->loadModel()->delete();
 
-			// if AJAX request (triggered by deletion via admin grid view)
-			// we should not redirect the browser
-			if(!Yii::app()->request->isAjaxRequest)
+			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+			if(!isset($_POST['ajax']))
 				$this->redirect(array('index'));
 		}
 		else
