@@ -29,7 +29,7 @@ are some examples:
 
 	phpunit --verbose unit
 
- - Executes all tests under "functional" (make sure Selenium RC is running):
+ - Executes all tests under "functional" (Selenium RC is running):
 
 	phpunit functional
 
@@ -38,5 +38,5 @@ are some examples:
 	phpunit functional/PostTest.php
 
 
-NOTE: the test cases included here are by no means complete. They mainly serve
+*DISCLAIMER* The test cases included here are by no means complete. They mainly serve
 for demonstrative purpose.

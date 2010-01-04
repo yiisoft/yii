@@ -10,7 +10,7 @@ class PostTest extends WebTestCase
 		'posts'=>'Post',
 	);
 
-	public function testList()
+	public function testIndex()
 	{
 	    $this->open('');
 	    // verify header title exists
@@ -21,7 +21,7 @@ class PostTest extends WebTestCase
 
 	public function testView()
 	{
-		$this->open('post/1');
+		$this->open('post/1/xyz');
 	    // verify the sample post title exists
 	    $this->assertTextPresent($this->posts['sample1']['title']);
 	    // verify comment form exists

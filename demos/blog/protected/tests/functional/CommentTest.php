@@ -2,37 +2,35 @@
 
 class CommentTest extends WebTestCase
 {
+	/**
+	 * We use both 'Post' and 'Comment' fixtures.
+	 * @see CWebTestCase::fixtures
+	 */
 	public $fixtures=array(
+		'posts'=>'Post',
 		'comments'=>'Comment',
 	);
 
-	public function testShow()
-	{
-		$this->open('?r=comment/view&id=1');
-	}
-
 	public function testCreate()
 	{
-		$this->open('?r=comment/create');
-	}
+		$this->open('post/1/xyz');
 
-	public function testUpdate()
-	{
-		$this->open('?r=comment/update&id=1');
-	}
+	    // verify the sample post title exists
+	    $this->assertTextPresent($this->posts['sample1']['title']);
+	    $this->assertElementPresent("name=Comment[author]");
 
-	public function testDelete()
-	{
-		$this->open('?r=comment/view&id=1');
-	}
+	    // verify validation errors
+	    $this->clickAndWait("//input[@value='Submit']");
+	    $this->assertTextPresent('Name cannot be blank.');
+	    $this->assertTextPresent('Email cannot be blank.');
+	    $this->assertTextPresent('Comment cannot be blank.');
 
-	public function testList()
-	{
-		$this->open('?r=comment/index');
-	}
-
-	public function testAdmin()
-	{
-		$this->open('?r=comment/admin');
+		// verify commenting is successful
+		$comment="comment 1";
+		$this->type('name=Comment[author]','me');
+		$this->type('name=Comment[email]','me@example.com');
+		$this->type('name=Comment[content]',$comment);
+	    $this->clickAndWait("//input[@value='Submit']");
+	    $this->assertTextPresent('Thank you for your comment');
 	}
 }

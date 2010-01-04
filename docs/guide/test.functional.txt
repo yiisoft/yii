@@ -62,5 +62,6 @@ class PostTest extends WebTestCase
 
 Like writing a unit test class, we declare the fixtures to be used by this test. Here we indicate that the `Post` fixture should be used. In the `testShow` test method, we first instruct Selenium RC to open the URL `post/1`. Note that this is a relative URL, and the complete URL is formed by appending it to the base URL we set in the base class (i.e. `http://localhost/yii/demos/blog/index-test.php/post/1`). We then verify that we can find the title of the `sample1` post can be found in the current Web page. And we also verify that the page contains the text `Leave a Comment`.
 
+> Tip: Before running functional tests, the Selenium-RC server must be started. This can be done by executing the command `java -jar selenium-server.jar` under your Selenium server installation directory.
 
 <div class="revision">$Id$</div>
