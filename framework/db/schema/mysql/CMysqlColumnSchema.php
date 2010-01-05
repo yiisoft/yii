@@ -1,3 +1,4 @@
+<<<<<<< .mine
 <?php
 /**
  * CMysqlColumnSchema class file.
@@ -42,5 +43,25 @@ class CMysqlColumnSchema extends CDbColumnSchema
 			$this->defaultValue=null;
 		else
 			parent::extractDefault($defaultValue);
+	}
+	
+	/**
+	 * Extracts size, precision and scale information from column's DB type.
+	 * @param string the column's DB type
+	 */
+	protected function extractLimit($dbType)
+	{
+		if (strncmp($dbType, 'enum', 4)==0){
+			if(strpos($dbType,'(') && preg_match('/\((.*)\)/',$dbType,$matches)){
+				$values = explode(',', $matches[1]);
+				$size = 0;
+				foreach($values as $value){
+					$size = max($size, strlen($value)-2);
+				}
+				$this->size = $this->precision = $size;
+			}
+		}else{
+			parent::extractLimit($dbType);
+		}
 	}
 }
