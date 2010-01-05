@@ -43,24 +43,25 @@ class CMysqlColumnSchema extends CDbColumnSchema
 		else
 			parent::extractDefault($defaultValue);
 	}
-	
+
 	/**
 	 * Extracts size, precision and scale information from column's DB type.
 	 * @param string the column's DB type
 	 */
 	protected function extractLimit($dbType)
 	{
-		if (strncmp($dbType, 'enum', 4)==0){
-			if(strpos($dbType,'(') && preg_match('/\((.*)\)/',$dbType,$matches)){
-				$values = explode(',', $matches[1]);
-				$size = 0;
-				foreach($values as $value){
-					$size = max($size, strlen($value)-2);
-				}
-				$this->size = $this->precision = $size;
+		if (strncmp($dbType, 'enum', 4)===0 && preg_match('/\((.*)\)/',$dbType,$matches))
+		{
+			$values = explode(',', $matches[1]);
+			$size = 0;
+			foreach($values as $value)
+			{
+				if(($n=strlen($value)) > $size)
+					$size=$n;
 			}
-		}else{
-			parent::extractLimit($dbType);
+			$this->size = $this->precision = $size-2;
 		}
+		else
+			parent::extractLimit($dbType);
 	}
 }
