@@ -1,4 +1,3 @@
-<<<<<<< .mine
 <?php
 /**
  * CMysqlColumnSchema class file.
