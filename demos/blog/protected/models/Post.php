@@ -47,7 +47,8 @@ class Post extends CActiveRecord
 			array('title, content', 'required'),
 			array('status', 'in', 'range'=>array(1,2,3)),
 			array('title', 'length', 'max'=>128),
-			array('tags', 'validateTags'),
+			array('tags', 'match', 'pattern'=>'/^[\w\s,]+$/', 'message'=>'Tags can only contain word characters.'),
+			array('tags', 'normalizeTags'),
 		);
 	}
 
@@ -107,7 +108,7 @@ class Post extends CActiveRecord
 	/**
 	 * Normalizes the user-entered tags.
 	 */
-	public function validateTags($attribute,$params)
+	public function normalizeTags($attribute,$params)
 	{
 		$this->tags=Tag::array2string(array_unique(Tag::string2array($this->tags)));
 	}
