@@ -42,9 +42,7 @@ class Lookup extends CActiveRecord
 	{
 		if(!isset(self::$_items[$type]))
 			self::loadItems($type);
-		if(self::$_items===null)
-			self::loadItems();
-		return isset(self::$_items[$type]) ? self::$_items[$type] : array();
+		return self::$_items[$type];
 	}
 
 	/**
