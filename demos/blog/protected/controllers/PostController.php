@@ -28,12 +28,11 @@ class PostController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users
+			array('allow',  // allow all users to access 'index' and 'view' actions.
 				'actions'=>array('index','view'),
 				'users'=>array('*'),
 			),
-			array('allow', // allow authenticated users
-				'actions'=>array('create','update','admin','delete','suggestTags'),
+			array('allow', // allow authenticated users to access all actions
 				'users'=>array('@'),
 			),
 			array('deny',  // deny all users
@@ -182,7 +181,7 @@ class PostController extends Controller
 			if(isset($_GET['id']))
 			{
 				if(Yii::app()->user->isGuest)
-					$condition='status='.Post::STATUS_PUBLISHED;
+					$condition='status='.Post::STATUS_PUBLISHED.' OR status='.POST::STATUS_ARCHIVED;
 				else
 					$condition='';
 				$this->_model=Post::model()->findbyPk($_GET['id'], $condition);
