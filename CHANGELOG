@@ -4,6 +4,7 @@
 
 Version 1.1.0 to be released
 ----------------------------
+- Bug #720: The new table prefix feature does not work with many-many relationship in AR (Qiang)
 - Bug #735: CDbCriteria should save 'with' attribute when toArray() is called (Qiang)
 - Chg: renamed CDetailView::model to be 'data'. renamed 'dataField' and 'dataExpression' to be 'name' and 'value' for grid view columns. (Qiang)
 - Enh #656: Added support to indicate the size of enum column type for MySQL schema (sebas)

@@ -173,6 +173,13 @@ abstract class CDbSchema extends CComponent
 			$name1=substr($name1,$pos+1);
 		if(($pos=strrpos($name2,'.'))!==false)
 			$name2=substr($name2,$pos+1);
+		if($this->_connection->tablePrefix!==null)
+		{
+			if(strpos($name1,'{')!==false)
+				$name1=$this->_connection->tablePrefix.str_replace(array('{','}'),'',$name1);
+			if(strpos($name2,'{')!==false)
+				$name2=$this->_connection->tablePrefix.str_replace(array('{','}'),'',$name2);
+		}
 		return $name1===$name2;
 	}
 
