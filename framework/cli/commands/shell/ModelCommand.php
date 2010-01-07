@@ -168,7 +168,7 @@ EOD;
 
 					// Add relation for the referenced table
 					$relationType=$table->primaryKey === $fkName ? 'HAS_ONE' : 'HAS_MANY';
-					$relationName=$this->generateRelationName($refTable, $tableName, $relationType==='HAS_MANY');
+					$relationName=$this->generateRelationName($refTable, $this->removePrefix($tableName), $relationType==='HAS_MANY');
 					$this->_relations[$refClassName][$relationName]="array(self::$relationType, '$className', '$fkName')";
 				}
 			}
@@ -206,7 +206,7 @@ EOD;
 		foreach($schema->getTableNames() as $name)
 		{
 			if($pattern===null)
-				$this->_tables[$name]=$this->generateClassName($name);
+				$this->_tables[$name]=$this->generateClassName($this->removePrefix($name));
 			else if(preg_match($pattern,$name,$matches))
 			{
 				if(count($matches)>1 && !empty($matches[1]))
