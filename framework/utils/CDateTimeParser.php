@@ -6,7 +6,7 @@
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @author Tomasz Suchanek <tomasz[dot]suchanek[at]gmail[dot]com>
  * @link http://www.yiiframework.com/
- * @copyright Copyright &copy; 2008-2009 Yii Software LLC
+ * @copyright Copyright &copy; 2008-2010 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
 
