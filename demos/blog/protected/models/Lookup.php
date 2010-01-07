@@ -3,7 +3,7 @@
 class Lookup extends CActiveRecord
 {
 	/**
-	 * The followings are the available columns in table 'tce_lookup':
+	 * The followings are the available columns in table 'tbl_lookup':
 	 * @var integer $id
 	 * @var string $object_type
 	 * @var integer $code
@@ -29,7 +29,7 @@ class Lookup extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'tbl_lookup';
+		return '{{lookup}}';
 	}
 
 	/**
