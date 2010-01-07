@@ -39,7 +39,9 @@ We can make use of the sophisticated [caching feature](http://www.yiiframework.c
 [php]
 <?php if($this->beginCache('tagCloud', array('duration'=>3600))) { ?>
 
-<?php $this->widget('TagCloud'); ?>
+	<?php $this->widget('TagCloud', array(
+		'maxTags'=>Yii::app()->params['tagCloudCount'],
+	)); ?>
 
 <?php $this->endCache(); } ?>
 ~~~

@@ -1,4 +1,4 @@
-<?php $this->beginContent(); ?>
+<?php $this->beginContent('/layouts/main'); ?>
 <div class="container">
 	<div class="span-18">
 		<div id="content">

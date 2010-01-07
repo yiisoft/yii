@@ -2,7 +2,6 @@
 
 class PostController extends Controller
 {
-	const PAGE_SIZE=10;
 	public $layout='column2';
 
 	/**
@@ -127,7 +126,7 @@ class PostController extends Controller
 
 		$dataProvider=new CActiveDataProvider('Post', array(
 			'pagination'=>array(
-				'pageSize'=>self::PAGE_SIZE,
+				'pageSize'=>Yii::app()->params['postsPerPage'],
 			),
 			'criteria'=>$criteria,
 		));
@@ -143,9 +142,6 @@ class PostController extends Controller
 	public function actionAdmin()
 	{
 		$dataProvider=new CActiveDataProvider('Post', array(
-			'pagination'=>array(
-				'pageSize'=>self::PAGE_SIZE,
-			),
 			'sort'=>array(
 				'defaultOrder'=>'status, update_time DESC',
 			),
@@ -209,12 +205,8 @@ class PostController extends Controller
 			if($post->addComment($comment))
 			{
 				if($comment->status==Comment::STATUS_PENDING)
-				{
 					Yii::app()->user->setFlash('commentSubmitted','Thank you for your comment. Your comment will be posted once it is approved.');
-					$this->refresh();
-				}
-				else
-					$this->redirect($comment->getUrl($post));
+				$this->refresh();
 			}
 		}
 		return $comment;

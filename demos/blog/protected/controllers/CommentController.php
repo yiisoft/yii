@@ -2,7 +2,6 @@
 
 class CommentController extends Controller
 {
-	const PAGE_SIZE=10;
 	public $layout='column2';
 
 	/**
@@ -81,9 +80,6 @@ class CommentController extends Controller
 	public function actionIndex()
 	{
 		$dataProvider=new CActiveDataProvider('Comment', array(
-			'pagination'=>array(
-				'pageSize'=>self::PAGE_SIZE,
-			),
 			'criteria'=>array(
 				'with'=>'post',
 				'order'=>'{{comment}}.status, {{comment}}.create_time DESC',
