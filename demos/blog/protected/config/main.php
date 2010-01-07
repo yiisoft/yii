@@ -28,6 +28,7 @@ return array(
 		),
 		'db'=>array(
 			'connectionString' => 'sqlite:protected/data/blog.db',
+			'tablePrefix' => 'tbl_',
 		),
 		// uncomment the following to use a MySQL database
 		/*
@@ -37,6 +38,7 @@ return array(
 			'username' => 'root',
 			'password' => '',
 			'charset' => 'utf8',
+			'tablePrefix' => 'tbl_',
 		),
 		*/
 		'errorHandler'=>array(

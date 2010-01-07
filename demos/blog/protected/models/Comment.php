@@ -30,7 +30,7 @@ class Comment extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'tbl_comment';
+		return '{{comment}}';
 	}
 
 	/**
@@ -124,8 +124,8 @@ class Comment extends CActiveRecord
 	public function findRecentComments($limit=10)
 	{
 		return $this->with('post')->findAll(array(
-			'condition'=>'tbl_comment.status='.self::STATUS_APPROVED,
-			'order'=>'tbl_comment.create_time DESC',
+			'condition'=>'{{comment}}.status='.self::STATUS_APPROVED,
+			'order'=>'{{comment}}.create_time DESC',
 			'limit'=>$limit,
 		));
 	}

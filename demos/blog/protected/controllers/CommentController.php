@@ -86,7 +86,7 @@ class CommentController extends Controller
 			),
 			'criteria'=>array(
 				'with'=>'post',
-				'order'=>'tbl_comment.status, tbl_comment.create_time DESC',
+				'order'=>'{{comment}}.status, {{comment}}.create_time DESC',
 			),
 		));
 

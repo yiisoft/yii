@@ -26,7 +26,7 @@ class User extends CActiveRecord
 	 */
 	public function tableName()
 	{
-		return 'tbl_user';
+		return '{{user}}';
 	}
 
 	/**
@@ -51,7 +51,7 @@ class User extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'tbl_posts' => array(self::HAS_MANY, 'TblPost', 'author_id'),
+			'posts' => array(self::HAS_MANY, 'Post', 'author_id'),
 		);
 	}
 
