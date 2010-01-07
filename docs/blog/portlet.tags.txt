@@ -11,30 +11,32 @@ We create the `TagCloud` class in the file `/wwwroot/blog/protected/components/T
 
 ~~~
 [php]
-<?php
-class TagCloud extends Portlet
+Yii::import('zii.widgets.CPortlet');
+
+class TagCloud extends CPortlet
 {
 	public $title='Tags';
-
-	public function getTagWeights()
-	{
-		return Tag::model()->findTagWeights();
-	}
+	public $maxTags=20;
 
 	protected function renderContent()
 	{
-		$this->render('tagCloud');
+		$tags=Tag::model()->findTagWeights($this->maxTags);
+
+		foreach($tags as $tag=>$weight)
+		{
+			$link=CHtml::link(CHtml::encode($tag), array('post/index','tag'=>$tag));
+			echo CHtml::tag('span', array(
+				'class'=>'tag',
+				'style'=>"font-size:{$weight}pt",
+			), $link)."\n";
+		}
 	}
 }
 ~~~
 
-In the above we invoke the `findTagWeights` method which is defined in the `Tag` class. The method returns a list of tags with their relative frequency weights. If a tag is associated with more posts, it receives higher weights. We will use the weights to control how the tags are displayed.
+Unlike the `UserMenu` portlet, the `TagCloud` portlet does not use a view. Instead, its presentation is done in the `renderContent()` method. This is because the presentation does not contain much HTML tags.
 
-
-Creating `tagCloud` View
--------------------------
-
-The `tagCloud` view is saved in the file `/wwwroot/blog/protected/components/views/tagCloud.php`. For each tag returned by `TagCloud::getTagWeights()`, it displays a hyperlink which would lead to the page listing the posts with that tag. The font size of the link is determined according to the weight value of the tag. The higher the weight, the bigger the fone size.
+We display each tag as a hyperlink to the post index page with the corresponding tag parameter. The font size of each tag link is adjusted according to their relative weight among other tags. If a tag has higher frequency value than the other, it will have a bigger font size.
 
 
 Using `TagCloud` Portlet
@@ -47,11 +49,11 @@ Usage of the `TagCloud` portlet is very simple. We modify the layout file `/wwwr
 ......
 <div id="sidebar">
 
-<?php $this->widget('UserLogin',array('visible'=>Yii::app()->user->isGuest)); ?>
+	<?php if(!Yii::app()->user->isGuest) $this->widget('UserMenu'); ?>
 
-<?php $this->widget('UserMenu',array('visible'=>!Yii::app()->user->isGuest)); ?>
-
-<?php $this->widget('TagCloud'); ?>
+	<?php $this->widget('TagCloud', array(
+		'maxTags'=>Yii::app()->params['tagCloudCount'],
+	)); ?>
 
 </div>
 ......

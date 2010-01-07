@@ -24,7 +24,7 @@ class UserIdentity extends CUserIdentity
 		$user=User::model()->find('LOWER(username)=?',array($username));
 		if($user===null)
 			$this->errorCode=self::ERROR_USERNAME_INVALID;
-		else if(md5($this->password)!==$user->password)
+		else if(!$user->validatePassword($this->password))
 			$this->errorCode=self::ERROR_PASSWORD_INVALID;
 		else
 		{
@@ -32,7 +32,7 @@ class UserIdentity extends CUserIdentity
 			$this->username=$user->username;
 			$this->errorCode=self::ERROR_NONE;
 		}
-		return !$this->errorCode;
+		return $this->errorCode==self::ERROR_NONE;
 	}
 
 	public function getId()
@@ -42,11 +42,32 @@ class UserIdentity extends CUserIdentity
 }
 ~~~
 
-In the `authenticate()` method, we use the `User` class to look for a row in the `User` table whose `username` column is the same as the given username in a case-insensitive manner. Remember that the `User` class was created using the `yiic` tool in the prior section. Because the `User` class extends from [CActiveRecord], we can exploit [the ActiveRecord feature](http://www.yiiframework.com/doc/guide/database.ar) and access the `User` table in an OOP fashion.
+In the `authenticate()` method, we use the `User` class to look for a row in the `User` table whose `username` column is the same as the given username in a case-insensitive manner. Remember that the `User` class was created using the `yiic` tool in the prior section. Because the `User` class extends from [CActiveRecord], we can exploit [the ActiveRecord feature](http://www.yiiframework.com/doc/guide/database.ar) to access the `User` table in an OOP fashion.
+
+In order to check if the user has entered a valid password, we invoke the `validatePassword` method of the `User` class. We need to modify the file `/wwwroot/blog/protected/models/User.php` as follows. Note that instead of storing the plain password in the database, we store the hash result of the password and a randomly generated salt key. When validating the user-entered password, we should compare the hash results, instead.
+
+~~~
+[php]
+class User extends CActiveRecord
+{
+	......
+	public function validatePassword($password)
+	{
+		return $this->hashPassword($password,$this->salt)===$this->password;
+	}
+
+	public function hashPassword($password,$salt)
+	{
+		return md5($salt.$password);
+	}
+}
+~~~
 
 In the `UserIdentity` class, we also override the `getId()` method which returns the `id` value of the user found in the `User` table. The parent implementation would return the username, instead. Both the `username` and `id` properties will be stored in the user session and may be accessed via `Yii::app()->user` from anywhere in our code.
 
-> Tip: In the `UserIdentity` class, we reference the class [CUserIdentity] without explicitly including the corresponding class file. This is because [CUserIdentity] is a core class provided by the Yii framework. Yii will automatically include the class file for any core class when it is referenced for the first time. We also do the same with the `User` class. This is because the `User` class file is placed under the directory `/wwwroot/blog/protected/models` which has been added to the PHP `include_path` according to the following lines found in the application configuration:
+> Tip: In the `UserIdentity` class, we reference the class [CUserIdentity] without explicitly including the corresponding class file. This is because [CUserIdentity] is a core class provided by the Yii framework. Yii will automatically include the class file for any core class when it is referenced for the first time.
+>
+> We also do the same with the `User` class. This is because the `User` class file is placed under the directory `/wwwroot/blog/protected/models` which has been added to the PHP `include_path` according to the following lines found in the application configuration:
 >
 > ~~~
 > [php]
