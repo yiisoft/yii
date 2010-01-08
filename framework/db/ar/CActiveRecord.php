@@ -1204,7 +1204,8 @@ abstract class CActiveRecord extends CModel
 		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
 			return $this->with($condition->with)->findByPk($pk,$condition);
 		Yii::trace(get_class($this).'.findByPk()','system.db.ar.CActiveRecord');
-		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk,$condition,$params);
+		$prefix=$this->getDbConnection()->getSchema()->quoteTableName('t').'.';
+		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk,$condition,$params,$prefix);
 		$criteria->limit=1;
 		return $this->query($criteria);
 	}
@@ -1222,7 +1223,8 @@ abstract class CActiveRecord extends CModel
 		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
 			return $this->with($condition->with)->findAllByPk($pk,$condition);
 		Yii::trace(get_class($this).'.findAllByPk()','system.db.ar.CActiveRecord');
-		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk,$condition,$params);
+		$prefix=$this->getDbConnection()->getSchema()->quoteTableName('t').'.';
+		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk,$condition,$params,$prefix);
 		return $this->query($criteria,true);
 	}
 
