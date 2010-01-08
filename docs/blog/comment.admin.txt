@@ -43,7 +43,7 @@ public function actionIndex()
 	$dataProvider=new CActiveDataProvider('Comment', array(
 		'criteria'=>array(
 			'with'=>'post',
-			'order'=>'{{comment}}.status, {{comment}}.create_time DESC',
+			'order'=>'t.status, t.create_time DESC',
 		),
 	));
 
@@ -53,9 +53,7 @@ public function actionIndex()
 }
 ~~~
 
-Notice that in the above code, we refer to the `tbl_comment` table via the token `{{comment}}` when we specify the query criteria. This is because of the table prefix feature we exploit when we set up the database connection.
-
-We need to prefix the columns with the table prefix because we are querying the comments together with their belonging posts which also have columns `status` and `create_time`. The table prefix will disambiguate the column references.
+Notice that in the above code, because both `tbl_post` and `tbl_comment` have columns `status` and `create_time`, we need to disambiguate the corresponding column reference by prefixing them with table alias names. As described in [the guide](http://www.yiiframework.com/doc/guide/database.arr#disambiguating-column-names), the alias for the primary table in a relational query is always `t`. Therefore, we are prefixing `t` to the `status` and `create_time` columns in the above code.
 
 Like the post index view, the `index` view for `CommentController` uses [[CListView]] to display the comment list which in turn uses the partial view `/wwwroot/blog/protected/views/comment/_view.php` to display the detail of each individual comment. We will not go into details here. Interested readers may refer to the corresponding file in the blog demo `/wwwroot/yii/demos/blog/protected/views/comment/_view.php`.
 

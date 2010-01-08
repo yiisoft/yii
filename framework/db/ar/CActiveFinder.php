@@ -107,7 +107,7 @@ class CActiveFinder extends CComponent
 	public function findByPk($pk,$condition='',$params=array())
 	{
 		Yii::trace(get_class($this->_joinTree->model).'.findByPk() eagerly','system.db.ar.CActiveRecord');
-		$criteria=$this->_builder->createPkCriteria($this->_joinTree->model->getTableSchema(),$pk,$condition,$params);
+		$criteria=$this->_builder->createPkCriteria($this->_joinTree->model->getTableSchema(),$pk,$condition,$params,$this->_joinTree->rawTableAlias.'.');
 		return $this->query($criteria);
 	}
 
@@ -117,7 +117,7 @@ class CActiveFinder extends CComponent
 	public function findAllByPk($pk,$condition='',$params=array())
 	{
 		Yii::trace(get_class($this->_joinTree->model).'.findAllByPk() eagerly','system.db.ar.CActiveRecord');
-		$criteria=$this->_builder->createPkCriteria($this->_joinTree->model->getTableSchema(),$pk,$condition,$params);
+		$criteria=$this->_builder->createPkCriteria($this->_joinTree->model->getTableSchema(),$pk,$condition,$params,$this->_joinTree->rawTableAlias.'.');
 		return $this->query($criteria,true);
 	}
 
@@ -127,7 +127,7 @@ class CActiveFinder extends CComponent
 	public function findByAttributes($attributes,$condition='',$params=array())
 	{
 		Yii::trace(get_class($this->_joinTree->model).'.findByAttributes() eagerly','system.db.ar.CActiveRecord');
-		$criteria=$this->_builder->createColumnCriteria($this->_joinTree->model->getTableSchema(),$attributes,$condition,$params);
+		$criteria=$this->_builder->createColumnCriteria($this->_joinTree->model->getTableSchema(),$attributes,$condition,$params,$this->_joinTree->rawTableAlias.'.');
 		return $this->query($criteria);
 	}
 
@@ -137,7 +137,7 @@ class CActiveFinder extends CComponent
 	public function findAllByAttributes($attributes,$condition='',$params=array())
 	{
 		Yii::trace(get_class($this->_joinTree->model).'.findAllByAttributes() eagerly','system.db.ar.CActiveRecord');
-		$criteria=$this->_builder->createColumnCriteria($this->_joinTree->model->getTableSchema(),$attributes,$condition,$params);
+		$criteria=$this->_builder->createColumnCriteria($this->_joinTree->model->getTableSchema(),$attributes,$condition,$params,$this->_joinTree->rawTableAlias.'.');
 		return $this->query($criteria,true);
 	}
 
@@ -360,6 +360,8 @@ class CJoinElement
 			$this->model=$relation;
 			$this->_builder=$relation->getCommandBuilder();
 			$this->_table=$relation->getTableSchema();
+			$this->tableAlias='t';
+			$this->rawTableAlias=$this->_builder->getSchema()->quoteTableName('t');
 		}
 
 		// set up column aliases, such as t1_c2
