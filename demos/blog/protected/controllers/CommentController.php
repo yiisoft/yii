@@ -82,7 +82,7 @@ class CommentController extends Controller
 		$dataProvider=new CActiveDataProvider('Comment', array(
 			'criteria'=>array(
 				'with'=>'post',
-				'order'=>'t.status, t.create_time DESC',
+				'order'=>'{{comment}}.status, {{comment}}.create_time DESC',
 			),
 		));
 

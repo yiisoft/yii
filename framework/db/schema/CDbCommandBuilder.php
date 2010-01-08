@@ -420,10 +420,9 @@ class CDbCommandBuilder extends CComponent
 	 * @param array parameters to be bound to an SQL statement.
 	 * This is only used when the second parameter is a string (query condition).
 	 * In other cases, please use {@link CDbCriteria::params} to set parameters.
-	 * @param string column prefix (ended with dot). If null, it will be the table name
 	 * @return CDbCriteria the created query criteria
 	 */
-	public function createPkCriteria($table,$pk,$condition='',$params=array(),$prefix=null)
+	public function createPkCriteria($table,$pk,$condition='',$params=array())
 	{
 		$this->ensureTable($table);
 		$criteria=$this->createCriteria($condition,$params);
@@ -431,7 +430,7 @@ class CDbCommandBuilder extends CComponent
 			$pk=array($pk);
 		if(is_array($table->primaryKey) && !isset($pk[0]) && $pk!==array()) // single composite key
 			$pk=array($pk);
-		$condition=$this->createInCondition($table,$table->primaryKey,$pk,$prefix);
+		$condition=$this->createInCondition($table,$table->primaryKey,$pk);
 		if($criteria->condition!=='')
 			$criteria->condition=$condition.' AND ('.$criteria->condition.')';
 		else
@@ -464,10 +463,9 @@ class CDbCommandBuilder extends CComponent
 	 * @param array parameters to be bound to an SQL statement.
 	 * This is only used when the second parameter is a string (query condition).
 	 * In other cases, please use {@link CDbCriteria::params} to set parameters.
-	 * @param string column prefix (ended with dot). If null, it will be the table name
 	 * @return CDbCriteria the created query criteria
 	 */
-	public function createColumnCriteria($table,$columns,$condition='',$params=array(),$prefix=null)
+	public function createColumnCriteria($table,$columns,$condition='',$params=array())
 	{
 		$this->ensureTable($table);
 		$criteria=$this->createCriteria($condition,$params);
@@ -475,30 +473,28 @@ class CDbCommandBuilder extends CComponent
 		$conditions=array();
 		$values=array();
 		$i=0;
-		if($prefix===null)
-			$prefix=$table->rawName.'.';
 		foreach($columns as $name=>$value)
 		{
 			if(($column=$table->getColumn($name))!==null)
 			{
 				if(is_array($value))
-					$conditions[]=$this->createInCondition($table,$name,$value,$prefix);
+					$conditions[]=$this->createInCondition($table,$name,$value);
 				else if($value!==null)
 				{
 					if($bindByPosition)
 					{
-						$conditions[]=$prefix.$column->rawName.'=?';
+						$conditions[]=$table->rawName.'.'.$column->rawName.'=?';
 						$values[]=$value;
 					}
 					else
 					{
-						$conditions[]=$prefix.$column->rawName.'='.self::PARAM_PREFIX.$i;
+						$conditions[]=$table->rawName.'.'.$column->rawName.'='.self::PARAM_PREFIX.$i;
 						$values[self::PARAM_PREFIX.$i]=$value;
 						$i++;
 					}
 				}
 				else
-					$conditions[]=$prefix.$column->rawName.' IS NULL';
+					$conditions[]=$table->rawName.'.'.$column->rawName.' IS NULL';
 			}
 			else
 				throw new CDbException(Yii::t('yii','Table "{table}" does not have a column named "{column}".',

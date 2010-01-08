@@ -413,11 +413,6 @@ class CActiveRecordTest extends CTestCase
 			'name'=>'order 22'),$item->order->attributes);
 	}
 
-	public function testEagerRelation2()
-	{
-		$post=Post::model()->with('author','firstComment','comments','categories')->findByPk(2);
-	}
-
 	public function testEagerRelation()
 	{
 		$post=Post::model()->with('author','firstComment','comments','categories')->findByPk(2);
@@ -498,7 +493,7 @@ class CActiveRecordTest extends CTestCase
 
 	public function testRelationWithCondition()
 	{
-		$posts=Post::model()->with('comments')->findAllByPk(array(2,3,4),array('order'=>'t.id'));
+		$posts=Post::model()->with('comments')->findAllByPk(array(2,3,4),array('order'=>'posts.id'));
 		$this->assertEquals(3,count($posts));
 		$this->assertEquals(2,count($posts[0]->comments));
 		$this->assertEquals(4,count($posts[1]->comments));
@@ -515,25 +510,25 @@ class CActiveRecordTest extends CTestCase
 		$posts=Post::model()->with('comments')->findAllBySql('select * from posts where id=:id1 OR id=:id2',array(':id1'=>2,':id2'=>3));
 		$this->assertEquals(2,count($posts));
 
-		$post=Post::model()->with('comments','author')->find('t.id=:id',array(':id'=>2));
+		$post=Post::model()->with('comments','author')->find('posts.id=:id',array(':id'=>2));
 		$this->assertTrue($post instanceof Post);
 
 		$posts=Post::model()->with('comments','author')->findAll(array(
 			'select'=>'title',
-			'condition'=>'t.id=:id',
+			'condition'=>'posts.id=:id',
 			'limit'=>1,
 			'offset'=>0,
-			'order'=>'t.title',
-			'group'=>'t.id',
+			'order'=>'posts.title',
+			'group'=>'posts.id',
 			'params'=>array(':id'=>2)));
 		$this->assertTrue($posts[0] instanceof Post);
 
 		$posts=Post::model()->with('comments','author')->findAll(array(
 			'select'=>'title',
-			'condition'=>'t.id=:id',
+			'condition'=>'posts.id=:id',
 			'limit'=>1,
 			'offset'=>2,
-			'order'=>'t.title',
+			'order'=>'posts.title',
 			'params'=>array(':id'=>2)));
 		$this->assertTrue($posts===array());
 	}
@@ -636,10 +631,10 @@ class CActiveRecordTest extends CTestCase
 		$count=Post::model()->with('author','firstComment','comments','categories')->count();
 		$this->assertEquals(5,$count);
 
-		$count=Post::model()->with('author','firstComment','comments','categories')->count('t.id=4');
+		$count=Post::model()->with('author','firstComment','comments','categories')->count('posts.id=4');
 		$this->assertEquals(1,$count);
 
-		$count=Post::model()->with('author','firstComment','comments','categories')->count('t.id=14');
+		$count=Post::model()->with('author','firstComment','comments','categories')->count('posts.id=14');
 		$this->assertEquals(0,$count);
 	}
 
