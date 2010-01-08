@@ -45,7 +45,7 @@ class CCaptchaAction extends CAction
 	/**
 	 * @var integer how many times should the same CAPTCHA be displayed. Defaults to 3.
 	 */
-	public $testLimit=1;
+	public $testLimit=3;
 	/**
 	 * @var integer the width of the generated CAPTCHA image. Defaults to 120.
 	 */
