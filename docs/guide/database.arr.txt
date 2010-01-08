@@ -5,13 +5,9 @@ We have already seen how to use Active Record (AR) to select data from a
 single database table. In this section, we describe how to use AR to join
 several related database tables and bring back the joint data set.
 
-In order to use relational AR, it is required that primary-foreign key
-relationships are well defined between tables that need to be joined. AR
-relies on the metadata about these relationships to determine how to join
-the tables.
-
-> Note: Starting from version 1.0.1, you can use relational AR even
-> if you do not define any foreign key constraints in your database.
+In order to use relational AR, it is recommended that primary-foreign key
+constraints are declared for tables that need to be joined. The constraints
+will help to keep the consistency and integrity of the relational data.
 
 For simplicity, we will use the database schema shown in the
 following entity-relationship (ER) diagram to illustrate examples in this
@@ -20,31 +16,8 @@ section.
 ![ER Diagram](er.png)
 
 > Info: Support for foreign key constraints varies in different DBMS.
->
 > SQLite does not support foreign key constraints, but you can still
-> declare the constraints when creating tables. AR can exploit these
-> declarations to correctly support relational queries.
->
-> MySQL supports foreign key constraints with InnoDB engine, but not with
-> MyISAM. It is thus recommended that you use InnoDB for your MySQL database.
-> When using MyISAM, you may exploit the following trick so that
-> you can perform relational queries using AR:
-> ~~~
-> [sql]
-> CREATE TABLE foo
-> (
->   id INTEGER NOT NULL PRIMARY KEY
-> );
-> CREATE TABLE bar
-> (
->   id INTEGER NOT NULL PRIMARY KEY,
->   foo_id INTEGER
->      COMMENT 'CONSTRAINT FOREIGN KEY (foo_id) REFERENCES foo(id)'
-> );
-> ~~~
-> In the above, we use `COMMENT` keyword to describe the foreign key constraint
-> which can be read by AR to recognize the described relationship.
-
+> declare the constraints when creating tables.
 
 
 Declaring Relationship
@@ -108,7 +81,8 @@ class Post extends CActiveRecord
 	{
 		return array(
 			'author'=>array(self::BELONGS_TO, 'User', 'author_id'),
-			'categories'=>array(self::MANY_MANY, 'Category', 'tbl_post_category(post_id, category_id)'),
+			'categories'=>array(self::MANY_MANY, 'Category',
+				'tbl_post_category(post_id, category_id)'),
 		);
 	}
 }
@@ -345,12 +319,11 @@ When a column name appears in two or more tables being joined
 together, it needs to be disambiguated. This is done by prefixing the
 column name with its table's alias name.
 
-In relational AR query, the alias name for the primary table is the same
-as the primary table name, while the alias name for a relational table
+In relational AR query, the alias name for the primary table is fixed as `t`,
+while the alias name for a relational table
 is the same as the corresponding relation name by default. For example,
 in the following statement, the alias name for `Post` and `Comment` is
-`Post` and `comments`, respectively (assuming the table name for `Post` is
-`Post`):
+`t` and `comments`, respectively:
 
 ~~~
 [php]
@@ -365,14 +338,15 @@ creation time. We need to disambiguate the `create_time` column like the followi
 ~~~
 [php]
 $posts=Post::model()->with('comments')->findAll(array(
-	'order'=>'Post.create_time, comments.create_time'
+	'order'=>'t.create_time, comments.create_time'
 ));
 ~~~
 
 > Note: the behavior of column disambiguation has been changed since version 1.1.0.
 > Previously in version 1.0.x, by default Yii would automatically generate a table
 > alias for each relational table, and we had to use the prefix `??.` to refer to
-> this automatically generated alias.
+> this automatically generated alias. Also, in version 1.0.x, the alias name
+> of the primary table is the table name itself.
 
 
 Dynamic Relational Query Options
