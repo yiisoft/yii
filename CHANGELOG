@@ -6,6 +6,7 @@ Version 1.1.0 to be released
 ----------------------------
 - Bug #720: The new table prefix feature does not work with many-many relationship in AR (Qiang)
 - Bug #735: CDbCriteria should save 'with' attribute when toArray() is called (Qiang)
+- Chg #796: The alias name for the primary table in a relational AR query is changed to be 't' (Qiang)
 - Chg: renamed CDetailView::model to be 'data'. renamed 'dataField' and 'dataExpression' to be 'name' and 'value' for grid view columns. (Qiang)
 - Enh #656: Added support to indicate the size of enum column type for MySQL schema (sebas)
 - Enh #767: Added CUrlRule::matchValue option to support creating URLs only when a rule's parameter value patterns are matched. (Qiang)

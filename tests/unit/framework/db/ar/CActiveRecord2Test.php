@@ -511,7 +511,7 @@ class CActiveRecord2Test extends CTestCase
 
 	public function testRelationWithCondition()
 	{
-		$posts=Post2::model()->with('comments')->findAllByPk(array(2,3,4),array('order'=>'posts.id'));
+		$posts=Post2::model()->with('comments')->findAllByPk(array(2,3,4),array('order'=>'t.id'));
 		$this->assertEquals(3,count($posts));
 		$this->assertEquals(2,count($posts[0]->comments));
 		$this->assertEquals(4,count($posts[1]->comments));
@@ -528,24 +528,24 @@ class CActiveRecord2Test extends CTestCase
 		$posts=Post2::model()->with('comments')->findAllBySql('select * from test.posts where id=:id1 OR id=:id2',array(':id1'=>2,':id2'=>3));
 		$this->assertEquals(2,count($posts));
 
-		$post=Post2::model()->with('comments','author')->find('posts.id=:id',array(':id'=>2));
+		$post=Post2::model()->with('comments','author')->find('t.id=:id',array(':id'=>2));
 		$this->assertTrue($post instanceof Post2);
 
 		$posts=Post2::model()->with('comments','author')->findAll(array(
 			'select'=>'title',
-			'condition'=>'posts.id=:id',
+			'condition'=>'t.id=:id',
 			'limit'=>1,
 			'offset'=>0,
-			'order'=>'posts.title',
+			'order'=>'t.title',
 			'params'=>array(':id'=>2)));
 		$this->assertTrue($posts[0] instanceof Post2);
 
 		$posts=Post2::model()->with('comments','author')->findAll(array(
 			'select'=>'title',
-			'condition'=>'posts.id=:id',
+			'condition'=>'t.id=:id',
 			'limit'=>1,
 			'offset'=>2,
-			'order'=>'posts.title',
+			'order'=>'t.title',
 			'params'=>array(':id'=>2)));
 		$this->assertTrue($posts===array());
 	}
@@ -572,19 +572,19 @@ class CActiveRecord2Test extends CTestCase
 		$count=Post2::model()->with('author','firstComment','comments','categories')->count();
 		$this->assertEquals(5,$count);
 
-		$count=Post2::model()->with('author','firstComment','comments','categories')->count('posts.id=4');
+		$count=Post2::model()->with('author','firstComment','comments','categories')->count('t.id=4');
 		$this->assertEquals(1,$count);
 
-		$count=Post2::model()->with('author','firstComment','comments','categories')->count('posts.id=14');
+		$count=Post2::model()->with('author','firstComment','comments','categories')->count('t.id=14');
 		$this->assertEquals(0,$count);
 	}
 
 	public function testEmptyFinding()
 	{
-		$post=Post2::model()->with('author','firstComment','comments','categories')->find('posts.id=100');
+		$post=Post2::model()->with('author','firstComment','comments','categories')->find('t.id=100');
 		$this->assertNull($post);
 
-		$posts=Post2::model()->with('author','firstComment','comments','categories')->findAll('posts.id=100');
+		$posts=Post2::model()->with('author','firstComment','comments','categories')->findAll('t.id=100');
 		$this->assertTrue($posts===array());
 
 		$post=Post2::model()->with('author','firstComment','comments','categories')->findBySql('SELECT * FROM test.posts WHERE id=100');

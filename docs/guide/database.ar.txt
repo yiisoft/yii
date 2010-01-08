@@ -174,6 +174,18 @@ For example, PostgreSQL treats column names as case-insensitive
 by default, and we must quote a column in a query condition if the column
 contains mixed-case letters. Using lower case would help eliminate this problem.
 
+AR relies on well defined primary keys of tables. If a table does not have a primary key, it is required that the corresponding AR class specify which column(s) should be the primary key by overriding the `primaryKey()` method as follows,
+
+~~~
+[php]
+public function primaryKey()
+{
+	return 'id';
+	// For composite primary key, return an array like the following
+	// return array('pk1', 'pk2');
+}
+~~~
+
 
 Creating Record
 ---------------
