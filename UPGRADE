@@ -13,7 +13,6 @@ Upgrading from v1.1rc
 ---------------------
 - CRudColumn is renamed as CButtonColumn
 - CDataColumn.dataField and dataExpression are renamed as name and value, respectively
-- The alias name for the primary table in a relational AR query is fixed to be 't'
 
 Upgrading from v1.1b
 --------------------
