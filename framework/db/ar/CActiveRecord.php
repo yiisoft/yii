@@ -1240,7 +1240,7 @@ abstract class CActiveRecord extends CModel
 		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
 			return $this->with($condition->with)->findByAttributes($attributes,$condition);
 		Yii::trace(get_class($this).'.findByAttributes()','system.db.ar.CActiveRecord');
-		$prefix=$this->getTableSchema()->quoteTableName('t').'.';
+		$prefix=$this->getDbConnection()->getSchema()->quoteTableName('t').'.';
 		$criteria=$this->getCommandBuilder()->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params,$prefix);
 		$criteria->limit=1;
 		return $this->query($criteria);
@@ -1260,7 +1260,7 @@ abstract class CActiveRecord extends CModel
 		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
 			return $this->with($condition->with)->findAllByAttributes($attributes,$condition);
 		Yii::trace(get_class($this).'.findAllByAttributes()','system.db.ar.CActiveRecord');
-		$prefix=$this->getTableSchema()->quoteTableName('t').'.';
+		$prefix=$this->getDbConnection()->getSchema()->quoteTableName('t').'.';
 		$criteria=$this->getCommandBuilder()->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params,$prefix);
 		return $this->query($criteria,true);
 	}
