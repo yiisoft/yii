@@ -45,7 +45,7 @@ class CCaptchaAction extends CAction
 	/**
 	 * @var integer how many times should the same CAPTCHA be displayed. Defaults to 3.
 	 */
-	public $testLimit=3;
+	public $testLimit=1;
 	/**
 	 * @var integer the width of the generated CAPTCHA image. Defaults to 120.
 	 */
@@ -135,15 +135,12 @@ class CCaptchaAction extends CAction
 	{
 		$code=$this->getVerifyCode();
 		$valid=$caseSensitive?($input===$code):!strcasecmp($input,$code);
-		if(!$valid)
-		{
-			$session=Yii::app()->session;
-			$session->open();
-			$name=$this->getSessionKey().'count';
-			$session[$name]=$session[$name]+1;
-			if($session[$name]>$this->testLimit)
-				$this->getVerifyCode(true);
-		}
+		$session=Yii::app()->session;
+		$session->open();
+		$name=$this->getSessionKey().'count';
+		$session[$name]=$session[$name]+1;
+		if($session[$name]>$this->testLimit)
+			$this->getVerifyCode(true);
 		return $valid;
 	}
 
