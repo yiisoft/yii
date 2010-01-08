@@ -66,13 +66,15 @@ class CDbCommandBuilder extends CComponent
 	 * Creates a SELECT command for a single table.
 	 * @param mixed the table schema ({@link CDbTableSchema}) or the table name (string).
 	 * @param CDbCriteria the query criteria
+	 * @param string the alias name of the primary table. Defaults to 't'.
 	 * @return CDbCommand query command.
 	 */
-	public function createFindCommand($table,$criteria)
+	public function createFindCommand($table,$criteria,$alias='t')
 	{
 		$this->ensureTable($table);
 		$select=is_array($criteria->select) ? implode(', ',$criteria->select) : $criteria->select;
-		$sql=($criteria->distinct ? 'SELECT DISTINCT':'SELECT')." {$select} FROM {$table->rawName}";
+		$alias=$this->_schema->quoteTableName($alias);
+		$sql=($criteria->distinct ? 'SELECT DISTINCT':'SELECT')." {$select} FROM {$table->rawName} $alias";
 		$sql=$this->applyJoin($sql,$criteria->join);
 		$sql=$this->applyCondition($sql,$criteria->condition);
 		$sql=$this->applyGroup($sql,$criteria->group);
@@ -88,12 +90,14 @@ class CDbCommandBuilder extends CComponent
 	 * Creates a COUNT(*) command for a single table.
 	 * @param mixed the table schema ({@link CDbTableSchema}) or the table name (string).
 	 * @param CDbCriteria the query criteria
+	 * @param string the alias name of the primary table. Defaults to 't'.
 	 * @return CDbCommand query command.
 	 */
-	public function createCountCommand($table,$criteria)
+	public function createCountCommand($table,$criteria,$alias='t')
 	{
 		$this->ensureTable($table);
-		$sql=($criteria->distinct ? 'SELECT DISTINCT':'SELECT')." COUNT(*) FROM {$table->rawName}";
+		$alias=$this->_schema->quoteTableName($alias);
+		$sql=($criteria->distinct ? 'SELECT DISTINCT':'SELECT')." COUNT(*) FROM {$table->rawName} $alias";
 		$sql=$this->applyJoin($sql,$criteria->join);
 		$sql=$this->applyCondition($sql,$criteria->condition);
 		$command=$this->_connection->createCommand($sql);
