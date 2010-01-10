@@ -2,6 +2,9 @@
                    Yii Framework Change Log
                    ========================
 
+Version 1.1.1 to be released
+----------------------------
+
 Version 1.1.0 January 10, 2010
 ------------------------------
 - Bug #720: The new table prefix feature does not work with many-many relationship in AR (Qiang)
