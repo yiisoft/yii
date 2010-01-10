@@ -39,7 +39,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.0-dev';
+		return '1.1.0';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -715,7 +715,7 @@ class CComponent
 	}
 	public function evaluateExpression($_expression_,$_data_=array())
 	{
-		if(is_string($_expression_) && !function_exists($_expression_))
+		if(is_string($_expression_))
 		{
 			extract($_data_);
 			return @eval('return '.$_expression_.';');
@@ -2374,6 +2374,7 @@ class CUrlManager extends CApplicationComponent
 	public $appendParams=true;
 	public $routeVar='r';
 	public $caseSensitive=true;
+	public $matchValue=false;
 	public $cacheID='cache';
 	public $useStrictParsing=false;
 	private $_urlFormat=self::GET_FORMAT;
@@ -2398,9 +2399,13 @@ class CUrlManager extends CApplicationComponent
 			}
 		}
 		foreach($this->rules as $pattern=>$route)
-			$this->_rules[]=new CUrlRule($route,$pattern);
+			$this->_rules[]=$this->createUrlRule($route,$pattern);
 		if(isset($cache))
 			$cache->set(self::CACHE_KEY,array($this->_rules,$hash));
+	}
+	protected function createUrlRule($route,$pattern)
+	{
+		return new CUrlRule($route,$pattern);
 	}
 	public function createUrl($route,$params=array(),$ampersand='&')
 	{
@@ -2507,18 +2512,17 @@ class CUrlManager extends CApplicationComponent
 				$_REQUEST[$key]=$_GET[$key]=$value;
 		}
 	}
-	public function createPathInfo($params,$equal,$ampersand)
+	public function createPathInfo($params,$equal,$ampersand, $key=null)
 	{
-		$pairs=array();
-		foreach($params as $key=>$value)
+		$pairs = array();
+		foreach($params as $k => $v)
 		{
-			if(is_array($value))
-			{
-				foreach($value as $k=>$v)
-					$pairs[]=urlencode($key).'['.urlencode($k).']'.$equal.urlencode($v);
-			}
+			if ($key!==null)
+				$k = $key.'['.urlencode($k).']';
+			if (is_array($v))
+				$pairs[]=$this->createPathInfo($v,$equal,$ampersand, $k);
 			else
-				$pairs[]=urlencode($key).$equal.urlencode($value);
+				$pairs[]=$k.$equal.urlencode($v);
 		}
 		return implode($ampersand,$pairs);
 	}
@@ -2559,6 +2563,7 @@ class CUrlRule extends CComponent
 	public $urlSuffix;
 	public $caseSensitive;
 	public $defaultParams=array();
+	public $matchValue;
 	public $route;
 	public $references=array();
 	public $routePattern;
@@ -2577,6 +2582,8 @@ class CUrlRule extends CComponent
 				$this->caseSensitive=$route['caseSensitive'];
 			if(isset($route['defaultParams']))
 				$this->defaultParams=$route['defaultParams'];
+			if(isset($route['matchValue']))
+				$this->matchValue=$route['matchValue'];
 			$route=$this->route=$route[0];
 		}
 		else
@@ -2593,7 +2600,9 @@ class CUrlRule extends CComponent
 			$tokens=array_combine($matches[1],$matches[2]);
 			foreach($tokens as $name=>$value)
 			{
-				$tr["<$name>"]="(?P<$name>".($value!==''?$value:'[^\/]+').')';
+				if($value==='')
+					$value='[^\/]+';
+				$tr["<$name>"]="(?P<$name>$value)";
 				if(isset($this->references[$name]))
 					$tr2["<$name>"]=$tr["<$name>"];
 				else
@@ -2635,6 +2644,14 @@ class CUrlRule extends CComponent
 		foreach($this->params as $key=>$value)
 			if(!isset($params[$key]))
 				return false;
+		if($manager->matchValue && $this->matchValue===null || $this->matchValue)
+		{
+			foreach($this->params as $key=>$value)
+			{
+				if(!preg_match('/'.$value.'/'.$case,$params[$key]))
+					return false;
+			}
+		}
 		foreach($this->params as $key=>$value)
 		{
 			$tr["<$key>"]=urlencode($params[$key]);
@@ -2972,6 +2989,10 @@ class CController extends CBaseController
 	{
 		return $this->_module ? $this->_module->getId().'/'.$this->_id : $this->_id;
 	}
+	public function getRoute()
+	{
+		return $this->getUniqueId().'/'.$this->getAction()->getId();
+	}
 	public function getModule()
 	{
 		return $this->_module;
@@ -3040,6 +3061,13 @@ class CController extends CBaseController
 			return $this->_clips;
 		else
 			return $this->_clips=new CMap;
+	}
+	public function forward($route)
+	{
+		if(strpos($route,'/')===false) // an action of the current controller
+			$this->run($route);
+		else
+			Yii::app()->runController($route);
 	}
 	public function render($view,$data=null,$return=false)
 	{
@@ -3214,7 +3242,7 @@ class CController extends CBaseController
 	}
 	protected function loadPageStates()
 	{
-		if(isset($_POST[self::STATE_INPUT_NAME]) && !empty($_POST[self::STATE_INPUT_NAME]))
+		if(!empty($_POST[self::STATE_INPUT_NAME]))
 		{
 			if(($data=base64_decode($_POST[self::STATE_INPUT_NAME]))!==false)
 			{
@@ -3268,7 +3296,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	const STATES_VAR='__states';
 	public $allowAutoLogin=false;
 	public $guestName='Guest';
-	public $loginUrl=array('site/login');
+	public $loginUrl=array('/site/login');
 	public $identityCookie;
 	public $autoRenewCookie=false;
 	private $_keyPrefix;
@@ -6132,7 +6160,7 @@ abstract class CActiveRecord extends CModel
 		$command=$this->getCommandBuilder()->createFindCommand($this->getTableSchema(),$criteria);
 		return $all ? $this->populateRecords($command->queryAll()) : $this->populateRecord($command->queryRow());
 	}
-	private function applyScopes(&$criteria)
+	public function applyScopes(&$criteria)
 	{
 		if(($c=$this->getDbCriteria(false))!==null)
 		{
@@ -6160,7 +6188,8 @@ abstract class CActiveRecord extends CModel
 	{
 		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
 			return $this->with($condition->with)->findByPk($pk,$condition);
-		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk,$condition,$params);
+		$prefix=$this->getDbConnection()->getSchema()->quoteTableName('t').'.';
+		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk,$condition,$params,$prefix);
 		$criteria->limit=1;
 		return $this->query($criteria);
 	}
@@ -6168,14 +6197,16 @@ abstract class CActiveRecord extends CModel
 	{
 		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
 			return $this->with($condition->with)->findAllByPk($pk,$condition);
-		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk,$condition,$params);
+		$prefix=$this->getDbConnection()->getSchema()->quoteTableName('t').'.';
+		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk,$condition,$params,$prefix);
 		return $this->query($criteria,true);
 	}
 	public function findByAttributes($attributes,$condition='',$params=array())
 	{
 		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
 			return $this->with($condition->with)->findByAttributes($attributes,$condition);
-		$criteria=$this->getCommandBuilder()->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params);
+		$prefix=$this->getDbConnection()->getSchema()->quoteTableName('t').'.';
+		$criteria=$this->getCommandBuilder()->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params,$prefix);
 		$criteria->limit=1;
 		return $this->query($criteria);
 	}
@@ -6183,7 +6214,8 @@ abstract class CActiveRecord extends CModel
 	{
 		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
 			return $this->with($condition->with)->findAllByAttributes($attributes,$condition);
-		$criteria=$this->getCommandBuilder()->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params);
+		$prefix=$this->getDbConnection()->getSchema()->quoteTableName('t').'.';
+		$criteria=$this->getCommandBuilder()->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params,$prefix);
 		return $this->query($criteria,true);
 	}
 	public function findBySql($sql,$params=array())
@@ -6226,9 +6258,7 @@ abstract class CActiveRecord extends CModel
 			$with=func_get_args();
 			if(is_array($with[0]))  // the parameter is given as an array
 				$with=$with[0];
-			$finder=new CActiveFinder($this,$with,$this->getDbCriteria(false));
-			$this->_c=null;
-			return $finder;
+			return new CActiveFinder($this,$with);
 		}
 		else
 			return $this;
@@ -6853,6 +6883,13 @@ abstract class CDbSchema extends CComponent
 			$name1=substr($name1,$pos+1);
 		if(($pos=strrpos($name2,'.'))!==false)
 			$name2=substr($name2,$pos+1);
+		if($this->_connection->tablePrefix!==null)
+		{
+			if(strpos($name1,'{')!==false)
+				$name1=$this->_connection->tablePrefix.str_replace(array('{','}'),'',$name1);
+			if(strpos($name2,'{')!==false)
+				$name2=$this->_connection->tablePrefix.str_replace(array('{','}'),'',$name2);
+		}
 		return $name1===$name2;
 	}
 	public function resetSequence($table,$value=null)
