@@ -46,7 +46,7 @@ EOD;
 			if(trim($sql)!=='')
 				$this->db->createCommand($sql)->execute();
 		}
-		
+
 	}
 
 	public function tearDown()
@@ -162,7 +162,7 @@ EOD;
 		$this->assertEquals(6, $this->db->getLastInsertID());
 
 		$c=$builder->createCountCommand($table,new CDbCriteria);
-		$this->assertEquals('SELECT COUNT(*) FROM [dbo].[posts]',$c->text);
+		$this->assertEquals('SELECT COUNT(*) FROM [dbo].[posts] [t]',$c->text);
 		$this->assertEquals(6,$c->queryScalar());
 
 		$c=$builder->createDeleteCommand($table,new CDbCriteria(array(
@@ -180,7 +180,7 @@ EOD;
 			'order'=>'title',
 			'limit'=>2,
 			'offset'=>0)));
-		$this->assertEquals('SELECT TOP 2 id, title FROM [dbo].[posts] WHERE id=:id ORDER BY title',$c->text);
+		$this->assertEquals('SELECT TOP 2 id, title FROM [dbo].[posts] [t] WHERE id=:id ORDER BY title',$c->text);
 		$rows=$c->query()->readAll();
 		$this->assertEquals(1,count($rows));
 		$this->assertEquals('post 5',$rows[0]['title']);
@@ -290,7 +290,7 @@ EOD;
 		$n=$builder->createCountCommand($table, new CDbCriteria(array('condition' => "title LIKE 'working transaction%'")))->queryScalar();
 		$this->assertEquals(2, $n);
 
-		
+
 		// Failing Transaction
 		$transaction=$this->db->beginTransaction();
 		try
