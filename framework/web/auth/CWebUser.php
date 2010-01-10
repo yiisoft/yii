@@ -66,11 +66,11 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	/**
 	 * @var string|array the URL for login. If using array, the first element should be
 	 * the route to the login action, and the rest name-value pairs are GET parameters
-	 * to construct the login URL (e.g. array('site/login')). If this property is null,
+	 * to construct the login URL (e.g. array('/site/login')). If this property is null,
 	 * a 403 HTTP exception will be raised instead.
 	 * @see CController::createUrl
 	 */
-	public $loginUrl=array('site/login');
+	public $loginUrl=array('/site/login');
 	/**
 	 * @var array the property values (in name-value pairs) used to initialize the identity cookie.
 	 * Any property of {@link CHttpCookie} may be initialized.
