@@ -142,7 +142,7 @@ class CPostgresTest extends CTestCase
 		$this->assertEquals(6,$builder->getLastInsertId($table));
 
 		$c=$builder->createCountCommand($table,new CDbCriteria);
-		$this->assertEquals('SELECT COUNT(*) FROM "test"."posts"',$c->text);
+		$this->assertEquals('SELECT COUNT(*) FROM "test"."posts" "t"',$c->text);
 		$this->assertEquals(6,$c->queryScalar());
 
 		$c=$builder->createDeleteCommand($table,new CDbCriteria(array(
@@ -160,7 +160,7 @@ class CPostgresTest extends CTestCase
 			'order'=>'title',
 			'limit'=>2,
 			'offset'=>0)));
-		$this->assertEquals('SELECT id, title FROM "test"."posts" WHERE id=:id ORDER BY title LIMIT 2',$c->text);
+		$this->assertEquals('SELECT id, title FROM "test"."posts" "t" WHERE id=:id ORDER BY title LIMIT 2',$c->text);
 		$rows=$c->query()->readAll();
 		$this->assertEquals(1,count($rows));
 		$this->assertEquals('post 5',$rows[0]['title']);
@@ -189,7 +189,7 @@ class CPostgresTest extends CTestCase
 			'select'=>'title',
 			'condition'=>'id=?',
 			'params'=>array(4))));
-		$this->assertEquals('SELECT title FROM "test"."posts" WHERE id=?',$c->text);
+		$this->assertEquals('SELECT title FROM "test"."posts" "t" WHERE id=?',$c->text);
 		$this->assertEquals('post 4',$c->queryScalar());
 
 		// another bind by position

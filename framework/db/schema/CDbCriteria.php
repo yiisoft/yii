@@ -88,6 +88,10 @@ class CDbCriteria
 	 * @since 1.1.0
 	 */
 	public $with;
+	/**
+	 * @var string the alias name of the table. If not set, it means the alias is 't'.
+	 */
+	public $alias;
 
 	/**
 	 * Constructor.
@@ -265,6 +269,9 @@ class CDbCriteria
 		if($criteria->offset>=0)
 			$this->offset=$criteria->offset;
 
+		if($criteria->alias!==null)
+			$this->alias=$criteria->alias;
+
 		if($this->order!==$criteria->order)
 		{
 			if($this->order==='')
@@ -308,7 +315,7 @@ class CDbCriteria
 	public function toArray()
 	{
 		$result=array();
-		foreach(array('select', 'condition', 'params', 'limit', 'offset', 'order', 'group', 'join', 'having', 'distinct', 'with') as $name)
+		foreach(array('select', 'condition', 'params', 'limit', 'offset', 'order', 'group', 'join', 'having', 'distinct', 'with', 'alias') as $name)
 			$result[$name]=$this->$name;
 		return $result;
 	}

@@ -73,6 +73,8 @@ class CDbCommandBuilder extends CComponent
 	{
 		$this->ensureTable($table);
 		$select=is_array($criteria->select) ? implode(', ',$criteria->select) : $criteria->select;
+		if($criteria->alias!==null)
+			$alias=$criteria->alias;
 		$alias=$this->_schema->quoteTableName($alias);
 		$sql=($criteria->distinct ? 'SELECT DISTINCT':'SELECT')." {$select} FROM {$table->rawName} $alias";
 		$sql=$this->applyJoin($sql,$criteria->join);
@@ -96,6 +98,8 @@ class CDbCommandBuilder extends CComponent
 	public function createCountCommand($table,$criteria,$alias='t')
 	{
 		$this->ensureTable($table);
+		if($criteria->alias!==null)
+			$alias=$criteria->alias;
 		$alias=$this->_schema->quoteTableName($alias);
 		$sql=($criteria->distinct ? 'SELECT DISTINCT':'SELECT')." COUNT(*) FROM {$table->rawName} $alias";
 		$sql=$this->applyJoin($sql,$criteria->join);
@@ -431,6 +435,8 @@ class CDbCommandBuilder extends CComponent
 	{
 		$this->ensureTable($table);
 		$criteria=$this->createCriteria($condition,$params);
+		if($criteria->alias!==null)
+			$prefix=$this->_schema->quoteTableName($criteria->alias).'.';
 		if(!is_array($pk)) // single key
 			$pk=array($pk);
 		if(is_array($table->primaryKey) && !isset($pk[0]) && $pk!==array()) // single composite key
@@ -475,6 +481,8 @@ class CDbCommandBuilder extends CComponent
 	{
 		$this->ensureTable($table);
 		$criteria=$this->createCriteria($condition,$params);
+		if($criteria->alias!==null)
+			$prefix=$this->_schema->quoteTableName($criteria->alias).'.';
 		$bindByPosition=isset($criteria->params[0]);
 		$conditions=array();
 		$values=array();
