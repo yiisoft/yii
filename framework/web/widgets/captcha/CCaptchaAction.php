@@ -102,18 +102,7 @@ class CCaptchaAction extends CAction
 		}
 		else
 		{
-			$session=Yii::app()->session;
-			$session->open();
-			$name=$this->getSessionKey().'count';
-			if($session[$name]===null || $session[$name]>=$this->testLimit)
-				$regenerate=true;
-			else
-			{
-				$session[$name]=$session[$name]+1;
-				$regenerate=false;
-			}
-
-			$this->renderImage($this->getVerifyCode($regenerate));
+			$this->renderImage($this->getVerifyCode());
 			Yii::app()->end();
 		}
 	}
@@ -145,7 +134,14 @@ class CCaptchaAction extends CAction
 	public function validate($input,$caseSensitive)
 	{
 		$code=$this->getVerifyCode();
-		return $caseSensitive?($input===$code):!strcasecmp($input,$code);
+		$valid=$caseSensitive?($input===$code):!strcasecmp($input,$code);
+		$session=Yii::app()->session;
+		$session->open();
+		$name=$this->getSessionKey().'count';
+		$session[$name]=$session[$name]+1;
+		if($session[$name]>$this->testLimit)
+			$this->getVerifyCode(true);
+		return $valid;
 	}
 
 	/**
