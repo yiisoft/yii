@@ -167,4 +167,14 @@ class Post extends CActiveRecord
 		parent::afterSave();
 		Tag::model()->updateFrequency($this->_oldTags, $this->tags);
 	}
+
+	/**
+	 * This is invoked after the record is deleted.
+	 */
+	protected function afterDelete()
+	{
+		parent::afterDelete();
+		Comment::model()->deleteAll('post_id='.$this->id);
+		Tag::model()->updateFrequency($this->tags, '');
+	}
 }
