@@ -143,6 +143,9 @@ public function ValidatorName($attribute,$params) { ... }
 と検証された事を保証します。下記は予め定義されたバリデータの
 エイリアスの完全なリストです:
 
+   - `boolean`: [CBooleanValidator]のエイリアスで、属性の値が
+[CBooleanValidator::trueValue]かまたは[CBooleanValidator::falseValue]である事を確認します。
+
    - `captcha`: [CCaptchaValidator] のエイリアスで、属性の値が
 　[CAPTCHA](http://en.wikipedia.org/wiki/Captcha)で表示された
 ベリフィケーションコードと等しい事を確認します。
@@ -367,4 +370,4 @@ public function rules()
 に見るように、モデルの中でのラベルの定義は、より早く、
 力強いフォームの作成を私達にもたらします。
 
-<div class="revision">$Id: form.model.txt 922 2009-04-05 21:36:33Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 1423 2009-04-05 21:36:33Z qiang.xue $</div>

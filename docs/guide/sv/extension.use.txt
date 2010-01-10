@@ -28,6 +28,27 @@ användning. I det följande sammanfattas vanliga användningsfall för
 utvidgningar, enligt respektive kategorier, beskrivna i 
 [översikt](/doc/guide/extension.overview).
 
+Zii-utvidgningar
+----------------
+
+Innan vi börjar beskriva användning av tredjepartstillägg vill vi introducera 
+utvidgningsbiblioteket Zii, vilket består av en uppsättning tillägg framtagna av Yii:s 
+team av utvecklare och kommer att följa med i varje release av Yii fr o m version 1.1.0. 
+Zii-biblioteket underhålls under Google-projektet [zii](http://code.google.com/p/zii/).
+
+För att använda Zii-tillägg måste man referera till motsvarande klass med hjälp av ett 
+sökvägsalias på formen `zii.path.to.ClassName`. Rotalias `zii` är fördefinierat av Yii. 
+Det refererar till Zii-biblioteks rotkatalog. Till exempel, i fråga om [CGridView] 
+skulle vi använda följande kod i ett vyskript för att referera till tillägget:
+
+~~~
+[php]
+$this->widget('zii.widgets.grid.CGridView', array(
+	'dataProvider'=>$dataProvider,
+));
+~~~
+
+
 Applikationskomponent
 ---------------------
 
@@ -311,4 +332,4 @@ Sedan kan en instans av klassen skapas, dess propertyn konfigureras och dess
 metoder anropas. Man kan även ärva och utvidga komponentens klass.
 
 
-<div class="revision">$Id: extension.use.txt 1398 2009-09-06 01:15:01Z qiang.xue $</div>
+<div class="revision">$Id: extension.use.txt 1602 2009-12-18 19:33:34Z qiang.xue $</div>

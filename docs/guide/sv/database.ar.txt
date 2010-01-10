@@ -12,7 +12,7 @@ Varje AR-klass representerar en databastabell (eller -vy) vars attribut är
 representerade som AR-klassens propertyn, en AR-instans representerar en rad i 
 nämnda tabell. Vanliga CRUD-operationer är implementerade som AR-metoder. 
 Resultatet är tillgång till data på ett mer objektorienterat sätt. Till exempel, 
-kan följande kod användas för att sätta in en ny rad i tabellen `Post`:
+kan följande kod användas för att sätta in en ny rad i tabellen `tbl_post`:
 
 ~~~
 [php]
@@ -30,11 +30,11 @@ används skall `AUTOINCREMENT` bytas mot `AUTO_INCREMENT` i följande SQL.
 
 ~~~
 [sql]
-CREATE TABLE Post (
+CREATE TABLE tbl_post (
 	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	title VARCHAR(128) NOT NULL,
 	content TEXT NOT NULL,
-	createTime INTEGER NOT NULL
+	create_time INTEGER NOT NULL
 );
 ~~~
 
@@ -102,7 +102,7 @@ För tillgång till en databastabell måste först en AR-klass definieras genom 
 och utvidgning av [CActiveRecord]. Varje AR-klass representerar en enda 
 databastabell och en AR-instans representerar en rad i den tabellen. Följande 
 exempel visar den minimala kod som erfordras för AR-klassen korresponderande 
-mot tabellen `Post`.
+mot tabellen `tbl_post`.
 
 ~~~
 [php]
@@ -111,6 +111,11 @@ class Post extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	public function tableName()
+	{
+		return 'tbl_post';
 	}
 }
 ~~~
@@ -133,8 +138,21 @@ Som standard är namnet på AR-klassen samma som namnet på databastabellen.
 Metoden [model()|CActiveRecord::model] finns deklarerad per se i varje AR-klass 
 (förklaring följer längre ned).
 
-Kolumnvärden för en rad i en tabell kan åtkommas som propertyn i den 
-motsvarande AR-klassinstansen. Till exempel, följande kod sätter kolumnen (attributet) `title`:
+> Info: För att använda [tabellprefix-finessen](/doc/guide/database.dao#using-table-prefix)
+> som introducerades i version 1.1.0, kan [tableName()|CActiveRecord::tableName]-metoden
+> i en AR-klass behöva åsidosättas på följande sätt,
+> ~~~
+> [php]
+> public function tableName()
+> {
+>     return '{{post}}';
+> }
+> ~~~
+> Det innebär att, istället för att returnera det fullständiga tabellnamnet, returnerar vi
+> tabellnamnet utan prefix, omgivet av dubbla krumparenteser.
+
+Kolumnvärden för en rad i en tabell kan åtkommas som propertyn i den motsvarande 
+AR-instansen. Till exempel, följande kod sätter kolumnen (attributet) `title`:
 
 ~~~
 [php]
@@ -144,19 +162,15 @@ $post->title='a sample post';
 
 Ävensom vi aldrig uttryckligen deklarerar `title`-propertyn i klassen `Post`, 
 kan vi fortfarande få tillgång till den i ovanstående kod. Detta beror på att 
-`title` är en kolumn i tabellen `Post` och CActiveRecord gör den tillgänglig som 
+`title` är en kolumn i tabellen `tbl_post` och CActiveRecord gör den tillgänglig som 
 en property med hjälp av PHP:s "magiska" metod `__get()`. En exception 
 signaleras vid försök att tillgå en icke-existerande kolumn på detta sätt.
 
-> Info: I denna guide namnges kolumner med kamelnotation (t.ex. `createTime`).
-Detta beror på att kolumner adresseras som vanliga objektpropertyn, 
-vilka också de namnges med kamelnotation. Men även om kamelnotation får PHP-koden 
-att se mer konsekvent ut i fråga om namngivning, kan detta introducera problem 
-med skiftlägeskänslighet (case-sensitivity) för vissa DBMS. Till exempel PostgreSQL 
-betraktar som standard kolumnnamn som oberoende av skiftläge, och om ett kolumnnamn 
-i en fråga innehåller både gemena och versaler måste det omges av citationstecken.
-Av denna anledning kan det vara klokt att namnge kolumner (och även tabeller) enbart 
-med gemena (t.ex. `create_time`), för att undvika ev. skiftlägesrelaterade problem.
+> Info: I denna guide användes gemener för tabell- och kolumnnamn. Detta beror på 
+att olika databashanterare hanterar skiftläge olika. Till exempel PostgreSQL 
+betraktar underförstått kolumnnamn som oberoende av skiftläge, och om ett kolumnnamn 
+i en fråga innehåller både gemena och versaler måste det omges av citationstecken. 
+Användning av enbart gemener eliminerar ev. skiftlägesrelaterade problem.
 
 
 Skapa DB-post
@@ -171,7 +185,7 @@ och anropa metoden [save()|CActiveRecord::save] för att genomföra insättninge
 $post=new Post;
 $post->title='sample post';
 $post->content='content for the sample post';
-$post->createTime=time();
+$post->create_time=time();
 $post->save();
 ~~~
 
@@ -205,8 +219,8 @@ funktion `NOW()`, kan följande kod användas:
 ~~~
 [php]
 $post=new Post;
-$post->createTime=new CDbExpression('NOW()');
-// $post->createTime='NOW()'; will not work because
+$post->create_time=new CDbExpression('NOW()');
+// $post->create_time='NOW()'; will not work because
 // 'NOW()' will be treated as a string
 $post->save();
 ~~~
@@ -553,7 +567,7 @@ class Post extends CActiveRecord
 				'condition'=>'status=1',
 			),
 			'recently'=>array(
-				'order'=>'createTime DESC',
+				'order'=>'create_time DESC',
 				'limit'=>5,
 			),
 		);
@@ -563,7 +577,7 @@ class Post extends CActiveRecord
 
 Varje namngivet omfång deklareras som en array vilken kan användas för att 
 initialisera en instans av [CDbCriteria]. Till exempel, det namngivna omfånget 
-`recently` specificerar att propertyn `order` till att vara `createTime DESC` 
+`recently` specificerar att propertyn `order` till att vara `create_time DESC` 
 och propertyn `limit` till 5, vilket leder till ett frågekriterium som skulle 
 returnera de fem senast publicerade postningarna.
 
@@ -606,7 +620,7 @@ det behöver vi - istället för att deklarera det namngivna omfånget i metoden
 public function recently($limit=5)
 {
 	$this->getDbCriteria()->mergeWith(array(
-		'order'=>'createTime DESC',
+		'order'=>'create_time DESC',
 		'limit'=>$limit,
 	));
 	return $this;
@@ -657,4 +671,4 @@ $contents=Content::model()->findAll();
 Märk att ett förbestämt namngivet omfång endast gäller för `SELECT`-frågor. 
 Det ignoreras för `INSERT`-, `UPDATE`- och `DELETE`-frågor.
 
-<div class="revision">$Id: database.ar.txt 1398 2009-09-06 01:15:01Z qiang.xue $</div>
+<div class="revision">$Id: database.ar.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

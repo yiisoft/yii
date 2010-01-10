@@ -43,7 +43,7 @@ arbeiten, um die Eingabefelder in einer HTML-Tabelle anzuzeigen.
 
 ~~~
 [php]
-<div class="yiiForm">
+<div class="form">
 <?php echo CHtml::beginForm(); ?>
 <table>
 <tr><th>Name</th><th>Preis</th><th>Anzahl</th><th>Beschreibung</th></tr>
@@ -59,7 +59,7 @@ arbeiten, um die Eingabefelder in einer HTML-Tabelle anzuzeigen.
 
 <?php echo CHtml::submitButton('Speichern'); ?>
 <?php echo CHtml::endForm(); ?>
-</div><!-- yiiForm -->
+</div><!-- form -->
 ~~~
 
 Beachten Sie, dass wir beim Aufruf von [CHtml::activeTextField] 
@@ -69,4 +69,4 @@ Falls ein Fehler bei der Gültigkeitsprüfung auftritt, werden die entsprechende
 Eingabefelder automatisch hervorgehoben, wie bereits bei der Einzeleingabe für
 ein Model beschrieben.
 
-<div class="revision">$Id: form.table.txt 1389 2009-09-04 14:03:35Z istvan.beregszaszi $</div>
+<div class="revision">$Id: form.table.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

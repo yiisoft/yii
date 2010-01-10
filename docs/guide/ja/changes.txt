@@ -3,6 +3,61 @@
 
 このページは、各々のYiiリリースにおいて導入される主な新機能をまとめます。
 
+Version 1.1.0
+-------------
+
+ * [ユニットテストと機能テストに対するサポートの追加](/doc/guide/test.overview)
+
+ * [ウィジェットスキンを使用するためのサポートの追加](/doc/guide/topics.theming#skin)
+
+ * [拡張性のあるフォームビルダの追加](/doc/guide/form.builder)
+
+ * 安全なモデルアトリビュートを宣言する方法の改善。以下を参照してください。
+ [安全なアトリビュート割り当て](/doc/guide/form.model#securing-attribute-assignments).
+
+ * 全てのテーブルが一つのSQL文でジョインできるように、デフォルトのリレーショナルアクティブレコードクエリを変更した。
+
+ * デフォールトのテーブルエイリアスを、アクティブレコードのリレーション名をとるように変更
+
+ * [テーブルプレフィクスを使用するためのサポートを追加](/doc/guide/database.dao#using-table-prefix).
+
+ * [Ziiライブラリ](http://code.google.com/p/zii/)として知られる新しいイクステンションを追加
+
+
+Version 1.0.11
+--------------
+
+ * パラメータ化されたホスト名を使用したURL生成とパースのサポートを追加
+     - [ホスト名のパラメタライズ](/doc/guide/topics.url#parameterizing-hostnames)
+
+
+Version 1.0.10
+--------------
+
+ * CPhpMessageSourceを使用したモジュールメッセージのサポートの拡張
+     - [メッセージ翻訳](/doc/guide/topics.i18n#message-translation)
+
+ * イベントハンドラとしての匿名関数を登録するサポートの追加
+     - [コンポーネントイベント](/doc/guide/basics.component#component-event)
+
+Version 1.0.8
+-------------
+
+ * 複数のキャッシュされたデータを一時に取得する方法のサポートを追加
+         - [データキャッシング](/doc/guide/caching.data)
+
+ * 新しく`ext`という、サードパーティエクステンションを含むディレクトリを指し示すデフォルトルートパスを導入
+         - [エクステンションを使う](/doc/guide/extension.use)
+
+Version 1.0.7
+-------------
+
+ * トレースメッセージにコールスタック情報を表示するサポートを追加
+     - [コンテクスト情報のロギング](/doc/guide/topics.logging#logging-context-information)
+
+ * 特定のカラム値で関係するオブジェクトをインデクスできるように、ARリレーションに`index`を追加。
+     - [リレーショナルクエリオプション](/doc/guide/database.arr#relational-query-options)
+
 Version 1.0.6
 -------------
 
@@ -12,6 +67,17 @@ Version 1.0.6
  * Named Scope のリレーションルールの `with` オプション内でのサポートの追加:
      - [Named Scope を使用したリレーショナルクエリ](/doc/guide/database.arr#relational-query-with-named-scopes)
 
+ * SQL実行のプロファイルのサポートを追加
+     - [SQL実行のプロファイル](/doc/guide/topics.logging#profiling-sql-executions)
+
+ * 附加コンテキスト情報のログ取得のためのサポートを追加
+     - [コンテキスト情報のログ](/doc/guide/topics.logging#logging-context-information)
+
+ * urlFormatとcaseSensitiveオプションを設定することによる単一のURLルールのカスタマイズサポートを追加
+     - [ユーザフレンドリURL](/doc/guide/topics.url#user-friendly-urls)
+
+ * アプリケーションエラーを表示するコントローラアクションの使用のサポートを追加
+     - [アクションを使用したエラーハンドリング](/doc/guide/topics.error#handling-errors-using-an-action)
 
 Version 1.0.5
 -------------
@@ -28,4 +94,5 @@ Version 1.0.5
  * URL ルールでのルート部分のパラメータ化をサポートする [CUrlManager] の機能拡張。以下を参照してください。
      - [URL ルールでのルートのパラメータ化](/doc/guide/topics.url#parameterizing-routes)
 
-<div class="revision">$Id: changes.txt 1027 2009-05-12 17:59:03Z qiang.xue $</div>
+<div class="revision">$Id: changes.txt 1602 2009-05-12 17:59:03Z qiang.xue $</div>
+

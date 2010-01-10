@@ -8,17 +8,24 @@ Version 1.1.0
 
  * [Unterstützung für das Erstellen von Unit- und Funktionstests](/doc/guide/test.overview)
 
- * [Widgets können nun auch Skins verwenden](/doc/guide/topics.theming#skin)
+ * [Widgets können nun auch Skins verwenden](/doc/guide/topics.theming#skin).
+
+ * Der neue [erweiterbare Form-Builder](/doc/guide/form.builder) erleichtert
+das Erstellen von Formularen.
 
  * Verbesserte Angabe der sicheren Attribute eines Models. Siehe 
  [Absichern von Attributzuweisungen](/doc/guide/form.model#securing-attribute-assignments).
 
  * Veränderter Algorithmus beim Eager Loading von verbundenen Records. Alle
- Verbundtabellen werden nun standardmäßig in einer einzigen SQL-Abfrage gejoined.
+ Verbundtabellen werden nun standardmäßig mittels einer einzigen SQL-Abfrage
+ eingebunden.
 
  * Der verwendete Tabellen-Alias entspricht nun dem Namen der Beziehung im AR.
 
  * [Unterstützung von Tabellenpräfixen](/doc/guide/database.dao#using-table-prefix).
+
+ * Mit der [Zii-Bibliothek](http://code.google.com/p/zii/) wurde eine ganze
+ Reihe neuer Erweiterungen hinzugefügt.
 
 
 Version 1.0.11
@@ -93,4 +100,4 @@ Version 1.0.5
 einer URL. Siehe:
      - [Parametrisierte Routen in URL-Regeln](/doc/guide/topics.url#parameterizing-routes)
 
-<div class="revision">$Id: changes.txt 1533 2009-11-20 14:10:46Z qiang.xue $</div>
+<div class="revision">$Id: changes.txt 1602 2009-12-18 19:33:34Z qiang.xue $</div>

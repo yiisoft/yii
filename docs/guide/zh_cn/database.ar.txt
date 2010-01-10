@@ -1,0 +1,95 @@
+Active Record
+========================
+虽然Yii DAO可以处理几乎任何数据库相关的任务，但很可能我们会花费90%的时间
+用来书一些通用的SQL语句来执行CRUD操作（创建，读取，更新和删除）。
+同时我们也很难维护这些PHP和SQL语句混合的代码。要解决这些问题，我们可以使用Active Record。
+
+Active Record（AR）是一种流行的对象关系映射（ORM）技术。每个AR代表一个数据表（或视图），
+其字段作为AR的属性，一个AR实例代表在表中的一行。常见的CRUD操作对应AR中的成员函数。
+于是，我们可以使用更面向对象的方法处理我们的数据。例如，我们可以使用下面的代码在`Post`表中插入一个新行：
+
+~~~
+[php]
+$post=new Post;
+$post->title='sample post';
+$post->content='post body content';
+$post->save();
+~~~
+
+在下面我们将介绍如何设置AR和用它来执行CRUD操作。在下一小节我们将展示如何使用AR
+处理数据库中的关系。为了简单起见，我们使用本节下面的数据库表作为例子。
+请注意，如果你使用MySQL数据库，在下面的SQL中您应该替换`AUTOINCREMENT`为`AUTO_INCREMENT`。
+
+~~~
+[sql]
+CREATE TABLE Post (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    title VARCHAR(128) NOT NULL,
+    content TEXT NOT NULL,
+    createTime INTEGER NOT NULL
+);
+~~~
+
+> Note|注意: AR不是要解决所有与数据库相关的任务。在SQL不包含复杂的语法的情况下，
+用在在PHP代码中对数据库建模。Yii DAO应该用于上述的复杂情况下。
+
+建立数据库连接
+--------------
+
+AR需要一个数据库连接以执行数据库相关的操作。默认情况下，应用中的`db`组件提供了
+CDbConnection实例作为我们需要的数据库连接服务。下面的应用程序配置提供了一个例子：
+
+~~~
+[php]
+return array(
+    'components'=>array(
+        'db'=>array(
+            'class'=>'system.db.CDbConnection',
+            'connectionString'=>'sqlite:path/to/dbfile',
+            // turn on schema caching to improve performance
+            // 'schemaCachingDuration'=>3600,
+        ),
+    ),
+);
+~~~
+
+> Tip|提示： 由于Active Record需要表的元数据来确定数据的列信息，
+这需要时间来读取和分析元数据。如果您的数据库结构是比较固定的，你应该打开缓存。
+打开方法是配置[CDbConnection::schemaCachingDuration]属性为一个大于0的值。
+
+AR的支持受限于数据库管理系统。目前，只有以下数据库管理系统支持：
+
+   - [MySQL 4.1 or later](http://www.mysql.com)
+   - [PostgreSQL 7.3 or later](http://www.postgres.com)
+   - [SQLite 2 and 3](http://www.sqlite.org)
+   - [Microsoft SQL Server 2000 or later](http://www.microsoft.com/sqlserver/)
+   - [Oracle](http://www.oracle.com/)
+   
+> Note|注意: Microsoft SQL Server自1.0.4版本提供支持;而甲骨文自1.0.5版本即提供支持。
+
+
+如果你想使用其他组件而不是`db`，你应该重写[CActiveRecord::getDbConnection()]。
+[CActiveRecord]类是所有AR类的基类。
+
+> Tip|提示: 有两种方法可以在AR模式下使用多种数据库系统。如果数据库的模式不同，
+您可以以不同的方式实现[getDbConnection()]。否则，动态改变静态变量[CActiveRecord::DB]
+是一个更好的主意。
+
+Defining AR Class
+-----------------
+
+为了使用一个数据表，我们首先需要集成[CActiveRecord]来定义一个AR类。
+每个AR类代表一个数据库表，每个AR实例代表数据表中的一行。下面的代码介绍了
+要创建一个对应`Post`表的AR类所需要的最少的代码。
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+    public static function model($className=__CLASS__)
+    {
+        return parent::model($className);
+    }
+}
+~~~
+

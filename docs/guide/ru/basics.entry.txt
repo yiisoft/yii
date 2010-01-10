@@ -31,4 +31,4 @@ Yii::createWebApplication($configFile)->run();
 С другой стороны, данный режим очень полезен на стадии разработки, т.к. предоставляет большее количество отладочной
 информации при возникновении ошибок.
 
-<div class="revision">$Id: basics.entry.txt 162 2008-11-05 12:44:08Z weizhuo $</div>
+<div class="revision">$Id: basics.entry.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

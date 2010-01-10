@@ -71,6 +71,7 @@ class LoginForm extends CFormModel
 	{
 		return array(
 			array('username, password', 'required'),
+			array('rememberMe', 'boolean'),
 			array('password', 'authenticate'),
 	);
 	}
@@ -93,7 +94,8 @@ class LoginForm extends CFormModel
 ~~~
 
 Der obige Code legt fest, dass sowohl `username` als auch `password` zwingend erforderlich
-sind und `password` authentifiziert werden soll.
+sind, `password` authentifiziert werden soll und `rememberMe` vom Typ Boolean
+sein muss.
 
 Jede der Regeln, die von `rules()` zurückgegeben werden, muss folgendem Format entsprechen:
 
@@ -441,4 +443,4 @@ angepasst werden. Wie wir in den folgenden Kapiteln sehen werden, erlaubt
 uns die Angabe von Labels im Model, ein Formular schneller und wirkungsvoller zu
 erstellen.
 
-<div class="revision">$Id: form.model.txt 1425 2009-09-28 03:28:17Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 1602 2009-12-18 19:33:34Z qiang.xue $</div>

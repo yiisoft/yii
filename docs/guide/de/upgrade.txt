@@ -13,18 +13,16 @@ CModel::setAttributes() und CModel::getSafeAttributeNames() wurden geändert.
 Der Parameter 'szenario' wurde entfernt. Szenarien sollten über
 CModel::scenario gesetzt werden.
 
-- CModel::getValidator() und CModel::getValidatorsForAttributes() wurden
-geändert. Sie liefern jetzt nur jene Validatoren zurück, die im Szenario
+- CModel::getValidator() wurde geändert und CModel::getValidatorsForAttributes() 
+entfernt. CModel::getValidator() liefert jetzt nur jene Validatoren zurück, die im Szenario
 verwendet werden, das über die scenario-Eigenschaft des Models gesetzt wurde.
 
 - CModel::isAttributeRequired() und CModel::getValidatorsForAttribute() wurden
 geändert. Der Parameter scenario wurde entfernt. Stattdessen wird die
 Eigenschaft scenario des Models verwendet.
 
-- CModel::getValidatorsForAttribute() wurde entfernt. Verwenden Sie
-stattdessen bitte CModel::getValidators().
-
-- CHtml::scenario wurde entfernt.
+- CHtml::scenario wurde entfernt. CHtml verwendet jetzt stattdessen das in
+CModel gesetzte Szenario.
 
 
 Änderungen in der Eager Loading-Methode bei Relationalen ActiveRecords
@@ -53,4 +51,4 @@ wenn wir uns auf diesen Alias beziehen wollten.
 sollten jetzt `[$i]Feld` heißen, um auch Array-Felder verwenden zu können
 (z.B. `[$i]Feld[$index]`).
 
-<div class="revision">$Id: upgrade.txt 1442 2009-10-10 21:55:19Z qiang.xue $</div>
+<div class="revision">$Id: upgrade.txt 1634 2009-12-30 16:46:13Z qiang.xue $</div>

@@ -65,6 +65,7 @@ class LoginForm extends CFormModel
 	{
 		return array(
 			array('username, password', 'required'),
+			array('rememberMe', 'boolean'),
 			array('password', 'authenticate'),
 	);
 	}
@@ -87,7 +88,8 @@ class LoginForm extends CFormModel
 ~~~
 
 В коде, представленном выше, `username` и `password` — обязательные для заполнения поля,
-а поле `password` должно быть проверено также на соответствие указанному имени пользователя.
+поле `password` должно быть проверено также на соответствие указанному имени пользователя.
+Поле `rememberMe` может принимать значения `true` или `false`.
 
 Каждое правило, возвращаемое `rules()`, должно быть задано в следующем формате:
 
@@ -413,4 +415,4 @@ public function rules()
 
 Далее мы увидим, что возможность указания меток в модели данных позволяет быстро создавать сложные формы.
 
-<div class="revision">$Id: form.model.txt 1425 2009-09-28 03:28:17Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 1602 2009-12-18 19:33:34Z qiang.xue $</div>

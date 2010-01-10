@@ -1,6 +1,7 @@
 * Komma igång
 	- [Översikt](index)
 	- [Nyheter och ändringar (eng)](changes)
+	- [Upgradera från 1.0 till 1.1 (eng)](upgrade)
     - [Vad är Yii](quickstart.what-is-yii)
     - [Installation](quickstart.installation)
     - [Skapa en första Yii-applikation](quickstart.first-app)
@@ -24,6 +25,7 @@
     - [Skapa Action](form.action)
     - [Skapa Form](form.view)
     - [Tabulär datainmatning](form.table)
+    - [Använda Form Builder](form.builder)
 
 * Arbeta med databaser
     - [Översikt](database.overview)
@@ -44,10 +46,16 @@
     - [Skapa utvidgning](extension.create)
     - [Använda tredjepartsbibliotek](extension.integration)
 
+* Testning
+	- [Översikt](test.overview)
+	- [Definiera fixturer](test.fixture)
+	- [Enhetstest](test.unit)
+	- [Funktionell testning](test.functional)
+
 * Speciella ämnen
     - [URL-hantering](topics.url)
     - [Autentisering och auktorisering](topics.auth)
-    - [Teman](topics.theming)
+    - [Teman och skin](topics.theming)
     - [Loggning](topics.logging)
     - [Felhantering](topics.error)
     - [Web Service](topics.webservice)
@@ -57,4 +65,4 @@
     - [Säkerhet](topics.security)
     - [Prestandaoptimering](topics.performance)
 
-<div class="revision">$Id: toc.txt 946 2009-04-17 21:39:08Z qiang.xue@gmail.com $</div>
+<div class="revision">$Id: toc.txt 1603 2009-12-18 19:39:18Z qiang.xue $</div>

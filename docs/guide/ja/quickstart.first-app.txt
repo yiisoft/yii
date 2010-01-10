@@ -158,11 +158,13 @@ If you have a 'db' database connection, you can test it now with:
 
 >> crud User
    generate UserController.php
-   generate create.php
    mkdir D:/wwwroot/testdrive/protected/views/user
+   generate create.php
    generate update.php
    generate list.php
    generate show.php
+   generate admin.php
+   generate _form.php
 
 Crud 'user' has been successfully created. You may access it via:
 http://hostname/path/to/index.php?r=user
@@ -215,4 +217,4 @@ http://hostname/testdrive/index.php?r=user/admin
 
 ![Create new user page](first-app7.png)
 
-<div class="revision">$Id: quickstart.first-app.txt 978 2009-05-06 03:36:09Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app.txt 1264 2009-05-06 03:36:09Z qiang.xue $</div>

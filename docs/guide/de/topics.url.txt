@@ -82,7 +82,7 @@ langen `/index.php/post/read/id/100` erzeugen. URL-Regeln werden von
 [CUrlManager] sowohl zum Erstellen als auch zum Auswerten von URLs verwendet.
 
 Um URL-Regeln anzugeben, müssen wir die Eigenschaft [rules|CUrlManager::rules] 
-der [urlManager|CWebApplication::urlManager]-Komponente konfigurieren:::
+der [urlManager|CWebApplication::urlManager]-Komponente konfigurieren:
 
 ~~~
 [php]
@@ -103,23 +103,45 @@ array(
 ~~~
 
 Die Regeln werden als Array von Suchmuster-Routen-Paaren angegeben, bei denen
-jeder Eintrag sich auf eine einzelne Regel bezieht. Das Suchmuster (engl.:
+jeder Eintrag einer einzelnen Regel entspricht. Das Suchmuster (engl.:
 pattern) einer Regel ist ein String, der zum Auffinden der Pfadangaben in
 einer URL verwendet wird. Die [Route](/doc/guide/basics.controller#route) 
 sollte einer gültigen Controller-Route entsprechen.
 
-> Info: Seit version 1.0.6 kann eine Regel über die Optionen `urlSuffix` und
-> `caseSensitive` noch weiter angepasst werden. Und seit Version 1.0.8
-> können bei einer Regel auch `defaultParams` angegeben werden. Sie stehen 
-> für eine Reihe von Schlüssel-Werte-Paaren, die in `$_GET` übernommen 
-> werden sollen. Zum Anpassen der Regeln müssen wir den Routenteil
-> als Array wie folgt angeben:
->
-> ~~~
-> [php]
-> 'pattern1'=>array('route1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
-> ~~~
->
+Um für eine Regel weitere Optionen anzugeben, kann man stattdessen auch dieses
+Format verwenden:
+
+~~~
+[php]
+'pattern1'=>array('route1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
+~~~
+
+Hier wird die Route sowie eine Reihe von Zusatzoptionen als Array angegeben. Seit Version 1.1.0
+stehen diese Optionen zur Verfügung:
+
+   - [urlSuffix|CUrlRule::urlSuffix]: Die Endung (Suffix) speziell für diese
+   Regel. Standardmäßig null, was bedeutet, dass der Wert von
+   [CUrlManager::urlSuffix] verwendet wird. 
+
+   - [caseSensitive|CUrlRule::caseSensitive]: Ob bei dieser Regel
+   Groß-/Kleinschreibung beachtet werden soll. Standardmäßig null, was
+   bedeutet, dass die Einstellung in [CUrlManager::caseSensitive] verwendet
+   wird.
+
+   - [defaultParams|CUrlRule::defaultParams]: Die GET-Parameter (Name=>Wert)
+	für diese Regel. Wenn diese Regel für einen eingehenden Request verwendet
+	wird, werden die hier angegebenen Werte nach $_GET eingeschleust.
+
+   - [matchValue|CUrlRule::matchValue]: Ob die GET-Parameter beim Erzeugen
+   einer URL mit den entsprechenden Submustern übereinstimmen müssen.
+   Standardmäßig null, was bedeutet, dass der Wert von
+   [CUrlManager::matchValue] verwendet wird. Wird dieser Option auf false
+   gesetzt, wird diese Regel zum Erzeugen der URL verwendet, falls Route und
+   Parameternamen mit den gegebenen Werten übereinstimmen. Ist die Option true
+   dann müssen die gegebenen Parameterwerte auch mit den entsprechenden
+   Submusterwerten übereinstimmen. Beachten Sie, dass letzteres die 
+   Geschwindigkeit negativ beeinflussen kann.
+
 
 ### Verwenden von benannten Parametern
 
@@ -298,4 +320,4 @@ einer statischen Webseite aus. Setzen Sie dazu einfach die gewünschte Endung
 über die Eigenschaft [urlSuffix|CUrlManager::urlSuffix] der
 [urlManager|CWebApplication::urlManager]-Komponente.
 
-<div class="revision">$Id: topics.url.txt 1533 2009-11-20 14:10:46Z qiang.xue $</div>
+<div class="revision">$Id: topics.url.txt 1633 2009-12-29 21:12:11Z qiang.xue $</div>

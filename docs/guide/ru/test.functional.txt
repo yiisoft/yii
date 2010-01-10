@@ -97,4 +97,8 @@ class PostTest extends WebTestCase
 `Оставить комментарий`.
 
 
-<div class="revision">$Id: test.functional.txt 1152 2009-06-19 04:42:21Z qiang.xue $</div>
+> Tip|Подсказка: Перед запуском функциональных тестов запустите сервер Selenium-RC.
+> Сделать это можно командой `java -jar selenium-server.jar`, выполненной в
+> директории, в которую установлен Selenium.
+
+<div class="revision">$Id: test.functional.txt 1662 2010-01-04 19:15:10Z qiang.xue $</div>

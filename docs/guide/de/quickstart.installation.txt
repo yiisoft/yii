@@ -29,4 +29,4 @@ unterstützen. Yii wurde mit dem [Apache HTTP Server](http://httpd.apache.org/)
 unter Windows- und Linux-Betriebssystemen getestet. Es läuft u.U. auch auf
 anderen Webservern und Plattformen, vorausgesetzt PHP 5 wird dort unterstützt.
 
-<div class="revision">$Id: quickstart.installation.txt 359 2008-12-14 19:50:41Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.installation.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

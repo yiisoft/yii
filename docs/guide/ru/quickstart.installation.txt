@@ -1,4 +1,4 @@
-﻿Установка
+Установка
 =========
 
 Для установки Yii, как правило, необходимо выполнить два шага:
@@ -23,4 +23,4 @@ http://hostname/path/to/yii/requirements/index.php
 Yii тестировался с [Apache HTTP server](http://httpd.apache.org/) на платформах Windows и Linux.
 Скорее всего, он будет работать и на других веб-серверах и платформах с поддержкой PHP 5.
 
-<div class="revision">$Id: quickstart.installation.txt 359 2008-12-14 19:50:41Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.installation.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

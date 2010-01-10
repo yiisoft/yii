@@ -69,8 +69,9 @@ class LoginForm extends CFormModel
 	{
 		return array(
 			array('username, password', 'required'),
+			array('rememberMe', 'boolean'),
 			array('password', 'authenticate'),
-	);
+	    );
 	}
 
 	public function authenticate($attribute,$params)
@@ -91,7 +92,8 @@ class LoginForm extends CFormModel
 ~~~
 
 Ovanstående kod specificerar att både `username` och `password` är obligatorisk 
-inmatning, samt att `password` skall autentiseras.
+inmatning, att `password` skall autentiseras, samt att `rememberMe` skall vara 
+ett boolskt värde.
 
 Varje regel som returneras från `rules()` måste vara på följande format:
 
@@ -205,8 +207,6 @@ array('password', 'authenticate', 'on'=>'login'),
 Säkra upp attributtilldelningar
 -------------------------------
 
-> Note|Märk: scenariebaserade attributtilldelningar har funnits tillgängliga fr o m version 1.0.2.
-
 När en modellinstans har skapats, behöver dess attribut ofta tilldelas värden 
 inskickade av slutanvändare. Detta kan lämpligen utföras med hjälp av följande 
 massiva tilldelning:
@@ -214,24 +214,12 @@ massiva tilldelning:
 ~~~
 [php]
 $model=new LoginForm;
-$model->scenario='login';
 if(isset($_POST['LoginForm']))
 	$model->attributes=$_POST['LoginForm'];
 ~~~
 
-> Note|Märk: Propertyn [scenario|CModel::scenario] har varit tillgänglig 
-> fr o m version 1.0.4. Den massiva tilldelningen utgår från värdet i denna
-> propertty för att avgöra vilka attribut som kan tilldelas massivt.
-> I version 1.0.2 och 1.0.3, behövde vi använda följande sätt för att
-> utföra massiv tilldelning i ett specifikt scenario:
->
-> ~~~
-> [php]
-> $model->setAttributes($_POST['LoginForm'], 'login');
-> ~~~
-
 Den sista programraden innebär en massiv tilldelning av varje fält i 
-`$_POST['LoginForm']` till motsvarande modellattribut i `login`-scenariet. 
+`$_POST['LoginForm']` till motsvarande modellattribut. 
 Detta är ekvivalent med följande tilldelning:
 
 ~~~
@@ -243,15 +231,86 @@ foreach($_POST['LoginForm'] as $name=>$value)
 }
 ~~~
 
-Uppgiften att avgöra huruvida en datainmatning är säker eller inte baseras på 
-returvärdet från en metod med namnet `safeAttributes` samt det specificerade 
-scenariet. Som standard returnerar denna metod alla publika medlemsvariabler som 
-säkra attribut till [CFormModel], medan den returnerar alla tabellkolumner utom 
-primärnyckeln som säkra attribut till [CActiveRecord]. Denna metod kan 
-åsidosättas i enlighet med scenarier, för att begränsa de säkra attributen. Till 
-exempel, en modell för användare kan innehålla många attribut, men i scenariet 
-`login` erfordras endast attributen `username` och `password`. Denna begränsning 
-kan specificeras som följer:
+Det är kritiskt att avgöra vilka attribut som är säkra. Om vi till exempel 
+exponerar primärnyckeln till en tabell som säker, kan en angripare få
+chansen att modifiera primärnyckeln för en given databaspost och därmed
+göra ändringar i data han saknar auktorisation att ändra.
+
+Policyn för att avgöra vilka attribut som är säkra skiljer sig åt i version 1.0
+och 1.1. I följande stycken beskrivs de var för sig.
+
+***Säkra attribut i 1.1
+
+I version 1.1, betraktas ett attribut som säkert om det förekommer i en 
+valideringsregel som är applicerbar på det givna scenariet. Till exempel,
+
+~~~
+[php]
+array('username, password', 'required', 'on'=>'login, register'),
+array('email', 'required', 'on'=>'register'),
+~~~
+
+I ovanstående exempel är attributen `username` och `password` obligatoriska i 
+`login`-scenariet, medan attributen `username`, `password` och `email` är obligatoriska
+i `register`-scenariet. Resultatet blir att, om vi utför en massiv tilldelning i 
+`login`-scenariet, kommer endast `username` och `password` att bli massivt tilldelade
+eftersom de är de enda attribut som förekommer bland valideringsreglerna för `login`.
+Å andra sidan kan alla tre attributen tilldelas massivt om scenariet är `register`.
+
+~~~
+[php]
+// in login scenario
+$model=new User('login');
+if(isset($_POST['User']))
+	$model->attributes=$_POST['User'];
+
+// in register scenario
+$model=new User('register');
+if(isset($_POST['User']))
+	$model->attributes=$_POST['User'];
+~~~
+
+Så varför använder vi en sådan policy för att avgöra om ett attribut är säkert eller inte?
+Logiken bakom detta är att om ett attribut redan har en eller flera validateringsregler för
+kontroll av dess giltighet, på vilket ytterligare sätt behöver vi bekymra oss för det?
+
+Det är viktigt att komma ihåg att valideringsregler används för att kontrollera användarinmatad
+data snarare än data som vi genererar med  kod (t.ex. tidstämpel, automatiskt genererad primärnyckel).
+Av denna anledning, lägg INTE till valideringsregler för de attribut som inte förväntas erhålla
+indata från slutanvändare.
+
+I vissa fall vill vi kunna deklarera ett attribut som säkert även om vi egentligen inte har några
+specifika regler för det. Ett exempel är en artikels innehållsattribut som kan ta emot godtycklig 
+inmatning. Detta kan åstadkommas med hjälp av den speciella `safe`-regeln:
+
+~~~
+[php]
+array('content', 'safe')
+~~~
+
+För helhetens skull finns det även en `unsafe`-regel, som används för att uttryckligen deklarera 
+ett attribut som ej säkert:
+
+~~~
+[php]
+array('permission', 'unsafe')
+~~~
+
+`unsafe`-regeln används sällan och den utgör ett undantag från den tidigare definitionen av 
+säkra attribut.
+
+
+***Säkra attribut i 1.0
+
+I version 1.0 baseras uppgiften att avgöra huruvida en datainmatning är säker 
+eller inte på returvärdet från en metod med namnet `safeAttributes` samt det 
+specificerade scenariet. Som standard returnerar denna metod alla publika 
+medlemsvariabler som säkra attribut till [CFormModel], medan den returnerar 
+alla tabellkolumner utom primärnyckeln som säkra attribut till [CActiveRecord]. 
+Denna metod kan åsidosättas i enlighet med scenarier, för att begränsa de säkra 
+attributen. Till exempel, en modell för användare kan innehålla många attribut, 
+men i scenariet `login` erfordras endast attributen `username` och `password`. 
+Denna begränsning kan specificeras som följer:
 
 ~~~
 [php]
@@ -381,4 +440,4 @@ ledtext. Detta kan anpassas genom att åsidosätta metoden
 avsnitt, tillåter specificering av ledtexter i modellen, oss att skapa formulär 
 snabbare och mer kraftfullt.
 
-<div class="revision">$Id: form.model.txt 1405 2009-09-10 19:18:30Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 1602 2009-12-18 19:33:34Z qiang.xue $</div>

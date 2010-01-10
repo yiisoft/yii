@@ -62,4 +62,135 @@ temaresursfiler. Till exempel, kan vi vilja visa en bildfil under temats katalog
 > Yii::app()->theme->baseUrl . '/images/FileName.gif' 
 > ~~~ 
 
-<div class="revision">$Id: topics.theming.txt 878 2009-03-23 15:31:21Z qiang.xue $</div>
+Nedan följer ett exempel på katalogstruktur för en applikation med två teman, `basic` och `fancy`.
+
+~~~
+WebRoot/
+	assets
+	protected/
+		.htaccess
+		components/
+		controllers/
+		models/
+		views/
+			layouts/
+				main.php
+			site/
+				index.php
+	themes/
+		basic/
+			views/
+				.htaccess
+				layouts/
+					main.php
+				site/
+					index.php
+		fancy/
+			views/
+				.htaccess
+				layouts/
+					main.php
+				site/
+					index.php
+~~~
+
+Om vi lägger in följande i applikationskonfigurationen
+
+~~~
+[php]
+return array(
+	'theme'=>'basic',
+	......
+);
+~~~
+
+kommer temat `basic` att gälla, vilket innebär att applikationen hämtar sin layout från 
+katalogen `themes/basic/views/layouts`, samt sin indexvy från `themes/basic/views/site`. 
+I händelse av att vyfilen inte hittas i temat, används filen från katalogen `protected/views`.
+
+Skin
+----
+
+> Note|Märk: Finessen skin har varit tillgänglig sedan version 1.1.0.
+
+Medan användning av teman snabbt kan få vyer att ändra skepnad, kan skin användas 
+för att systematiskt anpassa utseendet hos [widgetar](/doc/guide/basics.view#widget) som används i vyer.
+
+En skin består av en array av namn-värdepar som kan användas för att initialisera propertyn i en widget. 
+En skin hör till en widgetklass och en widgetklass kan ha flera skin vilka identifieras av dess namn. 
+Vi kan till exempel ha en skin benämnd `classic`, tillhörande widgeten [CLinkPager].
+
+För att skin-finessen skall kunna användas måste först komponenten `widgetFactory` installeras i 
+applikationskonfigurationen:
+
+~~~
+[php]
+return array(
+    'components'=>array(
+        'widgetFactory'=>array(
+            'class'=>'CWidgetFactory',
+        ),
+    ),
+);
+~~~
+
+Därefter kan önskade skin skapas. Skin som tillhör samma widgetklass lagras i ett gemensamt 
+PHP-skript med samma namn som widgetklassen. Samtliga dessa skinfiler lagras som standard 
+i katalogen `protected/views/skins`. Detta kan ändras till en annan katalog genom konfigurering 
+av propertyn `skinPath` i komponenten `widgetFactory`. Exempelvis en fil `CLinkPager.php`, 
+med nedanstående innehåll, skapas i katalogen `protected/views/skins`,
+
+~~~
+[php]
+<?php
+return array(
+    'default'=>array(
+        'nextPageLabel'=>'&gt;&gt;',
+        'prevPageLabel'=>'&lt;&lt;',
+    ),
+    'classic'=>array(
+        'header'=>'',
+        'maxButtonCount'=>5,
+    ),
+);
+~~~
+
+I ovanstående exempel skapas två skin för widgeten [CLinkPager]: `default` och `classic`. 
+Den förra är den skin som kommer att åsättas varje [CLinkPager] widget där `skin`-propertyn
+inte uttryckligen specificerats. Den senare är den skin som åsätts [CLinkPager]-widgetar 
+där `skin`-propertyn specificerats som `classic`. I följande vykod kommer den första 
+pager-instansen att använda `default`-skin, medan den andra använder `classic`-skin:
+
+~~~
+[php]
+<?php $this->widget('CLinkPager'); ?>
+
+<?php $this->widget('CLinkPager', array('skin'=>'classic')); ?>
+~~~
+
+Om vi skapar en widget med en uppsättning propertyn med givna initialvärden, kommer dessa 
+att få prioritet och läggas till varje relevant skin. Till exempel kommer följande vykod 
+att skapa en pager vars initialvärden kommer att vara `array('header'=>'', 'maxButtonCount'=>6, 'cssFile'=>false)`,
+ett resultat av sammanslagna initialvärden specificerade i vyn respektive i `classic`-skin.
+
+~~~
+[php]
+<?php $this->widget('CLinkPager', array(
+    'skin'=>'classic',
+    'maxButtonCount'=>6,
+    'cssFile'=>false,
+)); ?>
+~~~
+
+Lägg märke till att skin-finessen INTE kräver att teman används. Skulle dock ett tema vara aktivt 
+kommer Yii även att söka efter skin i underkatalogen `skins` till temats vykatalog 
+(t.ex. `WebRoot/themes/classic/views/skins`). I händelse av att en skin med samma namn existerar 
+i både temats och huvudapplikationens vykataloger, prioriteras temats skin.
+
+Om en widget använder en skin so minte existerar kommer Yii fortfarande att skapa widgeten som vanligt, 
+utan felmeddelanden.
+
+> Info: Användning av skin kan sätta ned prestanda eftersom Yii behöver leta efter skin-filen första gången en widget skapas.
+
+
+<div class="revision">$Id: topics.theming.txt 1463 2009-10-17 01:49:02Z qiang.xue $</div>

@@ -1,4 +1,4 @@
-﻿Создание формы
+Создание формы
 ==============
 
 Написание формы не должно вызвать никаких затруднений. Мы начинаем с тега `form`, атрибут 
@@ -13,42 +13,44 @@
 > Info|Информация: Безусловно, может возникнуть справедливый вопрос, а в чем преимущество использования 
 > помощника, если объем используемого кода сравним с чистым HTML кодом? Ответ прост: использование 
 > помощника дает большие возможности. Например, код, приведенный ниже, создает текстовое поле, отправляющее 
-> данные формы на сервер, когда пользователь меняет ее значение.
+> данные формы на сервер, когда пользователь меняет её значение.
 > ~~~
 > [php]
 > CHtml::textField($name,$value,array('submit'=>''));
 > ~~~
 > Заметьте, что все реализовано без единой строчки JavaScript.
 
-Ниже мы создаем представление — форму авторизации — с помощью класса [CHtml]. Переменная `$user`
-равняется значению переменной `$form`, передаваемой представлению `login` из контроллера,
-и должна быть экземпляром класса модели `LoginForm`:
+Ниже мы создаем представление — форму авторизации — с помощью класса [CHtml]. Здесь переменная `$model` —
+экземпляр класса `LoginForm`:
 
 ~~~
 [php]
-<div class="yiiForm">
+<div class="form">
 <?php echo CHtml::beginForm(); ?>
 
-<?php echo CHtml::errorSummary($user); ?>
+<?php echo CHtml::errorSummary($model); ?>
 
-<div class="simple">
-<?php echo CHtml::activeLabel($user,'username'); ?>
-<?php echo CHtml::activeTextField($user,'username'); ?>
+<div class="row">
+<?php echo CHtml::activeLabel($model,'username'); ?>
+<?php echo CHtml::activeTextField($model,'username'); ?>
 </div>
 
-<div class="simple">
-<?php echo CHtml::activeLabel($user,'password'); ?>
-<?php echo CHtml::activePasswordField($user,'password'); ?>
+<div class="row">
+<?php echo CHtml::activeLabel($model,'password'); ?>
+<?php echo CHtml::activePasswordField($model,'password'); ?>
 </div>
 
-<div class="action">
-<?php echo CHtml::activeCheckBox($user,'rememberMe'); ?>
-Запомнить меня<br/>
+<div class="row rememberMe">
+<?php echo CHtml::activeCheckBox($model,'rememberMe'); ?>
+<?php echo CHtml::activeLabel($model,'rememberMe'); ?>
+</div>
+
+<div class="row submit">
 <?php echo CHtml::submitButton('Login'); ?>
 </div>
 
 <?php echo CHtml::endForm(); ?>
-</div><!-- yiiForm -->
+</div><!-- form -->
 ~~~
 
 Форма, которую мы создали выше, обладает куда большей динамичностью. К примеру, 
@@ -64,4 +66,4 @@
 
 ![Страница авторизации с сообщением об ошибке](login2.png)
 
-<div class="revision">$Id: form.view.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>
+<div class="revision">$Id: form.view.txt 1623 2009-12-27 20:02:43Z qiang.xue $</div>

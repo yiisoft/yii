@@ -171,4 +171,10 @@ koppla någon/några av sina metoder till komponentens händelser (events). En
 behavior kan, genom att göra detta, ges en chans att observera eller ändra 
 komponentens normala exekveringsflöde.
 
-<div class="revision">$Id: basics.component.txt 1328 2009-08-15 18:45:51Z qiang.xue $</div>
+Med start från version 1.1.0, har man även tillgång till en behavior:s propertyn via komponenten den 
+är knuten till. Dessa propertyn omfattar såväl publika medlemsvariabler som propertyn definierade 
+via get- och/eller set-metoder i denna behavior. Till exempel, om en behavior har en property `xyz` 
+och behaviorn kopplas till komponenten `$a` kan uttrycket `$a->xyz` användas för tillgång till
+behaviorns property.
+
+<div class="revision">$Id: basics.component.txt 1474 2009-10-18 21:13:52Z qiang.xue $</div>

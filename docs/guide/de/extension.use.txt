@@ -29,6 +29,28 @@ der [Übersicht](/doc/guide/extension.overview) beschriebenen Kategorien
 bieten wir im folgenden einen Überblick der gängigsten Anwendungsszenarien
 von Erweiterungen.
 
+Zii Erweiterungen
+-----------------
+
+Bevor wir beschreiben, wie man andere Erweiterungen verwendet möchten wir die
+Zii-Erweiterungsbibliothek vorstellen. Dabei handelt es sich um eine Reihe von
+Erweiterungen, die vom Yii-Entwicklerteam erstellt wurden und die seit Version
+1.1.0 in jedem Release enthalten sind. Die Zii-Bibliothek wird als
+Google-Projekt unter dem Namen [zii](http://code.google.com/p/zii/) gehosted.
+
+Um eine Zii-Erweiterung zu verwenden muss die entsprechende Klasse mit einem
+Pfadalias der Form `zii.pfad.zur.Klasse` referenziert werden. Der Root-Alias
+`zii` wird hierbei von Yii bereits vorbelegt. Er bezieht sich auf das
+Wurzelverzeichnis der Zii-Bibliothek. Möchte man z.B. ein [CGridView]
+einsetzen, würde man in einem View folgenden Code verwenden:
+
+~~~
+[php]
+$this->widget('zii.widgets.grid.CGridView', array(
+	'dataProvider'=>$dataProvider,
+));
+~~~
+
 Anwendungskomponente
 --------------------
 
@@ -314,4 +336,4 @@ Eigenschaften konfigurieren oder ihre Methoden aufrufen. Möglicherweise
 möchten wir sie auch erweitern, um neue Kindklassen zu erstellen.
 
 
-<div class="revision">$Id: extension.use.txt 1398 2009-09-06 01:15:01Z qiang.xue $</div>
+<div class="revision">$Id: extension.use.txt 1602 2009-12-18 19:33:34Z qiang.xue $</div>
