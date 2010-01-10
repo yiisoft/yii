@@ -28,9 +28,8 @@
 http://hostname/testdrive/index.php
 ~~~
 
-Как можно видеть, приложение содержит три страницы: главную, страницы обратной связи и авторизации.
-Главная страница содержит немного информации о приложении и статусе пользователя, 
-страница обратной связи содержит форму для отправки вопросов и пожеланий, а страница авторизации
+Приложение содержит четыре страницы: главную, страницу «о проекте», страницу обратной связи и страницу авторизации.
+Страница обратной связи содержит форму для отправки вопросов и пожеланий, а страница авторизации
 позволяет пользователю аутентифицироваться и получить доступ к закрытой части сайта (см. рисунки ниже).
 
 ![Главная страница](first-app1.png)
@@ -49,7 +48,8 @@ http://hostname/testdrive/index.php
 
 ~~~
 testdrive/
-   index.php 					входной (entry) скрипт приложения
+   index.php 					скрипт инициализации приложения
+   index-test.php               скрипт инициализации функциональных тестов
    assets/ 						содержит файлы ресурсов
    css/ 						содержит CSS-файлы 
    images/ 						содержит картинки
@@ -57,29 +57,37 @@ testdrive/
    protected/ 					содержит защищенные файлы приложения
       yiic 						скрипт yiic
       yiic.bat 					скрипт yiic для Windows
+      yiic.php                  PHP-скрипт yiic
       commands/ 				содержит команды 'yiic'
          shell/ 				содержит команды 'yiic shell'
       components/ 				содержит компоненты для повторного использования
-         MainMenu.php 			класс виджета 'MainMenu'
+         Controller.php         класс базового контроллераthe base class for all controller classes
          Identity.php 			класс 'Identity' для аутентификации
-         views/ 				содержит файлы представлений для виджетов
-            mainMenu.php 		файл представления для виджета 'MainMenu'
          config/ 				содержит конфигурационные файлы
             console.php 		файл конфигурации консоли
             main.php 			файл конфигурации веб-приложения
+            test.php            файл конфигурации функциональных тестов
          controllers/ 			содержит файлы классов контроллеров
             SiteController.php	класс контроллера по умолчанию
+         data/                  сожержит пример базы данных
+            schema.mysql.sql    схема БД для MySQL
+            schema.sqlite.sql   схма БД для SQLite
+            testdrive.db        файл БД для SQLite
          extensions/ 			содержит сторонние расширения
          messages/ 				содержит переведенные сообщения
          models/ 				содержит файлы классов моделей
             LoginForm.php 		модель формы для действия 'login'
             ContactForm.php 	модель формы для действия 'contact'
          runtime/ 				содержит временные файлы
+         tests/                 содержит тесты
          views/ 				содержит файлы представлений контроллеров и файлы макетов (layout)
             layouts/ 			содержит файлы представлений макетов
                main.php 		макеты по умолчанию для всех представлений
             site/ 				содержит файлы представлений для контроллера 'site'
+               pages/           статические страницы
+         	      about.php     страница «о проекте»
                contact.php 		файл представления для действия 'contact'
+               error.php        файл представления для действия 'error' (отображение ошибок)
                index.php 		файл представления для действия 'index'
                login.php 		файл представления для действия 'login'
             system/ 			содержит файлы системных представлений
@@ -88,9 +96,9 @@ testdrive/
 Соединение с базой данных
 ----------------------
 Большинство веб-приложений используют базы данных, и наше приложение не исключение. Для использования базы данных 
-вначале необходимо объяснить приложению, как к ней подключиться.
-Это делается путем изменения параметров в конфигурационном файле 
-`WebRoot/testdrive/protected/config/main.php`, как показано ниже:
+необходимо объяснить приложению, как к ней подключиться.
+Это делается в конфигурационном файле `WebRoot/testdrive/protected/config/main.php`.
+Например, так:
 
 ~~~
 [php]
@@ -99,26 +107,21 @@ return array(
 	'components'=>array(
 		…
 		'db'=>array(
-			'connectionString'=>'sqlite:protected/data/source.db',
+			'connectionString'=>'sqlite:protected/data/testdrive.db',
 		),
 	),
 	…
 );
 ~~~
 
-Здесь мы добавили элемент `db` в массив `components`, который указывает приложению, что необходимо подключиться 
-к базе SQLite `WebRoot/testdrive/protected/data/source.db`. Учтите, что как файл базы данных, так и директория, 
-в которой он содержится, должны быть доступны для записи процессом веб-сервера, как того требует SQLite.
-
-> Note|Примечание: Для использования Yii с базами данных необходимы расширение PHP PDO extension
-и расширение PDO для вашей базы данных. Для тестового приложения нам понадобится включить 
-расширения `php_pdo` и `php_pdo_sqlite`.
-
-Используя любую утилиту для администрирования SQLite, создадим базу данных следующей схемы:
+В приведённом выше коде указано, что приложение должно подключиться к базе данных SQLite
+`WebRoot/testdrive/protected/data/testdrive.db` как только это понадобится. Отметим, что
+база данных SQLite уже включена в сгенерированное приложение. В этой базе имеется только
+одна таблица `tbl_user`:
 
 ~~~
 [sql]
-CREATE TABLE User (
+CREATE TABLE tbl_user (
 	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	username VARCHAR(128) NOT NULL,
 	password VARCHAR(128) NOT NULL,
@@ -126,54 +129,61 @@ CREATE TABLE User (
 );
 ~~~
 
-> Note|Примечание: Если вы используете БД MySQL, в выражении выше следует заменить `AUTOINCREMENT`
-> на `AUTO_INCREMENT`.
+Если вы хотите использовать базу данных MySQL, вы можете использовать файл
+`WebRoot/testdrive/protected/data/schema.mysql.sql` для её создания.
 
-Для простоты мы создадим в базе данных только таблицу `User`.
+> Note|Примечание: Для работы с базой данных Yii требуется расширение PHP PDO
+и соответствующий драйвер PDO. Для тестового приложения необходимо подключить
+расширения `php_pdo` и `php_pdo_sqlite`.
 
-Создание операций CRUD
-----------------------
+Реализация операций CRUD
+------------------------
 
 А теперь самое веселое. Мы бы хотели добавить операции CRUD 
 (создание, чтение, обновление и удаление) для только что созданной таблицы `User` —
 это часто необходимо при создании реальных приложений. Чтобы сгенерировать необходимый код, 
-снова воспользуемся утилитой `yiic`. Этот процесс также называют *скаффолдинг (scaffolding)*. 
-Откроем окно консоли и выполним следующие команды:
+снова воспользуемся утилитой `yiic`. Этот процесс также называют *скаффолдинг (scaffolding)*.
+ 
+Откроем консоль и выполним следующие команды:
 
 ~~~
 % cd WebRoot/testdrive
-% YiiRoot/framework/yiic shell
-Yii Interactive Tool v1.0
+% protected/yiic shell
+Yii Interactive Tool v1.1
 Please type 'help' for help. Type 'exit' to quit.
->> model User
-   generate User.php
+>> model User tbl_user
+   generate models/User.php
+   generate fixtures/tbl_user.php
+   generate unit/UserTest.php
 
-The 'User' class has been successfully created in the following file:
-    D:\wwwroot\testdrive\protected\models\User.php
+The following model classes are successfully generated:
+    User
 
-If you have a 'db' database connection, you can test it now with:
+If you have a 'db' database connection, you can test these models now with:
     $model=User::model()->find();
     print_r($model);
 
 >> crud User
    generate UserController.php
-   mkdir D:/wwwroot/testdrive/protected/views/user
+   generate UserTest.php
+   mkdir D:/testdrive/protected/views/user
    generate create.php
    generate update.php
-   generate list.php
-   generate show.php
+   generate index.php
+   generate view.php
    generate admin.php
    generate _form.php
+   generate _view.php
 
 Crud 'user' has been successfully created. You may access it via:
 http://hostname/path/to/index.php?r=user
 ~~~
 
 В примере выше мы использовали команду `shell` утилиты `yiic` для взаимодействия с 
-созданным каркасом приложением. В командной строке мы вводим две команды: `model User` и `crud User`.
-Команда `model` автоматически создает класс модели `User`, основываясь на структуре таблицы `User`, 
-а команда `crud`  генерирует класс контроллера и файлы представлений, которые обеспечивают 
-выполнение операций CRUD для модели `User`.
+созданным каркасом приложением. В командной строке мы вводим две команды: `model User tbl_user` и `crud User`.
+Команда `model` автоматически создает класс модели `User`, основываясь на структуре таблицы `tbl_user`, 
+а команда `crud` генерирует класс контроллера и файлы представлений, которые обеспечивают 
+выполнение соответствующих операций CRUD.
 
 > Note|Примечание: Даже, если проверка соответствия требованиям показывает, что расширение PDO и драйвер PDO, соответствующий используемой базе
 > данных, включены, могут возникать ошибки типа «…could not find driver». В этом случае необходимо запустить утилиту `yiic` следующим образом:
@@ -191,8 +201,8 @@ http://hostname/path/to/index.php?r=user
 http://hostname/testdrive/index.php?r=user
 ~~~
 
-Мы увидим страницу со списком пользователей из таблицы `User`. Поскольку наша таблица пустая, то записей в ней не будет.
-Кликнем по ссылке `New User` и, если мы еще не авторизованы, отобразится страница авторизации.
+Мы увидим страницу со списком пользователей из таблицы `tbl_user`. Поскольку наша таблица пустая, то записей в ней не будет.
+Кликнем по кнопке `Create User` и, если мы еще не авторизованы, отобразится страница авторизации.
 Затем загрузится форма добавления нового пользователя. Заполним её и нажмем кнопку `Create`.
 Если при заполнении формы были допущены ошибки,  мы увидим аккуратное сообщение об ошибке.
 
@@ -208,12 +218,13 @@ http://hostname/testdrive/index.php?r=user/admin
 
 Появится аккуратная таблица пользователей. Можно кликнуть на заголовок
 таблицы, чтобы упорядочить записи по значениям соответствующего столбца. 
-Здесь также используется разбивка на страницы.
+Для просмотра, редактирования или удаления соответствующей строки можно
+воспользоваться кнопками.
 
-Все эти возможности не требуют написания кода!
+Всё это не требует написания кода!
 
 ![Страница управления пользователями](first-app6.png)
 
 ![Страница добавления нового пользователя](first-app7.png)
 
-<div class="revision">$Id: quickstart.first-app.txt 1253 2009-07-15 20:17:23Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app.txt 1653 2010-01-02 23:05:07Z qiang.xue $</div>

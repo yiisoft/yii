@@ -33,14 +33,13 @@ genom att mata in följande URL i webbläsarens adressfält:
 http://hostname/testdrive/index.php
 ~~~
 
-Som nu framgår består applikationen av tre sidor: startsidan, kontaktsidan och 
-inloggningssidan. Startsidan visar lite information om applikationen samt 
-användarens inloggningsstatus, kontaktsidan presenterar ett kontaktformulär som 
-användare kan fylla i för att skicka sina förfrågningar och inloggningssidan ger 
-användare möjlighet att bli autentiserade för åtkomst till priviligierat 
-innehåll. Se nedanstående skärmdumpar för närmare detaljer.
+Som nu framgår består applikationen av fyra sidor: startsidan, "om"-sidan, 
+kontaktsidan och inloggningssidan. Kontaktsidan presenterar ett kontaktformulär 
+som användare kan fylla i för att skicka sina förfrågningar till webbadministratören 
+och inloggningssidan ger användare möjlighet att bli autentiserade för åtkomst till 
+priviligierat innehåll. Se nedanstående skärmdumpar för närmare detaljer.
 
-![Starsida](first-app1.png)
+![Startsida](first-app1.png)
 
 ![Kontaktsida](first-app2.png)
 
@@ -58,39 +57,47 @@ till denna struktur.
 ~~~
 testdrive/
    index.php                 webbapplikationens startskript
+   index-test.php            startskript ör funktionell testning
    assets/                   innehåller publicerade resursfiler
    css/                      innehåller CSS-filer
    images/                   innehåller bildfiler
    themes/                   innehåller applikationsteman
    protected/                innehåller åtkomstskyddade applikationsfiler
-      yiic                   yiic kommandoradsskript
+      yiic                   yiic kommandoradsskript för Unix/Linux
       yiic.bat               yiic kommandoradsskript för Windows
+      yiic.php               yiic PHP-kommandoradsskript
       commands/              innehåller egna/anpassade 'yiic'-kommandon
          shell/              innehåller egna/anpassade 'yiic shell'-kommandon
       components/            innehåller (egna) återanvändningsbara komponenter
-         MainMenu.php        widgetklassen 'MainMenu'
+         Controller.php      basklass för alla kontrollerklasser
          Identity.php        klassen 'Identity' som används för autenticering
-         views/              innehåller vyfiler som tillhör widgetklasser
-            mainMenu.php     vyfil som tillhör widgetklassen 'MainMenu'
       config/                innehåller konfigurationsfiler
          console.php         konfiguration för konsolapplikationer
          main.php            konfiguration för webbapplikationer
+         test.php            konfiguration för funktionell testning
       controllers/           innehåller filer med kontrollerklasser
          SiteController.php  standardkontrollerklassen
+      data/                  innehåller SQLite-databas för exempel
+         schema.mysql.sql    DB-schema för MySQL-exempeldatabas
+         schema.sqlite.sql   DB-schema för SQLite-exempeldatabas
+         testdrive.db        SQLite-databasfil, exempeldatabas
       extensions/            innehåller tredjepartstillägg
       messages/              innehåller översatta systemmeddelanden
       models/                innehåller modellklassfiler
          LoginForm.php       modellen (av formtyp) för 'login'-åtgärden
          ContactForm.php     modellen (av formtyp) för 'contact'-åtgärden
       runtime/               innehåller tillfälliga genererade filer
+      tests/                 innehåller testskript
       views/                 innehåller kontrollervy- och layoutfiler
          layouts/            innehåller layoutfiler
             main.php         standardlayout för alla vyer
          site/               innehåller vyfiler för 'site'-kontrollern
+         	pages/           innehåller "statiska" sidor
+         	   about.php     vyn för "about"-sidan
             contact.php      vyn för 'contact'-åtgärden
+            error.php        vyn för 'error'-åtgärden (presenterar externa felmeddelanden)
             index.php        vyn för 'index'-åtgärden
             login.php        vyn för 'login'-åtgärden
-         system/             innehåller systemvyfiler
 ~~~
 
 Anslutning till databas
@@ -98,8 +105,8 @@ Anslutning till databas
 
 De flesta webbapplikationer backas upp av databaser. Vår testkörningsapplikation 
 utgör inget undantag. För att använda en databas måste vi visa applikationen hur 
-den skall göra för att ansluta. Detta sker genom att ändra applikationens 
-konfigurationsfil `WebRoot/testdrive/protected/config/main.php`, så som visas nedan:
+den skall göra för att ansluta. Detta gör man i applikationens konfigurationsfil 
+`WebRoot/testdrive/protected/config/main.php`, så som visas nedan:
 
 ~~~
 [php]
@@ -108,28 +115,21 @@ return array(
 	'components'=>array(
 		......
 		'db'=>array(
-			'connectionString'=>'sqlite:protected/data/source.db',
+			'connectionString'=>'sqlite:protected/data/testdrive.db',
 		),
 	),
 	......
 );
 ~~~
 
-Ovan läggs ett `db`-element till i `components`, vilket instruerar 
-applikationen att ansluta till SQLite-databasen 
-`WebRoot/testdrive/protected/data/source.db` när så erfordras.
-
-> Note|Märk: För att använda Yii:s databasfiness, måste vi aktivera PHP PDO-tillägget 
-samt det drivrutinsspecifika PDO-tillägget. Testkörningsapplikationen behöver ha 
-`php_pdo` och `php_pdo_sqlite`-tilläggen igång.
-
-Vidare behöver en SQLite-databas prepareras så att ovanstående konfiguration kan 
-komma i kraft. Genom att använda något SQLite administreringsverktyg kan vi 
-skapa en databas med följande schema:
+Ovanstående kod instruerar Yii om att applikationen skall ansluta till SQLite-databasen
+`WebRoot/testdrive/protected/data/testdrive.db` när så erfordras. Notera att SQLite-databasen
+redan är inkluderad i skelettet till applikation vi just genererat. Databasen innehåller endast
+en enda tabell med namnet `tbl_user`:
 
 ~~~
 [sql]
-CREATE TABLE User (
+CREATE TABLE tbl_user (
 	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	username VARCHAR(128) NOT NULL,
 	password VARCHAR(128) NOT NULL,
@@ -137,57 +137,61 @@ CREATE TABLE User (
 );
 ~~~
 
-> Note|Märk: Om MySQL-databas används skall `AUTOINCREMENT` bytas mot `AUTO_INCREMENT` i ovanstående SQL.
+Den som vill prova en MySQL-databas istället kan använda den medföljande MySQL-schemafilen 
+`WebRoot/testdrive/protected/data/schema.mysql.sql` för att skapa databasen.
 
-För enkelhets skull skapas bara en enda tabell, `User`, i databasen. SQLite 
-databasfilen sparas som `WebRoot/testdrive/protected/data/source.db`. Lägg märke 
-till att webbservern behöver ha skrivrättighet till både filen och dess 
-katalog, ett krav av SQLite.
+> Note|Märk: För att Yii:s databasfiness skall gå att använda måste PHP:s PDO-tillägg
+samt det drivrutinspecifika PDO-tillägget aktiveras. För prova på-applikationen innebär 
+detta att tilläggen `php_pdo` och `php_pdo_sqlite` skall vara igång.
 
 Implementering av CRUD-operationer
 ----------------------------------
 
 Nu till den roliga biten. Vi vill implementera CRUD-operationerna (create, read, 
 update och delete) för tabellen `User` vi just skapat. Detta är även ett vanligt 
-förekommande krav i skarpa webbapplikationer.
+förekommande krav i skarpa webbapplikationer. I stället för omaket att skriva kod 
+manuellt, använder vi återigen verktyget `yiic` som hjälp för att generera den 
+erforderliga koden åt oss. Denna process kallas även för *scaffolding*.
 
-I stället för omaket att skriva kod manuellt, använder vi återigen verktyget `yiic` 
-som hjälp för att generera den erforderliga koden åt oss. Denna process kallas även 
-för *scaffolding*. Öppna ett kommandoradsfönster och kör nedanstående kommandon,
+Öppna ett kommandoradsfönster och kör nedanstående kommandon,
 
 ~~~
 % cd WebRoot/testdrive
 % protected/yiic shell
-Yii Interactive Tool v1.0
+Yii Interactive Tool v1.1
 Please type 'help' for help. Type 'exit' to quit.
->> model User
-   generate User.php
+>> model User tbl_user
+   generate models/User.php
+   generate fixtures/tbl_user.php
+   generate unit/UserTest.php
 
-The 'User' class has been successfully created in the following file:
-    D:\wwwroot\testdrive\protected\models\User.php
+The following model classes are successfully generated:
+    User
 
-If you have a 'db' database connection, you can test it now with:
+If you have a 'db' database connection, you can test these models now with:
     $model=User::model()->find();
     print_r($model);
 
 >> crud User
    generate UserController.php
-   mkdir D:/wwwroot/testdrive/protected/views/user
+   generate UserTest.php
+   mkdir D:/testdrive/protected/views/user
    generate create.php
    generate update.php
-   generate list.php
-   generate show.php
+   generate index.php
+   generate view.php
    generate admin.php
    generate _form.php
+   generate _view.php
 
 Crud 'user' has been successfully created. You may access it via:
 http://hostname/path/to/index.php?r=user
 ~~~
 
 Ovan används `shell`-kommandot i `yiic` till att interagera med mallapplikationen. 
-Vid kommandoprompten kör vi två underkommandon: `model User` och `crud User`. 
-Den förra skapar en modellklass för tabellen `User`, medan den senare läser 
-`User`-modellen och genererar koden som implementerar CRUD-operationerna.
+Vid kommandoprompten kör vi två underkommandon: `model User tbl_user` och `crud User`. 
+Den förra skapar en modellklass `User` för tabellen `tbl_user`, medan den senare  
+analyserar `User`-modellen och genererar koden som implementerar motsvarande CRUD-operationer.
 
 > Note|Märk: Det kan hända att felmeddelanden i stil med "...could not find driver"
 > uppstår, även om systemkravskontrollen visar att PDO och motsvarande databasdrivrutin 
@@ -206,10 +210,9 @@ Resultatet kan nu beskådas genom inmatning av URL:en:
 http://hostname/testdrive/index.php?r=user
 ~~~
 
-Detta kommer att presentera en lista med poster från tabellen `User`. Eftersom 
-tabellen är tom kommer inget att visas för ögonblicket.
+Detta kommer att presentera en lista med poster från tabellen `tbl_user`.
 
-Klicka på länken `New User` på sidan. Inloggningssidan kommer att visas (såvida 
+Klicka på knappen `Create User` på sidan. Inloggningssidan kommer att visas (såvida 
 vi inte loggat in tidigare). Efter inloggningen presenteras ett 
 inmatningsformulär där en ny user-post kan läggas till. Fyll i formuläret och 
 klicka på knappen `Create`. Om det förekommer något inmatningsfel kommer en 
@@ -226,9 +229,9 @@ Genom inloggning som administratör med `admin/admin`, kan user:s administration
 http://hostname/testdrive/index.php?r=user/admin
 ~~~
 
-Detta presenterar en trevlig tabell med user-poster. Sorteringskolumn  kan 
-väljas genom klick på respektive kolumnrubrik. Precis som för user-listsidan 
-pagineras admin-sidan om det finns fler user-poster än de som ryms på en sida.
+Detta presenterar user-posterna i ett trevligt tabulärt format. Sorteringskolumn 
+kan väljas genom klick på respektive kolumnrubrik. Genom klick på knapparna i varje 
+rad kan vi visa i formulär, uppdatera eller ta bort den motsvarande raden med data.
 
 Allt detta uppnåddes utan att skriva en enda rad kod!
 
@@ -238,4 +241,4 @@ Allt detta uppnåddes utan att skriva en enda rad kod!
 
 
 
-<div class="revision">$Id: quickstart.first-app.txt 1264 2009-07-21 19:34:55Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app.txt 1653 2010-01-02 23:05:07Z qiang.xue $</div>

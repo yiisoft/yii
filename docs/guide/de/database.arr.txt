@@ -33,15 +33,15 @@ Gegenstands-Beziehungs-Modell).
 > durchführen:
 > ~~~
 > [sql]
-> CREATE TABLE Foo
+> CREATE TABLE foo
 > (
 >   id INTEGER NOT NULL PRIMARY KEY
 > );
 > CREATE TABLE bar
 > (
 >   id INTEGER NOT NULL PRIMARY KEY,
->   fooID INTEGER
->      COMMENT 'CONSTRAINT FOREIGN KEY (fooID) REFERENCES Foo(id)'
+>   foo_id INTEGER
+>      COMMENT 'CONSTRAINT FOREIGN KEY (foo_id) REFERENCES foo(id)'
 > );
 > ~~~
 > Hier verwenden wir das Schlüsselwort `COMMENT`, um die Fremdschlüssel-Constraints
@@ -56,12 +56,14 @@ wie eine AR-Klasse mit einer anderen in Beziehung steht.
 Die Beziehung zwischen zwei AR-Klassen steht in direktem Zusammenhang mit der
 Beziehung zwischen den Datenbanktabellen, die die AR-Klassen repräsentieren. 
 Aus Sicht der Datenbank gibt es drei Beziehungstypen zwischen zwei
-Tabellen A und B: eins-zu-viele (engl.: one-to-many, 1:n, z.B. zwischen `User` und `Post`), 
-eins-zu-eins (engl.: one-to-one, 1:1, z.B. zwischen `User` und `Profile`) und
-viele-zu-viele (engl.: many-to-many, n:m, z.B. zwischen `Category` und `Post`):
+Tabellen A und B: eins-zu-viele (engl.: one-to-many, 1:n, z.B. zwischen
+`tbl_user` und `tbl_post`), 
+eins-zu-eins (engl.: one-to-one, 1:1, z.B. zwischen `tbl_user` und `tbl_profile`) und
+viele-zu-viele (engl.: many-to-many, n:m, z.B. zwischen `tbl_category` und
+`tbl_post`):
 
-   - `BELONGS_TO` (gehört zu): Wenn die Beziehung zwischen den Tabellen A und B
-eins-zu-viele ist, dann gehört B zu A (z.B. `Post` gehört zu `User`).
+   - `BELONGS_TO` (gehört): Wenn die Beziehung zwischen den Tabellen A und B
+eins-zu-viele ist, dann gehört B A (z.B. `Post` gehört `User`).
 
    - `HAS_MANY` (hat viele): Wenn die Beziehung zwischen der Tabelle A und B 
 eins-zu-viele ist, dann hat A viele B (z.B. `User` hat viele `Post`).
@@ -73,7 +75,7 @@ B hat (z.B. `User` hat höchstens ein `Profile`).
 Datenbanken. Eine Verbindungstabelle wird benötigt, um die viele-zu-viele
 Beziehung auf eins-zu-viele-Beziehungen herunterzubrechen, da die meisten DBMS 
 viele-zu-viele-Beziehungen nicht direkt unterstützen. In unserem Schema dient 
-`PostCategory` diesem Zweck. In AR-Terminologie können wir `MANY_MANY` als
+`tbl_post_category` diesem Zweck. In AR-Terminologie können wir `MANY_MANY` als
 eine Kombination von `BELONGS_TO` und `HAS_MANY` erklären. Beispielsweise gehört
 `Post` zu vielen `Category` und `Category` hat viele `Post`.
    
@@ -103,19 +105,21 @@ class Post extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'author'=>array(self::BELONGS_TO, 'User', 'authorID'),
-			'categories'=>array(self::MANY_MANY, 'Category', 'PostCategory(postID, categoryID)'),
+			'author'=>array(self::BELONGS_TO, 'User', 'author_id'),
+			'categories'=>array(self::MANY_MANY, 'Category', 'tbl_post_category(post_id, category_id)'),
 		);
 	}
 }
 
 class User extends CActiveRecord
 {
+	......
+
 	public function relations()
 	{
 		return array(
-			'posts'=>array(self::HAS_MANY, 'Post', 'authorID'),
-			'profile'=>array(self::HAS_ONE, 'Profile', 'ownerID'),
+			'posts'=>array(self::HAS_MANY, 'Post', 'author_id'),
+			'profile'=>array(self::HAS_ONE, 'Profile', 'owner_id'),
 		);
 	}
 }
@@ -126,9 +130,9 @@ also aus zwei oder mehr Attributen bestehen. In diesem Fall sollten wir die Name
 Fremdschlüssel verketten und durch ein Komma oder Leerzeichen trennen. Beim 
 `MANY_MANY` Beziehungstyp muss der Name der Verbindungstabelle beim
 `FremdSchlüssel` ebenfalls angegeben werden. Zum Beispiel ist der Fremdschlüssel für die 
-`categories`-Beziehung in `Post` mit `PostCategory(postID, categoryID)` angegeben.
+`categories`-Beziehung in `Post` mit `tbl_post_category(post_id, category_id)` angegeben.
 
-Das Definieren von Beziehungen in einer AR-Klasse fügt dieser implizit eine Eigenschaft
+Wenn Beziehungen in einer AR-Klasse definiert werden, fügt dies implizit eine Eigenschaft
 für jede Beziehung hinzu. Nachdem eine relationale Abfrage ausgeführt wurde, ist die
 entsprechende Eigenschaft mit der/den verbundenen AR Instanz(en) befüllt.
 Steht `$author` bespielsweise für eine AR-Instanz `User`, so können wir mit 
@@ -156,9 +160,12 @@ $author=$post->author;
 ~~~
 
 > Info|Info: Wenn es keine verbundene Instanz für die Beziehung gibt, kann die
-entsprechende Eigenschaft null oder ein leeres Array sein. Für die `BELONGS_TO`
-und `HAS_ONE` Beziehungen ist das Ergebnis null, für `HAS_MANY` und `MANY_MANY`
-ein leerer Array.
+> entsprechende Eigenschaft null oder ein leeres Array sein. Für die `BELONGS_TO`
+> und `HAS_ONE` Beziehungen ist das Ergebnis null, für `HAS_MANY` und `MANY_MANY`
+> ein leerer Array. Beachten Sie, dass Sie daher die Inhalte von `HAS_MANY`- und
+> `MANY_MANY`-Beziehungen in einer Schleife durchlaufen müssen, um auf
+> Eigenschaften der entsprechenden Objekte zugreifen zu können. Andernfalls
+> erhalten Sie eine entsprechende Fehlermeldung.
 
 Die `lazy loading`-Methode ist sehr bequem einzusetzen, aber in einigen Szenarien
 nicht sehr effizient. Wenn wir beispielsweise mit der `lazy loading`-Methode auf 
@@ -208,39 +215,33 @@ Das obige Beispiel liefert alle Beiträge zusammen mit ihrem Autor und den
 Kategorien zurück. Zusätzlich wird auch das Profil sowie alle Beiträge des
 jeweiligen Autors zurückgegeben.
 
-> Note|Hinweis: Die Verwendung der [with()|CActiveRecord::with]-Methode hat sich ab
-> Version 1.0.2 geändert. Bitte lesen Sie die API-Dokumentation sorgfältig durch.
-
-Die AR-Implementierung von Yii ist sehr effektiv. Beim `eager loading` einer
-Hierarchie von `N` `HAS_MANY`- oder `MANY_MANY`-Beziehungen sind `N+1`
-SQL Abfragen erforderlich, um das Ergebnis zu erhalten. Das bedeutet, dass
-im letzten Beispiel 3 SQL Abragen für die `posts`- und `categories`-Eigenschaften
-ausgeführt werden müssen. Andere Frameworks verfolgen eine fundamentalere
-Herangehensweise, indem sie nur eine SQL Anweisung benutzen. Auf den ersten Blick
-ist dieses fundamentalere Verfahren effizienter, da weniger Anfragen vom DBMS
-analysiert und ausgeführt werden müssen. In Wahrheit ist es aber aus zwei Gründen
-tatsächlich unpraktisch. Erstens enthält das Ergebnis viele, sich wiederholende
-Datenspalten, für deren Übermittlung und Bearbeitung zusätzliche Zeit benötigt wird.
-Zweitens wächst mit der Anzahl der beteiligten Tabellen die Anzahl der Spalten
-exponentiell und das macht es unübersichtlicher, wenn mehrere Beziehungen daran beteiligt sind.
-
-Seit Version 1.0.2 können sie auch erzwingen, dass die relationale Abfrage mit genau einer
-SQL Abfrage durchgeführt wird. Fügen Sie einfach einen 
-[together()|CActiveFinder::together]-Aufruf nach [with()|CActiveRecord::with] an, z.B.
+Seit Version 1.1.0 kann `eager loading` auch über die
+[CDbCriteria::with]-Eigenschaft angestoßen werden:
 
 ~~~
 [php]
-$posts=Post::model()->with(
+$criteria=new CDbCriteria;
+$criteria->with=array(
 	'author.profile',
 	'author.posts',
-	'categories')->together()->findAll();
+	'categories',
+);
+$posts=Post::model()->findAll($criteria);
 ~~~
 
-Die obige Abfrage wird über eine einzelne SQL-Abfrage ausgeführt. Ohne 
-den Aufruf von [together|CActiveFinder::together] würden drei SQL Abfragen 
-benötigt werden: eine für den Verbund der Tabellen `Post`, `User` und
-`Profile`, eine, die die Tabellen `User` und `Post` verbindet und eine 
-weitere die `Post`, `PostCategory` und `Category` zusammenführt.
+oder
+
+~~~
+[php]
+$posts=Post::model()->findAll(array(
+	'with'=>array(
+		'author.profile',
+		'author.posts',
+		'categories',
+	)
+);
+~~~
+
 
 Optionen für relationale Abfragen
 ---------------------------------
@@ -250,49 +251,51 @@ angegeben werden können. Diese Optionen, durch Name-Wert-Paare festgelegt, werd
 verwendet um die relationale Abfrage individuell anzupassen. Sie sind nachfolgend zusammengestellt.
 
    - `select`: Eine Liste der abzufragenden Spalten der betreffenden AR Klasse.
-Der Standardwert ist '*', d.h. alle Spalten. Die Spaltennamen sollten durch
-`aliasToken` eindeutig gekennzeichnet sein, wenn sie in einem Ausdruck auftreten
-(z.B. `COUNT(??.name) AS nameCount`).
+Der Standardwert ist '*', d.h. alle Spalten. Spaltennamen sollten
+eindeutig gekennzeichnet werden.
 
-   - `condition`: Die `WHERE` Klausel, standardmäßig leer. Beachten Sie,
-dass Spaltenreferenzen mit `aliasToken` eindeutig gekennzeichnet werden müssen (z.B. `??.id=10`).
+   - `condition`: Die `WHERE` Klausel, standardmäßig leer. Spaltennamen
+   sollten eindeutig gekennzeichnet werden.
 
    - `params`: Die Parameter, die an die erzeugte SQL Abfrage gebunden werden sollen.
 Diese sollten als ein Array von Namen-Werte Paaren angegeben werden. Diese Option ist
 seit Version 1.0.3 verfügbar.
 
    - `on`: Die `ON` Klausel. Die hier angegebene Bedingung wird an die JOIN Abfrage
-mit einem `AND` Operator angehängt. Die Spaltennamen sollten durch
-`aliasToken` eindeutig gekennzeichnet sein (z.B. `??.id=10`). Bei
-`MANY_MANY`-Beziehungen wird diese Option nicht berücksichtigt. Diese Option ist seit Version 1.0.2 verfügbar.
+mit einem `AND` Operator angehängt. Die Spaltennamen sollten eindeutig
+gekeinnzeichnet werden. Bei `MANY_MANY`-Beziehungen wird diese Option nicht berücksichtigt. 
+Diese Option ist seit Version 1.0.2 verfügbar.
 
-   - `order`: Die `ORDER BY` Klausel, standardmäßig leer. Beachten Sie,
-dass Spaltenreferenzen mit `aliasToken` eindeutig gekennzeichnet werden müssen (z.B. `??.age
-DESC`).
+   - `order`: Die `ORDER BY` Klausel, standardmäßig leer. Spaltennamen
+   sollten eindeutig gekennzeichnet werden. 
 
-   - `with`: Eine Liste kind-bezogener Objekte, die zusammen mit diesem Objekt
+   - `with`: Eine Liste verknüpfter Objekte, die zusammen mit diesem Objekt
 geladen werden sollen. Beachten Sie, dass bei falscher Verwendung dieser
-Option eine endlose Beziehungsschleife entstehen kann.
+Option eine Endlosschleife von Beziehungen entstehen kann.
 
-   - `joinType`: Jointyp für diesen Beziehungstyp. Der Standardwert ist `LEFT
+   - `joinType`: Der Typ des JOINs für diese Beziehung. Der Standardwert ist `LEFT
 OUTER JOIN`.
 
-   - `aliasToken`: Der Platzhalter für die Spaltenpräfix. Er wird durch den
-entsprechenden Alias der Tabelle ersetzt, um die Spaltenreferenzen zu vereindeutigen.
-Der Standardwert ist `'??.'`
-
-   - `alias`: Der Alias für die in dieser Beziehung verbundene Tabelle.
+   - `alias`: Der Alias für die mit dieser Beziehung verbundene Tabelle.
 Diese Option ist seit Version 1.0.1 verfügbar. Der Standardwert ist null,
-das bedeutet, der Tabellenalias wird automatisch erzeugt. Das ist etwas
-anderes als `aliasToken`. Im letzterem Falle handelt es sich nur um einen Platzhalter, der
-vom tatsächlichen Tabellenalias ersetzt wird.
+was bedeutet, dass der Beziehungsname als Alias verwendet wird.
 
-   - `group`: Die `GROUP BY` Klausel, standardmäßig leer. Beachten Sie,
-dass Spaltenreferenzen mit `aliasToken` eindeutig gekennzeichnet werden müssen (z.B. `??.age`).
+   - `together`: Ob erzwungen werden soll, dass die verknüpfte Tabelle
+gemeinsam mit der Haupt- und anderen Tabellen mittels JOIN eingelesen wird.
+Diese Option ist nur für HAS_MANY und MANY_MANY von Bedeutung.
+Setzt man diesen Wert auf false, wird die Tabelle dieser HAS_MANY- oder 
+MANY_MANY-Beziehung zusammen mit der Haupttabelle in einer gesonderten
+SQL-Abfrage eingelesen, was die gesamte Abfragegeschwindigkeit erhöhen kann, 
+da weniger gleiche Daten zurückgeliefert werden. Standardwert ist true. 
+Für weitere Informationen siehe den
+Abschnitt "Geschwindigkeit von relationalen Abfragen". Diese Option ist seit
+Version 1.0.3 verfügbar.
 
-   - `having`: Die `HAVING` Klausel, standarmäßig leer. Beachten Sie,
-dass Spaltenreferenzen mit `aliasToken` eindeutig gekennzeichnet werden müssen (z.B. `??.age`).
-Diese Option ist seit Version 1.0.1. verfügbar.
+   - `group`: Die `GROUP BY` Klausel, standardmäßig leer. Spaltennamen
+      sollten eindeutig gekennzeichnet werden.
+
+   - `having`: Die `HAVING` Klausel, standarmäßig leer. Spaltennamen
+      sollten eindeutig gekennzeichnet werden. Diese Option ist seit Version 1.0.1. verfügbar.
 
    - `index`: Der Name der Spalte, deren Wert als Schlüssel für den Array mit
 relationalen Objekten verwendet werden soll. Wird diese Option nicht gesetzt, 
@@ -319,10 +322,10 @@ class User extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'posts'=>array(self::HAS_MANY, 'Post', 'authorID',
-							'order'=>'??.createTime DESC',
+			'posts'=>array(self::HAS_MANY, 'Post', 'author_id',
+							'order'=>'posts.create_time DESC',
 							'with'=>'categories'),
-			'profile'=>array(self::HAS_ONE, 'Profile', 'ownerID'),
+			'profile'=>array(self::HAS_ONE, 'Profile', 'owner_id'),
 		);
 	}
 }
@@ -332,15 +335,43 @@ Wenn wir jetzt auf `$author->posts` zugreifen, erhalten wir die `posts` des
 `author` absteigend sortiert nach ihrer `creation time` (Erstellzeitpunkt). 
 Bei jedem Post wurden auch seine Kategorien geladen.
 
-> Info|Info: Wenn ein Spaltenname in zwei oder mehr Tabellen auftaucht, die
-verbunden werden sollen, muss er eindeutig gekennzeichnet werden. Dies geschieht durch
-voranstellen des Tabellennamens vor den Spaltennamen. Aus `id` wird beispielsweise 
-`Team.id`. Bei relationalen AR-Abfragen haben wir diese Freiheit nicht, da AR den
-SQL-Ausdruck automatisch erzeugt und jeder Tabelle systematisch ein Alias gegeben wird.
-Um Konflikte mit Spaltennamen zu vermeiden, benutzen wir daher einen
-Platzhalter, um zu markieren, dass wir eine zu kennzeichnende Spalte
-verwenden. AR ersetzt den Platzhalter mit einem geeignet Tablellenalias und 
-sorgt so fur eine ordnungsgemäße eindeutige Kennzeichnung.
+
+Spaltennamen eindeutig kennzeichnen
+-----------------------------------
+
+Wenn ein Spaltenname in zwei oder mehr Tabellen auftaucht, die miteinander
+verbunden werden, so muss dieser eindeutig angesprochen werden. Dies
+geschieht, indem man dem Spaltennamen den Tabellenalias voranstellt.
+
+Bei relationalen Abfragen hat die Haupttabelle ihren eigenen Namen als Alias.
+Alle relationalen Tabellen verwenden standardmäßig den Namen der
+entsprechenden Beziehung. Im folgenden Beispiel stehen die Aliase `Post` und 
+`comments` jeweils für `Post` und `Comment` (falls der Tabellenname für `Post`
+auch `Post` lautet):
+
+~~~
+[php]
+$posts=Post::model()->with('comments')->findAll();
+~~~
+
+Nehmen wir nun an, dass es sowohl in `Post`, als auch in `Comment` eine
+Spalte namens `create_time` gibt, die den Erstellzeitpunkt des jeweiligen
+Eintrags enthält. Wenn wir alle Beiträge zusammen mit ihren Kommentaren
+abfragen möchten und die Ergebnisse nacheinander nach der Erstellzeit der Beiträge und 
+der der Kommentare sortieren wollen, müssen wir `create_time` eindeutig wie
+folgt ansprechen:
+
+~~~
+[php]
+$posts=Post::model()->with('comments')->findAll(array(
+	'order'=>'Post.create_time, comments.create_time'
+));
+~~~
+
+> Note|Hinweis: Die Art und Weise, wie Spaltennamen eindeutig angesprochen
+> werden, hat sich seit Version 1.1.0 geändert. In früheren 1.0.x-Versionen hat
+> Yii automatisch ein Alias für jede verknüpfte Tabelle erstellt und man
+> musste die Präfix `??.` als Platzhalter für diesen Alias verwenden.
 
 
 Dynamische Optionen für relationale Abfragen 
@@ -358,7 +389,7 @@ absteigende Reihenfolge), können wir das folgendermaßen erreichen:
 ~~~
 [php]
 User::model()->with(array(
-	'posts'=>array('order'=>'??.createTime ASC'),
+	'posts'=>array('order'=>'??.create_time ASC'),
 	'profile',
 ))->findAll();
 ~~~
@@ -374,6 +405,72 @@ folgende Code liefert zum Beispiel die Beiträge eines Benutzers mit `status`
 $user=User::model()->findByPk(1);
 $posts=$user->posts(array('condition'=>'status=1'));
 ~~~
+
+
+Geschwindigkeit von relationalen Abfragen
+-----------------------------------------
+
+Wie oben beschrieben wird der `eager loading`-Ansatz meist in den Fällen
+verwendet, in denen auf viele verknüpfte Objekte zugegriffen werden soll. Er
+erzeugt einen langen komplizierten SQL-Ausdruck in dem alle benötigten
+Tabellen mit JOIN eingebunden werden. In vielen Fällen ist ein solcher langer
+SQL-Ausdruck vorzuziehen, da es damit einfacher wird, nach Spalten in
+verbundenen Tabellen zu filtern. In einigen Fällen kann dies jedoch auch
+nicht sehr effizient sein.
+
+Angenommen, wir würden gern die letzten Blogbeiträge zusammen mit
+deren Kommentaren abfragen. Falls jeder Beitrag 10 Kommentare hat, würden wir
+jede Menge redundanter Daten zurückerhalten, da die Beitragsdaten mit
+jedem Kommentar wiederholt würden. Probieren wir also einen anderen Ansatz:
+Wir fragen zunächst nur die letzten Blogbeiträge ab und danach deren
+Kommentare. In diesem Fall brauchen wir zwei SQL-Abfragen. Der Vorteil dabei ist,
+dass diesmal keine redundaten Daten in den Ergebnissen geliefert werden.
+
+Welche Methode ist nun effizienter? Darauf gibt es keine endgültige Antwort. 
+Eine einzelne große SQL-Abfrage kann effizienter sein, da sie im DBMS weniger
+Zeit für das Verarbeiten und Ausführen der SQL-Ausdrücke benötigt. Andererseits
+führt ein einzelner SQL-Ausdruck zu mehr redundanten Daten und benötigt daher
+mehr Zeit um diese einzulesen und zu verarbeiten.
+
+Um je nach Bedarf zwischen beiden Varianten wählen zu können, bietet Yii die
+`together`-Option. Standardmäßig verfolgt Yii den ersten Ansatz, verwendet
+also einen einzelnen SQL-Ausdruck bei `eager loading`. Setzt man `together`
+bei der Definition einer Beziehungen auf false, werden die entsprechenden Tabellendaten 
+mit separaten Abfragen eingeholt. Um im Beispiel also den zweiten Ansatz zu verfolgen, um
+die letzten Blogbeiträge mit ihren Kommentaren einzuelsen, würden wir die
+Beziehung `comments` in `Post` wie folgt definieren:
+
+~~~
+[php]
+public function relations()
+{
+	return array(
+		'comments' => array(self::HAS_MANY, 'Comment', 'post_id', 'together'=>false),
+	);
+}
+~~~
+
+Man kann diese Option auch dynamisch beim eager loading setzen:
+
+~~~
+[php]
+$posts = Post::model()->with(array('comments'=>array('together'=>false)))->findAll();
+~~~
+
+> Note|Hinweis: In Version 1.0.x führt Yii standardmäßig `N+1` SQL-Abfragen
+> durch, falls es `N` `HAS_MANY`- oder `MANY_MANY`-Beziehungen gibt. Jede
+> dieser Beziehungen führt also zu einer weiteren SQL-Abfrage. Um auch hier
+> eine einzelne Abfrage zu erzwingen, kann man die `together()`-Methode nach
+> `with()` wie im folgenden Beispiel aufrufen:
+>
+> ~~~
+> [php]
+> $posts=Post::model()->with(
+> 	'author.profile',
+> 	'author.posts',
+> 	'categories')->together()->findAll();
+> ~~~
+>
 
 
 Statistische Abfragen
@@ -401,8 +498,8 @@ class Post extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'commentCount'=>array(self::STAT, 'Comment', 'postID'),
-			'categoryCount'=>array(self::STAT, 'Category', 'PostCategory(postID, categoryID)'),
+			'commentCount'=>array(self::STAT, 'Comment', 'post_id'),
+			'categoryCount'=>array(self::STAT, 'Category', 'PostCategory(post_id, category_id)'),
 		);
 	}
 }
@@ -508,7 +605,7 @@ class User extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'posts'=>array(self::HAS_MANY, 'Post', 'authorID',
+			'posts'=>array(self::HAS_MANY, 'Post', 'author_id',
 				'with'=>'comments:freigegeben'),
 		);
 	}
@@ -519,4 +616,4 @@ class User extends CActiveRecord
 verwendet werden, die in [CActiveRecord::scopes] definiert wurden. Daher
 können diese hier auch nicht parametrisiert werden.
 
-<div class="revision">$Id: database.arr.txt 1248 2009-07-15 19:40:44Z qiang.xue $</div>
+<div class="revision">$Id: database.arr.txt 1630 2009-12-29 18:47:09Z qiang.xue $</div>

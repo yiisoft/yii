@@ -39,7 +39,11 @@ Givet ett locale-ID, kan man erhålla motsvarande [CLocale]-instans genom
 > Info: Yii kommer med locale-data för nästan varje språk och region. Dessa data 
 erhålls från [Common Locale Data Repository](http://unicode.org/cldr/) (CLDR). 
 För varje locale används endast en delmängd av data CLDR tillhandahåller, 
-eftersom originaldata även omfattar mycket sällan använd information.
+eftersom originaldata även omfattar mycket sällan använd information. 
+Med start från version 1.1.0, kan användare även tillfoga sitt eget anpassade 
+locale-data. För att göra detta, konfigurera propertyn [CApplication::localeDataPath]
+med den katalog som innehhåller anpassat locale-data. Referera till filerna med 
+locale-data i katalogen `framework/i18n/data` för att skapa anpassade filer med locale-data.
 
 I en Yii-applikation skiljer vi på dess [målspråk|CApplication::language] och 
 dess [källspråk|CApplication::sourceLanguage]. Målspråket är det språk (locale) 
@@ -144,6 +148,19 @@ meddelandeöversättningar när [CPhpMessageSource] används som meddelandekäll
 Kommandot `message` kan automatiskt extrahera meddelanden som är kandidater för 
 översättning från utvalda källkodsfiler samt, om så erfordras, sammanfoga dessa 
 översättningskandidater med redan befintliga översättningar.
+
+Med start från version 1.0.10, när [CPhpMessageSource] används till att hantera meddelandekällor,
+kan meddelanden tillhörande en specifik utvidgningsklass (t.ex. en widget, en modul) hanteras och 
+användas specialiserat. Mer specifikt, om ett meddelande tillhör en utvidgning vars klassnamn är `Xyz`, 
+kan meddelandekategorin specifieras på formatet `Xyz.categoryName`. Motsvarande meddelandefil antas 
+vara `BasePath/messages/LanguageID/categoryName.php`, där `BasePath` refererar till katalogen som 
+innehåller utvidgningens klassfil . När Yii::t()` används för att översätta meddelanden från en 
+utvidgning, kommer formatet då att bli:
+
+~~~
+[php]
+Yii::t('Xyz.categoryName', 'message to be translated')
+~~~
 
 Med start från och med version 1.0.2, har Yii stöd för 
 [variantformat|CChoiceFormat] (choice format). Variantformat avser val av 
@@ -258,4 +275,4 @@ eller flyttal (double).
    formaterar det givna talet genom användning av det fördefinierade 
    procentmönstret i mål-localens data.
 
-<div class="revision">$Id: topics.i18n.txt 772 2009-02-28 18:23:17Z qiang.xue $</div>
+<div class="revision">$Id: topics.i18n.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

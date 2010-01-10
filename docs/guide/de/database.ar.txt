@@ -15,7 +15,7 @@ repräsentiert werden. Eine AR-Instanz repräsentiert eine Zeile in der Tabelle.
 Übliche CRUD-Operationen sind als AR-Methoden implementiert. Das hat zur Folge,
 dass wir in eher objektorientierter Weise auf unsere Daten zugreifen
 können. Zum Beispiel können wir den folgenden Code dazu benutzen, um eine neue Zeile
-in die `Post`-Tabelle einzufügen:
+in die `tbl_post`-Tabelle einzufügen:
 
 ~~~
 [php]
@@ -34,11 +34,11 @@ AUTO_INCREMENT ersetzen müssen, falls Sie MySQL verwenden.
 
 ~~~
 [sql]
-CREATE TABLE Post (
+CREATE TABLE tbl_post (
 	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	title VARCHAR(128) NOT NULL,
 	content TEXT NOT NULL,
-	createTime INTEGER NOT NULL
+	create_time INTEGER NOT NULL
 );
 ~~~
 
@@ -109,7 +109,7 @@ Um auf eine Datenbanktabelle zuzugreifen, müssen wir zuerst eine AR-Klasse
 durch Erweitern von [CActiveRecord] definieren. Jede Klasse repräsentiert
 eine einzelne Datenbanktabelle, und eine AR-Instanz repräsentiert eine Zeile
 der Tabelle. Das folgende Beispiel zeigt den nötigen Mindestcode einer AR-Klasse,
-die die Tabelle `Post` repräsentiert.
+die die Tabelle `tbl_post` repräsentiert.
 
 ~~~
 [php]
@@ -170,16 +170,12 @@ magischen PHP Methode `__get()` erlaubt, darauf wie auf eine Eigenschaft
 zuzugreifen. Falls wir auf diese Weise versuchen, ein nicht existierendes Feld
 anzusprechen, wird eine Exception ausgelöst.
 
-> Info|Info: In diesem Handbuch benennen wir Spalten in sog.
-CamelCase-Schreibweise (z.B. `createTime`), da sie wie normale
-Objekteigenschaften angesprochen werden, die ja ebenfalls
-CamelCase verwenden. Während dies für mehr Konsistenz in unserem
-PHP-Code sorgt, kann es auf der anderen Seite bei manchen Datenbanksystemen zu
-Problemen führen. Bei PostgreSQL spielt die Groß-/Kleinschreibung zum Beispiel
-standardmäßig keine Rolle und wir müssen eine Spalte in Anführungszeichen setzen, 
-falls sie gemischte Groß-/Kleinschreibung verwendet. Es kann daher ratsam sein, 
-Spalten- und Tabellennamen nur in Kleinbuchstaben zu benennen (z.B. `create_time`) um
-möglichen Problemen mit der Schreibweise vorzubeugen.
+> Info|Info: In diesem Handbuch werden alle Tabellen- und Spaltennamen
+> kleingeschrieben, da verschiedene DBMS mit Groß-/Kleinschreibung
+> unterschiedlich umgehen. PostgreSQL zum Beispiel ignoriert die Schreibweise
+> standardmäßig. Falls ein Spaltenname Groß- und Kleinbuchstaben enthält, muss
+> er dort in Anführungszeichen gesetzt werden. Durch konsequente
+> Kleinschreibung umgehen wir dieses Problem.
 
 
 Einfügen von Datensätzen
@@ -195,7 +191,7 @@ Methode auf, um das Einfügen abzuschließen.
 $post=new Post;
 $post->title='Beispielbeitrag';
 $post->content='Inhalt des Beispielbeitrags';
-$post->createTime=time();
+$post->create_time=time();
 $post->save();
 ~~~
 
@@ -230,8 +226,8 @@ MySQL-Funktion `NOW()` geliefert wird, können wir folgenden Code verwenden:
 ~~~
 [php]
 $post=new Post;
-$post->createTime=new CDbExpression('NOW()');
-// $post->createTime='NOW()'; funktioniert nicht
+$post->create_time=new CDbExpression('NOW()');
+// $post->create_time='NOW()'; funktioniert nicht
 // 'NOW()' würde wie ein String behandelt
 $post->save();
 ~~~
@@ -603,7 +599,7 @@ class Beitrag extends CActiveRecord
 Jeder benannte Bereich wird als Array deklariert, das zum Initialisieren
 einer [CDbCriteria]-Instanz verwendet werden kann. Der benannte Bereich
 `kuerzlich` bestimmt zum Beispiel, dass die `order`-Eigenschaft auf
-`erstellZeit DESC` und die `limit`-Eigenschaft auf 5 gesetzt werden soll. Dies
+`erstell_zeit DESC` und die `limit`-Eigenschaft auf 5 gesetzt werden soll. Dies
 wird in ein Abfragekriterium übersetzt, das die letzten 5 Beiträge
 zurückliefern sollte.
 
@@ -648,7 +644,7 @@ dazu eine neue Methode mit dem Namen des Bereichs definieren:
 public function kuerzlich($limit=5)
 {
 	$this->getDbCriteria()->mergeWith(array(
-		'order'=>'createTime DESC',
+		'order'=>'create_time DESC',
 		'limit'=>$limit,
 	));
 	return $this;
@@ -702,4 +698,4 @@ Beachten Sie, dass der Standardbereich nur für
 `SELECT`-Abfragen verwendet wird. Bei `INSERT`-, `UPDATE`- und
 `DELETE`-Statements wird er ignoriert.
 
-<div class="revision">$Id: database.ar.txt 1479 2009-10-23 13:24:20Z qiang.xue $</div>
+<div class="revision">$Id: database.ar.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

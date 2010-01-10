@@ -33,15 +33,15 @@ avsnitt.
 > frågor som involverar tabellsamband kan utföras med hjälp av AR:
 > ~~~
 > [sql]
-> CREATE TABLE Foo
+> CREATE TABLE foo
 > (
 >   id INTEGER NOT NULL PRIMARY KEY
 > );
 > CREATE TABLE bar
 > (
 >   id INTEGER NOT NULL PRIMARY KEY,
->   fooID INTEGER
->      COMMENT 'CONSTRAINT FOREIGN KEY (fooID) REFERENCES Foo(id)'
+>   foo_id INTEGER
+>      COMMENT 'CONSTRAINT FOREIGN KEY (foo_id) REFERENCES foo(id)'
 > );
 > ~~~
 > I exemplet ovan, används nyckelordet `COMMENT` för att beskriva referensattributrestriktionen
@@ -57,9 +57,9 @@ hur en AR-klass relaterar till en annan.
 
 Samband mellan två AR-klasser är direkt förknippat med sambandet mellan 
 databastabellerna som AR-klasserna representerar. Från databasens synvinkel kan 
-sambandet mellan två tabeller A and B ha tre typer: en-till-många (t.ex. `User` 
-och `Post`), en-till-en (t.ex. `User` och `Profile`) samt många-till-många 
-(t.ex. `Category` och `Post`). Inom AR finns det fyra sorters samband:
+sambandet mellan två tabeller A and B ha tre typer: en-till-många (t.ex. `tbl_user` 
+och `tbl_post`), en-till-en (t.ex. `tbl_user` och `tbl_profile`) samt många-till-många 
+(t.ex. `tbl_category` och `tbl_post`). Inom AR finns det fyra sorters samband:
 
    - `BELONGS_TO`: om sambandet mellan tabellerna A och B är en-till-många, så 
    är B tillhörig A (t.ex. `Post` tillhör `User`);
@@ -73,7 +73,7 @@ och `Post`), en-till-en (t.ex. `User` och `Profile`) samt många-till-många
    - `MANY_MANY`: detta motsvarar många-till-mångasambandet i databasen. En 
    assisterande tabell erfordras för att bryta upp ett många-till-mångasamband i 
    ett-till-mångasamband, eftersom de flesta databashanterare saknar direkt stöd 
-   för många-till-mångasamband. I vårt exempelschema, tjänar `PostCategory` 
+   för många-till-mångasamband. I vårt exempelschema, tjänar `tbl_post_category` 
    detta syfte. Med AR terminology kan `MANY_MANY` förklaras som kombinationen 
    av `BELONGS_TO` och `HAS_MANY`. Till exempel, `Post` tilhör många `Category` 
    och `Category` har många `Post`.
@@ -101,22 +101,26 @@ Följande kod visar hur sambandet mellan klasserna `User` och `Post` deklareras.
 [php]
 class Post extends CActiveRecord
 {
+	......
+
 	public function relations()
 	{
 		return array(
-			'author'=>array(self::BELONGS_TO, 'User', 'authorID'),
-			'categories'=>array(self::MANY_MANY, 'Category', 'PostCategory(postID, categoryID)'),
+			'author'=>array(self::BELONGS_TO, 'User', 'author_id'),
+			'categories'=>array(self::MANY_MANY, 'Category', 'tbl_post_category(post_id, category_id)'),
 		);
 	}
 }
 
 class User extends CActiveRecord
 {
+	......
+
 	public function relations()
 	{
 		return array(
-			'posts'=>array(self::HAS_MANY, 'Post', 'authorID'),
-			'profile'=>array(self::HAS_ONE, 'Profile', 'ownerID'),
+			'posts'=>array(self::HAS_MANY, 'Post', 'author_id'),
+			'profile'=>array(self::HAS_ONE, 'Profile', 'owner_id'),
 		);
 	}
 }
@@ -127,7 +131,7 @@ kolumner. I det fallet skall namnen på kolumner som ingår i referensattributet
 skrivas efter varandra, separerade av blanksteg eller komma. För samband av 
 typen `MANY_MANY` måste namnet på den assisterande tabellen också specificeras i 
 referensattributet. Till exempel, sambandet  `categories` i `Post` är 
-specificerat med referensattributet `PostCategory(postID, categoryID)`.
+specificerat med referensattributet `tbl_post_category(post_id, category_id)`.
 
 Deklarationen av samband i en AR-klass lägger underförstått till en property i 
 klassen för varje samband. När en relationell fråga har utförts kommer den 
@@ -211,40 +215,32 @@ Ovanstående exempel hämtar in alla postningar tillsammans med deras respektive
 författare och kategorier. Det hämtar även in varje författares profil samt 
 postningar.
 
-> Note|Märk: Sättet att använda metoden [with()|CActiveRecord::with] har ändrats 
-från och med version 1.0.2. Den tillhörande API-dokumentationen bör läsas 
-omsorgsfullt.
-
-AR-implementeringen i Yii är mycket effektiv. Vid eager loading av en hierarki 
-av relaterade objekt omfattande `N` `HAS_MANY`- eller `MANY_MANY`-samband, 
-behövs `N+1` SQL-frågor för att uppnå önskat resultat. Detta innebär att den 
-behöver exekvera 3 SQL-frågor i det förra exemplet, på grund av propertyna 
-`posts` och `categories`. Andra ramverk tar ett mer radikalt grepp genom att 
-använda en enda SQL-fråga. Vid en första anblick, verkar det radikala angreppssättet 
-mer effektivt, på grund av att färre frågor behöver avkodas och exekveras av 
-databashanteraren. Men det är i verkligheten opraktiskt av två skäl. För det 
-första, finns det många repetitiva datakolumner i resultatet, vilka kräver mer 
-tid att överföra och bearbeta. För det andra, växer antalet rader i 
-resultatmängden exponentiellt med antalet involverade tabeller, vilket gör saken 
-ohanterlig i takt med att fler samband omfattas.
-
-Sedan version 1.0.2, går det även att tvinga fram att en relationell fråga 
-utförs med hjälp av endast en SQL-fråga. Detta sker helt enkelt genom att ett 
-anrop till [together()|CActiveFinder::together] läggs till efter 
-[with()|CActiveRecord::with]. Till exempel,
+Från och med version 1.1.0, kan eager loading även exekveras genom att man
+specificerar propertyn [CDbCriteria::with], som i följande exempel:
 
 ~~~
 [php]
-$posts=Post::model()->with(
+$criteria=new CDbCriteria;
+$criteria->with=array(
 	'author.profile',
 	'author.posts',
-	'categories')->together()->findAll();
+	'categories',
+);
+$posts=Post::model()->findAll($criteria);
 ~~~
 
-Ovanstående fråga kommer att utföras i en enda SQL-fråga. Utan anropet till 
-[together|CActiveFinder::together], skulle det behövas tre SQL-frågor: en slår 
-samman tabellerna `Post`, `User` och `Profile`, en slår samman tabellerna 
-`User` och `Post` och en slår samman `Post`, `PostCategory` och `Category`.
+or
+
+~~~
+[php]
+$posts=Post::model()->findAll(array(
+	'with'=>array(
+		'author.profile',
+		'author.posts',
+		'categories',
+	)
+);
+~~~
 
 
 Alternativ för relationella frågor
@@ -256,26 +252,22 @@ relationella frågan. De sammanfattas nedan.
 
    - `select`: en lista med med kolumner som skall selekteras till den 
    relaterade AR-klassen. Den har standardvärdet '*', vilket innebär alla 
-   kolumner. Kolumnnamn skall göras otvetydiga med hjälp av `aliasToken` om de 
-   används i ett uttryck (t.ex. `COUNT(??.name) AS nameCount`).
+   kolumner. Kolumnnamn som refereras till i detta alternativ måste göras otvetydiga.
 
-   - `condition`: motsvarar `WHERE`-ledet. Det är som standard tomt. Märk att 
-   kolumnreferenser behöver göras otvetydiga med hjälp av `aliasToken` (t.ex. 
-   `??.id=10`).
+   - `condition`: motsvarar `WHERE`-ledet.  Kolumnnamn som refereras till i 
+   detta alternativ måste göras otvetydiga.
 
    - `params`: parametrarna som skall kopplas ihop med den genererade SQL-satsen. 
    Dessa skall ges som en array bestående av namn-värdepar. Detta alternativ har 
-   varit tillgängligt från och med version 1.0.3.
+   varit tillgängligt sedan version 1.0.3.
 
    - `on`: motsvarar `ON`-ledet. Villkoret som specificeras här kommer att läggas till 
-   sammanslagningsvillkoret med hjälp av `AND`-operatorn.  Märk att kolumnreferenser 
-behöver göras otvetydiga med hjälp av `aliasToken` (t.ex. `??.id=10`).
-Detta alternativ är inte relevant vid `MANY_MANY`-relationer. Det har varit 
-tillgängligt från och med version 1.0.2.
+   sammanslagningsvillkoret med hjälp av `AND`-operatorn. Kolumnnamn som refereras till 
+   i detta alternativ måste göras otvetydiga. Detta alternativ är inte relevant vid 
+   `MANY_MANY`-relationer. Alternativet har varit tillgängligt sedan version 1.0.2.
 
-   - `order`: motsvarar `ORDER BY`-ledet. Det är som standard tomt. Märk att 
-   kolumnreferenser behöver göras otvetydiga med hjälp av `aliasToken` (t.ex. 
-   `??.age DESC`).
+   - `order`: motsvarar `ORDER BY`-ledet. Det är som standard tomt. Kolumnnamn som 
+   refereras till i detta alternativ måste göras otvetydiga. 
 
    - `with`: en lista med underordnade relaterade objekt som skall laddas 
    tillsammans med detta objekt. Var uppmärksam på att om detta alternativ 
@@ -284,31 +276,27 @@ tillgängligt från och med version 1.0.2.
    - `joinType`: typ av sammanslagning för detta samband. Den är som standard 
    `LEFT OUTER JOIN`.
 
-   - `aliasToken`: platshållare för kolumnprefix. Den ersätts med motsvarande 
-   tabellalias så att kolumnreferenser kan göras otvetydiga. Standardvärde är 
-   `'??.'`.
-
    - `alias`: aliasnamn för tabellen som förknippas med detta samband. Detta 
-   alternativ har varit tillgängligt från och med version 1.0.1. Standardvärde 
+   alternativ har varit tillgängligt sedan version 1.0.1. Standardvärde 
    är null, vilket innebär att tabellalias genereras automatiskt. Detta skiljer 
    sig från `aliasToken` på så sätt att den senare bara är en platshållare och 
    ersätts med faktiskt tabellalias.
 
    - `together`: huruvida tabellen associerad med detta samband skall tvingas till 
-   en ovillkorlig sammanslagning (join) med den primära tabellen. Detta alternativ 
-   är endast relevant för samband av typerna HAS_MANY och MANY_MANY. Om alternativet 
-   inte anges eller sätts till false, kommer varje HAS_MANY- eller MANY_MANY-samband 
-   att, av prestandaskäl, ha sin egen JOIN-sats. Detta alternativ har varit tillgängligt 
-   från och med version 1.0.3.
+   en ovillkorlig sammanfogning (join) med den primära tabellen och andra tabeller. 
+   Detta alternativ är endast relevant för samband av typerna HAS_MANY och MANY_MANY. 
+   Om alternativet sätts till false, kommer tabellen som är associerad med HAS_MANY- 
+   eller MANY_MANY-sambandet att sammanfogas med den primära tabellen i en separat SQL-fråga, 
+   något som kan öka total frågeprestanda eftersom mindre mängd redundant data returneras. 
+   Standardvärde är true. För fler detaljer se avsnittet "Relational Query Performance". 
+   Detta alternativ har varit tillgängligt sedan version 1.0.3.
 
-   - `group`: motsvarar `GROUP BY`-ledet. Det är som standard tomt. Märk att 
-   kolumnreferenser behöver göras otvetydiga med hjälp av `aliasToken` (e.g. 
-   `??.age`).
+   - `group`: motsvarar `GROUP BY`-ledet. Det är som standard tomt. Kolumnnamn som 
+   refereras till i detta alternativ måste göras otvetydiga. 
 
-   - `having`: motsvarar `HAVING`-ledet. Det är som standard tomt. Märk att 
-   kolumnreferenser behöver göras otvetydiga med hjälp av `aliasToken` (e.g. 
-   `??.age`). Detta alternativ har varit tillgängligt från och med 
-   version 1.0.1.
+   - `having`: motsvarar `HAVING`-ledet. Det är som standard tomt. Kolumnnamn som 
+   refereras till i detta alternativ måste göras otvetydiga. Detta alternativ har 
+   varit tillgängligt sedan version 1.0.1.
 
    - `index`: namnet på kolumnen vars värden skall användas som nycklar 
    i den array som lagrar relaterade objekt. Om detta alternativ inte sätts 
@@ -335,10 +323,10 @@ class User extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'posts'=>array(self::HAS_MANY, 'Post', 'authorID',
-							'order'=>'??.createTime DESC',
+			'posts'=>array(self::HAS_MANY, 'Post', 'author_id',
+							'order'=>'posts.create_time DESC',
 							'with'=>'categories'),
-			'profile'=>array(self::HAS_ONE, 'Profile', 'ownerID'),
+			'profile'=>array(self::HAS_ONE, 'Profile', 'owner_id'),
 		);
 	}
 }
@@ -349,7 +337,7 @@ postningar sorterade i fallande ordning efter tid de skapats. Varje instans av
 postning har också fått sina kategorier laddade.
 
 > Info: När ett kolumnnamn uppträder i två eller fler tabeller som slås samman 
-(join), behöver det göras otvetydigt. Detta åstadkoms genom att föregå 
+(join), behöver det göras otvetydigt. Detta åstadkommes genom att föregå 
 kolumnnamnet med dess tabellnamn. Till exempel, `id` blir `Team.id`. I AR:s 
 relationella frågor däremot, saknas denna frihet eftersom SQL-satserna 
 genereras automatiskt av AR, vilket systematiskt ger varje tabell ett alias. Av 
@@ -357,6 +345,43 @@ denna anledning används, för att undvika konflikter mellan kolumnnamn, en
 platshållare för att indikera förekomsten av en kolumn som behöver göras 
 otvetydig. AR ersätter platshållaren med ett passande tabellalias och gör 
 kolumnen otvetydig.
+
+
+Göra kolumnnamn otvetydiga
+--------------------------
+
+När ett kolumnnamn förekommer i två eller fler tabeller som sammanfogas, 
+behöver det göras otvetydigt. Detta gör man genom att skjuta in tabellens 
+aliasnamn före kolumnnamnet.
+
+I en relationell AR-fråga är aliasnamnet för den primära tabellen samma som
+tabellnamnet, medan aliasnamnet för en relaterad tabell som standard är samma 
+som det motsvarande sambandets namn. Till exempel så har `Post` och `Comment` 
+i följande exempel, aliasnamnen `Post` respektive `comments` (under förutsättning 
+att tabellnamnet för `Post` är `Post`):
+
+~~~
+[php]
+$posts=Post::model()->with('comments')->findAll();
+~~~
+
+Antag nu att både `Post` och `Comment` har en kolumn `create_time` som indikerar 
+tiden en postning respektive kommentar skapats och att vi vill hämta postningar 
+tillsammans med tillhörande kommentarer samt sortera dessa efter först postningarnas 
+därefter kommentarernas skapandetid. Vi behöver då göra kolumnen `create_time` otvetydig 
+på följande sätt:
+
+~~~
+[php]
+$posts=Post::model()->with('comments')->findAll(array(
+	'order'=>'Post.create_time, comments.create_time'
+));
+~~~
+
+> Note|Märk: semantiken vid otvetydiggörande av kolumnnamn har ändrats fr o m version 1.1.0.
+> Tidigare, i version 1.0.x, genererade Yii underförstått ett tabellalias för varje relaterad
+> tabell prefixet `??.` användes för referens till detta automatiskt genererade alias.
+
 
 Alternativ för dynamisk relationell fråga
 -----------------------------------------
@@ -373,7 +398,7 @@ ordningsföljd), kan man göra följande:
 ~~~
 [php]
 User::model()->with(array(
-	'posts'=>array('order'=>'??.createTime ASC'),
+	'posts'=>array('order'=>'posts.create_time ASC'),
 	'profile',
 ))->findAll();
 ~~~
@@ -389,6 +414,68 @@ följande kod de av en användares postningar vars status` är lika med 1:
 $user=User::model()->findByPk(1);
 $posts=$user->posts(array('condition'=>'status=1'));
 ~~~
+
+
+Prestanda för relationell fråga
+-------------------------------
+
+Som beskrivits ovan används tillvägagångssättet eager loading huvudsakligen i ett scenario 
+där vi behöver accessa många relaterade objekt. Det genererar en stor komplex SQL-sats
+genom att utföra join med alla tabeller som behövs. En stor SQL-sats är att föredra i många fall 
+eftersom den förenklar filtrering baserad på en kolumn i en relaterad tabell.
+Dock kan den vara mindre effektiv i vissa fall.
+
+Tänk ett exempel där vi behöver hitta de senaste postningarna tillsammans med tillhörande kommentarer.
+Med antagandet att varje postning har 10 kommentarer och en enda stor SQL-sats, kommer en stor mängd 
+redundant data om postningar att returneras eftersom varje postning kommer att repeteras för varje tillhörande kommentar.
+Tänk ett annat tillvägagångssätt: först en fråga om senaste postningarna, därefter en fråga om tillhörande kommentarer.
+Vid detta nya tillvägagångssätt, behöver två SQL-satser exekveras. Vinsten är att det inte kommer med reduntant data 
+i frågeresultatet.
+
+Så vilket tillvägagångssätt är mer effektivt? Det finns inget absolut svar. Att exekvera en enstaka stor SQL-sats 
+kan vara mer effektivt eftersom det leder till mindre overhead i DBMS:en för parsning och exekvering av 
+SQL-satser. Å andra sidan, vid användning av en enstaka SQL-sats, kommer det att gå åt mer tid till att läsa
+och bearbeta den större mängden redundant data.
+
+Av detta skäl, tillhandahåller Yii frågealternativet `together` så att vi kan välja mellan de två tillvägagångssätten.
+Som standard använder sig Yii av det första tillvägagångssättet, dvs, att skapa en enda stor SQL-sats för att
+utföra eager loading. Genom att sätta alternativet `together` till false i sambandsdeklarationen sker join mellan  
+vissa tabeller i separata SQL-satser. Till exempel, för att använda det andra tillvägagångssättet i samband med  
+en fråga om de senaste postningarna med tillhörande kommentarer, kan vi deklarera sambandet `comments` i `Post`-klassen 
+på följande sätt,
+
+~~~
+[php]
+public function relations()
+{
+	return array(
+		'comments' => array(self::HAS_MANY, 'Comment', 'post_id', 'together'=>false),
+	);
+}
+~~~
+
+Vi kan även sätta detta alternativ dynamiskt när vi genomför eager loading:
+
+~~~
+[php]
+$posts = Post::model()->with(array('comments'=>array('together'=>false)))->findAll();
+~~~
+
+> Note|Märk: I version 1.0.x, var det underförstådda beteendet att Yii genererade och
+> exekverade `N+1` SQL-satser om det fanns `N` `HAS_MANY`- eller `MANY_MANY`-samband.
+> Varje `HAS_MANY`- eller `MANY_MANY`-samband hade sin egen SQL-sats. Genom att anropa
+> metoden `together()` efter `with()` kunde generering och exekvering av endast en SQL-sats 
+> tvingas fram. Till exempel,
+>
+> ~~~
+> [php]
+> $posts=Post::model()->with(
+> 	'author.profile',
+> 	'author.posts',
+> 	'categories')->together()->findAll();
+> ~~~
+>
+
 
 
 Statistikfråga
@@ -414,8 +501,8 @@ class Post extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'commentCount'=>array(self::STAT, 'Comment', 'postID'),
-			'categoryCount'=>array(self::STAT, 'Category', 'PostCategory(postID, categoryID)'),
+			'commentCount'=>array(self::STAT, 'Comment', 'post_id'),
+			'categoryCount'=>array(self::STAT, 'Category', 'PostCategory(post_id, category_id)'),
 		);
 	}
 }
@@ -508,7 +595,7 @@ class User extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			'posts'=>array(self::HAS_MANY, 'Post', 'authorID',
+			'posts'=>array(self::HAS_MANY, 'Post', 'author_id',
 				'with'=>'comments:approved'),
 		);
 	}
@@ -519,4 +606,4 @@ class User extends CActiveRecord
 [CActiveRecord::scopes]. Detta innebär också att de inte kan parametriseras.
 
 
-<div class="revision">$Id: database.arr.txt 1248 2009-07-15 19:40:44Z qiang.xue $</div>
+<div class="revision">$Id: database.arr.txt 1630 2009-12-29 18:47:09Z qiang.xue $</div>

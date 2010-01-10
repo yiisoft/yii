@@ -204,7 +204,7 @@ vor der Ausführung der SQL Anweisung erfolgen.
 ~~~
 [php]
 // SQL-Anweisung mit zwei Platzhaltern ":username" und ":email"
-$sql="INSERT INTO users(username, email) VALUES(:username,:email)";
+$sql="INSERT INTO tbl_user(username, email) VALUES(:username,:email)";
 $command=$connection->createCommand($sql);
 // Ersetze den Platzhalter ":username" durch den tatsächlichen Benutzernamen
 $command->bindParam(":username",$username,PDO::PARAM_STR);
@@ -235,7 +235,7 @@ aktuellen Daten befüllt werden.
 
 ~~~
 [php]
-$sql="SELECT username, email FROM users";
+$sql="SELECT username, email FROM tbl_user";
 $dataReader=$connection->createCommand($sql)->query();
 // Binde die 1. Spalte (username) an die Variable $username
 $dataReader->bindColumn(1,$username);
@@ -261,13 +261,13 @@ Um ein Tabellenpräfix zu verwenden, konfigurieren Sie es in der Eigenschaft
 [CDbConnection::tablePrefix]. In SQL-Ausdrücken verwenden Sie dann
 `{{TabellenName}}` um sich auf Tabellennamen zu beziehen, wobei `TabellenName`
 für den Namen der Tabelle ohne Präfix steht. Wenn die Datenbank z.B. eine
-Tabelle `tbl_users` enthält und `tbl_` als Tabellenpräfix konfiguriert wurde,
+Tabelle `tbl_user` enthält und `tbl_` als Tabellenpräfix konfiguriert wurde,
 können wir so eine Abfrage auf dieser Tabelle durchführen:
 
 ~~~
 [php]
-$sql='SELECT * FROM {{users}}';
+$sql='SELECT * FROM {{user}}';
 $users=$connection->createCommand($sql)->queryAll();
 ~~~
 
-<div class="revision">$Id: database.dao.txt 1479 2009-10-23 13:24:20Z qiang.xue $</div>
+<div class="revision">$Id: database.dao.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

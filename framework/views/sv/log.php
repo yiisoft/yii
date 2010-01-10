@@ -6,7 +6,7 @@
 		</th>
 	</tr>
 	<tr style="background-color: #ccc;">
-	    <th style="width:120px">Timestamp</th>
+	    <th style="width:120px">Tidstämpel</th>
 		<th>Nivå</th>
 		<th>Kategori</th>
 		<th>Meddelande</th>

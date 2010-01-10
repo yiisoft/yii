@@ -172,4 +172,4 @@ I stället lägger vi in följande kod i våra sidor för att uttryckligen inklu
 </head>
 ~~~
 
-<div class="revision">$Id: topics.performance.txt 1123 2009-06-13 12:17:54Z qiang.xue $</div>
+<div class="revision">$Id: topics.performance.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

@@ -142,6 +142,8 @@ Yii предопределяет набор ключевых (core) компон
 
    - [errorHandler|CApplication::errorHandler]: [CErrorHandler] — обрабатывает не пойманные ошибки и исключения PHP;
 
+   - [format|CApplication::format]: [CFormatter] - форматирует дату для её последующего отображения. Доступно с версии 1.1.0;
+
    - [messages|CApplication::messages]: [CPhpMessageSource] — предоставляет переводы сообщений, используемых в Yii-приложении;
 
    - [request|CWebApplication::request]: [CHttpRequest] — предоставляет информацию, относящуюся к пользовательскому запросу;
@@ -186,4 +188,4 @@ Yii предопределяет набор ключевых (core) компон
 
    7. Вызов события [onEndRequest|CApplication::onEndRequest].
 
-<div class="revision">$Id: basics.application.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>
+<div class="revision">$Id: basics.application.txt 1601 2009-12-18 04:31:19Z qiang.xue $</div>

@@ -1,7 +1,7 @@
 Обновление с версии 1.0 на версию 1.1
 =====================================
 
-Изменения, свзяанные со сценариями модели
+Изменения, связанные со сценариями модели
 -----------------------------------------
 
 - Удален метод [safeAttributes()|CModel::safeAttributes]. Теперь, чтобы быть
@@ -16,19 +16,16 @@
 'scenario' удален. Вы должны получать и устанавливать сценарий модели через
 свойство [CModel::scenario].
 
-- Изменены методы [getValidators()|CModel::getValidators] и
+- Изменён метод [getValidators()|CModel::getValidators] и удалён
 [getValidatorsForAttribute()|CModel::getValidatorsForAttribute].
-Теперь они возвращают только валидаторы, применяемые к сценарию, определенному
+CModel::getValidators() теперь возвращает только валидаторы, применяемые к сценарию, определенному
 свойством сценария модели ([CModel::scenario]).
 
 - Изменены методы [isAttributeRequired()|CModel::isAttributeRequired] и
 [CModel::getValidatorsForAttribute()]. Параметр сценария удален. Вместо него
 следует использовать свойство сценария модели.
 
-- Удален метод [CModel::getValidatorsForAttribute()]. Вместо него следует
-использовать метод [getValidators()|CModel::getValidators].
-
-- Удалено свойство [CHtml::scenario]
+- Удалено свойство CHtml::scenario. CHtml теперь использует сценарий, указанный в модели.
 
 
 Изменения, связанные с 'жадной' загрузкой для отношений Active Record
@@ -58,4 +55,4 @@
 должны выглядеть так — `[$i]поле`, чтобы была возможность поддержки
 множественного ввода однотипных полей (например, `[$i]поле[$index]`).
 
-<div class="revision">$Id: upgrade.txt 1442 2009-10-10 21:55:19Z qiang.xue $</div>
+<div class="revision">$Id: upgrade.txt 1634 2009-12-30 16:46:13Z qiang.xue $</div>

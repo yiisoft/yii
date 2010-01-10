@@ -34,4 +34,4 @@ ist weniger effizient, da hier viele interne Log-Einträge gehalten werden.
 In der Entwicklungsphase ist der Debug-Modus allerdings hilfreich, da er
 im Fehlerfall umfangreiche Debug-Informationen liefert.
 
-<div class="revision">$Id: basics.entry.txt 162 2008-11-05 12:44:08Z weizhuo $</div>
+<div class="revision">$Id: basics.entry.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

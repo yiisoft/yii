@@ -1,0 +1,52 @@
+1.0から1.1へのアップグレード
+=================================
+
+モデルシナリオに関する変更
+------------------------------------
+
+- CModel::safeAttributes()が削除された。セーフアトリビュートはCModel::rules()ルール中の、個別のシナリオで設定されたものという定義に変更された。
+
+- CModel::validate()、CModel::beforeValidate()、CModel::afterValidate()が変更された。
+CModel::setAttributes(), CModel::getSafeAttributeNames()が変更された。
+'scenario'パラメータが削除された。シナリオを得たり設定したりするにはCModel::scenarioを使用してください。
+
+- CModel::getValidators() and CModel::getValidatorsForAttribute()が変更された。
+They now only return validators applicable to the scenario as specified
+by the model's scenario property.
+
+- Changed CModel::isAttributeRequired() and CModel::getValidatorsForAttribute().
+The scenario parameter is removed. The model's scenario property will be
+used, instead.
+
+- Removed CModel::getValidatorsForAttribute(). Please use CModel::getValidators() instead.
+
+- Removed CHtml::scenario
+
+
+Changes Related with Eager Loading for Relational Active Record
+---------------------------------------------------------------
+
+- By default, a single JOIN statement will be generated and executed
+for all relations involved in the eager loading. If the primary table
+has its `LIMIT` or `OFFSET` query option set, it will be queried alone
+first, followed by another SQL statement that brings back all its related
+objects. Previsoulay in version 1.0.x, the default behavior is that
+there will be `N+1` SQL statements if an eager loading involves
+`N` `HAS_MANY` or `MANY_MANY` relations.
+
+
+Changes Related with Table Alias in Relational Active Record
+------------------------------------------------------------
+
+- The default alias for a relational table is now the same as the corresponding
+relation name. Previously in version 1.0.x, by default Yii would automatically
+generate a table alias for each relational table, and we had to use the prefix
+`??.` to refer to this automatically generated alias.
+
+Changes Related with Tabular Input
+----------------------------------
+
+- For attribute names, using `Field[$i]` is not valid anymore, they should look
+like `[$i]Field` in order to support array-typed fields (e.g. `[$i]Field[$index]`).
+
+<div class="revision">$Id: upgrade.txt 1442 2009-10-10 21:55:19Z qiang.xue $</div>

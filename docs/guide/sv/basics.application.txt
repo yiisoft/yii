@@ -150,6 +150,8 @@ Nedan listas kärnkomponenterna som fördeklareras av [CWebApplication].
 
    - [errorHandler|CApplication::errorHandler]: [CErrorHandler] - hanterar icke uppfångade PHP-felmeddelanden och exception.
 
+   - [format|CApplication::format]: [CFormatter] - formaterar datavärden inför presentation. Tillgängligt sedan version 1.1.0.
+
    - [messages|CApplication::messages]: [CPhpMessageSource] - tillhandahåller översatta texter ingående i Yii-applikationer.
 
    - [request|CWebApplication::request]: [CHttpRequest] - tillhandahåller information relaterad till inkommen request från användare.
@@ -193,4 +195,4 @@ Vid behandling av en inkommen request från användare genomgår en applikation 
 
    7.Signalera händelsen [onEndRequest|CApplication::onEndRequest];
 
-<div class="revision">$Id: basics.application.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>
+<div class="revision">$Id: basics.application.txt 1601 2009-12-18 04:31:19Z qiang.xue $</div>

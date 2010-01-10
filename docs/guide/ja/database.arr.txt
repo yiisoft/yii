@@ -60,7 +60,7 @@ ARでは、以下の4種類のリレーションがあります。
 AR用語では、`BELONGS_TO`と`HAS_MANY`の組合せとして、`MANY_MANY`を説明することができます。
 例えば`Post`は多くの`Category`に属しています。そして`Category`には多くの`Post`があります。
 
-ARでのリレーション宣言は、[CActiveRecord]クラスの[relations()|CActiveRecord::relations]メソッドをオーbライドすることで行います。
+ARでのリレーション宣言は、[CActiveRecord]クラスの[relations()|CActiveRecord::relations]メソッドをオーバライドすることで行います。
 このメソッドはリレーション構成の配列を返します。
 各々の配列要素は以下のフォーマットで示す一つのリレーションを意味します。
 

@@ -3,8 +3,8 @@ Vad är Yii
 
 Yii är ett högpresterande komponentbaserat PHP-ramverk för utveckling av 
 storskaliga webbapplikationer. Det möjliggör maximal återanvändningsbarhet inom 
-webbprogrammering och kan på ett signifikant sätt snabba upp 
-utvecklingsprocessen. Namnet Yii (uttalas `Yee` eller `/ji:/`) står för *lätt*, 
+webbprogrammering och kan på ett signifikant sätt snabba upp utvecklingen av en 
+webbapplikation. Namnet Yii (uttalas `Yee` eller `/ji:/`) står för *lätt*, 
 *effektivt* och *utbyggbart*.
 
 Systemkrav
@@ -38,4 +38,4 @@ upphovsmannens rika erfarenhet från utveckling av webbapplikationer samt
 utforskning och reflektioner kring de populäraste webbprogrammeringsramverken 
 och -applikationerna.
 
-<div class="revision">$Id: quickstart.what-is-yii.txt 814 2009-03-10 18:00:11Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.what-is-yii.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

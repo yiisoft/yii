@@ -10,6 +10,8 @@
 
  * [Добавлена возможность использования скинов виджета](/doc/guide/topics.theming#skin)
 
+ * [Добавлен гибкий инструмент для построения форм](/doc/guide/form.builder)
+
  * Улучшен способ объявления безопасных атрибутов модели
 	 - [Безопасное присваивание значений атрибутам](/doc/guide/form.model#securing-attribute-assignments).
 
@@ -18,6 +20,8 @@
  * Изменён псевдоним таблицы по умолчанию на имя отношений AR.
 
  * [Добавлена поддержка использования префикса таблиц](/doc/guide/database.dao#using-table-prefix).
+
+ * Добавлен набор новых расширений — [библиотека Zii](http://code.google.com/p/zii/).
 
 
 Версия 1.0.11
@@ -91,4 +95,4 @@
  * Расширен класс [CUrlManager] поодержкой параметризованных маршрутов в URL-правилах:
      - [Параметризация маршрутов](/doc/guide/topics.url#parameterizing-routes)
 
-<div class="revision">$Id: changes.txt 1533 2009-11-20 14:10:46Z qiang.xue $</div>
+<div class="revision">$Id: changes.txt 1602 2009-12-18 19:33:34Z qiang.xue $</div>

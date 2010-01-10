@@ -37,12 +37,10 @@ http://hostname/testdrive/index.php
 ~~~
 
 Wie wir sehen, besteht die Anwendung aus drei Seiten: Der Startseite, der
-Kontaktseite und der Anmeldeseite. Die Startseite zeigt einige
-Anwendungsinformationen sowie den Anmeldestatus des Benutzers. Die
-Kontaktseite enthält ein Kontaktformular, das Besucher für Anfragen ausfüllen 
-und abschicken können. Und die Kontaktseite erlaubt es, Benutzer zu
-authentifizieren, bevor Ihnen Zugriff auf geschützte Inhalte gewährt wird. 
-Die folgenden Screenshots zeigen mehr Details:
+Kontaktseite und der Anmeldeseite. Die Kontaktseite enthält ein
+Kontaktformular mit dem Besucher Anfragen an den Webmaster senden können. Über
+die Anmeldeseite können Benutzer sich einloggen um Zugriff auf geschützte
+Bereiche der Site zu erhalten. Die folgenden Screenshots zeigen mehr Details:
 
 
 ![Startseite](first-app1.png)
@@ -68,8 +66,9 @@ testdrive/
    images/                   enthält Bilddateien
    themes/                   enthält Anwendungs-Themes 
    protected/                enthält geschützte Anwendungsdateien
-      yiic                   yiic-Script für die Kommandozeile
+      yiic                   yiic-Script für die Kommandozeile unter Linux/Unix
       yiic.bat               yiic-Script für die Kommandozeile unter Windows
+      yiic.php               PHP-Script für yiic
       commands/              enthält selbst erstellte 'yiic'-Kommandos
          shell/              enthält selbst erstellte 'yiic shell'-Kommandos
       components/            enthält wiederverwendbare Benutzerkomponenten
@@ -80,22 +79,25 @@ testdrive/
       config/                enthält Konfigurationsdateien
          console.php         die Konfiguration für Konsolenanwendungen
          main.php            die Konfiguration für Webanwendungen
+         test.php            die Konfiguration für Funktionstests
       controllers/           enthält Klassendateien für Controller
          SiteController.php  die Klasse des Standardcontrollers
+      data/                  enthält Beispieldatenbank für SQLite
       extensions/            enthält Erweiterungen von Drittanbietern
       messages/              enthält übersetzte Meldungen
       models/                enthält Klassendateien für Models
          LoginForm.php       das Form-Model für die 'login'-Action
          ContactForm.php     das Form-Model für die 'contact'-Action
       runtime/               enthält temporär erzeugte Dateien
+      tests/                 enthält Testscripts
       views/                 enthält Controller-Views und Layout-Dateien
          layouts/            enthält View-Dateien des Layouts
             main.php         das Standardlayout für alle Views
          site/               enthält View-Dateien für den Site-Controller
             contact.php      der View für die 'contact'-Action
+            error.php        der View für die 'error'-Action (zur Anzeige externer Fehler)
             index.php        der View für ide 'index'-Action
             login.php        der View für die 'login'-Action
-         system/             enthält System-View-Dateien
 ~~~
 
 Verbindung zu einer Datenbank
@@ -103,9 +105,9 @@ Verbindung zu einer Datenbank
 
 Die meisten Webapplikationen sind datenbankgestützt. Unsere Testanwendung bildet 
 hier keine Ausnahme. Um eine Datenbank zu verwenden, müssen wir der Anwendung 
-zunächst mitteilen, wie die Verbindung zur Datenbank aufgebaut wird. Das geschieht, 
-indem wir die Konfigurationsdatei der Anwendung in 
-`WebRoot/testdrive/protected/config/main.php` wie folgt abändern:
+mitteilen, wie die Verbindung zur Datenbank aufgebaut wird. Das geschieht in
+der Konfigurationsdatei `WebRoot/testdrive/protected/config/main.php` wie
+folgt:
 
 ~~~
 [php]
@@ -114,28 +116,21 @@ return array(
 	'components'=>array(
 		......
 		'db'=>array(
-			'connectionString'=>'sqlite:protected/data/source.db',
+			'connectionString'=>'sqlite:protected/data/testdrive.db',
 		),
 	),
 	......
 );
 ~~~
 
-Indem wir einen `db`-Eintrag zu `components` (Komponenten) hinzufügen,
-weisen wir die Applikation an, sich bei Bedarf mit der SQLite-Datenbank 
-`WebRoot/testdrive/protected/data/source.db` zu verbinden.
-
-> Note|Hinweis: Um Yii’s Datenbankfunktionen benutzen zu können, müssen wir in PHP die 
-PDO-Erweiterung inkl. der treiberspezifischen PDO-Erweiterung einschalten.
-Für die Testanwendung müssen also `php_pdo` und `php_pdo_sqlite` aktiviert
-sein.
-
-Zu diesem Zweck bereiten wir eine SQLite-Datenbank vor. Mit dem SQLite-Admin-Tool 
-können wir eine Datenbank mit dem folgenden Schema erstellen:
+Obiger Code weist Yii an, dass die Anwendung sich bei Bedarf mit der SQLite-Datenbank 
+`WebRoot/testdrive/protected/data/testdrive.db` verbinden soll. Beachten Sie,
+dass die SQLite-Datenbank bereits in der Beispielanwendung enthalten ist, die
+wir gerade erstellt haben. Die Datenbank enthält nur die Tabelle `tbl_user`:
 
 ~~~
 [sql]
-CREATE TABLE User (
+CREATE TABLE tbl_user (
 	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	username VARCHAR(128) NOT NULL,
 	password VARCHAR(128) NOT NULL,
@@ -143,8 +138,14 @@ CREATE TABLE User (
 );
 ~~~
 
-> Note|Hinweis: Falls Sie MySQL verwenden, sollten Sie in obigem SQL 
-> `AUTOINCREMENT` durch `AUTO_INCREMENT` ersetzen.
+Falls Sie stattdessen eine MySQL-Datenbank einsetzen möchten, können Sie das
+Schema in `WebRoot/testdrive/protected/data/schema.mysql.sql` verwenden, um
+die Datenbank anzulegen.
+
+> Note|Hinweis: Um Yii’s Datenbankfunktionen benutzen zu können, müssen wir in PHP die 
+> PDO-Erweiterung inkl. der treiberspezifischen PDO-Erweiterung einschalten.
+> Für die Testanwendung müssen also `php_pdo` und `php_pdo_sqlite` aktiviert
+> sein.
 
 Der Einfachheit halber erzeugen wir in unserer Datenbank 
 nur eine einzelne Tabelle `User`. Die SQLite-Datenbankdatei wird als
@@ -164,77 +165,74 @@ Wieder verwenden wir den `yiic`-Befehl, um uns beim Generieren des benötigten
 Codes behilflich zu sein. Dieser Prozess wird übrigens auch als *scaffolding*
 (sinngem.: ein Gerüst erstellen) bezeichnet.
 
+Öffnen Sie ein Befehlsfenster und geben Sie die folgenden Befehle ein:
+
 ~~~
 % cd WebRoot/testdrive
 % YiiRoot/framework/yiic shell
-Yii Interactive Tool v1.0
+Yii Interactive Tool v1.1
 Please type 'help' for help. Type 'exit' to quit.
->> model User
-   generate User.php
+>> model User tbl_user
+   generate models/User.php
+   generate fixtures/tbl_user.php
+   generate unit/UserTest.php
 
-The 'User' class has been successfully created in the following file:
-    D:\wwwroot\testdrive\protected\models\User.php
+The following model classes are successfully generated:
+    User
 
-If you have a 'db' database connection, you can test it now with:
+If you have a 'db' database connection, you can test these models now with:
     $model=User::model()->find();
     print_r($model);
 
 >> crud User
    generate UserController.php
-   mkdir D:/wwwroot/testdrive/protected/views/user
+   generate UserTest.php
+   mkdir D:/testdrive/protected/views/user
    generate create.php
    generate update.php
-   generate list.php
-   generate show.php
+   generate index.php
+   generate view.php
    generate admin.php
    generate _form.php
+   generate _view.php
 
 
 Crud 'user' has been successfully created. You may access it via:
 http://hostname/path/to/index.php?r=user
 ~~~
 
-Hier verwenden wir das `shell`-Kommando von `yiic`, um mit unserer neu
-erstellten Anwendung zu kommunizieren. An der Eingabeaufforderung können wir
-einen gültigen PHP-Ausdruck bzw. eine PHP-Anweisung eingeben, die jeweils
-ausgeführt und deren Ausgaben angezeigt werden. Wir können auch bestimmte 
-Aufgaben erledigen, wie `model` oder `crud` im
-Beispiel oben. Das Kommando `model` erzeugt automatisch die Model-Klasse `User`,
-basierend auf dem Schema unserer Tabelle `User`. Und das Kommando `crud`
-generiert die Controller-Klassen und Views die zusammen die CRUD-Operationen
-für unser `User`-Model bilden.
+Hier verwenden wir das `shell`-Kommando von `yiic`, um mit unserer frischen
+Yii-Anwendung zu arbeiten. An der Eingabeaufforderung geben wir die beiden
+Sub-Befehle `model User tbl_user` und `crud User` ein. Ersterer
+erzeugt automatisch die Model-Klasse `User` für die Tabelle `tbl_user`,
+letzterer analysiert das `User`-Model und generiert den Code, der für die
+entsprechenden CRUD-Operationen benötigt wird.
 
-> Note|Hinweis: Sobald Sie Änderungen an Ihrem Code oder Ihrer
->Konfiguration vornehmen, starten Sie bitte `yiic shell` neu, damit 
->die Änderungen wirksam werden. 
-> 
->Stellen Sie außerdem sicher, dass Sie die richtige Kommandozeilen-Version (CLI) 
->von PHP verwenden. Falls Ihnen Fehler wie "...could not find driver" 
->("...konnte Treiber nicht finden") begegnen, obwohl beim Testen der
->Anforderungen angezeigt wurde, dass PDO und der zugehörige Datenbanktreiber
->bereits aktiviert sind, können Sie versuchen, `yiic` wie folgt aufzurufen:
+> Note|Hinweis: Falls Ihnen Fehler wie "...could not find driver" 
+> ("...konnte Treiber nicht finden") begegnen, obwohl beim Testen der
+> Anforderungen angezeigt wurde, dass PDO und der zugehörige Datenbanktreiber
+> bereits aktiviert sind, können Sie versuchen, `yiic` wie folgt aufzurufen:
 >
 > ~~~
 > % php -c pfad/zu/php.ini protected/yiic.php shell
 > ~~~
 > 
->wobei `pfad/zu/php.ini` die richtige INI-Datei für PHP darstellt.
+> wobei `pfad/zu/php.ini` auf die richtige INI-Datei verweist.
 
-Genießen wir unsere Arbeit, indem wir die folgende URL aufrufen:
+Sehen wir uns das Ergebnis unserer Arbeit an, indem wir die folgende URL aufrufen:
 
 ~~~
 http://hostname/testdrive/index.php?r=user
 ~~~
 
-Wir sehen eine Liste aller Einträge in der Tabelle `User`.
-Da unsere Tabelle leer ist, wird im Moment noch nichts angezeigt.
+Wir sehen eine Liste aller Einträge in der Tabelle `tbl_user`.
 
-Klicken Sie auf den Link `Neuer Benutzer`. Falls wir uns noch
+Klicken Sie auf den Link `Benutzer anlegen`. Falls wir uns noch
 nicht angemeldet haben, werden wir auf die Anmeldeseite geleitet. Nach der
 Anmeldung erscheint ein Eingabeformular, mit dem wir einen neuen
 Benutzereintrag hinzufügen können. Füllen Sie das Formular aus, und klicken Sie
 unten auf den Button `Erstellen`. Falls die Eingabe fehlerhaft war, erscheint
-ein freundlicher Hinweis auf den Fehler. Dies verhindert, dass wir den Eintrag speichern
+ein netter Hinweis auf den Fehler. Dies verhindert, dass wir den Eintrag speichern
 können. Nach dem Speichern sollte der neu angelegte Benutzer in der
 Benutzerliste erscheinen.
 
@@ -250,8 +248,8 @@ unter der folgenden URL die Administrationsseite für Benutzer aufrufen:
 http://hostname/testdrive/index.php?r=user/admin
 ~~~
 
-Wir erhalten eine schöne Liste der eingetragenen Benutzer. Wir können auf die
-Spaltentitel klicken, um die entsprechenden Spalten zu sortieren. Und wie auf 
+Wir erhalten eine schöne tabellarische Liste der eingetragenen Benutzer. Wir können auf die
+Spaltentitel klicken, um nach der entsprechenden Spalten zu sortieren. Und wie auf 
 der Seite mit der Benutzerliste, wird auch hier eine Seitenblätterung
 angezeigt, sobald zu viele Benutzer für eine Seite vorhanden sind.
 
@@ -264,4 +262,4 @@ schreiben müssen!
 
 
 
-<div class="revision">$Id: quickstart.first-app.txt 1264 2009-07-21 19:34:55Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app.txt 1626 2009-12-28 01:37:19Z qiang.xue $</div>

@@ -32,4 +32,4 @@ applikationen i debugläge är mindre effektivt eftersom många interna
 loggar administreras. Å andra sidan är debugläge också till stor hjälp i utvecklingsfasen 
 eftersom utförligare information blir tillgänglig när fel uppträder.
 
-<div class="revision">$Id: basics.entry.txt 162 2008-11-05 12:44:08Z weizhuo $</div>
+<div class="revision">$Id: basics.entry.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

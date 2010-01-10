@@ -2,7 +2,8 @@
 ===================================
 
 Данное учебное пособие описывает процесс создания блога, показанного в
-[демонстрационном приложении](http://www.yiiframework.com/demos/blog/).
+[демонстрационном приложении](http://www.yiiframework.com/demos/blog/), которое
+можно найти в архиве с фреймворком.
 Каждый шаг разработки описан подробно и может быть применён при создании других
 приложений. В дополнение к
 [полному руководству](/doc/guide/ru/index) и
@@ -20,4 +21,4 @@
 - Александр Макаров, Sam Dark ([rmcreative.ru](http://rmcreative.ru/))
 - Алексей Лукьяненко, Caveman ([caveman.ru](http://caveman.ru/))
 
-<div class="revision">$Id: start.overview.txt 683 2009-02-16 05:20:17Z qiang.xue $</div>
+<div class="revision">$Id: start.overview.txt 1677 2010-01-07 20:29:26Z qiang.xue $</div>

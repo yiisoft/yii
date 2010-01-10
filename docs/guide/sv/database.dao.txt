@@ -195,7 +195,7 @@ Parameterkoppling måste ske innan SQL-satsen exekveras.
 ~~~
 [php]
 // an SQL with two placeholders ":username" and ":email"
-$sql="INSERT INTO users(username, email) VALUES(:username,:email)";
+$sql="INSERT INTO tbl_user (username, email) VALUES(:username,:email)";
 $command=$connection->createCommand($sql);
 // replace the placeholder ":username" with the actual username value
 $command->bindParam(":username",$username,PDO::PARAM_STR);
@@ -225,7 +225,7 @@ så att de automatiskt uppdateras med senaste data var gång en rad hämtas.
 
 ~~~
 [php]
-$sql="SELECT username, email FROM users";
+$sql="SELECT username, email FROM tbl_user";
 $dataReader=$connection->createCommand($sql)->query();
 // bind the 1st column (username) with the $username variable
 $dataReader->bindColumn(1,$username);
@@ -237,4 +237,26 @@ while($dataReader->read()!==false)
 }
 ~~~
 
-<div class="revision">$Id: database.dao.txt 1423 2009-09-28 01:54:38Z qiang.xue $</div>
+Användning av tabellprefix
+--------------------------
+
+Med start från version 1.1.0, tillhandahåller Yii inbyggt stöd för användning av
+tabellprefix. Tabellprefix innebär att en sträng sätts in före namnen på tabeller 
+i den för tillfället anslutna databasen. Detta kommer mest till användning i en 
+webbhotellmiljö där fler än en applikation delar samma databas och applikationerna 
+hålls åtskilda genom att tabellprefix sätts in före tabellnamnen. Till exempel kan 
+en applikation använda `tbl_` som prefix, medan en annan använder `yii_`.
+
+För att använda tabellprefix, konfigurera propertyn [CDbConnection::tablePrefix] med
+det önskade tabellprefixet. Därefter används `{{TableName}}` - där `TableName` innebär 
+tabellnamnet utan prefix - i SQL-satser för att referera till tabeller. Exempelvis,
+om databasen innehåller en tabell `tbl_user`, och `tbl_` är konfigurerat som
+tabellprefix, kan följande kod användas i en fråga angående användare:
+
+~~~
+[php]
+$sql='SELECT * FROM {{user}}';
+$users=$connection->createCommand($sql)->queryAll();
+~~~
+
+<div class="revision">$Id: database.dao.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

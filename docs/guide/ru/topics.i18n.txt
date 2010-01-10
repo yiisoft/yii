@@ -234,4 +234,4 @@ timestamp:
    - [formatPercentage|CNumberFormatter::formatPercentage]: форматирует число в соответствии с форматом форматирования процентов,
    заданным для текущего языка приложения.
    
-<div class="revision">$Id: topics.i18n.txt 1489 2009-10-27 21:13:26Z qiang.xue $</div>
+<div class="revision">$Id: topics.i18n.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

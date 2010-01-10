@@ -25,6 +25,7 @@
     - [アクションの作成](form.action)
     - [フォームの作成](form.view)
     - [HTMLテーブル式入力の収集](form.table)
+    - [フォームビルダを使う](form.builder)
 
 * データベースを使う
     - [データベースを使う](database.overview)
@@ -64,4 +65,4 @@
     - [セキュリティ](topics.security)
     - [性能チューニング](topics.performance)
 
-<div class="revision">$Id: toc.txt 1409 2009-09-13 19:21:34Z qiang.xue $</div>
+<div class="revision">$Id: toc.txt 1603 2009-09-13 19:21:34Z qiang.xue $</div>

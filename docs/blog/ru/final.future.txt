@@ -66,7 +66,9 @@ return array(
 [php]
 <?php if($this->beginCache('tagCloud', array('duration'=>3600))) { ?>
 
-<?php $this->widget('TagCloud'); ?>
+	<?php $this->widget('TagCloud', array(
+		'maxTags'=>Yii::app()->params['tagCloudCount'],
+	)); ?>
 
 <?php $this->endCache(); } ?>
 ~~~
@@ -85,4 +87,4 @@ return array(
 категории записей, портлет архивных записей и так далее. Мы оставим
 возможность реализовать эти особенности заинтересовавшимся читателям.
 
-<div class="revision">$Id: final.future.txt 715 2009-02-20 02:08:24Z qiang.xue $</div>
+<div class="revision">$Id: final.future.txt 1677 2010-01-07 20:29:26Z qiang.xue $</div>

@@ -172,6 +172,9 @@ müssen um diese Komponente zu verwenden.
    - [errorHandler|CApplication::errorHandler]: [CErrorHandler] - bearbeitet 
 nicht-abgefangene PHP-Fehler und -Exceptions.
 
+   - [format|CApplication::format]: [CFormatter] - formatiert Datenwerte für
+die Anzeige. Seit Version 1.1.0 verfügbar.
+
    - [messages|CApplication::messages]: [CPhpMessageSource] - stellt
 übersetzte Meldungen für die Yii-Anwendung bereit.
 
@@ -224,4 +227,4 @@ Lebenszyklen durchlaufen:
 
    7. Auslösen des [onEndRequest|CApplication::onEndRequest]-Events
 
-<div class="revision">$Id: basics.application.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>
+<div class="revision">$Id: basics.application.txt 1601 2009-12-18 04:31:19Z qiang.xue $</div>

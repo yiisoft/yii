@@ -105,7 +105,7 @@ av dem kan anpassas om så önskas.
 
    - `WebRoot/protected/views`: denna katalog innehåller alla vyfiler, inklusive kontrollervyer, layoutvyer samt systemvyer. Anpassning kan ske via [CWebApplication::viewPath].
 
-   - `WebRoot/protected/views/ControllerID`: denna katalog innehåller vyer tillhörande en specifik kontrollerklass. `ControllerID` står för kontrollerns ID. Anpassning kan ske via [CController::getViewPath].
+   - `WebRoot/protected/views/ControllerID`: denna katalog innehåller vyer tillhörande en specifik kontrollerklass. `ControllerID` står för kontrollerns ID. Anpassning kan ske via [CController::viewPath].
 
    - `WebRoot/protected/views/layouts`: denna katalog innehåller alla filer med layoutvyer. Anpassning kan ske via [CWebApplication::layoutPath].
 
@@ -115,4 +115,4 @@ av dem kan anpassas om så önskas.
 
    - `WebRoot/themes`: denna katalog innehåller olika teman att applicera på applikationen. Varje underkatalog representerar ett specifikt tema med samma namn som underkatalogen. Anpassning kan ske via [CThemeManager::basePath].
 
-<div class="revision">$Id: basics.convention.txt 749 2009-02-26 02:11:31Z qiang.xue $</div>
+<div class="revision">$Id: basics.convention.txt 1650 2010-01-02 13:34:38Z qiang.xue $</div>

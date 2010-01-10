@@ -175,7 +175,7 @@ catch(Exception $e) // в случае ошибки при выполнении 
 ~~~
 [php]
 // выражение SQL с двумя маркерами «:username» и «:email»
-$sql="INSERT INTO users(username, email) VALUES(:username,:email)";
+$sql="INSERT INTO tbl_user(username, email) VALUES(:username,:email)";
 $command=$connection->createCommand($sql);
 // меняем маркер «:username» на соответствующее значение имени пользователя
 $command->bindParam(":username",$username,PDO::PARAM_STR);
@@ -205,7 +205,7 @@ $command->execute();
 
 ~~~
 [php]
-$sql="SELECT username, email FROM users";
+$sql="SELECT username, email FROM tbl_user";
 $dataReader=$connection->createCommand($sql)->query();
 // привязываем первое поле (username) к переменной $username
 $dataReader->bindColumn(1,$username);
@@ -230,14 +230,14 @@ while($dataReader->read()!==false)
 Для использования префикса таблиц, установите в свойстве
 [CDbConnection::tablePrefix] желаемый префикс таблиц. Затем, в SQL выражении,
 используйте `{{TableName}}` для ссылки на имена таблиц, где `TableName` — имя
-таблицы без префикса. Например, если БД содержит таблицу с именем `tbl_users`,
+таблицы без префикса. Например, если БД содержит таблицу с именем `tbl_user`,
 где `tbl_` — это префикс таблиц, тогда мы можем использовать следующий код для
 запроса пользователей:
 
 ~~~
 [php]
-$sql='SELECT * FROM {{users}}';
+$sql='SELECT * FROM {{user}}';
 $users=$connection->createCommand($sql)->queryAll();
 ~~~
 
-<div class="revision">$Id: database.dao.txt 1479 2009-10-23 13:24:20Z qiang.xue $</div>
+<div class="revision">$Id: database.dao.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

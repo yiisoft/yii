@@ -25,6 +25,7 @@
     - [Создание действия](form.action)
     - [Создание формы](form.view)
     - [Обработка табличного ввода](form.table)
+    - [Использование построителя форм](form.builder)
 
 * Работа с БД
     - [Обзор](database.overview)
@@ -64,4 +65,4 @@
     - [Безопасность](topics.security)
     - [Улучшение производительности](topics.performance)
 
-<div class="revision">$Id: toc.txt 1409 2009-09-13 19:21:34Z qiang.xue $</div>
+<div class="revision">$Id: toc.txt 1603 2009-12-18 19:39:18Z qiang.xue $</div>

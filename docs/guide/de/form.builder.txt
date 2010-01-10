@@ -1,0 +1,504 @@
+Verwenden des Form-Builders
+===========================
+
+Beim Erstellen von HTML-Formularen stellt man oft fest, dass in Views eine
+Menge wiederholter Code auftaucht, den man aber nur schwer in anderen Projekten
+wiederverwenden kann. Jedes Eingabefeld muss zum Beispiel mit einem Textlabel
+versehen, sowie dessen Eingabefehler angezeigt werden. Um die
+Wiederverwendbarkeit dieses Codes zu vereinfachen, kann man den seit Version
+1.1.0 verfügbaren Form-Builder (engl. sinngem. "Formularersteller") verwenden.
+
+
+Grundprinzip
+------------
+
+Der Yii Form-Builder greift auf ein [CForm]-Objekt zurück, das Angaben
+darüber enthält, welche Datenmodels mit dem Formular verknüpft sind, welche
+Art von Eingabefeldern verwendet werden und wie das ganze Formular
+gerendert werden soll. Ein Entwickler muss somit im wesentlichen nur noch dieses
+[CForm]-Objekt konfigurieren und kann dann dessen Render-Methode aufrufen, um
+das Formular anzuzeigen.
+
+Die Angaben zu den Eingabefeldern sind als Hierarchie von Formularelementen
+angelegt. Das Wurzelelement ist dabei das [CForm]-Objekt selbst (im folgenden
+auch "Wurzelformular" genannt). Dieses
+Wurzelelement verwaltet seine Kindelemente in zwei Gruppen: [CForm::buttons]
+und [CForm::elements]. Erstere enthält alle Buttonelemente (z.B. Submitbuttons
+oder Resetbuttons), letztere die Eingabeelemente, statischen Text und
+Subformulare. Ein Subformular ist ein weiteres [CForm]-Objekt, dass in der
+[CFom::elements]-Liste eines anderen Formulars eingebettet ist. Es kann
+wiederum ein eigenes Datenmodel, eigene [CForm::buttons] sowie [CForm::elements] enthalten.
+
+Wenn ein Besucher das Formular absendet, werden alle Daten in den
+Eingabefeldern der Formularhierarchie mitgesendet, inklusive der Daten in den
+Subformular-Feldern. [CForm] bietet einige komfortable Methoden, um die
+eingegebenen Daten automatisch den entsprechenden Models zuzuweisen sowie die
+Gültigkeitsprüfung durchzuführen.
+
+
+Erstellen eines einfachen Formulars
+-----------------------------------
+
+Unten sehen wir ein Beispiel, wie man mit dem Form-Builder ein Anmeldeformular
+erstellen kann.
+
+Legen wir zunächst in einem Controller den Actioncode für die Anmeldung an:
+
+~~~
+[php]
+public function actionLogin()
+{
+	$model = new LoginForm;
+	$form = new CForm('application.views.site.loginForm', $model);
+	if($form->submitted('login') && $form->validate())
+		$this->redirect(array('site/index'));
+	else
+		$this->render('login', array('form'=>$form));
+}
+~~~
+
+Zunächst wird hier das [CForm]-Objekt erzeugt und zwar mit den Angaben, die
+unter dem Pfad-Alias `application.views.site.loginForm` zu finden sind (worauf
+wir gleich näher eingehen werden). Dieses [CForm]-Objekt is mit dem
+`LoginForm`-Model verknüpft, wie wir es bereits in [Erstellen des
+Models](/doc/guide/form.model) verwendet haben.
+
+Der Code ist relativ einfach zu verstehen: Falls das Formular abgeschickt wurde
+(`$form->submitted('login')`) und alle Eingabefelder fehlerfrei sind
+(`$form->validate()`) wird auf die Seite `site/index` umgeleitet. Andernfalls
+soll der `login`-View mit diesem Formular gerendert werden.
+
+Der Pfad-Alias `application.views.site.loginForm` verweist auf die PHP-Datei
+`protected/views/site/loginForm.php`. Diese Datei sollte ein Array
+mit der Konfiguration für [CForm] wie folgt zurückliefern: 
+
+~~~
+[php]
+return array(
+	'title'=>'Bitte geben Sie Ihre Anmeldedaten ein',
+
+    'elements'=>array(
+        'username'=>array(
+            'type'=>'text',
+            'maxlength'=>32,
+        ),
+        'password'=>array(
+            'type'=>'password',
+            'maxlength'=>32,
+        ),
+        'rememberMe'=>array(
+            'type'=>'checkbox',
+        )
+    ),
+
+    'buttons'=>array(
+        'login'=>array(
+            'type'=>'submit',
+            'label'=>'Anmelden',
+        ),
+    ),
+);
+~~~
+
+Die Konfiguration besteht aus einem Assoziativarray, dessen Name-Wert-Paare
+zum Initialisieren der entsprechenden Eigenschaften von [CForm] verwendet
+werden. Wie erwähnt sind hierbei [CForm::elements] und [CForm::buttons] am
+wichtigsten. Jede dieser Eigenschaften besteht aus einem weiteren Array,
+mit dem die Liste der Formularelemente bestimmt wird. Darauf werden wir im
+nächsten Abschnitt näher eingehen.
+
+Schließlich brauchen wir noch das `login`-Viewscript, das im einfachsten Fall
+so aussehen kann:
+
+~~~
+[php]
+<h1>Anmeldung</h1>
+
+<div class="form">
+<?php echo $form; ?>
+</div>
+~~~
+
+> Tip|Tipp: `echo $form` ist äquivalent zu `echo $form->render();`, da [CForm]
+> die magische Methode `__toString` implementiert, in der wiederum `render()`
+> aufgerufen und dessen Ausgabe zurückgeliefert wird. Dieser String enthält das
+> gerenderte Formularobjekt.
+
+
+Angabe der Formularelemente
+---------------------------
+
+Wenn man den Form-Builder verwendet, verlagert sich damit der Schwerpunkt der
+Arbeit weg vom Schreiben des Viewscripts hin zur Angabe der Formularelemente.
+In diesem Abschnitt zeigen wir, wie die [CForm::elements]-Eigenschaft
+spezifiziert werden muss. Dies gilt analog für [CForm::buttons], darum
+werden wir darauf nicht weiter eingehen.
+
+[CForm::elements] erwartet ein Array als Wert. Jedes Arrayelement legt dabei
+ein einzelnes Formularelement fest. Dabei kann es sich um ein Eingabefeld,
+statischen Text oder ein Subformular handeln.
+
+### Angabe eines Eingabeelements
+
+Ein Eingabeelement besteht im wesentlichen aus einem Label, einem Eingabefeld,
+einem Hilfstext und einer Fehleranzeige. Es muss außerdem mit einem Modelattribut
+verknüpft sein. Die Angaben für ein Eingabelement werden in Form einer
+[CFormInputElement]-Instanz festgelegt. Folgender Beispielcode aus einem
+[CForm::elements]-Array definiert ein einzelnes Eingabeelement:
+
+~~~
+[php]
+'username'=>array(
+    'type'=>'text',
+    'maxlength'=>32,
+),
+~~~
+
+Damit wird festgelegt, dass das entsprechende Modelattribut `username` heißt
+und das Eingabefeld vom Typ `text` mit einem `maxlength`-Attribut von 32
+sein soll. Es können auch noch weitere [CFormInputElement]-Optionen im Array
+angegeben werden. Mit der [hint|CFormInputElement::hint]-Option kann man zum
+Beispiel einen Hilfstext angeben oder mit [items|CFormInputElement::items] die
+Elemente in einer DropDown-, CheckBox- oder RadioButton-List bestimmen
+(entsprechend den Methoden in [CHtml]).
+
+
+Sehen wir uns die [type|CFormInputElement::type]-Option näher an. Mit ihr wird
+der Typ des Eingabefelds festgelegt. Der Typ `text` steht zum Beispiel für ein
+normales Textfeld, `password` für ein Passwortfeld. Folgende Typen werden "von
+Haus aus" von [CFormInputElement] erkannt:
+
+ - text
+ - hidden
+ - password
+ - textarea
+ - file
+ - radio
+ - checkbox
+ - listbox
+ - dropdownlist
+ - checkboxlist
+ - radiolist
+
+Daneben kann die [type|CFormInputElement::type]-Option auch auf den Namen
+einer Widgetklasse oder deren Pfad-Alias verweisen. Die Widgetklasse muss
+lediglich [CInputWidget] erweitern. Wenn das Formularelement gerendert wird,
+wird eine Instanz der angegebenen Widgetklasse erzeugt und gerendert. Als
+Parameter werden dabei die Angaben des Eingabelements verwendet.
+
+
+### Angabe von statischem Text
+
+In vielen Fällen enthält ein Formular zusätzlichen "dekorativen" HTML-Code,
+wie zum Beispiel eine horizontale Linie um Formularabschnitte voneinander
+zu trennen. An anderen Stellen ist eventuell ein Bild nötig um den optischen
+Eindruck des Formulars zu verbessern. Um solche statischen Elemente
+einzubauen, kann man sie in Form eines einfachen Stringelements an der
+entsprechenden Stelle des [CForm::elements]-Arrays angeben. 
+
+Hier ein Beispiel:
+
+~~~
+[php]
+return array(
+    'elements'=>array(
+		......
+        'password'=>array(
+            'type'=>'password',
+            'maxlength'=>32,
+        ),
+
+        '<hr />',
+
+        'rememberMe'=>array(
+            'type'=>'checkbox',
+        )
+    ),
+	......
+);
+~~~
+
+Zwischen die Elemente für `password` und `rememberMe` wird so eine horizontale
+Linie eingefügt.
+
+Statischer Text eignet sich am besten für unregelmäßig auftauchende Inhalte.
+Falls alle Elemente mit einer ähnlichen "Dekoration" versehen werden sollen,
+ist es allerdings günstiger das Rendern des Formulars anzupassen. Wir werden
+darauf weiter unten eingehen.
+
+
+### Angabe eines Subformulars
+
+Subformulare werden eingesetzt um sehr lange Formulare in mehrere logisch
+zusammenhängende Blöcke zu unterteilen. Für ein Registrierungsformular könnte
+es sich beispielsweise anbieten, dieses in Anmelde- und Profildaten zu
+unterteilen. Ein Subformular kann - muss aber nicht - mit einem Datenmodel
+verknüpft sein. Wenn beim erwähnten Registrierungsformular die Anmelde- und
+Profildaten in zwei unterschiedlichen Tabellen  (und damit
+zwei Datenmodels) gespeichert werden, würde man jedes Subformular mit dem
+entsprechenden Datenmodel verknüpfen. Speichert man alles in einer
+einzelnen Tabelle braucht keines der Subformulare ein Model, da sie dann das Model
+des Wurzelformulars verwenden.
+
+Ein Subformular ist ebenfalls ein [CForm]-Objekt. Um ein Subformular
+anzulegen, wird dem [CForm::elements]-Array ein Element vom Typ `form`
+hinzugefügt:
+
+~~~
+[php]
+return array(
+    'elements'=>array(
+		......
+        'user'=>array(
+            'type'=>'form',
+            'title'=>'Anmeldedaten',
+            'elements'=>array(
+            	'username'=>array(
+            		'type'=>'text',
+            	),
+            	'password'=>array(
+            		'type'=>'password',
+            	),
+            	'email'=>array(
+            		'type'=>'text',
+            	),
+            ),
+        ),
+
+        'profile'=>array(
+        	'type'=>'form',
+        	......
+        ),
+        ......
+    ),
+	......
+);
+~~~
+
+Wie beim Wurzelformular muss auch bei einem Subformular hauptsächlich das
+[CForm::elements]-Array angegeben werden. Soll das Subformular mit einem
+eigenen Model verknüpft werden, kann dies über die [CForm::model]-Eigenschaft
+im Subformular angegeben werden.
+
+Manchmal kann es nötig sein, eine andere Formklasse statt [CForm] zu
+verwenden. Wie wir in Kürze sehen werden, kann man z.B. eine eigene Klasse von
+[CForm] ableiten, um die Renderlogik anzupassen. Sämtliche Subformulare
+verwenden standardmäßig die selbe Klasse wie deren Elternelement. Soll ein
+Subform eine andere Klasse verwenden, kann der Typ statt `form` auf `XyzForm`
+gesetzt werden (also einen String, der auf `Form` endet). Das Subformular wird
+dann als `XyzForm`-Objekt erstellt.
+
+
+Zugriff auf Formularelemente
+----------------------------
+
+Auf Formularelemente kann genauso einfach wie auf Arrayelemente zugegriffen
+werden. Liest man die Eigenschaft [CForm::elements] aus, erhält man ein Objekt
+vom Typ [CFormElementCollection] zurück, das wiederum von [CMap] abgeleitet
+wurde. Damit kann es wie ein normales Array angesprochen werden. 
+Das Element `username` des weiter oben definierten Loginformulars erhält man zum Beispiel mit:
+
+~~~
+[php]
+$username = $form->elements['username'];
+~~~
+
+Und auf das `email`-Element des Registrierungsformulars kann man so zugreifen:
+
+~~~
+[php]
+$email = $form->elements['user']->elements['email'];
+~~~
+
+Da [CForm] außerdem das ArrayAccess-Interface von PHP so implementiert hat,
+dass man damit direkt auf [CForm::elements] zugreifen kann, lässt sich obiger
+Code noch weiter vereinfachen:
+
+~~~
+[php]
+$username = $form['username'];
+$email = $form['user']['email'];
+~~~
+
+
+Erstellen eines verschachtelten Formulars
+-----------------------------------------
+
+Subformulare haben wir bereits beschrieben. Ein Formular, das Subformulare
+verwendet, nennen wir verschachteltes Formular (engl.: nested form).
+In diesem Abschnitt zeigen wir anhand des Registrierungsformulars, wie man ein
+verschachteltes Formular erstellt, das mit mehreren Datenmodels verknüpft ist.
+Dabei seien die Anmeldeinformation im Model `User` und die Profildaten im
+Model `Profile` gespeichert.
+
+Zunächst benötigen wir eine `register`-Action wie folgt:
+
+~~~
+[php]
+public function actionRegister()
+{
+	$form = new CForm('application.views.user.registerForm');
+	if($form->submitted('register') && $form->validate())
+	{
+		$user = $form['user']->model;
+		$profile = $form['profile']->model;
+		if($user->save(false))
+		{
+			$profile->userID = $user->id;
+			$profile->save(false);
+			$this->redirect(array('site/index'));
+		}
+	}
+
+	$this->render('register', array('form'=>$form));
+}
+~~~
+
+Die Formularkonfiguration wird hier in `application.views.user.registerForm`
+abgelegt. Wurde das Formular abgeschickt und die Daten erfolgreich geprüft,
+wird versucht, die Models `User` und `Profile` zu speichern. Diese Models
+können über die `model`-Eigenschaft des jeweiligen Subformulars bezogen 
+werden. Da die Datenprüfung bereits durchgeführt wurde, wird
+`$user->save(false)` aufgerufen, um eine nochmalige Prüfung zu verhindern.
+Mit dem `Profile`-Model wird ebenso verfahren.
+
+Sehen wir uns als nächstes die Formularkonfiguration in
+`protected/views/user/registerForm.php` an:
+
+~~~
+[php]
+return array(
+	'elements'=>array(
+		'user'=>array(
+			'type'=>'form',
+			'title'=>'Anmeldedaten',
+			'elements'=>array(
+		        'username'=>array(
+		            'type'=>'text',
+		        ),
+		        'password'=>array(
+		            'type'=>'password',
+		        ),
+		        'email'=>array(
+		            'type'=>'text',
+		        )
+			),
+		),
+
+		'profile'=>array(
+			'type'=>'form',
+			'title'=>'Profildaten',
+			'elements'=>array(
+		        'firstName'=>array(
+		            'type'=>'text',
+		        ),
+		        'lastName'=>array(
+		            'type'=>'text',
+		        ),
+			),
+		),
+	),
+
+    'buttons'=>array(
+        'register'=>array(
+            'type'=>'submit',
+            'label'=>'Registrieren',
+        ),
+    ),
+);
+~~~
+
+Bei jedem Subformular wird hier auch eine [CForm::title]-Eigenschaft definiert.
+Standardmäßig sorgt die Renderlogik dafür, dass jedes Subformular in ein
+eigenes fieldset mit dieser Eigenschaft als Titel eingebettet wird.
+
+Nun fehlt nur noch das Viewscript für `register`:
+
+~~~
+[php]
+<h1>Registrierung</h1>
+
+<div class="form">
+<?php echo $form; ?>
+</div>
+~~~
+
+
+Anpassen der Formularausgabe
+----------------------------
+
+Der größte Nutzen des Form-Builders liegt in der Trennung von Logik
+(Formularkonfiguration in einer eigenen Datei) und Präsentation
+([CForm::render]-Methode). Dadurch kann die Anzeige des Formulars angepasst
+werden. Entweder, indem man [CForm::render] überschreibt oder indem man einen
+Teilview zum Rendern des Formulars angibt. Beide Ansätze berühren die
+Formularkonfiguration nicht und lassen sich so einfach wiederverwenden.
+
+Überschreibt man [CForm::render], so müssen dort eigentlich nur
+[CForm::elements] und [CForm::buttons] in einer Schleife durchlaufen 
+und darin die [CFormElement::render]-Methode jedes Elements aufgerufen
+werden:
+
+~~~
+[php]
+class MyForm extends CForm
+{
+	public function render()
+	{
+		$output = $this->renderBegin();
+
+		foreach($this->getElements() as $element)
+			$output .= $element->render();
+
+		$output .= $this->renderEnd();
+
+		return $output;
+	}
+}
+~~~
+
+Wir können auch ein Viewscript `_form` zum Rendern des Formulars schreiben:
+
+~~~
+[php]
+<?php
+echo $form->renderBegin();
+
+foreach($form->getElements() as $element)
+	echo $element->render();
+
+echo $this->renderEnd();
+~~~
+
+Um dieses Script zu verwenden, rufen wir es einfach so auf:
+
+~~~
+[php]
+<div class="form">
+$this->renderPartial('_form', array('form'=>$form));
+</div>
+~~~
+
+Falls ein Formular nicht mit diesem allgemeinen Renderansatz dargestellt
+werden kann (z.B. weil einige Elemente vollkommen anders aussehen müssen),
+können wir im Viewscript auch so verfahren:
+
+~~~
+[php]
+Einige komplexe UI-Elemente hier
+
+<?php echo $form['username']; ?>
+
+Einige komplexe UI-Elemente hier
+
+<?php echo $form['password']; ?>
+
+einige komplexe UI-Elemente hier
+~~~
+
+Bei dieser Methode scheint der Form-Builder nicht viel zu nützen, da wir immer
+noch fast genausoviel Code wie bisher brauchen. Trotzdem kann sich der Einsatz
+lohnen, da das Formular in einer separaten Datei definiert wird und sich
+der Entwickler so besser auf die Logik konzentrieren kann.
+
+<div class="revision">$Id: form.builder.txt 1616 2009-12-25 20:45:50Z qiang.xue $</div>
