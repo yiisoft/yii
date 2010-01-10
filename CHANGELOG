@@ -2,8 +2,8 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.1.0 to be released
-----------------------------
+Version 1.1.0 January 10, 2010
+------------------------------
 - Bug #720: The new table prefix feature does not work with many-many relationship in AR (Qiang)
 - Bug #735: CDbCriteria should save 'with' attribute when toArray() is called (Qiang)
 - Chg #796: The alias name for the primary table in a relational AR query is changed to be 't' (Qiang)

@@ -23,6 +23,7 @@ Version 1.1.0
 
  * Added a whole set of new extensions known as the [Zii library](http://code.google.com/p/zii/).
 
+ * The alias name for the primary table in an AR query is fixed to be 't'
 
 Version 1.0.11
 --------------
