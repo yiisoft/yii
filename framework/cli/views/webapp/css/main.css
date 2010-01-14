@@ -75,7 +75,7 @@ body
 	text-decoration:none;
 }
 
-div.error, div.notice, .success
+div.error, div.notice, div.success
 {
 	padding:.8em;
 	margin-bottom:1em;
