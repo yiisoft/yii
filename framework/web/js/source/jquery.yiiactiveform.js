@@ -90,7 +90,7 @@
 				$.ajax({
 					url : settings.validationUrl,
 					type : $form.attr('method'),
-					data : $form.serialize()+'&ajax='+id,
+					data : $form.serialize()+'&'+settings.ajaxVar+'='+id,
 					dataType : 'json',
 					success : successCallback
 				});
@@ -138,6 +138,7 @@
 	};
 
 	$.fn.yiiactiveform.defaults = {
+		ajaxVar: 'ajax',
 		validationUrl: undefined,
 		validateOnSubmit : false,
 		validateOnChange : true,
