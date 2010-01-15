@@ -69,20 +69,24 @@
  * The first if-statement is the main extra code that responds to the AJAX validation requests.
  * The rest of the code is as usual, displaying a user creation page and saving the user model.
  *
- * There are some limitations of CActiveForm. First, it does not work with file uploads.
- * Second, it should not be used to perform validations that may cause server-side state change.
- * For example, it is not suitable to perform CAPTCHA validation done by {@link CCaptchAction}
- * because each validation request will increase the test times by one. Third, it is not designed
- * to work with tabular data input for the moment.
- *
  * Sometimes, we may want to limit the AJAX validation to certain model attributes only.
  * This can be achieved by setting the model with a scenario that is specific for AJAX validation.
  * Then only list those attributes that need AJAX validation in the scenario in {@link CModel::rules()} declaration.
  *
+ * There are some limitations of CActiveForm. First, it does not validate with file upload fields.
+ * Second, it should not be used to perform validations that may cause server-side state change.
+ * For example, it is not suitable to perform CAPTCHA validation done by {@link CCaptchAction}
+ * because each validation request will increase the number of tests by one. Third, it is not designed
+ * to work with tabular data input for the moment.
+ *
+ * Because CActiveForm relies on submitting the whole form in AJAX mode to perform the validation,
+ * if the form has a lot of data to submit, the performance may not be good. In this case,
+ * you should design your own lightweight AJAX validation.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web.widgets
- * @since 1.1.0
+ * @since 1.1.1
  */
 class CActiveForm extends CWidget
 {
