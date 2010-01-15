@@ -28,7 +28,7 @@
  *
  * The following is a piece of sample view code:
  * <pre>
- * &lt;php? $form = $this->beginWidget('CActiveForm', array('id'=>'user-form')); ?&gt;
+ * &lt;?php $form = $this->beginWidget('CActiveForm', array('id'=>'user-form')); ?&gt;
  *
  * &lt;?php echo $form-&gt;errorSummary($model); ?&gt;
  *
@@ -43,7 +43,7 @@
  *     &lt;?php echo $form-&gt;error($model,'lastName'); ?&gt;
  * &lt;/div&gt;
  *
- * &lt;php? $this->endWidget(); ?&gt;
+ * &lt;?php $this->endWidget(); ?&gt;
  * </pre>
  * As we can see, the usage is very similar to {@link CHtml::error} and {@link CHtml::errorSummary}.
  *
