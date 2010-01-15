@@ -10,6 +10,9 @@ $packages=array(
 	'yiitab'=>array(
 		'jquery.yiitab.js',
 	),
+	'yiiactiveform'=>array(
+		'jquery.yiiactiveform.js',
+	),
 	'bgiframe'=>array(
 		'jquery.bgiframe.js',
 	),
@@ -48,6 +51,9 @@ $dependencies=array(
 		'jquery',
 	),
 	'yiitab'=>array(
+		'jquery',
+	),
+	'yiiactiveform'=>array(
 		'jquery',
 	),
 	'bgiframe'=>array(

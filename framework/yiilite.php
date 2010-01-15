@@ -39,7 +39,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.0';
+		return '1.1.1-dev';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -445,6 +445,7 @@ class YiiBase
 		'CWebService' => '/web/services/CWebService.php',
 		'CWebServiceAction' => '/web/services/CWebServiceAction.php',
 		'CWsdlGenerator' => '/web/services/CWsdlGenerator.php',
+		'CActiveForm' => '/web/widgets/CActiveForm.php',
 		'CAutoComplete' => '/web/widgets/CAutoComplete.php',
 		'CClipWidget' => '/web/widgets/CClipWidget.php',
 		'CContentDecorator' => '/web/widgets/CContentDecorator.php',
@@ -6171,23 +6172,29 @@ abstract class CActiveRecord extends CModel
 	}
 	public function find($condition='',$params=array())
 	{
-		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
+		if($condition instanceof CDbCriteria && !empty($condition->with))
 			return $this->with($condition->with)->find($condition);
+		else if(is_array($condition) && isset($condition['with']))
+			return $this->with($condition['with'])->find($condition);
 		$criteria=$this->getCommandBuilder()->createCriteria($condition,$params);
 		$criteria->limit=1;
 		return $this->query($criteria);
 	}
 	public function findAll($condition='',$params=array())
 	{
-		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
+		if($condition instanceof CDbCriteria && !empty($condition->with))
 			return $this->with($condition->with)->findAll($condition);
+		else if(is_array($condition) && isset($condition['with']))
+			return $this->with($condition['with'])->findAll($condition);
 		$criteria=$this->getCommandBuilder()->createCriteria($condition,$params);
 		return $this->query($criteria,true);
 	}
 	public function findByPk($pk,$condition='',$params=array())
 	{
-		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
+		if($condition instanceof CDbCriteria && !empty($condition->with))
 			return $this->with($condition->with)->findByPk($pk,$condition);
+		else if(is_array($condition) && isset($condition['with']))
+			return $this->with($condition['with'])->findByPk($pk,$condition);
 		$prefix=$this->getDbConnection()->getSchema()->quoteTableName('t').'.';
 		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk,$condition,$params,$prefix);
 		$criteria->limit=1;
@@ -6195,16 +6202,20 @@ abstract class CActiveRecord extends CModel
 	}
 	public function findAllByPk($pk,$condition='',$params=array())
 	{
-		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
+		if($condition instanceof CDbCriteria && !empty($condition->with))
 			return $this->with($condition->with)->findAllByPk($pk,$condition);
+		else if(is_array($condition) && isset($condition['with']))
+			return $this->with($condition['with'])->findAllByPk($pk,$condition);
 		$prefix=$this->getDbConnection()->getSchema()->quoteTableName('t').'.';
 		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk,$condition,$params,$prefix);
 		return $this->query($criteria,true);
 	}
 	public function findByAttributes($attributes,$condition='',$params=array())
 	{
-		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
+		if($condition instanceof CDbCriteria && !empty($condition->with))
 			return $this->with($condition->with)->findByAttributes($attributes,$condition);
+		else if(is_array($condition) && isset($condition['with']))
+			return $this->with($condition['with'])->findByAttributes($attributes,$condition);
 		$prefix=$this->getDbConnection()->getSchema()->quoteTableName('t').'.';
 		$criteria=$this->getCommandBuilder()->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params,$prefix);
 		$criteria->limit=1;
@@ -6212,8 +6223,10 @@ abstract class CActiveRecord extends CModel
 	}
 	public function findAllByAttributes($attributes,$condition='',$params=array())
 	{
-		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
+		if($condition instanceof CDbCriteria && !empty($condition->with))
 			return $this->with($condition->with)->findAllByAttributes($attributes,$condition);
+		else if(is_array($condition) && isset($condition['with']))
+			return $this->with($condition['with'])->findAllByAttributes($attributes,$condition);
 		$prefix=$this->getDbConnection()->getSchema()->quoteTableName('t').'.';
 		$criteria=$this->getCommandBuilder()->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params,$prefix);
 		return $this->query($criteria,true);
@@ -6230,8 +6243,10 @@ abstract class CActiveRecord extends CModel
 	}
 	public function count($condition='',$params=array())
 	{
-		if($condition instanceof CDbCriteria && !empty($condition->with) || is_array($condition) && isset($condition['with']))
-			return $this->with($condition->with)->count($condition);
+		if($condition instanceof CDbCriteria && !empty($condition->with))
+			return $this->with($condition->with)->count($condition,$params);
+		else if(is_array($condition) && isset($condition['with']))
+			return $this->with($condition['with'])->count($condition,$params);
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
 		$this->applyScopes($criteria);
