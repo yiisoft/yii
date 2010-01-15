@@ -20,6 +20,10 @@
  * By default, it will use an SQLite3 database named 'session-YiiVersion.db' under the application runtime directory.
  * You can also specify {@link connectionID} so that it makes use of a DB application component to access database.
  *
+ * When using CDbHttpSession in a production server, we recommend you pre-create the session DB table
+ * and set {@link autoCreateSessionTable} to be false. This will greatly improve the performance.
+ * You may also create a DB index for the 'expire' column in the session table to further improve the performance.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web
