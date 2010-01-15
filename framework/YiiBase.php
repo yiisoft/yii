@@ -687,6 +687,7 @@ class YiiBase
 		'CWebService' => '/web/services/CWebService.php',
 		'CWebServiceAction' => '/web/services/CWebServiceAction.php',
 		'CWsdlGenerator' => '/web/services/CWsdlGenerator.php',
+		'CActiveForm' => '/web/widgets/CActiveForm.php',
 		'CAutoComplete' => '/web/widgets/CAutoComplete.php',
 		'CClipWidget' => '/web/widgets/CClipWidget.php',
 		'CContentDecorator' => '/web/widgets/CContentDecorator.php',
