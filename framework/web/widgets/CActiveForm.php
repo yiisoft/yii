@@ -28,7 +28,7 @@
  *
  * The following is a piece of sample view code:
  * <pre>
- * &lt;php? $form = $this->beginWidget('CActiveForm'); ?&gt;
+ * &lt;php? $form = $this->beginWidget('CActiveForm', array('id'=>'user-form')); ?&gt;
  *
  * &lt;?php echo $form-&gt;errorSummary($model); ?&gt;
  *
@@ -52,11 +52,7 @@
  * public function actionCreate()
  * {
  *     $model=new User;
- *     if(isset($_POST['ajax']))
- *     {
- *         echo CActiveForm::validate($model);
- *         return;
- *     }
+ *     $this->performAjaxValidation($model);
  *     if(isset($_POST['User']))
  *     {
  *         $model->attributes=$_POST['User'];
@@ -65,9 +61,20 @@
  *     }
  *     $this->render('create',array('model'=>$model));
  * }
+ *
+ * protected function performAjaxValidation($model)
+ * {
+ *     if(isset($_POST['ajax']) && $_POST['ajax']==='user-form')
+ *     {
+ *         echo CActiveForm::validate($model);
+ *         Yii::app()->end();
+ *     }
+ * }
  * </pre>
- * The first if-statement is the main extra code that responds to the AJAX validation requests.
- * The rest of the code is as usual, displaying a user creation page and saving the user model.
+ * The method <code>performAjaxValidation</code> is the main extra code we add to our
+ * traditional model creation action code. In this method, we check if the request
+ * is submitted via AJAX by the 'user-form'. If so, we validate the model and return
+ * the validation results. We may call the same method in model update action.
  *
  * Sometimes, we may want to limit the AJAX validation to certain model attributes only.
  * This can be achieved by setting the model with a scenario that is specific for AJAX validation.
@@ -108,6 +115,11 @@ class CActiveForm extends CWidget
 	 * @var array the options to be passed to the javascript validation plugin.
 	 * The following options are supported:
 	 * <ul>
+	 * <li>ajaxVar: string, the name of the parameter indicating the request is an AJAX request.
+	 * When the AJAX validation is triggered, a parameter named as this property will be sent
+	 * together with the other form data to the server. The parameter value is the form ID.
+	 * The server side can then detect who triggers the AJAX validation and react accordingly.
+	 * Defaults to 'ajax'.</li>
 	 * <li>validationUrl: string, the URL that performs the AJAX validations.
 	 * If not set, it will take the value of {@link action}.</li>
 	 * <li>validateOnSubmit: boolean, whether to perform AJAX validation when the form is being submitted.
