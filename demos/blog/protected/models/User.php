@@ -97,6 +97,6 @@ class User extends CActiveRecord
 	 */
 	protected function generateSalt()
 	{
-		return md5(microtime());
+		return md5(mt_rand());
 	}
 }
