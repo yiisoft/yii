@@ -156,6 +156,12 @@ class CActiveForm extends CWidget
 	 * errorInputCssClass, successInputCssClass, errorMessageCssClass, successMessageCssClass and successMessage.
 	 */
 	public $options=array();
+	/**
+	 * @var boolean whether to enable data validation via AJAX. This property is mainly provided so that you
+	 * can easily toggle to debug during development phase (since the main goal of CActiveForm is to provide
+	 * AJAX validation). Defaults to true.
+	 */
+	public $enableAjaxValidation=true;
 
 	private $_attributes=array();
 	private $_summary;
@@ -177,7 +183,7 @@ class CActiveForm extends CWidget
 	public function run()
 	{
 		echo CHtml::endForm();
-		if(empty($this->_attributes))
+		if(!$this->enableAjaxValidation || empty($this->_attributes))
 			return;
 		$options=$this->options;
 		$options['attributes']=array_values($this->_attributes);
