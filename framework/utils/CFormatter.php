@@ -82,7 +82,7 @@ class CFormatter extends CApplicationComponent
 	 */
 	public function __call($name,$parameters)
 	{
-		if(method_exists('format'.$name))
+		if(method_exists($this,'format'.$name))
 			return call_user_func_array(array($this,'format'.$name),$parameters);
 		else
 			return parent::__call($name,$parameters);
