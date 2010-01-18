@@ -25,6 +25,7 @@
 				settings.attributes[i] = $.extend({
 					validationDelay : settings.validationDelay,
 					validateOnChange : settings.validateOnChange,
+					validateOnType : settings.validateOnType,
 					errorLabelCssClass : settings.errorLabelCssClass,
 					successLabelCssClass : settings.successLabelCssClass,
 					errorInputCssClass : settings.errorInputCssClass,
@@ -68,7 +69,7 @@
 					$("label[for='"+attribute.inputID+"']").toggleClass(attribute.successLabelCssClass, !hasError);
 				}
 
-				$('#'+attribute.inputID).value = $('#'+attribute.inputID).val();
+				attribute.value = $('#'+attribute.inputID).val();
 
 				return hasError;
 			};
@@ -151,12 +152,18 @@
 					settings.timer=setTimeout(validate, attribute.validationDelay);
 				};
 				if (attribute.validateOnChange) {
-					$('#'+this.inputID).change(function(){
+					$('#'+attribute.inputID).change(function(){
 						validateLater();
 					}).blur(function(){
 						if(!settings.attributes[i].status) {
 							validateLater();
 						}
+					});
+				}
+				if (attribute.validateOnType) {
+					$('#'+attribute.inputID).keyup(function(){
+						if (attribute.value != $('#'+attribute.inputID).val())
+							validateLater();
 					});
 				}
 			});
@@ -169,6 +176,7 @@
 		validationDelay: 100,
 		validateOnSubmit : false,
 		validateOnChange : true,
+		validateOnType : false,
 		errorLabelCssClass : 'error',
 		successLabelCssClass : 'success',
 		errorInputCssClass : 'error',
@@ -187,6 +195,7 @@
 		 *     status : 0,  // 0: not validated,  1: validated, 2: pending validation, 3: validating
 		 *     validationDelay: 100,
 		 *     validateOnChange : true,
+		 *     validateOnType : false,
 		 *     errorLabelCssClass : 'error',
 		 *     successLabelCssClass : 'success',
 		 *     errorInputCssClass : 'error',

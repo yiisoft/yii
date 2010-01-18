@@ -134,6 +134,9 @@ class CActiveForm extends CWidget
 	 * each time when an input's value is changed.	You may want to turn this off
 	 * if it causes too much performance impact, because each AJAX validation request
 	 * will submit the data of the whole form. Defaults to true.</li>
+	 * <li>validateOnType: boolean, whether to trigger an AJAX validation each time when the user
+	 * presses a key. When setting this property to be true, you should tune up the 'validationDelay'
+	 * option to avoid triggering too many AJAX validations. Defaults to false.</li>
 	 * <li>errorLabelCssClass: string, the CSS class assigned to the labels whose associated input fields
 	 * have AJAX validation errors. If this is set false, no CSS class will be added to the error labels.
 	 * Defaults to 'error'.</li>
@@ -157,7 +160,7 @@ class CActiveForm extends CWidget
 	 * </ul>
 	 *
 	 * Some of the above options may be overridden in individual calls of {@link error()}.
-	 * They include: validationDelay, validateOnChange, errorLabelCssClass, successLabelCssClass,
+	 * They include: validationDelay, validateOnChange, validateOnType, errorLabelCssClass, successLabelCssClass,
 	 * errorInputCssClass, successInputCssClass, errorMessageCssClass, successMessageCssClass and successMessage.
 	 */
 	public $options=array();
@@ -211,6 +214,7 @@ class CActiveForm extends CWidget
 	 * <ul>
 	 * <li>validationDelay</li>
 	 * <li>validateOnChange</li>
+	 * <li>validateOnType</li>
 	 * <li>errorLabelCssClass</li>
 	 * <li>successLabelCssClass</li>
 	 * <li>errorInputCssClass</li>
@@ -235,6 +239,7 @@ class CActiveForm extends CWidget
 		$optionNames=array(
 			'validationDelay',
 			'validateOnChange',
+			'validateOnType',
 			'errorLabelCssClass',
 			'successLabelCssClass',
 			'errorInputCssClass',
