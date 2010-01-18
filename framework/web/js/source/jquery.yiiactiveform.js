@@ -101,7 +101,7 @@
 					error : function() {
 						$.each(settings.attributes, function(i, attribute){
 							if (attribute.status == 3) {
-								settings.attributes[i].status = 1;
+								attribute.status = 1;
 							}
 						});
 					}
@@ -132,12 +132,12 @@
 			var validate = function() {
 				$.each(settings.attributes, function(i, attribute){
 					if (attribute.status == 2)
-						settings.attributes[i].status = 3;
+						attribute.status = 3;
 				});
 				ajaxValidate(function(data) {
 					$.each(settings.attributes, function(i, attribute){
 						if (attribute.status == 3) {
-							settings.attributes[i].status = 1;
+							attribute.status = 1;
 							updateInput(attribute, data);
 						}
 					});
@@ -146,7 +146,7 @@
 
 			$.each(settings.attributes, function(i, attribute) {
 				var validateLater = function() {
-					settings.attributes[i].status = 2;
+					attribute.status = 2;
 					if(settings.timer!=undefined)
 						clearTimeout(settings.timer);
 					settings.timer=setTimeout(validate, attribute.validationDelay);
@@ -155,7 +155,7 @@
 					$('#'+attribute.inputID).change(function(){
 						validateLater();
 					}).blur(function(){
-						if(!settings.attributes[i].status) {
+						if(!attribute.status) {
 							validateLater();
 						}
 					});
