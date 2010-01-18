@@ -23,6 +23,7 @@
 				settings.validationUrl = $form.attr('action');
 			$.each(settings.attributes, function(i,attribute){
 				settings.attributes[i] = $.extend({
+					validationDelay : settings.validationDelay,
 					validateOnChange : settings.validateOnChange,
 					errorLabelCssClass : settings.errorLabelCssClass,
 					successLabelCssClass : settings.successLabelCssClass,
@@ -32,6 +33,7 @@
 					successMessageCssClass : settings.successMessageCssClass,
 					successMessage : settings.successMessage
 				}, attribute);
+				$('#'+attribute.inputID).value = $('#'+attribute.inputID).val();
 			});
 			$.fn.yiiactiveform.settings[id] = settings;
 
@@ -66,6 +68,8 @@
 					$("label[for='"+attribute.inputID+"']").toggleClass(attribute.successLabelCssClass, !hasError);
 				}
 
+				$('#'+attribute.inputID).value = $('#'+attribute.inputID).val();
+
 				return hasError;
 			};
 
@@ -92,7 +96,14 @@
 					type : $form.attr('method'),
 					data : $form.serialize()+'&'+settings.ajaxVar+'='+id,
 					dataType : 'json',
-					success : successCallback
+					success : successCallback,
+					error : function() {
+						$.each(settings.attributes, function(i, attribute){
+							if (attribute.status == 3) {
+								settings.attributes[i].status = 1;
+							}
+						});
+					}
 				});
 			};
 
@@ -117,20 +128,35 @@
 				});
 			}
 
-			$.each(settings.attributes, function(i, attribute) {
-				var validate = function() {
-					settings.attributes[i].validated = true;
-					ajaxValidate(function(data) {
-						updateInput(attribute, data);
+			var validate = function() {
+				$.each(settings.attributes, function(i, attribute){
+					if (attribute.status == 2)
+						settings.attributes[i].status = 3;
+				});
+				ajaxValidate(function(data) {
+					$.each(settings.attributes, function(i, attribute){
+						if (attribute.status == 3) {
+							settings.attributes[i].status = 1;
+							updateInput(attribute, data);
+						}
 					});
-				};
+				});
+			};
 
+			$.each(settings.attributes, function(i, attribute) {
+				var validateLater = function() {
+					settings.attributes[i].status = 2;
+					if(settings.timer!=undefined)
+						clearTimeout(settings.timer);
+					settings.timer=setTimeout(validate, attribute.validationDelay);
+				};
 				if (attribute.validateOnChange) {
 					$('#'+this.inputID).change(function(){
-						validate();
+						validateLater();
 					}).blur(function(){
-						if(!settings.attributes[i].validated)
-							validate();
+						if(!settings.attributes[i].status) {
+							validateLater();
+						}
 					});
 				}
 			});
@@ -140,6 +166,7 @@
 	$.fn.yiiactiveform.defaults = {
 		ajaxVar: 'ajax',
 		validationUrl: undefined,
+		validationDelay: 100,
 		validateOnSubmit : false,
 		validateOnChange : true,
 		errorLabelCssClass : 'error',
@@ -150,12 +177,15 @@
 		successMessageCssClass : 'successMessage',
 		successMessage : false,
 		summaryID : undefined,
+		timer: undefined,
 		/**
 		 * list of attributes to be validated. Each array element is of the following structure:
 		 * {
 		 *     inputID : 'input-tag-id',
 		 *     errorID : 'error-tag-id',
-		 *     validated : false,
+		 *     value : undefined,
+		 *     status : 0,  // 0: not validated,  1: validated, 2: pending validation, 3: validating
+		 *     validationDelay: 100,
 		 *     validateOnChange : true,
 		 *     errorLabelCssClass : 'error',
 		 *     successLabelCssClass : 'success',

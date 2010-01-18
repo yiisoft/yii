@@ -122,6 +122,11 @@ class CActiveForm extends CWidget
 	 * Defaults to 'ajax'.</li>
 	 * <li>validationUrl: string, the URL that performs the AJAX validations.
 	 * If not set, it will take the value of {@link action}.</li>
+	 * <li>validationDelay: integer, the number of milliseconds that an AJAX validation should be
+	 * delayed after an input is changed. A value 0 means the validation will be triggered immediately
+	 * when an input is changed. A value greater than 0 means changing several inputs may only
+	 * trigger a single validation if they happen fast enough, which may help reduce the server load.
+	 * Defaults to 100 (0.1 second).</li>
 	 * <li>validateOnSubmit: boolean, whether to perform AJAX validation when the form is being submitted.
 	 * If there are any validation errors, the form submission will be stopped.
 	 * Defaults to false.</li>
@@ -152,7 +157,7 @@ class CActiveForm extends CWidget
 	 * </ul>
 	 *
 	 * Some of the above options may be overridden in individual calls of {@link error()}.
-	 * They include: validateOnChange, errorLabelCssClass, successLabelCssClass,
+	 * They include: validationDelay, validateOnChange, errorLabelCssClass, successLabelCssClass,
 	 * errorInputCssClass, successInputCssClass, errorMessageCssClass, successMessageCssClass and successMessage.
 	 */
 	public $options=array();
@@ -204,6 +209,7 @@ class CActiveForm extends CWidget
 	 * @param array additional HTML attributes to be rendered in the container div tag.
 	 * Besides all those options available in {@link CHtml::error}, the following options are recognized in addition:
 	 * <ul>
+	 * <li>validationDelay</li>
 	 * <li>validateOnChange</li>
 	 * <li>errorLabelCssClass</li>
 	 * <li>successLabelCssClass</li>
@@ -227,6 +233,7 @@ class CActiveForm extends CWidget
 		$option=array('inputID'=>$inputID, 'errorID'=>$htmlOptions['id']);
 
 		$optionNames=array(
+			'validationDelay',
 			'validateOnChange',
 			'errorLabelCssClass',
 			'successLabelCssClass',
@@ -245,7 +252,7 @@ class CActiveForm extends CWidget
 			}
 		}
 		if($model instanceof CActiveRecord && !$model->isNewRecord)
-			$option['validated']=true;
+			$option['status']=1;
 
 		if(!isset($htmlOptions['class']) && (isset($option['errorMessageCssClass']) || isset($this->options['errorMessageCssClass'])))
 		{
