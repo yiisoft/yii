@@ -24,7 +24,7 @@ $this->pageTitle=$model->title;
 	<h3>Leave a Comment</h3>
 
 	<?php if(Yii::app()->user->hasFlash('commentSubmitted')): ?>
-		<div class="success">
+		<div class="flash-success">
 			<?php echo Yii::app()->user->getFlash('commentSubmitted'); ?>
 		</div>
 	<?php else: ?>

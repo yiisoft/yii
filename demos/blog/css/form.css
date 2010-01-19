@@ -83,12 +83,16 @@ div.form span.required
 	color: red;
 }
 
+div.form div.error label,
 div.form label.error,
 div.form span.error
 {
 	color: #C00;
 }
 
+div.form div.error input,
+div.form div.error textarea,
+div.form div.error select,
 div.form input.error,
 div.form textarea.error,
 div.form select.error
@@ -96,6 +100,18 @@ div.form select.error
 	background: #FEE;
 	border-color: #C00;
 }
+
+div.form div.success input,
+div.form div.success textarea,
+div.form div.success select,
+div.form input.success,
+div.form textarea.success,
+div.form select.success
+{
+	background: #E6EFC2;
+	border-color: #C6D880;
+}
+
 
 div.form .errorSummary
 {

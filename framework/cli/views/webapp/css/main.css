@@ -75,45 +75,45 @@ body
 	text-decoration:none;
 }
 
-div.error, div.notice, div.success
+div.flash-error, div.flash-notice, div.flash-success
 {
 	padding:.8em;
 	margin-bottom:1em;
 	border:2px solid #ddd;
 }
 
-div.error
+div.flash-error
 {
 	background:#FBE3E4;
 	color:#8a1f11;
 	border-color:#FBC2C4;
 }
 
-div.notice
+div.flash-notice
 {
 	background:#FFF6BF;
 	color:#514721;
 	border-color:#FFD324;
 }
 
-div.success
+div.flash-success
 {
 	background:#E6EFC2;
 	color:#264409;
 	border-color:#C6D880;
 }
 
-div.error a
+div.flash-error a
 {
 	color:#8a1f11;
 }
 
-div.notice a
+div.flash-notice a
 {
 	color:#514721;
 }
 
-div.success a
+div.flash-success a
 {
 	color:#264409;
 }

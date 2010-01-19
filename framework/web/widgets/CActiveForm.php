@@ -39,7 +39,7 @@
  * &lt;/div&gt;
  * &lt;div class="row"&gt;
  *     &lt;?php echo CHtml::activeLabelEx($model,'lastName'); ?&gt;
- *     &lt;?php echo CHtml::activeFileField($model,'lastName'); ?&gt;
+ *     &lt;?php echo CHtml::activeTextField($model,'lastName'); ?&gt;
  *     &lt;?php echo $form-&gt;error($model,'lastName'); ?&gt;
  * &lt;/div&gt;
  *
@@ -76,6 +76,12 @@
  * is submitted via AJAX by the 'user-form'. If so, we validate the model and return
  * the validation results. We may call the same method in model update action.
  *
+ * On the client side, an input field may be in one of the four states: initial (not validated),
+ * validating, error and success. To differentiate these states, CActiveForm automatically
+ * assigns different CSS classes for the last three states to the HTML element containing the input field.
+ * By default, these CSS classes are named as 'validating', 'error' and 'success', respectively.
+ * They may be changed by configuring the {@link options} property or specifying in the {@link error} method.
+ *
  * Sometimes, we may want to limit the AJAX validation to certain model attributes only.
  * This can be achieved by setting the model with a scenario that is specific for AJAX validation.
  * Then only list those attributes that need AJAX validation in the scenario in {@link CModel::rules()} declaration.
@@ -108,6 +114,11 @@ class CActiveForm extends CWidget
 	 */
 	public $method='post';
 	/**
+	 * @var string the CSS class name for error messages. Defaults to 'errorMessage'.
+	 * Individual {@link error} call may override this value by specifying the 'class' HTML option.
+	 */
+	public $errorMessageCssClass='errorMessage';
+	/**
 	 * @var array additional HTML attributes that should be rendered for the form tag.
 	 */
 	public $htmlOptions=array();
@@ -137,31 +148,24 @@ class CActiveForm extends CWidget
 	 * <li>validateOnType: boolean, whether to trigger an AJAX validation each time when the user
 	 * presses a key. When setting this property to be true, you should tune up the 'validationDelay'
 	 * option to avoid triggering too many AJAX validations. Defaults to false.</li>
-	 * <li>errorLabelCssClass: string, the CSS class assigned to the labels whose associated input fields
-	 * have AJAX validation errors. If this is set false, no CSS class will be added to the error labels.
-	 * Defaults to 'error'.</li>
-	 * <li>successLabelCssClass: string, the CSS class assigned to the labels whose associated input fields
-	 * pass AJAX validations. If this is set false, no CSS class will be added to the success labels.
-	 * Defaults to 'success'.</li>
-	 * <li>errorInputCssClass: string, the CSS class assigned to the input fields that have
-	 * AJAX validation errors. If this is set false, no CSS class will be added to the error inputs.
-	 * Defaults to 'error'.</li>
-	 * <li>successInputCssClass: string, the CSS class assigned to the input fields that have
-	 * passed AJAX validations. If this is set false, no CSS class will be added to the success inputs.
-	 * Defaults to 'success'.</li>
+	 * <li>hideErrorMessage: boolean, whether to hide the error message even if there is an error.
+	 * Defaults to false, which means the error message will show up whenever the input has an error.</li>
+	 * <li>inputContainer: string, the jQuery selector for the HTML element containing the input field.
+	 * During the validation process, CActiveForm will set different CSS class for the container element
+	 * to indicate the state change. If not set, it means the closest 'div' element that contains the input field.</li>
+	 * <li>errorCssClass: string, the CSS class to be assigned to the container whose associated input
+	 * has AJAX validation error. Defaults to 'error'.</li>
+	 * <li>successCssClass: string, the CSS class to be assigned to the container whose associated input
+	 * passes AJAX validation without any error. Defaults to 'success'.</li>
+	 * <li>validatingCssClass: string, the CSS class to be assigned to the container whose associated input
+	 * is currently being validated via AJAX. Defaults to 'validating'.</li>
 	 * <li>errorMessageCssClass: string, the CSS class assigned to the error messages returned
-	 * by AJAX validations. If this is set false, no CSS class will be added to the error messages.
-	 * Defaults to 'errorMessage'.</li>
-	 * <li>successMessageCssClass: string, the CSS class assigned to the success messages when
-	 * the corresponding inputs pass AJAX validations. If this is set false, no CSS class will
-	 * be added to the success inputs. Defaults to 'successMessage'.</li>
-	 * <li>successMessage: string, the message to be displayed when an input passes AJAX validation.
-	 * If false, no success message will be displayed. Defaults to false.</li>
+	 * by AJAX validations. Defaults to 'errorMessage'.</li>
 	 * </ul>
 	 *
 	 * Some of the above options may be overridden in individual calls of {@link error()}.
-	 * They include: validationDelay, validateOnChange, validateOnType, errorLabelCssClass, successLabelCssClass,
-	 * errorInputCssClass, successInputCssClass, errorMessageCssClass, successMessageCssClass and successMessage.
+	 * They include: validationDelay, validateOnChange, validateOnType, hideErrorMessage,
+	 * inputContainer, errorCssClass, successCssClass, and validatingCssClass.
 	 */
 	public $options=array();
 	/**
@@ -181,6 +185,8 @@ class CActiveForm extends CWidget
 	public function init()
 	{
 		$this->htmlOptions['id']=$this->id;
+		if(isset($this->options['validationUrl']) && is_array($this->options['validationUrl']))
+			$this->options['validationUrl']=CHtml::normalizeUrl($this->options['validationUrl']);
 		echo CHtml::beginForm($this->action, $this->method, $this->htmlOptions);
 	}
 
@@ -215,13 +221,11 @@ class CActiveForm extends CWidget
 	 * <li>validationDelay</li>
 	 * <li>validateOnChange</li>
 	 * <li>validateOnType</li>
-	 * <li>errorLabelCssClass</li>
-	 * <li>successLabelCssClass</li>
-	 * <li>errorInputCssClass</li>
-	 * <li>successInputCssClass</li>
-	 * <li>errorMessageCssClass</li>
-	 * <li>successMessageCssClass</li>
-	 * <li>successMessage</li>
+	 * <li>hideErrorMessage</li>
+	 * <li>inputContainer</li>
+	 * <li>errorCssClass</li>
+	 * <li>successCssClass</li>
+	 * <li>validatingCssClass</li>
 	 * </ul>
 	 * These options override the corresponding options as declared in {@link options} for this
 	 * particular model attribute. For more details about these options, please refer to {@link options}.
@@ -240,13 +244,11 @@ class CActiveForm extends CWidget
 			'validationDelay',
 			'validateOnChange',
 			'validateOnType',
-			'errorLabelCssClass',
-			'successLabelCssClass',
-			'errorInputCssClass',
-			'successInputCssClass',
-			'errorMessageCssClass',
-			'successMessageCssClass',
-			'successMessage',
+			'hideErrorMessage',
+			'inputContainer',
+			'errorCssClass',
+			'successCssClass',
+			'validatingCssClass',
 		);
 		foreach($optionNames as $name)
 		{
@@ -259,16 +261,15 @@ class CActiveForm extends CWidget
 		if($model instanceof CActiveRecord && !$model->isNewRecord)
 			$option['status']=1;
 
-		if(!isset($htmlOptions['class']) && (isset($option['errorMessageCssClass']) || isset($this->options['errorMessageCssClass'])))
-		{
-			$class=isset($option['errorMessageCssClass']) ? $option['errorMessageCssClass'] : $this->options['errorMessageCssClass'];
-			if($class!==false)
-				$htmlOptions['class']=$option['errorMessageCssClass'];
-		}
+		if(!isset($htmlOptions['class']))
+			$htmlOptions['class']=$this->errorMessageCssClass;
 		$html=CHtml::error($model,$attribute,$htmlOptions);
 		if($html==='')
 		{
-			$htmlOptions['style']=isset($htmlOptions['style']) ? rtrim($htmlOptions['style'],';').';display:none' : 'display:none';
+			if(isset($htmlOptions['style']))
+				$htmlOptions['style']=rtrim($htmlOptions['style'],';').';display:none';
+			else
+				$htmlOptions['style']='display:none';
 			$html=CHtml::tag('div',$htmlOptions,'');
 		}
 

@@ -26,48 +26,42 @@
 					validationDelay : settings.validationDelay,
 					validateOnChange : settings.validateOnChange,
 					validateOnType : settings.validateOnType,
-					errorLabelCssClass : settings.errorLabelCssClass,
-					successLabelCssClass : settings.successLabelCssClass,
-					errorInputCssClass : settings.errorInputCssClass,
-					successInputCssClass : settings.successInputCssClass,
-					errorMessageCssClass : settings.errorMessageCssClass,
-					successMessageCssClass : settings.successMessageCssClass,
-					successMessage : settings.successMessage
+					hideErrorMessage : settings.hideErrorMessage,
+					inputContainer : settings.inputContainer,
+					errorCssClass : settings.errorCssClass,
+					successCssClass : settings.successCssClass,
+					validatingCssClass : settings.validatingCssClass
 				}, attribute);
 				$('#'+attribute.inputID).value = $('#'+attribute.inputID).val();
 			});
 			$.fn.yiiactiveform.settings[id] = settings;
 
-			// updates the input field, label, and validation result for a particular attribute
+			var getInputContainer = function(attribute) {
+				if(attribute.container == undefined)
+					return $('#'+attribute.inputID).closest('div');
+				else
+					return $(attribute.container).filter(':has("#'+attribute.inputID+'")');
+			};
+
+			// updates the error message and the input container for a particular attribute
 			var updateInput = function(attribute, messages) {
+				attribute.status = 1;
 				var hasError = messages && $.isArray(messages[attribute.inputID]) && messages[attribute.inputID].length>0;
+				var $error = $('#'+attribute.errorID);
+				var $container = getInputContainer(attribute);
+				$container.removeClass(attribute.validatingCssClass)
+					.removeClass(attribute.errorCssClass)
+					.removeClass(attribute.successCssClass);
+
 				if(hasError) {
-					$('#'+attribute.errorID).html(messages[attribute.inputID][0]);
+					$error.html(messages[attribute.inputID][0]);
+					$container.addClass(attribute.errorCssClass);
 				}
-				else if(attribute.successMessage!=false) {
-					$('#'+attribute.errorID).html(attribute.successMessage);
+				else {
+					$container.addClass(attribute.successCssClass);
 				}
-
-				$('#'+attribute.errorID).toggle(hasError || !hasError && attribute.successMessage!=false);
-
-				if(attribute.errorMessageCssClass!==false) {
-					$('#'+attribute.errorID).toggleClass(attribute.errorMessageCssClass, hasError);
-				}
-				if(attribute.successMessageCssClass!==false) {
-					$('#'+attribute.errorID).toggleClass(attribute.successMessageCssClass, !hasError);
-				}
-				if(attribute.errorInputCssClass!==false) {
-					$('#'+attribute.inputID).toggleClass(attribute.errorInputCssClass, hasError);
-				}
-				if(attribute.successInputCssClass!==false) {
-					$('#'+attribute.inputID).toggleClass(attribute.successInputCssClass, !hasError);
-				}
-				if(attribute.errorLabelCssClass!==false) {
-					$("label[for='"+attribute.inputID+"']").toggleClass(attribute.errorLabelCssClass, hasError);
-				}
-				if(attribute.successLabelCssClass!==false) {
-					$("label[for='"+attribute.inputID+"']").toggleClass(attribute.successLabelCssClass, !hasError);
-				}
+				if(!attribute.hideErrorMessage)
+					$error.toggle(hasError);
 
 				attribute.value = $('#'+attribute.inputID).val();
 
@@ -100,13 +94,50 @@
 					success : successCallback,
 					error : function() {
 						$.each(settings.attributes, function(i, attribute){
-							if (attribute.status == 3) {
-								attribute.status = 1;
-							}
+							updateInput(attribute, []);
 						});
 					}
 				});
 			};
+
+			var validate = function(attribute) {
+				attribute.status = 2;
+				if(settings.timer!=undefined)
+					clearTimeout(settings.timer);
+				settings.timer = setTimeout(function(){
+					$.each(settings.attributes, function(){
+						if (this.status == 2) {
+							this.status = 3;
+							getInputContainer(this).addClass(this.validatingCssClass);
+						}
+					});
+					ajaxValidate(function(data) {
+						$.each(settings.attributes, function(){
+							if (this.status == 3) {
+								updateInput(this, data);
+							}
+						});
+					});
+				}, attribute.validationDelay);
+			};
+
+			$.each(settings.attributes, function(i, attribute) {
+				if (attribute.validateOnChange) {
+					$('#'+attribute.inputID).change(function(){
+						validate(attribute);
+					}).blur(function(){
+						if(!attribute.status) {
+							validate(attribute);
+						}
+					});
+				}
+				if (attribute.validateOnType) {
+					$('#'+attribute.inputID).keyup(function(){
+						if (attribute.value != $('#'+attribute.inputID).val())
+							validate(attribute);
+					});
+				}
+			});
 
 			if (settings.validateOnSubmit) {
 				var validated = false;
@@ -128,45 +159,6 @@
 					return false;
 				});
 			}
-
-			var validate = function() {
-				$.each(settings.attributes, function(i, attribute){
-					if (attribute.status == 2)
-						attribute.status = 3;
-				});
-				ajaxValidate(function(data) {
-					$.each(settings.attributes, function(i, attribute){
-						if (attribute.status == 3) {
-							attribute.status = 1;
-							updateInput(attribute, data);
-						}
-					});
-				});
-			};
-
-			$.each(settings.attributes, function(i, attribute) {
-				var validateLater = function() {
-					attribute.status = 2;
-					if(settings.timer!=undefined)
-						clearTimeout(settings.timer);
-					settings.timer=setTimeout(validate, attribute.validationDelay);
-				};
-				if (attribute.validateOnChange) {
-					$('#'+attribute.inputID).change(function(){
-						validateLater();
-					}).blur(function(){
-						if(!attribute.status) {
-							validateLater();
-						}
-					});
-				}
-				if (attribute.validateOnType) {
-					$('#'+attribute.inputID).keyup(function(){
-						if (attribute.value != $('#'+attribute.inputID).val())
-							validateLater();
-					});
-				}
-			});
 		});
 	};
 
@@ -177,13 +169,11 @@
 		validateOnSubmit : false,
 		validateOnChange : true,
 		validateOnType : false,
-		errorLabelCssClass : 'error',
-		successLabelCssClass : 'success',
-		errorInputCssClass : 'error',
-		successInputCssClass : 'success',
-		errorMessageCssClass : 'errorMessage',
-		successMessageCssClass : 'successMessage',
-		successMessage : false,
+		hideErrorMessage : false,
+		inputContainer : undefined,
+		errorCssClass : 'error',
+		successCssClass : 'success',
+		validatingCssClass : 'validating',
 		summaryID : undefined,
 		timer: undefined,
 		/**
@@ -196,13 +186,11 @@
 		 *     validationDelay: 100,
 		 *     validateOnChange : true,
 		 *     validateOnType : false,
-		 *     errorLabelCssClass : 'error',
-		 *     successLabelCssClass : 'success',
-		 *     errorInputCssClass : 'error',
-		 *     successInputCssClass : 'success',
-		 *     errorMessageCssClass : 'errorMessage',
-		 *     successMessageCssClass : 'successMessage',
-		 *     successMessage: 'success message',
+		 *     hideErrorMessage : false,
+		 *     inputContainer : undefined,
+		 *     errorCssClass : 'error',
+		 *     successCssClass : 'success',
+		 *     validatingCssClass : 'validating',
 		 * }
 		 */
 		attributes : []
