@@ -3,6 +3,8 @@ Creating and Displaying Comments
 
 In this section, we implement the comment display and creation features.
 
+In order to enhance the user interactivity, we would like to prompt users the possible errors each time he finishes entering one field. This is known client-side input validation. We will show how this can be done in Yii seamlessly and extremely easy. Note that this requires Yii version 1.1.1 or later.
+
 
 Displaying Comments
 -------------------
@@ -53,6 +55,11 @@ public function actionView()
 protected function newComment($post)
 {
 	$comment=new Comment;
+	if(isset($_POST['ajax']) && $_POST['ajax']==='comment-form')
+	{
+		echo CActiveForm::validate($comment);
+		Yii::app()->end();
+	}
 	if(isset($_POST['Comment']))
 	{
 		$comment->attributes=$_POST['Comment'];
@@ -67,7 +74,11 @@ protected function newComment($post)
 }
 ~~~
 
-In the above, we call the `newComment()` method before we render `view`. In the `newComment()` method, we generate a `Comment` instance and check if the comment form is submitted. If so, we try to add the comment for the post by calling `$post->addComment($comment)`. If it goes through, we refresh the post detail page. In case the comment needs to be approved, we will show a flash message to indicate this decision. A flash message is usually a confirmation message displayed to end users. If the user clicks on the refresh button of his browser, the message will disappear.
+In the above, we call the `newComment()` method before we render `view`. The method renders the comment form, collects user comment input and saves it to the database.
+
+The code is very similar to that for creating a post. The main difference lies in the first part of code which is responsible for performing the client-side validation, as we described in the very beginning. The code checks if there is a `POST` variable named `ajax`. If so, it displays the validation results by calling [CActiveForm::validate].
+
+In the `newComment()` method, we generate a `Comment` instance and check if the comment form is submitted. If so, we try to add the comment for the post by calling `$post->addComment($comment)`. If it goes through, we refresh the post detail page. In case the comment needs to be approved, we will show a flash message to indicate this decision. A flash message is usually a confirmation message displayed to end users. If the user clicks on the refresh button of his browser, the message will disappear.
 
 We also need to modify `/wwwroot/blog/protected/views/post/view.php` furthermore,
 
@@ -92,5 +103,50 @@ We also need to modify `/wwwroot/blog/protected/views/post/view.php` furthermore
 ~~~
 
 In the above code, we display the flash message if it is available. If not, we display the comment input form by rendering the partial view `/wwwroot/blog/protected/views/comment/_form.php`.
+
+We need to make some changes to the `_form.php` file because we want to perform client-side validation. The updated file looks like the following. Pay particular attention to the code related [CActiveForm]. Basically, we replace [CHtml::error] with a call to [CActiveForm::error].
+
+Using [CActiveForm], each time when a user finishes entering one field, an AJAX request will be triggered which validates if the user enters the field correctly. If there is any error, a message will be displayed immediately.
+
+~~~
+[php]
+<div class="form">
+
+<?php $form=$this->beginWidget('CActiveForm', array('id'=>'comment-form')); ?>
+
+	<p class="note">Fields with <span class="required">*</span> are required.</p>
+
+	<div class="row">
+		<?php echo CHtml::activeLabelEx($model,'author'); ?>
+		<?php echo CHtml::activeTextField($model,'author',array('size'=>60,'maxlength'=>128)); ?>
+		<?php echo $form->error($model,'author'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo CHtml::activeLabelEx($model,'email'); ?>
+		<?php echo CHtml::activeTextField($model,'email',array('size'=>60,'maxlength'=>128)); ?>
+		<?php echo $form->error($model,'email'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo CHtml::activeLabelEx($model,'url'); ?>
+		<?php echo CHtml::activeTextField($model,'url',array('size'=>60,'maxlength'=>128)); ?>
+		<?php echo $form->error($model,'url'); ?>
+	</div>
+
+	<div class="row">
+		<?php echo CHtml::activeLabelEx($model,'content'); ?>
+		<?php echo CHtml::activeTextArea($model,'content',array('rows'=>6, 'cols'=>50)); ?>
+		<?php echo $form->error($model,'content'); ?>
+	</div>
+
+	<div class="row buttons">
+		<?php echo CHtml::submitButton($model->isNewRecord ? 'Submit' : 'Save'); ?>
+	</div>
+
+<?php $this->endWidget(); ?>
+
+</div><!-- form -->
+~~~
 
 <div class="revision">$Id$</div>

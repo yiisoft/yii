@@ -199,6 +199,11 @@ class PostController extends Controller
 	protected function newComment($post)
 	{
 		$comment=new Comment;
+		if(isset($_POST['ajax']) && $_POST['ajax']==='comment-form')
+		{
+			echo CActiveForm::validate($comment);
+			Yii::app()->end();
+		}
 		if(isset($_POST['Comment']))
 		{
 			$comment->attributes=$_POST['Comment'];
