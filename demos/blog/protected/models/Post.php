@@ -194,12 +194,12 @@ class Post extends CActiveRecord
 			$criteria->addCondition("status=:status");
 			$criteria->params[":status"]=$this->status;
 		}
-		$dataProvider=new CActiveDataProvider('Post', array(
+
+		return new CActiveDataProvider('Post', array(
 			'criteria'=>$criteria,
 			'sort'=>array(
 				'defaultOrder'=>'status, update_time DESC',
 			),
 		));
-		return $dataProvider;
 	}
 }

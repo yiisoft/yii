@@ -24,7 +24,8 @@ echo "\$this->breadcrumbs=array(
 </ul><!-- actions -->
 
 <?php echo "<?php"; ?> $this->widget('zii.widgets.grid.CGridView', array(
-	'dataProvider'=>$dataProvider,
+	'dataProvider'=>$model->search(),
+	'filter'=>$model,
 	'columns'=>array(
 <?php
 $count=0;
