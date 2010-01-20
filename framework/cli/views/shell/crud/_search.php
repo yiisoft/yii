@@ -8,7 +8,6 @@
  */
 ?>
 <div class="wide form search-form" style="display:none">
-<h2>Search</h2>
 
 <?php echo "<?php echo CHtml::beginForm('','get'); ?>\n"; ?>
 
@@ -31,4 +30,5 @@
 	</div>
 
 <?php echo "<?php echo CHtml::endForm(); ?>\n"; ?>
+
 </div><!-- search-form -->
