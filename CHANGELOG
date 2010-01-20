@@ -8,6 +8,7 @@ Version 1.1.1 to be released
 - Bug: Setting the 'with' option in criteria array doesn't trigger eager loading for AR (Qiang)
 - Enh: Refactored the blog demo to make use of the new CActiveForm and the filtering feature of CGridView (Qiang)
 - Enh: Added filtering support for the crud code generator (Qiang)
+- Enh: Added search support for the crud code generator (Qiang)
 - New: Added CActiveForm that performs model validations via AJAX (Qiang)
 
 Version 1.1.0 January 10, 2010
