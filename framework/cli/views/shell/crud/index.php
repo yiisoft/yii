@@ -16,6 +16,13 @@ echo "\$this->breadcrumbs=array(
 	'$label',
 );\n";
 ?>
+
+Yii::app()->clientScript->registerScript('search', "
+$('#search-button').click(function(){
+	$('.search-form').toggle();
+	return false;
+});
+");
 ?>
 
 <h1>List <?php echo $modelClass; ?></h1>
@@ -23,9 +30,14 @@ echo "\$this->breadcrumbs=array(
 <ul class="actions">
 	<li><?php echo "<?php echo CHtml::link('Create {$modelClass}',array('create')); ?>"; ?></li>
 	<li><?php echo "<?php echo CHtml::link('Manage {$modelClass}',array('admin')); ?>"; ?></li>
+	<li><?php echo "<?php echo CHtml::link('Search {$modelClass}','#',array('id'=>'search-button')); ?>"; ?></li>
 </ul><!-- actions -->
 
+<?php echo "<?php \$this->renderPartial('_search',array(
+	'model'=>\$model,
+)); ?>\n"; ?>
+
 <?php echo "<?php"; ?> $this->widget('zii.widgets.CListView', array(
-	'dataProvider'=>$dataProvider,
+	'dataProvider'=>$model->search(),
 	'itemView'=>'_view',
 )); ?>

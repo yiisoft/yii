@@ -171,3 +171,10 @@ div.breadcrumbs span
 {
 	font-weight: bold;
 }
+
+div.search-form
+{
+	padding: 10px;
+	margin: 10px 0;
+	background: #eee;
+}

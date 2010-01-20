@@ -11,8 +11,6 @@
 
 class <?php echo $controllerClass; ?> extends Controller
 {
-	const PAGE_SIZE=10;
-
 	/**
 	 * @var CActiveRecord the currently loaded data model instance.
 	 */
@@ -126,14 +124,11 @@ class <?php echo $controllerClass; ?> extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('<?php echo $modelClass; ?>', array(
-			'pagination'=>array(
-				'pageSize'=>self::PAGE_SIZE,
-			),
-		));
-
+		$model=new <?php echo $modelClass; ?>('search');
+		if(isset($_GET['<?php echo $modelClass; ?>']))
+			$model->attributes=$_GET['<?php echo $modelClass; ?>'];
 		$this->render('index',array(
-			'dataProvider'=>$dataProvider,
+			'model'=>$model,
 		));
 	}
 
