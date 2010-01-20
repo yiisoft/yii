@@ -142,14 +142,12 @@ class <?php echo $controllerClass; ?> extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$dataProvider=new CActiveDataProvider('<?php echo $modelClass; ?>', array(
-			'pagination'=>array(
-				'pageSize'=>self::PAGE_SIZE,
-			),
-		));
+		$model=new <?php echo $modelClass; ?>('search');
+		if(isset($_GET['<?php echo $modelClass; ?>']))
+			$model->attributes=$_GET['<?php echo $modelClass; ?>'];
 
 		$this->render('admin',array(
-			'dataProvider'=>$dataProvider,
+			'model'=>$model,
 		));
 	}
 
