@@ -141,14 +141,11 @@ class PostController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$dataProvider=new CActiveDataProvider('Post', array(
-			'sort'=>array(
-				'defaultOrder'=>'status, update_time DESC',
-			),
-		));
-
+		$model=new Post('search');
+		if(isset($_GET['Post']))
+			$model->attributes=$_GET['Post'];
 		$this->render('admin',array(
-			'dataProvider'=>$dataProvider,
+			'model'=>$model,
 		));
 	}
 

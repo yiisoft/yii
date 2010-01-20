@@ -6,7 +6,8 @@ $this->breadcrumbs=array(
 <h1>Manage Posts</h1>
 
 <?php $this->widget('zii.widgets.grid.CGridView', array(
-	'dataProvider'=>$dataProvider,
+	'dataProvider'=>$model->search(),
+	'filter'=>$model,
 	'columns'=>array(
 		array(
 			'name'=>'title',
@@ -16,9 +17,13 @@ $this->breadcrumbs=array(
 		array(
 			'name'=>'status',
 			'value'=>'Lookup::item("PostStatus",$data->status)',
+			'filter'=>Lookup::items('PostStatus'),
 		),
-		'create_time:datetime',
-		'update_time:datetime',
+		array(
+			'name'=>'create_time',
+			'type'=>'datetime',
+			'filter'=>false,
+		),
 		array(
 			'class'=>'CButtonColumn',
 		),
