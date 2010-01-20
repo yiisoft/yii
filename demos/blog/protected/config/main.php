@@ -50,6 +50,7 @@ return array(
         	'rules'=>array(
         		'post/<id:\d+>/<title:.*?>'=>'post/view',
         		'posts/<tag:.*?>'=>'post/index',
+        		'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
         	),
         ),
 		'log'=>array(

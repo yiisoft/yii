@@ -43,6 +43,11 @@ class CommentController extends Controller
 	public function actionUpdate()
 	{
 		$model=$this->loadModel();
+		if(isset($_POST['ajax']) && $_POST['ajax']==='comment-form')
+		{
+			echo CActiveForm::validate($model);
+			Yii::app()->end();
+		}
 		if(isset($_POST['Comment']))
 		{
 			$model->attributes=$_POST['Comment'];
