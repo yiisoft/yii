@@ -233,8 +233,10 @@ http://hostname/testdrive/index.php?r=user/admin
 ~~~
 
 This will show us the user entries in a nice tabular format. We can click on the table
-header cells to sort the corresponding columns. We can also click on the buttons
+header cells to sort the corresponding columns. We can click on the buttons
 on each row of data to view, update or delete the corresponding row of data.
+We can browse different pages. We can also filter and search to look for
+the data we are interested in.
 
 All these nice features come without requiring us to write a single line
 of code!
