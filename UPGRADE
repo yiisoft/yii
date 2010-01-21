@@ -11,6 +11,11 @@ for both A and B.
 
 Upgrading from v1.1.0
 ---------------------
+- CHtml::beginForm() will automatically generate hidden fields to represent
+the parameters in the query string when the form uses GET method.
+To avoid submitting duplicated query parameters, you may use createUrl()
+to explicitly specify the action of the form. You may also need to remove
+the hidden fields that you previously render for the same purpose.
 
 Upgrading from v1.1rc
 ---------------------
