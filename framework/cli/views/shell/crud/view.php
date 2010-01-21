@@ -16,16 +16,17 @@ echo "\$this->breadcrumbs=array(
 	\$model->{$nameColumn},
 );\n";
 ?>
-?>
-<h1>View <?php echo $modelClass." #<?php echo \$model->{$ID}; ?>"; ?></h1>
 
-<ul class="actions">
-	<li><?php echo "<?php echo CHtml::link('List {$modelClass}',array('index')); ?>"; ?></li>
-	<li><?php echo "<?php echo CHtml::link('Create {$modelClass}',array('create')); ?>"; ?></li>
-	<li><?php echo "<?php echo CHtml::link('Update {$modelClass}',array('update','id'=>\$model->{$ID})); ?>"; ?></li>
-	<li><?php echo "<?php echo CHtml::linkButton('Delete {$modelClass}',array('submit'=>array('delete','id'=>\$model->{$ID}),'confirm'=>'Are you sure to delete this item?')); ?>"; ?></li>
-	<li><?php echo "<?php echo CHtml::link('Manage {$modelClass}',array('admin')); ?>"; ?></li>
-</ul><!-- actions -->
+$this->menu=array(
+	array('label'=>'List <?php echo $modelClass; ?>', 'url'=>array('index')),
+	array('label'=>'Create <?php echo $modelClass; ?>', 'url'=>array('create')),
+	array('label'=>'Update <?php echo $modelClass; ?>', 'url'=>array('update', 'id'=>$model-><?php echo $ID; ?>)),
+	array('label'=>'Delete <?php echo $modelClass; ?>', 'url'=>'#', 'linkOptions'=>array('submit'=>array('delete','id'=>$model-><?php echo $ID; ?>),'confirm'=>'Are you sure to delete this item?')),
+	array('label'=>'Manage <?php echo $modelClass; ?>', 'url'=>array('admin')),
+);
+?>
+
+<h1>View <?php echo $modelClass." #<?php echo \$model->{$ID}; ?>"; ?></h1>
 
 <?php echo "<?php"; ?> $this->widget('zii.widgets.CDetailView', array(
 	'data'=>$model,

@@ -17,15 +17,15 @@ echo "\$this->breadcrumbs=array(
 	'Update',
 );\n";
 ?>
+
+$this->menu=array(
+	array('label'=>'List <?php echo $modelClass; ?>', 'url'=>array('index')),
+	array('label'=>'Create <?php echo $modelClass; ?>', 'url'=>array('create')),
+	array('label'=>'View <?php echo $modelClass; ?>', 'url'=>array('view', 'id'=>$model-><?php echo $ID; ?>)),
+	array('label'=>'Manage <?php echo $modelClass; ?>', 'url'=>array('admin')),
+);
 ?>
 
 <h1>Update <?php echo $modelClass." <?php echo \$model->{$ID}; ?>"; ?></h1>
-
-<ul class="actions">
-	<li><?php echo "<?php echo CHtml::link('List {$modelClass}',array('index')); ?>"; ?></li>
-	<li><?php echo "<?php echo CHtml::link('Create {$modelClass}',array('create')); ?>"; ?></li>
-	<li><?php echo "<?php echo CHtml::link('View {$modelClass}',array('view','id'=>\$model->{$ID})); ?>"; ?></li>
-	<li><?php echo "<?php echo CHtml::link('Manage {$modelClass}',array('admin')); ?>"; ?></li>
-</ul><!-- actions -->
 
 <?php echo "<?php echo \$this->renderPartial('_form', array('model'=>\$model)); ?>"; ?>

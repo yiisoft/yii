@@ -15,12 +15,13 @@ echo "\$this->breadcrumbs=array(
 	'Create',
 );\n";
 ?>
-?>
-<h1>Create <?php echo $modelClass; ?></h1>
 
-<ul class="actions">
-	<li><?php echo "<?php echo CHtml::link('List {$modelClass}',array('index')); ?>"; ?></li>
-	<li><?php echo "<?php echo CHtml::link('Manage {$modelClass}',array('admin')); ?>"; ?></li>
-</ul><!-- actions -->
+$this->menu=array(
+	array('label'=>'List <?php echo $modelClass; ?>', 'url'=>array('index')),
+	array('label'=>'Manage <?php echo $modelClass; ?>', 'url'=>array('admin')),
+);
+?>
+
+<h1>Create <?php echo $modelClass; ?></h1>
 
 <?php echo "<?php echo \$this->renderPartial('_form', array('model'=>\$model)); ?>"; ?>

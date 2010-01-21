@@ -12,6 +12,12 @@
 class <?php echo $controllerClass; ?> extends Controller
 {
 	/**
+	 * @var string the default layout for the views. Defaults to 'column2', meaning
+	 * using two-column layout. See 'protected/views/layouts/column2.php'.
+	 */
+	public $layout='column2';
+
+	/**
 	 * @var CActiveRecord the currently loaded data model instance.
 	 */
 	private $_model;

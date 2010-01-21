@@ -27,6 +27,11 @@ body
     padding: 20px;
 }
 
+#sidebar
+{
+	padding: 20px 20px 20px 0;
+}
+
 #footer
 {
 	padding: 10px;
@@ -123,37 +128,6 @@ div.form .rememberMe label
 	display: inline;
 }
 
-.actions
-{
-	margin: 0 0 10px 0;
-	padding: 0;
-}
-
-.actions li
-{
-	display: inline;
-	margin: 0;
-	padding: 0;
-}
-
-.actions li a
-{
-	padding: 5px;
-	margin: 0;
-	color: #298dcd;
-	text-decoration: none;
-	font-size: 0.8em;
-	font-weight: bold;
-	background: #DFF4FF;
-	border-left: 5px solid #589FC8;
-}
-
-.actions li a:hover, .actions li a.active
-{
-	background: #589FC8;
-	color: white;
-}
-
 div.view
 {
 	padding: 10px;
@@ -177,4 +151,79 @@ div.search-form
 	padding: 10px;
 	margin: 10px 0;
 	background: #eee;
+}
+
+.portlet
+{
+
+}
+
+.portlet-decoration
+{
+	padding: 3px 8px;
+	background: #B7D6E7;
+	border-left: 5px solid #6FACCF;
+}
+
+.portlet-title
+{
+	font-size: 12px;
+	font-weight: bold;
+	padding: 0;
+	margin: 0;
+	color: #298dcd;
+}
+
+.portlet-content
+{
+	font-size:0.9em;
+	margin: 0 0 15px 0;
+	padding: 5px 8px;
+	background:#EFFDFF;
+}
+
+.portlet-content ul
+{
+	list-style-image:none;
+	list-style-position:outside;
+	list-style-type:none;
+	margin: 0;
+	padding: 0;
+}
+
+.portlet-content li
+{
+	padding: 2px 0 4px 0px;
+}
+
+.operations
+{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.operations li
+{
+	padding-bottom: 2px;
+}
+
+.operations li a
+{
+	font: bold 12px Arial;
+	color: #0066A4;
+	display: block;
+	padding: 2px 0 2px 8px;
+	line-height: 15px;
+	text-decoration: none;
+}
+
+.operations li a:visited
+{
+	color: #0066A4;
+}
+
+.operations li a:hover
+{
+	background: #80CFFF;
 }

@@ -41,9 +41,7 @@
 		'links'=>$this->breadcrumbs,
 	)); ?><!-- breadcrumbs -->
 
-	<div id="content">
-		<?php echo $content; ?>
-	</div><!-- content -->
+	<?php echo $content; ?>
 
 	<div id="footer">
 		Copyright &copy; <?php echo date('Y'); ?> by My Company.<br/>
