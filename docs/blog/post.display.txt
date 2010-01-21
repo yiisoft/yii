@@ -15,11 +15,9 @@ Below is the relevant code implementing the `view` operation in `PostController`
 [php]
 public function actionView()
 {
+	$post=$this->loadModel();
 	$this->render('view',array(
-		$post=$this->loadModel();
-		$this->render('view',array(
-			'model'=>$post,
-		));
+		'model'=>$post,
 	));
 }
 

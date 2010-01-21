@@ -47,7 +47,7 @@ public function attributeLabels()
 }
 ~~~
 
-> Tip: If the label for an attribute is not declared in `attributeLabels()`, an algorithm will be used to generate an appropriate label. For example, a label `Verify Code` will be generated for attributes `verify_code` or `verifyCode`.
+> Tip: If the label for an attribute is not declared in `attributeLabels()`, an algorithm will be used to generate an appropriate label. For example, a label `Create Time` will be generated for attributes `create_time` or `createTime`.
 
 
 Customizing Saving Process

@@ -90,7 +90,9 @@ testdrive/
       tests/                 containing test scripts
       views/                 containing controller view and layout files
          layouts/            containing layout view files
-            main.php         the default layout for all views
+            main.php         the base layout shared by all pages
+            column1.php      the layout for pages using a single column
+            column2.php      the layout for pages using two columns
          site/               containing view files for the 'site' controller
          	pages/           containing "static" pages
          	   about.php    the view for the "about" page

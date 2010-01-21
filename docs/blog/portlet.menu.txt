@@ -35,7 +35,7 @@ class UserMenu extends CPortlet
 }
 ~~~
 
-The `UserMenu` class extends from the `CPortlet` class that we created previously. It overrides both the `init()` method and the `renderContent()` method of `CPortlet`. The former sets the portlet title to be the name of the current user; the latter generates the portlet body content by rendering a view named `userMenu`.
+The `UserMenu` class extends from the `CPortlet` class from the `zii` library. It overrides both the `init()` method and the `renderContent()` method of `CPortlet`. The former sets the portlet title to be the name of the current user; the latter generates the portlet body content by rendering a view named `userMenu`.
 
 > Tip: Notice that we have to explicitly include the `CPortlet` class by calling `Yii::import()` before we refer to it the first time. This is because `CPortlet` is part of the `zii` project -- the official extension library for Yii. For performance consideration, classes in this project are not listed as core classes. Therefore, we have to import it before we use it the first time.
 
@@ -46,7 +46,7 @@ Creating `userMenu` View
 Next, we create the `userMenu` view which is saved in the file `/wwwroot/blog/protected/components/views/userMenu.php`:
 
 ~~~
-[html]
+[php]
 <ul>
 	<li><?php echo CHtml::link('Create New Post',array('post/create')); ?></li>
 	<li><?php echo CHtml::link('Manage Posts',array('post/admin')); ?></li>
@@ -65,7 +65,7 @@ Using `UserMenu` Portlet
 It is time for us to make use of our newly completed `UserMenu` portlet. We modify the layout view file `/wwwroot/blog/protected/views/layouts/column2.php` as follows:
 
 ~~~
-[html]
+[php]
 ......
 <div id="sidebar">
 	<?php if(!Yii::app()->user->isGuest) $this->widget('UserMenu'); ?>
