@@ -124,11 +124,9 @@ class <?php echo $controllerClass; ?> extends Controller
 	 */
 	public function actionIndex()
 	{
-		$model=new <?php echo $modelClass; ?>('search');
-		if(isset($_GET['<?php echo $modelClass; ?>']))
-			$model->attributes=$_GET['<?php echo $modelClass; ?>'];
+		$dataProvider=new CActiveDataProvider('<?php echo $modelClass; ?>');
 		$this->render('index',array(
-			'model'=>$model,
+			'dataProvider'=>$dataProvider,
 		));
 	}
 
