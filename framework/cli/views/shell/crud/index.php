@@ -16,14 +16,14 @@ echo "\$this->breadcrumbs=array(
 	'$label',
 );\n";
 ?>
+
+$this->menu=array(
+	array('label'=>'Create <?php echo $modelClass; ?>', 'url'=>array('create')),
+	array('label'=>'Manage <?php echo $modelClass; ?>', 'url'=>array('admin')),
+);
 ?>
 
-<h1>List <?php echo $modelClass; ?></h1>
-
-<ul class="actions">
-	<li><?php echo "<?php echo CHtml::link('Create {$modelClass}',array('create')); ?>"; ?></li>
-	<li><?php echo "<?php echo CHtml::link('Manage {$modelClass}',array('admin')); ?>"; ?></li>
-</ul><!-- actions -->
+<h1><?php echo $label; ?></h1>
 
 <?php echo "<?php"; ?> $this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$dataProvider,
