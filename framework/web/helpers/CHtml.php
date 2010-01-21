@@ -260,15 +260,23 @@ class CHtml
 	 */
 	public static function beginForm($action='',$method='post',$htmlOptions=array())
 	{
-		$htmlOptions['action']=self::normalizeUrl($action);
+		$htmlOptions['action']=$url=self::normalizeUrl($action);
 		$htmlOptions['method']=$method;
 		$form=self::tag('form',$htmlOptions,false,false);
+		$hiddens=array();
+		if(!strcasecmp($method,'get') && ($pos=strpos($url,'?'))!==false)
+		{
+			foreach(explode('&',substr($url,$pos+1)) as $pair)
+			{
+				if(($pos=strpos($pair,'='))!==false)
+					$hiddens[]=self::hiddenField(urldecode(substr($pair,0,$pos)),urldecode(substr($pair,$pos+1)),array('id'=>false));
+			}
+		}
 		$request=Yii::app()->request;
 		if($request->enableCsrfValidation)
-		{
-			$token=self::hiddenField($request->csrfTokenName,$request->getCsrfToken(),array('id'=>false));
-			$form.="\n".self::tag('div',array('style'=>'display:none'),$token);
-		}
+			$hiddens[]=self::hiddenField($request->csrfTokenName,$request->getCsrfToken(),array('id'=>false));
+		if($hiddens!==array())
+			$form.="\n".self::tag('div',array('style'=>'display:none'),implode("\n",$hiddens));
 		return $form;
 	}
 
@@ -572,6 +580,8 @@ class CHtml
 		$htmlOptions['name']=$name;
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=self::getIdByName($name);
+		else if($htmlOptions['id']===false)
+			unset($htmlOptions['id']);
 		self::clientChange('change',$htmlOptions);
 		return self::tag('textarea',$htmlOptions,isset($htmlOptions['encode']) && !$htmlOptions['encode'] ? $value : self::encode($value));
 	}
@@ -656,6 +666,8 @@ class CHtml
 		$htmlOptions['name']=$name;
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=self::getIdByName($name);
+		else if($htmlOptions['id']===false)
+			unset($htmlOptions['id']);
 		self::clientChange('change',$htmlOptions);
 		$options="\n".self::listOptions($select,$data,$htmlOptions);
 		return self::tag('select',$htmlOptions,$options);
@@ -1799,6 +1811,8 @@ EOD;
 			$htmlOptions['name']=$name;
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=self::getIdByName($htmlOptions['name']);
+		else if($htmlOptions['id']===false)
+			unset($htmlOptions['id']);
 	}
 
 	/**

@@ -7,11 +7,9 @@
  * - $columns: a list of column schema objects
  */
 ?>
-<div class="wide form search-form" style="display:none">
+<div class="wide form">
 
-<?php echo "<?php echo CHtml::beginForm('','get'); ?>\n"; ?>
-
-	<?php echo "<?php echo CHtml::hiddenField('r',\$this->route); ?>\n"; ?>
+<?php echo "<?php echo CHtml::beginForm(Yii::app()->createUrl(\$this->route), 'get'); ?>\n"; ?>
 
 <?php foreach($columns as $column): ?>
 <?php
