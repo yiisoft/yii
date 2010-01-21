@@ -33,9 +33,13 @@ $('#search-button').click(function(){
 	<li><?php echo "<?php echo CHtml::link('Search {$modelClass}','#',array('id'=>'search-button')); ?>"; ?></li>
 </ul><!-- actions -->
 
+<div class="search-form" style="display:none">
+
 <?php echo "<?php \$this->renderPartial('_search',array(
 	'model'=>\$model,
 )); ?>\n"; ?>
+
+</div><!-- search-form -->
 
 <?php echo "<?php"; ?> $this->widget('zii.widgets.CListView', array(
 	'dataProvider'=>$model->search(),
