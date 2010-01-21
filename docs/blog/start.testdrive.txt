@@ -7,7 +7,7 @@ In this section, we describe how to create a skeleton application that will serv
 Installing Yii
 --------------
 
-We first install the Yii framework. Grab a copy of the Yii release file (version 1.1.0 or above) from [www.yiiframework.com](http://www.yiiframework.com/download) and unpack it to the directory `/wwwroot/yii`. Double check to make sure that there is a directory `/wwwroot/yii/framework`.
+We first install the Yii framework. Grab a copy of the Yii release file (version 1.1.1 or above) from [www.yiiframework.com](http://www.yiiframework.com/download) and unpack it to the directory `/wwwroot/yii`. Double check to make sure that there is a directory `/wwwroot/yii/framework`.
 
 > Tip: The Yii framework can be installed anywhere in the file system, not necessarily under a Web folder. Its `framework` directory contains all framework code and is the only framework directory needed when deploying an Yii application. A single installation of Yii can be used by multiple Yii applications.
 
@@ -79,7 +79,7 @@ To help understand how Yii works, we describe the main workflow in our skeleton 
  3. The application resolves the request into a [controller](http://www.yiiframework.com/doc/guide/basics.controller) and a [controller action](http://www.yiiframework.com/doc/guide/basics.controller#action). For the contact page request, it is resolved as the `site` controller and the `contact` action (the `actionContact` method in `/wwwroot/blog/protected/controllers/SiteController.php`);
  4. The application creates the `site` controller in terms of a `SiteController` instance and then executes it;
  5. The `SiteController` instance executes the `contact` action by calling its `actionContact()` method;
- 6. The `actionContact` method renders a [view](http://www.yiiframework.com/doc/guide/basics.view) named `contact` to the Web user. Internally, this is achieved by including the view file `/wwwroot/blog/protected/views/site/contact.php` and embedding the result into the [layout](http://www.yiiframework.com/doc/guide/basics.view#layout) file `/wwwroot/blog/protected/views/layouts/main.php`.
+ 6. The `actionContact` method renders a [view](http://www.yiiframework.com/doc/guide/basics.view) named `contact` to the Web user. Internally, this is achieved by including the view file `/wwwroot/blog/protected/views/site/contact.php` and embedding the result into the [layout](http://www.yiiframework.com/doc/guide/basics.view#layout) file `/wwwroot/blog/protected/views/layouts/column1.php`.
 
 
 <div class="revision">$Id$</div>
