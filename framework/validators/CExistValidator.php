@@ -14,8 +14,6 @@
  * This validator is often used to verify that a foreign key contains a value
  * that can be found in the foreign table.
  *
- * CExistValidator can only be used for active record objects.
- *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.validators
