@@ -27,11 +27,13 @@ public function rules()
 		array('tags', 'match', 'pattern'=>'/^[\w\s,]+$/',
 			'message'=>'Tags can only contain word characters.'),
 		array('tags', 'normalizeTags'),
+
+		array('title, status', 'safe', 'on'=>'search'),
 	);
 }
 ~~~
 
-In the above, we specify that the `title`, `content` and `status` attributes are required; the length of `title` should not exceed 128; the `status` attribute value should be 1 (draft), 2 (published) or 3 (archived); and the `tags` attribute should only contain word characters and commas. In addition, we use `normalizeTags` to normalize the user-entered tags so that the tags are unique and properly separated with commas.
+In the above, we specify that the `title`, `content` and `status` attributes are required; the length of `title` should not exceed 128; the `status` attribute value should be 1 (draft), 2 (published) or 3 (archived); and the `tags` attribute should only contain word characters and commas. In addition, we use `normalizeTags` to normalize the user-entered tags so that the tags are unique and properly separated with commas. The last rule is used by the search feature, which we will describe later.
 
 The validators such as `required`, `length`, `in` and `match` are all built-in validators provided by Yii. The `normalizeTags` validator is a method-based validator that we need to define in the `Post` class. For more information about how to specify validation rules, please refer to [the Guide](http://www.yiiframework.com/doc/guide/form.model#declaring-validation-rules).
 

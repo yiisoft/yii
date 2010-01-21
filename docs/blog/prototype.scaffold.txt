@@ -64,6 +64,7 @@ To prepare for the next milestones, let's take a closer look at the files genera
 	 * `views/post/admin.php` is the view file that displays posts in a table with administrative commands.
 	 * `views/post/_form.php` is the partial view file embedded in `views/post/create.php` and `views/post/update.php`. It displays the HTML form for collecting post information.
 	 * `views/post/_view.php` is the partial view file used by `views/post/index.php`. It displays the brief view of a single post.
+	 * `views/post/_search.php` is the partial view file used by `views/post/admin.php`. It displays a search form.
 	 * a similar set of view files are also generated for comment.
 
 In order to understand better how the above files are used, we show in the following the workflow that occurs in the blog application when displaying a list of posts:
