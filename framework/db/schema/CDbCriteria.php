@@ -146,14 +146,15 @@ class CDbCriteria
 	 * matching without any change.
 	 * @param string the operator used to concatenate the new condition with the existing one.
 	 * Defaults to 'AND'.
+	 * @param string the LIKE operator. Defaults to 'LIKE'. You may also set this to be 'NOT LIKE'.
 	 * @return CDbCriteria the criteria object itself
 	 * @since 1.0.10
 	 */
-	public function addSearchCondition($column,$keyword,$escape=true,$operator='AND')
+	public function addSearchCondition($column,$keyword,$escape=true,$operator='AND',$like='LIKE')
 	{
 		if($escape)
 			$keyword='%'.strtr($keyword,array('%'=>'\%', '_'=>'\_')).'%';
-		$condition=$column.' LIKE '.self::PARAM_PREFIX.$this->_paramCount;
+		$condition=$column." $like ".self::PARAM_PREFIX.$this->_paramCount;
 		$this->params[self::PARAM_PREFIX.$this->_paramCount++]=$keyword;
 		return $this->addCondition($condition, $operator);
 	}
@@ -221,6 +222,68 @@ class CDbCriteria
 			}
 		}
 		return $this->addCondition(implode(" $columnOperator ",$params), $operator);
+	}
+
+	/**
+	 * Adds a comparison expression to the {@link condition} property.
+	 *
+	 * This method is a helper that appends to the {@link condition} property
+	 * with a new comparison expression. The comparison is done by comparing a column
+	 * with the given value using some comparison operator.
+	 *
+	 * The comparison operator is intelligently determined based on the first few
+	 * characters in the given value. In particular, it recognizes the following operators
+	 * if they appear as the leading characters in the given value:
+	 * <ul>
+	 * <li><code>&lt;</code>: the column must be less than the given value.</li>
+	 * <li><code>&gt;</code>: the column must be greater than the given value.</li>
+	 * <li><code>&lt;=</code>: the column must be less than or equal to the given value.</li>
+	 * <li><code>&gt;=</code>: the column must be greater than or equal to the given value.</li>
+	 * <li><code>&lt;&gt;</code>: the column must not be the same as the given value.
+	 * Note that when $partialMatch is true, this would mean the value must not be a substring
+	 * of the column.</li>
+	 * <li><code>=</code>: the column must be equal to the given value.</li>
+	 * <li>none of the above: the column must be equal to the given value. Note that when $partialMatch
+	 * is true, this would mean the value must be the same as the given value or be a substring of it.</li>
+	 * </ul>
+	 * Note that any surrounding white spaces will be removed from the value before comparison.
+	 *
+	 * @param string the name of the column to be searched
+	 * @param string the column value to be compared with
+	 * @param boolean whether the value should consider partial text match (using LIKE and NOT LIKE operators).
+	 * Defaults to false, meaning exact comparison.
+	 * @param string the operator used to concatenate the new condition with the existing one.
+	 * Defaults to 'AND'.
+	 * @return CDbCriteria the criteria object itself
+	 * @since 1.1.1
+	 */
+	public function compare($column, $value, $partialMatch=false, $operator='AND')
+	{
+		if(preg_match('/^\s*(<>|<=|>=|<|>|=)?\s*(.*?)\s*$/',$value,$matches))
+		{
+			$value=$matches[2];
+			$op=$matches[1];
+		}
+		else
+			$op='';
+
+		if($value==='')
+			return $this;
+
+		if($partialMatch)
+		{
+			if($op==='')
+				return $this->addSearchCondition($column,$value,true,$operator);
+			if($op==='<>')
+				return $this->addSearchCondition($column,$value,true,$operator,'NOT LIKE');
+		}
+		else if($op==='')
+			$op='=';
+
+		$this->addCondition("$column{$op}".self::PARAM_PREFIX.$this->_paramCount,$operator);
+		$this->params[self::PARAM_PREFIX.$this->_paramCount++]=$value;
+
+		return $this;
 	}
 
 	/**
