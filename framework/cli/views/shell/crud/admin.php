@@ -26,6 +26,13 @@ $('.search-button').click(function(){
 	$('.search-form').toggle();
 	return false;
 });
+$('.search-form form').submit(function(){
+	$.fn.yiiGridView.update('<?php echo $this->class2id($modelClass); ?>-grid', {
+		url: $(this).attr('action'),
+		data: $(this).serialize()
+	});
+	return false;
+});
 ");
 ?>
 
@@ -40,6 +47,7 @@ $('.search-button').click(function(){
 </div><!-- search-form -->
 
 <?php echo "<?php"; ?> $this->widget('zii.widgets.grid.CGridView', array(
+	'id'=>'<?php echo $this->class2id($modelClass); ?>-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
