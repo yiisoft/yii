@@ -251,7 +251,10 @@ class CDbCriteria
 	 * When the value is empty, no comparison expression will be added to the search condition.
 	 *
 	 * @param string the name of the column to be searched
-	 * @param string the column value to be compared with
+	 * @param mixed the column value to be compared with. If the value is a string, the aforementioned
+	 * intelligent comparison will be conducted. If the value is an array, the comparison is done
+	 * by exact match of any of the value in the array. If the string or the array is empty,
+	 * the existing search condition will not be modified.
 	 * @param boolean whether the value should consider partial text match (using LIKE and NOT LIKE operators).
 	 * Defaults to false, meaning exact comparison.
 	 * @param string the operator used to concatenate the new condition with the existing one.
@@ -261,6 +264,13 @@ class CDbCriteria
 	 */
 	public function compare($column, $value, $partialMatch=false, $operator='AND')
 	{
+		if(is_array($value))
+		{
+			if($value===array())
+				return $this;
+			return $this->addInCondition($column,$value,$operator);
+		}
+
 		if(preg_match('/^\s*(<>|<=|>=|<|>|=)?\s*(.*?)\s*$/',$value,$matches))
 		{
 			$value=$matches[2];
