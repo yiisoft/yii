@@ -1,7 +1,7 @@
 Creating User Menu Portlet
 ==========================
 
-Based on the requirements analysis, we need three different portlets: the "user menu" portlet, the "tag cloud" portlet and the "recent comments" portlet. We will develop these portlets by extending the [[CPortlet]] widget provided by Yii.
+Based on the requirements analysis, we need three different portlets: the "user menu" portlet, the "tag cloud" portlet and the "recent comments" portlet. We will develop these portlets by extending the [CPortlet] widget provided by Yii.
 
 In this section, we will develop our first concrete portlet - the user menu portlet which displays a list of menu items that are only available to authenticated users. The menu contains four items:
 
