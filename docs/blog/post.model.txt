@@ -47,7 +47,7 @@ public function normalizeTags($attribute,$params)
 
 The rules declared in this method are executed one by one when we call the [validate()|CModel::validate] or [save()|CActiveRecord::save] method of the model instance.
 
-> Note: It is very important to remember that attributes appearing in `rules()` must be those to be entered by end users. Other attributes, such as `id` and `create_time` in the `Post` model, which are set by our code or database, should not be in `rules()`. For more details, please refer to [Securing Attribute Assignments](http://www.yiiframework.com/doc/blog/post.model#securing-attribute-assignments).
+> Note: It is very important to remember that attributes appearing in `rules()` must be those to be entered by end users. Other attributes, such as `id` and `create_time` in the `Post` model, which are set by our code or database, should not be in `rules()`. For more details, please refer to [Securing Attribute Assignments](http://www.yiiframework.com/doc/guide/form.model#securing-attribute-assignments).
 
 After making these changes, we can visit the post creation page again to verify that the new validation rules are taking effect.
 
