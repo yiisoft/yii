@@ -246,7 +246,9 @@ class CDbCriteria
 	 * <li>none of the above: the column must be equal to the given value. Note that when $partialMatch
 	 * is true, this would mean the value must be the same as the given value or be a substring of it.</li>
 	 * </ul>
+	 *
 	 * Note that any surrounding white spaces will be removed from the value before comparison.
+	 * When the value is empty, no comparison expression will be added to the search condition.
 	 *
 	 * @param string the name of the column to be searched
 	 * @param string the column value to be compared with
