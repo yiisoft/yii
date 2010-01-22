@@ -95,17 +95,13 @@ class <?php echo $className; ?> extends CActiveRecord
 <?php
 foreach($columns as $name=>$column)
 {
-	echo "\t\tif(\$this->{$name}!='')\n";
 	if($column->type==='string')
 	{
-		echo "\t\t\t\$criteria->addSearchCondition('$name',\$this->$name);\n\n";
+		echo "\t\t\$criteria->compare('$name',\$this->$name,true);\n\n";
 	}
 	else
 	{
-		echo "\t\t{\n";
-		echo "\t\t\t\$criteria->addCondition('$name=:$name');\n";
-		echo "\t\t\t\$criteria->params[':$name']=\$this->$name;\n";
-		echo "\t\t}\n";
+		echo "\t\t\$criteria->compare('$name',\$this->$name);\n\n";
 	}
 }
 ?>
