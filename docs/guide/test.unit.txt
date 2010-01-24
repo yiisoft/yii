@@ -39,8 +39,8 @@ Fixture names allow us to access the fixture data in test methods in a convenien
 $comments = $this->comments;
 // return the row whose alias is 'sample1' in the `Post` fixture table
 $post = $this->posts['sample1'];
-// return the AR instance representing the 'sample' fixture data row
-$post = $this->post('sample1');
+// return the AR instance representing the 'sample1' fixture data row
+$post = $this->posts('sample1');
 ~~~
 
 > Note: If a fixture is declared using its table name (e.g. `'posts'=>':Post'`), then the third usage in the above is not valid because we have no information about which model class the table is associated with.
