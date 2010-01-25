@@ -16,22 +16,28 @@
  * is a wrapper of {@link CHtml::activeTextField}.
  *
  * The 'beginWidget' and 'endWidget' call of CActiveForm widget will render
- * the open and close form tags. Anything in between are rendered as form content,
- * where we can call the wrapper methods of CActiveForm to render form labels, inputs
- * and error messages, etc.
+ * the open and close form tags. Anything in between are rendered as form content
+ * (such as input fields, labels). We can call the wrapper methods of CActiveForm
+ * to generate these form contents. For example, calling {@link CActiveFinder::textField},
+ * which is a wrapper of {@link CHtml::activeTextField}, would generate an input field
+ * for a specified model attribute.
  *
  * Besides the wrapper methods, CActiveForm also implements an important feature
- * known as AJAX validation. In particular, when the user enters some value in an input field,
- * CActiveForm is capable of sending a validation request to the server via AJAX
- * and then displaying the validation result. This may greatly
- * improve the user experience at entering data into a form. Because the validation
- * is done on the server side using the rules defined in the data model, no extra
- * javascript code needs to be written, and the validation result is consistent
- * with the server-side validation. In case when the user turns off javascript in
- * his browser, the traditional validation via whole page submission still works.
+ * known as AJAX validation. This feature may be turned on setting {@link enableAjaxValidation}
+ * to be true. When the user enters some value in an input field, the AJAX validation
+ * feature would trigger an AJAX request to the server to call for validating the model
+ * with the current user inputs. If there are any validation errors, the corresponding
+ * error messages will show up next to the input fields immediately.
+ *
+ * The AJAX validation feature may greatly improve the user experience at entering
+ * data into a form. Because the validation is done on the server side using the rules
+ * defined in the data model, no extra javascript code needs to be written.
+ * More importantly, and the validation result is consistent with the server-side validation.
+ * And in case when the user turns off javascript in his browser, it automatically
+ * falls back to traditional validation via whole page submission.
  *
  * To use CActiveForm with AJAX validation, one needs to write both the view code
- * and the class code responding to the AJAX validation requests.
+ * and the controller action code.
  *
  * The following is a piece of sample view code:
  * <pre>
@@ -95,7 +101,8 @@
  * This can be achieved by setting the model with a scenario that is specific for AJAX validation.
  * Then only list those attributes that need AJAX validation in the scenario in {@link CModel::rules()} declaration.
  *
- * There are some limitations of CActiveForm. First, it does not validate with file upload fields.
+ * There are some limitations of CActiveForm regarding to its AJAX validation support.
+ * First, it does not validate with file upload fields.
  * Second, it should not be used to perform validations that may cause server-side state change.
  * For example, it is not suitable to perform CAPTCHA validation done by {@link CCaptchAction}
  * because each validation request will increase the number of tests by one. Third, it is not designed
@@ -236,12 +243,19 @@ class CActiveForm extends CWidget
 	 * <li>validatingCssClass</li>
 	 * </ul>
 	 * These options override the corresponding options as declared in {@link options} for this
-	 * particular model attribute. For more details about these options, please refer to {@link options}.
+	 * particular model attribute. For more details about these options, please refer to {@link clientOptions}.
+	 * Note that these options are only used when {@link enableAjaxValidation} is set true.
+	 * @param boolean whether to enable AJAX validation for the specified attribute.
+	 * Note that in order toe enable AJAX validation, both {@link enableAjaxValidation} and this parameter
+	 * must be true.
 	 * @return string the validation result (error display or success message).
 	 * @see CHtml::error
 	 */
-	public function error($model,$attribute,$htmlOptions=array())
+	public function error($model,$attribute,$htmlOptions=array(),$enableAjaxValidation=true)
 	{
+		if(!$this->enableAjaxValidation || !$this->enableAjaxValidation)
+			return CHtml::error($model,$attribute,$htmlOptions);
+
 		$inputID=isset($htmlOptions['inputID']) ? $htmlOptions['inputID'] : CHtml::activeId($model,$attribute);
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=$inputID.'_em_';
@@ -299,6 +313,9 @@ class CActiveForm extends CWidget
 	 */
 	public function errorSummary($models,$header=null,$footer=null,$htmlOptions=array())
 	{
+		if(!$this->enableAjaxValidation)
+			return CHtml::errorSummary($models,$header,$footer,$htmlOptions);
+
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=$this->id.'_es_';
 		$html=CHtml::errorSummary($models,$header,$footer,$htmlOptions);
