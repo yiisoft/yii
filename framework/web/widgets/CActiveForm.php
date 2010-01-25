@@ -324,7 +324,7 @@ class CActiveForm extends CWidget
 	 */
 	public function label($model,$attribute,$htmlOptions=array())
 	{
-		return CHtml::activeLabel($model,$attributes,$htmlOptions);
+		return CHtml::activeLabel($model,$attribute,$htmlOptions);
 	}
 
 	/**
@@ -335,7 +335,7 @@ class CActiveForm extends CWidget
 	 */
 	public function labelEx($model,$attribute,$htmlOptions=array())
 	{
-		return CHtml::activeLabelEx($model,$attributes,$htmlOptions);
+		return CHtml::activeLabelEx($model,$attribute,$htmlOptions);
 	}
 
 	/**
@@ -346,7 +346,7 @@ class CActiveForm extends CWidget
 	 */
 	public function textField($model,$attribute,$htmlOptions=array())
 	{
-		return CHtml::activeTextField($model,$attributes,$htmlOptions);
+		return CHtml::activeTextField($model,$attribute,$htmlOptions);
 	}
 
 	/**
@@ -357,7 +357,7 @@ class CActiveForm extends CWidget
 	 */
 	public function hiddenField($model,$attribute,$htmlOptions=array())
 	{
-		return CHtml::activeHiddenField($model,$attributes,$htmlOptions);
+		return CHtml::activeHiddenField($model,$attribute,$htmlOptions);
 	}
 
 	/**
@@ -368,7 +368,7 @@ class CActiveForm extends CWidget
 	 */
 	public function passwordField($model,$attribute,$htmlOptions=array())
 	{
-		return CHtml::activePasswordField($model,$attributes,$htmlOptions);
+		return CHtml::activePasswordField($model,$attribute,$htmlOptions);
 	}
 
 	/**
@@ -379,7 +379,7 @@ class CActiveForm extends CWidget
 	 */
 	public function textArea($model,$attribute,$htmlOptions=array())
 	{
-		return CHtml::activeTextArea($model,$attributes,$htmlOptions);
+		return CHtml::activeTextArea($model,$attribute,$htmlOptions);
 	}
 
 	/**
@@ -390,7 +390,7 @@ class CActiveForm extends CWidget
 	 */
 	public function fileField($model,$attribute,$htmlOptions=array())
 	{
-		return CHtml::activeFileField($model,$attributes,$htmlOptions);
+		return CHtml::activeFileField($model,$attribute,$htmlOptions);
 	}
 
 	/**
@@ -401,7 +401,7 @@ class CActiveForm extends CWidget
 	 */
 	public function radioButton($model,$attribute,$htmlOptions=array())
 	{
-		return CHtml::activeRadioButton($model,$attributes,$htmlOptions);
+		return CHtml::activeRadioButton($model,$attribute,$htmlOptions);
 	}
 
 	/**
@@ -412,7 +412,7 @@ class CActiveForm extends CWidget
 	 */
 	public function checkBox($model,$attribute,$htmlOptions=array())
 	{
-		return CHtml::activeCheckBox($model,$attributes,$htmlOptions);
+		return CHtml::activeCheckBox($model,$attribute,$htmlOptions);
 	}
 
 	/**
@@ -423,7 +423,7 @@ class CActiveForm extends CWidget
 	 */
 	public function dropDownList($model,$attribute,$data,$htmlOptions=array())
 	{
-		return CHtml::activeDropDownList($model,$attributes,$htmlOptions);
+		return CHtml::activeDropDownList($model,$attribute,$data,$htmlOptions);
 	}
 
 	/**
@@ -434,7 +434,7 @@ class CActiveForm extends CWidget
 	 */
 	public function listBox($model,$attribute,$data,$htmlOptions=array())
 	{
-		return CHtml::activeListBox($model,$attributes,$htmlOptions);
+		return CHtml::activeListBox($model,$attribute,$data,$htmlOptions);
 	}
 
 	/**
@@ -445,7 +445,7 @@ class CActiveForm extends CWidget
 	 */
 	public function checkBoxList($model,$attribute,$data,$htmlOptions=array())
 	{
-		return CHtml::activeCheckBoxList($model,$attributes,$htmlOptions);
+		return CHtml::activeCheckBoxList($model,$attribute,$data,$htmlOptions);
 	}
 
 	/**
@@ -456,7 +456,7 @@ class CActiveForm extends CWidget
 	 */
 	public function radioButtonList($model,$attribute,$data,$htmlOptions=array())
 	{
-		return CHtml::activeRadioButtonList($model,$attributes,$htmlOptions);
+		return CHtml::activeRadioButtonList($model,$attribute,$data,$htmlOptions);
 	}
 
 	/**
