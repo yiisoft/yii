@@ -9,7 +9,9 @@
  */
 
 /**
- * CActiveForm represents an HTML form that can perform data validation via AJAX.
+ * CActiveForm provides a set of methods that can facilitate creating a form associated with some data models.
+ *
+ *
  *
  * CActiveForm renders the open and close form tags. In addition, it registers
  * necessary javascript code that can trigger AJAX validations when users change
@@ -167,13 +169,12 @@ class CActiveForm extends CWidget
 	 * They include: validationDelay, validateOnChange, validateOnType, hideErrorMessage,
 	 * inputContainer, errorCssClass, successCssClass, and validatingCssClass.
 	 */
-	public $options=array();
+	public $clientOptions=array();
 	/**
-	 * @var boolean whether to enable data validation via AJAX. This property is mainly provided so that you
-	 * can easily toggle to debug during development phase (since the main goal of CActiveForm is to provide
-	 * AJAX validation). Defaults to true.
+	 * @var boolean whether to enable data validation via AJAX. Defaults to false.
+	 * When this property is set true, you should
 	 */
-	public $enableAjaxValidation=true;
+	public $enableAjaxValidation=false;
 
 	private $_attributes=array();
 	private $_summary;
@@ -185,8 +186,6 @@ class CActiveForm extends CWidget
 	public function init()
 	{
 		$this->htmlOptions['id']=$this->id;
-		if(isset($this->options['validationUrl']) && is_array($this->options['validationUrl']))
-			$this->options['validationUrl']=CHtml::normalizeUrl($this->options['validationUrl']);
 		echo CHtml::beginForm($this->action, $this->method, $this->htmlOptions);
 	}
 
@@ -199,7 +198,9 @@ class CActiveForm extends CWidget
 		echo CHtml::endForm();
 		if(!$this->enableAjaxValidation || empty($this->_attributes))
 			return;
-		$options=$this->options;
+		$options=$this->clientOptions;
+		if(isset($this->clientOptions['validationUrl']) && is_array($this->clientOptions['validationUrl']))
+			$options['validationUrl']=CHtml::normalizeUrl($this->clientOptions['validationUrl']);
 		$options['attributes']=array_values($this->_attributes);
 		if($this->_summary!==null)
 			$options['summaryID']=$this->_summary;
