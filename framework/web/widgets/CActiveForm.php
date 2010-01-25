@@ -11,43 +11,50 @@
 /**
  * CActiveForm provides a set of methods that can facilitate creating a form associated with some data models.
  *
+ * CActiveForm implements a set of wrapper methods that call the corresponding
+ * 'active' methods in {@link CHtml}. For example, the {@link textField} method
+ * is a wrapper of {@link CHtml::activeTextField}.
  *
+ * The 'beginWidget' and 'endWidget' call of CActiveForm widget will render
+ * the open and close form tags. Anything in between are rendered as form content,
+ * where we can call the wrapper methods of CActiveForm to render form labels, inputs
+ * and error messages, etc.
  *
- * CActiveForm renders the open and close form tags. In addition, it registers
- * necessary javascript code that can trigger AJAX validations when users change
- * the data in the relevant input fields.
- *
- * The goal of CActiveForm is to simplify the work of creating an HTML form that
- * can perform AJAX validation upon an input is changed by users. This may greatly
+ * Besides the wrapper methods, CActiveForm also implements an important feature
+ * known as AJAX validation. In particular, when the user enters some value in an input field,
+ * CActiveForm is capable of sending a validation request to the server via AJAX
+ * and then displaying the validation result. This may greatly
  * improve the user experience at entering data into a form. Because the validation
  * is done on the server side using the rules defined in the data model, no extra
- * javascript code needs to be written, and the validation result is consistent.
- * In case when the user turns off javascript in his browser, the traditional
- * validation via whole page submission still works.
+ * javascript code needs to be written, and the validation result is consistent
+ * with the server-side validation. In case when the user turns off javascript in
+ * his browser, the traditional validation via whole page submission still works.
  *
- * Using CActiveForm requires writing both the view code and the class code responding
- * to the AJAX validation requests.
+ * To use CActiveForm with AJAX validation, one needs to write both the view code
+ * and the class code responding to the AJAX validation requests.
  *
  * The following is a piece of sample view code:
  * <pre>
- * &lt;?php $form = $this->beginWidget('CActiveForm', array('id'=>'user-form')); ?&gt;
+ * &lt;?php $form = $this->beginWidget('CActiveForm', array(
+ *     'id'=>'user-form',
+ *     'enableAjaxValidation'=>true,
+ * )); ?&gt;
  *
  * &lt;?php echo $form-&gt;errorSummary($model); ?&gt;
  *
  * &lt;div class="row"&gt;
- *     &lt;?php echo CHtml::activeLabelEx($model,'firstName'); ?&gt;
- *     &lt;?php echo CHtml::activeTextField($model,'firstName'); ?&gt;
+ *     &lt;?php echo $form-&gt;labelEx($model,'firstName'); ?&gt;
+ *     &lt;?php echo $form-&gt;textField($model,'firstName'); ?&gt;
  *     &lt;?php echo $form-&gt;error($model,'firstName'); ?&gt;
  * &lt;/div&gt;
  * &lt;div class="row"&gt;
- *     &lt;?php echo CHtml::activeLabelEx($model,'lastName'); ?&gt;
- *     &lt;?php echo CHtml::activeTextField($model,'lastName'); ?&gt;
+ *     &lt;?php echo $form-&gt;labelEx($model,'lastName'); ?&gt;
+ *     &lt;?php echo $form-&gt;textField($model,'lastName'); ?&gt;
  *     &lt;?php echo $form-&gt;error($model,'lastName'); ?&gt;
  * &lt;/div&gt;
  *
  * &lt;?php $this->endWidget(); ?&gt;
  * </pre>
- * As we can see, the usage is very similar to {@link CHtml::error} and {@link CHtml::errorSummary}.
  *
  * To respond to the AJAX validation requests, we need the following class code:
  * <pre>
@@ -307,6 +314,149 @@ class CActiveForm extends CWidget
 
 		$this->_summary=$htmlOptions['id'];
 		return $html;
+	}
+
+	/**
+	 * Renders an HTML label for a model attribute.
+	 * This method is a wrapper of {@link CHtml::activeLabel}.
+	 * Please check {@link CHtml::activeLabel} for detailed information
+	 * about the parameters for this method.
+	 */
+	public function label($model,$attribute,$htmlOptions=array())
+	{
+		return CHtml::activeLabel($model,$attributes,$htmlOptions);
+	}
+
+	/**
+	 * Renders an HTML label for a model attribute.
+	 * This method is a wrapper of {@link CHtml::activeLabelEx}.
+	 * Please check {@link CHtml::activeLabelEx} for detailed information
+	 * about the parameters for this method.
+	 */
+	public function labelEx($model,$attribute,$htmlOptions=array())
+	{
+		return CHtml::activeLabelEx($model,$attributes,$htmlOptions);
+	}
+
+	/**
+	 * Renders a text field for a model attribute.
+	 * This method is a wrapper of {@link CHtml::activeTextField}.
+	 * Please check {@link CHtml::activeTextField} for detailed information
+	 * about the parameters for this method.
+	 */
+	public function textField($model,$attribute,$htmlOptions=array())
+	{
+		return CHtml::activeTextField($model,$attributes,$htmlOptions);
+	}
+
+	/**
+	 * Renders a hidden field for a model attribute.
+	 * This method is a wrapper of {@link CHtml::activeHiddenField}.
+	 * Please check {@link CHtml::activeHiddenField} for detailed information
+	 * about the parameters for this method.
+	 */
+	public function hiddenField($model,$attribute,$htmlOptions=array())
+	{
+		return CHtml::activeHiddenField($model,$attributes,$htmlOptions);
+	}
+
+	/**
+	 * Renders a password field for a model attribute.
+	 * This method is a wrapper of {@link CHtml::activePasswordField}.
+	 * Please check {@link CHtml::activePasswordField} for detailed information
+	 * about the parameters for this method.
+	 */
+	public function passwordField($model,$attribute,$htmlOptions=array())
+	{
+		return CHtml::activePasswordField($model,$attributes,$htmlOptions);
+	}
+
+	/**
+	 * Renders a text area for a model attribute.
+	 * This method is a wrapper of {@link CHtml::activeTextArea}.
+	 * Please check {@link CHtml::activeTextArea} for detailed information
+	 * about the parameters for this method.
+	 */
+	public function textArea($model,$attribute,$htmlOptions=array())
+	{
+		return CHtml::activeTextArea($model,$attributes,$htmlOptions);
+	}
+
+	/**
+	 * Renders a file field for a model attribute.
+	 * This method is a wrapper of {@link CHtml::activeFileField}.
+	 * Please check {@link CHtml::activeFileField} for detailed information
+	 * about the parameters for this method.
+	 */
+	public function fileField($model,$attribute,$htmlOptions=array())
+	{
+		return CHtml::activeFileField($model,$attributes,$htmlOptions);
+	}
+
+	/**
+	 * Renders a radio button for a model attribute.
+	 * This method is a wrapper of {@link CHtml::activeRadioButton}.
+	 * Please check {@link CHtml::activeRadioButton} for detailed information
+	 * about the parameters for this method.
+	 */
+	public function radioButton($model,$attribute,$htmlOptions=array())
+	{
+		return CHtml::activeRadioButton($model,$attributes,$htmlOptions);
+	}
+
+	/**
+	 * Renders a checkbox for a model attribute.
+	 * This method is a wrapper of {@link CHtml::activeCheckBox}.
+	 * Please check {@link CHtml::activeCheckBox} for detailed information
+	 * about the parameters for this method.
+	 */
+	public function checkBox($model,$attribute,$htmlOptions=array())
+	{
+		return CHtml::activeCheckBox($model,$attributes,$htmlOptions);
+	}
+
+	/**
+	 * Renders a dropdown list for a model attribute.
+	 * This method is a wrapper of {@link CHtml::activeDropDownList}.
+	 * Please check {@link CHtml::activeDropDownList} for detailed information
+	 * about the parameters for this method.
+	 */
+	public function dropDownList($model,$attribute,$data,$htmlOptions=array())
+	{
+		return CHtml::activeDropDownList($model,$attributes,$htmlOptions);
+	}
+
+	/**
+	 * Renders a list box for a model attribute.
+	 * This method is a wrapper of {@link CHtml::activeListBox}.
+	 * Please check {@link CHtml::activeListBox} for detailed information
+	 * about the parameters for this method.
+	 */
+	public function listBox($model,$attribute,$data,$htmlOptions=array())
+	{
+		return CHtml::activeListBox($model,$attributes,$htmlOptions);
+	}
+
+	/**
+	 * Renders a checkbox list for a model attribute.
+	 * This method is a wrapper of {@link CHtml::activeCheckBoxList}.
+	 * Please check {@link CHtml::activeCheckBoxList} for detailed information
+	 * about the parameters for this method.
+	 */
+	public function checkBoxList($model,$attribute,$data,$htmlOptions=array())
+	{
+		return CHtml::activeCheckBoxList($model,$attributes,$htmlOptions);
+	}
+
+	/**
+	 * Renders a radio button list for a model attribute.
+	 * This method is a wrapper of {@link CHtml::activeRadioButtonList}.
+	 * Please check {@link CHtml::activeRadioButtonList} for detailed information
+	 * about the parameters for this method.
+	 */
+	public function radioButtonList($model,$attribute,$data,$htmlOptions=array())
+	{
+		return CHtml::activeRadioButtonList($model,$attributes,$htmlOptions);
 	}
 
 	/**
