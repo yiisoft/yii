@@ -115,7 +115,7 @@ class CWidgetFactory extends CApplicationComponent implements IWidgetFactory
 	public function createWidget($owner,$className,$properties=array())
 	{
 		$className=Yii::import($className,true);
-		$widget=new $className($this);
+		$widget=new $className($owner);
 		if($this->widgets===null || in_array($className,$this->widgets))
 		{
 			$skinName=isset($properties['skin']) ? $properties['skin'] : 'default';
