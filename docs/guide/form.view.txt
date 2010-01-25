@@ -71,4 +71,39 @@ generated form would be like the following:
 
 ![The login with error page](login2.png)
 
+Starting from version 1.1.1, a new widget called [CActiveForm] is provided
+to facilitate form creation. The widget is capable of supporting seamless and
+consistent validation on both client and server sides. Using [CActiveForm],
+the above view code can be rewritten as:
+
+~~~
+[php]
+<div class="form">
+<?php $form=$this->beginWidget('CActiveForm'); ?>
+
+	<?php echo $form->errorSummary($model); ?>
+
+	<div class="row">
+		<?php echo $form->label($model,'username'); ?>
+		<?php echo $form->textField($model,'username') ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'password'); ?>
+		<?php echo $form->passwordField($model,'password') ?>
+	</div>
+
+	<div class="row rememberMe">
+		<?php echo $form->checkBox($model,'rememberMe'); ?>
+		<?php echo $form->label($model,'rememberMe'); ?>
+	</div>
+
+	<div class="row submit">
+		<?php echo CHtml::submitButton('Login'); ?>
+	</div>
+
+<?php $this->endWidget(); ?>
+</div><!-- form -->
+~~~
+
 <div class="revision">$Id$</div>
