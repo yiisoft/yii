@@ -9,7 +9,10 @@
 ?>
 <div class="wide form">
 
-<?php echo "<?php echo CHtml::beginForm(Yii::app()->createUrl(\$this->route), 'get'); ?>\n"; ?>
+<?php echo "<?php \$form=\$this->beginWidget('CActiveForm', array(
+	'action'=>Yii::app()->createUrl(\$this->route),
+	'method'=>'get',
+)); ?>\n"; ?>
 
 <?php foreach($columns as $column): ?>
 <?php
@@ -18,8 +21,8 @@
 		continue;
 ?>
 	<div class="row">
-		<?php echo "<?php echo CHtml::activeLabel(\$model,'{$column->name}'); ?>\n"; ?>
-		<?php echo "<?php echo ".$this->generateInputField($modelClass,$column)."; ?>\n"; ?>
+		<?php echo "<?php echo \$form->label(\$model,'{$column->name}'); ?>\n"; ?>
+		<?php echo "<?php echo ".$this->generateActiveField($modelClass,$column)."; ?>\n"; ?>
 	</div>
 
 <?php endforeach; ?>
@@ -27,6 +30,6 @@
 		<?php echo "<?php echo CHtml::submitButton('Search'); ?>\n"; ?>
 	</div>
 
-<?php echo "<?php echo CHtml::endForm(); ?>\n"; ?>
+<?php echo "<?php \$this->endWidget(); ?>\n"; ?>
 
 </div><!-- search-form -->

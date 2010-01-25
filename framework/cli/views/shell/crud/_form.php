@@ -9,11 +9,14 @@
 ?>
 <div class="form">
 
-<?php echo "<?php echo CHtml::beginForm(); ?>\n"; ?>
+<?php echo "<?php \$form=\$this->beginWidget('CActiveForm', array(
+	'id'=>'".$this->class2id($modelClass)."-form',
+	'enableAjaxValidation'=>false,
+)); ?>\n"; ?>
 
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 
-	<?php echo "<?php echo CHtml::errorSummary(\$model); ?>\n"; ?>
+	<?php echo "<?php echo \$form->errorSummary(\$model); ?>\n"; ?>
 
 <?php
 foreach($columns as $column)
@@ -22,9 +25,9 @@ foreach($columns as $column)
 		continue;
 ?>
 	<div class="row">
-		<?php echo "<?php echo ".$this->generateInputLabel($modelClass,$column)."; ?>\n"; ?>
-		<?php echo "<?php echo ".$this->generateInputField($modelClass,$column)."; ?>\n"; ?>
-		<?php echo "<?php echo CHtml::error(\$model,'{$column->name}'); ?>\n"; ?>
+		<?php echo "<?php echo ".$this->generateActiveLabel($modelClass,$column)."; ?>\n"; ?>
+		<?php echo "<?php echo ".$this->generateActiveField($modelClass,$column)."; ?>\n"; ?>
+		<?php echo "<?php echo \$form->error(\$model,'{$column->name}'); ?>\n"; ?>
 	</div>
 
 <?php
@@ -34,6 +37,6 @@ foreach($columns as $column)
 		<?php echo "<?php echo CHtml::submitButton(\$model->isNewRecord ? 'Create' : 'Save'); ?>\n"; ?>
 	</div>
 
-<?php echo "<?php echo CHtml::endForm(); ?>\n"; ?>
+<?php echo "<?php \$this->endWidget(); ?>\n"; ?>
 
 </div><!-- form -->
