@@ -42,7 +42,7 @@ We first change the `_form.php` file so that the HTML form only collects the inp
 
 ~~~
 [php]
-<?php echo CHtml::activeDropDownList($post,'status',Lookup::items('PostStatus')); ?>
+<?php echo $form->dropDownList($post,'status',Lookup::items('PostStatus')); ?>
 ~~~
 
 In the above, we call `Lookup::items('PostStatus')` to bring back the list of post statuses.
