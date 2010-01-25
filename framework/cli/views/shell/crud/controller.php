@@ -75,6 +75,10 @@ class <?php echo $controllerClass; ?> extends Controller
 	public function actionCreate()
 	{
 		$model=new <?php echo $modelClass; ?>;
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
 		if(isset($_POST['<?php echo $modelClass; ?>']))
 		{
 			$model->attributes=$_POST['<?php echo $modelClass; ?>'];
@@ -94,6 +98,10 @@ class <?php echo $controllerClass; ?> extends Controller
 	public function actionUpdate()
 	{
 		$model=$this->loadModel();
+
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+
 		if(isset($_POST['<?php echo $modelClass; ?>']))
 		{
 			$model->attributes=$_POST['<?php echo $modelClass; ?>'];
@@ -164,5 +172,18 @@ class <?php echo $controllerClass; ?> extends Controller
 				throw new CHttpException(404,'The requested page does not exist.');
 		}
 		return $this->_model;
+	}
+
+	/**
+	 * Performs the AJAX validation.
+	 * @param CModel the model to be validated
+	 */
+	protected function performAjaxValidation($model)
+	{
+		if(isset($_POST['ajax']) && $_POST['ajax']==='<?php echo $this->class2id($modelClass); ?>-form')
+		{
+			echo CActiveForm::validate($model);
+			Yii::app()->end();
+		}
 	}
 }
