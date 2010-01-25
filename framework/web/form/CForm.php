@@ -96,17 +96,28 @@ class CForm extends CFormElement implements ArrayAccess
 	 */
 	public $buttonElementClass='CFormButtonElement';
 	/**
-	 * @var array attribute values for the form tag
+	 * @var array HTML attribute values for the form tag. When the form is embedded within another form,
+	 * this property will be used to render the HTML attribute values for the fieldset enclosing the child form.
 	 */
-	public $attributes=array();
+	public $htmlOptions=array();
 	/**
 	 * @var boolean whether to show error summary. Defaults to false.
 	 */
 	public $showErrorSummary=false;
+	/**
+	 * @var array the configuration used to create the active form widget.
+	 * The widget will be used to render the form tag and the error messages.
+	 * The 'class' option is required, which specifies the class of the widget.
+	 * The rest of the options will be passed to {@link CBaseController::beginWidget()} call.
+	 * Defaults to array('class'=>'CActiveForm').
+	 * @since 1.1.1
+	 */
+	public $activeForm=array('class'=>'CActiveForm');
 
 	private $_model;
 	private $_elements;
 	private $_buttons;
+	private $_activeForm;
 
 	/**
 	 * Constructor.
@@ -220,6 +231,19 @@ class CForm extends CFormElement implements ArrayAccess
 		while($root->getParent() instanceof self)
 			$root=$root->getParent();
 		return $root;
+	}
+
+	/**
+	 * @return CActiveForm the active form widget associated with this form.
+	 * This method will return the active form widget as specified by {@link activeForm}.
+	 * @since 1.1.1
+	 */
+	public function getActiveFormWidget()
+	{
+		if($this->_activeForm!==null)
+			return $this->_activeForm;
+		else
+			return $this->getRoot()->_activeForm;
 	}
 
 	/**
@@ -354,8 +378,22 @@ class CForm extends CFormElement implements ArrayAccess
 		if($this->getParent() instanceof self)
 			return '';
 		else
-			return CHtml::beginForm($this->action,$this->method,$this->attributes) . "\n"
-					. "<div style=\"visibility:hidden\">".CHtml::hiddenField($this->getUniqueID(),1)."</div>\n";
+		{
+			$options=$this->activeForm;
+			if(isset($options['class']))
+			{
+				$class=$options['class'];
+				unset($options['class']);
+			}
+			else
+				$class='CActiveForm';
+			$options['action']=$this->action;
+			$options['method']=$this->method;
+			$options['htmlOptions']=$this->htmlOptions;
+			ob_start();
+			$this->_activeForm=$this->getOwner()->beginWidget($class, $options);
+			return ob_get_clean() . "<div style=\"visibility:hidden\">".CHtml::hiddenField($this->getUniqueID(),1)."</div>\n";
+		}
 	}
 
 	/**
@@ -367,7 +405,11 @@ class CForm extends CFormElement implements ArrayAccess
 		if($this->getParent() instanceof self)
 			return '';
 		else
-			return CHtml::endForm();
+		{
+			ob_start();
+			$this->getOwner()->endWidget();
+			return ob_get_clean();
+		}
 	}
 
 	/**
@@ -384,7 +426,7 @@ class CForm extends CFormElement implements ArrayAccess
 		if($this->title!==null)
 		{
 			if($this->getParent() instanceof self)
-				$output=CHtml::openTag('fieldset', $this->attributes);
+				$output=CHtml::openTag('fieldset', $this->htmlOptions);
 			else
 				$output.="<fieldset>\n<legend>".$this->title."</legend>\n";
 		}
@@ -393,7 +435,7 @@ class CForm extends CFormElement implements ArrayAccess
 			$output.="<div class=\"description\">\n".$this->description."</div>\n";
 
 		if($this->showErrorSummary && ($model=$this->getModel(false))!==null)
-			$output.=CHtml::errorSummary($model)."\n";
+			$output.=$this->getActiveFormWidget()->errorSummary($model)."\n";
 
 		$output.=$this->renderElements()."\n".$this->renderButtons()."\n";
 
@@ -501,8 +543,8 @@ class CForm extends CFormElement implements ArrayAccess
 	 */
 	protected function getUniqueId()
 	{
-		if(isset($this->attributes['id']))
-			return 'yform_'.$this->attributes['id'];
+		if(isset($this->htmlOptions['id']))
+			return 'yform_'.$this->htmlOptions['id'];
 		else
 			return 'yform_'.sprintf('%x',crc32(serialize(array_keys($this->getElements()->toArray()))));
 	}

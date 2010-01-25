@@ -22,6 +22,11 @@ to generate new CRUD code on a previously generated skeleton, you are recommende
 to run "yiic webapp" again to re-generate the skeleton. Make sure you backup
 your work before you do this.
 
+- CFormElement::attributes is renamed to be CFormElement::htmlOptions.
+This will affect your code if you use form builder (introduced in 1.1.0).
+Note that CFormElement is the base class for all form builder related classes.
+This change would require you to rename the same property in all concrete classes.
+
 Upgrading from v1.1rc
 ---------------------
 - CRudColumn is renamed as CButtonColumn

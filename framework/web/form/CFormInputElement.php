@@ -31,7 +31,7 @@
  * which expects the name of a model attribute.
  *
  * Because CFormElement is an ancestor class of CFormInputElement, a value assigned to a non-existing property will be
- * stored in {@link attributes} which will be passed as HTML attribute values to the {@link CHtml} method
+ * stored in {@link htmlOptions} which will be passed as HTML attribute values to the {@link CHtml} method
  * generating the input or initial values of the widget properties.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -77,6 +77,13 @@ class CFormInputElement extends CFormElement
 	 * Please see {@link CHtml::listData} for details of generating this property value.
 	 */
 	public $items=array();
+	/**
+	 * @var array the options used when rendering the error part. This property will be passed
+	 * to the {@link CActiveForm::error} method call.
+	 * @see CActiveForm::error
+	 * @since 1.1.1
+	 */
+	public $errorOptions=array();
 	/**
 	 * @var string the layout used to render label, input, hint and error. They correspond to the placeholders
 	 * "{label}", "{input}", "{hint}" and "{error}".
@@ -143,7 +150,7 @@ class CFormInputElement extends CFormElement
 			'{label}'=>$this->renderLabel(),
 			'{input}'=>$this->renderInput(),
 			'{hint}'=>$this->renderHint(),
-			'{error}'=>$this->getParent()->showErrorSummary ? '' : $this->renderError(),
+			'{error}'=>$this->renderError(),
 		);
 		return strtr($this->layout,$output);
 	}
@@ -171,17 +178,17 @@ class CFormInputElement extends CFormElement
 		{
 			$method=self::$coreTypes[$this->type];
 			if(strpos($method,'List')!==false)
-				return CHtml::$method($this->getParent()->getModel(), $this->name, $this->items, $this->attributes);
+				return CHtml::$method($this->getParent()->getModel(), $this->name, $this->items, $this->htmlOptions);
 			else
-				return CHtml::$method($this->getParent()->getModel(), $this->name, $this->attributes);
+				return CHtml::$method($this->getParent()->getModel(), $this->name, $this->htmlOptions);
 		}
 		else
 		{
-			$attributes=$this->attributes;
-			$attributes['model']=$this->getParent()->getModel();
-			$attributes['attribute']=$this->name;
+			$htmlOptions=$this->htmlOptions;
+			$htmlOptions['model']=$this->getParent()->getModel();
+			$htmlOptions['attribute']=$this->name;
 			ob_start();
-			$this->getParent()->getOwner()->widget($this->type, $attributes);
+			$this->getParent()->getOwner()->widget($this->type, $htmlOptions);
 			return ob_get_clean();
 		}
 	}
@@ -193,7 +200,8 @@ class CFormInputElement extends CFormElement
 	 */
 	public function renderError()
 	{
-		return CHtml::error($this->getParent()->getModel(), $this->name);
+		$parent=$this->getParent();
+		return $parent->getActiveFormWidget()->error($parent->getModel(), $this->name, $this->errorOptions);
 	}
 
 	/**

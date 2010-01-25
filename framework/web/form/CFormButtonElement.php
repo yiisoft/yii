@@ -27,7 +27,7 @@
  * have a property called "name".
  *
  * Because CFormElement is an ancestor class of CFormButtonElement, a value assigned to a non-existing property will be
- * stored in {@link attributes} which will be passed as HTML attribute values to the {@link CHtml} method
+ * stored in {@link htmlOptions} which will be passed as HTML attribute values to the {@link CHtml} method
  * generating the button or initial values of the widget properties.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -94,32 +94,32 @@ class CFormButtonElement extends CFormElement
 	 */
 	public function render()
 	{
-		$attributes=$this->attributes;
+		$htmlOptions=$this->htmlOptions;
 		if(isset(self::$coreTypes[$this->type]))
 		{
 			$method=self::$coreTypes[$this->type];
 			if($method==='linkButton')
 			{
-				if(!isset($attributes['params'][$this->name]))
-					$attributes['params'][$this->name]=1;
+				if(!isset($htmlOptions['params'][$this->name]))
+					$htmlOptions['params'][$this->name]=1;
 			}
 			else if($method==='htmlButton')
 			{
-				$attributes['type']=$this->type==='submitButton' ? 'submit' : ($this->type==='resetButton' ? 'reset' : 'button');
-				$attributes['name']=$this->name;
+				$htmlOptions['type']=$this->type==='submitButton' ? 'submit' : ($this->type==='resetButton' ? 'reset' : 'button');
+				$htmlOptions['name']=$this->name;
 			}
 			else
-				$attributes['name']=$this->name;
+				$htmlOptions['name']=$this->name;
 			if($method==='imageButton')
-				return CHtml::imageButton(isset($attributes['src']) ? $attributes['src'] : '',$attributes);
+				return CHtml::imageButton(isset($htmlOptions['src']) ? $htmlOptions['src'] : '',$htmlOptions);
 			else
-				return CHtml::$method($this->label,$attributes);
+				return CHtml::$method($this->label,$htmlOptions);
 		}
 		else
 		{
-			$attributes['name']=$this->name;
+			$htmlOptions['name']=$this->name;
 			ob_start();
-			$this->getParent()->getOwner()->widget($this->type, $attributes);
+			$this->getParent()->getOwner()->widget($this->type, $htmlOptions);
 			return ob_get_clean();
 		}
 	}
