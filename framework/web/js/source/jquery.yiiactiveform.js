@@ -17,7 +17,7 @@
 	$.fn.yiiactiveform = function(settings) {
 		var settings = $.extend({}, $.fn.yiiactiveform.defaults, settings || {});
 		return this.each(function() {
-			$form = $(this);
+			var $form = $(this);
 			var id = $form.attr('id');
 			if(settings.validationUrl == undefined)
 				settings.validationUrl = $form.attr('action');
