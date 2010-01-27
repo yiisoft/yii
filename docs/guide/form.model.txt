@@ -236,7 +236,7 @@ the data he is not authorized to.
 The policy of deciding which attributes are safe is different in version 1.0
 and 1.1. In the following, we will describe them separately.
 
-***Safe Attributes in 1.1
+###Safe Attributes in 1.1
 
 In version 1.1, an attribute is considered safe if it appears in a validation
 rule that is applicable in the given scenario. For example,
@@ -298,7 +298,7 @@ The `unsafe` rule is rarely used, and it is an exception to our previous definit
 attributes.
 
 
-***Safe Attributes in 1.0
+###Safe Attributes in 1.0
 
 In version 1.0, the task of deciding whether a data entry is safe or not is based on
 the return value of a method named `safeAttributes` and the specified
