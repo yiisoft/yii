@@ -176,4 +176,15 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 			$this->_totalItemCount=$this->calculateTotalItemCount();
 		return $this->_totalItemCount;
 	}
+
+	/**
+	 * Sets the total number of data items.
+	 * This method is provided in case when the total number cannot be determined by {@link calculateTotalItemCount}.
+	 * @param integer the total number of data items.
+	 * @since 1.1.1
+	 */
+	public function setTotalItemCount($value)
+	{
+		$this->_totalItemCount=$value;
+	}
 }
