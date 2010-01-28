@@ -216,7 +216,7 @@ class CController extends CBaseController
 	 *
 	 * Note, the behavior classes must implement {@link IBehavior} or extend from
 	 * {@link CBehavior}. Behaviors declared in this method will be attached
-	 * to the model when it is instantiated.
+	 * to the controller when it is instantiated.
 	 *
 	 * For more details about behaviors, see {@link CComponent}.
 	 * @return array the behavior configurations (behavior name=>behavior configuration)

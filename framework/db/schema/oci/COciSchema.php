@@ -268,9 +268,9 @@ EOD;
 		foreach($rows as $row)
 		{
 			if($schema===$this->getDefaultSchema())
-				$names[]=$row['table_name'];
+				$names[]=$row['TABLE_NAME'];
 			else
-				$names[]=$row['schema_name'].'.'.$row['table_name'];
+				$names[]=$row['SCHEMA_NAME'].'.'.$row['TABLE_NAME'];
 		}
 		return $names;
 	}

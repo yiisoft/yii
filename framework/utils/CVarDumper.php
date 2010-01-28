@@ -119,14 +119,13 @@ class CVarDumper
 					$id=array_push(self::$_objects,$var);
 					$className=get_class($var);
 					$members=(array)$var;
-					$keys=array_keys($members);
 					$spaces=str_repeat(' ',$level*4);
 					self::$_output.="$className#$id\n".$spaces.'(';
-					foreach($keys as $key)
+					foreach($members as $key=>$value)
 					{
 						$keyDisplay=strtr(trim($key),array("\0"=>':'));
 						self::$_output.="\n".$spaces."    [$keyDisplay] => ";
-						self::$_output.=self::dumpInternal($members[$key],$level+1);
+						self::$_output.=self::dumpInternal($value,$level+1);
 					}
 					self::$_output.="\n".$spaces.')';
 				}
