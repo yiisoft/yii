@@ -94,7 +94,7 @@
 					success : successCallback,
 					error : function() {
 						$.each(settings.attributes, function(i, attribute){
-							updateInput(attribute, []);
+							//updateInput(attribute, []);
 						});
 					}
 				});
