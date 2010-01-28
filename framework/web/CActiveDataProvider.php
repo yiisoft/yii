@@ -94,7 +94,7 @@ class CActiveDataProvider extends CDataProvider
 		$criteria=clone $this->getCriteria();
 		if(($pagination=$this->getPagination())!==false)
 		{
-			$pagination->setItemCount($this->getTotalItemCount(true));
+			$pagination->setItemCount($this->getTotalItemCount());
 			$pagination->applyLimit($criteria);
 		}
 		if(($sort=$this->getSort())!==false)
