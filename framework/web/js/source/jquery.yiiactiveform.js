@@ -32,7 +32,7 @@
 					successCssClass : settings.successCssClass,
 					validatingCssClass : settings.validatingCssClass
 				}, attribute);
-				$('#'+attribute.inputID).value = $('#'+attribute.inputID).val();
+				settings.attributes[i].value = $('#'+attribute.inputID).val();
 			});
 			$.fn.yiiactiveform.settings[id] = settings;
 
@@ -100,8 +100,18 @@
 				});
 			};
 
-			var validate = function(attribute) {
-				attribute.status = 2;
+			var validate = function(attribute, forceValidate) {
+				if (forceValidate)
+					attribute.status = 2;
+				$.each(settings.attributes, function(){
+					if (this.value != $('#'+this.inputID).val()) {
+						this.status = 2;
+						forceValidate = true;
+					}
+				});
+				if (!forceValidate)
+					return;
+
 				if(settings.timer!=undefined)
 					clearTimeout(settings.timer);
 				settings.timer = setTimeout(function(){
@@ -124,17 +134,16 @@
 			$.each(settings.attributes, function(i, attribute) {
 				if (attribute.validateOnChange) {
 					$('#'+attribute.inputID).change(function(){
-						validate(attribute);
+						validate(attribute,false);
 					}).blur(function(){
-						if(!attribute.status) {
-							validate(attribute);
-						}
+						if(attribute.status!=2 && attribute.status!=3)
+							validate(attribute, !attribute.status);
 					});
 				}
 				if (attribute.validateOnType) {
 					$('#'+attribute.inputID).keyup(function(){
 						if (attribute.value != $('#'+attribute.inputID).val())
-							validate(attribute);
+							validate(attribute, false);
 					});
 				}
 			});
