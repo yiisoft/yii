@@ -19,6 +19,7 @@ Version 1.1.1 to be released
 - Enh: Improved CHtml::beginForm() to auto-generate hidden fields for a GET form whose action contains query string (Qiang)
 - Enh: Added CDataProvider::setTotalItemCount() (Qiang)
 - Chg #841: Changed CUrlManager::parsePathInfo() to non-static (Qiang)
+- Chg #851: yiic tool no longer turns off E_NOTICE (Qiang)
 - Chg: CFormElement::attributes is renamed to be CFormElement::htmlOptions (Qiang)
 - New: Added CActiveForm that performs model validations via AJAX (Qiang)
 
