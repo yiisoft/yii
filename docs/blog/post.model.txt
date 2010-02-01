@@ -173,9 +173,9 @@ In order to make our code easier to read, we also declare a set of constants to 
 [php]
 class Post extends CActiveRecord
 {
-	const STATUS_DRAFT=0;
-	const STATUS_PUBLISHED=1;
-	const STATUS_ARCHIVED=2;
+	const STATUS_DRAFT=1;
+	const STATUS_PUBLISHED=2;
+	const STATUS_ARCHIVED=3;
 	......
 }
 ~~~
