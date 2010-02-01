@@ -1,4 +1,4 @@
-<?php $this->beginContent('/layouts/main'); ?>
+<?php $this->beginContent('application.views.layouts.main'); ?>
 <div class="container">
 	<div id="content">
 		<?php echo $content; ?>
