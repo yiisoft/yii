@@ -142,4 +142,20 @@ applied to the application. Each subdirectory represents a single theme
 whose name is the subdirectory name. It can be customized via
 [CThemeManager::basePath].
 
+Database
+--------
+
+Most Web applications are backed by some database. For best practice, we propose
+the following naming conventions for database tables and columns. Note that they
+are not required by Yii.
+
+   - Both database tables and columns are named in lower case.
+
+   - Words in a name should be separated using underscores (e.g. `product_order`).
+
+   - For table names, you may use either singular or plural names, but not both.
+For simplicity, we recommend using singular names.
+
+
+
 <div class="revision">$Id$</div>
