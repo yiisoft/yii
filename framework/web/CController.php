@@ -636,14 +636,17 @@ class CController extends CBaseController
 	 * @param string the route of the new controller action. This can be an action ID, or a complete route
 	 * with module ID, controller ID and action ID. If the former, the action is assumed
 	 * to be located within the current controller.
+	 * @param boolean whether to end the application after this call. Defaults to false.
 	 * @since 1.1.0
 	 */
-	public function forward($route)
+	public function forward($route,$exit=false)
 	{
 		if(strpos($route,'/')===false) // an action of the current controller
 			$this->run($route);
 		else
 			Yii::app()->runController($route);
+		if($exit)
+			Yii::app()->end();
 	}
 
 	/**
