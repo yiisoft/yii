@@ -58,7 +58,7 @@ The `recentComments` view is saved in the file `/wwwroot/blog/protected/componen
 Using `RecentComments` Portlet
 ------------------------------
 
-We modify the layout file `/wwwroot/blog/protected/views/layouts/main.php` to embed this last portlet,
+We modify the layout file `/wwwroot/blog/protected/views/layouts/column2.php` to embed this last portlet,
 
 ~~~
 [php]

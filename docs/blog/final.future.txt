@@ -33,7 +33,7 @@ Improving Performance with Cache
 
 While the Yii framework itself is [very efficient](http://www.yiiframework.com/performance/), it is not necessarily true that an application written in Yii efficient. There are several places in our blog application that we can improve the performance. For example, the tag clould portlet could be one of the performance bottlenecks because it involves complex database query and PHP logic.
 
-We can make use of the sophisticated [caching feature](http://www.yiiframework.com/doc/guide/caching.overview) provided by Yii to improve the performance. One of the most useful components in Yii is [COutputCache], which caches a fragment of page display so that the underlying code generating the fragment does not need to be executed for every request. For example, in the layout file `/wwwroot/blog/protected/views/layouts/main.php`, we can enclose the tag cloud portlet with [COutputCache]:
+We can make use of the sophisticated [caching feature](http://www.yiiframework.com/doc/guide/caching.overview) provided by Yii to improve the performance. One of the most useful components in Yii is [COutputCache], which caches a fragment of page display so that the underlying code generating the fragment does not need to be executed for every request. For example, in the layout file `/wwwroot/blog/protected/views/layouts/column2.php`, we can enclose the tag cloud portlet with [COutputCache]:
 
 ~~~
 [php]
