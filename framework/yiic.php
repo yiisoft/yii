@@ -16,7 +16,6 @@
 defined('STDIN') or define('STDIN', fopen('php://stdin', 'r'));
 
 defined('YII_DEBUG') or define('YII_DEBUG',true);
-error_reporting(E_ALL ^ E_NOTICE);
 
 require_once(dirname(__FILE__).'/yii.php');
 
