@@ -73,7 +73,7 @@ body
 	padding:5px 8px;
 }
 
-#mainmenu ul li a:hover, #mainmenu ul li a.active
+#mainmenu ul li a:hover, #mainmenu ul li.active a
 {
 	color: #6399cd;
 	background-color:#EFF4FA;
@@ -126,37 +126,6 @@ div.flash-success a
 div.form .rememberMe label
 {
 	display: inline;
-}
-
-.actions
-{
-	margin: 0 0 10px 0;
-	padding: 0;
-}
-
-.actions li
-{
-	display: inline;
-	margin: 0;
-	padding: 0;
-}
-
-.actions li a
-{
-	padding: 5px;
-	margin: 0;
-	color: #298dcd;
-	text-decoration: none;
-	font-size: 0.8em;
-	font-weight: bold;
-	background: #DFF4FF;
-	border-left: 5px solid #589FC8;
-}
-
-.actions li a:hover, .actions li a.active
-{
-	background: #589FC8;
-	color: white;
 }
 
 div.view
