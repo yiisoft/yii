@@ -15,6 +15,17 @@
  * can be changed by setting {@link sessionTableName}. If the table does not exist,
  * it will be automatically created if {@link autoCreateSessionTable} is set true.
  *
+ * The following is the table structure:
+ *
+ * <pre>
+ * CREATE TABLE YiiSession
+ * (
+ *     id CHAR(32) PRIMARY KEY,
+ *     expire INTEGER,
+ *     data TEXT
+ * )
+ * </pre>
+ *
  * CDbHttpSession relies on {@link http://www.php.net/manual/en/ref.pdo.php PDO} to access database.
  *
  * By default, it will use an SQLite3 database named 'session-YiiVersion.db' under the application runtime directory.
