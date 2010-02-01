@@ -149,7 +149,11 @@ class CDbCommandBuilder extends CComponent
 			{
 				$fields[]=$column->rawName;
 				if($value instanceof CDbExpression)
+				{
 					$placeholders[]=$value->expression;
+					foreach($value->params as $n=>$v)
+						$values[$n]=$v;
+				}
 				else
 				{
 					$placeholders[]=self::PARAM_PREFIX.$i;
@@ -195,7 +199,11 @@ class CDbCommandBuilder extends CComponent
 			if(($column=$table->getColumn($name))!==null)
 			{
 				if($value instanceof CDbExpression)
+				{
 					$fields[]=$column->rawName.'='.$value->expression;
+					foreach($value->params as $n=>$v)
+						$values[$n]=$v;
+				}
 				else if($bindByPosition)
 				{
 					$fields[]=$column->rawName.'=?';
