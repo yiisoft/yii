@@ -57,6 +57,11 @@ class CFlexWidget extends CWidget
 	 */
 	public $allowScriptAccess='sameDomain';
 	/**
+	 * @var boolean whether to allow running the Flash in full screen mode. Defaults to false.
+	 * @since 1.1.1
+	 */
+	public $allowFullScreen=false;
+	/**
 	 * @var string the HTML content to be displayed if Flash player is not installed.
 	 */
 	public $altHtmlContent;
