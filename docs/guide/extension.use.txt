@@ -119,8 +119,9 @@ because [CApplicationComponent] defines a property named `behaviors`. By setting
 with a list of behavior configurations, the component will attach the corresponding behaviors
 when it is being initialized.
 
-For [CController], [CFormModel] and [CActiveModel] classes which usually need to be extended,
-attaching behaviors is done by overriding their `behaviors()` method. For example,
+For [CController], [CFormModel] and [CActiveRecord] classes which usually need to be extended,
+attaching behaviors can be done by overriding their `behaviors()` method. The classes will
+automatically attach any behaviors declared in this method during initialization. For example,
 
 ~~~
 [php]
