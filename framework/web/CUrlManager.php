@@ -406,6 +406,19 @@ class CUrlManager extends CApplicationComponent
 	}
 
 	/**
+	 * Sets the base URL of the application (the part after host name and before query string).
+	 * This method is provided in case the {@link baseUrl} cannot be determined automatically.
+	 * The ending slashes should be stripped off. And you are also responsible to remove the script name
+	 * if you set {@link showScriptName} to be false.
+	 * @param string the base URL of the application
+	 * @since 1.1.1
+	 */
+	public function setBaseUrl($value)
+	{
+		$this->_baseUrl=$value;
+	}
+
+	/**
 	 * @return string the URL format. Defaults to 'path'. Valid values include 'path' and 'get'.
 	 * Please refer to the guide for more details about the difference between these two formats.
 	 */
