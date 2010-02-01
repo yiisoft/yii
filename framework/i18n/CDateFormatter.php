@@ -486,9 +486,9 @@ class CDateFormatter extends CComponent
 	 */
 	protected function formatTimeZone($pattern,$date)
 	{
-		if($pattern==='z' | $pattern==='v')
+		if($pattern[0]==='z' | $pattern[0]==='v')
 			return @date('T', @mktime($date['hours'], $date['minutes'], $date['seconds'], $date['mon'], $date['mday'], $date['year']));
-		elseif($pattern==='Z')
+		elseif($pattern[0]==='Z')
 			return @date('O', @mktime($date['hours'], $date['minutes'], $date['seconds'], $date['mon'], $date['mday'], $date['year']));
 		else
 			throw new CException(Yii::t('yii','The pattern for time zone must be "z" or "v".'));
