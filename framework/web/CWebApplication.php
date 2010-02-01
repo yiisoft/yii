@@ -411,9 +411,10 @@ class CWebApplication extends CApplication
 	{
 		if(($pos=strpos($pathInfo,'/'))!==false)
 		{
-			CUrlManager::parsePathInfo((string)substr($pathInfo,$pos+1));
+			$manager=$this->getUrlManager();
+			$manager->parsePathInfo((string)substr($pathInfo,$pos+1));
 			$actionID=substr($pathInfo,0,$pos);
-			return $this->getUrlManager()->caseSensitive ? $actionID : strtolower($actionID);
+			return $manager->caseSensitive ? $actionID : strtolower($actionID);
 		}
 		else
 			return $pathInfo;

@@ -320,7 +320,7 @@ class CUrlManager extends CApplicationComponent
 	 * @param string path info
 	 * @since 1.0.3
 	 */
-	public static function parsePathInfo($pathInfo)
+	public function parsePathInfo($pathInfo)
 	{
 		if($pathInfo==='')
 			return;
@@ -683,7 +683,7 @@ class CUrlRule extends CComponent
 					$_REQUEST[$key]=$_GET[$key]=$value;
 			}
 			if($pathInfo!==$matches[0]) // there're additional GET params
-				CUrlManager::parsePathInfo(ltrim(substr($pathInfo,strlen($matches[0])),'/'));
+				$manager->parsePathInfo(ltrim(substr($pathInfo,strlen($matches[0])),'/'));
 			if($this->routePattern!==null)
 				return strtr($this->route,$tr);
 			else
