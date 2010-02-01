@@ -31,6 +31,10 @@ This change would require you to rename the same property in all concrete classe
 hyperlink tag. You should adjust your CSS code accordingly if you use CMenu
 in your application.
 
+- CUrlManager::parsePathInfo() is changed to be non-static. If you override
+this method or your existing code calls this method directly (neither is common),
+you need to change your code accordingly.
+
 Upgrading from v1.1rc
 ---------------------
 - CRudColumn is renamed as CButtonColumn
