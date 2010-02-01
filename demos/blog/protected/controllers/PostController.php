@@ -174,10 +174,10 @@ class PostController extends Controller
 			if(isset($_GET['id']))
 			{
 				if(Yii::app()->user->isGuest)
-					$condition='status='.Post::STATUS_PUBLISHED.' OR status='.POST::STATUS_ARCHIVED;
+					$condition='status='.Post::STATUS_PUBLISHED.' OR status='.Post::STATUS_ARCHIVED;
 				else
 					$condition='';
-				$this->_model=Post::model()->findbyPk($_GET['id'], $condition);
+				$this->_model=Post::model()->findByPk($_GET['id'], $condition);
 			}
 			if($this->_model===null)
 				throw new CHttpException(404,'The requested page does not exist.');
