@@ -96,6 +96,32 @@ foreach($comments as $comment)
 For more details about how to declare and use relations, please refer to [the Guide](http://www.yiiframework.com/doc/guide/database.arr).
 
 
+Adding `url` Property
+---------------------
+
+A post is a content that is associated with a unique URL for viewing it. Instead of calling [CWebApplication::createUrl] everywhere in our code to get this URL, we may add a `url` property in the `Post` model so that the same piece of URL creation code can be reused. Later when we describe how beautify URLs, we will see adding this property will bring us great convenience.
+
+To add the `url` property, we modify the `Post` class by adding a getter method like the following:
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	public function getUrl()
+	{
+		return Yii::app()->createUrl('post/view', array(
+			'id'=>$this->id,
+			'title'=>$this->title,
+		));
+	}
+}
+~~~
+
+Note that in addition to the post ID, we also add the post title as a GET parameter in the URL. This is mainly for search engine optimization (SEO) purpose, as we will describe in [Beautifying URLs](/doc/blog/final.url).
+
+Because [CComponent] is the ultimate ancestor class of `Post`, adding the getter method `getUrl()` enables us to use the expression like `$post->url`. When we access `$post->url`, the getter method will be executed and its result is returned as the expression value. For more details about such component features, please refer to [the guide](/doc/guide/basics.component).
+
+
 Representing Status in Text
 ---------------------------
 
