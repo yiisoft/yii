@@ -211,7 +211,7 @@ $command->execute();
 The methods [bindParam()|CDbCommand::bindParam] and
 [bindValue()|CDbCommand::bindValue] are very similar. The only difference
 is that the former binds a parameter with a PHP variable reference while
-the latter with a value. For parameters that represent large block of data
+the latter with a value. For parameters that represent large blocks of data
 memory, the former is preferred for performance consideration.
 
 For more details about binding parameters, see the [relevant PHP
