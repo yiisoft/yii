@@ -61,7 +61,7 @@ $this->breadcrumbs=array(
 )); ?>
 ~~~
 
-We use [[CGridView]] to display the posts. It allows us to sort by a column and paginate through the posts if there are too many to be displayed in a single page. Our change is mainly about how to display each column. For example, for the `title` column, we specify that it should be displayed as a hyperlink that points to the detailed view of the post.
+We use [[CGridView]] to display the posts. It allows us to sort by a column and paginate through the posts if there are too many to be displayed in a single page. Our change is mainly about how to display each column. For example, for the `title` column, we specify that it should be displayed as a hyperlink that points to the detailed view of the post. The expression `$data->url` returns the value of the `url` property that we define in the `Post` class.
 
 > Tip: When displaying text, we call [CHtml::encode()] to encode HTML entities in it. This prevents from [cross-site scripting attack](http://www.yiiframework.com/doc/guide/topics.security).
 

@@ -156,6 +156,11 @@ are not required by Yii.
    - For table names, you may use either singular or plural names, but not both.
 For simplicity, we recommend using singular names.
 
+   - Table names may be prefixed with a common token such as `tbl_`. This is
+especially useful when the tables of an application coexist in the same database
+with the tables of another application. The two sets of tables can be readily
+separate by using different table name prefixes.
+
 
 
 <div class="revision">$Id$</div>

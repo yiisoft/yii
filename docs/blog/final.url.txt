@@ -4,7 +4,7 @@ Beautifying URLs
 The URLs linking various pages of our blog application currently look ugly. For example, the URL for the page showing a post looks like the following:
 
 ~~~
-/index.php?r=post/show&id=1
+/index.php?r=post/show&id=1&title=A+Test+Post
 ~~~
 
 In this section, we describe how to beautify these URLs and make them SEO-friendly. Our goal is to be able to use the following URLs in the application:
