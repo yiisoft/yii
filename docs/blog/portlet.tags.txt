@@ -42,7 +42,7 @@ We display each tag as a hyperlink to the post index page with the corresponding
 Using `TagCloud` Portlet
 -------------------------
 
-Usage of the `TagCloud` portlet is very simple. We modify the layout file `/wwwroot/blog/protected/views/layouts/main.php` as follows,
+Usage of the `TagCloud` portlet is very simple. We modify the layout file `/wwwroot/blog/protected/views/layouts/column2.php` as follows,
 
 ~~~
 [php]
