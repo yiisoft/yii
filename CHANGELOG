@@ -14,6 +14,7 @@ Version 1.0.12 to be released
 - Bug: COciSchema::findTableNames() should use upper case for the keys of query results (Qiang)
 - Enh #730: Relational queries now respect changes made to CActiveRecord::dbCriteria in the onBeforeFind event (Qiang)
 - Enh #737: CUrlManager::createUrl() now supports multidimensional array params (Jonah)
+- Enh #757: Allow CDbCriteria::addInCondition() to use parameter array that is not integer-indexed (Qiang)
 
 Version 1.0.11 December 13, 2009
 --------------------------------
