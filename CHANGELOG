@@ -12,6 +12,7 @@ Version 1.1.1 to be released
 - Bug: Setting the 'with' option in criteria array doesn't trigger eager loading for AR (Qiang)
 - Bug: CActiveRecord should update oldPrimaryKey after calling save() (Qiang)
 - Enh #686: Added CUrlManager::setBasePath() (Qiang)
+- Enh #820: Added CAccessRule::message to allow customizing authorization error message (Qiang)
 - Enh #857: Added $exit parameter to CController::forward() (Qiang)
 - Enh #872: Added CFlexWidget::allowFullScreen (Qiang)
 - Enh: Refactored the blog demo to make use of the new CActiveForm and the filtering feature of CGridView (Qiang)
