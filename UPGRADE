@@ -27,6 +27,10 @@ This will affect your code if you use form builder (introduced in 1.1.0).
 Note that CFormElement is the base class for all form builder related classes.
 This change would require you to rename the same property in all concrete classes.
 
+- CMenu now renders the 'active' CSS class for the 'li' tag instead of the
+hyperlink tag. You should adjust your CSS code accordingly if you use CMenu
+in your application.
+
 Upgrading from v1.1rc
 ---------------------
 - CRudColumn is renamed as CButtonColumn

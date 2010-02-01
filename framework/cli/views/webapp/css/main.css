@@ -73,7 +73,7 @@ body
 	padding:5px 8px;
 }
 
-#mainmenu ul li a:hover, #mainmenu ul li a.active
+#mainmenu ul li a:hover, #mainmenu ul li.active a
 {
 	color: #6399cd;
 	background-color:#EFF4FA;
