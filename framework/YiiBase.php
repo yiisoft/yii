@@ -444,7 +444,7 @@ class YiiBase
 	 */
 	public static function powered()
 	{
-		return 'Powered by <a href="http://www.yiiframework.com/" target="_blank">Yii Framework</a>.';
+		return 'Powered by <a href="http://www.yiiframework.com/" rel="external">Yii Framework</a>.';
 	}
 
 	/**
