@@ -44,6 +44,9 @@ $packages=array(
 	'metadata'=>array(
 		'jquery.metadata.js',
 	),
+	'bbq'=>array(
+		'jquery.ba-bbq.js',
+	),
 );
 
 $dependencies=array(
@@ -88,6 +91,9 @@ $dependencies=array(
 		'jquery',
 		'dimensions',
 		'metadata',
+	),
+	'bbq'=>array(
+		'jquery',
 	),
 );
 

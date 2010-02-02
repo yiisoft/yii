@@ -38,6 +38,11 @@ you need to change your code accordingly.
 - CController::forward() will exit the application by default now. If you want
 to keep the old behavior, you may pass false as the second parameter.
 
+- The jQuery copy included in the framework has been upgraded to version 1.4.1.
+This may cause some incompatibility problems to your existing jQuery code or plugins.
+If you want to keep using version 1.3.2, you may do so by configuring
+CClientScript::scriptMap property.
+
 Upgrading from v1.1rc
 ---------------------
 - CRudColumn is renamed as CButtonColumn
