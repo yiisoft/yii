@@ -35,6 +35,9 @@ in your application.
 this method or your existing code calls this method directly (neither is common),
 you need to change your code accordingly.
 
+- CController::forward() will exit the application by default now. If you want
+to keep the old behavior, you may pass false as the second parameter.
+
 Upgrading from v1.1rc
 ---------------------
 - CRudColumn is renamed as CButtonColumn
