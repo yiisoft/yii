@@ -8,6 +8,8 @@
  * @license http://www.yiiframework.com/license/
  */
 
+Yii::import('CHtml',true);
+
 /**
  * CErrorHandler handles uncaught PHP errors and exceptions.
  *

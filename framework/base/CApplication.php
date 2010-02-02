@@ -639,6 +639,7 @@ abstract class CApplication extends CModule
 
 			try
 			{
+				Yii::import('CErrorEvent',true);
 				$event=new CErrorEvent($this,$code,$message,$file,$line);
 				$this->onError($event);
 				if(!$event->handled)
