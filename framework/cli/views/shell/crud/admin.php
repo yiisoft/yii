@@ -28,7 +28,6 @@ $('.search-button').click(function(){
 });
 $('.search-form form').submit(function(){
 	$.fn.yiiGridView.update('<?php echo $this->class2id($modelClass); ?>-grid', {
-		url: $(this).attr('action'),
 		data: $(this).serialize()
 	});
 	return false;
