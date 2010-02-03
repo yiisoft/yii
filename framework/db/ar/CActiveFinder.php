@@ -66,6 +66,13 @@ class CActiveFinder extends CComponent
 		return $this;
 	}
 
+	/**
+	 * Performs the relational query based on the given DB criteria.
+	 * Do not call this method. This method is used internally.
+	 * @param CDbCriteria the DB criteria
+	 * @param boolean whether to bring back all records
+	 * @return mixed the query result
+	 */
 	public function query($criteria,$all=false)
 	{
 		$this->_joinTree->beforeFind();
