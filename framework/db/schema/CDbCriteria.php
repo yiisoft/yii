@@ -381,6 +381,13 @@ class CDbCriteria
 
 		if($criteria->distinct>0)
 			$this->distinct=$criteria->distinct;
+
+		if(!empty($criteria->with))
+		{
+			if(empty($this->with))
+				$this->with=array();
+			$this->with=CMap::mergeArray($this->with, $criteria->with);
+		}
 	}
 
 	/**
