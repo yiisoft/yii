@@ -130,6 +130,10 @@ class CActiveForm extends CWidget
 	 */
 	public $method='post';
 	/**
+	 * @var boolean whether to generate a stateful form (See {@link CHtml::statefulForm}). Defaults to false.
+	 */
+	public $stateful=false;
+	/**
 	 * @var string the CSS class name for error messages. Defaults to 'errorMessage'.
 	 * Individual {@link error} call may override this value by specifying the 'class' HTML option.
 	 */
@@ -200,7 +204,10 @@ class CActiveForm extends CWidget
 	public function init()
 	{
 		$this->htmlOptions['id']=$this->id;
-		echo CHtml::beginForm($this->action, $this->method, $this->htmlOptions);
+		if($this->stateful)
+			echo CHtml::statefulForm($this->action, $this->method, $this->htmlOptions);
+		else
+			echo CHtml::beginForm($this->action, $this->method, $this->htmlOptions);
 	}
 
 	/**
