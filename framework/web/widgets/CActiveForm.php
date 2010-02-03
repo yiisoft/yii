@@ -497,6 +497,6 @@ class CActiveForm extends CWidget
 			foreach($model->getErrors() as $attribute=>$errors)
 				$result[CHtml::activeId($model,$attribute)]=$errors;
 		}
-		return CJavaScript::encode($result);
+		return function_exists('json_encode') ? json_encode($result) : CJSON::encode($result);
 	}
 }
