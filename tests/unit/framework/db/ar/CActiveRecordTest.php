@@ -418,9 +418,8 @@ class CActiveRecordTest extends CTestCase
 		$post=Post::model()->with('author','firstComment','comments','categories')->findByPk(2);
 	}
 
-	public function testEagerRelation()
+	private function checkEagerLoadedModel($post)
 	{
-		$post=Post::model()->with('author','firstComment','comments','categories')->findByPk(2);
 		$this->assertEquals(array(
 			'id'=>2,
 			'username'=>'user2',
@@ -452,6 +451,16 @@ class CActiveRecordTest extends CTestCase
 			'id'=>1,
 			'name'=>'cat 1',
 			'parent_id'=>null),$post->categories[1]->attributes);
+	}
+
+	public function testEagerRelation()
+	{
+		$post=Post::model()->with('author','firstComment','comments','categories')->findByPk(2);
+		$this->checkEagerLoadedModel($post);
+		$post=Post::model()->findByPk(2,array(
+			'with'=>array('author','firstComment','comments','categories'),
+		));
+		$this->checkEagerLoadedModel($post);
 
 		$post=Post::model()->with('author','firstComment','comments','categories')->findByPk(4);
 		$this->assertEquals(array(
