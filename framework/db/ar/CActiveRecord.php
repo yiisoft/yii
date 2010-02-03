@@ -1138,16 +1138,12 @@ abstract class CActiveRecord extends CModel
 
 	private function query($criteria,$all=false)
 	{
+		$this->applyScopes($criteria);
 		if(empty($criteria->with))
 		{
-			$defaultCriteria=$this->getDbCriteria(false);
-			if($defaultCriteria!==null && !empty($defaultCriteria->with))
-				return $this->with($defaultCriteria->with)->query($criteria,$all);
-
 			if(!$all)
 				$criteria->limit=1;
 			$this->beforeFind();
-			$this->applyScopes($criteria);
 			$command=$this->getCommandBuilder()->createFindCommand($this->getTableSchema(),$criteria);
 			return $all ? $this->populateRecords($command->queryAll()) : $this->populateRecord($command->queryRow());
 		}
@@ -1305,15 +1301,15 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function count($condition='',$params=array())
 	{
-		if($condition instanceof CDbCriteria && !empty($condition->with))
-			return $this->with($condition->with)->count($condition,$params);
-		else if(is_array($condition) && isset($condition['with']))
-			return $this->with($condition['with'])->count($condition,$params);
 		Yii::trace(get_class($this).'.count()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
 		$this->applyScopes($criteria);
-		return $builder->createCountCommand($this->getTableSchema(),$criteria)->queryScalar();
+
+		if(empty($criteria->with))
+			return $builder->createCountCommand($this->getTableSchema(),$criteria)->queryScalar();
+		else
+			return $this->with($criteria->with)->count($criteria);
 	}
 
 	/**

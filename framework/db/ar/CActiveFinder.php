@@ -75,8 +75,8 @@ class CActiveFinder extends CComponent
 	 */
 	public function query($criteria,$all=false)
 	{
-		$this->_joinTree->beforeFind();
 		$this->_joinTree->model->applyScopes($criteria);
+		$this->_joinTree->beforeFind();
 		$this->_joinTree->find($criteria);
 		$this->_joinTree->afterFind();
 
