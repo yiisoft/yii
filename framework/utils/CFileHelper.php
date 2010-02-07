@@ -96,7 +96,7 @@ class CFileHelper
 		@mkdir($dst);
 		@chmod($dst,0777);
 		$folder=opendir($src);
-		while($file=readdir($folder))
+		while(($file=readdir($folder))!==false)
 		{
 			if($file==='.' || $file==='..')
 				continue;
@@ -133,7 +133,7 @@ class CFileHelper
 	{
 		$list=array();
 		$handle=opendir($dir);
-		while($file=readdir($handle))
+		while(($file=readdir($handle))!==false)
 		{
 			if($file==='.' || $file==='..')
 				continue;

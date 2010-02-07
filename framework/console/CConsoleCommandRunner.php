@@ -80,7 +80,7 @@ class CConsoleCommandRunner extends CComponent
 		if(($dir=@opendir($path))===false)
 			return array();
 		$commands=array();
-		while($name=readdir($dir))
+		while(($name=readdir($dir))!==false)
 		{
 			$file=$path.DIRECTORY_SEPARATOR.$name;
 			if(!strcasecmp(substr($name,-11),'Command.php') && is_file($file))

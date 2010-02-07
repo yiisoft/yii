@@ -52,7 +52,7 @@ class CLocale extends CComponent
 			$locales=array();
 			$dataPath=dirname(__FILE__).DIRECTORY_SEPARATOR.'data';
 			$folder=@opendir($dataPath);
-			while($file=@readdir($folder))
+			while(($file=@readdir($folder))!==false)
 			{
 				$fullPath=$dataPath.DIRECTORY_SEPARATOR.$file;
 				if(substr($file,-4)==='.php' && is_file($fullPath))
