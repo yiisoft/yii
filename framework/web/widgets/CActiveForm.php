@@ -487,15 +487,15 @@ class CActiveForm extends CWidget
 	 * Validates one or several models and returns the results in JSON format.
 	 * This is a helper method that simplies the way of writing AJAX validation code.
 	 * @param mixed a single model instance or an array of models.
-	 * @param boolean whether to load the data from $_POST array in this method.
-	 * If this is true, the model will be populated from <code>$_POST[ModelClass]</code>.
 	 * @param array list of attributes that should be validated. Defaults to null,
 	 * meaning any attribute listed in the applicable validation rules of the models should be
 	 * validated. If this parameter is given as a list of attributes, only
 	 * the listed attributes will be validated.
+	 * @param boolean whether to load the data from $_POST array in this method.
+	 * If this is true, the model will be populated from <code>$_POST[ModelClass]</code>.
 	 * @return string the JSON representation of the validation error messages.
 	 */
-	public static function validate($models, $loadInput=true, $attributes=null)
+	public static function validate($models, $attributes=null, $loadInput=true)
 	{
 		$result=array();
 		if(!is_array($models))
