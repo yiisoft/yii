@@ -263,10 +263,10 @@ corresponds to the `user/profile` route.
 Note that [CUrlManager::showScriptName] will not take effect when a URL is being created
 using a rule with parameterized hostname.
 
-Also note that if the application is under a sub-folder of the Web root, then the sub-folder
-should be removed from the rule. For example, if the application is under
-`http://www.example.com/sandbox/blog`, then we should still use the same URL rule as described
-above without the sub-folder `sandbox/blog`.
+Also note that the rule with parameterized hostname should NOT contain the sub-folder
+if the application is under a sub-folder of the Web root. For example, if the application
+is under `http://www.example.com/sandbox/blog`, then we should still use the same URL rule
+as described above without the sub-folder `sandbox/blog`.
 
 ### Hiding `index.php`
 
