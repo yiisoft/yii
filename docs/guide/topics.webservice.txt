@@ -30,7 +30,7 @@ Defining Service Provider
 As we mentioned above, a service provider is a class defining the methods
 that can be remotely invoked. Yii relies on [doc
 comment](http://java.sun.com/j2se/javadoc/writingdoccomments/) and [class
-reflection](http://www.php.net/manual/en/language.oop5.reflection.php) to
+reflection](http://php.net/manual/en/book.reflection.php) to
 identify which methods can be remotely invoked and what are their
 parameters and return value.
 
