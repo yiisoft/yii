@@ -156,11 +156,11 @@ class CHtml
 	 */
 	public static function metaTag($content,$name=null,$httpEquiv=null,$options=array())
 	{
-		$options['content']=$content;
 		if($name!==null)
 			$options['name']=$name;
 		if($httpEquiv!==null)
 			$options['http-equiv']=$httpEquiv;
+		$options['content']=$content;
 		return self::tag('meta',$options);
 	}
 
