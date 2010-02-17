@@ -425,7 +425,7 @@ echo $form->renderBegin();
 foreach($form->getElements() as $element)
 	echo $element->render();
 
-echo $this->renderEnd();
+echo $form->renderEnd();
 ~~~
 
 To use this view script, we can simply call:

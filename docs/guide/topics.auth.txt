@@ -210,7 +210,7 @@ be executed.
 >     // ... other rules...
 >     // the following rule denies 'delete' action for all contexts
 >     array('deny',
->         'action'=>array('delete'),
+>         'actions'=>array('delete'),
 >     ),
 > );
 > ~~~
