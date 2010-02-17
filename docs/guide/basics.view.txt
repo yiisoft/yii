@@ -122,7 +122,8 @@ Like a controller, a widget can also have its own view. By default, widget
 view files are located under the `views` subdirectory of the directory
 containing the widget class file. These views can be rendered by calling
 [CWidget::render()], similar to that in controller. The only difference is
-that no layout will be applied to a widget view.
+that no layout will be applied to a widget view. Also, `$this` in the view refers
+to the widget instance instead of the controller instance.
 
 System View
 -----------
