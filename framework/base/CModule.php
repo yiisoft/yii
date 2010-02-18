@@ -62,11 +62,6 @@ abstract class CModule extends CComponent
 			$this->setBasePath($config['basePath']);
 			unset($config['basePath']);
 		}
-		else
-		{
-			$class=new ReflectionClass(get_class($this));
-			$this->setBasePath(dirname($class->getFileName()));
-		}
 		Yii::setPathOfAlias($id,$this->getBasePath());
 
 		$this->preinit();
