@@ -1,4 +1,6 @@
 <?php
+require_once dirname(__FILE__) . '/NewComponent.php';
+require_once dirname(__FILE__) . '/NewBehavior.php';
 
 function globalEventHandler($event)
 {
@@ -9,53 +11,6 @@ function globalEventHandler2($event)
 {
 	$event->sender->eventHandled=true;
 	$event->handled=true;
-}
-
-class NewComponent extends CComponent
-{
-	private $_object = null;
-	private $_text = 'default';
-	public $eventHandled = false;
-	public $behaviorCalled = false;
-
-	public function getText()
-	{
-		return $this->_text;
-	}
-
-	public function setText($value)
-	{
-		$this->_text=$value;
-	}
-
-	public function getObject()
-	{
-		if(!$this->_object)
-		{
-			$this->_object=new NewComponent;
-			$this->_object->_text='object text';
-		}
-		return $this->_object;
-	}
-
-	public function onMyEvent()
-	{
-		$this->raiseEvent('OnMyEvent',new CEvent($this));
-	}
-
-	public function myEventHandler($event)
-	{
-		$this->eventHandled=true;
-	}
-}
-
-class NewBehavior extends CBehavior
-{
-	public function test()
-	{
-		$this->owner->behaviorCalled=true;
-		return 2;
-	}
 }
 
 class CComponentTest extends CTestCase
@@ -222,16 +177,47 @@ class CComponentTest extends CTestCase
 		$this->setExpectedException('CException');
 		$this->component->onMyEvent();
 	}
-
-	public function testBehavior()
-	{
+	public function testDetachBehavior() {
 		$component=new NewComponent;
-		$component->attachBehavior('a',new NewBehavior);
-		$this->assertFalse($component->behaviorCalled);
-		$this->assertFalse(method_exists($component,'test'));
-		$this->assertEquals(2,$component->test());
-		$this->assertTrue($component->behaviorCalled);
+		$behavior = new NewBehavior; 
+		$component->attachBehavior('a',$behavior);
+		$this->assertSame($behavior,$component->detachBehavior('a'));
+	}
+	public function testDetachingBehaviors() {
+		$component=new NewComponent;
+		$behavior = new NewBehavior; 
+		$component->attachBehavior('a',$behavior);
+		$component->detachBehaviors();
 		$this->setExpectedException('CException');
-		$component->test2();
+		$component->test();
+	}
+	public function testEnablingBehavior() {
+		$component=new NewComponent;
+		$behavior = new NewBehavior; 
+		$component->attachBehavior('a',$behavior);
+		$component->disableBehavior('a');
+		$this->assertFalse($behavior->getEnabled());
+		$component->enableBehavior('a');
+		$this->assertTrue($behavior->getEnabled());
+	}
+	public function testEnablingBehaviors() {
+		$component=new NewComponent;
+		$behavior = new NewBehavior; 
+		$component->attachBehavior('a',$behavior);
+		$component->disableBehaviors();
+		$this->assertFalse($behavior->getEnabled());
+		$component->enableBehaviors();
+		$this->assertTrue($behavior->getEnabled());
+	}
+	public function testAsa() {
+		$component=new NewComponent;
+		$behavior = new NewBehavior; 
+		$component->attachBehavior('a',$behavior);
+		$this->assertSame($behavior,$component->asa('a'));
+	}
+	public function testEvaluateExpression() {
+		$component = new NewComponent;
+		$this->assertEquals('Hello world',$component->evaluateExpression('"Hello $who"',array('who' => 'world')));
+		$this->assertEquals('Hello world',$component->evaluateExpression(array($component,'exprEvaluator'),array('who' => 'world')));
 	}
 }
