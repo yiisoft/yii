@@ -73,7 +73,7 @@ class CDbCommandBuilder extends CComponent
 	{
 		$this->ensureTable($table);
 		$select=is_array($criteria->select) ? implode(', ',$criteria->select) : $criteria->select;
-		if($criteria->alias!==null)
+		if($criteria->alias!='')
 			$alias=$criteria->alias;
 		$alias=$this->_schema->quoteTableName($alias);
 		$sql=($criteria->distinct ? 'SELECT DISTINCT':'SELECT')." {$select} FROM {$table->rawName} $alias";
@@ -98,7 +98,7 @@ class CDbCommandBuilder extends CComponent
 	public function createCountCommand($table,$criteria,$alias='t')
 	{
 		$this->ensureTable($table);
-		if($criteria->alias!==null)
+		if($criteria->alias!='')
 			$alias=$criteria->alias;
 		$alias=$this->_schema->quoteTableName($alias);
 		$sql=($criteria->distinct ? 'SELECT DISTINCT':'SELECT')." COUNT(*) FROM {$table->rawName} $alias";
@@ -292,7 +292,7 @@ class CDbCommandBuilder extends CComponent
 	 */
 	public function applyJoin($sql,$join)
 	{
-		if($join!=='')
+		if($join!='')
 			return $sql.' '.$join;
 		else
 			return $sql;
@@ -306,7 +306,7 @@ class CDbCommandBuilder extends CComponent
 	 */
 	public function applyCondition($sql,$condition)
 	{
-		if($condition!=='')
+		if($condition!='')
 			return $sql.' WHERE '.$condition;
 		else
 			return $sql;
@@ -320,7 +320,7 @@ class CDbCommandBuilder extends CComponent
 	 */
 	public function applyOrder($sql,$orderBy)
 	{
-		if($orderBy!=='')
+		if($orderBy!='')
 			return $sql.' ORDER BY '.$orderBy;
 		else
 			return $sql;
@@ -351,7 +351,7 @@ class CDbCommandBuilder extends CComponent
 	 */
 	public function applyGroup($sql,$group)
 	{
-		if($group!=='')
+		if($group!='')
 			return $sql.' GROUP BY '.$group;
 		else
 			return $sql;
@@ -366,7 +366,7 @@ class CDbCommandBuilder extends CComponent
 	 */
 	public function applyHaving($sql,$having)
 	{
-		if($having!=='')
+		if($having!='')
 			return $sql.' HAVING '.$having;
 		else
 			return $sql;
@@ -443,14 +443,14 @@ class CDbCommandBuilder extends CComponent
 	{
 		$this->ensureTable($table);
 		$criteria=$this->createCriteria($condition,$params);
-		if($criteria->alias!==null)
+		if($criteria->alias!='')
 			$prefix=$this->_schema->quoteTableName($criteria->alias).'.';
 		if(!is_array($pk)) // single key
 			$pk=array($pk);
 		if(is_array($table->primaryKey) && !isset($pk[0]) && $pk!==array()) // single composite key
 			$pk=array($pk);
 		$condition=$this->createInCondition($table,$table->primaryKey,$pk,$prefix);
-		if($criteria->condition!=='')
+		if($criteria->condition!='')
 			$criteria->condition=$condition.' AND ('.$criteria->condition.')';
 		else
 			$criteria->condition=$condition;
@@ -489,7 +489,7 @@ class CDbCommandBuilder extends CComponent
 	{
 		$this->ensureTable($table);
 		$criteria=$this->createCriteria($condition,$params);
-		if($criteria->alias!==null)
+		if($criteria->alias!='')
 			$prefix=$this->_schema->quoteTableName($criteria->alias).'.';
 		$bindByPosition=isset($criteria->params[0]);
 		$conditions=array();
@@ -527,7 +527,7 @@ class CDbCommandBuilder extends CComponent
 		$criteria->params=array_merge($values,$criteria->params);
 		if(isset($conditions[0]))
 		{
-			if($criteria->condition!=='')
+			if($criteria->condition!='')
 				$criteria->condition=implode(' AND ',$conditions).' AND ('.$criteria->condition.')';
 			else
 				$criteria->condition=implode(' AND ',$conditions);
