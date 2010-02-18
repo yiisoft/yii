@@ -1735,8 +1735,10 @@ EOD;
 	 * <li>confirm: string, specifies the message that should show in a pop-up confirmation dialog.</li>
 	 * <li>ajax: array, specifies the AJAX options (see {@link ajax}).</li>
 	 * </ul>
+	 * @param boolean whether the event should be "live" (a jquery event concept). Defaults to true.
+	 * This parameter has been available since version 1.1.1.
 	 */
-	protected static function clientChange($event,&$htmlOptions)
+	protected static function clientChange($event,&$htmlOptions,$live=true)
 	{
 		if(!isset($htmlOptions['submit']) && !isset($htmlOptions['confirm']) && !isset($htmlOptions['ajax']))
 			return;
@@ -1791,7 +1793,10 @@ EOD;
 				$handler="return $confirm;";
 		}
 
-		$cs->registerScript('Yii.CHtml.#'.$id,"jQuery('#$id').$event(function(){{$handler}});");
+		if($live)
+			$cs->registerScript('Yii.CHtml.#'.$id,"jQuery('#$id').live('$event',function(){{$handler}});");
+		else
+			$cs->registerScript('Yii.CHtml.#'.$id,"jQuery('#$id').$event(function(){{$handler}});");
 		unset($htmlOptions['params'],$htmlOptions['submit'],$htmlOptions['ajax'],$htmlOptions['confirm'],$htmlOptions['return'],$htmlOptions['csrf']);
 	}
 
