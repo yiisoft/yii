@@ -847,6 +847,14 @@ class CJoinElement
 					$key=substr($name,$pos+1);
 				else
 					$key=$name;
+
+				if($key==='*')
+				{
+					foreach($this->_table->getColumnNames() as $name)
+						$columns[]=$prefix.$schema->quoteColumnName($name).' AS '.$schema->quoteColumnName($this->_columnAliases[$name]);
+					continue;
+				}
+
 				if(isset($this->_columnAliases[$key]))  // simple column names
 				{
 					$columns[]=$prefix.$schema->quoteColumnName($key).' AS '.$schema->quoteColumnName($this->_columnAliases[$key]);
