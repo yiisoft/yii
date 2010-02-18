@@ -74,7 +74,7 @@ require_once(dirname(__FILE__).'/WebTestCase.php');
 Yii::createWebApplication($config);
 ~~~
 
-In the above, we first include the `yiit.php` file from the Yii framework, which initializes some global constants and includes necessary test base classes.  We then creates a Web application instance using the `test.php` configuration file. If we check `test.php`, we shall find that it inherits from the `main.php` configuration file and adds a `fixture` application component whose class is [CDbFixtureManager]. We will describe fixtures in detail in the next section.
+In the above, we first include the `yiit.php` file from the Yii framework, which initializes some global constants and includes necessary test base classes.  We then create a Web application instance using the `test.php` configuration file. If we check `test.php`, we shall find that it inherits from the `main.php` configuration file and adds a `fixture` application component whose class is [CDbFixtureManager]. We will describe fixtures in detail in the next section.
 
 ~~~
 [php]
