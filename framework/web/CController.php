@@ -634,17 +634,21 @@ class CController extends CBaseController
 	 * This is like {@link redirect}, but the user browser's URL remains unchanged.
 	 * In most cases, you should call {@link redirect} instead of this method.
 	 * @param string the route of the new controller action. This can be an action ID, or a complete route
-	 * with module ID, controller ID and action ID. If the former, the action is assumed
+	 * with module ID (optional in the current module), controller ID and action ID. If the former, the action is assumed
 	 * to be located within the current controller.
 	 * @param boolean whether to end the application after this call. Defaults to true.
 	 * @since 1.1.0
 	 */
 	public function forward($route,$exit=true)
 	{
-		if(strpos($route,'/')===false) // an action of the current controller
+		if(strpos($route,'/')===false)
 			$this->run($route);
 		else
+		{
+			if($route[0]!=='/' && ($module=$this->getModule())!==null)
+				$route=$module->getId().'/'.$route;
 			Yii::app()->runController($route);
+		}
 		if($exit)
 			Yii::app()->end();
 	}
