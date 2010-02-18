@@ -55,6 +55,6 @@ public function actionIndex()
 
 Notice that in the above code, because both `tbl_post` and `tbl_comment` have columns `status` and `create_time`, we need to disambiguate the corresponding column reference by prefixing them with table alias names. As described in [the guide](http://www.yiiframework.com/doc/guide/database.arr#disambiguating-column-names), the alias for the primary table in a relational query is always `t`. Therefore, we are prefixing `t` to the `status` and `create_time` columns in the above code.
 
-Like the post index view, the `index` view for `CommentController` uses [[CListView]] to display the comment list which in turn uses the partial view `/wwwroot/blog/protected/views/comment/_view.php` to display the detail of each individual comment. We will not go into details here. Interested readers may refer to the corresponding file in the blog demo `/wwwroot/yii/demos/blog/protected/views/comment/_view.php`.
+Like the post index view, the `index` view for `CommentController` uses [CListView] to display the comment list which in turn uses the partial view `/wwwroot/blog/protected/views/comment/_view.php` to display the detail of each individual comment. We will not go into details here. Interested readers may refer to the corresponding file in the blog demo `/wwwroot/yii/demos/blog/protected/views/comment/_view.php`.
 
 <div class="revision">$Id$</div>
