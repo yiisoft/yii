@@ -389,7 +389,7 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function getIsPostRequest()
 	{
-		return !strcasecmp($_SERVER['REQUEST_METHOD'],'POST');
+		return isset($_SERVER['REQUEST_METHOD']) && !strcasecmp($_SERVER['REQUEST_METHOD'],'POST');
 	}
 
 	/**
@@ -397,7 +397,7 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	public function getIsAjaxRequest()
 	{
-		return isset($_SERVER['HTTP_X_REQUESTED_WITH'])?$_SERVER['HTTP_X_REQUESTED_WITH']==='XMLHttpRequest' : false;
+		return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH']==='XMLHttpRequest';
 	}
 
 	/**
