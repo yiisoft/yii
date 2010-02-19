@@ -31,7 +31,7 @@
  * which expects the name of a model attribute.
  *
  * Because CFormElement is an ancestor class of CFormInputElement, a value assigned to a non-existing property will be
- * stored in {@link htmlOptions} which will be passed as HTML attribute values to the {@link CHtml} method
+ * stored in {@link attributes} which will be passed as HTML attribute values to the {@link CHtml} method
  * generating the input or initial values of the widget properties.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -178,17 +178,17 @@ class CFormInputElement extends CFormElement
 		{
 			$method=self::$coreTypes[$this->type];
 			if(strpos($method,'List')!==false)
-				return CHtml::$method($this->getParent()->getModel(), $this->name, $this->items, $this->htmlOptions);
+				return CHtml::$method($this->getParent()->getModel(), $this->name, $this->items, $this->attributes);
 			else
-				return CHtml::$method($this->getParent()->getModel(), $this->name, $this->htmlOptions);
+				return CHtml::$method($this->getParent()->getModel(), $this->name, $this->attributes);
 		}
 		else
 		{
-			$htmlOptions=$this->htmlOptions;
-			$htmlOptions['model']=$this->getParent()->getModel();
-			$htmlOptions['attribute']=$this->name;
+			$attributes=$this->attributes;
+			$attributes['model']=$this->getParent()->getModel();
+			$attributes['attribute']=$this->name;
 			ob_start();
-			$this->getParent()->getOwner()->widget($this->type, $htmlOptions);
+			$this->getParent()->getOwner()->widget($this->type, $attributes);
 			return ob_get_clean();
 		}
 	}

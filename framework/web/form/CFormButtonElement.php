@@ -27,7 +27,7 @@
  * have a property called "name".
  *
  * Because CFormElement is an ancestor class of CFormButtonElement, a value assigned to a non-existing property will be
- * stored in {@link htmlOptions} which will be passed as HTML attribute values to the {@link CHtml} method
+ * stored in {@link attributes} which will be passed as HTML attribute values to the {@link CHtml} method
  * generating the button or initial values of the widget properties.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -94,32 +94,32 @@ class CFormButtonElement extends CFormElement
 	 */
 	public function render()
 	{
-		$htmlOptions=$this->htmlOptions;
+		$attributes=$this->attributes;
 		if(isset(self::$coreTypes[$this->type]))
 		{
 			$method=self::$coreTypes[$this->type];
 			if($method==='linkButton')
 			{
-				if(!isset($htmlOptions['params'][$this->name]))
-					$htmlOptions['params'][$this->name]=1;
+				if(!isset($attributes['params'][$this->name]))
+					$attributes['params'][$this->name]=1;
 			}
 			else if($method==='htmlButton')
 			{
-				$htmlOptions['type']=$this->type==='submitButton' ? 'submit' : ($this->type==='resetButton' ? 'reset' : 'button');
-				$htmlOptions['name']=$this->name;
+				$attributes['type']=$this->type==='submitButton' ? 'submit' : ($this->type==='resetButton' ? 'reset' : 'button');
+				$attributes['name']=$this->name;
 			}
 			else
-				$htmlOptions['name']=$this->name;
+				$attributes['name']=$this->name;
 			if($method==='imageButton')
-				return CHtml::imageButton(isset($htmlOptions['src']) ? $htmlOptions['src'] : '',$htmlOptions);
+				return CHtml::imageButton(isset($attributes['src']) ? $attributes['src'] : '',$attributes);
 			else
-				return CHtml::$method($this->label,$htmlOptions);
+				return CHtml::$method($this->label,$attributes);
 		}
 		else
 		{
-			$htmlOptions['name']=$this->name;
+			$attributes['name']=$this->name;
 			ob_start();
-			$this->getParent()->getOwner()->widget($this->type, $htmlOptions);
+			$this->getParent()->getOwner()->widget($this->type, $attributes);
 			return ob_get_clean();
 		}
 	}
