@@ -7,6 +7,7 @@ Version 1.0.12 to be released
 - Bug #731: When using CWebService to generate WSDL, it may cause the error about Premature end of data in tag definitions in SoapClient (Qiang)
 - Bug #740: CDbCriteria::addColumnCondition() should handle NULL parameter correctly (Qiang)
 - Bug #742: CEmailValidator should allow upper case email addresses (Qiang)
+- Bug #788: CHttpRequest.sendFile() gives incorrect content length when output_handler is enabled (Qiang)
 - Bug #801: CCaptcha allows unlimited tests if the CAPTCHA image is not reloaded (Qiang)
 - Bug #832: CJavaScript::quote() should also escape the sequence "</" (Qiang)
 - Bug #843: CApcCache::mget() may fail if some entries of the specified keys are not cached (Qiang)
