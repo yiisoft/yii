@@ -224,6 +224,7 @@ return array(
 		......
         'user'=>array(
             'type'=>'form',
+            'model'=>$userModel,
             'title'=>'Login Credential',
             'elements'=>array(
             	'username'=>array(
@@ -240,6 +241,7 @@ return array(
 
         'profile'=>array(
         	'type'=>'form',
+        	'model'=>$profileModel,
         	......
         ),
         ......
