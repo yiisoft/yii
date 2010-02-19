@@ -99,7 +99,7 @@ class CForm extends CFormElement implements ArrayAccess
 	 * @var array HTML attribute values for the form tag. When the form is embedded within another form,
 	 * this property will be used to render the HTML attribute values for the fieldset enclosing the child form.
 	 */
-	public $htmlOptions=array();
+	public $attributes=array();
 	/**
 	 * @var boolean whether to show error summary. Defaults to false.
 	 */
@@ -389,7 +389,8 @@ class CForm extends CFormElement implements ArrayAccess
 				$class='CActiveForm';
 			$options['action']=$this->action;
 			$options['method']=$this->method;
-			$options['htmlOptions']=$this->htmlOptions;
+			foreach($this->attributes as $name=>$value)
+				$options[$name]=$value;
 			ob_start();
 			$this->_activeForm=$this->getOwner()->beginWidget($class, $options);
 			return ob_get_clean() . "<div style=\"visibility:hidden\">".CHtml::hiddenField($this->getUniqueID(),1)."</div>\n";
@@ -426,7 +427,7 @@ class CForm extends CFormElement implements ArrayAccess
 		if($this->title!==null)
 		{
 			if($this->getParent() instanceof self)
-				$output=CHtml::openTag('fieldset', $this->htmlOptions);
+				$output=CHtml::openTag('fieldset', $this->attributes);
 			else
 				$output.="<fieldset>\n<legend>".$this->title."</legend>\n";
 		}
@@ -543,8 +544,8 @@ class CForm extends CFormElement implements ArrayAccess
 	 */
 	protected function getUniqueId()
 	{
-		if(isset($this->htmlOptions['id']))
-			return 'yform_'.$this->htmlOptions['id'];
+		if(isset($this->attributes['id']))
+			return 'yform_'.$this->attributes['id'];
 		else
 			return 'yform_'.sprintf('%x',crc32(serialize(array_keys($this->getElements()->toArray()))));
 	}

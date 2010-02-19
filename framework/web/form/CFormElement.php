@@ -23,7 +23,7 @@ abstract class CFormElement extends CComponent
 	/**
 	 * @var array list of attributes (name=>value) for the HTML element represented by this object.
 	 */
-	public $htmlOptions=array();
+	public $attributes=array();
 
 	private $_parent;
 	private $_visible;
@@ -76,8 +76,8 @@ abstract class CFormElement extends CComponent
 		$getter='get'.$name;
 		if(method_exists($this,$getter))
 			return $this->$getter();
-		else if(isset($this->htmlOptions[$name]))
-			return $this->htmlOptions[$name];
+		else if(isset($this->attributes[$name]))
+			return $this->attributes[$name];
 		else
 			throw new CException(Yii::t('yii','Property "{class}.{property}" is not defined.',
 				array('{class}'=>get_class($this), '{property}'=>$name)));
@@ -101,7 +101,7 @@ abstract class CFormElement extends CComponent
 		if(method_exists($this,$setter))
 			$this->$setter($value);
 		else
-			$this->htmlOptions[$name]=$value;
+			$this->attributes[$name]=$value;
 	}
 
 	/**
