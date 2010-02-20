@@ -160,7 +160,7 @@ return array (
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". There is no such column in the table "{table}".' => 'Η σχέση "{relation}" στην active record κλάση "{class}" έχει οριστεί με μη έγκυρο ξένο κλειδί "{key}". Δεν υπάρχει τέτοια στήλη στον πίνακα "{table}".',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The columns in the key must match the primary keys of the table "{table}".' => 'Η σχέση "{relation}" στην active record κλάση "{class}" έχει οριστεί με μη έγκυρο ξένο κλειδί. Οι στήλες στο κλειδί πρέπει να δείχνουν στο κύριο κλειδί του πίνακα "{table}".',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".' => 'Η σχέση "{relation}" στην active record κλάση "{class}" έχει οριστεί με μη έγκυρο ξένο κλειδί. Η μορφή του ξένου κλειδιού πρέπει να είναι "συζευγμένοςΠίνακας(ξκ1,ξκ2,...)".',
-  'The requested view "{name}" is not found.' => 'Δεν ήταν δυνατή η εύρεση της όψης "{name}".',
+  'The requested view "{name}" was not found.' => 'Δεν ήταν δυνατή η εύρεση της όψης "{name}".',
   'The stack is empty.' => 'Η στοίβα είναι άδεια.',
   'The system is unable to find the requested action "{action}".' => 'Το σύστημα ήταν αδύνατο να εντοπίσει την ζητούμενη ενέργεια "{action}".',
   'The system view path "{path}" is not a valid directory.' => 'Η διαδρομή όψεων του συστήματος "{path}" δεν είναι έγκυρος κατάλογος.',

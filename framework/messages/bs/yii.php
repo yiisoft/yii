@@ -165,7 +165,7 @@ return array (
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". There is no such column in the table "{table}".' => 'Odnos "{relation}" u active record klasi "{class}" je specificirana sa pogrešnim spoljnim ključem "{key}". U tabeli "{table}" ne postoji takva kolona.',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The columns in the key must match the primary keys of the table "{table}".' => 'Odnos "{relation}" u active record klasi "{class}" je specificirana pogrešnim spoljnim ključem (foreign key). Kolone spoljnog ključa (foreign key) moraju biti iste kao i primarnog ključa od tabele "{table}".',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".' => 'Odnos "{relation}" u active record klasi "{class}" je specificirana pogrešnim spoljnim ključem (foreign key). Format spoljnog ključa (foreign key) mora biti "joinTable(fk1,fk2,...)',
-  'The requested view "{name}" is not found.' => 'zahtjevani pogled (view) "{name}" nije pronađen.',
+  'The requested view "{name}" was not found.' => 'zahtjevani pogled (view) "{name}" nije pronađen.',
   'The stack is empty.' => 'Hrpa (stack) je prazna.',
   'The system is unable to find the requested action "{action}".' => 'Sistem ne može da pronađe zahtjevanu akciju "{action}".',
   'The system view path "{path}" is not a valid directory.' => 'Put direktorijuma do sistemskog pogleda (system view) "{path}" nije ispravan.',

@@ -152,7 +152,7 @@ return array (
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". The foreign key does not point to either joining table.' => 'Відношення "{relation}" у поточному записі класу "{class}" описане невірним зовнішнім ключем "{key}". Ключ не вказує на жодну з обох пов\'язаних таблиць.',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".' => 'Відношення "{relation}" у поточному записі класу "{class}" описане невірним зовнішнім ключем. Формат ключа мусить мати вигляд "joinTable(fk1,fk2,...)".',
   'The requested controller "{controller}" does not exist.' => 'Запитаний контролер "{controller}" не існує.',
-  'The requested view "{name}" is not found.' => 'Запитане представлення "{name}" не знайдене.',
+  'The requested view "{name}" was not found.' => 'Запитане представлення "{name}" не знайдене.',
   'The stack is empty.' => 'Стек порожній.',
   'The system is unable to find the requested action "{action}".' => 'Система не може знайти запитаного методу "{action}".',
   'The system view path "{path}" is not a valid directory.' => 'Системний шлях представлення "{path}" недійсний.',

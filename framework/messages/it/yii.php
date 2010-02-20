@@ -150,7 +150,7 @@ return array (
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". The foreign key does not point to either joining table.' => 'La relazione "{relation}" nella classe active record "{class}" è specificata con una chiave esterna non valida "{key}". La chiave esterna non punta a nessuna tabella di join.',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".' => 'La relazione "{relation}" nella classe active record "{class}" è specificata con una chiave esterna non valida. Il formato della chiave esterna deve essere "joinTable(fk1,fk2,...)".',
   'The requested controller "{controller}" does not exist.' => 'Il controller "{controller}" richiesto non esiste.',
-  'The requested view "{name}" is not found.' => 'Impossibile trovare la vista "{name}" richiesta.',
+  'The requested view "{name}" was not found.' => 'Impossibile trovare la vista "{name}" richiesta.',
   'The stack is empty.' => 'La pila è vuota',
   'The system is unable to find the requested action "{action}".' => 'Il sistema non ha potuto trovare l\'azione "{action}" richiesta.',
   'The system view path "{path}" is not a valid directory.' => 'Il percorso della vista di sistema "{path}" non è una cartella valida.',

@@ -157,7 +157,7 @@ return array (
   'The relation "{relation}" in active record class "{class}" is specified with an incomplete foreign key. The foreign key must consist of columns referencing both joining tables.' => 'Отношение "{relation}", определенное в записи active record класса "{class}", определено неполным внешним ключом. Внешний ключ должен состоять из столбцов, относящихся к обоим объединяемым таблицам.',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". The foreign key does not point to either joining table.' => 'Отношение "{relation}", определенное в записи active record класса "{class}", определено неверным внешним ключом "{key}". Внешний ключ не указывает ни на одну из объединяемых таблиц.',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".' => 'Отношение "{relation}", определенное в записи active record класса "{class}", определено неверным внешним ключом. Формат внешнего ключа должен быть таким: "joinTable(fk1,fk2,...)".',
-  'The requested view "{name}" is not found.' => 'Запрошенное представление "{view}" не найдено.',
+  'The requested view "{name}" was not found.' => 'Запрошенное представление "{view}" не найдено.',
   'The stack is empty.' => 'Стек приложения пуст.',
   'The system is unable to find the requested action "{action}".' => 'Системе не удалось найти запрашиваемое действие "{action}".',
   'The system view path "{path}" is not a valid directory.' => 'Путь к представлениям "{path}" не является директорией.',

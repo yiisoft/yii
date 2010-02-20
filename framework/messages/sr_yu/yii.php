@@ -147,7 +147,7 @@ return array (
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". The foreign key does not point to either joining table.' => 'Relacija "{relation}" u active record klasi "{class}" je specificirana pogrešnim spoljnim ključem (foreign key) "{key}". Spoljni ključ (foreign key) ne pokazuje ni na jednu tabelu za spajanje (joining tables).',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".' => 'Relacija "{relation}" u active record klasi "{class}" je specificirana pogrešnim spoljnim ključem (foreign key). Format spoljnog ključa (foreign key) mora biti "joinTable(fk1,fk2,...)',
   'The requested controller "{controller}" does not exist.' => 'Zahtevani kontroler "{controller}" ne postoji.',
-  'The requested view "{name}" is not found.' => 'Zahtevani pogled (view) "{name}" nije pronađen.',
+  'The requested view "{name}" was not found.' => 'Zahtevani pogled (view) "{name}" nije pronađen.',
   'The stack is empty.' => 'Stek (stack) je prazan.',
   'The system is unable to find the requested action "{action}".' => 'Sistem ne može da pronađe zahtevanu akciju "{action}".',
   'The system view path "{path}" is not a valid directory.' => 'Putanja direktorijuma do sistemskog pogleda (system view) "{path}" nije ispravna.',

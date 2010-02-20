@@ -165,7 +165,7 @@ return array (
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". There is no such column in the table "{table}".' => 'Die Relation "{relation}" in der ActiveRecord-Klasse "{class}" wurde mit einem ungültigen Fremdschlüssel "{key}" definiert. In der Tabelle "{table}" gibt es keine solche Spalte.',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The columns in the key must match the primary keys of the table "{table}".' => 'Die Relation "{relation}" in der ActiveRecord-Klasse "{class}" wurde mit einem ungültigen Fremdschlüssel definiert. Die Spalten im Fremdschlüssel müssen mit dem Primärschlüsseln der Tabelle "{table}" übereinstimmen.',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".' => 'Zur Relation "{relation} in der ActiveRecord-Klasse "{class}" wurde ein ungültiger Fremdschlüssel angegeben. Der Fremdschlüssel muss dem Format "joinTabelle(fs1,fs2,..)" entsprechen.',
-  'The requested view "{name}" is not found.' => 'Der angeforderte View "{name}" wurde nicht gefunden.',
+  'The requested view "{name}" was not found.' => 'Der angeforderte View "{name}" wurde nicht gefunden.',
   'The stack is empty.' => 'Der Stack ist leer.',
   'The system is unable to find the requested action "{action}".' => 'Das System konnte die angeforderte Action "{action}" nicht finden.',
   'The system view path "{path}" is not a valid directory.' => 'Der System-View-Pfad "{path}" ist kein gültiges Verzeichnis.',
