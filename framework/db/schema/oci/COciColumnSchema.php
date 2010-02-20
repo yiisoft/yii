@@ -12,7 +12,7 @@
  * COciColumnSchema class describes the column meta data of a Oracle table.
  *
  * @author Ricardo Grana <rickgrana@yahoo.com.br>
- * @version $Id: COciColumnSchema.php
+ * @version $Id$
  * @package system.db.schema.oci
  * @since 1.0.5
  */
