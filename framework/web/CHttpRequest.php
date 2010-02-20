@@ -552,7 +552,8 @@ class CHttpRequest extends CApplicationComponent
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header("Content-type: $mimeType");
-		header('Content-Length: '.strlen($content));
+		if(ini_get("output_handler")=='')
+			header('Content-Length: '.strlen($content));
 		header("Content-Disposition: attachment; filename=\"$fileName\"");
 		header('Content-Transfer-Encoding: binary');
 		echo $content;

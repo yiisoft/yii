@@ -178,10 +178,11 @@ class CDbCriteria
 			return $this->addCondition('0=1',$operator);
 		if($n===1)
 		{
-			if($values[0]===null)
+			$value=reset($values);
+			if($value===null)
 				return $this->addCondition($column.' IS NULL');
 			$condition=$column.'='.self::PARAM_PREFIX.$this->_paramCount;
-			$this->params[self::PARAM_PREFIX.$this->_paramCount++]=$values[0];
+			$this->params[self::PARAM_PREFIX.$this->_paramCount++]=$value;
 		}
 		else
 		{

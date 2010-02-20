@@ -202,7 +202,7 @@ class CFileCache extends CCache
 			$path=$this->cachePath;
 		if(($handle=opendir($path))===false)
 			return;
-		while($file=readdir($handle))
+		while(($file=readdir($handle))!==false)
 		{
 			if($file[0]==='.')
 				continue;
