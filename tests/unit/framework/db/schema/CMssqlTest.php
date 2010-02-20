@@ -122,7 +122,7 @@ EOD;
 		(
 			'name'=>array('int_col', 'int_col2', 'char_col', 'char_col2', 'char_col3', 'float_col', 'float_col2', 'blob_col', 'numeric_col', 'time', 'bool_col', 'bool_col2'),
 			'rawName'=>array('[int_col]', '[int_col2]', '[char_col]', '[char_col2]', '[char_col3]', '[float_col]', '[float_col2]', '[blob_col]', '[numeric_col]', '[time]', '[bool_col]', '[bool_col2]'),
-			'defaultValue'=>array(null, 1, null, "something", null, null, 1.23, null, '33.22', '2002-01-01 00:00:00', null, true),
+			'defaultValue'=>array(null, 1, null, "something", null, null, '1.23', null, '33.22', '2002-01-01 00:00:00', null, true),
 			'size'=>array(10, 10, 100, 100, null, 24, 53, null, 5, null, null, null),
 			'precision'=>array(10, 10, 100, 100, null, 24, 53, null, 5, null, null, null),
 			'scale'=>array(0, 0, null, null, null, null, null, null, 2, null, null, null),

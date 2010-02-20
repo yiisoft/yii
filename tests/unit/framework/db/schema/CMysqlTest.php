@@ -108,7 +108,7 @@ class CMysqlTest extends CTestCase
 		(
 			'name'=>array('int_col', 'int_col2', 'char_col', 'char_col2', 'char_col3', 'float_col', 'float_col2', 'blob_col', 'numeric_col', 'time', 'bool_col', 'bool_col2'),
 			'rawName'=>array('`int_col`', '`int_col2`', '`char_col`', '`char_col2`', '`char_col3`', '`float_col`', '`float_col2`', '`blob_col`', '`numeric_col`', '`time`', '`bool_col`', '`bool_col2`'),
-			'defaultValue'=>array(null, 1, null, 'something', null, null, 1.23, null, '33.22', '2002-01-01 00:00:00', null, 1),
+			'defaultValue'=>array(null, 1, null, 'something', null, null, '1.23', null, '33.22', '2002-01-01 00:00:00', null, 1),
 			'size'=>array(11, 11, 100, 100, null, 4, null, null, 5, null, 1, 1),
 			'precision'=>array(11, 11, 100, 100, null, 4, null, null, 5, null, 1, 1),
 			'scale'=>array(null, null, null, null, null, 3, null, null, 2, null, null, null),

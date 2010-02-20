@@ -89,7 +89,7 @@ class CSqliteTest extends CTestCase
 		(
 			'name'=>array('int_col', 'int_col2', 'char_col', 'char_col2', 'char_col3', 'float_col', 'float_col2', 'blob_col', 'numeric_col', 'time', 'bool_col', 'bool_col2', 'null_col'),
 			'rawName'=>array('"int_col"', '"int_col2"', '"char_col"', '"char_col2"', '"char_col3"', '"float_col"', '"float_col2"', '"blob_col"', '"numeric_col"', '"time"', '"bool_col"', '"bool_col2"', '"null_col"'),
-			'defaultValue'=>array(null, 1, null, 'something', null, null, 1.23, null, '33.22', '123', null, true, null),
+			'defaultValue'=>array(null, 1, null, 'something', null, null, '1.23', null, '33.22', '123', null, true, null),
 			'size'=>array(null, null, 100, 100, null, 4, null, null, 5, null, null, null, null),
 			'precision'=>array(null, null, 100, 100, null, 4, null, null, 5, null, null, null, null),
 			'scale'=>array(null, null, null, null, null, 3, null, null, 2, null, null, null, null),
