@@ -145,6 +145,7 @@ SELECT a.column_name, a.data_type ||
                     case when a.data_scale > 0 then ',' || a.data_scale else '' end
                 || ')'
         when data_type = 'DATE' then ''
+        when data_type = 'NUMBER' then ''
         else '(' || to_char(a.data_length) || ')'
     end as data_type,
     a.nullable, a.data_default,
