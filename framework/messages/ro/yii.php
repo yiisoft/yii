@@ -152,7 +152,7 @@ return array (
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". The foreign key does not point to either joining table.' => 'Relatia "{relation}" din clasa active record "{class}" este specificata cu o cheie foreign nevalid "{key}". Cheia foreign nu precizeaza nici o tabela pentru care se aplica join.',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".' => 'Relatia "{relation}" din clasa active record "{class}" este specificata cu o cheie foreign nevalida. Formatul cheii foreign trebuie sa fie "joinTable(fk1,fk2,...)".',
   'The requested controller "{controller}" does not exist.' => 'Controllerul cerut "{controller}" nu exista.',
-  'The requested view "{name}" is not found.' => 'View-ul cerul "{name}" nu exista.',
+  'The requested view "{name}" was not found.' => 'View-ul cerul "{name}" nu exista.',
   'The stack is empty.' => 'Stiva e goala.',
   'The system is unable to find the requested action "{action}".' => 'Sistemul nu a putut gasi action-ul cerut "{action}".',
   'The system view path "{path}" is not a valid directory.' => 'Calea catre view-urile sistem "{path}" nu este un director valid.',

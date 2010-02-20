@@ -172,7 +172,7 @@ return array (
   'The relation "{relation}" in active record class "{class}" is specified with an incomplete foreign key. The foreign key must consist of columns referencing both joining tables.' => 'アクティブレコードクラス "{class}" のリレーション "{relation}" は不完全な外部キーで定義されています。外部キーは両方のジョインテーブルで参照されるカラムで構成されます。',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". The foreign key does not point to either joining table.' => 'アクティブレコードクラス "{class}" のリレーション "{relation}" は不正な外部キー "{key}" で定義されています。外部キーは両方のジョインテーブルのどちらも参照していません。',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".' => 'アクティブレコードクラス "{class}" のリレーション "{relation}" は不正な外部キーで定義されています。外部キーのフォーマットは"joinTable(fk1,fk2,...)" です。',
-  'The requested view "{name}" is not found.' => '要求されたビュー "{name}" が見つかりません。',
+  'The requested view "{name}" was not found.' => '要求されたビュー "{name}" が見つかりません。',
   'The stack is empty.' => 'スタックが空です。',
   'The system is unable to find the requested action "{action}".' => 'システムは要求されたアクション "{action}" を見つけられません。',
   'The system view path "{path}" is not a valid directory.' => 'システムビューパス "{path}" は正当なディレクトリではありません。',

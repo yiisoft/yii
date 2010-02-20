@@ -197,7 +197,7 @@ return array (
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". There is no such column in the table "{table}".' => 'La relation « {relation} » définie dans la classe active record « {class} » a une clef étrangère « {key} » invalide. Cette colonne n\'existe pas dans la table « {table} ».',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The columns in the key must match the primary keys of the table "{table}".' => 'La relation « {relation} » définie dans la classe active record « {class} » a une clef étrangère invalide. Les colonnes de la clef doivent correspondre avec les clefs primaire de la table « {table} ».',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".' => 'La relation « {relation} » définie dans la classe active record « {class} » a une clef étrangère invalide. Le clef étrangère doit être sous le format « joinTable(fk1,fk2,...) ».',
-  'The requested view "{name}" is not found.' => 'La vue demandée « {name} » est inexistante.',
+  'The requested view "{name}" was not found.' => 'La vue demandée « {name} » est inexistante.',
   'The stack is empty.' => 'La pile est vide.',
   'The STAT relation "{name}" cannot have child relations.' => 'La relation STAT « {name} » ne peut avoir de relations enfants.',
   'The system is unable to find the requested action "{action}".' => 'Le système ne peut trouver l\'action « {action} » demandée.',

@@ -153,7 +153,7 @@ return array (
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". The foreign key does not point to either joining table.' => 'active record class "{class}" 中的关联 "{relation}" 有一个无效的 foreign key "{key}". foreign key 未指到任一个 joining table.',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".' => 'active record class "{class}" 中的关联 "{relation}" 有一个无效的 foreign key. foreign key 的格式必须是 "joinTable(fk1,fk2,...)".',
   'The requested controller "{controller}" does not exist.' => '请求的控制器 "{controller}" 不存在.',
-  'The requested view "{name}" is not found.' => '请求的 view "{name}" 未找到.',
+  'The requested view "{name}" was not found.' => '请求的 view "{name}" 未找到.',
   'The stack is empty.' => '堆栈状态为空.',
   'The system is unable to find the requested action "{action}".' => '系统无法找到请求的 "{action}" 动作.',
   'The system view path "{path}" is not a valid directory.' => '系统 view 路径 "{path}" 不是一个有效的目录.',

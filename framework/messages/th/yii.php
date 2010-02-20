@@ -153,7 +153,7 @@ return array (
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". The foreign key does not point to either joining table.' => 'ความสัมพันธ์ระหว่าง "{relation}" กับ "{class}" ถูกระบุด้วยคีย์เชื่อมต่อที่ไม่ถูกต้องคือ "{key}" คีย์เชื่อมต่อนี้ไม่สามารถระบุความสัมพันธ์ระหว่างตารางได้',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".' => 'จะต้องระบุคีย์ในการเชื่อมต่อความสัมพันธ์ระหว่าง "{class}" กับ "{relation}" รูปแบบของคีย์เชื่อมต่อจะต้องอยู่ในรูปแบบ "joinTable(fk1,fk2,...)"',
   'The requested controller "{controller}" does not exist.' => 'ไม่พบส่วนควบคุม "{controller}" ในการเรียกใช้',
-  'The requested view "{name}" is not found.' => 'ไม่พบ "{name}" ในการเรียกใช้',
+  'The requested view "{name}" was not found.' => 'ไม่พบ "{name}" ในการเรียกใช้',
   'The stack is empty.' => 'สแตกข้อมูลเป็นค่าว่าง',
   'The system is unable to find the requested action "{action}".' => 'ระบบไม่สามารถดำเนินการ "{action}" ตามคำสั่งได้',
   'The system view path "{path}" is not a valid directory.' => 'ระบบตรวจพบที่อยู่ "{path}" ไม่ถูกต้อง',
