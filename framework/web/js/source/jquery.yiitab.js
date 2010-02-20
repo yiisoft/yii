@@ -27,7 +27,7 @@
 			}
 
 			this.find('>ul a').click(function(event) {
-				var href=$(event.target).attr('href');
+				var href=$(this).attr('href');
 				var pos=href.indexOf('#');
 				activate(href);
 				if(pos==0 || (pos>0 && (window.location.pathname=='' || window.location.pathname==href.substring(0,pos))))
