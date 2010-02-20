@@ -133,10 +133,10 @@ class CDbColumnSchema extends CComponent
 			return $this->type==='string' ? '' : null;
 		switch($this->type)
 		{
+			case 'string': return (string)$value;
 			case 'integer': return (integer)$value;
 			case 'boolean': return (boolean)$value;
-			case 'double': return $value;
-			case 'string': return (string)$value;
+			case 'double':
 			default: return $value;
 		}
 	}
