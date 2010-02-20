@@ -55,7 +55,7 @@ class CApcCache extends CCache
 	 */
 	protected function getValues($keys)
 	{
-		return array_combine($keys,apc_fetch($keys));
+		return apc_fetch($keys);
 	}
 
 	/**
