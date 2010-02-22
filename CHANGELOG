@@ -29,7 +29,7 @@ Version 1.1.1 to be released
 - Enh: Added CDataProvider::setTotalItemCount() (Qiang)
 - Chg #841: Changed CUrlManager::parsePathInfo() to non-static (Qiang)
 - Chg #851: yiic tool no longer turns off E_NOTICE (Qiang)
-- Chg: Upgraded jquery to version 1.4.1 (Qiang)
+- Chg: Upgraded jquery to version 1.4.2 (Qiang)
 - New: Added CActiveForm that performs model validations via AJAX (Qiang)
 
 Version 1.1.0 January 10, 2010
