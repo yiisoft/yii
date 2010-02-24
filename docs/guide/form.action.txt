@@ -9,22 +9,22 @@ the login form example, the following code is needed:
 [php]
 public function actionLogin()
 {
-	$form=new LoginForm;
+	$model=new LoginForm;
 	if(isset($_POST['LoginForm']))
 	{
 		// collects user input data
-		$form->attributes=$_POST['LoginForm'];
+		$model->attributes=$_POST['LoginForm'];
 		// validates user input and redirect to previous page if validated
-		if($form->validate())
+		if($model->validate())
 			$this->redirect(Yii::app()->user->returnUrl);
 	}
 	// displays the login form
-	$this->render('login',array('user'=>$form));
+	$this->render('login',array('model'=>$model));
 }
 ~~~
 
-In the above, we first create a `LoginForm` instance; if the request is a
-POST request (meaning the login form is submitted), we populate `$form`
+In the above, we first create a `LoginForm` model instance; if the request is a
+POST request (meaning the login form is submitted), we populate `$model`
 with the submitted data `$_POST['LoginForm']`; we then validate the input
 and if successful, redirect the user browser to the page that previously
 needed authentication. If the validation fails, or if the action is
@@ -42,7 +42,7 @@ the `login` action:
 
 ~~~
 [php]
-$form->attributes=$_POST['LoginForm'];
+$model->attributes=$_POST['LoginForm'];
 ~~~
 
 As we described in [Securing Attribute Assignments](/doc/guide/form.model#securing-attribute-assignments),
@@ -55,9 +55,9 @@ one (assuming every needed attribute is present in the array):
 
 ~~~
 [php]
-$form->username=$_POST['LoginForm']['username'];
-$form->password=$_POST['LoginForm']['password'];
-$form->rememberMe=$_POST['LoginForm']['rememberMe'];
+$model->username=$_POST['LoginForm']['username'];
+$model->password=$_POST['LoginForm']['password'];
+$model->rememberMe=$_POST['LoginForm']['rememberMe'];
 ~~~
 
 > Note: In order to let `$_POST['LoginForm']` to give us an array instead of a
