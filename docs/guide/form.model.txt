@@ -363,13 +363,16 @@ Triggering Validation
 
 Once a model is populated with user-submitted data, we can call [CModel::validate()]
 to trigger the data validation process. The method returns a value
-indicating whether the validation is successful or not. For [CActiveRecord] model,
+indicating whether the validation is successful or not. For [CActiveRecord] models,
 validation may also be automatically triggered when we call its [CActiveRecord::save()]
 method.
 
+We can set a scenario with the [scenario|CModel::scenario] property and therewith indicate which set of validation rules should be applied
+
+
 Validation is performed in a scenario basis. The [scenario|CModel::scenario]
-property indicates which set of validation rules should apply in the
-current scenario. For example, in the `login` scenario, we only want to
+property specifies which scenario the model is being used in and which set
+of validation rules should be used. For example, in the `login` scenario, we only want to
 validate the `username` and `password` inputs of a user model; while in the `register`
 scenario, we need to validate more inputs, such as `email`, `address`, etc.
 The following example shows how to perform validation in the `register` scenario:
