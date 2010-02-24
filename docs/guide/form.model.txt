@@ -367,34 +367,33 @@ indicating whether the validation is successful or not. For [CActiveRecord] mode
 validation may also be automatically triggered when we call its [CActiveRecord::save()]
 method.
 
-When we call [CModel::validate()], we may specify a scenario parameter.
-Only the validation rules that apply to the specified scenario will be
-executed. A validation rule applies to a scenario if the `on` option
-of the rule is not set or contains the specified scenario name. If we do
-not specify the scenario when calling [CModel::validate()], only those
-rules whose `on` option is not set will be executed.
-
-For example, we execute the following statement to perform the validation
-when registering a user:
+Validation is performed in a scenario basis. The [scenario|CModel::scenario]
+property indicates which set of validation rules should apply in the
+current scenario. For example, in the `login` scenario, we only want to
+validate the `username` and `password` inputs of a user model; while in the `register`
+scenario, we need to validate more inputs, such as `email`, `address`, etc.
+The following example shows how to perform validation in the `register` scenario:
 
 ~~~
 [php]
-$model->scenario='register';
-$model->validate();
+// creates a User model in register scenario. It is equivalent to:
+// $model=new User;
+// $model->scenario='register';
+$model=new User('register');
+
+// populates the input values into the model
+$model->attributes=$_POST['User'];
+
+// performs the validation
+if($model->validate())   // if the inputs are valid
+    ...
+else
+    ...
 ~~~
 
-> Note: The [scenario|CModel::scenario] property has been available
-> since version 1.0.4. The validation method will take this property
-> value to determine which rules to be checked with. In version 1.0.2
-> and 1.0.3, we need to use the following way to perform scenario-based
-> validation:
->
-> ~~~
-> [php]
-> $model->validate('register');
-> ~~~
-
-We may declare the validation rules in the form model class as follows,
+The applicable scenarios that a rule is associated can be specified via
+the `on` option in the rule. If the `on` option is not set, it means the
+rule will be used for all scenarios. For example,
 
 ~~~
 [php]
@@ -408,19 +407,18 @@ public function rules()
 }
 ~~~
 
-As a result, the first rule will be applied in all scenarios, while the
+The first rule will be applied in all scenarios, while the
 next two rules will only be applied in the `register` scenario.
-
-> Note: scenario-based validation has been available since version 1.0.1.
 
 
 Retrieving Validation Errors
 ----------------------------
 
-We can use [CModel::hasErrors()] to check if there is any validation
-error, and if yes, we can use [CModel::getErrors()] to obtain the error
-messages. Both methods can be used for all attributes or an individual
-attribute.
+Once validation is done, any possible errors will be stored in the model
+object. We can retrieve the error messages by calling [CModel::getErrors()]
+and [CModel::getError()]. The difference between the two methods is that
+the first method will return *all* errors for the specified model attribute
+while the second method will only return the *first* error.
 
 Attribute Labels
 ----------------
