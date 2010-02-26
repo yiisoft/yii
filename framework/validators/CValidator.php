@@ -90,6 +90,12 @@ abstract class CValidator extends CComponent
 	 */
 	public $message;
 	/**
+	 * @var boolean whether this validation rule should be skipped if when there is already a validation
+	 * error for the current attribute. Defaults to false.
+	 * @since 1.1.1
+	 */
+	public $skipOnError=false;
+	/**
 	 * @var array list of scenarios that the validator should be applied.
 	 * Each array value refers to a scenario name with the same name as its array key.
 	 */
@@ -165,7 +171,10 @@ abstract class CValidator extends CComponent
 		else
 			$attributes=$this->attributes;
 		foreach($attributes as $attribute)
-			$this->validateAttribute($object,$attribute);
+		{
+			if(!$this->skipOnError || !$object->hasErrors($attribute))
+				$this->validateAttribute($object,$attribute);
+		}
 	}
 
 	/**
