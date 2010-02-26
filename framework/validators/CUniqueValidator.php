@@ -57,6 +57,12 @@ class CUniqueValidator extends CValidator
 	 * are recognized, which will be replaced with the actual attribute name and value, respectively.
 	 */
 	public $message;
+	/**
+	 * @var boolean whether this validation rule should be skipped if when there is already a validation
+	 * error for the current attribute. Defaults to true.
+	 * @since 1.1.1
+	 */
+	public $skipOnError=true;
 
 
 	/**
