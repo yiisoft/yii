@@ -57,10 +57,10 @@ class CTreeView extends CWidget
 	 * See {@link CHtml::normalizeUrl} for possible URL formats.
 	 * Setting this property will enable the dynamic treeview loading.
 	 * When the page is displayed, the browser will request this URL with a GET parameter
-	 * named 'source' whose value is 'root'. The server script should then generate the
+	 * named 'root' whose value is 'source'. The server script should then generate the
 	 * needed tree view data corresponding to the root of the tree (see {@link saveDataAsJson}.)
 	 * When a node has a CSS class 'hasChildren', then expanding this node will also
-	 * cause a dynamic loading of its child nodes. In this case, the value of the 'source' GET parameter
+	 * cause a dynamic loading of its child nodes. In this case, the value of the 'root' GET parameter
 	 * is the 'id' property of the node.
 	 */
 	public $url;
