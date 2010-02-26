@@ -39,11 +39,24 @@ class CUrlValidator extends CValidator
 		$value=$object->$attribute;
 		if($this->allowEmpty && $this->isEmpty($value))
 			return;
-		if(!is_string($value) || !preg_match($this->pattern,$value))
+		if(!$this->validateValue($value))
 		{
 			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} is not a valid URL.');
 			$this->addError($object,$attribute,$message);
 		}
+	}
+
+	/**
+	 * Validates a static value to see if it is a valid URL.
+	 * Note that this method does not respect {@link allowEmpty} property.
+	 * This method is provided so that you can call it directly without going through the model validation rule mechanism.
+	 * @param mixed the value to be validated
+	 * @return boolean whether the value is a valid URL
+	 * @since 1.1.1
+	 */
+	public function validateValue($value)
+	{
+		return is_string($value) && preg_match($this->pattern,$value);
 	}
 }
 

@@ -65,17 +65,30 @@ class CEmailValidator extends CValidator
 		$value=$object->$attribute;
 		if($this->allowEmpty && $this->isEmpty($value))
 			return;
-		$valid=preg_match($this->pattern,$value) || $this->allowName && preg_match($this->fullPattern,$value);
+		if(!$this->validateValue($value))
+		{
+			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} is not a valid email address.');
+			$this->addError($object,$attribute,$message);
+		}
+	}
+
+	/**
+	 * Validates a static value to see if it is a valid email.
+	 * Note that this method does not respect {@link allowEmpty} property.
+	 * This method is provided so that you can call it directly without going through the model validation rule mechanism.
+	 * @param mixed the value to be validated
+	 * @return boolean whether the value is a valid email
+	 * @since 1.1.1
+	 */
+	public function validateValue($value)
+	{
+		$valid=is_string($value) && (preg_match($this->pattern,$value) || $this->allowName && preg_match($this->fullPattern,$value));
 		if($valid)
 			$domain=rtrim(substr($value,strpos($value,'@')+1),'>');
 		if($valid && $this->checkMX && function_exists('checkdnsrr'))
 			$valid=checkdnsrr($domain,'MX');
 		if($valid && $this->checkPort && function_exists('fsockopen'))
 			$valid=fsockopen($domain,25)!==false;
-		if(!$valid)
-		{
-			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} is not a valid email address.');
-			$this->addError($object,$attribute,$message);
-		}
+		return $valid;
 	}
 }
