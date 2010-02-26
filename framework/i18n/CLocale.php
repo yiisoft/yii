@@ -209,22 +209,30 @@ class CLocale extends CComponent
 	/**
 	 * @param integer weekday (0-6, 0 means Sunday)
 	 * @param string weekday name width.  It can be 'wide', 'abbreviated' or 'narrow'.
+	 * @param boolean whether the week day name should be returned in stand-alone format
 	 * @return string the weekday name
 	 */
-	public function getWeekDayName($day,$width='wide')
+	public function getWeekDayName($day,$width='wide',$standAlone=false)
 	{
-		return $this->_data['weekDayNames'][$width][$day];
+		if($standAlone)
+			return isset($this->_data['weekDayNamesSA'][$width][$day]) ? $this->_data['weekDayNamesSA'][$width][$day] : $this->_data['weekDayNames'][$width][$day];
+		else
+			return isset($this->_data['weekDayNames'][$width][$day]) ? $this->_data['weekDayNames'][$width][$day] : $this->_data['weekDayNamesSA'][$width][$day];
 	}
 
 	/**
 	 * Returns the week day names in the specified width.
 	 * @param string weekday name width.  It can be 'wide', 'abbreviated' or 'narrow'.
+	 * @param boolean whether the week day name should be returned in stand-alone format
 	 * @return array the weekday names indexed by weekday values (0-6, 0 means Sunday, 1 Monday, etc.)
 	 * @since 1.0.9
 	 */
-	public function getWeekDayNames($width='wide')
+	public function getWeekDayNames($width='wide',$standAlone=false)
 	{
-		return $this->_data['weekDayNames'][$width];
+		if($standAlone)
+			return isset($this->_data['weekDayNamesSA'][$width]) ? $this->_data['weekDayNamesSA'][$width][$day] : $this->_data['weekDayNames'][$width];
+		else
+			return isset($this->_data['weekDayNames'][$width]) ? $this->_data['weekDayNames'][$width][$day] : $this->_data['weekDayNamesSA'][$width];
 	}
 
 	/**
