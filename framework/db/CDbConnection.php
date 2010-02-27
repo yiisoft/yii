@@ -159,6 +159,11 @@ class CDbConnection extends CApplicationComponent
 	 * @since 1.1.0
 	 */
 	public $tablePrefix;
+	/**
+	 * @var array list of SQL statements that should be executed right after the DB connection is established.
+	 * @since 1.1.1
+	 */
+	public $initSQLs;
 
 	private $_attributes=array();
 	private $_active=false;
@@ -312,6 +317,11 @@ class CDbConnection extends CApplicationComponent
 		{
 			if(strcasecmp($pdo->getAttribute(PDO::ATTR_DRIVER_NAME),'sqlite'))
 				$pdo->exec('SET NAMES '.$pdo->quote($this->charset));
+		}
+		if($this->initSQLs!==null)
+		{
+			foreach($this->initSQLs as $sql)
+				$pdo->exec($sql);
 		}
 	}
 
