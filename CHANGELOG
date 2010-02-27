@@ -24,6 +24,7 @@ Version 1.1.1 to be released
 - Enh #820: Added CAccessRule::message to allow customizing authorization error message (Qiang)
 - Enh #857: Added $exit parameter to CController::forward() (Qiang)
 - Enh #872: Added CFlexWidget::allowFullScreen (Qiang)
+- Enh #916: Added visible option to buttons in CButtonColumn (Qiang)
 - Enh #936: Current module ID is no longer needed when calling CController::forward() (Qiang)
 - Enh #941: AR now allows MANY_MANY relation to be specified more flexibly (Qiang)
 - Enh #953: Added CGridView::hideHeader (Qiang)
