@@ -26,7 +26,7 @@ class CGettextPoFile extends CGettextFile
 	 */
 	public function load($file,$context)
 	{
-		$pattern='/msgctxt\s+"(.*?(?<!\\\\))"'
+		$pattern='/(msgctxt\s+"(.*?(?<!\\\\))")?'
 			. '\s+msgid\s+"(.*?(?<!\\\\))"'
 			. '\s+msgstr\s+"(.*?(?<!\\\\))"/';
 		$content=file_get_contents($file);
@@ -34,10 +34,10 @@ class CGettextPoFile extends CGettextFile
         $messages=array();
         for($i=0;$i<$n;++$i)
         {
-        	if($matches[1][$i]===$context)
+        	if($matches[2][$i]===$context)
         	{
-	        	$id=$this->decode($matches[2][$i]);
-	        	$message=$this->decode($matches[3][$i]);
+	        	$id=$this->decode($matches[3][$i]);
+	        	$message=$this->decode($matches[4][$i]);
 	        	$messages[$id]=$message;
 	        }
         }
