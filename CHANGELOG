@@ -25,6 +25,7 @@ Version 1.1.1 to be released
 - Enh #857: Added $exit parameter to CController::forward() (Qiang)
 - Enh #872: Added CFlexWidget::allowFullScreen (Qiang)
 - Enh #916: Added visible option to buttons in CButtonColumn (Qiang)
+- Enh #918: Added support to show attribute name as the label when displaying an array using CDetailView (Qiang)
 - Enh #936: Current module ID is no longer needed when calling CController::forward() (Qiang)
 - Enh #941: AR now allows MANY_MANY relation to be specified more flexibly (Qiang)
 - Enh #953: Added CGridView::hideHeader (Qiang)
