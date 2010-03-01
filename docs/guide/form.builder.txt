@@ -224,7 +224,6 @@ return array(
 		......
         'user'=>array(
             'type'=>'form',
-            'model'=>$userModel,
             'title'=>'Login Credential',
             'elements'=>array(
             	'username'=>array(
@@ -241,7 +240,6 @@ return array(
 
         'profile'=>array(
         	'type'=>'form',
-        	'model'=>$profileModel,
         	......
         ),
         ......
@@ -305,6 +303,8 @@ We first create the `register` action as follows:
 public function actionRegister()
 {
 	$form = new CForm('application.views.user.registerForm');
+	$form['user']->model = new User;
+	$form['profile']->model = new Profile;
 	if($form->submitted('register') && $form->validate())
 	{
 		$user = $form['user']->model;
