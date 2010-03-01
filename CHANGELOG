@@ -17,6 +17,7 @@ Version 1.1.1 to be released
 - Bug #957: CGettextPoFile should allow optional msgctxt (Qiang)
 - Bug: Setting the 'with' option in criteria array doesn't trigger eager loading for AR (Qiang)
 - Bug: CActiveRecord should update oldPrimaryKey after calling save() (Qiang)
+- Bug: CForm renders invalid 'name' and 'type' attributes when used to generate nested forms (Qiang)
 - Enh #38: Added support to allow CHtml links and buttons work in AJAX responses (Qiang)
 - Enh #686: Added CUrlManager::setBasePath() (Qiang)
 - Enh #726: Added CDbExpression::params (Qiang)

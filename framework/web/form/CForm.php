@@ -427,7 +427,11 @@ class CForm extends CFormElement implements ArrayAccess
 		if($this->title!==null)
 		{
 			if($this->getParent() instanceof self)
-				$output=CHtml::openTag('fieldset', $this->attributes);
+			{
+				$attributes=$this->attributes;
+				unset($attributes['name'],$attributes['type']);
+				$output=CHtml::openTag('fieldset', $attributes);
+			}
 			else
 				$output.="<fieldset>\n<legend>".$this->title."</legend>\n";
 		}
