@@ -479,7 +479,10 @@ class CController extends CBaseController
 	 */
 	public function getRoute()
 	{
-		return $this->getUniqueId().'/'.$this->getAction()->getId();
+		if(($action=$this->getAction())!==null)
+			return $this->getUniqueId().'/'.$action->getId();
+		else
+			return $this->getUniqueId();
 	}
 
 	/**
