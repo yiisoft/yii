@@ -362,12 +362,12 @@ class CUrlManager extends CApplicationComponent
 		foreach($params as $k => $v)
 		{
 			if ($key!==null)
-				$k = $key.'['.urlencode($k).']';
+				$k = $key.'['.$k.']';
 
 			if (is_array($v))
 				$pairs[]=$this->createPathInfo($v,$equal,$ampersand, $k);
 			else
-				$pairs[]=$k.$equal.urlencode($v);
+				$pairs[]=urlencode($k).$equal.urlencode($v);
 		}
 		return implode($ampersand,$pairs);
 	}
