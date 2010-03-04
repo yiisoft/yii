@@ -364,7 +364,8 @@ indicating whether the validation is successful or not. For [CActiveRecord] mode
 validation may also be automatically triggered when we call its [CActiveRecord::save()]
 method.
 
-We can set a scenario with the [scenario|CModel::scenario] property and therewith indicate which set of validation rules should be applied
+We can set a scenario with the [scenario|CModel::scenario] property and
+therewith indicate which set of validation rules should be applied.
 
 
 Validation is performed in a scenario basis. The [scenario|CModel::scenario]

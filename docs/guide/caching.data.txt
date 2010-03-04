@@ -3,7 +3,7 @@ Data Caching
 
 Data caching is about storing some PHP variable in cache and retrieving it
 later from cache. For this purpose, the cache component base class [CCache]
-provides two methods that are used in most of the time: [set()|CCache::set]
+provides two methods that are used most of the time: [set()|CCache::set]
 and [get()|CCache::get].
 
 To store a variable `$value` in cache, we choose a unique ID and call
