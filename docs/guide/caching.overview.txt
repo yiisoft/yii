@@ -30,7 +30,7 @@ When the application is running, the cache component can be accessed via
 `Yii::app()->cache`.
 
 Yii provides various cache components that can store cached data in
-different medium. For example, the [CMemCache] component encapsulates the
+different media. For example, the [CMemCache] component encapsulates the
 PHP memcache extension and uses memory as the medium of cache storage; the
 [CApcCache] component encapsulates the PHP APC extension; and the
 [CDbCache] component stores cached data in database. The following is a
