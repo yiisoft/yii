@@ -584,7 +584,7 @@ class CComponent
 		if(is_string($_expression_))
 		{
 			extract($_data_);
-			return @eval('return '.$_expression_.';');
+			return eval('return '.$_expression_.';');
 		}
 		else
 		{
