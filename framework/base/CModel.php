@@ -425,7 +425,24 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		{
 			if(isset($attributes[$name]))
 				$this->$name=$value;
+			else
+				$this->setUnsafeAttribute($name,$value);
 		}
+	}
+
+	/**
+	 * Sets an unsafe attribute.
+	 * This method is invoked by {@link setAttributes} when it attempts to
+	 * set an unsafe attribute.
+	 * The default implementation will log a warning message if YII_DEBUG is on.
+	 * @param string the unsafe attribute name
+	 * @param mixed the attribute value
+	 * @since 1.1.1
+	 */
+	protected function setUnsafeAttribute($name,$value)
+	{
+		if(YII_DEBUG)
+			Yii::log(Yii::t('yii','Failed to set unsafe attribute "{attribute}".',array('{attribute}'=>$name)),CLogger::LEVEL_WARNING);
 	}
 
 	/**
