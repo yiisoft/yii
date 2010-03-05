@@ -42,6 +42,7 @@ Version 1.1.1 to be released
 - Enh: Added CDbConnection::initSQLs (Qiang)
 - Chg #841: Changed CUrlManager::parsePathInfo() to non-static (Qiang)
 - Chg #851: yiic tool no longer turns off E_NOTICE (Qiang)
+- Chg #978: CActiveRecord::afterSave() will now be invoked only when the saving is successful (Qiang)
 - Chg: Upgraded jquery to version 1.4.2 (Qiang)
 - New: Added CActiveForm that performs model validations via AJAX (Qiang)
 

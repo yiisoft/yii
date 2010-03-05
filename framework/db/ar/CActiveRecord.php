@@ -807,7 +807,7 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
-	 * This method is invoked after saving a record.
+	 * This method is invoked after saving a record successfully.
 	 * The default implementation raises the {@link onAfterSave} event.
 	 * You may override this method to do postprocessing after record saving.
 	 * Make sure you call the parent implementation so that the event is raised properly.
@@ -955,8 +955,6 @@ abstract class CActiveRecord extends CModel
 				$this->setScenario('update');
 				return true;
 			}
-			else
-				$this->afterSave();
 		}
 		return false;
 	}
@@ -979,13 +977,14 @@ abstract class CActiveRecord extends CModel
 			Yii::trace(get_class($this).'.update()','system.db.ar.CActiveRecord');
 			if($this->_pk===null)
 				$this->_pk=$this->getPrimaryKey();
-			$this->updateByPk($this->getOldPrimaryKey(),$this->getAttributes($attributes));
-			$this->_pk=$this->getPrimaryKey();
-			$this->afterSave();
-			return true;
+			if($this->updateByPk($this->getOldPrimaryKey(),$this->getAttributes($attributes)))
+			{
+				$this->_pk=$this->getPrimaryKey();
+				$this->afterSave();
+				return true;
+			}
 		}
-		else
-			return false;
+		return false;
 	}
 
 	/**
