@@ -351,27 +351,7 @@ class YiiBase
 	public static function trace($msg,$category='application')
 	{
 		if(YII_DEBUG)
-		{
-			if(YII_TRACE_LEVEL>0)
-			{
-				$traces=debug_backtrace();
-				$count=0;
-				foreach($traces as $trace)
-				{
-					if(isset($trace['file'],$trace['line']))
-					{
-						$className=substr(basename($trace['file']),0,-4);
-						if(!isset(self::$_coreClasses[$className]) && $className!=='YiiBase')
-						{
-							$msg.="\nin ".$trace['file'].' ('.$trace['line'].')';
-							if(++$count>=YII_TRACE_LEVEL)
-								break;
-						}
-					}
-				}
-			}
 			self::log($msg,CLogger::LEVEL_TRACE,$category);
-		}
 	}
 
 	/**
@@ -387,6 +367,24 @@ class YiiBase
 	{
 		if(self::$_logger===null)
 			self::$_logger=new CLogger;
+		if(YII_DEBUG && YII_TRACE_LEVEL>0)
+		{
+			$traces=debug_backtrace();
+			$count=0;
+			foreach($traces as $trace)
+			{
+				if(isset($trace['file'],$trace['line']))
+				{
+					$className=substr(basename($trace['file']),0,-4);
+					if(!isset(self::$_coreClasses[$className]) && $className!=='YiiBase')
+					{
+						$msg.="\nin ".$trace['file'].' ('.$trace['line'].')';
+						if(++$count>=YII_TRACE_LEVEL)
+							break;
+					}
+				}
+			}
+		}
 		self::$_logger->log($msg,$level,$category);
 	}
 
