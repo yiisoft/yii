@@ -11,7 +11,7 @@
     </tr>
 <?php
 foreach($data as $index=>$entry) {
-    $color=($index%2)?'#F5F5F5':'#EBF8FE';
+    $color=($index%2)?'#F5F5F5':'#FFFFFF';
     list($proc,$time,$level)=$entry;
     $proc=CHtml::encode($proc);
     $time=sprintf('%0.5f',$time);
