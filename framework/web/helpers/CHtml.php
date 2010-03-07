@@ -202,6 +202,23 @@ class CHtml
 	}
 
 	/**
+	 * Registers a 'refresh' meta tag.
+	 * This method can be invoked anywhere in a view. It will register a 'refresh'
+	 * meta tag with {@link CClientScript} so that the page can be refreshed in
+	 * the specified seconds.
+	 * @param integer the number of seconds to wait before refreshing the page
+	 * @param string the URL to which the page should be redirected to. If empty, it means the current page.
+	 * @since 1.1.1
+	 */
+	public static function refresh($seconds, $url='')
+	{
+		$content="$seconds";
+		if($url!=='')
+			$content.=';'.self::normalizeUrl($url);
+		Yii::app()->clientScript->registerMetaTag($content,null,'refresh');
+	}
+
+	/**
 	 * Links to the specified CSS file.
 	 * @param string the CSS URL
 	 * @param string the media that this CSS should apply to.
