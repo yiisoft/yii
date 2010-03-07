@@ -451,11 +451,11 @@ class CClientScript extends CApplicationComponent
 	public function registerMetaTag($content,$name=null,$httpEquiv=null,$options=array())
 	{
 		$this->_hasScripts=true;
-		$options['content']=$content;
 		if($name!==null)
 			$options['name']=$name;
 		if($httpEquiv!==null)
 			$options['http-equiv']=$httpEquiv;
+		$options['content']=$content;
 		$this->_metas[serialize($options)]=$options;
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerMetaTag',$params);
