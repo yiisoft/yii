@@ -28,7 +28,7 @@ class COciSchema extends CDbSchema
 	 */
 	public function quoteTableName($name)
 	{
-		return $name;
+		return '"'.$name.'"';
 	}
 
 	/**
@@ -38,7 +38,7 @@ class COciSchema extends CDbSchema
 	 */
 	public function quoteColumnName($name)
 	{
-		return $name;
+		return '"'.$name.'"';
 	}
 
 	/**

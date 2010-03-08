@@ -15,6 +15,7 @@ Version 1.1.1 to be released
 - Bug #932: CLocale::getWeekDayName() causes PHP error when requesting 'narrow' format data (Qiang)
 - Bug #947: CTabView does not target tab links correctly when extra elements are put in the header (Qiang)
 - Bug #957: CGettextPoFile should allow optional msgctxt (Qiang)
+- Bug #988: COcSchema::quoteTableName() and quoteColumnName() should quote the names (Qiang)
 - Bug: Setting the 'with' option in criteria array doesn't trigger eager loading for AR (Qiang)
 - Bug: CActiveRecord should update oldPrimaryKey after calling save() (Qiang)
 - Bug: CForm renders invalid 'name' and 'type' attributes when used to generate nested forms (Qiang)
