@@ -106,7 +106,7 @@ EOD;
 
 		if(is_string($table->primaryKey))
 		{
-			$sql.=" RETURNING ".$table->primaryKey." INTO :RETURN_ID";
+			$sql.=' RETURNING "'.$table->primaryKey.'" INTO :RETURN_ID';
 			$command=$this->getDbConnection()->createCommand($sql);
 			$command->bindParam(':RETURN_ID', $this->returnID, PDO::PARAM_INT, 12);
 			$table->sequenceName='RETURN_ID';
