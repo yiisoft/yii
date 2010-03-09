@@ -88,9 +88,16 @@ will generate two files under the `protected` directory: `yiic` and
 specifically for the Web application.
 
 We can then create our own commands under the `protected/commands`
-directory. Running the local `yiic` tool, we will see that our own commands
+directory. Running the local `yiic` tool, we will see our own commands
 appearing together with the standard ones. We can also create our own
-commands to be used when `yiic shell` is used. To do so, just drop our
+commands to be used in the `yiic shell` tool. To do so, just drop our
 command class files under the `protected/commands/shell` directory.
+
+Starting from version 1.1.1, we can also create global commands that
+can be shared by all Yii applications on the same machine. To do so, define
+an environment variable named `YII_CONSOLE_COMMANDS` which should point to
+an existing directory. We then put our global command class files under
+this directory, and we will see these commands become available wherever
+we use the `yiic` tool.
 
 <div class="revision">$Id$</div>
