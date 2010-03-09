@@ -6,14 +6,14 @@
  * @link http://www.yiiframework.com/
  * @copyright Copyright &copy; 2008-2010 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id: FormCommand.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id$
  */
 
 /**
  * FormCommand generates a form view based on a specified model.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
- * @version $Id: FormCommand.php 1678 2010-01-07 21:02:00Z qiang.xue $
+ * @version $Id$
  * @package system.cli.commands.shell
  * @since 1.0
  */
