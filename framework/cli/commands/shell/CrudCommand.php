@@ -315,7 +315,7 @@ EOD;
 
 	public function class2id($className)
 	{
-		return trim(strtolower(str_replace('_','-',preg_replace('/(?<![A-Z])[A-Z]/', '\0', $className))));
+		return trim(strtolower(str_replace('_','-',preg_replace('/(?<![A-Z])[A-Z]/', '-\0', $className))),'-');
 	}
 
 	public function class2name($className,$pluralize=false)
