@@ -77,6 +77,11 @@ class CActiveFinder extends CComponent
 	{
 		$this->_joinTree->model->applyScopes($criteria);
 		$this->_joinTree->beforeFind();
+
+		$alias=$criteria->alias===null ? 't' : $criteria->alias;
+		$this->_joinTree->tableAlias=$alias;
+		$this->_joinTree->rawTableAlias=$this->_builder->getSchema()->quoteTableName($alias);
+
 		$this->_joinTree->find($criteria);
 		$this->_joinTree->afterFind();
 
@@ -191,6 +196,11 @@ class CActiveFinder extends CComponent
 		Yii::trace(get_class($this->_joinTree->model).'.count() eagerly','system.db.ar.CActiveRecord');
 		$criteria=$this->_builder->createCriteria($condition,$params);
 		$this->_joinTree->model->applyScopes($criteria);
+
+		$alias=$criteria->alias===null ? 't' : $criteria->alias;
+		$this->_joinTree->tableAlias=$alias;
+		$this->_joinTree->rawTableAlias=$this->_builder->getSchema()->quoteTableName($alias);
+
 		return $this->_joinTree->count($criteria);
 	}
 
