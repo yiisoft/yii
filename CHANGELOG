@@ -29,6 +29,7 @@ Version 1.1.1 to be released
 - Enh #820: Added CAccessRule::message to allow customizing authorization error message (Qiang)
 - Enh #857: Added $exit parameter to CController::forward() (Qiang)
 - Enh #872: Added CFlexWidget::allowFullScreen (Qiang)
+- Enh #898: Added support to allow defining global yiic commands (Qiang)
 - Enh #912: Added CModel::onUnsafeAttribute() which will log a warning message when massively assigning unsafe attributes (Qiang)
 - Enh #916: Added visible option to buttons in CButtonColumn (Qiang)
 - Enh #918: Added support to show attribute name as the label when displaying an array using CDetailView (Qiang)
