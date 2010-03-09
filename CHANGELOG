@@ -48,6 +48,7 @@ Version 1.1.1 to be released
 - Chg #978: CActiveRecord::afterSave() will now be invoked only when the saving is successful (Qiang)
 - Chg: Upgraded jquery to version 1.4.2 (Qiang)
 - New: Added CActiveForm that performs model validations via AJAX (Qiang)
+- New: Added 'form' command to the 'yiic shell' tool (Qiang)
 
 Version 1.1.0 January 10, 2010
 ------------------------------
