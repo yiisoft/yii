@@ -18,6 +18,7 @@ Version 1.1.1 to be released
 - Bug #957: CGettextPoFile should allow optional msgctxt (Qiang)
 - Bug #988: COcSchema::quoteTableName() and quoteColumnName() should quote the names (Qiang)
 - Bug #995: The 'alias' option set in default scope was ignored when some find methods in AR (Qiang)
+- Bug #996: "yiic message" command generates incorrect message file name when used in a module context (Qiang)
 - Bug: Setting the 'with' option in criteria array doesn't trigger eager loading for AR (Qiang)
 - Bug: CActiveRecord should update oldPrimaryKey after calling save() (Qiang)
 - Bug: CForm renders invalid 'name' and 'type' attributes when used to generate nested forms (Qiang)

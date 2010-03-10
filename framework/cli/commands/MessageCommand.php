@@ -111,7 +111,10 @@ EOD;
 		$messages=array();
 		for($i=0;$i<$n;++$i)
 		{
-			$category=substr($matches[$i][1],1,-1);
+			if(($pos=strpos($matches[$i][1],'.'))!==false)
+				$category=substr($matches[$i][1],$pos+1,-1);
+			else
+				$category=substr($matches[$i][1],1,-1));
 			$message=$matches[$i][2];
 			$messages[$category][]=eval("return $message;");  // use eval to eliminate quote escape
 		}
