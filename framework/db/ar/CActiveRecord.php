@@ -1171,6 +1171,23 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Returns the default table alias to be used by the find methods.
+	 * This method will return the 'alias' option if it is set in {@link defaultScope}.
+	 * Otherwise, it will return 't' as the default alias.
+	 * @param boolean whether to quote the alias name
+	 * @return string the default table alias
+	 * @since 1.1.1
+	 */
+	public function getTableAlias($quote=false)
+	{
+		if(($criteria=$this->getDbCriteria(false))!==null && $criteria->alias!='')
+			$alias=$criteria->alias;
+		else
+			$alias='t';
+		return $quote ? $this->getDbConnection()->getSchema()->quoteTableName($alias) : $alias;
+	}
+
+	/**
 	 * Finds a single active record with the specified condition.
 	 * @param mixed query condition or criteria.
 	 * If a string, it is treated as query condition (the WHERE clause);
@@ -1213,7 +1230,7 @@ abstract class CActiveRecord extends CModel
 	public function findByPk($pk,$condition='',$params=array())
 	{
 		Yii::trace(get_class($this).'.findByPk()','system.db.ar.CActiveRecord');
-		$prefix=$this->getDbConnection()->getSchema()->quoteTableName('t').'.';
+		$prefix=$this->getTableAlias(true).'.';
 		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk,$condition,$params,$prefix);
 		return $this->query($criteria);
 	}
@@ -1229,7 +1246,7 @@ abstract class CActiveRecord extends CModel
 	public function findAllByPk($pk,$condition='',$params=array())
 	{
 		Yii::trace(get_class($this).'.findAllByPk()','system.db.ar.CActiveRecord');
-		$prefix=$this->getDbConnection()->getSchema()->quoteTableName('t').'.';
+		$prefix=$this->getTableAlias(true).'.';
 		$criteria=$this->getCommandBuilder()->createPkCriteria($this->getTableSchema(),$pk,$condition,$params,$prefix);
 		return $this->query($criteria,true);
 	}
@@ -1246,7 +1263,7 @@ abstract class CActiveRecord extends CModel
 	public function findByAttributes($attributes,$condition='',$params=array())
 	{
 		Yii::trace(get_class($this).'.findByAttributes()','system.db.ar.CActiveRecord');
-		$prefix=$this->getDbConnection()->getSchema()->quoteTableName('t').'.';
+		$prefix=$this->getTableAlias(true).'.';
 		$criteria=$this->getCommandBuilder()->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params,$prefix);
 		return $this->query($criteria);
 	}
@@ -1263,7 +1280,7 @@ abstract class CActiveRecord extends CModel
 	public function findAllByAttributes($attributes,$condition='',$params=array())
 	{
 		Yii::trace(get_class($this).'.findAllByAttributes()','system.db.ar.CActiveRecord');
-		$prefix=$this->getDbConnection()->getSchema()->quoteTableName('t').'.';
+		$prefix=$this->getTableAlias(true).'.';
 		$criteria=$this->getCommandBuilder()->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params,$prefix);
 		return $this->query($criteria,true);
 	}
