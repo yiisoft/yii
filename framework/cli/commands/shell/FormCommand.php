@@ -31,7 +31,7 @@ class FormCommand extends CConsoleCommand
 	{
 		return <<<EOD
 USAGE
-  form <model-class> <view-name>
+  form <model-class> <view-name> [scenario]
 
 DESCRIPTION
   This command generates a form view that can be used to collect inputs
@@ -40,10 +40,16 @@ DESCRIPTION
 PARAMETERS
  * model-class: required, model class. This can be either the name of
    the model class (e.g. 'ContactForm') or the path alias of the model
-   class file (e.g. 'application.models.ContactForm').
+   class file (e.g. 'application.models.ContactForm'). The former can
+   be used only if the class can be autoloaded.
 
  * view-name: required, the name of the view to be generated. This should
    be the path alias of the view script (e.g. 'application.views.site.contact').
+
+ * scenario: optional, the name of the scenario in which the model is used
+   (e.g. 'update', 'login'). This determines which model attributes the
+   generated form view will be used to collect user inputs for. If this
+   is not provided, the scenario will be assumed to be '' (empty string).
 
 EXAMPLES
  * Generates the view script for the 'ContactForm' model:
@@ -64,14 +70,10 @@ EOD;
 			echo $this->getHelp();
 			return;
 		}
+		$scenario=isset($args[2]) ? $args[2] : '';
 		$modelClass=Yii::import($args[0],true);
-		if(is_subclass_of($modelClass,'CActiveRecord'))
-			$attributes=CActiveRecord::model($modelClass)->getSafeAttributeNames();
-		else
-		{
-			$model=new $modelClass;
-			$attributes=$model->getSafeAttributeNames();
-		}
+		$model=new $modelClass($scenario);
+		$attributes=$model->getSafeAttributeNames();
 
 		$templatePath=$this->templatePath===null?YII_PATH.'/cli/views/shell/form':$this->templatePath;
 		$viewPath=Yii::getPathOfAlias($args[1]);
