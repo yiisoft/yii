@@ -21,7 +21,7 @@ Please type 'help' for help. Type 'exit' to quit.
 > Info: Some PHP installations may use a different `php.ini` file for command line (CLI) PHP parser. As a result, when running the above `yiic` commands, you may encounter errors like "YiiBase::include(PDO.php): failed to open stream..." or "...could not find driver". Please double check your CLI PHP configuration by executing the following command:
 >
 > ~~~
-> php -r "phpinfo();"
+> php -i
 > ~~~
 >
 > The result of the above command will show which `php.ini` file is being used and which extensions are loaded. If a wrong `php.ini` file is used, you may use the following command to explicitly specify the correct `php.ini` to use:
