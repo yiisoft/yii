@@ -14,9 +14,9 @@
 	 * yiiactiveform set function.
 	 * @param map settings for the active form plugin. Please see {@link CActiveForm::options} for availablel options.
 	 */
-	$.fn.yiiactiveform = function(settings) {
-		var settings = $.extend({}, $.fn.yiiactiveform.defaults, settings || {});
+	$.fn.yiiactiveform = function(options) {
 		return this.each(function() {
+			var settings = $.extend({}, $.fn.yiiactiveform.defaults, options || {});
 			var $form = $(this);
 			var id = $form.attr('id');
 			if(settings.validationUrl == undefined)
