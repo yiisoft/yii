@@ -37,10 +37,10 @@
 			$.fn.yiiactiveform.settings[id] = settings;
 
 			var getInputContainer = function(attribute) {
-				if(attribute.container == undefined)
+				if(attribute.inputContainer == undefined)
 					return $('#'+attribute.inputID).closest('div');
 				else
-					return $(attribute.container).filter(':has("#'+attribute.inputID+'")');
+					return $(attribute.inputContainer).filter(':has("#'+attribute.inputID+'")');
 			};
 
 			// updates the error message and the input container for a particular attribute
