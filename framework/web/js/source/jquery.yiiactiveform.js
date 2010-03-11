@@ -34,7 +34,7 @@
 				}, attribute);
 				settings.attributes[i].value = $('#'+attribute.inputID).val();
 			});
-			$.fn.yiiactiveform.settings[id] = settings;
+			$(this).data('settings', settings);
 
 			var getInputContainer = function(attribute) {
 				if(attribute.inputContainer == undefined)
@@ -204,7 +204,5 @@
 		 */
 		attributes : []
 	};
-
-	$.fn.yiiactiveform.settings = {};
 
 })(jQuery);
