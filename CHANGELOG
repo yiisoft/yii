@@ -49,6 +49,7 @@ Version 1.1.1 to be released
 - Enh: Added skipOnError property to built-in validators (Qiang)
 - Enh: Added CDbConnection::initSQLs (Qiang)
 - Enh: Added CHtml::refresh() (Qiang)
+- Enh #971: Added CDbCriteria::addNotInCondition() (Sam Dark)
 - Chg #841: Changed CUrlManager::parsePathInfo() to non-static (Qiang)
 - Chg #851: yiic tool no longer turns off E_NOTICE (Qiang)
 - Chg #974: CComponent::evaluateExpression() no longer suppresses expression error (Qiang)
