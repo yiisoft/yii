@@ -3,23 +3,39 @@
  * CDbCriteriaTest
  */
 class CDbCriteriaTest extends CTestCase {
-    // TODO: more tests
+    /**
+     * @covers CDbCriteria::addCondition
+     */
     function testAddCondition(){
+        //adding new condition to empty one
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('A');
+        $this->assertEquals('A', $criteria->condition);
+
+        //adding multiple conditions 
         $criteria = new CDbCriteria();
         $criteria->addCondition('A');
         $criteria->addCondition('B');
         $criteria->addCondition('C', 'OR');
-        $this->assertEquals('((A) AND (B)) OR (C)', $criteria->condition);        
+        $this->assertEquals('((A) AND (B)) OR (C)', $criteria->condition);
+
+        //adding empty array as condition
+        $criteria = new CDbCriteria();
+        $criteria->addCondition('A');
+        $criteria->addCondition(array());
+        $this->assertEquals('A', $criteria->condition);
+
+        //adding array as condition
+        $criteria = new CDbCriteria();        
+        $criteria->addCondition(array('A', 'B'));
+        $this->assertEquals('(A) AND (B)', $criteria->condition);
     }
 
     /**
      * @depends testAddCondition
      * @covers CDbCriteria::addInCondition
      */
-    function testAddInCondition(){
-        // IN with empty array should transform to 0=1        
-        // TODO: maybe it's better to use FALSE or just 0 instead of 0=1?
-        // WHERE 0=1 equals WHERE 0 equals WHERE FALSE
+    function testAddInCondition(){        
         $criteria = new CDbCriteria();
 
         $criteria->addInCondition('A', array());
@@ -84,5 +100,23 @@ class CDbCriteriaTest extends CTestCase {
         $this->assertEquals($criteria->params[':ycp0'], 1);
         $this->assertEquals($criteria->params[':ycp1'], 2);
         $this->assertEquals($criteria->params[':ycp2'], '3');
+    }
+
+    /**
+     * @depends testAddCondition
+     */
+    function testMergeWith(){
+        // merging two criteria with parameters        
+        $criteria1 = new CDbCriteria;
+	    $criteria1->compare('A', 1);
+
+        $criteria2 = new CDbCriteria;
+        $criteria2->compare('B', 2);
+
+        $criteria1->mergeWith($criteria2);
+
+        $this->assertEquals('(A=:ycp0) AND (B=:ycp1)', $criteria1->condition);
+        $this->assertEquals($criteria1->params[':ycp0'], 1);
+        $this->assertEquals($criteria1->params[':ycp1'], 2);        
     }
 }

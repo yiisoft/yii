@@ -175,6 +175,7 @@ class CDbCriteria
 	public function addInCondition($column,$values,$operator='AND')
 	{
 		if(($n=count($values))<1)
+            // 0=1 is used because in MSSQL value alone can't be used in WHERE 
 			return $this->addCondition('0=1',$operator);
 		if($n===1)
 		{
