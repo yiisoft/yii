@@ -25,7 +25,7 @@ $.yii = {
 			f.action = url;
 		};
 		var inputs = [];
-		jQuery.each(params, function(name, value) {
+		$.each(params, function(name, value) {
 			var input = document.createElement("input");
 			input.setAttribute("type", "hidden");
 			input.setAttribute("name", name);
@@ -34,9 +34,13 @@ $.yii = {
 			inputs.push(input);
 		});
 
-		jQuery(f).trigger('submit');
+		// remember who triggers the form submission
+		// this is used by jquery.yiiactiveform.js
+		$(f).data('submitObject', $(element));
 
-		jQuery.each(inputs, function() {
+		$(f).trigger('submit');
+
+		$.each(inputs, function() {
 			f.removeChild(this);
 		});
 	}
