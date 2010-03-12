@@ -149,6 +149,9 @@
 			});
 
 			if (settings.validateOnSubmit) {
+				$form.find(':submit').live('mouseup keyup',function(){
+					$form.data('submitObject',this);
+				});
 				var validated = false;
 				$form.submit(function(){
 					if (validated)
@@ -161,7 +164,12 @@
 						updateSummary(data);
 						if(!hasError) {
 							validated = true;
-							$form.submit();
+							var button = $form.data('submitObject') || $form.find(':submit:first');
+							// TODO: if the submission is caused by "change" event, it will not work
+							if (button)
+								button.click();
+							else  // no submit button in the form
+								$form.submit();
 							validated = false;
 						}
 					});
