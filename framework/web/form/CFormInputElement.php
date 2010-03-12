@@ -162,9 +162,17 @@ class CFormInputElement extends CFormElement
 	 */
 	public function renderLabel()
 	{
-		return CHtml::activeLabel($this->getParent()->getModel(), $this->name, array(
-			'label'=>$this->getLabel(),
-			'required'=>$this->getRequired()));
+        $options = array(
+            'label'=>$this->getLabel(),
+            'required'=>$this->getRequired()
+        );
+
+		if(!empty($this->attributes['id']))
+        {
+            $options['for'] = $this->attributes['id'];
+        }
+
+		return CHtml::activeLabel($this->getParent()->getModel(), $this->name, $options);        		
 	}
 
 	/**
