@@ -73,6 +73,16 @@ abstract class CBaseUserIdentity extends CComponent implements IUserIdentity
 		return $this->_state;
 	}
 
+    /**
+	 * Sets an array of presistent states.
+	 *
+	 * @param $states array the identity states that should be persisted.
+	 */
+	public function setPersistentStates($states)
+	{
+		$this->_state = $states;        
+	}
+
 	/**
 	 * Returns a value indicating whether the identity is authenticated.
 	 * This method is required by {@link IUserIdentity}.
