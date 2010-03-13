@@ -198,7 +198,7 @@ class CDbCriteria
 		return $this->addCondition($condition,$operator);
 	}
 
-    /**
+	/**
 	 * Appends an NOT IN condition to the existing {@link condition}.
 	 * The NOT IN condition and the existing condition will be concatenated via the specified operator
 	 * which defaults to 'AND'.
