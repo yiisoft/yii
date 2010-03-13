@@ -66,7 +66,8 @@ abstract class CActiveRecord extends CModel
 
 	/**
 	 * Initializes this model.
-	 * This method is invoked in the constructor right after {@link scenario} is set.
+	 * This method is invoked when an AR instance is newly created and has
+	 * its {@link scenario} set.
 	 * You may override this method to provide code that is needed to initialize the model (e.g. setting
 	 * initial property values.)
 	 * @since 1.0.8
@@ -1532,6 +1533,7 @@ abstract class CActiveRecord extends CModel
 		{
 			$record=$this->instantiate($attributes);
 			$record->setScenario('update');
+			$record->init();
 			$md=$record->getMetaData();
 			foreach($attributes as $name=>$value)
 			{
