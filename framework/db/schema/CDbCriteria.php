@@ -323,7 +323,7 @@ class CDbCriteria
 
 		if($partialMatch)
 		{
-			if($op==='' || $op==='=')
+			if($op==='')
 				return $this->addSearchCondition($column,$value,true,$operator);
 			if($op==='<>')
 				return $this->addSearchCondition($column,$value,true,$operator,'NOT LIKE');
