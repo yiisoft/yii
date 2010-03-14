@@ -2,6 +2,10 @@
                    Yii Framework Change Log
                    ========================
 
+Version 1.1.2 to be released
+----------------------------
+
+
 Version 1.1.1 March 14, 2010
 ----------------------------
 - Bug #727: AR may lose precision for numbers of bigint type (Qiang)
