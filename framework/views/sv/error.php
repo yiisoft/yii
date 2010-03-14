@@ -28,7 +28,7 @@ Ovanstående fel uppstod när servern behandlade Er förfrågan.
 Vid misstanke om serverfel, kontakta <?php echo $data['admin']; ?>.
 </p>
 <p>
-Thank you.
+Tack.
 </p>
 <div class="version">
 <?php echo date('Y-m-d H:i:s',$data['time']) .' '. $data['version']; ?>

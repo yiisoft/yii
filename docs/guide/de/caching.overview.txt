@@ -1,16 +1,14 @@
 Caching
 =======
 
-Caching (sinngem.: Zwischenspeicherung) ist eine günstige und
-wirkungsvolle Methode, um die Leistungsfähigkeit einer Webanwendung zu
-erhöhen. Indem relativ statische Daten im Cache gespeichert und bei Bedarf
-auch von dort ausgeliefert werden, sparen wir die Zeit, um diese Daten
-erneut zu generieren.
+Mit Caching (sinngem.: Zwischenspeicherung) kann man die Performance einer
+Webanwendung auf günstige und wirkungsvolle Weise erhöhen. Speichert man
+relativ statische Daten im Cache und liefert sie bei Anfragen direkt von
+dort zurück, spart man sich die Zeit, diese Daten erneut aufzubereiten.
 
-Der Einsatz eines Caches besteht in Yii im Wesentlichen aus Zugriffen auf
-die Cache-Komponente der Anwendung. In der folgenden Konfiguration
-wird eine Cache-Komponente festgelegt, die Memcache mit zwei Cache-Servern
-verwendet.
+In Yii steht dafür eine eigene Cachekomponente in der Anwendung zur Verfügung.
+Man kann diese Komponente z.B. für den Einsatz mit zwei Memcacheservern
+konfigurieren:
 
 ~~~
 [php]
@@ -29,15 +27,14 @@ array(
 );
 ~~~
 
-Wenn die Applikation läuft, kann über `Yii::app()->cache` auf die
-Cache-Komponente zugegriffen werden.
+Aus der Anwendung heraus wird dann über `Yii::app()->cache` auf diese
+Komponente zugegriffen.
 
-Yii bietet verschiedene Cache-Komponenten, die Cache-Daten auf
-unterschiedlichen Medien speichern kann. Die [CMemCache]-Komponente zum
-Beispiel, kapselt die memcache-Erweiterung von PHP und verwendet RAM-Speicher
-als Medium für den Cache-Speicher. Und die [CDbCache]-Komponente speichert
-gecachte Daten in einer Datenbank. Hier eine Übersicht der verfügbaren 
-Cache-Komponenten:
+Yii bietet verschiedene Cachekomponenten, um Cachedaten auf
+unterschiedlichsten Medien zu speichern. Die [CMemCache]-Komponente zum
+Beispiel, kapselt die memcache-Erweiterung von PHP um Daten direkt im 
+Speicher zu cachen. Die [CDbCache]-Komponente speichert gecachte Daten 
+in einer Datenbank. Folgende Cachekomponenten stehen zur Verfügung:
 
    - [CMemCache]: Verwendet die
 	 [memcache-Erweiterung](http://www.php.net/manual/en/book.memcache.php)
@@ -54,44 +51,41 @@ Beachten Sie, dass diese Komponente seit Version 1.0.1 zur Verfügung steht.
 [EAccelerator-Erweiterung](http://eaccelerator.net/) für PHP.
 
    - [CDbCache]: Verwendet eine Datenbanktabelle zum Speichern gecachter
-Daten. Standardmäßig wird eine SQLite3-Datenbank im runtime-Verzeichnisus
-angelegt und verwendet. Sie können auch explizit eine Datenbank angeben, indem
-Sie die [connectionID|CDbCache::connectionID]-Eigenschaft konfigurieren.
+Daten. Standardmäßig wird eine SQLite3-Datenbank im runtime-Verzeichnis
+angelegt und verwendet. Man kann auch explizit eine Datenbank angeben, indem
+man [connectionID|CDbCache::connectionID] konfiguriert.
 
    - [CZendDataCache]: Verwendet den Zend Data Cache als Cache-Medium.
- Beachten Sie, dass dieses Feature seit Version 1.0.4 zur Verfügung steht.
+Dieses Feature steht seit Version 1.0.4 zur Verfügung.
 
    - [CFileCache]: Verwendet Dateien um gecachte Daten zu speichern. Dies
 eignet sich besonders zum Cachen umfangreicher Daten (z.B. ganzer Seiten).
-Beachten Sie, dass dieses Feature seit Version 1.0.6 zur Verfügung steht.
+Dieses Feature steht seit Version 1.0.4 zur Verfügung.
 
    - [CDummyCache]: stellt einen Dummy-Cache bereit, der überhaupt nicht
-cacht. Der Sinn dieser Komponente liegt darin, den Code, der prüft, ob ein
-Cache vorhanden ist, zu vereinfachen. Wir können diese Cache-Komponente zum
-Beispiel Während der Entwicklung verwenden oder wenn der Server keinen Cache
-unterstützt. Wenn der eigentliche Cache-Support dann aktiviert wird, können
-wir auf die entsprechende Cache-Komponente umschalten. In beiden Fällen können
-wir den selben Code `Yii::app()->cache->get($key)` verwenden, um zu versuchen, 
-Daten auszulesen, ohne Gefahr zu laufen, dass `Yii::app()->cache` `null` sein
-könnte. Diese Komponente ist seit Version 1.0.5 verfügbar.
+cacht. Diese Komponente bietet sich für die Entwicklungsphase an, damit nicht
+dauernd geprüft werden muss, ob eine Cachekomponente bereit steht. Stattdessen
+kann man z.B. `Yii::app()->cache->get($key)` aufrufen, ohne Gefahr zu laufen,
+dass `Yii::app()->cache` null ist.  Im Livebetrieb wird dann die eigentliche 
+Cachekomponente eingestellt. Diese Komponente ist seit Version 1.0.5 verfügbar.
 
-> Tip|Tipp: Da alle Cache-Komponenten von der selben Basisklasse [CCache]
+> Tip|Tipp: Da alle Cachekomponenten von der selben Basisklasse [CCache]
 abgeleitet sind, kann auf eine andere Cache-Art umgestellt werden, ohne den
-Code verändern zu müssen, der den Cache verwendet.
+Code anpassen zu müssen.
 
 Caching kann auf unterschiedlichen Ebenen eingesetzt werden. Auf unterster
-Ebene verwenden wir einen Cache zum Speichern von Daten, wie z.B. einer
-Variable. Man nennt dies auch *Datencaching* (engl.: data caching). 
-Eine Ebene höher speichern wir ganze Seitenabschnitte, die von einem View-Teil
-generiert wurden, im Cache. Und auf der höchsten Ebene speichern wir eine
-ganze Seite im Cache und liefern sie bei Bedarf von dort aus.
+Ebene verwendet man den Cache zum Speichern von Daten, wie z.B. einer
+Variable. Man spricht dann auch von *Datencaching* (engl.: data caching). 
+Geht man eine Ebene höher, könnte man auch ganze Fragmente bzw.
+Seitenabschnitte, die von einem Viewteil generiert wurden, im Cache ablegen.
+Im Maximalfall wird gleich eine ganze Seite im Cache gespeichert und bei
+Anfragen direkt von dort ausgeliefert.
 
-In den nächsten Teilabschnitten gehen wir auf den Einsatz eines Caches auf
-jeder dieser Ebenen ein.
+In den nächsten Abschnitten gehen wir auf jeden dieser Fälle näher ein.
 
 > Note|Hinweis: Per Definition ist ein Cache ein vergängliches Speichermedium.
-Die Existenz von gecachten Daten wird nicht garantiert, selbst wenn diese
-niemals verfallen. Benutzern Sie daher einen Cache niemals als beständigen
-Speicher (speichern Sie dort also z.B. keine Sessiondaten).
+Es ist also niemals garantiert, dass ein bestimmter Wert im Cache existiert -
+selbst wenn dieser niemals verfallen sollte. Sie sollten daher keine
+beständige Daten im Cache speichern (also z.B. keine Sessiondaten).
 
-<div class="revision">$Id: caching.overview.txt 1315 2009-08-09 04:07:35Z qiang.xue $</div>
+<div class="revision">$Id: caching.overview.txt 1855 2010-03-04 22:42:32Z qiang.xue $</div>

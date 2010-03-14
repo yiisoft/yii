@@ -22,17 +22,14 @@
     - [Управление комментариями](comment.admin)
 
 * Портлеты
-	- [Архитектура портлетов](portlet.base)
-	- [Меню пользователя](portlet.menu)
-	- [Вход в систему](portlet.login)
+	- [Меню пользователя](portlet.menu)	
 	- [Облако тэгов](portlet.tags)
 	- [Последние комментарии](portlet.comments)
 
 * Последние штрихи
 	- [Человекопонятные URL](final.url)
 	- [Журналирование ошибок](final.logging)
-    - [Свой вид отображения ошибок](final.error)
     - [Тонкая настройка и развёртывание](final.deployment)
     - [Дальнейшие улучшения](final.future)
 
-<div class="revision">$Id: toc.txt 1201 2009-07-04 17:49:23Z qiang.xue $</div>
+<div class="revision">$Id: toc.txt 1734 2010-01-21 18:41:17Z qiang.xue $</div>

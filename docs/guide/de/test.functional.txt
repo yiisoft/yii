@@ -96,4 +96,9 @@ URL wird mit der in der Basisklasse gesetzten Basis-URL gebildet (z.B.
 der Titel des Beitrags `sample1` in der aktuellen Seite gefunden wurde. Und
 wir stellen auch sicher, dass die Seite den Text `Leave a Comment` enthält.
 
-<div class="revision">$Id: test.functional.txt 1152 2009-06-19 04:42:21Z qiang.xue $</div>
+> Tip|Tipp: Um einen Funktionstest durchzuführen muss zunächst der
+> Selenium-RC-Server gestartet werden. Dazu wird in dessen
+> Installationsverzeichnis folgender Befehl ausgeführt: 
+> `java -jar selenium-server.jar`. 
+
+<div class="revision">$Id: test.functional.txt 1662 2010-01-04 19:15:10Z qiang.xue $</div>

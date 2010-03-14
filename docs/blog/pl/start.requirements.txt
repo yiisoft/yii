@@ -1,12 +1,12 @@
-Analiza wynagań
+Analiza wymagań
 =====================
 
-System blogowy, który zamierzamy utworzyć jest systemem "jednoużytkownikowym". Właściciel systemy będzie mógł wykonyać następujące akcje:
+System blogowy, który zamierzamy utworzyć jest systemem przeznaczonym dla jednego użytkownika. Właściciel systemy będzie mógł wykonywać następujące akcje:
  
  * zalogowania i wylogowania;
  * tworzenia, aktualizowania i usuwania wiadomości;
  * publikowania, zdejmowania i archiwizowania wiadomości;
- * zatwierdzania i usuwania komentary.
+ * zatwierdzania i usuwania komentarzy.
 
 Wszyscy pozostali użytkownicy są gośćmi, którzy mogą wykonywać następujące akcje:
 
@@ -16,7 +16,7 @@ Wszyscy pozostali użytkownicy są gośćmi, którzy mogą wykonywać następuj�
 Dodatkowe wymagania dla tego systemu:
 
  * Strona domowa tego systemu powinna wyświetlać listę najnowszych wiadomości. 
- * Jeżeli strona posiada więcej niż 10 wiadomości, powinny być one wyswietlane za pomocą podstron.
+ * Jeżeli strona posiada więcej niż 10 wiadomości, powinny być one wyświetlane za pomocą podstron.
  * System powinien wyświetlać wiadomości wraz z komentarzami do nich; 
  * System powinien być w stanie wyświetlić wiadomości o konkretnym otagowaniu.
  * System powinien pokazać chmurkę tagów, uwzględniającą ich częstotliwość występowania.

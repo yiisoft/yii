@@ -1,16 +1,17 @@
 Erstellen der ersten Yii-Anwendung
 ==================================
 
-Um einen ersten Eindruck von Yii zu bekommen, beschreiben wir in diesem
-Kapitel, wie wir eine einfache Yii-Anwendung anlegen. Dazu verwenden wir den 
-mächtigen `yiic`-Befehl, ein Hilfsprogramm, das automatisch Code für verschiedene 
-Zwecke generieren kann. Wir gehen davon aus, dass Yii im Verzeichnis
-`YiiRoot` installiert wurde.
+Um einen ersten Eindruck von Yii zu bekommen, demonstrieren wir zunächst, wie
+man mit dem `yiic`-Befehl eine Anwendung anlegt.
+`yiic` ist ein Hilfsprogramm, mit dem man u.a. automatisch
+verschiedene Codeteile generieren kann. Das Installationsverzeichnis von
+Yii nennen wir im folgenden `YiiVerzeichnis`, das Webverzeichnis entsprechend
+`WebVerzeichnis`.
 
 Starten Sie `yiic` von der Kommandozeile wie folgt:
 
 ~~~
-% YiiRoot/framework/yiic webapp WebRoot/testdrive
+% YiiVerzeichnis/framework/yiic webapp WebVerzeichnis/testdrive
 ~~~
 
 > Note|Hinweis: Wenn Sie `yiic` unter Mac OS, Linux or Unix starten, müssen Sie evtl.
@@ -18,29 +19,27 @@ Starten Sie `yiic` von der Kommandozeile wie folgt:
 > können sie den Befehl auch wie folgt aufrufen:
 >
 > ~~~
-> % cd WebRoot/testdrive
-> % php YiiRoot/framework/yiic.php webapp WebRoot/testdrive
+> % cd WebVerzeichnis/testdrive
+> % php YiiVerzeichnis/framework/yiic.php webapp WebVerzeichnis/testdrive
 > ~~~
 
-Damit wird im Verzeichnis `WebRoot/testdrive` die Grundstruktur einer 
-Yii-Anwendung angelegt, wobei `WebRoot` für das Wurzelverzeichnis
-(engl.: `DocumentRoot`) Ihres Webservers steht. Die Anwendung enthält alle
-benötigten Verzeichnisse und Dateien und ist somit ist ein guter
-Ausgangspunkt um weitere Features zu ergänzen.
+Damit wird im Verzeichnis `WebVerzeichnis/testdrive` die Grundstruktur einer 
+Anwendung angelegt. Diese Verzeichnisstruktur wird von fast allen Yii-Anwendungen
+benötigt.
 
-Ohne eine einzige Zeile Code zu schreiben, können wir unsere erste
-Yii-Anwendung einem Testlauf unterziehen, indem wir folgende URL in einem
-Webbrowser aufrufen:
+Bereits jetzt kann man die erzeugte Anwendung aufrufen. Und das, ohne auch nur
+eine einzige Zeile Code geschrieben zu haben. Geben Sie dazu diese URL im
+Browser ein:
 
 ~~~
 http://hostname/testdrive/index.php
 ~~~
 
-Wie wir sehen, besteht die Anwendung aus drei Seiten: Der Startseite, der
-Kontaktseite und der Anmeldeseite. Die Kontaktseite enthält ein
-Kontaktformular mit dem Besucher Anfragen an den Webmaster senden können. Über
-die Anmeldeseite können Benutzer sich einloggen um Zugriff auf geschützte
-Bereiche der Site zu erhalten. Die folgenden Screenshots zeigen mehr Details:
+Wie Sie sehen, besteht die Anwendung aus vier Seiten: Der Startseite, der
+About-Seite, der Kontakt- sowie der Anmeldeseite. Die Kontaktseite enthält ein
+Kontaktformular für Anfragen an den Webmaster. Über die Anmeldeseite können 
+Besucher sich einloggen, um auch geschützte Inhalte zu erreichen. Weitere
+Details sehen Sie auf diesen Screenshots:
 
 
 ![Startseite](first-app1.png)
@@ -54,60 +53,62 @@ Bereiche der Site zu erhalten. Die folgenden Screenshots zeigen mehr Details:
 ![Anmeldeseite](first-app5.png)
 
 
-Das folgende Diagramm zeigt die Verzeichnisstruktur unserer Anwendung. Für
-eine nähere Erläuterung dieser Struktur lesen Sie bitte die 
-[Konventionen](/doc/guide/basics.convention#directory). 
+Das folgende Diagramm zeigt die Verzeichnisstruktur der Testanwendung. Weitere
+Erläuterungen dazu finden Sie in den [Konventionen](/doc/guide/basics.convention#directory). 
 
 ~~~
 testdrive/
-   index.php                 Eingangsscript der Web-Anwendung
-   assets/                   enthält veröffentlichte Quelldateien
+   index.php                 Startscript der Anwendung
+   index-test.php            Startscript für die Funktionstests
+   assets/                   enthält veröffentlichte Zusatzdateien 
    css/                      enthält CSS-Dateien
    images/                   enthält Bilddateien
-   themes/                   enthält Anwendungs-Themes 
-   protected/                enthält geschützte Anwendungsdateien
+   themes/                   enthält Themes 
+   protected/                enthält die geschützten Dateien dieser Anwendung
       yiic                   yiic-Script für die Kommandozeile unter Linux/Unix
       yiic.bat               yiic-Script für die Kommandozeile unter Windows
       yiic.php               PHP-Script für yiic
       commands/              enthält selbst erstellte 'yiic'-Kommandos
          shell/              enthält selbst erstellte 'yiic shell'-Kommandos
       components/            enthält wiederverwendbare Benutzerkomponenten
-         MainMenu.php        die 'MainMenu' (Hauptmenü) Widget-Klasse
+         Controller.php      die Basisklasse für alle Controller
          Identity.php        die Klasse 'Identity' (Identität) für die Authentifizierung
-         views/              enthält View-Dateien für Widgets
-            mainMenu.php     die View-Datei für das 'MainMenu'-Widget
       config/                enthält Konfigurationsdateien
          console.php         die Konfiguration für Konsolenanwendungen
          main.php            die Konfiguration für Webanwendungen
          test.php            die Konfiguration für Funktionstests
-      controllers/           enthält Klassendateien für Controller
-         SiteController.php  die Klasse des Standardcontrollers
-      data/                  enthält Beispieldatenbank für SQLite
+      controllers/           enthält Controllerklassen
+         SiteController.php  der Standardcontroller
+      data/                  enthält die Beispieldatenbank
+         schema.mysql.sql    das DB-Schema für MySQL
+         schema.sqlite.sql   das DB-Schema für SQLite
+         testdrive.db        die SQLite-Beispieldatenbank
       extensions/            enthält Erweiterungen von Drittanbietern
-      messages/              enthält übersetzte Meldungen
-      models/                enthält Klassendateien für Models
+      messages/              enthält übersetzte Textmeldungen
+      models/                enthält Modelklassen
          LoginForm.php       das Form-Model für die 'login'-Action
          ContactForm.php     das Form-Model für die 'contact'-Action
-      runtime/               enthält temporär erzeugte Dateien
+      runtime/               enthält temporäre Dateien
       tests/                 enthält Testscripts
       views/                 enthält Controller-Views und Layout-Dateien
-         layouts/            enthält View-Dateien des Layouts
+         layouts/            enthält Views für das Layout
             main.php         das Standardlayout für alle Views
-         site/               enthält View-Dateien für den Site-Controller
-            contact.php      der View für die 'contact'-Action
-            error.php        der View für die 'error'-Action (zur Anzeige externer Fehler)
-            index.php        der View für ide 'index'-Action
-            login.php        der View für die 'login'-Action
+         site/               enthält Views für den SiteController
+         	pages/           enthält "statische" Seiten
+         	   about.php     View für die 'about'-Seite
+            contact.php      View für die 'contact'-Action
+            error.php        View für die 'error'-Action (zur Anzeige externer Fehler)
+            index.php        View für ide 'index'-Action
+            login.php        View für die 'login'-Action
 ~~~
 
 Verbindung zu einer Datenbank
 -----------------------------
 
-Die meisten Webapplikationen sind datenbankgestützt. Unsere Testanwendung bildet 
-hier keine Ausnahme. Um eine Datenbank zu verwenden, müssen wir der Anwendung 
-mitteilen, wie die Verbindung zur Datenbank aufgebaut wird. Das geschieht in
-der Konfigurationsdatei `WebRoot/testdrive/protected/config/main.php` wie
-folgt:
+Da die meisten Webanwendungen mit einer Datenbank zusammenarbeiten, soll auch
+unsere Testanwendung hier keine Ausnahmen bilden. Die dazu nötigen Informationen
+werden in der Konfigurationsdatei in
+`WebVerzeichnis/testdrive/protected/config/main.php` angegeben:
 
 ~~~
 [php]
@@ -123,10 +124,10 @@ return array(
 );
 ~~~
 
-Obiger Code weist Yii an, dass die Anwendung sich bei Bedarf mit der SQLite-Datenbank 
-`WebRoot/testdrive/protected/data/testdrive.db` verbinden soll. Beachten Sie,
+Damit wird Yii angewiesen, sich bei Bedarf mit der SQLite-Datenbank 
+`WebVerzeichnis/testdrive/protected/data/testdrive.db` zu verbinden. Beachten Sie,
 dass die SQLite-Datenbank bereits in der Beispielanwendung enthalten ist, die
-wir gerade erstellt haben. Die Datenbank enthält nur die Tabelle `tbl_user`:
+Sie gerade erstellt haben. Die Datenbank enthält nur die Tabelle `tbl_user`:
 
 ~~~
 [sql]
@@ -138,38 +139,32 @@ CREATE TABLE tbl_user (
 );
 ~~~
 
-Falls Sie stattdessen eine MySQL-Datenbank einsetzen möchten, können Sie das
-Schema in `WebRoot/testdrive/protected/data/schema.mysql.sql` verwenden, um
+Falls Sie stattdessen eine MySQL-Datenbank einsetzen möchten, können Sie die 
+Schemadatei `WebVerzeichnis/testdrive/protected/data/schema.mysql.sql` verwenden, um
 die Datenbank anzulegen.
 
-> Note|Hinweis: Um Yii’s Datenbankfunktionen benutzen zu können, müssen wir in PHP die 
-> PDO-Erweiterung inkl. der treiberspezifischen PDO-Erweiterung einschalten.
+> Note|Hinweis: Yii benötigt die PDO-Erweiterung in PHP inklusive der
+> datenbankspezifischen PDO-Treiber, um auf eine Datenbank zugreifen zu können.
 > Für die Testanwendung müssen also `php_pdo` und `php_pdo_sqlite` aktiviert
 > sein.
 
-Der Einfachheit halber erzeugen wir in unserer Datenbank 
-nur eine einzelne Tabelle `User`. Die SQLite-Datenbankdatei wird als
-`WebRoot/testdrive/protected/data/source.db` gespeichert. Beachten Sie, dass
-der Webserver bei SQLite sowohl auf die Datenbankdatei, als auch das übergeordnete 
-Verzeichnis schreiben können muss.
 
 Implementierung von CRUD-Operationen
 ------------------------------------
 
-Jetzt kommen wir zum vergnüglichen Teil. Wir möchten CRUD-Operationen (
+Kommen wir zum spaßigen Teil: Wir möchten CRUD-Operationen (
 für "*C*reate, *R*ead, *U*pdate, *D*elete", "Erstellen, Lesen, Aktualisieren, Löschen")
 für die eben erstellte Tabelle `User` bereitstellen. Eine typische
-Aufgabenstellung praktischer Anwendungen.
-
-Wieder verwenden wir den `yiic`-Befehl, um uns beim Generieren des benötigten
-Codes behilflich zu sein. Dieser Prozess wird übrigens auch als *scaffolding*
-(sinngem.: ein Gerüst erstellen) bezeichnet.
+Aufgabenstellung aus der Praxis. Statt sich die Hände schmutzig zu machen, und
+den Code selbst zu schreiben, können Sie dazu wieder den `yiic`-Befehl
+verwenden, um die nötigen Programmteile automatisch zu erzeugen. Diesen Prozess 
+bezeichnet man übrigens auch als *scaffolding* (sinngem.: ein Gerüst erstellen).
 
 Öffnen Sie ein Befehlsfenster und geben Sie die folgenden Befehle ein:
 
 ~~~
-% cd WebRoot/testdrive
-% YiiRoot/framework/yiic shell
+% cd WebVerzeichnis/testdrive
+% YiiVerzeichnis/framework/yiic shell
 Yii Interactive Tool v1.1
 Please type 'help' for help. Type 'exit' to quit.
 >> model User tbl_user
@@ -201,17 +196,17 @@ Crud 'user' has been successfully created. You may access it via:
 http://hostname/path/to/index.php?r=user
 ~~~
 
-Hier verwenden wir das `shell`-Kommando von `yiic`, um mit unserer frischen
-Yii-Anwendung zu arbeiten. An der Eingabeaufforderung geben wir die beiden
-Sub-Befehle `model User tbl_user` und `crud User` ein. Ersterer
-erzeugt automatisch die Model-Klasse `User` für die Tabelle `tbl_user`,
-letzterer analysiert das `User`-Model und generiert den Code, der für die
-entsprechenden CRUD-Operationen benötigt wird.
+Mit dem `yiic shell`-Kommando gelangt man an eine Eingabeaufforderung, 
+um Befehle an die Anwendung zu senden.  Mit dem Unterbefehl 
+`model User tbl_user` wird zunächst die Modelklasse für die
+`tbl_user`-Tabelle erzeugt. `crud User` analysiert dann das eben
+erzeugte Model `User` und generiert anschließend den Code für die CRUD-Operationen.
+
 
 > Note|Hinweis: Falls Ihnen Fehler wie "...could not find driver" 
-> ("...konnte Treiber nicht finden") begegnen, obwohl beim Testen der
-> Anforderungen angezeigt wurde, dass PDO und der zugehörige Datenbanktreiber
-> bereits aktiviert sind, können Sie versuchen, `yiic` wie folgt aufzurufen:
+> ("...konnte Treiber nicht finden") begegnen, obwohl Ihr Server
+> alle Voraussetzungen bzgl. PDO erfüllt,  können Sie versuchen, 
+> `yiic` wie folgt aufzurufen:
 >
 > ~~~
 > % php -c pfad/zu/php.ini protected/yiic.php shell
@@ -219,42 +214,42 @@ entsprechenden CRUD-Operationen benötigt wird.
 > 
 > wobei `pfad/zu/php.ini` auf die richtige INI-Datei verweist.
 
-Sehen wir uns das Ergebnis unserer Arbeit an, indem wir die folgende URL aufrufen:
+Sie können nun die Früchte Ihrer Arbeit genießen, indem sie folgende URL
+aufrufen:
 
 ~~~
 http://hostname/testdrive/index.php?r=user
 ~~~
 
-Wir sehen eine Liste aller Einträge in der Tabelle `tbl_user`.
+Sie sehen eine Liste aller Benutzer in der Tabelle `tbl_user`.
 
-Klicken Sie auf den Link `Benutzer anlegen`. Falls wir uns noch
-nicht angemeldet haben, werden wir auf die Anmeldeseite geleitet. Nach der
-Anmeldung erscheint ein Eingabeformular, mit dem wir einen neuen
-Benutzereintrag hinzufügen können. Füllen Sie das Formular aus, und klicken Sie
-unten auf den Button `Erstellen`. Falls die Eingabe fehlerhaft war, erscheint
-ein netter Hinweis auf den Fehler. Dies verhindert, dass wir den Eintrag speichern
-können. Nach dem Speichern sollte der neu angelegte Benutzer in der
+Klicken Sie auf den Link `Benutzer anlegen`. Falls Sie noch nicht angemeldet
+sind, werden Sie zur Anmeldeseite weitergeleitet. Nach der
+Anmeldung erscheint ein Eingabeformular, mit dem Sie einen neuen
+Benutzer hinzufügen können. Füllen Sie das Formular aus, und klicken Sie
+unten auf den Button `Erstellen`. Bei Eingabefehlern erhalten Sie einen
+freundlichen Hinweis und der Datensatz wird nicht gespeichert.
+Nach dem erfolgreichen Speichern sollte der neu angelegte Benutzer in der
 Benutzerliste erscheinen.
 
 Wiederholen Sie die obigen Schritte, und fügen Sie weitere Benutzer hinzu.
-Beachten Sie, dass auf der Seite der Benutzerliste automatisch eine Seitenblätterung 
-(engl.: pagination) erscheint, sobald zu viele Einträge für eine Seite vorhanden
-sind.
+Vielleicht haben Sie schon bemerkt, dass automatisch eine
+Seitenblätterung (engl.: pagination) angezeigt wird, sobald zu viele Einträge
+für eine Seite vorhanden sind.
 
-Wenn wir uns mit `admin/admin` als Administrator anmelden, können wir 
-unter der folgenden URL die Administrationsseite für Benutzer aufrufen:
+Wenn Sie sich nun mit `admin/admin` als Administrator anmelden, können Sie
+hier Admin-Seite aufrufen:
 
 ~~~
 http://hostname/testdrive/index.php?r=user/admin
 ~~~
 
-Wir erhalten eine schöne tabellarische Liste der eingetragenen Benutzer. Wir können auf die
-Spaltentitel klicken, um nach der entsprechenden Spalten zu sortieren. Und wie auf 
-der Seite mit der Benutzerliste, wird auch hier eine Seitenblätterung
-angezeigt, sobald zu viele Benutzer für eine Seite vorhanden sind.
+Sie sehen eine übersichtliche Tabelle aller Benutzer. Zum Ändern der
+Sortierung können Sie auf einen Spaltentitel klicken. Und auch hier wird eine
+Seitenblätterung angezeigt, sobald einige Einträge vorhanden sind.
 
-All diese feinen Features erhalten wir, ohne dafür eine einzige Zeile Code
-schreiben müssen!
+All dies haben Sie erreicht, ohne dafür eine einzige Codezeile
+schreiben zu müssen!
 
 ![Administrationsseite für Benutzer](first-app6.png)
 
@@ -262,4 +257,4 @@ schreiben müssen!
 
 
 
-<div class="revision">$Id: quickstart.first-app.txt 1626 2009-12-28 01:37:19Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app.txt 1733 2010-01-21 16:54:29Z qiang.xue $</div>

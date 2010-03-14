@@ -202,7 +202,7 @@ IP) определяет результат авторизации. Если э�
 >     // … разные правила …
 >     // это правило полностью запрещает действие 'delete'
 >     array('deny',
->         'action'=>array('delete'),
+>         'actions'=>array('delete'),
 >     ),
 > );
 > ~~~
@@ -531,4 +531,4 @@ $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('guest', 'гость', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 1483 2009-10-27 15:57:33Z qiang.xue $</div>
+<div class="revision">$Id: topics.auth.txt 1808 2010-02-17 21:49:42Z qiang.xue $</div>

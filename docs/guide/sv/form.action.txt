@@ -9,23 +9,23 @@ att manipulera modellen. Vi placerar denna logik i en kontrollers åtgärd
 [php]
 public function actionLogin()
 {
-	$form=new LoginForm;
+	$model=new LoginForm;
 	if(isset($_POST['LoginForm']))
 	{
 		// collects user input data
-		$form->attributes=$_POST['LoginForm'];
+		$model->attributes=$_POST['LoginForm'];
 		// validates user input and redirect to previous page if validated
-		if($form->validate())
+		if($model->validate())
 			$this->redirect(Yii::app()->user->returnUrl);
 	}
 	// displays the login form
-	$this->render('login',array('user'=>$form));
+	$this->render('login',array('model'=>$model));
 }
 ~~~
 
 I ovanstående exempel skapas först en instans av `LoginForm`; om inkommen 
 request är av typen POST (underförstått att det ifyllda login-formuläret 
-skickats), förses `$form` med inskickad data `$_POST['LoginForm']`; därefter 
+skickats), förses `$model` med inskickad data `$_POST['LoginForm']`; därefter 
 valideras inmatningen och om denna befinns korrekt styrs användarens webbläsare 
 till sidan som tidigare erfordrade autentisering. Om däremot valideringen 
 misslyckas, eller åtgärden körs initialt, renderas `login`-vyn, vars innehåll 
@@ -41,7 +41,7 @@ Låt oss titta närmare på följande PHP-sats som förekommer i `login`-åtgär
 
 ~~~
 [php]
-$form->attributes=$_POST['LoginForm'];
+$model->attributes=$_POST['LoginForm'];
 ~~~
 
 Som beskrivits i  [Säkra upp 
@@ -55,9 +55,9 @@ med i arrayen):
 
 ~~~
 [php]
-$form->username=$_POST['LoginForm']['username'];
-$form->password=$_POST['LoginForm']['password'];
-$form->rememberMe=$_POST['LoginForm']['rememberMe'];
+$model->username=$_POST['LoginForm']['username'];
+$model->password=$_POST['LoginForm']['password'];
+$model->rememberMe=$_POST['LoginForm']['rememberMe'];
 ~~~
 
 > Note|Märk: För att `$_POST['LoginForm']` skall ge oss en array i stället för 
@@ -70,4 +70,4 @@ inmatningsfält. Mer detaljerat, ett inmatningsfält som motsvarar ett attribut
 Den återstående uppgiften är nu att skapa `login`-vyn vilken skall innehålla ett 
 HTML-formulär med de erforderliga inmatningsfälten.
 
-<div class="revision">$Id: form.action.txt 626 2009-02-04 20:51:13Z qiang.xue $</div>
+<div class="revision">$Id: form.action.txt 1837 2010-02-24 22:49:51Z qiang.xue $</div>

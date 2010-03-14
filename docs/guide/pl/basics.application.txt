@@ -107,7 +107,7 @@ array(
 )
 ~~~
 
-W powyższym przykładzie, dodaliśmy element cache` do tablicy komponentów `components`.
+W powyższym przykładzie, dodaliśmy element `cache` do tablicy komponentów `components`.
 Element `cache` mówi, iż klasą komponentu jest `CMemCache` a jej właściwość `servers` 
 powinna być w taki i taki sposób zainicjalizowana.
 
@@ -160,6 +160,9 @@ Poniżej znajduje się lista tych rdzennych komponentów, które są predeklarow
 
    - [errorHandler|CApplication::errorHandler]: [CErrorHandler] - zarządza niezłapanymi
    błędami oraz wyjątkami PHP.
+   
+   - [format|CApplication::format]: [CFormatter] - formatuje wartości danych w celu wyświetlenia.
+   Udostępniono od wersji 1.1.0.   
 
    - [messages|CApplication::messages]: [CPhpMessageSource] - dostarcza przetłumaczone
    komunikaty używane przez aplikacje Yii.
@@ -212,4 +215,4 @@ Podczas przetwarzania żądania użytkownika aplikacja podlega następującemu c
 
    7.Zgłoszenie zdarzenia [onEndRequest|CApplication::onEndRequest];
 
-<div class="revision">$Id: basics.application.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>
+<div class="revision">$Id: basics.application.txt 1601 2009-12-18 04:31:19Z qiang.xue $</div>

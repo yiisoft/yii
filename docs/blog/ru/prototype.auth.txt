@@ -38,7 +38,7 @@ class UserIdentity extends CUserIdentity
 		$user=User::model()->find('LOWER(username)=?',array($username));
 		if($user===null)
 			$this->errorCode=self::ERROR_USERNAME_INVALID;
-		else if(md5($this->password)!==$user->password)
+		else if(!$user->validatePassword($this->password))
 			$this->errorCode=self::ERROR_PASSWORD_INVALID;
 		else
 		{
@@ -46,7 +46,7 @@ class UserIdentity extends CUserIdentity
 			$this->username=$user->username;
 			$this->errorCode=self::ERROR_NONE;
 		}
-		return !$this->errorCode;
+		return $this->errorCode==self::ERROR_NONE;
 	}
 
 	public function getId()
@@ -61,8 +61,32 @@ class UserIdentity extends CUserIdentity
 имя пользователя без учета регистра. Помните, что класс `User` был создан,
 используя инструмент `yiic` в предыдущем разделе. Поскольку класс `User`
 наследуется от класса [CActiveRecord], мы можем использовать
-[особенность ActiveRecord](/doc/guide/ru/database.ar)
-и обращаться к таблице `User` в ООП манере.
+[возможности ActiveRecord](/doc/guide/ru/database.ar)
+для того, чтобы обращаться к таблице `User` в ООП манере.
+
+Для того, чтобы проверить, ввёл ли пользователь правильный пароль, мы вызываем
+метод `validatePassword` класса `User`. Нам необходимо изменить файл
+`/wwwroot/blog/protected/models/User.php` как показано ниже. Отметим, что
+вместо хранения пароля в БД в явном виде, мы используем хеш от пароля и геренируемого
+случайным образом ключа (соли). При проверке введённого пользователем пароля,
+вместо сравнения паролей, мы должны сравнивать хеши.
+
+~~~
+[php]
+class User extends CActiveRecord
+{
+	......
+	public function validatePassword($password)
+	{
+		return $this->hashPassword($password,$this->salt)===$this->password;
+	}
+
+	public function hashPassword($password,$salt)
+	{
+		return md5($salt.$password);
+	}
+}
+~~~
 
 В классе `UserIdentity` мы также переопределяем метод `getId()`, который
 возвращает значение `id` пользователя, найденного в таблице `User`.
@@ -134,4 +158,4 @@ switch($identity->errorCode)
 Функцию управления пользователями можно рассматривать как будущее расширение к
 приложению блога.
 
-<div class="revision">$Id: prototype.auth.txt 702 2009-02-18 19:29:48Z qiang.xue $</div>
+<div class="revision">$Id: prototype.auth.txt 1677 2010-01-07 20:29:26Z qiang.xue $</div>

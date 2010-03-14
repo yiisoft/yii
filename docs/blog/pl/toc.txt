@@ -22,17 +22,14 @@
     - [Administrowanie komentarzami](comment.admin)
 
 * Portlety
-	- [Ustalanie architektury portletu](portlet.base)
 	- [Tworzenie portletu menu użytkownika](portlet.menu)
-	- [Tworzenie portletu logowania](portlet.login)
 	- [Tworzenie portletu chmurki tagów](portlet.tags)
 	- [Tworzenie portletu ostatnich komentarzy](portlet.comments)
 
-* Final Work
+* Wykańczanie
 	- [Upiększanie URLs](final.url)
 	- [Logowanie błędów](final.logging)
-    - [Dostosowywanie wyświetlania błędów](final.error)
     - [Końcowe dopieszczanie oraz wdrażanie](final.deployment)
     - [Dalsze rozszerzanie](final.future)
 
-<div class="revision">$Id: toc.txt 1201 2009-07-04 17:49:23Z qiang.xue $</div>
+<div class="revision">$Id: toc.txt 1734 2010-01-21 18:41:17Z qiang.xue $</div>

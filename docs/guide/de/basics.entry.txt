@@ -1,11 +1,11 @@
-Eingangsscript
+Startscript
 ==============
 
-Zu Beginn wird der Benutzer-Request vom Eingangs- oder Lade-Script bearbeitet.
-Dieses PHP-Script ist das einzige, das der Endbenutzer per Request ausführen kann.
+Das Startscript ist für die erste Verarbeitung eines Requests zuständig.
+Es ist das einzige Script der Anwendung, das direkt über das Web aufgerufen
+werden kann.
 
-In den meisten Fällen enthält das Eingangsscript einer Yii-Anwendung einfachen Code 
-wie diesen:
+Meistens enthält dieses Startscript einfachen Code wie diesen:
 
 ~~~
 [php]
@@ -18,20 +18,20 @@ $configFile='path/to/config/file.php';
 Yii::createWebApplication($configFile)->run();
 ~~~
 
-Das Script bindet zunächst die Startdatei des Yii-Frameworks `yii.php` ein.
-Es erzeugt dann eine Instanz einer Web-Applikation mit der angegebenen
-Konfiguration und startet diese.
+Zunächst wird darin die Yii-Startdatei `yii.php` eingebunden. Danach wird eine
+Instanz einer Webapplikation mit der angegebenen Konfiguration erzeugt und
+gestartet.
 
 Debug-Modus
 -----------
 
-Eine Yii-Anwendung kann entweder im Debug- oder im Produktivmodus betrieben
-werden, je nach Wert der Konstante `YII_DEBUG`. Standardmäßig ist diese
-Konstante als `false` definiert, was Produktivmodus bedeutet. Um den
-Debug-Modus zu starten, definieren Sie diese Konstante als `true`, bevor 
-sie die Datei `yii.php` einbinden. Eine Anwendung im Debug-Modus zu betreiben
-ist weniger effizient, da hier viele interne Log-Einträge gehalten werden. 
-In der Entwicklungsphase ist der Debug-Modus allerdings hilfreich, da er
-im Fehlerfall umfangreiche Debug-Informationen liefert.
+Über die Konstante `YII_DEBUG` kann eine Yii-Anwendung entweder in den Debug- 
+oder in den Produktivmodus versetzt werden. In der Standardeinstellung wird `YII-DEBUG` 
+auf `false` gesetzt und die Anwendung läuft im Produktivmodus.
+Um in den Debugmodus umzuschalten muss die Konstante auf `true` gesetzt
+werden, bevor `yii.php` eingebunden wird. Im Debugmodus läuft die Anwendung
+langsamer, da intern eine wesentlich größere Menge an Logmeldungen anfällt. 
+In der Entwicklungsphase ist der Debugmodus allerdings sehr hilfreich, da 
+im Fehlerfall umfangreiche Debuginformationen angezeigt werden können.
 
 <div class="revision">$Id: basics.entry.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

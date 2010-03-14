@@ -1,17 +1,17 @@
 Konsolenanwendungen
 ===================
 
-Konsolenanwendungen werden in einer Webanwendung hauptsächlich für
-Offline-Arbeiten verwendet, wie z.B. zur Code-Generierung, zum Erstellen eines
-Suchindex, zum Verschicken von E-Mails etc. Yii bietet ein Framework zur
-systematischen objektorientierten Erstellung von Konsolenanwendungen.
+Konsolenanwendungen werden bei einer Webanwendung hauptsächlich für
+Offline-Arbeiten verwendet, wie z.B. zur Codegenerierung, zum Erstellen eines
+Suchindexes, zum Verschicken von E-Mails etc. Auch hierfür bietet Yii ein 
+Framework, um solche Anwendungen systematisch und objektorientiert zu erstellen.
 
 Jeder Konsolenbefehl wird in Yii durch ein [Kommando|CConsoleCommand]
-repräsentiert. Eine [Konsolenanwendung|CConsoleApplication] wird wiederum
-verwendet, um einen Aufruf von der Kommandozeile an das entsprechende Kommando
-weiterzuleiten. In einem Eingangsscript wird eine Instanz der Applikation
-erstellt. Um einen Konsolenbefehl aufzurufen, führen wir an der Kommandozeile
-einfach folgenden Befehl aus:
+repräsentiert. Eine [Konsolenanwendung|CConsoleApplication] wiederum
+kümmert sich darum, einen Aufruf von der Kommandozeile an das entsprechende 
+Kommando weiterzuleiten. Diese Anwendung wird in einem eigenen Startscript 
+erstellt. Um einen Konsolenbefehl aufzurufen, führt man an
+der Kommandozeile also z.B. folgenden Befehl aus:
 
 ~~~
 php eingangsScript.php KommandoName Param0 Param1 ...
@@ -19,36 +19,35 @@ php eingangsScript.php KommandoName Param0 Param1 ...
 
 `KommandoName` bezieht sich hier auf den Namen des Kommandos wobei
 Groß-/Kleinschreibung nicht berücksichtigt wird.  `Param0`, `Param1` usw.
-sind Parameter, die an die Instanz des Kommandos übergeben werden.
+sind Parameter, die an die Kommandoinstanz übergeben werden.
 
-Das Eingangsscript einer Konsolenanwendung sieht ähnlich wie das einer
-Webanwendung aus:
+Das Startscript kann ähnlich wie das einer Webanwendung aussehen:
 
 ~~~
 [php]
 defined('YII_DEBUG') or define('YII_DEBUG',true);
 // Einbinden der Yii-Startdatei
 require_once('pfad/zum/yii/framework/yii.php');
-// Erstellen und Starten der Applikations-Instanz
+// Erstellen und Starten der Applikation
 $configFile='pfad/zur/config/datei.php';
 Yii::createConsoleApplication($configFile)->run();
 ~~~
 
-Danach müssen wir von [CConsoleCommand] abgeleitetete Kommandoklassen
+Nun kann man von [CConsoleCommand] abgeleitetete Kommandoklassen
 erstellen. Jede Kommandoklasse sollte wie das entsprechende Kommando heißen,
 ergänzt um `Command`. So würde z.B. eine Klasse `EmailCommand` ein Kommando 
 `email` zu definieren. Alle Kommandoklassen sollten
 in einem  Unterverzeichnis `commands` im
-[Stammverzeichnis](/doc/guide/basics.application#application-base-directory)
-der Anwendung abgelegt werden.
+[Anwendungsverzeichnis](/doc/guide/basics.application#application-base-directory)
+abgelegt werden.
 
 > Tip|Tipp: Verwendet man [CConsoleApplication::commandMap], können
 Kommandoklassen auch anderen Namenskonventionen folgen und an anderen Orten
 liegen.
 
-Im Wesentlichen bedeuted das Schreiben einer Kommandklasse, die Methode
-[CConsoleCommand::run] zu implementieren. Kommandozeilenparamter
-werden als Array an diese Methode übergeben. Hier ein Beispiel:
+Am wichtigsten bei einer eigenen Kommandoklasse ist die Methode
+[CConsoleCommand::run]. Sie wird beim Ausführen des Kommandos
+Bmit den Kommandozeilenparametern als Array aufgerufen. Hier ein Beispiel:
 
 ~~~
 [php]
@@ -62,35 +61,40 @@ class EmailCommand extends CConsoleCommand
 }
 ~~~
 
-In einer Konsolenanwendung können wir jederzeit über `Yii::app()` auf die 
-Anwendungsinstanz zugreifen. Eine Konsolenanwendung kann genauso wie eine
-Webanwendung konfiguriert werden. Wir können zum Beispiel eine
-Anwendungskomponente `db` konfigurieren, um auf eine Datenbank zuzugreifen.
-Die Konfiguration liegt in der Regel als PHP-Datei vor, deren Pfad an den
-Konstruktor der Konsolenanwendung übergeben wird (bzw. im Eingangsscript an
+Auch in einer Konsolenanwendung kann man jederzeit über `Yii::app()` auf die 
+Anwendung zugreifen. Und auch die Konfiguration erfolgt analog zu einer
+Webanwendung. Für Datenbankzugriffe kann man zum Beispiel eine Komponente
+`db` konfigurieren. In der Regel liegt die Konfiguration als PHP-Datei vor.
+Der Pfad dazu wird im Konstruktor an die Anwendung übergeben (bzw. im Startscript an
 [createConsoleApplication|YiiBase::createConsoleApplication]).
+
 
 Verwendung des `yiic`-Befehls
 -----------------------------
 
-Wir haben den `yiic`-Befehl bereits verwendet, um unsere [erste Yii-Anwendung
-zu erstellen](/doc/guide/quickstart.first-app). Tatsächlich ist der `yiic`-Befehl 
-eine Konsolenanwendung mit dem Eingangsscript `framework/yiic.php`. Mit `yiic`
-können wir das Grundgerüst einer Webanwendung anlegen, Controller- und
-Modelklassen erstellen, Code für CRUD-Operationen erzeugen, zu übersetzende
-Textnachrichten extrahieren etc. 
+Wir haben den `yiic`-Befehl bereits verwendet, um die [erste Yii-Anwendung
+zu erstellen](/doc/guide/quickstart.first-app). Der `yiic`-Befehl 
+ist tatsächlich auch nur eine Konsolenanwendung mit dem Startscript 
+`framework/yiic.php`. Mit `yiic` kann man das Grundgerüst einer Webanwendung 
+anlegen, Controller- und Modelklassen erstellen, Code für CRUD-Operationen 
+erzeugen, zu übersetzende Textmeldungen extrahieren etc. 
 
-Wir können `yiic` um eigene Kommandos ergänzen. Dazu sollten wir zunächst
-das Gerüst für eine Webanwendung erstellen, wie im Kapitel [Erstellen der
+Man kann `yiic` um eigene Kommandos ergänzen. Dazu sollte zunächst
+eine Webanwendung erstellt werden, wie im Kapitel [Erstellen der
 ersten Yii-Anwendung](/doc/guide/quickstart.first-app) beschrieben. Der Befehl
-`yiic webapp` erzeugt zwei Dateien im `protected`-Verzeichnis: `yiic` und
+`yiic webapp` erzeugt zwei Dateien im `protected`-Verzeichnis mit: `yiic` und
 `yiic.bat`. Das sind *lokale* Versionen des `yiic`-Befehls, die speziell für
 diese Webanwendung erstellt wurden.
 
-Wir können unsere eigenen Kommandos im `protected/commands`-Verzeichnis
-ablegen. Wenn wir den `yiic`-Befehl ausführen, sehen wir, dass neben den
-normalen auch unsere Befehle auftauchen. Wir können auch Kommandos für den
-Einsatz mit `yiic shell` erstellen. Dazu muss unsere Kommandoklasse im
-Verzeichnis `protected/commands/shell` abgelegt werden.
+Eigene Kommandos kann man in `protected/commands` ablegen. Ruft man dann
+`yiic` auf, werden die eigenen Kommandos zusätzlich zu den Standardbefehlen
+angezeigt. Man kann auch spezielle Kommandos für `yiic shell` erstellen.
+Die Kommandklasse muss dazu ins Verzeichnis `protected/commands/shell` gelegt werden.
 
-<div class="revision">$Id: topics.console.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>
+Seit Version 1.1.1 kann man auch globale Kommandos erstellen, die dann von
+allen Yii-Anwendungen auf einem Server verwendet werden können. Dazu muss die
+Umgebungsvariable `YII_CONSOLE_COMMANDS` definiert werden, die auf ein
+existierendes Verzeichnis zeigt. Sämtliche Kommandos in diesem Verzeichnis
+stehen dann bei jedem Aufruf von `yiic` zur Verfügung.
+
+<div class="revision">$Id: topics.console.txt 1870 2010-03-09 22:23:19Z qiang.xue $</div>

@@ -259,4 +259,4 @@ $sql='SELECT * FROM {{user}}';
 $users=$connection->createCommand($sql)->queryAll();
 ~~~
 
-<div class="revision">$Id: database.dao.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>
+<div class="revision">$Id: database.dao.txt 1764 2010-02-01 00:09:12Z qiang.xue $</div>

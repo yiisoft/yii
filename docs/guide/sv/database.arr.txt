@@ -6,14 +6,10 @@ från en enstaka databastabell. I det här avsnittet, beskrivs hur man använder
 till att sammanfoga (join) ett antal relaterade databastabeller och lämna den 
 resulterande datamängden i retur.
 
-För att relationell AR skall kunna användas, krävs det att väldefinierade 
-samband etablerats mellan primärnyckel resp. referensattribut (foreign key)  för 
-de tabeller som behöver förenas. AR förlitar sig på metadata om dessa samband 
-för att avgöra hur tabellerna skall sammanfogas.
-
-> Note|Märk: Från och med version 1.0.1, är det möjligt att använda relationell 
-AR även utan att referensattributrestriktioner (foreign key constraints) har 
-definierats i databasen.
+När relationell AR används, rekommenderas att sambandsrestriktioner (constraints) 
+avseende primärnyckel och referensattribut deklareras för de tabeller som kommer 
+att sammanfogas (join). Restriktionerna hjälper till att upprätthålla korrekthet 
+och integritet för relationellt data.
 
 För enkelhets skull kommer databasschemat som visas i följande entity-
 relationshipdiagram (ER-diagram) att användas för att illustrera exempel i detta 
@@ -22,31 +18,8 @@ avsnitt.
 ![ER-diagram](er.png)
 
 > Info: Stödet för referensattributrestriktioner varierar mellan olika databashanterare.
->
 > SQLite stöder inte referensattributrestriktioner, men det går ändå
-> att deklarera restriktionerna när tabeller skapas. AR kan dra fördel av dessa
-> deklarationer för att korrekt stödja frågor som involverar tabellsamband.
->
-> MySQL stöder referensattributrestriktioner med InnoDB-motorn, men inte med 
-> MyISAM. Därför rekommenderas användning av InnoDB för MySQL databaser.
-> När MyISAM används kan man dra fördel av följande trick, så att
-> frågor som involverar tabellsamband kan utföras med hjälp av AR:
-> ~~~
-> [sql]
-> CREATE TABLE foo
-> (
->   id INTEGER NOT NULL PRIMARY KEY
-> );
-> CREATE TABLE bar
-> (
->   id INTEGER NOT NULL PRIMARY KEY,
->   foo_id INTEGER
->      COMMENT 'CONSTRAINT FOREIGN KEY (foo_id) REFERENCES foo(id)'
-> );
-> ~~~
-> I exemplet ovan, används nyckelordet `COMMENT` för att beskriva referensattributrestriktionen
-> som sedan kan läsas och ge AR insikt om det beskrivna sambandet.
-
+> att deklarera restriktionerna när tabeller skapas.
 
 
 Deklarera tabellsamband
@@ -107,7 +80,8 @@ class Post extends CActiveRecord
 	{
 		return array(
 			'author'=>array(self::BELONGS_TO, 'User', 'author_id'),
-			'categories'=>array(self::MANY_MANY, 'Category', 'tbl_post_category(post_id, category_id)'),
+			'categories'=>array(self::MANY_MANY, 'Category',
+				'tbl_post_category(post_id, category_id)'),
 		);
 	}
 }
@@ -354,11 +328,10 @@ När ett kolumnnamn förekommer i två eller fler tabeller som sammanfogas,
 behöver det göras otvetydigt. Detta gör man genom att skjuta in tabellens 
 aliasnamn före kolumnnamnet.
 
-I en relationell AR-fråga är aliasnamnet för den primära tabellen samma som
-tabellnamnet, medan aliasnamnet för en relaterad tabell som standard är samma 
-som det motsvarande sambandets namn. Till exempel så har `Post` och `Comment` 
-i följande exempel, aliasnamnen `Post` respektive `comments` (under förutsättning 
-att tabellnamnet för `Post` är `Post`):
+I en relationell AR-fråga är aliasnamnet för den primära tabellen alltid `t`, 
+medan aliasnamnet för en relaterad tabell som standard är samma som det motsvarande 
+sambandets namn. Till exempel så har `Post` och `Comment` i följande exempel, 
+aliasnamnen `t` respektive `comments`:
 
 ~~~
 [php]
@@ -374,13 +347,14 @@ på följande sätt:
 ~~~
 [php]
 $posts=Post::model()->with('comments')->findAll(array(
-	'order'=>'Post.create_time, comments.create_time'
+	'order'=>'t.create_time, comments.create_time'
 ));
 ~~~
 
 > Note|Märk: semantiken vid otvetydiggörande av kolumnnamn har ändrats fr o m version 1.1.0.
 > Tidigare, i version 1.0.x, genererade Yii underförstått ett tabellalias för varje relaterad
-> tabell prefixet `??.` användes för referens till detta automatiskt genererade alias.
+> tabell prefixet `??.` användes för referens till detta automatiskt genererade alias. Vidare är, 
+> i version 1.0.x, aliasnamnet för den primära tabellen identiskt med tabellnamnet.
 
 
 Alternativ för dynamisk relationell fråga
@@ -606,4 +580,4 @@ class User extends CActiveRecord
 [CActiveRecord::scopes]. Detta innebär också att de inte kan parametriseras.
 
 
-<div class="revision">$Id: database.arr.txt 1630 2009-12-29 18:47:09Z qiang.xue $</div>
+<div class="revision">$Id: database.arr.txt 1683 2010-01-08 05:08:29Z qiang.xue $</div>

@@ -9,7 +9,7 @@
 -------------
 
 Сначала мы установим фрейморк. Скачаем копию архива релиза (версии
-1.1.0 или выше) с сайта
+1.1.1 или выше) с сайта
 [www.yiiframework.com](http://www.yiiframework.com/download) и распакуем в
 директорию `/wwwroot/yii`. Убедимся, что получили директорию
 `/wwwroot/yii/framework`.
@@ -117,6 +117,6 @@ deny from all
     `contact`. При этом подключается файл представления
     `/wwwroot/blog/protected/views/site/contact.php` и результат его выполнения
     подставляется в [макет](/doc/guide/ru/basics.view#layout)
-    `/wwwroot/blog/protected/views/layouts/main.php`.
+    `/wwwroot/blog/protected/views/layouts/column1.php`.
 
-<div class="revision">$Id: start.testdrive.txt 1677 2010-01-07 20:29:26Z qiang.xue $</div>
+<div class="revision">$Id: start.testdrive.txt 1734 2010-01-21 18:41:17Z qiang.xue $</div>

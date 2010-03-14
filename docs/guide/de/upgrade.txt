@@ -41,8 +41,15 @@ weiteren SQL-Abfrage, die alle verbundenen Objekte zurückliefert. In Version
 
 - Der Standardalias für relationale Tabellen entspricht jetzt dem Namen der
 zugehörigen Beziehung. In Version 1.0.x hat Yii die Namen der Verbundtabellen
-standardmäßig automatisch erzeugt und wir mussten die Präfix `??` verwenden,
-wenn wir uns auf diesen Alias beziehen wollten.
+standardmäßig automatisch erzeugt und man musste die Präfix `??` verwenden,
+um sich auf diesen Alias zu beziehen.
+
+- Der Alias für die Haupttabelle lautet jetzt `t`. In 1.0.x Versionen wurde
+stattdessen der Name der Haupttabelle verwendet. Dadurch ist bestehender Code
+evtl. nicht mehr lauffähig, wenn Spaltennamen explizit mit vorangestelltem Tabellennamen
+angesprochen wurden. Dies kann gelöst werden, indem stattdessen 't.'
+vorangestellt wird.
+
 
 Änderungen bei tabellarischen Eingaben
 --------------------------------------
@@ -51,4 +58,10 @@ wenn wir uns auf diesen Alias beziehen wollten.
 sollten jetzt `[$i]Feld` heißen, um auch Array-Felder verwenden zu können
 (z.B. `[$i]Feld[$index]`).
 
-<div class="revision">$Id: upgrade.txt 1634 2009-12-30 16:46:13Z qiang.xue $</div>
+Weitere Änderungen
+------------------
+
+- Die Signatur des Konstruktors in [CActiveRecord] hat sich geändert. Der
+erste Parameter (Liste mit Attributen) wurde entfernt.
+
+<div class="revision">$Id: upgrade.txt 1819 2010-02-18 22:56:55Z qiang.xue $</div>

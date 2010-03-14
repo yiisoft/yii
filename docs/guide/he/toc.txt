@@ -1,6 +1,7 @@
 * התחלה
-	- [סקירה](index)
-	- [אפשרויות חדשות](changes)
+    - [סקירה](index)
+    - [אפשרויות חדשות](changes)
+        - [עדכון המערכת מגרסא 1.0 לגרסא 1.1](upgrade)
     - [מה זה Yii](quickstart.what-is-yii)
     - [התקנה](quickstart.installation)
     - [יצירת אפליקציה בפעם הראשונה](quickstart.first-app)
@@ -24,6 +25,7 @@
     - [יצירת פעולה](form.action)
     - [יצירת טופס](form.view)
     - [איסוף קלט משתמש מרובה](form.table)
+- [שימוש במערכת יצירת הטפסים](form.builder)
 
 * עבודה עם מסדי נתונים
     - [סקירה](database.overview)
@@ -44,6 +46,12 @@
     - [יצירת תוספות](extension.create)
     - [שימוש בספריות צד שלישי](extension.integration)
 
+* הרצת בדיקות
+    - [סקירה](test.overview)
+    - [הגדרת ערכים קבועים](test.fixture)
+    - [בדיקות יחידה](test.unit)
+    - [בדיקות פונקציונליות](test.functional)
+
 * נושאים מיוחדים
     - [ניהול קישורים](topics.url)
     - [אימות משתמשים וניהול גישות](topics.auth)
@@ -57,4 +65,4 @@
     - [אבטחה](topics.security)
     - [כון ביצועים](topics.performance)
 
-<div class="revision">$Id: toc.txt 1071 2009-07-08 09:14:15Z vadimg88 $</div>
+<div class="revision">$Id: toc.txt 1603 2009-12-18 19:39:18Z qiang.xue $</div>

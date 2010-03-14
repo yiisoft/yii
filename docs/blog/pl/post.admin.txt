@@ -1,114 +1,75 @@
 Administrowanie wiadomościami
 ==============
 
-Administrowanie wiadomościami przede wszystkim odnosi się do wylistowania wiadomości
-w widoku administratora oraz usuwania wiadomości. Są one wykonywane odpowiednio przez operację
-`admin` oraz operację usuwania `delete`. Kod wygenerowany przez narzędzie `yiic` nie  
-wymaga zbytniej modyfikacji. Poniżej wyjaśniamy przede wszystkim jak te dwie operacje 
-zostały zaimplementowane.
+Administrowanie wiadomościami przede wszystkim odnosi się do wyświetlenia w liście wiadomości w widoku administratora co pozwala nam widzieć wiadomości o wszystkich statusach, aktualizować je oraz usuwać je. Są one wykonywane odpowiednio przez operację `admin` oraz operację usuwania `delete`. Kod wygenerowany przez narzędzie `yiic` nie wymaga zbytniej modyfikacji. Poniżej wyjaśniamy przede wszystkim jak te dwie operacje zostały zaimplementowane.
+
 
 Wyświetlenie listy wiadomości w widoku tabelarycznym
 -----------------------------
 
-Operacja `admin` wyświetla wszystkie wiadomości (włączając zarówno opublikowane jak i nieopublikowane)
-w widoku tabelarycznym. Widok wspiera wielokolumnowe sortowanie oraz stronicowanie. Poniżej
-znajduje się metoda `actionAdmin()` kontrolera `PostController`:
+Operacja `admin` wyświetla wszystkie wiadomości o wszystkich statusach w widoku tabelarycznym. Widok wspiera sortowanie oraz stronicowanie. Poniżej znajduje się metoda `actionAdmin()` kontrolera `PostController`:
 
 ~~~
 [php]
 public function actionAdmin()
 {
-	$criteria=new CDbCriteria;
-
-	$pages=new CPagination(Post::model()->count());
-	$pages->applyLimit($criteria);
-
-	$sort=new CSort('Post');
-	$sort->defaultOrder='status ASC, createTime DESC';
-	$sort->applyOrder($criteria);
-
-	$posts=Post::model()->findAll($criteria);
-
+	$model=new Post('search');
+	if(isset($_GET['Post']))
+		$model->attributes=$_GET['Post'];
 	$this->render('admin',array(
-		'posts'=>$posts,
-		'pages'=>$pages,
-		'sort'=>$sort,
+		'model'=>$model,
 	));
 }
 ~~~
 
-Powyższy kod jest bardzo podobny do tego z akcji `actionList()`. Główna różnica to, że
-tutaj używamy obiektu [CSort] do reprezentowania informacji o sortowaniu (np. która   
-kolumna będzie posortowana i w jakim kierunku). Obiekt [CSort] jest używany przez 
-widok `admin` w celu generowania odpowiednich odnośników w komórkach nagłówkowych tabelki.
-Klikanie na tych linkach spowoduje, że aktualna strona zostanie odświeżona a dane  
-zostaną posortowane przy użyciu tej kolumny.
+Powyższy kod jest został wygenerowany przez narzędzie `yiic` i nie został zmodyfikowany. Najpierw tworzy on model wiadomości `Post` dla [scenariusza](/doc/guide/form.model) wyszukiwania `search`. Będziemy używać tego modelu do gromadzenia warunków wyszukiwania, które specyfikuje użytkownik. Jeżeli istnieją dane dostarczone przez użytkownika, przypisujemy je do modelu. Na koniec generujemy widok `admin` wraz z modelem.
 
-Poniżej znajduje się kod dla widoku `admin`:
+Poniżej znajduje się kod widoku `admin`:
 
 ~~~
 [php]
-<h2>Manage Posts</h2>
+<?php
+$this->breadcrumbs=array(
+	'Manage Posts',
+);
+?>
+<h1>Manage Posts</h1>
 
-<table class="dataGrid">
-  <tr>
-    <th><?php echo $sort->link('status'); ?></th>
-    <th><?php echo $sort->link('title'); ?></th>
-    <th><?php echo $sort->link('createTime'); ?></th>
-    <th><?php echo $sort->link('updateTime'); ?></th>
-  </tr>
-<?php foreach($posts as $n=>$post): ?>
-  <tr class="<?php echo $n%2?'even':'odd';?>">
-    <td><?php echo CHtml::encode($post->statusText); ?></td>
-    <td><?php echo CHtml::link(CHtml::encode($post->title),
-    	array('show','id'=>$post->id)); ?></td>
-    <td><?php echo date('F j, Y',$post->createTime); ?></td>
-    <td><?php echo date('F j, Y',$post->updateTime); ?></td>
-  </tr>
-<?php endforeach; ?>
-</table>
-
-<br/>
-<?php $this->widget('CLinkPager',array('pages'=>$pages)); ?>
+<?php $this->widget('zii.widgets.grid.CGridView', array(
+	'dataProvider'=>$model->search(),
+	'filter'=>$model,
+	'columns'=>array(
+		array(
+			'name'=>'title',
+			'type'=>'raw',
+			'value'=>'CHtml::link(CHtml::encode($data->title), $data->url)'
+		),
+		array(
+			'name'=>'status',
+			'value'=>'Lookup::item("PostStatus",$data->status)',
+			'filter'=>Lookup::items('PostStatus'),
+		),
+		array(
+			'name'=>'create_time',
+			'type'=>'datetime',
+			'filter'=>false,
+		),
+		array(
+			'class'=>'CButtonColumn',
+		),
+	),
+)); ?>
 ~~~
 
-Kod ten jest bardzo prosty. Iterujemy listę wiadomości i wyświetlamy je w postaci tabelki.
-W komórkach nagłówkowych tabelki używamy obiektu [CSort] do wygenerowania odnośników w celu 
-sortowania. Na końcu, osadzamy widżet [CLinkPager] aby wyświetlał przyciski stronicowania
-jeśli zajdzie taka potrzeba.
+Do wyświetlania wiadomości używamy klasy [CGridView]. Umożliwia ona nam sortowanie kolumn oraz wiadomości jeśli jest ich zbyt wiele by wyświetlić je na pojedynczej stronie. Nasza zmiana dotyczy sposobu wyświetlania każdej kolumny. Na przykład dla kolumny tytułu `title`, określamy iż powinna ona być wyświetlona jako hiperlink, który wskazuje na widok szczegółów wiadomości. Wyrażenie `$data->url` zwraca wartość właściwości `url`, którą zefiniowaliśmy w klasie wiadomości `Post`.
 
-> Tip|Wskazówka: Podczas wyświetlania tekstu wołamy metodę [CHtml::encode()] do zakodowania 
-znajdujących się w nim wpisów HTML. Chroni to przed [atakami XSS](http://www.yiiframework.com/doc/guide/topics.security).
+> Tip|Wskazówka: Podczas wyświetlania tekstu wołamy metodę [CHtml::encode()] do zakodowania znajdujących się w nim wpisów HTML. Chroni to przed [atakami XSS](http://www.yiiframework.com/doc/guide/topics.security).
 
 
 Usuwanie wiadomości
 --------------
 
-Podczas gdy wiadomość jest wyświetlana przy użyciu operacji `show`, pokazujemy link 
-`delete` jeśli aktualny użytkownik jest właścicielem systemu. Kliknięcie na tym przycisku 
-spowoduje usunięcie wiadomości. Ze względu na to, że usunięcie wiadomości zmienia dane 
-po stronie serwera, używamy żądania POST aby wywołać usuwanie.  Zatem, używamy następującego 
-kodu do wygenerowania przycisku usuwania `delete`:
-
-~~~
-[php]
-<?php echo CHtml::linkButton('Delete',array(
-   'submit'=>array('post/delete','id'=>$post->id),
-   'confirm'=>"Are you sure to delete this post?",
-)); ?>
-~~~
-
-Metoda [CHtml::linkButton()] generuje przycisk łącza (ang. link button), który 
-tak jak zwykły przycisk. Kliknięcie na ten link spowoduje przesłanie zakodowanego  
-formularza HTML w postaci metody POST. Tutaj określamy, że formularz powinien zostać 
-przesłany do URLa wygenerowane zgodnie z `array('post/delete','id'=>$post->id)`.
-W naszej aplikacji bloga wygenerowany URL będzie miał następującą postać 
-`/blog/index.php?r=post/delete&id=1`, która odpowiada akcji `delete` w kontrolerze `PostController`.
-Określiliśmy również, że okno zawierające potwierdzeniem powinno wyskoczyć w momencie 
-kliknięcia na ten link. Daje to użytkownikowi szansę na ponowne rozpatrzenie swojego 
-żądania usunięcia. 
-
-Kod dla operacji `delete` jest oczywisty. Nie będziemy do wyjaśniać tutaj.
+W każdym wierszu siatki danych administratora `admin` znajduje się przycisk usuwania. Kliknięcie w ten przycisk powinno usunąć odpowiednią wiadomość. W aplikacji wywołuje to wywołanie akcji `delete` zaimplementowanej w następujący sposób:
 
 ~~~
 [php]
@@ -117,13 +78,33 @@ public function actionDelete()
 	if(Yii::app()->request->isPostRequest)
 	{
 		// we only allow deletion via POST request
-		$this->loadPost()->delete();
-		$this->redirect(array('list'));
+		$this->loadModel()->delete();
+
+		if(!isset($_POST['ajax']))
+			$this->redirect(array('index'));
 	}
 	else
-		throw new CHttpException(400,'Invalid request...');
+		throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 }
 ~~~
 
+Powyższy kod został wygenerowany przez narzędzie `yiic` i nie został zmieniony. Będziemy chcieli wyjaśnić nieco więcej na temat sprawdzania `$_POST['ajax']`. Widżet [CGridView] posiada bardzo fajną funkcję, która domyślnie wykonuje operacje sortowania, stronicowania, usuwania przy użyciu trybu AJAX. Oznacza to, że cała strona nie jest przeładowywana jeśli jakakolwiek z ww. operacji jest wykonywana. Jednakże, istnieje również możliwość uruchamiania widżetu bez trybu AJAX (poprzez ustawienie właściwości `ajaxUpdate` na false albo poprzez wyłączenie obsługi JavaScript po stronie klienta). Dla akcji `delete` zachodzi konieczność rozróżnienia tych dwóch scenariuszy: jeśli żądanie usuwanie pochodzi z AJAX-a nie powinniśmy przekierowywać przeglądarki użytkownika, w przeciwnym przypadku powinniśmy.
+Powyższy kod został wygenerowany przez narzędzie `yiic` i nie został zmieniony. Będziemy chcieli wyjaśnić nieco więcej na temat sprawdzania `$_POST['ajax']`. Widżet [CGridView] posiada bardzo fajną funkcję, która domyślnie wykonuje operacje sortowania, stronicowania, usuwania przy użyciu trybu AJAX. Oznacza to, że cała strona nie jest przeładowywana jeśli jakakolwiek z ww. operacji jest wykonywana. Jednakże, istnieje również możliwość uruchamiania widżetu bez trybu AJAX (poprzez ustawienie właściwości `ajaxUpdate` na false albo poprzez wyłączenie obsługi JavaScript po stronie klienta). Dla akcji `delete` zachodzi konieczność rozróżnienia tych dwóch scenariuszy: jeśli żądanie usuwanie pochodzi z AJAX-a nie powinniśmy przekierowywać przeglądarki użytkownika, w przeciwnym przypadku powinniśmy.
 
-<div class="revision">$Id: post.admin.txt 1050 2009-05-22 20:06:18Z qiang.xue $</div>
+Usuwanie wiadomości powinno również spowodować usuwanie jej wszystkich komentarzy. Dodatkowo powinniśmy również zaktualizować tabelę `tbl_tag` uwzględniając tagi z usuniętej wiadomości. Oba powyższe zadania powinny zostać osiągnięte poprzez napisanie metody `afterDelete` w klasie modelu wiadomości `Post` w następujący sposób:
+
+~~~
+[php]
+protected function afterDelete()
+{
+	parent::afterDelete();
+	Comment::model()->deleteAll('post_id='.$this->id);
+	Tag::model()->updateFrequency($this->tags, '');
+}
+~~~
+
+Powyższy kod jest bardzo prosty. Najpierw usuwane są wszystkie komentarze, których `post_id` jest takie same jak ID usuniętej wiadomości. Następnie aktualizowana jest tabela `tbl_tag` dla wartości tagów `tags` z usuniętej wiadomości.
+
+> Tip|Wskazówka: Musimy jawnie usunąć wszystkie komentarze dla usuniętej wiadomości, ponieważ SQLite nie wspiera ograniczeń klucza obcego. W silnikach bazy danych, które wpierają ograniczanie (takich jak MySQL, PostgreSQL), ograniczenie klucza obcego może zostać tak zdefiniowane, że silnik bazy danych automatycznie usunie powiązane komentarze w momencie usuwania wiadomości. W takim przypadku nie będziemy potrzebowali w naszym kodzie jawnego usuwania.
+
+<div class="revision">$Id: post.admin.txt 1810 2010-02-18 00:24:54Z qiang.xue $</div>

@@ -49,4 +49,4 @@ Następny diagram pokazuje typowe sterowanie kolejnością zadań w aplikacji Yi
    11. Akcja kończy generowanie widoku i wyświetla rezultat użytkownikowi.
 
 
-<div class="revision">$Id: basics.mvc.txt 419 2008-12-28 05:35:39Z qiang.xue $</div>
+<div class="revision">$Id: basics.mvc.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

@@ -171,7 +171,7 @@ return array (
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". There is no such column in the table "{table}".' => 'Sambandet "{relation}" i active record-klassen "{class}" är specificerat med ett ogiltigt referensattribut (FK) "{key}". Det finns ingen sådan kolumn i tabellen "{table}".',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The columns in the key must match the primary keys of the table "{table}".' => 'Sambandet "{relation}" i active record-klassen "{class}" är specificerat med ett ogiltigt referensattribut (FK). Kolumnerna i attributet (FK) måste matcha primärnyckeln i tabellen "{table}".',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".' => 'Relationen "{relation}" i Active Record-klassen "{class}" är specificerad med ett ogiltigt referensattribut. Giltigt format för referensattributet är "joinTable(fk1,fk2,...)".',
-  'The requested view "{name}" was not found.' => 'Den begärda vyn "{name}" hittas inte.',
+  'The requested view "{name}" is not found.' => 'Den begärda vyn "{name}" hittas inte.',
   'The stack is empty.' => 'Denna Stack saknar innehåll.',
   'The system is unable to find the requested action "{action}".' => 'Systemet kan inte hitta den begärda åtgärden "{action}".',
   'The system view path "{path}" is not a valid directory.' => 'Sökvägen "{path}" för systemvyn är inte en giltig katalog.',

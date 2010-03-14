@@ -4,9 +4,7 @@
 После того, как мы закончили с моделью `Post`, займёмся контроллером
 `PostController` и его отображениями. В данном разделе мы настроим правила
 доступа операций CRUD. Затем изменим код, отвечающий за `создание`(`create`) и
-`обновление`(`update`). В завершение мы реализуем предварительный просмотр для
-обеих операций.
-
+`обновление`(`update`).
 
 Настройка правил доступа
 ------------------------
@@ -23,14 +21,14 @@
 public function accessRules()
 {
 	return array(
-		array('allow',  // все пользователи могут использовать действия 'list' и 'show'
-			'actions'=>array('list', 'show'),
+		array('allow',  // allow all users to perform 'list' and 'show' actions
+			'actions'=>array('index', 'view'),
 			'users'=>array('*'),
 		),
-		array('allow', // аутентифицированные пользователи могут всё
+		array('allow', // allow authenticated users to perform any action
 			'users'=>array('@'),
 		),
-		array('deny',  // все остальные не могут ничего
+		array('deny',  // deny all users
 			'users'=>array('*'),
 		),
 	);
@@ -38,7 +36,7 @@ public function accessRules()
 ~~~
 
 Описанные выше правила разрешают всем пользователям выполнять действия
-`list` и `show`. Аутентифицированным — любые действия, включая `admin`.
+`index` и `view`. Аутентифицированным — любые действия, включая `admin`.
 Всем остальным пользователям запрещено всё. Стоит отметить, что правила
 применяются в порядке их описания. Первое сработавшее правило определяет,
 давать доступ или не давать. К примеру, если текущий пользователь является
@@ -58,141 +56,70 @@ public function accessRules()
 вывода HTML формы.
 
 Для начала изменим файл `_form.php` таким образом, чтобы форма собирала только
-нужные нам данные: `title`, `content` и `status`. Для первых двух атрибутов мы
+нужные нам данные: `title`, `content`, `tags` и `status`. Для первых трёх атрибутов мы
 используем текстовые поля. Для `status` — выпадающий список с всеми возможными
 состояниями записи:
 
 ~~~
 [php]
-<?php echo CHtml::activeDropDownList($post,'status',Post::model()->statusOptions); ?>
+<?php echo $form->dropDownList($post,'status',Lookup::items('PostStatus')); ?>
 ~~~
 
-> Tip|Подсказка: Для получения состояний можно вместо
- `Post::model()->statusOptions` использовать `Post::model()->getStatusOptions()`.
-  Это возможно так как `Post` является компонентом, что даёт нам возможность
-  использовать [свойства](/doc/guide/ru/basics.component#component-property),
-  определённые как методы (геттеры).
+В приведённом коде для получения списка статусов используется вызов `Lookup::items('PostStatus')`.
 
 Далее изменим класс `Post` таким образом, чтобы он автоматически выставлял
-некоторые атрибуты (такие, как `createTime` и `authorId`) непосредственно перед
-сохранением записи в БД. Перекроем метод `beforeValidate()`:
+некоторые атрибуты (такие, как `create_time` и `author_id`) непосредственно перед
+сохранением записи в БД. Перекроем метод `beforeSave()`:
 
 ~~~
 [php]
-protected function beforeValidate()
+protected function beforeSave()
 {
-	$parser=new CMarkdownParser;
-	$this->contentDisplay=$parser->safeTransform($this->content);
-	if($this->isNewRecord)
+	if(parent::beforeSave())
 	{
-		$this->createTime=$this->updateTime=time();
-		$this->authorId=Yii::app()->user->id;
+		if($this->isNewRecord)
+		{
+			$this->create_time=$this->update_time=time();
+			$this->author_id=Yii::app()->user->id;
+		}
+		else
+			$this->update_time=time();
+		return true;
 	}
 	else
-		$this->updateTime=time();
-	return true;
+		return false;
 }
 ~~~
 
-В данном методе мы используем [CMarkdownParser] для того, чтобы конвертировать
-текст в [формате Markdown](http://daringfireball.net/projects/markdown/) в HTML
-и сохранить результат в `contentDisplay`. Сделано это для того, чтобы
-не конвертировать текст каждый раз при отображении записи. Если запись новая,
-мы выставляем время создания(`createTime`) и автора(`authorId`). Иначе мы
-выставляем время обновления(`updateTime`) как текущее время. Стоит отметить, что
-данный метод вызывается автоматически при вызове методов модели `validate()`
-или `save()`.
-
-Так как мы хотим сохранить теги записи в таблицу `Tag`, нам понадобится добавить
-в класс `Post` метод, который будет вызываться автоматически после сохранения
-записи:
+При сохранении записи мы хотим также обновить информацию о частоте использования
+тегов в таблице `tbl_tag`. Мы можем реализовать это в методе `afterSave()`,
+который автоматически вызывается после успешного сохранения записи в БД.
 
 ~~~
 [php]
 protected function afterSave()
 {
-	if(!$this->isNewRecord)
-		$this->dbConnection->createCommand(
-			'DELETE FROM PostTag WHERE postId='.$this->id)->execute();
-
-	foreach($this->getTagArray() as $name)
-	{
-		if(($tag=Tag::model()->findByAttributes(array('name'=>$name)))===null)
-		{
-			$tag=new Tag(array('name'=>$name));
-			$tag->save();
-		}
-		$this->dbConnection->createCommand(
-			"INSERT INTO PostTag (postId, tagId) VALUES ({$this->id},{$tag->id})")->execute();
-	}
+	parent::afterSave();
+	Tag::model()->updateFrequency($this->_oldTags, $this->tags);
 }
 
-public function getTagArray()
+private $_oldTags;
+
+protected function afterFind()
 {
-	// break tag string into a set of tags
-	return array_unique(
-		preg_split('/\s*,\s*/',trim($this->tags),-1,PREG_SPLIT_NO_EMPTY)
-	);
+	parent::afterFind();
+	$this->_oldTags=$this->tags;
 }
 ~~~
 
-Сначала удаляем все записи, связанные с данной из таблицы `PostTag`. Затем
-вставляем новые теги в таблицу `Tag` и добавляем соответствующую запись в `PostTag`.
-Логика в данном случае немного сложная, поэтому вместо использования
-[ActiveRecord](/doc/guide/ru/database.ar), мы пишем выражения SQL и выполняем
-их напрямую через соединение с БД.
+Так как необходимо определить, менял ли пользователь теги при редактировании
+записи, нам понадобятся старые теги. Для этого мы реализовываем метод
+`afterFind()`, который записывает старые теги в свойство `_oldTags`. Метод
+`afterFind()` вызывается автоматически при заполнении модели AR данными, полученными
+из БД.
 
-> Tip|Подсказка: Хорошим тоном является отделение бизнес-логики, такой как
- `beforeValidate()` и `afterSave()`, описанные выше и размещение её в моделях,
-  а не в контроллерах.
+Здесь мы не будем детально рассматривать метод `Tag::updateFrequency()`.
+Заинтересованные читатели могут ознакомиться с ним в файле
+`/wwwroot/yii/demos/blog/protected/models/Tag.php`.
 
-
-Реализация предварительного просмотра
--------------------------------------
-
-Кроме изменений, описанных выше, нам необходимо добавить возможность
-предварительного просмотра, которая позволит нам оценить запись до её
-сохранения в БД.
-
-Для того, чтобы добавить кнопку «предварительный просмотр» и само отображение
-записи, изменим представление `_form.php`. Просмотр отображается только при
-нажатии кнопки и если не произошло ошибок валидации.
-
-~~~
-[php]
-<?php echo CHtml::submitButton('Предварительный просмотр',array('name'=>'previewPost')); ?>
-…
-<?php if(isset($_POST['previewPost']) && !$post->hasErrors()): ?>
-…отображаем предварительный просмотр модели $post…
-<?php endif; ?>
-~~~
-
-Добавим в методы `actionCreate()` и `actionUpdate()` контроллера `PostController` обработку
-запроса на предварительный просмотр. Ниже приведён код `actionCreate()`, который
-очень похож на то, что необходимо сделать и в `actionUpdate()`:
-
-~~~
-[php]
-public function actionCreate()
-{
-	$post=new Post;
-	if(isset($_POST['Post']))
-	{
-		$post->attributes=$_POST['Post'];
-		if(isset($_POST['previewPost']))
-			$post->validate();
-		else if(isset($_POST['submitPost']) && $post->save())
-			$this->redirect(array('show','id'=>$post->id));
-	}
-	$this->render('create',array('post'=>$post));
-}
-~~~
-
-При нажатии на кнопку «предварительный просмотр» мы вызываем `$post->validate()`
-для выполнения валидации введённых данных. Если же нажали на кнопку
-«сохранить»(submit) — пробуем сохранить запись при помощи `$post->save()`,
-который также выполняет валидацию данных. Если сохранение прошло успешно,
-(не возникли ошибки валидации и данные сохранились в БД без ошибки) —
-перенаправляем пользователя на страницу только что созданной записи.
-
-<div class="revision">$Id: post.create.txt 1065 2009-05-26 14:47:59Z qiang.xue $</div>
+<div class="revision">$Id: post.create.txt 1753 2010-01-25 18:25:03Z qiang.xue $</div>

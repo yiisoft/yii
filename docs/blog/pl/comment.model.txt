@@ -1,148 +1,74 @@
 Dostosowywanie modelu komentarza
 =========================
 
-Tak jak model wiadomości `Post`, musimy dostosować metody  `rules()`, `relations()` 
-oraz `safeAttributes()` dla modelu `Comment`. Dodatkowo potrzebujemy zmienić  
-metodę `attributeLabels()` aby zdeklarować niestandardowe etykiety dla pewnych atrybutów.
+Dla modelu komentarza `Comment` musimy głównie dostosować metody `rules()` oraz `attributeLabels()`. Metoda `attributeLabels()` zwraca mapowanie pomiędzy nazwą atrybutu a etykietą atrybutu. Nie potrzebujemy dotykać metody `relations()` ze względu na to, że kod wygenerowany przez narzędzie `yiic` jest wystarczająco dobry.
 
 
 Dostosowywanie metody `rules()`
 ----------------------------
 
-Najpierw dostosowujemy reguły sprawdzania poprawności wygenerowane przez narzędzie `yiic`.
-Następujące reguły są używane dla komentarzy:
+Najpierw dostosowujemy reguły sprawdzania poprawności wygenerowane przez narzędzie `yiic`. Następujące reguły są używane dla komentarzy:
 
 ~~~
 [php]
 public function rules()
 {
 	return array(
-		array('author,email,content', 'required'),
-		array('author,email,url','length','max'=>128),
+		array('content, author, email', 'required'),
+		array('author, email, url', 'length', 'max'=>128),
 		array('email','email'),
 		array('url','url'),
-		array('verifyCode', 'captcha', 'on'=>'insert',
-			'allowEmpty'=>!Yii::app()->user->isGuest),
 	);
 }
 ~~~
 
-W powyższym kodzie, określamy, że atrybuty: autor `author`, e-mail `email` oraz zawartość `content`
-są atrybutami wymaganymi (nie mogą być puste); długość atrybutu autor `author`, e-mail `email` oraz adres URL `url` 
-nie może przekraczać 128 (znaków); atrybut e-maila `email` musi być poprawnym adresem mailowym;  
-atrybut adresu URL `url` musi być poprawnym adresem URL; a atrybut weryfikacji kodu `verifyCode` 
-powinien zostać sprawdzony pod względem zgodności z kodem wygenerowanym przez [CAPTCHA](http://en.wikipedia.org/wiki/Captcha).
-
-Powyższy atrybut `verifyCode` jest używany przede wszystkim do przechowywania kodu weryfikującego, 
-który użytkownik wprowadził aby dodać komentarz. Ponieważ nie jest on obecny w tabeli 
-komentarzy `Comment`, musimy zadeklarować go bezpośrednio jako publiczną zmienną.
-Do sprawdzania jego poprawności używamy specjalnego walidatora o nazwie `captcha`, 
-który reprezentuje klasę [CCaptchaValidator]. Ponadto sprawdzenie poprawności   
-odbędzie się podczas wstawiania (ang. insert) nowego komentarza (popatrz na opcję `on`). 
-Dla uwierzytelnionych użytkowników nie ma potrzeby tego czynić (popatrz na opcję  `allowEmpty`).
-
-
-Dostosowywanie metody `safeAttributes()`
--------------------------------------
-
-Następnie dostosowujemy metodę `safeAttributes()` aby zdefiniować, które atrybuty  
-mogą być przypisywane grupowo.
-
-~~~
-[php]
-public function safeAttributes()
-{
-	return array('author', 'email', 'url', 'content', 'verifyCode');
-}
-~~~
-
-Oznacza to również, że formularz komentarza będzie zawierał te pola, aby zebrać informacje
-o autorze, e-mailu, adresie URL, zawartości oraz kodzie weryfikującym.
-
-
-Dostosowywanie metody `relations()`
---------------------------------
-
-Podczas tworzenia portletu "ostatnich komentarzy", potrzebujemy wylistować ostatnie
-komentarze wraz z odpowiadającymi im informacjami o wiadomościach. Dlatego też,  
-musimy dostosować metodę `relations()` aby określić relację z wiadomością.
-
-~~~
-[php]
-public function relations()
-{
-	return array(
-		'post'=>array(self::BELONGS_TO, 'Post', 'postId',
-			'joinType'=>'INNER JOIN'),
-	);
-}
-~~~
-
-Zauważ, że typ złączenia dla relacji `post` to `INNER JOIN`. Dzieje się tak, ponieważ 
-komentarz należy do wiadomości.
+W powyższym kodzie, określamy, że atrybuty: autor `author`, e-mail `email` oraz zawartość `content` są atrybutami wymaganymi (nie mogą być puste); długość atrybutu autor `author`, e-mail `email` oraz adres URL `url` nie może przekraczać 128 (znaków); atrybut e-maila `email` musi być poprawnym adresem mailowym; atrybut adresu URL `url` musi być poprawnym adresem URL.
 
 
 Dostosowywanie metody `attributeLabels()`
 --------------------------------------
 
-Na koniec potrzebujemy dostosować metodę `attributeLabels()` aby zdefiniować 
-niestandardowe etykiety dla atrybutów. Metoda da zwraca tablicę zawierająca pary
-nazwa-etykieta. Podczas wywoływania metody [CHtml::activeLabel()] w celu wyświetlenia  
-etykiety atrybutu, sprawdzi ona najpierw czy zadeklarowana niestandardową etykietę. 
-Jeśli nie, użyje ona algorytmu do wygenerowania domyślnych etykiet.
+Następnie dostosowujemy metodę `attributeLabels()` aby zdefiniować etykiety wyświetlane dla każdego z atrybutów modelu. Metoda ta zwraca tablicę par nazwa-etykieta. 
 
 ~~~
 [php]
 public function attributeLabels()
 {
 	return array(
-		'author'=>'Name',
-		'url'=>'Website',
-		'content'=>'Comment',
-		'verifyCode'=>'Verification Code',
+		'id' => 'Id',
+		'content' => 'Comment',
+		'status' => 'Status',
+		'create_time' => 'Create Time',
+		'author' => 'Name',
+		'email' => 'Email',
+		'url' => 'Website',
+		'post_id' => 'Post',
 	);
 }
 ~~~
 
-> Tip|Wskazówka: Algorytm służący do generowania domyślnych etykiet oparty jest na  
-nazwach atrybutów. Najpierw dzieli nazwę na słowa biorąc po uwagę wielkość liter.  
-Następnie zmienia pierwszą literę w każdym słowie na dużą literę. Na przykład,
-nazwa `verifyCode` otrzyma domyślną etykietę `Verify Code`.
+> Tip|Wskazówka: Jeśli etykieta dla atrybutu nie jest zadeklarowana w metodzie `attributeLabels()` do wygenerowania odpowiedniej etykiety zostanie użyty algorytm. Na przykład, etykieta `Create Time` będzie wygenerowana dla atrybutu `create_time` bądź też `createTime`.
 
 
 Dostosowywanie procesu zapisywania
 --------------------------
 
-Ponieważ chcemy przechowywać w wiadomości ilość komentarzy, gdy dodajemy lub usuwamy 
-komentarz, musimy poprawić odpowiadającą wiadomości ilość komentarzy. Uzyskujemy to 
-poprzez nadpisanie metod `afterSave()` oraz `afterDelete()` dla modelu komentarza `Comment`.
-Również nadpisujemy metodę `beforeValidate()` modelu, tak że możemy konwertować zawartość  
-z formatu Markdown do formatu HTML oraz zapisywać czas utworzenia.
- 
+Ponieważ chcemy zapisać czas utworzenia komentarza, nadpisujemy metody `beforeSave()` komentarza `Comment` tak jak to zrobiliśmy dla modelu wiadomości `Post`:
 
 ~~~
 [php]
-protected function beforeValidate($on)
+protected function beforeSave()
 {
-	$parser=new CMarkdownParser;
-	$this->contentDisplay=$parser->safeTransform($this->content);
-	if($this->isNewRecord)
-		$this->createTime=time();
-	return true;
-}
-
-protected function afterSave()
-{
-	if($this->isNewRecord && $this->status==Comment::STATUS_APPROVED)
-		Post::model()->updateCounters(array('commentCount'=>1), "id={$this->postId}");
-}
-
-protected function afterDelete()
-{
-	if($this->status==Comment::STATUS_APPROVED)
-		Post::model()->updateCounters(array('commentCount'=>-1), "id={$this->postId}");
+	if(parent::beforeSave())
+	{
+		if($this->isNewRecord)
+			$this->create_time=time();
+		return true;
+	}
+	else
+		return false;
 }
 ~~~
 
 
-<div class="revision">$Id: comment.model.txt 788 2009-03-06 04:23:06Z qiang.xue $</div>
+<div class="revision">$Id: comment.model.txt 1733 2010-01-21 16:54:29Z qiang.xue $</div>

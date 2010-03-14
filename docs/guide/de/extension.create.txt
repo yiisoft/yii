@@ -1,5 +1,5 @@
-Erweiterungen erstellen
-=======================
+Erstellen von Erweiterungen
+===========================
 
 Da eine Erweiterung auch von anderen Entwicklern verwendet werden soll,
 erfordert ihre Erstellung etwas zusätzlichen Aufwand. Hier einige

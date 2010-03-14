@@ -104,25 +104,33 @@ wzorzec-trasa, każda z takich par odpowiada jednej regule. Wzorzec reguły jest
 używanym w celu dopasowania części informacyjnej adresu URL do wzorca. 
 [Trasa](/doc/guide/basics.controller#route) powinna odnosić się do poprawnej trasy kontrolera.
 
-> Info|Info: Rozpoczynając od wersji 1.0.6, reguła może zostać jeszcze bardziej dostosowana
-> poprzez ustawienie jej opcji `urlSuffix` oraz `caseSensitive`. Poczynając od wersji 1.0.8 
-> reguła może również posiadać domyślne parametry `defaultParams`, które reprezentują
-> listę par nazwa-wartość, które będą dołączone do zmiennej globalnej `$_GET`. 
-> Aby wzbogacić regułę o te opcje, powinniśmy zdefiniować część trasy reguły jako
-> tablicę, jak pokazano dalej:
->
-> ~~~
-> [php]
-> 'pattern1'=>array('route1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
-> ~~~
->
+Poza powyższym formatem wzorzec-trasa, regułą może być również określona poprzez
+dostosowania opcji w następujący sposób:
 
-> Info: Starting from version 1.0.6, a rule may be further customized
-> by setting its `urlSuffix` and `caseSensitive` options. And starting
-> from version 1.0.8, a rule may also have `defaultParams` which represents
-> a list of name-value pairs to be merged into `$_GET`. To customize a rule
-> with these options, we should specify the route part of the rule as an array,
-> like the following:
+~~~
+[php]
+'pattern1'=>array('route1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
+~~~
+
+W powyższym kodzie, tablica zawiera listę opcji, które można dostosowywać. Od wersji 1.1.0
+następujące opcje są dostępne:
+
+   - [urlSuffix|CUrlRule::urlSuffix]: sufiks adresu URL używany specjalnie dla danej reguły.  
+   Domyślnie posiada wartość null, oznaczającą że używana jest wartość [CUrlManager::urlSuffix].
+
+   - [caseSensitive|CUrlRule::caseSensitive]: określa czy reguła uwzględnia wielkość liter. Domyślnie 
+   posiada wartość null, co oznacza, że używana jest wartość [CUrlManager::caseSensitive].
+
+   - [defaultParams|CUrlRule::defaultParams]: domyślne parametry GET (nazwa=>wartość) które ustanawia 
+   dana reguła. Kiedy dana reguła używana jest do parsowania przychodzącego żądania, wartości zadeklarowane
+   w tej właściwości zostaną wstrzyknięte do $_GET.
+
+   - [matchValue|CUrlRule::matchValue]: określa czy wartości parametru GET powinny pasować do odpowiadających 
+   im podwzorców w regule, kiedy tworzony jest URL. Domyślnie przyjmuje wartość null, oznaczającą używanie wartości
+   [CUrlManager::matchValue]. Jeśli wartość ta wynosi false, oznacza to, że reguła będzie używana do tworzenia URL 
+   jeśli jej trasa i nazwy parametrów są zgodnie z podanymi. Jeśli właściwość ta przyjmuje wartość tryu, wtedy 
+   podane wartości parametru muszą również pasować do odpowiadających parametrowi podwzorców. Zauważ, że 
+   ustawienie tej pozycji na true może obniżyć wydajność.
 
 
 ### Używanie nazwanych parametrów
@@ -250,6 +258,12 @@ Reguła odpowiada trasie `user/profile`.
 Zauważ, że [CUrlManager::showScriptName] nie będzie działało, jeśli URL zostanie  
 utworzony za pomocę reguły z parametryzowaną nazwą hosta.
 
+Zauważ, że reguła ze sparametryzowaną nazwą hosta NIE POWINNA zawierać podkatalogu
+jeśli aplikacja znajduje się w podkatalogu katalogu głównego www.
+Na przykład, jeśli aplikacja znajduje się w 
+`http://www.example.com/sandbox/blog`, wtedy wciąż powinniśmy używać tej samej reguły URL  
+jak opisana powyżej bez podkatalogu `sandbox/blog`.
+
 ### Ukrywanie `index.php`
 
 Czyszcząc adresy URL możemy zrobić jeszcze jedną rzecz więcej ukrywając
@@ -292,4 +306,4 @@ do strony statycznej. Aby to zrobić po prostu skonfiguruj komponent
 [urlManager|CWebApplication::urlManager] ustawiając jego właściwość
 [urlSuffix|CUrlManager::urlSuffix] na taki sufiks, jaki ci odpowiada.
 
-<div class="revision">$Id: topics.url.txt 1533 2009-11-20 14:10:46Z qiang.xue $</div>
+<div class="revision">$Id: topics.url.txt 1809 2010-02-17 22:08:34Z qiang.xue $</div>

@@ -172,6 +172,21 @@ betraktar underförstått kolumnnamn som oberoende av skiftläge, och om ett kol
 i en fråga innehåller både gemena och versaler måste det omges av citationstecken. 
 Användning av enbart gemener eliminerar ev. skiftlägesrelaterade problem.
 
+AR förlitar sig på väldefinierade primärnycklar för tabeller. Om en tabell saknar 
+primärnyckel, krävs det att motsvarande AR-klass specificerar vilken/vilka kolumn(er) 
+som skall utgöra primärnyckel, genom att åsidosätta metoden `primaryKey()` enligt 
+nedanstående exempel,
+
+~~~
+[php]
+public function primaryKey()
+{
+	return 'id';
+	// For composite primary key, return an array like the following
+	// return array('pk1', 'pk2');
+}
+~~~
+
 
 Skapa DB-post
 -------------
@@ -605,7 +620,7 @@ Post::model()->published()->recently()->delete();
 ~~~
 
 > Note|Märk: Namngivna omfång kan endast användas för metoder på klassnivå. 
-Det innebär att metoden måste anropas på formatet `Klassnamn::modell()`.
+Det innebär att metoden måste anropas på formatet `Klassnamn::model()`.
 
 
 ### Parametriserade namngivna omfång
@@ -671,4 +686,4 @@ $contents=Content::model()->findAll();
 Märk att ett förbestämt namngivet omfång endast gäller för `SELECT`-frågor. 
 Det ignoreras för `INSERT`-, `UPDATE`- och `DELETE`-frågor.
 
-<div class="revision">$Id: database.ar.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>
+<div class="revision">$Id: database.ar.txt 1681 2010-01-08 03:04:35Z qiang.xue $</div>

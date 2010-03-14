@@ -9,11 +9,11 @@ verändern.
 Jedes Theme wird in Yii von einem Verzeichnis dargestellt, das View-, Layout-
 und andere relevante Ressourcedateien, wie Bilder, CSS- und Javascript-Dateien 
 enthält. Der Name eines Themes entspricht dem Verzeichnisnamen. Alle Themes
-befinden sich unterhalb von `WebRoot/themes`. Es kann jeweils immer nur ein Theme
+befinden sich unterhalb von `WebVerzeichnis/themes`. Es kann jeweils immer nur ein Theme
 aktiv sein.
 
 > Tip|Tipp: Das Standardverzeichnis für Themes kann auch an einem anderen Ort
-als `WebRoot/themes` liegen. Konfigurieren Sie dazu einfach die beiden
+als `WebVerzeichnis/themes` liegen. Konfigurieren Sie dazu einfach die beiden
 Eigenschaften [basePath|CThemeManager::basePath] (Basispfad) und
 [baseUrl|CThemeManager::baseUrl] (Basis-URL) der
 [themeManager|CWebApplication::themeManager]-Anwendungskomponente.
@@ -28,23 +28,23 @@ oder während der Laufzeit in einer Controller-Action geschehen.
 > Rolle. Wenn Sie versuchen, ein Theme anzuwenden, das es gar nicht gibt,
 > liefert `Yii::app()->theme` den Wert `null` zurück. 
 
-Die Inhalte eines Themeverzeichnisses sollten genau wie im [Stammverzeichnis
-der Anwendung](/doc/guide/basics.application#application-base-directory)
+Die Inhalte eines Themeverzeichnisses sollten genau wie im 
+[Anwendungsverzeichnis](/doc/guide/basics.application#application-base-directory)
 abgelegt werden. Alle View-Dateien müssen sich zum Beispiel in `views`,
 Layout-Dateien in `views/layout` und System-View-Dateien unter `views/system`
 befinden. Wenn wir z.B. den View `create` für `PostController` durch einen
 View des Themes `classic` ersetzen möchten, sollten wir die neue Datei unter 
-`WebRoot/themes/classic/views/post/create.php` ablegen.
+`WebVerzeichnis/themes/classic/views/post/create.php` ablegen.
 
 Für die View-Dateien eines Controllers, der in einem
 [Modul](/doc/guide/basics.module) enthalten ist, sollte die entsprechende
 View-Datei des Themes ebenfalls unterhalb des `views`-Verzeichnisses abgelegt
 werden. Wenn der genannte `PostController` zum Beispiel in einem Modul namens
 `forum` enthalten ist, sollten wir die View-Datei für `create` unter
-`WebRoot/themes/classic/views/forum/post/create.php` abspeichern. Falls das
+`WebVerzeichnis/themes/classic/views/forum/post/create.php` abspeichern. Falls das
 `forum`-Modul selbst wiederum als verschachteltes Modul in einem Modul namens 
 `support` enthalten ist, sollte die View-Datei unter
-`WebRoot/themes/classic/views/support/forum/post/create.php` liegen.
+`WebVerzeichnis/themes/classic/views/support/forum/post/create.php` liegen.
 
 > Note|Hinweis: Da das `views`-Verzeichnis sicherheitskritische Daten enthalten
 könnte, sollten Sie dafür sorgen, dass es nicht vom Web aus zugänglich ist. 
@@ -72,7 +72,7 @@ Nachfolgend ein Beispiel für die Verzeichnisstruktur einer Anwendung mit den
 beiden Themes `basic` und `fancy`.
 
 ~~~
-WebRoot/
+WebVerzeichnis/
 	assets
 	protected/
 		.htaccess
@@ -201,14 +201,14 @@ Viewcode erzeugt zum Beispiel einen Pager mit den Starteigenschaften
 Beachten Sie, dass der Einsatz von Skins keine Themes voraussetzt. Ist
 allerdings ein Theme aktiv, sucht Yii auch im Verzeichnis `skins` im
 View-Verzeichnis des Themes nach Skins (z.B.
-`WebRoot/themes/classic/views/skins`). Falls sowohl im Theme als auch
+`WebVerzeichnis/themes/classic/views/skins`). Falls sowohl im Theme als auch
 im Hauptverzeichnis eine Skindatei mit dem gleichen Namen existiert, hat die
 Theme-Skin Vorrang.
 
 Falls ein Widget eine Skin verwendet, die es nicht gibt, erzeugt Yii das
 Widget wie gewohnt ohne Fehler.
 
-> Info|Info: Die Verwendung von Skins kann die Leistung negativ beeinflussen,
+> Info|Info: Die Verwendung von Skins kann die Performance negativ beeinflussen,
 > da Yii beim ersten Einsatz eines Widgets nach Skindateien suchen muss.
 
 <div class="revision">$Id: topics.theming.txt 1463 2009-10-17 01:49:02Z qiang.xue $</div>

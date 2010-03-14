@@ -188,7 +188,7 @@ Przypinanie parametrów musi nastąpić zanim wyrażenie SQL zostanie wykonane.
 ~~~
 [php]
 // SQL z dwoma placeholderami ":username" oraz ":email"
-$sql="INSERT INTO users(username, email) VALUES(:username,:email)";
+$sql="INSERT INTO tbl_user (username, email) VALUES(:username,:email)";
 $command=$connection->createCommand($sql);
 // zastąp placeholder ":username" aktualną wartością parametru username
 $command->bindParam(":username",$username,PDO::PARAM_STR);
@@ -218,7 +218,7 @@ tak, że są one automatycznie wypełniane ostatnimi danymi za każdym razem kie
 
 ~~~
 [php]
-$sql="SELECT username, email FROM users";
+$sql="SELECT username, email FROM tbl_user";
 $dataReader=$connection->createCommand($sql)->query();
 // przypnij pierwszą kolumnę (username) do zmiennej the $username
 $dataReader->bindColumn(1,$username);
@@ -243,13 +243,13 @@ w celu rozróżnienia ich od siebie. Na przykład, jedna aplikacja może używa�
 Aby móc używać prefiksów tabel, należy przypisać właściwości [CDbConnection::tablePrefix] 
 pożądany prefiks tabeli. Następnie, w zapytaniach SQL należy używać `{{TableName}}`,
 które wskazuje na nazwę tabeli bez prefiksu. Na przykład, jeśli baza danych zawiera 
-tabelę o nazwie `tbl_users`, gdzie `tbl_` jest skonfigurowane jako prefiks tabeli, 
+tabelę o nazwie `tbl_user`, gdzie `tbl_` jest skonfigurowane jako prefiks tabeli, 
 wtedy możemy używać następującego kodu, aby zapytać o użytkowników:
 
 ~~~
 [php]
-$sql='SELECT * FROM {{users}}';
+$sql='SELECT * FROM {{user}}';
 $users=$connection->createCommand($sql)->queryAll();
 ~~~
 
-<div class="revision">$Id: database.dao.txt 1479 2009-10-23 13:24:20Z qiang.xue $</div>
+<div class="revision">$Id: database.dao.txt 1764 2010-02-01 00:09:12Z qiang.xue $</div>

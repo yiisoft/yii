@@ -16,22 +16,21 @@
  * @version $Id: $
  */
 return array (
+  'Either "name" or "value" must be specified for CDataColumn.' => 'Für CDataColumn muss entweder "name" oder "value" angegeben werden.',
+  'Please specify the "data" property.' => 'Bitte definieren Sie die "data"-Eigenschaft.',
+  'The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'Die Spalte muss im Format "Name:Typ:Label" angegeben werden, wobei "Typ" und "Label" optional sind.',
   'Are you sure to delete this item?' => 'Wollen Sie diesen Eintrag wirklich löschen?',
   'Delete' => 'Löschen',
   'Displaying {start}-{end} of {count} result(s).' => 'Anzeige der Ergebnisse {start}-{end} von {count}.',
-  'No' => 'Nein',
   'No results found.' => 'Keine Ergebnisse gefunden.',
   'Not set' => 'Nicht gesetzt',
   'Please specify the "attributes" property.' => 'Bitte geben Sie die "attributes"-Eigenschaft an.',
-  'Please specify the "model" property.' => 'Bitte geben Sie die "model"-Eigenschaft an.',
   'Sort by: ' => 'Sortieren nach:',
   'The "dataProvider" property cannot be empty.' => 'Die Eigenschaft "dataProvider" darf nicht leer sein.',
   'The attribute must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'Das Attribut muss im Format "Name:Typ:Label" angegeben werden, wobei "Typ" und "Label" optional sind.',
   'The property "itemView" cannot be empty.' => 'Die Eigenschaft "itemView" darf nicht leer sein.',
   'Total {count} result(s).' => 'Insgesamt {count} Ergebnisse',
-  'Unknown type "{type}".' => 'Unbekannter Typ "{type}".',
   'Update' => 'Aktualisieren',
   'View' => 'Anzeigen',
-  'Yes' => 'Ja',
   '{class} must specify "model" and "attribute" or "name" property values.' => '{class} muss die Eigenschaften "model" und "attribute" oder "name" spezifizieren.',
 );

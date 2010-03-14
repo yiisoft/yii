@@ -68,4 +68,4 @@ Jeśli wystąpił tutaj jakiś błąd sprawdzania danych, odpowiednie pole wejś
 zostanie podświetlone automatycznie, tak jak to było w przypadku pojedynczego 
 modelu opisanego wcześniej.
 
-<div class="revision">$Id: form.table.txt 1389 2009-09-04 14:03:35Z istvan.beregszaszi $</div>
+<div class="revision">$Id: form.table.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

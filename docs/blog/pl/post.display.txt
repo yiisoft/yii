@@ -1,118 +1,108 @@
 Wyświetlanie wiadomości
 ================
 
-W naszej aplikacji blogowej wiadomość może być wyświetlana wśród listy wiadomości lub
-samodzielnie. Pierwszy przypadek zaimplementowany jest jako operacja `list`,
-drugi przypadek jako operacja `show`. W części tej, dostosujemy obie operacje,
-aby spełniały nasze początkowe wymagania.
+W naszej aplikacji - blogu - wiadomość może być wyświetlana wśród listy wiadomości lub samodzielnie. Pierwszy przypadek zaimplementowany jest jako operacja `index`, drugi jako operacja `view`. W części tej, dostosujemy obie operacje, aby spełniały nasze początkowe wymagania.
 
-Dostosowywanie operacji wyświetlania `show`
+
+Dostosowywanie operacji wyświetlania `view`
 ----------------------------
 
-Operacja wyświetlania `show` jest zaimplementowana poprzez metodę `actionShow()`
-w kontrolerze `PostController`. To co wyświetla jest generowane przez widok `show`
-znajdujący się w pliku `/wwwroot/blog/protected/views/post/show.php`.
+Operacja wyświetlania `view` zaimplementowana została poprzez metodę `actionView()` w kontrolerze `PostController`. To co wyświetla jest generowane przez widok `view` znajdujący się w pliku `/wwwroot/blog/protected/views/post/view.php`.
 
-Poniżej znajduje się odpowiedni kod implementujący operację wyświetlania `show`
-w kontrolerze `PostController`:
+Poniżej znajduje się odpowiedni kod implementujący operację wyświetlania `view` w kontrolerze `PostController`:
 
 ~~~
 [php]
-public function actionShow()
+public function actionView()
 {
-	$this->render('show',array(
-		'post'=>$this->loadPost(),
+	$post=$this->loadModel();
+	$this->render('view',array(
+		'model'=>$post,
 	));
 }
 
-private $_post;
+private $_model;
 
-protected function loadPost($id=null)
+public function loadModel()
 {
-	if($this->_post===null)
+	if($this->_model===null)
 	{
-		if($id!==null || isset($_GET['id']))
-			$this->_post=Post::model()->findbyPk($id!==null ? $id : $_GET['id']);
-		if($this->_post===null || Yii::app()->user->isGuest &&
-			$this->_post->status!=Post::STATUS_PUBLISHED)
-			throw new CHttpException(404,'The requested post does not exist.');
+		if(isset($_GET['id']))
+		{
+			if(Yii::app()->user->isGuest)
+				$condition='status='.Post::STATUS_PUBLISHED
+					.' OR status='.Post::STATUS_ARCHIVED;
+			else
+				$condition='';
+			$this->_model=Post::model()->findByPk($_GET['id'], $condition);
+		}
+		if($this->_model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
 	}
-	return $this->_post;
+	return $this->_model;
 }
 ~~~
 
-Nasza zmiana dotyczy przede wszystkim metody `loadPost()`. W metodzie tej odpytujemy
-tabelę z wiadomościami `Post` w zależności od parametru `id` GET. Jeśli wiadomość nie
-została znalezione lub jeśli nie jest ona opublikowana (gdy użytkownik jest gościem),
-rzucimy błędem HTTP 404. W przeciwnym przypadku obiekt wiadomości jest zwracany
-do metody `actionShow()`, która z kolei przekazuje obiekt wiadomości do widoku `show`
-w celu późniejszego jej wyświetlenia.
+Nasza zmiana dotyczy przede wszystkim metody `loadModel()`. W metodzie tej odpytujemy tabelę z wiadomościami `Post` w zależności od parametru `id` GET. Jeśli wiadomość nie została znalezione lub jeśli nie jest ona opublikowana lub zarchiwizowana (gdy użytkownik jest gościem), rzucimy błędem HTTP 404. W przeciwnym przypadku obiekt wiadomości jest zwracany do metody `actionView()`, która z kolei przekazuje obiekt wiadomości do widoku `view` w celu późniejszego jej wyświetlenia.
 
-> Tip|Wskazówka: Yii przechwytuje wyjątki HTTP (instancje [CHttpException]) i wyświetla
-je na stronie błędów używającej pewnych predefiniowanych szablonów. Szablony te
-można dostosować dla aplikacji, co zostanie opisane w szczegółach na końcu tego samouczka.
+> Tip|Wskazówka: Yii przechwytuje wyjątki HTTP (instancje klasy [CHttpException]) i wyświetla je zarówno przy użyciu zdefiniowanych szablonów czy też widoków błędów. Szkielet aplikacji wygenerowany przez narzędzie `yiic` zawiera już niestandardowy widok błędów w `/wwwroot/blog/protected/views/site/error.php`. Możemy zmodyfikować ten plik, jeśli mamy taką potrzebę, później jeśli chcemy zmienić sposób wyświetlania błędów.
 
-Zmiana w widoku `show` dotyczy przede wszystkim dostosowania formatowania oraz stylów
-wyświetlenia wiadomości. Nie będziemy tutaj wdawać się w szczegóły.
+Zmiana w skrypcie `view` dotyczy przede wszystkim dostosowania formatowania oraz stylów wyświetlenia wiadomości. Nie będziemy tutaj wdawać się w szczegóły. Zainteresowani, mogą zajrzeć do pliku `/wwwroot/blog/protected/views/post/view.php`.
 
 
-Dostosowywanie operacji wyświetlenia listy `list`
+Dostosowywanie operacji wyświetlenia listy `index`
 ----------------------------
 
-Podobnie jak operację wyświetlenie `show`, dostosujemy operację wyświetlenia listy `list`
-w dwóch miejscach: metodzie `actionList()` w kontrolerze `PostController` oraz
-pliku widoku  `/wwwroot/blog/protected/views/post/list.php`. Musimy przede wszsytkim dodać
-wsparcie dla wyświetlania listy wiadomości, które powiązane są z określonym tagiem.
+Podobnie jak operację wyświetlenie `view`, dostosujemy operację wyświetlenia listy `index` w dwóch miejscach: metodzie `actionIndex()` w kontrolerze `PostController` oraz pliku widoku  `/wwwroot/blog/protected/views/post/index.php`. Musimy przede wszystkim dodać wsparcie dla wyświetlania listy wiadomości, które powiązane są z określonym tagiem.
 
-Poniżej znajduje się zmieniona metoda `actionList()` kontrolera `PostController`:
+Poniżej znajduje się zmieniona metoda `actionIndex()` kontrolera `PostController`:
 
 ~~~
 [php]
-public function actionList()
+public function actionIndex()
 {
-	$criteria=new CDbCriteria;
-	$criteria->condition='status='.Post::STATUS_PUBLISHED;
-	$criteria->order='createTime DESC';
+	$criteria=new CDbCriteria(array(
+		'condition'=>'status='.Post::STATUS_PUBLISHED,
+		'order'=>'update_time DESC',
+		'with'=>'commentCount',
+	));
+	if(isset($_GET['tag']))
+		$criteria->addSearchCondition('tags',$_GET['tag']);
 
-	$withOption=array('author');
-	if(!empty($_GET['tag']))
-	{
-		$withOption['tagFilter']['params'][':tag']=$_GET['tag'];
-		$postCount=Post::model()->with($withOption)->count($criteria);
-	}
-	else
-		$postCount=Post::model()->count($criteria);
+	$dataProvider=new CActiveDataProvider('Post', array(
+		'pagination'=>array(
+			'pageSize'=>Yii::app()->params['postsPerPage'],
+		),
+		'criteria'=>$criteria,
+	));
 
-	$pages=new CPagination($postCount);
-	$pages->applyLimit($criteria);
-
-	$posts=Post::model()->with($withOption)->findAll($criteria);
-
-	$this->render('list',array(
-		'posts'=>$posts,
-		'pages'=>$pages,
+	$this->render('index',array(
+		'dataProvider'=>$dataProvider,
 	));
 }
 ~~~
 
-W powyższym kodzie, najpierw tworzymy kryteria, które mówią, że wyłącznie opublikowane
-wiadomości powinny zostać wylistowane i posortowane zgodnie z ich datą utworzenia
-w porządku malejącym. Następnie obliczamy całkowitą ilość wiadomości spełniających
-kryteria. Ilość ta jest używana przez komponent stronicowania, aby poprawnie obliczyć
-na jak wielu stronach powinna zostać wyświetlona lista wiadomości. Na koniec pobieramy
-dane wiadomości z bazy danej i przesyłamy je do widoku `list` aby je wyświetlić.
+W powyższym kodzie, tworzymy najpierw kryteria zapytania służące otrzyaniu listy wiadomości. Kryteria te określają, iż tylko opublikowane wiadomości powinny zostać zwrócone i posortowane zgodnie z datą ostatniej modyfikacji w porządku malejącym. Ponieważ wyświetlając listę wiadomości chcemy wiedzieć ile każda z nich ostrzymała komentarzy, podajemy w kryteriach iż chcemy zwrócić `commentCount`, które to jak zapewne pamiętasz, jest relacją zadeklarowaną w `Post::relations()`.
 
-Zauważ, że jeśli w zmiennej GET znajduje się parametr `tag`, będziemy odpytywać bazę,
-przy użyciu relacji `tagFilter` używając odpowiednich wartości parametru GET.
-Dołączenie `tagFilter` do zapytania relacyjnego zapewni, że tylko pojedyncze zapytanie SQL JOIN
-jest używane aby uzyskać wiadomości o określonym tagu. Bez tego wywołania, Yii podzieli
-zapytanie na dwa oddzielne zapytania SQL (w powodu wydajności) i zwróci niepoprawny rezultat.
+W przypadku kiedy użytkownik chce zobaczyć wiadomości z określonym tagiem, dodamy warunek przeszukiwania do kryteriów uwzględniający ten tag.
 
-Dwie zmienne są przekazywane do widoku `list`: wiadomości `$posts` oraz strony `$pages`.
-Pierwsza określa listę wiadomości, które mają zostać wyświetlone,  druga zaś zawiera
-informacje o stronicowaniu (np. jak wiele stron mamy w ogóle, jaką mamy aktualnie stronę).
-Widok `list` zawiera [widżet](http://www.yiiframework.com/doc/guide/basics.view#widget)
-stronicowania, który automatycznie wyświetla wiadomości w oddzielnych stronach jeśli
-jest ich zbyt wiele.
+Używając kryteria zapytań, tworzymy dostawcę danych (ang. data provider), który służy głównie do trzech celów. Po pierwsze, dzieli dane na strony jeśli zbyt wiele wyników zostanie zwróconych. Tutaj dostosowujemy stronicowanie poprzez ustawienie rozmiaru strony równego parametrowi aplikacji `postsPerPage` (wiadomości na stronę). Po drugie, sortuje on w zależności od żądania użytkownika. I wreszcie, dostarcza podzielone na strony oraz posortowane dane do widżetu lub kodu widoku w celu wyświetlenia. 
 
-<div class="revision">$Id: post.display.txt 1200 2009-07-04 17:46:06Z qiang.xue $</div>
+Po zakończeniu prac z metodą `actionIndex()`, możemy przejść do modyfikacji widoku `index`. Nasze zmiany wiążą się głównie z dodanie nagłówka `h1` jeśli użytkownik określił, że chce wyświetlić wiadomości o określonym tagu. 
+
+~~~
+[php]
+<?php if(!empty($_GET['tag'])): ?>
+<h1>Posts Tagged with <i><?php echo CHtml::encode($_GET['tag']); ?></i></h1>
+<?php endif; ?>
+
+<?php $this->widget('zii.widgets.CListView', array(
+	'dataProvider'=>$dataProvider,
+	'itemView'=>'_view',
+	'template'=>"{items}\n{pager}",
+)); ?>
+~~~
+
+Zauważ, że w powyższym kodzie używamy [CListView] do wyświetlenia listy wiadomości. Widżet ten potrzebuje częściowego widoku do wyświetlenia szczegółów pojedynczych wiadomości. Tutaj określiliśmy ten częściowy widok jako `_view`, co wskazuje na plik `/wwwroot/blog/protected/views/post/_view.php`. W tym pliku widoku, mamy dostęp do instancji wiadomości, która jest wyświetlana poprzez lokalną zmienną o nazwie `$data`.
+
+<div class="revision">$Id: post.display.txt 1810 2010-02-18 00:24:54Z qiang.xue $</div>

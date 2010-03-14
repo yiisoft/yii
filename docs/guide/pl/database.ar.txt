@@ -13,7 +13,7 @@ Każda klasa AR reprezentuje tabelę bazy danych (lub widok), których atrybuty 
 poprzez atrybuty klasy AR a instancja AR reprezentuje wiersz w  tej tabeli. 
 Wspólne operacje CRUD są zaimplementowane jako metody AR. W rezultacie, posiadamy dostęp do 
 naszych danych w bardziej obiektowo zorientowany sposób. Na przykład: możemy użyć poniższego kodu
-aby wstawić nowy wiersz do tabeli `Post`:
+aby wstawić nowy wiersz do tabeli `tbl_ost`:
 
 ~~~
 [php]
@@ -32,11 +32,11 @@ w poniższym kodzie SQL.
 
 ~~~
 [sql]
-CREATE TABLE Post (
+CREATE TABLE tbl_post (
 	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	title VARCHAR(128) NOT NULL,
 	content TEXT NOT NULL,
-	createTime INTEGER NOT NULL
+	create_time INTEGER NOT NULL
 );
 ~~~
 
@@ -100,7 +100,7 @@ Definiowanie klasy AR
 Aby uzyskać dostęp do tabeli bazy danych musimy najpierw zdefiniować klasę AR poprzez 
 rozszerzenie [CActiveRecord]. Każda klasa AR reprezentuje jedną tabele bazy danych 
 a jedna instancja reprezentuje wiersz tej tabeli. Następujący przykład pokazuje minimalny 
-kod potrzebny aby klasa AR reprezentowała tabelę `Post`.
+kod potrzebny aby klasa AR reprezentowała tabelę `tbl_ost`.
 
 ~~~
 [php]
@@ -152,9 +152,9 @@ $post=new Post;
 $post->title='przykładowy post';
 ~~~
 
-Chociaż nigdy bezpośrednio nie zdeklarowaliśmy właściwości `title` w klasie `Post`, 
+Chociaż nigdy bezpośrednio nie zdeklarowaliśmy właściwości `title` w klasie `tbl_ost`, 
 jest ona dostępna w powyższym kodzie. Dzieje się tak, ponieważ `title` jest kolumną 
-w tabeli `Post` a CActiveRecord czyni ją dostępną poprzez właściwość przy pomocy 
+w tabeli `tbl_ost` a CActiveRecord czyni ją dostępną poprzez właściwość przy pomocy 
 magicznej metody PHP `__get()`. Jeśli w ten sam sposób spróbujemy uzyskać dostęp 
 do nieistniejącej kolumny wyjątek zostanie rzucony.
 
@@ -167,6 +167,15 @@ używać nazwy kolumn podanej w cudzysłowiu w warunkach zapytania jeśli kolumn
 Z tego powodu, mądrą decyzją jest nazywanie kolumn (a także tabel) jedynie przy użyciu małych liter (np. `create_time`) 
 w celu uniknięcia potencjalnych problemów z wielkością liter.
 
+~~~
+[php]
+public function primaryKey()
+{
+	return 'id';
+	// Dla złożonych kluczy głównych, zwróć następująca tablicę
+	// return array('pk1', 'pk2');
+}
+~~~
 
 Tworzenie rekordu
 ---------------
@@ -180,7 +189,7 @@ klasy AR, ustawiamy jej właściwości powiązane z kolumnami tabel i wołamy me
 $post=new Post;
 $post->title='przykładowy post';
 $post->content='zawartość przykładowego postu';
-$post->createTime=time();
+$post->create_time=time();
 $post->save();
 ~~~
 
@@ -215,8 +224,8 @@ Na przykład, w celu zapisania stempla czasu (ang. timestamp) zwracanego przez f
 ~~~
 [php]
 $post=new Post;
-$post->createTime=new CDbExpression('NOW()');
-// $post->createTime='NOW()'; nie zadziała ponieważ 
+$post->create_time=new CDbExpression('NOW()');
+// $post->create_time='NOW()'; nie zadziała gdyż 
 // 'NOW()' będzie potraktowany jako łańcuch znaków
 $post->save();
 ~~~
@@ -253,7 +262,7 @@ by otrzymać dostęp do metod na poziomie klasy w kontekście obiektu (coś podo
 do statycznych metod klas).
 
 Jeśli metoda `find` znajdzie wiersz spełniający warunki zapytania, zwróci ona instancję 
-`Post`, której właściwości będą zawierać odpowiadające kolumnom wartości wiersza tabeli.
+`tbl_ost`, której właściwości będą zawierać odpowiadające kolumnom wartości wiersza tabeli.
 Możemy wtedy czytać załadowane wartości tak jak to robimy w przypadku właściwości obiektu, 
 na przykład, `echo $post->title;`.
 
@@ -533,25 +542,25 @@ Nazwane podzbiory (ang. Named Scopes)
 i zastosowane do zapytania generowanego przez rekord aktywny. 
 
 Nazwane podzbiory deklarowane są głównie w metodzie [CActiveRecord::scopes()] jako pary nazwa-kryterium.
-Następujący kod definiuje dwa nazwane podzbiory, `opublikowane` oraz `najnowsze` w klasie modelu `Post`:
+Następujący kod definiuje dwa nazwane podzbiory, `opublikowane` oraz `najnowsze` w klasie modelu `tbl_ost`:
 
 ~~~
 [php]
 class Post extends CActiveRecord
 {
-  ......
-  public function scopes()
-  {
-    return array(
-      'opublikowane'=>array(
-        'condition'=>'status=1',
-      ),
-      'najnowsze'=>array(
-        'order'=>'createTime DESC',
-        'limit'=>5,
-      ),
-    );
-  }
+	......
+	public function scopes()
+	{
+		return array(
+			'published'=>array(
+				'condition'=>'status=1',
+			),
+			'recently'=>array(
+				'order'=>'create_time DESC',
+				'limit'=>5,
+			),
+		);
+	}
 }
 ~~~
 
@@ -585,7 +594,7 @@ Oznacza to, że muszą one być wywołane w przy użyciu `NazwaKlasy::model()`.
 
 ### Parametryzowane nazwane podzbiory (ang. Parameterized Named Scopes)
 
-Nazwane podzbiory mogą by sparametryzowane. Na przykład, chcemy dostosować liczbę postów określoną w nazwanym podzbiorze `najnowsze`. 
+Nazwane podzbiory mogą by sparametryzowane. Na przykład, chcemy dostosować liczbę postów określoną w nazwanym podzbiorze `najnowsze` 
 Aby to zrobić, zamiast deklarować nazwany podzbiór w metodzie [CActiveRecord::scopes], musimy zdefiniować nową metodę, 
 której nazwa jest taka sama jak jak nazwa podzbioru:
 
@@ -593,11 +602,11 @@ której nazwa jest taka sama jak jak nazwa podzbioru:
 [php]
 public function najnowsze($limit=5)
 {
-  $this->getDbCriteria()->mergeWith(array(
-    'order'=>'createTime DESC',
-    'limit'=>$limit,
-  ));
-  return $this;
+	$this->getDbCriteria()->mergeWith(array(
+		'order'=>'create_time DESC',
+		'limit'=>$limit,
+	));
+	return $this;
 }
 ~~~
 
@@ -643,4 +652,4 @@ $contents=Content::model()->findAll();
 
 Zauważ, że domyślne nazwane podzbiory mają zastosowanie tylko dla zapytań `SELECT`. Są one ignorowane dla zapytań `INSERT`, `UPDATE` oraz `DELETE`.
 
-<div class="revision">$Id: database.ar.txt 1479 2009-10-23 13:24:20Z qiang.xue $</div>
+<div class="revision">$Id: database.ar.txt 1681 2010-01-08 03:04:35Z qiang.xue $</div>

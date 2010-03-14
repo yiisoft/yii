@@ -1,20 +1,19 @@
 Protokollierung (Logging)
 =========================
 
-Yii bietet eine flexibles und erweiterbares Protokollierungsfeature (engl.:
-logging). Zu loggende (also zu protokollierende) Nachrichten können einer 
-Logstufe (engl.: log level) und einer Nachrichtenkategorie zugeordnet werden. Zusammen mit 
+Yii bietet eine flexibles und erweiterbares Logfeature.  
+Zu loggende (also zu protokollierende) Meldungen können einer 
+Logstufe (engl.: log level) und einer Kategorie zugeordnet werden. Zusammen mit 
 Logstufen- und Kategoriefiltern können ausgewählte 
-Nachrichten an verschiedene Ziele, wie z.B. Dateien, E-Mails, 
+Meldungen an verschiedene Ziele, wie z.B. Dateien, E-Mails, 
 Browserfenster etc., weitergeleitet werden
 
-Loggen von Nachrichten
-----------------------
+Loggen von Meldungen
+--------------------
 
-Nachrichten können geloggt werden, indem man entweder [Yii::log] oder
-[Yii::trace] aufruft. Der Unterschied zwischen beiden besteht darin, dass
-bei letzterer Nachrichten nur dann protokolliert werden, wenn die Anwendung
-sich im [Debug-Modus](/doc/guide/basics.entry#debug-mode) befindet.
+Ein Logeintrag kann entweder mit [Yii::log] oder [Yii::trace] angelegt werden. 
+Der Unterschied zwischen beiden besteht darin, dass `Yii::trace` nur im 
+[Debug-Modus](/doc/guide/basics.entry#debug-mode) loggt.
 
 ~~~
 [php]
@@ -22,9 +21,9 @@ Yii::log($message, $level, $category);
 Yii::trace($message, $category);
 ~~~
 
-Beim Loggen einer Nachricht müssen wir eine Kategorie und eine Stufe angeben. 
-Die Kategorie ist ein String im Format `xxx.yyy.zzz` was einem
-[Pfad-Alias](/doc/guide/basics.namespace) gleicht. Wenn eine Nachricht zum
+Beim Loggen einer Meldung muss eine Kategorie und eine Stufe angegeben werden. 
+Die Kategorie ist ein String im Format `xxx.yyy.zzz`, ähnlich einem
+[Pfad-Alias](/doc/guide/basics.namespace). Wenn eine Meldung zum
 Beispiel in [CController] geloggt wird, könnten wir die Kategorie
 `system.web.CController` verwenden. Die Logstufe sollte einem der folgenden
 Werte entpsrechen:
@@ -34,32 +33,32 @@ Nachverfolgen (engl.: trace) des Programmablaufs während der Entwicklungsphase.
 
    - `info`: dient zum Loggen allgemeiner Informationen.
 
-   - `profile`: dient zur Leistungsmessung, wie wir sie in Kürze behandeln.
+   - `profile`: dient zur Performance-Analyse, die wir in Kürze behandeln.
 
    - `warning`: dient für Warnhinweise.
 
    - `error`: dient für schwerwiegende Fehlermeldungen.
 
-Nachrichtenrouting
-------------------
+Routing von Logeinträgen
+------------------------
 
-Mit [Yii::log] oder [Yii::trace] geloggte Nachrichten werden im Speicher
+Mit [Yii::log] oder [Yii::trace] geloggte Meldungen werden im Speicher
 gehalten. Für gewöhnlich sollen diese im Browserfenster angezeigt oder in einem
 beständigen Speicher wie Dateien oder E-Mails gespeichert werden. Dies nennt
-man auch *Nachrichtenrouting* (engl.: message routing), also das Weiterleiten 
-von Nachrichten an bestimmte Zielorte.
+man auch *Routing von Logmeldungen* (engl.: message routing), also das Weiterleiten 
+der Einträge an bestimmte Zielorte.
 
-In Yii wird das Nachrichtenrouting von einer
-[CLogRouter]-Anwendungskomponente (sinngem.: Nachrichtenweiterleiter) übernommen.
-Sie verwaltet eine Reihe sogenannter *Nachrichtenrouten* (engl.: log routes).
-Jede Nachrichtenroute steht für ein einzelnes Log-Ziel. Nachrichten, die 
-über eine Nachrichtenroute geschickt werden, können nach Stufe und Kategorie
+In Yii wird das Routing von einer
+[CLogRouter]-Anwendungskomponente (sinngem.: Logmeldungs-Weiterleiter) übernommen.
+Sie verwaltet eine Reihe sogenannter *Logrouten* (engl.: log routes).
+Jede Logroute steht für ein einzelnes Log-Ziel. Meldungen, die 
+über eine Logroute geschickt werden, können nach Stufe und Kategorie
 gefiltert werden.
 
-Um das Nachrichtenrouting verwenden zu können, müssen wir die
-[CLogRouter]-Komponente installieren und frühzeitig laden (engl.: preload).
-Wir müssen außerdem deren Eigenschaft [routes|CLogRouter::routes] (Routen) mit
-den von uns gewünschten Nachrichtenrouten konfigurieren. Hier ein Beispiel für
+Um das Logrouting verwenden zu können, muss die
+[CLogRouter]-Komponente installiert und frühzeitig geladen (engl.: preload)
+werden. Außerdem muss deren Eigenschaft [routes|CLogRouter::routes] (Routen) mit
+den von uns gewünschten Logrouten konfiguriert werden. Hier ein Beispiel für
 die nötige
 [Anwendungskonfiguration](/doc/guide/basics.application#application-configuration):
 
@@ -89,40 +88,40 @@ array(
 )
 ~~~
 
-In obigem Beispiel verwenden wir zwei Nachrichtenrouten. Die erste ist
-[CFileLogRoute], welche Nachrichten in einer Datei im Runtime-Verzeichnis der
-Anwendung speichert. Nur Nachrichten, die der Stufe `trace` oder `info`
+In obigem Beispiel verwenden wir zwei Logrouten. Die erste ist
+[CFileLogRoute], welche Logmeldungen in einer Datei im Runtime-Verzeichnis der
+Anwendung speichert. Nur Meldungen, die der Stufe `trace` oder `info`
 angehören und deren Kategorie mit `system.` beginnt, werden gespeichert. Die
-zweite Route ist [CEmailLogRoute], die Nachrichten an die angegebene
-E-Mail-Adresse verschickt. Nur Nachrichten mit der Stufe `error` oder
+zweite Route ist [CEmailLogRoute], die Logmeldungen an die angegebene
+E-Mail-Adresse verschickt. Nur Meldungen mit der Stufe `error` oder
 `warning` werden verschickt.
 
-Die folgenden Nachrichtenrouten stehen in Yii zur Verfügung:
+Die folgenden Logrouten stehen in Yii zur Verfügung:
 
-   - [CDbLogRoute]: speichert Nachrichten in einer Datenbanktabelle.
-   - [CEmailLogRoute]: schickt Nachrichetn an die angegebenen E-Mail-Adressen.
-   - [CFileLogRoute]: speichert Nachrichten in eine Datei im
+   - [CDbLogRoute]: speichert Logmeldungen in einer Datenbanktabelle.
+   - [CEmailLogRoute]: schickt Logmeldungen an die angegebenen E-Mail-Adressen.
+   - [CFileLogRoute]: speichert Logmeldungen in eine Datei im
 Runtime-Verzeichnis der Anwendung.
-   - [CWebLogRoute]: zeigt Nachrichten am Ende der aktuellen Webseite an.
-   - [CProfileLogRoute]: zeigt Nachrichten zur Leistungsermittlung am Ende der
+   - [CWebLogRoute]: zeigt Logmeldungen am Ende der aktuellen Webseite an.
+   - [CProfileLogRoute]: zeigt Logmeldungen zur Performance-Analyse am Ende der
 aktuellen Webseite an.
 
-> Info: Das Nachrichtenrouting wird am Ende des aktuellen Request-Zyklus beim
+> Info: Das Logrouting wird am Ende des aktuellen Request-Zyklus beim
 Auslösen des [onEndRequest|CApplication::onEndRequest]-Events durchgeführt. Um
 die Bearbeitung des aktuellen Requests explizit zu beenden, rufen Sie
 [CApplication::end()] statt `die()` oder `exit()` auf, da
 [CApplication::end()] das [onEndRequest|CApplication::onEndRequest]-Event
-auslöst und somit Nachrichten ordnungsgemäß geloggt werden können.
+auslöst und somit Logmeldungen ordnungsgemäß geloggt werden können.
 
-### Nachrichtenfilterung
+### Filtern von Logmeldungen 
 
-Wie erwähnt, können Nachrichten nach ihrer Stufe und ihrer Kategorie gefiltert
-werden, bevor sie auf eine Nachrichtenroute geleitet werden. Dies geschieht,
+Wie erwähnt, können Logeinträge nach ihrer Stufe und ihrer Kategorie gefiltert
+werden, bevor sie an eine Logroute geleitet werden. Dies geschieht,
 indem man die [levels|CLogRoute::levels]- und
 [categories|CLogRoute::categories]-Eigenschaften der entsprechenden Route
 setzt. Mehrere Stufen oder Kategorien sollten mit Kommas verbunden werden.
 
-Da Nachrichtenkategorien im Format `xxx.yyy.zzz` vorliegen, können wir sie wie
+Da Logkategorien im Format `xxx.yyy.zzz` vorliegen, können wir sie wie
 eine Hierarchie von Kategorien behandeln. In diesem Fall können wir sagen, `xxx`
 ist die Elternkategorie von `xxx.yyy`, welche wiederum die Elternkategorie von
 `xxx.yyy.zzz` bildet.  Wir können `xxx.*` verwenden, um die Kategorie 
@@ -137,11 +136,11 @@ oder der Benutzername mit geloggt werden. Dies erreicht man, indem man
 
 Im Framework ist bereits der nützliche [CLogFilter] enthalten, der in den
 meisten Fällen als ein solcher Logfilter verwendet werden kann. Standardmäßig
-logt [CLogFilter] eine Nachricht mit Variablen wie `$_GET`, `$_SERVER`, die
+logt [CLogFilter] eine Logmeldung mit Variablen wie `$_GET`, `$_SERVER`, die
 oft wertvolle Informationen zum Systemzustand enthalten. [CLogFilter] kann
-auch so konfiguriert werden, dass allen zu loggenden Nachrichten die
+auch so konfiguriert werden, dass allen zu loggenden Meldungen die
 Session-ID, der Benutzername, etc. vorangestellt wird. Dadurch kann die Suche
-nach bestimmten Nachrichten bei einer globalen Suche beträchtlich vereinfacht
+nach bestimmten Einträgen bei einer globalen Suche beträchtlich vereinfacht
 werden.
 
 Die folgende Konfiguration zeigt, wie man das Loggen von Kontextinformationen
@@ -172,54 +171,54 @@ array(
 
 Seit Version 1.0.7 können mit `Yii::trace` auch der Informationen aus dem
 Aufrufstapel geloggt werden. Dieses Feature ist standardmäßig deaktiviert, da
-es die Leistung negativ beeinflusst. Um dieses Feature zu verwenden,
-definieren Sie am Anfang Ihres Eingangsscripts einfach die Konstante
+es die Performance negativ beeinflusst. Um dieses Feature zu verwenden,
+definieren Sie am Anfang Ihres Startscripts einfach die Konstante
 `YII_TRACE_LEVEL` mit einem Wert größer als 0 (und zwar bevor Sie `yii.php`
-einbinden). Yii hängt dann an jede Trace-Nachricht den Dateinamen und die
+einbinden). Yii hängt dann an jede Tracen-Eintrag den Dateinamen und die
 Zeilennummer des Anwendungscode an. Die Zahl in `YII_TRACE_LEVEL` gibt an, wie
 viele Ebenen des Aufrufstapels aufgezeichnet werden sollen. Diese Information kann speziell
 in der Entwicklungsphase sehr nützlich sein, da es uns hilft, den genauen Ort,
-an dem die Nachricht geloggt wurde, ausfindig zu machen.
+an dem eine Meldung geloggt wurde, ausfindig zu machen.
 
 
 
-Leistungsmessung
-----------------
+Performance-Analyse
+-------------------
 
-Die Leistungsmessung (engl.: performance profiling) ist eine spezielle Art der
-Nachrichtenprotokollierung. Sie kann verwendet werden, um die Zeit zu messen, die zur
-Ausführung eines bestimmten Code-Blocks benötigt wird, und so den
-leistungsmäßigen Flaschenhals herauszufinden.
+Bei der Performance-Analyse(engl.: performance profiling) handelt es sich
+um eine spezielle Logart. Mit ihr kann man die Zeit messen, die ein bestimmter
+Codeblock zur Ausführung benötigt und so den leistungsmäßigen Flaschenhals 
+in einer Anwendung ausfindig machen.
 
-Für die Leistungsmessung müssen wir die zu messenden Code-Blöcke
-identifizieren. Wir markieren Anfang und Ende jedes Code-Blocks, indem wir die
-folgenden Methoden einfügen:
+Für die Performance-Analysse müssen die zu analysierenden Codeblöcke erst
+identifiziert werden. Mit folgenden beiden Methoden können Anfang und Ende
+jedes Blocks markiert werden:
 
 ~~~
 [php]
 Yii::beginProfile('blockID');
-...Zu messender Code-Block...
+...Zu analysierender Codeblock...
 Yii::endProfile('blockID');
 ~~~
 
-wobei `blockID` eine eindeutige ID zur Identifizierung des Code-Blocks
+wobei `blockID` eine eindeutige ID zur Identifizierung des Blocks
 darstellt.
 
-Beachten Sie, dass Code-Blöcke sauber verschachtelt werden müssen. Das
+Beachten Sie, dass Codeblöcke sauber verschachtelt werden müssen. Das
 bedeutet, dass sich zwei Blöcke nicht überschneiden dürfen. Sie müssen
 entweder auf der selben Ebene nebeneinander liegen, oder vollständig von einem
-anderen Code-Block umschlossen werden.
+anderen Codeblock umschlossen werden.
 
 Um die Ergebnisse der Messung anzuzeigen, müssen wir eine
 [CLogRouter]-Komponente mit einer [CProfileLogRoute]-Logroute installieren.
-Dies geht genauso wie beim normalen Nachrichtenrouting. Die
-[CProfileLogRoute]-Route zeigt das Ergebnis der Messung am Ende der aktuellen
+Dies geht genauso wie beim normalen Logrouting. Die
+[CProfileLogRoute]-Route zeigt das Ergebnis der Analyse am Ende der aktuellen
 Seite an.
 
 
-### Leistungsmessung von SQL-Anweisungen
+### Performance-Analyse von SQL-Anweisungen
 
-Im Zusammenhang mit Datenbanken ist eine Leistungsmessung besonders sinnvoll,
+Im Zusammenhang mit Datenbanken ist die Performance-Analyse besonders sinnvoll,
 da SQL-Anweisungen oft den größten leistungsmäßigen Flaschenhals einer Anwendung
 darstellen. Obwohl wir manuell `beginProfile`- und `endProfile`-Ausdrücke an
 die passenden Stellen setzen könnten, um die Zeit für jede SQL-Anweisung zu

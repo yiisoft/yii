@@ -1,27 +1,26 @@
 View
 ====
 
-Ein View ist ein PHP-Script, das hauptsächlich aus Elementen der
-Bedienoberfläche besteht. Es kann auch PHP-Anweisungen enthalten, aber es
-wird empfohlen, dass diese Anweisungen keine Daten-Models verändern und
-relativ einfach gehalten werden. Im Sinne einer Trennung von Logik und
-Präsentation, sollten größere Logikblöcke statt im View, besser im
+Ein View ist ein Script, das zum größten Teil aus Elementen der Bedienoberfläche
+besteht. Es kann durchaus PHP-Befehle enthalten. Aber es wird dringend empfohlen,
+diese Anweisungen einfach zu halten und z.B. keine
+Datenmodels zu verändern. Im Sinne einer Trennung von Logik und
+Präsentation, sollten größere Logikblöcke besser im
 Controller oder im Model untergebracht werden.
 
-Ein View hat einen Namen, der beim Rendern zur Bestimmung der View-Datei
-verwendet wird. Der Name eines Views entspricht dem Dateinamen des
-View-Scripts. Der View `edit` bezieht sich auf die Script-Datei `edit.php`. Um
+Der Name eines Views entspricht seinem Dateinamen.
+Der View `edit` bezieht sich somit auf die Datei `edit.php`. Um
 einen View zu rendern, rufen Sie [CController::render()] mit dem Namen des
 Views auf. Die Methode sucht dann im Verzeichnis
-`protected/views/ControllerID` nach der entsprechenden View-Datei.
+`protected/views/ControllerID` nach der entsprechenden Viewdatei.
 
-Innerhalb eines View-Scripts können wir über `$this` auf die
-Controller-Instanz zugreifen. So können wir im View mit `$this->propertyName` 
-auf jede Eigenschaft des Controllers zugreifen, was man auch als `pull`-Verfahren
-(ziehen) bezeichnet. 
+Innerhalb eines Views kann über `$this` auf die Controllerinstanz 
+zugegriffen werden. Mit `$this->propertyName` kann man so im View
+jede Eigenschaft des Controllers "beziehen", was man daher auch als 
+`pull`-Verfahren (ziehen) bezeichnet. 
 
-Wir können auch einen `push`-Ansatz (schieben) verfolgen, um
-Daten wie hier an den View zu übergeben:
+Der Controller kann die Daten auch in den View "schieben", also entsprechend 
+einen `push`-Ansatz (schieben) verfolgen:
 
 ~~~
 [php]
@@ -31,17 +30,17 @@ $this->render('edit', array(
 ));
 ~~~
 
-In obigem Fall extrahiert die Methode [render()|CController::render] den
-zweiten Array-Parameter in einzelne Variablen. Daher können wir im View-Script
-auf die lokalen Variablen `$var1` und `$var2` zugreifen.
+Die Methode [render()|CController::render] extrahiert den
+zweiten Array-Parameter in einzelne Variablen. Im Viewscript stehen 
+dann die lokalen Variablen `$var1` und `$var2` zur Verfügung.
 
 Layout
 ------
 
-Ein Layout ist ein spezieller View, der zum "dekorieren" von Views verwendet
-wird. In der Regel enthält es die Teile der Bedienoberfläche, die mehrere
-Views gemeinsam haben. Ein Layout kann zum Beispiel Header- und
-Footer-Bereiche enthalten, und den View-Inhalt zwischen den beiden einbinden,
+Ein Layout ist ein spezieller View, der zum "Dekorieren" anderer Views verwendet
+wird. Normalerweise enthält er jene Teile, die mehrere Views gemeinsam haben.
+Ein Layout kann zum Beispiel Header- und
+Footerabschnitt enthalten, und den Viewinhalt zwischen den beiden einbinden,
 
 ~~~
 [php]
@@ -50,25 +49,24 @@ Footer-Bereiche enthalten, und den View-Inhalt zwischen den beiden einbinden,
 ......footer hier......
 ~~~
 
-wobei `$content` das gerenderte Ergebnis des Inhalt-Views enthält.
+wobei `$content` das Renderergebnis des eigentlichen Inhalt-Views enthält.
 
-Ein Layout wird jedesmal angewendet, wenn [render()|CController::render]
-aufgerufen wird. Per Vorgabe wird das Script in
-`protected/views/layouts/main.php` als Layout verwendet. Dies kann entweder
-über [CWebApplication::layout] oder [CController::layout] angepasst werden. 
-Rufen Sie [renderPartial()|CController::renderPartial] auf, um einen View zu
-rendern, ohne ein Layout anzuwenden.
+Ein Layout wird immer "übergestülpt", wenn ein View mit [render()|CController::render]
+erstellt wird. Per Vorgabe wird dazu die Datei `protected/views/layouts/main.php` als Layout verwendet. 
+Über [CWebApplication::layout] oder [CController::layout] kann der Pfad
+zum Layoutview angepasst werden. Möchte man einen View ohne Layout rendern, kann
+man stattdessen [renderPartial()|CController::renderPartial] aufrufen.
 
 Widget
 ------
 
-Ein Widget (sinngem.: Dings) ist eine Instanz vom Typ [CWidget] oder
-dessen Kindklassen. Es handelt sich um eine Komponente, die im Wesentlichen für
-Präsentationszwecke verwendet wird. Widgets werden für gewöhnlich in ein View-Script
-eingebettet, um einen komplexeren, jedoch in sich geschlossen Teil der
-Anwenderoberfläche zu erzeugen. Zum Beispiel kann man ein Kalender-Widget 
-verwenden um ein komplexes Kalender-Bedienelement zu rendern. Widgets
-erlauben eine bessere Wiederverwendbarkeit von Anwenderschnittstellen.
+Ein Widget (sinngem.: Dings) ist eine Instanz von [CWidget] oder
+einer davon abgeleiteten Klasse. Widgets sind Komponenten, die praktisch 
+ausschließlich zur Anzeige dienen. Für gewöhnlich werden sie in
+Views verwendet, um komplexe, in sich geschlossene Bedienelemente
+zu erzeugen. Ein Kalenderwidget könnte z.B. ein
+ausgefeiltes Kalender-Bedienelement rendern. Widgets tragen so wesentlich zur
+Wiederverwendbarkeit von Seitenkomponenten bei.
 
 Um ein Widget zu verwenden, gehen Sie wie folgt im View-Script vor:
 
@@ -86,16 +84,15 @@ oder
 <?php $this->widget('pfad.zu.Widget-Klasse'); ?>
 ~~~
 
-Letztere Form wird verwendet, wenn das Widget keinen eingebetteten Inhalt
+Die zweite Form wird verwendet, wenn das Widget keinen eingebetteten Inhalt
 benötigt.
 
-Das Verhalten von Widgets kann per Konfiguration angepasst werden. Dies
-geschieht, indem man beim Aufruf von [CBaseController::beginWidget] oder
-[CBaseController::widget] die gewünschten Eigenschaftswerte übergibt. 
-Wenn wir zum Beispiel das Widget [CMaskedTextField] verwenden, können wir die
-zu verwendende Maske angeben. Dazu können wir ein Array mit den
-Eigenschaftsnamen als Schlüssel und den gewünschten Startwerten als Wert
-übergeben:
+Auch Widgets können konfiguriert werden. Dazu übergibt man beim Aufruf von
+[CBaseController::beginWidget] oder [CBaseController::widget] ein weiteres
+Array mit den gewünschten Konfigurationsparametern.
+Bei [CMaskedTextField] kann man so zum Beispiel die zu verwendende Maske
+angeben. Wie üblich entsprechen die Schlüssel und Werte des Arrays den 
+Parameternamen und -werten des Widgets:
 
 ~~~
 [php]
@@ -106,8 +103,8 @@ $this->widget('CMaskedTextField',array(
 ?>
 ~~~
 
-Um ein neues Widget zu definieren, erweitern Sie [CWidget] und überschreiben
-Sie dessen Methoden [init()|CWidget::init] und [run()|CWidget::run].
+Wenn Sie ein neues Widget erstellen möchten, erweitern Sie einfach [CWidget]
+und überschreiben die Methoden [init()|CWidget::init] und [run()|CWidget::run].
 
 ~~~
 [php]
@@ -115,39 +112,39 @@ class MyWidget extends CWidget
 {
 	public function init()
 	{
-		// Diese Methode wird von CController::beginWidget() aufgerufen
+		// Diese Methode wird bei CController::beginWidget() aufgerufen
 	}
 
 	public function run()
 	{
-		// Diese Methode wird von CController::endWidget() aufgerufen
+		// Diese Methode wird bei CController::endWidget() aufgerufen
 	}
 }
 ~~~
 
-Wie ein Controller, kann auch ein Widget seinen eigenen View besitzen.
-Standardmäßig sind die View-Dateien des Widgets im Unterverzeichnis `views`
-des Ordners abgelegt, der die Widget-Datei enthält. Ähnlich wie im Controller
-können diese Views durch Aufruf von [CWidget::render()] gerendert werden.
-Der einzige Unterschied besteht darin, dass kein Layout auf einen Widget-View
-angewendet wird.
+Auch ein Widget kann, ähnlich einem Controller, eine eigene Viewdatei
+verwenden. Standardmäig werden Widgetviews im Unterordner `views` des
+Verzeichnisses gesucht, in dem die Widgetklasse abgelegt wurde. Wie im
+Controller können diese Views mit [CWidget::render()] gerendert werden.
+Der einzige Unterschied besteht darin, dass kein Layout auf einen Widgetview
+angewendet wird. Außerdem bezieht sich `$this` in diesem View auf das
+Widgetobjekt, nicht auf den Controller.
 
-System-View
+Systemview
 -----------
 
-System-Views beziehen sich auf Views, die von Yii zur Anzeige von Fehler- und
-Log-Informationen verwendet werden. Fordert ein Benutzer zum Beispiel einen
-Controller oder eine Action an, die nicht existieren, löst Yii eine Exception
-aus, die den Fehler beschreibt. Yii stellt diese Exception unter Zuhilfenahme
-eines speziellen System-Views dar.
+Systemviews werden von Yii für die Anzeige von Fehler- und Loginformationen
+verwendet. Fordert ein Besucher z.B. eine Route an, die nicht existiert, löst
+Yii eine Exception aus, die den Fehler näher beschreibt. Für diese Exception
+verwendet Yii einen speziellen Systemview.
 
-Die Bezeichnung von System-Views folgt den selben Regeln. Namen wie
-`errorXXX` beziehen sich auf Views zur Anzeige einer [CHttpException] mit
-(HTTP-)Fehlercode `XXX`. Wird zum Beispiel eine [CHttpException] mit dem
-Fehlercode 404 ausgelöst, wird der View `error404` angezeigt. 
+Die Bezeichnung von Systemviews folgt einem Schema. Namen wie 
+`errorXXX` werden zur Anzeige von [CHttpException]s mit
+HTTP-Fehlercode `XXX` verwendet. Eine [CHttpException] mit dem
+Fehlercode 404, wird z.B. mit dem View `error404` angezeigt. 
 
-Yii stellt eine Reihe von Standard-System-Views bereit, die unter
-`framework/views` zu finden sind. Sie können leicht angepasst werden, indem
-gleichnamige View-Dateien in `protected/views/system` angelegt werden.
+Yii stellt eine Reihe von Vorgabe-Systemviews bereit, die unter
+`framework/views` zu finden sind. Man kann sie leicht anpassen, indem
+man gleichnamige Viewdateien in `protected/views/system` anlegt.
 
-<div class="revision">$Id: basics.view.txt 416 2008-12-28 05:28:11Z qiang.xue $</div>
+<div class="revision">$Id: basics.view.txt 1809 2010-02-17 22:08:34Z qiang.xue $</div>

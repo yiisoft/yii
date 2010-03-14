@@ -152,7 +152,7 @@ return array (
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". The foreign key does not point to either joining table.' => '',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".' => '',
   'The requested controller "{controller}" does not exist.' => '',
-  'The requested view "{name}" was not found.' => '',
+  'The requested view "{name}" is not found.' => '',
   'The stack is empty.' => '',
   'The system is unable to find the requested action "{action}".' => '',
   'The system view path "{path}" is not a valid directory.' => '',

@@ -94,4 +94,4 @@ Następnie weryfikujemy czy możemy znaleźć tytuł postu `sample1` na aktualne
 Sprawdzamy również, czy strona zawiera tekst `Zostaw komentarz`.
 
 
-<div class="revision">$Id: test.functional.txt 1152 2009-06-19 04:42:21Z qiang.xue $</div>
+<div class="revision">$Id: test.functional.txt 1662 2010-01-04 19:15:10Z qiang.xue $</div>

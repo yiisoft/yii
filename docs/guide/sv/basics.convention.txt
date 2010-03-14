@@ -115,4 +115,25 @@ av dem kan anpassas om så önskas.
 
    - `WebRoot/themes`: denna katalog innehåller olika teman att applicera på applikationen. Varje underkatalog representerar ett specifikt tema med samma namn som underkatalogen. Anpassning kan ske via [CThemeManager::basePath].
 
-<div class="revision">$Id: basics.convention.txt 1650 2010-01-02 13:34:38Z qiang.xue $</div>
+Databas
+-------
+
+De flesta webbapplikationer använder sig av någon databas. För bästa resultat, rekommenderas 
+följande namngivingskonventioner för databastabeller och -kolumner. Märk att de inte utgör 
+krav från Yii:s sida.
+
+   - Både databastabeller och -kolumner namnges med gemena (lower case).
+
+   - Ord i ett namn separeras med understreck (underscore) t.ex. `product_order`.
+
+   - För tabellnamn, kan antingen singularis eller pluralis användas, men inte både och. 
+   För enkelhets skull rekommenderas namn i singularisform.
+
+   - Tabellnamn kan föregås av ett gemensamt prefix så som `tbl_`. Detta är speciellt användbart 
+   när tabellerna som hör till en applikation samexisterar, i samma databas, med tabeller 
+   som hör till en annan applikation. De två uppsättningarna tabeller kan särskiljas genom 
+   användning av olika tabellnamnprefix.
+
+
+
+<div class="revision">$Id: basics.convention.txt 1768 2010-02-01 01:34:15Z qiang.xue $</div>

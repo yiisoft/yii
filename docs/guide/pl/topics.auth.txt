@@ -207,7 +207,7 @@ a matching-all deny rule at the end of rule set, like the following:
 >     // ... pozostałe reguły ...
 >     // następująca reguła zabrania akcji 'delete' dla wszystkich kontekstów
 >     array('deny',
->         'action'=>'delete',
+>         'actions'=>'delete',
 >     ),
 > );
 > ~~~
@@ -550,4 +550,4 @@ $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('guest','gość', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 1483 2009-10-27 15:57:33Z qiang.xue $</div>
+<div class="revision">$Id: topics.auth.txt 1808 2010-02-17 21:49:42Z qiang.xue $</div>

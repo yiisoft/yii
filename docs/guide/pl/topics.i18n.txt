@@ -260,4 +260,4 @@ lub zmiennoprzeciwkową.
    - [formatPercentage|CNumberFormatter::formatPercentage]: metoda ta formatuje podaną liczbę używając 
    wzorca procentowego predefiniowanego w danych źródłowych lokalnych ustawień.
 
-<div class="revision">$Id: topics.i18n.txt 1489 2009-10-27 21:13:26Z qiang.xue $</div>
+<div class="revision">$Id: topics.i18n.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

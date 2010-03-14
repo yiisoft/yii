@@ -3,54 +3,54 @@ Tworzenie i wyświetlanie komentarzy
 
 W części tej zaimplementujemy funkcje wyświetlania oraz tworzenia komentarzy.
 
+W celu zwiększenia interakcji z użytkownikiem będziemy chcieli poinformować użytkownika o możliwych błędach za każdym razem gdy skończy on wprowadzać wartości do danego pola. Znane jest to po pojęciem sprawdzania poprawności danych po stronie klienta. Pokażemy jak można to zrobić w Yii w sposób nierozróżnialny i ekstremalnie prosty. Zauważ, że wymagana jest do tego wersja Yii 1.1.1 lub późniejsza. 
+
 
 Wyświetlanie komentarzy
 -------------------
 
-Zamiast osobnych stron do wyświetlania i tworzenia komentarzy użyjemy strony 
-wyświetlającej wiadomości. Poniżej wyświetlonej zawartości każdej wiadomości,  
-wyświetlimy listę komentarzy należących do tej wiadomości a pod nimi formularz 
-tworzenia komentarza.
+Zamiast osobnych stron do wyświetlania i tworzenia komentarzy użyjemy strony wyświetlającej szczegóły wiadomości (wygenerowanej przez akcję `view` w kontrolerze `PostController`). Poniżej wyświetlonej zawartości każdej wiadomości, wyświetlimy listę komentarzy należących do tej wiadomości a pod nimi formularz tworzenia komentarza.
 
-W celu wyświetlenia komentarzy na stronie wiadomości, zmienimy metodę `actionShow()` 
-kontrolera `PostController` w następujacy sposób:
+W celu wyświetlenia komentarzy na stronie szczegółów wiadomości, zmodyfikujemy skrypt widoku `/wwwroot/blog/protected/views/post/view.php` w następujący sposób:
 
 ~~~
 [php]
-public function actionShow()
-{
-	$post=$this->loadPost();
-	$this->render('show',array(
-		'post'=>$post,
-		'comments'=>$post->comments,
-	));
-}
+...post view here...
+
+<div id="comments">
+	<?php if($model->commentCount>=1): ?>
+		<h3>
+			<?php echo $model->commentCount . 'comment(s)'; ?>
+		</h3>
+
+		<?php $this->renderPartial('_comments',array(
+			'post'=>$model,
+			'comments'=>$model->comments,
+		)); ?>
+	<?php endif; ?>
+</div>
 ~~~
 
-Zauważ, że wyrażenie `$post->comments` jest poprawne ponieważ zdefiniowaliśmy relację  
-`comments` w klasie `Post`. Wywołanie tego wyrażenia uruchomi ukryte zapytanie 
-JOIN do bazy danych, które zwróci komentarze należące do aktualnej wiadomości.
-Funkcjonalność ta znana jest jako [leniwe zapytanie relacyjne](http://www.yiiframework.com/doc/guide/database.arr).
+W powyższym kodzie, wywołujemy metodę `renderPartial()` aby wygenerować częściowy widok o nazwie `_comments` w celu wyświetlenia listy komentarzy aktualnie wyświetlanej wiadomości. Zauważ, że w widoku używamy wyrażenia `$model->comments` w celu zwrócenia komentarzy dla tej wiadomości. Jest to poprawne wywołanie dlatego, że zadeklarowaliśmy relację `comments` w klasie wiadomości `Post`.  Wykonanie tego wyrażenia spowoduje niejawne wywołanie zapytania do bazy danych z JOIN-em, które zwróci nam odpowiednie komentarze. Funkcjonalność ta znana jest jako [leniwe zapytania relacyjne](http://www.yiiframework.com/doc/guide/database.arr).
 
-Zmodyfikujemy również widok `show` poprzez dołączenie wyświetlania komentarzy  
-na końcu wyświetlania wiadomości, nad czym nie będziemy się tutaj zbytnio rozwodzić.
+Częściowy widok `_comments` nie jest zbyt interesujący. Głównie przechodzi on przez wszystkie komentarze i wyświetla ich szczegóły. Zainteresowanych czytelników odsyłamy do pliku `/wwwroot/yii/demos/blog/protected/post/_comments.php`.
+
 
 Tworzenie komentarzy
 -----------------
 
-Aby obsłużyć tworzenie komentarzy, najpierw zmienimy metodę `actionShow()` kontrolera `PostController`
-w następujący sposób:
+Aby obsłużyć tworzenie komentarzy, najpierw zmienimy metodę `actionView()` kontrolera `PostController` w następujący sposób:
 
 ~~~
 [php]
-public function actionShow()
+public function actionView()
 {
-	$post=$this->loadPost();
+	$post=$this->loadModel();
 	$comment=$this->newComment($post);
-	$this->render('show',array(
-		'post'=>$post,
-		'comments'=>$post->comments,
-		'newComment'=>$comment,
+
+	$this->render('view',array(
+		'model'=>$post,
+		'comment'=>$comment,
 	));
 }
 
@@ -60,14 +60,10 @@ protected function newComment($post)
 	if(isset($_POST['Comment']))
 	{
 		$comment->attributes=$_POST['Comment'];
-		$comment->postId=$post->id;
-		$comment->status=Comment::STATUS_PENDING;
-
-		if(isset($_POST['previewComment']))
-			$comment->validate('insert');
-		else if(isset($_POST['submitComment']) && $comment->save())
+		if($post->addComment($comment))
 		{
-			Yii::app()->user->setFlash('commentSubmitted','Thank you...');
+			if($comment->status==Comment::STATUS_PENDING)
+				Yii::app()->user->setFlash('commentSubmitted','Thank you...');
 			$this->refresh();
 		}
 	}
@@ -75,46 +71,80 @@ protected function newComment($post)
 }
 ~~~
 
-W powyższym kodzie, wołamy metodę `newComment()` zanim wygenerujemy widok `show`. 
-W metodzie `newComment()` generujemy instancję komentarza `Comment` i sprawdzamy 
-czy formularz komentarza został przesłany. Formularz może zostać przesłany poprzez
-kliknięcie zarówno przycisku submit lub też przycisku podglądu. Dla pierwszego  
-spróbujemy zapisać komentarz i wyświetlić migawkę (ang. flash message). 
-Migawka jest wyświetlana tylko raz, co oznacza zniknie ona, że jeśli odświeżymy stronę. 
+W powyższym kodzie, wołamy metodę `newComment()` zanim wygenerujemy widok `view`. W metodzie `newComment()` generujemy instancję komentarza `Comment` i sprawdzamy czy formularz komentarza został przesłany. Jeśli tak, spróbujemy dodać komentarz do wiadomości poprzez wywołanie `$post->addComment($comment)`. Jeżeli się to uda, odświeżymy stronę ze szczegółami wiadomości. W przypadku gdy komentarz wymaga zatwierdzenia, pokażemy wiadomość typu flash aby to zakomunikować. Wiadomość typu flash jest zazwyczaj wiadomością potwierdzającą coś, wyświetlaną użytkownikowi końcowemu. Jeśli użytkownik kliknie na przycisku odświeżenia w swojej przeglądarce wiadomość ta zniknie.
 
-Zmodyfikujemy również widok `show` poprzez dołączenie formularza tworzenia komentarza.
+Musimy ponadto zmodyfikować również `/wwwroot/blog/protected/views/post/view.php`:
 
 ~~~
 [php]
 ......
-<?php $this->renderPartial('/comment/_form',array(
-	'comment'=>$newComment,
-	'update'=>false,
-)); ?>
+<div id="comments">
+	......
+	<h3>Leave a Comment</h3>
+
+	<?php if(Yii::app()->user->hasFlash('commentSubmitted')): ?>
+		<div class="flash-success">
+			<?php echo Yii::app()->user->getFlash('commentSubmitted'); ?>
+		</div>
+	<?php else: ?>
+		<?php $this->renderPartial('/comment/_form',array(
+			'model'=>$comment,
+		)); ?>
+	<?php endif; ?>
+
+</div><!-- comments -->
 ~~~
 
-Osadziliśmy formularz tworzenia komentarza w częściowym widoku `/wwwroot/blog/protected/views/comment/_form.php`. 
-Zmienna `$newComment` jest przekazywana do metody `actionShow`. Jej głównym zadaniem jest 
-przechowywanie informacji o danych wejściowych użytkownika. Zmienna `update` 
-ustawiona jest na wartość false, co oznacza, że formularz komentarza jest używany do 
-tworzenia nowego komentarza.
+W powyższym kodzie wyświetlamy wiadomość typu flash jeśli jest dostępna. W przeciwnym przypadku, wyświetlamy formularz komentarza poprzez wygenerowanie widoku częściowego `/wwwroot/blog/protected/views/comment/_form.php`.
 
-W celu wsparcia podglądu komentarza, dodamy przycisk podglądu do formularza tworzenia
-komentarza. Gdy przycisk podglądu zostanie kliknięty, podgląd komentarza jest wyświetlany 
-na górze strony. Poniżej znajduje się zaktualizowany kod formularza komentarza:
+
+Sprawdzanie poprawności danych po stronie klienta
+----------------------
+
+W celu wspierania sprawdzania poprawności po stronie klienta w formularzu komentarza, potrzebujemy dokonać niewielkich zmian zarówno w widoku formularza `/wwwroot/blog/protected/views/comment/_form.php` jak i w metodzie `newComment()`.
+
+W pliku `_form.php` musimy przede wszystkim ustawić [CActiveForm::enableAjaxValidation] jako wartość true, kiedy tworzymy widżet [CActiveForm]:
 
 ~~~
 [php]
-...formularz komentarza z przyciskiem podglądu...
+<div class="form">
 
-<?php if(isset($_POST['previewComment']) && !$comment->hasErrors()): ?>
-<h3>Preview</h3>
-<div class="comment">
-  <div class="author"><?php echo $comment->authorLink; ?> says:</div>
-  <div class="time"><?php echo date('F j, Y \a\t h:i a',$comment->createTime); ?></div>
-  <div class="content"><?php echo $comment->contentDisplay; ?></div>
-</div><!-- post preview -->
-<?php endif; ?>
+<?php $form=$this->beginWidget('CActiveForm', array(
+	'id'=>'comment-form',
+	'enableAjaxValidation'=>true,
+)); ?>
+......
+<?php $this->endWidget(); ?>
+
+</div><!-- form -->
 ~~~
 
-<div class="revision">$Id: comment.create.txt 1157 2009-06-22 15:25:02Z qiang.xue $</div>
+Natomiast w metodzie `newComment()` wstawiamy część kodu aby odpowiedzieć na żądanie AJAX-a dotyczące sprawdzania poprawności. Kod sprawdza, czy w `POST` występuje zmienna `ajax`. Jeśli tak, wyświetlany jest rezultat sprawdzania poprawności poprzez wywołanie [CActiveForm::validate].
+
+~~~
+[php]
+protected function newComment($post)
+{
+	$comment=new Comment;
+
+	if(isset($_POST['ajax']) && $_POST['ajax']==='comment-form')
+	{
+		echo CActiveForm::validate($comment);
+		Yii::app()->end();
+	}
+
+	if(isset($_POST['Comment']))
+	{
+		$comment->attributes=$_POST['Comment'];
+		if($post->addComment($comment))
+		{
+			if($comment->status==Comment::STATUS_PENDING)
+				Yii::app()->user->setFlash('commentSubmitted','Thank you...');
+			$this->refresh();
+		}
+	}
+	return $comment;
+}
+~~~
+
+<div class="revision">$Id: comment.create.txt 1753 2010-01-25 18:25:03Z qiang.xue $</div>

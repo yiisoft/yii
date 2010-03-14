@@ -114,7 +114,7 @@ Każdy z nich może zostać zmieniony, jeśli występuje taka potrzeba:
 
    - `WebRoot/protected/views/ControllerID`: katalog ten zawiera pliki widoków dla 
    pojedynczej klasy kontrolera. Tutaj `ControllerID` oznacza ID kontrolera.
-   Można go zmienić poprzez zmianę wartości [CController::getViewPath].
+   Można go zmienić poprzez zmianę wartości [CController::viewPath].
 
    - `WebRoot/protected/views/layouts`: katalog ten zawiera pliki wszystkich układów 
    widoków. Można go zmienić poprzez zmianę wartości [CWebApplication::layoutPath].
@@ -132,4 +132,18 @@ Każdy z nich może zostać zmieniony, jeśli występuje taka potrzeba:
    aplikacji. Każdy podkatalog reprezentuje pojedynczy temat, którego nazwa jest 
    nazwą podkatalogu. Można go zmienić poprzez zmianę wartości [CThemeManager::basePath].
 
-<div class="revision">$Id: basics.convention.txt 749 2009-02-26 02:11:31Z qiang.xue $</div>
+Baza danych
+--------
+
+Większość aplikacji internetowych posiłkuje się bazami danych. Jako najlepszą praktykę, proponujemy następującą konwencję nazewnictwa dla baz danych oraz kolumn. Zauważ, iż nie są one wymagane przez Yii:
+
+   - używamy małych liter do nazywania tabel bazy danych jak i kolumn.
+
+   - słowa w nazwie powinny być rozdzielone za pomocą podkreślenia (e.g. `product_order`).
+
+   - dla nazw tabeli, możesz używacz zarówno liczny pojedynczej jak i mnogiej, ale nie obu równocześnie. Dla prostoty, zalecamy używanie liczny pojedynczej.
+
+   - nazwy trabel mogą być poprzedzone przez wspólny token, np. `tbl_`. Jest to szczególnie użyteczne kiedy tabele aplikacji współisnieją w tej samej bazie danych z tabelami innej aplikacji. Oba zestawy tabel mogą zostać z łatwością rozdzielone poprzez użycie różnych prefiksów dla nazw tabel.
+
+
+<div class="revision">$Id: basics.convention.txt 1768 2010-02-01 01:34:15Z qiang.xue $</div>

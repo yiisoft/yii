@@ -92,7 +92,7 @@ Schutz vor Cookie-Angriffen
 ---------------------------
 Cookies vor Angriffen zu schützen ist äußerst wichtig, da Session-IDs für
 gewöhnlich in Cookies gespeichert werden. Falls jemand die Session-ID
-ergattern kann, besitzt er damit im wesentlichen alle bedeutsamen Session-Informationen.
+ergattern kann, besitzt er damit im Wesentlichen alle bedeutsamen Session-Informationen.
 
 Es gibt einige Gegenmaßnahmen um Cookies vor einem Angriff zu schützen.
 

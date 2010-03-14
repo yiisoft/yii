@@ -9,24 +9,23 @@ dla logowania, potrzebujemy następującego kodu:
 [php]
 public function actionLogin()
 {
-	$form=new LoginForm;
+	$model=new LoginForm;
 	if(isset($_POST['LoginForm']))
 	{
-		// zbierz dane wejściowe od użytkownika
-		$form->attributes=$_POST['LoginForm'];
-		// sprawdź poprawność danych wejściowych oraz przekieruj do poprzedniej strony jeśli 
-		// walidacja powiedzie się
-		if($form->validate())
+		// collects user input data
+		$model->attributes=$_POST['LoginForm'];
+		// validates user input and redirect to previous page if validated
+		if($model->validate())
 			$this->redirect(Yii::app()->user->returnUrl);
 	}
-	// wyświetl formularz logowania
-	$this->render('login',array('user'=>$form));
+	// displays the login form
+	$this->render('login',array('model'=>$model));
 }
 ~~~
 
-W powyższym przykładzie na początku utworzyliśmy instancję `LoginForm`; gdy żądanie 
+W powyższym przykładzie na początku utworzyliśmy instancję modelu `LoginForm`; gdy żądanie 
 jest żądaniem POST (co oznacza, że dane z formularza logowania zostały przesłane), 
-wypełniamy `$form` przesłanymi danymi z `$_POST['LoginForm']`; następnie sprawdzamy 
+wypełniamy `$model` przesłanymi danymi z `$_POST['LoginForm']`; następnie sprawdzamy 
 poprawność danych wejściowych i jeśli są poprawne, przekierowujemy przeglądarkę użytkownika
 na stronę, która poprzednio wymagała uwierzytelnienia. W przypadku gdy walidacja nie powiedzie się,
 albo gdy akcja wywoływana jest po raz pierwszy generujemy widok `login`, którego 
@@ -42,7 +41,7 @@ logowania `login`:
 
 ~~~
 [php]
-$form->attributes=$_POST['LoginForm'];
+$model->attributes=$_POST['LoginForm'];
 ~~~
 
 Tak jak napisaliśmy w [ochronie przypisania atrybutów](/doc/guide/form.model#securing-attribute-assignments),
@@ -55,9 +54,9 @@ jest obecny w tablicy):
 
 ~~~
 [php]
-$form->username=$_POST['LoginForm']['username'];
-$form->password=$_POST['LoginForm']['password'];
-$form->rememberMe=$_POST['LoginForm']['rememberMe'];
+$model->username=$_POST['LoginForm']['username'];
+$model->password=$_POST['LoginForm']['password'];
+$model->rememberMe=$_POST['LoginForm']['rememberMe'];
 ~~~
 
 > Note|Uwaga: Aby umożliwić `$_POST['LoginForm']` zwracanie tablicy zamiast łańcucha znaków, 
@@ -69,4 +68,4 @@ odpowiadające atrybutowi `username`.
 Zadanie jaki nam pozostało, to utworzenie widoku `login`, który powinien zawierać 
 formularz HTML wraz z wymaganymi polami wejściowymi.
 
-<div class="revision">$Id: form.action.txt 626 2009-02-04 20:51:13Z qiang.xue $</div>
+<div class="revision">$Id: form.action.txt 1837 2010-02-24 22:49:51Z qiang.xue $</div>

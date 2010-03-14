@@ -29,7 +29,7 @@ Definiowanie dostawcy usługi
 Jak wcześniej mówiliśmy, dostawca usługi jest klasą udostępniającą metody,
 które mogą być wywoływane zdalnie. Yii opiera się na [komentarzach dla potrzeb
 dokumentacji - tzw. doc comment](http://java.sun.com/j2se/javadoc/writingdoccomments/)
-i na [introspekcjach klas](http://www.php.net/manual/en/language.oop5.reflection.php)
+i na [introspekcjach klas](http://php.net/manual/en/book.reflection.php)
 w celu identyfikacji, która z metod może być zdalnie wywoływana oraz jakie są
 jej parametry i zwracana wartość.
 
@@ -223,4 +223,4 @@ wywoływanej poprzez [CWebService::methodName]. Może wtedy zwrócić wartość
 false, jeżeli z pewnych powodów zdalna metoda nie powinna być wywoływana
 (np. nieautoryzowany dostęp).
 
-<div class="revision">$Id: topics.webservice.txt 1308 2009-08-07 23:43:11Z qiang.xue $</div>
+<div class="revision">$Id: topics.webservice.txt 1808 2010-02-17 21:49:42Z qiang.xue $</div>

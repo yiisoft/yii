@@ -177,7 +177,7 @@ return array (
   'The relation "{relation}" in active record class "{class}" is specified with an incomplete foreign key. The foreign key must consist of columns referencing both joining tables.' => 'La relación "{relation}" en la clase active record "{class}" se encuentra especificada con una clave foranea incompleta. La clave foranea debe consistir de las columnas que referencian la junta de tablas.',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". The foreign key does not point to either joining table.' => 'La relación "{relation}" en la clase active record "{class}" se encuentra especificada con una clave foranea inválida "{key}". La clave foranea no apunta a la tabla de junta (joining table).',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".' => 'La relación "{relation}" en la clase active record "{class}" se encuentra especificada con una clave foranea inválida. El formato de la clave foranea debe ser "joinTable(fk1,fk2,...)".',
-  'The requested view "{name}" was not found.' => 'La vista "{name}" solicitad no se ha encontrado.',
+  'The requested view "{name}" is not found.' => 'La vista "{name}" solicitad no se ha encontrado.',
   'The stack is empty.' => 'La pila está vacía',
   'The system is unable to find the requested action "{action}".' => 'El sistema no ha podido encontrar la acción "{action}" solicitada.',
   'The system view path "{path}" is not a valid directory.' => 'La ruta de vistas de sistema "{path}" no es un directorio válido.',
