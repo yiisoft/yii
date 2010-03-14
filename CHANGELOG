@@ -2,7 +2,7 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.1.1 to be released
+Version 1.1.1 March 14, 2010
 ----------------------------
 - Bug #727: AR may lose precision for numbers of bigint type (Qiang)
 - Bug #738: COciColumnSchema must return 'double' if precision and scale designators of NUMBER field are absent (Qiang)
@@ -20,11 +20,15 @@ Version 1.1.1 to be released
 - Bug #988: COcSchema::quoteTableName() and quoteColumnName() should quote the names (Qiang)
 - Bug #995: The 'alias' option set in default scope was ignored when some find methods in AR (Qiang)
 - Bug #996: "yiic message" command generates incorrect message file name when used in a module context (Qiang)
+- Bug #14 (zii): Added documentation about the "js:" prefix in CJuiSortable (sebas)
+- Bug #18 (zii): Change the way CJuiDatePicker sets its language option (sebas)
+- Bug #27 (zii): Fixed the issue that when CSRF is turned on, delete button doesn't work for CGridView (Qiang)
 - Bug: Setting the 'with' option in criteria array doesn't trigger eager loading for AR (Qiang)
 - Bug: CActiveRecord should update oldPrimaryKey after calling save() (Qiang)
 - Bug: CForm renders invalid 'name' and 'type' attributes when used to generate nested forms (Qiang)
 - Bug: Fixed the bug that beforeAjaxUpdate/afterAjaxUpdate of CGridView/CListView do not take effect.
 - Bug: Fixed the bug that the names of URL parameters were not encoded (Qiang)
+- Bug: CGridView and CListView may not register the needed CSS file for the pager (Qiang)
 - Enh #38: Added support to allow CHtml links and buttons work in AJAX responses (Qiang)
 - Enh #392: Added CStringValidator::encoding to support checking the length of multibyte strings (Qiang)
 - Enh #686: Added CUrlManager::setBasePath() (Qiang)
@@ -52,14 +56,20 @@ Version 1.1.1 to be released
 - Enh: Added skipOnError property to built-in validators (Qiang)
 - Enh: Added CDbConnection::initSQLs (Qiang)
 - Enh: Added CHtml::refresh() (Qiang)
+- Enh: Added CListView.loadingCssClass and CGridView.loadingCssClass (Qiang)
+- Enh: Added filtering support for CGridView (Qiang)
+- Enh: Added 'template' option to each attribute specification in CDetailView (Qiang)
 - Chg #841: Changed CUrlManager::parsePathInfo() to non-static (Qiang)
 - Chg #851: yiic tool no longer turns off E_NOTICE (Qiang)
 - Chg #949: The init() method will be invoked after an AR instance is created by the find methods (Qiang)
 - Chg #974: CComponent::evaluateExpression() no longer suppresses expression error (Qiang)
 - Chg #978: CActiveRecord::afterSave() will now be invoked only when the saving is successful (Qiang)
 - Chg: Upgraded jquery to version 1.4.2 (Qiang)
+- Chg: CMenu will render the 'active' CSS class in the container tag of the link (Qiang)
+- Chg: Set the default theme for JQuery UI widgets to be 'base' (Qiang)
 - New: Added CActiveForm that performs model validations via AJAX (Qiang)
 - New: Added 'form' command to the 'yiic shell' tool (Qiang)
+- New: Upgraded JQuery UI to 1.8rc3 (Qiang)
 
 Version 1.1.0 January 10, 2010
 ------------------------------
