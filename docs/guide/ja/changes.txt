@@ -94,5 +94,4 @@ Version 1.0.5
  * URL ルールでのルート部分のパラメータ化をサポートする [CUrlManager] の機能拡張。以下を参照してください。
      - [URL ルールでのルートのパラメータ化](/doc/guide/topics.url#parameterizing-routes)
 
-<div class="revision">$Id: changes.txt 1602 2009-05-12 17:59:03Z qiang.xue $</div>
-
+<div class="revision">$Id: changes.txt 1699 2010-01-10 16:32:09Z qiang.xue $</div>

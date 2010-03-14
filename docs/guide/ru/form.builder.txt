@@ -29,7 +29,7 @@
 автоматически присвоить данные полям соответствующей модели и провести валидацию.
 
 
-Создания простой формы
+Создание простой формы
 ----------------------
 
 Ниже будет показано, как построить форму входа на сайт.
@@ -241,7 +241,7 @@ return array(
         ),
 
         'profile'=>array(
-        	'type'=>'form',
+        	'type'=>'form',        	
         	......
         ),
         ......
@@ -306,6 +306,8 @@ $email = $form['user']['email'];
 public function actionRegister()
 {
 	$form = new CForm('application.views.user.registerForm');
+	$form['user']->model = new User;
+	$form['profile']->model = new Profile;
 	if($form->submitted('register') && $form->validate())
 	{
 		$user = $form['user']->model;
@@ -430,7 +432,7 @@ echo $form->renderBegin();
 foreach($form->getElements() as $element)
 	echo $element->render();
 
-echo $this->renderEnd();
+echo $form->renderEnd();
 ~~~
 
 Для этого достаточно:
@@ -463,4 +465,4 @@ $this->renderPartial('_form', array('form'=>$form));
 те же объёмы кода формы. Тем не менее, преимущество есть. Оно в том, что форма,
 описанная в отдельном файле конфигурации, позволяет разработчику сфокусироваться на логике.
 
-<div class="revision">$Id: form.builder.txt 1616 2009-12-25 20:45:50Z qiang.xue $</div>
+<div class="revision">$Id: form.builder.txt 1849 2010-03-01 15:54:34Z qiang.xue $</div>

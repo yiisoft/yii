@@ -23,7 +23,7 @@ Yii unterstützt *Unittests* und *Funktionstests*.
 
 Ein Unittest prüft, ob eine einzelne Einheit (engl.: Unit) eines Codes wie
 erwartet arbeitet. Beim objektorientierten Programmieren entspricht die
-einfachste Codeeinheit einer Klasse. Ein Unittest muss daher im wesentlichen
+einfachste Codeeinheit einer Klasse. Ein Unittest muss daher im Wesentlichen
 prüfen, dass jede Interfacemethode der Klasse ordentlich arbeitet. Das
 bedeutet, der Test überprüft ob die Klasse für verschiedene Eingabeparameter 
 die erwarteten Ergebnisse zurückliefert. Unittests werden in der Regel vom
@@ -109,7 +109,7 @@ Test Bootstrap-Script
 ====================
 
 Werfen wir einen Blick auf die Datei `bootstrap.php`. Diese Datei ist ebenso
-besonders wie das [Eingangsscript](/doc/guide/basics.entry) unserer Anwendung. 
+besonders wie das [Startscript](/doc/guide/basics.entry) unserer Anwendung. 
 Sie stellt den Startpunkt bei der Ausführung aller Tests dar.
 
 ~~~
@@ -159,4 +159,4 @@ einer Anwendungsinstanz, die fast genauso aussieht, wie jene die unsere
 Web-Requests beantwortet. Der wesentliche Unterschied liegt darin, dass ein
 Fixturemanager enthalten ist und sie die Testdatenbank verwendet.
 
-<div class="revision">$Id: test.overview.txt 1440 2009-10-08 00:08:00Z qiang.xue $</div>
+<div class="revision">$Id: test.overview.txt 1813 2010-02-18 21:33:16Z qiang.xue $</div>

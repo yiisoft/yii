@@ -79,11 +79,17 @@ polecenia `yiic webapp` tak jak to opisano w [tworzeniu pierwszej aplikacji w Yi
 Polecenie `yiic webapp` wygeneruje dwa pliki w katalogu `protected`: `yiic` oraz `yiic.bat`.
 Są one *lokalnymi* wersjami narzędzia `yiic` utworzonymi specjalnie dla danej aplikacji.
 
-
 Możemy wtedy utworzyć swoje własne polecenie w katalogu `protected/commands`. 
-Uruchamiając lokalną wersję narzędzia `yiic` tool, zobaczymy, że nasze własne polecenie 
-zostanie wyświetlone wraz z tymi standardowymi. Możemy również utworzyć własne polecenia, które 
-będą używane wraz z poleceniem `yiic shell`. Aby tak zrobić po prostu umieść swoje klasy poleceń 
+Uruchamiając lokalną wersję narzędzia `yiic` tool, zobaczymy, iż nasze własne polecenie 
+zostało wyświetlone wraz ze standardowymi. Możemy również utworzyć własne polecenia, które 
+będą używane wraz z narzędziem `yiic shell`. Aby tak zrobić po prostu umieść swoje klasy poleceń 
 w folderze `protected/commands/shell`.
 
-<div class="revision">$Id: topics.console.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>
+Rozpoczynając od wersji 1.1.1 możemy również stworzyć globalne polecenia,
+które będą dzielone przez wszystkie Yii aplikacje na tej samej maszynie.
+Aby tak się stało, należy zdefiniować zmienną środowiskową `YII_CONSOLE_COMMANDS`,
+która powinna wskazywać na istniejący katalog. Następnie umieszczamy w nim
+pliki klas dla naszych globalnych poleceń. W rezultacie zobaczymy te polecenia
+dostępnymi w momencie używania narzędzia `yiic`.
+
+<div class="revision">$Id: topics.console.txt 1870 2010-03-09 22:23:

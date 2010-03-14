@@ -1,25 +1,15 @@
 Scaffolding
 ===========
 
-Tworzenie, czytanie, aktualizowanie oraz usuwanie (CRUD, od ang. create, read, update, delete) 
-są czterema podstawowymi operacjami dla trwałych magazynów danych (ang. persistent storage). W naszej aplikacji  
-blogowej głównym zadaniem jest implementacja tych operacji CRUD zarówno dla wiadomości jak i komentarzy. 
-W części tej, będziemy używali narzędzia `yiic` aby wykonać to zadanie. Proces ten
-znany jest również jako *scaffolding*.
+Tworzenie, czytanie, aktualizowanie oraz usuwanie (CRUD, od ang. create, read, update, delete) są czterema podstawowymi operacjami na obiektach danych  w aplikacji. Ponieważ zadanie implementacji operacji CRUD jest tak powszechne podczas tworzenia aplikacji sieciowych, Yii dostarcza narzędzia do zautomatyzowania tego procesu (znanego również jako *scaffolding*). W tej części opiszemy jak używać tego narzędzia do implementacji operacji CRUD dla wiadomości oraz komentarzy.
 
 Otwórz okno poleceń i wykonaj następujące polecenia:
 
 ~~~
 % /wwwroot/yii/framework/yiic shell /wwwroot/blog/index.php
-Yii Interactive Tool v1.0
+Yii Interactive Tool v1.1
 Please type 'help' for help. Type 'exit' to quit.
->> model User
-......
->> model Post
-......
->> model Tag
-......
->> model Comment
+>> model *
 ......
 >> crud Post
 ......
@@ -28,27 +18,21 @@ Please type 'help' for help. Type 'exit' to quit.
 >> exit
 ~~~
 
-> Info|Info: Część instalacji PHP może używać różnych plików `php.ini` dla parsera PHP wiersza poleceń (CLI).
-W rezultacie, podczas wykonywania powyższych poleceń `yiic`, możesz spotkać się z błędami takimi jak  
-"YiiBase::include(PDO.php): failed to open stream..." czy też "...could not find driver".
-Sprawdź dokładnie twoją konfigurację CLI PHP poprzez wywołanie następującego polecenia: 
+> Info|Info: Część instalacji PHP może używać różnych plików `php.ini` dla parsera PHP wiersza poleceń (CLI). W rezultacie, podczas wykonywania powyższych poleceń `yiic`, możesz spotkać się z błędami takimi jak "YiiBase::include(PDO.php): failed to open stream..." czy też "...could not find driver". Sprawdź dokładnie twoją konfigurację CLI PHP poprzez wywołanie następującego polecenia: 
 >
 > ~~~
-> php -r "phpinfo();"
+> php -i
 > ~~~
 >
-> Wynik powyższego polecenia pokaże, który plik `php.ini` jest używany i które rozszerzenia są załadowane. 
-Jeśli nieprawidłowy plik `php.ini` jest w użyciu, możesz użyć następującego polecenia aby bezpośrednio 
-określić poprawny plik `php.ini`, który powinien zostać użyty:
+> Wynik powyższego polecenia pokaże, który plik `php.ini` jest używany i które rozszerzenia są załadowane. Jeśli nieprawidłowy plik `php.ini` jest w użyciu, możesz użyć następującego polecenia aby bezpośrednio określić poprawny plik `php.ini`, który powinien zostać użyty:
 >
 > ~~~
 > php -c php.ini /wwwroot/yii/framework/yiic.php shell /wwwroot/blog/index.php
 > ~~~
 
-Powyższe polecenie wykonuje dwa zadania. Pierwsze, polecenie `model` generuje plik klasy 
-[model](http://www.yiiframework.com/doc/guide/basics.model) dla ja każdej z tabel bazy danych. 
-Drugie, polecenie `crud` generuje kod potrzebny przez operacje CRUD dla modeli wiadomości 
-`Post` i komentarza `Comment`.
+Powyższe polecenie wykonuje dwa zadania. Pierwsze, polecenie `model` generuje plik klasy [modelu](http://www.yiiframework.com/doc/guide/basics.model) dla każdej z tabel w bazie danych `blog`. Drugie, polecenie `crud` generuje kod potrzebny przez operacje CRUD dla modeli wiadomości `Post` i komentarza `Comment`.
+
+> Tip|Wskazówka: Polecenie `model *` generuje klasy modeli dla *wszystkich* tabel w bazie danych. Prawdopodobnie czasami nie chcemy tego robić (np. baza danych zawiera pewne nieistotne tabele). W takim przypadku, możemy utworzyć klasy modeli jedna po drugiej. Na przykład, aby utworzyć model `User`, możemy wywołać polecenie `model User`. Polecenie `model` posiada również bardziej zaawansowane zastosowania. Aby dowiedzieć się więcej, wywołaj polecenie `help model`.
 
 Możemy przetestować wygenerowany kod poprzez użycie następujących URLi
 
@@ -57,25 +41,16 @@ http://www.example.com/blog/index.php?r=post
 http://www.example.com/blog/index.php?r=comment
 ~~~
 
-Zauważ, że funkcjonalności związane z wiadomościami oraz komentarzami zaimplementowane 
-w wygenerowanym kodzie są całkowicie niezależne od siebie. Ponadto podczas tworzenia wiadomości
-czy też komentarza, musimy wprowadzić informacje takie jak ID autora `authId` czy też czas utworzenia 
- `createTime`, które w prawdziwej aplikacji powinny być ustawiane przez program. Nie przejmuj się, 
- poradzimy sobie z tymi problemami w następnym kroku milowym. Na chwilę obecną powinniśmy 
- być całkiem usatysfakcjonowani, gdyż prototyp zawiera już większość funkcjonalności,
- które chcemy zaimplementować dla naszej aplikacji.
+Zauważ, że funkcjonalności związane z wiadomościami oraz komentarzami zaimplementowane w wygenerowanym kodzie są całkowicie niezależne od siebie. Ponadto podczas tworzenia wiadomości czy też komentarza, musimy wprowadzić informacje takie jak ID autora `author_id` czy też czas utworzenia `create_time`, które w prawdziwej aplikacji powinny być ustawiane przez program. Nie przejmuj się, poradzimy sobie z tymi problemami w następnym kroku milowym. Na chwilę obecną powinniśmy być całkiem usatysfakcjonowani, gdyż prototyp zawiera już większość funkcjonalności, które chcemy zaimplementować dla naszej aplikacji.
 
-Aby przygotować się do następnego kroku, przypatrzmy sie plikom wygenerowanym 
-przez powyższe polecenia. Wszystkie pliki znajdują się w katalogu `/wwwroot/blog/protected`. 
-Dla wygody pogrupowaliśmy je w pliki [modelu](http://www.yiiframework.com/doc/guide/basics.model),
-pliki [kontrolera](http://www.yiiframework.com/doc/guide/basics.controller) oraz 
-pliki [widoku](http://www.yiiframework.com/doc/guide/basics.view):
+Aby przygotować się do następnego kroku, przypatrzmy się plikom wygenerowanym przez powyższe polecenia. Wszystkie pliki znajdują się w katalogu `/wwwroot/blog/protected`. Dla wygody pogrupowaliśmy je w pliki [modelu](http://www.yiiframework.com/doc/guide/basics.model), pliki [kontrolera](http://www.yiiframework.com/doc/guide/basics.controller) oraz pliki [widoku](http://www.yiiframework.com/doc/guide/basics.view):
 
  - pliki modelu:
-	 * `models/User.php` zawiera klasę użytkownika `user`, która dziedziczy z klasy [CActiveRecord], którą można użyć aby uzyskać dostęp do tabeli bazy danych `User`;
-	 * `models/Post.php` zawiera klasę wiadomości `Post`, która dziedziczy z klasy [CActiveRecord], którą można użyć aby uzyskać dostęp do tabeli bazy danych `Post`;
-	 * `models/Tag.php` zawiera klasę otagowania `Tag`, która dziedziczy z klasy [CActiveRecord], którą można użyć aby uzyskać dostęp do tabeli bazy danych `Tag`;
-	 * `models/Comment.php` zawiera klasę komentarza `Comment`, która dziedziczy z klasy [CActiveRecord], którą można użyć aby uzyskać dostęp do tabeli bazy danych `Comment`;
+	 * `models/User.php` zawiera klasę użytkownika `User`, która dziedziczy z klasy [CActiveRecord], którą można użyć aby uzyskać dostęp do tabeli bazy danych `tbl_user`;
+	 * `models/Post.php` zawiera klasę wiadomości `Post`, która dziedziczy z klasy [CActiveRecord], którą można użyć aby uzyskać dostęp do tabeli bazy danych `tbl_post`;
+	 * `models/Tag.php` zawiera klasę otagowania `Tag`, która dziedziczy z klasy [CActiveRecord], którą można użyć aby uzyskać dostęp do tabeli bazy danych `tbl_tag`;
+	 * `models/Comment.php` zawiera klasę komentarza `Comment`, która dziedziczy z klasy [CActiveRecord], którą można użyć aby uzyskać dostęp do tabeli bazy danych `tbl_comment`;
+	 * `models/Lookup.php` zawiera klasę `Lookup`, która dziedziczy z klasy [CActiveRecord], którą można użyć aby uzyskać dostęp do tabeli bazy danych `tbl_lookup`	 
 
  - pliki kontrolera:
 	 * `controllers/PostController.php` zawiera klasę `PostController`, która jest kontrolerem odpowiedzialnym za wszystkie operacje CRUD na wiadomościach;
@@ -84,22 +59,22 @@ pliki [widoku](http://www.yiiframework.com/doc/guide/basics.view):
  - pliki widoku:
 	 * `views/post/create.php` jest plikiem widoku, który reprezentuje formularz HTML do tworzenia nowej wiadomości;
 	 * `views/post/update.php` jest plikiem widoku, który reprezentuje formularz HTML do aktualizowania istniejącej wiadomości;
-	 * `views/post/show.php` jest plikiem widoku, który wyświetla szczegółowe informacje o wiadomości;
-	 * `views/post/list.php` jest plikiem widoku, który wyświetla listę wiadomości;
+	 * `views/post/view.php` jest plikiem widoku, który wyświetla szczegółowe informacje o wiadomości;
+	 * `views/post/index.php` jest plikiem widoku, który wyświetla listę wiadomości;
 	 * `views/post/admin.php` jest plikiem widoku, który wyświetla wiadomości w tabelce wraz z poleceniami administracyjnymi;
-	 * `views/post/_form.php` jest plikiem widoku częściowego, który wyświetla formularz HTML służący zbieraniu informacji o wiadomości. 
-	 Jest on osadzony w widokach `create` oraz `update`.
+	 * `views/post/_form.php` jest plikiem częściowym widoku osadzonym w pliku `views/post/create.php` oraz `views/post/update.php`. Wyświetla on formularz HTML służący zbieraniu informacji o poście.
+	 * `views/post/_view.php` jest plkiem częściowym widoku używanym w `views/post/index.php`. Wyświetla on skrócony widok pojedynczego postu.
+	 * `views/post/_search.php` jest plikiem widoku częściowego używanym przez `views/post/admin.php`. Wyświetla on formularz wyszukiwania.
 	 * podobny zestaw plików widoków został również wygenerowany dla komentarza.
 
 W celu lepszego zrozumienia jak powyższe pliki są używane, pokażemy przepływ zadań w aplikacji, które występują w naszej aplikacji podczas wyświetlani listy wiadomości:
 
- 1. [Skrypt wejściowy](http://www.yiiframework.com/doc/guide/basics.entry) jest wykonywany przez serwer,
- w skrypcie tym tworzona jest i inicjalizowana instancja [aplikacji](http://www.yiiframework.com/doc/guide/basics.application),
- służąca do obsługi żadań;
+ 0. Użytkownik żąda adresu URL `http://www.example.com/blog/index.php?r=posts`;
+ 1. [Skrypt wejściowy](http://www.yiiframework.com/doc/guide/basics.entry) jest wykonywany przez serwer, w skrypcie tym tworzona jest i inicjalizowana instancja [aplikacji](http://www.yiiframework.com/doc/guide/basics.application), służąca do obsługi żądań;
  2. Aplikacja tworzy instancję kontrolera `PostController` i wywołuje go;
- 3. Instancja `PostController` wykonuje żądaną akcję `list` poprzez wywołanie swojej metody `actionList()`;
- 4. Metoda `actionList()` odpytuje bazę danych, aby zwrócić listę najnowszych wiadomości;
- 5. Metoda `actionList()` wyświetla widok `list` wypełniony danymi wiadomości.
+ 3. Instancja `PostController` wykonuje żądaną akcję `index` poprzez wywołanie swojej metody `actionIndex()`. Zauważ, że `index` jest domyślną akcją i użytkownik nie określił akcji do wykonania w adresie URL; 
+ 4. Metoda `actionIndex()` odpytuje bazę danych, aby zwrócić listę najnowszych wiadomości;
+ 5. Metoda `actionIndex()` wyświetla widok `index` wypełniony danymi wiadomości.
 
 
-<div class="revision">$Id: prototype.scaffold.txt 683 2009-02-16 05:20:17Z qiang.xue $</div>
+<div class="revision">$Id: prototype.scaffold.txt 1872 2010-03-10 15:21:55Z qiang.xue $</div>

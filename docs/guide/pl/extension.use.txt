@@ -20,6 +20,27 @@ Różne rozszerzenia posiadają różne wymagania dotyczące importowania, konfi
 oraz użycia. W dalszej części, podsumujemy najczęściej używane scenariusze dotyczące
 rozszerzeń, zgodnie z kategoriami opisanymi w [przeglądzie](/doc/guide/extension.overview).
 
+Rozszerzenie Zii
+--------------
+
+Zanim rozpoczniemy opisuywanie jak używać rozszerzenia firm trzecich, chcielibyśmy przedstawić
+bibliotekę rozszerzeń Zii, która jest zestawem rozszerzeń oprogranowanych przez zespół  
+programistów Yii. Jest ona dołączana do każdego wydania poczynając od Yii w wesji 1.1.0.
+Biblioteka Zii jet utrzymywana w projekcie Google nazwanym [zii](http://code.google.com/p/zii/).
+
+Podczas używanie rozszerzenia Zii, należy odnosić się do odpowiednich klas używając aliasu ścieżki
+w formacie `zii.ścieżka.do.NazwyKlasy`. Główny alias  `zii` został zdefiniowany w Yii. Wskazuje on na 
+główny katalog biblioteki Zii. Na przykład, aby używać klasy [CGridView], będziemy używali 
+następującego kodu w skrypcie widoku gdy będziemy odnosić się do rozszerzenia:
+
+~~~
+[php]
+$this->widget('zii.widgets.grid.CGridView', array(
+	'dataProvider'=>$dataProvider,
+));
+~~~
+
+
 
 Komponent aplikacji
 ---------------------
@@ -92,8 +113,7 @@ zrobić ze wzdlędu na to, że [CApplicationComponent] definiuje właściwość 
 Poprzez przypisanie tej właściwości listy zawierającej konfigurację zachowań, komponent 
 dołączy odpowiednie zachowanie w momencie inicjalizacji komponentu.
 
-Dla klas [CController], [CFormModel] oraz [CActiveModel], które zazwyczaj są rozszerzane 
-dołączanie zachowań odbywa się poprzez nadpisanie ich metody `behaviors()`. Na przykład:
+Dla klas [CController], [CFormModel] oraz [CActiveRecord], które zazwyczaj są rozszerzane dołączanie zachowań może odbywać się poprzez nadpisanie ich metody `behaviors()`. Klasy automatycznie dołączą każde zachowanie zadeklarowane w tej metodzie podczas inicjalizacji. Na przukład:
 
 ~~~
 [php]
@@ -292,4 +312,4 @@ Następnie, możemy utworzyć instancję tej klasy, skonfigurować jej właściw
 oraz zawołać jej metody. Możemy również rozszerzyć go do tworzenia nowych
 klas potomnych.
 
-<div class="revision">$Id: extension.use.txt 1398 2009-09-06 01:15:01Z qiang.xue $</div>
+<div class="revision">$Id: extension.use.txt 1780 2010-02-01 20:32:50Z qiang.xue $</div>

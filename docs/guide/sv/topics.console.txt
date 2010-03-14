@@ -90,4 +90,10 @@ förutom de som är standard. Vi kan också skapa egna kommandon som skall anvä
 med `yiic shell`. För att göra så, placera bara kommandonas klassfiler i 
 katalogen `protected/commands/shell`.
 
-<div class="revision">$Id: topics.console.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>
+Med start från version 1.1.1, kan vi även skapa globala kommandon som kan delas
+av alla Yii-applikationer i samma maskin. För att åstadkomma detta, definiera
+miljövariabeln `YII_CONSOLE_COMMANDS` att peka till en existerande katalog.
+Globala klassfiler som placeras i denna katalog kommer att bli tillgängliga 
+varhelst `yiic`-verktyget används.
+
+<div class="revision">$Id: topics.console.txt 1870 2010-03-09 22:23:19Z qiang.xue $</div>

@@ -19,7 +19,7 @@ Aufruf der PHP-Funktionen
 [set_exception_handler](http://www.php.net/manual/de/function.set-exception-handler.php)
 und [set_error_handler](http://www.php.net/manual/de/function.set-error-handler.php)
 registriert. Wenn Sie nicht möchten, dass Yii sich um Fehler und Exceptions
-kümmert, können Sie im [Eingangsscript](/doc/guide/basics.entry) die Konstanten 
+kümmert, können Sie im [Startscript](/doc/guide/basics.entry) die Konstanten 
 `YII_ENABLE_ERROR_HANDLER` und `YII_ENABLE_EXCEPTION_HANDLER` als false definieren.
 
 Per Vorgabe löst [errorHandler|CApplication::errorHandler] (bzw.
@@ -38,7 +38,7 @@ folgender Syntax ausgelöst:
 
 ~~~
 [php]
-throw new ExceptionClass('ExceptionNachricht');
+throw new ExceptionClass('ExceptionMeldung');
 ~~~
 
 Yii definiert zwei Exceptionklassen: [CException] und [CHttpException].
@@ -81,10 +81,10 @@ herauszufinden.
 [CErrorHandler] sucht in dieser Reihenfolge nach der entsprechenden 
 View-Datei:
 
-   1. `WebRoot/themes/ThemeName/views/system`: dies ist das Verzeichnis für
+   1. `WebVerzeichnis/themes/ThemeName/views/system`: dies ist das Verzeichnis für
 `system`-Views im gerade aktiven Theme.
 
-   2. `WebRoot/protected/views/system`: dies ist das Standardverzeichnis
+   2. `WebVerzeichnis/protected/views/system`: dies ist das Standardverzeichnis
 für `system`-Views einer Anwendung.
 
    3. `yii/framework/views`: dies ist das Standardverzeichnis für
@@ -137,7 +137,7 @@ zurückgegebene Fehlerinformation ist ein Array mit den folgenden Feldern:
 
  * `code`: der HTTP-Statuscode (z.B. 403, 500);
  * `type`: der Fehlertyp (z.B. [CHttpException], `PHP Error`);
- * `message`: die Fehlernachricht;
+ * `message`: die Fehlermeldung;
  * `file`: der Name des PHP-Scripts, in dem der Fehler aufgetreten ist;
  * `line`: die Nummer der Zeile, in der der Fehler aufgetreten ist;
  * `trace`: der Aufrufstapel des Fehlers;
@@ -151,12 +151,12 @@ zurückgegebene Fehlerinformation ist ein Array mit den folgenden Feldern:
 > als `$code`, `$type` usw. ansprechen.
 
 
-Loggen von Nachrichten
-----------------------
+Loggen von Meldungen
+--------------------
 
-Immer wenn ein Fehler auftritt, wird eine Nachricht mit der Stufe `error`
+Immer wenn ein Fehler auftritt, wird eine Meldung mit der Stufe `error`
 geloggt. Falls der Fehler von einer PHP-Warnung oder einem PHP-Hinweis stammt,
-wird die Nachricht mit der Kategorie `php` geloggt. Stammt der Fehler von
+wird die Meldung unter der Kategorie `php` geloggt. Stammt der Fehler von
 einer nicht-abgefangenen Exception, lautet die Kategorie
 `exception.ExceptionKlassenName` (bei [CHttpException] wird auch deren
 [statusCode|CHttpException::statusCode] an die Kategorie angehängt). Man kann

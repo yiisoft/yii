@@ -1,10 +1,10 @@
 Доработка модели Comment
 ========================
 
-Также, как и в модели `Post`, в модели `Comment` нам необходимо поправить методы
-`rules()` и `relations()`. Кроме того, нужно задать свои
-подписи некоторым полям в методе `attributeLabels()`.
-
+В модели `Comment` нам необходимо поправить методы `rules()` и `attributeLabels()`.
+Метод `attributeLabels()` возвращает массив заголовков для указанных полей.
+Метод `relations()` исправлять не будем так как код, сгенерированный `yiic` нам
+подходит.
 
 Изменение метода `rules()`
 --------------------------
@@ -17,12 +17,10 @@
 public function rules()
 {
 	return array(
-		array('author,email,content', 'required'),
-		array('author,email,url','length','max'=>128),
+		array('content, author, email', 'required'),
+		array('author, email, url', 'length', 'max'=>128),
 		array('email','email'),
 		array('url','url'),
-		array('verifyCode', 'captcha', 'on'=>'insert',
-			'allowEmpty'=>!Yii::app()->user->isGuest),
 	);
 }
 ~~~
@@ -30,100 +28,57 @@ public function rules()
 Здесь мы указываем, что атрибуты `author`, `email` и `content` обязательны.
 Длина `author`, `email` и `url` не может превышать 128 символов. Атрибут `email`
 должен содержать корректный email-адрес. `url` должен содержать корректный URL.
-Атрибут `verifyCode` должен проверяться как код [CAPTCHA](http://ru.wikipedia.org/wiki/Captcha).
-
-Здесь `verifyCode` используется для хранения кода подтверждения, введённого
-пользователем для того, чтобы оставить комментарий. Так как в таблице `Comment`
-поля `verifyCode` нет, нам надо явно описать его как public свойство класса.
-Для его валидации используется специальный валидатор `captcha`, которому
-соответствует класс [CCaptchaValidator]. Более того, валидация будет проводиться
-только при добавлении нового комментария(см. параметр `on`). Для аутентифицированных
-пользователей валидация не требуется(см. параметра `allowEmpty`).
-
-
-
-Изменение метода `relations()`
-------------------------------
-
-При разработке портлета «последние комментарии» нам необходимо получить список
-последних комментариев с информацией о записях, связанных с ними. Поэтому мы
-добавляем информацию об отношении в метод `relations()`:
-
-~~~
-[php]
-public function relations()
-{
-	return array(
-		'post'=>array(self::BELONGS_TO, 'Post', 'postId',
-			'joinType'=>'INNER JOIN'),
-	);
-}
-~~~
-
-Стоит отметить, что тип join для отношения `post` — `INNER JOIN`. Сделано это
-так как комментарий должен относиться к записи.
 
 
 Изменение метода `attributeLabels()`
 ------------------------------------
 
-Изменим метод `attributeLabels()`. Зададим свои подписи атрибутам. Метод возвращает
-массив пар имя атрибута-подпись. При вызове [CHtml::activeLabel()], сначала
-будет проверено, существует ли своя подпись. Если подпись не задана — будет
-сгенерирована подпись по умолчанию.
+Изменим метод `attributeLabels()`. Зададим свои подписи атрибутам. Этот метод
+возвращает массив пар имя атрибута-подпись.
 
 ~~~
 [php]
 public function attributeLabels()
 {
 	return array(
-		'author'=>'Имя',
-		'url'=>'Сайт',
-		'content'=>'Комментарий',
-		'verifyCode'=>'Код подтверждения',
+		'id' => 'Id',
+		'content' => 'Comment',
+		'status' => 'Status',
+		'create_time' => 'Create Time',
+		'author' => 'Name',
+		'email' => 'Email',
+		'url' => 'Website',
+		'post_id' => 'Post',
 	);
 }
 ~~~
 
-> Tip|Подсказка: Подпись по умолчанию генерируется на основе имени атрибута.
-  Сначала имя разбивается на слова учитывая camelCase. Затем каждый первый символ каждого
-  слова переводится в верхний регистр. К примеру, атрибуту с именем `verifyCode`
-  будет присвоена подпись `Verify Code`.
+> Tip|Подсказка: Если подпись атрибута не задана в `attributeLabels()`,
+для её генерации используется специальный алгоритм. К примеру, для
+атрибутов `create_time` и `createTime` подпись будет выглядеть как
+`Create Time`.
 
 
 Изменение процесса сохранения
 -----------------------------
 
-Так как мы хотим обновлять количество комментариев для каждой записи при удалении
-или публикации нового комментария, нам необходимо изменять соответствующее поле
-записи. Для этого переопределим методы `afterSave()` и `afterDelete()` модели
-`Comment`. Также переопределим метод `beforeValidate()`. Это позволит нам
-конвертировать текст из формата Markdown в HTML и выставлять время создания
-комментария.
+Для того, чтобы записывать время создания комментария, переопределим
+метод `beforeSave()` класса `Comment` также, как это сделано для модели `Post`:
 
 ~~~
 [php]
-protected function beforeValidate()
+protected function beforeSave()
 {
-	$parser=new CMarkdownParser;
-	$this->contentDisplay=$parser->safeTransform($this->content);
-	if($this->isNewRecord)
-		$this->createTime=time();
-	return true;
-}
-
-protected function afterSave()
-{
-	if($this->isNewRecord && $this->status==Comment::STATUS_APPROVED)
-		Post::model()->updateCounters(array('commentCount'=>1), "id={$this->postId}");
-}
-
-protected function afterDelete()
-{
-	if($this->status==Comment::STATUS_APPROVED)
-		Post::model()->updateCounters(array('commentCount'=>-1), "id={$this->postId}");
+	if(parent::beforeSave())
+	{
+		if($this->isNewRecord)
+			$this->create_time=time();
+		return true;
+	}
+	else
+		return false;
 }
 ~~~
 
 
-<div class="revision">$Id: comment.model.txt 1495 2009-10-29 17:24:41Z qiang.xue $</div>
+<div class="revision">$Id: comment.model.txt 1733 2010-01-21 16:54:29Z qiang.xue $</div>

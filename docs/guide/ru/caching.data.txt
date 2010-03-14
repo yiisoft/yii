@@ -118,4 +118,4 @@ Yii::app()->cache->set($id, $value, 30, new CFileCacheDependency('FileName'));
    - [CExpressionDependency]: зависимость меняется, если результат
    определенного выражения PHP изменен. Данный класс доступен с версии 1.0.4.
 
-<div class="revision">$Id: caching.data.txt 1290 2009-08-06 16:13:11Z qiang.xue $</div>
+<div class="revision">$Id: caching.data.txt 1855 2010-03-04 22:42:32Z qiang.xue $</div>

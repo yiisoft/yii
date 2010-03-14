@@ -91,6 +91,8 @@ testdrive/
       views/                 innehåller kontrollervy- och layoutfiler
          layouts/            innehåller layoutfiler
             main.php         standardlayout för alla vyer
+            column1.php      layout för sidor som använder en kolumn
+            column2.php      layout for sidor som använder två kolumner
          site/               innehåller vyfiler för 'site'-kontrollern
          	pages/           innehåller "statiska" sidor
          	   about.php     vyn för "about"-sidan
@@ -232,6 +234,7 @@ http://hostname/testdrive/index.php?r=user/admin
 Detta presenterar user-posterna i ett trevligt tabulärt format. Sorteringskolumn 
 kan väljas genom klick på respektive kolumnrubrik. Genom klick på knapparna i varje 
 rad kan vi visa i formulär, uppdatera eller ta bort den motsvarande raden med data.
+Vi kan översiktligt se olika sidor samt filtrera och söka efter data av intresse.
 
 Allt detta uppnåddes utan att skriva en enda rad kod!
 
@@ -241,4 +244,4 @@ Allt detta uppnåddes utan att skriva en enda rad kod!
 
 
 
-<div class="revision">$Id: quickstart.first-app.txt 1653 2010-01-02 23:05:07Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app.txt 1733 2010-01-21 16:54:29Z qiang.xue $</div>

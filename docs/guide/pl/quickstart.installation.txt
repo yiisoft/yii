@@ -28,4 +28,4 @@ Yii został przetestowany na [serwerze HTTP Apache](http://httpd.apache.org/), n
 operacyjnych Windows i Linux. Może również zostać uruchomiony na innych serwerach
 webowych wspierających PHP 5.
 
-<div class="revision">$Id: quickstart.installation.txt 359 2008-12-14 19:50:41Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.installation.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

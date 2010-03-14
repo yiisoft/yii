@@ -65,26 +65,23 @@ class LoginForm extends CFormModel
 	public $password;
 	public $rememberMe=false;
 
+	private $_identity;
+
 	public function rules()
 	{
 		return array(
 			array('username, password', 'required'),
 			array('rememberMe', 'boolean'),
 			array('password', 'authenticate'),
-	    );
+		);
 	}
 
 	public function authenticate($attribute,$params)
 	{
 		if(!$this->hasErrors())  // we only want to authenticate when no input errors
 		{
-			$identity=new UserIdentity($this->username,$this->password);
-			if($identity->authenticate())
-			{
-				$duration=$this->rememberMe ? 3600*24*30 : 0; // 30 days
-				Yii::app()->user->login($identity,$duration);
-			}
-			else
+			$this->_identity=new UserIdentity($this->username,$this->password);
+			if(!$this->_identity->authenticate())
 				$this->addError('password','Incorrect password.');
 		}
 	}
@@ -239,7 +236,7 @@ göra ändringar i data han saknar auktorisation att ändra.
 Policyn för att avgöra vilka attribut som är säkra skiljer sig åt i version 1.0
 och 1.1. I följande stycken beskrivs de var för sig.
 
-***Säkra attribut i 1.1
+###Säkra attribut i 1.1
 
 I version 1.1, betraktas ett attribut som säkert om det förekommer i en 
 valideringsregel som är applicerbar på det givna scenariet. Till exempel,
@@ -300,7 +297,7 @@ array('permission', 'unsafe')
 säkra attribut.
 
 
-***Säkra attribut i 1.0
+###Säkra attribut i 1.0
 
 I version 1.0 baseras uppgiften att avgöra huruvida en datainmatning är säker 
 eller inte på returvärdet från en metod med namnet `safeAttributes` samt det 
@@ -367,37 +364,41 @@ Sätta igång validering
 När väl en modell försetts med användarinmatad data, kan metoden 
 [CModel::validate()] anropas för att sätta igång datavalideringsprocessen. 
 Metoden returnerar ett värde som indikerar huruvida valideringen lyckades eller 
-inte. För [CActiveRecord]-modellen, kan validering även sättas igång automatiskt 
+inte. För [CActiveRecord]-modeller, kan validering även sättas igång automatiskt 
 till följd av att dess metod [CActiveRecord::save()] anropas.
 
-Vid anrop av [CModel::validate()] kan en scenarioparameter specificeras. Endast 
-de valideringsregler som hänför sig till angivet scenario kommer att exekveras. 
-En valideringsregel hänför sig till ett scenario om regelns `on`-alternativ ej 
-har satts, alternativt innehåller det specificerade scenarionamnet. Om scenario 
-ej specificeras i anropet av [CModel::validate()], kommer enbart de regler köras 
-vars `on`-alternativ ej satts.
+Ett scenario kan sättas med propertyn [scenario|CModel::scenario], vilket 
+därmed indikerar vilken uppsättning valideringsregler som skall åsättas.
 
-Exempelvis exekveras följande sats för att genomföra valideringen vid 
-registrering av en användare:
+
+Validering utförs scenariobaserat. Propertyn [scenario|CModel::scenario]
+specificerar i vilket scenario modellen för tillfället används samt vilken 
+uppsättning valideringsregler som skall användas. Till exempel i 
+`login`-scenariet, vill vi endast validera `username`- och `password`-inmatningarna 
+för user-modellen, medan vi i `register`-scenariet behöver validera fler inmatningar, 
+så som `email`, `address`, etc. Följande exempel visar hur man genomför validering i 
+scenariet `register` vid registrering av en användare:
 
 ~~~
 [php]
-$model->scenario='register';
-$model->validate();
+// creates a User model in register scenario. It is equivalent to:
+// $model=new User;
+// $model->scenario='register';
+$model=new User('register');
+
+// populates the input values into the model
+$model->attributes=$_POST['User'];
+
+// performs the validation
+if($model->validate())   // if the inputs are valid
+    ...
+else
+    ...
 ~~~
 
-> Note|Märk: Propertyn [scenario|CModel::scenario] har varit tillgänglig
-> fr o m version 1.0.4. Valideringsmetoden utgår från detta propertyvärde
-> för att avgöra vilka regler som skall användas för kontroll. I version 1.0.2
-> och 1.0.3, behövde vi använda följande tillvägagångssätt för att utföra
-> scenariobaserad validering:
->
-> ~~~
-> [php]
-> $model->validate('register');
-> ~~~
-
-Valideringsregler kan deklareras i en formulärmodellklass på följande sätt,
+De scenarier som en regel skall associera till kan specificeras med hjälp av 
+regelns `on`-alternativ. Om `on`-alternativet inte anges innebär detta att 
+regeln kommer att användas i alla scenarier. Till exempel,
 
 ~~~
 [php]
@@ -414,16 +415,15 @@ public function rules()
 Resultatet blir att den första regeln appliceras i alla scenarier, medan de 
 övriga två reglerna endast kommer att appliceras i scenariet `register`.
 
-> Note|Märk: scenariobaserad validering har varit tillgänglig fr o m version 1.0.1.
-
 
 Åtkomst till valideringsmeddelanden
 -----------------------------------
 
-Metoden [CModel::hasErrors()] kan användas för att kontrollera om det uppstått 
-några valideringsfel, om så är fallet kan metoden [CModel::getErrors()] användas 
-för att erhålla felmeddelandena. Båda metoderna kan användas för alla attribut 
-eller för ett individuellt attribut.
+När väl validering har utförts finns eventuella felmeddelanden lagrade i 
+objektet model. Metoderna [CModel::getErrors()] och [CModel::getError()] 
+kan användas för att erhålla felmeddelanden. Skillnaden mellan dessa två 
+metoder är att den första returnerar *alla* felmeddelanden för specificerat 
+modellattribut, medan den andra endast returnerar det *första* felmeddelandet.
 
 Attributs ledtexter
 -------------------
@@ -440,4 +440,4 @@ ledtext. Detta kan anpassas genom att åsidosätta metoden
 avsnitt, tillåter specificering av ledtexter i modellen, oss att skapa formulär 
 snabbare och mer kraftfullt.
 
-<div class="revision">$Id: form.model.txt 1602 2009-12-18 19:33:34Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 1855 2010-03-04 22:42:32Z qiang.xue $</div>

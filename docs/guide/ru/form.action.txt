@@ -9,24 +9,24 @@
 [php]
 public function actionLogin()
 {
-	$form=new LoginForm;
+	$model=new LoginForm;
 	if(isset($_POST['LoginForm']))
 	{
 		// получаем данные от пользователя
-		$form->attributes=$_POST['LoginForm'];
+		$model->attributes=$_POST['LoginForm'];
 		// проверяем полученные данные и, если результат проверки положительный,
 		// перенаправляем пользователя на предыдущую страницу
-		if($form->validate())
+		if($model->validate())
 			$this->redirect(Yii::app()->user->returnUrl);
 	}
 	// рендерим представление — форму авторизации,
 	// переменная $form в представлении будет представлена переменной с именем user
-	$this->render('login',array('user'=>$form));
+	$this->render('login',array('model'=>$model));
 }
 ~~~
 
 Вначале мы создаем экземпляр модели `LoginForm`, затем, если данные формы были 
-отправлены, заполняем `$form` данными `$_POST['LoginForm']`. Потом проверяем 
+отправлены, заполняем `$model` данными `$_POST['LoginForm']`. Потом проверяем 
 полученные данные и, если все нормально, перенаправляем пользователя на страницу, 
 для доступа к которой требовалось авторизоваться, т.е. ту страницу, которая 
 отправила пользователя на страничку авторизации. Если же результат проверки 
@@ -43,7 +43,7 @@ public function actionLogin()
 
 ~~~
 [php]
-$form->attributes=$_POST['LoginForm'];
+$model->attributes=$_POST['LoginForm'];
 ~~~
 
 Как мы уже говорили в подразделе [Безопасное присваивание значений атрибутам](/doc/guide/form.model#securing-attribute-assignments),
@@ -54,9 +54,9 @@ $form->attributes=$_POST['LoginForm'];
 
 ~~~
 [php]
-$form->username=$_POST['LoginForm']['username'];
-$form->password=$_POST['LoginForm']['password'];
-$form->rememberMe=$_POST['LoginForm']['rememberMe'];
+$model->username=$_POST['LoginForm']['username'];
+$model->password=$_POST['LoginForm']['password'];
+$model->rememberMe=$_POST['LoginForm']['rememberMe'];
 ~~~
 
 > Note|Примечание: Для того, чтобы `$_POST['LoginForm']` вернул нам массив вместо строки, 
@@ -67,4 +67,4 @@ $form->rememberMe=$_POST['LoginForm']['rememberMe'];
 Теперь нам осталось только создать представление `login`, которое будет содержать
 HTML форму с требуемыми полями.
 
-<div class="revision">$Id: form.action.txt 626 2009-02-04 20:51:13Z qiang.xue $</div>
+<div class="revision">$Id: form.action.txt 1837 2010-02-24 22:49:51Z qiang.xue $</div>

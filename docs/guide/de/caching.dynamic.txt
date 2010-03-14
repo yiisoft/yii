@@ -1,37 +1,37 @@
 Dynamische Inhalte
 ==================
 
-Wir kommen beim Cachen eines [Seitenabschnitts](/doc/guide/caching.fragment) oder 
-einer ganzen [Seite](/doc/guide/caching.page) oft in Situtationen, bei denen
-der Inhalt, abgesehen von einigen wenigen Stellen, relativ statisch bleibt.
-Eine Hilfeseite kann zum Beispiel statische Hilfetexte sowie oben den 
-gerade angemeldete Benutzer anzeigen.
+Cacht man [Fragmente](/doc/guide/caching.fragment) oder ganze 
+[Seiten](/doc/guide/caching.page), merkt man oft, dass der Inhalt
+- abgesehen von wenigen Stellen - relativ statisch bleibt. 
+Eine Hilfeseite könnte z.B. statischen Hilfetext, sowie oben den aktuellen
+Benutzernamen enthalten.
 
-Wir könnten in diesem Fall den Cache-Inhalt entsprechend dem angemeldeten
-Benutzer variieren, würden damit aber viel von unserem wertvollen
-Cache-Speicher verschwenden, da außer dem Benutzernamen der meiste
-Inhalt immer gleich bleibt. Wir könnten die Seite auch in mehrere Seitenbereiche
-unterteilen und diese individuell speichern. Aber das würde den View
-komplizierter und unseren Code komplexer machen. Einen besseren Ansatz verfolgt
-das CController-Feature der *dynamischen Inhalte*.
+In diesem Fall könnte man den Cacheinhalt entsprechend dem angemeldeten
+Benutzer variieren. Damit würde aber viel vertvoller Cachespeicher
+verschwendet, da außer dem Benutzernamen immer der gleiche Inhalt abgelegt
+würde. Man könnte die Seite auch in mehrere Bereiche trennen und diese
+individuell speichern. Aber das würde eventuell den Code und den View
+verkomplizieren. Ein besserer Ansatz wurde daher im CController-Feature der
+*dynamischen Inhalte* verfolgt.
 
 Ein dynamischer Inhalt steht für einen Bereich in der Ausgabe, der nicht
-gecacht werden soll, selbst wenn er in einen gecachten Seitenabschnitt
+gecacht werden soll, selbst wenn er in einen gecachten Fragment
 eingebettet ist. Damit dieser Inhalt dynamisch bleibt, muss er jedesmal
 neu erzeugt werden, selbst wenn der umhüllende Inhalt aus dem Cache geliefert
 wird. Aus diesem Grund ist es erforderlich, dass dynamischer Inhalt von einer 
 Methode oder einer Funktion erzeugt wird.
 
-Um dynamischen Inhalt einzufügen, rufen wir [CController::renderDynamic()] an
-der gewünschten Stelle auf: 
+Um dynamischen Inhalt einzufügen, wird an der gewünschten Stelle
+[CController::renderDynamic()] aufgerufen:
 
 ~~~
 [php]
 ...Anderer HTML-Inhalt...
 <?php if($this->beginCache($id)) { ?>
-...Zu cachender Seitenabschnitt...
+...Zu cachendes Fragment ...
 	<?php $this->renderDynamic($callback); ?>
-...Zu cachender Seitenabschnitt...
+...Zu cachendes Fragment ...
 <?php $this->endCache(); } ?>
 ...Anderer HTML-Inhalt...
 ~~~
@@ -39,7 +39,7 @@ der gewünschten Stelle auf:
 
 `$callback` bezieht sich oben auf einen gültigen PHP-Callback. Dies kann ein
 String mit dem Namen einer globalen Funktion oder einer Methode in der aktuellen 
-Controller-Klasse sein. Es kann auch ein Array sein, der sich auf eine
+Controllerklasse sein. Es kann auch ein Array sein, der sich auf eine
 Klassenmethode bezieht. Alle weiteren Parameter von
 [renderDynamic()|CController::renderDynamic()] werden an den Callback
 weitergegeben. Der Callback sollte den dynamischen Inhalt zurückliefern, statt

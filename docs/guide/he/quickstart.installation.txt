@@ -25,4 +25,4 @@ http://hostname/path/to/yii/requirements/index.php
 server](http://httpd.apache.org/) על גבי מערכת ההפעלה מסוג וינדוס ולינוקס.
 כמו כן ניתן להריץ את Yii על גבי שרתים אחרים התומכים בגרסא ההכרחית של PHP 5.
 
-<div class="revision">$Id: quickstart.installation.txt 349 2008-12-11 15:11:45Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.installation.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

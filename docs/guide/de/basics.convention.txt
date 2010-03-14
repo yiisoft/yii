@@ -1,20 +1,20 @@
 Konventionen
 ============
 
-Yii bevorzugt das Prinzip "Konvention statt Konfiguration". 
-Folgen Sie den Konventionen, und Sie sind in der
-Lage, anspruchsvolle Anwendungen zu erstellen, ohne sich mit dem Schreiben und
-Verwalten komplexer Konfigurationen befassen zu müssen. Natürlich kann Yii,
-falls nötig, in praktisch allen Belangen per Konfiguration angepasst werden.
+Yii folgt dem Prinzip "Konvention statt Konfiguration". 
+Das bedeutet, wenn Sie den Konventionen folgen, können Sie sehr 
+anspruchsvolle Anwendungen erstellen, ohne sich mit umfangreichen oder
+komplexen Konfigurationen herumschlagen zu müssen. Trotzdem kann Yii, falls nötig,
+in praktisch allen Belangen angepasst werden.
 
-Nachfolgend beschreiben wir die Konventionen, die für das Programmieren mit
-Yii empfohlen werden. Der Einfachheit halber nehmen wir an, dass `WebRoot` für
-das Verzeichnis steht, in dem eine Yii-Anwendung installiert wurde.
+Wir wollen hier die für Yii empfohlenen Konventionen kurz erläutern. 
+Nehmen wir dabei an, dass im Verzeichnis `WebVerzeichnis` 
+eine Yii-Anwendung installiert wurde.
 
 URL
 ---
 
-Per Vorgabe erkennt Yii URLs mit dem folgenden Format:
+Yii verarbeitet im Normalfall URLs gemäß diesem Format:
 
 ~~~
 http://hostname/index.php?r=ControllerID/ActionID
@@ -22,132 +22,145 @@ http://hostname/index.php?r=ControllerID/ActionID
 
 Die GET-Variable `r` bezieht sich auf die
 [Route](/doc/guide/basics.controller#route), die von Yii in Controller und
-Action aufgelöst werden kann. Wenn `ActionID` weggelassen wird, verwendet der
+Action aufgelöst wird. Wird `ActionID` weggelassen, verwendet der
 Controller die Standardaction (festgelegt über [CController::defaultAction]). 
 Falls auch die ControllerID weggelassen wird (oder die Variable `r` ganz
 fehlt), verwendet die Applikation den Standardcontroller (definiert über
 [CWebApplication::defaultController]).
 
-Mit Hilfe des [CUrlManager]s ist es möglich, suchmaschinenfreundliche URLs zu
-erzeugen bzw. zu erkennen, wie z.B.
-`http://hostname/ControllerID/ActionID.html`. Dieses Feature wird detailliert
-in [URL Management](/doc/guide/topics.url) behandelt.
+Mit dem [CUrlManager] können auch suchmaschinenfreundliche URLs erzeugt und
+verarbeitet werden, wie z.B.
+`http://hostname/ControllerID/ActionID.html`. Im Kapitel [URL Management](/doc/guide/topics.url) 
+werden wir dieses Feature detailliert behandeln.
 
 Code
 ----
 
-Yii empfiehlt, Variablen, Funktionen und Klassen in sog.
-CamelCase-Schreibweise zu benennen, also alle Worte im Namen mit einem
-Großbuchstaben zu beginnen und diese ohne Leerzeichen aneinanderzureihen.
-Bei Variablen- und Funktionsnamen sollte das erste Wort klein geschrieben
+Es wird empfohlen, Variablen, Funktionen und Klassen in sog.
+CamelCase-Schreibweise zu benennen. D.h. alle Worte eines Namens 
+sollten ohne Leerzeichen aneinandergereiht werden und jeweils mit einem
+Großbuchstaben beginnen.
+Bei Variablen- und Funktionsnamen sollte das erste Wort kleingeschrieben
 werden, um sie von Klassennamen zu unterscheiden (z.B. `$basePath`,
-`runController()`, `LinkPager`). Es wird empfohlen, Namen von privaten 
+`runController()`, `LinkPager`). Wir empfehlen außerdem, privaten 
 Klassenvariablen einen Unterstrich voranzustellen (z.B. `$_actionList`).
 
-Da vor PHP 5.3.0 noch keine Namespaces unterstützt werden, wird empfohlen,
-Klassennamen auf eindeutige Art zu benennen, um Konflikte mit Klassen von
-Drittanbietern zu vermeiden. Aus diesem Grund ist allen Klassen des
-Yii-Frameworks der Buchstabe "C" vorangestellt.
+Da vor PHP 5.3.0 noch keine Namespaces unterstützt werden, empfehlen wir,
+Klassennamen eindeutig zu kennzeichnen, um Konflikte mit anderen Klassen
+zu vermeiden. Allen Yii-Klassen ist daher ein "C" vorangestellt.
 
-Für Controller-Klassen gilt die spezielle Regel, dass das Wort 'Controller' an
-den Klassennamen angehängt werden muss. Die ID des Controllers ist definiert
-als dessen Klassenname mit dem ersten Buchstaben kleingeschrieben und ohne das Wort
-`Controller`. Zum Beispiel hätte der `PageController` die ID `page`. Diese
-Regel macht Anwendungen sicherer. Es führt auch zu saubereren Controller-URLs
-(z.B. `/index.php?r=page/index` statt `/index.php?r=PageController/index`).
+Für Controllerklassen gilt, dass deren Name mit 'Controller' enden muss.
+Eine Contoller-ID entspricht dem Klassennamen ohne 'Controller', wobei das
+erste Wort kleingeschrieben wird. `PageController` hätte somit die ID `page`.
+Diese Regel führt zu sichereren Anwendungen. Außerdem werden Controller-URLs
+dadurch leichter lesbar  (z.B. `/index.php?r=page/index` statt `/index.php?r=PageController/index`).
 
-Konfiguration
--------------
+Konfigurationen
+---------------
 
-Eine Konfiguration besteht aus einem Array von Schlüssel/Werte-Paaren. Jeder
-Schlüssel steht für den Namen einer Eigenschaft des zu konfigurierenden
-Objekts und jeder Wert für den Startwert dieser Eigenschaft.
-`array('name'=>'Meine Anwendung', 'basePath'=>'./protected')` zum Beispiel
-setzt die Eigenschaften `name` und `basePath` auf die entprechenden
-Array-Werte.
+Eine Konfiguration besteht aus einem Array von Schlüssel/Wert-Paaren. Jeder
+Schlüssel entspricht dabei dem Namen einer Objekteigenschaft die man mit dem
+entsprechenden Wert belegen möchte. Mit dem Array
+`array('name'=>'Meine Anwendung', 'basePath'=>'./protected')` 
+setzt man z.B. die Eigenschaften `name` und `basePath` auf die entprechenden
+Werte.
 
 Jede beschreibbare Eigenschaft eines Objekts kann konfiguriert werden. Falls
-sie nicht konfiguriert wurde, übernimmt sie ihren Vorgabewert. Es ist
-lohnenswert, bei der Konfiguration einer Eigenschaft die entsprechende
-Dokumentation zu rate zu ziehen, um den Startwert richtig anzugeben.
+sie nicht konfiguriert wurde, behält sie ihren Vorgabewert. Es lohnt sich,
+hierbei einen Blick in die Dokumentation der entsprechenden Klasse zu werfen.
 
-Datei
------
+Dateien
+-------
 
-Bei Dateien hängen die Konventionen bezüglich ihrer Bezeichnung und
-Verwendung von deren Typ ab.
+Die Konventionen für Dateinamen hängt von deren Typ ab.
 
-Klassendateien sollten nach der öffentlichen Klasse benannt sein, die sie
-enthalten. Die Klasse [CController] zum Beispiel befindet sich in der Datei
-`CController.php`. Eine öffentliche Klasse ist eine Klasse, die von jeder
-anderen Klasse verwendet werden kann. Jede Klassendatei sollte höchstens eine
-öffentliche Klasse enthalten. Private Klassen (also Klassen, die nur von einer
+Klassendateien sollten genauso heißen wie die darin enthaltenen öffentlichen Klassen.
+Die Klasse [CController] zum Beispiel befindet sich in der Datei
+`CController.php`. Eine öffentliche Klasse kann von jeder anderen Klasse
+verwendet werden. Jede Klassendatei sollte höchstens eine
+öffentliche Klasse enthalten. Private Klassen (welche nur von einer
 einzigen öffentlichen Klasse verwendet werden) können sich gemeinsam mit
 der öffentlichen Klasse in einer Datei befinden.
 
-View-Dateien sollten nach dem Namen des Views benannt werden. Der View `index`
-zum Beispiel befindet sich in der Datei `index.php`. Eine View-Datei ist ein
+Viewdateien heißen wie der enthaltene View. Der View `index`
+zum Beispiel befindet sich in der Datei `index.php`. Eine Viewdatei ist ein
 PHP-Script das hauptsächlich HTML und PHP für Anzeigezwecke enthält.
 
 Konfigurationsdateien können beliebig benannt werden. Eine Konfigurationsdatei
-ist ein PHP-Script, dessen einziger Zweck darin besteht, ein assoziatives Array
-zurückzuliefern, das eine Konfiguration darstellt.
+ist ein einfaches PHP-Script, das eine Konfiguration in Form eines assoziativen 
+Arrays zurückzuliefert.
 
 Verzeichnisse
 -------------
 
-Yii geht von einigen vorgegebenen Verzeichnissen für verschiedene Zwecke aus.
-Jedes davon kann bei Bedarf angepasst werden.
+Yii geht von einigen vorhandenen Verzeichnissen aus. Bei Bedarf kann diese
+Struktur jedoch angepasst werden.
 
-   - `WebRoot/protected`: Dies ist das [Stammverzeichnis der Anwendung
-](/doc/guide/basics.application#application-base-directory) das alle
-sicherheitsrelevanten PHP-Scripts und Datendateien enthält. Yii hat einen
-Standardalias namens `application`, der mit diesem Pfad verknüpft ist.
-Dieses Verzeichnis sollte, genau wie alle darunterliegenden, vor Zugriff über das Web
-geschützt werden. Sein Ort kann über [CWebApplication::basePath] angepasst werden.
+   - `WebVerzeichnis/protected`: Das
+[Anwendungsverzeichnis](/doc/guide/basics.application#application-base-directory), das alle
+sicherheitsrelevanten PHP-Scripts und Dateien enthält. Der Standardalias
+`application` verweist auf dieses Verzeichnis. Sämtliche Inhalte sollten nicht vom Web aus 
+zugänglich sein. Der Pfad kann über [CWebApplication::basePath] angepasst werden.
 
-   - `WebRoot/protected/runtime`: Dieses Verzeichnis enthält private temporäre
+   - `WebVerzeichnis/protected/runtime`: Enthält vertrauliche temporäre
 Dateien, die während der Laufzeit der Anwendung erzeugt werden. Der
-Webserver-Prozess muss in dieses Verzeichnis schreiben können. Sein Ort kann
+Webserver-Prozess muss in dieses Verzeichnis schreiben können. Der Pfad kann
 über [CApplication::runtimePath] angepasst werden.
 
-   - `WebRoot/protected/extensions`: Dieses Verzeichnis enthält alle
-Erweiterungen von Drittanbietern. Sein Ort kann über
+   - `WebVerzeichnis/protected/extensions`: Enthält Erweiterungen. Der Pfad kann über
 [CApplication::extensionPath] angepasst werden.
 
-   - `WebRoot/protected/modules`: Dieses Verzeichnis enthält alle
-[Module](/doc/guide/basics.module) der Anwendung, jedes davon in einem Unterverzeichnis
+   - `WebVerzeichnis/protected/modules`: Enthält [Module](/doc/guide/basics.module), 
+jeweils in einem entsprechenden Unterverzeichnis
 
-   - `WebRoot/protected/controllers`: Dieses Verzeichnis enthält alle
-Klassendateien für Controller. Sein Ort kann über
+   - `WebVerzeichnis/protected/controllers`: Enthält alle Controllerdateien. Der Pfad kann über
 [CWebApplication::controllerPath] angepasst werden.
 
-   - `WebRoot/protected/views`: Dieses Verzeichnis enhält alle View-Dateien,
-inklusive Controller-, Layout- und System-Views. Sein Ort kann über 
+   - `WebVerzeichnis/protected/views`: Enthält alle Viewdateien,
+inklusive Controller-, Layout- und Systemviews. Der Pfad kann über 
 [CWebApplication::viewPath] angepasst werden.
 
-   - `WebRoot/protected/views/ControllerID`: Dieses Verzeichnis enthält die
-View-Dateien für eine einzelne Controller-Klasse. `ControllerID` steht hier für die
-ID des Controllers. Sein Ort kann über [CController::getViewPath] angepasst
+   - `WebVerzeichnis/protected/views/ControllerID`: Enthält die
+Viewrdateien für einen Controller. `ControllerID` steht für die
+ID des Controllers. Der Pfad kann über [CController::viewPath] angepasst
 werden.
 
-   - `WebRoot/protected/views/layouts`: Dieses Verzeichnis enthält alle 
-Layout-View-Dateien. Sein Ort kann über [CWebApplication::layoutPath]
+   - `WebVerzeichnis/protected/views/layouts`: Enthält alle 
+Layout-Viewdateien. Der Pfad kann über [CWebApplication::layoutPath]
 angepasst werden.
 
-   - `WebRoot/protected/views/system`: Dieses Verzeichnis enthält alle
-System-View-Dateien. System-Views sind Vorlagen, die zur Anzeige von Exceptions
-und Fehlern verwendet werden. Sein Ort kann über
+   - `WebVerzeichnis/protected/views/system`: Enthält alle
+System-Viewdateien. Systemviews sind Vorlagen, die zur Anzeige von Exceptions
+und Fehlern verwendet werden. Der Pfad kann über
 [CWebApplication::systemViewPath] angepasst werden.
 
-   - `WebRoot/assets`: Dieses Verzeichnis enthält veröffentlichte
-Asset-Dateien. Eine Asset-Datei ist eine private Datei die 
-veröffentlicht werden kann, um sie einem Web-Besucher zugänglich zu machen.
+   - `WebVerzeichnis/assets`: Dieses Verzeichnis enthält veröffentlichte
+Assetdateien. Eine Assetdatei ist eine vertrauliche Datei die 
+veröffentlicht werden kann, um sie vom Web aus zugänglich zu machen.
 Der Webserver-Prozess muss in dieses Verzeichnis schreiben können.
-Sein Ort kann über [CAssetManager::basePath] angepasst werden.
+Der Pfad kann über [CAssetManager::basePath] angepasst werden.
 
-   - `WebRoot/themes`: Dieses Verzeichnis enthält verschiedene Themes, 
-die auf eine Applikation angewendet werden können. Sein Ort kann
+   - `WebVerzeichnis/themes`: Dieses Verzeichnis enthält verschiedene Themes, 
+die auf eine Applikation angewendet werden können. Der Pfad kann
 über [CThemeManager::basePath] angepasst werden.
 
-<div class="revision">$Id: basics.convention.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>
+
+Datenbanken
+-----------
+
+Die meisten Webanwendungen sind datenbankgestützt. Wir empfehlen folgende
+Namenskonventionen für Tabellen und Spalten. Für Yii sind diese allerdings
+nicht zwingend nötig.
+
+   - Sowohl Tabellen als auch Spalten werden in Kleinbuchstaben benannt.
+
+   - Mehrere Wörter in einem Namen werden durch Untestrich getrennt (z.B. `produkt_name`).
+
+   - Tabellenname sollten entweder im Singular oder im Plural stehen, aber
+nicht gemischt. Der Einfachheit halber empfehlen wir den Singular.
+
+   - Tabellennamen können mit eine Präfix wie `tbl_` versehen werden. Dies ist
+insbesondere nützlich, wenn sich mehrere Anwendungen eine Datenbank teilen
+müssen. 
+
+<div class="revision">$Id: basics.convention.txt 1768 2010-02-01 01:34:15Z qiang.xue $</div>

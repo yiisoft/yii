@@ -263,6 +263,11 @@ medan det första segmentet i path-delen skall bilda `lang`-parametern. Regeln m
 Märk att [CUrlManager::showScriptName] ignoreras när en en URL skapas med användning av en 
 regel innehållande parametriserat värdnamn.
 
+Lägg även märke till att regeln med parametriserat värdnamn INTE skall innehålla underkatalogen
+om applikationen är placerad i en underkatalog till webbrotkatalogen. Till exempel, om applikationen 
+befinner sig under `http://www.example.com/sandbox/blog`, skall fortfarande samma URL-regel som 
+beskrivs ovan användas, utan underkatalogen `sandbox/blog`.
+
 
 ### Gömma `index.php`
 
@@ -307,4 +312,4 @@ statisk webbsida. För att göra så, konfigurera komponenten
 [urlManager|CWebApplication::urlManager] genom att sätta dess property 
 [urlSuffix|CUrlManager::urlSuffix] till önskad suffixsträng.
 
-<div class="revision">$Id: topics.url.txt 1633 2009-12-29 21:12:11Z qiang.xue $</div>
+<div class="revision">$Id: topics.url.txt 1809 2010-02-17 22:08:34Z qiang.xue $</div>

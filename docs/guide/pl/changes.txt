@@ -3,22 +3,44 @@ Nowe funkcjonalności
 
 Ta strona zawiera streszczenie najważniejszych nowych funkcji wprowadzonych w każdym wydaniu Yii. 
 
+
+Wersja 1.1.1
+-------------
+
+ * Dodano klasę CActiveForm, która upraszcza pisanie kodu związanego z formularzami 
+ i umożliwia nierozróżnialne i spójne sprawdzanie poprawności zarówno po stronie klienta 
+ jak i serwera.
+
+ * Przepisano kod generowany przez narzędzie yiic. W szczególności, szkielet
+ aplikacji jest terz generowany z wieloma układami; menu operacji zostało zreorganizowane 
+ dla stron CRUD; dodano funkcjonalność wyszukiwania i filtrowania dla stron
+ administratora generowanych przez polecenie crud; użyto CActiveForm w celu
+ wygenerowania formularza.
+ 
+ * [Dodano możliwość definiowania globalnych poleceń yiic](/doc/guide/topics.console) 
+
 Wersja 1.1.0
 -------------
 
  * [Dodano wsparcie dla pisana testów jednostkowych i funkcjonalnych](/doc/guide/test.overview)
 
  * [Dodano wsparcie dla używania skórek w widżetach](/doc/guide/topics.theming#skin)
+ 
+ * [Dodano rozszerzalny generator formularzy](/doc/guide/form.builder)
 
  * Ulepszono sposób deklarowania bezpiecznych atrybutów modelu. Zobacz
  [zabezpieczanie przypisywania atrybutów](/doc/guide/form.model#securing-attribute-assignments).
 
- * Zmieniono domyślny algorytm gorliwego ładowania dla zapytań dla relacyjnych rekordów aktywnych, 
+ * Zmieniono domyślny algorytm zachłannego ładowania dla zapytań dla relacyjnych rekordów aktywnych, 
  tak że wszystkie tabele są łączone w jednym zapytaniu SQL.
 
  * Zmieniono domyślny alias tabeli, tak aby wskazywał na nazwę relacji rekordu aktywnego.
 
  * [Dodano wsparcie dla prefiksów tabel](/doc/guide/database.dao#using-table-prefix).
+ 
+ * Dodano cały zesaw rozszerzeń znanych jako [biblioteka Zii](http://code.google.com/p/zii/).
+
+ * Alias nazwy dla tabeli głównej w zapytaniu AR ustalony został jako 't'.
 
 
 Wersja 1.0.11
@@ -94,4 +116,4 @@ Wersja 1.0.5
  * Rozszerzono[CUrlManager] o wsparcie dla parametryzacji reguł dla części URL zawierającej trasę. Zobacz:
      - [Parametryzacja trasy w regułach URL](/doc/guide/topics.url#parameterizing-routes)
 
-<div class="revision">$Id: changes.txt 1533 2009-11-20 14:10:46Z qiang.xue $</div>
+<div class="revision">$Id: changes.txt 1874 2010-03-10 15:44:41Z qiang.xue $</div>

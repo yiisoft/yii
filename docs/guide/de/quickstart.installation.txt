@@ -6,27 +6,25 @@ Die Installation von Yii beinhaltet im Wesentlichen die folgenden beiden Schritt
    1. Herunterladen des Yii-Frameworks von [yiiframework.com](http://www.yiiframework.com/).
    2. Entpacken des Yii-Pakets in ein Verzeichnis mit Webzugriff.
 
-> Tip|Tipp: Yii muss nicht zwingend in ein Verzeichnis installiert werden, auf
-das vom Web aus zugegriffen werden kann. Eine Yii-Anwendung verwendet ein 
-einzelnes Eingangsscript. In der Regel ist dies die einzige Datei, die 
-Besucher aufrufen können müssen. Andere PHP-Scripts, inklusive denen 
-von Yii, sollten vor Zugriff über das Web geschützt werden, da sie für 
+> Tip|Tipp: Yii muss nicht zwingend in ein Webverzeichnis installiert werden.
+Bei einer Yii-Anwendung muss in der Regel nur das Startscript (meist
+index.php) vom Web aus erreichbar sein. Alle anderen PHP-Scripts (inkl. denen 
+von Yii) sollten nicht von außen erreichbar sein, da sie sonst für 
 Hack-Versuche missbraucht werden könnten.
 
-Anforderungen
--------------
+Voraussetzungen
+---------------
 
-Nachdem Sie Yii installiert haben, möchten Sie vielleicht überprüfen,
-ob Ihr Webserver auch alle Anforderungen von Yii erfüllt. Dazu können Sie
-über diese URL einen Test per Webbrowser ausführen:
+Nachdem Sie Yii installiert haben, sollten Sie überprüfen, ob Ihr Webserver auch 
+alle Voraussetzungen erfüllt. Dazu können Sie über diese URL einen Test per Webbrowser ausführen:
 
 ~~~
 http://hostname/pfad/zu/yii/requirements/index.php
 ~~~
 
-Als Minimalanforderung für Yii muss ihr Webserver PHP 5.1.0 oder höher
-unterstützen. Yii wurde mit dem [Apache HTTP Server](http://httpd.apache.org/) 
-unter Windows- und Linux-Betriebssystemen getestet. Es läuft u.U. auch auf
-anderen Webservern und Plattformen, vorausgesetzt PHP 5 wird dort unterstützt.
+Die Minimalanforderung von Yii ist ein Webserver mit PHP 5.1.0 oder höher. Getestet wurde
+es bisher mit dem [Apache HTTP Server](http://httpd.apache.org/) und Windows-
+und Linux-Betriebssystemen, es läuft u.U. aber auch auf anderen Webservern und
+Plattformen, sofern PHP 5 dort unterstützt wird.
 
 <div class="revision">$Id: quickstart.installation.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

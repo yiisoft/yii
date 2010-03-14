@@ -210,11 +210,11 @@ Anwender zum Beispiel `/index.php/post/100` anfordert, kommt die zweite der
 obigen Regeln zum Einsatz. Sie löst die Route zu `post/read` und die
 GET-Parameter zu `array('id'=>100)` (erreichbar über `$_GET`) auf. 
 
-> Note|Hinweis: Der Einsatz von URL-Regeln verringert die Leistungsfähigkeit 
+> Note|Hinweis: Der Einsatz von URL-Regeln verringert die Performance 
 einer Anwendung. Das liegt daran, dass [CUrlManager] beim Auswerten einer URL
 für jede Regel prüft, ob sie auf die Anfrage passt, bis eine passende 
 Regel gefunden wurde. Je mehr Regeln definiert wurden, desto größer ist die
-Auswirkung auf die Leistungsfähigkeit. Eine Webanwendung mit hohem 
+Auswirkung auf die Performance . Eine Webanwendung mit hohem 
 Traffic-Aufkommen sollte daher die Anzahl ihrer URL-Regeln minimieren.
 
 ### Parametrisierte Routen
@@ -222,7 +222,7 @@ Traffic-Aufkommen sollte daher die Anzahl ihrer URL-Regeln minimieren.
 Seit Version 1.0.5 können wir benannte Parameter im Routen-Teil einer Regel
 ansprechen. Dadurch kann die Regel je nach Suchkriterium auf mehrere Routen 
 angewendet werden. Es kann auch helfen, die Anzahl der benötigten Regeln in
-einer Anwendung zu minimieren und dadurch die gesamte Leistungsfähigkeit zu
+einer Anwendung zu minimieren und dadurch die Gesamtperformance zu
 steigern.
 
 Wir zeigen am folgenden Beispiel, wie Routen mit benannten Parametern
@@ -275,16 +275,22 @@ Regel verweist auf die `user/profile`-Route.
 Beachten Sie, dass [CUrlManager::showScriptName] keine Wirkung hat, wenn eine
 URL über eine Regel mit parametrisierten Hostnamen erzeugt wird.
 
+Falls die Anwendung in einem Unterverzeichnis Ihres WWW-Stammverzeichnisses
+abgelegt wurde, sollte dessen Name nicht mit in der entsprechenden Regel
+auftauchen. Liegt die Anwendung z.B. unter
+`http://www.example.com/sandbox/blog`, sollte immer noch die selbe Regel wie
+oben ohne den Unterordner `sandbox/blog` verwendet werden.
+
 
 ### Verbergen von `index.php`
 
 Wir können eine weitere Maßnahme zum Bereinigen unserer URLs durchführen: das
-Verbergen des Eingangsscripts `index.php` in der URL. Dazu müssen wir sowohl
+Verbergen des Startscripts `index.php` in der URL. Dazu müssen wir sowohl
 den Webserver als auch die [urlManager|CWebApplication::urlManager]-Komponente
 konfigurieren.
 
-Zunächst richten wir den Webserver so ein, dass eine URL, bei der das
-Eingangsscript fehlt, immer noch vom Eingangsscript bearbeitet wird. Im Falle
+Zunächst richten wir den Webserver so ein, dass auch URLs ohne Startscript von
+diesem bearbeitet werden.  Im Falle
 des [Apache HTTP-Servers](http://httpd.apache.org/) erreichen wir das, indem
 wir die Rewrite-Engine (sinngem.: Umschreibemaschine) einschalten und einige
 Rewrite-Rules (sinngem.: Umschreiberegeln) definieren. Wir können dazu die
@@ -320,4 +326,4 @@ einer statischen Webseite aus. Setzen Sie dazu einfach die gewünschte Endung
 über die Eigenschaft [urlSuffix|CUrlManager::urlSuffix] der
 [urlManager|CWebApplication::urlManager]-Komponente.
 
-<div class="revision">$Id: topics.url.txt 1633 2009-12-29 21:12:11Z qiang.xue $</div>
+<div class="revision">$Id: topics.url.txt 1809 2010-02-17 22:08:34Z qiang.xue $</div>

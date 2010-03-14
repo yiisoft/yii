@@ -1,13 +1,12 @@
 Cachen von Daten
 ================
 
-Beim Datencaching geht es um das Speichern und spätere Beziehen einer PHP-Variable 
-im bzw. aus dem Cache. Die Basisklasse der Cache-Komponente, [CCache], stellt 
-die zwei Methoden zur Verfügung, die meistens dafür verwendet werden: 
-[set()|CCache::set] und [get()|CCache::get].
+Beim Datencaching weden PHP-Variablen im Cache gespeichert bzw. von dort ausgelesen.
+Die wichtigsten beiden Methoden dafür sind in der Basisklasse [CCache]
+definiert: [set()|CCache::set] und [get()|CCache::get].
 
-Um eine Variable `$value` im Cache zu speichern, wählen wir eine eindeutige ID
-und rufen [set()|CCache::set] auf, um sie zu speichern:
+Eine Variable kann unter einer eindeutigen ID mit [set()|CCache::set] im Cache
+gespeichert werden:
 
 ~~~
 [php]
@@ -15,11 +14,10 @@ Yii::app()->cache->set($id, $value);
 ~~~
 
 Die gecachten Daten verbleiben für immer im Cache, außer sie werden aufgrund
-bestimmter Cache-Richtlinien entfernt (z.B. wenn die ältesten Cache-Daten
-gelöscht werden, weil der Cache-Speicherplatz voll ist). Um dieses Verhalten
-zu verändern, können wir beim Aufruf von [set()|CCache::set] einen weiteren
-Parameter angeben, so dass die Daten nach einer bestimmten Zeitspanne ungültig
-werden:
+bestimmter Cacherichtlinien entfernt (z.B. wenn der Cachespeicher voll ist und
+alte Daten daher entfernt werden). Über einen weiteren Parameter kann dieses
+Verhalten geändert werden, so dass die Daten nach einer bestimmten Zeitspanne
+verfallen:
 
 ~~~
 [php]
@@ -27,10 +25,10 @@ werden:
 Yii::app()->cache->set($id, $value, 30);
 ~~~
 
-Wenn wir später (im gleichen oder einem späteren Request) auf diese Daten zugreifen 
-müssen, rufen wir [get()|CCache::get] mit der ID auf, um die Daten aus dem
-Cache auszulesen. Falls false zurückgeliefert wird, bedeutet das, dass der
-Wert nicht im Cache verfügbar ist und wir ihn neu generieren sollten.
+Mit [get()|CCache:get] kann man später (im gleichen oder einem späteren
+Request) über die ID die Daten wieder aus dem Cache auslesen. Wird hier
+`false` zurückgegeben, ist der Wert nicht im Cache verfügbar. Evtl. sollte man
+ihn dann neu anlegen:
 
 ~~~
 [php]
@@ -43,23 +41,23 @@ if($value===false)
 }
 ~~~
 
-Sie müssen darauf achten, dass Sie für jede im Cache gespeicherte Variable, eine
-eindeutige ID wählen. Es ist allerdings NICHT nötig, dass die ID auch zwischen 
-unterschiedlichen Applikationen eindeutig ist. Die Cache-Komponente ist 
-intelligent genug, um zwischen IDs von unterschiedlichen Anwendungen zu unterscheiden.
+Es ist zu beachten, dass jede gespeicherte Variable eine eindeutige ID erhält. 
+Allerdings muss diese ID NICHT zwischen verschiedenen Anwendungen auf dem
+selben Server eindeutig sein. Die Cachekomponente kann die IDs
+unterschiedlicher Anwendungen unterscheiden.
 
 Einige Cachespeicher, wie MemCache oder APC, unterstützen die Abfrage mehrerer
 gespeicherter Werte auf einmal. Dadurch kann der Overhead beim Abrufen von
-gecachten Daten reduziert wreden. Seit Version 1.0.8 unterstützt die neue
-Funktion [mget()|CCache::mget] dieses Feature. Falls der zugrundeliegende
+gecachten Daten reduziert wreden. Seit Version 1.0.8 wird dieses Feature
+per [mget()|CCache::mget] unterstützt. Falls der zugrundeliegende
 Cachespeicher dieses Feature nicht unterstützt, wird es von
 [mget()|CCache::mget] simuliert.
 
-Rufen Sie [delete()|CCache::delete] auf, um einen gecachten Eintrag aus dem
-Cache zu entfernen, bzw. [flush()|CCache::flush] um den Cache komplett zu
-leeren. Seien Sie beim Aufruf von [flush()|CCache::flush] jedoch vorsichtig,
-da damit auch alle gecachten Einträge von anderen Applikationen aus dem Cache 
-entfernt werden.
+Mit [delete()|CCache::delete] wird ein einzelner Cacheeintrag gelöscht. Mit 
+[flush()|CCache::flush] kann der Cache komplett geleert werden. 
+Beim Aufruf von [flush()|CCache::flush] sollten Sie jedoch vorsichtig sein,
+da diesmal dabei auch alle gecachten Daten von anderen Anwendungen entfernt
+werden. 
 
 > Tip|Tipp: Da [CCache] das Interface `ArrayAccess` implementiert, kann eine
 > Cache-Komponente wie ein Array verwendet werden. Hier einige Beispiele:
@@ -73,15 +71,15 @@ entfernt werden.
 Cachen mit Abhängigkeit
 -----------------------
 
-Die Gültigkeit gecachter Einträge kann neben einer gesetzten Verfallszeit auch 
-von bestimmten Änderungen abhängig gemacht werden. Wenn wir zum
-Beispiel den Inhalt einer Datei cachen und diese Datei verändert wird, sollten
-wir die gecachte Kopie für ungültig erklären und statt des gecachten
-Eintrags, den aktualisierten Inhalt der Datei einlesen.
+Außer über die Verfallszeit kann die Gültigkeit eines Cacheeintrags auch von
+anderen Bedingungen abhängig sein. Cacht  man zum Beispiel den Inhalt einer
+Datei, sollten die Cachedaten ungültig bzw. aktualisiert werden, sobald die
+Datei geändert wird.
 
-Eine Abhängigkeit (engl.: dependency) wird durch eine Instanz vom Typ 
-[CCacheDependency] oder einer Kindklasse davon dargestellt. Beim Aufruf von 
-[set()|CCache::set] übergeben wir diese Instanz zusammen mit den zu cachenden Daten.
+Eine solche Abhängigkeit (engl.: dependency) wird durch eine Instanz vom Typ 
+[CCacheDependency] oder deren Kindklasse repräsentiert. Beim Aufruf von 
+[set()|CCache::set] kann ein solches Objekt zusammen mit den zu cachenden
+Daten übergeben werden.
 
 ~~~
 [php]
@@ -90,33 +88,29 @@ Eine Abhängigkeit (engl.: dependency) wird durch eine Instanz vom Typ
 Yii::app()->cache->set($id, $value, 30, new CFileCacheDependency('DateiName'));
 ~~~
 
-Wenn wir nun [get()|CCache::get] aufrufen, um `$value` auszulesen, wird die
-Abhängigkeit ausgewertet. Falls es dort eine Änderung gab, wird false
-zurückgeliefert, was anzeigt, dass die Daten neu generiert werden müssen.
+Wird `$value` mit [get()|CCache::get] ausgelesen, wird die Abhängigkeit
+ausgewertet.  Falls es dort eine Änderung gab, wird false
+zurückgeliefert. In diesem Fall müssen die Daten neu generiert werden.
 
-Im folgenden eine Übersicht der verfügbaren Abhängigkeiten für einen Cache:
+Folgende Cacheabhängigkeiten stehen bereit:
 
-   - [CFileCacheDependency]: Eine Änderung bei dieser Abhängigkeit tritt auf,
-wenn sich bei der Datei der Änderungszeitpunkt verändert hat.
+   - [CFileCacheDependency]: Ändert sich bei einem neuen Änderungszeitpunkt
+   der Datei.
 
-   - [CDirectoryCacheDependency]: Eine Änderung bei dieser Abhängigkeit tritt auf,
-wenn eine der Dateien im Verzeichnis oder dessen
-Unterverzeichnissen geändert wurde.
+   - [CDirectoryCacheDependency]: Ändert sich, wenn eine der Dateien im
+Verzeichnis (oder Unterverzeichnis davon) verändert wurde.
 
-   - [CDbCacheDependency]: Eine Änderung bei dieser Abhängigkeit tritt auf,
-wenn das Ergebnis der SQL-Abfrage sich geändert hat.
+   - [CDbCacheDependency]: Ändert sich, wenn das Ergebnis der SQL-Abfrage verändert.
 
-   - [CGlobalStateCacheDependency]: Eine Änderung bei dieser Abhängigkeit tritt auf,
-wenn der Wert des angegebenen globalen Status sich verändert hat.
-Ein globaler Status ist eine Variable, deren Wert über mehrere Requests und 
-Sessions hinweg beständig bleibt. Er wird über [CApplication::setGlobalState()]
-definiert.
+   - [CGlobalStateCacheDependency]: Ändert sich, wenn der Wert des angegebenen 
+globalen Status sich verändert hat. Ein globaler Status ist eine Variable, deren 
+Wert über mehrere Requests und Sessions hinweg beständig bleibt. Er wird über 
+[CApplication::setGlobalState()] gesetzt.
 
-   - [CChainedCacheDependency]: Eine Änderung bei dieser Abhängigkeit tritt auf,
-wenn bei einer der Abhängigkeiten der Kette eine Änderung eingetreten ist.
+   - [CChainedCacheDependency]: Ändert sich, wenn eine der Abhängigkeiten in
+der Kette eine Änderung anzeigt.
 
-   - [CExpressionDependency]: Eine Änderung bei dieser Abhängigkeit tritt auf,
-wenn das Ergebnis des angegebenen PHP-Ausdrucks sich ändert. Diese Klasse
+   - [CExpressionDependency]: Ändert sich, wenn der Wert des angegebenen PHP-Ausdrucks sich ändert. Diese Klasse
 steht seit Version 1.0.4 zur Verfügung.
 
-<div class="revision">$Id: caching.data.txt 1295 2009-08-06 20:00:34Z qiang.xue $</div>
+<div class="revision">$Id: caching.data.txt 1855 2010-03-04 22:42:32Z qiang.xue $</div>

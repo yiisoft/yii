@@ -152,7 +152,7 @@ return array (
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". The foreign key does not point to either joining table.' => 'Relasi "{relation}" dalam kelas rekaman aktif "{class}" ditetapkan dengan kunci asing "{key}" yang tidak benar. Kunci asing tidak merujuk ke tabel yang digabung.',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".' => 'Relasi "{relation}" dalam kelas rekaman aktif "{class}" ditetapkan dengan kunci asing yang tidak benar. Format kunci asing harus "joinTable(fk1,fk2,...)".',
   'The requested controller "{controller}" does not exist.' => 'Kontroler "{controller}" yang diminta tidak ada.',
-  'The requested view "{name}" was not found.' => 'Tinjauan "{name}" yang diminta tidak ditemukan.',
+  'The requested view "{name}" is not found.' => 'Tinjauan "{name}" yang diminta tidak ditemukan.',
   'The stack is empty.' => 'Stack kosong.',
   'The system is unable to find the requested action "{action}".' => 'Sistem tidak bisa menemukan aksi "{action}" seperti yang diminta.',
   'The system view path "{path}" is not a valid directory.' => 'Path tinjauan sistem "{path}" bukan direktori yang benar.',

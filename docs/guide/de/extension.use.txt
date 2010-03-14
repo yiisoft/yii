@@ -1,5 +1,5 @@
-Erweiterungen verwenden
-=======================
+Verwenden von Erweiterungen
+===========================
 
 Zum Einsatz einer Erweiterung (engl.: Extension) sind in der Regel folgende 
 drei Schritte erforderlich:
@@ -129,8 +129,9 @@ Behaviorkonfigurationen übergeben, bindet die Komponente die entsprechenden
 Behaviors beim Initialisieren an.
 
 Bei [CController]-, [CFormModel]- and [CActiveModel]-Klassen, die in der Regel
-erweitert werden, werden Behavior durch Überschreiben der
-`behaviors()`-Methode angebunden. Zum Beispiel:
+erweitert werden, können Behavior durch Überschreiben der
+`behaviors()`-Methode angebunden werden. Beim Initialisieren hängt die Klasse
+dann die darin definierten Behaviors automatisch an. Zum Beispiel:
 
 ~~~
 [php]
@@ -336,4 +337,4 @@ Eigenschaften konfigurieren oder ihre Methoden aufrufen. Möglicherweise
 möchten wir sie auch erweitern, um neue Kindklassen zu erstellen.
 
 
-<div class="revision">$Id: extension.use.txt 1602 2009-12-18 19:33:34Z qiang.xue $</div>
+<div class="revision">$Id: extension.use.txt 1780 2010-02-01 20:32:50Z qiang.xue $</div>

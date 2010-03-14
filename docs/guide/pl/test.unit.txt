@@ -66,8 +66,8 @@ testujących w wygodny sposób. Następujący kod pokazuje ich typowe użycie:
 $comments = $this->comments;
 // zwraca wiersz, którego aliasem jest 'sample1' w konfiguracji testu dla tabeli postów `Post` 
 $post = $this->posts['sample1'];
-// zwraca instancję AR reprezentującą wiersz danych z konfiguracji testu 'sample' 
-$post = $this->post('sample1');
+// zwraca instancję AR reprezentującą wiersz danych z konfiguracji testu 'sample1' 
+$post = $this->posts('sample1');
 ~~~
 
 > Note|Uwaga: Jeśli konfiguracja testu została zdefiniowana przy użyciu nazwy tabeli  
@@ -109,4 +109,4 @@ public function testApprove()
 }
 ~~~
 
-<div class="revision">$Id: test.unit.txt 1151 2009-06-19 04:14:15Z qiang.xue $</div>
+<div class="revision">$Id: test.unit.txt 1745 2010-01-24 14:23:36Z qiang.xue $</div>

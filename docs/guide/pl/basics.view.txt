@@ -123,7 +123,9 @@ Tak jak w kontrolerze, widżet może mieć swój własny widok. Domyślnie, plik
 widżetu są umieszczone w podkatalogu `views` katalogu zawierającego klasę widżetu.
 Widoki te mogą być renderowane poprzez wywołanie [CWidget::render()], w sposób podobny
 do tego w kontrolerze. Jedyną różnicą jest to, że żaden układ nie będzie używany 
-dla widoku widżetu.
+dla widoku widżetu. Ponadto, `$this` w widoku, wskazuje na instancję widżetu zamiast
+na instancję kontrolera.
+
 
 Widok systemowy (ang. System View)
 -----------
@@ -142,4 +144,4 @@ Yii dostarcza zestawu domyślnych widoków systemowych umieszczonych w folderze
 `framework/views`. Mogą one zostać zmienione poprzez utworzenie tak samo nazwanych
 plików widoku w folderze `protected/views/system`.
 
-<div class="revision">$Id: basics.view.txt 416 2008-12-28 05:28:11Z qiang.xue $</div>
+<div class="revision">$Id: basics.view.txt 1809 2010-02-17 22:08:34Z qiang.xue $</div>

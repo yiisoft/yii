@@ -139,4 +139,4 @@ return CMap::mergeArray(
 фикстур и используется тестовая БД.
 
 
-<div class="revision">$Id: test.overview.txt 1440 2009-10-08 00:08:00Z qiang.xue $</div>
+<div class="revision">$Id: test.overview.txt 1813 2010-02-18 21:33:16Z qiang.xue $</div>

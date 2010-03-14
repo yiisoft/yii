@@ -1,5 +1,7 @@
-﻿* Khởi đầu với Yii
-	- [Giới thiệu](index)
+* Khởi đầu với Yii
+    - [Tổng quan](index)
+    - [Tính năng mới](changes)
+    - [Nâng cấp từ 1.0 lên 1.1](upgrade)
     - [Yii là gì](quickstart.what-is-yii)
     - [Cài đặt](quickstart.installation)
     - [Tạo ứng dụng Yii đầu tiên](quickstart.first-app)
@@ -23,6 +25,7 @@
     - [Tạo Action](form.action)
     - [Tạo Form](form.view)
     - [Ghi nhận dữ liệu nhập dạng bảng](form.table)
+    - [Using Form Builder](form.builder)
 
 * Làm việc với Database
     - [Tổng quan](database.overview)
@@ -43,6 +46,12 @@
     - [Tạo Extensions](extension.create)
     - [Sử dụng thư viện 3rd party](extension.integration)
 
+* Kiểm định
+	- [Tổng quan](test.overview)
+	- [Defining Fixtures](test.fixture)
+	- [Unit Testing](test.unit)
+	- [Functional Testing](test.functional)
+
 * Các chủ đề đặc biệt
     - [Xử lý URL](topics.url)
     - [Đăng nhập và phân quyền](topics.auth)
@@ -56,4 +65,4 @@
     - [Bảo mật](topics.security)
     - [Cải tiến tốc độ](topics.performance)
 
-<div class="revision">$Id: toc.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>
+<div class="revision">$Id: toc.txt 1603 2009-12-18 19:39:18Z qiang.xue $</div>

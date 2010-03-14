@@ -46,7 +46,7 @@
 </div>
 
 <div class="row submit">
-<?php echo CHtml::submitButton('Login'); ?>
+<?php echo CHtml::submitButton('Войти'); ?>
 </div>
 
 <?php echo CHtml::endForm(); ?>
@@ -66,4 +66,39 @@
 
 ![Страница авторизации с сообщением об ошибке](login2.png)
 
-<div class="revision">$Id: form.view.txt 1623 2009-12-27 20:02:43Z qiang.xue $</div>
+Начиная с версии 1.1.1, для создания форм можно воспользоваться новым
+виджетом [CActiveForm], который позволяет реализовать валидацию как на клиенте,
+так и на сервере. При использовании [CActiveForm] код отображения будет выглядеть
+следующим образом:
+
+~~~
+[php]
+<div class="form">
+<?php $form=$this->beginWidget('CActiveForm'); ?>
+
+	<?php echo $form->errorSummary($model); ?>
+
+	<div class="row">
+		<?php echo $form->label($model,'username'); ?>
+		<?php echo $form->textField($model,'username') ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'password'); ?>
+		<?php echo $form->passwordField($model,'password') ?>
+	</div>
+
+	<div class="row rememberMe">
+		<?php echo $form->checkBox($model,'rememberMe'); ?>
+		<?php echo $form->label($model,'rememberMe'); ?>
+	</div>
+
+	<div class="row submit">
+		<?php echo CHtml::submitButton('Войти'); ?>
+	</div>
+
+<?php $this->endWidget(); ?>
+</div><!-- form -->
+~~~
+
+<div class="revision">$Id: form.view.txt 1751 2010-01-25 17:21:31Z qiang.xue $</div>

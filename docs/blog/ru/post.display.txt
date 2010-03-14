@@ -2,116 +2,140 @@
 ===================
 
 В нашем приложении запись может показываться как отдельно, так и среди других
-записей. Первое реализуется действием `show`, второе — `list`. В данном разделе
+записей. Первое реализуется действием `index`, второе — `view`. В данном разделе
 мы изменим оба действия для достижения первоначальных требований.
 
 
-Изменение действия `show`
+Изменение действия `view`
 -------------------------
 
-Действие `show` реализовано в методе `actionShow()` контроллера `PostController`.
-Отдаваемый пользователю HTML генерируется из отображения `show`, находящегося
-в файле `/wwwroot/blog/protected/views/post/show.php`.
+Действие `view` реализовано в методе `actionView()` контроллера `PostController`.
+Отдаваемый пользователю HTML генерируется из отображения `view`, находящегося
+в файле `/wwwroot/blog/protected/views/post/view.php`.
 
-Ниже приведён код действия `show` контроллера `PostController`:
+Ниже приведён код действия `view` контроллера `PostController`:
 
 ~~~
 [php]
-public function actionShow()
+public function actionView()
 {
-	$this->render('show',array(
-		'post'=>$this->loadPost(),
-	));
+    $post=$this->loadModel();
+    $this->render('view',array(
+        'model'=>$post,
+    ));	
 }
 
-private $_post;
+private $_model;
 
-protected function loadPost($id=null)
+public function loadModel()
 {
-	if($this->_post===null)
+	if($this->_model===null)
 	{
-		if($id!==null || isset($_GET['id']))
-			$this->_post=Post::model()->findbyPk($id!==null ? $id : $_GET['id']);
-		if($this->_post===null || Yii::app()->user->isGuest &&
-			$this->_post->status!=Post::STATUS_PUBLISHED)
-			throw new CHttpException(404,'Кто здесь?!');
+		if(isset($_GET['id']))
+		{
+			if(Yii::app()->user->isGuest)
+				$condition='status='.Post::STATUS_PUBLISHED
+					.' OR status='.Post::STATUS_ARCHIVED;
+			else
+				$condition='';
+			$this->_model=Post::model()->findByPk($_GET['id'], $condition);
+		}
+		if($this->_model===null)
+			throw new CHttpException(404,'Запрашиваемая страница не существует.');
 	}
-	return $this->_post;
+	return $this->_model;
 }
 ~~~
 
-Наши изменения в основном коснулись метода `loadPost()`. В нём мы получаем запись
-из таблицы `Post`, используя параметр `id` из GET. Если запись не найдена или
-не опубликована (при этом пользователь является гостем) — показываем ошибку 404.
-Иначе возвращаем объект записи методу `actionShow()`, который передаёт объект
-отображению `show`.
+Наши изменения в основном коснулись метода `loadModel()`. В нём мы получаем запись
+из таблицы `Post`, используя параметр `id` из GET. Если запись не найдена,
+не опубликована или находится в архиве, и при этом пользователь является
+гостем — показываем ошибку 404. Иначе возвращаем объект записи методу `actionView()`,
+который передаёт объект отображению.
 
 > Tip|Подсказка: Yii перехватывает исключения HTTP (экземпляры класса
-  [CHttpException]) и отображает их на страницах ошибок с соответствующими
-  предопределёнными шаблонами. Процесс изменения этих шаблонов в вашем приложении
-  будет описан в конце данного руководства.
+  [CHttpException]) и отображает их, используя либо предопределённые,
+  либо свои шаблоны. Каркас, сгенерированный `yiic` уже содержит
+  свой шаблон для ошибок в файле `/wwwroot/blog/protected/views/site/error.php`.
+  При необходимости мы можем изменить этот файл.
 
-Изменения в отображении `show` в основном затрагивают форматирование и стили
+Изменения в отображении `view` в основном затрагивают форматирование и стили
 отображения записи, поэтому на нём мы останавливаться не будем.
+Заинтересованные читатели могут обратиться к файлу
+`/wwwroot/blog/protected/views/post/view.php`.
 
 
-Изменение действия `list`
+Изменение действия `index`
 -------------------------
 
-Как и в действии `show`, мы будем изменять действие `list` в двух местах:
-метод `actionList()` контроллера `PostController` и отображение
-`/wwwroot/blog/protected/views/post/list.php`. Требуется добавить поддержку
+Как и в действии `view`, мы будем изменять действие `index` в двух местах:
+метод `actionIndex()` контроллера `PostController` и отображение
+`/wwwroot/blog/protected/views/post/index.php`. Требуется добавить поддержку
 отображения записей с определённым тегом.
 
-Ниже приведён изменённый метод `actionList()` контроллера `PostController`:
+Ниже приведён изменённый метод `actionIndex()` контроллера `PostController`:
 
 ~~~
 [php]
-public function actionList()
+public function actionIndex()
 {
-	$criteria=new CDbCriteria;
-	$criteria->condition='status='.Post::STATUS_PUBLISHED;
-	$criteria->order='createTime DESC';
+	$criteria=new CDbCriteria(array(
+		'condition'=>'status='.Post::STATUS_PUBLISHED,
+		'order'=>'update_time DESC',
+		'with'=>'commentCount',
+	));
+	if(isset($_GET['tag']))
+		$criteria->addSearchCondition('tags',$_GET['tag']);
 
-	$withOption=array('author');
-	if(!empty($_GET['tag']))
-	{
-		$withOption['tagFilter']['params'][':tag']=$_GET['tag'];
-		$postCount=Post::model()->with($withOption)->count($criteria);
-	}
-	else
-		$postCount=Post::model()->count($criteria);
+	$dataProvider=new CActiveDataProvider('Post', array(
+		'pagination'=>array(
+			'pageSize'=>Yii::app()->params['postsPerPage'],
+		),
+		'criteria'=>$criteria,
+	));
 
-	$pages=new CPagination($postCount);
-	$pages->applyLimit($criteria);
-
-	$posts=Post::model()->with($withOption)->findAll($criteria);
-
-	$this->render('list',array(
-		'posts'=>$posts,
-		'pages'=>$pages,
+	$this->render('index',array(
+		'dataProvider'=>$dataProvider,
 	));
 }
 ~~~
 
-Мы создаём критерий запроса, ограничивающий отображаемые записи опубликованными и
-сортирующий их в обратном порядке в соответствии с временем их создания. После
-этого мы подсчитываем общее число записей, подходящих под критерий. Это количество
-используется в компоненте постраничной разбивки для определения общего количества
-страниц, необходимых для отображения записей. Далее мы получаем из БД сами данные
-и передаём их в отображение `list`.
+Сначала мы создаём критерий запроса для получения списка записей. Критерий
+включает ограничения на получение только опубликованных записей и сортировку
+по времени их обновления в обратном порядке. Так как при отображении записи
+в списке мы также хотим показывать количество комментариев, в критерии указывается
+необходимость получения отношения `commentCount`, описанного в `Post::relations()`.
 
-Стоит отметить, что при заданном GET параметре `tag` мы делаем запрос используя
-`tagFilter` и передавая ему значение параметра. Включение `tagFilter` в запрос
-позволит нам сделать единственный JOIN запрос для получения записей с определённым
-тегом. Без этого Yii разобьёт запрос на два (для достижения большей эффективности)
-и вернёт неправильный результат.
+В том случае, когда пользователь хочет получить записи с определённым тегом,
+мы добавляем в критерий условие поиска тега.
 
-Отображению `list` передаются два параметра: `$posts` и `$pages`. Первый является
-списком записей, которые необходимо отобразить. Второй содержит информацию для
-постраничной разбивки (такую, как общее кол-во страниц или текущая страница).
-Отображение `list` содержит [виджет](/doc/guide/ru/basics.view#widget) постраничной
-разметки, который автоматически делает разбивку на несколько страниц, если
-записей достаточно много.
+Используя критерий мы создаём провайдер данных, нужный для трёх целей. Во-первых,
+он занимается постраничной разбивкой данных. Мы задаём количество результатов на
+страницу в параметре `postsPerPage`. Во-вторых, данные сортируются в соответствии
+с запросом пользователя. И, наконец, провайдер отдаёт разбитые на страницы
+отсортированные данные виджетам или отображению.
 
-<div class="revision">$Id: post.display.txt 1200 2009-07-04 17:46:06Z qiang.xue $</div>
+После того, как мы закончили с `actionIndex()`, мы изменяем отображение `index`
+как показано ниже. Будем отображать заголовок `h1` в том случае, когда пользователь
+запрашивает записи с определённым тегом.
+
+~~~
+[php]
+<?php if(!empty($_GET['tag'])): ?>
+<h1>Записи с тегом <i><?php echo CHtml::encode($_GET['tag']); ?></i></h1>
+<?php endif; ?>
+
+<?php $this->widget('zii.widgets.CListView', array(
+	'dataProvider'=>$dataProvider,
+	'itemView'=>'_view',
+	'template'=>"{items}\n{pager}",
+)); ?>
+~~~
+
+Стоит отметить, что для построения списка записей мы используем [CListView].
+Этот виджет использует отображение для построения каждой отдельной записи.
+Мы указываем отображение `_view`, то есть файл
+`/wwwroot/blog/protected/views/post/_view.php`, в котором мы можем
+обращаться к записи через переменную `$data`.
+
+<div class="revision">$Id: post.display.txt 1810 2010-02-18 00:24:54Z qiang.xue $</div>

@@ -1,10 +1,10 @@
-Leistungsoptimierung
-====================
+Performance-Optimierung
+=======================
 
-Die Leistungsfähigkeit einer Webanwendung wird von vielen Faktoren
+Die Performance (oder Leistungsfähigkeit) einer Webanwendung wird von vielen Faktoren
 beeinflusst. Datenbankzugriffe, Operationen im Dateisystem und
 Netzwerkbandbreiten sind alles potentielle Einflussfaktoren. Yii versucht in
-jeder Hinsicht, die framework-bedingten Leistungseinbußen so gering wie
+jeder Hinsicht, die framework-bedingten Performanceeinbußen so gering wie
 möglich zu halten. Trotzdem gibt es bei einer Anwendung immer noch viele 
 Stellen, an denen Verbesserungen im Sinne einer erhöhten
 Leistungsfähigkeit vorgenommen werden können.
@@ -13,7 +13,7 @@ Leistungsfähigkeit vorgenommen werden können.
 Aktivieren der APC-Erweiterung
 ----------------------------
 
-Der wahrscheinlich einfachste Weg, um die gesamte Leistungsfähigkeit einer Anwendung zu
+Der wahrscheinlich einfachste Weg, um die Gesamtperformance einer Anwendung zu
 verbessern, ist die Aktivierung der
 [APC-Erweiterung](http://www.php.net/manual/de/book.apc.php) in PHP. Die
 Erweiterung cached und optimiert PHPs Zwischencode (engl.: intermediate code) 
@@ -23,13 +23,13 @@ Auswerten eines PHP-Scripts nötig wäre.
 Ausschalten des Debug-Modus
 ---------------------------
 
-Eine andere einfache Methode zur Verbesserung der Leistungsfähigkeit, ist das
-Ausschalten des Debug-Modus. Eine Yii-Anwendung läuft im Debug-Modus, wenn die
+Eine andere einfache Methode zur Verbesserung der Performance, besteht darin,
+den Debug-Modus auszuschalten. Eine Yii-Anwendung läuft im Debug-Modus, wenn die
 Konstante `YII_DEBUG` als true definiert ist. Der Debug-Modus ist in der
-Entwicklungsphase sehr nützlich, beeinflusst aber die Leistungsfähigkeit, da
+Entwicklungsphase sehr nützlich, beeinflusst aber die Performance, da
 einige Komponenten in diesem Modus zusätzlichen Aufwand verursachen. So loggt
-zum Beispiel der Nachrichtenlogger zusätzliche Debug-Informationen mit jeder
-geloggten Nachricht.
+zum Beispiel der Logger zusätzliche Debug-Informationen mit jeder
+geloggten Meldung.
 
 Verwenden von `yiilite.php`
 ---------------------------
@@ -46,7 +46,7 @@ minimiert also die Anzahl einzubindender Dateien und verhindert die Ausführung
 der trace-Anweisungen.
 
 Beachten Sie, dass der Einsatz von `yiilite.php` ohne APC die
-Leistungsfähigkeit sogar verringern kann, da `yiilite.php` einige Klassen
+Performance sogar verringern kann, da `yiilite.php` einige Klassen
 enthält, die nicht notwendigerweise bei jedem Request verwendet werden und
 somit zusätzliche Zeit für deren Auswertung benötigt wird. In einigen
 Serverkonfiguration wurde außerdem beobachtet, dass `yiilite.php` selbst mit
@@ -59,7 +59,7 @@ Einsatz von Cache-Techniken
 ---------------------------
 
 Wie im Kapitel [Caching](/doc/guide/caching.overview) beschrieben, bietet
-Yii verschiedene Cache-Lösungen, die die Leistungsfähigkeit einer Anwendung
+Yii verschiedene Caching-Lösungen, die die Anwendungsperformance
 bedeutend verbessern können. Falls das Erzeugen bestimmter Daten sehr viel
 Zeit in Anspruch nimmt, können wir diese [Daten cachen](/doc/guide/caching.data) um
 sie nicht jedesmal neu erzeugen zu müssen. Falls ein Bereich einer Seite
@@ -76,7 +76,7 @@ Eigenschaft [CDbConnection::schemaCachingDuration] einen Wert größer als 0
 konfigurieren.
 
 Neben den Cache-Techniken auf Anwendungsebene, können wir auch Cache-Lösungen
-auf Serverebene einsetzen, um die Leistungsfähigkeit einer Applikation weiter
+auf Serverebene einsetzen, um die Performance einer Applikation weiter
 zu erhöhen. Tatsächlich fällt das beschriebene Cachen mit
 [APC](/doc/guide/topics.performance#enabling-apc-extension) in diese
 Kategorie. Es gibt auch andere Servertechniken, wie den [Zend
@@ -104,7 +104,7 @@ DBMS wiederholt mit der Auswertung zu beauftragen.
 
 Übertreiben Sie den Einsatz von [ActiveRecords](/doc/guide/database.ar) nicht. 
 Obwohl [ActiveRecords](/doc/guide/database.ar) sich gut für die
-Datenmodellierung in OOP eignen, verringern sie auch die Leistungsfähigkeit.
+Datenmodellierung in OOP eignen, verringern sie auch die Performance.
 Dies liegt daran, dass für jede Zeile eines Abfrageergebnisses ein oder
 mehrere Objekte erzeugt werden müssen. Für Datenintensive Anwendungen könnte
 also der Einsatz von [DAO](/doc/guide/database.dao) oder der Datenbank-APIs

@@ -1,6 +1,7 @@
 * Początek
 	- [Przegląd](index)
-    - [Nowe funkcjonalności](changes)	
+    - [Nowe funkcjonalności](changes)
+	- [Upgrade z 1.0 do 1.1](upgrade)
     - [Czym jest Yii](quickstart.what-is-yii)
     - [Instalacja](quickstart.installation)
     - [Pierwsza aplikacja w Yii](quickstart.first-app)
@@ -24,6 +25,7 @@
     - [Tworzenie akcji](form.action)
     - [Tworzenie formularza](form.view)
     - [Odczytywanie tablicowych danych wejściowych](form.table)
+    - [Uzywanie generatora formularzy](form.builder)
 
 * Praca z bazami danych
     - [Przegląd](database.overview)
@@ -63,4 +65,4 @@
     - [Bezpieczeństwo](topics.security)
     - [Zwiększanie wydajności](topics.performance)
 
-<div class="revision">$Id: toc.txt 1409 2009-09-13 19:21:34Z qiang.xue $</div>
+<div class="revision">$Id: toc.txt 1603 2009-12-18 19:39:18Z qiang.xue $</div>

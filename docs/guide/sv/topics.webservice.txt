@@ -2,11 +2,11 @@ Web Service
 ===========
 
 [Webbtjänster](http://en.wikipedia.org/wiki/Web_service) (Web Service) är ett 
-mjukvarusystem konstruerat för att ge stöd för sammankörningsbar maskin-till-
-maskin interaktion över ett nätverk. I en webbapplikations kontext refererar det 
-vanligen till en uppsättning API:er som kan kommas åt över internet och 
-exekveras på ett fjärrsystem som erbjuder den begärda tjänsten. Till exempel, en 
-[Flex](http://www.adobe.com/products/flex/)-baserad klient kan anropa en 
+mjukvarusystem konstruerat för att ge stöd för driftkompatibel (interoperable)
+maskin-till-maskin-interaktion över ett nätverk. I en webbapplikations kontext 
+refererar det vanligen till en uppsättning API:er som kan kommas åt över internet 
+och exekveras på ett fjärrsystem som erbjuder den begärda tjänsten. Till exempel, 
+en [Flex](http://www.adobe.com/products/flex/)-baserad klient kan anropa en 
 funktion implementerad på serversidan av en PHP-based webbapplikation. 
 Webbtjänster förlitar sig på [SOAP](http://en.wikipedia.org/wiki/SOAP) som sitt 
 grundläggande lager i kommunikationsprotokollstacken.
@@ -29,7 +29,7 @@ Definiera Service Provider
 Som nämnts ovan, en service provider är en klass som definierar metoderna som 
 kan fjärrinvokeras. Yii förlitar sig på  [doc 
 comment](http://java.sun.com/j2se/javadoc/writingdoccomments/) och [class 
-reflection](http://www.php.net/manual/en/language.oop5.reflection.php) för att 
+reflection](http://php.net/manual/en/book.reflection.php) för att 
 identifiera vilka metoder som kan fjärrinvokeras och vilka deras parametrar och 
 returvärden är.
 
@@ -222,4 +222,4 @@ efterfrågas via [CWebService::methodName]. Den kan returnera false
 om fjärrmetoden inte invokeras av någon anledning (t.ex. icke-auktoriserad 
 åtkomst).
 
-<div class="revision">$Id: topics.webservice.txt 1308 2009-08-07 23:43:11Z qiang.xue $</div>
+<div class="revision">$Id: topics.webservice.txt 1808 2010-02-17 21:49:42Z qiang.xue $</div>

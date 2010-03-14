@@ -6,13 +6,10 @@ einer einzelnen Tabelle auszulesen. In diesem Abschnitt beschreiben wir,
 wie wir mit AR mehrere relationale Datentabellen zusammenführen,
 um verbundene Datensätze zurückzuerhalten.
 
-Um mit relationalen AR zu arbeiten, müssen zwischen den zu
-verbindenden Tabellen eindeutige Fremdschlüsselbeziehungen definiert worden sein. 
-AR stützt sich auf die Metadaten dieser Beziehungen, um zu ermitteln, 
-wie die Tabellen verbunden werden sollen.
-
-> Note|Hinweis: Ab Version 1.0.1 können Sie relationale AR auch verwenden,
->wenn Sie keine Fremdschlüssel-Constraints in ihrer Datenbank definiert haben.
+Für die Verwendung von relationalen AR wird empfohlen, korrekte
+Fremdschlüssel-Beziehungen in der Datenbank zu definieren (enl.: Constraints).
+Dadurch wird die Konsistenz und Integrität der Daten in der Datenbank
+gewährleistet.
 
 Der Einfachheit halber, verwenden wir zur Veranschaulichung der Beispiel in
 diesem Abschnitt das folgende ER-Diagramm (engl.: entity relationship,
@@ -24,28 +21,7 @@ Gegenstands-Beziehungs-Modell).
 > Fremdschlüssel-Constraints.
 >
 > SQLite unterstützt keine Fremschlüssel-Constraints, aber Sie können beim Erstellen
-> von Tabellen trotzdem Constraints festlegen. AR kann sich diese Angaben zunutze 
-> machen, um relationale Abfragen in richtiger Weise zu unterstützen.
->
-> MySQL unterstützt Fremdschlüssel-Constraints mit der InnoDB-Engine, aber nicht mit 
-> MyISAM. Es wird deshalb empfohlen, dass Sie InnoDB für MySQL-Datenbanken benutzen.
-> Falls Sie MyISAM verwenden, können Sie relationale Abfragen mit AR mit folgendem Trick 
-> durchführen:
-> ~~~
-> [sql]
-> CREATE TABLE foo
-> (
->   id INTEGER NOT NULL PRIMARY KEY
-> );
-> CREATE TABLE bar
-> (
->   id INTEGER NOT NULL PRIMARY KEY,
->   foo_id INTEGER
->      COMMENT 'CONSTRAINT FOREIGN KEY (foo_id) REFERENCES foo(id)'
-> );
-> ~~~
-> Hier verwenden wir das Schlüsselwort `COMMENT`, um die Fremdschlüssel-Constraints
-> zu beschreiben. AR kann diese Informationen auslesen, um die Beziehung zu erkennen.
+> von Tabellen trotzdem Constraints angeben. 
 
 Festlegen der Beziehungen
 -------------------------
@@ -106,7 +82,8 @@ class Post extends CActiveRecord
 	{
 		return array(
 			'author'=>array(self::BELONGS_TO, 'User', 'author_id'),
-			'categories'=>array(self::MANY_MANY, 'Category', 'tbl_post_category(post_id, category_id)'),
+			'categories'=>array(self::MANY_MANY, 'Category', 
+					'tbl_post_category(post_id, category_id)'),
 		);
 	}
 }
@@ -258,7 +235,7 @@ eindeutig gekennzeichnet werden.
    sollten eindeutig gekennzeichnet werden.
 
    - `params`: Die Parameter, die an die erzeugte SQL Abfrage gebunden werden sollen.
-Diese sollten als ein Array von Namen-Werte Paaren angegeben werden. Diese Option ist
+Diese sollten als ein Array von Name-Wert-Paaren angegeben werden. Diese Option ist
 seit Version 1.0.3 verfügbar.
 
    - `on`: Die `ON` Klausel. Die hier angegebene Bedingung wird an die JOIN Abfrage
@@ -343,11 +320,10 @@ Wenn ein Spaltenname in zwei oder mehr Tabellen auftaucht, die miteinander
 verbunden werden, so muss dieser eindeutig angesprochen werden. Dies
 geschieht, indem man dem Spaltennamen den Tabellenalias voranstellt.
 
-Bei relationalen Abfragen hat die Haupttabelle ihren eigenen Namen als Alias.
-Alle relationalen Tabellen verwenden standardmäßig den Namen der
-entsprechenden Beziehung. Im folgenden Beispiel stehen die Aliase `Post` und 
-`comments` jeweils für `Post` und `Comment` (falls der Tabellenname für `Post`
-auch `Post` lautet):
+Bei relationalen Abfragen hat die Haupttabelle den festen Alias `t`, während
+alle relationalen Tabellen standardmäßig den Namen der
+entsprechenden Beziehung als Alias verwenden. Im folgenden Beispiel stehen die
+Aliase `t` und `comments` für die Tabellen `Post` und `Comment`:
 
 ~~~
 [php]
@@ -364,14 +340,15 @@ folgt ansprechen:
 ~~~
 [php]
 $posts=Post::model()->with('comments')->findAll(array(
-	'order'=>'Post.create_time, comments.create_time'
+	'order'=>'t.create_time, comments.create_time'
 ));
 ~~~
 
 > Note|Hinweis: Die Art und Weise, wie Spaltennamen eindeutig angesprochen
 > werden, hat sich seit Version 1.1.0 geändert. In früheren 1.0.x-Versionen hat
 > Yii automatisch ein Alias für jede verknüpfte Tabelle erstellt und man
-> musste die Präfix `??.` als Platzhalter für diesen Alias verwenden.
+> musste die Präfix `??.` als Platzhalter für diesen Alias verwenden. Der
+> Alias der Haupttabelle entsprach deren Namen.
 
 
 Dynamische Optionen für relationale Abfragen 
@@ -546,7 +523,7 @@ Kommentare, würde sein `commentCount` diesen Wert erhalten. Vorgabewert ist 0.
    - `condition`: Die `WHERE`-Bedingung. Standardmäßig leer.
 
    - `params`: Die Parameter, die an die erzeugte SQL-Anweisung gebunden
-werden sollen. Sie sollten als Array aus Namen-/Wert-Paare angegeben werden.
+werden sollen. Sie sollten als Array aus Name-Wert-Paare angegeben werden.
 
    - `order`: Die `ORDER BY`-Anweisung. Standardmäßig leer.
 
@@ -555,17 +532,17 @@ werden sollen. Sie sollten als Array aus Namen-/Wert-Paare angegeben werden.
    - `having`: Die `HAVING`-Anweisung. Standarmäßig leer.
 
 
-Relationale Abfragen mit benannten Bereichen 
---------------------------------------------
+Relationale Abfragen mit Scopes
+-------------------------------
 
-> Note|Hinweis: Benannte Bereiche werden seit Version 1.0.5 unterstützt.
+> Note|Hinweis: Scopes werden seit Version 1.0.5 unterstützt.
 
-Auch relationale Abfragen können mit [benannten
-Bereichen](/doc/guide/database.ar#named-scopes) kombiniert werden. Dabei
-gibt es zwei Anwendungsfälle. Im ersten Fall werden benannte Bereiche auf
+Auch relationale Abfragen können mit [Scopes](/doc/guide/database.ar#named-scopes) 
+kombiniert werden. Dabei
+gibt es zwei Anwendungsfälle. Im ersten Fall werden Scopes auf
 das Hauptmodel, im zweiten auf die verbundenen Objekte angewendet.
 
-Der folgende Code zeigt, wie benannte Bereiche mit dem Hauptmodel
+Der folgende Code zeigt, wie Scopes mit dem Hauptmodel
 verwendet werden:
 
 ~~~
@@ -574,11 +551,11 @@ $posts=Post::model()->veroeffentlicht()->kuerzlich()->with('comments')->findAll(
 ~~~
 
 Dies unterscheidet sich kaum vom Vorgehen bei nicht-relationalen Abfragen. Der einzige
-Unterschied besteht im zusätzlichen Aufruf von `with()` nach der Kette
-benannter Bereiche. Diese Abfrage würde also die kürzlich veröffentlichten
+Unterschied besteht im zusätzlichen Aufruf von `with()` nach der Kette von
+Scopes. Diese Abfrage würde also die kürzlich veröffentlichten
 Beiträge zusammen mit ihren Kommentaren zurückliefern.
 
-Und der folgende Code zeigt die Anwendung benannter Bereiche auf verbundene
+Und der folgende Code zeigt die Anwendung von Scopes auf verbundene
 Models:
 
 ~~~
@@ -588,12 +565,11 @@ $posts=Post::model()->with('comments:kuerzlich:freigegeben')->findAll();
 
 Diese Abfrage liefert alle Beiträge zusammen mit ihren freigegebenen
 Kommentaren zurück. Beachten Sie, dass `comments` sich auf den Namen der
-Beziehung bezieht, während `kuerzlich` und `freigegeben` zwei benannte
-Bereiche sind, die in der Modelklasse `Comment` deklariert sind. Der
-Beziehungsname und die benannten Bereiche sollten durch Doppelpunkte
-getrennt werden.
+Beziehung bezieht, während `kuerzlich` und `freigegeben` zwei Scopes
+sind, die in der Modelklasse `Comment` deklariert sind. Beziehungsname und
+Scopes sollten durch Doppelpunkte getrennt werden.
 
-Benannte Bereiche können auch in den in [CActiveRecord::relations()]
+Scopes können auch in den in [CActiveRecord::relations()]
 festgelegten `with`-Optionen einer Beziehung angegeben werden. Würden wir im
 folgenden Beispiel auf `$user->posts` zugreifen, würden alle
 *freigegebenen* Kommentare des Beitrags zurückgeliefert werden.
@@ -612,8 +588,8 @@ class User extends CActiveRecord
 }
 ~~~
 
-> Note|Hinweis: Bei relationalen Abfragen können nur benannte Bereiche
+> Note|Hinweis: Bei relationalen Abfragen können nur Scopes
 verwendet werden, die in [CActiveRecord::scopes] definiert wurden. Daher
 können diese hier auch nicht parametrisiert werden.
 
-<div class="revision">$Id: database.arr.txt 1630 2009-12-29 18:47:09Z qiang.xue $</div>
+<div class="revision">$Id: database.arr.txt 1683 2010-01-08 05:08:29Z qiang.xue $</div>

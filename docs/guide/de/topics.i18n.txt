@@ -11,7 +11,7 @@ aus der ganzen Welt zu erwarten sind.
 Yii unterstützt I18N in verschiedenen Belangen:
 
    - Es enthält Lokaliesierungsdaten für jede mögliche Sprache und Variante.
-   - Es enthält Dienste zur Nachrichten- und Dateiübersetzung.
+   - Es enthält Features zum Übersetzen von Textmeldungen und Dateien.
    - Es beherrscht landesspezifische Datums- und Zeitformatierung.
    - Es beherrscht landesspezifische Zahlenformatierung.
 
@@ -71,8 +71,8 @@ beziehen.
 -----------
 
 Am häufigsten wird wahrscheinlich das Übersetzungsfeature von I18N benötigt,
-was die Übersetzung von Nachrichtentexten und Views beinhaltet. Bei ersterem
-werden einzelne Textnachrichten in die gewünschte Sprache übersetzt,
+was die Übersetzung von Textmeldungen und Views beinhaltet. Bei ersterem
+werden einzelne Textteile in die gewünschte Sprache übersetzt,
 bei letzterem ganze Dateien.
 
 Eine Übersetzungsanfrage besteht aus dem zu übersetzenden Objekt, der
@@ -82,22 +82,22 @@ der Anwendung|CApplication::sourceLanguage] gesetzt, die Zielsprache auf die
 momentane [Sprache der Anwendung|CApplication::language]. Falls Quell- und
 Zielsprache gleich sind, findet keine Übersetzung statt.
 
-### Übersetzen von Textnachrichten
+### Übersetzen von Textmeldungen
 
-Textnachrichten werden durch Aufruf von [Yii::t()|YiiBase::t] übersetzt. Die
-Methode übersetzt die übergebene Nachricht von der
+Textmeldungen werden durch Aufruf von [Yii::t()|YiiBase::t] übersetzt. Die
+Methode übersetzt den übergebenen Text von der
 [Quellsprache|CApplication::sourceLanguage] in die
 [Zielsprache|CApplication::language].
 
-Beim Übersetzen einer Textnachricht muss deren Kategorie angegeben werden, da
-Nachrichten je nach Kategorie (bzw. Kontext) unterschiedlich übersetzt werden
-könnten. Die Kategorie `yii` bleibt dabei Nachrichten des Yii-Frameworks
+Beim Übersetzen einer Meldung muss deren Kategorie angegeben werden, da
+Texte je nach Kategorie (bzw. Kontext) unterschiedlich übersetzt werden
+könnten. Die Kategorie `yii` bleibt dabei Meldungen des Yii-Frameworks
 vorbehalten.
 
-Textnachrichten können auch Platzhalter für Parameter enthalten, die beim Aufruf
+Textmeldungen können auch Platzhalter für Parameter enthalten, die beim Aufruf
 von [Yii::t()|YiiBase::t] mit den tatsächlichen Parameterwerten ersetzt
-werden. Bei der folgenden Übersetzungsanfrage, würde der Platzhalter `{alias}` in
-der Nachricht durch den tatsächlichen Wert für alias ersetzt.
+werden. Bei der folgenden Übersetzungsanfrage, würde der Platzhalter `{alias}` im
+Text durch den tatsächlichen Wert für alias ersetzt.
 
 ~~~
 [php]
@@ -105,80 +105,79 @@ Yii::t('yii', 'Pfad-Alias "{alias}" wurde geändert.',
 	array('{alias}'=>$alias))
 ~~~
 
-> Note|Hinweis: Zu übersetzende Nachrichten müssen statische Strings sein. 
-Sie dürfen keine Variablen enthalten, die den Inhalt der Nachricht verändern
-würden (z.B. `"Ungültiger Inhalt einer {$nachricht}."`) Benutzen Sie
-Platzhalter für Parameter, wenn eine Nachricht je nach Parameter variieren
+> Note|Hinweis: Zu übersetzende Textmeldungen müssen statische Strings sein. 
+Sie dürfen keine Variablen enthalten, die den Inhalt des Textes verändern
+würden (z.B. `"Ungültiger Inhalt einer {$meldung}."`) Benutzen Sie
+Platzhalter für Parameter, wenn eine Textmeldung je nach Parameter variieren
 soll.
 
-Übersetzte Nachrichten werden in einem Magazin gespeichert, das wir als 
-*Nachrichtenquelle* (engl.: message source) bezeichnen. Eine Nachrichtenquelle wird
+Übersetzte Texte werden in einem Magazin gespeichert, das wir als 
+*Textquelle* (engl.: message source) bezeichnen. Eine Textquelle wird
 von einer Instanz vom Typ [CMessageSource] oder deren Kindklasse dargestellt.
 Beim Aufruf von [Yii::t()|YiiBase::t] sucht die Routine in der
-Nachrichtenquelle nach der Textnachricht und liefert die übersetzte 
+Textquelle nach der Textmeldung und liefert die übersetzte 
 Version zurück, falls gefunden.
 
-Yii stellt die folgenden Arten von Nachrichtenquellen zur Auswahl. Sie können
-[CMessageSource] auch erweitern, um ihren eigenen Typ einer Nachrichtenquelle
+Yii stellt die folgenden Arten von Textquellen zur Auswahl. Sie können
+[CMessageSource] auch erweitern, um ihren eigenen Typ einer Textquelle 
 zu erstellen.
 
-   - [CPhpMessageSource]: Die übersetzten Textnachrichten werden als
+   - [CPhpMessageSource]: Die übersetzten Texte werden als
 Schlüssel-Wert-Paare in einem PHP-Array gespeichert. Die ursprüngliche
-Nachricht wird als Schlüssel verwendet, die Übersetzung als Wert. Jedes Array
-steht für eine bestimmte Nachrichtenkategorie und wird unter dem Namen dieser
+Meldung wird als Schlüssel verwendet, die Übersetzung als Wert. Jedes Array
+steht für eine bestimmte Kategorie und wird unter dem Namen dieser
 Kategorie in jeweils einem PHP-Script gespeichert. Sämtliche 
 PHP-Dateien mit Übersetzungen für eine Sprache werden in einem Verzeichnis 
 mit dem Namen der Locale-ID abgelegt. Alle diese Verzeichnisse liegen wiederum
 unterhalb eines Basisverzeichnisses, dessen Ort mit
 [basePath|CPhpMessageSource::basePath] bestimmt wird.
 
-   - [CGettextMessageSource]: Die übersetzten Nachrichten werden als
+   - [CGettextMessageSource]: Die übersetzten Texte werden als
 [GNU Gettext](http://www.gnu.org/software/gettext/)-Dateien abgelegt.
 
-   - [CDbMessageSource]: Die übersetzten Nachrichten werden in
+   - [CDbMessageSource]: Die übersetzten Texte werden in
 Datenbanktabellen gespeichert. Für weitere Details ziehen Sie bitte die
 API-Dokumentation für [CDbMessageSource] zu rate.
 
-Eine Nachrichtenquelle wird als
+Eine Textquelle wird als
 [Anwendungskomponente](/doc/guide/basics.application#application-component)
 geladen. Yii belegt bereits eine Anwendungskomponente namens
-[messages|CApplication::messages] vor, um die Textnachrichten einer Anwendung zu
-speichern. Standardmäßig ist diese Nachrichtenquelle eine [CPhpMessageSource]
+[messages|CApplication::messages] vor, um die Textmeldungen einer Anwendung zu
+speichern. Standardmäßig ist diese Textquelle eine [CPhpMessageSource]
 mit dem Basisverzeichnis `protected/messages`.
 
-Zusammenfassend sind folgende Schritte nötig, um Textnachrichten übersetzen zu
+Zusammenfassend sind folgende Schritte nötig, um Textmeldungen übersetzen zu
 können:
 
    1. Rufen Sie [Yii::t()|YiiBase::t] an den entsprechenden Stellen auf
 
    2. Erstellen Sie PHP-Dateien mit Übersetzungen gemäß dem Schema
 `protected/messages/LocaleID/KategorieName.php`. Jede Datei liefert einfach
-ein Array mit übersetzten Nachrichten zurück. Beachten Sie, dass wir hier davon
+ein Array mit übersetzten Texten zurück. Beachten Sie, dass wir hier davon
 ausgehen, dass Sie die vorgegebene [CPhpMessageSource] zur Speicherung der
-übersetzten Nachrichten verwenden.
+übersetzten Texte verwenden.
 
    3. Konfigurieren Sie [CApplication::sourceLanguage] und [CApplication::language].
 
-> Tip|Tipp: Wenn Sie [CPhpMessageSource] als Nachrichtenquelle einsetzen, 
+> Tip|Tipp: Wenn Sie [CPhpMessageSource] als Textquelle einsetzen, 
 können Sie den `yiic`-Befehl zum Verwalten der Übersetzungen verwenden. Mit 
-dem `message`-Kommando können Sie die zu übersetzenden Nachrichten aus
+dem `message`-Kommando können Sie die zu übersetzenden Meldungen aus
 ausgewählten Quelldateien extrahieren und bei Bedarf mit bereits vorhandenen 
 Übersetzungen zusammenführen.
 
-Seit Version 1.0.10 können Nachrichten einer Erweiterung (z.B. einem Widget
+Seit Version 1.0.10 können Textmeldungen einer Erweiterung (z.B. einem Widget
 oder einem Modul) gesondert behandelt werden, sofern
-[CPhpMessageSource] zum Verwalten verwendet wird. Falls eine Nachricht zu
-einer Erweiterung `Xyz` gehört, kann die Nachrichtenkategorie im Format
-`Xyz.kategorieName` angegeben werden. Die entsprechende Nachrichtendatei wird
+[CPhpMessageSource] zum Verwalten verwendet wird. Falls eine Meldung zu
+einer Erweiterung `Xyz` gehört, kann die Kategorie im Format
+`Xyz.kategorieName` angegeben werden. Die entsprechende Datei wird
 dann in `BasisPfad/messages/SprachID/kategorieName.php` gesucht, wobei
 `BasisPfad` dem Verzeichnis entspricht, in dem die Klassendatei der
 Erweiterung liegt. Wenn man `Yii::t()` zum Übersetzen von
-Erweiterungsnachrichten verwendet,
-sollte man also stattdessen dieses Format verwenden:
+Erweiterungstexten verwendet, sollte man also stattdessen dieses Format verwenden:
 
 ~~~
 [php]
-Yii::t('Xyz.kategorieName', 'Zu übersetzende Nachricht')
+Yii::t('Xyz.kategorieName', 'Zu übersetzender Text')
 ~~~
 
 Seit Version 1.0.2 unterstütz Yii das [Auswahlformat|CChoiceFormat] (engl.:
@@ -189,22 +188,22 @@ Wort in anderen Sprachen gar nicht (Chinesisch) oder nach komplexen Regeln
 (Russisch) in Abhängikeit von der Anzahl ändern kann. Das Auswahlformat löst
 dieses Problem auf einfache und dennoch wirksame Weise.
 
-Um das Auswahlformat zu verwenden, muss eine übersetzte Nachricht aus einer
-Folge von Ausdruck-Textnachricht-Paaren bestehen, die wie folgt durch `|` 
+Um das Auswahlformat zu verwenden, muss eine übersetzte Meldung aus einer
+Folge von Ausdruck-Textmeldungs-Paaren bestehen, die wie folgt durch `|` 
 getrennt werden:
 
 ~~~
 [php]
-'ausdr1#nachricht1|ausdr2#nachricht2|ausdr3#nachricht3'
+'ausdr1#text1|ausdr2#text2|ausdr3#text3'
 ~~~
 
 wobei `ausdrN` sich auf einen gültigen PHP-Ausdruck bezieht, der in einen
-boole'schen Wert resultiert und anzeigt, ob die entsprechende Textnachricht
-verwendet werden soll. Die erste Textnachricht, deren Ausdruck ein true
-liefert, wird zurückgegeben. Ein Ausdruck kann auch eine spezielle Variable
+boole'schen Wert resultiert und anzeigt, ob die entsprechende Textmeldung
+verwendet werden soll. Die erste Meldung, deren Ausdruck ein true
+liefert, wird verwendet. Ein Ausdruck kann auch eine spezielle Variable
 `n` (nicht `$n`!) verwenden, die den Zahlenwert enthält, der als erster
-Nachrichtenparameter übergeben wurde. Nehmen wir zum Beispiel an, die
-übersetzte Textnachricht sei
+Parameter übergeben wurde. Nehmen wir zum Beispiel an, die
+übersetzte Meldung sei
 
 ~~~
 [php]
@@ -212,11 +211,11 @@ Nachrichtenparameter übergeben wurde. Nehmen wir zum Beispiel an, die
 ~~~
 
 und beim Aufruf von [Yii::t()|YiiBase::t] würden wir den Wert 2 im
-Parameter-Array der Nachricht übergeben, so würde letztlich `viele Bücher` 
-als übersetzte Nachricht zurückgegeben werden. 
+Parameter-Array der Meldung übergeben, so würde letztlich `viele Bücher` 
+als übersetzte Meldung verwendet werden. 
 
 Als Kurzschreibweise kann der Ausdruck `n==Zahl` auch als einzelne Zahl
-geschrieben werden. Die obige übersetzte Nachricht kann daher auch so
+geschrieben werden. Die obige übersetzte Meldung kann daher auch so
 geschrieben werden:
 
 ~~~

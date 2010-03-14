@@ -1,5 +1,5 @@
 Создание портлета последних комментариев
-================================
+========================================
 
 В этом разделе мы создаем последний портлет, который отображает список недавно
 опубликованных комментариев.
@@ -14,14 +14,16 @@
 
 ~~~
 [php]
-<?php
-class RecentComments extends Portlet
+Yii::import('zii.widgets.CPortlet');
+
+class RecentComments extends CPortlet
 {
 	public $title='Recent Comments';
+	public $maxComments=10;
 
 	public function getRecentComments()
 	{
-		return Comment::model()->findRecentComments();
+		return Comment::model()->findRecentComments($this->maxComments);
 	}
 
 	protected function renderContent()
@@ -31,38 +33,38 @@ class RecentComments extends Portlet
 }
 ~~~
 
-В коде выше мы вызываем метод `findRecentComments`, который определен в классе `Comment` следующим образом,
+В коде выше мы вызываем метод `findRecentComments`, который определен
+в классе `Comment` следующим образом,
 
 ~~~
 [php]
 class Comment extends CActiveRecord
 {
-	…
-
+	......
 	public function findRecentComments($limit=10)
 	{
-		$criteria=array(
-			'condition'=>'Comment.status='.self::STATUS_APPROVED,
-			'order'=>'Comment.createTime DESC',
+		return $this->with('post')->findAll(array(
+			'condition'=>'t.status='.self::STATUS_APPROVED,
+			'order'=>'t.create_time DESC',
 			'limit'=>$limit,
-		);
-		return $this->with('post')->findAll($criteria);
+		));
 	}
 }
 ~~~
 
 
 Создание представления `recentComments`
--------------------------
+--------------------------------------
 
-Представление `recentComments` сохранено в файле `/wwwroot/blog/protected/components/views/recentComments.php`.
-Представление просто отображает каждый комментарий, возвращенный методом `RecentComments::getRecentComments()`.
+Представление `recentComments` сохранено в файле
+`/wwwroot/blog/protected/components/views/recentComments.php`. Оно просто
+отображает каждый комментарий, возвращённый методом `RecentComments::getRecentComments()`.
 
 
 Использование портлета `RecentComments`
-------------------------------
+--------------------------------------
 
-Мы изменяем файл макета `/wwwroot/blog/protected/views/layouts/main.php`
+Мы изменяем файл макета `/wwwroot/blog/protected/views/layouts/column2.php`
 для включения нашего последнего портлета:
 
 ~~~
@@ -70,16 +72,18 @@ class Comment extends CActiveRecord
 …
 <div id="sidebar">
 
-<?php $this->widget('UserLogin',array('visible'=>Yii::app()->user->isGuest)); ?>
+	<?php if(!Yii::app()->user->isGuest) $this->widget('UserMenu'); ?>
 
-<?php $this->widget('UserMenu',array('visible'=>!Yii::app()->user->isGuest)); ?>
+	<?php $this->widget('TagCloud', array(
+		'maxTags'=>Yii::app()->params['tagCloudCount'],
+	)); ?>
 
-<?php $this->widget('TagCloud'); ?>
-
-<?php $this->widget('RecentComments'); ?>
+	<?php $this->widget('RecentComments', array(
+		'maxComments'=>Yii::app()->params['recentCommentCount'],
+	)); ?>
 
 </div>
 …
 ~~~
 
-<div class="revision">$Id: portlet.comments.txt 677 2009-02-14 04:27:48Z qiang.xue $</div>
+<div class="revision">$Id: portlet.comments.txt 1773 2010-02-01 18:39:49Z qiang.xue $</div>

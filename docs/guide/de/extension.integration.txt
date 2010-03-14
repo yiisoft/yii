@@ -1,5 +1,5 @@
-Andere Bibliotheken verwenden
-=============================
+Verwenden von Fremdbibliotheken 
+===============================
 
 Um Yii’s Funktionalität leicht durch Bibliotheken von Drittanbietern erweitern
 zu können, wurde bei der Planung viel Sorgfalt auf diesen Punkt verwendet. 
@@ -19,8 +19,7 @@ verwendet.
 
 Zunächst entpacken wir die Dateien des Zend-Framework in ein Verzeichnis
 unterhalb von `protected/vendors`, unter der Annahme, dass `protected` das
-[Stammverzeichnis unserer
-Anwendung](/doc/guide/basics.application#application-base-directory) ist.
+[Anwendungsverzeichnis](/doc/guide/basics.application#application-base-directory) ist.
 Überprüfen Sie, dass die Datei `protected/vendors/Zend/Search/Lucene.php`
 vorhanden ist.
 

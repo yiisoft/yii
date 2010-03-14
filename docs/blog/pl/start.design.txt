@@ -1,38 +1,45 @@
 Ogólna koncepcja
 ==============
 
-Biorąc pod uwagę analizę wymagań, zidentyfikowaliśmy potrzebę posiadania w naszej aplikacji 
-czterech tabel bazodanowych, przechowujących informacje o: użytkowniku `User`, wiadomościach `Post`, 
-komentarzach `Comment` oraz otagowaniu `Tag`:
+W oparciu o analizę wymagań, zdecydowaliśmy się używać następujące bazy danych w celu przechowywania trwałych danych dla naszej aplikacji blogowej:
 
- * Tabela `User` przechowuje informacje o użytkownikach, włączając w to ich nazwy oraz hasła.
- * Table `Post` przechowuje informacje o wiadomościach. Składa się ona przede wszystkim z następujących kolumn: 
+ * Tabela `tbl_user` przechowuje informacje o użytkownikach, włączając w to ich nazwy oraz hasła. 
+ * Tabela `tbl_post` przechowuje informacje o psotach w blogu. Składa się ona przede wszystkim z następujących kolumn: 
  	 - `title` (tytuł): wymagany, tytuł wiadomości;
 	 - `content` (zawartość): wymagana, zawartość treści wiadomości, zapisana w [formacie Markdown](http://daringfireball.net/projects/markdown/syntax);
 	 - `status` (status): wymagany, status wiadomości, który może przyjmować następujące wartości:
-		 * `draft` (wersja robocza): wiadomość znajduje się w wersji roboczej i nie jest widoczna publicznie;
-		 * `published` (opublikowana): wiadomość jest upubliczniona;
-		 * `archived` (zarchiwizowana): wiadomość jest przedawniona i nie jest widoczna publicznie. 
+		 * 1, oznacza iż wiadomość znajduje się w wersji roboczej i nie jest widoczna publicznie;
+		 * 2, oznacza iż wiadomość jest upubliczniona;
+		 * 3, oznacza iż wiadomość jest nieaktualna i nie jest widoczna na liście wiadomości (choć nadal dostępna)
 	 - `tags` (otagowanie): opcjonalne, lista rozdzielonych przecinkami słów, kategoryzujących wiadomość.
- * Tabela `Comment` przechowuje informacje o komentarzach do wiadomości. Każdy komentarz jest powiązany z postem i przede wszystkim zawiera następujące kolumny:
+ * Tabela `tbl_comment` przechowuje informacje o komentarzach do wiadomości. Każdy komentarz jest powiązany z wiadomością i przede wszystkim zawiera następujące kolumny:
 	 - `name` (nazwa): wymagana, nazwa autora komentarza;
 	 - `email` (email): wymagany, e-mail autora komentarza;
 	 - `website` (strona WWW): opcjonalna, strona WWW autora komentarza;
-	 - `content` (zawartość): wymagana, zawartość komentarza zapisanego przy pomocy [formatu Markdown](http://daringfireball.net/projects/markdown/syntax).
-	 
-	 - `status` (status): wymagany, status komentarza determinujący czy komentarz został zatwierdzony (wartość 1) lub nie (wartość 0).  
- * Tabela `Tag` (otagowanie) zawiera informację o tagach wiadomości. Każda wiadomość może posiadać wiele tagów, ale 
- także każdy tag może być przypisany do wielu wiadomości. Tabela `Tag` jest używana przede wszystkim przez portlet chmurki tagów, 
- który potrzebuje obliczyć jak często używany jest każdy z tagów.
+	 - `content` (zawartość): wymagana, zawartość komentarza zapisanego w formacie tekstowym.
+	 - `status` (status): wymagany, status komentarza determinujący czy komentarz został zatwierdzony (wartość 2) lub nie (wartość 1).
+ * Tabela `tbl_tag` zawiera informację o częstotliwości występowania tagów, która jest potrzebna do zaimplementowania chmury tagów. Tabela ta zawiera przede wszystkim następujące kolumny:
+ 	 - `name` (nazwa): wymagana, unikalna nazwa tagu;
+ 	 - `frequency` (częstotliwość): wymagana, ilość występowań tagu w wiadomościach;
+ * Tabela przeglądowa `tbl_lookup` zawiera ogólne, przeglądowe informacje. Jest to w istocie tabela pomiędzy wartościami liczbowymi a tekstami. Pierwsze są reprezentacją danych w naszym kodzie, drugie zaś odpowiadają tekstom prezentowanym użytkownikowi końcowemu. Na przykład, używamy wartości numerycznej 1 do reprezentowania wersji tymczasowej wiadomości a łańcucha znaków `Draft` w celu wyświetlenia tego statusu użytkownikowi końcowemu. Tabela ta zawiera przede wszystkim następujące kolumny:
+ 	 - `name` (nazwa): tekstowa reprezentacja pozycji danych, która zostanie wyświetlona użytkownikowi końcowemu; 
+ 	 - `code` (kod): wartość numeryczna, reprezentująca pozycję danych;
+ 	 - `type`: typ pozycji danych;
+ 	 - `position` (pozycja): względna kolejność pozycji danych pośród innych pozycji tego samego typu.	 
 
-Następujący diagram (ER) relacji encji (ang. entity-relation diagram), pokazuje strukturę oraz 
-relacje dla wyżej opisanych tabel. Zauważ, że relacja pomiędzy tabelami `Post` oraz `Tag` 
-to wiele-do-wielu. Tabela `PostTag` służy do rozbicia tej relacji na dwie relacje jeden-do-wielu.
+
+Następujący diagram (ER) relacji encji (ang. entity-relation diagram), pokazuje strukturę oraz relacje dla wyżej opisanych tabel.
 
 ![Diagram relacji encji dla bazy danych blogu](schema.png)
 
-Wszystkie wyrażenia SQL, odpowiadające powyższemu diagramowi ER, można znaleźć w [demonstracyjnym blogu](http://www.yiiframework.com/demos/blog/).
-Dla naszej instalacji Yii, można je odnaleźć w pliku `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql`.
+
+Wszystkie wyrażenia SQL, odpowiadające powyższemu diagramowi ER, można znaleźć w [demonstracyjnym blogu](http://www.yiiframework.com/demos/blog/). Dla naszej instalacji Yii, można je odnaleźć w pliku `/wwwroot/yii/demos/blog/protected/data/schema.sqlite.sql`.
+
+
+
+> Info|Informacja: Nazwaliśmy wszystkie nasze tabele używając małych liter. Kierowaliśmy się tym, ponieważ różne DBMS często w różny sposób traktują wielkość liter a chcieliśmy uniknąć takich kłopotów. 
+>
+> Poprzedziliśmy wszystkie cztery tabele prefiksem `tbl_`. Służy to dwóm celom. Po pierwsze, prefiks wprowadza przestrzeń nazw do tych tabel w przypadku, gdy muszą one współistnieć z innymi tabelami w tej samej bazie danych, co zdarza się często w współdzielonych środowiskach hostujących, gdzie pojedyncza tabela jest używana przez wiele aplikacji. Po drugie, używanie prefiksów nazw tabel redukuje prawdopodobieństwo posiadane nazwy tabeli, która jest jednocześnie zarezerwowanym słowem kluczowym w DBMS.
 
 
 Proces tworzenia naszej aplikacji podzieliliśmy na następujące kamienie milowe.
@@ -43,4 +50,4 @@ Proces tworzenia naszej aplikacji podzieliliśmy na następujące kamienie milow
  * 4-ty kamień milowy: implementacja portletów, zawierających menu użytkownika, logowanie, chmurkę tagów oraz najnowsze komentarze.
  * 5-ty kamień milowy: końcowe dopracowywanie aplikacji oraz jej uruchomienie.
 
-<div class="revision">$Id: start.design.txt 687 2009-02-17 02:57:56Z qiang.xue $</div>
+<div class="revision">$Id: start.design.txt 1677 2010-01-07 20:29:26Z qiang.xue $</div>

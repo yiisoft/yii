@@ -24,7 +24,7 @@ listę rozwijaną (ang. drop-down) wywołujemy metodę [CHtml::dropDownList()].
 > W przeciwnym razie będzie to wymagało pisania wszędzie pokracznego kodu JavaScript.
 
 W następnym przykładzie używamy klasy [CHtml] aby utworzyć formularz logowania. 
-Zakładamy, że zmienna `$user` reprezentuje instancje `LoginForm`.
+Zakładamy, że zmienna `$model` reprezentuje instancje `LoginForm`.
 
 ~~~
 [php]
@@ -68,4 +68,39 @@ formularz będzie podobny do następującego:
 
 ![Logowania wraz ze stroną błędów](login2.png)
 
-<div class="revision">$Id: form.view.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>
+Podczynając od wersji 1.1.1 został dostarczony nowy widżet [CActiveForm]
+aby ułatwić tworzenie formularzy. Widżet jest w stanie wspierać spójne 
+i nierozróżnialne sprawdzanie poprawności zarówno po stronie klienta jak i serwera.
+Przy użyciu [CActiveForm] powyższy kod widoku moze zostać przepisany na:
+
+~~~
+[php]
+<div class="form">
+<?php $form=$this->beginWidget('CActiveForm'); ?>
+
+	<?php echo $form->errorSummary($model); ?>
+
+	<div class="row">
+		<?php echo $form->label($model,'username'); ?>
+		<?php echo $form->textField($model,'username') ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'password'); ?>
+		<?php echo $form->passwordField($model,'password') ?>
+	</div>
+
+	<div class="row rememberMe">
+		<?php echo $form->checkBox($model,'rememberMe'); ?>
+		<?php echo $form->label($model,'rememberMe'); ?>
+	</div>
+
+	<div class="row submit">
+		<?php echo CHtml::submitButton('Login'); ?>
+	</div>
+
+<?php $this->endWidget(); ?>
+</div><!-- form -->
+~~~
+
+<div class="revision">$Id: form.view.txt 1751 2010-01-25 17:21:31Z qiang.xue $</div>

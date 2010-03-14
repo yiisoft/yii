@@ -1,24 +1,21 @@
-Upiększanie URLs
+Upiększanie URLi
 ================
 
-Adresy URL łączące różne strony naszego blogu wyglądają obecnie brzydko.
-Na przykład, URL dla strony wyświetlającej wiadomości wygląda następująco:
+Adresy URL łączące różne strony naszego blogu wyglądają obecnie brzydko. Na przykład, URL dla strony wyświetlającej wiadomości wygląda następująco:
 
 ~~~
-/index.php?r=post/show&id=1
+/index.php?r=post/show&id=1&title=A+Test+Post
 ~~~
 
-W części tej opiszemy jak upiększyć te adresy URL i uczynić je przyjaznymi dla SEO. 
-Naszym celem jest używanie następujących adresów URL w aplikacji:
+W części tej opiszemy jak upiększyć te adresy URL i uczynić je przyjaznymi dla SEO. Naszym celem jest używanie następujących adresów URL w aplikacji:
 
- * `/index.php/tag/yii`: prowadzi do strony pokazującej listę wiadomości zawierających tak `yii`;
- * `/index.php/posts`: prowadzi do strony pokazującej ostatnie wiadomości;
- * `/index.php/post/1`: prowadzi do strony pokazującej szczegóły wiadomości o ID równym 1;
- * `/index.php/post/update/1`: prowadzi do strony, która pozwala aktualizować wiadomość o ID 1;
+ 1. `/index.php/posts/yii`: prowadzi do strony pokazującej listę wiadomości z tagiem `yii`;
+ 2. `/index.php/post/12/A+Test+Post`: prowadzi do strony pokazującej szczegóły wiadomości o ID równym 2, którego tytułem jest `A Test Post`;
+ 3. `/index.php/post/update?id=1`: prowadzi do strony, która pozwala aktualizować wiadomość o ID 1;
 
-Aby osiągnąć nasz cel, zmodyfikujemy 
-[konfigurację aplikacji](http://www.yiiframework.com/doc/guide/basics.application#application-configuration) 
-w następujący sposób:
+Zauważ, że w drugim formacie adresu URL dodajemy tytuł wiadomości do adresu URL. Czynimy to aby uczynić adres URL przyjaznym SEO. Mówi się, że wyszukiwarki mogą również uwzględniać słowa znalezione w adresach URL podczas ich indeksowania.
+
+Aby osiągnąć nasz cel, zmodyfikujemy [konfigurację aplikacji](http://www.yiiframework.com/doc/guide/basics.application#application-configuration) w następujący sposób:
 
 ~~~
 [php]
@@ -29,32 +26,20 @@ return array(
 		'urlManager'=>array(
 			'urlFormat'=>'path',
 			'rules'=>array(
-				'tag/<tag>'=>'post/list',
-				'posts'=>'post/list',
-				'post/<id:\d+>'=>'post/show',
-				'post/update/<id:\d+>'=>'post/update',
+        		'post/<id:\d+>/<title:.*?>'=>'post/view',
+        		'posts/<tag:.*?>'=>'post/index',
+        		'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
 			),
 		),
 	),
 );
 ~~~
-W powyższym kodzie, skonfigurowaliśmy komponent [urlManager](http://www.yiiframework.com/doc/guide/topics.url) 
-poprzez ustawienie jego właściwości `urlFormat` jako `path` oraz dodanie zestawu reguł `rules`.
 
-Reguły używane są przez `urlManager` do analizowanie i tworzenia URLi w zaprojektowanym
-formacie. Na przykład, pierwsza reguła mówi, że jeśli żądamy URLa `/index.php/tag/yii`
-komponent `urlManager` powinien być odpowiedzialny za wysłania żądania do 
-[trasy](http://www.yiiframework.com/doc/guide/basics.controller#route) `post/list` 
-oraz wygenerowania parametru GET o nazwie`tag` i wartości `yii`. Z drugiej strony, 
-podczas tworzenia URL-a o ścieżce `post/list` oraz parametrze `tag`, komponent 
-`urlManager` również użyje tej reguły do wygenerowania pożądanego adresu URL  
-`/index.php/tag/yii`. Z tego też powodu mówimy, że `urlManager` jest dwukierunkowym
-menadżerem URLi.
+W powyższym kodzie, skonfigurowaliśmy komponent [urlManager](http://www.yiiframework.com/doc/guide/topics.url) poprzez ustawienie jego właściwości `urlFormat` jako `path` oraz dodanie zestawu reguł `rules`.
 
-Komponent `urlManager` może później upiększyć nasze URLe, np. poprzez ukrycie `index.php` 
-w URLach, dodanie sufisku takiego jak `.html` do URLi. Możemy uzyskać te funkcje  
-w prosty sposób poprzez konfigurowanie różnych właściwości `urlManager` w konfiguracji 
-aplikacji. Aby uzyskać więcej szczegółów, zajrzyj do [przewodnika](http://www.yiiframework.com/doc/guide/topics.url).
+Reguły używane są przez `urlManager` do analizowanie i tworzenia URLi w zaprojektowanym formacie. Na przykład, pierwsza reguła mówi, że jeśli żądamy URLu `/index.php/posts/yii` komponent `urlManager` powinien być odpowiedzialny za wysłania żądania do [trasy](http://www.yiiframework.com/doc/guide/basics.controller#route) `post/index` oraz wygenerowania parametru GET o nazwie`tag` i wartości `yii`. Z drugiej strony, podczas tworzenia URL-a o ścieżce `post/list` oraz parametrze `tag`, komponent `urlManager` również użyje tej reguły do wygenerowania pożądanego adresu URL `/index.php/posts/yii`. Z tego też powodu mówimy, że `urlManager` jest dwukierunkowym menadżerem URLi.
+
+Komponent `urlManager` może później upiększyć nasze URLe, np. poprzez ukrycie `index.php` w URLach, dodanie sufiksu takiego jak `.html` do URLi. Możemy uzyskać te funkcje w prosty sposób poprzez konfigurowanie różnych właściwości `urlManager` w konfiguracji aplikacji. Aby uzyskać więcej szczegółów, zajrzyj do [przewodnika](http://www.yiiframework.com/doc/guide/topics.url).
 
 
-<div class="revision">$Id: final.url.txt 693 2009-02-17 19:16:49Z qiang.xue $</div>
+<div class="revision">$Id: final.url.txt 1808 2010-02-17 21:49:42Z qiang.xue $</div>

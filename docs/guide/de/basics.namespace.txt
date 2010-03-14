@@ -1,87 +1,83 @@
-Pfad-Aliase und Namespace
+Pfadaliase und Namespace
 =========================
 
-Yii macht intensiven Gebrauch von Pfad-Aliasen. Ein Pfad-Alias verweist auf
-ein Verzeichnis oder einen Dateipfad. Er wird in Punkt-Syntax angegeben,
-ähnlich zum weitverbreiteten Namespace-Format (Namensraum):
+Yii macht intensiven Gebrauch von Pfadaliasen. Ein Pfadalias steht für
+ein Verzeichnis oder einen Dateipfad. Er wird - ähnlich zum weit verbreiteten
+Namespaceformat - in Punkt-Syntax angegeben:
 
 ~~~
 RootAlias.pfad.zu.ziel
 ~~~
 
-wobei `RootAlias` den Alias eines existierenden Verzeichnisses darstellt. 
-Durch Aufrufen von [YiiBase::setPathOfAlias()] können wir neue Pfad-Aliase 
-definieren. Der Einfachheit halber sind schon folgende RootAliase
-vordefiniert:
+wobei `RootAlias` für den Alias eines existierenden Verzeichnisses steht. 
+Durch Aufrufen von [YiiBase::setPathOfAlias()] kann man neue Pfadaliase 
+definieren. Folgende Rootaliase stehen bequemerweise schon bereit:
 
  - `system`: Verweist auf das Frameworkverzeichnis von Yii
  - `zii`: Verweist auf das Verzeichnis der
 [Zii-Bibliothek](/doc/guide/extension.use#zii-extensions).
  - `application`: Verweist auf das
-[Stammverzeichnis](/doc/guide/basics.application#application-base-directory) der Anwendung
- - `webroot`: Verweist auf das Verzeichnis, das das
-[Eingangsscript](/doc/guide/basics.entry) enthält. Dieser Alias ist seit
+[Anwendungsverzeichnis](/doc/guide/basics.application#application-base-directory) 
+ - `webroot`: Steht für das Verzeichnis, das das
+[Startscript](/doc/guide/basics.entry) enthält. Dieser Alias ist seit
 Version 1.0.3 verfügbar.
  - `ext`: Verweist auf das Verzeichnis, das alle
 [Erweiterungen](/doc/guide/extension.overview) enthält. Dieser Alias steht
 seit Version 1.0.8 zur Verfügung.
 
 Falls die Anwendung [Module](/doc/guide/basics.module) verwendet, wird für
-jedes Modul ein zusätzlicher RootAlias für jede ModulID auf das
-Stammverzeichnis des jeweiligen Moduls angelegt. Dieses Feature steht seit
-Version 1.0.3 zur Verfügung.
+jedes Modulstammverzeichnis ein zusätzlicher RootAlias in Form der ModulID 
+angelegt. Dieses Feature steht seit Version 1.0.3 zur Verfügung.
 
-Mit [YiiBase::getPathOfAlias()] kann ein Alias in seinen entsprechenden Pfad
-übersetzt werden. `system.web.CController` würde zum Beispiel nach
+Mit [YiiBase::getPathOfAlias()] erhält man den aufgelösten Pfad zu einem
+Alias. `system.web.CController` würde zum Beispiel nach
 `yii/framework/web/CController` übersetzt werden.
 
-Durch Verwendung von Aliasen können Klassendefinitionen sehr bequem importiert
-werden. Wenn wir zum Beispiel die Definition von [CController] importieren
-möchten, können wir folgenden Aufruf verwenden:
+Mit Aliasen können Klassen sehr bequem importiert werden. Möchte man zum 
+Beispiel den Quelltext für [CController] importieren, 
+genügt dieser Aufruf:
 
 ~~~
 [php]
 Yii::import('system.web.CController');
 ~~~
 
-Die Methode [import|YiiBase::import] unterscheidet sich von `include` und 
-`require` durch ihre höhere Effizienz. Die Klassendefinition wird nicht
-eingebunden, solange nirgends Bezug darauf genommen wird. Den selben Namespace
-mehrfach zu importieren ist auch wesentlich schneller als `include_once` und
-`require_once`.
+Die [import|YiiBase::import]-Methode ist wesentlich effizienter als `include` und 
+`require`. Eine importierte Klassendatei wird erst eingebunden, wenn die
+entsprechende Klasse zum ersten mal verwendet wird. Auch wenn ein Namespace
+mehrfach importiert wird, ist das wesentlich schneller als `include_once` oder
+`require_once` zu verwenden.
 
-> Tip|Tipp: Wenn wir uns auf eine Klasse aus dem Yii-Framework beziehen,
-> brauchen wir sie nicht zu importieren oder mit include einzubinden. Alle
-> Kern-Klassen von Yii sind bereits vor-importiert.
+> Tip|Tipp: Klassen aus dem Yii-Framework braucht man nicht zu importieren 
+> oder mit include einzubinden. Alle Kernklassen von Yii sind bereits importiert.
 
-Wir können auch die folgende Syntax verwenden, um ein ganzes Verzeichnis zu
-importieren, so dass Klassendateien in diesem Verzeichnis bei Bedarf
-automatsich eingebunden werden:
+Um ein komplettes Verzeichnis zu importieren, kann man folgende Syntax
+verwenden. Die darin enthaltenen Klassendateien werden dann bei Bedarf
+automatisch eingebunden.
 
 ~~~
 [php]
 Yii::import('system.web.*');
 ~~~
 
-Außer in [import|YiiBase::import] werden Aliase noch an vielen anderen Stellen
-verwendet, um Bezug auf Klassen zu nehmen. An [Yii::createComponent()] kann zum
+Aliase werden neben [import|YiiBase::import] noch an vielen anderen Stellen
+verwendet, wo es um Klassen geht. An [Yii::createComponent()] kann zum
 Beispiel auch ein Alias übergeben werden, um eine Instanz der entsprechenden
 Klasse zu erzeugen, auch wenn die Klassendatei vorher noch nicht eingebunden
 war.
 
-Verwechseln Sie einen Pfad-Alias nicht mit einem Namespace. Ein Namespace
-bezieht sich auf eine logische Gruppe von einigen Klassen, um sie von anderen
-Klassennamen zu unterscheiden, selbst wenn ihre Namen die selben sind. Ein
-Pfad-Alias hingegen bezieht sich auf eine Klassendatei oder ein Verzeichnis.
-Ein Pfad-Alias kollidiert nicht mit einem Namespace.
+Verwechseln Sie einen Pfadalias bitte nicht mit einem Namespace. Ein Namespace
+bezieht sich auf eine logische Gruppe von Klassen, um sie von anderen
+Klassennamen zu unterscheiden, selbst sie genauso heißen. Ein
+Pfadalias hingegen bezieht sich auf eine Klassendatei oder ein Verzeichnis.
+Ein Pfadalias kollidiert nicht mit einem Namespace.
 
 > Tip|Tipp: Da PHP vor Version 5.3.0 von Haus aus noch keine Namespaces
-> unterstützt, können Sie keine Instanzen von Klassen erzeugen, die den selben
-> Namen aber unterschiedliche Definitionen haben. Daher wird allen Klassen des
+> unterstützt, können Sie keine Instanzen von unterschiedlichen Klassen mit
+> dem selben Namen erzeugen. Daher wird allen Klassen des
 > Yii-Frameworks der Buchstabe 'C' (von engl.: Class, Klasse) vorangestellt,
-> um Sie von benutzerdefinierten Klassen zu unterscheiden. Es wird empfohlen,
-> dass die Präfix 'C' zur alleinigen Verwendung innerhalb des Yii-Frameworks
-> reserviert bleibt und benutzerdefinierte Klassen mit anderen Präfixen
-> versehen werden.
+> um Sie von eigenen Klassen zu unterscheiden. Wir empfehlen, das Präfix
+> 'C' für das Yii-Framework zu reservieren und eigene Klassen mit
+> anderen Präfixen zu versehen.
 
 <div class="revision">$Id: basics.namespace.txt 1602 2009-12-18 19:33:34Z qiang.xue $</div>

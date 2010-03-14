@@ -33,8 +33,8 @@ application by accessing the following URL in a Web browser:
 http://hostname/testdrive/index.php
 ~~~
 
-Jak widać aplikacja składa się z trzech stron: strony domowej, kontaktu
-i strony logowania. Strona domowa prezentuje pewne informacje na temat
+Jak widać aplikacja składa się z czterech stron: strony domowej, o nas, kontaktowej
+i logowania. Strona domowa prezentuje pewne informacje na temat
 samej aplikacji oraz statusu logowania użytkownika. Strona kontaktowa
 zawiera formularz kontaktowy, poprzez który użytkownik może wysłać swoje
 zapytanie. Strona logowania pozwala użytkownikowi na uwierzytelnienie,
@@ -58,49 +58,59 @@ w dziale [Konwencje](/doc/guide/basics.convention#directory).
 
 ~~~
 testdrive/
-   index.php                 skrypt startowy aplikacji webowej
+   index.php                 skrypt startowy aplikacji internetowej
+   index-test.php            plik skryptu startowego dla testów funkcjonalnych   
    assets/                   zawiera opublikowane zasoby plików
    css/                      zawiera pliki CSS
    images/                   zawiera pliki obrazów
    themes/                   zawiera tematy aplikacji
    protected/                zawiera chronione pliki aplikacji
-      yiic                   skrypt yiic
+      yiic                   skrypt yiic dla systemów Linux/Unix
       yiic.bat               skrypt yiic dla systemu Windows
+      yiic.php               skrypt PHP linii poleceń      
       commands/              zawiera spersonalizowane polecenia 'yiic'
          shell/              zawiera spersonalizowane polecenia 'yiic shell'
       components/            zawiera komponenty wielokrotnego użytku
-         MainMenu.php        klasa widżetu 'MainMenu'
+         Controller.php      klasa bazowa dla wszystkich klas kontrolerów
          Identity.php        klasa 'Identity', przeznaczona do celów uwierzytelnienia
-         views/              zawiera pliki widoków widżetów
-            mainMenu.php     plik widoku widżetu 'MainMenu'
       config/                zawiera pliki konfiguracyjne
          console.php         konfiguracja aplikacji konsolowej
          main.php            konfiguracja aplikacji webowej
+         test.php            konfirguracja dla testów funkcjonalnych         
       controllers/           zawiera pliki klas kontrolera
          SiteController.php  domyślna klasa kontrolera
+      data/                  zawiera przykładowe bazy danych
+         schema.mysql.sql    schemat bazy danych dla przykładowej bazy danych MySQL
+         schema.sqlite.sql   schemat bazy danych dla przykładowej bazy danych SQLite
+         testdrive.db        plik przykładowej bazy danych SQLite         
       extensions/            zawiera rozszerzenia firm trzecich
       messages/              zawiera przetłumaczone komunikaty
       models/                zawiera pliki klas modeli
-         LoginForm.php       model formularza dla czynności logowania
+         LoginForm.php       model formularza dla akcji logowania
          ContactForm.php     model formularza kontaktowego
       runtime/               zawiera tymczasowo generowane pliki
+      tests/                 zawiera skrypty testów      
       views/                 zawiera pliki widoku i układu (ang. layout) kontrolera
          layouts/            zawiera pliki układów (ang. layout) dla widoków
-            main.php         domyślny układ dla wszystkich widoków
+            main.php         podstawowy widok dzielony przez wszystkie strony
+            column1.php      układ dla stron używających pojedynczej kolumny
+            column2.php      układ dla stron używających dwóch kolumn
          site/               zawiera pliki widoków dla kontrolera 'site'
-            contact.php      widok dla czynności 'contact'
-            index.php        widok dla czynności 'index'
-            login.php        widok dla czynności 'login'
-         system/             zawiera pliki widoków systemowych
+         	pages/           zawiera "statyczne" strony
+         	   about.php     widok dla strony "o nas" (ang. about)         
+            contact.php      widok dla akcji 'contact'
+            error.php        widok dla akcji 'error' (wyświetlającej zewnętrzne błędy)
+            index.php        widok dla akcji 'index'
+            login.php        widok dla akcji 'login'
 ~~~
 
 Łączenie z bazą danych
 ----------------------
 
 Większość aplikacji webowych pracuje w oparciu o bazę danych. Nasz aplikacja
-testowa nie jest tu wyjątkiem. Aby użyć bazy danych musimy po pierwsze
+testowa nie jest tu wyjątkiem. Aby użyć bazy danych musimy
 poinformować aplikację jak ma się z nią połączyć. Jest to realizowane przez
-modyfikację pliku konfiguracyjnego `WebRoot/testdrive/protected/config/main.php`,
+plik konfiguracyjny `WebRoot/testdrive/protected/config/main.php`,
 co pokazujemy niżej:
 
 ~~~
@@ -110,28 +120,21 @@ return array(
 	'components'=>array(
 		......
 		'db'=>array(
-			'connectionString'=>'sqlite:protected/data/source.db',
+			'connectionString'=>'sqlite:protected/data/testdrive.db',
 		),
 	),
 	......
 );
 ~~~
 
-W powyższym przykładzie do sekcji `components` dodajemy wpis `db`, który nakazuje
-aplikacji łączyć się z bazą danych `WebRoot/testdrive/protected/data/source.db`
-wtedy, gdy jest to potrzebne.
-
-> Uwaga: aby używać opcji obsługi bazy danych, musimy włączyć rozszerzenie
-PHP PDO oraz właściwy dla bazy sterownik PDO. Dla aplikacji testowej będziemy
-potrzebowali włączonych `php_pdo` i `php_pdo_sqlite`.
-
-W tym celu musimy przygotować bazę SQLite tak, aby skutecznie użyć powyższej
-konfiguracji. Używając jakiegoś narzędzia zarządzania SQLite możemy utworzyć
-tabelę o następującym schemacie:
+Powyższy kod instruuje Yii, że aplikacja powina łączyć się z bazą danych SQLite
+`WebRoot/testdrive/protected/data/testdrive.db` jeśli zajdzie taka potrzeba.
+Zauważ, że baza danych SQLite jest już załączona do szkieletu aplikacji, który 
+przed chwilą wygenerowaliśmy. Ta baza danych zawiera jedynie tabelę o nazwie `tbl_user`:
 
 ~~~
 [sql]
-CREATE TABLE User (
+CREATE TABLE tbl_user (
 	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	username VARCHAR(128) NOT NULL,
 	password VARCHAR(128) NOT NULL,
@@ -139,14 +142,12 @@ CREATE TABLE User (
 );
 ~~~
 
-> Uwaga: Jeśli używasz bazy danych MySQL powinieneś zastąpić `AUTOINCREMENT`
-> poprzez `AUTO_INCREMENT` w powyższym kodzie SQL.
+Jeśli chcesz używać bazy danych MySQL, powinieneś użyć załączonego pliku schematu MySQL  
+`WebRoot/testdrive/protected/data/schema.mysql.sql` aby utworzyć bazę danych.
 
-Dla uproszczenia tworzymy w bazie danych tylko pojedynczą tabelę `User`.
-Plik bazy danych SQLite zostanie zapisany jako
-`WebRoot/testdrive/protected/data/source.db`. Zwróć uwagę, że zarówno plik,
-jak i zawierający go katalog muszą być dostępne do zapisu dla procesu Web
-serwera, jak wymaga tego SQLite.
+> Note|Uwaga: Aby używać funkcjonalności bazodanowych Yii, potrzebujemy udostępnić 
+rozszerzenie PHP PDO oraz rozszerzenia PDO dla poszczególnych sterowników.
+Dla aplikacji testowej, potrzebujemy włączyć oba rozszerzenia `php_pdo` oraz `php_pdo_sqlite`. 
 
 
 Implementowanie operacji CRUD
@@ -158,42 +159,47 @@ Potrzebne są one też powszechnie w praktycznie tworzonych aplikacjach.
 
 Zamiast męczyć się pisząc rzeczywisty kod możemy znów skorzystać z potężnego
 narzędzia `yiic`, które automatycznie wygeneruje dla nas kod. Ten proces znany
-jest jako *scaffolding* (tworzenie rusztowania). Otwórz okno poleceń i uruchom
-listę następujących poleceń:
+jest jako *scaffolding* (tworzenie rusztowania). 
+
+Otwórz okno poleceń i wykonaj listę poleceń znajdujących się poniżej:
 
 ~~~
 % cd WebRoot/testdrive
 % protected/yiic shell
-Yii Interactive Tool v1.0
+Yii Interactive Tool v1.1
 Please type 'help' for help. Type 'exit' to quit.
->> model User
-   generate User.php
+>> model User tbl_user
+   generate models/User.php
+   generate fixtures/tbl_user.php
+   generate unit/UserTest.php
 
-The 'User' class has been successfully created in the following file:
-    D:\wwwroot\testdrive\protected\models\User.php
+The following model classes are successfully generated:
+    User
 
-If you have a 'db' database connection, you can test it now with:
+If you have a 'db' database connection, you can test these models now with:
     $model=User::model()->find();
     print_r($model);
 
 >> crud User
    generate UserController.php
-   mkdir D:/wwwroot/testdrive/protected/views/user   
+   generate UserTest.php
+   mkdir D:/testdrive/protected/views/user
    generate create.php
-   mkdir D:/wwwroot/testdrive/protected/views/user
    generate update.php
-   generate list.php
-   generate show.php
-   generate _form.php   
+   generate index.php
+   generate view.php
+   generate admin.php
+   generate _form.php
+   generate _view.php
 
 Crud 'user' has been successfully created. You may access it via:
 http://hostname/path/to/index.php?r=user
 ~~~
 
 Powyżej używamy polecenia `yiic shell` dla interakcji z naszą szkieletową
-aplikacją. W wierszu poleceń wykonujemy dwa polecenia: `model User` i `crud User`.
-Pierwsze z nich generuje klasę modelu dla tabeli `User`, kolejne odczytuje
-ten model i generuje kod implementujący operacje CRUD. 
+aplikacją. W wierszu poleceń wykonujemy dwa polecenia: `model User tbl_user` i `crud User`.
+Pierwsze z nich generuje klasę modelu nazwaną `User` dla tabeli `tbl_user`, kolejne odczytuje
+ten model i generuje kod implementujący odpowiadające mu operacje CRUD. 
 
 > Uwaga: mogą pojawić się błędy typu "...could not find driver" (nie mogę
 > odnaleźć sterownika), nawet gdy weryfikacja wymagań pokaże, że uruchomiłeś
@@ -212,11 +218,10 @@ Nacieszmy się teraz efektami naszej pracy otwierając taki adres URL:
 http://hostname/testdrive/index.php?r=user
 ~~~
 
-Spowoduje to wyświetlenie listy użytkowników w tabeli `User`. Ponieważ
-nasza tabela jest pusta, chwilowo nic się nie pojawi.
+Spowoduje to wyświetlenie listy użytkowników z tabeli `tbl_user`.
 
-Kliknij link `New User` na tej stronie. Zostaniemy przeniesieni do strony logowania,
-o ile wcześniej nie zalogowaliśmy się. Po zalogowaniu zostanie nam wyświetlony
+Kliknij przycisk `Create User` na tej stronie. Zostaniemy przeniesieni do strony logowania,
+o ile wcześniej nie zalogowaliśmy się. Po zalogowaniu widzimy
 formularz wprowadzania danych, który pozwoli nam wprowadzić nowego użytkownika.
 Wypełnij formularz i kliknij przycisk `Create`. Jeżeli wystąpił jakikolwiek błąd
 danych wejściowych pojawi się zgrabny komunikat o błędzie. Ustrzeże nas to
@@ -234,10 +239,12 @@ odwiedzić stronę administrowania użytkownikami pod adresem:
 http://hostname/testdrive/index.php?r=user/admin
 ~~~
 
-Zobaczymy tam tablicę zawierającą listę użytkowników. Możemy klikać w nagłówki
-cel, aby uporządkować je wg. odpowiadających im kolumn. I podobnie jak strona
-z listą użytkowników, strona administracji również obsługuje paginację,
-gdy więcej jest pozycji w tabeli niż można wyświetlić na jednej stronie.
+Powyższe wywołanie spowoduje pokazanie się nam wpisów z użytkownikami przy 
+użyciu ładnego formatu tabelarycznego. Możemy klikać w nagłówki
+komórek, aby uporządkować odpowiadającą mu kolumnę. Możemy klikać przyciski
+w każdym wierszu danych w celu wyświetlenia, aktualziacji lub usunięcia 
+odpowiadającego im wiersza danych. Możemy przeglądać inne strony. Możemy
+również filtrować i wyszukiwać interesujących nas danych.
 
 Wszystkie te praktyczne funkcjonalności nie wymagały od nas napisania choćby
 pojedynczej linijki kodu!
@@ -247,4 +254,4 @@ pojedynczej linijki kodu!
 ![Strona tworzenia nowego użytkownika](first-app7.png)
 
 
-<div class="revision">$Id: quickstart.first-app.txt 1264 2009-07-21 19:34:55Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app.txt 1733 2010-01-21 16:54:29Z qiang.xue $</div>

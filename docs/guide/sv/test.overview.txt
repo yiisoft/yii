@@ -20,7 +20,7 @@ Detta är känt som *automatiserad testning*, vilket är huvudämnet för detta 
 
 Testningsstödet som erbjuds av Yii omfattar *enhetstestning* och *funktionell testning*.
 
-en enhetstest verifierar att en enskild kodenhet fungerar som tänkt. Inom 
+Ett enhetstest verifierar att en enskild kodenhet fungerar som tänkt. Inom 
 objektorienterad programmering är den grundläggande kodenheten en klass. Ett 
 enhetstest behöver därför huvudsakligen verifiera att var och en av metoderna i 
 klassens gränssnitt (interface) fungerar korrekt. Dvs, med givna inparametrar, 
@@ -40,7 +40,7 @@ Testdriven utveckling
 
 Nedan visas utvecklingscykeln inom så kallad [testdriven utveckling (TDD)](http://en.wikipedia.org/wiki/Test-driven_development):
 
- 1. Skapa ett nytt test som täcker en finess som skall impementeras. Testet förväntas gå fel vid dess första körning eftersom finessen ännu inte implementerats.
+ 1. Skapa ett nytt test som täcker en finess som skall implementeras. Testet förväntas gå fel vid dess första körning eftersom finessen ännu inte implementerats.
  2. Kör alla test och kontrollera att det nytillkomna testet går fel.
  3. Skriv kod som skall få det nya testet att passera felfritt.
  4. Kör alla test och kontrollera att alla passerar.
@@ -53,9 +53,8 @@ Sätta upp testomgivning
 =======================
 
 Stödet för testning som Yii erbjuder kräver [PHPUnit](http://www.phpunit.de/) 
-3.3+ samt [Selenium Remote Control](http://seleniumhq.org/projects/remote-
-control/) 1.0+. Se deras respektive dokumentation angående installation av 
-PHPUnit och Selenium Remote Control.
+3.3+ samt [Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+.
+Se deras respektive dokumentation angående installation av PHPUnit och Selenium Remote Control.
 
 När vi använder konsolkommandot `yiic webapp` till att skapa en ny Yii-
 applikation, kommer det att generera följande filer och kataloger åt oss med 
@@ -97,7 +96,7 @@ Bootstrap-skript för test
 =========================
 
 Låt oss titta på vad som kan finnas i filen `bootstrap.php`. Denna fil är 
-speciell eftersom motsvarar [startskriptet](/doc/guide/basics.entry) och utgör 
+speciell eftersom den motsvarar [startskriptet](/doc/guide/basics.entry) och utgör 
 startpunkt vid exekvering av en uppsättning tester.
 
 ~~~
@@ -148,4 +147,4 @@ webbanvändare. Den huvudsakliga skillnaden är att den innehåller fixturhanter
 använder testdatabasen.
 
 
-<div class="revision">$Id: test.overview.txt 1440 2009-10-08 00:08:00Z qiang.xue $</div>
+<div class="revision">$Id: test.overview.txt 1813 2010-02-18 21:33:16Z qiang.xue $</div>

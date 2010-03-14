@@ -2,7 +2,7 @@ Czym jest Yii
 ============
 
 Yii jest wysokowydajnym, komponentowym frameworkiem PHP przeznaczonym
-do tworzenia aplikacji webowych wielkiej skali. Umożliwia w maksymalnym
+do szybkiego tworzenia aplikacji webowych wielkiej skali. Umożliwia w maksymalnym
 stopniu wieloużywalność i może w znaczącym stopniu przyspieszyć proces
 tworzenia. Nazwa Yii (wymawiana jako `Yee` lub `[ji:]`) oznacza *łatwy*
 (ang. easy), *wydajny* (ang. efficient) i *rozszerzalny* (ang. extensible).
@@ -40,4 +40,4 @@ doświadczenia autora w tworzeniu aplikacji webowych oraz jego badań
 i przemyśleń nad funkcjonowaniem najpopularniejszych frameworków
 i aplikacji.
 
-<div class="revision">$Id: quickstart.what-is-yii.txt 814 2009-03-10 18:00:11Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.what-is-yii.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

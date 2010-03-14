@@ -3,43 +3,57 @@ Neue Features
 
 Diese Seite fasst die wesentlichen neuen Features jeder Yii-Version zusammen.
 
+Version 1.1.1
+-------------
+
+ * Das neue CActiveForm vereinfacht formularbezogenen Code und unterstützt
+ sowohl Client- als auch serverseitige Validierung.
+
+ * Der von yiic erzeugte Code wurde überarbeitet. Die erstellte Anwendung
+   enthält jetzt mehrere Layouts, für die Formulardarstellung wird jetzt
+   CACtiveForm verwendet und bei CRUD-Seiten wurde das Menü angepasst, sowie
+   eine Such- und Filteroption auf der Adminseite hinzugefügt
+
+ * [Es können nun auch globale yiic-Befehle definiert werden](/doc/guide/topics.console)
+
 Version 1.1.0
 -------------
 
- * [Unterstützung für das Erstellen von Unit- und Funktionstests](/doc/guide/test.overview)
+ * [Unterstützung von Unit- und Funktionstests](/doc/guide/test.overview)
 
- * [Widgets können nun auch Skins verwenden](/doc/guide/topics.theming#skin).
+ * [Skin-Support für Widgets](/doc/guide/topics.theming#skin).
 
- * Der neue [erweiterbare Form-Builder](/doc/guide/form.builder) erleichtert
-das Erstellen von Formularen.
+ * [Erweiterbarer Form-Builder](/doc/guide/form.builder) zum einfachen 
+Erstellen von Formularen.
 
- * Verbesserte Angabe der sicheren Attribute eines Models. Siehe 
- [Absichern von Attributzuweisungen](/doc/guide/form.model#securing-attribute-assignments).
+ * Vereinfachte Angabe von sicheren Modelattributen. Siehe 
+ [Sichere Attributzuweisungen](/doc/guide/form.model#securing-attribute-assignments).
 
- * Veränderter Algorithmus beim Eager Loading von verbundenen Records. Alle
- Verbundtabellen werden nun standardmäßig mittels einer einzigen SQL-Abfrage
- eingebunden.
+ * Änderung bei relationalen AR: Alle Tabellen werden standardmäßig 
+  mittels einer einzigen SQL-Abfrage eingebunden.
 
- * Der verwendete Tabellen-Alias entspricht nun dem Namen der Beziehung im AR.
+ * Bei AR entspricht der verwendete Tabellenalias dem Namen der Relation.
 
  * [Unterstützung von Tabellenpräfixen](/doc/guide/database.dao#using-table-prefix).
 
  * Mit der [Zii-Bibliothek](http://code.google.com/p/zii/) wurde eine ganze
  Reihe neuer Erweiterungen hinzugefügt.
 
+ * Bei AR-Abfragen lautet der Alias für die Haupttabelle immer `t`.
+
 
 Version 1.0.11
 --------------
 
- * URLs können nun auch mit parametrisierten Hostnamen erzeugt und ausgewertet werden
+ * URLs können auch mit parametrisierten Hostnamen erzeugt und ausgewertet werden
      - [Parametrisierte Hostnamen](/doc/guide/topics.url#parameterizing-hostnames)
 
 
 Version 1.0.10
 --------------
 
- * Modulnachrichten können nun einfacher mit CPhpMessageSource übersetzt werden
-     - [Übersetzen von Textnachrichten](/doc/guide/topics.i18n#message-translation)
+ * Modul-Logmeldungen können nun einfacher mit CPhpMessageSource übersetzt werden
+     - [Übersetzen von Textmeldungen](/doc/guide/topics.i18n#message-translation)
 
  * Als Event-Handler können nun auch anonyme Funktionen verwendet werden
      - [Event](/doc/guide/basics.component#component-event)
@@ -50,54 +64,53 @@ Version 1.0.8
  * Es können nun auch mehrere gecachete Werte auf einmal abgerufen werden
 	 - [Cachen von Daten](/doc/guide/caching.data)
 
- * Der neue Standard-RootAlias `ext` verweist auf das Verzeichnis mit allen
-Erweiterungen Dritter.
-	 - [Erweiterungen verwenden](/doc/guide/extension.use)
+ * Der neue Standard-RootAlias `ext` verweist auf das Verzeichnis mit
+anderen Erweiterungen
+	 - [Verwenden von Erweiterungen](/doc/guide/extension.use)
 
 Version 1.0.7
 -------------
 
- * Nachrichten können nun mit Informationen aus dem Aufrufstapel geloggt werden
+ * Logmeldungen können nun mit Informationen aus dem Aufrufstapel geloggt werden
      - [Loggen von Kontextinformationen](/doc/guide/topics.logging#logging-context-information)
 
- * ActiveRecord-Relationen können nun die Option `index` verwenden, um
-relationale Objekte anhand den Werten einer bestimmten Spalte zu indizieren
+ * Mit der `index`-Option können relationale AR-Objekte nach einer bestimmten
+  Spalte indiziert werden
      - [Optionen für relationale Abfragen](/doc/guide/database.arr#relational-query-options)
 
 Version 1.0.6
 -------------
 
- * Benannte Bereiche werden nun auch in `update`- und `delete`-Methoden unterstützt:
-     - [Benannte Bereiche](/doc/guide/database.ar#named-scopes)
+ * Scopes werden nun auch in `update`- und `delete`-Methoden unterstützt:
+     - [Scopes](/doc/guide/database.ar#named-scopes)
 
- * Benannte Bereiche können nun auch in der `with`-Option von Beziehungsdefinitionen verwendet werden:
-     - [Relationale Abfragen mit benannten Bereichen](/doc/guide/database.arr#relational-query-with-named-scopes)
+ * Scopes können nun auch in der `with`-Option von Beziehungsdefinitionen verwendet werden:
+     - [Relationale Abfragen mit benannten Scopes](/doc/guide/database.arr#relational-query-with-named-scopes)
 
- * SQL-Anweisungen können nun ebenfalls einer Leistungsmessung unterzogen werden
-     - [Leistungsmessung von SQL-Anweisungen](/doc/guide/topics.logging#profiling-sql-executions)
+ * SQL-Anweisungen können nun ebenfalls einer Performance-Analyse unterzogen werden
+     - [Perfomance-Analyse von SQL-Anweisungen](/doc/guide/topics.logging#profiling-sql-executions)
 
- * Nachrichten können nun auch mit zusätzlichen Kontextinformationen geloggt werden 
+ * Logmeldungen können nun auch mit zusätzlichen Kontextinformationen geloggt werden 
      - [Loggen von Kontextinformationen](/doc/guide/topics.logging#logging-context-information)
 
  * URL-Regeln können nun mit den Optionen urlFormat und caseSensitive weiter angepasst werden:
      - [Benutzerfreundliche URLs](/doc/guide/topics.url#user-friendly-urls)
 
- * Anwendungsfehler können nun auch über eine Controller-Action angezeigt werden:
+ * Fehler können nun auch über eine Controller-Action angezeigt werden:
      - [Fehlerbehandlung mit einer Action](/doc/guide/topics.error#handling-errors-using-an-action)
 
 Version 1.0.5
 -------------
 
- * ActiveRecord wurden um benannte Bereiche erweitert. Siehe:
-     - [Benannte Bereiche](/doc/guide/database.ar#named-scopes)
-     - [Relationale Abfragen mit benannten Bereichen](/doc/guide/database.arr#relational-query-with-named-scopes)
+ * ActiveRecord wurden um Scopes erweitert. Siehe:
+     - [Scopes](/doc/guide/database.ar#named-scopes)
+     - [Relationale Abfragen mit Scopes](/doc/guide/database.arr#relational-query-with-named-scopes)
 
 
- * ActiveRecord unterstützt nun lazy loading mit dynamischen Abfrageoptionen. Siehe:
+ * ActiveRecord unterstützt nun Lazy Loading mit dynamischen Abfrageoptionen. Siehe:
      - [Dynamische Optionen für relationale Abfragen](/doc/guide/database.arr#dynamic-relational-query-options)
 
- * [CUrlManager] unterstützt nun das Parametrisieren des Route-Bestandteils
-einer URL. Siehe:
+ * [CUrlManager] unterstützt nun das Parametrisieren des Routenteils einer URL. Siehe:
      - [Parametrisierte Routen in URL-Regeln](/doc/guide/topics.url#parameterizing-routes)
 
-<div class="revision">$Id: changes.txt 1602 2009-12-18 19:33:34Z qiang.xue $</div>
+<div class="revision">$Id: changes.txt 1874 2010-03-10 15:44:41Z qiang.xue $</div>

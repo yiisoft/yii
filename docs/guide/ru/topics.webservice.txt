@@ -27,7 +27,7 @@
 быть вызваны удалённо. Для того, чтобы определить, какие методы могут быть
 вызваны удалённо и какое значение возвращать, Yii использует
 [специальные комментарии](http://java.sun.com/j2se/javadoc/writingdoccomments/) и
-[reflection](http://www.php.net/manual/en/language.oop5.reflection.php).
+[reflection](http://php.net/manual/en/book.reflection.php).
 
 Попробуем реализовать простой сервис, отдающий информацию о котировках акций
 определённой компании. Для этого нам потребуется реализовать провайдер, как показано
@@ -210,4 +210,4 @@ class PostController extends CController
 вызываемого метода. Если метод по каким либо причинам (например, отсутствие прав
 на его выполнение) не должен быть вызван, необходимо вернуть false.
 
-<div class="revision">$Id: topics.webservice.txt 1300 2009-08-07 00:39:21Z qiang.xue $</div>
+<div class="revision">$Id: topics.webservice.txt 1808 2010-02-17 21:49:42Z qiang.xue $</div>

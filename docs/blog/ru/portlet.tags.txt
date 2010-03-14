@@ -13,58 +13,58 @@
 
 ~~~
 [php]
-<?php
-class TagCloud extends Portlet
+Yii::import('zii.widgets.CPortlet');
+
+class TagCloud extends CPortlet
 {
 	public $title='Tags';
-
-	public function getTagWeights()
-	{
-		return Tag::model()->findTagWeights();
-	}
+	public $maxTags=20;
 
 	protected function renderContent()
 	{
-		$this->render('tagCloud');
+		$tags=Tag::model()->findTagWeights($this->maxTags);
+
+		foreach($tags as $tag=>$weight)
+		{
+			$link=CHtml::link(CHtml::encode($tag), array('post/index','tag'=>$tag));
+			echo CHtml::tag('span', array(
+				'class'=>'tag',
+				'style'=>"font-size:{$weight}pt",
+			), $link)."\n";
+		}
 	}
 }
 ~~~
 
-В коде выше мы вызываем метод `findTagWeights`, который определен в классе
-`Tag`. Метод возвращает список тегов с их относительным весом. Если тег
-связан с большим количеством записей, он получает более высокий вес. Мы будем
-использовать вес для управления отображением тегов.
+Портлет `TagCloud`, в отличие от портлета `UserMenu`, не использует отображение.
+Вместо этого его внешний вид формирует метод `renderContent()` так как нет
+необходимости выводить большое количество HTML.
 
-
-Создание представления `tagCloud`
---------------------------------
-
-Представление `tagCloud` сохранено в файле `/wwwroot/blog/protected/components/views/tagCloud.php`.
-Для каждого тега, возвращенного методом `TagCloud::getTagWeights()`,
-представление отображает гиперссылку, которая ведет к странице записей,
-относящихся к данному тегу. Размер шрифта ссылки определен согласно значению
-вес тега. Чем выше вес, тем больше размер шрифта.
+Мы отображаем каждый тег как ссылку на список записей, содержащих его. Размер
+шрифта каждой такой ссылки изменяется в зависимости от относительного веса
+тега по отношению к остальным. Чем более часто используется тег, тем больший
+используется размер шрифта.
 
 
 Использование портлета `TagCloud`
 --------------------------------
 
 Использовать портлет `TagCloud` очень просто. Мы изменяем файл макета
-`/wwwroot/blog/protected/views/layouts/main.php` следующим образом,
+`/wwwroot/blog/protected/views/layouts/column2.php` следующим образом,
 
 ~~~
 [php]
 …
 <div id="sidebar">
 
-<?php $this->widget('UserLogin',array('visible'=>Yii::app()->user->isGuest)); ?>
+	<?php if(!Yii::app()->user->isGuest) $this->widget('UserMenu'); ?>
 
-<?php $this->widget('UserMenu',array('visible'=>!Yii::app()->user->isGuest)); ?>
-
-<?php $this->widget('TagCloud'); ?>
+	<?php $this->widget('TagCloud', array(
+		'maxTags'=>Yii::app()->params['tagCloudCount'],
+	)); ?>
 
 </div>
 …
 ~~~
 
-<div class="revision">$Id: portlet.tags.txt 677 2009-02-14 04:27:48Z qiang.xue $</div>
+<div class="revision">$Id: portlet.tags.txt 1772 2010-02-01 18:18:09Z qiang.xue $</div>

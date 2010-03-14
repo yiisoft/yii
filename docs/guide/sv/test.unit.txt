@@ -63,8 +63,8 @@ ger typiska användningsexempel:
 $comments = $this->comments;
 // return the row whose alias is 'sample1' in the `Post` fixture table
 $post = $this->posts['sample1'];
-// return the AR instance representing the 'sample' fixture data row
-$post = $this->post('sample1');
+// return the AR instance representing the 'sample1' fixture data row
+$post = $this->posts('sample1');
 ~~~
 
 > Note|Märk: Om en fixtur har deklarerats med sitt tabellnamn (t.ex. `'posts'=>':Post'`), 
@@ -107,4 +107,4 @@ public function testApprove()
 ~~~
 
 
-<div class="revision">$Id: test.unit.txt 1648 2010-01-02 13:24:54Z qiang.xue $</div>
+<div class="revision">$Id: test.unit.txt 1745 2010-01-24 14:23:36Z qiang.xue $</div>

@@ -12,8 +12,8 @@ AliasGłowny.ścieżka.do.celu
 gdzie `AliasGłówny` jest aliasem do pewnego istniejącego folderu. Poprzez wywołanie [YiiBase::setPathOfAlias()]
 możemy zdefiniować nowe aliasy ścieżek. Dla wygody, Yii predefiniuje domyślne, główne aliasy:
 
- - `system`: wskazuje katalog framework Yii;
- - `zii`: wskazuje na katalog z biblioteką zii; 
+ - `system`: wskazuje katalog framework Yii; 
+ - `zii`: wskazuje na katalog z [biblioteką Zii](/doc/guide/extension.use#zii-extensions); 
  - `application`: wskazuje do [folderu głównego aplikacji](/doc/guide/basics.application#application-base-directory);
  - `webroot`: wskazuje na katalog zawierający plik [skryptu wejściowego](/doc/guide/basics.entry). Alias ten został wprowadzony wraz z wersją 1.0.3.
  - `ext`: wskazuje na katalog zawierający wszystkie [rozszerzenia](/doc/guide/extension.overview) stron trzecich. Alias ten został wprowadzony wraz z wersją 1.0.8. 
@@ -66,4 +66,4 @@ od klas zdefiniowanych przez użytkownika. Zaleca się, aby prefix 'C' był zare
 wyłącznie dla frameworku Yii a klasy użytkownika były poprzedzone prefiksem składającym 
 się z innej litery.
 
-<div class="revision">$Id: basics.namespace.txt 1400 2009-09-07 12:45:17Z qiang.xue $</div>
+<div class="revision">$Id: basics.namespace.txt 1602 2009-12-18 19:33:34Z qiang.xue $</div>

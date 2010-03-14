@@ -177,6 +177,23 @@ anzusprechen, wird eine Exception ausgelöst.
 > er dort in Anführungszeichen gesetzt werden. Durch konsequente
 > Kleinschreibung umgehen wir dieses Problem.
 
+AR geht davon aus, dass für alle Tabelle korrekte Primärschlüssel angelegt
+sind. Falls für eine Tabelle kein Primärschlüssel definiert wurde, muss dieser
+mit der Methode `primaryKey()` in der entsprechenden AR-Klasse wie folgt angegeben
+werden:
+
+~~~
+[php]
+public function primaryKey()
+{
+	return 'id';
+	// Für zusammengesetzte Primärschlüssel kann ein Array wie folgt
+	// zurückgegeben werden:
+	// return array('pk1', 'pk2');
+}
+~~~
+
+
 
 Einfügen von Datensätzen
 ------------------------
@@ -434,19 +451,20 @@ Post::model()->deleteAll($condition,$params);
 Post::model()->deleteByPk($pk,$condition,$params);
 ~~~
 
-Gültigkeitsprüfung der Daten
-----------------------------
+Validierung der Daten
+---------------------
 
 Wenn eine Datenzeile eingefügt oder aktualisiert wird, müssen wir oft überprüfen,
-ob die Werte der Felder bestimmten Regeln entsprechen. Dies ist besonders wichtig,
+ob die Werte der Felder bestimmten Regeln entsprechen. Man nennt diesen
+Vorgang auch `Validierung`. Er ist besonders wichtig,
 wenn die Werte von Endbenutzern stammen. Generell sollten wir Daten, die von
 Clientseite stammen, niemals vertrauen.
 
-AR führt die Gültigkeitsprüfung beim Aufruf von [save()|CActiveRecord::save] 
+AR führt die Validierung beim Aufruf von [save()|CActiveRecord::save] 
 automatisch durch. Die Prüfung wird anhand der Regeln durchgeführt, 
 die in der [rules()|CModel::rules]-Methode der AR-Klasse angegeben wurden.
 Weitere Einzelheiten zur Definition von Prüfregeln finden Sie im Abschnitt
-[Angeben der Regeln zur Gültigkeitsprüfung](/doc/guide/form.model#declaring-validation-rules).
+[Angeben von Validierungsregeln](/doc/guide/form.model#declaring-validation-rules).
 Nachfolgend der typische Ablauf, der zum Speichern eines Datensatzes notwendig ist:
 
 ~~~
@@ -476,7 +494,7 @@ Bei vielen Feldern würden wir eine lange Liste solcher Zuweisungen benötigen.
 Linderung verspricht hier der Einsatz der
 [attributes|CActiveRecord::attributes]-Eigenschaft, wie unten gezeigt. 
 Weitere Details finden Sie im Abschnitt 
-[Absichern von Attributzuweisungen](/doc/guide/form.model#securing-attribute-assignments)
+[Sichere Attributzuweisungen](/doc/guide/form.model#securing-attribute-assignments)
 sowie im Kapitel [Erstellen der Action](/doc/guide/form.action).
 
 ~~~
@@ -511,7 +529,7 @@ Klassen zur Anpassung bestimmter Abläufe überschrieben werden können.
 
    - [beforeValidate|CModel::beforeValidate] und
 [afterValidate|CModel::afterValidate]: diese werden aufgerufen, bevor bzw. nachdem
-die Gültigkeitsprüfung durchgeführt wird/wurde.
+die Validierung durchgeführt wird/wurde.
 
    - [beforeSave|CActiveRecord::beforeSave] und
 [afterSave|CActiveRecord::afterSave]: diese werden aufgerufen, bevor bzw. nachdem
@@ -561,19 +579,19 @@ catch(Exception $e)
 ~~~
 
 
-Benannte Bereiche
------------------
+Scopes
+------
 
-> Note|Hinweis: Benannte Bereiche werden seit Version 1.0.5 unterstützt.
-> Die usprüngliche Idee für benannte Bereiche stammt von Ruby on Rails.
+> Note|Hinweis: Scopes werden seit Version 1.0.5 unterstützt.
+> Die usprüngliche Idee für Scopes stammt von Ruby on Rails.
 
-Ein *benannter Bereich* (engl.: named scope) stellt ein *benanntes*
-Abfragekriterium dar, das mit anderen benannten Bereichen kombiniert 
-und auf eine ActiveRecord-Abfrage angewendet werden kann.
+Ein *Scope* (engl.: named scope, sinngem.: benannter Bereich) stellt ein
+Abfragekriterium dar, das man bei einem AR unter einem bestimmten Namen 
+abrufen und mit anderen Scopes kombinieren kann.
 
-Benannte Bereiche werden in der Methode [CActiveRecord::scopes()]
+Scopes werden in der Methode [CActiveRecord::scopes()]
 hauptsächlich als Name-Kriterium-Paare definiert. Der folgende Code deklariert
-die beiden benannten Bereiche `veroeffentlicht` und `kuerzlich` in der
+die beiden Scopes `veroeffentlicht` und `kuerzlich` in der
 Model-Klasse `Beitrag`:
 
 ~~~
@@ -596,15 +614,15 @@ class Beitrag extends CActiveRecord
 }
 ~~~
 
-Jeder benannte Bereich wird als Array deklariert, das zum Initialisieren
-einer [CDbCriteria]-Instanz verwendet werden kann. Der benannte Bereich
+Jeder Scope wird als Array deklariert, das zum Initialisieren
+einer [CDbCriteria]-Instanz verwendet werden kann. Der Scope
 `kuerzlich` bestimmt zum Beispiel, dass die `order`-Eigenschaft auf
 `erstell_zeit DESC` und die `limit`-Eigenschaft auf 5 gesetzt werden soll. Dies
 wird in ein Abfragekriterium übersetzt, das die letzten 5 Beiträge
 zurückliefern sollte.
 
-Benannte Bereiche werden meist als Modifikatoren beim Aufruf von `find`-Methoden
-verwendet. Mehrere benannte Bereiche können miteinander verkettet werden
+Scopes werden meist als Modifikatoren beim Aufruf von `find`-Methoden
+verwendet. Mehrere Scopes können miteinander verkettet werden
 und resultieren so in einem immer weiter eingeschränkten Abfrageergebnis.
 Um zum Beispiel die letzten veröffentlichten Beiträge zu finden, können wir
 diesen Code verwenden:
@@ -613,13 +631,13 @@ diesen Code verwenden:
 $beitraege=Beitrag::model()->veroeffentlicht()->kuerzlich()->findAll();
 ~~~
 
-Benannte Bereiche müssen grundsätzlich links vom Aufruf einer
+Scopes müssen grundsätzlich links vom Aufruf einer
 `find`-Methode stehen. Jeder einzelne von ihnen stellt ein Abfragekriterium bereit, das
 mit anderen Kriterien kombiniert wird, inklusive demjenigen, das als
 Parameter and die `find`-Methode übergeben wurde. Letztendlich fügt man 
 einer Abfrage also eine Liste von Filtern hinzu.
 
-Seit Version 1.0.6 können benannte Bereiche auch mit `update`- und
+Seit Version 1.0.6 können Scopes auch mit `update`- und
 `delete`-Methoden verwendet werden. Der folgende Code würde zum Beispiel alle
 kürzlich veröffentlichten Beiträge löschen:
 
@@ -628,16 +646,16 @@ kürzlich veröffentlichten Beiträge löschen:
 Beitrag::model()->veroeffentlicht()->kuerzlich()->delete();
 ~~~
 
-> Note|Hinweis: Benannte Bereiche können nur mit Methoden auf Klassenebene
+> Note|Hinweis: Scopes können nur mit Methoden auf Klassenebene
 verwendet werden. Das bedeutet, dass die Methode über `KlassenName::model()`
 aufgerufen werden muss.
 
-###Parametriesierte benannte Bereiche
+###Parametrisierte Scopes
 
-Benannte Bereiche können parametrisiert werden. Wir könnten zum Beispiel
-die Anzahl der Beiträge des benannten Bereichs `kuerzlich` anpassen wollen.
-Statt den Bereich in der [CActiveRecord::scopes]-Methode anzugeben,  müssen wir
-dazu eine neue Methode mit dem Namen des Bereichs definieren:
+Scopes können parametrisiert werden. Wir könnten zum Beispiel
+die Anzahl der Beiträge des Scopes `kuerzlich` anpassen wollen.
+Statt den Scope in der [CActiveRecord::scopes]-Methode anzugeben,  müssen wir
+dazu eine neue Methode mit dem Namen des Scopes definieren:
 
 ~~~
 [php]
@@ -662,14 +680,14 @@ $beitraege=Beitrag::model()->veroeffentlicht()->kuerzlich(3)->findAll();
 Wenn wir den Parameter 3 hier nicht angeben, würden wir standardmäßig die letzten 5
 veröffentlichten Beiträge erhalten.
 
-###Standardmäßiger benannter Bereich
+###Standardmäßiger Scope
 
-Ein benannter Bereich kann auch als Standardbereich für eine Modelklasse
+Ein Scope kann auch als Standardscope für eine Modelklasse
 festgelegt werden, so dass er bei allen Abfragen (inkl. relationalen)
 verwendet wird. So könnte zum Beispiel eine mehrsprachige Website ihre 
 Inhalte immer nur in der Sprache des aktuellen Besuchers anzeigen wollen. 
 Da bei den Abfragen für diese Inhalten immer die selben Sprachkriterien
-verwendet werden sollen, können wir einen benannten Bereich als Standard
+verwendet werden sollen, können wir einen Scope als Standard
 festlegen, um dieses Problem zu lösen. Dazu überschreiben wir die Methode
 [CActiveRecord::defaultScope] wie folgt:
 
@@ -694,8 +712,8 @@ Abfragekriterium.
 $contents=Content::model()->findAll();
 ~~~
 
-Beachten Sie, dass der Standardbereich nur für
+Beachten Sie, dass der Standardscope für
 `SELECT`-Abfragen verwendet wird. Bei `INSERT`-, `UPDATE`- und
 `DELETE`-Statements wird er ignoriert.
 
-<div class="revision">$Id: database.ar.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>
+<div class="revision">$Id: database.ar.txt 1681 2010-01-08 03:04:35Z qiang.xue $</div>

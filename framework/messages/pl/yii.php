@@ -152,7 +152,7 @@ return array (
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". The foreign key does not point to either joining table.' => 'Relacja "{relation}" w bieżącym rekordzie klasy "{class}" jest opisana nieprawidłowym kluczem obcym is specified with an invalid foreign key "{key}". Klucz obcy nie wskazuje jednej z łączonych tabel.',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".' => 'Relacja "{relation}" w bieżącym rekordzie klasy "{class}" jest opisana nieprawidłowym kluczem obcym. Format klucza obcego musi być postaci "joinTable(fk1,fk2,...)".',
   'The requested controller "{controller}" does not exist.' => 'Wywoływany kontroler "{controller}" nie istnieje.',
-  'The requested view "{name}" was not found.' => 'Wywoływany widok "{name}" nie został odnaleziony.',
+  'The requested view "{name}" is not found.' => 'Wywoływany widok "{name}" nie został odnaleziony.',
   'The stack is empty.' => 'Stos jest pusty.',
   'The system is unable to find the requested action "{action}".' => 'System nie może odnaleźć żądanej metody "{action}".',
   'The system view path "{path}" is not a valid directory.' => 'Ścieżka widoku systemowego The system view path "{path}" nie jest prawidłowym katalogiem.',

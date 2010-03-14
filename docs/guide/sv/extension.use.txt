@@ -129,7 +129,9 @@ att koppla alla motsvarande behavior.
 
 För klasserna [CController], [CFormModel] och [CActiveModel], vilka vanligtvis 
 behöver utökas, sker koppling av behavior genom att deras respektive metod 
-`behaviors()` åsidosätts och omdefinieras. Till exempel,
+`behaviors()` åsidosätts och omdefinieras.  I samband med initialiseringen 
+kommer klasserna att automatiskt bindas till varje behavior som deklarerats i 
+nämnda metod. Till exempel,
 
 ~~~
 [php]
@@ -332,4 +334,4 @@ Sedan kan en instans av klassen skapas, dess propertyn konfigureras och dess
 metoder anropas. Man kan även ärva och utvidga komponentens klass.
 
 
-<div class="revision">$Id: extension.use.txt 1602 2009-12-18 19:33:34Z qiang.xue $</div>
+<div class="revision">$Id: extension.use.txt 1780 2010-02-01 20:32:50Z qiang.xue $</div>

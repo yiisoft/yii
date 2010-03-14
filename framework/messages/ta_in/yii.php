@@ -160,7 +160,7 @@ return array (
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". There is no such column in the table "{table}".' => 'ActiveRecord இன் "{class}" கூட்டிலுள்ள "{relation}" சார்பு தவறான அயல் குறியீட்டுடன் (foreign key) வரையறுக்கப்பட்டிருக்கின்றது. "{table}" பட்டியலில் அந்தக் குறியீட்டிலிருக்கும் விவரம் எதுவும் இல்லை.',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The columns in the key must match the primary keys of the table "{table}".' => 'ActiveRecord இன் "{class}" கூட்டிலுள்ள "{relation}" சார்பு தவறான அயல் குறியீட்டுடன் (foreign key) வரையறுக்கப்பட்டிருக்கின்றது. அந்தக் குறியீட்டிலிருக்கும் விவரம் அது குறிக்கும் "{table}" பட்டியலில் உள்ள தலைப்பு குறியீட்டுகளுடன் (primary keys) பொருந்தியிருக்க வேண்டும்.',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".' => 'ActiveRecord இன் "{class}" கூட்டிலுள்ள "{relation}" சார்பு தவறான அயல் குறியீட்டுடன் (foreign key) வரையறுக்கப்பட்டிருக்கின்றது. அயல் குறியீட்டு முறை "joinTable(fk1,fk2,...)" ஆக இருக்க வேண்டும்.',
-  'The requested view "{name}" was not found.' => 'நீங்கள் வேண்டிய "{name}" பார்வை இந்த தளத்தில் இல்லை.',
+  'The requested view "{name}" is not found.' => 'நீங்கள் வேண்டிய "{name}" பார்வை இந்த தளத்தில் இல்லை.',
   'The stack is empty.' => 'நீள்அடுக்கு காலியாக உள்ளது.',
   'The system is unable to find the requested action "{action}".' => 'நீங்கள் வேண்டிய "{action}" செயல் இந்த தளத்தில் இல்லை.',
   'The system view path "{path}" is not a valid directory.' => 'தளத்தின் பார்வை முகவரி "{path}" சரியான கோர்வையைக் குறிக்கவில்லை.',

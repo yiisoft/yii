@@ -1,30 +1,29 @@
 Model
 =====
 
-Ein Model ist eine Instanz vom Typ [CModel] oder dessen Kindklassen. Models
-werden verwendet, um Daten, sowie die für sie relevanten Geschäftsregeln festzuhalten.
+Ein Model ist eine Instanz von [CModel] oder einer davon abgeleiteten Klasse. Models
+werden verwendet, um Daten und ihre Geschäftslogik festzuhalten.
 
-Ein Model repräsentiert ein einzelnes Datenobjekt. Es kann sich um eine Zeile
+Ein Model steht für ein einzelnes Datenobjekt. Dabei kann es sich um eine Zeile
 in einer Datenbanktabelle oder ein Formular mit Benutzereingaben handeln.
-Jedes Feld des Datenobjekts wird durch ein Attribut des Models repräsentiert.
-Das Attribut hat ein Label (Bezeichnung bzw. Beschriftung) und kann mit einer
-Reihe von Regeln auf Gültigkeit geprüft werden.
+Jedes Attribut des Models entspricht einem Feld des Datenjobekts.
+Ein Attribut hat ein Label (Bezeichnung bzw. Beschriftung) und kann mit einer
+Reihe von Regeln validiert, also auf Gültigkeit geprüft werden.
 
-Yii implementiert zwei Model-Arten: FormModel (Formularmodel) und ActiveRecord. Beide
+Yii bietet zwei Model-Arten: FormModel (Formularmodel) und ActiveRecord. Beide
 erweitern die selbe Basisklasse [CModel].
 
-Ein FormModel ist eine Instanz vom Typ [CFormModel]. FormModel wird verwendet
-um Daten aus Benutzereingaben abzulegen. Solche Daten werden häufig gesammelt,
-benutzt und dann verworfen. Zum Beispiel können wir auf einer Anmeldeseite
-ein FormModel verwenden, um die vom Endbenutzer eingegebenen Benutzernamen- und 
-Passwortinformationen abzubilden. Weitere Details finden Sie unter
-[Arbeiten mit Formularen](/doc/guide/form.model).
+Ein FormModel ist eine Instanz von [CFormModel]. Es wird dann verwendet,
+wenn eingegebene Daten nur kurz abgelegt werden sollen. Meist werden solche Daten
+gesammelt, benutzt und anschließend wieder verworfen. Für eine Anmeldeseite
+könnte man z.B. ein FormModel verwenden, um Benutzernamen und Passwort zu
+speichern. Weitere Details dazu finden Sie unter [Arbeiten mit Formularen](/doc/guide/form.model).
 
-ActiveRecord (AR) ist ein Designpattern (Entwurfsmuster), das verwendet wird,
+ActiveRecords (AR) sind ein bekanntes Entwursfmuster, das oft verwendet wird,
 um Datenbankzugriffe auf objektorientierte Weise zu abstrahieren. Jedes
-AR-Objekt ist eine Instanz vom Typ [CActiveRecord] oder dessen Kindklassen,
-welche eine einzelne Zeile in einer Datenbanktabelle darstellt. Die Felder der
-Zeile werden auf die Eigenschaften des AR-Objekts abgebildet. Details zu AR
-finden Sie unter [ActiveRecord](/doc/guide/database.ar).
+AR-Objekt ist eine Instanz von [CActiveRecord] oder einer davon abgeleiteten
+Klasse. Ein Record steht für eine einzelne Zeile einer Datenbanktabelle. Die
+Datenfelder werden auf die Eigenschaften des AR-Objekts abgebildet. Weitere
+Details zu AR finden Sie unter [ActiveRecord](/doc/guide/database.ar).
 
 <div class="revision">$Id: basics.model.txt 162 2008-11-05 12:44:08Z weizhuo $</div>

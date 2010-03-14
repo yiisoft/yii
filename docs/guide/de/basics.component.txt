@@ -1,19 +1,19 @@
 Komponente
 ==========
 
-Yii-Anwendungen bauen auf Komponenten auf. Das sind Objekte, die für eine
-bestimme Aufgabe geschrieben wurden. Eine Komponente ist eine Instanz vom Typ
-[CComponent] oder einer davon abgeleiteten Klasse. Der Umgang mit einer
-Komponente umfasst hauptsächlich den Zugriff auf deren Eigenschaften und das
-Auslösen/Behandeln ihrer Events. In der Basisklasse [CComponent] ist
-festgelegt, wie Eigenschaften und Events definiert werden.
+Yii-Anwendungen bestehen aus Komponenten. Eine Komponente ist ein Objekt vom
+Typ [CComponent] (oder einere davon abgeleitete Klasse), das eine ganz
+bestimmte Aufgabe übernimmt. Meist greift man nur auf Eigenschaften von
+Komponenten zu oder reagiert auf deren Events bzw. löst diese aus. Die
+Basisklasse [CComponent] legt fest, wie man Eigenschaften und Events
+definiert.
 
 
 Eigenschaft 
 -----------
 
 Eine Eigenschaft einer Komponente verhält sich wie eine öffentliche 
-Klassenvariable. Wir können Ihren Wert lesen oder ihr einen Wert zuweisen. 
+Klassenvariable. Man kann Ihren Wert lesen oder ihr einen Wert zuweisen. 
 Zum Beispiel:
 
 ~~~
@@ -22,10 +22,9 @@ $width=$component->textWidth;     // Liest die Eigenschaft textWidth
 $component->enableCaching=true;   // Setzt die Eigenschaft enableCaching
 ~~~
 
-Um eine Eigenschaft einer Komponente zu definieren, können wir einfach eine
-öffentliche Variable in der Klasse der Komponente definieren. Flexibler ist
-es jedoch, sogenannte Getter- und Setter-Methoden wie im folgenden zu
-verwenden:
+Eine Eigenschaft kann daher einfach eine öffentliche Variable in der Klasse
+sein. Stattdesssen kann man aber auch wesentlich flexiblere Getter- 
+und Setter-Methoden verwenden:
 
 ~~~
 [php]
@@ -40,10 +39,10 @@ public function setTextWidth($value)
 }
 ~~~
 
-Dieser Code definiert eine beschreibbare Eigenschaft namens `textWidth`
-(Groß-/Kleinschreibung des Namens wird nicht berücksichtigt). Beim Lesen der
-Eigenschaft wird `getTextWidth()` aufgerufen, und der zurückgegebene Wert wird
-zum Wert der Eigenschaft. Entsprechend wird beim Schreiben `setTextWidth()`
+Diese beiden Methoden definieren die beschreibbare Eigenschaft `textWidth`.
+Groß-/Kleinschreibung des Namens wird dabei nicht berücksichtigt. Beim Lesen
+dieser Eigenschaft wird `getTextWidth()` aufgerufen, und der Eigenschaftswert
+mit return zurückgegeben. Entsprechend wird beim Schreiben `setTextWidth()`
 aufgerufen. Wenn die Setter-Methode nicht definiert ist, ist die Eigenschaft
 nur lesbar und beim Schreiben würde eine Exception ausgelöst. Der Einsatz von
 Getter-/Setter-Methoden zum Definieren einer Eigenschaft hat den Vorteil, das
@@ -58,17 +57,15 @@ beim Lesen und Schreiben zusätzliche Logik ausgeführt werden kann
 Event
 -----
 
-Events (Ereignisse) sind spezielle Eigenschaften von Komponenten, die 
+Events (Ereignisse) sind spezielle Komponenteneigenschaften, die 
 sog. `Eventhandler`-Methoden (sinngem.: Ereignisbearbeiter) als Wert erwarten. 
-Wenn man eine Methode mit einem Event verbindet (engl.: attach), wird diese Methode beim
-Auslösen des Events ausgeführt. Somit kann das Verhalten einer Komponente in
-einer Weise verändert werden, die bei deren Entwicklung noch nicht vorgesehen
-war.
+Hängt man eine Methode an ein Event an (engl.: attach), wird diese aufgerufen,
+sobald das Event ausgelöst wird. Auf diese Weise kann man das Verhalten einer
+Komponente nachträglich noch anpassen.
 
-Ein Event wird in einer Komponente durch eine Methode, deren Name mit `on` beginnt,
-definiert. Genau wie die Namen von Eigenschaften, die durch
-Getter-/Setter-Methoden definiert wurden, sind Event-Namen unabhängig von
-Groß-/Kleinschreibung. Der folgende Code definiert ein Event `onClicked`:
+Ein Event wird definiert, indem man in einer Komponente eine Methode anlegt,
+deren Name mit `on` beginnt. Auch bei Eventnamen wird die Schreibweise
+(groß/klein) ignoriert. Das Event `onClicked` wird z.B. wie folgt definiert:
 
 ~~~
 [php]
@@ -78,22 +75,23 @@ public function onClicked($event)
 }
 ~~~
 
-wobei `$event` eine Instanz vom Typ [CEvent] oder dessen Kindklasse ist, und
-den Event-Parameter darstellt.
+`$event` ist dabei eine Instanz vom Typ [CEvent] bzw. einer Kindklasse und
+stellt den Eventparameter dar.
 
-Wir können eine Methode wie folgt mit diesem Event verbinden:
+Eine Methode kann wie folgt an ein Event angehägt werden:
 
 ~~~
 [php]
 $component->onClicked=$callback;
 ~~~
 
-wobei `$callback` sich auf eine gültige PHP-Callback-Funktion bezieht. Es kann
-sich um eine globale Funktion oder einen Klassenmethode handeln. In letzterem
-Fall muss die Callback-Funktion als array `array($objekt,'methodenName')`
-angegeben werden.
+`$callback` muss eine gültige PHP-Callbackfunktion sein. Also entweder eine
+globale Funktion oder auch eine Klassenmethode. In letzterem
+Fall wird die Callbackfunktion als Array `array($objekt,'methodenName')`
+angegeben.
 
-Die Signatur eines Eventhandlers muss wie folgt aussehen:
+Die Signatur eines solchen Eventhandlers (also einer Funktion, die bei einem
+Event aufgerufen werden soll), muss wie folgt aussehen:
 
 ~~~
 [php]
@@ -103,13 +101,13 @@ function methodenName($event)
 }
 ~~~
 
-wobei `$event` ein Parameter ist, der das Event näher beschreibt (er stammt
-aus dem Aufruf von `raiseEvent()`). Der Event-Parameter ist eine Instanz vom
-Typ [CEvent] oder einer davon abgeleiteten Klasse. Er enthält mindestens die
+wobei `$event` ein Parameter ist, der das Event näher beschreibt. Er stammt
+aus dem Aufruf von `raiseEvent()`. Der Eventparameter ist eine Instanz vom
+Typ [CEvent] oder einer Kindklasse. Er enthält mindestens die
 Information, wer das Event ausgelöst hat.
 
 Seit Version 1.0.10 kann ein Eventhandler auch eine anonyme Funktion sein, die
-seit PHP 5.3 oder höher unterstützt werden. Zum Beispiel:
+seit PHP 5.3 unterstützt werden. Zum Beispiel:
 
 ~~~
 [php]
@@ -118,37 +116,36 @@ $component->onClicked=function($event) {
 }
 ~~~
 
-Wenn wir nun `onClicked()` aufrufen, wird das Event `onClicked` ausgelöst
-(innerhalb `onClicked()`) und der verbundene Eventhandler wird automatisch
-aufgerufen.
+Ruft man nun `onClicked()` auf, wird darin das Event `onClicked` ausgelöst
+und der angehängte Eventhandler wird automatisch aufgerufen.
 
-Ein Event kann auch mit mehreren Handler-Methoden verbunden sein. Wenn das
-Event ausgelöst wird, werden die Handler in der Reihenfolge aufgerufen, in der
-sie mit dem Event verbunden wurden. Wenn ein Handler beschließt, dass die
-verbleibenden Handler nicht mehr ausgeführt werden sollen, kann er
-[$event->handled|CEvent::handled] auf true setzen.
+An ein Event können auch mehrere Handlermethoden angehängt sein. Beim Auslösen
+des Events werden die Handler in der selben Reihenfolge aufgerufen, in der sie
+an das Event angehängt wurden. Sollte in einer Handlermethode entschieden
+werden, dass die verbleibenden Handler für dieses Event nicht mehr ausgeführt
+werden sollen, kann darin [$event->handled|CEvent::handled] auf true gesetzt
+werden.
 
 
 Behavior
 --------
 
 Seit Version 1.0.2 unterstützen Komponenten auch
-[Mixins](http://www.wikiservice.at/dse/wiki.cgi?MixIn) und können mit einem oder
-mehreren Behaviors (Verhalten) verbunden werden. Ein *Behavior* ist
-ein Objekt, dessen Methoden von seinen angebundenen Komponenten in dem Sinne 'geerbt'
-werden, dass Funtionalität angesammelt wird, im Gegensatz zur Spezialisierung
-(also normaler Klassenvererbung).
+[Mixins](http://www.wikiservice.at/dse/wiki.cgi?MixIn). An eine Komponente
+können damit ein oder mehrere Behaviors (Verhalten) angehägt werden. 
+Die Komponente 'erbt' dann die Methoden des *Behavior*-Objekts. Allerdings
+nicht als Spezialisierung (normale Klassenvererbung) sondern im Sinne einer
+Ansammlung weiterer Funktionalitäten.
 
-Behavior-Klassen müssen das Interface [IBehavior] implementieren. Die meisten
-Behaviors können von der Basisklasse [CBehavior] abgeleitet werden. Wenn ein
-Behavior mit einem [Model](/doc/guide/basics.model) verbunden werden soll,
-kann es auch von einer der Klassen [CFormBehavior] oder [CActiveRecordBehavior]
-abgeleitet werden, die zusätzliche Features speziell für Models beinhalten.
+Behaviorklassen müssen das [IBehavior]-Interface implementieren. Die meisten
+Behaviors können von der Basisklasse [CBehavior] abgeleitet werden. Behaviors
+für ein [Model](/doc/guide/basics.model) können auch von den Klassen
+[CFormBehavior] oder [CActiveRecordBehavior] abgeleitet werden, 
+die zusätzliche Features speziell für diese Models beinhalten.
 
-Um ein Behavior zu verwenden, muss es zunächst mit einer Komponente verbunden
-werden, indem man die Methode [attach()|IBehavior::attach] des Behaviors
-aufruft. Danach können wir die Methode des Behaviors über die Komponente
-aufrufen.
+Möchte man ein Behavior mit einer Komponente verwenden, muss es zunächst mit der
+[attach()|IBehavior::attach]-Methode angehängt werden. Danach können die
+Behaviormethoden direkt über die Komponente aufgerufen werden.
 
 ~~~
 [php]
@@ -158,10 +155,9 @@ $component->attachBehavior($name,$behavior);
 $component->test();
 ~~~
 
-Auf ein verbundenes Behavior kann wie auf eine normale Eigenschaft der Komponente
-zugegriffen weden. Wenn zum Beispiel ein Behavior namens `tree` mit einer
-Komponente verbunden ist, erhalten wir eine Referenz auf dieses Behavior wie
-folgt erhalten:
+Auf ein angehängtes Behavior kann wie auf eine normale Komponenteneigenschaft
+zugegriffen weden. Wurde z.B. ein Behavior namens `tree` mit einer
+Komponente verbunden, kann man das Behaviorobjekt wie folgt ansprechen:
 
 ~~~
 [php]
@@ -183,20 +179,19 @@ $component->enableBehavior($name);
 $component->test();
 ~~~
 
-Es ist möglich, dass zwei mit einer Komponente verbundene Behaviors, Methoden
-mit dem selben Namen haben. In diesem Fall wird dem zuerst verbundenen
-Behavior der Vorzug gegeben.
+Sollte eine Methode aufgerufen werden, die in zwei angehängten Behaviors vorhanden ist, 
+wird die Methode des zuerst angehängten Behaviors aufgerufen.
 
 Im Zusammenhang mit [Events](#component-event) sind Behaviors noch wesentlich
-leistungsfähiger. Wenn ein Behavior mit einer Komponente verbunden wird, kann
-es eine oder mehrere seiner Methoden mit einigen Events der Komponente
-verbinden. Dadurch kann kann das Behavior den normalen Prozessablauf innerhalb
+leistungsfähiger. Wenn ein Behavior an eine Komponente gehängt wird, kann
+es eine oder mehrere seiner Methoden an Events dieser Komponente anhängen.
+Dadurch kann kann das Behavior den normalen Prozessablauf innerhalb
 einer Komponente überwachen oder verändern.
 
-Beginnend mit Version 1.1.0 kann auch von einer Komponente aus auf
-Eigenschaften eines angebundenen Behaviors zugegriffen werden. Die
+Ab Version 1.1.0 kann auch von einer Komponente aus auf
+die Eigenschaften eines angehängten Behaviors zugegriffen werden. Die
 zugänglichen Eigenschaften umfassen öffentliche Variablen und Eigenschaften
-die mit getter-/setter-Methoden im Behavior definiert wurden. Falls ein
+die mit Getter-/Setter-Methoden im Behavior definiert wurden. Falls ein
 Behavior zum Beispiel eine Eigenschaft namens `xyz` besitzt und an eine
 Komponente `$a` angebunden wurde, kann mit `$a->xyz` darauf zugegriffen
 werden.
