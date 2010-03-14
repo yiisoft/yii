@@ -123,7 +123,7 @@
 					});
 					ajaxValidate(function(data) {
 						$.each(settings.attributes, function(){
-							if (this.status == 3) {
+							if (this.status > 0) {
 								updateInput(this, data);
 							}
 						});
@@ -199,7 +199,7 @@
 		 *     inputID : 'input-tag-id',
 		 *     errorID : 'error-tag-id',
 		 *     value : undefined,
-		 *     status : 0,  // 0: not validated,  1: validated, 2: pending validation, 3: validating
+		 *     status : 0,  // 0: empty, not entered before,  1: validated, 2: pending validation, 3: validating
 		 *     validationDelay: 100,
 		 *     validateOnChange : true,
 		 *     validateOnType : false,
