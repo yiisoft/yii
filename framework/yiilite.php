@@ -38,7 +38,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.0.11';
+		return '1.0.12';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -2165,7 +2165,8 @@ class CHttpRequest extends CApplicationComponent
 		header('Expires: 0');
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header("Content-type: $mimeType");
-		header('Content-Length: '.strlen($content));
+		if(ini_get("output_handler")=='')
+			header('Content-Length: '.strlen($content));
 		header("Content-Disposition: attachment; filename=\"$fileName\"");
 		header('Content-Transfer-Encoding: binary');
 		echo $content;
@@ -2431,18 +2432,17 @@ class CUrlManager extends CApplicationComponent
 				$_REQUEST[$key]=$_GET[$key]=$value;
 		}
 	}
-	public function createPathInfo($params,$equal,$ampersand)
+	public function createPathInfo($params,$equal,$ampersand, $key=null)
 	{
-		$pairs=array();
-		foreach($params as $key=>$value)
+		$pairs = array();
+		foreach($params as $k => $v)
 		{
-			if(is_array($value))
-			{
-				foreach($value as $k=>$v)
-					$pairs[]=urlencode($key).'['.urlencode($k).']'.$equal.urlencode($v);
-			}
+			if ($key!==null)
+				$k = $key.'['.$k.']';
+			if (is_array($v))
+				$pairs[]=$this->createPathInfo($v,$equal,$ampersand, $k);
 			else
-				$pairs[]=urlencode($key).$equal.urlencode($value);
+				$pairs[]=urlencode($k).$equal.urlencode($v);
 		}
 		return implode($ampersand,$pairs);
 	}
@@ -3133,7 +3133,7 @@ class CController extends CBaseController
 	}
 	protected function loadPageStates()
 	{
-		if(isset($_POST[self::STATE_INPUT_NAME]) && !empty($_POST[self::STATE_INPUT_NAME]))
+		if(!empty($_POST[self::STATE_INPUT_NAME]))
 		{
 			if(($data=base64_decode($_POST[self::STATE_INPUT_NAME]))!==false)
 			{
@@ -3187,7 +3187,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	const STATES_VAR='__states';
 	public $allowAutoLogin=false;
 	public $guestName='Guest';
-	public $loginUrl=array('site/login');
+	public $loginUrl=array('/site/login');
 	public $identityCookie;
 	private $_keyPrefix;
 	private $_access=array();
@@ -3302,8 +3302,8 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		$cookie=$app->getRequest()->getCookies()->itemAt($this->getStateKeyPrefix());
 		if($cookie && !empty($cookie->value) && ($data=$app->getSecurityManager()->validateData($cookie->value))!==false)
 		{
-			$data=unserialize($data);
-			if(isset($data[0],$data[1],$data[2]))
+			$data=@unserialize($data);
+			if(is_array($data) && isset($data[0],$data[1],$data[2]))
 			{
 				list($id,$name,$states)=$data;
 				$this->changeIdentity($id,$name,$states);
@@ -6065,7 +6065,7 @@ abstract class CActiveRecord extends CModel
 		$command=$this->getCommandBuilder()->createFindCommand($this->getTableSchema(),$criteria);
 		return $all ? $this->populateRecords($command->queryAll()) : $this->populateRecord($command->queryRow());
 	}
-	private function applyScopes(&$criteria)
+	public function applyScopes(&$criteria)
 	{
 		if(($c=$this->getDbCriteria(false))!==null)
 		{
@@ -6145,9 +6145,7 @@ abstract class CActiveRecord extends CModel
 			$with=func_get_args();
 			if(is_array($with[0]))  // the parameter is given as an array
 				$with=$with[0];
-			$finder=new CActiveFinder($this,$with,$this->getDbCriteria(false));
-			$this->_c=null;
-			return $finder;
+			return new CActiveFinder($this,$with);
 		}
 		else
 			return $this;
@@ -6295,7 +6293,7 @@ class CBaseActiveRelation extends CComponent
 			if($this->order==='')
 				$this->order=$criteria['order'];
 			else if($criteria['order']!=='')
-				$this->order.=', '.$criteria['order'];
+				$this->order=$criteria['order'].', '.$this->order;
 		}
 		if(isset($criteria['group']) && $this->group!==$criteria['group'])
 		{
