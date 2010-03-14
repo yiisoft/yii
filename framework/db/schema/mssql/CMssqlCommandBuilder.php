@@ -41,12 +41,13 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	 * Override parent implementation to remove the order clause of criteria if it exists
 	 * @param CDbTableSchema the table metadata
 	 * @param CDbCriteria the query criteria
+	 * @param string the alias name of the primary table. Defaults to 't'.
 	 * @return CDbCommand query command.
 	 */
-	public function createCountCommand($table,$criteria)
+	public function createCountCommand($table,$criteria,$alias='t')
 	{
 		$criteria->order='';
-		return parent::createCountCommand($table, $criteria);
+		return parent::createCountCommand($table, $criteria,$alias);
 	}
 
 	/**
@@ -54,12 +55,13 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	 * Override parent implementation to check if an orderby clause if specified when querying with an offset
 	 * @param CDbTableSchema the table metadata
 	 * @param CDbCriteria the query criteria
+	 * @param string the alias name of the primary table. Defaults to 't'.
 	 * @return CDbCommand query command.
 	 */
-	public function createFindCommand($table,$criteria)
+	public function createFindCommand($table,$criteria,$alias='t')
 	{
 		$criteria=$this->checkCriteria($table,$criteria);
-		return parent::createFindCommand($table,$criteria);
+		return parent::createFindCommand($table,$criteria,$alias);
 
 	}
 

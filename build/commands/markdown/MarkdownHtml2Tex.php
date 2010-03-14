@@ -189,10 +189,10 @@ TEX;
 	function make_sections($matches)
 	{
 		$label = sprintf('\label{%s}', $this->path.'-'.$matches[2]);
-		if(!$this->has_has_path_label)
+		if(!$this->has_path_label)
 		{
 			$label .= sprintf("\n\label{%s}", $this->path);
-			$this->has_has_path_label = true;
+			$this->has_path_label = true;
 		}
 		$section = sprintf('\%ssection{%s}', str_repeat('sub',intval($matches[1])-1), $matches[3]);
 		return $section.$label;

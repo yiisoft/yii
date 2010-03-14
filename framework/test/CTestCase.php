@@ -8,6 +8,7 @@
  * @license http://www.yiiframework.com/license/
  */
 
+require_once('PHPUnit/Framework.php');
 require_once('PHPUnit/Framework/TestCase.php');
 
 /**
