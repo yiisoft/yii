@@ -186,8 +186,8 @@ class CDbCriteriaTest extends CTestCase {
 		
 		$criteria = new CDbCriteria();
 		$criteria->compare('A', '=1', true);
-		$this->assertEquals('A LIKE :ycp0', $criteria->condition);
-		$this->assertEquals('%1%', $criteria->params[':ycp0']);
+		$this->assertEquals('A=:ycp0', $criteria->condition);
+		$this->assertEquals('1', $criteria->params[':ycp0']);
 
 		$criteria = new CDbCriteria();
 		$criteria->compare('A', '<>1', true);

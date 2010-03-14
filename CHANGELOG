@@ -7,7 +7,6 @@ Version 1.1.2 to be released
 - Bug #676, 891: merging criterias with parameters is impossible (Sam Dark)
 - Bug #1006: Setting CForm::attributes may cause exception (Qiang)
 - Bug #1007: CActiveForm did not update the validation result correctly when change of one attribute affects the validity of another (Qiang)
-- Bug: CDbCriteria::compare partialMatch is not working with "=" operator (Sam Dark)
 - Enh #943: dynamic AR relations (Sam Dark)
 - Enh: CCaptchaAction now supports unlimited tests by setting its testLimit to be 0 (Qiang)
 
