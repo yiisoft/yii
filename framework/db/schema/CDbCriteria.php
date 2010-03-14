@@ -323,7 +323,7 @@ class CDbCriteria
 
 		if($partialMatch)
 		{
-			if($op==='')
+			if($op==='' || $op==='=')
 				return $this->addSearchCondition($column,$value,true,$operator);
 			if($op==='<>')
 				return $this->addSearchCondition($column,$value,true,$operator,'NOT LIKE');
@@ -366,16 +366,22 @@ class CDbCriteria
 			}
 		}
 
-		if($this->condition!==$criteria->condition)
-		{
-			if($this->condition==='')
-				$this->condition=$criteria->condition;
-			else if($criteria->condition!=='')
-				$this->condition="({$this->condition}) $and ({$criteria->condition})";
-		}
-
+		$params = array();
 		if($this->params!==$criteria->params)
-			$this->params=array_merge($this->params,$criteria->params);
+			foreach($criteria->params as $key=>$value)
+			{
+				$this->params[self::PARAM_PREFIX.$this->_paramCount]=$value;
+				$params[$key] = self::PARAM_PREFIX.$this->_paramCount++;	
+			}
+
+		if($this->condition!==$criteria->condition || !empty($params))
+		{
+			$newCondition = str_replace(array_keys($params), array_values($params), $criteria->condition);
+			if($this->condition==='')
+				$this->condition=$newCondition;
+			else if($criteria->condition!=='')
+				$this->condition="({$this->condition}) $and ({$newCondition})";
+		}
 
 		if($criteria->limit>0)
 			$this->limit=$criteria->limit;
