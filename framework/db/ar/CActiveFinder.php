@@ -857,6 +857,7 @@ class CJoinElement
 					$key=substr($name,$pos+1);
 				else
 					$key=$name;
+				$key=trim($key,'\'"`');
 
 				if($key==='*')
 				{
