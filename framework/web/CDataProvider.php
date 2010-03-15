@@ -40,8 +40,6 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	 */
 	public function getId()
 	{
-		if($this->_id===null)
-			$this->_id=$this->modelClass;
 		return $this->_id;
 	}
 
