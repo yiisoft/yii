@@ -196,7 +196,7 @@ class CDbCriteriaTest extends CTestCase {
 	}
 
 	/**
-	 * @ depends testCompare
+	 * @depends testCompare
 	 * @covers CDbCriteria::mergeWith
 	 */
 	function testMergeWith() {
@@ -406,6 +406,47 @@ class CDbCriteriaTest extends CTestCase {
 		$this->assertEquals(10, $criteria1->params[':ycp9']);
 		$this->assertEquals(11, $criteria1->params[':ycp10']);
 		$this->assertEquals(12, $criteria1->params[':ycp11']);
+	}
 
+	/**
+	 * Merging criterias with positioned and non positioned parameters.
+	 *
+	 * @depends testCompare
+	 * @covers CDbCriteria::mergeWith
+	 */
+	function testMergeWithPositionalPlaceholders(){
+		$criteria1 = new CDbCriteria();
+		$criteria1->condition = 'A=? AND B=?';
+		$criteria1->params = array(0 => 10, 1 => 20);
+
+		$criteria2 = new CDbCriteria();
+		$criteria2->compare('C', 30);
+		$criteria2->compare('D', 40);		
+
+		$criteria2->mergeWith($criteria1);
+
+		$this->assertEquals('((C=:ycp0) AND (D=:ycp1)) AND (A=:ycp2 AND B=:ycp3)', $criteria2->condition);
+		$this->assertEquals(10, $criteria2->params[':ycp2']);
+		$this->assertEquals(20, $criteria2->params[':ycp3']);
+		$this->assertEquals(30, $criteria2->params[':ycp0']);
+		$this->assertEquals(40, $criteria2->params[':ycp1']);
+
+		// and vice versa
+
+		$criteria1 = new CDbCriteria();
+		$criteria1->condition = 'A=? AND B=?';
+		$criteria1->params = array(0 => 10, 1 => 20);
+
+		$criteria2 = new CDbCriteria();
+		$criteria2->compare('C', 30);
+		$criteria2->compare('D', 40);
+
+		$criteria1->mergeWith($criteria2);
+
+		$this->assertEquals('(A=:ycp2 AND B=:ycp3) AND ((C=:ycp0) AND (D=:ycp1))', $criteria1->condition);
+		$this->assertEquals(10, $criteria1->params[':ycp2']);
+		$this->assertEquals(20, $criteria1->params[':ycp3']);
+		$this->assertEquals(30, $criteria1->params[':ycp0']);
+		$this->assertEquals(40, $criteria1->params[':ycp1']);
 	}
 }
