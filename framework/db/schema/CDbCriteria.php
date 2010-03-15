@@ -19,7 +19,7 @@
 class CDbCriteria
 {
 	const PARAM_PREFIX=':ycp';
-	private $_paramCount=0;
+	private $_paramCount=0;	
 
 	/**
 	 * @var mixed the columns being selected. This refers to the SELECT clause in an SQL
@@ -366,25 +366,60 @@ class CDbCriteria
 			}
 		}
 
-		$params = array();
+
+		// We are converting positional placeholders to named placeholders since
+		// there are some issues in PDO when mixing them.
+		$params = array();		
+		$positionalParams = array();
+		
 		if($this->params!==$criteria->params)
-			foreach($criteria->params as $key=>$value)
+		{
+			foreach($this->params as $key=>$value)
 			{
-				$this->params[self::PARAM_PREFIX.$this->_paramCount]=$value;
-				$params[$key] = self::PARAM_PREFIX.$this->_paramCount++;	
+				if(is_int($key))
+				{
+					$positionalParams[] = $value;
+					unset($this->params[$key]);
+				}
 			}
 
-		if($this->condition!==$criteria->condition || !empty($params))
+			foreach($criteria->params as $key=>$value)
+			{				
+				if(is_int($key))
+					$positionalParams[] = $value;
+				else
+				{
+					$this->params[self::PARAM_PREFIX.$this->_paramCount]=$value;
+					$params[$key] = self::PARAM_PREFIX.$this->_paramCount++;
+				}				
+			}
+		}
+
+		if($this->condition!==$criteria->condition || !empty($paramsThis) || !empty($paramsCriteria) || !empty($positionalParams))
 		{
-			$newCondition = $criteria->condition;
-			foreach($params as $find => $replace){				
-				$newCondition = preg_replace('~(^|[- ()=<>!+*/%&^|\~])'.$find.'($|[- ()=<>!+*/%&^|\~])~', '$1'.$replace.'$2', $newCondition);	
+			$newCriteriaCondition = $criteria->condition;
+			
+			// Replacing existing named placeholders
+			foreach($params as $find => $replace){
+				$newCriteriaCondition = preg_replace('~(^|[- ()=<>!+*/%&^|\~])'.$find.'($|[- ()=<>!+*/%&^|\~])~', '$1'.$replace.'$2', $newCriteriaCondition);
 			}
 
 			if($this->condition==='')
-				$this->condition=$newCondition;
-			else if($criteria->condition!=='')
-				$this->condition="({$this->condition}) $and ({$newCondition})";
+				$newCondition=$newCriteriaCondition;
+			else if($criteria->condition!==''){				
+				$newCondition="({$this->condition}) $and ({$newCriteriaCondition})";
+			}
+
+			// Converting positional placeholders to named placeholders
+			foreach($positionalParams as $param){
+				$replace = self::PARAM_PREFIX.$this->_paramCount;
+				$this->params[$replace]=$param;
+				$this->_paramCount++;
+
+				$newCondition = preg_replace('~(^|[- ()=<>!+*/%&^|\~])\?($|[- ()=<>!+*/%&^|\~])~', '$1'.$replace.'$2', $newCondition, 1);
+			}
+
+			$this->condition = $newCondition;
 		}
 
 		if($criteria->limit>0)
