@@ -395,7 +395,7 @@ class CDbCriteria
 			}
 		}
 
-		if($this->condition!==$criteria->condition || !empty($paramsThis) || !empty($paramsCriteria) || !empty($positionalParams))
+		if($this->condition!==$criteria->condition || !empty($params) || !empty($positionalParams))
 		{
 			$newCriteriaCondition = $criteria->condition;
 			
