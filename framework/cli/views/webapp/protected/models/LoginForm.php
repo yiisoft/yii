@@ -47,18 +47,8 @@ class LoginForm extends CFormModel
 	public function authenticate($attribute,$params)
 	{
 		$this->_identity=new UserIdentity($this->username,$this->password);
-		$this->_identity->authenticate();
-		switch($this->_identity->errorCode)
-		{
-			case UserIdentity::ERROR_USERNAME_INVALID:
-				$this->addError('username','Username is incorrect.');
-				break;
-			case UserIdentity::ERROR_PASSWORD_INVALID:
-				$this->addError('password','Password is incorrect.');
-				break;
-			default:
-				break;
-		}
+		if(!$this->_identity->authenticate())
+			$this->addError('password','Incorrect username or password.');
 	}
 
 	/**
