@@ -1451,7 +1451,6 @@ class CStatElement
 
 		if(!$fkDefined)
 		{
-			die('????');
 			$joinCondition=array();
 			$map=array();
 			foreach($fks as $i=>$fk)
