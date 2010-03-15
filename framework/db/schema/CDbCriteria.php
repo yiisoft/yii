@@ -376,7 +376,11 @@ class CDbCriteria
 
 		if($this->condition!==$criteria->condition || !empty($params))
 		{
-			$newCondition = str_replace(array_keys($params), array_values($params), $criteria->condition);
+			$newCondition = $criteria->condition;
+			foreach($params as $find => $replace){				
+				$newCondition = preg_replace('~(^|[- ()=<>!+*/%&^|\~])'.$find.'($|[- ()=<>!+*/%&^|\~])~', '$1'.$replace.'$2', $newCondition);	
+			}
+
 			if($this->condition==='')
 				$this->condition=$newCondition;
 			else if($criteria->condition!=='')
