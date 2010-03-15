@@ -57,6 +57,20 @@ class CActiveDataProvider extends CDataProvider
 	}
 
 	/**
+	 * @return string the unique ID that uniquely identifies the data provider among all data providers.
+	 */
+	public function getId()
+	{
+		if(($id=$this->getId())===null)
+		{
+			$this->setId($this->modelClass);
+			return $this->modelClass;
+		}
+		else
+			return $id;
+	}
+
+	/**
 	 * @return CDbCriteria the query criteria
 	 */
 	public function getCriteria()
