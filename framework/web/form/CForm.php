@@ -395,7 +395,7 @@ class CForm extends CFormElement implements ArrayAccess
 					$options['htmlOptions'][$name]=$value;
 			}
 			else
-				$options['htmlOptions']=$options;
+				$options['htmlOptions']=$this->attributes;
 			ob_start();
 			$this->_activeForm=$this->getOwner()->beginWidget($class, $options);
 			return ob_get_clean() . "<div style=\"visibility:hidden\">".CHtml::hiddenField($this->getUniqueID(),1)."</div>\n";
