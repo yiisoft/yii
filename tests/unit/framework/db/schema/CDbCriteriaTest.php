@@ -376,15 +376,36 @@ class CDbCriteriaTest extends CTestCase {
 
 		// merging two criteria with parameters
 		$criteria1 = new CDbCriteria;
-		$criteria1->compare('A', 1);
+		$criteria1->compare('A1', 1);
+		$criteria1->compare('A2', 2);
+		$criteria1->compare('A3', 3);
+		$criteria1->compare('A4', 4);
+		$criteria1->compare('A5', 5);
+		$criteria1->compare('A6', 6);
 
 		$criteria2 = new CDbCriteria;
-		$criteria2->compare('B', 2);
+		$criteria2->compare('B1', 7);
+		$criteria2->compare('B2', 8);
+		$criteria2->compare('B3', 9);
+		$criteria2->compare('B4', 10);
+		$criteria2->compare('B5', 11);
+		$criteria2->compare('B6', 12);
 
 		$criteria1->mergeWith($criteria2);
 
-		$this->assertEquals('(A=:ycp0) AND (B=:ycp1)', $criteria1->condition);
+		$this->assertEquals('((((((A1=:ycp0) AND (A2=:ycp1)) AND (A3=:ycp2)) AND (A4=:ycp3)) AND (A5=:ycp4)) AND (A6=:ycp5)) AND ((((((B1=:ycp6) AND (B2=:ycp7)) AND (B3=:ycp8)) AND (B4=:ycp9)) AND (B5=:ycp10)) AND (B6=:ycp11))', $criteria1->condition);
 		$this->assertEquals(1, $criteria1->params[':ycp0']);
 		$this->assertEquals(2, $criteria1->params[':ycp1']);
+		$this->assertEquals(3, $criteria1->params[':ycp2']);
+		$this->assertEquals(4, $criteria1->params[':ycp3']);
+		$this->assertEquals(5, $criteria1->params[':ycp4']);
+		$this->assertEquals(6, $criteria1->params[':ycp5']);
+		$this->assertEquals(7, $criteria1->params[':ycp6']);
+		$this->assertEquals(8, $criteria1->params[':ycp7']);
+		$this->assertEquals(9, $criteria1->params[':ycp8']);
+		$this->assertEquals(10, $criteria1->params[':ycp9']);
+		$this->assertEquals(11, $criteria1->params[':ycp10']);
+		$this->assertEquals(12, $criteria1->params[':ycp11']);
+
 	}
 }
