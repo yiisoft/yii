@@ -420,7 +420,8 @@ class CDbCriteria
 				$newCondition = preg_replace('~(^|[- ()=<>!+*/%&^|\~])\?($|[- ()=<>!+*/%&^|\~])~', '$1'.$replace.'$2', $newCondition, 1);
 			}
 
-			if($newCondition) $this->condition = $newCondition;
+			if(!empty($newCondition))
+				$this->condition = $newCondition;
 		}
 
 		if($criteria->limit>0)
