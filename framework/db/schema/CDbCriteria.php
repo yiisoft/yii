@@ -400,18 +400,19 @@ class CDbCriteria
 			$newCriteriaCondition = $criteria->condition;
 			
 			// Replacing existing named placeholders
-			foreach($params as $find => $replace){
+			foreach($params as $find => $replace)
 				$newCriteriaCondition = preg_replace('~(^|[- ()=<>!+*/%&^|\~])'.$find.'($|[- ()=<>!+*/%&^|\~])~', '$1'.$replace.'$2', $newCriteriaCondition);
-			}
+
 
 			if($this->condition==='')
 				$newCondition=$newCriteriaCondition;
-			else if($criteria->condition!==''){				
+			else if($criteria->condition!=='')
 				$newCondition="({$this->condition}) $and ({$newCriteriaCondition})";
-			}
+
 
 			// Converting positional placeholders to named placeholders
-			foreach($positionalParams as $param){
+			foreach($positionalParams as $param)
+			{
 				$replace = self::PARAM_PREFIX.$this->_paramCount;
 				$this->params[$replace]=$param;
 				$this->_paramCount++;
@@ -419,7 +420,7 @@ class CDbCriteria
 				$newCondition = preg_replace('~(^|[- ()=<>!+*/%&^|\~])\?($|[- ()=<>!+*/%&^|\~])~', '$1'.$replace.'$2', $newCondition, 1);
 			}
 
-			$this->condition = $newCondition;
+			if($newCondition) $this->condition = $newCondition;
 		}
 
 		if($criteria->limit>0)
