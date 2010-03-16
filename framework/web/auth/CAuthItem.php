@@ -194,7 +194,7 @@ class CAuthItem extends CComponent
 	 */
 	public function removeChild($name)
 	{
-		$this->_auth->removeItemChild($this->_name,$name);
+		return $this->_auth->removeItemChild($this->_name,$name);
 	}
 
 	/**
