@@ -10,6 +10,7 @@ Version 1.1.2 to be released
 - Bug #1014: CDataProvider was accessing non-existing property modelClass (Qiang)
 - Bug: Removed the debugging line in CActiveFinder that caused many-many relational query to fail if FKs are not defined (Qiang)
 - Enh #943: dynamic AR relations (Sam Dark)
+- Enh #946: Added a new parameter to CBaseController::widget() method to allow capturing the output of the widget (Qiang)
 - Enh #1009: Allow quoted columns in CDbCriteria::select when performing relational query (Qiang)
 - Enh: CCaptchaAction now supports unlimited tests by setting its testLimit to be 0 (Qiang)
 
