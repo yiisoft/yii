@@ -15,6 +15,7 @@ Version 1.1.2 to be released
 - Enh #1009: Allow quoted columns in CDbCriteria::select when performing relational query (Qiang)
 - Enh: CCaptchaAction now supports unlimited tests by setting its testLimit to be 0 (Qiang)
 - New #1005: added CWinCache (Sam Dark)
+- Enh #1025: added 'uncheckValue' option to CHtml::radioButton() and CHtml::checkBox() (Jonah)
 
 Version 1.1.1 March 14, 2010
 ----------------------------
