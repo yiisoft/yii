@@ -609,6 +609,10 @@ class CHtml
 	 * @param boolean whether the check box is checked
 	 * @param array additional HTML attributes. Besides normal HTML attributes, a few special
 	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
+	 * Since version 1.1.2, a special option named 'uncheckValue' is available that can be used to specify
+	 * the value returned when the radiobutton is not checked. When set, a hidden field is rendered so that
+	 * when the radiobutton is not checked, we can still obtain the posted uncheck value.
+	 * If 'uncheckValue' is not set or set to NULL, the hidden field will not be rendered.
 	 * @return string the generated radio button
 	 * @see clientChange
 	 * @see inputField
@@ -621,7 +625,22 @@ class CHtml
 			unset($htmlOptions['checked']);
 		$value=isset($htmlOptions['value']) ? $htmlOptions['value'] : 1;
 		self::clientChange('click',$htmlOptions);
-		return self::inputField('radio',$name,$value,$htmlOptions);
+		
+		if(array_key_exists('uncheckValue',$htmlOptions))
+		{
+			$uncheck=$htmlOptions['uncheckValue'];
+			unset($htmlOptions['uncheckValue']);
+		}
+		else
+			$uncheck=null;
+
+		if(!isset($htmlOptions['id']))
+			$htmlOptions['id']=self::getIdByName($name);
+			
+		$hidden=$uncheck!==null ? self::hiddenField($name,$uncheck,array('id'=>self::ID_PREFIX.$htmlOptions['id'])) : '';
+
+		// add a hidden field so that if the radio button is not selected, it still submits a value
+		return $hidden . self::inputField('radio',$name,$value,$htmlOptions);
 	}
 
 	/**
@@ -630,6 +649,10 @@ class CHtml
 	 * @param boolean whether the check box is checked
 	 * @param array additional HTML attributes. Besides normal HTML attributes, a few special
 	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
+	 * Since version 1.1.2, a special option named 'uncheckValue' is available that can be used to specify
+	 * the value returned when the checkbox is not checked. When set, a hidden field is rendered so that
+	 * when the checkbox is not checked, we can still obtain the posted uncheck value.
+	 * If 'uncheckValue' is not set or set to NULL, the hidden field will not be rendered.
 	 * @return string the generated check box
 	 * @see clientChange
 	 * @see inputField
@@ -642,7 +665,22 @@ class CHtml
 			unset($htmlOptions['checked']);
 		$value=isset($htmlOptions['value']) ? $htmlOptions['value'] : 1;
 		self::clientChange('click',$htmlOptions);
-		return self::inputField('checkbox',$name,$value,$htmlOptions);
+
+		if(array_key_exists('uncheckValue',$htmlOptions))
+		{
+			$uncheck=$htmlOptions['uncheckValue'];
+			unset($htmlOptions['uncheckValue']);
+		}
+		else
+			$uncheck=null;
+
+		if(!isset($htmlOptions['id']))
+			$htmlOptions['id']=self::getIdByName($name);
+
+		$hidden=$uncheck!==null ? self::hiddenField($name,$uncheck,array('id'=>self::ID_PREFIX.$htmlOptions['id'])) : '';
+
+		// add a hidden field so that if the checkbox  is not selected, it still submits a value
+		return $hidden . self::inputField('checkbox',$name,$value,$htmlOptions);
 	}
 
 	/**
