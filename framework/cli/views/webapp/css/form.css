@@ -139,7 +139,7 @@ div.form .errorSummary ul
 	padding: 0 0 0 20px;
 }
 
-div.wide form label
+div.wide.form label
 {
 	float: left;
 	margin-right: 10px;
@@ -148,18 +148,13 @@ div.wide form label
 	width: 100px;
 }
 
-div.wide form .row
+div.wide.form .row
 {
 	clear: left;
 }
 
-div.wide form .buttons
+div.wide.form .buttons, div.wide.form .hint, div.wide.form .errorMessage
 {
 	clear: left;
 	padding-left: 110px;
-}
-
-div.wide form .errorMessage
-{
-	margin: 0 0 0 110px;
 }

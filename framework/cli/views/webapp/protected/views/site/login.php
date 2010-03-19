@@ -38,7 +38,7 @@ $this->breadcrumbs=array(
 		<?php echo $form->error($model,'rememberMe'); ?>
 	</div>
 
-	<div class="row submit">
+	<div class="row buttons">
 		<?php echo CHtml::submitButton('Login'); ?>
 	</div>
 
