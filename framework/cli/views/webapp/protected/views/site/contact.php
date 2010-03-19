@@ -59,7 +59,7 @@ If you have business inquiries or other questions, please fill out the following
 	</div>
 	<?php endif; ?>
 
-	<div class="row submit">
+	<div class="row buttons">
 		<?php echo CHtml::submitButton('Submit'); ?>
 	</div>
 
