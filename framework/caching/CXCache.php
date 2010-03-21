@@ -102,7 +102,7 @@ class CXCache extends CCache
 	 */
 	public function offsetExists($id)
 	{
-		return xcache_isset($id);
+		return xcache_isset($id) && $this->get($id)!==false;
 	}
 }
 

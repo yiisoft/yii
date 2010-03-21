@@ -113,6 +113,6 @@ class CWinCache extends CCache {
 	 */
 	public function offsetExists($id)
 	{
-		return wincache_ucache_exists($id);
+		return wincache_ucache_exists($id) && $this->get($id)!==false;
 	}
 }
