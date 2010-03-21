@@ -69,7 +69,7 @@ To prepare for the next milestones, let's take a closer look at the files genera
 
 In order to understand better how the above files are used, we show in the following the workflow that occurs in the blog application when displaying a list of posts:
 
- 0. The user requests the URL `http://www.example.com/blog/index.php?r=posts`;
+ 0. The user requests the URL `http://www.example.com/blog/index.php?r=post`;
  1. The [entry script](http://www.yiiframework.com/doc/guide/basics.entry) is executed by the Web server which creates and initializes an [application](http://www.yiiframework.com/doc/guide/basics.application) instance to handle the request;
  2. The application creates an instance of `PostController` and executes it;
  3. The `PostController` instance executes the `index` action by calling its `actionIndex()` method. Note that `index` is the default action if the user does not specify an action to execute in the URL;
