@@ -223,6 +223,6 @@ class CFileCache extends CCache
 	 */
 	public function offsetExists($id)
 	{
-		return file_exists($this->getCacheFile($id));
+		return file_exists($this->getCacheFile($id)) && $this->get($id)!==false;
 	}
 }
