@@ -104,15 +104,4 @@ class CWinCache extends CCache {
 	{
 		return wincache_ucache_clear();
 	}
-
-	/**
-	 * Returns whether there is a cache entry with a specified key.
-	 * This is the implementation of the method declared in the parent class.
-	 * @param string a key identifying the cached value
-	 * @return boolean
-	 */
-	public function offsetExists($id)
-	{
-		return wincache_ucache_exists($id) && $this->get($id)!==false;
-	}
 }
