@@ -366,36 +366,25 @@ class CDbCriteria
 			}
 		}
 
-
-		// We are converting positional placeholders to named placeholders since
-		// there are some issues in PDO when mixing them.
-		$params = array();		
-		$positionalParams = array();
-		
+		$params = array();
 		if($this->params!==$criteria->params)
 		{
-			foreach($this->params as $key=>$value)
-			{
-				if(is_int($key))
-				{
-					$positionalParams[] = $value;
-					unset($this->params[$key]);
-				}
-			}
-
 			foreach($criteria->params as $key=>$value)
-			{				
-				if(is_int($key))
-					$positionalParams[] = $value;
-				else
+			{
+				if(preg_match('~^:ycp~', $key))
 				{
 					$this->params[self::PARAM_PREFIX.$this->_paramCount]=$value;
 					$params[$key] = self::PARAM_PREFIX.$this->_paramCount++;
-				}				
+				}
+				else
+				{
+					// non-Yii params are passed as is
+					$this->params[$key] = $value;
+				}
 			}
 		}
 
-		if($this->condition!==$criteria->condition || !empty($params) || !empty($positionalParams))
+		if($this->condition!==$criteria->condition || !empty($params))
 		{
 			$newCriteriaCondition = $criteria->condition;
 			
@@ -408,17 +397,6 @@ class CDbCriteria
 				$newCondition=$newCriteriaCondition;
 			else if($criteria->condition!=='')
 				$newCondition="({$this->condition}) $and ({$newCriteriaCondition})";
-
-
-			// Converting positional placeholders to named placeholders
-			foreach($positionalParams as $param)
-			{
-				$replace = self::PARAM_PREFIX.$this->_paramCount;
-				$this->params[$replace]=$param;
-				$this->_paramCount++;
-
-				$newCondition = preg_replace('~(^|[- ()=<>!+*/%&^|\~])\?($|[- ()=<>!+*/%&^|\~])~', '$1'.$replace.'$2', $newCondition, 1);
-			}
 
 			if(!empty($newCondition))
 				$this->condition = $newCondition;
