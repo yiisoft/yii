@@ -16,7 +16,6 @@ Version 1.1.2 to be released
 - Enh: CCaptchaAction now supports unlimited tests by setting its testLimit to be 0 (Qiang)
 - New #1005: added CWinCache (Sam Dark)
 - Enh #1025: added 'uncheckValue' option to CHtml::radioButton() and CHtml::checkBox() (Jonah)
-- Enh: Faster CXCache, CFileCache offset checking (Sam Dark)
 
 Version 1.1.1 March 14, 2010
 ----------------------------
