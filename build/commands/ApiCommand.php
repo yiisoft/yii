@@ -76,7 +76,12 @@ EOD;
 				'/web/js',
 				'/web/widgets/views',
 				'/utils/mimeTypes.php',
-				'/toolkit',
+				'/gii/assets',
+				'/gii/models',
+				'/gii/components',
+				'/gii/controllers',
+				'/gii/models',
+				'/gii/views',
 			),
 		);
 		$this->pageTitle='Yii Framework Class Reference';
