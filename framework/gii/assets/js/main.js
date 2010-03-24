@@ -6,11 +6,12 @@ $(document).ready(function() {
 			$(".common-generator td input").removeAttr('checked');
 		return false;
 	});
-
+	/*
 	$('.giiform .row input').tooltip({
 	    position: "center right",
-		offset: [-2, 10],
+		offset: [-2, 10]
 	});
+	*/
 
 	$('.giiform .row input').change(function(){
 		$('.giiform .feedback').hide();

@@ -7,7 +7,7 @@
 ?>
 <?php echo "<?php\n"; ?>
 
-class <?php echo $this->getControllerClass(); ?> extends <?php echo $this->baseClass; ?>
+class <?php echo $this->getControllerClass(); ?> extends <?php echo $this->baseClass."\n"; ?>
 {
 <?php foreach($this->getActionIDs() as $action): ?>
 	public function action<?php echo ucfirst($action); ?>()

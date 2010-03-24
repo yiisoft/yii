@@ -32,9 +32,14 @@
 					<th class="file">Code File</th>
 					<th class="confirm">Generate?</th>
 				</tr>
-				<?php foreach($model->files as $file): ?>
+				<?php foreach($model->files as $i=>$file): ?>
 				<tr class="<?php echo $file->operation; ?>">
-					<td class="file"><?php echo CHtml::encode($file->relativePath); ?></td>
+					<td class="file">
+						<?php echo CHtml::linkButton(CHtml::encode($file->relativePath), array(
+							'submit'=>array('/gii/'.$this->id.'/code','id'=>$i),
+							'params'=>array('_code'=>$i),
+						)); ?>
+					</td>
 					<td class="confirm">
 						<?php echo $file->operation===CCodeFile::OP_SKIP ? 'unchanged' : $file->operation; ?>
 						<?php echo $model->renderConfirmation($file); ?>
