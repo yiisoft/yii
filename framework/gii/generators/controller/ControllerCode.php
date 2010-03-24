@@ -11,7 +11,7 @@ class ControllerCode extends CCodeModel
 		return array(
 			array('controller, actions, baseClass', 'filter', 'filter'=>'trim'),
 			array('controller, actions, baseClass', 'required'),
-			array('controller', 'match', 'pattern'=>'/^\w+(\w+\\/)*$/', 'message'=>'{attribute} should only contain word characters and slashes.'),
+			array('controller', 'match', 'pattern'=>'/^\w+[\w+\\/]*$/', 'message'=>'{attribute} should only contain word characters and slashes.'),
 			array('actions', 'match', 'pattern'=>'/^\w+[\w\s,]*$/', 'message'=>'{attribute} should only contain word characters, spaces and commas.'),
 			array('baseClass', 'match', 'pattern'=>'/^\w+$/', 'message'=>'{attribute} should only contain word characters.'),
 		);
