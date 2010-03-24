@@ -2,10 +2,7 @@
 
 class ControllerGenerator extends CCodeGenerator
 {
-	public function actionIndex()
-	{
-		$this->generate('gii.generators.controller.ControllerCode');
-	}
+	public $codeModel='gii.generators.controller.ControllerCode';
 
 	public function getSuccessMessage($model)
 	{

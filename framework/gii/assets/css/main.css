@@ -123,11 +123,6 @@ div.flash-success a
 	color:#264409;
 }
 
-div.form .rememberMe label
-{
-	display: inline;
-}
-
 div.view
 {
 	padding: 10px;
@@ -345,6 +340,12 @@ div.giiform .tooltip ul
 {
 	margin: 0;
 	padding: 10px 0 0 20px;
+}
+
+div.giiform .rememberMe label
+{
+	display: inline;
+	font-weight: normal;
 }
 
 .common-generator .check-all
