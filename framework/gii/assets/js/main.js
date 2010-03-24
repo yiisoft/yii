@@ -7,8 +7,13 @@ $(document).ready(function() {
 		return false;
 	});
 
-	$('.form .row input').tooltip({
+	$('.giiform .row input').tooltip({
 	    position: "center right",
 		offset: [-2, 10],
+	});
+
+	$('.giiform .row input').change(function(){
+		$('.giiform .feedback').hide();
+		$('.giiform input[name="generate"]').hide();
 	});
 });

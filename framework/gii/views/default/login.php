@@ -9,7 +9,7 @@ $this->breadcrumbs=array(
 
 <p>Please fill out the following form with your login credentials:</p>
 
-<div class="form">
+<div class="giiform">
 <?php $form=$this->beginWidget('CActiveForm', array(
 	'id'=>'login-form',
 	'enableAjaxValidation'=>true,
