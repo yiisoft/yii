@@ -3,8 +3,10 @@
 <p>This generator helps you to quickly generate a new controll class and
 one or several controller actions (and their corresponding views).</p>
 
-<div class="form">
-	Fields with <span class="required">*</span> are required.
+<div class="giiform">
+
+	<p class="note">Fields with <span class="required">*</span> are required.</p>
+
 	<?php $form=$this->beginWidget('CActiveForm'); ?>
 
 		<div class="row">
@@ -19,6 +21,15 @@ one or several controller actions (and their corresponding views).</p>
 				</ul>
 			</div>
 			<?php echo $form->error($model,'controller'); ?>
+		</div>
+		<div class="row">
+			<?php echo $form->labelEx($model,'baseClass'); ?>
+			<?php echo $form->textField($model,'baseClass',array('size'=>65)); ?>
+			<div class="tooltip">
+				This is the class that the new controller class will extend from.
+				Please make sure the class exists and can be autoloaded.
+			</div>
+			<?php echo $form->error($model,'baseClass'); ?>
 		</div>
 		<div class="row">
 			<?php echo $form->labelEx($model,'actions'); ?>

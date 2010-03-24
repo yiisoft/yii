@@ -16,7 +16,6 @@ Yii::app()->clientScript->registerScriptFile($this->module->assetsUrl.'/js/tools
 	<![endif]-->
 
 	<link rel="stylesheet" type="text/css" href="<?php echo $this->module->assetsUrl; ?>/css/main.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo $this->module->assetsUrl; ?>/css/form.css" />
 
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 

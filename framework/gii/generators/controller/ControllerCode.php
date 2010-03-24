@@ -3,15 +3,17 @@
 class ControllerCode extends CCodeModel
 {
 	public $controller;
+	public $baseClass='Controller';
 	public $actions='index';
 
 	public function rules()
 	{
 		return array(
-			array('controller, actions', 'filter', 'filter'=>'trim'),
-			array('controller, actions', 'required'),
+			array('controller, actions, baseClass', 'filter', 'filter'=>'trim'),
+			array('controller, actions, baseClass', 'required'),
 			array('controller', 'match', 'pattern'=>'/^\w+(\w+\\/)*$/', 'message'=>'{attribute} should only contain word characters and slashes.'),
 			array('actions', 'match', 'pattern'=>'/^\w+[\w\s,]*$/', 'message'=>'{attribute} should only contain word characters, spaces and commas.'),
+			array('baseClass', 'match', 'pattern'=>'/^\w+$/', 'message'=>'{attribute} should only contain word characters.'),
 		);
 	}
 
@@ -20,6 +22,7 @@ class ControllerCode extends CCodeModel
 		return array(
 			'controller'=>'Controller ID',
 			'actions'=>'Action IDs',
+			'baseClass'=>'Base Controller Class',
 		);
 	}
 

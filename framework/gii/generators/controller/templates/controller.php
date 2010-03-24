@@ -2,13 +2,12 @@
 /**
  * This is the template for generating a controller class file.
  * The following variables are available in this template:
- * - $className: the class name of the controller
- * - $actions: a list of action names for the controller
+ * - $this: the ControllerCode object
  */
 ?>
 <?php echo "<?php\n"; ?>
 
-class <?php echo $this->getControllerClass(); ?> extends Controller
+class <?php echo $this->getControllerClass(); ?> extends <?php echo $this->baseClass; ?>
 {
 <?php foreach($this->getActionIDs() as $action): ?>
 	public function action<?php echo ucfirst($action); ?>()

@@ -8,6 +8,7 @@
 	</div>
 
 	<?php if(!$model->hasErrors()): ?>
+		<div class="feedback">
 		<?php if($model->status===CCodeModel::STATUS_SUCCESS): ?>
 			<div class="success">
 				<?php echo $this->getSuccessMessage($model); ?>
@@ -42,5 +43,6 @@
 				<?php endforeach; ?>
 			</table>
 		<?php endif; ?>
+		</div>
 	<?php endif; ?>
 </div>

@@ -196,6 +196,156 @@ div.search-form
 	padding: 2px 0 4px 0px;
 }
 
+div.giiform
+{
+}
+
+div.giiform input,
+div.giiform textarea,
+div.giiform select
+{
+	margin: 0.2em 0 0.5em 0;
+}
+
+div.giiform fieldset
+{
+	border: 1px solid #DDD;
+	padding: 10px;
+	margin: 0 0 10px 0;
+    -moz-border-radius:7px;
+}
+
+div.giiform label
+{
+	font-weight: bold;
+	font-size: 0.9em;
+	display: block;
+}
+
+div.giiform .row
+{
+	margin: 5px 0;
+}
+
+div.giiform .row.buttons
+{
+	padding: 5px;
+	margin: 10px 0;
+}
+
+div.giiform .row.buttons input
+{
+	margin: 0;
+}
+
+div.giiform .hint
+{
+	margin: 0;
+	padding: 0;
+	color: #999;
+}
+
+div.giiform .note
+{
+	font-style: italic;
+}
+
+div.giiform span.required
+{
+	color: red;
+}
+
+div.giiform div.error label,
+div.giiform label.error,
+div.giiform span.error
+{
+	color: #C00;
+}
+
+div.giiform div.error input,
+div.giiform div.error textarea,
+div.giiform div.error select,
+div.giiform input.error,
+div.giiform textarea.error,
+div.giiform select.error
+{
+	background: #FEE;
+	border-color: #C00;
+}
+
+div.giiform div.success input,
+div.giiform div.success textarea,
+div.giiform div.success select,
+div.giiform input.success,
+div.giiform textarea.success,
+div.giiform select.success
+{
+	background: #E6EFC2;
+	border-color: #C6D880;
+}
+
+
+div.giiform .errorSummary
+{
+	border: 2px solid #C00;
+	padding: 7px 7px 12px 7px;
+	margin: 0 0 20px 0;
+	background: #FEE;
+	font-size: 0.9em;
+}
+
+div.giiform .errorMessage
+{
+	color: red;
+	font-size: 0.9em;
+}
+
+div.giiform .errorSummary p
+{
+	margin: 0;
+	padding: 5px;
+}
+
+div.giiform .errorSummary ul
+{
+	margin: 0;
+	padding: 0 0 0 20px;
+}
+
+div.wide.giiform label
+{
+	float: left;
+	margin-right: 10px;
+	position: relative;
+	text-align: right;
+	width: 100px;
+}
+
+div.wide.giiform .row
+{
+	clear: left;
+}
+
+div.wide.giiform .buttons, div.wide.giiform .hint, div.wide.giiform .errorMessage
+{
+	clear: left;
+	padding-left: 110px;
+}
+
+div.giiform .tooltip
+{
+	display: none;
+    background-color:#DDE5FC;
+    border:1px solid #9EB5FC;
+    padding: 10px;
+    width: 300px;
+}
+
+div.giiform .tooltip ul
+{
+	margin: 0;
+	padding: 10px 0 0 20px;
+}
 
 .common-generator .check-all
 {
