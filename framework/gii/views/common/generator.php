@@ -36,7 +36,7 @@
 				<tr class="<?php echo $file->operation; ?>">
 					<td class="file">
 						<?php echo CHtml::link(CHtml::encode($file->relativePath), array('code','id'=>$i), array('class'=>'view-code')); ?>
-						<?php if(true || $file->operation===CCodeFile::OP_OVERWRITE): ?>
+						<?php if($file->operation===CCodeFile::OP_OVERWRITE): ?>
 							(<?php echo CHtml::link('diff', array('diff','id'=>$i), array('class'=>'view-code')); ?>)
 						<?php endif; ?>
 					</td>
