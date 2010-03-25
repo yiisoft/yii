@@ -3,7 +3,7 @@
 <p>This generator helps you to quickly generate a new controller class,
 one or several controller actions and their corresponding views.</p>
 
-<div class="giiform">
+<div class="form gii">
 
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
 

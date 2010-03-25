@@ -7,14 +7,14 @@ $(document).ready(function() {
 		return false;
 	});
 
-	$('.common-generator .giiform .row input').tooltip({
+	$('.form.gii .row input').tooltip({
 	    position: "center right",
 		offset: [-2, 10]
 	});
 
-	$('.giiform .row input').change(function(){
-		$('.giiform .feedback').hide();
-		$('.giiform input[name="generate"]').hide();
+	$('.form.gii .row input').change(function(){
+		$('.form.gii .feedback').hide();
+		$('.form.gii input[name="generate"]').hide();
 	});
 
 	$('#fancybox-inner .close-code').live('click', function(){
@@ -22,13 +22,13 @@ $(document).ready(function() {
 		return false;
 	});
 
-	$('.giiform .view-code').click(function(){
+	$('.form.gii .view-code').click(function(){
 		$.fancybox.showActivity();
 		$.ajax({
 			type: 'POST',
 			cache: false,
 			url: $(this).attr('href'),
-			data: $('.giiform form').serializeArray(),
+			data: $('.form.gii form').serializeArray(),
 			success: function(data){
 				$.fancybox(data, {
 					'showCloseButton': false,
