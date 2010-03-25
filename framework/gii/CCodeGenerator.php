@@ -14,6 +14,35 @@ class CCodeGenerator extends Controller
 		$this->breadcrumbs=array(ucwords($this->id.' generator'));
 	}
 
+	public function actionIndex()
+	{
+		$model=$this->prepare();
+		if($model->files!=array() && isset($_POST['generate'], $_POST['answers']))
+		{
+			$model->answers=$_POST['answers'];
+			$model->status=$model->save() ? CCodeModel::STATUS_SUCCESS : CCodeModel::STATUS_ERROR;
+		}
+
+		$this->render('index',array(
+			'model'=>$model,
+		));
+	}
+
+	public function actionCode()
+	{
+		if(!isset($_GET['id']))
+			throw new CHttpException(404,'Unable to find the code you requested.');
+		$model=$this->prepare();
+		if(isset($model->files[$_GET['id']]))
+		{
+			$this->renderPartial('gii.views.common.code', array(
+				'file'=>$model->files[$_GET['id']],
+			));
+		}
+		else
+			throw new CHttpException(404,'Unable to find the code you requested.');
+	}
+
 	public function getViewPath()
 	{
 		if($this->_viewPath===null)
@@ -54,66 +83,19 @@ class CCodeGenerator extends Controller
 		return 'The code has been generated successfully.';
 	}
 
-	public function actionIndex()
+	protected function prepare()
 	{
 		if($this->codeModel===null)
 			throw new CException(get_class($this).'.codeModel property must be specified.');
-		$this->generate($this->codeModel, 'index');
-	}
-
-	public function actionCode()
-	{
-		if($this->codeModel===null)
-			throw new CException(get_class($this).'.codeModel property must be specified.');
-		if(!isset($_GET['id']))
-			throw new CHttpException(404,'Unable to find the code you requested.');
-		$this->view($this->codeModel, $_GET['id']);
-	}
-
-	protected function view($modelClass, $code)
-	{
-		$modelClass=Yii::import($modelClass,true);
+		$modelClass=Yii::import($this->codeModel,true);
 		$model=new $modelClass;
 		if(isset($_POST[$modelClass]))
 		{
 			$model->attributes=$_POST[$modelClass];
 			$model->status=CCodeModel::STATUS_PREVIEW;
 			if($model->validate())
-			{
 				$model->prepare($this->getTemplatePath());
-				if(isset($model->files[$code]))
-				{
-					$this->renderPartial('gii.views.common.code', array(
-						'file'=>$model->files[$code],
-					));
-					return;
-				}
-			}
 		}
-		throw new CHttpException(404,'Unable to find the code you requested.');
-	}
-
-	protected function generate($modelClass, $view)
-	{
-		$modelClass=Yii::import($modelClass,true);
-		$model=new $modelClass;
-		if(isset($_POST[$modelClass]))
-		{
-			$model->attributes=$_POST[$modelClass];
-			$model->status=CCodeModel::STATUS_PREVIEW;
-			if($model->validate())
-			{
-				$model->prepare($this->getTemplatePath());
-				if(isset($_POST['generate'], $_POST['answers']))
-				{
-					$model->answers=$_POST['answers'];
-					$model->status=$model->save() ? CCodeModel::STATUS_SUCCESS : CCodeModel::STATUS_ERROR;
-				}
-			}
-		}
-
-		$this->render($view,array(
-			'model'=>$model,
-		));
+		return $model;
 	}
 }
