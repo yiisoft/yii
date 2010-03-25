@@ -448,3 +448,14 @@ div.giiform .rememberMe label
 {
 	background: #F0F4FF;
 }
+
+#fancybox-inner pre.diff del
+{
+	background: pink;
+}
+
+#fancybox-inner pre.diff ins
+{
+	background: lightgreen;
+	text-decoration: none;
+}

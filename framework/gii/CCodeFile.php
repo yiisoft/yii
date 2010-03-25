@@ -47,4 +47,12 @@ class CCodeFile extends CComponent
 		else
 			return $this->path;
 	}
+
+	public function getType()
+	{
+		if(($pos=strrpos($this->path,'.'))!==false)
+			return substr($this->path,$pos+1);
+		else
+			return 'unknown';
+	}
 }

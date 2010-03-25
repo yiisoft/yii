@@ -30,13 +30,35 @@ class CCodeGenerator extends Controller
 
 	public function actionCode()
 	{
-		if(!isset($_GET['id']))
-			throw new CHttpException(404,'Unable to find the code you requested.');
 		$model=$this->prepare();
-		if(isset($model->files[$_GET['id']]))
+		if(isset($_GET['id']) && isset($model->files[$_GET['id']]))
 		{
 			$this->renderPartial('gii.views.common.code', array(
 				'file'=>$model->files[$_GET['id']],
+			));
+		}
+		else
+			throw new CHttpException(404,'Unable to find the code you requested.');
+	}
+
+	public function actionDiff()
+	{
+		Yii::import('gii.components.TextDiff');
+
+		$model=$this->prepare();
+		if(isset($_GET['id']) && isset($model->files[$_GET['id']]))
+		{
+			$file=$model->files[$_GET['id']];
+			if(!in_array($file->type,array('php', 'txt','js','css')))
+				$diff=false;
+			else if($file->operation===CCodeFile::OP_OVERWRITE)
+				$diff=TextDiff::compare(file_get_contents($file->path), $file->content);
+			else
+				$diff='';
+
+			$this->renderPartial('gii.views.common.diff',array(
+				'file'=>$file,
+				'diff'=>$diff,
 			));
 		}
 		else
