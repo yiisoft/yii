@@ -31,8 +31,8 @@ Yii::import('system.gii.CCodeFile');
  *
  * Because GiiModule generates new code files on the server, you should only use it on your own
  * development machine. To prevent other people from using this module, it is required that
- * you should specify the username and password in the configuration. Later when you access
- * the module via browser, you will be prompted to enter these credential information.
+ * you specify a secret password in the configuration. Later when you access
+ * the module via browser, you will be prompted to enter the correct password.
  *
  * By default, GiiModule can only be accessed by localhost. You may configure its {@link ipFilters}
  * property if you want to make it accessible on other machines.
