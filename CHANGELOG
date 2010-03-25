@@ -13,12 +13,13 @@ Version 1.1.2 to be released
 - Bug: Removed the debugging line in CActiveFinder that caused many-many relational query to fail if FKs are not defined (Qiang)
 - Enh #943: dynamic AR relations (Sam Dark)
 - Enh #946: Added a new parameter to CBaseController::widget() method to allow capturing the output of the widget (Qiang)
-- Enh #1009: Allow quoted columns in CDbCriteria::select when performing relational query (Qiang)
-- Enh: CCaptchaAction now supports unlimited tests by setting its testLimit to be 0 (Qiang)
-- Enh: Added $forceCopy parameter to CAssetManager::publish() (Qiang)
 - New #1005: added CWinCache (Sam Dark)
+- Enh #1009: Allow quoted columns in CDbCriteria::select when performing relational query (Qiang)
 - Enh #1025: added 'uncheckValue' option to CHtml::radioButton() and CHtml::checkBox() (Jonah)
 - Enh #1042: CForm __construct now uses setModel() instead of assigning _model directly (Sam Dark)
+- Enh: CCaptchaAction now supports unlimited tests by setting its testLimit to be 0 (Qiang)
+- Enh: Added $forceCopy parameter to CAssetManager::publish() (Qiang)
+- Enh: CTypeValidator now supports checking array data (Qiang)
 
 Version 1.1.1 March 14, 2010
 ----------------------------
