@@ -1,7 +1,7 @@
 <h1>Controller Generator</h1>
 
-<p>This generator helps you to quickly generate a new controll class and
-one or several controller actions (and their corresponding views).</p>
+<p>This generator helps you to quickly generate a new controller class,
+one or several controller actions and their corresponding views.</p>
 
 <div class="giiform">
 
