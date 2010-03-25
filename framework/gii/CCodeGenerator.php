@@ -83,7 +83,8 @@ class CCodeGenerator extends Controller
 				$model->prepare($this->getTemplatePath());
 				if(isset($model->files[$code]))
 				{
-					echo $model->files[$code]->content;
+					echo '<div class="file-name">'.CHtml::encode($model->files[$code]->path).'</div>';
+					highlight_string($model->files[$code]->content);
 					return;
 				}
 			}

@@ -35,10 +35,7 @@
 				<?php foreach($model->files as $i=>$file): ?>
 				<tr class="<?php echo $file->operation; ?>">
 					<td class="file">
-						<?php echo CHtml::linkButton(CHtml::encode($file->relativePath), array(
-							'submit'=>array('/gii/'.$this->id.'/code','id'=>$i),
-							'params'=>array('_code'=>$i),
-						)); ?>
+						<?php echo CHtml::link(CHtml::encode($file->relativePath), array('code','id'=>$i), array('class'=>'view-code')); ?>
 					</td>
 					<td class="confirm">
 						<?php echo $file->operation===CCodeFile::OP_SKIP ? 'unchanged' : $file->operation; ?>

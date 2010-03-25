@@ -426,3 +426,10 @@ div.giiform .rememberMe label
 	color: black;
 	padding: 1px;
 }
+
+#fancybox-inner .file-name
+{
+	font-size: 12px;
+	border-bottom: 1px solid gray;
+	font-weight: bold;
+}

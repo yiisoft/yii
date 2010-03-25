@@ -1,6 +1,8 @@
 <?php
 Yii::app()->clientScript->registerCoreScript('jquery');
 Yii::app()->clientScript->registerScriptFile($this->module->assetsUrl.'/js/tools.tooltip-1.1.3.min.js');
+Yii::app()->clientScript->registerScriptFile($this->module->assetsUrl.'/js/fancybox/jquery.fancybox-1.3.1.pack.js');
+Yii::app()->clientScript->registerCssFile($this->module->assetsUrl.'/js/fancybox/jquery.fancybox-1.3.1.css');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
