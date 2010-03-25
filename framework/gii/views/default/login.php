@@ -1,27 +1,15 @@
 <?php
-$this->pageTitle=Yii::app()->name . ' - Login';
-$this->breadcrumbs=array(
-	'Login',
-);
+$this->pageTitle='Password Required';
 ?>
 
-<h1>Login</h1>
+<h1>Password Required</h1>
 
-<p>Please fill out the following form with your login credentials:</p>
+<p>Please enter your password to access this site:</p>
 
 <div class="giiform">
-<?php $form=$this->beginWidget('CActiveForm', array(
-	'id'=>'login-form',
-	'enableAjaxValidation'=>true,
-)); ?>
+<?php $form=$this->beginWidget('CActiveForm'); ?>
 
 	<p class="note">Fields with <span class="required">*</span> are required.</p>
-
-	<div class="row">
-		<?php echo $form->labelEx($model,'username'); ?>
-		<?php echo $form->textField($model,'username'); ?>
-		<?php echo $form->error($model,'username'); ?>
-	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model,'password'); ?>

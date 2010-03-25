@@ -23,7 +23,6 @@ Yii::import('system.gii.CCodeFile');
  *     'modules'=>array(
  *         'gii'=>array(
  *             'class'=>'system.gii.GiiModule',
- *             'username'=>***choose a username***
  *             'password'=>***choose a password***
  *         ),
  *     ),
@@ -71,11 +70,8 @@ Yii::import('system.gii.CCodeFile');
 class GiiModule extends CWebModule
 {
 	/**
-	 * @var string the username that can be used to access GiiModule.
-	 */
-	public $username;
-	/**
-	 * @var string the password that can be used to access GiiModule
+	 * @var string the password that can be used to access GiiModule.
+	 * If this property is set false, then GiiModule can be accessed without any prompt for password.
 	 */
 	public $password;
 	/**
@@ -122,13 +118,6 @@ class GiiModule extends CWebModule
 		$this->_assetsUrl=$value;
 	}
 
-	public function authenticate($username,$password)
-	{
-		if($this->username===null || $this->password===null)
-			throw new CException('Please configure the "username" and "password" properties of the "gii" module.');
-		return $this->username===$username && $this->password===$password;
-	}
-
 	public function beforeControllerAction($controller, $action)
 	{
 		if(parent::beforeControllerAction($controller, $action))
@@ -142,7 +131,7 @@ class GiiModule extends CWebModule
 				'gii/default/error',
 			);
 			$route=$controller->uniqueId.'/'.$action->id;
-			if(Yii::app()->user->isGuest && !in_array($route,$publicPages))
+			if($this->password!==false && Yii::app()->user->isGuest && !in_array($route,$publicPages))
 				Yii::app()->user->loginRequired();
 			else
 				return true;

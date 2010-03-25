@@ -25,13 +25,6 @@ class DefaultController extends Controller
 	{
 		$model=Yii::createComponent('gii.models.LoginForm');
 
-		// if it is ajax validation request
-		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
-		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
-
 		// collect user input data
 		if(isset($_POST['LoginForm']))
 		{
