@@ -17,6 +17,11 @@ $(document).ready(function() {
 		$('.giiform input[name="generate"]').hide();
 	});
 
+	$('#fancybox-inner .close-code').live('click', function(){
+		$.fancybox.close();
+		return false;
+	});
+
 	$('.giiform .view-code').click(function(){
 		$.fancybox.showActivity();
 		$.ajax({
@@ -26,13 +31,14 @@ $(document).ready(function() {
 			data: $('.giiform form').serializeArray(),
 			success: function(data){
 				$.fancybox(data, {
+					'showCloseButton': false,
 					'autoDimensions': false,
-					'width': 600,
+					'width': 800,
 					'height': 'auto'
 				});
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
-				$.fancybox('<div style="color:red">'+XMLHttpRequest.responseText+'</div>');
+				$.fancybox('<div class="error">'+XMLHttpRequest.responseText+'</div>');
 			}
 		});
 		return false;
