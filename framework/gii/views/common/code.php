@@ -1,9 +1,3 @@
-<?php
-if(($pos=strrpos($file->path,'.'))!==false)
-	$type=substr($file->path,$pos+1);
-else
-	$type='unknown';
-?>
 <div class="title">
 	<div class="buttons">
 		<a href="#" class="close-code">Close</a>&nbsp;
@@ -14,13 +8,13 @@ else
 <br/>
 
 <?php
-if($type==='php')
+if($file->type==='php')
 {
 	echo '<div class="content">';
 	highlight_string($file->content);
 	echo '</div>';
 }
-else if($type==='txt')
+else if(in_array($file->type,array('txt','js','css')))
 {
 	echo '<div class="content">';
 	echo nl2br($file->content);
