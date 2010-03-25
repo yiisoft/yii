@@ -427,9 +427,24 @@ div.giiform .rememberMe label
 	padding: 1px;
 }
 
-#fancybox-inner .file-name
+#fancybox-inner .error
+{
+	color: red;
+}
+
+#fancybox-inner .title
 {
 	font-size: 12px;
-	border-bottom: 1px solid gray;
 	font-weight: bold;
+}
+
+#fancybox-inner .buttons
+{
+	float: right;
+	padding: 0 10px 0 0;
+}
+
+#fancybox-inner .content
+{
+	background: #F0F4FF;
 }
