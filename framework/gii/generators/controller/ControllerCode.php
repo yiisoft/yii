@@ -14,12 +14,13 @@ class ControllerCode extends CCodeModel
 			array('controller', 'match', 'pattern'=>'/^\w+[\w+\\/]*$/', 'message'=>'{attribute} should only contain word characters and slashes.'),
 			array('actions', 'match', 'pattern'=>'/^\w+[\w\s,]*$/', 'message'=>'{attribute} should only contain word characters, spaces and commas.'),
 			array('baseClass', 'match', 'pattern'=>'/^\w+$/', 'message'=>'{attribute} should only contain word characters.'),
+			array('baseClass, actions', 'sticky'),
 		));
 	}
 
 	public function attributeLabels()
 	{
-		return array_merge(parent::rules(), array(
+		return array_merge(parent::attributeLabels(), array(
 			'baseClass'=>'Base Class',
 			'controller'=>'Controller ID',
 			'actions'=>'Action IDs',

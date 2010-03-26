@@ -1,20 +1,53 @@
 <?php
+/**
+ * CCodeGenerator class file.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @link http://www.yiiframework.com/
+ * @copyright Copyright &copy; 2008-2010 Yii Software LLC
+ * @license http://www.yiiframework.com/license/
+ */
 
+/**
+ * CCodeGenerator is the base class for code generator classes.
+ *
+ * CCodeGenerator is a controller that predefines several actions for code generation purpose.
+ * Derived classes mainly need to configure the {@link codeModel} property
+ * override the {@link getSuccessMessage} method. The former specifies which
+ * code model (extending {@link CCodeModel}) that this generator should use,
+ * while the latter should return a success message to be displayed when
+ * code files are successfully generated.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id$
+ * @package system.gii
+ * @since 1.1.2
+ */
 class CCodeGenerator extends Controller
 {
+	/**
+	 * @var string the layout to be used by the generator. Defaults to 'generator'.
+	 */
 	public $layout='generator';
+	/**
+	 * @var array a list of available code templates (name=>path)
+	 */
 	public $templates=array();
-
+	/**
+	 * @var string the code model class. This can be either a class name (if it can be autoloaded)
+	 * or a path alias referring to the class file.
+	 * Child classes must configure this property with a concrete value.
+	 */
 	public $codeModel;
 
 	private $_viewPath;
 
-	public function init()
-	{
-		parent::init();
-		$this->breadcrumbs=array(ucwords($this->id.' generator'));
-	}
-
+	/**
+	 * The code generation action.
+	 * This is the action that displays the code generation interface.
+	 * Child classes mainly need to provide the 'index' view for collecting user parameters
+	 * for code generation.
+	 */
 	public function actionIndex()
 	{
 		$model=$this->prepare();
@@ -29,6 +62,10 @@ class CCodeGenerator extends Controller
 		));
 	}
 
+	/**
+	 * The code preview action.
+	 * This action shows up the specified generated code.
+	 */
 	public function actionCode()
 	{
 		$model=$this->prepare();
@@ -42,6 +79,10 @@ class CCodeGenerator extends Controller
 			throw new CHttpException(404,'Unable to find the code you requested.');
 	}
 
+	/**
+	 * The code diff action.
+	 * This action shows up the difference between the newly generated code and the corresponding existing code.
+	 */
 	public function actionDiff()
 	{
 		Yii::import('gii.components.TextDiff');
@@ -66,6 +107,11 @@ class CCodeGenerator extends Controller
 			throw new CHttpException(404,'Unable to find the code you requested.');
 	}
 
+	/**
+	 * Returns the view path of the generator.
+	 * The "views" directory under the directory containing the generator class file will be returned.
+	 * @return string the view path of the generator
+	 */
 	public function getViewPath()
 	{
 		if($this->_viewPath===null)
@@ -76,21 +122,36 @@ class CCodeGenerator extends Controller
 		return $this->_viewPath;
 	}
 
+	/**
+	 * @param string the view path of the generator.
+	 */
 	public function setViewPath($value)
 	{
 		$this->_viewPath=$value;
 	}
 
+	/**
+	 * Renders the common interface for code generation.
+	 * This includes the template selector, the submit buttons and the code preview table.
+	 * @param CCodeModel the current code model
+	 */
 	public function renderGenerator($model)
 	{
 		$this->renderPartial('gii.views.common.generator', array('model'=>$model));
 	}
 
+	/**
+	 * @param CCodeModel the current code model
+	 * @return string the message to be displayed when the newly generated code is saved successfully.
+	 */
 	public function getSuccessMessage($model)
 	{
 		return 'The code has been generated successfully.';
 	}
 
+	/**
+	 * Prepares the code model.
+	 */
 	protected function prepare()
 	{
 		if($this->codeModel===null)
