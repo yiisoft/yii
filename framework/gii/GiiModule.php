@@ -8,7 +8,6 @@
  * @license http://www.yiiframework.com/license/
  */
 
-Yii::import('system.gii.components.Controller');
 Yii::import('system.gii.CCodeGenerator');
 Yii::import('system.gii.CCodeModel');
 Yii::import('system.gii.CCodeFile');
