@@ -71,13 +71,16 @@ class GiiModule extends CWebModule
 {
 	/**
 	 * @var string the password that can be used to access GiiModule.
-	 * If this property is set false, then GiiModule can be accessed without any prompt for password.
+	 * If this property is set false, then GiiModule can be accessed without password
+	 * (DO NOT DO THIS UNLESS YOU KNOW THE CONSEQUENCE!!!)
 	 */
 	public $password;
 	/**
 	 * @var array the IP filters that specify which IP addresses are allowed to access GiiModule.
 	 * Each array element represents a single filter. A filter can be either an IP address
 	 * or an address with wildcard (e.g. 192.168.0.*) to represent a network segment.
+	 * If you want to allow all IPs to access gii, you may set this property to be false
+	 * (DO NOT DO THIS UNLESS YOU KNOW THE CONSEQUENCE!!!)
 	 * The default value is array('127.0.0.1'), which means GiiModule can only be accessed
 	 * on the localhost.
 	 */
@@ -112,6 +115,9 @@ class GiiModule extends CWebModule
 		$this->controllerMap=$this->findGenerators();
 	}
 
+	/**
+	 * @return string the base URL that contains all published asset files of gii.
+	 */
 	public function getAssetsUrl()
 	{
 		if($this->_assetsUrl===null)
@@ -119,33 +125,47 @@ class GiiModule extends CWebModule
 		return $this->_assetsUrl;
 	}
 
+	/**
+	 * @param string the base URL that contains all published asset files of gii.
+	 */
 	public function setAssetsUrl($value)
 	{
 		$this->_assetsUrl=$value;
 	}
 
+	/**
+	 * Performs access check to gii.
+	 * This method will check to see if user IP and password are correct if they attempt
+	 * to access actions other than "default/login" and "default/error".
+	 * @param CController the controller to be accessed.
+	 * @param CAction the action to be accessed.
+	 * @return boolean whether the action should be executed.
+	 */
 	public function beforeControllerAction($controller, $action)
 	{
 		if(parent::beforeControllerAction($controller, $action))
 		{
-			$route=$controller->uniqueId.'/'.$action->id;
-			if(!$this->allowIp(Yii::app()->request->userHostAddress) && $route!=='gii/default/error')
+			$route=$controller->id.'/'.$action->id;
+			if(!$this->allowIp(Yii::app()->request->userHostAddress) && $route!=='default/error')
 				throw new CHttpException(403,"You are not allowed to access this page.");
 
 			$publicPages=array(
-				'gii/default/login',
-				'gii/default/error',
+				'default/login',
+				'default/error',
 			);
-			$route=$controller->uniqueId.'/'.$action->id;
 			if($this->password!==false && Yii::app()->user->isGuest && !in_array($route,$publicPages))
 				Yii::app()->user->loginRequired();
 			else
 				return true;
 		}
-		else
-			return false;
+		return false;
 	}
 
+	/**
+	 * Checks to see if the user IP is allowed by {@link ipFilters}.
+	 * @param string the user IP
+	 * @return boolean whether the user IP is allowed by {@link ipFilters}.
+	 */
 	protected function allowIp($ip)
 	{
 		if(empty($this->ipFilters))
@@ -158,6 +178,9 @@ class GiiModule extends CWebModule
 		return false;
 	}
 
+	/**
+	 * Finds all available code generators and their code templates.
+	 */
 	protected function findGenerators()
 	{
 		$generators=array();
