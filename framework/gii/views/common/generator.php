@@ -1,12 +1,12 @@
 <div class="common-generator">
 
 	<div class="row template">
-		<?php echo CHtml::activeLabelEx($model,'template'); ?>
-		<?php echo CHtml::activeDropDownList($model,'template',$model->templates); ?>
+		<?php echo $form->labelEx($model,'template'); ?>
+		<?php echo $form->dropDownList($model,'template',$model->templates); ?>
 		<div class="tooltip">
 			Please select which set of the templates should be used to generated the code.
 		</div>
-		<?php echo CHtml::error($model,'template'); ?>
+		<?php echo $form->error($model,'template'); ?>
 	</div>
 
 	<div class="buttons">
@@ -25,7 +25,7 @@
 			</div>
 		<?php elseif($model->status===CCodeModel::STATUS_ERROR): ?>
 			<div class="error">
-				There was some error when generating the code. Please check the following messages.
+				<?php echo $this->getErrorMessage($model); ?>
 			</div>
 		<?php endif; ?>
 
