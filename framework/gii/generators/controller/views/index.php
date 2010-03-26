@@ -42,7 +42,7 @@ one or several controller actions and their corresponding views.</p>
 			<?php echo $form->error($model,'actions'); ?>
 		</div>
 
-		<?php $this->renderGenerator($model); ?>
+		<?php $this->renderGenerator($model, $form); ?>
 
 	<?php $this->endWidget(); ?>
 </div>

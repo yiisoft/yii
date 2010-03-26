@@ -71,7 +71,7 @@ class CCodeGenerator extends Controller
 		$model=$this->prepare();
 		if(isset($_GET['id']) && isset($model->files[$_GET['id']]))
 		{
-			$this->renderPartial('gii.views.common.code', array(
+			$this->renderPartial('/common/code', array(
 				'file'=>$model->files[$_GET['id']],
 			));
 		}
@@ -98,7 +98,7 @@ class CCodeGenerator extends Controller
 			else
 				$diff='';
 
-			$this->renderPartial('gii.views.common.diff',array(
+			$this->renderPartial('/common/diff',array(
 				'file'=>$file,
 				'diff'=>$diff,
 			));
@@ -134,10 +134,14 @@ class CCodeGenerator extends Controller
 	 * Renders the common interface for code generation.
 	 * This includes the template selector, the submit buttons and the code preview table.
 	 * @param CCodeModel the current code model
+	 * @param CActiveForm the form
 	 */
-	public function renderGenerator($model)
+	public function renderGenerator($model,$form)
 	{
-		$this->renderPartial('gii.views.common.generator', array('model'=>$model));
+		$this->renderPartial('/common/generator', array(
+			'model'=>$model,
+			'form'=>$form,
+		));
 	}
 
 	/**
@@ -147,6 +151,15 @@ class CCodeGenerator extends Controller
 	public function getSuccessMessage($model)
 	{
 		return 'The code has been generated successfully.';
+	}
+
+	/**
+	 * @param CCodeModel the current code model
+	 * @return string the message to be displayed when some error occurred during code file saving.
+	 */
+	public function getErrorMessage($model)
+	{
+		return 'There was some error when generating the code. Please check the following messages.';
 	}
 
 	/**
