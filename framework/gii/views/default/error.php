@@ -1,11 +1,4 @@
-<?php
-$this->pageTitle=Yii::app()->name . ' - Error';
-$this->breadcrumbs=array(
-	'Error',
-);
-?>
-
-<h2>Error <?php echo $code; ?></h2>
+<h1>Error <?php echo $code; ?></h1>
 
 <div class="error">
 <?php echo CHtml::encode($message); ?>

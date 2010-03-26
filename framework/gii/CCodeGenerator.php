@@ -23,7 +23,7 @@
  * @package system.gii
  * @since 1.1.2
  */
-class CCodeGenerator extends Controller
+class CCodeGenerator extends CController
 {
 	/**
 	 * @var string the layout to be used by the generator. Defaults to 'generator'.
@@ -41,6 +41,14 @@ class CCodeGenerator extends Controller
 	public $codeModel;
 
 	private $_viewPath;
+
+	/**
+	 * @return string the page title
+	 */
+	public function getPageTitle()
+	{
+		return 'Gii - '.ucfirst($this->id).' Generator';
+	}
 
 	/**
 	 * The code generation action.

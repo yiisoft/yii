@@ -1,4 +1,4 @@
-<?php $this->beginContent('gii.views.layouts.main'); ?>
+<?php $this->beginContent('/layouts/main'); ?>
 <div class="container">
 	<div class="span-4">
 		<div id="sidebar">
@@ -14,11 +14,6 @@
 		</div><!-- sidebar -->
 	</div>
 	<div class="span-16">
-		<?php $this->widget('zii.widgets.CBreadcrumbs', array(
-			'links'=>$this->breadcrumbs,
-			'homeLink'=>CHtml::link('Home',Yii::app()->createUrl('gii')),
-		)); ?><!-- breadcrumbs -->
-
 		<div id="content">
 			<?php echo $content; ?>
 		</div><!-- content -->

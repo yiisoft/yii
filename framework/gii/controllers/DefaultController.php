@@ -1,7 +1,17 @@
 <?php
 
-class DefaultController extends Controller
+class DefaultController extends CController
 {
+	public $layout='/layouts/column1';
+
+	public function getPageTitle()
+	{
+		if($this->action->id==='index')
+			return 'Gii: a Web-based code generator for Yii';
+		else
+			return 'Gii - '.ucfirst($this->action->id);
+	}
+
 	public function actionIndex()
 	{
 		$this->render('index');

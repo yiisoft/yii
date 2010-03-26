@@ -1,7 +1,3 @@
-<?php
-$this->pageTitle='Password Required';
-?>
-
 <h1>Password Required</h1>
 
 <p>Please enter your password to access this site:</p>
