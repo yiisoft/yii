@@ -3,10 +3,11 @@
 class CCodeGenerator extends Controller
 {
 	public $layout='generator';
+	public $templates=array();
+
 	public $codeModel;
 
 	private $_viewPath;
-	private $_templatePath;
 
 	public function init()
 	{
@@ -80,21 +81,6 @@ class CCodeGenerator extends Controller
 		$this->_viewPath=$value;
 	}
 
-	public function getTemplatePath()
-	{
-		if($this->_templatePath===null)
-		{
-			$class=new ReflectionClass(get_class($this));
-			$this->_templatePath=dirname($class->getFileName()).DIRECTORY_SEPARATOR.'templates';
-		}
-		return $this->_templatePath;
-	}
-
-	public function setTemplatePath($value)
-	{
-		$this->_templatePath=$value;
-	}
-
 	public function renderGenerator($model)
 	{
 		$this->renderPartial('gii.views.common.generator', array('model'=>$model));
@@ -111,12 +97,13 @@ class CCodeGenerator extends Controller
 			throw new CException(get_class($this).'.codeModel property must be specified.');
 		$modelClass=Yii::import($this->codeModel,true);
 		$model=new $modelClass;
+		$model->templates=$this->templates;
 		if(isset($_POST[$modelClass]))
 		{
 			$model->attributes=$_POST[$modelClass];
 			$model->status=CCodeModel::STATUS_PREVIEW;
 			if($model->validate())
-				$model->prepare($this->getTemplatePath());
+				$model->prepare();
 		}
 		return $model;
 	}

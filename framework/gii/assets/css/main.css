@@ -342,10 +342,9 @@ div.form .tooltip ul
 	padding: 10px 0 0 20px;
 }
 
-div.form .rememberMe label
+.common-generator .row.template select
 {
-	display: inline;
-	font-weight: normal;
+	width: 420px;
 }
 
 .common-generator .check-all
