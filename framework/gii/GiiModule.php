@@ -83,11 +83,12 @@ class GiiModule extends CWebModule
 	 */
 	public $ipFilters=array('127.0.0.1');
 	/**
-	 * @var array a list of directories that may contain code generators. Note that each generator
-	 * is stored as a directory by itself, and the directory name is the same as the generator name.
-	 * A generator path may contain multiple generators (e.g. framework/gii/generators).
+	 * @var array a list of path aliases that refer to the directories containing code generators.
+	 * The directory referred by a single path alias may contain multiple code generators, each stored
+	 * under a sub-directory whose name is the generator name.
+	 * Defaults to array('application.gii').
 	 */
-	public $generatorPaths=array();
+	public $generatorPaths=array('application.gii');
 
 	private $_assetsUrl;
 
@@ -107,7 +108,7 @@ class GiiModule extends CWebModule
 				'loginUrl'=>array('gii/default/login'),
 			),
 		));
-		$this->generatorPaths[]=Yii::getPathOfAlias('gii.generators');
+		$this->generatorPaths[]='gii.generators';
 		$this->controllerMap=$this->findGenerators();
 	}
 
@@ -163,8 +164,11 @@ class GiiModule extends CWebModule
 		$n=count($this->generatorPaths);
 		for($i=$n-1;$i>=0;--$i)
 		{
-			$path=$this->generatorPaths[$i];
-			Yii::setPathOfAlias('gii'.$i,$path);
+			$alias=$this->generatorPaths[$i];
+			$path=Yii::getPathOfAlias($alias);
+			if($path===false || !is_dir($path))
+				continue;
+
 			$names=scandir($path);
 			foreach($names as $name)
 			{
@@ -174,12 +178,19 @@ class GiiModule extends CWebModule
 					if(is_file("$path/$name/$className.php"))
 					{
 						$generators[$name]=array(
-							'class'=>"gii{$i}.$name.$className",
+							'class'=>"$alias.$name.$className",
 						);
 					}
-					else if(isset($generators[$name]) && is_dir("$path/$name/templates"))
+
+					if(isset($generators[$name]) && is_dir("$path/$name/templates"))
 					{
-						$generators[$name]['templatePath']="$path/$name/templates";
+						$templatePath="$path/$name/templates";
+						$dirs=scandir($templatePath);
+						foreach($dirs as $dir)
+						{
+							if($dir[0]!=='.' && is_dir($templatePath.'/'.$dir))
+								$generators[$name]['templates'][$dir]=strtr($templatePath.'/'.$dir,array('/'=>DIRECTORY_SEPARATOR,'\\'=>DIRECTORY_SEPARATOR));
+						}
 					}
 				}
 			}

@@ -8,27 +8,28 @@ class ControllerCode extends CCodeModel
 
 	public function rules()
 	{
-		return array(
+		return array_merge(parent::rules(), array(
 			array('controller, actions, baseClass', 'filter', 'filter'=>'trim'),
 			array('controller, baseClass', 'required'),
 			array('controller', 'match', 'pattern'=>'/^\w+[\w+\\/]*$/', 'message'=>'{attribute} should only contain word characters and slashes.'),
 			array('actions', 'match', 'pattern'=>'/^\w+[\w\s,]*$/', 'message'=>'{attribute} should only contain word characters, spaces and commas.'),
 			array('baseClass', 'match', 'pattern'=>'/^\w+$/', 'message'=>'{attribute} should only contain word characters.'),
-		);
+		));
 	}
 
 	public function attributeLabels()
 	{
-		return array(
+		return array_merge(parent::rules(), array(
 			'baseClass'=>'Base Class',
 			'controller'=>'Controller ID',
 			'actions'=>'Action IDs',
-		);
+		));
 	}
 
-	public function prepare($templatePath)
+	public function prepare()
 	{
 		$this->files=array();
+		$templatePath=$this->templates[$this->template];
 
 		$this->files[]=new CCodeFile(
 			$this->controllerFile,

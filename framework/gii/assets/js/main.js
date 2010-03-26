@@ -7,7 +7,7 @@ $(document).ready(function() {
 		return false;
 	});
 
-	$('.form.gii .row input').tooltip({
+	$('.form.gii .row input, .form.gii .row select').tooltip({
 	    position: "center right",
 		offset: [-2, 10]
 	});

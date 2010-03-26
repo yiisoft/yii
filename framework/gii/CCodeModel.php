@@ -7,11 +7,29 @@ abstract class CCodeModel extends CFormModel
 	const STATUS_SUCCESS=3;
 	const STATUS_ERROR=4;
 
+	public $templates=array();  // name => path
 	public $files=array();
 	public $answers;
 	public $status=self::STATUS_NEW;
 
-	abstract public function prepare($templatePath);
+	public $template;
+
+	abstract public function prepare();
+
+	public function rules()
+	{
+		return array(
+			array('template', 'required'),
+			array('template', 'in', 'range'=>array_keys($this->templates)),
+		);
+	}
+
+	public function attributeLabels()
+	{
+		return array(
+			'template'=>'Template',
+		);
+	}
 
 	public function save()
 	{
