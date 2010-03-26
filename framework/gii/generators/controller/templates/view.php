@@ -19,7 +19,7 @@ else
 {
 	$action=ucfirst($action);
 	echo "\$this->breadcrumbs=array(
-	'$label'=>array('{$this->controllerID}'),
+	'$label'=>array('/{$this->uniqueControllerID}'),
 	'$action',
 );";
 }

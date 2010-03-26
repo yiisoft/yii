@@ -83,12 +83,17 @@ class GiiModule extends CWebModule
 	 */
 	public $ipFilters=array('127.0.0.1');
 	/**
-	 * @var array a list of directories that may contain code generators.
+	 * @var array a list of directories that may contain code generators. Note that each generator
+	 * is stored as a directory by itself, and the directory name is the same as the generator name.
+	 * A generator path may contain multiple generators (e.g. framework/gii/generators).
 	 */
 	public $generatorPaths=array();
 
 	private $_assetsUrl;
 
+	/**
+	 * Initializes the gii module.
+	 */
 	public function init()
 	{
 		parent::init();

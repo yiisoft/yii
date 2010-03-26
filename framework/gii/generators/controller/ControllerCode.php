@@ -20,9 +20,9 @@ class ControllerCode extends CCodeModel
 	public function attributeLabels()
 	{
 		return array(
+			'baseClass'=>'Base Class',
 			'controller'=>'Controller ID',
 			'actions'=>'Action IDs',
-			'baseClass'=>'Base Controller Class',
 		);
 	}
 
@@ -30,20 +30,15 @@ class ControllerCode extends CCodeModel
 	{
 		$this->files=array();
 
-		$controllerFile=Yii::app()->controllerPath;
-		if(($pos=strrpos($this->controller,'/'))!==false)
-			$controllerFile.='/'.substr($this->controller,0,$pos);
-		$controllerFile.='/'.$this->getControllerClass().'.php';
-
 		$this->files[]=new CCodeFile(
-			$controllerFile,
+			$this->controllerFile,
 			$this->render($templatePath.'/controller.php')
 		);
 
 		foreach($this->getActionIDs() as $action)
 		{
 			$this->files[]=new CCodeFile(
-				Yii::app()->viewPath.'/'.$this->controllerID.'/'.$action.'.php',
+				$this->getViewFile($action),
 				$this->render($templatePath.'/view.php', array('action'=>$action))
 			);
 		}
@@ -57,27 +52,62 @@ class ControllerCode extends CCodeModel
 		return $actions;
 	}
 
-	public function getControllerID()
-	{
-		if(($pos=strrpos($this->controller,'/'))!==false)
-		{
-			$id=substr($this->controller,$pos+1);
-			$id[0]=strtolower($id[0]);
-			return substr($this->controller,0,$pos).'/'.$id;
-		}
-		else
-		{
-			$id=$this->controller;
-			$id[0]=strtolower($id[0]);
-			return $id;
-		}
-	}
-
 	public function getControllerClass()
 	{
 		if(($pos=strrpos($this->controller,'/'))!==false)
 			return ucfirst(substr($this->controller,$pos+1)).'Controller';
 		else
 			return ucfirst($this->controller).'Controller';
+	}
+
+	public function getModule()
+	{
+		if(($pos=strpos($this->controller,'/'))!==false)
+		{
+			$id=substr($this->controller,0,$pos);
+			if(($module=Yii::app()->getModule($id))!==null)
+				return $module;
+		}
+		return Yii::app();
+	}
+
+	public function getControllerID()
+	{
+		if($this->getModule()!==Yii::app())
+			$id=substr($this->controller,strpos($this->controller,'/')+1);
+		else
+			$id=$this->controller;
+		if(($pos=strrpos($id,'/'))!==false)
+			$id[$pos+1]=strtolower($id[$pos+1]);
+		else
+			$id[0]=strtolower($id[0]);
+		return $id;
+	}
+
+	public function getUniqueControllerID()
+	{
+		$id=$this->controller;
+		if(($pos=strrpos($id,'/'))!==false)
+			$id[$pos+1]=strtolower($id[$pos+1]);
+		else
+			$id[0]=strtolower($id[0]);
+		return $id;
+	}
+
+	public function getControllerFile()
+	{
+		$module=$this->getModule();
+		$id=$this->getControllerID();
+		if(($pos=strrpos($id,'/'))!==false)
+			$id[$pos+1]=strtoupper($id[$pos+1]);
+		else
+			$id[0]=strtoupper($id[0]);
+		return $module->getControllerPath().'/'.$id.'Controller.php';
+	}
+
+	public function getViewFile($action)
+	{
+		$module=$this->getModule();
+		return $module->getViewPath().'/'.$this->getControllerID().'/'.$action.'.php';
 	}
 }
