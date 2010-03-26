@@ -43,7 +43,7 @@ class ControllerCode extends CCodeModel
 		foreach($this->getActionIDs() as $action)
 		{
 			$this->files[]=new CCodeFile(
-				Yii::app()->viewPath.'/'.$this->controller.'/'.$action.'.php',
+				Yii::app()->viewPath.'/'.$this->controllerID.'/'.$action.'.php',
 				$this->render($templatePath.'/view.php', array('action'=>$action))
 			);
 		}
@@ -60,9 +60,17 @@ class ControllerCode extends CCodeModel
 	public function getControllerID()
 	{
 		if(($pos=strrpos($this->controller,'/'))!==false)
-			return substr($this->controller,$pos+1);
+		{
+			$id=substr($this->controller,$pos+1);
+			$id[0]=strtolower($id[0]);
+			return substr($this->controller,0,$pos).'/'.$id;
+		}
 		else
-			return $this->controller;
+		{
+			$id=$this->controller;
+			$id[0]=strtolower($id[0]);
+			return $id;
+		}
 	}
 
 	public function getControllerClass()
