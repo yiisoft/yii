@@ -1,12 +1,3 @@
-<div class="title">
-	<div class="buttons">
-		<a href="#" class="close-code">Close</a>&nbsp;
-	</div>
-	<?php echo CHtml::encode($file->path); ?>
-</div>
-
-<br/>
-
 <?php
 if($file->type==='php')
 {
