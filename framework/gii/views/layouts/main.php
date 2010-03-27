@@ -30,18 +30,15 @@ Yii::app()->clientScript->registerCssFile($this->module->assetsUrl.'/js/fancybox
 <div class="container" id="page">
 
 	<div id="header">
-		<div id="logo">Yii Code Generator</div>
+		<div class="top-menus">
+		<?php echo CHtml::link('home',array('/gii/default/index')); ?> |
+		<a href="http://www.yiiframework.com">yii framework</a>
+		<?php if(!Yii::app()->user->isGuest): ?>
+			| <?php echo CHtml::link('logout',array('/gii/default/logout')); ?>
+		<?php endif; ?>
+		</div>
+		<div id="logo"><?php echo CHtml::link(CHtml::image($this->module->assetsUrl.'/images/logo.png'),array('/gii')); ?></div>
 	</div><!-- header -->
-
-	<div id="mainmenu">
-		<?php $this->widget('zii.widgets.CMenu',array(
-			'items'=>array(
-				array('label'=>'Home', 'url'=>array('/gii/default/index')),
-				array('label'=>'Login', 'url'=>array('/gii/default/login'), 'visible'=>Yii::app()->user->isGuest),
-				array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/gii/default/logout'), 'visible'=>!Yii::app()->user->isGuest)
-			),
-		)); ?>
-	</div><!-- mainmenu -->
 
 	<?php echo $content; ?>
 

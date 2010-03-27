@@ -1,21 +1,11 @@
-<h1>Password Required</h1>
-
-<p>Please enter your password to access this site:</p>
-
-<div class="form">
+<div class="form login">
 <?php $form=$this->beginWidget('CActiveForm'); ?>
+	<p>Please enter your password</p>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+	<?php echo $form->passwordField($model,'password'); ?>
+	<?php echo $form->error($model,'password'); ?>
 
-	<div class="row">
-		<?php echo $form->labelEx($model,'password'); ?>
-		<?php echo $form->passwordField($model,'password'); ?>
-		<?php echo $form->error($model,'password'); ?>
-	</div>
-
-	<div class="row submit">
-		<?php echo CHtml::submitButton('Login'); ?>
-	</div>
+	<?php echo CHtml::submitButton('Enter'); ?>
 
 <?php $this->endWidget(); ?>
 </div><!-- form -->

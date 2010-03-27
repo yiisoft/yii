@@ -4,6 +4,7 @@ body
 	padding: 0;
 	color: #555;
 	font: normal 10pt Arial,Helvetica,sans-serif;
+	font: Verdana,"DejaVu Sans","Bitstream Vera Sans",Geneva,sans-serif;
 	background: #EFEFEF;
 }
 
@@ -17,9 +18,9 @@ body
 
 #header
 {
-	margin: 0;
-	padding: 0;
-	border-top: 3px solid #C9E0ED;
+	padding: 0px;
+	margin: 0px 20px;
+	border-bottom: 1px solid #C9E0ED;
 }
 
 #content
@@ -43,8 +44,18 @@ body
 
 #logo
 {
-	padding: 10px 20px;
-	font-size: 200%;
+	padding: 5px 0px;
+}
+
+#logo a
+{
+	text-decoration: none;
+}
+
+#header .top-menus
+{
+	margin: 20px 0px;
+	float: right;
 }
 
 #mainmenu
@@ -156,8 +167,8 @@ div.search-form
 .portlet-decoration
 {
 	padding: 3px 8px;
-	background: #B7D6E7;
-	border-left: 5px solid #6FACCF;
+	background: #79B4DC;
+	border-left: 5px solid #6293B3;
 }
 
 .portlet-title
@@ -166,7 +177,7 @@ div.search-form
 	font-weight: bold;
 	padding: 0;
 	margin: 0;
-	color: #298dcd;
+	color: white;
 }
 
 .portlet-content
@@ -330,8 +341,8 @@ div.wide.form .buttons, div.wide.form .hint, div.wide.form .errorMessage
 div.form .tooltip
 {
 	display: none;
-    background-color:#DDE5FC;
-    border:1px solid #9EB5FC;
+    background-color:#EFFDFF;
+    border:1px solid #79B4DC;
     padding: 10px;
     width: 300px;
 }
@@ -340,6 +351,24 @@ div.form .tooltip ul
 {
 	margin: 0;
 	padding: 10px 0 0 20px;
+}
+
+div.form.login
+{
+	border: 1px solid #C9E0ED;
+	width: 200px;
+	margin: 0 auto;
+	margin-top: 50px;
+	margin-bottom: 50px;
+	padding: 20px 10px 10px 10px;
+	text-align: center;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+div.form.login p
+{
+	margin: 0 0 10px 0;
 }
 
 .common-generator .row.template select
