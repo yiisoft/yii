@@ -107,7 +107,7 @@ class GiiModule extends CWebModule
 			'user'=>array(
 				'class'=>'CWebUser',
 				'stateKeyPrefix'=>'gii',
-				'loginUrl'=>array('gii/default/login'),
+				'loginUrl'=>Yii::app()->createUrl('gii/default/login'),
 			),
 		));
 		$this->generatorPaths[]='gii.generators';
