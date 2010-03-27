@@ -494,3 +494,18 @@ div.form.login p
 	background: lightgreen;
 	text-decoration: none;
 }
+
+#fancybox-wrap #tip7-title
+{
+	text-align: left;
+}
+
+#fancybox-wrap #tip7-title b
+{
+	display: block;
+}
+
+#fancybox-wrap #tip7-title span
+{
+	float: right;
+}
