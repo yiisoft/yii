@@ -28,11 +28,11 @@ Yii::app()->clientScript->registerCssFile($this->module->assetsUrl.'/js/fancybox
 <body>
 
 <div class="container" id="page">
-
 	<div id="header">
 		<div class="top-menus">
 		<?php echo CHtml::link('home',array('/gii/default/index')); ?> |
-		<a href="http://www.yiiframework.com">yii framework</a>
+		<?php echo CHtml::link('webapp',Yii::app()->homeUrl); ?> |
+		<a href="http://www.yiiframework.com">yii</a>
 		<?php if(!Yii::app()->user->isGuest): ?>
 			| <?php echo CHtml::link('logout',array('/gii/default/logout')); ?>
 		<?php endif; ?>
@@ -42,13 +42,12 @@ Yii::app()->clientScript->registerCssFile($this->module->assetsUrl.'/js/fancybox
 
 	<?php echo $content; ?>
 
-	<div id="footer">
-		Copyright &copy; <?php echo date('Y'); ?> by <a href="http://www.yiisoft.com">Yii Software LLC</a>.<br/>
-		All Rights Reserved.<br/>
-		<?php echo Yii::powered(); ?>
-	</div><!-- footer -->
-
 </div><!-- page -->
+
+<div id="footer">
+	<?php echo Yii::powered(); ?>
+	<br/>A product of <a href="http://www.yiisoft.com">Yii Software LLC</a>.
+</div><!-- footer -->
 
 </body>
 </html>
