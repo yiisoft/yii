@@ -367,7 +367,7 @@ class YiiBase
 	{
 		if(self::$_logger===null)
 			self::$_logger=new CLogger;
-		if(YII_DEBUG && YII_TRACE_LEVEL>0)
+		if(YII_DEBUG && YII_TRACE_LEVEL>0 && $level!==CLogger::LEVEL_PROFILE)
 		{
 			$traces=debug_backtrace();
 			$count=0;
