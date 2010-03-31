@@ -286,4 +286,13 @@ class CLocale extends CComponent
 	{
 		return $this->_data['dateTimeFormat'];
 	}
+
+	/**
+	 * @return string the character orientation, which is either 'ltr' (left-to-right) or 'rtl' (right-to-left)
+	 * @since 1.1.2
+	 */
+	public function getOrientation()
+	{
+		return isset($this->_data['orientation']) ? $this->_data['orientation'] : 'ltr';
+	}
 }

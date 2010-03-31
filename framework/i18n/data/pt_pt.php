@@ -319,4 +319,5 @@ return array (
   'dateTimeFormat' => '{1} {0}',
   'amName' => 'Antes do meio-dia',
   'pmName' => 'Depois do meio-dia',
+  'orientation' => 'ltr',
 );

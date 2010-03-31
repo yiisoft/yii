@@ -320,4 +320,5 @@ return array (
   'dateTimeFormat' => '{1} {0}',
   'amName' => 'PD',
   'pmName' => 'MD',
+  'orientation' => 'ltr',
 );

@@ -319,4 +319,5 @@ return array (
   'dateTimeFormat' => '{1} {0}',
   'amName' => 'পূৰ্বা',
   'pmName' => 'অপ',
+  'orientation' => 'ltr',
 );

@@ -334,4 +334,5 @@ return array (
   'dateTimeFormat' => '{1} {0}',
   'amName' => 'dopoludnia',
   'pmName' => 'popoludní',
+  'orientation' => 'ltr',
 );

@@ -328,4 +328,5 @@ return array (
   'dateTimeFormat' => '{1}، ساعت {0}',
   'amName' => 'قبل از ظهر',
   'pmName' => 'بعد از ظهر',
+  'orientation' => 'rtl',
 );

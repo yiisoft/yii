@@ -319,4 +319,5 @@ return array (
   'dateTimeFormat' => '{1} {0}',
   'amName' => 'ፋዱስ ጃብ',
   'pmName' => 'ፋዱስ ደምቢ',
+  'orientation' => 'ltr',
 );

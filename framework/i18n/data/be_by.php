@@ -333,4 +333,5 @@ return array (
   'dateTimeFormat' => '{1} {0}',
   'amName' => 'да палудня',
   'pmName' => 'пасля палудня',
+  'orientation' => 'ltr',
 );

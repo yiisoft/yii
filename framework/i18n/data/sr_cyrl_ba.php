@@ -297,4 +297,5 @@ return array (
   'dateTimeFormat' => '{1} {0}',
   'amName' => 'пре подне',
   'pmName' => 'поподне',
+  'orientation' => 'ltr',
 );

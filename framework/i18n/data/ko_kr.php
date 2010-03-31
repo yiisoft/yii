@@ -319,4 +319,5 @@ return array (
   'dateTimeFormat' => '{1}{0}',
   'amName' => '오전',
   'pmName' => '오후',
+  'orientation' => 'ltr',
 );
