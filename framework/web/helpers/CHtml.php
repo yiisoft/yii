@@ -625,7 +625,7 @@ class CHtml
 			unset($htmlOptions['checked']);
 		$value=isset($htmlOptions['value']) ? $htmlOptions['value'] : 1;
 		self::clientChange('click',$htmlOptions);
-		
+
 		if(array_key_exists('uncheckValue',$htmlOptions))
 		{
 			$uncheck=$htmlOptions['uncheckValue'];
@@ -636,7 +636,7 @@ class CHtml
 
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=self::getIdByName($name);
-			
+
 		$hidden=$uncheck!==null ? self::hiddenField($name,$uncheck,array('id'=>self::ID_PREFIX.$htmlOptions['id'])) : '';
 
 		// add a hidden field so that if the radio button is not selected, it still submits a value
@@ -881,9 +881,9 @@ EOD;
 	 * @param array value-label pairs used to generate the radio button list.
 	 * Note, the values will be automatically HTML-encoded, while the labels will not.
 	 * @param array addtional HTML options. The options will be applied to
-	 * each checkbox input. The following special options are recognized:
+	 * each radio button input. The following special options are recognized:
 	 * <ul>
-	 * <li>template: string, specifies how each checkbox is rendered. Defaults
+	 * <li>template: string, specifies how each radio button is rendered. Defaults
 	 * to "{input} {label}", where "{input}" will be replaced by the generated
 	 * radio button input tag while "{label}" be replaced by the corresponding radio button label.</li>
 	 * <li>separator: string, specifies the string that separates the generated radio buttons.</li>
