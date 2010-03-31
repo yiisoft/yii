@@ -178,4 +178,15 @@ view comments that will be stripped off
 --->
 ~~~
 
+Mixing Template Formats
+-----------------------
+
+Starting from version 1.1.2, it is possible to mix the usage of some alternative
+template syntax with the normal PHP syntax. To do so, the [CViewRenderer::fileExtension]
+property of the installed view renderer must be configured with a value other than
+`.php`. For example, if the property is set as `.tpl`, then any view file ending with `.tpl`
+will be rendered using the installed view renderer, while all other view files ending
+with `.php` will be treated as normal PHP view script.
+
+
 <div class="revision">$Id$</div>
