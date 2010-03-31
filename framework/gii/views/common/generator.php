@@ -1,8 +1,22 @@
+<?php
+$templates=array();
+foreach($model->templates as $i=>$template)
+{
+	$segments=explode(DIRECTORY_SEPARATOR,$template);
+	if(count($segments)>6)
+	{
+		array_splice($segments,0,count($segments)-6);
+		$templates[$i]='...'.DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR,$segments);
+	}
+	else
+		$templates[$i]=$template;
+}
+?>
 <div class="common-generator">
 
 	<div class="row template">
 		<?php echo $form->labelEx($model,'template'); ?>
-		<?php echo $form->dropDownList($model,'template',$model->templates); ?>
+		<?php echo $form->dropDownList($model,'template',$templates); ?>
 		<div class="tooltip">
 			Please select which set of the templates should be used to generated the code.
 		</div>

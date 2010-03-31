@@ -30,7 +30,7 @@ class ControllerCode extends CCodeModel
 	public function prepare()
 	{
 		$this->files=array();
-		$templatePath=$this->templates[$this->template];
+		$templatePath=$this->templatePath;
 
 		$this->files[]=new CCodeFile(
 			$this->controllerFile,

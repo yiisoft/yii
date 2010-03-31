@@ -132,6 +132,21 @@ abstract class CCodeModel extends CFormModel
 	}
 
 	/**
+	 * @return string the directory that contains the template files.
+	 * @throw CException if {@link templates} is empty or template selection is invalid
+	 */
+	public function getTemplatePath()
+	{
+		if(isset($this->templates[$this->template]))
+			return $this->templates[$this->template];
+		else if(empty($this->templates))
+			throw new CException('No templates are available.');
+		else
+			throw new CException('Invalid template selection.');
+
+	}
+
+	/**
 	 * Generates the code using the specified code template file.
 	 * This method is manly used in {@link generate} to generate code.
 	 * @param string the code template file path
@@ -183,7 +198,7 @@ abstract class CCodeModel extends CFormModel
 	 */
 	public function renderResults()
 	{
-		$output='';
+		$output='Generating code using template "'.$this->templatePath."\"...\n";
 		foreach($this->files as $file)
 		{
 			if($file->error!==null)
@@ -195,6 +210,7 @@ abstract class CCodeModel extends CFormModel
 			else
 				$output.='   skipped '.$file->relativePath."\n";
 		}
+		$output.="done!\n";
 		return $output;
 	}
 
