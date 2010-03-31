@@ -19,6 +19,21 @@
 class CFileHelper
 {
 	/**
+	 * Returns the extension name of a file path.
+	 * For example, the path "path/to/something.php" would return "php".
+	 * @param string the file path
+	 * @return string the extension name without the dot character.
+	 * @since 1.1.2
+	 */
+	public static function getExtension($path)
+	{
+		if(($pos=strrpos($path,'.'))!==false)
+			return substr($path,$pos+1);
+		else
+			return '';
+	}
+
+	/**
 	 * Copies a directory recursively as another.
 	 * If the destination directory does not exist, it will be created.
 	 * @param string the source directory
