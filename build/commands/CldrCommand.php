@@ -129,6 +129,8 @@ EOD;
 		$this->parseDateTimeFormat($xml,$data);
 		$this->parsePeriodNames($xml,$data);
 
+		$this->parseOrientation($xml,$data);
+
 		$data=str_replace("\r",'',var_export($data,true));
 		$locale=substr(basename($path),0,-4);
 		$content=<<<EOD
@@ -333,5 +335,14 @@ EOD;
 			$pattern=$types[0]->xpath('dateTimeFormat/pattern');
 			$data['dateTimeFormat']=(string)$pattern[0];
 		}
+	}
+
+	protected function parseOrientation($xml,&$data)
+	{
+		$orientation=$xml->xpath('/ldml/layout/orientation[@characters=\'right-to-left\']');
+		if(!empty($orientation))
+			$data['orientation']='rtl';
+		else if(!isset($data['orientation']))
+			$data['orientation']='ltr';
 	}
 }

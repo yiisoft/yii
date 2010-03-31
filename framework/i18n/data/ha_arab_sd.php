@@ -319,4 +319,5 @@ return array (
   'dateTimeFormat' => '{1} {0}',
   'amName' => 'A.M.',
   'pmName' => 'P.M.',
+  'orientation' => 'rtl',
 );

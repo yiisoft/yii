@@ -326,4 +326,5 @@ return array (
   'dateTimeFormat' => '{1} {0}',
   'amName' => 'ص',
   'pmName' => 'م',
+  'orientation' => 'rtl',
 );

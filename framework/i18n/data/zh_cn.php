@@ -349,4 +349,5 @@ return array (
   'dateTimeFormat' => '{1}{0}',
   'amName' => '上午',
   'pmName' => '下午',
+  'orientation' => 'ltr',
 );

@@ -319,4 +319,5 @@ return array (
   'dateTimeFormat' => '{1} {0}',
   'amName' => 'დილის',
   'pmName' => 'საღამოს',
+  'orientation' => 'ltr',
 );
