@@ -113,7 +113,7 @@ abstract class CCodeModel extends CFormModel
 	public function attributeLabels()
 	{
 		return array(
-			'template'=>'Template',
+			'template'=>'Code Template',
 		);
 	}
 
