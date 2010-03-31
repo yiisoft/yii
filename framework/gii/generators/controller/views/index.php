@@ -10,16 +10,6 @@ one or several controller actions and their corresponding views.</p>
 	<?php $form=$this->beginWidget('CActiveForm'); ?>
 
 		<div class="row">
-			<?php echo $form->labelEx($model,'baseClass'); ?>
-			<?php echo $form->textField($model,'baseClass',array('size'=>65)); ?>
-			<div class="tooltip">
-				This is the class that the new controller class will extend from.
-				Please make sure the class exists and can be autoloaded.
-			</div>
-			<?php echo $form->error($model,'baseClass'); ?>
-		</div>
-
-		<div class="row">
 			<?php echo $form->labelEx($model,'controller'); ?>
 			<?php echo $form->textField($model,'controller',array('size'=>65)); ?>
 			<div class="tooltip">
@@ -31,6 +21,16 @@ one or several controller actions and their corresponding views.</p>
 				</ul>
 			</div>
 			<?php echo $form->error($model,'controller'); ?>
+		</div>
+
+		<div class="row">
+			<?php echo $form->labelEx($model,'baseClass'); ?>
+			<?php echo $form->textField($model,'baseClass',array('size'=>65)); ?>
+			<div class="tooltip">
+				This is the class that the new controller class will extend from.
+				Please make sure the class exists and can be autoloaded.
+			</div>
+			<?php echo $form->error($model,'baseClass'); ?>
 		</div>
 
 		<div class="row">
