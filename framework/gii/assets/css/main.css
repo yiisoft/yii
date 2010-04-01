@@ -464,6 +464,16 @@ div.form.login p
 	margin: 10px 0;
 }
 
+.common-generator div.success code,
+.common-generator div.success code
+{
+	overflow: auto;
+	display: block;
+	padding: 5px;
+	font-size: 12px;
+	background: white;
+}
+
 .common-generator pre.results span.error
 {
 	background: #FFE0E1;

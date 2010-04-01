@@ -186,7 +186,7 @@ abstract class CCodeModel extends CFormModel
 		foreach($this->files as $file)
 		{
 			if($file->error!==null)
-				$output.="<span class=\"error\">{$file->relativePath}<br/>{$file->error}</span>\n";
+				$output.="<span class=\"error\">generating {$file->relativePath}<br/>           {$file->error}</span>\n";
 			else if($file->operation===CCodeFile::OP_NEW && $this->confirmed($file))
 				$output.=' generated '.$file->relativePath."\n";
 			else if($file->operation===CCodeFile::OP_OVERWRITE && $this->confirmed($file))
