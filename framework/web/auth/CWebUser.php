@@ -283,17 +283,21 @@ class CWebUser extends CApplicationComponent implements IWebUser
 
 	/**
 	 * Redirects the user browser to the login page.
-	 * Before the redirection, the current URL will be kept in {@link returnUrl}
-	 * so that the user browser may be redirected back to the current page after successful login.
-	 * Make sure you set {@link loginUrl} so that the user browser
-	 * can be redirected to the specified login URL after calling this method.
+	 * Before the redirection, the current URL (if it's not an AJAX url) will be
+	 * kept in {@link returnUrl} so that the user browser may be redirected back
+	 * to the current page after successful login. Make sure you set {@link loginUrl}
+	 * so that the user browser can be redirected to the specified login URL after
+	 * calling this method.
 	 * After calling this method, the current request processing will be terminated.
 	 */
 	public function loginRequired()
 	{
 		$app=Yii::app();
 		$request=$app->getRequest();
-		$this->setReturnUrl($request->getUrl());
+
+		if(!$request->isAjaxRequest)
+			$this->setReturnUrl($request->getUrl());
+		
 		if(($url=$this->loginUrl)!==null)
 		{
 			if(is_array($url))
