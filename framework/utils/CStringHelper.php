@@ -20,6 +20,7 @@ class CStringHelper
 {
 	/**
 	 * Converts a word to its plural form.
+	 * Note that this is for English only!
 	 * For example, 'apple' will become 'apples', and 'child' will become 'children'.
 	 * @param string the word to be pluralized
 	 * @return string the pluralized word
