@@ -47,14 +47,13 @@ foreach($model->templates as $i=>$template)
 			<pre class="results"><?php echo $model->renderResults(); ?></pre>
 		<?php elseif(isset($_POST['preview'])): ?>
 			<?php echo CHtml::hiddenField("answers"); ?>
-			<div class="check-all">
-				<?php echo CHtml::link('check all','#',array('class'=>'all')); ?> |
-				<?php echo CHtml::link('check none','#',array('class'=>'none')); ?>
-			</div>
 			<table>
 				<tr>
 					<th class="file">Code File</th>
-					<th class="confirm">Generate?</th>
+					<th class="confirm">
+						Generate
+						<?php echo CHtml::checkBox('checkAll', false, array('id'=>false)); ?>
+					</th>
 				</tr>
 				<?php foreach($model->files as $i=>$file): ?>
 				<tr class="<?php echo $file->operation; ?>">
