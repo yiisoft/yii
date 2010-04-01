@@ -39,7 +39,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.1';
+		return '1.1.2-dev';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -200,7 +200,7 @@ class YiiBase
 	{
 		if(self::$_logger===null)
 			self::$_logger=new CLogger;
-		if(YII_DEBUG && YII_TRACE_LEVEL>0)
+		if(YII_DEBUG && YII_TRACE_LEVEL>0 && $level!==CLogger::LEVEL_PROFILE)
 		{
 			$traces=debug_backtrace();
 			$count=0;
@@ -286,6 +286,7 @@ class YiiBase
 		'CEAcceleratorCache' => '/caching/CEAcceleratorCache.php',
 		'CFileCache' => '/caching/CFileCache.php',
 		'CMemCache' => '/caching/CMemCache.php',
+		'CWinCache' => '/caching/CWinCache.php',
 		'CXCache' => '/caching/CXCache.php',
 		'CZendDataCache' => '/caching/CZendDataCache.php',
 		'CCacheDependency' => '/caching/dependencies/CCacheDependency.php',
@@ -367,6 +368,7 @@ class YiiBase
 		'CFormatter' => '/utils/CFormatter.php',
 		'CMarkdownParser' => '/utils/CMarkdownParser.php',
 		'CPropertyValue' => '/utils/CPropertyValue.php',
+		'CStringHelper' => '/utils/CStringHelper.php',
 		'CTimestamp' => '/utils/CTimestamp.php',
 		'CVarDumper' => '/utils/CVarDumper.php',
 		'CBooleanValidator' => '/validators/CBooleanValidator.php',
@@ -874,6 +876,10 @@ abstract class CModule extends CComponent
 				return $this->_modules[$id]=$module;
 			}
 		}
+	}
+	public function hasModule($id)
+	{
+		return isset($this->_moduleConfig[$id]) || isset($this->_modules[$id]);
 	}
 	public function getModules()
 	{
@@ -2724,7 +2730,7 @@ abstract class CBaseController extends CComponent
 	public function renderFile($viewFile,$data=null,$return=false)
 	{
 		$widgetCount=count($this->_widgetStack);
-		if(($renderer=Yii::app()->getViewRenderer())!==null)
+		if(($renderer=Yii::app()->getViewRenderer())!==null && $renderer->fileExtension==='.'.CFileHelper::getExtension($viewFile))
 			$content=$renderer->renderFile($this,$viewFile,$data,$return);
 		else
 			$content=$this->renderInternal($viewFile,$data,$return);
@@ -2768,11 +2774,22 @@ abstract class CBaseController extends CComponent
 		$widget->init();
 		return $widget;
 	}
-	public function widget($className,$properties=array())
+	public function widget($className,$properties=array(),$captureOutput=false)
 	{
-		$widget=$this->createWidget($className,$properties);
-		$widget->run();
-		return $widget;
+		if($captureOutput)
+		{
+			ob_start();
+			ob_implicit_flush(false);
+			$widget=$this->createWidget($className,$properties);
+			$widget->run();
+			return ob_get_clean();
+		}
+		else
+		{
+			$widget=$this->createWidget($className,$properties);
+			$widget->run();
+			return $widget;
+		}
 	}
 	public function beginWidget($className,$properties=array())
 	{
@@ -3052,12 +3069,17 @@ class CController extends CBaseController
 		else
 			$extension='.php';
 		if($viewName[0]==='/')
-			$viewFile=$basePath.$viewName.$extension;
+			$viewFile=$basePath.$viewName;
 		else if(strpos($viewName,'.'))
-			$viewFile=Yii::getPathOfAlias($viewName).$extension;
+			$viewFile=Yii::getPathOfAlias($viewName);
 		else
-			$viewFile=$viewPath.DIRECTORY_SEPARATOR.$viewName.$extension;
-		return is_file($viewFile) ? Yii::app()->findLocalizedFile($viewFile) : false;
+			$viewFile=$viewPath.DIRECTORY_SEPARATOR.$viewName;
+		if(is_file($viewFile.$extension))
+			return Yii::app()->findLocalizedFile($viewFile.$extension);
+		else if($extension!=='.php' && is_file($viewFile.'.php'))
+			return Yii::app()->findLocalizedFile($viewFile.'.php');
+		else
+			return false;
 	}
 	public function getClips()
 	{
@@ -3403,7 +3425,8 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	{
 		$app=Yii::app();
 		$request=$app->getRequest();
-		$this->setReturnUrl($request->getUrl());
+		if(!$request->isAjaxRequest)
+			$this->setReturnUrl($request->getUrl());
 		if(($url=$this->loginUrl)!==null)
 		{
 			if(is_array($url))
@@ -4050,7 +4073,18 @@ class CHtml
 			unset($htmlOptions['checked']);
 		$value=isset($htmlOptions['value']) ? $htmlOptions['value'] : 1;
 		self::clientChange('click',$htmlOptions);
-		return self::inputField('radio',$name,$value,$htmlOptions);
+		if(array_key_exists('uncheckValue',$htmlOptions))
+		{
+			$uncheck=$htmlOptions['uncheckValue'];
+			unset($htmlOptions['uncheckValue']);
+		}
+		else
+			$uncheck=null;
+		if(!isset($htmlOptions['id']))
+			$htmlOptions['id']=self::getIdByName($name);
+		$hidden=$uncheck!==null ? self::hiddenField($name,$uncheck,array('id'=>self::ID_PREFIX.$htmlOptions['id'])) : '';
+		// add a hidden field so that if the radio button is not selected, it still submits a value
+		return $hidden . self::inputField('radio',$name,$value,$htmlOptions);
 	}
 	public static function checkBox($name,$checked=false,$htmlOptions=array())
 	{
@@ -4060,7 +4094,18 @@ class CHtml
 			unset($htmlOptions['checked']);
 		$value=isset($htmlOptions['value']) ? $htmlOptions['value'] : 1;
 		self::clientChange('click',$htmlOptions);
-		return self::inputField('checkbox',$name,$value,$htmlOptions);
+		if(array_key_exists('uncheckValue',$htmlOptions))
+		{
+			$uncheck=$htmlOptions['uncheckValue'];
+			unset($htmlOptions['uncheckValue']);
+		}
+		else
+			$uncheck=null;
+		if(!isset($htmlOptions['id']))
+			$htmlOptions['id']=self::getIdByName($name);
+		$hidden=$uncheck!==null ? self::hiddenField($name,$uncheck,array('id'=>self::ID_PREFIX.$htmlOptions['id'])) : '';
+		// add a hidden field so that if the checkbox  is not selected, it still submits a value
+		return $hidden . self::inputField('checkbox',$name,$value,$htmlOptions);
 	}
 	public static function dropDownList($name,$select,$data,$htmlOptions=array())
 	{
@@ -4127,14 +4172,12 @@ class CHtml
 			$name=strtr($name,array('['=>'\\[',']'=>'\\]'));
 			$js=<<<EOD
 jQuery('#$id').click(function() {
-	var checked=this.checked;
-	jQuery("input[name='$name']").each(function() {
-		this.checked=checked;
-	});
+	jQuery("input[name='$name']").attr('checked', this.checked);
 });
 jQuery("input[name='$name']").click(function() {
-	jQuery('#$id').attr('checked', jQuery("input[name='$name']").length==jQuery("input[name='$name'][checked=true]").length);
+	jQuery('#$id').attr('checked', !jQuery("input[name='$name']:not(:checked)").length);
 });
+jQuery('#$id').attr('checked', !jQuery("input[name='$name']:not(:checked)").length);
 EOD;
 			$cs=Yii::app()->getClientScript();
 			$cs->registerCoreScript('jquery');
@@ -4701,10 +4744,15 @@ class CWidget extends CBaseController
 		else
 			$extension='.php';
 		if(strpos($viewName,'.')) // a path alias
-			$viewFile=Yii::getPathOfAlias($viewName).$extension;
+			$viewFile=Yii::getPathOfAlias($viewName);
 		else
-			$viewFile=$this->getViewPath().DIRECTORY_SEPARATOR.$viewName.$extension;
-		return is_file($viewFile) ? Yii::app()->findLocalizedFile($viewFile) : false;
+			$viewFile=$this->getViewPath().DIRECTORY_SEPARATOR.$viewName;
+		if(is_file($viewFile.$extension))
+			return Yii::app()->findLocalizedFile($viewFile.$extension);
+		else if($extension!=='.php' && is_file($viewFile.'.php'))
+			return Yii::app()->findLocalizedFile($viewFile.'.php');
+		else
+			return false;
 	}
 	public function render($view,$data=null,$return=false)
 	{
@@ -6563,12 +6611,23 @@ class CActiveRecordMetaData
 		}
 		foreach($model->relations() as $name=>$config)
 		{
-			if(isset($config[0],$config[1],$config[2]))  // relation class, AR class, FK
-				$this->relations[$name]=new $config[0]($name,$config[1],$config[2],array_slice($config,3));
-			else
-				throw new CDbException(Yii::t('yii','Active record "{class}" has an invalid configuration for relation "{relation}". It must specify the relation type, the related active record class and the foreign key.',
-					array('{class}'=>get_class($model),'{relation}'=>$name)));
+			$this->addRelation($name,$config);
 		}
+	}
+	public function addRelation($name,$config)
+	{
+		if(isset($config[0],$config[1],$config[2]))  // relation class, AR class, FK
+			$this->relations[$name]=new $config[0]($name,$config[1],$config[2],array_slice($config,3));
+		else
+			throw new CDbException(Yii::t('yii','Active record "{class}" has an invalid configuration for relation "{relation}". It must specify the relation type, the related active record class and the foreign key.', array('{class}'=>get_class($this->_model),'{relation}'=>$name)));
+	}
+	public function hasRelation($name)
+	{
+		return isset($this->relations[$name]);
+	}
+	public function removeRelation($name)
+	{
+		unset($this->relations[$name]);
 	}
 }
 class CDbConnection extends CApplicationComponent
