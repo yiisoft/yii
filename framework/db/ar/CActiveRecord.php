@@ -1978,13 +1978,14 @@ class CActiveRecordMetaData
 	 * @param string $name Name of the relation.
 	 * @param array $config Relation parameters.
      * @return void
+	 * @since 1.1.2
 	 */
 	public function addRelation($name,$config)
 	{
 		if(isset($config[0],$config[1],$config[2]))  // relation class, AR class, FK
 			$this->relations[$name]=new $config[0]($name,$config[1],$config[2],array_slice($config,3));
 		else
-			throw new CDbException(Yii::t('yii','Active record "{class}" has an invalid configuration for relation "{relation}". It must specify the relation type, the related active record class and the foreign key.', array('{class}'=>get_class($model),'{relation}'=>$name)));
+			throw new CDbException(Yii::t('yii','Active record "{class}" has an invalid configuration for relation "{relation}". It must specify the relation type, the related active record class and the foreign key.', array('{class}'=>get_class($this->_model),'{relation}'=>$name)));
 	}
 
 	/**
@@ -1992,6 +1993,7 @@ class CActiveRecordMetaData
 	 *
 	 * @param string $name Name of the relation.
 	 * @return boolean
+	 * @since 1.1.2
 	 */
 	public function hasRelation($name)
 	{
@@ -2002,7 +2004,8 @@ class CActiveRecordMetaData
 	 * Deletes a relation with specified name.
 	 *
 	 * @param string $name
-	 * @return void
+	 * @return void	 
+	 * @since 1.1.2
 	 */
 	public function removeRelation($name)
 	{
