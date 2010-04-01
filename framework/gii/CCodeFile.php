@@ -68,7 +68,7 @@ class CCodeFile extends CComponent
 				return false;
 			}
 		}
-		if(!@file_put_contents($this->path,$this->content))
+		if(@file_put_contents($this->path,$this->content)===false)
 		{
 			$this->error="Unable to write the file '{$this->path}'.";
 			return false;
