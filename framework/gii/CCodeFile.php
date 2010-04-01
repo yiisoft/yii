@@ -27,7 +27,8 @@ class CCodeFile extends CComponent
 	 */
 	public $path;
 	/**
-	 * @var string the newly generated code
+	 * @var mixed the newly generated code. If this is null, it means {@link path}
+	 * should be treated as a directory.
 	 */
 	public $content;
 	/**
@@ -50,6 +51,8 @@ class CCodeFile extends CComponent
 		$this->content=$content;
 		if(is_file($path))
 			$this->operation=file_get_contents($path)===$content ? self::OP_SKIP : self::OP_OVERWRITE;
+		else if($content===null)  // is dir
+			$this->operation=is_dir($path) ? self::OP_SKIP : self::OP_NEW;
 		else
 			$this->operation=self::OP_NEW;
 	}
@@ -59,6 +62,17 @@ class CCodeFile extends CComponent
 	 */
 	public function save()
 	{
+		if($this->content===null)  // a directory
+		{
+			if(!is_dir($this->path) && !@mkdir($this->path,0755,true))
+			{
+				$this->error="Unable to create the directory '{$this->path}'.";
+				return false;
+			}
+			else
+				return true;
+		}
+
 		if($this->operation===self::OP_NEW)
 		{
 			$dir=dirname($this->path);
