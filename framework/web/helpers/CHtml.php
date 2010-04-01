@@ -852,15 +852,12 @@ class CHtml
 			$name=strtr($name,array('['=>'\\[',']'=>'\\]'));
 			$js=<<<EOD
 jQuery('#$id').click(function() {
-	var checked=this.checked;
-	jQuery("input[name='$name']").each(function() {
-		this.checked=checked;
-	});
+	jQuery("input[name='$name']").attr('checked', this.checked);
 });
-
 jQuery("input[name='$name']").click(function() {
-	jQuery('#$id').attr('checked', jQuery("input[name='$name']").length==jQuery("input[name='$name'][checked=true]").length);
+	jQuery('#$id').attr('checked', !jQuery("input[name='$name']:not(:checked)").length);
 });
+jQuery('#$id').attr('checked', !jQuery("input[name='$name']:not(:checked)").length);
 EOD;
 			$cs=Yii::app()->getClientScript();
 			$cs->registerCoreScript('jquery');
