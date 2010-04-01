@@ -42,6 +42,11 @@ class ModuleCode extends CCodeModel
 			{
 				if(CFileHelper::getExtension($file)==='php')
 					$content=$this->render($file);
+				else if(basename($file)==='.yii')  // an empty directory
+				{
+					$file=dirname($file);
+					$content=null;
+				}
 				else
 					$content=file_get_contents($file);
 				$this->files[]=new CCodeFile(
