@@ -1,11 +1,12 @@
 $(document).ready(function() {
-	$('.common-generator .check-all a').click(function() {
-		if($(this).hasClass('all'))
-			$(".common-generator td input").attr('checked', 'checked');
-		else if($(this).hasClass('none'))
-			$(".common-generator td input").removeAttr('checked');
-		return false;
+	$('.common-generator input[name="checkAll"]').click(function() {
+		$('.common-generator .confirm input').attr('checked', this.checked);
 	});
+
+	$('.common-generator td.confirm input').click(function() {
+		$('.common-generator input[name="checkAll"]').attr('checked', !$('.common-generator td.confirm input:not(:checked)').length);
+	});
+	$('.common-generator input[name="checkAll"]').attr('checked', !$('.common-generator td.confirm input:not(:checked)').length);
 
 	$('.form.gii .row input, .form.gii .row select').tooltip({
 	    position: "center right",
@@ -15,11 +16,6 @@ $(document).ready(function() {
 	$('.form.gii .row input').change(function(){
 		$('.form.gii .feedback').hide();
 		$('.form.gii input[name="generate"]').hide();
-	});
-
-	$('#fancybox-inner .close-code').live('click', function(){
-		$.fancybox.close();
-		return false;
 	});
 
 	$('.form.gii .view-code').click(function(){
@@ -47,6 +43,11 @@ $(document).ready(function() {
 				$.fancybox('<div class="error">'+XMLHttpRequest.responseText+'</div>');
 			}
 		});
+		return false;
+	});
+
+	$('#fancybox-inner .close-code').live('click', function(){
+		$.fancybox.close();
 		return false;
 	});
 });
