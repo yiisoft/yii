@@ -392,6 +392,16 @@ div.form.login p
 	text-align: center;
 }
 
+.common-generator th.confirm
+{
+	text-align: right;
+}
+
+.common-generator th.confirm label
+{
+	display: inline;
+}
+
 .common-generator td.confirm
 {
 	width: 80px;
@@ -401,6 +411,12 @@ div.form.login p
 .common-generator td.confirm input
 {
 	margin:0;
+}
+
+.common-generator td.confirm label
+{
+	display: inline;
+	font-weight: normal;
 }
 
 .common-generator table, .common-generator th, .common-generator td

@@ -147,6 +147,15 @@ abstract class CCodeModel extends CFormModel
 	}
 
 	/**
+	 * @param CCodeFile whether the code file should be saved
+	 */
+	public function confirmed($file)
+	{
+		return $this->answers===null && $file->operation===CCodeFile::OP_NEW
+			|| is_array($this->answers) && isset($this->answers[md5($file->path)]);
+	}
+
+	/**
 	 * Generates the code using the specified code template file.
 	 * This method is manly used in {@link generate} to generate code.
 	 * @param string the code template file path
@@ -166,31 +175,6 @@ abstract class CCodeModel extends CFormModel
 		ob_implicit_flush(false);
 		require($templateFile);
 		return ob_get_clean();
-	}
-
-	/**
-	 * @param CCodeFile whether the code file should be saved
-	 */
-	public function confirmed($file)
-	{
-		return $this->answers===null && $file->operation===CCodeFile::OP_NEW
-			|| is_array($this->answers) && isset($this->answers[md5($file->path)]);
-	}
-
-	/**
-	 * Renders a checkbox that can be used to collect user confirmation for saving the code.
-	 * @param CCodeFile the code file
-	 * @return string the HTML code
-	 */
-	public function renderConfirmation($file)
-	{
-		if($file->operation===CCodeFile::OP_SKIP)
-			return '&nbsp;';
-		$key=md5($file->path);
-		if($file->operation===CCodeFile::OP_NEW)
-			return CHtml::checkBox("answers[$key]", $this->confirmed($file));
-		else if($file->operation===CCodeFile::OP_OVERWRITE)
-			return CHtml::checkBox("answers[$key]", $this->confirmed($file));
 	}
 
 	/**

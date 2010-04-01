@@ -51,8 +51,8 @@ foreach($model->templates as $i=>$template)
 				<tr>
 					<th class="file">Code File</th>
 					<th class="confirm">
-						Generate
-						<?php echo CHtml::checkBox('checkAll', false, array('id'=>false)); ?>
+						<label for="check-all">Generate</label>
+						<input type="checkbox" name="checkAll" id="check-all" />
 					</th>
 				</tr>
 				<?php foreach($model->files as $i=>$file): ?>
@@ -64,8 +64,16 @@ foreach($model->templates as $i=>$template)
 						<?php endif; ?>
 					</td>
 					<td class="confirm">
-						<?php echo $file->operation===CCodeFile::OP_SKIP ? 'unchanged' : $file->operation; ?>
-						<?php echo $model->renderConfirmation($file); ?>
+						<?php
+						if($file->operation===CCodeFile::OP_SKIP)
+							echo 'unchanged';
+						else
+						{
+							$key=md5($file->path);
+							echo CHtml::label($file->operation, "answers_{$key}")
+								. ' ' . CHtml::checkBox("answers[$key]", $model->confirmed($file));
+						}
+						?>
 					</td>
 				</tr>
 				<?php endforeach; ?>
