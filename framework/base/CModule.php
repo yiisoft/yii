@@ -264,6 +264,17 @@ abstract class CModule extends CComponent
 	}
 
 	/**
+	 * Returns a value indicating whether the specified module is installed.
+	 * @param string the module ID
+	 * @return boolean whether the specified module is installed.
+	 * @since 1.1.2
+	 */
+	public function hasModule($id)
+	{
+		return isset($this->_moduleConfig[$id]) || isset($this->_modules[$id]);
+	}
+
+	/**
 	 * @return array the configuration of the currently installed modules (module ID => configuration)
 	 */
 	public function getModules()
