@@ -26,6 +26,7 @@ Version 1.1.2 to be released
 - Enh: Added CFileHelper::getExtension() (Qiang)
 - Enh: Added CModule::hasModule() (Qiang)
 - New #1005: added CWinCache (Sam Dark)
+- New: Added CStringHelper (Qiang)
 
 Version 1.1.1 March 14, 2010
 ----------------------------
