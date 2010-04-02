@@ -610,7 +610,6 @@ class YiiBase
 		'CFormatter' => '/utils/CFormatter.php',
 		'CMarkdownParser' => '/utils/CMarkdownParser.php',
 		'CPropertyValue' => '/utils/CPropertyValue.php',
-		'CStringHelper' => '/utils/CStringHelper.php',
 		'CTimestamp' => '/utils/CTimestamp.php',
 		'CVarDumper' => '/utils/CVarDumper.php',
 		'CBooleanValidator' => '/validators/CBooleanValidator.php',

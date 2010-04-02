@@ -6,7 +6,7 @@
 ?>
 <?php
 echo "<?php\n";
-$label=CStringHelper::plural(CStringHelper::words($this->modelClass));
+$label=$this->pluralize($this->class2name($this->modelClass));
 echo "\$this->breadcrumbs=array(
 	'$label'=>array('index'),
 	'Create',

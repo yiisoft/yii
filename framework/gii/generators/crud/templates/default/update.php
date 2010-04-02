@@ -7,7 +7,7 @@
 <?php
 echo "<?php\n";
 $nameColumn=$this->guessNameColumn($this->tableSchema->columns);
-$label=CStringHelper::plural(CStringHelper::words($this->modelClass));
+$label=$this->pluralize($this->class2name($this->modelClass));
 echo "\$this->breadcrumbs=array(
 	'$label'=>array('index'),
 	\$model->{$nameColumn}=>array('view','id'=>\$model->{$this->tableSchema->primaryKey}),
