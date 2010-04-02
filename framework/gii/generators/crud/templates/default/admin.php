@@ -6,7 +6,7 @@
 ?>
 <?php
 echo "<?php\n";
-$label=CStringHelper::plural(CStringHelper::words($this->modelClass));
+$label=$this->pluralize($this->class2name($this->modelClass));
 echo "\$this->breadcrumbs=array(
 	'$label'=>array('index'),
 	'Manage',
@@ -24,7 +24,7 @@ $('.search-button').click(function(){
 	return false;
 });
 $('.search-form form').submit(function(){
-	$.fn.yiiGridView.update('<?php echo CStringHelper::id($this->modelClass); ?>-grid', {
+	$.fn.yiiGridView.update('<?php echo $this->class2id($this->modelClass); ?>-grid', {
 		data: $(this).serialize()
 	});
 	return false;
@@ -32,7 +32,7 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
-<h1>Manage <?php echo CStringHelper::plural(CStringHelper::words($this->modelClass)); ?></h1>
+<h1>Manage <?php echo $this->pluralize($this->class2name($this->modelClass)); ?></h1>
 
 <p>
 You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
@@ -48,7 +48,7 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 </div><!-- search-form -->
 
 <?php echo "<?php"; ?> $this->widget('zii.widgets.grid.CGridView', array(
-	'id'=>'<?php echo CStringHelper::id($this->modelClass); ?>-grid',
+	'id'=>'<?php echo $this->class2id($this->modelClass); ?>-grid',
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(

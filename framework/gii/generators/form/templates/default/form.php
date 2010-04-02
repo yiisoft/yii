@@ -8,7 +8,7 @@
 <div class="form">
 
 <?php echo "<?php \$form=\$this->beginWidget('CActiveForm', array(
-	'id'=>'".CStringHelper::id($this->modelClass)."-form',
+	'id'=>'".$this->class2id($this->modelClass)."-form',
 	'enableAjaxValidation'=>false,
 )); ?>\n"; ?>
 
