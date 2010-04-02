@@ -2,56 +2,71 @@
 
 class FormCode extends CCodeModel
 {
-	public $modelClass;
-	public $viewName;
+	public $model;
+	public $view;
 	public $scenario;
-	
-	private $viewFile = null;
+
+	private $_modelClass;
 
 	public function rules()
 	{
 		return array_merge(parent::rules(), array(
-			array('modelClass, viewName, scenario', 'filter', 'filter'=>'trim'),
-			array('modelClass, viewName', 'required'),
-			array('modelClass, viewName', 'match', 'pattern'=>'/^\w+(\.\w+)*$/', 'message'=>'{attribute} should only contain word characters and dots.'),
-			array('scenario', 'match', 'pattern'=>'/^\w+*$/', 'message'=>'{attribute} should only contain word characters.'),
+			array('model, view, scenario', 'filter', 'filter'=>'trim'),
+			array('model, view', 'required'),
+			array('model, view', 'match', 'pattern'=>'/^\w+[\.\w+]*$/', 'message'=>'{attribute} should only contain word characters and dots.'),
+			array('model', 'validateModel'),
+			array('view', 'validateView'),
+			array('scenario', 'match', 'pattern'=>'/^\w+$/', 'message'=>'{attribute} should only contain word characters.'),
 		));
 	}
 
 	public function attributeLabels()
 	{
 		return array_merge(parent::attributeLabels(), array(
-			'modelClass'=>'Model',
-			'viewName'=>'View name',
-			'scenarion'=>'Scenarion',
+			'model'=>'Model Class',
+			'view'=>'View Name',
+			'scenario'=>'Scenario',
 		));
+	}
+
+	public function validateModel($attribute,$params)
+	{
+		if($this->hasErrors('model'))
+			return;
+		$class=@Yii::import($this->model,true);
+		if(!is_string($class) || !class_exists($class,false))
+			$this->addError('model', "Class '{$this->model}' does not exist or has syntax error.");
+		else if(!is_subclass_of($class,'CModel'))
+			$this->addError('model', "'{$this->model}' must extend from CModel.");
+		else
+			$this->_modelClass=$class;
+	}
+
+	public function validateView($attribute,$params)
+	{
+		if($this->hasErrors('model'))
+			return;
+		if(Yii::getPathOfAlias($this->view)===false)
+			$this->addError('view','View Name must be a valid path alias.');
 	}
 
 	public function prepare()
 	{
-		$modelClass=Yii::import($this->modelClass,true);
-		$model=new $modelClass($scenario);
-		$attributes = $model->getSafeAttributeNames();
-		$this->viewFile = Yii::getPathOfAlias($this->viewName). '.php';
-
 		$templatePath=$this->templatePath;
-
 		$this->files[]=new CCodeFile(
-			$this->viewFile,
-			$this->render($templatePath.'/form.php', array('attributes'=>$attributes))
+			Yii::getPathOfAlias($this->view).'.php',
+			$this->render($templatePath.'/form.php')
 		);
 	}
-	
-	public function getActionFunction(){
-		$modelClass=Yii::import($this->modelClass,true);
-		$model=new $modelClass($scenario);
-		return $this->render($this->templatePath.'/action.php', array('modelClass'=>$modelClass));
+
+	public function getModelClass()
+	{
+		return $this->_modelClass;
 	}
 
-	public function class2id($className)
+	public function getModelAttributes()
 	{
-		if(strrpos($className,'Form')===strlen($className)-4)
-			$className=substr($className,0,strlen($className)-4);
-		return trim(strtolower(str_replace('_','-',preg_replace('/(?<![A-Z])[A-Z]/', '-\0', $className))),'-');
+		$model=new $this->_modelClass($this->scenario);
+		return $model->getSafeAttributeNames();
 	}
 }

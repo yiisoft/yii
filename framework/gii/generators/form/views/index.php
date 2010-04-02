@@ -1,6 +1,6 @@
 <h1>Form Generator</h1>
 
-<p>This generator helps you to quickly generate a new form view for your model.</p>
+<p>This generator generates a view script file that displays a form to collect input for the specified model class.</p>
 
 <div class="form gii">
 
@@ -9,49 +9,36 @@
 	<?php $form=$this->beginWidget('CActiveForm'); ?>
 
 		<div class="row">
-			<?php echo $form->labelEx($model,'modelClass'); ?>
-			<?php echo $form->textField($model,'modelClass', array('size'=>65)); ?>
+			<?php echo $form->labelEx($model,'model'); ?>
+			<?php echo $form->textField($model,'model', array('size'=>65)); ?>
 			<div class="tooltip">
-				Model class. This can be either the name of the model class 
-				(e.g. 'ContactForm') or the path alias of the model class file 
-				(e.g. 'application.models.ContactForm'). The former can be used 
-				only if the class can be autoloaded. Below are some examples:
-				<ul>
-					<li>"ContactForm"</li>
-					<li>"application.models.user.SignupForm"</li>
-				</ul>
+				Model class is case-sensitive. It can be either a class name (e.g. "Post")
+			    or the path alias of the class file (e.g. "application.models.LoginForm").
+			    Note that if the former, the class must be auto-loadable.
 			</div>
-			<?php echo $form->error($model,'modelClass'); ?>
+			<?php echo $form->error($model,'model'); ?>
 		</div>
 		<div class="row">
-			<?php echo $form->labelEx($model,'viewName'); ?>
-			<?php echo $form->textField($model,'viewName', array('size'=>65)); ?>
+			<?php echo $form->labelEx($model,'view'); ?>
+			<?php echo $form->textField($model,'view', array('size'=>65)); ?>
 			<div class="tooltip">
-				View name: the name of the view to be generated. This should be the path 
-				alias of the view script. Below are some examples:
-				<ul>
-					<li>"application.views.site.contact"</li>
-					<li>"module.views.default.search"</li>
-				</ul>
+				This refers to the name of the view script to be generated. It should be
+				specified in  the form of a path alias, e.g., 'application.views.site.contact',
+				'mymodule.views.default.search'.
 			</div>
-			<?php echo $form->error($model,'viewName'); ?>
+			<?php echo $form->error($model,'view'); ?>
 		</div>
 		<div class="row">
 			<?php echo $form->labelEx($model,'scenario'); ?>
 			<?php echo $form->textField($model,'scenario', array('size'=>65)); ?>
 			<div class="tooltip">
-				Model class. This can be either the name of the model class 
-				(e.g. 'ContactForm') or the path alias of the model class file 
-				(e.g. 'application.models.ContactForm'). The former can be used 
-				only if the class can be autoloaded. Below are some examples:
-				<ul>
-					<li>"ContactForm"</li>
-					<li>"application.models.user.SignupForm"</li>
-				</ul>
+				This refers to the scenario in which the model should be used to collect user input.
+				For example, a 'User' model can be used in both 'login' and 'register' scenarios.
+				To create a form for the login purpose, the scenario should be specified as 'login'.
+				Leave this empty if the model does not need to differentiate scenarios.
 			</div>
 			<?php echo $form->error($model,'scenario'); ?>
 		</div>
-		
 
 		<?php $this->renderGenerator($model, $form); ?>
 
