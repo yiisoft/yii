@@ -7,7 +7,7 @@ class FormGenerator extends CCodeGenerator
 	public function getSuccessMessage($model)
 	{
 		$output=<<<EOD
-<p>The module has been generated successfully.</p>
+<p>The form has been generated successfully.</p>
 <p>You may add the following code in an appropriate controller class to invoke the view:</p>
 EOD;
 		$code="<?php\n".$model->render($model->templatePath.'/action.php');
