@@ -52,7 +52,16 @@ foreach($model->templates as $i=>$template)
 					<th class="file">Code File</th>
 					<th class="confirm">
 						<label for="check-all">Generate</label>
-						<input type="checkbox" name="checkAll" id="check-all" />
+						<?php
+							$count=0;
+							foreach($model->files as $file)
+							{
+								if($file->operation!==CCodeFile::OP_SKIP)
+									$count++;
+							}
+							if($count>1)
+								echo '<input type="checkbox" name="checkAll" id="check-all" />';
+						?>
 					</th>
 				</tr>
 				<?php foreach($model->files as $i=>$file): ?>
