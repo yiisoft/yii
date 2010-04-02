@@ -13,6 +13,7 @@ Version 1.1.2 to be released
 - Bug: Removed the debugging line in CActiveFinder that caused many-many relational query to fail if FKs are not defined (Qiang)
 - Bug: Fixed the bug that doing performance profiling while turning on YII_TRACE_LEVEL would throw exception (Qiang)
 - Bug: user was redirected to AJAX URLs after logging in (Sam Dark)
+- Bug: RBAC rules with bizRule and caching enabled worked wrong (Sam Dark)
 - Enh #943: dynamic AR relations (Sam Dark)
 - Enh #946: Added a new parameter to CBaseController::widget() method to allow capturing the output of the widget (Qiang)
 - Enh #1009: Allow quoted columns in CDbCriteria::select when performing relational query (Qiang)
