@@ -20,6 +20,7 @@ Version 1.1.2 to be released
 - Enh #1009: Allow quoted columns in CDbCriteria::select when performing relational query (Qiang)
 - Enh #1025: added 'uncheckValue' option to CHtml::radioButton() and CHtml::checkBox() (Jonah)
 - Enh #1042: CForm __construct now uses setModel() instead of assigning _model directly (Sam Dark)
+- Enh #1071: Optimized file copying in CUploadedFile::saveAs() (Sam Dark)
 - Enh #1084: Added CLocale::getOrientation() to return character orientation information of a locale (Qiang)
 - Enh #1091: Added support to allow using normal PHP views with special views recognized by the installed view renderer (Qiang)
 - Enh: CCaptchaAction now supports unlimited tests by setting its testLimit to be 0 (Qiang)
