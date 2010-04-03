@@ -8,7 +8,7 @@
 <div class="form">
 
 <?php echo "<?php \$form=\$this->beginWidget('CActiveForm', array(
-	'id'=>'".$this->class2id($this->modelClass)."-form',
+	'id'=>'".$this->class2id($this->modelClass).'-'.basename($this->viewName)."-form',
 	'enableAjaxValidation'=>false,
 )); ?>\n"; ?>
 
