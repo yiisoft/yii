@@ -1,6 +1,10 @@
 /*
  * jQuery Autocomplete plugin 1.1
  *
+ * Modified for Yii Framework:
+ * - Renamed "autocomplete" to "legacyautocomplete".
+ * - Fixed IE8 problems (mario.ffranco).
+ *
  * Copyright (c) 2009 Jörn Zaefferer
  *
  * Dual licensed under the MIT and GPL licenses:
@@ -13,7 +17,7 @@
 ;(function($) {
 	
 $.fn.extend({
-	autocomplete: function(urlOrData, options) {
+	legacyautocomplete: function(urlOrData, options) {
 		var isUrl = typeof urlOrData == "string";
 		options = $.extend({}, $.Autocompleter.defaults, {
 			url: isUrl ? urlOrData : null,
@@ -218,7 +222,8 @@ $.Autocompleter = function(input, options) {
 					progress += word.length;
 					if (cursorAt <= progress) {
 						wordAt = i;
-						return false;
+                        // Following return caused IE8 to set cursor to the start of the line.
+						// return false;
 					}
 					progress += seperator;
 				});
