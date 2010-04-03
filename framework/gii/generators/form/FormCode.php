@@ -3,7 +3,8 @@
 class FormCode extends CCodeModel
 {
 	public $model;
-	public $view;
+	public $viewPath='application.views';
+	public $viewName;
 	public $scenario;
 
 	private $_modelClass;
@@ -11,12 +12,14 @@ class FormCode extends CCodeModel
 	public function rules()
 	{
 		return array_merge(parent::rules(), array(
-			array('model, view, scenario', 'filter', 'filter'=>'trim'),
-			array('model, view', 'required'),
-			array('model, view', 'match', 'pattern'=>'/^\w+[\.\w+]*$/', 'message'=>'{attribute} should only contain word characters and dots.'),
+			array('model, viewName, scenario', 'filter', 'filter'=>'trim'),
+			array('model, viewName, viewPath', 'required'),
+			array('model, viewPath', 'match', 'pattern'=>'/^\w+[\.\w+]*$/', 'message'=>'{attribute} should only contain word characters and dots.'),
+			array('viewName', 'match', 'pattern'=>'/^\w+[\\/\w+]*$/', 'message'=>'{attribute} should only contain word characters and slashes.'),
 			array('model', 'validateModel'),
-			array('view', 'validateView'),
+			array('viewPath', 'validateViewPath'),
 			array('scenario', 'match', 'pattern'=>'/^\w+$/', 'message'=>'{attribute} should only contain word characters.'),
+			array('viewPath', 'sticky'),
 		));
 	}
 
@@ -42,19 +45,19 @@ class FormCode extends CCodeModel
 			$this->_modelClass=$class;
 	}
 
-	public function validateView($attribute,$params)
+	public function validateViewPath($attribute,$params)
 	{
-		if($this->hasErrors('model'))
+		if($this->hasErrors('viewPath'))
 			return;
-		if(Yii::getPathOfAlias($this->view)===false)
-			$this->addError('view','View Name must be a valid path alias.');
+		if(Yii::getPathOfAlias($this->viewPath)===false)
+			$this->addError('viewPath','View Path must be a valid path alias.');
 	}
 
 	public function prepare()
 	{
 		$templatePath=$this->templatePath;
 		$this->files[]=new CCodeFile(
-			Yii::getPathOfAlias($this->view).'.php',
+			Yii::getPathOfAlias($this->viewPath).'/'.$this->viewName.'.php',
 			$this->render($templatePath.'/form.php')
 		);
 	}
