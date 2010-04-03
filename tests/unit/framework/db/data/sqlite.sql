@@ -10,6 +10,7 @@ CREATE TABLE users
 INSERT INTO users (username, password, email) VALUES ('user1','pass1','email1');
 INSERT INTO users (username, password, email) VALUES ('user2','pass2','email2');
 INSERT INTO users (username, password, email) VALUES ('user3','pass3','email3');
+INSERT INTO users (username, password, email) VALUES ('user4','pass4','email4');
 
 CREATE TABLE profiles
 (

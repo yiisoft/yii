@@ -360,3 +360,43 @@ class PostNoFk extends CActiveRecord
 		return 'posts_nofk';
 	}
 }
+
+class UserNoTogether extends CActiveRecord
+{
+	public static function model($class=__CLASS__)
+	{
+		return parent::model($class);
+	}
+
+	public function relations()
+	{
+		return array(
+			'posts'=>array(self::HAS_MANY,'PostNoTogether','author_id','together'=>false,'joinType'=>'INNER JOIN'),
+		);
+	}
+
+	public function tableName()
+	{
+		return 'users';
+	}
+}
+
+class PostNoTogether extends CActiveRecord
+{
+	public static function model($class=__CLASS__)
+	{
+		return parent::model($class);
+	}
+
+	public function relations()
+	{
+		return array(
+			'comments'=>array(self::HAS_MANY,'Comment','post_id','together'=>false,'joinType'=>'INNER JOIN'),
+		);
+	}
+
+	public function tableName()
+	{
+		return 'posts';
+	}
+}

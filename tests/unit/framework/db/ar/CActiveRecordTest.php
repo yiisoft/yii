@@ -554,7 +554,7 @@ class CActiveRecordTest extends CTestCase
 			'order'=>'username2',
 		));
 
-		$this->assertEquals(3,count($users));
+		$this->assertEquals(4,count($users));
 		$this->assertEquals($users[1]->username,null);
 		$this->assertEquals($users[1]->username2,'user2');
 	}
@@ -562,7 +562,7 @@ class CActiveRecordTest extends CTestCase
 	public function testRelationalWithoutFK()
 	{
 		$users=UserNoFk::model()->with('posts')->findAll();
-		$this->assertEquals(3,count($users));
+		$this->assertEquals(4,count($users));
 		$this->assertEquals(3,count($users[1]->posts));
 
 		$posts=PostNoFk::model()->with('author')->findAll();
@@ -658,13 +658,13 @@ class CActiveRecordTest extends CTestCase
 	public function testRelationalStat()
 	{
 		$users=User::model()->with('postCount')->findAll();
-		$this->assertEquals(3,count($users));
+		$this->assertEquals(4,count($users));
 		$this->assertEquals(1,$users[0]->postCount);
 		$this->assertEquals(3,$users[1]->postCount);
 		$this->assertEquals(1,$users[2]->postCount);
 
 		$users=User::model()->findAll();
-		$this->assertEquals(3,count($users));
+		$this->assertEquals(4,count($users));
 		$this->assertEquals(1,$users[0]->postCount);
 		$this->assertEquals(3,$users[1]->postCount);
 		$this->assertEquals(1,$users[2]->postCount);
@@ -704,7 +704,7 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(0,$categories[6]->postCount);
 
 		$users=User::model()->with('postCount','posts.commentCount')->findAll();
-		$this->assertEquals(3,count($users));
+		$this->assertEquals(4,count($users));
 	}
 
 	public function testScopes()
@@ -787,5 +787,91 @@ class CActiveRecordTest extends CTestCase
 		// with the bug, an eager loading for 'posts' would be trigger in the following
 		// and result with non-empty posts
 		$this->assertTrue($user->posts===array());
+	}
+
+	public function testTogether()
+	{
+		// test without together
+		$users=UserNoTogether::model()->with('posts.comments')->findAll();
+		$postCount=0;
+		$commentCount=0;
+		foreach($users as $user)
+		{
+			$postCount+=count($user->posts);
+			foreach($user->posts as $post)
+				$commentCount+=count($post->comments);
+		}
+		$this->assertEquals(4,count($users));
+		$this->assertEquals(5,$postCount);
+		$this->assertEquals(10,$commentCount);
+
+		// test with together
+		$users=UserNoTogether::model()->with('posts.comments')->together()->findAll();
+		$postCount=0;
+		$commentCount=0;
+		foreach($users as $user)
+		{
+			$postCount+=count($user->posts);
+			foreach($user->posts as $post)
+				$commentCount+=count($post->comments);
+		}
+		$this->assertEquals(3,count($users));
+		$this->assertEquals(4,$postCount);
+		$this->assertEquals(10,$commentCount);
+	}
+
+	public function testTogetherWithOption()
+	{
+		// test with together off option
+		$users=User::model()->with(array(
+			'posts'=>array(
+				'with'=>array(
+					'comments'=>array(
+						'joinType'=>'INNER JOIN',
+						'together'=>false,
+					),
+				),
+				'joinType'=>'INNER JOIN',
+				'together'=>false,
+			),
+		))->findAll();
+
+		$postCount=0;
+		$commentCount=0;
+		foreach($users as $user)
+		{
+			$postCount+=count($user->posts);
+			foreach($user->posts as $post)
+				$commentCount+=count($post->comments);
+		}
+		$this->assertEquals(4,count($users));
+		$this->assertEquals(5,$postCount);
+		$this->assertEquals(10,$commentCount);
+
+		// test with together on option
+		$users=User::model()->with(array(
+			'posts'=>array(
+				'with'=>array(
+					'comments'=>array(
+						'joinType'=>'INNER JOIN',
+						'together'=>true,
+					),
+				),
+				'joinType'=>'INNER JOIN',
+				'together'=>true,
+			),
+		))->findAll();
+
+		$postCount=0;
+		$commentCount=0;
+		foreach($users as $user)
+		{
+			$postCount+=count($user->posts);
+			foreach($user->posts as $post)
+				$commentCount+=count($post->comments);
+		}
+		$this->assertEquals(3,count($users));
+		$this->assertEquals(4,$postCount);
+		$this->assertEquals(10,$commentCount);
 	}
 }
