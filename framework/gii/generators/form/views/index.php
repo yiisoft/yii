@@ -19,14 +19,24 @@
 			<?php echo $form->error($model,'model'); ?>
 		</div>
 		<div class="row">
-			<?php echo $form->labelEx($model,'view'); ?>
-			<?php echo $form->textField($model,'view', array('size'=>65)); ?>
+			<?php echo $form->labelEx($model,'viewName'); ?>
+			<?php echo $form->textField($model,'viewName', array('size'=>65)); ?>
 			<div class="tooltip">
-				This refers to the name of the view script to be generated. It should be
-				specified in  the form of a path alias, e.g., 'application.views.site.contact',
-				'mymodule.views.default.search'.
+				This refers to the name of the view script to be generated, for example,
+				'site/contact', 'user/login'. The actual view script file will be generated
+				under the View Path specified below.
 			</div>
-			<?php echo $form->error($model,'view'); ?>
+			<?php echo $form->error($model,'viewName'); ?>
+		</div>
+		<div class="row">
+			<?php echo $form->labelEx($model,'viewPath'); ?>
+			<?php echo $form->textField($model,'viewPath', array('size'=>65)); ?>
+			<div class="tooltip">
+				This refers to the directory that the new view script file should be generated under.
+				It should be specified in the form of a path alias, for example, 'application.views',
+				'mymodule.views'.
+			</div>
+			<?php echo $form->error($model,'viewPath'); ?>
 		</div>
 		<div class="row">
 			<?php echo $form->labelEx($model,'scenario'); ?>

@@ -5,7 +5,7 @@
  */
 ?>
 <?php
-$viewName=basename(Yii::getPathOfAlias($this->view));
+$viewName=basename($this->viewName);
 ?>
 public function action<?php echo ucfirst(trim($viewName,'_')); ?>()
 {
