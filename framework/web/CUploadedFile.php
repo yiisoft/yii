@@ -172,7 +172,7 @@ class CUploadedFile extends CComponent
 			if($deleteTempFile)
 				return move_uploaded_file($this->_tempName,$file);
 			else if(is_uploaded_file($this->_tempName))
-				return file_put_contents($file,file_get_contents($this->_tempName))!==false;
+				return copy($this->_tempName, $file);
 			else
 				return false;
 		}
