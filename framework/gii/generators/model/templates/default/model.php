@@ -43,7 +43,7 @@ class <?php echo $this->modelClass; ?> extends <?php echo $this->baseClass."\n";
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-<?php foreach($this->rules as $rule): ?>
+<?php foreach($this->getRules() as $rule): ?>
 			<?php echo $rule.",\n"; ?>
 <?php endforeach; ?>
 			// The following rule is used by search().
@@ -60,7 +60,7 @@ class <?php echo $this->modelClass; ?> extends <?php echo $this->baseClass."\n";
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-<?php foreach($this->relations as $name=>$relation): ?>
+<?php foreach($this->getRelations() as $name=>$relation): ?>
 			<?php echo "'$name' => $relation,\n"; ?>
 <?php endforeach; ?>
 		);
@@ -72,7 +72,7 @@ class <?php echo $this->modelClass; ?> extends <?php echo $this->baseClass."\n";
 	public function attributeLabels()
 	{
 		return array(
-<?php foreach($this->labels as $name=>$label): ?>
+<?php foreach($this->getLabels() as $name=>$label): ?>
 			<?php echo "'$name' => '$label',\n"; ?>
 <?php endforeach; ?>
 		);
