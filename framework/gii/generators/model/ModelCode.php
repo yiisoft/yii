@@ -159,7 +159,8 @@ class ModelCode extends CCodeModel
 
 	protected function removePrefix($tableName,$addBrackets=true)
 	{
-		if(($prefix=Yii::app()->db->tablePrefix)!='')
+		$prefix=$this->tablePrefix!='' ? $this->tablePrefix : Yii::app()->db->tablePrefix;
+		if($prefix!='')
 		{
 			$lb=$addBrackets ? '{{':'';
 			$rb=$addBrackets ? '}}':'';
@@ -222,11 +223,12 @@ class ModelCode extends CCodeModel
 
 					// Add relation for the referenced table
 					$relationType=$table->primaryKey === $fkName ? 'HAS_ONE' : 'HAS_MANY';
-					$relationName=$this->generateRelationName($refTable, $this->removePrefix($tableName), $relationType==='HAS_MANY');
+					$relationName=$this->generateRelationName($refTable, $this->removePrefix($tableName,false), $relationType==='HAS_MANY');
 					$relations[$refClassName][$relationName]="array(self::$relationType, '$className', '$fkName')";
 				}
 			}
 		}
+		return $relations;
 	}
 
 	/**
@@ -248,11 +250,8 @@ class ModelCode extends CCodeModel
 	{
 		if($this->tableSchema->name===$tableName)
 			return $this->modelClass;
-		if(($pos=strrpos($tableName,'.'))!==false)
-			$tableName=substr($tableName,$pos+1);
-		$prefix=$this->tablePrefix!='' ? $this->tablePrefix : Yii::app()->db->tablePrefix;
-		if($prefix!='' && strpos($tableName,$prefix)===0)
-			$tableName=substr($tableName,strlen($prefix));
+
+		$tableName=$this->removePrefix($tableName,false);
 		$className='';
 		foreach(explode('_',$tableName) as $name)
 		{
@@ -285,6 +284,11 @@ class ModelCode extends CCodeModel
 		$i=0;
 		while(isset($table->columns[$relationName]))
 			$relationName=$rawName.($i++);
-		return $relationName;
+
+		$names=preg_split('/_+/',$relationName,-1,PREG_SPLIT_NO_EMPTY);
+		if(empty($names)) return $relationName;  // unlikely
+		for($name=$names[0], $i=1;$i<count($names);++$i)
+			$name.=ucfirst($names[$i]);
+		return $name;
 	}
 }
