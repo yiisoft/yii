@@ -147,8 +147,6 @@ class CrudCode extends CCodeModel
 		return $this->_table;
 	}
 
-
-
 	public function generateInputLabel($modelClass,$column)
 	{
 		return "CHtml::activeLabelEx(\$model,'{$column->name}')";

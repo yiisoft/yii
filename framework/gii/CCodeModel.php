@@ -220,7 +220,7 @@ abstract class CCodeModel extends CFormModel
 	public function loadStickyAttributes()
 	{
 		$this->_stickyAttributes=array();
-		$path=Yii::app()->runtimePath.'/gii/'.get_class($this).'.php';
+		$path=$this->getStickyFile();
 		if(is_file($path))
 		{
 			$result=@include($path);
@@ -241,9 +241,17 @@ abstract class CCodeModel extends CFormModel
 	 */
 	public function saveStickyAttributes()
 	{
-		$path=Yii::app()->runtimePath.'/gii/'.get_class($this).'.php';
+		$path=$this->getStickyFile();
 		@mkdir(dirname($path),0755,true);
 		file_put_contents($path,"<?php\nreturn ".var_export($this->_stickyAttributes,true).";\n");
+	}
+
+	/**
+	 * @return string the file path that stores the sticky attribute values.
+	 */
+	public function getStickyFile()
+	{
+		return Yii::app()->runtimePath.'/gii-'.Yii::getVersion().'/'.get_class($this).'.php';
 	}
 
 	/**
