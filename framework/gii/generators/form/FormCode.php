@@ -32,6 +32,13 @@ class FormCode extends CCodeModel
 		));
 	}
 
+	public function requiredTemplates()
+	{
+		return array(
+			'form.php',
+		);
+	}
+
 	public function validateModel($attribute,$params)
 	{
 		if($this->hasErrors('model'))

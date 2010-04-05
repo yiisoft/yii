@@ -27,4 +27,7 @@ else
 ?>
 <h1><?php echo '<?php'; ?> echo $this->id . '/' . $this->action->id; ?></h1>
 
-<p>You may change the content of this page by modifying the file <tt><?php echo '<?php'; ?> echo __FILE__; ?></tt>.</p>
+<p>
+	You may change the content of this page by modifying
+	the file <tt><?php echo '<?php'; ?> echo __FILE__; ?></tt>.
+</p>
