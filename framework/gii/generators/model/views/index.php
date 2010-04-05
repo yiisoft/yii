@@ -22,7 +22,7 @@ $('#ModelCode_tableName').bind('keyup change', function(){
 		model.val(modelClass);
 	}
 });
-$('.form .row.model-class').toggle($('#ModelCode_tableName').val().match(/\*$/));
+$('.form .row.model-class').toggle($('#ModelCode_tableName').val().substring($('#ModelCode_tableName').val().length-1)!='*');
 ");
 ?>
 <h1>Model Generator</h1>
