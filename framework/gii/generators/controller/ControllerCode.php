@@ -27,6 +27,14 @@ class ControllerCode extends CCodeModel
 		));
 	}
 
+	public function requiredTemplates()
+	{
+		return array(
+			'controller.php',
+			'view.php',
+		);
+	}
+
 	public function prepare()
 	{
 		$this->files=array();

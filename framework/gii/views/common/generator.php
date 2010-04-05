@@ -1,6 +1,6 @@
 <?php
 $templates=array();
-foreach($model->templates as $i=>$template)
+foreach($model->getTemplates() as $i=>$template)
 {
 	$segments=explode(DIRECTORY_SEPARATOR,$template);
 	if(count($segments)>6)

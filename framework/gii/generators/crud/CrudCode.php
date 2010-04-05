@@ -31,6 +31,20 @@ class CrudCode extends CCodeModel
 		));
 	}
 
+	public function requiredTemplates()
+	{
+		return array(
+			'controller.php',
+		);
+	}
+
+	public function init()
+	{
+		if(Yii::app()->db===null)
+			throw new CHttpException(500,'An active "db" connection is required to run this generator.');
+		parent::init();
+	}
+
 	public function validateModel($attribute,$params)
 	{
 		if($this->hasErrors('model'))

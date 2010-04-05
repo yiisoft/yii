@@ -27,14 +27,23 @@ class ModelCode extends CCodeModel
 		return array_merge(parent::attributeLabels(), array(
 			'tablePrefix'=>'Table Prefix',
 			'tableName'=>'Table Name',
-			'modelPaht'=>'Model Path',
+			'modelPath'=>'Model Path',
 			'modelClass'=>'Model Class',
 			'baseClass'=>'Base Class',
 		));
 	}
 
+	public function requiredTemplates()
+	{
+		return array(
+			'model.php',
+		);
+	}
+
 	public function init()
 	{
+		if(Yii::app()->db===null)
+			throw new CHttpException(500,'An active "db" connection is required to run this generator.');
 		$this->tablePrefix=Yii::app()->db->tablePrefix;
 		parent::init();
 	}

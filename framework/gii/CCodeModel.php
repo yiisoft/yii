@@ -49,11 +49,6 @@ abstract class CCodeModel extends CFormModel
 	 */
 	public $template;
 	/**
-	 * @var array a list of available code templates (name=>directory).
-	 * The value of this property is populated by {@link CCodeGenerator}.
-	 */
-	public $templates=array();  // name => path
-	/**
 	 * @var array a list of {@link CCodeFile} objects that represent the code files to be generated.
 	 * The {@link prepare()} method is responsible to populate this property.
 	 */
@@ -74,14 +69,6 @@ abstract class CCodeModel extends CFormModel
 	abstract public function prepare();
 
 	/**
-	 * Initializes the model by loading the sticky attributes.
-	 */
-	public function init()
-	{
-		$this->loadStickyAttributes();
-	}
-
-	/**
 	 * Declares the model validation rules.
 	 * Child classes must override this method in the following format:
 	 * <pre>
@@ -95,9 +82,32 @@ abstract class CCodeModel extends CFormModel
 	{
 		return array(
 			array('template', 'required'),
-			array('template', 'in', 'range'=>array_keys($this->templates)),
+			array('template', 'validateTemplate', 'skipOnError'=>true),
 			array('template', 'sticky'),
 		);
+	}
+
+	/**
+	 * Validates the template selection.
+	 * This method validates whether the user selects an existing template
+	 * and the template contains all required template files as specified in {@link requiredTemplates}.
+	 * @param string the attribute to be validated
+	 * @param array validation parameters
+	 */
+	public function validateTemplate($attribute,$params)
+	{
+		$templates=$this->templates;
+		if(!isset($templates[$this->template]))
+			$this->addError('template', 'Invalid template selection.');
+		else
+		{
+			$templatePath=$this->templatePath;
+			foreach($this->requiredTemplates() as $template)
+			{
+				if(!is_file($templatePath.'/'.$template))
+					$this->addError('template', "Unable to find the required code template file '$template'.");
+			}
+		}
 	}
 
 	/**
@@ -118,6 +128,17 @@ abstract class CCodeModel extends CFormModel
 	}
 
 	/**
+	 * Returns a list of code templates that are required.
+	 * Derived classes usually should override this method.
+	 * @return array list of code templates that are required. They should be file paths
+	 * relative to {@link templatePath}.
+	 */
+	public function requiredTemplates()
+	{
+		return array();
+	}
+
+	/**
 	 * Saves the generated code into files.
 	 */
 	public function save()
@@ -132,17 +153,28 @@ abstract class CCodeModel extends CFormModel
 	}
 
 	/**
+	 * Returns a list of available code templates (name=>directory).
+	 * This method simply returns the {@link CCodeGenerator::templates} property value.
+	 * @return array a list of available code templates (name=>directory).
+	 */
+	public function getTemplates()
+	{
+		return Yii::app()->controller->templates;
+	}
+
+	/**
 	 * @return string the directory that contains the template files.
 	 * @throw CException if {@link templates} is empty or template selection is invalid
 	 */
 	public function getTemplatePath()
 	{
-		if(isset($this->templates[$this->template]))
-			return $this->templates[$this->template];
-		else if(empty($this->templates))
-			throw new CException('No templates are available.');
+		$templates=$this->getTemplates();
+		if(isset($templates[$this->template]))
+			return $templates[$this->template];
+		else if(empty($templates))
+			throw new CHttpException(500,'No templates are available.');
 		else
-			throw new CException('Invalid template selection.');
+			throw new CHttpException(500,'Invalid template selection.');
 
 	}
 
@@ -208,10 +240,7 @@ abstract class CCodeModel extends CFormModel
 	public function sticky($attribute,$params)
 	{
 		if(!$this->hasErrors())
-		{
 			$this->_stickyAttributes[$attribute]=$this->$attribute;
-			$this->saveStickyAttributes();
-		}
 	}
 
 	/**
