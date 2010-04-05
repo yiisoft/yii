@@ -45,12 +45,10 @@ $('.form .row.model-class').toggle($('#ModelCode_tableName').val().substring($('
 			<?php echo $form->labelEx($model,'tablePrefix'); ?>
 			<?php echo $form->textField($model,'tablePrefix', array('size'=>65)); ?>
 			<div class="tooltip">
-			<p>
 			This refers to the prefix name that is shared by all database tables.
 			Setting this property mainly affects how model classes are named based on
 			the table names. For example, a table prefix <code>tbl_</code> with a table name <code>tbl_post</code>
 			will generate a model class named <code>Post</code>.
-			</p>
 			<br/>
 			Leave this field empty if your database tables do not use common prefix.
 			</div>
