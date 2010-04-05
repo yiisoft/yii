@@ -50,7 +50,7 @@ $('#CrudCode_model').bind('keyup change', function(){
 			<?php echo $form->error($model,'controller'); ?>
 		</div>
 
-		<div class="row">
+		<div class="row sticky">
 			<?php echo $form->labelEx($model,'baseControllerClass'); ?>
 			<?php echo $form->textField($model,'baseControllerClass',array('size'=>65)); ?>
 			<div class="tooltip">

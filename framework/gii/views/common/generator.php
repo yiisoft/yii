@@ -5,7 +5,7 @@ foreach($model->getTemplates() as $i=>$template)
 ?>
 <div class="common-generator">
 
-	<div class="row template">
+	<div class="row template sticky">
 		<?php echo $form->labelEx($model,'template'); ?>
 		<?php echo $form->dropDownList($model,'template',$templates); ?>
 		<div class="tooltip">

@@ -8,6 +8,26 @@ $(document).ready(function() {
 	});
 	$('.common-generator input[name="checkAll"]').attr('checked', !$('.common-generator td.confirm input:not(:checked)').length);
 
+
+	$('.form .row.sticky input:not(.error), .form .row.sticky select:not(.error), .form .row.sticky textarea:not(.error)').each(function(){
+		var value;
+		if(this.tagName=='SELECT')
+			value=this.options[this.selectedIndex].text;
+		else if(this.tagName=='TEXTAREA')
+			value=$(this).html();
+		else
+			value=$(this).val();
+		if(value=='')
+			value='[empty]';
+		$(this).before('<div class="value">'+value+'</div>').hide();
+	});
+
+	$('.form.gii .row.sticky .value').live('click', function(){
+		$(this).hide();
+		$(this).next().show().get(0).focus();
+	});
+
+
 	$('.form.gii .row input, .form.gii .row select').tooltip({
 	    position: "center right",
 		offset: [-2, 10]

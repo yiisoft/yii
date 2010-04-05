@@ -28,7 +28,7 @@
 			</div>
 			<?php echo $form->error($model,'viewName'); ?>
 		</div>
-		<div class="row">
+		<div class="row sticky">
 			<?php echo $form->labelEx($model,'viewPath'); ?>
 			<?php echo $form->textField($model,'viewPath', array('size'=>65)); ?>
 			<div class="tooltip">
