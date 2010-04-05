@@ -41,7 +41,7 @@ $('.form .row.model-class').toggle($('#ModelCode_tableName').val().substring($('
 
 	<?php $form=$this->beginWidget('CActiveForm'); ?>
 
-		<div class="row">
+		<div class="row sticky">
 			<?php echo $form->labelEx($model,'tablePrefix'); ?>
 			<?php echo $form->textField($model,'tablePrefix', array('size'=>65)); ?>
 			<div class="tooltip">
@@ -76,7 +76,7 @@ $('.form .row.model-class').toggle($('#ModelCode_tableName').val().substring($('
 			</div>
 			<?php echo $form->error($model,'modelClass'); ?>
 		</div>
-		<div class="row">
+		<div class="row sticky">
 			<?php echo $form->labelEx($model,'baseClass'); ?>
 			<?php echo $form->textField($model,'baseClass',array('size'=>65)); ?>
 			<div class="tooltip">
@@ -85,7 +85,7 @@ $('.form .row.model-class').toggle($('#ModelCode_tableName').val().substring($('
 			</div>
 			<?php echo $form->error($model,'baseClass'); ?>
 		</div>
-		<div class="row">
+		<div class="row sticky">
 			<?php echo $form->labelEx($model,'modelPath'); ?>
 			<?php echo $form->textField($model,'modelPath', array('size'=>65)); ?>
 			<div class="tooltip">

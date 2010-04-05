@@ -23,7 +23,7 @@ one or several controller actions and their corresponding views.</p>
 			<?php echo $form->error($model,'controller'); ?>
 		</div>
 
-		<div class="row">
+		<div class="row sticky">
 			<?php echo $form->labelEx($model,'baseClass'); ?>
 			<?php echo $form->textField($model,'baseClass',array('size'=>65)); ?>
 			<div class="tooltip">
