@@ -12,8 +12,8 @@ class ModelCode extends CCodeModel
 	{
 		return array_merge(parent::rules(), array(
 			array('tablePrefix, baseClass, tableName, modelClass, modelPath', 'filter', 'filter'=>'trim'),
-			array('tableName, modelPath, modelClass, baseClass', 'required'),
-			array('tablePrefix, tableName, modelPath', 'match', 'pattern'=>'/^(\w+[\w\.]*|\*?|\w+\.\*)$/', 'message'=>'{attribute} should only contain word characters, dots, and an optional ending star.'),
+			array('tableName, modelPath, baseClass', 'required'),
+			array('tablePrefix, tableName, modelPath', 'match', 'pattern'=>'/^(\w+[\w\.]*|\*?|\w+\.\*)$/', 'message'=>'{attribute} should only contain word characters, dots, and an optional ending asterisk.'),
 			array('tablePrefix, modelClass, baseClass', 'match', 'pattern'=>'/^\w+$/', 'message'=>'{attribute} should only contain word characters.'),
 			array('tableName', 'validateTableName', 'skipOnError'=>true),
 			array('modelPath', 'validateModelPath', 'skipOnError'=>true),
@@ -93,8 +93,13 @@ class ModelCode extends CCodeModel
 	{
 		if($this->tableName[strlen($this->tableName)-1]==='*')
 			$this->modelClass='';
-		else if($this->getTableSchema($this->tableName)===null)
-			$this->addError('tableName',"Table '{$this->tableName}' does not exist.");
+		else
+		{
+			if($this->getTableSchema($this->tableName)===null)
+				$this->addError('tableName',"Table '{$this->tableName}' does not exist.");
+			if($this->modelClass==='')
+				$this->addError('modelClass','Model Class cannot be blank.');
+		}
 	}
 
 	public function validateModelPath($attribute,$params)
