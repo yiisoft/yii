@@ -6,7 +6,13 @@ $('#ModelCode_modelClass').change(function(){
 $('#ModelCode_tableName').bind('keyup change', function(){
 	var model=$('#ModelCode_modelClass');
 	var tableName=$(this).val();
-	$('.form .row.model-class').toggle(tableName.substring(tableName.length-1)!='*');
+	if(tableName.substring(tableName.length-1)!='*') {
+		$('.form .row.model-class').show();
+	}
+	else {
+		$('#ModelCode_modelClass').val('');
+		$('.form .row.model-class').hide();
+	}
 	if(!model.data('changed')) {
 		var i=tableName.lastIndexOf('.');
 		if(i>=0)
@@ -62,7 +68,7 @@ $('.form .row.model-class').toggle($('#ModelCode_tableName').val().substring($('
 			<?php echo $form->error($model,'tableName'); ?>
 		</div>
 		<div class="row model-class">
-			<?php echo $form->labelEx($model,'modelClass'); ?>
+			<?php echo $form->label($model,'modelClass',array('required'=>true)); ?>
 			<?php echo $form->textField($model,'modelClass', array('size'=>65)); ?>
 			<div class="tooltip">
 			This is the name of the model class to be generated (e.g. <code>Post</code>, <code>Comment</code>).
