@@ -15,9 +15,9 @@ one or several controller actions and their corresponding views.</p>
 			<div class="tooltip">
 				Controller ID is case-sensitive. Below are some examples:
 				<ul>
-					<li>"post" generates "PostController.php"</li>
-					<li>"postTag" generates "PostTagController.php"</li>
-					<li>"admin/user" generates "admin/UserController.php"</li>
+					<li><code>post</code> generates <code>PostController.php</code></li>
+					<li><code>postTag</code> generates <code>PostTagController.php</code></li>
+					<li><code>admin/user</code> generates <code>admin/UserController.php</code></li>
 				</ul>
 			</div>
 			<?php echo $form->error($model,'controller'); ?>

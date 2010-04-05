@@ -14,8 +14,8 @@
 			<div class="tooltip">
 				Module ID is case-sensitive. It should only contain word characters.
 				The generated module class will be named after the module ID.
-				For example, a module ID "forum" will generate the module class
-				"ForumModule".
+				For example, a module ID <code>forum</code> will generate the module class
+				<code>ForumModule</code>.
 			</div>
 			<?php echo $form->error($model,'moduleID'); ?>
 		</div>

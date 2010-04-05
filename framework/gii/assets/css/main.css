@@ -359,6 +359,12 @@ div.form .tooltip ul
 	padding: 10px 0 0 20px;
 }
 
+div.form .tooltip code
+{
+	color: #CA0EE3;
+	font-size:0.9em;
+}
+
 div.form.login
 {
 	border: 1px solid #C9E0ED;

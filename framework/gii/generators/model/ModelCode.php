@@ -13,11 +13,11 @@ class ModelCode extends CCodeModel
 		return array_merge(parent::rules(), array(
 			array('tablePrefix, baseClass, tableName, modelClass, modelPath', 'filter', 'filter'=>'trim'),
 			array('tableName, modelPath, modelClass, baseClass', 'required'),
-			array('tablePrefix, tableName, modelPath', 'match', 'pattern'=>'/^\w+[\w\.]*$/', 'message'=>'{attribute} should only contain word characters and dots.'),
+			array('tablePrefix, tableName, modelPath', 'match', 'pattern'=>'/^(\w+[\w\.]*|\*?|\w+\.\*)$/', 'message'=>'{attribute} should only contain word characters, dots, and an optional ending star.'),
 			array('tablePrefix, modelClass, baseClass', 'match', 'pattern'=>'/^\w+$/', 'message'=>'{attribute} should only contain word characters.'),
-			array('tableName', 'validateTableName'),
-			array('modelPath', 'validateModelPath'),
-			array('baseClass', 'validateBaseClass'),
+			array('tableName', 'validateTableName', 'skipOnError'=>true),
+			array('modelPath', 'validateModelPath', 'skipOnError'=>true),
+			array('baseClass', 'validateBaseClass', 'skipOnError'=>true),
 			array('tablePrefix, modelPath, baseClass', 'sticky'),
 		));
 	}
@@ -53,41 +53,58 @@ class ModelCode extends CCodeModel
 		$this->files=array();
 		$templatePath=$this->templatePath;
 
-		$params=array(
-			'tableName'=>$this->removePrefix($this->tableName),
-			'modelClass'=>$this->modelClass,
-			'columns'=>$this->getColumns(),
-			'labels'=>$this->getLabels(),
-			'rules'=>$this->getRules(),
-			'relations'=>$this->getRelations(),
-		);
+		if(($pos=strrpos($this->tableName,'.'))!==false)
+		{
+			$schema=substr($this->tableName,0,$pos);
+			$tableName=substr($this->tableName,$pos+1);
+		}
+		else
+		{
+			$schema='';
+			$tableName=$this->tableName;
+		}
+		if($tableName[strlen($tableName)-1]==='*')
+			$tables=Yii::app()->db->schema->getTables($schema);
+		else
+			$tables=array($this->getTableSchema($this->tableName));
 
-		$this->files[]=new CCodeFile(
-			Yii::getPathOfAlias($this->modelPath).'/'.$this->modelClass.'.php',
-			$this->render($templatePath.'/model.php', $params)
-		);
+		$relations=$this->generateRelations();
+
+		foreach($tables as $table)
+		{
+			$tableName=$this->removePrefix($table->name);
+			$className=$this->generateClassName($table->name);
+			$params=array(
+				'tableName'=>$schema==='' ? $tableName : $schema.'.'.$tableName,
+				'modelClass'=>$className,
+				'columns'=>$table->columns,
+				'labels'=>$this->generateLabels($table),
+				'rules'=>$this->generateRules($table),
+				'relations'=>isset($relations[$className]) ? $relations[$className] : array(),
+			);
+			$this->files[]=new CCodeFile(
+				Yii::getPathOfAlias($this->modelPath).'/'.$className.'.php',
+				$this->render($templatePath.'/model.php', $params)
+			);
+		}
 	}
 
 	public function validateTableName($attribute,$params)
 	{
-		if($this->hasErrors('tableName'))
-			return;
-		if($this->getTableSchema()===null)
+		if($this->tableName[strlen($this->tableName)-1]==='*')
+			$this->modelClass='';
+		else if($this->getTableSchema($this->tableName)===null)
 			$this->addError('tableName',"Table '{$this->tableName}' does not exist.");
 	}
 
 	public function validateModelPath($attribute,$params)
 	{
-		if($this->hasErrors('modelPath'))
-			return;
 		if(Yii::getPathOfAlias($this->modelPath)===false)
 			$this->addError('modelPath','Model Path must be a valid path alias.');
 	}
 
 	public function validateBaseClass($attribute,$params)
 	{
-		if($this->hasErrors('baseClass'))
-			return;
 		$class=@Yii::import($this->baseClass,true);
 		if(!is_string($class) || !class_exists($class,false))
 			$this->addError('baseClass', "Class '{$this->baseClass}' does not exist or has syntax error.");
@@ -95,20 +112,15 @@ class ModelCode extends CCodeModel
 			$this->addError('baseClass', "'{$this->model}' must extend from CActiveRecord.");
 	}
 
-	public function getTableSchema()
+	public function getTableSchema($tableName)
 	{
-		return Yii::app()->db->getSchema()->getTable($this->tableName);
+		return Yii::app()->db->getSchema()->getTable($tableName);
 	}
 
-	public function getColumns()
-	{
-		return Yii::app()->db->schema->getTable($this->tableName)->columns;
-	}
-
-	public function getLabels()
+	public function generateLabels($table)
 	{
 		$labels=array();
-		foreach($this->tableSchema->columns as $column)
+		foreach($table->columns as $column)
 		{
 			$label=ucwords(trim(strtolower(str_replace(array('-','_'),' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $column->name)))));
 			$label=preg_replace('/\s+/',' ',$label);
@@ -121,11 +133,9 @@ class ModelCode extends CCodeModel
 		return $labels;
 	}
 
-	public function getRules()
+	public function generateRules($table)
 	{
 		$rules=array();
-		$table=$this->tableSchema;
-
 		$required=array();
 		$integers=array();
 		$numerical=array();
@@ -164,10 +174,10 @@ class ModelCode extends CCodeModel
 		return $rules;
 	}
 
-	public function getRelations()
+	public function getRelations($className)
 	{
 		$relations=$this->generateRelations();
-		return isset($relations[$this->modelClass]) ? $relations[$this->modelClass] : array();
+		return isset($relations[$className]) ? $relations[$className] : array();
 	}
 
 	protected function removePrefix($tableName,$addBrackets=true)
@@ -261,7 +271,7 @@ class ModelCode extends CCodeModel
 
 	protected function generateClassName($tableName)
 	{
-		if($this->tableSchema->name===$tableName)
+		if($this->getTableSchema($tableName)->name===$tableName)
 			return $this->modelClass;
 
 		$tableName=$this->removePrefix($tableName,false);
