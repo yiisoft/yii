@@ -53,9 +53,18 @@ class ModelCode extends CCodeModel
 		$this->files=array();
 		$templatePath=$this->templatePath;
 
+		$params=array(
+			'tableName'=>$this->removePrefix($this->tableName),
+			'modelClass'=>$this->modelClass,
+			'columns'=>$this->getColumns(),
+			'labels'=>$this->getLabels(),
+			'rules'=>$this->getRules(),
+			'relations'=>$this->getRelations(),
+		);
+
 		$this->files[]=new CCodeFile(
 			Yii::getPathOfAlias($this->modelPath).'/'.$this->modelClass.'.php',
-			$this->render($templatePath.'/model.php')
+			$this->render($templatePath.'/model.php', $params)
 		);
 	}
 
@@ -159,11 +168,6 @@ class ModelCode extends CCodeModel
 	{
 		$relations=$this->generateRelations();
 		return isset($relations[$this->modelClass]) ? $relations[$this->modelClass] : array();
-	}
-
-	public function getTableNameWithoutPrefix()
-	{
-		return $this->removePrefix($this->tableName);
 	}
 
 	protected function removePrefix($tableName,$addBrackets=true)
