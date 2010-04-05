@@ -1,16 +1,7 @@
 <?php
 $templates=array();
 foreach($model->getTemplates() as $i=>$template)
-{
-	$segments=explode(DIRECTORY_SEPARATOR,$template);
-	if(count($segments)>6)
-	{
-		array_splice($segments,0,count($segments)-6);
-		$templates[$i]='...'.DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR,$segments);
-	}
-	else
-		$templates[$i]=$template;
-}
+	$templates[$i]=basename($template).' ('.$template.')';
 ?>
 <div class="common-generator">
 
