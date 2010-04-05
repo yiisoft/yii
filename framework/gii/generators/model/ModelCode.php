@@ -14,8 +14,8 @@ class ModelCode extends CCodeModel
 			array('tablePrefix, baseClass, tableName, modelClass, modelPath', 'filter', 'filter'=>'trim'),
 			array('tableName, modelPath, baseClass', 'required'),
 			array('tablePrefix, tableName, modelPath', 'match', 'pattern'=>'/^(\w+[\w\.]*|\*?|\w+\.\*)$/', 'message'=>'{attribute} should only contain word characters, dots, and an optional ending asterisk.'),
-			array('tablePrefix, modelClass, baseClass', 'match', 'pattern'=>'/^\w+$/', 'message'=>'{attribute} should only contain word characters.'),
 			array('tableName', 'validateTableName', 'skipOnError'=>true),
+			array('tablePrefix, modelClass, baseClass', 'match', 'pattern'=>'/^\w+$/', 'message'=>'{attribute} should only contain word characters.'),
 			array('modelPath', 'validateModelPath', 'skipOnError'=>true),
 			array('baseClass', 'validateBaseClass', 'skipOnError'=>true),
 			array('tablePrefix, modelPath, baseClass', 'sticky'),
@@ -276,7 +276,7 @@ class ModelCode extends CCodeModel
 
 	protected function generateClassName($tableName)
 	{
-		if($this->getTableSchema($tableName)->name===$tableName)
+		if($this->tableName===$tableName || ($pos=strrpos($this->tableName,'.'))!==false && substr($this->tableName,$pos+1)===$tableName)
 			return $this->modelClass;
 
 		$tableName=$this->removePrefix($tableName,false);
