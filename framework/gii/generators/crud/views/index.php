@@ -28,8 +28,8 @@ $('#CrudCode_model').bind('keyup change', function(){
 			<?php echo $form->labelEx($model,'model'); ?>
 			<?php echo $form->textField($model,'model',array('size'=>65)); ?>
 			<div class="tooltip">
-				Model class is case-sensitive. It can be either a class name (e.g. "Post")
-			    or the path alias of the class file (e.g. "application.models.Post").
+				Model class is case-sensitive. It can be either a class name (e.g. <code>Post</code>)
+			    or the path alias of the class file (e.g. <code>application.models.Post</code>).
 			    Note that if the former, the class must be auto-loadable.
 			</div>
 			<?php echo $form->error($model,'model'); ?>
@@ -42,9 +42,9 @@ $('#CrudCode_model').bind('keyup change', function(){
 				Controller ID is case-sensitive. CRUD controllers are often named after
 				the model class name that they are dealing with. Below are some examples:
 				<ul>
-					<li>"post" generates "PostController.php"</li>
-					<li>"postTag" generates "PostTagController.php"</li>
-					<li>"admin/user" generates "admin/UserController.php"</li>
+					<li><code>post</code> generates <code>PostController.php</code></li>
+					<li><code>postTag</code> generates <code>PostTagController.php</code></li>
+					<li><code>admin/user</code> generates <code>admin/UserController.php</code></li>
 				</ul>
 			</div>
 			<?php echo $form->error($model,'controller'); ?>
