@@ -27,7 +27,8 @@ class FormCode extends CCodeModel
 	{
 		return array_merge(parent::attributeLabels(), array(
 			'model'=>'Model Class',
-			'view'=>'View Name',
+			'viewName'=>'View Name',
+			'viewPath'=>'View Path',
 			'scenario'=>'Scenario',
 		));
 	}
