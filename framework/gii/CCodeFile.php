@@ -64,7 +64,7 @@ class CCodeFile extends CComponent
 	{
 		if($this->content===null)  // a directory
 		{
-			if(!is_dir($this->path) && !@mkdir($this->path,0755,true))
+			if(!is_dir($this->path) && !@mkdir($this->path,0777,true))
 			{
 				$this->error="Unable to create the directory '{$this->path}'.";
 				return false;
@@ -76,7 +76,7 @@ class CCodeFile extends CComponent
 		if($this->operation===self::OP_NEW)
 		{
 			$dir=dirname($this->path);
-			if(!is_dir($dir) && !@mkdir($dir,0755,true))
+			if(!is_dir($dir) && !@mkdir($dir,0777,true))
 			{
 				$this->error="Unable to create the directory '$dir'.";
 				return false;
@@ -87,6 +87,8 @@ class CCodeFile extends CComponent
 			$this->error="Unable to write the file '{$this->path}'.";
 			return false;
 		}
+		else
+			@chmod($this->path,0666);
 		return true;
 	}
 
