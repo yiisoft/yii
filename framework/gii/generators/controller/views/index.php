@@ -3,46 +3,39 @@
 <p>This generator helps you to quickly generate a new controller class,
 one or several controller actions and their corresponding views.</p>
 
-<div class="form gii">
+<?php $form=$this->beginWidget('CCodeForm', array('model'=>$model)); ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
-
-	<?php $form=$this->beginWidget('CActiveForm'); ?>
-
-		<div class="row">
-			<?php echo $form->labelEx($model,'controller'); ?>
-			<?php echo $form->textField($model,'controller',array('size'=>65)); ?>
-			<div class="tooltip">
-				Controller ID is case-sensitive. Below are some examples:
-				<ul>
-					<li><code>post</code> generates <code>PostController.php</code></li>
-					<li><code>postTag</code> generates <code>PostTagController.php</code></li>
-					<li><code>admin/user</code> generates <code>admin/UserController.php</code></li>
-				</ul>
-			</div>
-			<?php echo $form->error($model,'controller'); ?>
+	<div class="row">
+		<?php echo $form->labelEx($model,'controller'); ?>
+		<?php echo $form->textField($model,'controller',array('size'=>65)); ?>
+		<div class="tooltip">
+			Controller ID is case-sensitive. Below are some examples:
+			<ul>
+				<li><code>post</code> generates <code>PostController.php</code></li>
+				<li><code>postTag</code> generates <code>PostTagController.php</code></li>
+				<li><code>admin/user</code> generates <code>admin/UserController.php</code></li>
+			</ul>
 		</div>
+		<?php echo $form->error($model,'controller'); ?>
+	</div>
 
-		<div class="row sticky">
-			<?php echo $form->labelEx($model,'baseClass'); ?>
-			<?php echo $form->textField($model,'baseClass',array('size'=>65)); ?>
-			<div class="tooltip">
-				This is the class that the new controller class will extend from.
-				Please make sure the class exists and can be autoloaded.
-			</div>
-			<?php echo $form->error($model,'baseClass'); ?>
+	<div class="row sticky">
+		<?php echo $form->labelEx($model,'baseClass'); ?>
+		<?php echo $form->textField($model,'baseClass',array('size'=>65)); ?>
+		<div class="tooltip">
+			This is the class that the new controller class will extend from.
+			Please make sure the class exists and can be autoloaded.
 		</div>
+		<?php echo $form->error($model,'baseClass'); ?>
+	</div>
 
-		<div class="row">
-			<?php echo $form->labelEx($model,'actions'); ?>
-			<?php echo $form->textField($model,'actions',array('size'=>65)); ?>
-			<div class="tooltip">
-				Action IDs are case-insensitive. Separate multiple action IDs with commas or spaces.
-			</div>
-			<?php echo $form->error($model,'actions'); ?>
+	<div class="row">
+		<?php echo $form->labelEx($model,'actions'); ?>
+		<?php echo $form->textField($model,'actions',array('size'=>65)); ?>
+		<div class="tooltip">
+			Action IDs are case-insensitive. Separate multiple action IDs with commas or spaces.
 		</div>
+		<?php echo $form->error($model,'actions'); ?>
+	</div>
 
-		<?php $this->renderGenerator($model, $form); ?>
-
-	<?php $this->endWidget(); ?>
-</div>
+<?php $this->endWidget(); ?>

@@ -139,20 +139,6 @@ class CCodeGenerator extends CController
 	}
 
 	/**
-	 * Renders the common interface for code generation.
-	 * This includes the template selector, the submit buttons and the code preview table.
-	 * @param CCodeModel the current code model
-	 * @param CActiveForm the form
-	 */
-	public function renderGenerator($model,$form)
-	{
-		$this->renderPartial('/common/generator', array(
-			'model'=>$model,
-			'form'=>$form,
-		));
-	}
-
-	/**
 	 * @param CCodeModel the current code model
 	 * @return string the message to be displayed when the newly generated code is saved successfully.
 	 */

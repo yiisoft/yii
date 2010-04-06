@@ -1,17 +1,12 @@
-<?php
-$templates=array();
-foreach($model->getTemplates() as $i=>$template)
-	$templates[$i]=basename($template).' ('.$template.')';
-?>
 <div class="common-generator">
 
 	<div class="row template sticky">
-		<?php echo $form->labelEx($model,'template'); ?>
-		<?php echo $form->dropDownList($model,'template',$templates); ?>
+		<?php echo $this->labelEx($model,'template'); ?>
+		<?php echo $this->dropDownList($model,'template',$templates); ?>
 		<div class="tooltip">
 			Please select which set of the templates should be used to generated the code.
 		</div>
-		<?php echo $form->error($model,'template'); ?>
+		<?php echo $this->error($model,'template'); ?>
 	</div>
 
 	<div class="buttons">
