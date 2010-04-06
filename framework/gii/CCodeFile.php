@@ -62,9 +62,10 @@ class CCodeFile extends CComponent
 	 */
 	public function save()
 	{
+		$module=Yii::app()->controller->module;
 		if($this->content===null)  // a directory
 		{
-			if(!is_dir($this->path) && !@mkdir($this->path,0777,true))
+			if(!is_dir($this->path) && !@mkdir($this->path,$module->newDirMode,true))
 			{
 				$this->error="Unable to create the directory '{$this->path}'.";
 				return false;
@@ -76,7 +77,7 @@ class CCodeFile extends CComponent
 		if($this->operation===self::OP_NEW)
 		{
 			$dir=dirname($this->path);
-			if(!is_dir($dir) && !@mkdir($dir,0777,true))
+			if(!is_dir($dir) && !@mkdir($dir,$module->newDirMode,true))
 			{
 				$this->error="Unable to create the directory '$dir'.";
 				return false;
@@ -88,7 +89,7 @@ class CCodeFile extends CComponent
 			return false;
 		}
 		else
-			@chmod($this->path,0666);
+			@chmod($this->path,$module->newFileMode);
 		return true;
 	}
 
