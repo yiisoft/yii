@@ -11,6 +11,7 @@
 Yii::import('system.gii.CCodeGenerator');
 Yii::import('system.gii.CCodeModel');
 Yii::import('system.gii.CCodeFile');
+Yii::import('system.gii.CCodeForm');
 
 /**
  * GiiModule is a module that provides Web-based code generation capabilities.
