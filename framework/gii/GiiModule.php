@@ -81,10 +81,10 @@ class GiiModule extends CWebModule
 	 * or an address with wildcard (e.g. 192.168.0.*) to represent a network segment.
 	 * If you want to allow all IPs to access gii, you may set this property to be false
 	 * (DO NOT DO THIS UNLESS YOU KNOW THE CONSEQUENCE!!!)
-	 * The default value is array('127.0.0.1'), which means GiiModule can only be accessed
+	 * The default value is array('127.0.0.1', '::1'), which means GiiModule can only be accessed
 	 * on the localhost.
 	 */
-	public $ipFilters=array('127.0.0.1');
+	public $ipFilters=array('127.0.0.1','::1');
 	/**
 	 * @var array a list of path aliases that refer to the directories containing code generators.
 	 * The directory referred by a single path alias may contain multiple code generators, each stored
