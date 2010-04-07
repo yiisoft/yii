@@ -139,24 +139,6 @@ class CCodeGenerator extends CController
 	}
 
 	/**
-	 * @param CCodeModel the current code model
-	 * @return string the message to be displayed when the newly generated code is saved successfully.
-	 */
-	public function getSuccessMessage($model)
-	{
-		return 'The code has been generated successfully.';
-	}
-
-	/**
-	 * @param CCodeModel the current code model
-	 * @return string the message to be displayed when some error occurred during code file saving.
-	 */
-	public function getErrorMessage($model)
-	{
-		return 'There was some error when generating the code. Please check the following messages.';
-	}
-
-	/**
 	 * Prepares the code model.
 	 */
 	protected function prepare()

@@ -45,6 +45,12 @@ class CrudCode extends CCodeModel
 		parent::init();
 	}
 
+	public function successMessage()
+	{
+		$link=CHtml::link('try it now', Yii::app()->createUrl($this->controller), array('target'=>'_blank'));
+		return "The controller has been generated successfully. You may $link.";
+	}
+
 	public function validateModel($attribute,$params)
 	{
 		if($this->hasErrors('model'))

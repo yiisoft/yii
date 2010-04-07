@@ -153,6 +153,26 @@ abstract class CCodeModel extends CFormModel
 	}
 
 	/**
+	 * Returns the message to be displayed when the newly generated code is saved successfully.
+	 * Child classes should override this method if the message needs to be customized.
+	 * @return string the message to be displayed when the newly generated code is saved successfully.
+	 */
+	public function successMessage()
+	{
+		return 'The code has been generated successfully.';
+	}
+
+	/**
+	 * Returns the message to be displayed when some error occurred during code file saving.
+	 * Child classes should override this method if the message needs to be customized.
+	 * @return string the message to be displayed when some error occurred during code file saving.
+	 */
+	public function errorMessage()
+	{
+		return 'There was some error when generating the code. Please check the following messages.';
+	}
+
+	/**
 	 * Returns a list of available code templates (name=>directory).
 	 * This method simply returns the {@link CCodeGenerator::templates} property value.
 	 * @return array a list of available code templates (name=>directory).
