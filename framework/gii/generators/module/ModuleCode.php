@@ -20,6 +20,28 @@ class ModuleCode extends CCodeModel
 		));
 	}
 
+	public function successMessage()
+	{
+		if(Yii::app()->hasModule($this->moduleID))
+			return 'The module has been generated successfully. You may '.CHtml::link('try it now', Yii::app()->createUrl($this->moduleID), array('target'=>'_blank')).'.';
+
+		$output=<<<EOD
+<p>The module has been generated successfully.</p>
+<p>To access the module, you need to modify the application configuration as follows:</p>
+EOD;
+		$code=<<<EOD
+<?php
+return array(
+    'modules'=>array(
+        '{$this->moduleID}',
+    ),
+    ......
+);
+EOD;
+
+		return $output.highlight_string($code,true);
+	}
+
 	public function prepare()
 	{
 		$this->files=array();

@@ -35,6 +35,12 @@ class ControllerCode extends CCodeModel
 		);
 	}
 
+	public function successMessage()
+	{
+		$link=CHtml::link('try it now', Yii::app()->createUrl($this->controller), array('target'=>'_blank'));
+		return "The controller has been generated successfully. You may $link.";
+	}
+
 	public function prepare()
 	{
 		$this->files=array();

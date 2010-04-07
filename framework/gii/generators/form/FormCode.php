@@ -37,7 +37,18 @@ class FormCode extends CCodeModel
 	{
 		return array(
 			'form.php',
+			'action.php',
 		);
+	}
+
+	public function successMessage()
+	{
+		$output=<<<EOD
+<p>The form has been generated successfully.</p>
+<p>You may add the following code in an appropriate controller class to invoke the view:</p>
+EOD;
+		$code="<?php\n".$this->render($this->templatePath.'/action.php');
+		return $output.highlight_string($code,true);
 	}
 
 	public function validateModel($attribute,$params)

@@ -21,11 +21,11 @@
 		<div class="feedback">
 		<?php if($model->status===CCodeModel::STATUS_SUCCESS): ?>
 			<div class="success">
-				<?php echo $this->getSuccessMessage($model); ?>
+				<?php echo $model->successMessage(); ?>
 			</div>
 		<?php elseif($model->status===CCodeModel::STATUS_ERROR): ?>
 			<div class="error">
-				<?php echo $this->getErrorMessage($model); ?>
+				<?php echo $model->errorMessage(); ?>
 			</div>
 		<?php endif; ?>
 
