@@ -562,4 +562,34 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	{
 		unset($this->$offset);
 	}
+
+	/**
+	 * Prepend validator to existing validators list.
+	 * @param mixed list of attributes to be validated. This can be either an array of
+	 * the attribute names or a string of comma-separated attribute names.
+	 * @param string the name or class of the validator
+	 * @param array initial values to be applied to the validator properties
+	 * @since 1.1.2
+	 */
+	public function prependValidator($attributes,$name,$params=array())
+	{
+		if($this->_validators===null)
+			$this->_validators=$this->createValidators();
+		array_unshift($this->_validators,CValidator::createValidator($name,$this,$attributes,$params));
+	}
+
+	/**
+	 * Append validator to existing validators list.
+	 * @param mixed list of attributes to be validated. This can be either an array of
+	 * the attribute names or a string of comma-separated attribute names.
+	 * @param string the name or class of the validator
+	 * @param array initial values to be applied to the validator properties
+	 * @since 1.1.2
+	 */
+	public function appendValidator($attributes,$name,$params=array())
+	{
+		if($this->_validators===null)
+			$this->_validators=$this->createValidators();
+		$this->_validators[]=CValidator::createValidator($name,$this,$attributes,$params);
+	}
 }
