@@ -231,9 +231,6 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		if($this->_validators===null)
 			$this->_validators=$this->createValidators();
 
-		if(($scenario=$this->getScenario())==='' && $attribute===null)
-			return $this->_validators->toArray();
-
 		$validators=array();
 		foreach($this->_validators as $validator)
 		{
