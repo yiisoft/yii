@@ -204,7 +204,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * Returns the validators applicable to the current {@link scenario}.
 	 * @param string the name of the attribute whose validators should be returned.
 	 * If this is null, the validators for ALL attributes in the model will be returned.
-	 * @return array the validators applicable to the current {@link scenario}.
+	 * @return CList the validators applicable to the current {@link scenario}.
 	 * @since 1.0.1
 	 */
 	public function getValidators($attribute=null)
@@ -212,8 +212,11 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		if($this->_validators===null)
 			$this->_validators=$this->createValidators();
 
-		$validators=array();
-		$scenario=$this->getScenario();
+		if(($scenario=$this->getScenario())==='' && $attribute===null)
+			return $this->_validators;
+
+		$validators=new CList(null,true);
+
 		foreach($this->_validators as $validator)
 		{
 			if($validator->applyTo($scenario))
@@ -228,11 +231,11 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	/**
 	 * Creates validator objects based on the specification in {@link rules}.
 	 * This method is mainly used internally.
-	 * @return array validators built based on {@link rules()}.
+	 * @return CList validators built based on {@link rules()}.
 	 */
 	public function createValidators()
 	{
-		$validators=array();
+		$validators=new CList;
 		foreach($this->rules() as $rule)
 		{
 			if(isset($rule[0],$rule[1]))  // attributes, validator name
@@ -561,35 +564,5 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	public function offsetUnset($offset)
 	{
 		unset($this->$offset);
-	}
-
-	/**
-	 * Prepend validator to existing validators list.
-	 * @param mixed list of attributes to be validated. This can be either an array of
-	 * the attribute names or a string of comma-separated attribute names.
-	 * @param string the name or class of the validator
-	 * @param array initial values to be applied to the validator properties
-	 * @since 1.1.2
-	 */
-	public function prependValidator($attributes,$name,$params=array())
-	{
-		if($this->_validators===null)
-			$this->_validators=$this->createValidators();
-		array_unshift($this->_validators,CValidator::createValidator($name,$this,$attributes,$params));
-	}
-
-	/**
-	 * Append validator to existing validators list.
-	 * @param mixed list of attributes to be validated. This can be either an array of
-	 * the attribute names or a string of comma-separated attribute names.
-	 * @param string the name or class of the validator
-	 * @param array initial values to be applied to the validator properties
-	 * @since 1.1.2
-	 */
-	public function appendValidator($attributes,$name,$params=array())
-	{
-		if($this->_validators===null)
-			$this->_validators=$this->createValidators();
-		$this->_validators[]=CValidator::createValidator($name,$this,$attributes,$params);
-	}
+	}	
 }

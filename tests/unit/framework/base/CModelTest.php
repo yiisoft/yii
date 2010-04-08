@@ -19,13 +19,13 @@ class CModelTest extends CTestCase
 		$this->assertTrue($model->validate());
 	}
 
-	public function testPrependValidator()
+	public function testModifyValidators()
 	{
 		$model=new NewModel;
 		$model->attr1=2;
 		$model->attr2=2;
 		$this->assertTrue($model->validate());
-		$model->prependValidator('attr1,attr2','numerical',array('min'=>3));
+		$model->validators->insertAt(0,CValidator::createValidator('numerical',$model,'attr1,attr2',array('min'=>3)));
 		$this->assertFalse($model->validate());
 		$model->attr1=6;
 		$model->attr2=6;
@@ -33,18 +33,11 @@ class CModelTest extends CTestCase
 		$model->attr1=4;
 		$model->attr2=4;
 		$this->assertTrue($model->validate());
-	}
-
-	public function testAppendValidator()
-	{
 		$model=new NewModel;
-		$model->attr1=2;
-		$this->assertTrue($model->validate());
-		$model->appendValidator('attr2','required');
+		$model->attr1=3;
+		$model->validators->add(CValidator::createValidator('required',$model,'attr2',array()));
 		$this->assertFalse($model->validate());
-		$model->attr2=6;
-		$this->assertFalse($model->validate());
-		$model->attr2=4;
+		$model->attr2=3;
 		$this->assertTrue($model->validate());
 	}
 }
