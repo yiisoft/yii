@@ -383,7 +383,7 @@ div.form.login p
 	margin: 0 0 10px 0;
 }
 
-div.form.gii .row .value
+div.form.gii .row.sticky .value, span.sticky
 {
 	padding: 3px;
 	background: lightyellow;
