@@ -91,7 +91,11 @@
 					type : $form.attr('method'),
 					data : $form.serialize()+'&'+settings.ajaxVar+'='+id,
 					dataType : 'json',
-					success : successCallback,
+					success : function(data) {
+						if (data != null && typeof data == 'object') {
+							successCallback(data);
+						}
+					},
 					error : function() {
 						$.each(settings.attributes, function(i, attribute){
 							//updateInput(attribute, []);
@@ -157,7 +161,7 @@
 					if (validated)
 						return true;
 					ajaxValidate(function(data){
-						var hasError = data == null || typeof data != 'object';
+						var hasError = false;
 						$.each(settings.attributes, function(i, attribute){
 							hasError = updateInput(attribute, data) || hasError;
 						});
