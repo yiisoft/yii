@@ -201,10 +201,29 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	}
 
 	/**
+	 * Returns all the validators declared in the model.
+	 * This method differs from {@link getValidators} in that the latter
+	 * would only return the validators applicable to the current {@link scenario}.
+	 * Also, since this method return a {@link CList} object, you may
+	 * manipulate it by inserting or removing validators (useful in behaviors).
+	 * For example, <code>$model->validatorList->add($newValidator)</code>.
+	 * The change made to the {@link CList} object will persist and reflect
+	 * in the result of the next call of {@link getValidators}.
+	 * @return CList all the validators declared in the model.
+	 * @since 1.1.2
+	 */
+	public function getValidatorList()
+	{
+		if($this->_validators===null)
+			$this->_validators=$this->createValidators();
+		return $this->_validators;
+	}
+
+	/**
 	 * Returns the validators applicable to the current {@link scenario}.
 	 * @param string the name of the attribute whose validators should be returned.
 	 * If this is null, the validators for ALL attributes in the model will be returned.
-	 * @return CList the validators applicable to the current {@link scenario}.
+	 * @return array the validators applicable to the current {@link scenario}.
 	 * @since 1.0.1
 	 */
 	public function getValidators($attribute=null)
@@ -213,10 +232,9 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 			$this->_validators=$this->createValidators();
 
 		if(($scenario=$this->getScenario())==='' && $attribute===null)
-			return $this->_validators;
+			return $this->_validators->toArray();
 
-		$validators=new CList(null,true);
-
+		$validators=array();
 		foreach($this->_validators as $validator)
 		{
 			if($validator->applyTo($scenario))
@@ -239,7 +257,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		foreach($this->rules() as $rule)
 		{
 			if(isset($rule[0],$rule[1]))  // attributes, validator name
-				$validators[]=CValidator::createValidator($rule[1],$this,$rule[0],array_slice($rule,2));
+				$validators->add(CValidator::createValidator($rule[1],$this,$rule[0],array_slice($rule,2)));
 			else
 				throw new CException(Yii::t('yii','{class} has an invalid validation rule. The rule must specify attributes to be validated and the validator name.',
 					array('{class}'=>get_class($this))));
@@ -564,5 +582,5 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	public function offsetUnset($offset)
 	{
 		unset($this->$offset);
-	}	
+	}
 }
