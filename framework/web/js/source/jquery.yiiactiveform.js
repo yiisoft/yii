@@ -157,7 +157,7 @@
 					if (validated)
 						return true;
 					ajaxValidate(function(data){
-						var hasError = false;
+						var hasError = data == null || typeof data != 'object';
 						$.each(settings.attributes, function(i, attribute){
 							hasError = updateInput(attribute, data) || hasError;
 						});
