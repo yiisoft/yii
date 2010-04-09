@@ -91,7 +91,7 @@ class ModelCode extends CCodeModel
 
 	public function validateTableName($attribute,$params)
 	{
-		if($this->tableName[strlen($this->tableName)-1]==='*')
+		if($this->tableName!='' && $this->tableName[strlen($this->tableName)-1]==='*')
 			$this->modelClass='';
 		else
 		{
