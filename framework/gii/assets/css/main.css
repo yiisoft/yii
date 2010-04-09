@@ -389,69 +389,71 @@ div.form.gii .row.sticky .value, span.sticky
 	background: lightyellow;
 }
 
-.common-generator .row.template select
+div.form.gii .row.template select
 {
 	width: 420px;
 }
 
-.common-generator table
+div.form.gii table.preview
 {
 	border-collapse: collapse;
 }
 
-.common-generator th
+div.form.gii table.preview th
 {
 	text-align: center;
 }
 
-.common-generator th.confirm
+div.form.gii table.preview th.confirm
 {
 	text-align: right;
 }
 
-.common-generator th.confirm label
+div.form.gii table.preview th.confirm label
 {
 	display: inline;
 }
 
-.common-generator td.confirm
+div.form.gii table.preview td.confirm
 {
 	width: 80px;
 	text-align: right;
 }
 
-.common-generator td.confirm input
+div.form.gii table.preview td.confirm input
 {
 	margin:0;
 }
 
-.common-generator td.confirm label
+div.form.gii table.preview td.confirm label
 {
 	display: inline;
 	font-weight: normal;
 }
 
-.common-generator table, .common-generator th, .common-generator td
+div.form.gii table.preview,
+div.form.gii table.preview th,
+div.form.gii table.preview td
 {
 	border: 1px solid #529EC6;
 }
 
-.common-generator tr.skip
+div.form.gii table.preview tr.skip
 {
 	background-color: #eee;
 }
 
-.common-generator tr.new
+div.form.gii table.preview tr.new
 {
 	background-color: #C5FBBD;
 }
 
-.common-generator tr.overwrite
+div.form.gii table.preview tr.overwrite
 {
 	background-color: #FFE0E1;
 }
 
-.common-generator pre.results
+div.form.gii pre.results
 {
 	overflow: auto;
 	background-color: gray;
@@ -460,7 +462,7 @@ div.form.gii .row.sticky .value, span.sticky
 	padding: 10px;
 }
 
-.common-generator div.success
+div.form.gii div.success
 {
 	background: #C5FBBD;
 	border: 1px solid #76C376;
@@ -468,7 +470,7 @@ div.form.gii .row.sticky .value, span.sticky
 	margin: 10px 0;
 }
 
-.common-generator div.error
+div.form.gii div.error
 {
 	background: #FFE0E1;
 	border: 1px solid #FFA0A2;
@@ -476,8 +478,7 @@ div.form.gii .row.sticky .value, span.sticky
 	margin: 10px 0;
 }
 
-.common-generator div.success code,
-.common-generator div.success code
+div.form.gii div.success code
 {
 	overflow: auto;
 	display: block;
@@ -486,7 +487,7 @@ div.form.gii .row.sticky .value, span.sticky
 	background: white;
 }
 
-.common-generator pre.results span.error
+div.form.gii pre.results span.error
 {
 	background: #FFE0E1;
 	color: black;

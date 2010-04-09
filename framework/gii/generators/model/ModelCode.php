@@ -187,11 +187,19 @@ class ModelCode extends CCodeModel
 
 	protected function removePrefix($tableName,$addBrackets=true)
 	{
+		if($addBrackets && Yii::app()->db->tablePrefix=='')
+			return $tableName;
 		$prefix=$this->tablePrefix!='' ? $this->tablePrefix : Yii::app()->db->tablePrefix;
 		if($prefix!='')
 		{
-			$lb=$addBrackets ? '{{':'';
-			$rb=$addBrackets ? '}}':'';
+			if($addBrackets && Yii::app()->db->tablePrefix!='')
+			{
+				$prefix=Yii::app()->db->tablePrefix;
+				$lb='{{';
+				$rb='}}';
+			}
+			else
+				$lb=$rb='';
 			if(($pos=strrpos($tableName,'.'))!==false)
 			{
 				$schema=substr($tableName,0,$pos);
@@ -227,7 +235,7 @@ class ModelCode extends CCodeModel
 				$className0=$this->generateClassName($table0);
 				$className1=$this->generateClassName($table1);
 
-				$unprefixedTableName=$this->removePrefix($tableName,true);
+				$unprefixedTableName=$this->removePrefix($tableName);
 
 				$relationName=$this->generateRelationName($table0, $table1, true);
 				$relations[$className0][$relationName]="array(self::MANY_MANY, '$className1', '$unprefixedTableName($pks[0], $pks[1])')";
