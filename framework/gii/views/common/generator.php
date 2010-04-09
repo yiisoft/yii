@@ -31,7 +31,7 @@
 		<pre class="results"><?php echo $model->renderResults(); ?></pre>
 	<?php elseif(isset($_POST['preview'])): ?>
 		<?php echo CHtml::hiddenField("answers"); ?>
-		<table>
+		<table class="preview">
 			<tr>
 				<th class="file">Code File</th>
 				<th class="confirm">
