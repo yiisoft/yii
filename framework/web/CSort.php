@@ -186,7 +186,7 @@ class CSort extends CComponent
 					else
 						throw new CException(Yii::t('yii','Virtual attribute {name} must specify "asc" and "desc" options.',array('{name}'=>$attribute)));
 				}
-				else
+				else if($definition!==false)
 				{
 					$attribute=$definition;
 					if(isset($schema))
