@@ -30,15 +30,7 @@ forum/
 
 A module must have a module class that extends from [CWebModule]. The class name is determined using the expression `ucfirst($id).'Module'`, where `$id` refers to the module ID (or the module directory name). The module class serves as the central place for storing information shared among the module code. For example, we can use [CWebModule::params] to store module parameters, and use [CWebModule::components] to share [application components](/doc/guide/basics.application#application-component) at the module level.
 
-> Tip: We can use the `yiic` tool to create the basic skeleton of a new module. For example, to create the above `forum` module, we can execute the following commands in a command line window:
->
-> ~~~
-> % cd WebRoot/testdrive
-> % protected/yiic shell
-> Yii Interactive Tool v1.0
-> Please type 'help' for help. Type 'exit' to quit.
-> >> module forum
-> ~~~
+> Tip: We can use the module generator in Gii to create the basic skeleton of a new module.
 
 
 Using Module
