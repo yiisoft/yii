@@ -1,7 +1,7 @@
 Automatic Code Generation
 =========================
 
-Starting from version 1.1.1, Yii is equipped with a Web-based code generation tool called *Gii*. It supercedes the previous `yiic shell` generation tool which runs on command line. In this section, we will describe how to use Gii and how to extend Gii to increase our development productivity.
+Starting from version 1.1.2, Yii is equipped with a Web-based code generation tool called *Gii*. It supercedes the previous `yiic shell` generation tool which runs on command line. In this section, we will describe how to use Gii and how to extend Gii to increase our development productivity.
 
 Using Gii
 ---------

@@ -152,61 +152,53 @@ Implementing CRUD Operations
 
 Now is the fun part. We would like to implement the CRUD (create, read,
 update and delete) operations for the `User` table we just created. This is
-also commonly needed in practical applications. Instead of taking trouble
-to write actual code, we would use the powerful `yiic` tool again
-to automatically generate the code for us. This process is also known as *scaffolding*.
+also commonly needed in practical applications. Instead of taking the trouble
+to write the actual code, we will use Gii -- a powerful Web-based code generator.
 
-Open a command line window, and execute the commands listed as follows,
+> Info: Gii has been available since version 1.1.2. Before that, we can use the aforementioned `yiic` tool to accomplish the same goal. For more details, please refer to [Implementing CRUD Operations with yiic shell](/doc/guide/quickstart.first-app-yiic).
+
+
+### Configuring Gii
+
+In order to use Gii, we first need to edit the file `WebRoot/testdrive/protected/main.php`, which is known as the [application configuration](/doc/guide/basics.application#application-configuration) file:
 
 ~~~
-% cd WebRoot/testdrive
-% protected/yiic shell
-Yii Interactive Tool v1.1
-Please type 'help' for help. Type 'exit' to quit.
->> model User tbl_user
-   generate models/User.php
-   generate fixtures/tbl_user.php
-   generate unit/UserTest.php
+[php]
+return array(
+	......
+	'import'=>array(
+		'application.models.*',
+		'application.components.*',
+	),
 
-The following model classes are successfully generated:
-    User
-
-If you have a 'db' database connection, you can test these models now with:
-    $model=User::model()->find();
-    print_r($model);
-
->> crud User
-   generate UserController.php
-   generate UserTest.php
-   mkdir D:/testdrive/protected/views/user
-   generate create.php
-   generate update.php
-   generate index.php
-   generate view.php
-   generate admin.php
-   generate _form.php
-   generate _view.php
-
-Crud 'user' has been successfully created. You may access it via:
-http://hostname/path/to/index.php?r=user
+	'modules'=>array(
+		'gii'=>array(
+			'class'=>'system.gii.GiiModule',
+			'password'=>'pick up a password here',
+		),
+	),
+);
 ~~~
 
-In the above, we use the `yiic shell` command to interact with our
-skeleton application. At the prompt, we execute two sub-commands: `model User tbl_user`
-and `crud User`. The former generates a model class named `User` for the `tbl_user` table,
-while the latter analyzes the `User` model and generates the code implementing
-the corresponding CRUD operations.
+Then, visit the URL `http://hostname/testdrive/index.php?r=gii`. We will be prompted for a password, which should be the one that we just entered in the above application configuration.
 
-> Note: You may encounter errors like "...could not find driver", even
-> though the requirement checker shows you have already enabled PDO
-> and the corresponding PDO driver. If this happens, you may try
-> to run the `yiic` tool as follows,
->
-> ~~~
-> % php -c path/to/php.ini protected/yiic.php shell
-> ~~~
->
-> where `path/to/php.ini` represents the correct PHP ini file.
+### Generating User Model
+
+After login, click on the link `Model Generator`. This will bring us to the following model generation page,
+
+![Model Generator](gii-model.png)
+
+In the `Table Name` field, enter `tbl_user`. In the `Model Class` field, enter `User`. Then press the `Preview` button. This will show us the new code file to be generated. Now press the `Generate` button. A new file named `User.php` will be generated under `protected/models`. As we will describe later in this guide, this `User` model class allows us to talk to the underlying database `tbl_user` table in an object-oriented fashion.
+
+### Generating CRUD Code
+
+After creating the model class file, we will generate the code that implements the CRUD operations about the user data. We choose the `Crud Generator` in Gii, shown as follows,
+
+![CRUD Generator](gii-crud.png)
+
+In the `Model Class` field, enter `User`. In the `Controller ID` field, enter `user` (in lower case). Now press the `Preview` button followed by the `Generate` button. We are done with the CRUD code generation.
+
+### Accessing CRUD Pages
 
 Let's enjoy our work by browsing the following URL:
 
