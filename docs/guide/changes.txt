@@ -3,6 +3,11 @@ New Features
 
 This page summarizes the main new features introduced in each Yii release.
 
+Version 1.1.2
+-------------
+
+ * [Added a Web-based code generation tool called Gii](/doc/guide/topics.gii)
+
 Version 1.1.1
 -------------
 

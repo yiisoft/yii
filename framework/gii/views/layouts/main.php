@@ -1,8 +1,10 @@
 <?php
-Yii::app()->clientScript->registerCoreScript('jquery');
-Yii::app()->clientScript->registerScriptFile($this->module->assetsUrl.'/js/tools.tooltip-1.1.3.min.js');
-Yii::app()->clientScript->registerScriptFile($this->module->assetsUrl.'/js/fancybox/jquery.fancybox-1.3.1.pack.js');
-Yii::app()->clientScript->registerCssFile($this->module->assetsUrl.'/js/fancybox/jquery.fancybox-1.3.1.css');
+$cs=Yii::app()->clientScript;
+$baseUrl=$this->module->assetsUrl;
+$cs->registerCoreScript('jquery');
+$cs->registerScriptFile($baseUrl.'/js/tools.tooltip-1.1.3.min.js');
+$cs->registerScriptFile($baseUrl.'/js/fancybox/jquery.fancybox-1.3.1.pack.js');
+$cs->registerCssFile($baseUrl.'/js/fancybox/jquery.fancybox-1.3.1.css');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -30,7 +32,7 @@ Yii::app()->clientScript->registerCssFile($this->module->assetsUrl.'/js/fancybox
 <div class="container" id="page">
 	<div id="header">
 		<div class="top-menus">
-		<?php echo CHtml::link('home',array('/gii/default/index')); ?> |
+		<?php echo CHtml::link('help','http://www.yiiframework.com/doc/guide/topics.gii'); ?> |
 		<?php echo CHtml::link('webapp',Yii::app()->homeUrl); ?> |
 		<a href="http://www.yiiframework.com">yii</a>
 		<?php if(!Yii::app()->user->isGuest): ?>

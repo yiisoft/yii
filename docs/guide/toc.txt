@@ -53,6 +53,7 @@
 	- [Functional Testing](test.functional)
 
 * Special Topics
+	- [Automatic Code Generation](topics.gii)
     - [URL Management](topics.url)
     - [Authentication and Authorization](topics.auth)
     - [Theming and Skin](topics.theming)

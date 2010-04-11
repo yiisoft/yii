@@ -9,7 +9,7 @@ class DefaultController extends CController
 		if($this->action->id==='index')
 			return 'Gii: a Web-based code generator for Yii';
 		else
-			return 'Gii - '.ucfirst($this->action->id);
+			return 'Gii - '.ucfirst($this->action->id).' Generator';
 	}
 
 	public function actionIndex()
