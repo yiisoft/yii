@@ -1,4 +1,4 @@
-<?php $this->beginContent('/layouts/main'); ?>
+<?php $this->beginContent('gii.views.layouts.main'); ?>
 <div class="container">
 	<div class="span-4">
 		<div id="sidebar">
