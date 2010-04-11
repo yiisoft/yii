@@ -1,7 +1,7 @@
 <?php
 /**
  * This is the template for generating the model class of a specified table.
- * - $this: the CrudCode object
+ * - $this: the ModelCode object
  * - $tableName: the table name for this class (prefix is already removed if necessary)
  * - $modelClass: the model class name
  * - $columns: list of table columns (name=>CDbColumnSchema)

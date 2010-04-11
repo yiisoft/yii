@@ -14,6 +14,18 @@ h1
 	color: #666;
 }
 
+h2
+{
+	font-size: 1.4em;
+	color: #666;
+}
+
+h3
+{
+	font-size: 1.2em;
+	color: #666;
+}
+
 #page
 {
 	margin-top: 5px;
