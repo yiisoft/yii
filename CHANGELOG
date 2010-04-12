@@ -33,6 +33,7 @@ Version 1.1.2 to be released
 - Enh: Added CModule::hasModule() (Qiang)
 - Enh: CFileValidator now works with php.ini's upload_max_filesize strings with K, G, k, m, g (Sam Dark)
 - Enh: Enhanced CActiveForm to make it more robust in case some code error occurs when performing ajax validation (Qiang)
+- Enh: Added the $key parameter to CController::renderDynamic() to better differentiate dynamic content blocks (Qiang)
 - New #1005: added CWinCache (Sam Dark)
 
 Version 1.1.1 March 14, 2010
