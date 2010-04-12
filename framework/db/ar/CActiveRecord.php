@@ -1119,9 +1119,8 @@ abstract class CActiveRecord extends CModel
 			$this->{$table->primaryKey}=$value;
 		else if(is_array($table->primaryKey))
 		{
-			$values=array();
 			foreach($table->primaryKey as $name)
-				$this->$name=$values[$name];
+				$this->$name=$value[$name];
 		}
 	}
 
@@ -2004,7 +2003,7 @@ class CActiveRecordMetaData
 	 * Deletes a relation with specified name.
 	 *
 	 * @param string $name
-	 * @return void	 
+	 * @return void
 	 * @since 1.1.2
 	 */
 	public function removeRelation($name)
