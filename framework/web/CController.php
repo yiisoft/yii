@@ -776,28 +776,32 @@ class CController extends CBaseController
 	 * When the callback is specified as a string, it will be first assumed to be a method of the current
 	 * controller class. If the method does not exist, it is assumed to be a global PHP function.
 	 * Note, the callback should return the dynamic content instead of echoing it.
+	 * @param string a key that uniquely identifies this block of dynamic content.
+	 * This parameter has been available since version 1.1.2. If you do not provide this parameter,
+	 * a sequential integer key will be used, which may cause problem in some complex scenarios.
 	 */
-	public function renderDynamic($callback)
+	public function renderDynamic($callback,$key=null)
 	{
-		$n=count($this->_dynamicOutput);
+		$n=$key===null ? count($this->_dynamicOutput) : $key;
 		echo "<###dynamic-$n###>";
 		$params=func_get_args();
 		array_shift($params);
-		$this->renderDynamicInternal($callback,$params);
+		$this->renderDynamicInternal($callback,$params,$key);
 	}
 
 	/**
 	 * This method is internally used.
 	 * @param callback a PHP callback which returns the needed dynamic content.
 	 * @param array parameters passed to the PHP callback
+	 * @param string a key that uniquely identifies this block of dynamic content.
 	 * @see renderDynamic
 	 */
-	public function renderDynamicInternal($callback,$params)
+	public function renderDynamicInternal($callback,$params,$key)
 	{
 		$this->recordCachingAction('','renderDynamicInternal',array($callback,$params));
 		if(is_string($callback) && method_exists($this,$callback))
 			$callback=array($this,$callback);
-		$this->_dynamicOutput[]=call_user_func_array($callback,$params);
+		$this->_dynamicOutput[$key]=call_user_func_array($callback,$params);
 	}
 
 	/**
