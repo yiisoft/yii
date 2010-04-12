@@ -416,11 +416,11 @@ abstract class CActiveRecord extends CModel
 	 * Additional options may be specified as name-value pairs in the rest array elements:
 	 * <ul>
 	 * <li>'select': string|array, a list of columns to be selected. Defaults to '*', meaning all columns.
-	 *   Column names should be disambiguated if they appear in an expression (e.g. COUNT(??.name) AS name_count).</li>
+	 *   Column names should be disambiguated if they appear in an expression (e.g. COUNT(relationName.name) AS name_count).</li>
 	 * <li>'condition': string, the WHERE clause. Defaults to empty. Note, column references need to
-	 *   be disambiguated with prefix '??.' (e.g. ??.age&gt;20)</li>
+	 *   be disambiguated with prefix 'relationName.' (e.g. relationName.age&gt;20)</li>
 	 * <li>'order': string, the ORDER BY clause. Defaults to empty. Note, column references need to
-	 *   be disambiguated with prefix '??.' (e.g. ??.age DESC)</li>
+	 *   be disambiguated with prefix 'relationName.' (e.g. relationName.age DESC)</li>
 	 * <li>'with': string|array, a list of child related objects that should be loaded together with this object.
 	 *   Note, this is only honored by lazy loading, not eager loading.</li>
 	 * <li>'joinType': type of join. Defaults to 'LEFT OUTER JOIN'.</li>
@@ -441,9 +441,9 @@ abstract class CActiveRecord extends CModel
 	 * The following options are available for certain relations when lazy loading:
 	 * <ul>
 	 * <li>'group': string, the GROUP BY clause. Defaults to empty. Note, column references need to
-	 *   be disambiguated with prefix '??.' (e.g. ??.age). This option only applies to HAS_MANY and MANY_MANY relations.</li>
+	 *   be disambiguated with prefix 'relationName.' (e.g. relationName.age). This option only applies to HAS_MANY and MANY_MANY relations.</li>
 	 * <li>'having': string, the HAVING clause. Defaults to empty. Note, column references need to
-	 *   be disambiguated with prefix '??.' (e.g. ??.age). This option only applies to HAS_MANY and MANY_MANY relations.</li>
+	 *   be disambiguated with prefix 'relationName.' (e.g. relationName.age). This option only applies to HAS_MANY and MANY_MANY relations.</li>
 	 * <li>'limit': limit of the rows to be selected. This option does not apply to BELONGS_TO relation.</li>
 	 * <li>'offset': offset of the rows to be selected. This option does not apply to BELONGS_TO relation.</li>
 	 * </ul>
@@ -1623,12 +1623,12 @@ class CBaseActiveRelation extends CComponent
 	/**
 	 * @var mixed list of column names (an array, or a string of names separated by commas) to be selected.
 	 * Do not quote or prefix the column names unless they are used in an expression.
-	 * In that case, you should prefix the column names with '??.'.
+	 * In that case, you should prefix the column names with 'relationName.'.
 	 */
 	public $select='*';
 	/**
 	 * @var string WHERE clause. For {@link CActiveRelation} descendant classes, column names
-	 * referenced in the condition should be disambiguated with prefix '??.'.
+	 * referenced in the condition should be disambiguated with prefix 'relationName.'.
 	 */
 	public $condition='';
 	/**
@@ -1638,17 +1638,17 @@ class CBaseActiveRelation extends CComponent
 	public $params=array();
 	/**
 	 * @var string GROUP BY clause. For {@link CActiveRelation} descendant classes, column names
-	 * referenced in this property should be disambiguated with prefix '??.'.
+	 * referenced in this property should be disambiguated with prefix 'relationName.'.
 	 */
 	public $group='';
 	/**
 	 * @var string HAVING clause. For {@link CActiveRelation} descendant classes, column names
-	 * referenced in this property should be disambiguated with prefix '??.'.
+	 * referenced in this property should be disambiguated with prefix 'relationName.'.
 	 */
 	public $having='';
 	/**
 	 * @var string ORDER BY clause. For {@link CActiveRelation} descendant classes, column names
-	 * referenced in this property should be disambiguated with prefix '??.'.
+	 * referenced in this property should be disambiguated with prefix 'relationName.'.
 	 */
 	public $order='';
 
