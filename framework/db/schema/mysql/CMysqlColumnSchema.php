@@ -26,11 +26,11 @@ class CMysqlColumnSchema extends CDbColumnSchema
 	{
 		if(strncmp($dbType,'enum',4)===0)
 			$this->type='string';
-		else if(strpos($dbType,'bigint')!==false || strpos($dbType,'float')!==false || strpos($dbType,'double')!==false)
+		else if(strpos($dbType,'float')!==false || strpos($dbType,'double')!==false)
 			$this->type='double';
 		else if(strpos($dbType,'bool')!==false)
 			$this->type='boolean';
-		else if(strpos($dbType,'int')!==false || strpos($dbType,'bit')!==false)
+		else if(strpos($dbType,'bigint')===false && (strpos($dbType,'int')!==false || strpos($dbType,'bit')!==false))
 			$this->type='integer';
 		else
 			$this->type='string';
