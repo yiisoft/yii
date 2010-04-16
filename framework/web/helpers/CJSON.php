@@ -98,6 +98,9 @@ class CJSON
 	*/
 	public static function encode($var)
 	{
+		if(function_exists('json_encode'))
+			return json_encode($data);
+
 		switch (gettype($var)) {
 			case 'boolean':
 				return $var ? 'true' : 'false';
@@ -327,6 +330,9 @@ class CJSON
 	*/
 	public static function decode($str, $useArray=true)
 	{
+		if(function_exists('json_decode'))
+			return json_decode($data,$useArray);
+
 		$str = self::reduceString($str);
 
 		switch (strtolower($str)) {
