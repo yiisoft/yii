@@ -695,6 +695,7 @@ class CHtml
 	 * attributes are recognized. See {@link clientChange} and {@link tag} for more details.
 	 * In addition, the following options are also supported specifically for dropdown list:
 	 * <ul>
+	 * <li>encode: boolean, specifies whether to encode the values. Defaults to true. This option has been available since version 1.0.5.</li>
 	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty.</li>
 	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.
 	 * Starting from version 1.0.10, the 'empty' option can also be an array of value-label pairs.
@@ -740,6 +741,7 @@ class CHtml
 	 * attributes are also recognized. See {@link clientChange} and {@link tag} for more details.
 	 * In addition, the following options are also supported specifically for list box:
 	 * <ul>
+	 * <li>encode: boolean, specifies whether to encode the values. Defaults to true. This option has been available since version 1.0.5.</li>
 	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty.</li>
 	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.
 	 * Starting from version 1.0.10, the 'empty' option can also be an array of value-label pairs.
@@ -1331,6 +1333,7 @@ EOD;
 	 * attributes are recognized. See {@link clientChange} and {@link tag} for more details.
 	 * In addition, the following options are also supported:
 	 * <ul>
+	 * <li>encode: boolean, specifies whether to encode the values. Defaults to true. This option has been available since version 1.0.5.</li>
 	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty.</li>
 	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.
 	 * Starting from version 1.0.10, the 'empty' option can also be an array of value-label pairs.
@@ -1382,6 +1385,7 @@ EOD;
 	 * attributes are recognized. See {@link clientChange} and {@link tag} for more details.
 	 * In addition, the following options are also supported:
 	 * <ul>
+	 * <li>encode: boolean, specifies whether to encode the values. Defaults to true. This option has been available since version 1.0.5.</li>
 	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty.</li>
 	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.
 	 * Starting from version 1.0.10, the 'empty' option can also be an array of value-label pairs.

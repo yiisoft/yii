@@ -80,7 +80,7 @@ class CWidgetFactory extends CApplicationComponent implements IWidgetFactory
 {
 	/**
 	 * @var string the directory containing all the skin files. Defaults to null,
-	 * meaning using the "skin" directory under the current application's {@link CWebApplication::viewPath}.
+	 * meaning using the "skins" directory under the current application's {@link CWebApplication::viewPath}.
 	 */
 	public $skinPath;
 	/**
