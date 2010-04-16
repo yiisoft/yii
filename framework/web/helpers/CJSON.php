@@ -99,7 +99,7 @@ class CJSON
 	public static function encode($var)
 	{
 		if(function_exists('json_encode'))
-			return json_encode($data);
+			return json_encode($var);
 
 		switch (gettype($var)) {
 			case 'boolean':
