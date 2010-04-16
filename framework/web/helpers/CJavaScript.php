@@ -104,12 +104,7 @@ class CJavaScript
 	 */
 	public static function jsonEncode($data)
 	{
-		if(function_exists('json_encode'))
-			return json_encode($data);
-		else
-		{
-			return CJSON::encode($data);
-		}
+		return CJSON::encode($data);
 	}
 
 	/**
@@ -120,9 +115,6 @@ class CJavaScript
 	 */
 	public static function jsonDecode($data,$useArray=true)
 	{
-		if(function_exists('json_decode'))
-			return json_decode($data,$useArray);
-		else
-			return CJSON::decode($data,$useArray);
+		return CJSON::decode($data,$useArray);
 	}
 }
