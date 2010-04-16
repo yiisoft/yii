@@ -100,6 +100,7 @@ Version 1.1.1 March 14, 2010
 - Chg #949: The init() method will be invoked after an AR instance is created by the find methods (Qiang)
 - Chg #974: CComponent::evaluateExpression() no longer suppresses expression error (Qiang)
 - Chg #978: CActiveRecord::afterSave() will now be invoked only when the saving is successful (Qiang)
+- Chg #1125: Ability to use model metadata in behavior's attach() method (Sam Dark)
 - Chg: Upgraded jquery to version 1.4.2 (Qiang)
 - Chg: CMenu will render the 'active' CSS class in the container tag of the link (Qiang)
 - Chg: Set the default theme for JQuery UI widgets to be 'base' (Qiang)
