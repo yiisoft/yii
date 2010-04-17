@@ -331,7 +331,7 @@ class CJSON
 	public static function decode($str, $useArray=true)
 	{
 		if(function_exists('json_decode'))
-			return json_decode($data,$useArray);
+			return json_decode($str,$useArray);
 
 		$str = self::reduceString($str);
 
