@@ -13,6 +13,7 @@ Version 1.1.2 to be released
 - Bug #1048: CAutoComplete conflicts with jQueryUI 1.8.x (Sam Dark)
 - Bug #1115: Fixed the bug that using bigint with MySQL, PostgreSQL and SQL Server may lose precision (Qiang)
 - Bug #1121: typo in CActiveRecord::setPrimaryKey() (Qiang)
+- Bug #1136: Fixed wrong API call in CXCache::flush() (Qiang)
 - Bug: Removed the debugging line in CActiveFinder that caused many-many relational query to fail if FKs are not defined (Qiang)
 - Bug: Fixed the bug that doing performance profiling while turning on YII_TRACE_LEVEL would throw exception (Qiang)
 - Bug: user was redirected to AJAX URLs after logging in (Sam Dark)
