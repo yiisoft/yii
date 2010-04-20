@@ -750,6 +750,11 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(2,$posts[1]->id);
 	}
 
+	public function testResetScope(){
+		$posts=Post::model()->post23()->resetScope()->findAll();
+		$this->assertEquals(5,count($posts));		
+	}
+
 	public function testLazyLoadingWithConditions()
 	{
 		$user=User::model()->findByPk(2);

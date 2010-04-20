@@ -303,6 +303,20 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Resets all scopes and criterias applied including default scope.
+	 *
+	 * @return CActiveRecord
+	 * @since 1.1.2
+	 */
+	public function resetScope()
+	{
+		if($this->_c!==null)
+			$this->_c=new CDbCriteria();
+		
+		return $this;
+	}
+
+	/**
 	 * Returns the static model of the specified AR class.
 	 * The model returned is a static instance of the AR class.
 	 * It is provided for invoking class-level methods (something similar to static class methods.)
