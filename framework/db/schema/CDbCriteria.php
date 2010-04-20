@@ -19,7 +19,7 @@
 class CDbCriteria
 {
 	const PARAM_PREFIX=':ycp';
-	private $_paramCount=0;	
+	private static $_paramCount=0;
 
 	/**
 	 * @var mixed the columns being selected. This refers to the SELECT clause in an SQL
@@ -154,8 +154,8 @@ class CDbCriteria
 	{
 		if($escape)
 			$keyword='%'.strtr($keyword,array('%'=>'\%', '_'=>'\_')).'%';
-		$condition=$column." $like ".self::PARAM_PREFIX.$this->_paramCount;
-		$this->params[self::PARAM_PREFIX.$this->_paramCount++]=$keyword;
+		$condition=$column." $like ".self::PARAM_PREFIX.self::$_paramCount;
+		$this->params[self::PARAM_PREFIX.self::$_paramCount++]=$keyword;
 		return $this->addCondition($condition, $operator);
 	}
 
@@ -181,16 +181,16 @@ class CDbCriteria
 			$value=reset($values);
 			if($value===null)
 				return $this->addCondition($column.' IS NULL');
-			$condition=$column.'='.self::PARAM_PREFIX.$this->_paramCount;
-			$this->params[self::PARAM_PREFIX.$this->_paramCount++]=$value;
+			$condition=$column.'='.self::PARAM_PREFIX.self::$_paramCount;
+			$this->params[self::PARAM_PREFIX.self::$_paramCount++]=$value;
 		}
 		else
 		{
 			$params=array();
 			foreach($values as $value)
 			{
-				$params[]=self::PARAM_PREFIX.$this->_paramCount;
-				$this->params[self::PARAM_PREFIX.$this->_paramCount++]=$value;
+				$params[]=self::PARAM_PREFIX.self::$_paramCount;
+				$this->params[self::PARAM_PREFIX.self::$_paramCount++]=$value;
 			}
 			$condition=$column.' IN ('.implode(', ',$params).')';
 		}
@@ -219,16 +219,16 @@ class CDbCriteria
 			$value=reset($values);
 			if($value===null)
 				return $this->addCondition($column.' IS NOT NULL');
-			$condition=$column.'!='.self::PARAM_PREFIX.$this->_paramCount;
-			$this->params[self::PARAM_PREFIX.$this->_paramCount++]=$value;
+			$condition=$column.'!='.self::PARAM_PREFIX.self::$_paramCount;
+			$this->params[self::PARAM_PREFIX.self::$_paramCount++]=$value;
 		}
 		else
 		{
 			$params=array();
 			foreach($values as $value)
 			{
-				$params[]=self::PARAM_PREFIX.$this->_paramCount;
-				$this->params[self::PARAM_PREFIX.$this->_paramCount++]=$value;
+				$params[]=self::PARAM_PREFIX.self::$_paramCount;
+				$this->params[self::PARAM_PREFIX.self::$_paramCount++]=$value;
 			}
 			$condition=$column.' NOT IN ('.implode(', ',$params).')';
 		}
@@ -256,8 +256,8 @@ class CDbCriteria
 				$params[]=$name.' IS NULL';
 			else
 			{
-				$params[]=$name.'='.self::PARAM_PREFIX.$this->_paramCount;
-				$this->params[self::PARAM_PREFIX.$this->_paramCount++]=$value;
+				$params[]=$name.'='.self::PARAM_PREFIX.self::$_paramCount;
+				$this->params[self::PARAM_PREFIX.self::$_paramCount++]=$value;
 			}
 		}
 		return $this->addCondition(implode(" $columnOperator ",$params), $operator);
@@ -331,8 +331,8 @@ class CDbCriteria
 		else if($op==='')
 			$op='=';
 
-		$this->addCondition("$column{$op}".self::PARAM_PREFIX.$this->_paramCount,$operator);
-		$this->params[self::PARAM_PREFIX.$this->_paramCount++]=$value;
+		$this->addCondition("$column{$op}".self::PARAM_PREFIX.self::$_paramCount,$operator);
+		$this->params[self::PARAM_PREFIX.self::$_paramCount++]=$value;
 
 		return $this;
 	}
@@ -366,41 +366,16 @@ class CDbCriteria
 			}
 		}
 
-		$params = array();
-		if($this->params!==$criteria->params)
+		if($this->condition!==$criteria->condition)
 		{
-			foreach($criteria->params as $key=>$value)
-			{
-				if(preg_match('~^:ycp~', $key))
-				{
-					$this->params[self::PARAM_PREFIX.$this->_paramCount]=$value;
-					$params[$key] = self::PARAM_PREFIX.$this->_paramCount++;
-				}
-				else
-				{
-					// non-Yii params are passed as is
-					$this->params[$key] = $value;
-				}
-			}
-		}
-
-		if($this->condition!==$criteria->condition || !empty($params))
-		{
-			$newCriteriaCondition = $criteria->condition;
-			
-			// Replacing existing named placeholders
-			foreach($params as $find => $replace)
-				$newCriteriaCondition = preg_replace('~(^|[- ()=<>!+*/%&^|\~])'.$find.'($|[- ()=<>!+*/%&^|\~])~', '$1'.$replace.'$2', $newCriteriaCondition);
-
-
 			if($this->condition==='')
-				$newCondition=$newCriteriaCondition;
+				$this->condition=$criteria->condition;
 			else if($criteria->condition!=='')
-				$newCondition="({$this->condition}) $and ({$newCriteriaCondition})";
-
-			if(!empty($newCondition))
-				$this->condition = $newCondition;
+				$this->condition="({$this->condition}) $and ({$criteria->condition})";
 		}
+
+		if($this->params!==$criteria->params)
+			$this->params=array_merge($this->params,$criteria->params);
 
 		if($criteria->limit>0)
 			$this->limit=$criteria->limit;

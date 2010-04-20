@@ -3,6 +3,8 @@
  * CDbCriteriaTest
  */
 class CDbCriteriaTest extends CTestCase {
+	protected $backupStaticAttributes = true;
+
 	/**
 	 * @covers CDbCriteria::addCondition
 	 */
@@ -60,10 +62,10 @@ class CDbCriteriaTest extends CTestCase {
 		$criteria = new CDbCriteria();
 
 		$criteria->addInCondition('B', array(1, 2, '3'));
-		$this->assertEquals('B IN (:ycp0, :ycp1, :ycp2)', $criteria->condition);
-		$this->assertEquals(1, $criteria->params[':ycp0']);
-		$this->assertEquals(2, $criteria->params[':ycp1']);
-		$this->assertEquals('3', $criteria->params[':ycp2']);
+		$this->assertEquals('B IN (:ycp1, :ycp2, :ycp3)', $criteria->condition);
+		$this->assertEquals(1, $criteria->params[':ycp1']);
+		$this->assertEquals(2, $criteria->params[':ycp2']);
+		$this->assertEquals('3', $criteria->params[':ycp3']);
 	}
 
 	/**
@@ -96,10 +98,10 @@ class CDbCriteriaTest extends CTestCase {
 		$criteria = new CDbCriteria();
 
 		$criteria->addNotInCondition('B', array(1, 2, '3'));
-		$this->assertEquals('B NOT IN (:ycp0, :ycp1, :ycp2)', $criteria->condition);
-		$this->assertEquals(1, $criteria->params[':ycp0']);
-		$this->assertEquals(2, $criteria->params[':ycp1']);
-		$this->assertEquals('3', $criteria->params[':ycp2']);
+		$this->assertEquals('B NOT IN (:ycp1, :ycp2, :ycp3)', $criteria->condition);
+		$this->assertEquals(1, $criteria->params[':ycp1']);
+		$this->assertEquals(2, $criteria->params[':ycp2']);
+		$this->assertEquals('3', $criteria->params[':ycp3']);
 	}
 
 	/**
@@ -118,8 +120,8 @@ class CDbCriteriaTest extends CTestCase {
 		$criteria = new CDbCriteria();
 		$criteria->addSearchCondition('A', 'key_word%', false);
 
-		$this->assertEquals('A LIKE :ycp0', $criteria->condition);
-		$this->assertEquals('key_word%', $criteria->params[':ycp0']);
+		$this->assertEquals('A LIKE :ycp1', $criteria->condition);
+		$this->assertEquals('key_word%', $criteria->params[':ycp1']);
 	}
 
 	/**
@@ -151,48 +153,48 @@ class CDbCriteriaTest extends CTestCase {
 
 		$criteria = new CDbCriteria();
 		$criteria->compare('A', '>1');
-		$this->assertEquals('A>:ycp0', $criteria->condition);
-		$this->assertEquals(1, $criteria->params[':ycp0']);
+		$this->assertEquals('A>:ycp1', $criteria->condition);
+		$this->assertEquals(1, $criteria->params[':ycp1']);
 
 		$criteria = new CDbCriteria();
 		$criteria->compare('A', '<1');
-		$this->assertEquals('A<:ycp0', $criteria->condition);
-		$this->assertEquals(1, $criteria->params[':ycp0']);
+		$this->assertEquals('A<:ycp2', $criteria->condition);
+		$this->assertEquals(1, $criteria->params[':ycp2']);
 
 		$criteria = new CDbCriteria();
 		$criteria->compare('A', '<=1');
-		$this->assertEquals('A<=:ycp0', $criteria->condition);
-		$this->assertEquals(1, $criteria->params[':ycp0']);
+		$this->assertEquals('A<=:ycp3', $criteria->condition);
+		$this->assertEquals(1, $criteria->params[':ycp3']);
 
 		$criteria = new CDbCriteria();
 		$criteria->compare('A', '>=1');
-		$this->assertEquals('A>=:ycp0', $criteria->condition);
-		$this->assertEquals(1, $criteria->params[':ycp0']);
+		$this->assertEquals('A>=:ycp4', $criteria->condition);
+		$this->assertEquals(1, $criteria->params[':ycp4']);
 
 		$criteria = new CDbCriteria();
 		$criteria->compare('A', '<>1');
-		$this->assertEquals('A<>:ycp0', $criteria->condition);
-		$this->assertEquals(1, $criteria->params[':ycp0']);
+		$this->assertEquals('A<>:ycp5', $criteria->condition);
+		$this->assertEquals(1, $criteria->params[':ycp5']);
 
 		$criteria = new CDbCriteria();
 		$criteria->compare('A', '=1');
-		$this->assertEquals('A=:ycp0', $criteria->condition);
-		$this->assertEquals(1, $criteria->params[':ycp0']);
+		$this->assertEquals('A=:ycp6', $criteria->condition);
+		$this->assertEquals(1, $criteria->params[':ycp6']);
 
 		$criteria = new CDbCriteria();
 		$criteria->compare('A', '1', true);
-		$this->assertEquals('A LIKE :ycp0', $criteria->condition);
-		$this->assertEquals('%1%', $criteria->params[':ycp0']);
+		$this->assertEquals('A LIKE :ycp7', $criteria->condition);
+		$this->assertEquals('%1%', $criteria->params[':ycp7']);
 		
 		$criteria = new CDbCriteria();
 		$criteria->compare('A', '=1', true);
-		$this->assertEquals('A=:ycp0', $criteria->condition);
-		$this->assertEquals('1', $criteria->params[':ycp0']);
+		$this->assertEquals('A=:ycp8', $criteria->condition);
+		$this->assertEquals('1', $criteria->params[':ycp8']);
 
 		$criteria = new CDbCriteria();
 		$criteria->compare('A', '<>1', true);
-		$this->assertEquals('A NOT LIKE :ycp0', $criteria->condition);
-		$this->assertEquals('%1%', $criteria->params[':ycp0']);
+		$this->assertEquals('A NOT LIKE :ycp9', $criteria->condition);
+		$this->assertEquals('%1%', $criteria->params[':ycp9']);
 	}
 
 	/**
@@ -444,10 +446,10 @@ class CDbCriteriaTest extends CTestCase {
 
 		$criteria1->mergeWith($criteria2);
 
-		$this->assertEquals('(A=? AND B=?) AND ((C=:ycp0) AND (D=:ycp1))', $criteria1->condition);
+		$this->assertEquals('(A=? AND B=?) AND ((C=:ycp2) AND (D=:ycp3))', $criteria1->condition);
 		$this->assertEquals(10, $criteria1->params[0]);
 		$this->assertEquals(20, $criteria1->params[1]);
-		$this->assertEquals(30, $criteria1->params[':ycp0']);
-		$this->assertEquals(40, $criteria1->params[':ycp1']);
+		$this->assertEquals(30, $criteria1->params[':ycp2']);
+		$this->assertEquals(40, $criteria1->params[':ycp3']);
 	}
 }
