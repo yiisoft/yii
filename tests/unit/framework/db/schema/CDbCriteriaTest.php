@@ -452,4 +452,16 @@ class CDbCriteriaTest extends CTestCase {
 		$this->assertEquals(30, $criteria1->params[':ycp2']);
 		$this->assertEquals(40, $criteria1->params[':ycp3']);
 	}
+
+	/**
+	 * @covers CDbCriteria::addBetweenCondition
+	 */
+	function testAddBetweenCondition(){
+		$criteria = new CDbCriteria();
+
+		$criteria->addBetweenCondition('A', 1, 2);
+		$this->assertEquals('A BETWEEN :ycp0 AND :ycp1', $criteria->condition);
+		$this->assertEquals(1, $criteria->params[':ycp0']);
+		$this->assertEquals(2, $criteria->params[':ycp1']);
+	}
 }

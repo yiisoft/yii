@@ -338,6 +338,40 @@ class CDbCriteria
 	}
 
 	/**
+	 * Adds a between condition to the {@link condition} property.
+	 * 
+	 * The new between condition and the existing condition will be concatenated via
+	 * the specified operator which defaults to 'AND'.
+	 * If one or both values are empty then the condition is not added to the existing condition.
+	 * This method handles the case when the existing condition is empty.
+	 * After calling this method, the {@link condition} property will be modified.
+	 * @param string the name of the column to search between.
+	 * @param string the beginning value to start the between search.
+	 * @param string the ending value to end the between search.
+	 * @param string the operator used to concatenate the new condition with the existing one.
+	 * Defaults to 'AND'.
+	 * @return CDbCriteria the criteria object itself
+	 * @since 1.1.2
+	 */
+	public function addBetweenCondition($column,$valueStart,$valueEnd,$operator='AND')
+	{
+		if($valueStart==='' || $valueEnd==='')
+			return $this;
+
+		$paramStart=self::PARAM_PREFIX.self::$_paramCount++;
+		$paramEnd=self::PARAM_PREFIX.self::$_paramCount++;
+		$this->params[$paramStart]=$valueStart;
+		$this->params[$paramEnd]=$valueEnd;
+		$condition="$column BETWEEN $paramStart AND $paramEnd";
+
+		if($this->condition==='')
+			$this->condition=$condition;
+		else
+			$this->condition='('.$this->condition.') '.$operator.' ('.$condition.')';
+		return $this;
+	}
+
+	/**
 	 * Merges with another criteria.
 	 * In general, the merging makes the resulting criteria more restrictive.
 	 * For example, if both criterias have conditions, they will be 'AND' together.
