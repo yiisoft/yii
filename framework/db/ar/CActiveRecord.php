@@ -326,7 +326,7 @@ abstract class CActiveRecord extends CModel
 		{
 			$model=self::$_models[$className]=new $className(null);
 			$model->_md=new CActiveRecordMetaData($model);
-			$model->attachBehaviors($model->behaviors());			
+			$model->attachBehaviors($model->behaviors());
 			return $model;
 		}
 	}
@@ -396,9 +396,10 @@ abstract class CActiveRecord extends CModel
 	 * <li>MANY_MANY: e.g. a member has many skills and a skill belongs to a member.</li>
 	 * </ul>
 	 *
-	 * By declaring these relations, CActiveRecord can bring back related objects
-	 * in either lazy loading or eager loading approach, and you save the effort of
-	 * writing complex JOIN SQL statements.
+	 * Besides the above relation types, a special relation called STAT is also supported
+	 * that can be used to perform statistical query (or aggregational query).
+	 * It retrieves the aggregational information about the related objects, such as the number
+	 * of comments for each post, the average rating for each product, etc.
 	 *
 	 * Each kind of related objects is defined in this method as an array with the following elements:
 	 * <pre>
