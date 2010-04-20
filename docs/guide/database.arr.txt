@@ -16,7 +16,7 @@ section.
 ![ER Diagram](er.png)
 
 > Info: Support for foreign key constraints varies in different DBMS.
-> SQLite does not support foreign key constraints, but you can still
+> SQLite < 3.6.19 does not support foreign key constraints, but you can still
 > declare the constraints when creating tables.
 
 
