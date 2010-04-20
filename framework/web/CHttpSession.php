@@ -413,6 +413,20 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * Returns the session variable value with the session variable name.
+	 * This method is very similar to {@link itemAt} and {@link offsetGet},
+	 * except that it will return $defaultValue if the session variable does not exist.
+	 * @param mixed the session variable name
+	 * @param mixed the default value to be returned when the session variable does not exist.
+	 * @return mixed the session variable value, or $defaultValue if the session variable does not exist.
+	 * @since 1.1.2
+	 */
+	public function get($key,$defaultValue=null)
+	{
+		return isset($_SESSION[$key]) ? $_SESSION[$key] : $defaultValue;
+	}
+
+	/**
+	 * Returns the session variable value with the session variable name.
 	 * This method is exactly the same as {@link offsetGet}.
 	 * @param mixed the session variable name
 	 * @return mixed the session variable value, null if no such variable exists
