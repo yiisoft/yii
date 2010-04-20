@@ -36,6 +36,7 @@ Version 1.1.2 to be released
 - Enh: Enhanced CActiveForm to make it more robust in case some code error occurs when performing ajax validation (Qiang)
 - Chg #1118: CActiveRecord::refresh() now updates the record by directly updating the attributes array (Qiang)
 - New #1005: added CWinCache (Sam Dark)
+- New: Added Ukrainian translations (Valeriy)
 
 Version 1.1.1 March 14, 2010
 ----------------------------
