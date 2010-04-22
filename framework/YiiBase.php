@@ -472,7 +472,7 @@ class YiiBase
 		if(self::$_app!==null)
 		{
 			if($source===null)
-				$source=$category==='yii'?'coreMessages':'messages';
+				$source=($category==='yii'||$category==='zii')?'coreMessages':'messages';
 			if(($source=self::$_app->getComponent($source))!==null)
 				$message=$source->translate($category,$message,$language);
 		}
