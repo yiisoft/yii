@@ -455,13 +455,13 @@ class Post extends CActiveRecord
 	{
 		return array(
 			'commentCount'=>array(self::STAT, 'Comment', 'post_id'),
-			'categoryCount'=>array(self::STAT, 'Category', 'PostCategory(post_id, category_id)'),
+			'categoryCount'=>array(self::STAT, 'Category', 'post_category(post_id, category_id)'),
 		);
 	}
 }
 ~~~
 
-In the above, we declare two statistical queries: `commentCount` calculates the number of comments belonging to a post, and `categoryCount` calculates the number of categories that a post belongs to. Note that the relationship between `Post` and `Comment` is `HAS_MANY`, while the relationship between `Post` and `Category` is `MANY_MANY` (with the joining table `PostCategory`). As we can see, the declaration is very similar to those relations we described in earlier subsections. The only difference is that the relation type is `STAT` here.
+In the above, we declare two statistical queries: `commentCount` calculates the number of comments belonging to a post, and `categoryCount` calculates the number of categories that a post belongs to. Note that the relationship between `Post` and `Comment` is `HAS_MANY`, while the relationship between `Post` and `Category` is `MANY_MANY` (with the joining table `post_category`). As we can see, the declaration is very similar to those relations we described in earlier subsections. The only difference is that the relation type is `STAT` here.
 
 
 With the above declaration, we can retrieve the number of comments for a post using the expression `$post->commentCount`. When we access this property for the first time, a SQL statement will be executed implicitly to retrieve the corresponding result. As we already know, this is the so-called *lazy loading* approach. We can also use the *eager loading* approach if we need to determine the comment count for multiple posts:
