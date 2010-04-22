@@ -23,7 +23,7 @@ class <?php echo $className; ?> extends CActiveRecord
 
 	/**
 	 * Returns the static model of the specified AR class.
-	 * @return CActiveRecord the static model class
+	 * @return <?php echo $className; ?> the static model class
 	 */
 	public static function model($className=__CLASS__)
 	{
