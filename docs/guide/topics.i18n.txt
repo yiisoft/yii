@@ -97,7 +97,7 @@ example, the following message translation request would replace the
 
 ~~~
 [php]
-Yii::t('yii', 'Path alias "{alias}" is redefined.',
+Yii::t('app', 'Path alias "{alias}" is redefined.',
 	array('{alias}'=>$alias))
 ~~~
 
