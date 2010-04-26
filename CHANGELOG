@@ -43,6 +43,7 @@ Version 1.1.2 to be released
 - Enh: Enhanced CActiveForm to make it more robust in case some code error occurs when performing ajax validation (Qiang)
 - Chg #1118: CActiveRecord::refresh() now updates the record by directly updating the attributes array (Qiang)
 - Chg #1125: Ability to use model metadata in behavior's attach() method (Sam Dark)
+- Chg #1163: CLinkPager will enable first and last page buttons unless the current page is first or last. (Qiang)
 - New #1005: added CWinCache (Sam Dark)
 - New: Added Ukrainian translations (Valeriy)
 
