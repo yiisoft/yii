@@ -671,8 +671,7 @@ class CUrlRule extends CComponent
 		{
 			$urlSuffix=$this->urlSuffix===null ? $manager->urlSuffix : $this->urlSuffix;
 			if($urlSuffix!='' && $urlSuffix!=='/')
-				throw new CHttpException(404,Yii::t('yii','Unable to resolve the request "{route}".',
-					array('{route}'=>$rawPathInfo)));
+				return false;
 		}
 
 		if($this->hasHostInfo)

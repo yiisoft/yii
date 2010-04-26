@@ -44,6 +44,7 @@ Version 1.1.2 to be released
 - Chg #1118: CActiveRecord::refresh() now updates the record by directly updating the attributes array (Qiang)
 - Chg #1125: Ability to use model metadata in behavior's attach() method (Sam Dark)
 - Chg #1163: CLinkPager will enable first and last page buttons unless the current page is first or last. (Qiang)
+- Chg #1164: CUrlRule will not throw 404 exception when unable to parse a URL under strict parsing mode (Qiang)
 - New #1005: added CWinCache (Sam Dark)
 - New: Added Ukrainian translations (Valeriy)
 
