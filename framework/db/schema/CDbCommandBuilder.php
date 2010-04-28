@@ -101,7 +101,23 @@ class CDbCommandBuilder extends CComponent
 		if($criteria->alias!='')
 			$alias=$criteria->alias;
 		$alias=$this->_schema->quoteTableName($alias);
-		$sql=($criteria->distinct ? 'SELECT DISTINCT':'SELECT')." COUNT(*) FROM {$table->rawName} $alias";
+		if($criteria->distinct)
+		{
+			$sql=($criteria->distinct ? 'SELECT DISTINCT':'SELECT')." COUNT(*) FROM {$table->rawName} $alias";
+			if(is_array($table->primaryKey))
+			{
+				$pk=array();
+				foreach($table->primaryKey as $key)
+					$pk[]=$alias.'.'.$key;
+				$pk=implode(', ',$pk);
+			}
+			else
+				$pk=$alias.'.'.$table->primaryKey;
+			$sql="SELECT COUNT(DISTINCT $pk)";
+		}
+		else
+			$sql="SELECT COUNT(*)";
+		$sql.=" FROM {$table->rawName} $alias";
 		$sql=$this->applyJoin($sql,$criteria->join);
 		$sql=$this->applyCondition($sql,$criteria->condition);
 		$command=$this->_connection->createCommand($sql);

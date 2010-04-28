@@ -20,6 +20,7 @@ Version 1.1.2 to be released
 - Bug: user was redirected to AJAX URLs after logging in (Sam Dark)
 - Bug: RBAC rules with bizRule and caching enabled worked wrong (Sam Dark)
 - Bug: CSort may cause exception if an invalid column is to be sorted (Qiang)
+- Bug: AR count() does not generate correct SQL when distinct is set true in the criteria (Qiang)
 - Enh #943: dynamic AR relations (Sam Dark)
 - Enh #946: Added a new parameter to CBaseController::widget() method to allow capturing the output of the widget (Qiang)
 - Enh #977: Added CModel::getValidatorList() to allow adding/removing validation rules on the fly (Sam Dark, creocoder)
