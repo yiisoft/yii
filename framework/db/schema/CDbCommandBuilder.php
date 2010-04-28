@@ -103,7 +103,6 @@ class CDbCommandBuilder extends CComponent
 		$alias=$this->_schema->quoteTableName($alias);
 		if($criteria->distinct)
 		{
-			$sql=($criteria->distinct ? 'SELECT DISTINCT':'SELECT')." COUNT(*) FROM {$table->rawName} $alias";
 			if(is_array($table->primaryKey))
 			{
 				$pk=array();
