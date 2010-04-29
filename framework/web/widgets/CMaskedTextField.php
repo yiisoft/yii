@@ -26,9 +26,10 @@ class CMaskedTextField extends CInputWidget
 	/**
 	 * @var string the input mask (e.g. '99/99/9999' for date input). The following characters are predefined:
 	 * <ul>
-	 * <li>a: represents an alpha character (A-Z,a-z)</li>
-	 * <li>9: represents a numeric character (0-9)</li>
+	 * <li>a: represents an alpha character (A-Z,a-z).</li>
+	 * <li>9: represents a numeric character (0-9).</li>
 	 * <li>*: represents an alphanumeric character (A-Z,a-z,0-9).</li>
+	 * <li>?: anything listed after '?' within the mask is considered optional user input.</li>
 	 * </ul>
 	 * Additional characters can be defined by specifying the {@link charMap} property.
 	 */
