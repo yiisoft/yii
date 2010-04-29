@@ -1,34 +1,13 @@
 /// <reference path="../../../lib/jquery-1.2.6.js" />
 /*
-* Copyright (c) 2007-2008 Josh Bush (digitalbush.com)
-*
-* Permission is hereby granted, free of charge, to any person
-* obtaining a copy of this software and associated documentation
-* files (the "Software"), to deal in the Software without
-* restriction, including without limitation the rights to use,
-* copy, modify, merge, publish, distribute, sublicense, and/or sell
-* copies of the Software, and to permit persons to whom the
-* Software is furnished to do so, subject to the following
-* conditions:
-* The above copyright notice and this permission notice shall be
-* included in all copies or substantial portions of the Software.
-*
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-* OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-* NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-* HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-* WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-* FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
-* OTHER DEALINGS IN THE SOFTWARE.
-*/
-
-/*
-* Version: 1.2.0
-* Release: 2008-12-07
+	Masked Input plugin for jQuery
+	Copyright (c) 2007-2009 Josh Bush (digitalbush.com)
+	Licensed under the MIT license (http://digitalbush.com/projects/masked-input-plugin/#license)
+	Version: 1.2.2 (03/09/2009 22:39:06)
 */
 (function($) {
-	var pasteEventName = ($.browser.msie ? 'paste' : 'input')+".mask";
+	var pasteEventName = ($.browser.msie ? 'paste' : 'input') + ".mask";
+	var iPhone = (window.orientation != undefined);
 
 	$.mask = {
 		//Predefined character definitions
@@ -36,9 +15,6 @@
 			'9': "[0-9]",
 			'a': "[A-Za-z]",
 			'*': "[A-Za-z0-9]"
-		},
-		addPlaceholder: function(c, r) {//Deprecated, this is going away in a future release.
-			$.mask.definitions[c] = r;
 		}
 	};
 
@@ -76,46 +52,76 @@
 		mask: function(mask, settings) {
 			if (!mask && this.length > 0) {
 				var input = $(this[0]);
-				var locked = input.data("locked");
+				var tests = input.data("tests");
 				return $.map(input.data("buffer"), function(c, i) {
-					return locked[i] ? null : c;
+					return tests[i] ? c : null;
 				}).join('');
 			}
 			settings = $.extend({
 				placeholder: "_",
-				allowPartial: false,
 				completed: null
 			}, settings);
 
-			//Build Regex for format validation
-			var re = new RegExp("^" +
-			$.map(mask.split(""), function(c, i) {
-				return $.mask.definitions[c] || ((/[A-Za-z0-9]/.test(c) ? "" : "\\") + c);
-			}).join('') +
-			"$");
+			var defs = $.mask.definitions;
+			var tests = [];
+			var partialPosition = mask.length;
+			var firstNonMaskPos = null;
+			var len = mask.length;
+
+			$.each(mask.split(""), function(i, c) {
+				if (c == '?') {
+					len--;
+					partialPosition = i;
+				} else if (defs[c]) {
+					tests.push(new RegExp(defs[c]));
+					if(firstNonMaskPos==null)
+						firstNonMaskPos =  tests.length - 1;
+				} else {
+					tests.push(null);
+				}
+			});
 
 			return this.each(function() {
 				var input = $(this);
-				var buffer = new Array(mask.length);
-				var locked = new Array(mask.length);
+				var buffer = $.map(mask.split(""), function(c, i) { if (c != '?') return defs[c] ? settings.placeholder : c });
 				var ignore = false;  			//Variable for ignoring control keys
-				var firstNonMaskPos = null;
+				var focusText = input.val();
 
-				//Build buffer layout from mask & determine the first non masked character
-				$.each(mask.split(""), function(i, c) {
-					locked[i] = ($.mask.definitions[c] == null);
-					buffer[i] = locked[i] ? c : settings.placeholder;
-					if (!locked[i] && firstNonMaskPos == null)
-						firstNonMaskPos = i;
-				});
-				input.data("buffer", buffer).data("locked", locked);
+				input.data("buffer", buffer).data("tests", tests);
 
-				function focusEvent() {
-					var pos = checkVal();
+				function seekNext(pos) {
+					while (++pos <= len && !tests[pos]);
+					return pos;
+				};
+
+				function shiftL(pos) {
+					while (!tests[pos] && --pos >= 0);
+					for (var i = pos; i < len; i++) {
+						if (tests[i]) {
+							buffer[i] = settings.placeholder;
+							var j = seekNext(i);
+							if (j < len && tests[i].test(buffer[j])) {
+								buffer[i] = buffer[j];
+							} else
+								break;
+						}
+					}
 					writeBuffer();
-					setTimeout(function() {
-						input.caret(pos);
-					}, 0);
+					input.caret(Math.max(firstNonMaskPos, pos));
+				};
+
+				function shiftR(pos) {
+					for (var i = pos, c = settings.placeholder; i < len; i++) {
+						if (tests[i]) {
+							var j = seekNext(i);
+							var t = buffer[i];
+							buffer[i] = c;
+							if (j < len && tests[j].test(t))
+								c = t;
+							else
+								break;
+						}
+					}
 				};
 
 				function keydownEvent(e) {
@@ -124,28 +130,16 @@
 					ignore = (k < 16 || (k > 16 && k < 32) || (k > 32 && k < 41));
 
 					//delete selection before proceeding
-					if ((pos.begin - pos.end) != 0 && (!ignore || k == 8 || k == 46)) {
+					if ((pos.begin - pos.end) != 0 && (!ignore || k == 8 || k == 46))
 						clearBuffer(pos.begin, pos.end);
-					}
-					//backspace and delete get special treatment
-					if (k == 8) {//backspace
-						while (pos.begin-- >= 0) {
-							if (!locked[pos.begin]) {
-								buffer[pos.begin] = settings.placeholder;
-								writeBuffer();
-								$(this).caret(Math.max(firstNonMaskPos, pos.begin));
-								return false;
-							}
-						}
-					} else if (k == 46) {//delete
-						clearBuffer(pos.begin, pos.begin + 1);
-						writeBuffer();
-						$(this).caret(Math.max(firstNonMaskPos, pos.begin));
+
+					//backspace, delete, and escape get special treatment
+					if (k == 8 || k == 46 || (iPhone && k == 127)) {//backspace/delete
+						shiftL(pos.begin + (k == 46 ? 0 : -1));
 						return false;
 					} else if (k == 27) {//escape
-						clearBuffer(0, mask.length);
-						writeBuffer();
-						$(this).caret(firstNonMaskPos);
+						input.val(focusText);
+						input.caret(0, checkVal());
 						return false;
 					}
 				};
@@ -160,18 +154,19 @@
 					var k = e.charCode || e.keyCode || e.which;
 					var pos = $(this).caret();
 
-					if (e.ctrlKey || e.altKey) {//Ignore
+					if (e.ctrlKey || e.altKey || e.metaKey) {//Ignore
 						return true;
-					} else if ((k >= 41 && k <= 122) || k == 32 || k > 186) {//typeable characters
+					} else if ((k >= 32 && k <= 125) || k > 186) {//typeable characters
 						var p = seekNext(pos.begin - 1);
-						if (p < mask.length) {
+						if (p < len) {
 							var c = String.fromCharCode(k);
-							if (new RegExp($.mask.definitions[mask.charAt(p)]).test(c)) {
+							if (tests[p].test(c)) {
+								shiftR(p);
 								buffer[p] = c;
 								writeBuffer();
 								var next = seekNext(p);
 								$(this).caret(next);
-								if (settings.completed && next == mask.length)
+								if (settings.completed && next == len)
 									settings.completed.call(input);
 							}
 						}
@@ -180,60 +175,75 @@
 				};
 
 				function clearBuffer(start, end) {
-					for (var i = start; i < end && i < mask.length; i++) {
-						if (!locked[i])
+					for (var i = start; i < end && i < len; i++) {
+						if (tests[i])
 							buffer[i] = settings.placeholder;
 					}
 				};
 
 				function writeBuffer() { return input.val(buffer.join('')).val(); };
 
-				function checkVal() {
+				function checkVal(allow) {
 					//try to place characters where they belong
 					var test = input.val();
-					var pos = firstNonMaskPos;
-					for (var i = 0; i < mask.length; i++) {
-						if (!locked[i]) {
+					var lastMatch = -1;
+					for (var i = 0, pos = 0; i < len; i++) {
+						if (tests[i]) {
 							buffer[i] = settings.placeholder;
 							while (pos++ < test.length) {
-								var reChar = new RegExp($.mask.definitions[mask.charAt(i)]);
-								if (test.charAt(pos - 1).match(reChar)) {
-									buffer[i] = test.charAt(pos - 1);
+								var c = test.charAt(pos - 1);
+								if (tests[i].test(c)) {
+									buffer[i] = c;
+									lastMatch = i;
 									break;
 								}
 							}
 							if (pos > test.length)
 								break;
+						} else if (buffer[i] == test[pos] && i!=partialPosition) {
+							pos++;
+							lastMatch = i;
 						}
 					}
-					valid = writeBuffer().match(re);
-					if (!valid && !settings.allowPartial) {
+					if (!allow && lastMatch + 1 < partialPosition) {
 						input.val("");
-						clearBuffer(0, mask.length);
+						clearBuffer(0, len);
+					} else if (allow || lastMatch + 1 >= partialPosition) {
+						writeBuffer();
+						if (!allow) input.val(input.val().substring(0, lastMatch + 1));
 					}
-					return valid ? mask.length : (settings.allowPartial ? i : firstNonMaskPos);
+					return (partialPosition ? i : firstNonMaskPos);
 				};
 
-				function seekNext(pos) {
-					while (++pos < mask.length) {
-						if (!locked[pos])
-							return pos;
-					}
-					return mask.length;
-				};
-
-				input
+				if (!input.attr("readonly"))
+					input
 					.one("unmask", function() {
 						input
 							.unbind(".mask")
 							.removeData("buffer")
-							.removeData("locked");
+							.removeData("tests");
 					})
-					.bind("focus.mask", focusEvent)
-					.bind("blur.mask", checkVal)
+					.bind("focus.mask", function() {
+						focusText = input.val();
+						var pos = checkVal();
+						writeBuffer();
+						setTimeout(function() {
+							if (pos == mask.length)
+								input.caret(0, pos);
+							else
+								input.caret(pos);
+						}, 0);
+					})
+					.bind("blur.mask", function() {
+						checkVal();
+						if (input.val() != focusText)
+							input.change();
+					})
 					.bind("keydown.mask", keydownEvent)
 					.bind("keypress.mask", keypressEvent)
-					.bind(pasteEventName, function() { setTimeout(checkVal, 0); });
+					.bind(pasteEventName, function() {
+						setTimeout(function() { input.caret(checkVal(true)); }, 0);
+					});
 
 				checkVal(); //Perform initial check for existing values
 			});
