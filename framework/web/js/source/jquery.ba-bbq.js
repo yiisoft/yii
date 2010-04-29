@@ -1,5 +1,5 @@
 /*!
- * jQuery BBQ: Back Button & Query Library - v1.1.1 - 1/22/2010
+ * jQuery BBQ: Back Button & Query Library - v1.2.1 - 2/17/2010
  * http://benalman.com/projects/jquery-bbq-plugin/
  *
  * Copyright (c) 2010 "Cowboy" Ben Alman
@@ -9,12 +9,12 @@
 
 // Script: jQuery BBQ: Back Button & Query Library
 //
-// *Version: 1.1.1, Last updated: 1/22/2010*
+// *Version: 1.2.1, Last updated: 2/17/2010*
 //
 // Project Home - http://benalman.com/projects/jquery-bbq-plugin/
 // GitHub       - http://github.com/cowboy/jquery-bbq/
 // Source       - http://github.com/cowboy/jquery-bbq/raw/master/jquery.ba-bbq.js
-// (Minified)   - http://github.com/cowboy/jquery-bbq/raw/master/jquery.ba-bbq.min.js (3.7kb)
+// (Minified)   - http://github.com/cowboy/jquery-bbq/raw/master/jquery.ba-bbq.min.js (4.0kb)
 //
 // About: License
 //
@@ -38,25 +38,35 @@
 // tested with, what browsers it has been tested in, and where the unit tests
 // reside (so you can test it yourself).
 //
-// jQuery Versions - 1.3.2, 1.4.1
-// Browsers Tested - Internet Explorer 6-8, Firefox 2-3.7, Safari 3-4, Chrome, Opera 9.6-10.1.
+// jQuery Versions - 1.3.2, 1.4.1, 1.4.2
+// Browsers Tested - Internet Explorer 6-8, Firefox 2-3.7, Safari 3-4,
+//                   Chrome 4-5, Opera 9.6-10.1.
 // Unit Tests      - http://benalman.com/code/projects/jquery-bbq/unit/
 //
 // About: Release History
 //
+// 1.2.1 - (2/17/2010) Actually fixed the stale window.location Safari bug from
+//         <jQuery hashchange event> in BBQ, which was the main reason for the
+//         previous release!
+// 1.2   - (2/16/2010) Integrated <jQuery hashchange event> v1.2, which fixes a
+//         Safari bug, the event can now be bound before DOM ready, and IE6/7
+//         page should no longer scroll when the event is first bound. Also
+//         added the <jQuery.param.fragment.noEscape> method, and reworked the
+//         <hashchange event (BBQ)> internal "add" method to be compatible with
+//         changes made to the jQuery 1.4.2 special events API.
 // 1.1.1 - (1/22/2010) Integrated <jQuery hashchange event> v1.1, which fixes an
 //         obscure IE8 EmulateIE7 meta tag compatibility mode bug.
-// 1.1   - (1/9/2010) Broke out the jQuery BBQ event.special window.onhashchange
+// 1.1   - (1/9/2010) Broke out the jQuery BBQ event.special <hashchange event>
 //         functionality into a separate plugin for users who want just the
 //         basic event & back button support, without all the extra awesomeness
 //         that BBQ provides. This plugin will be included as part of jQuery BBQ,
 //         but also be available separately. See <jQuery hashchange event>
-//         plugin for more information. Also added the $.bbq.removeState method
-//         and added additional $.deparam examples.
+//         plugin for more information. Also added the <jQuery.bbq.removeState>
+//         method and added additional <jQuery.deparam> examples.
 // 1.0.3 - (12/2/2009) Fixed an issue in IE 6 where location.search and
 //         location.hash would report incorrectly if the hash contained the ?
-//         character. Also $.param.querystring and $.param.fragment will no
-//         longer parse params out of a URL that doesn't contain ? or #,
+//         character. Also <jQuery.param.querystring> and <jQuery.param.fragment>
+//         will no longer parse params out of a URL that doesn't contain ? or #,
 //         respectively.
 // 1.0.2 - (10/10/2009) Fixed an issue in IE 6/7 where the hidden IFRAME caused
 //         a "This page contains both secure and nonsecure items." warning when
@@ -72,7 +82,6 @@
 
   // Some convenient shortcuts.
   var undefined,
-    loc = window.location,
     aps = Array.prototype.slice,
     decode = decodeURIComponent,
 
@@ -92,12 +101,14 @@
     str_querystring = 'querystring',
     str_fragment = 'fragment',
     str_elemUrlAttr = 'elemUrlAttr',
+    str_location = 'location',
     str_href = 'href',
     str_src = 'src',
 
     // Reused RegExp.
     re_trim_querystring = /^.*\?|#.*$/g,
     re_trim_fragment = /^.*\#/,
+    re_no_escape,
 
     // Used by jQuery.elemUrlAttr.
     elemUrlAttr_cache = {};
@@ -271,6 +282,13 @@
 
         // Convert params object to a string.
         qs = jq_param( qs );
+
+        // Unescape characters specified via $.param.noEscape. Since only hash-
+        // history users have requested this feature, it's only enabled for
+        // fragment-related params strings.
+        if ( is_fragment ) {
+          qs = qs.replace( re_no_escape, decode );
+        }
       }
 
       // Build URL from the base url, querystring and hash. In 'querystring'
@@ -281,7 +299,7 @@
     } else {
       // If URL was passed in, parse params from URL string, otherwise parse
       // params from window.location.
-      result = get_func( url !== undefined ? url : loc[ str_href ] );
+      result = get_func( url !== undefined ? url : window[ str_location ][ str_href ] );
     }
 
     return result;
@@ -289,6 +307,44 @@
 
   jq_param[ str_querystring ]                  = curry( jq_param_sub, 0, get_querystring );
   jq_param[ str_fragment ] = jq_param_fragment = curry( jq_param_sub, 1, get_fragment );
+
+  // Method: jQuery.param.fragment.noEscape
+  //
+  // Specify characters that will be left unescaped when fragments are created
+  // or merged using <jQuery.param.fragment>, or when the fragment is modified
+  // using <jQuery.bbq.pushState>. This option only applies to serialized data
+  // object fragments, and not set-as-string fragments. Does not affect the
+  // query string. Defaults to ",/" (comma, forward slash).
+  //
+  // Note that this is considered a purely aesthetic option, and will help to
+  // create URLs that "look pretty" in the address bar or bookmarks, without
+  // affecting functionality in any way. That being said, be careful to not
+  // unescape characters that are used as delimiters or serve a special
+  // purpose, such as the "#?&=+" (octothorpe, question mark, ampersand,
+  // equals, plus) characters.
+  //
+  // Usage:
+  //
+  // > jQuery.param.fragment.noEscape( [ chars ] );
+  //
+  // Arguments:
+  //
+  //  chars - (String) The characters to not escape in the fragment. If
+  //    unspecified, defaults to empty string (escape all characters).
+  //
+  // Returns:
+  //
+  //  Nothing.
+
+  jq_param_fragment.noEscape = function( chars ) {
+    chars = chars || '';
+    var arr = $.map( chars.split(''), encodeURIComponent );
+    re_no_escape = new RegExp( arr.join('|'), 'g' );
+  };
+
+  // A sensible default. These are the characters people seem to complain about
+  // "uglifying up the URL" the most.
+  jq_param_fragment.noEscape( ',/' );
 
   // Section: Deparam (from string)
   //
@@ -615,8 +671,8 @@
   // Method: jQuery.bbq.pushState
   //
   // Adds a 'state' into the browser history at the current position, setting
-  // location.hash and triggering any bound <window.onhashchange> event
-  // callbacks (provided the new state is different than the previous state).
+  // location.hash and triggering any bound <hashchange event> callbacks
+  // (provided the new state is different than the previous state).
   //
   // If no arguments are passed, an empty state is created, which is just a
   // shortcut for jQuery.bbq.pushState( {}, 2 ).
@@ -659,14 +715,14 @@
 
     var has_args = params !== undefined,
       // Merge params into window.location using $.param.fragment.
-      url = jq_param_fragment( loc[ str_href ], has_args ? params : {}, has_args ? merge_mode : 2 );
+      url = jq_param_fragment( window[ str_location ][ str_href ],
+        has_args ? params : {}, has_args ? merge_mode : 2 );
 
     // Set new window.location.href. If hash is empty, use just # to prevent
     // browser from reloading the page. Note that Safari 3 & Chrome barf on
     // location.hash = '#'.
-    loc[ str_href ] = url + ( /#/.test( url ) ? '' : '#' );
+    window[ str_location ][ str_href ] = url + ( /#/.test( url ) ? '' : '#' );
   };
-
 
   // Method: jQuery.bbq.getState
   //
@@ -701,8 +757,8 @@
   //
   // Remove one or more keys from the current browser history 'state', creating
   // a new state, setting location.hash and triggering any bound
-  // <window.onhashchange> event callbacks (provided the new state is different
-  // than the previous state).
+  // <hashchange event> callbacks (provided the new state is different than
+  // the previous state).
   //
   // If no arguments are passed, an empty state is created, which is just a
   // shortcut for jQuery.bbq.pushState( {}, 2 ).
@@ -746,35 +802,41 @@
     jq_bbq_pushState( state, 2 );
   };
 
-  // Event: window.onhashchange
+  // Event: hashchange event (BBQ)
   //
-  // Usage in 1.4 and newer:
+  // Usage in jQuery 1.4 and newer:
   //
-  // In 1.4 and newer, the event object that is passed into the callback is
-  // augmented with an additional e.fragment property that contains the current
-  // document location.hash state as a string, as well as an e.getState method.
+  // In jQuery 1.4 and newer, the event object passed into any hashchange event
+  // callback is augmented with a copy of the location.hash fragment at the time
+  // the event was triggered as its event.fragment property. In addition, the
+  // event.getState method operates on this property (instead of location.hash)
+  // which allows this fragment-as-a-state to be referenced later, even after
+  // window.location may have changed.
   //
-  // e.fragment is equivalent to the output of <jQuery.param.fragment>, and
-  // e.getState() is equivalent to <jQuery.bbq.getState>, except that they refer
-  // to the event-specific state value stored in the event object, instead of
-  // the current window.location, allowing the event object to be referenced
-  // later, even if window.location has changed.
+  // Note that event.fragment and event.getState are not defined according to
+  // W3C (or any other) specification, but will still be available whether or
+  // not the hashchange event exists natively in the browser, because of the
+  // utility they provide.
   //
-  // > $(window).bind( 'hashchange', function(e) {
-  // >   var hash_str = e.fragment,
-  // >     param_obj = e.getState(),
-  // >     param_val = e.getState( 'param_name' ),
-  // >     param_val_coerced = e.getState( 'param_name', true );
+  // The event.fragment property contains the output of <jQuery.param.fragment>
+  // and the event.getState method is equivalent to the <jQuery.bbq.getState>
+  // method.
+  //
+  // > $(window).bind( 'hashchange', function( event ) {
+  // >   var hash_str = event.fragment,
+  // >     param_obj = event.getState(),
+  // >     param_val = event.getState( 'param_name' ),
+  // >     param_val_coerced = event.getState( 'param_name', true );
   // >   ...
   // > });
   //
-  // Usage in 1.3.2:
+  // Usage in jQuery 1.3.2:
   //
-  // In 1.3.2, the event object is unable to be augmented as in 1.4+, so the
-  // fragment state isn't bound to the event object and must instead be parsed
-  // using the <jQuery.param.fragment> and <jQuery.bbq.getState> methods.
+  // In jQuery 1.3.2, the event object cannot to be augmented as in jQuery 1.4+,
+  // so the fragment state isn't bound to the event object and must instead be
+  // parsed using the <jQuery.param.fragment> and <jQuery.bbq.getState> methods.
   //
-  // > $(window).bind( 'hashchange', function(e) {
+  // > $(window).bind( 'hashchange', function( event ) {
   // >   var hash_str = $.param.fragment(),
   // >     param_obj = $.bbq.getState(),
   // >     param_val = $.bbq.getState( 'param_name' ),
@@ -784,6 +846,8 @@
   //
   // Additional Notes:
   //
+  // * Due to changes in the special events API, jQuery BBQ v1.2 or newer is
+  //   required to enable the augmented event object in jQuery 1.4.2 and newer.
   // * See <jQuery hashchange event> for more detailed information.
 
   jq_event_special[ str_hashchange ] = $.extend( jq_event_special[ str_hashchange ], {
@@ -791,8 +855,10 @@
     // Augmenting the event object with the .fragment property and .getState
     // method requires jQuery 1.4 or newer. Note: with 1.3.2, everything will
     // work, but the event won't be augmented)
-    add: function( handler, data, namespaces ) {
-      return function(e) {
+    add: function( handleObj ) {
+      var old_handler;
+
+      function new_handler(e) {
         // e.fragment is set to the value of location.hash (with any leading #
         // removed) at the time the event is triggered.
         var hash = e[ str_fragment ] = jq_param_fragment();
@@ -805,8 +871,20 @@
             : jq_deparam( hash, coerce )[ key ];
         };
 
-        handler.apply( this, arguments );
+        old_handler.apply( this, arguments );
       };
+
+      // This may seem a little complicated, but it normalizes the special event
+      // .add method between jQuery 1.4/1.4.1 and 1.4.2+
+      if ( $.isFunction( handleObj ) ) {
+        // 1.4, 1.4.1
+        old_handler = handleObj;
+        return new_handler;
+      } else {
+        // 1.4.2+
+        old_handler = handleObj.handler;
+        handleObj.handler = new_handler;
+      }
     }
 
   });
@@ -814,7 +892,7 @@
 })(jQuery,this);
 
 /*!
- * jQuery hashchange event - v1.1 - 1/21/2010
+ * jQuery hashchange event - v1.2 - 2/11/2010
  * http://benalman.com/projects/jquery-hashchange-plugin/
  *
  * Copyright (c) 2010 "Cowboy" Ben Alman
@@ -824,7 +902,7 @@
 
 // Script: jQuery hashchange event
 //
-// *Version: 1.1, Last updated: 1/21/2010*
+// *Version: 1.2, Last updated: 2/11/2010*
 //
 // Project Home - http://benalman.com/projects/jquery-hashchange-plugin/
 // GitHub       - http://github.com/cowboy/jquery-hashchange/
@@ -850,7 +928,7 @@
 // tested with, what browsers it has been tested in, and where the unit tests
 // reside (so you can test it yourself).
 //
-// jQuery Versions - 1.3.2, 1.4.1
+// jQuery Versions - 1.3.2, 1.4.1, 1.4.2
 // Browsers Tested - Internet Explorer 6-8, Firefox 2-3.7, Safari 3-4, Chrome, Opera 9.6-10.1.
 // Unit Tests      - http://benalman.com/code/projects/jquery-hashchange/unit/
 //
@@ -864,9 +942,16 @@
 // Chrome: Back Button - http://benalman.com/code/projects/jquery-hashchange/examples/bug-chrome-back-button/
 // Firefox: Remote XMLHttpRequest - http://benalman.com/code/projects/jquery-hashchange/examples/bug-firefox-remote-xhr/
 // WebKit: Back Button in an Iframe - http://benalman.com/code/projects/jquery-hashchange/examples/bug-webkit-hash-iframe/
+// Safari: Back Button from a different domain - http://benalman.com/code/projects/jquery-hashchange/examples/bug-safari-back-from-diff-domain/
 //
 // About: Release History
 //
+// 1.2   - (2/11/2010) Fixed a bug where coming back to a page using this plugin
+//         from a page on another domain would cause an error in Safari 4. Also,
+//         IE6/7 Iframe is now inserted after the body (this actually works),
+//         which prevents the page from scrolling when the event is first bound.
+//         Event can also now be bound before DOM ready, but it won't be usable
+//         before then in IE6/7.
 // 1.1   - (1/21/2010) Incorporated document.documentMode test to fix IE8 bug
 //         where browser version is incorrectly reported as 8.0, despite
 //         inclusion of the X-UA-Compatible IE=EmulateIE7 meta tag.
@@ -879,15 +964,14 @@
 (function($,window,undefined){
   '$:nomunge'; // Used by YUI compressor.
 
-  // A convenient shortcut.
-  var loc = window.location,
-
-    // Method / object references.
-    fake_onhashchange,
+  // Method / object references.
+  var fake_onhashchange,
     jq_event_special = $.event.special,
 
     // Reused strings.
+    str_location = 'location',
     str_hashchange = 'hashchange',
+    str_href = 'href',
 
     // IE6/7 specifically need some special love when it comes to back-button
     // support, so let's do a little browser sniffing..
@@ -902,24 +986,24 @@
   // Get location.hash (or what you'd expect location.hash to be) sans any
   // leading #. Thanks for making this necessary, Firefox!
   function get_fragment( url ) {
-    url = url || loc.href;
+    url = url || window[ str_location ][ str_href ];
     return url.replace( /^[^#]*#?(.*)$/, '$1' );
   };
 
   // Property: jQuery.hashchangeDelay
   //
-  // The numeric interval (in milliseconds) at which the <window.onhashchange>
+  // The numeric interval (in milliseconds) at which the <hashchange event>
   // polling loop executes. Defaults to 100.
 
   $[ str_hashchange + 'Delay' ] = 100;
 
-  // Event: window.onhashchange
+  // Event: hashchange event
   //
-  // Fired when window.location.hash changes. In browsers that support it, the
-  // native window.onhashchange event is used (IE8, FF3.6), otherwise a polling
-  // loop is initialized, running every <jQuery.hashchangeDelay> milliseconds
-  // to see if the hash has changed. In IE 6 and 7, a hidden IFRAME is created
-  // to allow the back button and hash-based history to work.
+  // Fired when location.hash changes. In browsers that support it, the native
+  // window.onhashchange event is used (IE8, FF3.6), otherwise a polling loop is
+  // initialized, running every <jQuery.hashchangeDelay> milliseconds to see if
+  // the hash has changed. In IE 6 and 7, a hidden Iframe is created to allow
+  // the back button and hash-based history to work.
   //
   // Usage:
   //
@@ -930,11 +1014,14 @@
   //
   // Additional Notes:
   //
-  // * The polling loop and iframe are not created until at least one callback
+  // * The polling loop and Iframe are not created until at least one callback
   //   is actually bound to 'hashchange'.
   // * If you need the bound callback(s) to execute immediately, in cases where
   //   the page 'state' exists on page load (via bookmark or page refresh, for
   //   example) use $(window).trigger( 'hashchange' );
+  // * The event can be bound before DOM ready, but since it won't be usable
+  //   before then in IE6/7 (due to the necessary Iframe), recommended usage is
+  //   to bind it inside a $(document).ready() callback.
 
   jq_event_special[ str_hashchange ] = $.extend( jq_event_special[ str_hashchange ], {
 
@@ -945,8 +1032,8 @@
 
       // Otherwise, we need to create our own. And we don't want to call this
       // until the user binds to the event, just in case they never do, since it
-      // will create a polling loop and possibly even a hidden IFRAME.
-      fake_onhashchange.start();
+      // will create a polling loop and possibly even a hidden Iframe.
+      $( fake_onhashchange.start );
     },
 
     // Called only when the last 'hashchange' event is unbound from window.
@@ -955,7 +1042,7 @@
       if ( supports_onhashchange ) { return false; }
 
       // Otherwise, we need to stop ours (if possible).
-      fake_onhashchange.stop();
+      $( fake_onhashchange.stop );
     }
 
   });
@@ -963,7 +1050,7 @@
   // fake_onhashchange does all the work of triggering the window.onhashchange
   // event for browsers that don't natively support it, including creating a
   // polling loop to watch for hash changes and in IE 6/7 creating a hidden
-  // IFRAME to enable back and forward.
+  // Iframe to enable back and forward.
   fake_onhashchange = (function(){
     var self = {},
       timeout_id,
@@ -971,7 +1058,7 @@
       set_history,
       get_history;
 
-    // Initialize. In IE 6/7, creates a hidden IFRAME for history handling.
+    // Initialize. In IE 6/7, creates a hidden Iframe for history handling.
     function init(){
       // Most browsers don't need special methods here..
       set_history = get_history = function(val){ return val; };
@@ -979,21 +1066,22 @@
       // But IE6/7 do!
       if ( is_old_ie ) {
 
-        // Create hidden IFRAME at the end of the body.
-        iframe = $('<iframe src="javascript:0"/>').hide().appendTo( 'body' )[0].contentWindow;
+        // Create hidden Iframe after the end of the body to prevent initial
+        // page load from scrolling unnecessarily.
+        iframe = $('<iframe src="javascript:0"/>').hide().insertAfter( 'body' )[0].contentWindow;
 
-        // Get history by looking at the hidden IFRAME's location.hash.
+        // Get history by looking at the hidden Iframe's location.hash.
         get_history = function() {
-          return get_fragment( iframe.document.location.href );
+          return get_fragment( iframe.document[ str_location ][ str_href ] );
         };
 
-        // Set a new history item by opening and then closing the IFRAME
+        // Set a new history item by opening and then closing the Iframe
         // document, *then* setting its location.hash.
         set_history = function( hash, history_hash ) {
           if ( hash !== history_hash ) {
             var doc = iframe.document;
             doc.open().close();
-            doc.location.hash = '#' + hash;
+            doc[ str_location ].hash = '#' + hash;
           }
         };
 
@@ -1026,14 +1114,14 @@
           $(window).trigger( str_hashchange );
 
         } else if ( history_hash !== last_hash ) {
-          loc.href = loc.href.replace( /#.*/, '' ) + '#' + history_hash;
+          window[ str_location ][ str_href ] = window[ str_location ][ str_href ].replace( /#.*/, '' ) + '#' + history_hash;
         }
 
         timeout_id = setTimeout( loopy, $[ str_hashchange + 'Delay' ] );
       })();
     };
 
-    // Stop the polling loop, but only if an IE6/7 IFRAME wasn't created. In
+    // Stop the polling loop, but only if an IE6/7 Iframe wasn't created. In
     // that case, even if there are no longer any bound event handlers, the
     // polling loop is still necessary for back/next to work at all!
     self.stop = function() {
