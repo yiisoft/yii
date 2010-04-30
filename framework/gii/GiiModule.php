@@ -133,7 +133,7 @@ class GiiModule extends CWebModule
 	public function getAssetsUrl()
 	{
 		if($this->_assetsUrl===null)
-			$this->_assetsUrl=Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('gii.assets'),false,-1,YII_DEBUG);
+			$this->_assetsUrl=Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias('gii.assets'));
 		return $this->_assetsUrl;
 	}
 
