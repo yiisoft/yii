@@ -527,6 +527,7 @@ div.form.gii pre.results span.error
 #fancybox-inner .content
 {
 	background: #F0F4FF;
+	text-align: left;
 }
 
 #fancybox-inner pre.diff del
