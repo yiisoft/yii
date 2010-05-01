@@ -312,7 +312,7 @@ abstract class CActiveRecord extends CModel
 	{
 		if($this->_c!==null)
 			$this->_c=new CDbCriteria();
-		
+
 		return $this;
 	}
 
@@ -672,7 +672,12 @@ abstract class CActiveRecord extends CModel
 		{
 			$attrs=array();
 			foreach($names as $name)
-				$attrs[$name]=isset($attributes[$name])?$attributes[$name]:null;
+			{
+				if(property_exists($this,$name))
+					$attrs[$name]=$this->$name;
+				else
+					$attrs[$name]=isset($attributes[$name])?$attributes[$name]:null;
+			}
 			return $attrs;
 		}
 		else

@@ -45,6 +45,7 @@ Version 1.1.2 to be released
 - Enh: CFileValidator now works with php.ini's upload_max_filesize strings with K, G, k, m, g (Sam Dark)
 - Enh: Enhanced CActiveForm to make it more robust in case some code error occurs when performing ajax validation (Qiang)
 - Enh: CMaskedTextField's jquery.maskedinput updated to 1.2.2 (Sam Dark)
+- Enh: Added support to allow CActiveRecord::getAttributes() to return custom attributes if required (Qiang)
 - Chg #1118: CActiveRecord::refresh() now updates the record by directly updating the attributes array (Qiang)
 - Chg #1125: Ability to use model metadata in behavior's attach() method (Sam Dark)
 - Chg #1163: CLinkPager will enable first and last page buttons unless the current page is first or last. (Qiang)
