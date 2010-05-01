@@ -33,7 +33,7 @@ class CCodeForm extends CActiveForm
 <div class="form gii">
 	<p class="note">
 		Fields with <span class="required">*</span> are required.
-		Click on <span class="sticky">highlighted fields</span> to edit them.
+		Click on the <span class="sticky">highlighted fields</span> to edit them.
 	</p>
 EOD;
 		parent::init();
