@@ -752,7 +752,7 @@ class CActiveRecordTest extends CTestCase
 
 	public function testResetScope(){
 		$posts=Post::model()->post23()->resetScope()->findAll();
-		$this->assertEquals(5,count($posts));		
+		$this->assertEquals(5,count($posts));
 	}
 
 	public function testLazyLoadingWithConditions()
@@ -803,7 +803,7 @@ class CActiveRecordTest extends CTestCase
 		foreach($users as $user)
 		{
 			$postCount+=count($user->posts);
-			foreach($user->posts as $post)
+			foreach($posts=$user->posts as $post)
 				$commentCount+=count($post->comments);
 		}
 		$this->assertEquals(4,count($users));
@@ -817,7 +817,7 @@ class CActiveRecordTest extends CTestCase
 		foreach($users as $user)
 		{
 			$postCount+=count($user->posts);
-			foreach($user->posts as $post)
+			foreach($posts=$user->posts as $post)
 				$commentCount+=count($post->comments);
 		}
 		$this->assertEquals(3,count($users));
@@ -846,7 +846,7 @@ class CActiveRecordTest extends CTestCase
 		foreach($users as $user)
 		{
 			$postCount+=count($user->posts);
-			foreach($user->posts as $post)
+			foreach($posts=$user->posts as $post)
 				$commentCount+=count($post->comments);
 		}
 		$this->assertEquals(4,count($users));
@@ -872,7 +872,7 @@ class CActiveRecordTest extends CTestCase
 		foreach($users as $user)
 		{
 			$postCount+=count($user->posts);
-			foreach($user->posts as $post)
+			foreach($posts=$user->posts as $post)
 				$commentCount+=count($post->comments);
 		}
 		$this->assertEquals(3,count($users));
