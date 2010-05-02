@@ -154,8 +154,13 @@ array(
    - Вызов `$this->createUrl('post/list')` сгенерирует `/index.php/posts`. Здесь было применено первое правило.
 
    - Вызов `$this->createUrl('post/read',array('id'=>100))` сгенерирует `/index.php/post/100`. Применено второе правило.
-   
-   - Вызов `$this->createUrl('post/read')` сгенерирует `/index.php/post/read`. Использовано третье правило.
+
+   - Вызов `$this->createUrl('post/read',array('year'=>2008,'title'=>'a
+     sample post'))` сгенерирует `/index.php/post/2008/a%20sample%20post`.
+     Использовано третье правило.
+
+   - Вызов `$this->createUrl('post/read')` сгенерирует
+     `/index.php/post/read`. Ни одно из правил не было применено.
    
 При использовании [createUrl|CController::createUrl] для генерации адреса URL, маршрут и GET-параметры, переданные
 методу, используются для определения правила, которое нужно применить. Правило применяется в том случае, когда все параметры, ассоциированные с правилом,

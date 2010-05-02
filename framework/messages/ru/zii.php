@@ -16,7 +16,7 @@
  * @version $Id: $
  */
 return array (
-  'Are you sure to delete this item?' => 'Вы уверены, что хотите удалить данный элемент?',
+  'Are you sure you want to delete this item?' => 'Вы уверены, что хотите удалить данный элемент?',
   'Delete' => 'Удалить',
   'Displaying {start}-{end} of {count} result(s).' => 'Элементы {start}—{end} из {count}.',
   'Either "name" or "value" must be specified for CDataColumn.' => 'Для CDataColumn необходимо указать "name" или "value".',

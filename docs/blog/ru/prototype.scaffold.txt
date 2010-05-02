@@ -114,7 +114,7 @@ http://www.example.com/blog/index.php?r=comment
 Чтобы лучше понять, как используются файлы выше, рассмотрим, что происходит
 при отображении списка записей:
 
- 0. Пользователь запрашивает URL `http://www.example.com/blog/index.php?r=posts`;
+ 0. Пользователь запрашивает URL `http://www.example.com/blog/index.php?r=post`;
  1. [Входной скрипт](basics.entry) выполняется Web-сервером и инициализирует экземпляр
     [приложения](basics.application) для обработки запроса;
  2. Приложение создает экземпляр класса `PostController` и выполняет его;
@@ -125,4 +125,4 @@ http://www.example.com/blog/index.php?r=comment
  5. Метод `actionIndex()` генерирует представление `index` с данными записей.
 
 
-<div class="revision">$Id: prototype.scaffold.txt 1872 2010-03-10 15:21:55Z qiang.xue $</div>
+<div class="revision">$Id: prototype.scaffold.txt 1947 2010-03-21 20:41:36Z alexander.makarow $</div>

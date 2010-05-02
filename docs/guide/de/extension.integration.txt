@@ -1,26 +1,26 @@
 Verwenden von Fremdbibliotheken 
 ===============================
 
-Um Yii’s Funktionalität leicht durch Bibliotheken von Drittanbietern erweitern
-zu können, wurde bei der Planung viel Sorgfalt auf diesen Punkt verwendet. 
-Bei der Verwendung von solchen Bibliotheken ist der Entwickler oft mit
-Problemen im Zusammenhang mit Klassenbezeichnungen und Dateieinbindungen
-konfrontiert. Da allen Yii-Klassen der Buchstabe `C` vorangestellt wurde, sind
-Konflikte bei Klassennamen eher unwahrscheinlich. Und da Yii beim Einbinden
-von Klassen auf [SPL autoload](http://us3.php.net/manual/en/function.spl-autoload.php)
-setzt, klappt das Zusammenspiel mit Bibliotheken reibungslos, wenn diese für
-ihre Klassen die selbe Methode zum automatischen Laden oder den selben PHP Include-Pfad 
-verwenden.
+Bei der Planung von Yii wurde sorgfältig darauf geachtet, dass andere
+Bibliotheken leicht mit eingebunden werden können, um den Funktionsumfang zu
+erweitern. Oft passiert es nämlich, dass es zu Namenskonflikten oder Problemen 
+mit Includes kommt, wenn man Fremdbibliotheken in einem Projekt verwenden
+möchte. Yii's Klassen beginnnen daher alle mit dem Buchstaben `C` um solche
+Namenskonflikte zu vermeiden. Außerdem verwendet Yii das [SPL
+autoload](http://us3.php.net/manual/de/function.spl-autoload.php) Feature von
+PHP. Damit klappt das Zusammenspiel mit Bibliotheken reibungslos, auch wenn diese 
+selbe Methode zum automatischen Laden ihrer Klassen verwenden oder den PHP 
+Include-Pfad verwenden.
 
 Unten zeigen wir an einem Beispiel, wie man die 
 [Zend_Search_Lucene](http://www.zendframework.com/manual/en/zend.search.lucene.html)-Komponente
 aus dem [Zend-Framework](http://www.zendframework.com) in einer Yii-Anwendung
 verwendet.
 
-Zunächst entpacken wir die Dateien des Zend-Framework in ein Verzeichnis
-unterhalb von `protected/vendors`, unter der Annahme, dass `protected` das
-[Anwendungsverzeichnis](/doc/guide/basics.application#application-base-directory) ist.
-Überprüfen Sie, dass die Datei `protected/vendors/Zend/Search/Lucene.php`
+Zunächst werden die Dateien des Zend-Frameworks in ein Verzeichnis
+unterhalb von `protected/vendors` entpackt, wobei `protected` für das
+[Anwendungsverzeichnis](/doc/guide/basics.application#application-base-directory)
+steht. Überprüfen Sie, dass die Datei `protected/vendors/Zend/Search/Lucene.php`
 vorhanden ist.
 
 Fügen Sie dann die folgenden beiden Zeilen am Anfang einer Controllerklasse
@@ -37,8 +37,8 @@ relativen Pfad verwenden, müssen wir den Include-Pfad von PHP verändern, damit
 die Datei gefunden werden kann. Dies erfolgt über den Aufruf von `Yii::import`
 vor `require_once`.
 
-Nachdem obige Änderungen vorgenommen wurden, können wir die Klasse `Lucene` in
-einer Controller-Action wir folgt verwenden:
+Nachdem obige Änderungen vorgenommen wurden, kann man die Klasse `Lucene` in
+einer Controlleraction wie folgt verwenden:
 
 ~~~
 [php]

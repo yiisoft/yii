@@ -53,6 +53,7 @@
 	- [Funktionell testning](test.functional)
 
 * Speciella ämnen
+	- [Automatisk kodgenerering](topics.gii)
     - [URL-hantering](topics.url)
     - [Autentisering och auktorisering](topics.auth)
     - [Teman och skin](topics.theming)
@@ -65,4 +66,4 @@
     - [Säkerhet](topics.security)
     - [Prestandaoptimering](topics.performance)
 
-<div class="revision">$Id: toc.txt 1603 2009-12-18 19:39:18Z qiang.xue $</div>
+<div class="revision">$Id: toc.txt 2040 2010-04-11 02:48:52Z qiang.xue $</div>

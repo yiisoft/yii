@@ -80,4 +80,4 @@ existensen av cachelagrat data, även sådant vars giltighetstid inte löpt ut. 
 anledning, använd inte cache för icke-flyktig lagring (t.ex. använd inte cache 
 till att lagra sessionsdata).
 
-<div class="revision">$Id: caching.overview.txt 1855 2010-03-04 22:42:32Z qiang.xue $</div>
+<div class="revision">$Id: caching.overview.txt 2005 2010-04-03 16:24:46Z alexander.makarow $</div>

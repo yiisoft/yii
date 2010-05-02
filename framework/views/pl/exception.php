@@ -32,7 +32,7 @@ pre {font-family:"Lucida Console";font-size:10pt;}
 <?php echo nl2br(CHtml::encode($data['message'])); ?>
 </p>
 
-<h3>Plik ürÛd≥owy</h3>
+<h3>Plik ≈∫r√≥d≈Çowy</h3>
 <p>
 <?php echo CHtml::encode($data['file'])."({$data['line']})"; ?>
 </p>
@@ -41,7 +41,7 @@ pre {font-family:"Lucida Console";font-size:10pt;}
 <pre>
 <?php
 if(empty($data['source']))
-	echo 'Brak kodu ürÛd≥owego.';
+	echo 'Brak kodu ÔøΩrÔøΩdÔøΩowego.';
 else
 {
 	foreach($data['source'] as $line=>$code)

@@ -20,11 +20,11 @@ p {font-family:"Verdana";font-weight:normal;color:black;font-size:9pt;margin-top
 <h1>Nie znaleziono</h1>
 <h2><?php echo nl2br(CHtml::encode($data['message'])); ?></h2>
 <p>
-¯¹dany adres URL nie zosta³ znaleziony na tym serwerze.
-Jeœli wprowadzi³eœ adres URL rêcznie, sprawdŸ pisowniê i spróbuj ponownie.
+Å»Ä…dany adres URL nie zostaÅ‚ znaleziony na tym serwerze.
+JeÅ›li wprowadziÅ‚eÅ› adres URL rÄ™cznie, sprawdÅº pisowniÄ™ i sprÃ³buj ponownie.
 </p>
 <p>
-Jeœli myœlisz, ¿e jest to b³¹d serwera skontaktuj siê z <?php echo $data['admin']; ?>.
+JeÅ›li myÅ›lisz, Å¼e jest to bÅ‚Ä…d serwera proszÄ™ skontaktuj siÄ™ z <?php echo $data['admin']; ?>.
 </p>
 <div class="version">
 <?php echo date('Y-m-d H:i:s',$data['time']) .' '. $data['version']; ?>

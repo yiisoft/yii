@@ -16,9 +16,8 @@
  * @version $Id$
  */
 return array (
-  'Column "{column}" does not exist in table "{table}".' => 'In Tabelle "{table}" gibt es keine Spalte "{column}".',
-  'Failed to set unsafe attribute "{attribute}".' => 'Ungesichertes Attribut "{attribute}" konnte nicht gesetzt werden.',
-  'Unknown type "{type}".' => 'Unbekannter Typ "{type}".',
+  'CWinCache requires PHP wincache extension to be loaded.' => 'CWinCache erfordert, dass die PHP Wincache Erweiterung geladen wurde.',
+  'CWinCache user cache is disabled. Please set wincache.ucenabled to On in your php.ini.' => 'Anwendercache für CWinCache ist deaktiviert. Bitte setzen Sie in Ihrer php.ini wincache.ucenabled auf On.',
   '"{path}" is not a valid directory.' => '"{path}" ist kein gültiges Verzeichnis.',
   '&lt; Previous' => '&lt; Vorherige',
   '&lt;&lt; First' => '&lt;&lt; Erste',
@@ -82,6 +81,7 @@ return array (
   'Cannot add "{child}" as a child of "{parent}". A loop has been detected.' => 'Kann "{child}" nicht als Kind von "{parent}" hinzufügen. Es wurde eine Schleife entdeckt.',
   'Cannot add "{name}" as a child of itself.' => 'Kann "{name}" nicht als Kind von sich selbst hinzufügen.',
   'Cannot add an item of type "{child}" to an item of type "{parent}".' => 'Kann ein Element vom Typ "{child}" nicht als Kind zu einem Element vom Typ "{parent}" hinzufügen.',
+  'Column "{column}" does not exist in table "{table}".' => 'In Tabelle "{table}" gibt es keine Spalte "{column}".',
   'Column name must be either a string or an array.' => 'Spaltenname muss entweder ein String oder ein Array sein.',
   'Either "{parent}" or "{child}" does not exist.' => 'Entweder "{parent}" oder "{child}" existiert nicht.',
   'Error: Table "{table}" does not have a primary key.' => 'Fehler: Tabelle "{table}" hat keinen Primärschlüssel.',
@@ -89,6 +89,7 @@ return array (
   'Event "{class}.{event}" is attached with an invalid handler "{handler}".' => 'Ereignis "{class}.{event}" ist der ungültige Handler "{handler}" zugeordnet.',
   'Event "{class}.{event}" is not defined.' => 'Ereignis "{class}.{event} ist nicht definiert.',
   'Extension path "{path}" does not exist.' => 'Erweiterungs-Pfad "{path}" existiert nicht.',
+  'Failed to set unsafe attribute "{attribute}".' => 'Ungesichertes Attribut "{attribute}" konnte nicht gesetzt werden.',
   'Failed to write the uploaded file "{file}" to disk.' => 'Hochgeladene Datei "{file}" konnte nicht auf die Festplatte gespeichert werden.',
   'File upload was stopped by extension.' => 'Datei-Upload wurde von einer Erweiterung angehalten.',
   'Filter "{filter}" is invalid. Controller "{class}" does have the filter method "filter{filter}".' => 'Filter "{filter}" ist ungültig. Controller "{class}" beinhaltet die Filtermethode "filter{filter}".',
@@ -185,6 +186,7 @@ return array (
   'Unable to resolve the request "{route}".' => 'Konnte den Request "{route}" nicht auflösen.',
   'Unable to write file "{file}".' => 'Datei "{file}" konnte nicht geschrieben werden.',
   'Unknown authorization item "{name}".' => 'Unbekanntes Autorisierungs-Element "{name}"',
+  'Unknown type "{type}".' => 'Unbekannter Typ "{type}".',
   'Unrecognized locale "{locale}".' => 'Unbekanntes Locale "{locale}".',
   'View file "{file}" does not exist.' => 'View-Datei "{file}" existiert nicht.',
   'Virtual attribute {name} must specify "asc" and "desc" options.' => 'Virtuelles Attribut {name} muss "asc"- und "desc"-Optionen spezifizieren.',

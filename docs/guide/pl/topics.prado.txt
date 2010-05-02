@@ -169,4 +169,15 @@ komentarz w widoku, który zostanie wycięty
 --->
 ~~~
 
-<div class="revision">$Id: topics.prado.txt 417 2008-12-28 05:29:16Z qiang.xue $</div>
+Mieszanie formatów szablonów
+-----------------------
+
+Poczynając od wersji 1.1.2 możliwe jest mieszanie użyć alternatywnych składni szablonów
+ze zwykłą składnią PHP. Aby móc to zrobić, właściwość [CViewRenderer::fileExtension]
+zainstalowanego renderera widoków musi zostać skonfigurowana poprzez wartość inną niż `.php`. 
+Na przykład, jeśli właściwość ustawiona jest jako `.tpl`, wtedy każdy plik widoku kończący się `.tpl`
+będzie generowany przy użyciu zainstalowanego renderera, podczas gdy pozostałe pliki
+kończące się `.php` będą traktowane jak zwykłe pliki widoków PHP.
+
+
+<div class="revision">$Id: topics.prado.txt 1983 2010-03-31 19:46:37Z qiang.xue $</div>

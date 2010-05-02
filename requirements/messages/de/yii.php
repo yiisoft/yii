@@ -16,12 +16,12 @@
  * @version $Id: $
  */
 return array (
-  'This is required by encrypt and decrypt methods.' => 'Dies wird für Ver- und Entschlüsselungsmethoden benötigt.',
+  'This is required by encrypt and decrypt methods.' => 'Wird für Ver- und Entschlüsselungsmethoden benötigt.',
   '$_SERVER does not have {vars}.' => '$_SERVER verfügt nicht über {vars}.',
   '$_SERVER variable' => '$_SERVER Variable',
-  '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '$_SERVER["SCRIPT_FILENAME"] muss der selbe Eingangsscriptpfad sein.',
+  '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '$_SERVER["SCRIPT_FILENAME"] muss auf das Startscript verweisen.',
   'APC extension' => 'APC Erweiterung',
-  'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Alle <a href="http://www.yiiframework.com/doc/api/#system.db">DB-bezüglichen Klassen</a>',
+  'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Alle <a href="http://www.yiiframework.com/doc/api/#system.db">DB-bezogenen Klassen</a>',
   'DOM extension' => 'DOM Erweiterung',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => 'Entweder $_SERVER["REQUEST_URI"] oder $_SERVER["QUERY_STRING"] müssen exisitieren.',
   'GD extension' => 'GD Erweiterung',
@@ -37,8 +37,8 @@ return array (
   'Reflection extension' => 'Reflection Erweiterung',
   'SOAP extension' => 'SOAP Erweiterung',
   'SPL extension' => 'SPL Erweiterung',
-  'This is required if you are using MySQL database.' => 'Dies wird für die Verwendung einer MySQL Datenbank benötigt.',
-  'This is required if you are using PostgreSQL database.' => 'Dies wird für die Verwendung einer PostgreSQL Datenbank benötigt.',
-  'This is required if you are using SQLite database.' => 'Dies wird für die Verwendung einer SQLite Datenbank benötigt.',
-  'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' => 'Die URL Pfadinformation kann nicht ermittelt werden. Stellen Sie bitte sicher, dass entweder $_SERVER["PATH_INFO"] (oder $_SERVER["PHP_SELF"] und $_SERVER["SCRIPT_NAME"]) mit korrekten Werten gefüllt sind.',
+  'This is required if you are using MySQL database.' => 'Wird für die Verwendung einer MySQL Datenbank benötigt.',
+  'This is required if you are using PostgreSQL database.' => 'Wird für die Verwendung einer PostgreSQL Datenbank benötigt.',
+  'This is required if you are using SQLite database.' => 'Wird für die Verwendung einer SQLite Datenbank benötigt.',
+  'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' => 'Die URL-Pfadinformation kann nicht ermittelt werden. Stellen Sie bitte sicher, dass $_SERVER["PATH_INFO"] (oder $_SERVER["PHP_SELF"] und $_SERVER["SCRIPT_NAME"]) den entsprechenden Wert enthält.',
 );

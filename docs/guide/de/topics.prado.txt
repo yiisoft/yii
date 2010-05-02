@@ -1,30 +1,28 @@
 Alternative Templatesyntax
 ==========================
 
-Yii erlaubt es dem Entwickler, seine eigene bevorzugte Template-Syntax 
-(z.B. von Prado oder Smarty) für Controller- und Widget-Views zu verwenden.
-Dazu kann eine [viewRenderer|CWebApplication::viewRenderer]-Anwendungskomponente 
-erstellt werden. Diese Komponente fängt die Aufrufe von
-[CBaseController::renderFile] ab, kompiliert die entsprechende View-Datei 
-mit der angepassten Syntax (z.B. von Prado oder Smarty) und rendert das
-Ergebnis.
+Yii erlaubt es dem Entwickler, seine eigene bevorzugte Templatesyntax 
+(z.B. von Prado oder Smarty) für Controller- und Widgetviews zu verwenden.
+Dazu  muss eine [viewRenderer|CWebApplication::viewRenderer]-Komponente
+erstellt bzw. konfiguriert werden. Diese Komponente fängt die Aufrufe von
+[CBaseController::renderFile] ab, kompiliert die Viewdatei in der 
+entsprechenden Syntax und rendert das Ergebnis.
 
 > Info: Es wird empfohlen, die alternative Syntax nur bei Views einzusetzen,
-die vermutlich weniger wiederverwendet werden. Andernfalls wäre jeder, der den
-View wiederverwenden möchte, gezwungen, die selbe alternative Syntax in seiner
-Anwendung einzusetzen.
+die kaum wiederverwendet werden. Andernfalls müssten alle, die den View
+wiederverwenden möchten, die selbe alternative Syntax in ihrer Anwendung
+einsetzen.
 
-Im Folgenden zeigen wir, wie der [CPradoViewRenderer] verwendet werden
-kann, damit ein Entwickler eine ähnliche Syntax wie die des
-[Prado-Frameworks](http://www.pradosoft.com/) verwenden kann.
-[CPradoViewRenderer] ist ein guter Ausgangspunkt, falls jemand einen eigenen
-View-Renderer entwickeln möchte.
+Wir zeigen im Folgenden, wie man den [CPradoViewRenderer] verwendet, um mit
+einer ähnlichen Templatesyntax wie in [Prado](http://www.pradosoft.com/) zu
+arbeiten. Möchte man seinen eigenen Viewrenderer verwirklichen, ist der 
+[CPradoViewRenderer] ein guter Ausgangspunkt dafür.
 
 Einsatz des `CPradoViewRenderer`
 --------------------------------
 
-Um [CPradoViewRenderer] einzusetzen, müssen wir nur die Anwendungskomponente
-wie folgt konfigurieren:
+Um den [CPradoViewRenderer] zu verwenden, muss folgende Anwendungskomponente
+konfiguriert werden:
 
 ~~~
 [php]
@@ -38,25 +36,24 @@ return array(
 );
 ~~~
 
-Standardmäßig kompiliert der [CPradoViewRenderer] die Quell-View-Dateien und
+Standardmäßig kompiliert der [CPradoViewRenderer] die Viewdateien und
 speichert die resultierenden PHP-Dateien im
 [Runtime](/doc/guide/basics.convention#directory)-Verzeichnis der Anwendung.
 Diese PHP-Dateien werden nur dann neu generiert, wenn die Quelldatei sich
-geändert hat. So verringert der Einsatz von [CPradoViewRenderer] die
+geändert hat. Auf diese Weise verringert der Einsatz von [CPradoViewRenderer] die
 Performance nur unwesentlich.
 
-> Tip|Tipp: Der [CPradoViewRenderer] führt hauptsächlich neue Template-Tags
-ein, um das Schreiben von Views zu vereinfachen und zu beschleunigen. Sie
-können aber immer noch wie gewohnt PHP-Code in View-Dateien einsetzen. 
+> Tip|Tipp: Der [CPradoViewRenderer] führt hauptsächlich vereinfachende 
+Templatetags für Views ein. Daneben kann man aber auch immer noch normalen
+PHP-Code in Views verwenden.
 
-Nachfolgend zeigen wir, welche Template-Tags von [CPradoViewRenderer]
-unterstützt werden.
+Folgende Templatetags werden vom [CPradoViewRenderer] unterstützt:
 
 ### Kurze PHP-Tags
 
-Kurze PHP-Tags sind abgekürzte Schreibweisen für PHP-Ausdrücke und
--Anweisungen in einem View. Der Ausdrucks-Tag `<%= Ausdruck %>` wird zu `<?php
-echo Ausdruck ?>` übersetzt, während der Anweisungs-Tag `<% Anweisung %>` zu
+Kurze PHP-Tags sind Kurzschreibweisen für PHP-Ausdrücke und
+-Anweisungen in einem View. Der Tag `<%= Ausdruck %>` wird zu `<?php
+echo Ausdruck ?>` übersetzt, während `<% Anweisung %>` zu
 `<?php Anweisung ?>` übersetzt wird. So wird
 
 ~~~
@@ -90,16 +87,16 @@ Syntax:
 ~~~
 
 wobei `WidgetKlasse` den Klassennamen oder
-[Pfad-Alias](/doc/guide/basics.namespace) des Widgets definiert und die
+[Pfadalias](/doc/guide/basics.namespace) des Widgets definiert und die
 Startwerte für Eigenschaften entweder in doppelten Anführungszeichen oder als
-PHP-Ausdruck in geschweiften Klammern wie folgt angegeben werden können:
+PHP-Ausdruck in geschweiften Klammern angegeben werden können.
 
 ~~~
 [php]
 <com:CCaptcha captchaAction="captcha" showRefreshButton={false} />
 ~~~
 
-würde übersetzt werden zu
+würde damit übersetzt zu
 
 ~~~
 [php]
@@ -112,10 +109,10 @@ würde übersetzt werden zu
 `"false"` angegeben, da letzteres einen String statt eines boole'schen Wertes
 darstellen würde.
 
-### Cache-Tags
+### Cachetags
 
-Cache-Tags sind Abkürzungen für das [Cachen von
-Seitabschnitten](/doc/guide/caching.fragment). Ihre Syntax lautet
+Cachetags sind Abkürzungen zum [Cachen von
+Fragmenten](/doc/guide/caching.fragment). Die Syntax lautet
 
 ~~~
 [php]
@@ -144,9 +141,9 @@ dienen. Zum Beispiel würde
 <?php $this->endCache(); endif; ?>
 ~~~
 
-### Clip-Tags
+### Cliptags
 
-Wie Cache-Tags sind auch Clip-Tags Abkürzungen um [CBaseController::beginClip]
+Wie Cachetags sind auch Cliptags Abkürzungen um [CBaseController::beginClip]
 und [CBaseController::endClip] in einem View aufzurufen. Die Syntax lautet
 
 ~~~
@@ -157,7 +154,7 @@ und [CBaseController::endClip] in einem View aufzurufen. Die Syntax lautet
 ~~~
 
 wobei `clipID` ein eindeutiger Bezeichner für den Clipinhalt ist.
-Clip-Tags werden übersetzt zu
+Cliptags werden übersetzt zu
 
 ~~~
 [php]
@@ -166,10 +163,10 @@ Clip-Tags werden übersetzt zu
 <?php $this->endClip(); ?>
 ~~~
 
-### Kommentar-Tags
+### Kommentartags
 
-Kommentar-Tags sind für View-Kommentare gedacht und nur für Entwickler
-sichtbar. Kommentar-Tags werden vor der Anzeige aus dem View entfernt. Die
+Kommentartags sind für Viewkommentare gedacht und nur für Entwickler
+sichtbar. Kommentartags werden vor der Anzeige aus dem View entfernt. Die
 Syntax lautet hier
 
 ~~~
@@ -179,4 +176,15 @@ View-Kommentare, der später entfernt wird
 --->
 ~~~
 
-<div class="revision">$Id: topics.prado.txt 417 2008-12-28 05:29:16Z qiang.xue $</div>
+Mischen von Templateformaten
+----------------------------
+
+Seit Version 1.1.2 kann die alternative Templatesyntax auch gemeinsam mit der
+normalen PHP-Syntax von Viewdateien eingesetzt werden. Dazu muss
+[CViewRenderer::fileExtension] des Viewrenderers auf einen anderen Wert als
+`.php` gesetzt werden. Konfiguriert man diese Eigenschaft z.B. auf `.tpl`,
+werden alle Dateien mit der Endung `.tpl` mit dem angegebenen Viewrenderer
+dargestellt. Alle anderen Dateien werden als normale PHP-Viewdateien
+behandelt.
+
+<div class="revision">$Id: topics.prado.txt 1983 2010-03-31 19:46:37Z qiang.xue $</div>

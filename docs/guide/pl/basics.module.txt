@@ -47,17 +47,9 @@ do przechowywania parametrów modułu oraz [CWebModule::components] do dzielenia
 [komponentów aplikacji](/doc/guide/basics.application#application-component) na poziomie 
 modułu. 
 
-> Tip|Wskazówka: Możemy użyć narzędzia `yiic` do stworzenia podstawowego szkieletu nowego 
-modułu. Na przykład, aby utworzyć powyższy moduł forum `forum` możemy wykonać 
-następujące polecenie w oknie linie poleceń:
->
-> ~~~
-> % cd WebRoot/testdrive
-> % protected/yiic shell
-> Yii Interactive Tool v1.0
-> Please type 'help' for help. Type 'exit' to quit.
-> >> module forum
-> ~~~
+> Tip: We can use the module generator in Gii to create the basic skeleton of a new module.
+
+> Tip|Wskazówka: Możemy używać generatora modułów zawartego w Gii aby utworzyć podstawowy szkielet nowego modułu.
 
 
 Używanie modułów
@@ -132,4 +124,4 @@ muszą znajdować się w katalogu `modules` moduły rodzica. Aby uzyskać dostę
 akcji kontrolera w module dziecka, powinniśmy używać trasy `IDModułuRodzica/IDModułuDziecka/IDKontrolera/IDAkcji`.
 
 
-<div class="revision">$Id: basics.module.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>
+<div class="revision">$Id: basics.module.txt 2041 2010-04-11 03:54:25Z qiang.xue $</div>

@@ -68,7 +68,7 @@ else
 </div><!-- end of callstack -->
 
 <div class="version">
-<?php echo date('Y-m-d H:i:s',$data['time']) .' '. $data['version']; ?>
+<?php echo date('d-m-y H:i:s',$data['time']) .' '. $data['version']; ?>
 </div>
 </body>
 </html>

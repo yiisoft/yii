@@ -149,70 +149,78 @@ die Datenbank anzulegen.
 > sein.
 
 
-Implementierung von CRUD-Operationen
-------------------------------------
+Erstellen von CRUD-Operationen
+------------------------------
 
-Kommen wir zum spaßigen Teil: Wir möchten CRUD-Operationen (
+Kommen wir nun zum unterhaltsamen Teil: Wir möchten CRUD-Operationen (
 für "*C*reate, *R*ead, *U*pdate, *D*elete", "Erstellen, Lesen, Aktualisieren, Löschen")
 für die eben erstellte Tabelle `User` bereitstellen. Eine typische
-Aufgabenstellung aus der Praxis. Statt sich die Hände schmutzig zu machen, und
-den Code selbst zu schreiben, können Sie dazu wieder den `yiic`-Befehl
-verwenden, um die nötigen Programmteile automatisch zu erzeugen. Diesen Prozess 
-bezeichnet man übrigens auch als *scaffolding* (sinngem.: ein Gerüst erstellen).
+Aufgabenstellung aus der Praxis. Statt den nötigen Code mühevoll selbst zu schreiben,
+können Sie dazu den leistungsstarken Codegenerator Gii verwenden.
 
-Öffnen Sie ein Befehlsfenster und geben Sie die folgenden Befehle ein:
+> Info|Info: Gii steht seit Version 1.1.2 zur Verfügung. In früheren Versionen
+> wurde auch für die CRUD-Generierung der erwähnte `yiic`-Befehl verwendet.
+> Weitere Details hierzu finden Sie unter [CRUD-Operationen mit der yiic shell
+> erstellen](/doc/guide/quickstart.first-app-yiic).
+
+
+### Gii konfigurieren
+
+Um Gii zu verwenden, muss zunächst die
+[Konfigurationsdatei](/doc/guide/basics.application#application-configuration)
+in `WebRoot/testdrive/protected/main.php` angepasst werden:
 
 ~~~
-% cd WebVerzeichnis/testdrive
-% YiiVerzeichnis/framework/yiic shell
-Yii Interactive Tool v1.1
-Please type 'help' for help. Type 'exit' to quit.
->> model User tbl_user
-   generate models/User.php
-   generate fixtures/tbl_user.php
-   generate unit/UserTest.php
+[php]
+return array(
+	......
+	'import'=>array(
+		'application.models.*',
+		'application.components.*',
+	),
 
-The following model classes are successfully generated:
-    User
-
-If you have a 'db' database connection, you can test these models now with:
-    $model=User::model()->find();
-    print_r($model);
-
->> crud User
-   generate UserController.php
-   generate UserTest.php
-   mkdir D:/testdrive/protected/views/user
-   generate create.php
-   generate update.php
-   generate index.php
-   generate view.php
-   generate admin.php
-   generate _form.php
-   generate _view.php
-
-
-Crud 'user' has been successfully created. You may access it via:
-http://hostname/path/to/index.php?r=user
+	'modules'=>array(
+		'gii'=>array(
+			'class'=>'system.gii.GiiModule',
+			'password'=>'Setzen Sie hier ein beliebiges Passwort ein',
+		),
+	),
+);
 ~~~
 
-Mit dem `yiic shell`-Kommando gelangt man an eine Eingabeaufforderung, 
-um Befehle an die Anwendung zu senden.  Mit dem Unterbefehl 
-`model User tbl_user` wird zunächst die Modelklasse für die
-`tbl_user`-Tabelle erzeugt. `crud User` analysiert dann das eben
-erzeugte Model `User` und generiert anschließend den Code für die CRUD-Operationen.
+Rufen Sie danach die URL `http://hostname/testdrive/index.php?r=gii` auf und
+melden Sie sich mit dem eben konfigurierten Passwort an.
 
 
-> Note|Hinweis: Falls Ihnen Fehler wie "...could not find driver" 
-> ("...konnte Treiber nicht finden") begegnen, obwohl Ihr Server
-> alle Voraussetzungen bzgl. PDO erfüllt,  können Sie versuchen, 
-> `yiic` wie folgt aufzurufen:
->
-> ~~~
-> % php -c pfad/zu/php.ini protected/yiic.php shell
-> ~~~
-> 
-> wobei `pfad/zu/php.ini` auf die richtige INI-Datei verweist.
+### Generieren des Usermodels
+
+Wenn Sie nach der Anmeldung auf den Link `Model Generator` klicken, erscheint
+folgende Seite:
+
+![Model Generator](gii-model.png)
+
+Tragen Sie in die Felder `Table Name` (Tabellenname) und `Model Class`
+(Modelklasse) die Werte `tbl_user` und `User` ein und klicken Sie den Button
+`Preview` um eine Vorschau des generierten Codes zu sehen.
+Klicken Sie nun auf den `Generate`-Button, um die Datei `User.php` in
+`protected/models` anzulegen. Wie wir später noch sehen werden, ermöglicht
+diese Modelklasse `User` den objektorientierten Zugriff auf die
+darunterliegende Datenbanktabelle.
+
+### CRUD-Code generieren
+
+Wurde die Modelklasse erstellt, können Sie den Code für die CRUD-Operationen
+erzeugen. Rufen Sie dazu den `Crud Generator` in Gii auf:
+
+![CRUD Generator](gii-crud.png)
+
+Geben Sie `User` in das Feld `Model Class` und `user` (in Kleinbuchstaben) in
+das Feld `Controller ID` ein. Auch hier können Sie zunächst `Preview` klicken,
+bevor Sie die nötigen Codedateien mit `Generate` erstellen. Damit haben Sie
+die CRUD-Generierung abgeschlossen.  
+
+
+### Aufruf der CRUD-Seiten
 
 Sie können nun die Früchte Ihrer Arbeit genießen, indem sie folgende URL
 aufrufen:
@@ -255,6 +263,4 @@ schreiben zu müssen!
 
 ![Seite zum Erstellen eines neuen Benutzers](first-app7.png)
 
-
-
-<div class="revision">$Id: quickstart.first-app.txt 1733 2010-01-21 16:54:29Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app.txt 2041 2010-04-11 03:54:25Z qiang.xue $</div>

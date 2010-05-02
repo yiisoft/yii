@@ -18,7 +18,7 @@ return array(
 );
 ~~~
 
-> Tip|Wskazówka: Ponieważ kontroler `PostController` zawiera już akcję `list` jako domyślną akcje, podczas wchodzenia na stronę domową aplikacji zobaczymy rezultat wygenerowany przez akcję `list` kontrolera wiadomości.
+> Tip|Wskazówka: Ponieważ kontroler `PostController` zawiera już akcję `index` jako domyślną akcje, podczas wchodzenia na stronę domową aplikacji zobaczymy rezultat wygenerowany przez akcję `index` kontrolera wiadomości.
 
 
 Włączenie buforowania schematu bazy
@@ -67,4 +67,4 @@ Końcowy proces wdrażana polega głównie na kopiowaniu katalogu `/wwwroot/blog
  zapisywalne przez proces Web serwera.
 
 
-<div class="revision">$Id: final.deployment.txt 683 2009-02-16 05:20:17Z qiang.xue $</div>
+<div class="revision">$Id: final.deployment.txt 2017 2010-04-05 17:12:13Z alexander.makarow $</div>

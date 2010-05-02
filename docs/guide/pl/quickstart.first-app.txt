@@ -157,60 +157,54 @@ Ta część to czysta zabawa. Chcemy zaimplementować operacje CRUD (create,
 read, update i delete) dla tabeli `User`, którą dopiero co utworzyliśmy.
 Potrzebne są one też powszechnie w praktycznie tworzonych aplikacjach.
 
-Zamiast męczyć się pisząc rzeczywisty kod możemy znów skorzystać z potężnego
-narzędzia `yiic`, które automatycznie wygeneruje dla nas kod. Ten proces znany
-jest jako *scaffolding* (tworzenie rusztowania). 
+Zamiast męczyć się pisząc rzeczywisty kod możemy skorzystać z Gii potężnego
+przeglądarkowego generatora kodu.
 
-Otwórz okno poleceń i wykonaj listę poleceń znajdujących się poniżej:
+> Info|Info: Gii jest dostępne od wersji 1.1.2. Przed tą wersją możemy używać wcześniej wspomnianego narzędzia `yiic` w celu osiągnięcia tego samego celu. Aby uzyskać więcej szczegółów, przejdź do [Implementowania operacji CRUD z yii](/doc/guide/quickstart.first-app-yiic).
+
+
+### Konfigurowanie Gii
+
+W celu używania Gii musimy najpierw wyedytować plik `WebRoot/testdrive/protected/main.php`, który znany jest jako plik [konfiguracja plikacji](/doc/guide/basics.application#application-configuration):
 
 ~~~
-% cd WebRoot/testdrive
-% protected/yiic shell
-Yii Interactive Tool v1.1
-Please type 'help' for help. Type 'exit' to quit.
->> model User tbl_user
-   generate models/User.php
-   generate fixtures/tbl_user.php
-   generate unit/UserTest.php
+[php]
+return array(
+	......
+	'import'=>array(
+		'application.models.*',
+		'application.components.*',
+	),
 
-The following model classes are successfully generated:
-    User
-
-If you have a 'db' database connection, you can test these models now with:
-    $model=User::model()->find();
-    print_r($model);
-
->> crud User
-   generate UserController.php
-   generate UserTest.php
-   mkdir D:/testdrive/protected/views/user
-   generate create.php
-   generate update.php
-   generate index.php
-   generate view.php
-   generate admin.php
-   generate _form.php
-   generate _view.php
-
-Crud 'user' has been successfully created. You may access it via:
-http://hostname/path/to/index.php?r=user
+	'modules'=>array(
+		'gii'=>array(
+			'class'=>'system.gii.GiiModule',
+			'password'=>'tutaj wprowadź hasło',
+		),
+	),
+);
 ~~~
 
-Powyżej używamy polecenia `yiic shell` dla interakcji z naszą szkieletową
-aplikacją. W wierszu poleceń wykonujemy dwa polecenia: `model User tbl_user` i `crud User`.
-Pierwsze z nich generuje klasę modelu nazwaną `User` dla tabeli `tbl_user`, kolejne odczytuje
-ten model i generuje kod implementujący odpowiadające mu operacje CRUD. 
+Następnie odwiedź URL `http://hostname/testdrive/index.php?r=gii`. Zostaniesz poproszony o wprowadzenia hasła, które powinno
+zgadzać się z tym, które przed chwilą wprowadziliśmy w powyższej konfiguracji aplikacji.
 
-> Uwaga: mogą pojawić się błędy typu "...could not find driver" (nie mogę
-> odnaleźć sterownika), nawet gdy weryfikacja wymagań pokaże, że uruchomiłeś
-> już PDO i odpowiadający mu sterownik. Jeżeli się to zdarzy możesz spróbować
-> uruchomić `yiic` w sposób następujący:
->
-> ~~~
-> % php -c path/to/php.ini protected/yiic.php shell
-> ~~~
->
-> gdzie `path/to/php.ini` reprezentuje sobą ścieżkę do właściwego pliku PHP ini.
+### Generowanie modelu użytkownika
+
+Po zalogowaniu się, kliknij na link `Model Generator`. Zostaniemy przeniesieni do następujacej strony generowania modelu,
+
+![Model Generator](gii-model.png)
+
+W polu nazwy tabeli `Table Name`, wprowadź `tbl_user`. W polu klasy modelu `Model Class` wprowadź `User`. Następnie naciśnij przyciś podglądu `Preview`. Spowoduje to pokazanie nowy plik z kodem, który ma zostać wygenerowany. Teraz naciśnij przycisk generowania `Generate`. Nowy plik o nazwie `User.php` zostanie wygenerowany w katalogu `protected/models`. Jak opiszemy w dalszej części przewodnika, ta wygenerowana klasa modelu `User` pozwoli nam porozumiewywać się z tabelą bazy danych `tbl_user` w sposób obiektowy.
+
+### Generowanie kodu CRUD
+
+Po utworzeniu pliku klasy modelu wygenerujemy kod który implementuje operacje CRUD na danych użytkownika. Wybieramy generator CRUD `Crud Generator` w Gii jak pokazano poniżej:
+
+![CRUD Generator](gii-crud.png)
+
+W polu modelu klasy `Model Class` wpisz `User`. W polu identyfikatora kontrolera `Controller ID` wpisz `user` (małymi literami). Następnie naciśnij przycisk podglądu `Preview` a następnie przycisk generowania `Generate`. Zakończyliśmy generowanie kodu CRUD.
+
+### Dostęp do stron CRUD
 
 Nacieszmy się teraz efektami naszej pracy otwierając taki adres URL:
 
@@ -254,4 +248,4 @@ pojedynczej linijki kodu!
 ![Strona tworzenia nowego użytkownika](first-app7.png)
 
 
-<div class="revision">$Id: quickstart.first-app.txt 1733 2010-01-21 16:54:29Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app.txt 2041 2010-04-11 03:54:25Z qiang.xue $</div>

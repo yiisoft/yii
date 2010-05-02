@@ -2,16 +2,16 @@
 <table class="yiiLog" width="100%" cellpadding="2" style="border-spacing:1px;font:11px Verdana, Arial, Helvetica, sans-serif;background:#EEEEEE;color:#666666;">
 	<tr>
 		<th style="background:black;color:white;" colspan="6">
-			Profilowanie: raport podsumowuj¹cy
+			Profilowanie: raport podsumowujÄ…cy
 			(Czas: <?php echo sprintf('%0.5f',Yii::getLogger()->getExecutionTime()); ?>s,
-			Pamiêæ: <?php echo number_format(Yii::getLogger()->getMemoryUsage()/1024); ?>KB)
+			PamiÄ™Ä‡: <?php echo number_format(Yii::getLogger()->getMemoryUsage()/1024); ?>KB)
 		</th>
 	</tr>
 	<tr style="background-color: #ccc;">
 	    <th>Procedura</th>
-		<th>Iloœæ</th>
+		<th>IloÅ›Ä‡</th>
 		<th>Razem (s)</th>
-		<th>Œrednia. (s)</th>
+		<th>Å›rednia. (s)</th>
 		<th>Min. (s)</th>
 		<th>Max. (s)</th>
 	</tr>
