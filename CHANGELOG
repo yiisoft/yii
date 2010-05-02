@@ -2,6 +2,9 @@
                    Yii Framework Change Log
                    ========================
 
+Version 1.1.3 to be released
+----------------------------
+
 Version 1.1.2 May 2, 2010
 -------------------------
 - Bug #676, 891: merging criterias with parameters is impossible (Sam Dark)
