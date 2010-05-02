@@ -244,7 +244,7 @@ class YiiBase
 		if(self::$_app!==null)
 		{
 			if($source===null)
-				$source=$category==='yii'?'coreMessages':'messages';
+				$source=($category==='yii'||$category==='zii')?'coreMessages':'messages';
 			if(($source=self::$_app->getComponent($source))!==null)
 				$message=$source->translate($category,$message,$language);
 		}
@@ -2690,8 +2690,7 @@ class CUrlRule extends CComponent
 		{
 			$urlSuffix=$this->urlSuffix===null ? $manager->urlSuffix : $this->urlSuffix;
 			if($urlSuffix!='' && $urlSuffix!=='/')
-				throw new CHttpException(404,Yii::t('yii','Unable to resolve the request "{route}".',
-					array('{route}'=>$rawPathInfo)));
+				return false;
 		}
 		if($this->hasHostInfo)
 			$pathInfo=$request->getHostInfo().rtrim('/'.$pathInfo,'/');
@@ -3424,7 +3423,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	{
 		$app=Yii::app();
 		$request=$app->getRequest();
-		if(!$request->isAjaxRequest)
+		if(!$request->getIsAjaxRequest())
 			$this->setReturnUrl($request->getUrl());
 		if(($url=$this->loginUrl)!==null)
 		{
@@ -3587,7 +3586,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	}
 	public function checkAccess($operation,$params=array(),$allowCaching=true)
 	{
-		if($allowCaching && isset($this->_access[$operation]))
+		if($allowCaching && $params===array() && isset($this->_access[$operation]))
 			return $this->_access[$operation];
 		else
 			return $this->_access[$operation]=Yii::app()->getAuthManager()->checkAccess($operation,$this->getId(),$params);
@@ -3770,6 +3769,10 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	public function getKeys()
 	{
 		return array_keys($_SESSION);
+	}
+	public function get($key,$defaultValue=null)
+	{
+		return isset($_SESSION[$key]) ? $_SESSION[$key] : $defaultValue;
 	}
 	public function itemAt($key)
 	{
@@ -5551,6 +5554,12 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	{
 		$this->raiseEvent('onAfterValidate',$event);
 	}
+	public function getValidatorList()
+	{
+		if($this->_validators===null)
+			$this->_validators=$this->createValidators();
+		return $this->_validators;
+	}
 	public function getValidators($attribute=null)
 	{
 		if($this->_validators===null)
@@ -5569,11 +5578,11 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	}
 	public function createValidators()
 	{
-		$validators=array();
+		$validators=new CList;
 		foreach($this->rules() as $rule)
 		{
 			if(isset($rule[0],$rule[1]))  // attributes, validator name
-				$validators[]=CValidator::createValidator($rule[1],$this,$rule[0],array_slice($rule,2));
+				$validators->add(CValidator::createValidator($rule[1],$this,$rule[0],array_slice($rule,2)));
 			else
 				throw new CException(Yii::t('yii','{class} has an invalid validation rule. The rule must specify attributes to be validated and the validator name.',
 					array('{class}'=>get_class($this))));
@@ -5889,6 +5898,12 @@ abstract class CActiveRecord extends CModel
 	{
 		return array();
 	}
+	public function resetScope()
+	{
+		if($this->_c!==null)
+			$this->_c=new CDbCriteria();
+		return $this;
+	}
 	public static function model($className=__CLASS__)
 	{
 		if(isset(self::$_models[$className]))
@@ -5896,8 +5911,8 @@ abstract class CActiveRecord extends CModel
 		else
 		{
 			$model=self::$_models[$className]=new $className(null);
-			$model->attachBehaviors($model->behaviors());
 			$model->_md=new CActiveRecordMetaData($model);
+			$model->attachBehaviors($model->behaviors());
 			return $model;
 		}
 	}
@@ -6014,7 +6029,12 @@ abstract class CActiveRecord extends CModel
 		{
 			$attrs=array();
 			foreach($names as $name)
-				$attrs[$name]=isset($attributes[$name])?$attributes[$name]:null;
+			{
+				if(property_exists($this,$name))
+					$attrs[$name]=$this->$name;
+				else
+					$attrs[$name]=isset($attributes[$name])?$attributes[$name]:null;
+			}
 			return $attrs;
 		}
 		else
@@ -6219,7 +6239,12 @@ abstract class CActiveRecord extends CModel
 			$this->_attributes=array();
 			$this->_related=array();
 			foreach($this->getMetaData()->columns as $name=>$column)
-				$this->$name=$record->$name;
+			{
+				if(property_exists($this,$name))
+					$this->$name=$record->$name;
+				else
+					$this->_attributes[$name]=$record->$name;
+			}
 			return true;
 		}
 		else
@@ -6252,9 +6277,8 @@ abstract class CActiveRecord extends CModel
 			$this->{$table->primaryKey}=$value;
 		else if(is_array($table->primaryKey))
 		{
-			$values=array();
 			foreach($table->primaryKey as $name)
-				$this->$name=$values[$name];
+				$this->$name=$value[$name];
 		}
 	}
 	public function getOldPrimaryKey()

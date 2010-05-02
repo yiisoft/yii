@@ -2,13 +2,14 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.1.2 to be released
-----------------------------
+Version 1.1.2 May 2, 2010
+-------------------------
 - Bug #676, 891: merging criterias with parameters is impossible (Sam Dark)
 - Bug #1006: Setting CForm::attributes may cause exception (Qiang)
 - Bug #1007: CActiveForm did not update the validation result correctly when change of one attribute affects the validity of another (Qiang)
 - Bug #1014: CDataProvider was accessing non-existing property modelClass (Qiang)
 - Bug #1021: Missing return in CAuthItem::removeChild (Sam Dark)
+- Bug #1031: Added a temporary fix for dropdown filter in CGridView not working in IE (Qiang)
 - Bug #1035: RBAC BizRule security violation (Sam Dark)
 - Bug #1048: CAutoComplete conflicts with jQueryUI 1.8.x (Sam Dark)
 - Bug #1115: Fixed the bug that using bigint with MySQL, PostgreSQL and SQL Server may lose precision (Qiang)
@@ -51,7 +52,9 @@ Version 1.1.2 to be released
 - Chg #1163: CLinkPager will enable first and last page buttons unless the current page is first or last. (Qiang)
 - Chg #1164: CUrlRule will not throw 404 exception when unable to parse a URL under strict parsing mode (Qiang)
 - New #1005: added CWinCache (Sam Dark)
+- New #1013: Added CJuiAutoComplete (sebas)
 - New: Added Ukrainian translations (Valeriy)
+- New: Upgraded JQuery UI to 1.8.1 (Qiang)
 
 Version 1.1.1 March 14, 2010
 ----------------------------
