@@ -1,9 +1,9 @@
 Erstellen von Erweiterungen
 ===========================
 
-Da eine Erweiterung auch von anderen Entwicklern verwendet werden soll,
-erfordert ihre Erstellung etwas zusätzlichen Aufwand. Hier einige
-grundsätzliche Richtlinien:
+Da Erweiterungen auch von anderen verwendet werden sollen,
+ist meist etwas mehr Aufwand bei ihrer Entwicklung nötig.
+Hier zunächst einige grundsätzliche Richtlinien:
 
 * Eine Erweiterung sollte in sich geschlossen sein. Das heisst, sie sollte
   möglichst wenig externe Abhängigkeiten aufweisen. Für einen Anwender wäre es
@@ -12,8 +12,7 @@ grundsätzliche Richtlinien:
 * Alle Dateien, die zu einer Erweiterung gehören, sollten unterhalb des
   Verzeichnisses mit dem Namen der Erweiterung abgelegt werden.
 * Klassen in einer Erweiterung sollte ein Buchstabe (bzw. mehrere Buchstaben)
-  vorangestellt sein, um Konflikte mit Klassen von anderen Erweiterungen zu
-  vermeiden.
+  vorangestellt sein, um Konflikte mit anderen Erweiterungen zu vermeiden.
 * Eine Erweiterung sollte eine detaillierte Installationsanleitung und
   API-Dokumentation enthalten. So können Zeit und Aufwand für andere
   Entwickler minimiert werden, wenn sie die Erweiterung verwenden möchten.
@@ -24,10 +23,10 @@ grundsätzliche Richtlinien:
   allerdings nicht, da bei ihr auch jeglicher davon abgeleitete Code als
   Open Source zur Verfügung gestellt werden muss.
 
-Wir beschreiben im Folgenden, wie Sie eine neue Erweiterung entsprechend den
-Kategorien in der [Übersicht](/doc/guide/extension.overview) erstellen können.
-Die Erläuterungen sind auch für Erweiterungen gültig, die Sie hauptsächlich
-für Ihre eigenen Projekt erstellen.
+Im folgenden beschreiben wir jeweils, wie man Erweiterungen entsprechend den
+Kategorien in der [Übersicht](/doc/guide/extension.overview) erstellt.
+Das selbe gilt aber genauso für Erweiterungen, die Sie nur innerhalb Ihrer
+Projekte verwenden möchten.
 
 Anwendungskomponente
 --------------------
@@ -35,12 +34,12 @@ Anwendungskomponente
 Eine
 [Anwendungskomponente](/doc/guide/basics.application#application-component)
 sollte das Interface [IApplicationComponent] implementieren oder die Klasse
-[CApplicationComponent] erweitern. Die wichtigste zu implementierende Methode
-ist [IApplicationComponent::init], in der die Komponente ihre Initialisierung
+[CApplicationComponent] erweitern. Die Methode ist hierbei
+[IApplicationComponent::init], in der die Komponente ihre Initialisierung
 vornehmen kann. Diese Methode wird aufgerufen, nachdem die Komponente erstellt
-und ihr die Startwerte ihrer Eigenschaften (entsprechend der
+und ihre Eigenschaftswerte (entsprechend der
 [Anwendungskonfiguration](/doc/guide/basics.application#application-configuration)) 
-zugewiesen wurden.
+gesetzt wurden.
 
 Standardmäßig wird eine Komponente nur erstellt und initialisiert, wenn zum
 ersten mal auf sie zugegriffen wird. Falls eine Anwendungskomponente
@@ -53,14 +52,14 @@ Behavior
 Um ein Behavior zu erstellen, muss das [IBehavior]-Interface implementiert
 werden. Bequemerweise enthält Yii bereits die Basisklasse [CBehavior],
 die dieses Interface implementiert und einige weitere Komfortfunktionen
-anbietet. Kindklassen müssen hauptsächlich die Methoden implementieren, die
-sie ihren Komponenten bereitstellen wollen.
+anbietet. In Kindklassen muss man so nur noch jene Methoden verwirklichen,
+die vom Behavior bereitgestellt werden sollen.
 
 Wenn man Behaviors für [CModel] und [CActiveRecord] entwickeln möchte, kann
 man auch [CModelBehavior] bzw. [CActiveRecordBehavior] erweitern. Diese
 Basisklassen bieten zusätzliche, an [CModel] bzw. [CActiveRecord] angepasste
 Features. Die [CActiveRecordBehavior]-Klasse implementiert z.B. eine Reihe von
-Methoden, die auf die Events im Lebenszyklus eines ActiveRecord-Objekts
+Methoden, die auf die Events eines ActiveRecord-Objekts
 reagieren. Eine Kindklasse kann diese Methoden überschreiben, um so
 angepassten Code einzuschleusen, der im Lebenszyklus eines AR ausgeführt wird.
 
@@ -94,8 +93,8 @@ Am einfachsten erstellt man ein Widget, indem man ein vorhandenes Widget
 erweitert und seine Methoden oder vorgegebenen Eigenschaften überschreibt. 
 Wenn Sie z.B. schönere CSS-Stile für [CTabView] verwenden möchten, könnten Sie
 dessen [CTabView::cssFile]-Eigenschaft konfigurieren. Sie könnten [CTabView]
-aber auch wie im folgenden Beispiel erweitern, so dass Sie diese Eigenschaft
-beim Einsatz des Widgets nicht mehr angeben müssen.
+aber auch wie im folgenden Beispiel erweitern, so dass diese Eigenschaft
+beim Einsatz des Widgets nicht mehr angegeben werden muss.
 
 ~~~
 [php]
@@ -115,29 +114,28 @@ class MyTabView extends CTabView
 
 Hier überschreiben wir die Methode [CWidget::init] und weisen
 [CTabView::cssFile] die URL für unsere neue CSS-Datei zu, falls diese
-Eigenschaft noch nicht gesetzt war. Wir legen die neue CSS-Datei im selben
-Verzeichnis ab, das auch die Klassendatei von `MyTabView` enthält, damit beide als
+Eigenschaft noch nicht gesetzt war. Die neue CSS-Datei legen wir ebenfalls
+im Verzeichnis der Klassendatei `MyTabView` ab, damit beide als
 Erweiterung zusammengepackt werden können. Da die CSS-Datei vom Web aus nicht
-zugänglich ist, müssen wir sie als Asset veröffentlichen.
+zugänglich ist, wird sie als Asset veröffentlicht.
 
-Um ein ganz neues Widget zu erstellen, müssen wir hauptsächlich zwei Methoden
+Um ein ganz neues Widget zu erstellen, muss man hauptsächlich zwei Methoden
 implementieren: [CWidget::init] und [CWidget::run]. Erstere wird aufgerufen,
-wenn wir `$this->beginWidget` verwenden, um ein Widget in einem View
-einzusetzen, die Zweite, wenn wir `$this->endWidget` aufrufen. Falls wir den
-eingebetteten Inhalt zwischen den beiden Aufrufen abfangen und verarbeiten
-möchten, können wir in [CWidget::init] eine
-[Ausgabepufferung](http://de3.php.net/manual/de/book.outcontrol.php) 
-starten und die gepufferte Ausgabe in [CWidget::run] zur weiteren
+wenn man ein Widget mit `$this->beginWidget` verwendet, 
+die Zweite, beim Aufruf von `$this->endWidget`. Möchte man den 
+eingebetteten Inhalt zwischen den beiden Aufrufen abfangen und verarbeiten, 
+kann man in [CWidget::init] eine [Ausgabepufferung](http://de3.php.net/manual/de/book.outcontrol.php) 
+starten und die gepufferte Ausgabe dann in [CWidget::run] zur weiteren
 Bearbeitung auslesen.
 
-Ein Widget erfordert oftmals die Einbindung von CSS-, Javascript- oder anderen
-Dateien in eine Seite. Diese Dateien nennen wir *Assets* (sinngem.: Anlage,
-Zusatz), da sie am Ort der Widget-Klasse abgelegt werden und normalerweise für
-Web-Besucher nicht erreichbar sind. Um diese Dateien vom Web aus zugänglich zu
-machen, müssen wir sie mit [CWebApplication::assetManager] (sinngem.:
-Anlagenverwalter) veröffentlichen, wie im obigen Codebeispiel gezeigt. Wenn
-wir eine CSS- oder Javascript-Datei außerdem in die aktuelle Seite einbinden
-möchten, müssen wir sie mit [CClientScript] registrieren:
+Mit einem Widget müssen oft auch CSS-, Javascript- oder anderen
+Dateien in eine Seite eingebunden werden. Diese Dateien nennen wir *Assets* 
+(sinngem.: Anlage, Zusatz), da sie am Ort der Widgetklasse abgelegt werden und 
+normalerweise vom Web aus nicht erreichbar sind. Um diese Dateien zugänglich zu
+machen, müssen sie mit dem [CWebApplication::assetManager] (sinngem.:
+Anlagenverwalter) veröffentlicht werden, wie im obigen Beispiel gezeigt. Soll
+eine veröffentlichte Datei außerdem in die aktuelle Seite eingebunden werden,
+muss man sie mit [CClientScript] registrieren:
 
 ~~~
 [php]
@@ -153,11 +151,10 @@ class MyWidget extends CWidget
 }
 ~~~
 
-Ein Widget kann auch seine eigenen View-Dateien verwenden. In diesem Fall
-legen Sie ein Verzeichnis namens `views` unterhalb des Ordners an, der die
-Klassendatei des Widgets enthält. Legen Sie alle zugehörigen View-Dateien dort ab. 
-Ähnlich wie im Controller können Sie dann in der Widget-Klasse 
-`$this->render('ViewName')` benutzen, um einen View zu rendern.
+Ein Widget kann auch seine eigenen Viewdateien verwenden. In diesem Fall
+legt man ein Verzeichnis namens `views` im Ordner der Widgetklasse an, wo alle 
+zugehörigen Viewdateien abgelegt werden.  Ähnlich wie im Controller kann man
+dann im Widget `$this->render('ViewName')` benutzen, um einen dieser Views zu rendern.
 
 Action
 ------
@@ -200,10 +197,10 @@ Controller
 Wenn ein [Controller](/doc/guide/basics.controller) als Erweiterung
 veröffentlicht werden soll, sollte er [CExtController] statt [CController]
 erweitern. Und zwar hauptsächlich deshalb, weil ein [CController] seine
-View-Dateien unter `application.views.ControllerID` sucht, während
-[CExtController] seine View-Dateien im Unterverzeichnis `views` des Ordners
+Viewdateien unter `application.views.ControllerID` sucht, während
+[CExtController] seine Viewdateien im Unterverzeichnis `views` des Ordners
 erwartet, der auch die Klassendatei des Controllers enthält. Dadurch wird es
-einfacher, den Controller weiterzugeben, da seine View-Dateien bei der
+einfacher, den Controller weiterzugeben, da seine Viewdateien bei der
 Klassendatei verbleiben.
 
 
@@ -228,9 +225,9 @@ class MyValidator extends CValidator
 Konsolenbefehl
 --------------
 Ein [Konsolenbefehl](/doc/guide/topics.console) sollte [CConsoleCommand]
-erweitern und dessen Methode [CConsoleCommand::run] implementieren. Optional
-können wir auch [CConsoleCommand::getHelp] überschreiben, um eine nützliche
-Hilfe zum Befehl anzuzeigen.
+erweitern und dessen Methode [CConsoleCommand::run] implementieren. Zusätzlich
+kann man auch [CConsoleCommand::getHelp] überschreiben, um einen Hilfetext
+für den Befehl anzuzeigen.
 
 ~~~
 [php]
@@ -253,16 +250,15 @@ Module
 Für Details zur Erstellung von Modulen, beachten Sie bitte das Kapitel über
 [Module](/doc/guide/basics.module#creating-module). 
 
-Die allgemeine Richtlinie für die Entwicklung eines Moduls lautet: Es sollte in
-sich geschlossen sein. Sämtliche Dateien, die vom Modul verwendet werden (wie
-z.B. CSS-, Javascript-, Bilddateien) sollten zusammen mit dem Modul geliefert
-werden. Und sie sollten vom Modul veröffentlicht werden, um sie vom Web aus
-zugänglich zu machen.
+Allgemeine sollte auch ein Modul in sich geschlossen sein. Sämtliche Dateien, 
+die das Modul verwendet(wie z.B. CSS-, Javascript-, Bilddateien) sollten 
+im Modul enthalten sein. Und sie sollten vom Modul veröffentlicht werden, 
+damit sie vom Web aus erreichbar sind. 
 
 Allgemeine Komponenten
 ----------------------
-Eine allgemeine Erweiterungskomponente zu entwickeln, bedeutet, eine Klasse zu
-schreiben. Auch hier gilt: Die Komponente sollte in sich geschlossen sein, so
+Eine allgemeine Erweiterungskomponente zu entwickeln, bedeutet nichts anderes,
+als eine Klasse zu schreiben. Auch hier gilt: Die Komponente sollte in sich geschlossen sein, so
 dass sie von anderen Entwicklern einfach eingesetzt werden kann.
 
 <div class="revision">$Id: extension.create.txt 1423 2009-09-28 01:54:38Z qiang.xue $</div>

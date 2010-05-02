@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>B³¹d <?php echo $data['code']; ?></title>
+<title>BÅ‚Ä…d <?php echo $data['code']; ?></title>
 
 <style type="text/css">
 /*<![CDATA[*/
@@ -19,16 +19,16 @@ p {font-family:"Verdana";font-weight:normal;color:black;font-size:9pt;margin-top
 </head>
 
 <body>
-<h1>B³¹d <?php echo $data['code']; ?></h1>
+<h1>BÅ‚Ä…d <?php echo $data['code']; ?></h1>
 <h2><?php echo nl2br(CHtml::encode($data['message'])); ?></h2>
 <p>
-Powy¿szy b³¹d wyst¹pi³ podczas przetwarzania przez serwer Twojego ¿¹dania.
+PowyÅ¼szy bÅ‚Ä…d wystÄ…piÅ‚ podczas przetwarzania przez serwer Twojego Å¼Ä…dania.
 </p>
 <p>
-Jeœli myœlisz, ¿e jest to b³¹d serwera proszê skontaktuj siê z <?php echo $data['admin']; ?>.
+JeÅ›li myÅ›lisz, Å¼e jest to bÅ‚Ä…d serwera proszÄ™ skontaktuj siÄ™ z <?php echo $data['admin']; ?>.
 </p>
 <p>
-Dziêkujemy!
+DziÄ™kujemy!
 </p>
 <div class="version">
 <?php echo date('Y-m-d H:i:s',$data['time']) .' '. $data['version']; ?>

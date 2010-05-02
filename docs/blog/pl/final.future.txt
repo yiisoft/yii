@@ -21,7 +21,7 @@ Umiędzynaradawianie
 
 Możemy również umiędzynarodowić nasz blog, tak, że każda jego strona może być wyświetlana w innym języku. Wymaga to przede wszystkim działania w dwóch aspektach. 
 
-Po pierwsze, możemy utworzyć plik widoku w innym języku. Na przykład dla strony `list` kontrolera `PostController`, możemy utworzyć plik widoku `/wwwroot/blog/protected/views/post/zh_cn/list.php`. Jeśli aplikacja jest skonfigurowana do używania uproszczonego języka chińskiego (kod języka to `zh_cn`), Yii automatycznie użyje tego nowego pliku widoku zamiast oryginalnego.
+Po pierwsze, możemy utworzyć plik widoku w innym języku. Na przykład dla strony `index` kontrolera `PostController`, możemy utworzyć plik widoku `/wwwroot/blog/protected/views/post/zh_cn/index.php`. Jeśli aplikacja jest skonfigurowana do używania uproszczonego języka chińskiego (kod języka to `zh_cn`), Yii automatycznie użyje tego nowego pliku widoku zamiast oryginalnego.
 
 Po drugie, możemy utworzyć tłumaczenia komunikatów generowanych przez kod. Tłumaczenie komunikatów powinno zostać zapisane jako pliki w katalogu `/wwwroot/blog/protected/messages`. Potrzebujemy również zmodyfikować kod, gdzie używane są łańcuchy znaków poprzez zamknięcie ich w wywołaniu metody `Yii::t()`.
 
@@ -54,4 +54,4 @@ Dodawanie nowych funkcji
 
 Nasza aplikacja posiada jedynie kilka bardzo prostych funkcjonalności. Aby stać się kompletnym systemem blogowym potrzebne są nowe funkcje, na przykład, portlet kalendarza, powiadomienia przez email, kategoryzowanie wiadomości, portlet wiadomości zarchiwizowanych, itp. Pozostawimy implementację tych funkcji zainteresowanym czytelnikom
 
-<div class="revision">$Id: final.future.txt 1773 2010-02-01 18:39:49Z qiang.xue $</div>
+<div class="revision">$Id: final.future.txt 2017 2010-04-05 17:12:13Z alexander.makarow $</div>

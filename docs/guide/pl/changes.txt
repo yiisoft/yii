@@ -3,6 +3,10 @@ Nowe funkcjonalności
 
 Ta strona zawiera streszczenie najważniejszych nowych funkcji wprowadzonych w każdym wydaniu Yii. 
 
+Wersja 1.1.2
+-------------
+
+ * [Dodano przeglądarkowe narzędzie generowania kodu Gii](/doc/guide/topics.gii)
 
 Wersja 1.1.1
 -------------
@@ -116,4 +120,4 @@ Wersja 1.0.5
  * Rozszerzono[CUrlManager] o wsparcie dla parametryzacji reguł dla części URL zawierającej trasę. Zobacz:
      - [Parametryzacja trasy w regułach URL](/doc/guide/topics.url#parameterizing-routes)
 
-<div class="revision">$Id: changes.txt 1874 2010-03-10 15:44:41Z qiang.xue $</div>
+<div class="revision">$Id: changes.txt 2040 2010-04-11 02:48:52Z qiang.xue $</div>

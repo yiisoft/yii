@@ -20,7 +20,7 @@ Gegenstands-Beziehungs-Modell).
 > Info|Info: DBMS unterscheiden sich in ihrer jeweiligen Unterstützung von
 > Fremdschlüssel-Constraints.
 >
-> SQLite unterstützt keine Fremschlüssel-Constraints, aber Sie können beim Erstellen
+> SQLite vor Version 3.6.19 unterstützt keine Fremschlüssel-Constraints, aber Sie können beim Erstellen
 > von Tabellen trotzdem Constraints angeben. 
 
 Festlegen der Beziehungen
@@ -476,7 +476,7 @@ class Post extends CActiveRecord
 	{
 		return array(
 			'commentCount'=>array(self::STAT, 'Comment', 'post_id'),
-			'categoryCount'=>array(self::STAT, 'Category', 'PostCategory(post_id, category_id)'),
+			'categoryCount'=>array(self::STAT, 'Category', 'post_category(post_id, category_id)'),
 		);
 	}
 }
@@ -487,7 +487,7 @@ Anzahl der Kommentare zu einem Beitrag und `categoryCount` die Anzahl von
 Kategorien, denen ein Beitrag zugeordnet wurde. Beachten Sie, dass `Post` und
 `Comment` in einer `HAS_MANY`-Beziehung zueineander stehen, während `Post` und
 `Category` über eine `MANY_MANY`-Beziehung (über die Verbindungstabelle
-`PostCategory`) verknüpft sind.
+`post_category`) verknüpft sind.
 
 Mit obiger Deklaration können wir die Anzahl der Kommentare eines Beitrags
 über den Ausdruck `$post->commentCount` beziehen. Beim ersten Zugriff auf
@@ -592,4 +592,4 @@ class User extends CActiveRecord
 verwendet werden, die in [CActiveRecord::scopes] definiert wurden. Daher
 können diese hier auch nicht parametrisiert werden.
 
-<div class="revision">$Id: database.arr.txt 1683 2010-01-08 05:08:29Z qiang.xue $</div>
+<div class="revision">$Id: database.arr.txt 2068 2010-04-22 16:42:16Z alexander.makarow $</div>

@@ -9,7 +9,7 @@
 	    <th style="width:120px">Znacznik czasu</th>
 		<th>Poziom</th>
 		<th>Kategoria</th>
-		<th>Wiadomoœæ</th>
+		<th>WiadomoÅ›Ä‡</th>
 	</tr>
 <?php
 $colors=array(

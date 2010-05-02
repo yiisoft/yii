@@ -143,59 +143,64 @@ CREATE TABLE tbl_user (
 
 А теперь самое веселое. Мы бы хотели добавить операции CRUD 
 (создание, чтение, обновление и удаление) для только что созданной таблицы `User` —
-это часто необходимо при создании реальных приложений. Чтобы сгенерировать необходимый код, 
-снова воспользуемся утилитой `yiic`. Этот процесс также называют *скаффолдинг (scaffolding)*.
+это часто необходимо при создании реальных приложений. Вместо написания кода мы
+воспользуемся веб-кодогенератором Gii.
  
-Откроем консоль и выполним следующие команды:
+> Info|Информация: Gii доступен начиная с версии 1.1.2. Ранее для тех же целей
+> использовался уже упомянутый `yiic`. Подробнее `yiic` описан в разделе
+«[генерация CRUD при помощи yiic shell](/doc/guide/quickstart.first-app-yiic)».
+
+
+### Настройка Gii
+
+Для того, чтобы использовать Gii, нужно отредактировать
+[файл конфигурации приложения](/doc/guide/basics.application#application-configuration)
+`WebRoot/testdrive/protected/main.php`:
 
 ~~~
-% cd WebRoot/testdrive
-% protected/yiic shell
-Yii Interactive Tool v1.1
-Please type 'help' for help. Type 'exit' to quit.
->> model User tbl_user
-   generate models/User.php
-   generate fixtures/tbl_user.php
-   generate unit/UserTest.php
+[php]
+return array(
+	…
+	'import'=>array(
+		'application.models.*',
+		'application.components.*',
+	),
 
-The following model classes are successfully generated:
-    User
-
-If you have a 'db' database connection, you can test these models now with:
-    $model=User::model()->find();
-    print_r($model);
-
->> crud User
-   generate UserController.php
-   generate UserTest.php
-   mkdir D:/testdrive/protected/views/user
-   generate create.php
-   generate update.php
-   generate index.php
-   generate view.php
-   generate admin.php
-   generate _form.php
-   generate _view.php
-
-Crud 'user' has been successfully created. You may access it via:
-http://hostname/path/to/index.php?r=user
+	'modules'=>array(
+		'gii'=>array(
+			'class'=>'system.gii.GiiModule',
+			'password'=>'задайте свой пароль',
+		),
+	),
+);
 ~~~
 
-В примере выше мы использовали команду `shell` утилиты `yiic` для взаимодействия с 
-созданным каркасом приложения. В командной строке мы вводим две команды: `model User tbl_user` и `crud User`.
-Команда `model` автоматически создает класс модели `User`, основываясь на структуре таблицы `tbl_user`, 
-а команда `crud` генерирует класс контроллера и файлы представлений, которые обеспечивают 
-выполнение соответствующих операций CRUD.
+После этого зайдите по URL `http://hostname/testdrive/index.php?r=gii` и
+введите указанный в конфигурации пароль.
 
-> Note|Примечание: Даже, если проверка соответствия требованиям показывает, что расширение PDO и драйвер PDO, соответствующий используемой базе
-> данных, включены, могут возникать ошибки типа «…could not find driver». В этом случае необходимо запустить утилиту `yiic` следующим образом:
->
-> ~~~
-> % php -c path/to/php.ini protected/yiic.php shell
-> ~~~
->
-> где `path/to/php.ini` — путь до файла PHP ini
+### Генерация модели User
 
+После входа зайдите в раздел `Model Generator`:
+
+![Model Generator](gii-model.png)
+
+В поле `Table Name` введите `tbl_user`. В поле `Model Class` — `User`.
+Затем нажмите на кнопку `Preview`. Будет показан новый файл, который будет
+сгенерирован. После нажатия кнопки `Generate` в `protected/models` будет создан
+файл `User.php`. Как будет описано далее в руководстве, класс модели `User`
+позволяет работать с данными в таблице `tbl_user` в стиле ООП.
+
+### Генерация CRUD
+
+После генерации класса модели мы сгенерируем код, реализующий для неё операции CRUD.
+Выбираем `Crud Generator`:
+
+![CRUD Generator](gii-crud.png)
+
+В поле `Model Class` вводим `User`. В поле `Controller ID` — `user` (в нижнем регистре).
+Теперь нажимаем `Preview` и затем `Generate`. Генерация кода CRUD завершена.
+
+### Доступ к страницам CRUD
 
 Давайте порадуемся нашим трудам, перейдя по следующему URL:
 
@@ -230,4 +235,4 @@ http://hostname/testdrive/index.php?r=user/admin
 
 ![Страница добавления нового пользователя](first-app7.png)
 
-<div class="revision">$Id: quickstart.first-app.txt 1733 2010-01-21 16:54:29Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app.txt 2041 2010-04-11 03:54:25Z qiang.xue $</div>

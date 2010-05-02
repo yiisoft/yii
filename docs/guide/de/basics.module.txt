@@ -51,16 +51,8 @@ im gesamten Modul benötigt werden. Man kann z.B.
 Parameter bzw. [Komponenten](/doc/guide/basics.application#application-component)
 auf Modulebene bereitzustellen.
 
-> Tip|Tipp: Mit dem `yiic`-Befehl kann man das Grundgerüst eines Moduls
-> anlegen. Dieser Befehl erstellt zum Beispiel obiges `forum`-Modul:
->
-> ~~~
-> % cd WebVerzeichnis/testdrive
-> % protected/yiic shell
-> Yii Interactive Tool v1.0
-> Please type 'help' for help. Type 'exit' to quit.
-> >> module forum
-> ~~~
+> Tip|Tipp: Sie können den Modulgenerator in Gii verwenden, um das Grundgerüst
+> eines Moduls zu erstellen.
 
 
 Verwenden von Modulen
@@ -143,4 +135,4 @@ abgelegt werden. Um eine Controller-Action in einem Kindmodul aufzurufen,
 sollte man die Route `elternModulID/kindModulID/controllerID/actionID`
 verwenden.
 
-<div class="revision">$Id: basics.module.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>
+<div class="revision">$Id: basics.module.txt 2041 2010-04-11 03:54:25Z qiang.xue $</div>

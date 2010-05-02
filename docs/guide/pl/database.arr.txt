@@ -19,7 +19,7 @@ diagramie zależności encji (ER) celem zilustrowania przykładów w tej sekcji.
 
 > Info|Info: Wsparcie dla ograniczeń kluczy obcych różni sie w różnych DBMS.
 >
-> SQLite nie wspiera ograniczeń kluczy obcych, lecz wciąż możesz deklarować
+> SQLite < 3.6.19 nie wspiera ograniczeń kluczy obcych, lecz wciąż możesz deklarować
 > ograniczenia, podczas tworzenia tabel. AR może wykorzystać te deklaracje
 > aby prawidłowo wspierać relacyjne zapytania.
 >
@@ -469,15 +469,15 @@ class Post extends CActiveRecord
 	{
 		return array(
 			'commentCount'=>array(self::STAT, 'Comment', 'post_id'),
-			'categoryCount'=>array(self::STAT, 'Category', 'PostCategory(post_id, category_id)'),
+			'categoryCount'=>array(self::STAT, 'Category', 'post_category(post_id, category_id)'),
 		);
 	}
 }
 ~~~
 
 Powyżej zadeklarowaliśmy dwa zapytania statystyczne: `commentCount` oblicza ilość komentarzy należących do postu a `categoryCount` oblicza ilość kategorii do których należy post. 
-Zauważ, że relacja pomiędzy `tbl_post` a `tbl_comment` jest relacją `HAS_MANY`, podczas gdy relacja pomiędzy `tbl_post` a `tbl_category` jest relacją `MANY_MANY` 
-(wraz z łączącą je tabelą `tbl_post_category`). Jak możemy zauważyć, deklaracja jest bardzo podobna do tych z relacji opisywanych we wcześniejszych podpunktach.
+Zauważ, że relacja pomiędzy `Post` a `Comment` jest relacją `HAS_MANY`, podczas gdy relacja pomiędzy `Post` a `Category` jest relacją `MANY_MANY` 
+(wraz z łączącą je tabelą `post_category`). Jak możemy zauważyć, deklaracja jest bardzo podobna do tych z relacji opisywanych we wcześniejszych podpunktach.
 Jedyną różnicą jest to, że typem relacji jest tutaj `STAT`.
 
 Przy użyciu powyższej deklaracji możemy otrzymać ilość komentarzy dla postu przy użyciu wyrażenia `$post->commentCount`. Jeśli użyjemy tej właściwości po raz pierwszy,  
@@ -563,4 +563,4 @@ class User extends CActiveRecord
 w [CActiveRecord::scopes]. W rezultacie, nie mogą one zostać sparametryzowane.
 
 
-<div class="revision">$Id: database.arr.txt 1683 2010-01-08 05:08:29Z qiang.xue $</div>
+<div class="revision">$Id: database.arr.txt 2068 2010-04-22 16:42:16Z alexander.makarow $</div>

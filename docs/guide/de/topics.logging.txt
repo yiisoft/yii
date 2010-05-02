@@ -23,7 +23,7 @@ Yii::trace($message, $category);
 
 Beim Loggen einer Meldung muss eine Kategorie und eine Stufe angegeben werden. 
 Die Kategorie ist ein String im Format `xxx.yyy.zzz`, ähnlich einem
-[Pfad-Alias](/doc/guide/basics.namespace). Wenn eine Meldung zum
+[Pfadalias](/doc/guide/basics.namespace). Wenn eine Meldung zum
 Beispiel in [CController] geloggt wird, könnten wir die Kategorie
 `system.web.CController` verwenden. Die Logstufe sollte einem der folgenden
 Werte entpsrechen:

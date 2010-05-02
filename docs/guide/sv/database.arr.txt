@@ -18,7 +18,7 @@ avsnitt.
 ![ER-diagram](er.png)
 
 > Info: Stödet för referensattributrestriktioner varierar mellan olika databashanterare.
-> SQLite stöder inte referensattributrestriktioner, men det går ändå
+> SQLite < 3.6.19 stöder inte referensattributrestriktioner, men det går ändå
 > att deklarera restriktionerna när tabeller skapas.
 
 
@@ -476,7 +476,7 @@ class Post extends CActiveRecord
 	{
 		return array(
 			'commentCount'=>array(self::STAT, 'Comment', 'post_id'),
-			'categoryCount'=>array(self::STAT, 'Category', 'PostCategory(post_id, category_id)'),
+			'categoryCount'=>array(self::STAT, 'Category', 'post_category(post_id, category_id)'),
 		);
 	}
 }
@@ -485,7 +485,7 @@ class Post extends CActiveRecord
 Ovan deklareras två statistikfrågor: `commentCount` beräknar antalet kommentarer som tillhör 
 en postning och `categoryCount` beräknar antalet kategorier en postning tillhör. 
 Märk att sambandstypen mellan between `Post` och `Comment` är `HAS_MANY`, medan sambandstypen 
-mellan `Post` och `Category` är `MANY_MANY` (med hjälp av mellantabellen `PostCategory`). 
+mellan `Post` och `Category` är `MANY_MANY` (med hjälp av mellantabellen `post_category`). 
 Som tydligt framgår är deklarationen mycket snarlik  de sambandsdeklarationer som beskrivits 
 i tidigare delavsnitt. Den enda skillnaden är att sambandstypen `STAT` används här.
 
@@ -580,4 +580,4 @@ class User extends CActiveRecord
 [CActiveRecord::scopes]. Detta innebär också att de inte kan parametriseras.
 
 
-<div class="revision">$Id: database.arr.txt 1683 2010-01-08 05:08:29Z qiang.xue $</div>
+<div class="revision">$Id: database.arr.txt 2068 2010-04-22 16:42:16Z alexander.makarow $</div>

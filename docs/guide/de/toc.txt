@@ -53,6 +53,7 @@
 	- [Funktionstests](test.functional)
 
 * Spezialthemen
+	- [Automatisierte Codegenerierung](topics.gii)
     - [URL-Management](topics.url)
     - [Authentifizierung und Berechtigungen](topics.auth)
     - [Themes und Skins](topics.theming)
@@ -65,4 +66,4 @@
     - [Sicherheit](topics.security)
     - [Performance-Optimierung](topics.performance)
 
-<div class="revision">$Id: toc.txt 1603 2009-12-18 19:39:18Z qiang.xue $</div>
+<div class="revision">$Id: toc.txt 2040 2010-04-11 02:48:52Z qiang.xue $</div>

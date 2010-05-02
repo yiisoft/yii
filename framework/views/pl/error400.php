@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>Nieprawid³owe zapytanie</title>
+<title>NieprawidÅ‚owe zapytanie</title>
 <style type="text/css">
 /*<![CDATA[*/
 body {font-family:"Verdana";font-weight:normal;color:black;background-color:white;}
@@ -17,14 +17,14 @@ p {font-family:"Verdana";font-weight:normal;color:black;font-size:9pt;margin-top
 </style>
 </head>
 <body>
-<h1>Nieprawid³owe zapytanie</h1>
+<h1>NieprawidÅ‚owe zapytanie</h1>
 <h2><?php echo nl2br(CHtml::encode($data['message'])); ?></h2>
 <p>
-Zapytanie nie mo¿e byæ zrozumiane przez serwer ze wzglêdu na niepoprawn¹ sk³adniê.
-Prosze nie powtarzaj ¿¹danie bez uprzedniej modyfikacji.
+Zapytanie nie moÅ¼e byÄ‡ zrozumiane przez serwer ze wzglÄ™du na niepoprawnÄ… skÅ‚adniÄ™.
+Prosze nie powtarzaj Å¼Ä…danie bez uprzedniej modyfikacji.
 </p>
 <p>
-Jeœli myœlisz, ¿e jest to b³¹d serwera, proszê skontaktuj siê z <?php echo $data['admin']; ?>.
+JeÅ›li myÅ›lisz, Å¼e jest to bÅ‚Ä…d serwera proszÄ™ skontaktuj siÄ™ z <?php echo $data['admin']; ?>.
 </p>
 <div class="version">
 <?php echo date('Y-m-d H:i:s',$data['time']) .' '. $data['version']; ?>

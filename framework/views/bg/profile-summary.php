@@ -18,7 +18,7 @@
 <?php
 foreach($data as $index=>$entry)
 {
-	$color=($index%2)?'#F5F5F5':'#FFFFFF';
+	$color=($index%2)?'#F5F5F5':'#EBF8FE';
 	$proc=CHtml::encode($entry[0]);
 	$min=sprintf('%0.5f',$entry[2]);
 	$max=sprintf('%0.5f',$entry[3]);

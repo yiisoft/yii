@@ -120,7 +120,7 @@ class PostController extends CController
 }
 ~~~
 
-Dieses Beispiel verwendet den Pfad-Alias
+Dieses Beispiel verwendet den Pfadalias
 `application.controllers.post.UpdateAction`. Damit wird angegeben, dass sich die
 Actionklasse in `protected/controllers/post/UpdateAction.php` befindet.
 
@@ -222,7 +222,7 @@ class PostController extends CController
 Hier werden zwei Filter definiert: `postOnly` und `PerformanceFilter`.
 Der `postOnly`-Filter ist methodenbasiert (die entsprechende Filtermethode ist
 bereits in [CController] definiert), während der `PerformanceFilter`
-als Objekt vorliegt. Mit dem Pfad-Alias `application.filters.PerformanceFilter` 
+als Objekt vorliegt. Mit dem Pfadalias `application.filters.PerformanceFilter` 
 geben wir an, dass sich die Filterklasse in `protected/filters/PerformanceFilter.php`
 befindet. Da ein Array für die Konfiguration von `PerformanceFilter` verwendet
 wird, können damit auch gleich die Starteigenschaften des Filterobjekts

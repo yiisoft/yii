@@ -69,7 +69,7 @@ Aby przygotować się do następnego kroku, przypatrzmy się plikom wygenerowany
 
 W celu lepszego zrozumienia jak powyższe pliki są używane, pokażemy przepływ zadań w aplikacji, które występują w naszej aplikacji podczas wyświetlani listy wiadomości:
 
- 0. Użytkownik żąda adresu URL `http://www.example.com/blog/index.php?r=posts`;
+ 0. The user requests the URL `http://www.example.com/blog/index.php?r=post`; 
  1. [Skrypt wejściowy](http://www.yiiframework.com/doc/guide/basics.entry) jest wykonywany przez serwer, w skrypcie tym tworzona jest i inicjalizowana instancja [aplikacji](http://www.yiiframework.com/doc/guide/basics.application), służąca do obsługi żądań;
  2. Aplikacja tworzy instancję kontrolera `PostController` i wywołuje go;
  3. Instancja `PostController` wykonuje żądaną akcję `index` poprzez wywołanie swojej metody `actionIndex()`. Zauważ, że `index` jest domyślną akcją i użytkownik nie określił akcji do wykonania w adresie URL; 
@@ -77,4 +77,4 @@ W celu lepszego zrozumienia jak powyższe pliki są używane, pokażemy przepły
  5. Metoda `actionIndex()` wyświetla widok `index` wypełniony danymi wiadomości.
 
 
-<div class="revision">$Id: prototype.scaffold.txt 1872 2010-03-10 15:21:55Z qiang.xue $</div>
+<div class="revision">$Id: prototype.scaffold.txt 1947 2010-03-21 20:41:36Z alexander.makarow $</div>

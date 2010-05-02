@@ -44,17 +44,7 @@ Vi kan till exempel använda [CWebModule::params] för lagring av modulparametra
 [CWebModule::components] för att dela [applikationskomponenter](/doc/guide/basics.application#application-component) 
 på modulnivå.
 
-> Tip|Tips: Verktyget `yiic` kan användas för att skapa det grundläggande skelettet 
-> till en ny modul. Till exempel, för att skapa ovanstående `forum`-modul, kan vi exekvera 
-> följande kommandon i ett kommandoradsfönster:
->
-> ~~~
-> % cd WebRoot/testdrive
-> % protected/yiic shell
-> Yii Interactive Tool v1.0
-> Please type 'help' for help. Type 'exit' to quit.
-> >> module forum
-> ~~~
+> Tip|Tips: Modulgenereringen i Gii kan användas för att skapa det grundläggande skelettet till en ny modul.
 
 
 Använda modul
@@ -127,4 +117,4 @@ För att komma åt en kontrolleråtgärd i en barnmodul, använder vi följande 
 `parentModuleID/childModuleID/controllerID/actionID`.
 
 
-<div class="revision">$Id: basics.module.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>
+<div class="revision">$Id: basics.module.txt 2041 2010-04-11 03:54:25Z qiang.xue $</div>

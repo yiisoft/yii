@@ -90,7 +90,7 @@ originalmeddelandet med aktuellt aliasvärde.
 
 ~~~
 [php]
-Yii::t('yii', 'Path alias "{alias}" is redefined.',
+Yii::t('app', 'Path alias "{alias}" is redefined.',
 	array('{alias}'=>$alias))
 ~~~
 
@@ -275,4 +275,4 @@ eller flyttal (double).
    formaterar det givna talet genom användning av det fördefinierade 
    procentmönstret i mål-localens data.
 
-<div class="revision">$Id: topics.i18n.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>
+<div class="revision">$Id: topics.i18n.txt 2068 2010-04-22 16:42:16Z alexander.makarow $</div>

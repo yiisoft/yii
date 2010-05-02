@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>Wewnêtrzny b³¹d serwera</title>
+<title>WewnÄ™trzny bÅ‚Ä…d serwera</title>
 
 <style type="text/css">
 /*<![CDATA[*/
@@ -19,14 +19,14 @@ p {font-family:"Verdana";font-weight:normal;color:black;font-size:9pt;margin-top
 </head>
 
 <body>
-<h1>Wewnêtrzny b³¹d serwera</h1>
+<h1>WewnÄ™trzny bÅ‚Ä…d serwera</h1>
 <h2><?php echo nl2br(CHtml::encode($data['message'])); ?></h2>
 <p>
-Wyst¹pi³ wewnêtrzny b³¹d serwera podczas przetwarzania Twojego ¿¹dania.
-Proszê skontaktuj siê z <?php echo $data['admin']; ?> aby zg³osiæ problem.
+WystÄ…piÅ‚ wewnÄ™trzny bÅ‚Ä…d serwera podczas przetwarzania Twojego Å¼Ä…dania.
+ProszÄ™ skontaktuj siÄ™ z <?php echo $data['admin']; ?> aby zgÅ‚osiÄ‡ problem.
 </p>
 <p>
-Dziêkujemy.
+DziÄ™kujemy.
 </p>
 <div class="version">
 <?php echo date('Y-m-d H:i:s',$data['time']) .' '. $data['version']; ?>

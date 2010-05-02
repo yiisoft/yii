@@ -61,6 +61,8 @@ class LoginForm extends CFormModel
 	public $password;
 	public $rememberMe=false;
 
+	private $_identity;
+
 	public function rules()
 	{
 		return array(
@@ -72,17 +74,9 @@ class LoginForm extends CFormModel
 
 	public function authenticate($attribute,$params)
 	{
-		if(!$this->hasErrors())  // we only want to authenticate when no input errors
-		{
-			$identity=new UserIdentity($this->username,$this->password);
-			if($identity->authenticate())
-			{
-				$duration=$this->rememberMe ? 3600*24*30 : 0; // 30 days
-				Yii::app()->user->login($identity,$duration);
-			}
-			else
-				$this->addError('password','Incorrect password.');
-		}
+		$this->_identity=new UserIdentity($this->username,$this->password);
+		if(!$this->_identity->authenticate())
+			$this->addError('password','Неправильное имя пользователя или пароль.');
 	}
 }
 ~~~
@@ -357,7 +351,7 @@ $model->id=1;
 задать, какой набор правил использовать для проверки.
 
 Проверка выполняется в зависимости от сценария. Свойство [scenario|CModel::scenario]
-задаёт сценарий, в котором примеяется модель и определяет какой набор правил валидации
+задаёт сценарий, в котором применяется модель и определяет какой набор правил валидации
 использовать. К примеру, в сценарии `login`, мы хотим проверить только поля модели
 пользователя `username` и `password`. В сценарии `register` нам необходимо проверять
 большее количество данных: `email`, `address` и других. Ниже показано, как провести
@@ -424,4 +418,4 @@ public function rules()
 
 Далее мы увидим, что возможность указания меток в модели данных позволяет быстро создавать сложные формы.
 
-<div class="revision">$Id: form.model.txt 1855 2010-03-04 22:42:32Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 1919 2010-03-15 17:25:48Z qiang.xue $</div>

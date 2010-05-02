@@ -23,7 +23,7 @@ p {font-family:"Verdana";font-weight:normal;color:black;font-size:9pt;margin-top
 <h2><?php echo nl2br(CHtml::encode($data['message'])); ?></h2>
 <p>
 Вътрешна грешка, възникна на сървъра, докато се опитваше да изпълни вашата заявка.
-Моля свържете се с <?php echo $data['admin']; ?> за да докладвате проблема.
+Моля свържете се с <?php echo $data['admin']; ?>, за да докладвате проблема.
 </p>
 <p>
 Благодарим ви.
