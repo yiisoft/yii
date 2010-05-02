@@ -19,8 +19,11 @@
 class CDbCriteria
 {
 	const PARAM_PREFIX=':ycp';
-	private static $_paramCount=0;
-
+	/**
+	 * @var integer the global counter for anonymous binding parameters.
+	 * This counter is used for generating the name for the anonymous parameters.
+	 */
+	public static $paramCount=0;
 	/**
 	 * @var mixed the columns being selected. This refers to the SELECT clause in an SQL
 	 * statement. The property can be either a string (column names separated by commas)
@@ -154,8 +157,8 @@ class CDbCriteria
 	{
 		if($escape)
 			$keyword='%'.strtr($keyword,array('%'=>'\%', '_'=>'\_')).'%';
-		$condition=$column." $like ".self::PARAM_PREFIX.self::$_paramCount;
-		$this->params[self::PARAM_PREFIX.self::$_paramCount++]=$keyword;
+		$condition=$column." $like ".self::PARAM_PREFIX.self::$paramCount;
+		$this->params[self::PARAM_PREFIX.self::$paramCount++]=$keyword;
 		return $this->addCondition($condition, $operator);
 	}
 
@@ -181,16 +184,16 @@ class CDbCriteria
 			$value=reset($values);
 			if($value===null)
 				return $this->addCondition($column.' IS NULL');
-			$condition=$column.'='.self::PARAM_PREFIX.self::$_paramCount;
-			$this->params[self::PARAM_PREFIX.self::$_paramCount++]=$value;
+			$condition=$column.'='.self::PARAM_PREFIX.self::$paramCount;
+			$this->params[self::PARAM_PREFIX.self::$paramCount++]=$value;
 		}
 		else
 		{
 			$params=array();
 			foreach($values as $value)
 			{
-				$params[]=self::PARAM_PREFIX.self::$_paramCount;
-				$this->params[self::PARAM_PREFIX.self::$_paramCount++]=$value;
+				$params[]=self::PARAM_PREFIX.self::$paramCount;
+				$this->params[self::PARAM_PREFIX.self::$paramCount++]=$value;
 			}
 			$condition=$column.' IN ('.implode(', ',$params).')';
 		}
@@ -219,16 +222,16 @@ class CDbCriteria
 			$value=reset($values);
 			if($value===null)
 				return $this->addCondition($column.' IS NOT NULL');
-			$condition=$column.'!='.self::PARAM_PREFIX.self::$_paramCount;
-			$this->params[self::PARAM_PREFIX.self::$_paramCount++]=$value;
+			$condition=$column.'!='.self::PARAM_PREFIX.self::$paramCount;
+			$this->params[self::PARAM_PREFIX.self::$paramCount++]=$value;
 		}
 		else
 		{
 			$params=array();
 			foreach($values as $value)
 			{
-				$params[]=self::PARAM_PREFIX.self::$_paramCount;
-				$this->params[self::PARAM_PREFIX.self::$_paramCount++]=$value;
+				$params[]=self::PARAM_PREFIX.self::$paramCount;
+				$this->params[self::PARAM_PREFIX.self::$paramCount++]=$value;
 			}
 			$condition=$column.' NOT IN ('.implode(', ',$params).')';
 		}
@@ -256,8 +259,8 @@ class CDbCriteria
 				$params[]=$name.' IS NULL';
 			else
 			{
-				$params[]=$name.'='.self::PARAM_PREFIX.self::$_paramCount;
-				$this->params[self::PARAM_PREFIX.self::$_paramCount++]=$value;
+				$params[]=$name.'='.self::PARAM_PREFIX.self::$paramCount;
+				$this->params[self::PARAM_PREFIX.self::$paramCount++]=$value;
 			}
 		}
 		return $this->addCondition(implode(" $columnOperator ",$params), $operator);
@@ -331,15 +334,15 @@ class CDbCriteria
 		else if($op==='')
 			$op='=';
 
-		$this->addCondition("$column{$op}".self::PARAM_PREFIX.self::$_paramCount,$operator);
-		$this->params[self::PARAM_PREFIX.self::$_paramCount++]=$value;
+		$this->addCondition("$column{$op}".self::PARAM_PREFIX.self::$paramCount,$operator);
+		$this->params[self::PARAM_PREFIX.self::$paramCount++]=$value;
 
 		return $this;
 	}
 
 	/**
 	 * Adds a between condition to the {@link condition} property.
-	 * 
+	 *
 	 * The new between condition and the existing condition will be concatenated via
 	 * the specified operator which defaults to 'AND'.
 	 * If one or both values are empty then the condition is not added to the existing condition.
@@ -358,8 +361,8 @@ class CDbCriteria
 		if($valueStart==='' || $valueEnd==='')
 			return $this;
 
-		$paramStart=self::PARAM_PREFIX.self::$_paramCount++;
-		$paramEnd=self::PARAM_PREFIX.self::$_paramCount++;
+		$paramStart=self::PARAM_PREFIX.self::$paramCount++;
+		$paramEnd=self::PARAM_PREFIX.self::$paramCount++;
 		$this->params[$paramStart]=$valueStart;
 		$this->params[$paramEnd]=$valueEnd;
 		$condition="$column BETWEEN $paramStart AND $paramEnd";

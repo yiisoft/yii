@@ -10,6 +10,7 @@ class CDbCriteriaTest extends CTestCase {
 	 */
 	function testAddCondition() {
 		//adding new condition to empty one
+		CDbCriteria::$paramCount=0;
 		$criteria = new CDbCriteria();
 		$criteria->addCondition('A');
 		$this->assertEquals('A', $criteria->condition);
@@ -38,6 +39,7 @@ class CDbCriteriaTest extends CTestCase {
 	 * @covers CDbCriteria::addInCondition
 	 */
 	function testAddInCondition() {
+		CDbCriteria::$paramCount=0;
 		$criteria = new CDbCriteria();
 
 		$criteria->addInCondition('A', array());
@@ -74,6 +76,7 @@ class CDbCriteriaTest extends CTestCase {
 	 */
 	function testAddNotInCondition() {
 		// NOT IN with empty array should not change anything
+		CDbCriteria::$paramCount=0;
 		$criteria = new CDbCriteria();
 
 		$criteria->addNotInCondition('A', array());
@@ -110,6 +113,7 @@ class CDbCriteriaTest extends CTestCase {
 	 */
 	function testAddSearchCondition() {
 		// string escaping
+		CDbCriteria::$paramCount=0;
 		$criteria = new CDbCriteria();
 		$criteria->addSearchCondition('A', 'key_word%');
 
@@ -128,7 +132,8 @@ class CDbCriteriaTest extends CTestCase {
 	 * @depends testAddCondition
 	 * @covers CDbCriteria::addColumnCondition
 	 */
-	function testAddColumnCondition() {		
+	function testAddColumnCondition() {
+		CDbCriteria::$paramCount=0;
 		$criteria = new CDbCriteria();
 		$criteria->addColumnCondition(array('A' => 1, 'B' => null, 'C' => '2'));
 
@@ -142,9 +147,10 @@ class CDbCriteriaTest extends CTestCase {
 	 * @covers CDbCriteria::compare
 	 */
 	function testCompare(){
+		CDbCriteria::$paramCount=0;
 		$criteria = new CDbCriteria();
 		$criteria->compare('A', '');
-		$this->assertEquals('', $criteria->condition);		
+		$this->assertEquals('', $criteria->condition);
 
 		$criteria = new CDbCriteria();
 		$criteria->compare('A', 1);
@@ -185,7 +191,7 @@ class CDbCriteriaTest extends CTestCase {
 		$criteria->compare('A', '1', true);
 		$this->assertEquals('A LIKE :ycp7', $criteria->condition);
 		$this->assertEquals('%1%', $criteria->params[':ycp7']);
-		
+
 		$criteria = new CDbCriteria();
 		$criteria->compare('A', '=1', true);
 		$this->assertEquals('A=:ycp8', $criteria->condition);
@@ -205,6 +211,7 @@ class CDbCriteriaTest extends CTestCase {
 		// merging select
 
 		// * should be replaced
+		CDbCriteria::$paramCount=0;
 		$criteria1 = new CDbCriteria;
 		$criteria1->select = '*';
 
@@ -270,7 +277,7 @@ class CDbCriteriaTest extends CTestCase {
 
 		$criteria1->mergeWith($criteria2);
 
-		$this->assertEquals('(a) AND (b)', $criteria1->condition);		
+		$this->assertEquals('(a) AND (b)', $criteria1->condition);
 
 		// limit, offset, distinct and alias are being replaced
 		$criteria1 = new CDbCriteria;
@@ -374,7 +381,7 @@ class CDbCriteriaTest extends CTestCase {
 		$criteria1->mergeWith($criteria2);
 
 		// TODO: shouldn't it produce 'a', 'b', 'c'?
-		$this->assertEquals(array('a', 'b', 'a', 'c'), $criteria1->with);		
+		$this->assertEquals(array('a', 'b', 'a', 'c'), $criteria1->with);
 
 		// merging two criteria with parameters
 		$criteria1 = new CDbCriteria;
@@ -417,17 +424,18 @@ class CDbCriteriaTest extends CTestCase {
 	 * @covers CDbCriteria::mergeWith
 	 */
 	function testMergeWithPositionalPlaceholders(){
+		CDbCriteria::$paramCount=0;
 		$criteria1 = new CDbCriteria();
 		$criteria1->condition = 'A=? AND B=?';
 		$criteria1->params = array(0 => 10, 1 => 20);
 
 		$criteria2 = new CDbCriteria();
 		$criteria2->compare('C', 30);
-		$criteria2->compare('D', 40);		
+		$criteria2->compare('D', 40);
 
 		$criteria2->mergeWith($criteria1);
 
-		$this->assertEquals('((C=:ycp0) AND (D=:ycp1)) AND (A=? AND B=?)', $criteria2->condition);        
+		$this->assertEquals('((C=:ycp0) AND (D=:ycp1)) AND (A=? AND B=?)', $criteria2->condition);
 
 		$this->assertEquals(10, $criteria2->params[0]);
 		$this->assertEquals(20, $criteria2->params[1]);
@@ -457,6 +465,7 @@ class CDbCriteriaTest extends CTestCase {
 	 * @covers CDbCriteria::addBetweenCondition
 	 */
 	function testAddBetweenCondition(){
+		CDbCriteria::$paramCount=0;
 		$criteria = new CDbCriteria();
 
 		$criteria->addBetweenCondition('A', 1, 2);
