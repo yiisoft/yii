@@ -30,6 +30,8 @@
 					inputContainer : settings.inputContainer,
 					errorCssClass : settings.errorCssClass,
 					successCssClass : settings.successCssClass,
+					beforeValidateAttribute : settings.beforeValidateAttribute,
+					afterValidateAttribute : settings.afterValidateAttribute,
 					validatingCssClass : settings.validatingCssClass
 				}, attribute);
 				settings.attributes[i].value = $('#'+attribute.inputID).val();
@@ -116,22 +118,30 @@
 				if (!forceValidate)
 					return;
 
-				if(settings.timer!=undefined)
+				if(settings.timer!=undefined) {
 					clearTimeout(settings.timer);
+				}
+
 				settings.timer = setTimeout(function(){
-					$.each(settings.attributes, function(){
-						if (this.status == 2) {
-							this.status = 3;
-							getInputContainer(this).addClass(this.validatingCssClass);
-						}
-					});
-					ajaxValidate(function(data) {
+					if(attribute.beforeValidateAttribute==undefined || attribute.beforeValidateAttribute($form, attribute)) {
 						$.each(settings.attributes, function(){
-							if (this.status > 0) {
-								updateInput(this, data);
+							if (this.status == 2) {
+								this.status = 3;
+								getInputContainer(this).addClass(this.validatingCssClass);
 							}
 						});
-					});
+						ajaxValidate(function(data) {
+							var hasError=false;
+							$.each(settings.attributes, function(){
+								if (this.status > 0) {
+									hasError = updateInput(this, data) || hasError;
+								}
+							});
+							if(attribute.afterValidateAttribute!=undefined) {
+								attribute.afterValidateAttribute($form,attribute,data,hasError);
+							}
+						});
+					};
 				}, attribute.validationDelay);
 			};
 
@@ -160,23 +170,26 @@
 				$form.submit(function(){
 					if (validated)
 						return true;
-					ajaxValidate(function(data){
-						var hasError = false;
-						$.each(settings.attributes, function(i, attribute){
-							hasError = updateInput(attribute, data) || hasError;
+					if(settings.beforeValidate==undefined || settings.beforeValidate($form)) {
+						ajaxValidate(function(data){
+							var hasError = false;
+							$.each(settings.attributes, function(i, attribute){
+								hasError = updateInput(attribute, data) || hasError;
+							});
+							updateSummary(data);
+							if(settings.afterValidate==undefined || settings.afterValidate($form, data, hasError)) {
+								if(!hasError) {
+									validated = true;
+									var $button = $form.data('submitObject') || $form.find(':submit:first');
+									// TODO: if the submission is caused by "change" event, it will not work
+									if ($button.length)
+										$button.click();
+									else  // no submit button in the form
+										$form.submit();
+								}
+							}
 						});
-						updateSummary(data);
-						if(!hasError) {
-							validated = true;
-							var $button = $form.data('submitObject') || $form.find(':submit:first');
-							// TODO: if the submission is caused by "change" event, it will not work
-							if ($button.length)
-								$button.click();
-							else  // no submit button in the form
-								$form.submit();
-							validated = false;
-						}
-					});
+					}
 					return false;
 				});
 			}
@@ -197,6 +210,10 @@
 		validatingCssClass : 'validating',
 		summaryID : undefined,
 		timer: undefined,
+		beforeValidateAttribute: undefined, // function(form, attribute) : boolean
+		afterValidateAttribute: undefined,  // function(form, attribute, data, hasError)
+		beforeValidate: undefined, // function(form) : boolean
+		afterValidate: undefined,  // function(form, data, hasError) : boolean
 		/**
 		 * list of attributes to be validated. Each array element is of the following structure:
 		 * {
@@ -212,6 +229,8 @@
 		 *     errorCssClass : 'error',
 		 *     successCssClass : 'success',
 		 *     validatingCssClass : 'validating',
+		 *     beforeValidateAttribute: undefined, // function(form, attribute) : boolean
+		 *     afterValidateAttribute: undefined,  // function(form, attribute, data, hasError)
 		 * }
 		 */
 		attributes : []
