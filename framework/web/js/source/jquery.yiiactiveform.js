@@ -38,74 +38,6 @@
 			});
 			$(this).data('settings', settings);
 
-			var getInputContainer = function(attribute) {
-				if(attribute.inputContainer == undefined)
-					return $('#'+attribute.inputID).closest('div');
-				else
-					return $(attribute.inputContainer).filter(':has("#'+attribute.inputID+'")');
-			};
-
-			// updates the error message and the input container for a particular attribute
-			var updateInput = function(attribute, messages) {
-				attribute.status = 1;
-				var hasError = messages && $.isArray(messages[attribute.inputID]) && messages[attribute.inputID].length>0;
-				var $error = $('#'+attribute.errorID);
-				var $container = getInputContainer(attribute);
-				$container.removeClass(attribute.validatingCssClass)
-					.removeClass(attribute.errorCssClass)
-					.removeClass(attribute.successCssClass);
-
-				if(hasError) {
-					$error.html(messages[attribute.inputID][0]);
-					$container.addClass(attribute.errorCssClass);
-				}
-				else {
-					$container.addClass(attribute.successCssClass);
-				}
-				if(!attribute.hideErrorMessage)
-					$error.toggle(hasError);
-
-				attribute.value = $('#'+attribute.inputID).val();
-
-				return hasError;
-			};
-
-			// updates the error summary
-			var updateSummary = function(messages) {
-				if (settings.summaryID == undefined)
-					return;
-				var content = '';
-				$.each(settings.attributes, function(i, attribute){
-					if(messages && $.isArray(messages[attribute.inputID])) {
-						$.each(messages[attribute.inputID],function(j,message){
-							content = content + '<li>' + message + '</li>';
-						});
-					}
-				});
-				$('#'+settings.summaryID+' ul').html(content);
-				$('#'+settings.summaryID).toggle(content!='');
-			}
-
-			// performs AJAX validation
-			var ajaxValidate = function(successCallback) {
-				$.ajax({
-					url : settings.validationUrl,
-					type : $form.attr('method'),
-					data : $form.serialize()+'&'+settings.ajaxVar+'='+id,
-					dataType : 'json',
-					success : function(data) {
-						if (data != null && typeof data == 'object') {
-							successCallback(data);
-						}
-					},
-					error : function() {
-						$.each(settings.attributes, function(i, attribute){
-							//updateInput(attribute, []);
-						});
-					}
-				});
-			};
-
 			var validate = function(attribute, forceValidate) {
 				if (forceValidate)
 					attribute.status = 2;
@@ -130,11 +62,11 @@
 								getInputContainer(this).addClass(this.validatingCssClass);
 							}
 						});
-						ajaxValidate(function(data) {
+						$.fn.yiiactiveform.validate($form, function(data) {
 							var hasError=false;
 							$.each(settings.attributes, function(){
 								if (this.status > 0) {
-									hasError = updateInput(this, data) || hasError;
+									hasError = $.fn.yiiactiveform.updateInput(this, data) || hasError;
 								}
 							});
 							if(attribute.afterValidateAttribute!=undefined) {
@@ -171,12 +103,12 @@
 					if (validated)
 						return true;
 					if(settings.beforeValidate==undefined || settings.beforeValidate($form)) {
-						ajaxValidate(function(data){
+						$.fn.yiiactiveform.validate($form, function(data){
 							var hasError = false;
 							$.each(settings.attributes, function(i, attribute){
-								hasError = updateInput(attribute, data) || hasError;
+								hasError = $.fn.yiiactiveform.updateInput(attribute, data) || hasError;
 							});
-							updateSummary(data);
+							$.fn.yiiactiveform.updateSummary($form, data);
 							if(settings.afterValidate==undefined || settings.afterValidate($form, data, hasError)) {
 								if(!hasError) {
 									validated = true;
@@ -194,6 +126,107 @@
 				});
 			}
 		});
+	};
+
+	/**
+	 * Returns the container element of the specified attribute.
+	 * @param object the configuration for a particular attribute.
+	 * @return jquery the jquery representation of the container
+	 */
+	$.fn.yiiactiveform.getInputContainer = function(attribute) {
+		if(attribute.inputContainer == undefined)
+			return $('#'+attribute.inputID).closest('div');
+		else
+			return $(attribute.inputContainer).filter(':has("#'+attribute.inputID+'")');
+	};
+
+	/**
+	 * updates the error message and the input container for a particular attribute.
+	 * @param object the configuration for a particular attribute.
+	 * @param array the json data obtained from the ajax validation request
+	 * @return boolean whether there is a validation error for the specified attribute
+	 */
+	$.fn.yiiactiveform.updateInput = function(attribute, messages) {
+		attribute.status = 1;
+		var hasError = messages!=null && $.isArray(messages[attribute.inputID]) && messages[attribute.inputID].length>0;
+		var $error = $('#'+attribute.errorID);
+		var $container = $.fn.yiiactiveform.getInputContainer(attribute);
+		$container.removeClass(attribute.validatingCssClass)
+			.removeClass(attribute.errorCssClass)
+			.removeClass(attribute.successCssClass);
+
+		if(hasError) {
+			$error.html(messages[attribute.inputID][0]);
+			$container.addClass(attribute.errorCssClass);
+		}
+		else {
+			$container.addClass(attribute.successCssClass);
+		}
+		if(!attribute.hideErrorMessage)
+			$error.toggle(hasError);
+
+		attribute.value = $('#'+attribute.inputID).val();
+
+		return hasError;
+	};
+
+	/**
+	 * updates the error summary, if any.
+	 * @param jquery the jquery representation of the form
+	 * @param array the json data obtained from the ajax validation request
+	 */
+	$.fn.yiiactiveform.updateSummary = function(form, messages) {
+		var settings = $(form).data('settings');
+		if (settings.summaryID == undefined)
+			return;
+		var content = '';
+		$.each(settings.attributes, function(i, attribute){
+			if(messages && $.isArray(messages[attribute.inputID])) {
+				$.each(messages[attribute.inputID],function(j,message){
+					content = content + '<li>' + message + '</li>';
+				});
+			}
+		});
+		$('#'+settings.summaryID+' ul').html(content);
+		$('#'+settings.summaryID).toggle(content!='');
+	};
+
+	/**
+	 * Performs the ajax validation request.
+	 * This method is invoked internally to trigger the ajax validation.
+	 * @param jquery the jquery representation of the form
+	 * @param function the function to be invoked if the ajax request succeeds
+	 * @param function the function to be invoked if the ajax request fails
+	 */
+	$.fn.yiiactiveform.validate = function(form, successCallback, errorCallback) {
+		var $form = $(form);
+		var settings = $form.data('settings');
+		$.ajax({
+			url : settings.validationUrl,
+			type : $form.attr('method'),
+			data : $form.serialize()+'&'+settings.ajaxVar+'='+$form.attr('id'),
+			dataType : 'json',
+			success : function(data) {
+				if (data != null && typeof data == 'object') {
+					successCallback(data);
+				}
+			},
+			error : function() {
+				if (errorCallback!=undefined) {
+					errorCallback();
+				}
+			}
+		});
+	};
+
+	/**
+	 * Returns the configuration for the specified form.
+	 * The configuration contains all needed information to perform ajax-based validation.
+	 * @param jquery the jquery representation of the form
+	 * @return object the configuration for the specified form.
+	 */
+	$.fn.yiiactiveform.getSettings = function(form) {
+		return $(form).data('settings');
 	};
 
 	$.fn.yiiactiveform.defaults = {
