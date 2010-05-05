@@ -381,11 +381,19 @@ abstract class CModule extends CComponent
 	}
 
 	/**
-	 * @return array the currently loaded components (indexed by their IDs)
+	 * Returns the application components.
+	 * @param boolean whether to return the loaded components only. If this is set false,
+	 * then all components specified in the configuration will be returned, whether they are loaded or not.
+	 * Loaded components will be returned as objects, while unloaded components as configuration arrays.
+	 * This parameter has been available since version 1.1.3.
+	 * @return array the application components (indexed by their IDs)
 	 */
-	public function getComponents()
+	public function getComponents($loadedOnly=true)
 	{
-		return $this->_components;
+		if($loadedOnly)
+			return $this->_components;
+		else
+			return array_merge($this->_componentConfig, $this->_components);
 	}
 
 	/**
