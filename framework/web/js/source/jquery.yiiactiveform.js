@@ -59,7 +59,7 @@
 						$.each(settings.attributes, function(){
 							if (this.status == 2) {
 								this.status = 3;
-								getInputContainer(this).addClass(this.validatingCssClass);
+								$.fn.yiiactiveform.getInputContainer(this).addClass(this.validatingCssClass);
 							}
 						});
 						$.fn.yiiactiveform.validate($form, function(data) {
