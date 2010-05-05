@@ -103,7 +103,8 @@ class CVarDumper
 					self::$_output.="array\n".$spaces.'(';
 					foreach($keys as $key)
 					{
-						self::$_output.="\n".$spaces."    [$key] => ";
+						$key2=str_replace("'","\\'",$key);
+						self::$_output.="\n".$spaces."    '$key2' => ";
 						self::$_output.=self::dumpInternal($var[$key],$level+1);
 					}
 					self::$_output.="\n".$spaces.')';
