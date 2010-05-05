@@ -264,8 +264,16 @@ class CDbConnection extends CApplicationComponent
 			}
 			catch(PDOException $e)
 			{
-				throw new CDbException(Yii::t('yii','CDbConnection failed to open the DB connection: {error}',
-					array('{error}'=>$e->getMessage())));
+				if(YII_DEBUG)
+				{
+					throw new CDbException(Yii::t('yii','CDbConnection failed to open the DB connection: {error}',
+						array('{error}'=>$e->getMessage())));
+				}
+				else
+				{
+					Yii::log($e->getMessage(),CLogger::LEVEL_ERROR,'exception.CDbException');
+					throw new CDbException(Yii::t('yii','CDbConnection failed to open the DB connection.'));
+				}
 			}
 		}
 	}
