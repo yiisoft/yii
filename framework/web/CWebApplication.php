@@ -30,10 +30,10 @@
  * assume {@link defaultController} is requested (which defaults to 'site').
  *
  * Controller class files must reside under the directory {@link getControllerPath controllerPath}
- * (defaults to 'protected/controllers'). The file name is the same as the controller
- * name and the class name is the controller ID appended with 'Controller'.
+ * (defaults to 'protected/controllers'). The file name and the class name must be
+ * the same as the controller ID with the first letter in upper case and appended with 'Controller'.
  * For example, the controller 'article' is defined by the class 'ArticleController'
- * which is in the file 'protected/controller/article.php'.
+ * which is in the file 'protected/controllers/ArticleController.php'.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
