@@ -4,6 +4,7 @@
 
 Version 1.1.3 to be released
 ----------------------------
+- Bug #1190: CLocale::getMonthNames may fail due to a typo (Qiang)
 - Enh: Added beforeValidate, afterValidate, beforeValidateAttribute and afterValidateAttribute options to CActiveForm (Qiang)
 
 Version 1.1.2 May 2, 2010
