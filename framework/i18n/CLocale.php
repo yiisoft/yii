@@ -230,9 +230,9 @@ class CLocale extends CComponent
 	public function getWeekDayNames($width='wide',$standAlone=false)
 	{
 		if($standAlone)
-			return isset($this->_data['weekDayNamesSA'][$width]) ? $this->_data['weekDayNamesSA'][$width][$day] : $this->_data['weekDayNames'][$width];
+			return isset($this->_data['weekDayNamesSA'][$width]) ? $this->_data['weekDayNamesSA'][$width] : $this->_data['weekDayNames'][$width];
 		else
-			return isset($this->_data['weekDayNames'][$width]) ? $this->_data['weekDayNames'][$width][$day] : $this->_data['weekDayNamesSA'][$width];
+			return isset($this->_data['weekDayNames'][$width]) ? $this->_data['weekDayNames'][$width] : $this->_data['weekDayNamesSA'][$width];
 	}
 
 	/**
