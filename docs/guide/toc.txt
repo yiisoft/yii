@@ -65,5 +65,6 @@
     - [Console Applications](topics.console)
     - [Security](topics.security)
     - [Performance Tuning](topics.performance)
+    - [Code Generation using Command Line Tools (deprecated)](quickstart.first-app-yiic)
 
 <div class="revision">$Id$</div>

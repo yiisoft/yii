@@ -1,5 +1,5 @@
-Implementing CRUD Operations with `yiic shell`
-==============================================
+Code Generation using Command Line Tools (deprecated)
+=========================================
 
 > Note: The code generators in `yiic shell` have been deprecated since version 1.1.2. Please use the more powerful and extensible Web-based code generators available in [Gii](/doc/guide/topics.gii), instead.
 
