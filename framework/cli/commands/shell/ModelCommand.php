@@ -327,6 +327,7 @@ EOD;
 		$unitTestPath=$this->unitTestPath===null?Yii::getPathOfAlias('application.tests.unit'):$this->unitTestPath;
 
 		$list=array();
+		$files=array();
 		foreach ($this->_classes as $tableName=>$className)
 		{
 			$files[$className]=$classFile=$basePath.DIRECTORY_SEPARATOR.$className.'.php';
