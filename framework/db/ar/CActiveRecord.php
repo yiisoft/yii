@@ -1163,6 +1163,16 @@ abstract class CActiveRecord extends CModel
 		return $this->_pk;
 	}
 
+	/**
+	 * Sets the old primary key value.
+	 * @param mixed the old primary key value.
+	 * @since 1.1.3
+	 */
+	public function setOldPrimaryKey($value)
+	{
+		$this->_pk=$value;
+	}
+
 	private function query($criteria,$all=false)
 	{
 		$this->applyScopes($criteria);
