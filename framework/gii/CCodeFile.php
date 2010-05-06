@@ -65,22 +65,33 @@ class CCodeFile extends CComponent
 		$module=Yii::app()->controller->module;
 		if($this->content===null)  // a directory
 		{
-			if(!is_dir($this->path) && !@mkdir($this->path,$module->newDirMode,true))
+			if(!is_dir($this->path))
 			{
-				$this->error="Unable to create the directory '{$this->path}'.";
-				return false;
+				$oldmask=@umask(0);
+				$result=@mkdir($this->path,$module->newDirMode,true);
+				@umask($oldmask);
+				if(!$result)
+				{
+					$this->error="Unable to create the directory '{$this->path}'.";
+					return false;
+				}
 			}
-			else
-				return true;
+			return true;
 		}
 
 		if($this->operation===self::OP_NEW)
 		{
 			$dir=dirname($this->path);
-			if(!is_dir($dir) && !@mkdir($dir,$module->newDirMode,true))
+			if(!is_dir($dir))
 			{
-				$this->error="Unable to create the directory '$dir'.";
-				return false;
+				$oldmask=@umask(0);
+				$result=@mkdir($dir,$module->newDirMode,true);
+				@umask($oldmask);
+				if(!$result)
+				{
+					$this->error="Unable to create the directory '$dir'.";
+					return false;
+				}
 			}
 		}
 		if(@file_put_contents($this->path,$this->content)===false)
@@ -89,7 +100,11 @@ class CCodeFile extends CComponent
 			return false;
 		}
 		else
+		{
+			$oldmask=@umask(0);
 			@chmod($this->path,$module->newFileMode);
+			@umask($oldmask);
+		}
 		return true;
 	}
 
