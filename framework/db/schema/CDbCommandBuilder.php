@@ -101,7 +101,9 @@ class CDbCommandBuilder extends CComponent
 		if($criteria->alias!='')
 			$alias=$criteria->alias;
 		$alias=$this->_schema->quoteTableName($alias);
-		if($criteria->distinct)
+		if(stripos($criteria->select,'count')!==false)
+			$sql="SELECT ".$criteria->select;
+		else if($criteria->distinct)
 		{
 			if(is_array($table->primaryKey))
 			{
