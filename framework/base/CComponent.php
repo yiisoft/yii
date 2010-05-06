@@ -234,6 +234,8 @@ class CComponent
 					return call_user_func_array(array($object,$name),$parameters);
 			}
 		}
+		if(class_exists('Closure', false) && $this->$name instanceof Closure)
+			return call_user_func_array($this->$name, $parameters);
 		throw new CException(Yii::t('yii','{class} does not have a method named "{name}".',
 			array('{class}'=>get_class($this), '{name}'=>$name)));
 	}
