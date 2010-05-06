@@ -359,7 +359,7 @@ class Text_Highlighter
     function highlight($str)
     {
         if (!($this->_renderer)) {
-            include_once('Text/Highlighter/Renderer/Html.php');
+            include_once(dirname(__FILE__).'/../Renderer/Html.php');
             $this->_renderer = new Text_Highlighter_Renderer_Html($this->_options);
         }
         $this->_state = -1;
