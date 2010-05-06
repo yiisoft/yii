@@ -18,7 +18,7 @@
  * The 'beginWidget' and 'endWidget' call of CActiveForm widget will render
  * the open and close form tags. Anything in between are rendered as form content
  * (such as input fields, labels). We can call the wrapper methods of CActiveForm
- * to generate these form contents. For example, calling {@link CActiveFinder::textField},
+ * to generate these form contents. For example, calling {@link CActiveForm::textField},
  * which is a wrapper of {@link CHtml::activeTextField}, would generate an input field
  * for a specified model attribute.
  *
