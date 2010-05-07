@@ -52,6 +52,11 @@ class CMultiFileUpload extends CWidget
 	 */
 	public $duplicate;
 	/**
+	 * @var string the message template for displaying the uploaded file name
+	 * @since 1.1.3
+	 */
+	public $file;
+	/**
 	 * @var array additional HTML attributes that will be rendered in the file upload tag.
 	 */
 	public $htmlOptions=array();
@@ -99,7 +104,7 @@ class CMultiFileUpload extends CWidget
 		if($this->max>0)
 			$mfOptions['max']=$this->max;
 		$messages=array();
-		foreach(array('remove','denied','selected','duplicate') as $messageName)
+		foreach(array('remove','denied','selected','duplicate','file') as $messageName)
 		{
 			if($this->$messageName!==null)
 				$messages[$messageName]=$this->$messageName;
