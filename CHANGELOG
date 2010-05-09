@@ -16,6 +16,7 @@ Version 1.1.3 to be released
 - Enh #1199: AR's count() method now respects the 'select' option in the query criteria (Qiang)
 - Enh #1202: Added support for using anonymous functions as component property values (Qiang)
 - Enh #1203: Gii now respects the newDirMode and newFileMode settings even when lower umask is set (Qiang)
+- Enh: Added support for using array-typed model attributes in active methods in CHtml (Qiang)
 - Enh: Added beforeValidate, afterValidate, beforeValidateAttribute and afterValidateAttribute options to CActiveForm (Qiang)
 
 Version 1.1.2 May 2, 2010
