@@ -1868,7 +1868,7 @@ EOD;
 	public static function resolveNameID($model,&$attribute,&$htmlOptions)
 	{
 		if(!isset($htmlOptions['name']))
-			$htmlOptions['name']=self::resolveName($model,$attribute);		
+			$htmlOptions['name']=self::resolveName($model,$attribute);
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=self::getIdByName($htmlOptions['name']);
 		else if($htmlOptions['id']===false)
@@ -1886,11 +1886,10 @@ EOD;
 	 */
 	public static function resolveName($model,&$attribute)
 	{
-		if('['===$attribute[0])
-			list($i, $attribute, $index)=array(strtok($attribute, '[]'), strtok('['), strtok(']'));
+		if(strpos($attribute,'[')!==false)
+			return get_class($model).'['.str_replace(']','][',trim(strtr($attribute,array(']['=>']','['=>']')),']')).']';
 		else
-			list($attribute, $index)=array(strtok($attribute, '['), strtok(']'));
-		return get_class($model).(isset($i) ? '['.$i.']' : '').'['.$attribute.']'.(false!==$index ? '['.$index.']' : '');
+			return get_class($model).'['.$attribute.']';
 	}
 
 	/**
