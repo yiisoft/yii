@@ -1216,7 +1216,8 @@ EOD;
 		self::clientChange('change',$htmlOptions);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
-		return self::tag('textarea',$htmlOptions,isset($htmlOptions['encode']) && !$htmlOptions['encode'] ? $model->$attribute : self::encode($model->$attribute));
+		$text=self::resolveValue($model,$attribute);
+		return self::tag('textarea',$htmlOptions,isset($htmlOptions['encode']) && !$htmlOptions['encode'] ? $text : self::encode($text));
 	}
 
 	/**
@@ -1261,7 +1262,7 @@ EOD;
 		self::resolveNameID($model,$attribute,$htmlOptions);
 		if(!isset($htmlOptions['value']))
 			$htmlOptions['value']=1;
-		if(!isset($htmlOptions['checked']) && $model->$attribute==$htmlOptions['value'])
+		if(!isset($htmlOptions['checked']) && self::resolveValue($model,$attribute)==$htmlOptions['value'])
 			$htmlOptions['checked']='checked';
 		self::clientChange('click',$htmlOptions);
 
@@ -1302,7 +1303,7 @@ EOD;
 		self::resolveNameID($model,$attribute,$htmlOptions);
 		if(!isset($htmlOptions['value']))
 			$htmlOptions['value']=1;
-		if(!isset($htmlOptions['checked']) && $model->$attribute==$htmlOptions['value'])
+		if(!isset($htmlOptions['checked']) && self::resolveValue($model,$attribute)==$htmlOptions['value'])
 			$htmlOptions['checked']='checked';
 		self::clientChange('click',$htmlOptions);
 
@@ -1357,7 +1358,7 @@ EOD;
 	public static function activeDropDownList($model,$attribute,$data,$htmlOptions=array())
 	{
 		self::resolveNameID($model,$attribute,$htmlOptions);
-		$selection=$model->$attribute;
+		$selection=self::resolveValue($model,$attribute);
 		$options="\n".self::listOptions($selection,$data,$htmlOptions);
 		self::clientChange('change',$htmlOptions);
 		if($model->hasErrors($attribute))
@@ -1449,7 +1450,7 @@ EOD;
 	public static function activeCheckBoxList($model,$attribute,$data,$htmlOptions=array())
 	{
 		self::resolveNameID($model,$attribute,$htmlOptions);
-		$selection=$model->$attribute;
+		$selection=self::resolveValue($model,$attribute);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
 		$name=$htmlOptions['name'];
@@ -1484,7 +1485,7 @@ EOD;
 	public static function activeRadioButtonList($model,$attribute,$data,$htmlOptions=array())
 	{
 		self::resolveNameID($model,$attribute,$htmlOptions);
-		$selection=$model->$attribute;
+		$selection=self::resolveValue($model,$attribute);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
 		$name=$htmlOptions['name'];
@@ -1689,7 +1690,7 @@ EOD;
 		if($type==='file')
 			unset($htmlOptions['value']);
 		else if(!isset($htmlOptions['value']))
-			$htmlOptions['value']=$model->$attribute;
+			$htmlOptions['value']=self::resolveValue($model,$attribute);
 		if($model->hasErrors($attribute))
 			self::addErrorCss($htmlOptions);
 		return self::tag('input',$htmlOptions);
@@ -1878,7 +1879,7 @@ EOD;
 	/**
 	 * Generates input name for a model attribute.
 	 * Note, the attribute name may be modified after calling this method if the name
-	 * contains square brackets (mainly used in tabular input).
+	 * contains square brackets (mainly used in tabular input) before the real attribute name.
 	 * @param CModel the data model
 	 * @param string the attribute
 	 * @return string the input name
@@ -1889,18 +1890,14 @@ EOD;
 		if(($pos=strpos($attribute,'['))!==false)
 		{
 			if($pos!==0)  // e.g. name[a][b]
-			{
-				$sub=substr($attribute,$pos);
-				$attribute=substr($attribute,0,$pos);
-				return get_class($model).'['.$attribute.']'.$sub;
-			}
+				return get_class($model).'['.substr($attribute,0,$pos).']'.substr($attribute,$pos);
 			if(($pos=strrpos($attribute,']'))!==false && $pos!==strlen($attribute)-1)  // e.g. [a][b]name
 			{
 				$sub=substr($attribute,0,$pos+1);
 				$attribute=substr($attribute,$pos+1);
 				return get_class($model).$sub.'['.$attribute.']';
 			}
-			if(preg_match('/\](\w+)\[/',$attribute,$matches))
+			if(preg_match('/\](\w+\[.*)$/',$attribute,$matches))
 			{
 				$name=get_class($model).'['.str_replace(']','][',trim(strtr($attribute,array(']['=>']','['=>']')),']')).']';
 				$attribute=$matches[1];
@@ -1909,6 +1906,34 @@ EOD;
 		}
 		else
 			return get_class($model).'['.$attribute.']';
+	}
+
+	/**
+	 * Evaluates the attribute value of the model.
+	 * This method can recognize the attribute name written in array format.
+	 * For example, if the attribute name is 'name[a][b]', the value "$model->name['a']['b']" will be returned.
+	 * @param CModel the data model
+	 * @param string the attribute name
+	 * @return mixed the attribute value
+	 * @since 1.1.3
+	 */
+	public static function resolveValue($model,$attribute)
+	{
+		if(($pos=strpos($attribute,'['))!==false)
+		{
+			$name=substr($attribute,0,$pos);
+			$value=$model->$name;
+			foreach(explode('][',rtrim(substr($attribute,$pos+1),']')) as $id)
+			{
+				if(is_array($value) && isset($value[$id]))
+					$value=$value[$id];
+				else
+					return null;
+			}
+			return $value;
+		}
+		else
+			return $model->$attribute;
 	}
 
 	/**
