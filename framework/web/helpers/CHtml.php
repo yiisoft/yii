@@ -1886,8 +1886,27 @@ EOD;
 	 */
 	public static function resolveName($model,&$attribute)
 	{
-		if(strpos($attribute,'[')!==false)
-			return get_class($model).'['.str_replace(']','][',trim(strtr($attribute,array(']['=>']','['=>']')),']')).']';
+		if(($pos=strpos($attribute,'['))!==false)
+		{
+			if($pos!==0)  // e.g. name[a][b]
+			{
+				$sub=substr($attribute,$pos);
+				$attribute=substr($attribute,0,$pos);
+				return get_class($model).'['.$attribute.']'.$sub;
+			}
+			if(($pos=strrpos($attribute,']'))!==false && $pos!==strlen($attribute)-1)  // e.g. [a][b]name
+			{
+				$sub=substr($attribute,0,$pos+1);
+				$attribute=substr($attribute,$pos+1);
+				return get_class($model).$sub.'['.$attribute.']';
+			}
+			if(preg_match('/\](\w+)\[/',$attribute,$matches))
+			{
+				$name=get_class($model).'['.str_replace(']','][',trim(strtr($attribute,array(']['=>']','['=>']')),']')).']';
+				$attribute=$matches[1];
+				return $name;
+			}
+		}
 		else
 			return get_class($model).'['.$attribute.']';
 	}
