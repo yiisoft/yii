@@ -71,7 +71,7 @@ public function actionIndex()
 
 	$dataProvider=new CActiveDataProvider('Post', array(
 		'pagination'=>array(
-			'pageSize'=>Yii::app()->params['postsPerPage'],
+			'pageSize'=>5,
 		),
 		'criteria'=>$criteria,
 	));
@@ -86,7 +86,7 @@ In the above, we first create a query criteria for retrieving post list. The cri
 
 In case when a user wants to see posts with a specific tag, we would add a search condition to the criteria to look for the specified tag.
 
-Using the query criteria, we create a data provider, which mainly serves for three purposes. First, it does pagination of the data when too many results may be returned. Here we customize the pagination by setting the page size to be an application parameter `postsPerPage`. Second, it does sorting according to the user request. And finally, it feeds the paginated and sorted data to widgets or view code for presentation.
+Using the query criteria, we create a data provider, which mainly serves for three purposes. First, it does pagination of the data when too many results may be returned. Here we customize the pagination by setting the page size to be 5. Second, it does sorting according to the user request. And finally, it feeds the paginated and sorted data to widgets or view code for presentation.
 
 After we finish with `actionIndex()`, we modify the `index` view as follows. Our change is mainly about adding the `h1` header when the user specifies to display posts with a tag.
 
