@@ -24,7 +24,7 @@ p {font-family:"Verdana";font-weight:normal;color:black;font-size:9pt;margin-top
 Jeśli wprowadziłeś adres URL ręcznie, sprawdź pisownię i spróbuj ponownie.
 </p>
 <p>
-Jeśli myślisz, że jest to błąd serwera proszę skontaktuj się z <?php echo $data['admin']; ?>.
+Jeśli myślisz, że jest to błąd serwera skontaktuj się z <?php echo $data['admin']; ?>.
 </p>
 <div class="version">
 <?php echo date('Y-m-d H:i:s',$data['time']) .' '. $data['version']; ?>

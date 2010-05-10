@@ -2,7 +2,7 @@
 /*<![CDATA[*/
 if(typeof(console)=='object')
 {
-	console.group("Profilowanie: raport stosu wywo³añ");
+	console.group("Profilowanie: raport stosu wywoÅ‚aÅ„");
 <?php
 foreach($data as $index=>$entry)
 {
