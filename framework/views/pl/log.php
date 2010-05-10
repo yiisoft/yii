@@ -6,7 +6,7 @@
 		</th>
 	</tr>
 	<tr style="background-color: #ccc;">
-	    <th style="width:120px">Znacznik czasu</th>
+		<th style="width:120px">Znacznik czasu</th>
 		<th>Poziom</th>
 		<th>Kategoria</th>
 		<th>Wiadomość</th>
