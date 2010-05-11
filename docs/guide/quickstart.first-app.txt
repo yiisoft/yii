@@ -160,7 +160,7 @@ to write the actual code, we will use Gii -- a powerful Web-based code generator
 
 ### Configuring Gii
 
-In order to use Gii, we first need to edit the file `WebRoot/testdrive/protected/main.php`, which is known as the [application configuration](/doc/guide/basics.application#application-configuration) file:
+In order to use Gii, we first need to edit the file `WebRoot/testdrive/protected/config/main.php`, which is known as the [application configuration](/doc/guide/basics.application#application-configuration) file:
 
 ~~~
 [php]
