@@ -417,16 +417,16 @@ abstract class CActiveRecord extends CModel
 	 *
 	 * Each kind of related objects is defined in this method as an array with the following elements:
 	 * <pre>
-	 * 'varName'=>array('relationType', 'className', 'foreignKey', ...additional options)
+	 * 'varName'=>array('relationType', 'className', 'foreign_key', ...additional options)
 	 * </pre>
 	 * where 'varName' refers to the name of the variable/property that the related object(s) can
 	 * be accessed through; 'relationType' refers to the type of the relation, which can be one of the
 	 * following four constants: self::BELONGS_TO, self::HAS_ONE, self::HAS_MANY and self::MANY_MANY;
 	 * 'className' refers to the name of the active record class that the related object(s) is of;
-	 * and 'foreignKey' states the foreign key that relates the two kinds of active record.
+	 * and 'foreign_key' states the foreign key that relates the two kinds of active record.
 	 * Note, for composite foreign keys, they must be listed together, separating with space or comma;
 	 * and for foreign keys used in MANY_MANY relation, the joining table must be declared as well
-	 * (e.g. 'joinTable(fk1, fk2)').
+	 * (e.g. 'join_table(fk1, fk2)').
 	 *
 	 * Additional options may be specified as name-value pairs in the rest array elements:
 	 * <ul>
@@ -466,9 +466,9 @@ abstract class CActiveRecord extends CModel
 	 * Below is an example declaring related objects for 'Post' active record class:
 	 * <pre>
 	 * return array(
-	 *     'author'=>array(self::BELONGS_TO, 'User', 'authorID'),
-	 *     'comments'=>array(self::HAS_MANY, 'Comment', 'postID', 'with'=>'author', 'order'=>'createTime DESC'),
-	 *     'tags'=>array(self::MANY_MANY, 'Tag', 'PostTag(postID, tagID)', 'order'=>'name'),
+	 *     'author'=>array(self::BELONGS_TO, 'User', 'author_id'),
+	 *     'comments'=>array(self::HAS_MANY, 'Comment', 'post_id', 'with'=>'author', 'order'=>'create_time DESC'),
+	 *     'tags'=>array(self::MANY_MANY, 'Tag', 'post_tag(post_id, tag_id)', 'order'=>'name'),
 	 * );
 	 * </pre>
 	 *
@@ -492,7 +492,7 @@ abstract class CActiveRecord extends CModel
 	 *           'condition'=>'status=1',
 	 *     ),
 	 *     'recently'=>array(
-	 *           'order'=>'createTime DESC',
+	 *           'order'=>'create_time DESC',
 	 *           'limit'=>5,
 	 *     ),
 	 * );
@@ -1417,7 +1417,7 @@ abstract class CActiveRecord extends CModel
 	 * <pre>
 	 * Post::model()->with(array(
 	 *     'author'=>array('select'=>'id, name'),
-	 *     'comments'=>array('condition'=>'approved=1', 'order'=>'createTime'),
+	 *     'comments'=>array('condition'=>'approved=1', 'order'=>'create_time'),
 	 * ))->findAll();
 	 * </pre>
 	 *
