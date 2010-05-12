@@ -94,6 +94,19 @@ class CSort extends CComponent
 	 *
 	 * Note, the attribute name should not contain '-' or '.' characters because
 	 * they are used as {@link separators}.
+	 *
+	 * Starting from version 1.1.3, an additional option named 'default' can be used in the virtual attribute
+	 * declaration. This option specifies whether an attribute should be sorted in ascending or descending
+	 * order upon user clicking the corresponding sort hyperlink if it is not currently sorted. The valid
+	 * option values include 'asc' (default) and 'desc'. For example,
+	 * <pre>
+	 * 'price'=>array(
+	 *     'asc'=>'item.price',
+	 *     'desc'=>'item.price DESC',
+	 *     'label'=>'Item Price',
+	 *     'default'=>'desc',
+	 * )
+	 * </pre>
 	 */
 	public $attributes=array();
 	/**
@@ -181,10 +194,10 @@ class CSort extends CComponent
 				$definition=$this->resolveAttribute($attribute);
 				if(is_array($definition))
 				{
-					if(isset($definition['asc'], $definition['desc']))
-						$orders[]=$descending ? $definition['desc'] : $definition['asc'];
+					if($descending)
+						$orders[]=isset($definition['desc']) ? $definition['desc'] : $attribute.' DESC';
 					else
-						throw new CException(Yii::t('yii','Virtual attribute {name} must specify "asc" and "desc" options.',array('{name}'=>$attribute)));
+						$orders[]=isset($definition['asc']) ? $definition['asc'] : $attribute;
 				}
 				else if($definition!==false)
 				{
@@ -217,7 +230,7 @@ class CSort extends CComponent
 	{
 		if($label===null)
 			$label=$this->resolveLabel($attribute);
-		if($this->resolveAttribute($attribute)===false)
+		if(($definition=$this->resolveAttribute($attribute))===false)
 			return $label;
 		$directions=$this->getDirections();
 		if(isset($directions[$attribute]))
@@ -230,8 +243,11 @@ class CSort extends CComponent
 			$descending=!$directions[$attribute];
 			unset($directions[$attribute]);
 		}
+		else if(is_array($definition) && isset($definition['default']))
+			$descending=$definition['default']==='desc';
 		else
 			$descending=false;
+
 		if($this->multiSort)
 			$directions=array_merge(array($attribute=>$descending),$directions);
 		else

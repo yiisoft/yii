@@ -21,6 +21,7 @@ Version 1.1.3 to be released
 - Enh: Added support for using array-typed model attributes in active methods in CHtml (Qiang)
 - Enh: Added beforeValidate, afterValidate, beforeValidateAttribute and afterValidateAttribute options to CActiveForm (Qiang)
 - Enh: Changed @var declarations to class @property declarations in gii and yiic shell model templates (Sam Dark)
+- Enh: Added 'default' option to the virtual attribute declaration in CSort (Qiang)
 
 Version 1.1.2 May 2, 2010
 -------------------------
