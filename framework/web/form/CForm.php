@@ -369,8 +369,6 @@ class CForm extends CFormElement implements ArrayAccess
 	/**
 	 * Renders the open tag of the form.
 	 * The default implementation will render the open form tag.
-	 * If {@link title} or {@link description} is specified, they will be rendered as well.
-	 * And if the associated model contains error, the error summary may also be displayed.
 	 * @return string the rendering result
 	 */
 	public function renderBegin()
@@ -421,6 +419,8 @@ class CForm extends CFormElement implements ArrayAccess
 	/**
 	 * Renders the body content of this form.
 	 * This method mainly renders {@link elements} and {@link buttons}.
+	 * If {@link title} or {@link description} is specified, they will be rendered as well.
+	 * And if the associated model contains error, the error summary may also be displayed.
 	 * The form tag will not be rendered. Please call {@link renderBegin} and {@link renderEnd}
 	 * to render the open and close tags of the form.
 	 * You may override this method to customize the rendering of the form.
