@@ -43,6 +43,7 @@ abstract class CActiveRecord extends CModel
 	private $_related=array();					// attribute name => related objects
 	private $_c;								// query criteria (used by finder only)
 	private $_pk;								// old primary key value
+	private $_alias='t';						// the table alias being used for query
 
 
 	/**
@@ -1206,20 +1207,34 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
-	 * Returns the default table alias to be used by the find methods.
-	 * This method will return the 'alias' option if it is set in {@link defaultScope}.
-	 * Otherwise, it will return 't' as the default alias.
+	 * Returns the table alias to be used by the find methods.
+	 * In relational queries, the returned table alias may vary according to
+	 * the corresponding relation declaration. Also, the default table alias
+	 * set by {@link setTableAlias} may be overridden by the applied scopes.
 	 * @param boolean whether to quote the alias name
+	 * @param boolean whether to check if a table alias is defined in the applied scopes so far.
+	 * This parameter must be set false when calling this method in {@link defaultScope}.
+	 * An infinite loop would be formed otherwise.
 	 * @return string the default table alias
 	 * @since 1.1.1
 	 */
-	public function getTableAlias($quote=false)
+	public function getTableAlias($quote=false, $checkScopes=true)
 	{
-		if(($criteria=$this->getDbCriteria(false))!==null && $criteria->alias!='')
+		if($checkScopes && ($criteria=$this->getDbCriteria(false))!==null && $criteria->alias!='')
 			$alias=$criteria->alias;
 		else
-			$alias='t';
+			$alias=$this->_alias;
 		return $quote ? $this->getDbConnection()->getSchema()->quoteTableName($alias) : $alias;
+	}
+
+	/**
+	 * Sets the table alias to be used in queries.
+	 * @param string the table alias to be used in queries. The alias should NOT be quoted.
+	 * @since 1.1.3
+	 */
+	public function setTableAlias($alias)
+	{
+		$this->_alias=$alias;
 	}
 
 	/**
