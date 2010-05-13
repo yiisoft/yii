@@ -14,6 +14,7 @@ Version 1.1.3 to be released
 - Enh #1166: Added CActiveRecord::setOldPrimaryKey (Qiang)
 - Enh #1174: AR's count() now generates more reasonable SQL statement when 'group' option is specified (Qiang)
 - Enh #1179: Added CMultiFileUpload::file (Qiang)
+- Enh #1183: Added support to retrieve the currently active table alias in AR scopes (Qiang)
 - Enh #1188: Removed exception message display in production mode when a DB connection fails to improve security (Qiang)
 - Enh #1189: Added $loadedOnly parameter to CModule::getComponents() so that it can return all application components including unloaded ones (Qiang)
 - Enh #1199: AR's count() method now respects the 'select' option in the query criteria (Qiang)

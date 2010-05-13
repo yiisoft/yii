@@ -255,6 +255,11 @@ class CActiveFinder extends CComponent
 
 			$relation=clone $relation;
 			$model=CActiveRecord::model($relation->className);
+			if($relation instanceof CActiveRelation)
+			{
+				$oldAlias=$model->getTableAlias(false,false);
+				$model->setTableAlias($relation->alias===null?$relation->name:$relation->alias);
+			}
 			if(($scope=$model->defaultScope())!==array())
 				$relation->mergeWith($scope);
 			if(!empty($scopes))
@@ -273,6 +278,9 @@ class CActiveFinder extends CComponent
 			// dynamic options
 			if($options!==null)
 				$relation->mergeWith($options);
+
+			if($relation instanceof CActiveRelation)
+				$model->setTableAlias($oldAlias);
 
 			if($relation instanceof CStatRelation)
 				return new CStatElement($this,$relation,$parent);
