@@ -85,7 +85,7 @@ class CDbColumnSchema extends CComponent
 	 */
 	protected function extractType($dbType)
 	{
-		if(stripos($dbType,'int')!==false)
+		if(stripos($dbType,'int')!==false && stripos($dbType,'unsigned int')===false)
 			$this->type='integer';
 		else if(stripos($dbType,'bool')!==false)
 			$this->type='boolean';
