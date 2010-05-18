@@ -49,8 +49,6 @@ class CPgsqlColumnSchema extends CDbColumnSchema
 			$this->defaultValue=false;
 		else if(strpos($defaultValue,'nextval')===0)
 			$this->defaultValue=null;
-		else if(preg_match('/\'(.*)\'::/',$defaultValue,$matches))
-			$this->defaultValue=$this->typecast(str_replace("''","'",$matches[1]));
 		else if(preg_match('/^-?\d+(\.\d*)?$/',$defaultValue,$matches))
 			$this->defaultValue=$this->typecast($defaultValue);
 		// else is null
