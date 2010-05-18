@@ -162,6 +162,8 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		Yii::app()->getSession()->open();
 		if($this->getIsGuest() && $this->allowAutoLogin)
 			$this->restoreFromCookie();
+		else if($this->autoRenewCookie && $this->allowAutoLogin)
+			$this->renewCookie();
 		$this->updateFlash();
 	}
 
@@ -297,7 +299,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 
 		if(!$request->getIsAjaxRequest())
 			$this->setReturnUrl($request->getUrl());
-		
+
 		if(($url=$this->loginUrl)!==null)
 		{
 			if(is_array($url))
@@ -334,6 +336,27 @@ class CWebUser extends CApplicationComponent implements IWebUser
 					$cookie->expire=time()+$duration;
 					$app->getRequest()->getCookies()->add($cookie->name,$cookie);
 				}
+			}
+		}
+	}
+
+	/**
+	 * Renews the identity cookie.
+	 * This method will set the expriation time of the identity cookie to be the current time
+	 * plus the originally specified cookie duration.
+	 * @since 1.1.3
+	 */
+	protected function renewCookie()
+	{
+		$cookies=Yii::app()->getRequest()->getCookies();
+		$cookie=$cookies->itemAt($this->getStateKeyPrefix());
+		if($cookie && !empty($cookie->value) && ($data=Yii::app()->getSecurityManager()->validateData($cookie->value))!==false)
+		{
+			$data=@unserialize($data);
+			if(is_array($data) && isset($data[0],$data[1],$data[2],$data[3]))
+			{
+				$cookie->expire=time()+$data[2];
+				$cookies->add($cookie->name,$cookie);
 			}
 		}
 	}

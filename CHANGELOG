@@ -10,6 +10,7 @@ Version 1.1.3 to be released
 - Bug #1190: CLocale::getMonthNames may fail due to a typo (Qiang)
 - Bug #1208: Unsigned integer column type was not handled correctly (Qiang)
 - Bug #1213: Fixed the bug that skipOnError doesn't have effect on inline validators (Qiang)
+- Bug #1226: CWebUser::autoRenewCookie does not handle the case when the user is already logged in (Qiang)
 - Bug #1231: CPgsqlColumnSchema would incorrectly parse the default value with some complex expressions (Qiang)
 - Enh #1158: Added translations in Latvian (lafriks)
 - Enh #1166: Added CActiveRecord::setOldPrimaryKey (Qiang)
