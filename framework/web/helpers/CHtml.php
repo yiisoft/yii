@@ -1529,6 +1529,10 @@ EOD;
 	 * @param string a piece of HTML code that appears at the end of the errors
 	 * @param array additional HTML attributes to be rendered in the container div tag.
 	 * This parameter has been available since version 1.0.7.
+	 * A special option named 'firstError' is recognized, which when set true, will
+	 * make the error summary to show only the first error message of each attribute.
+	 * If this is not set or is false, all error messages will be displayed.
+	 * This option has been available since version 1.1.3.
 	 * @return string the error summary. Empty if no errors are found.
 	 * @see CModel::getErrors
 	 * @see errorSummaryCss
@@ -1538,6 +1542,13 @@ EOD;
 		$content='';
 		if(!is_array($model))
 			$model=array($model);
+		if(isset($htmlOptions['firstError']))
+		{
+			$firstError=$htmlOptions['firstError'];
+			unset($htmlOptions['firstError']);
+		}
+		else
+			$firstError=false;
 		foreach($model as $m)
 		{
 			foreach($m->getErrors() as $errors)
@@ -1546,6 +1557,8 @@ EOD;
 				{
 					if($error!='')
 						$content.="<li>$error</li>\n";
+					if($firstError)
+						break;
 				}
 			}
 		}
