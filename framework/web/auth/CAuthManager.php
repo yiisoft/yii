@@ -138,7 +138,7 @@ abstract class CAuthManager extends CApplicationComponent implements IAuthManage
 	 */
 	public function executeBizRule($bizRule,$params,$data)
 	{
-		return $bizRule==='' || $bizRule===null || @eval($bizRule)!=0;
+		return $bizRule==='' || $bizRule===null || (YII_DEBUG ? eval($bizRule)!=0 : @eval($bizRule)!=0);
 	}
 
 	/**
