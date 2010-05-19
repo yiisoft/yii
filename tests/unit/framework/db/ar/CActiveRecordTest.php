@@ -751,7 +751,12 @@ class CActiveRecordTest extends CTestCase
 	}
 
 	public function testResetScope(){
+		// resetting named scope
 		$posts=Post::model()->post23()->resetScope()->findAll();
+		$this->assertEquals(5,count($posts));
+
+		// resetting default scope
+		$posts=PostSpecial::model()->resetScope()->findAll();
 		$this->assertEquals(5,count($posts));
 	}
 
