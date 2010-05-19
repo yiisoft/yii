@@ -70,15 +70,29 @@ class CClientScript extends CApplicationComponent
 	 * @since 1.0.5
 	 */
 	protected $scripts=array();
+	/**
+	 * @var array the register head meta tags. Each array element represents an option array
+	 * that will be passed as the last parameter of {@link CHtml::metaTag}.
+	 * @since 1.1.3
+	 */
+	protected $metaTags=array();
+	/**
+	 * @var array the register head link tags. Each array element represents an option array
+	 * that will be passed as the last parameter of {@link CHtml::linkTag}.
+	 * @since 1.1.3
+	 */
+	protected $linkTags=array();
+	/**
+	 * @var array the register css code blocks (key => array(CSS code, media type)).
+	 * @since 1.1.3
+	 */
+	protected $css=array();
 
 	private $_hasScripts=false;
 	private $_packages;
 	private $_dependencies;
 	private $_baseUrl;
 	private $_coreScripts=array();
-	private $_css=array();
-	private $_metas=array();
-	private $_links=array();
 
 	/**
 	 * Cleans all registered scripts.
@@ -88,11 +102,11 @@ class CClientScript extends CApplicationComponent
 		$this->_hasScripts=false;
 		$this->_coreScripts=array();
 		$this->cssFiles=array();
-		$this->_css=array();
+		$this->css=array();
 		$this->scriptFiles=array();
 		$this->scripts=array();
-		$this->_metas=array();
-		$this->_links=array();
+		$this->metaTags=array();
+		$this->linkTags=array();
 
 		$this->recordCachingAction('clientScript','reset',array());
 	}
@@ -218,13 +232,13 @@ class CClientScript extends CApplicationComponent
 	public function renderHead(&$output)
 	{
 		$html='';
-		foreach($this->_metas as $meta)
+		foreach($this->metaTags as $meta)
 			$html.=CHtml::metaTag($meta['content'],null,null,$meta)."\n";
-		foreach($this->_links as $link)
+		foreach($this->linkTags as $link)
 			$html.=CHtml::linkTag(null,null,null,null,$link)."\n";
 		foreach($this->cssFiles as $url=>$media)
 			$html.=CHtml::cssFile($url,$media)."\n";
-		foreach($this->_css as $css)
+		foreach($this->css as $css)
 			$html.=CHtml::css($css[0],$css[1])."\n";
 		if($this->enableJavaScript)
 		{
@@ -394,7 +408,7 @@ class CClientScript extends CApplicationComponent
 	public function registerCss($id,$css,$media='')
 	{
 		$this->_hasScripts=true;
-		$this->_css[$id]=array($css,$media);
+		$this->css[$id]=array($css,$media);
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerCss',$params);
 	}
@@ -456,7 +470,7 @@ class CClientScript extends CApplicationComponent
 		if($httpEquiv!==null)
 			$options['http-equiv']=$httpEquiv;
 		$options['content']=$content;
-		$this->_metas[serialize($options)]=$options;
+		$this->metaTags[serialize($options)]=$options;
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerMetaTag',$params);
 	}
@@ -481,7 +495,7 @@ class CClientScript extends CApplicationComponent
 			$options['href']=$href;
 		if($media!==null)
 			$options['media']=$media;
-		$this->_links[serialize($options)]=$options;
+		$this->linkTags[serialize($options)]=$options;
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerLinkTag',$params);
 	}
@@ -503,7 +517,7 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function isCssRegistered($id)
 	{
-		return isset($this->_css[$id]);
+		return isset($this->css[$id]);
 	}
 
 	/**
