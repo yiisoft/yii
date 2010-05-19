@@ -19,6 +19,8 @@
  * @version $Id$
  * @package system.db.ar
  * @since 1.0
+ *
+ * @property array $attributes
  */
 abstract class CActiveRecord extends CModel
 {
