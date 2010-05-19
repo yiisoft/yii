@@ -1482,7 +1482,7 @@ EOD;
 	 * @param array value-label pairs used to generate the radio button list.
 	 * Note, the values will be automatically HTML-encoded, while the labels will not.
 	 * @param array addtional HTML options. The options will be applied to
-	 * each checkbox input. The following special options are recognized:
+	 * each radio button input. The following special options are recognized:
 	 * <ul>
 	 * <li>template: string, specifies how each checkbox is rendered. Defaults
 	 * to "{input} {label}", where "{input}" will be replaced by the generated
