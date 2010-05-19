@@ -334,7 +334,7 @@ class CDbCriteria
 		else if($op==='')
 			$op='=';
 
-		$this->addCondition("$column{$op}".self::PARAM_PREFIX.self::$paramCount,$operator);
+		$this->addCondition($column.$op.self::PARAM_PREFIX.self::$paramCount,$operator);
 		$this->params[self::PARAM_PREFIX.self::$paramCount++]=$value;
 
 		return $this;
