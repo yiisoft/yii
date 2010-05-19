@@ -27,6 +27,7 @@ Version 1.1.3 to be released
 - Enh #1203: Gii now respects the newDirMode and newFileMode settings even when lower umask is set (Qiang)
 - Enh #1225: Added 'firstError' option to CHtml::errorSummary() to support displaying only the first error message of each model attribute (Qiang)
 - Enh #1232: RBAC will not suppress errors in bizRule when in debug mode (Qiang)
+- Enh #1239: CBreadcrumbs should have the 'Home' label translated (Qiang)
 - Enh: Added support for using array-typed model attributes in active methods in CHtml (Qiang)
 - Enh: Added beforeValidate, afterValidate, beforeValidateAttribute and afterValidateAttribute options to CActiveForm (Qiang)
 - Enh: Changed @var declarations to class @property declarations in gii and yiic shell model templates (Sam Dark)
