@@ -313,9 +313,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function resetScope()
 	{
-		if($this->_c!==null)
-			$this->_c=new CDbCriteria();
-
+		$this->_c=new CDbCriteria();
 		return $this;
 	}
 
