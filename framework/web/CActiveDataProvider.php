@@ -11,8 +11,8 @@
  * <pre>
  * $dataProvider=new CActiveDataProvider('Post', array(
  *     'criteria'=>array(
- *         'condition'=>'status=1 AND tags LIKE :tags',
- *         'params'=>array(':tags'=>$_GET['tags']),
+ *         'condition'=>'status=1',
+ *         'order'=>'create_time DESC',
  *         'with'=>array('author'),
  *     ),
  *     'pagination'=>array(
