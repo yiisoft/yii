@@ -1613,7 +1613,11 @@ abstract class CActiveRecord extends CModel
 	{
 		$records=array();
 		foreach($data as $attributes)
-			$records[]=$this->populateRecord($attributes,$callAfterFind);
+		{
+			$record=$this->populateRecord($attributes,$callAfterFind);
+			if($record!==null)
+				$records[]=$record;
+		}
 		return $records;
 	}
 
