@@ -586,6 +586,7 @@ class CDbCommandBuilder extends CComponent
 			$condition=array();
 			foreach($keywords as $keyword)
 			{
+				$keyword='%'.strtr($keyword,array('%'=>'\%', '_'=>'\_')).'%';
 				if($caseSensitive)
 					$condition[]=$prefix.$column->rawName.' LIKE '.$this->_connection->quoteValue('%'.$keyword.'%');
 				else
