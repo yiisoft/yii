@@ -400,3 +400,197 @@ class PostNoTogether extends CActiveRecord
 		return 'posts';
 	}
 }
+
+class UserWithWrappers extends CActiveRecord
+{
+	private static $_counters=array();
+
+	public static function model($class=__CLASS__)
+	{
+		return parent::model($class);
+	}
+
+	public function relations()
+	{
+		return array(
+			'posts'=>array(self::HAS_MANY,'PostWithWrappers','author_id'),
+			'postCount'=>array(self::STAT,'PostWithWrappers','author_id'),
+		);
+	}
+
+	public function tableName()
+	{
+		return 'users';
+	}
+
+	protected function beforeFind()
+	{
+		parent::beforeFind();
+		$this->incrementCounter(__FUNCTION__);
+	}
+
+	protected function afterFind()
+	{
+		parent::afterFind();
+		$this->incrementCounter(__FUNCTION__);
+	}
+
+	protected function incrementCounter($wrapper)
+	{
+		if(isset(self::$_counters[$wrapper]))
+			self::$_counters[$wrapper]++;
+		else
+			self::$_counters[$wrapper]=1;
+	}
+
+	public static function getCounter($wrapper)
+	{
+		if(isset(self::$_counters[$wrapper]))
+		{
+			$result=self::$_counters[$wrapper];
+		}
+		else
+			$result=0;
+
+		self::clearCounters();
+
+		return $result;
+	}
+
+	public static function clearCounters()
+	{
+		self::$_counters=array();
+	}
+}
+
+class PostWithWrappers extends CActiveRecord
+{
+	private static $_counters=array();
+
+	public static function model($class=__CLASS__)
+	{
+		return parent::model($class);
+	}
+
+	public function relations()
+	{
+		return array(
+			'author'=>array(self::BELONGS_TO,'UserWithWrappers','author_id'),
+			'comments'=>array(self::HAS_MANY,'CommentWithWrappers','post_id','order'=>'comments.content DESC'),
+			'commentCount'=>array(self::STAT,'CommentWithWrappers','post_id'),
+		);
+	}
+
+	public function tableName()
+	{
+		return 'posts';
+	}
+
+	public function rules()
+	{
+		return array(
+			array('title', 'required'),
+		);
+	}
+
+	protected function beforeFind()
+	{
+		parent::beforeFind();
+		$this->incrementCounter(__FUNCTION__);
+	}
+
+	protected function afterFind()
+	{
+		parent::afterFind();
+		$this->incrementCounter(__FUNCTION__);
+	}
+
+	protected function incrementCounter($wrapper)
+	{
+		if(isset(self::$_counters[$wrapper]))
+			self::$_counters[$wrapper]++;
+		else
+			self::$_counters[$wrapper]=1;
+	}
+
+	public static function getCounter($wrapper)
+	{
+		if(isset(self::$_counters[$wrapper]))
+		{
+			$result=self::$_counters[$wrapper];
+		}
+		else
+			$result=0;
+
+		self::clearCounters();
+
+		return $result;
+	}
+
+	public static function clearCounters()
+	{
+		self::$_counters=array();
+	}
+}
+
+class CommentWithWrappers extends CActiveRecord
+{
+	private static $_counters=array();
+
+	public static function model($class=__CLASS__)
+	{
+		return parent::model($class);
+	}
+
+	public function relations()
+	{
+		return array(
+			'post'=>array(self::BELONGS_TO,'PostWithWrappers','post_id'),
+			'author'=>array(self::BELONGS_TO,'UserWithWrappers','author_id'),
+		);
+	}
+
+	public function tableName()
+	{
+		return 'comments';
+	}
+
+	protected function beforeFind()
+	{
+		parent::beforeFind();
+		$this->incrementCounter(__FUNCTION__);
+	}
+
+	protected function afterFind()
+	{
+		parent::afterFind();
+		$this->incrementCounter(__FUNCTION__);
+	}
+
+	protected function incrementCounter($wrapper)
+	{
+		if(isset(self::$_counters[$wrapper]))
+			self::$_counters[$wrapper]++;
+		else
+			self::$_counters[$wrapper]=1;
+	}
+
+	public static function getCounter($wrapper)
+	{
+		if(isset(self::$_counters[$wrapper]))
+		{
+			$result=self::$_counters[$wrapper];
+		}
+		else
+			$result=0;
+
+		self::clearCounters();
+
+		return $result;
+	}
+
+	public static function clearCounters()
+	{
+		self::$_counters=array();
+	}
+}

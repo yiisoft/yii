@@ -477,6 +477,7 @@ class CJoinElement
 			$query->offset=$child->relation->offset;
 		}
 
+		$child->beforeFind();
 		$child->applyLazyCondition($query,$baseRecord);
 
 		$this->_joined=true;
@@ -705,6 +706,9 @@ class CJoinElement
 	public function beforeFind()
 	{
 		$this->model->beforeFindInternal();
+
+		foreach($this->children as $child)
+			$child->beforeFind();
 	}
 
 	/**

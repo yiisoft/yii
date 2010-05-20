@@ -1344,6 +1344,7 @@ abstract class CActiveRecord extends CModel
 	public function findBySql($sql,$params=array())
 	{
 		Yii::trace(get_class($this).'.findBySql()','system.db.ar.CActiveRecord');
+		$this->beforeFind();
 		$command=$this->getCommandBuilder()->createSqlCommand($sql,$params);
 		return $this->populateRecord($command->queryRow());
 	}
@@ -1357,6 +1358,7 @@ abstract class CActiveRecord extends CModel
 	public function findAllBySql($sql,$params=array())
 	{
 		Yii::trace(get_class($this).'.findAllBySql()','system.db.ar.CActiveRecord');
+		$this->beforeFind();
 		$command=$this->getCommandBuilder()->createSqlCommand($sql,$params);
 		return $this->populateRecords($command->queryAll());
 	}
