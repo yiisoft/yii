@@ -154,7 +154,7 @@ class CDbCommand extends CComponent
 		else
 			$this->_statement->bindParam($name,$value,$dataType,$length);
 		if($this->_connection->enableParamLogging)
-			$this->_params[$name]='['.gettype($value).']';
+			$this->_params[$name]=&$value;
 		return $this;
 	}
 
