@@ -29,9 +29,10 @@
  * instance and display it.</li>
  * </ol>
  *
- * The property {@link id} and {@link name} are both unique identifiers
+ * The property {@link id} and {@link name} are both identifiers
  * for the user. The former is mainly used internally (e.g. primary key), while
- * the latter is for display purpose (e.g. username).  is a unique identifier for a user that is persistent
+ * the latter is for display purpose (e.g. username). The {@link id} property
+ * is a unique identifier for a user that is persistent
  * during the whole user session. It can be a username, or something else,
  * depending on the implementation of the {@link IUserIdentity identity class}.
  *
