@@ -123,6 +123,16 @@ class CSort extends CComponent
 	 * @var string the default order that should be applied to the query criteria when
 	 * the current request does not specify any sort. For example, 'create_time DESC', or
 	 * 'name, create_time DESC'.
+	 *
+	 * Starting from version 1.1.3, you can also specify the default order using an array,
+	 * where the array keys are virtual attribute names as declared in {@link attributes},
+	 * and the array values indicate whether the sorting of the corresponding attributes should
+	 * be in descending order. For example,
+	 * <pre>
+	 * 'defaultOrder'=>array(
+	 *     'price'=>true,
+	 * )
+	 * </pre>
 	 */
 	public $defaultOrder;
 	/**
@@ -183,7 +193,7 @@ class CSort extends CComponent
 	{
 		$directions=$this->getDirections();
 		if(empty($directions))
-			return $this->defaultOrder;
+			return is_string($this->defaultOrder) ? $this->defaultOrder : '';
 		else
 		{
 			if($this->modelClass!==null)
@@ -314,6 +324,8 @@ class CSort extends CComponent
 					}
 				}
 			}
+			if($this->_directions===array() && is_array($this->defaultOrder))
+				$this->_directions=$this->defaultOrder;
 		}
 		return $this->_directions;
 	}
