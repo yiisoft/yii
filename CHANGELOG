@@ -34,6 +34,7 @@ Version 1.1.3 to be released
 - Enh: Changed @var declarations to class @property declarations in gii and yiic shell model templates (Sam Dark)
 - Enh: IDE code completion for CActiveRecord::attributes (Sam Dark)
 - Enh: Added beforeLogin and afterLogin to CWebUser (Qiang)
+- Enh: Enhanced CSort::defaultOrder to allow using virtual attribute names (Qiang)
 
 Version 1.1.2 May 2, 2010
 -------------------------
