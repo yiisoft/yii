@@ -216,12 +216,16 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function logout($destroySession=true)
 	{
-		if($this->allowAutoLogin)
-			Yii::app()->getRequest()->getCookies()->remove($this->getStateKeyPrefix());
-		if($destroySession)
-			Yii::app()->getSession()->destroy();
-		else
-			$this->clearStates();
+		if($this->beforeLogout())
+		{
+			if($this->allowAutoLogin)
+				Yii::app()->getRequest()->getCookies()->remove($this->getStateKeyPrefix());
+			if($destroySession)
+				Yii::app()->getSession()->destroy();
+			else
+				$this->clearStates();
+			$this->afterLogout();
+		}
 	}
 
 	/**
@@ -347,6 +351,28 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * @since 1.1.3
 	 */
 	protected function afterLogin($fromCookie)
+	{
+	}
+
+	/**
+	 * This method is invoked when calling {@link logout} to log out a user.
+	 * If this method return false, the logout action will be cancelled.
+	 * You may override this method to provide additional check before
+	 * logging out a user.
+	 * @return boolean whether to log out the user
+	 * @since 1.1.3
+	 */
+	protected function beforeLogout()
+	{
+		return true;
+	}
+
+	/**
+	 * This method is invoked right after a user is logged out.
+	 * You may override this method to do some extra cleanup work for the user.
+	 * @since 1.1.3
+	 */
+	protected function afterLogout()
 	{
 	}
 
