@@ -186,15 +186,22 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function login($identity,$duration=0)
 	{
-		$this->changeIdentity($identity->getId(),$identity->getName(),$identity->getPersistentStates());
-
-		if($duration>0)
+		$id=$identity->getId();
+		$states=$identity->getPersistentStates();
+		if($this->beforeLogin($id,$states,false))
 		{
-			if($this->allowAutoLogin)
-				$this->saveToCookie($duration);
-			else
-				throw new CException(Yii::t('yii','{class}.allowAutoLogin must be set true in order to use cookie-based authentication.',
-					array('{class}'=>get_class($this))));
+			$this->changeIdentity($id,$identity->getName(),$states);
+
+			if($duration>0)
+			{
+				if($this->allowAutoLogin)
+					$this->saveToCookie($duration);
+				else
+					throw new CException(Yii::t('yii','{class}.allowAutoLogin must be set true in order to use cookie-based authentication.',
+						array('{class}'=>get_class($this))));
+			}
+
+			$this->afterLogin(false);
 		}
 	}
 
@@ -315,6 +322,35 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	}
 
 	/**
+	 * This method is called before logging in a user.
+	 * You may override this method to provide additional security check.
+	 * For example, when the login is cookie-based, you may want to verify
+	 * that the user ID together with a random token in the states can be found
+	 * in the database. This will prevent hackers from faking arbitrary
+	 * identity cookies even if they crack down the server private key.
+	 * @param mixed the user ID. This is the same as returned by {@link getId()}.
+	 * @param array a set of name-value pairs that are provided by the user identity.
+	 * @param boolean whether the login is based on cookie
+	 * @return boolean whether the user should be logged in
+	 * @since 1.1.3
+	 */
+	protected function beforeLogin($id,$states,$fromCookie)
+	{
+		return true;
+	}
+
+	/**
+	 * This method is called after the user is successfully logged in.
+	 * You may override this method to do some postprocessing (e.g. log the user
+	 * login IP and time; load the user permission information).
+	 * @param boolean whether the login is based on cookie.
+	 * @since 1.1.3
+	 */
+	protected function afterLogin($fromCookie)
+	{
+	}
+
+	/**
 	 * Populates the current user object with the information obtained from cookie.
 	 * This method is used when automatic login ({@link allowAutoLogin}) is enabled.
 	 * The user identity information is recovered from cookie.
@@ -331,11 +367,15 @@ class CWebUser extends CApplicationComponent implements IWebUser
 			if(is_array($data) && isset($data[0],$data[1],$data[2],$data[3]))
 			{
 				list($id,$name,$duration,$states)=$data;
-				$this->changeIdentity($id,$name,$states);
-				if($this->autoRenewCookie)
+				if($this->beforeLogin($id,$states,true))
 				{
-					$cookie->expire=time()+$duration;
-					$app->getRequest()->getCookies()->add($cookie->name,$cookie);
+					$this->changeIdentity($id,$name,$states);
+					if($this->autoRenewCookie)
+					{
+						$cookie->expire=time()+$duration;
+						$app->getRequest()->getCookies()->add($cookie->name,$cookie);
+					}
+					$this->afterLogin(true);
 				}
 			}
 		}
