@@ -219,7 +219,16 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		if($this->beforeLogout())
 		{
 			if($this->allowAutoLogin)
+			{
 				Yii::app()->getRequest()->getCookies()->remove($this->getStateKeyPrefix());
+				if($this->identityCookie!==null)
+				{
+					$cookie=$this->createIdentityCookie($this->getStateKeyPrefix());
+					$cookie->value=null;
+					$cookie->expire=0;
+					Yii::app()->getRequest()->getCookies()->add($cookie->name,$cookie);
+				}
+			}
 			if($destroySession)
 				Yii::app()->getSession()->destroy();
 			else
