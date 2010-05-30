@@ -1011,8 +1011,8 @@ abstract class CActiveRecord extends CModel
 	/**
 	 * Saves a selected list of attributes.
 	 * Unlike {@link save}, this method only saves the specified attributes
-	 * of an existing row dataset. It thus has better performance.
-	 * Note, this method does neither attribute filtering nor validation.
+	 * of an existing row dataset and does NOT call either {@link beforeSave} or {@link afterSave}.
+	 * Also note that this method does neither attribute filtering nor validation.
 	 * So do not use this method with untrusted data (such as user posted data).
 	 * You may consider the following alternative if you want to do so:
 	 * <pre>
