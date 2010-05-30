@@ -107,6 +107,24 @@ class CSort extends CComponent
 	 *     'default'=>'desc',
 	 * )
 	 * </pre>
+	 *
+	 * Also starting from version 1.1.3, you can include a star ('*') element in this property so that
+	 * all model attributes are available for sorting, in addition to those virtual attributes. For example,
+	 * <pre>
+	 * 'attributes'=>array(
+	 *     'price'=>array(
+	 *         'asc'=>'item.price',
+	 *         'desc'=>'item.price DESC',
+	 *         'label'=>'Item Price',
+	 *         'default'=>'desc',
+	 *     ),
+	 *     '*',
+	 * )
+	 * </pre>
+	 * Note that when a name appears as both a model attribute and a virtual attribute, the position of
+	 * the star element in the array determines which one takes precedence. In particular, if the star
+	 * element is the first element in the array, the model attribute takes precedence; and if the star
+	 * element is the last one, the virtual attribute takes precedence.
 	 */
 	public $attributes=array();
 	/**
@@ -217,7 +235,7 @@ class CSort extends CComponent
 						if(($pos=strpos($attribute,'.'))!==false)
 							$attribute=$schema->quoteTableName(substr($attribute,0,$pos)).'.'.$schema->quoteColumnName(substr($attribute,$pos+1));
 						else
-							$attribute=$schema->quoteColumnName($attribute);
+							$attribute=CActiveRecord::model($this->modelClass)->getTableAlias(true).'.'.$schema->quoteColumnName($attribute);
 					}
 					$orders[]=$descending?$attribute.' DESC':$attribute;
 				}
@@ -362,12 +380,16 @@ class CSort extends CComponent
 
 	/**
 	 * Returns the real definition of an attribute given its name.
+	 *
 	 * The resolution is based on {@link attributes} and {@link CActiveRecord::attributeNames}.
-	 * When {@link attributes} is an empty array, if the name refers to an attribute of {@link modelClass},
-	 * then the name is returned back.
-	 * When {@link attributes} is not empty, if the name refers to an attribute declared in {@link attributes},
-	 * then the corresponding virtual attribute definition is returned.
-	 * In all other cases, false is returned, meaning the name does not refer to a valid attribute.
+	 * <ul>
+	 * <li>When {@link attributes} is an empty array, if the name refers to an attribute of {@link modelClass},
+	 * then the name is returned back.</li>
+	 * <li>When {@link attributes} is not empty, if the name refers to an attribute declared in {@link attributes},
+	 * then the corresponding virtual attribute definition is returned. Starting from version 1.1.3, if {@link attributes}
+	 * contains a star ('*') element, the name will also be used to match against all model attributes.</li>
+	 * <li>In all other cases, false is returned, meaning the name does not refer to a valid attribute.</li>
+	 * </ul>
 	 * @param string the attribute name that the user requests to sort on
 	 * @return mixed the attribute name or the virtual attribute definition. False if the attribute cannot be sorted.
 	 */
@@ -385,6 +407,11 @@ class CSort extends CComponent
 			{
 				if($name===$attribute)
 					return $definition;
+			}
+			else if($definition==='*')
+			{
+				if($this->modelClass!==null && CActiveRecord::model($this->modelClass)->hasAttribute($attribute))
+					return $attribute;
 			}
 			else if($definition===$attribute)
 				return $attribute;
