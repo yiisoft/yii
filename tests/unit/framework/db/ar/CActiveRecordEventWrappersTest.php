@@ -12,7 +12,6 @@ require_once(dirname(__FILE__).'/../data/models.php');
 
 class CActiveRecordEventWrappersTest extends CTestCase
 {
-	private $app;
 	private $db;
 
 	public function setUp()
