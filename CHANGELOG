@@ -29,6 +29,7 @@ Version 1.1.3 to be released
 - Enh #1202: Added support for using anonymous functions as component property values (Qiang)
 - Enh #1203: Gii now respects the newDirMode and newFileMode settings even when lower umask is set (Qiang)
 - Enh #1225: Added 'firstError' option to CHtml::errorSummary() to support displaying only the first error message of each model attribute (Qiang)
+- Enh #1232: Added CAuthManager::showErrors. When value is true Yii will turn on error_reporting for RBAC bizRules. False by default (Sam Dark) 
 - Enh #1239: CBreadcrumbs should have the 'Home' label translated (Qiang)
 - Enh: CActiveRecord::beforeFind event is now triggered in all cases including related models with both lazy and eager loading (Sam Dark, creocoder)
 - Enh: Added support for using array-typed model attributes in active methods in CHtml (Qiang)
