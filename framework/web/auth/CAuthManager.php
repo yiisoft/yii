@@ -38,6 +38,12 @@
 abstract class CAuthManager extends CApplicationComponent implements IAuthManager
 {
 	/**
+	 * @var boolean Enable error reporting for bizRules.	 
+	 * @since 1.1.3
+	 */
+	public $showErrors = false;
+
+	/**
 	 * @var array list of role names that are assigned to all users implicitly.
 	 * These roles do not need to be explicitly assigned to any user.
 	 * When calling {@link checkAccess}, these roles will be checked first.
@@ -138,7 +144,7 @@ abstract class CAuthManager extends CApplicationComponent implements IAuthManage
 	 */
 	public function executeBizRule($bizRule,$params,$data)
 	{
-		return $bizRule==='' || $bizRule===null || @eval($bizRule)!=0;
+		return $bizRule==='' || $bizRule===null || ($this->showErrors ? eval($bizRule)!=0 : @eval($bizRule)!=0);
 	}
 
 	/**
