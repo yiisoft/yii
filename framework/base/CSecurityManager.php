@@ -227,29 +227,30 @@ class CSecurityManager extends CApplicationComponent
 	/**
 	 * Prefixes data with an HMAC.
 	 * @param string data to be hashed.
+	 * @param string the private key to be used for generating HMAC. Defaults to null, meaning using {@link validationKey}.
 	 * @return string data prefixed with HMAC
 	 */
-	public function hashData($data)
+	public function hashData($data,$key=null)
 	{
-		$hmac=$this->computeHMAC($data);
-		return $hmac.$data;
+		return $this->computeHMAC($data,$key).$data;
 	}
 
 	/**
 	 * Validates if data is tampered.
 	 * @param string data to be validated. The data must be previously
 	 * generated using {@link hashData()}.
+	 * @param string the private key to be used for generating HMAC. Defaults to null, meaning using {@link validationKey}.
 	 * @return string the real data with HMAC stripped off. False if the data
 	 * is tampered.
 	 */
-	public function validateData($data)
+	public function validateData($data,$key=null)
 	{
 		$len=strlen($this->computeHMAC('test'));
 		if(strlen($data)>=$len)
 		{
 			$hmac=substr($data,0,$len);
 			$data2=substr($data,$len);
-			return $hmac===$this->computeHMAC($data2)?$data2:false;
+			return $hmac===$this->computeHMAC($data2,$key)?$data2:false;
 		}
 		else
 			return false;
@@ -258,11 +259,13 @@ class CSecurityManager extends CApplicationComponent
 	/**
 	 * Computes the HMAC for the data with {@link getValidationKey ValidationKey}.
 	 * @param string data to be generated HMAC
+	 * @param string the private key to be used for generating HMAC. Defaults to null, meaning using {@link validationKey}.
 	 * @return string the HMAC for the data
 	 */
-	protected function computeHMAC($data)
+	protected function computeHMAC($data,$key=null)
 	{
-		$key=$this->getValidationKey();
+		if($key===null)
+			$key=$this->getValidationKey();
 
 		if(function_exists('hash_hmac'))
 			return hash_hmac($this->hashAlgorithm, $data, $key);
