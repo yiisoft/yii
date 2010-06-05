@@ -570,6 +570,33 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	}
 
 	/**
+	 * Returns all flash messages.
+	 * This method is similar to {@link getFlash} except that it returns all
+	 * currently available flash messages.
+	 * @param boolean whether to delete the flash messages after calling this method.
+	 * @return array flash messages (key => message).
+	 * @since 1.1.3
+	 */
+	public function getFlashes($delete=true)
+	{
+		$flashes=array();
+		$keys=array_keys($_SESSION);
+		$n=strlen(self::FLASH_KEY_PREFIX);
+		foreach($keys as $key)
+		{
+			if(!strncmp($key,self::FLASH_KEY_PREFIX,$n))
+			{
+				$flashes[$key]=$_SESSION[$key];
+				if($delete)
+					unset($_SESSION[$key]);
+			}
+		}
+		if($delete)
+			$this->setState(self::FLASH_COUNTERS,array());
+		return $flashes;
+	}
+
+	/**
 	 * Returns a flash message.
 	 * A flash message is available only in the current and the next requests.
 	 * @param string key identifying the flash message
