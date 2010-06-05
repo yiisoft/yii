@@ -87,6 +87,13 @@ class CClientScript extends CApplicationComponent
 	 * @since 1.1.3
 	 */
 	protected $css=array();
+	/**
+	 * @var integer Where the core scripts will be inserted in the page.
+	 * This can be one of the CClientScript::POS_* constants.
+	 * Defaults to CClientScript::POS_HEAD.
+	 * @since 1.1.3
+	 */
+	public $coreScriptPosition=self::POS_HEAD;
 
 	private $_hasScripts=false;
 	private $_packages;
@@ -216,12 +223,12 @@ class CClientScript extends CApplicationComponent
 		}
 		if($jsFiles!==array())
 		{
-			if(isset($this->scriptFiles[self::POS_HEAD]))
+			if(isset($this->scriptFiles[$this->coreScriptPosition]))
 			{
-				foreach($this->scriptFiles[self::POS_HEAD] as $url)
+				foreach($this->scriptFiles[$this->coreScriptPosition] as $url)
 					$jsFiles[$url]=$url;
 			}
-			$this->scriptFiles[self::POS_HEAD]=$jsFiles;
+			$this->scriptFiles[$this->coreScriptPosition]=$jsFiles;
 		}
 	}
 
