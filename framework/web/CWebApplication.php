@@ -22,6 +22,7 @@
  * <li>{@link themeManager}: manages themes.</li>
  * <li>{@link authManager}: manages role-based access control (RBAC).</li>
  * <li>{@link clientScript}: manages client scripts (javascripts and CSS).</li>
+ * <li>{@link widgetFactory}: creates widgets and supports widget skinning.</li>
  * </ul>
  *
  * User requests are resolved as controller-action pairs and additional parameters.
@@ -147,6 +148,9 @@ class CWebApplication extends CApplication
 			),
 			'clientScript'=>array(
 				'class'=>'CClientScript',
+			),
+			'widgetFactory'=>array(
+				'class'=>'CWidgetFactory',
 			),
 		);
 

@@ -80,6 +80,7 @@ Version 1.1.2 May 2, 2010
 - Enh #1093: CJSON now tries to use native PHP functions prior to use Yii implementation (Sam Dark)
 - Enh #1140: Added CHttpSession::get() (Qiang)
 - Eng #1156: Updated jQuery BBQ to 1.2.1 (Sam Dark)
+- Enh #1282: Added support to configure widget default values in application configuration (Qiang)
 - Enh: Improved IDE code completion for generated AR models (Sam Dark)
 - Enh: CCaptchaAction now supports unlimited tests by setting its testLimit to be 0 (Qiang)
 - Enh: Added $forceCopy parameter to CAssetManager::publish() (Qiang)

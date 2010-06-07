@@ -79,17 +79,47 @@
 class CWidgetFactory extends CApplicationComponent implements IWidgetFactory
 {
 	/**
-	 * @var string the directory containing all the skin files. Defaults to null,
-	 * meaning using the "skins" directory under the current application's {@link CWebApplication::viewPath}.
+	 * @var boolean whether to enable widget skinning. Defaults to false.
+	 * @see skinnableWidgets
+	 * @since 1.1.3
 	 */
-	public $skinPath;
+	public $enableSkin=false;
+	/**
+	 * @var array widget initial property values. Each array key-value pair
+	 * represents the initial property values for a single widget class, with
+	 * the array key being the widget class name, and array value being the initial
+	 * property value array. For example,
+	 * <pre>
+	 * array(
+	 *     'CLinkPager'=>array(
+	 *         'maxButtonCount'=>5,
+	 *         'cssFile'=>false,
+	 *     ),
+	 *     'CJuiDatePicker'=>array(
+	 *         'language'=>'ru',
+	 *     ),
+	 * )
+	 * </pre>
+	 *
+	 * Note that the initial values specified here may be overridden by
+	 * the values given in {@link CBaseController::createWidget} calls.
+	 * They may also be overridden by widget skins, if {@link enableSkin} is true.
+	 * @since 1.1.3
+	 */
+	public $widgets=array();
 	/**
 	 * @var array list of widget class names that can be skinned.
 	 * Because skinning widgets has performance impact, you may want to specify this property
 	 * to limit skinning only to specific widgets. Any widgets that are not in this list
 	 * will not be skinned. Defaults to null, meaning all widgets can be skinned.
+	 * @since 1.1.3
 	 */
-	public $widgets;
+	public $skinnableWidgets;
+	/**
+	 * @var string the directory containing all the skin files. Defaults to null,
+	 * meaning using the "skins" directory under the current application's {@link CWebApplication::viewPath}.
+	 */
+	public $skinPath;
 
 	private $_skins=array();  // class name, skin name, property name => value
 
@@ -101,7 +131,7 @@ class CWidgetFactory extends CApplicationComponent implements IWidgetFactory
 	{
 		parent::init();
 
-		if($this->skinPath===null)
+		if($this->enableSkin && $this->skinPath===null)
 			$this->skinPath=Yii::app()->getViewPath().DIRECTORY_SEPARATOR.'skins';
 	}
 
@@ -116,11 +146,17 @@ class CWidgetFactory extends CApplicationComponent implements IWidgetFactory
 	{
 		$className=Yii::import($className,true);
 		$widget=new $className($owner);
-		if($this->widgets===null || in_array($className,$this->widgets))
+
+		if(isset($this->widgets[$className]))
+			$properties=$properties===array() ? $this->widgets[$className] : CMap::mergeArray($this->widgets[$className],$properties);
+		if($this->enableSkin)
 		{
-			$skinName=isset($properties['skin']) ? $properties['skin'] : 'default';
-			if($skinName!==false && ($skin=$this->getSkin($className,$skinName))!==array())
-				$properties=$properties===array() ? $skin : CMap::mergeArray($skin,$properties);
+			if($this->skinnableWidgets===null || in_array($className,$this->skinnableWidgets))
+			{
+				$skinName=isset($properties['skin']) ? $properties['skin'] : 'default';
+				if($skinName!==false && ($skin=$this->getSkin($className,$skinName))!==array())
+					$properties=$properties===array() ? $skin : CMap::mergeArray($skin,$properties);
+			}
 		}
 		foreach($properties as $name=>$value)
 			$widget->$name=$value;
