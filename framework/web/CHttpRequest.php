@@ -209,13 +209,26 @@ class CHttpRequest extends CApplicationComponent
 			else
 			{
 				$this->_hostInfo=$http.'://'.$_SERVER['SERVER_NAME'];
-				$port=$_SERVER['SERVER_PORT'];
-				if(($port!=80 && !$secure) || ($port!=443 && $secure))
+				$port=$secure ? $this->getSecurePort() : $this->getPort();
+				if(($port!==80 && !$secure) || ($port!==443 && $secure))
 					$this->_hostInfo.=':'.$port;
 			}
 		}
-		if($schema!=='' && ($pos=strpos($this->_hostInfo,':'))!==false)
-			return $schema.substr($this->_hostInfo,$pos);
+		if($schema!=='')
+		{
+			$secure=$this->getIsSecureConnection();
+			if($secure && $schema==='https' || !$secure && $schema==='http')
+				return $this->_hostInfo;
+
+			$port=$schema==='https' ? $this->getSecurePort() : $this->getPort();
+			if($port!==80 && $schema==='http' || $port!==443 && $schema==='https')
+				$port=':'.$port;
+			else
+				$port='';
+
+			$pos=strpos($this->_hostInfo,':');
+			return $schema.substr($this->_hostInfo,$pos,strcspn($this->_hostInfo,':',$pos+1)+1).$port;
+		}
 		else
 			return $this->_hostInfo;
 	}
@@ -477,6 +490,68 @@ class CHttpRequest extends CApplicationComponent
 	public function getAcceptTypes()
 	{
 		return $_SERVER['HTTP_ACCEPT'];
+	}
+
+	private $_port;
+
+ 	/**
+	 * Returns the port to use for insecure requests.
+	 * Defaults to 80, or the port specified by the server if the current
+	 * request is insecure.
+	 * You may explicitly specify it by setting the {@link setPort port} property.
+	 * @return integer port number for insecure requests.
+	 * @see setPort
+	 * @since 1.1.3
+	 */
+	public function getPort()
+	{
+		if($this->_port===null)
+			$this->_port=!$this->getIsSecureConnection() && isset($_SERVER['SERVER_PORT']) ? (int)$_SERVER['SERVER_PORT'] : 80;
+		return $this->_port;
+	}
+
+	/**
+	 * Sets the port to use for insecure requests.
+	 * This setter is provided in case a custom port is necessary for certain
+	 * server configurations.
+	 * @param integer port number.
+	 * @since 1.1.3
+	 */
+	public function setPort($value)
+	{
+		$this->_port=(int)$value;
+		$this->_hostInfo=null;
+	}
+
+	private $_securePort;
+
+	/**
+	 * Returns the port to use for insecure requests.
+	 * Defaults to 443, or the port specified by the server if the current
+	 * request is secure.
+	 * You may explicitly specify it by setting the {@link setSecurePort securePort} property.
+	 * @return integer port number for secure requests.
+	 * @see setSecurePort
+	 * @since 1.1.3
+	 */
+	public function getSecurePort()
+	{
+		if($this->_securePort===null)
+			$this->_securePort=$this->getIsSecureConnection() && isset($_SERVER['SERVER_PORT']) ? (int)$_SERVER['SERVER_PORT'] : 443;
+		return $this->_securePort;
+	}
+
+	/**
+	 * Sets the port to use for secure requests.
+	 * This setter is provided in case a custom port is necessary for certain
+	 * server configurations.
+	 * @param integer port number.
+	 * @since 1.1.3
+	 */
+	public function setSecurePort($value)
+	{
+		$this->_securePort=(int)$value;
+		$this->_hostInfo=null;
 	}
 
 	/**
