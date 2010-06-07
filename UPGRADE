@@ -11,6 +11,12 @@ for both A and B.
 
 Upgrading from v1.1.2
 ---------------------
+- When using the skin feature, you now need to explicitly configure
+the 'enableSkin' property of 'widgetFactory' application component
+to be true. Also, if you have configured the 'widgets' property, you
+should rename it to be 'skinnableWidgets'. These changes are due to
+the introduction of the global widget customization feature.
+Please see the guide (the "Theming" section) for more details.
 
 Upgrading from v1.1.1
 ---------------------

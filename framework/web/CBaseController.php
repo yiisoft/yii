@@ -136,15 +136,7 @@ abstract class CBaseController extends CComponent
 	 */
 	public function createWidget($className,$properties=array())
 	{
-		if(($factory=Yii::app()->getWidgetFactory())!==null)
-			$widget=$factory->createWidget($this,$className,$properties);
-		else
-		{
-			$className=Yii::import($className,true);
-			$widget=new $className($this);
-			foreach($properties as $name=>$value)
-				$widget->$name=$value;
-		}
+		$widget=Yii::app()->getWidgetFactory()->createWidget($this,$className,$properties);
 		$widget->init();
 		return $widget;
 	}
