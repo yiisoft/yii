@@ -85,6 +85,35 @@ class CActiveDataProvider extends CDataProvider
 		return $sort;
 	}
 
+	private $_model;
+
+	/**
+	 * Returns the AR finder that will be used in {@link fetchData} and {@link calculateTotalItemCount}.
+	 * The default implementation will return the finder specified by {@link modelClass}.
+	 * You may change this behavior by configuring {@link setModel model} with a customized finder.
+	 * For example, <code>Post::model()->published()</code> can be assigned to the property
+	 * so that the "published" scope is applied before querying.
+	 * @return CActiveRecord the AR finder for {@link modelClass}
+	 * @since 1.1.3
+	 */
+	public function getModel()
+	{
+		if($this->_model===null)
+			$this->_model=CActiveRecord::model($this->modelClass);
+		return $this->_model;
+	}
+
+	/**
+	 * Sets the AR finder that will be used in {@link fetchData} and {@link calculateTotalItemCount}.
+	 * @param CActiveRecord the AR finder for {@link modelClass}
+	 * @since 1.1.3
+	 * @see getModel
+	 */
+	public function setModel($model)
+	{
+		$this->_model=$model;
+	}
+
 	/**
 	 * Fetches the data from the persistent data storage.
 	 * @return array list of data items
