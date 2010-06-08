@@ -612,6 +612,14 @@ class CUrlRule extends CComponent
 				return false;
 		}
 
+		foreach($this->defaultParams as $key=>$value)
+		{
+			if(isset($params[$key]) && $params[$key]==$value)
+				unset($params[$key]);
+			else
+				return false;
+		}
+
 		foreach($this->params as $key=>$value)
 			if(!isset($params[$key]))
 				return false;

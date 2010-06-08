@@ -411,4 +411,52 @@ class CUrlManagerTest extends CTestCase
 			$this->assertEquals($url,$entry['url2']);
 		}
 	}
+
+	public function testDefaultParams()
+	{
+		$config=array(
+			'basePath'=>dirname(__FILE__),
+			'components'=>array(
+				'request'=>array(
+					'class'=>'TestHttpRequest',
+				),
+			),
+		);
+		$app=new TestApplication($config);
+
+		$app->request->baseUrl=null; // reset so that it can be determined based on scriptUrl
+		$app->request->scriptUrl='/apps/index.php';
+		$um=new CUrlManager;
+		$um->urlFormat='path';
+		$um->rules=array(
+			''=>array('site/page', 'defaultParams'=>array('view'=>'about')),
+			'posts'=>array('post/index', 'defaultParams'=>array('page'=>1)),
+			'<slug:[0-9a-z-]+>' => array('news/list', 'defaultParams' => array('page' => 1)),
+		);
+		$um->init($app);
+
+		$url=$um->createUrl('site/page',array('view'=>'about'));
+		$this->assertEquals('/apps/index.php/',$url);
+		$app->request->pathInfo='';
+		$_GET=array();
+		$route=$um->parseUrl($app->request);
+		$this->assertEquals('site/page',$route);
+		$this->assertEquals(array('view'=>'about'),$_GET);
+
+		$url=$um->createUrl('post/index',array('page'=>1));
+		$this->assertEquals('/apps/index.php/posts',$url);
+		$app->request->pathInfo='posts';
+		$_GET=array();
+		$route=$um->parseUrl($app->request);
+		$this->assertEquals('post/index',$route);
+		$this->assertEquals(array('page'=>'1'),$_GET);
+
+		$url=$um->createUrl('news/list', array('slug' => 'example', 'page' => 1));
+		$this->assertEquals('/apps/index.php/example',$url);
+		$app->request->pathInfo='example';
+		$_GET=array();
+		$route=$um->parseUrl($app->request);
+		$this->assertEquals('news/list',$route);
+		$this->assertEquals(array('slug'=>'example', 'page'=>'1'),$_GET);
+	}
 }
