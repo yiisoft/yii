@@ -129,7 +129,8 @@ class CActiveDataProvider extends CDataProvider
 		if(($sort=$this->getSort())!==false)
 			$sort->applyOrder($criteria);
 
-		return $this->getModel()->findAll($criteria);
+		$finder=clone $this->getModel();
+		return $finder->findAll($criteria);
 	}
 
 	/**
@@ -158,6 +159,7 @@ class CActiveDataProvider extends CDataProvider
 	 */
 	protected function calculateTotalItemCount()
 	{
-		return $this->getModel()->count($this->getCriteria());
+		$finder=clone $this->getModel();
+		return $finder->count($this->getCriteria());
 	}
 }
