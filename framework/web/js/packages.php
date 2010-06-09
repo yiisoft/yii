@@ -89,7 +89,6 @@ $dependencies=array(
 	),
 	'rating'=>array(
 		'jquery',
-		'dimensions',
 		'metadata',
 	),
 	'bbq'=>array(
