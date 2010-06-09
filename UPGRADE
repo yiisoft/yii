@@ -17,6 +17,7 @@ to be true. Also, if you have configured the 'widgets' property, you
 should rename it to be 'skinnableWidgets'. These changes are due to
 the introduction of the global widget customization feature.
 Please see the guide (the "Theming" section) for more details.
+- Clean up your assets directory after updating.
 
 Upgrading from v1.1.1
 ---------------------
