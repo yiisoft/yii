@@ -38,7 +38,7 @@ Version 1.1.3 to be released
 - Enh #1232: Added CAuthManager::showErrors. When value is true Yii will turn on error_reporting for RBAC bizRules. False by default (Sam Dark)
 - Enh #1239: CBreadcrumbs should have the 'Home' label translated (Qiang)
 - Enh #1283: Added port and securePort properties to CHttpRequest (Qiang)
-- Enh #1284: Added CActiveDataProvider::model property to allow customizing the AR finder (Qiang)
+- Enh #1284: Added support to allow passing an AR finder as the first parameter of the constructor of CActiveDataProvider (Qiang)
 - Enh #1286: Upgraded HTMLPurifier to v4.1.1 (Qiang)
 - Enh: CActiveRecord::beforeFind event is now triggered in all cases including related models with both lazy and eager loading (Sam Dark, creocoder)
 - Enh: Added support for using array-typed model attributes in active methods in CHtml (Qiang)
