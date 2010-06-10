@@ -35,6 +35,13 @@ class CActiveDataProvider extends CDataProvider
 	 */
 	public $modelClass;
 	/**
+	 * @var CActiveRecord the AR finder instance (e.g. <code>Post::model()</code>).
+	 * This property can be set by passing the finder instance as the first parameter
+	 * to the constructor.
+	 * @since 1.1.3
+	 */
+	public $model;
+	/**
 	 * @var string the name of key attribute for {@link modelClass}. If not set,
 	 * it means the primary key of the corresponding database table will be used.
 	 */
@@ -44,14 +51,23 @@ class CActiveDataProvider extends CDataProvider
 
 	/**
 	 * Constructor.
-	 * @param string the model class. This will be assigned to the {@link modelClass} property.
-	 * @param array configuration (name=>value) to be applied to this data provider.
-	 * Any public properties of the data provider can be configured via this parameter
+	 * @param mixed the model class (e.g. 'Post') or the model finder instance
+	 * (e.g. <code>Post::model()</code>, <code>Post::model()->published()</code>).
+	 * @param array configuration (name=>value) to be applied as the initial property values of this class.
 	 */
 	public function __construct($modelClass,$config=array())
 	{
-		$this->modelClass=$modelClass;
-		$this->setId($modelClass);
+		if(is_string($modelClass))
+		{
+			$this->modelClass=$modelClass;
+			$this->model=CActiveRecord::model($this->modelClass);
+		}
+		else if($modelClass instanceof CActiveRecord)
+		{
+			$this->modelClass=get_class($modelClass);
+			$this->model=$modelClass;
+		}
+		$this->setId($this->modelClass);
 		foreach($config as $key=>$value)
 			$this->$key=$value;
 	}
@@ -85,35 +101,6 @@ class CActiveDataProvider extends CDataProvider
 		return $sort;
 	}
 
-	private $_model;
-
-	/**
-	 * Returns the AR finder that will be used in {@link fetchData} and {@link calculateTotalItemCount}.
-	 * The default implementation will return the finder specified by {@link modelClass}.
-	 * You may change this behavior by configuring {@link setModel model} with a customized finder.
-	 * For example, <code>Post::model()->published()</code> can be assigned to the property
-	 * so that the "published" scope is applied before querying.
-	 * @return CActiveRecord the AR finder for {@link modelClass}
-	 * @since 1.1.3
-	 */
-	public function getModel()
-	{
-		if($this->_model===null)
-			$this->_model=CActiveRecord::model($this->modelClass);
-		return $this->_model;
-	}
-
-	/**
-	 * Sets the AR finder that will be used in {@link fetchData} and {@link calculateTotalItemCount}.
-	 * @param CActiveRecord the AR finder for {@link modelClass}
-	 * @since 1.1.3
-	 * @see getModel
-	 */
-	public function setModel($model)
-	{
-		$this->_model=$model;
-	}
-
 	/**
 	 * Fetches the data from the persistent data storage.
 	 * @return array list of data items
@@ -121,16 +108,19 @@ class CActiveDataProvider extends CDataProvider
 	protected function fetchData()
 	{
 		$criteria=clone $this->getCriteria();
+		$baseCriteria=$this->model->getDbCriteria(false);
 		if(($pagination=$this->getPagination())!==false)
 		{
+			if($baseCriteria!==null)
+				$this->model->setDbCriteria(clone $baseCriteria);
 			$pagination->setItemCount($this->getTotalItemCount());
 			$pagination->applyLimit($criteria);
 		}
 		if(($sort=$this->getSort())!==false)
 			$sort->applyOrder($criteria);
 
-		$finder=clone $this->getModel();
-		return $finder->findAll($criteria);
+		$this->model->setDbCriteria($baseCriteria);
+		return $this->model->findAll($criteria);
 	}
 
 	/**
@@ -159,7 +149,6 @@ class CActiveDataProvider extends CDataProvider
 	 */
 	protected function calculateTotalItemCount()
 	{
-		$finder=clone $this->getModel();
-		return $finder->count($this->getCriteria());
+		return $this->model->count($this->getCriteria());
 	}
 }

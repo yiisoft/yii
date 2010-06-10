@@ -292,6 +292,16 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Sets the query criteria for the current model.
+	 * @param CDbCriteria the query criteria
+	 * @since 1.1.3
+	 */
+	public function setDbCriteria($criteria)
+	{
+		$this->_c=$criteria;
+	}
+
+	/**
 	 * Returns the default named scope that should be implicitly applied to all queries for this model.
 	 * Note, default scope only applies to SELECT queries. It is ignored for INSERT, UPDATE and DELETE queries.
 	 * The default implementation simply returns an empty array. You may override this method
