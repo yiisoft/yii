@@ -226,7 +226,7 @@ class CDateTimeParser
 		for($len=$maxLength;$len>=$minLength;--$len)
 		{
 			$v=substr($value,$offset,$len);
-			if(ctype_digit($v))
+			if(ctype_digit($v) && strlen($v)>=$minLength)
 				return $v;
 		}
 		return false;
