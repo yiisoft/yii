@@ -99,7 +99,7 @@ class CCaptchaAction extends CAction
 			$code=$this->getVerifyCode(true);
 			// we add a random 'v' parameter so that FireFox can refresh the image
 			// when src attribute of image tag is changed
-			echo $this->getController()->createUrl($this->getId(),array('v'=>rand(0,10000)));
+			echo $this->getController()->createUrl($this->getId(),array('v'=>md5(microtime(true))));
 		}
 		else
 		{
