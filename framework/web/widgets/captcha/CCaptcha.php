@@ -94,7 +94,7 @@ class CCaptcha extends CWidget
 			$id=$this->imageOptions['id'];
 		else
 			$id=$this->imageOptions['id']=$this->getId();
-		$url=$this->getController()->createUrl($this->captchaAction,array('v'=>md5(microtime(true))));
+		$url=$this->getController()->createUrl($this->captchaAction,array('v'=>uniqid()));
 		$alt=isset($this->imageOptions['alt'])?$this->imageOptions['alt']:'';
 		echo CHtml::image($url,$alt,$this->imageOptions);
 	}
