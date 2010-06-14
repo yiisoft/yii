@@ -17,6 +17,7 @@ Version 1.1.3 to be released
 - Bug #1231: CPgsqlColumnSchema would incorrectly parse the default value with some complex expressions (Qiang)
 - Bug #1241: DB search parameters should have special characters escaped (Qiang)
 - Bug #1252: CJSON::encode() was not able to encode models and model arrays (Sam Dark)
+- Bug #1295: CHtml::beginForm() would generate useless CSRF field when in GET mode (Qiang)
 - Enh #663: Improved CSecurityManager to allow customizing the crypt/hash algorithms being used (Qiang)
 - Enh #862: Enhanced CSort virtual attributes and support for related tables (Qiang)
 - Enh #930: Updated CStarRating's jQuery plugin to v3.13, updated jQuery Metadata plugin (Sam Dark)
