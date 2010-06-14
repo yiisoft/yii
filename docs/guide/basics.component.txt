@@ -178,7 +178,7 @@ execution flow of the component.
 
 Starting from version 1.1.0, a behavior's properties can also be accessed via the component it
 is attached to. The properties include both the public member variables and the properties defined
-via getters and/or setters of the bheavior. For example, if a behavior has a property named `xyz`
+via getters and/or setters of the behavior. For example, if a behavior has a property named `xyz`
 and the behavior is attached to a component `$a`. Then we can use the expression `$a->xyz` to access
 the behavior's property.
 
