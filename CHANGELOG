@@ -36,6 +36,7 @@ Version 1.1.3 to be released
 - Enh #1202: Added support for using anonymous functions as component property values (Qiang)
 - Enh #1203: Gii now respects the newDirMode and newFileMode settings even when lower umask is set (Qiang)
 - Enh #1225: Added 'firstError' option to CHtml::errorSummary() to support displaying only the first error message of each model attribute (Qiang)
+- Enh #1268: Added isset and unset support to behavior properties in a component context (Qiang)
 - Enh #1271: Added CWebUser::getFlashes() (Qiang)
 - Enh #1276: Added CClientScript::coreScriptPosition to support customizing the insertion position of core scripts (Qiang)
 - Enh #1278: Gii model generator will now respect the table prefix when determining which tables the models should be generated for (Qiang)
