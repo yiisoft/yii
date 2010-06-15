@@ -191,8 +191,17 @@ class CComponent
 			$name=strtolower($name);
 			return isset($this->_e[$name]) && $this->_e[$name]->getCount();
 		}
-		else
-			return false;
+		else if(is_array($this->_m))
+		{
+ 			if(isset($this->_m[$name]))
+ 				return true;
+			foreach($this->_m as $object)
+			{
+				if($object->getEnabled() && (property_exists($object,$name) || $object->canGetProperty($name)))
+					return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -210,6 +219,24 @@ class CComponent
 			$this->$setter(null);
 		else if(strncasecmp($name,'on',2)===0 && method_exists($this,$name))
 			unset($this->_e[strtolower($name)]);
+		else if(is_array($this->_m))
+		{
+			if(isset($this->_m[$name]))
+				$this->detachBehavior($name);
+			else
+			{
+				foreach($this->_m as $object)
+				{
+					if($object->getEnabled())
+					{
+						if(property_exists($object,$name))
+							return $object->$name=null;
+						else if($object->canSetProperty($name))
+							return $object->$setter(null);
+					}
+				}
+			}
+		}
 		else if(method_exists($this,'get'.$name))
 			throw new CException(Yii::t('yii','Property "{class}.{property}" is read only.',
 				array('{class}'=>get_class($this), '{property}'=>$name)));
