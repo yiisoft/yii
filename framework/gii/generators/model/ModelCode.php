@@ -96,7 +96,7 @@ class ModelCode extends CCodeModel
 				'columns'=>$table->columns,
 				'labels'=>$this->generateLabels($table),
 				'rules'=>$this->generateRules($table),
-				'relations'=>isset($relations[$className]) ? $relations[$className] : array(),
+				'relations'=>isset($this->relations[$className]) ? $this->relations[$className] : array(),
 			);
 			$this->files[]=new CCodeFile(
 				Yii::getPathOfAlias($this->modelPath).'/'.$className.'.php',
