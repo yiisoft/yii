@@ -38,6 +38,7 @@ Version 1.1.3 to be released
 - Enh #1225: Added 'firstError' option to CHtml::errorSummary() to support displaying only the first error message of each model attribute (Qiang)
 - Enh #1271: Added CWebUser::getFlashes() (Qiang)
 - Enh #1276: Added CClientScript::coreScriptPosition to support customizing the insertion position of core scripts (Qiang)
+- Enh #1278: Gii model generator will now respect the table prefix when determining which tables the models should be generated for (Qiang)
 - Enh #1232: Added CAuthManager::showErrors. When value is true Yii will turn on error_reporting for RBAC bizRules. False by default (Sam Dark)
 - Enh #1239: CBreadcrumbs should have the 'Home' label translated (Qiang)
 - Enh #1283: Added port and securePort properties to CHttpRequest (Qiang)
