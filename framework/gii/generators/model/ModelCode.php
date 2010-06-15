@@ -64,7 +64,17 @@ class ModelCode extends CCodeModel
 			$tableName=$this->tableName;
 		}
 		if($tableName[strlen($tableName)-1]==='*')
+		{
 			$tables=Yii::app()->db->schema->getTables($schema);
+			if($this->tablePrefix!='')
+			{
+				foreach($tables as $i=>$table)
+				{
+					if(strpos($table->name,$this->tablePrefix)!==0)
+						unset($tables[$i]);
+				}
+			}
+		}
 		else
 			$tables=array($this->getTableSchema($this->tableName));
 
@@ -213,6 +223,7 @@ class ModelCode extends CCodeModel
 		return $tableName;
 	}
 
+	private $_relations;
 	/**
 	 * Generate code to put in ActiveRecord class's relations() function.
 	 * @return array indexed by table names, each entry contains array of php code to go in appropriate ActiveRecord class.
@@ -220,51 +231,57 @@ class ModelCode extends CCodeModel
 	 */
 	protected function generateRelations()
 	{
-		$relations=array();
-		foreach(Yii::app()->db->schema->getTables() as $table)
+		if($this->_relations===null)
 		{
-			$tableName=$table->name;
-
-			if ($this->isRelationTable($table))
+			$relations=array();
+			foreach(Yii::app()->db->schema->getTables() as $table)
 			{
-				$pks=$table->primaryKey;
-				$fks=$table->foreignKeys;
+				if($this->tablePrefix!='' && strpos($table->name,$this->tablePrefix)!==0)
+					continue;
+				$tableName=$table->name;
 
-				$table0=$fks[$pks[1]][0];
-				$table1=$fks[$pks[0]][0];
-				$className0=$this->generateClassName($table0);
-				$className1=$this->generateClassName($table1);
-
-				$unprefixedTableName=$this->removePrefix($tableName);
-
-				$relationName=$this->generateRelationName($table0, $table1, true);
-				$relations[$className0][$relationName]="array(self::MANY_MANY, '$className1', '$unprefixedTableName($pks[0], $pks[1])')";
-
-				$relationName=$this->generateRelationName($table1, $table0, true);
-				$relations[$className1][$relationName]="array(self::MANY_MANY, '$className0', '$unprefixedTableName($pks[0], $pks[1])')";
-			}
-			else
-			{
-				$className=$this->generateClassName($tableName);
-				foreach ($table->foreignKeys as $fkName => $fkEntry)
+				if ($this->isRelationTable($table))
 				{
-					// Put table and key name in variables for easier reading
-					$refTable=$fkEntry[0]; // Table name that current fk references to
-					$refKey=$fkEntry[1];   // Key in that table being referenced
-					$refClassName=$this->generateClassName($refTable);
+					$pks=$table->primaryKey;
+					$fks=$table->foreignKeys;
 
-					// Add relation for this table
-					$relationName=$this->generateRelationName($tableName, $fkName, false);
-					$relations[$className][$relationName]="array(self::BELONGS_TO, '$refClassName', '$fkName')";
+					$table0=$fks[$pks[1]][0];
+					$table1=$fks[$pks[0]][0];
+					$className0=$this->generateClassName($table0);
+					$className1=$this->generateClassName($table1);
 
-					// Add relation for the referenced table
-					$relationType=$table->primaryKey === $fkName ? 'HAS_ONE' : 'HAS_MANY';
-					$relationName=$this->generateRelationName($refTable, $this->removePrefix($tableName,false), $relationType==='HAS_MANY');
-					$relations[$refClassName][$relationName]="array(self::$relationType, '$className', '$fkName')";
+					$unprefixedTableName=$this->removePrefix($tableName);
+
+					$relationName=$this->generateRelationName($table0, $table1, true);
+					$relations[$className0][$relationName]="array(self::MANY_MANY, '$className1', '$unprefixedTableName($pks[0], $pks[1])')";
+
+					$relationName=$this->generateRelationName($table1, $table0, true);
+					$relations[$className1][$relationName]="array(self::MANY_MANY, '$className0', '$unprefixedTableName($pks[0], $pks[1])')";
+				}
+				else
+				{
+					$className=$this->generateClassName($tableName);
+					foreach ($table->foreignKeys as $fkName => $fkEntry)
+					{
+						// Put table and key name in variables for easier reading
+						$refTable=$fkEntry[0]; // Table name that current fk references to
+						$refKey=$fkEntry[1];   // Key in that table being referenced
+						$refClassName=$this->generateClassName($refTable);
+
+						// Add relation for this table
+						$relationName=$this->generateRelationName($tableName, $fkName, false);
+						$relations[$className][$relationName]="array(self::BELONGS_TO, '$refClassName', '$fkName')";
+
+						// Add relation for the referenced table
+						$relationType=$table->primaryKey === $fkName ? 'HAS_ONE' : 'HAS_MANY';
+						$relationName=$this->generateRelationName($refTable, $this->removePrefix($tableName,false), $relationType==='HAS_MANY');
+						$relations[$refClassName][$relationName]="array(self::$relationType, '$className', '$fkName')";
+					}
 				}
 			}
+			$this->_relations=$relations;
 		}
-		return $relations;
+		return $this->_relations;
 	}
 
 	/**
