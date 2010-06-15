@@ -284,7 +284,7 @@ class CAccessRule extends CComponent
 	}
 
 	/**
-	 * @param string the role name
+	 * @param IWebUser the user object
 	 * @return boolean whether the rule applies to the role
 	 */
 	protected function isRoleMatched($user)
