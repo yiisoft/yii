@@ -312,6 +312,8 @@ class CDbCriteria
 				return $this;
 			return $this->addInCondition($column,$value,$operator);
 		}
+		else
+			$value="$value";
 
 		if(preg_match('/^\s*(<>|<=|>=|<|>|=)?\s*(.*?)\s*$/',$value,$matches))
 		{
