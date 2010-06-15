@@ -292,6 +292,8 @@ class CDbFixtureManager extends CApplicationComponent
 			{
 				$modelClass=Yii::import($tableName,true);
 				$tableName=CActiveRecord::model($modelClass)->tableName();
+				if(($prefix=$this->getDbConnection()->tablePrefix)!='')
+					$tableName=preg_replace('/{{(.*?)}}/',$prefix.'\1',$tableName);
 			}
 			$this->resetTable($tableName);
 			$rows=$this->loadFixture($tableName);
