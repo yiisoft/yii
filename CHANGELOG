@@ -21,6 +21,7 @@ Version 1.1.3 to be released
 - Bug #1292: CDateTimeParser::parse() did not honor the number of digits in the required format in some cases (Qiang)
 - Bug #1293: Added tag to initial CAPTCHA image URL to avoid caching issue (Qiang)
 - Bug #1295: CHtml::beginForm() would generate useless CSRF field when in GET mode (Qiang)
+- Bug: Fixed AR memory leaks on PHP<5.3 (Sam Dark, parpaing)
 - Enh #663: Improved CSecurityManager to allow customizing the crypt/hash algorithms being used (Qiang)
 - Enh #862: Enhanced CSort virtual attributes and support for related tables (Qiang)
 - Enh #930: Updated CStarRating's jQuery plugin to v3.13, updated jQuery Metadata plugin (Sam Dark)

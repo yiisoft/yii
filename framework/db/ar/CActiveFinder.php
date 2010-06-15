@@ -86,11 +86,14 @@ class CActiveFinder extends CComponent
 		$this->_joinTree->afterFind();
 
 		if($all)
-			return array_values($this->_joinTree->records);
+			$result = array_values($this->_joinTree->records);
 		else if(count($this->_joinTree->records))
-			return reset($this->_joinTree->records);
+			$result = reset($this->_joinTree->records);
 		else
-			return null;
+			$result = null;
+
+		$this->_joinTree = null;
+		return $result;
 	}
 
 	/**
@@ -517,7 +520,7 @@ class CJoinElement
 					array('{class}'=>get_class($parent->model),'{relation}'=>$this->relation->name)));
 
 			if(($joinTable=$schema->getTable($matches[1]))===null)
-				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is not specified correctly. the join table "{joinTable}" given in the foreign key cannot be found in the database.',
+				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is not specified correctly: the join table "{joinTable}" given in the foreign key cannot be found in the database.',
 					array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{joinTable}'=>$matches[1])));
 			$fks=preg_split('/[\s,]+/',$matches[2],-1,PREG_SPLIT_NO_EMPTY);
 
@@ -721,6 +724,8 @@ class CJoinElement
 			$record->afterFindInternal();
 		foreach($this->children as $child)
 			$child->afterFind();
+		
+		$this->children = null;
 	}
 
 	/**
