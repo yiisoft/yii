@@ -98,13 +98,12 @@ class Tag extends CActiveRecord
 	 */
 	public function suggestTags($keyword,$limit=20)
 	{
-		$keyword='%'.strtr($keyword,array('%'=>'\%', '_'=>'\_')).'%';
 		$tags=$this->findAll(array(
 			'condition'=>'name LIKE :keyword',
 			'order'=>'frequency DESC, Name',
 			'limit'=>$limit,
 			'params'=>array(
-				':keyword'=>"%$keyword%",
+				':keyword'=>'%'.strtr($keyword,array('%'=>'\%', '_'=>'\_')).'%',
 			),
 		));
 		$names=array();
