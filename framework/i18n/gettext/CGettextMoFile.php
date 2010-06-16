@@ -74,7 +74,7 @@ class CGettextMoFile extends CGettextFile
 			throw new CException(Yii::t('yii','Unable to lock file "{file}" for reading.',
 				array('{file}'=>$file)));
 
-		$magic=current(unpack('c',$this->readByte($fr,4)));
+		$magic=current($array=unpack('c',$this->readByte($fr,4)));
 		if($magic==-34)
 			$this->useBigEndian=false;
 		else if($magic==-107)
