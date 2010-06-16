@@ -92,7 +92,7 @@ class CDbAuthManager extends CAuthManager
 		$names=array();
 		foreach($command->queryAll() as $row)
 		{
-			Yii::trace('Checking permission "'.$row['name'].'"','system.web.auth.CDbAuthManager');			
+			Yii::trace('Checking permission "'.$row['name'].'"','system.web.auth.CDbAuthManager');
 			if($this->executeBizRule($row['bizrule2'],$params,unserialize($row['data2']))
 				&& $this->executeBizRule($row['bizrule'],$params,unserialize($row['data'])))
 			{
@@ -109,7 +109,7 @@ class CDbAuthManager extends CAuthManager
 			$names=array();
 			foreach($items as $item)
 			{
-				Yii::trace('Checking permission "'.$item->getName().'"','system.web.auth.CDbAuthManager');			
+				Yii::trace('Checking permission "'.$item->getName().'"','system.web.auth.CDbAuthManager');
 				if($this->executeBizRule($item->getBizRule(),$params,$item->getData()))
 				{
 					if($item->getName()===$itemName)
@@ -151,7 +151,7 @@ class CDbAuthManager extends CAuthManager
 
 		foreach($rows as $row)
 		{
-			Yii::trace('Checking default role "'.$row['name'].'"','system.web.auth.CDbAuthManager');			
+			Yii::trace('Checking default role "'.$row['name'].'"','system.web.auth.CDbAuthManager');
 			$item=new CAuthItem($this,$row['name'],$row['type'],$row['description'],$row['bizrule'],unserialize($row['data']));
 			if($item->checkAccess($itemName,$params))
 				return true;
@@ -177,7 +177,6 @@ class CDbAuthManager extends CAuthManager
 		$rows=$command->queryAll();
 		if(count($rows)==2)
 		{
-			static $types=array('operation','task','role');
 			if($rows[0]['name']===$itemName)
 			{
 				$parentType=$rows[0]['type'];
