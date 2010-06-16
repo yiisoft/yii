@@ -148,6 +148,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	public function actionAdmin()
 	{
 		$model=new <?php echo $this->modelClass; ?>('search');
+		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['<?php echo $this->modelClass; ?>']))
 			$model->attributes=$_GET['<?php echo $this->modelClass; ?>'];
 
