@@ -451,6 +451,20 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	}
 
 	/**
+	 * Unsets the attributes.
+	 * @param array list of attributes to be set null. If this parameter is not given,
+	 * all attributes as specified by {@link attributeNames} will have their values unset.
+	 * @since 1.1.3
+	 */
+	public function unsetAttributes($names=null)
+	{
+		if($names===null)
+			$names=$this->attributeNames();
+		foreach($names as $name)
+			$this->$name=null;
+	}
+
+	/**
 	 * This method is invoked when an unsafe attribute is being massively assigned.
 	 * The default implementation will log a warning message if YII_DEBUG is on.
 	 * It does nothing otherwise.

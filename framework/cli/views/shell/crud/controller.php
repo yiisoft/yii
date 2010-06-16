@@ -150,6 +150,7 @@ class <?php echo $controllerClass; ?> extends Controller
 	public function actionAdmin()
 	{
 		$model=new <?php echo $modelClass; ?>('search');
+		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['<?php echo $modelClass; ?>']))
 			$model->attributes=$_GET['<?php echo $modelClass; ?>'];
 
