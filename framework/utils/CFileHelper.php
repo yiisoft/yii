@@ -207,13 +207,16 @@ class CFileHelper
 	 * <li>{@link getMimeTypeByExtension}</li>
 	 * </ol>
 	 * @param string the file name.
+	 * @param string name of a magic database file, usually something like /path/to/magic.mime.
+	 * This will be passed as the second parameter to {@link http://php.net/manual/en/function.finfo-open.php finfo_open}.
+	 * This parameter has been available since version 1.1.3.
 	 * @return string the MIME type. Null is returned if the MIME type cannot be determined.
 	 */
-	public static function getMimeType($file)
+	public static function getMimeType($file,$magicFile=null)
 	{
 		if(function_exists('finfo_open'))
 		{
-			if(($info=finfo_open(FILEINFO_MIME)) && ($result=finfo_file($info,$file))!==false)
+			if(($info=finfo_open(FILEINFO_MIME_TYPE,$magicFile)) && ($result=finfo_file($info,$file))!==false)
 				return $result;
 		}
 
@@ -227,13 +230,16 @@ class CFileHelper
 	 * Determines the MIME type based on the extension name of the specified file.
 	 * This method will use a local map between extension name and MIME type.
 	 * @param string the file name.
+	 * @param string the path of the file that contains all available MIME type information.
+	 * If this is not set, the default 'system.utils.mimeTypes' file will be used.
+	 * This parameter has been available since version 1.1.3.
 	 * @return string the MIME type. Null is returned if the MIME type cannot be determined.
 	 */
-	public static function getMimeTypeByExtension($file)
+	public static function getMimeTypeByExtension($file,$magicFile=null)
 	{
 		static $extensions;
 		if($extensions===null)
-			$extensions=require(Yii::getPathOfAlias('system.utils.mimeTypes').'.php');
+			$extensions=$magicFile===null ? require(Yii::getPathOfAlias('system.utils.mimeTypes').'.php') : $magicFile;
 		if(($pos=strrpos($file,'.'))!==false)
 		{
 			$ext=strtolower(substr($file,$pos+1));
