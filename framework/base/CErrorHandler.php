@@ -213,7 +213,7 @@ class CErrorHandler extends CApplicationComponent
 	protected function getExactTrace($exception)
 	{
 		$traces=$exception->getTrace();
-		$result=null;
+		
 		foreach($traces as $trace)
 		{
 			// property access exception

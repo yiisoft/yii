@@ -110,14 +110,7 @@ EOD;
 		$segs2=explode(DIRECTORY_SEPARATOR,$path2);
 		$n1=count($segs1);
 		$n2=count($segs2);
-		$common='';
-		for($i=0;$i<$n1 && $i<$n2;++$i)
-		{
-			if($segs1[$i]===$segs2[$i])
-				$common.=($i?DIRECTORY_SEPARATOR:'').$segs1[$i];
-			else
-				break;
-		}
+		
 		if($i===0)
 			return "'".$path1."'";
 		$up='';

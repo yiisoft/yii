@@ -43,9 +43,6 @@
  */
 class CTimestamp
 {
-	private static $_monthNormal=array("",31,28,31,30,31,30,31,31,30,31,30,31);
-	private static $_monthLeaf=array("",31,29,31,30,31,30,31,31,30,31,30,31);
-
 	/**
 	 * Gets day of week, 0 = Sunday,... 6=Saturday.
 	 * Algorithm from PEAR::Date_Calc

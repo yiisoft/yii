@@ -92,7 +92,6 @@ class CProfileLogRoute extends CWebLogRoute
 	protected function displayCallstack($logs)
 	{
 		$stack=array();
-		$level=0;
 		$results=array();
 		$n=0;
 		foreach($logs as $log)
