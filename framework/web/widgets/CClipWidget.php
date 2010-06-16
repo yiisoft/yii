@@ -30,8 +30,6 @@ class CClipWidget extends CWidget
 	 */
 	public $renderClip=false;
 
-	private $_level;
-
 	/**
 	 * Starts recording a clip.
 	 */

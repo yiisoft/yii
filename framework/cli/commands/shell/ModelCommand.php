@@ -384,7 +384,6 @@ EOD;
 	public function generateModel($source,$params)
 	{
 		list($className,$tableName)=$params;
-		$content=file_get_contents($source);
 		$rules=array();
 		$labels=array();
 		$relations=array();

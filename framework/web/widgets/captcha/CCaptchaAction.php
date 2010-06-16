@@ -96,7 +96,7 @@ class CCaptchaAction extends CAction
 	{
 		if(isset($_GET[self::REFRESH_GET_VAR]))  // AJAX request for regenerating code
 		{
-			$code=$this->getVerifyCode(true);
+			$this->getVerifyCode(true);
 			// we add a random 'v' parameter so that FireFox can refresh the image
 			// when src attribute of image tag is changed
 			echo $this->getController()->createUrl($this->getId(),array('v'=>uniqid()));
