@@ -94,10 +94,10 @@ class CLinkPager extends CBasePager
 	 */
 	public function run()
 	{
+		$this->registerClientScript();
 		$buttons=$this->createPageButtons();
 		if(empty($buttons))
 			return;
-		$this->registerClientScript();
 		echo $this->header;
 		echo CHtml::tag('ul',$this->htmlOptions,implode("\n",$buttons));
 		echo $this->footer;
