@@ -18,6 +18,7 @@ Version 1.1.3 to be released
 - Bug #1227: CActiveRecord::resetScope doesn't work with default scope (Sam Dark)
 - Bug #1231: CPgsqlColumnSchema would incorrectly parse the default value with some complex expressions (Qiang)
 - Bug #1241: DB search parameters should have special characters escaped (Qiang)
+- Bug #1242: Fixed the bug that CGridView filtering and item deletion would not work when ajax-update is disabled (Qiang)
 - Bug #1252: CJSON::encode() was not able to encode models and model arrays (Sam Dark)
 - Bug #1262: Fixed the bug that CDbFixtureManager was unable to load fixture data if table prefix feature is used (Qiang)
 - Bug #1292: CDateTimeParser::parse() did not honor the number of digits in the required format in some cases (Qiang)
