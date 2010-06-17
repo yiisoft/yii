@@ -1713,6 +1713,23 @@ EOD;
 	protected static function activeInputField($type,$model,$attribute,$htmlOptions)
 	{
 		$htmlOptions['type']=$type;
+		if($type==='text' || $type==='password')
+		{
+			if(!isset($htmlOptions['maxlength']))
+			{
+				foreach($model->getValidators($attribute) as $validator)
+				{
+					if($validator instanceof CStringValidator && $validator->max!==null)
+					{
+						$htmlOptions['maxlength']=$validator->max;
+						break;
+					}
+				}
+			}
+			else if($htmlOptions['maxlength']===false)
+				unset($htmlOptions['maxlength']);
+		}
+
 		if($type==='file')
 			unset($htmlOptions['value']);
 		else if(!isset($htmlOptions['value']))
