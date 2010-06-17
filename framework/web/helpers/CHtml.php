@@ -1761,6 +1761,11 @@ EOD;
 	 * </pre>
 	 *     This option has been available since version 1.0.3.
 	 * </li>
+	 * <li>key: string, specifies the name of key attribute of the selection object(s).
+	 * This is used when the selection is represented in terms of objects. In this case,
+	 * the property named by the key option of the objects will be treated as the actual selection value.
+	 * This option defaults to 'primaryKey', meaning using the 'primaryKey' property value of the objects in the selection.
+	 * This option has been available since version 1.1.3.</li>
 	 * </ul>
 	 * @return string the generated list options
 	 */
@@ -1795,6 +1800,18 @@ EOD;
 		else
 			$options=array();
 
+		$key=isset($htmlOptions['key']) ? $htmlOptions['key'] : 'primaryKey';
+		if(is_array($selection))
+		{
+			foreach($selection as $i=>$item)
+			{
+				if(is_object($item))
+					$selection[$i]=$item->$key;
+			}
+		}
+		else if(is_object($selection))
+			$selection=$selection->$key;
+
 		foreach($listData as $key=>$value)
 		{
 			if(is_array($value))
@@ -1816,6 +1833,9 @@ EOD;
 				$content.=self::tag('option',$attributes,$raw?(string)$value : self::encode((string)$value))."\n";
 			}
 		}
+
+		unset($htmlOptions['key']);
+
 		return $content;
 	}
 
