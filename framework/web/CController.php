@@ -512,42 +512,79 @@ class CController extends CBaseController
 
 	/**
 	 * Looks for the view file according to the given view name.
-	 * This method will look for the view under the controller's {@link getViewPath viewPath}.
-	 * If the view name starts with '/', the view will be looked for under the application's
-	 * {@link CWebApplication::getViewPath viewPath}.
-	 * The view script file is named as "ViewName.php". A localized view file
-	 * may be returned if internationalization is needed. See {@link CApplication::findLocalizedFile}
-	 * for more details.
-	 * Since version 1.0.2, the view name can also refer to a path alias
-	 * if it contains dot characters.
-	 * Since version 1.0.3, if the controller belongs to a module, the view file
-	 * will be searched under the {@link CWebModule::getViewPath module view path}.
-	 * @param string name of the view (without file extension)
+	 *
+	 * When a theme is currently active, this method will call {@link CTheme::getViewFile} to determine
+	 * which view file should be returned.
+	 *
+	 * Otherwise, this method will return the corresponding view file based on the following criteria:
+	 * <ul>
+	 * <li>absolute view within a module: the view name starts with a single slash '/'.
+	 * In this case, the view will be searched for under the currently active module's view path.
+	 * If there is no active module, the view will be searched for under the application's view path.</li>
+	 * <li>absolute view within the application: the view name starts with double slashes '//'.
+	 * In this case, the view will be searched for under the application's view path.
+	 * This syntax has been available since version 1.1.3.</li>
+	 * <li>aliased view: the view name contains dots and refers to a path alias.
+	 * The view file is determined by calling {@link YiiBase::getPathOfAlias()}. Note that aliased views
+	 * cannot be themed because they can refer to a view file located at arbitrary places.</li>
+	 * <li>relative view: otherwise. Relative views will be searched for under the currently active
+	 * controller's view path.</li>
+	 * </ul>
+	 *
+	 * After the view file is identified, this method may further call {@link CApplication::findLocalizedFile}
+	 * to find its localized version if internationalization is needed.
+	 *
+	 * @param string view name
 	 * @return string the view file path, false if the view file does not exist
+	 * @see resolveViewFile
 	 * @see CApplication::findLocalizedFile
 	 */
 	public function getViewFile($viewName)
 	{
 		if(($theme=Yii::app()->getTheme())!==null && ($viewFile=$theme->getViewFile($this,$viewName))!==false)
 			return $viewFile;
-		$module=$this->getModule();
-		$basePath=$module ? $module->getViewPath() : Yii::app()->getViewPath();
-		return $this->resolveViewFile($viewName,$this->getViewPath(),$basePath);
+		$moduleViewPath=$basePath=Yii::app()->getViewPath();
+		if(($module=$this->getModule())!==null)
+			$moduleViewPath=$module->getViewPath();
+		return $this->resolveViewFile($viewName,$this->getViewPath(),$basePath,$moduleViewPath);
 	}
 
 	/**
-	 * Looks for the view script file for a layout.
-	 * This method will look for the view under the application's {@link CWebApplication::getLayoutPath layoutPath}.
-	 * If the view name starts with '/', the view will be looked for under the application's
-	 * {@link CWebApplication::getViewPath viewPath}.
-	 * If the view name is null, the application's {@link CWebApplication::layout default layout}
-	 * will be used. If the view name is false, this method simply returns false.
-	 * Since version 1.0.2, the view name can also refer to a path alias
-	 * if it contains dot characters.
-	 * Since version 1.0.3, if the controller belongs to a module, the view file
-	 * will be searched under the {@link CWebModule::getViewPath module layout path},
-	 * and if the view name is null, the {@link CWebModule::layout module default layout}
-	 * will be used.
+	 * Looks for the layout view script based on the layout name.
+	 *
+	 * The layout name can be specified in one of the following ways:
+	 *
+	 * <ul>
+	 * <li>layout is false: returns false, meaning no layout.</li>
+	 * <li>layout is null: the currently active module's layout will be used. If there is no active module,
+	 * the application's layout will be used.</li>
+	 * <li>a regular view name.</li>
+	 * </ul>
+	 *
+	 * The resolution of the view file based on the layout view is similar to that in {@link getViewFile}.
+	 * In particular, the following rules are followed:
+	 *
+	 * Otherwise, this method will return the corresponding view file based on the following criteria:
+	 * <ul>
+	 * <li>When a theme is currently active, this method will call {@link CTheme::getLayoutFile} to determine
+	 * which view file should be returned.</li>
+	 * <li>absolute view within a module: the view name starts with a single slash '/'.
+	 * In this case, the view will be searched for under the currently active module's view path.
+	 * If there is no active module, the view will be searched for under the application's view path.</li>
+	 * <li>absolute view within the application: the view name starts with double slashes '//'.
+	 * In this case, the view will be searched for under the application's view path.
+	 * This syntax has been available since version 1.1.3.</li>
+	 * <li>aliased view: the view name contains dots and refers to a path alias.
+	 * The view file is determined by calling {@link YiiBase::getPathOfAlias()}. Note that aliased views
+	 * cannot be themed because they can refer to a view file located at arbitrary places.</li>
+	 * <li>relative view: otherwise. Relative views will be searched for under the currently active
+	 * module's layout path. In case when there is no active module, the view will be searched for
+	 * under the application's layout path.</li>
+	 * </ul>
+	 *
+	 * After the view file is identified, this method may further call {@link CApplication::findLocalizedFile}
+	 * to find its localized version if internationalization is needed.
+	 *
 	 * @param mixed layout name
 	 * @return string the view file for the layout. False if the view file cannot be found
 	 */
@@ -571,35 +608,41 @@ class CController extends CBaseController
 			}
 			if($module===null)
 				$module=Yii::app();
-			return $this->resolveViewFile($module->layout,$module->getLayoutPath(),$module->getViewPath());
+			$layoutName=$module->layout;
 		}
-		else
-		{
-			if(($module=$this->getModule())===null)
-				$module=Yii::app();
-			return $this->resolveViewFile($layoutName,$module->getLayoutPath(),$module->getViewPath());
-		}
+		else if(($module=$this->getModule())===null)
+			$module=Yii::app();
+
+		return $this->resolveViewFile($layoutName,$module->getLayoutPath(),Yii::app()->getViewPath(),$module->getViewPath());
 	}
 
 	/**
 	 * Finds a view file based on its name.
 	 * The view name can be in one of the following formats:
 	 * <ul>
-	 * <li>absolute view: the view name starts with a slash '/'.</li>
+	 * <li>absolute view within a module: the view name starts with a single slash '/'.
+	 * In this case, the view will be searched for under the currently active module's view path.
+	 * If there is no active module, the view will be searched for under the application's view path.</li>
+	 * <li>absolute view within the application: the view name starts with double slashes '//'.
+	 * In this case, the view will be searched for under the application's view path.
+	 * This syntax has been available since version 1.1.3.</li>
 	 * <li>aliased view: the view name contains dots and refers to a path alias.
-	 * The view file is determined by calling {@link YiiBase::getPathOfAlias()}.</li>
-	 * <li>relative view: otherwise.</li>
+	 * The view file is determined by calling {@link YiiBase::getPathOfAlias()}. Note that aliased views
+	 * cannot be themed because they can refer to a view file located at arbitrary places.</li>
+	 * <li>relative view: otherwise. Relative views will be searched for under the currently active
+	 * controller's view path.</li>
 	 * </ul>
 	 * For absolute view and relative view, the corresponding view file is a PHP file
 	 * whose name is the same as the view name. The file is located under a specified directory.
 	 * This method will call {@link CApplication::findLocalizedFile} to search for a localized file, if any.
 	 * @param string the view name
 	 * @param string the directory that is used to search for a relative view name
-	 * @param string the directory that is used to search for an absolute view name
+	 * @param string the directory that is used to search for an absolute view name under the application
+	 * @param string the directory that is used to search for an absolute view name under the current module
 	 * @return mixed the view file path. False if the view file does not exist.
 	 * @since 1.0.3
 	 */
-	public function resolveViewFile($viewName,$viewPath,$basePath)
+	public function resolveViewFile($viewName,$viewPath,$basePath,$moduleViewPath)
 	{
 		if(empty($viewName))
 			return false;
@@ -609,7 +652,12 @@ class CController extends CBaseController
 		else
 			$extension='.php';
 		if($viewName[0]==='/')
-			$viewFile=$basePath.$viewName;
+		{
+			if(strncmp($viewName,'//',2)===0)
+				$viewFile=$basePath.$viewName;
+			else
+				$viewFile=$moduleViewPath.$viewName;
+		}
 		else if(strpos($viewName,'.'))
 			$viewFile=Yii::getPathOfAlias($viewName);
 		else
