@@ -198,6 +198,7 @@ class CUrlManagerTest extends CTestCase
 				),
 			),
 		);
+		$_SERVER['HTTP_HOST']='user.example.com';
 		$app=new TestApplication($config);
 		$entries=array(
 			array(
@@ -297,6 +298,17 @@ class CUrlManagerTest extends CTestCase
 				'route'=>'user/profile',
 				'params'=>array(
 					'user'=>'admin',
+					'lang'=>'en',
+				),
+			),
+			array(
+				'scriptUrl'=>'/index.php',
+				'url'=>'/en/profile',
+				'url2'=>'/en/profile',
+				'url3'=>'/en/profile.html',
+				'route'=>'user/profile',
+				'params'=>array(
+					'user'=>'user',
 					'lang'=>'en',
 				),
 			),

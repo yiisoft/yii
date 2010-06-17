@@ -28,6 +28,7 @@ Version 1.1.3 to be released
 - Enh #217: Added support to allow using related objects as selection values in CHtml (Qiang)
 - Enh #663: Improved CSecurityManager to allow customizing the crypt/hash algorithms being used (Qiang)
 - Enh #862: Enhanced CSort virtual attributes and support for related tables (Qiang)
+- Enh #887: Relative URL's will be returned when using a parameterized hostname url rule that has the current hostinfo (Qiang)
 - Enh #930: Updated CStarRating's jQuery plugin to v3.13, updated jQuery Metadata plugin (Sam Dark)
 - Enh #952: Enhanced support for using defaultParams in CUrlManager (Qiang)
 - Enh #1015: Added automatic column initialization when non-active data provider is used for CGridView (Qiang)
