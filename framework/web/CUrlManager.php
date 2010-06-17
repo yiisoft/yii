@@ -642,6 +642,14 @@ class CUrlRule extends CComponent
 		$suffix=$this->urlSuffix===null ? $manager->urlSuffix : $this->urlSuffix;
 
 		$url=strtr($this->template,$tr);
+
+		if($this->hasHostInfo)
+		{
+			$hostInfo=Yii::app()->getRequest()->getHostInfo();
+			if(strpos($url,$hostInfo)===0)
+				$url=substr($url,strlen($hostInfo));
+		}
+
 		if(empty($params))
 			return $url!=='' ? $url.$suffix : $url;
 
@@ -653,6 +661,7 @@ class CUrlRule extends CComponent
 				$url.=$suffix;
 			$url.='?'.$manager->createPathInfo($params,'=',$ampersand);
 		}
+
 		return $url;
 	}
 
