@@ -65,7 +65,8 @@ abstract class CDbSchema extends CComponent
 			if(($table=$cache->get($key))===false)
 			{
 				$table=$this->createTable($name);
-				$cache->set($key,$table,$duration);
+				if($table!==null)
+					$cache->set($key,$table,$duration);
 			}
 			return $this->_tables[$name]=$table;
 		}
