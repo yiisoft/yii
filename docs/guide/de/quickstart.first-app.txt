@@ -168,7 +168,7 @@ können Sie dazu den leistungsstarken Codegenerator Gii verwenden.
 
 Um Gii zu verwenden, muss zunächst die
 [Konfigurationsdatei](/doc/guide/basics.application#application-configuration)
-in `WebRoot/testdrive/protected/main.php` angepasst werden:
+in `WebRoot/testdrive/protected/config/main.php` angepasst werden:
 
 ~~~
 [php]

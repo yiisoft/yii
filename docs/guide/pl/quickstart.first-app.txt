@@ -165,7 +165,7 @@ przeglądarkowego generatora kodu.
 
 ### Konfigurowanie Gii
 
-W celu używania Gii musimy najpierw wyedytować plik `WebRoot/testdrive/protected/main.php`, który znany jest jako plik [konfiguracja plikacji](/doc/guide/basics.application#application-configuration):
+W celu używania Gii musimy najpierw wyedytować plik `WebRoot/testdrive/protected/config/main.php`, który znany jest jako plik [konfiguracja plikacji](/doc/guide/basics.application#application-configuration):
 
 ~~~
 [php]

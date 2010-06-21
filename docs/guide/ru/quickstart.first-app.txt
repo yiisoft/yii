@@ -155,7 +155,7 @@ CREATE TABLE tbl_user (
 
 Для того, чтобы использовать Gii, нужно отредактировать
 [файл конфигурации приложения](/doc/guide/basics.application#application-configuration)
-`WebRoot/testdrive/protected/main.php`:
+`WebRoot/testdrive/protected/config/main.php`:
 
 ~~~
 [php]

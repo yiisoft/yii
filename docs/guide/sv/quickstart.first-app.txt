@@ -161,7 +161,7 @@ manuellt, använder vi Gii -- en kraftfull webbaserad kodgenerator.
 
 ### Konfigurera Gii
 
-För att Gii skall kunna användas, behöver vi först redigera filen `WebRoot/testdrive/protected/main.php`, 
+För att Gii skall kunna användas, behöver vi först redigera filen `WebRoot/testdrive/protected/config/main.php`, 
 även känd som applikationens [konfigurationsfil](/doc/guide/basics.application#application-configuration):
 
 ~~~
