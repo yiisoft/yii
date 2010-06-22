@@ -6,7 +6,7 @@ This page summarizes the main new features introduced in each Yii release.
 Version 1.1.3
 -------------
 
- * [Added support to configure widget default values in application configuration](/doc/guide/theming#customizing-widgets-globally)
+ * [Added support to configure widget default values in application configuration](/doc/guide/topics.theming#customizing-widgets-globally)
 
 Version 1.1.2
 -------------
