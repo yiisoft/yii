@@ -20,6 +20,18 @@ Please see the guide (the "Theming" section) for more details.
 - Clean up your assets directory after upgrading.
 - CAutoComplete is now deprecated and will be removed in Yii 1.2. Consider
 using CJuiAutoComplete.
+- Now it's not possible to reuse CActiveFinder. So if you have code like this:
+
+  $finder = Post::model()->with('comments');
+  $posts1 = $finder->findAll();
+  …
+  $posts2 = $finder->findAll();
+
+  you should rewrite it to:
+
+  $posts1 = Post::model()->with('comments');
+  …
+  $posts2 = Post::model()->with('comments');
 
 Upgrading from v1.1.1
 ---------------------
