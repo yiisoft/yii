@@ -1395,6 +1395,8 @@ abstract class CActiveRecord extends CModel
 
 	/**
 	 * Finds the number of rows using the given SQL statement.
+	 * This is equivalent to calling {@link CDbCommand::queryScalar} with the specified
+	 * SQL statement and the parameters.
 	 * @param string the SQL statement
 	 * @param array parameters to be bound to the SQL statement
 	 * @return integer the number of rows using the given SQL statement.
