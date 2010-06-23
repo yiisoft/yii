@@ -17,6 +17,10 @@
  * @version $Id$
  * @package system.web.widgets
  * @since 1.0
+ *
+ * @deprecated
+ * CAutoComplete is deprecated since Yii 1.1.3. Consider using CJuiAutoComplete.
+ * There is {@link http://www.learningjquery.com/2010/06/autocomplete-migration-guide a good migration guide from the author of both JavaScript solutions}.
  */
 class CAutoComplete extends CInputWidget
 {
