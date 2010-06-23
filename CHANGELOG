@@ -70,6 +70,7 @@ Version 1.1.3 to be released
 - Enh: IDE code completion for CActiveRecord::attributes (Sam Dark)
 - Enh: Added beforeLogin, afterLogin, beforeLogout and afterLogout to CWebUser (Qiang)
 - Enh: Enhanced CSort::defaultOrder to allow using virtual attribute names (Qiang)
+- Chg: CAutoComplete is now deprecated (Sam Dark)
 
 Version 1.1.2 May 2, 2010
 -------------------------
