@@ -781,8 +781,6 @@ class CController extends CBaseController
 	 * @param array data to be extracted into PHP variables and made available to the view script
 	 * @param boolean whether the rendering result should be returned instead of being displayed to end users
 	 * @param boolean whether the rendering result should be postprocessed using {@link processOutput}.
-	 * This parameter should be set true if renderPartial is the only method used to generate
-	 * the output when handling a user request.
 	 * @return string the rendering result. Null if the rendering result is not required.
 	 * @throws CException if the view does not exist
 	 * @see getViewFile
