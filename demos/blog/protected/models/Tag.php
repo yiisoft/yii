@@ -103,7 +103,7 @@ class Tag extends CActiveRecord
 			'order'=>'frequency DESC, Name',
 			'limit'=>$limit,
 			'params'=>array(
-				':keyword'=>'%'.strtr($keyword,array('%'=>'\%', '_'=>'\_')).'%',
+				':keyword'=>'%'.strtr($keyword,array('%'=>'\%', '_'=>'\_', '\\'=>'\\\\')).'%',
 			),
 		));
 		$names=array();
