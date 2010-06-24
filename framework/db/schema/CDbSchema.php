@@ -59,19 +59,26 @@ abstract class CDbSchema extends CComponent
 	{
 		if(isset($this->_tables[$name]))
 			return $this->_tables[$name];
-		else if(!isset($this->_cacheExclude[$name]) && ($duration=$this->_connection->schemaCachingDuration)>0 && $this->_connection->schemaCacheID!==false && ($cache=Yii::app()->getComponent($this->_connection->schemaCacheID))!==null)
-		{
-			$key='yii:dbschema'.$this->_connection->connectionString.':'.$this->_connection->username.':'.$name;
-			if(($table=$cache->get($key))===false)
-			{
-				$table=$this->createTable($name);
-				if($table!==null)
-					$cache->set($key,$table,$duration);
-			}
-			return $this->_tables[$name]=$table;
-		}
 		else
-			return $this->_tables[$name]=$this->createTable($name);
+		{
+			if($this->_connection->tablePrefix!='' && strpos($name,'{{')!==false)
+				$realName=preg_replace('/\{\{(.*?)\}\}/',$this->_connection->tablePrefix.'$1',$name);
+			else
+				$realName=$name;
+			if(!isset($this->_cacheExclude[$name]) && ($duration=$this->_connection->schemaCachingDuration)>0 && $this->_connection->schemaCacheID!==false && ($cache=Yii::app()->getComponent($this->_connection->schemaCacheID))!==null)
+			{
+				$key='yii:dbschema'.$this->_connection->connectionString.':'.$this->_connection->username.':'.$name;
+				if(($table=$cache->get($key))===false)
+				{
+					$table=$this->createTable($realName);
+					if($table!==null)
+						$cache->set($key,$table,$duration);
+				}
+				return $this->_tables[$name]=$table;
+			}
+			else
+				return $this->_tables[$name]=$this->createTable($realName);
+		}
 	}
 
 	/**
