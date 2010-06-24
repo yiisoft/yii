@@ -6,6 +6,7 @@ Version 1.1.3 to be released
 ----------------------------
 - Bug #856: Logout doesn't work when CWebUser::identityCookie is configured and allowAutoLogin is set true (Qiang)
 - Bug #1027: CButtonColumn->buttons is ignored (Sam Dark)
+- Bug #1039: Table prefix feature did not work with PostgreSQL and AR (Qiang)
 - Bug #1046: Fixed the bug that CDbFixtureManager did not properly initialize the fixture data (Qiang)
 - Bug #0147: Fixed the bug that changing CAuthItem.description value would cause an exception when using CPhpAuthManager (Qiang)
 - Bug #1050: Fixed the bug that filter conditions were prefilled with default values when using an AR model in CGridView (Qiang)
