@@ -156,7 +156,7 @@ class CDbCriteria
 	public function addSearchCondition($column,$keyword,$escape=true,$operator='AND',$like='LIKE')
 	{
 		if($escape)
-			$keyword='%'.strtr($keyword,array('%'=>'\%', '_'=>'\_')).'%';
+			$keyword='%'.strtr($keyword,array('%'=>'\%', '_'=>'\_', '\\'=>'\\\\')).'%';
 		$condition=$column." $like ".self::PARAM_PREFIX.self::$paramCount;
 		$this->params[self::PARAM_PREFIX.self::$paramCount++]=$keyword;
 		return $this->addCondition($condition, $operator);
