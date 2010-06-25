@@ -469,6 +469,7 @@ class CJoinElement
 		$query->conditions[]=$child->relation->condition;
 		$query->conditions[]=$child->relation->on;
 		$query->groups[]=$child->relation->group;
+		$query->joins[]=$child->relation->join;
 		$query->havings[]=$child->relation->having;
 		$query->orders[]=$child->relation->order;
 		if(is_array($child->relation->params))
@@ -724,7 +725,7 @@ class CJoinElement
 			$record->afterFindInternal();
 		foreach($this->children as $child)
 			$child->afterFind();
-		
+
 		$this->children = null;
 	}
 
@@ -1211,6 +1212,7 @@ class CJoinQuery
 		$this->conditions[]=$element->relation->condition;
 		$this->orders[]=$element->relation->order;
 		$this->joins[]=$element->getJoinCondition();
+		$this->joins[]=$element->relation->join;
 		$this->groups[]=$element->relation->group;
 		$this->havings[]=$element->relation->having;
 
