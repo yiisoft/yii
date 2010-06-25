@@ -264,14 +264,14 @@ class CActiveFinder extends CComponent
 				$model->setTableAlias($relation->alias===null?$relation->name:$relation->alias);
 			}
 			if(($scope=$model->defaultScope())!==array())
-				$relation->mergeWith($scope);
+				$relation->mergeWith($scope,true);
 			if(!empty($scopes))
 			{
 				$scs=$model->scopes();
 				foreach($scopes as $scope)
 				{
 					if(isset($scs[$scope]))
-						$relation->mergeWith($scs[$scope]);
+						$relation->mergeWith($scs[$scope],true);
 					else
 						throw new CDbException(Yii::t('yii','Active record class "{class}" does not have a scope named "{scope}".',
 							array('{class}'=>get_class($model), '{scope}'=>$scope)));

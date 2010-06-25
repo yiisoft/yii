@@ -17,9 +17,10 @@ to be true. Also, if you have configured the 'widgets' property, you
 should rename it to be 'skinnableWidgets'. These changes are due to
 the introduction of the global widget customization feature.
 Please see the guide (the "Theming" section) for more details.
-- Clean up your assets directory after upgrading.
+
 - CAutoComplete is now deprecated and will be removed in Yii 1.2. Consider
 using CJuiAutoComplete.
+
 - Now it's not possible to reuse CActiveFinder. So if you have code like this:
 
   $finder = Post::model()->with('comments');
@@ -32,6 +33,10 @@ using CJuiAutoComplete.
   $posts1 = Post::model()->with('comments');
   …
   $posts2 = Post::model()->with('comments');
+
+- The 'condition' declared in the scopes of the related AR classes will now
+be put in the 'ON' clause of the JOIN statement when performing relational AR queries.
+
 
 Upgrading from v1.1.1
 ---------------------
