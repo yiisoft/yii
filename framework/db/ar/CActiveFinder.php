@@ -1358,9 +1358,9 @@ class CStatElement
 
 		$records=$this->_parent->records;
 
-		$where=empty($relation->condition)?'' : ' WHERE ('.$relation->condition.')';
+		$where=empty($relation->condition)?' WHERE ' : ' WHERE ('.$relation->condition.') AND ';
 		$group=empty($relation->group)?'' : ', '.$relation->group;
-		$having=empty($relation->having)?'' : ' AND ('.$relation->having.')';
+		$having=empty($relation->having)?'' : ' HAVING ('.$relation->having.')';
 		$order=empty($relation->order)?'' : ' ORDER BY '.$relation->order;
 
 		$c=$schema->quoteColumnName('c');
@@ -1371,9 +1371,8 @@ class CStatElement
 		{
 			$col=$table->columns[$fks[0]]->rawName;
 			$sql="SELECT $col AS $c, {$relation->select} AS $s FROM {$table->rawName}"
-				.$where
+				.$where.'('.$builder->createInCondition($table,$fks[0],array_keys($records)).')'
 				." GROUP BY $col".$group
-				." HAVING ".$builder->createInCondition($table,$fks[0],array_keys($records))
 				.$having.$order;
 			$command=$builder->getDbConnection()->createCommand($sql);
 			if(is_array($relation->params))
@@ -1399,9 +1398,8 @@ class CStatElement
 				$cols[$name]=$name.' AS '.$schema->quoteColumnName('c'.$n);
 			}
 			$sql='SELECT '.implode(', ',$cols).", {$relation->select} AS $s FROM {$table->rawName}"
-				.$where
+				.$where.'('.$builder->createInCondition($table,$fks,$keys).')'
 				.' GROUP BY '.implode(', ',array_keys($cols)).$group
-				.' HAVING '.$builder->createInCondition($table,$fks,$keys)
 				.$having.$order;
 			$command=$builder->getDbConnection()->createCommand($sql);
 			if(is_array($relation->params))
