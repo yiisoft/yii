@@ -68,7 +68,7 @@ pra-deklarasi sebagai [CUrlManager] dalam [CWebApplication].
 
 > Tip: URL yang dihasilkan oleh metode [createUrl|CController::createUrl]
 adalah URL relatif. Untuk mendapatkan URL absolut, kita dapat mengawalinya dengan
-`Yii::app()->hostInfo`, atau memanggil [createAbsoluteUrl|CController::createAbsoluteUrl].
+`Yii::app()->request->hostInfo`, atau memanggil [createAbsoluteUrl|CController::createAbsoluteUrl].
 
 URL ramah-pengguna
 ------------------

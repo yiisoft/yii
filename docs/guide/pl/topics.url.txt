@@ -67,7 +67,7 @@ ponieważ jest on wstępnie zadeklarowana jako [CUrlManager] w [CWebApplication]
 
 > Wskazówka: URL wygenerowany przy pomocy metody [createUrl|CController::createUrl]
 jest adresem względnym. Aby uzyskać pełny adres wystarczy poprzedzić adres względny
-`Yii::app()->hostInfo` lub wywołać metodę [createAbsoluteUrl|CController::createAbsoluteUrl].
+`Yii::app()->request->hostInfo` lub wywołać metodę [createAbsoluteUrl|CController::createAbsoluteUrl].
 
 Przyjazne adresy URL
 --------------------

@@ -70,7 +70,7 @@ i [CWebApplication].
 
 > Tip|Tips: URL:en som genereras av metoden [createUrl|CController::createUrl] 
 är en relativ sådan. För att få en absolut URL kan vi infoga ett prefix med 
-hjälp av `Yii::app()->hostInfo`, alternativt anropa 
+hjälp av `Yii::app()->request->hostInfo`, alternativt anropa 
 [createAbsoluteUrl|CController::createAbsoluteUrl].
 
 Användarvänliga URL:er

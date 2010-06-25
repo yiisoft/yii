@@ -69,7 +69,7 @@ sie von [CWebApplication] bereits mit dem Wert [CUrlManager] vorbelegt wurde.
 
 > Tip|Tipp: URLs die mit [createUrl|CController::createUrl] erzeugt werden,
 sind relativ. Um absolute URLs zu erhalten, können wir ihnen entweder
-`Yii::app()->hostInfo` voranstellen, oder
+`Yii::app()->request->hostInfo` voranstellen, oder
 [createAbsoluteUrl|CController::createAbsoluteUrl] aufrufen. 
 
 Benutzerfreundliche URLs

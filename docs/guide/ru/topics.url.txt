@@ -59,7 +59,7 @@ array(
 он уже объявлен как [CUrlManager] в [CWebApplication].
 
 > Tip|Подсказка: Адрес URL, генерируемый методом [createUrl|CController::createUrl] является относительным. Для того, чтобы получить 
-абсолютный адрес, нужно добавить префикс, используя `Yii::app()->hostInfo`, или вызвать метод 
+абсолютный адрес, нужно добавить префикс, используя `Yii::app()->request->hostInfo`, или вызвать метод 
 [createAbsoluteUrl|CController::createAbsoluteUrl].
 
 Человекопонятные URL
