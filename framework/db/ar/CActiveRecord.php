@@ -1710,6 +1710,12 @@ class CBaseActiveRelation extends CComponent
 	 */
 	public $group='';
 	/**
+	 * @var string how to join with other tables. This refers to the JOIN clause in an SQL statement.
+	 * For example, <code>'LEFT JOIN users ON users.id=authorID'</code>.
+	 * @since 1.1.3
+	 */
+	public $join='';
+	/**
 	 * @var string HAVING clause. For {@link CActiveRelation} descendant classes, column names
 	 * referenced in this property should be disambiguated with prefix 'relationName.'.
 	 */
@@ -1780,6 +1786,14 @@ class CBaseActiveRelation extends CComponent
 				$this->group=$criteria['group'];
 			else if($criteria['group']!=='')
 				$this->group.=', '.$criteria['group'];
+		}
+
+		if(isset($criteria['join']) && $this->join!==$criteria['join'])
+		{
+			if($this->join==='')
+				$this->join=$criteria['join'];
+			else if($criteria['join']!=='')
+				$this->join.=' '.$criteria['join'];
 		}
 
 		if(isset($criteria['having']) && $this->having!==$criteria['having'])
