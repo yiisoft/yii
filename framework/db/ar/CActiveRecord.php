@@ -1745,9 +1745,10 @@ class CBaseActiveRelation extends CComponent
 	/**
 	 * Merges this relation with a criteria specified dynamically.
 	 * @param array the dynamically specified criteria
+	 * @param boolean whether the criteria to be merged is from scopes
 	 * @since 1.0.5
 	 */
-	public function mergeWith($criteria)
+	public function mergeWith($criteria,$fromScope=false)
 	{
 		if(isset($criteria['select']) && $this->select!==$criteria['select'])
 		{
@@ -1830,11 +1831,12 @@ class CStatRelation extends CBaseActiveRelation
 	/**
 	 * Merges this relation with a criteria specified dynamically.
 	 * @param array the dynamically specified criteria
+	 * @param boolean whether the criteria to be merged is from scopes
 	 * @since 1.0.5
 	 */
-	public function mergeWith($criteria)
+	public function mergeWith($criteria,$fromScope=false)
 	{
-		parent::mergeWith($criteria);
+		parent::mergeWith($criteria,$fromScope);
 
 		if(isset($criteria['defaultValue']))
 			$this->defaultValue=$criteria['defaultValue'];
@@ -1875,10 +1877,23 @@ class CActiveRelation extends CBaseActiveRelation
 	/**
 	 * Merges this relation with a criteria specified dynamically.
 	 * @param array the dynamically specified criteria
+	 * @param boolean whether the criteria to be merged is from scopes
 	 * @since 1.0.5
 	 */
-	public function mergeWith($criteria)
+	public function mergeWith($criteria,$fromScope=false)
 	{
+		if($fromScope)
+		{
+			if(isset($criteria['condition']) && $this->on!==$criteria['condition'])
+			{
+				if($this->on==='')
+					$this->on=$criteria['condition'];
+				else if($criteria['condition']!=='')
+					$this->on="({$this->on}) AND ({$criteria['condition']})";
+			}
+			unset($criteria['condition']);
+		}
+
 		parent::mergeWith($criteria);
 
 		if(isset($criteria['joinType']))
@@ -1962,11 +1977,12 @@ class CHasManyRelation extends CActiveRelation
 	/**
 	 * Merges this relation with a criteria specified dynamically.
 	 * @param array the dynamically specified criteria
+	 * @param boolean whether the criteria to be merged is from scopes
 	 * @since 1.0.5
 	 */
-	public function mergeWith($criteria)
+	public function mergeWith($criteria,$fromScope=false)
 	{
-		parent::mergeWith($criteria);
+		parent::mergeWith($criteria,$fromScope);
 		if(isset($criteria['limit']) && $criteria['limit']>0)
 			$this->limit=$criteria['limit'];
 

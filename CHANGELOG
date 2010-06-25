@@ -18,7 +18,6 @@ Version 1.1.3 to be released
 - Bug #1213: Fixed the bug that skipOnError doesn't have effect on inline validators (Qiang)
 - Bug #1226: CWebUser::autoRenewCookie does not handle the case when the user is already logged in (Qiang)
 - Bug #1227: CActiveRecord::resetScope doesn't work with default scope (Sam Dark)
-- Bug #1231: CPgsqlColumnSchema would incorrectly parse the default value with some complex expressions (Qiang)
 - Bug #1241: DB search parameters should have special characters escaped (Qiang)
 - Bug #1242: Fixed the bug that CGridView filtering and item deletion would not work when ajax-update is disabled (Qiang)
 - Bug #1252: CJSON::encode() was not able to encode models and model arrays (Sam Dark)
@@ -73,6 +72,7 @@ Version 1.1.3 to be released
 - Enh: IDE code completion for CActiveRecord::attributes (Sam Dark)
 - Enh: Added beforeLogin, afterLogin, beforeLogout and afterLogout to CWebUser (Qiang)
 - Enh: Enhanced CSort::defaultOrder to allow using virtual attribute names (Qiang)
+- Chg #1323: Conditions declared in scopes of the related AR classes will be put in the ON clause of the JOIN statement (Qiang)
 - Chg: CAutoComplete is now deprecated (Sam Dark)
 
 Version 1.1.2 May 2, 2010
