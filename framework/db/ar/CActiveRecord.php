@@ -230,11 +230,11 @@ abstract class CActiveRecord extends CModel
 			$exists=isset($this->_related[$name]) || array_key_exists($name,$this->_related);
 			if($exists)
 				$save=$this->_related[$name];
-			unset($this->_related[$name]);
 			$r=array($name=>$params);
 		}
 		else
 			$r=$name;
+		unset($this->_related[$name]);
 
 		$finder=new CActiveFinder($this,$r);
 		$finder->lazyFind($this);
