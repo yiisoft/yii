@@ -64,7 +64,7 @@ display the input fields in an HTML table.
 Note in the above that we use `"[$i]name"` instead of `"name"` as the
 second parameter when calling [CHtml::activeTextField].
 
-If there are validation errors, the corresponding input fields will
+If there are any validation errors, the corresponding input fields will
 be highlighted automatically, just like the single model input we described
 earlier on.
 
