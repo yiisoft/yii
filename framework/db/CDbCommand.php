@@ -340,9 +340,10 @@ class CDbCommand extends CComponent
 	{
 		if($this->_connection->enableParamLogging && ($pars=array_merge($this->_params,$params))!==array())
 		{
+			$p=array();
 			foreach($pars as $name=>$value)
-				$pars[$name]=$name.'='.$value;
-			$par='. Bind with parameter ' .implode(', ',$pars);
+				$p[$name]=$name.'='.$value;
+			$par='. Bind with parameter ' .implode(', ',$p);
 		}
 		else
 			$par='';
