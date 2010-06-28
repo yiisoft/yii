@@ -67,6 +67,7 @@ Version 1.1.3 to be released
 - Enh #1289: Added support to allow using non-string values when calling CDbCriteria::compare() (Qiang)
 - Enh #1290: Added cssClass to individual item in CDetailView (Qiang)
 - Enh #1306: Hide log route outputs when no messages are collected after filtering (Qiang)
+- Enh #1311: Added {page} and {pages} tokens to CBaseListView::summaryText (Qiang)
 - Enh #1326: Added CBaseActiveRelation::join property (Qiang)
 - Enh: CActiveRecord::beforeFind event is now triggered in all cases including related models with both lazy and eager loading (Sam Dark, creocoder)
 - Enh: Added support for using array-typed model attributes in active methods in CHtml (Qiang)
