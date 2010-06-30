@@ -580,13 +580,14 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	public function getFlashes($delete=true)
 	{
 		$flashes=array();
+		$prefix=$this->getStateKeyPrefix().self::FLASH_KEY_PREFIX;
 		$keys=array_keys($_SESSION);
-		$n=strlen(self::FLASH_KEY_PREFIX);
+		$n=strlen($prefix);
 		foreach($keys as $key)
 		{
-			if(!strncmp($key,self::FLASH_KEY_PREFIX,$n))
+			if(!strncmp($key,$prefix,$n))
 			{
-				$flashes[$key]=$_SESSION[$key];
+				$flashes[substr($key,$n)]=$_SESSION[$key];
 				if($delete)
 					unset($_SESSION[$key]);
 			}
