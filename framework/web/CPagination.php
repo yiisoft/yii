@@ -17,6 +17,38 @@
  * These information can be passed to {@link CBasePager pagers} to render
  * pagination buttons or links.
  *
+ * Example:
+ *
+ * Controller action:
+ * <pre>
+ * function actionIndex(){
+ *     $criteria = new CDbCriteria();
+ *     $count=Article::model()->count($criteria);
+ *     $pages=new CPagination($count);
+ *
+ *     // results per page
+ *     $pages->pageSize=10;
+ *     $pages->applyLimit($criteria);
+ *     $models = Post::model()->findAll($criteria);
+ *
+ *     $this->render('index', array(
+ *     'models' => $models,
+ *          'pages' => $pages
+ *     ));
+ * }
+ * </pre>
+ *
+ * View:
+ * <pre>
+ * <?foreach($models as $model):?>
+ *     // display a model
+ * <?endforeach?>
+ *
+ * // display pagination
+ * <?$this->widget('CLinkPager', array(
+ *     'pages' => $pages,
+ * ))?>
+ * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
