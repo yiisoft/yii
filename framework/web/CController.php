@@ -638,14 +638,18 @@ class CController extends CBaseController
 	 * @param string the view name
 	 * @param string the directory that is used to search for a relative view name
 	 * @param string the directory that is used to search for an absolute view name under the application
-	 * @param string the directory that is used to search for an absolute view name under the current module
+	 * @param string the directory that is used to search for an absolute view name under the current module.
+	 * If this is not set, the application base view path will be used.
 	 * @return mixed the view file path. False if the view file does not exist.
 	 * @since 1.0.3
 	 */
-	public function resolveViewFile($viewName,$viewPath,$basePath,$moduleViewPath)
+	public function resolveViewFile($viewName,$viewPath,$basePath,$moduleViewPath=null)
 	{
 		if(empty($viewName))
 			return false;
+
+		if($moduleViewPath===null)
+			$moduleViewPath=$basePath;
 
 		if(($renderer=Yii::app()->getViewRenderer())!==null)
 			$extension=$renderer->fileExtension;
