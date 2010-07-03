@@ -11,7 +11,7 @@ In this section, we describe how to beautify these URLs and make them SEO-friend
 
  1. `/index.php/posts/yii`: leads to the page showing a list of posts with tag `yii`;
  2. `/index.php/post/2/A+Test+Post`: leads to the page showing the detail of the post with ID 2 whose title is `A Test Post`;
- 3. `/index.php/post/update?id=1`: leads to the page that allows updating the post with ID 1.
+ 3. `/index.php/post/update/1`: leads to the page that allows updating the post with ID 1.
 
 Note that in the second URL format, we include the post title in the URL. This is mainly to make the URL SEO friendly. It is said that search engines may also respect the words found in a URL when it is being indexed.
 
