@@ -2,6 +2,10 @@
                    Yii Framework Change Log
                    ========================
 
+Version 1.1.4 to be released
+----------------------------
+
+
 Version 1.1.3 July 4, 2010
 --------------------------
 - Bug #856: Logout doesn't work when CWebUser::identityCookie is configured and allowAutoLogin is set true (Qiang)
