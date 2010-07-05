@@ -1,5 +1,5 @@
-Генерация CRUD при помощи yiic shell
-====================================
+Генерация кода при помощи консоли (устаревшее)
+==============================================
 
 > Note|Примечание: Генераторы кода `yiic shell` считаются устаревшими начиная с
 > версии 1.1.2. Пожалуйста, используйте более мощные расширяемые веб-генераторы
@@ -89,4 +89,4 @@ http://hostname/testdrive/index.php?r=user/admin
 
 ![Страница добавления нового пользователя](first-app7.png)
 
-<div class="revision">$Id: quickstart.first-app-yiic.txt 2041 2010-04-11 03:54:25Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app-yiic.txt 2098 2010-05-05 19:49:51Z qiang.xue $</div>

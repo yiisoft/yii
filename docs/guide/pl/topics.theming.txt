@@ -110,6 +110,80 @@ używać tego tematu z katalogu `themes/basic/views/layouts`, natomiast indeks s
 będzie używał tego z katalogu `themes/basic/views/site`. W przypadku plik widoku nie  
 zostanie znaleziony w temacie, to wykorzystamy ten znajdujący się w katalogu `protected/views`.
 
+Globalne dostosowanywanie widżetów do własnych potrzeb
+----------------------------
+
+> Note|Uwaga: funkcjonalność ta dostępna jest od wersji 1.1.3.
+
+W trakcie używania widżetów dostarczonych przez osoby trzecie czy też Yii, często potrzebujemy
+dostosować je do konkretnych potrzeb. Na przykład, możemy chcieć zmienić wartość 
+[CLinkPager::maxButtonCount] z 10 (domyślnie) na 5. Możemy zrobić to poprzez przekazanie 
+inicjalnych wartości gdy wywołujemy metodę [CBaseController::widget] w celu utworzenia widżetu.
+Jednakże staje się to uciążliwe, jeśli musimy powtarzać tę samą operację dostosowywania
+w każdym miejscu gdzie używany [CLinkPager].
+
+~~~
+[php]
+$this->widget('CLinkPager', array(
+	'pages'=>$pagination,
+    'maxButtonCount'=>5,
+    'cssFile'=>false,
+));
+~~~
+
+Uzywając funkcjonalności globalnego dostosowywania właściwości widżetów, musimy 
+okreslić tą wartość inicjalną tylko w jednym miejscu, np. w konfiguracji aplikacji.
+Dzięki temu łatwiej nam zapanować nad dostosowywaniem właściwości widżetów.
+
+Aby używać tę funkcjonalność potrzebujemy skonfigurować
+[widgetFactory|CWebApplication::widgetFactory] w następujące sposób:
+
+~~~
+[php]
+return array(
+    'components'=>array(
+        'widgetFactory'=>array(
+            'widgets'=>array(
+                'CLinkPager'=>array(
+                    'maxButtonCount'=>5,
+                    'cssFile'=>false,
+                ),
+                'CJuiDatePicker'=>array(
+                    'language'=>'ru',
+                ),
+            ),
+        ),
+    ),
+);
+~~~
+
+W powyższym kodzie, dostosowaliśmy globalnie właściwości dla dwóch widżetów
+[CLinkPager] oraz [CJuiDatePicker] poprzez skonfigurowanie właściwości [CWidgetFactory::widgets].
+Zauważ, że globalne konfiguracja dla każdego z widżetów reprezetnowana jest 
+przez pary klucz-wartość w tablicy, gdzie klucz odpowiada nazwie klasy widżetu
+zaś wartością jest tablica inicjalnych wartości właściwości widżetu.
+
+Od teraz, za każdym razem, gdy tworzymy widżet [CLinkPager] w widoku, powyższe wartości właściwości
+będą przypisywane do widżetu a my musimy jedynie napisać następujący kod w widoku w celu utworzenia widżetu:
+
+~~~
+[php]
+$this->widget('CLinkPager', array(
+	'pages'=>$pagination,
+));
+~~~
+
+Wciąż możemy nadpisać wartości inicjalne jeśli jest taka potrzeba. Na przykład, jeśli 
+w niektórych widokach chcemy ustawić właściwość  `maxButtonCount` na 2, możemy zrobić to następująco:
+
+~~~
+[php]
+$this->widget('CLinkPager', array(
+	'pages'=>$pagination,
+	'maxButtonCount'=>2,
+));
+~~~
+
 Skórki
 ----
 
@@ -131,7 +205,19 @@ aplikacji poprzez zainstalowanie komponentu `widgetFactory`:
 return array(
     'components'=>array(
         'widgetFactory'=>array(
-            'class'=>'CWidgetFactory',
+            'enableSkin'=>true,
+        ),
+    ),
+);
+~~~
+
+Zauważ, że w wersjach wcześniejszych niż 1.1.3, musisz użyć następującej konfiguracji aby móc korzystać w widżetach ze skórek:
+
+~~~
+[php]
+return array(
+    'components'=>array(
+        'widgetFactory'=>array(
         ),
     ),
 );
@@ -198,5 +284,12 @@ tak jak to czyni zazwyczaj, bez zgłaszani błędu.
 > Info|Info: Używanie skórek może zmiejszyć wydajność, ponieważ Yii musi znaleźć  
 plik skórki gdy widżet jest tworzony po raz pierwszy.
 
+Skórka jest bardzo podobna do funkcjonalności globalnego dostosowywania właściwości. 
+Podstawowa różnice są nastepujące:
 
-<div class="revision">$Id: topics.theming.txt 1463 2009-10-17 01:49:02Z qiang.xue $</div>
+   - skórka wiąże się raczej z dostosowywaniem wartości właściwości związanych z warstwą prezentacji;
+   - widżet może posiadać wiele skórek;
+   - dla skórek można stosowac motywy (ang. theme);
+   - używanie skórek jest bardziej kosztowne niż używanie funkcjonalności globalnego dostosowywania właściwości widżetu;
+
+<div class="revision">$Id: topics.theming.txt 2172 2010-06-07 19:56:01Z qiang.xue $</div>

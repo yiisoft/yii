@@ -65,5 +65,6 @@
     - [Aplikacje konsolowe](topics.console)
     - [Bezpieczeństwo](topics.security)
     - [Zwiększanie wydajności](topics.performance)
+    - [Code Generation using Command Line Tools (deprecated)](quickstart.first-app-yiic)	
 
-<div class="revision">$Id: toc.txt 2040 2010-04-11 02:48:52Z qiang.xue $</div>
+<div class="revision">$Id: toc.txt 2098 2010-05-05 19:49:51Z qiang.xue $</div>

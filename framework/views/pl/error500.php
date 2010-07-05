@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <title>Wewnętrzny błąd serwera</title>
 
-<style type="text/css"> 
+<style type="text/css">
 /*<![CDATA[*/
 body {font-family:"Verdana";font-weight:normal;color:black;background-color:white;}
 h1 { font-family:"Verdana";font-weight:normal;font-size:18pt;color:red }

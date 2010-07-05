@@ -19,8 +19,8 @@ Starten Sie `yiic` von der Kommandozeile wie folgt:
 > können sie den Befehl auch wie folgt aufrufen:
 >
 > ~~~
-> % cd WebVerzeichnis/testdrive
-> % php YiiVerzeichnis/framework/yiic.php webapp WebVerzeichnis/testdrive
+> % cd WebVerzeichnis
+> % php YiiVerzeichnis/framework/yiic.php webapp testdrive
 > ~~~
 
 Damit wird im Verzeichnis `WebVerzeichnis/testdrive` die Grundstruktur einer 
@@ -263,4 +263,4 @@ schreiben zu müssen!
 
 ![Seite zum Erstellen eines neuen Benutzers](first-app7.png)
 
-<div class="revision">$Id: quickstart.first-app.txt 2041 2010-04-11 03:54:25Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app.txt 2125 2010-05-11 23:36:02Z alexander.makarow $</div>

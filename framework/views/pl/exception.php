@@ -41,7 +41,7 @@ pre {font-family:"Lucida Console";font-size:10pt;}
 <pre>
 <?php
 if(empty($data['source']))
-	echo 'Brak kodu źródłowego.';
+	echo 'Brak kodu �r�d�owego.';
 else
 {
 	foreach($data['source'] as $line=>$code)

@@ -248,4 +248,4 @@ Allt detta uppnåddes utan att skriva en enda rad kod!
 
 
 
-<div class="revision">$Id: quickstart.first-app.txt 2041 2010-04-11 03:54:25Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app.txt 2125 2010-05-11 23:36:02Z alexander.makarow $</div>

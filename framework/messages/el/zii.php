@@ -13,10 +13,12 @@
  *
  * NOTE, this file must be saved in UTF-8 encoding.
  *
- * @version $Id: zii.php 1420 2010-03-10 22:23:32Z yii@lourdas.name $
+ * @version $Id: zii.php 1514 2010-07-02 19:23:49Z yii@lourdas.name $
  */
 return array (
-  'Are you sure to delete this item?' => 'Είστε σίγουρος για τη διαγραφή του αντικειμένου;',
+  'Are you sure you want to delete this item?' => 'Είστε σίγουρος ότι θέλετε να διαγράψετε το αντικείμενο;',
+  'Home' => 'Αρχή',
+  'The button type "{type}" is not supported.' => 'Ο τύπος κουμπιού "{type}" δεν υποστηρίζεται.',
   'Delete' => 'Διαγραφή',
   'Displaying {start}-{end} of {count} result(s).' => 'Εμφάνιση {start}-{end} από {count} των αποτελεσμάτων.',
   'Either "name" or "value" must be specified for CDataColumn.' => 'Πρέπει να οριστεί είτε το "όνομα" είτε η "τιμή" για το CDataColumn.',

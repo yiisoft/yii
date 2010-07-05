@@ -1,7 +1,7 @@
-* התחלה
+﻿* התחלה
     - [סקירה](index)
-    - [אפשרויות חדשות](changes)
-        - [עדכון המערכת מגרסא 1.0 לגרסא 1.1](upgrade)
+    - [שינויים ואפשרויות חדשות](changes)
+    - [עדכון המערכת מגרסא 1.0 לגרסא 1.1](upgrade)
     - [מה זה Yii](quickstart.what-is-yii)
     - [התקנה](quickstart.installation)
     - [יצירת אפליקציה בפעם הראשונה](quickstart.first-app)
@@ -24,14 +24,14 @@
     - [יצירת מודל](form.model)
     - [יצירת פעולה](form.action)
     - [יצירת טופס](form.view)
-    - [איסוף קלט משתמש מרובה](form.table)
+    - [איסוף קלט טבלאי](form.table)
 - [שימוש במערכת יצירת הטפסים](form.builder)
 
 * עבודה עם מסדי נתונים
     - [סקירה](database.overview)
-    - [אובייקטים גישה למסד הנתונים](database.dao)
-    - [רשומות פעילות](database.ar)
-    - [קישור רשומות פעילות](database.arr)
+    - [שימוש ב DAO](database.dao)
+    - [שימוש ב AR](database.ar)
+    - [שימוש ב ARR](database.arr)
 
 * ניהול מטמון
     - [סקירה](caching.overview)
@@ -48,21 +48,23 @@
 
 * הרצת בדיקות
     - [סקירה](test.overview)
-    - [הגדרת ערכים קבועים](test.fixture)
+    - [נתונים התחלתיים](test.fixture)
     - [בדיקות יחידה](test.unit)
     - [בדיקות פונקציונליות](test.functional)
 
 * נושאים מיוחדים
+    - [יצירת קוד אוטומטי](topics.gii)
     - [ניהול קישורים](topics.url)
     - [אימות משתמשים וניהול גישות](topics.auth)
     - [ניהול תבניות ועיצוב](topics.theming)
-    - [ניהול רישומים](topics.logging)
-    - [ניהול שגיאות](topics.error)
-    - [שרותי ווב](topics.webservice)
-    - [ אינטרנציונליזציה (I18N)](topics.i18n)
-    - [תחבירי תבניות נוספים](topics.prado)
+    - [תיעוד פעולות](topics.logging)
+    - [ניהול וטיפול בשגיאות](topics.error)
+    - [שרותים חיצוניים](topics.webservice)
+    - [ניהול ותמיכה בשפות](topics.i18n)
+    - [תחביר תצוגה נוסף](topics.prado)
     - [אפלקציות מסוף ובקרה](topics.console)
     - [אבטחה](topics.security)
-    - [כון ביצועים](topics.performance)
+    - [שיפור ביצועי המערכת](topics.performance)
+    - [יצירת קןד בעזרת כלי שורת הפקודות (לא נתמך)](quickstart.first-app-yiic)
 
-<div class="revision">$Id: toc.txt 1603 2009-12-18 19:39:18Z qiang.xue $</div>
+«div class="revision"»$Id: toc.txt 2098 2009-12-18 19:39:18Z qiang.xue $«/div»

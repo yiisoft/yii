@@ -1,5 +1,5 @@
-Implementowanie operacji CRUD przy użyciu `yiic shell`
-==============================================
+Generacja kodu przy wykorzystaniu narzędzie lini poleceń `yiic shell` (przestarzałe)
+=========================================
 
 > Note|Uwaga: Generatory kody z `yiic shell` jest przestarzałe od wersji 1.1.2. Proszę używaj w zamian potężniejszego i rozszerzalnego, przeglądarkowego generatora kodu dostępnego w [Gii](/doc/guide/topics.gii).
 
@@ -93,4 +93,4 @@ Wszystkie te funkcjonalności dostarczane są bez potrzeby pisania jakiejkolwiek
 ![Create new user page](first-app7.png)
 
 
-<div class="revision">$Id: quickstart.first-app-yiic.txt 2041 2010-04-11 03:54:25Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app-yiic.txt 2098 2010-05-05 19:49:51Z qiang.xue $</div>

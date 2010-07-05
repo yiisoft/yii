@@ -186,4 +186,4 @@ jak i metody get (gettery) i set (settery) zachowania. Na przykład, jeśli zach
 posiada właściwość o nazwie `xyz` i jest ono powiązane z komponentem `$a`, to możemy 
 użyć wyrażenia `$a->xyz` w celu otrzymania dostępu do właściwości zachowania.
 
-<div class="revision">$Id: basics.component.txt 1474 2009-10-18 21:13:52Z qiang.xue $</div>
+<div class="revision">$Id: basics.component.txt 2181 2010-06-14 20:01:23Z qiang.xue $</div>

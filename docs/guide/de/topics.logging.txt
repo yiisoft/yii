@@ -1,18 +1,18 @@
 Protokollierung (Logging)
 =========================
 
-Yii bietet eine flexibles und erweiterbares Logfeature.  
-Zu loggende (also zu protokollierende) Meldungen können einer 
-Logstufe (engl.: log level) und einer Kategorie zugeordnet werden. Zusammen mit 
-Logstufen- und Kategoriefiltern können ausgewählte 
-Meldungen an verschiedene Ziele, wie z.B. Dateien, E-Mails, 
-Browserfenster etc., weitergeleitet werden
+Yii bietet eine flexibles und erweiterbares Logfeature. Zu loggende 
+(also zu protokollierende) Meldungen können einer
+Logstufe (engl.: log level) und einer Kategorie zugeordnet werden. Mit diesen
+Logstufen und Kategoriefiltern können bestimmte Meldungen jeweils
+an verschiedene Ziele, wie z.B. Dateien, E-Mails, Browserfenster etc., 
+weitergeleitet werden
 
 Loggen von Meldungen
 --------------------
 
-Ein Logeintrag kann entweder mit [Yii::log] oder [Yii::trace] angelegt werden. 
-Der Unterschied zwischen beiden besteht darin, dass `Yii::trace` nur im 
+Ein Logeintrag kann entweder mit [Yii::log] oder [Yii::trace] angelegt werden.
+Der Unterschied zwischen beiden besteht darin, dass `Yii::trace` nur im
 [Debug-Modus](/doc/guide/basics.entry#debug-mode) loggt.
 
 ~~~
@@ -21,7 +21,7 @@ Yii::log($message, $level, $category);
 Yii::trace($message, $category);
 ~~~
 
-Beim Loggen einer Meldung muss eine Kategorie und eine Stufe angegeben werden. 
+Beim Loggen einer Meldung muss eine Kategorie und eine Stufe angegeben werden.
 Die Kategorie ist ein String im Format `xxx.yyy.zzz`, ähnlich einem
 [Pfadalias](/doc/guide/basics.namespace). Wenn eine Meldung zum
 Beispiel in [CController] geloggt wird, könnten wir die Kategorie
@@ -29,7 +29,7 @@ Beispiel in [CController] geloggt wird, könnten wir die Kategorie
 Werte entpsrechen:
 
    - `trace`: Diese Stufe wird von [Yii::trace] verwendet. Sie dient zum
-Nachverfolgen (engl.: trace) des Programmablaufs während der Entwicklungsphase. 
+Nachverfolgen (engl.: trace) des Programmablaufs während der Entwicklungsphase.
 
    - `info`: dient zum Loggen allgemeiner Informationen.
 
@@ -45,13 +45,13 @@ Routing von Logeinträgen
 Mit [Yii::log] oder [Yii::trace] geloggte Meldungen werden im Speicher
 gehalten. Für gewöhnlich sollen diese im Browserfenster angezeigt oder in einem
 beständigen Speicher wie Dateien oder E-Mails gespeichert werden. Dies nennt
-man auch *Routing von Logmeldungen* (engl.: message routing), also das Weiterleiten 
+man auch *Routing von Logmeldungen* (engl.: message routing), also das Weiterleiten
 der Einträge an bestimmte Zielorte.
 
 In Yii wird das Routing von einer
 [CLogRouter]-Anwendungskomponente (sinngem.: Logmeldungs-Weiterleiter) übernommen.
 Sie verwaltet eine Reihe sogenannter *Logrouten* (engl.: log routes).
-Jede Logroute steht für ein einzelnes Log-Ziel. Meldungen, die 
+Jede Logroute steht für ein einzelnes Log-Ziel. Meldungen, die
 über eine Logroute geschickt werden, können nach Stufe und Kategorie
 gefiltert werden.
 
@@ -113,7 +113,7 @@ die Bearbeitung des aktuellen Requests explizit zu beenden, rufen Sie
 [CApplication::end()] das [onEndRequest|CApplication::onEndRequest]-Event
 auslöst und somit Logmeldungen ordnungsgemäß geloggt werden können.
 
-### Filtern von Logmeldungen 
+### Filtern von Logmeldungen
 
 Wie erwähnt, können Logeinträge nach ihrer Stufe und ihrer Kategorie gefiltert
 werden, bevor sie an eine Logroute geleitet werden. Dies geschieht,
@@ -124,7 +124,7 @@ setzt. Mehrere Stufen oder Kategorien sollten mit Kommas verbunden werden.
 Da Logkategorien im Format `xxx.yyy.zzz` vorliegen, können wir sie wie
 eine Hierarchie von Kategorien behandeln. In diesem Fall können wir sagen, `xxx`
 ist die Elternkategorie von `xxx.yyy`, welche wiederum die Elternkategorie von
-`xxx.yyy.zzz` bildet.  Wir können `xxx.*` verwenden, um die Kategorie 
+`xxx.yyy.zzz` bildet.  Wir können `xxx.*` verwenden, um die Kategorie
 `xxx` und all ihre Kind- und Enkelkategorien darzustellen.
 
 ### Loggen von Kontextinformationen
@@ -187,10 +187,10 @@ Performance-Analyse
 
 Bei der Performance-Analyse(engl.: performance profiling) handelt es sich
 um eine spezielle Logart. Mit ihr kann man die Zeit messen, die ein bestimmter
-Codeblock zur Ausführung benötigt und so den leistungsmäßigen Flaschenhals 
+Codeblock zur Ausführung benötigt und so den leistungsmäßigen Flaschenhals
 in einer Anwendung ausfindig machen.
 
-Für die Performance-Analysse müssen die zu analysierenden Codeblöcke erst
+Für die Performance-Analyse müssen die zu analysierenden Codeblöcke erst
 identifiziert werden. Mit folgenden beiden Methoden können Anfang und Ende
 jedes Blocks markiert werden:
 
@@ -226,7 +226,7 @@ messen, bietet Yii seit Version 1.0.6 eine systematischere Herangehensweise,
 um dieses Problem zu lösen.
 
 Indem [CDbConnection::enableProfiling] in der Anwendungskonfiguration auf true
-gesetzt wird, wird jede SQL-Anweisung gemessen. Mit der erwähnten [CProfileLogRoute] 
+gesetzt wird, wird jede SQL-Anweisung gemessen. Mit der erwähnten [CProfileLogRoute]
 können die Ergebnisse leicht aufgegliedert nach den einzelnen SQL-Anweisungen
 und den dafür benötigten Zeiten angezeigt werden. Durch Aufruf von
 [CDbConnection::getStats()] können wir auch die Gesamtzahl aller

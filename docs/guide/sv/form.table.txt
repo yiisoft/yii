@@ -64,8 +64,8 @@ inmatningsfälten i form av en HTML-tabell.
 Notera att i ovanstående används `"[$i]name"` i stället för `"name"` som andra 
 parameter i anropet till [CHtml::activeTextField].
 
-Om det uppstår något valideringsfel kommer motsvarande inmatningsfält att 
+Om det uppstår valideringsfel kommer motsvarande inmatningsfält att 
 framhävas automatiskt, precis som tidigare beskrivits i fråga om inmatning av en 
 enstaka modellinstans.
 
-<div class="revision">$Id: form.table.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>
+<div class="revision">$Id: form.table.txt 2232 2010-06-26 22:42:03Z qiang.xue $</div>

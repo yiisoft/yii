@@ -8,10 +8,10 @@
 		</th>
 	</tr>
 	<tr style="background-color: #ccc;">
-		<th>Procedura</th>
+	    <th>Procedura</th>
 		<th>Ilość</th>
 		<th>Razem (s)</th>
-		<th>Średnia. (s)</th>
+		<th>średnia. (s)</th>
 		<th>Min. (s)</th>
 		<th>Max. (s)</th>
 	</tr>

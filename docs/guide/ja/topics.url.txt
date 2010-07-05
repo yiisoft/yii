@@ -65,7 +65,7 @@ array(
 [CurlManager]ですでに宣言済みなので明記する必要が無い点に注意して下さい。
 
 > Tip|ヒント: [createUrl|CController::createUrl]で作成されたURLは相対URLです。
-絶対URLが必要な時は、`Yii::app()->hostInfo`をプリフィックスにするか
+絶対URLが必要な時は、`Yii::app()->request->hostInfo`をプリフィックスにするか
 [createAbsoluteUrl|CController::createAbsoluteUrl]をコールします。
 
 ユーザーフレンドリーなURL

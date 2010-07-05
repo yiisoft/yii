@@ -1,5 +1,5 @@
-CRUD-Operationen mit der `yiic shell` erstellen
-===============================================
+Codegenerierung an der Kommandozeile (veraltet)
+====================================
 
 > Note|Hinweis: Seit Version 1.1.2 wird die Codegenerierung mit `yiic shell`
 > nicht mehr empfohlen. Verwenden Sie stattdessen den leistungsfähigeren 
@@ -9,7 +9,7 @@ CRUD-Operationen mit der `yiic shell` erstellen
 
 ~~~
 % cd WebVerzeichnis/testdrive
-% YiiVerzeichnis/framework/yiic shell
+% protected/yiic shell
 Yii Interactive Tool v1.1
 Please type 'help' for help. Type 'exit' to quit.
 >> model User tbl_user
@@ -100,4 +100,4 @@ schreiben zu müssen!
 
 ![Seite zum Erstellen eines neuen Benutzers](first-app7.png)
 
-<div class="revision">$Id: quickstart.first-app-yiic.txt 2041 2010-04-11 03:54:25Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app-yiic.txt 2098 2010-05-05 19:49:51Z qiang.xue $</div>

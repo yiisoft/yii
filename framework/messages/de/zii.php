@@ -16,6 +16,8 @@
  * @version $Id: $
  */
 return array (
+  'Home' => 'Home',
+  'The button type "{type}" is not supported.' => 'Buttontyp "{type}" wird nicht unterstützt.',
   'Are you sure you want to delete this item?' => 'Wollen Sie diesen Eintrag wirklich löschen?',
   'Delete' => 'Löschen',
   'Displaying {start}-{end} of {count} result(s).' => 'Ergebnisse {start}-{end} von {count}.',

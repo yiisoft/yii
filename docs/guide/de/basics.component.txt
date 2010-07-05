@@ -196,4 +196,4 @@ Behavior zum Beispiel eine Eigenschaft namens `xyz` besitzt und an eine
 Komponente `$a` angebunden wurde, kann mit `$a->xyz` darauf zugegriffen
 werden.
 
-<div class="revision">$Id: basics.component.txt 1474 2009-10-18 21:13:52Z qiang.xue $</div>
+<div class="revision">$Id: basics.component.txt 2181 2010-06-14 20:01:23Z qiang.xue $</div>

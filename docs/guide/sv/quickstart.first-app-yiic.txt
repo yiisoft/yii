@@ -1,7 +1,7 @@
-Implementera CRUD-operationer med `yiic shell`
-=============================================
+Kodgenerering med kommandoradsverktyg (under utfasning)
+=======================================================
 
-> Note|Märk: Kodgeneratorerna i `yiic shell` har utgått från och med version 1.1.2.
+> Note|Märk: Kodgeneratorerna i `yiic shell` fasas ut från och med version 1.1.2.
 Istället rekommenderas de mer kapabla och utbyggbara webbaserade kodgeneratorer 
 som finns tillgängliga i [Gii](/doc/guide/topics.gii).
 
@@ -93,4 +93,4 @@ Allt detta uppnåddes utan att skriva en enda rad kod!
 ![Skapa ny user-sida](first-app7.png)
 
 
-<div class="revision">$Id: quickstart.first-app-yiic.txt 2041 2010-04-11 03:54:25Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app-yiic.txt 2098 2010-05-05 19:49:51Z qiang.xue $</div>
