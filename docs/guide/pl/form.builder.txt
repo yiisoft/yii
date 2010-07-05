@@ -469,4 +469,4 @@ gdyż nadal porzebujemy pisać podobną ilość kodu formularza. Mimo to, jest t
 korzyści, gdyż formularz jest opisywany za pomocą oddzielnego pliku konfiguracyjnego, co pomaga 
 programistom lepiej skupić się na logice.
 
-<div class="revision">$Id: form.builder.txt 1849 2010-03-01 15:54:34Z qiang.xue $</div>
+<div class="revision">$Id: form.builder.txt 2232 2010-06-26 22:42:03Z qiang.xue $</div>

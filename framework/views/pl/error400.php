@@ -24,7 +24,7 @@ Zapytanie nie może być zrozumiane przez serwer ze względu na niepoprawną sk�
 Prosze nie powtarzaj żądanie bez uprzedniej modyfikacji.
 </p>
 <p>
-Jeśli myślisz, że jest to błąd serwera, proszę skontaktuj się z <?php echo $data['admin']; ?>.
+Jeśli myślisz, że jest to błąd serwera proszę skontaktuj się z <?php echo $data['admin']; ?>.
 </p>
 <div class="version">
 <?php echo date('Y-m-d H:i:s',$data['time']) .' '. $data['version']; ?>

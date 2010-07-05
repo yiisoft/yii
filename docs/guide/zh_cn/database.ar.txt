@@ -90,6 +90,114 @@ class Post extends CActiveRecord
     {
         return parent::model($className);
     }
+	
+    public function tableName()
+    {
+        return 'tbl_post';
+    }
 }
 ~~~
+
+> Tip|提示: 因为AR类会在很多地方使用到，我们可以一次性引入包含AR类的整个目录，而不是一个一个地单独引入。
+> 假设很多AR类放在`protected/models`目录下面，我们可以在应用中这样配置：
+> ~~~
+> [php]
+> return array(
+> 	'import'=>array(
+> 		'application.models.*',
+> 	),
+> );
+> ~~~
+
+默认情况下，AR类的名称和数据库中数据表的名称一样。也可以通过重写[tableName()|CActiveRecord:tableName]方法来指定其他表名。
+[model()|CActiveRecord:model]应该在每个AR类中重新声明（这个稍后会解释）。
+
+> Info: 为了使用1.1.0版本加入的新功能[表前缀](/doc/guide/database.dao#using-table-prefix)，你需要使用重写AR类中的
+[tableName()|CActiveRecord::tableName]方法。示例如下：
+> ~~~
+> [php]
+> public function tableName()
+> {
+>     return '{{post}}';
+> }
+> ~~~
+> 就这样，不再直接写完整的表名，而是返回一个用双花括号包围的表名称。
+
+在AR类中，数据表的字段可以像类的属性那样使用。举个例子，下面的代码可以设置`title`字段（属性）：
+
+~~~
+[php]
+$post=new Post;
+$post->title='一个示例文章';
+~~~
+
+尽管我们没有明确地在`Post`类中添加`title`属性，但是我们仍旧可以通过上面的代码来访问它。
+这是因为`title`是`tbl_post`表中的一个字段，CActiveRecord可以通过使用`__get()`魔术方法来让它可以直接被使用。
+如果你要访问一个并不存在的字段的时候，Yii会抛出一个异常。
+
+> Info|信息: 在这个手册中，我们使用小写的表名和字段名。这是因为不同的数据库对于大小写的敏感不同。
+> 比如说，PostgreSQL对字段名的大小写就敏感，并且如果同时含有大小写，我们还必须在查询语句中将字段名括起来。
+> 使用全小写可以避免这些问题。
+
+AR需要我们明确指定表的主键字段。如果一个表没有设置主键，就需要相应的AR类重写`primaryKey()`来指定一个或者一组可以视为主键的字段。
+
+~~~
+[php]
+public function primaryKey()
+{
+	return 'id';
+	// 对于包含多个字段的一组主键，可以使用数组方式返回，比如
+	// return array('pk1', 'pk2');
+}
+~~~
+
+创建数据记录
+------------
+
+为了在数据库中插入一行新的数据，我们可以创建一个相应AR类的实例。然后设置这个对象的属性，就可以设置相应的数据表的字段。
+最后使用[save()|CActiveRecord::save]来保存数据到数据库中。
+
+~~~
+[php]
+$post=new Post;
+$post->title='示例文章';
+$post->content='文章的正文';
+$post->create_time=time();
+$post->save();
+~~~
+
+如果数据表的主键字段是自增的，在保存之后会自动将主键的值更新到对象中。在上面的代码中，
+`id`属性会指向这个新文章的主键的值，尽管我们一般不会修改这个。
+
+如果一个字段在数据表中定义了默认值（比如一个字符串或者一个数字）。那么AR类在实例化的同时
+会自动将相应字段设置为这个默认值。如果你想自己设定另外的默认值，你可以通过显式定义类属性的方式实现。
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	public $title='请输入标题';
+	......
+}
+
+$post=new Post;
+echo $post->title;  // 会显示：请输入标题
+~~~
+
+从1.0.2版本开始，一个属性可以在被保存前被赋值为[CDbExpression]形式（插入或更新时也可以）到数据库中。
+比如说，为了保存MySQL中内置函数`NOW()`生成的时间戳，我们可以使用下面的代码：
+
+~~~
+[php]
+$post=new Post;
+$post->create_time=new CDbExpression('NOW()');
+// $post->create_time='NOW()'; 这个不会正确运行，因为'NOW()'会被视为一个字符串
+$post->save();
+~~~
+
+> Tip|提示: 尽管AR让我们可以不书写具体的SQL语句就可以执行数据库操作，有时我们仍旧想
+> 知道AR到底执行了什么样的SQL语句。我们可以通过打开Yii的[Log-Features](/doc/guide/topics.logging)
+> 来达到我们的目的。据个例子，我们可以在应用的配置文件中打开[CWebLogRoute]，然后我们就可以
+> 在页脚看到被执行过的SQL语句。在1.0.5版本起，我们还可以设置[CDbConnection::enableParamLogging]
+> 为true来记录SQL语句中绑定的参数。
 

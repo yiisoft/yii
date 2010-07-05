@@ -312,4 +312,4 @@ statisk webbsida. För att göra så, konfigurera komponenten
 [urlManager|CWebApplication::urlManager] genom att sätta dess property 
 [urlSuffix|CUrlManager::urlSuffix] till önskad suffixsträng.
 
-<div class="revision">$Id: topics.url.txt 1809 2010-02-17 22:08:34Z qiang.xue $</div>
+<div class="revision">$Id: topics.url.txt 2229 2010-06-25 19:57:54Z poppitypop@gmail.com $</div>

@@ -177,4 +177,4 @@ via get- och/eller set-metoder i denna behavior. Till exempel, om en behavior ha
 och behaviorn kopplas till komponenten `$a` kan uttrycket `$a->xyz` användas för tillgång till
 behaviorns property.
 
-<div class="revision">$Id: basics.component.txt 1474 2009-10-18 21:13:52Z qiang.xue $</div>
+<div class="revision">$Id: basics.component.txt 2181 2010-06-14 20:01:23Z qiang.xue $</div>

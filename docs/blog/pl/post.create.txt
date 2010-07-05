@@ -42,7 +42,7 @@ Na początek zmienimy plik `_form.php`, tak że formularz HTML będzie zbierał 
 
 ~~~
 [php]
-<?php echo $form->dropDownList($post,'status',Lookup::items('PostStatus')); ?>
+<?php echo $form->dropDownList($model,'status',Lookup::items('PostStatus')); ?>
 ~~~
 
 W powyższym kodzie wywołujemy `Lookup::items('PostStatus')` aby zwrócić listę statusów postu. 
@@ -93,4 +93,4 @@ W trakcie implementacji potrzebujemy wiedzieć jakie są stare tagi dlatego, że
 Nie będziemy tutaj wchodzić w szczegóły metod `Tag::updateFrequency()`. Zainteresowani tym czytelnicy mogą zajrzeć do pliku `/wwwroot/yii/demos/blog/protected/models/Tag.php`.
 
 
-<div class="revision">$Id: post.create.txt 1753 2010-01-25 18:25:03Z qiang.xue $</div>
+<div class="revision">$Id: post.create.txt 2120 2010-05-10 01:29:41Z qiang.xue $</div>

@@ -64,8 +64,8 @@ pola wejściowe za pomocą tabeli HTML.
 Zauważ, że w powyższym przykładzie użyliśmy `"[$i]name"` zamiast `"name"` jako 
 drugi parametr podczas wywoływania metody [CHtml::activeTextField].
 
-Jeśli wystąpił tutaj jakiś błąd sprawdzania danych, odpowiednie pole wejściowe
+Jeśli wystąpił tutaj jakikolwiek błąd sprawdzania danych, odpowiednie pole wejściowe
 zostanie podświetlone automatycznie, tak jak to było w przypadku pojedynczego 
 modelu opisanego wcześniej.
 
-<div class="revision">$Id: form.table.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>
+<div class="revision">$Id: form.table.txt 2232 2010-06-26 22:42:03Z qiang.xue $</div>

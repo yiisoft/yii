@@ -265,6 +265,9 @@ relationella frågan. De sammanfattas nedan.
    Standardvärde är true. För fler detaljer se avsnittet "Relational Query Performance". 
    Detta alternativ har varit tillgängligt sedan version 1.0.3.
 
+   - `join`: ett tillkommande `JOIN`-led. Det är som standard tomt. Detta alternativ har 
+   varit tillgängligt sedan version 1.1.3.
+
    - `group`: motsvarar `GROUP BY`-ledet. Det är som standard tomt. Kolumnnamn som 
    refereras till i detta alternativ måste göras otvetydiga. 
 
@@ -580,4 +583,4 @@ class User extends CActiveRecord
 [CActiveRecord::scopes]. Detta innebär också att de inte kan parametriseras.
 
 
-<div class="revision">$Id: database.arr.txt 2068 2010-04-22 16:42:16Z alexander.makarow $</div>
+<div class="revision">$Id: database.arr.txt 2226 2010-06-25 18:12:01Z qiang.xue $</div>

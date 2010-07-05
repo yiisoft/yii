@@ -326,4 +326,4 @@ einer statischen Webseite aus. Setzen Sie dazu einfach die gewünschte Endung
 über die Eigenschaft [urlSuffix|CUrlManager::urlSuffix] der
 [urlManager|CWebApplication::urlManager]-Komponente.
 
-<div class="revision">$Id: topics.url.txt 1809 2010-02-17 22:08:34Z qiang.xue $</div>
+<div class="revision">$Id: topics.url.txt 2229 2010-06-25 19:57:54Z poppitypop@gmail.com $</div>

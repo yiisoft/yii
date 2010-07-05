@@ -271,6 +271,9 @@ Version 1.0.3 verfügbar.
    - `group`: Die `GROUP BY` Klausel, standardmäßig leer. Spaltennamen
       sollten eindeutig gekennzeichnet werden.
 
+   - `join`: Zusätzlicher `JOIN`, standardmäßig leer. Diese Option ist seit
+Version 1.1.3 verfügbar.
+
    - `having`: Die `HAVING` Klausel, standarmäßig leer. Spaltennamen
       sollten eindeutig gekennzeichnet werden. Diese Option ist seit Version 1.0.1. verfügbar.
 
@@ -592,4 +595,4 @@ class User extends CActiveRecord
 verwendet werden, die in [CActiveRecord::scopes] definiert wurden. Daher
 können diese hier auch nicht parametrisiert werden.
 
-<div class="revision">$Id: database.arr.txt 2068 2010-04-22 16:42:16Z alexander.makarow $</div>
+<div class="revision">$Id: database.arr.txt 2226 2010-06-25 18:12:01Z qiang.xue $</div>

@@ -89,7 +89,7 @@ public function actionIndex()
 
 	$dataProvider=new CActiveDataProvider('Post', array(
 		'pagination'=>array(
-			'pageSize'=>Yii::app()->params['postsPerPage'],
+			'pageSize'=>5,
 		),
 		'criteria'=>$criteria,
 	));
@@ -111,7 +111,7 @@ public function actionIndex()
 
 Используя критерий мы создаём провайдер данных, нужный для трёх целей. Во-первых,
 он занимается постраничной разбивкой данных. Мы задаём количество результатов на
-страницу в параметре `postsPerPage`. Во-вторых, данные сортируются в соответствии
+страницу равным 5. Во-вторых, данные сортируются в соответствии
 с запросом пользователя. И, наконец, провайдер отдаёт разбитые на страницы
 отсортированные данные виджетам или отображению.
 
@@ -138,4 +138,4 @@ public function actionIndex()
 `/wwwroot/blog/protected/views/post/_view.php`, в котором мы можем
 обращаться к записи через переменную `$data`.
 
-<div class="revision">$Id: post.display.txt 1810 2010-02-18 00:24:54Z qiang.xue $</div>
+<div class="revision">$Id: post.display.txt 2121 2010-05-10 01:31:30Z qiang.xue $</div>

@@ -463,4 +463,4 @@ nytta, dock, att formuläret specificeras genom användning av en separat konfig
 hjälper utvecklare att bättre fokusera på logiken.
 
 
-<div class="revision">$Id: form.builder.txt 1849 2010-03-01 15:54:34Z qiang.xue $</div>
+<div class="revision">$Id: form.builder.txt 2232 2010-06-26 22:42:03Z qiang.xue $</div>

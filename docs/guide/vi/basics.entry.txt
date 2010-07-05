@@ -23,12 +23,12 @@ nó tạo ra một thực thể ứng dụng web với các thông số ban đ�
 Chế độ gỡ lỗi (Debug)
 ----------
 
-An Yii application can run in either debug or production mode according to
-the constant value `YII_DEBUG`. By default, this constant value is defined
+Một ứng dụng Yii có thể chạy ở chế độ debug hoặc chế độ sản phẩm hoàn thành tùy
+vào giá trị của biến `YII_DEBUG`. By default, this constant value is defined
 as `false`, meaning production mode. To run in debug mode, define this
 constant as `true` before including the `yii.php` file. Running application
 in debug mode is less efficient because it keeps many internal logs. On the
 other hand, debug mode is also more helpful during development stage
 because it provides richer debugging information when error occurs.
 
-<div class="revision">$Id: basics.entry.txt 162 2008-11-05 12:44:08Z weizhuo $</div>
+<div class="revision">$Id: basics.entry.txt 1622 2009-12-26 20:56:05Z weizhuo $</div>

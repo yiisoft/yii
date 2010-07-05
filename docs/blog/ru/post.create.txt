@@ -62,7 +62,7 @@ public function accessRules()
 
 ~~~
 [php]
-<?php echo $form->dropDownList($post,'status',Lookup::items('PostStatus')); ?>
+<?php echo $form->dropDownList($model,'status',Lookup::items('PostStatus')); ?>
 ~~~
 
 В приведённом коде для получения списка статусов используется вызов `Lookup::items('PostStatus')`.
@@ -122,4 +122,4 @@ protected function afterFind()
 Заинтересованные читатели могут ознакомиться с ним в файле
 `/wwwroot/yii/demos/blog/protected/models/Tag.php`.
 
-<div class="revision">$Id: post.create.txt 1753 2010-01-25 18:25:03Z qiang.xue $</div>
+<div class="revision">$Id: post.create.txt 2120 2010-05-10 01:29:41Z qiang.xue $</div>

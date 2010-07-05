@@ -108,6 +108,83 @@ kommer temat `basic` att gälla, vilket innebär att applikationen hämtar sin l
 katalogen `themes/basic/views/layouts`, samt sin indexvy från `themes/basic/views/site`. 
 I händelse av att vyfilen inte hittas i temat, används filen från katalogen `protected/views`.
 
+
+Anpassa widgetar globalt
+------------------------
+
+> Note|Märk: denna finess har varit tillgänglig fr o m version 1.1.3.
+
+När en widget från tredjepart eller Yii används, behöver vi ofta anpassa den
+för specifika behov. Till exempel kan vi vilja ändra värdet för
+[CLinkPager::maxButtonCount] från 10 (standard) till 5. Detta kan åstadkommas 
+genom att initialvärden lämnas med när [CBaseController::widget]
+anropas för att skapa en widget. Detta kan dock bli bekymmersamt då det måste 
+upprepas på varje ställe där [CLinkPager] används.
+
+~~~
+[php]
+$this->widget('CLinkPager', array(
+	'pages'=>$pagination,
+    'maxButtonCount'=>5,
+    'cssFile'=>false,
+));
+~~~
+
+Genom användning av finessen med global anpassning av widgetar, behöver vi bara 
+specificera dessa initialvärden på ett enda ställe, nämligen  i applikationskonfigurationen. 
+Detta gör anpassningen av widgetar mer hanterbar.
+
+För att använda finessen med global anpassning av widgetar, behöver vi konfigurera 
+[widgetFactory|CWebApplication::widgetFactory] på följande sätt:
+
+~~~
+[php]
+return array(
+    'components'=>array(
+        'widgetFactory'=>array(
+            'widgets'=>array(
+                'CLinkPager'=>array(
+                    'maxButtonCount'=>5,
+                    'cssFile'=>false,
+                ),
+                'CJuiDatePicker'=>array(
+                    'language'=>'ru',
+                ),
+            ),
+        ),
+    ),
+);
+~~~
+
+I ovanstående exempel, specificeras den globala widgetkonfigurationen för både 
+[CLinkPager] och [CJuiDatePicker] genom konfigurering av propertyn [CWidgetFactory::widgets]. 
+Märk att den globala konfigurationen för respektive widget representeras som ett 
+nyckel-värdepar i arrayen, där nyckeln refererar till widgetens klassnamn 
+medan värdet specificerar en array med initialvärden för propertyn.
+
+Nu kommer, närhelst vi skapar en [CLinkPager]-widget i en vy, ovanstående propertyvärden 
+att tilldelas widgeten, vi behöver alltså bara skriva följande kod i vyn för att skapa 
+widgeten:
+
+~~~
+[php]
+$this->widget('CLinkPager', array(
+	'pages'=>$pagination,
+));
+~~~
+
+Det är fortfarande möjligt att åsidosätta initialvärden för propertyn om så erfordras. 
+Till exempel, om vi i någon vy vill sätta `maxButtonCount` till 2, kan detta göras som följer:
+
+~~~
+[php]
+$this->widget('CLinkPager', array(
+	'pages'=>$pagination,
+	'maxButtonCount'=>2,
+));
+~~~
+
+
 Skin
 ----
 
@@ -120,8 +197,22 @@ En skin består av en array av namn-värdepar som kan användas för att initial
 En skin hör till en widgetklass och en widgetklass kan ha flera skin vilka identifieras av dess namn. 
 Vi kan till exempel ha en skin benämnd `classic`, tillhörande widgeten [CLinkPager].
 
-För att skin-finessen skall kunna användas måste först komponenten `widgetFactory` installeras i 
-applikationskonfigurationen:
+För att skin-finessen skall kunna användas måste först applikationskonfigurationen modifieras genom  
+att propertyn [CWidgetFactory::enableSkin] för applikationskomponenten `widgetFactory` sätts till true:
+
+~~~
+[php]
+return array(
+    'components'=>array(
+        'widgetFactory'=>array(
+            'enableSkin'=>true,
+        ),
+    ),
+);
+~~~
+
+Vänligen lägg märke till att i versioner före 1.1.3, behöver följande konfiguration 
+användas för att aktivera användning av widget skin:
 
 ~~~
 [php]
@@ -192,5 +283,12 @@ utan felmeddelanden.
 
 > Info: Användning av skin kan sätta ned prestanda eftersom Yii behöver leta efter skin-filen första gången en widget skapas.
 
+Skin är mycket snarlikt finessen global anpassning av widget. De huvudsakliga skillnaderna 
+är följande.
 
-<div class="revision">$Id: topics.theming.txt 1463 2009-10-17 01:49:02Z qiang.xue $</div>
+   - Skin är mer relaterat till anpassning av propertyvärden för presentation;
+   - En widget kan ha flera skin;
+   - Skin kan åsättas teman;
+   - Användning av skin är mer resurskrävande än global anpassning av widget.
+
+<div class="revision">$Id: topics.theming.txt 2172 2010-06-07 19:56:01Z qiang.xue $</div>

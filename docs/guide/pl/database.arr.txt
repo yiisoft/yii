@@ -278,6 +278,8 @@ do których się odwołujemy w tej opcji powinny zostać ujednoznacznione.
    ogólną wydajność zapytania, gdyż zwracana jest mniejsza ilość powtarzających się danych.
    Domyślną wartością jet true. Aby zapoznać się ze szczegółami zobacz sekcję "Wydajność zapyttań relacyjnych".
    Opcja ta jest dostępna od wersji 1.0.3.
+   
+   - `join`: dodatkowa klauzula `JOIN`. Domyślnie pusta. Opcja ta jest dostępna od wersji 1.1.3.
 
    - `group`: klauzula `GROUP BY`. Domyślnie pusta. Nazwy kolumn  
 	do których się odwołujemy w tej opcji powinny zostać ujednoznacznione.
@@ -563,4 +565,4 @@ class User extends CActiveRecord
 w [CActiveRecord::scopes]. W rezultacie, nie mogą one zostać sparametryzowane.
 
 
-<div class="revision">$Id: database.arr.txt 2068 2010-04-22 16:42:16Z alexander.makarow $</div>
+<div class="revision">$Id: database.arr.txt 2226 2010-06-25 18:12:01Z qiang.xue $</div>

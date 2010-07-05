@@ -28,8 +28,7 @@ resuelve un pedido de usuario:
 ![Un típico flujo de tareas de una aplicación Yii](flow.png)
 
    1. Un usuario realiza un pedido con la siguiente URL `http://www.example.com/index.php?r=post/show&id=1`
-   y el servidor Web resuelve el pedido ejecutado 
-and the Web server handles the request by executing el Script de entrada en `index.php`.
+   y el servidor Web se  encarga de la solicitud mediante la ejecución del script de arranque en  index.php.
    2. El script de entrada crea una instancia de [applicación](/doc/guide/basics.application)
    y la ejecuta.
    3. La aplicación obtiene la información detallada del pedido del usuario del 

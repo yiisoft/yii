@@ -45,7 +45,9 @@ public function normalizeTags($attribute,$params)
 }
 ~~~
 
-Reguły zadeklarowane w tej metodzie są wywoływane jedna po drugiej podczas wywoływania metody [validate()|CModel::validate] lub [save()|CActiveRecord::save] dla instancji modelu.
+gdzie metody `array2string` oraz `string2array` są nowymi metodami zdefiniowanymi w klasie modelu `Tag`. Aby zobaczyć więcej szczegółów zajrzyj do pliku `/wwwroot/yii/demos/blog/protected/models/Tag.php`.
+
+Reguły zadeklarowane w metodzie `rules()` są wywoływane jedna po drugiej podczas wywoływania metody [validate()|CModel::validate] lub [save()|CActiveRecord::save] dla instancji modelu.
 
 > Note|Uwaga: Niezmiernie ważnym jest aby zapamiętać, że atrybuty które pojawiły się w metodzie `rules()` były tymi, które są wprowadzane przez użytkownika. Pozostałe atrybuty takie jak `id` oraz czas utworzenia `create_time` w modelu wiadomości `Post`, które są ustawiane przez nasz kod lub też bazę danych, nie powinny się znajdować w metodzie `rules()`. Aby uzyskać więcej informacji o tym, proszę zajrzeć do [zabezpieczanie przypisywania atrybutów](http://www.yiiframework.com/doc/guide/form.model#securing-attribute-assignments).
 
@@ -74,7 +76,19 @@ public function relations()
 }
 ~~~
 
-Powyższe relacje stwierdzają, że:
+Wprowadzamy również w klasie modelu komentarza `Comment` dwie poniższe stałe, które są używanie w metodzie powyżej: 
+
+~~~
+[php]
+class Comment extends CActiveRecord
+{
+	const STATUS_PENDING=1;
+	const STATUS_APPROVED=2;
+	......
+}
+~~~
+
+Relacje zadeklarowanie w metodzi `relations()` ozczanają, że:
 
  * Wiadomość należy do autora, którego reprezentuje klasa `User` a relacja pomiędzy nimi zostaje określona w oparciu o wartość atrybutu `author_id` wiadomości;
  * Wiadomość posiada wiele komentarzy, które reprezentuje klasa `Comment` a relacja pomiędzy nimi zostaje określona w oparciu o wartość atrybutu `post_id` tych komentarzy. Komentarze te powinny zostać posortowane odpowiednio do czasu ich utworzenia.
@@ -183,4 +197,4 @@ class Post extends CActiveRecord
 Dlatego też możemy wywołać metodę `Lookup::items('PostStatus')` aby uzyskać listę możliwych statusów wiadomości (łańcuchy tekstowe indeksowane przez odpowiadające im wartości całkowite) jak również wywoływać metodę `Lookup::item('PostStatus', Post::STATUS_PUBLISHED)` aby otrzymać łańcuch reprezentujący status "opublikowany".
 
 
-<div class="revision">$Id: post.model.txt 1774 2010-02-01 18:45:19Z qiang.xue $</div>
+<div class="revision">$Id: post.model.txt 2119 2010-05-10 01:27:29Z qiang.xue $</div>

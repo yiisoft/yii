@@ -499,4 +499,4 @@ noch fast genauso viel Code wie bisher braucht. Trotzdem kann sich der Einsatz
 lohnen, da das Formular in einer separaten Datei definiert wird und sich
 der Entwickler so besser auf die Logik konzentrieren kann.
 
-<div class="revision">$Id: form.builder.txt 1849 2010-03-01 15:54:34Z qiang.xue $</div>
+<div class="revision">$Id: form.builder.txt 2232 2010-06-26 22:42:03Z qiang.xue $</div>

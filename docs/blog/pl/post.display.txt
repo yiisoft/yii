@@ -71,7 +71,7 @@ public function actionIndex()
 
 	$dataProvider=new CActiveDataProvider('Post', array(
 		'pagination'=>array(
-			'pageSize'=>Yii::app()->params['postsPerPage'],
+			'pageSize'=>5,
 		),
 		'criteria'=>$criteria,
 	));
@@ -86,7 +86,7 @@ W powyższym kodzie, tworzymy najpierw kryteria zapytania służące otrzyaniu l
 
 W przypadku kiedy użytkownik chce zobaczyć wiadomości z określonym tagiem, dodamy warunek przeszukiwania do kryteriów uwzględniający ten tag.
 
-Używając kryteria zapytań, tworzymy dostawcę danych (ang. data provider), który służy głównie do trzech celów. Po pierwsze, dzieli dane na strony jeśli zbyt wiele wyników zostanie zwróconych. Tutaj dostosowujemy stronicowanie poprzez ustawienie rozmiaru strony równego parametrowi aplikacji `postsPerPage` (wiadomości na stronę). Po drugie, sortuje on w zależności od żądania użytkownika. I wreszcie, dostarcza podzielone na strony oraz posortowane dane do widżetu lub kodu widoku w celu wyświetlenia. 
+Używając kryteria zapytań, tworzymy dostawcę danych (ang. data provider), który służy głównie do trzech celów. Po pierwsze, dzieli dane na strony jeśli zbyt wiele wyników zostanie zwróconych. Tutaj dostosowujemy stronicowanie poprzez ustawienie rozmiaru strony równego 5. Po drugie, sortuje on w zależności od żądania użytkownika. I wreszcie, dostarcza podzielone na strony oraz posortowane dane do widżetu lub kodu widoku w celu wyświetlenia. 
 
 Po zakończeniu prac z metodą `actionIndex()`, możemy przejść do modyfikacji widoku `index`. Nasze zmiany wiążą się głównie z dodanie nagłówka `h1` jeśli użytkownik określił, że chce wyświetlić wiadomości o określonym tagu. 
 
@@ -105,4 +105,4 @@ Po zakończeniu prac z metodą `actionIndex()`, możemy przejść do modyfikacji
 
 Zauważ, że w powyższym kodzie używamy [CListView] do wyświetlenia listy wiadomości. Widżet ten potrzebuje częściowego widoku do wyświetlenia szczegółów pojedynczych wiadomości. Tutaj określiliśmy ten częściowy widok jako `_view`, co wskazuje na plik `/wwwroot/blog/protected/views/post/_view.php`. W tym pliku widoku, mamy dostęp do instancji wiadomości, która jest wyświetlana poprzez lokalną zmienną o nazwie `$data`.
 
-<div class="revision">$Id: post.display.txt 1810 2010-02-18 00:24:54Z qiang.xue $</div>
+<div class="revision">$Id: post.display.txt 2121 2010-05-10 01:31:30Z qiang.xue $</div>
