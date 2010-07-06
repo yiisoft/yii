@@ -29,7 +29,7 @@ Repeat step 1 to 5 to push forward the functionality implementation.
 Test Environment Setup
 ======================
 
-The testing supported provided by Yii requires [PHPUnit](http://www.phpunit.de/) 3.3+ and [Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+. Please refer to their documentation on how to install PHPUnit and Selenium Remote Control.
+The testing supported provided by Yii requires [PHPUnit](http://www.phpunit.de/) 3.4+ and [Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+. Please refer to their documentation on how to install PHPUnit and Selenium Remote Control.
 
 When we use the `yiic webapp` console command to create a new Yii application, it will generate the following files and directories for us to write and perform new tests:
 
