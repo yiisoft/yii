@@ -1,10 +1,11 @@
 <?php
+$class=get_class($model);
 Yii::app()->clientScript->registerScript('gii.crud',"
-$('#CrudCode_controller').change(function(){
+$('#{$class}_controller').change(function(){
 	$(this).data('changed',$(this).val()!='');
 });
-$('#CrudCode_model').bind('keyup change', function(){
-	var controller=$('#CrudCode_controller');
+$('#{$class}_model').bind('keyup change', function(){
+	var controller=$('#{$class}_controller');
 	if(!controller.data('changed')) {
 		var id=new String($(this).val().match(/\\w*$/));
 		if(id.length>0)

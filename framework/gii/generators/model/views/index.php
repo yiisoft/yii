@@ -1,23 +1,24 @@
 <?php
+$class=get_class($model);
 Yii::app()->clientScript->registerScript('gii.model',"
-$('#ModelCode_modelClass').change(function(){
+$('#{$class}_modelClass').change(function(){
 	$(this).data('changed',$(this).val()!='');
 });
-$('#ModelCode_tableName').bind('keyup change', function(){
-	var model=$('#ModelCode_modelClass');
+$('#{$class}_tableName').bind('keyup change', function(){
+	var model=$('#{$class}_modelClass');
 	var tableName=$(this).val();
 	if(tableName.substring(tableName.length-1)!='*') {
 		$('.form .row.model-class').show();
 	}
 	else {
-		$('#ModelCode_modelClass').val('');
+		$('#{$class}_modelClass').val('');
 		$('.form .row.model-class').hide();
 	}
 	if(!model.data('changed')) {
 		var i=tableName.lastIndexOf('.');
 		if(i>=0)
 			tableName=tableName.substring(i+1);
-		var tablePrefix=$('#ModelCode_tablePrefix').val();
+		var tablePrefix=$('#{$class}_tablePrefix').val();
 		if(tablePrefix!='' && tableName.indexOf(tablePrefix)==0)
 			tableName=tableName.substring(tablePrefix.length);
 		var modelClass='';
@@ -28,7 +29,7 @@ $('#ModelCode_tableName').bind('keyup change', function(){
 		model.val(modelClass);
 	}
 });
-$('.form .row.model-class').toggle($('#ModelCode_tableName').val().substring($('#ModelCode_tableName').val().length-1)!='*');
+$('.form .row.model-class').toggle($('#{$class}_tableName').val().substring($('#{$class}_tableName').val().length-1)!='*');
 ");
 ?>
 <h1>Model Generator</h1>
