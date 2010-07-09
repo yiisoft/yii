@@ -6,7 +6,7 @@ Version 1.1.4 to be released
 ----------------------------
 - Bug #1376: Fixed the bug that the timestamps displayed in Web application log may not be formatted properly (Qiang)
 - Bug #1377: Fixed the bug that CStarRating did not work when not setting the model property (Qiang)
-
+- Enh #1371: Improved js code in gii view templates to allow easier subclassing (Qiang)
 
 Version 1.1.3 July 4, 2010
 --------------------------
