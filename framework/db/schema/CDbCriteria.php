@@ -315,7 +315,7 @@ class CDbCriteria
 		else
 			$value="$value";
 
-		if(preg_match('/^\s*(<>|<=|>=|<|>|=)?\s*(.*?)\s*$/',$value,$matches))
+		if(preg_match('/^(?:\s*(<>|<=|>=|<|>|=))?(.*)$/',$value,$matches))
 		{
 			$value=$matches[2];
 			$op=$matches[1];
