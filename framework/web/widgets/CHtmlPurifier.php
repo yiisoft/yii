@@ -24,6 +24,21 @@ HTMLPurifier_Bootstrap::registerAutoload();
  * You should consider either caching the purification result or purifying the user input
  * before saving to database.
  *
+ * Usage as a class:
+ * <pre>
+ * $p = new CHtmlPurifier();
+ * $p->options = array('URI.AllowedSchemes'=>array(
+ *   'http' => true,
+ *   'https' => true,
+ * ));
+ * $text = $p->purify($text);
+ * </pre>
+ *
+ * Usage as validation rule:
+ * <pre>
+ * array('text','filter','filter'=>array($obj=new CHtmlPurifier(),'purify')),
+ * </pre>
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web.widgets
