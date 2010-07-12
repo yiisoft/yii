@@ -53,13 +53,16 @@ class CMapTest extends CTestCase
 	public function testGetKeys()
 	{
 		$keys=$this->map->getKeys();
-		$this->assertTrue(count($keys)===2 && $keys[0]==='key1' && $keys[1]==='key2');
+		$this->assertEquals(2,count($keys));
+		$this->assertEquals('key1',$keys[0]);
+		$this->assertEquals('key2',$keys[1]);
 	}
 
 	public function testAdd()
 	{
 		$this->map->add('key3',$this->item3);
-		$this->assertTrue($this->map->getCount()==3 && $this->map->contains('key3'));
+		$this->assertEquals(3,$this->map->getCount());
+		$this->assertTrue($this->map->contains('key3'));
 	}
 
 	public function testCanNotAddWhenReadOnly()
@@ -72,7 +75,8 @@ class CMapTest extends CTestCase
 	public function testRemove()
 	{
 		$this->map->remove('key1');
-		$this->assertTrue($this->map->getCount()==1 && !$this->map->contains('key1'));
+		$this->assertEquals(1,$this->map->getCount());
+		$this->assertTrue(!$this->map->contains('key1'));
 		$this->assertTrue($this->map->remove('unknown key')===null);
 	}
 
@@ -86,7 +90,8 @@ class CMapTest extends CTestCase
 	public function testClear()
 	{
 		$this->map->clear();
-		$this->assertTrue($this->map->getCount()==0 && !$this->map->contains('key1') && !$this->map->contains('key2'));
+		$this->assertEquals(0,$this->map->getCount());
+		$this->assertTrue(!$this->map->contains('key1') && !$this->map->contains('key2'));
 	}
 
 	public function testContains()
@@ -100,7 +105,11 @@ class CMapTest extends CTestCase
 	{
 		$array=array('key3'=>$this->item3,'key4'=>$this->item1);
 		$this->map->copyFrom($array);
-		$this->assertTrue($this->map->getCount()==2 && $this->map['key3']===$this->item3 && $this->map['key4']===$this->item1);
+
+		$this->assertEquals(2, $this->map->getCount());
+		$this->assertEquals($this->item3, $this->map['key3']);
+		$this->assertEquals($this->item1, $this->map['key4']);
+
 		$this->setExpectedException('CException');
 		$this->map->copyFrom($this);
 	}
@@ -117,26 +126,51 @@ class CMapTest extends CTestCase
 
 		$array=array('key2'=>$this->item1,'key3'=>$this->item3);
 		$this->map->mergeWith($array,false);
-		$this->assertTrue($this->map->getCount()==3 && $this->map['key2']===$this->item1 && $this->map['key3']===$this->item3);
+		$this->assertEquals(3,$this->map->getCount());
+		$this->assertEquals($this->item1,$this->map['key2']);
+		$this->assertEquals($this->item3,$this->map['key3']);
 		$this->setExpectedException('CException');
 		$this->map->mergeWith($this,false);
 	}
 
+	public function testRecursiveMergeWithTraversable(){
+		$map = new CMap();
+		$obj = new ArrayObject(array(
+			'k1' => $this->item1,
+			'k2' => $this->item2,
+			'k3' => new ArrayObject(array(
+				'k4' => $this->item3,
+			))
+		));
+		$map->mergeWith($obj,true);
+
+		$this->assertEquals(3, $map->getCount());
+		$this->assertEquals($this->item1, $map['k1']);
+		$this->assertEquals($this->item2, $map['k2']);
+		$this->assertEquals($this->item3, $map['k3']['k4']);
+	}
+
 	public function testArrayRead()
 	{
-		$this->assertTrue($this->map['key1']===$this->item1);
-		$this->assertTrue($this->map['key2']===$this->item2);
+		$this->assertEquals($this->item1,$this->map['key1']);
+		$this->assertEquals($this->item2,$this->map['key2']);
 		$this->assertEquals(null,$this->map['key3']);
 	}
 
 	public function testArrayWrite()
 	{
 		$this->map['key3']=$this->item3;
-		$this->assertTrue($this->map['key3']===$this->item3 && $this->map->getCount()===3);
+		$this->assertEquals(3,$this->map->getCount());
+		$this->assertEquals($this->item3,$this->map['key3']);
+
 		$this->map['key1']=$this->item3;
-		$this->assertTrue($this->map['key1']===$this->item3 && $this->map->getCount()===3);
+		$this->assertEquals(3,$this->map->getCount());
+		$this->assertEquals($this->item3,$this->map['key1']);
+
 		unset($this->map['key2']);
-		$this->assertTrue($this->map->getCount()===2 && !$this->map->contains('key2'));
+		$this->assertEquals(2,$this->map->getCount());
+		$this->assertTrue(!$this->map->contains('key2'));
+
 		unset($this->map['unknown key']);
 	}
 

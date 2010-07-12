@@ -74,6 +74,20 @@ class CAttributeCollectionTest extends CTestCase
 		$this->assertEquals(0, count($collection));
 	}
 
+	public function testUnset(){
+		$collection = new CAttributeCollection();
+		$collection->add('Property', 'value');
+		unset($collection->Property);
+		$this->assertEquals(0, count($collection));
+	}
+
+	public function testIsset(){
+		$collection = new CAttributeCollection();
+		$this->assertEquals(false, isset($collection->Property));
+		$collection->Property = 'value';
+		$this->assertEquals(true, isset($collection->Property));
+	}
+
 	public function testContains()
 	{
 		$collection = new CAttributeCollection();
