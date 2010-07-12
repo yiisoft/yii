@@ -5,6 +5,9 @@ To run a single unit test, use:
 >> phpunit path/to/test.php
 
 To run all tests under a directory, use:
->> phpunit --verbose path/to/directory
+>> phpunit --verbose path/to/tests/directory
+
+To generate code coverage report:
+>> phpunit --coverage-html reports path/to/tests/directory/or/test/class
 
 Please use 'phpunit --help' to see more command line options.

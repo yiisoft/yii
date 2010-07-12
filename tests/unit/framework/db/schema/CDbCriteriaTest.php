@@ -205,7 +205,17 @@ class CDbCriteriaTest extends CTestCase {
 		$criteria = new CDbCriteria();
 		$criteria->compare('A', '    value_with_spaces  ');
 		$this->assertEquals('A=:ycp10', $criteria->condition);
-		$this->assertEquals('    value_with_spaces  ', $criteria->params[':ycp10']);		
+		$this->assertEquals('    value_with_spaces  ', $criteria->params[':ycp10']);
+
+		$criteria = new CDbCriteria();
+		$criteria->compare('A', array());
+		$this->assertEquals('', $criteria->condition);
+
+		$criteria = new CDbCriteria();
+		$criteria->compare('A', array(1, '2'));
+		$this->assertEquals('A IN (:ycp11, :ycp12)', $criteria->condition);
+		$this->assertEquals(1, $criteria->params[':ycp11']);
+		$this->assertEquals('2', $criteria->params[':ycp12']);
 	}
 
 	/**
@@ -477,5 +487,11 @@ class CDbCriteriaTest extends CTestCase {
 		$this->assertEquals('A BETWEEN :ycp0 AND :ycp1', $criteria->condition);
 		$this->assertEquals(1, $criteria->params[':ycp0']);
 		$this->assertEquals(2, $criteria->params[':ycp1']);
+	}
+
+	function testToArray(){
+		$keys = array('select', 'condition', 'params', 'limit', 'offset', 'order', 'group', 'join', 'having', 'distinct', 'with', 'alias');
+		$criteria = new CDbCriteria();
+		$this->assertEquals($keys, array_keys($criteria->toArray()));
 	}
 }
