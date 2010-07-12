@@ -85,8 +85,9 @@ class CListTest extends CTestCase
 		$this->assertEquals(1,$this->list->getCount());
 		$this->assertEquals(-1,$this->list->indexOf($this->item1));
 		$this->assertEquals(0,$this->list->indexOf($this->item2));
-		//$this->setExpectedException('CException');
-		//$this->list->remove($this->item1);
+		
+		$this->assertEquals(false,$this->list->remove($this->item1));
+
 	}
 
 	public function testRemoveAt()
