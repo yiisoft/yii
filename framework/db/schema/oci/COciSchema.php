@@ -19,7 +19,6 @@
 class COciSchema extends CDbSchema
 {
 	private $_defaultSchema = '';
-	private $_sequences=array();
 
 	/**
 	 * Quotes a table name for use in a query.

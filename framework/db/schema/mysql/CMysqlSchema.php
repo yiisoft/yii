@@ -18,9 +18,6 @@
  */
 class CMysqlSchema extends CDbSchema
 {
-	private $_tableNames;
-	private $_schemaNames;
-
 	/**
 	 * Quotes a table name for use in a query.
 	 * @param string table name
@@ -202,7 +199,6 @@ class CMysqlSchema extends CDbSchema
 			if(preg_match_all($regexp,$sql,$matches,PREG_SET_ORDER))
 				break;
 		}
-		$foreign = array();
 		foreach($matches as $match)
 		{
 			$keys=array_map('trim',explode(',',str_replace('`','',$match[1])));
