@@ -78,8 +78,6 @@ class CSqliteSchema extends CDbSchema
 	 */
 	protected function createTable($name)
 	{
-		$db=$this->getDbConnection();
-
 		$table=new CDbTableSchema;
 		$table->name=$name;
 		$table->rawName=$this->quoteTableName($name);
