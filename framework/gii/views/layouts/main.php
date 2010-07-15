@@ -1,5 +1,6 @@
 <?php
 $cs=Yii::app()->clientScript;
+$cs->scriptMap=array();
 $baseUrl=$this->module->assetsUrl;
 $cs->registerCoreScript('jquery');
 $cs->registerScriptFile($baseUrl.'/js/tools.tooltip-1.1.3.min.js');
