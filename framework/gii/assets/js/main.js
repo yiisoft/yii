@@ -1,12 +1,12 @@
 $(document).ready(function() {
-	$('.common-generator input[name="checkAll"]').click(function() {
-		$('.common-generator .confirm input').attr('checked', this.checked);
+	$('table.preview input[name="checkAll"]').click(function() {
+		$('table.preview .confirm input').attr('checked', this.checked);
 	});
 
-	$('.common-generator td.confirm input').click(function() {
-		$('.common-generator input[name="checkAll"]').attr('checked', !$('.common-generator td.confirm input:not(:checked)').length);
+	$('table.preview td.confirm input').click(function() {
+		$('table.preview input[name="checkAll"]').attr('checked', !$('table.preview td.confirm input:not(:checked)').length);
 	});
-	$('.common-generator input[name="checkAll"]').attr('checked', !$('.common-generator td.confirm input:not(:checked)').length);
+	$('table.preview input[name="checkAll"]').attr('checked', !$('table.preview td.confirm input:not(:checked)').length);
 
 
 	$('.form .row.sticky input:not(.error), .form .row.sticky select:not(.error), .form .row.sticky textarea:not(.error)').each(function(){
