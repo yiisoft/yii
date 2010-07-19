@@ -324,7 +324,7 @@ class CDbConnection extends CApplicationComponent
 		if($this->charset!==null)
 		{
 			$driver=strtolower($pdo->getAttribute(PDO::ATTR_DRIVER_NAME));
-			if($driver!=='sqlite' && $driver!=='mssql')
+			if(!in_array($driver,array('sqlite','mssql','dblib')))
 				$pdo->exec('SET NAMES '.$pdo->quote($this->charset));
 		}
 		if($this->initSQLs!==null)
