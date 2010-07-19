@@ -86,6 +86,15 @@ class CCaptchaAction extends CAction
 	 * with the Yii release.
 	 */
 	public $fontFile;
+	/**
+	 * @var string the fixed verification code. When this is property is set,
+	 * {@link getVerifyCode} will always return this value.
+	 * This is mainly used in automated tests where we want to be able to reproduce
+	 * the same verification code each time we run the tests.
+	 * Defaults to null, meaning the verification code will be randomly generated.
+	 * @since 1.1.4
+	 */
+	public $fixedVerifyCode;
 
 	/**
 	 * Runs the action.
@@ -115,6 +124,9 @@ class CCaptchaAction extends CAction
 	 */
 	public function getVerifyCode($regenerate=false)
 	{
+		if($this->fixedVerifyCode!==null)
+			return $this->fixedVerifyCode;
+
 		$session=Yii::app()->session;
 		$session->open();
 		$name=$this->getSessionKey();
