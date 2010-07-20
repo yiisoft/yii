@@ -8,6 +8,7 @@ Version 1.1.4 to be released
 - Bug #1377: Fixed the bug that CStarRating did not work when not setting the model property (Qiang)
 - Bug #1382: Fixed space removal in CDbCriteria::compare() (Sam Dark)
 - Bug #1384: SET NAMES problem with MSSQL PDO Provider (Qiang)
+- Enh #1361: Added linkLabelWrapper, firstItemCssClass and lastItemCssClass to CMenu (Qiang)
 - Enh #1371: Improved js code in gii view templates to allow easier subclassing (Qiang)
 - Enh #1392: Added CCaptchaAction::fixedVerifyCode (Qiang)
 - Enh: Added CValidator::safe to allow marking a validator as safe or unsafe (Qiang)
