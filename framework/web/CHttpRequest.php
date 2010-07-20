@@ -313,13 +313,16 @@ class CHttpRequest extends CApplicationComponent
 	 * This refers to the part that is after the entry script and before the question mark.
 	 * The starting and ending slashes are stripped off.
 	 * @return string part of the request URL that is after the entry script and before the question mark.
+	 * Note, the returned pathinfo is decoded starting from 1.1.4.
+	 * Prior to 1.1.4, whether it is decoded or not depends on the server configuration
+	 * (in most cases it is not decoded).
 	 * @throws CException if the request URI cannot be determined due to improper server configuration
 	 */
 	public function getPathInfo()
 	{
 		if($this->_pathInfo===null)
 		{
-			$requestUri=$this->getRequestUri();
+			$requestUri=urldecode($this->getRequestUri());
 			$scriptUrl=$this->getScriptUrl();
 			$baseUrl=$this->getBaseUrl();
 			if(strpos($requestUri,$scriptUrl)===0)
