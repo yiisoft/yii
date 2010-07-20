@@ -539,6 +539,41 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Returns the text label for the specified attribute.
+	 * This method overrides the parent implementation by supporting
+	 * returning the label defined in relational object.
+	 * In particular, if the attribute name is in the form of "post.author.name",
+	 * then this method will derive the label from the "author" relation's "name" attribute.
+	 * @param string the attribute name
+	 * @return string the attribute label
+	 * @see generateAttributeLabel
+	 * @since 1.1.4
+	 */
+	public function getAttributeLabel($attribute)
+	{
+		$labels=$this->attributeLabels();
+		if(isset($labels[$attribute]))
+			return $labels[$attribute];
+		else if(strpos($attribute,'.')!==false)
+		{
+			$segs=explode('.',$attribute);
+			$name=array_pop($segs);
+			$model=$this;
+			foreach($segs as $seg)
+			{
+				$relations=$model->getMetaData()->relations;
+				if(isset($relations[$seg]))
+					$model=CActiveRecord::model($relations[$seg]->className);
+				else
+					break;
+			}
+			return $model->getAttributeLabel($name);
+		}
+		else
+			return $this->generateAttributeLabel($attribute);
+	}
+
+	/**
 	 * Returns the database connection used by active record.
 	 * By default, the "db" application component is used as the database connection.
 	 * You may override this method if you want to use a different database connection.
