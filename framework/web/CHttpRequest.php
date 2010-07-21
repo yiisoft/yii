@@ -763,8 +763,8 @@ class CCookieCollection extends CMap
 			$sm=Yii::app()->getSecurityManager();
 			foreach($_COOKIE as $name=>$value)
 			{
-				if(($value=$sm->validateData($value))!==false)
-					$cookies[$name]=new CHttpCookie($name,$value);
+				if(is_string($value) && ($value=$sm->validateData($value))!==false)
+					$cookies[$name]=new CHttpCookie($name,@unserialize($value));
 			}
 		}
 		else
@@ -821,7 +821,7 @@ class CCookieCollection extends CMap
 	{
 		$value=$cookie->value;
 		if($this->_request->enableCookieValidation)
-			$value=Yii::app()->getSecurityManager()->hashData($value);
+			$value=Yii::app()->getSecurityManager()->hashData(serialize($value));
 		if(version_compare(PHP_VERSION,'5.2.0','>='))
 			setcookie($cookie->name,$value,$cookie->expire,$cookie->path,$cookie->domain,$cookie->secure,$cookie->httpOnly);
 		else
