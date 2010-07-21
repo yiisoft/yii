@@ -255,8 +255,8 @@ class CDbCommandBuilder extends CComponent
 	/**
 	 * Creates an UPDATE command that increments/decrements certain columns.
 	 * @param mixed the table schema ({@link CDbTableSchema}) or the table name (string).
-	 * @param CDbCriteria the query criteria
 	 * @param array counters to be updated (counter increments/decrements indexed by column names.)
+	 * @param CDbCriteria the query criteria
 	 * @return CDbCommand the created command
 	 * @throws CException if no counter is specified
 	 */
