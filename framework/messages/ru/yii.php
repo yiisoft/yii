@@ -201,7 +201,7 @@ return array (
   '{attribute} is not a valid URL.' => 'Атрибут {attribute} не является правильным URL.',
   '{attribute} is not a valid email address.' => 'Атрибут {attribute} не является правильным E-Mail адресом.',
   '{attribute} is not in the list.' => 'Атрибут {attribute} отсутствует в списке.',
-  '{attribute} is of the wrong length (should be {length} characters).' => 'Атрибут {attribut} неверной длины (Должен быть {length} симв.).',
+  '{attribute} is of the wrong length (should be {length} characters).' => 'Атрибут {attribute} неверной длины (Должен быть {length} симв.).',
   '{attribute} is too big (maximum is {max}).' => 'Атрибут {attribute} слишком велик (Максимум: {max}).',
   '{attribute} is too long (maximum is {max} characters).' => 'Атрибут {attribute} слишком длинный (Максимум: {max} симв.).',
   '{attribute} is too short (minimum is {min} characters).' => 'Атрибут {attribute} слишком короткий (Минимум: {min} симв.).',
