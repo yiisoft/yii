@@ -9,6 +9,7 @@ Version 1.1.4 to be released
 - Bug #1382: Fixed space removal in CDbCriteria::compare() (Sam Dark)
 - Bug #1384: SET NAMES problem with MSSQL PDO Provider (Qiang)
 - Bug #1404: CSecurityManager::validateData() fails when the data is an array (Qiang)
+- Enh #1359: Added CActiveRecord::countByAttributes (Qiang)
 - Enh #1361: Added linkLabelWrapper, firstItemCssClass and lastItemCssClass to CMenu (Qiang)
 - Enh #1366: Added CListView::itemsTagName (Qiang)
 - Enh #1371: Improved js code in gii view templates to allow easier subclassing (Qiang)

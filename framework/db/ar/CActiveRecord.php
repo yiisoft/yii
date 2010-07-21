@@ -1429,6 +1429,30 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Finds the number of rows that have the specified attribute values.
+	 * See {@link find()} for detailed explanation about $condition and $params.
+	 * @param array list of attribute values (indexed by attribute names) that the active records should match.
+	 * An attribute value can be an array which will be used to generate an IN condition.
+	 * @param mixed query condition or criteria.
+	 * @param array parameters to be bound to an SQL statement.
+	 * @return integer the number of rows satisfying the specified query condition.
+	 * @since 1.1.4
+	 */
+	public function countByAttributes($attributes,$condition='',$params=array())
+	{
+		Yii::trace(get_class($this).'.countByAttributes()','system.db.ar.CActiveRecord');
+		$prefix=$this->getTableAlias(true).'.';
+		$builder=$this->getCommandBuilder();
+		$criteria=$builder->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params,$prefix);
+		$this->applyScopes($criteria);
+
+		if(empty($criteria->with))
+			return $builder->createCountCommand($this->getTableSchema(),$criteria)->queryScalar();
+		else
+			return $this->with($criteria->with)->count($criteria);
+	}
+
+	/**
 	 * Finds the number of rows using the given SQL statement.
 	 * This is equivalent to calling {@link CDbCommand::queryScalar} with the specified
 	 * SQL statement and the parameters.
