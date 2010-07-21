@@ -883,4 +883,11 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(4,$postCount);
 		$this->assertEquals(10,$commentCount);
 	}
+
+	public function testCountByAttributes()
+	{
+		$n=Post::model()->countByAttributes(array('author_id'=>2));
+		$this->assertEquals(3,$n);
+
+	}
 }
