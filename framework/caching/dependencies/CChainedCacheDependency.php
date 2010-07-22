@@ -28,6 +28,17 @@ class CChainedCacheDependency extends CComponent implements ICacheDependency
 	private $_dependencies=null;
 
 	/**
+	 * Constructor.
+	 * @param array the dependencies to be added to this chain.
+	 * @since 1.1.4
+	 */
+	public function __construct($dependencies=array())
+	{
+		if(!empty($dependencies))
+			$this->setDependencies($dependencies);
+	}
+
+	/**
 	 * @return CTypedList list of dependency objects
 	 */
 	public function getDependencies()
@@ -38,14 +49,20 @@ class CChainedCacheDependency extends CComponent implements ICacheDependency
 	}
 
 	/**
-	 * @param array list of dependency objects to be added to this chain.
+	 * @param array list of dependency objects or configurations to be added to this chain.
+	 * If a depedency is specified as a configuration, it must be an array that can be recognized
+	 * by {@link YiiBase::createComponent}.
 	 * @since 1.0.10
 	 */
 	public function setDependencies($values)
 	{
 		$dependencies=$this->getDependencies();
 		foreach($values as $value)
+		{
+			if(is_array($value))
+				$value=Yii::createComponent($value);
 			$dependencies->add($value);
+		}
 	}
 
 	/**
