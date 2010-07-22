@@ -9,6 +9,7 @@ Version 1.1.4 to be released
 - Bug #1382: Fixed space removal in CDbCriteria::compare() (Sam Dark)
 - Bug #1384: SET NAMES problem with MSSQL PDO Provider (Qiang)
 - Bug #1404: CSecurityManager::validateData() fails when the data is an array (Qiang)
+- Bug #1408: CDbAuthManager may throw exception when unserializing data from auth items in PHP 5.3 (Qiang)
 - Enh #1073: Allow dependencies to be set in constructor of CChainedCacheDependency. Also allow dependencies to be specified as configurations. (Qiang)
 - Enh #1359: Added CActiveRecord::countByAttributes (Qiang)
 - Enh #1361: Added linkLabelWrapper, firstItemCssClass and lastItemCssClass to CMenu (Qiang)

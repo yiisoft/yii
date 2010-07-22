@@ -215,7 +215,11 @@ class CDbAuthManager extends CAuthManager
 		$sql="SELECT name, type, description, bizrule, data FROM {$this->itemTable}, {$this->itemChildTable} WHERE $condition AND name=child";
 		$children=array();
 		foreach($this->db->createCommand($sql)->queryAll() as $row)
-			$children[$row['name']]=new CAuthItem($this,$row['name'],$row['type'],$row['description'],$row['bizrule'],unserialize($row['data']));
+		{
+			if(($data=@unserialize($row['data']))===false)
+				$data=null;
+			$children[$row['name']]=new CAuthItem($this,$row['name'],$row['type'],$row['description'],$row['bizrule'],$data);
+		}
 		return $children;
 	}
 
@@ -288,7 +292,11 @@ class CDbAuthManager extends CAuthManager
 		$command->bindValue(':itemname',$itemName);
 		$command->bindValue(':userid',$userId);
 		if(($row=$command->queryRow($sql))!==false)
-			return new CAuthAssignment($this,$row['itemname'],$row['userid'],$row['bizrule'],unserialize($row['data']));
+		{
+			if(($data=@unserialize($row['data']))===false)
+				$data=null;
+			return new CAuthAssignment($this,$row['itemname'],$row['userid'],$row['bizrule'],$data);
+		}
 		else
 			return null;
 	}
@@ -306,7 +314,11 @@ class CDbAuthManager extends CAuthManager
 		$command->bindValue(':userid',$userId);
 		$assignments=array();
 		foreach($command->queryAll($sql) as $row)
-			$assignments[$row['itemname']]=new CAuthAssignment($this,$row['itemname'],$row['userid'],$row['bizrule'],unserialize($row['data']));
+		{
+			if(($data=@unserialize($row['data']))===false)
+				$data=null;
+			$assignments[$row['itemname']]=new CAuthAssignment($this,$row['itemname'],$row['userid'],$row['bizrule'],$data);
+		}
 		return $assignments;
 	}
 
@@ -365,7 +377,11 @@ class CDbAuthManager extends CAuthManager
 		}
 		$items=array();
 		foreach($command->queryAll() as $row)
-			$items[$row['name']]=new CAuthItem($this,$row['name'],$row['type'],$row['description'],$row['bizrule'],unserialize($row['data']));
+		{
+			if(($data=@unserialize($row['data']))===false)
+				$data=null;
+			$items[$row['name']]=new CAuthItem($this,$row['name'],$row['type'],$row['description'],$row['bizrule']);
+		}
 		return $items;
 	}
 
@@ -436,7 +452,11 @@ class CDbAuthManager extends CAuthManager
 		$command=$this->db->createCommand($sql);
 		$command->bindValue(':name',$name);
 		if(($row=$command->queryRow())!==false)
-			return new CAuthItem($this,$row['name'],$row['type'],$row['description'],$row['bizrule'],unserialize($row['data']));
+		{
+			if(($data=@unserialize($row['data']))===false)
+				$data=null;
+			return new CAuthItem($this,$row['name'],$row['type'],$row['description'],$row['bizrule'],$data);
+		}
 		else
 			return null;
 	}
