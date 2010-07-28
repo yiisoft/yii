@@ -42,7 +42,7 @@ class UserIdentity extends CUserIdentity
 }
 ~~~
 
-In the `authenticate()` method, we use the `User` class to look for a row in the `User` table whose `username` column is the same as the given username in a case-insensitive manner. Remember that the `User` class was created using the `yiic` tool in the prior section. Because the `User` class extends from [CActiveRecord], we can exploit [the ActiveRecord feature](http://www.yiiframework.com/doc/guide/database.ar) to access the `User` table in an OOP fashion.
+In the `authenticate()` method, we use the `User` class to look for a row in the `User` table whose `username` column is the same as the given username in a case-insensitive manner. Remember that the `User` class was created using the `gii` tool in the prior section. Because the `User` class extends from [CActiveRecord], we can exploit [the ActiveRecord feature](http://www.yiiframework.com/doc/guide/database.ar) to access the `User` table in an OOP fashion.
 
 In order to check if the user has entered a valid password, we invoke the `validatePassword` method of the `User` class. We need to modify the file `/wwwroot/blog/protected/models/User.php` as follows. Note that instead of storing the plain password in the database, we store the hash result of the password and a randomly generated salt key. When validating the user-entered password, we should compare the hash results, instead.
 
