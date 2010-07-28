@@ -120,12 +120,6 @@ actual validation. The additional options in the rule are used to
 initialize the instance's attribute values. A validator class must extend
 from [CValidator].
 
-> Note: When specifying rules for an active record model, we can use a
-special option named `on`. The option can be either `'insert'` or
-`'update'` so that the rule is applied only when inserting or updating the
-record, respectively. If not set, the rule would be applied in both cases
-when `save()` is called.
-
 Third, `Validator` can be a predefined alias to a validator class. In the
 above example, the name `required` is the alias to [CRequiredValidator]
 which ensures the attribute value being validated is not empty. Below is
