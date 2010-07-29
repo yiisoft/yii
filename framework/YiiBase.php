@@ -254,7 +254,10 @@ class YiiBase
 			{
 				if($forceInclude)
 				{
-					require($path.'.php');
+					if(is_file($path.'.php'))
+						require($path.'.php');
+					else
+						throw new CException(Yii::t('yii','Alias "{alias}" is invalid. Make sure it points to an existing PHP file.',array('{alias}'=>$alias)));
 					self::$_imports[$alias]=$className;
 				}
 				else
