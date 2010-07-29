@@ -17,6 +17,7 @@ Version 1.1.4 to be released
 - Enh #1371: Improved js code in gii view templates to allow easier subclassing (Qiang)
 - Enh #1392: Added CCaptchaAction::fixedVerifyCode (Qiang)
 - Enh #1400: Enhanced CActiveRecord::getAttributeLabel() to support returning labels for related object's attribute (Qiang)
+- Enh #1412: Yii::import() now throws an exception when trying to include nonexisting PHP file (Qiang)
 - Enh: Added CValidator::safe to allow marking a validator as safe or unsafe (Qiang)
 - Chg #1309: CHttpRequest::getPathInfo() now always returns decoded results (Qiang)
 - New: Upgraded JQuery UI to 1.8.2 (Sam Dark)
