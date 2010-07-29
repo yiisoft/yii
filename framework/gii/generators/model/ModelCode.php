@@ -242,8 +242,8 @@ class ModelCode extends CCodeModel
 				$pks=$table->primaryKey;
 				$fks=$table->foreignKeys;
 
-				$table0=$fks[$pks[1]][0];
-				$table1=$fks[$pks[0]][0];
+				$table0=$fks[$pks[0]][0];
+				$table1=$fks[$pks[1]][0];
 				$className0=$this->generateClassName($table0);
 				$className1=$this->generateClassName($table1);
 
