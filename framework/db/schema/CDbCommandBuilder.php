@@ -76,6 +76,18 @@ class CDbCommandBuilder extends CComponent
 		if($criteria->alias!='')
 			$alias=$criteria->alias;
 		$alias=$this->_schema->quoteTableName($alias);
+
+		// issue 1432: need to expand * when SQL has JOIN
+		if($select==='*' && !empty($criteria->join))
+		{
+			$schema=$this->getSchema();
+			$prefix=$schema->quoteTableName($alias).'.';
+			$select=array();
+			foreach($table->getColumnNames() as $name)
+				$select[]=$prefix.$schema->quoteColumnName($name);
+			$select=implode(', ',$select);
+		}
+
 		$sql=($criteria->distinct ? 'SELECT DISTINCT':'SELECT')." {$select} FROM {$table->rawName} $alias";
 		$sql=$this->applyJoin($sql,$criteria->join);
 		$sql=$this->applyCondition($sql,$criteria->condition);
