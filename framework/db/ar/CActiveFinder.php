@@ -78,9 +78,11 @@ class CActiveFinder extends CComponent
 		$this->_joinTree->model->applyScopes($criteria);
 		$this->_joinTree->beforeFind();
 
-		$alias=$criteria->alias===null ? 't' : $criteria->alias;
-		$this->_joinTree->tableAlias=$alias;
-		$this->_joinTree->rawTableAlias=$this->_builder->getSchema()->quoteTableName($alias);
+		if($criteria->alias!='')
+		{
+			$this->_joinTree->tableAlias=$criteria->alias;
+			$this->_joinTree->rawTableAlias=$this->_builder->getSchema()->quoteTableName($criteria->alias);
+		}
 
 		$this->_joinTree->find($criteria);
 		$this->_joinTree->afterFind();
@@ -388,8 +390,8 @@ class CJoinElement
 			$this->model=$relation;
 			$this->_builder=$relation->getCommandBuilder();
 			$this->_table=$relation->getTableSchema();
-			$this->tableAlias='t';
-			$this->rawTableAlias=$this->_builder->getSchema()->quoteTableName('t');
+			$this->tableAlias=$this->model->getTableAlias();
+			$this->rawTableAlias=$this->_builder->getSchema()->quoteTableName($this->tableAlias);
 		}
 
 		// set up column aliases, such as t1_c2
