@@ -24,6 +24,13 @@
  */
 abstract class CMessageSource extends CApplicationComponent
 {
+	/**
+	 * @var boolean whether to force message translation when the source and target languages are the same.
+	 * Defaults to false, meaning translation is only performed when source and target languages are different.
+	 * @since 1.1.4
+	 */
+	public $forceTranslation=false;
+
 	private $_language;
 	private $_messages=array();
 
@@ -73,7 +80,7 @@ abstract class CMessageSource extends CApplicationComponent
 	{
 		if($language===null)
 			$language=Yii::app()->getLanguage();
-		if($language!==$this->getLanguage())
+		if($this->forceTranslation || $language!==$this->getLanguage())
 			return $this->translateMessage($category,$message,$language);
 		else
 			return $message;
