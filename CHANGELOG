@@ -11,6 +11,7 @@ Version 1.1.4 to be released
 - Bug #1404: CSecurityManager::validateData() fails when the data is an array (Qiang)
 - Bug #1408: CDbAuthManager may throw exception when unserializing data from auth items in PHP 5.3 (Qiang)
 - Enh #1073: Allow dependencies to be set in constructor of CChainedCacheDependency. Also allow dependencies to be specified as configurations. (Qiang)
+- Enh #1358: Enhanced the 'together' option of HAS_MANY/MANY_MANY relations so that setting it true will ensure the related table is joined with the primary table in a single SQL (Qiang)
 - Enh #1359: Added CActiveRecord::countByAttributes (Qiang)
 - Enh #1361: Added linkLabelWrapper, firstItemCssClass and lastItemCssClass to CMenu (Qiang)
 - Enh #1366: Added CListView::itemsTagName (Qiang)

@@ -1972,7 +1972,7 @@ class CActiveRelation extends CBaseActiveRelation
 		if(isset($criteria['alias']))
 			$this->alias=$criteria['alias'];
 
-		if(isset($criteria['together']))
+		if(array_key_exists('together',$criteria))
 			$this->together=$criteria['together'];
 	}
 }
@@ -2022,10 +2022,13 @@ class CHasManyRelation extends CActiveRelation
 	/**
 	 * @var boolean whether this table should be joined with the primary table.
 	 * When setting this property to be false, the table associated with this relation will
-	 * appear in a separate JOIN statement. Defaults to true, meaning the table will be joined
-	 * together with the primary table. Note that in version 1.0.x, the default value of this property was false.
+	 * appear in a separate JOIN statement.
+	 * If this property is set true, then the corresponding table will ALWAYS be joined together
+	 * with the primary table, no matter the primary table is limited or not.
+	 * If this property is not set, the corresponding table will be joined with the primary table
+	 * only when the primary table is not limited.
 	 */
-	public $together=true;
+	public $together;
 	/**
 	 * @var string the name of the column that should be used as the key for storing related objects.
 	 * Defaults to null, meaning using zero-based integer IDs.
