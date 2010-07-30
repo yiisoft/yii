@@ -262,7 +262,11 @@ This option is only meaningful for HAS_MANY and MANY_MANY relations.
 If this option is set false, the table associated with the HAS_MANY or MANY_MANY
 relation will be joined with the primary table in a separate SQL query, which
 may improve the overall query performance since less duplicated data is returned.
-The default value is true. For more details, see the section "Relational Query Performance".
+If this option is set true, the associated table will always be joined with the
+primary table in a single SQL query, even if the primary table is paginated.
+If this option is not set, the associated table will be joined with the
+primary table in a single SQL query only when the primary table is not paginated.
+For more details, see the section "Relational Query Performance".
 This option has been available since version 1.0.3.
 
    - `join`: the extra `JOIN` clause. It defaults to empty. This option

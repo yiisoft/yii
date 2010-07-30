@@ -738,7 +738,7 @@ class CJoinElement
 		foreach($this->children as $child)
 		{
 			if($child->relation instanceof CHasOneRelation || $child->relation instanceof CBelongsToRelation
-				|| $this->_finder->joinAll || !$this->_finder->baseLimited && $child->relation->together)
+				|| $this->_finder->joinAll || $child->relation->together || (!$this->_finder->baseLimited && $child->relation->together===null))
 			{
 				$child->_joined=true;
 				$query->join($child);
