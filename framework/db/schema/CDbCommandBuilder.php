@@ -80,11 +80,10 @@ class CDbCommandBuilder extends CComponent
 		// issue 1432: need to expand * when SQL has JOIN
 		if($select==='*' && !empty($criteria->join))
 		{
-			$schema=$this->getSchema();
-			$prefix=$schema->quoteTableName($alias).'.';
+			$prefix=$alias.'.';
 			$select=array();
 			foreach($table->getColumnNames() as $name)
-				$select[]=$prefix.$schema->quoteColumnName($name);
+				$select[]=$prefix.$this->_schema->quoteColumnName($name);
 			$select=implode(', ',$select);
 		}
 
