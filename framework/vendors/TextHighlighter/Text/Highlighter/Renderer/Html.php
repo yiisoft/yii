@@ -16,7 +16,7 @@
  * @author     Andrey Demenev <demenev@gmail.com>
  * @copyright  2004-2006 Andrey Demenev
  * @license    http://www.php.net/license/3_0.txt  PHP License
- * @version    CVS: $Id: Html.php,v 1.1 2007/06/03 02:37:09 ssttoo Exp $
+ * @version    CVS: $Id: Html.php,v 1.2 2007/06/29 06:56:34 ssttoo Exp $
  * @link       http://pear.php.net/package/Text_Highlighter
  */
 
@@ -123,7 +123,7 @@ define ('HL_NUMBERS_UL',    3);
  * @package    Text_Highlighter
  * @copyright  2004-2006 Andrey Demenev
  * @license    http://www.php.net/license/3_0.txt  PHP License
- * @version    Release: 0.7.0
+ * @version    Release: 0.7.1
  * @link       http://pear.php.net/package/Text_Highlighter
  */
 
@@ -292,11 +292,24 @@ class Text_Highlighter_Renderer_Html extends Text_Highlighter_Renderer_Array
         if(empty($output))
         	return;
 
-		$html_output = '';
+        $html_output = '';
+
+        $numbers_li = false;
+
+        if (
+            $this->_numbers == HL_NUMBERS_LI ||
+            $this->_numbers == HL_NUMBERS_UL ||
+            $this->_numbers == HL_NUMBERS_OL
+           )
+        {
+            $numbers_li = true;
+        }
+
         // loop through each class=>content pair
         foreach ($output AS $token) {
 
             if ($this->_enumerated) {
+                $key = false;
                 $the_class = $token[0];
                 $content = $token[1];
             } else {
@@ -308,18 +321,13 @@ class Text_Highlighter_Renderer_Html extends Text_Highlighter_Renderer_Array
             $span = $this->_getStyling($the_class);
             $decorated_output = $this->_decorate($content, $key);
 			//print "<pre> token = ".var_export($token, true)." -- span = " . htmlentities($span). "-- deco = ".$decorated_output."</pre>\n";
-            $html_output .= sprintf($span, $decorated_output);
+			$html_output .= sprintf($span, $decorated_output);
         }
 
         // format lists
-        if (!empty($this->_numbers) &&
-            (
-            $this->_numbers == HL_NUMBERS_LI ||
-            $this->_numbers == HL_NUMBERS_UL ||
-            $this->_numbers == HL_NUMBERS_OL
-            )
-        ) {
-			//$html_output = "<pre>".$html_output."</pre>";
+        if (!empty($this->_numbers) && $numbers_li == true) {
+
+            //$html_output = "<pre>".$html_output."</pre>";
             // additional whitespace for browsers that do not display
             // empty list items correctly
             $this->_output = '<li><pre>&nbsp;' . str_replace("\n", "</pre></li>\n<li><pre>&nbsp;", $html_output) . '</pre></li>';
@@ -376,7 +384,7 @@ class Text_Highlighter_Renderer_Html extends Text_Highlighter_Renderer_Array
      * @access public
      *
      */
-    function _decorate($content, $key)
+    function _decorate($content, $key = false)
     {
         // links to online documentation
         if (!empty($this->_doclinks) &&
