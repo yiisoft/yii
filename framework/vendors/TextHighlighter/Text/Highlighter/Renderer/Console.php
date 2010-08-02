@@ -45,7 +45,7 @@ define ('HL_CONSOLE_DEFCOLOR', "\033[0m");
  * @package    Text_Highlighter
  * @copyright  2004-2006 Andrey Demenev
  * @license    http://www.php.net/license/3_0.txt  PHP License
- * @version    Release: 0.7.0
+ * @version    Release: 0.7.1
  * @link       http://pear.php.net/package/Text_Highlighter
  */
 

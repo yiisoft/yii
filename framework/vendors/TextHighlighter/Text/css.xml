@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- $Id: css.xml,v 1.1 2007/06/03 02:35:28 ssttoo Exp $ -->
+<!-- $Id: css.xml,v 1.2 2008/01/01 23:45:07 ssttoo Exp $ -->
 
 <highlight lang="css" case="no">
 
@@ -10,24 +10,30 @@
 
   <default innerClass="code" />
 
-  <block name="atrule" match="(@[a-z\d]+)" 
+
+  <region name="mlcomment" innerClass="comment" start="\/\*" end="\*\/" >
+
+  </region>
+
+
+  <block name="atrule" match="(@[a-z\d]+)"
          innerClass="var" never-contained="yes"/>
 
   <region name="property" start="[a-z][a-z\d\-]*\s*:" end="(?=;|\})"
          innerClass="code" delimClass="reserved" contained="yes"/>
 
-  <block name="selector" match="(((\.|#)?[a-z]+[a-z\d\-]*(?![a-z\d\-]))|(\*))(?!\s*:\s*[\s\{])" 
+  <block name="selector" match="(((\.|#)?[a-z]+[a-z\d\-]*(?![a-z\d\-]))|(\*))(?!\s*:\s*[\s\{])"
          innerClass="identifier" >
   </block>
 
-  <block name="pseudo" match=":[a-z][a-z\d\-]*" 
+  <block name="pseudo" match=":[a-z][a-z\d\-]*"
          innerClass="special" />
 
-  <block name="bescaped" match="\\[\\(\\)\\]" 
+  <block name="bescaped" match="\\[\\(\\)\\]"
          innerClass="string" contained="yes"/>
 
 
-  <region name="paramselector" start="\[" end="\]" innerClass="code" 
+  <region name="paramselector" start="\[" end="\]" innerClass="code"
           delimClass="brackets" >
     <contains block="paramname" />
     <not-contains block="identifier" />
@@ -35,14 +41,15 @@
     <contains region="strsingle" />
   </region>
 
-  <region name="block" start="\{" end="\}" innerClass="code" 
+  <region name="block" start="\{" end="\}" innerClass="code"
           delimClass="brackets" >
     <contains region="block" />
     <contains region="property" />
     <contains block="selector" />
+    <contains region="mlcomment" />
   </region>
 
-  <region name="brackets" start="\(" end="\)" innerClass="string" 
+  <region name="brackets" start="\(" end="\)" innerClass="string"
           delimClass="brackets" contained="yes">
     <contains block="bescaped"/>
   </region>
@@ -57,10 +64,10 @@
     <onlyin region="strdouble"/>
   </block>
 
-  <region name="strdouble" delimClass="quotes" innerClass="string" 
+  <region name="strdouble" delimClass="quotes" innerClass="string"
           start="&quot;" end="&quot;" contained="yes" />
 
-  <block name="measure" match="\d*\.?\d+(\%|em|ex|pc|pt|px|in|mm|cm)" 
+  <block name="measure" match="\d*\.?\d+(\%|em|ex|pc|pt|px|in|mm|cm)"
          innerClass="number" contained="yes">
     <onlyin region="property"/>
     <partClass index="1" innerClass="string" />
@@ -70,7 +77,7 @@
     <onlyin region="property"/>
   </block>
 
-  <block name="identifier" match="[a-z][a-z\d\-]*" 
+  <block name="identifier" match="[a-z][a-z\d\-]*"
          innerClass="code" contained="yes">
     <onlyin region="property"/>
   </block>
@@ -311,7 +318,7 @@
         <keyword match="child"/>
   </keywords>
 
-  
+
   <keywords name="namedcolor" inherits="identifier" innerClass="var" case = "no">
     <keyword match="aqua"/>
     <keyword match="black"/>

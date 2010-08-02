@@ -1,6 +1,6 @@
 <?php
 /**
- * Auto-generated class. XML syntax highlighting
+ * Auto-generated class. XML syntax highlighting 
  *
  * PHP version 4 and 5
  *
@@ -15,7 +15,7 @@
  * @link       http://pear.php.net/package/Text_Highlighter
  * @category   Text
  * @package    Text_Highlighter
- * @version    generated from: : xml.xml,v 1.1 2007/06/03 02:35:28 ssttoo Exp
+ * @version    generated from: : xml.xml,v 1.1 2007/06/03 02:35:28 ssttoo Exp 
  * @author Andrey Demenev <demenev@gmail.com>
  *
  */
@@ -28,7 +28,7 @@
  * @package    Text_Highlighter
  * @copyright  2004-2006 Andrey Demenev
  * @license    http://www.php.net/license/3_0.txt  PHP License
- * @version    Release: 0.7.0
+ * @version    Release: 0.7.1
  * @link       http://pear.php.net/package/Text_Highlighter
  */
 class  Text_Highlighter_XML extends Text_Highlighter
@@ -53,76 +53,76 @@ class  Text_Highlighter_XML extends Text_Highlighter
             3 => '/((?i)(&|%)[\\w\\-\\.]+;)/',
         );
         $this->_counts = array (
-            -1 =>
+            -1 => 
             array (
                 0 => 0,
                 1 => 0,
                 2 => 0,
                 3 => 1,
             ),
-            0 =>
+            0 => 
             array (
             ),
-            1 =>
+            1 => 
             array (
             ),
-            2 =>
+            2 => 
             array (
                 0 => 0,
                 1 => 0,
                 2 => 0,
             ),
-            3 =>
+            3 => 
             array (
                 0 => 1,
             ),
         );
         $this->_delim = array (
-            -1 =>
+            -1 => 
             array (
                 0 => 'comment',
                 1 => 'comment',
                 2 => 'brackets',
                 3 => '',
             ),
-            0 =>
+            0 => 
             array (
             ),
-            1 =>
+            1 => 
             array (
             ),
-            2 =>
+            2 => 
             array (
                 0 => '',
                 1 => '',
                 2 => 'quotes',
             ),
-            3 =>
+            3 => 
             array (
                 0 => '',
             ),
         );
         $this->_inner = array (
-            -1 =>
+            -1 => 
             array (
                 0 => 'comment',
                 1 => 'comment',
                 2 => 'code',
                 3 => 'special',
             ),
-            0 =>
+            0 => 
             array (
             ),
-            1 =>
+            1 => 
             array (
             ),
-            2 =>
+            2 => 
             array (
                 0 => 'reserved',
                 1 => 'var',
                 2 => 'string',
             ),
-            3 =>
+            3 => 
             array (
                 0 => 'special',
             ),
@@ -134,102 +134,102 @@ class  Text_Highlighter_XML extends Text_Highlighter
             3 => '/(?i)"/',
         );
         $this->_states = array (
-            -1 =>
+            -1 => 
             array (
                 0 => 0,
                 1 => 1,
                 2 => 2,
                 3 => -1,
             ),
-            0 =>
+            0 => 
             array (
             ),
-            1 =>
+            1 => 
             array (
             ),
-            2 =>
+            2 => 
             array (
                 0 => -1,
                 1 => -1,
                 2 => 3,
             ),
-            3 =>
+            3 => 
             array (
                 0 => -1,
             ),
         );
         $this->_keywords = array (
-            -1 =>
+            -1 => 
             array (
                 0 => -1,
                 1 => -1,
                 2 => -1,
-                3 =>
+                3 => 
                 array (
                 ),
             ),
-            0 =>
+            0 => 
             array (
             ),
-            1 =>
+            1 => 
             array (
             ),
-            2 =>
+            2 => 
             array (
-                0 =>
+                0 => 
                 array (
                 ),
-                1 =>
+                1 => 
                 array (
                 ),
                 2 => -1,
             ),
-            3 =>
+            3 => 
             array (
-                0 =>
+                0 => 
                 array (
                 ),
             ),
         );
         $this->_parts = array (
-            0 =>
+            0 => 
             array (
             ),
-            1 =>
+            1 => 
             array (
             ),
-            2 =>
+            2 => 
             array (
                 0 => NULL,
                 1 => NULL,
                 2 => NULL,
             ),
-            3 =>
+            3 => 
             array (
                 0 => NULL,
             ),
         );
         $this->_subst = array (
-            -1 =>
+            -1 => 
             array (
                 0 => false,
                 1 => false,
                 2 => false,
                 3 => false,
             ),
-            0 =>
+            0 => 
             array (
             ),
-            1 =>
+            1 => 
             array (
             ),
-            2 =>
+            2 => 
             array (
                 0 => false,
                 1 => false,
                 2 => false,
             ),
-            3 =>
+            3 => 
             array (
                 0 => false,
             ),
@@ -241,5 +241,5 @@ class  Text_Highlighter_XML extends Text_Highlighter
         $this->_defClass = 'code';
         $this->_checkDefines();
     }
-
+    
 }
