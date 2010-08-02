@@ -8,6 +8,7 @@ Version 1.1.4 to be released
 - Bug #1377: Fixed the bug that CStarRating did not work when not setting the model property (Qiang)
 - Bug #1382: Fixed space removal in CDbCriteria::compare() (Sam Dark)
 - Bug #1384: SET NAMES problem with MSSQL PDO Provider (Qiang)
+- Bug #1390: AR may lose precision if a column is declared as unsigned int for MySQL database (Qiang)
 - Bug #1404: CSecurityManager::validateData() fails when the data is an array (Qiang)
 - Bug #1408: CDbAuthManager may throw exception when unserializing data from auth items in PHP 5.3 (Qiang)
 - Bug #1432: AR find methods with JOIN in query criteria may populate AR objects with attribute values belonging to other tables (Qiang)
