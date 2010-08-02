@@ -30,7 +30,7 @@ class CMysqlColumnSchema extends CDbColumnSchema
 			$this->type='double';
 		else if(strpos($dbType,'bool')!==false)
 			$this->type='boolean';
-		else if(strpos($dbType,'bigint')===false && strpos($dbType,'unsigned int')===false && (strpos($dbType,'int')!==false || strpos($dbType,'bit')!==false))
+		else if(strpos($dbType,'int')===0 && strpos($dbType,'unsigned')===false || preg_match('/(bit|tinyint|smallint|mediumint)/i',$dbType))
 			$this->type='integer';
 		else
 			$this->type='string';
