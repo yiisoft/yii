@@ -511,7 +511,7 @@ class CDbCommandBuilder extends CComponent
 	 * If an array, it is treated as the initial values for constructing a {@link CDbCriteria};
 	 * Otherwise, it should be an instance of {@link CDbCriteria}.
 	 * @param array parameters to be bound to an SQL statement.
-	 * This is only used when the second parameter is a string (query condition).
+	 * This is only used when the third parameter is a string (query condition).
 	 * In other cases, please use {@link CDbCriteria::params} to set parameters.
 	 * @param string column prefix (ended with dot). If null, it will be the table name
 	 * @return CDbCriteria the created query criteria
