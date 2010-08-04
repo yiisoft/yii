@@ -200,6 +200,19 @@ class CUrlManager extends CApplicationComponent
 	}
 
 	/**
+	 * Adds new URL rules.
+	 * On order to make the new rules effective, this method must be called BEFORE
+	 * {@link CWebApplication::processRequest}.
+	 * @param array new URL rules (pattern=>route).
+	 * @since 1.1.4
+	 */
+	public function addRules($rules)
+	{
+		foreach($rules as $pattern=>$route)
+			$this->_rules[]=$this->createUrlRule($route,$pattern);
+	}
+
+	/**
 	 * Creates a URL rule instance.
 	 * The default implementation returns a CUrlRule object.
 	 * @param string the pattern part of the rule

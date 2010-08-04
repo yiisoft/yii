@@ -26,6 +26,7 @@ Version 1.1.4 to be released
 - Enh #1434: Added zii message translation in Italian (enrico.detoma)
 - Enh: Added CValidator::safe to allow marking a validator as safe or unsafe (Qiang)
 - Enh: Added CDbCacheDependency::params (Qiang)
+- Enh: Added CUrlManager::addRules() (Qiang)
 - Chg #1309: CHttpRequest::getPathInfo() now always returns decoded results (Qiang)
 - New: Upgraded JQuery UI to 1.8.2 (Sam Dark)
 - New: Upgraded code highligher: added sh and VBScript, fixed comments in CSS and hex numbers in JavaScript (Sam Dark)
