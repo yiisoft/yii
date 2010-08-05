@@ -201,7 +201,7 @@ class CUrlManager extends CApplicationComponent
 
 	/**
 	 * Adds new URL rules.
-	 * On order to make the new rules effective, this method must be called BEFORE
+	 * In order to make the new rules effective, this method must be called BEFORE
 	 * {@link CWebApplication::processRequest}.
 	 * @param array new URL rules (pattern=>route).
 	 * @since 1.1.4
