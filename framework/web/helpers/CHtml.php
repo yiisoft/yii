@@ -606,12 +606,12 @@ class CHtml
 	/**
 	 * Generates a radio button.
 	 * @param string the input name
-	 * @param boolean whether the radiobutton is checked
+	 * @param boolean whether the radio button is checked
 	 * @param array additional HTML attributes. Besides normal HTML attributes, a few special
 	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
 	 * Since version 1.1.2, a special option named 'uncheckValue' is available that can be used to specify
-	 * the value returned when the radiobutton is not checked. When set, a hidden field is rendered so that
-	 * when the radiobutton is not checked, we can still obtain the posted uncheck value.
+	 * the value returned when the radio button is not checked. When set, a hidden field is rendered so that
+	 * when the radio button is not checked, we can still obtain the posted uncheck value.
 	 * If 'uncheckValue' is not set or set to NULL, the hidden field will not be rendered.
 	 * @return string the generated radio button
 	 * @see clientChange
@@ -892,7 +892,7 @@ EOD;
 	 * <ul>
 	 * <li>template: string, specifies how each radio button is rendered. Defaults
 	 * to "{input} {label}", where "{input}" will be replaced by the generated
-	 * radio button input tag while "{label}" be replaced by the corresponding radio button label.</li>
+	 * radio button input tag while "{label}" will be replaced by the corresponding radio button label.</li>
 	 * <li>separator: string, specifies the string that separates the generated radio buttons.</li>
 	 * <li>labelOptions: array, specifies the additional HTML attributes to be rendered
 	 * for every label tag in the list. This option has been available since version 1.0.10.</li>
@@ -1258,8 +1258,8 @@ EOD;
 	 * @param array additional HTML attributes. Besides normal HTML attributes, a few special
 	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
 	 * Since version 1.0.9, a special option named 'uncheckValue' is available that can be used to specify
-	 * the value returned when the radiobutton is not checked. By default, this value is '0'.
-	 * Internally, a hidden field is rendered so that when the radiobutton is not checked,
+	 * the value returned when the radio button is not checked. By default, this value is '0'.
+	 * Internally, a hidden field is rendered so that when the radio button is not checked,
 	 * we can still obtain the posted uncheck value.
 	 * If 'uncheckValue' is set as NULL, the hidden field will not be rendered.
 	 * @return string the generated radio button
@@ -1442,7 +1442,7 @@ EOD;
 	 * <ul>
 	 * <li>template: string, specifies how each checkbox is rendered. Defaults
 	 * to "{input} {label}", where "{input}" will be replaced by the generated
-	 * check box input tag while "{label}" be replaced by the corresponding check box label.</li>
+	 * check box input tag while "{label}" will be replaced by the corresponding check box label.</li>
 	 * <li>separator: string, specifies the string that separates the generated check boxes.</li>
 	 * <li>checkAll: string, specifies the label for the "check all" checkbox.
 	 * If this option is specified, a 'check all' checkbox will be displayed. Clicking on
@@ -1484,9 +1484,9 @@ EOD;
 	 * @param array addtional HTML options. The options will be applied to
 	 * each radio button input. The following special options are recognized:
 	 * <ul>
-	 * <li>template: string, specifies how each checkbox is rendered. Defaults
+	 * <li>template: string, specifies how each radio button is rendered. Defaults
 	 * to "{input} {label}", where "{input}" will be replaced by the generated
-	 * radio button input tag while "{label}" be replaced by the corresponding radio button label.</li>
+	 * radio button input tag while "{label}" will be replaced by the corresponding radio button label.</li>
 	 * <li>separator: string, specifies the string that separates the generated radio buttons.</li>
 	 * <li>encode: boolean, specifies whether to encode HTML-encode tag attributes and values. Defaults to true.
 	 * This option has been available since version 1.0.5.</li>
