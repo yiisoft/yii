@@ -94,8 +94,8 @@ testdrive/
             column1.php      the layout for pages using a single column
             column2.php      the layout for pages using two columns
          site/               containing view files for the 'site' controller
-         	pages/           containing "static" pages
-         	   about.php    the view for the "about" page
+            pages/           containing "static" pages
+               about.php     the view for the "about" page
             contact.php      the view for 'contact' action
             error.php        the view for 'error' action (displaying external errors)
             index.php        the view for 'index' action
