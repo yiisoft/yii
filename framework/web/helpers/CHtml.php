@@ -606,7 +606,7 @@ class CHtml
 	/**
 	 * Generates a radio button.
 	 * @param string the input name
-	 * @param boolean whether the check box is checked
+	 * @param boolean whether the radiobutton is checked
 	 * @param array additional HTML attributes. Besides normal HTML attributes, a few special
 	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
 	 * Since version 1.1.2, a special option named 'uncheckValue' is available that can be used to specify

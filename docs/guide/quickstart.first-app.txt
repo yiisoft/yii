@@ -70,7 +70,7 @@ testdrive/
          shell/              containing customized 'yiic shell' commands
       components/            containing reusable user components
          Controller.php      the base class for all controller classes
-         Identity.php        the 'Identity' class used for authentication
+         UserIdentity.php        the 'Identity' class used for authentication
       config/                containing configuration files
          console.php         the console application configuration
          main.php            the Web application configuration
