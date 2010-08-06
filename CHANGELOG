@@ -4,6 +4,7 @@
 
 Version 1.1.4 to be released
 ----------------------------
+- Bug #1031: Fixed the bug that the filters in CGridView does not work in IE (Qiang)
 - Bug #1376: Fixed the bug that the timestamps displayed in Web application log may not be formatted properly (Qiang)
 - Bug #1377: Fixed the bug that CStarRating did not work when not setting the model property (Qiang)
 - Bug #1382: Fixed space removal in CDbCriteria::compare() (Sam Dark)
