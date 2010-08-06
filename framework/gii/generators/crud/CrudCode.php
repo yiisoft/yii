@@ -66,7 +66,7 @@ class CrudCode extends CCodeModel
 			if($table->primaryKey===null)
 				$this->addError('model',"Table '{$table->name}' does not have a primary key.");
 			else if(is_array($table->primaryKey))
-				$this->addError('model','Table "{$table->name}" has a composite primary key which is not supported by crud generator.');
+				$this->addError('model',"Table '{$table->name}' has a composite primary key which is not supported by crud generator.");
 			else
 			{
 				$this->_modelClass=$class;
