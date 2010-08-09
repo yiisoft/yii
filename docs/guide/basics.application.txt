@@ -217,6 +217,6 @@ lifecycles:
 	   - Create controller;
 	   - Run controller;
 
-   7.Raise [onEndRequest|CApplication::onEndRequest] event;
+   7. Raise [onEndRequest|CApplication::onEndRequest] event;
 
 <div class="revision">$Id$</div>
