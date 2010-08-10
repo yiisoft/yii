@@ -34,7 +34,7 @@ Version 1.1.4 to be released
 - Chg: Replaced jQuery live() with delegate() in CHtml-generated js code (Qiang)
 - New: Upgraded JQuery UI to 1.8.2 (Sam Dark)
 - New: Upgraded code highlighter: added sh and VBScript, fixed comments in CSS and hex numbers in JavaScript (Sam Dark)
-- New: Added CSqlDataProvider (Qiang)
+- New: Added CSqlDataProvider and CArrayDataProvider (Qiang)
 
 Version 1.1.3 July 4, 2010
 --------------------------
