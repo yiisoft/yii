@@ -16,6 +16,7 @@ Version 1.1.4 to be released
 - Bug #1435: Table alias declared in scopes may be ignored when performing relational findByPk and findByAttributes queries (Qiang)
 - Bug #1455: CFormButtonElement generates wrong type for button tags (Qiang)
 - Enh #1073: Allow dependencies to be set in constructor of CChainedCacheDependency. Also allow dependencies to be specified as configurations. (Qiang)
+- Enh #1347: Added CPagination::validateCurrentPage (Qiang)
 - Enh #1358: Enhanced the 'together' option of HAS_MANY/MANY_MANY relations so that setting it true will ensure the related table is joined with the primary table in a single SQL (Qiang)
 - Enh #1359: Added CActiveRecord::countByAttributes (Qiang)
 - Enh #1361: Added linkLabelWrapper, firstItemCssClass and lastItemCssClass to CMenu (Qiang)
@@ -32,7 +33,7 @@ Version 1.1.4 to be released
 - Chg #1309: CHttpRequest::getPathInfo() now always returns decoded results (Qiang)
 - Chg: Replaced jQuery live() with delegate() in CHtml-generated js code (Qiang)
 - New: Upgraded JQuery UI to 1.8.2 (Sam Dark)
-- New: Upgraded code highligher: added sh and VBScript, fixed comments in CSS and hex numbers in JavaScript (Sam Dark)
+- New: Upgraded code highlighter: added sh and VBScript, fixed comments in CSS and hex numbers in JavaScript (Sam Dark)
 
 Version 1.1.3 July 4, 2010
 --------------------------
