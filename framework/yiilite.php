@@ -39,7 +39,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.3';
+		return '1.1.4-dev';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -128,7 +128,10 @@ class YiiBase
 			{
 				if($forceInclude)
 				{
-					require($path.'.php');
+					if(is_file($path.'.php'))
+						require($path.'.php');
+					else
+						throw new CException(Yii::t('yii','Alias "{alias}" is invalid. Make sure it points to an existing PHP file.',array('{alias}'=>$alias)));
 					self::$_imports[$alias]=$className;
 				}
 				else
@@ -407,6 +410,7 @@ class YiiBase
 		'COutputEvent' => '/web/COutputEvent.php',
 		'CPagination' => '/web/CPagination.php',
 		'CSort' => '/web/CSort.php',
+		'CSqlDataProvider' => '/web/CSqlDataProvider.php',
 		'CTheme' => '/web/CTheme.php',
 		'CThemeManager' => '/web/CThemeManager.php',
 		'CUploadedFile' => '/web/CUploadedFile.php',
@@ -2146,7 +2150,7 @@ class CHttpRequest extends CApplicationComponent
 	{
 		if($this->_pathInfo===null)
 		{
-			$requestUri=$this->getRequestUri();
+			$requestUri=urldecode($this->getRequestUri());
 			$scriptUrl=$this->getScriptUrl();
 			$baseUrl=$this->getBaseUrl();
 			if(strpos($requestUri,$scriptUrl)===0)
@@ -2385,8 +2389,8 @@ class CCookieCollection extends CMap
 			$sm=Yii::app()->getSecurityManager();
 			foreach($_COOKIE as $name=>$value)
 			{
-				if(($value=$sm->validateData($value))!==false)
-					$cookies[$name]=new CHttpCookie($name,$value);
+				if(is_string($value) && ($value=$sm->validateData($value))!==false)
+					$cookies[$name]=new CHttpCookie($name,@unserialize($value));
 			}
 		}
 		else
@@ -2421,7 +2425,7 @@ class CCookieCollection extends CMap
 	{
 		$value=$cookie->value;
 		if($this->_request->enableCookieValidation)
-			$value=Yii::app()->getSecurityManager()->hashData($value);
+			$value=Yii::app()->getSecurityManager()->hashData(serialize($value));
 		if(version_compare(PHP_VERSION,'5.2.0','>='))
 			setcookie($cookie->name,$value,$cookie->expire,$cookie->path,$cookie->domain,$cookie->secure,$cookie->httpOnly);
 		else
@@ -2474,6 +2478,11 @@ class CUrlManager extends CApplicationComponent
 			$this->_rules[]=$this->createUrlRule($route,$pattern);
 		if(isset($cache))
 			$cache->set(self::CACHE_KEY,array($this->_rules,$hash));
+	}
+	public function addRules($rules)
+	{
+		foreach($rules as $pattern=>$route)
+			$this->_rules[]=$this->createUrlRule($route,$pattern);
 	}
 	protected function createUrlRule($route,$pattern)
 	{
@@ -2538,7 +2547,7 @@ class CUrlManager extends CApplicationComponent
 	{
 		if($this->getUrlFormat()===self::PATH_FORMAT)
 		{
-			$rawPathInfo=urldecode($request->getPathInfo());
+			$rawPathInfo=$request->getPathInfo();
 			$pathInfo=$this->removeUrlSuffix($rawPathInfo,$this->urlSuffix);
 			foreach($this->_rules as $rule)
 			{
@@ -2719,10 +2728,13 @@ class CUrlRule extends CComponent
 		}
 		foreach($this->defaultParams as $key=>$value)
 		{
-			if(isset($params[$key]) && $params[$key]==$value)
-				unset($params[$key]);
-			else
-				return false;
+			if(isset($params[$key]))
+			{
+				if($params[$key]==$value)
+					unset($params[$key]);
+				else
+					return false;
+			}
 		}
 		foreach($this->params as $key=>$value)
 			if(!isset($params[$key]))
@@ -4835,7 +4847,7 @@ EOD;
 				$handler="return $confirm;";
 		}
 		if($live)
-			$cs->registerScript('Yii.CHtml.#'.$id,"jQuery('#$id').live('$event',function(){{$handler}});");
+			$cs->registerScript('Yii.CHtml.#'.$id,"jQuery('body').delegate('#$id','$event',function(){{$handler}});");
 		else
 			$cs->registerScript('Yii.CHtml.#'.$id,"jQuery('#$id').$event(function(){{$handler}});");
 		unset($htmlOptions['params'],$htmlOptions['submit'],$htmlOptions['ajax'],$htmlOptions['confirm'],$htmlOptions['return'],$htmlOptions['csrf']);
@@ -6001,7 +6013,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		$unsafe=array();
 		foreach($this->getValidators() as $validator)
 		{
-			if($validator instanceof CUnsafeValidator)
+			if(!$validator->safe)
 			{
 				foreach($validator->attributes as $name)
 					$unsafe[]=$name;
@@ -6249,6 +6261,29 @@ abstract class CActiveRecord extends CModel
 	public function attributeNames()
 	{
 		return array_keys($this->getMetaData()->columns);
+	}
+	public function getAttributeLabel($attribute)
+	{
+		$labels=$this->attributeLabels();
+		if(isset($labels[$attribute]))
+			return $labels[$attribute];
+		else if(strpos($attribute,'.')!==false)
+		{
+			$segs=explode('.',$attribute);
+			$name=array_pop($segs);
+			$model=$this;
+			foreach($segs as $seg)
+			{
+				$relations=$model->getMetaData()->relations;
+				if(isset($relations[$seg]))
+					$model=CActiveRecord::model($relations[$seg]->className);
+				else
+					break;
+			}
+			return $model->getAttributeLabel($name);
+		}
+		else
+			return $this->generateAttributeLabel($attribute);
 	}
 	public function getDbConnection()
 	{
@@ -6681,6 +6716,17 @@ abstract class CActiveRecord extends CModel
 		else
 			return $this->with($criteria->with)->count($criteria);
 	}
+	public function countByAttributes($attributes,$condition='',$params=array())
+	{
+		$prefix=$this->getTableAlias(true).'.';
+		$builder=$this->getCommandBuilder();
+		$criteria=$builder->createColumnCriteria($this->getTableSchema(),$attributes,$condition,$params,$prefix);
+		$this->applyScopes($criteria);
+		if(empty($criteria->with))
+			return $builder->createCountCommand($this->getTableSchema(),$criteria)->queryScalar();
+		else
+			return $this->with($criteria->with)->count($criteria);
+	}
 	public function countBySql($sql,$params=array())
 	{
 		return $this->getCommandBuilder()->createSqlCommand($sql,$params)->queryScalar();
@@ -6913,7 +6959,7 @@ class CActiveRelation extends CBaseActiveRelation
 			$this->with=$criteria['with'];
 		if(isset($criteria['alias']))
 			$this->alias=$criteria['alias'];
-		if(isset($criteria['together']))
+		if(array_key_exists('together',$criteria))
 			$this->together=$criteria['together'];
 	}
 }
@@ -6927,7 +6973,7 @@ class CHasManyRelation extends CActiveRelation
 {
 	public $limit=-1;
 	public $offset=-1;
-	public $together=true;
+	public $together;
 	public $index;
 	public function mergeWith($criteria,$fromScope=false)
 	{
@@ -7094,7 +7140,8 @@ class CDbConnection extends CApplicationComponent
 			$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,true);
 		if($this->charset!==null)
 		{
-			if(strcasecmp($pdo->getAttribute(PDO::ATTR_DRIVER_NAME),'sqlite'))
+			$driver=strtolower($pdo->getAttribute(PDO::ATTR_DRIVER_NAME));
+			if(!in_array($driver,array('sqlite','mssql','dblib')))
 				$pdo->exec('SET NAMES '.$pdo->quote($this->charset));
 		}
 		if($this->initSQLs!==null)
@@ -7440,7 +7487,6 @@ class CSqliteSchema extends CDbSchema
 	}
 	protected function createTable($name)
 	{
-		$db=$this->getDbConnection();
 		$table=new CDbTableSchema;
 		$table->name=$name;
 		$table->rawName=$this->quoteTableName($name);
@@ -7790,6 +7836,7 @@ abstract class CValidator extends CComponent
 	public $message;
 	public $skipOnError=false;
 	public $on;
+	public $safe=true;
 	abstract protected function validateAttribute($object,$attribute);
 	public static function createValidator($name,$object,$attributes,$params)
 	{
