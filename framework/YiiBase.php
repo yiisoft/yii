@@ -652,6 +652,7 @@ class YiiBase
 		'COutputEvent' => '/web/COutputEvent.php',
 		'CPagination' => '/web/CPagination.php',
 		'CSort' => '/web/CSort.php',
+		'CSqlDataProvider' => '/web/CSqlDataProvider.php',
 		'CTheme' => '/web/CTheme.php',
 		'CThemeManager' => '/web/CThemeManager.php',
 		'CUploadedFile' => '/web/CUploadedFile.php',
