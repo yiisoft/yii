@@ -636,6 +636,7 @@ class YiiBase
 		'CUrlValidator' => '/validators/CUrlValidator.php',
 		'CValidator' => '/validators/CValidator.php',
 		'CActiveDataProvider' => '/web/CActiveDataProvider.php',
+		'CArrayDataProvider' => '/web/CArrayDataProvider.php',
 		'CAssetManager' => '/web/CAssetManager.php',
 		'CBaseController' => '/web/CBaseController.php',
 		'CCacheHttpSession' => '/web/CCacheHttpSession.php',

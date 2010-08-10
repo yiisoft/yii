@@ -1,0 +1,144 @@
+<?php
+/**
+ * CArrayDataProvider implements a data provider based on a raw data array.
+ *
+ * The {@link rawData} property contains all data that may be sorted and/or paginated.
+ * CArrayDataProvider will supply the data after sorting and/or pagination.
+ * You may configure the {@link sort} and {@link pagination} properties to
+ * customize sorting and pagination behaviors.
+ *
+ * Elements in the raw data array may be either objects (e.g. model objects)
+ * or associative arrays (e.g. query results of DAO).
+ *
+ * CArrayDataProvider may be used in the following way:
+ * <pre>
+ * $rawData=Yii::app()->db->createCommand('SELECT * FROM tbl_user')->queryAll();
+ * // or using: $rawData=User::model()->findAll();
+ * $dataProvider=new CArrayDataProvider('user', $rawData, array(
+ *     'sort'=>array(
+ *         'attributes'=>array(
+ *              'id', 'username', 'email',
+ *         ),
+ *     ),
+ *     'pagination'=>array(
+ *         'pageSize'=>10,
+ *     ),
+ * ));
+ * // $dataProvider->getData() will return a list of arrays.
+ * </pre>
+ *
+ * Note: if you want to use the sorting feature, you must configure {@link sort} property
+ * so that the provider knows which columns can be sorted.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id$
+ * @package system.web
+ * @since 1.1.4
+ */
+class CArrayDataProvider extends CDataProvider
+{
+	/**
+	 * @var string the name of key field. Defaults to 'id'.
+	 */
+	public $keyField='id';
+	/**
+	 * @var array the data that is not paginated or sorted. When pagination is enabled,
+	 * this property usually contains more elements than {@link data}.
+	 */
+	public $rawData=array();
+
+	/**
+	 * Constructor.
+	 * @param string the ID of the provider. This is mainly used to prefix the page and sort GET variables.
+	 * @param array the data that is not paginated or sorted.
+	 * @param array configuration (name=>value) to be applied as the initial property values of this class.
+	 */
+	public function __construct($id,$rawData,$config=array())
+	{
+		$this->setId($id);
+		$this->rawData=$rawData;
+		foreach($config as $key=>$value)
+			$this->$key=$value;
+	}
+
+	/**
+	 * Fetches the data from the persistent data storage.
+	 * @return array list of data items
+	 */
+	protected function fetchData()
+	{
+		if(($sort=$this->getSort())!==false && ($order=$sort->getOrderBy())!='')
+			$this->sortData($this->getSortDirections($order));
+
+		if(($pagination=$this->getPagination())!==false)
+		{
+			$pagination->setItemCount($this->getTotalItemCount());
+			return array_slice($this->rawData, $pagination->getOffset(), $pagination->getLimit());
+		}
+		else
+			return $this->rawData;
+	}
+
+	/**
+	 * Fetches the data item keys from the persistent data storage.
+	 * @return array list of data item keys.
+	 */
+	protected function fetchKeys()
+	{
+		$keys=array();
+		foreach($this->getData() as $i=>$data)
+			$keys[$i]=is_object($data) ? $data->{$this->keyField} : $data[$this->keyField];
+		return $keys;
+	}
+
+	/**
+	 * Calculates the total number of data items.
+	 * This method simply returns the number of elements in {@link rawData}.
+	 * @return integer the total number of data items.
+	 */
+	protected function calculateTotalItemCount()
+	{
+		return count($this->rawData);
+	}
+
+	/**
+	 * Sorts the raw data according to the specified sorting instructions.
+	 * After calling this method, {@link rawData} will be modified.
+	 * @param array the sorting directions (field name => whether it is descending sort)
+	 */
+	protected function sortData($directions)
+	{
+		if(empty($directions))
+			return;
+		$args=array();
+		foreach($directions as $name=>$descending)
+		{
+			$column=array();
+			foreach($this->rawData as $index=>$data)
+				$column[$index]=is_object($data) ? $data->$name : $data[$name];
+			$args[]=$column;
+			$args[]=$descending ? SORT_DESC : SORT_ASC;
+		}
+		$args[]=&$this->rawData;
+		call_user_func_array('array_multisort', $args);
+	}
+
+	/**
+	 * Converts the "ORDER BY" clause into an array representing the sorting directions.
+	 * @param string the "ORDER BY" clause.
+	 * @return array the sorting directions (field name => whether it is descending sort)
+	 */
+	protected function getSortDirections($order)
+	{
+		$segs=explode(',',$order);
+		$directions=array();
+		foreach($segs as $seg)
+		{
+			if(preg_match('/(.*?)(\s+(desc|asc))?$/i',trim($seg),$matches))
+				$directions[$matches[1]]=isset($matches[3]) && !strcasecmp($matches[3],'desc');
+			else
+				$directions[trim($seg)]=false;
+		}
+		return $directions;
+	}
+}
