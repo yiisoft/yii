@@ -76,6 +76,17 @@ class CPagination extends CComponent
 	 * @since 1.0.9
 	 */
 	public $params;
+	/**
+	 * @var boolean whether to ensure {@link currentPage} is returning a valid page number.
+	 * When this property is true, the value returned by {@link currentPage} will always be between
+	 * 0 and ({@link pageCount}-1). Because {@link pageCount} relies on the correct value of {@link itemCount},
+	 * it means you must have knowledge about the total number of data items when you want to access {@link currentPage}.
+	 * This is fine for SQL-based queries, but may not be feasible for other kinds of queries (e.g. MongoDB).
+	 * In those cases, you may set this property to be false to skip the validation (you may need to validate yourself then).
+	 * Defaults to true.
+	 * @since 1.1.4
+	 */
+	public $validateCurrentPage=true;
 
 	private $_pageSize=self::DEFAULT_PAGE_SIZE;
 	private $_itemCount=0;
@@ -144,9 +155,12 @@ class CPagination extends CComponent
 			if(isset($_GET[$this->pageVar]))
 			{
 				$this->_currentPage=(int)$_GET[$this->pageVar]-1;
-				$pageCount=$this->getPageCount();
-				if($this->_currentPage>=$pageCount)
-					$this->_currentPage=$pageCount-1;
+				if($this->validateCurrentPage)
+				{
+					$pageCount=$this->getPageCount();
+					if($this->_currentPage>=$pageCount)
+						$this->_currentPage=$pageCount-1;
+				}
 				if($this->_currentPage<0)
 					$this->_currentPage=0;
 			}
