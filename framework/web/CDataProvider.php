@@ -59,7 +59,8 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 		if($this->_pagination===null)
 		{
 			$this->_pagination=new CPagination;
-			$this->_pagination->pageVar=$this->getId().'_page';
+			if(($id=$this->getId())!='')
+				$this->_pagination->pageVar=$id.'_page';
 		}
 		return $this->_pagination;
 	}
@@ -88,7 +89,8 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 		if($this->_sort===null)
 		{
 			$this->_sort=new CSort;
-			$this->_sort->sortVar=$this->getId().'_sort';
+			if(($id=$this->getId())!='')
+				$this->_sort->sortVar=$id.'_sort';
 		}
 		return $this->_sort;
 	}

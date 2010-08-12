@@ -14,7 +14,8 @@
  * <pre>
  * $rawData=Yii::app()->db->createCommand('SELECT * FROM tbl_user')->queryAll();
  * // or using: $rawData=User::model()->findAll();
- * $dataProvider=new CArrayDataProvider('user', $rawData, array(
+ * $dataProvider=new CArrayDataProvider($rawData, array(
+ *     'id'=>'user',
  *     'sort'=>array(
  *         'attributes'=>array(
  *              'id', 'username', 'email',
@@ -49,13 +50,11 @@ class CArrayDataProvider extends CDataProvider
 
 	/**
 	 * Constructor.
-	 * @param string the ID of the provider. This is mainly used to prefix the page and sort GET variables.
 	 * @param array the data that is not paginated or sorted.
 	 * @param array configuration (name=>value) to be applied as the initial property values of this class.
 	 */
-	public function __construct($id,$rawData,$config=array())
+	public function __construct($rawData,$config=array())
 	{
-		$this->setId($id);
 		$this->rawData=$rawData;
 		foreach($config as $key=>$value)
 			$this->$key=$value;
