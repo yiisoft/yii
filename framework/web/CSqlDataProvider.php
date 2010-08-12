@@ -13,7 +13,8 @@
  * <pre>
  * $count=Yii::app()->db->createCommand('SELECT COUNT(*) FROM tbl_user')->queryScalar();
  * $sql='SELECT * FROM tbl_user';
- * $dataProvider=new CSqlDataProvider('user', $sql, array(
+ * $dataProvider=new CSqlDataProvider($sql, array(
+ *     'id'=>'user',
  *     'totalItemCount'=>$count,
  *     'sort'=>array(
  *         'attributes'=>array(
@@ -58,13 +59,11 @@ class CSqlDataProvider extends CDataProvider
 
 	/**
 	 * Constructor.
-	 * @param string the ID of the provider. This is mainly used to prefix the page and sort GET variables.
 	 * @param string the SQL statement to be used for fetching data rows.
 	 * @param array configuration (name=>value) to be applied as the initial property values of this class.
 	 */
-	public function __construct($id,$sql,$config=array())
+	public function __construct($sql,$config=array())
 	{
-		$this->setId($id);
 		$this->sql=$sql;
 		foreach($config as $key=>$value)
 			$this->$key=$value;
