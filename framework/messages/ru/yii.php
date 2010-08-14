@@ -16,9 +16,7 @@
  * @version $Id: $
  */
 return array (
-  'Application Log' => 'Журнал приложения',
-  'CDbConnection failed to open the DB connection.' => 'CDbConnection не удалось устоновить соединение с БД.',
-  'Failed to initialize the mcrypt module.' => 'Не удалось инициализировать модуль mcrypt.',
+  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file.' => 'Псевдоним "{alias}" неверен. Убедитесь, что он указывает на существующий PHP файл.',
   '"{path}" is not a valid directory.' => 'Путь "{path}" не является правильной директорией.',
   '&lt; Previous' => '&lt; Предыдущая',
   '&lt;&lt; First' => '&lt;&lt; Первая',
@@ -27,6 +25,7 @@ return array (
   'Active record "{class}" is trying to select an invalid column "{column}". Note, the column must exist in the table or be an expression with alias.' => 'ActiveRecord "{class}" пытается выбрать недопустимый столбец "{column}". Примечание: столбец должен существовать в таблице или являться выражением с алиасом.',
   'Active record class "{class}" does not have a scope named "{scope}".' => 'В классе ActiveRecord "{class}" нет именованной группы условий "{scope}".',
   'Alias "{alias}" is invalid. Make sure it points to an existing directory or file.' => 'Неправильный алиас "{alias}". Убедитесь, что он указывает на существующую директорию или файл.',
+  'Application Log' => 'Журнал приложения',
   'Application base path "{path}" is not a valid directory.' => 'Базовый (base) путь приложения "{path}" не является директорией.',
   'Application runtime path "{path}" is not valid. Please make sure it is a directory writable by the Web server process.' => 'Рабочий (runtime) путь приложения "{path}" задан неверно. Удостоверьтесь, что директория доступна для записи пользователю, под которым запущен веб-сервер.',
   'Authorization item "{item}" has already been assigned to user "{user}".' => 'Элемент (item) авторизации "{item}" уже назначен пользователю "{user}".',
@@ -41,6 +40,7 @@ return array (
   'CDbCommand failed to execute the SQL statement: {error}' => 'CDbCommand не удалось исполнить SQL-запрос: {error}',
   'CDbCommand failed to prepare the SQL statement: {error}' => 'CDbCommand не удалось подготовить SQL-запрос: {error}',
   'CDbConnection does not support reading schema for {driver} database.' => 'CDbConnection не поддерживает чтения из базы данных {driver}.',
+  'CDbConnection failed to open the DB connection.' => 'CDbConnection не удалось устоновить соединение с БД.',
   'CDbConnection failed to open the DB connection: {error}' => 'CDbConnection не удалось открыть соединение с базой данных: {error}',
   'CDbConnection is inactive and cannot perform any DB operations.' => 'Соединение CDbConnection не активно, операции над базой данных невозможны.',
   'CDbConnection.connectionString cannot be empty.' => 'Параметр CDbConnection.connectionString должен быть заполнен.',
@@ -90,6 +90,7 @@ return array (
   'Event "{class}.{event}" is attached with an invalid handler "{handler}".' => 'Событие "{class}.{event}" привязано неверным обработчиком "{handler}".',
   'Event "{class}.{event}" is not defined.' => 'Событие "{class}.{event}" не определено.',
   'Extension path "{path}" does not exist.' => 'Путь расширения "{path}" не существует.',
+  'Failed to initialize the mcrypt module.' => 'Не удалось инициализировать модуль mcrypt.',
   'Failed to set unsafe attribute "{attribute}".' => 'Не удалось присвоить небезопасный атрибут "{attribute}".',
   'Failed to write the uploaded file "{file}" to disk.' => 'Не удалось записать загруженный файл "{file}" на диск.',
   'File upload was stopped by extension.' => 'Загрузка файла прервана расширением.',
