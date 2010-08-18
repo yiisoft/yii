@@ -19,7 +19,9 @@
 class CDbException extends CException
 {
 	/**
-	 * @var mixed the error info provided by a PDO exception
+	 * @var mixed the error info provided by a PDO exception. This is the same as returned
+	 * by {@link http://www.php.net/manual/en/pdo.errorinfo.php PDO::errorInfo}.
+	 * @since 1.1.4
 	 */
 	public $errorInfo;
 
