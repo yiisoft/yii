@@ -18,4 +18,20 @@
  */
 class CDbException extends CException
 {
+	/**
+	 * @var mixed the error info provided by a PDO exception
+	 */
+	public $errorInfo;
+
+	/**
+	 * Constructor.
+	 * @param string PDO error message
+	 * @param integer PDO error code
+	 * @param mixed PDO error info
+	 */
+	public function __construct($message,$code=0,$errorInfo=null)
+	{
+		$this->errorInfo=$errorInfo;
+		parent::__construct($message,$code);
+	}
 }
