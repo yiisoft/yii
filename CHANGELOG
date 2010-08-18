@@ -27,6 +27,7 @@ Version 1.1.4 to be released
 - Enh #1412: Yii::import() now throws an exception when trying to include nonexisting PHP file (Qiang)
 - Enh #1433: Added CMessageSource::forceTranslation (Qiang)
 - Enh #1434: Added zii message translation in Italian (enrico.detoma)
+- Enh #1440: CDbException does now provide a valid error code if possible (Y!!)
 - Enh: Added CValidator::safe to allow marking a validator as safe or unsafe (Qiang)
 - Enh: Added CDbCacheDependency::params (Qiang)
 - Enh: Added CUrlManager::addRules() (Qiang)

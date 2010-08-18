@@ -119,7 +119,7 @@ class CDbCommand extends CComponent
 			{
 				Yii::log('Error in preparing SQL: '.$this->getText(),CLogger::LEVEL_ERROR,'system.db.CDbCommand');
 				throw new CDbException(Yii::t('yii','CDbCommand failed to prepare the SQL statement: {error}',
-					array('{error}'=>$e->getMessage())));
+					array('{error}'=>$e->getMessage())),(int)$e->getCode(),$e->errorInfo);
 			}
 		}
 	}
@@ -226,7 +226,7 @@ class CDbCommand extends CComponent
 				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
 			Yii::log('Error in executing SQL: '.$this->getText().$par,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
-				array('{error}'=>$e->getMessage())));
+				array('{error}'=>$e->getMessage())),(int)$e->getCode(),$e->errorInfo);
 		}
 	}
 
@@ -375,7 +375,7 @@ class CDbCommand extends CComponent
 				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().')','system.db.CDbCommand.query');
 			Yii::log('Error in querying SQL: '.$this->getText().$par,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
-				array('{error}'=>$e->getMessage())));
+				array('{error}'=>$e->getMessage())),(int)$e->getCode(),$e->errorInfo);
 		}
 	}
 }
