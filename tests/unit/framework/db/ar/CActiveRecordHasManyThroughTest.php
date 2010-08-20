@@ -5,7 +5,7 @@ require dirname(__FILE__).'/CActiveRecordHasManyThroughModels.php';
 
 /**
  * AR's HAS_MANY `through` option allows to use data from relation's binding
- * table. 
+ * table.
  */
 class CActiveRecordHasManyThroughTest extends CTestCase {
 	private $dbPath;
@@ -17,8 +17,7 @@ class CActiveRecordHasManyThroughTest extends CTestCase {
 
 		// put db into runtime
 		$this->dbPath = dirname(dirname(dirname(dirname(__FILE__)))).'/assets/CActiveRecordHasManyThroughTest.sqlite';
-
-		//
+		
 		$db = new SQLiteDatabase($this->dbPath);
 		$db->query(file_get_contents(dirname(__FILE__).'/CActiveRecordHasManyThroughTest.sql'));
 		unset($db);
@@ -46,14 +45,33 @@ class CActiveRecordHasManyThroughTest extends CTestCase {
 	}
 
 	public function testEager(){
-		$user = User::model()->with('groups.usergroup')->findByPk(1);
+		$user = User::model()->with('groups')->findByPk(1);
+		$result = array();
+		foreach($user->groups as $group){
+			foreach($group->usergroups as $usergroup){
+				$result[] = array($user->usename, $group->name, $usergroup->role);
+			}
+		}
 
-		// correct result is:
-		// Alexander, Yii, dev
-		// Alexander, Zii, user
+		$this->assertEquals(array(
+			array('Alexander', 'Yii', 'dev'),
+			array('Alexander', 'Zii', 'user'),
+		), $result);
 	}
 
 	public function testLazy(){
 		$user = User::model()->findByPk(1);
+
+		$result = array();
+		foreach($user->groups as $group){
+			foreach($group->usergroups as $usergroup){
+				$result[] = array($user->usename, $group->name, $usergroup->role);
+			}
+		}
+
+		$this->assertEquals(array(
+			array('Alexander', 'Yii', 'dev'),
+			array('Alexander', 'Zii', 'user'),
+		), $result);
 	}
 }

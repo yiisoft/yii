@@ -8,7 +8,7 @@ class User extends CActiveRecord {
     }
 
 	public function tableName() {
-        return 'user';
+        return 'tbl_user';
     }
 
 	public function relations() {
@@ -25,7 +25,7 @@ class Group extends CActiveRecord {
     }
 
 	public function tableName() {
-        return 'group';
+        return 'tbl_group';
     }
 
 	public function relations() {
@@ -42,7 +42,7 @@ class UserGroup extends CActiveRecord {
     }
 
 	public function tableName() {
-        return 'user_group';
+        return 'tbl_user_group';
     }
 
 	public function relations() {
