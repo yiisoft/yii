@@ -14,6 +14,7 @@ Version 1.1.4 to be released
 - Bug #1408: CDbAuthManager may throw exception when unserializing data from auth items in PHP 5.3 (Qiang)
 - Bug #1432: AR find methods with JOIN in query criteria may populate AR objects with attribute values belonging to other tables (Qiang)
 - Bug #1435: Table alias declared in scopes may be ignored when performing relational findByPk and findByAttributes queries (Qiang)
+- Bug #1476: Fixed the bug that setting 'id' to be false will still render 'id' attribute in CHtml::radioButton and checkBox (Qiang)
 - Bug #1455: CFormButtonElement generates wrong type for button tags (Qiang)
 - Enh #1073: Allow dependencies to be set in constructor of CChainedCacheDependency. Also allow dependencies to be specified as configurations. (Qiang)
 - Enh #1347: Added CPagination::validateCurrentPage (Qiang)

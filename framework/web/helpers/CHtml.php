@@ -634,14 +634,17 @@ class CHtml
 		else
 			$uncheck=null;
 
-		if(!isset($htmlOptions['id']))
-			$htmlOptions['id']=self::getIdByName($name);
-		else if($htmlOptions['id']===false)
-			unset($htmlOptions['id']);
-
-		$uncheckOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array();
-
-		$hidden=$uncheck!==null ? self::hiddenField($name,$uncheck,$uncheckOptions) : '';
+		if($uncheck!==null)
+		{
+			// add a hidden field so that if the radio button is not selected, it still submits a value
+			if(isset($htmlOptions['id']) && $htmlOptions['id']!==false)
+				$uncheckOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
+			else
+				$uncheckOptions=array();
+			$hidden=self::hiddenField($name,$uncheck,$uncheckOptions);
+		}
+		else
+			$hidden='';
 
 		// add a hidden field so that if the radio button is not selected, it still submits a value
 		return $hidden . self::inputField('radio',$name,$value,$htmlOptions);
@@ -678,14 +681,17 @@ class CHtml
 		else
 			$uncheck=null;
 
-		if(!isset($htmlOptions['id']))
-			$htmlOptions['id']=self::getIdByName($name);
-		else if($htmlOptions['id']===false)
-			unset($htmlOptions['id']);
-
-		$uncheckOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array();
-
-		$hidden=$uncheck!==null ? self::hiddenField($name,$uncheck,$uncheckOptions) : '';
+		if($uncheck!==null)
+		{
+			// add a hidden field so that if the radio button is not selected, it still submits a value
+			if(isset($htmlOptions['id']) && $htmlOptions['id']!==false)
+				$uncheckOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
+			else
+				$uncheckOptions=array();
+			$hidden=self::hiddenField($name,$uncheck,$uncheckOptions);
+		}
+		else
+			$hidden='';
 
 		// add a hidden field so that if the checkbox  is not selected, it still submits a value
 		return $hidden . self::inputField('checkbox',$name,$value,$htmlOptions);
