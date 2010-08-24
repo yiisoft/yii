@@ -130,6 +130,7 @@ EOD;
 		if(($_path_=@getenv('YIIC_SHELL_COMMAND_PATH'))!==false)
 			$_runner_->addCommands($_path_);
 		$_commands_=$_runner_->commands;
+		$log=Yii::app()->log;
 
 		while(($_line_=$this->readline("\n>> "))!==false)
 		{
@@ -152,6 +153,12 @@ EOD;
 					echo $e->getMessage();
 				else
 					echo $e;
+			}
+
+			if($log)
+			{
+				Yii::getLogger()->flush();
+				$log->processLogs(new CEvent($this));
 			}
 		}
 	}
