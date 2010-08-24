@@ -42,7 +42,7 @@ class UserIdentity extends CUserIdentity
 }
 ~~~
 
-In the `authenticate()` method, we use the `User` class to look for a row in the `User` table whose `username` column is the same as the given username in a case-insensitive manner. Remember that the `User` class was created using the `gii` tool in the prior section. Because the `User` class extends from [CActiveRecord], we can exploit [the ActiveRecord feature](http://www.yiiframework.com/doc/guide/database.ar) to access the `User` table in an OOP fashion.
+In the `authenticate()` method, we use the `User` class to look for a row in the `tbl_user` table whose `username` column is the same as the given username in a case-insensitive manner. Remember that the `User` class was created using the `gii` tool in the prior section. Because the `User` class extends from [CActiveRecord], we can exploit [the ActiveRecord feature](http://www.yiiframework.com/doc/guide/database.ar) to access the `tbl_user` table in an OOP fashion.
 
 In order to check if the user has entered a valid password, we invoke the `validatePassword` method of the `User` class. We need to modify the file `/wwwroot/blog/protected/models/User.php` as follows. Note that instead of storing the plain password in the database, we store the hash result of the password and a randomly generated salt key. When validating the user-entered password, we should compare the hash results, instead.
 
@@ -63,7 +63,7 @@ class User extends CActiveRecord
 }
 ~~~
 
-In the `UserIdentity` class, we also override the `getId()` method which returns the `id` value of the user found in the `User` table. The parent implementation would return the username, instead. Both the `username` and `id` properties will be stored in the user session and may be accessed via `Yii::app()->user` from anywhere in our code.
+In the `UserIdentity` class, we also override the `getId()` method which returns the `id` value of the user found in the `tbl_user` table. The parent implementation would return the username, instead. Both the `username` and `id` properties will be stored in the user session and may be accessed via `Yii::app()->user` from anywhere in our code.
 
 > Tip: In the `UserIdentity` class, we reference the class [CUserIdentity] without explicitly including the corresponding class file. This is because [CUserIdentity] is a core class provided by the Yii framework. Yii will automatically include the class file for any core class when it is referenced for the first time.
 >
@@ -100,6 +100,6 @@ switch($identity->errorCode)
 
 > Info: People often get confused about identity and the `user` application component. The former represents a way of performing authentication, while the latter is used to represent the information related with the current user. An application can only have one `user` component, but it can have one or several identity classes, depending on what kind of authentication it supports. Once authenticated, an identity instance may pass its state information to the `user` component so that they are globally accessible via `user`.
 
-To test the modified `UserIdentity` class, we can browse the URL `http://www.example.com/blog/index.php` and try logging in with the username and password that we store in the `User` table. If we use the database provided by the [blog demo](http://www.yiiframework.com/demos/blog/), we should be able to login with username `demo` and password `demo`. Note that this blog system does not provide the user management feature. As a result, a user cannot change his account or create a new one through the Web interface. The user management feature may be considered as a future enhancement to the blog application.
+To test the modified `UserIdentity` class, we can browse the URL `http://www.example.com/blog/index.php` and try logging in with the username and password that we store in the `tbl_user` table. If we use the database provided by the [blog demo](http://www.yiiframework.com/demos/blog/), we should be able to login with username `demo` and password `demo`. Note that this blog system does not provide the user management feature. As a result, a user cannot change his account or create a new one through the Web interface. The user management feature may be considered as a future enhancement to the blog application.
 
 <div class="revision">$Id$</div>
