@@ -1525,10 +1525,10 @@ abstract class CActiveRecord extends CModel
 			$with=func_get_args();
 			if(is_array($with[0]))  // the parameter is given as an array
 				$with=$with[0];
-			return new CActiveFinder($this,$with);
+			if(!empty($with))
+				return new CActiveFinder($this,$with);
 		}
-		else
-			return $this;
+		return $this;
 	}
 
 	/**
