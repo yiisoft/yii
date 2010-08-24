@@ -135,6 +135,8 @@ EOD;
 		while(($_line_=$this->readline("\n>> "))!==false)
 		{
 			$_line_=trim($_line_);
+			if($_line_==='exit')
+				return;
 			try
 			{
 				$_args_=preg_split('/[\s,]+/',rtrim($_line_,';'),-1,PREG_SPLIT_NO_EMPTY);
@@ -153,12 +155,6 @@ EOD;
 					echo $e->getMessage();
 				else
 					echo $e;
-			}
-
-			if($log)
-			{
-				Yii::getLogger()->flush();
-				$log->processLogs(new CEvent($this));
 			}
 		}
 	}
