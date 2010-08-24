@@ -28,6 +28,7 @@ Version 1.1.4 to be released
 - Enh #1412: Yii::import() now throws an exception when trying to include nonexisting PHP file (Qiang)
 - Enh #1433: Added CMessageSource::forceTranslation (Qiang)
 - Enh #1434: Added zii message translation in Italian (enrico.detoma)
+- Enh #1493: ShellCommand will flush log messages after each console command (Qiang)
 - Enh #1440: CDbException does now provide a valid error code if possible (Y!!)
 - Enh #1443: Added CCheckBoxColumn::checked to allow settings checked state for each CCheckBoxColumn row (Sam Dark)
 - Enh: Added CPortlet::hideOnEmpty property (Qiang)
