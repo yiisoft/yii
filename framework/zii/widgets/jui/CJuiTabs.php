@@ -116,13 +116,13 @@ class CJuiTabs extends CJuiWidget
 	}
 
 	/**
-	 * (non-PHPdoc)
-	 * @see framework/zii/widgets/jui/CJuiWidget::registerCoreScripts()
+	 * Registers the core script files.
+	 * This method overrides the parent implementation by registering the cookie plugin when cookie option is used.
 	 */
 	protected function registerCoreScripts()
 	{
 		parent::registerCoreScripts();
 		if(isset($this->options['cookie']))
-			$cs->registerCoreScript('cookie');
+			Yii::app()->getClientScript()->registerCoreScript('cookie');
 	}
 }

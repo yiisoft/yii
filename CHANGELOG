@@ -16,6 +16,7 @@ Version 1.1.4 to be released
 - Bug #1435: Table alias declared in scopes may be ignored when performing relational findByPk and findByAttributes queries (Qiang)
 - Bug #1476: Fixed the bug that setting 'id' to be false will still render 'id' attribute in CHtml::radioButton and checkBox (Qiang)
 - Bug #1455: CFormButtonElement generates wrong type for button tags (Qiang)
+- Bug #1488: When using cookies with CJuiWidget jquery.cookie.js is not registered (sebas)
 - Bug #1493: ShellCommand wouldn't process logs after exiting. (Qiang)
 - Enh #1073: Allow dependencies to be set in constructor of CChainedCacheDependency. Also allow dependencies to be specified as configurations. (Qiang)
 - Enh #1347: Added CPagination::validateCurrentPage (Qiang)
