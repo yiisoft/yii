@@ -57,7 +57,7 @@ jeden-do-wielu (ang. one-to-many; np. `tbl_user` i `tbl_post`), jeden-do-jednego
 np. `tbl_user` i `tbl_profile`) oraz wiele-do-wielu (ang. many-to-many; np. `tbl_category` i `tbl_post`). 
 W AR występują cztery rodzaje relacji:
 
-   - `BELONGS_TO` (należy do): jeśli relacja pomiędzy tabelą A i B to jeden-do-jednego, 
+   - `BELONGS_TO` (należy do): jeśli relacja pomiędzy tabelą A i B to jeden-do-wielu,
    wtedy B należy do A (np. post `tbl_post` należy do użytkownika `tbl_user`);
 
    - `HAS_MANY` (posiada wiele): jeśli relacja pomiędzy tabelą A i B to jeden-do-wielu
