@@ -115,12 +115,18 @@ class CDbCommand extends CComponent
 				$this->_statement=$this->getConnection()->getPdoInstance()->prepare($this->getText());
 				$this->_params=array();
 			}
-			catch(Exception $e)
+			catch(PDOException $e)
 			{
 				Yii::log('Error in preparing SQL: '.$this->getText(),CLogger::LEVEL_ERROR,'system.db.CDbCommand');
 				throw new CDbException(Yii::t('yii','CDbCommand failed to prepare the SQL statement: {error}',
 					array('{error}'=>$e->getMessage())),(int)$e->getCode(),$e->errorInfo);
 			}
+            catch(Exception $e)
+            {
+                Yii::log('Error in preparing SQL: '.$this->getText(),CLogger::LEVEL_ERROR,'system.db.CDbCommand');
+				throw new CDbException(Yii::t('yii','CDbCommand failed to prepare the SQL statement: {error}',
+					array('{error}'=>$e->getMessage())),(int)$e->getCode());
+            }
 		}
 	}
 
@@ -220,7 +226,7 @@ class CDbCommand extends CComponent
 
 			return $n;
 		}
-		catch(Exception $e)
+		catch(PDOException $e)
 		{
 			if($this->_connection->enableProfiling)
 				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
@@ -228,6 +234,14 @@ class CDbCommand extends CComponent
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
 				array('{error}'=>$e->getMessage())),(int)$e->getCode(),$e->errorInfo);
 		}
+        catch(Exception $e)
+        {
+            if($this->_connection->enableProfiling)
+				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
+			Yii::log('Error in executing SQL: '.$this->getText().$par,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
+			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
+				array('{error}'=>$e->getMessage())),(int)$e->getCode());
+        }
 	}
 
 	/**
@@ -369,7 +383,7 @@ class CDbCommand extends CComponent
 
 			return $result;
 		}
-		catch(Exception $e)
+		catch(CDbException $e)
 		{
 			if($this->_connection->enableProfiling)
 				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().')','system.db.CDbCommand.query');
