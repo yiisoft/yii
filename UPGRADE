@@ -11,10 +11,17 @@ for both A and B.
 
 General upgrade intructions
 ---------------------------
+- Make a backup.
 - Clean up your 'assets' folder.
+- Replace 'framework' dir with a new one or point SVN to a fresh
+  release and update.
+- Check if everything is OK, if not — revert from backup and post
+  issues to Yii issue tracker.
 
 Upgrading from v1.1.3
 ---------------------
+- Zii was merged into Yii so if you are using SVN to keep framework
+  up to date, you'll need to delete 'framework/zii' and then update it.
 
 Upgrading from v1.1.2
 ---------------------
