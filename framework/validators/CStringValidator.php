@@ -37,7 +37,7 @@ class CStringValidator extends CValidator
 	 */
 	public $tooShort;
 	/**
-	 * @var string user-defined error message used when the value is too longt.
+	 * @var string user-defined error message used when the value is too long.
 	 */
 	public $tooLong;
 	/**
