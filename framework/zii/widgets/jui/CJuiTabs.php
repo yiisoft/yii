@@ -114,4 +114,15 @@ class CJuiTabs extends CJuiWidget
 		$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
 		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').tabs($options);");
 	}
+
+	/**
+	 * (non-PHPdoc)
+	 * @see framework/zii/widgets/jui/CJuiWidget::registerCoreScripts()
+	 */
+	protected function registerCoreScripts()
+	{
+		parent::registerCoreScripts();
+		if(isset($this->options['cookie']))
+			$cs->registerCoreScript('cookie');
+	}
 }
