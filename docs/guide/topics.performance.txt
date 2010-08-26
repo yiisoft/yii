@@ -69,7 +69,7 @@ Besides these application-level caching techniques, we can also use
 server-level caching solutions to boost the application performance. As a
 matter of fact, the [APC caching](/doc/guide/topics.performance#enabling-apc-extension) we
 described earlier belongs to this category. There are other server
-techniques, such as [Zend Optimizer](http://Zend.com/ZendOptimizer),
+techniques, such as [Zend Optimizer](http://www.zend.com/en/products/guard/zend-optimizer),
 [eAccelerator](http://eaccelerator.net/),
 [Squid](http://www.squid-cache.org/), to name a few.
 
