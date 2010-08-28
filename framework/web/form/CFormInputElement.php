@@ -61,7 +61,7 @@ class CFormInputElement extends CFormElement
 	/**
 	 * @var string the type of this input. This can be a widget class name, a path alias of a widget class name,
 	 * or a input type alias (text, hidden, password, textarea, file, radio, checkbox, listbox, dropdownlist, checkboxlist, or radiolist).
-	 * If a widget class, it must extend from {@link CInputWidget}.
+	 * If a widget class, it must extend from {@link CInputWidget} or (@link CJuiInputWidget).
 	 */
 	public $type;
 	/**
