@@ -164,7 +164,7 @@ built-in types:
  - radiolist
 
 Besides these built-in types, the [type|CFormInputElement::type] option can also take a widget class name
-or the path alias to it. The widget class must extend from [CInputWidget]. When rendering the input element,
+or the path alias to it. The widget class must extend from [CInputWidget] or [CJuiInputWidget]. When rendering the input element,
 an instance of the specified widget class will be created and rendered. The widget will be configured using
 the specification as given for the input element.
 
