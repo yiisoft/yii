@@ -18,8 +18,8 @@ Run `yiic` on the command line as follows:
 > Alternatively, you may run the tool as follows,
 >
 > ~~~
-> % cd WebRoot/testdrive
-> % php YiiRoot/framework/yiic.php webapp WebRoot/testdrive
+> % cd WebRoot
+> % php YiiRoot/framework/yiic.php webapp testdrive
 > ~~~
 
 This will create a skeleton Yii application under the directory
