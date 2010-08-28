@@ -978,6 +978,7 @@ EOD;
 	public static function ajaxSubmitButton($label,$url,$ajaxOptions=array(),$htmlOptions=array())
 	{
 		$ajaxOptions['type']='POST';
+		$htmlOptions['type']='submit';
 		return self::ajaxButton($label,$url,$ajaxOptions,$htmlOptions);
 	}
 
