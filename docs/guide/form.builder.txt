@@ -167,6 +167,35 @@ built-in types:
  - checkboxlist
  - radiolist
 
+Among the above built-in types, we would like to describe a bit more about the usage of those "list" types,
+which include `dropdownlist`, `checkboxlist` and `radiolist`. These types require setting the [items|CFormInputElement::items]
+property of the corresponding input element. One can do so like the following:
+
+~~~
+[php]
+'gender'=>array(
+    'type'=>'dropdownlist',
+    'items'=>User::model()->getGenderOptions(),
+    'prompt'=>'Please select:',
+),
+
+...
+
+class User extends CActiveRecord
+{
+	public function getGenderOptions()
+	{
+		return array(
+			0 => 'Male',
+			1 => 'Female',
+		);
+	}
+}
+~~~
+
+The above code will generate a drop-down list selector with prompt text "please select:". The selector options
+include "Male" and "Female", which are returned by the `getGenderOptions` method in the `User` model class.
+
 Besides these built-in types, the [type|CFormInputElement::type] option can also take a widget class name
 or the path alias to it. The widget class must extend from [CInputWidget] or [CJuiInputWidget]. When rendering the input element,
 an instance of the specified widget class will be created and rendered. The widget will be configured using
