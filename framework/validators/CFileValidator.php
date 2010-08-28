@@ -21,7 +21,7 @@
  *  foreach($models as $i=>$model)
  *     $model->attribute = CUploadedFile::getInstance($model, "[$i]attribute");
  * </pre>
- * Please note that you must use {link CUploadedFile::getInstances} for multiple
+ * Please note that you must use {@link CUploadedFile::getInstances} for multiple
  * file uploads.
  *
  * When using CFileValidator with an active record, the following code is often used:
