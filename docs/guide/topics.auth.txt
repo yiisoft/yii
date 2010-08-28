@@ -235,7 +235,7 @@ is case-insensitive. Three special characters can be used here:
 	   - `@`: authenticated users.
 
    - [roles|CAccessRule::roles]: specifies which roles that this rule matches.
-This makes use of the [role-based access control](#role-based-access-control)
+This makes use of the [role-based access control](/doc/guide/topics.auth#role-based-access-control)
 feature to be described in the next subsection. In particular, the rule
 is applied if [CWebUser::checkAccess] returns true for one of the roles.
 Note, you should mainly use roles in an `allow` rule because by definition,
