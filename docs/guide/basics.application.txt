@@ -66,7 +66,7 @@ Application base directory refers to the root directory that contains all
 security-sensitive PHP scripts and data. By default, it is a subdirectory
 named `protected` that is located under the directory containing the entry
 script. It can be customized via setting the
-[basePath|CWebApplication::basePath] property in the [application configuration](#application-configuration).
+[basePath|CWebApplication::basePath] property in the [application configuration](/doc/guide/basics.application#application-configuration).
 
 Contents under the application base directory should be protected from
 being accessed by Web users. With [Apache HTTP
