@@ -9,6 +9,11 @@
  */
 
 require_once(Yii::getPathOfAlias('system.vendors.markdown.markdown').'.php');
+if(!class_exists('HTMLPurifier_Bootstrap',false))
+{
+	require_once(Yii::getPathOfAlias('system.vendors.htmlpurifier').DIRECTORY_SEPARATOR.'HTMLPurifier.standalone.php');
+	HTMLPurifier_Bootstrap::registerAutoload();
+}
 
 /**
  * CMarkdownParser is a wrapper of {@link http://michelf.com/projects/php-markdown/extra/ MarkdownExtra_Parser}.
@@ -48,6 +53,15 @@ class CMarkdownParser extends MarkdownExtra_Parser
 	 * the code block that is highlighted. Defaults to 'hl-code'.
 	 */
 	public $highlightCssClass='hl-code';
+	/**
+	 * @var mixed the options to be passed to {@link http://htmlpurifier.org HTML Purifier}.
+	 * This can be a HTMLPurifier_Config object,  an array of directives (Namespace.Directive => Value)
+	 * or the filename of an ini file.
+	 * This property is used only when {@link safeTransform} is invoked.
+	 * @see http://htmlpurifier.org/live/configdoc/plain.html
+	 * @since 1.1.4
+	 */
+	public $purifierOptions=null;
 
 	/**
 	 * Transforms the content and purifies the result.
@@ -62,7 +76,8 @@ class CMarkdownParser extends MarkdownExtra_Parser
 	public function safeTransform($content)
 	{
 		$content=$this->transform($content);
-		$purifier=new CHtmlPurifier;
+		$purifier=new HTMLPurifier($this->purifierOptions);
+		$purifier->config->set('Cache.SerializerPath',Yii::app()->getRuntimePath());
 		return $purifier->purify($content);
 	}
 
