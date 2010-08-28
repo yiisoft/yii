@@ -171,7 +171,7 @@ $component->test();
 It is possible that two behaviors attached to the same component have methods of the same name.
 In this case, the method of the first attached behavior will take precedence.
 
-When used together with [events](#component-event), behaviors are even more powerful.
+When used together with [events](/doc/guide/basics.component#component-event), behaviors are even more powerful.
 A behavior, when being attached to a component, can attach some of its methods to some events
 of the component. By doing so, the behavior gets a chance to observe or change the normal
 execution flow of the component.
