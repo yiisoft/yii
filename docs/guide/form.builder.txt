@@ -141,10 +141,14 @@ specifies a single input element:
 ~~~
 
 It states that the model attribute is named as `username`, and the input field type is `text` whose
-`maxlength` attribute is 32. We can specify other options in the above array as long as they are writable
-properties of [CFormInputElement]. For example, we may specify the [hint|CFormInputElement::hint] option
-in order to display a hint text, or we may specify the [items|CFormInputElement::items] option if
-the input field is a list box, a drop-down list, a check-box list or a radio-button list.
+`maxlength` attribute is 32.
+
+Any writable property of [CFormInputElement] can be configured like above. For example, we may specify
+the [hint|CFormInputElement::hint] option in order to display a hint text, or we may specify the
+[items|CFormInputElement::items] option if the input field is a list box, a drop-down list, a check-box list
+or a radio-button list. If an option name is not a property of [CFormInputElement], it will be treated
+the attribute of the corresponding HTML input element. For example, because `maxlength` in the above is not
+a property of [CFormInputElement], it will be rendered as the `maxlength` attribute of the HTML text input field.
 
 The [type|CFormInputElement::type] option deserves additional attention. It specifies the type of the input
 field to be rendered. For example, the `text` type means a normal text input field should be rendered;
