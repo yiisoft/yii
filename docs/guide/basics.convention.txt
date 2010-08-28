@@ -35,8 +35,8 @@ detail in [URL Management](/doc/guide/topics.url).
 Code
 ----
 
-Yii recommends naming variables, functions and class types in camel case
-which capitalizes each word in the name and joins them without spaces.
+Yii recommends naming variables, functions and class types in camel case which
+capitalizes the first letter of each word in the name and joins them without spaces.
 Variable and function names should have their first word all in lower-case,
 in order to differentiate from class names (e.g. `$basePath`,
 `runController()`, `LinkPager`). For private class member variables, it is
