@@ -8,8 +8,11 @@
  * @license http://www.yiiframework.com/license/
  */
 
-require_once(Yii::getPathOfAlias('system.vendors.htmlpurifier').DIRECTORY_SEPARATOR.'HTMLPurifier.standalone.php');
-HTMLPurifier_Bootstrap::registerAutoload();
+if(!class_exists('HTMLPurifier_Bootstrap',false))
+{
+	require_once(Yii::getPathOfAlias('system.vendors.htmlpurifier').DIRECTORY_SEPARATOR.'HTMLPurifier.standalone.php');
+	HTMLPurifier_Bootstrap::registerAutoload();
+}
 
 /**
  * CHtmlPurifier is wrapper of {@link http://htmlpurifier.org HTML Purifier}.
