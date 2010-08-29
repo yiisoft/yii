@@ -28,7 +28,39 @@ class CInlineAction extends CAction
 	 */
 	public function run()
 	{
-		$method='action'.$this->getId();
-		$this->getController()->$method();
+		$controller=$this->getController();
+		$methodName='action'.$this->getId();
+		$method=new ReflectionMethod($controller,$methodName);
+		if($method->getNumberOfParameters()>0)
+		{
+			preg_match_all('/^\s*\**\s*@param\s+(\w+)\s*/m',$method->getDocComment(),$matches);
+			$types=$matches[1];
+			$params=array();
+			foreach($method->getParameters() as $i=>$param)
+			{
+				$name=$param->getName();
+				if(isset($_GET[$name]))
+				{
+					$value=$_GET[$name];
+					if(isset($types[$i]))
+					{
+						if($types[$i]==='integer' || $types[$i]==='int')
+							$value=(int)$value;
+						else if($types[$i]==='float' || $types[$i]==='double')
+							$value=(float)$value;
+						else if($types[$i]==='boolean' || $types[$i]==='bool')
+							$value=(bool)$value;
+					}
+					$params[]=$value;
+				}
+				else if($param->isDefaultValueAvailable())
+					$params[]=$param->getDefaultValue();
+				else
+					$controller->missingAction($this->getId());
+			}
+			$method->invokeArgs($controller,$params);
+		}
+		else
+			$controller->$methodName();
 	}
 }

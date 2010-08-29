@@ -61,6 +61,35 @@ class TestController extends CController
 	{
 		$this->internal++;
 	}
+
+	public $a;
+	public $b;
+	public $c;
+	public $d;
+
+	public function actionCreate($a,$b,$c=3,$d=4)
+	{
+		$this->a=$a;
+		$this->b=$b;
+		$this->c=$c;
+		$this->d=$d;
+	}
+
+	/**
+	 * test type hinting
+	 * @param integer $a
+	 * @param float $b
+	 * @param boolean $c
+	 * @param string $d
+	 * @return null
+	 */
+	public function actionCreate2($a,$b,$c=3,$d=4)
+	{
+		$this->a=$a;
+		$this->b=$b;
+		$this->c=$c;
+		$this->d=$d;
+	}
 }
 
 class TestFilter extends CFilter
@@ -138,5 +167,61 @@ class CControllerTest extends CTestCase
 
 		$this->setExpectedException('CException');
 		$c->run('unknown');
+	}
+
+	public function testActionParams()
+	{
+		$app=new TestApplication;
+		$c=new TestController('test');
+
+		$_GET['a']=1;
+		$_GET['b']='2';
+		$c->run('create');
+		$this->assertTrue($c->a===1);
+		$this->assertTrue($c->b==='2');
+		$this->assertTrue($c->c===3);
+		$this->assertTrue($c->d===4);
+
+		$_GET['a']=11;
+		$_GET['b']='22';
+		$_GET['d']='44';
+		$c->run('create');
+		$this->assertTrue($c->a===11);
+		$this->assertTrue($c->b==='22');
+		$this->assertTrue($c->c===3);
+		$this->assertTrue($c->d==='44');
+	}
+
+	public function testActionParamsWithType()
+	{
+		$app=new TestApplication;
+		$c=new TestController('test');
+
+		$_GET['a']='1';
+		$_GET['b']='2.1';
+		$c->run('create2');
+		$this->assertTrue($c->a===1);
+		$this->assertTrue($c->b===2.1);
+		$this->assertTrue($c->c===3);
+		$this->assertTrue($c->d===4);
+
+		$_GET['a']='11';
+		$_GET['b']='22.2';
+		$_GET['c']='33';
+		$_GET['d']='44';
+		$c->run('create2');
+		$this->assertTrue($c->a===11);
+		$this->assertTrue($c->b===22.2);
+		$this->assertTrue($c->c===true);
+		$this->assertTrue($c->d==='44');
+	}
+
+	public function testActionParamsInvalid()
+	{
+		$app=new TestApplication;
+		$c=new TestController('test');
+		$_GET=array('a'=>1);
+		$this->setExpectedException('CException');
+		$c->run('create2');
 	}
 }

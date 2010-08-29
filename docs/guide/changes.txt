@@ -3,6 +3,11 @@ New Features
 
 This page summarizes the main new features introduced in each Yii release.
 
+Version 1.1.4
+-------------
+
+ * [Added support of using controller action parameters](/doc/guide/basics.controller#action-parameters)
+
 Version 1.1.3
 -------------
 
