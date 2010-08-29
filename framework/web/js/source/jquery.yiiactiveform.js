@@ -116,10 +116,8 @@
 								hasError = $.fn.yiiactiveform.updateInput(attribute, data) || hasError;
 							});
 							$.fn.yiiactiveform.updateSummary($form, data);
-							submitting=false;
 							if(settings.afterValidate==undefined || settings.afterValidate($form, data, hasError)) {
 								if(!hasError) {
-									submitting= true;
 									validated = true;
 									var $button = $form.data('submitObject') || $form.find(':submit:first');
 									// TODO: if the submission is caused by "change" event, it will not work
@@ -127,8 +125,10 @@
 										$button.click();
 									else  // no submit button in the form
 										$form.submit();
+									return false;
 								}
 							}
+							submitting=false;
 						});
 					}
 					else {
