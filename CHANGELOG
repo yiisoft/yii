@@ -41,6 +41,7 @@ Version 1.1.4 to be released
 - Enh: Added CUrlManager::addRules() (Qiang)
 - Chg #1309: CHttpRequest::getPathInfo() now always returns decoded results (Qiang)
 - Chg #1494: CHtml::ajaxSubmitButton() will generate a submit button (Qiang)
+- Chg #1515: CModel::onUnsafeAttribute() will be invoked only when $safeOnly is true when calling CModel::setAttributes (Qiang)
 - Chg: Replaced jQuery live() with delegate() in CHtml-generated js code (Qiang)
 - New: Upgraded JQuery UI to 1.8.4 (Sam Dark)
 - New: Upgraded code highlighter: added sh and VBScript, fixed comments in CSS and hex numbers in JavaScript (Sam Dark)

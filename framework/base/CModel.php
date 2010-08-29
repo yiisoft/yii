@@ -445,7 +445,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		{
 			if(isset($attributes[$name]))
 				$this->$name=$value;
-			else
+			else if($safeOnly)
 				$this->onUnsafeAttribute($name,$value);
 		}
 	}
