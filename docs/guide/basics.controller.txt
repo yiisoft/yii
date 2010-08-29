@@ -163,7 +163,7 @@ parameter values from `$_GET`:
 [php]
 class PostController extends CController
 {
-	public function actionCreate($category, $language='en')
+	public function actionCreate()
 	{
 		if(isset($_GET['category']))
 			$category=(int)$_GET['category'];
