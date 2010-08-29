@@ -12,8 +12,8 @@
  * CEmailLogRoute sends selected log messages to email addresses.
  *
  * The target email addresses may be specified via {@link setEmails emails} property.
- * Optionally, you may set the email {@link setSubject subject} and the
- * {@link setSentFrom sentFrom} address.
+ * Optionally, you may set the email {@link setSubject subject}, the
+ * {@link setSentFrom sentFrom} address and any additional {@link setHeaders headers}.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
@@ -34,6 +34,10 @@ class CEmailLogRoute extends CLogRoute
 	 * @var string email sent from address
 	 */
 	private $_from;
+	/**
+	 * @var array list of additional headers to use when sending an email.
+	 */
+	private $_headers=array();
 
 	/**
 	 * Sends log messages to specified email addresses.
@@ -60,10 +64,10 @@ class CEmailLogRoute extends CLogRoute
 	 */
 	protected function sendEmail($email,$subject,$message)
 	{
+		$headers=$this->getHeaders();
 		if(($from=$this->getSentFrom())!==null)
-			mail($email,$subject,$message,"From:{$from}\r\n");
-		else
-			mail($email,$subject,$message);
+			$headers[]="From: {$from}";
+		mail($email,$subject,$message,implode("\r\n",$headers));
 	}
 
 	/**
@@ -75,7 +79,7 @@ class CEmailLogRoute extends CLogRoute
 	}
 
 	/**
-	 * @return array|string list of destination email addresses. If the value is
+	 * @param mixed list of destination email addresses. If the value is
 	 * a string, it is assumed to be comma-separated email addresses.
 	 */
 	public function setEmails($value)
@@ -117,5 +121,26 @@ class CEmailLogRoute extends CLogRoute
 	{
 		$this->_from=$value;
 	}
-}
 
+	/**
+	 * @return array additional headers to use when sending an email.
+	 * @since 1.1.4
+	 */
+	public function getHeaders()
+	{
+		return $this->_headers;
+	}
+
+	/**
+	 * @param mixed list of additional headers to use when sending an email.
+	 * If the value is a string, it is assumed to be line break separated headers.
+	 * @since 1.1.4
+	 */
+	public function setHeaders($value)
+	{
+		if (is_array($value))
+			$this->_headers=$value;
+		else
+			$this->_headers=preg_split('/\r\n|\n/',$value,-1,PREG_SPLIT_NO_EMPTY);
+	}
+}
