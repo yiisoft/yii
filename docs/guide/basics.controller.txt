@@ -222,8 +222,13 @@ class PostController extends CController
 ~~~
 
 In the above comment block, each parameter has a corresponding line of comment, which
-must be in the format of `@param Type ...`. Only the simple PHP types are supported, which
-include `integer` (or `int`), `boolean` (or `bool`), `float` (or `double`), and `string`.
+must be in the format of `@param Type ParamName ...`. The `Type` part specifies a
+single PHP type, which can be `integer` (or `int`), `boolean` (or `bool`), `float` (or `double`), or `string`.
+The `ParamName` part specifies the corresponding parameter name (e.g. `$category`).
+
+The method comment block is not required. When it is not specified, it means
+the action itself should take care of the parameter types, and all parameters will
+be passed to the action as is.
 
 
 Filter
