@@ -32,6 +32,7 @@ Version 1.1.4 to be released
 - Enh #1434: Added zii message translation in Italian (enrico.detoma)
 - Enh #1440: CDbException does now provide a valid error code if possible (Y!!)
 - Enh #1443: Added CCheckBoxColumn::checked to allow settings checked state for each CCheckBoxColumn row (Sam Dark)
+- Enh #1471: CActiveForm AJAX validation should be cancelled when the form is already submitted (Qiang)
 - Enh #1509: Improved CMarkdownParser so that it can be used in console mode (Qiang)
 - Enh: Added CPortlet::hideOnEmpty property (Qiang)
 - Enh: Added CValidator::safe to allow marking a validator as safe or unsafe (Qiang)

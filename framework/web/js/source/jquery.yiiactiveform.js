@@ -38,6 +38,7 @@
 			});
 			$(this).data('settings', settings);
 
+			var submitting=false;  // whether it is waiting for ajax submission result
 			var validate = function(attribute, forceValidate) {
 				if (forceValidate)
 					attribute.status = 2;
@@ -55,6 +56,8 @@
 				}
 
 				settings.timer = setTimeout(function(){
+					if(submitting)
+						return;
 					if(attribute.beforeValidateAttribute==undefined || attribute.beforeValidateAttribute($form, attribute)) {
 						$.each(settings.attributes, function(){
 							if (this.status == 2) {
@@ -102,6 +105,10 @@
 				$form.submit(function(){
 					if (validated)
 						return true;
+					if(settings.timer!=undefined) {
+						clearTimeout(settings.timer);
+					}
+					submitting=true;
 					if(settings.beforeValidate==undefined || settings.beforeValidate($form)) {
 						$.fn.yiiactiveform.validate($form, function(data){
 							var hasError = false;
@@ -109,8 +116,10 @@
 								hasError = $.fn.yiiactiveform.updateInput(attribute, data) || hasError;
 							});
 							$.fn.yiiactiveform.updateSummary($form, data);
+							submitting=false;
 							if(settings.afterValidate==undefined || settings.afterValidate($form, data, hasError)) {
 								if(!hasError) {
+									submitting= true;
 									validated = true;
 									var $button = $form.data('submitObject') || $form.find(':submit:first');
 									// TODO: if the submission is caused by "change" event, it will not work
@@ -121,6 +130,9 @@
 								}
 							}
 						});
+					}
+					else {
+						submitting=false;
 					}
 					return false;
 				});
@@ -232,7 +244,7 @@
 	$.fn.yiiactiveform.defaults = {
 		ajaxVar: 'ajax',
 		validationUrl: undefined,
-		validationDelay: 100,
+		validationDelay: 200,
 		validateOnSubmit : false,
 		validateOnChange : true,
 		validateOnType : false,
@@ -254,7 +266,7 @@
 		 *     errorID : 'error-tag-id',
 		 *     value : undefined,
 		 *     status : 0,  // 0: empty, not entered before,  1: validated, 2: pending validation, 3: validating
-		 *     validationDelay: 100,
+		 *     validationDelay: 200,
 		 *     validateOnChange : true,
 		 *     validateOnType : false,
 		 *     hideErrorMessage : false,

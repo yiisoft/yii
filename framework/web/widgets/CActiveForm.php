@@ -157,7 +157,7 @@ class CActiveForm extends CWidget
 	 * delayed after an input is changed. A value 0 means the validation will be triggered immediately
 	 * when an input is changed. A value greater than 0 means changing several inputs may only
 	 * trigger a single validation if they happen fast enough, which may help reduce the server load.
-	 * Defaults to 100 (0.1 second).</li>
+	 * Defaults to 200 (0.2 second).</li>
 	 * <li>validateOnSubmit: boolean, whether to perform AJAX validation when the form is being submitted.
 	 * If there are any validation errors, the form submission will be stopped.
 	 * Defaults to false.</li>
