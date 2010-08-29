@@ -83,7 +83,7 @@ or
 The latter is used when the widget does not need any body content.
 
 Widgets can be configured to customize its behaviors. This is done by
-settings their initial property values when calling
+setting their initial property values when calling
 [CBaseController::beginWidget] or [CBaseController::widget]. For example,
 when using [CMaskedTextField] widget, we would like to specify the mask
 being used. We can do so by passing an array of those property initial
