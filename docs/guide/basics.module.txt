@@ -79,7 +79,9 @@ A controller action in a module can be accessed using the [route](/doc/guide/bas
 Nested Module
 -------------
 
-Modules can be nested. That is, a module can contain another module. We call the former *parent module* while the latter *child module*. Child modules must be placed under the `modules` directory of the parent module. To access a controller action in a child module, we should use the route `parentModuleID/childModuleID/controllerID/actionID`.
+Modules can be nested in unlimited levels. That is, a module can contain another module which can contain yet another module. We call the former *parent module* while the latter *child module*. Child modules must be declared in the [modules|CWebModule::modules] property of their parent module, like we declare modules in the application configuration shown as above.
+
+To access a controller action in a child module, we should use the route `parentModuleID/childModuleID/controllerID/actionID`.
 
 
 <div class="revision">$Id$</div>
