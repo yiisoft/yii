@@ -43,7 +43,7 @@ class CCheckBoxColumn extends CGridColumn
 	public $value;
 	/**
 	 * @var string a PHP expression that will be evaluated for every data cell and whose result will
-	 * determine is checkbox for each data cell is checked. In this expression, the variable
+	 * determine if checkbox for each data cell is checked. In this expression, the variable
 	 * <code>$row</code> the row number (zero-based); <code>$data</code> the data model for the row;
 	 * and <code>$this</code> the column object.
 	 * @since 1.1.4
