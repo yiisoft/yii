@@ -1221,12 +1221,12 @@ abstract class CActiveRecord extends CModel
 
 	private function query($criteria,$all=false)
 	{
+        $this->beforeFind();
 		$this->applyScopes($criteria);
 		if(empty($criteria->with))
 		{
 			if(!$all)
 				$criteria->limit=1;
-			$this->beforeFind();
 			$command=$this->getCommandBuilder()->createFindCommand($this->getTableSchema(),$criteria);
 			return $all ? $this->populateRecords($command->queryAll()) : $this->populateRecord($command->queryRow());
 		}
