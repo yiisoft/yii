@@ -42,6 +42,7 @@ Version 1.1.4 to be released
 - Enh: Added CValidator::safe to allow marking a validator as safe or unsafe (Qiang)
 - Enh: Added CDbCacheDependency::params (Qiang)
 - Enh: Added CUrlManager::addRules() (Qiang)
+- Chg #1102: Added jQuery UI as a core client script package (Qiang)
 - Chg #1309: CHttpRequest::getPathInfo() now always returns decoded results (Qiang)
 - Chg #1494: CHtml::ajaxSubmitButton() will generate a submit button (Qiang)
 - Chg #1515: CModel::onUnsafeAttribute() will be invoked only when $safeOnly is true when calling CModel::setAttributes (Qiang)
