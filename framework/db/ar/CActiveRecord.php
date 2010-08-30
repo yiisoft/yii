@@ -1847,6 +1847,8 @@ class CBaseActiveRelation extends CComponent
 	 */
 	public function mergeWith($criteria,$fromScope=false)
 	{
+		if($criteria instanceof CDbCriteria)
+			$criteria=$criteria->toArray();
 		if(isset($criteria['select']) && $this->select!==$criteria['select'])
 		{
 			if($this->select==='*')
@@ -1933,6 +1935,8 @@ class CStatRelation extends CBaseActiveRelation
 	 */
 	public function mergeWith($criteria,$fromScope=false)
 	{
+		if($criteria instanceof CDbCriteria)
+			$criteria=$criteria->toArray();
 		parent::mergeWith($criteria,$fromScope);
 
 		if(isset($criteria['defaultValue']))
@@ -1979,6 +1983,8 @@ class CActiveRelation extends CBaseActiveRelation
 	 */
 	public function mergeWith($criteria,$fromScope=false)
 	{
+		if($criteria instanceof CDbCriteria)
+			$criteria=$criteria->toArray();
 		if($fromScope)
 		{
 			if(isset($criteria['condition']) && $this->on!==$criteria['condition'])
@@ -2082,6 +2088,8 @@ class CHasManyRelation extends CActiveRelation
 	 */
 	public function mergeWith($criteria,$fromScope=false)
 	{
+		if($criteria instanceof CDbCriteria)
+			$criteria=$criteria->toArray();
 		parent::mergeWith($criteria,$fromScope);
 		if(isset($criteria['limit']) && $criteria['limit']>0)
 			$this->limit=$criteria['limit'];
