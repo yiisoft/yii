@@ -29,6 +29,7 @@ Version 1.1.4 to be released
 - Enh #1392: Added CCaptchaAction::fixedVerifyCode (Qiang)
 - Enh #1400: Enhanced CActiveRecord::getAttributeLabel() to support returning labels for related object's attribute (Qiang)
 - Enh #1412: Yii::import() now throws an exception when trying to include nonexisting PHP file (Qiang)
+- Enh #1414: Several enhancements to MSSQL driver used by AR (Qiang)
 - Enh #1433: Added CMessageSource::forceTranslation (Qiang)
 - Enh #1434: Added zii message translation in Italian (enrico.detoma)
 - Enh #1440: CDbException does now provide a valid error code if possible (Y!!)

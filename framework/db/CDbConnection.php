@@ -303,7 +303,7 @@ class CDbConnection extends CApplicationComponent
 		if(($pos=strpos($this->connectionString,':'))!==false)
 		{
 			$driver=strtolower(substr($this->connectionString,0,$pos));
-			if($driver==='mssql' || $driver==='dblib')
+			if($driver==='mssql' || $driver==='dblib' || $driver==='sqlsrv')
 				$pdoClass='CMssqlPdoAdapter';
 		}
 		return new $pdoClass($this->connectionString,$this->username,
@@ -410,6 +410,7 @@ class CDbConnection extends CApplicationComponent
 					return $this->_schema=new CSqliteSchema($this);
 				case 'mssql': // Mssql driver on windows hosts
 				case 'dblib': // dblib drivers on linux (and maybe others os) hosts
+				case 'sqlsrv':
 					return $this->_schema=new CMssqlSchema($this);
 				case 'oci':  // Oracle driver
 					return $this->_schema=new COciSchema($this);
