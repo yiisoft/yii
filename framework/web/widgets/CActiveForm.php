@@ -301,7 +301,7 @@ class CActiveForm extends CWidget
 	 * particular model attribute. For more details about these options, please refer to {@link clientOptions}.
 	 * Note that these options are only used when {@link enableAjaxValidation} is set true.
 	 * @param boolean whether to enable AJAX validation for the specified attribute.
-	 * Note that in order toe enable AJAX validation, both {@link enableAjaxValidation} and this parameter
+	 * Note that in order to enable AJAX validation, both {@link enableAjaxValidation} and this parameter
 	 * must be true.
 	 * @return string the validation result (error display or success message).
 	 * @see CHtml::error
