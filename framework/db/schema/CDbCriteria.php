@@ -95,6 +95,22 @@ class CDbCriteria
 	 * @var string the alias name of the table. If not set, it means the alias is 't'.
 	 */
 	public $alias;
+	/**
+	 * @var boolean whether the foreign tables should be joined with the primary table in a single SQL.
+	 * This property is only used in relational AR queries.
+	 *
+	 * When this property is set true, only a single SQL will be executed for a relational AR query,
+	 * even if the primary table is limited and the relationship between a foreign table and the primary
+	 * table is many-to-one.
+	 *
+	 * When this property is set false, a SQL statement will be executed for each HAS_MANY relation.
+	 *
+	 * When this property is not set, if the primary table is limited, a SQL statement will be executed for each HAS_MANY relation.
+	 * Otherwise, a single SQL statement will be executed for all.
+	 *
+	 * @since 1.1.4
+	 */
+	public $together;
 
 	/**
 	 * Constructor.
@@ -459,6 +475,9 @@ class CDbCriteria
 
 		if($criteria->distinct>0)
 			$this->distinct=$criteria->distinct;
+
+		if($criteria->together!==null)
+			$this->together=$criteria->together;
 
 		if(empty($this->with))
 			$this->with=$criteria->with;
