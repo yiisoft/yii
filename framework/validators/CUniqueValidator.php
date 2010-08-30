@@ -105,7 +105,7 @@ class CUniqueValidator extends CValidator
 				if($column->isPrimaryKey)  // primary key is modified and not unique
 					$exists=$object->getOldPrimaryKey()!=$object->getPrimaryKey();
 				else // non-primary key, need to exclude the current record based on PK
-					$exists=$objects[0]->getPrimaryKey()!=$object->getPrimaryKey();
+					$exists=$objects[0]->getPrimaryKey()!=$object->getOldPrimaryKey();
 			}
 			else
 				$exists=$n>1;
