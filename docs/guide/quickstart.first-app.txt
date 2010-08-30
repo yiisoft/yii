@@ -23,7 +23,7 @@ Run `yiic` on the command line as follows:
 > ~~~
 
 This will create a skeleton Yii application under the directory
-`WebRoot/testdrive`. The application has a directory structure that is
+`WebRoot/testdrive`. The application has a directory structure that
 is needed by most Yii applications.
 
 Without writing a single line of code, we can test drive our first Yii
@@ -151,9 +151,9 @@ Implementing CRUD Operations
 ----------------------------
 
 Now is the fun part. We would like to implement the CRUD (create, read,
-update and delete) operations for the `User` table we just created. This is
+update and delete) operations for the `tbl_user` table we just created. This is
 also commonly needed in practical applications. Instead of taking the trouble
-to write the actual code, we will use Gii -- a powerful Web-based code generator.
+to write the actual code, we will use `Gii` -- a powerful Web-based code generator.
 
 > Info: Gii has been available since version 1.1.2. Before that, we can use the aforementioned `yiic` tool to accomplish the same goal. For more details, please refer to [Implementing CRUD Operations with yiic shell](/doc/guide/quickstart.first-app-yiic).
 
