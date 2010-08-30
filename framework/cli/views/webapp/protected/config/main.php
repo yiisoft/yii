@@ -18,6 +18,16 @@ return array(
 		'application.components.*',
 	),
 
+	'modules'=>array(
+		// uncomment the following to enable the Gii tool
+		/*
+		'gii'=>array(
+			'class'=>'system.gii.GiiModule',
+			'password'=>'Enter Your Password Here',
+		),
+		*/
+	),
+
 	// application components
 	'components'=>array(
 		'user'=>array(
