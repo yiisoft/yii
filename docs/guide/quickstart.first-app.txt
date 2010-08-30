@@ -2,8 +2,9 @@ Creating First Yii Application
 ==============================
 
 To get an initial experience with Yii, we describe in this section how to
-create our first Yii application. We will use the powerful `yiic` tool
-which can be used to automate code creation for certain tasks. For convenience,
+create our first Yii application. We will use `yiic` (command line tool)
+to create a new Yii application and `Gii` (powerful web based code generator)
+to automate code creation for certain tasks. For convenience,
 we assume that `YiiRoot` is the directory where Yii is installed, and `WebRoot`
 is the document root of our Web server.
 
