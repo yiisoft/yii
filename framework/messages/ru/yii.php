@@ -16,7 +16,8 @@
  * @version $Id: $
  */
 return array (
-  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file.' => 'Псевдоним "{alias}" неверен. Убедитесь, что он указывает на существующий PHP файл.',
+  'The comment of {method} does not match its parameter declaration. Parameter {name} is not found in the method comment.' => 'Комментарий метода {method} не совпадает с объявленнием его параметров. Параметр {name} не найден в комментарии метода.',
+  'The {method} has {count} parameters, but {count2} are declared in the method comment.' => 'Метод {method} содержит {count} параметров. В комментарии метода описаны {count2}.',
   '"{path}" is not a valid directory.' => 'Путь "{path}" не является правильной директорией.',
   '&lt; Previous' => '&lt; Предыдущая',
   '&lt;&lt; First' => '&lt;&lt; Первая',
@@ -24,6 +25,7 @@ return array (
   'Active record "{class}" has an invalid configuration for relation "{relation}". It must specify the relation type, the related active record class and the foreign key.' => 'Отношение "{relation}" класса Active record "{class}" сконфигурировано не верно. Вы должны указать тип отношения, связанный отношением класс active record и внешний ключ.',
   'Active record "{class}" is trying to select an invalid column "{column}". Note, the column must exist in the table or be an expression with alias.' => 'ActiveRecord "{class}" пытается выбрать недопустимый столбец "{column}". Примечание: столбец должен существовать в таблице или являться выражением с алиасом.',
   'Active record class "{class}" does not have a scope named "{scope}".' => 'В классе ActiveRecord "{class}" нет именованной группы условий "{scope}".',
+  'Alias "{alias}" is invalid. Make sure it points to an existing PHP file.' => 'Псевдоним "{alias}" неверен. Убедитесь, что он указывает на существующий PHP файл.',
   'Alias "{alias}" is invalid. Make sure it points to an existing directory or file.' => 'Неправильный алиас "{alias}". Убедитесь, что он указывает на существующую директорию или файл.',
   'Application Log' => 'Журнал приложения',
   'Application base path "{path}" is not a valid directory.' => 'Базовый (base) путь приложения "{path}" не является директорией.',
