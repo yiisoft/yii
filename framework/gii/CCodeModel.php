@@ -351,4 +351,17 @@ abstract class CCodeModel extends CFormModel
 		$result=trim(strtolower(str_replace('_',' ',preg_replace('/(?<![A-Z])[A-Z]/', ' \0', $name))));
 		return $ucwords ? ucwords($result) : $result;
 	}
+
+	/**
+	 * Converts a class name into a variable name with the first letter in lower case.
+	 * This method is provided because lcfirst() PHP function is only available for PHP 5.3+.
+	 * @param string the class name
+	 * @return string the variable name converted from the class name
+	 * @since 1.1.4
+	 */
+	public function class2var($name)
+	{
+		$name[0]=strtolower($name[0]);
+		return $name;
+	}
 }
