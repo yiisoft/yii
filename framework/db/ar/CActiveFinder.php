@@ -76,6 +76,7 @@ class CActiveFinder extends CComponent
 	public function query($criteria,$all=false)
 	{
 		$this->_joinTree->model->applyScopes($criteria);
+		$this->joinAll=$criteria->together===true;
 		$this->_joinTree->beforeFind();
 
 		if($criteria->alias!='')
@@ -96,66 +97,6 @@ class CActiveFinder extends CComponent
 
 		$this->_joinTree = null;
 		return $result;
-	}
-
-	/**
-	 * This is the relational version of {@link CActiveRecord::find()}.
-	 */
-	public function find($condition='',$params=array())
-	{
-		Yii::trace(get_class($this->_joinTree->model).'.find() eagerly','system.db.ar.CActiveRecord');
-		$criteria=$this->_builder->createCriteria($condition,$params);
-		return $this->query($criteria);
-	}
-
-	/**
-	 * This is the relational version of {@link CActiveRecord::findAll()}.
-	 */
-	public function findAll($condition='',$params=array())
-	{
-		Yii::trace(get_class($this->_joinTree->model).'.findAll() eagerly','system.db.ar.CActiveRecord');
-		$criteria=$this->_builder->createCriteria($condition,$params);
-		return $this->query($criteria,true);
-	}
-
-	/**
-	 * This is the relational version of {@link CActiveRecord::findByPk()}.
-	 */
-	public function findByPk($pk,$condition='',$params=array())
-	{
-		Yii::trace(get_class($this->_joinTree->model).'.findByPk() eagerly','system.db.ar.CActiveRecord');
-		$criteria=$this->_builder->createPkCriteria($this->_joinTree->model->getTableSchema(),$pk,$condition,$params,$this->_joinTree->rawTableAlias.'.');
-		return $this->query($criteria);
-	}
-
-	/**
-	 * This is the relational version of {@link CActiveRecord::findAllByPk()}.
-	 */
-	public function findAllByPk($pk,$condition='',$params=array())
-	{
-		Yii::trace(get_class($this->_joinTree->model).'.findAllByPk() eagerly','system.db.ar.CActiveRecord');
-		$criteria=$this->_builder->createPkCriteria($this->_joinTree->model->getTableSchema(),$pk,$condition,$params,$this->_joinTree->rawTableAlias.'.');
-		return $this->query($criteria,true);
-	}
-
-	/**
-	 * This is  the relational version of {@link CActiveRecord::findByAttributes()}.
-	 */
-	public function findByAttributes($attributes,$condition='',$params=array())
-	{
-		Yii::trace(get_class($this->_joinTree->model).'.findByAttributes() eagerly','system.db.ar.CActiveRecord');
-		$criteria=$this->_builder->createColumnCriteria($this->_joinTree->model->getTableSchema(),$attributes,$condition,$params,$this->_joinTree->rawTableAlias.'.');
-		return $this->query($criteria);
-	}
-
-	/**
-	 * This is the relational version of {@link CActiveRecord::findAllByAttributes()}.
-	 */
-	public function findAllByAttributes($attributes,$condition='',$params=array())
-	{
-		Yii::trace(get_class($this->_joinTree->model).'.findAllByAttributes() eagerly','system.db.ar.CActiveRecord');
-		$criteria=$this->_builder->createColumnCriteria($this->_joinTree->model->getTableSchema(),$attributes,$condition,$params,$this->_joinTree->rawTableAlias.'.');
-		return $this->query($criteria,true);
 	}
 
 	/**
@@ -201,6 +142,7 @@ class CActiveFinder extends CComponent
 		Yii::trace(get_class($this->_joinTree->model).'.count() eagerly','system.db.ar.CActiveRecord');
 		$criteria=$this->_builder->createCriteria($condition,$params);
 		$this->_joinTree->model->applyScopes($criteria);
+		$this->joinAll=$criteria->together!==true;
 
 		$alias=$criteria->alias===null ? 't' : $criteria->alias;
 		$this->_joinTree->tableAlias=$alias;

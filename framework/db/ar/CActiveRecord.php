@@ -1231,7 +1231,10 @@ abstract class CActiveRecord extends CModel
 			return $all ? $this->populateRecords($command->queryAll()) : $this->populateRecord($command->queryRow());
 		}
 		else
-			return $this->with($criteria->with)->query($criteria,$all);
+		{
+			$finder=new CActiveFinder($this,$criteria->with);
+			return $finder->query($criteria,$all);
+		}
 	}
 
 	/**
@@ -1389,9 +1392,17 @@ abstract class CActiveRecord extends CModel
 	public function findBySql($sql,$params=array())
 	{
 		Yii::trace(get_class($this).'.findBySql()','system.db.ar.CActiveRecord');
-		$this->beforeFind();
-		$command=$this->getCommandBuilder()->createSqlCommand($sql,$params);
-		return $this->populateRecord($command->queryRow());
+		if(($criteria=$this->getDbCriteria(false))!==null && !empty($criteria->with))
+		{
+			$finder=new CActiveFinder($this,$criteria->with);
+			return $finder->findBySql($sql,$params);
+		}
+		else
+		{
+			$this->beforeFind();
+			$command=$this->getCommandBuilder()->createSqlCommand($sql,$params);
+			return $this->populateRecord($command->queryRow());
+		}
 	}
 
 	/**
@@ -1403,9 +1414,17 @@ abstract class CActiveRecord extends CModel
 	public function findAllBySql($sql,$params=array())
 	{
 		Yii::trace(get_class($this).'.findAllBySql()','system.db.ar.CActiveRecord');
-		$this->beforeFind();
-		$command=$this->getCommandBuilder()->createSqlCommand($sql,$params);
-		return $this->populateRecords($command->queryAll());
+		if(($criteria=$this->getDbCriteria(false))!==null && !empty($criteria->with))
+		{
+			$finder=new CActiveFinder($this,$criteria->with);
+			return $finder->findAllBySql($sql,$params);
+		}
+		else
+		{
+			$this->beforeFind();
+			$command=$this->getCommandBuilder()->createSqlCommand($sql,$params);
+			return $this->populateRecords($command->queryAll());
+		}
 	}
 
 	/**
@@ -1425,7 +1444,10 @@ abstract class CActiveRecord extends CModel
 		if(empty($criteria->with))
 			return $builder->createCountCommand($this->getTableSchema(),$criteria)->queryScalar();
 		else
-			return $this->with($criteria->with)->count($criteria);
+		{
+			$finder=new CActiveFinder($this,$criteria->with);
+			return $finder->count($criteria);
+		}
 	}
 
 	/**
@@ -1449,7 +1471,10 @@ abstract class CActiveRecord extends CModel
 		if(empty($criteria->with))
 			return $builder->createCountCommand($this->getTableSchema(),$criteria)->queryScalar();
 		else
-			return $this->with($criteria->with)->count($criteria);
+		{
+			$finder=new CActiveFinder($this,$criteria->with);
+			return $finder->count($criteria);
+		}
 	}
 
 	/**
@@ -1516,7 +1541,7 @@ abstract class CActiveRecord extends CModel
 	 * Previously, it was not possible to specify on-th-fly query options,
 	 * and child-relations were specified as hierarchical arrays.
 	 *
-	 * @return CActiveFinder the active finder instance. If no parameter is passed in, the object itself will be returned.
+	 * @return CActiveRecord the AR object itself.
 	 */
 	public function with()
 	{
@@ -1526,8 +1551,21 @@ abstract class CActiveRecord extends CModel
 			if(is_array($with[0]))  // the parameter is given as an array
 				$with=$with[0];
 			if(!empty($with))
-				return new CActiveFinder($this,$with);
+				$this->getDbCriteria()->mergeWith(array('with'=>$with));
 		}
+		return $this;
+	}
+
+	/**
+	 * Sets {@link CDbCriteria::together} property to be true.
+	 * This is only used in relational AR query. Please refer to {@link CDbCriteria::together}
+	 * for more details.
+	 * @return CActiveRecord the AR object itself
+	 * @since 1.1.4
+	 */
+	public function together()
+	{
+		$this->getDbCriteria()->together=true;
 		return $this;
 	}
 
