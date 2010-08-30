@@ -19,6 +19,43 @@
 <?php foreach($columns as $column): ?>
  * @property <?php echo $column->type.' $'.$column->name."\n"; ?>
 <?php endforeach; ?>
+ *
+ * The followings are the available model relations:
+<?php foreach($relations as $name=>$relation): ?>
+ * @property <?php
+    $relationTypes = array(
+		'' => '',
+		'' => '',
+		'' => 'array',
+		'' => 'array',
+	);
+
+	$type = 'mixed';
+
+	if (preg_match("~^array\(self::([^,]+), '([^']+)', '([^']+)'\)$~", $relation, $matches))
+    {
+        $relationType = $matches[1];
+        $relationModel = $matches[2];
+
+        switch($relationType){
+            case 'HAS_ONE':
+                echo $relationModel.' $'.$name."\n";
+            break;
+            case 'BELONGS_TO':
+                echo $relationModel.' $'.$name."\n";
+            break;
+            case 'HAS_MANY':
+                echo $relationModel.'[] $'.$name."\n";
+            break;
+            case 'MANY_MANY':
+                echo $relationModel.'[] $'.$name."\n";
+            break;
+            default:
+                echo 'mixed $'.$name."\n";
+        }
+	}
+    ?>
+<?php endforeach; ?>
  */
 class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
 {
@@ -98,14 +135,15 @@ foreach($columns as $name=>$column)
 {
 	if($column->type==='string')
 	{
-		echo "\t\t\$criteria->compare('$name',\$this->$name,true);\n\n";
+		echo "\t\t\$criteria->compare('$name',\$this->$name,true);\n";
 	}
 	else
 	{
-		echo "\t\t\$criteria->compare('$name',\$this->$name);\n\n";
+		echo "\t\t\$criteria->compare('$name',\$this->$name);\n";
 	}
 }
 ?>
+
 		return new CActiveDataProvider(get_class($this), array(
 			'criteria'=>$criteria,
 		));
