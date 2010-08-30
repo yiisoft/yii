@@ -13,6 +13,9 @@ $packages=array(
 	'yiiactiveform'=>array(
 		'jquery.yiiactiveform.js',
 	),
+	'jquery.ui'=>array(
+		'jui/js/jquery-ui.min.js',
+	),
 	'bgiframe'=>array(
 		'jquery.bgiframe.js',
 	),
@@ -51,6 +54,9 @@ $packages=array(
 
 $dependencies=array(
 	'yii'=>array(
+		'jquery',
+	),
+	'jquery.ui'=>array(
 		'jquery',
 	),
 	'yiitab'=>array(
