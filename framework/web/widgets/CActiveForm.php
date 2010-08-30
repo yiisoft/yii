@@ -224,8 +224,20 @@ class CActiveForm extends CWidget
 	public $clientOptions=array();
 	/**
 	 * @var boolean whether to enable data validation via AJAX. Defaults to false.
-	 * When this property is set true, you should
-	 */
+	 * When this property is set true, you should respond to the AJAX validation request on the server side as shown below:
+	 * <pre>
+	 * public function actionCreate()
+	 * {
+	 *     $model=new User;
+	 *     if(isset($_POST['ajax']) && $_POST['ajax']==='user-form')
+	 *     {
+	 *         echo CActiveForm::validate($model);
+	 *         Yii::app()->end();
+	 *     }
+	 *     ......
+	 * }
+	 * </pre>
+ 	 */
 	public $enableAjaxValidation=false;
 
 	private $_attributes=array();
