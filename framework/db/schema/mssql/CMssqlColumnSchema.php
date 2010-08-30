@@ -52,4 +52,17 @@ class CMssqlColumnSchema extends CDbColumnSchema
 	protected function extractLimit($dbType)
 	{
 	}
+
+	/**
+	 * Converts the input value to the type that this column is of.
+	 * @param mixed input value
+	 * @return mixed converted value
+	 */
+	public function typecast($value)
+	{
+		if($this->type==='boolean')
+			return $value ? 1 : 0;
+		else
+			return parent::typecast($value);
+	}
 }
