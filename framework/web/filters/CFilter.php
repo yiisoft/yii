@@ -44,6 +44,17 @@ class CFilter extends CComponent implements IFilter
 	}
 
 	/**
+	 * Initializes the filter.
+	 * This method is invoked after the filter properties are initialized
+	 * and before {@link preFilter} is called.
+	 * You may override this method to include some initialization logic.
+	 * @since 1.1.4
+	 */
+	public function init()
+	{
+	}
+
+	/**
 	 * Performs the pre-action filtering.
 	 * @param CFilterChain the filter chain that the filter is on.
 	 * @return boolean whether the filtering process should continue and the action
