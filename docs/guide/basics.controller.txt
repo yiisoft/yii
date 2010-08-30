@@ -152,9 +152,9 @@ only applies to actions defined as controller methods.
 In order to elaborate this feature, let's assume we need to write a `create` action
 for `PostController`. The action requires two parameters:
 
-	* `category`: an integer indicating the category ID under which the new post will
-	  be created;
-	* `language`: a string indicating the language code that the new post will be in.
+* `category`: an integer indicating the category ID under which the new post will
+   be created;
+* `language`: a string indicating the language code that the new post will be in.
 
 We may end up with the following boring code for the purpose of retrieving the needed
 parameter values from `$_GET`:
