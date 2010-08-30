@@ -75,7 +75,6 @@ class CActiveFinder extends CComponent
 	 */
 	public function query($criteria,$all=false)
 	{
-		$this->_joinTree->model->applyScopes($criteria);
 		$this->joinAll=$criteria->together===true;
 		$this->_joinTree->beforeFind();
 
@@ -100,7 +99,7 @@ class CActiveFinder extends CComponent
 	}
 
 	/**
-	 * This is the relational version of {@link CActiveRecord::findBySql()}.
+	 * This method is internally called.
 	 */
 	public function findBySql($sql,$params=array())
 	{
@@ -116,7 +115,7 @@ class CActiveFinder extends CComponent
 	}
 
 	/**
-	 * This is the relational version of {@link CActiveRecord::findAllBySql()}.
+	 * This method is internally called.
 	 */
 	public function findAllBySql($sql,$params=array())
 	{
@@ -134,14 +133,11 @@ class CActiveFinder extends CComponent
 	}
 
 	/**
-	 * This is the relational version of {@link CActiveRecord::count()}.
-	 * @since 1.0.3
+	 * This method is internally called.
 	 */
-	public function count($condition='',$params=array())
+	public function count($criteria)
 	{
 		Yii::trace(get_class($this->_joinTree->model).'.count() eagerly','system.db.ar.CActiveRecord');
-		$criteria=$this->_builder->createCriteria($condition,$params);
-		$this->_joinTree->model->applyScopes($criteria);
 		$this->joinAll=$criteria->together!==true;
 
 		$alias=$criteria->alias===null ? 't' : $criteria->alias;
@@ -651,12 +647,13 @@ class CJoinElement
 	 * Calls {@link CActiveRecord::beforeFind}.
 	 * @since 1.0.11
 	 */
-	public function beforeFind()
+	public function beforeFind($isChild=false)
 	{
-		$this->model->beforeFindInternal();
+		if($isChild)
+			$this->model->beforeFindInternal();
 
 		foreach($this->children as $child)
-			$child->beforeFind();
+			$child->beforeFind(true);
 	}
 
 	/**
