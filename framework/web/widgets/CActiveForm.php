@@ -44,6 +44,7 @@
  * &lt;?php $form = $this->beginWidget('CActiveForm', array(
  *     'id'=>'user-form',
  *     'enableAjaxValidation'=>true,
+ *     'focus'=>array($model,firstName),
  * )); ?&gt;
  *
  * &lt;?php echo $form-&gt;errorSummary($model); ?&gt;
@@ -120,7 +121,7 @@
 class CActiveForm extends CWidget
 {
 	/**
-	 * @var mixed the form action URL (see {@link normalizeUrl} for details about this parameter.)
+	 * @var mixed the form action URL (see {@link CHtml::normalizeUrl} for details about this parameter).
 	 * If not set, the current page URL is used.
 	 */
 	public $action='';
@@ -240,6 +241,26 @@ class CActiveForm extends CWidget
  	 */
 	public $enableAjaxValidation=false;
 
+	/**
+	 * @var mixed form element to get initial input focus on page load
+	 *
+	 * Defaults to null meaning no input field has a focus.
+	 * If set as array, first element should be model and second element should be the attribute.
+	 * If set as string any jQuery selector can be used
+	 *
+	 * Example - set input focus on page load to:
+	 * <ul>
+	 * <li>'focus'=>array($model,'username') - $model->username input filed</li>
+	 * <li>'focus'=>'#'.CHtml::activeId($model,'username') - $model->username input field</li>
+	 * <li>'focus'=>'#LoginForm_username' - input field with ID LoginForm_username</li>
+	 * <li>'focus'=>'input[type="text"]:first' - first input element of type text</li>
+	 * <li>'focus'=>'input:visible:enabled:first' - first visible and enabled input element</li>
+	 * <li>'focus'=>'input:text[value=""]:first' - first empty input</li>
+	 * </ul>
+	 * This option has been available since version 1.1.4.
+	 */
+	public $focus;
+
 	private $_attributes=array();
 	private $_summary;
 
@@ -265,12 +286,23 @@ class CActiveForm extends CWidget
 		echo CHtml::endForm();
 		if(!$this->enableAjaxValidation || empty($this->_attributes))
 			return;
+
 		$options=$this->clientOptions;
 		if(isset($this->clientOptions['validationUrl']) && is_array($this->clientOptions['validationUrl']))
 			$options['validationUrl']=CHtml::normalizeUrl($this->clientOptions['validationUrl']);
+
 		$options['attributes']=array_values($this->_attributes);
+
 		if($this->_summary!==null)
 			$options['summaryID']=$this->_summary;
+
+		if($this->focus!==null) {
+			if(is_array($this->focus))
+				$options['focus']="#".CHtml::activeId($this->focus[0],$this->focus[1]);
+			else
+				$options['focus']=$this->focus;
+		}
+
 		$options=CJavaScript::encode($options);
 		Yii::app()->clientScript->registerCoreScript('yiiactiveform');
 		$id=$this->id;
