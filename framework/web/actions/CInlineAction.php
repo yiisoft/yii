@@ -74,7 +74,7 @@ class CInlineAction extends CAction
 				else if($param->isDefaultValueAvailable())
 					$params[]=$param->getDefaultValue();
 				else
-					$controller->missingAction($this->getId());
+					throw new CHttpException(400,Yii::t('yii','Your request is invalid.'));
 			}
 			$method->invokeArgs($controller,$params);
 		}
