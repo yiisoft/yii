@@ -238,8 +238,7 @@ EOD;
 			$c->isForeignKey=isset($table->foreignKeys[$c->name]);
 			$table->columns[$c->name]=$c;
 			if ($column['IsIdentity']==1 && $table->sequenceName===null)
-				$table->sequenceName='';
-
+				$table->sequenceName=$table->name;
 		}
 		return true;
 	}
