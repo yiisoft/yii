@@ -52,21 +52,6 @@ class CActiveFinder extends CComponent
 	}
 
 	/**
-	 * Uses the most aggressive join approach.
-	 * By calling this method, even if there is LIMIT/OFFSET option set for
-	 * the primary table query, we will still use a single SQL statement.
-	 * By default (without calling this method), the primary table will be queried
-	 * by itself so that LIMIT/OFFSET can be correctly applied.
-	 * @return CActiveFinder the finder object
-	 * @since 1.0.2
-	 */
-	public function together()
-	{
-		$this->joinAll=true;
-		return $this;
-	}
-
-	/**
 	 * Performs the relational query based on the given DB criteria.
 	 * Do not call this method. This method is used internally.
 	 * @param CDbCriteria the DB criteria
@@ -76,7 +61,7 @@ class CActiveFinder extends CComponent
 	public function query($criteria,$all=false)
 	{
 		$this->joinAll=$criteria->together===true;
-		$this->_joinTree->beforeFind();
+		$this->_joinTree->beforeFind(false);
 
 		if($criteria->alias!='')
 		{
@@ -107,7 +92,7 @@ class CActiveFinder extends CComponent
 		if(($row=$this->_builder->createSqlCommand($sql,$params)->queryRow())!==false)
 		{
 			$baseRecord=$this->_joinTree->model->populateRecord($row,false);
-			$this->_joinTree->beforeFind();
+			$this->_joinTree->beforeFind(false);
 			$this->_joinTree->findWithBase($baseRecord);
 			$this->_joinTree->afterFind();
 			return $baseRecord;
@@ -123,7 +108,7 @@ class CActiveFinder extends CComponent
 		if(($rows=$this->_builder->createSqlCommand($sql,$params)->queryAll())!==array())
 		{
 			$baseRecords=$this->_joinTree->model->populateRecords($rows,false);
-			$this->_joinTree->beforeFind();
+			$this->_joinTree->beforeFind(false);
 			$this->_joinTree->findWithBase($baseRecords);
 			$this->_joinTree->afterFind();
 			return $baseRecords;
@@ -647,7 +632,7 @@ class CJoinElement
 	 * Calls {@link CActiveRecord::beforeFind}.
 	 * @since 1.0.11
 	 */
-	public function beforeFind($isChild=false)
+	public function beforeFind($isChild=true)
 	{
 		if($isChild)
 			$this->model->beforeFindInternal();

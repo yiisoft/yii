@@ -1395,6 +1395,7 @@ abstract class CActiveRecord extends CModel
 		$this->beforeFind();
 		if(($criteria=$this->getDbCriteria(false))!==null && !empty($criteria->with))
 		{
+			$this->_c=null;
 			$finder=new CActiveFinder($this,$criteria->with);
 			return $finder->findBySql($sql,$params);
 		}
@@ -1417,6 +1418,7 @@ abstract class CActiveRecord extends CModel
 		$this->beforeFind();
 		if(($criteria=$this->getDbCriteria(false))!==null && !empty($criteria->with))
 		{
+			$this->_c=null;
 			$finder=new CActiveFinder($this,$criteria->with);
 			return $finder->findAllBySql($sql,$params);
 		}
