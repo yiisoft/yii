@@ -137,6 +137,8 @@
 					return false;
 				});
 			}
+			if(settings.focus != undefined && !window.location.hash)
+				$(settings.focus).focus();
 		});
 	};
 
