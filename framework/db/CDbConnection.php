@@ -303,7 +303,7 @@ class CDbConnection extends CApplicationComponent
 		if(($pos=strpos($this->connectionString,':'))!==false)
 		{
 			$driver=strtolower(substr($this->connectionString,0,$pos));
-			if($driver==='mssql' || $driver==='dblib' || $driver==='sqlsrv')
+			if($driver==='mssql' || $driver==='dblib')
 				$pdoClass='CMssqlPdoAdapter';
 		}
 		return new $pdoClass($this->connectionString,$this->username,
@@ -324,7 +324,7 @@ class CDbConnection extends CApplicationComponent
 		if($this->charset!==null)
 		{
 			$driver=strtolower($pdo->getAttribute(PDO::ATTR_DRIVER_NAME));
-			if(!in_array($driver,array('sqlite','mssql','dblib')))
+			if(!in_array($driver,array('sqlite','mssql','dblib','sqlsrv')))
 				$pdo->exec('SET NAMES '.$pdo->quote($this->charset));
 		}
 		if($this->initSQLs!==null)

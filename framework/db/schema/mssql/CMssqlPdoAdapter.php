@@ -27,10 +27,7 @@ class CMssqlPdoAdapter extends PDO
 	 */
 	public function lastInsertId ($sequence=NULL)
 	{
-		if(strcasecmp($this->getAttribute(PDO::ATTR_DRIVER_NAME),'sqlsrv'))
-			return $this->query('SELECT SCOPE_IDENTITY()')->fetchColumn();
-		else
-			return parent::lastInsertId($sequence);
+		return $this->query('SELECT SCOPE_IDENTITY()')->fetchColumn();
 	}
 
 	/**
