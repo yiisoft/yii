@@ -257,7 +257,8 @@ class CActiveForm extends CWidget
 	 * <li>'focus'=>'input:visible:enabled:first' - first visible and enabled input element</li>
 	 * <li>'focus'=>'input:text[value=""]:first' - first empty input</li>
 	 * </ul>
-	 * This option has been available since version 1.1.4.
+	 *
+	 * @since 1.1.4
 	 */
 	public $focus;
 
