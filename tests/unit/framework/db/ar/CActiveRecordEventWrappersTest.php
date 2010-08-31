@@ -133,7 +133,7 @@ class CActiveRecordEventWrappersTest extends CTestCase
 		$this->assertEquals(UserWithWrappers::getCounter('afterFind'),4);
 	}
 
-	public function testAfterRelational()
+	public function testAfterFindRelational()
 	{
 		UserWithWrappers::model()->with('posts.comments')->find();
 		$this->assertEquals(UserWithWrappers::getCounter('afterFind'),4);
