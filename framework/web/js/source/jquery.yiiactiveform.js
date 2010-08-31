@@ -268,6 +268,7 @@
 		 *     errorID : 'error-tag-id',
 		 *     value : undefined,
 		 *     status : 0,  // 0: empty, not entered before,  1: validated, 2: pending validation, 3: validating
+		 *     focus : undefined,  // jquery selector that indicates which element to receive input focus initially
 		 *     validationDelay: 200,
 		 *     validateOnChange : true,
 		 *     validateOnType : false,
