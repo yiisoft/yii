@@ -135,6 +135,8 @@ class CDbCommandBuilder extends CComponent
 		$sql.=" FROM {$table->rawName} $alias";
 		$sql=$this->applyJoin($sql,$criteria->join);
 		$sql=$this->applyCondition($sql,$criteria->condition);
+		$sql=$this->applyGroup($sql,$criteria->group);
+		$sql=$this->applyHaving($sql,$criteria->having);
 		$command=$this->_connection->createCommand($sql);
 		$this->bindValues($command,$criteria->params);
 		return $command;
