@@ -6,11 +6,6 @@ class CAssetManagerTest extends CTestCase
 {
 	public function testBasePath()
 	{
-		$am=new CAssetManager;
-		$this->assertTrue($am->basePath===null);
-		$am->basePath=dirname(__FILE__);
-		$this->assertTrue($am->basePath===dirname(__FILE__));
-
 		$am2=new CAssetManager;
 		$app=new TestApplication;
 		$app->reset();
@@ -23,7 +18,6 @@ class CAssetManagerTest extends CTestCase
 		$app=new TestApplication;
 		$app->request->baseUrl='/test';
 		$am=new CAssetManager;
-		$this->assertTrue($am->baseUrl===null);
 		$am->init($app);
 		$this->assertEquals($am->baseUrl,'/test/assets');
 	}
