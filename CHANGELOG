@@ -27,6 +27,7 @@ Version 1.1.4 to be released
 - Enh #1073: Allow dependencies to be set in constructor of CChainedCacheDependency. Also allow dependencies to be specified as configurations. (Qiang)
 - Enh #1087: Allow CDbCriteria to be used as dynamic relational query options (Qiang)
 - Enh #1104: Added argument "$" to jQuery block to prevent $ alias conflict (mdomba)
+- Enh #1108: Added option to CFileHelper::getMimeType() to allow enable and disable falling back to extension-based MIME detection (Qiang)
 - Enh #1128: Improved error reporting when assets directory does not exist or is not writable (Qiang)
 - Enh #1222: Added relations information to Gii generated model's PHPDoc (Sam Dark)
 - Enh #1244: CActiveRecord::count() now respects GROUP-BY and HAVING settings (Qiang)
