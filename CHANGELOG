@@ -6,6 +6,7 @@ Version 1.1.4 to be released
 ----------------------------
 - Bug #698: Now you can get and modify criteria of the current query in beforeFind() event handler (Sam Dark)
 - Bug #1031: Fixed the bug that the filters in CGridView does not work in IE (Qiang)
+- Bug #1119: Added CUploadedFile::reset() to make it more test-friendly (Qiang)
 - Bug #1176: Fixed the bug that CVarDumper does't highlight well strings with quotes (Qiang)
 - Bug #1376: Fixed the bug that the timestamps displayed in Web application log may not be formatted properly (Qiang)
 - Bug #1377: Fixed the bug that CStarRating did not work when not setting the model property (Qiang)

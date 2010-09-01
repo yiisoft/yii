@@ -96,6 +96,16 @@ class CUploadedFile extends CComponent
 	}
 
 	/**
+	 * Cleans up the loaded CUploadedFile instances.
+	 * This method is mainly used by test scripts to set up a fixture.
+	 * @since 1.1.4
+	 */
+	public static function reset()
+	{
+		self::$_files=null;
+	}
+
+	/**
 	 * Initially processes $_FILES superglobal for easier use.
 	 * Only for internal usage.
 	 */
