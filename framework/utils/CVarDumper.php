@@ -80,7 +80,7 @@ class CVarDumper
 				self::$_output.="$var";
 				break;
 			case 'string':
-				self::$_output.="'$var'";
+				self::$_output.="'".addslashes($var)."'";
 				break;
 			case 'resource':
 				self::$_output.='{resource}';
