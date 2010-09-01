@@ -48,24 +48,15 @@ class CAssetManager extends CApplicationComponent
 	private $_published=array();
 
 	/**
-	 * Initializes the application component.
-	 * This method is required by IApplicationComponent and is invoked by application.
-	 */
-	public function init()
-	{
-		parent::init();
-		$request=Yii::app()->getRequest();
-		if($this->getBasePath()===null)
-			$this->setBasePath(dirname($request->getScriptFile()).DIRECTORY_SEPARATOR.self::DEFAULT_BASEPATH);
-		if($this->getBaseUrl()===null)
-			$this->setBaseUrl($request->getBaseUrl().'/'.self::DEFAULT_BASEPATH);
-	}
-
-	/**
-	 * @return string the root directory storing the published asset files
+	 * @return string the root directory storing the published asset files. Defaults to 'WebRoot/assets'.
 	 */
 	public function getBasePath()
 	{
+		if($this->_basePath===null)
+		{
+			$request=Yii::app()->getRequest();
+			$this->setBasePath(dirname($request->getScriptFile()).DIRECTORY_SEPARATOR.self::DEFAULT_BASEPATH);
+		}
 		return $this->_basePath;
 	}
 
@@ -85,10 +76,15 @@ class CAssetManager extends CApplicationComponent
 
 	/**
 	 * @return string the base url that the published asset files can be accessed.
-	 * Note, the ending slashes are stripped off.
+	 * Note, the ending slashes are stripped off. Defaults to '/AppBaseUrl/assets'.
 	 */
 	public function getBaseUrl()
 	{
+		if($this->_baseUrl===null)
+		{
+			$request=Yii::app()->getRequest();
+			$this->setBaseUrl($request->getBaseUrl().'/'.self::DEFAULT_BASEPATH);
+		}
 		return $this->_baseUrl;
 	}
 
