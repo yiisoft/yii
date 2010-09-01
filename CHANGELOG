@@ -22,6 +22,7 @@ Version 1.1.4 to be released
 - Bug #1493: ShellCommand wouldn't process logs after exiting. (Qiang)
 - Bug #1521: CUniqueValidator may incorrectly fail the validation of a non-PK column when updating both this column and the PK column (Qiang)
 - Enh #954: Refactored CActiveRecord and CActiveFinder so that CActiveRecord::with() always returns the AR object itself (Qiang)
+- Enh #1019: Improved CDataFormatter for formatting numeric weekdays (Qiang)
 - Enh #1073: Allow dependencies to be set in constructor of CChainedCacheDependency. Also allow dependencies to be specified as configurations. (Qiang)
 - Enh #1087: Allow CDbCriteria to be used as dynamic relational query options (Qiang)
 - Enh #1104: Added argument "$" to jQuery block to prevent $ alias conflict (mdomba)

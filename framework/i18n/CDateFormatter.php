@@ -50,6 +50,8 @@ class CDateFormatter extends CComponent
 		'm'=>'formatMinutes',
 		's'=>'formatSeconds',
 		'E'=>'formatDayInWeek',
+		'c'=>'formatDayInWeek',
+		'e'=>'formatDayInWeek',
 		'D'=>'formatDayInYear',
 		'F'=>'formatDayInMonth',
 		'w'=>'formatWeekInYear',
@@ -285,6 +287,7 @@ class CDateFormatter extends CComponent
 	 * @param string a pattern.
 	 * @param array result of {@link CTimestamp::getdate}.
 	 * @return int day in month
+	 * @see http://www.unicode.org/reports/tr35/#Date_Format_Patterns
 	 */
 	protected function formatDayInMonth($pattern,$date)
 	{
@@ -302,6 +305,7 @@ class CDateFormatter extends CComponent
 	 * @param string a pattern.
 	 * @param array result of {@link CTimestamp::getdate}.
 	 * @return string day of the week.
+	 * @see http://www.unicode.org/reports/tr35/#Date_Format_Patterns
 	 */
 	protected function formatDayInWeek($pattern,$date)
 	{
@@ -311,13 +315,26 @@ class CDateFormatter extends CComponent
 			case 'E':
 			case 'EE':
 			case 'EEE':
+			case 'eee':
 				return $this->_locale->getWeekDayName($day,'abbreviated');
 			case 'EEEE':
+			case 'eeee':
 				return $this->_locale->getWeekDayName($day,'wide');
 			case 'EEEEE':
+			case 'eeeee':
 				return $this->_locale->getWeekDayName($day,'narrow');
+			case 'e':
+			case 'ee':
+			case 'c':
+				return $day ? $day : 7;
+			case 'ccc':
+				return $this->_locale->getWeekDayName($day,'abbreviated',true);
+			case 'cccc':
+				return $this->_locale->getWeekDayName($day,'wide',true);
+			case 'ccccc':
+				return $this->_locale->getWeekDayName($day,'narrow',true);
 			default:
-				throw new CException(Yii::t('yii','The pattern for day of the week must be "E", "EE", "EEE", "EEEE" or "EEEEE".'));
+				throw new CException(Yii::t('yii','The pattern for day of the week must be "E", "EE", "EEE", "EEEE", "EEEEE", "e", "ee", "eee", "eeee", "eeeee", "c", "cccc" or "ccccc".'));
 		}
 	}
 
