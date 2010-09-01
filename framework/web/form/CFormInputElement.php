@@ -150,7 +150,7 @@ class CFormInputElement extends CFormElement
 			'{label}'=>$this->renderLabel(),
 			'{input}'=>$this->renderInput(),
 			'{hint}'=>$this->renderHint(),
-			'{error}'=>$this->renderError(),
+			'{error}'=>$this->getParent()->showErrorSummary ? '' : $this->renderError(),
 		);
 		return strtr($this->layout,$output);
 	}
