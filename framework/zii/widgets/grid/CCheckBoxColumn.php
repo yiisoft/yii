@@ -73,7 +73,7 @@ class CCheckBoxColumn extends CGridColumn
 	public function init()
 	{
 		$name=isset($this->checkBoxHtmlOptions['name']) ? $this->checkBoxHtmlOptions['name'] : $this->id;
-		if(substr($name,strlen($name)-2)!=='[]')
+		if(substr($name,-2)!=='[]')
 			$name.='[]';
 		$this->checkBoxHtmlOptions['name']=$name;
 		$name=strtr($name,array('['=>"\\[",']'=>"\\]"));
