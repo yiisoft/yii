@@ -72,7 +72,11 @@ class CCheckBoxColumn extends CGridColumn
 	 */
 	public function init()
 	{
-		$name="{$this->id}\\[\\]";
+		$name=isset($this->checkBoxHtmlOptions['name']) ? $this->checkBoxHtmlOptions['name'] : $this->id;
+		if(substr($name,strlen($name)-2)!=='[]')
+			$name.='[]';
+		$this->checkBoxHtmlOptions['name']=$name;
+		$name=strtr($name,array('['=>"\\[",']'=>"\\]"));
 		if($this->grid->selectableRows==1)
 			$one="\n\tjQuery(\"input:not(#\"+$(this).attr('id')+\")[name='$name']\").attr('checked',false);";
 		else
@@ -123,8 +127,10 @@ EOD;
 			$checked=$this->evaluateExpression($this->checked,array('data'=>$data,'row'=>$row));
 
 		$options=$this->checkBoxHtmlOptions;
+		$name=$options['name'];
+		unset($options['name']);
 		$options['value']=$value;
 		$options['id']=$this->id.'_'.$row;
-		echo CHtml::checkBox($this->id.'[]',$checked,$options);
+		echo CHtml::checkBox($name,$checked,$options);
 	}
 }
