@@ -26,6 +26,7 @@ Version 1.1.4 to be released
 - Enh #1104: Added argument "$" to jQuery block to prevent $ alias conflict (mdomba)
 - Enh #1128: Improved error reporting when assets directory does not exist or is not writable (Qiang)
 - Enh #1222: Added relations information to Gii generated model's PHPDoc (Sam Dark)
+- Enh #1244: CActiveRecord::count() now respects GROUP-BY and HAVING settings (Qiang)
 - Enh #1347: Added CPagination::validateCurrentPage (Qiang)
 - Enh #1358: Enhanced the 'together' option of HAS_MANY/MANY_MANY relations so that setting it true will ensure the related table is joined with the primary table in a single SQL (Qiang)
 - Enh #1359: Added CActiveRecord::countByAttributes (Qiang)
