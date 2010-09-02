@@ -111,6 +111,16 @@ abstract class CCodeModel extends CFormModel
 	}
 
 	/**
+	 * Checks if the named class exists (in a case sensitive manner).
+	 * @param string class name to be checked
+	 * @return boolean whether the class exists
+	 */
+	public function classExists($name)
+	{
+		return class_exists($name,false) && in_array($name, get_declared_classes());
+	}
+
+	/**
 	 * Declares the model attribute labels.
 	 * Child classes must override this method in the following format:
 	 * <pre>
