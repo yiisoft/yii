@@ -16,7 +16,7 @@
  * @package system.db.schema
  * @since 1.0
  */
-class CDbCriteria
+class CDbCriteria extends CComponent
 {
 	const PARAM_PREFIX=':ycp';
 	/**
