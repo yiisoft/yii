@@ -213,7 +213,10 @@ class CDbCommand extends CComponent
 				Yii::beginProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
 
 			$this->prepare();
-			$this->_statement->execute($params===array() ? null : $params);
+			if($params===array())
+				$this->_statement->execute();
+			else
+				$this->_statement->execute($params);
 			$n=$this->_statement->rowCount();
 
 			if($this->_connection->enableProfiling)
@@ -357,7 +360,10 @@ class CDbCommand extends CComponent
 				Yii::beginProfile('system.db.CDbCommand.query('.$this->getText().')','system.db.CDbCommand.query');
 
 			$this->prepare();
-			$this->_statement->execute($params===array() ? null : $params);
+			if($params===array())
+				$this->_statement->execute();
+			else
+				$this->_statement->execute($params);
 
 			if($method==='')
 				$result=new CDbDataReader($this);
