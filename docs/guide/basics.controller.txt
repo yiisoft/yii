@@ -143,11 +143,11 @@ protected/
             UpdateAction.php
 ~~~
 
-### Action Parameters
+### Action Parameter Binding
 
-Since version 1.1.4, Yii has added support of controller action parameters that
-can be automatically populated from the `$_GET` variable. This feature
-only applies to actions defined as controller methods.
+Since version 1.1.4, Yii has added support for automatic action parameter binding.
+That is, a controller action method can define named parameters whose value will
+be automatically populated from `$_GET` by Yii.
 
 In order to elaborate this feature, let's assume we need to write a `create` action
 for `PostController`. The action requires two parameters:
