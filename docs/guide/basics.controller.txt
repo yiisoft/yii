@@ -188,6 +188,8 @@ class PostController extends CController
 {
 	public function actionCreate($category, $language='en')
 	{
+		$category=(int)$category;
+
 		// ... fun code starts here ...
 	}
 }
