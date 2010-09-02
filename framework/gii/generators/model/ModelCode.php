@@ -127,7 +127,7 @@ class ModelCode extends CCodeModel
 	public function validateBaseClass($attribute,$params)
 	{
 		$class=@Yii::import($this->baseClass,true);
-		if(!is_string($class) || !class_exists($class,false))
+		if(!is_string($class) || !$this->classExists($class))
 			$this->addError('baseClass', "Class '{$this->baseClass}' does not exist or has syntax error.");
 		else if($class!=='CActiveRecord' && !is_subclass_of($class,'CActiveRecord'))
 			$this->addError('baseClass', "'{$this->model}' must extend from CActiveRecord.");
