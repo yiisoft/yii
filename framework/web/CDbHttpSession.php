@@ -172,14 +172,26 @@ WHERE expire>$now AND id=:id
 	 */
 	public function writeSession($id,$data)
 	{
-		$expire=time()+$this->getTimeout();
-		$db=$this->getDbConnection();
-		$sql="SELECT id FROM {$this->sessionTableName} WHERE id=:id";
-		if($db->createCommand($sql)->bindValue(':id',$id)->queryScalar()===false)
-			$sql="INSERT INTO {$this->sessionTableName} (id, data, expire) VALUES (:id, :data, $expire)";
-		else
-			$sql="UPDATE {$this->sessionTableName} SET expire=$expire, data=:data WHERE id=:id";
-		$db->createCommand($sql)->bindValue(':id',$id)->bindValue(':data',$data)->execute();
+		// exception must be caught in session write handler
+		// http://us.php.net/manual/en/function.session-set-save-handler.php
+		try
+		{
+			$expire=time()+$this->getTimeout();
+			$db=$this->getDbConnection();
+			$sql="SELECT id FROM {$this->sessionTableName} WHERE id=:id";
+			if($db->createCommand($sql)->bindValue(':id',$id)->queryScalar()===false)
+				$sql="INSERT INTO {$this->sessionTableName} (id, data, expire) VALUES (:id, :data, $expire)";
+			else
+				$sql="UPDATE {$this->sessionTableName} SET expire=$expire, data=:data WHERE id=:id";
+			$db->createCommand($sql)->bindValue(':id',$id)->bindValue(':data',$data)->execute();
+		}
+		catch(Exception $e)
+		{
+			if(YII_DEBUG)
+				echo $e->getMessage();
+			// it is too late to log an error message here
+			return false;
+		}
 		return true;
 	}
 
