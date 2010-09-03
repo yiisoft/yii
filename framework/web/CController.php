@@ -978,7 +978,7 @@ class CController extends CBaseController
 	}
 
 	/**
-	 * @return whether the caching stack is empty. If not empty, it means currently there are
+	 * @return boolean whether the caching stack is empty. If not empty, it means currently there are
 	 * some output cache in effect. Note, the return result of this method may change when it is
 	 * called in different output regions, depending on the partition of output caches.
 	 * @since 1.0.5
