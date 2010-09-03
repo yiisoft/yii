@@ -1667,7 +1667,7 @@ abstract class CActiveRecord extends CModel
 	 * Since version 1.0.8, an attribute value can be an array which will be used to generate an IN condition.
 	 * @param mixed query condition or criteria.
 	 * @param array parameters to be bound to an SQL statement.
-	 * @return CActiveRecord the record found. Null if none is found.
+	 * @return integer number of rows affected by the execution.
 	 * @since 1.0.9
 	 */
 	public function deleteAllByAttributes($attributes,$condition='',$params=array())
