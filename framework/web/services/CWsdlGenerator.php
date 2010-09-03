@@ -82,11 +82,20 @@
  */
 class CWsdlGenerator extends CComponent
 {
+	/**
+	 * @var string the namespace to be used in the generated WSDL.
+	 * If not set, it defaults to the name of the class that WSDL is generated upon.
+	 */
+	public $namespace;
+	/**
+	 * @var string the name of the generated WSDL.
+	 * If not set, it defaults to "urn:{$className}wsdl".
+	 */
+	public $serviceName;
+
 	private $_operations;
 	private $_types;
 	private $_messages;
-	private $_namespace;
-	private $_serviceName;
 
 	/**
 	 * Generates the WSDL for the given class.
@@ -100,8 +109,8 @@ class CWsdlGenerator extends CComponent
 		$this->_operations=array();
 		$this->_types=array();
 		$this->_messages=array();
-		$this->_serviceName=$className;
-		$this->_namespace="urn:{$className}wsdl";
+		$this->serviceName=$className;
+		$this->namespace="urn:{$className}wsdl";
 
 		$reflection=new ReflectionClass($className);
 		foreach($reflection->getMethods() as $method)
@@ -199,9 +208,9 @@ class CWsdlGenerator extends CComponent
 	private function buildDOM($serviceUrl,$encoding)
 	{
 		$xml="<?xml version=\"1.0\" encoding=\"$encoding\"?>
-<definitions name=\"{$this->_serviceName}\" targetNamespace=\"{$this->_namespace}\"
+<definitions name=\"{$this->serviceName}\" targetNamespace=\"{$this->namespace}\"
      xmlns=\"http://schemas.xmlsoap.org/wsdl/\"
-     xmlns:tns=\"{$this->_namespace}\"
+     xmlns:tns=\"{$this->namespace}\"
      xmlns:soap=\"http://schemas.xmlsoap.org/wsdl/soap/\"
      xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"
 	 xmlns:wsdl=\"http://schemas.xmlsoap.org/wsdl/\"
@@ -225,7 +234,7 @@ class CWsdlGenerator extends CComponent
 			return;
 		$types=$dom->createElement('wsdl:types');
 		$schema=$dom->createElement('xsd:schema');
-		$schema->setAttribute('targetNamespace',$this->_namespace);
+		$schema->setAttribute('targetNamespace',$this->namespace);
 		foreach($this->_types as $phpType=>$xmlType)
 		{
 			if(is_string($xmlType) && strrpos($xmlType,'Array')!==strlen($xmlType)-5)
@@ -290,7 +299,7 @@ class CWsdlGenerator extends CComponent
 	private function addPortTypes($dom)
 	{
 		$portType=$dom->createElement('wsdl:portType');
-		$portType->setAttribute('name',$this->_serviceName.'PortType');
+		$portType->setAttribute('name',$this->serviceName.'PortType');
 		$dom->documentElement->appendChild($portType);
 		foreach($this->_operations as $name=>$doc)
 			$portType->appendChild($this->createPortElement($dom,$name,$doc));
@@ -316,8 +325,8 @@ class CWsdlGenerator extends CComponent
 	private function addBindings($dom)
 	{
 		$binding=$dom->createElement('wsdl:binding');
-		$binding->setAttribute('name',$this->_serviceName.'Binding');
-		$binding->setAttribute('type','tns:'.$this->_serviceName.'PortType');
+		$binding->setAttribute('name',$this->serviceName.'Binding');
+		$binding->setAttribute('type','tns:'.$this->serviceName.'PortType');
 
 		$soapBinding=$dom->createElement('soap:binding');
 		$soapBinding->setAttribute('style','rpc');
@@ -335,7 +344,7 @@ class CWsdlGenerator extends CComponent
 		$operation=$dom->createElement('wsdl:operation');
 		$operation->setAttribute('name', $name);
 		$soapOperation = $dom->createElement('soap:operation');
-		$soapOperation->setAttribute('soapAction', $this->_namespace.'#'.$name);
+		$soapOperation->setAttribute('soapAction', $this->namespace.'#'.$name);
 		$soapOperation->setAttribute('style','rpc');
 
 		$input = $dom->createElement('wsdl:input');
@@ -343,7 +352,7 @@ class CWsdlGenerator extends CComponent
 
 		$soapBody = $dom->createElement('soap:body');
 		$soapBody->setAttribute('use', 'encoded');
-		$soapBody->setAttribute('namespace', $this->_namespace);
+		$soapBody->setAttribute('namespace', $this->namespace);
 		$soapBody->setAttribute('encodingStyle', 'http://schemas.xmlsoap.org/soap/encoding/');
 		$input->appendChild($soapBody);
 		$output->appendChild(clone $soapBody);
@@ -358,11 +367,11 @@ class CWsdlGenerator extends CComponent
 	private function addService($dom,$serviceUrl)
 	{
 		$service=$dom->createElement('wsdl:service');
-		$service->setAttribute('name', $this->_serviceName.'Service');
+		$service->setAttribute('name', $this->serviceName.'Service');
 
 		$port=$dom->createElement('wsdl:port');
-		$port->setAttribute('name', $this->_serviceName.'Port');
-		$port->setAttribute('binding', 'tns:'.$this->_serviceName.'Binding');
+		$port->setAttribute('name', $this->serviceName.'Port');
+		$port->setAttribute('binding', 'tns:'.$this->serviceName.'Binding');
 
 		$soapAddress=$dom->createElement('soap:address');
 		$soapAddress->setAttribute('location',$serviceUrl);
