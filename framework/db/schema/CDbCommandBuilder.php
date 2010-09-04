@@ -432,7 +432,6 @@ class CDbCommandBuilder extends CComponent
 
 	/**
 	 * Creates a query criteria.
-	 * @param mixed the table schema ({@link CDbTableSchema}) or the table name (string).
 	 * @param mixed query condition or criteria.
 	 * If a string, it is treated as query condition (the WHERE clause);
 	 * If an array, it is treated as the initial values for constructing a {@link CDbCriteria} object;
