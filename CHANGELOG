@@ -2,6 +2,10 @@
                    Yii Framework Change Log
                    ========================
 
+Version 1.1.5 to be released
+----------------------------
+
+
 Version 1.1.4 September 5, 2010
 -------------------------------
 - Bug #698: Now you can get and modify criteria of the current query in beforeFind() event handler (Sam Dark)
