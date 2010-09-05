@@ -39,7 +39,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.4-dev';
+		return '1.1.4';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -3408,8 +3408,26 @@ class CInlineAction extends CAction
 {
 	public function run()
 	{
-		$method='action'.$this->getId();
-		$this->getController()->$method();
+		$controller=$this->getController();
+		$methodName='action'.$this->getId();
+		$method=new ReflectionMethod($controller,$methodName);
+		if(($n=$method->getNumberOfParameters())>0)
+		{
+			$params=array();
+			foreach($method->getParameters() as $i=>$param)
+			{
+				$name=$param->getName();
+				if(isset($_GET[$name]))
+					$params[]=$_GET[$name];
+				else if($param->isDefaultValueAvailable())
+					$params[]=$param->getDefaultValue();
+				else
+					throw new CHttpException(400,Yii::t('yii','Your request is invalid.'));
+			}
+			$method->invokeArgs($controller,$params);
+		}
+		else
+			$controller->$methodName();
 	}
 }
 class CWebUser extends CApplicationComponent implements IWebUser
@@ -4247,12 +4265,17 @@ class CHtml
 		}
 		else
 			$uncheck=null;
-		if(!isset($htmlOptions['id']))
-			$htmlOptions['id']=self::getIdByName($name);
-		else if($htmlOptions['id']===false)
-			unset($htmlOptions['id']);
-		$uncheckOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array();
-		$hidden=$uncheck!==null ? self::hiddenField($name,$uncheck,$uncheckOptions) : '';
+		if($uncheck!==null)
+		{
+			// add a hidden field so that if the radio button is not selected, it still submits a value
+			if(isset($htmlOptions['id']) && $htmlOptions['id']!==false)
+				$uncheckOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
+			else
+				$uncheckOptions=array();
+			$hidden=self::hiddenField($name,$uncheck,$uncheckOptions);
+		}
+		else
+			$hidden='';
 		// add a hidden field so that if the radio button is not selected, it still submits a value
 		return $hidden . self::inputField('radio',$name,$value,$htmlOptions);
 	}
@@ -4271,12 +4294,17 @@ class CHtml
 		}
 		else
 			$uncheck=null;
-		if(!isset($htmlOptions['id']))
-			$htmlOptions['id']=self::getIdByName($name);
-		else if($htmlOptions['id']===false)
-			unset($htmlOptions['id']);
-		$uncheckOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array();
-		$hidden=$uncheck!==null ? self::hiddenField($name,$uncheck,$uncheckOptions) : '';
+		if($uncheck!==null)
+		{
+			// add a hidden field so that if the radio button is not selected, it still submits a value
+			if(isset($htmlOptions['id']) && $htmlOptions['id']!==false)
+				$uncheckOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
+			else
+				$uncheckOptions=array();
+			$hidden=self::hiddenField($name,$uncheck,$uncheckOptions);
+		}
+		else
+			$hidden='';
 		// add a hidden field so that if the checkbox  is not selected, it still submits a value
 		return $hidden . self::inputField('checkbox',$name,$value,$htmlOptions);
 	}
@@ -4397,6 +4425,7 @@ EOD;
 	public static function ajaxSubmitButton($label,$url,$ajaxOptions=array(),$htmlOptions=array())
 	{
 		$ajaxOptions['type']='POST';
+		$htmlOptions['type']='submit';
 		return self::ajaxButton($label,$url,$ajaxOptions,$htmlOptions);
 	}
 	public static function ajax($options)
@@ -5260,7 +5289,7 @@ class CClientScript extends CApplicationComponent
 		if(isset($this->scripts[self::POS_READY]))
 		{
 			if($fullPage)
-				$scripts[]="jQuery(document).ready(function() {\n".implode("\n",$this->scripts[self::POS_READY])."\n});";
+				$scripts[]="jQuery(function($) {\n".implode("\n",$this->scripts[self::POS_READY])."\n});";
 			else
 				$scripts[]=implode("\n",$this->scripts[self::POS_READY]);
 		}
@@ -5578,10 +5607,10 @@ class CFilterChain extends CList
 				{
 					$matched=preg_match("/\b{$actionID}\b/i",substr($filter,$pos+1))>0;
 					if(($filter[$pos]==='+')===$matched)
-						$chain->add(CInlineFilter::create($controller,trim(substr($filter,0,$pos))));
+						$filter=CInlineFilter::create($controller,trim(substr($filter,0,$pos)));
 				}
 				else
-					$chain->add(CInlineFilter::create($controller,$filter));
+					$filter=CInlineFilter::create($controller,$filter);
 			}
 			else if(is_array($filter))  // array('path.to.class [+|- action1, action2]','param1'=>'value1',...)
 			{
@@ -5598,10 +5627,13 @@ class CFilterChain extends CList
 						continue;
 				}
 				$filter['class']=$filterClass;
-				$chain->add(Yii::createComponent($filter));
+				$filter=Yii::createComponent($filter);
 			}
-			else
+			if(is_object($filter))
+			{
+				$filter->init();
 				$chain->add($filter);
+			}
 		}
 		return $chain;
 	}
@@ -5632,6 +5664,9 @@ class CFilter extends CComponent implements IFilter
 			$filterChain->run();
 			$this->postFilter($filterChain);
 		}
+	}
+	public function init()
+	{
 	}
 	protected function preFilter($filterChain)
 	{
@@ -5984,7 +6019,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		{
 			if(isset($attributes[$name]))
 				$this->$name=$value;
-			else
+			else if($safeOnly)
 				$this->onUnsafeAttribute($name,$value);
 		}
 	}
@@ -6628,17 +6663,20 @@ abstract class CActiveRecord extends CModel
 	}
 	private function query($criteria,$all=false)
 	{
+        $this->beforeFind();
 		$this->applyScopes($criteria);
 		if(empty($criteria->with))
 		{
 			if(!$all)
 				$criteria->limit=1;
-			$this->beforeFind();
 			$command=$this->getCommandBuilder()->createFindCommand($this->getTableSchema(),$criteria);
 			return $all ? $this->populateRecords($command->queryAll()) : $this->populateRecord($command->queryRow());
 		}
 		else
-			return $this->with($criteria->with)->query($criteria,$all);
+		{
+			$finder=new CActiveFinder($this,$criteria->with);
+			return $finder->query($criteria,$all);
+		}
 	}
 	public function applyScopes(&$criteria)
 	{
@@ -6698,14 +6736,32 @@ abstract class CActiveRecord extends CModel
 	public function findBySql($sql,$params=array())
 	{
 		$this->beforeFind();
-		$command=$this->getCommandBuilder()->createSqlCommand($sql,$params);
-		return $this->populateRecord($command->queryRow());
+		if(($criteria=$this->getDbCriteria(false))!==null && !empty($criteria->with))
+		{
+			$this->_c=null;
+			$finder=new CActiveFinder($this,$criteria->with);
+			return $finder->findBySql($sql,$params);
+		}
+		else
+		{
+			$command=$this->getCommandBuilder()->createSqlCommand($sql,$params);
+			return $this->populateRecord($command->queryRow());
+		}
 	}
 	public function findAllBySql($sql,$params=array())
 	{
 		$this->beforeFind();
-		$command=$this->getCommandBuilder()->createSqlCommand($sql,$params);
-		return $this->populateRecords($command->queryAll());
+		if(($criteria=$this->getDbCriteria(false))!==null && !empty($criteria->with))
+		{
+			$this->_c=null;
+			$finder=new CActiveFinder($this,$criteria->with);
+			return $finder->findAllBySql($sql,$params);
+		}
+		else
+		{
+			$command=$this->getCommandBuilder()->createSqlCommand($sql,$params);
+			return $this->populateRecords($command->queryAll());
+		}
 	}
 	public function count($condition='',$params=array())
 	{
@@ -6715,7 +6771,10 @@ abstract class CActiveRecord extends CModel
 		if(empty($criteria->with))
 			return $builder->createCountCommand($this->getTableSchema(),$criteria)->queryScalar();
 		else
-			return $this->with($criteria->with)->count($criteria);
+		{
+			$finder=new CActiveFinder($this,$criteria->with);
+			return $finder->count($criteria);
+		}
 	}
 	public function countByAttributes($attributes,$condition='',$params=array())
 	{
@@ -6726,7 +6785,10 @@ abstract class CActiveRecord extends CModel
 		if(empty($criteria->with))
 			return $builder->createCountCommand($this->getTableSchema(),$criteria)->queryScalar();
 		else
-			return $this->with($criteria->with)->count($criteria);
+		{
+			$finder=new CActiveFinder($this,$criteria->with);
+			return $finder->count($criteria);
+		}
 	}
 	public function countBySql($sql,$params=array())
 	{
@@ -6749,10 +6811,15 @@ abstract class CActiveRecord extends CModel
 			$with=func_get_args();
 			if(is_array($with[0]))  // the parameter is given as an array
 				$with=$with[0];
-			return new CActiveFinder($this,$with);
+			if(!empty($with))
+				$this->getDbCriteria()->mergeWith(array('with'=>$with));
 		}
-		else
-			return $this;
+		return $this;
+	}
+	public function together()
+	{
+		$this->getDbCriteria()->together=true;
+		return $this;
 	}
 	public function updateByPk($pk,$attributes,$condition='',$params=array())
 	{
@@ -6866,6 +6933,8 @@ class CBaseActiveRelation extends CComponent
 	}
 	public function mergeWith($criteria,$fromScope=false)
 	{
+		if($criteria instanceof CDbCriteria)
+			$criteria=$criteria->toArray();
 		if(isset($criteria['select']) && $this->select!==$criteria['select'])
 		{
 			if($this->select==='*')
@@ -6922,6 +6991,8 @@ class CStatRelation extends CBaseActiveRelation
 	public $defaultValue=0;
 	public function mergeWith($criteria,$fromScope=false)
 	{
+		if($criteria instanceof CDbCriteria)
+			$criteria=$criteria->toArray();
 		parent::mergeWith($criteria,$fromScope);
 		if(isset($criteria['defaultValue']))
 			$this->defaultValue=$criteria['defaultValue'];
@@ -6935,6 +7006,8 @@ class CActiveRelation extends CBaseActiveRelation
 	public $with=array();
 	public function mergeWith($criteria,$fromScope=false)
 	{
+		if($criteria instanceof CDbCriteria)
+			$criteria=$criteria->toArray();
 		if($fromScope)
 		{
 			if(isset($criteria['condition']) && $this->on!==$criteria['condition'])
@@ -6978,6 +7051,8 @@ class CHasManyRelation extends CActiveRelation
 	public $index;
 	public function mergeWith($criteria,$fromScope=false)
 	{
+		if($criteria instanceof CDbCriteria)
+			$criteria=$criteria->toArray();
 		parent::mergeWith($criteria,$fromScope);
 		if(isset($criteria['limit']) && $criteria['limit']>0)
 			$this->limit=$criteria['limit'];
@@ -7106,12 +7181,12 @@ class CDbConnection extends CApplicationComponent
 				if(YII_DEBUG)
 				{
 					throw new CDbException(Yii::t('yii','CDbConnection failed to open the DB connection: {error}',
-						array('{error}'=>$e->getMessage())));
+						array('{error}'=>$e->getMessage())),(int)$e->getCode(),$e->errorInfo);
 				}
 				else
 				{
 					Yii::log($e->getMessage(),CLogger::LEVEL_ERROR,'exception.CDbException');
-					throw new CDbException(Yii::t('yii','CDbConnection failed to open the DB connection.'));
+					throw new CDbException(Yii::t('yii','CDbConnection failed to open the DB connection.'),(int)$e->getCode(),$e->errorInfo);
 				}
 			}
 		}
@@ -7142,7 +7217,7 @@ class CDbConnection extends CApplicationComponent
 		if($this->charset!==null)
 		{
 			$driver=strtolower($pdo->getAttribute(PDO::ATTR_DRIVER_NAME));
-			if(!in_array($driver,array('sqlite','mssql','dblib')))
+			if(!in_array($driver,array('sqlite','mssql','dblib','sqlsrv')))
 				$pdo->exec('SET NAMES '.$pdo->quote($this->charset));
 		}
 		if($this->initSQLs!==null)
@@ -7202,6 +7277,7 @@ class CDbConnection extends CApplicationComponent
 					return $this->_schema=new CSqliteSchema($this);
 				case 'mssql': // Mssql driver on windows hosts
 				case 'dblib': // dblib drivers on linux (and maybe others os) hosts
+				case 'sqlsrv':
 					return $this->_schema=new CMssqlSchema($this);
 				case 'oci':  // Oracle driver
 					return $this->_schema=new COciSchema($this);
@@ -7613,8 +7689,9 @@ class CDbCommand extends CComponent
 			catch(Exception $e)
 			{
 				Yii::log('Error in preparing SQL: '.$this->getText(),CLogger::LEVEL_ERROR,'system.db.CDbCommand');
+                $errorInfo = $e instanceof PDOException ? $e->errorInfo : null;
 				throw new CDbException(Yii::t('yii','CDbCommand failed to prepare the SQL statement: {error}',
-					array('{error}'=>$e->getMessage())));
+					array('{error}'=>$e->getMessage())),(int)$e->getCode(),$errorInfo);
 			}
 		}
 	}
@@ -7662,7 +7739,10 @@ class CDbCommand extends CComponent
 			if($this->_connection->enableProfiling)
 				Yii::beginProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
 			$this->prepare();
-			$this->_statement->execute($params===array() ? null : $params);
+			if($params===array())
+				$this->_statement->execute();
+			else
+				$this->_statement->execute($params);
 			$n=$this->_statement->rowCount();
 			if($this->_connection->enableProfiling)
 				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
@@ -7673,8 +7753,9 @@ class CDbCommand extends CComponent
 			if($this->_connection->enableProfiling)
 				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
 			Yii::log('Error in executing SQL: '.$this->getText().$par,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
+            $errorInfo = $e instanceof PDOException ? $e->errorInfo : null;
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
-				array('{error}'=>$e->getMessage())));
+				array('{error}'=>$e->getMessage())),(int)$e->getCode(),$errorInfo);
 		}
 	}
 	public function query($params=array())
@@ -7717,7 +7798,10 @@ class CDbCommand extends CComponent
 			if($this->_connection->enableProfiling)
 				Yii::beginProfile('system.db.CDbCommand.query('.$this->getText().')','system.db.CDbCommand.query');
 			$this->prepare();
-			$this->_statement->execute($params===array() ? null : $params);
+			if($params===array())
+				$this->_statement->execute();
+			else
+				$this->_statement->execute($params);
 			if($method==='')
 				$result=new CDbDataReader($this);
 			else
@@ -7734,8 +7818,9 @@ class CDbCommand extends CComponent
 			if($this->_connection->enableProfiling)
 				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().')','system.db.CDbCommand.query');
 			Yii::log('Error in querying SQL: '.$this->getText().$par,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
+            $errorInfo = $e instanceof PDOException ? $e->errorInfo : null;
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
-				array('{error}'=>$e->getMessage())));
+				array('{error}'=>$e->getMessage())),(int)$e->getCode(),$errorInfo);
 		}
 	}
 }

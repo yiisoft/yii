@@ -13,7 +13,7 @@ General upgrade intructions
 ---------------------------
 - Make a backup.
 - Clean up your 'assets' folder.
-- Replace 'framework' dir with a new one or point SVN to a fresh
+- Replace 'framework' dir with the new one or point SVN to a fresh
   release and update.
 - Check if everything is OK, if not — revert from backup and post
   issues to Yii issue tracker.

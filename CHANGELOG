@@ -2,8 +2,8 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.1.4 to be released
-----------------------------
+Version 1.1.4 September 5, 2010
+-------------------------------
 - Bug #698: Now you can get and modify criteria of the current query in beforeFind() event handler (Sam Dark)
 - Bug #1031: Fixed the bug that the filters in CGridView does not work in IE (Qiang)
 - Bug #1119: Added CUploadedFile::reset() to make it more test-friendly (Qiang)
