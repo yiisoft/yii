@@ -2,8 +2,9 @@ Skapa en första Yii-applikation
 ===============================
 
 För en inledande bekantskap med Yii beskrivs i detta avsnitt hur man kan skapa 
-en första Yii-applikation. Det kraftfulla verktyget `yiic` kan användas till att 
-automatisera kodgenerering för vissa ändamål. Vi antar att `YiiRoot` är 
+en första Yii-applikation. Vi kommer att använda `yiic` (kommandoradsverktyg)
+till att skapa en ny Yii-applikation samt `Gii` (kraftfull webbaserad kodgenerator) 
+för automatiserad kodgenerering för bestämda ändamål. Vi antar att `YiiRoot` är 
 katalogen där Yii är installerat, samt att `WebRoot` är webbserverns rotkatalog 
 för dokument. 
 
@@ -18,8 +19,8 @@ Kör `yiic` från en kommandorad enligt följande:
 > Alternativt kan verktyget köras på följande sätt,
 >
 > ~~~
-> % cd WebRoot/testdrive
-> % php YiiRoot/framework/yiic.php webapp WebRoot/testdrive
+> % cd WebRoot
+> % php YiiRoot/framework/yiic.php webapp testdrive
 > ~~~
 
 Detta kommer att skapa en mall till Yii-applikation under katalogen 
@@ -70,7 +71,7 @@ testdrive/
          shell/              innehåller egna/anpassade 'yiic shell'-kommandon
       components/            innehåller (egna) återanvändningsbara komponenter
          Controller.php      basklass för alla kontrollerklasser
-         Identity.php        klassen 'Identity' som används för autenticering
+         UserIdentity.php    klassen 'UserIdentity' som används för autenticering
       config/                innehåller konfigurationsfiler
          console.php         konfiguration för konsolapplikationer
          main.php            konfiguration för webbapplikationer
@@ -95,7 +96,7 @@ testdrive/
             column2.php      layout for sidor som använder två kolumner
          site/               innehåller vyfiler för 'site'-kontrollern
          	pages/           innehåller "statiska" sidor
-         	   about.php     vyn för "about"-sidan
+        	   about.php     vyn för "about"-sidan
             contact.php      vyn för 'contact'-åtgärden
             error.php        vyn för 'error'-åtgärden (presenterar externa felmeddelanden)
             index.php        vyn för 'index'-åtgärden
@@ -150,9 +151,9 @@ Implementering av CRUD-operationer
 ----------------------------------
 
 Nu till den roliga biten. Vi vill implementera CRUD-operationerna (create, read, 
-update och delete) för tabellen `User` vi just skapat. Detta är även ett vanligt 
+update och delete) för tabellen `tbl_user` vi just skapat. Detta är även ett vanligt 
 förekommande krav i skarpa webbapplikationer. I stället för omaket att skriva kod 
-manuellt, använder vi Gii -- en kraftfull webbaserad kodgenerator.
+manuellt, använder vi `Gii` -- en kraftfull webbaserad kodgenerator.
 
 > Info: Gii har varit tillgänglig sedan version 1.1.2. Innan dess kunde det tidigare 
 > nämnda verktyget `yiic` användas för samma ändamål. 
@@ -248,4 +249,4 @@ Allt detta uppnåddes utan att skriva en enda rad kod!
 
 
 
-<div class="revision">$Id: quickstart.first-app.txt 2125 2010-05-11 23:36:02Z alexander.makarow $</div>
+<div class="revision">$Id: quickstart.first-app.txt 2375 2010-08-30 12:19:23Z mdomba $</div>

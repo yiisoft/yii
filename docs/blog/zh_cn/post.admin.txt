@@ -1,102 +1,109 @@
-管理文章
+日志管理
 ==============
 
-管理文章是指对所有文章进行列表，并具有查阅和删除文章功能。它们是由管理员进行的操作。这些代码是 `yiic` 来实现的，甚至不需要有太多的修改。下面我们主要解释如何对这些操作进行完善。
+日志管理主要是在一个管理视图中列出日志，我们可以查看所有状态的日志，更新或删除它们。它们分别通过 `admin` 操作和 `delete` 操作实现。`yiic` 生成的代码并不需要太多修改。下面我们主要解释这两个操作是怎样实现的。
 
 
-使用表方式显示列表
+在表格视图中列出日志
 -----------------------------
 
-管理员的操作将可以在视图中看到所有的文章列表。这个视图可以支持排序和翻页功能。下面是 `PostController` 控制器的 `actionAdmin()` 方法：
+`admin` 操作在一个表格视图中列出了所有状态的日志。此视图支持排序和分页。下面就是 `PostController` 中的 `actionAdmin()` 方法：
 
 ~~~
 [php]
 public function actionAdmin()
 {
-    $criteria=new CDbCriteria;
- 
-    $pages=new CPagination(Post::model()->count());
-    $pages->applyLimit($criteria);
- 
-    $sort=new CSort('Post');
-    $sort->defaultOrder='status ASC, createTime DESC';
-    $sort->applyOrder($criteria);
- 
-    $posts=Post::model()->findAll($criteria);
- 
-    $this->render('admin',array(
-        'posts'=>$posts,
-        'pages'=>$pages,
-        'sort'=>$sort,
-    ));
-}   
+	$model=new Post('search');
+	if(isset($_GET['Post']))
+		$model->attributes=$_GET['Post'];
+	$this->render('admin',array(
+		'model'=>$model,
+	));
+}
 ~~~
 
-上面代码非常接近于 `actionList()` 。主要的区别是我们这里使用了 [CSort] 对象来对信息进行排序。 [CSort] 方法能在管理员视图中自动对顶部的字段增加排序链接。点击链接后当前页被刷新同时按字段排序。
+上面的代码由 `yiic` 工具生成，未作任何修改。它首先创建了一个 `search` [场景（scenario）](/doc/guide/form.model) 下的 `Post` 模型。我们将使用此模型收集用户指定的搜索条件。然后我们把用户可能会提供的数据赋值给模型。 最后，我们以此模型显示 `admin` 视图。
 
-下面是管理员视图:
+下面就是 `admin` 视图的代码：
 
 ~~~
 [php]
-<h2>Manage Posts</h2>
- 
-<table class="dataGrid">
-  <tr>
-    <th><?php echo $sort->link('status'); ?></th>
-    <th><?php echo $sort->link('title'); ?></th>
-    <th><?php echo $sort->link('createTime'); ?></th>
-    <th><?php echo $sort->link('updateTime'); ?></th>
-  </tr>
-<?php foreach($posts as $n=>$post): ?>
-  <tr class="<?php echo $n%2?'even':'odd';?>">
-    <td><?php echo CHtml::encode($post->statusText); ?></td>
-    <td><?php echo CHtml::link(CHtml::encode($post->title),
-        array('show','id'=>$post->id)); ?></td>
-    <td><?php echo date('F j, Y',$post->createTime); ?></td>
-    <td><?php echo date('F j, Y',$post->updateTime); ?></td>
-  </tr>
-<?php endforeach; ?>
-</table>
- 
-<br/>
-<?php $this->widget('CLinkPager',array('pages'=>$pages)); ?>   
+<?php
+$this->breadcrumbs=array(
+	'Manage Posts',
+);
+?>
+<h1>Manage Posts</h1>
+
+<?php $this->widget('zii.widgets.grid.CGridView', array(
+	'dataProvider'=>$model->search(),
+	'filter'=>$model,
+	'columns'=>array(
+		array(
+			'name'=>'title',
+			'type'=>'raw',
+			'value'=>'CHtml::link(CHtml::encode($data->title), $data->url)'
+		),
+		array(
+			'name'=>'status',
+			'value'=>'Lookup::item("PostStatus",$data->status)',
+			'filter'=>Lookup::items('PostStatus'),
+		),
+		array(
+			'name'=>'create_time',
+			'type'=>'datetime',
+			'filter'=>false,
+		),
+		array(
+			'class'=>'CButtonColumn',
+		),
+	),
+)); ?>
 ~~~
 
-这段代码非常直接的将文章列表显示在一个表中。顶部是字段，我们使用 [CSort]  对象来生成这些排序的链接模式。最后部分，我们使用了Widget功能，内嵌了 [CLinkPager] 来显示翻页按钮。
+我们使用 [CGridView] 来显示这些日志。它允许我们在单页显示过多时可以分页并可以按某一列排序。我们的修改主要针对每一列的显示。例如，针对 `title` 列，我们指定它应该显示为一个超级链接，指向日志的详情页面。表达式`$data->url` 返回我们之前在 `Post` 类中定义的 `url` 属性值。
 
-技巧:在上面代码中，我们使用 `CHtml::encode()` 来显示HTML内容。这个功能提高代码脚本安全性[cross-site scripting attack](http://www.yiiframework.com/doc/guide/topics.security)。
+> Tip|提示: 当显示文本时，我们要调用 [CHtml::encode()] 对其中的HTML编码。这可以防止 [跨站脚本攻击(cross-site scripting attack)](http://www.yiiframework.com/doc/guide/topics.security).
 
 
-删除文章
------------------------------
+日志删除
+--------------
 
-当一个文章被当前用户浏览显示时，我们增加一个 `delete` 链接。点击这个链接，就能删除这个文章。因为这个操作将改变服务端的数据，我们使用 `POST` 请求方式。我们使用下列代码来实现这个按钮：
-
-~~~
-[php]
-<?php echo CHtml::linkButton('Delete',array(
-   'submit'=>array('post/delete','id'=>$post->id),
-   'confirm'=>"Are you sure to delete this post?",
-)); ?>   
-~~~
-
-这个 `CHtml::linkButton()` 方法生成的按钮和一般按钮看上去一样。但点击后，它将实现HTML的 `Post` 方法来递交。这里递交表单的URL将使用 `array('post/delete','id'=>$postid)` 来生成。在我们博客系统中最终格式为 `/blog/index.php?r=post/delete&id=1` ，也就是使用 `PostController` 的 `delete` 动作。我们还使用了一个确认对话框来为用户删除这个文章做确认。
-
-以下删除操作代码非常浅显，我们就不做解释了。
+在 `admin` 数据表格中，每行有一个删除按钮。点击此按钮将会删除相应的日志。在程序内部，这会触发如下实现的 `delete` 动作。
 
 ~~~
 [php]
 public function actionDelete()
 {
-    if(Yii::app()->request->isPostRequest)
-    {
-        // we only allow deletion via POST request
-        $this->loadPost()->delete();
-        $this->redirect(array('list'));
-    }
-    else
-        throw new CHttpException(400,'Invalid request...');
-}   
+	if(Yii::app()->request->isPostRequest)
+	{
+		// we only allow deletion via POST request
+		$this->loadModel()->delete();
+
+		if(!isset($_POST['ajax']))
+			$this->redirect(array('index'));
+	}
+	else
+		throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
+}
 ~~~
 
-(译者注: 上面的`loadPost()`方法就是我们上一节显示时已经写那段代码，请查阅)
+上面的代码就是 `yiic` 生成的代码，未经任何修改。我们想在此对判断 `$_POST['ajax']` 稍作解释。[CGridView] 小物件有一个非常好的特性：它的排序、分页和删除操作默认是通过AJAX实现的。这就意味着在执行上述操作时，整个页面不会重新加载。然而，它也可以在非AJAX模式下运行（通过设置它的 `ajaxUpdate` 属性为 false 或在客户端禁用JavaScript）。`delete` 动作区分两个场景是必要的：如果删除请求通过AJAX提交，我们就不应该重定向用户的浏览器，反之则应该重定向。
+
+删除日志应该同时导致日志的所有评论被删除。额外的，我们应更新相关的删除日志后的 `tbl_tag` 表。 这两个任务都可以通过在 `Post` 模型类中写一个如下的 `afterDelete` 方法实现。
+
+~~~
+[php]
+protected function afterDelete()
+{
+	parent::afterDelete();
+	Comment::model()->deleteAll('post_id='.$this->id);
+	Tag::model()->updateFrequency($this->tags, '');
+}
+~~~
+
+上面的代码很直观：它首先删除了所有 `post_id` 和所删除的日志ID相同的那些评论。然后它针对所删日志中的 `tags` 更新了 `tbl_tag` 表。
+
+> Tip|提示: 由于 SQLite 并不真正支持外键约束，我们需要显式地删除属于所删日志的所有评论。在一个支持此约束的DBMS （例如 MySQL， PostgreSQL）中，可以设置好外键约束，这样如果删除了一篇日志，DBMS就可以自动删除其评论。这样的话，我们就不需要在我们的代码中显式执行删除了。
+
+<div class="revision">$Id: post.admin.txt 1810 2010-02-18 00:24:54Z qiang.xue $</div>

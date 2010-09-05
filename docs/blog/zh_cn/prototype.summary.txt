@@ -1,18 +1,21 @@
-小结
+总结
 =======
 
-我们已经完成了一个里程碑。暂时让我们回顾一下我们已经完成的内容：
+我们已经完成了阶段1。来总结一下目前为止我们所完成的工作：
 
- 1. 我们设计了需求; 
- 2. 我们安装了Yii框架; 
- 3. 我们建立系统框架; 
- 4. 我们设计和建立了数据库; 
- 5. 我们修改系统的配置文件以便于和数据库连接; 
- 6. 我们使用脚手架生成了基本文章和评论的CRUD操作文件; 
- 7. 我们修改认证方法，使其能与User表对应.
+ 1. 我们确定了完整的需求；
+ 2. 我们安装了Yii框架；
+ 3. 我们创建了一个程序骨架；
+ 4. 我们设计并创建了博客数据库；
+ 5. 我们修改了应用配置，添加了数据库连接；
+ 6. 我们为日志和评论生成了实现CRUD操作的代码；
+ 7. 我们修改了验证方法以实现通过 `tbl_user` 表验证身份；
 
-作为一个新项目，大部分时间可能花在1到4步。
+对一个新项目来说，大部分时间将花在对程序骨架的第1至4步操作上。
 
-然而，yiic代码生成工具为数据库表提供了完整的CRUD操作，但它一般是需要修改的。所以，下一个里程碑，我们的工作将是修改这些被生成的CRUD代码，使得文章和评论操作接近我们的需求。
+虽然 `gii` 工具生成的代码可以对数据库实现完整的 CRUD 操作，但它在实际应用中常需要做一些修改。鉴于此，在下面的两个阶段中，我们的工作就是自定义生成的日志及评论的 CRUD 代码，使他们达到我们一开始的需求。
 
-我们还需要修改模型[model](http://www.yiiframework.com/doc/guide/basics.model)文件，增加一些校验[validation](http://www.yiiframework.com/doc/guide/form.model#declaring-validation-rules)规则和关联[relational objects](http://www.yiiframework.com/doc/guide/database.arr#declaring-relationship)。最后，根据CRUD的操作需要，我们还需要对控制器[controller action](http://www.yiiframework.com/doc/guide/basics.controller)和视图[view](http://www.yiiframework.com/doc/guide/basics.view)文件作一些调整。
+总体来说，我们首先要修改 [模型](http://www.yiiframework.com/doc/guide/basics.model) 类，添加适当的 [验证](http://www.yiiframework.com/doc/guide/form.model#declaring-validation-rules) 规则并声明 [相关的对象](http://www.yiiframework.com/doc/guide/database.arr#declaring-relationship)。然后我们要为每个CRUD操作修改其 [控制器动作](http://www.yiiframework.com/doc/guide/basics.controller) 和 [视图](http://www.yiiframework.com/doc/guide/basics.view) 代码。
+
+
+<div class="revision">$Id: prototype.summary.txt 2333 2010-08-24 21:11:55Z mdomba $</div>

@@ -18,7 +18,7 @@ dazu zum Beispiel sämtliche Eingaben eines Benutzers HTML-codieren. Allerdings
 kann dies in manchen Situationen nicht wünschenswert sein, da so alle
 HTML-Tags deaktiviert werden.
 
-Yii bedient sich daher die Arbeit des
+Yii bedient sich daher der Arbeit des
 [HTMLPurifier](http://htmlpurifier.org/)-Projekts und bietet Entwicklern eine
 nützliche Komponente namens [CHtmlPurifier], die
 [HTMLPurifier](http://htmlpurifier.org/) kapselt. Diese Komponente ist in der

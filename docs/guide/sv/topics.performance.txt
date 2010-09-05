@@ -69,7 +69,7 @@ Förutom dessa cachningsmetoder på applikationsnivå, kan även cachningslösni
 på servernivå användas för att förbättra applikationsprestanda. Faktum är att, 
 [APC-cachning](/doc/guide/topics.performance#enabling-apc-extension) som 
 beskrevs tidigare, hör till denna kategori. Det finns andra serverbaserade 
-metoder, som [Zend Optimizer](http://Zend.com/ZendOptimizer), 
+metoder, som [Zend Optimizer](http://www.zend.com/en/products/guard/zend-optimizer), 
 [eAccelerator](http://eaccelerator.net/), [Squid](http://www.squid-cache.org/), 
 för att nämna några.
 
@@ -172,4 +172,4 @@ I stället lägger vi in följande kod i våra sidor för att uttryckligen inklu
 </head>
 ~~~
 
-<div class="revision">$Id: topics.performance.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>
+<div class="revision">$Id: topics.performance.txt 2343 2010-08-26 21:10:08Z alexander.makarow $</div>

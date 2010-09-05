@@ -1,23 +1,25 @@
 创建模型
 ==============
 
-在编写我们所需要的表单的HTML代码之前,我们先得决定我们要从用户那里获取什么样
-的数据,这些数据需要遵从怎样的规则.模型类可以用于记录这些信息.模型,作为已定义的
- [Model](/doc/guide/basics.model) 的一部分,是用来保存,校验用户输入的核心.
+在编写表单所需的 HTML 代码之前，我们应该先确定来自最终用户输入的数据的类型，以及这些数据应符合什么样的规则。
+模型类可用于记录这些信息。
+正如[模型](/doc/guide/basics.model) 章节所定义的，
+模型是保存用户输入和验证这些输入的中心位置。
 
-根据用户输入的用途,我们可以创建两类模型.如果用户的输入被收集,使用然后被丢弃了,
-我们应该创建一个 [form model](/doc/guide/basics.model) 模型;如果用户的数据被收集,
-然后保存到数据库,我们则应该选择使用 [active record](/doc/guide/database.ar) 模型.
-这两种模型共享着定义了表单所需通用界面的基类 [CModel].
+取决于使用用户所输入数据的方式，我们可以创建两种类型的模型。
+如果用户输入被收集、使用然后丢弃，我们应该创建一个  [表单模型](/doc/guide/basics.model);
+如果用户的输入被收集后要保存到数据库，我们应使用一个 
+[Active Record](/doc/guide/database.ar) 。
+两种类型的模型共享同样的基类 [CModel] ，它定义了表单所需的通用接口。
 
-> Note|注意: 本章中我们主要使用表单模型的示例.
-> 它也同样适用于 [active record](/doc/guide/database.ar) 模型.
+> Note|注意: 我们在这一节的示例中主要使用了表单模型 。然而，同样的操作也可应用于
+ [active record](/doc/guide/database.ar) 模型。
 
 定义模型类
 --------------------
 
-以下我们会创建一个 `LoginForm` 模型类从一个登录页面收集用户数据.因为登录数据只用于
-校验用户而不需要保存,所以我们创建的 `LoginForm` 是一个表单模型.
+下面我们创建了一个 `LoginForm` 模型类用于在一个登录页中收集用户的输入。
+由于登录信息只被用于验证用户，并不需要保存，因此我们将 `LoginForm` 创建为一个 表单模型。
 
 ~~~
 [php]
@@ -29,19 +31,19 @@ class LoginForm extends CFormModel
 }
 ~~~
 
-`LoginForm` 声明了三个属性:`$username`, `$password` 和 `$rememberMe`.他们用于保存用
-户输入的用户名,密码以及用户是否想记住它登录状态的选项.因为 `$rememberMe` 有一个默认值
- `false` ,其相应的选项框在表单初始化显示时是没有被选中的.
+`LoginForm` 中定义了三个属性: `$username`, `$password` 和
+`$rememberMe`。他们用于保存用户输入的用户名和密码，还有用户是否想记住他的登录的选项。
+由于 `$rememberMe` 有一个默认的值 `false`，相应的选项在初始化显示在登录表单中时将是未勾选状态。
 
-> Info|说明: 为了替代这些成员变量"属性"的叫法,我们使用 *特性* 一词来区分于普通属性.特性是一种
-> 主要用于储存用户输入数据或数据库读取数据的属性.
+> Info|信息: 我们将这些成员变量称为 *特性（attributes）* 而不是 属性（properties），以区别于普通的属性（properties）。
+特性（attribute）是一个主要用于存储来自用户输入或数据库数据的属性（propertiy）。
 
-声明有效的规则
+声明验证规则
 --------------------------
 
-一旦用户提交了他的表单,模型获得了到位的数据,在使用数据前我们需要确定输入是否是有效的.这个
-过程被一系列针对输入有效性的校验规则来校验.我们应该在返回一个规则配置数组的 `rules()` 方法
-中指定这一有效的规则.
+一旦用户提交了他的输入，模型被填充，我们就需要在使用前确保用户的输入是有效的。
+这是通过将用户的输入和一系列规则执行验证实现的。我们在 `rules()` 方法中指定这些验证规则，
+此方法应返回一个规则配置数组。
 
 ~~~
 [php]
@@ -50,144 +52,199 @@ class LoginForm extends CFormModel
 	public $username;
 	public $password;
 	public $rememberMe=false;
+
+	private $_identity;
 
 	public function rules()
 	{
 		return array(
 			array('username, password', 'required'),
+			array('rememberMe', 'boolean'),
 			array('password', 'authenticate'),
-	);
+		);
 	}
 
 	public function authenticate($attribute,$params)
 	{
-		if(!$this->hasErrors())  // 我们只想校验没有输入错误
-		{
-			$identity=new UserIdentity($this->username,$this->password);
-			if($identity->authenticate())
-			{
-				$duration=$this->rememberMe ? 3600*24*30 : 0; // 30 天
-				Yii::app()->user->login($identity,$duration);
-			}
-			else
-				$this->addError('password','Incorrect password.');
-		}
+		$this->_identity=new UserIdentity($this->username,$this->password);
+		if(!$this->_identity->authenticate())
+			$this->addError('password','错误的用户名或密码。');
 	}
 }
 ~~~
 
-以上的代码中 `username` 和 `password` 都是必填的,`password` 将被校验.
+上述代码指定：`username` 和 `password` 为必填项，
+`password` 应被验证（authenticated），`rememberMe` 应该是一个布尔值。
 
-每个通过 `rules()` 返回的规则必须遵照以下格式:
+`rules()` 返回的每个规则必须是以下格式：
 
 ~~~
 [php]
 array('AttributeList', 'Validator', 'on'=>'ScenarioList', ...附加选项)
 ~~~
 
-`AttributeList` 是需要通过规则校验的以逗号分隔的特性名称集的字符串; `校验器(Validator)`
- 指定了使用哪种校验方式; `on` 参数是规则在何种情况下生效的场景列表;附加选项是用来初
- 始化相应校验属性值的"名称-值"的配对.
+其中 `AttributeList（特性列表）` 是需要通过此规则验证的特性列表字符串，每个特性名字由逗号分隔;
+`Validator（验证器）` 指定要执行验证的种类；`on` 参数是可选的，它指定此规则应被应用到的场景列表；
+附加选项是一个名值对数组，用于初始化相应验证器的属性值。
 
-在一个校验规则中有三种方法可以指定 `校验器` . 
-第一, `校验器` 可以是模型类中的一个方法的名称,就像以上例子中的 `authenticate` .
-校验方法必须是以下结构 :
+有三种方式可在验证规则中指定  `Validator` 。第一，
+`Validator` 可以是模型类中一个方法的名字，就像上面示例中的
+`authenticate` 。验证方法必须是下面的结构：
 
 ~~~
 [php]
 /**
- * @param string 用于校验特性
- * @param array  指定了校验规则
+ * @param string 所要验证的特性的名字
+ * @param array 验证规则中指定的选项
  */
 public function ValidatorName($attribute,$params) { ... }
 ~~~
 
-第二, `校验器` 可以是一个校验类的名称.当规则生效时,校验类的实例将被创建用于执行实际
-的校验. 规则里的附加选项用于初始化实例中属性的初始值.校验类必须继承自 [CValidator].
+第二，`Validator` 可以是一个验证器类的名字，当此规则被应用时，
+一个验证器类的实例将被创建以执行实际验证。规则中的附加选项用于初始化实例的属性值。
+验证器类必须继承自 [CValidator]。
 
-> Note|注意: 当为一个active record指定规则时,我们可以使用名称为 `on` 的特别选项.这个选项可以
-> 是`'insert'` 或者 `'update'` 以便只有当插入或者更新记录时,规则才会生效.如果没有设置,规则
-> 将在任何 `save()` 被调用的时候生效.
+第三，`Validator` 可以是一个预定义的验证器类的别名。在上面的例子中，
+`required` 名字是 [CRequiredValidator] 的别名，它用于确保所验证的特性值不为空。
+下面是预定义的验证器别名的完整列表：
 
-第三 , `Validator` 可以是一个指向一个预定义的校验类的别名.在以上的例子中, `required` 指向了
- [CRequiredValidator] ,它确保了特性的有效值不能为空.以下是预定义校验别名的一份完整的列表:
+   - `boolean`: [CBooleanValidator] 的别名， 确保特性有一个 [CBooleanValidator::trueValue] 或
+[CBooleanValidator::falseValue] 值。
 
-   - `captcha`: [CCaptchaValidator] 的别名,确保了特性的值等于
-[CAPTCHA](http://en.wikipedia.org/wiki/Captcha) 显示出来的验证码.
+   - `captcha`: [CCaptchaValidator] 的别名，确保特性值等于 [CAPTCHA](http://en.wikipedia.org/wiki/Captcha) 中显示的验证码。
 
-   - `compare`: [CCompareValidator] 的别名, 确保了特性的值等于另一个特性或常量.
+   - `compare`: [CCompareValidator] 的别名，确保特性等于另一个特性或常量。
+   
+   - `email`: [CEmailValidator] 的别名，确保特性是一个有效的Email地址。
 
-   - `email`:  [CEmailValidator] 的别名,确保了特性的值是一个有效的电邮地址.
+   - `default`: [CDefaultValueValidator] 的别名，指定特性的默认值。
 
-   - `default`: [CDefaultValueValidator] 的别名, 为特性指派了一个默认值.
+   - `exist`: [CExistValidator] 的别名，确保特性值可以在指定表的列中可以找到。
 
-   - `file`: [CFileValidator] 的别名, 确保了特性包含了一个上传文件的名称.
+   - `file`: [CFileValidator] 的别名，确保特性含有一个上传文件的名字。
 
-   - `filter`: [CFilterValidator] 的别名, 使用一个过滤器转换特性的形式.
+   - `filter`: [CFilterValidator] 的别名，通过一个过滤器改变此特性。
 
-   - `in`: [CRangeValidator] 的别名, 确保了特性出现在一个预订的值列表里.
+   - `in`: [CRangeValidator] 的别名，确保数据在一个预先指定的值的范围之内。
 
-   - `length`: [CStringValidator] 的别名, 确保了特性的长度在指定的范围内.
+   - `length`: [CStringValidator] 的别名，确保数据的长度在一个指定的范围之内。
 
-   - `match`: [CRegularExpressionValidator] 的别名, 确保了特性匹配一个正则表达式.
+   - `match`: [CRegularExpressionValidator] 的别名，确保数据可以匹配一个正则表达式。
 
-   - `numerical`: [CNumberValidator] 的别名, 确保了特性是一个有效的数字.
+   - `numerical`: [CNumberValidator] 的别名，确保数据是一个有效的数字。
 
-   - `required`: [CRequiredValidator] 的别名, 确保了特性不为空.
+   - `required`: [CRequiredValidator] 的别名，确保特性不为空。
 
-   - `type`: [CTypeValidator] 的别名, 确保了特性为指定的数据类型.
+   - `type`: [CTypeValidator] 的别名，确保特性是指定的数据类型。
 
-   - `unique`: [CUniqueValidator] 的别名, 确保了特性在数据表字段中是唯一的.
+   - `unique`: [CUniqueValidator] 的别名，确保数据在数据表的列中是唯一的。
 
-   - `url`: [CUrlValidator] 的别名, 确保了特性是一个有效的路径.
+   - `url`: [CUrlValidator] 的别名，确保数据是一个有效的 URL。
 
-以下我们列出了使用预定义校验器的例子:
+下面我们列出了几个只用这些预定义验证器的示例：
 
 ~~~
 [php]
-// username 不为空
+// 用户名为必填项
 array('username', 'required'),
-// username 必须大于 3 小于 12 字节
+// 用户名必须在 3 到 12 个字符之间
 array('username', 'length', 'min'=>3, 'max'=>12),
-// 在注册场景中, password 必须和 password2 一样
+// 在注册场景中，密码password必须和password2一致。
 array('password', 'compare', 'compareAttribute'=>'password2', 'on'=>'register'),
-// 在登录场景中, password 必须被校验
+// 在登录场景中，密码必须接受验证。
 array('password', 'authenticate', 'on'=>'login'),
 ~~~
 
 
-安全的特性分配
+安全的特性赋值
 ------------------------------
 
-> Note|注意: 自 1.0.2 版起,基于场景的特性分配开始生效.
-
-在一个模型实例被创建之后,我们经常需要使用用户提交的数据归位它的特性.这将大大简化以下
-繁重的任务:
+在一个类的实例被创建后，我们通常需要用最终用户提交的数据填充它的特性。
+这可以通过如下块赋值（massive assignment）方式轻松实现：
 
 ~~~
 [php]
 $model=new LoginForm;
 if(isset($_POST['LoginForm']))
-	$model->setAttributes($_POST['LoginForm'], 'login');
+	$model->attributes=$_POST['LoginForm'];
 ~~~
 
-以上的是一个繁重的任务,它在 `login` 场景(第二给参数指定的)中为每个 `$_POST['LoginForm']`
- 数据项分配对应的模型特性.而它和以下的代码效果是一样的:
+最后的表达式被称作 *块赋值（massive assignment）* ，它将  `$_POST['LoginForm']`
+中的每一项复制到相应的模型特性中。这相当于如下赋值方法：
 
 ~~~
 [php]
 foreach($_POST['LoginForm'] as $name=>$value)
 {
-	if($name is a safe attribute)
+	if($name 是一个安全的特性)
 		$model->$name=$value;
 }
 ~~~
 
-决定一个数据项是否是安全的,基于一个名为 `safeAttributes` 方法的返回值和数据项被指定的场景.
-默认的,这个方法返回所有公共成员变量作为 [CFormModel] 的安全特性,而它也返回了除了主键外,
-表中所有字段名作为 [CActiveRecord] 的特性.我们可以根据场景重写这个方法来限制安全特性 .例如,
-一个用户模型可以包含很多特性,但是在 `login` 场景.里,我们只能使用 `username` 和 `password`
- 特性.我们可以按照如下来指定这一限制 :
+检测特性的安全非常重要，例如，如果我们以为一个表的主键是安全的而暴露了它，那么攻击者可能就获得了一个修改记录的主键的机会，
+从而篡改未授权给他的内容。
+
+检测特性安全的策略在版本 1.0 和 1.1 中是不同的，下面我们将分别讲解：
+
+###1.1 中的安全特性
+
+在版本 1.1 中，特性如果出现在相应场景的一个验证规则中，即被认为是安全的。
+例如：
+
+~~~
+[php]
+array('username, password', 'required', 'on'=>'login, register'),
+array('email', 'required', 'on'=>'register'),
+~~~
+
+如上所示， `username` 和 `password` 特性在 `login` 场景中是必填项。而
+ `username`, `password` 和 `email` 特性在 `register` 场景中是必填项。
+于是，如果我们在 `login` 场景中执行块赋值，就只有 `username` 和 `password` 会被块赋值。
+因为只有它们出现在 `login` 的验证规则中。
+另一方面，如果场景是 `register` ，这三个特性就都可以被块赋值。
+
+~~~
+[php]
+// 在登录场景中
+$model=new User('login');
+if(isset($_POST['User']))
+	$model->attributes=$_POST['User'];
+
+// 在注册场景中
+$model=new User('register');
+if(isset($_POST['User']))
+	$model->attributes=$_POST['User'];
+~~~
+
+那么为什么我们使用这样一种策略来检测特性是否安全呢？
+背后的基本原理就是：如果一个特性已经有了一个或多个可检测有效性的验证规则，那我们还担心什么呢？
+
+请记住，验证规则是用于检查用户输入的数据，而不是检查我们在代码中生成的数据（例如时间戳，自动产生的主键）。
+因此，**不要** 为那些不接受最终用户输入的特性添加验证规则。
+
+有时候，我们想声明一个特性是安全的，即使我们没有为它指定任何规则。
+例如，一篇文章的内容可以接受用户的任何输入。我们可以使用特殊的 `safe` 规则实现此目的：
+
+~~~
+[php]
+array('content', 'safe')
+~~~
+
+为了完成起见，还有一个用于声明一个属性为不安全的  `unsafe` 规则：
+
+~~~
+[php]
+array('permission', 'unsafe')
+~~~
+
+`unsafe` 规则并不常用，它是我们之前定义的安全特性的一个例外。
+
+
+###1.0 中的安全特性
+
+在版本1.0中,决定一个数据项是否是安全的,基于一个名为 `safeAttributes` 方法的返回值和数据项被指定的场景. 默认的,这个方法返回所有公共成员变量作为 [CFormModel]
+的安全特性,而它也返回了除了主键外, 表中所有字段名作为 [CActiveRecord]的安全特性.我们可以根据场景重写这个方法来限制安全特性 .例如, 一个用户模型可以包含很多特性,但是在 `login`
+场景.里,我们只能使用  `username` 和 `password` 特性.我们可以按照如下来指定这一限制 :
 
 ~~~
 [php]
@@ -200,32 +257,31 @@ public function safeAttributes()
 }
 ~~~
 
- `safeAttributes` 方法更准确的返回值应该是如下结构的 : 
+`safeAttributes` 方法更准确的返回值应该是如下结构的 :
 
 ~~~
 [php]
 array(
-   //这些属性可以在任意场景被大量分配的
-   //以下特性并没有被明确的分配
+   // these attributes can be massively assigned in any scenario
+   // that is not explicitly specified below
    'attr1, attr2, ...',
 	 *
-   //以下特性只可以在场景1中被大量分配的
+   // these attributes can be massively assigned only in scenario 1
    'scenario1' => 'attr2, attr3, ...',
 	 *
-   //以下特性只可以在场景2中被大量分配的
+   // these attributes can be massively assigned only in scenario 2
    'scenario2' => 'attr1, attr3, ...',
 )
 ~~~
 
-如果模型不是场景敏感的(比如,它只在一个场景中使用,或者所有场景共享了一套同样的安全特性),返
-回值可以是如下那样简单的字符串.
+如果模型不是场景敏感的(比如,它只在一个场景中使用,或者所有场景共享了一套同样的安全特性),返 回值可以是如下那样简单的字符串.
 
 ~~~
 [php]
 'attr1, attr2, ...'
 ~~~
 
-而那些不安全的数据项,我们需要使用独立的分配语句来分配它们到相应的特性.如下所示:
+而那些不安全的数据项,我们需要使用独立的赋值语句来分配它们到相应的特性.如下所示:
 
 ~~~
 [php]
@@ -234,26 +290,39 @@ $model->id=1;
 ~~~
 
 
-触发校验
+触发验证
 ---------------------
 
-一旦用户提交的数据到位,我们可以调用 [CModel::validate()] 来触发数据校验处理.这个方法
-返回了一个指示校验是否成功的值. 而 [CActiveRecord] 中的校验可以在我们调用它的
- [CActiveRecord::save()] 方法时自动触发.
+一旦模型被用户提交的数据填充，我们就可以调用 [CModel::validate()]
+出发数据验证进程。此方法返回一个指示验证是否成功的值。
+对 [CActiveRecord] 模型来说，验证也可以在我们调用其  [CActiveRecord::save()]
+方法时自动触发。
 
-当我们调用  [CModel::validate()] 方法, 我们可以指定一个场景参数.只有在特定的场景下校验
-规则才会生效.校验规则会在那些 `on` 选项没有被设置或者包含了指定的场景名称的场景中生
-效.如果我们没有指定场景,而调用了 [CModel::validate()] 方法,只有那些 `on` 选项没有设置的
-规则才会被执行.
+我们可以使用 [scenario|CModel::scenario] 设置场景属性，这样，相应场景的验证规则就会被应用。
 
-例如,在注册一个用户时,我们运行以下脚本来执行校验 :
+验证是基于场景执行的。 [scenario|CModel::scenario] 属性指定了模型当前用于的场景和当前使用的验证规则集。
+例如，在 `login` 场景中，我们只想验证用户模型中的 `username` 和 `password` 输入；
+而在 `register` 场景中，我们需要验证更多的输入，例如  `email`, `address`, 等。
+下面的例子演示了如何在 `register` 场景中执行验证：
 
 ~~~
 [php]
-$model->validate('register');
+// 在注册场景中创建一个  User 模型。等价于：
+// $model=new User;
+// $model->scenario='register';
+$model=new User('register');
+
+// 将输入的值填充到模型
+$model->attributes=$_POST['User'];
+
+// 执行验证
+if($model->validate())   // if the inputs are valid
+    ...
+else
+    ...
 ~~~
 
-我们可以按以下在表单模型里声明校验规则:
+规则关联的场景可以通过规则中的 `on` 选项指定。如果 `on` 选项未设置，则此规则会应用于所有场景。例如：
 
 ~~~
 [php]
@@ -267,26 +336,25 @@ public function rules()
 }
 ~~~
 
-结果是,第一条规则在所有场景生效,而接下来的两条规则只有在 `register` 场景中生效.
-
-> Note|注意: 自 1.0.2 版起,基于场景的校验开始生效.
+第一个规则将应用于所有场景，而第二个将只会应用于 `register` 场景。
 
 
-检索校验错误
+提取验证错误
 ----------------------------
 
-我们可以使用 [CModel::hasErrors()] 来检查是否有校验错误,如果是,我们可以使用 [CModel::getErrors()]
- 来获取错误信息. 上述两者中的任何一个方法都可以用于所有特性或者单独的一个特性.
+验证完成后，任何可能产生的错误将被存储在模型对象中。
+我们可以通过调用 [CModel::getErrors()] 和[CModel::getError()] 提取这些错误信息。
+这两个方法的不同点在于第一个方法将返回 *所有* 模型特性的错误信息，而第二个将只返回 *第一个* 错误信息。
 
 特性标签
 ----------------
 
-当设计一个表单时,我们通常需要为每个输入字段显示标签. 标签告诉了用户他被期望输入哪种信息.尽管我
-们可以在视图里使用硬性编码,但是如果我们在对应的模型里指定了标签,那么它将提供更强的弹性和更好的
-便利性.
+当设计表单时，我们通常需要为每个表单域显示一个标签。
+标签告诉用户他应该在此表单域中填写什么样的信息。虽然我们可以在视图中硬编码一个标签，
+但如果我们在相应的模型中指定（标签），则会更加灵活方便。
 
-[CModel] 会默认的返回特性的名称作为特性的标签.而通过重写 [attributeLabels()|CModel::attributeLabels]
-方法,可以实现标签的定制.在接下来章节中我们将看到,在模型里指定标签将允许我们创建一个更快捷更强大
-的表单.
+默认情况下 [CModel] 将简单的返回特性的名字作为其标签。这可以通过覆盖
+[attributeLabels()|CModel::attributeLabels] 方法自定义。
+正如在接下来的小节中我们将看到的，在模型中指定标签会使我们能够更快的创建出更强大的表单。
 
-<div class="revision">$Id: form.model.txt 598 2009-03-05 13:41:28Z qiang.xue & 译 : thaiki $</div>
+<div class="revision">$Id: form.model.txt 2285 2010-07-28 20:40:00Z qiang.xue $</div>

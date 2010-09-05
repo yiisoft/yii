@@ -65,7 +65,7 @@ Folder główny aplikacji wskazuje na katalog główny, który zawiera wszystkie
 wrażliwe na bezpieczeństwo skrypty PHP oraz dane. Domyślnie, jest to podkatalog 
 nazwany `protected`, który znajduje się w katalogu zawierającym skrypt wejściowy.
 Można go dostosować do własnych potrzeb poprzez ustawienie właściwości  
-[basePath|CWebApplication::basePath] w [konfiguracji aplikacji](#application-configuration).
+[basePath|CWebApplication::basePath] w [konfiguracji aplikacji](/doc/guide/basics.application#application-configuration).
 
 Dostęp do zawartości w folderze głównym aplikacji powinien być chroniony, tak by 
 żaden użytkownik webowy nie miał do niego dostępu. Dla [serwera HTTP Apache](http://httpd.apache.org/)
@@ -213,6 +213,6 @@ Podczas przetwarzania żądania użytkownika aplikacja podlega następującemu c
 	   - utworzenie kontrolera;
 	   - uruchomienie kontrolera;
 
-   7.Zgłoszenie zdarzenia [onEndRequest|CApplication::onEndRequest];
+   7. Zgłoszenie zdarzenia [onEndRequest|CApplication::onEndRequest];
 
-<div class="revision">$Id: basics.application.txt 1601 2009-12-18 04:31:19Z qiang.xue $</div>
+<div class="revision">$Id: basics.application.txt 2360 2010-08-28 23:55:47Z qiang.xue $</div>

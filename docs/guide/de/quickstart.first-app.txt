@@ -72,7 +72,7 @@ testdrive/
          shell/              enthält selbst erstellte 'yiic shell'-Kommandos
       components/            enthält wiederverwendbare Benutzerkomponenten
          Controller.php      die Basisklasse für alle Controller
-         Identity.php        die Klasse 'Identity' (Identität) für die Authentifizierung
+         UserIdentity.php    die Klasse 'UserIdentity' (Benutzer-Identität) für die Authentifizierung
       config/                enthält Konfigurationsdateien
          console.php         die Konfiguration für Konsolenanwendungen
          main.php            die Konfiguration für Webanwendungen
@@ -94,8 +94,8 @@ testdrive/
          layouts/            enthält Views für das Layout
             main.php         das Standardlayout für alle Views
          site/               enthält Views für den SiteController
-         	pages/           enthält "statische" Seiten
-         	   about.php     View für die 'about'-Seite
+            pages/           enthält "statische" Seiten
+                about.php    View für die 'about'-Seite
             contact.php      View für die 'contact'-Action
             error.php        View für die 'error'-Action (zur Anzeige externer Fehler)
             index.php        View für ide 'index'-Action
@@ -263,4 +263,4 @@ schreiben zu müssen!
 
 ![Seite zum Erstellen eines neuen Benutzers](first-app7.png)
 
-<div class="revision">$Id: quickstart.first-app.txt 2125 2010-05-11 23:36:02Z alexander.makarow $</div>
+<div class="revision">$Id: quickstart.first-app.txt 2310 2010-08-07 09:32:55Z alexander.makarow $</div>

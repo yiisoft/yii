@@ -1,7 +1,10 @@
 アプリケーション
 ===========
 
-アプリケーションはリクエスト処理の実行コンテキストを表します。その主なタスクはユーザのリクエストを解析し、その先の処理を行うために適切なコントローラへ処理を移すことです。さらにアプリケーションレベルの初期構成を保つための中心的な場所として振舞います。この理由からアプリケーションは`フロントコントローラ`とも呼ばれます。
+アプリケーションはリクエスト処理の実行コンテキストを表します。
+その主なタスクはユーザのリクエストを解析し、その先の処理を行うために適切なコントローラへ処理を移すことです。
+さらにアプリケーションレベルの初期構成を保つための中心的な場所として振舞います。
+この理由からアプリケーションは`フロントコントローラ`とも呼ばれます。
 
 アプリケーションは[エントリースクリプト](/doc/guide/basics.entry)により、シングルトンとして生成されます。
 アプリケーションシングルトンはどの場所からでも[Yii::app()|YiiBase::app]としてアクセスすることができます。
@@ -14,7 +17,7 @@
 別のアプリケーションカスタマイズ方法は[CWebApplication]を継承することです。
 
 初期構成はキーと値のペアの要素を持つ配列です。キーはアプリケーションインスタンスのプロパティ名を表します。
-値は対応するキーの初期値です。
+値は対応するプロパティの初期値です。
 例えば、以下の初期構成ファイルは[name|CApplication::name]及び[defaultController|CWebApplication::defaultController]プロパティを構成します。
 
 ~~~
@@ -26,7 +29,7 @@ array(
 ~~~
 
 一般には構成は別のPHPスクリプトに格納されます(例えば`protected/config/main.php`)。
-このスクリプト中では構成が以下のようにリターンされます。
+このスクリプト中では構成が以下のように返ります。
 
 ~~~
 [php]
@@ -49,7 +52,9 @@ $app=Yii::createWebApplication($configFile);
 アプリケーションベースディレクトリ
 --------------------------
 
-アプリケーションベースディレクトリはルートディレクトリであり、これは全てのセキュリティに関係するPHPスクリプトやデータを含みます。デフォルトでは、`protected`という名前のサブディレクトリであり、エントリスクリプトを含むディレクトリの下に位置付けられます。その場所は、[アプリケーション構成](#application-configuration)の[basePath|CWebApplication::basePath]プロパティ値を変更することでカスタマイズが可能です。
+アプリケーションベースディレクトリはルートディレクトリであり、これは全てのセキュリティに関係するPHPスクリプトやデータを含みます。
+デフォルトでは、`protected`という名前のサブディレクトリであり、エントリスクリプトを含むディレクトリの下に位置付けられます。
+その場所は、[アプリケーション構成](#application-configuration)の[basePath|CWebApplication::basePath]プロパティ値を変更することでカスタマイズが可能です。
 
 アプリケーションベースディレクトリより下の内容はウェブユーザからのアクセスから守られる必要があります。
 [Apache HTTP server](http://httpd.apache.org/)を用いる場合、`.htaccess`をベースディレクトリの下に置くことで容易に実現可能です。`.htaccess`ファイルの内容は以下のとおりです。
@@ -93,10 +98,10 @@ array(
 ここで、`ComponentID`はコンポーネントのID(例えば`Yii::app()->cache`)を参照します。
 
 アプリケーションコンポーネントは構成ファイル中で`enabled`プロパティを偽にセットすることで無効にすることができます。
-無効にされたコンポーネントへのアクセスはnullがリターンされます。
+無効にされたコンポーネントへのアクセスはnullが返ります。
 
 > Tip|ヒント: デフォルトでは、アプリケーションコンポーネントは必要に応じて生成されます。
-これは、アプリケーションコンポーネントはユーザリクエストの間にアクセスされなければ一度には生成されないことを意味します。
+これは、アプリケーションコンポーネントはユーザリクエストの間にアクセスされなければ全く生成されないことを意味します。
 結果として、アプリケーションが多量のコンポーネントを持つように構成されても全体としての性能は落ちません。
 あるアプリケーションコンポーネント(例えば[CLogRouter])はアクセスされようがされまいが生成される必要があります。
 そのためには、これらのIDをアプリケーションのプロパティ[preload|CApplication::preload]で指示する必要があります。
@@ -115,16 +120,19 @@ Yiiは、ウェブアプリケーションに共通な機能を提供するた�
    - [authManager|CWebApplication::authManager]: [CAuthManager] - 役割ベースアクセス制御(RBAC)を管理します。
 
    - [cache|CApplication::cache]: [CCache] - データキャッシュ機能を提供します。注意:実際のクラス(例:[CMemCache], [CDbCache])
-を指定してください。さもないとこのコンポーネントをアクセスした場合にnullがリターンされます。
+を指定してください。さもないとこのコンポーネントをアクセスした場合にnullが返ります。
 
    - [clientScript|CWebApplication::clientScript]: [CClientScript] - クライアントスクリプト(javascriptsやCSS)を管理します。
 
    - [coreMessages|CApplication::coreMessages]: [CPhpMessageSource] -
-Yiiフレームワークのコアメッセージの翻訳を提供します。
+Yiiフレームワークの翻訳されたコアメッセージを提供します。
 
    - [db|CApplication::db]: [CDbConnection] - データベース接続を提供します。注意: このコンポーネントを使うためには[connectionString|CDbConnection::connectionString]プロパティを構成しなければなりません。
 
    - [errorHandler|CApplication::errorHandler]: [CErrorHandler] - キャッチされていないPHPエラーや例外を扱います。
+
+   - [format|CApplication::format]: [CFormatter] - 表示目的のため、データ値をフォーマットします。
+これは1.1.0版から利用可能です。
 
    - [messages|CApplication::messages]: [CPhpMessageSource] - Yiiアプリケーションによって使用される翻訳されたメッセージを提供します。
 
@@ -169,4 +177,4 @@ Yiiフレームワークのコアメッセージの翻訳を提供します。
 
    7. イベント[onEndRequest|CApplication::onEndRequest]を発行します;
 
-<div class="revision">$Id: basics.application.txt 857 2008-12-28 05:28:11Z qiang.xue $</div>
+<div class="revision">$Id: basics.application.txt 2311 2008-12-28 05:28:11Z qiang.xue $</div>

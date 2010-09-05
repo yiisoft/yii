@@ -10,8 +10,8 @@ ohne den entsprechenden Code ändern zu müssen.
 
 Mit Yii's ActiveRecord-Implementierung (kurz AR) kann man die Datenbankprogrammierung
 noch weiter vereinfachen. Sie nutzt das weit verbreitete
-[ORM](http://de.wikipedia.org/wiki/ORM)-Konzept, die sogenannte
-objektrelationale Abbildung (engl.: Object-Relational Mapping). Eine Tabelle
+[ORM](http://de.wikipedia.org/wiki/ORM)-Konzept (engl.: Object-Relational Mapping), 
+die sogenannte objektrelationale Abbildung. Eine Tabelle
 einer Datenbank wird dabei durch eine Klasse repräsentiert. Eine Zeile in
 dieser Tabelle entspricht einem Objekt dieser Klasse. Man vermeidet damit,
 immer wieder die selben SQL-Ausdrücke für die oft gleichen CRUD-Operationen 

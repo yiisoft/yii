@@ -17,7 +17,7 @@
     <body>
         <h1>Server fout</h1>
         <h2><?php echo nl2br(CHtml::encode($data['message'])); ?></h2>
-        <p>De server kreeg een interne fout en kon uw vraag niet beantwoorden.</p>
+        <p>Er trad een interne fout op in de server. Uw aanvraag kan niet beantwoord worden.</p>
         <p>Als u van mening bent dat dit een server fout is, neem dan a.u.b. contact op met de <?php echo $data['admin']; ?> </p>
         <div class="version"><?php echo date('Y-m-d H:i:s',$data['time']) .' '. $data['version']; ?></div>
     </body>

@@ -64,7 +64,7 @@ Einrichten der Testumgebung
 ===========================
 
 Die von Yii unterstützten Tests benötigen [PHPUnit](http://www.phpunit.de/)
-3.3+ und [Selenium Remote
+3.4+ und [Selenium Remote
 Control](http://seleniumhq.org/projects/remote-control/) 1.0+. Bitte ziehen
 Sie bei Fragen zur Installation deren Dokumation zu Rate.
 
@@ -159,4 +159,4 @@ einer Anwendungsinstanz, die fast genauso aussieht, wie jene die unsere
 Web-Requests beantwortet. Der wesentliche Unterschied liegt darin, dass ein
 Fixturemanager enthalten ist und sie die Testdatenbank verwendet.
 
-<div class="revision">$Id: test.overview.txt 1813 2010-02-18 21:33:16Z qiang.xue $</div>
+<div class="revision">$Id: test.overview.txt 2249 2010-07-06 11:43:48Z qiang.xue $</div>

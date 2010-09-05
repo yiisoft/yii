@@ -17,7 +17,7 @@
     <body>
         <h1>Dienst niet beschikbaar</h1>
         <h2><?php echo nl2br(CHtml::encode($data['message'])); ?></h2>
-        <p>De server kan tijdelijk uw vraag niet verwerken door onderhoud of problemen met de capaciteit van de server. Gelieve later nog eens opnieuw te proberen.</p>
+        <p>De server kan tijdelijk uw aanvraag niet verwerken door onderhoud of capaciteitsproblemen. Gelieve later opnieuw te proberen.</p>
         <p>Als u van mening bent dat dit een server fout is, neem dan a.u.b. contact op met de <?php echo $data['admin']; ?> </p>
         <div class="version"><?php echo date('Y-m-d H:i:s',$data['time']) .' '. $data['version']; ?></div>
     </body>

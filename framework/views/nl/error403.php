@@ -15,9 +15,9 @@
         </style>
     </head>
     <body>
-        <h1>Toegang verboden</h1>
+        <h1>Verboden toegang</h1>
         <h2><?php echo nl2br(CHtml::encode($data['message'])); ?></h2>
-        <p>U hebt niet de toestemming om toegang te krijgen tot het gevraagde object. Deze is ofwel beveiligd tegen lezen of onleesbaar door de server.</p>
+        <p>U hebt geen toegang tot het gevraagde object. Dit is ofwel beveiligd tegen lezen of onleesbaar door de server.</p>
         <p>Als u van mening bent dat dit een server fout is, neem dan a.u.b. contact op met de <?php echo $data['admin']; ?> </p>
         <div class="version"><?php echo date('Y-m-d H:i:s',$data['time']) .' '. $data['version']; ?></div>
     </body>

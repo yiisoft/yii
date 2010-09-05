@@ -142,12 +142,15 @@ reprezentowany jest poprzez instancję [CFormInputElement]. Następujący kod w 
 ~~~
 
 Określa on, iż atrybut modelu posiada nazwę `username` a pole wejściowe jest typu tekstowego `text`,
-którego atrybut maksymalnej długości `maxlength` wynosi 32.  Możemy definiować inne opcje w powyższej
-tablicy tak długo jak są one zapisywalnymi właściwościami klasy [CFormInputElement]. Na przykład, 
-możemy chcieć określić opcję [podpowiedzi|CFormInputElement::hint] w celu wyświetlenia tekstu podpwiedzi
-lub też możemy chcieć okreslić opcję [pozycji|CFormInputElement::items] jeśli chcemy aby pole wejściowe było
-listą (ang. list box), listą rozwijalną (ang. drop-down box), listą pól wyboru (ang. check-box list) czy też 
-listą opcji (ang. radio-button list).
+którego atrybut maksymalnej długości `maxlength` wynosi 32. 
+Każda właściwość do zapisu [CFormInputElement] może zostać skonfigurowana w powyższy sposób. Na przykład,
+możemy określić opcję podpowiedzi [hint|CFormInputElement::hint] w celu wyświetlenia tekstu podpowiedzi
+jak również opcję [items|CFormInputElement::items] jeśli pole wejściowe powinno być listą (ang. list
+box), listą rozwijaną (ang. drop-down box list), listą pól wyboru (ang. check-box list) czy też listą
+opcji (ang. radio-button list). Jeśli nazwa opcji nie jest właściwością [CFormInputElement], zostanie
+potraktowana jako atrybut odpowiadającego mu pola wejściowego HTML. Przykładowo, `maxlength` 
+z powyższego przykładu nie jest właściwością [CFormInputElement], więc zostanie wyświetlony jako atrybut
+`maxlength` pola wejściowego HTML. 
 
 Opcja [typ|CFormInputElement::type] zasługuje na dodatkową uwagę. Określa ona typ pól wejściowych, które zostaną 
 wygenerowane. Na przykład, `text` oznacza, iż zwykłe pole tekstowe powinno zostać wygenerowane;
@@ -165,9 +168,41 @@ wbudowane typy:
  - dropdownlist
  - checkboxlist
  - radiolist
+ 
+Poza powyższymi, wbudowanymi typami, chcielibyśmy opisać trochę bardziej szczegółowo używanie tych typów
+list, do kórych należą `dropdownlist`, `checkboxlist` oraz `radiolist`. Typy te, wymagają ustawienia
+właściwości [items|CFormInputElement::items] odpowiadających im elemetnów wejściowych. Można to zrobić 
+w następujący sposób:
+
+~~~
+[php]
+'gender'=>array(
+    'type'=>'dropdownlist',
+    'items'=>User::model()->getGenderOptions(),
+    'prompt'=>'Wybierz jedną z opcji:',
+),
+
+...
+
+class User extends CActiveRecord
+{
+	public function getGenderOptions()
+	{
+		return array(
+			0 => 'Mężczyzna',
+			1 => 'Kobieta',
+		);
+	}
+}
+~~~
+
+Powyższy kod wygeneruje listę drop rozwijaną, z tekstem podpowiedzi "
+The above code will generate a drop-down list selector with prompt text "wybierz jedną z opcji:".
+Opcje wyboru to odpowiednio "Mężczyzna" i "Kobieta", które są zwracane przez metodę `getGenderOptions`
+klasy modelu użytkownika `User`. 
 
 Poza tymi wbudowanymi typami, opcja [typ|CFormInputElement::type] może również zawierać nazwę klasy widżetu 
-lub też alias ścieżki do niej. Klasa widżetu musi dziedziczyć z klasy [CInputWidget]. Podczas wyświetlania  
+lub też alias ścieżki do niej. Klasa widżetu musi dziedziczyć z klasy [CInputWidget] lub [CJuiInputWidget]. Podczas wyświetlania  
 elementów wejściowych instancja podanej klasy widżetu zostanie utworzona i wygenerowana. Widżet będzie konfigurowany
 przy użyciu specyfikacji, tak jak to się dzieje w przyapdku elementu wejściowego.
 
@@ -469,4 +504,4 @@ gdyż nadal porzebujemy pisać podobną ilość kodu formularza. Mimo to, jest t
 korzyści, gdyż formularz jest opisywany za pomocą oddzielnego pliku konfiguracyjnego, co pomaga 
 programistom lepiej skupić się na logice.
 
-<div class="revision">$Id: form.builder.txt 2232 2010-06-26 22:42:03Z qiang.xue $</div>
+<div class="revision">$Id: form.builder.txt 2353 2010-08-28 20:45:26Z qiang.xue $</div>

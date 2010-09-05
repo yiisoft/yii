@@ -51,7 +51,7 @@ Powtarzaj kroki od 1 do 5 w celu kontynuowania implementacji funcjonalności.
 Konfiguracja środowiska testowego
 ======================
 
-Wsparcie dla testów oferowane przez Yii wymaga [PHPUnit](http://www.phpunit.de/) 3.3+ 
+Wsparcie dla testów oferowane przez Yii wymaga [PHPUnit](http://www.phpunit.de/) 3.4+ 
 oraz [Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+. 
 Aby dowiedzieć się jak zainstalować PHPUnit oraz Slenium Remote Control, zajrzyj do ich dokumentacji.
 
@@ -143,4 +143,4 @@ otrzymamy instancję aplikacji, która jest niemal identyczna z tą dostarczaną
 żądań sieciowych. Główna różnica polega na tym, że posiada ona menedżer zarządzania stałymi  
 składnikami (ang. fixture manager) oraz używa bazę testową.
 
-<div class="revision">$Id: test.overview.txt 1813 2010-02-18 21:33:16Z qiang.xue $</div>
+<div class="revision">$Id: test.overview.txt 2249 2010-07-06 11:43:48Z qiang.xue $</div>

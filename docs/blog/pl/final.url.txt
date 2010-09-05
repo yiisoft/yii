@@ -42,4 +42,4 @@ Reguły używane są przez `urlManager` do analizowanie i tworzenia URLi w zapro
 Komponent `urlManager` może później upiększyć nasze URLe, np. poprzez ukrycie `index.php` w URLach, dodanie sufiksu takiego jak `.html` do URLi. Możemy uzyskać te funkcje w prosty sposób poprzez konfigurowanie różnych właściwości `urlManager` w konfiguracji aplikacji. Aby uzyskać więcej szczegółów, zajrzyj do [przewodnika](http://www.yiiframework.com/doc/guide/topics.url).
 
 
-<div class="revision">$Id: final.url.txt 1808 2010-02-17 21:49:42Z qiang.xue $</div>
+<div class="revision">$Id: final.url.txt 2240 2010-07-03 18:06:11Z alexander.makarow $</div>

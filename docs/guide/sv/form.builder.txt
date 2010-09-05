@@ -142,10 +142,15 @@ inmatningselement:
 ~~~
 
 Det fastställer att modelattributet har namnet `username`, att inmatningsfältets typ är `text` och att 
-attributet `maxlength` har värdet 32. Andra alternativ kan specificeras i ovanstående array, så länge de 
-är skrivbara propertyn hos [CFormInputElement]. Vi kan till exempel specificera alternativet [hint|CFormInputElement::hint] 
+attributet `maxlength` har värdet 32. 
+
+Vilken som helst skrivbar propertry i [CFormInputElement] kan konfigureras på ovanstående sätt. 
+Vi kan till exempel specificera alternativet [hint|CFormInputElement::hint] 
 för att presentera en ledtrådstext, eller alternativet [items|CFormInputElement::items] om inmatningsfältet 
-är en listbox, en dropdown-lista, en checkbox-lista eller en radiobutton-lista.
+är en listbox, en dropdown-lista, en checkbox-lista eller en radiobutton-lista. Om ett alternativs namn 
+inte är en property i [CFormInputElement], behandlas det som attributet tillhörande det motsvarande HTML 
+inmatningselementet. Till exempel, eftersom `maxlength` i ovanstående inte är en property i [CFormInputElement], 
+kommer den att renderas som attributet `maxlength` för HTML textinmatningsfältet.
 
 Alternativet [type|CFormInputElement::type] förtjänar ytterligare uppmärksamhet. Det specificerar vilken typ av 
 inmatningselement som skall renderas. Typen `text` innebär till exempel att ett normalt textinmatningsfält renderas;
@@ -163,10 +168,40 @@ inmatningselement som skall renderas. Typen `text` innebär till exempel att ett
  - checkboxlist
  - radiolist
 
+Bland de ovanstående inbyggda typerna förtjänar "list"-typerna `dropdownlist`, `checkboxlist` 
+och `radiolist`, en mer ingående beskrivning. Dessa typer kräver att man sätter propertyn 
+[items|CFormInputElement::items] för det motsvarande inmatningselementet.
+Detta kan göras på följande sätt:
+
+~~~
+[php]
+'gender'=>array(
+    'type'=>'dropdownlist',
+    'items'=>User::model()->getGenderOptions(),
+    'prompt'=>'Please select:',
+),
+
+...
+
+class User extends CActiveRecord
+{
+	public function getGenderOptions()
+	{
+		return array(
+			0 => 'Male',
+			1 => 'Female',
+		);
+	}
+}
+~~~
+
+Ovanstående kod genererar en drop-downlista vars prompt är "please select:". Listan med alternativ 
+inkluderar "Male" och "Female", vilka returneras av metoden `getGenderOptions` i modellklassen `User` model.
+
 Förutom dessa inbyggda typer, kan alternativet [type|CFormInputElement::type] också ges namnet på en widgetklass 
-eller sökvägsalias till densamma. Widgetklassen måste ärva från [CInputWidget]. När inmatningselementet renderas,
-kommer en instans av den specificerade widgetklassen att skapas och renderas. Widgeten kommer att konfigureras
-från specifikationen som givits för inmatningselementet.
+eller sökvägsalias till densamma. Widgetklassen måste ärva från [CInputWidget] eller [CJuiInputWidget]. 
+När inmatningselementet renderas, kommer en instans av den specificerade widgetklassen att skapas och renderas. 
+Widgeten kommer att konfigureras från specifikationen som givits för inmatningselementet.
 
 
 ### Specificera textkonstant
@@ -463,4 +498,4 @@ nytta, dock, att formuläret specificeras genom användning av en separat konfig
 hjälper utvecklare att bättre fokusera på logiken.
 
 
-<div class="revision">$Id: form.builder.txt 2232 2010-06-26 22:42:03Z qiang.xue $</div>
+<div class="revision">$Id: form.builder.txt 2353 2010-08-28 20:45:26Z qiang.xue $</div>

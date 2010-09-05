@@ -1,53 +1,98 @@
 创建表单
 =============
 
-编写 `login` 视图是直截了当的.我们以 `form` 标签开头,`form` 标签的 action 属性应该是 `login` 行为之前描述的的 URL .然后我们插入在 `LoginForm` 类中声明过的标签和文本框.最后我们插入一个用于用户点击后提交表单的按钮.所有这些都可以使用纯HTML代码来完成.
+编写  `login` 视图是很简单的，我们以一个 `form` 标记开始，它的 action 属性应该是前面讲述的 `login` 动作的URL。
+然后我们需要为 `LoginForm` 类中声明的属性插入标签和表单域。最后，
+我们插入一个可由用户点击提交此表单的提交按钮。所有这些都可以用纯HTML代码完成。
 
-Yii 提供了一些辅助器(helper)类来简化视图组合.例如,创建一个文本输入框,我们可以调用 [CHtml::textField()] ;创建一个下拉菜单,则可调用 [CHtml::dropDownList()] .
+Yii 提供了几个助手（helper）类简化视图编写。例如，
+要创建一个文本输入域，我们可以调用 [CHtml::textField()]；
+要创建一个下拉列表，则调用 [CHtml::dropDownList()]。
 
-> Info|信息: 人们可能不知道在编写类似代码时使用辅助器比使用纯HTML编写代码好处是什么.例如,如下代码将生成一个当其值被用户改变时可以触发表单提交的文本输入框.
+> Info|信息: 你可能想知道使用助手的好处，如果它们所需的代码量和直接写纯HTML的代码量相当的话。
+> 答案就是助手可以提供比 HTML 代码更多的功能。例如，
+> 如下代码将生成一个文本输入域，它可以在用户修改了其值时触发表单提交动作。
 > ~~~
 > [php]
 > CHtml::textField($name,$value,array('submit'=>''));
 > ~~~
-> 否则在任何需要的地方都要写上那笨拙的JavaScript了.
+> 不然的话你就需要写一大堆 JavaScript 。
 
-如下, 我们使用 [CHtml] 来创建登陆表单. 我们假设变量  `$user` 代表 `LoginForm` 的实例.
+下面，我们使用 [CHtml] 创建一个登录表单。我们假设变量 `$model` 是 `LoginForm` 的实例。
 
 ~~~
 [php]
-<div class="yiiForm">
-<?php echo CHtml::form(); ?>
+<div class="form">
+<?php echo CHtml::beginForm(); ?>
 
-<?php echo CHtml::errorSummary($user); ?>
+	<?php echo CHtml::errorSummary($model); ?>
 
-<div class="simple">
-<?php echo CHtml::activeLabel($user,'username'); ?>
-<?php echo CHtml::activeTextField($user,'username') ?>
-</div>
+	<div class="row">
+		<?php echo CHtml::activeLabel($model,'username'); ?>
+		<?php echo CHtml::activeTextField($model,'username') ?>
+	</div>
 
-<div class="simple">
-<?php echo CHtml::activeLabel($user,'password'); ?>
-<?php echo CHtml::activePasswordField($user,'password')
-?>
-</div>
+	<div class="row">
+		<?php echo CHtml::activeLabel($model,'password'); ?>
+		<?php echo CHtml::activePasswordField($model,'password') ?>
+	</div>
 
-<div class="action">
-<?php echo CHtml::activeCheckBox($user,'rememberMe'); ?>
-记住我?<br/>
-<?php echo CHtml::submitButton('Login'); ?>
-</div>
+	<div class="row rememberMe">
+		<?php echo CHtml::activeCheckBox($model,'rememberMe'); ?>
+		<?php echo CHtml::activeLabel($model,'rememberMe'); ?>
+	</div>
 
-</form>
-</div><!-- yii表单 -->
+	<div class="row submit">
+		<?php echo CHtml::submitButton('Login'); ?>
+	</div>
+
+<?php echo CHtml::endForm(); ?>
+</div><!-- form -->
 ~~~
 
-以上代码生成了一个更动态的表单. 例如 [CHtml::activeLabel()] 生成了一个关联到指定模型特性的标签.如果这个特性有一个输入错误,标签 CSS 的 class 将变成改变标签视觉表现到相应 CSS 样式的 `error`.类似的,[CHtml::activeTextField() 为指定的模型特性生成了一个文本输入框,其CSS 的 class 也会在发生任何错误时变成 `error`.
+上述代码生成了一个更加动态的表单，例如，
+[CHtml::activeLabel()] 生成一个与指定模型的特性相关的标签。
+如果此特性有一个输入错误，此标签的CSS class 将变为 `error`，通过 CSS 样式改变了标签的外观。
+相似的， [CHtml::activeTextField()] 为指定模型的特性生成一个文本输入域，并会在错误发生时改变它的 CSS class。
 
-如果我们使用了 `yiic` 脚本提供的CSS样式文件 `form.css`,那么生成的表单和如下显示的差不多 :
+如果我们使用由 `yiic` 脚本生提供的 CSS 样式文件，生成的表单就会像下面这样：
 
-![登陆页面](login1.png)
+![登录页](login1.png)
 
-![登陆出错页面](login2.png)
+![含有错误信息的登录页](login2.png)
 
-<div class="revision">$Id: form.view.txt 715 2009-02-20 02:08:24Z qiang.xue & 译 : thaiki $</div>
+从版本 1.1.1 开始，提供了一个新的小物件 [CActiveForm] 以简化表单创建。
+这个小物件可同时提供客户端及服务器端无缝的、一致的验证。使用 [CActiveForm],
+上面的代码可重写为：
+
+~~~
+[php]
+<div class="form">
+<?php $form=$this->beginWidget('CActiveForm'); ?>
+
+	<?php echo $form->errorSummary($model); ?>
+
+	<div class="row">
+		<?php echo $form->label($model,'username'); ?>
+		<?php echo $form->textField($model,'username') ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'password'); ?>
+		<?php echo $form->passwordField($model,'password') ?>
+	</div>
+
+	<div class="row rememberMe">
+		<?php echo $form->checkBox($model,'rememberMe'); ?>
+		<?php echo $form->label($model,'rememberMe'); ?>
+	</div>
+
+	<div class="row submit">
+		<?php echo CHtml::submitButton('Login'); ?>
+	</div>
+
+<?php $this->endWidget(); ?>
+</div><!-- form -->
+~~~
+
+<div class="revision">$Id: form.view.txt 1751 2010-01-25 17:21:31Z qiang.xue $</div>

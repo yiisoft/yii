@@ -128,11 +128,6 @@ Prüfung durchführt. Über die zusätzlichen Optionen können die
 Objekteigenschaften dieser Instanz konfiguriert werden. Eine solche Klasse
 muss von [CValidator] abgeleitet werden.
 
-> Note|Hinweis: Beim Regeln für ein ActiveRecord kann die spezielle Option 
-`on` auf den Wert `'insert'` oder `'update'` gesetzt werden. Die Regel wird 
-dann nur beim Einfügen bzw. Aktualisieren des Datensatzes angewendet. 
-Ist `on` nicht gesetzt, wird die Regel beim Aufruf von `save()` in beiden Fällen angewendet.
-
 Drittens kann `Validator` einem von mehreren vorgegebenen Aliasen entsprechen. 
 Im obigen Beispiel ist der Name `required` ein Alias für [CRequiredValidator].
 Dieser stellt sicher, dass der zu prüfende Attributwert nicht leer ist.
@@ -432,4 +427,4 @@ können die Labels angepasst werden. Wie wir in den nächsten Abschnitten sehen
 werden, ermöglicht die Labeldefinition innerhalb des Models, die 
 zugehörigen Formulare schnell und effektiv zu erzeugen.
 
-<div class="revision">$Id: form.model.txt 1919 2010-03-15 17:25:48Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 2285 2010-07-28 20:40:00Z qiang.xue $</div>

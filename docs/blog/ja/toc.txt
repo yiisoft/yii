@@ -1,5 +1,5 @@
 * さあはじめよう
-	- [はじめに](start.overview)
+    - [はじめに](start.overview)
     - [Yiiの試運転](start.testdrive)
     - [要求分析](start.requirements)
     - [全体の設計](start.design)
@@ -17,22 +17,19 @@
     - [記事の管理](post.admin)
 
 * コメントの管理
-	- [Commentモデルのカスタマイズ](comment.model)
+    - [Commentモデルのカスタマイズ](comment.model)
     - [コメントの作成と修正](comment.create)
     - [コメントの管理](comment.admin)
 
 * ポートレット
-	- [ポートレットアーキテクチャの確立](portlet.base)
-	- [ユーザメニューポートレットの作成](portlet.menu)
-	- [ログインポートレットの作成](portlet.login)
-	- [タグクラウドポートレットの作成](portlet.tags)
-	- [最近のコメントのポートレットの作成](portlet.comments)
+    - [ユーザメニューポートレットの作成](portlet.menu)
+    - [タグクラウドポートレットの作成](portlet.tags)
+    - [最近のコメントのポートレットの作成](portlet.comments)
 
 * 最後の仕上げ
-	- [URLをきれいにする](final.url)
-	- [エラーのロギング](final.logging)
-    - [エラー表示のカスタマイズ](final.error)
+    - [URLをきれいにする](final.url)
+    - [エラーのロギング](final.logging)
     - [最後のチューンナップと配備](final.deployment)
     - [将来の拡張](final.future)
 
-<div class="revision">$Id: toc.txt 1202 2009-07-04 17:56:59Z qiang.xue $</div>
+<div class="revision">$Id: toc.txt 1734 2009-07-04 17:56:59Z qiang.xue $</div>

@@ -64,4 +64,4 @@ Weitere Änderungen
 - Die Signatur des Konstruktors in [CActiveRecord] hat sich geändert. Der
 erste Parameter (Liste mit Attributen) wurde entfernt.
 
-<div class="revision">$Id: upgrade.txt 1819 2010-02-18 22:56:55Z qiang.xue $</div>
+<div class="revision">$Id: upgrade.txt 2305 2010-08-06 10:27:11Z alexander.makarow $</div>

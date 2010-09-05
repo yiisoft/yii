@@ -40,7 +40,7 @@ Powyższa konfiguracja mówi nam, że posiadamy [komponent aplikacji](http://www
 
 Przy użyciu tej konfiguracji, możemy uzyskać dostęp do obiektu połączenia z bazą danych przy użyciu wyrażenia `Yii::app()->db` w dowolnym miejscu naszego kodu. Zauważ, że `Yii::app()` zwraca instancję aplikacji, którą utworzyliśmy w skrypcie wejściowym. Jeśli jesteś zainteresowany poznaniem metod posiadanych przez połączenie DB oraz jego właściwościami, możesz udać się do [dokumentacji klas|CDbConnection]. Jednakże w większości przypadków nie będziemy używali tego połączenia z bazą danych wprost. W zamian, będziemy używać tak zwanego [rekordu aktywnego](http://www.yiiframework.com/doc/guide/database.ar) w celu uzyskania dostępu do bazy danych. 
 
-Będziemy chcieli wyjaśnić po trosze właściwość `tablePrefix`, którą ustawiliśmy w konfiguracji. Mówi ona połączeniu `db`, iż powinno ono uwzględniać fakt używania przez nas prefiksu `tbl_` jako prefiksu do nazw naszych tabel bazodanowych. W szczególności, jeśli w zapytaniu SQL znajduje się token, zamknięty w podwójnych nawiasach klamrowych (np. `{{post}}`}, wtedy połączenie `db` powinno przetłumaczyć je na nazwę tabeli zawierającą ten prefiks (np. `tbl_post`) zanim prześle go do wywołania do DBMS. Funkcjonalność ta jest szczególnie użyteczna, jeśli w przyszłości będziemy mieli potrzebę zmiany prefiksu bazy danych, bez konieczności dotykania kodu źródłowego. Na przykład, jeśli tworzymy ogólny system zarządzania treścią (CMS), możemy wykorzystać tę funkcję, tak, że jeśli będziemy instalować go w nowym środowisku, damy użytkownikom możliwość wyboru prefiksu tabeli jakiego chcą.
+Będziemy chcieli wyjaśnić po trosze właściwość `tablePrefix`, którą ustawiliśmy w konfiguracji. Mówi ona połączeniu `db`, iż powinno ono uwzględniać fakt używania przez nas prefiksu `tbl_` jako prefiksu do nazw naszych tabel bazodanowych. W szczególności, jeśli w zapytaniu SQL znajduje się token, zamknięty w podwójnych nawiasach klamrowych (np. `{{post}}`), wtedy połączenie `db` powinno przetłumaczyć je na nazwę tabeli zawierającą ten prefiks (np. `tbl_post`) zanim prześle go do wywołania do DBMS. Funkcjonalność ta jest szczególnie użyteczna, jeśli w przyszłości będziemy mieli potrzebę zmiany prefiksu bazy danych, bez konieczności dotykania kodu źródłowego. Na przykład, jeśli tworzymy ogólny system zarządzania treścią (CMS), możemy wykorzystać tę funkcję, tak, że jeśli będziemy instalować go w nowym środowisku, damy użytkownikom możliwość wyboru prefiksu tabeli jakiego chcą.
 
 > Tip|Wskazówka: Jeśli chcesz używać MYSQL zamiast SQLite do przechowywania danych, 
 > możesz utworzyć bazę danych nazwaną `blog` używając wyrażenia SQL  
@@ -67,4 +67,4 @@ Będziemy chcieli wyjaśnić po trosze właściwość `tablePrefix`, którą ust
 > ~~~
 
 
-<div class="revision">$Id: prototype.database.txt 1677 2010-01-07 20:29:26Z qiang.xue $</div>
+<div class="revision">$Id: prototype.database.txt 2332 2010-08-24 20:55:36Z mdomba $</div>

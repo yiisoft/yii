@@ -258,11 +258,15 @@ relationella frågan. De sammanfattas nedan.
 
    - `together`: huruvida tabellen associerad med detta samband skall tvingas till 
    en ovillkorlig sammanfogning (join) med den primära tabellen och andra tabeller. 
-   Detta alternativ är endast relevant för samband av typerna HAS_MANY och MANY_MANY. 
-   Om alternativet sätts till false, kommer tabellen som är associerad med HAS_MANY- 
-   eller MANY_MANY-sambandet att sammanfogas med den primära tabellen i en separat SQL-fråga, 
+   Detta alternativ är endast relevant för samband av typerna `HAS_MANY` och `MANY_MANY`. 
+   Om alternativet sätts till false, kommer tabellen som är associerad med `HAS_MANY`- 
+   eller `MANY_MANY`-sambandet att sammanfogas med den primära tabellen i en separat SQL-fråga, 
    något som kan öka total frågeprestanda eftersom mindre mängd redundant data returneras. 
-   Standardvärde är true. För fler detaljer se avsnittet "Relational Query Performance". 
+   Om detta alternativ sätts till true, kommer den associerade tabellen alltid att sammanfogas 
+   med den primära tabellen i en och samma SQL-fråga, även om den primära tabellen sidindelas.
+   Om detta alternativ inte sätts, kommer den associerade tabellen att sammanfogas med 
+   den primära tabellen i en och samma SQL-fråga, endast när den primära tabellen inte sidindelas.
+   För fler detaljer se avsnittet "Relational Query Performance". 
    Detta alternativ har varit tillgängligt sedan version 1.0.3.
 
    - `join`: ett tillkommande `JOIN`-led. Det är som standard tomt. Detta alternativ har 
@@ -583,4 +587,4 @@ class User extends CActiveRecord
 [CActiveRecord::scopes]. Detta innebär också att de inte kan parametriseras.
 
 
-<div class="revision">$Id: database.arr.txt 2226 2010-06-25 18:12:01Z qiang.xue $</div>
+<div class="revision">$Id: database.arr.txt 2350 2010-08-28 18:57:21Z qiang.xue $</div>

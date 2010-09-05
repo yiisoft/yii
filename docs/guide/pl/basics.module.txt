@@ -118,10 +118,11 @@ Na przykład, zakładając, że kontroler `PostController` znajduje się wewnąt
 Zagnieżdżone moduły
 -------------
 
-Moduły mogą być zagnieżdżone. Oznacza to, że jeden moduł może posiadać inne moduły. 
-Pierwszego nazywamy *modułem rodzica* a drugiego *modułem dziecka*. Moduły dzieci 
-muszą znajdować się w katalogu `modules` moduły rodzica. Aby uzyskać dostęp do 
-akcji kontrolera w module dziecka, powinniśmy używać trasy `IDModułuRodzica/IDModułuDziecka/IDKontrolera/IDAkcji`.
+Liczba zagnieżdzeń modułów jest nieograniczone. Oznacza to, że jeden moduł może posiadać inne moduły,
+które mogą posiadać kolejne moduły. Pierwszego nazywamy *modułem rodzica* a drugiego *modułem dziecka*. Moduły dzieci muszą zostać zadeklarowane we właściwości [modules|CWebModule::modules] swego rodzica,
+w taki sam sposób jak moduły w configuracji aplikacji z wcześniejszych przykładów.
+Aby uzyskać dostęp do akcji modułu dziecka, powinniśmy skorzystać z trasy
+`IDModułuRodzica/IDModułuDziecka/IDKontrolera/IDAkcji`.
 
 
-<div class="revision">$Id: basics.module.txt 2041 2010-04-11 03:54:25Z qiang.xue $</div>
+<div class="revision">$Id: basics.module.txt 2363 2010-08-29 02:35:15Z qiang.xue $</div>

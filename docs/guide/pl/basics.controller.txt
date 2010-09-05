@@ -142,6 +142,63 @@ protected/
             UpdateAction.php
 ~~~
 
+### Wiązanie parametrów akcji
+
+Od wersji 1.1.4, Yii dodało wsparcie dla automatycznego wiązania parametrów akcji.
+Oznacza to, że metoda kontrolera akcji może zdefiniować nazwane parametry, których wartości
+będą automatycznie pobrane przez Yii ze zmiennej `$_GET`.
+
+W celu wyjaśnienia tej funkcjonalności, załóżmy, że potrzebujemy napisać akcję tworznia `create` 
+dla kontrolera wiadomości `PostController`. Akcja ta wymaga dwóch parametrów:
+
+* kategoria `category`: liczba całkowita określająca ID kategorii w której post zostanie utworzony;
+* język `language`: łańcuch, określający kod języka, w którym wiadomość zostanie napisana.
+
+Możemy dać sobie już spokój z pisaniem następującego, nużącego kodu w celu zwrócenia potrzebnego parametru ze zmiennej `$_GET`:
+
+~~~
+[php]
+class PostController extends CController
+{
+	public function actionCreate()
+	{
+		if(isset($_GET['category']))
+			$category=(int)$_GET['category'];
+		else
+			throw new CHttpException(404,'invalid request');
+
+		if(isset($_GET['language']))
+			$language=$_GET['language'];
+		else
+			$language='en';
+
+		// ... fajniejszy kod zaczyna się tutaj ...
+	}
+}
+~~~
+
+Od teraz, używając funkcjonalności parametrów akcji, możemy uczynić nasze zadanie przyjemniejszym:
+
+~~~
+[php]
+class PostController extends CController
+{
+	public function actionCreate($category, $language='en')
+	{
+		$category=(int)$category;
+
+		// ... fajniejszy kod zaczyna się tutaj ...
+	}
+}
+~~~
+
+Zauważ, że dodaliśmy dwa parametry do metody akcji `actionCreate`.
+Nazwa tych parametrów musi taka sama jak parametry, których oczekujemy w zmiennej `$_GET`.
+Parametr języka `$language` przyjmuje domyślną wartość `en` w przypadku, gdy użytkownik nie 
+dostarczył go w swoim żądaniu. Poniewać kategoria `$category` nie posiada wartości domyślnej
+jeśli użytkownik jej nie dostarczy nam parametru `category` w `$_GET`, 
+automatycznie zostanie wyrzucony błąd [CHttpException] (kod błędu 400).
+
 Filtry
 ------
 
@@ -225,4 +282,4 @@ powinien zostać zastosowany dla akcji `edit` oraz `create`, zaś filtr
 `edit` oraz `create`. Jeśli żaden z operatorów plus lub minus nie pojawia się 
 w konfiguracji filtra, filtr będzie zastosowany do wszystkich akcji.
 
-<div class="revision">$Id: basics.controller.txt 1264 2009-07-21 19:34:55Z qiang.xue $</div>
+<div class="revision">$Id: basics.controller.txt 2418 2010-09-02 16:01:46Z qiang.xue $</div>

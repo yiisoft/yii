@@ -110,11 +110,14 @@ använda `forum/admin/post/create`.
 Nästlad modul
 -------------
 
-Moduler kan vara nästlade. Det vill säga, en modul kan innehålla en annan modul. 
+Moduler kan vara nästlade i ett obegränsat antal nivåer. Det vill säga, en modul kan 
+innehålla en annan modul som i sin tur kan innehålla ännu en modul. 
 Vi kallar den förra *föräldramodul* (parent module), den senare *barnmodul* (child module). 
-Barnmoduler måste placeras i underkataloger till föräldramodulens `modules`-katalog. 
+En barnmodul måste deklareras i dess föräldramoduls property [modules|CWebModule::modules], 
+vilket motsvarar deklaration av moduler i applikationskonfigurationen, åskådliggjort ovan.
+
 För att komma åt en kontrolleråtgärd i en barnmodul, använder vi följande route 
 `parentModuleID/childModuleID/controllerID/actionID`.
 
 
-<div class="revision">$Id: basics.module.txt 2041 2010-04-11 03:54:25Z qiang.xue $</div>
+<div class="revision">$Id: basics.module.txt 2363 2010-08-29 02:35:15Z qiang.xue $</div>

@@ -165,7 +165,7 @@ Det är möjligt att två behavior sammankopplade med en och samma komponent har
 metoder med likadant namn. I så fall kommer metoden i den först sammankopplade 
 behavior att ges prioritet.
 
-När de används tillsammans med [händelser](#component-event) är behavior ännu 
+När de används tillsammans med [händelser](/doc/guide/basics.component#component-event) är behavior ännu 
 mer kraftfulla. En behavior kan, när den är sammankopplad med en komponent, 
 koppla någon/några av sina metoder till komponentens händelser (events). En 
 behavior kan, genom att göra detta, ges en chans att observera eller ändra 
@@ -177,4 +177,4 @@ via get- och/eller set-metoder i denna behavior. Till exempel, om en behavior ha
 och behaviorn kopplas till komponenten `$a` kan uttrycket `$a->xyz` användas för tillgång till
 behaviorns property.
 
-<div class="revision">$Id: basics.component.txt 2181 2010-06-14 20:01:23Z qiang.xue $</div>
+<div class="revision">$Id: basics.component.txt 2346 2010-08-28 13:12:27Z mdomba $</div>

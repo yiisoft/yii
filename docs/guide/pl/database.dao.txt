@@ -88,6 +88,9 @@ pomocą [CDbCommand]. Utworzenie instancji [CDbCommand] odbywa się poprzez wywo
 
 ~~~
 [php]
+$connection=Yii::app()->db;   // zakładamy, że masz skonfigurowane połączenie "db"
+// Jeśli nie, możesz bezpośrednio utworzyć połączenie z bazą danych:
+// $connection=new CDbConnection($dsn,$username,$password);
 $command=$connection->createCommand($sql);
 // jeśli wymagane, wyrażenie SQL może być zaktualizowane następująco:
 // $command->text=$newSQL;
@@ -252,4 +255,4 @@ $sql='SELECT * FROM {{user}}';
 $users=$connection->createCommand($sql)->queryAll();
 ~~~
 
-<div class="revision">$Id: database.dao.txt 1764 2010-02-01 00:09:12Z qiang.xue $</div>
+<div class="revision">$Id: database.dao.txt 2266 2010-07-17 13:58:30Z qiang.xue $</div>

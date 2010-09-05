@@ -36,13 +36,13 @@ memcache для PHP и использует память как хранилищ
 [CDbCache] сохраняет кэшируемые данные в базе данных. Далее приведен список
 доступных компонентов кэширования:
 
-   - [CMemCache]: использует 
-   [дополнение memcache для PHP](http://www.php.net/manual/ru/book.memcache.php);
+   - [CMemCache]: использует
+   [дополнение memcache для PHP](http://php.net/manual/en/book.memcache.php);
 
-   - [CApcCache]: использует 
-   [дополнение APC для PHP](http://www.php.net/manual/ru/book.apc.php);
+   - [CApcCache]: использует
+   [дополнение APC для PHP](http://php.net/manual/en/book.apc.php);
 
-   - [CXCache]: использует 
+   - [CXCache]: использует
    [дополнение XCache для PHP](http://xcache.lighttpd.net/).
    Доступно с версии 1.0.1;
 
