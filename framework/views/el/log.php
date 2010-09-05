@@ -12,19 +12,27 @@
 		<th>Μήνυμα</th>
 	</tr>
 <?php
+$colors=array(
+  CLogger::LEVEL_PROFILE=>'#DFFFE0',
+  CLogger::LEVEL_INFO=>'#FFFFDF',
+  CLogger::LEVEL_WARNING=>'#FFDFE5',
+  CLogger::LEVEL_ERROR=>'#FFC0CB',
+);
 foreach($data as $index=>$log)
 {
-	$color=($index%2)?'#F5F5F5':'#EBF8FE';
-	$message='<pre>'.CHtml::encode(wordwrap($log[0])).'</pre>';
-	$time=date('H:i:s.',$log[3]).sprintf('%06d',(int)(($log[3]-(int)$log[3])*1000000));
+  $color=($index%2)?'#F5F5F5':'#FFFFFF';
+  if(isset($colors[$log[1]]))
+    $color=$colors[$log[1]];
+  $message='<pre>'.CHtml::encode(wordwrap($log[0])).'</pre>';
+  $time=date('H:i:s.',$log[3]).sprintf('%06d',(int)(($log[3]-(int)$log[3])*1000000));
 
-	echo <<<EOD
-	<tr style="background:{$color}">
-		<td align="center">{$time}</td>
-		<td>{$log[1]}</td>
-		<td>{$log[2]}</td>
-		<td>{$message}</td>
-	</tr>
+  echo <<<EOD
+  <tr style="background:{$color}">
+    <td align="center">{$time}</td>
+    <td>{$log[1]}</td>
+    <td>{$log[2]}</td>
+    <td>{$message}</td>
+  </tr>
 EOD;
 }
 ?>

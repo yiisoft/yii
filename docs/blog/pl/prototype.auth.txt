@@ -42,7 +42,7 @@ class UserIdentity extends CUserIdentity
 }
 ~~~
 
-W metodzie `authenticate(), używamy klasy `User` do wyszukiwania wiersza danych w tabeli `User`, którego kolumna `username` posiada tą samą wartość co nazwa użytkownika, bez uwzględnienia wielkości liter. Przypominamy, że klasa `User` została utworzona za pomocą narzędzia `yiic` w poprzedniej części. Ponieważ klasa `User` dziedziczy z  [CActiveRecord], możemy wykorzystać [funkcjonalność rekordu aktywnego](http://www.yiiframework.com/doc/guide/database.ar) i uzyskać dostęp do tabeli `User` w obiektowy (OOP) sposób.
+W metodzie `authenticate(), używamy klasy `User` do wyszukiwania wiersza danych w tabeli `tbl_ser`, którego kolumna `username` posiada tą samą wartość co nazwa użytkownika, bez uwzględnienia wielkości liter. Przypominamy, że klasa `User` została utworzona za pomocą narzędzia `gii` w poprzedniej części. Ponieważ klasa `User` dziedziczy z  [CActiveRecord], możemy wykorzystać [funkcjonalność rekordu aktywnego](http://www.yiiframework.com/doc/guide/database.ar) i uzyskać dostęp do tabeli `User` w obiektowy (OOP) sposób.
  
 W celu sprawdzenia czy użytkownik wprowadził prawidłowe hasło, wywołujemy metodę `validatePassword` klasy użytkownika `User`. Musimy zmodyfikować plik `/wwwroot/blog/protected/models/User.php` w następujący sposób. Zauważ, że zamiast przechowywać hasło tekstowo w bazie danych, przechowujemy rezultat haszowania hasła oraz losowo wygenerowany klucz soli. Podczas sprawdzania poprawności hasła wprowadzonego przez użytkownika powinniśmy użyć do porównywania rezultatu haszowania hasła zamiast samego hasła.
 
@@ -63,7 +63,7 @@ class User extends CActiveRecord
 }
 ~~~ 
 
-W klasie `UserIdentity` nadpisujemy również metodę `getId()`, która zwraca wartość `id` dla znalezionego w tabeli `User` użytkownika. Poprzednia implementacja zwracała nazwę użytkownika (username). Obie właściwości: nazwa użytkownika `username` oraz jego ID `id` będą zachowane w sesji użytkownika user oraz będzie można do nich uzyskać dostęp poprzez `Yii::app()->user` z dowolnego miejsca w naszym kodzie.
+W klasie `UserIdentity` nadpisujemy również metodę `getId()`, która zwraca wartość `id` dla znalezionego w tabeli `tbl_user` użytkownika. Poprzednia implementacja zwracała nazwę użytkownika (username). Obie właściwości: nazwa użytkownika `username` oraz jego ID `id` będą zachowane w sesji użytkownika user oraz będzie można do nich uzyskać dostęp poprzez `Yii::app()->user` z dowolnego miejsca w naszym kodzie.
 
 > Tip|Wskazówka: W klasie `UserIdentity` odnosimy się do klasy [CUserIdentity] bez bezpośredniego włączania odpowiadającego jej pliku klasy. Dzieje się tak, gdyż klasa [CUserIdentity] jest rdzenną klasą dostarczaną przez framework Yii. Yii automatycznie załączy plik klasy dla każdej z rdzennych klas, podczas pierwszego odniesienia się do niej.
 >
@@ -100,6 +100,6 @@ switch($identity->errorCode)
 
 > Info|Info: Ludzie często mylą tożsamość (UserIdentity) i komponent użytkownika aplikacji `user`. Pierwsze (tożsamość) reprezentuje sposób przeprowadzania uwierzytelnienia, druga zaś używana jest do reprezentowania informacji związanych z aktualnym użytkownikiem. Aplikacja może posiadać tylko jeden komponent użytkownika `user`, ale może posiadać jedną lub więcej klas tożsamościowych w zależności od rodzaju wpieranego sposobu uwierzytelniania. Po uwierzytelnieniu, instancja zawierająca tożsamość może przekazać swoje informacje o stanie do komponentu użytkownika `user`, tak, że ten jest globalnie dostępne poprzez właściwość `user`.
 
-W celu przetestowania zmodyfikowanej klasy `UserIdentity`, możemy otworzyć adres URL `http://www.example.com/blog/index.php` i spróbować zalogować się przy użyciu nazwy użytkownika oraz hasła przechowywanego w tabeli `User`. Jeśli użyjemy bazy danej dostarczonej przez [mego blogu](http://www.yiiframework.com/demos/blog/), powinniśmy być w stanie zalogować się przy użyciu nazwy użytkownika `demo` oraz hasła `demo`. Zauważ, że ten system blogowy nie dostarcza funkcjonalności zarządzania użytkownikami. W rezultacie użytkownik nie może zmienić swojego konta czy też stworzyć nowe poprzez interfejs sieciowy. Funkcjonalność zarządzania użytkownikami może zostać rozważona jako przyszłe rozszerzenie dla naszej aplikacji.
+W celu przetestowania zmodyfikowanej klasy `UserIdentity`, możemy otworzyć adres URL `http://www.example.com/blog/index.php` i spróbować zalogować się przy użyciu nazwy użytkownika oraz hasła przechowywanego w tabeli `tbl_ser`. Jeśli użyjemy bazy danej dostarczonej przez [mego blogu](http://www.yiiframework.com/demos/blog/), powinniśmy być w stanie zalogować się przy użyciu nazwy użytkownika `demo` oraz hasła `demo`. Zauważ, że ten system blogowy nie dostarcza funkcjonalności zarządzania użytkownikami. W rezultacie użytkownik nie może zmienić swojego konta czy też stworzyć nowe poprzez interfejs sieciowy. Funkcjonalność zarządzania użytkownikami może zostać rozważona jako przyszłe rozszerzenie dla naszej aplikacji.
 
-<div class="revision">$Id: prototype.auth.txt 1677 2010-01-07 20:29:26Z qiang.xue $</div>
+<div class="revision">$Id: prototype.auth.txt 2333 2010-08-24 21:11:55Z mdomba $</div>

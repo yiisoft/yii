@@ -44,7 +44,7 @@
 	<?php echo $requirement[0]; ?>
 	</td>
 	<td class="<?php echo $requirement[2] ? 'passed' : ($requirement[1] ? 'failed' : 'warning'); ?>">
-	<?php echo $requirement[2] ? 'Да' : 'Нет'; ?>
+        <?php echo $requirement[2] ? 'Да' : ($requirement[1] ? 'Нет' : 'Предупреждение'); ?>	
 	</td>
 	<td>
 	<?php echo $requirement[3]; ?>
@@ -58,7 +58,7 @@
 
 <table>
 <tr>
-<td class="passed">&nbsp;</td><td>Есть</td>
+<td class="passed">&nbsp;</td><td>Да</td>
 <td class="failed">&nbsp;</td><td>Нет</td>
 <td class="warning">&nbsp;</td><td>Предупреждение</td>
 </tr>

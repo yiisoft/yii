@@ -68,7 +68,7 @@ Poza wymienionymi technikami buforowania na poziomie aplikacji, możemy równie�
 z rozwiązań na poziomie serwera w celu poprawienia wydajności aplikacji. 
 [Buforowanie APC](/doc/guide/topics.performance#enabling-apc-extension), które wcześniej opisaliśmy
 bezsprzecznie należy do tej kategorii. Wyróżnia się tutaj inne techniki, między innymi takie jak 
-[Zend Optimizer](http://Zend.com/ZendOptimizer), [eAccelerator](http://eaccelerator.net/),
+[Zend Optimizer](http://www.zend.com/en/products/guard/zend-optimizer), [eAccelerator](http://eaccelerator.net/),
 [Squid](http://www.squid-cache.org/).
 
 Optymalizacja bazy danych
@@ -171,4 +171,4 @@ aby bezpośrednio dołączyć pliki skryptów ze strony Google:
 </head>
 ~~~
 
-<div class="revision">$Id: topics.performance.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>
+<div class="revision">$Id: topics.performance.txt 2343 2010-08-26 21:10:08Z alexander.makarow $</div>

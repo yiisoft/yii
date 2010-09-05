@@ -90,6 +90,9 @@ av [CDbCommand]. Man skapar en instans av [CDbCommand] genom anrop till
 
 ~~~
 [php]
+$connection=Yii::app()->db;   // assuming you have configured a "db" connection
+// If not, you may explicitly create a connection:
+// $connection=new CDbConnection($dsn,$username,$password);
 $command=$connection->createCommand($sql);
 // if needed, the SQL statement may be updated as follows:
 // $command->text=$newSQL;
@@ -259,4 +262,4 @@ $sql='SELECT * FROM {{user}}';
 $users=$connection->createCommand($sql)->queryAll();
 ~~~
 
-<div class="revision">$Id: database.dao.txt 1764 2010-02-01 00:09:12Z qiang.xue $</div>
+<div class="revision">$Id: database.dao.txt 2266 2010-07-17 13:58:30Z qiang.xue $</div>

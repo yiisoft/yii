@@ -142,4 +142,4 @@ Yii erbjuder en standarduppsättning systemvyer placerade under
 `framework/views`. Dessa kan anpassas genom att vyfiler med samma namn placeras 
 under `protected/views/system`.
 
-<div class="revision">$Id: basics.view.txt 1809 2010-02-17 22:08:34Z qiang.xue $</div>
+<div class="revision">$Id: basics.view.txt 2367 2010-08-29 17:29:22Z qiang.xue $</div>

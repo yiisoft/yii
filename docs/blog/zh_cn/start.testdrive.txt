@@ -1,23 +1,25 @@
-Yii的目录结构 
+Yii 之初体验
 ====================
 
-在这里，我们将说明如何建立一个基本框架，使它成为我们建立系统的开端。通常，我们总是会使用/wwwroot作为网站的Root根，同时把http://www.yiiframework.com作为访问它的URL地址。
+在这一部分里，我们将讲解怎样建立一个程序的骨架作为着手点。为简单起见，我们假设Web服务器根目录是 `/wwwroot` ，相应的URL是 `http://www.example.com/`。
 
-安装 Yii
+
+安装Yii
 --------------
 
-首先，我们来安装Yii框架。请在[www.yiiframework.com](http://www.yiiframework.com/download)上下载Yii框架文件(1.0.3版本或以上)，下载后解压到/wwwroot/yii目录。确认加压后目录是这样的/wwwroot/yii/framework。
+首先，我们来安装Yii框架。 从 [www.yiiframework.com](http://www.yiiframework.com/download) 获取一份Yii的拷贝，解压缩到 `/wwwroot/yii`。再次检查以确保 `/wwwroot/yii/framework` 目录存在。
 
-> Tip|技巧: Yii框架可以被安装在任何文件系统目录上，而无需直接被浏览器所访问到。只要在Yii编写的应用系统在运行时，能读取到yii核心框架文件就可以了。多个Yii应用系统可以同时共享一个yii核心框架文件。
+> Tip|提示: Yii框架可以安装在文件系统的任何地方，而不是必须在Web目录中。它的 `framework` 目录包含了框架的代码，这也是部署Yii应用时唯一一个必要的目录。一个单独的Yii安装可以被用于多个Yii应用。
 
-Yii被安装后，打开浏览器，并在地址栏上输入http://www.example.com/yii/requirements/index.php 。它将自行检测Yii环境，如果有问题，请确认Yii所需要的最小Web和PHP运行环境。同时，为了下面步骤正常运行，请检测PHP是否支持pdo和pdo_sqlite扩展数据库的支持。
+Yii安装完毕之后，打开浏览器访问URL `http://www.example.com/yii/requirements/index.php`。它将显示Yii提供的需求检查程序。对我们的Blog应用来说，除了Yii所需的最小需求之外，我们还需要启用 `pdo` 和 `pdo_sqlite` 这两个PHP 扩展。这样我们才能访问SQLite数据库。
 
-建立基本系统
+
+创建应用骨架
 -----------------------------
 
-现在我们可以使用yiic工具在/wwwroot/blog目录上来建立基本系统了。这个yiic tool 是一个包含于Yii发行包的命令行程序。它能完成可控制的自行生成代码功能。
+然后，我们使用 `yiic` 工具在 `/wwwroot/blog` 目录下创建一个应用骨架。`yiic` 工具是在Yii发布包中提供的命令行工具。它可以用于创建代码以减少某些重复的编码工作。
 
-打开命令行窗口，执行以下命令:
+打开一个命令行窗口，执行以下命令：
 
 ~~~
 % /wwwroot/yii/framework/yiic webapp /wwwroot/blog
@@ -25,19 +27,19 @@ Create a Web application under '/wwwroot/blog'? [Yes|No]y
 ......
 ~~~
 
-> Tip|技巧: 为了能正确执行yiic工具，CLI PHP 程序必须在默认路径。如果不是默认路径，请使用一下方式来尝试:
+> Tip|提示: 为了使用上面提到的 `yiic` 工具，CLI PHP 程序必须在命令搜索路径内（译者注：即 php.exe 所在的目录必须在PATH环境变量中），否则，可能要使用下面的命令:
 >
 >~~~
 > path/to/php /wwwroot/yii/framework/yiic.php webapp /wwwroot/blog
 >~~~
 
-按照以上方式我们的基本应用程序就被建立了，打开浏览器窗口，在URL地址栏上输入： http://www.example.com/blog/index.php 。我们应当可以看到三个页面: 首页、内容页和登录页面。
+要查看我们刚创建的应用，打开浏览器访问 URL `http://www.example.com/blog/index.php`。可以看到我们的程序骨架已经有了四个具备完整功能的页面：首页（Home），“关于”页（About），联系页（Contact）和登录页（Login）。
 
-到现在，我们已经拥有了基本系统了。
+接下来，我们简单介绍一下在这个程序骨架中的内容。
 
 ###入口脚本
 
-我们生成的[入口脚本](http://www.yiiframework.com/doc/guide/basics.entry)/wwwroot/blog/index.php 包括以下代码:
+我们有一个[入口脚本](http://www.yiiframework.com/doc/guide/basics.entry) 文件 `/wwwroot/blog/index.php` ，内容如下：
 
 ~~~
 [php]
@@ -52,30 +54,32 @@ require_once($yii);
 Yii::createWebApplication($config)->run();
 ~~~
 
-以上生成的代码是web用户直接可以访问的。这个代码首先包含了Yii启动文件yii.php。 它将根据特定的配置文件然后执行[应用程序](http://www.yiiframework.com/doc/guide/basics.application)。
+这是唯一一个网站用户可以直接访问的脚本。此脚本首先包含了Yii的引导文件 `yii.php`。然后它按照指定的配置创建了一个[应用](http://www.yiiframework.com/doc/guide/basics.application) 实例并执行此应用。
 
-###基本应用系统目录
 
-我们可以查阅一下[应用程序目录](http://www.yiiframework.com/doc/guide/basics.application#application-base-directory)，看 /wwwroot/blog/protected 。应用程序主要的代码将都在这个目录下，然而这个目录并不被web用户直接访问。对于[Apache httpd Web server](http://httpd.apache.org/)来说，我们可以在这个目录下放入 .htaccess 文件，来阻止web用户访问:
+###基础应用目录
+
+我们还有一个 [应用基础目录](http://www.yiiframework.com/doc/guide/basics.application#application-base-directory) `/wwwroot/blog/protected`。我们主要的代码和数据将放在此目录下，它应该被保护起来，防止网站访客的直接访问。针对 [Apache httpd 网站服务器](http://httpd.apache.org/) ，我们在此目录下放了一个 `.htaccess` 文件，其内容如下：
 
 ~~~
 deny from all
 ~~~
 
-如果你是其他Web服务器，可以通过其他手段禁止web用户访问这个目录。
+对于其他的网站服务器，请参考相应的关于保护目录以防止被访客直接访问的相关文档。
 
-应用程序工作流
+
+应用的工作流程
 --------------------
 
-为了更好的帮助您理解Yii是如何工作的，我们将描述一下一个用户访问内容页将经过哪些步骤。
+为了帮你理解Yii是怎样工作的，对于我们的程序骨架，当有人访问它的联系页（Contact）时，我们对它的工作流程描述如下：
 
- 1. [入口脚本](http://www.yiiframework.com/doc/guide/basics.entry)有web进程请求执行； 
- 2. Yii[应用程序](http://www.yiiframework.com/doc/guide/basics.application)进程建立并初始化内建参数，其一般由 /wwwroot/blog/protected/config/main.php 作为主要参数来源; 
- 3. 应用程序将请求寻找对应[控制器](http://www.yiiframework.com/doc/guide/basics.controller)以及[动作](http://www.yiiframework.com/doc/guide/basics.controller#action)。对于内容页请求，你可以看到site控制器和contact执行方法； 
- 4. 应用程序siteController调入类并执行它; 
- 5. 应用程序类siteController继续执行名为actionContact()方法已实现 contract 动作; 
- 6. 最后，这个actionContact 方法对[视图](http://www.yiiframework.com/doc/guide/basics.view)进行渲染。这个过程包括对 /wwwroot/blog/protected/views/layouts/main.php 这个整体[页面层](http://www.yiiframework.com/doc/guide/basics.view#layout)，也包括将 /wwwroot/blog/protected/views/site/contact.php 内容输出并内嵌进去。
+ 0. 用户请求此 URL `http://www.example.com/blog/index.php?r=site/contact`；
+ 1. [入口脚本](http://www.yiiframework.com/doc/guide/basics.entry) 被网站服务器执行以处理此请求；
+ 2. 一个 [应用](http://www.yiiframework.com/doc/guide/basics.application) 的实例被创建，其配置参数为`/wwwroot/blog/protected/config/main.php` 应用配置文件中指定的初始值；
+ 3. 应用分派此请求到一个 [控制器（Controller）](http://www.yiiframework.com/doc/guide/basics.controller) 和一个 [控制器动作（Controller action）](http://www.yiiframework.com/doc/guide/basics.controller#action)。对于联系页（Contact）的请求，它分派到了 `site` 控制器和 `contact` 动作 (即 `/wwwroot/blog/protected/controllers/SiteController.php` 中的  `actionContact` 方法);
+ 4. 应用按 `SiteController` 实例创建了 `site` 控制器并执行；
+ 5. `SiteController` 实例通过调用它的 `actionContact()` 方法执行 `contact` 动作；
+ 6. `actionContact` 方法为用户渲染一个名为 `contact` 的 [视图（View）](http://www.yiiframework.com/doc/guide/basics.view) 。在程序内部，这是通过包含一个视图文件 `/wwwroot/blog/protected/views/site/contact.php` 并将结果插入 [布局](http://www.yiiframework.com/doc/guide/basics.view#layout) 文件 `/wwwroot/blog/protected/views/layouts/column1.php` 实现的。
 
 
-
-<div class="revision">$Id: start.testdrive.txt 683 2009-10-21 05:20:17Z qiang.xue $</div>
+<div class="revision">$Id: start.testdrive.txt 1734 2010-01-21 18:41:17Z qiang.xue $</div>

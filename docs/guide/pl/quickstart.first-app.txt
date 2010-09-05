@@ -2,10 +2,10 @@ Tworzenie pierwszej aplikacji
 =============================
 
 Po to by nabyć podstawowych doświadczeń w pracy z Yii pokażemy w tym rozdziale
-jak utworzyć naszą pierwszą aplikację. Użyjemy potężnego narzędzia `yiic`,
-które pozwala automatyzować generowanie kodu dla określonych zadań.
-Przyjmujemy tu konwencję w myśl której `YiiRoot` jest katalogiem,
-w którym zainstalowano Yii, a `WebRoot` to document root naszego web serwera.
+jak utworzyć naszą pierwszą aplikację. Użyjemy `yiic` (narzędzia linii poleceń),
+w celu utworzenia nowej aplikacji Yii oraz `Gii` (poteżnego, przeglądarkowego generatora kodu)
+pozwalającego na automatyczne generowanie kody dla określonych zadań. Dla wygody przyjmijmy, że
+`YiiRoot` jest katalogiem, w którym zainstalowano Yii, a `WebRoot` to document root naszego web serwera.
 
 Uruchom `yiic` z wiersza poleceń w następujący sposób:
 
@@ -18,8 +18,8 @@ Uruchom `yiic` z wiersza poleceń w następujący sposób:
 > Alternatywnie możesz użyć tego narzędzia w sposób następujący:
 >
 > ~~~
-> % cd WebRoot/testdrive
-> % php YiiRoot/framework/yiic.php webapp WebRoot/testdrive
+> % cd WebRoot
+> % php YiiRoot/framework/yiic.php webapp testdrive
 > ~~~
 
 This will create a skeleton Yii application under the directory
@@ -72,7 +72,7 @@ testdrive/
          shell/              zawiera spersonalizowane polecenia 'yiic shell'
       components/            zawiera komponenty wielokrotnego użytku
          Controller.php      klasa bazowa dla wszystkich klas kontrolerów
-         Identity.php        klasa 'Identity', przeznaczona do celów uwierzytelnienia
+         UserIdentity.php        klasa 'UserIdentity', przeznaczona do celów uwierzytelnienia
       config/                zawiera pliki konfiguracyjne
          console.php         konfiguracja aplikacji konsolowej
          main.php            konfiguracja aplikacji webowej
@@ -154,10 +154,9 @@ Implementowanie operacji CRUD
 -----------------------------
 
 Ta część to czysta zabawa. Chcemy zaimplementować operacje CRUD (create,
-read, update i delete) dla tabeli `User`, którą dopiero co utworzyliśmy.
+read, update i delete) dla tabeli `tbl_user`, którą dopiero co utworzyliśmy.
 Potrzebne są one też powszechnie w praktycznie tworzonych aplikacjach.
-
-Zamiast męczyć się pisząc rzeczywisty kod możemy skorzystać z Gii potężnego
+Zamiast męczyć się pisząc rzeczywisty kod możemy skorzystać z `Gii` -- potężnego
 przeglądarkowego generatora kodu.
 
 > Info|Info: Gii jest dostępne od wersji 1.1.2. Przed tą wersją możemy używać wcześniej wspomnianego narzędzia `yiic` w celu osiągnięcia tego samego celu. Aby uzyskać więcej szczegółów, przejdź do [Implementowania operacji CRUD z yii](/doc/guide/quickstart.first-app-yiic).
@@ -248,4 +247,4 @@ pojedynczej linijki kodu!
 ![Strona tworzenia nowego użytkownika](first-app7.png)
 
 
-<div class="revision">$Id: quickstart.first-app.txt 2125 2010-05-11 23:36:02Z alexander.makarow $</div>
+<div class="revision">$Id: quickstart.first-app.txt 2375 2010-08-30 12:19:23Z mdomba $</div>

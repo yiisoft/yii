@@ -84,7 +84,7 @@ lub
 Drugie podejście jest używane kiedy widżet nie potrzebuje żadnej zawartości.
 
 Widżety można skonfigurować, tak by zmienić ich zachowanie. Można to zrobić poprzez 
-ustawienie ich początkowych wartości podczas wywołania [CBaseController::beginWidget] 
+ustawienie wartości ich początkowych właściwości podczas wywołania [CBaseController::beginWidget] 
 lub [CBaseController::widget]. Na przykład, podczas używania widżetu [CMaskedTextField],
 chcielibyśmy określić używaną maskę. Możemy to zrobić przez przekazywanie tablicy  
 początkowych wartości właściwości, w której kluczami są nazwy właściwości a wartościami 
@@ -144,4 +144,4 @@ Yii dostarcza zestawu domyślnych widoków systemowych umieszczonych w folderze
 `framework/views`. Mogą one zostać zmienione poprzez utworzenie tak samo nazwanych
 plików widoku w folderze `protected/views/system`.
 
-<div class="revision">$Id: basics.view.txt 1809 2010-02-17 22:08:34Z qiang.xue $</div>
+<div class="revision">$Id: basics.view.txt 2367 2010-08-29 17:29:22Z qiang.xue $</div>

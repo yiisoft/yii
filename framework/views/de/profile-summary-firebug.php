@@ -2,8 +2,8 @@
 /*<![CDATA[*/
 if(typeof(console)=='object')
 {
-	console.group("Ergebnisse der Leistungsmessung");
-	console.log(" Nummer Gesamt   Durschn.   Min      Max   ");
+	console.group("Ergebnis der Performance-Analyse");
+	console.log(" Anzahl Gesamt   Durschn.   Min      Max   ");
 <?php
 foreach($data as $index=>$entry)
 {

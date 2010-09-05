@@ -1,0 +1,121 @@
+新功能
+============
+
+此页面总结了每次 Yii 发布所引入的新功能。
+
+版本 1.1.3
+-------------
+
+ * [添加了对在应用配置中配置小物件默认值的支持](/doc/guide/topics.theming#customizing-widgets-globally)
+
+版本 1.1.2
+-------------
+
+ * [添加了一个被称作 Gii 的基于 Web 的代码生成工具](/doc/guide/topics.gii)
+
+版本 1.1.1
+-------------
+
+ * 添加了 CActiveForm ，它可以简化表单相关代码的编写，并支持客户端和服务器端一致且无缝的数据验证。
+
+ * 重构了由 yiic 工具生成的代码。具体的来说，现在生成的程序骨架应用具有多种布局；
+ 操作菜单为 CRUD 页面重新组织；新增由CRUD命令生成的管理员页面中的搜索和过滤功能。
+ 并使用 CActiveForm 渲染表单。
+
+ * [新增对定义全局 yiic 命令的支持](/doc/guide/topics.console)
+
+版本 1.1.0
+-------------
+
+ * [Added support for writing unit and functional tests](/doc/guide/test.overview)
+
+ * [Added support for using widget skins](/doc/guide/topics.theming#skin)
+
+ * [Added an extensible form builder](/doc/guide/form.builder)
+
+ * Improved the way of declaring safe model attributes. See
+ [Securing Attribute Assignments](/doc/guide/form.model#securing-attribute-assignments).
+
+ * Changed the default eager loading algorithm for relational active record queries so that all tables are joined in one single SQL statement.
+
+ * Changed the default table alias to be the name of active record relations.
+
+ * [Added support for using table prefix](/doc/guide/database.dao#using-table-prefix).
+
+ * Added a whole set of new extensions known as the [Zii library](http://code.google.com/p/zii/).
+
+ * The alias name for the primary table in an AR query is fixed to be 't'
+
+版本 1.0.11
+--------------
+
+ * Added support for parsing and creating URLs with parameterized hostnames
+     - [Parameterizing Hostnames](/doc/guide/topics.url#parameterizing-hostnames)
+
+
+版本 1.0.10
+--------------
+
+ * Enhanced support for using CPhpMessageSource to manage module messages
+     - [Message Translation](/doc/guide/topics.i18n#message-translation)
+
+ * Added support for attaching anonymous functions as event handlers
+     - [Component Event](/doc/guide/basics.component#component-event)
+
+版本 1.0.8
+-------------
+
+ * Added support for retrieving multiple cached values at one time
+	 - [Data Caching](/doc/guide/caching.data)
+
+ * Introduced a new default root path alias `ext` which points to the directory
+containing all third-party extensions.
+	 - [Using Extensions](/doc/guide/extension.use)
+
+版本 1.0.7
+-------------
+
+ * Added support for displaying call stack information in trace messages
+     - [Logging Context Information](/doc/guide/topics.logging#logging-context-information)
+
+ * Added `index` option to AR relations so that related objects can be indexed
+using the values of a specific column
+     - [Relational Query Options](/doc/guide/database.arr#relational-query-options)
+
+版本 1.0.6
+-------------
+
+ * Added support for using named scope with `update` and `delete` methods:
+     - [Named Scopes](/doc/guide/database.ar#named-scopes)
+
+ * Added support for using named scope in the `with` option of relational rules:
+     - [Relational Query with Named Scopes](/doc/guide/database.arr#relational-query-with-named-scopes)
+
+ * Added support for profiling SQL executions
+     - [Profiling SQL Executions](/doc/guide/topics.logging#profiling-sql-executions)
+
+ * Added support for logging additional context information
+     - [Logging Context Information](/doc/guide/topics.logging#logging-context-information)
+
+ * Added support for customizing a single URL rule by setting its urlFormat and caseSensitive options:
+     - [User-friendly URLs](/doc/guide/topics.url#user-friendly-urls)
+
+ * Added support for using a controller action to display application errors:
+     - [Handling Errors Using an Action](/doc/guide/topics.error#handling-errors-using-an-action)
+
+版本 1.0.5
+-------------
+
+ * Enhanced active record by supporting named scopes. See:
+     - [Named Scopes](/doc/guide/database.ar#named-scopes)
+     - [Default Named Scope](/doc/guide/database.ar#default-named-scope)
+     - [Relational Query with Named Scopes](/doc/guide/database.arr#relational-query-with-named-scopes)
+
+
+ * Enhanced active record by supporting lazy loading with dynamic query options. See:
+     - [Dynamic Relational Query Options](/doc/guide/database.arr#dynamic-relational-query-options)
+
+ * Enhanced [CUrlManager] to support parameterizing the route part in URL rules. See:
+     - [Parameterizing Routes in URL Rules](/doc/guide/topics.url#parameterizing-routes)
+
+<div class="revision">$Id: changes.txt 2217 2010-06-22 23:51:05Z qiang.xue $</div>

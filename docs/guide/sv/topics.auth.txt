@@ -237,7 +237,7 @@ En åtkomstregel kan matcha följande kontextparametrar:
 	   - `@`: autentiserade användare.
 
    - [roles|CAccessRule::roles]: specificerar vilka roller denna regel matchar. 
-   Till detta används finessen [rollbaserad åtkomstkontroll](#role-based-access-control) 
+   Till detta används finessen [rollbaserad åtkomstkontroll](/doc/guide/topics.auth#role-based-access-control) 
    som kommer att beskrivas i nästa underavsnitt. Mer 
    detaljerat, regeln appliceras om [CWebUser::checkAccess] returnerar true för 
    någon av rollerna. Lägg märke till att roller huvudsakligen bör användas i en 
@@ -558,4 +558,4 @@ $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('guest', 'guest user', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 1808 2010-02-17 21:49:42Z qiang.xue $</div>
+<div class="revision">$Id: topics.auth.txt 2360 2010-08-28 23:55:47Z qiang.xue $</div>

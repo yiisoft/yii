@@ -229,7 +229,7 @@ Reguła dostępu może pasować do następujących parametrów kontekstowych:
 	   - `@`: użytkownicy uwierzytelnieni.
 
    - [roles|CAccessRule::roles]: określa, które role pasują do tych reguł.
-   Używane w [bazującej na rolach kontroli dostępu](#role-based-access-control), 
+   Używane w [bazującej na rolach kontroli dostępu](/doc/guide/topics.auth#role-based-access-control), 
    która zostanie opisana w następnej podsekcji. W szczególności, reguła ma zastosowanie
    jeśli metoda [CWebUser::checkAccess] zwróci true dla jednej z ról. Zauważ, że powinieneś,
    głównie używać ról dla reguły `allow` (zezwól), ponieważ z definicji, rola reprezentuje 
@@ -550,4 +550,4 @@ $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('guest','gość', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 1808 2010-02-17 21:49:42Z qiang.xue $</div>
+<div class="revision">$Id: topics.auth.txt 2360 2010-08-28 23:55:47Z qiang.xue $</div>

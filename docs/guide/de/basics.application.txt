@@ -228,4 +228,4 @@ Beim Bearbeiten eines Requests durchläuft eine Anwendung diesen Zyklus:
 
    7. Auslösen des [onEndRequest|CApplication::onEndRequest]-Events
 
-<div class="revision">$Id: basics.application.txt 1601 2009-12-18 04:31:19Z qiang.xue $</div>
+<div class="revision">$Id: basics.application.txt 2311 2010-08-09 13:01:12Z alexander.makarow $</div>

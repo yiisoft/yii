@@ -57,7 +57,7 @@ jeden-do-wielu (ang. one-to-many; np. `tbl_user` i `tbl_post`), jeden-do-jednego
 np. `tbl_user` i `tbl_profile`) oraz wiele-do-wielu (ang. many-to-many; np. `tbl_category` i `tbl_post`). 
 W AR występują cztery rodzaje relacji:
 
-   - `BELONGS_TO` (należy do): jeśli relacja pomiędzy tabelą A i B to jeden-do-wielu,
+   - `BELONGS_TO` (należy do): jeśli relacja pomiędzy tabelą A i B to jeden-do-jednego, 
    wtedy B należy do A (np. post `tbl_post` należy do użytkownika `tbl_user`);
 
    - `HAS_MANY` (posiada wiele): jeśli relacja pomiędzy tabelą A i B to jeden-do-wielu
@@ -272,12 +272,15 @@ do których się odwołujemy w tej opcji powinny zostać ujednoznacznione.
    jest taki sam jak nazwa relacji.
    
    - `together`: używana jeśli tabele powiązane mają zostać zmuszone do połączenia się razem
-   z główną tabelą. Opcja ta ma znaczenie dla relacji HAS_MANY oraz MANY_MANY. 
-   Jeśli opcja ta ma wartość ustawioną jako false, wtedy tabela związana z relacją HAS_MANY 
-   lub MANY_MANY zostanie połączona z tabelą główną w osobnym zapytaniu SQL, co może zwiększyć 
+   z główną tabelą. Opcja ta ma znaczenie dla relacji `HAS_MANY` oraz `MANY_MANY`. 
+   Jeśli opcja ta ma wartość ustawioną jako false, wtedy tabela związana z relacją `HAS_MANY` 
+   lub `MANY_MANY` zostanie połączona z tabelą główną w osobnym zapytaniu SQL, co może zwiększyć 
    ogólną wydajność zapytania, gdyż zwracana jest mniejsza ilość powtarzających się danych.
-   Domyślną wartością jet true. Aby zapoznać się ze szczegółami zobacz sekcję "Wydajność zapyttań relacyjnych".
-   Opcja ta jest dostępna od wersji 1.0.3.
+   Jeśli ta opcja posiada wartość true, powiązana tabela będzie zawsze dołączona 
+   do pierwszej tabeli za pomocą pojedyńczego zapytania SQL, nawet jeśli pierwsza tabela
+   jest stronicowana. Jeśli ta opcja nie jest ustawiona, powiązana tabela będzie dołączona
+   do pierwszej tabeli za pomocą pojedyńczego zapytania SQL tylko wtedy kiedy pierwsza tabela 
+   nie jest stronicowana. Aby uzyskać więcej szczegółow, zobacz do działu "Wydajność zapytań relacyjnych".
    
    - `join`: dodatkowa klauzula `JOIN`. Domyślnie pusta. Opcja ta jest dostępna od wersji 1.1.3.
 
@@ -565,4 +568,4 @@ class User extends CActiveRecord
 w [CActiveRecord::scopes]. W rezultacie, nie mogą one zostać sparametryzowane.
 
 
-<div class="revision">$Id: database.arr.txt 2226 2010-06-25 18:12:01Z qiang.xue $</div>
+<div class="revision">$Id: database.arr.txt 2350 2010-08-28 18:57:21Z qiang.xue $</div>

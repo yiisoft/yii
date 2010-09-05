@@ -2,7 +2,7 @@
 /*<![CDATA[*/
 if(typeof(console)=='object')
 {
-	console.group("Ergebnisse der Leistungsmessung anhand des Aufrufstapels");
+	console.group("Ergebnis der Performance-Analyse anhand des Aufrufstapels");
 <?php
 foreach($data as $index=>$entry)
 {

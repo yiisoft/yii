@@ -1,12 +1,15 @@
 使用Yii来建立博客
 ================================
 
-这个文档介绍了如何使用Yii来建立[博客](http://www.yiiframework.com/demos/blog/)的过程。它解释了编写代码中每一个步骤，它同样适用于其它Web系统的编写方式。作为[完整文档](http://www.yiiframework.com/doc/guide/)或者[Yii类](http://www.yiiframework.com/doc/api/)一部分，这个教程非常有用，而且它可以作为学习Yii的开始。
+此教程描述了使用Yii开发一个[演示博客](http://www.yiiframework.com/demos/blog/)的过程。此博客同时可以在Yii发布包里找到。它详细讲解了开发中的每个步骤，这些步骤可能同样适用于其他Web应用的开发。作为对Yii[指南](http://www.yiiframework.com/doc/guide/)和[类参考](http://www.yiiframework.com/doc/api/) 的补充, 此教程旨在展示Yii的实际使用，而不是详尽具体的使用说明。
 
-读者开始阅读这个博客教程时不需要了解Yii。但无论如何，你应该已经具有了基本的PHP面对对象和数据库编程基础，它将帮助你理解Yii是如何建立博客系统的。
+读者不需要预先了解关于Yii的知识，但具备基本的面向对象编程（OOP）和数据库编程知识会使读者更容易理解此教程。
 
-Wu gQiang 翻译
-This tutorial is released under [the Terms of Yii Documentation](http://www.yiiframework.com/doc/terms/).
+此教程在[the Terms of Yii Documentation](http://www.yiiframework.com/doc/terms/)下发布.
 
+历史版本翻译者（名单来源于SVN历史版本记录，按字母顺序排列）：
 
-<div class="revision">$Id: start.overview.txt 683 2009-10-21 05:20:17Z qiang.xue $</div>
+* riverlet（[Yii 中国开发者网站](http://www.yiikuangjia.com)）
+* Wu.GQiang
+
+<div class="revision">$Id: start.overview.txt 1677 2010-01-07 20:29:26Z qiang.xue $</div>

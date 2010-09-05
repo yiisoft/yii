@@ -1,56 +1,80 @@
 Scaffolding
 ===========
 
-Tworzenie, czytanie, aktualizowanie oraz usuwanie (CRUD, od ang. create, read, update, delete) są czterema podstawowymi operacjami na obiektach danych  w aplikacji. Ponieważ zadanie implementacji operacji CRUD jest tak powszechne podczas tworzenia aplikacji sieciowych, Yii dostarcza narzędzia do zautomatyzowania tego procesu (znanego również jako *scaffolding*). W tej części opiszemy jak używać tego narzędzia do implementacji operacji CRUD dla wiadomości oraz komentarzy.
+Tworzenie, czytanie, aktualizowanie oraz usuwanie (CRUD, od ang. create, read, update, delete) są czterema podstawowymi operacjami na obiektach danych  w aplikacji. Ponieważ zadanie implementacji operacji CRUD jest bardzo powszechne podczas tworzenia aplikacji sieciowych, Yii dostarcza kilku narzędzi generujących pod nazwą *Gii*, które pomogą nam zautomatyzować ten proces (zwany również *scaffoldingiem*).
 
-Otwórz okno poleceń i wykonaj następujące polecenia:
+> Note|Uwaga: Gii zostało udostępnione od wersji 1.1.2. Dla wcześniejszych wersji będziesz musiał używać [narzędzia powłoki yiic](http://www.yiiframework.com/doc/guide/quickstart.first-app-yiic) aby osiągnąć ten sam efekt.
 
-~~~
-% /wwwroot/yii/framework/yiic shell /wwwroot/blog/index.php
-Yii Interactive Tool v1.1
-Please type 'help' for help. Type 'exit' to quit.
->> model *
-......
->> crud Post
-......
->> crud Comment
-......
->> exit
-~~~
+W dalszej części opiszemy jak używać tego narzędzia do zaimplementowania operacji CRUD dla postów oraz komentarzy w naszym przykłądowym blogu.
 
-> Info|Info: Część instalacji PHP może używać różnych plików `php.ini` dla parsera PHP wiersza poleceń (CLI). W rezultacie, podczas wykonywania powyższych poleceń `yiic`, możesz spotkać się z błędami takimi jak "YiiBase::include(PDO.php): failed to open stream..." czy też "...could not find driver". Sprawdź dokładnie twoją konfigurację CLI PHP poprzez wywołanie następującego polecenia: 
->
-> ~~~
-> php -i
-> ~~~
->
-> Wynik powyższego polecenia pokaże, który plik `php.ini` jest używany i które rozszerzenia są załadowane. Jeśli nieprawidłowy plik `php.ini` jest w użyciu, możesz użyć następującego polecenia aby bezpośrednio określić poprawny plik `php.ini`, który powinien zostać użyty:
->
-> ~~~
-> php -c php.ini /wwwroot/yii/framework/yiic.php shell /wwwroot/blog/index.php
-> ~~~
+Instalowanie Gii
+--------------
 
-Powyższe polecenie wykonuje dwa zadania. Pierwsze, polecenie `model` generuje plik klasy [modelu](http://www.yiiframework.com/doc/guide/basics.model) dla każdej z tabel w bazie danych `blog`. Drugie, polecenie `crud` generuje kod potrzebny przez operacje CRUD dla modeli wiadomości `Post` i komentarza `Comment`.
-
-> Tip|Wskazówka: Polecenie `model *` generuje klasy modeli dla *wszystkich* tabel w bazie danych. Prawdopodobnie czasami nie chcemy tego robić (np. baza danych zawiera pewne nieistotne tabele). W takim przypadku, możemy utworzyć klasy modeli jedna po drugiej. Na przykład, aby utworzyć model `User`, możemy wywołać polecenie `model User`. Polecenie `model` posiada również bardziej zaawansowane zastosowania. Aby dowiedzieć się więcej, wywołaj polecenie `help model`.
-
-Możemy przetestować wygenerowany kod poprzez użycie następujących URLi
+Na samym początku musimy zainstalować Gii. Otwórz plik `/wwwroot/blog/protected/config/main.php` i dodaj następujący kod:
 
 ~~~
-http://www.example.com/blog/index.php?r=post
-http://www.example.com/blog/index.php?r=comment
+[php]
+return array(
+	......
+	'import'=>array(
+		'application.models.*',
+		'application.components.*',
+	),
+
+	'modules'=>array(
+		'gii'=>array(
+			'class'=>'system.gii.GiiModule',
+			'password'=>'pick up a password here',
+		),
+	),
+);
 ~~~
 
-Zauważ, że funkcjonalności związane z wiadomościami oraz komentarzami zaimplementowane w wygenerowanym kodzie są całkowicie niezależne od siebie. Ponadto podczas tworzenia wiadomości czy też komentarza, musimy wprowadzić informacje takie jak ID autora `author_id` czy też czas utworzenia `create_time`, które w prawdziwej aplikacji powinny być ustawiane przez program. Nie przejmuj się, poradzimy sobie z tymi problemami w następnym kroku milowym. Na chwilę obecną powinniśmy być całkiem usatysfakcjonowani, gdyż prototyp zawiera już większość funkcjonalności, które chcemy zaimplementować dla naszej aplikacji.
+Powyższy kod instaluje moduł o nazwie `gii`, kóry umożliwia dostęp do modułu Gii poprzez odwiedzenie następującego adresu URL w przeglądarce:
 
-Aby przygotować się do następnego kroku, przypatrzmy się plikom wygenerowanym przez powyższe polecenia. Wszystkie pliki znajdują się w katalogu `/wwwroot/blog/protected`. Dla wygody pogrupowaliśmy je w pliki [modelu](http://www.yiiframework.com/doc/guide/basics.model), pliki [kontrolera](http://www.yiiframework.com/doc/guide/basics.controller) oraz pliki [widoku](http://www.yiiframework.com/doc/guide/basics.view):
+~~~
+http://www.example.com/blog/index.php?r=gii
+~~~
 
- - pliki modelu:
-	 * `models/User.php` zawiera klasę użytkownika `User`, która dziedziczy z klasy [CActiveRecord], którą można użyć aby uzyskać dostęp do tabeli bazy danych `tbl_user`;
-	 * `models/Post.php` zawiera klasę wiadomości `Post`, która dziedziczy z klasy [CActiveRecord], którą można użyć aby uzyskać dostęp do tabeli bazy danych `tbl_post`;
-	 * `models/Tag.php` zawiera klasę otagowania `Tag`, która dziedziczy z klasy [CActiveRecord], którą można użyć aby uzyskać dostęp do tabeli bazy danych `tbl_tag`;
-	 * `models/Comment.php` zawiera klasę komentarza `Comment`, która dziedziczy z klasy [CActiveRecord], którą można użyć aby uzyskać dostęp do tabeli bazy danych `tbl_comment`;
-	 * `models/Lookup.php` zawiera klasę `Lookup`, która dziedziczy z klasy [CActiveRecord], którą można użyć aby uzyskać dostęp do tabeli bazy danych `tbl_lookup`	 
+Zostaniemy tam poproszeni o podanie hasła. Wprowadź hasło które zostało ustawione wcześniej w `/wwwroot/blog/protected/config/main.php`. Powinienieś zobaczyć stronę wyświetlającą wszystkie dostępne narzędzia generujące kod.
+
+> Note|Uwaga: Powyższy kod powinien zostać usunięty gdy aplikacja działa na maszynie produkcyjnej. Narzędzia generowania kodu powinny być używanie jedynie na maszynie deweloperskiej.
+
+
+Tworzenie modeli
+---------------
+
+Najpierw musimy utworzyć klasę [modelu](http://www.yiiframework.com/doc/guide/basics.model) dla każdej z naszych tabel bazodanowych. Klasy modeli pozwolą nam uzyskać dostęp do bazy danych w intuicyjny, obiektowo zorientowany sposób, co zobaczymy w dalszej części tego przewodnika
+
+Kliknij na linku `Model Generator` aby rozpocząć używanie narzędzia generowania modelu.
+
+Na stronie `Model Generator` wprowadz `tbl_user` (nazwa tabeli z użytkownikami) w polu `Table Name`, a następnie naciśnik przycisk podglądu `Preview`. Ukaże nam się tabelka z podglądem. Możemy kliknąć w link znajdujący się w tel tabelce aby podejrzeć kod, który zostanie wygenerowany. Jeśli wszystko jest w porządku, możemy naciśnąć przycisk generowania `Generate` w celu wygenerowania kodu i zapisania go w pliku.
+
+> Info|Info: Ponieważ generator kodu potrzebuje zapisać wygenerowany kod do plików, wymaga się aby proces sieciowy posiadał pozwolenie na tworzenie i modyfikowanie odpowiednich plików. Upraszczając, możemy nadać procesowu sieciowemu uprawnienie do zapisywania całego katalogu `/wwwroot/blog`. Zauważ, że jest to potrzebne jedynie na maszynie deweloperskiej podczas używania `Gii`.
+
+Powtórz tą samą procedurę dla każdej z pozostałych tabel bazodanowych: `tbl_post`, `tbl_comment`, `tbl_tag` oraz `tbl_lookup`.
+
+> Tip|Wskazówka: Możemy również wprowadzić znak gwiazdki '\*' w polu nazwy tabeli `Table Name`. Spowoduje to wygenerowanie klasy modelu dla *każdej* tabeli za jednym zamachem.
+
+Na tym etapie, będziemy mieli następujące, nowo utworzone pliki:
+
+ * `models/User.php` zawiera klasę użytkownika `User`, która dziedziczy z klasy [CActiveRecord], którą można użyć aby uzyskać dostęp do tabeli bazy danych `tbl_user`;
+ * `models/Post.php` zawiera klasę wiadomości `Post`, która dziedziczy z klasy [CActiveRecord], którą można użyć aby uzyskać dostęp do tabeli bazy danych `tbl_post`;
+ * `models/Tag.php` zawiera klasę otagowania `Tag`, która dziedziczy z klasy [CActiveRecord], którą można użyć aby uzyskać dostęp do tabeli bazy danych `tbl_tag`;
+ * `models/Comment.php` zawiera klasę komentarza `Comment`, która dziedziczy z klasy [CActiveRecord], którą można użyć aby uzyskać dostęp do tabeli bazy danych `tbl_comment`;
+ * `models/Lookup.php` zawiera klasę `Lookup`, która dziedziczy z klasy [CActiveRecord], którą można użyć aby uzyskać dostęp do tabeli bazy danych `tbl_lookup`	 
+ 
+ 
+Implementowanie operacji CRUD
+----------------------------
+
+Po utworzeniu klas modeli, możemy używć generatora CRUD `Crud Generator` w celu wygenerowania kodu implementującego operacje CRUD dla tych modeli. Zrobimy to dla modelu wiadomości `Post` oraz komentarza `Comment`.
+
+Na stronie `Crud Generator`, wprowadź `Post` (nazwa klasy modelu wiadomości, którą właśnie utworzyliśmy) w polu klasy modelu `Model Class`, a następnie naciśnik przycisk podglądu `Preview`. Zobaczymy, że tym razem o wiele więcej plików zostanie wygenerowanych. Naciśnik przycisk `Generate` aby je wygenerować.
+
+Powtórz tą samą proceduę dla modelu komentarza `Comment`.
+
+Przyjrzyjmy się plikom wygenerowanych przez generator CRUD. Wszytkie one zostały wygenerowanie w katalogu `/wwwroot/blog/protected`. Dla wygody grupujemy je w pliki [kontrolera](http://www.yiiframework.com/doc/guide/basics.controller) oraz pliki [widoku](http://www.yiiframework.com/doc/guide/basics.view):
 
  - pliki kontrolera:
 	 * `controllers/PostController.php` zawiera klasę `PostController`, która jest kontrolerem odpowiedzialnym za wszystkie operacje CRUD na wiadomościach;
@@ -67,6 +91,19 @@ Aby przygotować się do następnego kroku, przypatrzmy się plikom wygenerowany
 	 * `views/post/_search.php` jest plikiem widoku częściowego używanym przez `views/post/admin.php`. Wyświetla on formularz wyszukiwania.
 	 * podobny zestaw plików widoków został również wygenerowany dla komentarza.
 
+
+Testowanie
+-------
+
+Możemy przetestować funkcjonalności zaimplementowane w kodzie, który przed chwilą wygenerowaliśmy korzystając z następujących adresów URL:
+
+~~~
+http://www.example.com/blog/index.php?r=post
+http://www.example.com/blog/index.php?r=comment
+~~~
+
+Zauważ, że funkcjonalności wiadomości i komentarza zaimplementowane w wygenrowanym kodzie są zupełnie od siebie niezależne. Ponadto, podczas tworzniea nowej wiadomości bądź komentarza musimy wprowadzić informacje o autorze `author_id` oraz czasie utworzenia `create_time`, które w prawdziwych aplikacjach powinny być ustawiane programowo. Nie martw się. Poprawimy ten problem w następnych krokach milowych. Na razie, powinniśmy być zadowoleni ze względu na to, iż nasz prototyp zawiera już większość funkcjonalności, które musimy zaimplementować dla naszej aplikacji blogowej.
+
 W celu lepszego zrozumienia jak powyższe pliki są używane, pokażemy przepływ zadań w aplikacji, które występują w naszej aplikacji podczas wyświetlani listy wiadomości:
 
  0. The user requests the URL `http://www.example.com/blog/index.php?r=post`; 
@@ -77,4 +114,4 @@ W celu lepszego zrozumienia jak powyższe pliki są używane, pokażemy przepły
  5. Metoda `actionIndex()` wyświetla widok `index` wypełniony danymi wiadomości.
 
 
-<div class="revision">$Id: prototype.scaffold.txt 1947 2010-03-21 20:41:36Z alexander.makarow $</div>
+<div class="revision">$Id: prototype.scaffold.txt 2258 2010-07-12 14:13:50Z alexander.makarow $</div>

@@ -32,7 +32,7 @@ Kod
 ----
 
 Yii zaleca nazywać zmienne, funkcje oraz typy klas stosując notację wielbłąda, w której 
-każde słowo w nazwie pisane jest z dużej litery a słowa połączone są bez spacji. 
+to pierwsza litera każdego słowa jest duża a słowa połączone są bez spacji. 
 Nazwy zmiennych oraz funkcji powinny mieć pierwsze słowo zawsze pisane małą literą,
 w celu odróżnienia ich od nazw klas (np. `$basePath`, `runController()`, `LinkPager`). 
 Dla zmiennych prywatnych klasy zaleca się poprzedzić ich nazwy znakiem podkreślenia 
@@ -146,4 +146,4 @@ Większość aplikacji internetowych posiłkuje się bazami danych. Jako najleps
    - nazwy trabel mogą być poprzedzone przez wspólny token, np. `tbl_`. Jest to szczególnie użyteczne kiedy tabele aplikacji współisnieją w tej samej bazie danych z tabelami innej aplikacji. Oba zestawy tabel mogą zostać z łatwością rozdzielone poprzez użycie różnych prefiksów dla nazw tabel.
 
 
-<div class="revision">$Id: basics.convention.txt 1768 2010-02-01 01:34:15Z qiang.xue $</div>
+<div class="revision">$Id: basics.convention.txt 2345 2010-08-28 12:51:08Z mdomba $</div>

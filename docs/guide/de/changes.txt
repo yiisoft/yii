@@ -6,7 +6,7 @@ Diese Seite fasst die wesentlichen neuen Features jeder Yii-Version zusammen.
 Version 1.1.3
 -------------
 
- * [Standardwerte für Widget-Eigenschaften können nun auch in der Anwendungskonfiguration definiert werden](/doc/guide/theming#customizing-widgets-globally)
+ * [Standardwerte für Widget-Eigenschaften können nun auch in der Anwendungskonfiguration definiert werden](/doc/guide/topics.theming#customizing-widgets-globally)
 
 Version 1.1.2
 -------------

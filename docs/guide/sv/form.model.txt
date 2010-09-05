@@ -121,12 +121,6 @@ aktuella valideringen. De ytterligare alternativen (additional options) i regeln
 används till att initialisera instansens attributvärden. En validerarklass måste 
 ärva från och utvidga [CValidator].
 
-> Note|Märk: När regler specificeras för en active recordmodell, kan ett 
-speciellt alternativ vid namn `on` användas. Detta alternativs värden kan vara 
-antingen `'insert'` eller `'update'` så att regeln bara appliceras vid 
-insättning resp. uppdatering av posten. Om alternativet ej anges, kommer regeln 
-att appliceras i båda fallen när metoden `save()` anropas.
-
 För det tredje kan `Validator` vara ett fördefinierat aliasnamn för en 
 validerarklass. I ovanstående exempel är namnet `required` ett alias för 
 [CRequiredValidator], vilken säkerställer att attributvärdet som valideras inte 
@@ -437,4 +431,4 @@ ledtext. Detta kan anpassas genom att åsidosätta metoden
 avsnitt, tillåter specificering av ledtexter i modellen, oss att skapa formulär 
 snabbare och mer kraftfullt.
 
-<div class="revision">$Id: form.model.txt 1919 2010-03-15 17:25:48Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 2285 2010-07-28 20:40:00Z qiang.xue $</div>

@@ -15,13 +15,13 @@ die PDO-Erweiterung und die entsprechenden PDO-Datenbanktreiber
 
 Yii DAO besteht im Wesentlichen aus den folgenden vier Klassen:
 
-   - [CDbConnection]: repräsentiert eine Datenbankverbindung
-   - [CDbCommand]: repräsentiert eine auzuführende SQL-Anweisung
-   - [CDbDataReader]: repräsentiert einen vorwärts gerichteten Datenstrom von
-Zeilen eines Abfrageergebnisses
-   - [CDbTransaction]: repräsentiert eine DB-Transaktion.
+   - [CDbConnection]: entspricht einer Datenbankverbindung
+   - [CDbCommand]: entspricht einer auzuführende SQL-Anweisung
+   - [CDbDataReader]: repräsentiert einen Datenstrom von Ergebniszeilen mit
+"Vorwärts-Cursor" (forward-only)
+   - [CDbTransaction]: entspricht eine Datenbank-Transaktion.
   
-Sehen wir uns nun an, wie man DAO einsetzt.
+In den folgenden Abschnitten zeigen wir, wie man mit DAO arbeitet.
 
 Aufbauen einer Datenbankverbindung
 ----------------------------------
@@ -92,6 +92,9 @@ aufruft:
 
 ~~~
 [php]
+$connection=Yii::app()->db;   // Vorausgesetzt, Sie haben eine "db"-Komponente konfiguriert
+// Falls nicht, können Sie auch eine neue Verbindung erstellen:
+// $connection=new CDbConnection($dsn,$username,$password);
 $command=$connection->createCommand($sql);
 // Falls erforderlich, kann man die SQL-Anweisung so aktualisieren:
 // $command->text=$neuesSQL;
@@ -121,7 +124,7 @@ $column=$command->queryColumn(); // Abfragen und Zurückgeben der ersten Spalte 
 $value=$command->queryScalar();  // Abfragen und Zurückgeben des ersten Feldes in der ersten Zeile
 ~~~
 
-Arbeiten mit Abfrageergebnissen
+Auslesen von Abfrageergebnissen
 -------------------------------
 
 Hat man von [CDbCommand::query()] eine Instanz von [CDbDataReader]
@@ -222,9 +225,9 @@ Weitere Einzelheiten zum Binden von Parametern finden Sie in der
 Binden von Spalten
 ------------------
 
-Beim Auslesen von Abfrageergebnissen kann man auch Spalten an PHP Variablen
-binden, so dass sie jedes Mal beim Zugriff auf eine Zeile automatisch mit den
-aktuellen Daten befüllt werden.
+Man kann auch ganze Spalten aus einem Abfrageergebnis an PHP Variablen binden.
+Bei jedem Zugriff auf eine Zeile sind diese Variablen dann automatisch mit den
+aktuellen Zeilendaten befüllt.
 
 ~~~
 [php]
@@ -263,4 +266,4 @@ $sql='SELECT * FROM {{user}}';
 $users=$connection->createCommand($sql)->queryAll();
 ~~~
 
-<div class="revision">$Id: database.dao.txt 1764 2010-02-01 00:09:12Z qiang.xue $</div>
+<div class="revision">$Id: database.dao.txt 2266 2010-07-17 13:58:30Z qiang.xue $</div>

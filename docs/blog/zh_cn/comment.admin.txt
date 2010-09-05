@@ -1,94 +1,60 @@
-管理评论
+评论管理
 =================
 
-评论管理包括，修改、删除和审核。这些操作有 `CommentController` 类来实现。
+评论管理包括更新，删除和审核。这些操作是以 `CommentController` 类的动作实现的。
 
 
-修改和删除评论
+评论的更新与删除
 ------------------------------
-由 `yiic` 来实现的修改和删除代码大部分不需要改变。因为我们支持预览功能，所以我们只需要调整一下 `actionUpdate()` 方法,
 
-~~~
-[php]
-public function actionUpdate()
-{
-    $comment=$this->loadComment();
- 
-    if(isset($_POST['Comment']))
-    {
-        $comment->attributes=$_POST['Comment'];
-        if(isset($_POST['previewComment']))
-            $comment->validate('update');
-        else if(isset($_POST['submitComment']) && $comment->save())
-            $this->redirect(array('post/show',
-                'id'=>$comment->postId,
-                '#'=>'c'.$comment->id));
-    }
- 
-    $this->render('update',array('comment'=>$comment));
-}   
-~~~
-
-非常类似于 `PostController` 。
+由 `yiic` 生成的更新及删除评论的代码大部分都不需要修改。
 
 
-审核评论
+评论审核
 ------------------
 
-当评论被添加后，评论的状态时待审核的，需要被审核后才能显示给游客看到。审核主要就是改变状态字段。
-我们在 `CommentController` 控制器中建立 `actionApprove()` 方法,
+当评论刚创建时，它们处于待审核状态，需要等审核通过后才会显示给访客。审核评论主要就是修改评论的状态（status）列。
+
+我们创建一个 `CommentController` 中的 `actionApprove()` 方法如下：
 
 ~~~
 [php]
 public function actionApprove()
 {
-    if(Yii::app()->request->isPostRequest)
-    {
-        $comment=$this->loadComment();
-        $comment->approve();
-        $this->redirect(array('post/show',
-            'id'=>$comment->postId,
-            '#'=>'c'.$comment->id));
-    }
-    else
-        throw new CHttpException(400,'Invalid request...');
-}   
+	if(Yii::app()->request->isPostRequest)
+	{
+		$comment=$this->loadModel();
+		$comment->approve();
+		$this->redirect(array('index'));
+	}
+	else
+		throw new CHttpException(400,'Invalid request...');
+}
 ~~~
 
-上面我们将 `POST` 请求与 `approve()` 动作关联起来，它能改变默认的评论状态。然后我们直接使浏览器转到当前显示文章的这个地址。
+如上所示，当 `approve` 动作通过一个 POST 请求被调用时，我们执行了 `Comment` 模型中定义的 `approve()` 方法改变评论状态。然后我们重定向用户浏览器到显示此评论所属日志的页面。
 
-我们再来修改一下 `Comment` 的 `actionList()` 方法，确认显示未审核了的评论。
+我们还修改了 `Comment` 的  `actionIndex()`  方法以显示所有评论。我们希望看到等待审核的评论显示在前面。
 
 ~~~
 [php]
-public function actionList()
+public function actionIndex()
 {
-    $criteria=new CDbCriteria;
-    $criteria->condition='Comment.status='.Comment::STATUS_PENDING;
- 
-    $pages=new CPagination(Comment::model()->count($criteria));
-    $pages->pageSize=self::PAGE_SIZE;
-    $pages->applyLimit($criteria);
- 
-    $comments=Comment::model()->with('post')->findAll($criteria);
- 
-    $this->render('list',array(
-        'comments'=>$comments,
-        'pages'=>$pages,
-    ));
-}   
+	$dataProvider=new CActiveDataProvider('Comment', array(
+		'criteria'=>array(
+			'with'=>'post',
+			'order'=>'t.status, t.create_time DESC',
+		),
+	));
+
+	$this->render('index',array(
+		'dataProvider'=>$dataProvider,
+	));
+}
 ~~~
 
-下面列表中，我们需要显示出每个评论,当这条评论未被审核，则需要加一个审核的链接按钮，
+注意，在上面的代码中，由于 `tbl_post` 和 `tbl_comment` 表都含有 `status` 和 `create_time` 列，我们需要通过使用表的别名前缀消除列名的歧义。 正如 [指南](http://www.yiiframework.com/doc/guide/database.arr#disambiguating-column-names) 中所描述的，在一个关系查询中，主表的别名总是使用 `t`。因此，我们在上面的代码中对 `status` 和 `create_time` 使用了 `t` 前缀。
 
-~~~
-[php]
-<?php if($comment->status==Comment::STATUS_PENDING): ?>
-    <span class="pending">Pending approval</span> |
-    <?php echo CHtml::linkButton('Approve', array(
-        'submit'=>array('comment/approve','id'=>$comment->id),
-    )); ?> |
-<?php endif; ?>   
-~~~
+和日志的索引视图（index view）类似， `CommentController` 的 `index` 视图使用 [CListView] 显示评论列表， [CListView]  又使用了局部视图 `/wwwroot/blog/protected/views/comment/_view.php` 显示每一条评论。此处我们不打算深入讲解。读者可参考博客演示中相应的文件 `/wwwroot/yii/demos/blog/protected/views/comment/_view.php`.
 
-我们使用 `CHtml::linkButton()` 来替换 `CHtml::link()` ，是因为前者使用 `POST` 请求，而后者是 `GET` 请求。对于 `GET` 请求不应该直接修改服务器数据。因此，我们回避这个问题，尤其用户反复刷新这个页面时，将不断修改服务器数据。
+<div class="revision">$Id: comment.admin.txt 1810 2010-02-18 00:24:54Z qiang.xue $</div>

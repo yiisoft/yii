@@ -1,48 +1,58 @@
-路径别名和命名空间
+路径别名与名字空间
 ========================
 
-Yii 广泛的使用了路径别名.路径别名是和目录或者文件相关联的.它是通过使用点号(".")语法指定的,类似于以下这种被广泛使用的命名空间的格式:
+Yii 中广泛的使用了路径别名。路径别名关联于一个目录或文件的路径。它以点号语法指定，类似于广泛使用的名字空间（namespace）格式：
 
 ~~~
 RootAlias.path.to.target
 ~~~
 
-`RootAlias` 则是一些已经存在目录的别名.通过调用 [YiiBase::setPathOfAlias()] 我们可以定义新的路径别名(包括根目录别名).
+其中的 `RootAlias` 是某个现存目录的别名，通过调用 [YiiBase::setPathOfAlias()],
+我们可以定义新的路径别名。为方便起见，Yii 预定义了以下几个根别名：
 
-为了方便起见,Yii 预定义了以下根目录别名:
+ - `system`: 表示 Yii 框架目录；
+ - `zii`: 表示 [Zii 库](/doc/guide/extension.use#zii-extensions) 目录；
+ - `application`: 表示应用的 [基础目录](/doc/guide/basics.application#application-base-directory)；
+ - `webroot`: 表示 [入口脚本](/doc/guide/basics.entry) 文件所在的目录。此别名从版本 1.0.3 开始有效。
+ - `ext`: 表示包含了所有第三方 [扩展](/doc/guide/extension.overview) 的目录。此别名从版本 1.0.8 开始有效。
 
- - `system`: 指向 Yii 框架目录;
- - `application`: 指向应用程序 [基本目录(base directory)](/doc/guide/basics.application#application-base-directory);
- - `webroot`: 指向包含里 [入口脚本](/doc/guide/basics.entry) 文件的目录.
- 此别名自 1.0.3 版起生效.
- - `module`: 指向当前运行程序模型的目录.
- 此别名自 1.0.3 版起生效.
+额外的，如果应用使用了 [模块](/doc/guide/basics.module), （Yii） 也为每个模块ID定义了根别名，指向相应模块的跟目录。
+此功能从版本 1.0.3 起有效。
 
-通过使用 [YiiBase::getPathOfAlias()], 别名可以被转换成他的真实路径. 例如, `system.web.CController` 可以被转换成 `yii/framework/web/CController`.
+通过使用 [YiiBase::getPathOfAlias()], 别名可以被翻译为其相应的路径。
+例如， `system.web.CController` 会被翻译为 `yii/framework/web/CController`。
 
-使用别名来插入已定义的类是非常方便的.例如,如果我们想要包含 [CController] 类的定义, 我们可以通过以下方式调用:
+使用别名可以很方便的导入类的定义。
+例如，如果我们想包含 [CController] 类的定义，我们可以调用如下代码
 
 ~~~
 [php]
 Yii::import('system.web.CController');
 ~~~
 
-[import|YiiBase::import] 方法不同于 `include` 和 `require`,它是更加高效的.实际上被导入(import)的类定义直到它第一次被调用之前都是不会被包含的. 同样的,多次导入同一个命名空间要比 `include_once` 和 `require_once` 快很多.
+[import|YiiBase::import] 方法跟  `include` 和 `require` 不同，它更加高效。
+导入（import）的类定义并不会真正被包含进来，直到它第一次被引用。
+多次导入同样的名字空间也会比  `include_once` 和 `require_once` 快得多。
 
-> Tip|小贴士: 当调用一个通过 Yii 框架定义的类时, 我们不必导入或者包含它.所有的 Yii 核心类都是被预定义的.
+> Tip|提示: 当引用 Yii 框架定义的类时，我们不需要导入或包含它。所有的核心 Yii
+类都已被提前导入了。
 
-我们也可以按照以下的语法导入整个目录,以便目录下所有的类文件都可以在需要时被包含.
+我们还可以使用如下语法导入整个目录，这样此目录下的类文件就会在需要时被自动包含。
 
 ~~~
 [php]
 Yii::import('system.web.*');
 ~~~
 
-除了 [import|YiiBase::import] 外, 别名同样被用在其他很多地方来调用类.例如, 别名可以被传递到 [Yii::createComponent()] 创建的一个对应类的实例,
-即使这个类文件没有被预先包含.
+除 [import|YiiBase::import] 外， 别名还在其他许多地方指向类。
+例如，路径别名可以传递给 [Yii::createComponent()] 以创建相应类的实例。
+即使类文件在之前从未被包含。
 
-不要把别名和命名空间混淆了.命名空间调用了一些类名的逻辑分组以便他们可以同其他类名区分开,即使他们的名称是一样的,而别名则是用来引用类文件或者目录的.所以路径别名和命名空间并不冲突.
+不要将路径别名和名字空间混淆了，名字空间是指对一些类名的一个逻辑组合，这样它们就可以相互区分开，即使有相同的名字。
+而路径别名是用于指向一个类文件或目录。路径别名与名字空间并不冲突。
 
-> Tip|小贴士:因为PHP 5.3.0以前的版本并不内置支持名命名空间,所以你并不能创建两个有着同样名称但是不同定义的类的实例.为此,所有 Yii 框架类都以字母 'C'(代表 'class') 为前缀,以便避免与用户自定义类产生冲突.在这里我们推荐为 Yii 框架保留'C'字母前缀的唯一使用权,用户自定义类则可以使用其他字母作为前缀.
+> Tip|提示: 由于 5.3.0 版本之前的 PHP 本质上不支持名字空间，你无法创建两个具有相同名字但不同定义的类的实例。
+鉴于此，所有的 Yii 框架类都以字母 'C'（意为 'Class'） 作前缀，这样它们可以区分于用户定义的类。我们建议前缀 'C'
+只保留给 Yii 框架使用，用户定义的类则使用其他的字母作前缀。
 
-<div class="revision">$Id: basics.namespace.txt 723 2009-02-26 11:43:05Z qiang.xue & 译 : thaiki $</div>
+<div class="revision">$Id: basics.namespace.txt 1602 2009-12-18 19:33:34Z qiang.xue $</div>

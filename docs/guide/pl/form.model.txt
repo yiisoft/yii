@@ -121,12 +121,6 @@ instancja walidatora zostanie stworzona w celu dokonania sprawdzenia danych. Dod
 opcje w regule są używane do zainicjalizowania wartości instancji atrybutu. 
 Klasa walidatora musi rozszerzać klasę [CValidator].
 
-> Note|Uwaga: Kiedy określamy regułę dla modelu aktywnego rekordu, możemy używać 
-specjalnej opcji nazwanej `on`. Opcja ta może posiadać wartość `'insert'` (wstawianie) lub
-`'update'` (aktualizowanie), tak, że reguła ta ma zastosowanie podczas wstawiania lub 
-aktualizowania rekordu. Gdy nie jest ona ustawiona, reguła będzie miała zastosowanie 
-w obu przypadkach w momencie gdy metoda `save()` jest wywoływana.
-
 W trzecim, `walidator` może być predefiniowanym aliasem do klasy walidatora. 
 W powyższym przykładzie, nazwa `required` (wymagany) jest aliasem  do klasy [CRequiredValidator], 
 która sprawdza czy wartość atrybutu sprawdzanego nie jest pusta. Poniżej znajduje się
@@ -428,4 +422,4 @@ potrzeb poprzez nadpisanie metody [attributeLabels()|CModel::attributeLabels].
 Jak zobaczymy w następnych punktach, zdefiniowanie etykiet w modelu umożliwia nam tworzenie 
 formularzy szybciej i lepiej.
 
-<div class="revision">$Id: form.model.txt 1919 2010-03-15 17:25:48Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 2285 2010-07-28 20:40:00Z qiang.xue $</div>

@@ -65,4 +65,4 @@ CModel::getValidators() теперь возвращает только вали�
 
 - Изменён конструктор [CActiveRecord]. Первый параметр (список атрибутов) убран.
 
-<div class="revision">$Id: upgrade.txt 1819 2010-02-18 22:56:55Z qiang.xue $</div>
+<div class="revision">$Id: upgrade.txt 2305 2010-08-06 10:27:11Z alexander.makarow $</div>

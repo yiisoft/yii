@@ -17,7 +17,7 @@
     <body>
         <h1>Object niet gevonden</h1>
         <h2><?php echo nl2br(CHtml::encode($data['message'])); ?></h2>
-        <p>De gevraagde URL was niet gevonden op deze server. Indien u de URL handmatig hebt ingevuld, gelieve uw spelling te controleren en probeer opnieuw.</p>
+        <p>De gevraagde URL werd niet gevonden op deze server. Indien u de URL handmatig hebt ingevuld, gelieve uw spelling te controleren en opnieuw te proberen.</p>
         <p>Als u van mening bent dat dit een server fout is, neem dan a.u.b. contact op met de <?php echo $data['admin']; ?> </p>
         <div class="version"><?php echo date('Y-m-d H:i:s',$data['time']) .' '. $data['version']; ?></div>
     </body>

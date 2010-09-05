@@ -8,10 +8,10 @@
 - Константин Мирин, Konstantin Mirin ([programmersnotes.info](http://programmersnotes.info/))
 - Александр Макаров, Sam Dark ([rmcreative.ru](http://rmcreative.ru/))
 - Алексей Лукьяненко, Caveman ([caveman.ru](http://caveman.ru/))
-- xenon
+- Евгений Халецкий, xenon
 - multif
-- cr0t
-- Bethrezen
+- Сергей Кузнецов, cr0t ([summercode.ru](http://summercode.ru/))
+- Александр Кожевников, Bethrezen ([bethrezen.ru](http://bethrezen.ru/))
 
 © 2008—2010, Yii Software LLC.
 

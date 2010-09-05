@@ -136,6 +136,64 @@ protected/
             UpdateAction.php
 ~~~
 
+### Knyta parametrar till Action
+
+Med start i version 1.1.4 har Yii försetts med stöd för automatisk koppling av 
+parametrar till kontrolleråtgärder. Det innebär att en kontrollers åtgärdsmetod 
+kan definiera namngivna parametrar vars värde automatiskt kommer att hämtas från 
+`$_GET` av Yii.
+
+För fördjupad inblick i denna finess, antag att vi behöver skriva en `create`-åtgärd 
+för `PostController`. Åtgärden behöver två parametrar:
+
+* `category`: ett heltal som indikerar det kategori-ID under vilket den nya postningen skall skapas
+* `language`: en sträng som indikerar vilken språkkod den nya postningen skall höra till.
+
+Vi kan komma fram till följande trista kod för ändamålet att hämta in de erforderliga 
+parametervärdena från `$_GET`:
+
+~~~
+[php]
+class PostController extends CController
+{
+	public function actionCreate()
+	{
+		if(isset($_GET['category']))
+			$category=(int)$_GET['category'];
+		else
+			throw new CHttpException(404,'invalid request');
+
+		if(isset($_GET['language']))
+			$language=$_GET['language'];
+		else
+			$language='en';
+
+		// ... fun code starts here ...
+	}
+}
+~~~
+
+Med användning av finessen åtgärdsparametrar kan vi lösa uppgiften mer bekvämt:
+
+~~~
+[php]
+class PostController extends CController
+{
+	public function actionCreate($category, $language='en')
+	{
+		// ... fun code starts here ...
+	}
+}
+~~~
+
+Märk att vi lägger till två parametrar till åtgärdsmetoden `actionCreate`.
+Namnen på dessa parametrar måste exakt stämma överens med de vi förväntar oss 
+från `$_GET`. Parametern `$language` erhåller standardvärdet `en` i händelse av att 
+användaren inte tillhandahåller en sådan parameter i sin request. Eftersom `$category` 
+inte är försett med ett standardvärde, kommer en [CHttpException] att genereras om användaren inte 
+tillhandahåller parametern `category` i `$_GET`.
+
+
 Filter
 ------
 
@@ -222,4 +280,4 @@ filtret `postOnly` på åtgärderna `edit` och `create`, medan `PerformanceFilte
 tillämpas på alla åtgärder UTOM `edit` och `create`. Om varken plus eller minus 
 förekommer i filterkonfigurationen tillämpas filtret på alla åtgärder.
 
-<div class="revision">$Id: basics.controller.txt 1264 2009-07-21 19:34:55Z qiang.xue $</div>
+<div class="revision">$Id: basics.controller.txt 2418 2010-09-02 16:01:46Z qiang.xue $</div>

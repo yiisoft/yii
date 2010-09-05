@@ -47,7 +47,7 @@
 Настройка тестового окружения
 =============================
 
-Тестирование в Yii требует установленного [PHPUnit](http://www.phpunit.de/) 3.3+ и
+Тестирование в Yii требует установленного [PHPUnit](http://www.phpunit.de/) 3.4+ и
 [Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+.
 Как устанавливать PHPUnit и Selenium Remote Control вы можете прочитать в их
 документации.
@@ -139,4 +139,4 @@ return CMap::mergeArray(
 фикстур и используется тестовая БД.
 
 
-<div class="revision">$Id: test.overview.txt 1813 2010-02-18 21:33:16Z qiang.xue $</div>
+<div class="revision">$Id: test.overview.txt 2249 2010-07-06 11:43:48Z qiang.xue $</div>
