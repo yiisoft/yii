@@ -16,8 +16,11 @@
  * @version $Id: $
  */
 return array (
-  'The comment of {method} does not match its parameter declaration. Parameter {name} is not found in the method comment.' => 'Комментарий метода {method} не совпадает с объявленнием его параметров. Параметр {name} не найден в комментарии метода.',
-  'The {method} has {count} parameters, but {count2} are declared in the method comment.' => 'Метод {method} содержит {count} параметров. В комментарии метода описаны {count2}.',
+  'The pattern for day of the week must be "E", "EE", "EEE", "EEEE", "EEEEE", "e", "ee", "eee", "eeee", "eeeee", "c", "cccc" or "ccccc".' => 'Шаблон дя дня недели должен быть одним из "E", "EE", "EEE", "EEEE", "EEEEE", "e", "ee", "eee", "eeee", "eeeee", "c", "cccc" или "ccccc".',
+  'Your request is invalid.' => 'Некорректный запрос.',
+  'The comment of {method} does not match its parameter declaration. Parameter {name} is not found in the method comment.' => '@@Комментарий метода {method} не совпадает с объявленнием его параметров. Параметр {name} не найден в комментарии метода.@@',
+  'The pattern for day of the week must be "E", "EE", "EEE", "EEEE" or "EEEEE".' => '@@Шаблон для дня недели:"E", "EE", "EEE", "EEEE", либо "EEEEE".@@',
+  'The {method} has {count} parameters, but {count2} are declared in the method comment.' => '@@Метод {method} содержит {count} параметров. В комментарии метода описаны {count2}.@@',
   '"{path}" is not a valid directory.' => 'Путь "{path}" не является правильной директорией.',
   '&lt; Previous' => '&lt; Предыдущая',
   '&lt;&lt; First' => '&lt;&lt; Первая',
@@ -151,7 +154,6 @@ return array (
   'The pattern for day in month must be "F".' => 'Шаблон для дня месяца: "F".',
   'The pattern for day in year must be "D", "DD" or "DDD".' => 'Шаблон для дня в году: "D", "DD", либо "DDD".',
   'The pattern for day of the month must be "d" or "dd".' => 'Шаблон для дня месяца: "d", либо "dd".',
-  'The pattern for day of the week must be "E", "EE", "EEE", "EEEE" or "EEEEE".' => 'Шаблон для дня недели:"E", "EE", "EEE", "EEEE", либо "EEEEE".',
   'The pattern for era must be "G", "GG", "GGG", "GGGG" or "GGGGG".' => 'Шаблон для эры: "G", "GG", "GGG", "GGGG", либо "GGGGG".',
   'The pattern for hour in AM/PM must be "K" or "KK".' => 'Шаблон для часа в формате AM/PM: "K", либо "KK".',
   'The pattern for hour in day must be "k" or "kk".' => 'Шаблон для часа в дне: "k", либо "kk".',
