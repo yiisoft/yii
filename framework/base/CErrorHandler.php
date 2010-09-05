@@ -140,6 +140,7 @@ class CErrorHandler extends CApplicationComponent
 			$this->_error=$data=array(
 				'code'=>($exception instanceof CHttpException)?$exception->statusCode:500,
 				'type'=>get_class($exception),
+				'errorCode'=>$exception->getCode(),
 				'message'=>$exception->getMessage(),
 				'file'=>$fileName,
 				'line'=>$errorLine,
@@ -213,7 +214,7 @@ class CErrorHandler extends CApplicationComponent
 	protected function getExactTrace($exception)
 	{
 		$traces=$exception->getTrace();
-		
+
 		foreach($traces as $trace)
 		{
 			// property access exception
