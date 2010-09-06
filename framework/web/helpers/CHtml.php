@@ -1605,7 +1605,9 @@ EOD;
 	}
 
 	/**
-	 * Generates the data suitable for {@link dropDownList} and {@link listBox}.
+	 * Generates the data suitable for list-based HTML elements.
+	 * The generated data can be used in {@link dropDownList}, {@link listBox}, {@link checkBoxList},
+	 * {@link radioButtonList}, and their active-versions (such as {@link activeDropDownList}).
 	 * Note, this method does not HTML-encode the generated data. You may call {@link encodeArray} to
 	 * encode it if needed.
 	 * Please refer to the {@link value} method on how to specify value field, text field and group field.
@@ -1614,7 +1616,7 @@ EOD;
 	 * @param string the attribute name for list option values
 	 * @param string the attribute name for list option texts
 	 * @param string the attribute name for list option group names. If empty, no group will be generated.
-	 * @return array the list data that can be used in {@link dropDownList} and {@link listBox}
+	 * @return array the list data that can be used in {@link dropDownList}, {@link listBox}, etc.
 	 */
 	public static function listData($models,$valueField,$textField,$groupField='')
 	{
