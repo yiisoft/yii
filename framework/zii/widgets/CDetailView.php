@@ -83,6 +83,8 @@ class CDetailView extends CWidget
 	 * <li>template: the template used to render the attribute. If this is not specified, {@link itemTemplate}
 	 * will be used instead. For more details on how to set this option, please refer to {@link itemTemplate}.
 	 * This option is available since version 1.1.1.</li>
+	 * <li>visible: wether the attribute is visible. If set to <code>false</code>, the table row for the attribute will not be rendered.
+	 * This option is available since version 1.1.5.</li>
 	 * </ul>
 	 */
 	public $attributes;
@@ -178,6 +180,9 @@ class CDetailView extends CWidget
 				if(isset($matches[5]))
 					$attribute['label']=$matches[5];
 			}
+			
+			if(isset($attribute['visible']) && !$attribute['visible'])
+				continue;
 
 			$tr=array('{label}'=>'', '{class}'=>$n ? $this->itemCssClass[$i%$n] : '');
 			if(isset($attribute['cssClass']))
