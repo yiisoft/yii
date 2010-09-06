@@ -201,7 +201,7 @@ return array (
   '{attribute} is not a valid URL.' => '{attribute} ist keine gültige URL.',
   '{attribute} is not a valid email address.' => '{attribute} ist keine gültige E-Mail-Adresse.',
   '{attribute} is not in the list.' => '{attribute} ist nicht in der Liste.',
-  '{attribute} is of the wrong length (should be {length} characters).' => '{attribut} hat die falsche Länge (Es sollten {length} Zeichen sein).',
+  '{attribute} is of the wrong length (should be {length} characters).' => '{attribute} hat die falsche Länge (Es sollten {length} Zeichen sein).',
   '{attribute} is too big (maximum is {max}).' => '{attribute} ist zu groß (Maximum ist {max}).',
   '{attribute} is too long (maximum is {max} characters).' => '{attribute} ist zu lang (Maximal {max} Zeichen).',
   '{attribute} is too short (minimum is {min} characters).' => '{attribute} ist zu kurz (Mindestens {min} Zeichen).',
