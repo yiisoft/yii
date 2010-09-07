@@ -4,7 +4,7 @@
 
 Version 1.1.5 to be released
 ----------------------------
-
+- Enh #1522: The attributes of CDetailView now support the property 'visible' (Y!!)
 
 Version 1.1.4 September 5, 2010
 -------------------------------
