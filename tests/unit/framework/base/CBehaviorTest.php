@@ -2,6 +2,9 @@
 require_once dirname(__FILE__) . '/NewComponent.php';
 require_once dirname(__FILE__) . '/NewBehavior.php';
 
+require_once dirname(__FILE__) . '/NewBeforeValidateBehavior.php';
+require_once dirname(__FILE__) . '/NewFormModel.php';
+
 class CBehaviorTest extends CTestCase {
 
 	public function testAttachBehavior() {
@@ -14,4 +17,23 @@ class CBehaviorTest extends CTestCase {
 		$this->setExpectedException('CException');
 		$component->test2();
 	}
+
+    public function testDisableBehaviors(){
+        $component=new NewComponent;
+        $component->attachBehavior('a',new NewBehavior);
+        $component->disableBehaviors();
+        $this->setExpectedException('CException');
+        // test should not be called since behavior is disabled
+        echo $component->test();
+    }
+
+    /**
+     * Since disableBehaviors() was called, validate() should not call beforeValidate() from behavior.
+     * @return void
+     */
+    public function testDisableBehaviorsAndModels(){
+        $model = new NewFormModel();
+        $model->disableBehaviors();
+        $model->validate();
+    }
 }
