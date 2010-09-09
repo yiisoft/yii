@@ -283,7 +283,7 @@ class CDbCommand extends CComponent
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
 	 * binding methods and  the input parameters this way can improve the performance.
 	 * This parameter has been available since version 1.0.10.
-	 * @return array the first row of the query result, false if no result.
+	 * @return mixed the first row (in terms of an array) of the query result, false if no result.
 	 * @throws CException execution failed
 	 */
 	public function queryRow($fetchAssociative=true,$params=array())
