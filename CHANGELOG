@@ -5,6 +5,7 @@
 Version 1.1.5 to be released
 ----------------------------
 - Enh #1522: The attributes of CDetailView now support the property 'visible' (Y!!)
+- Enh #1555: Added support to allow unloading/resetting an application component by calling CModule::setComponent() (Qiang)
 - Chg: The javascript files of CListView and CGridView are now registered at the end of the page (Qiang)
 
 Version 1.1.4 September 5, 2010

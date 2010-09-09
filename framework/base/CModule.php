@@ -354,7 +354,6 @@ abstract class CModule extends CComponent
 		else if(isset($this->_componentConfig[$id]) && $createIfNull)
 		{
 			$config=$this->_componentConfig[$id];
-			unset($this->_componentConfig[$id]);
 			if(!isset($config['enabled']) || $config['enabled'])
 			{
 				Yii::trace("Loading \"$id\" application component",'system.CModule');
@@ -368,16 +367,22 @@ abstract class CModule extends CComponent
 
 	/**
 	 * Puts a component under the management of the module.
-	 * The component will be initialized (by calling its {@link CApplicationComponent::init() init()}
+	 * The component will be initialized by calling its {@link CApplicationComponent::init() init()}
 	 * method if it has not done so.
 	 * @param string component ID
-	 * @param IApplicationComponent the component
+	 * @param IApplicationComponent the component to be added to the module.
+	 * If this parameter is null, it will unload the component from the module.
 	 */
 	public function setComponent($id,$component)
 	{
-		$this->_components[$id]=$component;
-		if(!$component->getIsInitialized())
-			$component->init();
+		if($component===null)
+			unset($this->_components[$id]);
+		else
+		{
+			$this->_components[$id]=$component;
+			if(!$component->getIsInitialized())
+				$component->init();
+		}
 	}
 
 	/**
