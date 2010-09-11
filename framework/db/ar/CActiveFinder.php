@@ -79,7 +79,7 @@ class CActiveFinder extends CComponent
 		else
 			$result = null;
 
-		$this->destroyJoinTree($this->_joinTree);
+		$this->destroyJoinTree();
 		return $result;
 	}
 
@@ -95,11 +95,11 @@ class CActiveFinder extends CComponent
 			$this->_joinTree->beforeFind(false);
 			$this->_joinTree->findWithBase($baseRecord);
 			$this->_joinTree->afterFind();
-			$this->destroyJoinTree($this->_joinTree);
+			$this->destroyJoinTree();
 			return $baseRecord;
 		}
 		else
-			$this->destroyJoinTree($this->_joinTree);
+			$this->destroyJoinTree();
 	}
 
 	/**
@@ -114,12 +114,12 @@ class CActiveFinder extends CComponent
 			$this->_joinTree->beforeFind(false);
 			$this->_joinTree->findWithBase($baseRecords);
 			$this->_joinTree->afterFind();
-			$this->destroyJoinTree($this->_joinTree);
+			$this->destroyJoinTree();
 			return $baseRecords;
 		}
 		else
 		{
-			$this->destroyJoinTree($this->_joinTree);
+			$this->destroyJoinTree();
 			return array();
 		}
 	}
@@ -137,7 +137,7 @@ class CActiveFinder extends CComponent
 		$this->_joinTree->rawTableAlias=$this->_builder->getSchema()->quoteTableName($alias);
 
 		$n=$this->_joinTree->count($criteria);
-		$this->destroyJoinTree($this->_joinTree);
+		$this->destroyJoinTree();
 		return $n;
 	}
 
@@ -154,18 +154,13 @@ class CActiveFinder extends CComponent
 			$child=reset($this->_joinTree->children);
 			$child->afterFind();
 		}
-		$this->destroyJoinTree($this->_joinTree);
+		$this->destroyJoinTree();
 	}
 
-	private function destroyJoinTree($tree)
+	private function destroyJoinTree()
 	{
-		if(!empty($tree->children))
-		{
-			foreach($tree->children as $child)
-				$this->destroyJoinTree($child);
-		}
-		$tree->children=null;
-		$tree->stats=null;
+		if($this->_joinTree!==null)
+			$this->_joinTree->destroy();
 		$this->_joinTree=null;
 	}
 
@@ -354,6 +349,20 @@ class CJoinElement
 			else if(is_array($table->primaryKey) && in_array($name,$table->primaryKey))
 				$this->_pkAlias[$name]=$alias;
 		}
+	}
+
+	/**
+	 * Removes references to child elements and finder to avoid circular references.
+	 * This is internally used.
+	 */
+	public function destroy()
+	{
+		if(!empty($this->children))
+		{
+			foreach($this->children as $child)
+				$child->destroy();
+		}
+		unset($this->_finder, $this->_parent, $this->children, $this->stats);
 	}
 
 	/**
