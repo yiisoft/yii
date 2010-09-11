@@ -362,7 +362,7 @@ class CJoinElement
 			foreach($this->children as $child)
 				$child->destroy();
 		}
-		unset($this->_finder, $this->_parent, $this->children, $this->stats);
+		unset($this->_finder, $this->_parent, $this->model, $this->relation, $this->records, $this->children, $this->stats);
 	}
 
 	/**
