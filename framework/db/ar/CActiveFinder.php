@@ -79,7 +79,7 @@ class CActiveFinder extends CComponent
 		else
 			$result = null;
 
-		$this->_joinTree = null;
+		$this->destroyJoinTree($this->_joinTree);
 		return $result;
 	}
 
@@ -95,8 +95,11 @@ class CActiveFinder extends CComponent
 			$this->_joinTree->beforeFind(false);
 			$this->_joinTree->findWithBase($baseRecord);
 			$this->_joinTree->afterFind();
+			$this->destroyJoinTree($this->_joinTree);
 			return $baseRecord;
 		}
+		else
+			$this->destroyJoinTree($this->_joinTree);
 	}
 
 	/**
@@ -111,10 +114,14 @@ class CActiveFinder extends CComponent
 			$this->_joinTree->beforeFind(false);
 			$this->_joinTree->findWithBase($baseRecords);
 			$this->_joinTree->afterFind();
+			$this->destroyJoinTree($this->_joinTree);
 			return $baseRecords;
 		}
 		else
+		{
+			$this->destroyJoinTree($this->_joinTree);
 			return array();
+		}
 	}
 
 	/**
@@ -129,7 +136,9 @@ class CActiveFinder extends CComponent
 		$this->_joinTree->tableAlias=$alias;
 		$this->_joinTree->rawTableAlias=$this->_builder->getSchema()->quoteTableName($alias);
 
-		return $this->_joinTree->count($criteria);
+		$n=$this->_joinTree->count($criteria);
+		$this->destroyJoinTree($this->_joinTree);
+		return $n;
 	}
 
 	/**
@@ -145,6 +154,19 @@ class CActiveFinder extends CComponent
 			$child=reset($this->_joinTree->children);
 			$child->afterFind();
 		}
+		$this->destroyJoinTree($this->_joinTree);
+	}
+
+	private function destroyJoinTree($tree)
+	{
+		if(!empty($tree->children))
+		{
+			foreach($tree->children as $child)
+				$this->destroyJoinTree($child);
+		}
+		$tree->children=null;
+		$tree->stats=null;
+		$this->_joinTree=null;
 	}
 
 	/**
