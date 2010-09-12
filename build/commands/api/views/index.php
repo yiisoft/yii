@@ -1,4 +1,4 @@
-<h1>All Packages</h1>
+<h1>All Classes</h1>
 
 <table class="summaryTable">
 <tr>
