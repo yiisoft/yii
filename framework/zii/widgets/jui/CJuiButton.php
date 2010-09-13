@@ -89,16 +89,19 @@ class CJuiButton extends CJuiInputWidget
 				echo CHtml::submitButton($this->caption, $this->htmlOptions);
 				break;
 			case 'button':
-				echo CHtml::button($this->caption, $this->htmlOptions);
+				echo CHtml::htmlButton($this->caption, $this->htmlOptions);
 				break;
 			case 'link':
 				echo CHtml::link($this->caption, $this->url, $this->htmlOptions);
 				break;
 			case 'radio':
-				if ($this->hasModel())
+				if ($this->hasModel()){
 					echo CHtml::activeRadioButton($this->model, $this->attribute, $this->htmlOptions);
-				else
+					//echo CHtml::activeLabel($this->model, $this->attribute);
+				}else{
 					echo CHtml::radioButton($name, $this->value, $this->htmlOptions);
+					//echo CHtml::label($this->label, $name);
+				}
 				break;
 			case 'checkbox':
 				if ($this->hasModel())

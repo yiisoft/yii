@@ -32,7 +32,7 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  * </pre>
  *
  * By configuring the {@link options} property, you may specify the options
- * that need to be passed to the JUI datepicker plugin. Please refer to
+ * that need to be passed to the JUI autocomplete plugin. Please refer to
  * the {@link http://jqueryui.com/demos/autocomplete/ JUI
  * autocomplete} documentation for possible options (name-value pairs).
  *
