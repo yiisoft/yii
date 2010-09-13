@@ -142,7 +142,6 @@ class COutputCache extends CFilterWidget
 	 */
 	public function filter($filterChain)
 	{
-		$this->init();
 		if(!$this->getIsContentCached())
 			$filterChain->run();
 		$this->run();

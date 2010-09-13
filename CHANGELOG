@@ -4,6 +4,7 @@
 
 Version 1.1.5 to be released
 ----------------------------
+- Bug #1565: Fixed the bug that COutputCache may fail to work when used to cache whole pages (Qiang)
 - Enh #1522: The attributes of CDetailView now support the property 'visible' (Y!!)
 - Enh #1555: Added support to allow unloading/resetting an application component by calling CModule::setComponent() (Qiang)
 - Enh #1560: Removed potential circular references in relational AR queries (Qiang)
