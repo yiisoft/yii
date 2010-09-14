@@ -466,14 +466,15 @@ $auth->assign('editor','editorC');
 $auth->assign('admin','adminD');
 ~~~
 
-Both [CPhpAuthManager] and [CDbAuthManager] are loading authorization
-hierarchy automatically so you don't need to create authorization items
-and on every request.
+The [authManager|CWebApplication::authManager] component (e.g.
+[CPhpAuthManager], [CDbAuthManager]) will load the authorization
+items automatically once they are created. We do NOT need to run
+the above code to re-create them on every request.
 
 > Info: While the above example looks long and tedious, it is mainly for
-demonstrative purpose. Developers usually need to develop some user
-interfaces so that end users can use to establish an authorization
-hierarchy more intuitively.
+> demonstrative purpose. Developers usually need to develop some user
+> interfaces so that end users can use to establish an authorization
+> hierarchy more intuitively.
 
 
 ### Using Business Rules
