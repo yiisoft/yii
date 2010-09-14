@@ -357,6 +357,7 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Returns the meta-data for this AR
 	 * @return CActiveRecordMetaData the meta for this AR class.
 	 */
 	public function getMetaData()
@@ -597,6 +598,7 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Returns the named relation declared for this AR class.
 	 * @param string the relation name
 	 * @return CActiveRelation the named relation declared for this AR class. Null if the relation does not exist.
 	 */
@@ -606,6 +608,7 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Returns the metadata of the table that this AR belongs to
 	 * @return CDbTableSchema the metadata of the table that this AR belongs to
 	 */
 	public function getTableSchema()
@@ -614,6 +617,7 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Returns the command builder used by this AR.
 	 * @return CDbCommandBuilder the command builder used by this AR
 	 */
 	public function getCommandBuilder()
@@ -622,6 +626,7 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Checks whether this AR has the named attribute
 	 * @param string attribute name
 	 * @return boolean whether this AR has the named attribute (table column).
 	 */
@@ -762,6 +767,7 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Returns if the current record is new.
 	 * @return boolean whether the record is new and should be inserted when calling {@link save}.
 	 * This property is automatically set in constructor and {@link populateRecord}.
 	 * Defaults to false, but it will be set to true if the instance is created using
@@ -773,6 +779,7 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Sets if the record is new.
 	 * @param boolean whether the record is new and should be inserted when calling {@link save}.
 	 * @see getIsNewRecord
 	 */
@@ -1156,6 +1163,7 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Returns the primary key value.
 	 * @return mixed the primary key value. An array (column name=>column value) is returned if the primary key is composite.
 	 * If primary key is not defined, null will be returned.
 	 */

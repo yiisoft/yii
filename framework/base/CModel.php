@@ -501,6 +501,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	}
 
 	/**
+	 * Sets the scenario for the model.
 	 * @param string the scenario that this model is in.
 	 * @see getScenario
 	 * @since 1.0.4
