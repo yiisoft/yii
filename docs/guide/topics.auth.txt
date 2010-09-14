@@ -466,6 +466,10 @@ $auth->assign('editor','editorC');
 $auth->assign('admin','adminD');
 ~~~
 
+Both [CPhpAuthManager] and [CDbAuthManager] are loading authorization
+hierarchy automatically so you don't need to create authorization items
+and on every request.
+
 > Info: While the above example looks long and tedious, it is mainly for
 demonstrative purpose. Developers usually need to develop some user
 interfaces so that end users can use to establish an authorization
