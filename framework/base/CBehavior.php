@@ -82,6 +82,19 @@ class CBehavior extends CComponent implements IBehavior
 	 */
 	public function setEnabled($value)
 	{
+		if($this->_enabled!=$value && $this->_owner)
+		{
+			if($value)
+			{
+				foreach($this->events() as $event=>$handler)
+					$this->_owner->attachEventHandler($event,array($this,$handler));
+			}
+			else
+			{
+				foreach($this->events() as $event=>$handler)
+					$this->_owner->detachEventHandler($event,array($this,$handler));
+			}
+		}
 		$this->_enabled=$value;
 	}
 }
