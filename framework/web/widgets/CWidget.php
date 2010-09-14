@@ -91,6 +91,7 @@ class CWidget extends CBaseController
 	}
 
 	/**
+	 * Returns the owner/creator of this widget.
 	 * @return CBaseController owner/creator of this widget. It could be either a widget or a controller.
 	 */
 	public function getOwner()
@@ -99,6 +100,7 @@ class CWidget extends CBaseController
 	}
 
 	/**
+	 * Returns the ID of the widget or generates a new one if requested.
 	 * @param boolean whether to generate an ID if it is not set previously
 	 * @return string id of the widget.
 	 */
@@ -111,6 +113,7 @@ class CWidget extends CBaseController
 	}
 
 	/**
+	 * Sets the ID of the widget.
 	 * @param string id of the widget.
 	 */
 	public function setId($value)

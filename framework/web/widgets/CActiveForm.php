@@ -242,7 +242,7 @@ class CActiveForm extends CWidget
 	public $enableAjaxValidation=false;
 
 	/**
-	 * @var mixed form element to get initial input focus on page load
+	 * @var mixed form element to get initial input focus on page load.
 	 *
 	 * Defaults to null meaning no input field has a focus.
 	 * If set as array, first element should be model and second element should be the attribute.
