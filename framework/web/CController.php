@@ -341,7 +341,6 @@ class CController extends CBaseController
 		if($this->_dynamicOutput)
 		{
 			$output=preg_replace_callback('/<###dynamic-(\d+)###>/',array($this,'replaceDynamicOutput'),$output);
-			$this->_dynamicOutput=null;
 		}
 		return $output;
 	}
@@ -355,7 +354,13 @@ class CController extends CBaseController
 	 */
 	protected function replaceDynamicOutput($matches)
 	{
-		return isset($this->_dynamicOutput[$matches[1]]) ? $this->_dynamicOutput[$matches[1]] : $matches[0];
+		$content=$matches[0];
+		if(isset($this->_dynamicOutput[$matches[1]]))
+		{
+			$content=$this->_dynamicOutput[$matches[1]];
+			unset($this->_dynamicOutput[$matches[1]]);
+		}
+		return $content;
 	}
 
 	/**
