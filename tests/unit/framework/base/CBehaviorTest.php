@@ -36,4 +36,16 @@ class CBehaviorTest extends CTestCase {
         $model->disableBehaviors();
         $model->validate();
     }
+
+    /**
+     * enableBehaviors() should work after disableBehaviors().
+     * @return void
+     */
+    public function testDisableAndEnableBehaviorsAndModels(){
+        $this->setExpectedException('NewBeforeValidateBehaviorException');
+        $model = new NewFormModel();
+        $model->disableBehaviors();
+        $model->enableBehaviors();
+        $model->validate();
+    }
 }
