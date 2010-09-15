@@ -158,7 +158,7 @@ class CDateTimeParser
 				        return false;
 				    if(isset($hour) && $hour<12 && $ampm==='pm')
 				    	$hour+=12;
-				    $i+=2;
+				    $i++;
 					break;
 				}
 				default:
@@ -244,7 +244,7 @@ class CDateTimeParser
 
 	protected static function parseAmPm($value, $offset)
 	{
-		$v=strtolower(substr($value,$offset,2));
+		$v=strtolower(substr($value,$offset,1));
 		return $v==='am' || $v==='pm' ? $v : false;
 	}
 }
