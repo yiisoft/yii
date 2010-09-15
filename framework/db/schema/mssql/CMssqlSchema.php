@@ -59,7 +59,7 @@ class CMssqlSchema extends CDbSchema
 	public function compareTableNames($name1,$name2)
 	{
 		$name1=str_replace(array('[',']'),'',$name1);
-		$name1=str_replace(array('[',']'),'',$name2);
+		$name2=str_replace(array('[',']'),'',$name2);
 		return parent::compareTableNames(strtolower($name1),strtolower($name2));
 	}
 
