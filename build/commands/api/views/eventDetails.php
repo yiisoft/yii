@@ -16,9 +16,7 @@ event
 <?php echo $event->trigger->signature; ?>
 </div>
 
-<p>
-<?php echo $event->description; ?>
-</p>
+<p><?php echo $event->description; ?></p>
 
 <?php $this->renderPartial('seeAlso',array('object'=>$event)); ?>
 

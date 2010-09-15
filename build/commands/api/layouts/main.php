@@ -29,8 +29,7 @@ All Rights Reserved.<br/>
 /*<![CDATA[*/
 $("a.toggle").toggle(function(){
 	$(this).text($(this).text().replace(/Hide/,'Show'));
-	var a=$(this).parents(".summary");
-	a.find(".inherited").hide();
+	$(this).parents(".summary").find(".inherited").hide();
 },function(){
 	$(this).text($(this).text().replace(/Show/,'Hide'));
 	$(this).parents(".summary").find(".inherited").show();
@@ -40,5 +39,4 @@ $("a.toggle").toggle(function(){
 
 </div><!-- end of page -->
 </body>
-
 </html>

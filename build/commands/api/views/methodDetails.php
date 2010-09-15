@@ -37,9 +37,7 @@ method
 <?php endif; ?>
 </table>
 
-<p>
-<?php echo $method->description; ?>
-</p>
+<p><?php echo $method->description; ?></p>
 
 <?php $this->renderPartial('seeAlso',array('object'=>$method)); ?>
 
