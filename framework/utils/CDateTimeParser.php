@@ -156,8 +156,13 @@ class CDateTimeParser
 				{
 				    if(($ampm=self::parseAmPm($value,$i))===false)
 				        return false;
-				    if(isset($hour) && $hour<12 && $ampm==='pm')
-				    	$hour+=12;
+				    if(isset($hour))
+				    {
+				    	if($hour==12 && $ampm==='am')
+				    		$hour=0;
+				    	else if($hour<12 && $ampm==='pm')
+				    		$hour+=12;
+				    }
 					$i+=2;
 					break;
 				}
