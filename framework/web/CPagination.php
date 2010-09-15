@@ -40,12 +40,12 @@
  *
  * View:
  * <pre>
- * <?foreach($models as $model):?>
+ * foreach($models as $model) {
  *     // display a model
- * <?endforeach?>
+ * }
  *
  * // display pagination
- * <?$this->widget('CLinkPager', array(
+ * $this->widget('CLinkPager', array(
  *     'pages' => $pages,
  * ))?>
  * </pre>
