@@ -31,6 +31,7 @@
  * mm      | Minutes in 00 to 59, zero leading (since version 1.0.5)
  * s	   | Seconds in 0 to 59, no padding (since version 1.0.5)
  * ss      | Seconds in 00 to 59, zero leading (since version 1.0.5)
+ * a       | AM or PM, case-insensitive (since version 1.1.5)
  * ----------------------------------------------------
  * </pre>
  * All other characters must appear in the date string at the corresponding positions.
@@ -151,6 +152,15 @@ class CDateTimeParser
 					$i+=2;
 					break;
 				}
+				case 'a':
+				{
+				    if(($ampm=self::parseAmPm($value,$i))===false)
+				        return false;
+				    if(isset($hour) && $hour<12 && $ampm==='pm')
+				    	$hour+=12;
+				    $i+=2;
+					break;
+				}
 				default:
 				{
 					$tn=strlen($token);
@@ -230,5 +240,11 @@ class CDateTimeParser
 				return $v;
 		}
 		return false;
+	}
+
+	protected static function parseAmPm($value, $offset)
+	{
+		$v=strtolower(substr($value,$offset,2));
+		return $v==='am' || $v==='pm' ? $v : false;
 	}
 }
