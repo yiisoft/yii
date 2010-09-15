@@ -2,9 +2,9 @@
 
 <div class="summary">
 <h2>Events</h2>
-<p>
-<a href="#" class="toggle">Hide inherited events</a>
-</p>
+
+<p><a href="#" class="toggle">Hide inherited events</a></p>
+
 <table class="summaryTable">
 <tr>
   <th>Event</th><th>Description</th><th>Defined By</th>

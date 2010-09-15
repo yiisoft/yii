@@ -2,8 +2,8 @@
 <div class="SeeAlso">
 <h4>See Also</h4>
 <ul>
-	<?php foreach($object->see as $url): ?>
+<?php foreach($object->see as $url): ?>
 	<li><?php echo $url; ?></li>
-	<?php endforeach; ?>
+<?php endforeach; ?>
 </ul>
 </div>

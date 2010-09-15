@@ -161,7 +161,8 @@ class ApiModel
 
 	protected function processCode($matches)
 	{
-		return preg_replace('/<br\/><br\/>/','',$matches[0]);
+		$match=preg_replace('/<br\/><br\/>/','',$matches[1]);
+		return "<pre>".htmlspecialchars($match)."</pre>";
 	}
 
 	protected function resolveInternalUrl($url)
