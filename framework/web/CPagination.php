@@ -40,14 +40,14 @@
  *
  * View:
  * <pre>
- * foreach($models as $model) {
+ * <?php foreach($models as $model): ?>
  *     // display a model
- * }
+ * <?php endforeach; ?>
  *
  * // display pagination
- * $this->widget('CLinkPager', array(
+ * <?php $this->widget('CLinkPager', array(
  *     'pages' => $pages,
- * ))?>
+ * )) ?>
  * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
