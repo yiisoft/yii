@@ -41,7 +41,7 @@ class SiteTest extends WebTestCase
 
 		// test logout process
 		$this->assertTextNotPresent('Login');
-		$this->clickAndWait('link=Logout');
+		$this->clickAndWait('link=Logout (demo)');
 		$this->assertTextPresent('Login');
 	}
 }
