@@ -24,15 +24,6 @@
  * The followings are the available model relations:
 <?php foreach($relations as $name=>$relation): ?>
  * @property <?php
-    $relationTypes = array(
-		'' => '',
-		'' => '',
-		'' => 'array',
-		'' => 'array',
-	);
-
-	$type = 'mixed';
-
 	if (preg_match("~^array\(self::([^,]+), '([^']+)', '([^']+)'\)$~", $relation, $matches))
     {
         $relationType = $matches[1];
