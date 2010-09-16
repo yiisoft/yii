@@ -51,18 +51,6 @@ needed.
 Yii::import('system.web.*');
 ~~~
 
-Starting from version 1.1.5, one can also import a directory together with
-all its subdirectories recursively using the following format:
-
-~~~
-[php]
-Yii::import('system.web.**');
-~~~
-
-> Note: Importing a directory recursively may pose significant performance
-> impact on your application because it needs to scan the directory. If this
-> is the case, try explicitly importing each individual directory, instead.
-
 Besides [import|YiiBase::import], aliases are also used in many other
 places to refer to classes. For example, an alias can be passed to
 [Yii::createComponent()] to create an instance of the corresponding class,

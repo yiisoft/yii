@@ -221,21 +221,14 @@ class YiiBase
 	 * If multiple directories are imported, the directories imported later will take
 	 * precedence in class file searching (i.e., they are added to the front of the PHP include path).
 	 *
-	 * Starting from version 1.1.5, it is also possible to import a directory and all its
-	 * subdirectories in a recursive manner.
-	 *
 	 * Path aliases are used to import a class or directory. For example,
 	 * <ul>
 	 *   <li><code>application.components.GoogleMap</code>: import the <code>GoogleMap</code> class.</li>
 	 *   <li><code>application.components.*</code>: import the <code>components</code> directory.</li>
-	 *   <li><code>application.components.**</code>: import the <code>components</code> directory and
-	 *       all its subdirectories in a recursive manner. Child directories take precedence in
-	 *       in class file searching. This feature has been available since version 1.1.5.
-	 *       WARNING: This may cause significant performance impact on your application! If this is
-	 *       the case, try explicitly importing individual directories, instead.</li>
 	 * </ul>
 	 *
 	 * The same path alias can be imported multiple times, but only the first time is effective.
+	 * Importing a directory does not import any of its subdirectories.
 	 *
 	 * @param string path alias to be imported
 	 * @param boolean whether to include the class file immediately. If false, the class file
@@ -260,7 +253,7 @@ class YiiBase
 		}
 
 		$className=(string)substr($alias,$pos+1);
-		$isClass=strncmp($className,'*',1);
+		$isClass=$className!=='*';
 
 		if($isClass && (class_exists($className,false) || interface_exists($className,false)))
 			return self::$_imports[$alias]=$className;
@@ -290,10 +283,7 @@ class YiiBase
 						unset(self::$_includePaths[$pos]);
 				}
 
-				if($className==='**')
-					array_unshift(self::$_includePaths,self::expandPath($path));
-				else
-					array_unshift(self::$_includePaths,$path);
+				array_unshift(self::$_includePaths,$path);
 
 				if(set_include_path('.'.PATH_SEPARATOR.implode(PATH_SEPARATOR,self::$_includePaths))===false)
 					throw new CException(Yii::t('yii','Unable to import "{alias}". Please check your server configuration to make sure you are allowed to change PHP include_path.',array('{alias}'=>$alias)));
@@ -304,19 +294,6 @@ class YiiBase
 		else
 			throw new CException(Yii::t('yii','Alias "{alias}" is invalid. Make sure it points to an existing directory or file.',
 				array('{alias}'=>$alias)));
-	}
-
-	private static function expandPath($path)
-	{
-		$paths='';
-		$folder=opendir($path);
-		while(($file=readdir($folder))!==false)
-		{
-			if($file[0]!=='.' && is_dir($dir=$path.DIRECTORY_SEPARATOR.$file))
-				$paths.=self::expandPath($dir).PATH_SEPARATOR;
-		}
-		closedir($folder);
-		return $paths==='' ? $path : $paths.$path;
 	}
 
 	/**
