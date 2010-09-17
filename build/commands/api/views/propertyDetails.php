@@ -11,6 +11,7 @@ property
  (available since v<?php echo $property->since; ?>)
 <?php endif; ?>
 </span>
+<?php $this->renderPartial('sourceLink',array('source'=>$property->source)); ?>
 </div>
 
 <div class="signature">

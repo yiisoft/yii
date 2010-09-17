@@ -22,18 +22,24 @@ Yii::import('application.commands.api.ApiModel');
  */
 class ApiCommand extends CConsoleCommand
 {
+	/*
+	 *  Googlecode URL for linking to the source code
+	 *  we link to tags, because the trunk can be changed and line numbers would not be good
+	 */
 	const URL_PATTERN='/\{\{(.*?)\|(.*?)\}\}/s';
 	public $classes;
 	public $packages;
 	public $pageTitle;
 	public $themePath;
 	public $currentClass;
+	public $sourcepath="http://code.google.com/p/yii/source/browse";
+	public $version;
 
 	public function getHelp()
 	{
 		return <<<EOD
 USAGE
-  build api <output-path> [mode]
+  build api <output-path> [mode] [version]
 
 DESCRIPTION
   This command generates offline API documentation for the Yii framework.
@@ -43,7 +49,12 @@ PARAMETERS
    would be saved.
  * mode: optional, either 'online' or 'offline' (default). This indicates
    whether the generated documentation are for online or offline use.
+ * version: optional, used for linking to google source code.
 
+EXAMPLES:
+  * build api yii/doc online 1.1.4
+  * build api yii/doc 1.1.4
+  
 EOD;
 	}
 
@@ -61,6 +72,23 @@ EOD;
 		$offline=true;
 		if(isset($args[1]) && $args[1]==='online')
 			$offline=false;
+
+		$this->version=Yii::getVersion();
+		if(isset($args[2]))
+			$this->version=$args[2];
+		else {
+			if(isset($args[1]) && is_numeric(substr($args[1],0,1)))
+				$this->version=$args[1];
+		}
+
+		/*
+		 * development version - link to trunk
+		 * release version link to tags
+		 */
+		if(substr($this->version,-3)=='dev')
+			$this->sourcepath .= '/trunk/framework';
+		else
+			$this->sourcepath .= '/tags/'.$this->version.'/framework';
 
 		$options=array(
 			'fileTypes'=>array('php'),
@@ -87,11 +115,17 @@ EOD;
 		$this->pageTitle='Yii Framework Class Reference';
 		$themePath=dirname(__FILE__).'/api';
 
-		$model=$this->buildModel(YII_PATH,$options);
+		echo "\nBuilding...: " . $this->pageTitle."\n";
+		echo "Type.......: " . ( $offline ? "offline" : "online" ). "\n";
+		echo "Version....: " . $this->version."\n";
+		echo "Source link: ".$this->sourcepath."\n\n";
 
+		echo "Building model...\n";
+		$model=$this->buildModel(YII_PATH,$options);
 		$this->classes=$model->classes;
 		$this->packages=$model->packages;
 
+		echo "Building pages...\n";
 		if($offline)
 			$this->buildOfflinePages($docPath.DIRECTORY_SEPARATOR.'api',$themePath);
 		else
@@ -99,6 +133,7 @@ EOD;
 			$this->buildOnlinePages($docPath.DIRECTORY_SEPARATOR.'api',$themePath);
 			$this->buildKeywords($docPath);
 		}
+		echo "Done.\n\n";
 	}
 
 	protected function buildKeywords($docPath)

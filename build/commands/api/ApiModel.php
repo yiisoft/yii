@@ -78,6 +78,7 @@ class ApiModel
 	{
 		$doc=new ClassDoc;
 		$doc->name=$class->getName();
+		$doc->source=str_replace(YII_PATH,'',$class->getFileName()); //.'#'.$class->getStartLine();
 		$this->_currentClass=$doc->name;
 		for($parent=$class;$parent=$parent->getParentClass();)
 			$doc->parentClasses[]=$parent->getName();
@@ -254,6 +255,7 @@ class ApiModel
 	{
 		$doc=new MethodDoc;
 		$doc->name=$method->getName();
+		$doc->source=str_replace(YII_PATH,'',$method->getFileName()).'#'.$method->getStartLine();
 		$doc->definedBy=$method->getDeclaringClass()->getName();
 		$doc->isAbstract=$method->isAbstract();
 		$doc->isFinal=$method->isFinal();
@@ -321,6 +323,10 @@ class ApiModel
 	{
 		$doc=new PropertyDoc;
 		$doc->name=$property->getName();
+		/*
+		 *  ReflectionProperty class does not have getStartLine() for now but it can be added in the future
+		 */
+		//$doc->source=str_replace(YII_PATH,'',$property->getFileName()).'#'.$property->getStartLine();
 		$doc->definedBy=$property->getDeclaringClass()->getName();
 		$doc->readOnly=false;
 		$doc->isStatic=$property->isStatic();
@@ -357,6 +363,7 @@ class ApiModel
 		$doc=new PropertyDoc;
 		$name=$method->getName();
 		$doc->name=strtolower($name[3]).substr($name,4);
+		$doc->source=str_replace(YII_PATH,'',$method->getFileName()).'#'.$method->getStartLine();
 		$doc->isProtected=$method->isProtected();
 		$doc->isStatic=false;
 		$doc->readOnly=!$class->hasMethod('set'.substr($name,3));
@@ -389,6 +396,7 @@ class ApiModel
 	{
 		$doc=new EventDoc;
 		$doc->name=$method->getName();
+		$doc->source=str_replace(YII_PATH,'',$method->getFileName()).'#'.$method->getStartLine();
 		$doc->definedBy=$method->getDeclaringClass()->getName();
 		$doc->isInherited=$doc->definedBy!==$class->getName();
 		$doc->trigger=$this->processMethod($class,$method);
@@ -564,6 +572,7 @@ class BaseDoc
 	public $see;
 	public $introduction;
 	public $description;
+	public $source;
 }
 
 class ClassDoc extends BaseDoc
