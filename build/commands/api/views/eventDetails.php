@@ -10,7 +10,6 @@ event
 (available since v<?php echo $event->since; ?>)
 <?php endif; ?>
 </span>
-<?php $this->renderPartial('sourceLink',array('source'=>$event->source)); ?>
 </div>
 
 <div class="signature">

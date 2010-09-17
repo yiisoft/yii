@@ -28,14 +28,14 @@ class ApiCommand extends CConsoleCommand
 	public $pageTitle;
 	public $themePath;
 	public $currentClass;
-	public $sourcepath="http://code.google.com/p/yii/source/browse";
+	public $baseSourceUrl="http://code.google.com/p/yii/source/browse";
 	public $version;
 
 	public function getHelp()
 	{
 		return <<<EOD
 USAGE
-  build api <output-path> [mode] [version]
+  build api <output-path> [mode]
 
 DESCRIPTION
   This command generates offline API documentation for the Yii framework.
@@ -45,12 +45,11 @@ PARAMETERS
    would be saved.
  * mode: optional, either 'online' or 'offline' (default). This indicates
    whether the generated documentation are for online or offline use.
- * version: optional, used for linking to google source code.
 
 EXAMPLES:
   * build api yii/doc online 1.1.4
   * build api yii/doc 1.1.4
-  
+
 EOD;
 	}
 
@@ -70,21 +69,15 @@ EOD;
 			$offline=false;
 
 		$this->version=Yii::getVersion();
-		if(isset($args[2]))
-			$this->version=$args[2];
-		else {
-			if(isset($args[1]) && is_numeric(substr($args[1],0,1)))
-				$this->version=$args[1];
-		}
 
 		/*
 		 * development version - link to trunk
 		 * release version link to tags
 		 */
 		if(substr($this->version,-3)=='dev')
-			$this->sourcepath .= '/trunk/framework';
+			$this->baseSourceUrl .= '/trunk/framework';
 		else
-			$this->sourcepath .= '/tags/'.$this->version.'/framework';
+			$this->baseSourceUrl .= '/tags/'.$this->version.'/framework';
 
 		$options=array(
 			'fileTypes'=>array('php'),
@@ -114,7 +107,7 @@ EOD;
 		echo "\nBuilding...: " . $this->pageTitle."\n";
 		echo "Type.......: " . ( $offline ? "offline" : "online" ). "\n";
 		echo "Version....: " . $this->version."\n";
-		echo "Source link: ".$this->sourcepath."\n\n";
+		echo "Source URL: ".$this->baseSourceUrl."\n\n";
 
 		echo "Building model...\n";
 		$model=$this->buildModel(YII_PATH,$options);
@@ -166,6 +159,20 @@ EOD;
 	{
 		$viewFile=$this->themePath."/views/{$view}.php";
 		return $this->renderFile($viewFile,$data,$return);
+	}
+
+	public function renderSourceLink($sourcePath,$line=null)
+	{
+		if($line===null)
+			return CHtml::link('framework'.$sourcePath,$this->baseSourceUrl.$sourcePath,array('class'=>'sourceLink'));
+		else
+			return CHtml::link('framework'.$sourcePath.'#'.$line, $this->baseSourceUrl.$sourcePath.'#'.$line,array('class'=>'sourceLink'));
+	}
+
+	public function highlight($code,$limit=20)
+	{
+		$code=highlight_string("<?php\n".$code,true);
+		return preg_replace('/&lt;\\?php<br \\/>/','',$code,1);
 	}
 
 	protected function buildOfflinePages($docPath,$themePath)
