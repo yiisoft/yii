@@ -13,7 +13,7 @@
 <div id="page">
 
 <div id="header">
-<a href="http://www.yiiframework.com">Yii Framework</a> v<?php echo $this->version; ?> Class Reference
+<a href="http://www.yiiframework.com">Yii Framework</a> v<?php echo Yii::getVersion(); ?> Class Reference
 </div><!-- end of header -->
 
 <div id="content">
@@ -34,8 +34,15 @@ $("a.toggle").toggle(function(){
 	$(this).text($(this).text().replace(/Show/,'Hide'));
 	$(this).parents(".summary").find(".inherited").show();
 });
-$(".sourceLink a").click(function(){
-	this.target = "_blank";
+$(".sourceCode a.show").toggle(function(){
+	$(this).text($(this).text().replace(/Show/,'hide'));
+	$(this).parents(".sourceCode").find("pre.code").show();
+},function(){
+	$(this).text($(this).text().replace(/Hide/,'show'));
+	$(this).parents(".sourceCode").find("pre.code").hide();
+});
+$("a.sourceLink").click(function(){
+	$(this).attr('target','_blank');
 });
 /*]]>*/
 </script>

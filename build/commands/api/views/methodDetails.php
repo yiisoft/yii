@@ -11,7 +11,6 @@ method
 (available since v<?php echo $method->since; ?>)
 <?php endif; ?>
 </span>
-<?php $this->renderPartial('sourceLink',array('source'=>$method->source)); ?>
 </div>
 
 <table class="summaryTable">
@@ -37,6 +36,8 @@ method
 <?php endif; ?>
 <?php endif; ?>
 </table>
+
+<?php $this->renderPartial('sourceCode',array('object'=>$method)); ?>
 
 <p><?php echo $method->description; ?></p>
 

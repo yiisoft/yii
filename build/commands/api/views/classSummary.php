@@ -31,6 +31,10 @@
   <td><?php echo $class->version; ?></td>
 </tr>
 <?php endif; ?>
+<tr>
+  <th>Source Code</th>
+  <td><?php echo $this->renderSourceLink($class->sourcePath); ?></td>
+</tr>
 </table>
 
 <div id="classDescription">

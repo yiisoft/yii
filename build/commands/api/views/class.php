@@ -10,7 +10,6 @@
 <?php if(!empty($class->events)): ?>
 | <a href="#events">Events</a>
 <?php endif; ?>
-<?php $this->renderPartial('sourceLink',array('source'=>$class->source)); ?>
 </div>
 
 <?php $this->renderPartial('classSummary',array('class'=>$class)); ?>
