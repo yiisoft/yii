@@ -22,10 +22,6 @@ Yii::import('application.commands.api.ApiModel');
  */
 class ApiCommand extends CConsoleCommand
 {
-	/*
-	 *  Googlecode URL for linking to the source code
-	 *  we link to tags, because the trunk can be changed and line numbers would not be good
-	 */
 	const URL_PATTERN='/\{\{(.*?)\|(.*?)\}\}/s';
 	public $classes;
 	public $packages;
