@@ -78,3 +78,12 @@ table.summaryTable th {
 .paramTypeCol {
 	width: 12%;
 }
+
+.sourceLink {
+	float:right;
+	font-weight: normal;
+	font-size: 10pt;
+	padding: 1px 2px;
+	background: #E6ECFF;
+	border: 1px #BFCFFF solid;
+}
