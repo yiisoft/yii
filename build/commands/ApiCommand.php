@@ -47,8 +47,8 @@ PARAMETERS
    whether the generated documentation are for online or offline use.
 
 EXAMPLES:
-  * build api yii/doc online 1.1.4
-  * build api yii/doc 1.1.4
+  * build api yii/doc online
+  * build api yii/doc
 
 EOD;
 	}
@@ -104,10 +104,10 @@ EOD;
 		$this->pageTitle='Yii Framework Class Reference';
 		$themePath=dirname(__FILE__).'/api';
 
-		echo "\nBuilding...: " . $this->pageTitle."\n";
-		echo "Type.......: " . ( $offline ? "offline" : "online" ). "\n";
-		echo "Version....: " . $this->version."\n";
-		echo "Source URL: ".$this->baseSourceUrl."\n\n";
+		echo "\nBuilding.. : " . $this->pageTitle."\n";
+		echo "Type...... : " . ( $offline ? "offline" : "online" ). "\n";
+		echo "Version... : " . $this->version."\n";
+		echo "Source URL : " . $this->baseSourceUrl."\n\n";
 
 		echo "Building model...\n";
 		$model=$this->buildModel(YII_PATH,$options);
