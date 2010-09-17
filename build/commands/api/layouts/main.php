@@ -35,10 +35,10 @@ $("a.toggle").toggle(function(){
 	$(this).parents(".summary").find(".inherited").show();
 });
 $(".sourceCode a.show").toggle(function(){
-	$(this).text($(this).text().replace(/Show/,'hide'));
+	$(this).text($(this).text().replace(/show/,'hide'));
 	$(this).parents(".sourceCode").find("pre.code").show();
 },function(){
-	$(this).text($(this).text().replace(/Hide/,'show'));
+	$(this).text($(this).text().replace(/hide/,'show'));
 	$(this).parents(".sourceCode").find("pre.code").hide();
 });
 $("a.sourceLink").click(function(){
