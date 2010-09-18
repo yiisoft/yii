@@ -1,4 +1,8 @@
-<table class="summaryTable">
+<table class="summaryTable docClass">
+<colgroup>
+	<col class="col-name" />
+	<col class="col-value" />
+</colgroup>
 <tr>
   <th>Package</th>
   <td><?php echo '{{index::'.$class->package.'|'.$class->package.'}}'; ?></td>
