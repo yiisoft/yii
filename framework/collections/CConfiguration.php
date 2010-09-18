@@ -16,13 +16,10 @@
  *
  * The configuration data may be obtained from a PHP script. For example,
  * <pre>
- * &lt;?php
- * return array
- * (
+ * return array(
  *     'name'=>'My Application',
  *     'defaultController'=>'index',
  * );
- * ?&gt;
  * </pre>
  * Use the following code to load the above configuration data:
  * <pre>

@@ -50,8 +50,8 @@ Yii::import('system.gii.CCodeForm');
  *         'urlFormat'=>'path',
  *         'rules'=>array(
  *             'gii'=>'gii',
- *             'gii/&lt;controller:\w+>'=>'gii/&lt;controller>',
- *             'gii/&lt;controller:\w+>/&lt;action:\w+>'=>'gii/&lt;controller>/&lt;action>',
+ *             'gii/<controller:\w+>'=>'gii/<controller>',
+ *             'gii/<controller:\w+>/<action:\w+>'=>'gii/<controller>/<action>',
  *             ...other rules...
  *         ),
  *     )
