@@ -171,7 +171,8 @@ EOD;
 
 	public function highlight($code,$limit=20)
 	{
-		$code=highlight_string("<?php\n".rtrim($code),true);
+		$code=preg_replace("/^    /m",'',rtrim(str_replace("\t","    ",$code)));
+		$code=highlight_string("<?php\n".$code,true);
 		return preg_replace('/&lt;\\?php<br \\/>/','',$code,1);
 	}
 
