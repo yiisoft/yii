@@ -19,9 +19,9 @@
  * and {@link CController::endWidget} calls. For example,
  *
  * <pre>
- * &lt;?php $this->beginWidget('zii.widgets.CPortlet'); ?&gt;
+ * <?php $this->beginWidget('zii.widgets.CPortlet'); ?>
  *     ...insert content here...
- * &lt;?php $this->endWidget(); ?&gt;
+ * <?php $this->endWidget(); ?>
  * </pre>
  *
  * A portlet also has an optional {@link title}. One may also override {@link renderDecoration}

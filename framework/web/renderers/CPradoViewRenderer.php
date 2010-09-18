@@ -27,36 +27,36 @@
  * CPradoViewRenderer allows you to write view files with the following syntax:
  * <pre>
  * // PHP tags:
- * &lt;%= expression %&gt;
- * // &lt;?php echo expression ?&gt;
- * &lt;% statement %&gt;
- * // &lt;?php statement ?&gt;</li>
+ * <%= expression %>
+ * // <?php echo expression ?>
+ * <% statement %>
+ * // <?php statement ?></li>
  *
  * // component tags:
- * &lt;com:WigetClass name1="value1" name2='value2' name3={value3} &gt;
- * // &lt;?php $this->beginWidget('WigetClass',
- * // array('name1'=>"value1", 'name2'=>'value2', 'name3'=>value3)); ?&gt;
- * &lt;/com:WigetClass &gt;
- * // &lt;?php $this->endWidget('WigetClass'); ?&gt;
- * &lt;com:WigetClass name1="value1" name2='value2' name3={value3} /&gt;
- * // &lt;?php $this->widget('WigetClass',
- * // array('name1'=>"value1", 'name2'=>'value2', 'name3'=>value3)); ?&gt;
+ * <com:WigetClass name1="value1" name2='value2' name3={value3} >
+ * // <?php $this->beginWidget('WigetClass',
+ * // array('name1'=>"value1", 'name2'=>'value2', 'name3'=>value3)); ?>
+ * </com:WigetClass >
+ * // <?php $this->endWidget('WigetClass'); ?>
+ * <com:WigetClass name1="value1" name2='value2' name3={value3} />
+ * // <?php $this->widget('WigetClass',
+ * // array('name1'=>"value1", 'name2'=>'value2', 'name3'=>value3)); ?>
  *
  * // cache tags:
- * &lt;cache:fragmentID name1="value1" name2='value2' name3={value3} &gt;
- * // &lt;?php if($this->beginCache('fragmentID',
- * // array('name1'=>"value1", 'name2'=>'value2', 'name3'=>value3))): ?&gt;
- * &lt;/cache:fragmentID &gt;
- * // &lt;?php $this->endCache('fragmentID'); endif; ?&gt;
+ * <cache:fragmentID name1="value1" name2='value2' name3={value3} >
+ * // <?php if($this->beginCache('fragmentID',
+ * // array('name1'=>"value1", 'name2'=>'value2', 'name3'=>value3))): ?>
+ * </cache:fragmentID >
+ * // <?php $this->endCache('fragmentID'); endif; ?>
  *
  * // clip tags:
- * &lt;clip:clipID &gt;
- * // &lt;?php $this->beginClip('clipID'); ?&gt;
- * &lt;/clip:clipID &gt;
- * // &lt;?php $this->endClip('clipID'); ?&gt;
+ * <clip:clipID >
+ * // <?php $this->beginClip('clipID'); ?>
+ * </clip:clipID >
+ * // <?php $this->endClip('clipID'); ?>
  *
  * // comment tags:
- * &lt;!--- comments ---&gt;
+ * <!--- comments --->
  * // the whole tag will be stripped off
  * </pre>
  *

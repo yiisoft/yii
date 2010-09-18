@@ -41,26 +41,26 @@
  *
  * The following is a piece of sample view code:
  * <pre>
- * &lt;?php $form = $this->beginWidget('CActiveForm', array(
+ * <?php $form = $this->beginWidget('CActiveForm', array(
  *     'id'=>'user-form',
  *     'enableAjaxValidation'=>true,
  *     'focus'=>array($model,firstName),
- * )); ?&gt;
+ * )); ?>
  *
- * &lt;?php echo $form-&gt;errorSummary($model); ?&gt;
+ * <?php echo $form->errorSummary($model); ?>
  *
- * &lt;div class="row"&gt;
- *     &lt;?php echo $form-&gt;labelEx($model,'firstName'); ?&gt;
- *     &lt;?php echo $form-&gt;textField($model,'firstName'); ?&gt;
- *     &lt;?php echo $form-&gt;error($model,'firstName'); ?&gt;
- * &lt;/div&gt;
- * &lt;div class="row"&gt;
- *     &lt;?php echo $form-&gt;labelEx($model,'lastName'); ?&gt;
- *     &lt;?php echo $form-&gt;textField($model,'lastName'); ?&gt;
- *     &lt;?php echo $form-&gt;error($model,'lastName'); ?&gt;
- * &lt;/div&gt;
+ * <div class="row">
+ *     <?php echo $form->labelEx($model,'firstName'); ?>
+ *     <?php echo $form->textField($model,'firstName'); ?>
+ *     <?php echo $form->error($model,'firstName'); ?>
+ * </div>
+ * <div class="row">
+ *     <?php echo $form->labelEx($model,'lastName'); ?>
+ *     <?php echo $form->textField($model,'lastName'); ?>
+ *     <?php echo $form->error($model,'lastName'); ?>
+ * </div>
  *
- * &lt;?php $this->endWidget(); ?&gt;
+ * <?php $this->endWidget(); ?>
  * </pre>
  *
  * To respond to the AJAX validation requests, we need the following class code:
