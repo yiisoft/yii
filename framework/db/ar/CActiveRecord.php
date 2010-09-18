@@ -1508,7 +1508,7 @@ abstract class CActiveRecord extends CModel
 	 * @param array parameters to be bound to an SQL statement.
 	 * @return boolean whether there is row satisfying the specified condition.
 	 */
-	public function exists($condition,$params=array())
+	public function exists($condition='',$params=array())
 	{
 		Yii::trace(get_class($this).'.exists()','system.db.ar.CActiveRecord');
 		$builder=$this->getCommandBuilder();
