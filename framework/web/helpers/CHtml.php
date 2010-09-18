@@ -640,7 +640,7 @@ class CHtml
 			if(isset($htmlOptions['id']) && $htmlOptions['id']!==false)
 				$uncheckOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
 			else
-				$uncheckOptions=array();
+				$uncheckOptions=array('id'=>false);
 			$hidden=self::hiddenField($name,$uncheck,$uncheckOptions);
 		}
 		else
@@ -687,7 +687,7 @@ class CHtml
 			if(isset($htmlOptions['id']) && $htmlOptions['id']!==false)
 				$uncheckOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
 			else
-				$uncheckOptions=array();
+				$uncheckOptions=array('id'=>false);
 			$hidden=self::hiddenField($name,$uncheck,$uncheckOptions);
 		}
 		else
@@ -1251,7 +1251,7 @@ EOD;
 		self::resolveNameID($model,$attribute,$htmlOptions);
 		// add a hidden field so that if a model only has a file field, we can
 		// still use isset($_POST[$modelClass]) to detect if the input is submitted
-		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array();
+		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
 		return self::hiddenField($htmlOptions['name'],'',$hiddenOptions)
 			. self::activeInputField('file',$model,$attribute,$htmlOptions);
 	}
@@ -1290,7 +1290,7 @@ EOD;
 		else
 			$uncheck='0';
 
-		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array();
+		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
 		$hidden=$uncheck!==null ? self::hiddenField($htmlOptions['name'],$uncheck,$hiddenOptions) : '';
 
 		// add a hidden field so that if the radio button is not selected, it still submits a value
@@ -1332,7 +1332,7 @@ EOD;
 		else
 			$uncheck='0';
 
-		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array();
+		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
 		$hidden=$uncheck!==null ? self::hiddenField($htmlOptions['name'],$uncheck,$hiddenOptions) : '';
 
 		return $hidden . self::activeInputField('checkbox',$model,$attribute,$htmlOptions);
@@ -1474,7 +1474,7 @@ EOD;
 		$name=$htmlOptions['name'];
 		unset($htmlOptions['name']);
 
-		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array();
+		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
 		return self::hiddenField($name,'',$hiddenOptions)
 			. self::checkBoxList($name,$selection,$data,$htmlOptions);
 	}
@@ -1510,7 +1510,7 @@ EOD;
 		$name=$htmlOptions['name'];
 		unset($htmlOptions['name']);
 
-		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array();
+		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
 		return self::hiddenField($name,'',$hiddenOptions)
 			. self::radioButtonList($name,$selection,$data,$htmlOptions);
 	}
