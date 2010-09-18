@@ -36,10 +36,10 @@ $("a.toggle").toggle(function(){
 });
 $(".sourceCode a.show").toggle(function(){
 	$(this).text($(this).text().replace(/show/,'hide'));
-	$(this).parents(".sourceCode").find("pre.code").show();
+	$(this).parents(".sourceCode").find("div.code").show();
 },function(){
 	$(this).text($(this).text().replace(/hide/,'show'));
-	$(this).parents(".sourceCode").find("pre.code").hide();
+	$(this).parents(".sourceCode").find("div.code").hide();
 });
 $("a.sourceLink").click(function(){
 	$(this).attr('target','_blank');
