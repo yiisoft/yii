@@ -441,11 +441,11 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
-	 * @return string user agent
+	 * @return string user agent, null if not present
 	 */
 	public function getUserAgent()
 	{
-		return $_SERVER['HTTP_USER_AGENT'];
+		return isset($_SERVER['HTTP_USER_AGENT'])?$_SERVER['HTTP_USER_AGENT']:null;
 	}
 
 	/**
