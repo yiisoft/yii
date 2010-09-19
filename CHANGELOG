@@ -14,6 +14,8 @@ Version 1.1.5 to be released
 - Enh #1560: Removed potential circular references in relational AR queries (Qiang)
 - Enh #1578: Added support to parse AM/PM by CDateTimeParser (Qiang)
 - Enh #1583: Upgraded HTMLPurifier to v4.2.0 (Sam Dark)
+- Enh #1591: Fixed yiic.bat to make sure it works even if the path of PHP executable contains spaces (Qiang)
+- Enh #1598: Fixed CHttpRequest::getUserAgent() to make sure it works even if HTTP_USER_AGENT is not defined (Qiang)
 - Enh: Upgraded JQuery UI to 1.8.5 (Sam Dark)
 - Chg: The javascript files of CListView and CGridView are now registered at the end of the page (Qiang)
 
