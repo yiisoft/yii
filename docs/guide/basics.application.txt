@@ -169,7 +169,7 @@ uncaught PHP errors and exceptions.
 for display purpose. This has been available since version 1.1.0.
 
    - [messages|CApplication::messages]: [CPhpMessageSource] - provides
-translated messaged used by Yii application.
+translated messages used by Yii application.
 
    - [request|CWebApplication::request]: [CHttpRequest] - provides
 information related with user requests.
