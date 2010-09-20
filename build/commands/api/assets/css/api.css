@@ -33,7 +33,6 @@ div.code {
     /* max-height: 24em; */
     margin: 5px;
     padding-left: 20px;
-    border: 1px solid #FFE6BF;
     border-left: 6px solid #FFE6BF;
 }
 
@@ -101,4 +100,6 @@ table.summaryTable th {
 
 .sourceCode {
 	margin: 5px 0;
+	padding:5px;
+	background:#FFF5E6;
 }
