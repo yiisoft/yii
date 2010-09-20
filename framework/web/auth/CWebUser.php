@@ -718,7 +718,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * @param string the name of the operation that need access check.
 	 * @param array name-value pairs that would be passed to business rules associated
 	 * with the tasks and roles assigned to the user.
-	 * @param boolean whether to allow caching the result of access checki.
+	 * @param boolean whether to allow caching the result of access check.
 	 * This parameter has been available since version 1.0.5. When this parameter
 	 * is true (default), if the access check of an operation was performed before,
 	 * its result will be directly returned when calling this method to check the same operation.
