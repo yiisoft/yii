@@ -282,8 +282,11 @@ EOD;
 	{
 		if($text===null)
 			$text=$subject;
-		if(isset($this->classes[$type]))
+		if(isset($this->classes[$type])) {
+			if(substr($text,-2)==='()')
+				$subject=$this->fixMethodAnchor($type,$subject);
 			return '{{'.$type.'::'.$subject.'-detail'.'|'.$text.'}}';
+		}
 		else
 			return $text;
 	}
@@ -302,6 +305,14 @@ EOD;
 			$sig.=$property->setter->signature;
 		}
 		return $sig;
+	}
+
+	public function fixMethodAnchor($class,$name)
+	{
+		if(isset($this->classes[$class]->properties[$name]))
+			return $name."()";
+		else
+			return $name;
 	}
 
 	protected function fixOfflineLink($matches)
