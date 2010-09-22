@@ -27,6 +27,13 @@ class CWebLogRoute extends CLogRoute
 	public $showInFireBug=false;
 
 	/**
+	 * @var boolean whether the log should be ignored in FireBug for ajax calls. Defaults to true.
+	 * This option should be used carefully, because an ajax call returns all output as a result data.
+	 * For example if the ajax call expects a json type result any output from the logger will cause ajax call to fail.
+	 */
+	public $ignoreAjaxInFireBug=true;
+	
+	/**
 	 * Displays the log messages.
 	 * @param array list of log messages
 	 */
@@ -42,16 +49,22 @@ class CWebLogRoute extends CLogRoute
 	 */
 	protected function render($view,$data)
 	{
+		$app=Yii::app();
+		$isAjax=$app->getRequest()->getIsAjaxRequest();
+
 		if($this->showInFireBug)
+		{
+			if($isAjax && $this->ignoreAjaxInFireBug)
+				return;
 			$view.='-firebug';
+		}
 		else
 		{
-			$app=Yii::app();
-			if(!($app instanceof CWebApplication) || $app->getRequest()->getIsAjaxRequest())
+			if(!($app instanceof CWebApplication) || $isAjax)
 				return;
 		}
 		$viewFile=YII_PATH.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.$view.'.php';
-		include(Yii::app()->findLocalizedFile($viewFile,'en'));
+		include($app->findLocalizedFile($viewFile,'en'));
 	}
 }
 

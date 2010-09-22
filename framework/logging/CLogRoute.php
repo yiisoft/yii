@@ -45,7 +45,7 @@ abstract class CLogRoute extends CComponent
 	 */
 	public $categories='';
 	/**
-	 * @var mixed the additional filter (e.g. {@link CLogFilter}) that can be applied to the log messages.
+	 * @var mixed the additional filter (eg {@link CLogFilter}) that can be applied to the log messages.
 	 * The value of this property will be passed to {@link Yii::createComponent} to create
 	 * a log filter object. As a result, this can be either a string representing the
 	 * filter class name or an array representing the filter configuration.
