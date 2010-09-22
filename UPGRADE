@@ -20,6 +20,8 @@ General upgrade intructions
 
 Upgrading from v1.1.4
 ---------------------
+- Now by default CWebLogRoute does not render logs in FireBug for ajax calls.
+  To get logs rendered for ajax calls in FireBug set CWebLogRoute::ignoreAjaxInFireBug to false
 
 Upgrading from v1.1.3
 ---------------------
