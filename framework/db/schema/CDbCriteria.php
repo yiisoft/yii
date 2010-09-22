@@ -171,6 +171,8 @@ class CDbCriteria extends CComponent
 	 */
 	public function addSearchCondition($column,$keyword,$escape=true,$operator='AND',$like='LIKE')
 	{
+		if($keyword=='')
+			return $this;
 		if($escape)
 			$keyword='%'.strtr($keyword,array('%'=>'\%', '_'=>'\_', '\\'=>'\\\\')).'%';
 		$condition=$column." $like ".self::PARAM_PREFIX.self::$paramCount;
