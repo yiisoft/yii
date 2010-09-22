@@ -15,6 +15,7 @@ Version 1.1.5 to be released
 - Enh #1578: Added support to parse AM/PM by CDateTimeParser (Qiang)
 - Enh #1583: Upgraded HTMLPurifier to v4.2.0 (Sam Dark)
 - Enh #1591: Fixed yiic.bat to make sure it works even if the path of PHP executable contains spaces (Qiang)
+- Enh #1594: Added CWebLogRoute::ignoreAjaxInFireBug to make sure ajax calls work when showInFireBug is set to true (mdomba)
 - Enh #1598: Fixed CHttpRequest::getUserAgent() to make sure it works even if HTTP_USER_AGENT is not defined (Qiang)
 - Enh #1607: Added CDbCache::setDbConnection (Qiang)
 - Enh: Upgraded JQuery UI to 1.8.5 (Sam Dark)
