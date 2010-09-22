@@ -37,7 +37,6 @@ class CLogFilter extends CComponent
 	public $prefixUser=false;
 	/**
 	 * @var boolean whether to log the current user name and ID. Defaults to true.
-	 * This property is effective only when {@link showContext} is true.
 	 */
 	public $logUser=true;
 	/**
