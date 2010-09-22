@@ -54,9 +54,12 @@ class CLogFilter extends CComponent
 	 */
 	public function filter(&$logs)
 	{
-		if(($message=$this->getContext())!=='')
-			array_unshift($logs,array($message,CLogger::LEVEL_INFO,'application',YII_BEGIN_TIME));
-		$this->format($logs);
+		if (!empty($logs))
+		{
+			if(($message=$this->getContext())!=='')
+				array_unshift($logs,array($message,CLogger::LEVEL_INFO,'application',YII_BEGIN_TIME));
+			$this->format($logs);			
+		}
 		return $logs;
 	}
 
