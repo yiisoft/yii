@@ -153,7 +153,7 @@ EOD;
 	 * @return CDbConnection the DB connection instance
 	 * @throws CException if {@link connectionID} does not point to a valid application component.
 	 */
-	protected function getDbConnection()
+	public function getDbConnection()
 	{
 		if($this->_db!==null)
 			return $this->_db;
@@ -170,6 +170,16 @@ EOD;
 			$dbFile=Yii::app()->getRuntimePath().DIRECTORY_SEPARATOR.'cache-'.Yii::getVersion().'.db';
 			return $this->_db=new CDbConnection('sqlite:'.$dbFile);
 		}
+	}
+
+	/**
+	 * Sets the DB connection used by the cache component.
+	 * @param CDbConnection the DB connection instance
+	 * @since 1.1.5
+	 */
+	public function setDbConnection($value)
+	{
+		$this->_db=$value;
 	}
 
 	/**
