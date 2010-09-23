@@ -608,7 +608,7 @@ class CJSON
 	/**
 	* This function returns any UTF-8 encoded text as a list of
 	* Unicode values:
-	* @param string &$str string to convert
+	* @param string $str string to convert
 	* @author Scott Michael Reynen <scott@randomchaos.com>
 	* @link   http://www.randomchaos.com/document.php?source=php_and_unicode
 	* @see	unicodeToUTF8()
@@ -645,7 +645,7 @@ class CJSON
 
 	/**
 	* This function converts a Unicode array back to its UTF-8 representation
-	* @param string &$str string to convert
+	* @param string $str string to convert
 	* @author Scott Michael Reynen <scott@randomchaos.com>
 	* @link   http://www.randomchaos.com/document.php?source=php_and_unicode
 	* @see	utf8ToUnicode()
@@ -678,7 +678,7 @@ class CJSON
 	* UTF-8 to UTF-16BE conversion.
 	*
 	* Maybe really UCS-2 without mb_string due to utf8ToUnicode limits
-	* @param string &$str string to convert
+	* @param string $str string to convert
 	* @param boolean $bom  whether to output BOM header
 	*/
 	protected static function utf8ToUTF16BE(&$str, $bom = false)
@@ -697,7 +697,7 @@ class CJSON
 	 * UTF-8 to UTF-16BE conversion.
 	 *
 	 * Maybe really UCS-2 without mb_string due to utf8ToUnicode limits
-	 * @param string &$str string to convert
+	 * @param string $str string to convert
 	 */
 	protected static function utf16beToUTF8(&$str)
 	{

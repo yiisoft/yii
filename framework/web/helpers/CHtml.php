@@ -1753,7 +1753,7 @@ EOD;
 	 * Generates the list options.
 	 * @param mixed $selection the selected value(s). This can be either a string for single selection or an array for multiple selections.
 	 * @param array $listData the option data (see {@link listData})
-	 * @param array &$htmlOptions additional HTML attributes. The following two special attributes are recognized:
+	 * @param array $htmlOptions additional HTML attributes. The following two special attributes are recognized:
 	 * <ul>
 	 * <li>encode: boolean, specifies whether to encode the values. Defaults to true. This option has been available since version 1.0.5.</li>
 	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty.</li>
@@ -1852,7 +1852,7 @@ EOD;
 	/**
 	 * Generates the JavaScript with the specified client changes.
 	 * @param string $event event name (without 'on')
-	 * @param array &$htmlOptions HTML attributes which may contain the following special attributes
+	 * @param array $htmlOptions HTML attributes which may contain the following special attributes
 	 * specifying the client change behaviors:
 	 * <ul>
 	 * <li>submit: string, specifies the URL that the button should submit to. If empty, the current requested URL will be used.</li>
@@ -1936,8 +1936,8 @@ EOD;
 	 * This method may also modify the attribute name if the name
 	 * contains square brackets (mainly used in tabular input).
 	 * @param CModel $model the data model
-	 * @param string &$attribute the attribute
-	 * @param array &$htmlOptions the HTML options
+	 * @param string $attribute the attribute
+	 * @param array $htmlOptions the HTML options
 	 */
 	public static function resolveNameID($model,&$attribute,&$htmlOptions)
 	{
@@ -1954,7 +1954,7 @@ EOD;
 	 * Note, the attribute name may be modified after calling this method if the name
 	 * contains square brackets (mainly used in tabular input) before the real attribute name.
 	 * @param CModel $model the data model
-	 * @param string &$attribute the attribute
+	 * @param string $attribute the attribute
 	 * @return string the input name
 	 * @since 1.0.2
 	 */
@@ -2011,7 +2011,7 @@ EOD;
 
 	/**
 	 * Appends {@link errorCss} to the 'class' attribute.
-	 * @param array &$htmlOptions HTML options to be modified
+	 * @param array $htmlOptions HTML options to be modified
 	 */
 	protected static function addErrorCss(&$htmlOptions)
 	{

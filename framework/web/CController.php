@@ -1151,7 +1151,7 @@ class CController extends CBaseController
 	/**
 	 * Saves page states as a base64 string.
 	 * @param array $states the states to be saved.
-	 * @param string &$output the output to be modified. Note, this is passed by reference.
+	 * @param string $output the output to be modified. Note, this is passed by reference.
 	 */
 	protected function savePageStates($states,&$output)
 	{

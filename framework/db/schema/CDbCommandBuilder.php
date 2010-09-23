@@ -711,7 +711,7 @@ class CDbCommandBuilder extends CComponent
 	/**
 	 * Checks if the parameter is a valid table schema.
 	 * If it is a string, the corresponding table schema will be retrieved.
-	 * @param mixed &$table table schema ({@link CDbTableSchema}) or table name (string).
+	 * @param mixed $table table schema ({@link CDbTableSchema}) or table name (string).
 	 * If this refers to a valid table name, this parameter will be returned with the corresponding table schema.
 	 * @throws CDbException if the table name is not valid
 	 * @since 1.0.4

@@ -123,7 +123,7 @@ class CClientScript extends CApplicationComponent
 	 * This method is called in {@link CController::render} when it finishes
 	 * rendering content. CClientScript thus gets a chance to insert script tags
 	 * at <code>head</code> and <code>body</code> sections in the HTML output.
-	 * @param string &$output the existing output that needs to be inserted with script tags
+	 * @param string $output the existing output that needs to be inserted with script tags
 	 */
 	public function render(&$output)
 	{
@@ -234,7 +234,7 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Inserts the scripts in the head section.
-	 * @param string &$output the output to be inserted with scripts.
+	 * @param string $output the output to be inserted with scripts.
 	 */
 	public function renderHead(&$output)
 	{
@@ -272,7 +272,7 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Inserts the scripts at the beginning of the body section.
-	 * @param string &$output the output to be inserted with scripts.
+	 * @param string $output the output to be inserted with scripts.
 	 */
 	public function renderBodyBegin(&$output)
 	{
@@ -298,7 +298,7 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Inserts the scripts at the end of the body section.
-	 * @param string &$output the output to be inserted with scripts.
+	 * @param string $output the output to be inserted with scripts.
 	 */
 	public function renderBodyEnd(&$output)
 	{

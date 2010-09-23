@@ -217,7 +217,7 @@ class CMenu extends CWidget
 	 * Normalizes the {@link items} property so that the 'active' state is properly identified for every menu item.
 	 * @param array $items the items to be normalized.
 	 * @param string $route the route of the current request.
-	 * @param boolean &$active whether there is an active child menu item.
+	 * @param boolean $active whether there is an active child menu item.
 	 * @return array the normalized menu items
 	 */
 	protected function normalizeItems($items,$route,&$active)
