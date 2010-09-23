@@ -1254,7 +1254,7 @@ abstract class CActiveRecord extends CModel
 	 * Applies the query scopes to the given criteria.
 	 * This method merges {@link dbCriteria} with the given criteria parameter.
 	 * It then resets {@link dbCriteria} to be null.
-	 * @param CDbCriteria &$criteria the query criteria. This parameter may be modified by merging {@link dbCriteria}.
+	 * @param CDbCriteria $criteria the query criteria. This parameter may be modified by merging {@link dbCriteria}.
 	 * @since 1.0.12
 	 */
 	public function applyScopes(&$criteria)

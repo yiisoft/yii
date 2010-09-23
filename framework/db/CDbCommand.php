@@ -42,7 +42,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Constructor.
-	 * @param CDbConnection CDbConnection $connection the database connection
+	 * @param CDbConnection $connection the database connection
 	 * @param string $text the SQL statement to be executed
 	 */
 	public function __construct(CDbConnection $connection,$text)
@@ -139,7 +139,7 @@ class CDbCommand extends CComponent
 	 * using named placeholders, this will be a parameter name of
 	 * the form :name. For a prepared statement using question mark
 	 * placeholders, this will be the 1-indexed position of the parameter.
-	 * @param mixed &$value Name of the PHP variable to bind to the SQL statement parameter
+	 * @param mixed $value Name of the PHP variable to bind to the SQL statement parameter
 	 * @param int $dataType SQL data type of the parameter. If null, the type is determined by the PHP type of the value.
 	 * @param int $length length of the data type
 	 * @return CDbCommand the current command being executed (this is available since version 1.0.8)

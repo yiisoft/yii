@@ -104,7 +104,7 @@ class CHttpRequest extends CApplicationComponent
 	/**
 	 * Strips slashes from input data.
 	 * This method is applied when magic quotes is enabled.
-	 * @param mixed &$data input data to be processed
+	 * @param mixed $data input data to be processed
 	 * @return mixed processed data
 	 */
 	public function stripSlashes(&$data)
@@ -735,7 +735,7 @@ class CCookieCollection extends CMap
 
 	/**
 	 * Constructor.
-	 * @param CHttpRequest CHttpRequest $request owner of this collection.
+	 * @param CHttpRequest $request owner of this collection.
 	 */
 	public function __construct(CHttpRequest $request)
 	{

@@ -39,7 +39,7 @@ class CDbDataReader extends CComponent implements Iterator
 
 	/**
 	 * Constructor.
-	 * @param CDbCommand CDbCommand $command the command generating the query result
+	 * @param CDbCommand $command the command generating the query result
 	 */
 	public function __construct(CDbCommand $command)
 	{
@@ -54,7 +54,7 @@ class CDbDataReader extends CComponent implements Iterator
 	 * @param mixed $column Number of the column (1-indexed) or name of the column
 	 * in the result set. If using the column name, be aware that the name
 	 * should match the case of the column, as returned by the driver.
-	 * @param mixed &$value Name of the PHP variable to which the column will be bound.
+	 * @param mixed $value Name of the PHP variable to which the column will be bound.
 	 * @param int $dataType Data type of the parameter
 	 * @see http://www.php.net/manual/en/function.PDOStatement-bindColumn.php
 	 */

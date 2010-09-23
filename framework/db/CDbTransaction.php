@@ -41,7 +41,7 @@ class CDbTransaction extends CComponent
 
 	/**
 	 * Constructor.
-	 * @param CDbConnection CDbConnection $connection the connection associated with this transaction
+	 * @param CDbConnection $connection the connection associated with this transaction
 	 * @see CDbConnection::beginTransaction
 	 */
 	public function __construct(CDbConnection $connection)
