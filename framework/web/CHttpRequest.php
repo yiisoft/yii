@@ -488,11 +488,11 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
-	 * @return string user browser accept types
+	 * @return string user browser accept types, null if not present
 	 */
 	public function getAcceptTypes()
 	{
-		return $_SERVER['HTTP_ACCEPT'];
+		return isset($_SERVER['HTTP_ACCEPT'])?$_SERVER['HTTP_ACCEPT']:null;
 	}
 
 	private $_port;
