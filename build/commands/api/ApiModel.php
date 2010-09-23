@@ -416,7 +416,7 @@ class ApiModel
 					/*
 					 * remove $variablename from description
 					 */
-					$segs[1]=trim(preg_replace('/\$\w+/','',$segs[1]));
+					$segs[1]=trim(preg_replace('/^\$\w+/','',$segs[1]));
 					$param->description=$this->processDescription($segs[1]);
 				}
 				next($object->input);
