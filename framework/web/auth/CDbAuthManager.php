@@ -72,10 +72,10 @@ class CDbAuthManager extends CAuthManager
 
 	/**
 	 * Performs access check for the specified user.
-	 * @param string the name of the operation that need access check
-	 * @param mixed the user ID. This should can be either an integer and a string representing
+	 * @param string $itemName the name of the operation that need access check
+	 * @param mixed $userId the user ID. This should can be either an integer and a string representing
 	 * the unique identifier of a user. See {@link IWebUser::getId}.
-	 * @param array name-value pairs that would be passed to biz rules associated
+	 * @param array $params name-value pairs that would be passed to biz rules associated
 	 * with the tasks and roles assigned to the user.
 	 * @return boolean whether the operations can be performed by the user.
 	 */
@@ -88,12 +88,12 @@ class CDbAuthManager extends CAuthManager
 	/**
 	 * Performs access check for the specified user.
 	 * This method is internally called by {@link checkAccess}.
-	 * @param string the name of the operation that need access check
-	 * @param mixed the user ID. This should can be either an integer and a string representing
+	 * @param string $itemName the name of the operation that need access check
+	 * @param mixed $userId the user ID. This should can be either an integer and a string representing
 	 * the unique identifier of a user. See {@link IWebUser::getId}.
-	 * @param array name-value pairs that would be passed to biz rules associated
+	 * @param array $params name-value pairs that would be passed to biz rules associated
 	 * with the tasks and roles assigned to the user.
-	 * @param array the assignments to the specified user
+	 * @param array $assignments the assignments to the specified user
 	 * @return boolean whether the operations can be performed by the user.
 	 * @since 1.1.3
 	 */
@@ -124,8 +124,8 @@ class CDbAuthManager extends CAuthManager
 
 	/**
 	 * Adds an item as a child of another item.
-	 * @param string the parent item name
-	 * @param string the child item name
+	 * @param string $itemName the parent item name
+	 * @param string $childName the child item name
 	 * @throws CException if either parent or child doesn't exist or if a loop has been detected.
 	 */
 	public function addItemChild($itemName,$childName)
@@ -168,8 +168,8 @@ class CDbAuthManager extends CAuthManager
 	/**
 	 * Removes a child from its parent.
 	 * Note, the child item is not deleted. Only the parent-child relationship is removed.
-	 * @param string the parent item name
-	 * @param string the child item name
+	 * @param string $itemName the parent item name
+	 * @param string $childName the child item name
 	 * @return boolean whether the removal is successful
 	 */
 	public function removeItemChild($itemName,$childName)
@@ -183,8 +183,8 @@ class CDbAuthManager extends CAuthManager
 
 	/**
 	 * Returns a value indicating whether a child exists within a parent.
-	 * @param string the parent item name
-	 * @param string the child item name
+	 * @param string $itemName the parent item name
+	 * @param string $childName the child item name
 	 * @return boolean whether the child exists
 	 */
 	public function hasItemChild($itemName,$childName)
@@ -198,7 +198,7 @@ class CDbAuthManager extends CAuthManager
 
 	/**
 	 * Returns the children of the specified item.
-	 * @param mixed the parent item name. This can be either a string or an array.
+	 * @param mixed $names the parent item name. This can be either a string or an array.
 	 * The latter represents a list of item names (available since version 1.0.5).
 	 * @return array all child items of the parent
 	 */
@@ -225,11 +225,11 @@ class CDbAuthManager extends CAuthManager
 
 	/**
 	 * Assigns an authorization item to a user.
-	 * @param string the item name
-	 * @param mixed the user ID (see {@link IWebUser::getId})
-	 * @param string the business rule to be executed when {@link checkAccess} is called
+	 * @param string $itemName the item name
+	 * @param mixed $userId the user ID (see {@link IWebUser::getId})
+	 * @param string $bizRule the business rule to be executed when {@link checkAccess} is called
 	 * for this particular authorization item.
-	 * @param mixed additional data associated with this assignment
+	 * @param mixed $data additional data associated with this assignment
 	 * @return CAuthAssignment the authorization assignment information.
 	 * @throws CException if the item does not exist or if the item has already been assigned to the user
 	 */
@@ -250,8 +250,8 @@ class CDbAuthManager extends CAuthManager
 
 	/**
 	 * Revokes an authorization assignment from a user.
-	 * @param string the item name
-	 * @param mixed the user ID (see {@link IWebUser::getId})
+	 * @param string $itemName the item name
+	 * @param mixed $userId the user ID (see {@link IWebUser::getId})
 	 * @return boolean whether removal is successful
 	 */
 	public function revoke($itemName,$userId)
@@ -265,8 +265,8 @@ class CDbAuthManager extends CAuthManager
 
 	/**
 	 * Returns a value indicating whether the item has been assigned to the user.
-	 * @param string the item name
-	 * @param mixed the user ID (see {@link IWebUser::getId})
+	 * @param string $itemName the item name
+	 * @param mixed $userId the user ID (see {@link IWebUser::getId})
 	 * @return boolean whether the item has been assigned to the user.
 	 */
 	public function isAssigned($itemName,$userId)
@@ -280,8 +280,8 @@ class CDbAuthManager extends CAuthManager
 
 	/**
 	 * Returns the item assignment information.
-	 * @param string the item name
-	 * @param mixed the user ID (see {@link IWebUser::getId})
+	 * @param string $itemName the item name
+	 * @param mixed $userId the user ID (see {@link IWebUser::getId})
 	 * @return CAuthAssignment the item assignment information. Null is returned if
 	 * the item is not assigned to the user.
 	 */
@@ -303,7 +303,7 @@ class CDbAuthManager extends CAuthManager
 
 	/**
 	 * Returns the item assignments for the specified user.
-	 * @param mixed the user ID (see {@link IWebUser::getId})
+	 * @param mixed $userId the user ID (see {@link IWebUser::getId})
 	 * @return array the item assignment information for the user. An empty array will be
 	 * returned if there is no item assigned to the user.
 	 */
@@ -324,7 +324,7 @@ class CDbAuthManager extends CAuthManager
 
 	/**
 	 * Saves the changes to an authorization assignment.
-	 * @param CAuthAssignment the assignment that has been changed.
+	 * @param CAuthAssignment $assignment the assignment that has been changed.
 	 */
 	public function saveAuthAssignment($assignment)
 	{
@@ -339,9 +339,9 @@ class CDbAuthManager extends CAuthManager
 
 	/**
 	 * Returns the authorization items of the specific type and user.
-	 * @param integer the item type (0: operation, 1: task, 2: role). Defaults to null,
+	 * @param integer $type the item type (0: operation, 1: task, 2: role). Defaults to null,
 	 * meaning returning all items regardless of their type.
-	 * @param mixed the user ID. Defaults to null, meaning returning all items even if
+	 * @param mixed $userId the user ID. Defaults to null, meaning returning all items even if
 	 * they are not assigned to a user.
 	 * @return array the authorization items of the specific type.
 	 */
@@ -391,12 +391,12 @@ class CDbAuthManager extends CAuthManager
 	 * It has three types: operation, task and role.
 	 * Authorization items form a hierarchy. Higher level items inheirt permissions representing
 	 * by lower level items.
-	 * @param string the item name. This must be a unique identifier.
-	 * @param integer the item type (0: operation, 1: task, 2: role).
-	 * @param string description of the item
-	 * @param string business rule associated with the item. This is a piece of
+	 * @param string $name the item name. This must be a unique identifier.
+	 * @param integer $type the item type (0: operation, 1: task, 2: role).
+	 * @param string $description description of the item
+	 * @param string $bizRule business rule associated with the item. This is a piece of
 	 * PHP code that will be executed when {@link checkAccess} is called for the item.
-	 * @param mixed additional data associated with the item.
+	 * @param mixed $data additional data associated with the item.
 	 * @return CAuthItem the authorization item
 	 * @throws CException if an item with the same name already exists
 	 */
@@ -415,7 +415,7 @@ class CDbAuthManager extends CAuthManager
 
 	/**
 	 * Removes the specified authorization item.
-	 * @param string the name of the item to be removed
+	 * @param string $name the name of the item to be removed
 	 * @return boolean whether the item exists in the storage and has been removed
 	 */
 	public function removeAuthItem($name)
@@ -443,7 +443,7 @@ class CDbAuthManager extends CAuthManager
 
 	/**
 	 * Returns the authorization item with the specified name.
-	 * @param string the name of the item
+	 * @param string $name the name of the item
 	 * @return CAuthItem the authorization item. Null if the item cannot be found.
 	 */
 	public function getAuthItem($name)
@@ -463,8 +463,8 @@ class CDbAuthManager extends CAuthManager
 
 	/**
 	 * Saves an authorization item to persistent storage.
-	 * @param CAuthItem the item to be saved.
-	 * @param string the old item name. If null, it means the item name is not changed.
+	 * @param CAuthItem $item the item to be saved.
+	 * @param string $oldName the old item name. If null, it means the item name is not changed.
 	 */
 	public function saveAuthItem($item,$oldName=null)
 	{
@@ -525,8 +525,8 @@ class CDbAuthManager extends CAuthManager
 
 	/**
 	 * Checks whether there is a loop in the authorization item hierarchy.
-	 * @param string parent item name
-	 * @param string the name of the child item that is to be added to the hierarchy
+	 * @param string $itemName parent item name
+	 * @param string $childName the name of the child item that is to be added to the hierarchy
 	 * @return boolean whether a loop exists
 	 */
 	protected function detectLoop($itemName,$childName)

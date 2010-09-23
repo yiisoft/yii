@@ -53,8 +53,8 @@ class CDateTimeParser
 {
 	/**
 	 * Converts a date string to a timestamp.
-	 * @param string the date string to be parsed
-	 * @param string the pattern that the date string is following
+	 * @param string $value the date string to be parsed
+	 * @param string $pattern the pattern that the date string is following
 	 * @return integer timestamp for the date string. False if parsing fails.
 	 */
 	public static function parse($value,$pattern='MM/dd/yyyy')
@@ -219,7 +219,7 @@ class CDateTimeParser
 	}
 
 	/*
-	 * @param string the pattern that the date string is following
+	 * @param string $pattern the pattern that the date string is following
 	 */
 	private static function tokenize($pattern)
 	{
@@ -240,10 +240,10 @@ class CDateTimeParser
 	}
 
 	/*
-	 * @param string the date string to be parsed
-	 * @param integer starting offset
-	 * @param integer minimum length
-	 * @param integer maximum length
+	 * @param string $value the date string to be parsed
+	 * @param integer $offset starting offset
+	 * @param integer $minLength minimum length
+	 * @param integer $maxLength maximum length
 	 */
 	protected static function parseInteger($value,$offset,$minLength,$maxLength)
 	{
@@ -257,8 +257,8 @@ class CDateTimeParser
 	}
 
 	/*
-	 * @param string the date string to be parsed
-	 * @param integer starting offset
+	 * @param string $value the date string to be parsed
+	 * @param integer $offset starting offset
 	 */
 	protected static function parseAmPm($value, $offset)
 	{

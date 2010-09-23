@@ -69,7 +69,7 @@ class CMarkdownParser extends MarkdownExtra_Parser
 	 * markdown content into HTML content. It then
 	 * uses {@link CHtmlPurifier} to purify the HTML content
 	 * to avoid XSS attacks.
-	 * @param string the markdown content
+	 * @param string $content the markdown content
 	 * @return string the purified HTML content
 	 * @since 1.0.1
 	 */
@@ -91,7 +91,7 @@ class CMarkdownParser extends MarkdownExtra_Parser
 
 	/**
 	 * Callback function when a code block is matched.
-	 * @param array matches
+	 * @param array $matches matches
 	 * @return string the highlighted code block
 	 */
 	public function _doCodeBlocks_callback($matches)
@@ -105,7 +105,7 @@ class CMarkdownParser extends MarkdownExtra_Parser
 
 	/**
 	 * Callback function when a fenced code block is matched.
-	 * @param array matches
+	 * @param array $matches matches
 	 * @return string the highlighted code block
 	 */
 	public function _doFencedCodeBlocks_callback($matches)
@@ -115,7 +115,7 @@ class CMarkdownParser extends MarkdownExtra_Parser
 
 	/**
 	 * Highlights the code block.
-	 * @param string the code block
+	 * @param string $codeblock the code block
 	 * @return string the highlighted code block. Null if the code block does not need to highlighted
 	 */
 	protected function highlightCodeBlock($codeblock)
@@ -134,7 +134,7 @@ class CMarkdownParser extends MarkdownExtra_Parser
 
 	/**
 	 * Returns the user-entered highlighting options.
-	 * @param string code block with highlighting options.
+	 * @param string $codeblock code block with highlighting options.
 	 * @return string the user-entered highlighting options. Null if no option is entered.
 	 */
 	protected function getHighlightTag($codeblock)
@@ -146,7 +146,7 @@ class CMarkdownParser extends MarkdownExtra_Parser
 
 	/**
 	 * Creates a highlighter instance.
-	 * @param string the user-entered options
+	 * @param string $options the user-entered options
 	 * @return Text_Highlighter the highlighter instance
 	 */
 	protected function createHighLighter($options)
@@ -165,7 +165,7 @@ class CMarkdownParser extends MarkdownExtra_Parser
 
 	/**
 	 * Generates the config for the highlighter.
-	 * @param string user-entered options
+	 * @param string $options user-entered options
 	 * @return array the highlighter config
 	 */
 	public function getHiglightConfig($options)
@@ -179,9 +179,9 @@ class CMarkdownParser extends MarkdownExtra_Parser
 
 	/**
 	 * Retrieves the specified configuration.
-	 * @param string the configuration name
-	 * @param string the user-entered options
-	 * @param mixed default value if the configuration is not present
+	 * @param string $name the configuration name
+	 * @param string $str the user-entered options
+	 * @param mixed $defaultValue default value if the configuration is not present
 	 * @return mixed the configuration value
 	 */
 	protected function getInlineOption($name, $str, $defaultValue)

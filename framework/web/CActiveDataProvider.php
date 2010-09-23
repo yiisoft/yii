@@ -51,9 +51,9 @@ class CActiveDataProvider extends CDataProvider
 
 	/**
 	 * Constructor.
-	 * @param mixed the model class (e.g. 'Post') or the model finder instance
+	 * @param mixed $modelClass the model class (e.g. 'Post') or the model finder instance
 	 * (e.g. <code>Post::model()</code>, <code>Post::model()->published()</code>).
-	 * @param array configuration (name=>value) to be applied as the initial property values of this class.
+	 * @param array $config configuration (name=>value) to be applied as the initial property values of this class.
 	 */
 	public function __construct($modelClass,$config=array())
 	{
@@ -83,7 +83,7 @@ class CActiveDataProvider extends CDataProvider
 	}
 
 	/**
-	 * @param mixed the query criteria. This can be either a CDbCriteria object or an array
+	 * @param mixed $value the query criteria. This can be either a CDbCriteria object or an array
 	 * representing the query criteria.
 	 */
 	public function setCriteria($value)

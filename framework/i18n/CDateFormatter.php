@@ -68,7 +68,7 @@ class CDateFormatter extends CComponent
 
 	/**
 	 * Constructor.
-	 * @param mixed locale ID (string) or CLocale instance
+	 * @param mixed $locale locale ID (string) or CLocale instance
 	 */
 	public function __construct($locale)
 	{
@@ -80,8 +80,8 @@ class CDateFormatter extends CComponent
 
 	/**
 	 * Formats a date according to a customized pattern.
-	 * @param string the pattern (See {@link http://www.unicode.org/reports/tr35/#Date_Format_Patterns})
-	 * @param mixed UNIX timestamp or a string in strtotime format
+	 * @param string $pattern the pattern (See {@link http://www.unicode.org/reports/tr35/#Date_Format_Patterns})
+	 * @param mixed $time UNIX timestamp or a string in strtotime format
 	 * @return string formatted date time.
 	 */
 	public function format($pattern,$time)
@@ -106,10 +106,10 @@ class CDateFormatter extends CComponent
 	/**
 	 * Formats a date according to a predefined pattern.
 	 * The predefined pattern is determined based on the date pattern width and time pattern width.
-	 * @param mixed UNIX timestamp or a string in strtotime format
-	 * @param string width of the date pattern. It can be 'full', 'long', 'medium' and 'short'.
+	 * @param mixed $timestamp UNIX timestamp or a string in strtotime format
+	 * @param string $dateWidth width of the date pattern. It can be 'full', 'long', 'medium' and 'short'.
 	 * If null, it means the date portion will NOT appear in the formatting result
-	 * @param string width of the time pattern. It can be 'full', 'long', 'medium' and 'short'.
+	 * @param string $timeWidth width of the time pattern. It can be 'full', 'long', 'medium' and 'short'.
 	 * If null, it means the time portion will NOT appear in the formatting result
 	 * @return string formatted date time.
 	 */
@@ -134,7 +134,7 @@ class CDateFormatter extends CComponent
 
 	/**
 	 * Parses the datetime format pattern.
-	 * @param string the pattern to be parsed
+	 * @param string $pattern the pattern to be parsed
 	 * @return array tokenized parsing result
 	 */
 	protected function parseFormat($pattern)
@@ -195,8 +195,8 @@ class CDateFormatter extends CComponent
 	 * Get the year.
  	 * "yy" will return the last two digits of year.
  	 * "y...y" will pad the year with 0 in the front, e.g. "yyyyy" will generate "02008" for year 2008.
-	 * @param string a pattern.
-	 * @param array result of {@link CTimestamp::getdate}.
+	 * @param string $pattern a pattern.
+	 * @param array $date result of {@link CTimestamp::getdate}.
 	 * @return string formatted year
 	 */
 	protected function formatYear($pattern,$date)
@@ -215,8 +215,8 @@ class CDateFormatter extends CComponent
  	 * "MMM" will return the abrreviated month name, e.g. "Jan";
  	 * "MMMM" will return the full month name, e.g. "January";
  	 * "MMMMM" will return the narrow month name, e.g. "J";
-	 * @param string a pattern.
-	 * @param array result of {@link CTimestamp::getdate}.
+	 * @param string $pattern a pattern.
+	 * @param array $date result of {@link CTimestamp::getdate}.
 	 * @return string month name
 	 */
 	protected function formatMonth($pattern,$date)
@@ -252,8 +252,8 @@ class CDateFormatter extends CComponent
 	/**
 	 * Get the day of the month.
  	 * "d" for non-padding, "dd" will always return 2 digits day numbers, e.g. 05.
-	 * @param string a pattern.
-	 * @param array result of {@link CTimestamp::getdate}.
+	 * @param string $pattern a pattern.
+	 * @param array $date result of {@link CTimestamp::getdate}.
 	 * @return string day of the month
 	 */
 	protected function formatDay($pattern,$date)
@@ -269,8 +269,8 @@ class CDateFormatter extends CComponent
 
 	/**
 	 * Get the day in the year, e.g. [1-366]
-	 * @param string a pattern.
-	 * @param array result of {@link CTimestamp::getdate}.
+	 * @param string $pattern a pattern.
+	 * @param array $date result of {@link CTimestamp::getdate}.
 	 * @return int hours in AM/PM format.
 	 */
 	protected function formatDayInYear($pattern,$date)
@@ -284,8 +284,8 @@ class CDateFormatter extends CComponent
 
 	/**
 	 * Get day of week in the month, e.g. 2nd Wed in July.
-	 * @param string a pattern.
-	 * @param array result of {@link CTimestamp::getdate}.
+	 * @param string $pattern a pattern.
+	 * @param array $date result of {@link CTimestamp::getdate}.
 	 * @return int day in month
 	 * @see http://www.unicode.org/reports/tr35/#Date_Format_Patterns
 	 */
@@ -302,8 +302,8 @@ class CDateFormatter extends CComponent
  	 * "E", "EE", "EEE" will return abbreviated week day name, e.g. "Tues";
  	 * "EEEE" will return full week day name;
  	 * "EEEEE" will return the narrow week day name, e.g. "T";
-	 * @param string a pattern.
-	 * @param array result of {@link CTimestamp::getdate}.
+	 * @param string $pattern a pattern.
+	 * @param array $date result of {@link CTimestamp::getdate}.
 	 * @return string day of the week.
 	 * @see http://www.unicode.org/reports/tr35/#Date_Format_Patterns
 	 */
@@ -340,8 +340,8 @@ class CDateFormatter extends CComponent
 
 	/**
 	 * Get the AM/PM designator, 12 noon is PM, 12 midnight is AM.
-	 * @param string a pattern.
-	 * @param array result of {@link CTimestamp::getdate}.
+	 * @param string $pattern a pattern.
+	 * @param array $date result of {@link CTimestamp::getdate}.
 	 * @return string AM or PM designator
 	 */
 	protected function formatPeriod($pattern,$date)
@@ -360,8 +360,8 @@ class CDateFormatter extends CComponent
 	/**
 	 * Get the hours in 24 hour format, i.e. [0-23].
 	 * "H" for non-padding, "HH" will always return 2 characters.
-	 * @param string a pattern.
-	 * @param array result of {@link CTimestamp::getdate}.
+	 * @param string $pattern a pattern.
+	 * @param array $date result of {@link CTimestamp::getdate}.
 	 * @return string hours in 24 hour format.
 	 */
 	protected function formatHour24($pattern,$date)
@@ -378,8 +378,8 @@ class CDateFormatter extends CComponent
 	/**
 	 * Get the hours in 12 hour format, i.e., [1-12]
 	 * "h" for non-padding, "hh" will always return 2 characters.
-	 * @param string a pattern.
-	 * @param array result of {@link CTimestamp::getdate}.
+	 * @param string $pattern a pattern.
+	 * @param array $date result of {@link CTimestamp::getdate}.
 	 * @return string hours in 12 hour format.
 	 */
 	protected function formatHour12($pattern,$date)
@@ -397,8 +397,8 @@ class CDateFormatter extends CComponent
 	/**
 	 * Get the hours [1-24].
 	 * 'k' for non-padding, and 'kk' with 2 characters padding.
-	 * @param string a pattern.
-	 * @param array result of {@link CTimestamp::getdate}.
+	 * @param string $pattern a pattern.
+	 * @param array $date result of {@link CTimestamp::getdate}.
 	 * @return int hours [1-24]
 	 */
 	protected function formatHourInDay($pattern,$date)
@@ -415,8 +415,8 @@ class CDateFormatter extends CComponent
 	/**
 	 * Get the hours in AM/PM format, e.g [0-11]
 	 * "K" for non-padding, "KK" will always return 2 characters.
-	 * @param string a pattern.
-	 * @param array result of {@link CTimestamp::getdate}.
+	 * @param string $pattern a pattern.
+	 * @param array $date result of {@link CTimestamp::getdate}.
 	 * @return int hours in AM/PM format.
 	 */
 	protected function formatHourInPeriod($pattern,$date)
@@ -433,8 +433,8 @@ class CDateFormatter extends CComponent
 	/**
 	 * Get the minutes.
 	 * "m" for non-padding, "mm" will always return 2 characters.
-	 * @param string a pattern.
-	 * @param array result of {@link CTimestamp::getdate}.
+	 * @param string $pattern a pattern.
+	 * @param array $date result of {@link CTimestamp::getdate}.
 	 * @return string minutes.
 	 */
 	protected function formatMinutes($pattern,$date)
@@ -451,8 +451,8 @@ class CDateFormatter extends CComponent
 	/**
 	 * Get the seconds.
 	 * "s" for non-padding, "ss" will always return 2 characters.
-	 * @param string a pattern.
-	 * @param array result of {@link CTimestamp::getdate}.
+	 * @param string $pattern a pattern.
+	 * @param array $date result of {@link CTimestamp::getdate}.
 	 * @return string seconds
 	 */
 	protected function formatSeconds($pattern,$date)
@@ -468,8 +468,8 @@ class CDateFormatter extends CComponent
 
 	/**
 	 * Get the week in the year.
-	 * @param string a pattern.
-	 * @param array result of {@link CTimestamp::getdate}.
+	 * @param string $pattern a pattern.
+	 * @param array $date result of {@link CTimestamp::getdate}.
 	 * @return int week in year
 	 */
 	protected function formatWeekInYear($pattern,$date)
@@ -482,8 +482,8 @@ class CDateFormatter extends CComponent
 
 	/**
 	 * Get week in the month.
-	 * @param array result of {@link CTimestamp::getdate}.
-	 * @param string a pattern.
+	 * @param array $pattern result of {@link CTimestamp::getdate}.
+	 * @param string $date a pattern.
 	 * @return int week in month
 	 */
 	protected function formatWeekInMonth($pattern,$date)
@@ -496,8 +496,8 @@ class CDateFormatter extends CComponent
 
 	/**
 	 * Get the timezone of the server machine.
-	 * @param string a pattern.
-	 * @param array result of {@link CTimestamp::getdate}.
+	 * @param string $pattern a pattern.
+	 * @param array $date result of {@link CTimestamp::getdate}.
 	 * @return string time zone
 	 * @todo How to get the timezone for a different region?
 	 */
@@ -513,8 +513,8 @@ class CDateFormatter extends CComponent
 
 	/**
 	 * Get the era. i.e. in gregorian, year > 0 is AD, else BC.
-	 * @param string a pattern.
-	 * @param array result of {@link CTimestamp::getdate}.
+	 * @param string $pattern a pattern.
+	 * @param array $date result of {@link CTimestamp::getdate}.
 	 * @return string era
 	 * @todo How to support multiple Eras?, e.g. Japanese.
 	 */

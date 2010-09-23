@@ -138,7 +138,7 @@ class COutputCache extends CFilterWidget
 	/**
 	 * Performs filtering before the action is executed.
 	 * This method is meant to be overridden by child classes if begin-filtering is needed.
-	 * @param CFilterChain list of filters being applied to an action
+	 * @param CFilterChain $filterChain list of filters being applied to an action
 	 * @return boolean whether the filtering process should stop after this filter. Defaults to false.
 	 */
 	public function filter($filterChain)
@@ -298,10 +298,10 @@ class COutputCache extends CFilterWidget
 	 * Records a method call when this output cache is in effect.
 	 * When the content is served from the output cache, the recorded
 	 * method will be re-invoked.
-	 * @param string a property name of the controller. The property should refer to an object
+	 * @param string $context a property name of the controller. The property should refer to an object
 	 * whose method is being recorded. If empty it means the controller itself.
-	 * @param string the method name
-	 * @param array parameters passed to the method
+	 * @param string $method the method name
+	 * @param array $params parameters passed to the method
 	 */
 	public function recordAction($context,$method,$params)
 	{

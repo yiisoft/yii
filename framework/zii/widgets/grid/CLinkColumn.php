@@ -74,8 +74,8 @@ class CLinkColumn extends CGridColumn
 	/**
 	 * Renders the data cell content.
 	 * This method renders a hyperlink in the data cell.
-	 * @param integer the row number (zero-based)
-	 * @param mixed the data associated with the row
+	 * @param integer $row the row number (zero-based)
+	 * @param mixed $data the data associated with the row
 	 */
 	protected function renderDataCellContent($row,$data)
 	{

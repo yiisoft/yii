@@ -65,7 +65,7 @@ class CNumberFormatter extends CComponent
 
 	/**
 	 * Constructor.
-	 * @param mixed locale ID (string) or CLocale instance
+	 * @param mixed $locale locale ID (string) or CLocale instance
 	 */
 	public function __construct($locale)
 	{
@@ -81,9 +81,9 @@ class CNumberFormatter extends CComponent
 	 * If the format contains '‰', the number will be multiplied by 1000.
 	 * If the format contains currency placeholder, it will be replaced by
 	 * the specified localized currency symbol.
-	 * @param string format pattern
-	 * @param mixed the number to be formatted
-	 * @param string 3-letter ISO 4217 code. For example, the code "USD" represents the US Dollar and "EUR" represents the Euro currency.
+	 * @param string $pattern format pattern
+	 * @param mixed $value the number to be formatted
+	 * @param string $currency 3-letter ISO 4217 code. For example, the code "USD" represents the US Dollar and "EUR" represents the Euro currency.
 	 * The currency placeholder in the pattern will be replaced with the currency symbol.
 	 * If null, no replacement will be done.
 	 * @return string the formatting result.
@@ -101,8 +101,8 @@ class CNumberFormatter extends CComponent
 
 	/**
 	 * Formats a number using the currency format defined in the locale.
-	 * @param mixed the number to be formatted
-	 * @param string 3-letter ISO 4217 code. For example, the code "USD" represents the US Dollar and "EUR" represents the Euro currency.
+	 * @param mixed $value the number to be formatted
+	 * @param string $currency 3-letter ISO 4217 code. For example, the code "USD" represents the US Dollar and "EUR" represents the Euro currency.
 	 * The currency placeholder in the pattern will be replaced with the currency symbol.
 	 * @return string the formatting result.
 	 */
@@ -115,7 +115,7 @@ class CNumberFormatter extends CComponent
 	 * Formats a number using the percentage format defined in the locale.
 	 * Note, if the percentage format contains '%', the number will be multiplied by 100 first.
 	 * If the percentage format contains '‰', the number will be multiplied by 1000.
-	 * @param mixed the number to be formatted
+	 * @param mixed $value the number to be formatted
 	 * @return string the formatting result.
 	 */
 	public function formatPercentage($value)
@@ -125,7 +125,7 @@ class CNumberFormatter extends CComponent
 
 	/**
 	 * Formats a number using the decimal format defined in the locale.
-	 * @param mixed the number to be formatted
+	 * @param mixed $value the number to be formatted
 	 * @return string the formatting result.
 	 */
 	public function formatDecimal($value)
@@ -136,7 +136,7 @@ class CNumberFormatter extends CComponent
 	/**
 	 * Formats a number based on a format.
 	 * This is the method that does actual number formatting.
-	 * @param array format with the following structure:
+	 * @param array $format format with the following structure:
 	 * <pre>
 	 * array(
 	 * 	'decimalDigits'=>2,     // number of required digits after decimal point; 0s will be padded if not enough digits; if -1, it means we should drop decimal point
@@ -151,7 +151,7 @@ class CNumberFormatter extends CComponent
 	 * 	'multiplier'=>1,        // 100 for percent, 1000 for per mille
 	 * );
 	 * </pre>
-	 * @param mixed the number to be formatted
+	 * @param mixed $value the number to be formatted
 	 * @return string the formatted result
 	 */
 	protected function formatNumber($format,$value)
@@ -197,7 +197,7 @@ class CNumberFormatter extends CComponent
 
 	/**
 	 * Parses a given string pattern.
-	 * @param string the pattern to be parsed
+	 * @param string $pattern the pattern to be parsed
 	 * @return array the parsed pattern
 	 * @see formatNumber
 	 */

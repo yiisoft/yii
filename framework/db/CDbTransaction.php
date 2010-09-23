@@ -41,7 +41,7 @@ class CDbTransaction extends CComponent
 
 	/**
 	 * Constructor.
-	 * @param CDbConnection the connection associated with this transaction
+	 * @param CDbConnection CDbConnection $connection the connection associated with this transaction
 	 * @see CDbConnection::beginTransaction
 	 */
 	public function __construct(CDbConnection $connection)
@@ -99,7 +99,7 @@ class CDbTransaction extends CComponent
 	}
 
 	/**
-	 * @param boolean whether this transaction is active
+	 * @param boolean $value whether this transaction is active
 	 */
 	protected function setActive($value)
 	{

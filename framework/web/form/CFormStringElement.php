@@ -39,7 +39,7 @@ class CFormStringElement extends CFormElement
 	}
 
 	/**
-	 * @param string scenario names separated by commas.
+	 * @param string $value scenario names separated by commas.
 	 */
 	public function setOn($value)
 	{

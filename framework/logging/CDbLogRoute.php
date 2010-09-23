@@ -96,8 +96,8 @@ class CDbLogRoute extends CLogRoute
 
 	/**
 	 * Creates the DB table for storing log messages.
-	 * @param CDbConnection the database connection
-	 * @param string the name of the table to be created
+	 * @param CDbConnection $db the database connection
+	 * @param string $tableName the name of the table to be created
 	 */
 	protected function createLogTable($db,$tableName)
 	{
@@ -146,7 +146,7 @@ CREATE TABLE $tableName
 
 	/**
 	 * Stores log messages into database.
-	 * @param array list of log messages
+	 * @param array $logs list of log messages
 	 */
 	protected function processLogs($logs)
 	{

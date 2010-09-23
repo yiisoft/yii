@@ -38,7 +38,7 @@ class CBehavior extends CComponent implements IBehavior
 	 * The default implementation will set the {@link owner} property
 	 * and attach event handlers as declared in {@link events}.
 	 * Make sure you call the parent implementation if you override this method.
-	 * @param CComponent the component that this behavior is to be attached to.
+	 * @param CComponent $owner the component that this behavior is to be attached to.
 	 */
 	public function attach($owner)
 	{
@@ -52,7 +52,7 @@ class CBehavior extends CComponent implements IBehavior
 	 * The default implementation will unset the {@link owner} property
 	 * and detach event handlers declared in {@link events}.
 	 * Make sure you call the parent implementation if you override this method.
-	 * @param CComponent the component that this behavior is to be detached from.
+	 * @param CComponent $owner the component that this behavior is to be detached from.
 	 */
 	public function detach($owner)
 	{
@@ -78,7 +78,7 @@ class CBehavior extends CComponent implements IBehavior
 	}
 
 	/**
-	 * @param boolean whether this behavior is enabled
+	 * @param boolean $value whether this behavior is enabled
 	 */
 	public function setEnabled($value)
 	{

@@ -47,7 +47,7 @@ class CMarkdown extends COutputProcessor
 	 * Processes the captured output.
      * This method converts the content in markdown syntax to HTML code.
      * If {@link purifyOutput} is true, the HTML code will also be purified.
-	 * @param string the captured output to be processed
+	 * @param string $output the captured output to be processed
 	 * @see convert
 	 */
 	public function processOutput($output)
@@ -64,7 +64,7 @@ class CMarkdown extends COutputProcessor
 	/**
 	 * Converts the content in markdown syntax to HTML code.
 	 * This method uses {@link CMarkdownParser} to do the conversion.
-	 * @param string the content to be converted
+	 * @param string $output the content to be converted
 	 * @return string the converted content
 	 */
 	public function transform($output)
@@ -85,7 +85,7 @@ class CMarkdown extends COutputProcessor
 
 	/**
 	 * Registers the needed CSS file.
-	 * @param string the CSS URL. If null, a default CSS URL will be used.
+	 * @param string $url the CSS URL. If null, a default CSS URL will be used.
 	 * @since 1.0.2
 	 */
 	public static function registerCssFile($url=null)

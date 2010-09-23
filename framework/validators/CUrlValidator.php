@@ -31,8 +31,8 @@ class CUrlValidator extends CValidator
 	/**
 	 * Validates the attribute of the object.
 	 * If there is any error, the error message is added to the object.
-	 * @param CModel the object being validated
-	 * @param string the attribute being validated
+	 * @param CModel $object the object being validated
+	 * @param string $attribute the attribute being validated
 	 */
 	protected function validateAttribute($object,$attribute)
 	{
@@ -50,7 +50,7 @@ class CUrlValidator extends CValidator
 	 * Validates a static value to see if it is a valid URL.
 	 * Note that this method does not respect {@link allowEmpty} property.
 	 * This method is provided so that you can call it directly without going through the model validation rule mechanism.
-	 * @param mixed the value to be validated
+	 * @param mixed $value the value to be validated
 	 * @return boolean whether the value is a valid URL
 	 * @since 1.1.1
 	 */

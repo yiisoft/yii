@@ -37,11 +37,11 @@ class CErrorEvent extends CEvent
 
 	/**
 	 * Constructor.
-	 * @param mixed sender of the event
-	 * @param string error code
-	 * @param string error message
-	 * @param string error file
-	 * @param integer error line
+	 * @param mixed $sender sender of the event
+	 * @param string $code error code
+	 * @param string $message error message
+	 * @param string $file error file
+	 * @param integer $line error line
 	 */
 	public function __construct($sender,$code,$message,$file,$line)
 	{

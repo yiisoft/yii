@@ -36,7 +36,7 @@ class CLocale extends CComponent
 	 * Returns the instance of the specified locale.
 	 * Since the constructor of CLocale is protected, you can only use
 	 * this method to obtain an instance of the specified locale.
-	 * @param string the locale ID (e.g. en_US)
+	 * @param string $id the locale ID (e.g. en_US)
 	 * @return CLocale the locale instance
 	 */
 	public static function getInstance($id)
@@ -75,7 +75,7 @@ class CLocale extends CComponent
 	 * Constructor.
 	 * Since the constructor is protected, please use {@link getInstance}
 	 * to obtain an instance of the specified locale.
-	 * @param string the locale ID (e.g. en_US)
+	 * @param string $id the locale ID (e.g. en_US)
 	 */
 	protected function __construct($id)
 	{
@@ -91,7 +91,7 @@ class CLocale extends CComponent
 	/**
 	 * Converts a locale ID to its canonical form.
 	 * In canonical form, a locale ID consists of only underscores and lower-case letters.
-	 * @param string the locale ID to be converted
+	 * @param string $id the locale ID to be converted
 	 * @return string the locale ID in canonical form
 	 */
 	public static function getCanonicalID($id)
@@ -128,7 +128,7 @@ class CLocale extends CComponent
 	}
 
 	/**
-	 * @param string 3-letter ISO 4217 code. For example, the code "USD" represents the US Dollar and "EUR" represents the Euro currency.
+	 * @param string $currency 3-letter ISO 4217 code. For example, the code "USD" represents the US Dollar and "EUR" represents the Euro currency.
 	 * @return string the localized currency symbol. Null if the symbol does not exist.
 	 */
 	public function getCurrencySymbol($currency)
@@ -137,7 +137,7 @@ class CLocale extends CComponent
 	}
 
 	/**
-	 * @param string symbol name
+	 * @param string $name symbol name
 	 * @return string symbol
 	 */
 	public function getNumberSymbol($name)
@@ -178,9 +178,9 @@ class CLocale extends CComponent
 	}
 
 	/**
-	 * @param integer month (1-12)
-	 * @param string month name width. It can be 'wide', 'abbreviated' or 'narrow'.
-	 * @param boolean whether the month name should be returned in stand-alone format
+	 * @param integer $month month (1-12)
+	 * @param string $width month name width. It can be 'wide', 'abbreviated' or 'narrow'.
+	 * @param boolean $standAlone whether the month name should be returned in stand-alone format
 	 * @return string the month name
 	 */
 	public function getMonthName($month,$width='wide',$standAlone=false)
@@ -193,8 +193,8 @@ class CLocale extends CComponent
 
 	/**
 	 * Returns the month names in the specified width.
-	 * @param string month name width. It can be 'wide', 'abbreviated' or 'narrow'.
-	 * @param boolean whether the month names should be returned in stand-alone format
+	 * @param string $width month name width. It can be 'wide', 'abbreviated' or 'narrow'.
+	 * @param boolean $standAlone whether the month names should be returned in stand-alone format
 	 * @return array month names indexed by month values (1-12)
 	 * @since 1.0.9
 	 */
@@ -207,9 +207,9 @@ class CLocale extends CComponent
 	}
 
 	/**
-	 * @param integer weekday (0-6, 0 means Sunday)
-	 * @param string weekday name width.  It can be 'wide', 'abbreviated' or 'narrow'.
-	 * @param boolean whether the week day name should be returned in stand-alone format
+	 * @param integer $day weekday (0-6, 0 means Sunday)
+	 * @param string $width weekday name width.  It can be 'wide', 'abbreviated' or 'narrow'.
+	 * @param boolean $standAlone whether the week day name should be returned in stand-alone format
 	 * @return string the weekday name
 	 */
 	public function getWeekDayName($day,$width='wide',$standAlone=false)
@@ -222,8 +222,8 @@ class CLocale extends CComponent
 
 	/**
 	 * Returns the week day names in the specified width.
-	 * @param string weekday name width.  It can be 'wide', 'abbreviated' or 'narrow'.
-	 * @param boolean whether the week day name should be returned in stand-alone format
+	 * @param string $width weekday name width.  It can be 'wide', 'abbreviated' or 'narrow'.
+	 * @param boolean $standAlone whether the week day name should be returned in stand-alone format
 	 * @return array the weekday names indexed by weekday values (0-6, 0 means Sunday, 1 Monday, etc.)
 	 * @since 1.0.9
 	 */
@@ -236,8 +236,8 @@ class CLocale extends CComponent
 	}
 
 	/**
-	 * @param integer era (0,1)
-	 * @param string era name width.  It can be 'wide', 'abbreviated' or 'narrow'.
+	 * @param integer $era era (0,1)
+	 * @param string $width era name width.  It can be 'wide', 'abbreviated' or 'narrow'.
 	 * @return string the era name
 	 */
 	public function getEraName($era,$width='wide')
@@ -262,7 +262,7 @@ class CLocale extends CComponent
 	}
 
 	/**
-	 * @param string date format width. It can be 'full', 'long', 'medium' or 'short'.
+	 * @param string $width date format width. It can be 'full', 'long', 'medium' or 'short'.
 	 * @return string date format
 	 */
 	public function getDateFormat($width='medium')
@@ -271,7 +271,7 @@ class CLocale extends CComponent
 	}
 
 	/**
-	 * @param string time format width. It can be 'full', 'long', 'medium' or 'short'.
+	 * @param string $width time format width. It can be 'full', 'long', 'medium' or 'short'.
 	 * @return string date format
 	 */
 	public function getTimeFormat($width='medium')

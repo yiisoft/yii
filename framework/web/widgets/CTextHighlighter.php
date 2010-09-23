@@ -69,7 +69,7 @@ class CTextHighlighter extends COutputProcessor
 	/**
 	 * Processes the captured output.
      * This method highlights the output according to the syntax of the specified {@link language}.
-	 * @param string the captured output to be processed
+	 * @param string $output the captured output to be processed
 	 */
 	public function processOutput($output)
 	{
@@ -79,7 +79,7 @@ class CTextHighlighter extends COutputProcessor
 
 	/**
 	 * Highlights the content by the syntax of the specified language.
-	 * @param string the content to be highlighted.
+	 * @param string $content the content to be highlighted.
 	 * @return string the highlighted content
 	 */
 	public function highlight($content)
@@ -115,7 +115,7 @@ class CTextHighlighter extends COutputProcessor
 
 	/**
 	 * Registers the needed CSS file.
-	 * @param string the CSS URL. If null, a default CSS URL will be used.
+	 * @param string $url the CSS URL. If null, a default CSS URL will be used.
 	 * @since 1.0.2
 	 */
 	public static function registerCssFile($url=null)

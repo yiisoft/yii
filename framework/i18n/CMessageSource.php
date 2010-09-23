@@ -36,8 +36,8 @@ abstract class CMessageSource extends CApplicationComponent
 
 	/**
 	 * Loads the message translation for the specified language and category.
-	 * @param string the message category
-	 * @param string the target language
+	 * @param string $category the message category
+	 * @param string $language the target language
 	 * @return array the loaded messages
 	 */
 	abstract protected function loadMessages($category,$language);
@@ -52,7 +52,7 @@ abstract class CMessageSource extends CApplicationComponent
 	}
 
 	/**
-	 * @param string the language that the source messages are written in.
+	 * @param string $language the language that the source messages are written in.
 	 */
 	public function setLanguage($language)
 	{
@@ -70,9 +70,9 @@ abstract class CMessageSource extends CApplicationComponent
 	 * default handling. The {@link CMissingTranslationEvent::message}
 	 * property of the event parameter will be returned.
 	 *
-	 * @param string the message category
-	 * @param string the message to be translated
-	 * @param string the target language. If null (default), the {@link CApplication::getLanguage application language} will be used.
+	 * @param string $category the message category
+	 * @param string $message the message to be translated
+	 * @param string $language the target language. If null (default), the {@link CApplication::getLanguage application language} will be used.
 	 * This parameter has been available since version 1.0.3.
 	 * @return string the translated message (or the original message if translation is not needed)
 	 */
@@ -90,9 +90,9 @@ abstract class CMessageSource extends CApplicationComponent
 	 * Translates the specified message.
 	 * If the message is not found, an {@link onMissingTranslation}
 	 * event will be raised.
-	 * @param string the category that the message belongs to
-	 * @param string the message to be translated
-	 * @param string the target language
+	 * @param string $category the category that the message belongs to
+	 * @param string $message the message to be translated
+	 * @param string $language the target language
 	 * @return string the translated message
 	 */
 	protected function translateMessage($category,$message,$language)
@@ -117,7 +117,7 @@ abstract class CMessageSource extends CApplicationComponent
 	 * Handlers may log this message or do some default handling.
 	 * The {@link CMissingTranslationEvent::message} property
 	 * will be returned by {@link translateMessage}.
-	 * @param CMissingTranslationEvent the event parameter
+	 * @param CMissingTranslationEvent $event the event parameter
 	 */
 	public function onMissingTranslation($event)
 	{
@@ -151,10 +151,10 @@ class CMissingTranslationEvent extends CEvent
 
 	/**
 	 * Constructor.
-	 * @param mixed sender of this event
-	 * @param string the category that the message belongs to
-	 * @param string the message to be translated
-	 * @param string the ID of the language that the message is to be translated to
+	 * @param mixed $sender sender of this event
+	 * @param string $category the category that the message belongs to
+	 * @param string $message the message to be translated
+	 * @param string $language the ID of the language that the message is to be translated to
 	 */
 	public function __construct($sender,$category,$message,$language)
 	{

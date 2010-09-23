@@ -28,9 +28,9 @@ class CHttpException extends CException
 
 	/**
 	 * Constructor.
-	 * @param integer HTTP status code, such as 404, 500, etc.
-	 * @param string error message
-	 * @param integer error code
+	 * @param integer $status HTTP status code, such as 404, 500, etc.
+	 * @param string $message error message
+	 * @param integer $code error code
 	 */
 	public function __construct($status,$message=null,$code=0)
 	{

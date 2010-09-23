@@ -42,7 +42,7 @@ class CConfiguration extends CMap
 {
 	/**
 	 * Constructor.
-	 * @param mixed if string, it represents a config file (a PHP script returning the configuration as an array);
+	 * @param mixed $data if string, it represents a config file (a PHP script returning the configuration as an array);
 	 * If array, it is config data.
 	 */
 	public function __construct($data=null)
@@ -65,7 +65,7 @@ class CConfiguration extends CMap
 	 * );
 	 * </pre>
 	 *
-	 * @param string configuration file path (if using relative path, be aware of what is the current path)
+	 * @param string $configFile configuration file path (if using relative path, be aware of what is the current path)
 	 * @see mergeWith
 	 */
 	public function loadFromFile($configFile)
@@ -91,7 +91,7 @@ class CConfiguration extends CMap
 	 * Applies the configuration to an object.
 	 * Each (key,value) pair in the configuration data is applied
 	 * to the object like: $object->$key=$value.
-	 * @param object object to be applied with this configuration
+	 * @param object $object object to be applied with this configuration
 	 */
 	public function applyTo($object)
 	{
@@ -105,7 +105,7 @@ class CConfiguration extends CMap
 	 * NOTE: this method has been deprecated since version 1.0.1.
 	 * Please use {@link YiiBase::createComponent Yii::createComponent}, instead.
 	 *
-	 * @param mixed the configuration. It can be either a string or an array.
+	 * @param mixed $config the configuration. It can be either a string or an array.
 	 * @return mixed the created object
 	 * @throws CException if the configuration does not have 'class' value
 	 */

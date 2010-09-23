@@ -76,7 +76,7 @@ class CListPager extends CBasePager
 	/**
 	 * Generates the list option for the specified page number.
 	 * You may override this method to customize the option display.
-	 * @param integer zero-based page number
+	 * @param integer $page zero-based page number
 	 * @return string the list option for the page number
 	 */
 	protected function generatePageText($page)

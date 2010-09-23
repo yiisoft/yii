@@ -39,7 +39,7 @@ class CDbDataReader extends CComponent implements Iterator
 
 	/**
 	 * Constructor.
-	 * @param CDbCommand the command generating the query result
+	 * @param CDbCommand CDbCommand $command the command generating the query result
 	 */
 	public function __construct(CDbCommand $command)
 	{
@@ -51,11 +51,11 @@ class CDbDataReader extends CComponent implements Iterator
 	 * Binds a column to a PHP variable.
 	 * When rows of data are being fetched, the corresponding column value
 	 * will be set in the variable. Note, the fetch mode must include PDO::FETCH_BOUND.
-	 * @param mixed Number of the column (1-indexed) or name of the column
+	 * @param mixed $column Number of the column (1-indexed) or name of the column
 	 * in the result set. If using the column name, be aware that the name
 	 * should match the case of the column, as returned by the driver.
-	 * @param mixed Name of the PHP variable to which the column will be bound.
-	 * @param int Data type of the parameter
+	 * @param mixed &$value Name of the PHP variable to which the column will be bound.
+	 * @param int $dataType Data type of the parameter
 	 * @see http://www.php.net/manual/en/function.PDOStatement-bindColumn.php
 	 */
 	public function bindColumn($column, &$value, $dataType=null)
@@ -68,7 +68,7 @@ class CDbDataReader extends CComponent implements Iterator
 
 	/**
 	 * Set the default fetch mode for this statement
-	 * @param mixed fetch mode
+	 * @param mixed $mode fetch mode
 	 * @see http://www.php.net/manual/en/function.PDOStatement-setFetchMode.php
 	 */
 	public function setFetchMode($mode)
@@ -88,7 +88,7 @@ class CDbDataReader extends CComponent implements Iterator
 
 	/**
 	 * Returns a single column from the next row of a result set.
-	 * @param int zero-based column index
+	 * @param int $columnIndex zero-based column index
 	 * @return mixed|false the column of the current row, false if no more row available
 	 */
 	public function readColumn($columnIndex)
@@ -98,8 +98,8 @@ class CDbDataReader extends CComponent implements Iterator
 
 	/**
 	 * Returns an object populated with the next row of data.
-	 * @param string class name of the object to be created and populated
-	 * @param array Elements of this array are passed to the constructor
+	 * @param string $className class name of the object to be created and populated
+	 * @param array $fields Elements of this array are passed to the constructor
 	 * @return mixed|false the populated object, false if no more row of data available
 	 */
 	public function readObject($className,$fields)

@@ -20,8 +20,8 @@ class CGettextPoFile extends CGettextFile
 {
 	/**
 	 * Loads messages from a PO file.
-	 * @param string file path
-	 * @param string message context
+	 * @param string $file file path
+	 * @param string $context message context
 	 * @return array message translations (source message => translated message)
 	 */
 	public function load($file,$context)
@@ -46,8 +46,8 @@ class CGettextPoFile extends CGettextFile
 
 	/**
 	 * Saves messages to a PO file.
-	 * @param string file path
-	 * @param array message translations (message id => translated message).
+	 * @param string $file file path
+	 * @param array $messages message translations (message id => translated message).
 	 * Note if the message has a context, the message id must be prefixed with
 	 * the context with chr(4) as the separator.
 	 */
@@ -69,7 +69,7 @@ class CGettextPoFile extends CGettextFile
 
 	/**
 	 * Encodes special characters in a message.
-	 * @param string message to be encoded
+	 * @param string $string message to be encoded
 	 * @return string the encoded message
 	 */
 	protected function encode($string)
@@ -79,7 +79,7 @@ class CGettextPoFile extends CGettextFile
 
 	/**
 	 * Decodes special characters in a message.
-	 * @param string message to be decoded
+	 * @param string $string message to be decoded
 	 * @return string the decoded message
 	 */
 	protected function decode($string)

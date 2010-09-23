@@ -42,8 +42,8 @@ class CCodeFile extends CComponent
 
 	/**
 	 * Constructor.
-	 * @param string the file path that the new code should be saved to.
-	 * @param string the newly generated code
+	 * @param string $path the file path that the new code should be saved to.
+	 * @param string $content the newly generated code
 	 */
 	public function __construct($path,$content)
 	{

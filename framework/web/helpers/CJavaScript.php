@@ -22,8 +22,8 @@ class CJavaScript
 	 * Quotes a javascript string.
 	 * After processing, the string can be safely enclosed within a pair of
 	 * quotation marks and serve as a javascript string.
-	 * @param string string to be quoted
-	 * @param boolean whether this string is used as a URL
+	 * @param string $js string to be quoted
+	 * @param boolean $forUrl whether this string is used as a URL
 	 * @return string the quoted string
 	 */
 	public static function quote($js,$forUrl=false)
@@ -48,7 +48,7 @@ class CJavaScript
 	 * For highly complex data structures use {@link jsonEncode} and {@link jsonDecode}
 	 * to serialize and unserialize.
 	 *
-	 * @param mixed PHP variable to be encoded
+	 * @param mixed $value PHP variable to be encoded
 	 * @return string the encoded string
 	 */
 	public static function encode($value)
@@ -99,7 +99,7 @@ class CJavaScript
 
 	/**
 	 * Returns the JSON representation of the PHP data.
-	 * @param mixed the data to be encoded
+	 * @param mixed $data the data to be encoded
 	 * @return string the JSON representation of the PHP data.
 	 */
 	public static function jsonEncode($data)
@@ -109,8 +109,8 @@ class CJavaScript
 
 	/**
 	 * Decodes a JSON string.
-	 * @param string the data to be decoded
-	 * @param boolean whether to use associative array to represent object data
+	 * @param string $data the data to be decoded
+	 * @param boolean $useArray whether to use associative array to represent object data
 	 * @return mixed the decoded PHP data
 	 */
 	public static function jsonDecode($data,$useArray=true)

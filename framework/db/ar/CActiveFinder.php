@@ -41,8 +41,8 @@ class CActiveFinder extends CComponent
 	/**
 	 * Constructor.
 	 * A join tree is built up based on the declared relationships between active record classes.
-	 * @param CActiveRecord the model that initiates the active finding process
-	 * @param mixed the relation names to be actively looked for
+	 * @param CActiveRecord $model the model that initiates the active finding process
+	 * @param mixed $with the relation names to be actively looked for
 	 */
 	public function __construct($model,$with)
 	{
@@ -54,8 +54,8 @@ class CActiveFinder extends CComponent
 	/**
 	 * Performs the relational query based on the given DB criteria.
 	 * Do not call this method. This method is used internally.
-	 * @param CDbCriteria the DB criteria
-	 * @param boolean whether to bring back all records
+	 * @param CDbCriteria $criteria the DB criteria
+	 * @param boolean $all whether to bring back all records
 	 * @return mixed the query result
 	 */
 	public function query($criteria,$all=false)
@@ -85,8 +85,8 @@ class CActiveFinder extends CComponent
 
 	/**
 	 * This method is internally called.
-	 * @param string the SQL statement
-	 * @param array parameters to be bound to the SQL statement
+	 * @param string $sql the SQL statement
+	 * @param array $params parameters to be bound to the SQL statement
 	 */
 	public function findBySql($sql,$params=array())
 	{
@@ -106,8 +106,8 @@ class CActiveFinder extends CComponent
 
 	/**
 	 * This method is internally called.
-	 * @param string the SQL statement
-	 * @param array parameters to be bound to the SQL statement
+	 * @param string $sql the SQL statement
+	 * @param array $params parameters to be bound to the SQL statement
 	 */
 	public function findAllBySql($sql,$params=array())
 	{
@@ -130,7 +130,7 @@ class CActiveFinder extends CComponent
 
 	/**
 	 * This method is internally called.
-	 * @param CDbCriteria the query criteria
+	 * @param CDbCriteria $criteria the query criteria
 	 */
 	public function count($criteria)
 	{
@@ -149,7 +149,7 @@ class CActiveFinder extends CComponent
 	/**
 	 * Finds the related objects for the specified active record.
 	 * This method is internally invoked by {@link CActiveRecord} to support lazy loading.
-	 * @param CActiveRecord the base record whose related objects are to be loaded
+	 * @param CActiveRecord $baseRecord the base record whose related objects are to be loaded
 	 */
 	public function lazyFind($baseRecord)
 	{
@@ -171,9 +171,9 @@ class CActiveFinder extends CComponent
 
 	/**
 	 * Builds up the join tree representing the relationships involved in this query.
-	 * @param CJoinElement the parent tree node
-	 * @param mixed the names of the related objects relative to the parent tree node
-	 * @param array additional query options to be merged with the relation
+	 * @param CJoinElement $parent the parent tree node
+	 * @param mixed $with the names of the related objects relative to the parent tree node
+	 * @param array $options additional query options to be merged with the relation
 	 */
 	private function buildJoinTree($parent,$with,$options=null)
 	{
@@ -310,11 +310,11 @@ class CJoinElement
 
 	/**
 	 * Constructor.
-	 * @param CActiveFinder the finder
-	 * @param mixed the relation (if the third parameter is not null)
+	 * @param CActiveFinder $finder the finder
+	 * @param mixed $relation the relation (if the third parameter is not null)
 	 * or the model (if the third parameter is null) associated with this tree node.
-	 * @param CJoinElement the parent tree node
-	 * @param integer the ID of this tree node that is unique among all the tree nodes
+	 * @param CJoinElement $parent the parent tree node
+	 * @param integer $id the ID of this tree node that is unique among all the tree nodes
 	 */
 	public function __construct($finder,$relation,$parent=null,$id=0)
 	{
@@ -372,7 +372,7 @@ class CJoinElement
 
 	/**
 	 * Performs the recursive finding with the criteria.
-	 * @param CDbCriteria the query criteria
+	 * @param CDbCriteria $criteria the query criteria
 	 */
 	public function find($criteria=null)
 	{
@@ -402,7 +402,7 @@ class CJoinElement
 
 	/**
 	 * Performs lazy find with the specified base record.
-	 * @param CActiveRecord the active record whose related object is to be fetched.
+	 * @param CActiveRecord $baseRecord the active record whose related object is to be fetched.
 	 */
 	public function lazyFind($baseRecord)
 	{
@@ -473,8 +473,8 @@ class CJoinElement
 
 	/**
 	 * Apply Lazy Condition
-	 * @param CJoinQuery represents a JOIN SQL statements
-	 * @param CActiveRecord the active record whose related object is to be fetched.
+	 * @param CJoinQuery $query represents a JOIN SQL statements
+	 * @param CActiveRecord $record the active record whose related object is to be fetched.
 	 */
 	private function applyLazyCondition($query,$record)
 	{
@@ -603,7 +603,7 @@ class CJoinElement
 
 	/**
 	 * Performs the eager loading with the base records ready.
-	 * @param mixed the available base record(s).
+	 * @param mixed $baseRecords the available base record(s).
 	 */
 	public function findWithBase($baseRecords)
 	{
@@ -638,7 +638,7 @@ class CJoinElement
 
 	/**
 	 * Count the number of primary records returned by the join statement.
-	 * @param CDbCriteria the query criteria
+	 * @param CDbCriteria $criteria the query criteria
 	 * @return integer number of primary records.
 	 * @since 1.0.3
 	 */
@@ -671,7 +671,7 @@ class CJoinElement
 
 	/**
 	 * Calls {@link CActiveRecord::beforeFind}.
-	 * @param boolean whether is called for a child
+	 * @param boolean $isChild whether is called for a child
 	 * @since 1.0.11
 	 */
 	public function beforeFind($isChild=true)
@@ -699,7 +699,7 @@ class CJoinElement
 
 	/**
 	 * Builds the join query with all descendant HAS_ONE and BELONGS_TO nodes.
-	 * @param CJoinQuery the query being built up
+	 * @param CJoinQuery $query the query being built up
 	 */
 	public function buildQuery($query)
 	{
@@ -717,7 +717,7 @@ class CJoinElement
 
 	/**
 	 * Executes the join query and populates the query results.
-	 * @param CJoinQuery the query to be executed.
+	 * @param CJoinQuery $query the query to be executed.
 	 */
 	public function runQuery($query)
 	{
@@ -728,8 +728,8 @@ class CJoinElement
 
 	/**
 	 * Populates the active records with the query data.
-	 * @param CJoinQuery the query executed
-	 * @param array a row of data
+	 * @param CJoinQuery $query the query executed
+	 * @param array $row a row of data
 	 * @return CActiveRecord the populated record
 	 */
 	private function populateRecord($query,$row)
@@ -817,7 +817,7 @@ class CJoinElement
 	/**
 	 * Generates the list of columns to be selected.
 	 * Columns will be properly aliased and primary keys will be added to selection if they are not specified.
-	 * @param mixed columns to be selected. Defaults to '*', indicating all columns.
+	 * @param mixed $select columns to be selected. Defaults to '*', indicating all columns.
 	 * @return string the column selection
 	 */
 	public function getColumnSelect($select='*')
@@ -971,10 +971,10 @@ class CJoinElement
 	/**
 	 * Generates the join statement for one-many relationship.
 	 * This works for HAS_ONE, HAS_MANY and BELONGS_TO.
-	 * @param CJoinElement the join element containing foreign keys
-	 * @param array the foreign keys
-	 * @param CJoinElement the join element containg primary keys
-	 * @param CJoinElement the parent join element
+	 * @param CJoinElement $fke the join element containing foreign keys
+	 * @param array $fks the foreign keys
+	 * @param CJoinElement $pke the join element containg primary keys
+	 * @param CJoinElement $parent the parent join element
 	 * @return string the join statement
 	 * @throws CDbException if a foreign key is invalid
 	 */
@@ -1006,9 +1006,9 @@ class CJoinElement
 
 	/**
 	 * Generates the join statement for many-many relationship.
-	 * @param CDbTableSchema the join table
-	 * @param array the foreign keys
-	 * @param CJoinElement the parent join element
+	 * @param CDbTableSchema $joinTable the join table
+	 * @param array $fks the foreign keys
+	 * @param CJoinElement $parent the parent join element
 	 * @return string the join statement
 	 * @throws CDbException if a foreign key is invalid
 	 */
@@ -1141,8 +1141,8 @@ class CJoinQuery
 
 	/**
 	 * Constructor.
-	 * @param CJoinElement The root join tree.
-	 * @param CDbCriteria the query criteria
+	 * @param CJoinElement $joinElement The root join tree.
+	 * @param CDbCriteria $criteria the query criteria
 	 */
 	public function __construct($joinElement,$criteria=null)
 	{
@@ -1172,7 +1172,7 @@ class CJoinQuery
 
 	/**
 	 * Joins with another join element
-	 * @param CJoinElement the element to be joined
+	 * @param CJoinElement $element the element to be joined
 	 */
 	public function join($element)
 	{
@@ -1196,7 +1196,7 @@ class CJoinQuery
 
 	/**
 	 * Creates the SQL statement.
-	 * @param CDbCommandBuilder the command builder
+	 * @param CDbCommandBuilder $builder the command builder
 	 * @return string the SQL statement
 	 */
 	public function createCommand($builder)
@@ -1260,9 +1260,9 @@ class CStatElement
 
 	/**
 	 * Constructor.
-	 * @param CActiveFinder the finder
-	 * @param CStatRelation the STAT relation
-	 * @param CJoinElement the join element owning this STAT element
+	 * @param CActiveFinder $finder the finder
+	 * @param CStatRelation $relation the STAT relation
+	 * @param CJoinElement $parent the join element owning this STAT element
 	 */
 	public function __construct($finder,$relation,$parent)
 	{
@@ -1388,8 +1388,8 @@ class CStatElement
 	}
 
 	/*
-	 * @param string jointablename
-	 * @param string keys
+	 * @param string $joinTableName jointablename
+	 * @param string $keys keys
 	 */
 	private function queryManyMany($joinTableName,$keys)
 	{

@@ -22,8 +22,8 @@ class CSqliteSchema extends CDbSchema
 	 * Resets the sequence value of a table's primary key.
 	 * The sequence will be reset such that the primary key of the next new row inserted
 	 * will have the specified value or 1.
-	 * @param CDbTableSchema the table schema whose primary key sequence will be reset
-	 * @param mixed the value for the primary key of the next new row inserted. If this is not set,
+	 * @param CDbTableSchema $table the table schema whose primary key sequence will be reset
+	 * @param mixed $value the value for the primary key of the next new row inserted. If this is not set,
 	 * the next new row's primary key will have a value 1.
 	 * @since 1.1
 	 */
@@ -41,8 +41,8 @@ class CSqliteSchema extends CDbSchema
 
 	/**
 	 * Enables or disables integrity check.
-	 * @param boolean whether to turn on or off the integrity check.
-	 * @param string the schema of the tables. Defaults to empty string, meaning the current or default schema.
+	 * @param boolean $check whether to turn on or off the integrity check.
+	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
 	 * @since 1.1
 	 */
 	public function checkIntegrity($check=true,$schema='')
@@ -53,7 +53,7 @@ class CSqliteSchema extends CDbSchema
 
 	/**
 	 * Returns all table names in the database.
-	 * @param string the schema of the tables. This is not used for sqlite database.
+	 * @param string $schema the schema of the tables. This is not used for sqlite database.
 	 * @return array all table names in the database.
 	 * @since 1.0.2
 	 */
@@ -74,7 +74,7 @@ class CSqliteSchema extends CDbSchema
 
 	/**
 	 * Creates a table instance representing the metadata for the named table.
-	 * @param string table name
+	 * @param string $name table name
 	 * @return CDbTableSchema driver dependent table metadata. Null if the table does not exist.
 	 */
 	protected function createTable($name)
@@ -94,7 +94,7 @@ class CSqliteSchema extends CDbSchema
 
 	/**
 	 * Collects the table column metadata.
-	 * @param CDbTableSchema the table metadata
+	 * @param CDbTableSchema $table the table metadata
 	 * @return boolean whether the table exists in the database
 	 */
 	protected function findColumns($table)
@@ -126,7 +126,7 @@ class CSqliteSchema extends CDbSchema
 
 	/**
 	 * Collects the foreign key column details for the given table.
-	 * @param CDbTableSchema the table metadata
+	 * @param CDbTableSchema $table the table metadata
 	 */
 	protected function findConstraints($table)
 	{
@@ -144,7 +144,7 @@ class CSqliteSchema extends CDbSchema
 
 	/**
 	 * Creates a table column.
-	 * @param array column metadata
+	 * @param array $column column metadata
 	 * @return CDbColumnSchema normalized column metadata
 	 */
 	protected function createColumn($column)

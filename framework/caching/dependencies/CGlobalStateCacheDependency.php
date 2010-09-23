@@ -32,7 +32,7 @@ class CGlobalStateCacheDependency extends CCacheDependency
 
 	/**
 	 * Constructor.
-	 * @param string the name of the global state
+	 * @param string $name the name of the global state
 	 */
 	public function __construct($name=null)
 	{

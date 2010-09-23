@@ -42,7 +42,7 @@ class CDbCacheDependency extends CCacheDependency
 
 	/**
 	 * Constructor.
-	 * @param string the SQL statement whose result is used to determine if the dependency has been changed.
+	 * @param string $sql the SQL statement whose result is used to determine if the dependency has been changed.
 	 */
 	public function __construct($sql=null)
 	{

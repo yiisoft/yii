@@ -58,7 +58,7 @@ class CProfileLogRoute extends CWebLogRoute
 	}
 
 	/**
-	 * @param string the type of the profiling report to display. Valid values include 'summary' and 'callstack'.
+	 * @param string $value the type of the profiling report to display. Valid values include 'summary' and 'callstack'.
 	 */
 	public function setReport($value)
 	{
@@ -71,7 +71,7 @@ class CProfileLogRoute extends CWebLogRoute
 
 	/**
 	 * Displays the log messages.
-	 * @param array list of log messages
+	 * @param array $logs list of log messages
 	 */
 	public function processLogs($logs)
 	{
@@ -87,7 +87,7 @@ class CProfileLogRoute extends CWebLogRoute
 
 	/**
 	 * Displays the callstack of the profiling procedures for display.
-	 * @param array list of logs
+	 * @param array $logs list of logs
 	 */
 	protected function displayCallstack($logs)
 	{
@@ -129,7 +129,7 @@ class CProfileLogRoute extends CWebLogRoute
 
 	/**
 	 * Displays the summary report of the profiling result.
-	 * @param array list of logs
+	 * @param array $logs list of logs
 	 */
 	protected function displaySummary($logs)
 	{
@@ -183,8 +183,8 @@ class CProfileLogRoute extends CWebLogRoute
 
 	/**
 	 * Aggregates the report result.
-	 * @param array log result for this code block
-	 * @param float time spent for this code block
+	 * @param array $result log result for this code block
+	 * @param float $delta time spent for this code block
 	 */
 	protected function aggregateResult($result,$delta)
 	{

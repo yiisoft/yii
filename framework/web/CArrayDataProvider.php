@@ -50,8 +50,8 @@ class CArrayDataProvider extends CDataProvider
 
 	/**
 	 * Constructor.
-	 * @param array the data that is not paginated or sorted.
-	 * @param array configuration (name=>value) to be applied as the initial property values of this class.
+	 * @param array $rawData the data that is not paginated or sorted.
+	 * @param array $config configuration (name=>value) to be applied as the initial property values of this class.
 	 */
 	public function __construct($rawData,$config=array())
 	{
@@ -103,7 +103,7 @@ class CArrayDataProvider extends CDataProvider
 	/**
 	 * Sorts the raw data according to the specified sorting instructions.
 	 * After calling this method, {@link rawData} will be modified.
-	 * @param array the sorting directions (field name => whether it is descending sort)
+	 * @param array $directions the sorting directions (field name => whether it is descending sort)
 	 */
 	protected function sortData($directions)
 	{
@@ -124,7 +124,7 @@ class CArrayDataProvider extends CDataProvider
 
 	/**
 	 * Converts the "ORDER BY" clause into an array representing the sorting directions.
-	 * @param string the "ORDER BY" clause.
+	 * @param string $order the "ORDER BY" clause.
 	 * @return array the sorting directions (field name => whether it is descending sort)
 	 */
 	protected function getSortDirections($order)

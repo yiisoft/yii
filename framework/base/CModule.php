@@ -44,9 +44,9 @@ abstract class CModule extends CComponent
 
 	/**
 	 * Constructor.
-	 * @param string the ID of this module
-	 * @param CModule the parent module (if any)
-	 * @param mixed the module configuration. It can be either an array or
+	 * @param string $id the ID of this module
+	 * @param CModule $parent the parent module (if any)
+	 * @param mixed $config the module configuration. It can be either an array or
 	 * the path of a PHP file returning the configuration array.
 	 */
 	public function __construct($id,$parent,$config=null)
@@ -77,7 +77,7 @@ abstract class CModule extends CComponent
 	 * Getter magic method.
 	 * This method is overridden to support accessing application components
 	 * like reading module properties.
-	 * @param string application component or property name
+	 * @param string $name application component or property name
 	 * @return mixed the named property value
 	 */
 	public function __get($name)
@@ -92,7 +92,7 @@ abstract class CModule extends CComponent
 	 * Checks if a property value is null.
 	 * This method overrides the parent implementation by checking
 	 * if the named application component is loaded.
-	 * @param string the property name or the event name
+	 * @param string $name the property name or the event name
 	 * @return boolean whether the property value is null
 	 */
 	public function __isset($name)
@@ -112,7 +112,7 @@ abstract class CModule extends CComponent
 	}
 
 	/**
-	 * @param string the module ID
+	 * @param string $id the module ID
 	 */
 	public function setId($id)
 	{
@@ -135,7 +135,7 @@ abstract class CModule extends CComponent
 	/**
 	 * Sets the root directory of the module.
 	 * This method can only be invoked at the beginning of the constructor.
-	 * @param string the root directory of the module.
+	 * @param string $path the root directory of the module.
 	 * @throws CException if the directory does not exist.
 	 */
 	public function setBasePath($path)
@@ -161,7 +161,7 @@ abstract class CModule extends CComponent
 	}
 
 	/**
-	 * @param array user-defined parameters. This should be in name-value pairs.
+	 * @param array $value user-defined parameters. This should be in name-value pairs.
 	 */
 	public function setParams($value)
 	{
@@ -182,7 +182,7 @@ abstract class CModule extends CComponent
 	}
 
 	/**
-	 * @param string the directory that contains the application modules.
+	 * @param string $value the directory that contains the application modules.
 	 * @throws CException if the directory is invalid
 	 */
 	public function setModulePath($value)
@@ -194,7 +194,7 @@ abstract class CModule extends CComponent
 
 	/**
 	 * Sets the aliases that are used in the module.
-	 * @param array list of aliases to be imported
+	 * @param array $aliases list of aliases to be imported
 	 */
 	public function setImport($aliases)
 	{
@@ -204,7 +204,7 @@ abstract class CModule extends CComponent
 
 	/**
 	 * Defines the root aliases.
-	 * @param array list of aliases to be defined. The array keys are root aliases,
+	 * @param array $mappings list of aliases to be defined. The array keys are root aliases,
 	 * while the array values are paths or aliases corresponding to the root aliases.
 	 * For example,
 	 * <pre>
@@ -239,7 +239,7 @@ abstract class CModule extends CComponent
 	 * Retrieves the named application module.
 	 * The module has to be declared in {@link modules}. A new instance will be created
 	 * when calling this method with the given ID for the first time.
-	 * @param string application module ID (case-sensitive)
+	 * @param string $id application module ID (case-sensitive)
 	 * @return CModule the module instance, null if the module is disabled or does not exist.
 	 */
 	public function getModule($id)
@@ -265,7 +265,7 @@ abstract class CModule extends CComponent
 
 	/**
 	 * Returns a value indicating whether the specified module is installed.
-	 * @param string the module ID
+	 * @param string $id the module ID
 	 * @return boolean whether the specified module is installed.
 	 * @since 1.1.2
 	 */
@@ -306,7 +306,7 @@ abstract class CModule extends CComponent
 	 *
 	 * You may also enable or disable a module by specifying the 'enabled' option in the configuration.
 	 *
-	 * @param array module configurations.
+	 * @param array $modules module configurations.
 	 */
 	public function setModules($modules)
 	{
@@ -331,7 +331,7 @@ abstract class CModule extends CComponent
 	}
 
 	/**
-	 * @param string application component ID
+	 * @param string $id application component ID
 	 * @return boolean whether the named application component exists (including both loaded and disabled.)
 	 */
 	public function hasComponent($id)
@@ -341,8 +341,8 @@ abstract class CModule extends CComponent
 
 	/**
 	 * Retrieves the named application component.
-	 * @param string application component ID (case-sensitive)
-	 * @param boolean whether to create the component if it doesn't exist yet. This parameter
+	 * @param string $id application component ID (case-sensitive)
+	 * @param boolean $createIfNull whether to create the component if it doesn't exist yet. This parameter
 	 * has been available since version 1.0.6.
 	 * @return IApplicationComponent the application component instance, null if the application component is disabled or does not exist.
 	 * @see hasComponent
@@ -369,8 +369,8 @@ abstract class CModule extends CComponent
 	 * Puts a component under the management of the module.
 	 * The component will be initialized by calling its {@link CApplicationComponent::init() init()}
 	 * method if it has not done so.
-	 * @param string component ID
-	 * @param IApplicationComponent the component to be added to the module.
+	 * @param string $id component ID
+	 * @param IApplicationComponent $component the component to be added to the module.
 	 * If this parameter is null, it will unload the component from the module.
 	 */
 	public function setComponent($id,$component)
@@ -387,7 +387,7 @@ abstract class CModule extends CComponent
 
 	/**
 	 * Returns the application components.
-	 * @param boolean whether to return the loaded components only. If this is set false,
+	 * @param boolean $loadedOnly whether to return the loaded components only. If this is set false,
 	 * then all components specified in the configuration will be returned, whether they are loaded or not.
 	 * Loaded components will be returned as objects, while unloaded components as configuration arrays.
 	 * This parameter has been available since version 1.1.3.
@@ -427,7 +427,7 @@ abstract class CModule extends CComponent
 	 * )
 	 * </pre>
 	 *
-	 * @param array application components(id=>component configuration or instances)
+	 * @param array $components application components(id=>component configuration or instances)
 	 */
 	public function setComponents($components)
 	{
@@ -444,7 +444,7 @@ abstract class CModule extends CComponent
 
 	/**
 	 * Configures the module with the specified configuration.
-	 * @param array the configuration array
+	 * @param array $config the configuration array
 	 */
 	public function configure($config)
 	{

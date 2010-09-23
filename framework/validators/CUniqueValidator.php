@@ -68,8 +68,8 @@ class CUniqueValidator extends CValidator
 	/**
 	 * Validates the attribute of the object.
 	 * If there is any error, the error message is added to the object.
-	 * @param CModel the object being validated
-	 * @param string the attribute being validated
+	 * @param CModel $object the object being validated
+	 * @param string $attribute the attribute being validated
 	 */
 	protected function validateAttribute($object,$attribute)
 	{

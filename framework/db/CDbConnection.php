@@ -177,9 +177,9 @@ class CDbConnection extends CApplicationComponent
 	 * Note, the DB connection is not established when this connection
 	 * instance is created. Set {@link setActive active} property to true
 	 * to establish the connection.
-	 * @param string The Data Source Name, or DSN, contains the information required to connect to the database.
-	 * @param string The user name for the DSN string.
-	 * @param string The password for the DSN string.
+	 * @param string $dsn The Data Source Name, or DSN, contains the information required to connect to the database.
+	 * @param string $username The user name for the DSN string.
+	 * @param string $password The password for the DSN string.
 	 * @see http://www.php.net/manual/en/function.PDO-construct.php
 	 */
 	public function __construct($dsn='',$username='',$password='')
@@ -231,7 +231,7 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Open or close the DB connection.
-	 * @param boolean whether to open or close DB connection
+	 * @param boolean $value whether to open or close DB connection
 	 * @throws CException if connection fails
 	 */
 	public function setActive($value)
@@ -314,7 +314,7 @@ class CDbConnection extends CApplicationComponent
 	 * Initializes the open db connection.
 	 * This method is invoked right after the db connection is established.
 	 * The default implementation is to set the charset for MySQL and PostgreSQL database connections.
-	 * @param PDO the PDO instance
+	 * @param PDO $pdo the PDO instance
 	 */
 	protected function initConnection($pdo)
 	{
@@ -344,7 +344,7 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Creates a command for execution.
-	 * @param string SQL statement associated with the new command.
+	 * @param string $sql SQL statement associated with the new command.
 	 * @return CDbCommand the DB command
 	 * @throws CException if the connection is not active
 	 */
@@ -434,7 +434,7 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Returns the ID of the last inserted row or sequence value.
-	 * @param string name of the sequence object (required by some DBMS)
+	 * @param string $sequenceName name of the sequence object (required by some DBMS)
 	 * @return string the row ID of the last row inserted, or the last value retrieved from the sequence object
 	 * @see http://www.php.net/manual/en/function.PDO-lastInsertId.php
 	 */
@@ -448,7 +448,7 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Quotes a string value for use in a query.
-	 * @param string string to be quoted
+	 * @param string $str string to be quoted
 	 * @return string the properly quoted string
 	 * @see http://www.php.net/manual/en/function.PDO-quote.php
 	 */
@@ -462,7 +462,7 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Quotes a table name for use in a query.
-	 * @param string table name
+	 * @param string $name table name
 	 * @return string the properly quoted table name
 	 */
 	public function quoteTableName($name)
@@ -472,7 +472,7 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Quotes a column name for use in a query.
-	 * @param string column name
+	 * @param string $name column name
 	 * @return string the properly quoted column name
 	 */
 	public function quoteColumnName($name)
@@ -482,7 +482,7 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Determines the PDO type for the specified PHP type.
-	 * @param string The PHP type (obtained by gettype() call).
+	 * @param string $type The PHP type (obtained by gettype() call).
 	 * @return integer the corresponding PDO type
 	 */
 	public function getPdoType($type)
@@ -507,7 +507,7 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
-	 * @param mixed the case of the column names
+	 * @param mixed $value the case of the column names
 	 * @see http://www.php.net/manual/en/pdo.setattribute.php
 	 */
 	public function setColumnCase($value)
@@ -525,7 +525,7 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
-	 * @param mixed how the null and empty strings are converted
+	 * @param mixed $value how the null and empty strings are converted
 	 * @see http://www.php.net/manual/en/pdo.setattribute.php
 	 */
 	public function setNullConversion($value)
@@ -543,7 +543,7 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
-	 * @param boolean whether creating or updating a DB record will be automatically committed.
+	 * @param boolean $value whether creating or updating a DB record will be automatically committed.
 	 * Some DBMS (such as sqlite) may not support this feature.
 	 */
 	public function setAutoCommit($value)
@@ -561,7 +561,7 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
-	 * @param boolean whether the connection is persistent or not
+	 * @param boolean $value whether the connection is persistent or not
 	 * Some DBMS (such as sqlite) may not support this feature.
 	 */
 	public function setPersistent($value)
@@ -628,7 +628,7 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Obtains a specific DB connection attribute information.
-	 * @param int the attribute to be queried
+	 * @param int $name the attribute to be queried
 	 * @return mixed the corresponding attribute information
 	 * @see http://www.php.net/manual/en/function.PDO-getAttribute.php
 	 */
@@ -642,8 +642,8 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Sets an attribute on the database connection.
-	 * @param int the attribute to be set
-	 * @param mixed the attribute value
+	 * @param int $name the attribute to be set
+	 * @param mixed $value the attribute value
 	 * @see http://www.php.net/manual/en/function.PDO-setAttribute.php
 	 */
 	public function setAttribute($name,$value)

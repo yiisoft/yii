@@ -99,9 +99,9 @@ class CWsdlGenerator extends CComponent
 
 	/**
 	 * Generates the WSDL for the given class.
-	 * @param string class name
-	 * @param string Web service URL
-	 * @param string encoding of the WSDL. Defaults to 'UTF-8'.
+	 * @param string $className class name
+	 * @param string $serviceUrl Web service URL
+	 * @param string $encoding encoding of the WSDL. Defaults to 'UTF-8'.
 	 * @return string the generated WSDL
 	 */
 	public function generateWsdl($className, $serviceUrl, $encoding='UTF-8')
@@ -125,7 +125,7 @@ class CWsdlGenerator extends CComponent
 	}
 
 	/*
-	 * @param ReflectionMethod method
+	 * @param ReflectionMethod $method method
 	 */
 	private function processMethod($method)
 	{
@@ -159,7 +159,7 @@ class CWsdlGenerator extends CComponent
 	}
 
 	/*
-	 * @param string PHP variable type
+	 * @param string $type PHP variable type
 	 */
 	private function processType($type)
 	{
@@ -214,8 +214,8 @@ class CWsdlGenerator extends CComponent
 	}
 
 	/*
-	 * @param string Web service URL
-	 * @param string encoding of the WSDL. Defaults to 'UTF-8'.
+	 * @param string $serviceUrl Web service URL
+	 * @param string $encoding encoding of the WSDL. Defaults to 'UTF-8'.
 	 */
 	private function buildDOM($serviceUrl,$encoding)
 	{
@@ -241,7 +241,7 @@ class CWsdlGenerator extends CComponent
 	}
 
 	/*
-	 * @param DOMDocument Represents an entire HTML or XML document; serves as the root of the document tree
+	 * @param DOMDocument $dom Represents an entire HTML or XML document; serves as the root of the document tree
 	 */
 	private function addTypes($dom)
 	{
@@ -292,7 +292,7 @@ class CWsdlGenerator extends CComponent
 	}
 
 	/*
-	 * @param DOMDocument Represents an entire HTML or XML document; serves as the root of the document tree
+	 * @param DOMDocument $dom Represents an entire HTML or XML document; serves as the root of the document tree
 	 */
 	private function addMessages($dom)
 	{
@@ -315,7 +315,7 @@ class CWsdlGenerator extends CComponent
 	}
 
 	/*
-	 * @param DOMDocument Represents an entire HTML or XML document; serves as the root of the document tree
+	 * @param DOMDocument $dom Represents an entire HTML or XML document; serves as the root of the document tree
 	 */
 	private function addPortTypes($dom)
 	{
@@ -327,9 +327,9 @@ class CWsdlGenerator extends CComponent
 	}
 
 	/*
-	 * @param DOMDocument Represents an entire HTML or XML document; serves as the root of the document tree
-	 * @param string method name
-	 * @param string doc
+	 * @param DOMDocument $dom Represents an entire HTML or XML document; serves as the root of the document tree
+	 * @param string $name method name
+	 * @param string $doc doc
 	 */
 	private function createPortElement($dom,$name,$doc)
 	{
@@ -349,7 +349,7 @@ class CWsdlGenerator extends CComponent
 	}
 
 	/*
-	 * @param DOMDocument Represents an entire HTML or XML document; serves as the root of the document tree
+	 * @param DOMDocument $dom Represents an entire HTML or XML document; serves as the root of the document tree
 	 */
 	private function addBindings($dom)
 	{
@@ -369,8 +369,8 @@ class CWsdlGenerator extends CComponent
 	}
 
 	/*
-	 * @param DOMDocument Represents an entire HTML or XML document; serves as the root of the document tree
-	 * @param string method name
+	 * @param DOMDocument $dom Represents an entire HTML or XML document; serves as the root of the document tree
+	 * @param string $name method name
 	 */
 	private function createOperationElement($dom,$name)
 	{
@@ -398,8 +398,8 @@ class CWsdlGenerator extends CComponent
 	}
 
 	/*
-	 * @param DOMDocument Represents an entire HTML or XML document; serves as the root of the document tree
-	 * @param string Web service URL
+	 * @param DOMDocument $dom Represents an entire HTML or XML document; serves as the root of the document tree
+	 * @param string $serviceUrl Web service URL
 	 */
 	private function addService($dom,$serviceUrl)
 	{
