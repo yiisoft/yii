@@ -75,8 +75,8 @@ class CPradoViewRenderer extends CViewRenderer
 	/**
 	 * Parses the source view file and saves the results as another file.
 	 * This method is required by the parent class.
-	 * @param string the source view file path
-	 * @param string the resulting view file path
+	 * @param string $sourceFile the source view file path
+	 * @param string $viewFile the resulting view file path
 	 */
 	protected function generateViewFile($sourceFile,$viewFile)
 	{
@@ -143,9 +143,9 @@ class CPradoViewRenderer extends CViewRenderer
 	}
 
 	/*
-	 * @param string type
-	 * @param string attributes
-	 * @param string offset
+	 * @param string $type type
+	 * @param string $attributes attributes
+	 * @param string $offset offset
 	 */
 	private function processWidget($type,$attributes,$offset)
 	{
@@ -157,9 +157,9 @@ class CPradoViewRenderer extends CViewRenderer
 	}
 
 	/*
-	 * @param string type
-	 * @param string attributes
-	 * @param string offset
+	 * @param string $type type
+	 * @param string $attributes attributes
+	 * @param string $offset offset
 	 */
 	private function processBeginWidget($type,$attributes,$offset)
 	{
@@ -171,8 +171,8 @@ class CPradoViewRenderer extends CViewRenderer
 	}
 
 	/*
-	 * @param string type
-	 * @param string offset
+	 * @param string $type type
+	 * @param string $offset offset
 	 */
 	private function processEndWidget($type,$offset)
 	{
@@ -180,9 +180,9 @@ class CPradoViewRenderer extends CViewRenderer
 	}
 
 	/*
-	 * @param string id
-	 * @param string attributes
-	 * @param string offset
+	 * @param string $id id
+	 * @param string $attributes attributes
+	 * @param string $offset offset
 	 */
 	private function processCache($id,$attributes,$offset)
 	{
@@ -190,9 +190,9 @@ class CPradoViewRenderer extends CViewRenderer
 	}
 
 	/*
-	 * @param string id
-	 * @param string attributes
-	 * @param string offset
+	 * @param string $id id
+	 * @param string $attributes attributes
+	 * @param string $offset offset
 	 */
 	private function processBeginCache($id,$attributes,$offset)
 	{
@@ -204,8 +204,8 @@ class CPradoViewRenderer extends CViewRenderer
 	}
 
 	/*
-	 * @param string id
-	 * @param string offset
+	 * @param string $id id
+	 * @param string $offset offset
 	 */
 	private function processEndCache($id,$offset)
 	{
@@ -213,9 +213,9 @@ class CPradoViewRenderer extends CViewRenderer
 	}
 
 	/*
-	 * @param string id
-	 * @param string attributes
-	 * @param string offset
+	 * @param string $id id
+	 * @param string $attributes attributes
+	 * @param string $offset offset
 	 */
 	private function processClip($id,$attributes,$offset)
 	{
@@ -223,9 +223,9 @@ class CPradoViewRenderer extends CViewRenderer
 	}
 
 	/*
-	 * @param string id
-	 * @param string attributes
-	 * @param string offset
+	 * @param string $id id
+	 * @param string $attributes attributes
+	 * @param string $offset offset
 	 */
 	private function processBeginClip($id,$attributes,$offset)
 	{
@@ -237,8 +237,8 @@ class CPradoViewRenderer extends CViewRenderer
 	}
 
 	/*
-	 * @param string id
-	 * @param string offset
+	 * @param string $id id
+	 * @param string $offset offset
 	 */
 	private function processEndClip($id,$offset)
 	{
@@ -246,8 +246,8 @@ class CPradoViewRenderer extends CViewRenderer
 	}
 
 	/*
-	 * @param string expression
-	 * @param string offset
+	 * @param string $expression expression
+	 * @param string $offset offset
 	 */
 	private function processExpression($expression,$offset)
 	{
@@ -255,8 +255,8 @@ class CPradoViewRenderer extends CViewRenderer
 	}
 
 	/*
-	 * @param string statement
-	 * @param string offset
+	 * @param string $statement statement
+	 * @param string $offset offset
 	 */
 	private function processStatement($statement,$offset)
 	{
@@ -264,8 +264,8 @@ class CPradoViewRenderer extends CViewRenderer
 	}
 
 	/*
-	 * @param string code
-	 * @param string offset
+	 * @param string $code code
+	 * @param string $offset offset
 	 */
 	private function generatePhpCode($code,$offset)
 	{
@@ -275,7 +275,7 @@ class CPradoViewRenderer extends CViewRenderer
 	}
 
 	/*
-	 * @param string str
+	 * @param string $str str
 	 */
 	private function processAttributes($str)
 	{
@@ -296,7 +296,7 @@ class CPradoViewRenderer extends CViewRenderer
 	}
 
 	/*
-	 * @param string offset
+	 * @param string $offset offset
 	 */
 	private function getLineNumber($offset)
 	{

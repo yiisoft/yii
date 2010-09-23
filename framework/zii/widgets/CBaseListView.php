@@ -146,7 +146,7 @@ abstract class CBaseListView extends CWidget
 	 * Renders a section.
 	 * This method is invoked by {@link renderContent} for every placeholder found in {@link template}.
 	 * It should return the rendering result that would replace the placeholder.
-	 * @param array the matches, where $matches[0] represents the whole placeholder,
+	 * @param array $matches the matches, where $matches[0] represents the whole placeholder,
 	 * while $matches[1] contains the name of the matched placeholder.
 	 * @return string the rendering result of the section
 	 */

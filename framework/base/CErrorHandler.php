@@ -80,7 +80,7 @@ class CErrorHandler extends CApplicationComponent
 	 * Handles the exception/error event.
 	 * This method is invoked by the application whenever it captures
 	 * an exception or PHP error.
-	 * @param CEvent the event containing the exception/error information
+	 * @param CEvent $event the event containing the exception/error information
 	 */
 	public function handle($event)
 	{
@@ -120,7 +120,7 @@ class CErrorHandler extends CApplicationComponent
 
 	/**
 	 * Handles the exception.
-	 * @param Exception the exception captured
+	 * @param Exception $exception the exception captured
 	 */
 	protected function handleException($exception)
 	{
@@ -161,7 +161,7 @@ class CErrorHandler extends CApplicationComponent
 
 	/**
 	 * Handles the PHP error.
-	 * @param CErrorEvent the PHP error event
+	 * @param CErrorEvent $event the PHP error event
 	 */
 	protected function handleError($event)
 	{
@@ -208,7 +208,7 @@ class CErrorHandler extends CApplicationComponent
 	}
 
 	/**
-	 * @param Exception the uncaught exception
+	 * @param Exception $exception the uncaught exception
 	 * @return array the exact trace where the problem occurs
 	 */
 	protected function getExactTrace($exception)
@@ -226,9 +226,9 @@ class CErrorHandler extends CApplicationComponent
 
 	/**
 	 * Renders the view.
-	 * @param string the view name (file name without extension).
+	 * @param string $view the view name (file name without extension).
 	 * See {@link getViewFile} for how a view file is located given its name.
-	 * @param array data to be passed to the view
+	 * @param array $data data to be passed to the view
 	 */
 	protected function render($view,$data)
 	{
@@ -246,8 +246,8 @@ class CErrorHandler extends CApplicationComponent
 
 	/**
 	 * Determines which view file should be used.
-	 * @param string view name (either 'exception' or 'error')
-	 * @param integer HTTP status code
+	 * @param string $view view name (either 'exception' or 'error')
+	 * @param integer $code HTTP status code
 	 * @return string view file path
 	 */
 	protected function getViewFile($view,$code)
@@ -271,10 +271,10 @@ class CErrorHandler extends CApplicationComponent
 
 	/**
 	 * Looks for the view under the specified directory.
-	 * @param string the directory containing the views
-	 * @param string view name (either 'exception' or 'error')
-	 * @param integer HTTP status code
-	 * @param string the language that the view file is in
+	 * @param string $viewPath the directory containing the views
+	 * @param string $view view name (either 'exception' or 'error')
+	 * @param integer $code HTTP status code
+	 * @param string $srcLanguage the language that the view file is in
 	 * @return string view file path
 	 */
 	protected function getViewFileInternal($viewPath,$view,$code,$srcLanguage=null)
@@ -310,8 +310,8 @@ class CErrorHandler extends CApplicationComponent
 	/**
 	 * Returns the source lines around the error line.
 	 * At most {@link maxSourceLines} lines will be returned.
-	 * @param string source file path
-	 * @param integer the error line number
+	 * @param string $file source file path
+	 * @param integer $line the error line number
 	 * @return array source lines around the error line, indxed by line numbers
 	 */
 	protected function getSourceLines($file,$line)

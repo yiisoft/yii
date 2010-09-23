@@ -26,14 +26,14 @@ abstract class CDbSchema extends CComponent
 
 	/**
 	 * Creates a table instance representing the metadata for the named table.
-	 * @param string table name
+	 * @param string $name table name
 	 * @return CDbTableSchema driver dependent table metadata, null if the table does not exist.
 	 */
 	abstract protected function createTable($name);
 
 	/**
 	 * Constructor.
-	 * @param CDbConnection database connection.
+	 * @param CDbConnection $conn database connection.
 	 */
 	public function __construct($conn)
 	{
@@ -53,7 +53,7 @@ abstract class CDbSchema extends CComponent
 
 	/**
 	 * Obtains the metadata for the named table.
-	 * @param string table name
+	 * @param string $name table name
 	 * @return CDbTableSchema table metadata. Null if the named table does not exist.
 	 */
 	public function getTable($name)
@@ -84,7 +84,7 @@ abstract class CDbSchema extends CComponent
 
 	/**
 	 * Returns the metadata for all tables in the database.
-	 * @param string the schema of the tables. Defaults to empty string, meaning the current or default schema.
+	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
 	 * @return array the metadata for all tables in the database.
 	 * Each array element is an instance of {@link CDbTableSchema} (or its child class).
 	 * The array keys are table names.
@@ -100,7 +100,7 @@ abstract class CDbSchema extends CComponent
 
 	/**
 	 * Returns all table names in the database.
-	 * @param string the schema of the tables. Defaults to empty string, meaning the current or default schema.
+	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
 	 * If not empty, the returned table names will be prefixed with the schema name.
 	 * @return array all table names in the database.
 	 * @since 1.0.2
@@ -148,7 +148,7 @@ abstract class CDbSchema extends CComponent
 
 	/**
 	 * Quotes a table name for use in a query.
-	 * @param string table name
+	 * @param string $name table name
 	 * @return string the properly quoted table name
 	 */
 	public function quoteTableName($name)
@@ -158,7 +158,7 @@ abstract class CDbSchema extends CComponent
 
 	/**
 	 * Quotes a column name for use in a query.
-	 * @param string column name
+	 * @param string $name column name
 	 * @return string the properly quoted column name
 	 */
 	public function quoteColumnName($name)
@@ -170,8 +170,8 @@ abstract class CDbSchema extends CComponent
 	 * Compares two table names.
 	 * The table names can be either quoted or unquoted. This method
 	 * will consider both cases.
-	 * @param string table name 1
-	 * @param string table name 2
+	 * @param string $name1 table name 1
+	 * @param string $name2 table name 2
 	 * @return boolean whether the two table names refer to the same table.
 	 */
 	public function compareTableNames($name1,$name2)
@@ -196,8 +196,8 @@ abstract class CDbSchema extends CComponent
 	 * Resets the sequence value of a table's primary key.
 	 * The sequence will be reset such that the primary key of the next new row inserted
 	 * will have the specified value or 1.
-	 * @param CDbTableSchema the table schema whose primary key sequence will be reset
-	 * @param mixed the value for the primary key of the next new row inserted. If this is not set,
+	 * @param CDbTableSchema $table the table schema whose primary key sequence will be reset
+	 * @param mixed $value the value for the primary key of the next new row inserted. If this is not set,
 	 * the next new row's primary key will have a value 1.
 	 * @since 1.1
 	 */
@@ -208,8 +208,8 @@ abstract class CDbSchema extends CComponent
 
 	/**
 	 * Enables or disables integrity check.
-	 * @param boolean whether to turn on or off the integrity check.
-	 * @param string the schema of the tables. Defaults to empty string, meaning the current or default schema.
+	 * @param boolean $check whether to turn on or off the integrity check.
+	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
 	 * @since 1.1
 	 */
 	public function checkIntegrity($check=true,$schema='')
@@ -231,7 +231,7 @@ abstract class CDbSchema extends CComponent
 	 * Returns all table names in the database.
 	 * This method should be overridden by child classes in order to support this feature
 	 * because the default implemenation simply throws an exception.
-	 * @param string the schema of the tables. Defaults to empty string, meaning the current or default schema.
+	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
 	 * If not empty, the returned table names will be prefixed with the schema name.
 	 * @return array all table names in the database.
 	 * @since 1.0.2

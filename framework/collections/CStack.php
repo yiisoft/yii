@@ -43,7 +43,7 @@ class CStack extends CComponent implements IteratorAggregate,Countable
 	/**
 	 * Constructor.
 	 * Initializes the stack with an array or an iterable object.
-	 * @param array the initial data. Default is null, meaning no initialization.
+	 * @param array $data the initial data. Default is null, meaning no initialization.
 	 * @throws CException If data is not null and neither an array nor an iterator.
 	 */
 	public function __construct($data=null)
@@ -63,7 +63,7 @@ class CStack extends CComponent implements IteratorAggregate,Countable
 	/**
 	 * Copies iterable data into the stack.
 	 * Note, existing data in the list will be cleared first.
-	 * @param mixed the data to be copied from, must be an array or object implementing Traversable
+	 * @param mixed $data the data to be copied from, must be an array or object implementing Traversable
 	 * @throws CException If data is neither an array nor a Traversable.
 	 */
 	public function copyFrom($data)
@@ -91,7 +91,7 @@ class CStack extends CComponent implements IteratorAggregate,Countable
 	}
 
 	/**
-	 * @param mixed the item
+	 * @param mixed $item the item
 	 * @return boolean whether the stack contains the item
 	 */
 	public function contains($item)
@@ -131,7 +131,7 @@ class CStack extends CComponent implements IteratorAggregate,Countable
 
 	/**
 	 * Pushes an item into the stack.
-	 * @param mixed the item to be pushed into the stack
+	 * @param mixed $item the item to be pushed into the stack
 	 */
 	public function push($item)
 	{

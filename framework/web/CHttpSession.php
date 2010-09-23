@@ -138,7 +138,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 
 	/**
-	 * @param string the session ID for the current session
+	 * @param string $value the session ID for the current session
 	 */
 	public function setSessionID($value)
 	{
@@ -154,7 +154,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 
 	/**
-	 * @param string the session name for the current session, must be an alphanumeric string, defaults to PHPSESSID
+	 * @param string $value the session name for the current session, must be an alphanumeric string, defaults to PHPSESSID
 	 */
 	public function setSessionName($value)
 	{
@@ -170,7 +170,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 
 	/**
-	 * @param string the current session save path
+	 * @param string $value the current session save path
 	 * @throws CException if the path is not a valid directory
 	 */
 	public function setSavePath($value)
@@ -195,7 +195,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * Sets the session cookie parameters.
 	 * The effect of this method only lasts for the duration of the script.
 	 * Call this method before the session starts.
-	 * @param array cookie parameters, valid keys include: lifetime, path, domain, secure.
+	 * @param array $value cookie parameters, valid keys include: lifetime, path, domain, secure.
 	 * @see http://us2.php.net/manual/en/function.session-set-cookie-params.php
 	 */
 	public function setCookieParams($value)
@@ -223,7 +223,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 
 	/**
-	 * @param string how to use cookie to store session ID. Valid values include 'none', 'allow' and 'only'.
+	 * @param string $value how to use cookie to store session ID. Valid values include 'none', 'allow' and 'only'.
 	 */
 	public function setCookieMode($value)
 	{
@@ -252,7 +252,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 
 	/**
-	 * @param integer the probability (percentage) that the gc (garbage collection) process is started on every session initialization.
+	 * @param integer $value the probability (percentage) that the gc (garbage collection) process is started on every session initialization.
 	 * @throws CException if the value is beyond [0,100]
 	 */
 	public function setGCProbability($value)
@@ -277,7 +277,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 
 	/**
-	 * @param boolean whether transparent sid support is enabled or not.
+	 * @param boolean $value whether transparent sid support is enabled or not.
 	 */
 	public function setUseTransparentSessionID($value)
 	{
@@ -293,7 +293,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 
 	/**
-	 * @param integer the number of seconds after which data will be seen as 'garbage' and cleaned up
+	 * @param integer $value the number of seconds after which data will be seen as 'garbage' and cleaned up
 	 */
 	public function setTimeout($value)
 	{
@@ -304,8 +304,8 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * Session open handler.
 	 * This method should be overridden if {@link useCustomStorage} is set true.
 	 * Do not call this method directly.
-	 * @param string session save path
-	 * @param string session name
+	 * @param string $savePath session save path
+	 * @param string $sessionName session name
 	 * @return boolean whether session is opened successfully
 	 */
 	public function openSession($savePath,$sessionName)
@@ -328,7 +328,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * Session read handler.
 	 * This method should be overridden if {@link useCustomStorage} is set true.
 	 * Do not call this method directly.
-	 * @param string session ID
+	 * @param string $id session ID
 	 * @return string the session data
 	 */
 	public function readSession($id)
@@ -340,8 +340,8 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * Session write handler.
 	 * This method should be overridden if {@link useCustomStorage} is set true.
 	 * Do not call this method directly.
-	 * @param string session ID
-	 * @param string session data
+	 * @param string $id session ID
+	 * @param string $data session data
 	 * @return boolean whether session write is successful
 	 */
 	public function writeSession($id,$data)
@@ -353,7 +353,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * Session destroy handler.
 	 * This method should be overridden if {@link useCustomStorage} is set true.
 	 * Do not call this method directly.
-	 * @param string session ID
+	 * @param string $id session ID
 	 * @return boolean whether session is destroyed successfully
 	 */
 	public function destroySession($id)
@@ -365,7 +365,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * Session GC (garbage collection) handler.
 	 * This method should be overridden if {@link useCustomStorage} is set true.
 	 * Do not call this method directly.
-	 * @param integer the number of seconds after which data will be seen as 'garbage' and cleaned up.
+	 * @param integer $maxLifetime the number of seconds after which data will be seen as 'garbage' and cleaned up.
 	 * @return boolean whether session is GCed successfully
 	 */
 	public function gcSession($maxLifetime)
@@ -415,8 +415,8 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * Returns the session variable value with the session variable name.
 	 * This method is very similar to {@link itemAt} and {@link offsetGet},
 	 * except that it will return $defaultValue if the session variable does not exist.
-	 * @param mixed the session variable name
-	 * @param mixed the default value to be returned when the session variable does not exist.
+	 * @param mixed $key the session variable name
+	 * @param mixed $defaultValue the default value to be returned when the session variable does not exist.
 	 * @return mixed the session variable value, or $defaultValue if the session variable does not exist.
 	 * @since 1.1.2
 	 */
@@ -428,7 +428,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	/**
 	 * Returns the session variable value with the session variable name.
 	 * This method is exactly the same as {@link offsetGet}.
-	 * @param mixed the session variable name
+	 * @param mixed $key the session variable name
 	 * @return mixed the session variable value, null if no such variable exists
 	 */
 	public function itemAt($key)
@@ -439,8 +439,8 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	/**
 	 * Adds a session variable.
 	 * Note, if the specified name already exists, the old value will be removed first.
-	 * @param mixed session variable name
-	 * @param mixed session variable value
+	 * @param mixed $key session variable name
+	 * @param mixed $value session variable value
 	 */
 	public function add($key,$value)
 	{
@@ -449,7 +449,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * Removes a session variable.
-	 * @param mixed the name of the session variable to be removed
+	 * @param mixed $key the name of the session variable to be removed
 	 * @return mixed the removed value, null if no such session variable.
 	 */
 	public function remove($key)
@@ -474,7 +474,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 
 	/**
-	 * @param mixed session variable name
+	 * @param mixed $key session variable name
 	 * @return boolean whether there is the named session variable
 	 */
 	public function contains($key)
@@ -492,7 +492,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * This method is required by the interface ArrayAccess.
-	 * @param mixed the offset to check on
+	 * @param mixed $offset the offset to check on
 	 * @return boolean
 	 */
 	public function offsetExists($offset)
@@ -502,7 +502,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * This method is required by the interface ArrayAccess.
-	 * @param integer the offset to retrieve element.
+	 * @param integer $offset the offset to retrieve element.
 	 * @return mixed the element at the offset, null if no element is found at the offset
 	 */
 	public function offsetGet($offset)
@@ -512,8 +512,8 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * This method is required by the interface ArrayAccess.
-	 * @param integer the offset to set element
-	 * @param mixed the element value
+	 * @param integer $offset the offset to set element
+	 * @param mixed $item the element value
 	 */
 	public function offsetSet($offset,$item)
 	{
@@ -522,7 +522,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * This method is required by the interface ArrayAccess.
-	 * @param mixed the offset to unset element
+	 * @param mixed $offset the offset to unset element
 	 */
 	public function offsetUnset($offset)
 	{

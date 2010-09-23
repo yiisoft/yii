@@ -137,9 +137,9 @@ class CWidgetFactory extends CApplicationComponent implements IWidgetFactory
 
 	/**
 	 * Creates a new widget based on the given class name and initial properties.
-	 * @param CBaseController the owner of the new widget
-	 * @param string the class name of the widget. This can also be a path alias (e.g. system.web.widgets.COutputCache)
-	 * @param array the initial property values (name=>value) of the widget.
+	 * @param CBaseController $owner the owner of the new widget
+	 * @param string $className the class name of the widget. This can also be a path alias (e.g. system.web.widgets.COutputCache)
+	 * @param array $properties the initial property values (name=>value) of the widget.
 	 * @return CWidget the newly created widget whose properties have been initialized with the given values.
 	 */
 	public function createWidget($owner,$className,$properties=array())
@@ -165,8 +165,8 @@ class CWidgetFactory extends CApplicationComponent implements IWidgetFactory
 
 	/**
 	 * Returns the skin for the specified widget class and skin name.
-	 * @param string the widget class name
-	 * @param string the widget skin name
+	 * @param string $className the widget class name
+	 * @param string $skinName the widget skin name
 	 * @return array the skin (name=>value) for the widget
 	 */
 	protected function getSkin($className,$skinName)

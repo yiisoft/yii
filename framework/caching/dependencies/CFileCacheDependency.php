@@ -31,7 +31,7 @@ class CFileCacheDependency extends CCacheDependency
 
 	/**
 	 * Constructor.
-	 * @param string name of the file whose change is to be checked.
+	 * @param string $fileName name of the file whose change is to be checked.
 	 */
 	public function __construct($fileName=null)
 	{

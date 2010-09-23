@@ -102,8 +102,8 @@ class CFileValidator extends CValidator
 	/**
 	 * Set the attribute and then validates using {@link validateFile}.
 	 * If there is any error, the error message is added to the object.
-	 * @param CModel the object being validated
-	 * @param string the attribute being validated
+	 * @param CModel $object the object being validated
+	 * @param string $attribute the attribute being validated
 	 */
 	protected function validateAttribute($object, $attribute)
 	{
@@ -138,9 +138,9 @@ class CFileValidator extends CValidator
 
 	/**
 	 * Internally validates a file object.
-	 * @param CModel the object being validated
-	 * @param string the attribute being validated
-	 * @param CUploadedFile uploaded file passed to check against a set of rules
+	 * @param CModel $object the object being validated
+	 * @param string $attribute the attribute being validated
+	 * @param CUploadedFile $file uploaded file passed to check against a set of rules
 	 */
 	protected function validateFile($object, $attribute, $file)
 	{
@@ -182,8 +182,8 @@ class CFileValidator extends CValidator
 
 	/**
 	 * Raises an error to inform end user about blank attribute.
-	 * @param CModel the object being validated
-	 * @param string the attribute being validated
+	 * @param CModel $object the object being validated
+	 * @param string $attribute the attribute being validated
 	 */
 	protected function emptyAttribute($object, $attribute)
 	{
@@ -219,7 +219,7 @@ class CFileValidator extends CValidator
 	/**
 	 * Converts php.ini style size to bytes
 	 *
-	 * @param string $sizeStr
+	 * @param string $sizeStr $sizeStr
 	 * @return int
 	 */
 	private function sizeToBytes($sizeStr)

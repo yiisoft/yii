@@ -176,7 +176,7 @@ class CTreeView extends CWidget
 
 	/**
 	 * Generates tree view nodes in HTML from the data array.
-	 * @param array the data for the tree view (see {@link data} for possible data structure).
+	 * @param array $data the data for the tree view (see {@link data} for possible data structure).
 	 * @return string the generated HTML for the tree view
 	 */
 	public static function saveDataAsHtml($data)
@@ -219,7 +219,7 @@ class CTreeView extends CWidget
 	 * This method is typically used in dynamic tree view loading
 	 * when the server code needs to send to the client the dynamic
 	 * tree view data.
-	 * @param array the data for the tree view (see {@link data} for possible data structure).
+	 * @param array $data the data for the tree view (see {@link data} for possible data structure).
 	 * @return string the JSON representation of the data
 	 */
 	public static function saveDataAsJson($data)

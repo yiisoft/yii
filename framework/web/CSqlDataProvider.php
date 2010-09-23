@@ -59,8 +59,8 @@ class CSqlDataProvider extends CDataProvider
 
 	/**
 	 * Constructor.
-	 * @param string the SQL statement to be used for fetching data rows.
-	 * @param array configuration (name=>value) to be applied as the initial property values of this class.
+	 * @param string $sql the SQL statement to be used for fetching data rows.
+	 * @param array $config configuration (name=>value) to be applied as the initial property values of this class.
 	 */
 	public function __construct($sql,$config=array())
 	{

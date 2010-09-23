@@ -25,8 +25,8 @@ class CExceptionEvent extends CEvent
 
 	/**
 	 * Constructor.
-	 * @param mixed sender of the event
-	 * @param CException the exception
+	 * @param mixed $sender sender of the event
+	 * @param CException $exception the exception
 	 */
 	public function __construct($sender,$exception)
 	{

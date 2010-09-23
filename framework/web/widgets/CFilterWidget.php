@@ -38,7 +38,7 @@ class CFilterWidget extends CWidget implements IFilter
 
 	/**
 	 * Constructor.
-	 * @param CBaseController owner/creator of this widget. It could be either a widget or a controller.
+	 * @param CBaseController $owner owner/creator of this widget. It could be either a widget or a controller.
 	 */
 	public function __construct($owner=null)
 	{
@@ -60,7 +60,7 @@ class CFilterWidget extends CWidget implements IFilter
 	 * The default implementation simply calls {@link init()},
 	 * {@link CFilterChain::run()} and {@link run()} in order
 	 * Derived classes may want to override this method to change this behavior.
-	 * @param CFilterChain the filter chain that the filter is on.
+	 * @param CFilterChain $filterChain the filter chain that the filter is on.
 	 */
 	public function filter($filterChain)
 	{

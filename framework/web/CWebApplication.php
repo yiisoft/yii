@@ -239,7 +239,7 @@ class CWebApplication extends CApplication
 	}
 
 	/**
-	 * @param string the theme name
+	 * @param string $value the theme name
 	 */
 	public function setTheme($value)
 	{
@@ -248,9 +248,9 @@ class CWebApplication extends CApplication
 
 	/**
 	 * Creates a relative URL based on the given controller and action information.
-	 * @param string the URL route. This should be in the format of 'ControllerID/ActionID'.
-	 * @param array additional GET parameters (name=>value). Both the name and value will be URL-encoded.
-	 * @param string the token separating name-value pairs in the URL.
+	 * @param string $route the URL route. This should be in the format of 'ControllerID/ActionID'.
+	 * @param array $params additional GET parameters (name=>value). Both the name and value will be URL-encoded.
+	 * @param string $ampersand the token separating name-value pairs in the URL.
 	 * @return string the constructed URL
 	 */
 	public function createUrl($route,$params=array(),$ampersand='&')
@@ -260,10 +260,10 @@ class CWebApplication extends CApplication
 
 	/**
 	 * Creates an absolute URL based on the given controller and action information.
-	 * @param string the URL route. This should be in the format of 'ControllerID/ActionID'.
-	 * @param array additional GET parameters (name=>value). Both the name and value will be URL-encoded.
-	 * @param string schema to use (e.g. http, https). If empty, the schema used for the current request will be used.
-	 * @param string the token separating name-value pairs in the URL.
+	 * @param string $route the URL route. This should be in the format of 'ControllerID/ActionID'.
+	 * @param array $params additional GET parameters (name=>value). Both the name and value will be URL-encoded.
+	 * @param string $schema schema to use (e.g. http, https). If empty, the schema used for the current request will be used.
+	 * @param string $ampersand the token separating name-value pairs in the URL.
 	 * @return string the constructed URL
 	 */
 	public function createAbsoluteUrl($route,$params=array(),$schema='',$ampersand='&')
@@ -274,7 +274,7 @@ class CWebApplication extends CApplication
 	/**
 	 * Returns the relative URL for the application.
 	 * This is a shortcut method to {@link CHttpRequest::getBaseUrl()}.
-	 * @param boolean whether to return an absolute URL. Defaults to false, meaning returning a relative one.
+	 * @param boolean $absolute whether to return an absolute URL. Defaults to false, meaning returning a relative one.
 	 * This parameter has been available since 1.0.2.
 	 * @return string the relative URL for the application
 	 * @see CHttpRequest::getBaseUrl()
@@ -301,7 +301,7 @@ class CWebApplication extends CApplication
 	}
 
 	/**
-	 * @param string the homepage URL
+	 * @param string $value the homepage URL
 	 */
 	public function setHomeUrl($value)
 	{
@@ -310,7 +310,7 @@ class CWebApplication extends CApplication
 
 	/**
 	 * Creates the controller and performs the specified action.
-	 * @param string the route of the current request. See {@link createController} for more details.
+	 * @param string $route the route of the current request. See {@link createController} for more details.
 	 * @throws CHttpException if the controller could not be created.
 	 */
 	public function runController($route)
@@ -344,8 +344,8 @@ class CWebApplication extends CApplication
 	 * the corresponding controller. For example, if the route is "admin/user/create",
 	 * then the controller will be created using the class file "protected/controllers/admin/UserController.php".</li>
 	 * </ol>
-	 * @param string the route of the request.
-	 * @param CWebModule the module that the new controller will belong to. Defaults to null, meaning the application
+	 * @param string $route the route of the request.
+	 * @param CWebModule $owner the module that the new controller will belong to. Defaults to null, meaning the application
 	 * instance is the owner.
 	 * @return array the controller instance and the action ID. Null if the controller class does not exist or the route is invalid.
 	 */
@@ -407,7 +407,7 @@ class CWebApplication extends CApplication
 
 	/**
 	 * Parses a path info into an action ID and GET variables.
-	 * @param string path info
+	 * @param string $pathInfo path info
 	 * @return string action ID
 	 * @since 1.0.3
 	 */
@@ -433,7 +433,7 @@ class CWebApplication extends CApplication
 	}
 
 	/**
-	 * @param CController the currently active controller
+	 * @param CController $value the currently active controller
 	 * @since 1.0.6
 	 */
 	public function setController($value)
@@ -453,7 +453,7 @@ class CWebApplication extends CApplication
 	}
 
 	/**
-	 * @param string the directory that contains the controller classes.
+	 * @param string $value the directory that contains the controller classes.
 	 * @throws CException if the directory is invalid
 	 */
 	public function setControllerPath($value)
@@ -475,7 +475,7 @@ class CWebApplication extends CApplication
 	}
 
 	/**
-	 * @param string the root directory of view files.
+	 * @param string $path the root directory of view files.
 	 * @throws CException if the directory does not exist.
 	 */
 	public function setViewPath($path)
@@ -497,7 +497,7 @@ class CWebApplication extends CApplication
 	}
 
 	/**
-	 * @param string the root directory of system view files.
+	 * @param string $path the root directory of system view files.
 	 * @throws CException if the directory does not exist.
 	 */
 	public function setSystemViewPath($path)
@@ -519,7 +519,7 @@ class CWebApplication extends CApplication
 	}
 
 	/**
-	 * @param string the root directory of layout files.
+	 * @param string $path the root directory of layout files.
 	 * @throws CException if the directory does not exist.
 	 */
 	public function setLayoutPath($path)
@@ -534,8 +534,8 @@ class CWebApplication extends CApplication
 	 * This method is invoked before the currently requested controller action and all its filters
 	 * are executed. You may override this method with logic that needs to be done
 	 * before all controller actions.
-	 * @param CController the controller
-	 * @param CAction the action
+	 * @param CController $controller the controller
+	 * @param CAction $action the action
 	 * @return boolean whether the action should be executed.
 	 * @since 1.0.4
 	 */
@@ -549,8 +549,8 @@ class CWebApplication extends CApplication
 	 * This method is invoked after the currently requested controller action and all its filters
 	 * are executed. You may override this method with logic that needs to be done
 	 * after all controller actions.
-	 * @param CController the controller
-	 * @param CAction the action
+	 * @param CController $controller the controller
+	 * @param CAction $action the action
 	 * @since 1.0.4
 	 */
 	public function afterControllerAction($controller,$action)
@@ -560,7 +560,7 @@ class CWebApplication extends CApplication
 	/**
 	 * Searches for a module by its ID.
 	 * This method is used internally. Do not call this method.
-	 * @param string module ID
+	 * @param string $id module ID
 	 * @return CWebModule the module that has the specified ID. Null if no module is found.
 	 * @since 1.0.3
 	 */

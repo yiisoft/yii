@@ -84,7 +84,7 @@ abstract class CApplication extends CModule
 
 	/**
 	 * Constructor.
-	 * @param mixed application configuration.
+	 * @param mixed $config application configuration.
 	 * If a string, it is treated as the path of the file that contains the configuration;
 	 * If an array, it is the actual configuration information.
 	 * Please make sure you specify the {@link getBasePath basePath} property in the configuration,
@@ -141,7 +141,7 @@ abstract class CApplication extends CModule
 	 * Terminates the application.
 	 * This method replaces PHP's exit() function by calling
 	 * {@link onEndRequest} before exiting.
-	 * @param integer exit status (value 0 means normal exit while other values mean abnormal exit).
+	 * @param integer $status exit status (value 0 means normal exit while other values mean abnormal exit).
 	 */
 	public function end($status=0)
 	{
@@ -152,7 +152,7 @@ abstract class CApplication extends CModule
 
 	/**
 	 * Raised right BEFORE the application processes the request.
-	 * @param CEvent the event parameter
+	 * @param CEvent $event the event parameter
 	 */
 	public function onBeginRequest($event)
 	{
@@ -161,7 +161,7 @@ abstract class CApplication extends CModule
 
 	/**
 	 * Raised right AFTER the application processes the request.
-	 * @param CEvent the event parameter
+	 * @param CEvent $event the event parameter
 	 */
 	public function onEndRequest($event)
 	{
@@ -184,7 +184,7 @@ abstract class CApplication extends CModule
 	}
 
 	/**
-	 * @param string a unique identifier for the application.
+	 * @param string $id a unique identifier for the application.
 	 */
 	public function setId($id)
 	{
@@ -202,7 +202,7 @@ abstract class CApplication extends CModule
 	/**
 	 * Sets the root directory of the application.
 	 * This method can only be invoked at the begin of the constructor.
-	 * @param string the root directory of the application.
+	 * @param string $path the root directory of the application.
 	 * @throws CException if the directory does not exist.
 	 */
 	public function setBasePath($path)
@@ -227,7 +227,7 @@ abstract class CApplication extends CModule
 	}
 
 	/**
-	 * @param string the directory that stores runtime files.
+	 * @param string $path the directory that stores runtime files.
 	 * @throws CException if the directory does not exist or is not writable
 	 */
 	public function setRuntimePath($path)
@@ -248,7 +248,7 @@ abstract class CApplication extends CModule
 	}
 
 	/**
-	 * @param string the directory that contains all third-party extensions.
+	 * @param string $path the directory that contains all third-party extensions.
 	 */
 	public function setExtensionPath($path)
 	{
@@ -275,7 +275,7 @@ abstract class CApplication extends CModule
 	 *
 	 * Unless your application needs to support multiple languages, you should always
 	 * set this language to null to maximize the application's performance.
-	 * @param string the user language (e.g. 'en_US', 'zh_CN').
+	 * @param string $language the user language (e.g. 'en_US', 'zh_CN').
 	 * If it is null, the {@link sourceLanguage} will be used.
 	 */
 	public function setLanguage($language)
@@ -298,7 +298,7 @@ abstract class CApplication extends CModule
 	/**
 	 * Sets the time zone used by this application.
 	 * This is a simple wrapper of PHP function date_default_timezone_set().
-	 * @param string the time zone used by this application.
+	 * @param string $value the time zone used by this application.
 	 * @see http://php.net/manual/en/function.date-default-timezone-set.php
 	 * @since 1.0.9
 	 */
@@ -320,9 +320,9 @@ abstract class CApplication extends CModule
 	 * For consistency, it is recommended that the locale ID is given
 	 * in lower case and in the format of LanguageID_RegionID (e.g. "en_us").
 	 *
-	 * @param string the original file
-	 * @param string the language that the original file is in. If null, the application {@link sourceLanguage source language} is used.
-	 * @param string the desired language that the file should be localized to. If null, the {@link getLanguage application language} will be used.
+	 * @param string $srcFile the original file
+	 * @param string $srcLanguage the language that the original file is in. If null, the application {@link sourceLanguage source language} is used.
+	 * @param string $language the desired language that the file should be localized to. If null, the {@link getLanguage application language} will be used.
 	 * @return string the matching localized file. The original file is returned if no localized version is found
 	 * or if source language is the same as the desired language.
 	 */
@@ -339,7 +339,7 @@ abstract class CApplication extends CModule
 	}
 
 	/**
-	 * @param string locale ID (e.g. en_US). If null, the {@link getLanguage application language ID} will be used.
+	 * @param string $localeID locale ID (e.g. en_US). If null, the {@link getLanguage application language ID} will be used.
 	 * @return CLocale the locale instance
 	 */
 	public function getLocale($localeID=null)
@@ -357,7 +357,7 @@ abstract class CApplication extends CModule
 	}
 
 	/**
-	 * @param string the directory that contains the locale data.
+	 * @param string $value the directory that contains the locale data.
 	 * @since 1.1.0
 	 */
 	public function setLocaleDataPath($value)
@@ -459,8 +459,8 @@ abstract class CApplication extends CModule
 	 * Returns a global value.
 	 *
 	 * A global value is one that is persistent across users sessions and requests.
-	 * @param string the name of the value to be returned
-	 * @param mixed the default value. If the named global value is not found, this will be returned instead.
+	 * @param string $key the name of the value to be returned
+	 * @param mixed $defaultValue the default value. If the named global value is not found, this will be returned instead.
 	 * @return mixed the named global value
 	 * @see setGlobalState
 	 */
@@ -479,9 +479,9 @@ abstract class CApplication extends CModule
 	 *
 	 * A global value is one that is persistent across users sessions and requests.
 	 * Make sure that the value is serializable and unserializable.
-	 * @param string the name of the value to be saved
-	 * @param mixed the global value to be saved. It must be serializable.
-	 * @param mixed the default value. If the named global value is the same as this value, it will be cleared from the current storage.
+	 * @param string $key the name of the value to be saved
+	 * @param mixed $value the global value to be saved. It must be serializable.
+	 * @param mixed $defaultValue the default value. If the named global value is the same as this value, it will be cleared from the current storage.
 	 * @see getGlobalState
 	 */
 	public function setGlobalState($key,$value,$defaultValue=null)
@@ -499,7 +499,7 @@ abstract class CApplication extends CModule
 	 * Clears a global value.
 	 *
 	 * The value cleared will no longer be available in this request and the following requests.
-	 * @param string the name of the value to be cleared
+	 * @param string $key the name of the value to be cleared
 	 */
 	public function clearGlobalState($key)
 	{
@@ -553,7 +553,7 @@ abstract class CApplication extends CModule
 	 *
 	 * The application will be terminated by this method.
 	 *
-	 * @param Exception exception that is not caught
+	 * @param Exception $exception exception that is not caught
 	 */
 	public function handleException($exception)
 	{
@@ -602,10 +602,10 @@ abstract class CApplication extends CModule
 	 *
 	 * The application will be terminated by this method.
 	 *
-	 * @param integer the level of the error raised
-	 * @param string the error message
-	 * @param string the filename that the error was raised in
-	 * @param integer the line number the error was raised at
+	 * @param integer $code the level of the error raised
+	 * @param string $message the error message
+	 * @param string $file the filename that the error was raised in
+	 * @param integer $line the line number the error was raised at
 	 */
 	public function handleError($code,$message,$file,$line)
 	{
@@ -667,7 +667,7 @@ abstract class CApplication extends CModule
 	 * handling is needed. Otherwise, the {@link getErrorHandler errorHandler}
 	 * application component will continue processing the error.
 	 *
-	 * @param CExceptionEvent event parameter
+	 * @param CExceptionEvent $event event parameter
 	 */
 	public function onException($event)
 	{
@@ -682,7 +682,7 @@ abstract class CApplication extends CModule
 	 * handling is needed. Otherwise, the {@link getErrorHandler errorHandler}
 	 * application component will continue processing the error.
 	 *
-	 * @param CErrorEvent event parameter
+	 * @param CErrorEvent $event event parameter
 	 */
 	public function onError($event)
 	{
@@ -693,10 +693,10 @@ abstract class CApplication extends CModule
 	 * Displays the captured PHP error.
 	 * This method displays the error in HTML when there is
 	 * no active error handler.
-	 * @param integer error code
-	 * @param string error message
-	 * @param string error file
-	 * @param string error line
+	 * @param integer $code error code
+	 * @param string $message error message
+	 * @param string $file error file
+	 * @param string $line error line
 	 */
 	public function displayError($code,$message,$file,$line)
 	{
@@ -719,7 +719,7 @@ abstract class CApplication extends CModule
 	 * Displays the uncaught PHP exception.
 	 * This method displays the exception in HTML when there is
 	 * no active error handler.
-	 * @param Exception the uncaught exception
+	 * @param Exception $exception the uncaught exception
 	 */
 	public function displayException($exception)
 	{

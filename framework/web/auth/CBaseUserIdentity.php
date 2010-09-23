@@ -76,7 +76,7 @@ abstract class CBaseUserIdentity extends CComponent implements IUserIdentity
 	/**
 	 * Sets an array of presistent states.
 	 *
-	 * @param array the identity states that should be persisted.
+	 * @param array $states the identity states that should be persisted.
 	 */
 	public function setPersistentStates($states)
 	{
@@ -95,8 +95,8 @@ abstract class CBaseUserIdentity extends CComponent implements IUserIdentity
 
 	/**
 	 * Gets the persisted state by the specified name.
-	 * @param string the name of the state
-	 * @param mixed the default value to be returned if the named state does not exist
+	 * @param string $name the name of the state
+	 * @param mixed $defaultValue the default value to be returned if the named state does not exist
 	 * @return mixed the value of the named state
 	 */
 	public function getState($name,$defaultValue=null)
@@ -106,8 +106,8 @@ abstract class CBaseUserIdentity extends CComponent implements IUserIdentity
 
 	/**
 	 * Sets the named state with a given value.
-	 * @param string the name of the state
-	 * @param mixed the value of the named state
+	 * @param string $name the name of the state
+	 * @param mixed $value the value of the named state
 	 */
 	public function setState($name,$value)
 	{
@@ -116,7 +116,7 @@ abstract class CBaseUserIdentity extends CComponent implements IUserIdentity
 
 	/**
 	 * Removes the specified state.
-	 * @param string the name of the state
+	 * @param string $name the name of the state
 	 * @since 1.0.8
 	 */
 	public function clearState($name)

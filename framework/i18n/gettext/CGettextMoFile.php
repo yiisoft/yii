@@ -51,7 +51,7 @@ class CGettextMoFile extends CGettextFile
 
 	/**
 	 * Constructor.
-	 * @param boolean whether to use Big Endian when reading and writing an integer.
+	 * @param boolean $useBigEndian whether to use Big Endian when reading and writing an integer.
 	 */
 	public function __construct($useBigEndian=false)
 	{
@@ -60,8 +60,8 @@ class CGettextMoFile extends CGettextFile
 
 	/**
 	 * Loads messages from an MO file.
-	 * @param string file path
-	 * @param string message context
+	 * @param string $file file path
+	 * @param string $context message context
 	 * @return array message translations (source message => translated message)
 	 */
 	public function load($file,$context)
@@ -129,8 +129,8 @@ class CGettextMoFile extends CGettextFile
 
 	/**
 	 * Saves messages to an MO file.
-	 * @param string file path
-	 * @param array message translations (message id => translated message).
+	 * @param string $file file path
+	 * @param array $messages message translations (message id => translated message).
 	 * Note if the message has a context, the message id must be prefixed with
 	 * the context with chr(4) as the separator.
 	 */
@@ -199,8 +199,8 @@ class CGettextMoFile extends CGettextFile
 
 	/**
 	 * Reads one or several bytes.
-	 * @param resource file handle
-	 * @param integer number of bytes to read
+	 * @param resource $fr file handle
+	 * @param integer $n number of bytes to read
 	 * @return string bytes
 	 */
 	protected function readByte($fr,$n=1)
@@ -211,8 +211,8 @@ class CGettextMoFile extends CGettextFile
 
 	/**
 	 * Writes bytes.
-	 * @param resource file handle
-	 * @param string the data
+	 * @param resource $fw file handle
+	 * @param string $data the data
 	 * @return integer how many bytes are written
 	 */
 	protected function writeByte($fw,$data)
@@ -222,7 +222,7 @@ class CGettextMoFile extends CGettextFile
 
 	/**
 	 * Reads a 4-byte integer.
-	 * @param resource file handle
+	 * @param resource $fr file handle
 	 * @return integer the result
 	 * @see useBigEndian
 	 */
@@ -233,8 +233,8 @@ class CGettextMoFile extends CGettextFile
 
 	/**
 	 * Writes a 4-byte integer.
-	 * @param resource file handle
-	 * @param integer the data
+	 * @param resource $fw file handle
+	 * @param integer $data the data
 	 * @return integer how many bytes are written
 	 */
 	protected function writeInteger($fw,$data)
@@ -244,9 +244,9 @@ class CGettextMoFile extends CGettextFile
 
 	/**
 	 * Reads a string.
-	 * @param resource file handle
-	 * @param integer string length
-	 * @param integer offset of the string in the file. If null, it reads from the current position.
+	 * @param resource $fr file handle
+	 * @param integer $length string length
+	 * @param integer $offset offset of the string in the file. If null, it reads from the current position.
 	 * @return string the result
 	 */
 	protected function readString($fr,$length,$offset=null)
@@ -258,8 +258,8 @@ class CGettextMoFile extends CGettextFile
 
 	/**
 	 * Writes a string.
-	 * @param resource file handle
-	 * @param string the string
+	 * @param resource $fw file handle
+	 * @param string $data the string
 	 * @return integer how many bytes are written
 	 */
 	protected function writeString($fw,$data)

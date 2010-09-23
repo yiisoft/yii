@@ -44,7 +44,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	}
 
 	/**
-	 * @param string the unique ID that uniquely identifies the data provider among all data providers.
+	 * @param string $value the unique ID that uniquely identifies the data provider among all data providers.
 	 */
 	public function setId($value)
 	{
@@ -66,7 +66,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	}
 
 	/**
-	 * @param mixed the pagination to be used by this data provider. This could be a {@link CPagination} object
+	 * @param mixed $value the pagination to be used by this data provider. This could be a {@link CPagination} object
 	 * or an array used to configure the pagination object. If this is false, it means the pagination should be disabled.
 	 */
 	public function setPagination($value)
@@ -96,7 +96,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	}
 
 	/**
-	 * @param mixed the sorting to be used by this data provider. This could be a {@link CSort} object
+	 * @param mixed $value the sorting to be used by this data provider. This could be a {@link CSort} object
 	 * or an array used to configure the sorting object. If this is false, it means the sorting should be disabled.
 	 */
 	public function setSort($value)
@@ -113,7 +113,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 
 	/**
 	 * Returns the data items currently available.
-	 * @param boolean whether the data should be re-fetched from persistent storage.
+	 * @param boolean $refresh whether the data should be re-fetched from persistent storage.
 	 * @return array the list of data items currently available in this data provider.
 	 */
 	public function getData($refresh=false)
@@ -124,7 +124,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	}
 
 	/**
-	 * @param array put the data items into this provider.
+	 * @param array $value put the data items into this provider.
 	 */
 	public function setData($value)
 	{
@@ -133,7 +133,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 
 	/**
 	 * Returns the key values associated with the data items.
-	 * @param boolean whether the keys should be re-calculated.
+	 * @param boolean $refresh whether the keys should be re-calculated.
 	 * @return array the list of key values corresponding to {@link data}. Each data item in {@link data}
 	 * is uniquely identified by the corresponding key value in this array.
 	 */
@@ -145,7 +145,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	}
 
 	/**
-	 * @param array put the data item keys into this provider.
+	 * @param array $value put the data item keys into this provider.
 	 */
 	public function setKeys($value)
 	{
@@ -156,7 +156,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	 * Returns the number of data items in the current page.
 	 * This is equivalent to <code>count($provider->getData())</code>.
 	 * When {@link pagination} is set false, this returns the same value as {@link totalItemCount}.
-	 * @param boolean whether the number of data items should be re-calculated.
+	 * @param boolean $refresh whether the number of data items should be re-calculated.
 	 * @return integer the number of data items in the current page.
 	 */
 	public function getItemCount($refresh=false)
@@ -167,7 +167,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	/**
 	 * Returns the total number of data items.
 	 * When {@link pagination} is set false, this returns the same value as {@link itemCount}.
-	 * @param boolean whether the total number of data items should be re-calculated.
+	 * @param boolean $refresh whether the total number of data items should be re-calculated.
 	 * @return integer total number of possible data items.
 	 */
 	public function getTotalItemCount($refresh=false)
@@ -180,7 +180,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	/**
 	 * Sets the total number of data items.
 	 * This method is provided in case when the total number cannot be determined by {@link calculateTotalItemCount}.
-	 * @param integer the total number of data items.
+	 * @param integer $value the total number of data items.
 	 * @since 1.1.1
 	 */
 	public function setTotalItemCount($value)

@@ -36,12 +36,12 @@ class CAuthItem extends CComponent
 
 	/**
 	 * Constructor.
-	 * @param IAuthManager authorization manager
-	 * @param string authorization item name
-	 * @param integer authorization item type. This can be 0 (operation), 1 (task) or 2 (role).
-	 * @param description the description
-	 * @param string the business rule associated with this item
-	 * @param mixed additional data for this item
+	 * @param IAuthManager $auth authorization manager
+	 * @param string $name authorization item name
+	 * @param integer $type authorization item type. This can be 0 (operation), 1 (task) or 2 (role).
+	 * @param description $description the description
+	 * @param string $bizRule the business rule associated with this item
+	 * @param mixed $data additional data for this item
 	 */
 	public function __construct($auth,$name,$type,$description='',$bizRule=null,$data=null)
 	{
@@ -56,8 +56,8 @@ class CAuthItem extends CComponent
 	/**
 	 * Checks to see if the specified item is within the hierarchy starting from this item.
 	 * This method is internally used by {@link IAuthManager::checkAccess}.
-	 * @param string the name of the item to be checked
-	 * @param array the parameters to be passed to business rule evaluation
+	 * @param string $itemName the name of the item to be checked
+	 * @param array $params the parameters to be passed to business rule evaluation
 	 * @return boolean whether the specified item is within the hierarchy starting from this item.
 	 */
 	public function checkAccess($itemName,$params=array())
@@ -101,7 +101,7 @@ class CAuthItem extends CComponent
 	}
 
 	/**
-	 * @param string the item name
+	 * @param string $value the item name
 	 */
 	public function setName($value)
 	{
@@ -122,7 +122,7 @@ class CAuthItem extends CComponent
 	}
 
 	/**
-	 * @param string the item description
+	 * @param string $value the item description
 	 */
 	public function setDescription($value)
 	{
@@ -142,7 +142,7 @@ class CAuthItem extends CComponent
 	}
 
 	/**
-	 * @param string the business rule associated with this item
+	 * @param string $value the business rule associated with this item
 	 */
 	public function setBizRule($value)
 	{
@@ -162,7 +162,7 @@ class CAuthItem extends CComponent
 	}
 
 	/**
-	 * @param string the business rule associated with this item
+	 * @param string $value the business rule associated with this item
 	 */
 	public function setData($value)
 	{
@@ -175,7 +175,7 @@ class CAuthItem extends CComponent
 
 	/**
 	 * Adds a child item.
-	 * @param string the name of the child item
+	 * @param string $name the name of the child item
 	 * @return boolean whether the item is added successfully
 	 * @throws CException if either parent or child doesn't exist or if a loop has been detected.
 	 * @see IAuthManager::addItemChild
@@ -188,7 +188,7 @@ class CAuthItem extends CComponent
 	/**
 	 * Removes a child item.
 	 * Note, the child item is not deleted. Only the parent-child relationship is removed.
-	 * @param string the child item name
+	 * @param string $name the child item name
 	 * @return boolean whether the removal is successful
 	 * @see IAuthManager::removeItemChild
 	 */
@@ -199,7 +199,7 @@ class CAuthItem extends CComponent
 
 	/**
 	 * Returns a value indicating whether a child exists
-	 * @param string the child item name
+	 * @param string $name the child item name
 	 * @return boolean whether the child exists
 	 * @see IAuthManager::hasItemChild
 	 */
@@ -220,10 +220,10 @@ class CAuthItem extends CComponent
 
 	/**
 	 * Assigns this item to a user.
-	 * @param mixed the user ID (see {@link IWebUser::getId})
-	 * @param string the business rule to be executed when {@link checkAccess} is called
+	 * @param mixed $userId the user ID (see {@link IWebUser::getId})
+	 * @param string $bizRule the business rule to be executed when {@link checkAccess} is called
 	 * for this particular authorization item.
-	 * @param mixed additional data associated with this assignment
+	 * @param mixed $data additional data associated with this assignment
 	 * @return CAuthAssignment the authorization assignment information.
 	 * @throws CException if the item has already been assigned to the user
 	 * @see IAuthManager::assign
@@ -235,7 +235,7 @@ class CAuthItem extends CComponent
 
 	/**
 	 * Revokes an authorization assignment from a user.
-	 * @param mixed the user ID (see {@link IWebUser::getId})
+	 * @param mixed $userId the user ID (see {@link IWebUser::getId})
 	 * @return boolean whether removal is successful
 	 * @see IAuthManager::revoke
 	 */
@@ -246,7 +246,7 @@ class CAuthItem extends CComponent
 
 	/**
 	 * Returns a value indicating whether this item has been assigned to the user.
-	 * @param mixed the user ID (see {@link IWebUser::getId})
+	 * @param mixed $userId the user ID (see {@link IWebUser::getId})
 	 * @return boolean whether the item has been assigned to the user.
 	 * @see IAuthManager::isAssigned
 	 */
@@ -257,7 +257,7 @@ class CAuthItem extends CComponent
 
 	/**
 	 * Returns the item assignment information.
-	 * @param mixed the user ID (see {@link IWebUser::getId})
+	 * @param mixed $userId the user ID (see {@link IWebUser::getId})
 	 * @return CAuthAssignment the item assignment information. Null is returned if
 	 * this item is not assigned to the user.
 	 * @see IAuthManager::getAuthAssignment

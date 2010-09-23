@@ -42,8 +42,8 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Constructor.
-	 * @param CDbConnection the database connection
-	 * @param string the SQL statement to be executed
+	 * @param CDbConnection CDbConnection $connection the database connection
+	 * @param string $text the SQL statement to be executed
 	 */
 	public function __construct(CDbConnection $connection,$text)
 	{
@@ -71,7 +71,7 @@ class CDbCommand extends CComponent
 	/**
 	 * Specifies the SQL statement to be executed.
 	 * Any previous execution will be terminated or cancel.
-	 * @param string the SQL statement to be executed
+	 * @param string $value the SQL statement to be executed
 	 */
 	public function setText($value)
 	{
@@ -135,13 +135,13 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Binds a parameter to the SQL statement to be executed.
-	 * @param mixed Parameter identifier. For a prepared statement
+	 * @param mixed $name Parameter identifier. For a prepared statement
 	 * using named placeholders, this will be a parameter name of
 	 * the form :name. For a prepared statement using question mark
 	 * placeholders, this will be the 1-indexed position of the parameter.
-	 * @param mixed Name of the PHP variable to bind to the SQL statement parameter
-	 * @param int SQL data type of the parameter. If null, the type is determined by the PHP type of the value.
-	 * @param int length of the data type
+	 * @param mixed &$value Name of the PHP variable to bind to the SQL statement parameter
+	 * @param int $dataType SQL data type of the parameter. If null, the type is determined by the PHP type of the value.
+	 * @param int $length length of the data type
 	 * @return CDbCommand the current command being executed (this is available since version 1.0.8)
 	 * @see http://www.php.net/manual/en/function.PDOStatement-bindParam.php
 	 */
@@ -161,12 +161,12 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Binds a value to a parameter.
-	 * @param mixed Parameter identifier. For a prepared statement
+	 * @param mixed $name Parameter identifier. For a prepared statement
 	 * using named placeholders, this will be a parameter name of
 	 * the form :name. For a prepared statement using question mark
 	 * placeholders, this will be the 1-indexed position of the parameter.
-	 * @param mixed The value to bind to the parameter
-	 * @param int SQL data type of the parameter. If null, the type is determined by the PHP type of the value.
+	 * @param mixed $value The value to bind to the parameter
+	 * @param int $dataType SQL data type of the parameter. If null, the type is determined by the PHP type of the value.
 	 * @return CDbCommand the current command being executed (this is available since version 1.0.8)
 	 * @see http://www.php.net/manual/en/function.PDOStatement-bindValue.php
 	 */
@@ -186,7 +186,7 @@ class CDbCommand extends CComponent
 	 * Executes the SQL statement.
 	 * This method is meant only for executing non-query SQL statement.
 	 * No result set will be returned.
-	 * @param array input parameters (name=>value) for the SQL execution. This is an alternative
+	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
@@ -239,7 +239,7 @@ class CDbCommand extends CComponent
 	/**
 	 * Executes the SQL statement and returns query result.
 	 * This method is for executing an SQL query that returns result set.
-	 * @param array input parameters (name=>value) for the SQL execution. This is an alternative
+	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
@@ -255,9 +255,9 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Executes the SQL statement and returns all rows.
-	 * @param boolean whether each row should be returned as an associated array with
+	 * @param boolean $fetchAssociative whether each row should be returned as an associated array with
 	 * column names as the keys or the array keys are column indexes (0-based).
-	 * @param array input parameters (name=>value) for the SQL execution. This is an alternative
+	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
@@ -275,9 +275,9 @@ class CDbCommand extends CComponent
 	/**
 	 * Executes the SQL statement and returns the first row of the result.
 	 * This is a convenient method of {@link query} when only the first row of data is needed.
-	 * @param boolean whether the row should be returned as an associated array with
+	 * @param boolean $fetchAssociative whether the row should be returned as an associated array with
 	 * column names as the keys or the array keys are column indexes (0-based).
-	 * @param array input parameters (name=>value) for the SQL execution. This is an alternative
+	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
@@ -295,7 +295,7 @@ class CDbCommand extends CComponent
 	 * Executes the SQL statement and returns the value of the first column in the first row of data.
 	 * This is a convenient method of {@link query} when only a single scalar
 	 * value is needed (e.g. obtaining the count of the records).
-	 * @param array input parameters (name=>value) for the SQL execution. This is an alternative
+	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
@@ -317,7 +317,7 @@ class CDbCommand extends CComponent
 	 * Executes the SQL statement and returns the first column of the result.
 	 * This is a convenient method of {@link query} when only the first column of data is needed.
 	 * Note, the column returned will contain the first element in each row of result.
-	 * @param array input parameters (name=>value) for the SQL execution. This is an alternative
+	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
@@ -332,9 +332,9 @@ class CDbCommand extends CComponent
 	}
 
 	/**
-	 * @param string method of PDOStatement to be called
-	 * @param mixed the first parameter to be passed to the method
-	 * @param array input parameters (name=>value) for the SQL execution. This is an alternative
+	 * @param string $method method of PDOStatement to be called
+	 * @param mixed $mode the first parameter to be passed to the method
+	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.

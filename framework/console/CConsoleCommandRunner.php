@@ -43,7 +43,7 @@ class CConsoleCommandRunner extends CComponent
 
 	/**
 	 * Executes the requested command.
-	 * @param array list of user supplied parameters (including the entry script name and the command name).
+	 * @param array $args list of user supplied parameters (including the entry script name and the command name).
 	 */
 	public function run($args)
 	{
@@ -72,7 +72,7 @@ class CConsoleCommandRunner extends CComponent
 
 	/**
 	 * Searches for commands under the specified directory.
-	 * @param string the directory containing the command class files.
+	 * @param string $path the directory containing the command class files.
 	 * @return array list of commands (command name=>command class file)
 	 */
 	public function findCommands($path)
@@ -93,7 +93,7 @@ class CConsoleCommandRunner extends CComponent
 	/**
 	 * Adds commands from the specified command path.
 	 * If a command already exists, the new one will be ignored.
-	 * @param string the alias of the directory containing the command class files.
+	 * @param string $path the alias of the directory containing the command class files.
 	 */
 	public function addCommands($path)
 	{
@@ -108,7 +108,7 @@ class CConsoleCommandRunner extends CComponent
 	}
 
 	/**
-	 * @param string command name (case-insensitive)
+	 * @param string $name command name (case-insensitive)
 	 * @return CConsoleCommand the command object. Null if the name is invalid.
 	 */
 	public function createCommand($name)

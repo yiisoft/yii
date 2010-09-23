@@ -27,9 +27,9 @@ class CDbException extends CException
 
 	/**
 	 * Constructor.
-	 * @param string PDO error message
-	 * @param integer PDO error code
-	 * @param mixed PDO error info
+	 * @param string $message PDO error message
+	 * @param integer $code PDO error code
+	 * @param mixed $errorInfo PDO error info
 	 */
 	public function __construct($message,$code=0,$errorInfo=null)
 	{

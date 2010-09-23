@@ -34,8 +34,8 @@ class CUploadedFile extends CComponent
 	/**
 	 * Returns an instance of the specified uploaded file.
 	 * The file should be uploaded using {@link CHtml::activeFileField}.
-	 * @param CModel the model instance
-	 * @param string the attribute name. For tabular file uploading, this can be in the format of "[$i]attributeName", where $i stands for an integer index.
+	 * @param CModel $model the model instance
+	 * @param string $attribute the attribute name. For tabular file uploading, this can be in the format of "[$i]attributeName", where $i stands for an integer index.
 	 * @return CUploadedFile the instance of the uploaded file.
 	 * Null is returned if no file is uploaded for the specified model attribute.
 	 * @see getInstanceByName
@@ -47,8 +47,8 @@ class CUploadedFile extends CComponent
 
 	/**
 	 * Returns all uploaded files for the given model attribute.
-	 * @param CModel the model instance
-	 * @param string the attribute name. For tabular file uploading, this can be in the format of "[$i]attributeName", where $i stands for an integer index.
+	 * @param CModel $model the model instance
+	 * @param string $attribute the attribute name. For tabular file uploading, this can be in the format of "[$i]attributeName", where $i stands for an integer index.
 	 * @return array array of CUploadedFile objects.
 	 * Empty array is returned if no available file was found for the given attribute.
 	 */
@@ -60,7 +60,7 @@ class CUploadedFile extends CComponent
 	/**
 	 * Returns an instance of the specified uploaded file.
 	 * The name can be a plain string or a string like an array element (e.g. 'Post[imageFile]', or 'Post[0][imageFile]').
-	 * @param string the name of the file input field.
+	 * @param string $name the name of the file input field.
 	 * @return CUploadedFile the instance of the uploaded file.
 	 * Null is returned if no file is uploaded for the specified name.
 	 */
@@ -77,7 +77,7 @@ class CUploadedFile extends CComponent
 	 *
 	 * If multiple files were uploaded and saved as 'Files[0]', 'Files[1]',
 	 * 'Files[n]'..., you can have them all by passing 'Files' as array name.
-	 * @param string the name of the array of files
+	 * @param string $name the name of the array of files
 	 * @return array the array of CUploadedFile objects. Empty array is returned
 	 * if no adequate upload was found. Please note that this array will contain
 	 * all files from all subarrays regardless how deeply nested they are.
@@ -120,12 +120,12 @@ class CUploadedFile extends CComponent
 	}
 	/**
 	 * Processes incoming files for {@link getInstanceByName}.
-	 * @param string key for identifiing uploaded file: class name and subarray indexes
-	 * @param mixed file names provided by PHP
-	 * @param mixed temporary file names provided by PHP
-	 * @param mixed filetypes provided by PHP
-	 * @param mixed file sizes provided by PHP
-	 * @param mixed uploading issues provided by PHP
+	 * @param string $key key for identifiing uploaded file: class name and subarray indexes
+	 * @param mixed $names file names provided by PHP
+	 * @param mixed $tmp_names temporary file names provided by PHP
+	 * @param mixed $types filetypes provided by PHP
+	 * @param mixed $sizes file sizes provided by PHP
+	 * @param mixed $errors uploading issues provided by PHP
 	 */
 	protected static function collectFilesRecursive($key, $names, $tmp_names, $types, $sizes, $errors)
 	{
@@ -141,11 +141,11 @@ class CUploadedFile extends CComponent
 	/**
 	 * Constructor.
 	 * Use {@link getInstance} to get an instance of an uploaded file.
-	 * @param string the original name of the file being uploaded
-	 * @param string the path of the uploaded file on the server.
-	 * @param string the MIME-type of the uploaded file (such as "image/gif").
-	 * @param integer the actual size of the uploaded file in bytes
-	 * @param integer the error code
+	 * @param string $name the original name of the file being uploaded
+	 * @param string $tempName the path of the uploaded file on the server.
+	 * @param string $type the MIME-type of the uploaded file (such as "image/gif").
+	 * @param integer $size the actual size of the uploaded file in bytes
+	 * @param integer $error the error code
 	 */
 	protected function __construct($name,$tempName,$type,$size,$error)
 	{
@@ -170,8 +170,8 @@ class CUploadedFile extends CComponent
 
 	/**
 	 * Saves the uploaded file.
-	 * @param string the file path used to save the uploaded file
-	 * @param boolean whether to delete the temporary file after saving.
+	 * @param string $file the file path used to save the uploaded file
+	 * @param boolean $deleteTempFile whether to delete the temporary file after saving.
 	 * If true, you will not be able to save the uploaded file again in the current request.
 	 * @return boolean true whether the file is saved successfully
 	 */

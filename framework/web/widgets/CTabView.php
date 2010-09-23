@@ -156,7 +156,7 @@ class CTabView extends CWidget
 
 	/**
 	 * Registers the needed CSS file.
-	 * @param string the CSS URL. If null, a default CSS URL will be used.
+	 * @param string $url the CSS URL. If null, a default CSS URL will be used.
 	 * @since 1.0.2
 	 */
 	public static function registerCssFile($url=null)

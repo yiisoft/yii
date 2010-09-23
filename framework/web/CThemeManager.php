@@ -49,7 +49,7 @@ class CThemeManager extends CApplicationComponent
 
 
 	/**
-	 * @param string name of the theme to be retrieved
+	 * @param string $name name of the theme to be retrieved
 	 * @return CTheme the theme retrieved. Null if the theme does not exist.
 	 */
 	public function getTheme($name)
@@ -97,7 +97,7 @@ class CThemeManager extends CApplicationComponent
 	}
 
 	/**
-	 * @param string the base path for all themes.
+	 * @param string $value the base path for all themes.
 	 * @throws CException if the base path does not exist
 	 */
 	public function setBasePath($value)
@@ -118,7 +118,7 @@ class CThemeManager extends CApplicationComponent
 	}
 
 	/**
-	 * @param string the base URL for all themes.
+	 * @param string $value the base URL for all themes.
 	 */
 	public function setBaseUrl($value)
 	{

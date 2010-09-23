@@ -25,7 +25,7 @@ class CMssqlSchema extends CDbSchema
 
 	/**
 	 * Quotes a table name for use in a query.
-	 * @param string table name
+	 * @param string $name table name
 	 * @return string the properly quoted table name
 	 */
 	public function quoteTableName($name)
@@ -40,7 +40,7 @@ class CMssqlSchema extends CDbSchema
 
 	/**
 	 * Quotes a column name for use in a query.
-	 * @param string column name
+	 * @param string $name column name
 	 * @return string the properly quoted column name
 	 */
 	public function quoteColumnName($name)
@@ -52,8 +52,8 @@ class CMssqlSchema extends CDbSchema
 	 * Compares two table names.
 	 * The table names can be either quoted or unquoted. This method
 	 * will consider both cases.
-	 * @param string table name 1
-	 * @param string table name 2
+	 * @param string $name1 table name 1
+	 * @param string $name2 table name 2
 	 * @return boolean whether the two table names refer to the same table.
 	 */
 	public function compareTableNames($name1,$name2)
@@ -65,7 +65,7 @@ class CMssqlSchema extends CDbSchema
 
 	/**
 	 * Creates a table instance representing the metadata for the named table.
-	 * @param string table name
+	 * @param string $name table name
 	 * @return CMssqlTableSchema driver dependent table metadata. Null if the table does not exist.
 	 */
 	protected function createTable($name)
@@ -85,8 +85,8 @@ class CMssqlSchema extends CDbSchema
 
 	/**
 	 * Generates various kinds of table names.
-	 * @param CMssqlTableSchema the table instance
-	 * @param string the unquoted table name
+	 * @param CMssqlTableSchema $table the table instance
+	 * @param string $name the unquoted table name
 	 */
 	protected function resolveTableNames($table,$name)
 	{
@@ -118,7 +118,7 @@ class CMssqlSchema extends CDbSchema
 
 	/**
 	 * Gets the primary key column(s) details for the given table.
-	 * @param CMssqlTableSchema table
+	 * @param CMssqlTableSchema $table table
 	 * @return mixed primary keys (null if no pk, string if only 1 column pk, or array if composite pk)
 	 */
 	protected function findPrimaryKey($table)
@@ -159,7 +159,7 @@ EOD;
 
 	/**
 	 * Gets foreign relationship constraint keys and table name
-	 * @param CMssqlTableSchema table
+	 * @param CMssqlTableSchema $table table
 	 * @return array foreign relationship table name and keys.
 	 */
 	protected function findForeignKeys($table)
@@ -212,7 +212,7 @@ EOD;
 
 	/**
 	 * Collects the table column metadata.
-	 * @param CMssqlTableSchema the table metadata
+	 * @param CMssqlTableSchema $table the table metadata
 	 * @return boolean whether the table exists in the database
 	 */
 	protected function findColumns($table)
@@ -246,7 +246,7 @@ EOD;
 
 	/**
 	 * Creates a table column.
-	 * @param array column metadata
+	 * @param array $column column metadata
 	 * @return CDbColumnSchema normalized column metadata
 	 */
 	protected function createColumn($column)
@@ -272,7 +272,7 @@ EOD;
 
 	/**
 	 * Returns all table names in the database.
-	 * @param string the schema of the tables. Defaults to empty string, meaning the current or default schema.
+	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
 	 * If not empty, the returned table names will be prefixed with the schema name.
 	 * @return array all table names in the database.
 	 * @since 1.0.4

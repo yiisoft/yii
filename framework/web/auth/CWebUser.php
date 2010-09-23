@@ -96,7 +96,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	/**
 	 * PHP magic method.
 	 * This method is overriden so that persistent states can be accessed like properties.
-	 * @param string property name
+	 * @param string $name property name
 	 * @return mixed property value
 	 * @since 1.0.3
 	 */
@@ -111,8 +111,8 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	/**
 	 * PHP magic method.
 	 * This method is overriden so that persistent states can be set like properties.
-	 * @param string property name
-	 * @param mixed property value
+	 * @param string $name property name
+	 * @param mixed $value property value
 	 * @since 1.0.3
 	 */
 	public function __set($name,$value)
@@ -126,7 +126,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	/**
 	 * PHP magic method.
 	 * This method is overriden so that persistent states can also be checked for null value.
-	 * @param string property name
+	 * @param string $name property name
 	 * @since 1.0.3
 	 */
 	public function __isset($name)
@@ -140,7 +140,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	/**
 	 * PHP magic method.
 	 * This method is overriden so that persistent states can also be unset.
-	 * @param string property name
+	 * @param string $name property name
 	 * @throws CException if the property is read only.
 	 * @since 1.0.3
 	 */
@@ -179,8 +179,8 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * Note, you have to set {@link allowAutoLogin} to true
 	 * if you want to allow user to be authenticated based on the cookie information.
 	 *
-	 * @param IUserIdentity the user identity (which should already be authenticated)
-	 * @param integer number of seconds that the user can remain in logged-in status. Defaults to 0, meaning login till the user closes the browser.
+	 * @param IUserIdentity $identity the user identity (which should already be authenticated)
+	 * @param integer $duration number of seconds that the user can remain in logged-in status. Defaults to 0, meaning login till the user closes the browser.
 	 * If greater than 0, cookie-based login will be used. In this case, {@link allowAutoLogin}
 	 * must be set true, otherwise an exception will be thrown.
 	 */
@@ -209,7 +209,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * Logs out the current user.
 	 * This will remove authentication-related session data.
 	 * If the parameter is true, the whole session will be destroyed as well.
-	 * @param boolean whether to destroy the whole session. Defaults to true. If false,
+	 * @param boolean $destroySession whether to destroy the whole session. Defaults to true. If false,
 	 * then {@link clearStates} will be called, which removes only the data stored via {@link setState}.
 	 * This parameter has been available since version 1.0.7. Before 1.0.7, the behavior
 	 * is to destroy the whole session.
@@ -254,7 +254,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	}
 
 	/**
-	 * @param mixed the unique identifier for the user. If null, it means the user is a guest.
+	 * @param mixed $value the unique identifier for the user. If null, it means the user is a guest.
 	 */
 	public function setId($value)
 	{
@@ -276,7 +276,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 
 	/**
 	 * Sets the unique identifier for the user (e.g. username).
-	 * @param string the user name.
+	 * @param string $value the user name.
 	 * @see getName
 	 */
 	public function setName($value)
@@ -297,7 +297,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	}
 
 	/**
-	 * @param string the URL that the user should be redirected to after login.
+	 * @param string $value the URL that the user should be redirected to after login.
 	 */
 	public function setReturnUrl($value)
 	{
@@ -341,9 +341,9 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * that the user ID together with a random token in the states can be found
 	 * in the database. This will prevent hackers from faking arbitrary
 	 * identity cookies even if they crack down the server private key.
-	 * @param mixed the user ID. This is the same as returned by {@link getId()}.
-	 * @param array a set of name-value pairs that are provided by the user identity.
-	 * @param boolean whether the login is based on cookie
+	 * @param mixed $id the user ID. This is the same as returned by {@link getId()}.
+	 * @param array $states a set of name-value pairs that are provided by the user identity.
+	 * @param boolean $fromCookie whether the login is based on cookie
 	 * @return boolean whether the user should be logged in
 	 * @since 1.1.3
 	 */
@@ -356,7 +356,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * This method is called after the user is successfully logged in.
 	 * You may override this method to do some postprocessing (e.g. log the user
 	 * login IP and time; load the user permission information).
-	 * @param boolean whether the login is based on cookie.
+	 * @param boolean $fromCookie whether the login is based on cookie.
 	 * @since 1.1.3
 	 */
 	protected function afterLogin($fromCookie)
@@ -442,7 +442,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * This method is used when automatic login ({@link allowAutoLogin}) is enabled.
 	 * This method saves user ID, username, other identity states and a validation key to cookie.
 	 * These information are used to do authentication next time when user visits the application.
-	 * @param integer number of seconds that the user can remain in logged-in status. Defaults to 0, meaning login till the user closes the browser.
+	 * @param integer $duration number of seconds that the user can remain in logged-in status. Defaults to 0, meaning login till the user closes the browser.
 	 * @see restoreFromCookie
 	 */
 	protected function saveToCookie($duration)
@@ -462,7 +462,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 
 	/**
 	 * Creates a cookie to store identity information.
-	 * @param string the cookie name
+	 * @param string $name the cookie name
 	 * @return CHttpCookie the cookie used to store identity information
 	 * @since 1.0.5
 	 */
@@ -489,7 +489,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	}
 
 	/**
-	 * @param string a prefix for the name of the session variables storing user session data.
+	 * @param string $value a prefix for the name of the session variables storing user session data.
 	 * @since 1.0.9
 	 */
 	public function setStateKeyPrefix($value)
@@ -505,8 +505,8 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * A variable, if stored in user session using {@link setState} can be
 	 * retrieved back using this function.
 	 *
-	 * @param string variable name
-	 * @param mixed default value
+	 * @param string $key variable name
+	 * @param mixed $defaultValue default value
 	 * @return mixed the value of the variable. If it doesn't exist in the session,
 	 * the provided default value will be returned
 	 * @see setState
@@ -526,9 +526,9 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * back later using {@link getState}. The variable will be persistent
 	 * across page requests during a user session.
 	 *
-	 * @param string variable name
-	 * @param mixed variable value
-	 * @param mixed default value. If $value===$defaultValue, the variable will be
+	 * @param string $key variable name
+	 * @param mixed $value variable value
+	 * @param mixed $defaultValue default value. If $value===$defaultValue, the variable will be
 	 * removed from the session
 	 * @see getState
 	 */
@@ -543,7 +543,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 
 	/**
 	 * Returns a value indicating whether there is a state of the specified name.
-	 * @param string state name
+	 * @param string $key state name
 	 * @return boolean whether there is a state of the specified name.
 	 * @since 1.0.3
 	 */
@@ -573,7 +573,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * Returns all flash messages.
 	 * This method is similar to {@link getFlash} except that it returns all
 	 * currently available flash messages.
-	 * @param boolean whether to delete the flash messages after calling this method.
+	 * @param boolean $delete whether to delete the flash messages after calling this method.
 	 * @return array flash messages (key => message).
 	 * @since 1.1.3
 	 */
@@ -600,9 +600,9 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	/**
 	 * Returns a flash message.
 	 * A flash message is available only in the current and the next requests.
-	 * @param string key identifying the flash message
-	 * @param mixed value to be returned if the flash message is not available.
-	 * @param boolean whether to delete this flash message after accessing it.
+	 * @param string $key key identifying the flash message
+	 * @param mixed $defaultValue value to be returned if the flash message is not available.
+	 * @param boolean $delete whether to delete this flash message after accessing it.
 	 * Defaults to true. This parameter has been available since version 1.0.2.
 	 * @return mixed the message message
 	 */
@@ -617,9 +617,9 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	/**
 	 * Stores a flash message.
 	 * A flash message is available only in the current and the next requests.
-	 * @param string key identifying the flash message
-	 * @param mixed flash message
-	 * @param mixed if this value is the same as the flash message, the flash message
+	 * @param string $key key identifying the flash message
+	 * @param mixed $value flash message
+	 * @param mixed $defaultValue if this value is the same as the flash message, the flash message
 	 * will be removed. (Therefore, you can use setFlash('key',null) to remove a flash message.)
 	 */
 	public function setFlash($key,$value,$defaultValue=null)
@@ -634,7 +634,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	}
 
 	/**
-	 * @param string key identifying the flash message
+	 * @param string $key key identifying the flash message
 	 * @return boolean whether the specified flash message exists
 	 */
 	public function hasFlash($key)
@@ -649,9 +649,9 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * identity information. Derived classes may override this method
 	 * by retrieving additional user-related information. Make sure the
 	 * parent implementation is called first.
-	 * @param mixed a unique identifier for the user
-	 * @param string the display name for the user
-	 * @param array identity states
+	 * @param mixed $id a unique identifier for the user
+	 * @param string $name the display name for the user
+	 * @param array $states identity states
 	 */
 	protected function changeIdentity($id,$name,$states)
 	{
@@ -674,7 +674,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 
 	/**
 	 * Loads identity states from an array and saves them to persistent storage.
-	 * @param array the identity states
+	 * @param array $states the identity states
 	 */
 	protected function loadIdentityStates($states)
 	{
@@ -715,10 +715,10 @@ class CWebUser extends CApplicationComponent implements IWebUser
 
 	/**
 	 * Performs access check for this user.
-	 * @param string the name of the operation that need access check.
-	 * @param array name-value pairs that would be passed to business rules associated
+	 * @param string $operation the name of the operation that need access check.
+	 * @param array $params name-value pairs that would be passed to business rules associated
 	 * with the tasks and roles assigned to the user.
-	 * @param boolean whether to allow caching the result of access check.
+	 * @param boolean $allowCaching whether to allow caching the result of access check.
 	 * This parameter has been available since version 1.0.5. When this parameter
 	 * is true (default), if the access check of an operation was performed before,
 	 * its result will be directly returned when calling this method to check the same operation.

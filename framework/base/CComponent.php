@@ -100,7 +100,7 @@ class CComponent
 	 * $value=$component->propertyName;
 	 * $handlers=$component->eventName;
 	 * </pre>
-	 * @param string the property name or event name
+	 * @param string $name the property name or event name
 	 * @return mixed the property value, event handlers attached to the event, or the named behavior (since version 1.0.2)
 	 * @throws CException if the property or event is not defined
 	 * @see __set
@@ -140,8 +140,8 @@ class CComponent
 	 * $this->propertyName=$value;
 	 * $this->eventName=$callback;
 	 * </pre>
-	 * @param string the property name or the event name
-	 * @param mixed the property value or callback
+	 * @param string $name the property name or the event name
+	 * @param mixed $value the property value or callback
 	 * @throws CException if the property/event is not defined or the property is read only.
 	 * @see __get
 	 */
@@ -178,7 +178,7 @@ class CComponent
 	 * Checks if a property value is null.
 	 * Do not call this method. This is a PHP magic method that we override
 	 * to allow using isset() to detect if a component property is set or not.
-	 * @param string the property name or the event name
+	 * @param string $name the property name or the event name
 	 * @since 1.0.1
 	 */
 	public function __isset($name)
@@ -208,7 +208,7 @@ class CComponent
 	 * Sets a component property to be null.
 	 * Do not call this method. This is a PHP magic method that we override
 	 * to allow using unset() to set a component property to be null.
-	 * @param string the property name or the event name
+	 * @param string $name the property name or the event name
 	 * @throws CException if the property is read only.
 	 * @since 1.0.1
 	 */
@@ -246,8 +246,8 @@ class CComponent
 	 * Calls the named method which is not a class method.
 	 * Do not call this method. This is a PHP magic method that we override
 	 * to implement the behavior feature.
-	 * @param string the method name
-	 * @param array method parameters
+	 * @param string $name the method name
+	 * @param array $parameters method parameters
 	 * @return mixed the method return value
 	 * @since 1.0.2
 	 */
@@ -270,7 +270,7 @@ class CComponent
 	/**
 	 * Returns the named behavior object.
 	 * The name 'asa' stands for 'as a'.
-	 * @param string the behavior name
+	 * @param string $behavior the behavior name
 	 * @return IBehavior the behavior object, or null if the behavior does not exist
 	 * @since 1.0.2
 	 */
@@ -291,7 +291,7 @@ class CComponent
 	 *     'property2'=>'value2',
 	 * )
 	 * </pre>
-	 * @param array list of behaviors to be attached to the component
+	 * @param array $behaviors list of behaviors to be attached to the component
 	 * @since 1.0.2
 	 */
 	public function attachBehaviors($behaviors)
@@ -319,8 +319,8 @@ class CComponent
 	 * This method will create the behavior object based on the given
 	 * configuration. After that, the behavior object will be initialized
 	 * by calling its {@link IBehavior::attach} method.
-	 * @param string the behavior's name. It should uniquely identify this behavior.
-	 * @param mixed the behavior configuration. This is passed as the first
+	 * @param string $name the behavior's name. It should uniquely identify this behavior.
+	 * @param mixed $behavior the behavior configuration. This is passed as the first
 	 * parameter to {@link YiiBase::createComponent} to create the behavior object.
 	 * @return IBehavior the behavior object
 	 * @since 1.0.2
@@ -337,7 +337,7 @@ class CComponent
 	/**
 	 * Detaches a behavior from the component.
 	 * The behavior's {@link IBehavior::detach} method will be invoked.
-	 * @param string the behavior's name. It uniquely identifies the behavior.
+	 * @param string $name the behavior's name. It uniquely identifies the behavior.
 	 * @return IBehavior the detached behavior. Null if the behavior does not exist.
 	 * @since 1.0.2
 	 */
@@ -382,7 +382,7 @@ class CComponent
 	 * Enables an attached behavior.
 	 * A behavior is only effective when it is enabled.
 	 * A behavior is enabled when first attached.
-	 * @param string the behavior's name. It uniquely identifies the behavior.
+	 * @param string $name the behavior's name. It uniquely identifies the behavior.
 	 * @since 1.0.2
 	 */
 	public function enableBehavior($name)
@@ -394,7 +394,7 @@ class CComponent
 	/**
 	 * Disables an attached behavior.
 	 * A behavior is only effective when it is enabled.
-	 * @param string the behavior's name. It uniquely identifies the behavior.
+	 * @param string $name the behavior's name. It uniquely identifies the behavior.
 	 * @since 1.0.2
 	 */
 	public function disableBehavior($name)
@@ -407,7 +407,7 @@ class CComponent
 	 * Determines whether a property is defined.
 	 * A property is defined if there is a getter or setter method
 	 * defined in the class. Note, property names are case-insensitive.
-	 * @param string the property name
+	 * @param string $name the property name
 	 * @return boolean whether the property is defined
 	 * @see canGetProperty
 	 * @see canSetProperty
@@ -421,7 +421,7 @@ class CComponent
 	 * Determines whether a property can be read.
 	 * A property can be read if the class has a getter method
 	 * for the property name. Note, property name is case-insensitive.
-	 * @param string the property name
+	 * @param string $name the property name
 	 * @return boolean whether the property can be read
 	 * @see canSetProperty
 	 */
@@ -434,7 +434,7 @@ class CComponent
 	 * Determines whether a property can be set.
 	 * A property can be written if the class has a setter method
 	 * for the property name. Note, property name is case-insensitive.
-	 * @param string the property name
+	 * @param string $name the property name
 	 * @return boolean whether the property can be written
 	 * @see canGetProperty
 	 */
@@ -447,7 +447,7 @@ class CComponent
 	 * Determines whether an event is defined.
 	 * An event is defined if the class has a method named like 'onXXX'.
 	 * Note, event name is case-insensitive.
-	 * @param string the event name
+	 * @param string $name the event name
 	 * @return boolean whether an event is defined
 	 */
 	public function hasEvent($name)
@@ -457,7 +457,7 @@ class CComponent
 
 	/**
 	 * Checks whether the named event has attached handlers.
-	 * @param string the event name
+	 * @param string $name the event name
 	 * @return boolean whether an event has been attached one or several handlers
 	 */
 	public function hasEventHandler($name)
@@ -468,7 +468,7 @@ class CComponent
 
 	/**
 	 * Returns the list of attached event handlers for an event.
-	 * @param string the event name
+	 * @param string $name the event name
 	 * @return CList list of attached event handlers for the event
 	 * @throws CException if the event is not defined
 	 */
@@ -513,8 +513,8 @@ class CComponent
 	 * </pre>
 	 * makes the handler to be invoked first.
 	 *
-	 * @param string the event name
-	 * @param callback the event handler
+	 * @param string $name the event name
+	 * @param callback $handler the event handler
 	 * @throws CException if the event is not defined
 	 * @see detachEventHandler
 	 */
@@ -526,8 +526,8 @@ class CComponent
 	/**
 	 * Detaches an existing event handler.
 	 * This method is the opposite of {@link attachEventHandler}.
-	 * @param string event name
-	 * @param callback the event handler to be removed
+	 * @param string $name event name
+	 * @param callback $handler the event handler to be removed
 	 * @return boolean if the detachment process is successful
 	 * @see attachEventHandler
 	 */
@@ -543,8 +543,8 @@ class CComponent
 	 * Raises an event.
 	 * This method represents the happening of an event. It invokes
 	 * all attached handlers for the event.
-	 * @param string the event name
-	 * @param CEvent the event parameter
+	 * @param string $name the event name
+	 * @param CEvent $event the event parameter
 	 * @throws CException if the event is undefined or an event handler is invalid.
 	 */
 	public function raiseEvent($name,$event)
@@ -603,8 +603,8 @@ class CComponent
 	 * that can be directly accessed in the expression. See {@link http://us.php.net/manual/en/function.extract.php PHP extract}
 	 * for more details. In the expression, the component object can be accessed using $this.
 	 *
-	 * @param mixed a PHP expression or PHP callback to be evaluated.
-	 * @param array additional parameters to be passed to the above expression/callback.
+	 * @param mixed $_expression_ a PHP expression or PHP callback to be evaluated.
+	 * @param array $_data_ additional parameters to be passed to the above expression/callback.
 	 * @return mixed the expression result
 	 * @since 1.1.0
 	 */
@@ -652,7 +652,7 @@ class CEvent extends CComponent
 
 	/**
 	 * Constructor.
-	 * @param mixed sender of the event
+	 * @param mixed $sender sender of the event
 	 */
 	public function __construct($sender=null)
 	{

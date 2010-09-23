@@ -142,11 +142,11 @@ class CLinkPager extends CBasePager
 	/**
 	 * Creates a page button.
 	 * You may override this method to customize the page buttons.
-	 * @param string the text label for the button
-	 * @param integer the page number
-	 * @param string the CSS class for the page button. This could be 'page', 'first', 'last', 'next' or 'previous'.
-	 * @param boolean whether this page button is visible
-	 * @param boolean whether this page button is selected
+	 * @param string $label the text label for the button
+	 * @param integer $page the page number
+	 * @param string $class the CSS class for the page button. This could be 'page', 'first', 'last', 'next' or 'previous'.
+	 * @param boolean $hidden whether this page button is visible
+	 * @param boolean $selected whether this page button is selected
 	 * @return string the generated button
 	 */
 	protected function createPageButton($label,$page,$class,$hidden,$selected)
@@ -184,7 +184,7 @@ class CLinkPager extends CBasePager
 
 	/**
 	 * Registers the needed CSS file.
-	 * @param string the CSS URL. If null, a default CSS URL will be used.
+	 * @param string $url the CSS URL. If null, a default CSS URL will be used.
 	 * @since 1.0.2
 	 */
 	public static function registerCssFile($url=null)

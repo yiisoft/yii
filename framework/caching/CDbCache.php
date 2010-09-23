@@ -109,7 +109,7 @@ class CDbCache extends CCache
 	}
 
 	/**
-	 * @param integer the probability (parts per million) that garbage collection (GC) should be performed
+	 * @param integer $value the probability (parts per million) that garbage collection (GC) should be performed
 	 * when storing a piece of data in the cache. Defaults to 100, meaning 0.01% chance.
 	 * This number should be between 0 and 1000000. A value 0 meaning no GC will be performed at all.
 	 * @since 1.0.9
@@ -126,8 +126,8 @@ class CDbCache extends CCache
 
 	/**
 	 * Creates the cache DB table.
-	 * @param CDbConnection the database connection
-	 * @param string the name of the table to be created
+	 * @param CDbConnection $db the database connection
+	 * @param string $tableName the name of the table to be created
 	 */
 	protected function createCacheTable($db,$tableName)
 	{
@@ -174,7 +174,7 @@ EOD;
 
 	/**
 	 * Sets the DB connection used by the cache component.
-	 * @param CDbConnection the DB connection instance
+	 * @param CDbConnection $value the DB connection instance
 	 * @since 1.1.5
 	 */
 	public function setDbConnection($value)
@@ -185,7 +185,7 @@ EOD;
 	/**
 	 * Retrieves a value from cache with a specified key.
 	 * This is the implementation of the method declared in the parent class.
-	 * @param string a unique key identifying the cached value
+	 * @param string $key a unique key identifying the cached value
 	 * @return string the value stored in cache, false if the value is not in the cache or expired.
 	 */
 	protected function getValue($key)
@@ -197,7 +197,7 @@ EOD;
 
 	/**
 	 * Retrieves multiple values from cache with the specified keys.
-	 * @param array a list of keys identifying the cached values
+	 * @param array $keys a list of keys identifying the cached values
 	 * @return array a list of cached values indexed by the keys
 	 * @since 1.0.8
 	 */
@@ -222,9 +222,9 @@ EOD;
 	 * Stores a value identified by a key in cache.
 	 * This is the implementation of the method declared in the parent class.
 	 *
-	 * @param string the key identifying the value to be cached
-	 * @param string the value to be cached
-	 * @param integer the number of seconds in which the cached value will expire. 0 means never expire.
+	 * @param string $key the key identifying the value to be cached
+	 * @param string $value the value to be cached
+	 * @param integer $expire the number of seconds in which the cached value will expire. 0 means never expire.
 	 * @return boolean true if the value is successfully stored into cache, false otherwise
 	 */
 	protected function setValue($key,$value,$expire)
@@ -237,9 +237,9 @@ EOD;
 	 * Stores a value identified by a key into cache if the cache does not contain this key.
 	 * This is the implementation of the method declared in the parent class.
 	 *
-	 * @param string the key identifying the value to be cached
-	 * @param string the value to be cached
-	 * @param integer the number of seconds in which the cached value will expire. 0 means never expire.
+	 * @param string $key the key identifying the value to be cached
+	 * @param string $value the value to be cached
+	 * @param integer $expire the number of seconds in which the cached value will expire. 0 means never expire.
 	 * @return boolean true if the value is successfully stored into cache, false otherwise
 	 */
 	protected function addValue($key,$value,$expire)
@@ -271,7 +271,7 @@ EOD;
 	/**
 	 * Deletes a value with the specified key from cache
 	 * This is the implementation of the method declared in the parent class.
-	 * @param string the key of the value to be deleted
+	 * @param string $key the key of the value to be deleted
 	 * @return boolean if no error happens during deletion
 	 */
 	protected function deleteValue($key)

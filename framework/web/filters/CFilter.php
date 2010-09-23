@@ -32,7 +32,7 @@ class CFilter extends CComponent implements IFilter
 	 * child classes. If a child class needs to override this method,
 	 * make sure it calls <code>$filterChain->run()</code>
 	 * if the action should be executed.
-	 * @param CFilterChain the filter chain that the filter is on.
+	 * @param CFilterChain $filterChain the filter chain that the filter is on.
 	 */
 	public function filter($filterChain)
 	{
@@ -56,7 +56,7 @@ class CFilter extends CComponent implements IFilter
 
 	/**
 	 * Performs the pre-action filtering.
-	 * @param CFilterChain the filter chain that the filter is on.
+	 * @param CFilterChain $filterChain the filter chain that the filter is on.
 	 * @return boolean whether the filtering process should continue and the action
 	 * should be executed.
 	 */
@@ -67,7 +67,7 @@ class CFilter extends CComponent implements IFilter
 
 	/**
 	 * Performs the post-action filtering.
-	 * @param CFilterChain the filter chain that the filter is on.
+	 * @param CFilterChain $filterChain the filter chain that the filter is on.
 	 */
 	protected function postFilter($filterChain)
 	{

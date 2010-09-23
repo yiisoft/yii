@@ -60,7 +60,7 @@ class CHtmlPurifier extends COutputProcessor
 	/**
 	 * Processes the captured output.
      * This method purifies the output using {@link http://htmlpurifier.org HTML Purifier}.
-	 * @param string the captured output to be processed
+	 * @param string $output the captured output to be processed
 	 */
 	public function processOutput($output)
 	{
@@ -70,7 +70,7 @@ class CHtmlPurifier extends COutputProcessor
 
 	/**
 	 * Purifies the HTML content by removing malicious code.
-	 * @param string the content to be purified.
+	 * @param string $content the content to be purified.
 	 * @return string the purified content
 	 */
 	public function purify($content)

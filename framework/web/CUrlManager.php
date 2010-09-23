@@ -203,7 +203,7 @@ class CUrlManager extends CApplicationComponent
 	 * Adds new URL rules.
 	 * In order to make the new rules effective, this method must be called BEFORE
 	 * {@link CWebApplication::processRequest}.
-	 * @param array new URL rules (pattern=>route).
+	 * @param array $rules new URL rules (pattern=>route).
 	 * @since 1.1.4
 	 */
 	public function addRules($rules)
@@ -215,8 +215,8 @@ class CUrlManager extends CApplicationComponent
 	/**
 	 * Creates a URL rule instance.
 	 * The default implementation returns a CUrlRule object.
-	 * @param string the pattern part of the rule
-	 * @param mixed the route part of the rule. This could be a string or an array
+	 * @param string $route the pattern part of the rule
+	 * @param mixed $pattern the route part of the rule. This could be a string or an array
 	 * @return CUrlRule the URL rule instance
 	 * @since 1.1.0
 	 */
@@ -227,11 +227,11 @@ class CUrlManager extends CApplicationComponent
 
 	/**
 	 * Constructs a URL.
-	 * @param string the controller and the action (e.g. article/read)
-	 * @param array list of GET parameters (name=>value). Both the name and value will be URL-encoded.
+	 * @param string $route the controller and the action (e.g. article/read)
+	 * @param array $params list of GET parameters (name=>value). Both the name and value will be URL-encoded.
 	 * If the name is '#', the corresponding value will be treated as an anchor
 	 * and will be appended at the end of the URL. This anchor feature has been available since version 1.0.1.
-	 * @param string the token separating name-value pairs in the URL. Defaults to '&'.
+	 * @param string $ampersand the token separating name-value pairs in the URL. Defaults to '&'.
 	 * @return string the constructed URL
 	 */
 	public function createUrl($route,$params=array(),$ampersand='&')
@@ -258,9 +258,9 @@ class CUrlManager extends CApplicationComponent
 
 	/**
 	 * Contructs a URL based on default settings.
-	 * @param string the controller and the action (e.g. article/read)
-	 * @param array list of GET parameters
-	 * @param string the token separating name-value pairs in the URL.
+	 * @param string $route the controller and the action (e.g. article/read)
+	 * @param array $params list of GET parameters
+	 * @param string $ampersand the token separating name-value pairs in the URL.
 	 * @return string the constructed URL
 	 */
 	protected function createUrlDefault($route,$params,$ampersand)
@@ -300,7 +300,7 @@ class CUrlManager extends CApplicationComponent
 
 	/**
 	 * Parses the user request.
-	 * @param CHttpRequest the request application component
+	 * @param CHttpRequest $request the request application component
 	 * @return string the route (controllerID/actionID) and perhaps GET parameters in path format.
 	 */
 	public function parseUrl($request)
@@ -330,7 +330,7 @@ class CUrlManager extends CApplicationComponent
 
 	/**
 	 * Parses a path info into URL segments and saves them to $_GET and $_REQUEST.
-	 * @param string path info
+	 * @param string $pathInfo path info
 	 * @since 1.0.3
 	 */
 	public function parsePathInfo($pathInfo)
@@ -362,10 +362,10 @@ class CUrlManager extends CApplicationComponent
 
 	/**
 	 * Creates a path info based on the given parameters.
-	 * @param array list of GET parameters
-	 * @param string the separator between name and value
-	 * @param string the separator between name-value pairs
-	 * @param string this is used internally.
+	 * @param array $params list of GET parameters
+	 * @param string $equal the separator between name and value
+	 * @param string $ampersand the separator between name-value pairs
+	 * @param string $key this is used internally.
 	 * @return string the created path info
 	 * @since 1.0.3
 	 */
@@ -387,8 +387,8 @@ class CUrlManager extends CApplicationComponent
 
 	/**
 	 * Removes the URL suffix from path info.
-	 * @param string path info part in the URL
-	 * @param string the URL suffix to be removed
+	 * @param string $pathInfo path info part in the URL
+	 * @param string $urlSuffix the URL suffix to be removed
 	 * @return string path info with URL suffix removed.
 	 */
 	public function removeUrlSuffix($pathInfo,$urlSuffix)
@@ -423,7 +423,7 @@ class CUrlManager extends CApplicationComponent
 	 * This method is provided in case the {@link baseUrl} cannot be determined automatically.
 	 * The ending slashes should be stripped off. And you are also responsible to remove the script name
 	 * if you set {@link showScriptName} to be false.
-	 * @param string the base URL of the application
+	 * @param string $value the base URL of the application
 	 * @since 1.1.1
 	 */
 	public function setBaseUrl($value)
@@ -441,7 +441,7 @@ class CUrlManager extends CApplicationComponent
 	}
 
 	/**
-	 * @param string the URL format. It must be either 'path' or 'get'.
+	 * @param string $value the URL format. It must be either 'path' or 'get'.
 	 */
 	public function setUrlFormat($value)
 	{
@@ -536,8 +536,8 @@ class CUrlRule extends CComponent
 
 	/**
 	 * Constructor.
-	 * @param string the route of the URL (controller/action)
-	 * @param string the pattern for matching the URL
+	 * @param string $route the route of the URL (controller/action)
+	 * @param string $pattern the pattern for matching the URL
 	 */
 	public function __construct($route,$pattern)
 	{
@@ -600,10 +600,10 @@ class CUrlRule extends CComponent
 
 	/**
 	 * Creates a URL based on this rule.
-	 * @param CUrlManager the manager
-	 * @param string the route
-	 * @param array list of parameters
-	 * @param string the token separating name-value pairs in the URL.
+	 * @param CUrlManager $manager the manager
+	 * @param string $route the route
+	 * @param array $params list of parameters
+	 * @param string $ampersand the token separating name-value pairs in the URL.
 	 * @return string the constructed URL
 	 */
 	public function createUrl($manager,$route,$params,$ampersand)
@@ -683,10 +683,10 @@ class CUrlRule extends CComponent
 
 	/**
 	 * Parases a URL based on this rule.
-	 * @param CUrlManager the URL manager
-	 * @param CHttpRequest the request object
-	 * @param string path info part of the URL
-	 * @param string path info that contains the potential URL suffix
+	 * @param CUrlManager $manager the URL manager
+	 * @param CHttpRequest $request the request object
+	 * @param string $pathInfo path info part of the URL
+	 * @param string $rawPathInfo path info that contains the potential URL suffix
 	 * @return string the route that consists of the controller ID and action ID
 	 */
 	public function parseUrl($manager,$request,$pathInfo,$rawPathInfo)

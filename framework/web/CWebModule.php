@@ -91,7 +91,7 @@ class CWebModule extends CModule
 	}
 
 	/**
-	 * @param string the directory that contains the controller classes.
+	 * @param string $value the directory that contains the controller classes.
 	 * @throws CException if the directory is invalid
 	 */
 	public function setControllerPath($value)
@@ -113,7 +113,7 @@ class CWebModule extends CModule
 	}
 
 	/**
-	 * @param string the root directory of view files.
+	 * @param string $path the root directory of view files.
 	 * @throws CException if the directory does not exist.
 	 */
 	public function setViewPath($path)
@@ -135,7 +135,7 @@ class CWebModule extends CModule
 	}
 
 	/**
-	 * @param string the root directory of layout files.
+	 * @param string $path the root directory of layout files.
 	 * @throws CException if the directory does not exist.
 	 */
 	public function setLayoutPath($path)
@@ -158,8 +158,8 @@ class CWebModule extends CModule
 	 * else
 	 *     return false;
 	 * </pre>
-	 * @param CController the controller
-	 * @param CAction the action
+	 * @param CController $controller the controller
+	 * @param CAction $action the action
 	 * @return boolean whether the action should be executed.
 	 * @since 1.0.4
 	 */
@@ -174,8 +174,8 @@ class CWebModule extends CModule
 	 * The post-filter for controller actions.
 	 * This method is invoked after the currently requested controller action and all its filters
 	 * are executed. If you override this method, make sure you call the parent implementation at the end.
-	 * @param CController the controller
-	 * @param CAction the action
+	 * @param CController $controller the controller
+	 * @param CAction $action the action
 	 * @since 1.0.4
 	 */
 	public function afterControllerAction($controller,$action)

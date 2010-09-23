@@ -176,7 +176,7 @@ class CSort extends CComponent
 
 	/**
 	 * Constructor.
-	 * @param string the class name of data models that need to be sorted.
+	 * @param string $modelClass the class name of data models that need to be sorted.
 	 * This should be a child class of {@link CActiveRecord}.
 	 */
 	public function __construct($modelClass=null)
@@ -189,7 +189,7 @@ class CSort extends CComponent
 	 * This method will use {@link directions} to determine which columns need to be sorted.
 	 * They will be put in the ORDER BY clause. If the criteria already has non-empty {@link CDbCriteria::order} value,
 	 * the new value will be appended to it.
-	 * @param CDbCriteria the query criteria
+	 * @param CDbCriteria $criteria the query criteria
 	 */
 	public function applyOrder($criteria)
 	{
@@ -246,12 +246,12 @@ class CSort extends CComponent
 
 	/**
 	 * Generates a hyperlink that can be clicked to cause sorting.
-	 * @param string the attribute name. This must be the actual attribute name, not alias.
+	 * @param string $attribute the attribute name. This must be the actual attribute name, not alias.
 	 * If it is an attribute of a related AR object, the name should be prefixed with
 	 * the relation name (e.g. 'author.name', where 'author' is the relation name).
-	 * @param string the link label. If null, the label will be determined according
+	 * @param string $label the link label. If null, the label will be determined according
 	 * to the attribute (see {@link resolveLabel}).
-	 * @param array additional HTML attributes for the hyperlink tag
+	 * @param array $htmlOptions additional HTML attributes for the hyperlink tag
 	 * @return string the generated hyperlink
 	 */
 	public function link($attribute,$label=null,$htmlOptions=array())
@@ -291,7 +291,7 @@ class CSort extends CComponent
 	 * This will invoke {@link CActiveRecord::getAttributeLabel} to determine what label to use.
 	 * If the attribute refers to a virtual attribute declared in {@link attributes},
 	 * then the label given in the {@link attributes} will be returned instead.
-	 * @param string the attribute name.
+	 * @param string $attribute the attribute name.
 	 * @return string the attribute label
 	 */
 	public function resolveLabel($attribute)
@@ -350,7 +350,7 @@ class CSort extends CComponent
 
 	/**
 	 * Returns the sort direction of the specified attribute in the current request.
-	 * @param string the attribute name
+	 * @param string $attribute the attribute name
 	 * @return mixed the sort direction of the attribut. True if the attribute should be sorted in descending order,
 	 * false if in ascending order, and null if the attribute doesn't need to be sorted.
 	 */
@@ -362,8 +362,8 @@ class CSort extends CComponent
 
 	/**
 	 * Creates a URL that can lead to generating sorted data.
-	 * @param CController the controller that will be used to create the URL.
-	 * @param array the sort directions indexed by attribute names.
+	 * @param CController $controller the controller that will be used to create the URL.
+	 * @param array $directions the sort directions indexed by attribute names.
 	 * The sort direction is true if the corresponding attribute should be
 	 * sorted in descending order.
 	 * @return string the URL for sorting
@@ -390,7 +390,7 @@ class CSort extends CComponent
 	 * contains a star ('*') element, the name will also be used to match against all model attributes.</li>
 	 * <li>In all other cases, false is returned, meaning the name does not refer to a valid attribute.</li>
 	 * </ul>
-	 * @param string the attribute name that the user requests to sort on
+	 * @param string $attribute the attribute name that the user requests to sort on
 	 * @return mixed the attribute name or the virtual attribute definition. False if the attribute cannot be sorted.
 	 */
 	public function resolveAttribute($attribute)
@@ -422,10 +422,10 @@ class CSort extends CComponent
 	/**
 	 * Creates a hyperlink based on the given label and URL.
 	 * You may override this method to customize the link generation.
-	 * @param string the name of the attribute that this link is for
-	 * @param string the label of the hyperlink
-	 * @param string the URL
-	 * @param array additional HTML options
+	 * @param string $attribute the name of the attribute that this link is for
+	 * @param string $label the label of the hyperlink
+	 * @param string $url the URL
+	 * @param array $htmlOptions additional HTML options
 	 * @return string the generated hyperlink
 	 */
 	protected function createLink($attribute,$label,$url,$htmlOptions)

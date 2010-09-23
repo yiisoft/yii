@@ -37,8 +37,8 @@ class CFilterChain extends CList
 
 	/**
 	 * Constructor.
-	 * @param CController the controller who executes the action.
-	 * @param CAction the action being filtered by this chain.
+	 * @param CController $controller the controller who executes the action.
+	 * @param CAction $action the action being filtered by this chain.
 	 */
 	public function __construct($controller,$action)
 	{
@@ -49,9 +49,9 @@ class CFilterChain extends CList
 	/**
 	 * CFilterChain factory method.
 	 * This method creates a CFilterChain instance.
-	 * @param CController the controller who executes the action.
-	 * @param CAction the action being filtered by this chain.
-	 * @param array list of filters to be applied to the action.
+	 * @param CController $controller the controller who executes the action.
+	 * @param CAction $action the action being filtered by this chain.
+	 * @param array $filters list of filters to be applied to the action.
 	 */
 	public static function create($controller,$action,$filters)
 	{
@@ -103,8 +103,8 @@ class CFilterChain extends CList
 	 * This method overrides the parent implementation by adding
 	 * additional check for the item to be added. In particular,
 	 * only objects implementing {@link IFilter} can be added to the list.
-	 * @param integer the specified position.
-	 * @param mixed new item
+	 * @param integer $index the specified position.
+	 * @param mixed $item new item
 	 * @throws CException If the index specified exceeds the bound or the list is read-only, or the item is not an {@link IFilter} instance.
 	 */
 	public function insertAt($index,$item)

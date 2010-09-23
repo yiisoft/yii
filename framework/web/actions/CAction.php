@@ -31,8 +31,8 @@ abstract class CAction extends CComponent implements IAction
 
 	/**
 	 * Constructor.
-	 * @param CController the controller who owns this action.
-	 * @param string id of the action.
+	 * @param CController $controller the controller who owns this action.
+	 * @param string $id id of the action.
 	 */
 	public function __construct($controller,$id)
 	{

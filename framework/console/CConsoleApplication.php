@@ -101,10 +101,10 @@ class CConsoleApplication extends CApplication
 	 * Displays the captured PHP error.
 	 * This method displays the error in console mode when there is
 	 * no active error handler.
-	 * @param integer error code
-	 * @param string error message
-	 * @param string error file
-	 * @param string error line
+	 * @param integer $code error code
+	 * @param string $message error message
+	 * @param string $file error file
+	 * @param string $line error line
 	 */
 	public function displayError($code,$message,$file,$line)
 	{
@@ -117,7 +117,7 @@ class CConsoleApplication extends CApplication
 	 * Displays the uncaught PHP exception.
 	 * This method displays the exception in console mode when there is
 	 * no active error handler.
-	 * @param Exception the uncaught exception
+	 * @param Exception $exception the uncaught exception
 	 */
 	public function displayException($exception)
 	{
@@ -135,7 +135,7 @@ class CConsoleApplication extends CApplication
 	}
 
 	/**
-	 * @param string the directory that contains the command classes.
+	 * @param string $value the directory that contains the command classes.
 	 * @throws CException if the directory is invalid
 	 */
 	public function setCommandPath($value)

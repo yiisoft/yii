@@ -138,7 +138,7 @@ class GiiModule extends CWebModule
 	}
 
 	/**
-	 * @param string the base URL that contains all published asset files of gii.
+	 * @param string $value the base URL that contains all published asset files of gii.
 	 */
 	public function setAssetsUrl($value)
 	{
@@ -149,8 +149,8 @@ class GiiModule extends CWebModule
 	 * Performs access check to gii.
 	 * This method will check to see if user IP and password are correct if they attempt
 	 * to access actions other than "default/login" and "default/error".
-	 * @param CController the controller to be accessed.
-	 * @param CAction the action to be accessed.
+	 * @param CController $controller the controller to be accessed.
+	 * @param CAction $action the action to be accessed.
 	 * @return boolean whether the action should be executed.
 	 */
 	public function beforeControllerAction($controller, $action)
@@ -175,7 +175,7 @@ class GiiModule extends CWebModule
 
 	/**
 	 * Checks to see if the user IP is allowed by {@link ipFilters}.
-	 * @param string the user IP
+	 * @param string $ip the user IP
 	 * @return boolean whether the user IP is allowed by {@link ipFilters}.
 	 */
 	protected function allowIp($ip)

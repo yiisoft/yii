@@ -100,7 +100,7 @@ class CStatePersister extends CApplicationComponent implements IStatePersister
 
 	/**
 	 * Saves application state in persistent storage.
-	 * @param mixed state data (must be serializable).
+	 * @param mixed $state state data (must be serializable).
 	 */
 	public function save($state)
 	{

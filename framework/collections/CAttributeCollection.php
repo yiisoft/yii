@@ -40,7 +40,7 @@ class CAttributeCollection extends CMap
 	 * Returns a property value or an event handler list by property or event name.
 	 * This method overrides the parent implementation by returning
 	 * a key value if the key exists in the collection.
-	 * @param string the property name or the event name
+	 * @param string $name the property name or the event name
 	 * @return mixed the property value or the event handler list
 	 * @throws CException if the property/event is not defined.
 	 */
@@ -56,8 +56,8 @@ class CAttributeCollection extends CMap
 	 * Sets value of a component property.
 	 * This method overrides the parent implementation by adding a new key value
 	 * to the collection.
-	 * @param string the property name or event name
-	 * @param mixed the property value or event handler
+	 * @param string $name the property name or event name
+	 * @param mixed $value the property value or event handler
 	 * @throws CException If the property is not defined or read-only.
 	 */
 	public function __set($name,$value)
@@ -69,7 +69,7 @@ class CAttributeCollection extends CMap
 	 * Checks if a property value is null.
 	 * This method overrides the parent implementation by checking
 	 * if the key exists in the collection and contains a non-null value.
-	 * @param string the property name or the event name
+	 * @param string $name the property name or the event name
 	 * @return boolean whether the property value is null
 	 * @since 1.0.1
 	 */
@@ -85,7 +85,7 @@ class CAttributeCollection extends CMap
 	 * Sets a component property to be null.
 	 * This method overrides the parent implementation by clearing
 	 * the specified key value.
-	 * @param string the property name or the event name
+	 * @param string $name the property name or the event name
 	 * @since 1.0.1
 	 */
 	public function __unset($name)
@@ -96,7 +96,7 @@ class CAttributeCollection extends CMap
 	/**
 	 * Returns the item with the specified key.
 	 * This overrides the parent implementation by converting the key to lower case first if {@link caseSensitive} is false.
-	 * @param mixed the key
+	 * @param mixed $key the key
 	 * @return mixed the element at the offset, null if no element is found at the offset
 	 */
 	public function itemAt($key)
@@ -110,8 +110,8 @@ class CAttributeCollection extends CMap
 	/**
 	 * Adds an item into the map.
 	 * This overrides the parent implementation by converting the key to lower case first if {@link caseSensitive} is false.
-	 * @param mixed key
-	 * @param mixed value
+	 * @param mixed $key key
+	 * @param mixed $value value
 	 */
 	public function add($key,$value)
 	{
@@ -124,7 +124,7 @@ class CAttributeCollection extends CMap
 	/**
 	 * Removes an item from the map by its key.
 	 * This overrides the parent implementation by converting the key to lower case first if {@link caseSensitive} is false.
-	 * @param mixed the key of the item to be removed
+	 * @param mixed $key the key of the item to be removed
 	 * @return mixed the removed value, null if no such key exists.
 	 */
 	public function remove($key)
@@ -138,7 +138,7 @@ class CAttributeCollection extends CMap
 	/**
 	 * Returns whether the specified is in the map.
 	 * This overrides the parent implementation by converting the key to lower case first if {@link caseSensitive} is false.
-	 * @param mixed the key
+	 * @param mixed $key the key
 	 * @return boolean whether the map contains an item with the specified key
 	 */
 	public function contains($key)
@@ -153,7 +153,7 @@ class CAttributeCollection extends CMap
 	 * Determines whether a property is defined.
 	 * This method overrides parent implementation by returning true
 	 * if the collection contains the named key.
-	 * @param string the property name
+	 * @param string $name the property name
 	 * @return boolean whether the property is defined
 	 */
 	public function hasProperty($name)
@@ -165,7 +165,7 @@ class CAttributeCollection extends CMap
 	 * Determines whether a property can be read.
 	 * This method overrides parent implementation by returning true
 	 * if the collection contains the named key.
-	 * @param string the property name
+	 * @param string $name the property name
 	 * @return boolean whether the property can be read
 	 */
 	public function canGetProperty($name)
@@ -177,7 +177,7 @@ class CAttributeCollection extends CMap
 	 * Determines whether a property can be set.
 	 * This method overrides parent implementation by always returning true
 	 * because you can always add a new value to the collection.
-	 * @param string the property name
+	 * @param string $name the property name
 	 * @return boolean true
 	 */
 	public function canSetProperty($name)

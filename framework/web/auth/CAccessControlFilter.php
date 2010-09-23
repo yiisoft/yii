@@ -70,7 +70,7 @@ class CAccessControlFilter extends CFilter
 	}
 
 	/**
-	 * @param array list of access rules.
+	 * @param array $rules list of access rules.
 	 */
 	public function setRules($rules)
 	{
@@ -94,7 +94,7 @@ class CAccessControlFilter extends CFilter
 
 	/**
 	 * Performs the pre-action filtering.
-	 * @param CFilterChain the filter chain that the filter is on.
+	 * @param CFilterChain $filterChain the filter chain that the filter is on.
 	 * @return boolean whether the filtering process should continue and the action
 	 * should be executed.
 	 */
@@ -124,7 +124,7 @@ class CAccessControlFilter extends CFilter
 	 * Resolves the error message to be displayed.
 	 * This method will check {@link message} and {@link CAccessRule::message} to see
 	 * what error message should be displayed.
-	 * @param CAccessRule the access rule
+	 * @param CAccessRule $rule the access rule
 	 * @return string the error message
 	 * @since 1.1.1
 	 */
@@ -141,8 +141,8 @@ class CAccessControlFilter extends CFilter
 	/**
 	 * Denies the access of the user.
 	 * This method is invoked when access check fails.
-	 * @param IWebUser the current user
-	 * @param string the error message to be displayed
+	 * @param IWebUser $user the current user
+	 * @param string $message the error message to be displayed
 	 * @since 1.0.5
 	 */
 	protected function accessDenied($user,$message)
@@ -222,11 +222,11 @@ class CAccessRule extends CComponent
 
 	/**
 	 * Checks whether the Web user is allowed to perform the specified action.
-	 * @param CWebUser the user object
-	 * @param CController the controller currently being executed
-	 * @param CAction the action to be performed
-	 * @param string the request IP address
-	 * @param string the request verb (GET, POST, etc.)
+	 * @param CWebUser $user the user object
+	 * @param CController $controller the controller currently being executed
+	 * @param CAction $action the action to be performed
+	 * @param string $ip the request IP address
+	 * @param string $verb the request verb (GET, POST, etc.)
 	 * @return integer 1 if the user is allowed, -1 if the user is denied, 0 if the rule does not apply to the user
 	 */
 	public function isUserAllowed($user,$controller,$action,$ip,$verb)
@@ -244,7 +244,7 @@ class CAccessRule extends CComponent
 	}
 
 	/**
-	 * @param CAction the action
+	 * @param CAction $action the action
 	 * @return boolean whether the rule applies to the action
 	 */
 	protected function isActionMatched($action)
@@ -253,7 +253,7 @@ class CAccessRule extends CComponent
 	}
 
 	/**
-	 * @param CAction the action
+	 * @param CAction $controller the action
 	 * @return boolean whether the rule applies to the action
 	 */
 	protected function isControllerMatched($controller)
@@ -262,7 +262,7 @@ class CAccessRule extends CComponent
 	}
 
 	/**
-	 * @param IWebUser the user
+	 * @param IWebUser $user the user
 	 * @return boolean whether the rule applies to the user
 	 */
 	protected function isUserMatched($user)
@@ -284,7 +284,7 @@ class CAccessRule extends CComponent
 	}
 
 	/**
-	 * @param IWebUser the user object
+	 * @param IWebUser $user the user object
 	 * @return boolean whether the rule applies to the role
 	 */
 	protected function isRoleMatched($user)
@@ -300,7 +300,7 @@ class CAccessRule extends CComponent
 	}
 
 	/**
-	 * @param string the IP address
+	 * @param string $ip the IP address
 	 * @return boolean whether the rule applies to the IP address
 	 */
 	protected function isIpMatched($ip)
@@ -316,7 +316,7 @@ class CAccessRule extends CComponent
 	}
 
 	/**
-	 * @param string the request method
+	 * @param string $verb the request method
 	 * @return boolean whether the rule applies to the request
 	 */
 	protected function isVerbMatched($verb)
@@ -325,7 +325,7 @@ class CAccessRule extends CComponent
 	}
 
 	/**
-	 * @param IWebUser the user
+	 * @param IWebUser $user the user
 	 * @return boolean the expression value. True if the expression is not specified.
 	 * @since 1.0.3
 	 */

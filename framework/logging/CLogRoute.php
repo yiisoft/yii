@@ -71,10 +71,10 @@ abstract class CLogRoute extends CComponent
 
 	/**
 	 * Formats a log message given different fields.
-	 * @param string message content
-	 * @param integer message level
-	 * @param string message category
-	 * @param integer timestamp
+	 * @param string $message message content
+	 * @param integer $level message level
+	 * @param string $category message category
+	 * @param integer $time timestamp
 	 * @return string formatted message
 	 */
 	protected function formatLogMessage($message,$level,$category,$time)
@@ -84,8 +84,8 @@ abstract class CLogRoute extends CComponent
 
 	/**
 	 * Retrieves filtered log messages from logger for further processing.
-	 * @param CLogger logger instance
-	 * @param boolean whether to process the logs after they are collected from the logger
+	 * @param CLogger $logger logger instance
+	 * @param boolean $processLogs whether to process the logs after they are collected from the logger
 	 */
 	public function collectLogs($logger, $processLogs=false)
 	{
@@ -103,7 +103,7 @@ abstract class CLogRoute extends CComponent
 	/**
 	 * Processes log messages and sends them to specific destination.
 	 * Derived child classes must implement this method.
-	 * @param array list of messages.  Each array elements represents one message
+	 * @param array $logs list of messages.  Each array elements represents one message
 	 * with the following structure:
 	 * array(
 	 *   [0] => message (string)

@@ -50,7 +50,7 @@ abstract class CDbTestCase extends CTestCase
 	/**
 	 * PHP magic method.
 	 * This method is overridden so that named fixture data can be accessed like a normal property.
-	 * @param string the property name
+	 * @param string $name the property name
 	 * @return mixed the property value
 	 */
 	public function __get($name)
@@ -64,8 +64,8 @@ abstract class CDbTestCase extends CTestCase
 	/**
 	 * PHP magic method.
 	 * This method is overridden so that named fixture ActiveRecord instances can be accessed in terms of a method call.
-	 * @param string method name
-	 * @param string method parameters
+	 * @param string $name method name
+	 * @param string $params method parameters
 	 * @return mixed the property value
 	 */
 	public function __call($name,$params)
@@ -85,7 +85,7 @@ abstract class CDbTestCase extends CTestCase
 	}
 
 	/**
-	 * @param string the fixture name (the key value in {@link fixtures}).
+	 * @param string $name the fixture name (the key value in {@link fixtures}).
 	 * @return array the named fixture data
 	 */
 	public function getFixtureData($name)
@@ -94,8 +94,8 @@ abstract class CDbTestCase extends CTestCase
 	}
 
 	/**
-	 * @param string the fixture name (the key value in {@link fixtures}).
-	 * @param string the alias of the fixture data row
+	 * @param string $name the fixture name (the key value in {@link fixtures}).
+	 * @param string $alias the alias of the fixture data row
 	 * @return CActiveRecord the ActiveRecord instance corresponding to the specified alias in the named fixture.
 	 * False is returned if there is no such fixture or the record cannot be found.
 	 */

@@ -94,7 +94,7 @@ class CPagination extends CComponent
 
 	/**
 	 * Constructor.
-	 * @param integer total number of items.
+	 * @param integer $itemCount total number of items.
 	 * @since 1.0.1
 	 */
 	public function __construct($itemCount=0)
@@ -111,7 +111,7 @@ class CPagination extends CComponent
 	}
 
 	/**
-	 * @param integer number of items in each page
+	 * @param integer $value number of items in each page
 	 */
 	public function setPageSize($value)
 	{
@@ -128,7 +128,7 @@ class CPagination extends CComponent
 	}
 
 	/**
-	 * @param integer total number of items.
+	 * @param integer $value total number of items.
 	 */
 	public function setItemCount($value)
 	{
@@ -145,7 +145,7 @@ class CPagination extends CComponent
 	}
 
 	/**
-	 * @param boolean whether to recalculate the current page based on the page size and item count.
+	 * @param boolean $recalculate whether to recalculate the current page based on the page size and item count.
 	 * @return integer the zero-based index of the current page. Defaults to 0.
 	 */
 	public function getCurrentPage($recalculate=true)
@@ -171,7 +171,7 @@ class CPagination extends CComponent
 	}
 
 	/**
-	 * @param integer the zero-based index of the current page.
+	 * @param integer $value the zero-based index of the current page.
 	 */
 	public function setCurrentPage($value)
 	{
@@ -186,8 +186,8 @@ class CPagination extends CComponent
 	 * the controller's createUrl method with the page information.
 	 * You may override this method if your URL scheme is not the same as
 	 * the one supported by the controller's createUrl method.
-	 * @param CController the controller that will create the actual URL
-	 * @param integer the page that the URL should point to. This is a zero-based index.
+	 * @param CController $controller the controller that will create the actual URL
+	 * @param integer $page the page that the URL should point to. This is a zero-based index.
 	 * @return string the created URL
 	 */
 	public function createPageUrl($controller,$page)
@@ -202,7 +202,7 @@ class CPagination extends CComponent
 
 	/**
 	 * Applies LIMIT and OFFSET to the specified query criteria.
-	 * @param CDbCriteria the query criteria that should be applied with the limit
+	 * @param CDbCriteria $criteria the query criteria that should be applied with the limit
 	 * @since 1.0.1
 	 */
 	public function applyLimit($criteria)

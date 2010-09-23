@@ -73,7 +73,7 @@ class YiiBase
 
 	/**
 	 * Creates a Web application instance.
-	 * @param mixed application configuration.
+	 * @param mixed $config application configuration.
 	 * If a string, it is treated as the path of the file that contains the configuration;
 	 * If an array, it is the actual configuration information.
 	 * Please make sure you specify the {@link CApplication::basePath basePath} property in the configuration,
@@ -87,7 +87,7 @@ class YiiBase
 
 	/**
 	 * Creates a console application instance.
-	 * @param mixed application configuration.
+	 * @param mixed $config application configuration.
 	 * If a string, it is treated as the path of the file that contains the configuration;
 	 * If an array, it is the actual configuration information.
 	 * Please make sure you specify the {@link CApplication::basePath basePath} property in the configuration,
@@ -101,8 +101,8 @@ class YiiBase
 
 	/**
 	 * Creates an application of the specified class.
-	 * @param string the application class name
-	 * @param mixed application configuration. This parameter will be passed as the parameter
+	 * @param string $class the application class name
+	 * @param mixed $config application configuration. This parameter will be passed as the parameter
 	 * to the constructor of the application class.
 	 * @return mixed the application instance
 	 * @since 1.0.10
@@ -126,7 +126,7 @@ class YiiBase
 	 * Repeated invocation of this method or the CApplication constructor
 	 * will cause the throw of an exception.
 	 * To retrieve the application instance, use {@link app()}.
-	 * @param CApplication the application instance. If this is null, the existing
+	 * @param CApplication $app the application instance. If this is null, the existing
 	 * application singleton will be removed.
 	 * @throws CException if multiple application instances are registered.
 	 */
@@ -161,7 +161,7 @@ class YiiBase
 	 *
 	 * NOTE: the array-typed configuration has been supported since version 1.0.1.
 	 *
-	 * @param mixed the configuration. It can be either a string or an array.
+	 * @param mixed $config the configuration. It can be either a string or an array.
 	 * @return mixed the created object
 	 * @throws CException if the configuration does not have a 'class' element.
 	 */
@@ -230,8 +230,8 @@ class YiiBase
 	 * The same path alias can be imported multiple times, but only the first time is effective.
 	 * Importing a directory does not import any of its subdirectories.
 	 *
-	 * @param string path alias to be imported
-	 * @param boolean whether to include the class file immediately. If false, the class file
+	 * @param string $alias path alias to be imported
+	 * @param boolean $forceInclude whether to include the class file immediately. If false, the class file
 	 * will be included only when the class is being used. This parameter is used only when
 	 * the path alias refers to a class.
 	 * @return string the class name or the directory that this alias refers to
@@ -300,7 +300,7 @@ class YiiBase
 	 * Translates an alias into a file path.
 	 * Note, this method does not ensure the existence of the resulting file path.
 	 * It only checks if the root alias is valid or not.
-	 * @param string alias (e.g. system.web.CController)
+	 * @param string $alias alias (e.g. system.web.CController)
 	 * @return mixed file path corresponding to the alias, false if the alias is invalid.
 	 */
 	public static function getPathOfAlias($alias)
@@ -324,8 +324,8 @@ class YiiBase
 	/**
 	 * Create a path alias.
 	 * Note, this method neither checks the existence of the path nor normalizes the path.
-	 * @param string alias to the path
-	 * @param string the path corresponding to the alias. If this is null, the corresponding
+	 * @param string $alias alias to the path
+	 * @param string $path the path corresponding to the alias. If this is null, the corresponding
 	 * path alias will be removed.
 	 */
 	public static function setPathOfAlias($alias,$path)
@@ -339,7 +339,7 @@ class YiiBase
 	/**
 	 * Class autoload loader.
 	 * This method is provided to be invoked within an __autoload() magic method.
-	 * @param string class name
+	 * @param string $className class name
 	 * @return boolean whether the class has been loaded successfully
 	 */
 	public static function autoload($className)
@@ -360,8 +360,8 @@ class YiiBase
 	/**
 	 * Writes a trace message.
 	 * This method will only log a message when the application is in debug mode.
-	 * @param string message to be logged
-	 * @param string category of the message
+	 * @param string $msg message to be logged
+	 * @param string $category category of the message
 	 * @see log
 	 */
 	public static function trace($msg,$category='application')
@@ -375,9 +375,9 @@ class YiiBase
 	 * Messages logged by this method may be retrieved via {@link CLogger::getLogs}
 	 * and may be recorded in different media, such as file, email, database, using
 	 * {@link CLogRouter}.
-	 * @param string message to be logged
-	 * @param string level of the message (e.g. 'trace', 'warning', 'error'). It is case-insensitive.
-	 * @param string category of the message (e.g. 'system.web'). It is case-insensitive.
+	 * @param string $msg message to be logged
+	 * @param string $level level of the message (e.g. 'trace', 'warning', 'error'). It is case-insensitive.
+	 * @param string $category category of the message (e.g. 'system.web'). It is case-insensitive.
 	 */
 	public static function log($msg,$level=CLogger::LEVEL_INFO,$category='application')
 	{
@@ -421,8 +421,8 @@ class YiiBase
 	 * Yii::endProfile('block1');
 	 * Yii::endProfile('block2');
 	 * </pre>
-	 * @param string token for the code block
-	 * @param string the category of this log message
+	 * @param string $token token for the code block
+	 * @param string $category the category of this log message
 	 * @see endProfile
 	 */
 	public static function beginProfile($token,$category='application')
@@ -433,8 +433,8 @@ class YiiBase
 	/**
 	 * Marks the end of a code block for profiling.
 	 * This has to be matched with a previous call to {@link beginProfile()} with the same token.
-	 * @param string token for the code block
-	 * @param string the category of this log message
+	 * @param string $token token for the code block
+	 * @param string $category the category of this log message
 	 * @see beginProfile
 	 */
 	public static function endProfile($token,$category='application')
@@ -467,18 +467,18 @@ class YiiBase
 	 * i.e., the message returned will be chosen from a few candidates according to the given
 	 * number value. This feature is mainly used to solve plural format issue in case
 	 * a message has different plural forms in some languages.
-	 * @param string message category. Please use only word letters. Note, category 'yii' is
+	 * @param string $category message category. Please use only word letters. Note, category 'yii' is
 	 * reserved for Yii framework core code use. See {@link CPhpMessageSource} for
 	 * more interpretation about message category.
-	 * @param string the original message
-	 * @param array parameters to be applied to the message using <code>strtr</code>.
+	 * @param string $message the original message
+	 * @param array $params parameters to be applied to the message using <code>strtr</code>.
 	 * Starting from version 1.0.2, the first parameter can be a number without key.
 	 * And in this case, the method will call {@link CChoiceFormat::format} to choose
 	 * an appropriate message translation.
-	 * @param string which message source application component to use.
+	 * @param string $source which message source application component to use.
 	 * Defaults to null, meaning using 'coreMessages' for messages belonging to
 	 * the 'yii' category and using 'messages' for the rest messages.
-	 * @param string the target language. If null (default), the {@link CApplication::getLanguage application language} will be used.
+	 * @param string $language the target language. If null (default), the {@link CApplication::getLanguage application language} will be used.
 	 * This parameter has been available since version 1.0.3.
 	 * @return string the translated message
 	 * @see CMessageSource
@@ -506,7 +506,7 @@ class YiiBase
 	 * Registers a new class autoloader.
 	 * The new autoloader will be placed before {@link autoload} and after
 	 * any other existing autoloaders.
-	 * @param callback a valid PHP callback (function name or array($className,$methodName)).
+	 * @param callback $callback a valid PHP callback (function name or array($className,$methodName)).
 	 * @since 1.0.10
 	 */
 	public static function registerAutoloader($callback)

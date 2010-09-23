@@ -51,7 +51,7 @@ class COutputProcessor extends CFilterWidget
 	 * The default implementation raises an {@link onProcessOutput} event.
 	 * If the event is not handled by any event handler, the output will be echoed.
 	 *
-	 * @param string the captured output to be processed
+	 * @param string $output the captured output to be processed
 	 */
 	public function processOutput($output)
 	{
@@ -68,7 +68,7 @@ class COutputProcessor extends CFilterWidget
 
 	/**
 	 * Raised when the output has been captured.
-	 * @param COutputEvent event parameter
+	 * @param COutputEvent $event event parameter
 	 */
 	public function onProcessOutput($event)
 	{

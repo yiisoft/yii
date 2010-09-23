@@ -35,7 +35,7 @@ class CStackIterator implements Iterator
 
 	/**
 	 * Constructor.
-	 * @param array the data to be iterated through
+	 * @param array &$data the data to be iterated through
 	 */
 	public function __construct(&$data)
 	{

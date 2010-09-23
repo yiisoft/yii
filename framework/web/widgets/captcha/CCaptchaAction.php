@@ -119,7 +119,7 @@ class CCaptchaAction extends CAction
 
 	/**
 	 * Gets the verification code.
-	 * @param string whether the verification code should be regenerated.
+	 * @param string $regenerate whether the verification code should be regenerated.
 	 * @return string the verification code.
 	 */
 	public function getVerifyCode($regenerate=false)
@@ -140,8 +140,8 @@ class CCaptchaAction extends CAction
 
 	/**
 	 * Validates the input to see if it matches the generated code.
-	 * @param string user input
-	 * @param boolean whether the comparison should be case-sensitive
+	 * @param string $input user input
+	 * @param boolean $caseSensitive whether the comparison should be case-sensitive
 	 * @return whether the input is valid
 	 */
 	public function validate($input,$caseSensitive)
@@ -196,7 +196,7 @@ class CCaptchaAction extends CAction
 
 	/**
 	 * Renders the CAPTCHA image based on the code.
-	 * @param string the verification code
+	 * @param string $code the verification code
 	 * @return string image content
 	 */
 	protected function renderImage($code)

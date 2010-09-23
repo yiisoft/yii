@@ -131,7 +131,7 @@ class CDbFixtureManager extends CApplicationComponent
 	 * the script will be executed.
 	 * Otherwise, {@link truncateTable} will be invoked to delete all rows in the table
 	 * and reset primary key sequence, if any.
-	 * @param string the table name
+	 * @param string $tableName the table name
 	 */
 	public function resetTable($tableName)
 	{
@@ -150,7 +150,7 @@ class CDbFixtureManager extends CApplicationComponent
 	 * If the fixture does not exist, this method will return false.
 	 * Note, you may want to call {@link resetTable} before calling this method
 	 * so that the table is emptied first.
-	 * @param string table name
+	 * @param string $tableName table name
 	 * @return array the loaded fixture rows indexed by row aliases (if any).
 	 * False is returned if the table does not have a fixture.
 	 */
@@ -224,7 +224,7 @@ class CDbFixtureManager extends CApplicationComponent
 	/**
 	 * Enables or disables database integrity check.
 	 * This method may be used to temporarily turn off foreign constraints check.
-	 * @param boolean whether to enable database integrity check
+	 * @param boolean $check whether to enable database integrity check
 	 */
 	public function checkIntegrity($check)
 	{
@@ -236,7 +236,7 @@ class CDbFixtureManager extends CApplicationComponent
 	 * Removes all rows from the specified table and resets its primary key sequence, if any.
 	 * You may need to call {@link checkIntegrity} to turn off integrity check temporarily
 	 * before you call this method.
-	 * @param string the table name
+	 * @param string $tableName the table name
 	 */
 	public function truncateTable($tableName)
 	{
@@ -255,7 +255,7 @@ class CDbFixtureManager extends CApplicationComponent
 	 * Truncates all tables in the specified schema.
 	 * You may need to call {@link checkIntegrity} to turn off integrity check temporarily
 	 * before you call this method.
-	 * @param string the schema name. Defaults to empty string, meaning the default database schema.
+	 * @param string $schema the schema name. Defaults to empty string, meaning the default database schema.
 	 * @see truncateTable
 	 */
 	public function truncateTables($schema='')
@@ -273,7 +273,7 @@ class CDbFixtureManager extends CApplicationComponent
 	 * and {@link getRecord}.
 	 * Note, if a table does not have fixture data, {@link resetTable} will still
 	 * be called to reset the table.
-	 * @param array fixtures to be loaded. The array keys are fixture names,
+	 * @param array $fixtures fixtures to be loaded. The array keys are fixture names,
 	 * and the array values are either AR class names or table names.
 	 * If table names, they must begin with a colon character (e.g. 'Post'
 	 * means an AR class, while ':Post' means a table name).
@@ -318,7 +318,7 @@ class CDbFixtureManager extends CApplicationComponent
 	/**
 	 * Returns the fixture data rows.
 	 * The rows will have updated primary key values if the primary key is auto-incremental.
-	 * @param string the fixture name
+	 * @param string $name the fixture name
 	 * @return array the fixture data rows. False is returned if there is no such fixture data.
 	 */
 	public function getRows($name)
@@ -331,8 +331,8 @@ class CDbFixtureManager extends CApplicationComponent
 
 	/**
 	 * Returns the specified ActiveRecord instance in the fixture data.
-	 * @param string the fixture name
-	 * @param string the alias for the fixture data row
+	 * @param string $name the fixture name
+	 * @param string $alias the alias for the fixture data row
 	 * @return CActiveRecord the ActiveRecord instance. False is returned if there is no such fixture row.
 	 */
 	public function getRecord($name,$alias)

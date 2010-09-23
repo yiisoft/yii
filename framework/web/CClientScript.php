@@ -123,7 +123,7 @@ class CClientScript extends CApplicationComponent
 	 * This method is called in {@link CController::render} when it finishes
 	 * rendering content. CClientScript thus gets a chance to insert script tags
 	 * at <code>head</code> and <code>body</code> sections in the HTML output.
-	 * @param string the existing output that needs to be inserted with script tags
+	 * @param string &$output the existing output that needs to be inserted with script tags
 	 */
 	public function render(&$output)
 	{
@@ -234,7 +234,7 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Inserts the scripts in the head section.
-	 * @param string the output to be inserted with scripts.
+	 * @param string &$output the output to be inserted with scripts.
 	 */
 	public function renderHead(&$output)
 	{
@@ -272,7 +272,7 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Inserts the scripts at the beginning of the body section.
-	 * @param string the output to be inserted with scripts.
+	 * @param string &$output the output to be inserted with scripts.
 	 */
 	public function renderBodyBegin(&$output)
 	{
@@ -298,7 +298,7 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Inserts the scripts at the end of the body section.
-	 * @param string the output to be inserted with scripts.
+	 * @param string &$output the output to be inserted with scripts.
 	 */
 	public function renderBodyEnd(&$output)
 	{
@@ -356,7 +356,7 @@ class CClientScript extends CApplicationComponent
 	 * Sets the base URL of all core javascript files.
 	 * This setter is provided in case when core javascript files are manually published
 	 * to a pre-specified location. This may save asset publishing time for large-scale applications.
-	 * @param string the base URL of all core javascript files.
+	 * @param string $value the base URL of all core javascript files.
 	 */
 	public function setCoreScriptUrl($value)
 	{
@@ -365,7 +365,7 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Registers a core javascript library.
-	 * @param string the core javascript library name
+	 * @param string $name the core javascript library name
 	 * @see renderCoreScript
 	 */
 	public function registerCoreScript($name)
@@ -395,8 +395,8 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Registers a CSS file
-	 * @param string URL of the CSS file
-	 * @param string media that the CSS file should be applied to. If empty, it means all media types.
+	 * @param string $url URL of the CSS file
+	 * @param string $media media that the CSS file should be applied to. If empty, it means all media types.
 	 */
 	public function registerCssFile($url,$media='')
 	{
@@ -408,9 +408,9 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Registers a piece of CSS code.
-	 * @param string ID that uniquely identifies this piece of CSS code
-	 * @param string the CSS code
-	 * @param string media that the CSS code should be applied to. If empty, it means all media types.
+	 * @param string $id ID that uniquely identifies this piece of CSS code
+	 * @param string $css the CSS code
+	 * @param string $media media that the CSS code should be applied to. If empty, it means all media types.
 	 */
 	public function registerCss($id,$css,$media='')
 	{
@@ -422,8 +422,8 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Registers a javascript file.
-	 * @param string URL of the javascript file
-	 * @param integer the position of the JavaScript code. Valid values include the following:
+	 * @param string $url URL of the javascript file
+	 * @param integer $position the position of the JavaScript code. Valid values include the following:
 	 * <ul>
 	 * <li>CClientScript::POS_HEAD : the script is inserted in the head section right before the title element.</li>
 	 * <li>CClientScript::POS_BEGIN : the script is inserted at the beginning of the body section.</li>
@@ -440,9 +440,9 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Registers a piece of javascript code.
-	 * @param string ID that uniquely identifies this piece of JavaScript code
-	 * @param string the javascript code
-	 * @param integer the position of the JavaScript code. Valid values include the following:
+	 * @param string $id ID that uniquely identifies this piece of JavaScript code
+	 * @param string $script the javascript code
+	 * @param integer $position the position of the JavaScript code. Valid values include the following:
 	 * <ul>
 	 * <li>CClientScript::POS_HEAD : the script is inserted in the head section right before the title element.</li>
 	 * <li>CClientScript::POS_BEGIN : the script is inserted at the beginning of the body section.</li>
@@ -463,10 +463,10 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Registers a meta tag that will be inserted in the head section (right before the title element) of the resulting page.
-	 * @param string content attribute of the meta tag
-	 * @param string name attribute of the meta tag. If null, the attribute will not be generated
-	 * @param string http-equiv attribute of the meta tag. If null, the attribute will not be generated
-	 * @param array other options in name-value pairs (e.g. 'scheme', 'lang')
+	 * @param string $content content attribute of the meta tag
+	 * @param string $name name attribute of the meta tag. If null, the attribute will not be generated
+	 * @param string $httpEquiv http-equiv attribute of the meta tag. If null, the attribute will not be generated
+	 * @param array $options other options in name-value pairs (e.g. 'scheme', 'lang')
 	 * @since 1.0.1
 	 */
 	public function registerMetaTag($content,$name=null,$httpEquiv=null,$options=array())
@@ -484,11 +484,11 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Registers a link tag that will be inserted in the head section (right before the title element) of the resulting page.
-	 * @param string rel attribute of the link tag. If null, the attribute will not be generated.
-	 * @param string type attribute of the link tag. If null, the attribute will not be generated.
-	 * @param string href attribute of the link tag. If null, the attribute will not be generated.
-	 * @param string media attribute of the link tag. If null, the attribute will not be generated.
-	 * @param array other options in name-value pairs
+	 * @param string $relation rel attribute of the link tag. If null, the attribute will not be generated.
+	 * @param string $type type attribute of the link tag. If null, the attribute will not be generated.
+	 * @param string $href href attribute of the link tag. If null, the attribute will not be generated.
+	 * @param string $media media attribute of the link tag. If null, the attribute will not be generated.
+	 * @param array $options other options in name-value pairs
 	 * @since 1.0.1
 	 */
 	public function registerLinkTag($relation=null,$type=null,$href=null,$media=null,$options=array())
@@ -509,7 +509,7 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Checks whether the CSS file has been registered.
-	 * @param string URL of the CSS file
+	 * @param string $url URL of the CSS file
 	 * @return boolean whether the CSS file is already registered
 	 */
 	public function isCssFileRegistered($url)
@@ -519,7 +519,7 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Checks whether the CSS code has been registered.
-	 * @param string ID that uniquely identifies the CSS code
+	 * @param string $id ID that uniquely identifies the CSS code
 	 * @return boolean whether the CSS code is already registered
 	 */
 	public function isCssRegistered($id)
@@ -529,8 +529,8 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Checks whether the JavaScript file has been registered.
-	 * @param string URL of the javascript file
-	 * @param integer the position of the JavaScript code. Valid values include the following:
+	 * @param string $url URL of the javascript file
+	 * @param integer $position the position of the JavaScript code. Valid values include the following:
 	 * <ul>
 	 * <li>CClientScript::POS_HEAD : the script is inserted in the head section right before the title element.</li>
 	 * <li>CClientScript::POS_BEGIN : the script is inserted at the beginning of the body section.</li>
@@ -545,8 +545,8 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Checks whether the JavaScript code has been registered.
-	 * @param string ID that uniquely identifies the JavaScript code
-	 * @param integer the position of the JavaScript code. Valid values include the following:
+	 * @param string $id ID that uniquely identifies the JavaScript code
+	 * @param integer $position the position of the JavaScript code. Valid values include the following:
 	 * <ul>
 	 * <li>CClientScript::POS_HEAD : the script is inserted in the head section right before the title element.</li>
 	 * <li>CClientScript::POS_BEGIN : the script is inserted at the beginning of the body section.</li>
@@ -565,10 +565,10 @@ class CClientScript extends CApplicationComponent
 	 * Records a method call when an output cache is in effect.
 	 * This is a shortcut to Yii::app()->controller->recordCachingAction.
 	 * In case when controller is absent, nothing is recorded.
-	 * @param string a property name of the controller. It refers to an object
+	 * @param string $context a property name of the controller. It refers to an object
 	 * whose method is being called. If empty it means the controller itself.
-	 * @param string the method name
-	 * @param array parameters passed to the method
+	 * @param string $method the method name
+	 * @param array $params parameters passed to the method
 	 * @see COutputCache
 	 * @since 1.0.5
 	 */

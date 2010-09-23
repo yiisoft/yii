@@ -30,7 +30,7 @@ class CHelpCommand extends CConsoleCommand
 {
 	/**
 	 * Execute the action.
-	 * @param array command line parameters specific for this command
+	 * @param array $args command line parameters specific for this command
 	 */
 	public function run($args)
 	{

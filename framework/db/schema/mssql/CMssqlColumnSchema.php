@@ -22,7 +22,7 @@ class CMssqlColumnSchema extends CDbColumnSchema
 {
 	/**
 	 * Extracts the PHP type from DB type.
-	 * @param string DB type
+	 * @param string $dbType DB type
 	 */
 	protected function extractType($dbType)
 	{
@@ -39,7 +39,7 @@ class CMssqlColumnSchema extends CDbColumnSchema
 	/*
 	 * Extracts the default value for the column.
 	 * The value is typecasted to correct PHP type.
-	 * @param mixed the default value obtained from metadata
+	 * @param mixed $defaultValue the default value obtained from metadata
 	 */
 	protected function extractDefault($defaultValue)
 	{
@@ -52,7 +52,7 @@ class CMssqlColumnSchema extends CDbColumnSchema
 	/**
 	 * Extracts size, precision and scale information from column's DB type.
 	 * We do nothing here, since sizes and precisions have been computed before.
-	 * @param string the column's DB type
+	 * @param string $dbType the column's DB type
 	 */
 	protected function extractLimit($dbType)
 	{
@@ -60,7 +60,7 @@ class CMssqlColumnSchema extends CDbColumnSchema
 
 	/**
 	 * Converts the input value to the type that this column is of.
-	 * @param mixed input value
+	 * @param mixed $value input value
 	 * @return mixed converted value
 	 */
 	public function typecast($value)

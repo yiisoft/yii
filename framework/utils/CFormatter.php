@@ -76,8 +76,8 @@ class CFormatter extends CApplicationComponent
 	/**
 	 * Calls the format method when its shortcut is invoked.
 	 * This is a PHP magic method that we override to implement the shortcut format methods.
-	 * @param string the method name
-	 * @param array method parameters
+	 * @param string $name the method name
+	 * @param array $parameters method parameters
 	 * @return mixed the method return value
 	 */
 	public function __call($name,$parameters)
@@ -90,8 +90,8 @@ class CFormatter extends CApplicationComponent
 
 	/**
 	 * Formats a value based on the given type.
-	 * @param mixed the value to be formatted
-	 * @param string the data type. This must correspond to a format method available in CFormatter.
+	 * @param mixed $value the value to be formatted
+	 * @param string $type the data type. This must correspond to a format method available in CFormatter.
 	 * For example, we can use 'text' here because there is method named {@link formatText}.
 	 * @return string the formatted data
 	 */
@@ -107,7 +107,7 @@ class CFormatter extends CApplicationComponent
 	/**
 	 * Formats the value as is without any formatting.
 	 * This method simply returns back the parameter without any format.
-	 * @param mixed the value to be formatted
+	 * @param mixed $value the value to be formatted
 	 * @return string the formatted result
 	 */
 	public function formatRaw($value)
@@ -117,7 +117,7 @@ class CFormatter extends CApplicationComponent
 
 	/**
 	 * Formats the value as a HTML-encoded plain text.
-	 * @param mixed the value to be formatted
+	 * @param mixed $value the value to be formatted
 	 * @return string the formatted result
 	 */
 	public function formatText($value)
@@ -127,7 +127,7 @@ class CFormatter extends CApplicationComponent
 
 	/**
 	 * Formats the value as a HTML-encoded plain text and converts newlines with HTML br tags.
-	 * @param mixed the value to be formatted
+	 * @param mixed $value the value to be formatted
 	 * @return string the formatted result
 	 */
 	public function formatNtext($value)
@@ -137,7 +137,7 @@ class CFormatter extends CApplicationComponent
 
 	/**
 	 * Formats the value as HTML text without any encoding.
-	 * @param mixed the value to be formatted
+	 * @param mixed $value the value to be formatted
 	 * @return string the formatted result
 	 */
 	public function formatHtml($value)
@@ -147,7 +147,7 @@ class CFormatter extends CApplicationComponent
 
 	/**
 	 * Formats the value as a date.
-	 * @param mixed the value to be formatted
+	 * @param mixed $value the value to be formatted
 	 * @return string the formatted result
 	 * @see dateFormat
 	 */
@@ -158,7 +158,7 @@ class CFormatter extends CApplicationComponent
 
 	/**
 	 * Formats the value as a time.
-	 * @param mixed the value to be formatted
+	 * @param mixed $value the value to be formatted
 	 * @return string the formatted result
 	 * @see timeFormat
 	 */
@@ -169,7 +169,7 @@ class CFormatter extends CApplicationComponent
 
 	/**
 	 * Formats the value as a date and time.
-	 * @param mixed the value to be formatted
+	 * @param mixed $value the value to be formatted
 	 * @return string the formatted result
 	 * @see datetimeFormat
 	 */
@@ -180,7 +180,7 @@ class CFormatter extends CApplicationComponent
 
 	/**
 	 * Formats the value as a boolean.
-	 * @param mixed the value to be formatted
+	 * @param mixed $value the value to be formatted
 	 * @return string the formatted result
 	 * @see trueText
 	 * @see falseText
@@ -192,7 +192,7 @@ class CFormatter extends CApplicationComponent
 
 	/**
 	 * Formats the value as a mailto link.
-	 * @param mixed the value to be formatted
+	 * @param mixed $value the value to be formatted
 	 * @return string the formatted result
 	 */
 	public function formatEmail($value)
@@ -202,7 +202,7 @@ class CFormatter extends CApplicationComponent
 
 	/**
 	 * Formats the value as an image tag.
-	 * @param mixed the value to be formatted
+	 * @param mixed $value the value to be formatted
 	 * @return string the formatted result
 	 */
 	public function formatImage($value)
@@ -212,7 +212,7 @@ class CFormatter extends CApplicationComponent
 
 	/**
 	 * Formats the value as a hyperlink.
-	 * @param mixed the value to be formatted
+	 * @param mixed $value the value to be formatted
 	 * @return string the formatted result
 	 */
 	public function formatUrl($value)
@@ -225,7 +225,7 @@ class CFormatter extends CApplicationComponent
 
 	/**
 	 * Formats the value as a number using PHP number_format() function.
-	 * @param mixed the value to be formatted
+	 * @param mixed $value the value to be formatted
 	 * @return string the formatted result
 	 * @see numberFormat
 	 */

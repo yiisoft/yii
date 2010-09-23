@@ -22,7 +22,7 @@ class CGoogleApi
 
 	/**
 	 * Renders the jsapi script file.
-	 * @param string the API key. Null if you do not have a key.
+	 * @param string $apiKey the API key. Null if you do not have a key.
 	 * @return string the script tag that loads Google jsapi.
 	 */
 	public static function init($apiKey=null)
@@ -36,9 +36,9 @@ class CGoogleApi
 	/**
 	 * Loads the specified API module.
 	 * Note that you should call {@link init} first.
-	 * @param string the module name
-	 * @param string the module version
-	 * @param array additional js options that are to be passed to the load() function.
+	 * @param string $name the module name
+	 * @param string $version the module version
+	 * @param array $options additional js options that are to be passed to the load() function.
 	 * @return string the js code for loading the module. You can use {@link CHtml::script()}
 	 * to enclose it in a script tag.
 	 */
@@ -55,10 +55,10 @@ class CGoogleApi
 	 * This is similar to {@link load} except that it registers the loading code
 	 * with {@link CClientScript} instead of returning it.
 	 * This method also registers the jsapi script needed by the loading call.
-	 * @param string the module name
-	 * @param string the module version
-	 * @param array additional js options that are to be passed to the load() function.
-	 * @param string the API key. Null if you do not have a key.
+	 * @param string $name the module name
+	 * @param string $version the module version
+	 * @param array $options additional js options that are to be passed to the load() function.
+	 * @param string $apiKey the API key. Null if you do not have a key.
 	 */
 	public static function register($name,$version='1',$options=array(),$apiKey=null)
 	{

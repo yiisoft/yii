@@ -131,7 +131,7 @@ class CCodeGenerator extends CController
 	}
 
 	/**
-	 * @param string the view path of the generator.
+	 * @param string $value the view path of the generator.
 	 */
 	public function setViewPath($value)
 	{

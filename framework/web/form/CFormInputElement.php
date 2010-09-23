@@ -108,7 +108,7 @@ class CFormInputElement extends CFormElement
 	}
 
 	/**
-	 * @param boolean whether this input is required.
+	 * @param boolean $value whether this input is required.
 	 */
 	public function setRequired($value)
 	{
@@ -128,7 +128,7 @@ class CFormInputElement extends CFormElement
 	}
 
 	/**
-	 * @param string the label for this input
+	 * @param string $value the label for this input
 	 */
 	public function setLabel($value)
 	{

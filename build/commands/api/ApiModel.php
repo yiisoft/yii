@@ -412,7 +412,13 @@ class ApiModel
 				if(preg_match('/\[\s*\]/',$param->type))
 					$param->type='array';
 				if(isset($segs[1]))
+				{
+					/*
+					 * remove $variablename from description
+					 */
+					$segs[1]=trim(preg_replace('/\$\w+/','',$segs[1]));
 					$param->description=$this->processDescription($segs[1]);
+				}
 				next($object->input);
 			}
 		}

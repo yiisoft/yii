@@ -226,7 +226,7 @@ class CDetailView extends CWidget
 	}
 
 	/**
-	 * @param CFormatter the formatter instance
+	 * @param CFormatter $value the formatter instance
 	 */
 	public function setFormatter($value)
 	{

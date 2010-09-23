@@ -279,7 +279,7 @@ class CGridView extends CBaseListView
 
 	/**
 	 * Creates a {@link CDataColumn} based on a shortcut column specification string.
-	 * @param string the column specification string
+	 * @param string $text the column specification string
 	 * @return CDataColumn the column instance
 	 */
 	protected function createDataColumn($text)
@@ -440,7 +440,7 @@ class CGridView extends CBaseListView
 
 	/**
 	 * Renders a table body row.
-	 * @param integer the row number (zero-based).
+	 * @param integer $row the row number (zero-based).
 	 */
 	public function renderTableRow($row)
 	{
@@ -481,7 +481,7 @@ class CGridView extends CBaseListView
 	}
 
 	/**
-	 * @param CFormatter the formatter instance
+	 * @param CFormatter $value the formatter instance
 	 */
 	public function setFormatter($value)
 	{

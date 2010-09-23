@@ -26,14 +26,14 @@ abstract class CConsoleCommand extends CComponent
 
 	/**
 	 * Executes the command.
-	 * @param array command line parameters for this command.
+	 * @param array $args command line parameters for this command.
 	 */
 	public abstract function run($args);
 
 	/**
 	 * Constructor.
-	 * @param string name of the command
-	 * @param CConsoleCommandRunner the command runner
+	 * @param string $name name of the command
+	 * @param CConsoleCommandRunner $runner the command runner
 	 */
 	public function __construct($name,$runner)
 	{
@@ -70,7 +70,7 @@ abstract class CConsoleCommand extends CComponent
 	/**
 	 * Displays a usage error.
 	 * This method will then terminate the execution of the current application.
-	 * @param string the error message
+	 * @param string $message the error message
 	 */
 	public function usageError($message)
 	{
@@ -79,7 +79,7 @@ abstract class CConsoleCommand extends CComponent
 
 	/**
 	 * Copies a list of files from one place to another.
-	 * @param array the list of files to be copied (name=>spec).
+	 * @param array $fileList the list of files to be copied (name=>spec).
 	 * The array keys are names displayed during the copy process, and array values are specifications
 	 * for files to be copied. Each array value must be an array of the following structure:
 	 * <ul>
@@ -160,9 +160,9 @@ abstract class CConsoleCommand extends CComponent
 	 * This method traverses through the specified directory and builds
 	 * a list of files and subdirectories that the directory contains.
 	 * The result of this function can be passed to {@link copyFiles}.
-	 * @param string the source directory
-	 * @param string the target directory
-	 * @param string base directory
+	 * @param string $sourceDir the source directory
+	 * @param string $targetDir the target directory
+	 * @param string $baseDir base directory
 	 * @return array the file list (see {@link copyFiles})
 	 */
 	public function buildFileList($sourceDir, $targetDir, $baseDir='')
@@ -186,7 +186,7 @@ abstract class CConsoleCommand extends CComponent
 
 	/**
 	 * Creates all parent directories if they do not exist.
-	 * @param string the directory to be checked
+	 * @param string $directory the directory to be checked
 	 */
 	public function ensureDirectory($directory)
 	{
@@ -200,9 +200,9 @@ abstract class CConsoleCommand extends CComponent
 
 	/**
 	 * Renders a view file.
-	 * @param string view file path
-	 * @param array optional data to be extracted as local view variables
-	 * @param boolean whether to return the rendering result instead of displaying it
+	 * @param string $_viewFile_ view file path
+	 * @param array $_data_ optional data to be extracted as local view variables
+	 * @param boolean $_return_ whether to return the rendering result instead of displaying it
 	 * @return mixed the rendering result if required. Null otherwise.
 	 */
 	public function renderFile($_viewFile_,$_data_=null,$_return_=false)
@@ -224,7 +224,7 @@ abstract class CConsoleCommand extends CComponent
 
 	/**
 	 * Converts a word to its plural form.
-	 * @param string the word to be pluralized
+	 * @param string $name the word to be pluralized
 	 * @return string the pluralized word
 	 */
 	public function pluralize($name)

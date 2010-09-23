@@ -38,9 +38,9 @@ class CChoiceFormat
 {
 	/**
 	 * Formats a message according to the specified number value.
-	 * @param string the candidate messages in the format of 'expr1#message1|expr2#message2|expr3#message3'.
+	 * @param string $messages the candidate messages in the format of 'expr1#message1|expr2#message2|expr3#message3'.
 	 * See {@link CChoiceFormat} for more details.
-	 * @param mixed the number value
+	 * @param mixed $number the number value
 	 * @return string the selected message
 	 */
 	public static function format($messages, $number)
@@ -66,8 +66,8 @@ class CChoiceFormat
 
 	/**
 	 * Evaluates a PHP expression with the given number value.
-	 * @param string the PHP expression
-	 * @param mixed the number value
+	 * @param string $expression the PHP expression
+	 * @param mixed $n the number value
 	 * @return boolean the expression result
 	 */
 	protected static function evaluate($expression,$n)

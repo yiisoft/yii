@@ -51,7 +51,7 @@ class CDirectoryCacheDependency extends CCacheDependency
 
 	/**
 	 * Constructor.
-	 * @param string the directory to be checked
+	 * @param string $directory the directory to be checked
 	 */
 	public function __construct($directory=null)
 	{
@@ -74,8 +74,8 @@ class CDirectoryCacheDependency extends CCacheDependency
 	/**
 	 * Determines the last modification time for files under the directory.
 	 * This method may go recursively into subdirectories if {@link recursiveLevel} is not 0.
-	 * @param string the directory name
-	 * @param int level of the recursion
+	 * @param string $directory the directory name
+	 * @param int $level level of the recursion
 	 * @return array list of file modification time indexed by the file path
 	 */
 	protected function generateTimestamps($directory,$level=0)
@@ -111,7 +111,7 @@ class CDirectoryCacheDependency extends CCacheDependency
 	 * This method is invoked when dependency of the whole directory is being checked.
 	 * By default, it always returns true, meaning the file should be checked.
 	 * You may override this method to check only certain files.
-	 * @param string the name of the file that may be checked for dependency.
+	 * @param string $fileName the name of the file that may be checked for dependency.
 	 * @return boolean whether this file should be checked.
 	 */
 	protected function validateFile($fileName)
@@ -124,7 +124,7 @@ class CDirectoryCacheDependency extends CCacheDependency
 	 * This method is invoked when dependency of the whole directory is being checked.
 	 * By default, it always returns true, meaning the subdirectory should be checked.
 	 * You may override this method to check only certain subdirectories.
-	 * @param string the name of the subdirectory that may be checked for dependency.
+	 * @param string $directory the name of the subdirectory that may be checked for dependency.
 	 * @return boolean whether this subdirectory should be checked.
 	 */
 	protected function validateDirectory($directory)
