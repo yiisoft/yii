@@ -1057,7 +1057,7 @@ EOD;
 	 * <code>/index.php?r=post/list&page=3</code>.
 	 *
 	 * @param mixed the parameter to be used to generate a valid URL
-	 * @param string the normalized URL
+	 * @return string the normalized URL
 	 */
 	public static function normalizeUrl($url)
 	{
@@ -1673,7 +1673,8 @@ EOD;
 	}
 
 	/**
-	 * Generates a valid HTML ID based the name.
+	 * Generates a valid HTML ID based on name.
+	 * @param string name from which to generate HTML ID
 	 * @return string the ID generated based on name.
 	 */
 	public static function getIdByName($name)

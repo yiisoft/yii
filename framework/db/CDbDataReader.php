@@ -67,6 +67,8 @@ class CDbDataReader extends CComponent implements Iterator
 	}
 
 	/**
+	 * Set the default fetch mode for this statement
+	 * @param mixed fetch mode
 	 * @see http://www.php.net/manual/en/function.PDOStatement-setFetchMode.php
 	 */
 	public function setFetchMode($mode)

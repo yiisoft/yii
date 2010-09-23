@@ -26,6 +26,7 @@ abstract class CDbSchema extends CComponent
 
 	/**
 	 * Creates a table instance representing the metadata for the named table.
+	 * @param string table name
 	 * @return CDbTableSchema driver dependent table metadata, null if the table does not exist.
 	 */
 	abstract protected function createTable($name);

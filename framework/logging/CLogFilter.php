@@ -68,6 +68,7 @@ class CLogFilter extends CComponent
 	 * The default implementation will prefix each message with session ID
 	 * if {@link prefixSession} is set true. It may also prefix each message
 	 * with the current user's name and ID if {@link prefixUser} is true.
+	 * @param array the log messages
 	 */
 	protected function format(&$logs)
 	{

@@ -63,7 +63,7 @@ abstract class CAuthManager extends CApplicationComponent implements IAuthManage
 	 * @param string the item description.
 	 * @param string the business rule associated with this item
 	 * @param mixed additional data to be passed when evaluating the business rule
-	 * @param CAuthItem the authorization item
+	 * @return CAuthItem the authorization item
 	 */
 	public function createRole($name,$description='',$bizRule=null,$data=null)
 	{
@@ -77,7 +77,7 @@ abstract class CAuthManager extends CApplicationComponent implements IAuthManage
 	 * @param string the item description.
 	 * @param string the business rule associated with this item
 	 * @param mixed additional data to be passed when evaluating the business rule
-	 * @param CAuthItem the authorization item
+	 * @return CAuthItem the authorization item
 	 */
 	public function createTask($name,$description='',$bizRule=null,$data=null)
 	{
@@ -91,7 +91,7 @@ abstract class CAuthManager extends CApplicationComponent implements IAuthManage
 	 * @param string the item description.
 	 * @param string the business rule associated with this item
 	 * @param mixed additional data to be passed when evaluating the business rule
-	 * @param CAuthItem the authorization item
+	 * @return CAuthItem the authorization item
 	 */
 	public function createOperation($name,$description='',$bizRule=null,$data=null)
 	{

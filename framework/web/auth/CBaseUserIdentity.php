@@ -76,7 +76,7 @@ abstract class CBaseUserIdentity extends CComponent implements IUserIdentity
 	/**
 	 * Sets an array of presistent states.
 	 *
-	 * @param $states array the identity states that should be persisted.
+	 * @param array the identity states that should be persisted.
 	 */
 	public function setPersistentStates($states)
 	{

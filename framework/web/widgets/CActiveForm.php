@@ -429,6 +429,10 @@ class CActiveForm extends CWidget
 	 * This method is a wrapper of {@link CHtml::activeLabel}.
 	 * Please check {@link CHtml::activeLabel} for detailed information
 	 * about the parameters for this method.
+	 * @param CModel the data model
+	 * @param string the attribute
+	 * @param array additional HTML attributes.
+	 * @return string the generated label tag
 	 */
 	public function label($model,$attribute,$htmlOptions=array())
 	{
@@ -440,6 +444,10 @@ class CActiveForm extends CWidget
 	 * This method is a wrapper of {@link CHtml::activeLabelEx}.
 	 * Please check {@link CHtml::activeLabelEx} for detailed information
 	 * about the parameters for this method.
+	 * @param CModel the data model
+	 * @param string the attribute
+	 * @param array additional HTML attributes.
+	 * @return string the generated label tag
 	 */
 	public function labelEx($model,$attribute,$htmlOptions=array())
 	{
@@ -451,6 +459,10 @@ class CActiveForm extends CWidget
 	 * This method is a wrapper of {@link CHtml::activeTextField}.
 	 * Please check {@link CHtml::activeTextField} for detailed information
 	 * about the parameters for this method.
+	 * @param CModel the data model
+	 * @param string the attribute
+	 * @param array additional HTML attributes.
+	 * @return string the generated input field
 	 */
 	public function textField($model,$attribute,$htmlOptions=array())
 	{
@@ -462,6 +474,10 @@ class CActiveForm extends CWidget
 	 * This method is a wrapper of {@link CHtml::activeHiddenField}.
 	 * Please check {@link CHtml::activeHiddenField} for detailed information
 	 * about the parameters for this method.
+	 * @param CModel the data model
+	 * @param string the attribute
+	 * @param array additional HTML attributes.
+	 * @return string the generated input field
 	 */
 	public function hiddenField($model,$attribute,$htmlOptions=array())
 	{
@@ -473,6 +489,10 @@ class CActiveForm extends CWidget
 	 * This method is a wrapper of {@link CHtml::activePasswordField}.
 	 * Please check {@link CHtml::activePasswordField} for detailed information
 	 * about the parameters for this method.
+	 * @param CModel the data model
+	 * @param string the attribute
+	 * @param array additional HTML attributes.
+	 * @return string the generated input field
 	 */
 	public function passwordField($model,$attribute,$htmlOptions=array())
 	{
@@ -484,6 +504,10 @@ class CActiveForm extends CWidget
 	 * This method is a wrapper of {@link CHtml::activeTextArea}.
 	 * Please check {@link CHtml::activeTextArea} for detailed information
 	 * about the parameters for this method.
+	 * @param CModel the data model
+	 * @param string the attribute
+	 * @param array additional HTML attributes.
+	 * @return string the generated text area
 	 */
 	public function textArea($model,$attribute,$htmlOptions=array())
 	{
@@ -495,6 +519,10 @@ class CActiveForm extends CWidget
 	 * This method is a wrapper of {@link CHtml::activeFileField}.
 	 * Please check {@link CHtml::activeFileField} for detailed information
 	 * about the parameters for this method.
+	 * @param CModel the data model
+	 * @param string the attribute
+	 * @param array additional HTML attributes
+	 * @return string the generated input field
 	 */
 	public function fileField($model,$attribute,$htmlOptions=array())
 	{
@@ -506,6 +534,10 @@ class CActiveForm extends CWidget
 	 * This method is a wrapper of {@link CHtml::activeRadioButton}.
 	 * Please check {@link CHtml::activeRadioButton} for detailed information
 	 * about the parameters for this method.
+	 * @param CModel the data model
+	 * @param string the attribute
+	 * @param array additional HTML attributes.
+	 * @return string the generated radio button
 	 */
 	public function radioButton($model,$attribute,$htmlOptions=array())
 	{
@@ -517,6 +549,10 @@ class CActiveForm extends CWidget
 	 * This method is a wrapper of {@link CHtml::activeCheckBox}.
 	 * Please check {@link CHtml::activeCheckBox} for detailed information
 	 * about the parameters for this method.
+	 * @param CModel the data model
+	 * @param string the attribute
+	 * @param array additional HTML attributes.
+	 * @return string the generated check box
 	 */
 	public function checkBox($model,$attribute,$htmlOptions=array())
 	{
@@ -528,6 +564,11 @@ class CActiveForm extends CWidget
 	 * This method is a wrapper of {@link CHtml::activeDropDownList}.
 	 * Please check {@link CHtml::activeDropDownList} for detailed information
 	 * about the parameters for this method.
+	 * @param CModel the data model
+	 * @param string the attribute
+	 * @param array data for generating the list options (value=>display)
+	 * @param array additional HTML attributes.
+	 * @return string the generated drop down list
 	 */
 	public function dropDownList($model,$attribute,$data,$htmlOptions=array())
 	{
@@ -539,6 +580,11 @@ class CActiveForm extends CWidget
 	 * This method is a wrapper of {@link CHtml::activeListBox}.
 	 * Please check {@link CHtml::activeListBox} for detailed information
 	 * about the parameters for this method.
+	 * @param CModel the data model
+	 * @param string the attribute
+	 * @param array data for generating the list options (value=>display)
+	 * @param array additional HTML attributes.
+	 * @return string the generated list box
 	 */
 	public function listBox($model,$attribute,$data,$htmlOptions=array())
 	{
@@ -550,6 +596,11 @@ class CActiveForm extends CWidget
 	 * This method is a wrapper of {@link CHtml::activeCheckBoxList}.
 	 * Please check {@link CHtml::activeCheckBoxList} for detailed information
 	 * about the parameters for this method.
+	 * @param CModel the data model
+	 * @param string the attribute
+	 * @param array value-label pairs used to generate the check box list.
+	 * @param array addtional HTML options.
+	 * @return string the generated check box list
 	 */
 	public function checkBoxList($model,$attribute,$data,$htmlOptions=array())
 	{
@@ -561,6 +612,11 @@ class CActiveForm extends CWidget
 	 * This method is a wrapper of {@link CHtml::activeRadioButtonList}.
 	 * Please check {@link CHtml::activeRadioButtonList} for detailed information
 	 * about the parameters for this method.
+	 * @param CModel the data model
+	 * @param string the attribute
+	 * @param array value-label pairs used to generate the radio button list.
+	 * @param array addtional HTML options.
+	 * @return string the generated radio button list
 	 */
 	public function radioButtonList($model,$attribute,$data,$htmlOptions=array())
 	{

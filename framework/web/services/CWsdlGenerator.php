@@ -124,6 +124,9 @@ class CWsdlGenerator extends CComponent
 		return $this->buildDOM($serviceUrl,$encoding)->saveXML();
 	}
 
+	/*
+	 * @param ReflectionMethod method
+	 */
 	private function processMethod($method)
 	{
 		$comment=$method->getDocComment();
@@ -155,6 +158,9 @@ class CWsdlGenerator extends CComponent
 		$this->_operations[$methodName]=$doc;
 	}
 
+	/*
+	 * @param string PHP variable type
+	 */
 	private function processType($type)
 	{
 		static $typeMap=array(
@@ -207,6 +213,10 @@ class CWsdlGenerator extends CComponent
 		}
 	}
 
+	/*
+	 * @param string Web service URL
+	 * @param string encoding of the WSDL. Defaults to 'UTF-8'.
+	 */
 	private function buildDOM($serviceUrl,$encoding)
 	{
 		$xml="<?xml version=\"1.0\" encoding=\"$encoding\"?>
@@ -230,6 +240,9 @@ class CWsdlGenerator extends CComponent
 		return $dom;
 	}
 
+	/*
+	 * @param DOMDocument Represents an entire HTML or XML document; serves as the root of the document tree
+	 */
 	private function addTypes($dom)
 	{
 		if($this->_types===array())
@@ -278,6 +291,9 @@ class CWsdlGenerator extends CComponent
 		$dom->documentElement->appendChild($types);
 	}
 
+	/*
+	 * @param DOMDocument Represents an entire HTML or XML document; serves as the root of the document tree
+	 */
 	private function addMessages($dom)
 	{
 		foreach($this->_messages as $name=>$message)
@@ -298,6 +314,9 @@ class CWsdlGenerator extends CComponent
 		}
 	}
 
+	/*
+	 * @param DOMDocument Represents an entire HTML or XML document; serves as the root of the document tree
+	 */
 	private function addPortTypes($dom)
 	{
 		$portType=$dom->createElement('wsdl:portType');
@@ -307,6 +326,11 @@ class CWsdlGenerator extends CComponent
 			$portType->appendChild($this->createPortElement($dom,$name,$doc));
 	}
 
+	/*
+	 * @param DOMDocument Represents an entire HTML or XML document; serves as the root of the document tree
+	 * @param string method name
+	 * @param string doc
+	 */
 	private function createPortElement($dom,$name,$doc)
 	{
 		$operation=$dom->createElement('wsdl:operation');
@@ -324,6 +348,9 @@ class CWsdlGenerator extends CComponent
 		return $operation;
 	}
 
+	/*
+	 * @param DOMDocument Represents an entire HTML or XML document; serves as the root of the document tree
+	 */
 	private function addBindings($dom)
 	{
 		$binding=$dom->createElement('wsdl:binding');
@@ -341,6 +368,10 @@ class CWsdlGenerator extends CComponent
 			$binding->appendChild($this->createOperationElement($dom,$name));
 	}
 
+	/*
+	 * @param DOMDocument Represents an entire HTML or XML document; serves as the root of the document tree
+	 * @param string method name
+	 */
 	private function createOperationElement($dom,$name)
 	{
 		$operation=$dom->createElement('wsdl:operation');
@@ -366,6 +397,10 @@ class CWsdlGenerator extends CComponent
 		return $operation;
 	}
 
+	/*
+	 * @param DOMDocument Represents an entire HTML or XML document; serves as the root of the document tree
+	 * @param string Web service URL
+	 */
 	private function addService($dom,$serviceUrl)
 	{
 		$service=$dom->createElement('wsdl:service');
