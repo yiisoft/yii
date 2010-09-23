@@ -1153,8 +1153,9 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
-	 * Compares this active record with another one.
-	 * The comparison is made by comparing the primary key values of the two active records.
+	 * Compares current active record with another one.
+	 * The comparison is made by comparing table name and the primary key values of the two active records.
+	 * @param CActiveRecord record to compare to
 	 * @return boolean whether the two active records refer to the same row in the database table.
 	 */
 	public function equals($record)
@@ -1227,6 +1228,10 @@ abstract class CActiveRecord extends CModel
 		$this->_pk=$value;
 	}
 
+	/*
+	 * @param CDbCriteria the query criteria
+	 * @param boolean whether to return all data
+	 */
 	private function query($criteria,$all=false)
 	{
         $this->beforeFind();

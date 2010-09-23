@@ -66,6 +66,10 @@ class CVarDumper
 		return self::$_output;
 	}
 
+	/*
+	 * @param mixed variable to be dumped
+	 * @param integer depth level
+	 */
 	private static function dumpInternal($var,$level)
 	{
 		switch(gettype($var))

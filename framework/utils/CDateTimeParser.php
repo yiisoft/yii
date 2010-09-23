@@ -218,6 +218,9 @@ class CDateTimeParser
 			return false;
 	}
 
+	/*
+	 * @param string the pattern that the date string is following
+	 */
 	private static function tokenize($pattern)
 	{
 		if(!($n=strlen($pattern)))
@@ -236,6 +239,12 @@ class CDateTimeParser
 		return $tokens;
 	}
 
+	/*
+	 * @param string the date string to be parsed
+	 * @param integer starting offset
+	 * @param integer minimum length
+	 * @param integer maximum length
+	 */
 	protected static function parseInteger($value,$offset,$minLength,$maxLength)
 	{
 		for($len=$maxLength;$len>=$minLength;--$len)
@@ -247,6 +256,10 @@ class CDateTimeParser
 		return false;
 	}
 
+	/*
+	 * @param string the date string to be parsed
+	 * @param integer starting offset
+	 */
 	protected static function parseAmPm($value, $offset)
 	{
 		$v=strtolower(substr($value,$offset,2));

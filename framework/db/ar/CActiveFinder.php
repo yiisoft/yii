@@ -85,6 +85,8 @@ class CActiveFinder extends CComponent
 
 	/**
 	 * This method is internally called.
+	 * @param string the SQL statement
+	 * @param array parameters to be bound to the SQL statement
 	 */
 	public function findBySql($sql,$params=array())
 	{
@@ -104,6 +106,8 @@ class CActiveFinder extends CComponent
 
 	/**
 	 * This method is internally called.
+	 * @param string the SQL statement
+	 * @param array parameters to be bound to the SQL statement
 	 */
 	public function findAllBySql($sql,$params=array())
 	{
@@ -126,6 +130,7 @@ class CActiveFinder extends CComponent
 
 	/**
 	 * This method is internally called.
+	 * @param CDbCriteria the query criteria
 	 */
 	public function count($criteria)
 	{
@@ -466,6 +471,11 @@ class CJoinElement
 		}
 	}
 
+	/**
+	 * Apply Lazy Condition
+	 * @param CJoinQuery represents a JOIN SQL statements
+	 * @param CActiveRecord the active record whose related object is to be fetched.
+	 */
 	private function applyLazyCondition($query,$record)
 	{
 		$schema=$this->_builder->getSchema();
@@ -661,6 +671,7 @@ class CJoinElement
 
 	/**
 	 * Calls {@link CActiveRecord::beforeFind}.
+	 * @param boolean whether is called for a child
 	 * @since 1.0.11
 	 */
 	public function beforeFind($isChild=true)
@@ -1376,6 +1387,10 @@ class CStatElement
 			$record->addRelatedRecord($relation->name,isset($stats[$pk])?$stats[$pk]:$relation->defaultValue,false);
 	}
 
+	/*
+	 * @param string jointablename
+	 * @param string keys
+	 */
 	private function queryManyMany($joinTableName,$keys)
 	{
 		$relation=$this->relation;

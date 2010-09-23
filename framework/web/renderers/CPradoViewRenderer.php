@@ -142,6 +142,11 @@ class CPradoViewRenderer extends CViewRenderer
 		file_put_contents($viewFile,$this->_output);
 	}
 
+	/*
+	 * @param string type
+	 * @param string attributes
+	 * @param string offset
+	 */
 	private function processWidget($type,$attributes,$offset)
 	{
 		$attrs=$this->processAttributes($attributes);
@@ -151,6 +156,11 @@ class CPradoViewRenderer extends CViewRenderer
 			return $this->generatePhpCode("\$this->widget('$type', array($attrs));",$offset);
 	}
 
+	/*
+	 * @param string type
+	 * @param string attributes
+	 * @param string offset
+	 */
 	private function processBeginWidget($type,$attributes,$offset)
 	{
 		$attrs=$this->processAttributes($attributes);
@@ -160,16 +170,30 @@ class CPradoViewRenderer extends CViewRenderer
 			return $this->generatePhpCode("\$this->beginWidget('$type', array($attrs));",$offset);
 	}
 
+	/*
+	 * @param string type
+	 * @param string offset
+	 */
 	private function processEndWidget($type,$offset)
 	{
 		return $this->generatePhpCode("\$this->endWidget('$type');",$offset);
 	}
 
+	/*
+	 * @param string id
+	 * @param string attributes
+	 * @param string offset
+	 */
 	private function processCache($id,$attributes,$offset)
 	{
 		return $this->processBeginCache($id,$attributes,$offset) . $this->processEndCache($id,$offset);
 	}
 
+	/*
+	 * @param string id
+	 * @param string attributes
+	 * @param string offset
+	 */
 	private function processBeginCache($id,$attributes,$offset)
 	{
 		$attrs=$this->processAttributes($attributes);
@@ -179,16 +203,30 @@ class CPradoViewRenderer extends CViewRenderer
 			return $this->generatePhpCode("if(\$this->beginCache('$id', array($attrs))):",$offset);
 	}
 
+	/*
+	 * @param string id
+	 * @param string offset
+	 */
 	private function processEndCache($id,$offset)
 	{
 		return $this->generatePhpCode("\$this->endCache('$id'); endif;",$offset);
 	}
 
+	/*
+	 * @param string id
+	 * @param string attributes
+	 * @param string offset
+	 */
 	private function processClip($id,$attributes,$offset)
 	{
 		return $this->processBeginClip($id,$attributes,$offset) . $this->processEndClip($id,$offset);
 	}
 
+	/*
+	 * @param string id
+	 * @param string attributes
+	 * @param string offset
+	 */
 	private function processBeginClip($id,$attributes,$offset)
 	{
 		$attrs=$this->processAttributes($attributes);
@@ -198,21 +236,37 @@ class CPradoViewRenderer extends CViewRenderer
 			return $this->generatePhpCode("\$this->beginClip('$id', array($attrs));",$offset);
 	}
 
+	/*
+	 * @param string id
+	 * @param string offset
+	 */
 	private function processEndClip($id,$offset)
 	{
 		return $this->generatePhpCode("\$this->endClip('$id');",$offset);
 	}
 
+	/*
+	 * @param string expression
+	 * @param string offset
+	 */
 	private function processExpression($expression,$offset)
 	{
 		return $this->generatePhpCode('echo '.$expression,$offset);
 	}
 
+	/*
+	 * @param string statement
+	 * @param string offset
+	 */
 	private function processStatement($statement,$offset)
 	{
 		return $this->generatePhpCode($statement,$offset);
 	}
 
+	/*
+	 * @param string code
+	 * @param string offset
+	 */
 	private function generatePhpCode($code,$offset)
 	{
 		$line=$this->getLineNumber($offset);
@@ -220,6 +274,9 @@ class CPradoViewRenderer extends CViewRenderer
 		return "<?php /* line $line */ $code ?>";
 	}
 
+	/*
+	 * @param string str
+	 */
 	private function processAttributes($str)
 	{
 		static $pattern='/(\w+)\s*=\s*(\'.*?(?<!\\\\)\'|".*?(?<!\\\\)"|\{.*?\})/msS';
@@ -238,6 +295,9 @@ class CPradoViewRenderer extends CViewRenderer
 		return implode(', ',$attributes);
 	}
 
+	/*
+	 * @param string offset
+	 */
 	private function getLineNumber($offset)
 	{
 		return count(explode("\n",substr($this->_input,0,$offset)));

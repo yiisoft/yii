@@ -77,6 +77,7 @@ class CPgsqlSchema extends CDbSchema
 
 	/**
 	 * Creates a table instance representing the metadata for the named table.
+	 * @param string table name
 	 * @return CDbTableSchema driver dependent table metadata.
 	 */
 	protected function createTable($name)
@@ -310,6 +311,8 @@ EOD;
 
 	/**
 	 * Returns all table names in the database.
+	 * @param string the schema of the tables. Defaults to empty string, meaning the current or default schema.
+	 * If not empty, the returned table names will be prefixed with the schema name.
 	 * @return array all table names in the database.
 	 * @since 1.0.2
 	 */

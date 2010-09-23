@@ -42,11 +42,20 @@ class COciColumnSchema extends CDbColumnSchema
 			return 'string';
 	}
 
+	/**
+	 * Extracts the PHP type from DB type.
+	 * @param string DB type
+	 */
 	protected function extractType($dbType)
 	{
 		$this->type=$this->extractOraType($dbType);
 	}
 
+	/*
+	 * Extracts the default value for the column.
+	 * The value is typecasted to correct PHP type.
+	 * @param mixed the default value obtained from metadata
+	 */
 	protected function extractDefault($defaultValue)
 	{
 		if(stripos($defaultValue,'timestamp')!==false)

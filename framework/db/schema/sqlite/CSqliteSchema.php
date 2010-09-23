@@ -74,6 +74,7 @@ class CSqliteSchema extends CDbSchema
 
 	/**
 	 * Creates a table instance representing the metadata for the named table.
+	 * @param string table name
 	 * @return CDbTableSchema driver dependent table metadata. Null if the table does not exist.
 	 */
 	protected function createTable($name)

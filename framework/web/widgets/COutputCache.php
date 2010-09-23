@@ -138,6 +138,7 @@ class COutputCache extends CFilterWidget
 	/**
 	 * Performs filtering before the action is executed.
 	 * This method is meant to be overridden by child classes if begin-filtering is needed.
+	 * @param CFilterChain list of filters being applied to an action
 	 * @return boolean whether the filtering process should stop after this filter. Defaults to false.
 	 */
 	public function filter($filterChain)

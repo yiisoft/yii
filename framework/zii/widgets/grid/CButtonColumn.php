@@ -140,7 +140,6 @@ class CButtonColumn extends CGridColumn
 	/**
 	 * Initializes the column.
 	 * This method registers necessary client script for the button column.
-	 * @param CGridView the grid view instance
 	 */
 	public function init()
 	{

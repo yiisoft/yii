@@ -603,7 +603,7 @@ class CComponent
 	 * that can be directly accessed in the expression. See {@link http://us.php.net/manual/en/function.extract.php PHP extract}
 	 * for more details. In the expression, the component object can be accessed using $this.
 	 *
-	 * @var mixed a PHP expression or PHP callback to be evaluated.
+	 * @param mixed a PHP expression or PHP callback to be evaluated.
 	 * @param array additional parameters to be passed to the above expression/callback.
 	 * @return mixed the expression result
 	 * @since 1.1.0

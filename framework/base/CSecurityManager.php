@@ -155,6 +155,7 @@ class CSecurityManager extends CApplicationComponent
 	/**
 	 * This method has been deprecated since version 1.1.3.
 	 * Please use {@link hashAlgorithm} instead.
+	 * @param string -
 	 */
 	public function setValidation($value)
 	{

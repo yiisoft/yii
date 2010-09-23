@@ -36,6 +36,11 @@ class CMysqlColumnSchema extends CDbColumnSchema
 			$this->type='string';
 	}
 
+	/*
+	 * Extracts the default value for the column.
+	 * The value is typecasted to correct PHP type.
+	 * @param mixed the default value obtained from metadata
+	 */
 	protected function extractDefault($defaultValue)
 	{
 		if($this->dbType==='timestamp' && $defaultValue==='CURRENT_TIMESTAMP')
