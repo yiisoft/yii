@@ -7,7 +7,6 @@
  * @copyright Copyright &copy; 2008-2010 Yii Software LLC
  * @license http://www.yiiframework.com/license/
  */
-
 Yii::import('application.commands.api.ApiModel');
 
 /**
@@ -36,19 +35,23 @@ class ApiCommand extends CConsoleCommand
 		return <<<EOD
 USAGE
   build api <output-path> [mode]
+  build api check
 
 DESCRIPTION
   This command generates offline API documentation for the Yii framework.
 
 PARAMETERS
- * output-path: required, the directory where the generated documentation
-   would be saved.
- * mode: optional, either 'online' or 'offline' (default). This indicates
-   whether the generated documentation are for online or offline use.
+  * output-path: required, the directory where the generated documentation would be saved.
+  * mode: optional, either 'online' or 'offline' (default).
+          Indicates whether the generated documentation are for online or offline use.
 
-EXAMPLES:
-  * build api yii/doc online
-  * build api yii/doc
+  * check: check PHPDoc for proper @param syntax
+
+EXAMPLES
+  * build api yii/doc online - builds api ONLINE documentation in folder yii/doc
+  * build api yii/doc        - builds api OFFLINE (default) documentation in folder yii/doc
+
+  * build check              - cheks PHPDoc @param directives
 
 EOD;
 	}
@@ -59,26 +62,6 @@ EOD;
 	 */
 	public function run($args)
 	{
-		if(!isset($args[0]))
-			$this->usageError('the output directory is not specified.');
-		if(!is_dir($docPath=$args[0]))
-			$this->usageError("the output directory {$docPath} does not exist.");
-
-		$offline=true;
-		if(isset($args[1]) && $args[1]==='online')
-			$offline=false;
-
-		$this->version=Yii::getVersion();
-
-		/*
-		 * development version - link to trunk
-		 * release version link to tags
-		 */
-		if(substr($this->version,-3)=='dev')
-			$this->baseSourceUrl .= '/trunk/framework';
-		else
-			$this->baseSourceUrl .= '/tags/'.$this->version.'/framework';
-
 		$options=array(
 			'fileTypes'=>array('php'),
 			'exclude'=>array(
@@ -101,6 +84,35 @@ EOD;
 				'/gii/views',
 			),
 		);
+
+		if(!isset($args[0]))
+			$this->usageError('the output directory is not specified.');
+
+		if($args[0]=='check') {
+			$checkFiles=CFileHelper::findFiles(YII_PATH,$options);
+			$model=new ApiModel;
+			$model->check($checkFiles);
+			exit();
+		}
+
+		if(!is_dir($docPath=$args[0]))
+			$this->usageError("the output directory {$docPath} does not exist.");
+
+		$offline=true;
+		if(isset($args[1]) && $args[1]==='online')
+			$offline=false;
+
+		$this->version=Yii::getVersion();
+
+		/*
+		 * development version - link to trunk
+		 * release version link to tags
+		 */
+		if(substr($this->version,-3)=='dev')
+			$this->baseSourceUrl .= '/trunk/framework';
+		else
+			$this->baseSourceUrl .= '/tags/'.$this->version.'/framework';
+
 		$this->pageTitle='Yii Framework Class Reference';
 		$themePath=dirname(__FILE__).'/api';
 

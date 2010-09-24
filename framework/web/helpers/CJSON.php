@@ -679,7 +679,7 @@ class CJSON
 	*
 	* Maybe really UCS-2 without mb_string due to utf8ToUnicode limits
 	* @param string $str string to convert
-	* @param boolean $bom  whether to output BOM header
+	* @param boolean $bom whether to output BOM header
 	*/
 	protected static function utf8ToUTF16BE(&$str, $bom = false)
 	{
