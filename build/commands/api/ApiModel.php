@@ -563,6 +563,126 @@ class ApiModel
 
 		return array($classes,$functions,$constants);
 	}
+
+	/*
+	 * Calls checkSource for every file in $sourceFiles
+	 * @param array $sourceFiles array of source file path that we need to check
+	 */
+	public function check($sourceFiles)
+	{
+		echo "Checking PHPDoc @param in source files ...\n";
+		foreach($sourceFiles as $no=>$sourceFile)
+		{
+			$this->checkSource($sourceFile);
+		}
+		echo "Done.\n\n";
+	}
+
+	/*
+	 * Checks @param directives in a source file
+	 * Detects:
+	 *    missing @param directive (there is no @param directive for a function parameter)
+	 *    missing function parameter (@param directive exists but that parameter is not in a function declaration)
+	 *    missmatch parameters (if @param directive has different parameter name than a function - possible spelling error or wrong order of @param directives)
+	 */
+	protected function checkSource($sourceFile)
+	{
+		$fileContent=file($sourceFile);
+
+		$docParam=array();
+		foreach($fileContent as $no=>$line)
+		{
+			/*
+			 * Get lines with @param, and parameter name
+			 */
+			if(preg_match('/^\s*\*\s*@param\s\w+\s(\$\w+)\s./',$line,$matches,PREG_OFFSET_CAPTURE))
+			{
+				$docParam[]=array(
+					'docLine'=>$no+1,
+					'docName'=>$matches[1][0],
+				);
+				continue;
+			}
+			/*
+			 * If function without parameters, there should be no parameters in $docParam
+			 */
+			if(preg_match('/^\s*\w+[\s\w]*\sfunction\s\w+\(\s*\)/',$line,$matches,PREG_OFFSET_CAPTURE))
+			{
+				if(isset($docParam[0])) {
+					$value=$docParam[0];
+					echo "ERROR.............: Parameter name not found!\n";
+					echo "Source file.......: ".$sourceFile."\n";
+					echo "PHPDoc line.......: ".$value['docLine']."\n";
+					echo "PHPDoc parameter..: ".$value['docName']."\n\n";
+					$docParam=array();
+				}
+				continue;
+			}
+			/*
+			 * Get function variables in $matches[1][0]
+			 */
+			if(preg_match('/^\s*\w+[\s\w]*\sfunction\s\w+\((.+)\)/',$line,$matches,PREG_OFFSET_CAPTURE))
+			{
+				$params=explode(",",$matches[1][0]);
+				foreach($params as $br=>$param)
+				{
+					/*
+					 * Strip anything that does not begin with $ (class types) eg. CHttpRequest $request
+					 */
+					$param=preg_replace('/^\w+/','',trim($param));
+					/*
+					 * Strip default value if exists ex. data=array() (with spaces)
+					 */
+					$param=preg_replace('/\s*=.+/','',trim($param));
+					/*
+					 * Strip & if pass by reference
+					 */
+					if($param[0]=='&')
+						$param=substr($param,1);
+					/*
+					 * add parameter info to the docParam array
+					 */
+					$docParam[$br]['parameterName']=$param;
+					$docParam[$br]['parameterLine']=$no+1;
+				}
+
+				/*
+				 * All info gathered, let's make some checking
+				 */
+				foreach($docParam as $value)
+				{
+					if(!isset($value['docLine']) || !isset($value['docName']) && isset($value['parameterName']))
+					{
+						echo "ERROR.............: Documentation not found!\n";
+						echo "Source file.......: ".$sourceFile."\n";
+						echo "Parameter line....: ".$value['parameterLine']."\n";
+						echo "Parameter name....: ".$value['parameterName']."\n\n";
+					}
+					if(!isset($value['parameterName']) || !isset($value['parameterLine']))
+					{
+						echo "ERROR.............: Parameter name not found!\n";
+						echo "Source file.......: ".$sourceFile."\n";
+						echo "PHPDoc line.......: ".$value['docLine']."\n";
+						echo "PHPDoc parameter..: ".$value['docName']."\n\n";
+					}
+					if( isset($value['docName']) && isset($value['parameterName']) && $value['docName']!==$value['parameterName'])
+					{
+						echo "ERROR.............: Wrong parameter order!\n";
+						echo "Source file.......: ".$sourceFile."\n";
+						echo "PHPDoc line.......: ".$value['docLine']."\n";
+						echo "PHPDoc parameter..: ".$value['docName']."\n";
+						echo "Parameter line....: ".$value['parameterLine']."\n";
+						echo "Parameter name....: ".$value['parameterName']."\n\n";
+					}
+				}
+				/*
+				 * reset $docParam
+				 */
+				$docParam=array();
+			}
+		}
+	}
+
 }
 
 class BaseDoc
