@@ -10,9 +10,9 @@
 </head>
 
 <body>
-<div id="page">
+<div id="apiPage">
 
-<div id="header">
+<div id="apiHeader">
 <a href="http://www.yiiframework.com">Yii Framework</a> v<?php echo Yii::getVersion(); ?> Class Reference
 </div><!-- end of header -->
 
@@ -20,7 +20,7 @@
 <?php echo $content; ?>
 </div><!-- end of content -->
 
-<div id="footer">
+<div id="apiFooter">
 Copyright &copy; 2008-2010 by <a href="http://www.yiisoft.com">Yii Software LLC</a><br/>
 All Rights Reserved.<br/>
 </div><!-- end of footer -->

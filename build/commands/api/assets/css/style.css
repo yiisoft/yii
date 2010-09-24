@@ -9,10 +9,10 @@ body, div, span, p, input
     color: #333333;
 }
 
-#page {
+#apiPage {
 }
 
-#header {
+#apiHeader {
 	padding: 3px;
 	color: white;
 	background: #6078BF;
@@ -20,11 +20,11 @@ body, div, span, p, input
 	font-weight: bold;
 }
 
-#header a {
+#apiHeader a {
 	color: white;
 }
 
-#footer {
+#apiFooter {
 	margin-top: 5px;
 	padding: 3px;
 	border-top: 1px solid #BFCFFF;
