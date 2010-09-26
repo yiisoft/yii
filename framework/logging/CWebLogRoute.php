@@ -58,13 +58,10 @@ class CWebLogRoute extends CLogRoute
 				return;
 			$view.='-firebug';
 		}
-		else
-		{
-			if(!($app instanceof CWebApplication) || $isAjax)
-				return;
-		}
+		else if(!($app instanceof CWebApplication) || $isAjax)
+			return;
+
 		$viewFile=YII_PATH.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.$view.'.php';
 		include($app->findLocalizedFile($viewFile,'en'));
 	}
 }
-
