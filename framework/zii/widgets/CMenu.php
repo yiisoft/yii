@@ -21,6 +21,8 @@
  * <pre>
  * $this->widget('zii.widgets.CMenu', array(
  *     'items'=>array(
+ *         // Important: you need to specify url as 'controller/action',
+ *         // not just as 'controller' even if default acion is used.
  *         array('label'=>'Home', 'url'=>array('site/index')),
  *         array('label'=>'Products', 'url'=>array('product/index'), 'items'=>array(
  *             array('label'=>'New Arrivals', 'url'=>array('product/new', 'tag'=>'new')),
@@ -30,6 +32,7 @@
  *     ),
  * ));
  * </pre>
+ *
  *
  * @author Jonah Turnquist <poppitypop@gmail.com>
  * @author Qiang Xue <qiang.xue@gmail.com>
