@@ -12,7 +12,7 @@
 ;(function($) {
 	/**
 	 * yiiactiveform set function.
-	 * @param map settings for the active form plugin. Please see {@link CActiveForm::options} for availablel options.
+	 * @param options map  settings for the active form plugin. Please see {@link CActiveForm::options} for availablel options.
 	 */
 	$.fn.yiiactiveform = function(options) {
 		return this.each(function() {
@@ -76,7 +76,7 @@
 								attribute.afterValidateAttribute($form,attribute,data,hasError);
 							}
 						});
-					};
+					}
 				}, attribute.validationDelay);
 			};
 
@@ -144,7 +144,7 @@
 
 	/**
 	 * Returns the container element of the specified attribute.
-	 * @param object the configuration for a particular attribute.
+	 * @param attribute object the configuration for a particular attribute.
 	 * @return jquery the jquery representation of the container
 	 */
 	$.fn.yiiactiveform.getInputContainer = function(attribute) {
@@ -156,8 +156,8 @@
 
 	/**
 	 * updates the error message and the input container for a particular attribute.
-	 * @param object the configuration for a particular attribute.
-	 * @param array the json data obtained from the ajax validation request
+	 * @param attribute object the configuration for a particular attribute.
+	 * @param messages array the json data obtained from the ajax validation request
 	 * @return boolean whether there is a validation error for the specified attribute
 	 */
 	$.fn.yiiactiveform.updateInput = function(attribute, messages) {
@@ -186,8 +186,8 @@
 
 	/**
 	 * updates the error summary, if any.
-	 * @param jquery the jquery representation of the form
-	 * @param array the json data obtained from the ajax validation request
+	 * @param form jquery the jquery representation of the form
+	 * @param messages array the json data obtained from the ajax validation request
 	 */
 	$.fn.yiiactiveform.updateSummary = function(form, messages) {
 		var settings = $(form).data('settings');
@@ -208,9 +208,9 @@
 	/**
 	 * Performs the ajax validation request.
 	 * This method is invoked internally to trigger the ajax validation.
-	 * @param jquery the jquery representation of the form
-	 * @param function the function to be invoked if the ajax request succeeds
-	 * @param function the function to be invoked if the ajax request fails
+	 * @param form jquery the jquery representation of the form
+	 * @param successCallback function the function to be invoked if the ajax request succeeds
+	 * @param errorCallback function the function to be invoked if the ajax request fails
 	 */
 	$.fn.yiiactiveform.validate = function(form, successCallback, errorCallback) {
 		var $form = $(form);
@@ -236,7 +236,7 @@
 	/**
 	 * Returns the configuration for the specified form.
 	 * The configuration contains all needed information to perform ajax-based validation.
-	 * @param jquery the jquery representation of the form
+	 * @param form jquery the jquery representation of the form
 	 * @return object the configuration for the specified form.
 	 */
 	$.fn.yiiactiveform.getSettings = function(form) {

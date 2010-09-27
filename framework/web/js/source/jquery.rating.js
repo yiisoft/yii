@@ -11,10 +11,9 @@
 
 /*# AVOID COLLISIONS #*/
 ;if(window.jQuery) (function($){
-/*# AVOID COLLISIONS #*/
 	
 	// IE6 Background Image Fix
-	if ($.browser.msie) try { document.execCommand("BackgroundImageCache", false, true)} catch(e) { };
+	if ($.browser.msie) try { document.execCommand("BackgroundImageCache", false, true)} catch(e) { }
 	// Thanks to http://www.visualjquery.com/rating/rating_redux.html
 	
 	// plugin initialization
@@ -28,13 +27,13 @@
 				var args = arguments;
 				return this.each(function(){
 					$.fn.rating.apply($(this), args);
-    });
-			};
+				});
+			}
 			// Invoke API method handler
 			$.fn.rating[arguments[0]].apply(this, $.makeArray(arguments).slice(1) || []);
 			// Quick exit...
 			return this;
-		};
+		}
 		
 		// Initialize options for this call
 		var options = $.extend(
@@ -113,7 +112,7 @@
 					.data('rating', control)
 				);
 				
-			}; // first element of group
+			} // first element of group
 			
 			// insert rating star
 			var star = $('<div class="star-rating rater-'+ control.serial +'"><a title="' + (this.title || this.value) + '">' + this.value + '</a></div>');
@@ -136,7 +135,7 @@
 				// move the star left by using a negative margin
 				// this is work-around to IE's stupid box model (position:relative doesn't work)
 				.find('a').css({ 'margin-left':'-'+ (spi*spw) +'px' })
-			};
+			}
 			
 			// readOnly?
 			if(control.readOnly)//{ //save a byte!
@@ -169,8 +168,8 @@
 			
 			// backward compatibility, form element to plugin
 			input.change(function(){
-    $(this).rating('select');
-   });
+				$(this).rating('select');
+			});
 			
 			// attach reference to star to input element and vice-versa
 			star.data('rating.input', input.data('rating.star', star));
@@ -185,7 +184,7 @@
 			rater.data('rating', control);
 			star.data('rating', control);
 			context.data('rating', raters);
-  }); // each element
+		}); // each element
 		
 		// Initialize ratings (first draw)
 		$('.rating-to-be-drawn').rating('draw').removeClass('rating-to-be-drawn');
@@ -279,7 +278,7 @@
 			if(typeof value!='undefined'){
 			 // select by index (0 based)
 				if(typeof value=='number')
- 			 return $(control.stars[value]).rating('select',undefined,wantCallBack);
+				 return $(control.stars[value]).rating('select',undefined,wantCallBack);
 				// select by literal value (must be passed as a string
 				if(typeof value=='string')
 					//return
@@ -363,7 +362,7 @@
 			//focus:    function(){},  // executed when stars are focused
 			//blur:     function(){},  // executed when stars are focused
 			//callback: function(){},  // executed when a star is clicked
- }; //} });
+	}; //} });
 	
 	/*--------------------------------------------------------*/
 	
@@ -373,11 +372,10 @@
 		with the class 'multi' when the page loads
 	*/
 	$(function(){
-	 $('input[type=radio].star').rating();
+		$('input[type=radio].star').rating();
 	});
 	
 	
 	
 /*# AVOID COLLISIONS #*/
 })(jQuery);
-/*# AVOID COLLISIONS #*/
