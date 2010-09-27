@@ -20,10 +20,10 @@ $.yii = {
 			f.style.display = 'none';
 			element.parentNode.appendChild(f);
 			f.method = 'POST';
-		};
+		}
 		if (typeof url == 'string' && url != '') {
 			f.action = url;
-		};
+		}
 		var inputs = [];
 		$.each(params, function(name, value) {
 			var input = document.createElement("input");

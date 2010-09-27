@@ -92,7 +92,7 @@
 				function seekNext(pos) {
 					while (++pos <= len && !tests[pos]);
 					return pos;
-				};
+				}
 
 				function shiftL(pos) {
 					while (!tests[pos] && --pos >= 0);
@@ -108,7 +108,7 @@
 					}
 					writeBuffer();
 					input.caret(Math.max(firstNonMaskPos, pos));
-				};
+				}
 
 				function shiftR(pos) {
 					for (var i = pos, c = settings.placeholder; i < len; i++) {
@@ -122,7 +122,7 @@
 								break;
 						}
 					}
-				};
+				}
 
 				function keydownEvent(e) {
 					var pos = $(this).caret();
@@ -142,7 +142,7 @@
 						input.caret(0, checkVal());
 						return false;
 					}
-				};
+				}
 
 				function keypressEvent(e) {
 					if (ignore) {
@@ -172,16 +172,16 @@
 						}
 					}
 					return false;
-				};
+				}
 
 				function clearBuffer(start, end) {
 					for (var i = start; i < end && i < len; i++) {
 						if (tests[i])
 							buffer[i] = settings.placeholder;
 					}
-				};
+				}
 
-				function writeBuffer() { return input.val(buffer.join('')).val(); };
+				function writeBuffer() { return input.val(buffer.join('')).val(); }
 
 				function checkVal(allow) {
 					//try to place characters where they belong
@@ -213,7 +213,7 @@
 						if (!allow) input.val(input.val().substring(0, lastMatch + 1));
 					}
 					return (partialPosition ? i : firstNonMaskPos);
-				};
+				}
 
 				if (!input.attr("readonly"))
 					input

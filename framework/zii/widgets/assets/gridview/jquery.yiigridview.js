@@ -11,7 +11,7 @@
 ;(function($) {
 	/**
 	 * yiiGridView set function.
-	 * @param map settings for the grid view. Availablel options are as follows:
+	 * @param options map settings for the grid view. Availablel options are as follows:
 	 * - ajaxUpdate: array, IDs of the containers whose content may be updated by ajax response
 	 * - ajaxVar: string, the name of the GET variable indicating the ID of the element triggering the AJAX request
 	 * - pagerClass: string, the CSS class for the pager container
@@ -75,8 +75,8 @@
 
 	/**
 	 * Returns the key value for the specified row
-	 * @param string the ID of the grid view container
-	 * @param integer the row number (zero-based index)
+	 * @param id string the ID of the grid view container
+	 * @param row integer the row number (zero-based index)
 	 * @return string the key value
 	 */
 	$.fn.yiiGridView.getKey = function(id, row) {
@@ -85,7 +85,7 @@
 
 	/**
 	 * Returns the URL that generates the grid view content.
-	 * @param string the ID of the grid view container
+	 * @param id string the ID of the grid view container
 	 * @return string the URL that generates the grid view content.
 	 */
 	$.fn.yiiGridView.getUrl = function(id) {
@@ -94,8 +94,8 @@
 
 	/**
 	 * Returns the jQuery collection of the cells in the specified row.
-	 * @param string the ID of the grid view container
-	 * @param integer the row number (zero-based index)
+	 * @param id string the ID of the grid view container
+	 * @param row integer the row number (zero-based index)
 	 * @return jQuery the jQuery collection of the cells in the specified row.
 	 */
 	$.fn.yiiGridView.getRow = function(id, row) {
@@ -105,8 +105,8 @@
 
 	/**
 	 * Returns the jQuery collection of the cells in the specified column.
-	 * @param string the ID of the grid view container
-	 * @param integer the column number (zero-based index)
+	 * @param id string the ID of the grid view container
+	 * @param column integer the column number (zero-based index)
 	 * @return jQuery the jQuery collection of the cells in the specified column.
 	 */
 	$.fn.yiiGridView.getColumn = function(id, column) {
@@ -116,8 +116,8 @@
 
 	/**
 	 * Performs an AJAX-based update of the grid view contents.
-	 * @param string the ID of the grid view container
-	 * @param map the AJAX request options (see jQuery.ajax API manual). By default,
+	 * @param id string the ID of the grid view container
+	 * @param options map the AJAX request options (see jQuery.ajax API manual). By default,
 	 * the URL to be requested is the one that generates the current content of the grid view.
 	 */
 	$.fn.yiiGridView.update = function(id, options) {
@@ -175,7 +175,7 @@
 
 	/**
 	 * Returns the key values of the currently selected rows.
-	 * @param string the ID of the grid view container
+	 * @param id string the ID of the grid view container
 	 * @return array the key values of the currently selected rows.
 	 */
 	$.fn.yiiGridView.getSelection = function(id) {
