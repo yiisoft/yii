@@ -81,8 +81,11 @@ class CCaptcha extends CWidget
 	 */
 	public function run()
 	{
-		$this->renderImage();
-		$this->registerClientScript();
+	    if(self::checkRequirements())
+	    {
+			$this->renderImage();
+			$this->registerClientScript();
+	    }
 	}
 
 	/**
@@ -97,11 +100,7 @@ class CCaptcha extends CWidget
 
 		$url=$this->getController()->createUrl($this->captchaAction,array('v'=>uniqid()));
 		$alt=isset($this->imageOptions['alt'])?$this->imageOptions['alt']:'';
-
-		if($this->checkGD())
-			echo CHtml::image($url,$alt,$this->imageOptions);
-		else
-			echo CHtml::tag('span',$this->imageOptions,$url,true);
+		echo CHtml::image($url,$alt,$this->imageOptions);
 	}
 
 	/**
@@ -119,17 +118,8 @@ class CCaptcha extends CWidget
 			$cs->registerScript('Yii.CCaptcha#'.$id,'dummy');
 			$label=$this->buttonLabel===null?Yii::t('yii','Get a new code'):$this->buttonLabel;
 			$button=$this->buttonType==='button'?'ajaxButton':'ajaxLink';
-			if($this->checkGD())
-			{
-				$html=CHtml::$button($label,$url,array('success'=>'js:function(html){jQuery("#'.$id.'").attr("src",html)}'),$this->buttonOptions);
-				$js="jQuery('#$id').after(\"".CJavaScript::quote($html).'");';
-			}
-			else
-			{
-				$this->clickableImage=false;
-				$html=CHtml::$button($label,$url,array('success'=>'js:function(html){jQuery("#'.$id.'").load(html)}'),$this->buttonOptions);
-				$js="jQuery('#$id').load($('#$id').html()).after(\" ".CJavaScript::quote($html).'");';
-			}
+			$html=CHtml::$button($label,$url,array('success'=>'js:function(html){jQuery("#'.$id.'").attr("src",html)}'),$this->buttonOptions);
+			$js="jQuery('#$id').after(\"".CJavaScript::quote($html).'");';
 			$cs->registerScript('Yii.CCaptcha#'.$id,$js);
 		}
 
@@ -149,7 +139,7 @@ class CCaptcha extends CWidget
 	 * @return boolean true if GD with FreeType support is loaded, otherwise false
 	 * @since 1.1.5
 	 */
-	public function checkGD()
+	public static function checkRequirements()
 	{
 		if (extension_loaded('gd'))
 		{
