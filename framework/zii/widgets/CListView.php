@@ -77,7 +77,7 @@ class CListView extends CBaseListView
 	public $viewData=array();
 	/**
 	 * @var array list of sortable attribute names. In order for an attribute to be sortable, it must also
-	 * appear as as a sortable attribute the {@link IDataProvider::sort} property of {@link dataProvider}.
+	 * appear as a sortable attribute in the {@link IDataProvider::sort} property of {@link dataProvider}.
 	 * @see enableSorting
 	 */
 	public $sortableAttributes;
