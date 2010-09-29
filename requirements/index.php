@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Yii Requirement Checker script
  *
@@ -13,11 +14,10 @@
  * @package system
  * @since 1.0
  */
-
 /**
  * @var array List of requirements (name, required or not, result, used by, memo)
  */
-$requirements = array(
+$requirements=array(
 	array(
 		t('yii','PHP version'),
 		true,
@@ -27,7 +27,7 @@ $requirements = array(
 	array(
 		t('yii','$_SERVER variable'),
 		true,
-		($message=checkServerVar())==='',
+		($message=checkServerVar()) === '',
 		'<a href="http://www.yiiframework.com">Yii Framework</a>',
 		$message),
 	array(
@@ -36,13 +36,13 @@ $requirements = array(
 		class_exists('Reflection',false),
 		'<a href="http://www.yiiframework.com">Yii Framework</a>',
 		''),
-    array(
-        t('yii','PCRE extension'),
-        true,
-        extension_loaded("pcre"),
+	array(
+		t('yii','PCRE extension'),
+		true,
+		extension_loaded("pcre"),
 		'<a href="http://www.yiiframework.com">Yii Framework</a>',
-    	''),
-    array(
+		''),
+	array(
 		t('yii','SPL extension'),
 		true,
 		extension_loaded("SPL"),
@@ -54,32 +54,32 @@ $requirements = array(
 		class_exists("DOMDocument",false),
 		'<a href="http://www.yiiframework.com/doc/api/CWsdlGenerator">CWsdlGenerator</a>',
 		''),
-    array(
-    	t('yii','PDO extension'),
-        false,
-    	extension_loaded('pdo'),
+	array(
+		t('yii','PDO extension'),
+		false,
+		extension_loaded('pdo'),
 		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
-        ''),
-    array(
-    	t('yii','PDO SQLite extension'),
-        false,
-        extension_loaded('pdo_sqlite'),
+		''),
+	array(
+		t('yii','PDO SQLite extension'),
+		false,
+		extension_loaded('pdo_sqlite'),
 		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
 		t('yii','This is required if you are using SQLite database.')),
-    array(
-    	t('yii','PDO MySQL extension'),
-        false,
-        extension_loaded('pdo_mysql'),
+	array(
+		t('yii','PDO MySQL extension'),
+		false,
+		extension_loaded('pdo_mysql'),
 		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
 		t('yii','This is required if you are using MySQL database.')),
-    array(
-    	t('yii','PDO PostgreSQL extension'),
-        false,
-        extension_loaded('pdo_pgsql'),
+	array(
+		t('yii','PDO PostgreSQL extension'),
+		false,
+		extension_loaded('pdo_pgsql'),
 		t('yii','All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>'),
 		t('yii','This is required if you are using PostgreSQL database.')),
 	array(
-    	t('yii','Memcache extension'),
+		t('yii','Memcache extension'),
 		false,
 		extension_loaded("memcache"),
 		'<a href="http://www.yiiframework.com/doc/api/CMemCache">CMemCache</a>',
@@ -103,16 +103,17 @@ $requirements = array(
 		'<a href="http://www.yiiframework.com/doc/api/CWebService">CWebService</a>, <a href="http://www.yiiframework.com/doc/api/CWebServiceAction">CWebServiceAction</a>',
 		''),
 	array(
-		t('yii','GD extension'),
+		t('yii','GD extension with<br />FreeType support'),
 		false,
-		extension_loaded('gd'),
+		($message=checkGD()) === '',
+		//extension_loaded('gd'),
 		'<a href="http://www.yiiframework.com/doc/api/CCaptchaAction">CCaptchaAction</a>',
-		''),
+		$message),
 );
 
 function checkServerVar()
 {
-	$vars=array('HTTP_HOST', 'SERVER_NAME', 'SERVER_PORT', 'SCRIPT_NAME', 'SCRIPT_FILENAME', 'PHP_SELF', 'HTTP_ACCEPT', 'HTTP_USER_AGENT');
+	$vars=array('HTTP_HOST','SERVER_NAME','SERVER_PORT','SCRIPT_NAME','SCRIPT_FILENAME','PHP_SELF','HTTP_ACCEPT','HTTP_USER_AGENT');
 	$missing=array();
 	foreach($vars as $var)
 	{
@@ -122,16 +123,28 @@ function checkServerVar()
 	if(!empty($missing))
 		return t('yii','$_SERVER does not have {vars}.',array('{vars}'=>implode(', ',$missing)));
 
-	if(realpath($_SERVER["SCRIPT_FILENAME"])!==realpath(__FILE__))
+	if(realpath($_SERVER["SCRIPT_FILENAME"]) !== realpath(__FILE__))
 		return t('yii','$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.');
 
 	if(!isset($_SERVER["REQUEST_URI"]) && isset($_SERVER["QUERY_STRING"]))
 		return t('yii','Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.');
 
-	if(!isset($_SERVER["PATH_INFO"]) && strpos($_SERVER["PHP_SELF"],$_SERVER["SCRIPT_NAME"])!==0)
+	if(!isset($_SERVER["PATH_INFO"]) && strpos($_SERVER["PHP_SELF"],$_SERVER["SCRIPT_NAME"]) !== 0)
 		return t('yii','Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.');
 
 	return '';
+}
+
+function checkGD()
+{
+	if(extension_loaded('gd'))
+	{
+		$gdinfo=gd_info();
+		if($gdinfo['FreeType Support'])
+			return '';
+		return t('yii','GD installed<br />FreeType support not installed');
+	}
+	return t('yii','GD not installed');
 }
 
 function getYiiVersion()
@@ -141,7 +154,7 @@ function getYiiVersion()
 	{
 		$contents=file_get_contents($coreFile);
 		$matches=array();
-		if(preg_match('/public static function getVersion.*?return \'(.*?)\'/ms',$contents,$matches)>0)
+		if(preg_match('/public static function getVersion.*?return \'(.*?)\'/ms',$contents,$matches) > 0)
 			return $matches[1];
 	}
 	return '';
@@ -158,10 +171,10 @@ function t($category,$message,$params=array())
 {
 	static $messages;
 
-	if($messages===null)
+	if($messages === null)
 	{
 		$messages=array();
-		if(($lang=getPreferredLanguage())!==false)
+		if(($lang=getPreferredLanguage()) !== false)
 		{
 			$file=dirname(__FILE__)."/messages/$lang/yii.php";
 			if(is_file($file))
@@ -172,18 +185,18 @@ function t($category,$message,$params=array())
 	if(empty($message))
 		return $message;
 
-	if(isset($messages[$message]) && $messages[$message]!=='')
+	if(isset($messages[$message]) && $messages[$message] !== '')
 		$message=$messages[$message];
 
-	return $params!==array() ? strtr($message,$params) : $message;
+	return $params !== array() ? strtr($message,$params) : $message;
 }
 
 function getPreferredLanguage()
 {
-	if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && ($n=preg_match_all('/([\w\-]+)\s*(;\s*q\s*=\s*(\d*\.\d*))?/',$_SERVER['HTTP_ACCEPT_LANGUAGE'],$matches))>0)
+	if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && ($n=preg_match_all('/([\w\-]+)\s*(;\s*q\s*=\s*(\d*\.\d*))?/',$_SERVER['HTTP_ACCEPT_LANGUAGE'],$matches)) > 0)
 	{
 		$languages=array();
-		for($i=0;$i<$n;++$i)
+		for($i=0; $i < $n; ++$i)
 			$languages[$matches[1][$i]]=empty($matches[3][$i]) ? 1.0 : floatval($matches[3][$i]);
 		arsort($languages);
 		foreach($languages as $language=>$pref)
@@ -213,9 +226,9 @@ foreach($requirements as $i=>$requirement)
 {
 	if($requirement[1] && !$requirement[2])
 		$result=0;
-	else if($result>0 && !$requirement[1] && !$requirement[2])
+	else if($result > 0 && !$requirement[1] && !$requirement[2])
 		$result=-1;
-	if($requirement[4]==='')
+	if($requirement[4] === '')
 		$requirements[$i][4]='&nbsp;';
 }
 
