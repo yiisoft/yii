@@ -41,4 +41,6 @@ return array (
   'This is required if you are using PostgreSQL database.' => 'Wird für die Verwendung einer PostgreSQL Datenbank benötigt.',
   'This is required if you are using SQLite database.' => 'Wird für die Verwendung einer SQLite Datenbank benötigt.',
   'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' => 'Die URL-Pfadinformation kann nicht ermittelt werden. Stellen Sie bitte sicher, dass $_SERVER["PATH_INFO"] (oder $_SERVER["PHP_SELF"] und $_SERVER["SCRIPT_NAME"]) den entsprechenden Wert enthält.',
+  'GD installed<br />FreeType support not installed' => '',
+  'GD not installed' => '',
 );

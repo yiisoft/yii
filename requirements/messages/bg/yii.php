@@ -31,4 +31,6 @@ return array (
   'This is required if you are using PostgreSQL database.' => 'Това се изисква ако използвате PostgreSQL база от данни.',
   'This is required if you are using SQLite database.' => 'Това се изисква ако използвате SQLite база от данни.',
   'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' => 'Невъзможно е да се определи URL адреса. Моля, проверете дали $_SERVER["PATH_INFO"] (или $_SERVER["PHP_SELF"] и $_SERVER["SCRIPT_NAME"]) съдържат коректни стойности.',
+  'GD installed<br />FreeType support not installed' => '',
+  'GD not installed' => '',
 );
