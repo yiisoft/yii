@@ -86,6 +86,8 @@ class CCaptcha extends CWidget
 			$this->renderImage();
 			$this->registerClientScript();
 	    }
+		else
+			throw new CException(Yii::t('yii','GD and FreeType PHP extensions are required.'));
 	}
 
 	/**
