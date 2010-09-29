@@ -164,9 +164,6 @@ class CCaptchaAction extends CAction
 	 */
 	protected function generateVerifyCode()
 	{
-		if(!CCaptcha::checkGD())
-			return mt_rand(5,9);
-
 		if($this->minLength < 3)
 			$this->minLength = 3;
 		if($this->maxLength > 20)
@@ -205,13 +202,6 @@ class CCaptchaAction extends CAction
 	 */
 	protected function renderImage($code)
 	{
-		if(!CCaptcha::checkGD())
-		{
-			$num = mt_rand(1,4);
-			echo $code - $num . " + " . $num;
-			return;
-		}
-
 		$image = imagecreatetruecolor($this->width,$this->height);
 
 		$backColor = imagecolorallocate($image,
