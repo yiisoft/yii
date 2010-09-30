@@ -152,7 +152,8 @@ array of message translations. Note, this assumes you are using the default
 > Tip: The `yiic` tool in Yii can be used to manage message translations
 when [CPhpMessageSource] is used as the message source. Its `message` command
 can automatically extract messages to be translated from selected source files
-and merge them with existing translations if necessary.
+and merge them with existing translations if necessary. For more details of using
+the `message` command, please run `yiic help message`.
 
 Starting from version 1.0.10, when using [CPhpMessageSource] to manage message source,
 messages for an extension class (e.g. a widget, a module) can be specially managed and used. In particular, if a message
