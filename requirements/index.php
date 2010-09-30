@@ -192,7 +192,7 @@ function t($category,$message,$params=array())
 }
 
 function getPreferredLanguage()
-{
+{return "ja";
 	if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) && ($n=preg_match_all('/([\w\-]+)\s*(;\s*q\s*=\s*(\d*\.\d*))?/',$_SERVER['HTTP_ACCEPT_LANGUAGE'],$matches)) > 0)
 	{
 		$languages=array();
