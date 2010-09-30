@@ -13,7 +13,7 @@
  *
  * NOTE, this file must be saved in UTF-8 encoding.
  *
- * @version $Id: $
+ * @version $Id: yii.php,v 1.2 2010-09-30 18:45:59+09 mocapapa Exp mocapapa $
  */
 return array (
   'GD extension with<br />FreeType support' => 'GD拡張(FreeTypeサポート)',
