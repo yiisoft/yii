@@ -10,6 +10,7 @@
 
 /**
  * CRangeValidator validates that the attribute value is among the list (specified via {@link range}).
+ * You may invert the validation logic with help of the {@link not} property (available since 1.1.5).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
@@ -31,7 +32,13 @@ class CRangeValidator extends CValidator
 	 * meaning that if the attribute is empty, it is considered valid.
 	 */
 	public $allowEmpty=true;
-
+	/**
+	 * @var boolean whether to invert the validation logic. Defaults to false. If set to true,
+	 * the attribute value should NOT be among the list of values defined via {@link range}.
+	 * @since 1.1.5
+	 **/
+ 	public $not=false;
+ 	
 	/**
 	 * Validates the attribute of the object.
 	 * If there is any error, the error message is added to the object.
@@ -43,11 +50,18 @@ class CRangeValidator extends CValidator
 		$value=$object->$attribute;
 		if($this->allowEmpty && $this->isEmpty($value))
 			return;
-		if(is_array($this->range) && !in_array($value,$this->range,$this->strict))
+		if(is_array($this->range))
 		{
-			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} is not in the list.');
-			$this->addError($object,$attribute,$message);
+			if(!$this->not && !in_array($value,$this->range,$this->strict))
+			{
+				$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} is not in the list.');
+				$this->addError($object,$attribute,$message);				
+			}
+			elseif($this->not && in_array($value,$this->range,$this->strict))
+			{
+				$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} is in the list.');
+				$this->addError($object,$attribute,$message);		
+			}
 		}
 	}
 }
-
