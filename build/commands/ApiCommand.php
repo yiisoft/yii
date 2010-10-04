@@ -51,7 +51,7 @@ EXAMPLES
   * build api yii/doc online - builds api ONLINE documentation in folder yii/doc
   * build api yii/doc        - builds api OFFLINE (default) documentation in folder yii/doc
 
-  * build check              - cheks PHPDoc @param directives
+  * build api check          - cheks PHPDoc @param directives
 
 EOD;
 	}
