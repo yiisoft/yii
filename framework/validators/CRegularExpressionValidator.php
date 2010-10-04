@@ -10,6 +10,7 @@
 
 /**
  * CRegularExpressionValidator validates that the attribute value matches to the specified {@link pattern regular expression}.
+ * You may invert the validation logic with help of the {@link not} property (available since 1.1.5).
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
@@ -27,7 +28,13 @@ class CRegularExpressionValidator extends CValidator
 	 * meaning that if the attribute is empty, it is considered valid.
 	 */
 	public $allowEmpty=true;
-
+	/**
+	 * @var boolean whether to invert the validation logic. Defaults to false. If set to true,
+	 * the regular expression defined via {@link pattern} should NOT match the attribute value.
+	 * @since 1.1.5
+	 **/
+ 	public $not=false;
+ 	
 	/**
 	 * Validates the attribute of the object.
 	 * If there is any error, the error message is added to the object.
@@ -41,11 +48,10 @@ class CRegularExpressionValidator extends CValidator
 			return;
 		if($this->pattern===null)
 			throw new CException(Yii::t('yii','The "pattern" property must be specified with a valid regular expression.'));
-		if(!preg_match($this->pattern,$value))
+		if((!$this->not && !preg_match($this->pattern,$value)) || ($this->not && preg_match($this->pattern,$value)))
 		{
 			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} is invalid.');
 			$this->addError($object,$attribute,$message);
 		}
 	}
 }
-
