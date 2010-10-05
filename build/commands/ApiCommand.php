@@ -133,8 +133,14 @@ EOD;
 		{
 			$this->buildOnlinePages($docPath.DIRECTORY_SEPARATOR.'api',$themePath);
 			$this->buildKeywords($docPath);
+			$this->buildPackages($docPath);
 		}
 		echo "Done.\n\n";
+	}
+
+	protected function buildPackages($docPath)
+	{
+		file_put_contents($docPath.'/apiPackages.txt',serialize($this->packages));
 	}
 
 	protected function buildKeywords($docPath)
