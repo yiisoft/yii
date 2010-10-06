@@ -3,7 +3,7 @@
 
 <?php foreach($class->methods as $method): ?>
 <?php if($method->isInherited) continue; ?>
-<div class="detailHeader" id="<?php echo $this->fixMethodAnchor($class->name,$method->name).'-detail'; ?>">
+<div class="detailHeader" id="<?php echo $this->fixMethodAnchor($method->definedBy,$method->name).'-detail'; ?>">
 <?php echo $method->name; ?>()
 <span class="detailHeaderTag">
 method
