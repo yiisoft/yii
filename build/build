@@ -13,6 +13,10 @@
  * @version $Id$
  */
 
+require_once('PHPUnit/Runner/Version.php');
+if(version_compare(PHPUnit_Runner_Version::id(), '3.5.0RC1')>=0)
+    require_once('PHPUnit/Autoload.php');
+
 $root=dirname(__FILE__);
 $config=array('basePath'=>$root);
 require_once($root.'/../framework/yiic.php');
