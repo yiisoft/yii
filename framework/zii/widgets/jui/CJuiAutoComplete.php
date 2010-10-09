@@ -23,7 +23,7 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  *     'source'=>array('ac1', 'ac2', 'ac3'),
  *     // additional javascript options for the autocomplete plugin
  *     'options'=>array(
- *         'showAnim'=>'fold',
+ *         'minLength'=>'2',
  *     ),
  *     'htmlOptions'=>array(
  *         'style'=>'height:20px;'
