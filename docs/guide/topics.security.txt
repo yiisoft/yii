@@ -101,7 +101,7 @@ There are several countermeasures to prevent cookies from being attacked.
 
 Yii implements a cookie validation scheme that prevents cookies from being
 modified. In particular, it does HMAC check for the cookie values if cookie
-validation is enable.
+validation is enabled.
 
 Cookie validation is disabled by default. To enable it, configure the
 [CHttpRequest] application component in the
