@@ -22,6 +22,10 @@ Upgrading from v1.1.4
 ---------------------
 - Now by default CWebLogRoute does not render logs in FireBug for ajax calls.
   To get logs rendered for ajax calls in FireBug set CWebLogRoute::ignoreAjaxInFireBug to false
+  
+- The implementation of CCache::flush() was changed a little. Child classes should now implement
+  a flushValues() method. If you use any custom cache class with flush functionality, you should
+  rename the flush method accordingly.
 
 Upgrading from v1.1.3
 ---------------------

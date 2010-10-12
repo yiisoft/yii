@@ -93,6 +93,7 @@ interface ICache
 	/**
 	 * Deletes all values from cache.
 	 * Be careful of performing this operation if the cache is shared by multiple applications.
+	 * @return boolean whether the flush operation was successful.
 	 */
 	public function flush();
 }
