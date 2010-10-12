@@ -173,21 +173,19 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 */
 	public function delete($id)
 	{
-		Yii::trace('Deleting "'.$id.'" to cache','system.caching.'.get_class($this));
+		Yii::trace('Deleting "'.$id.'" from cache','system.caching.'.get_class($this));
 		return $this->deleteValue($this->generateUniqueKey($id));
 	}
 
 	/**
 	 * Deletes all values from cache.
 	 * Be careful of performing this operation if the cache is shared by multiple applications.
-	 * Child classes may implement this method to realize the flush operation.
-	 * @throws CException if this method is not overridden by child classes
+	 * @return boolean whether the flush operation was successful.
 	 */
 	public function flush()
 	{
-		Yii::trace('Flushign cache','system.caching.'.get_class($this));
-		throw new CException(Yii::t('yii','{className} does not support flush() functionality.',
-			array('{className}'=>get_class($this))));
+		Yii::trace('Flushing cache','system.caching.'.get_class($this));
+		return $this->flushValues();
 	}
 
 	/**
@@ -198,6 +196,7 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 * is needed.
 	 * @param string $key a unique key identifying the cached value
 	 * @return string the value stored in cache, false if the value is not in the cache or expired.
+	 * @throws CException if this method is not overridden by child classes
 	 */
 	protected function getValue($key)
 	{
@@ -234,6 +233,7 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 * @param string $value the value to be cached
 	 * @param integer $expire the number of seconds in which the cached value will expire. 0 means never expire.
 	 * @return boolean true if the value is successfully stored into cache, false otherwise
+	 * @throws CException if this method is not overridden by child classes
 	 */
 	protected function setValue($key,$value,$expire)
 	{
@@ -252,6 +252,7 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 * @param string $value the value to be cached
 	 * @param integer $expire the number of seconds in which the cached value will expire. 0 means never expire.
 	 * @return boolean true if the value is successfully stored into cache, false otherwise
+	 * @throws CException if this method is not overridden by child classes
 	 */
 	protected function addValue($key,$value,$expire)
 	{
@@ -264,10 +265,24 @@ abstract class CCache extends CApplicationComponent implements ICache, ArrayAcce
 	 * This method should be implemented by child classes to delete the data from actual cache storage.
 	 * @param string $key the key of the value to be deleted
 	 * @return boolean if no error happens during deletion
+	 * @throws CException if this method is not overridden by child classes
 	 */
 	protected function deleteValue($key)
 	{
 		throw new CException(Yii::t('yii','{className} does not support delete() functionality.',
+			array('{className}'=>get_class($this))));
+	}
+
+	/**
+	 * Deletes all values from cache.
+	 * Child classes may implement this method to realize the flush operation.
+	 * @return boolean whether the flush operation was successful.
+	 * @throws CException if this method is not overridden by child classes
+	 * @since 1.1.5
+	 */
+	protected function flushValues()
+	{
+		throw new CException(Yii::t('yii','{className} does not support flushValues() functionality.',
 			array('{className}'=>get_class($this))));
 	}
 

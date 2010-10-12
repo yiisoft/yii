@@ -111,11 +111,12 @@ class CDummyCache extends CApplicationComponent implements ICache, ArrayAccess
 	/**
 	 * Deletes all values from cache.
 	 * Be careful of performing this operation if the cache is shared by multiple applications.
-	 * Child classes may implement this method to realize the flush operation.
+	 * @return boolean whether the flush operation was successful.
 	 * @throws CException if this method is not overridden by child classes
 	 */
 	public function flush()
 	{
+		return true;
 	}
 
 	/**

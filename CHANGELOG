@@ -25,6 +25,7 @@ Version 1.1.5 to be released
 - Enh #1641: Added PhpUnit 3.5.0RC1 and up support (Sam Dark)
 - Enh: Upgraded JQuery UI to 1.8.5 (Sam Dark)
 - Enh: Added checking for empty keywords in addSearchCondition(), so to not add unnecessary conditions (mdomba)
+- Enh: Added flushValues() method to the cache classes (Y!!)
 - Chg: The javascript files of CListView and CGridView are now registered at the end of the page (Qiang)
 
 Version 1.1.4 September 5, 2010

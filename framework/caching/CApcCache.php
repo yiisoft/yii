@@ -99,9 +99,11 @@ class CApcCache extends CCache
 
 	/**
 	 * Deletes all values from cache.
-	 * Be careful of performing this operation if the cache is shared by multiple applications.
+	 * This is the implementation of the method declared in the parent class.
+	 * @return boolean whether the flush operation was successful.
+	 * @since 1.1.5
 	 */
-	public function flush()
+	protected function flushValues()
 	{
 		return apc_clear_cache('user');
 	}
