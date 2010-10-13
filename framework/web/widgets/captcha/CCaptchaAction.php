@@ -99,8 +99,6 @@ class CCaptchaAction extends CAction
 
 	/**
 	 * Runs the action.
-	 * If the GET parameter {@link wsdlVar} exists, the action will serve WSDL content;
-	 * If not, the action will handle the remote method invocation.
 	 */
 	public function run()
 	{
