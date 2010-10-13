@@ -82,7 +82,11 @@ class CJuiTabs extends CJuiWidget
 	public function run()
 	{
 		$id=$this->getId();
-		$this->htmlOptions['id']=$id;
+		if (isset($this->htmlOptions['id'])){
+			$id = $this->htmlOptions['id'];
+		}else{
+			$this->htmlOptions['id']=$id;
+		}
 
 		echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";
 
