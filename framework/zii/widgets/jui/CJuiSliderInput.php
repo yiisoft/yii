@@ -69,28 +69,23 @@ class CJuiSliderInput extends CJuiInputWidget
 	{
 		list($name,$id)=$this->resolveNameID();
 
-		if(isset($this->htmlOptions['id'])){
+		if(isset($this->htmlOptions['id']))
 			$id=$this->htmlOptions['id'];
-		}else{
+		else
 			$this->htmlOptions['id']=$id;
-		}
-		if(isset($this->htmlOptions['name'])){
+		if(isset($this->htmlOptions['name']))
 			$name=$this->htmlOptions['name'];
-		}else{
-			$this->htmlOptions['name']=$name;
-		}
 
 		if($this->hasModel()===false && $this->value!==null)
-		$this->options['value']=$this->value;
+			$this->options['value']=$this->value;
 
-		if($this->hasModel()){
+		if($this->hasModel())
 			echo CHtml::activeHiddenField($this->model,$this->attribute,$this->htmlOptions);
-		}else{
+		else
 			echo CHtml::hiddenField($name,$this->value,$this->htmlOptions);
-		}
 
 		$idHidden = $this->htmlOptions['id'];
-		$nameHidden = $this->htmlOptions['name'];
+		$nameHidden = $name;
 
 		$this->htmlOptions['id']=$idHidden.'_slider';
 		$this->htmlOptions['name']=$nameHidden.'_slider';

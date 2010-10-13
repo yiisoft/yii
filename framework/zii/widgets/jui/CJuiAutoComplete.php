@@ -23,7 +23,7 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  *     'source'=>array('ac1', 'ac2', 'ac3'),
  *     // additional javascript options for the autocomplete plugin
  *     'options'=>array(
- *         'minLength'=>'2',
+ *         'showAnim'=>'fold',
  *     ),
  *     'htmlOptions'=>array(
  *         'style'=>'height:20px;'
@@ -52,9 +52,9 @@ class CJuiAutoComplete extends CJuiInputWidget
 	 * @var mixed the entries that the autocomplete should choose from. This can be
 	 * <ul>
 	 * <li>an Array with local data</li>
-	 * <li>a String, specifying a URL that returns JSON data as the entries.</li>
-	 * <li>a javascript callback. Please make sure you prefix the callback name with "js:" in this case.</li>
-	 * </ul>
+     * <li>a String, specifying a URL that returns JSON data as the entries.</li>
+     * <li>a javascript callback. Please make sure you prefix the callback name with "js:" in this case.</li>
+     * </ul>
 	 */
 	public $source = array();
 	/**
@@ -72,28 +72,23 @@ class CJuiAutoComplete extends CJuiInputWidget
 	{
 		list($name,$id)=$this->resolveNameID();
 
-		if(isset($this->htmlOptions['id'])){
+		if(isset($this->htmlOptions['id']))
 			$id=$this->htmlOptions['id'];
-		}else{
+		else
 			$this->htmlOptions['id']=$id;
-		}
-		if(isset($this->htmlOptions['name'])){
+
+		if(isset($this->htmlOptions['name']))
 			$name=$this->htmlOptions['name'];
-		}else{
-			$this->htmlOptions['name']=$name;
-		}
 
-		if($this->hasModel()){
+		if($this->hasModel())
 			echo CHtml::activeTextField($this->model,$this->attribute,$this->htmlOptions);
-		}else{
+		else
 			echo CHtml::textField($name,$this->value,$this->htmlOptions);
-		}
 
-		if($this->sourceUrl!==null){
+		if($this->sourceUrl!==null)
 			$this->options['source']=CHtml::normalizeUrl($this->sourceUrl);
-		}else{
+		else
 			$this->options['source']=$this->source;
-		}
 
 		$options=CJavaScript::encode($this->options);
 
