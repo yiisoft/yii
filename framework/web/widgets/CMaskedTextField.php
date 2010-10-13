@@ -62,9 +62,7 @@ class CMaskedTextField extends CInputWidget
 		else
 			$this->htmlOptions['id']=$id;
 		if(isset($this->htmlOptions['name']))
-			$name=$this->htmlOptions['name'];
-		else
-			$this->htmlOptions['name']=$name;
+			$name=$this->htmlOptions['name'];		
 
 		$this->registerClientScript();
 
