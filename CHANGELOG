@@ -26,6 +26,7 @@ Version 1.1.5 to be released
 - Enh: Upgraded JQuery UI to 1.8.5 (Sam Dark)
 - Enh: Added checking for empty keywords in addSearchCondition(), so to not add unnecessary conditions (mdomba)
 - Enh: Added flushValues() method to the cache classes (Y!!)
+- Enh: Added buttonset for CJuiButoon (sebas)
 - Chg: The javascript files of CListView and CGridView are now registered at the end of the page (Qiang)
 
 Version 1.1.4 September 5, 2010
