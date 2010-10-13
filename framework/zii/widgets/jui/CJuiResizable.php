@@ -55,7 +55,11 @@ class CJuiResizable extends CJuiWidget
 	{
 		parent::init();
 		$id=$this->getId();
-		$this->htmlOptions['id']=$id;
+		if (isset($this->htmlOptions['id'])){
+			$id = $this->htmlOptions['id'];
+		}else{
+			$this->htmlOptions['id']=$id;
+		}
 		$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
 		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').resizable($options);");
 		echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";
