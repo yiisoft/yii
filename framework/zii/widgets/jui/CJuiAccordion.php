@@ -75,11 +75,10 @@ class CJuiAccordion extends CJuiWidget
 	public function run()
 	{
 		$id=$this->getId();
-		if (isset($this->htmlOptions['id'])){
+		if (isset($this->htmlOptions['id']))
 			$id = $this->htmlOptions['id'];
-		}else{
+		else
 			$this->htmlOptions['id']=$id;
-		}
 
 		echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";
 		foreach($this->panels as $title=>$content)

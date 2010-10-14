@@ -51,27 +51,25 @@ class CJuiDraggable extends CJuiWidget
 	 * Renders the open tag of the draggable element.
 	 * This method also registers the necessary javascript code.
 	 */
-	public function init()
-	{
+	public function init(){
 		parent::init();
 		
 		$id=$this->getId();
-		if (isset($this->htmlOptions['id'])){
+		if (isset($this->htmlOptions['id']))
 			$id = $this->htmlOptions['id'];
-		}else{
+		else
 			$this->htmlOptions['id']=$id;
-		}
 		
 		$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
 		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').draggable($options);");
+
 		echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";
 	}
 
 	/**
 	 * Renders the close tag of the draggable element.
 	 */
-	public function run()
-	{
+	public function run(){
 		echo CHtml::closeTag($this->tagName);
 	}
 	

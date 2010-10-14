@@ -83,6 +83,7 @@ class CJuiSliderInput extends CJuiInputWidget
 			echo CHtml::activeHiddenField($this->model,$this->attribute,$this->htmlOptions);
 		else
 			echo CHtml::hiddenField($name,$this->value,$this->htmlOptions);
+		
 
 		$idHidden = $this->htmlOptions['id'];
 		$nameHidden = $name;
@@ -93,9 +94,7 @@ class CJuiSliderInput extends CJuiInputWidget
 		echo CHtml::openTag($this->tagName,$this->htmlOptions);
 		echo CHtml::closeTag($this->tagName);
 
-
 		$this->options[$this->event]= 'js:function(event, ui) { jQuery(\'#'. $idHidden .'\').val(ui.value); }';
-
 
 		$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
 

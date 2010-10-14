@@ -58,11 +58,10 @@ class CJuiProgressBar extends CJuiWidget
 	public function run()
 	{
 		$id=$this->getId();
-		if (isset($this->htmlOptions['id'])){
+		if (isset($this->htmlOptions['id']))
 			$id = $this->htmlOptions['id'];
-		}else{
+		else
 			$this->htmlOptions['id']=$id;
-		}
 
 		echo CHtml::openTag($this->tagName,$this->htmlOptions);
 		echo CHtml::closeTag($this->tagName);

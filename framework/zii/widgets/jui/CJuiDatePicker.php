@@ -58,18 +58,19 @@ class CJuiDatePicker extends CJuiInputWidget
 	 * It has to be set at the first call of CJuiDatePicker widget in the request.
 	 */
 	public $defaultOptions;
-
+	
 	/**
-	 * @var boolean Shows the item as an inline calendar and the input as a hidden field.
+	 * @var boolean If true, shows the widget as an inline calendar and the input as a hidden field. Use the onSelect event to update the hidden field
 	 */
 	public $flat = false;
-
+	
 	/**
 	 * Run this widget.
 	 * This method registers necessary javascript and renders the needed HTML code.
 	 */
 	public function run()
 	{
+		
 		list($name,$id)=$this->resolveNameID();
 
 		if(isset($this->htmlOptions['id']))
@@ -79,7 +80,7 @@ class CJuiDatePicker extends CJuiInputWidget
 		if(isset($this->htmlOptions['name']))
 			$name=$this->htmlOptions['name'];
 
-		if($this->flat===false)
+		if ($this->flat===false)
 		{
 			if($this->hasModel())
 				echo CHtml::activeTextField($this->model,$this->attribute,$this->htmlOptions);
@@ -91,11 +92,11 @@ class CJuiDatePicker extends CJuiInputWidget
 			if($this->hasModel())
 				echo CHtml::activeHiddenField($this->model,$this->attribute,$this->htmlOptions);
 			else
-				echo CHtml::hiddenField($name,$this->value,$this->htmlOptions);			
+				echo CHtml::hiddenField($name,$this->value,$this->htmlOptions);
 			
 			if (!isset($this->options['onSelect']))
 				$this->options['onSelect']="js:function( selectedDate ) {alert(selectedDate); jQuery('#{$id}').val(selectedDate);}";
-
+			
 			$this->htmlOptions['id'] = $id =  $this->htmlOptions['id'].'_container';
 			$this->htmlOptions['name']= $name = $this->htmlOptions['name'].'_container';
 
@@ -105,18 +106,20 @@ class CJuiDatePicker extends CJuiInputWidget
 		$options=CJavaScript::encode($this->options);
 		$js = "jQuery('#{$id}').datepicker($options);";
 
-		if (isset($this->language)){
+		if (isset($this->language))
+		{
 			$this->registerScriptFile($this->i18nScriptFile);
 			$js = "jQuery('#{$id}').datepicker(jQuery.extend({showMonthAfterYear:false}, jQuery.datepicker.regional['{$this->language}'], {$options}));";
 		}
 
 		$cs = Yii::app()->getClientScript();
-
-		if(isset($this->defaultOptions))
+		
+		if (isset($this->defaultOptions))
 		{
 			$this->registerScriptFile($this->i18nScriptFile);
 			$cs->registerScript(__CLASS__, 	$this->defaultOptions!==null?'jQuery.datepicker.setDefaults('.CJavaScript::encode($this->defaultOptions).');':'');
 		}
 		$cs->registerScript(__CLASS__.'#'.$id, $js);
+
 	}
 }

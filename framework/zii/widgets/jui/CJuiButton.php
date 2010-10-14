@@ -47,7 +47,8 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  * @package zii.widgets.jui
  * @since 1.1.3
  */
-class CJuiButton extends CJuiInputWidget {
+class CJuiButton extends CJuiInputWidget
+{
 	/**
 	 * @var string The button type (possible types: submit, button, link, radio, checkbox, buttonset).
 	 * For radio and checkbox you could add
@@ -83,19 +84,18 @@ class CJuiButton extends CJuiInputWidget {
 	 */
 	public function init(){
 		parent::init();
-		if ($this->buttonType=='buttonset'){
+		if ($this->buttonType=='buttonset')
+		{
 			list($name,$id)=$this->resolveNameID();
 
-			if(isset($this->htmlOptions['id'])){
+			if(isset($this->htmlOptions['id']))
 				$id=$this->htmlOptions['id'];
-			}else{
+			else
 				$this->htmlOptions['id']=$id;
-			}
-			if(isset($this->htmlOptions['name'])){
+			if(isset($this->htmlOptions['name']))
 				$name=$this->htmlOptions['name'];
-			}else{
+			else
 				$this->htmlOptions['name']=$name;
-			}
 
 			echo CHtml::openTag($this->htmlTag, $this->htmlOptions);
 		}
@@ -110,21 +110,24 @@ class CJuiButton extends CJuiInputWidget {
 		$cs = Yii::app()->getClientScript();
 		list($name,$id)=$this->resolveNameID();
 
-		if(isset($this->htmlOptions['id'])){
+		if(isset($this->htmlOptions['id']))
 			$id=$this->htmlOptions['id'];
-		}else{
+		else
 			$this->htmlOptions['id']=$id;
-		}
-		if(isset($this->htmlOptions['name'])){
+		if(isset($this->htmlOptions['name']))
 			$name=$this->htmlOptions['name'];
-		}else{
+		else
 			$this->htmlOptions['name']=$name;
-		}
-		if ($this->buttonType=='buttonset'){
+
+		if ($this->buttonType=='buttonset')
+		{
 			echo CHtml::closeTag($this->htmlTag);
 			$cs->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').buttonset();");
-		}else{
-			switch($this->buttonType){
+		}
+		else
+		{
+			switch($this->buttonType)
+			{
 				case 'submit':
 					echo CHtml::submitButton($this->caption, $this->htmlOptions) . "\n";
 					break;
@@ -135,19 +138,25 @@ class CJuiButton extends CJuiInputWidget {
 					echo CHtml::link($this->caption, $this->url, $this->htmlOptions) . "\n";
 					break;
 				case 'radio':
-					if ($this->hasModel()){
+					if ($this->hasModel())
+					{
 						echo CHtml::activeRadioButton($this->model, $this->attribute, $this->htmlOptions);
 						echo CHtml::label($this->caption, CHtml::activeId($this->model, $this->attribute)) . "\n";
-					}else{
+					}
+					else
+					{
 						echo CHtml::radioButton($name, $this->value, $this->htmlOptions);
 						echo CHtml::label($this->caption, $id) . "\n";
 					}
 					break;
 				case 'checkbox':
-					if ($this->hasModel()){
+					if ($this->hasModel())
+					{
 						echo CHtml::activeCheckbox($this->model, $this->attribute, $this->htmlOptions);
 						echo CHtml::label($this->caption, CHtml::activeId($this->model, $this->attribute)) . "\n";
-					}else{
+					}
+					else
+					{
 						echo CHtml::checkbox($name, $this->value, $this->htmlOptions);
 						echo CHtml::label($this->caption, $id) . "\n";
 					}
@@ -157,12 +166,15 @@ class CJuiButton extends CJuiInputWidget {
 			}
 
 			$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
-			if (isset($this->onclick)){
+			if (isset($this->onclick))
+			{
 				if(strpos($this->onclick,'js:')!==0)
 				$this->onclick='js:'.$this->onclick;
 				$click = CJavaScript::encode($this->onclick);
 				$cs->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').button($options).click($click);");
-			}else{
+			}
+			else
+			{
 				$cs->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').button($options);");
 			}
 		}
