@@ -166,8 +166,10 @@ class CDetailView extends CWidget
 		$formatter=$this->getFormatter();
 		echo CHtml::openTag($this->tagName,$this->htmlOptions);
 
+		$i=0;
 		$n=is_array($this->itemCssClass) ? count($this->itemCssClass) : 0;
-		foreach($this->attributes as $i=>$attribute)
+						
+		foreach($this->attributes as $attribute)
 		{
 			if(is_string($attribute))
 			{
@@ -210,6 +212,9 @@ class CDetailView extends CWidget
 			$tr['{value}']=$value===null ? $this->nullDisplay : $formatter->format($value,$attribute['type']);
 
 			echo strtr(isset($attribute['template']) ? $attribute['template'] : $this->itemTemplate,$tr);
+			
+			$i++;
+															
 		}
 
 		echo CHtml::closeTag($this->tagName);
