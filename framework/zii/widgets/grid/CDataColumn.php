@@ -50,7 +50,7 @@ class CDataColumn extends CGridColumn
 	 */
 	public $type='text';
 	/**
-	 * @var boolean whether the column is sortable. If so, the header celll will contain a link that may trigger the sorting.
+	 * @var boolean whether the column is sortable. If so, the header cell will contain a link that may trigger the sorting.
 	 * Defaults to true. Note that if {@link name} is not set, or if {@link name} is not allowed by {@link CSort},
 	 * this property will be treated as false.
 	 * @see name
