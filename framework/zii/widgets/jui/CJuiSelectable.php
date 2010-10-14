@@ -41,8 +41,7 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  * @package zii.widgets.jui
  * @since 1.1
  */
-class CJuiSelectable extends CJuiWidget
-{
+class CJuiSelectable extends CJuiWidget {
 	/**
 	 * @var array list of selectable items (id=>item content).
 	 * Note that the item contents will not be HTML-encoded.
@@ -63,14 +62,12 @@ class CJuiSelectable extends CJuiWidget
 	 * Run this widget.
 	 * This method registers necessary javascript and renders the needed HTML code.
 	 */
-	public function run()
-	{
+	public function run(){
 		$id=$this->getId();
-		if (isset($this->htmlOptions['id'])){
+		if (isset($this->htmlOptions['id']))
 			$id = $this->htmlOptions['id'];
-		}else{
+		else
 			$this->htmlOptions['id']=$id;
-		}
 
 		$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
 		Yii::app()->getClientScript()->registerScript(__CLASS__.'#'.$id,"jQuery('#{$id}').selectable({$options});");
