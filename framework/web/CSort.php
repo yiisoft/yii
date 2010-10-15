@@ -342,8 +342,25 @@ class CSort extends CComponent
 					}
 				}
 			}
-			if($this->_directions===array() && is_array($this->defaultOrder))
-				$this->_directions=$this->defaultOrder;
+			if($this->_directions===array())
+			{
+				if(is_array($this->defaultOrder))
+					$this->_directions=$this->defaultOrder;
+				else if(is_string($this->defaultOrder) && strpos($this->defaultOrder,',')===false)
+				{
+					/*
+					 * Show default order icon only if ordered by one field
+					 */
+					$defDescending=false;
+					$defAttribute=trim($this->defaultOrder);
+					if(($pos=strpos($defAttribute,' '))!==false)
+					{
+						$defDescending=strtolower(trim(substr($defAttribute,$pos+1)))==='desc';
+						$defAttribute=substr($defAttribute,0,$pos);
+					}
+					$this->_directions[$defAttribute]=$defDescending;
+				}
+			}
 		}
 		return $this->_directions;
 	}
