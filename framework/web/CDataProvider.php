@@ -36,6 +36,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	abstract protected function calculateTotalItemCount();
 
 	/**
+	 * Returns the ID that uniquely identifies the data provider.
 	 * @return string the unique ID that uniquely identifies the data provider among all data providers.
 	 */
 	public function getId()
@@ -44,6 +45,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	}
 
 	/**
+	 * Sets the provider ID.
 	 * @param string $value the unique ID that uniquely identifies the data provider among all data providers.
 	 */
 	public function setId($value)
@@ -52,6 +54,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	}
 
 	/**
+	 * Returns the pagination object.
 	 * @return CPagination the pagination object. If this is false, it means the pagination is disabled.
 	 */
 	public function getPagination()
@@ -66,6 +69,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	}
 
 	/**
+	 * Sets the pagination for this data provider.
 	 * @param mixed $value the pagination to be used by this data provider. This could be a {@link CPagination} object
 	 * or an array used to configure the pagination object. If this is false, it means the pagination should be disabled.
 	 */
@@ -82,6 +86,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	}
 
 	/**
+	 * Returns the sort object.
 	 * @return CSort the sorting object. If this is false, it means the sorting is disabled.
 	 */
 	public function getSort()
@@ -96,6 +101,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	}
 
 	/**
+	 * Sets the sorting for this data provider.
 	 * @param mixed $value the sorting to be used by this data provider. This could be a {@link CSort} object
 	 * or an array used to configure the sorting object. If this is false, it means the sorting should be disabled.
 	 */
@@ -124,6 +130,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	}
 
 	/**
+	 * Sets the data items for this provider.
 	 * @param array $value put the data items into this provider.
 	 */
 	public function setData($value)
@@ -145,6 +152,7 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	}
 
 	/**
+	 * Sets the data item keys for this provider.
 	 * @param array $value put the data item keys into this provider.
 	 */
 	public function setKeys($value)

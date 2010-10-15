@@ -73,6 +73,7 @@ class CActiveDataProvider extends CDataProvider
 	}
 
 	/**
+	 * Returns the query criteria.
 	 * @return CDbCriteria the query criteria
 	 */
 	public function getCriteria()
@@ -83,6 +84,7 @@ class CActiveDataProvider extends CDataProvider
 	}
 
 	/**
+	 * Sets the query criteria.
 	 * @param mixed $value the query criteria. This can be either a CDbCriteria object or an array
 	 * representing the query criteria.
 	 */
@@ -92,6 +94,7 @@ class CActiveDataProvider extends CDataProvider
 	}
 
 	/**
+	 * Returns the sorting object.
 	 * @return CSort the sorting object. If this is false, it means the sorting is disabled.
 	 */
 	public function getSort()
