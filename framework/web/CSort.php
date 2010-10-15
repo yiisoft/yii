@@ -139,11 +139,11 @@ class CSort extends CComponent
 	public $descTag='desc';
 	/**
 	 * @var string the default order that should be applied to the query criteria when
-	 * the current request does not specify any sort. For example, 'create_time DESC', or
-	 * 'name, create_time DESC'.
+	 * the current request does not specify any sort. For example, 'name, create_time DESC' or
+	 * 'UPPER(name)'.
 	 *
-	 * Starting from version 1.1.3, you can also specify the default order using an array,
-	 * where the array keys are virtual attribute names as declared in {@link attributes},
+	 * Starting from version 1.1.3, you can also specify the default order using an array.
+	 * The array keys could be attribute names or virtual attribute names as declared in {@link attributes},
 	 * and the array values indicate whether the sorting of the corresponding attributes should
 	 * be in descending order. For example,
 	 * <pre>
