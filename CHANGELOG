@@ -29,7 +29,6 @@ Version 1.1.5 to be released
 - Enh: Added checking for empty keywords in addSearchCondition(), to prevent adding unnecessary conditions (mdomba)
 - Enh: Added flushValues() method to the cache classes (Y!!)
 - Enh: Added buttonset for CJuiButoon (sebas)
-- Enh: Added CGridView default sort order icon if defaultOrder is specified in sort array of CActiveDataProvider (mdomba)
 - Chg: The javascript files of CListView and CGridView are now registered at the end of the page (Qiang)
 - Chg: Log filters will now be invoked only when there are some log messages available (Qiang)
 
