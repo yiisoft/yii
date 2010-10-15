@@ -151,6 +151,10 @@ class CSort extends CComponent
 	 *     'price'=>true,
 	 * )
 	 * </pre>
+	 *
+	 * Please note when using array to specify the default order, the corresponding attributes
+	 * will be put into {@link directions} and thus affect how the sort links are rendered
+	 * (e.g. an arrow may be displayed next to the currently active sort link).
 	 */
 	public $defaultOrder;
 	/**
