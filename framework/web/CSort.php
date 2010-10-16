@@ -138,7 +138,7 @@ class CSort extends CComponent
 	 */
 	public $descTag='desc';
 	/**
-	 * @var string the default order that should be applied to the query criteria when
+	 * @var mixed the default order that should be applied to the query criteria when
 	 * the current request does not specify any sort. For example, 'name, create_time DESC' or
 	 * 'UPPER(name)'.
 	 *
