@@ -150,10 +150,11 @@ class CFileLogRoute extends CLogRoute
 			$rotateFile=$file.'.'.$i;
 			if(is_file($rotateFile))
 			{
+				// suppress errors because it's possible multiple processes enter into this section
 				if($i===$max)
-					unlink($rotateFile);
+					@unlink($rotateFile);
 				else
-					rename($rotateFile,$file.'.'.($i+1));
+					@rename($rotateFile,$file.'.'.($i+1));
 			}
 		}
 		if(is_file($file))
