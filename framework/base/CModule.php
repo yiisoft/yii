@@ -104,6 +104,7 @@ abstract class CModule extends CComponent
 	}
 
 	/**
+	 * Returns the module ID.
 	 * @return string the module ID.
 	 */
 	public function getId()
@@ -112,6 +113,7 @@ abstract class CModule extends CComponent
 	}
 
 	/**
+	 * Sets the module ID.
 	 * @param string $id the module ID
 	 */
 	public function setId($id)
@@ -120,6 +122,7 @@ abstract class CModule extends CComponent
 	}
 
 	/**
+	 * Returns the root directory of the module.
 	 * @return string the root directory of the module. Defaults to the directory containing the module class.
 	 */
 	public function getBasePath()
@@ -146,6 +149,7 @@ abstract class CModule extends CComponent
 	}
 
 	/**
+	 * Returns user-defined parameters.
 	 * @return CAttributeCollection the list of user-defined parameters
 	 */
 	public function getParams()
@@ -161,6 +165,7 @@ abstract class CModule extends CComponent
 	}
 
 	/**
+	 * Sets user-defined parameters.
 	 * @param array $value user-defined parameters. This should be in name-value pairs.
 	 */
 	public function setParams($value)
@@ -171,6 +176,7 @@ abstract class CModule extends CComponent
 	}
 
 	/**
+	 * Returns the directory that contains the application modules.
 	 * @return string the directory that contains the application modules. Defaults to the 'modules' subdirectory of {@link basePath}.
 	 */
 	public function getModulePath()
@@ -182,6 +188,7 @@ abstract class CModule extends CComponent
 	}
 
 	/**
+	 * Sets the directory that contains the application modules.
 	 * @param string $value the directory that contains the application modules.
 	 * @throws CException if the directory is invalid
 	 */
@@ -228,6 +235,7 @@ abstract class CModule extends CComponent
 	}
 
 	/**
+	 * Returns the parent module.
 	 * @return CModule the parent module. Null if this module does not have a parent.
 	 */
 	public function getParentModule()
@@ -275,6 +283,7 @@ abstract class CModule extends CComponent
 	}
 
 	/**
+	 * Returns the configuration of the currently installed modules.
 	 * @return array the configuration of the currently installed modules (module ID => configuration)
 	 */
 	public function getModules()
@@ -331,6 +340,7 @@ abstract class CModule extends CComponent
 	}
 
 	/**
+	 * Checks whether the named component exists.
 	 * @param string $id application component ID
 	 * @return boolean whether the named application component exists (including both loaded and disabled.)
 	 */
