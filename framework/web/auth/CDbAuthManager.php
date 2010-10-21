@@ -380,7 +380,7 @@ class CDbAuthManager extends CAuthManager
 		{
 			if(($data=@unserialize($row['data']))===false)
 				$data=null;
-			$items[$row['name']]=new CAuthItem($this,$row['name'],$row['type'],$row['description'],$row['bizrule']);
+			$items[$row['name']]=new CAuthItem($this,$row['name'],$row['type'],$row['description'],$row['bizrule'],$data);
 		}
 		return $items;
 	}
