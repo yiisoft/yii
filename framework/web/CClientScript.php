@@ -135,11 +135,46 @@ class CClientScript extends CApplicationComponent
 		if(!empty($this->scriptMap))
 			$this->remapScripts();
 
+		$this->unifyScripts();
+
 		$this->renderHead($output);
 		if($this->enableJavaScript)
 		{
 			$this->renderBodyBegin($output);
 			$this->renderBodyEnd($output);
+		}
+	}
+
+	/**
+	 * Removes duplicated scripts from {@link scriptFiles}.
+	 * @since 1.1.5
+	 */
+	protected function unifyScripts()
+	{
+		if(!$this->enableJavaScript)
+			return;
+		$map=array();
+		if(isset($this->scriptFiles[self::POS_HEAD]))
+			$map=$this->scriptFiles[self::POS_HEAD];
+
+		if(isset($this->scriptFiles[self::POS_BEGIN]))
+		{
+			foreach($this->scriptFiles[self::POS_BEGIN] as $key=>$scriptFile)
+			{
+				if(isset($map[$scriptFile]))
+					unset($this->scriptFiles[self::POS_BEGIN][$key]);
+				else
+					$map[$scriptFile]=true;
+			}
+		}
+
+		if(isset($this->scriptFiles[self::POS_END]))
+		{
+			foreach($this->scriptFiles[self::POS_END] as $key=>$scriptFile)
+			{
+				if(isset($map[$scriptFile]))
+					unset($this->scriptFiles[self::POS_END][$key]);
+			}
 		}
 	}
 
