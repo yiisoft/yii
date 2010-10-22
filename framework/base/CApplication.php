@@ -607,7 +607,19 @@ abstract class CApplication extends CModule
 		{
 			$this->displayException($e);
 		}
-		$this->end(1);
+
+		try
+		{
+			$this->end(1);
+		}
+		catch(Exception $e)
+		{
+			// use the most primitive way to log error
+			$msg = get_class($e).': '.$e->getMessage().' ('.$e->getFile().':'.$e->getLine().")\n";
+			$msg .= $e->getTraceAsString()."\n";
+			$msg .= '$_SERVER='.var_export($_SERVER,true);
+			error_log($msg);
+		}
 	}
 
 	/**
@@ -675,7 +687,19 @@ abstract class CApplication extends CModule
 			{
 				$this->displayException($e);
 			}
-			$this->end(1);
+
+			try
+			{
+				$this->end(1);
+			}
+			catch(Exception $e)
+			{
+				// use the most primitive way to log error
+				$msg = get_class($e).': '.$e->getMessage().' ('.$e->getFile().':'.$e->getLine().")\n";
+				$msg .= $e->getTraceAsString()."\n";
+				$msg .= '$_SERVER='.var_export($_SERVER,true);
+				error_log($msg);
+			}
 		}
 	}
 

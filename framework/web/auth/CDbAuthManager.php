@@ -49,16 +49,6 @@ class CDbAuthManager extends CAuthManager
 	private $_usingSqlite;
 
 	/**
-	 * Destructor.
-	 * Disconnect the db connection.
-	 */
-	public function __destruct()
-	{
-		if($this->db!==null)
-			$this->db->setActive(false);
-	}
-
-	/**
 	 * Initializes the application component.
 	 * This method overrides the parent implementation by establishing the database connection.
 	 */
