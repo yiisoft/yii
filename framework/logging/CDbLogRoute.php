@@ -60,16 +60,6 @@ class CDbLogRoute extends CLogRoute
 	private $_db;
 
 	/**
-	 * Destructor.
-	 * Disconnect the db connection.
-	 */
-	public function __destruct()
-	{
-		if($this->_db!==null)
-			$this->_db->setActive(false);
-	}
-
-	/**
 	 * Initializes the route.
 	 * This method is invoked after the route is created by the route manager.
 	 */

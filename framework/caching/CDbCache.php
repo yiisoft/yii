@@ -61,16 +61,6 @@ class CDbCache extends CCache
 	private $_gced=false;
 
 	/**
-	 * Destructor.
-	 * Disconnect the db connection.
-	 */
-	public function __destruct()
-	{
-		if($this->_db!==null)
-			$this->_db->setActive(false);
-	}
-
-	/**
 	 * Initializes this application component.
 	 *
 	 * This method is required by the {@link IApplicationComponent} interface.
