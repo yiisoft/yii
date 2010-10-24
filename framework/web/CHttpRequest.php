@@ -360,8 +360,13 @@ class CHttpRequest extends CApplicationComponent
 			else if(isset($_SERVER['REQUEST_URI']))
 			{
 				$this->_requestUri=$_SERVER['REQUEST_URI'];
-				if(strpos($this->_requestUri,$_SERVER['HTTP_HOST'])!==false)
-					$this->_requestUri=preg_replace('/^\w+:\/\/[^\/]+/','',$this->_requestUri);
+				if(isset($_SERVER['HTTP_HOST']))
+				{
+					if(strpos($this->_requestUri,$_SERVER['HTTP_HOST'])!==false)
+						$this->_requestUri=preg_replace('/^\w+:\/\/[^\/]+/','',$this->_requestUri);
+				}
+				else
+					$this->_requestUri=preg_replace('/^(http|https):\/\/[^\/]+/i','',$this->_requestUri);
 			}
 			else if(isset($_SERVER['ORIG_PATH_INFO']))  // IIS 5.0 CGI
 			{
