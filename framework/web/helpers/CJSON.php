@@ -110,7 +110,7 @@ class CJSON
 
 			case 'double':
 			case 'float':
-				return (float) $var;
+				return rtrim(sprintf('%.16F',$var),'0');  // locale-independent representation
 
 			case 'string':
 				if(function_exists('json_encode'))
