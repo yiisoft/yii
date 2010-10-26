@@ -73,7 +73,7 @@ class CJavaScript
 			else if($value===INF)
 				return 'Number.POSITIVE_INFINITY';
 			else
-				return "$value";
+				return rtrim(sprintf('%.16F',$value),'0');  // locale-independent representation
 		}
 		else if(is_object($value))
 			return self::encode(get_object_vars($value));
