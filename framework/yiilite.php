@@ -39,7 +39,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.4';
+		return '1.1.5-dev';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -120,11 +120,13 @@ class YiiBase
 				self::$_imports[$alias]=$alias;
 			return $alias;
 		}
-		if(($className=(string)substr($alias,$pos+1))!=='*' && (class_exists($className,false) || interface_exists($className,false)))
+		$className=(string)substr($alias,$pos+1);
+		$isClass=$className!=='*';
+		if($isClass && (class_exists($className,false) || interface_exists($className,false)))
 			return self::$_imports[$alias]=$className;
 		if(($path=self::getPathOfAlias($alias))!==false)
 		{
-			if($className!=='*')
+			if($isClass)
 			{
 				if($forceInclude)
 				{
@@ -949,7 +951,6 @@ abstract class CModule extends CComponent
 		else if(isset($this->_componentConfig[$id]) && $createIfNull)
 		{
 			$config=$this->_componentConfig[$id];
-			unset($this->_componentConfig[$id]);
 			if(!isset($config['enabled']) || $config['enabled'])
 			{
 				unset($config['enabled']);
@@ -961,9 +962,14 @@ abstract class CModule extends CComponent
 	}
 	public function setComponent($id,$component)
 	{
-		$this->_components[$id]=$component;
-		if(!$component->getIsInitialized())
-			$component->init();
+		if($component===null)
+			unset($this->_components[$id]);
+		else
+		{
+			$this->_components[$id]=$component;
+			if(!$component->getIsInitialized())
+				$component->init();
+		}
 	}
 	public function getComponents($loadedOnly=true)
 	{
@@ -1276,7 +1282,18 @@ abstract class CApplication extends CModule
 		{
 			$this->displayException($e);
 		}
-		$this->end(1);
+		try
+		{
+			$this->end(1);
+		}
+		catch(Exception $e)
+		{
+			// use the most primitive way to log error
+			$msg = get_class($e).': '.$e->getMessage().' ('.$e->getFile().':'.$e->getLine().")\n";
+			$msg .= $e->getTraceAsString()."\n";
+			$msg .= '$_SERVER='.var_export($_SERVER,true);
+			error_log($msg);
+		}
 	}
 	public function handleError($code,$message,$file,$line)
 	{
@@ -1324,7 +1341,18 @@ abstract class CApplication extends CModule
 			{
 				$this->displayException($e);
 			}
-			$this->end(1);
+			try
+			{
+				$this->end(1);
+			}
+			catch(Exception $e)
+			{
+				// use the most primitive way to log error
+				$msg = get_class($e).': '.$e->getMessage().' ('.$e->getFile().':'.$e->getLine().")\n";
+				$msg .= $e->getTraceAsString()."\n";
+				$msg .= '$_SERVER='.var_export($_SERVER,true);
+				error_log($msg);
+			}
 		}
 	}
 	public function onException($event)
@@ -2177,8 +2205,13 @@ class CHttpRequest extends CApplicationComponent
 			else if(isset($_SERVER['REQUEST_URI']))
 			{
 				$this->_requestUri=$_SERVER['REQUEST_URI'];
-				if(strpos($this->_requestUri,$_SERVER['HTTP_HOST'])!==false)
-					$this->_requestUri=preg_replace('/^\w+:\/\/[^\/]+/','',$this->_requestUri);
+				if(isset($_SERVER['HTTP_HOST']))
+				{
+					if(strpos($this->_requestUri,$_SERVER['HTTP_HOST'])!==false)
+						$this->_requestUri=preg_replace('/^\w+:\/\/[^\/]+/','',$this->_requestUri);
+				}
+				else
+					$this->_requestUri=preg_replace('/^(http|https):\/\/[^\/]+/i','',$this->_requestUri);
 			}
 			else if(isset($_SERVER['ORIG_PATH_INFO']))  // IIS 5.0 CGI
 			{
@@ -2225,7 +2258,7 @@ class CHttpRequest extends CApplicationComponent
 	}
 	public function getUserAgent()
 	{
-		return $_SERVER['HTTP_USER_AGENT'];
+		return isset($_SERVER['HTTP_USER_AGENT'])?$_SERVER['HTTP_USER_AGENT']:null;
 	}
 	public function getUserHostAddress()
 	{
@@ -2248,7 +2281,7 @@ class CHttpRequest extends CApplicationComponent
 	}
 	public function getAcceptTypes()
 	{
-		return $_SERVER['HTTP_ACCEPT'];
+		return isset($_SERVER['HTTP_ACCEPT'])?$_SERVER['HTTP_ACCEPT']:null;
 	}
 	private $_port;
 	public function getPort()
@@ -3021,13 +3054,18 @@ class CController extends CBaseController
 		if($this->_dynamicOutput)
 		{
 			$output=preg_replace_callback('/<###dynamic-(\d+)###>/',array($this,'replaceDynamicOutput'),$output);
-			$this->_dynamicOutput=null;
 		}
 		return $output;
 	}
 	protected function replaceDynamicOutput($matches)
 	{
-		return isset($this->_dynamicOutput[$matches[1]]) ? $this->_dynamicOutput[$matches[1]] : $matches[0];
+		$content=$matches[0];
+		if(isset($this->_dynamicOutput[$matches[1]]))
+		{
+			$content=$this->_dynamicOutput[$matches[1]];
+			unset($this->_dynamicOutput[$matches[1]]);
+		}
+		return $content;
 	}
 	public function createAction($actionID)
 	{
@@ -4271,7 +4309,7 @@ class CHtml
 			if(isset($htmlOptions['id']) && $htmlOptions['id']!==false)
 				$uncheckOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
 			else
-				$uncheckOptions=array();
+				$uncheckOptions=array('id'=>false);
 			$hidden=self::hiddenField($name,$uncheck,$uncheckOptions);
 		}
 		else
@@ -4300,7 +4338,7 @@ class CHtml
 			if(isset($htmlOptions['id']) && $htmlOptions['id']!==false)
 				$uncheckOptions=array('id'=>self::ID_PREFIX.$htmlOptions['id']);
 			else
-				$uncheckOptions=array();
+				$uncheckOptions=array('id'=>false);
 			$hidden=self::hiddenField($name,$uncheck,$uncheckOptions);
 		}
 		else
@@ -4548,7 +4586,7 @@ EOD;
 		self::resolveNameID($model,$attribute,$htmlOptions);
 		// add a hidden field so that if a model only has a file field, we can
 		// still use isset($_POST[$modelClass]) to detect if the input is submitted
-		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array();
+		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
 		return self::hiddenField($htmlOptions['name'],'',$hiddenOptions)
 			. self::activeInputField('file',$model,$attribute,$htmlOptions);
 	}
@@ -4567,7 +4605,7 @@ EOD;
 		}
 		else
 			$uncheck='0';
-		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array();
+		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
 		$hidden=$uncheck!==null ? self::hiddenField($htmlOptions['name'],$uncheck,$hiddenOptions) : '';
 		// add a hidden field so that if the radio button is not selected, it still submits a value
 		return $hidden . self::activeInputField('radio',$model,$attribute,$htmlOptions);
@@ -4587,7 +4625,7 @@ EOD;
 		}
 		else
 			$uncheck='0';
-		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array();
+		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
 		$hidden=$uncheck!==null ? self::hiddenField($htmlOptions['name'],$uncheck,$hiddenOptions) : '';
 		return $hidden . self::activeInputField('checkbox',$model,$attribute,$htmlOptions);
 	}
@@ -4620,7 +4658,7 @@ EOD;
 			self::addErrorCss($htmlOptions);
 		$name=$htmlOptions['name'];
 		unset($htmlOptions['name']);
-		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array();
+		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
 		return self::hiddenField($name,'',$hiddenOptions)
 			. self::checkBoxList($name,$selection,$data,$htmlOptions);
 	}
@@ -4632,7 +4670,7 @@ EOD;
 			self::addErrorCss($htmlOptions);
 		$name=$htmlOptions['name'];
 		unset($htmlOptions['name']);
-		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array();
+		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
 		return self::hiddenField($name,'',$hiddenOptions)
 			. self::radioButtonList($name,$selection,$data,$htmlOptions);
 	}
@@ -5136,11 +5174,38 @@ class CClientScript extends CApplicationComponent
 		$this->renderCoreScripts();
 		if(!empty($this->scriptMap))
 			$this->remapScripts();
+		$this->unifyScripts();
 		$this->renderHead($output);
 		if($this->enableJavaScript)
 		{
 			$this->renderBodyBegin($output);
 			$this->renderBodyEnd($output);
+		}
+	}
+	protected function unifyScripts()
+	{
+		if(!$this->enableJavaScript)
+			return;
+		$map=array();
+		if(isset($this->scriptFiles[self::POS_HEAD]))
+			$map=$this->scriptFiles[self::POS_HEAD];
+		if(isset($this->scriptFiles[self::POS_BEGIN]))
+		{
+			foreach($this->scriptFiles[self::POS_BEGIN] as $key=>$scriptFile)
+			{
+				if(isset($map[$scriptFile]))
+					unset($this->scriptFiles[self::POS_BEGIN][$key]);
+				else
+					$map[$scriptFile]=true;
+			}
+		}
+		if(isset($this->scriptFiles[self::POS_END]))
+		{
+			foreach($this->scriptFiles[self::POS_END] as $key=>$scriptFile)
+			{
+				if(isset($map[$scriptFile]))
+					unset($this->scriptFiles[self::POS_END][$key]);
+			}
 		}
 	}
 	protected function remapScripts()
@@ -6661,6 +6726,10 @@ abstract class CActiveRecord extends CModel
 	{
 		$this->_pk=$value;
 	}
+	/*
+	 * @param CDbCriteria $criteria the query criteria
+	 * @param boolean $all whether to return all data
+	 */
 	private function query($criteria,$all=false)
 	{
         $this->beforeFind();
@@ -6794,7 +6863,7 @@ abstract class CActiveRecord extends CModel
 	{
 		return $this->getCommandBuilder()->createSqlCommand($sql,$params)->queryScalar();
 	}
-	public function exists($condition,$params=array())
+	public function exists($condition='',$params=array())
 	{
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);

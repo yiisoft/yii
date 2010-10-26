@@ -68,23 +68,6 @@ class CDbMessageSource extends CMessageSource
 	 */
 	public $cacheID='cache';
 
-	private $_db;
-
-	/**
-	 * Initializes the application component.
-	 * This method overrides the parent implementation by preprocessing
-	 * the user request data.
-	 */
-	public function init()
-	{
-		parent::init();
-		if(($this->_db=Yii::app()->getComponent($this->connectionID)) instanceof CDbConnection)
-			$this->_db->setActive(true);
-		else
-			throw new CException(Yii::t('yii','CDbMessageSource.connectionID is invalid. Please make sure "{id}" refers to a valid database application component.',
-				array('{id}'=>$this->connectionID)));
-	}
-
 	/**
 	 * Loads the message translation for the specified language and category.
 	 * @param string $category the message category
@@ -100,21 +83,55 @@ class CDbMessageSource extends CMessageSource
 				return unserialize($data);
 		}
 
+		$messages=$this->loadMessagesFromDb($category,$language);
+
+		if(isset($cache))
+			$cache->set($key,serialize($messages),$this->cachingDuration);
+
+		return $messages;
+	}
+
+	private $_db;
+
+	/**
+	 * Returns the DB connection used for the message source.
+	 * @return CDbConnection the DB connection used for the message source.
+	 * @since 1.1.5
+	 */
+	public function getDbConnection()
+	{
+		if($this->_db===null)
+		{
+			if(($this->_db=Yii::app()->getComponent($this->connectionID)) instanceof CDbConnection)
+				$this->_db->setActive(true);
+			else
+				throw new CException(Yii::t('yii','CDbMessageSource.connectionID is invalid. Please make sure "{id}" refers to a valid database application component.',
+					array('{id}'=>$this->connectionID)));
+		}
+		return $this->_db;
+	}
+
+	/**
+	 * Loads the messages from database.
+	 * You may override this method to customize the message storage in the database.
+	 * @param string $category the message category
+	 * @param string $language the target language
+	 * @return array the messages loaded from database
+	 * @since 1.1.5
+	 */
+	protected function loadMessagesFromDb($category,$language)
+	{
 		$sql=<<<EOD
 SELECT t1.message AS message, t2.translation AS translation
 FROM {$this->sourceMessageTable} t1, {$this->translatedMessageTable} t2
 WHERE t1.id=t2.id AND t1.category=:category AND t2.language=:language
 EOD;
-		$command=$this->_db->createCommand($sql);
+		$command=$this->getDbConnection()->createCommand($sql);
 		$command->bindValue(':category',$category);
 		$command->bindValue(':language',$language);
-		$rows=$command->queryAll();
 		$messages=array();
-		foreach($rows as $row)
+		foreach($command->queryAll() as $row)
 			$messages[$row['message']]=$row['translation'];
-
-		if(isset($cache))
-			$cache->set($key,serialize($messages),$this->cachingDuration);
 
 		return $messages;
 	}
