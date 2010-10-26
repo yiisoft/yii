@@ -12,7 +12,7 @@
 /**
  * CNumberFormatter provides number localization functionalities.
  *
- * CNumberFormatter formats a number (integer or double) and outputs a string
+ * CNumberFormatter formats a number (integer or float) and outputs a string
  * based on the specified format. A CNumberFormatter instance is associated with a locale,
  * and thus generates the string representation of the number in a locale-dependent fashion.
  *
