@@ -158,6 +158,6 @@ class CFileLogRoute extends CLogRoute
 			}
 		}
 		if(is_file($file))
-			rename($file,$file.'.1');
+			@rename($file,$file.'.1'); // suppress errors because it's possible multiple processes enter into this section
 	}
 }
