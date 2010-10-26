@@ -94,7 +94,10 @@ abstract class CDbSchema extends CComponent
 	{
 		$tables=array();
 		foreach($this->getTableNames($schema) as $name)
-			$tables[$name]=$this->getTable($name);
+		{
+			if(($table=$this->getTable($name))!==null)
+				$tables[$name]=$table;
+		}
 		return $tables;
 	}
 
