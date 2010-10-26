@@ -28,11 +28,11 @@ class CNumberValidator extends CValidator
 	 */
 	public $allowEmpty=true;
 	/**
-	 * @var integer|double upper limit of the number. Defaults to null, meaning no upper limit.
+	 * @var integer|float upper limit of the number. Defaults to null, meaning no upper limit.
 	 */
 	public $max;
 	/**
-	 * @var integer|double lower limit of the number. Defaults to null, meaning no lower limit.
+	 * @var integer|float lower limit of the number. Defaults to null, meaning no lower limit.
 	 */
 	public $min;
 	/**

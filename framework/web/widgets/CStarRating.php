@@ -35,11 +35,11 @@ class CStarRating extends CInputWidget
 	 */
 	public $starCount=5;
 	/**
-	 * @var mixed the minimum rating allowed. This can be either an integer or a double value. Defaults to 1.
+	 * @var mixed the minimum rating allowed. This can be either an integer or a float value. Defaults to 1.
 	 */
 	public $minRating=1;
 	/**
-	 * @var mixed the maximum rating allowed. This can be either an integer or a double value. Defaults to 1.
+	 * @var mixed the maximum rating allowed. This can be either an integer or a float value. Defaults to 1.
 	 */
 	public $maxRating=10;
 	/**
