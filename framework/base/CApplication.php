@@ -142,8 +142,10 @@ abstract class CApplication extends CModule
 	 * This method replaces PHP's exit() function by calling
 	 * {@link onEndRequest} before exiting.
 	 * @param integer $status exit status (value 0 means normal exit while other values mean abnormal exit).
+	 * @param boolean $exit whether to exit the current request. This parameter has been available since version 1.1.5.
+	 * It defaults to true, meaning the PHP's exit() function will be called at the end of this method.
 	 */
-	public function end($status=0)
+	public function end($status=0, $exit=true)
 	{
 		if($this->hasEventHandler('onEndRequest'))
 			$this->onEndRequest(new CEvent($this));
