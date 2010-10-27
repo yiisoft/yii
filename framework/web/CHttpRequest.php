@@ -639,9 +639,17 @@ class CHttpRequest extends CApplicationComponent
 			header('Content-Length: '.strlen($content));
 		header("Content-Disposition: attachment; filename=\"$fileName\"");
 		header('Content-Transfer-Encoding: binary');
-		echo $content;
+
 		if($terminate)
-			Yii::app()->end();
+		{
+			// clean up the application first because the file downloading could take long time
+			// which may cause timeout of some resources (such as DB connection)
+			Yii::app()->end(0,false);
+			echo $content;
+			exit(0);
+		}
+		else
+			echo $content;
 	}
 
 	/**
