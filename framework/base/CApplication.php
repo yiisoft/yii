@@ -620,8 +620,12 @@ abstract class CApplication extends CModule
 			// use the most primitive way to log error
 			$msg = get_class($e).': '.$e->getMessage().' ('.$e->getFile().':'.$e->getLine().")\n";
 			$msg .= $e->getTraceAsString()."\n";
+			$msg .= "Previous exception:\n";
+			$msg .= get_class($exception).': '.$exception->getMessage().' ('.$exception->getFile().':'.$exception->getLine().")\n";
+			$msg .= $exception->getTraceAsString()."\n";
 			$msg .= '$_SERVER='.var_export($_SERVER,true);
 			error_log($msg);
+			exit(1);
 		}
 	}
 
@@ -700,8 +704,11 @@ abstract class CApplication extends CModule
 				// use the most primitive way to log error
 				$msg = get_class($e).': '.$e->getMessage().' ('.$e->getFile().':'.$e->getLine().")\n";
 				$msg .= $e->getTraceAsString()."\n";
+				$msg .= "Previous error:\n";
+				$msg .= $log."\n";
 				$msg .= '$_SERVER='.var_export($_SERVER,true);
 				error_log($msg);
+				exit(1);
 			}
 		}
 	}
