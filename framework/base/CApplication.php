@@ -149,7 +149,8 @@ abstract class CApplication extends CModule
 	{
 		if($this->hasEventHandler('onEndRequest'))
 			$this->onEndRequest(new CEvent($this));
-		exit($status);
+		if($exit)
+			exit($status);
 	}
 
 	/**
