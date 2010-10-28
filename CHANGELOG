@@ -36,6 +36,7 @@ Version 1.1.5 to be released
 - Enh: Added buttonset for CJuiButoon (sebas)
 - Enh: Improved error handling to catch errors occurring in CApplication::end() (Qiang)
 - Enh: Improved CHttpRequest::sendFile() to avoid timeout errors caused by long file downloading time (Qiang)
+- Enh: Improved action parameter binding by detecting if a parameter requires array or not (Qiang)
 - Chg #1680: Upgraded jQuery to version 1.4.3 (Sam Dark)
 - Chg: The javascript files of CListView and CGridView are now registered at the end of the page (Qiang)
 - Chg: Log filters will now be invoked only when there are some log messages available (Qiang)
