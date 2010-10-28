@@ -202,6 +202,28 @@ when the user does not provide such a parameter in his request. Because `$catego
 does not have a default value, if the user does not provide `category` parameter
 in `$_GET`, a [CHttpException] (error code 400) will be thrown automatically.
 
+Starting from version 1.1.5, Yii also supports array type detection for action parameters.
+This is done by PHP type hinting using the syntax like the following:
+
+~~~
+[php]
+class PostController extends CController
+{
+	public function actionCreate(array $categories)
+	{
+		// Yii will make sure $categories be an array
+	}
+}
+~~~
+
+That is, we add the keyword `array` in front of `$categories` in the method parameter
+declaration. By doing so, if `$_GET['categories']` is a simple string, it will be
+converted into an array consisting of that string.
+
+> Note: If a parameter is declared without the `array` type hint, it means the parameter
+> must be a scalar (i.e., not an array). In this case, passing in an array parameter via
+> `$_GET` would cause an HTTP exception.
+
 
 Filter
 ------
