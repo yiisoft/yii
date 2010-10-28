@@ -9,10 +9,30 @@
  */
 
 /**
- * CConsoleCommand represents an executable user command.
+ * CConsoleCommand represents an executable console command.
  *
- * The {@link run} method must be implemented with the actual command execution logic.
- * You may override {@link getHelp} to provide more detailed description of the command.
+ * It works like {@link CController} by parsing command line options and dispatching
+ * the request to a specific action with appropriate option values.
+ *
+ * Users call a console command via the following command format:
+ * <pre>
+ * yiic CommandName ActionName --Option1=Value1 --Option2=Value2 ...
+ * </pre>
+ *
+ * Child classes mainly needs to implement various action methods whose name must be
+ * prefixed with "action". The parameters to an action method are considered as options
+ * for that specific action. The action specified as {@link defaultAction} will be invoked
+ * when a user does not specify the action name in his command.
+ *
+ * Options are bound to action parameters via parameter names. For example, the following
+ * action method will allow us to run a command with <code>yiic sitemap --type=News</code>:
+ * <pre>
+ * class SitemapCommand {
+ *     public function actionIndex($type) {
+ *         ....
+ *     }
+ * }
+ * </pre>
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
@@ -21,14 +41,14 @@
  */
 abstract class CConsoleCommand extends CComponent
 {
+	/**
+	 * @var string the name of the default action. Defaults to 'index'.
+	 * @since 1.1.5
+	 */
+	public $defaultAction='index';
+
 	private $_name;
 	private $_runner;
-
-	/**
-	 * Executes the command.
-	 * @param array $args command line parameters for this command.
-	 */
-	public abstract function run($args);
 
 	/**
 	 * Constructor.
@@ -39,6 +59,82 @@ abstract class CConsoleCommand extends CComponent
 	{
 		$this->_name=$name;
 		$this->_runner=$runner;
+	}
+
+	/**
+	 * Executes the command.
+	 * The default implementation will parse the input parameters and
+	 * dispatch the command request to an appropriate action with the corresponding
+	 * option values
+	 * @param array $args command line parameters for this command.
+	 */
+	public function run($args)
+	{
+		list($action, $options)=$this->resolveRequest($args);
+		$methodName='action'.$action;
+		if(!preg_match('/^\w+$/',$action) || !method_exists($this,$methodName))
+			$this->usageError("Unknown action: ".$action);
+
+		$method=new ReflectionMethod($this,$methodName);
+		$params=array();
+		foreach($method->getParameters() as $i=>$param)
+		{
+			$name=$param->getName();
+			if(isset($options[$name]))
+			{
+				if($param->isArray())
+					$params[]=is_array($options[$name]) ? $options[$name] : array($options[$name]);
+				else if(!is_array($options[$name]))
+					$params[]=$options[$name];
+				else
+					$this->usageError("Option --$name requires a scalar. Array is given.");
+			}
+			else if($param->isDefaultValueAvailable())
+				$params[]=$param->getDefaultValue();
+			else
+				$this->usageError("Missing required option --$name.");
+			unset($options[$name]);
+		}
+		if(!empty($options))
+			$this->usageError("Unknown options: ".implode(', ',array_keys($options)));
+
+		$method->invokeArgs($this,$params);
+	}
+
+	/**
+	 * Parses the command line arguments and determines which action to perform.
+	 * @param array $args command line arguments
+	 * @return array the action and the corresponding option values
+	 * @since 1.1.5
+	 */
+	protected function resolveRequest($args)
+	{
+		$options=array();	// named parameters
+		$params=array();	// unnamed parameters
+		foreach($args as $arg)
+		{
+			if(preg_match('/^--(\w+)(=(.*))?$/',$arg,$matches))  // an option
+			{
+				$name=$matches[1];
+				$value=isset($matches[3]) ? $matches[3] : true;
+				if(isset($options[$name]))
+				{
+					if(!is_array($options[$name]))
+						$options[$name]=array($options[$name]);
+					$options[$name][]=$value;
+				}
+				else
+					$options[$name]=$value;
+			}
+			else
+				$params[]=$arg;
+		}
+		if(empty($params))
+			$action=$this->defaultAction;
+		else
+			$action=$params[0];
+
+		return array($action,$options);
 	}
 
 	/**
@@ -64,7 +160,53 @@ abstract class CConsoleCommand extends CComponent
 	 */
 	public function getHelp()
 	{
-		return 'Usage: '.$this->getCommandRunner()->getScriptName().' '.$this->getName();
+		$help='Usage: '.$this->getCommandRunner()->getScriptName().' '.$this->getName();
+		$options=$this->getOptionHelp();
+		if(empty($options))
+			return $help;
+		if(count($options)===1)
+			return $help.' '.$options[0];
+		$help.=" <action>\nActions:\n";
+		foreach($options as $option)
+			$help.='    '.$option."\n";
+		return $help;
+	}
+
+	/**
+	 * Provides the command option help information.
+	 * The default implementation will return all available actions together with their
+	 * corresponding option information.
+	 * @return array the command option help information. Each array element describes
+	 * the help information for a single action.
+	 * @since 1.1.5
+	 */
+	public function getOptionHelp()
+	{
+		$options=array();
+		$class=new ReflectionClass(get_class($this));
+        foreach($class->getMethods(ReflectionMethod::IS_PUBLIC) as $method)
+        {
+        	$name=$method->getName();
+        	if(!strncasecmp($name,'action',6) && strlen($name)>6)
+        	{
+        		$name=substr($name,6);
+        		$name[0]=strtolower($name[0]);
+        		$help=$name;
+
+				foreach($method->getParameters() as $param)
+				{
+					$optional=$param->isDefaultValueAvailable();
+					$defaultValue=$optional ? $param->getDefaultValue() : null;
+					$name=$param->getName();
+					if($optional)
+						$help.=" [--$name=$defaultValue]";
+					else
+						$help.=" --$name=value";
+				}
+				$options[]=$help;
+        	}
+        }
+        return $options;
 	}
 
 	/**
