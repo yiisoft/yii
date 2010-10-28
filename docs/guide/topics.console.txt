@@ -1,31 +1,42 @@
 Console Applications
 ====================
 
-Console applications are mainly used by a Web application to perform
-offline work, such as code generation, search index compiling, email
+Console applications are mainly used to perform offline work needed by an
+online Web application, such as code generation, search index compiling, email
 sending, etc. Yii provides a framework for writing console applications in
-an object-oriented and systematic way.
+an object-oriented way. It allows a console application to access
+the resources (e.g. DB connections) that are used by an online Web application.
 
-Yii represents each console task in terms of a [command|CConsoleCommand],
-and a [console application|CConsoleApplication] instance is used to
-dispatch a command line request to an appropriate command. The application
-instance is created in an entry script. To execute a console task, we
-simply run the corresponding command on the command line as follows,
+
+Overview
+--------
+
+Yii represents each console task in terms of a [command|CConsoleCommand].
+A console command is written as a class extending from [CConsoleCommand].
+
+Console commands are managed by a [console application|CConsoleApplication].
+A console application is like a Web application, which can be configured with
+application configuration and needs to be invoked via an entry script.
+
+To execute a console command, we use the following command format in a console window:
 
 ~~~
 php entryScript.php CommandName Param0 Param1 ...
 ~~~
 
-where `CommandName` refers to the command name which is case-insensitive,
-and `Param0`, `Param1` and so on are parameters to be passed to the command
-instance.
 
-The entry script for a console application is usually written like the
-following, similar to that in a Web application,
+Entry Script
+------------
+
+As we mentioned above, an entry script is required in order to execute a console
+command. If an application is created using the `yiic webapp` tool, then it already
+includes a console application with an appropriate entry script located as
+`protected/yiic.php`.
+
+We can also write the entry script from scratch as follows:
 
 ~~~
 [php]
-defined('YII_DEBUG') or define('YII_DEBUG',true);
 // include Yii bootstrap file
 require_once('path/to/yii/framework/yii.php');
 // create application instance and run
@@ -33,40 +44,117 @@ $configFile='path/to/config/file.php';
 Yii::createConsoleApplication($configFile)->run();
 ~~~
 
-We then create command classes which should extend from [CConsoleCommand].
-Each command class should be named as its command name appended with
-`Command`. For example, to define an `email` command, we should write an
-`EmailCommand` class. All command class files should be placed under the
-`commands` subdirectory of the [application base
-directory](/doc/guide/basics.application#application-base-directory).
+
+Console Command
+---------------
+
+Console commands are stored as class files under the directory specified by
+[CConsoleApplication::commandPath]. By default, this refers to the directory
+`protected/commands`.
+
+A console command class must extend from [CConsoleCommand]. The class name
+must be of format `XyzCommand`, where `Xyz` refers to the command name with
+the first letter in upper case. For example, a `sitemap` command must use
+the class name `SitemapCommand`. For this reason, console command names are
+case-sensitive.
 
 > Tip: By configuring [CConsoleApplication::commandMap], one can also have
-command classes in different naming conventions and located in different
-directories.
+> command classes in different naming conventions and located in different
+> directories.
 
-Writing a command class mainly involves implementing the
-[CConsoleCommand::run] method. Command line parameters are passed as an
-array to this method. Below is an example:
+Within a console command class, one must either write a few console command
+actions (to be described in the next sub-section), or override the
+[CConsoleCommand::run()] method whose signature is follows:
 
 ~~~
 [php]
-class EmailCommand extends CConsoleCommand
+public function run($args) { ... }
+~~~
+
+where `$args` refers to the extra parameters given in the command line.
+
+
+Console Command Action
+----------------------
+
+> Note: The feature of console command action has been available since version 1.1.5.
+
+A console command often needs to handle different parameters. For example,
+a `sitemap` command may take a parameter specifying which type of sitemap to generate.
+We can break down a command into several actions, each dealing with a specific sub-task,
+like we do in [CController].
+
+A console command action is written as a method in the console command class.
+The method name must be of the format `actionXyz`, where `Xyz` refers to the action
+name with the first letter in upper-case. For example, a method `actionIndex` defines
+an action named `index`.
+
+To execute a specific action, we use the following console command format:
+
+~~~
+php entryScript.php CommandName ActionName --Option1=Value1 --Option2=Value2 ...
+~~~
+
+The additional option-value pairs will be passed as parameters to the action method.
+The value of a `xyz` option will be passed as the `$xyz` parameter of the action method.
+For example, if we define the following command class:
+
+~~~
+[php]
+class SitemapCommand extends CConsoleCommand
 {
-	public function run($args)
-	{
-		$receiver=$args[0];
-		// send email to $receiver
-	}
+    public function actionIndex($type, $limit=5) { ... }
+    public function actionInit() { ... }
 }
 ~~~
 
-At any time in a command, we can access the console application instance
+Then, the following console commands will all be ended up calling `actionIndex('News', 5)`:
+
+~~~
+php entryScript.php sitemap index --type=News --limit=5
+
+// $limit takes default value
+php entryScript.php sitemap index --type=News
+
+// $limit takes default value
+// because 'index' is a default action, we can omit the action name
+php entryScript.php sitemap --type=News
+
+// the order of options does not matter
+php entryScript.php sitemap index --limit=5 --type=News
+~~~
+
+> Note: The options must be specified in the format of `--Name=Value`.
+> We do not support alternative option formats such as
+> `--type News`, `-t News`.
+
+A parameter can take an array value by declaring it with array type hinting:
+
+~~~
+[php]
+public function actionIndex(array $types) { ... }
+~~~
+
+To supply the array value, we simply repeat the same option in the command line as needed:
+
+~~~
+php entryScript.php sitemap index --types=News --types=Article
+~~~
+
+The above command will call `actionIndex(array('News', 'Article'))` ultimately.
+
+
+Accessing Resources
+-------------------
+
+Within a console command, we can access the console application instance
 via `Yii::app()`. Like a Web application instance, console application can
 also be configured. For example, we can configure a `db` application
 component to access the database. The configuration is usually specified as
 a PHP file and passed to the constructor of the console application class
 (or [createConsoleApplication|YiiBase::createConsoleApplication] in the
 entry script).
+
 
 Using the `yiic` Tool
 ---------------------

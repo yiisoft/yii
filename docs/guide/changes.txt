@@ -3,6 +3,11 @@ New Features
 
 This page summarizes the main new features introduced in each Yii release.
 
+Version 1.1.5
+-------------
+
+ * [Added support for console command actions and parameter binding](/doc/guide/topics.console)
+
 Version 1.1.4
 -------------
 
