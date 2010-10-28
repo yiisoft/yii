@@ -124,8 +124,10 @@ php entryScript.php sitemap --type=News
 php entryScript.php sitemap index --limit=5 --type=News
 ~~~
 
-> Note: The options must be specified in the format of `--Name=Value`.
-> We do not support alternative option formats such as
+If an option is given without value (e.g. `--type` instead of `--type=News`), the corresponding
+action parameter value will be assumed to be boolean `true`.
+
+> Note: We do not support alternative option formats such as
 > `--type News`, `-t News`.
 
 A parameter can take an array value by declaring it with array type hinting:
