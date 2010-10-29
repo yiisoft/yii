@@ -115,6 +115,7 @@ class GiiModule extends CWebModule
 		parent::init();
 		Yii::app()->setComponents(array(
 			'errorHandler'=>array(
+				'class'=>'CErrorHandler',
 				'errorAction'=>'gii/default/error',
 			),
 			'user'=>array(
@@ -122,7 +123,7 @@ class GiiModule extends CWebModule
 				'stateKeyPrefix'=>'gii',
 				'loginUrl'=>Yii::app()->createUrl('gii/default/login'),
 			),
-		));
+		), false);
 		$this->generatorPaths[]='gii.generators';
 		$this->controllerMap=$this->findGenerators();
 	}

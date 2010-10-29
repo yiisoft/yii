@@ -438,14 +438,17 @@ abstract class CModule extends CComponent
 	 * </pre>
 	 *
 	 * @param array $components application components(id=>component configuration or instances)
+	 * @param boolean $merge whether to merge the new component configuration with the existing one.
+	 * Defaults to true, meaning the previously registered component configuration of the same ID
+	 * will be merged with the new configuration. If false, the existing configuration will be replaced completely.
 	 */
-	public function setComponents($components)
+	public function setComponents($components,$merge=true)
 	{
 		foreach($components as $id=>$component)
 		{
 			if($component instanceof IApplicationComponent)
 				$this->setComponent($id,$component);
-			else if(isset($this->_componentConfig[$id]))
+			else if(isset($this->_componentConfig[$id]) && $merge)
 				$this->_componentConfig[$id]=CMap::mergeArray($this->_componentConfig[$id],$component);
 			else
 				$this->_componentConfig[$id]=$component;
