@@ -110,13 +110,19 @@ class CArrayDataProvider extends CDataProvider
 		if(empty($directions))
 			return;
 		$args=array();
+		$dummy=array();
 		foreach($directions as $name=>$descending)
 		{
 			$column=array();
 			foreach($this->rawData as $index=>$data)
 				$column[$index]=is_object($data) ? $data->$name : $data[$name];
-			$args[]=$column;
-			$args[]=$descending ? SORT_DESC : SORT_ASC;
+			$args[]=&$column;
+			$dummy[]=&$column;
+			unset($column);
+			$direction=$descending ? SORT_DESC : SORT_ASC;
+			$args[]=&$direction;
+			$dummy[]=&$direction;
+			unset($direction);
 		}
 		$args[]=&$this->rawData;
 		call_user_func_array('array_multisort', $args);
