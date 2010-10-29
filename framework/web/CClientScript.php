@@ -360,7 +360,7 @@ class CClientScript extends CApplicationComponent
 		if(isset($this->scripts[self::POS_LOAD]))
 		{
 			if($fullPage)
-				$scripts[]="window.onload=function() {\n".implode("\n",$this->scripts[self::POS_LOAD])."\n};";
+				$scripts[]="jQuery(window).load(function() {\n".implode("\n",$this->scripts[self::POS_LOAD])."\n});";
 			else
 				$scripts[]=implode("\n",$this->scripts[self::POS_LOAD]);
 		}
@@ -490,7 +490,7 @@ class CClientScript extends CApplicationComponent
 	{
 		$this->_hasScripts=true;
 		$this->scripts[$position][$id]=$script;
-		if($position===self::POS_READY)
+		if($position===self::POS_READY || $position===self::POS_LOAD)
 			$this->registerCoreScript('jquery');
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerScript',$params);
