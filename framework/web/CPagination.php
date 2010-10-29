@@ -207,8 +207,8 @@ class CPagination extends CComponent
 	 */
 	public function applyLimit($criteria)
 	{
-		$criteria->limit=$this->pageSize;
-		$criteria->offset=$this->currentPage*$this->pageSize;
+		$criteria->limit=$this->getLimit();
+		$criteria->offset=$this->getOffset();
 	}
 
 	/**
