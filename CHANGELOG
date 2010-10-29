@@ -33,6 +33,7 @@ Version 1.1.5 to be released
 - Enh #1661: Added CActiveForm 'reset' event handler to reset validation errors if using CHtml::resetButton() (mdomba)
 - Enh #1688: Refactored CDbMessageSource to allow easier extension (Qiang)
 - Enh #1699: Added capability to remove duplicated script files registered for different positions in CClientScript (Qiang)
+- Enh #1711: JavaScript registered in POS_LOAD will now be put in jQuery window load event instead of the previous global window load event (Qiang)
 - Enh: Upgraded JQuery UI to 1.8.5 (Sam Dark)
 - Enh: Added checking for empty keywords in addSearchCondition(), to prevent adding unnecessary conditions (mdomba)
 - Enh: Added flushValues() method to the cache classes (Y!!)
