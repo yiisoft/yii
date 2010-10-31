@@ -273,7 +273,7 @@ EOD;
 			if($schema===$this->getDefaultSchema())
 				$names[]=$row['TABLE_NAME'];
 			else
-				$names[]=$row['SCHEMA_NAME'].'.'.$row['TABLE_NAME'];
+				$names[]=$row['TABLE_SCHEMA'].'.'.$row['TABLE_NAME'];
 		}
 		return $names;
 	}
