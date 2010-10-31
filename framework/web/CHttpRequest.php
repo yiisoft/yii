@@ -534,7 +534,7 @@ class CHttpRequest extends CApplicationComponent
 	private $_securePort;
 
 	/**
-	 * Returns the port to use for insecure requests.
+	 * Returns the port to use for secure requests.
 	 * Defaults to 443, or the port specified by the server if the current
 	 * request is secure.
 	 * You may explicitly specify it by setting the {@link setSecurePort securePort} property.
