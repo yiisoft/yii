@@ -290,7 +290,7 @@ class CActiveForm extends CWidget
 		echo CHtml::endForm();
 		if(!$this->enableAjaxValidation || empty($this->_attributes))
 		{
-			Yii::app()->clientScript->registerScript('focus',"
+			Yii::app()->clientScript->registerScript('CActiveForm#focus',"
 				if(!window.location.hash)
 					$('".$this->focus."').focus();
 			");
