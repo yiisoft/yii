@@ -270,7 +270,7 @@ EOD;
 		$names=array();
 		foreach($rows as $row)
 		{
-			if($schema===$this->getDefaultSchema())
+			if($schema===$this->getDefaultSchema() || $schema==='')
 				$names[]=$row['TABLE_NAME'];
 			else
 				$names[]=$row['TABLE_SCHEMA'].'.'.$row['TABLE_NAME'];
