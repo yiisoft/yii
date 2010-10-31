@@ -22,10 +22,16 @@ Upgrading from v1.1.4
 ---------------------
 - Now by default CWebLogRoute does not render logs in FireBug for ajax calls.
   To get logs rendered for ajax calls in FireBug set CWebLogRoute::ignoreAjaxInFireBug to false
-  
+
 - The implementation of CCache::flush() was changed a little. Child classes should now implement
   a flushValues() method. If you use any custom cache class with flush functionality, you should
   rename the flush method accordingly.
+
+- The prompt and empty options used in CHtml methods will NOT be HTML-encoded anymore. It will now
+  always convert ">" and "<" into "&gt;" and "lt;", respectively. This should be sufficient in most
+  cases. But if your application uses some other special characters, or if you allow user inputs
+  to be used as prompt and empty text labels, please call CHtml::encode() explicitly on these option
+  values.
 
 Upgrading from v1.1.3
 ---------------------
