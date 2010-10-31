@@ -789,11 +789,11 @@ class CCookieCollection extends CMap
 	}
 
 	/**
-	 * Inserts an item at the specified position.
+	 * Adds a cookie with the specified name.
 	 * This overrides the parent implementation by performing additional
 	 * operations for each newly added CHttpCookie object.
-	 * @param integer $name the specified position.
-	 * @param mixed $cookie new item
+	 * @param mixed $name Cookie name.
+	 * @param CHttpCookie $cookie Cookie object.
 	 * @throws CException if the item to be inserted is not a CHttpCookie object.
 	 */
 	public function add($name,$cookie)
@@ -810,11 +810,11 @@ class CCookieCollection extends CMap
 	}
 
 	/**
-	 * Removes an item at the specified position.
+	 * Removes a cookie with the specified name.
 	 * This overrides the parent implementation by performing additional
-	 * cleanup work when removing a TCookie object.
-	 * @param integer $name the index of the item to be removed.
-	 * @return mixed the removed item.
+	 * cleanup work when removing a CHttpCookie object.
+	 * @param mixed $name Cookie name.
+	 * @return CHttpCookie The removed cookie object.
 	 */
 	public function remove($name)
 	{
