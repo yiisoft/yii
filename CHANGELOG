@@ -11,6 +11,7 @@ Version 1.1.5 to be released
 - Bug #1615: Fixed the bug that caused CLogFilter::filter() to add context informations when the log was empty (Y!!)
 - Bug #1653: Fixed the bug that in PHP 5.3 CArrayDataProvider will fail due to incorrect parameters sent to array_multisort (Qiang)
 - Bug #1673: Fixed the bug that CDbSchema::getTables() might return null table schemas (Qiang)
+- Bug #1685: Fixed the bug COciSchema that will fail when used with DB schema (Qiang)
 - Bug #1696: Fixed the bug that CJSON and CJavaScript might serialize float numbers into local-dependent strings (Qiang)
 - Bug #1715: Fixed the bug that CActiveDataProvider.sort does not respect table alias set in the query criteria (Qiang)
 - Bug #1718: Fixed the bug that Gii may fail if the error handler or user component is customized in the main application (Qiang)
