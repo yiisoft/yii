@@ -710,10 +710,10 @@ class CHtml
 	 * In addition, the following options are also supported specifically for dropdown list:
 	 * <ul>
 	 * <li>encode: boolean, specifies whether to encode the values. Defaults to true. This option has been available since version 1.0.5.</li>
-	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty.</li>
+	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty. Note, the prompt text will NOT be HTML-encoded.</li>
 	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.
 	 * Starting from version 1.0.10, the 'empty' option can also be an array of value-label pairs.
-	 * Each pair will be used to render a list option at the beginning.</li>
+	 * Each pair will be used to render a list option at the beginning. Note, the text label will NOT be HTML-encoded.</li>
 	 * <li>options: array, specifies additional attributes for each OPTION tag.
 	 *     The array keys must be the option values, and the array values are the extra
 	 *     OPTION tag attributes in the name-value pairs. For example,
@@ -756,10 +756,10 @@ class CHtml
 	 * In addition, the following options are also supported specifically for list box:
 	 * <ul>
 	 * <li>encode: boolean, specifies whether to encode the values. Defaults to true. This option has been available since version 1.0.5.</li>
-	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty.</li>
+	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty. Note, the prompt text will NOT be HTML-encoded.</li>
 	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.
 	 * Starting from version 1.0.10, the 'empty' option can also be an array of value-label pairs.
-	 * Each pair will be used to render a list option at the beginning.</li>
+	 * Each pair will be used to render a list option at the beginning. Note, the text label will NOT be HTML-encoded.</li>
 	 * <li>options: array, specifies additional attributes for each OPTION tag.
 	 *     The array keys must be the option values, and the array values are the extra
 	 *     OPTION tag attributes in the name-value pairs. For example,
@@ -1353,10 +1353,10 @@ EOD;
 	 * In addition, the following options are also supported:
 	 * <ul>
 	 * <li>encode: boolean, specifies whether to encode the values. Defaults to true. This option has been available since version 1.0.5.</li>
-	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty.</li>
+	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty.  Note, the prompt text will NOT be HTML-encoded.</li>
 	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.
 	 * Starting from version 1.0.10, the 'empty' option can also be an array of value-label pairs.
-	 * Each pair will be used to render a list option at the beginning.</li>
+	 * Each pair will be used to render a list option at the beginning. Note, the text label will NOT be HTML-encoded.</li>
 	 * <li>options: array, specifies additional attributes for each OPTION tag.
 	 *     The array keys must be the option values, and the array values are the extra
 	 *     OPTION tag attributes in the name-value pairs. For example,
@@ -1405,10 +1405,10 @@ EOD;
 	 * In addition, the following options are also supported:
 	 * <ul>
 	 * <li>encode: boolean, specifies whether to encode the values. Defaults to true. This option has been available since version 1.0.5.</li>
-	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty.</li>
+	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty. Note, the prompt text will NOT be HTML-encoded.</li>
 	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.
 	 * Starting from version 1.0.10, the 'empty' option can also be an array of value-label pairs.
-	 * Each pair will be used to render a list option at the beginning.</li>
+	 * Each pair will be used to render a list option at the beginning. Note, the text label will NOT be HTML-encoded.</li>
 	 * <li>options: array, specifies additional attributes for each OPTION tag.
 	 *     The array keys must be the option values, and the array values are the extra
 	 *     OPTION tag attributes in the name-value pairs. For example,
@@ -1756,10 +1756,10 @@ EOD;
 	 * @param array $htmlOptions additional HTML attributes. The following two special attributes are recognized:
 	 * <ul>
 	 * <li>encode: boolean, specifies whether to encode the values. Defaults to true. This option has been available since version 1.0.5.</li>
-	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty.</li>
+	 * <li>prompt: string, specifies the prompt text shown as the first list option. Its value is empty. Note, the prompt text will NOT be HTML-encoded.</li>
 	 * <li>empty: string, specifies the text corresponding to empty selection. Its value is empty.
 	 * Starting from version 1.0.10, the 'empty' option can also be an array of value-label pairs.
-	 * Each pair will be used to render a list option at the beginning.</li>
+	 * Each pair will be used to render a list option at the beginning. Note, the text label will NOT be HTML-encoded.</li>
 	 * <li>options: array, specifies additional attributes for each OPTION tag.
 	 *     The array keys must be the option values, and the array values are the extra
 	 *     OPTION tag attributes in the name-value pairs. For example,
@@ -1785,7 +1785,7 @@ EOD;
 		$content='';
 		if(isset($htmlOptions['prompt']))
 		{
-			$content.='<option value="">'.($raw?$htmlOptions['prompt'] : self::encode($htmlOptions['prompt']))."</option>\n";
+			$content.='<option value="">'.strtr($htmlOptions['prompt'],array('<'=>'&lt;', '>'=>'&gt;'))."</option>\n";
 			unset($htmlOptions['prompt']);
 		}
 		if(isset($htmlOptions['empty']))
@@ -1793,12 +1793,7 @@ EOD;
 			if(!is_array($htmlOptions['empty']))
 				$htmlOptions['empty']=array(''=>$htmlOptions['empty']);
 			foreach($htmlOptions['empty'] as $value=>$label)
-			{
-				if($raw)
-					$content.='<option value="'.$value.'">'.$label."</option>\n";
-				else
-					$content.='<option value="'.self::encode($value).'">'.self::encode($label)."</option>\n";
-			}
+				$content.='<option value="'.self::encode($value).'">'.strtr($label,array('<'=>'&lt;', '>'=>'&gt;'))."</option>\n";
 			unset($htmlOptions['empty']);
 		}
 
