@@ -118,7 +118,7 @@ class CWebService extends CComponent
 	{
 		$wsdl=$this->generateWsdl();
 		header('Content-Type: text/xml;charset='.$this->encoding);
-		header('Content-Length: '.strlen($wsdl));
+		header('Content-Length: '.(function_exists('mb_strlen') ? mb_strlen($wsdl,'8bit') : strlen($wsdl)));
 		echo $wsdl;
 	}
 
