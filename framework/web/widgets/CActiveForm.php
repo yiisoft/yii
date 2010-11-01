@@ -354,7 +354,12 @@ class CActiveForm extends CWidget
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=$inputID.'_em_';
 
-		$option=array('inputID'=>$inputID, 'errorID'=>$htmlOptions['id']);
+		$option=array(
+			'inputID'=>$inputID,
+			'errorID'=>$htmlOptions['id'],
+			'model'=>get_class($model),
+			'name'=>$attribute,
+		);
 
 		$optionNames=array(
 			'validationDelay',

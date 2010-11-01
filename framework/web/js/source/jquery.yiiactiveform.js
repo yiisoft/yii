@@ -312,6 +312,8 @@
 		/**
 		 * list of attributes to be validated. Each array element is of the following structure:
 		 * {
+		 *     model : 'ModelClass', // the model class name
+		 *     name : 'name', // attribute name
 		 *     inputID : 'input-tag-id',
 		 *     errorID : 'error-tag-id',
 		 *     value : undefined,

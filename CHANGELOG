@@ -33,6 +33,7 @@ Version 1.1.5 to be released
 - Enh #1618: Fixed CHttpRequest::getAcceptTypes() to make sure it works even if HTTP_ACCEPT is not defined (Y!!)
 - Enh #1627: Added check if FreeType support is installed and enabled in GD (mdomba)
 - Enh #1641: Added PhpUnit 3.5.0RC1 and up support (Sam Dark)
+- Enh #1651: Added 'name' and 'model' properties to the attribute objects used in CActiveForm javascript code (Qiang)
 - Enh #1661: Added CActiveForm 'reset' event handler to reset validation errors if using CHtml::resetButton() (mdomba)
 - Enh #1667: Added CDbCriteria::index to support indexing the AR query result array with the specified attribute values (Qiang)
 - Enh #1668: Added validation to ensure PHP keywords be not used as class names (Qiang)
