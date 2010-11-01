@@ -90,12 +90,19 @@ class CJuiDatePicker extends CJuiInputWidget
 		else
 		{
 			if($this->hasModel())
+			{
 				echo CHtml::activeHiddenField($this->model,$this->attribute,$this->htmlOptions);
+				$attribute = $this->attribute;
+				$this->options['defaultDate'] = $this->model->$attribute;
+			}
 			else
+			{
 				echo CHtml::hiddenField($name,$this->value,$this->htmlOptions);
+				$this->options['defaultDate'] = $this->value;
+			}
 			
 			if (!isset($this->options['onSelect']))
-				$this->options['onSelect']="js:function( selectedDate ) {alert(selectedDate); jQuery('#{$id}').val(selectedDate);}";
+				$this->options['onSelect']="js:function( selectedDate ) { jQuery('#{$id}').val(selectedDate);}";
 			
 			$this->htmlOptions['id'] = $id =  $this->htmlOptions['id'].'_container';
 			$this->htmlOptions['name']= $name = $this->htmlOptions['name'].'_container';
