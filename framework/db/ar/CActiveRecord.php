@@ -1241,7 +1241,7 @@ abstract class CActiveRecord extends CModel
 			if(!$all)
 				$criteria->limit=1;
 			$command=$this->getCommandBuilder()->createFindCommand($this->getTableSchema(),$criteria);
-			return $all ? $this->populateRecords($command->queryAll()) : $this->populateRecord($command->queryRow());
+			return $all ? $this->populateRecords($command->queryAll(), true, $criteria->index) : $this->populateRecord($command->queryRow());
 		}
 		else
 		{
@@ -1733,16 +1733,22 @@ abstract class CActiveRecord extends CModel
 	 * @param array $data list of attribute values for the active records.
 	 * @param boolean $callAfterFind whether to call {@link afterFind} after each record is populated.
 	 * This parameter is added in version 1.0.3.
+	 * @param string $index the name of the attribute whose value will be used as indexes of the query result array.
+	 * If null, it means the array will be indexed by zero-based integers.
 	 * @return array list of active records.
 	 */
-	public function populateRecords($data,$callAfterFind=true)
+	public function populateRecords($data,$callAfterFind=true,$index=null)
 	{
 		$records=array();
 		foreach($data as $attributes)
 		{
-			$record=$this->populateRecord($attributes,$callAfterFind);
-			if($record!==null)
-				$records[]=$record;
+			if(($record=$this->populateRecord($attributes,$callAfterFind))!==null)
+			{
+				if(empty($index))
+					$records[]=$record;
+				else
+					$records[$record->$index]=$record;
+			}
 		}
 		return $records;
 	}
