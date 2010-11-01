@@ -374,4 +374,92 @@ abstract class CCodeModel extends CFormModel
 		$name[0]=strtolower($name[0]);
 		return $name;
 	}
+
+	/**
+	 * Validates an attribute to make sure it is not taking a PHP reserved keyword.
+	 * @param string $attribute the attribute to be validated
+	 * @param array $params validation parameters
+	 */
+	public function validateReservedWord($attribute,$params)
+	{
+		static $keywords=array(
+			'__CLASS__',
+			'__DIR__',
+			'__FILE__',
+			'__FUNCTION__',
+			'__LINE__',
+			'__METHOD__',
+			'__NAMESPACE__',
+			'abstract',
+			'and',
+			'array',
+			'as',
+			'break',
+			'case',
+			'catch',
+			'cfunction',
+			'class',
+			'clone',
+			'const',
+			'continue',
+			'declare',
+			'default',
+			'die',
+			'do',
+			'echo',
+			'else',
+			'elseif',
+			'empty',
+			'enddeclare',
+			'endfor',
+			'endforeach',
+			'endif',
+			'endswitch',
+			'endwhile',
+			'eval',
+			'exception',
+			'exit',
+			'extends',
+			'final',
+			'final',
+			'for',
+			'foreach',
+			'function',
+			'global',
+			'goto',
+			'if',
+			'implements',
+			'include',
+			'include_once',
+			'instanceof',
+			'interface',
+			'isset',
+			'list',
+			'namespace',
+			'new',
+			'old_function',
+			'or',
+			'php_user_filter',
+			'print',
+			'private',
+			'protected',
+			'public',
+			'require',
+			'require_once',
+			'return',
+			'static',
+			'switch',
+			'this',
+			'throw',
+			'try',
+			'unset',
+			'use',
+			'var',
+			'while',
+			'xor',
+		);
+		$value=$this->$attribute;
+		if(in_array($value,$keywords))
+			$this->addError($attribute, $this->getAttributeLabel($attribute).' cannot take a reserved PHP keyword.');
+	}
 }

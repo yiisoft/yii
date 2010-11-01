@@ -34,6 +34,7 @@ Version 1.1.5 to be released
 - Enh #1627: Added check if FreeType support is installed and enabled in GD (mdomba)
 - Enh #1641: Added PhpUnit 3.5.0RC1 and up support (Sam Dark)
 - Enh #1661: Added CActiveForm 'reset' event handler to reset validation errors if using CHtml::resetButton() (mdomba)
+- Enh #1668: Added validation to ensure PHP keywords be not used as class names (Qiang)
 - Enh #1688: Refactored CDbMessageSource to allow easier extension (Qiang)
 - Enh #1699: Added capability to remove duplicated script files registered for different positions in CClientScript (Qiang)
 - Enh #1711: JavaScript registered in POS_LOAD will now be put in jQuery window load event instead of the previous global window load event (Qiang)
