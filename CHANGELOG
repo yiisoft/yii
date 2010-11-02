@@ -25,6 +25,7 @@ Version 1.1.5 to be released
 - Enh #1522: The attributes of CDetailView now support the property 'visible' (Y!!)
 - Enh #1546: Fixed the bug that disabling behaviors did not detach behavior event handlers (Qiang)
 - Enh #1555: Added support to allow unloading/resetting an application component by calling CModule::setComponent() (Qiang)
+- Enh #1599: Refactored CMultiFileUpload by extending from CInputWidget (Qiang)
 - Enh #1560: Removed potential circular references in relational AR queries (Qiang)
 - Enh #1578: Added support to parse AM/PM by CDateTimeParser (Qiang)
 - Enh #1583: Upgraded HTMLPurifier to v4.2.0 (Sam Dark)
