@@ -1,6 +1,6 @@
 /*
  * Async Treeview 0.1 - Lazy-loading extension for Treeview
- * 
+ *
  * http://bassistance.de/jquery-plugins/jquery-plugin-treeview/
  *
  * Copyright (c) 2007 Jörn Zaefferer
@@ -16,6 +16,42 @@
 ;(function($) {
 
 function load(settings, root, child, container) {
+	function createNode(parent) {
+		var current = $("<li/>").attr("id", this.id || "").html("<span>" + this.text + "</span>").appendTo(parent);
+		if (this.classes) {
+			current.children("span").addClass(this.classes);
+		}
+		if (this.expanded) {
+			current.addClass("open");
+		}
+		if (this.hasChildren || this.children && this.children.length) {
+			var branch = $("<ul/>").appendTo(current);
+			if (this.hasChildren) {
+				current.addClass("hasChildren");
+				createNode.call({
+					classes: "placeholder",
+					text: "&nbsp;",
+					children:[]
+				}, branch);
+			}
+			if (this.children && this.children.length) {
+				$.each(this.children, createNode, [branch])
+			}
+		}
+	}
+	$.ajax($.extend(true, {
+		url: settings.url,
+		dataType: "json",
+		data: {
+			root: root
+		},
+		success: function(response) {
+			child.empty();
+			$.each(response, createNode, [child]);
+	        $(container).treeview({add: child});
+	    }
+	}, settings.ajax));
+	/*
 	$.getJSON(settings.url, {root: root}, function(response) {
 		function createNode(parent) {
 			var current = $("<li/>").attr("id", this.id || "").html("<span>" + this.text + "</span>").appendTo(parent);
@@ -30,8 +66,8 @@ function load(settings, root, child, container) {
 				if (this.hasChildren) {
 					current.addClass("hasChildren");
 					createNode.call({
-						text:"placeholder",
-						id:"placeholder",
+						classes: "placeholder",
+						text: "&nbsp;",
 						children:[]
 					}, branch);
 				}
@@ -40,9 +76,11 @@ function load(settings, root, child, container) {
 				}
 			}
 		}
+		child.empty();
 		$.each(response, createNode, [child]);
         $(container).treeview({add: child});
     });
+    */
 }
 
 var proxied = $.fn.treeview;
@@ -51,7 +89,8 @@ $.fn.treeview = function(settings) {
 		return proxied.apply(this, arguments);
 	}
 	var container = this;
-	load(settings, "source", this, container);
+	if (!container.children().size())
+		load(settings, "source", this, container);
 	var userToggle = settings.toggle;
 	return proxied.call(this, $.extend({}, settings, {
 		collapsed: true,
@@ -59,7 +98,6 @@ $.fn.treeview = function(settings) {
 			var $this = $(this);
 			if ($this.hasClass("hasChildren")) {
 				var childList = $this.removeClass("hasChildren").find("ul");
-				childList.empty();
 				load(settings, this.id, childList, container);
 			}
 			if (userToggle) {
