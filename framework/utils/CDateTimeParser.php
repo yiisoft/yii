@@ -188,7 +188,7 @@ class CDateTimeParser
 
 		if(strlen($year)===2)
 		{
-			if($year>70)
+			if($year>=70)
 				$year+=1900;
 			else
 				$year+=2000;
