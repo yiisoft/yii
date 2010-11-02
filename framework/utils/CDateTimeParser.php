@@ -55,9 +55,15 @@ class CDateTimeParser
 	 * Converts a date string to a timestamp.
 	 * @param string $value the date string to be parsed
 	 * @param string $pattern the pattern that the date string is following
+	 * @param array $defaults the default values for year, month, day, hour, minute and second.
+	 * The default values will be used in case when the pattern doesn't specify the
+	 * corresponding fields. For example, if the pattern is 'MM/dd/yyyy' and this
+	 * parameter is array('minute'=>0, 'second'=>0), then the actual minute and second
+	 * for the parsing result will take value 0, while the actual hour value will be
+	 * the current hour obtained by date('H'). This parameter has been available since version 1.1.5.
 	 * @return integer timestamp for the date string. False if parsing fails.
 	 */
-	public static function parse($value,$pattern='MM/dd/yyyy')
+	public static function parse($value,$pattern='MM/dd/yyyy',$defaults=array())
 	{
 		$tokens=self::tokenize($pattern);
 		$i=0;
@@ -180,11 +186,11 @@ class CDateTimeParser
 			return false;
 
 		if(!isset($year))
-			$year=date('Y');
+			$year=isset($defaults['year']) ? $defaults['year'] : date('Y');
 		if(!isset($month))
-			$month=date('n');
+			$month=isset($defaults['month']) ? $defaults['month'] : date('n');
 		if(!isset($day))
-			$day=date('j');
+			$day=isset($defaults['day']) ? $defaults['day'] : date('j');
 
 		if(strlen($year)===2)
 		{
@@ -202,11 +208,11 @@ class CDateTimeParser
 		else
 		{
 			if(!isset($hour))
-				$hour=date('H');
+				$hour=isset($defaults['hour']) ? $defaults['hour'] : date('H');
 			if(!isset($minute))
-				$minute=date('i');
+				$minute=isset($defaults['minute']) ? $defaults['minute'] : date('i');
 			if(!isset($second))
-				$second=date('s');
+				$second=isset($defaults['second']) ? $defaults['second'] : date('s');
 			$hour=(int)$hour;
 			$minute=(int)$minute;
 			$second=(int)$second;
