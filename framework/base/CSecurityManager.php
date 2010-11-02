@@ -72,7 +72,7 @@ class CSecurityManager extends CApplicationComponent
 	 */
 	protected function generateRandomKey()
 	{
-		return rand().rand().rand().rand();
+		return sprintf('%08x%08x%08x%08x',mt_rand(),mt_rand(),mt_rand(),mt_rand());
 	}
 
 	/**
