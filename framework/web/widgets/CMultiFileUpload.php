@@ -20,12 +20,8 @@
  * @package system.web.widgets
  * @since 1.0
  */
-class CMultiFileUpload extends CWidget
+class CMultiFileUpload extends CInputWidget
 {
-	/**
-	 * @var string the input name.
-	 */
-	public $name;
 	/**
 	 * @var string the file types that are allowed (e.g. "gif|jpg"). Note, the server side still
 	 * needs to check if the uploaded files have allowed types.
@@ -56,10 +52,6 @@ class CMultiFileUpload extends CWidget
 	 * @since 1.1.3
 	 */
 	public $file;
-	/**
-	 * @var array additional HTML attributes that will be rendered in the file upload tag.
-	 */
-	public $htmlOptions=array();
 
 
 	/**
@@ -69,25 +61,14 @@ class CMultiFileUpload extends CWidget
 	 */
 	public function run()
 	{
-		if($this->name!==null)
-			$name=$this->name;
-		else if(isset($this->htmlOptions['name']))
-			$name=$this->htmlOptions['name'];
-		else
-			throw new CException(Yii::t('yii','CMultiFileUpload.name is required.'));
+		list($name,$id)=$this->resolveNameID();
 		if(substr($name,-2)!=='[]')
 			$name.='[]';
-		if(($id=$this->getId(false))===null)
-		{
-			if(isset($this->htmlOptions['id']))
-				$id=$this->htmlOptions['id'];
-			else
-				$id=CHtml::getIdByName($name);
-		}
-		$this->htmlOptions['id']=$id;
-
+		if(isset($this->htmlOptions['id']))
+			$id=$this->htmlOptions['id'];
+		else
+			$this->htmlOptions['id']=$id;
 		$this->registerClientScript();
-
 		echo CHtml::fileField($name,'',$this->htmlOptions);
 	}
 
