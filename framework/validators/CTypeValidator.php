@@ -82,11 +82,11 @@ class CTypeValidator extends CValidator
 		else if($this->type==='float')
 			$valid=preg_match('/^[-+]?([0-9]*\.)?[0-9]+([eE][-+]?[0-9]+)?$/',trim($value));
 		else if($this->type==='date')
-			$valid=CDateTimeParser::parse($value,$this->dateFormat)!==false;
+			$valid=CDateTimeParser::parse($value,$this->dateFormat,array('month'=>1,'day'=>1,'hour'=>0,'minute'=>0,'second'=>0))!==false;
 	    else if($this->type==='time')
 			$valid=CDateTimeParser::parse($value,$this->timeFormat)!==false;
 	    else if($this->type==='datetime')
-			$valid=CDateTimeParser::parse($value,$this->datetimeFormat)!==false;
+			$valid=CDateTimeParser::parse($value,$this->datetimeFormat, array('month'=>1,'day'=>1,'hour'=>0,'minute'=>0,'second'=>0))!==false;
 		else if($this->type==='array')
 			$valid=is_array($value);
 		else
