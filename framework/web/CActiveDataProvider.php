@@ -145,15 +145,10 @@ class CActiveDataProvider extends CDataProvider
 	protected function fetchKeys()
 	{
 		$keys=array();
-		if($this->keyAttribute===null)
+		foreach($this->getData() as $i=>$data)
 		{
-			foreach($this->getData() as $i=>$data)
-				$keys[$i]=$data->getPrimaryKey();
-		}
-		else
-		{
-			foreach($this->getData() as $i=>$data)
-				$keys[$i]=$data->{$this->keyAttribute};
+			$key=$this->keyAttribute===null ? $data->getPrimaryKey() : $data->{$this->keyAttribute};
+			$keys[$i]=is_array($key) ? implode(',',$key) : $key;
 		}
 		return $keys;
 	}
