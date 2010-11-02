@@ -684,7 +684,7 @@ class CHttpRequest extends CApplicationComponent
 	 */
 	protected function createCsrfCookie()
 	{
-		$cookie=new CHttpCookie($this->csrfTokenName,sha1(uniqid(rand(),true)));
+		$cookie=new CHttpCookie($this->csrfTokenName,sha1(uniqid(mt_rand(),true)));
 		if(is_array($this->csrfCookie))
 		{
 			foreach($this->csrfCookie as $name=>$value)
