@@ -110,7 +110,7 @@ class CFileValidator extends CValidator
 		if($this->maxFiles > 1)
 		{
 			$files=$object->$attribute;
-			if(!is_array($files))
+			if(!is_array($files) || !isset($files[0]) || !$files[0] instanceof CUploadedFile)
 				$files = CUploadedFile::getInstances($object, $attribute);
 			if(array()===$files)
 				return $this->emptyAttribute($object, $attribute);
@@ -208,7 +208,7 @@ class CFileValidator extends CValidator
 	protected function getSizeLimit()
 	{
 		$limit=ini_get('upload_max_filesize');
-		$limit=$this->sizeToBytes($limit);			
+		$limit=$this->sizeToBytes($limit);
 		if($this->maxSize!==null && $limit>0 && $this->maxSize<$limit)
 			$limit=$this->maxSize;
 		if(isset($_POST['MAX_FILE_SIZE']) && $_POST['MAX_FILE_SIZE']>0 && $_POST['MAX_FILE_SIZE']<$limit)
