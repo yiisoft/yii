@@ -33,7 +33,6 @@ class CActiveRecordBehavior extends CModelBehavior
 			'onAfterSave'=>'afterSave',
 			'onBeforeDelete'=>'beforeDelete',
 			'onAfterDelete'=>'afterDelete',
-			'onAfterConstruct'=>'afterConstruct',
 			'onBeforeFind'=>'beforeFind',
 			'onAfterFind'=>'afterFind',
 		));
@@ -74,15 +73,6 @@ class CActiveRecordBehavior extends CModelBehavior
 	 * @param CEvent $event event parameter
 	 */
 	public function afterDelete($event)
-	{
-	}
-
-	/**
-	 * Responds to {@link CActiveRecord::onAfterConstruct} event.
-	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
-	 * @param CEvent $event event parameter
-	 */
-	public function afterConstruct($event)
 	{
 	}
 

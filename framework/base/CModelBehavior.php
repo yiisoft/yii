@@ -28,9 +28,19 @@ class CModelBehavior extends CBehavior
 	public function events()
 	{
 		return array(
+			'onAfterConstruct'=>'afterConstruct',
 			'onBeforeValidate'=>'beforeValidate',
 			'onAfterValidate'=>'afterValidate',
 		);
+	}
+
+	/**
+	 * Responds to {@link CModel::onAfterConstruct} event.
+	 * Overrides this method if you want to handle the corresponding event of the {@link CBehavior::owner owner}.
+	 * @param CEvent $event event parameter
+	 */
+	public function afterConstruct($event)
+	{
 	}
 
 	/**

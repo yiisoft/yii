@@ -156,6 +156,18 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	}
 
 	/**
+	 * This method is invoked after a model instance is created by new operator.
+	 * The default implementation raises the {@link onAfterConstruct} event.
+	 * You may override this method to do postprocessing after model creation.
+	 * Make sure you call the parent implementation so that the event is raised properly.
+	 */
+	protected function afterConstruct()
+	{
+		if($this->hasEventHandler('onAfterConstruct'))
+			$this->onAfterConstruct(new CEvent($this));
+	}
+
+	/**
 	 * This method is invoked before validation starts.
 	 * The default implementation calls {@link onBeforeValidate} to raise an event.
 	 * You may override this method to do preliminary checks before validation.
@@ -179,6 +191,16 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	protected function afterValidate()
 	{
 		$this->onAfterValidate(new CEvent($this));
+	}
+
+	/**
+	 * This event is raised after the model instance is created by new operator.
+	 * @param CEvent $event the event parameter
+	 * @since 1.0.2
+	 */
+	public function onAfterConstruct($event)
+	{
+		$this->raiseEvent('onAfterConstruct',$event);
 	}
 
 	/**

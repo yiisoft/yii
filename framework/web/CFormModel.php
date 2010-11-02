@@ -39,6 +39,7 @@ class CFormModel extends CModel
 		$this->setScenario($scenario);
 		$this->init();
 		$this->attachBehaviors($this->behaviors());
+		$this->afterConstruct();
 	}
 
 	/**

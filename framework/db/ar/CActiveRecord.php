@@ -829,16 +829,6 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
-	 * This event is raised after the record instance is created by new operator.
-	 * @param CEvent $event the event parameter
-	 * @since 1.0.2
-	 */
-	public function onAfterConstruct($event)
-	{
-		$this->raiseEvent('onAfterConstruct',$event);
-	}
-
-	/**
 	 * This event is raised before an AR finder performs a find call.
 	 * @param CEvent $event the event parameter
 	 * @see beforeFind
@@ -921,18 +911,6 @@ abstract class CActiveRecord extends CModel
 	{
 		if($this->hasEventHandler('onAfterDelete'))
 			$this->onAfterDelete(new CEvent($this));
-	}
-
-	/**
-	 * This method is invoked after a record instance is created by new operator.
-	 * The default implementation raises the {@link onAfterConstruct} event.
-	 * You may override this method to do postprocessing after record creation.
-	 * Make sure you call the parent implementation so that the event is raised properly.
-	 */
-	protected function afterConstruct()
-	{
-		if($this->hasEventHandler('onAfterConstruct'))
-			$this->onAfterConstruct(new CEvent($this));
 	}
 
 	/**
