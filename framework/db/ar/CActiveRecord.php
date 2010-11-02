@@ -1995,6 +1995,16 @@ class CActiveRelation extends CBaseActiveRelation
 	 * For more details about this property, see {@link CActiveRecord::with()}.
 	 */
 	public $with=array();
+	/**
+	 * @var boolean whether this table should be joined with the primary table.
+	 * When setting this property to be false, the table associated with this relation will
+	 * appear in a separate JOIN statement.
+	 * If this property is set true, then the corresponding table will ALWAYS be joined together
+	 * with the primary table, no matter the primary table is limited or not.
+	 * If this property is not set, the corresponding table will be joined with the primary table
+	 * only when the primary table is not limited.
+	 */
+	public $together;
 
 	/**
 	 * Merges this relation with a criteria specified dynamically.
@@ -2084,16 +2094,6 @@ class CHasManyRelation extends CActiveRelation
 	 * @var integer offset of the rows to be selected. It is effective only for lazy loading this related object. Defaults to -1, meaning no offset.
 	 */
 	public $offset=-1;
-	/**
-	 * @var boolean whether this table should be joined with the primary table.
-	 * When setting this property to be false, the table associated with this relation will
-	 * appear in a separate JOIN statement.
-	 * If this property is set true, then the corresponding table will ALWAYS be joined together
-	 * with the primary table, no matter the primary table is limited or not.
-	 * If this property is not set, the corresponding table will be joined with the primary table
-	 * only when the primary table is not limited.
-	 */
-	public $together;
 	/**
 	 * @var string the name of the column that should be used as the key for storing related objects.
 	 * Defaults to null, meaning using zero-based integer IDs.
