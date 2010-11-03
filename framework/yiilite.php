@@ -312,6 +312,7 @@ class YiiBase
 		'CStack' => '/collections/CStack.php',
 		'CStackIterator' => '/collections/CStackIterator.php',
 		'CTypedList' => '/collections/CTypedList.php',
+		'CTypedMap' => '/collections/CTypedMap.php',
 		'CConsoleApplication' => '/console/CConsoleApplication.php',
 		'CConsoleCommand' => '/console/CConsoleCommand.php',
 		'CConsoleCommandRunner' => '/console/CConsoleCommandRunner.php',
@@ -462,6 +463,7 @@ class YiiBase
 		'CMarkdown' => '/web/widgets/CMarkdown.php',
 		'CMaskedTextField' => '/web/widgets/CMaskedTextField.php',
 		'CMultiFileUpload' => '/web/widgets/CMultiFileUpload.php',
+		'CMultiFileUpload2' => '/web/widgets/CMultiFileUpload2.php',
 		'COutputCache' => '/web/widgets/COutputCache.php',
 		'COutputProcessor' => '/web/widgets/COutputProcessor.php',
 		'CStarRating' => '/web/widgets/CStarRating.php',
@@ -978,13 +980,13 @@ abstract class CModule extends CComponent
 		else
 			return array_merge($this->_componentConfig, $this->_components);
 	}
-	public function setComponents($components)
+	public function setComponents($components,$merge=true)
 	{
 		foreach($components as $id=>$component)
 		{
 			if($component instanceof IApplicationComponent)
 				$this->setComponent($id,$component);
-			else if(isset($this->_componentConfig[$id]))
+			else if(isset($this->_componentConfig[$id]) && $merge)
 				$this->_componentConfig[$id]=CMap::mergeArray($this->_componentConfig[$id],$component);
 			else
 				$this->_componentConfig[$id]=$component;
@@ -1056,11 +1058,12 @@ abstract class CApplication extends CModule
 		if($this->hasEventHandler('onEndRequest'))
 			$this->onEndRequest(new CEvent($this));
 	}
-	public function end($status=0)
+	public function end($status=0, $exit=true)
 	{
 		if($this->hasEventHandler('onEndRequest'))
 			$this->onEndRequest(new CEvent($this));
-		exit($status);
+		if($exit)
+			exit($status);
 	}
 	public function onBeginRequest($event)
 	{
@@ -1291,8 +1294,12 @@ abstract class CApplication extends CModule
 			// use the most primitive way to log error
 			$msg = get_class($e).': '.$e->getMessage().' ('.$e->getFile().':'.$e->getLine().")\n";
 			$msg .= $e->getTraceAsString()."\n";
+			$msg .= "Previous exception:\n";
+			$msg .= get_class($exception).': '.$exception->getMessage().' ('.$exception->getFile().':'.$exception->getLine().")\n";
+			$msg .= $exception->getTraceAsString()."\n";
 			$msg .= '$_SERVER='.var_export($_SERVER,true);
 			error_log($msg);
+			exit(1);
 		}
 	}
 	public function handleError($code,$message,$file,$line)
@@ -1350,8 +1357,11 @@ abstract class CApplication extends CModule
 				// use the most primitive way to log error
 				$msg = get_class($e).': '.$e->getMessage().' ('.$e->getFile().':'.$e->getLine().")\n";
 				$msg .= $e->getTraceAsString()."\n";
+				$msg .= "Previous error:\n";
+				$msg .= $log."\n";
 				$msg .= '$_SERVER='.var_export($_SERVER,true);
 				error_log($msg);
+				exit(1);
 			}
 		}
 	}
@@ -2351,12 +2361,19 @@ class CHttpRequest extends CApplicationComponent
 		header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
 		header("Content-type: $mimeType");
 		if(ini_get("output_handler")=='')
-			header('Content-Length: '.strlen($content));
+			header('Content-Length: '.(function_exists('mb_strlen') ? mb_strlen($content,'8bit') : strlen($content)));
 		header("Content-Disposition: attachment; filename=\"$fileName\"");
 		header('Content-Transfer-Encoding: binary');
-		echo $content;
 		if($terminate)
-			Yii::app()->end();
+		{
+			// clean up the application first because the file downloading could take long time
+			// which may cause timeout of some resources (such as DB connection)
+			Yii::app()->end(0,false);
+			echo $content;
+			exit(0);
+		}
+		else
+			echo $content;
 	}
 	public function getCsrfToken()
 	{
@@ -2374,7 +2391,7 @@ class CHttpRequest extends CApplicationComponent
 	}
 	protected function createCsrfCookie()
 	{
-		$cookie=new CHttpCookie($this->csrfTokenName,sha1(uniqid(rand(),true)));
+		$cookie=new CHttpCookie($this->csrfTokenName,sha1(uniqid(mt_rand(),true)));
 		if(is_array($this->csrfCookie))
 		{
 			foreach($this->csrfCookie as $name=>$value)
@@ -3456,7 +3473,14 @@ class CInlineAction extends CAction
 			{
 				$name=$param->getName();
 				if(isset($_GET[$name]))
-					$params[]=$_GET[$name];
+				{
+					if($param->isArray())
+						$params[]=is_array($_GET[$name]) ? $_GET[$name] : array($_GET[$name]);
+					else if(!is_array($_GET[$name]))
+						$params[]=$_GET[$name];
+					else
+						throw new CHttpException(400,Yii::t('yii','Your request is invalid.'));
+				}
 				else if($param->isDefaultValueAvailable())
 					$params[]=$param->getDefaultValue();
 				else
@@ -4809,7 +4833,7 @@ EOD;
 		$content='';
 		if(isset($htmlOptions['prompt']))
 		{
-			$content.='<option value="">'.($raw?$htmlOptions['prompt'] : self::encode($htmlOptions['prompt']))."</option>\n";
+			$content.='<option value="">'.strtr($htmlOptions['prompt'],array('<'=>'&lt;', '>'=>'&gt;'))."</option>\n";
 			unset($htmlOptions['prompt']);
 		}
 		if(isset($htmlOptions['empty']))
@@ -4817,12 +4841,7 @@ EOD;
 			if(!is_array($htmlOptions['empty']))
 				$htmlOptions['empty']=array(''=>$htmlOptions['empty']);
 			foreach($htmlOptions['empty'] as $value=>$label)
-			{
-				if($raw)
-					$content.='<option value="'.$value.'">'.$label."</option>\n";
-				else
-					$content.='<option value="'.self::encode($value).'">'.self::encode($label)."</option>\n";
-			}
+				$content.='<option value="'.self::encode($value).'">'.strtr($label,array('<'=>'&lt;', '>'=>'&gt;'))."</option>\n";
 			unset($htmlOptions['empty']);
 		}
 		if(isset($htmlOptions['options']))
@@ -5361,7 +5380,7 @@ class CClientScript extends CApplicationComponent
 		if(isset($this->scripts[self::POS_LOAD]))
 		{
 			if($fullPage)
-				$scripts[]="window.onload=function() {\n".implode("\n",$this->scripts[self::POS_LOAD])."\n};";
+				$scripts[]="jQuery(window).load(function() {\n".implode("\n",$this->scripts[self::POS_LOAD])."\n});";
 			else
 				$scripts[]=implode("\n",$this->scripts[self::POS_LOAD]);
 		}
@@ -5430,7 +5449,7 @@ class CClientScript extends CApplicationComponent
 	{
 		$this->_hasScripts=true;
 		$this->scripts[$position][$id]=$script;
-		if($position===self::POS_READY)
+		if($position===self::POS_READY || $position===self::POS_LOAD)
 			$this->registerCoreScript('jquery');
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerScript',$params);
@@ -5939,6 +5958,11 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 		else
 			return false;
 	}
+	protected function afterConstruct()
+	{
+		if($this->hasEventHandler('onAfterConstruct'))
+			$this->onAfterConstruct(new CEvent($this));
+	}
 	protected function beforeValidate()
 	{
 		$event=new CModelEvent($this);
@@ -5948,6 +5972,10 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	protected function afterValidate()
 	{
 		$this->onAfterValidate(new CEvent($this));
+	}
+	public function onAfterConstruct($event)
+	{
+		$this->raiseEvent('onAfterConstruct',$event);
 	}
 	public function onBeforeValidate($event)
 	{
@@ -6508,10 +6536,6 @@ abstract class CActiveRecord extends CModel
 	{
 		$this->raiseEvent('onAfterDelete',$event);
 	}
-	public function onAfterConstruct($event)
-	{
-		$this->raiseEvent('onAfterConstruct',$event);
-	}
 	public function onBeforeFind($event)
 	{
 		$this->raiseEvent('onBeforeFind',$event);
@@ -6551,11 +6575,6 @@ abstract class CActiveRecord extends CModel
 	{
 		if($this->hasEventHandler('onAfterDelete'))
 			$this->onAfterDelete(new CEvent($this));
-	}
-	protected function afterConstruct()
-	{
-		if($this->hasEventHandler('onAfterConstruct'))
-			$this->onAfterConstruct(new CEvent($this));
 	}
 	protected function beforeFind()
 	{
@@ -6739,7 +6758,7 @@ abstract class CActiveRecord extends CModel
 			if(!$all)
 				$criteria->limit=1;
 			$command=$this->getCommandBuilder()->createFindCommand($this->getTableSchema(),$criteria);
-			return $all ? $this->populateRecords($command->queryAll()) : $this->populateRecord($command->queryRow());
+			return $all ? $this->populateRecords($command->queryAll(), true, $criteria->index) : $this->populateRecord($command->queryRow());
 		}
 		else
 		{
@@ -6958,14 +6977,18 @@ abstract class CActiveRecord extends CModel
 		else
 			return null;
 	}
-	public function populateRecords($data,$callAfterFind=true)
+	public function populateRecords($data,$callAfterFind=true,$index=null)
 	{
 		$records=array();
 		foreach($data as $attributes)
 		{
-			$record=$this->populateRecord($attributes,$callAfterFind);
-			if($record!==null)
-				$records[]=$record;
+			if(($record=$this->populateRecord($attributes,$callAfterFind))!==null)
+			{
+				if(empty($index))
+					$records[]=$record;
+				else
+					$records[$record->$index]=$record;
+			}
 		}
 		return $records;
 	}
@@ -7073,6 +7096,7 @@ class CActiveRelation extends CBaseActiveRelation
 	public $on='';
 	public $alias;
 	public $with=array();
+	public $together;
 	public function mergeWith($criteria,$fromScope=false)
 	{
 		if($criteria instanceof CDbCriteria)
@@ -7116,7 +7140,6 @@ class CHasManyRelation extends CActiveRelation
 {
 	public $limit=-1;
 	public $offset=-1;
-	public $together;
 	public $index;
 	public function mergeWith($criteria,$fromScope=false)
 	{
@@ -7528,7 +7551,10 @@ abstract class CDbSchema extends CComponent
 	{
 		$tables=array();
 		foreach($this->getTableNames($schema) as $name)
-			$tables[$name]=$this->getTable($name);
+		{
+			if(($table=$this->getTable($name))!==null)
+				$tables[$name]=$table;
+		}
 		return $tables;
 	}
 	public function getTableNames($schema='')
@@ -7799,7 +7825,7 @@ class CDbCommand extends CComponent
 			$p=array();
 			foreach($pars as $name=>$value)
 				$p[$name]=$name.'='.$value;
-			$par='. Bind with parameter ' .implode(', ',$p);
+			$par='. Bound with ' .implode(', ',$p);
 		}
 		else
 			$par='';
@@ -7858,14 +7884,14 @@ class CDbCommand extends CComponent
 			$p=array();
 			foreach($pars as $name=>$value)
 				$p[$name]=$name.'='.$value;
-			$par='. Bind with parameter ' .implode(', ',$p);
+			$par='. Bound with '.implode(', ',$p);
 		}
 		else
 			$par='';
 		try
 		{
 			if($this->_connection->enableProfiling)
-				Yii::beginProfile('system.db.CDbCommand.query('.$this->getText().')','system.db.CDbCommand.query');
+				Yii::beginProfile('system.db.CDbCommand.query('.$this->getText().$par.')','system.db.CDbCommand.query');
 			$this->prepare();
 			if($params===array())
 				$this->_statement->execute();
@@ -7879,13 +7905,13 @@ class CDbCommand extends CComponent
 				$this->_statement->closeCursor();
 			}
 			if($this->_connection->enableProfiling)
-				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().')','system.db.CDbCommand.query');
+				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().$par.')','system.db.CDbCommand.query');
 			return $result;
 		}
 		catch(Exception $e)
 		{
 			if($this->_connection->enableProfiling)
-				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().')','system.db.CDbCommand.query');
+				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().$par.')','system.db.CDbCommand.query');
 			Yii::log('Error in querying SQL: '.$this->getText().$par,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
             $errorInfo = $e instanceof PDOException ? $e->errorInfo : null;
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
