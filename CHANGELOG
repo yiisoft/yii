@@ -22,6 +22,7 @@ Version 1.1.5 to be released
 - Bug #1719: Fixed the bug that CActiveForm->focus was not working if enableAjaxValidation was set to false (mdomba)
 - Bug: Fixed the bug that some HTTP requests may cause a PHP notice complaining HTTP_HOST undefined in CHttpRequest (Qiang)
 - Enh #1419: CMaskedTextField, CAutoComplete, CStarRating, CJuiDatePicker, CJuiAutoComplete and CJuiSliderInput now can be used with tabular input (Sam Dark)
+- Enh #1481: Added support for autoloading namespaced classes (Qiang)
 - Enh #1522: The attributes of CDetailView now support the property 'visible' (Y!!)
 - Enh #1546: Fixed the bug that disabling behaviors did not detach behavior event handlers (Qiang)
 - Enh #1555: Added support to allow unloading/resetting an application component by calling CModule::setComponent() (Qiang)

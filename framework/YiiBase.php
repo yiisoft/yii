@@ -230,6 +230,17 @@ class YiiBase
 	 * The same path alias can be imported multiple times, but only the first time is effective.
 	 * Importing a directory does not import any of its subdirectories.
 	 *
+	 * Starting from version 1.1.5, this method can also be used to import a class in namespace format
+	 * (available for PHP 5.3 or above only). It is similar to importing a class in path alias format,
+	 * except that the dot separator is replaced by the backslash separator. For example, importing
+	 * <code>application\components\GoogleMap</code> is similar to importing <code>application.components.GoogleMap</code>.
+	 * The difference is that the former class is using qualified name, while the latter unqualified.
+	 *
+	 * Note, importing a class in namespace format requires that the namespace is corresponding to
+	 * a valid path alias if we replace the backslash characters with dot characters.
+	 * For example, the namespace <code>application\components</code> must correspond to a valid
+	 * path alias <code>application.components</code>.
+	 *
 	 * @param string $alias path alias to be imported
 	 * @param boolean $forceInclude whether to include the class file immediately. If false, the class file
 	 * will be included only when the class is being used. This parameter is used only when
@@ -244,6 +255,29 @@ class YiiBase
 
 		if(class_exists($alias,false) || interface_exists($alias,false))
 			return self::$_imports[$alias]=$alias;
+
+		if(($pos=strrpos($alias,'\\'))!==false) // a class name in PHP 5.3 namespace format
+		{
+			$namespace=str_replace('\\','.',ltrim(substr($alias,0,$pos),'\\'));
+			if(($path=self::getPathOfAlias($namespace))!==false)
+			{
+				$classFile=$path.DIRECTORY_SEPARATOR.substr($alias,$pos+1).'.php';
+				if($forceInclude)
+				{
+					if(is_file($classFile))
+						require($classFile);
+					else
+						throw new CException(Yii::t('yii','Alias "{alias}" is invalid. Make sure it points to an existing PHP file.',array('{alias}'=>$alias)));
+					self::$_imports[$alias]=$alias;
+				}
+				else
+					self::$_classes[$alias]=$classFile;
+				return $alias;
+			}
+			else
+				throw new CException(Yii::t('yii','Alias "{alias}" is invalid. Make sure it points to an existing directory.',
+					array('{alias}'=>$namespace)));
+		}
 
 		if(($pos=strrpos($alias,'.'))===false)  // a simple class name
 		{
@@ -351,7 +385,16 @@ class YiiBase
 			include(self::$_classes[$className]);
 		else
 		{
-			include($className.'.php');
+			if(strpos($className,'\\')===false)
+				include($className.'.php');
+			else  // class name with namespace in PHP 5.3
+			{
+				$namespace=str_replace('\\','.',ltrim($className,'\\'));
+				if(($path=self::getPathOfAlias($namespace))!==false)
+					include($path.'.php');
+				else
+					return false;
+			}
 			return class_exists($className,false) || interface_exists($className,false);
 		}
 		return true;
