@@ -205,4 +205,9 @@ return array (
   '{controller} contains improperly nested widget tags in its view "{view}". A {widget} widget does not have an endWidget() call.' => '{controller} contiene tag nella vista "{view}" non correttamente annidati. {widget} widget non contiene la chiamata a endWidget().',
   '{controller} has an extra endWidget({id}) call in its view.' => '{controller} contiene una chiamata extra a endWidget({id}) all\'interno della sua vista.',
   '{widget} cannot find the view "{view}".' => '{widget} non trova la vista "{view}".',
+  '&lt; Previous' => '&lt; Precedente',
+  '&lt;&lt; First' => '&lt;&lt; Primo',
+  'Go to page: ' => 'Vai alla pagina: ',
+  'Last &gt;&gt;' => 'Ultimo &gt;&gt;',
+  'Next &gt;' => 'Successivo &gt;',
 );
