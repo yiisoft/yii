@@ -9,8 +9,19 @@ widely adopted namespace format:
 RootAlias.path.to.target
 ~~~
 
-where `RootAlias` is the alias of some existing directory. By calling [YiiBase::setPathOfAlias()],
-we can define new path aliases.For convenience, Yii predefines the following root aliases:
+where `RootAlias` is the alias of some existing directory.
+
+By using [YiiBase::getPathOfAlias()], an alias can be translated to its
+corresponding path. For example, `system.web.CController` would be
+translated as `yii/framework/web/CController`.
+
+We can also use [YiiBase::setPathOfAlias()] to define new root path aliases.
+
+
+Root Alias
+----------
+
+For convenience, Yii predefines the following root aliases:
 
  - `system`: refers to the Yii framework directory;
  - `zii`: refers to the [Zii library](/doc/guide/extension.use#zii-extensions) directory;
@@ -20,13 +31,12 @@ we can define new path aliases.For convenience, Yii predefines the following roo
 
 Additionally, if the application uses [modules](/doc/guide/basics.module), a root alias is also predefined for each module ID and refers to the base path of the corresponding module. This feature has been available since version 1.0.3.
 
-By using [YiiBase::getPathOfAlias()], an alias can be translated to its
-corresponding path. For example, `system.web.CController` would be
-translated as `yii/framework/web/CController`.
 
-Using aliases, it is very convenient to import the definition of a class.
-For example, if we want to include the definition of the [CController]
-class, we can call the following:
+Importing Classes
+-----------------
+
+Using aliases, it is very convenient to include the definition of a class.
+For example, if we want to include the [CController] class, we can call the following:
 
 ~~~
 [php]
@@ -35,12 +45,16 @@ Yii::import('system.web.CController');
 
 The [import|YiiBase::import] method differs from `include` and `require`
 in that it is more efficient. The class definition being imported is
-actually not included until it is referenced for the first time. Importing
-the same namespace multiple times is also much faster than `include_once`
-and `require_once`.
+actually not included until it is referenced for the first time (implemented
+via PHP autoloading mechanism). Importing the same namespace multiple times
+is also much faster than `include_once` and `require_once`.
 
 > Tip: When referring to a class defined by the Yii framework, we do not
-need to import or include it. All core Yii classes are pre-imported.
+> need to import or include it. All core Yii classes are pre-imported.
+
+
+Importing Directories
+---------------------
 
 We can also use the following syntax to import a whole directory so that
 the class files under the directory can be automatically included when
@@ -56,11 +70,15 @@ places to refer to classes. For example, an alias can be passed to
 [Yii::createComponent()] to create an instance of the corresponding class,
 even if the class file was not included previously.
 
-Do not confuse path alias with namespace. A namespace refers to a logical
-grouping of some class names so that they can be differentiated from other
-class names even if their names are the same, while path alias is used to
-refer to a class file or directory. Path alias does not conflict with
-namespace.
+
+Namespace
+---------
+
+A namespace refers to a logical grouping of some class names so that
+they can be differentiated from other class names even if their names
+are the same. Do not confuse path alias with namespace. A path alias
+is merely a convenient way of naming a file or directory. It has nothing
+to do with a namespace.
 
 > Tip: Because PHP prior to 5.3.0 does not support namespace
 intrinsically, you cannot create instances of two classes who have the same
@@ -69,5 +87,23 @@ classes are prefixed with a letter 'C' (meaning 'class') so that they can
 be differentiated from user-defined classes. It is recommended that the
 prefix 'C' be reserved for Yii framework use only, and user-defined classes
 be prefixed with other letters.
+
+
+Namespaced Classes
+------------------
+
+A namespaced class refers to a class declared within a non-global namespace.
+For example, the `application\components\GoogleMap` class is declared within
+the namespace `application\components`. Using namespaced classes requires PHP 5.3.0 or above.
+
+Starting from version 1.1.5, it is possible to use a namespaced class without
+including it explicitly. For example, we can create a new instance of
+`application\components\GoogleMap` without including the corresponding class file
+explicitly. This is made possible with the enhanced Yii class autoloading mechanism.
+
+In order to be able to autoload a namespaced class, the namespace must be named in
+a way similar to naming a path alias. For example, the class `application\components\GoogleMap`
+must be stored in a file that can be aliased as `application.components.GoogleMap`.
+
 
 <div class="revision">$Id$</div>
