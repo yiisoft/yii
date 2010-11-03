@@ -28,7 +28,7 @@ $(document).ready(function() {
 	});
 
 
-	$('.form.gii .row input, .form.gii .row select').tooltip({
+	$('.form.gii .row input, .form.gii .row textarea, .form.gii .row select, .with-tooltip').not('.no-tooltip, .no-tooltip *').tooltip({
 	    position: "center right",
 		offset: [-2, 10]
 	});
