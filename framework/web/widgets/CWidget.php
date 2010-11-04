@@ -188,7 +188,18 @@ class CWidget extends CBaseController
 		if(strpos($viewName,'.')) // a path alias
 			$viewFile=Yii::getPathOfAlias($viewName);
 		else
+		{
+			if(($theme=Yii::app()->getTheme())!==null)
+			{
+				$className=str_replace('\\','_',ltrim(get_class($this),'\\')); // possibly namespaced class
+				$viewFile=$theme->getViewPath().DIRECTORY_SEPARATOR.$className.DIRECTORY_SEPARATOR.$viewName;
+				if(is_file($viewFile.$extension))
+					return Yii::app()->findLocalizedFile($viewFile.$extension);
+				else if($extension!=='.php' && is_file($viewFile.'.php'))
+					return Yii::app()->findLocalizedFile($viewFile.'.php');
+			}
 			$viewFile=$this->getViewPath().DIRECTORY_SEPARATOR.$viewName;
+		}
 
 		if(is_file($viewFile.$extension))
 			return Yii::app()->findLocalizedFile($viewFile.$extension);

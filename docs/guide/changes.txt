@@ -14,6 +14,8 @@ Version 1.1.4
 
  * [Added support for automatic action parameter binding](/doc/guide/basics.controller#action-parameter-binding)
 
+ * [Added support for theming widget views](/doc/guide/topics.theming#theming-widget-views)
+
 Version 1.1.3
 -------------
 
