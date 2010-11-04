@@ -98,6 +98,7 @@ class CHtml
 	 * @param array $htmlOptions the element attributes. The values will be HTML-encoded using {@link encode()}.
 	 * Since version 1.0.5, if an 'encode' attribute is given and its value is false,
 	 * the rest of the attribute values will NOT be HTML-encoded.
+	 * Since version 1.1.5, attributes whose value is null will not be rendered.
 	 * @param mixed $content the content to be enclosed between open and close element tags. It will not be HTML-encoded.
 	 * If false, it means there is no body content.
 	 * @param boolean $closeTag whether to generate the close tag.
@@ -118,6 +119,7 @@ class CHtml
 	 * @param array $htmlOptions the element attributes. The values will be HTML-encoded using {@link encode()}.
 	 * Since version 1.0.5, if an 'encode' attribute is given and its value is false,
 	 * the rest of the attribute values will NOT be HTML-encoded.
+	 * Since version 1.1.5, attributes whose value is null will not be rendered.
 	 * @return string the generated HTML element tag
 	 */
 	public static function openTag($tag,$htmlOptions=array())
@@ -2018,26 +2020,38 @@ EOD;
 
 	/**
 	 * Renders the HTML tag attributes.
+	 * Since version 1.1.5, attributes whose value is null will not be rendered.
 	 * @param array $htmlOptions attributes to be rendered
 	 * @return string the rendering result
 	 * @since 1.0.5
 	 */
-	protected static function renderAttributes($htmlOptions)
+	public static function renderAttributes($htmlOptions)
 	{
 		if($htmlOptions===array())
 			return '';
 		$html='';
-		$raw=isset($htmlOptions['encode']) && !$htmlOptions['encode'];
-		unset($htmlOptions['encode']);
+		if(isset($htmlOptions['encode']))
+		{
+			$raw=!$htmlOptions['encode'];
+			unset($htmlOptions['encode']);
+		}
+		else
+			$raw=false;
 		if($raw)
 		{
 			foreach($htmlOptions as $name=>$value)
-				$html .= ' ' . $name . '="' . $value . '"';
+			{
+				if($value!==null)
+					$html .= ' ' . $name . '="' . $value . '"';
+			}
 		}
 		else
 		{
 			foreach($htmlOptions as $name=>$value)
-				$html .= ' ' . $name . '="' . self::encode($value) . '"';
+			{
+				if($value!==null)
+					$html .= ' ' . $name . '="' . self::encode($value) . '"';
+			}
 		}
 		return $html;
 	}

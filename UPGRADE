@@ -20,6 +20,12 @@ General upgrade intructions
 
 Upgrading from v1.1.4
 ---------------------
+- CHtml will no longer render null attributes for HTML tags. This means if $htmlOptions is
+  array('class'=>null), it will no longer render the 'class' attribute in the HTML tag.
+  it would render the class attribute as class="". We expect this will not cause much trouble
+  in upgrading. However, in case problems happen, you may set the attribute to be an empty string
+  to solve them.
+
 - Now by default CWebLogRoute does not render logs in FireBug for ajax calls.
   To get logs rendered for ajax calls in FireBug set CWebLogRoute::ignoreAjaxInFireBug to false
 
@@ -32,6 +38,7 @@ Upgrading from v1.1.4
   cases. But if your application uses some other special characters, or if you allow user inputs
   to be used as prompt and empty text labels, please call CHtml::encode() explicitly on these option
   values.
+
 
 Upgrading from v1.1.3
 ---------------------
