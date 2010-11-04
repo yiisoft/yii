@@ -2021,14 +2021,30 @@ EOD;
 	/**
 	 * Renders the HTML tag attributes.
 	 * Since version 1.1.5, attributes whose value is null will not be rendered.
+	 * Special attributes, such as 'checked', 'disabled', 'readonly', will be rendered
+	 * properly based on their corresponding boolean value.
 	 * @param array $htmlOptions attributes to be rendered
 	 * @return string the rendering result
 	 * @since 1.0.5
 	 */
 	public static function renderAttributes($htmlOptions)
 	{
+		static $specialAttributes=array(
+			'checked'=>1,
+			'declare'=>1,
+			'defer'=>1,
+			'disabled'=>1,
+			'ismap'=>1,
+			'multiple'=>1,
+			'nohref'=>1,
+			'noresize'=>1,
+			'readonly'=>1,
+			'selected'=>1,
+		);
+
 		if($htmlOptions===array())
 			return '';
+
 		$html='';
 		if(isset($htmlOptions['encode']))
 		{
@@ -2037,11 +2053,17 @@ EOD;
 		}
 		else
 			$raw=false;
+
 		if($raw)
 		{
 			foreach($htmlOptions as $name=>$value)
 			{
-				if($value!==null)
+				if(isset($specialAttributes[$name]))
+				{
+					if($value)
+						$html .= ' ' . $name . '="' . $name . '"';
+				}
+				else if($value!==null)
 					$html .= ' ' . $name . '="' . $value . '"';
 			}
 		}
@@ -2049,7 +2071,12 @@ EOD;
 		{
 			foreach($htmlOptions as $name=>$value)
 			{
-				if($value!==null)
+				if(isset($specialAttributes[$name]))
+				{
+					if($value)
+						$html .= ' ' . $name . '="' . $name . '"';
+				}
+				else if($value!==null)
 					$html .= ' ' . $name . '="' . self::encode($value) . '"';
 			}
 		}
