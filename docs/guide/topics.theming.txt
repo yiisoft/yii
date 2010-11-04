@@ -17,6 +17,10 @@ to be a different one. Simply configure the
 properties of the [themeManager|CWebApplication::themeManager] application
 component to be the desired ones.
 
+
+Using a Theme
+-------------
+
 To activate a theme, set the [theme|CWebApplication::theme] property of
 the Web application to be the name of the desired theme. This can be done
 either in the [application
@@ -25,6 +29,10 @@ controller actions.
 
 > Note: Theme name is case-sensitive. If you attempt to activate a theme
 that does not exist, `Yii::app()->theme` will return `null`.
+
+
+Creating a Theme
+----------------
 
 Contents under a theme directory should be organized in the same way as
 those under the [application base
@@ -108,6 +116,16 @@ then the `basic` theme will be in effect, which means the application's layout w
 the one under the directory `themes/basic/views/layouts`, and the site's index view will
 use the one under `themes/basic/views/site`. In case a view file is not found in the theme,
 it will fall back to the one under the `protected/views` directory.
+
+
+Theming Widgets
+---------------
+
+Starting from version 1.1.5, views used by a widget can also be themed. In particular, when we call [CWidget::render()] to render a widget view, Yii will attempt to search under the theme folder as well as the widget view folder for the desired view file.
+
+To theme the view `xyz` for a widget whose class name is `Foo`, we should first create a folder named `Foo` (same as the widget class name) under the currently active theme's view folder. If the widget class is namespaced (available in PHP 5.3.0 or above), such as `\app\widgets\Foo`, we should create a folder named `app_widgets_Foo`. That is, we replace the namespace separators with the underscore characters.
+
+We then create a view file named `xyz.php` under the newly created folder. To this end, we should have a file `themes/basic/views/Foo/xyz.php`, which will be used by the widget to replace its original view, if the currently active theme is `basic`.
 
 
 Customizing Widgets Globally
