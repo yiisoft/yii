@@ -1334,12 +1334,14 @@ class CStatElement
 		$c=$schema->quoteColumnName('c');
 		$s=$schema->quoteColumnName('s');
 
+		$tableAlias=$model->getTableAlias(true);
+
 		// generate and perform query
 		if(count($fks)===1)  // single column FK
 		{
 			$col=$table->columns[$fks[0]]->rawName;
-			$sql="SELECT $col AS $c, {$relation->select} AS $s FROM {$table->rawName}"
-				.$where.'('.$builder->createInCondition($table,$fks[0],array_keys($records)).')'
+			$sql="SELECT $col AS $c, {$relation->select} AS $s FROM {$table->rawName} ".$tableAlias
+				.$where.'('.$builder->createInCondition($table,$fks[0],array_keys($records),$tableAlias.'.').')'
 				." GROUP BY $col".$group
 				.$having.$order;
 			$command=$builder->getDbConnection()->createCommand($sql);
@@ -1365,8 +1367,8 @@ class CStatElement
 				$name=$table->columns[$map[$pk]]->rawName;
 				$cols[$name]=$name.' AS '.$schema->quoteColumnName('c'.$n);
 			}
-			$sql='SELECT '.implode(', ',$cols).", {$relation->select} AS $s FROM {$table->rawName}"
-				.$where.'('.$builder->createInCondition($table,$fks,$keys).')'
+			$sql='SELECT '.implode(', ',$cols).", {$relation->select} AS $s FROM {$table->rawName} ".$tableAlias
+				.$where.'('.$builder->createInCondition($table,$fks,$keys,$tableAlias.'.').')'
 				.' GROUP BY '.implode(', ',array_keys($cols)).$group
 				.$having.$order;
 			$command=$builder->getDbConnection()->createCommand($sql);
@@ -1400,6 +1402,8 @@ class CStatElement
 		$schema=$builder->getSchema();
 		$pkTable=$this->_parent->model->getTableSchema();
 
+		$tableAlias=$model->getTableAlias(true);
+
 		if(($joinTable=$builder->getSchema()->getTable($joinTableName))===null)
 			throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is not specified correctly. The join table "{joinTable}" given in the foreign key cannot be found in the database.',
 				array('{class}'=>get_class($this->_parent->model), '{relation}'=>$relation->name, '{joinTable}'=>$joinTableName)));
@@ -1423,7 +1427,7 @@ class CStatElement
 			{
 				list($tableName,$pk)=$joinTable->foreignKeys[$fk];
 				if(!isset($joinCondition[$pk]) && $schema->compareTableNames($table->rawName,$tableName))
-					$joinCondition[$pk]=$table->rawName.'.'.$schema->quoteColumnName($pk).'='.$joinTable->rawName.'.'.$schema->quoteColumnName($fk);
+					$joinCondition[$pk]=$tableAlias.'.'.$schema->quoteColumnName($pk).'='.$joinTable->rawName.'.'.$schema->quoteColumnName($fk);
 				else if(!isset($map[$pk]) && $schema->compareTableNames($pkTable->rawName,$tableName))
 					$map[$pk]=$fk;
 				else
@@ -1454,7 +1458,7 @@ class CStatElement
 				{
 					$j=$i-count($pkTable->primaryKey);
 					$pk=is_array($table->primaryKey) ? $table->primaryKey[$j] : $table->primaryKey;
-					$joinCondition[$pk]=$table->rawName.'.'.$schema->quoteColumnName($pk).'='.$joinTable->rawName.'.'.$schema->quoteColumnName($fk);
+					$joinCondition[$pk]=$tableAlias.'.'.$schema->quoteColumnName($pk).'='.$joinTable->rawName.'.'.$schema->quoteColumnName($fk);
 				}
 			}
 		}
@@ -1490,7 +1494,7 @@ class CStatElement
 		$order=empty($relation->order)?'' : ' ORDER BY '.$relation->order;
 
 		$sql='SELECT '.$this->relation->select.' AS '.$schema->quoteColumnName('s').', '.implode(', ',$cols)
-			.' FROM '.$table->rawName.' INNER JOIN '.$joinTable->rawName
+			.' FROM '.$table->rawName.' '.$tableAlias.' INNER JOIN '.$joinTable->rawName
 			.' ON ('.implode(') AND (',$joinCondition).')'
 			.$where
 			.' GROUP BY '.implode(', ',array_keys($cols)).$group
