@@ -21,6 +21,7 @@ Version 1.1.5 to be released
 - Bug #1715: Fixed the bug that CActiveDataProvider.sort does not respect table alias set in the query criteria (Qiang)
 - Bug #1718: Fixed the bug that Gii may fail if the error handler or user component is customized in the main application (Qiang)
 - Bug #1719: Fixed the bug that CActiveForm->focus was not working if enableAjaxValidation was set to false (mdomba)
+- Bug #1730: Fixed the bug that CDbConnection may attempt to use "SET NAMES" to set charset for Oracle DB (Qiang)
 - Bug: Fixed the bug that some HTTP requests may cause a PHP notice complaining HTTP_HOST undefined in CHttpRequest (Qiang)
 - Enh #1126: CHtml can now properly render special HTML attributes, such as readonly, disabled, according to their boolean values (Qiang)
 - Enh #1419: CMaskedTextField, CAutoComplete, CStarRating, CJuiDatePicker, CJuiAutoComplete and CJuiSliderInput now can be used with tabular input (Sam Dark)
