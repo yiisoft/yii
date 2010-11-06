@@ -511,11 +511,24 @@ abstract class CApplication extends CModule
 	{
 		if($this->_globalState===null)
 			$this->loadGlobalState();
-		$this->_stateChanged=true;
+
+		$changed=$this->_stateChanged;
 		if($value===$defaultValue)
-			unset($this->_globalState[$key]);
-		else
+		{
+			if(isset($this->_globalState[$key]))
+			{
+				unset($this->_globalState[$key]);
+				$this->_stateChanged=true;
+			}
+		}
+		else if(!isset($this->_globalState[$key]) || $this->_globalState[$key]!==$value)
+		{
 			$this->_globalState[$key]=$value;
+			$this->_stateChanged=true;
+		}
+
+		if($this->_stateChanged!==$changed)
+			$this->attachEventHandler('onEndRequest',array($this,'saveGlobalState'));
 	}
 
 	/**
@@ -526,13 +539,7 @@ abstract class CApplication extends CModule
 	 */
 	public function clearGlobalState($key)
 	{
-		if($this->_globalState===null)
-			$this->loadGlobalState();
-		if(isset($this->_globalState[$key]))
-		{
-			$this->_stateChanged=true;
-			unset($this->_globalState[$key]);
-		}
+		$this->setGlobalState($key,true,true);
 	}
 
 	/**
@@ -540,13 +547,13 @@ abstract class CApplication extends CModule
 	 * @see getStatePersister
 	 * @throws CException if the state persister is not available
 	 */
-	protected function loadGlobalState()
+	public function loadGlobalState()
 	{
 		$persister=$this->getStatePersister();
 		if(($this->_globalState=$persister->load())===null)
 			$this->_globalState=array();
 		$this->_stateChanged=false;
-		$this->attachEventHandler('onEndRequest',array($this,'saveGlobalState'));
+		$this->detachEventHandler('onEndRequest',array($this,'saveGlobalState'));
 	}
 
 	/**
@@ -554,13 +561,13 @@ abstract class CApplication extends CModule
 	 * @see getStatePersister
 	 * @throws CException if the state persister is not available
 	 */
-	protected function saveGlobalState()
+	public function saveGlobalState()
 	{
 		if($this->_stateChanged)
 		{
-			$persister=$this->getStatePersister();
 			$this->_stateChanged=false;
-			$persister->save($this->_globalState);
+			$this->detachEventHandler('onEndRequest',array($this,'saveGlobalState'));
+			$this->getStatePersister()->save($this->_globalState);
 		}
 	}
 
