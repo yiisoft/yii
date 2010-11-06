@@ -741,16 +741,46 @@ class CController extends CBaseController
 	 */
 	public function render($view,$data=null,$return=false)
 	{
-		$output=$this->renderPartial($view,$data,true);
-		if(($layoutFile=$this->getLayoutFile($this->layout))!==false)
-			$output=$this->renderFile($layoutFile,array('content'=>$output),true);
+		if($this->beforeRender($view))
+		{
+			$output=$this->renderPartial($view,$data,true);
+			if(($layoutFile=$this->getLayoutFile($this->layout))!==false)
+				$output=$this->renderFile($layoutFile,array('content'=>$output),true);
 
-		$output=$this->processOutput($output);
+			$this->afterRender($view,$output);
 
-		if($return)
-			return $output;
-		else
-			echo $output;
+			$output=$this->processOutput($output);
+
+			if($return)
+				return $output;
+			else
+				echo $output;
+		}
+	}
+
+	/**
+	 * This method is invoked at the beginning of {@link render()}.
+	 * You may override this method to do some preprocessing when rendering a view.
+	 * @param string $view the view to be rendered
+	 * @return boolean whether the view should be rendered.
+	 * @since 1.1.5
+	 */
+	protected function beforeRender($view)
+	{
+		return true;
+	}
+
+	/**
+	 * This method is invoked after the specified is rendered by calling {@link render()}.
+	 * Note that this method is invoked BEFORE {@link processOutput()}.
+	 * You may override this method to do some postprocessing for the view rendering.
+	 * @param string $view the view that has been rendered
+	 * @param string $output the rendering result of the view. Note that this parameter is passed
+	 * as a reference. That means you can modify it within this method.
+	 * @since 1.1.5
+	 */
+	protected function afterRender($view, &$output)
+	{
 	}
 
 	/**
