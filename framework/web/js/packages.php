@@ -36,6 +36,7 @@ $packages=array(
 	),
 	'treeview'=>array(
 		'jquery.treeview.js',
+		'jquery.treeview.edit.js',
 		'jquery.treeview.async.js',
 	),
 	'multifile'=>array(
