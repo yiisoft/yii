@@ -28,7 +28,7 @@
 			var $this = $(this);
 			var id = $this.attr('id');
 			if(settings.updateSelector == undefined) {
-				settings.updateSelector = '#'+id+' .'+settings.pagerClass+' a, #'+id+' .'+settings.tableClass+' thead th a';
+				settings.updateSelector = '#'+id+' .'+settings.pagerClass.replace(/\s+/,'.')+' a, #'+id+' .'+settings.tableClass.replace(/\s+/,'.')+' thead th a';
 			}
 			$.fn.yiiGridView.settings[id] = settings;
 
