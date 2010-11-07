@@ -67,6 +67,7 @@ Version 1.1.5 to be released
 - Enh: Improved CHttpRequest::sendFile() to avoid timeout errors caused by long file downloading time (Qiang)
 - Enh: Improved action parameter binding by detecting if a parameter requires array or not (Qiang)
 - Enh: Added logging of DB query params in DB query profiling (Sam Dark, Vitaliy Stepanenko)
+- Enh: Added CDbCommand::bindValues() (Qiang)
 - Chg #1355: CHtml will no longer render null attributes in HTML tags (Qiang)
 - Chg #1540: The 'name' option set in CCheckBoxColumn::checkBoxHtmlOptions will be kept as is without any change (Qiang)
 - Chg #1678: The prompt and empty options used in CHtml methods will NOT be HTML-encoded anymore. (Qiang)
