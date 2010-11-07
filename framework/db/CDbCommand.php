@@ -183,6 +183,28 @@ class CDbCommand extends CComponent
 	}
 
 	/**
+	 * Binds a list of values to the corresponding parameters.
+	 * This is similar to {@link bindValue} except that it binds multiple values.
+	 * Note that the SQL data type of each value is determined by its PHP type.
+	 * @param array $values the values to be bound. This must be given in terms of an associative
+	 * array with array keys being the parameter names, and array values the corresponding parameter values.
+	 * For example, <code>array(':name'=>'John', ':age'=>25)</code>.
+	 * @return CDbCommand the current command being executed
+	 * @since 1.1.5
+	 */
+	public function bindValues($values)
+	{
+		$this->prepare();
+		foreach($values as $name=>$value)
+		{
+			$this->_statement->bindValue($name,$value,$this->_connection->getPdoType(gettype($value)));
+			if($this->_connection->enableParamLogging)
+				$this->_params[$name]=var_export($value,true);
+		}
+		return $this;
+	}
+
+	/**
 	 * Executes the SQL statement.
 	 * This method is meant only for executing non-query SQL statement.
 	 * No result set will be returned.
