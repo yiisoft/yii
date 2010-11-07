@@ -235,7 +235,8 @@ EOD;
 			if(isset($button['click']))
 			{
 				$function=CJavaScript::encode($button['click']);
-				$js[]="jQuery('#{$this->grid->id} a.{$button['options']['class']}').live('click',$function);";
+				$class=preg_replace('/\s+/','.',$button['options']['class']);
+				$js[]="jQuery('#{$this->grid->id} a.{$class}').live('click',$function);";
 			}
 		}
 
