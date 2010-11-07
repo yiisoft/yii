@@ -26,7 +26,7 @@
 			var $this = $(this);
 			var id = $this.attr('id');
 			if(settings.updateSelector == undefined) {
-				settings.updateSelector = '#'+id+' .'+settings.pagerClass.replace(/\s+/,'.')+' a, #'+id+' .'+settings.sorterClass.replace(/\s+/,'.')+' a';
+				settings.updateSelector = '#'+id+' .'+settings.pagerClass.replace(/\s+/g,'.')+' a, #'+id+' .'+settings.sorterClass.replace(/\s+/g,'.')+' a';
 			}
 			$.fn.yiiListView.settings[id] = settings;
 
