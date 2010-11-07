@@ -1527,9 +1527,6 @@ abstract class CActiveRecord extends CModel
 	 * ))->findAll();
 	 * </pre>
 	 *
-	 * This method returns a {@link CActiveFinder} instance that provides
-	 * a set of find methods similar to that of CActiveRecord.
-	 *
 	 * Note, the possible parameters to this method have been changed since version 1.0.2.
 	 * Previously, it was not possible to specify on-th-fly query options,
 	 * and child-relations were specified as hierarchical arrays.
