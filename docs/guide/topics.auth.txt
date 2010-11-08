@@ -109,6 +109,8 @@ else
 Yii::app()->user->logout();
 ~~~
 
+### Cookie-based Login
+
 By default, a user will be logged out after a certain period of inactivity,
 depending on the [session configuration](http://www.php.net/manual/en/session.configuration.php).
 To change this behavior, we can set the [allowAutoLogin|CWebUser::allowAutoLogin]
@@ -123,6 +125,42 @@ this feature requires the user's browser to accept cookies.
 // Make sure allowAutoLogin is set true for the user component.
 Yii::app()->user->login($identity,3600*24*7);
 ~~~
+
+As we mentioned above, when cookie-based login is enabled, the states
+stored via [CBaseUserIdentity::setState] will be saved in the cookie as well.
+The next time when the user is logged in, these states will be read from
+the cookie and made accessible via `Yii::app()->user`.
+
+Although Yii has measures to prevent the state cookie from being tampered
+on the client side, we strongly suggest that security sensitive information be not
+stored as states. Instead, these information should be restored on the server
+side by reading from some persistent storage on the server side (e.g. database).
+
+In addition, for any serious Web applications, we recommend using the following
+strategy to enhance the security of cookie-based login.
+
+* When a user successfully logs in by filling out a login form, we generate and
+store a random key in both the state cookie and the server side persistent storage
+(e.g. database).
+
+* The next when the user is being logged in via cookie, we compare the two copies
+of the random key and make sure they match before we log in the user.
+
+* If the user logs in via the login form again, the key needs to be re-generated.
+
+By using the above strategy, we eliminate the possibility that a user may re-use
+an old state cookie which may contain outdated state information.
+
+To implement the above strategy, we need to override the following two methods:
+
+* [CUserIdentity::authenticate()]: this is where the real authentication is performed.
+If the user is authenticated, we should re-generate a new random key, and store it
+in the database as well as in the identity states via [CBaseUserIdentity::setState].
+
+* [CWebUser::beforeLogin()]: this is called when a user is being logged in.
+We should check if the key obtained from the state cookie is the same as the one
+from the database.
+
 
 Access Control Filter
 ---------------------
