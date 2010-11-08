@@ -53,6 +53,27 @@ is also much faster than `include_once` and `require_once`.
 > need to import or include it. All core Yii classes are pre-imported.
 
 
+###Using Class Map
+
+Starting from version 1.1.5, Yii allows user classes to be pre-imported via
+a class mapping mechanism that is also used by core Yii classes. Pre-imported
+classes can be used anywhere in a Yii application without being explicitly
+imported or included. This feature is most useful for a framework or library
+that is built on top of Yii.
+
+To pre-import a set of classes, the following code must be executed before
+[CWebApplication::run()] is invoked:
+
+~~~
+[php]
+Yii::$classMap=array(
+	'ClassName1' => 'path/to/ClassName1.php',
+	'ClassName2' => 'path/to/ClassName2.php',
+	......
+);
+~~~
+
+
 Importing Directories
 ---------------------
 
