@@ -55,9 +55,15 @@ defined('YII_ZII_PATH') or define('YII_ZII_PATH',YII_PATH.DIRECTORY_SEPARATOR.'z
  */
 class YiiBase
 {
+	/**
+	 * @var array class map used by the Yii autoloading mechanism.
+	 * The array keys are the class names and the array values are the corresponding class file paths.
+	 * @since 1.1.5
+	 */
+	public static $classMap=array();
+
 	private static $_aliases=array('system'=>YII_PATH,'zii'=>YII_ZII_PATH); // alias => path
 	private static $_imports=array();					// alias => class name or directory
-	private static $_classes=array();
 	private static $_includePaths;						// list of include paths
 	private static $_app;
 	private static $_logger;
@@ -271,7 +277,7 @@ class YiiBase
 					self::$_imports[$alias]=$alias;
 				}
 				else
-					self::$_classes[$alias]=$classFile;
+					self::$classMap[$alias]=$classFile;
 				return $alias;
 			}
 			else
@@ -305,7 +311,7 @@ class YiiBase
 					self::$_imports[$alias]=$className;
 				}
 				else
-					self::$_classes[$className]=$path.'.php';
+					self::$classMap[$className]=$path.'.php';
 				return $className;
 			}
 			else  // a directory
@@ -381,8 +387,8 @@ class YiiBase
 		// use include so that the error PHP file may appear
 		if(isset(self::$_coreClasses[$className]))
 			include(YII_PATH.self::$_coreClasses[$className]);
-		else if(isset(self::$_classes[$className]))
-			include(self::$_classes[$className]);
+		else if(isset(self::$classMap[$className]))
+			include(self::$classMap[$className]);
 		else
 		{
 			if(strpos($className,'\\')===false)
