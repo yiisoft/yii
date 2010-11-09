@@ -24,6 +24,7 @@ Version 1.1.5 to be released
 - Bug #1730: Fixed the bug that CDbConnection may attempt to use "SET NAMES" to set charset for Oracle DB (Qiang)
 - Bug #1735: Fixed the bug that CGridView and CListView may fail to work in AJAX mode if setting pagerCssClass with multiple classes (Qiang)
 - Bug: Fixed the bug that some HTTP requests may cause a PHP notice complaining HTTP_HOST undefined in CHttpRequest (Qiang)
+- Bug: Fixed a bug in CGridView JavaScript that would fail the deletion action in IE when ajaxUpdate is set false (Qiang)
 - Enh #970: Added CController::beforeRender() and CController::afterRender() (Qiang)
 - Enh #1081: Refactored application global state management to allow loading and saving states explicitly for long-run tasks (Qiang)
 - Enh #1126: CHtml can now properly render special HTML attributes, such as readonly, disabled, according to their boolean values (Qiang)
