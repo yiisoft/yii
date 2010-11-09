@@ -158,7 +158,7 @@
 				window.location.href=options.url;
 			}
 			else {  // POST mode
-				var $form=$('<form action="'+options.url+'" method="post"></form').appendTo('body');
+				var $form=$('<form action="'+options.url+'" method="post"></form>').appendTo('body');
 				if(options.data==undefined) {
 					options.data={};
 				}
