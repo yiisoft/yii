@@ -199,10 +199,9 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 		$fetch = $limit+$offset;
 		$sql = preg_replace('/^([\s(])*SELECT( DISTINCT)?(?!\s*TOP\s*\()/i',"\\1SELECT\\2 TOP $fetch", $sql);
 		$ordering = $this->findOrdering($sql);
-
-		$orginalOrdering = $this->joinOrdering($ordering);
-		$reverseOrdering = $this->joinOrdering($this->reverseDirection($ordering));
-		$sql = "SELECT * FROM (SELECT TOP {$limit} * FROM ($sql) as [__inner top table__] {$reverseOrdering}) as [__outer top table__] {$orginalOrdering}";
+		$orginalOrdering = $this->joinOrdering($ordering, '[__inner__]');
+		$reverseOrdering = $this->joinOrdering($this->reverseDirection($ordering), '[__outer__]');
+		$sql = "SELECT * FROM (SELECT TOP {$limit} * FROM ($sql) as [__inner__] {$reverseOrdering}) as [__outer__] {$orginalOrdering}";
 		return $sql;
 	}
 
@@ -239,23 +238,39 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 					$ordering[trim($part)] = 'ASC';
 			}
 		}
+
+		// replacing column names with their alias names
+		foreach($ordering as $name => $direction)
+		{
+			$matches = array();
+			$pattern = '/\s+'.str_replace(array('[',']'), array('\[','\]'), $name).'\s+AS\s+(\[[^\]]+\])/i';
+			preg_match($pattern, $sql, $matches);
+			if(isset($matches[1]))
+			{
+				$ordering[$matches[1]] = $ordering[$name];
+				unset($ordering[$name]);
+			}
+		}
+
 		return $ordering;
 	}
 
 	/**
 	 * @param array $orders ordering obtained from findOrdering()
+	 * @param string $newPrefix new table prefix to the ordering columns
 	 * @return string concat the orderings
 	 *
 	 * @author Wei Zhuo <weizhuo[at]gmail[dot]com>
 	 */
-	protected function joinOrdering($orders)
+	protected function joinOrdering($orders, $newPrefix)
 	{
 		if(count($orders)>0)
 		{
 			$str=array();
 			foreach($orders as $column => $direction)
 				$str[] = $column.' '.$direction;
-			return 'ORDER BY '.implode(', ', $str);
+			$orderBy = 'ORDER BY '.implode(', ', $str);
+			return preg_replace('/\s+\[[^\]]+\]\.(\[[^\]]+\])/i', ' '.$newPrefix.'.\1', $orderBy);
 		}
 	}
 
