@@ -73,7 +73,17 @@ class CActiveFinder extends CComponent
 		$this->_joinTree->afterFind();
 
 		if($all)
+		{
 			$result = array_values($this->_joinTree->records);
+			if ($criteria->index!==null)
+			{
+				$index=$criteria->index;
+				$array=array();
+				foreach($result as $object)
+					$array[$object->$index]=$object;
+				$result=$array;
+			}
+		}
 		else if(count($this->_joinTree->records))
 			$result = reset($this->_joinTree->records);
 		else
