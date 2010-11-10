@@ -1719,7 +1719,7 @@ abstract class CActiveRecord extends CModel
 		{
 			if(($record=$this->populateRecord($attributes,$callAfterFind))!==null)
 			{
-				if(empty($index))
+				if($index===null)
 					$records[]=$record;
 				else
 					$records[$record->$index]=$record;
