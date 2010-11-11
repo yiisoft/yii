@@ -401,12 +401,13 @@ class CClientScript extends CApplicationComponent
 	/**
 	 * Registers a core javascript library.
 	 * @param string $name the core javascript library name
+	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 * @see renderCoreScript
 	 */
 	public function registerCoreScript($name)
 	{
 		if(isset($this->_coreScripts[$name]))
-			return;
+			return $this;
 
 		if($this->_packages===null)
 		{
@@ -415,7 +416,7 @@ class CClientScript extends CApplicationComponent
 			$this->_dependencies=$config[1];
 		}
 		if(!isset($this->_packages[$name]))
-			return;
+			return $this;
 		if(isset($this->_dependencies[$name]))
 		{
 			foreach($this->_dependencies[$name] as $depName)
@@ -426,12 +427,15 @@ class CClientScript extends CApplicationComponent
 		$this->_coreScripts[$name]=$name;
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerCoreScript',$params);
+
+		return $this;
 	}
 
 	/**
 	 * Registers a CSS file
 	 * @param string $url URL of the CSS file
 	 * @param string $media media that the CSS file should be applied to. If empty, it means all media types.
+	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 */
 	public function registerCssFile($url,$media='')
 	{
@@ -439,6 +443,7 @@ class CClientScript extends CApplicationComponent
 		$this->cssFiles[$url]=$media;
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerCssFile',$params);
+		return $this;
 	}
 
 	/**
@@ -446,6 +451,7 @@ class CClientScript extends CApplicationComponent
 	 * @param string $id ID that uniquely identifies this piece of CSS code
 	 * @param string $css the CSS code
 	 * @param string $media media that the CSS code should be applied to. If empty, it means all media types.
+	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 */
 	public function registerCss($id,$css,$media='')
 	{
@@ -453,6 +459,7 @@ class CClientScript extends CApplicationComponent
 		$this->css[$id]=array($css,$media);
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerCss',$params);
+		return $this;
 	}
 
 	/**
@@ -464,6 +471,7 @@ class CClientScript extends CApplicationComponent
 	 * <li>CClientScript::POS_BEGIN : the script is inserted at the beginning of the body section.</li>
 	 * <li>CClientScript::POS_END : the script is inserted at the end of the body section.</li>
 	 * </ul>
+	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 */
 	public function registerScriptFile($url,$position=self::POS_HEAD)
 	{
@@ -471,6 +479,7 @@ class CClientScript extends CApplicationComponent
 		$this->scriptFiles[$position][$url]=$url;
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerScriptFile',$params);
+		return $this;
 	}
 
 	/**
@@ -485,6 +494,7 @@ class CClientScript extends CApplicationComponent
 	 * <li>CClientScript::POS_LOAD : the script is inserted in the window.onload() function.</li>
 	 * <li>CClientScript::POS_READY : the script is inserted in the jQuery's ready function.</li>
 	 * </ul>
+	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 */
 	public function registerScript($id,$script,$position=self::POS_READY)
 	{
@@ -494,6 +504,7 @@ class CClientScript extends CApplicationComponent
 			$this->registerCoreScript('jquery');
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerScript',$params);
+		return $this;
 	}
 
 	/**
@@ -502,6 +513,7 @@ class CClientScript extends CApplicationComponent
 	 * @param string $name name attribute of the meta tag. If null, the attribute will not be generated
 	 * @param string $httpEquiv http-equiv attribute of the meta tag. If null, the attribute will not be generated
 	 * @param array $options other options in name-value pairs (e.g. 'scheme', 'lang')
+	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 * @since 1.0.1
 	 */
 	public function registerMetaTag($content,$name=null,$httpEquiv=null,$options=array())
@@ -515,6 +527,7 @@ class CClientScript extends CApplicationComponent
 		$this->metaTags[serialize($options)]=$options;
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerMetaTag',$params);
+		return $this;
 	}
 
 	/**
@@ -524,6 +537,7 @@ class CClientScript extends CApplicationComponent
 	 * @param string $href href attribute of the link tag. If null, the attribute will not be generated.
 	 * @param string $media media attribute of the link tag. If null, the attribute will not be generated.
 	 * @param array $options other options in name-value pairs
+	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 * @since 1.0.1
 	 */
 	public function registerLinkTag($relation=null,$type=null,$href=null,$media=null,$options=array())
@@ -540,6 +554,7 @@ class CClientScript extends CApplicationComponent
 		$this->linkTags[serialize($options)]=$options;
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerLinkTag',$params);
+		return $this;
 	}
 
 	/**
