@@ -2,11 +2,11 @@ Authentication and Authorization
 ================================
 
 Authentication and authorization are required for a Web page that should
-be limited to certain users. Authentication is about verifying whether
-someone is who he claims he is. It usually involves a username and a
+be limited to certain users. *Authentication* is about verifying whether
+someone is who they claim to be. It usually involves a username and a
 password, but may include any other methods of demonstrating identity, such
-as a smart card, fingerprints, etc. Authorization is finding out if the
-person, once identified (authenticated), is permitted to manipulate
+as a smart card, fingerprints, etc. *Authorization* is finding out if the
+person, once identified (i.e. authenticated), is permitted to manipulate
 specific resources. This is usually determined by finding out if that
 person is of a particular role that has access to the resources.
 
@@ -29,25 +29,23 @@ information about the user.
 Defining Identity Class
 -----------------------
 
-In order to authenticate a user, we define an identity class which
-contains the actual authentication logic. The identity class should
-implement the [IUserIdentity] interface. Different classes may be
-implemented for different authentication approaches (e.g. OpenID, LDAP). A
-good start is by extending [CUserIdentity] which is a base class for the
-authentication approach based on username and password.
+As mentioned above, authentication is about validating the identity of the user. A typical Web application authentication implementation usually involves using a username and password combination to verify a user's identity. However, it may include other methods and different implementations may be required. To accommodate varying authentication methods, the Yii auth framework introduces the identity class.
+
+We define an identity class which contains the actual authentication logic. The identity class should implement the [IUserIdentity] interface. Different identity classes can be
+implemented for different authentication approaches (e.g. OpenID, LDAP, Twitter OAuth, Facebook Connect). A good start when writing your own implementation is to extend [CUserIdentity] which is a base class for the authentication approach using a username and password.
 
 The main work in defining an identity class is the implementation of the
-[IUserIdentity::authenticate] method. An identity class may also declare
+[IUserIdentity::authenticate] method. This is the method used to encapsulate the main details of the authentication approach. An identity class may also declare
 additional identity information that needs to be persistent during the user
 session.
 
-In the following example, we validate the given username and password
-against the user table in a database using [Active
-Record](/doc/guide/database.ar). We also override the `getId` method to
-return the `_id` variable which is set during authentication (the default
-implementation would return the username as the ID). During authentication,
-we store the retrieved `title` information in a state with the same name by
-calling [CBaseUserIdentity::setState].
+#### An Example
+
+In the following example, we use an identity class to demonstrate using a database approach to authentication. This is very typical of most Web applications. A user will enter their username and password into a login form, and then we validate these credentials, using [ActiveRecord](/doc/guide/database.ar), against a user table in the database . There are actually a few things being demonstrated in this single example:
+
+1. The implementation of the `authenticate()` to use the database to validate credentials.
+2. Overriding the `CUserIdentity::getId()` method to return the `_id` property because the default implementation returns the username as the ID.
+3. Using the `setState()` ([CBaseUserIdentity::setState]) method to demonstrate storing other information that can easily be retrieved upon subsequent requests.
 
 ~~~
 [php]
@@ -77,12 +75,8 @@ class UserIdentity extends CUserIdentity
 }
 ~~~
 
-Information stored in a state (by calling [CBaseUserIdentity::setState]) will be passed
-to [CWebUser] which stores them in a persistent storage, such as session.
-These information can be accessed like properties of [CWebUser]. For example, we
-can obtain the `title` information of the current user by `Yii::app()->user->title`
-(This has been available since version 1.0.3. In prior versions, we should use
-`Yii::app()->user->getState('title')`, instead.)
+When we cover login and logout in the next section, we'll see that we pass this identity class into the login method for a user. Any information that we store in a state (by calling [CBaseUserIdentity::setState]) will be passed to [CWebUser], which in turn will store them in a persistent storage, such as session.
+This information can then be accessed like properties of [CWebUser]. In our example, we stored the user title information via `$this->setState('title', $record->title);`. Once we complete our login process, we can obtain the `title` information of the current user by simply using `Yii::app()->user->title` (This has been available since version 1.0.3. In prior versions, one must instead use `Yii::app()->user->getState('title')`.)
 
 > Info: By default, [CWebUser] uses session as persistent storage for user
 identity information. If cookie-based login is enabled (by setting
@@ -93,8 +87,7 @@ also be saved in cookie. Make sure you do not declare sensitive information
 Login and Logout
 ----------------
 
-Using the identity class and the user component, we can
-implement login and logout actions easily.
+Now that we have seen an example of creating a user identity, we use this to help ease the implementation of our needed login and logout actions. The following code demonstrates how this is accomplished:
 
 ~~~
 [php]
@@ -108,6 +101,10 @@ else
 // Logout the current user
 Yii::app()->user->logout();
 ~~~
+
+Here we are creating a new UserIdentity class and passing in the authentication credentials (i.e. the `$username` and `$password` values submitted by the user) to its constructor. We then simply call the authenticate() method. If successful, we pass the identity information into the [CWebUser::login] method, which will store the identity information into persistent storage (PHP session by default) for retrieval upon subsequent requests. If the authentication fails, we can interrogate the `errorMessage` property for more information as to why it failed.
+
+Whether or not a user has been authenticated can easily be checked throughout the application by using `Yii::app()->user->isGuest`. If using persistent storage like session (the default) and/or a cookie (discussed below) to store the identity information, the user can remain logged upon subsequent requests. In this case, we don't need to use the UserIdentity class and the entire login process upon each request. Rather CWebUser will automatically take care of loading the identity information from this persistent storage and will use it to determine whether `Yii::app()->user->isGuest` returns true or false.
 
 ### Cookie-based Login
 
@@ -140,11 +137,11 @@ In addition, for any serious Web applications, we recommend using the following
 strategy to enhance the security of cookie-based login.
 
 * When a user successfully logs in by filling out a login form, we generate and
-store a random key in both the state cookie and the server side persistent storage
+store a random key in both the cookie state and in persistent storage on server side
 (e.g. database).
 
-* The next when the user is being logged in via cookie, we compare the two copies
-of the random key and make sure they match before we log in the user.
+* Upon a subsequent request, when the user authentication is being done via the cookie information, we compare the two copies
+of this random key and ensure a match before logging in the user.
 
 * If the user logs in via the login form again, the key needs to be re-generated.
 
@@ -162,6 +159,8 @@ We should check if the key obtained from the state cookie is the same as the one
 from the database.
 
 
+
+
 Access Control Filter
 ---------------------
 
@@ -171,9 +170,8 @@ authorization is based on user's name, client IP address and request types.
 It is provided as a filter named as
 ["accessControl"|CController::filterAccessControl].
 
-> Tip: Access control filter is sufficient for simple scenarios. For
-complex access control, you may use role-based access (RBAC) which is to be
-covered shortly.
+> Tip: Access control filter is sufficient for simple scenarios. For more
+complex access control you may use role-based access (RBAC), which we will cover in the next subsection.
 
 To control the access to actions in a controller, we install the access
 control filter by overriding [CController::filters] (see
@@ -226,9 +224,8 @@ class PostController extends CController
 ~~~
 
 The above code specifies three rules, each represented as an array. The
-first element of the array is either `'allow'` or `'deny'` and the rest
-name-value pairs specify the pattern parameters of the rule. These rules
-read: the `create` and `edit` actions cannot be executed by anonymous
+first element of the array is either `'allow'` or `'deny'` and the other
+name-value pairs specify the pattern parameters of the rule. The rules defined above are interpreted as follows: the `create` and `edit` actions cannot be executed by anonymous
 users; the `delete` action can be executed by users with `admin` role;
 and the `delete` action cannot be executed by anyone.
 
@@ -252,8 +249,8 @@ be executed.
 >     ),
 > );
 > ~~~
-> The reason for this rule is because if none of the rules matches a context,
-> an action will be executed.
+> The reason for this rule is because if none of the rules matches a context, then the action will continue to be executed.
+
 
 An access rule can match the following context parameters:
 
@@ -381,7 +378,7 @@ Using authorization items, we can build up an *authorization
 hierarchy*. An item `A` is a parent of another item `B` in the
 hierarchy if `A` consists of `B` (or say `A` inherits the permission(s)
 represented by `B`). An item can have multiple child items, and it can also
-have multipe parent items. Therefore, an authorization hierarchy is a
+have multiple parent items. Therefore, an authorization hierarchy is a
 partial-order graph rather than a tree. In this hierarchy, role items sit
 on top levels, operation items on bottom levels, while task items in
 between.
@@ -504,13 +501,12 @@ $auth->assign('editor','editorC');
 $auth->assign('admin','adminD');
 ~~~
 
-The [authManager|CWebApplication::authManager] component (e.g.
+Once we have established this hierarchy, the [authManager|CWebApplication::authManager] component (e.g.
 [CPhpAuthManager], [CDbAuthManager]) will load the authorization
-items automatically once they are created. We do NOT need to run
-the above code to re-create them on every request.
+items automatically. Therefore, we only need to run the above code one time, and NOT for every request.
 
 > Info: While the above example looks long and tedious, it is mainly for
-> demonstrative purpose. Developers usually need to develop some user
+> demonstrative purpose. Developers will usually need to develop some administrative user
 > interfaces so that end users can use to establish an authorization
 > hierarchy more intuitively.
 
@@ -538,7 +534,7 @@ if(Yii::app()->user->checkAccess('createPost'))
 
 If the authorization rule is associated with a business rule which
 requires additional parameters, we can pass them as well. For example, to
-check if a user can update a post, we would do
+check if a user can update a post, we would pass in the post data in the `$params`:
 
 ~~~
 [php]
