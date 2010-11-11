@@ -65,6 +65,7 @@ Version 1.1.5 to be released
 - Enh #1711: JavaScript registered in POS_LOAD will now be put in jQuery window load event instead of the previous global window load event (Qiang)
 - Enh #1742: Exposing the class map feature that was previously only available to core classes (Qiang)
 - Enh #1738: Upgraded JQuery UI to 1.8.6 (Sam Dark)
+- Enh #1740: Added CModelEvent::criteria so that in onBeforeEvent event, the query criteria can be accessed (Qiang)
 - Enh: Added checking for empty keywords in addSearchCondition(), to prevent adding unnecessary conditions (mdomba)
 - Enh: Added flushValues() method to the cache classes (Y!!)
 - Enh: Added buttonset for CJuiButoon (sebas)

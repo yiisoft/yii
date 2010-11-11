@@ -790,7 +790,8 @@ abstract class CActiveRecord extends CModel
 
 	/**
 	 * This event is raised before the record is saved.
-	 * @param CEvent $event the event parameter
+	 * By setting {@link CModelEvent::isValid} to be false, the normal {@link save()} process will be stopped.
+	 * @param CModelEvent $event the event parameter
 	 * @since 1.0.2
 	 */
 	public function onBeforeSave($event)
@@ -810,7 +811,8 @@ abstract class CActiveRecord extends CModel
 
 	/**
 	 * This event is raised before the record is deleted.
-	 * @param CEvent $event the event parameter
+	 * By setting {@link CModelEvent::isValid} to be false, the normal {@link delete()} process will be stopped.
+	 * @param CModelEvent $event the event parameter
 	 * @since 1.0.2
 	 */
 	public function onBeforeDelete($event)
@@ -830,7 +832,11 @@ abstract class CActiveRecord extends CModel
 
 	/**
 	 * This event is raised before an AR finder performs a find call.
-	 * @param CEvent $event the event parameter
+	 * In this event, the {@link CModelEvent::criteria} property contains the query criteria
+	 * passed as parameters to those find methods. If you want to access
+	 * the query criteria specified in scopes, please use {@link getDbCriteria()}.
+	 * You can modify either criteria to customize them based on needs.
+	 * @param CModelEvent $event the event parameter
 	 * @see beforeFind
 	 * @since 1.0.9
 	 */
@@ -920,12 +926,21 @@ abstract class CActiveRecord extends CModel
 	 * The default implementation raises the {@link onBeforeFind} event.
 	 * If you override this method, make sure you call the parent implementation
 	 * so that the event is raised properly.
+	 *
+	 * Starting from version 1.1.5, this method may be called with a hidden {@link CDbCriteria}
+	 * parameter which represents the current query criteria as passed to a find method of AR.
+	 *
 	 * @since 1.0.9
 	 */
 	protected function beforeFind()
 	{
 		if($this->hasEventHandler('onBeforeFind'))
-			$this->onBeforeFind(new CEvent($this));
+		{
+			$event=new CModelEvent($this);
+			// for backward compatibility
+			$event->criteria=func_num_args()>0 ? func_get_arg(0) : null;
+			$this->onBeforeFind($event);
+		}
 	}
 
 	/**
@@ -1212,7 +1227,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	private function query($criteria,$all=false)
 	{
-        $this->beforeFind();
+        $this->beforeFind($criteria);
 		$this->applyScopes($criteria);
 		if(empty($criteria->with))
 		{
