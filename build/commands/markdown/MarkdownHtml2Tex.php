@@ -171,7 +171,7 @@ TEX;
 	{
 		if(strpos($matches[1], '/doc/api/')===0)
 		{
-			$url = 'http://yiiframework.com' . $matches[1];
+			$url = 'http://www.yiiframework.com' . $matches[1];
 			return sprintf('\href{%s}{%s}', $this->escape($url), $this->escape($matches[2]));
 		}
 		else if (strpos($matches[1], 'http://')===0)
