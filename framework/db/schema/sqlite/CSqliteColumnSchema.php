@@ -28,6 +28,6 @@ class CSqliteColumnSchema extends CDbColumnSchema
 		if($this->type==='string') // PHP 5.2.6 adds single quotes while 5.2.0 doesn't
 			$this->defaultValue=trim($defaultValue,"'\"");
 		else
-			$this->defaultValue=$this->typecast($defaultValue);
+			$this->defaultValue=$this->typecast(strcasecmp($defaultValue,'null') ? $defaultValue : null);
 	}
 }

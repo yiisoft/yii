@@ -13,7 +13,7 @@ class CActiveRecord2Test extends CTestCase
 		if(!extension_loaded('pdo') || !extension_loaded('pdo_pgsql'))
 			$this->markTestSkipped('PDO and PostgreSQL extensions are required.');
 
-		$this->db=new CDbConnection('pgsql:host=localhost;dbname=yii','test','test');
+		$this->db=new CDbConnection('pgsql:host=127.0.0.1;dbname=yii','test','test');
 		try
 		{
 			$this->db->active=true;
@@ -40,7 +40,7 @@ class CActiveRecord2Test extends CTestCase
 			'components'=>array(
 				'db'=>array(
 					'class'=>'system.db.CDbConnection',
-					'connectionString'=>'pgsql:host=localhost;dbname=yii',
+					'connectionString'=>'pgsql:host=127.0.0.1;dbname=yii',
 					'username'=>'test',
 					'password'=>'test',
 				),
