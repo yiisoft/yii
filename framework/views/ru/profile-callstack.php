@@ -7,7 +7,7 @@
 	</tr>
 	<tr style="background-color: #ccc;">
 	    <th>Процедура</th>
-		<th>Время (с)</th>
+		<th>Время, с.</th>
 	</tr>
 <?php
 foreach($data as $index=>$entry)
