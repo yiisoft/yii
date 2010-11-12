@@ -24,6 +24,7 @@ Version 1.1.5 to be released
 - Bug #1719: Fixed the bug that CActiveForm->focus was not working if enableAjaxValidation was set to false (mdomba)
 - Bug #1730: Fixed the bug that CDbConnection may attempt to use "SET NAMES" to set charset for Oracle DB (Qiang)
 - Bug #1735: Fixed the bug that CGridView and CListView may fail to work in AJAX mode if setting pagerCssClass with multiple classes (Qiang)
+- Bug #1748: Fixed the bug that CDbDataReader does not properly reset internal pointer when it has multiple rowsets (Qiang)
 - Bug: Fixed the bug that some HTTP requests may cause a PHP notice complaining HTTP_HOST undefined in CHttpRequest (Qiang)
 - Bug: Fixed a bug in CGridView JavaScript that would fail the deletion action in IE when ajaxUpdate is set false (Qiang)
 - Bug: Fixed a bug that CFileCache may slow down performance when strlen is overloaded by mb_strlen (Qiang)
