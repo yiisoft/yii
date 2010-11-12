@@ -11,7 +11,7 @@ class CPostgresTest extends CTestCase
 		if(!extension_loaded('pdo') || !extension_loaded('pdo_pgsql'))
 			$this->markTestSkipped('PDO and PostgreSQL extensions are required.');
 
-		$this->db=new CDbConnection('pgsql:host=localhost;dbname=yii','test','test');
+		$this->db=new CDbConnection('pgsql:host=127.0.0.1;dbname=yii','test','test');
 		$this->db->charset='UTF8';
 		try
 		{
