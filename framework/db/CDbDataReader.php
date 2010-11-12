@@ -124,7 +124,9 @@ class CDbDataReader extends CComponent implements Iterator
 	 */
 	public function nextResult()
 	{
-		return $this->_statement->nextRowset();
+		if(($result=$this->_statement->nextRowset())!==false)
+			$this->_index=-1;
+		return $result;
 	}
 
 	/**
