@@ -37,6 +37,10 @@
   <property name="build.doc.dir" value="${build.base.dir}/${docname}"/>
   <property name="build.web.dir" value="${build.base.dir}/web"/>
 
+  <tstamp>
+    <format property="DATE" pattern="%b %e %Y" />
+  </tstamp>
+
   <if>
     <equals arg1="${yii.winbuild}" arg2="true"/>
     <then>
@@ -54,7 +58,6 @@
     <exclude name="**/*~"/>
     <include name="framework/**/*"/>
     <include name="requirements/**/*"/>
-    <include name="testdrive/**/*"/>
     <include name="demos/**/*"/>
     <include name="CHANGELOG"/>
     <include name="UPGRADE"/>
@@ -68,6 +71,21 @@
     <exclude name="**/*.bak"/>
     <exclude name="**/*~"/>
     <include name="guide/**/*"/>
+    <include name="blog/**/*"/>
+  </fileset>
+
+  <fileset dir="../docs/guide" id="docs-guide">
+    <exclude name="**/.svn"/>
+    <exclude name="**/*.bak"/>
+    <exclude name="**/*~"/>
+    <include name="**/*"/>
+  </fileset>
+
+  <fileset dir="../docs/blog" id="docs-blog">
+    <exclude name="**/.svn"/>
+    <exclude name="**/*.bak"/>
+    <exclude name="**/*~"/>
+    <include name="**/*"/>
   </fileset>
 
   <fileset dir="." id="writables">
@@ -162,17 +180,37 @@
   </target>
 
   <target name="web" depends="sync">
-    <echo>Building online API...</echo>
-    <mkdir dir="${build.web.dir}/data" />
-    <exec command="${build} api ${build.web.dir}/data online" dir="." passthru="true" />
 
-    <echo>Generating web release file...</echo>
-    <mkdir dir="${build.dist.dir}" />
-    <zip destfile="${build.dist.dir}/web.zip">
-      <fileset dir="${build.base.dir}">
-        <include name="web/**/*"/>
-      </fileset>
-    </zip>
+    <echo>Building online API...</echo>
+    <mkdir dir="${build.web.dir}/common/data/${yii.version}" />
+    <exec command="${build} api ${build.web.dir}/common/data/${yii.version} online" dir="." passthru="true" />
+
+    <echo>Copying tutorials...</echo>
+    <copy todir="${build.web.dir}/common/data/${yii.version}/tutorials/guide">
+      <fileset refid="docs-guide"/>
+    </copy>
+    <copy todir="${build.web.dir}/common/data/${yii.version}/tutorials/blog">
+      <fileset refid="docs-blog"/>
+    </copy>
+
+	<echo>Copying release text files...</echo>
+    <mkdir dir="${build.web.dir}/frontend/www/files" />
+	<copy file="../CHANGELOG" tofile="${build.web.dir}/frontend/www/files/CHANGELOG-${yii.version}.txt" />
+	<copy file="../UPGRADE" tofile="${build.web.dir}/frontend/www/files/UPGRADE-${yii.version}.txt" />
+
+	<echo>
+
+Finished building Web files.
+Please update yiisite/common/data/versions.php file with the following code:
+
+    '1.1'=>array(
+        'version'=>'${yii.version}',
+        'revision'=>${yii.revision},
+        'date'=>'${yii.date}',
+        'latest'=>true,
+    ),
+
+	</echo>
   </target>
 
   <target name="sync">
