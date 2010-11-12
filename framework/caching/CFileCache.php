@@ -134,7 +134,7 @@ class CFileCache extends CCache
 		$cacheFile=$this->getCacheFile($key);
 		if($this->directoryLevel>0)
 			@mkdir(dirname($cacheFile),0777,true);
-		if(@file_put_contents($cacheFile,$value,LOCK_EX)==strlen($value))
+		if(@file_put_contents($cacheFile,$value,LOCK_EX)!==false)
 		{
 			@chmod($cacheFile,0777);
 			return @touch($cacheFile,$expire);
