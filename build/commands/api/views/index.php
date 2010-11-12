@@ -1,4 +1,4 @@
-<h1>All Classes</h1>
+<h1>Class Reference</h1>
 
 <table class="summaryTable docIndex">
 <colgroup>

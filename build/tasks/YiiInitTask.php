@@ -38,6 +38,7 @@ class YiiInitTask extends PropertyTask
 		$this->addProperty('yii.revision',$this->getYiiRevision());
 		$this->addProperty('yii.winbuild', substr(PHP_OS, 0, 3) == 'WIN' ? 'true' : 'false');
 		$this->addProperty('yii.release',$this->getYiiRelease());
+		$this->addProperty('yii.date',date('M j, Y'));
 	}
 
 	/**
