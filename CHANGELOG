@@ -79,7 +79,7 @@ Version 1.1.5 to be released
 - Chg #1355: CHtml will no longer render null attributes in HTML tags (Qiang)
 - Chg #1540: The 'name' option set in CCheckBoxColumn::checkBoxHtmlOptions will be kept as is without any change (Qiang)
 - Chg #1678: The prompt and empty options used in CHtml methods will NOT be HTML-encoded anymore. (Qiang)
-- Chg #1680: Upgraded jQuery to version 1.4.3 (Sam Dark)
+- Chg #1680: Upgraded jQuery to version 1.4.4 (Sam Dark)
 - Chg #1756: Changed CGoogleApi::BOOTSTRAP_URL to CGoogleApi::$bootstrapUrl to allow customization (Qiang)
 - Chg: The javascript files of CListView and CGridView are now registered at the end of the page (Qiang)
 - Chg: Log filters will now be invoked only when there are some log messages available (Qiang)
