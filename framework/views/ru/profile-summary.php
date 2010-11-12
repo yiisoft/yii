@@ -10,10 +10,10 @@
 	<tr style="background-color: #ccc;">
 	    <th>Процедура</th>
 		<th>Номер</th>
-		<th>Всего (с)</th>
-		<th>Средн. (с)</th>
-		<th>Мин. (с)</th>
-		<th>Макс. (с)</th>
+		<th>Всего, с.</th>
+		<th>Средн., с.</th>
+		<th>Мин., с.</th>
+		<th>Макс., с.</th>
 	</tr>
 <?php
 foreach($data as $index=>$entry)
