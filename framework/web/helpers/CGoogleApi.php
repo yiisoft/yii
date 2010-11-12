@@ -18,7 +18,7 @@
  */
 class CGoogleApi
 {
-	const BOOTSTRAP_URL='http://www.google.com/jsapi';
+	public static $bootstrapUrl='http://www.google.com/jsapi';
 
 	/**
 	 * Renders the jsapi script file.
@@ -28,9 +28,9 @@ class CGoogleApi
 	public static function init($apiKey=null)
 	{
 		if($apiKey===null)
-			return CHtml::scriptFile(self::BOOTSTRAP_URL);
+			return CHtml::scriptFile(self::$bootstrapUrl);
 		else
-			return CHtml::scriptFile(self::BOOTSTRAP_URL.'?key='.$apiKey);
+			return CHtml::scriptFile(self::$bootstrapUrl.'?key='.$apiKey);
 	}
 
 	/**
@@ -63,7 +63,7 @@ class CGoogleApi
 	public static function register($name,$version='1',$options=array(),$apiKey=null)
 	{
 		$cs=Yii::app()->getClientScript();
-		$url=$apiKey===null?self::BOOTSTRAP_URL:self::BOOTSTRAP_URL.'?key='.$apiKey;
+		$url=$apiKey===null?self::$bootstrapUrl:self::$bootstrapUrl.'?key='.$apiKey;
 		$cs->registerScriptFile($url);
 
 		$js=self::load($name,$version,$options);
