@@ -17,6 +17,10 @@ till en anan katalog. Konfigurera bara applikationskomponenten
 [basePath|CThemeManager::basePath] och [baseUrl|CThemeManager::baseUrl] efter 
 önskemål.
 
+
+Using a Theme
+-------------
+
 För att aktivera ett tema, sätt webbapplikationens property 
 [theme|CWebApplication::theme] till namnet på det önskade temat. 
 Detta kan antingen göras i 
@@ -25,6 +29,10 @@ eller vid körning, i en kontrolleråtgärd.
 
 > Note|Märk: Temanamn är skiftlägeskänsliga (case-sensitive). Om man försöker 
 att aktivera ett tema som inte kan hittas returnerar `Yii::app()->theme` `null`.
+
+
+Creating a Theme
+----------------
 
 Innehåll under temats katalog skall organiseras på samma sätt som det under 
 [applikationens rotkatalog](/doc/guide/basics.application#application-base-directory). 
@@ -107,6 +115,23 @@ return array(
 kommer temat `basic` att gälla, vilket innebär att applikationen hämtar sin layout från 
 katalogen `themes/basic/views/layouts`, samt sin indexvy från `themes/basic/views/site`. 
 I händelse av att vyfilen inte hittas i temat, används filen från katalogen `protected/views`.
+
+
+Theming Widgets
+---------------
+
+Med start från version 1.1.5 kan teman användas även för vyer som används av widgetar. 
+Närmare bestämt kommer Yii att, när vi anropar [CWidget::render()] för att rendera en widgetvy, 
+att leta såväl i temakatalogen som i widgetens vykatalog, efter den önskade vyfilen.
+
+För att temasätta vyn `xyz` tillhörande en widget vars klassnamn är `Foo`, skapar vi först en katalog 
+med namnet `Foo` (dvs samma som widgetens klassnamn) i det aktiva temats vykatalog. Om widgetklassen 
+ tillhör ett namespace (tillgängligt i PHP 5.3.0 eller senare), så som `\app\widgets\Foo`, skall en 
+ katalog med namnet `app_widgets_Foo` skapas. Vi byter alltså ut namespace-separerare mot understreck.
+
+Därefter skapar vi en vyfil benämnd `xyz.php` i den just skapade katalogen. Vi har nu en fil 
+`themes/basic/views/Foo/xyz.php` som, givet att det för tillfället aktiva temat är `basic`, 
+kommer att användas av widgeten istället för dess originalvy.
 
 
 Anpassa widgetar globalt
@@ -278,7 +303,7 @@ kommer Yii även att söka efter skin i underkatalogen `skins` till temats vykat
 (t.ex. `WebRoot/themes/classic/views/skins`). I händelse av att en skin med samma namn existerar 
 i både temats och huvudapplikationens vykataloger, prioriteras temats skin.
 
-Om en widget använder en skin so minte existerar kommer Yii fortfarande att skapa widgeten som vanligt, 
+Om en widget använder en skin som inte existerar kommer Yii fortfarande att skapa widgeten som vanligt, 
 utan felmeddelanden.
 
 > Info: Användning av skin kan sätta ned prestanda eftersom Yii behöver leta efter skin-filen första gången en widget skapas.
@@ -288,7 +313,7 @@ Skin är mycket snarlikt finessen global anpassning av widget. De huvudsakliga s
 
    - Skin är mer relaterat till anpassning av propertyvärden för presentation;
    - En widget kan ha flera skin;
-   - Skin kan åsättas teman;
+   - Skin kan åsättas via teman;
    - Användning av skin är mer resurskrävande än global anpassning av widget.
 
-<div class="revision">$Id: topics.theming.txt 2172 2010-06-07 19:56:01Z qiang.xue $</div>
+<div class="revision">$Id: topics.theming.txt 2619 2010-11-04 15:30:43Z qiang.xue $</div>

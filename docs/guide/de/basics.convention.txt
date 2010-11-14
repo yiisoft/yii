@@ -163,4 +163,4 @@ nicht gemischt. Der Einfachheit halber empfehlen wir den Singular.
 insbesondere nützlich, wenn sich mehrere Anwendungen eine Datenbank teilen
 müssen. 
 
-<div class="revision">$Id: basics.convention.txt 1768 2010-02-01 01:34:15Z qiang.xue $</div>
+<div class="revision">$Id: basics.convention.txt 2345 2010-08-28 12:51:08Z mdomba $</div>

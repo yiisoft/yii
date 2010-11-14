@@ -13,20 +13,29 @@ befinden sich unterhalb von `WebVerzeichnis/themes`. Es kann jeweils immer nur e
 aktiv sein.
 
 > Tip|Tipp: Das Standardverzeichnis für Themes kann auch an einem anderen Ort
-als `WebVerzeichnis/themes` liegen. Konfigurieren Sie dazu einfach die beiden
+als `WebVerzeichnis/themes` liegen. Dazu konfiguriert man einfach die beiden
 Eigenschaften [basePath|CThemeManager::basePath] (Basispfad) und
 [baseUrl|CThemeManager::baseUrl] (Basis-URL) der
 [themeManager|CWebApplication::themeManager]-Anwendungskomponente.
 
-Um ein Theme anzuwenden, setzen Sie die Eigenschaft [theme|CWebApplication::theme] 
+
+Verwenden von Themes
+--------------------
+
+Um ein Theme anzuwenden, setzt man die Eigenschaft [theme|CWebApplication::theme] 
 der Webanwendung auf den Namen des gewünschten Themes. Dies kann
 entweder in der
 [Anwendungskonfiguration](/doc/guide/basics.application#application-configuration)
 oder während der Laufzeit in einer Controller-Action geschehen. 
 
 > Note|Hinweis: Beim Namen eines Themes spielt die Groß-/Kleinschreibung eine
-> Rolle. Wenn Sie versuchen, ein Theme anzuwenden, das es gar nicht gibt,
+> Rolle. Wenn man ein Theme konfiguriert, das es gar nicht gibt,
 > liefert `Yii::app()->theme` den Wert `null` zurück. 
+
+
+
+Erstellen eines Themes
+----------------------
 
 Die Inhalte eines Themeverzeichnisses sollten genau wie im 
 [Anwendungsverzeichnis](/doc/guide/basics.application#application-base-directory)
@@ -116,6 +125,27 @@ wird das Theme `basic` verwendet. Das bedeutet, dass das Layout in
 `themes/basic/views/layouts` der Index-View in `themes/basics/views/site` 
 verwendet wird. Falls Yii dort keine Viewdatei findet, verwendet es die
 Datei in `protected/views`.
+
+
+Themes für Widgets
+------------------
+
+Ab Version 1.1.5 können Themes auch für Widget-Views verwendet werden. Rendert
+man einen Widgetview mit [CWidget::render()], sucht Yii auch im
+Themeverzeichnis nach einer entsprechenden Datei.
+
+Möchte man den View `xyz` eines Widgets `Foo` in ein Theme einbeziehen, so
+legt man zunächst einen Ordner `Foo` (dem Namen des Widgets) im aktiven
+Themeverzeichnis an. Falls die Widgetklasse Namespaces (seit PHP 5.3.0)
+verwendet, wie z.B. `\app\widgets\Foo`, sollte dieser Ordner `app_widgets_Foo`
+heißen. Man ersetzt in diesem Fall also die Namespace-Separatoren mit einem
+Unterstrich.
+
+Jetzt legt man die Viewdatei `xyz.php` in diesem Verzeichnis ab. Falls das
+aktuelle Theme `basic`ist, sollte man also nun eine Datei 
+`themes/basic/views/Foo/xyz.php` haben, die dann vom Widget
+verwendet wird, um den ursprünglichen View zu ersetzen.
+
 
 Widgets global anpassen
 -----------------------
@@ -309,4 +339,4 @@ Unterschiede sind:
    - Eine Skin kann mit einem Theme versehen werden
    - Skins beeinflußen die Leistung mehr, als Widgets global anzupassen
 
-<div class="revision">$Id: topics.theming.txt 2172 2010-06-07 19:56:01Z qiang.xue $</div>
+<div class="revision">$Id: topics.theming.txt 2619 2010-11-04 15:30:43Z qiang.xue $</div>

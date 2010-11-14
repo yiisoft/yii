@@ -1,11 +1,11 @@
-Naskah Entri
+Skrip Entri
 ============
 
-Naskah entri adalah naskah bootstrap PHP yang menangani awal permintaan penguna
-initially. Ia satu-satunya naskah PHP yang diminta pengguna yang secara langsung 
-bisa dijalankan.
+Skrip entri adalah skrip bootstrap PHP yang bagian awal menangani permintaan pengguna.
+ Skrip ini adalah satu-satunya skrip PHP yang secara langsung dapat diminta pengguna
+untuk dijalankan.
 
-Dalam banyak hal, naskah entri aplikasi Yii berisi kode yang sesederhana
+Dalam banyak kasus, skrip entri aplikasi Yii berisi kode yang sesederhana
 seperti berikut,
 
 ~~~
@@ -19,19 +19,19 @@ $configFile='path/to/config/file.php';
 Yii::createWebApplication($configFile)->run();
 ~~~
 
-Pertama naskah menyertakan file boostrap Yii framework, `yii.php`. Selanjutnya
-membuat turunan aplikasi Web dengan konfigurasi yang sudah ditetapkan
+Pertama-tama skrip menyertakan file boostrap Yii framework, `yii.php`. Selanjutnya
+membuat instance aplikasi Web dengan konfigurasi yang sudah ditetapkan
 dan menjalankannya.
 
 Mode Debug
 ----------
 
-Aplikasi Yii dapat berjalan baik dalam mode debug ataupun produksi berdasarkan
-pada nilai konstan `YII_DEBUG`. Secara standar, nilai konstan ini didefinisikan
-sebagai `false`, berarti mode produksi. Untuk dijalankan dalam mode debug, definisikan
+Aplikasi Yii dapat berjalan baik dalam mode debug(awakutu) ataupun mode produksi berdasarkan
+pada nilai konstan `YII_DEBUG`. Secara default, nilai konstan ini didefinisikan
+sebagai `false`, yang artinya mode produksi. Untuk dijalankan dalam mode debug, definisikan
 konstan ini menjadi `true` sebelum menyertakan file `yii.php`. Menjalankan aplikasi
-dalam mode debug kurang efisien karena ia memelihara banyak log internal. Di sisi
-lain, mode debug juga lebih membantu selama tahap pengembangan karena ia menyediakan
+dalam mode debug kurang efisien karena aplikasi akan menyimpan banyak log internal. Di sisi
+lain, mode debug juga lebih membantu selama tahap pengembangan karena menyediakan
 banyak informasi debug saat terjadi kesalahan.
 
-<div class="revision">$Id: basics.entry.txt 162 2008-11-05 12:44:08Z weizhuo $</div>
+<div class="revision">$Id: basics.entry.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

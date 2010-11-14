@@ -22,7 +22,7 @@ public function actionAdmin()
 }
 ~~~
 
-上面的代码由 `yiic` 工具生成，未作任何修改。它首先创建了一个 `search` [场景（scenario）](/doc/guide/form.model) 下的 `Post` 模型。我们将使用此模型收集用户指定的搜索条件。然后我们把用户可能会提供的数据赋值给模型。 最后，我们以此模型显示 `admin` 视图。
+上面的代码由 `yiic` 工具生成，且未作任何修改。它首先创建了一个 `search` [场景（scenario）](/doc/guide/form.model) 下的 `Post` 模型。我们将使用此模型收集用户指定的搜索条件。然后我们把用户可能会提供的数据赋值给模型。 最后，我们以此模型显示 `admin` 视图。
 
 下面就是 `admin` 视图的代码：
 

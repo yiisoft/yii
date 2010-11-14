@@ -2,26 +2,26 @@ Aplikasi
 ========
 
 Aplikasi menggambarkan konteks dijalankannya pemrosesan sebuah permintaan. Tugas
-utamanya adalah memecahkan permintaan pengguna dan meneruskannya ke pengontrol
-terkait guna pemrosesan selanjutnya. Ia juga bertindak sebagai tempat pusat
-untuk memelihara konfigurasi tingkat-aplikasi. Oleh karena itu, aplikasi juga
-disebut `pengontrol-depan`.
+utamanya adalah menangani permintaan pengguna dan meneruskannya ke kontroler(controller)
+guna pemrosesan selanjutnya. Aplikasi juga bertindak sebagai tempat pusat
+untuk menyimpan konfigurasi tingkat-aplikasi. Oleh karena itu, aplikasi juga
+disebut `kontroler-depan(front controller)`.
 
-Aplikasi dibuat sebagai kerangka tunggal oleh [naskah entri](/doc/guide/basics.entry).
-Kerangka aplikasi dapat diakses di mana saja melalui [Yii::app()|YiiBase::app].
+Aplikasi dibuat sebagai singleton(tunggal) oleh [skrip entri](/doc/guide/basics.entry).
+Singleton aplikasi dapat diakses di mana saja melalui [Yii::app()|YiiBase::app].
 
 
 Konfigurasi Aplikasi
 --------------------
 
-Standarnya, aplikasi adalah turunan dari [CWebApplication]. Untuk 
-mengkustomisasinya, kami sediakan file konfigurasi (atau array) guna mengawali nilai
-propertinya saat turunan aplikasi dibuat. Alternatif cara mengkustomisasi aplikasi 
-adalah dengan memperluas [CWebApplication].
+Secara default, aplikasi adalah instance dari [CWebApplication]. Untuk
+mengkustomisasinya, kita pada umumnya menyediakan file konfigurasi (atau array) untuk inisialisasi nilai
+propertinya saat instance aplikasi dibuat. Cara alternatif mengkustomisasi aplikasi
+adalah dengan menurunkan [CWebApplication].
 
-Konfigurasi adalah array pasangan kunci-nilai. Setiap kunci mewakili nama 
-properti turunan aplikasi, dan setiap nilai adalah nilai awal dari properti
-tersebut. Sebagai contoh, koonfigurasi berikut
+Konfigurasi adalah array pasangan kunci-nilai(key-value). Setiap kunci mewakili nama
+properti instance aplikasi, dan setiap nilai adalah nilai awal dari properti
+tersebut. Sebagai contoh, konfigurasi berikut
 mengkonfigurasi aplikasi [name|CApplication::name] dan properti 
 [defaultController|CWebApplication::defaultController]
 aplikasi.
@@ -34,8 +34,8 @@ array(
 )
 ~~~
 
-Biasanya kami menyimpan konfigurasi dalam naskah PHP terpisah (misal
-`protected/config/main.php`). Di dalam naskah, kami mengembalikan
+Biasanya kita menyimpan konfigurasi dalam skrip PHP terpisah (misal
+`protected/config/main.php`). Di dalam skrip, kita mengembalikan
 array konfigurasi sebagai berikut,
 
 ~~~
@@ -43,18 +43,18 @@ array konfigurasi sebagai berikut,
 return array(...);
 ~~~
 
-Untuk menerapkan konfigurasi, kami mengoper nama file konfigurasi sebagai
-parameter bagi pembentuk aplikasi, atau ke [Yii::createWebApplication()]
-seperti yang berikut, yang biasanya dikerjakan dalam [naskah  entri](/doc/guide/basics.entry):
+Untuk menerapkan konfigurasi, kita mengirim nama file konfigurasi sebagai
+sebuah parameter bagi constructor aplikasi, atau ke [Yii::createWebApplication()]
+, yang biasanya dikerjakan dalam [skrip  entri](/doc/guide/basics.entry), seperti berikut:
 
 ~~~
 [php]
 $app=Yii::createWebApplication($configFile);
 ~~~
 
-> Tip: Jika konfigurasi aplikasi sangat kompleks, kami dapat memisahannya
+> Tip: Jika konfigurasi aplikasi sangat kompleks, kita dapat memisahkannya
 ke dalam beberapa file, masing-masing mengembalikan bagian array konfigurasi.
-Selanjutnya, dalam file konfigurasi utama, kami memanggil PHP `include()` guna
+Selanjutnya, dalam file konfigurasi utama, kita memanggil PHP `include()` guna
 menyertakan file konfigurasi lainnya dan menggabungkannya ke dalam array
 konfigurasi yang lengkap.
 
@@ -63,14 +63,14 @@ Direktori Basis Aplikasi
 -----------------------
 
 Direktori basis aplikasi merujuk ke direktori root yang berisi semua
-data dan naskah PHP sensitif-keamanan. Standarnya, ia berupa subdirektori
-bernama `protected` yang ditempatkan di bawah direktori yang berisi naskah
-entri. Ia dapat dikustomisasi melalui setelan properti
+data dan skrip PHP yang sensitif. Secara default, direktori ini adalah subdirektori
+bernama `protected` yang ditempatkan di bawah direktori yang berisi skrip
+entri. Direktori ini dapat dikustomisasi melalui konfigurasi properti
 [basePath|CWebApplication::basePath] dalam [konfigurasi aplikasi](#application-configuration).
 
-Isi di dalam direktori basis aplikasi harus dilindungi dari akses oleh
+Isi di dalam direktori basis aplikasi harus terlindung dari akses oleh
 para pengguna Web. Dengan [Apache HTTP
-server](http://httpd.apache.org/), ini bisa dilakukan secara mudah dengan
+server](http://httpd.apache.org/), hal ini bisa dilakukan secara mudah dengan
 menempatkan file `.htaccess` di bawah direktori basis. Adapun isi file `.htaccess`
 adalah sebagai berikut,
 
@@ -84,14 +84,14 @@ Komponen Aplikasi
 Fungsionalitas aplikasi dapat dikustomisasi secara mudah dan diperkaya dengan 
 arsitektur komponennya yang fleksibel. Aplikasi mengatur satu set komponen
 aplikasi, masing-masing mengimplementasi fitur tertentu.
-Sebagai contoh, aplikasi memecahkan permintaan pengguna dengan bantuan komponen [CUrlManager]
+Sebagai contoh, aplikasi menangani permintaan pengguna dengan bantuan komponen [CUrlManager]
 dan [CHttpRequest].
 
 Dengan mengkonfigurasi properti [komponen|CApplication::components] aplikasi,
-kita bisa mengkustomisasi kelasi dan nilai properti setiap komponen
+kita bisa mengkustomisasi kelas dan nilai properti setiap komponen
 aplikasi yang dipakai dalam sebuah aplikasi. Sebagai contoh, kita dapat
-mengkonfigurasi komponen [CMemCache] agar ia bisa menggunakan multipel server memcache
-untuk caching,
+mengkonfigurasi komponen [CMemCache] agar bisa menggunakan beberapa server memcache
+untuk penembolokan(caching),
 
 ~~~
 [php]
@@ -114,17 +114,17 @@ Dalam contoh di atas, kita menambahkan elemen `cache` pada array `components`. E
 `cache` menyatakan bahwa kelas komponennya adalah
 `CMemCache` dan properti `servers` juga harus diinisialisasi.
 
-Untuk mengakses komponen aplikasi, gunakan `Yii::app()->ComponentID`, di mana
+Untuk mengakses komponen aplikasi, gunakan `Yii::app()->ComponentID`, dengan
 `ComponentID` merujuk pada ID komponen (contoh `Yii::app()->cache`).
 
-Komponen aplikasi dapat dimatikan dengan menyetel `enabled` menjadi false
-dalam konfigurasinya. Null dikembalikan saat kita mengakses komponen yang dimatikan.
+Komponen aplikasi dapat dinonaktifkan dengan menyetel `enabled` menjadi false
+dalam konfigurasinya. Null dikembalikan saat kita mengakses komponen yang telah dinonaktifkan.
 
-> Tip: Secara standar, komponen aplikasi dibuat bila diperlukan. Ini berarti
+> Tip: Secara default, komponen aplikasi dibuat bila diperlukan. Ini berarti
 komponen aplikasi mungkin tidak dibuat sama sekali jika tidak diakses
-saat pengguna meminta. Hasilnya, performansi keseluruhan mungkin tidak menurun 
-walaupun aplikasi dikonfigurasi dengan banyak komponen. Beberapa komponen
-aplikasi (contoh [CLogRouter]) mungkin perlu dibuat tidak peduli apakah ia 
+saat pengguna melakukan request. Hasilnya, performa aplikasi keseluruhan tidak akan menurun
+walaupun dikonfigurasi dengan banyak komponen. Beberapa komponen
+aplikasi (contoh [CLogRouter]) mungkin perlu dibuat tidak peduli apakah 
 diakses atau tidak. Untuk melakukannya, daftarkan ID masing-masing dalam properti [preload|CApplication::preload]
 aplikasi.
 
@@ -133,26 +133,26 @@ Komponen Aplikasi Inti
 
 Yii sudah mendefinisikan satu set komponen aplikasi inti guna menyediakan fitur
 yang umum dalam aplikasi Web. Sebagai contoh, komponen
-[request|CWebApplication::request] dipakai untuk memecahkan permintaan pengguna
+[request|CWebApplication::request] dipakai untuk menangani permintaan pengguna
 dan menyediakan informasi seperti URL, cookies. Dengan mengkonfigurasi properti
-komponen inti ini, kita dapat mengubah perilaku standar Yii dalam hampir segala
+komponen inti ini, kita dapat mengubah perilaku standar Yii dalam hampir di segala
 aspek.
 
 Di bawah ini kami mendata komponen inti yang dideklarasikan oleh
 [CWebApplication].
 
    - [assetManager|CWebApplication::assetManager]: [CAssetManager] -
-mengatur penerbitan file asset privat.
+mengatur publikasi file asset privat.
 
    - [authManager|CWebApplication::authManager]: [CAuthManager] - mengatur role-based access control (RBAC).
 
    - [cache|CApplication::cache]: [CCache] - menyediakan fungsionalitas
-caching data. Catatan, Anda harus menetapkan kelas sebenarnya (misal
+penembolokan(caching) data. Catatan, Anda harus menetapkan kelas sebenarnya (misal
 [CMemCache], [CDbCache]). Jika tidak, null akan dikembalikan saat Anda
 mengakses komponen ini.
 
    - [clientScript|CWebApplication::clientScript]: [CClientScript] -
-mengatur naskah klien (javascript dan CSS).
+mengatur skrip klien (javascript dan CSS).
 
    - [coreMessages|CApplication::coreMessages]: [CPhpMessageSource] -
 menyediakan terjemahan pesan inti yang dipakai oleh Yii framework.
@@ -172,13 +172,13 @@ terjemahan pesan yang dipakai oleh aplikasi Yii.
 informasi terkait dengan permintaan penggguna.
 
    - [securityManager|CApplication::securityManager]: [CSecurityManager] -
-menyediakan layanan terkait-keamanan, seperti hashing, enkripsi.
+menyediakan layanan terkait keamanan, seperti hashing, enkripsi.
 
    - [session|CWebApplication::session]: [CHttpSession] - menyediakan
-fungsionalitas terkait-sesi.
+fungsionalitas terkait sesi.
 
    - [statePersister|CApplication::statePersister]: [CStatePersister] -
-menyediakan metode persisten kondisi global.
+menyediakan metode persisten kondisi global(global state persistence).
 
    - [urlManager|CWebApplication::urlManager]: [CUrlManager] - menyediakan
 fungsionalitas penguraian dan pembuatan URL.
@@ -204,16 +204,16 @@ sebagai berikut:
    3. Mengambil konfigurasi aplikasi;
 
    4. Menginisialisasi aplikasi dengan [CApplication::init()]
-	   - Mengambil komponen statis aplikasi;
+	   - Registrasi behavior aplikasi
 	   - Mengambil komponen aplikasi statis;
 
    5. Menghidupkan event [onBeginRequest|CApplication::onBeginRequest];
 
    6. Mengolah permintaan pengguna:
-	   - Memecah permintaan pengguna;
-	   - Membuat pengontrol;
-	   - Menjalankan pengontrol;
+	   - Menangani permintaan pengguna;
+	   - Membuat kontroler;
+	   - Menjalankan kontroler;
 
    7. Menghidupkan event [onEndRequest|CApplication::onEndRequest];
 
-<div class="revision">$Id: basics.application.txt 846 2009-03-17 17:35:33Z qiang.xue $</div>
+<div class="revision">$Id: basics.application.txt 2488 2010-09-20 11:38:02Z mdomba $</div>

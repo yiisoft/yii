@@ -67,7 +67,7 @@ Anwendungsverzeichnis
 Im Anwendungsverzeichnis sind alle sicherheitsempfindlichen Dateien der
 Applikation abgelegt. Per Voreinstellung ist dies der `protected`-Ordner 
 im Verzeichnis, das auch das Startscript enthält. Der Pfad zum
-Anwendungsverzeichnis kann in der Konfiguration über 
+Anwendungsverzeichnis kann in der [Konfiguration](/doc/guide/basics.application#application-configuration) über 
 [basePath|CWebApplication::basePath] angepasst werden.
 
 Sämtliche Inhalte in diesem Verzeichnis sollten vor Zugriff über das Web
@@ -228,4 +228,4 @@ Beim Bearbeiten eines Requests durchläuft eine Anwendung diesen Zyklus:
 
    7. Auslösen des [onEndRequest|CApplication::onEndRequest]-Events
 
-<div class="revision">$Id: basics.application.txt 2311 2010-08-09 13:01:12Z alexander.makarow $</div>
+<div class="revision">$Id: basics.application.txt 2488 2010-09-20 11:38:02Z mdomba $</div>

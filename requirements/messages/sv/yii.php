@@ -16,7 +16,9 @@
  * @version $Id: $
  */
 return array (
-  'This is required by encrypt and decrypt methods.' => 'Detta krävs av krypterings- och dekrypteringsmetoderna',
+  'GD extension with<br />FreeType support' => 'GD-tillägg med<br />FreeType-stöd',
+  'GD installed<br />FreeType support not installed' => 'GD installerad<br />FreeType-stöd ej installerat',
+  'GD not installed' => 'GD ej installerat',
   '$_SERVER does not have {vars}.' => '$_SERVER innehåller inte {vars}.',
   '$_SERVER variable' => '$_SERVER-variabel',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '$_SERVER["SCRIPT_FILENAME"] måste vara samma som startskriptets namn och sökväg.',
@@ -24,7 +26,6 @@ return array (
   'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Alla <a href="http://www.yiiframework.com/doc/api/#system.db">DB-relaterade klasser</a>',
   'DOM extension' => 'DOM-tillägg',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => 'Antingen $_SERVER["REQUEST_URI"] eller $_SERVER["QUERY_STRING"] måste finnas.',
-  'GD extension' => 'GD-tillägg',
   'Mcrypt extension' => 'Mcrypt-tillägg',
   'Memcache extension' => 'Memcache-tillägg',
   'PCRE extension' => 'PCRE-tillägg',
@@ -37,10 +38,9 @@ return array (
   'Reflection extension' => 'Reflection-tillägg',
   'SOAP extension' => 'SOAP-tillägg',
   'SPL extension' => 'SPL-tillägg',
+  'This is required by encrypt and decrypt methods.' => 'Detta krävs av krypterings- och dekrypteringsmetoderna',
   'This is required if you are using MySQL database.' => 'Detta krävs om MySQL-databas används.',
   'This is required if you are using PostgreSQL database.' => 'Detta krävs om PostgresSQL-databas används.',
   'This is required if you are using SQLite database.' => 'Detta krävs om SQLite-databas används.',
   'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' => 'Kan inte avgöra URL:ens sökvägsinfo. Kontrollera att $_SERVER["PATH_INFO"] (eller $_SERVER["PHP_SELF"] och $_SERVER["SCRIPT_NAME"]) innehåller korrekta värden.',
-  'GD installed<br />FreeType support not installed' => '',
-  'GD not installed' => '',
 );

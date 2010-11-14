@@ -1,23 +1,23 @@
-Menggunakan Librari Pihak Ketiga
+Menggunakan Pustaka Pihak Ketiga
 ================================
 
-Yii didesain secara hati-hati agar librari pihak-ketiga dapat dengan mudah
+Yii didesain secara hati-hati agar pustaka pihak-ketiga(third-party library) dapat dengan mudah
 diintegrasikan untuk lebih memperluas fungsionalitas Yii.
-Ketika menggunakan librari pihak ketiga dalam sebuah proyek, para pengembang
+Ketika menggunakan pustaka pihak ketiga dalam sebuah projek, para pengembang
 sering menghadapi masalah mengenai penyertaan penamaan kelas dan file.
 Karena semua kelas Yii diawali dengan huruf `C`, maka masalah penamaan
 kelas akan jarang terjadi; dan karena Yii tergantung pada
 [SPL autoload](http://us3.php.net/manual/en/function.spl-autoload.php)
-untuk melakukan inklusi file kelas, ia akan sejalan dengan libari lain
+untuk melakukan penyertaan file kelas, Yii akan sejalan dengan pustaka lain
 jika mereka menggunakan fitur autoloading yang sama atau PHP include path untuk
 menyertakan file kelas.
 
 
-Di bawah ini kami menggunakan sebuah contoh guna menggambarkan bagaimana untuk memakai
+Di bawah ini kami menggunakan sebuah contoh guna menggambarkan bagaimana memakai
 komponen [Zend_Search_Lucene](http://www.zendframework.com/manual/en/zend.search.lucene.html)
 dari [Zend framework](http://www.zendframework.com) dalam aplikasi Yii.
 
-Pertama, kita mengurai file rilis Zend framework ke sebuah direktori di bawah
+Pertama, kita mengurai file rilis Zend framework ke sebuah direktori di
 `protected/vendors`, menganggap bahwa direktori `protected` adalah
 [direktori basis aplikasi](/doc/guide/basics.application#application-base-directory).
 Pastikan bahwa file `protected/vendors/Zend/Search/Lucene.php` ada di sana.
@@ -44,4 +44,4 @@ $hits=$lucene->find(strtolower($keyword));
 ~~~
 
 
-<div class="revision">$Id: extension.integration.txt 251 2008-11-19 22:28:46Z qiang.xue $</div>
+<div class="revision">$Id: extension.integration.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

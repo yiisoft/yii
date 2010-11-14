@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="id" lang="id">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>Kesalahan Internal Server</title>
+<title>Kesalahan Server Internal</title>
 
 <style type="text/css">
 /*<![CDATA[*/
@@ -19,7 +19,7 @@ p {font-family:"Verdana";font-weight:normal;color:black;font-size:9pt;margin-top
 </head>
 
 <body>
-<h1>Kesalahan Internal Server</h1>
+<h1>Kesalahan Server Internal</h1>
 <h2><?php echo nl2br(CHtml::encode($data['message'])); ?></h2>
 <p>
 Kesalahan internal terjadi saat server Web memproses permintaan Anda.

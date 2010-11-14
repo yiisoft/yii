@@ -3,6 +3,13 @@ Nowe funkcjonalności
 
 Ta strona zawiera streszczenie najważniejszych nowych funkcji wprowadzonych w każdym wydaniu Yii. 
 
+Wersja 1.1.5
+-------------
+
+ * [Dodano wsparcie dla akcji poleceń konsolowych i wiązania parametrów](/doc/guide/topics.console)
+ * [Dodano wsparcie dla autoładowania klasy w przestrzeni nazw](/doc/guide/basics.namespace)
+ * [Dodano wsparcie dla używania motywów w widokach widżetów](/doc/guide/topics.theming#theming-widget-views)
+
 Version 1.1.4
 -------------
 
@@ -130,4 +137,4 @@ Wersja 1.0.5
  * Rozszerzono[CUrlManager] o wsparcie dla parametryzacji reguł dla części URL zawierającej trasę. Zobacz:
      - [Parametryzacja trasy w regułach URL](/doc/guide/topics.url#parameterizing-routes)
 
-<div class="revision">$Id: changes.txt 2418 2010-09-02 16:01:46Z qiang.xue $</div>
+<div class="revision">$Id: changes.txt 2633 2010-11-09 10:05:20Z haertl.mike $</div>

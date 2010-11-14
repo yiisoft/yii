@@ -25,10 +25,10 @@ p {font-family:"Verdana";font-weight:normal;color:black;font-size:9pt;margin-top
 Kesalahan di atas terjadi saat server Web memproses permintaan Anda.
 </p>
 <p>
-Jika Anda pikir ini adalah kesalahan server, silahkan hubungi <?php echo $data['admin']; ?>.
+Jika Anda merasa ini adalah kesalahan server, silahkan hubungi <?php echo $data['admin']; ?>.
 </p>
 <p>
-Thank you.
+Terima kasih.
 </p>
 <div class="version">
 <?php echo date('Y-m-d H:i:s',$data['time']) .' '. $data['version']; ?>

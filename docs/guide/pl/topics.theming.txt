@@ -16,6 +16,10 @@ innym. Po prostu skonfiguruj odpowiednio atrybuty
 [basePath|CThemeManager::basePath] oraz [baseUrl|CThemeManager::baseUrl]
 komponentu aplikacji [themeManager|CWebApplication::themeManager].
 
+
+Używanie tematów
+-------------
+
 Aby aktywować jakiś temat ustaw atrybut [theme|CWebApplication::theme]
 aplikacji webowej na nazwę tematu, który chcesz użyć. Czynność tą możesz
 wykonać zarówno w [konfiguracji aplikacji](/doc/guide/basics.application#application-configuration),
@@ -23,6 +27,10 @@ jak i w trakcie uruchamiania, poprzez akcję kontrolera.
 
 > Uwaga: Nazwa tematu jest wrażliwa na wielkość liter. Jeżeli próbujesz
 aktywować temat, który nie istnieje `Yii::app()->theme` zwróci `null`.
+
+
+Tworzenie tematów
+----------------
 
 Zawartość katalogu tematu powinna być zorganizowana w taką samą strukturę
 jak ta w [ścieżce głównej aplikacji](/doc/guide/basics.application#application-base-directory).
@@ -109,6 +117,18 @@ to będzie obowiązywać temat podstawowy `basic`, co oznacza iż aplikacja będ
 używać tego tematu z katalogu `themes/basic/views/layouts`, natomiast indeks strony 
 będzie używał tego z katalogu `themes/basic/views/site`. W przypadku plik widoku nie  
 zostanie znaleziony w temacie, to wykorzystamy ten znajdujący się w katalogu `protected/views`.
+
+
+Motywy dla widżetów
+---------------
+
+Poczynając od wersji 1.1.5, widoki używane w widżetach mogą również używać motywów. W szczególności, jesli wywołujemy [CWidget::render()] w celu wygenerowania widoku widżetu, Yii spróbuje poszukać w katalogu z motywami, tak samo jak to czynie z katalogiem w widokami, żądanego pliku widoku.
+
+Aby nadać motyw dla widoku `xyz` dla widżetu, którego nazwa klasy to `Foo`, powinniśmy najpierw utworzyć katalog
+o nazwie `Foo` (taki sam jak nazwa klasy widżetu) w folderze motywu aktualnie aktywnego. Jeśli nazwa klasu widżetu posiada przestrzeń nazw (dostępne w wersjach 5.3.0 lub wyższych), taką jak `\app\widgets\Foo`, powinniśmy utworzyć folder o nazwie `app_widgets_Foo`. Oznacza to, że zastąpiliśmy separatory w przestrzeni nazw poprzez znak podkreślenia.
+
+Następnie tworzymy plik widoku o nazwie `xyz.php` w nowo utworzonym katalogu. Na koniec, powinniśmy mieć plik `themes/basic/views/Foo/xyz.php`, który zostanie użyty przez widżet i zastąpi oryginalny widok, jesli aktualnie aktywnym tematem jest `basic`.
+
 
 Globalne dostosowanywanie widżetów do własnych potrzeb
 ----------------------------
@@ -292,4 +312,4 @@ Podstawowa różnice są nastepujące:
    - dla skórek można stosowac motywy (ang. theme);
    - używanie skórek jest bardziej kosztowne niż używanie funkcjonalności globalnego dostosowywania właściwości widżetu;
 
-<div class="revision">$Id: topics.theming.txt 2172 2010-06-07 19:56:01Z qiang.xue $</div>
+<div class="revision">$Id: topics.theming.txt 2619 2010-11-04 15:30:43Z qiang.xue $</div>

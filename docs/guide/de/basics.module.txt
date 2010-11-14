@@ -128,11 +128,15 @@ Die entsprechende URL für diese Route wäre dann
 Verschachtelte Module
 ---------------------
 
-Module können ineinander verschachtelt werden. Das bedeutet, dass ein Modul
-ein weiteres Modul enthalten kann. Wir nennen ersteres *Elternmodul*, letzeres
-*Kindmodul*. Kindmodule müssen im `modules`-Verzeichnis des Elternmoduls
-abgelegt werden. Um eine Controller-Action in einem Kindmodul aufzurufen,
-sollte man die Route `elternModulID/kindModulID/controllerID/actionID`
-verwenden.
+Module können in unbegrenzter Tiefe ineinander verschachtelt werden. Das bedeutet, 
+dass ein Modul ein weiteres Modul enthalten kann, welches wiederum ein anderes
+Modul beherbergt. Wir nennen ersteres *Elternmodul*, letzeres
+*Kindmodul*. Kindmodule müssen in der
+[modules|CWebModule::modules]-Eigenschaft des jeweiligen Elternmoduls
+angebeben werden und zwar genauso wie in der Anwendungskonfiguration
+(siehe oben).
+Um eine Controller-Action in einem Kindmodul aufzurufen,
+wird die Route `elternModulID/kindModulID/controllerID/actionID`
+verwendet.
 
-<div class="revision">$Id: basics.module.txt 2041 2010-04-11 03:54:25Z qiang.xue $</div>
+<div class="revision">$Id: basics.module.txt 2363 2010-08-29 02:35:15Z qiang.xue $</div>

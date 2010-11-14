@@ -193,6 +193,28 @@ användaren inte tillhandahåller en sådan parameter i sin request. Eftersom `$
 inte är försett med ett standardvärde, kommer en [CHttpException] att genereras om användaren inte 
 tillhandahåller parametern `category` i `$_GET`.
 
+Med start från version 1.1.5, kan Yii även detektera åtgärdsparametrar av arraytyp.
+Detta sker med hjälp av PHP typledtrådar vars syntax ser ut som följer:
+
+~~~
+[php]
+class PostController extends CController
+{
+	public function actionCreate(array $categories)
+	{
+		// Yii ser till att $categories kommer att vara en array
+	}
+}
+~~~
+
+Det vill säga, vi inflikar nyckelordet `array` före `$categories` i metodens parameterlista. 
+Genom detta kommer `$_GET['categories']`, om denna är en enkel sträng, 
+att konverteras till en array med strängen som innehåll.
+
+> Note|Märk: Om en parameter deklareras utan typledtråden `array`, innebär detta att parametern
+> mäste vara skalär (dvs inte en array). Om, i detta fall, en arrayparameter förmedlas via
+> `$_GET` leder det till en HTTP-exception.
+
 
 Filter
 ------
@@ -280,4 +302,4 @@ filtret `postOnly` på åtgärderna `edit` och `create`, medan `PerformanceFilte
 tillämpas på alla åtgärder UTOM `edit` och `create`. Om varken plus eller minus 
 förekommer i filterkonfigurationen tillämpas filtret på alla åtgärder.
 
-<div class="revision">$Id: basics.controller.txt 2418 2010-09-02 16:01:46Z qiang.xue $</div>
+<div class="revision">$Id: basics.controller.txt 2576 2010-10-28 02:46:14Z qiang.xue $</div>

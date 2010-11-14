@@ -40,6 +40,4 @@ return array (
   'This is required if you are using MySQL database.' => '如果使用MySQL数据库，这是必须的。',
   'PDO PostgreSQL extension' => 'PDO PostgreSQL扩展模块',
   'This is required if you are using PostgreSQL database.' => '如果使用PostgreSQL数据库，这是必须的。',
-  'GD installed<br />FreeType support not installed' => '',
-  'GD not installed' => '',
 );

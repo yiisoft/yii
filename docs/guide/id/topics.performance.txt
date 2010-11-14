@@ -1,28 +1,28 @@
-Penyesuaian Performansi
+Penyesuaian Performa
 =======================
 
-Performansi aplikasi Web dipengaruhi oleh banyak faktor. Akses database,
-operasi sistem file, bandwidth jaringan adalah faktor pengaruh potensial.
-Yii sudah mencoba di setiap aspek guna mengurangi akibat performansi
+Performa aplikasi Web dipengaruhi oleh banyak faktor. Akses database,
+operasi sistem file, bandwidth jaringan adalah faktor pengaruh yang potensial.
+Yii sudah mencoba di setiap aspek guna mengurangi pengurangan performa
 yang disebabkan oleh framework. Akan tetapi, masih ada banyak tempat dalam
-aplikasi pengguna yang bisa ditingkatkan untuk mempercepat performansi.
+aplikasi pengguna yang bisa ditingkatkan untuk mempercepat performa.
 
 Menghidupkan Ekstensi APC
 -------------------------
 
 Menghidupkan [ekstensi
 PHP APC](http://www.php.net/manual/en/book.apc.php) barangkali merupakan
-cara termudah untuk meningkatkan performansi aplikasi secara keseluruhan.
+cara termudah untuk meningkatkan performa aplikasi secara keseluruhan.
 ekstensi men-cache dan mengoptimasi kode menengah PHP dan menghindari waktu
-yang dipakai dalam penguraian naskah PHP untuk setiap permintaan yang masuk.
+yang dipakai dalam penguraian skrip PHP untuk setiap permintaan yang masuk.
 
 Mematikan Mode Debug
 --------------------
 
-Mematikan mode debug adalah cara mudah lain guna meningkatkan performansi.
+Mematikan mode debug adalah cara mudah lain guna meningkatkan performa.
 Aplikasi Yii yang berjalan dalam mode debug jika konstan `YII_DEBUG` didefinisikan sebagai
 true. Mode debug berguna selama tahap pengembangan, tapi akan mempengaruhi
-performansi karena beberapa komponen menimbulkan banyak kode ekstra dalam debug mode.
+performa karena beberapa komponen menimbulkan beban ekstra dalam debug mode.
 Sebagai contoh, pencatat pesan bisa merekam informasi debug tambahan untuk
 setiap pesan yang sedang dicatat.
 
@@ -31,15 +31,15 @@ Menggunakan `yiilite.php`
 
 Saat [ekstensi PHP APC](http://www.php.net/manual/en/book.apc.php) dihidupkan,
 kita dapat mengganti `yii.php` dengan file bootstrap Yii yang berbeda bernama
-`yiilite.php` untuk lebih meningkatkan performansi aplikasi berbasis-Yii.
+`yiilite.php` untuk lebih meningkatkan performa aplikasi berbasis-Yii.
 
-File `yiilite.php` ada debgab setiap rilis Yii. Ini adalah hasil penggabungan
+File `yiilite.php` ada di setiap rilis Yii. Ini adalah hasil penggabungan
 beberapa file kelas Yii yang umumnya dipakai. Baik komentar maupun pernyataan
 trace dibuang dari file gabungan. Oleh karena itu, menggunakan
 `yiilite.php` akan mengurangi jumlah file yang disertakan dan menghindari
-eksekusi pernyataan trace.
+eksekusi statement trace.
 
-Catatan, pemakaian `yiilite.php` tanpa APC sebenarnya dapata mengurangi performansi,
+Harap dicatat, pemakaian `yiilite.php` tanpa APC sebenarnya dapat mengurangi performa,
 karena `yiilite.php` berisi beberapa kelas yang tidak dipakai
 dalam setiap permintaan dan akan memerlukan waktu penguraian tambahan. Juga sudah diobservasi bahwa
 pemakaian `yiilite.php` lebih lambat pada beberapa konfigurasi server, bahkan saat
@@ -50,23 +50,23 @@ Menggunakan Teknik Cache
 ------------------------
 
 Seperti dijelaskan dalam seksi [Caching](/doc/guide/caching.overview), Yii
-menyediakan beberapa solusi cache yang bisa meningkatkan performansi aplikasi
+menyediakan beberapa solusi penembolokan yang bisa meningkatkan performa aplikasi
 Web secara signifikan. Jika pembuatan beberapa data memerlukan waktu lama,
 kita dapat menggunakan pendekatan [cache data](/doc/guide/caching.data) untuk
-mengurangi frekuensi pembuatan data; Jika bagian halaman relatif tetap satis,
+mengurangi frekuensi pembuatan data; Jika bagian halaman relatif tetap statis,
 kita bisa menggunakan pendekatan [cache
 fragmen](/doc/guide/caching.fragment) untuk mengurangi frekuensi render;
 Jika seluruh halaman relatif statis, kita dapat menggunakan pendekatan [cache
 halaman](/doc/guide/caching.page) untuk menghemat waktu render seluruh
 halaman.
 
-Jika aplikasi menggunakan [Rekaman Aktif](/doc/guide/database.ar), kita harus
+Jika aplikasi menggunakan [Active Record](/doc/guide/database.ar), kita harus
 menghidupkan cache skema untuk menghemat waktu penguraian skema database.
 Ini bisa dikerjakan dengan mengkonfigurasi properti
 [CDbConnection::schemaCachingDuration] ke nilai lebih besar dari 0.
 
 Selain teknik cache tingkat aplikasi ini, kita juga bisa menggunakan solusi
-cache tingkat server untuk meingkatkan performansi aplikasi. Sebenarnya,
+cache tingkat server untuk meingkatkan performa aplikasi. Sebenarnya,
 [Cache APC](/doc/guide/topics.performance#enabling-apc-extension) yang kita
 jelaskan sebelumnya masuk ke kategori ini. Ada teknik server lain, seperti
 [Zend Optimizer](http://Zend.com/ZendOptimizer),
@@ -76,40 +76,40 @@ jelaskan sebelumnya masuk ke kategori ini. Ada teknik server lain, seperti
 Optimasi Database
 -----------------
 
-Pengambilan data dari database sering menjadi hambatan utama performansi dalam
-aplikasi Web. Meskipun menggunakan caching tetap dapat mengurangi performansi,
-ini tidak sepenuhnya memecahkan masalah. Ketika database berisi data yang salah
+Pengambilan data dari database sering menjadi hambatan utama performa dalam
+aplikasi Web. Meskipun menggunakan caching tetap dapat mengurangi performa,
+ini tidak sepenuhnya memecahkan masalah. Ketika database berisi data yang besar
 dan data yang di-cache tidak benar, pengambilan besar data bisa sangat lambat
 tanpa desain database dan queri yang benar.
 
-Desain indeks dengan benar dalam database. Mengindeks bisa menjadikan queri `SELECT` jauh
+Desainlah indeks dengan benar dalam database. Mengindeks bisa menjadikan queri `SELECT` jauh
 lebih cepat, tapi dapat memperlambat queri `INSERT`, `UPDATE` atau `DELETE`.
 
 Untuk queri yang kompleks, direkomendasikan membuat view database daripada
-menerbitkan queri di dalam kode PHP dan meminta DBMS untuk menguraikannya
+menggunakan queri di dalam kode PHP dan meminta DBMS untuk menguraikannya
 berulang kali.
 
-Jangan berlebihan menggunakan [Rekaman Aktif](/doc/guide/database.ar). Meskipun [Rekaman
-Aktif](/doc/guide/database.ar) baik pada pemodelan data dalam gaya OOP,
-sebenarnya menurunkan performansi karena ia harus membuat satu atau beberapa
-obyek untuk mewakili setiap baris dari hasil queri. Untuk aplikasi intensif
+Jangan berlebihan menggunakan [Active Record](/doc/guide/database.ar). Meskipun [Active
+Record](/doc/guide/database.ar) baik pada pemodelan data dalam gaya OOP,
+sebenarnya menurunkan performa karena harus membuat satu atau beberapa
+objek untuk mewakili setiap baris dari hasil queri. Untuk aplikasi intensif
 data, penggunaan [DAO](/doc/guide/database.dao) atau
 API database di tingkat lebih rendah bisa menjadi pilihan yang lebih baik.
 
 Terakhir, gunakan `LIMIT` dalam queri `SELECT` Anda. Ini akan menghindari
-pengambilan data berlebihan dari database dan menhabiskan alokasi memori
+pengambilan data berlebihan dari database dan menghabiskan alokasi memori
 untuk PHP.
 
-Memperkecil File Naskah
+Memperkecil File Skrip
 -----------------------
 
-Halaman yang kompleks sering harus menyertakan banyak file eksternal JavaScript dan CSS. Karena setiap file akan menyebabkan lalu lintas tambahan ke server dan sebaliknya, kita harus memperkecil jumlah file naskah dengan menggabungnya ke dalam file agar lebih sedikit jumlahnya. Kita juga harus mempertimbangkan pengurangan ukuran setiap file naskah guna mengurangi waktu transmisi jaringan. Ada banyak piranti untuk membantu dua aspek ini.
+Halaman yang kompleks sering harus menyertakan banyak file eksternal JavaScript dan CSS. Karena setiap file akan menyebabkan lalu lintas tambahan ke server dan sebaliknya, kita harus memperkecil jumlah file skrip dengan menggabungnya ke dalam file agar lebih sedikit jumlahnya. Kita juga harus mempertimbangkan pengurangan ukuran setiap file skrip guna mengurangi waktu transmisi jaringan. Ada banyak piranti untuk membantu dua aspek ini.
 
-Untuk halaman yang dibuat oleh Yii, kenyataannya bahwa beberapa file naskah dirender oleh komponen yang tidak ingin kita ubah (misalnya komponen inti Yii, komponen pihak ketiga). Untuk memperkecil file naskah ini, kita memerlukan dua langkah.
+Untuk halaman yang dibuat oleh Yii, kenyataannya bahwa beberapa file skrip dirender oleh komponen yang tidak ingin kita ubah (misalnya komponen inti Yii, komponen pihak ketiga). Untuk memperkecil file skrip ini, kita memerlukan dua langkah.
 
 > Note|Catatan: Fitur `scriptMap` yang dijelaskan berikut ini sudah tersedia sejak versi 1.0.3.
 
-Pertama, kita mendeklarasikan naskah yang diperkecil dengan mengkonfigurasi properti [scriptMap|CClientScript::scriptMap] pada komponen aplikasi [clientScript|CWebApplication::clientScript]. Ini bisa dikerjakan baik dalam konfigurasi aplikasi ataupun dalam kode. Sebagai contoh,
+Pertama, kita mendeklarasikan skrip yang diperkecil dengan mengkonfigurasi properti [scriptMap|CClientScript::scriptMap] pada komponen aplikasi [clientScript|CWebApplication::clientScript]. Ini bisa dikerjakan baik dalam konfigurasi aplikasi ataupun dalam kode. Sebagai contoh,
 
 ~~~
 [php]
@@ -122,7 +122,7 @@ $cs->scriptMap=array(
 );
 ~~~
 
-Apa yang dilakukan kode di atas adalah bahwa ia memetakan file-file JavaScript ke URL `/js/all.js`. Jika ada file JavaScript harus disertakan oleh beberapa komponen, Yii akan menyertakan URL (sekali) daripada file naskah secara individual.
+Apa yang dilakukan kode di atas adalah memetakan file-file JavaScript ke URL `/js/all.js`. Jika ada file JavaScript harus disertakan oleh beberapa komponen, Yii akan menyertakan URL (sekali) alih-alih file skrip secara individual.
 
 Kedua, kita perlu menggunakan beberapa piranti untuk menggabung (dan mungkin memadatkan) file JavaScript ke dalam satu file dan menyimpannya sebagai `js/all.js`.
 
@@ -141,12 +141,12 @@ $cs->scriptMap=array(
 );
 ~~~
 
-Dengan memetakan file naskah ini menjadi false, kita melarang Yii untuk membuat kode penyertaan file-file ini. Sebaliknya, kita menulis kode berikut dalam halaman kita u8ntuk secara eksplisit menyertakan file naskah dari Google,
+Dengan memetakan file skrip ini menjadi false, kita melarang Yii untuk membuat kode penyertaan file-file ini. Sebaliknya, kita menulis kode berikut dalam halaman kita u8ntuk secara eksplisit menyertakan file skrip dari Google,
 
 ~~~
 [php]
 <head>
-<?php echo CGoogleApi::bootstrap(); ?>
+<?php echo CGoogleApi::init(); ?>
 
 <?php echo CHtml::script(
 	CGoogleApi::load('jquery','1.3.2') . "\n" .
@@ -157,4 +157,4 @@ Dengan memetakan file naskah ini menjadi false, kita melarang Yii untuk membuat 
 </head>
 ~~~
 
-<div class="revision">$Id: topics.performance.txt 759 2009-02-26 21:23:53Z qiang.xue $</div>
+<div class="revision">$Id: topics.performance.txt 2343 2010-08-26 21:10:08Z alexander.makarow $</div>

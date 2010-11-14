@@ -12,11 +12,11 @@ Yii menyediakan beberapa kelas pembantu guna memfasilitasi komposisi tampilan. S
 contoh, untuk membuat sebuah field input teks, kita dapat memanggil [CHtml::textField()]; untuk
 membuat daftar drop-down, panggil [CHtml::dropDownList()].
 
-> Info: Orang mungkin heran apa untungnya pemakaian bantuan jika mereka
+> Info: Orang mungkin heran apa untungnya menggunakan helper jika mereka
 > memerlukan sejumlah kode yang mirip dibandingkan dengan kode HTML langsung.
-> Jawabannya adalah bahwa pembantu dapat menyediakan lebih dari sekedar kode HTML. Sebagai
-> example, the following code would generate a text input field which can
-> pemicu pengiriman formulir jika nilainya diubah oleh pengguna.
+> Jawabannya adalah bahwa helper dapat menyediakan lebih dari sekedar kode HTML. Sebagai
+> contoh, kode berikut akan menghasilkan field input teks yang
+> memicu pengiriman formulir jika nilainya diubah oleh pengguna.
 > ~~~
 > [php]
 > CHtml::textField($name,$value,array('submit'=>''));
@@ -28,30 +28,32 @@ variabel `$user` mewakili turunan `LoginForm`.
 
 ~~~
 [php]
-<div class="yiiForm">
+<div class="form">
 <?php echo CHtml::beginForm(); ?>
 
-<?php echo CHtml::errorSummary($user); ?>
+	<?php echo CHtml::errorSummary($model); ?>
 
-<div class="simple">
-<?php echo CHtml::activeLabel($user,'username'); ?>
-<?php echo CHtml::activeTextField($user,'username'); ?>
-</div>
+	<div class="row">
+		<?php echo CHtml::activeLabel($model,'username'); ?>
+		<?php echo CHtml::activeTextField($model,'username') ?>
+	</div>
 
-<div class="simple">
-<?php echo CHtml::activeLabel($user,'password'); ?>
-<?php echo CHtml::activePasswordField($user,'password');
-?>
-</div>
+	<div class="row">
+		<?php echo CHtml::activeLabel($model,'password'); ?>
+		<?php echo CHtml::activePasswordField($model,'password') ?>
+	</div>
 
-<div class="action">
-<?php echo CHtml::activeCheckBox($user,'rememberMe'); ?>
-Remember me next time<br/>
-<?php echo CHtml::submitButton('Login'); ?>
-</div>
+	<div class="row rememberMe">
+		<?php echo CHtml::activeCheckBox($model,'rememberMe'); ?>
+		<?php echo CHtml::activeLabel($model,'rememberMe'); ?>
+	</div>
+
+	<div class="row submit">
+		<?php echo CHtml::submitButton('Login'); ?>
+	</div>
 
 <?php echo CHtml::endForm(); ?>
-</div><!-- yiiForm -->
+</div><!-- form -->
 ~~~
 
 Kode di atas menghasilkan formulir lebih dinamis. Sebagai contoh,
@@ -62,11 +64,46 @@ Hal yang sama, [CHtml::activeTextField()] menghasilkan field input teks
 untuk atribut model yang ditetapkan dan mengubah kelas CSS jika
 ada kesalahan pada input.
 
-Jika kita menggunakan file gaya CSS `form.css` yang disediakan oleh naskah `yiic`, formulir
+Jika kita menggunakan file style CSS `form.css` yang disediakan oleh skrip `yiic`, formulir
 yang dihasilkan akan terlihat seperti berikut:
 
 ![Halaman login](login1.png)
 
 ![Login dengan halaman kesalahan](login2.png)
 
-<div class="revision">$Id: form.view.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>
+Mulai dari versi 1.1.1, disediakan sebuah widget baru yang dinamakan [CActiveForm]
+untuk memfasilitasi pembuatan form. Widget ini mampu mendukung secara langsung
+dan konsisten untuk validasi di bagian server maupun klien. Dengan menggunakan [CActiveForm],
+kode di atas dapat ditulis ulang seperti :
+
+~~~
+[php]
+<div class="form">
+<?php $form=$this->beginWidget('CActiveForm'); ?>
+
+	<?php echo $form->errorSummary($model); ?>
+
+	<div class="row">
+		<?php echo $form->label($model,'username'); ?>
+		<?php echo $form->textField($model,'username') ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'password'); ?>
+		<?php echo $form->passwordField($model,'password') ?>
+	</div>
+
+	<div class="row rememberMe">
+		<?php echo $form->checkBox($model,'rememberMe'); ?>
+		<?php echo $form->label($model,'rememberMe'); ?>
+	</div>
+
+	<div class="row submit">
+		<?php echo CHtml::submitButton('Login'); ?>
+	</div>
+
+<?php $this->endWidget(); ?>
+</div><!-- form -->
+~~~
+
+<div class="revision">$Id: form.view.txt 1751 2010-01-25 17:21:31Z qiang.xue $</div>

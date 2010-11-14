@@ -2,8 +2,8 @@ Erstellen der ersten Yii-Anwendung
 ==================================
 
 Um einen ersten Eindruck von Yii zu bekommen, demonstrieren wir zunächst, wie
-man mit dem `yiic`-Befehl eine Anwendung anlegt.
-`yiic` ist ein Hilfsprogramm, mit dem man u.a. automatisch
+man mit `yiic` (einem Kommandozeilenbefehl) eine Anwendung erstellt und mit 
+`Gii` (einem mächtigen, webbasierten Codegenerator) automatisch
 verschiedene Codeteile generieren kann. Das Installationsverzeichnis von
 Yii nennen wir im folgenden `YiiVerzeichnis`, das Webverzeichnis entsprechend
 `WebVerzeichnis`.
@@ -154,9 +154,9 @@ Erstellen von CRUD-Operationen
 
 Kommen wir nun zum unterhaltsamen Teil: Wir möchten CRUD-Operationen (
 für "*C*reate, *R*ead, *U*pdate, *D*elete", "Erstellen, Lesen, Aktualisieren, Löschen")
-für die eben erstellte Tabelle `User` bereitstellen. Eine typische
+für die eben erstellte Tabelle `tbl_user` bereitstellen. Eine typische
 Aufgabenstellung aus der Praxis. Statt den nötigen Code mühevoll selbst zu schreiben,
-können Sie dazu den leistungsstarken Codegenerator Gii verwenden.
+können Sie dazu den leistungsstarken Codegenerator `Gii` verwenden.
 
 > Info|Info: Gii steht seit Version 1.1.2 zur Verfügung. In früheren Versionen
 > wurde auch für die CRUD-Generierung der erwähnte `yiic`-Befehl verwendet.
@@ -263,4 +263,4 @@ schreiben zu müssen!
 
 ![Seite zum Erstellen eines neuen Benutzers](first-app7.png)
 
-<div class="revision">$Id: quickstart.first-app.txt 2310 2010-08-07 09:32:55Z alexander.makarow $</div>
+<div class="revision">$Id: quickstart.first-app.txt 2375 2010-08-30 12:19:23Z mdomba $</div>

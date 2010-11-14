@@ -144,6 +144,93 @@ protected/
             UpdateAction.php
 ~~~
 
+
+### Binden von Actionparametern
+
+Seit Version 1.1.4 unterstützt Yii das automatische Binden von
+Actionparametern. Das bedeutet, dass eine Controlleraction Parameter
+definieren kann, deren Werte automatisch entsprechend ihrem Namen aus
+`$_GET` befüllt werden.
+
+Nehmen wir zum besseren Verständnis an, ein `PostController` soll eine neue
+Action `create` bekommen, die folgende zwei Parameter benötigt:
+
+* `category`: Eine Integerzahl, die für die Kategorie-ID steht, unter der ein
+neuer Beitrag angelegt werden soll;
+* `language`: Eine Zeichenkette, die die Sprache des neuen Beitrags angibt.
+
+Eine mögliche, allerdings relativ langweilige Umsetzung könnte die benötigten
+`$_GET`-Parameter wie folgt auslesen:
+
+~~~
+[php]
+class PostController extends CController
+{
+	public function actionCreate()
+	{
+		if(isset($_GET['category']))
+			$category=(int)$_GET['category'];
+		else
+			throw new CHttpException(404,'invalid request');
+
+		if(isset($_GET['language']))
+			$language=$_GET['language'];
+		else
+			$language='en';
+
+		// ... fun code starts here ...
+	}
+}
+~~~
+
+Verwendet man stattdessen das Actionparameter-Feature, vereinfacht sich diese
+Aufgabe wie folgt:
+
+~~~
+[php]
+class PostController extends CController
+{
+	public function actionCreate($category, $language='en')
+	{
+		$category=(int)$category;
+
+		// ... fun code starts here ...
+	}
+}
+~~~
+
+Beachten Sie, dass die Actionmethode `actionCreate` jetzt zwei Aufrufparameter
+erhalten hat. Deren Name muss exakt mit den in `$_GET` erwarteten Parametern
+übereinstimmen. Für den `$language`-Parameter is außerdem der Vorgabewert `en`
+definiert. Er wird verwendet, wenn kein `language`-Wert in `$_GET` enthalten
+ist. Da für `$category` kein solcher Vorgabewert definiert wurde, wird
+automatisch eine [CHttpException] mit Fehlercode 400 geworfen, falls dieser
+Parameter nicht im Request übergeben wird.
+
+Seit Version 1.1.5 kann Yii auch automatisch Parameter vom Typ Array erkennen.
+Dazu verwendet man das Type Hinting Feature von PHP wie folgt:
+
+~~~
+[php]
+class PostController extends CController
+{
+	public function actionCreate(array $categories)
+	{
+		// Yii stellt sicher, dass $categories ein Array ist
+	}
+}
+~~~
+
+Man gibt also in der Funktionsdeklaration das Schlüsselwort `array` vor
+`$categories` an. Falls `$_GET['categories']` ein String ist, wird es
+automatisch in ein Array (mit diesem String als einzigem Element) umgewandelt.
+
+> Note|Hinweis: Falls ein Parameter ohne Angabe von `array` deklariert wurde,
+> *muss* ein Skalarwert (also kein Arrray!) übergeben werden. Ist der
+> Parameter in `$_GET` trotzdem ein Array, wird eine HTTP-Exception
+> geworfen.
+
+
 Filter
 ------
 
@@ -235,4 +322,4 @@ Filter angewendet werden soll und auf welche nicht. Oben soll der Filter
 weder Plus noch Minus in der Filterkonfiguration auftauchen, wird der Filter
 auf alle Actions angewendet.
 
-<div class="revision">$Id: basics.controller.txt 1264 2009-07-21 19:34:55Z qiang.xue $</div>
+<div class="revision">$Id: basics.controller.txt 2576 2010-10-28 02:46:14Z qiang.xue $</div>

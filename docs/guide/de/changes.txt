@@ -3,6 +3,18 @@ Neue Features
 
 Diese Seite fasst die wesentlichen neuen Features jeder Yii-Version zusammen.
 
+Version 1.1.5
+-------------
+
+ * [Actions und Binden von Parametern in Konsolenbefehlen](/doc/guide/topics.console)
+ * [Autoload-Unterstützung von Klassen mit Namespace](/doc/guide/basics.namespace)
+ * [Unterstützung von Widget-Views in Themes](/doc/guide/topics.theming#theming-widget-views)
+
+Version 1.1.4
+-------------
+
+ * [Automatisches Binden von Actionparametern](/doc/guide/basics.controller#action-parameter-binding)
+
 Version 1.1.3
 -------------
 
@@ -123,4 +135,4 @@ Version 1.0.5
  * [CUrlManager] unterstützt nun das Parametrisieren des Routenteils einer URL. Siehe:
      - [Parametrisierte Routen in URL-Regeln](/doc/guide/topics.url#parameterizing-routes)
 
-<div class="revision">$Id: changes.txt 2217 2010-06-22 23:51:05Z qiang.xue $</div>
+<div class="revision">$Id: changes.txt 2633 2010-11-09 10:05:20Z haertl.mike $</div>

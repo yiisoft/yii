@@ -1,30 +1,42 @@
 Konsolapplikationer
 ===================
 
-Konsolapplikationer används huvudsakligen av webbapplikationer till att utföra 
-offline-arbete, så som kodgenerering, kompilering av sökindex, skicka mail, etc. 
-Yii erbjuder ett ramverk för att skriva konsolapplikationer på ett 
-objektorienterat och systematiskt sätt.
+Konsolapplikationer används huvudsakligen till att utföra offline-arbete 
+åt uppkopplade (online) webbapplikationer, så som kodgenerering, 
+kompilering av sökindex, skicka mail, etc. Yii erbjuder ett ramverk för 
+framställning av konsolapplikationer på ett objektorienterat och systematiskt sätt.
+Det ger konsolapplikationer möjlighet att använda sig av resurser (t.ex. DB-anslutningar) 
+som används av en uppkopplad webbapplikation.
 
-Yii representerar varje konsoluppgift i termer av [kommando|CConsoleCommand], 
-och en [konsolapplikation|CConsoleApplication]s-instans används för att skicka 
-ut en kommandorads-request till ett passande kommando. Applikationsinstansen 
-skapas i ett startskript. För att utföra en konsol-uppgift, kör man helt enkelt 
-det motsvarande kommandot från kommandoraden på följande sätt,
+Overview
+--------
+
+Yii representerar varje konsoluppgift i termer av [kommando|CConsoleCommand]. 
+Ett konsolkommando skrivs i form av en klass som ärver från och utvidgar [CConsoleCommand].
+
+Konsolkommandon hanteras av en [konsolapplikation|CConsoleApplication].
+En konsolapplikation är snarlik en webapplikation, med innebörd att den konfigureras 
+med en applikationskonfiguration och behöver startas via ett startskript.
+
+För att köra ett konsolkommando används följande kommandoradsformat i ett terminalfönster:
 
 ~~~
 php entryScript.php CommandName Param0 Param1 ...
 ~~~
 
-där `CommandName` refererar till kommandots namn, vilket inte är känsligt för skiftläge (case-insensitive),
-och `Param0`, `Param1` och så vidare är parametrar som skall lämnas med till kommandoinstansen.
 
-Startskriptet för en konsolapplikation är vanligtvis skrivet snarlikt det 
-följande, inte olikt det som tillhör en webbapplikation,
+Startskript
+-----------
+
+Som tidigare nämnts krävs ett startskript för att köra ett konsolkommando. 
+Om en applikation skapas med hjälp av verktyget `yiic webapp`, innehåller 
+den redan en konsolapplikation med ett tillhörande startskript placerat som 
+`protected/yiic.php`.
+
+Vi kan även skriva startskriptet från början så som följer:
 
 ~~~
 [php]
-defined('YII_DEBUG') or define('YII_DEBUG',true);
 // include Yii bootstrap file
 require_once('path/to/yii/framework/yii.php');
 // create application instance and run
@@ -32,39 +44,118 @@ $configFile='path/to/config/file.php';
 Yii::createConsoleApplication($configFile)->run();
 ~~~
 
-Sedan skapar vi kommandoklasserna som skall ärva från och utvidga 
-[CConsoleCommand]. Varje kommandoklass skall ha samma namn som dess 
-kommandonamn, med tillägget `Command`. Till exempel, för att definiera ett 
-`email`-kommando skall en `EmailCommand`-klass skrivas. Alla kommandoklassfiler 
-bör placeras under `commands`, en underkatalog till [applikationens 
-rotkatalog](/doc/guide/basics.application#application-base-directory).
+
+Konsolkommando
+--------------
+
+Konsolkommandon lagras som klassfiler under katalogen som specificeras av 
+[CConsoleApplication::commandPath]. Som standard innebär detta katalogen 
+`protected/commands`.
+
+En konsolkommandoklass måste ärva från och utvidga [CConsoleCommand]. 
+Klassnamnet måste ha formatet `XyzCommand`, där `Xyz` refererar till kommandots 
+namn, med första bokstaven som versal. Till exempel, ett `sitemap`-kommando måste
+använda klassnamnet `SitemapCommand`. Av denna anledning är namn på konsolkommandon 
+skiftlägesberoende.
 
 > Tip|Tips: Genom konfigurering av [CConsoleApplication::commandMap] kan man 
-även ha kommandoklasser med andra namngivningskonventioner och placerade i andra 
-kataloger.
+> även ha kommandoklasser med andra namngivningskonventioner och placerade i andra 
+> kataloger.
 
-Att skriva en kommandoklass involverar huvudsakligen implementering av metoden 
-[CConsoleCommand::run]. Kommandoradsparametrar lämnas till denna metod i form av 
-en array. Nedan följer ett exempel:
+I en konsolkommandoklass måste man antingen skriva några konsolkommandoåtgärder (actions) 
+(beskrivs i nästa delavsnitt), eller åsidosätta metoden [CConsoleCommand::run()] 
+vars signatur är:
 
 ~~~
 [php]
-class EmailCommand extends CConsoleCommand
+public function run($args) { ... }
+~~~
+
+där `$args` refererar till de extra parametrarna givna från kommandoraden.
+
+
+Konsolkommandoåtgärd
+--------------------
+
+> Note|Märk: Finessen konsolkommandoåtgärd har varit tillgänglig sedan version 1.1.5.
+
+Ett konsolkommando behöver ofta hantera olika parametrar. Till exempel ett 
+`sitemap`-kommando kan behöva en parameter som specificerar vilken typ av sajtöversikt som 
+skall genereras. Ett kommando kan delas upp på ett flertal åtgärder (actions), var och en 
+ansvarig för en specifik deluppgift, så som är fallet i [CController].
+
+En konsolkommandoåtgärd implementeras i form av en metod i konsolkommandoklassen.
+Metodens namn måste ha formatet `actionXyz`, där `Xyz` refererar till åtgärdsnamnet 
+med första bokstaven som versal. Till exempel metoden `actionIndex` definierar en 
+åtgärd med namnet `index`.
+
+För att exekvera en specifik åtgärd används följande konsolkommandoformat:
+
+~~~
+php entryScript.php CommandName ActionName --Option1=Value1 --Option2=Value2 ...
+~~~
+
+De tillkommande alternativ-värdeparen kommer lämnas med som parametrar till åtgärdsmetoden.
+Värdet för ett alternativ `xyz` propageras som `$xyz`-parametern i åtgärdsmetoden.
+Till exempel, om vi definierar följande kommandoklass:
+
+~~~
+[php]
+class SitemapCommand extends CConsoleCommand
 {
-	public function run($args)
-	{
-		$receiver=$args[0];
-		// send email to $receiver
-	}
+    public function actionIndex($type, $limit=5) { ... }
+    public function actionInit() { ... }
 }
 ~~~
 
-Vid varje tillfälle i ett kommando kan konsolapplikationens instans kommas åt 
+Följande konsolkommandon kommer alla att leda till metodanropet `actionIndex('News', 5)`:
+
+~~~
+php entryScript.php sitemap index --type=News --limit=5
+
+// $limit erhåller standardvärde
+php entryScript.php sitemap index --type=News
+
+// $limit erhåller standardvärde
+// eftersom 'index' är standardåtgärd kan åtgärdsnamnet utelämnas
+php entryScript.php sitemap --type=News
+
+// alternativens ordning saknar betydelse
+php entryScript.php sitemap index --limit=5 --type=News
+~~~
+
+Om ett alternativ ges utan värde (t.ex. `--type` i stället för `--type=News`),  
+förmodas att motsvarande åtgärdsparameter skall ges värdet boolean `true`.
+
+> Note|Märk: Variationer i alternativens format så som 
+> `--type News`, `-t News` stöds inte.
+
+En parameters värde kan vara av typen array om den deklareras med typledtråd:
+
+~~~
+[php]
+public function actionIndex(array $types) { ... }
+~~~
+
+Faktiskt arrayinnehåll levereras genom att samma alternativ upprepas på kommandoraden:
+
+~~~
+php entryScript.php sitemap index --types=News --types=Article
+~~~
+
+Ovanstående kommando leder till metodanropet `actionIndex(array('News', 'Article'))`.
+
+
+Accessing Resources
+-------------------
+
+Inifrån ett kommando kan konsolapplikationens instans kommas åt 
 via `Yii::app()`. I likhet med en webbapplikationsinstans, kan även en 
 konsolapplikation konfigureras. Till exempel, kan en applikationskomponent `db` 
 konfigureras för tillgång till en databas. Konfigurationen specificeras 
 vanligtvis som en PHP-fil och lämnas till konstruktorn för konsolapplikationens 
 klass (eller [createConsoleApplication|YiiBase::createConsoleApplication] i startskripetet).
+
 
 Använda verktyget `yiic`
 ------------------------
@@ -96,4 +187,4 @@ miljövariabeln `YII_CONSOLE_COMMANDS` att peka till en existerande katalog.
 Globala klassfiler som placeras i denna katalog kommer att bli tillgängliga 
 varhelst `yiic`-verktyget används.
 
-<div class="revision">$Id: topics.console.txt 1870 2010-03-09 22:23:19Z qiang.xue $</div>
+<div class="revision">$Id: topics.console.txt 2580 2010-10-28 18:08:46Z qiang.xue $</div>

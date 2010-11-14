@@ -24,7 +24,7 @@ URL halaman yang diminta tidak ditemukan pada server.
 Jika Anda memasukkan URL secara manual, silahkan periksa ejaan Anda dan coba lagi.
 </p>
 <p>
-Jika Anda pikir ini adalah kesalahan server, silahkan hubungi <?php echo $data['admin']; ?>.
+Jika Anda merasa ini adalah kesalahan server, silahkan hubungi <?php echo $data['admin']; ?>.
 </p>
 <div class="version">
 <?php echo date('Y-m-d H:i:s',$data['time']) .' '. $data['version']; ?>

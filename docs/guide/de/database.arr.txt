@@ -251,7 +251,7 @@ OUTER JOIN`.
 Mit dem Standardwert `null` wird der Beziehungsname als Alias verwendet.
 
    - `together`: Ob ein JOIN der verknüpften Tabelle mit der Haupt- bzw. anderen Tabellen 
-erzwungen werden soll. Diese Option ist nur für HAS_MANY und MANY_MANY von Bedeutung.
+erzwungen werden soll. Diese Option ist nur für `HAS_MANY` und `MANY_MANY` von Bedeutung.
 Setzt man diesen Wert auf `false`, wird eine separate SQL-Abfrage für die verknüpfte Tabelle 
 ausgeführt, wodurch die ganze Abfrage in manchen Fällen beschleunigt wird, da
 weniger gleiche Daten pro Zeile übertragen werden müssen. Ist die Option `true` 
@@ -580,4 +580,4 @@ class User extends CActiveRecord
 verwendet werden, die in [CActiveRecord::scopes] definiert wurden. Man kann
 daher keine parametrisierten Scopes verwenden.
 
-<div class="revision">$Id: database.arr.txt 2288 2010-07-30 00:36:04Z qiang.xue $</div>
+<div class="revision">$Id: database.arr.txt 2350 2010-08-28 18:57:21Z qiang.xue $</div>

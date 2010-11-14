@@ -2,11 +2,11 @@ Uwierzytelnienie i autoryzacja
 ================================
 
 Uwierzytelnienie oraz autoryzacja są wymagane dla stron WWW, które powinny mieć 
-ograniczony dostęp dla pewnych osób. Uwierzytelnienie dotyczy weryfikacji czy ktoś 
+ograniczony dostęp dla pewnych osób. "Uwierzytelnienie" dotyczy weryfikacji czy ktoś 
 jest tym za kogo się podaje. Zazwyczaj używa do tego nazwę użytkownika oraz hasło, 
 aczkolwiek może zawierać również inne metody reprezentujące tożsamość, takie jak 
-karta inteligentna (mikroprocesorowa), odciski palców itp. Autoryzacja jest znajdywaniem 
-czy osoba raz zidentyfikowana (uwierzytelniona), posiada uprawnienia do posługiwania się 
+karta inteligentna (mikroprocesorowa), odciski palców itp. "Autoryzacja" jest znajdywaniem 
+czy osoba raz zidentyfikowana (np. uwierzytelniona), posiada uprawnienia do posługiwania się 
 określonym zasobem. Zazwyczaj determinowane jest to poprzez stwierdzanie, czy ta osoba 
 posiada konkretną rolę, która gwarantuje dostęp do zasobu.
 
@@ -29,22 +29,19 @@ dotyczące tożsamości użytkownika.
 Definiowanie klasy tożsamości
 -----------------------
 
-W celu uwierzytelnienia użytkownika definiujemy klasę tożsamości, która zawiera aktualną 
-logikę uwierzytelniania. Klasa tożsamości powinna implementować interfejs [IUserIdentity]. 
-Różne klasy mogą zostać zaimplementowane dla różnych metod uwierzyterlniania (np. OpenID, LDAP).
-Dobrym pomysłem jest rozszerzenie [CUserIdentity], które jest klasą bazową dla uwierzytelniania 
-opartego na nazwie użytkownika oraz haśle.
+Jak wspomniano wcześniej, uwierzytelnienie dotyczy sprawdzania tożsamości użytkownika. Typowa implementacja uwierzytelnienia w aplikacji sieciowej zazwyczaj używa kominacji nazwy użytkownika oraz hasła w celu sprawdzenia tożsamości użytkownika. Jednakże, może ona zawierać różne metody a także różne implementacj moga być wymagane. Aby dostosować się do różnych metod uwierzytelniania, framework auth Yii wprowadza klasę tożsamości.
 
-Główną pracą w definiowaniu klasy tożsamości jest implementacja metody [IUserIdentity::authenticate].
-Klasa tożsamości może również deklarować dodatkowe informacje o tożsamości, które 
-muszą trwać podczas sesji użytkownika.
+Główną pracą w definiowaniu klasy tożsamości jest implementacja metody [IUserIdentity::authenticate]. 
+Metoda ta jest używana do hermetyzacji szczegółów podejścia do uwierzytelnienia. Klasa tożsamości może również 
+deklarować dodatkowe informacje o tożsamości, które muszą trwać podczas sesji użytkownika.
 
-W następnym przykładzie sprawdzimy poprawność użytkownika i hasła porównując je 
-z tabelą użytkowników w bazie danych przy użyciu [Rekordu Aktywnego](/doc/guide/database.ar). 
-Możemy również nadpisać metodę `getId` aby zwracała zmienną `_id`, która jest ustawiana
-podczas uwierzytelniania (domyślna implementacja zwróci nazwę użytkownika jako ID). 
-Podczas uwierzytelniania zapisujemy otrzymaną informację o tytule `title` w stanie 
-o tej samej nazwie poprzez wywołanie metody [CBaseUserIdentity::setState].
+#### Przykład
+
+W przykładzie tym, używamy klasy tożsamości do zademonstrowania podejścia bazodanowego do tematu uwierzytelnienia. Jest to bardzo typowe dla wieli aplikacji sieciowych. Użytkownik wprowadza jego nazwę oraz hasło do formularza logowania, my następnie spradzimy poprawność tych danych używając [rekordu aktywnego](/doc/guide/database.ar), porównując z danymi z tabeli użytkowników. W tym jednym przykładzie, demonstrujemy kilka rzeczy: 
+
+1. Implementację metody `authenticate()` w celu spradzenia poprawności wprowadzonych danych logowania.
+2. Nadpisanie metody `CUserIdentity::getId()` w celu zwrócenia właściwości `_id`, gdyż domyślnie implementacja ta zwraca jako ID nazwę użytkownika.
+3. Uzyciu metody `setState()` ([CBaseUserIdentity::setState]) w celu zademonstrowania przechowywania pozostałych informacji, które mogą zostać łatwo zwrócone przy kolejnych żądaniach.
 
 ~~~
 [php]
@@ -74,12 +71,15 @@ class UserIdentity extends CUserIdentity
 }
 ~~~
 
-Informacja zapisana w stanie (poprzez wywołanie [CBaseUserIdentity::setState]) 
-będzie przekazana do instancji klasy [CWebUser], które zachowuje ją w stałym miejscu składowania, np. takim jak sesja.
-Informacja ta może być dostępna jako zmienna typu [CWebUser]. Na przykład, otrzymujemy informację 
-o tytule `title` dla aktualnego użytkownika poprzez `Yii::app()->user->title`
-(zostało to udostępnione wraz z wersją 1.0.3. W poprzedzających wersjach, powinniśmy używać
-`Yii::app()->user->getState('title')`.)
+Kiedy opiszemy logowanie i wylogowywanie w następnych rozdziałach, zobaczymy, że przekazujemy tą klasę rożsamości do metody logowania użytkownika. Pozostałe informacje, które zapisujemy w stanach (poprzez wywołanie [CBaseUserIdentity::setState]) będą przekazane do kalsy [CWebUser], która z kolei zapisze je w nośniku trwałych danych, np. takim jak sesja.
+Informacje te mogą być później dostępne jak właściwości [CWebUser]. W naszym przykładzie,  przechowujemy informację o tytule użytkownika poprzez `$this->setState('title', $record->title);`. Gdy już zakończymy proces logowania, możemy uzyskać informację o tytule `title` użytkownika poprzez proste użycie `Yii::app()->user->title` (Funkcja ta jest dostępna od wersji 1.0.3. W poprzednich, należało używać `Yii::app()->user->getState('title')`.)
+
+W następnym przykładzie sprawdzimy poprawność użytkownika i hasła porównując je 
+z tabelą użytkowników w bazie danych przy użyciu [Rekordu Aktywnego](/doc/guide/database.ar). 
+Możemy również nadpisać metodę `getId` aby zwracała zmienną `_id`, która jest ustawiana
+podczas uwierzytelniania (domyślna implementacja zwróci nazwę użytkownika jako ID). 
+Podczas uwierzytelniania zapisujemy otrzymaną informację o tytule `title` w stanie 
+o tej samej nazwie poprzez wywołanie metody [CBaseUserIdentity::setState].
 
 > Info|Info: Domyślnie [CWebUser] używa sesji jako trwałego miejsca składowania informacji
 o tożsamości użytkownika. Jeśli logowanie z użyciem ciasteczek jest udostępnione 
@@ -90,8 +90,8 @@ zadeklarowałeś ważnych danych (np. hasła) jako wartości trwałe.
 Logowanie i wylogowanie
 ----------------
 
-Używają klasy tożsamości oraz komponentu użytkownika możemy zaimplementować w łatwy 
-sposób akcje logowania oraz wylogowania.
+Teraz gdy widzieliśmy przykład tworzenia klasy tożsamości, użyjemy tego aby ułatwić implementację
+akcji naszych akcji logowania i wylogowania. Następujący kod demonstruje jak można to uczynić:
 
 ~~~
 [php]
@@ -105,6 +105,13 @@ else
 // wylogowanie aktualnego użytkownika
 Yii::app()->user->logout();
 ~~~
+
+Tutaj utworzyliśmy nowy obiekt UserIdentity i przekazaliśmy mu dane uwierzytelniające (np. nazwę `$username` i hasło `$password` podane przez użytkownika) do jego konstruktora.  Następnie wołamy po prostu metodę `authenticate()`. Jeśli zakończy się ona sukcesem, przekazujemy informację o tożsamości do metody [CWebUser::login], która przechowa informację o tożsamości w trwałym nośniku danych (domyślnie sesja PHP) w celu zwrócenia ich w następnych żądaniach. Jeśli uwierzytelnianie nie powiedzie się, możemy uzupełnić właściwość `errorMessage` bardziej szczegółowym opisem przyczyny niepowodzenia.
+
+Czy użytkownik został uwierzytelniony czy też nie, można sprawdzić w całej aplikacji poprzez użycie `Yii::app()->user->isGuest`. Jeśli używamy nośników trwałych danych takich jak sesja (domyślnie) i/lub ciasteczek (omówionych później) w celu zapisania informacji o tożsamości, użytkownik może pozostać zalogowany podczas kolejnych żądań. W tym przypadku, gdy nie potrzebujemy klasy UserIdentity oraz całego procesu logowania podczas każdege żądania. Raczej to CWebUser automatycznie zadba o ładowanie informacji o tożsamości użytkownika z nośnika trwałych danych i będzie używał ich do zdeterminowania czy `Yii::app()->user->isGuest` zwraca prawdę lub fałsz.
+
+### Logowanie przy użyciu ciasteczek
+
 
 Domyślnie, użytkownik będzie wylogowany po pewnym czasie braku aktywności, w zależności
 od [konfiguracji sesji](http://www.php.net/manual/en/session.configuration.php).
@@ -121,6 +128,39 @@ Pamiętaj, że funkcjonalność ta wymaga aby przeglądarka użytkownika akcepto
 Yii::app()->user->login($identity,3600*24*7);
 ~~~
 
+Jak wspomnieliśmy powyżej, kiedy logowanie za pomocą ciasteczej jest udostępnione, stany 
+zachowane przez [CBaseUserIdentity::setState] będą również zapisane w ciasteczkach 
+Następnym razem, gdy użytkownik zaloguje się, stany te będą odczytane z ciasteczek i staną
+się dostępne poprzez `Yii::app()->user`.
+
+Chociaż Yii posiada środki do zabezpieczenia stanów w ciasteczkacj przez zmodyfikowaniem
+po stronie kienta, mocno rekomendujemy, by wrażliwe dane nie były przechowywane w stanach.
+Zamiast tego, informacje te powinny być odtwrzoene po stronie serwera poprzez odczytanie ich
+z jakiegoś nośnika danych trwałech po stronie serwera (np. z bazy danych).
+
+Ponadto, w wielu poważnych aplikacjach sieciowych, zalecamy używanie następujacej strategii,
+w celu rozszerzenia bezpieczeństwa logowania przy użyciu cisteczek.
+
+* Jeśli użytkownik zaloguje się poprzez wypełnienie formualrza logowania, generujemy i zapisujemy 
+losowy klucz zarówno w ciasteczku jak i w nośniku po stronie serwera (np. w bazie danych).
+
+* W kolejnych żądaniach, jeśli uwierzytelnianie poprzez ciasteczka zakończy się, porównujemy dwie kopie 
+tych losowych kluczy i upewniamy się czy pasują one do siebie przed zalogowaniem użytkownika.
+
+* Jeśli użytkownik zaloguje się ponownie poprzez formularz logowania, klucz powinien zostać przegenerowany.
+
+Używając powyższej strategii, wyeliminujemy możliwość ponownego użycia starego stanu z ciasteczek,
+które może posiadać przestarzałe informacje.
+
+W celu zaimplementowanie powyższej strategii, musimy nadpisać następujące 2 metody:
+
+* [CUserIdentity::authenticate()]: to miejsce gdzie rzeczywiste uwierzytelnienie ma miejsce.
+Jeśli użytkownik jest uwierzytelniony, powinnniśmy przegenerować losowy klucz i zapisać go
+w bazie dancy tak jak i w stanie poprzez [CBaseUserIdentity::setState].
+
+* [CWebUser::beforeLogin()]: metoda ta jest wołana gdy użytkownik loguje się.
+Powinniśmy sprawdzić jeśli klucz uzyskany ze stanu zapisanego w ciasteczku jest taki sam jak ten z bazy.
+
 Filtr kontroli dostępu (ang. Access Control Filter)
 ---------------------
 
@@ -131,7 +171,7 @@ bazuje na nazwie użytkownika, adresie IP klienta oraz type żądania. Jest ona 
 jako filtr nazwany ["accessControl"|CController::filterAccessControl].
 
 > Tip| Porada: Filtr kontroli dostępu jest wystarczający dla prostych scenariuszy. 
-Dla skomplikowanej kontroli dostępu możesz użyć bazującej na rolach kontroli dostępu 
+Dla bardziej skomplikowanej kontroli dostępu możesz użyć bazującej na rolach kontroli dostępu 
 (RBAC - role-based access control), która zostanie przedstawiona w dalszej części.
 
 Aby kontrolować dostęp do akcji w kontrolerze instalujemy filtr kontroli akcji 
@@ -212,7 +252,7 @@ a matching-all deny rule at the end of rule set, like the following:
 > );
 > ~~~
 > Powodem istnienia tej reguły jest fakt, że jeśli żadna z reguł nie będzie 
-> pasowała do kontekstu, akcja zostanie wykonana.
+> pasowała do kontekstu, akcja będzie kontynuować przetwarzanie.
 
 
 Reguła dostępu może pasować do następujących parametrów kontekstowych:
@@ -457,9 +497,14 @@ $auth->assign('editor','editorC');
 $auth->assign('admin','adminD');
 ~~~
 
+Gdy już raz ustaliliśmy hierarchi, komponent [authManager|CWebApplication::authManager] (np.
+[CPhpAuthManager], [CDbAuthManager]) załaduje automatycznie pozycje. Dlatego też potrzebujemy
+wywołać powyższy kod jedynie raz, a NIE dla każdego żądania. 
+
+
 > Info|Info: Chociaż powyższy przykad wygląda przydługo oraz nużąco, należy pamiętać, 
 że został on stworzony głównie w celach demonstracyjnych. Deweloperzy zazwyczaj 
-potrzebują wykonać pewne interfejsy użytkownika, tak, że użytkownicy końcowi, mogą
+będą potrzebowali wykonać pewne interfejsy użytkownika, tak, że użytkownicy końcowi, mogą
 ich uzywać do tworzenia hierarchii autoryzacji w sposób bardziej intuicyjny.
 
 
@@ -491,7 +536,7 @@ if(Yii::app()->user->checkAccess('createPost'))
 
 Jeśli jednostka autoryzacji jest powiązana z reguła biznesową, która potrzebuje 
 dodatkowwch parametrów, możemy je również przekazać. Na przykład, aby sprawdzić 
-czy użytkownik może zaktualizwać post, powinniśmy zrobić co następuje:
+czy użytkownik może zaktualizwać post, przekażamy dane wiadomości poprzez zmienną `$params`:
 
 ~~~
 [php]
@@ -550,4 +595,4 @@ $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('guest','gość', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 2360 2010-08-28 23:55:47Z qiang.xue $</div>
+<div class="revision">$Id: topics.auth.txt 2638 2010-11-11 14:18:59Z jefftulsa@gmail.com $</div>

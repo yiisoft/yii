@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Message translations.
  *
@@ -40,6 +40,4 @@ return array (
   'This is required if you are using PostgreSQL database.' => '當使用 PostgreSQL 資料庫時, 此項為必要.',
   'This is required if you are using SQLite database.' => '當使用 SQLite 資料庫時, 此項為必要.',
   'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' => '無法確認 URL 路徑資訊. 請確定 $_SERVER["PATH_INFO"] (或 $_SERVER["PHP_SELF"] 與 $_SERVER["SCRIPT_NAME"]) 包含適當的值.',
-  'GD installed<br />FreeType support not installed' => '',
-  'GD not installed' => '',
 );

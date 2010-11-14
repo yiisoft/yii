@@ -152,12 +152,17 @@ verknüpft sein. Die Angaben für ein Element werden in Form einer
 
 Damit wird festgelegt, dass das entsprechende Modelattribut `username` heißt
 und das Eingabefeld vom Typ `text` mit einem `maxlength`-Attribut von 32
-sein soll. Es können auch noch weitere [CFormInputElement]-Optionen im Array
-angegeben werden. Mit der [hint|CFormInputElement::hint]-Option kann man zum
+sein soll. 
+
+So kann jede beschreibbare Eigenschaft eines [CFormInputElement]s konfiguriert
+werden. Mit der [hint|CFormInputElement::hint]-Option kann man so zum
 Beispiel einen Hilfstext angeben oder mit [items|CFormInputElement::items] die
 Elemente in einer DropDown-, CheckBox- oder RadioButton-List bestimmen
-(entsprechend den Methoden in [CHtml]).
-
+(entsprechend den Methoden in [CHtml]). Handelt es sich bei einer Option nicht
+um den Namen einer [CFormInputElement]-Eigenschaft, wird sie als Attribut
+des entsprechenden HTML-Elements verwendet. Im obigen Beispiel wird daher
+z.B. das `maxlength`-Attribut als HTML-Attribut des entsprechenden
+Eingabefeldes gerendert.
 
 Sehen wir uns die [type|CFormInputElement::type]-Option näher an. Mit ihr wird
 der Typ des Eingabefelds festgelegt. Der Typ `text` steht zum Beispiel für ein
@@ -176,9 +181,41 @@ Haus aus" von [CFormInputElement] erkannt:
  - checkboxlist
  - radiolist
 
+Von allen diesen eingebauten Typen wollen wir näher auf die Verwendung der
+"Listen"-Typen eingehen, also `dropdownlist`, `checkboxlist` und `radiolist`. 
+Diese Typen erfordern, dass die [items|CFormInputElement::items]-Eigenschaft
+des entsprechenden Eingabeelements wie folgt angegeben wird:
+
+~~~
+[php]
+'gender'=>array(
+    'type'=>'dropdownlist',
+    'items'=>User::model()->getGeschlechtOptions(),
+    'prompt'=>'Bitte wählen:',
+),
+
+...
+
+class User extends CActiveRecord
+{
+	public function getGeschlechtOptions()
+	{
+		return array(
+			0 => 'Männlich',
+			1 => 'Weiblich',
+		);
+	}
+}
+~~~
+
+Dieser Code erzeugt eine Dropdownliste mit dem Aufforderungstext "Bitte
+wählen:". Die Liste enthält die Optionen "Männlich" und "Weiblich", so wie
+sie von der `getGeschlechtOptions`-Methode in der `User`-Klasse geliefert
+werden.
+
 Daneben kann die [type|CFormInputElement::type]-Option auch den Namen
 einer Widgetklasse oder deren Pfadalias enthalten. Die Widgetklasse muss
-lediglich [CInputWidget] erweitern. Beim Rendern des Elements
+lediglich [CInputWidget] oder [CJuiInputWidget] erweitern. Beim Rendern des Elements
 wird eine Instanz der angegebenen Widgetklasse mit den angegebenen
 Elementparametern erzeugt und gerendert.
 
@@ -499,4 +536,4 @@ noch fast genauso viel Code wie bisher braucht. Trotzdem kann sich der Einsatz
 lohnen, da das Formular in einer separaten Datei definiert wird und sich
 der Entwickler so besser auf die Logik konzentrieren kann.
 
-<div class="revision">$Id: form.builder.txt 2232 2010-06-26 22:42:03Z qiang.xue $</div>
+<div class="revision">$Id: form.builder.txt 2353 2010-08-28 20:45:26Z qiang.xue $</div>

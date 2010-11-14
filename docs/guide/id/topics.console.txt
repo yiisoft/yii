@@ -4,76 +4,166 @@ Aplikasi Konsole
 Aplikasi konsol dipakai terutama oleh aplikasi web untuk melakukan pekerjaan
 offline, seperti pembuatan kode, pencarian kompilasi indeks, pengiriman
 email, dll. Yii menyediakan sebuah kerangka kerja untuk penulisan aplikasi konsol
-secara sistematis dan berorientasi-obyek.
+secara sistematis dan berorientasi-objek. Yii memungkinkan aplikasi konsol mengakses
+sumber daya (seperti koneksi DB) yang digunakan oleh aplikasi Web online.
 
-Yii mewakili setiap tugas konsol dalam batasan turunan [perintah|CConsoleCommand],
-dan [aplikasi konsole|CConsoleApplication] yang dipakai untuk mengirimkan permintaan
-baris perintah ke perintah yang sesuai. Turunan aplikasi dibuat dalam
-naskah entri. Untuk menjalankan tugas konsol, kita cukup menjalankan
-perintah pada baris perintah sebagai berikut,
+
+Tinjauan
+---------
+
+Yii mewakilkan setiap tugas console dengan istilah [command|CConsoleCommand].
+Sebuah command console merupakan kelas turunan dari [CConsoleCommand].
+
+Console command diatur oleh sebua [aplikasi konsole|CConsoleApplication].
+Sebuah aplikasi konsol seperti halnya aplikasi Web yang dapat diatur
+dengan konfigurasi aplikasi dan dipanggil melalui skrip entri.
+
+Untuk menjalankan tugas konsol, kita cukup menjalankan perintah pada baris perintah sebagai berikut,
 
 ~~~
 php entryScript.php CommandName Param0 Param1 ...
 ~~~
 
-di mana `CommandName` merujuk pada nama perintah yang tidak sensitif jenis huruf,
-dan `Param0`, `Param1` dan seterusnya adalah parameter yang dioper ke turunan
-perintah.
 
-Naskah entri untuk aplikasi konsol biasanya ditulis seperti berikut,
-mirip dengan aplikasi Web,
+Skrip Entri
+------------
+
+Seperti yang disinggung di atas, sebuah skrip entri diperlukan guna menjalankan command
+console. Jika sebuah aplikasi dbuat dengan menggunakan `yiic webpp`, maka aplikasinya
+sudah termasuk sebuah aplikasi console dengan sebuah skrip entri yang sesuai, terletak di
+`proctected/yiic.php`.
+
+Kita juga dapatmenulissebuah skrip entri dari awal sebagai berikut:
 
 ~~~
 [php]
-defined('YII_DEBUG') or define('YII_DEBUG',true);
-// sertakan file bootstrap Yii
+// sertakan bootstrap file Yii
 require_once('path/to/yii/framework/yii.php');
-// buat turunan aplikasi dan jalankan
+// buat instance aplikasi dan jalankan
 $configFile='path/to/config/file.php';
 Yii::createConsoleApplication($configFile)->run();
 ~~~
 
-Kemudian kita membuat kelas perintah yang harus diperluas dari [CConsoleCommand].
-Setiap kelas perintah harus dinamai seperti nama perintah ditambahkan dengan
-`Command`. Sebagai contoh, untuk mendifisikan perintah `email`, kita harus menulis kelas
-`EmailCommand`. Semua file kelas perintah harus ditempatkan di bawah subdirektori
-`commands` pada [basis direktori
-aplikasi](/doc/guide/basics.application#application-base-directory).
 
-> Tip: Dengan mengkonfigurasi [CConsoleApplication::commandMap], Anda juga dapat memiliki
-kelas perintah dalam kkonvensi penamaan berbeda dan ditempatkan dalam direktori
-yang berbeda.
+Command Console
+---------------
 
-Menulis kelas perintah umumnya menyangkut implementasi metode
-[CConsoleCommand::run]. Parameter baris perintah dioper sebagai array
-pada metode ini. Di bawah ini contohnya:
+Command console disimpan sebagai file kelas di dalam direktor yang ditentukan
+[CConsoleApplication::commandPath]. Secara default, properti ini merujuk ke
+`protected/commands`.
+
+Sebuah command console harus berupa turunan dari [CConsoleCommand]. Nama kelas
+harus dalam format `XyzCommand`, dengan `Xyz` merujuk ke nama command dengan
+nama depan berupa huruf kapital. Misalnya, sebuah command `sitemap` harus menggunakan
+nama kelas `SitemapCommand`. Untuk alasan ini, nama command console
+bersifat case-sensitive.
+
+> Tip: Dengan mengkonfigurasi [CConsoleApplication::commandMap], seseorang juga dapat
+> memiliki kelas command dengan konvensi penamaan yang berbedan dan terletak di
+> direktori yang berbeda.
+
+Dalam sebuah kelas command console, seseorang harus menulis beberapa action comand console
+(yang akan dijelaskan pada bagian berikutnya), atau meng-override metode
+[CConsoleCommand::run()] dengan tanda berikut :
 
 ~~~
 [php]
-class EmailCommand extends CConsoleCommand
+public function run($args) { ... }
+~~~
+
+di mana `$args` merupakan parameter ekstra yang diberikan dalam command line.
+
+
+Action Command Console
+------------------------
+
+> Note|Catatan: Fitur action command console sudah tersedia semenjak versi 1.1.5
+
+Sebuah command console sering diperlukan untuk mengatur parameter yang berbeda-beda. Misalnya,
+sebuah command `sitemap` mungkin perlu sebuah parameter untuk menentukan jenis sitemap apa yang ingin dihasilkan.
+Kita dapat memecahkan sebuah command menjadi beberapa action, masing-masing akan menangani sebuah tugas kecil yang
+lebih spesifik seperti halnya yang dilakukan kita di [CController].
+
+Sebuah action command console ditulis dengan sebuah metode di dalam kelas command console.
+Sebuah nama metode harus berupa format `actionXyz`, dengan `Xyz` merujuk pada nama action
+dengan huruf depan sebagai huruf kapital. Misalnya, sebuah metode bernama `actionIndex`
+mendefinisikan sebuah acton bernama `index`.
+
+Untuk mengeksekusi action tertentu, kita menggunakan format command console berikut:
+
+~~~
+php entryScript.php CommandName ActionName --Option1=Value1 --Option2=Value2 ...
+~~~
+
+Sebuah pasangan opsi-nilai juga akan di-pass sebagai parameter ke metode action.
+Nilai sebuah opsi `xyz` akan di-pass ke parameter `$xyz` pada metode action.
+Misalnya, jika kita mendefinisikan kelas command berikut:
+
+~~~
+[php]
+class SitemapCommand extends CConsoleCommand
 {
-	public function run($args)
-	{
-		$receiver=$args[0];
-		// kirim email ke $receiver
-	}
+    public function actionIndex($type, $limit=5) { ... }
+    public function actionInit() { ... }
 }
 ~~~
 
-Kapan saja dalam sebuah perintah, kita dapat mengakses turunan aplikasi konsol
-via `Yii::app()`. Seperti turunan aplikasi Web, aplikasi konsole juga bisa
-dikonfigurasi. Sebagai contoh, kita bosa mengkonfigurasi komponen aplikasi `db`
-untuk mengakses database. Konfigurasi biasanya ditetapkan sebagai file PHP dan
-dioper ke pembentuk kelas aplikasi konsol
-(atau [createConsoleApplication|YiiBase::createConsoleApplication] dalam
-naskah entri).
+Kemudian, command console berikut semuanya akan berakhir dengan memanggil `actionIndex('News',5)`:
+
+~~~
+php entryScript.php sitemap index --type=News --limit=5
+
+// $limit mengambil nilai default
+php entryScript.php sitemap index --type=News
+
+// $limit mengambil nilai default
+// karena 'index' merupakan nilai default, kita akan menghilangkan nama aksi
+php entryScript.php sitemap --type=News
+
+// urutan opsi tidak berpengaruh apa-apa
+php entryScript.php sitemap index --limit=5 --type=News
+~~~
+
+Jika sebuah opsi diberikan tanpa nilai (misalnya `--type` alih-alih `--type=News`), maka nilai parameter
+aksi bersangkutan akan diasumsi sebagai `true`.
+
+> Note|Catatan: Kita tidak mendukung format opsi alternatif seperti
+> `--type News`, `-t News`.
+
+Sebuah parameterdapat mengambil nilai array dengan mendeklarasi isyarat jenis array:
+
+~~~
+[php]
+public function actionIndex(array $types) { ... }
+~~~
+
+Untuk memberikan nilai array, kita cukup mengulangi opsi yang sama dalam command line :
+
+~~~
+php entryScript.php sitemap index --types=News --types=Article
+~~~
+
+Command di atas akan memanggil `actionIndex(array('News', 'Article'))`.
+
+
+Mengakses Sumber Daya
+--------------------------------
+
+Dalam sebuah command console, kita dapat mengakses instance aplikasi console
+melalui `Yii::app()`. Seperti instance aplikasi Web, sebuah aplikasi console dapat
+juga dikonfigurasi. Misalnya, kita mengkonfigurasi sebuah komponen aplikasi
+`db` untuk mengakses database. Konfigurasi tersbut umumnya dispesifikasi
+sebagai sebuah file PHP dan di-pass ke constructor pada kelas aplikasi console
+(atau [createConsoleApplication|YiiBase::createConsoleApplication dalam skrip
+entri).
+
 
 Menggunakan Piranti `yiic`
 --------------------------
 
 Kita sudah menggunakan piranti `yiic` untuk [membuat aplikasi pertama
 kita](/doc/guide/quickstart.first-app). Sebenarnya piranti `yiic`
-diimplementasikan sebagai aplikasi konsol yang file naskah entrinya
+diimplementasikan sebagai aplikasi konsol yang file skrip entrinya
 `framework/yiic.php`. Menggunakan `yiic`, kita dapat melaksanakan tugas-tugas seperti
 membuat kerangka aplikasi Web, membuat kelas kontroler atau kelas model,
 membuat kode yang dibutuhkan oleh operasi CRUD, menguraikan pesan yang
@@ -93,4 +183,11 @@ terlihat bersama dengan yang standar. Kita juga bisa membuat perintah kita sendi
 dipakai saat `yiic shell` dipakai. Untuk melakukannya, cukup masukkan file kelas
 perintah di bawah direktori `protected/commands/shell`.
 
-<div class="revision">$Id: topics.console.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>
+Mulai dari versi 1.1.1, kita juga dapat membuat command global yang dapat
+digunakan oleh semua aplikasi Yii pada mesin yang sama. Untuk melakukannya,
+definisikan variabel environment bernama 'YII_CONSOLE_COMMANDS' yang harus merujuk 
+ke direktori yang sudah ada. Kita dapat meletakkan file kelas command global di bawah
+direktori ini, dan kita akan melihat command ini dapat 
+tersedia di mana saja setiap kali kita menggunakan `yiic`.
+
+<div class="revision">$Id: topics.console.txt 2580 2010-10-28 18:08:46Z qiang.xue $</div>

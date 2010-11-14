@@ -55,7 +55,7 @@
 * Spezialthemen
 	- [Automatisierte Codegenerierung](topics.gii)
     - [URL-Management](topics.url)
-    - [Authentifizierung und Berechtigungen](topics.auth)
+    - [Authentifizierung und Autorisierung](topics.auth)
     - [Themes und Skins](topics.theming)
     - [Protokollierung (Logging)](topics.logging)
     - [Fehlerbehandlung](topics.error)

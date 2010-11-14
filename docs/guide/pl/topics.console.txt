@@ -2,25 +2,37 @@ Aplikacje konsolowe
 ====================
 
 Aplikacje konsolowe używane są głównie przez aplikacje webowe do wykonywania zadań 
-w trybie offline, takich jak generowanie kodu, kompilacja indeksu wyszukiwania,  
+w trybie online, takich jak generowanie kodu, kompilacja indeksu wyszukiwania,  
 wysyłanie maili, itp. Yii dostarcza frameworku do pisania aplikacji konsolowych  
-w sposób systematyczny i obiektowo zorientowany.
+w sposób systematyczny i obiektowo zorientowany. Yii udostępnia aplikacji konsolowej
+zasoby (np. połączenia z bazą danych), które używane są przez aplikację sieciową 
+w trybie online.
 
-Yii reprezentuje każde zadanie konsolowe pod pojęciem [polecenia|CConsoleCommand]
-a instancja [aplikacji konsolowej|CConsoleApplication] jest używana do wysłania 
-żądania linii poleceń do odpowiedniego polecenia. Instancja aplikacji tworzona jest 
-w skrypcie wejściowym. Aby wykonać zadanie konsolowe, wystarczy wywołać odpowiednie 
-polecenie w wierszu linii poleceń w następujący sposób:
+Przegląd
+====================
+
+Yii reprezentuje każde zadanie konsolowe pod pojęciem [polecenia|CConsoleCommand].
+Polecenia konsolowe zostały napisane jako rozszerzenia [CConsoleCommand].
+Polecenia konsolowe są zarządzane poprzez [aplikację konsolową|CConsoleApplication].
+Aplikacja konsolowa podobna jest do aplikacji sieciowej i tak jak ona może być 
+konfigurowana za pomocą konfiguracji aplikacji a także potrzebuje być wywoływana za pomocą 
+skryptu wejściowego.
+
+W celu wywołania polecenia konsolowego, użyj następującego formatu polecenia w oknie konsoli:
 
 ~~~
 php entryScript.php NazwaPolecenia Parametr0 Parametr1 ...
 ~~~
 
-gdzie `NazwaPolecenia` odpowiada nazwie polecenia (niewrażliwego na duże i małe litery)   
-`Parametr0`, `Parametr1` oraz dalsze, są parametrami przekazywanymi do instancji polecenia.
+Skrypt wejściowy
+------------
 
-Skrypt wejściowy dla aplikacji konsolowych jest zazwyczaj napisany w następujący sposób,
-podobny do aplikacji webowej:
+Jak wspomnieliśmy wcześniej, skrypt wejściowy jest wymagany w celu wywołania polecenia
+konsolowego. Jeśli aplikacja została utworzona za pomocą narzedzia `yiic webapp`,
+to zawiera ona już aplikację konsolową wraz odpowiednim skryptem umieszonym w 
+`protected/yiic.php`.
+
+Możemy również napisać skrypt wejściowy od początku, np. tak:
 
 ~~~
 [php]
@@ -32,14 +44,25 @@ $configFile='path/to/config/file.php';
 Yii::createConsoleApplication($configFile)->run();
 ~~~
 
-Następnie tworzymy klasy poleceń, które powinny dziedziczyć z klasy [CConsoleCommand].
-Każda klasa poleceń powinna być nazwana poprzez połączenie nazwy polecenia ze słowem 
-`Command`. Na przykład, aby zdefiniować polecenie For `email` powinniśmy napisać 
-klasę `EmailCommand`. Wszystkie klasy poleceń powinny znajdować się w podkatalogu  
-`commands` [głównego folderu aplikacji](/doc/guide/basics.application#application-base-directory).
+Polecenia konsolowe
+---------------
+
+Polecenia konsolowe zapisane są w plikach, z klasami, w katalogu określonym 
+poprzez parametr [CConsoleApplication::commandPath]. Domyślnie wskazuje on 
+na `protected/commands`.
+
+Klasa polecenia konsolowego musi dziedziczyć po [CConsoleCommand]. Nazwa klasy
+powinna posiadać format `XyzCommand`, gdzie `Xyz` oznacza nazwę polecenia,
+którego nazwa rozpoczyna się dużą literą. Np, polecenie `sitemap` musi używać klasy
+o nazwie `SitemapCommand`. Z tego też powodu wielkość liter poleceń konsolowych ma znaczenie.
+
 
 > Tip|Wskazówka: Poprzez skonfigurowanie [CConsoleApplication::commandMap] można posiadać również 
-klasy poleceń spełniające inne konwencje nazewnictwa oraz znajdujące się w innych katalogach.
+> klasy poleceń spełniające inne konwencje nazewnictwa oraz znajdujące się w innych katalogach.
+
+W klasie poleceń konsolowych, trzeba utworzyć kilka poleceń akcji poleceń konsolowych 
+(zostanie to opisane w dalszej części), poprzez nadpisanie metody [CConsoleCommand::run()] 
+o następującej sygnaturze
 
 Pisanie klasy poleceń obejmuje głównie implementację metody [CConsoleCommand::run].  
 Parametry linii poleceń są przekazywane tej metodzie poprzez tablicę. Poniżej 
@@ -47,21 +70,121 @@ znajduje się przykład:
 
 ~~~
 [php]
-class EmailCommand extends CConsoleCommand
+public function run($args) { ... }
+~~~
+
+gdzie `$args` wskazuje na dodatkowe parametry podane w linii poleceń.
+
+Console Command
+---------------
+
+Console commands are stored as class files under the directory specified by
+[CConsoleApplication::commandPath]. By default, this refers to the directory
+`protected/commands`.
+
+A console command class must extend from [CConsoleCommand]. The class name
+must be of format `XyzCommand`, where `Xyz` refers to the command name with
+the first letter in upper case. For example, a `sitemap` command must use
+the class name `SitemapCommand`. For this reason, console command names are
+case-sensitive.
+
+> Tip: By configuring [CConsoleApplication::commandMap], one can also have
+> command classes in different naming conventions and located in different
+> directories.
+
+Within a console command class, one must either write a few console command
+actions (to be described in the next sub-section), or override the
+[CConsoleCommand::run()] method whose signature is follows:
+
+~~~
+[php]
+public function run($args) { ... }
+~~~
+
+where `$args` refers to the extra parameters given in the command line.
+
+
+Akcje poleceń konsolowych
+----------------------
+
+> Note|Uwaga: Funkcjonalność poleceń konsolowych został udostępniona od wersji 1.1.5.
+
+Polecenie konsolowe często potrzebuje operować różnymi parametrami. Na przykład,
+polecenie `sitemap` może brać parametr określający typ generowanej mapy strony.
+Możemy "rozłożyć" polecenie na kilka akcji, gdzie każda ma do czynienia z określonym
+podzadaniem - podobnie jak to czynimy w kontrolerze [CController].
+
+Akcja poleceń konsolowych zapisana jest jako metoda w klasie polecenia konsolowego.
+Nazwa metody musi posiadać format `actionXyz`, gdzie `Xyz` określa nazwę akcji, 
+której pierwsza litera nazwy zapisana jest za pomocą dużej litery. Na przykład,
+metoda `actionIndex` określa akcję o nazwie `index`.
+
+W celu wywołania określonej akcji, używamy następującego formatu dla polecenia konsolowego
+
+~~~
+php skryptWejsiowy.php NazwaPolecenia NazwaAkcji --Opcja1=Wartość1 --Opcja2=Wartość2 ...
+~~~
+
+Dodatkowe pary opcja-wartość zostaną przekazane jako parametry do metody akcji.
+Wasrtośc opcji `xyz` zostanie prezkazana do parametru `$xyz` metody akcji. 
+Na przykład, jeśli zdefiniujemy następująco klasę poleceń:
+
+~~~
+[php]
+class SitemapCommand extends CConsoleCommand
 {
-	public function run($args)
-	{
-		$receiver=$args[0];
-		// wyślij email do $receiver
-	}
+    public function actionIndex($type, $limit=5) { ... }
+    public function actionInit() { ... }
 }
 ~~~
 
-W dowolnym momencie możemy uzyskać dostęp do instancji aplikacji poprzez via `Yii::app()`. 
+W następstwie, wszystkie kolejne polecenia konsolowe będą zakończone wywołaniem `actionIndex('News', 5)`:
+
+~~~
+php entryScript.php sitemap index --type=News --limit=5
+
+// $limit przyjmuje wartość domyślną
+php entryScript.php sitemap index --type=News
+
+// $limit  przyjmuje wartość domyślną
+// ponieważ 'index' jest akcją domyślną, możemy pominąć nazwę akcji 
+php entryScript.php sitemap --type=News
+
+// kolejność opcji nie ma znaczenia 
+php entryScript.php sitemap index --limit=5 --type=News
+~~~
+
+Jeśli opcja podana została bez wartości (np. `--type` zamiast `--type=News`), 
+to odpowiadająca mu wartość parametru akcji zostanie przyjęta jako `true`.
+
+> Note|Uwaga: Nie wspieramy alternatywnego formatpu opcji, takich jak:
+> `--type News`, `-t News`.
+
+Parametr może przyjmować wartości tablicowe jeśli zadeklarujemy go poprzez podpowiadanie typów:
+
+~~~
+[php]
+public function actionIndex(array $types) { ... }
+~~~
+
+Aby wypełnić tablicę wartościami, po prostu powtarzamy tę samą opcje kilka razy w linii poleceń:
+
+~~~
+php emtryScript.php sitemap index --types=News --types=Article
+~~~
+
+Powyższe polecenie wywoła ostatecznie `actionIndex(array('News', 'Article'))`.
+
+
+Dostęp do zasobów
+-------------------
+
+Za pomocą konsoli poleceń, możemy uzyskać dostęp do instancji aplikacji poprzez `Yii::app()`. 
 Tak jak aplikacja webowa, aplikacja konsolowa może również zostać skonfigurowana.
 Na przykład, możemy skonfigurować komponent aplikacji  `db` aby uzyskać dostęp do bazy danych.
 Konfiguracja jest zazwyczaj zapisana jako plik PHP i przekazywana do konstruktora klasy aplikacji
 konsolowej (lub [createConsoleApplication|YiiBase::createConsoleApplication] w skrypcie wejściowym).
+
 
 Używanie narzędzia `yiic`
 ---------------------
@@ -92,4 +215,4 @@ która powinna wskazywać na istniejący katalog. Następnie umieszczamy w nim
 pliki klas dla naszych globalnych poleceń. W rezultacie zobaczymy te polecenia
 dostępnymi w momencie używania narzędzia `yiic`.
 
-<div class="revision">$Id: topics.console.txt 1870 2010-03-09 22:23:
+<div class="revision">$Id: topics.console.txt 2580 2010-10-28 18:08:46Z qiang.xue $</div>

@@ -3,14 +3,14 @@ Layanan Web
 
 [Layanan Web](http://en.wikipedia.org/wiki/Web_service) adalah sistem software
 yang didesain untuk mendukung interaksi interoperable mesin-ke-mesin
-melalui sebuah jaringan. Dalam konteks aplikasi Web, ia biasanya merujuk ke
-satu set API yang dapat diakses melalui Internet dan menjalankan layanan yang
-diminta pada hosting sitem jarak jauh secara jarak jauh. Sebagai contoh, 
-Klien berbasis-[Flex](http://www.adobe.com/products/flex/) dapat memanggil
+melalui sebuah jaringan. Dalam konteks aplikasi Web, ia biasanya merujuk
+ke satu set API yang dapat diakses melalui Internet dan menjalankan
+layanan di hosting sitem remote. Sebagai contoh,
+klien berbasis-[Flex](http://www.adobe.com/products/flex/) dapat memanggil
 fungsi yang diimplementasikan pada sisi server yang menjalankan aplikasi berbasis-PHP.
-Layanan Web bergantung pada
-[SOAP](http://en.wikipedia.org/wiki/SOAP) sebagai lapisan dasar tumpukan
-protokol komunikasinya.
+Layanan Web bergantung
+pada [SOAP](http://en.wikipedia.org/wiki/SOAP)
+sebagai lapisan dasar tumpukan protokol komunikasinya.
 
 Yii menyediakan [CWebService] dan [CWebServiceAction] untuk menyederhanakan pekerjaan
 implementasi layanan Web dalam aplikasi Web. APIs dikelompokkan ke dalam
@@ -20,7 +20,7 @@ API apa yang bersifat variabel dan bagaimana ia harus dipanggil oleh klien. Keti
 sebuah API dipanggil oleh klien, Yii akan menginisiasi penyedia layanan terkait
 dan memanggil API yang diminta guna memenuhi permintaan.
 
-> Note: [CWebService] bergantung pada [PHP SOAP
+> Note|Catatan: [CWebService] bergantung pada [PHP SOAP
 extension](http://www.php.net/manual/en/ref.soap.php). Pastikan Anda menghidupkannya
 sebelum mencoba menampilkan contoh dalam seksi ini.
 
@@ -97,12 +97,12 @@ class StockController extends CController
 }
 ~~~
 
-Selesai, cuma itu yang kita perlukan dalam membuat layanan Web! Jika kita mencoba mengakses
+Selesai, hanya itu yang kita perlukan dalam membuat layanan Web! Jika kita mencoba mengakses
 aksi dengan URL `http://hostname/path/to/index.php?r=stock/quote`, kita akan
 melihat banyak konten XML yang sebenarnya WSDL bagi layanan Web yang kita
 definisikan.
 
-> Tip: Distandarkan, [CWebServiceAction] menganggap kontroler saat ini adalah
+> Tip: Secara default, [CWebServiceAction] menganggap kontroler saat ini adalah
 penyedia layanan. Itulah mengapa kita mendefinisikan metode `getPrice` di dalam
 kelas `StockController`.
 
@@ -119,7 +119,7 @@ $client=new SoapClient('http://hostname/path/to/index.php?r=stock/quote');
 echo $client->getPrice('GOOGLE');
 ~~~
 
-Jalankan naskah di atas baik dalam Web ataupun mode konsol, dan kita seharusnya melihat `350`
+Jalankan skrip di atas baik dalam Web ataupun mode konsol, dan kita seharusnya melihat `350`
 yang merupakan harga untuk `GOOGLE`.
 
 Tipe Data
@@ -217,10 +217,10 @@ Mengintersepsi Penyertaan Metode Remote
 
 Dengan mengimplementasi antar muka [IWebServiceProvider], penyedia layanan bisa
 mengintersepsi penyertaan metode jarak jauh. Dalam
-[IWebServiceProvider::beforeWebMethod], penyedia bisa mengambil turunan
+[IWebServiceProvider::beforeWebMethod], penyedia bisa mengambil instance
 [CWebService] saat ini dan mendapatkan nama metode yang saat ini sedang dipakai
 via [CWebService::methodName]. Ini dapat menghasilkan false jika metode
 remote seharusnya tidak dipanggil untuk beberapa alasan (misalnya
 akses tidak diotorisasi).
 
-<div class="revision">$Id: topics.webservice.txt 1300 2009-08-07 00:39:21Z qiang.xue $</div>
+<div class="revision">$Id: topics.webservice.txt 1808 2010-02-17 21:49:42Z qiang.xue $</div>

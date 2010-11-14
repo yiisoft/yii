@@ -199,6 +199,29 @@ dostarczył go w swoim żądaniu. Poniewać kategoria `$category` nie posiada wa
 jeśli użytkownik jej nie dostarczy nam parametru `category` w `$_GET`, 
 automatycznie zostanie wyrzucony błąd [CHttpException] (kod błędu 400).
 
+Poczynając od wersji 1.1.5, Yii wspiera również wykrywanie typu tablicowego dla parametrów akcji.
+Odbywa się przy użyciu podpowiadania typów PHP o następującej składni:
+
+~~~
+[php]
+class PostController extends CController
+{
+	public function actionCreate(array $categories)
+	{
+		// Yii upewni się, że kategoria $categories jest tablicą
+	}
+}
+~~~
+
+Oznacza to, że dodaliśmy słowo kluczowe `array` przed `$categories` w deklaracji parametrów metody.
+W ten sposób, jeśli `$_GET['categories']` jest zwykłym ciągiem znaków, zostanie on przekonwertowany do tablicy
+zawierającej ten ciąg znaków.
+
+> Note|Uwaga: Jeśli parametr został zadeklarowany bez określenia typu tablicowego `array`, oznacza to,
+> że parametr musi być skalarem (np. nie może być tablicą). W takim przypadku, przekazywanie parametrów 
+> poprzez tablicę w `$_GET` spowoduje błąd HTTP.
+
+
 Filtry
 ------
 
@@ -282,4 +305,4 @@ powinien zostać zastosowany dla akcji `edit` oraz `create`, zaś filtr
 `edit` oraz `create`. Jeśli żaden z operatorów plus lub minus nie pojawia się 
 w konfiguracji filtra, filtr będzie zastosowany do wszystkich akcji.
 
-<div class="revision">$Id: basics.controller.txt 2418 2010-09-02 16:01:46Z qiang.xue $</div>
+<div class="revision">$Id: basics.controller.txt 2576 2010-10-28 02:46:14Z qiang.xue $</div>

@@ -37,7 +37,7 @@ der Seite zu ermitteln, für die der Benutzer zunächst authentifiziert werden
 musste. Die Komponente `Yii::app()->user` ist vom Typ [CWebUser] (oder einer 
 Kindklasse) und steht für Informationen der aktuellen Benutzersitzung 
 (z.B. Benutzername, Status). Weitere Einzelheiten dazu finden Sie unter 
-[Authentifizierung und Berechtigungen](/doc/guide/topics.auth).
+[Authentifizierung und Autorisierung](/doc/guide/topics.auth).
  
 
 Sehen wir uns die folgende Anweisung aus obigem Code genauer an:

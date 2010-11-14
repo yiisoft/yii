@@ -1,64 +1,41 @@
 从版本 1.0 升级到 1.1
 =================================
 
-Changes Related with Model Scenarios
+与 Model Scenarios 相关的改变
 ------------------------------------
 
-- Removed CModel::safeAttributes(). Safe attributes are now defined to
-be those that are being validated by some rules as defined in CModel::rules()
-for the particular scenario.
+- 删除了 CModel::safeAttributes()。安全属性被定义为由 CModel::rules() 为特定场景指定的规则来验证。
 
-- Changed CModel::validate(), CModel::beforeValidate() and CModel::afterValidate().
-CModel::setAttributes(), CModel::getSafeAttributeNames()
-The 'scenario' parameter is removed. You should get and set the model scenario
-via CModel::scenario.
+- 改变了 CModel::validate(), CModel::beforeValidate() 和 CModel::afterValidate()。 CModel::setAttributes()， CModel::getSafeAttributeNames() 参数 'scenario' 被删除。你应当得到和设置模型场景，通过 CModel::scenario。
 
-- Changed CModel::getValidators() and removed CModel::getValidatorsForAttribute().
-CModel::getValidators() now only returns validators applicable to the scenario
-as specified by the model's scenario property.
+- 改变了 CModel::getValidators() 并删除了 CModel::getValidatorsForAttribute()。CModel::getValidators() 现在只返回适用于模型指定场景的验证器。
 
-- Changed CModel::isAttributeRequired() and CModel::getValidatorsForAttribute().
-The scenario parameter is removed. The model's scenario property will be
-used, instead.
+- 改变了 CModel::isAttributeRequired() 和 CModel::getValidatorsForAttribute()。scenario 参数被删除。而是使用模型的 scenario 属性。
 
-- Removed CHtml::scenario. CHtml will use the model's scenario property instead.
+- 删除了 CHtml::scenario。 CHtml 将使用模型的scenario 属性。
 
 
-Changes Related with Eager Loading for Relational Active Record
+与 Eager Loading for Relational Active Record 相关的改变 
 ---------------------------------------------------------------
 
-- By default, a single JOIN statement will be generated and executed
-for all relations involved in the eager loading. If the primary table
-has its `LIMIT` or `OFFSET` query option set, it will be queried alone
-first, followed by another SQL statement that brings back all its related
-objects. Previously in version 1.0.x, the default behavior is that
-there will be `N+1` SQL statements if an eager loading involves
-`N` `HAS_MANY` or `MANY_MANY` relations.
+- 默认的， 一条 JOIN 语句将被生成并为 eager 载入涉及的所有关联执行。若主表有它的 `LIMIT` 或  `OFFSET` 查询选项，它将被单独首先查询，然后跟上取回其所有关联对象的另外的 SQL 。在版本 1.0.x 之前，默认的行为是，若一个 eager 载入涉及到 `N` 个 `HAS_MANY` or `MANY_MANY` 关联，将有 `N+1`  个 SQL 语句。
 
-Changes Related with Table Alias in Relational Active Record
+与在 Relational Active Record 中表别名相关的改变 
 ------------------------------------------------------------
 
-- The default alias for a relational table is now the same as the corresponding
-relation name. Previously in version 1.0.x, by default Yii would automatically
-generate a table alias for each relational table, and we had to use the prefix
-`??.` to refer to this automatically generated alias.
+- 现在一个关联表的默认别名和对应的关联的名字相同。 在版本 1.0.x 之前，默认情况下 Yii 将自动为每个关联表生成一个表别名，我们必须使用前缀 `??.` 来指向自动生成的别名。
 
-- The alias name for the primary table in an AR query is fixed to be `t`.
-Previsouly in version 1.0.x, it was the same as the table name. This will cause
-existing AR query code to break if they explicity specify column prefixes using
-the table name. The solution is to replace these prefixes with 't.'.
+- 在 AR 查询中的主表的别名确定为 `t`。在之前的版本 1.0.x，它和表的名字相同。This will cause existing AR query code to break if they explicity specify column prefixes using the table name. 解决办法是替换这些前缀为 `t.`。
 
 
-Changes Related with Tabular Input
+与 Tabular 输入相关的改变
 ----------------------------------
 
-- For attribute names, using `Field[$i]` is not valid anymore, they should look
-like `[$i]Field` in order to support array-typed fields (e.g. `[$i]Field[$index]`).
+- 对于属性名字，使用 `Field[$i]` 不再是有效的，它们应当类似于 `[$i]Field`，这是为了支持数组类型的字段 (例如 `[$i]Field[$index]`)。
 
-Other Changes
+其他改变
 -------------
 
-- The signature of the [CActiveRecord] constructor is changed. The first parameter
-(list of attributes) is removed.
+- [CActiveRecord] 构造器的签名被改变。第一个参数(属性列表) 被删除。
 
 <div class="revision">$Id: upgrade.txt 2305 2010-08-06 10:27:11Z alexander.makarow $</div>

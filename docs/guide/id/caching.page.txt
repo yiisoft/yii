@@ -1,24 +1,24 @@
-Cache Halaman
-=============
+Penembolokan Halaman (Page Caching)
+===================================
 
-Cache halaman merujuk pada cache konten seluruh halaman. Cache halaman bisa
-terjadi di berbagai tempat. Sebagai contoh, dengan memilih header halaman yang
-sesuai, browser klien mungkin men-cache halaman yang sedang dilihat untuk waktu
-tertentu. Aplikasi Web itu sendiri juga dapat menyimpan konten halaman dalam
-cache. Dalam subseksi ini, fokus kita pada pendekatan ini.
+Penembolokan halaman merujuk pada penembolokan isi seluruh halaman. Penembolokan halaman bisa
+terjadi di berbagai tempat. Misalnya, dengan memilih tajuk halaman(page header) yang
+sesuai, penjelajah klien(client browser) mungkin menembolok halaman yang sedang dilihat untuk jangka waktu
+tertentu. Aplikasi Web sendiri juga dapat menyimpan isi halaman dalam
+tembolok. Dalam subbab ini, fokus kita pada pendekatan ini.
 
-Cache halaman bisa dipertimbangkan sebagai kasus khusus [cache
-fragmen](/doc/guide/caching.fragment). Karena konten halaman sering dibuat
-dengan menerapkan tata letak pada sebuah tampilan, ia tidak akan bekerja jika
+Penembolokan halaman bisa dipertimbangkan sebagai kasus khusus [penembolokan
+fragmen](/doc/guide/caching.fragment). Karena isi halaman sering dihasilkan dari
+dari penerapan tata letak(layout) pada sebuah tampilan, penembolokan halaman tidak akan berfungsi jika
 kita hanya memanggil [beginCache()|CBaseController::beginCache] dan
-[endCache()|CBaseController::endCache] dalam tata letak. Alasannya adalah
-karena tata letak diterapkan di dalam metode [CController::render()] SETELAH
+[endCache()|CBaseController::endCache] dalam tata letak. Alasannya dikarenakan
+tata letak diterapkan dalam metode [CController::render()] SETELAH
 tampilan konten dievaluasi.
 
-Untuk men-cache seluruh halaman, kita harus melewati jalannya aksi pembuatan
-konten halaman. Kita bisa menggunakan [COutputCache] sebagai aksi
-[filter](/doc/guide/basics.controller#filter) untuk melaksanakan tugas ini.
-Kode berikut memperlihatkan bagaimana kita mengkonfigurasi filter cache:
+Untuk menembolok seluruh halaman, kita harus melewatkan eksekusi aksi penghasil
+isi halaman. Kita bisa menggunakan [COutputCache] sebagai aksi
+[filter](/doc/guide/basics.controller#filter) untuk menyelesaikan tugas ini.
+Kode berikut akan memperlihatkan bagaimana kita mengkonfigurasi filter tembolok:
 
 ~~~
 [php]
@@ -39,10 +39,10 @@ dalam kontroler. Kita dapat membatasinya ke satu atau beberapa aksi hanya
 dengan menggunakan operator plus. Lebih jelasnya bisa ditemukan dalam
 [filter](/doc/guide/basics.controller#filter).
 
-> Tip: Kita dapat menggunakan [COutputCache] sebagai filter karena ia diperluas
-dari [CFilterWidget], yang berarti ia adalah widget dan juga filter.
-Sebenarnya, cara widget bekerja mirip dengan filter: widget (filter) dimulai
-sebelum konten yang disertakan (aksi) dievaluasi, dan widget (filter)
-berakhir setelah konten yang disertakan (aksi) dievaluasi.
+> Tip: Kita dapat menggunakan [COutputCache] sebagai filter karena kelas tersebut diturunkan
+dari [CFilterWidget], yang artinya [COutputCache] dapat berupa widget dan juga filter.
+Sebenarnya, cara kerja widget mirip dengan filter: widget (filter) dimulai
+sebelum isi yang dilampirkan (aksi) dievaluasi, dan widget (filter)
+berakhir setelah isi yang dilampirkan (aksi) dievaluasi.
 
 <div class="revision">$Id: caching.page.txt 1014 2009-05-10 12:25:55Z qiang.xue $</div>

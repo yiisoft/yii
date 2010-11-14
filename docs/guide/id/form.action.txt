@@ -9,22 +9,22 @@ Untuk contoh formulir login, kode berikut diperlukan:
 [php]
 public function actionLogin()
 {
-	$form=new LoginForm;
+	$model=new LoginForm;
 	if(isset($_POST['LoginForm']))
 	{
-		// kumpulkan data input pengguna
-		$form->attributes=$_POST['LoginForm'];
-		// validasi input pengguna dan alihkkan ke halaman sebelumnya jika benar
-		if($form->validate())
+		// mengumpulkan data inputan dari user
+		$model->attributes=$_POST['LoginForm'];
+		// validasi inputan user dan redirect kembali ke halaman sebelumnya jika valid.
+		if($model->validate())
 			$this->redirect(Yii::app()->user->returnUrl);
 	}
-	// tampilkan formulir login
-	$this->render('login',array('user'=>$form));
+	// menampilkan form login.
+	$this->render('login',array('model'=>$model));
 }
 ~~~
 
-Dalam contoh di atas, pertama kita membuat turunan `LoginForm`; jika permintaan adalah
-permintaan POST (berarti formulir login dikirimkan), kita mempopulasi `$form`
+Dalam contoh di atas, pertama kita membuat instance `LoginForm`; jika permintaannya adalah
+permintaan POST (berarti formulir login dikirimkan), kita mempopulasikan `$form`
 dengan data yang dikirimkan `$_POST['LoginForm']`; kemudian kita memvalidasi input
 dan jika sukses, mengalihkan browser pengguna ke halaman sebelumnya yang
 memerlukan otentikasi. Jika validasi gagal, atau jika aksi diakses dari
@@ -33,7 +33,7 @@ subseksi berikut.
 
 > Tip: Dalam aksi `login`, kita menggunakan `Yii::app()->user->returnUrl` untuk mendapatkan
 URL halaman sebelumnya yang memerlukan otentikasi. Komponen
-`Yii::app()->user` adalah jenis [CWebUser] (atau anak kelasnya) yang
+`Yii::app()->user` adalah jenis [CWebUser] (atau kelas turunannya) yang
 mewakili informasi sesi pengguna (misalnya username, status). Untuk lebih jelasnya,
 lihat [Otentikasi dan Otorisasi](/doc/guide/topics.auth).
 
@@ -42,7 +42,7 @@ Mari kita perhatikan pernyataan PHP berikut yang muncul dalam aksi
 
 ~~~
 [php]
-$form->attributes=$_POST['LoginForm'];
+$model->attributes=$_POST['LoginForm'];
 ~~~
 
 Seperti yang kami jelaskan dalam [Mengamankan Penempatan Atribut](/doc/guide/form.model#securing-attribute-assignments),
@@ -55,12 +55,12 @@ array seperti itu, kode di atas akan sama dengan kode panjang berikut
 
 ~~~
 [php]
-$form->username=$_POST['LoginForm']['username'];
-$form->password=$_POST['LoginForm']['password'];
-$form->rememberMe=$_POST['LoginForm']['rememberMe'];
+$model->username=$_POST['LoginForm']['username'];
+$model->password=$_POST['LoginForm']['password'];
+$model->rememberMe=$_POST['LoginForm']['rememberMe'];
 ~~~
 
-> Note|Catatan: Agar `$_POST['LoginForm']` menghasilkan array daripada
+> Note|Catatan: Agar `$_POST['LoginForm']` menghasilkan array alih-alih
 string, kita tetap pada konvensi penamaan field input dalam tampilan. Pada
 keadaan tertentu, sebuah field input berkaitan dengan atribut `a` pada kelas model
 `C`, kita namai sebagai `C[a]`. Sebagai contoh, kita ingin menggunakan
@@ -70,4 +70,4 @@ keadaan tertentu, sebuah field input berkaitan dengan atribut `a` pada kelas mod
 Tugas selanjutnya sekarang adalah membuat tampilan `login` yang harus berisi
 formulir HTML dengan field input yang dibutuhkan.
 
-<div class="revision">$Id: form.action.txt 626 2009-02-04 20:51:13Z qiang.xue $</div>
+<div class="revision">$Id: form.action.txt 1837 2010-02-24 22:49:51Z qiang.xue $</div>

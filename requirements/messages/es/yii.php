@@ -41,6 +41,4 @@ return array (
   'This is required if you are using SQLite database.' => 'Esto es requerido si se utiliza una base de datos SQLite.',
   'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' 
 		=> 'No es posible determinar la ruta de información. Por favor asegúrese que $_SERVER["PATH_INFO"] o ($_SERVER["PHP_SELF"] y $_SERVER["SCRIPT_NAME"]) contenga/n un valor correcto.',
-  'GD installed<br />FreeType support not installed' => '',
-  'GD not installed' => '',
 );

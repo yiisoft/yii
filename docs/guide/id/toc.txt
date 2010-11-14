@@ -1,13 +1,14 @@
 * Memulai
 	- [Tinjauan](index)
 	- [Fitur Baru](changes)
+        - [Upgrade dari 1.0 ke 1.1](upgrade)
     - [Apa itu Yii](quickstart.what-is-yii)
     - [Instalasi](quickstart.installation)
     - [Membuat Aplikasi Yii Pertama](quickstart.first-app)
 
 * Fundamental
     - [Model-View-Controller (MVC)](basics.mvc)
-    - [Naskah Entri](basics.entry)
+    - [Skrip Entri](basics.entry)
     - [Aplikasi](basics.application)
     - [Kontroler](basics.controller)
     - [Model](basics.model)
@@ -18,12 +19,13 @@
     - [Konvensi](basics.convention)
     - [Alur Kerja Pengembangan](basics.workflow)
 
-* Bekerja dengan Formulir
+* Bekerja dengan Form
     - [Tinjauan](form.overview)
     - [Membuat Model](form.model)
     - [Membuat Aksi](form.action)
-    - [Membuat Formulir](form.view)
+    - [Membuat Form](form.view)
     - [Mengoleksi Input Tabel](form.table)
+    - [Penggunaan Form Builder](form.builder)
 
 * Bekerja dengan Database
     - [Tinjauan](database.overview)
@@ -33,9 +35,9 @@
 
 * Caching
     - [Tinjauan](caching.overview)
-    - [Cache Data](caching.data)
-    - [Cache Fragmen](caching.fragment)
-    - [Cache Halaman](caching.page)
+    - [Penembolokkan Data](caching.data)
+    - [Penembolokkan Fragmen](caching.fragment)
+    - [Penembolokkan Halaman](caching.page)
     - [Konten Dinamis](caching.dynamic)
 
 * Memperluas Yii
@@ -44,17 +46,25 @@
     - [Membuat Ekstensi](extension.create)
     - [Menggunakan Librari Pihak Ketiga](extension.integration)
 
+* Uji Coba
+	- [Tinjauan](test.overview)
+	- [Mendefinisi Fixture](test.fixture)
+	- [Uji Coba Unit](test.unit)
+	- [Uji Coba Fungsional](test.functional)
+
 * Topik Khusus
+        - [Penghasil Kode Otomatis](topics.gii)
     - [Manajemen URL](topics.url)
     - [Otentikasi dan Otorisasi](topics.auth)
-    - [Tema](topics.theming)
+    - [Tema dan Skin](topics.theming)
     - [Pencatatan](topics.logging)
-    - [Penanganan Kesalahan](topics.error)
+    - [Penanganan Error](topics.error)
     - [Layanan Web](topics.webservice)
     - [Internasionalisasi (I18N)](topics.i18n)
     - [Sintaks Template Alternatif](topics.prado)
     - [Aplikasi Konsol](topics.console)
     - [Keamanan](topics.security)
-    - [Penyesuaian Performansi](topics.performance)
+    - [Pengaturan Performa](topics.performance)
+    - [Menghasilkan Kode dengan Command Line Tools(deprecated)](quickstart.first-app-yiic)
 
-<div class="revision">$Id: toc.txt 956 2009-04-21 15:16:03Z qiang.xue@gmail.com $</div>
+<div class="revision">$Id: toc.txt 2098 2010-05-05 19:49:51Z qiang.xue $</div>

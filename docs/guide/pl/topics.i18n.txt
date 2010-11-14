@@ -139,7 +139,8 @@ Podsumowując, w celu korzystania z tłumaczenia komunikatów, nastepujące krok
 > Tip|Wskazówka: Narzędzie `yiic` może zostać użyte do zarządzania tłumaczeniami komunikatów
 jeśli używamy [CPhpMessageSource] jako źródło komunikatów. Jego polecenie `message`  
 może automatycznie wydobyć komunikaty, które powinny zostać przetłumaczone z wybranego pliku źródłowego
-oraz połączyć je do istniejącymi tłumaczeniami, jeśli jest to konieczne. 
+oraz dołączyć je do istniejących tłumaczeń, jeśli jest to konieczne. Aby uzyskać więcej szczegółów 
+dotyczących komendy `message`, uruchom polecenie `yiic help message`.
 
 Poczynając od wersji 1.0.10, podczas używania klasy [CPhpMessageSource] do zarządzania źródłem 
 wiadomości, wiadomości dla klas rozszerzeń (np. widżetów, modułów)mogą być specjalnie 
@@ -260,4 +261,4 @@ lub zmiennoprzeciwkową.
    - [formatPercentage|CNumberFormatter::formatPercentage]: metoda ta formatuje podaną liczbę używając 
    wzorca procentowego predefiniowanego w danych źródłowych lokalnych ustawień.
 
-<div class="revision">$Id: topics.i18n.txt 2068 2010-04-22 16:42:16Z alexander.makarow $</div>
+<div class="revision">$Id: topics.i18n.txt 2522 2010-09-30 21:13:25Z alexander.makarow $</div>

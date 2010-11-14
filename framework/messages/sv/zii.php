@@ -16,7 +16,9 @@
  * @version $Id: $
  */
 return array (
-  'Are you sure to delete this item?' => 'Bekräfta att borttagning skall utföras',
+  'Are you sure you want to delete this item?' => 'Bekräfta att borttagning skall utföras',
+  'Home' => 'Hem',
+  'The button type "{type}" is not supported.' => 'Knapptypen "{type}" stöds inte.',
   'Delete' => 'Ta bort',
   'Displaying {start}-{end} of {count} result(s).' => 'Visar {start}-{end} av totalt {count} post(er).',
   'Either "name" or "value" must be specified for CDataColumn.' => 'Antingen "name" eller "value" måste specificeras för CDataColumn.',
@@ -33,5 +35,4 @@ return array (
   'Update' => 'Uppdatera',
   'View' => 'Visa',
   '{class} must specify "model" and "attribute" or "name" property values.' => '{class} måste specificera propertyvärden "model" och "attribute" eller "name".',
-  'Please specify the "model" property.' => 'Var god specificera propertyn "model"',
 );

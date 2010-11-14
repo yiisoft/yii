@@ -24,7 +24,7 @@ Permintaan tidak bisa dimengerti oleh server karena salah pembentukan sintaks.
 Harap tidak mengulang permintaan tanpa mengubahnya.
 </p>
 <p>
-Jika Anda pikir ini adalah kesalahan server, silahkan hubungi <?php echo $data['admin']; ?>.
+Jika Anda merasa ini adalah kesalahan server, silahkan hubungi <?php echo $data['admin']; ?>.
 </p>
 <div class="version">
 <?php echo date('Y-m-d H:i:s',$data['time']) .' '. $data['version']; ?>

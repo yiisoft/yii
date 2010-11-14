@@ -118,6 +118,83 @@ protected/
             UpdateAction.php
 ~~~
 
+### 动作参数绑定
+
+从版本  1.1.4 开始，Yii 提供了对自动动作参数绑定的支持。
+就是说，控制器动作可以定义命名的参数，参数的值将由 Yii 自动从 `$_GET` 填充。
+
+为了详细说明此功能，假设我们需要为 `PostController` 写一个 `create` 动作。此动作需要两个参数：
+
+* `category`: 一个整数，代表帖子（post）要发表在的那个分类的ID。
+* `language`: 一个字符串，代表帖子所使用的语言代码。
+
+从 `$_GET` 中提取参数时，我们可以不再下面这种无聊的代码了：
+
+~~~
+[php]
+class PostController extends CController
+{
+	public function actionCreate()
+	{
+		if(isset($_GET['category']))
+			$category=(int)$_GET['category'];
+		else
+			throw new CHttpException(404,'invalid request');
+
+		if(isset($_GET['language']))
+			$language=$_GET['language'];
+		else
+			$language='en';
+
+		// ... fun code starts here ...
+	}
+}
+~~~
+
+现在使用动作参数功能，我们可以更轻松的完成任务：
+
+~~~
+[php]
+class PostController extends CController
+{
+	public function actionCreate($category, $language='en')
+	{
+		$category=(int)$category;
+
+		// ... fun code starts here ...
+	}
+}
+~~~
+
+注意我们在动作方法 `actionCreate` 中添加了两个参数。
+这些参数的名字必须和我们想要从 `$_GET` 中提取的名字一致。
+当用户没有在请求中指定 `$language` 参数时，这个参数会使用默认值 `en` 。
+由于 `$category` 没有默认值，如果用户没有在 `$_GET` 中提供 `category` 参数，
+将会自动抛出一个 [CHttpException] (错误代码 400) 异常。
+Starting from version 1.1.5, Yii also supports array type detection for action parameters.
+This is done by PHP type hinting using the syntax like the following:
+
+~~~
+[php]
+class PostController extends CController
+{
+	public function actionCreate(array $categories)
+	{
+		// Yii will make sure $categories be an array
+	}
+}
+~~~
+
+That is, we add the keyword `array` in front of `$categories` in the method parameter
+declaration. By doing so, if `$_GET['categories']` is a simple string, it will be
+converted into an array consisting of that string.
+
+> Note: If a parameter is declared without the `array` type hint, it means the parameter
+> must be a scalar (i.e., not an array). In this case, passing in an array parameter via
+> `$_GET` would cause an HTTP exception.
+
+
+
 过滤器
 ------
 
@@ -190,4 +267,4 @@ class PostController extends CController
 应只被应用于 `edit` 和 `create` 动作，而 `PerformanceFilter` 应被应用于 除了 `edit` 和 `create` 之外的动作。
 如果过滤器配置中没有使用加减号，则此过滤器将被应用于所有动作。
 
-<div class="revision">$Id: basics.controller.txt 1264 2009-07-21 19:34:55Z qiang.xue $</div>
+<div class="revision">$Id: basics.controller.txt 2418 2010-09-02 16:01:46Z qiang.xue, translated by riverlet$</div>
