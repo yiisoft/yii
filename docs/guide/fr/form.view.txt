@@ -1,0 +1,108 @@
+Créer le formulaire
+===================
+
+Ecrire la vue `login` est très simple. On débute avec un tag `form`
+dont l'attribut action sera l'URL de l'action `login` décrite précédemment.
+On rajoute ensuite les libellés (labels) et les champs (input) pour les
+attributs déclarés dans la classe `LoginForm`. A la fin on ajoute un bouton
+de validation (submit). Tout cela est fait en HTML habituel.
+
+Yii fourni cependant des classes spéciales (helpers) facilitant la création de
+cette vue. Par exemple, on peut créer un champ de saisie de texte en utilisant [CHtml::textField()];
+Ou encore pour créer une liste déroulante (drop-down list), on peut utiliser
+[CHtml::dropDownList()].
+
+> Info: On pourra se demander si les helpers sont vraiment utiles si ils requièrent
+> la même quantité de code comparé à du code HTML pur. En fait les helpers amènent
+> plus que du code HTML. Par exemple, le code suivant génère un champ texte qui
+> déclenchera la soumission du formulaire si sa valeur est éditée par un utilisateur.
+> ~~~
+> [php]
+> CHtml::textField($name,$value,array('submit'=>''));
+> ~~~
+> Sans les helpers, cela aurait nécessité plus de code et du javascript un peu partout.
+
+Dans le code suivant, [CHtml] est utilisé pour créer le formulaire de connection (login). On assumera
+que la variable `$model` représente une instance `LoginForm`.
+
+~~~
+[php]
+<div class="form">
+<?php echo CHtml::beginForm(); ?>
+
+	<?php echo CHtml::errorSummary($model); ?>
+
+	<div class="row">
+		<?php echo CHtml::activeLabel($model,'username'); ?>
+		<?php echo CHtml::activeTextField($model,'username') ?>
+	</div>
+
+	<div class="row">
+		<?php echo CHtml::activeLabel($model,'password'); ?>
+		<?php echo CHtml::activePasswordField($model,'password') ?>
+	</div>
+
+	<div class="row rememberMe">
+		<?php echo CHtml::activeCheckBox($model,'rememberMe'); ?>
+		<?php echo CHtml::activeLabel($model,'rememberMe'); ?>
+	</div>
+
+	<div class="row submit">
+		<?php echo CHtml::submitButton('Login'); ?>
+	</div>
+
+<?php echo CHtml::endForm(); ?>
+</div><!-- form -->
+~~~
+
+Le code ci dessus génère un formulaire plus dynamique. Par example,
+[CHtml::activeLabel()] génère un libellé associé avec l'attribut du modèle.
+Si cet attribut à une erreur de saisie, la classe CSS du libellé
+changera à `error`, ce qui modifiera l'apparence du libellé avec les styles
+CSS appropriés à une erreur. De facon similaire, [CHtml::activeTextField()] génère
+un champ de saisie texte pour l'attribut du modèle et change sa classe CSS
+en cas d'erreur.
+
+Si on utilise le fichier de style CSS `form.css` fourni par le script `yiic`, le formulaire
+généré serait similaire à:
+
+![Page de connection](login1.png)
+
+![Page de connection avec erreurs](login2.png)
+
+Depuis la version 1.1.1, un nouveau widget appelé [CActiveForm] est fourni
+afin de faciliter la création de formulaire. Ce widget est capable d'effectuer
+une validation consistante aussi bien du coté client que du coté serveur. Le code
+ci dessus peut être réécrit comme suivant en utilisant [CActiveForm]:
+
+~~~
+[php]
+<div class="form">
+<?php $form=$this->beginWidget('CActiveForm'); ?>
+
+	<?php echo $form->errorSummary($model); ?>
+
+	<div class="row">
+		<?php echo $form->label($model,'username'); ?>
+		<?php echo $form->textField($model,'username') ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'password'); ?>
+		<?php echo $form->passwordField($model,'password') ?>
+	</div>
+
+	<div class="row rememberMe">
+		<?php echo $form->checkBox($model,'rememberMe'); ?>
+		<?php echo $form->label($model,'rememberMe'); ?>
+	</div>
+
+	<div class="row submit">
+		<?php echo CHtml::submitButton('Login'); ?>
+	</div>
+
+<?php $this->endWidget(); ?>
+</div><!-- form -->
+~~~
+
+<div class="revision">$Id: form.view.txt 1751 2010-01-25 17:21:31Z qiang.xue $</div>

@@ -1,0 +1,68 @@
+Créer l'action
+==============
+
+Une fois qu'on a créé le modèle, on peut commencer à écrire la logique
+nécessaire à la manipulation du modèle. Cette logique est placée au sein
+d'une action d'un contrôleur. Dans l'exemple du formulaire de connection,
+on utilise le code suivant:
+
+~~~
+[php]
+public function actionLogin()
+{
+	$model=new LoginForm;
+	if(isset($_POST['LoginForm']))
+	{
+		// récupère les données de l'utilisateur
+		$model->attributes=$_POST['LoginForm'];
+		// valide les données soumises par l'utilisateur et redirige
+		// la page précédente si les données sont validées.
+		if($model->validate())
+			$this->redirect(Yii::app()->user->returnUrl);
+	}
+	// affiche le formulaire de connection
+	$this->render('login',array('model'=>$model));
+}
+~~~
+
+Ci dessus, on crée tout d'abord une instance du modèle `LoginForm`; si c'est une requète
+POST (signifiant que le formulaire de connection à été soumis par l'utilisateur), on
+fourni au `$model` les données soumises `$_POST['LoginForm']`; puis l'on valide ces données
+et si la validation réussie, on redirige le navigateur de l'utilisateur vers la page
+qui nécessitait l'authentification. Si la validation échoue, ou si l'action est accédée
+pour la premier fois, on affiche la vue `login` avec le contenu qui va être décrit dans
+la section qui suit.
+
+> Tip: Dans l'action `login`, on utilise `Yii::app()->user->returnUrl` pour récupérer
+l'URL de la page qui nécessitait l'authentification. Le component `Yii::app()->user` est
+de type [CWebUser] (ou une de ses classes héritées) représentant l'information sur la session utilisateur (par exemple username, status). Pour plus de détails, voir [Authentication and Authorization](/doc/guide/topics.auth).
+
+Regardons plus attentivement l'opération PHP suivante qui apparait dans l'action `login`:
+
+~~~
+[php]
+$model->attributes=$_POST['LoginForm'];
+~~~
+
+Comme décrit dans [Sécuriser l'assignation des attributs](/doc/guide/form.model#securing-attribute-assignments),
+cette ligne de code rempli le modèle avec les données soumises par l'utilisateur.
+La propriété `attributes` est défini par [CModel] qui attend un tableau de paires de noms-valeurs
+et assigne chaque valeur à l'attribut correspondant dans le modèle. Ainsi si `$_POST['LoginForm']` renvoie
+un tableau, le code ci dessus serait équivalent au code beaucoup plus long ci dessous (chaque attribut doit
+être présent dans le tableau):
+
+~~~
+[php]
+$model->username=$_POST['LoginForm']['username'];
+$model->password=$_POST['LoginForm']['password'];
+$model->rememberMe=$_POST['LoginForm']['rememberMe'];
+~~~
+
+> Note: Afin que `$_POST['LoginForm']` puisse retourner un tableau au lieu d'une chaine de
+caractères, on devra respecter une convention lors du nommage des noms des champs dans la vue.
+En particulier, pour un champ correspondant à l'attribut `a` du modèle de classe `C`, on nomera celui ci `C[a]`.
+Par example, on utiliserait `LoginForm[username]` comme nom pour le champ correspondant à l'attribut `username`.
+
+Il reste maintenant à créer la vue `login` qui contiendra un formulaire HTML avec les champs nécessaires.
+
+<div class="revision">$Id: form.action.txt 1837 2010-02-24 22:49:51Z qiang.xue $</div>
