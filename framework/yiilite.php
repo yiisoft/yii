@@ -31,15 +31,15 @@ defined('YII_PATH') or define('YII_PATH',dirname(__FILE__));
 defined('YII_ZII_PATH') or define('YII_ZII_PATH',YII_PATH.DIRECTORY_SEPARATOR.'zii');
 class YiiBase
 {
+	public static $classMap=array();
 	private static $_aliases=array('system'=>YII_PATH,'zii'=>YII_ZII_PATH); // alias => path
 	private static $_imports=array();					// alias => class name or directory
-	private static $_classes=array();
 	private static $_includePaths;						// list of include paths
 	private static $_app;
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.5-dev';
+		return '1.1.5';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -114,6 +114,28 @@ class YiiBase
 			return self::$_imports[$alias];
 		if(class_exists($alias,false) || interface_exists($alias,false))
 			return self::$_imports[$alias]=$alias;
+		if(($pos=strrpos($alias,'\\'))!==false) // a class name in PHP 5.3 namespace format
+		{
+			$namespace=str_replace('\\','.',ltrim(substr($alias,0,$pos),'\\'));
+			if(($path=self::getPathOfAlias($namespace))!==false)
+			{
+				$classFile=$path.DIRECTORY_SEPARATOR.substr($alias,$pos+1).'.php';
+				if($forceInclude)
+				{
+					if(is_file($classFile))
+						require($classFile);
+					else
+						throw new CException(Yii::t('yii','Alias "{alias}" is invalid. Make sure it points to an existing PHP file.',array('{alias}'=>$alias)));
+					self::$_imports[$alias]=$alias;
+				}
+				else
+					self::$classMap[$alias]=$classFile;
+				return $alias;
+			}
+			else
+				throw new CException(Yii::t('yii','Alias "{alias}" is invalid. Make sure it points to an existing directory.',
+					array('{alias}'=>$namespace)));
+		}
 		if(($pos=strrpos($alias,'.'))===false)  // a simple class name
 		{
 			if($forceInclude && self::autoload($alias))
@@ -137,7 +159,7 @@ class YiiBase
 					self::$_imports[$alias]=$className;
 				}
 				else
-					self::$_classes[$className]=$path.'.php';
+					self::$classMap[$className]=$path.'.php';
 				return $className;
 			}
 			else  // a directory
@@ -187,11 +209,20 @@ class YiiBase
 		// use include so that the error PHP file may appear
 		if(isset(self::$_coreClasses[$className]))
 			include(YII_PATH.self::$_coreClasses[$className]);
-		else if(isset(self::$_classes[$className]))
-			include(self::$_classes[$className]);
+		else if(isset(self::$classMap[$className]))
+			include(self::$classMap[$className]);
 		else
 		{
-			include($className.'.php');
+			if(strpos($className,'\\')===false)
+				include($className.'.php');
+			else  // class name with namespace in PHP 5.3
+			{
+				$namespace=str_replace('\\','.',ltrim($className,'\\'));
+				if(($path=self::getPathOfAlias($namespace))!==false)
+					include($path.'.php');
+				else
+					return false;
+			}
 			return class_exists($className,false) || interface_exists($className,false);
 		}
 		return true;
@@ -463,7 +494,6 @@ class YiiBase
 		'CMarkdown' => '/web/widgets/CMarkdown.php',
 		'CMaskedTextField' => '/web/widgets/CMaskedTextField.php',
 		'CMultiFileUpload' => '/web/widgets/CMultiFileUpload.php',
-		'CMultiFileUpload2' => '/web/widgets/CMultiFileUpload2.php',
 		'COutputCache' => '/web/widgets/COutputCache.php',
 		'COutputProcessor' => '/web/widgets/COutputProcessor.php',
 		'CStarRating' => '/web/widgets/CStarRating.php',
@@ -1222,37 +1252,42 @@ abstract class CApplication extends CModule
 	{
 		if($this->_globalState===null)
 			$this->loadGlobalState();
-		$this->_stateChanged=true;
+		$changed=$this->_stateChanged;
 		if($value===$defaultValue)
-			unset($this->_globalState[$key]);
-		else
+		{
+			if(isset($this->_globalState[$key]))
+			{
+				unset($this->_globalState[$key]);
+				$this->_stateChanged=true;
+			}
+		}
+		else if(!isset($this->_globalState[$key]) || $this->_globalState[$key]!==$value)
+		{
 			$this->_globalState[$key]=$value;
+			$this->_stateChanged=true;
+		}
+		if($this->_stateChanged!==$changed)
+			$this->attachEventHandler('onEndRequest',array($this,'saveGlobalState'));
 	}
 	public function clearGlobalState($key)
 	{
-		if($this->_globalState===null)
-			$this->loadGlobalState();
-		if(isset($this->_globalState[$key]))
-		{
-			$this->_stateChanged=true;
-			unset($this->_globalState[$key]);
-		}
+		$this->setGlobalState($key,true,true);
 	}
-	protected function loadGlobalState()
+	public function loadGlobalState()
 	{
 		$persister=$this->getStatePersister();
 		if(($this->_globalState=$persister->load())===null)
 			$this->_globalState=array();
 		$this->_stateChanged=false;
-		$this->attachEventHandler('onEndRequest',array($this,'saveGlobalState'));
+		$this->detachEventHandler('onEndRequest',array($this,'saveGlobalState'));
 	}
-	protected function saveGlobalState()
+	public function saveGlobalState()
 	{
 		if($this->_stateChanged)
 		{
-			$persister=$this->getStatePersister();
 			$this->_stateChanged=false;
-			$persister->save($this->_globalState);
+			$this->detachEventHandler('onEndRequest',array($this,'saveGlobalState'));
+			$this->getStatePersister()->save($this->_globalState);
 		}
 	}
 	public function handleException($exception)
@@ -3249,14 +3284,25 @@ class CController extends CBaseController
 	}
 	public function render($view,$data=null,$return=false)
 	{
-		$output=$this->renderPartial($view,$data,true);
-		if(($layoutFile=$this->getLayoutFile($this->layout))!==false)
-			$output=$this->renderFile($layoutFile,array('content'=>$output),true);
-		$output=$this->processOutput($output);
-		if($return)
-			return $output;
-		else
-			echo $output;
+		if($this->beforeRender($view))
+		{
+			$output=$this->renderPartial($view,$data,true);
+			if(($layoutFile=$this->getLayoutFile($this->layout))!==false)
+				$output=$this->renderFile($layoutFile,array('content'=>$output),true);
+			$this->afterRender($view,$output);
+			$output=$this->processOutput($output);
+			if($return)
+				return $output;
+			else
+				echo $output;
+		}
+	}
+	protected function beforeRender($view)
+	{
+		return true;
+	}
+	protected function afterRender($view, &$output)
+	{
 	}
 	public function renderText($text,$return=false)
 	{
@@ -4995,22 +5041,55 @@ EOD;
 		else
 			$htmlOptions['class']=self::$errorCss;
 	}
-	protected static function renderAttributes($htmlOptions)
+	public static function renderAttributes($htmlOptions)
 	{
+		static $specialAttributes=array(
+			'checked'=>1,
+			'declare'=>1,
+			'defer'=>1,
+			'disabled'=>1,
+			'ismap'=>1,
+			'multiple'=>1,
+			'nohref'=>1,
+			'noresize'=>1,
+			'readonly'=>1,
+			'selected'=>1,
+		);
 		if($htmlOptions===array())
 			return '';
 		$html='';
-		$raw=isset($htmlOptions['encode']) && !$htmlOptions['encode'];
-		unset($htmlOptions['encode']);
+		if(isset($htmlOptions['encode']))
+		{
+			$raw=!$htmlOptions['encode'];
+			unset($htmlOptions['encode']);
+		}
+		else
+			$raw=false;
 		if($raw)
 		{
 			foreach($htmlOptions as $name=>$value)
-				$html .= ' ' . $name . '="' . $value . '"';
+			{
+				if(isset($specialAttributes[$name]))
+				{
+					if($value)
+						$html .= ' ' . $name . '="' . $name . '"';
+				}
+				else if($value!==null)
+					$html .= ' ' . $name . '="' . $value . '"';
+			}
 		}
 		else
 		{
 			foreach($htmlOptions as $name=>$value)
-				$html .= ' ' . $name . '="' . self::encode($value) . '"';
+			{
+				if(isset($specialAttributes[$name]))
+				{
+					if($value)
+						$html .= ' ' . $name . '="' . $name . '"';
+				}
+				else if($value!==null)
+					$html .= ' ' . $name . '="' . self::encode($value) . '"';
+			}
 		}
 		return $html;
 	}
@@ -5136,7 +5215,18 @@ class CWidget extends CBaseController
 		if(strpos($viewName,'.')) // a path alias
 			$viewFile=Yii::getPathOfAlias($viewName);
 		else
+		{
+			if(($theme=Yii::app()->getTheme())!==null)
+			{
+				$className=str_replace('\\','_',ltrim(get_class($this),'\\')); // possibly namespaced class
+				$viewFile=$theme->getViewPath().DIRECTORY_SEPARATOR.$className.DIRECTORY_SEPARATOR.$viewName;
+				if(is_file($viewFile.$extension))
+					return Yii::app()->findLocalizedFile($viewFile.$extension);
+				else if($extension!=='.php' && is_file($viewFile.'.php'))
+					return Yii::app()->findLocalizedFile($viewFile.'.php');
+			}
 			$viewFile=$this->getViewPath().DIRECTORY_SEPARATOR.$viewName;
+		}
 		if(is_file($viewFile.$extension))
 			return Yii::app()->findLocalizedFile($viewFile.$extension);
 		else if($extension!=='.php' && is_file($viewFile.'.php'))
@@ -5405,7 +5495,7 @@ class CClientScript extends CApplicationComponent
 	public function registerCoreScript($name)
 	{
 		if(isset($this->_coreScripts[$name]))
-			return;
+			return $this;
 		if($this->_packages===null)
 		{
 			$config=require(YII_PATH.'/web/js/packages.php');
@@ -5413,7 +5503,7 @@ class CClientScript extends CApplicationComponent
 			$this->_dependencies=$config[1];
 		}
 		if(!isset($this->_packages[$name]))
-			return;
+			return $this;
 		if(isset($this->_dependencies[$name]))
 		{
 			foreach($this->_dependencies[$name] as $depName)
@@ -5423,6 +5513,7 @@ class CClientScript extends CApplicationComponent
 		$this->_coreScripts[$name]=$name;
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerCoreScript',$params);
+		return $this;
 	}
 	public function registerCssFile($url,$media='')
 	{
@@ -5430,6 +5521,7 @@ class CClientScript extends CApplicationComponent
 		$this->cssFiles[$url]=$media;
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerCssFile',$params);
+		return $this;
 	}
 	public function registerCss($id,$css,$media='')
 	{
@@ -5437,6 +5529,7 @@ class CClientScript extends CApplicationComponent
 		$this->css[$id]=array($css,$media);
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerCss',$params);
+		return $this;
 	}
 	public function registerScriptFile($url,$position=self::POS_HEAD)
 	{
@@ -5444,6 +5537,7 @@ class CClientScript extends CApplicationComponent
 		$this->scriptFiles[$position][$url]=$url;
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerScriptFile',$params);
+		return $this;
 	}
 	public function registerScript($id,$script,$position=self::POS_READY)
 	{
@@ -5453,6 +5547,7 @@ class CClientScript extends CApplicationComponent
 			$this->registerCoreScript('jquery');
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerScript',$params);
+		return $this;
 	}
 	public function registerMetaTag($content,$name=null,$httpEquiv=null,$options=array())
 	{
@@ -5465,6 +5560,7 @@ class CClientScript extends CApplicationComponent
 		$this->metaTags[serialize($options)]=$options;
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerMetaTag',$params);
+		return $this;
 	}
 	public function registerLinkTag($relation=null,$type=null,$href=null,$media=null,$options=array())
 	{
@@ -5480,6 +5576,7 @@ class CClientScript extends CApplicationComponent
 		$this->linkTags[serialize($options)]=$options;
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerLinkTag',$params);
+		return $this;
 	}
 	public function isCssFileRegistered($url)
 	{
@@ -6579,7 +6676,12 @@ abstract class CActiveRecord extends CModel
 	protected function beforeFind()
 	{
 		if($this->hasEventHandler('onBeforeFind'))
-			$this->onBeforeFind(new CEvent($this));
+		{
+			$event=new CModelEvent($this);
+			// for backward compatibility
+			$event->criteria=func_num_args()>0 ? func_get_arg(0) : null;
+			$this->onBeforeFind($event);
+		}
 	}
 	protected function afterFind()
 	{
@@ -6751,7 +6853,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	private function query($criteria,$all=false)
 	{
-        $this->beforeFind();
+        $this->beforeFind($criteria);
 		$this->applyScopes($criteria);
 		if(empty($criteria->with))
 		{
@@ -6984,7 +7086,7 @@ abstract class CActiveRecord extends CModel
 		{
 			if(($record=$this->populateRecord($attributes,$callAfterFind))!==null)
 			{
-				if(empty($index))
+				if($index===null)
 					$records[]=$record;
 				else
 					$records[$record->$index]=$record;
@@ -7309,7 +7411,7 @@ class CDbConnection extends CApplicationComponent
 		if($this->charset!==null)
 		{
 			$driver=strtolower($pdo->getAttribute(PDO::ATTR_DRIVER_NAME));
-			if(!in_array($driver,array('sqlite','mssql','dblib','sqlsrv')))
+			if(in_array($driver,array('pgsql','mysql','mysqli')))
 				$pdo->exec('SET NAMES '.$pdo->quote($this->charset));
 		}
 		if($this->initSQLs!==null)
@@ -7818,6 +7920,17 @@ class CDbCommand extends CComponent
 			$this->_params[$name]=var_export($value,true);
 		return $this;
 	}
+	public function bindValues($values)
+	{
+		$this->prepare();
+		foreach($values as $name=>$value)
+		{
+			$this->_statement->bindValue($name,$value,$this->_connection->getPdoType(gettype($value)));
+			if($this->_connection->enableParamLogging)
+				$this->_params[$name]=var_export($value,true);
+		}
+		return $this;
+	}
 	public function execute($params=array())
 	{
 		if($this->_connection->enableParamLogging && ($pars=array_merge($this->_params,$params))!==array())
@@ -7988,7 +8101,7 @@ class CSqliteColumnSchema extends CDbColumnSchema
 		if($this->type==='string') // PHP 5.2.6 adds single quotes while 5.2.0 doesn't
 			$this->defaultValue=trim($defaultValue,"'\"");
 		else
-			$this->defaultValue=$this->typecast($defaultValue);
+			$this->defaultValue=$this->typecast(strcasecmp($defaultValue,'null') ? $defaultValue : null);
 	}
 }
 abstract class CValidator extends CComponent

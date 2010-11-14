@@ -2,8 +2,8 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.1.5 to be released
-----------------------------
+Version 1.1.5 November 14, 2010
+-------------------------------
 - Bug #997: Fixed the bug that relational AR query with page-by and sorting may fail to work for SQL Server (Qiang)
 - Bug #1130: Fixed the bug when renderDynamic and beginCache was used together without page caching (mdomba)
 - Bug #1244: Fixed the bug that CDbCommandBuilder::createCountCommand may generate invalid SQL when having and/or group options are used (Qiang)
