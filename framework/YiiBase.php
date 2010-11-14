@@ -74,7 +74,7 @@ class YiiBase
 	 */
 	public static function getVersion()
 	{
-		return '1.1.5-dev';
+		return '1.1.5';
 	}
 
 	/**
@@ -765,7 +765,6 @@ class YiiBase
 		'CMarkdown' => '/web/widgets/CMarkdown.php',
 		'CMaskedTextField' => '/web/widgets/CMaskedTextField.php',
 		'CMultiFileUpload' => '/web/widgets/CMultiFileUpload.php',
-		'CMultiFileUpload2' => '/web/widgets/CMultiFileUpload2.php',
 		'COutputCache' => '/web/widgets/COutputCache.php',
 		'COutputProcessor' => '/web/widgets/COutputProcessor.php',
 		'CStarRating' => '/web/widgets/CStarRating.php',

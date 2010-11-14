@@ -18,6 +18,7 @@ General upgrade intructions
 - Check if everything is OK, if not — revert from backup and post
   issues to Yii issue tracker.
 
+
 Upgrading from v1.1.4
 ---------------------
 - CHtml will no longer render null attributes for HTML tags. This means if $htmlOptions is
