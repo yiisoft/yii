@@ -13,9 +13,12 @@
  *
  * NOTE, this file must be saved in UTF-8 encoding.
  *
- * @version $Id: yii.php 1361 2010-01-22 15:44:30Z yii@lourdas.name $
+ * @version $Id: yii.php 1734 2010-11-08 21:56:42Z yii@lourdas.name $
  */
 return array (
+  'GD extension with<br />FreeType support' => 'Επέκταση GD με<br />υποστήριξη για FreeType',
+  'GD installed<br />FreeType support not installed' => 'Επέκταση GD εγκατεστημένη<br />υποστήριξη FreeType δεν υπάρχει.',
+  'GD not installed' => 'Δεν είναι εγκατεστημένη η επέκταση GD',
   '$_SERVER does not have {vars}.' => 'Ο πίνακας $_SERVER δεν περιέχει τη(τις) μεταβλητή(-ές) {vars}.',
   '$_SERVER variable' => 'Μεταβλητή $_SERVER',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => 'Το $_SERVER["SCRIPT_FILENAME"] πρέπει να είναι το ίδιο με το αρχικό αρχείο σεναρίου.',
@@ -23,7 +26,6 @@ return array (
   'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Όλες οι <a href="http://www.yiiframework.com/doc/api/#system.db">σχετικές με βάση κλάσεις</a>',
   'DOM extension' => 'Επέκταση DOM',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => 'Πρέπει να υπάρχει είτε το $_SERVER["REQUEST_URI"] είτε το $_SERVER["QUERY_STRING"].',
-  'GD extension' => 'Επέκταση GD',
   'Mcrypt extension' => 'Επέκταση Mcrypt',
   'Memcache extension' => 'Επέκταση Memcache',
   'PCRE extension' => 'Επέκταση PCRE',
@@ -41,6 +43,4 @@ return array (
   'This is required if you are using PostgreSQL database.' => 'Απαιτείται αν χρησιμοποιείτε βάση PostgreSQL.',
   'This is required if you are using SQLite database.' => 'Απαιτείται αν χρησιμοποιείτε βάση SQLite.',
   'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' => 'Δεν ήταν δυνατός ο καθορισμός της διαδρομής URL. Σιγουρευτείτε ότι το $_SERVER["PATH_INFO"] (ή $_SERVER["PHP_SELF"] και $_SERVER["SCRIPT_NAME"]) περιέχει τη σωστή τιμή.',
-  'GD installed<br />FreeType support not installed' => '',
-  'GD not installed' => '',
 );

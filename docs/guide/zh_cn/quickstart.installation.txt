@@ -19,4 +19,4 @@ http://hostname/path/to/yii/requirements/index.php
 
 Yii 的最低需求是你的 Web 服务器支持 PHP 5.1.0 或更高版本。Yii 在 Windows 和 Linux 系统上的 [Apache HTTP 服务器](http://httpd.apache.org/) 中测试通过，应该在其它支持 PHP 5 的 Web 服务器和平台上也工作正常。
 
-<div class="revision">$Id: quickstart.installation.txt 359 2008-12-14 19:50:41Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.installation.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

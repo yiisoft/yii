@@ -147,4 +147,4 @@ Yii stellt eine Reihe von Vorgabe-Systemviews bereit, die unter
 `framework/views` zu finden sind. Man kann sie leicht anpassen, indem
 man gleichnamige Viewdateien in `protected/views/system` anlegt.
 
-<div class="revision">$Id: basics.view.txt 1809 2010-02-17 22:08:34Z qiang.xue $</div>
+<div class="revision">$Id: basics.view.txt 2367 2010-08-29 17:29:22Z qiang.xue $</div>

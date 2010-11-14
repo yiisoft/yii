@@ -11,7 +11,7 @@ Untuk aplikasi Yii, ini dilakukan dengan bantuan
 Membuat URL
 -----------
 
-Meskipun URL bisa dibuat secara manual dala tampilan kontroler, seringkali lebih
+Meskipun URL bisa dibuat secara manual dalam view kontroler, seringkali lebih
 jauh fleksibel jika membuatnya secara dinamis:
 
 ~~~
@@ -19,11 +19,11 @@ jauh fleksibel jika membuatnya secara dinamis:
 $url=$this->createUrl($route,$params);
 ~~~
 
-di mana `$this` merujuk ke turunan kontroler; `$route` menetapkan
+di mana `$this` merujuk ke instance kontroler; `$route` menetapkan
 [rute](/doc/guide/basics.controller#route) permintaan; dan `$params`
 adalah daftar parameter `GET` yang akan ditambahkan ke URL.
 
-Standarnya, URL yang dibuat dengan  [createUrl|CController::createUrl] adalah
+Secara default, URL yang dibuat dengan  [createUrl|CController::createUrl] adalah
 apa yang disebut dengan format `get`. Sebagai contoh, `$route='post/read'` dan
 `$params=array('id'=>100)`, kita akan mendapatkan URL seperti berikut:
 
@@ -32,9 +32,9 @@ apa yang disebut dengan format `get`. Sebagai contoh, `$route='post/read'` dan
 ~~~
 
 di mana parameter terlihat dalam string queri sebagai daftar `Nama=Nilai`
-yang disambung dengan karakter ampersand, dan parameter `r` menetapkan
+yang disambung dengan karakter ampersand (karakter &), dan parameter `r` menetapkan
 permintaan [rute](/doc/guide/basics.controller#route). Format URL ini
-tidak ramah-pengguna karea ini memakai beberapa karakter bukan-kata.
+tidak ramah-pengguna karena memakai beberapa karakter bukan-kata.
 
 Kita ingin menjadikan URL di atas terlihat lebih bersih dan lebih jelas dengan
 menggunakan apa yang disebut format `path` yang mengeliminir string queri dan
@@ -70,7 +70,7 @@ pra-deklarasi sebagai [CUrlManager] dalam [CWebApplication].
 adalah URL relatif. Untuk mendapatkan URL absolut, kita dapat mengawalinya dengan
 `Yii::app()->hostInfo`, atau memanggil [createAbsoluteUrl|CController::createAbsoluteUrl].
 
-URL ramah-pengguna
+URL Ramah-Pengguna
 ------------------
 
 Ketika `path` dipakai sebagai format URL, kita dapat menetapkan beberapa aturan URL untuk
@@ -101,23 +101,38 @@ array(
 );
 ~~~
 
-Aturan ditetapkan sebagai array dengan pasangan pola-rute, masing-masing
+Aturan ditetapkan sebagai array dengan pasangan pola-rute (pattern-route), masing-masing
 berkaitan dengan satu aturan. Pola aturan harus ekspresi reguler yang benar
 tanpa pemisah dan pembeda. Ini dipakai untuk menyamakan bagian info path
-URL. Dan [rute](/doc/guide/basics.controller#route) harus merujuk ke kontroler rute yang sesuai.
+URL. Dan [rute](/doc/guide/basics.controller#route) harus merujuk ke kontroler rute yang valid.
 
-> Info: Mulai dari versi 1.0.6, aturan selanjutnya bisa dikustomisasi
-> dengan menyetel opsi `urlSuffix` dan `caseSensitive`. Dan mulai dari
-> versi 1.0.8, sebuah aturan juga bisa memiliki `defaultParams` yang menwakili
-> sebuah daftar pasangan nama-nilai yang digabung ke dalam `$_GET`. Untuk mengkustomisasi aturan
-> dengan opsi ini, kita harus menetapkan bagian rute pada aturan sebagai sebuah array,
-> seperti berikut:
->
-> ~~~
-> [php]
-> 'pattern1'=>array('route1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
-> ~~~
->
+Selain format pola-rute demikian, aturan juga dapat ditentukan
+dengan opsi yang dikustomisasi, seperti berikut ini :
+
+~~~
+[php]
+'pattern1'=>array('route1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
+~~~
+
+Di atas, array berisi daftar opsi yang terkustomisasi. Pada versi 1.1.0, terdapat
+beberapa opsi yang tersedia:
+
+   - [urlSuffix|CUrlRule::urlSuffix]: merupakan akhir dari URL yang dipakai pada atran. Secara default bernilai null
+yang berarti menggunakan nilai [CUrlManager::urlSuffix].
+
+   - [caseSensitive|CUrlRule::caseSensitive]: menentukan aturan bersifat case-sensitive atau tidak. Secara default bernilai null,
+yang artinya mengikuti nilai [CUrlManager::caseSensitive].
+
+- [defaultParams|CUrlRule::defaultParams]: Parameter GET default (name=>value) yang disediakan oleh aturan ini.
+Ketika aturan ini digunakan untuk parsing permintaan yang masuk, nilai-nilai tersebut yang dideklarasi dalam properti ini
+akan diinjeksi ke $_GET.
+
+   - [matchValue|CUrlRule::matchValue]: menentukan apakah nilai parameter GET harus sesuai dengan sub-pola
+dalam aturan ketika membuat sebuah aturan. Secara default bernilai null,
+yang artinya menggunakan nilai [CUrlManager::matchValue]. Jika properti ini adalah false, itu artinya
+sebuah aturan akan digunakan untuk membuat sebuah URL jika rute dan nama parameter pas dengan yang diberikan.
+Jika properti ini di-ste true, maka nilai parameter yang diberikan juga harus sesuai dengan sub-pola parameter bersangkutan.
+Harap dicatat bahwa jika mengeset properti ini menjadi true akan menurunkan kinerja.
 
 
 ### Menggunakan Parameter Bernama
@@ -161,16 +176,16 @@ sample post'))` menghasilkan `/index.php/post/2008/a%20sample%20post`. Aturan
 ketiga diterapkan.
 
    - Memanggil `$this->createUrl('post/read')` menghasilkan
-`/index.php/post/read`. Tidak ada satu aturapun yang diterapkan.
+`/index.php/post/read`. Tidak ada satupun aturan yang diterapkan.
 
 Secara ringkas, saat menggunakan [createUrl|CController::createUrl] untuk membuat
 URL, rute dan parameter GET mengopernya ke metode yang dipakai untuk
 memutuskan aturan URL mana yang akan diterapkan. Jika setiap parameter dikaitkan
 dengan sebuah aturan dan ditemukan dalam parameter GET yang dioper ke
-[createUrl|CController::createUrl], dan apakah rute aturan juga
+[createUrl|CController::createUrl], dan jika rute aturan juga
 sesuai dengan parameter rute, aturan akan dipakai untuk membuat URL.
 
-Jika parameter GET doper ke [createUrl|CController::createUrl] lebih
+Jika parameter GET dioper ke [createUrl|CController::createUrl] lebih
 dari yang dibutuhkan oleh aturan, parameter tambahan akan muncul dalam
 string queri. Sebagai contoh, jika kita memanggil
 `$this->createUrl('post/read',array('id'=>100,'year'=>2008))`, kita akan
@@ -179,14 +194,14 @@ muncul dalam bagian info path, kita harus menambahkan `/*` pada aturan.
 Oleh karena itu, dengan aturan `post/<id:\d+>/*`, kita bisa mendapatkan URL seperti
 `/index.php/post/100/year/2008`.
 
-Seperti yang sudah kami sebutkan, kegunaan lain aturan URL adalah untuk mengurai
+Seperti yang sudah disebutkan, kegunaan lain aturan URL adalah untuk mengurai
 permintaan URL. Secara alami, ini adalah proses terbalik pembuatan URL. Sebagai contoh,
 ketika pengguna meminta `/index.php/post/100`, aturan kedua dalam contoh
 di atas akan berlaku, menjadi solusi dalam rute `post/read` dan parameter
 GET `array('id'=>100)` (accessible via `$_GET`).
 
 
-> Note|Catatan: Menggunakan aturan URL akan menurunkan performansi aplikasi. Ini
+> Note|Catatan: Menggunakan aturan URL akan menurunkan kinerja aplikasi. Ini
 disebabkan saat mengurai URL yang diminta, [CUrlManager] akan mencoba mencari
 setiap aturan sampai salah satunya diterapkan. Oleh karenanya, aplikasi Web dengan
 lalu lintas tinggi harus meminimalisir pemakaian
@@ -198,7 +213,7 @@ aturan URL.
 Mulai dari versi 1.0.5, kita dapat merujuk parameter bernama dalam bagian rute pada sebuah
 aturan. Ini mengijinkan aturan untuk diterapkan pada multi rute berdasarkan pada kriteria
 yang sesuai. Ini juga membantu mengurangi jumlah aturan yang diperlukan oleh aplikasi,
-Selanjutnya tentunya meingkatkan performansi secara keseluruhan.
+Selanjutnya tentunya meingkatkan kinerja secara keseluruhan.
 
 Kita gunakan contoh berikut untuk menggambarkan bagaimana parameterisasi rute
 dengan parameter bernama:
@@ -224,15 +239,44 @@ Dan menghasilkan `comment/list` dan parameter GET `page=2`, kita dapat membuat U
 `/index.php/comments?page=2`.
 
 
+### Memparameterkan Hostname(Parameterizing Hostname)
+
+Mulai dari versi 1.0.11, Yii sudah memungkinkan untuk menyertakan hostname ke dalam
+aturan penguraian dan pembuatan URL. Kita dapat mengeluarkan bagian dari hostname
+untuk menjadi sebuah parameter GET. Misalnya, URL `http://admin.example.com/en/profile`
+dapat diuraikan menjadi parameter GET `user=admin` dan `lang=en`. Di lain sisi, aturan dengan hostname
+juga dapat digunakan untuk membuat URL dengan hostname terparameterisasi.
+
+Untuk menggunakan hostname terparameterisasi, cukup mendeklarasi aturan URL dengan info host, seperti:
+
+~~~
+[php]
+array(
+	'http://<user:\w+>.example.com/<lang:\w+>/profile' => 'user/profile',
+)
+~~~
+
+Dari contoh di atas, segmen pertama pada hostname akan diperlakukan sebagai parameter `user`
+sedangkan segmen pertama pada info jalur berupa parameter `lang`.
+Aturan menyesuaikan diri dengan rute `profil/pengguna`.
+
+Harap diperhatikan bahwa [CUrlManager::showScriptName|CUrlManager::showScriptName] tidak akan berefek ketika
+URL dibuat dengan menggunakan sebuah aturan hostname terparameter.
+
+Juga dicatat bahwa aturan hostname berparameter TIDAK boleh mengandung sub-folder jika aplikasi
+berada di bawah sebuah sub-folder Web root. Contohnya, jika sebuah aplikasi berada di `http://www.example.com/sandbox/blog`,
+maka kita masih menggunakan aturan URL yang sama seperti
+ yang dijelaskan di atas tanpa sub-folder sandbox/blog.
+
 ### Menyembunyikan `index.php`
 
 Ada satu hal lagi yang dapat kita lakukan untuk membersihkan URL kita, misalnya
-menyembunyikan entri naskah `index.php` dalam URL. Ini mengharuskan kita untuk
+menyembunyikan entri skrip `index.php` dalam URL. Ini mengharuskan kita untuk
 mengkonfigurasi server Web dan juga komponen aplikasi
 [urlManager|CWebApplication::urlManager].
 
-Pertama kita harus mengkonfigurasi server Web agar URL tanpa naskah entri
-masih dapat ditangani oleh naskah entri. Untuk [Apache HTTP
+Pertama kita harus mengkonfigurasi server Web agar URL tanpa skrip entri
+masih dapat ditangani oleh skrip entri. Untuk [Apache HTTP
 server](http://httpd.apache.org/), ini bisa dikerjakan dengan menghidupkan URL
 rewriting engine dan menetapkan beberapa aturan penulisannya. Kita dapat membuat
  file `/wwwroot/blog/.htaccess` dengan konten berikut.
@@ -268,4 +312,4 @@ halaman Web statis. Untuk melakukannya, cukup konfigurasi komponen
 [urlManager|CWebApplication::urlManager] dengan menyetel properti
 [urlSuffix|CUrlManager::urlSuffix] ke sufiks yang Anda inginkan.
 
-<div class="revision">$Id: topics.url.txt 1342 2009-08-17 14:55:58Z qiang.xue $</div>
+<div class="revision">$Id: topics.url.txt 2229 2010-06-25 19:57:54Z poppitypop@gmail.com $</div>

@@ -1,8 +1,8 @@
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 /*<![CDATA[*/
 if(typeof(console)=='object')
 {
-	console.group("Profilowanie: raport stosu wywo³añ");
+	console.group("Profilowanie: raport stosu wywoï¿½aï¿½");
 <?php
 foreach($data as $index=>$entry)
 {

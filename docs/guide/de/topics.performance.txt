@@ -80,7 +80,7 @@ auf Serverebene einsetzen, um die Performance einer Applikation weiter
 zu erhöhen. Tatsächlich fällt das beschriebene Cachen mit
 [APC](/doc/guide/topics.performance#enabling-apc-extension) in diese
 Kategorie. Es gibt auch andere Servertechniken, wie den [Zend
-Optimizer](http://Zend.com/ZendOptimizer),
+Optimizer](http://www.zend.com/en/products/guard/zend-optimizer)
 [eAccelerator](http://eaccelerator.net/) oder
 [Squid](http://www.squid-cache.org/), um nur einige zu nennen.
 
@@ -194,4 +194,4 @@ einzubinden.
 </head>
 ~~~
 
-<div class="revision">$Id: topics.performance.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>
+<div class="revision">$Id: topics.performance.txt 2343 2010-08-26 21:10:08Z alexander.makarow $</div>

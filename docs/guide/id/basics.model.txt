@@ -13,7 +13,7 @@ Yii mengimplementasi dua jenis model: model formulir dan rekaman aktif. Keduanya
 diperluas dari kelas basis yang sama [CModel].
 
 Model formulir adalah turunan dari [CFormModel]. Model formulir dipakai untuk memelihara
-data yang dikumpilkan dari input pengguna. Data tersebut sering dikumpulkan, dipakai
+data yang dikumpulkan dari input pengguna. Data tersebut sering dikumpulkan, dipakai
 kemudian diabaikan. Sebagai contoh, pada halaman masuk, kita dapat menggunakan model formulir untuk
 menyajikan informasi nama pengguna dan kata sandi yang disediakan oleh pengguna
 akhir. Untuk lebih jelasnya, silahkan merujuk ke [Bekerja dengan Formulir](/doc/guide/form.model)

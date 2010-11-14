@@ -1,17 +1,18 @@
-Rekaman Aktif
+Active Record
 =============
 
-Meskipun Yii DAO secara virtual dapat menangani setiap tugas terkait-database,
-kenyataannya kita akan menghabiskan 90% waktu kita dalam penulisan beberapa pernyataan SQL
-yang melakukan operasi umum CRUD (create, read, update dan delete).
-Ini juga akan sulit untuk memelihara kode kita saat ia dicampur dengan
-pernyataan SQL. Untuk memecahkan masalah ini, kita dapat menggunakan Rekaman Aktif.
+Meskipun Yii DAO secara virtual dapat menangani setiap tugas terkait database,
+kemungkinan kita akan menghabiskan 90% waktu kita dalam penulisan beberapa pernyataan SQL
+yang melakukan operasi umum CRUD (create, read, update dan delete) tetap ada.
+Pemeliharaan kode kita saat dicampur dengan
+pernyataan SQL juga akan menambah kesulitan.
+Untuk memecahkan masalah ini, kita dapat menggunakan Active Record.
 
-Rekaman Aktif / Active Record (AR) adalah teknik populer Pemetaan Relasional Obyek / Object-Relational Mapping (ORM).
+Active Record (AR) adalah teknik populer Pemetaan Relasional Objek / Object-Relational Mapping (ORM).
 Setiap kelas AR mewakili tabel database (atau view) yang atributnya diwakili
 oleh properti kelas AR, dan turunan AR mewakili baris pada tabel
 tersebut. Operasi umum CRUD diimplementasikan sebagai metode AR. Hasilnya,
-kita dapat mengakses data dengan cara lebih terorientasi-obyek. Sebagai contoh,
+kita dapat mengakses data dengan cara lebih terorientasi-objek. Sebagai contoh,
 kita dapat menggunakan kode berikut untuk menyisipkan baris baru ke dalam tabel `Post`:
 
 ~~~
@@ -22,10 +23,10 @@ $post->content='post body content';
 $post->save();
 ~~~
 
-Selanjutnya kami jelaskan bagaimana menyiapkan AR dan menggunakannya untuk melakukan operasi
-CRUD. Kami akan memperlihatkan bagaimana untuk menggunakan AR untuk bekerja dengan relasi database
-dalam seksi berikutnya. Demi kemudahan, kami gunakan tabel database berikut
-sebagai contoh kita dalam seksi ini. Catatan bahwa jika Anda menggunakan database MySQL,
+Selanjutnya kita mendalami bagaimana menyiapkan AR dan menggunakannya untuk melakukan operasi
+CRUD. Kita akan melihat bagaimana untuk menggunakan AR untuk bekerja dengan relasi database
+dalam seksi berikutnya. Demi kemudahan, kami menggunakan tabel database berikut
+sebagai contoh kita dalam bagian ini. Harap dicatat bahwa jika Anda menggunakan database MySQL,
 Anda harus mengganti `AUTOINCREMENT` dengan `AUTO_INCREMENT` dalam SQL berikut.
 
 ~~~
@@ -39,16 +40,16 @@ CREATE TABLE Post (
 ~~~
 
 > Note|Catatan: AR tidak ditujukan untuk memecahkan semua tugas-tugas terkait-database. 
-Hal terbaik dipakai untuk memodelkan tabel database dalam konstruksi PHP dan melakukan 
-queri yang tidak melibatkan SQL yang kompleks. Yii DAO harus dipakai untuk skenario 
+AR paling cocok dipakai untuk memodelkan tabel database dalam konstruksi PHP dan melakukan
+queri yang tidak melibatkan SQL yang kompleks. Yii DAO baru dipakai untuk skenario
 kompleks tersebut.
 
 
 Membuat Koneksi DB
 --------------------
 
-AR bergantung pada koneksi DB untuk melaksanakan operasi terkait-DB. Secara standar,
-ia menganggap bahwa komponen aplikasi `db` adalah turunan
+AR bergantung pada koneksi DB untuk melaksanakan operasi terkait-DB. Secara default,
+AR menganggap bahwa komponen aplikasi `db` adalah turunan
 [CDbConnection] yang dibutuhkan untuk bertindak sebagai koneksi DB. Konfigurasi
 aplikasi berikut memperlihatkan sebuah contoh:
 
@@ -59,17 +60,17 @@ return array(
 		'db'=>array(
 			'class'=>'system.db.CDbConnection',
 			'connectionString'=>'sqlite:path/to/dbfile',
-			// hidupkan cache schema untuk meningkatkan performansi
+			// hidupkan cache schema untuk meningkatkan kinerja
 			// 'schemaCachingDuration'=>3600,
 		),
 	),
 );
 ~~~
 
-> Tip: Karena Rekaman Aktif bergantung pada metadata mengenai tabel untuk
-menentukan informasi kolom, dibutuhkan waktu guna membaca metadata dan
-menganalisanya. Jika skema database Anda kurang sepertinya perlu diubah,
-Anda harus menghidupkan cache skema dengan mengkonfigurasi properti
+> Tip: Karena Active Record bergantung pada metadata mengenai tabel untuk
+menentukan informasi kolom, dibutuhkan waktu untuk membaca metadata dan
+menganalisanya. Jika skema database Anda sepertinya kurang perlu diubah,
+Anda bisa menghidupkan cache skema (schema caching) dengan mengkonfigurasi properti
 [CDbConnection::schemaCachingDuration] ke nilai lebih besar daripada
 0.
 
@@ -86,7 +87,7 @@ didukung:
 > Dan dukungan untuk Oracle sudah tersedia sejak versi 1.0.5.
 
 Jika Anda ingin menggunakan komponen aplikasi selain `db`, atau jika Anda
-ingin bekerja dengan multipel database menggunakan AR, Anda harus menimpa
+ingin bekerja dengan multipel database menggunakan AR, Anda harus meng-override
 [CActiveRecord::getDbConnection()]. Kelas [CActiveRecord] adalah basis kelas
 untuk semua kelas AR.
 
@@ -100,8 +101,8 @@ Mendefinisikan Kelas AR
 -----------------------
 
 Untuk mengakses tabel database, pertama kita perlu mendefinisikan kelas AR dengan
-memperluas [CActiveRecord]. Setiap kelas AR mewakili satu tabel database,
-dan turunan AR mewakili sebuah baris dalam tabel tersebut. Contoh berikut
+menurun [CActiveRecord]. Setiap kelas AR mewakili satu tabel database,
+dan instance AR mewakili sebuah record (baris) dalam tabel tersebut. Contoh berikut
 memperlihatkan kode minimal yang diperlukan untuk kelas AR yang mewakili
 tabel `Post`.
 
@@ -129,10 +130,23 @@ class Post extends CActiveRecord
 > );
 > ~~~
 
-Secara standar, nama kelas AR sama seperti nama tabel database.
-Menimpa metode [tableName()|CActiveRecord::tableName] jika berbeda.
+Secara default, nama kelas AR sama dengan nama tabel database.
+Meng-override metode [tableName()|CActiveRecord::tableName] jika berbeda.
 Metode [model()|CActiveRecord::model] dideklarasikan seperti itu
 untuk setiap kelas AR (akan dijelaskan kemudian).
+
+> Info: Untuk menggunakan [fitur prefiks tabel](/doc/guide/database.dao#using-table-prefix)
+> yang sudah ada di versi 1.1.0, metode [tableName()|CActiveRecord::tableName]
+> untuk kelas AR mungkin harus di-override demikian,
+> ~~~
+> [php]
+> public function tableName()
+> {
+>     return '{{post}}';
+> }
+> ~~~
+> Alih-alih mengembalikan nama tabel secara lengkap, kita mengembalikan
+> nama tabel tanpa prefiks dan membungkusnya dengan kurung kurawal ganda.
 
 Nilai kolom pada baris tabel dapat diakses sebagai properti
 turunan kelas AR terkait. Sebagai contoh, kode berikut menyetel kolom
@@ -147,27 +161,35 @@ $post->title='a sample post';
 Meskipun kita tidak pernah mendeklarasikan properti `title` secara eksplisit dalam kelas `Post`,
 kita masih dapat mengaksesnya dalam kode di atas. Ini disebabkan `title` adalah
 kolom dalam tabel `Post`, dan CActiveRecord membuatnya bisa diakses seperti layaknya
-properti dengan bantuan metode magic PHP `__get()`. Eksepsi akan ditampilkan
-jika kita mencoba mengakses kolom yang tidak ada dengan cara yang sama.
+properti dengan bantuan metode magic PHP `__get()`. Eksepsi (exception) akan ditampilkan
+jika kita mencoba mengakses kolom yang tidak ada, dengan cara yang sama.
 
-> Info: Untuk pembacaan yang lebih baik, kami sarankan penamaan tabel database dan
-kolom dalam jenis pundak unta. Secara khusus, nama tabel dibentuk dengan
-membesarkan setiap kata pada namanya dan menggabungkannya tanpa spasi; nama
-kolom mirip dengan nama tabel kecuali huruf pertamanya dalam jenis huruf
-kecil. Sebagai contoh, kita menggunakan `Post` untuk menamai tabel penyimpanan tulisan; dan kita
-menggunakan `createTime` untuk menamai kolom kunci primer tabel. Ini menjadikan tabel
-terlihat lebih seperti tipe kelas dan kolom seperti variabel. Catatan, akan tetapi,
-pemakaian punduk unta juga membuat Anda tidak nyaman pada beberapa DBMS, seperti misalnya MySQL,
-karena ia bertindak secara berbeda pada sistem operasi yang berbeda.
+> Info: Di dalam panduan ini, kita menggunakan huruf kecil untuk seluruh nama tabel dan kolom.
+Ini dikarenakan berbeda-bedanya cara DBMS dalam penanganan case-sensitive. Contohnya PostgreSQL
+tidak memperlakukan nama kolom case-sensitive (jadi huruf besar sama dengan huruf kecil) secara default,
+dan kita harus memberi tanda kutip pada kolom dalam query jika namanya memang mengandung campuran huruf besar dan kecil.
+Menggunakan huruf kecil saja akan menyelesaikan permasalahan ini.
 
+AR bergantung pada pendefinisian primary key tabel yang baik. Jika sebuah tabel tidak memiliki primary key,
+maka AR membutuhkan kelas AR menentukan kolom mana yang dijadikan primary key dengan meng-overide fungsi `primaryKey()` sebagai berikut,
 
-Membuat Rekaman
+~~~
+[php]
+public function primaryKey()
+{
+	return 'id';
+	// Kalau composite primary key, mak kembalikan nilai array seperti demikian
+	// return array('pk1', 'pk2');
+}
+~~~
+
+Membuat Record
 ---------------
 
-Untuk menyisipkan baris baru ke dalam tabel database, kita membuat turunan baru kelas
-AR terkait, menyetel propertinya yang terkait dengan kolom tabel,
+Untuk melakukan insert baris baru ke dalam tabel database, kita membuat instance baru dari kelas
+AR terkait, menyetel propertinya yang berkaitan dengan kolom tabel,
 dan memanggil metode [save()|CActiveRecord::save] untuk menyelesaikan
-penyisipan.
+proses insert.
 
 ~~~
 [php]
@@ -178,14 +200,14 @@ $post->createTime=time();
 $post->save();
 ~~~
 
-Jika kunci primer table adalah auto-incremental, setelah menyisipkan turunan AR
-ia akan berisi kunci primer yang baru dimutakhirkan. Dalam contoh di atas, properti
-`id` akan merujuk pada nilai kunci primer tulisan yang baru saja disisipkan,
+Jika primary key table bersifat auto-increment, setelah insert instance AR
+maka akan berisi primary key yang baru. Dalam contoh di atas, properti
+`id` akan merujuk pada nilai primary key tulisan yang baru saja disisipkan,
 meskipun kita tidak pernah mengubahnya secara eksplisit.
 
 Jika kolom didefinisikan dengan beberapa nilai standar statis (misalnya string, angka)
-dalam skema tabel, properti terkait dalam turunan AR akan secara otomatis memiliki
-nilai tersebut setelah turunan dibuat. Satu cara untuk mengubah nilai standar ini
+dalam skema tabel, properti terkait dalam instance AR akan secara otomatis memiliki
+nilai tersebut setelah instance dibuat. Satu cara untuk mengubah nilai default ini
 adalah dengan secara eksplisit mendeklarasikan properti dalam
 kelas AR:
 
@@ -202,7 +224,7 @@ echo $post->title;  // ini akan menampilkan: please enter a title
 ~~~
 
 Mulai dari versi 1.0.2, atribut dapat menempatkan nilai tipe [CDbExpression]
-sebelum rekaman disimpan (baik penyisipan ataupun pemutakhiran) ke database.
+sebelum record disimpan (baik skenario insert ataupun update) ke database.
 Sebagai contoh, untuk menyimpan timestamp yang dihasilkan oleh fungsi MySQL `NOW()`,
 kita dapat menggunakan kode berikut:
 
@@ -225,7 +247,7 @@ konfigurasi aplikasi agar nilai parameter yang diikat ke pernyataan SQL
 juga dicatat.
 
 
-Membaca Rekaman
+Membaca Record
 ---------------
 
 Untuk membaca data dalam tabel database, kita memanggil salah satu metode `find` seperti
@@ -235,7 +257,7 @@ berikut.
 [php]
 // cari baris pertama sesuai dengan kondisi yang ditetapkan
 $post=Post::model()->find($condition,$params);
-// cari baris dengan kunci primer yang ditetapkan
+// cari baris dengan primary key yang ditetapkan
 $post=Post::model()->findByPk($postID,$condition,$params);
 // cari baris dengan nilai atribut yang ditetapkan
 $post=Post::model()->findByAttributes($attributes,$condition,$params);
@@ -244,8 +266,8 @@ $post=Post::model()->findBySql($sql,$params);
 ~~~
 
 Dalam contoh di atas, kita memanggil metode `find` dengan `Post::model()`. Ingat
-bahwa metode statis `model()` diperlukan oleh setiap kelas AR. Metode
-menghasilkan turunan AR yang dipakai untuk mengakses metode tingkat kelas
+bahwa metode statis `model()` diperlukan oleh setiap kelas AR. Metode ini
+menghasilkan instance AR yang dipakai untuk mengakses metode tingkat kelas
 (mirip dengan metode kelas static) dalam konteks obyek.
 
 Jika metode `find` menemukan baris yang sesuai dengan kondisi queri, ia akan
@@ -267,13 +289,13 @@ ke tempat di dalam `$condition`. Sebagai contoh,
 $post=Post::model()->find('postID=:postID', array(':postID'=>10));
 ~~~
 
-> Note|Catatan: Dalam contoh di atas, kita mungkin perlu melapisi referensi pada kolom `postID`
+> Note|Catatan: Dalam contoh di atas, kita mungkin perlu meng-escape referensi pada kolom `postID`
 untuk DBMS tertentu. Sebagai contoh, jika kita menggunakan PostgreSQL, kita harus menulis 
 kondisi sebagai `"postID"=:postID`, karena PostgreSQL standarnya akan memperlakukan nama
-kolom tidak sensitif jenis huruf.
+kolom tidak case-sensitive.
 
 Kita juga bisa menggunakan `$condition` untuk menetapkan kondisi queri lebih kompleks
-Daripada sebuah string kita membiarkan `$condition` menjadi turunan [CDbCriteria] yang
+Alih-alih mengisi sebuah string, kita dapat mengatur `$condition` menjadi instance [CDbCriteria] yang
 mengijinkan kita untuk menetapkan kondisi selain klausul `WHERE`. Sebagai contoh,
 
 ~~~
@@ -311,15 +333,15 @@ seperti `findByNameAndTitle`. Meskipun pendekatan ini terlihat atraktif, sering
 menyebabkan kebingungan, konflik dan masalah seperti sensitifitas-jenis huruf pada
 nama-nama kolom.
 
-Ketika multipel baris data sama seperti kondisi queri yang ditetapkan, kita dapat
-membawanya sekaligus menggunakan metode `findAll`, masing-masing memiliki
+Ketika lebih dari satu baris data memenuhi kondisi queri yang ditetapkan, kita dapat
+mengambilnya sekaligus menggunakan metode `findAll`, masing-masing memiliki
 pasangan metode `find`, seperti yang sudah kami jelaskan.
 
 ~~~
 [php]
 // cari seluruh baris yang sesuai dengan kondisi yang ditetapkan
 $posts=Post::model()->findAll($condition,$params);
-// cari seluruh baris dengan kunci primer yang ditetapkan
+// cari seluruh baris dengan primary key yang ditetapkan
 $posts=Post::model()->findAllByPk($postIDs,$condition,$params);
 // cari seluruh baris dengan nilai atribut yang ditetapkan
 $posts=Post::model()->findAllByAttributes($attributes,$condition,$params);
@@ -344,10 +366,10 @@ $n=Post::model()->countBySql($sql,$params);
 $exists=Post::model()->exists($condition,$params);
 ~~~
 
-Memutakhirkan Rekaman
+Mengupdate Record
 ---------------------
 
-Setelah turunan AR dipopulasikan dengan nilai kolom, kita dapat mengubah
+Setelah instance AR diisi dengan nilai kolom, kita dapat mengubah
 dan menyimpannya kembali ke tabel database.
 
 ~~~
@@ -358,14 +380,14 @@ $post->save(); // simpan perubahan ke database
 ~~~
 
 Seperti yang kita lihat, kita menggunakan metode [save()|CActiveRecord::save] yang sama
-untuk melakukan operasi penyisipan dan pemutakhiran. Jika turunan AR dibuat
+untuk melakukan operasi insert maupun update. Jika instance AR dibuat
 menggunakan operator `new`, pemanggilan [save()|CActiveRecord::save] akan menyisipkan
-baris rekaman baru ke dalam tabel database; jika turunan AR adalah hasil dari beberapa
+baris record baru ke dalam tabel database; jika turunan AR adalah hasil dari beberapa
 pemanggilan metode `find` atau `findAll`, memanggil [save()|CActiveRecord::save] akan
-memutakhirkan baris yang sudah ada dalam tabel. Bahkan, kita dapat menggunakan
-[CActiveRecord::isNewRecord] untuk memberitahu turunan AR baru atau tidak.
+mengupdate baris yang sudah ada dalam tabel. Bahkan, kita dapat menggunakan
+[CActiveRecord::isNewRecord] untuk mengetahui apakah turunan AR baru atau tidak.
 
-Dimungkinkan juga untuk memutakhirkan satu atau beberapa baris dalam sebuah tabel database
+Dimungkinkan juga untuk mengupdate satu atau beberapa baris dalam sebuah tabel database
 tanpa memanggilnya lebih dulu. AR menyediakan metode tingkat-kelas yang nyaman
 untuk tujuan ini:
 
@@ -373,7 +395,7 @@ untuk tujuan ini:
 [php]
 // mutakhirkan baris yang sama seperti kondisi yang ditetapkan
 Post::model()->updateAll($attributes,$condition,$params);
-// mutakhirkan baris yang sama seperti kondisi dan kunci primer yang ditetapkan
+// mutakhirkan baris yang sama seperti kondisi dan primary key yang ditetapkan
 Post::model()->updateByPk($pk,$attributes,$condition,$params);
 // mutakhirkan kolom counter dalam baris yang sesuai dengan kondisi yang ditetapkan
 Post::model()->updateCounters($counters,$condition,$params);
@@ -382,12 +404,12 @@ Post::model()->updateCounters($counters,$condition,$params);
 Dalam contoh di atas, `$attributes` adalah array nilai kolom yang diindeks oleh
 nama kolom; `$counters` adalah array nilai inkremental yang diindeks oleh nama
 kolom; sedangkan `$condition` dan `$params` seperti yang sudah dijelaskan dalam
-subseksi sebelumnya.
+sub-bab sebelumnya.
 
-Menghapus Rekaman
+Menghapus Record
 -----------------
 
-Kita juga bisa menghapus baris data jika turunan AR sudah dipopulasikan
+Kita juga bisa menghapus baris data jika turunan AR sudah diisi
 dengan baris ini.
 
 ~~~
@@ -406,30 +428,30 @@ haris mengambilnya lebih dulu:
 [php]
 // hapus baris yang sesuai dengan kondisi yang ditetapkan
 Post::model()->deleteAll($condition,$params);
-// hapus baris yang sesuai dengan kondisi dan kunci primer yang ditetapkan
+// hapus baris yang sesuai dengan kondisi dan primary key yang ditetapkan
 Post::model()->deleteByPk($pk,$condition,$params);
 ~~~
 
 Validasi Data
 -------------
 
-Ketika menyisipkan atau memutakhirkan baris, seringkali kita harus memeriksa  apakah nilai
-kolom sesuai dengan aturan tertentu. Ini penting terutama jika nilai kolom
-disediakan oleh pengguna akhir. Secara umum, kita seharusnya tidak pernah
+Ketika melakukan insert atau update baris, seringkali kita harus memeriksa apakah nilai
+kolom sesuai dengan aturan tertentu. Hal ini penting terutama jika nilai kolom
+diberikan oleh pengguna akhir. Pada dasarnya, kita seharusnya tidak boleh
 mempercayai apapun yang berasal dari sisi klien.
 
 AR melakukan validasi data secara otomatis ketika
 [save()|CActiveRecord::save] sedang dipanggil. Validasi didasarkan pada
 aturan yang ditetapkan dalam metode [rules()|CModel::rules] pada kelas AR.
-Untuk lebih jelasnya mengenai bagaimana untuk menetapkan aturan validasi, rujuk
-seksi [Mendeklarasikan Aturan Validasi](/doc/guide/form.model#declaring-validation-rules).
-Di bawah ini adalah alur kerja umum yang diperlukan oleh penyimpanan rekaman:
+Untuk lebih jelasnya mengenai bagaimana untuk menetapkan aturan validasi, silahkan merujuk ke
+bagian [Mendeklarasikan Aturan Validasi](/doc/guide/form.model#declaring-validation-rules).
+Di bawah ini adalah alur kerja umum yang diperlukan oleh penyimpanan record:
 
 ~~~
 [php]
 if($post->save())
 {
-	// data benar dan disisipkan/dimutakhirkan dengan sukses
+	// data benar dan insert/update dengan sukses
 }
 else
 {
@@ -437,7 +459,7 @@ else
 }
 ~~~
 
-Ketika data untuk penyisipan atau pemutakhiran dikirimkan oleh pengguna akhir dalam
+Ketika data untuk insert atau update dikirimkan oleh pengguna akhir dalam
 bentuk HTML, kita perlu menempatkannya ke properti AR terkait. Kita apat melakukannya
 seperti berikut:
 
@@ -462,24 +484,24 @@ $post->save();
 ~~~
 
 
-Membandingkan Rekaman
+Membandingkan Record
 ---------------------
 
-Seperti baris tabel, turunan AR secara unik diidentifikasi dengan nilai kunci
-primer. Oleh karena itu, untuk membandingkan dua turunan AR, kita perlu membandingkan
-nilai kunci primernya, menganggap keduanya milik kelas AR yang sama. cara
+Seperti baris tabel, turunan AR secara unik diidentifikasi dengan nilai primary key.
+Oleh karena itu, untuk membandingkan dua instance AR, kita perlu membandingkan
+nilai primary key-nya, menganggap keduanya milik kelas AR yang sama. Cara
 paling sederhana adalah dengan memanggil [CActiveRecord::equals()].
 
 > Info: Tidak seperti implementasi AR dalam framework lain, Yii mendukung
-kunci primer composite dalam turunan AR-nya. Kunci primer terdiri dari dua
-atau lebih kolom. Secara bersamaan, nilai kunci primer disajikan sebagai
+primary key composite dalam turunan AR-nya. Kunci primer terdiri dari dua
+atau lebih kolom. Secara bersamaan, nilai primary key disajikan sebagai
 array dalam Yii. Properti [primaryKey|CActiveRecord::primaryKey] memberikan
-nilai kunci primer pada turunan AR.
+nilai primary key pada turunan AR.
 
 Kustomisasi
 -----------
 
-[CActiveRecord] menyediakan beberapa metode penampungan yang dapat ditimpa
+[CActiveRecord] menyediakan beberapa metode penampungan yang dapat di-overide
 dalam anak kelas untuk mengkustomisasi alur kerjanya.
 
    - [beforeValidate|CModel::beforeValidate] dan
@@ -488,27 +510,27 @@ validasi dilakukan.
 
    - [beforeSave|CActiveRecord::beforeSave] dan
 [afterSave|CActiveRecord::afterSave]: ini dipanggil sebelum dan sesudah
-penyimpanan turunan AR.
+penyimpanan instance AR.
 
    - [beforeDelete|CActiveRecord::beforeDelete] dan
 [afterDelete|CActiveRecord::afterDelete]: ini dipanggil sebelum dan sesudah
-turunan AR dihapus.
+instance AR dihapus.
 
    - [afterConstruct|CActiveRecord::afterConstruct]: ini dipanggil untuk
-setiap turunan AR yang dibuat menggunakan operator `new`.
+setiap instance AR yang dibuat menggunakan operator `new`.
 
    - [beforeFind|CActiveRecord::beforeFind]: ini dipanggil sebelum pencari AR
 dipakai untuk melakukan queri (misal `find()`, `findAll()`). Ini sudah tersedia
 sejak versi 1.0.9.
 
-   - [afterFind|CActiveRecord::afterFind]: ini dipanggil untuk setiap turunan AR
+   - [afterFind|CActiveRecord::afterFind]: ini dipanggil untuk setiap instance AR
 yang dibuat sebagai hasil dari queri.
 
 
 Menggunakan Transaksi dengan AR
 -------------------------------
 
-Setiap turunan AR berisi properti bernama
+Setiap instance AR berisi properti bernama
 [dbConnection|CActiveRecord::dbConnection] yang merupakan turunan dari [CDbConnection].
 Kita dapat menggunakan fitur
 [transaksi](/doc/guide/database.dao#using-transactions) yang disediakan oleh Yii
@@ -534,15 +556,15 @@ catch(Exception $e)
 ~~~
 
 
-Lingkup Bernama
+Named Scope
 ---------------
 
-> Note|Catatan: Dukungan lingkup bernama sudah tersedia sejak versi 1.0.5.
-> Ide lingkup bernama berasal dari Ruby on Rails.
+> Note|Catatan: Dukungan named scope(lingkup bernama) sudah tersedia sejak versi 1.0.5.
+> Ide named scope berasal dari Ruby on Rails.
 
-Sebuah *named scope* atau lingkup bernama mewakili kriteria queri *bernama* yang dapat digabung dengan lingkup bernama lain dan diterapkan ke queri rekaman aktif.
+Sebuah *named scope* mewakili kriteria queri *bernama* yang dapat digabung dengan named scope lain dan diterapkan ke queri active record.
 
-Lingkup bernama dideklarasikan terutama dalam metode [CActiveRecord::scopes()] sebagai pasangan nama-kriteria. Kode berikut mendeklarasikan tiga lingkup bernama, `published` dan `recently`, dalam kelas model `Post`
+Named scope dideklarasikan terutama dalam metode [CActiveRecord::scopes()] sebagai pasangan nama-kriteria. Kode berikut mendeklarasikan tiga named scope, `published` dan `recently`, dalam kelas model `Post`
 
 ~~~
 [php]
@@ -564,30 +586,30 @@ class Post extends CActiveRecord
 }
 ~~~
 
-Setiap lingkup bernama dideklarasikan sebagai sebuah array yang dipakai untuk menginisialisasi turunan [CDbCriteria]. Sebagai contoh, lingkup bernama `recently` menetapkan bahwa properti `order` adalah `createTime DESC` dan properti `limit` adalah 5 yang diterjemahkan ke dalam sebuah kriteria queri yang harus menghasilkan paling banyak 5 tulisan terbaru.
+Setiap named scope dideklarasikan sebagai sebuah array yang dipakai untuk menginisialisasi instance [CDbCriteria]. Sebagai contoh, named scope `recently` menetapkan bahwa properti `order` adalah `createTime DESC` dan properti `limit` adalah 5 yang diterjemahkan ke dalam sebuah kriteria queri yang harus menghasilkan paling banyak 5 tulisan terbaru.
 
-Lingkup bernama dipakai sebagai pembeda pada pemanggilan metode `find`. Beberapa lingkup bernama dapat dikaitkan bersamaan dan menghasilkan set yang lebih terbatas. Sebagai contoh, untuk mencari tulisan terbaru yang diterbitkan, kita menggunakan kode berikut:
+Named scope dipakai sebagai pembeda pada pemanggilan metode `find`. Beberapa named scope dapat dikaitkan bersamaan dan menghasilkan set yang lebih terbatas. Sebagai contoh, untuk mencari tulisan terbaru yang diterbitkan, kita menggunakan kode berikut:
 
 ~~~
 [php]
 $posts=Post::model()->published()->recently()->findAll();
 ~~~
 
-Secara umum, lingkup bernama harus berada di sebelah kiri pemanggilan metode `find`. Masing-masing menyediakan kriteria queri, yang merupakan gabungan dengan kriteria lain, termasuk yang dioper ke pemanggilan metode `find`. Hal ini mirip dengan menambahkan sebuah daftar filter ke sebuah queri.
+Secara umum, named scope harus berada di sebelah kiri pemanggilan metode `find`. Masing-masing menyediakan kriteria queri, yang merupakan gabungan dengan kriteria lain, termasuk yang dioper ke pemanggilan metode `find`. Hal ini mirip dengan menambahkan sebuah daftar filter ke sebuah queri.
 
-Mulai dari versi 1.0.6, lingkup bernama juga dapat dipakai dengan metode `update` dan `delete`. Sebagai contoh, kode bberikut akan menghapus semua tulisan yang akhir-akhir ini diterbitkan:
+Mulai dari versi 1.0.6, named scope juga dapat dipakai dengan metode `update` dan `delete`. Sebagai contoh, kode bberikut akan menghapus semua tulisan yang akhir-akhir ini diterbitkan:
 
 ~~~
 [php]
 Post::model()->published()->recently()->delete();
 ~~~
 
-> Note|Catatan: Lingkup bernama hanya bisa dipakai dengan metode tingkat-kelas. Yakni, metode harus dipanggil menggunakan `ClassName::model()`.
+> Note|Catatan: Named scope hanya bisa dipakai dengan metode tingkat-kelas. Yakni, metode harus dipanggil menggunakan `ClassName::model()`.
 
 
-### Parameterisasi Lingkup Bernama
+### Parameterisasi Named Scope
 
-Named scopes dapat diparameterkan. Sebagai contoh, kita mungkin ingin mengkustomisasi sejumlah tulisan dengan lingkup bernama `recently`. Untuk melakukannya, daripada mendeklarasikan lingkup bernama dalam metode [CActiveRecord::scopes], kita perlu mendefinisikan sebuah metode baru yang namanya sama seperti nama lingkup tadi:
+Named scope dapat diparameterkan. Sebagai contoh, kita mungkin ingin mengkustomisasi sejumlah tulisan dengan named scope `recently`. Untuk melakukannya, daripada mendeklarasikan named scope dalam metode [CActiveRecord::scopes], kita dapat mendefinisikan sebuah metode baru yang namanya sama seperti named scope tadi:
 
 ~~~
 [php]
@@ -611,9 +633,9 @@ $posts=Post::model()->published()->recently(3)->findAll();
 Jika kita tidak melengkapi parameter 3 di atas, secara standar kita akan mengambil 5 tulisan terbaru yang diterbitkan.
 
 
-### Standar Lingkup Bernama
+### Standar Named Scope
 
-Kelas model dapat memiliki standar lingkup bernama yang akan diterapkan untuk semua queri (termasuk yang relasional) berkenaan dengan model. Sebagai contoh, website yang mendukung multi bahasa mungkin hanya ingin menampilkan konten yang ditetapkan oleh pengguna saat ini. Karena di sana ada banyak queri atas konten situs, kita dapat mendefinisikan standar lingkup bernama guna memecahkan masalah ini. Untuk melakukannya, kita menimpa metode [CActiveRecord::defaultScope] seperti berikut,
+Kelas model dapat memiliki standar named scope yang akan diterapkan untuk semua queri (termasuk yang relasional) berkenaan dengan model. Sebagai contoh, website yang mendukung multi bahasa mungkin hanya ingin menampilkan konten yang ditetapkan oleh pengguna saat ini. Karena di sana ada banyak queri atas konten situs, kita dapat mendefinisikan standar named scope guna memecahkan masalah ini. Untuk melakukannya, kita meng-override metode [CActiveRecord::defaultScope] seperti berikut,
 
 ~~~
 [php]
@@ -628,13 +650,13 @@ class Content extends CActiveRecord
 }
 ~~~
 
-Sekarang, jika metode di bawah ini dipanggil, ia akan secara otomatis menggunakan kriteria queri seperti didefinisikan di atas:
+Sekarang, jika metode di bawah ini dipanggil, Yii akan secara otomatis menggunakan kriteria queri seperti didefinisikan di atas:
 
 ~~~
 [php]
 $contents=Content::model()->findAll();
 ~~~
 
-Catatan bahwa standar lingkup bernama hanya berlaku pada queri `SELECT`. Ia diabaikan untuk queri `INSERT`, `UPDATE` dan `DELETE`.
+Catatan bahwa standar named scope hanya berlaku pada queri `SELECT`. Named scope diabaikan untuk queri `INSERT`, `UPDATE` dan `DELETE`.
 
-<div class="revision">$Id: database.ar.txt 1391 2009-09-04 19:46:04Z qiang.xue $</div>
+<div class="revision">$Id: database.ar.txt 1681 2010-01-08 03:04:35Z qiang.xue $</div>

@@ -14,7 +14,7 @@ public function filters()
 {
 	return array(
 		array(
-			'system.web.widgets.COutputCache',
+			'COutputCache',
 			'duration'=>100,
 			'varyByParam'=>array('id'),
 		),

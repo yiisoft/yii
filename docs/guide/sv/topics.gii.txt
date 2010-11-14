@@ -252,7 +252,7 @@ respektive att tillhandahålla etiketter för attributen. Märk att eftersom mod
 redan definierar vissa regler och attributetiketter, måste vi här sammanfoga dessa med våra nya regler och etiketter.
 
 Metoden `prepare()` förbereder för koden som kommer att genereras. Dess huvudsyfte är att sammanställa en lista med 
-[CCodeFile]-objekt, vart och ett representerande en kodfil att generera. I vårt exempel behövr vi bara skapa ett enda 
+[CCodeFile]-objekt, vart och ett representerande en kodfil att generera. I vårt exempel behöver vi bara skapa ett enda 
 [CCodeFile]-objekt som representerar klassfilen för widgeten som skall genereras. Den nya widgetklassen kommer att 
 genereras i katalogen `protected/components`. Vi anropar metoden [CCodeFile::render] vilken utför den faktiska 
 kodgenereringen. Denna metod inkluderar kodmallen som ett PHP-skript och returnerar utmatning från detta som 

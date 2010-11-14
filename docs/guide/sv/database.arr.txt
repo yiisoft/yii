@@ -203,7 +203,7 @@ $criteria->with=array(
 $posts=Post::model()->findAll($criteria);
 ~~~
 
-or
+eller
 
 ~~~
 [php]

@@ -4,20 +4,19 @@ Instalasi
 Instalasi Yii mencakup dua langkah berikut:
 
    1. Download Yii Framework dari [yiiframework.com](http://www.yiiframework.com/).
-   2. Uraikan file rilis Yii ke direktori yang dapat diakses Web.
+   2. Keluarkan(unpack) file rilis Yii ke direktori yang dapat diakses Web.
 
 > Tip: Yii tidak harus diinstalasi di bawah direktori yang bisa diakses Web.
-Aplikasi Yii memiliki satu naskah entri yang biasanya satu-satunya file yang
-perlu di perlihatkan kepada pengguna Web. Naskah PHP lainnya, termasuk yang dari
-Yii, harus dilindungi dari akses Web karena bisa dieksploitasi untuk keperluan
-hacking.
+Aplikasi Yii memiliki satu skrip entri yang biasanya merupakan satu-satunya file yang
+perlu di perlihatkan kepada pengguna Web. Skrip PHP lainnya, termasuk yang dari
+Yii, harus dilindungi dari akses Web karena bisa dieksploitasi untuk di-hack.
 
 Persyaratan
 -----------
 
 Setelah menginstalasi Yii, Anda bisa memverifikasi apakah server Anda sesuai
 dengan semua persyaratan pemakaian Yii. Anda dapat melakukannya dengan mengakses
-naskah pemeriksa persyaratan di URL berikut dalam browser Web:
+skrip pemeriksa persyaratan di URL berikut dalam browser Web:
 
 ~~~
 http://hostname/path/ke/yii/requirements/index.php
@@ -26,7 +25,7 @@ http://hostname/path/ke/yii/requirements/index.php
 Persyaratan minimum Yii adalah bahwa server Web Anda mendukung PHP 5.1.0
 atau lebih tinggi. Yii sudah diuji dengan [Apache HTTP
 server](http://httpd.apache.org/) pada sistem operasi Windows dan Linux.
-Ia juga bisa berjalan pada server Web dan platform lain yang mendukung 
+Yii juga bisa berjalan pada server Web dan platform lain yang mendukung
 PHP 5.
 
-<div class="revision">$Id: quickstart.installation.txt 359 2008-12-14 19:50:41Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.installation.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

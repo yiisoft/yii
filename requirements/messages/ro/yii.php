@@ -41,6 +41,4 @@ return array (
   'This is required if you are using PostgreSQL database.' => 'Obligatoriu daca folositi baza de date PostgreSQL.',
   'This is required if you are using SQLite database.' => 'Obligatoriu daca folositi baza de date SQLite.',
   'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' => 'Nu se pot determina informatiile despre calea URL. Asigurati-va ca $_SERVER["PATH_INFO"] (sau $_SERVER["PHP_SELF"] si $_SERVER["SCRIPT_NAME"]) contine valoarea potrivita.',
-  'GD installed<br />FreeType support not installed' => '',
-  'GD not installed' => '',
 );

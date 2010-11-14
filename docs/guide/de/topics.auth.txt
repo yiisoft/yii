@@ -1,61 +1,70 @@
-Authentifizierung und Berechtigungen
-====================================
+Authentifizierung und Autorisierung
+===================================
 
-Authentifizierung und Berechtigungen (engl.: authorization) spielen bei einer
-Webseite dann eine Rolle, wenn diese für bestimmte Benutzer nur beschränkt 
-zugänglich sein soll. Bei der *Authentifizierung* wird geprüft, ob jemand auch 
-tatsächlich der ist, der er vorgibt zu sein. In der Regel kommen dazu
-Benutzername und Passwort zum Einsatz.  Man könnte aber auch alle anderen 
-zur Identifizierung geeigneten Methoden verwenden, wie z.B. eine Chipkarte, 
-den Fingerabdruck, etc. Über die *Berechtigung* wird festgestellt, ob die
-authentifizierte (bzw. auch identifizierte) Person auch berechtigt ist, die
-angegebene Ressource zu verändern. Normalerweise wird dazu geprüft, ob die
+Diese beiden Themen spielen dann eine Rolle, wenn einige Webseiten nur für
+bestimmte Benutzer zugänglich sein sollen. Bei der *Authentifizierung* wird 
+geprüft, ob jemand auch tatsächlich der ist, der er vorgibt zu sein. Meist
+geschieht das per Benutzernamen und Passwort.  Man könnte aber auch eine andere
+zur Identifizierung geeignete Methode verwenden, z.B. eine Chipkarte, 
+den Fingerabdruck, etc. Über die *Autorisierung* wird festgestellt, ob die
+identifizierte (also authentifizierte) Person auch tatsächlich berechtigt 
+ist, bestimmte Ressourcen zu manipulieren. Normalerweise wird dazu geprüft, ob die
 Person einer bestimmten Rolle zugeordnet ist, die Zugriff auf die Ressource
 hat. 
 
-Yii hat ein eigenes Authentifizierungs-/Berechtigungs-Framework
-(Auth-Framework) eingebaut, das einfach anzuwenden ist und an spezielle
-Bedürfnisse angepasst werden kann.
+Yii hat ein einfach anzuwendendes Authentifizierungs-/Autorisierungs-Framework
+(Auth-Framework) eingebaut, das leicht an spezielle Bedürfnisse angepasst werden kann.
 
-Zentraler Bestandteil des Yii-Auth-Frameworks ist eine in der Anwendung 
-vordefinierte *Userkomponente* (Benutzerkomponente), ein Objekt, 
-dass das [IWebUser]-Interface implementiert. Die Userkomponente stellt die
-beständigen Identitätsdaten für den aktuellen Benutzer dar. 
+Zentraler Bestandteil dieses Frameworks ist eine in der Anwendung 
+vordefinierte *Userkomponente* (Benutzerkomponente), die 
+das [IWebUser]-Interface implementiert. Diese Userkomponente stellt die
+beständigen Identitätsdaten des aktuellen Benutzers dar. 
 Über `Yii::app()->user` kann von jeder Stelle aus darauf zugegriffen werden.
 
-Mittels der Userkomponente können wir über [CWebUser::isGuest] prüfen, 
-ob ein Benutzer angemeldet ist oder nicht. Wir können einen Benutzer mit
-[login|CWebUser::login] an- bzw. mit [logout|CWebUser::logout] abmelden.
-Mit [CWebUser::checkAccess] können wir prüfen, ob der Benutzer bestimmte
-Operationen ausführen kann. Und wir können außerdem den [eindeutigen
-Bezeichner|CWebUser::name] und weitere beständige Identitätsdaten des
+Mittels der Userkomponente kann man über [CWebUser::isGuest] prüfen, 
+ob ein Benutzer angemeldet ist oder nicht. Man kann einen Benutzer mit
+[login|CWebUser::login] und [logout|CWebUser::logout] an- bzw. abmelden oder
+mit [CWebUser::checkAccess] prüfen, ob der Benutzer bestimmte
+Operationen ausführen kann. Außerdem kann man den [eindeutigen
+Namen|CWebUser::name] bzw. auch andere beständige Identitätsdaten des
 Benutzers abfragen.
 
 
 Definieren der Identitätsklasse
 -------------------------------
 
-Um einen Benutzer zu authentifizieren, definieren wir eine Identitätsklasse
-(engl.: identity class), die die eigentliche Authentifizierungslogik enthält. 
-Die Identitätsklasse sollte das Interface [IUserIdentity] implementieren. Je nach
-Authentifizierungsmethode (z.B. OpenID, LDAP), können unterschiedliche
-Identitätsklassen angelegt werden. Für den Anfang empfiehlt es sich, zunächst 
-[CUserIdentity] zu erweitern. Diese Klasse ist die Basisklasse für alle
-Authentifzierungsmethoden, die auf Benutzernamen und Passwort basieren.
+Wie bereits erwähnt, geht es bei der Authentifizierung darum, die Identität
+eines Benutzers zu prüfen. Bei einer typischen Webanwendung werden dazu meist
+ein Benutzername und ein Passwort herangezogen. Es kann aber auch andere
+Methoden geben, die entsprechend eine andere Implementierung erfordern. Damit
+die Art der Authentifizierung geändert werden kann, führt das
+Yii Auth-Framework eine Identitätsklasse (engl.: identity class) ein.
 
-Die Hauptaufgabe beim Anlegen einer Identitätsklasse besteht darin, die Methode 
-[IUserIdentity::authenticate] zu implementieren. Eine Identitätsklasse kann auch
-weitere Identitätsdaten deklarieren, die während einer Benutzersitzung beständig
-gehalten werden sollen.
+Eine Identitätsklasse enthält die eigentliche Logik zur Authentifizierung und
+sollte das [IUserIdentity]-Interface implementieren. So können Klassen für 
+verschiedene Identifizierungsmethoden (z.B. OpenID, LDAP, Twitter
+OAuth oder Facebook Connect) angelegt werden. Um eine eigene Identitätsklasse
+zu erstellen, empfiehlt es sich für den Anfang, [CUserIdentity] zu erweitern.
+Das ist die Basisklasse für alle Methoden, die auf Benutzername und Passwort
+basieren.
 
-Im folgenden Beispiel verwenden wir einen [ActiveRecord](/doc/guide/database.ar)
-um eine gegebene Kombination aus Benutzername und Passwort anhand der Daten in
-der Benutzertabelle einer Datenbank zu prüfen. Wir überschreiben außerdem die
-Methode `getId`, damit sie die Variable `_id` zurückliefert, die wir während
-der Authentifizierung gesetzt haben (standardmäßig würde der Benutzername als
-ID zurückgegeben werden). Während der Authentifizierung speichern wir mit
-[CBaseUserIdentity::setState] den ausgelesenen Wert für `title` in einem 
-Status (engl.: state) mit dem selben Namen.
+Im wesentlichen muss eine neue Identitätsklasse nur die Methode 
+[IUserIdentity::authenticate] implementieren. Sie kapselt die Kernlogik
+zur Authentifizierung. Daneben können noch weitere identitätsbezogene Daten
+deklariert werden, die während einer Benutzersitzung beständig bereitgehalten
+werden sollen.
+
+#### Ein Beispiel
+
+Im folgenden Beispiel zeigen wir, wie man eine Identitätsklasse zur
+datenbankgestützten Authentifizierung verwendet. Ein Besucher wird dazu
+Benutzernamen und Passwort in ein Anmeldeformular eingeben. Diese Daten werden
+dann mittels [ActiveRecord](/doc/guide/database.ar) gegen eine Benutzertabelle
+in der Datenbank geprüft. Das Beispiel demonstriert dabei gleich mehreres:
+
+1. Wie man `authenticate()` für eine DB-gestützte Prüfung der Anmeldedaten implementiert.
+2. Dass man die `CUserIdentity::getId()`-Methode überschreiben kann, um die Eigenschaft `_id` statt des Benutzernamens zurückzuliefern, wie das in der Basisimplementierung der Fall ist.
+3. Wie man die Methode `setState()` ([CBaseUserIdentity::setState]) verwendet, um weitere Daten dauerhaft für spätere Requests zu speichern
 
 ~~~
 [php]
@@ -85,32 +94,35 @@ class UserIdentity extends CUserIdentity
 }
 ~~~
 
-Daten, die (durch Aufruf von [CBaseUserIdentity::setState]) in einem Status
-gespeichert werden, werden an [CWebUser] übergeben, wo sie in
-einem beständigen Speicher, wie etwa der Session, abgelegt werden.
-Auf diese Daten kann wie auf Eigenschaften von [CWebUser] zugegriffen werden.
-Wir können zum Beispiel die Information `title` des aktuellen Benutzers über
-`Yii::app()->user->title` abfragen. (Dies ist seit Version 1.0.3 möglich. In
-früheren Versionen mussten wir stattdessen
+Im nächsten Abschnitt zu An- und Abmeldung werden wir sehen, dass diese
+Identitätsklasse an die login-Methode des Benutzerobjekts übergeben wird.
+Sämtliche Informationen, die (per Aufruf von [CBaseUserIdentity::setState]) in
+einem Status gespeichert wurden, werden dort in einem beständigen
+Speicher, wie etwa der Session, abgelegt. Diese Daten stehen dann direkt als
+Eigenschaften von [CWebUser] zur Verfügung. In unserem Beispiel haben wir den
+Titel über `$this->setState('title', $record->title);` gespeichert. Wurde der
+Anmeldeprozess durchlaufen, kann man daher die `title`-Information des aktuellen
+Benutzers über `Yii::app()->user->title` abrufen. (Dies ist seit Version 1.0.3 
+möglich. In früheren Versionen musste man stattdessen
 `Yii::app()->user->getState('title')` verwenden.)
 
-
 > Info|Info: Standardmäßig verwendet [CWebUser] die Session als beständigen
-Speicher für Identitätsdaten. Wenn die cookie-basierte Anmeldung aktiviert
+Speicher für solche Identitätsdaten. Wenn die cookie-basierte Anmeldung aktiviert
 wird (indem [CWebUser::allowAutoLogin] auf true gesetzt wurde), können
 Identitätsdaten auch in einem Cookie gespeichert werden. Stellen Sie sicher,
-dass sie keine heiklen Informationen (z.B. Passwörter) beständig halten.
+dass Sie hier keine vertraulichen Informationen (z.B. Passwörter) speichern.
 
 
 An- und Abmelden
 ----------------
 
-Mit der Identitätsklasse und der Userkomponente können wir An- und
-Abmeldeoperationen leicht implementieren.
+Nachdem wir an einem Beispiel demonstriert haben, wie eine Identitätsklasse
+erstellt wird, kann man diese nun zum einfachen An- und Abmelden verwenden.
+Das folgende Beispiel zeigt, wie dies erreicht wird:
 
 ~~~
 [php]
-// Benutzer per übergebenem Benutzernamen/Passwort anmelden
+// Benutzer mit übergebenem Benutzernamen/Passwort anmelden
 $identity=new UserIdentity($username,$password);
 if($identity->authenticate())
 	Yii::app()->user->login($identity);
@@ -121,42 +133,105 @@ else
 Yii::app()->user->logout();
 ~~~
 
-Standardmäßig wird ein Benutzer abgemeldet, wenn er für eine bestimmte Zeit
-nicht aktiv war. Diese hängt von der
+Wir erzeugen hier eine neues UserIdentity-Objekt und übergeben die
+Anmeldedaten (also die `$username`- und `$password`-Werte aus dem
+Anmeldeformular) an den Konstruktor. Danach rufen wir einfach die
+`authenticate()`-Methode auf. Falls erfolgreich, übergeben wir die
+Identitätsinformationen an die Methode [CWebUser::login], die diese dann in
+einem Permanentspeicher (standardmäßig der Sesssion) ablegt, um sie für
+späteren Requests verfügbar zu machen. Schlägt die Authentifizierung fehl,
+können wir über die `errorMessage`-Eigenschaft weitere Informationen dazu
+abfragen.
+
+Ob ein Benutzer erfolgreich authentifiziert wurde, kann in der gesamten
+Anwendung einfach über `Yii::app()->user->isGuest` geprüft werden. Verwendet
+man einen Permanentspeicher, wie die Session (Standard) und/oder ein Cookie
+(wie im folgenden Beschrieben), um die Identitätsinformationen zu speichern,
+kann der Anwender über mehrere aufeinanderfolgende Requests angemeldet
+bleiben. In diesem Fall wird die Identitätsklasse bzw. der gesamte
+Anmeldeprozess nicht bei jedem Request benötigt bzw. durchlaufen. Stattdessen
+lädt CWebUser die Identitätsinformationen automatisch aus dem entsprechenden 
+Permanentspeicher und verwendet sie um den Rückgabewert von
+`Yii::app()->user->isGuest` zu bestimmen.
+
+
+### Cookie-basierte Anmdeldung
+
+Ein Benutzer wird automatisch wieder abgemeldet, wenn er für einen bestimmten
+Zeitraum nicht aktiv war. Die Dauer hängt von der 
 [Session-Konfiguration](http://de2.php.net/manual/de/session.configuration.php)
-ab. Um dieses Verhalten zu ändern, können wir die Eigenschaft
+ab. Möchte man das ändern, kann man die Eigenschaft
 [allowAutoLogin|CWebUser::allowAutoLogin] der Userkomponente auf true setzen
-und eine Dauer als Parameter an die [CWebUser::login]-Methode übergeben. Der
+und eine Dauer als zweiten Parameter an die [CWebUser::login]-Methode übergeben. Der
 Benutzer bleibt dann für die angegebene Zeit angemeldet, auch wenn das
 Browserfenster geschlossen wird. Beachten Sie, dass der Benutzer dazu in
 seinem Browser Cookies akzeptieren muss.
 
 ~~~
 [php]
-// Benutzer für 7 Tage angemeldet lassen.
-// Stellen Sie sicher, dass allowAutoLogin 
-// in der Userkomponente auf true gesetzt ist
+// Benutzer für 7 Tage angemeldet lassen. Stellen Sie sicher, 
+// dass allowAutoLogin in der Userkomponente auf true gesetzt ist
 Yii::app()->user->login($identity,3600*24*7);
 ~~~
+
+Wie bereits erwähnt, werden Daten, die man über [CBaseUserIdentity::setState]
+speichert, ebenfalls im Cookie abgelegt, falls man die cookie-basierte
+Anmeldung verwendet. Wenn der Besucher das nächste mal angemeldet wird, werden
+diese Daten aus dem Cookie ausgelesen und im Status über `Yii::app()->user`
+bereitgestellt.
+
+Auch wenn Yii Maßnahmen bereitstellt, um eine Veränderung dieser Cookiedaten
+auf der Clientseite zu verhindern, empfehlen wir unbedingt, keine sensiblen
+Daten als Status zu speichern. Stattdessen sollte man solche Daten auf der
+Serverseite in einem Permanentspeicher (z.B. einer Datenbank) ablegen und bei
+Bedarf wiederherstellen.
+
+Für jede seriöse Webanwendung empfehlen wir außerdem folgende Strategie, um
+die Sicherheit bei cookie-basierter Anmeldung zu verbessern:
+
+* Zum Zeitpunkt, wenn ein Benutzer sich erfolgreich anmeldet, erzeugt man
+einen zufälligen Schlüssel, der sowohl im Statuscookie als auch im
+Permanentspeicher (z.B. Datenbank) auf dem Server gespeichert wird.
+
+* Wenn der Benutzer bei einem späteren Request per Cookie angemeldet wird, überprüft man, ob die
+beiden Schlüsselwerte übereinstimmen, bevor die Anmeldung durchgeführt wird.
+
+* Wenn der Benutzer sich neu über das Anmeldeformular einloggt, muss ein neuer
+Schlüssel erzeugt werden
+
+Damit schließt man aus, dass der Besucher ein altes Statuscookie wiederverwendet,
+dessen Statusinformationen aber schon nicht mehr gültig sind.
+
+Zur Umsetzung dieser Strategie müssen folgende beiden Methoden überschrieben
+werden:
+
+* [CUserIdentity::authenticate()]: Hier wird die eigentliche Authentifizierung
+durchgeführt. Wurde der Benutzer authentifiziert, sollte man hier einen neuen
+Zufallsschlüssel erzeugen und diesen sowohl in der Datenbank als auch im
+Identitätstatus (mit [CBaseUserIdentity::setState]) speichern.
+
+* [CWebUser::beforeLogin()]: Diese Methode wird beim Anmelden eines
+Benutzers aufgerufen. Hier sollte man den Schlüssel aus dem Statuscookie mit
+dem in der Datenbank vergleichen.
 
 Zugangskontrollfilter
 ---------------------
 
-Der Zugangskontrollfilter (engl.: access control filter) ist ein
-vorläufiges Berechtigungssystem, das überprüft, ob der aktuelle Benutzer eine
-bestimmte Controller-Action ausführen darf. Die Berechtigungsprüfung basiert
-auf dem Benutzernamen, der IP-Adresse des Clients und dem Requesttyp. Er steht
-als Filter mit dem Namen ["accessControl"|CController::filterAccessControl]
-zur Verfügung.
+Mit dem Zugangskontrollfilter (engl.: access control filter) lässt sich prüfen, 
+ob der aktuelle Benutzer die gewünschte Controlleraction ausführen darf. Die 
+Prüfung erfolgt anhand des Benutzernamens, der IP-Adresse des Clients und dem 
+Requesttyp. Dieser einfache Filter steht als Anwendungskomponente 
+["accessControl"|CController::filterAccessControl] bereit.
 
-> Tip|Tipp: Der Zugangskontrollfilter reicht für einfache Szenarien aus. Für
-kompliziertere Zugriffskontrollen können Sie die rollenbasierte
-Zugriffskontrolle (RBAC) einsetzen, die wir in Kürze behandeln werden.
+> Tip|Tipp: Der Zugangskontrollfilter ist für einfache Fälle gedacht. 
+Kompliziertere Berechtigungsregeln kann man mit der rollenbasierten
+Zugriffskontrolle (RBAC) umsetzen, die wir im nächsten Abschnitt
+behandeln werden.
 
-Um den Zugriff auf Actions in unserem Controller zu regeln, aktivieren wir den
-Zugangskontrollfilter indem wir [CController::filters] überschreiben (siehe
-[Filter](/doc/guide/basics.controller#filter) für weitere Details zur
-Anwendung von Filtern).
+Um diesen Filter in einem Controller zu verwenden, überschreibt man die
+[CController::filters]-Methode wie folgt (siehe auch
+[Filter](/doc/guide/basics.controller#filter) zu näheren Details über
+die Anwendung von Filtern):
 
 ~~~
 [php]
@@ -172,11 +247,11 @@ class PostController extends CController
 }
 ~~~
 
-Hier legen wir fest, dass der
-[Zugangskontrollfilter|CController::filterAccessControl] auf alle Actions von
-`PostController` angewendet werden soll. Die ausführlichen Berechtigungsregeln
-für den Filter werden definiert, indem wir [CController::accessRules]
-im Controller überschreiben.
+Mit dieser Funktion legt man fest, dass der
+[Zugangskontrollfilter|CController::filterAccessControl] auf alle Actions des
+`PostController`s angewendet werden soll. Die spezifischen Berechtigungen
+werden in der Methode [CController::accessRules] angegeben, die man z.B. so
+überschreiben kann:
 
 ~~~
 [php]
@@ -203,22 +278,21 @@ class PostController extends CController
 }
 ~~~
 
-Dieser Code legt drei Regeln über jeweils ein Array fest. Das erste Element
+Hier werden drei Regeln in jeweils einem Array definiert. Das erste Element
 eines solchen Arrays ist entweder `'allow'` (erlaube) oder `'deny'` (verbiete). Die
-restlichen Name-Wert-Paare legen die Gültigkeit der Regel fest. Die Regeln
-oben lesen sich wie folgt: Die Actions `create` und `edit` können nicht von
-anonymen Benutzern aufgerufen werden. Die `delete`-Action kann von Benutzern
-mit der Rolle `admin` ausgeführt werden. Und die `delete`-Action kann von
+weiteren Name-Wert-Paare bestimmen, wann diese Regel gilt. Die Regeln
+oben bedeuten der Reihe nach, dass die `create`- und `edit`-Actions nicht von
+anonymen Benutzern aufgerufen werden können. Die `delete`-Action darf von Benutzern
+mit der Rolle `admin` ausgeführt werden. Und die `delete`-Action darf von
 keinem Benutzer ausgeführt werden.
 
 Die Zugriffsregeln werden eine nach der anderen in der Reihenfolge ihrer
-Definition ausgewertet. Die erste Regel, die vollständig mit dem vorliegenden 
-Kontext (z.B. Benutzername, Rolle, IP-Adresse) übereinstimmt, bestimmt das Ergebnis 
-der Berechtigungsprüfung. Falls es sich um eine `allow`-Regel handelt, kann die
-Action ausgeführt werden. Liegt eine `deny`-Regel vor, kann die Action nicht
-ausgeführt werden. Wenn keine der Regeln mit dem aktuellen Kontext übereinstimmt,
-kann die Action immer noch ausgeführt werden.
-
+Definition geprüft. Die erste Regel, die vollständig auf den aktuellen 
+Kontext (z.B. Benutzername, Rolle, IP-Adresse) zutrifft, bestimmt das
+Ergebnis. Falls es sich um eine `allow`-Regel handelt, darf die
+Action ausgeführt werden, liegt eine `deny`-Regel vor, darf sie nicht
+ausgeführt werden. Passt keine der definierten Regeln auf den aktuellen 
+Kontext, darf die Action ausgeführt werden.
 
 > Tip|Tipp: Um sicherzustellen, dass eine Action nicht doch unter einem bestimmten
 > Kontext ausgeführt werden kann, ist es hilfreich, eine immergültige
@@ -233,10 +307,10 @@ kann die Action immer noch ausgeführt werden.
 >     ),
 > );
 > ~~~
-> Diese Regel ist nötig, da eine Action ausgeführt werden kann, wenn keine
-> Regel mit einem gegebenen Kontext übereinstimmt.
+> Diese Regel ist nötig, da eine Action ausgeführt werden darf, falls keine
+> anderslautende passende Regel gefunden wurde.
 
-Eine Zugriffsregel kann auf folgende Kontextparameter zutreffen:
+Eine Regel kann folgende Kontextparameter enthalten:
 
    - [actions|CAccessRule::actions]: Definiert, welche Actions diese Regel
 betrifft. Dies sollte ein Array aus Action-IDs sein, Groß-/Kleinschreibung
@@ -258,10 +332,10 @@ Hier können drei spezielle Zeichen verwendet werden:
 
    - [roles|CAccessRule::roles]: Definiert, welche Rollen diese Regel
 betrifft. Dazu wird die [rollenbasierte
-Zugriffskontrolle](#role-based-access-control) verwendet, die wir im nächsten
+Zugriffskontrolle](/doc/guide/topics.auth#role-based-access-control) verwendet, die wir im nächsten
 Abschnitt beschreiben werden. Konkret wird diese Regel angewendet, wenn
 [CWebUser::checkAccess] für eine der Rollen true zurückliefert. Beachten Sie,
-dass Sie Rollen vor allem in `allow`-Regeln einsetzen sollen, da eine Rolle
+dass Sie Rollen vor allem in `allow`-Regeln einsetzen sollten, da eine Rolle
 per Definition eine Erlaubnis darstellt, etwas bestimmtes zu tun. Und obwohl
 wir hier den Begriff `roles` (Rollen) verwenden, kann der Wert tatsächlich
 jedem beliebigen Autorisierungselement entsprechen, inklusive Rollen, Tätigkeiten und
@@ -280,25 +354,24 @@ können Sie `$user` für `Yii::app()->user` verwenden. Diese Option ist seit
 Version 1.0.3 verfügbar.
 
 
-### Umgang mit Autorisierungsergebnissen
+### Verhalten nach der Autorisierung
 
-Wenn die Autorisierung verweigert wird, der Benutzer also nicht berechtigt
-ist, die angegebene Action auszuführen, liegt eine der beiden folgenden
-Situationen vor:
+Wurde eine Autorisierung verweigert, so ist der Benutzer nicht berechtigt, 
+die gewünschte Action auszuführen und es passiert folgendes:
 
-   - Falls der Benutzer nicht angemeldet ist und die Eigenschaft
-[loginUrl|CWebUser::loginUrl] der Userkomponente auf die URL der Anmeldeseite
-gesetzt wurde, wird der Browser auf diese Seite umgeleitet. Beachten Sie, dass
+   - War der Benutzer nicht angemeldet und zeigt die Eigenschaft
+[loginUrl|CWebUser::loginUrl] der Userkomponente auf die URL der Anmeldeseite,
+so wird der Browser auf diese Seite umgeleitet. Beachten Sie, dass
 [loginUrl|CWebUser::loginUrl] standardmäßig auf die Seite `site/login` zeigt.
 
-   - Andernfalls wird eine HTTP-Exception mit dem Fehlercode 403 angezeigt.
+   - In allen anderen Fällen wird eine HTTP-Exception mit dem Fehlercode 403 angezeigt.
 
-Beim Konfigurieren der [loginUrl|CWebUser::loginUrl] kann eine relative oder
-absolute URL angegeben werden. Man kann auch ein Array angeben, das an
-[CWebApplication::createUrl] übergeben wird, um damit eine URL zu erzeugen.
+[loginUrl|CWebUser::loginUrl] kann als relative oder absolute URL angegeben werden. 
+Man kann auch ein Array konfigurieren, das dann an [CWebApplication::createUrl] 
+übergeben wird, um damit eine URL zu erzeugen.
 Das erste Element dieses Arrays sollte die [Route](/doc/guide/basics.controller#route) 
-zur Anmelde-Action eines Controllers angeben. Der Rest kann aus 
-Name-Wert-Paaren für GET-Parameter bestehen. Ein Beispiel:
+zur Anmeldeaction angeben. Der Rest kann aus Name-Wert-Paaren für GET-Parameter bestehen. 
+Hier ein Beispiel:
 
 ~~~
 [php]
@@ -306,19 +379,17 @@ array(
 	......
 	'components'=>array(
 		'user'=>array(
-			// Dies entspricht auch dem Vorgabewert
+			// Dies entspricht dem Vorgabewert
 			'loginUrl'=>array('site/login'),
 		),
 	),
 )
 ~~~
 
-Wenn der Browser auf die Anmeldeseite umgeleitet wird und die Anmeldung
-erfolgreich verläuft, können wir den Browser zurück auf die Seite schicken,
-bei der die Autorisierung verweigert wurde. Woher wissen wir die URL dieser
-Seite? Wir können sie über die Eigenschaft [returnUrl|CWebUser::returnUrl] der
-aktuellen Userkomponente beziehen. Dadurch können wir wie folgt vorgehen, um die
-Umleitung durchzuführen:
+Wurde der Browser auf die Anmeldeseite umgeleitet und verläuft die Anmeldung
+erfolgreich, kann man den Browser zurück zu der Seite schicken, bei der
+die Autorisierung verweigert wurde. Die URL dieser Seite kann über die Eigenschaft 
+[returnUrl|CWebUser::returnUrl] der Userkomponente abgerufen werden: 
 
 ~~~
 [php]
@@ -331,7 +402,7 @@ Rollenbasierte Zugriffskontrolle
 Die rollenbasierte Zugriffskontrolle (RBAC, engl.: role-based access control)
 bietet eine einfache und trotzdem leistungsfähige zentralisierte
 Zugriffssteuerung. Für weitere Ausführungen zum Vergleich von RBAC mit anderen
-traditionelleren Verfahren der Zugriffskontrolle beachten Sie bitte auch den
+traditionellen Verfahren der Berechtigungsprüfung beachten Sie bitte auch den
 entsprechenden [Wiki-Artikel](http://de.wikipedia.org/wiki/RBAC) (evtl. auch
 in der ausührlicheren [englischen
 Version](http://en.wikipedia.org/wiki/Role-based_access_control)).
@@ -339,9 +410,8 @@ Version](http://en.wikipedia.org/wiki/Role-based_access_control)).
 Yii implementiert über seine
 [authManager|CWebApplication::authManager]-Komponente ein hierarchisches 
 RBAC-Schema. Im folgenden behandeln wir zunächst die Grundkonzepte dieses
-Schemas. Wir beschreiben dann, wie Autorisierungsdaten definiert werden.
-Schließlich zeigen wir, wie die Autorisierungsdaten bei der Zugriffsprüfung 
-verwendet werden.
+Schemas. Danach beschreiben wir, wie man Autorisierungsdaten definiert und
+schließlich wie man diese für die Berechtigungsprüfung verwendet.
 
 ### Übersicht
 
@@ -359,42 +429,40 @@ besteht aus den Tätigkeiten `Beiträge verwalten` und `Benutzer verwalten`.
 Die Tätigkeit `Benutzer verwalten` könnte aus den Operationen
 `Benutzer anlegen`, `Benutzer aktualisieren` und `Benutzer löschen` bestehen. 
 Um das System noch flexibler zu machen, erlaubt es Yii
-sogar, dass eine Rolle aus weiteren Rollen oder Operationen besteht, eine
-Tätigkeit aus anderen Tätigkeiten und eine Operation aus anderen Operationen. 
+sogar, dass eine Rolle aus weiteren Rollen oder Operationen, eine
+Tätigkeit aus anderen Tätigkeiten und eine Operation aus anderen Operationen
+besteht.
 
-Ein Autorisierungselement wird eindeutig über seinen Namen identifiziert.
-
-Ein Autorisierungselement kann mit einer *Geschäftsregel* (engl.: business
-rule) verbunden sein. Eine Geschäftsregel ist ein kurzer PHP-Code, der
-ausgeführt wird, wenn eine Zugriffsprüfung unter Bezug auf das Element
-stattfindet. Die vom Element dargestellte Berechtigung wird dem Benutzer nur
-dann erteilt, wenn die Ausführung dieses Codes true zurückliefert. Wenn wir
-zum Beispiel eine Operation `aktualisiereBeitrag` definieren, 
-können wir eine Geschäftsregel hinzufügen, die prüft, ob die ID des Benutzers 
+Ein Autorisierungselement wird eindeutig über seinen Namen identifiziert und
+kann mit einer *Geschäftsregel* (engl.: business
+rule) verbunden sein. Eine Geschäftsregel ist ein PHP-Schnippsel, das
+ausgeführt wird, wenn die Berechtigung für das Element geprüft wird.
+Liefert dieser Code true zurück, so ist der Benutzer zu diesem Element
+berechtigt.  Definiert man zum Beispiel eine Operation `aktualisiereBeitrag`, 
+kann man eine Geschäftsregel hinzufügen, die prüft, ob die ID des Benutzers 
 mit derjenigen des Beitragsautors übereinstimmt, so dass nur der Autor selbst
 berechtigt ist, seine Beiträge zu aktualisieren.
 
-Durch den Einsatz von Autorisierungselementen können wir ein
+Durch den Einsatz von Autorisierungselementen kann man eine
 *Autorisierungshierarchie* aufbauen. Ein Element `A` ist das Elternelement
 eines anderen Elements `B` in der Hierarchie, wenn `A` aus `B` besteht (oder
 anders ausgedrückt `A` die von `B` dargestellten Berechtigung(en) erbt).
-Ein Element kann mehrere Kindelemente haben und auch mehrere Elternelemente
-besitzen. Eine Autorisierungshierarchie ist daher eher ein Graph partieller 
+Ein Element kann sowohl mehrere Kind- als auch mehrere Elternelemente
+haben. Eine Autorisierungshierarchie ist daher eher ein Graph partieller 
 Ordnung als eine Baumstruktur. In dieser Hierarchie stehen Rollen auf der
 obersten Ebene, Operationen auf der untersten und Tätigkeiten zwischen diesen
 beiden.
 
-Haben wir eine Autorisierungshierarchie erstellt, können wir Benutzern Rollen
-aus dieser Hierarchie zuweisen. Wenn einem Benutzer eine Rolle zugewiesen
-wurde, hat er alle von der Rolle dargestellten Berechtigungen. Weisen wir
+Wurde die Autorisierungshierarchie einmal erstellt, kann man Benutzer zu den 
+Rollen in dieser Hierarchie hinzufügen. Ein Benutzer, dem eine Rolle
+zugewiesen wurde, hat alle von dieser Rolle dargestellten Berechtigungen. Weist man 
 einem Benutzer z.B. die Rolle `administrator` zu, hat er Administratorrechte,
 was die Tätigkeiten `Beiträge verwalten` und `Benutzer verwalten` beinhaltet 
 (sowie die zugehörigen Operationen wie `Benutzer anlegen`). 
 
-Jetzt beginnt der vergnügliche Teil. In einer Controller-Action möchten wir
-prüfen, ob der aktuelle Benutzer den angegebenen Beitrag löschen kann.
-Verwenden wir die RBAC-Hierarchie und -Zuweisung, kann das ganz leicht wie
-folgt erledigt werden:
+Am einfachsten stellt sich die Anwendung dar: Möchte man in einer 
+Controlleraction prüfen, ob der aktuelle Benutzer den Beitrag 
+löschen kann, geht das so:
 
 ~~~
 [php]
@@ -404,18 +472,14 @@ if(Yii::app()->user->checkAccess('löscheBeitrag'))
 }
 ~~~
 
-### Konfiguration des Berechtigungsmanagers
+### Konfigurieren des Autorisierungsmanagers 
 
-Bevor wir damit loslegen können, eine Autorisierungshierarchie anzulegen 
-und den Zugriffschutz zu verwenden, müssen wir die Anwendungskomponente
-[authManager|CWebApplication::authManager] konfigurieren. Yii bietet zwei
-Arten von Berechtigungsmanagern (engl.: authorization manager): 
-[CPhpAuthManager] und [CDbAuthManager].
-Ersterer verwendet eine PHP-Datei zum Speichern der Autorisierungsdaten,
-letzerer eine Datenbank. Beim Konfigurieren der
-[authManager|CWebApplication::authManager]-Komponente müssen wir angeben,
-welche Klasse wir benutzen wollen, und welche Startwerte für deren
-Eigenschaften verwendet werden sollen. Ein Beispiel:
+Bevor man eine Autorisierungshierarchie anlegen und den Zugriffsschutz
+einsetzen kann, muss die [authManager|CWebApplication::authManager]-Komponente 
+konfiguriert werden. Yii bietet hier zwei Typen an: [CPhpAuthManager] und [CDbAuthManager].
+Der erste speichert die Autorisierungsdaten in einer PHP-Datei, der andere
+in der Datenbank. Über die Klasse kann man einen dieser Typen, sowie dessen
+Starteigenschaften konfigurieren:
 
 
 ~~~
@@ -434,7 +498,7 @@ return array(
 );
 ~~~
 
-Danach können wir über `Yii::app()->authManager` auf den
+Jetzt kann man über `Yii::app()->authManager` auf den
 [authManager|CWebApplication::authManager] zugreifen.
 
 > Note|Hinweis: Wenn Sie Umlaute für die Bezeichnung Ihrer
@@ -448,8 +512,8 @@ Konfiguration der Datenbankverbindung die Eigenschaft
 Das Anlegen einer Autorisierungshierarchie beinhaltet drei Schritte: 
 Autorisierungselemente anlegen, zwischen diesen Elementen Beziehungen 
 definieren und Benutzern Rollen zuweisen. Die
-[authManager|CWebApplication::authManager]-Komponente bietet eine ganze Reihe
-von APIs um dies zu bewerkstelligen.
+[authManager|CWebApplication::authManager]-Komponente bietet hierfür 
+eine ganze Reihe von APIs.
 
 Rufen Sie je nach Art des Elements eine der folgenden Methoden auf, um ein
 Autorisierungselement zu erstellen:
@@ -458,7 +522,7 @@ Autorisierungselement zu erstellen:
    - [CAuthManager::createTask] (erzeugt Tätigkeit)
    - [CAuthManager::createOperation] (erzeugt Operation)
 
-Wenn wir eine Reihe von Autorisierungselementen angelegt haben, können wir mit
+Hat man eine Reihe von Autorisierungselementen angelegt, kann man mit
 den folgenden Methoden Beziehungen zwischen diesen Elementen definieren:
 
    - [CAuthManager::addItemChild] (definiert Eltern-Kind-Beziehung)
@@ -466,14 +530,14 @@ den folgenden Methoden Beziehungen zwischen diesen Elementen definieren:
    - [CAuthItem::addChild] (definiert Kind-Beziehung von Elternelement aus)
    - [CAuthItem::removeChild] (entfernt Kind-Beziehung von Elternelement aus)
 
-Um schließlich einzelnen Benutzern Rollen zuzuweisen rufen wir folgende Methoden
+Um schließlich einzelnen Benutzern Rollen zuzuweisen, ruft man folgende Methoden
 auf:
 
    - [CAuthManager::assign] (weist Rolle zu)
    - [CAuthManager::revoke] (entfernt zugewiesene Rolle)
 
-Unten sehen wir ein Beispiel, wie wir mit der verfügbaren API ein
-Autorisierungshierarchie aufbauen:
+Unten sehen Sie ein Beispiel, wie man mit dieser API eine
+Autorisierungshierarchie aufbaut:
 
 ~~~
 [php]
@@ -511,31 +575,37 @@ $auth->assign('redakteur','redakteurC');
 $auth->assign('admin','adminD');
 ~~~
 
-> Info|Info: Das Verfahren oben mutet etwas langwierig an, dient aber lediglich
-Demonstrationszwecken. In der Regel müssen Entwickler
-Benutzerschnittstellen entwerfen, mit denen Autorisierungshierarchien
-intuitiver erstellt werden können.
+Wurden diese Hierarchie einmalig erstellt, wird sie automatisch von der
+[authManager|CWebApplication::authManager]-Komponente (also
+z.B. [CPhpAuthManager] oder [CDbAuthManager]) geladen. Man muss obigen
+Code also nur einmal ausführen, NICHT bei jeden Request.
 
-### Verwenden von Geschäftsregeln
+> Info|Info: Das Verfahren oben mutet etwas umständlich an. Es soll
+> aber lediglich das Prinzip demonstrieren. In der Regel wird der 
+> Entwickler eine geeignete Verwaltungsschnittstelle entwerfen, mit
+> der man Autorisierungshierarchien intuitiver erstellen kann.
 
-Beim Definieren einer Autorisierungshierarchie können wir eine Rolle, eine
+
+### Anwendung von Geschäftsregeln
+
+Erstellt man eine Autorisierungshierarchie, kann man eine Rolle, eine
 Tätigkeit oder eine Operation mit einer sogenannten *Geschäftsregel* versehen.
-Auch beim Zuweisen einer Rolle an einen Benutzer können wir eine
-Geschäftsregel angeben. Eine Geschäftsregel ist ein Stück PHP-Code, 
-der bei der Zugriffsprüfung ausgeführt
-wird. In obigem Beispiel haben wir der Tätigkeit `aktualisiereEigenenBeitrag`
-eine Geschäftsregel zugeordnet. In dieser Geschäftsregel prüfen wir einfach,
-ob die ID des aktuellen Benutzers mit der Autor-ID des Beitrags übereinstimmt.
-Bei der Zugriffsprüfung wird die post-Information (also der Beitrag) vom
+Auch beim Zuweisen einer Rolle an einen Benutzer kann man eine solche
+Geschäftsregel angeben. Eine Geschäftsregel ist ein PHP-Schnippsel, 
+der während der Berechtigungsprüfung ausgeführt wird. In obigem Beispiel 
+wurde bei der Tätigkeit `aktualisiereEigenenBeitrag`
+eine solche Geschäftsregel definiert. Darin wird einfach geprüft,
+ob die ID des aktuellen Benutzers mit der des Autors übereinstimmt.
+Bei der Zugriffsprüfung wird der Beitrag (post) vom
 Entwickler im Array `$params` übergeben.
 
-### Zugriffsprüfung
+### Berechtigungsprüfung 
 
-Bevor wir eine Zugriffsprüfung durchführen können, brauchen wir erst den
-Namen des Autorisierungselements. Um zum Beispiel zu testen, ob der aktuelle
-Benutzer einen Beitrag erstellen kann, würden wir prüfen, ob er die von der
-Operation `erstelleBeitrag` dargestellte Berechtigung besitzt. Für die Prüfung
-rufen wir dann [CWebUser::checkAccess] auf:
+Um die Berechtigungsprüfung durchzuführen, braucht man zunächst den Namen des
+Autorisierungselements. Will man zum Beispiel zu testen, ob der aktuelle
+Benutzer einen Beitrag erstellen kann, muss die Berechtigung zur Operation
+`erstelleBeitrag` ermittelt werden. Dazu ruft man [CWebUser::checkAccess] 
+wie folgt auf:
 
 ~~~
 [php]
@@ -545,10 +615,10 @@ if(Yii::app()->user->checkAccess('erstelleBeitrag'))
 }
 ~~~
 
-Wenn die Autorisierungsregel mit einer Geschäftsregel verbunden ist, die
-weitere Parameter erfordert, können wir diese ebenfalls mit übergeben. Um zum
-Beispiel zu prüfen, ob ein Benutzer einen Beitrag aktualisieren darf, können
-wir so vorgehen:
+Ist eine Geschäftsregel mit weiteren Parametern mit dem Element verbunden,
+können diese ebenfalls mit übergeben werden. Um zum Beispiel zu prüfen, ob
+ein Benutzer einen bestimmten Beitrag aktualisieren darf, würde man die
+Beitragsdaten in `$params` übergeben:
 
 ~~~
 [php]
@@ -563,16 +633,15 @@ if(Yii::app()->user->checkAccess('aktualisiereEigenenBeitrag',$params))
 
 > Note|Hinweis: Standardrollen können seit Version 1.0.3 verwendet werden.
 
-Viele Webanwendungen verwenden einige spezielle Rollen, die den meisten oder
-allen Systembenutzern zugewiesen werden müssen. Wir könnten zum Beispiel allen
-authentifizierten Benutzern einige Berechtigungen zuweisen wollen. Es würde
-viel zusätzlichen Verwaltungsaufwand bedeuten, wenn wir diese Rollenzuweisung
-jeweils einzeln durchführen und speichern wollten. Um dieses Problem zu
-umgehen, können wir *Standardrollen* (engl.: default roles) verwenden.
+In vielen Webanwendungen gibt es einige Rollen, denen praktisch alle Benutzer
+zugewiesen werden sollen, um z.B. alle authentifizierten Benutzer mit
+bestimmten Basisberechtigungen zu versehen. Man könnte also diesen Rollen
+jeden einzelnen Benutzer zuwiesen, was allerdings relativ hohen Verwaltungsaufwand
+bedeutet. Stattdessen kann man aber auch *Standardrollen* (engl.: default roles) verwenden.
 
 Eine Standardrolle ist eine Rolle, die implizit allen Benutzern zugewiesen
-wird und zwar authentifizierten Benutzern genauso, wie Gästen. Wir müssen sie
-nicht explizit einem Benutzer zuweisen. Beim Aufruf von
+wird und zwar authentifizierten Benutzern genauso, wie Gästen. Man muss ihnen
+nicht explizit Benutzer zuweisen. Beim Aufruf von
 [CWebUser::checkAccess] werden zunächst die Standardrollen überprüft, als ob
 sie dem Benutzer zugewiesen worden wären.
 
@@ -592,8 +661,8 @@ return array(
 );
 ~~~
 
-Da eine Standardrolle jedem Benutzer zugewiesen wird, muss sie normalerweise
-mit einer Geschäftsregel verbunden werden, um festzustellen, ob die Rolle
+Da eine Standardrolle jedem Benutzer zugewiesen wird, wird sie normalerweise
+mit einer Geschäftsregel verbunden, um festzustellen, ob die Rolle
 wirklich auf den Benutzer zutrifft. Der folgende Code definiert zum Beispiel
 zwei Rollen, "authentifiziert" und "gast", die letzendlich authentifizierten
 Benutzern und Gästen entsprechend zugeordnet werden.
@@ -607,4 +676,4 @@ $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('gast','Gast-Benutzer', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 1808 2010-02-17 21:49:42Z qiang.xue $</div>
+<div class="revision">$Id: topics.auth.txt 2638 2010-11-11 14:18:59Z jefftulsa@gmail.com $</div>

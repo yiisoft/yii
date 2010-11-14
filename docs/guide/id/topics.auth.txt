@@ -29,25 +29,23 @@ lainnya mengenai pengguna.
 Mendefinisikan Kelas Identitas
 ------------------------------
 
-Untuk mengotentikasi seorang pengguna, kita mendefinisikan kelas identitas yang
-berisi logika otentikasi sebenarnya. Kelas identitas harus mengimplementasikan
-antar muka [IUserIdentity]. Kelas yang berbeda dapat diimplementasikan
-untuk pendekatan otentikasi yang berbeda (misalnya OpenID, LDAP). Awal
-yang baik adalah dengan memperluas [CUserIdentity] yang merupakan basis kelas untuk
-pendekatan otentikasi berdasarkan nama pengguna dan kata sandi.
+Seperti yang sudah disinggung di atas, otentikasi adalah segala sesuatu yang berhubungan dengan validasi identitas pengguna. Sebuah implementasi otentikasi pada aplikasi Web pada umumnya menyangkut kombinasi penggunaan username dan password untuk memverifikasi identitas user. Namun, otentikasi bisa juga menyertakan implementasi yang berbeda atau metode lain. Untuk mengakomodasi kebutuhan metode yang beragam, Yii Framework memperkenalkan identity class (kelas identitas)
+
+Kita mendefinisikan sebuah kelas yang mengandung logika otentikasi yang sebenarnya. Identity class harus mengimplementasi interface [IUserIdentity]. Kelas-kelas identity dapat
+diimplementasikan untuk pendekatan otentiksai yang berbeda-beda (misalnya OpenID, LDAP, Twitter OAuth, Facebook Connect). Adalah sebuah permulaan yang baik ketika menulis implementasi sendiri dengan menurunkan [CUserIdentity] yang menjadi kelas dasar untuk otentikasi dengan pendekatan penggunaan username dan password.
 
 Pekerjaan utama dalam mendefinisikan kelas identitas adalah implementasi
-metode [IUserIdentity::authenticate]. Kelas identitas juga dapat mendeklarasikan
-informasi identitas tambahan yang perlu tetap ada selama sesi
+metode [IUserIdentity::authenticate]. Ini merupakan metode yang digunakan untuk mengenkapsulasi detail utama pada pendekatan otentikasi. Kelas identity juga dapat mendeklarasikan
+informasi identitas tambahan yang perlu tetap ada (persistent) selama sesi
 pengguna.
 
-Dalam contoh berikut, kita memvalidasi nama pengguna dan kata sandi
-terhadap tabel user dalam database menggunakan [Rekaman
-Aktif](/doc/guide/database.ar). Kita juga menimpa metode `getId` guna
-mengembalikan variabel `_id` yang disetel saat otentikasi (implementasi
-standar akan menghasilkan nama pengguna sebagai ID). Saat otentikasi,
-kita menyimpan informasi `title` yang diambil dalam suatu kondisi nama yang sama dengan
-memanggil [CBaseUserIdentity::setState].
+###Sebuah Contoh
+
+Pada contoh berikut, kita akan menggunakan kelas identity untuk menunjukkan pendekatan database untuk otentikasi. Cara ini merupakan cara paling umum pada aplikasi Web. Seorang user akan memasukkan username dan password ke dalam form login, dan kemudian kita, dengan menggunakan [ActiveRecord](/doc/guide/database.ar) akan memvalidasi data rahasia tersebut dengan membandingkannya pada tabel user di dalam database. Sebetulnya ada beberapa hal lain yang akan didemokan pada contoh berikut :
+
+1. Mengimplementasikan fungsi `authenticate()` untuk menggunakan database dalam memvalidasi data pribadi.
+2. Meng-override metode `CUserIdentity::getId()` untuk mengembalikan properti `_id` karena implementasi default mengembalikan username sebagai ID.
+3. Menggunakan metode `setState()` ([CBaseUserIdentity::setState]) untuk menunjukkan penyimpanan informasi lain yang dapat diambil dengan mudah pada request berikutnya.
 
 ~~~
 [php]
@@ -77,24 +75,19 @@ class UserIdentity extends CUserIdentity
 }
 ~~~
 
-Informasi yang disimpan dalam sebuah keadaan (dengan memanggil [CBaseUserIdentity::setState]) akan dialihkan
-ke [CWebUser] yang menyimpannya dalam penyimpanan persisten, seperti misalnya sesi.
-Informasi ini dapat diakses seperti properti [CWebUser]. Sebagai contoh, kita bisa
-mendapatkan informasi `title` dari pengguna saat ini dengan `Yii::app()->user->title`
-(Ini sudah tersedia sejak versi 1.0.3. Pada versi sebelumnya, kita harus menggunakan
-`Yii::app()->user->getState('title')`.)
+Ketika kita memahami login dan logout di bagian berikutnya, kita akan melihat bahwa kita pass kelas identity ini ke metode login untuk seorang user. Informasi yang disimpan dalam sebuah state(dengan memanggil [CBaseUserIdentity::setState]) akan di-pass ke [CWebUser] yang menyimpannya dalam bentuk penyimpanan permanen (persistent), seperti misalnya sesi.
+Informasi ini dapat diakses seperti properti [CWebUser]. Sebagai contoh, kita menyimpan informasi title user via `$this->setState('title', $record->title);`. Begitu kita sudah menyelesaikan proses login kita, maka kita dapat mengambil informasi `title` dari user sekarang dengan menggunakan `Yii::app()->user->title` (Ini sudah tersedia sejak versi 1.0.3. Pada versi sebelumnya, kita harus menggunakan `Yii::app()->user->getState('title')`.)
 
-> Info: Secara standar, [CWebUser] menggunakan sesi sebagai penyimpanan persisten atas informasi
+> Info: Secara default, [CWebUser] menggunakan sesi sebagai penyimpanan permanen atas informasi
 identitas pengguna. Jika login berbasis-cookie dihidupkan (dengan menyetel
 [CWebUser::allowAutoLogin] menjadi true), informasi identitas pengguna juga dapat
 disimpan dalam cookie. Pastikan Anda tidak mendeklarasikan informasi sensitif
-(misalnya kata sandi) menjadi persisten.
+(misalnya kata sandi) menjadi permanen.
 
-Masuk dan Keluar
+Login dan Logout
 ----------------
 
-Menggunakan kelas identitas dan komponen pengguna, kita dapat
-mengimplementasikan aksi login dan logout dengan mudah.
+Sekarang kita telah melihat contoh dari pembuatan sebuah identitas user, kita menggunakan in untuk membantu kita dalam mengimplementasi kebutuhan akan aksi login dan logout. Kode berikut akan mendemonstrasikan bagaimana dilaksanakan :
 
 ~~~
 [php]
@@ -105,11 +98,17 @@ if($identity->authenticate())
 else
 	echo $identity->errorMessage;
 ......
-// Keluarkan pengguna saat ini
+// Logout-kan pengguna saat ini
 Yii::app()->user->logout();
 ~~~
 
-Distandarkan, seorang pengguna akan dikeluarkan setelah periode waktu tertentu bila tidak aktif,
+Di sini kita akan membuat sebuah kelas UserIdentity yang baru dan pass ke dalam data rahasia (seperti nilai `$username` dan `$password` yang di-submit oleh user) ke constructor. Kita cukup memanggil fungsi metode authenticate(). Jika sukses, kita akan pass informasi identitas ke metode [CWebUser::login], yang akan menyimpan informasi identitas ke tempat penyimpanan tetap (persistent) (secara default adalah sesi PHP) untuk mengambil pada saat request berikutnya. JIka otentikasi gagal, kita akan menanyakan properti `errorMessage` untuk informasi lebih lajut mengapa bisa gagal.
+
+Apakah seorang user sudah terotentikasi atau belum dapat diperiksa dengan mudah melalui penggunaan `Yii::app()->user->isGuest`. Jika menggunakan penyimpanan tetap (persistent) seperti sesi dan/atau cookie (akan dibahas di bawah) untuk menyimpan informasi identitas, seorang user dapat tetap dalam keadaan login pada request berikutnya. Pada kasus ini, kita tidak perlu kelas UserIdentity dan seluruh proses login pada request selanjutnya. Namun CWebUser yang akan secara otomatis mengurus pengisian informasi identitas dari tempat penyimpanan tetap dan menggunakannya untuk menentukan apakah `Yii::app()->user->isGuest` akan mengembalikan true atau false.
+
+### Cookie-based Login
+
+Secara default, seorang pengguna akan di-logout-kan setelah periode waktu tertentu bila tidak aktif,
 tergantung pada [konfigurasi sesi](http://www.php.net/manual/en/session.configuration.php).
 Untuk mengubah perilaku ini, kita dapat menyetel properti [allowAutoLogin|CWebUser::allowAutoLogin]
 pada komponen pengguna menjadi true dan mengoper parameter durasi ke dalam
@@ -124,21 +123,58 @@ fitur ini mengharuskan browser pengguna untuk menerima cookie.
 Yii::app()->user->login($identity,3600*24*7);
 ~~~
 
+Seperti yang kami singgung di atas, ketika kita mengaktifkan login berbasis cookie, 
+state-state yang disimpan melalui [CBaseUserIdentity::setState] akan disimpan juga ke dalam cookie.
+Ketika lain kali user tersebut login kembali, state-state ini akan dibaca dari
+cookie dan menjadi dapat diakses melalui `Yii::app()->user`.
+
+Walaupun Yii telah mempersiapkan beberapa pencegahan kemungkinan nilai state cookie dimanipulasi
+pada bagian client, kami sangat menyarankan informasi yang sensitif tidak disimpan
+sebagai state alih-alih menyimpan informasi tersebut pada bagian server
+dengan membaca dari tempat penyimpanan di bagian server (seperti database).
+
+Sebagai tambahan, untuk aplikasi Web serius apapun, kami merekomendasikan beberapa
+strategi berikut untuk meningkatkan keamanan pada login berbasis cookie.
+
+* Ketika seorang user berhasil login dengan mengisi form login, kita men-generate dan
+menyimpan sebuah kunci acak pada state cookie dan dalam tempat penyimpanan permanen pada bagian server
+(seperti database)
+
+* Pada saat request selanjutnya, ketika otentikasi user dilakukan dengan informasi cookie, kita membandingkan dua buah
+kunci acak ini dan memastikan kecocokannya sebelum me-login-kan user.
+
+* Jika user log melalui form login lagi, sebuah kunci harus di-generate ulang.
+
+Dengan menggunakan strategi di atas, kita sudah mengeleminasi kemungkinan seorang user menggunakan
+ulang sebuah state cookie yang lama yang mungkin berisi informasi state yang lama.
+
+Untuk mengimplementasi srategi di atas, kita perlu meng-override dua metode :
+
+* [CUserIdentity::authenticate()]: merupakan tempat di mana otentikasi nyata dilakukan.
+Jika user terotentikasi, kita harus men-generate sebuah kunci acak yang baru dan menyimpannya
+ke dalam database termasuk juga dalam state identitas melalui [CBaseUserIdentity::setState].
+
+* [CWebUser::beforeLogin()]: merupakan fungsi yang dipanggil ketika seorang user sedang diloginkan.
+Kita harus mengecek apakah kunci yang didapatkan dari state cookie adalah sama dengan
+yang ada di database.
+
+
+
+
 Filter Kontrol Akses
 --------------------
 
 Filter kontrol akses merupakan skema awal otorisasi yang memeriksa apakah
-pengguna saat ini dapat melakukan aksi kontroler yang diminta. Otorisasi
+pengguna saat ini dapat melakukan aksi controller yang diminta. Otorisasi
 didasarkan pada nama pengguna, alamat IP klien dan jenis permintaan.
 Ini disediakan sebagai filter bernama
 ["accessControl"|CController::filterAccessControl].
 
-> Tip: Filter kontrol akses cukup untuk skenario sederhana. Untuk
-kontrol akses yang kompleks, Anda dapat menggunakan role-based access (RBAC)
-yang akan segera dibahas.
+> Tip: Filter kontrol akses cukup untuk skenario sederhana. Untuk kontrol akses yang kompleks,
+Anda dapat menggunakan role-based access (RBAC) yang akan segera dibahas.
 
-Untuk mengontrol akses terhadap aksi dalam kontroler, kita menginstalasi filter
-kontrol akses dengan menimpa [CController::filters] (lihat
+Untuk mengontrol akses terhadap aksi dalam controller, kita menginstalasi filter
+kontrol akses dengan mengoverride [CController::filters] (lihat
 [Filter](/doc/guide/basics.controller#filter) untuk lebih jelasnya mengenai
 instalasi filter).
 
@@ -159,7 +195,7 @@ class PostController extends CController
 Dalam contoh di atas, kita menetapkan bahwa filter [kontrol
 akses|CController::filterAccessControl] harus diterapkan pada setiap
 aksi `PostController`. Rincian aturan otorisasi yang dipakai oleh
-filter ditetapkan dengan menimpa [CController::accessRules] pada kelas
+filter ditetapkan dengan meng-override [CController::accessRules] pada kelas
 kontroler.
 
 ~~~
@@ -188,9 +224,8 @@ class PostController extends CController
 ~~~
 
 Kode di atas menetapkan tiga aturan, masing-masing disajikan sebagai array.
-Elemen pertama array bisa berupa `'allow'` atau `'deny'` dan pasangan
-nama-nilai lainnya menetapkan parameter pola aturan. Aturan-aturan ini
-membaca: aksi `create` dan `edit` tidak bisa dijalankan oleh pengguna
+Elemen pertama array bisa berupa `'allow'` atau `'deny'` dan sisanya pasangan
+nama-nilai lainnya menetapkan parameter pola aturan. Aturan-aturan yang didefinisikan sebelumnya diterjemahkan sebagai berikut: aksi `create` dan `edit` tidak bisa dijalankan oleh pengguna
 anonim; aksi `delete` dapat dijalankan oleh pengguna dengan aturan `admin`;
 dan aksi `delete` tidak bisa dijalankan oleh siapapun.
 
@@ -214,21 +249,21 @@ dijalankan.
 >     ),
 > );
 > ~~~
-> Alasan atas aturan ini dikarenakan jika tidak ada seorangpun yang sesuai konteks aturan,
-> aksi akan dijalankan.
+> Alasan atas aturan ini dikarenakan jika tidak ada seorangpun yang sesuai konteks aturan, aksi akan dijalankan.
+
 
 Aturan akses akan sesuai dengan parameter konteks berikut:
 
    - [aksi|CAccessRule::actions]: menetapkan aksi mana dijalankan jika aturan sesuai.
-Ini harus berupa array ID aksi. Pembandingannya sensitif jenis huruf.
+Ini harus berupa array ID aksi. Pembandingannya bersifat case-sensitive.
 
    - [kontroler|CAccessRule::controllers]: menetapkan kontroler mana yang sesuai aturan
-ini. Ini harus berupa array ID kontroler. Pembandingannya sensitif jenis huruf.
+ini. Ini harus berupa array ID kontroler. Pembandingannya bersifat case-sensitive.
 Opsi ini sudah tersedia sejak versi 1.0.4.
 
    - [pengguna|CAccessRule::users]: menetapkan pengguna mana yang sesuai aturan ini.
 [Nama|CWebUser::name] pengguna saat ini dipakai untuk penyesuaian. Pembandingannya
-sensitif jenis huruf. Tiga karakter khusus dapat dipakai di sini:
+bersifat case-sensitive. Tiga karakter khusus dapat dipakai di sini:
 
 	   - `*`: setiap pengguna, termasuk anonim dan pengguna terotentikasi.
 	   - `?`: pengguna anonim.
@@ -239,7 +274,7 @@ Pemakaian fitur [kontrol akses berbasis-role](#role-based-access-control)
 dijelaskan pada subseksi berikutnya. Aturan diterapkan khususnya jika
 [CWebUser::checkAccess] mengembalikan true pada salah satu set aturan.
 Catatan, Anda harus menggunakan set aturan terutama dalam aturan `allow` karena secara definisi,
-aturan mewakili perijinan untuk melakukan sesuatu. Juga harp dicatat, meskipun kita menggunakan
+aturan mewakili perijinan untuk melakukan sesuatu. Juga harap dicatat, meskipun kita menggunakan
 batasan `roles` di sini, nilainya sebenarnya dapat berupa item otentikasi, termasuk roles,
 tugas dan operasi.
 
@@ -247,7 +282,7 @@ tugas dan operasi.
 ini.
 
    - [verb|CAccessRule::verbs]: menetapkan jenis permintaan apa (misalnya
-`GET`, `POST`) sesuai aturan ini. Pembandingannya tidak sensitif jenis huruf.
+`GET`, `POST`) sesuai aturan ini. Pembandingannya tidak bersifat case-sensitive.
 
    - [ekspresi|CAccessRule::expression]: menetapkan ekspresi PHP yang nilainya menunjukan
 apakah aturan ini sesuai atau tidak. Dalam ekspresi, Anda dapat menggunakan variabel `$user`
@@ -279,7 +314,7 @@ array(
 	......
 	'components'=>array(
 		'user'=>array(
-			// this is actually the default value
+			// ini sebetulnya merupakan nilai default
 			'loginUrl'=>array('site/login'),
 		),
 	),
@@ -302,31 +337,31 @@ Kontrol Akses Berbasis-Role
 ---------------------------
 
 Role-Based Access Control (RBAC) menyediakan kontrol akses terpusat yang
-sederhana dan bertenaga. Silahkan merujuk ke
+sederhana dan powerful. Silahkan merujuk ke
 [artikel Wiki](http://en.wikipedia.org/wiki/Role-based_access_control) untuk
 lebih jelasnya mengenai perbandingan RBAC dengan skema kontrol akses
 tradisional.
 
-Yii mengimplementasikan skema RBAC hirarkis via komponen aplikasi
-[authManager|CWebApplication::authManager]. Berikut ini, pertama kami
-perkenalkan konsep utama yang dipakai dalam skema ini; kemudian kami
-jelaskan bagaimana untuk mendefinisikan data otorisasi; di akhir kami
-perlihatkan bagaimana menggunakan data otorisasi untuk melakukan pemeriksaan akses.
+Yii mengimplementasikan skema RBAC berhierarki via komponen aplikasi
+[authManager|CWebApplication::authManager]. Berikut ini, pertama-pertama kita
+lihat konsep utama yang dipakai dalam skema ini; kemudian kita
+memahami bagaimana untuk mendefinisikan data otorisasi; di akhir kita akan
+melihat bagaimana menggunakan data otorisasi untuk melakukan pemeriksaan akses.
 
 ### Tinjauan
 
 Konsep dasar dalam RBAC Yii adalah *item otorisasi*. Item otorisasi adalah
-perijinan untuk melakukan sesuatu (misalnya membuat tulisan blog baru,
+perijinan untuk melakukan sesuatu (misalnya membuat post blog baru,
 mengatur pengguna). Berdasarkan granularitas dan pengguna yang ditargetkan,
-item otorisasi bisa diklasifikasikan sebagai *operasi*,
-*tugas* dan *roles*. Role terdiri dari tugas, tugas terdiri dari operasi,
-dan operasi adalah perijinan yang atomis.
+item otorisasi bisa diklasifikasikan sebagai *operations (operasi)*,
+*tasks (tugas)* dan *roles (peran)*. Role terdiri dari task, task terdiri dari operation,
+dan operation adalah perijinan yang paling kecil.
 Sebagai contoh, kita bisa memiliki sistem dengan role `administrator` yang terdiri dari
-tugas `post management` dan tugas `user management`. Tugas `user management`
-terdiri dari operasi `create user`, `update user` dan `delete user`.
-Agar lebih fleksibel, Yii juga mengijinkan role terdiri dari role atau operasi
-lain, tugas terdiri dari tugas lain, dan operasi terdiri dari operasi lainnya, 
-tugas terdiri dari tugas-tugas lain, dan operasi terdiri dari operasi-operasi lainnya.
+task `post management` dan task `user management`. Task `user management`
+terdiri dari operation `create user`, `update user` dan `delete user`.
+Agar lebih fleksibel, Yii juga mengijinkan role terdiri dari role atau operation
+lain, task terdiri dari task lain, dan operation terdiri dari operation lainnya,
+task terdiri dari task-task lain, dan operation terdiri dari operation-operation lainnya.
 
 Item otorisasi secara unik diidentifikasi dengan namanya.
 
@@ -334,17 +369,17 @@ Item otorisasi dapat dikaitkan dengan *aturan bisnis*. Aturan bisnis adalah
 bagian kode PHP yang akan dijalankan saat melakukan pemeriksaan akses
 terhadap itemnya. Hanya ketika eksekusi mengembalikan nilai true,
 pengguna akan dipertimbangkan memiliki perijinan yang disajikan oleh
-item. Sebagai contoh, saat mendifinisikan operasi `updatePost`, kita akan menambahkan
+item. Sebagai contoh, saat mendifinisikan operation `updatePost`, kita akan menambahkan
 aturan bisnis yang memeriksa apakah ID pengguna sama seperti ID pemuat tulisan
 agar pembuat tersebut dapat memiliki perijinan untuk memutakhirkan
 tulisan.
 
-Menggunakan item otorisasi, kida bisa membangun *hirarki
-otorisasi*. Item `A` adalah leluhur dari item `B` lain dalam hirarki
+Menggunakan item otorisasi, kita bisa membangun *hirarki
+otorisasi*. Item `A` adalah induk dari item `B` lain dalam hirarki
 jika `A` terdiri dari `B` (atau katakanlah `A` mewarisi perijinan
 disajikan oleh `B`). Item dapat memiliki multipel item anak, dan juga bisa
-memiliki multipel item leluhur. Oleh karena itu, hirarki otorisasi adalah
-grarik urutan-bagian daripada sebuah pohon (susunan). Dalam hirarki ini, item role berada
+memiliki multipel item induk. Oleh karena itu, hirarki otorisasi adalah
+grarik urutan-bagian alih-alih sebuah pohon (susunan). Dalam hirarki ini, item role berada
 tingkat atas, item operasi pada tingkat bawah, item tugas berada
 diantaranya.
 
@@ -373,7 +408,7 @@ Sebelum kita mendefinisikan hirarki otorisasi dan melakukan pemeriksaan akses,
 kita perlu mengkonfigurasi komponen aplikasi
 [authManager|CWebApplication::authManager]. Yii menyediakan dua jenis
 manajer otorisasi: [CPhpAuthManager] dan
-[CDbAuthManager]. Yang pertama menggunakan file naskah PHP untuk menyimpan data
+[CDbAuthManager]. Yang pertama menggunakan file skrip PHP untuk menyimpan data
 otorisasi, sementara yang kedua menyimpan data otorisasi dalam database. Ketika kita
 mengkonfigurasi komponen aplikasi [authManager|CWebApplication::authManager],
 kita harus menetapkan kelas komponen mana yang dipakai dan apa nilai
@@ -466,7 +501,11 @@ $auth->assign('editor','editorC');
 $auth->assign('admin','adminD');
 ~~~
 
-> Info: sementara pada contoh di atas terlihat panjang dan membosankan, ini dikarenakan
+Komponen [authManager|CWebApplication::authManager] (seperti [CPhpAuthManager], [CDbAuthManager])
+akan menjalankan item otorisasi begitu dibuat. Kita TIDAK perlu menjalankan perintah diatas
+untuk mengulangi pembuatannya di setiap permintaan.
+
+> Info: sementara pada contoh di atas terlihat panjang dan melelahkan, ini hanya dikarenakan
 untuk keperluan demonstratif saja. Para pengembang biasanya harus mengembangkan beberapa
 antar muka agar pengguna akhir bisa menggunakan hirarki otorisasi
 lebih intuitif.
@@ -481,7 +520,7 @@ Ketika kita mendefinisikan hirarki otorisasi, kita dapat mengaitkan sebuah role,
 
 Untuk melakukan pemeriksaan akses, pertama kita perlu mengetahui nama item
 otorisasi. Sebagai contoh, untuk memeriksa apakah pengguna saat ini dapat membuat
-sebuah tulisan, kita akan memeriksa apakah dia memiliki perijinan yang disiapkan
+sebuah post, kita akan memeriksa apakah dia memiliki perijinan yang disiapkan
 oleh operasi `createPost`. Kemudian kita memanggil [CWebUser::checkAccess] untuk melakukan
 pemeriksaan akses:
 
@@ -489,7 +528,7 @@ pemeriksaan akses:
 [php]
 if(Yii::app()->user->checkAccess('createPost'))
 {
-	// buat tulisan
+	// buat post
 }
 ~~~
 
@@ -502,27 +541,27 @@ memeriksa apakah pengguna dapat memutakhirkan sebuah tulisan, kita akan melakuka
 $params=array('post'=>$post);
 if(Yii::app()->user->checkAccess('updateOwnPost',$params))
 {
-	// mutakhirkan tulisan
+	// mengupdate tulisan
 }
 ~~~
 
 
-### Menggunakan Role Standar
+### Menggunakan Role Default
 
-> Note|Catatan: Fitur standar role sudah tersedia sejak versi 1.0.3
+> Note|Catatan: Fitur role default sudah tersedia sejak versi 1.0.3
 
 Banyak aplikasi Web memerlukan beberapa role sangat khusus yang ditempatkan ke
-setiap pengguna atau hampir semua pengguna sistem. Sebagai contoh, kita mungkin ingin menemppatkan beberapa
+setiap pengguna atau hampir semua pengguna sistem. Sebagai contoh, kita mungkin ingin menempatkan beberapa
 hak bagi para pengguna terotentikasi. Ini akan memunculkan banyak masalah pemeliharaan jika
 kita secara eksplisit menetapkan dan menyimpan penempatan role tersebut. Kita dapat mengeksploitasi
-*role standar* guna memecahkan masalah ini.
+*role default* guna memecahkan masalah ini.
 
-Role standar adalah sebuah role yang secara implisit ditempatkan ke setiap pengguna, termasuk
-yang terotentikasi dan pengunjung. Kita tidak ingin secara eksplisit menempatkannya kepada pengguna.
-Saat [CWebUser::checkAccess] dipanggil, role standar akan diperiksa lebih dulu seolah-olah ditempatkan
+Role default adalah sebuah role yang secara implisit ditempatkan ke setiap pengguna, termasuk
+yang terotentikasi dan pengunjung. Kita tidak perlu secara eksplisit meng-assign kepada pengguna.
+Saat [CWebUser::checkAccess] dipanggil, role default akan diperiksa lebih dulu seolah-olah di-assign
 kepada pengguna.
 
-Role standar harus dideklarasikan dalam properti [CAuthManager::defaultRoles].
+Role default harus dideklarasikan dalam properti [CAuthManager::defaultRoles].
 Contohnya, konfigurasi berikut mendeklarasikan dua role sebagai role standar: `authenticated` dan `guest`.
 
 ~~~
@@ -537,11 +576,11 @@ return array(
 );
 ~~~
 
-Karena role standar ditempatkan ke setiap pengguna, biasanya perlu dikaitkan
-dengan aturan bisnis yang menentukan apakah role benar-benar diterapkan
+Karena role default ditempatkan ke setiap pengguna, biasanya perlu dikaitkan
+dengan aturan bisnis yang menentukan apakah role benar-benar di-assign
 kepada pengguna. Sebagai contoh, kode berikut mendefinisikan dua role,
-`authenticated` dan `guest`, yang secara efektif diterapkan masing-masing
-ke para pengguna terotentikasi dan pengunjung.
+`authenticated` dan `guest`, yang secara efektif di-assign ke masing-masing
+para pengguna terotentikasi dan pengunjung.
 
 ~~~
 [php]
@@ -552,4 +591,4 @@ $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('guest', 'guest user', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 1282 2009-08-01 01:07:54Z qiang.xue $</div>
+<div class="revision">$Id: topics.auth.txt 2637 2010-11-11 04:39:58Z jefftulsa@gmail.com $</div>

@@ -215,4 +215,4 @@ Podczas przetwarzania żądania użytkownika aplikacja podlega następującemu c
 
    7. Zgłoszenie zdarzenia [onEndRequest|CApplication::onEndRequest];
 
-<div class="revision">$Id: basics.application.txt 2360 2010-08-28 23:55:47Z qiang.xue $</div>
+<div class="revision">$Id: basics.application.txt 2488 2010-09-20 11:38:02Z mdomba $</div>

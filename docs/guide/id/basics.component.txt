@@ -1,16 +1,16 @@
 Komponen
 ========
 
-Aplikasi Yii dibangun setelah komponen berupa obyek ditulis menjadi
-spesifikasi. Sebuah komponen adalah turunan dari
-[CComponent] atau kelas sebelumnya. Pemakaian komponen meliputi
+Aplikasi Yii dibangun dari komponen-komponen yang berupa objek yang ditulis ke sebuah
+spesifikasi. Sebuah komponen adalah isntance dari
+[CComponent] atau kelas induknya. Pemakaian komponen meliputi
 pengaksesan propertinya dan memunculkan/menangani event-nya. Kelas basis
 [CComponent] menetapkan bagaimana untuk mendefinisikan properti dan event.
 
 Properti Komponen
 -----------------
 
-Properti komponen seperti variabel anggota public sebuah obyek. Kita dapat
+Properti komponen seperti variabel anggota public sebuah objek. Kita dapat
 membaca nilainya atau menempatkan sebuah nilai ke dalamnya. Sebagai contoh,
 
 ~~~
@@ -19,7 +19,7 @@ $width=$component->textWidth;     // ambil properti textWidth
 $component->enableCaching=true;   // setel properti enableCaching
 ~~~
 
-Untuk mendefinisikan properti komponen, kita cuku mendeklarasian variabel
+Untuk mendefinisikan properti komponen, kita cukup mendeklarasikan variabel
 anggota public dalam kelas komponen. Cara yang lebih fleksibel adalah dengan
 mendefinisikan metode getter (pengambil) dan setter (penyetel) seperti berikut:
 
@@ -36,31 +36,31 @@ public function setTextWidth($value)
 }
 ~~~
 
-Kode di atas mendefinisikan properti yang bisa ditulis dengan nama `textWidth` (nama
-sensitif jenis huruf). Ketika membaca properti, `getTextWidth()` dipanggil
-dan nilai yang dihasilkannya menjadi nilai properti; Hal yang mirip, saat menulis
-properti, `setTextWidth()` dipanggil. Jika metode penyetel tidak didefinisikan,
-properti akan menjadi hanya-baca dan menulisinya akan memunculkan sebuah
+Kode di atas mendefinisikan properti yang bisa ditulis bernama `textWidth` (nama
+bersifat case-sensitive). Ketika membaca properti, `getTextWidth()` dipanggil
+dan nilai yang dihasilkannya menjadi nilai properti; Demikian juga pada saat menulis
+properti, `setTextWidth()` yang dipanggil. Jika metode penyetel tidak didefinisikan,
+properti akan menjadi hanya-baca(read-only) dan menulisinya akan memunculkan sebuah
 eksepsi. Menggunakan metode pengambil dan penyetel untuk mendefinisikan sebuah
-properti memiliki keuntungan bahwa logika tambahan (seperti melakukan validasi, memunculkan event)
+properti memiliki manfaat bahwa logika tambahan (seperti melakukan validasi, memunculkan event)
 dapat dijalankan saat membaca dan menulis properti.
 
->Note|Catatan: Ada perbedaan menyolok antara properti yang didefinisikan via metode
+>Note|Catatan: Ada sedikit perbedaan antara properti yang didefinisikan via metode
 pengambil/penyetel dan variabel anggota kelas. Nama pengambil/penyetel
-tidak sensitif jenis huruf sementara variabel anggota kelas sensitif jenis huruf.
+tidak bersifat case-sensitive sementara variabel anggota kelas bersifat case-sensitive..
 
 Event Komponen
 --------------
 
 Event komponen adalah properti khusus yang mengambil metode (disebut `pengendali event`)
-sebagai nilainya. Melampirkan (menempatkan) metode ke sebuah event akan
+sebagai nilainya. Melampirkan (menempatkan) sebuah metode ke sebuah event akan
 menyebabkan metode dipanggil secara otomatis di tempat di mana event
 dimunculkan. Oleh karena itu, perilaku komponen bisa diubah dengan cara yang
-tidak bisa dilihat selama pengembangan komponen.
+tidak terduga selama tahap pengembangan komponen.
 
 Event komponen didefinisikan dengan mendefinisikan sebuah metode yang namanya dimulai
 dengan `on`. Seperti nama properti yang didefinisikan via metode pengambil/penyetel, nama event tidak
-sensitif jenis huruf. Kode berikut mendefinisikan sebuah event `onClicked`:
+case-sensitive. Kode berikut mendefinisikan sebuah event `onClicked`:
 
 ~~~
 [php]
@@ -70,7 +70,7 @@ public function onClicked($event)
 }
 ~~~
 
-di mana `$event` adalah turunan [CEvent] atau anak kelasnya yang menyediakan
+di mana `$event` adalah instance dari [CEvent] atau anak kelasnya yang menyediakan
 parameter event.
 
 Kita dapat melampirkan sebuah metode ke event ini seperti berikut:
@@ -80,11 +80,11 @@ Kita dapat melampirkan sebuah metode ke event ini seperti berikut:
 $component->onClicked=$callback;
 ~~~
 
-di mana `$callback` merujuk ke PHP callback yang benar. Ia bisa berupa fungsi
-global atau metode kelas. Jika metode kelas, callback harus dibentuk sebagai
+dengan `$callback` merujuk ke PHP callback yang benar. `$callback` bisa berupa fungsi
+global atau metode kelas. Jika berupa metode kelas, callback harus dibentuk sebagai
 array: `array($object,'methodName')`.
 
-Tanda tangan pengenali event harus seperti berikut:
+Tanda pengenal event harus seperti berikut:
 
 ~~~
 [php]
@@ -94,37 +94,46 @@ function methodName($event)
 }
 ~~~
 
-di mana `$event` merupakan parameter yang menjelaskan event (ia berasal dari
-panggilan `raiseEvent()`). Parameter `$event` adalah turunan dari [CEvent] atau
-kelas sebelumnya. Pada kondisi minimum, ia berisi informasi mengenai siapa
+dengan `$event` merupakan parameter yang menjelaskan event (berasal dari
+panggilan `raiseEvent()`). Parameter `$event` adalah instance dari [CEvent] atau
+kelas induk. Pada kondisi minimum, parameter ini berisi informasi mengenai siapa
 yang memunculkan event.
 
-Jika kita memanggil `onClicked()` sekarang, event `onClicked` akan dimunculkan (di dalam
+Mulai dari versi 1.0.10, sebuah handler event dapat berupa fungsi tidak bernama yang
+didukung PHP 5.3 ke atas. Misalnya, 
+~~~
+[php]
+$component->onClicked=function($event) {
+	......
+}
+~~~
+
+Jika kita memanggil `onClicked()` sekarang, event `onClicked` akan dijalankan (di dalam
 `onClicked()`), dan pengendali event terlampir akan dipanggil secara
 otomatis.
 
-Sebuah event dapat dilampirkan ke multipel pengendali. Saat event dimunculkan,
-pengendali akan dipanggil dengan urutan di mana ia dilampirkan ke event.
+Sebuah event dapat dilampirkan ke beberapa pengendali. Saat event dijalankan,
+pengendali akan dipanggil dengan urutan yang dilampirkan ke event.
 Jika sebuah pengendali memutuskan untuk menghindari pemanggilan pengendali berikutnya,
 bisa dilakukan dengan menyetel [$event->handled|CEvent::handled] menjadi true.
 
 
-Perilaku Komponen
+Behavior Komponen
 -----------------
 
-Mulai dari versi 1.0.2, sebuah komponen sudah ditambahkan guna mendukung [mixin](http://en.wikipedia.org/wiki/Mixin)
-dan dapat dilampirkan dengan satu atau beberapa perilaku. Sebuah *perilaku* adalah obyek
+Mulai dari versi 1.0.2, komponen sudah ditambahkan dukungan terhadap [mixin](http://en.wikipedia.org/wiki/Mixin)
+dan dapat dilampirkan dengan satu atau beberapa behavior. Sebuah *behavior(perilaku)* adalah objek
 yang metodenya bisa 'inherited' (diturunkan) dengan komponen lampirannya dalam arti pengumpulan
-fungsionalitas daripada spesialisasi (misal, penurunan kelas normal).
-Komponen dapat dilampirkan ke beberapa perilaku dan selanjutnya melakukan 'multipel penurunan'.
+fungsionalitas alih-alih spesialisasi (misal, penurunan kelas normal).
+Komponen dapat dilampirkan ke beberapa behavior dan selanjutnya melakukan 'multi penurunan(multiple inheritance)'.
 
-Kelas perilaku harus mengimplementasikan antar muka [IBehavior]. Umumnya perilaku dapat
-diperluas dari kelas basis [CBehavior]. Jika perilaku perlu dilampirkan ke sebuah
-[model](/doc/guide/basics.model), ia juga bisa diperluas dari [CModelBehavior] atau
+Kelas behavior harus mengimplementasikan antar muka(interface) [IBehavior]. Kebanyakan behavior dapat
+diturunkan dari kelas basis [CBehavior]. Jika perlu dilampirkan ke sebuah
+[model](/doc/guide/basics.model), maka behavior bisa diturunkan dari [CModelBehavior] atau
 [CActiveRecordBehavior] yang mengimplementasikan fitur tambahan tertentu untuk model.
 
-Untuk menggunakan perilaku, ia harus dilampirkan ke sebuah komponen lebih dulu dengan memanggil metode
-perilaku [attach()|IBehavior::attach]. Kemudian kita memanggil metode perilaku melalui komponen:
+Untuk menggunakannya, behavior harus dilampirkan ke sebuah komponen terlebih dahulu dengan memanggil metode
+ [attach()|IBehavior::attach]. Kemudian kita memanggil metode behavior melalui komponen:
 
 ~~~
 [php]
@@ -134,8 +143,8 @@ $behavior->attach($name,$component);
 $component->test();
 ~~~
 
-Perilaku yang dilampirkan dapat diakses seperti layaknya properti komponen.
-Sebagai contoh, jika perilaku bernama `tree` dilampirkan ke komponen, kita
+Behavior yang dilampirkan dapat diakses seperti layaknya properti komponen.
+Sebagai contoh, jika behavior bernama `tree` dilampirkan ke komponen, kita
 bisa memperoleh referensi ke obyek perilaku ini menggunakan:
 
 ~~~
@@ -145,7 +154,7 @@ $behavior=$component->tree;
 // $behavior=$component->asa('tree');
 ~~~
 
-Sebuah perilaku dapat dimatikan sementara agar metodenya tidak tersedia pada komponen.
+Sebuah behavior dapat dinonaktifkan sementara agar metodenya tidak tersedia pada komponen.
 Sebagai contoh,
 
 ~~~
@@ -158,12 +167,17 @@ $component->enableBehavior($name);
 $component->test();
 ~~~
 
-Dimungkinkan bahwa dua perilaku dilampirkan ke komponen yang sama yang memiliki nama metode yang sama.
-Dalam hal ini, perilaku metode pertama yang akan diprioritaskan.
+Dimungkinkan bahwa dua behavior dilampirkan ke komponen yang sama yang memiliki nama metode yang sama.
+Dalam hal ini, metode behavior pertama yang akan diprioritaskan.
 
-Ketika dipakai bersama dengan [event](#component-event), perilaku bahkan lebih bertenaga.
-Sebuah perilaku, bila dilampirkan ke sebuah komponen dapat melampirkan beberapa metodenya ke beberapa event
+Ketika dipakai bersama dengan [event](#component-event), behavior akan lebih powerful.
+Sebuah behavior, bila dilampirkan ke sebuah komponen dapat melampirkan beberapa metodenya ke beberapa event
 komponen. Dengan melakukan itu, perilaku mendapat kesempatan untuk mengawasi atau mengubah alur
 eksekusi normal komponen.
 
-<div class="revision">$Id: basics.component.txt 1328 2009-08-15 18:45:51Z qiang.xue $</div>
+Semenjak versi 1.1.0, properti behavior juga dapat diakses melalui komponen yang dilampirkannya. Properti
+-propertinya termasuk variabel member publik dan properti yang didefinisikan melalui getter dan/atau setter behavior.
+Misalnya, sebuah behavior dengan nama `xyz` dan behavior dilampirkan ke sebuah komponen `$a`. Kita dapat
+menggunakan ekspresi `$a->xyz` untuk mengakses properti behavior.
+
+<div class="revision">$Id: basics.component.txt 2346 2010-08-28 13:12:27Z mdomba $</div>

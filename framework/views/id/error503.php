@@ -19,7 +19,7 @@ p {font-family:"Verdana";font-weight:normal;color:black;font-size:9pt;margin-top
 <body>
 <h1>Layanan Tidak Tersedia</h1>
 <p>
-Sistem kami saat ini dalam pemeliharaan. Silahkan kembali lagi nanti.
+Sistem kami saat ini sedang dalam perawatan. Silahkan kembali lagi beberapa saat kemudian.
 </p>
 <p>
 Terima kasih.

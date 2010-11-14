@@ -14,6 +14,28 @@
 不同的扩展有着不同的导入,配置,使用要求.以下是我们通常会用到扩展的场景,按照他们在
  [概述](/doc/guide/extension.overview) 中的描述分类.
 
+
+Zii Extensions
+--------------
+
+Before we start describing the usage of third-party extensions, we would like to introduce
+the Zii extension library, which is a set of extensions developed by the Yii developer team
+and included in every release since Yii version 1.1.0. The Zii library is hosted as a
+Google project called [zii](http://code.google.com/p/zii/).
+
+When using a Zii extension, one must refer to the corresponding class using a path alias
+in the form of `zii.path.to.ClassName`. Here the root alias `zii` is predefined by Yii. It refers
+to the root directory of the Zii library. For example, to use [CGridView], we would use the
+following code in a view script when referring to the extension:
+
+~~~
+[php]
+$this->widget('zii.widgets.grid.CGridView', array(
+	'dataProvider'=>$dataProvider,
+));
+~~~
+
+
 应用的部件
 ---------------------
 
@@ -38,6 +60,71 @@ return array(
 
 然后,我们可以在任何地方通过使用 `Yii::app()->xyz` 来访问部件.部件将会被 `惰性创建`(就是,仅当它第一次被访问时创建.) ,
 除非我们把它配置到  `preload` 属性里.
+
+
+Behavior
+--------
+
+[Behavior](/doc/guide/basics.component#component-behavior) can be used in all sorts of components.
+Its usage involves two steps. In the first step, a behavior is attached to a target component.
+In the second step, a behavior method is called via the target component. For example:
+
+~~~
+[php]
+// $name uniquely identifies the behavior in the component
+$component->attachBehavior($name,$behavior);
+// test() is a method of $behavior
+$component->test();
+~~~
+
+More often, a behavior is attached to a component using a configurative way instead of
+calling the `attachBehavior` method. For example, to attach a behavior to an
+[application component](/doc/guide/basics.application#application-component), we could
+use the following
+[application configuration](/doc/guide/basics.application#application-configuration):
+
+~~~
+[php]
+return array(
+	'components'=>array(
+		'db'=>array(
+			'class'=>'CDbConnection',
+			'behaviors'=>array(
+				'xyz'=>array(
+					'class'=>'ext.xyz.XyzBehavior',
+					'property1'=>'value1',
+					'property2'=>'value2',
+				),
+			),
+		),
+		//....
+	),
+);
+~~~
+
+The above code attaches the `xyz` behavior to the `db` application component. We can do so
+because [CApplicationComponent] defines a property named `behaviors`. By setting this property
+with a list of behavior configurations, the component will attach the corresponding behaviors
+when it is being initialized.
+
+For [CController], [CFormModel] and [CActiveRecord] classes which usually need to be extended,
+attaching behaviors can be done by overriding their `behaviors()` method. The classes will
+automatically attach any behaviors declared in this method during initialization. For example,
+
+~~~
+[php]
+public function behaviors()
+{
+	return array(
+		'xyz'=>array(
+			'class'=>'ext.xyz.XyzBehavior',
+			'property1'=>'value1',
+			'property2'=>'value2',
+		),
+	);
+}
+~~~
+
 
 
 组件
@@ -194,4 +281,4 @@ Yii::import('application.extensions.xyz.XyzClass');
 
 来包含它的类文件.然后,我们既可以创建一个类的实例,配置它的属性,也可以调用它的方法.我们还可以创建一个新的子类来扩展它.ss
 
-<div class="revision">$Id: extension.use.txt 235 2009-03-16 11:39:50Z qiang.xue & 译:thaiki $</div>
+<div class="revision">$Id: extension.use.txt 1774 2010-11-13 15:34:33Z HonestQiao $</div>

@@ -36,12 +36,12 @@ return array(
 );
 ~~~
 
-Distandarkan, [CPradoViewRenderer] akan mengkompilasi file sumber tampilan dan
+Secara default, [CPradoViewRenderer] akan mengkompilasi file sumber tampilan dan
 menyimpan file hasil PHP di bawah direktori
 [runtime](/doc/guide/basics.convention#directory). Hanya saat file
 sumber tampilan diubah, file PHP akan dibuat ulang.
 Oleh karenanya, menggunakan [CPradoViewRenderer] hanya menyebabkan sedikit degradasi
-performansi.
+kinerja.
 
 > Tip: Karena [CPradoViewRenderer] memperkenalkan beberapa tag template baru
 agar penulisan tampilan lebih mudah dan lebih cepat, Anda masih bisa menulis kode PHP seperti
@@ -50,7 +50,7 @@ biasa dalam sumber tampilan.
 Berikutnya kami perkenalkan tag template yang didukung oleh
 [CPradoViewRenderer].
 
-### Tag PHP Pendek
+### Tag PHP Pendek (Short PHP Tag)
 
 Tag PHP pendek adalah jalan pintas untuk menulis ekspresi dan pernyataan PHP dalam sebuah
 tampilan. Tag ekspresi `<%= expression %>` diterjemahkan ke dalam
@@ -107,7 +107,7 @@ akan diubah menjadi
 ~~~
 
 > Note|Catatan: Nilai `showRefreshButton` ditetapkan sebagai `{false}`
-daripada `"false"` karena "false" berarti string daripada
+alih-alih `"false"` karena "false" berarti string daripada
 boolean.
 
 ### Tag Cache
@@ -178,4 +178,15 @@ komentar tampilan yang akan dibuang
 --->
 ~~~
 
-<div class="revision">$Id: topics.prado.txt 416 2008-12-28 05:28:11Z qiang.xue $</div>
+Menggabungkan Format Template
+-----------------------
+
+Mulai dari versi 1.1.2, dimungkinkan untuk menggabungkan penggunaan beberapa
+sintaks alternatif template dengan sintaks PHP normal. Untuk melakukannya, properti
+[CViewRenderer::fileExtension] yang terinstalasi pada pe-render view harus dikonfigurasi
+dengan sebuah nilai selain `.php`. Misalnya, jika properti di-set sebagai `.tpl`, maka setiap
+view yang berakhiran `.tpl` akan di-render dengan menggunakan pe-render view yang terinstalasi,
+sedangkan file view lain yang berekstensi `.php` akan dianggap sebagai skrip view PHP biasa.
+
+
+<div class="revision">$Id: topics.prado.txt 1983 2010-03-31 19:46:37Z qiang.xue $</div>

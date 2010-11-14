@@ -7,8 +7,18 @@ Yii 中广泛的使用了路径别名。路径别名关联于一个目录或文�
 RootAlias.path.to.target
 ~~~
 
-其中的 `RootAlias` 是某个现存目录的别名，通过调用 [YiiBase::setPathOfAlias()],
-我们可以定义新的路径别名。为方便起见，Yii 预定义了以下几个根别名：
+其中的 `RootAlias` 是某个现存目录的别名。
+
+通过使用 [YiiBase::getPathOfAlias()]， 别名可以被翻译为其相应的路径。
+例如， `system.web.CController` 会被翻译为 `yii/framework/web/CController`。
+
+通过调用 [YiiBase::setPathOfAlias()]，我们可以定义新的根路径别名。
+
+
+Root Alias
+----------
+
+为方便起见，Yii 预定义了以下几个根别名：
 
  - `system`: 表示 Yii 框架目录；
  - `zii`: 表示 [Zii 库](/doc/guide/extension.use#zii-extensions) 目录；
@@ -21,6 +31,9 @@ RootAlias.path.to.target
 
 通过使用 [YiiBase::getPathOfAlias()], 别名可以被翻译为其相应的路径。
 例如， `system.web.CController` 会被翻译为 `yii/framework/web/CController`。
+
+Importing Classes
+-----------------
 
 使用别名可以很方便的导入类的定义。
 例如，如果我们想包含 [CController] 类的定义，我们可以调用如下代码
@@ -37,6 +50,29 @@ Yii::import('system.web.CController');
 > Tip|提示: 当引用 Yii 框架定义的类时，我们不需要导入或包含它。所有的核心 Yii
 类都已被提前导入了。
 
+###Using Class Map
+
+Starting from version 1.1.5, Yii allows user classes to be pre-imported via
+a class mapping mechanism that is also used by core Yii classes. Pre-imported
+classes can be used anywhere in a Yii application without being explicitly
+imported or included. This feature is most useful for a framework or library
+that is built on top of Yii.
+
+To pre-import a set of classes, the following code must be executed before
+[CWebApplication::run()] is invoked:
+
+~~~
+[php]
+Yii::$classMap=array(
+	'ClassName1' => 'path/to/ClassName1.php',
+	'ClassName2' => 'path/to/ClassName2.php',
+	......
+);
+~~~
+
+Importing Directories
+---------------------
+
 我们还可以使用如下语法导入整个目录，这样此目录下的类文件就会在需要时被自动包含。
 
 ~~~
@@ -48,6 +84,9 @@ Yii::import('system.web.*');
 例如，路径别名可以传递给 [Yii::createComponent()] 以创建相应类的实例。
 即使类文件在之前从未被包含。
 
+Namespace
+---------
+
 不要将路径别名和名字空间混淆了，名字空间是指对一些类名的一个逻辑组合，这样它们就可以相互区分开，即使有相同的名字。
 而路径别名是用于指向一个类文件或目录。路径别名与名字空间并不冲突。
 
@@ -55,4 +94,20 @@ Yii::import('system.web.*');
 鉴于此，所有的 Yii 框架类都以字母 'C'（意为 'Class'） 作前缀，这样它们可以区分于用户定义的类。我们建议前缀 'C'
 只保留给 Yii 框架使用，用户定义的类则使用其他的字母作前缀。
 
-<div class="revision">$Id: basics.namespace.txt 1602 2009-12-18 19:33:34Z qiang.xue $</div>
+Namespaced Classes
+------------------
+
+A namespaced class refers to a class declared within a non-global namespace.
+For example, the `application\components\GoogleMap` class is declared within
+the namespace `application\components`. Using namespaced classes requires PHP 5.3.0 or above.
+
+Starting from version 1.1.5, it is possible to use a namespaced class without
+including it explicitly. For example, we can create a new instance of
+`application\components\GoogleMap` without including the corresponding class file
+explicitly. This is made possible with the enhanced Yii class autoloading mechanism.
+
+In order to be able to autoload a namespaced class, the namespace must be named in
+a way similar to naming a path alias. For example, the class `application\components\GoogleMap`
+must be stored in a file that can be aliased as `application.components.GoogleMap`.
+
+<div class="revision">$Id: basics.namespace.txt 1774 2010-11-13 15:34:33Z HonestQiao $</div>

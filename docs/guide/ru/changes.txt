@@ -3,10 +3,17 @@
 
 На этой странице кратко излагаются новые возможности, внесённые в каждом релизе Yii.
 
+Версия 1.1.5
+-------------
+
+ * [Добавлена поддержка действий и параметров действий в консольных командах](/doc/guide/topics.console)
+ * [Добавлена поддержка загрузки классов из пространств имён](/doc/guide/basics.namespace)
+ * [Добавлена поддержка темизации виджетов](/doc/guide/topics.theming#theming-widget-views)
+
 Версия 1.1.4
 ------------
 
- * [Добавлена поддержка автоматической привязкии параметров действий контроллера](/doc/guide/basics.controller#action-parameters)
+ * [Добавлена поддержка автоматической привязки параметров действий контроллера](/doc/guide/basics.controller#action-parameters)
 
 Версия 1.1.3
 -------------
@@ -126,4 +133,4 @@
  * Расширен класс [CUrlManager] поддержкой параметризованных маршрутов в URL-правилах:
      - [Параметризация маршрутов](/doc/guide/topics.url#parameterizing-routes)
 
-<div class="revision">$Id: changes.txt 2418 2010-09-02 16:01:46Z qiang.xue $</div>
+<div class="revision">$Id: changes.txt 2633 2010-11-09 10:05:20Z haertl.mike $</div>

@@ -1,22 +1,22 @@
 Membuat Model
 =============
 
-Sebelum menulis kode HTML yang diperlukan oleh sebuah formulir, kita harus menetapkan jenis
+Sebelum menulis kode HTML yang diperlukan oleh sebuah form, kita harus menetapkan jenis
 data apa yang diharapkan dari pengguna akhir dan aturan apa pada data ini harus
-diterapkan. Kelas model dapat dipakai guna merekam informasi ini. Model,
+diterapkan. Kelas model dapat dipakai guna menyimpan informasi ini. Model,
 seperti yang didefinisikan dalam subseksi [Model](/doc/guide/basics.model), adalah
-tempat utama untuk memelihara input pengguna dan memvalidasinya.
+tempat utama untuk menyimpan  input pengguna dan memvalidasinya.
 
 Tergantung pada bagaimana kita menggunakan input pengguna, kita bisa membuat dua jenis
 model. Jika input pengguna dikumpulkan, dipakai dan kemudian diabaikan, kita bisa
 membuat [model formulir](/doc/guide/basics.model); jika input pengguna
-dikumpulkan dan disimpan ke dalam database, sebaliknya kita dapat menggunakan [rekaman
-aktif](/doc/guide/database.ar). Kedua jenis model berbagi basis kelas
-[CModel] yang sama yang mendefinisikan antar muka umum yang diperlukan oleh formulir.
+dikumpulkan dan disimpan ke dalam database, sebaliknya kita dapat menggunakan [active
+record](/doc/guide/database.ar). Kedua jenis model berbagi basis kelas
+[CModel] yang sama yang mendefinisikan antar muka umum yang diperlukan oleh form.
 
-> Note|Catatan: Kita menggunakan model formulir terutama dalam contoh pada seksi ini.
-Akan tetapi, hal yang sama bisa juga diterapkan pada model [rekaman
-aktif](/doc/guide/database.ar).
+> Note|Catatan: Kita menggunakan model form terutama dalam contoh pada bagian ini.
+Akan tetapi, hal yang sama bisa juga diterapkan pada model [active
+record](/doc/guide/database.ar).
 
 Mendefinisikan Kelas Model
 --------------------------
@@ -41,7 +41,7 @@ yang dimasukkan, dan opsi apakah pengguna menginginkan untuk mengingat login-nya
 Karena `$rememberMe` memiliki nilai standar `false`, opsi terkait
 saat awal ditampilkan dalam formulir login tidak akan dicentang.
 
-> Info: Daripada memanggil properi variabel anggota ini, kita menggunakan
+> Info: Alih-alih memanggil properi variabel anggota ini, kita menggunakan
 nama *attributes* untuk membedakannya dari properti normal. Atribut
 adalah properti yang terutama dipakai untuk menyimpan data yang berasal dari
 input pengguna atau database.
@@ -63,27 +63,22 @@ class LoginForm extends CFormModel
 	public $password;
 	public $rememberMe=false;
 
+	private $_identity;
+
 	public function rules()
 	{
 		return array(
 			array('username, password', 'required'),
+			array('rememberMe', 'boolean'),
 			array('password', 'authenticate'),
-	);
+		);
 	}
 
 	public function authenticate($attribute,$params)
 	{
-		if(!$this->hasErrors())  // kita hanya ingin mengotentikasi bila tidak ada kesalahan input
-		{
-			$identity=new UserIdentity($this->username,$this->password);
-			if($identity->authenticate())
-			{
-				$duration=$this->rememberMe ? 3600*24*30 : 0; // 30 hari
-				Yii::app()->user->login($identity,$duration);
-			}
-			else
-				$this->addError('password','Incorrect password.');
-		}
+		$this->_identity=new UserIdentity($this->username,$this->password);
+		if(!$this->_identity->authenticate())
+			$this->addError('password','Incorrect username or password.');
 	}
 }
 ~~~
@@ -120,16 +115,10 @@ public function ValidatorName($attribute,$params) { ... }
 ~~~
 
 Kedua, `Validator` dapat berupa nama kelas validator. Saat aturan diterapkan,
-turunan kelas validator akan dibuat untuk melakukan validasi sebenarnya.
+instance kelas validator akan dibuat untuk melakukan validasi sebenarnya.
 Opsi tambahan dalam aturan dipakai untuk menginisialisasi nilai atribut
-turunannya. Kelas validator harus diperluas
+instancenya. Kelas validator harus diperluas
 dari [CValidator].
-
-> Note|Catatan: Saat menetapkan aturan untuk model rekaman aktif, kita dapat menggunakan
-opsi spesial bernama `on`. Opsi ini bisa berupa `'insert'` atau
-`'update'` agar aturan hanya diterapkan masing-masing saat penyisipan atau
-pemutakhiran rekaman. Jika tidak disetel, aturan akan diterapkan dalam kedua kasus
-tersebut saat `save()` dipanggil.
 
 Ketiga, `Validator` dapat berupa alias pradefinisi untuk kelas validator. Dalam
 contoh di atas, nama `required` adalah alias untuk [CRequiredValidator]
@@ -203,32 +192,18 @@ array('password', 'authenticate', 'on'=>'login'),
 Mengamankan Penempatan Atribut
 ------------------------------
 
-> Note|Catatan: penempatan atribut berbasis-skenario sudah tersedia sejak versi 1.0.2.
-
-Setelah turunan model dibuat, seringkali kita perlu mempopulasikan atributnya
+Setelah instance model dibuat, seringkali kita perlu mempopulasikan atributnya
 dengan data yang dikirimkan oleh pengguna-akhir. Ini bisa dikerjakan
 dengan nyaman menggunakan penempatan masal berikut:
 
 ~~~
 [php]
 $model=new LoginForm;
-$model->scenario='login';
 if(isset($_POST['LoginForm']))
 	$model->attributes=$_POST['LoginForm'];
 ~~~
 
-> Note|Catatan: Properti [skenario|CModel::scenario] sudah tersedia
-> sejak versi 1.0.4. Penempatan masal akan mengambil nilai properti
-> untuk menguji apakah atribut bisa ditempatkan secara masal.
-> Dalam versi 1.0.2 dan 1.0.3, kita perlu menggunakan cara berikut untuk
-> melakukan penempatan masal pada skenario tertentu:
->
-> ~~~
-> [php]
-> $model->setAttributes($_POST['LoginForm'], 'login');
-> ~~~
-
-Pernyataan terakhir adalah penempatan masal yang menempatkan setiap entri
+Pernyataan terakhir adalah *penempatan masal (massive assignment)* yang menempatkan setiap entri
 dalam `$_POST['LoginForm']` ke atribut model terkait dalam skenario
 `login`. Ini sama dengan penempatan berikut:
 
@@ -241,15 +216,87 @@ foreach($_POST['LoginForm'] as $name=>$value)
 }
 ~~~
 
-Tugas memutuskan apakah entri data aman atau tidak didasarkan pada
-nilai balik metode bernama `safeAttributes` dan skenario yang
-ditetapkan. Secara standar, metode mengembalikan semua variabel anggota public
-sebagai atribut aman untuk [CFormModel], sementara ia mengembalikan semua kolom tabel
-kecuali kunci primer sebagai atribut aman untuk [CActiveRecord]. Kita dapat
-menimpa metode ini guna membatasi atribut aman sesuai dengan skenario.
-Sebagai contoh, model pengguna dapat berisi beberapa atribut, tapi dalam skenario `login`
-kita hanya perlu menggunakan atribut `username` dan `password`.
-Kita dapat menetapkan batas ini seperti berikut:
+Sangat krusial untuk menentukan apakah atribut safe (aman) atau tidak. Misalnya,
+mengekspos primary key suatu tabel menjadi safe, maka penyerang
+memiliki kesempatan mengubah primary key dari record yang diberikan dan sehingga
+memalsukan data yang seharusnya dia tidak memiliki hak untuk itu.
+
+Aturan untuk menentukan apakah sebuah atribut itu safe atau tidak berbeda antara versi 1.0
+dan 1.1. Berikut, kita akan menjelaskan mereka secara terpisah.
+
+###Atribut Safe dalam 1.1
+
+Pada versi 1.1, sebuah atribut dianggap aman jika muncul dalam rule validasi
+yang dapat diaplikasikan pada skenario yang diberikan. Misalnya,
+
+~~~
+[php]
+array('username, password', 'required', 'on'=>'login, register'),
+array('email', 'required', 'on'=>'register'),
+~~~
+
+Dalam contoh di atas, atribut `username` dan `password` diperlukan dalam skenario `login`
+sedangkan atribut `username`, `password` dan `email` diperlukan dalam skenario `register`. 
+Sebagai hasilnya, jika kita melakukan penempatan massal (massive assign) di dalam skenario
+`login`, hanya `username` dan `password` yang akan ditempatkan secara massal karena
+hanya mereka yang muncul dalam aturan validasi untuk `login`. Di lain sisi, jika skenarionya adalah
+`register`, maka ketiga atribut dapat
+ditempatkan secara massal semuanya.
+
+~~~
+[php]
+// in login scenario
+$model=new User('login');
+if(isset($_POST['User']))
+	$model->attributes=$_POST['User'];
+
+// in register scenario
+$model=new User('register');
+if(isset($_POST['User']))
+	$model->attributes=$_POST['User'];
+~~~
+
+Jadi mengapa kita menggunakan kebijakan demikian untuk menentukan apakah sebuah atribut aman atau tidak?
+Logika dibelakangnya adalah jika sebuah atribut sudah memiliki satu atau beberapa aturan validasi
+untuk mengecek validasinya, apa yang harus kita khawatirkan lagi?
+
+Sangat penting untuk diingat bahwa aturan validasi digunakan untuk mengecek data inputan user
+alih-alih data yang dihasilkan kita di dalam kode (misalnya tanggal waktu, primary key yang di-generate otomatis).
+Oleh karenanya, JANGAN menambah aturan validasi untuk atribut yang tidak pernah diharapkan untuk diinput
+dari end-user.
+
+Kadangkala, kita ingin mendeklarasi sebuah atribut safe, walaupun kita tidak memiliki aturan
+spesifik padanya. Misalnya sebuah konten artikel yang bisa menerima inputan apapun dari user.
+Kita dapat menggunakan aturan `safe` khusus untuk mendapatkan tujuan ini :
+
+~~~
+[php]
+array('content', 'safe')
+~~~
+
+Untuk lebih lengkap, terdapat aturan `unsafe` juga yang digunakan secara eksplisit
+untuk mendeklarasi sebuah atribut tidak aman.
+
+~~~
+[php]
+array('permission', 'unsafe')
+~~~
+
+Peraturan `unsafe` jarang digunakan, dan merupakan perkecualian untuk definisi atribut
+safe sebelumnya.
+
+
+###Safe Attributes in 1.0
+
+Dalam versi 1.0, tugas menentukan apakah sebuah entri data aman atau tidak
+tergantung pada nilai return dari sebuah metode bernama `safeAttributes` dan skenario
+yang dispesifikasi. Secara default, metode mengembalikan semua nilai variabel member publik
+sebagai atribut aman untuk [CFormModel], sedangkan pada [CActiveRecord] dia mengembalikan
+semua kolom pada tabel sebagai aman kecuali primary key. Kita bisa
+meng-override metode ini untuk membatasi atribut safe sesuai skenario.
+Misalnya, sebuah model user mungkin mengandung banyak atribut, tetapi dalam skenario
+`login` kita hanya memerlukan atribut `username` dan `password`.
+Kita dapat mespesifikasi batasan sebagai berikut :
 
 ~~~
 [php]
@@ -302,40 +349,43 @@ $model->id=1;
 Memicu Validasi
 ---------------
 
-Setelah model dipopulasi dengan data yang dikirimkan-pengguna, kita memanggil [CModel::validate()]
+Setelah model dipopulasi dengan data yang dikirimkan pengguna, kita memanggil [CModel::validate()]
 untuk memicu proses validasi data. Metode mengembalikan nilai yang menunjukan
 apakah validasi sukses atau tidak. Untuk model [CActiveRecord],
 validasi juga dapat dipicu secara otomatis saat kita memanggil metode
 [CActiveRecord::save()].
 
-Ketika kita memanggil [CModel::validate()], kita dapat menetapkan parameter skenario.
-Hanya aturan validasi yang berlaku pada skenario yang ditetapkan yang akan
-dijalankan. Aturan validasi pada sebuah skenario jika opsi `on` pada
-aturan tidak disetel atau berisi nama skenario yang ditetapkan. Jika kita tidak
-menetapkan skenario saat memanggil [CModel::validate()], hanya aturan yang
-memiliki opsi `on` tidak disetel yang akan dijalankan.
+Kita dapat mengeset skenario dengan properti [scenario|CModel::scenario] dan
+dari situ mengindikasikan aturan validasi yang mana yang harus diaplikasikan.
 
-Sebagai contoh, kita menjalankan pernyataan berikut untuk melakukan validasi
-saat meregistrasi seorang pengguna:
+
+Validasi dilakukan berdasarkan skenario. Properti [scenario|CModel::scenario]
+mentukan skenario model mana yang digunakan dan aturan validasi mana yang
+Misalnya, untuk skenario `login`, kita hanya ingin
+memvalidasi input `username` dan `password` pada user model; sedangkan pada skenario
+`register`, kita peru memvalidasi inputan yang lebih banyak seperti `email`,`address` dan lain-lain.
+Contoh berikut menunjukkan bagaimana melakukan validasi pada skenario `register`:
 
 ~~~
 [php]
-$model->scenario='register';
-$model->validate();
+// creates a User model in register scenario. It is equivalent to:
+// $model=new User;
+// $model->scenario='register';
+$model=new User('register');
+
+// populates the input values into the model
+$model->attributes=$_POST['User'];
+
+// performs the validation
+if($model->validate())   // if the inputs are valid
+    ...
+else
+    ...
 ~~~
 
-> Note|Catatan: Properti [skenario|CModel::scenario] sudah tersedia
-> sejak versi 1.0.4. Metode validasi akan mengambil nilai properti
-> untuk menguji aturan mana yang bisa diperiksa.
-> Dalam versi 1.0.2 dan 1.0.3, kita perlu menggunakan cara berikut untuk
-> melakukan validasi berbasis skenario:
->
-> ~~~
-> [php]
-> $model->validate('register');
-> ~~~
-
-Kita dapat mendeklarasikan aturan validasi dalam kelas model formulir seperti brikut,
+Skenario yang dapat diaplikasikan pada aturan yang terkait dapat dispesifikasikan
+dengan opsi `on` pada aturan. Jika opsi `on` tidak diset, artinya aturan bersangkutan
+akan digunakan di seluturh skenario. Contohnya,
 
 ~~~
 [php]
@@ -349,33 +399,32 @@ public function rules()
 }
 ~~~
 
-Hasilnya, aturan pertama akan diterapkan dalam semua skenario, sementara
-dua aturan berikutnya hanya diterapkan dalam skenario `register`.
-
-> Note|Catatan: validasi berbasis-skenario sudah tersedia sejak versi 1.0.1.
+Aturan pertama akan diaplikasikan pada semua skenario,
+sedangkan dua aturan berikutnya diaplikasikan pada skenario `register`.
 
 
 Mengambil Kesalahan Validasi
 ----------------------------
 
-Kita dapat menggunakan [CModel::hasErrors()] untuk memeriksa apakah ada kesalahan
-validasi, dan jika ya, kita dapat menggunakan [CModel::getErrors()] untuk mengambil pesan
-kesalahan. Kedua metode dapat dipakai untuk semua atribut atau atribut
-individual.
+Begitu validasi dilakukan, apabila terdapat kesalahan (error) akan disimpan
+dalam objek model. Kita bisa mengambil pesan error dengan memanggil fungsi [CModel::getErrors()]
+dan [CModel::getError()]. Perbedaan antara kedua metode ini adalah yang pertama
+akan mengembalikan *semua* error untuk atribut model bersangkutan
+sedangkan yang metode yang kedua akan mengembalikan error *pertama*.
 
 Label Atribut
 -------------
 
-Ketika medesain sebuah formulir, seringkali kita perlu menampilkan label untuk setiap field
+Ketika medesain sebuah form, seringkali kita perlu menampilkan label untuk setiap field
 input. Label memberitahu pengguna jenis informasi apa yang harus dimasukkan
-ke dalam field. Meskipun kita dapat memberi label secara langsung dalam sebuah tampilan, ini
-akan menawarkan fleksibilitas dan kenyamanan yang lebih jika kita menetapkannya dalam
+ke dalam field. Meskipun kita dapat memberi label secara langsung dalam sebuah tampilan,
+akan lebih fleksibel dan nyaman jika kita menetapkannya dalam
 model terkait.
 
-Secara standar, [CModel] akan mengembalikan nama atribut sebagai labelnya.
-Ini dapat dikustomisasi dengan menimpa metode
+Secara default, [CModel] akan mengembalikan nama atribut sebagai labelnya.
+Ini dapat dikustomisasi dengan meng-override metode
 [attributeLabels()|CModel::attributeLabels]. Seperti yang akan kita lihat dalam
-subskenario berikutnya, menetapkan label dalam model mengijinkan kita untuk membuat
-formulir lebih cepat dan bertenaga.
+subbagian berikutnya, menetapkan label dalam model memungkinkan kita untuk membuat
+form lebih cepat dan powerful.
 
-<div class="revision">$Id: form.model.txt 1405 2009-09-10 19:18:30Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 2285 2010-07-28 20:40:00Z qiang.xue $</div>

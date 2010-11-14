@@ -1,5 +1,5 @@
-Pencatatan
-==========
+Pencatatan(Logging)
+==================
 
 Yii menyediakan fitur pencatatan fleksibel dan bisa diperluas. Pencatatan pesan
 dapat diklasifikasikan berdasarkan tingkat log atau kategori pesan. Menggunakan
@@ -10,7 +10,7 @@ Pencatatan Pesan
 ----------------
 
 Pesan dapat dicatat dengan memanggil [Yii::log] atau [Yii::trace]. Perbedaan
-diantara kedua metode ini adalah bahwa yang kedua hanya mencatat pesan
+diantara kedua metode ini adalah bahwa [Yii::trace] hanya mencatat pesan
 saat aplikasi dalam [mode debug](/doc/guide/basics.entry#debug-mode).
 
 ~~~
@@ -30,8 +30,7 @@ alur eksekusi aplikasi selama pengembangan.
 
    - `info`: ini untuk pencatatan informasi umum.
 
-   - `profile`: ini untuk profil performansi yang akan segera
-dijelaskan.
+   - `profile`: ini untuk profil performa (yang akan segera dijelaskan).
 
    - `warning`: ini untuk pesan peringatan.
 
@@ -40,20 +39,20 @@ dijelaskan.
 Rute Pengiriman Pesan
 ---------------------
 
-Pesan yang dicatat menggunakan [Yii::log] or [Yii::trace] dipelihara dalam memori. Kita
-biasanya harus menampilkannya dalam jendela browser, atau menyimpannya dalam beberapa
-media penyimpan persisten seperti file, email. Ini disebut *mengirimkan
-pesan*, misalnya mengirimkan pesan ke tujuan yang berbeda.
+Pesan yang dicatat menggunakan [Yii::log] or [Yii::trace] disimpan dalam memori. Kita
+biasanya harus menampilkannya dalam browser, atau menyimpannya dalam beberapa
+media penyimpan persisten seperti file, email. Ini disebut *messages routing(mengirimkan
+pesan)*, misalnya mengirimkan pesan ke tujuan yang berbeda.
 
-Dalam Yii, pengiriman pesan diatur oleh komponen aplikasi [CLogRouter].
-Ia mengatur satu set apa yang disebut *rute log*. Setiap rute log
-mewakili satu tujuan log. Pesan yang dikirimkan bersamaan dengan rute log
+Dalam Yii, message routing diatur oleh komponen aplikasi [CLogRouter].
+[CLlogRouter] mengatur satu kumpulan yang disebut *log routes(rute log)*. Tiap log route
+mewakili satu tujuan log. Pesan yang dikirimkan bersamaan dengan log route
 bisa disaring berdasarkan pada tingkat dan kategorinya.
 
-Untuk menggunakan pengiriman pesan, kita harus menginstalasi dan mengaktifkan komponen
+Untuk menggunakan message routing, kita harus menginstalasi dan mengaktifkan komponen
 aplikasi [CLogRouter]. Kita juga harus mengkonfigurasi properti
-[routes|CLogRouter::routes] dengan rute log yang kita inginkan. Berikut ini
-memperlihatkan contoh [konfigurasi
+[routes|CLogRouter::routes] dengan log route yang kita inginkan. Berikut ini
+ditampilkan contoh [konfigurasi
 aplikasi](/doc/guide/basics.application#application-configuration) yang dibutuhkan:
 
 ~~~
@@ -82,41 +81,39 @@ array(
 )
 ~~~
 
-Dalam contoh di atas, kita memiliki dua rute log. Rute pertama adalah
+Dalam contoh di atas, kita memiliki dua log route. Rute pertama adalah
 [CFileLogRoute] yang menyimpan pesan dalam sebuah file di bawah direktori
 runtime aplikasi. Hanya pesan-pesan yang tingkatnya adalah `trace` atau `info` dan
 kategorinya dimulai dengan `system.` yang disimpan. Rute kedua adalah
 [CEmailLogRoute] yang mengirimkan pesan ke alamat email yang sudah ditetapkan.
 Hanya pesan-pesan yang tingkatnya `error` atau `warning` yang dikirimkan.
 
-Rute log berikut tersedia dalam Yii:
+Berikut Log Route yang tersedia dalam Yii:
 
    - [CDbLogRoute]: menyimpan pesan dalam tabel database.
    - [CEmailLogRoute]: mengirimkan pesan ke alamat email yang ditetapkan.
    - [CFileLogRoute]: menyimpan pesan dalam sebuah file di bawah direktori runtime aplikasi.
-   - [CWebLogRoute]: menampilkan pesan diakhir halaman Web saat ini.
+   - [CWebLogRoute]: menampilkan pesan di akhir halaman Web saat ini.
    - [CProfileLogRoute]: menampilkan pesan profil di akhir halaman Web saat ini.
 
 > Info: Pengiriman pesan terjadi di akhir siklus permintaan saat ini
 saat event [onEndRequest|CApplication::onEndRequest] dimunculkan. Untuk mengakhiri
-pemrosesan permintaan saat ini secara eksplisit, panggil [CApplication::end()] daripada
+pemrosesan permintaan saat ini secara eksplisit, panggil [CApplication::end()] alih-alih
 `die()` atau `exit()`, karena [CApplication::end()] akan memunculkan event
 [onEndRequest|CApplication::onEndRequest] dan pesan bisa dicatat
 dengan benar.
 
 ### Penyaringan Pesan
 
-Seperti yang sudah disebutkan, pesan bisa disaring berdasarkan tingkat dan kategorinya
-sebelum mengirimkan rute log. Ini dikerjakan dengan menyetel
-properti [levels|CLogRoute::levels] dan [categories|CLogRoute::categories]
-pada rute log terkait. Multipel tingkat atau kategori
-harus diakhiri dengan koma.
+Seperti yang telah dijelaskan, pesan dapat difilter berdasarkan tingkatan dan kategori
+nya sebelum lama dikirim ke log route. Hal ini dapat dicapai dengan melakukan
+pengaturan pada properti [tingkatan(levels)|CLogRoute::levels] dan [kategori(categories)|CLogRoute::categories]
+pada log route yang bersangkutan. Diharuskan memberikan titik koma jika ingin menggabungkan beberapa tingkatan dan kategori.
 
 Karena kategori pesan dalam bentuk `xxx.yyy.zzz`, kita bisa memperlakukannya
-sebagai hirarki kategori. Bahkan, kita katakan `xxx` adalah leluhur
-`xxx.yyy` yang merupakan leluhur `xxx.yyy.zzz`. Selanjutnya kita bisa menggunakan
-`xxx.*` untuk mewakili kategori `xxx` dan semua anak dan cucu
-kategori.
+sebagai hirarki kategori. Khususnya, kita katakan `xxx` adalah induk dari
+`xxx.yyy` yang merupakan induk dari `xxx.yyy.zzz`. Selanjutnya kita bisa menggunakan
+`xxx.*` untuk mewakili kategori `xxx` dan semua anak dan cucu(turunan) kategori.
 
 ### Pencatatan Informasi Konteks
 
@@ -131,7 +128,7 @@ dibutuhkan dalam banyak hal. Secara standar, [CLogFilter] akan mencatat pesan de
 [CLogFilter] juga dapat dikonfigurasi untuk mengawali setiap pesan yang dicatat dengan ID sesi, nama pengguna, dll.,
 yang secara menyeluruh menyederhanakan pencarian global saat memeriksa berbagai pesan tercatat.
 
-Konfigurasi berikut memperlihatkan bagaimana untuk menghidupkan informasi konteks. Catatan bahwa setiap
+Konfigurasi berikut memperlihatkan bagaimana untuk mengaktifkan informasi konteks. Catatan bahwa setiap
 rute log dapat memiliki filter lognya sendiri. Dan distandarkan, rute log tidak memiliki filter log.
 
 ~~~
@@ -158,24 +155,24 @@ array(
 
 
 Mulai dari versi 1.0.7, Yii mendukung pencatatan pemanggilan informasi stack dalam pesan yang dicatat
-dengan memanggil `Yii::trace`. Fitur ini dimatikan secara standar karena memperlambat performansi.
+dengan memanggil `Yii::trace`. Fitur ini dimatikan secara default karena memperlambat kinerja.
 Untuk menggunakan fitur ini, cukup definisikan konstan bernama `YII_TRACE_LEVEL` di awal entri 
-naskah (sebelum menyertakan `yii.php`) ke integer lebih besar daripada 0. Kemudian Yii akan menambahkan
+skrip (sebelum menyertakan `yii.php`) ke integer lebih besar daripada 0. Kemudian Yii akan menambahkan
 setiap pelacakan pesan dengan nama file dan nomor baris pada stack panggilan yang dimiliki kode
-aplikasi. Jumlah `YII_TRACE_LEVEL` menentukan berapa banyak lapisan dari setiap stack panggilan harus direkam.
-Informasi ini adakalanya berguna selama tahap pengembangan karena ia dapat membantu kita mengidentifikasi
+aplikasi. Jumlah `YII_TRACE_LEVEL` menentukan berapa banyak lapisan dari setiap stack panggilan harus disimpan.
+Informasi ini adakalanya berguna selama tahap pengembangan karena dapat membantu kita mengidentifikasi
 tempat yang memicu pelacakan pesan.
 
 
-Pengukuran Performansi
-----------------------
+Pengukuran Performa
+-------------------
 
-Pengukuran performansu adalah jenis pencatatan pesan khusus. Pengukuran
-performansi bisa dipakai guna mengukur waktu yang dibutuhkan untuk blok kode
-yang ditetapkan dan mencari tahu hambatan apa pada performansi.
+Pengukuran performa adalah jenis pencatatan pesan khusus. Pengukuran
+performa bisa dipakai untuk mengukur waktu yang dibutuhkan untuk blok kode
+yang ditetapkan dan mencari tahu hambatan(bottleneck) apa pada performa.
 
-Untuk menggunakan pengukuran performansi, kita harus mengidentifikasi blok kode
-yang akan diukur. Kita tandai awal dan akhir setiap blok kode dengan menyisipkan
+Untuk menggunakan pengukuran performa, kita harus mengidentifikasi blok kode
+yang akan diukur. Kita tandai setiap awal dan akhir blok kode dengan menyisipkan
 metode berikut:
 
 ~~~
@@ -185,21 +182,21 @@ Yii::beginProfile('blockID');
 Yii::endProfile('blockID');
 ~~~
 
-di mana `blockID` adalah ID yang secara unik mengidentifikasi blok kode.
+dengan `blockID` adalah ID yang secara unik mengidentifikasi blok kode.
 
-Catatan, blok kode harus diulang dengan benar. Yakni, blok kode tidak bisa
-berseberangan dengan yang lain. Ia harus dalam tingkat paralel atau dikurung
+Harap diketahui, blok kode harus di-nested dengan benar. Yakni, blok kode tidak bisa
+bersinggungan(intersect) dengan yang lain. Blok kode harus antara dalam tingkat paralel atau dikurung
 seluruhnya oleh blok kode lain.
 
 Untuk memperlihatkan hasil pengukuran, kita harus menginstalasi komponen aplikasi [CLogRouter]
-dengan rute log [CProfileLogRoute]. Ini sama seperti yang kita lakukan dengan
-pengiriman pesan biasa. Rute [CProfileLogRoute] akan menampilkan hasil
-pengukuran di akhir halaman saat ini.
+dengan rute log [CProfileLogRoute]. Hal ini sama seperti yang kita lakukan dengan
+message routing biasa. Rute [CProfileLogRoute] akan menampilkan hasil
+pengukuran di akhir halaman tersebut.
 
 ### Mengukur Eksekusi SQL
 
 Pengukuran sangat berguna terutama saat bekerja dengan database karena eksekusi SQL
-sering menjadi sumber performansi utama pada aplikasi. Sementara kita dapat menyisipkan
+sering menjadi sumber bottleneck kinerja yang utama pada aplikasi. Sementara kita dapat menyisipkan
 pernyataan `beginProfile` dan `endProfile` secara manual di tempat yang sesuai guna mengukur
 waktu yang diperlukan dalam setiap eksekusi SQL, mulai dari versi 1.0.6, Yii menyediakan
 pendekatan yang lebih sistematis untuk memecahkan masalah ini.
@@ -211,4 +208,4 @@ dalam menjalankan pernyataan SQL. Kita juga dapat memanggil [CDbConnection::getS
 jumlah pernyataan SQL dan total waktu eksekusi.
 
 
-<div class="revision">$Id: topics.logging.txt 1142 2009-06-17 21:42:08Z qiang.xue $</div>
+<div class="revision">$Id: topics.logging.txt 1147 2009-06-18 19:14:12Z qiang.xue $</div>

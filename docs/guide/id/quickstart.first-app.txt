@@ -1,11 +1,11 @@
 Membuat Aplikasi Pertama Yii
 ============================
 
-Agar Adnda mendapatkan pengalaman pertama dengan Yii, kami jelaskan dalam bab ini bagaimana
+Agar mendapatkan pengalaman pertama dengan Yii, kita akan melihat dalam bab ini bagaimana
 untuk membuat aplikasi pertama Yii. Kita akan menggunakan piranti bertenaga `yiic`
-yang dapat dipakai dalam mengotomasi pembuatan tugas-tugas tertentu. Demi kenyamanan,
+yang dapat dipakai dalam mengotomatisasi pembuatan tugas-tugas tertentu. Demi kenyamanan,
 kita beranggapan bahwa `YiiRoot` adalah direktori di mana Yii diinstalasi, dan `WebRoot`
-adalah root dokumen oada server Web kita.
+adalah root dokumen pada server Web kita.
 
 Jalankan `yiic` pada baris perintah seperti berikut:
 
@@ -33,22 +33,20 @@ Yii kita dengan mengakses URL berikut dalam Web browser:
 http://hostname/testdrive/index.php
 ~~~
 
-Seperti yang kita lihat, aplikasi memiliki tiga halaman: halaman utama, halaman kontak
-dan halaman masuk. Halaman utama menampilkan beberapa informasi mengenai aplikasi
-dan juga status masuk pengguna, halaman kontak menampilkan formulir kontak yang dapat
-diisi pengguna untuk mengirimkan permintaannya, halaman masuk mengijinkan pengguna untuk
-mengotentikasi sebelum mengakses konten yang sesuai.
-Perhatikan foto layar berikut agar lebih jelas.
+Seperti yang kita lihat, aplikasi memiliki empat halaman: halaman beranda, halaman tentang (about)
+halaman kontak dan halaman masuk(login). Halaman kontak menampilkan sebuah form kontak
+yang dapat diisi pengguna  dan mengirim pertanyaan mereka ke webmaster, sedangkan
+halaman masuk memungkinkan pengunjung diotentikasi sebelum mengakses isi khusus bagi yang sudah login.
 
-![Halaman Home](first-app1.png)
+![Halaman beranda](first-app1.png)
 
-![Halaman Contact](first-app2.png)
+![Halaman kontak](first-app2.png)
 
-![Halaman Contact dengan kesalahan input](first-app3.png)
+![Halaman dengan input error](first-app3.png)
 
-![Halaman Contact dengan sukses](first-app4.png)
+![Halaman kontak dengan pesan sukses](first-app4.png)
 
-![Halaman Login](first-app5.png)
+![Halaman masuk](first-app5.png)
 
 
 Diagram berikut memperlihatkan struktur direktori pada aplikasi kita
@@ -57,14 +55,14 @@ lebih rinci mengenai struktur ini.
 
 ~~~
 testdrive/
-   index.php                 File naskah entri aplikasi Web
+   index.php                 File skrip entri aplikasi Web
    assets/                   berisi file resource yang diterbitkan
    css/                      berisi file CSS
    images/                   berisi file gambar
    themes/                   berisi tema aplikasi
    protected/                berisi file perlindungan aplikasi
-      yiic                   naskah baris perintah yiic
-      yiic.bat               naskah baris perintah untuk Windows
+      yiic                   skrip baris perintah yiic
+      yiic.bat               skrip baris perintah untuk Windows
       commands/              berisi perintah 'yiic' yang dikustomisasi
          shell/              berisi perintah 'yiic shell' yang dikustomisasi
       components/            berisi komponen pengguna
@@ -96,9 +94,9 @@ testdrive/
 Sambungan ke Database
 ---------------------
 
-Umumnya aplikasi Web didukung oleh database. Aplikasi pengujian kita tidak
+Umumnya aplikasi Web didukung oleh database. Aplikasi testdrive (pengujian) kita tidak
 terkecuali. Untuk menggunakan database, pertama kita perlu memberitahu
-aplikasi bagaimana untuk berhubungan denganya. Ini dilakukan dengan mengubah file
+aplikasi bagaimana untuk berhubungan dengannya. Ini dilakukan dengan mengubah file
 konfigurasi aplikasi `WebRoot/testdrive/protected/config/main.php`, seperti
 terlihat di bawah ini:
 
@@ -118,19 +116,13 @@ return array(
 
 Dalam contoh di atas, kita menambah entri `db` ke `components`, yang memerintahkan
 aplikasi untuk menyambung ke database SQLite
-`WebRoot/testdrive/protected/data/source.db` saat diperlukan.
-
-> Note|Catatan: Untuk menggunakan fitur database Yii, kita perlu menghidupkan ekstensi PHP PDO
-dan ekstensi driver-tertentu PDO. Dalam aplikasi pengujian, kita perlu
-menghidupkan ekstensi `php_pdo` dan `php_pdo_sqlite`.
-
-Selanjutnya, kita perlu menyiapkan database SQLite agar konfigurasi di atas
-menjadi efektif. Menggunakan beberapa piranti administrasi SQLite, kita dapat
-membuat database dengan skema sebagai berikut:
+`WebRoot/testdrive/protected/data/source.db` saat diperlukan. Harap diingat bahwa
+database SQLite sudah disertakan dalam aplikasi kerangka yang di-generate kita tadi.
+Database tersebut berisi sebuah tabel bernama `tbl_user`:
 
 ~~~
 [sql]
-CREATE TABLE User (
+CREATE TABLE tbl_user (
 	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	username VARCHAR(128) NOT NULL,
 	password VARCHAR(128) NOT NULL,
@@ -138,73 +130,65 @@ CREATE TABLE User (
 );
 ~~~
 
-> Note|Catatan: Jika Anda menggunakan database MySQL, Anda harus mengganti `AUTOINCREMENT`
-> dengan `AUTO_INCREMENT` dalam SQL di atas.
+Jika ingin mencoba database MySQL, anda harus menyertakan file skema MySQL
+ `WebRoot/testdrive/protected/data/schema.mysql.sql` untuk membuat database.
 
-Demi kemudahan, kita hanya membuat satu tabel `User` dalam database kita. File
-database SQLite disimpan sebagai
-`WebRoot/testdrive/protected/data/source.db`. Catatan bahwa baik file maupun
-direktori di mana ia berada harus dijadikan bisa ditulis oleh proses server Web,
-karena dbutuhkan oleh SQLite.
+> Note|Catatan: Untuk menggunakan fitur database, kita harus mengaktifkan ekstensi
+PDO dan ekstensi PDO driver-spesifik. Untuk aplikasi testdrive, kita perlu
+mengaktifkan ekstensi `php_pdo` dan `php_pdo_sqlite`
 
 
 Mengimplementasikan Operasi CRUD
 --------------------------------
 
-Sekarang bagian penting. Kita ingin mengimplementasikan operasi CRUD (create, read,
-update dan delete) untuk tabel `User` yang baru dibuat. Ini juga umumnya
-diperlukan dalam praktek aplikasi.
+Sekarang merupakan bagian yang menarik. Kita akan mengimplementasi operasi CRUD (create, read, update, delete) atau
+membuat, membaca, meng-update dan menghapus pada tabel `tbl_user` yang baru saja dibuat. Operasi ini juga
+merupakan aplikasi praktis yang umumnya diperlukan. Alih-alih menulis kode, kita akan menggunakan `Gii` -- sebuah generator kode yang powerful
 
-Daripada mendapatkan masalah dengan penulisan kode sebenarnya, kita ingin menggunakan
-piranti bertenaga `yiic` lagi untuk pembuatan kode secara otomatis bagi kita. Proses
-ini juga dikenal sebagai *scaffolding*. Buka jendela baris perintah, dan jalankan perintah
-yang terdaftar sebagai berikut,
+> Info: Gii sudah tersedia semenjak versi 1.1.2. Sebelumnya, kita menggunakan `yiic` (yang baru saja disinggung) untuk melakukan hal yang sama. Untuk lebih detail silahkan merujuk ke [Mengimplementasi Operasi CRUD dengan yiic shell](/doc/guide/quickstart.first-app-yiic).
+
+
+### Konfigurasi  Gii
+
+Untuk menggunakan Gii, kita pertama harus mengubah file `WebRoot/testdrive/protected/config/main.php`, yang juga dikenal sebagai file [konfigurasi aplikasi](/doc/guide/basics.application#application-configuration):
 
 ~~~
-% cd WebRoot/testdrive
-% protected/yiic shell
-Yii Interactive Tool v1.0
-Silahkan ketik 'help' untuk bantuan. Ketik 'exit' untuk keluar.
->> model User
-   generate User.php
+[php]
+return array(
+	......
+	'import'=>array(
+		'application.models.*',
+		'application.components.*',
+	),
 
-Kelas 'User' sukses dibuat dalam file berikut:
-    D:\wwwroot\testdrive\protected\models\User.php
-
-Jika Anda mempunyai koneksi database 'db', Anda dapat mengujinya sekarang dengan:
-    $model=User::model()->find();
-    print_r($model);
-
->> crud User
-   generate UserController.php
-   mkdir D:/wwwroot/testdrive/protected/views/user
-   generate create.php
-   generate update.php
-   generate list.php
-   generate show.php
-   generate admin.php
-   generate _form.php
-
-Crud 'user' sukses dibuat. Sekarang Anda dapat mengaksesnya via:
-http://hostname/path/to/index.php?r=user
+	'modules'=>array(
+		'gii'=>array(
+			'class'=>'system.gii.GiiModule',
+			'password'=>'pilih password di sini',
+		),
+	),
+);
 ~~~
 
-Dalam contoh di atas, kita menggunakan perintah `yiic shell` untuk berinteraksi dengan
-kerangka aplikasi kita. Pada prompt, kita menjalankan dua sub-perintah: `model User`
-dan `crud User`. Perintah pertama membuat kelas model untuk tabel `User`,
-sementara perintah kedua membaca model `User` dan membuat kode yang diperlukan
-oleh operasi CRUD.
+Kemudian buka URL `http://hostname/testdrive/index.php?r=gii`. Kita akan diminta password, yang baru saja dimasukkan di konfigurasi aplikasi di atas.
 
-> Note|Catatan: Anda mungkin menemukan kesalahan seperti "...could not find driver", meskipun
-> pemeriksa persyaratan memperlihatkan bahwa Anda sudah menghidupkan PDO
-> dan driver PDO terkait. Jika ini terjadi, Anda dapat mencoba menjalankan
-> piranti `yiic` sebagai berikut,
->
-> ~~~
-> % php -c path/ke/php.ini protected/yiic.php shell
-> ~~~
->
-> di mana `path/ke/php.ini` mewakili file PHP ini yang benar.
+### Menghasilkan User Model
+
+Setelah login, klik ke link `Model Generator`. Menu ini akan membawa kita ke halaman penghasil model,
+
+![Model Generator](gii-model.png)
+
+Dalam field `Table Name`, masukkan `tbl_user`. Di dalam field `Model Class`, masukkan `User`. Kemudian klik tombol `Preview` yang akan memunculkan file kode baru yang akan dihasilkan. Klik tombol `Generate`. Sebuah nama file bernama `User.php` akan dihasilkan di `protected/models`. Kelas model `User` ini akan memungkinkan kita untuk berkomunikasi dengan tabel `tbl_user`  dalam gaya berorientasi objek, yang nanti akan dibahas lebih lanjut.
+
+### Menghasilkan CRUD Code
+
+Setelah membuat file kelas model, kita akan menghasilkan kode untuk mengimplementasi operasi CRUD tentang data user. Kita akan memilih `Crud Generator` di Gii, yang ditampilkan sebagai berikut,
+
+![CRUD Generator](gii-crud.png)
+
+Dalam field `Model Class`, masukkan `User`. Di dalam field `Controller ID`, masukkan `user` (dalam huruf kecil). Sekarang tekan tombol `Preview` diikuti tombol `Generate`. Kita telah menyelesaikan proses penghasilan kode CRUD.
+
+### Mengakses halaman CRUD
 
 Mari kita nikmati pekerjaan kita dengan melihatnya di URL berikut:
 
@@ -212,33 +196,33 @@ Mari kita nikmati pekerjaan kita dengan melihatnya di URL berikut:
 http://hostname/testdrive/index.php?r=user
 ~~~
 
-Ini akan menampilkan sebuah daftar entri pengguna dalam tabel `User`. Karena tabel
-kita kosong, tidak ada apapun yang terlihat saat ini.
+Ini akan menampilkan sebuah daftar entri pengguna dalam tabel `User`. 
 
-Klik link `New User` pada halaman. Kita akan dibawa ke halaman masuk
-jika kita belum masuk sebelumnya. Setelah masuk, kita melihat formulir
+Klik tombol `Create User`. Kita akan dibawa ke halaman login
+jika kita belum login sebelumnya. Setelah masuk, kita melihat formulir
 input yang mengijinkan kita untuk menambah entri pengguna baru. Lengkapi formulir dan
-klik tombol `Create`. Jika ada kesalahan input, pengingat kesalahan akan
-ditampilkan yang melarang kita menyimpan input. Kembali ke daftar
-pengguna, seharusnya kita melihat pengguna yang baru ditambahkan muncul dalam daftar.
+klik tombol `Create`. Lengkapi form dan klik tombol `Create`. Jika terjadi kesalahan input,
+sebuah tampilan error yang bagus akan muncul dan mencegah kita menyimpan inputan kita.
+Kembali ke halaman daftar user, kita seharusnya melihat sebuah user baru sudah muncul di daftar.
 
-Ulangi langkah di atas untuk menambah lebih banyak pengguna. Catatan bahwa halaman daftar pengguna
+Ulangi langkah di atas untuk menambah lebih banyak pengguna. Harap diingat bahwa halaman daftar pengguna
 akan dipaginasi secara otomatis jika terlalu banyak pengguna yang harus ditampilkan
 pada satu halaman.
 
-Jika kita masuk sebagai administrator menggunakan `admin/admin`, kita dapat melihat halaman
+Jika kita login sebagai administrator menggunakan `admin/admin`, kita dapat melihat halaman
 pengguna admin dengan URL berikut:
 
 ~~~
 http://hostname/testdrive/index.php?r=user/admin
 ~~~
 
-Ini akan memperlihatkan tabel entri pengguna bagi kita. Kita dapat mengklik sel header
-tabel guna mengurut sesuai kolom terkait. Dan seperti halnya halaman daftar pengguna,
-halaman admin juga melakukan paginasi bila ada banyak entri pengguna yang harus
-ditampilkan dalam satu halaman.
+Ini akan memperlihatkan tabel entri user yang bagus. Kita dapat mengklik sel header
+tabel guna mengurut sesuai kolom terkait. Kita dapat mengklik tombol pada setiap baris
+untuk melihat, meng-update atau menghapus baris data bersangkutan.
+Kita dapat membuka halaman-halaman berbeda. Kita juga dapat memfilter dan mencari
+data yang diinginkan.
 
-Semua fitur cantik disediakan tanpa harus menulis satu baris kode pun!
+Semua fitur bagus ini disediakan tanpa harus menulis satu baris kode pun!
 
 ![Halaman admin pengguna](first-app6.png)
 
@@ -246,4 +230,4 @@ Semua fitur cantik disediakan tanpa harus menulis satu baris kode pun!
 
 
 
-<div class="revision">$Id: quickstart.first-app.txt 1253 2009-07-15 20:17:23Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.first-app.txt 2375 2010-08-30 12:19:23Z mdomba $</div>

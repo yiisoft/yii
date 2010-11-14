@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="id" lang="id">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>Tidak berhak</title>
+<title>Dilarang Akses</title>
 <style type="text/css">
 /*<![CDATA[*/
 body {font-family:"Verdana";font-weight:normal;color:black;background-color:white;}
@@ -17,13 +17,13 @@ p {font-family:"Verdana";font-weight:normal;color:black;font-size:9pt;margin-top
 </style>
 </head>
 <body>
-<h1>Tidak berhak</h1>
+<h1>Dilarang Akses</h1>
 <h2><?php echo nl2br(CHtml::encode($data['message'])); ?></h2>
 <p>
 Anda tidak memiliki kredensial yang benar untuk mengakses halaman ini.
 </p>
 <p>
-Jika Anda pikir ini adalah kesalahan server, silahkan hubungi <?php echo $data['admin']; ?>.
+Jika Anda merasa ini adalah kesalahan server, silahkan hubungi <?php echo $data['admin']; ?>.
 </p>
 <div class="version">
 <?php echo date('Y-m-d H:i:s',$data['time']) .' '. $data['version']; ?>

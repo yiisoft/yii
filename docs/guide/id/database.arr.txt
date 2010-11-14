@@ -1,63 +1,37 @@
-Rekaman Aktif Relasional
+Active Record Relasional
 ========================
 
-Kita sudah melihat bagaimana menggunakan Rekaman Aktif (AR) untuk memilih data dari
-satu tabel database. Dalam seksi ini, kami jelaskan bagaimana menggunakan AR untuk
-menggabung beberapa tabel database terkait dan membawa hasil set data gabungan.
+Kita sudah melihat bagaimana menggunakan Active Record (AR) untuk memilih data dari
+satu tabel database. Dalam bagian ini,kita akan melihat bagaimana menggunakan AR untuk
+menggabung beberapa tabel database terkait dan mengembalikan hasil data yang telah digabungkan.
 
-Untuk menggunakan AR relasional, diperlukan bahwa hubungan kunci-asing
-didefinisikan dengan baik antara tabel-tabel yang perlu digabung. AR
-bergantung pada metadata mengenai hubungan ini untuk menentukan bagaimana
-menggabung tabel
-
-> Note|Catatan: Mulai dari versi 1.0.1, Anda dapat menggunakan AR relasional meskipun
-> Anda tidak mendefinisikan pembatas kunci asing dalam database Anda.
+Untuk menggunakan AR relasional, disarankan untuk mendeklarasi constraint primary key-foreign key
+pada tabel yang ingin digabungkan(di-join). Contraint ini akan membantu menjaga konsistensi
+dan integritas data relasional.
 
 Untuk menyederhanakan, kita akan menggunakan skema database yang ditampilkan dalam
-diagram entity-relationship (ER) atau hubungan-entitas berikut untuk menggambarkan contoh pada
-seksi ini.
+diagram entity-relationship (ER) atau hubungan-entitas berikut untuk memberi gambaran contoh pada
+bagian ini.
 
 ![Diagram ER](er.png)
 
-> Info: Dukungan pembatas kunci asing bervariasi dalam DBMS yang berbeda.
->
-> SQLite tidak mendukung pembatas kunci asing, tapi Anda masih dapat
-> mendeklarasikan pembatas saat membuat tabel. AR dapat mengeksploitasi
-> deklarasi ini untuk mendukung queri relasional secara benar.
->
-> MySQL mendukung pembatas kunci asing dengan InnoDB engine, tapi tidak dengan
-> MyISAM. Selanjutnya direkomendasikan Anda menggunakan InnoDB untuk MySQL database Anda.
-> Ketika menggunakan MyISAM, Anda dapat mengeksploitasi trik berikut agar Anda
-> bisa melakukan queri relasional menggunakan AR:
-> ~~~
-> [sql]
-> CREATE TABLE Foo
-> (
->   id INTEGER NOT NULL PRIMARY KEY
-> );
-> CREATE TABLE bar
-> (
->   id INTEGER NOT NULL PRIMARY KEY,
->   fooID INTEGER
->      COMMENT 'CONSTRAINT FOREIGN KEY (fooID) REFERENCES Foo(id)'
-> );
-> ~~~
-> Dalam contoh di atas, kita menggunakan kunci kata `COMMENT` untuk menjelaskan pembatas kunci asing
-> yang dapat dibaca oleh AR agar mengenali hubungan yang dijelaskan.
+> Info: Dukungan untuk constraint foreign key bervariasi pada berbagai DBMS.
+> SQLite < 3.6.19 tidak mendukung constraint foreign key, tetapi kita masih dapat
+> mendeklarasikan constraint pada saat pembuatan tabel.
 
 
 
 Mendeklarasikan Hubungan
 ------------------------
 
-Sebelum kita menggunakan AR untuk melakukan queri relasional, kita perlu membiarkan AR
+Sebelum kita menggunakan AR untuk melakukan queri relasional, kita perlu membuat AR
 mengetahui bagaimana satu kelas AR dikaitkan dengan yang lain.
 
 Hubungan antara dua kelas AR secara langsung dikaitkan dengan hubungan
-antara tabel-tabel database yang disajikan oleh kelas AR.
+antara tabel-tabel database yang diwakili oleh kelas-kelas AR.
 Dari sudut pandang database, hubungan antar dua tabel A dan B memiliki
-tiga jenis: satu-ke-banyak (misal `User` dan `Post`), satu-ke-satu (misal
-`User` dan `Profile`) dan banyak-ke-banyak (misal `Category` dan `Post`). Dalam AR,
+tiga jenis: one-to-many/satu-ke-banyak (misal `User` dan `Post`), one-to-one/satu-ke-satu (misal
+`User` dan `Profile`) dan many-to-many/banyak-ke-banyak (misal `Category` dan `Post`). Dalam AR,
 ada empat jenis hubungan:
 
    - `BELONGS_TO`: jika hubungan antara tabel A dan B adalah
@@ -73,13 +47,13 @@ B (misal `User` memiliki paling banyak satu `Profile`);
 database. Tabel asosiatif diperlukan untuk memecah hubungan banyak-ke-banyak
 ke dalam hubungan satu-ke-banyak, karena umumnya DBMS tidak mendukung
 hubungan banyak-ke-banyak secara langsung. Dalam contoh skema database kita,
-`PostCategory` melayani keperluan ini. Dalam terminologi AR, kita dapat menjelaskan
+`tbl_post_category` yang menjadi tabel asosiatif ini. Dalam terminologi AR, kita dapat menjelaskan
 `MANY_MANY` sebagai kombinasi `BELONGS_TO` dan `HAS_MANY`. Sebagai contoh,
 `Post` milik banyak `Category` dan `Category` memiliki banyak `Post`.
 
 Mendeklarasikan hubungan dalam AR mencakup penimpaan metode
-[relations()|CActiveRecord::relations] pada [CActiveRecord]. Metode
-mengembalikan array konfigurasi hubungan. Setiap elemen array mewakili
+[relations()|CActiveRecord::relations] pada [CActiveRecord]. Metode tersebut
+mengembalikan array dari konfigurasi hubungan. Setiap elemen array mewakili
 satu hubungan dengan format berikut:
 
 ~~~
@@ -87,12 +61,12 @@ satu hubungan dengan format berikut:
 'VarName'=>array('RelationType', 'ClassName', 'ForeignKey', ...opsi tambahan)
 ~~~
 
-di mana `VarName` adalah nama hubungan; `RelationType` menetapkan jenis
+dengan `VarName` sebagai nama hubungan/relasi; `RelationType` menetapkan jenis
 hubungan yang bisa berupa salah satu dari empat konstan:
 `self::BELONGS_TO`, `self::HAS_ONE`, `self::HAS_MANY` dan
 `self::MANY_MANY`; `ClassName` adalah nama kelas AR terkait dengan
 kelas AR ini; dan `ForeignKey` menetapkan kunci asing yang terkait dalam
-hubungan. Opsi tambahan dapat ditetapkan di akhir setiap hubungan
+hubungan. Opsi tambahan dapat ditetapkan di akhir setiap relasi
 (dijelaskan nanti).
 
 Kode berikut memperlihatkan bagaimana kita mendeklarasikan hubungan kelas `User`
@@ -102,37 +76,42 @@ dan `Post`.
 [php]
 class Post extends CActiveRecord
 {
+	......
+
 	public function relations()
 	{
 		return array(
-			'author'=>array(self::BELONGS_TO, 'User', 'authorID'),
-			'categories'=>array(self::MANY_MANY, 'Category', 'PostCategory(postID, categoryID)'),
+			'author'=>array(self::BELONGS_TO, 'User', 'author_id'),
+			'categories'=>array(self::MANY_MANY, 'Category',
+				'tbl_post_category(post_id, category_id)'),
 		);
 	}
 }
 
 class User extends CActiveRecord
 {
+	......
+
 	public function relations()
 	{
 		return array(
-			'posts'=>array(self::HAS_MANY, 'Post', 'authorID'),
-			'profile'=>array(self::HAS_ONE, 'Profile', 'ownerID'),
+			'posts'=>array(self::HAS_MANY, 'Post', 'author_id'),
+			'profile'=>array(self::HAS_ONE, 'Profile', 'owner_id'),
 		);
 	}
 }
 ~~~
 
-> Info: Kunci asing bisa berupa gabungan, terdiri dari dua atau lebih kolom.
-Dalam hal ini, kita harus merangkai nama-nama kolom kunci dan
+> Info: Foreign key bisa berupa composite, terdiri dari dua atau lebih kolom.
+Dalam hal ini, kita harus menggabungkan nama-nama kolom kunci dan
 memisahkannya dengan spasi atau koma. Untuk jenis hubungan `MANY_MANY`,
-nama tabel asosiatif juga harus ditetapkan dalam kunci asing. Contohnya,
-hubungan `categories` dalam `Post` ditetapkan dengan kunci asing
-`PostCategory(postID, categoryID)`.
+nama tabel asosiatif juga harus ditetapkan dalam foreign key. Contohnya,
+hubungan `categories` dalam `Post` ditetapkan dengan foreign key
+`tbl_post_category(post_id, category_id)`.
 
 Deklarasi hubungan dalam kelas AR secara implisit menambahkan properti
 ke kelas untuk setiap hubungan. Setelah queri relasional dilakukan,
-properti terkait akan dipopulasi dengan turunan AR bersangkutan.
+properti terkait akan diisi dengan instance dari AR yang dihubungkan.
 Sebagai contoh, jika `$author` mewakili turunan AR `User`, kita
 bisa menggunakan `$author->posts` untuk mengakses kaitannya dengan turunan `Post`.
 
@@ -141,9 +120,9 @@ Melakukan Queri Relasional
 
 Cara termudah melakukan queri relasional adalah dengan membaca properti
 relasional turunan AR. Jika properti tidak diakses sebelumnya, queri
-relasional akan diinisiasi, di mana gabungan dua tabel terkait dan filter
-dengan kunci primer pada turunan AR saat ini. Hasil queri akan disimpan
-ke properti sebagai turunan kelas AR terkait. Ini dikenal sebagai
+relasional akan diinisiasi, yang menggabungkan dua tabel terkait dan filter
+dengan primary key pada instance dari AR saat ini. Hasil queri akan disimpan
+ke properti sebagai instance kelas AR terkait. Proses ini dikenal sebagai
 pendekatan *lazy loading*, contohnya, queri relasional dilakukan hanya
 saat obyek terkait mulai diakses. Contoh di bawah memperlihatkan
 bagaimana menggunakan pendekatan ini:
@@ -156,22 +135,22 @@ $post=Post::model()->findByPk(10);
 $author=$post->author;
 ~~~
 
-> Info: Jika tidak ada turunan terkait pada hubungan, properti
+> Info: Jika tidak ada instance terkait pada hubungan, properti
 bersangkutan dapat berupa null atau array kosong. Untuk hubungan
 `BELONGS_TO` dan `HAS_ONE`, hasilnya adalah null; untuk hubungan
 `HAS_MANY` dan `MANY_MANY`, hasilnya adalah array kosong.
 Catatan bahwa hubungan `HAS_MANY` dan `MANY_MANY` mengembalikan array obyek,
-Anda harus mengulang melalui hasilnya sebelum mencoba untuk mengakses setiap propertinya.
-Jika sebaliknya, Anda akan menerima kesalahan "Mencoba untuk mendapatkan properti non-obyek".
+Anda harus melakukan loop melalui hasilnya sebelum mencoba untuk mengakses setiap propertinya.
+Kalau tidak, Anda akan menerima pesan kesalahan "Trying to get property of non-object" ("Mencoba untuk mendapatkan properti non-obyek").
 
 Pendekatan lazy loading sangat nyaman untuk dipakai, tetapi tidak efisien
 dalam beberapa skenario. Sebagai contoh, jika kita ingin mengakses informasi
-pembuat untuk `N` tulisan, menggunakan pendekatan lazy akan menyertakan eksekusi
-`N` gabungan queri. Kita harus beralih ke apa yang disebut pendekatan *eager loading*
+author (pengarang) untuk `N` post, menggunakan pendekatan lazy akan menyertakan eksekusi
+`N` queri join. Kita harus beralih ke apa yang disebut pendekatan *eager loading*
 dlam situasi seperti ini.
 
-Pendekatan eager loading mengambil turunan AR terkait bersama
-dengan turunan utama AR. Ini dilaksanakan dengan menggunakan metode
+Pendekatan eager loading mengambil instance AR terkait bersama
+dengan instance utama AR. Ini dilakukan dengan menggunakan metode
 [with()|CActiveRecord::with] bersama dengan salah satu metode
 [find|CActiveRecord::find] atau [findAll|CActiveRecord::findAll] dalam
 AR. Sebagai contoh,
@@ -182,22 +161,22 @@ $posts=Post::model()->with('author')->findAll();
 ~~~
 
 Kode di atas akan mengembalikan sebuah array turunan `Post`. Tidak seperti pendekatan
-lazy, properti `author` dalam setiap turunan `Post` sudah dipopulasi dengan
-turunan `User` terkait sebelum kita mengakses properti.
-Daripada menjalankan queri gabungan untuk setiap tulisan, pendekatan eager loading
-membawa semua tulisan bersama dengan penulisnya dalam satu queri gabungan!
+lazy, properti `author` dalam setiap instance `Post` sudah diisi dengan
+instance `User` terkait sebelum kita mengakses properti.
+Alih-alih menjalankan queri join (gabungan) untuk setiap post, pendekatan eager loading
+membawa semua post bersama dengan author-nya ke dalam satu queri join (gabungan)!
 
-Kita dapat menetapkan nama multipel hubungan dalam metode
-[with()|CActiveRecord::with] dan pendekatan eager loading akan membawa kembali
-semuanya dalam satu pekerjaan. Sebagai contoh, kode berikut akan membawa kembali
-tulisan bersama dengan penulis dan kategorinya:
+Kita dapat menetapkan nama multipel relasi dalam metode
+[with()|CActiveRecord::with] dan pendekatan eager loading akan mengembalikan
+semuanya dalam satu pekerjaan. Sebagai contoh, kode berikut akan mengembalikan
+post bersama dengan author dan category-nya (kategorinya):
 
 ~~~
 [php]
 $posts=Post::model()->with('author','categories')->findAll();
 ~~~
 
-kia juga bisa melakukan eager loading berulang. Daripada mendaftar nama-nama
+kia juga bisa melakukan nested eager loading. Alih-alih mendaftar nama-nama
 hubungan, kita mengopernya dalam penyajian hirarkis nama hubungan ke metode
 [with()|CActiveRecord::with], seperti berikut,
 
@@ -209,115 +188,114 @@ $posts=Post::model()->with(
 	'categories')->findAll();
 ~~~
 
-Contoh di atas akan membawa kembali semua tulisan bersama dengan pembuat dan
-kategorinya. Ini juga akan membawa kembali profil setiap pembuat serta tulisan.
+Contoh di atas akan mengembalikan semua post bersama dengan author dan
+category-nya. Ini juga akan menghasilkan profil setiap author serta post.
 
-> Note|Catatan: Pemakaian metode [with()|CActiveRecord::with] sudah diubah
-> sejak versi 1.0.2. Silahkan baca dokumentasi API terkait dengan hati-hati.
-
-Implementasi AR dalam Yii sangat efisien. Saat eager loading,
-hirarki obyek terkait melibatkan hubungan `N` `HAS_MANY` atau `MANY_MANY`,
-ini akan mengambil `N+1` queri SQL untuk mendapatkan hasil yang dibutuhkan.
-Ini berarti diperlukan menjalankan 3 queri SQL dalam contoh terakhir karena
-properti `posts` dan `categories`. Framework lain akan mengambil pendekatan
-lebih radikal dengan hanya menggunakan satu queri SQL. Sekilas, pendekatan radikal
-terlihat lebih efisien karena queri lebih sedikit yang diurai dan dijalankan
-oleh DBMS. Kenyataanya tidak praktis karena dua alasan. Pertama, terdapat
-banyak kolom data yang berulan dalam hasil yang membutuhkan waktu ekstra
-untuk mengirimkan dan memrosesnya. Kedua, jumlah baris dalam hasil membengkak
-secara eksponensial dengan jumlah tabel yang terlibat, menjadikannya tidak bisa
-diatur karena hubungan lebih banyak yang terlibat
-
-Sejak versi 1.0.2, juga dapat memaksa queri hubungan untuk dikerjakan dengan
-hanya satu queri SQL. Cukup tambahkan panggilan [together()|CActiveFinder::together] setelah
-[with()|CActiveRecord::with]. Sebagai contoh,
+Mulai dari versi 1.1.0 eager loading dapat dijalankan dengan menspesifikasi properti 
+[CDbCriteria::with], seperti di bawah ini:
 
 ~~~
 [php]
-$posts=Post::model()->with(
+$criteria=new CDbCriteria;
+$criteria->with=array(
 	'author.profile',
 	'author.posts',
-	'categories')->together()->findAll();
+	'categories',
+);
+$posts=Post::model()->findAll($criteria);
 ~~~
 
-Queri di atas akan dikerjakan oleh satu query SQL. Tanpa memanggil [together|CActiveFinder::together],
-ini akan membutuhkan dua queri SQL: satu gabungan tabel `Post`, `User` dan `Profile`,
-serta gabungan lain tabel `User` dan `Post`.
+or
+
+~~~
+[php]
+$posts=Post::model()->findAll(array(
+	'with'=>array(
+		'author.profile',
+		'author.posts',
+		'categories',
+	)
+);
+~~~
 
 
 Opsi Queri Relasional
 ---------------------
 
-Telah kita sebutkan bahwa opsi tambahan dapat ditetapkan dalam deklarasi hubungan.
-Opsi ini ditetapkan sebagai pasangan nama-nilai, dipakai untuk menkustomisasi
-queri relasional. Ringkasannya adalah sebagai berikut.
+Telah kita sebutkan bahwa opsi tambahan dapat dispesifikasi dalam deklarasi relasi.
+Opsi ini ditetapkan sebagai pasangan name-value (nama-nilai), dipakai untuk mengkustomisasi
+queri relasional. Rangkumannya adalah sebagai berikut.
 
    - `select`: daftar kolom yang dipilih untuk kelas AR terkait.
-Standarnya adalah '*', berarti semua kolom. Nama-nama kolom harus disatukan
-menggunakan `aliasToken` jika muncul dalam sebuah ekspresi (misalnya
-`COUNT(??.name) AS nameCount`).
+Standarnya adalah '*', yang artinya semua kolom. Nama-nama kolom yang direferensi dalam
+opsi ini tidak boleh ambigu.
 
-   - `condition`: klausul `WHERE`. Standarnya kosong. Catatan, referensi
-kolom perlu disatukan mengunakan `aliasToken` (misalnya `??.id=10`).
+   - `condition`: klausul `WHERE`. Default-nya kosong. Nama kolom yang
+direferensikan di opsi ini juga tidak boleh ambigu.
 
    - `params`: parameter yang diikat ke pernyataan SQL yang dibuat.
-Ini harus berupa array pasangan nama-nilai. Opsi ini sudah tersedia sejak
+Ini harus berupa array (larik) pasangan name-value. Opsi ini sudah tersedia sejak
 versi 1.0.3.
 
    - `on`: klausul `ON`. Kondisi yang ditetapkan di sini akan ditambahkan ke
-kondisi penggabungan menggunakan operator `AND`. Catatan, referensi
-kolom perlu disatukan menggunakan `aliasToken` (misalnya `??.id=10`).
+kondisi penggabungan menggunakan operator `AND`. Nama kolom direferensikan
+dalam opsi ini tidak boleh ambigu.
 Opsi ini tidak berlaku pada relasi `MANY_MANY`. Opsi ini sudah tersedia sejak
 versi 1.0.2.
 
-   - `order`: klausul `ORDER BY`. Standarnya kosong. Catatan, referensi kolom
-perlu disatukan menggunakan `aliasToken` (misalnya `??.age
-DESC`).
+   - `order`: klausul `ORDER BY`. Default-nya kosong. Nama kolom yang digunakan
+di sini tidak boleh ambigu.
 
-   - `with`: daftar anak terkait obyek yang harus diambil bersama dengan
-obyek ini. Harap berhati-hati, salah menggunakan opsi ini akan mengakibatkan
+   - `with`: daftar dari child (turunan) objek terkait yang harus diambil bersama dengan
+objek ini. Harap berhati-hati, salah menggunakan opsi ini akan mengakibatkan
 pengulangan tanpa akhir.
 
-   - `joinType`: jenis gabungan untuk hubungan ini. Standarnya `LEFT
+   - `joinType`: jenis gabungan untuk relasi ini. Standarnya `LEFT
 OUTER JOIN`.
 
-   - `aliasToken`: penampung prefiks kolom. Ini akan diganti dengan
-alias tabel terkait untuk menyatukan referensi kolom.
-Standarnya `'??.'`.
-
    - `alias`: alias untuk tabel terkait dengan hubungan ini.
-Opsii ini sudah tersedia sejak versi 1.0.1. Standarnya null,
-berarti alias tabel secara otomatis dibuat. Ini berbeda dengan
-`aliasToken` di mana aliasToken hanyalah penampung dan akan diganti
-dengan alias tabel sebenarnya.
+Opsii ini sudah tersedia sejak versi 1.0.1. Default-nya null,
+yang berarti alias tabel sama dengan nama relasi.
 
-   - `together`: apakah tabel yang terkait dengan hubungan ini harus
-dipaksa untuk bergabung bersama dengan tabel primer. Opsi ini hanya berarti untuk relasi HAS_MANY dan MANY_MANY. Jika opsi ini tidak disetel atau false, setiap relasi HAS_MANY atau MANY_MANY akan memiliki pernyataan JOIN sendiri untuk meningkatkan performansi. Opsi ini sudah tersedia sejak versi 1.0.3.
+   - `together`: menentukan apakah tabel yang terkait dengan hubungan ini harus
+dipaksa untuk bergabung bersama dengan tabel primer dan tabel lainnya.
+Opsi ini hanya berarti untuk relasi HAS_MANY dan MANY_MANY.
+Jika opsi ini disetel false, setiap relasi yang berelasi HAS_MANY atau MANY_MANY
+akan digabungkan dengan tabel utama dalam query SQL yang terpisah, yang artinya dapat
+meningkatkan performa keseluruhan karena duplikasi pada data yang dihasilkan akan lebih sedikit.
+Jika opsi ini di-set true, maka tabel yang diasosiasi akan selalu di-join dengan tabel primer dalam satu
+query, walaupun jika tabel primer tersebut terpaginasi (paginated).
+Jika opsi ini tidak di-set, maka tabel yang terasosiasi akan di-join dengan tabel primer ke dalam query SQL tunggal
+hanya ketika tabel primer tidak terpaginasi.
+Untuk info selengkapnya, silahkan melihat bagian "Relational Query Performance".
+Opsi ini telah ada semenjak versi 1.0.3
 
-   - `group`: klausul `GROUP BY`. Standarnya kosong. Catatan, referensi
-kolom perlu disatukan menggunakan `aliasToken` (misalnya `??.age`).
+   - `join`: klausul `JOIN` ekstra. Secara default kosong. Opsi ini sudah ada
+semenjak versi 1.1.3
 
-   - `having`: klausul `HAVING`. Standarnya kosong. Catatan, referensi
-kolom untuk disatukan menggunakan `aliasToken` (misalnya `??.age`).
-Catatan: opsi sudah tersedia sejak versi 1.0.1.
+   - `group`: klausul `GROUP BY`. Default-nya kosong. Nama kolom
+yang direferensi ke dalam opsi ini tidak boleh ambigu.
 
-   - `index`: nama kolom yang nilainya harus dipakai sebagai kunci
+   - `having`: klausul `HAVING`. Default-nya kosong. Nama kolom
+yang direferensi dalam opsi tidak boleh ambigu.
+
+   - `index`: nama kolom yang nilainya harus dipakai sebagai key (kunci)
 array yang menyimpan obyek terkait. Tanpa menyetel opsi ini,
 array obyek terkait akan menggunakan indeks integer berbasis-nol.
 Opsi ini hanya bisa disetel untuk relasi `HAS_MANY` dan `MANY_MANY`.
 Opsi ini sudah tersedia sejak versi 1.0.7.
 
 
-Sebagai tambahan, opsi berikut tersedia untuk hubungan tertentu
+Sebagai tambahan, opsi berikut tersedia untuk relasi tertentu
 selama lazy loading:
 
    - `limit`: batas baris yang dipilih. Opsi ini TIDAK berlaku pada
 relasi `BELONGS_TO`.
 
-   - `offset`: ofset baris yang dipilih. opsi ini TIDAK berlaku pada
+   - `offset`: offset baris yang dipilih. opsi ini TIDAK berlaku pada
 relasi `BELONGS_TO`.
 
-Di bawah ini kita memodifikasi deklarasi hubungan `posts` dalam `User` dengan
+Di bawah ini kita memodifikasi deklarasi relasi `posts` dalam `User` dengan
 menyertakan beberapa opsi di atas
 
 ~~~
@@ -336,19 +314,44 @@ class User extends CActiveRecord
 }
 ~~~
 
-Sekarang jika kita mengakses `$author->posts`, kita akan memperoleh tulisan pembuat
-yang diurut berdasarkan waktu pembuatannya. Kategori setiap turunan post juga
-sudah diambil.
+Sekarang jika kita mengakses `$author->posts`, kita akan mendapatkan post-post dari sang author
+yang tersusun berdasarkan waktu pembuatan secara terbalik (descending). Setiap instance post
+juga me-load category-nya.
 
-> Info: Saat nama kolom muncul dalam dua atau lebih tabel yang sedang digabung
-bersama, ia perlu disatukan. Ini dikerjakan dengan memberi prefiks pada nama kolom
-dengan nama tabel. Sebagai contoh, `id` menjadi `Team.id`. Dalam queri relasional AR,
-kita tidak memiliki kebebasan karena pernyataan SQL
-secara otomatis dibuat oleh AR yang secara sistematis memberikan alias setiap
-tabelnya. Oleh karena itu, untuk menghindari konflik nama kolom, kita
-menggunakan penampung guna menunjukan kolom yang perlu
-disatukan. AR akan mengganti penampung dengan alias tabel yang sesuai dan
-menyatukan kolomnya dengan benar.
+Membedakan Nama Kolom
+---------------------
+
+Ketika terdapat dua buah tabel atau lebih yang di-join ternyata memiliki
+sebuah kolom dengan nama yang sama, maka kita perlu membedakannya. Kita dapat
+melakukannya dengan menambah awalan pada nama kolom dengan nama alias tabel.
+
+Dalam query AR relasi, nama alias untuk tabel utama ditetapkan sebagai `t`,
+sedangkan nama alias untuk sebuah tabel relasi adalah sama dengan nama relasi secara default. Misalnya,
+pada statement berikut, nama alias untuk `Post` adalah `t` dan untuk `Comment` adalah
+`comments`:
+
+~~~
+[php]
+$posts=Post::model()->with('comments')->findAll();
+~~~
+
+Sekarang kita asumsi masing-masin `Post` dan `Comment` memiliki sebuah kolom bernama `create_time` yang
+menunjukkan waktu pembuatan post atau komentar, dan kita ingin mengambil nilai post beserta komentar-komentar
+dengan mengurutkan waktu pembuatan post baru kemudian waktu pembuatan komentar. Kita harus membedakan
+kolom `create_time` dengan kode berikut : 
+
+~~~
+[php]
+$posts=Post::model()->with('comments')->findAll(array(
+	'order'=>'t.create_time, comments.create_time'
+));
+~~~
+
+> Note|Catatan: Perilaku pada pembedaan kolom telah mengalami perubahan semenjak versi 1.1.0.
+> Sebelumnya, pada versi 1.0.x, secara default Yii akan otomatis membuat sebuah alias tabel
+> untuk setiap tabel relasi, dan kita harus menggunakan prefik `??.` untuk merujuk ke
+> alias yang dihasilkan otomatis ini. Dan juga, pada versi 1.0.x, nama alias tabel utama
+> adalah namanya sendiri
 
 Opsi Queri Relasional Dinamis
 -----------------------------
@@ -357,33 +360,90 @@ Mulai dari versi 1.0.2, kita dapat menggunakan opsi queri relasional dinamis bai
 [with()|CActiveRecord::with] maupun opsi `with`. Opsi dinamis akan
 menimpa opsi yang sudah ada seperti yang ditetapkan pada metode [relations()|CActiveRecord::relations].
 Sebagai contoh, dengan model `User` di atas, jika kita ingin menggunakan pendekatan eager
-loading untuk membawa kembali tulisan milik penulis dalam *urutan membesar*
-(opsi `order` dalam spesifikasi relasi adalah urutan mengecil), kita dapat
+loading untuk membawa kembali tulisan milik author (penulis) dalam *urutan membesar/ascending*
+(opsi `order` dalam spesifikasi relasi adalah urutan mengecil/descending ), kita dapat
 melakukannya seperti berikut:
 
 ~~~
 [php]
 User::model()->with(array(
-	'posts'=>array('order'=>'??.createTime ASC'),
+	'posts'=>array('order'=>'posts.create_time ASC'),
 	'profile',
 ))->findAll();
 ~~~
 
-Mulai dari versi 1.0.5, opsi queri dinamis juga dapat dipakai saat menggunakan pendekatan  lazy loading untuk melakukan queri relasional. untuk mengerjakannya, kia harus memanggil metode yang namanya sama dengan nama relasi dan mengoper opsi queri dinamis sebagai parameter metode Sebagai contoh, kode berikut mengembalikan tulisan pengguna yang memiliki `status` = 1:
-
+Mulai dari versi 1.0.5, opsi queri dinamis juga dapat dipakai saat menggunakan pendekatan  lazy loading untuk melakukan queri relasional. Untuk mengerjakannya, kita harus memanggil metode yang namanya sama dengan nama relasi dan mengoper opsi queri dinamis sebagai parameter metode. Sebagai contoh, kode berikut mengembalikan tulisan pengguna yang memiliki `status` = 1:
 ~~~
 [php]
 $user=User::model()->findByPk(1);
 $posts=$user->posts(array('condition'=>'status=1'));
 ~~~
 
+Performa Queri Relasi
+---------------------
+
+Seperti yang dijelaskan di atas, pendekatan eager loading sering dipakai dalam skenario
+yang berkenan pada pengaksesan banyak objek yang berhubungan. Eager loading menghasilkan
+sebuah statement SQL kompleks dengan menggabungkan semua tabel yang diperlukan. Statement SQL
+yang besar lebih dipilih dalam beberapa kasus karena menyederhanakan pemfilteran berdasarkan
+kolom pada tabel yang ter-relasi.
+Namun, bisa saja untuk kasus-kasus tertentu cara tersebut tidak efisien.
+
+Bayangkan sebuah contoh, kita perlu mencari post terbaru bersama dengan komentar-komentar post tersebut.
+Asumsi setiap post memiliki 10 komentar, menggunakan sebuah statement SQL besar, akan mengembalikan
+data post yang redundan banyak sekali dikarenakan setiap post akan mengulangi setiap komentar yang dimilikinya.
+Mari kita menggunakan pendekatan lain: pertama kita melakukan query pertama untuk post terbaru, dan kemudian
+kueri komentarnya. Pada pendekatan ini, kita perlu mengeksekusi dua statement SQL. Manfaat dari pendekatan ini
+adalah tidak ada redudansi sama sekali dalam hasilnya.
+
+Jadi pendekatan mana yang lebih efisien? Sebetulnya tidak ada jawaban pasti. Mengeksekusi sebuah statemen SQL besar
+mungkin lebih efisien karena mengurangi overhead pada DBMS untuk parsing dan executing pada statement SQL. Di lain pihak,
+menggunakan statement SQL tunggal, kemungkinan akan menghasilkan data redundansi sehingga perlu waktu lebih lama untuk baca dan memprosesnya.
+
+Oleh karena itu, Yii menyediakan opsi queri `together` sehingga kita dapat memilih di antara dua pendekatan ini jika diperlukan.
+Secara default, Yii akan mengadopsi pendekatan pertama, yakni menghasilkan statement SQL tunggal untuk melakukan eager loading.
+Kita dapat mengeset opsi `together` menjadi false di dalam deklarasi relasi sehingga beberapa tabel
+di-join pada statement SQL yang terpisah. Sebagai contoh, supaya dapat menggunakan pendekatan kedua untuk melakukan
+queri pada post terbaru beserta komentar-komentarnya, kita dapat mendeklarasi hubungan `comments` dalam kelas `Post` sebagai berikut :
+
+~~~
+[php]
+public function relations()
+{
+	return array(
+		'comments' => array(self::HAS_MANY, 'Comment', 'post_id', 'together'=>false),
+	);
+}
+~~~
+
+Kita juga dapat mengeset opsi ini secara dinamis ketika melakukan eager loading:
+
+~~~
+[php]
+$posts = Post::model()->with(array('comments'=>array('together'=>false)))->findAll();
+~~~
+
+> Note|Catatan: Pada versi 1.0.x, perilaku default-nya adalah Yii akan menghasilkan
+> sekaligus mengeksekusi `N+1` statement SQL jika terdapat `N` relasi `HAS_MANY` atau `MANY_MANY`.
+> Tiap-tiap relasi `HAS_MANY` atau `MANY_MANY` memiliki statement SQL sendiri. Dengan memanggil
+> metode `together()` setelah `with()`, kita dapat mendesak hanya sebuah statement SQL yang dihasilkan
+> dan dieksekusi. Misalnya,
+>
+> ~~~
+> [php]
+> $posts=Post::model()->with(
+> 	'author.profile',
+> 	'author.posts',
+> 	'categories')->together()->findAll();
+> ~~~
+>
 
 Queri Statistik
 ---------------
 
 > Note|Catatan: Queri statistik sudah didukung sejak versi 1.0.4.
 
-Selain queri yang dijelaskan di atas, Yii juga mendukung apa yang disebut queri statistik (atau queri agregasional). Ini merujuk ke pengambilan informasi agregasional mengenai obyek terkait, seperti jumlah komentar untuk setiap tulisan, rata-rata peringkat setiap produk, dll. Queri statistik hanya bisa dilakukan untuk obyek terkait dalam `HAS_MANY` (misalnya sebuah tulisan memiliki banyak komentar) atau `MANY_MANY` (misalnya tulisan milik banyak kategori dan kategori memiliki banyak tulisan).
+Selain queri yang dijelaskan di atas, Yii juga mendukung apa yang disebut queri statistik (atau queri agregasional). Maksud dari queri statistik adalah pengambilan informasi agregasional mengenai objek terkait, seperti jumlah komentar untuk setiap tulisan, rata-rata peringkat setiap produk, dll. Queri statistik hanya bisa dilakukan untuk obyek terkait dalam `HAS_MANY` (misalnya sebuah tulisan memiliki banyak komentar) atau `MANY_MANY` (misalnya tulisan milik banyak kategori dan kategori memiliki banyak tulisan).
 
 Melakukan queri statistik sangat mirip dengan melakukan queri relasional seperti dijelaskan sebelumnya. Pertama kita perlu mendeklarasikan queri statistik dalam metode [relations()|CActiveRecord::relations] pada [CActiveRecord] seperti yang kita lakukan dengan queri relasional.
 
@@ -401,7 +461,7 @@ class Post extends CActiveRecord
 }
 ~~~
 
-Dalam contoh di atas, kita mendeklarasikan dua queri statistik: `commentCount` menghitung jumlah komentar milik sebuah tulisan, dan `categoryCount` menghitung jumlah kategori di mana tulisan tersebut berada. Catatan bahwa hubungan antara `Post` dan `Comment` adalah `HAS_MANY`, sementara hubungan `Post` dan `Category` adalah `MANY_MANY` (dengan menggabung tabel `PostCategory`). Seperti yang bisa kita lihat, deklarasi sangat mirip ke relasi tersebut yang kami jelaskan dalam subseksi sebelumnya. Perbedaannya jenis relasinya adalah `STAT` di sini.
+Dalam contoh di atas, kita mendeklarasikan dua queri statistik: `commentCount` menghitung jumlah komentar milik sebuah post, dan `categoryCount` menghitung jumlah kategori di mana post tersebut berada. Catatan bahwa hubungan antara `Post` dan `Comment` adalah `HAS_MANY`, sementara hubungan `Post` dan `Category` adalah `MANY_MANY` (dengan menggabung tabel `PostCategory`). Seperti yang bisa kita lihat, deklarasi sangat mirip dengan relasi yang kita lihat dalam subbagian sebelumnya. Perbedaannya jenis relasinya adalah `STAT` di sini.
 
 
 Dengan deklarasi di atas, kita dapat mengambil sejumlah komentar untuk sebuah tulisan menggunakan ekspresi `$post->commentCount`. Ketika kita mengakses properti ini untuk pertama kalinya, pernyataan SQL akan dijalankan secara implisit untuk mengambil hasil terkait. Seperti yang sudah kita ketahui, ini disebut pendekatan *lazy loading*. Kita juga dapat menggunakan pendekatan *eager loading* jika kita harus menentukan jumlah komentar untuk multipel tulisan:
@@ -411,52 +471,53 @@ Dengan deklarasi di atas, kita dapat mengambil sejumlah komentar untuk sebuah tu
 $posts=Post::model()->with('commentCount', 'categoryCount')->findAll();
 ~~~
 
-Pernyataan di atas akan menjalankan tiga SQL untuk membawa kembali semua tulisan bersama dengan jumlah komentar dan jumlah kategorinya. Menggunakan pendekatan lazy loading, kita akan berakhir dengan `2*N+1` queri SQL jika ada `N` tulisan.
+Pernyataan di atas akan menjalankan tiga SQL untuk menghasilkan semua post bersama dengan jumlah komentar dan jumlah kategorinya. Menggunakan pendekatan lazy loading, kita akan berakhir dengan `2*N+1` queri SQL jika ada `N` post.
 
-Secara standar, queri statistik akan menghitung ekspresi `COUNT` (dan selanjutnya jumlah komentar dan jumlah kategori dalam contoh di atas). Kita dapat mengkustomisasinya dengan menetapkan opsi tambahan saat mendeklarasikannya dalam [relations()|CActiveRecord::relations]. Opsi yang tersedia diringkas seperti berikut.
+Secara default, queri statistik akan menghitung ekspresi `COUNT` (dan selanjutnya jumlah komentar dan jumlah kategori dalam contoh di atas). Kita dapat mengkustomisasinya dengan menetapkan opsi tambahan saat mendeklarasikannya dalam [relations()|CActiveRecord::relations]. Opsi yang tersedia diringkas seperti berikut.
 
-   - `select`: ekspresi statistik. Standarnya `COUNT(*)`, berarti jumlah obyek anak.
+   - `select`: ekspresi statistik. Standarnya `COUNT(*)`, yang berarti jumlah turunan objek.
 
-   - `defaultValue`: nilai yang ditempatkan ke rekaman itu yang tidak menerima hasil queri statistik. Sebagai contoh, jika tulisan tidak memiliki komentar apapun, `commentCount` akan menerima nilai ini. Nilai standar untuk opsi ini adalah 0.
+   - `defaultValue`: nilai yang diberikan ke record bersangkutan yang tidak menerima hasil queri statistik. Sebagai contoh, jika ada sebuah post tidak memiliki komentar apapun, `commentCount` akan menerima nilai ini. Nilai standar untuk opsi ini adalah 0.
 
-   - `condition`: klausul `WHERE`. Standarnya kosong.
+   - `condition`: klausul `WHERE`. Default-nya kosong.
 
-   - `params`: parameter yang akan diikat ke pernyataan SQL yang dibuat.
+   - `params`: parameter yang diikat ke pernyataan SQL yang dibuat.
 Ini harus berupa array pasangan nama-nilai.
 
-   - `order`: klausul `ORDER BY`. Standarnya kosong.
+   - `order`: klausul `ORDER BY`. Default-nya kosong.
 
-   - `group`: klausul `GROUP BY`. Standarnya kosong.
+   - `group`: klausul `GROUP BY`. Default-nya kosong.
 
-   - `having`: klausul `HAVING`. Standarnya kosong.
+   - `having`: klausul `HAVING`. Default-nya kosong.
 
 
-Queri Relasional dengan Lingkup Bernama
+Queri Relasional dengan Named Scope
 ---------------------------------------
 
-> Note|Catatan: Dukungan lingkup bernama sudah tersedia sejak versi 1.0.5.
+> Note|Catatan: Dukungan named scope sudah tersedia sejak versi 1.0.5.
 
-Query relasional juga dapat dilakukan dengan kombinasi [lingkup bernama](/doc/guide/database.ar#named-scopes). Ia datang dengan dua bentuk. Dalam bentuk pertama, lingkup bernama diterapkan ke model utama. Dalam bentuk kedua, lingkup bernama diterapkan ke model terkait.
+Queri relasional juga dapat dilakukan dengan kombinasi [named scope](/doc/guide/database.ar#named-scopes). Named scope pada tabel relasional datang dengan dua bentuk. Dalam bentuk pertama, named scope diterapkan ke model utama. Dalam bentuk kedua, named scope diterapkan ke model terkait.
 
-Kode berikut memperlihatkan bagaimana untuk menerapkan lingkup bernama ke model utama.
+Kode berikut memperlihatkan bagaimana untuk menerapkan named scope ke model utama.
 
 ~~~
 [php]
 $posts=Post::model()->published()->recently()->with('comments')->findAll();
 ~~~
 
-Ini sangat mirip dengan queri non-relasional. Perbedaannya hanyalah bahwa kita memiliki panggilan `with()` setelah rantai lingkup-bernama. Queri ini akan membawa kembali tulisan terbaru yang diterbitkan bersama dengan komentarnya.
 
-Kode berikut memperlihatkan bagaimana untuk menerapkan lingkup bernama ke model terkait.
+Ini sangat mirip dengan queri non-relasional. Perbedaannya hanyalah bahwa kita memiliki panggilan `with()` setelah rantai named-scope. Queri ini akan membawa kembali post terbaru yang dipublikasikan bersama dengan komentar-komentarnya.
+
+Kode berikut memperlihatkan bagaimana untuk menerapkan named scope ke model terkait.
 
 ~~~
 [php]
 $posts=Post::model()->with('comments:recently:approved')->findAll();
 ~~~
 
-Queri di atas akan membawa kembali semua tulisan bersama dengan komentarnya yang sudah disetujui. Catatan bahwa `comments` merujuk ke nama relasi, sementara `recently` dan `approved` merujuk ke dua lingkup bernama yang dideklarasikan dalam kelas model `Comment`. Nama relasi dan lingkup bernama harus dipisahkan dengan titik dua.
+Queri di atas akan membawa kembali semua tulisan bersama dengan komentarnya yang sudah disetujui. Catatan bahwa `comments` merujuk ke nama relasi, sementara `recently` dan `approved` merujuk ke dua named scope yang dideklarasikan dalam kelas model `Comment`. Nama relasi dan named scope harus dipisahkan dengan titik dua.
 
-Lingkup bernama dapat ditetapkan dalamopsi `with` pada aturan relasional yang dideklarasikan dalam [CActiveRecord::relations()]. Dalam contoh berikut, jika kita mengakses `$user->posts`, ia akan membawa kembali semua komentar yang *disetujui* pada tulisan.
+Named scope dapat ditetapkan dalam opsi `with` pada aturan relasional yang dideklarasikan dalam [CActiveRecord::relations()]. Dalam contoh berikut, jika kita mengakses `$user->posts`, maka akan mengembalikan semua komentar yang *disetujui* pada tulisan.
 
 ~~~
 [php]
@@ -472,7 +533,6 @@ class User extends CActiveRecord
 }
 ~~~
 
-> Note|Catatan: Lingkup bernama yang diterapkan ke model terkait harus ditetapkan dalam [CActiveRecord::scopes]. Sebagai hasilnya, ia tidak bisa diparameterisasi.
+> Note|Catatan: Named scope yang diterapkan ke model terkait harus ditetapkan dalam [CActiveRecord::scopes]. Sebagai hasilnya, named scope tidak bisa diparameterisasi.
 
-
-<div class="revision">$Id: database.arr.txt 1248 2009-07-15 19:40:44Z qiang.xue $</div>
+<div class="revision">$Id: database.arr.txt 2350 2010-08-28 18:57:21Z qiang.xue $</div>

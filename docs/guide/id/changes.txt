@@ -3,6 +3,74 @@ Fitur Baru
 
 Halaman ini meringkas fitur-fitur utama baru yang diperkenalkan dalam setiap rilis Yii.
 
+Version 1.1.5
+-------------
+
+ * [Menambah dukungan untuk command action dan parameter binding](/doc/guide/topics.console)
+ * [Menambah dukungan untuk kelas autoloading namespaced](/doc/guide/basics.namespace)
+ * [Menambah dukungan untuk penemaan (theming) view pada widget](/doc/guide/topics.theming#theming-widget-views)
+
+Versi 1.1.4
+-----------
+
+* [Menambah dukungan pengikatan parameter aksi otomatis (automatic action parameter binding)](/doc/guide/basics.controller#action-parameter-binding).
+
+Versi 1.1.3
+-----------
+
+* [Menambah dukungan untuk mengatur nilai default widget di dalam konfigurasi aplikasi](/doc/guide/topics.theming#customizing-widgets-globally).
+
+Versi 1.1.2
+-------------
+
+* [Menambah sebuah alat penghasil code yang berbasis Web yang disebut sebagai Gii](/doc/guide/topics.gii)
+
+Versi 1.1.1
+-------------
+
+* Menambah CActiveForm yang berguna untuk mempermudah penulisan kode yang berhubungan dengan form serta mendukung validasi yang konsisten dan mulus baik pada bagian klien maupun server.
+
+* Menyusun ulang kode yang dihasilkan oleh yiic. Secara khusus, aplikasi kerangka sekarang diciptakan dengan beberapa susunan (multiple layout); menu operasi ditata ulang untuk halaman-halaman CRUD; menambah pencarian dan penyaringan pada halaman admin yang dihasilkan oleh perinta crud; menggunakan CActiveForm untuk menghasilkan sebuah form;
+
+* [Menambah dukungan untuk memungkinkan mendefinisikan perintah yiic global](/doc/guide/topics.console)
+
+Versi 1.1.0
+-----------
+
+* [Menambah dukungan untuk penuliasn unit dan tes fungsional](/doc/guide/test.overview).
+
+* [Menambah dukungan penggunaan skin widget](/doc/guide/topics.theming#skin).
+
+* [Menambah pembangun form(form builder) yang dapat diperluas](/doc/guide/form.builder).
+
+* Memperbaiki cara deklarasi atribut model safe. Lihat
+ [Mengamankan Pengisian Atribut](/doc/guide/form.model#securing-attribute-assignments).
+
+* Mengubah algoritma eager loading untuk query rekaman aktif relasional (relational active record) sehingga seluruh tabel disatukan(join) dalam sebuah kalimat SQL.
+
+* Mengubah default alias tabel menjadi nama relasi rekaman aktif (active record relation)
+
+* [Menambah dukungan penggunaan prefiks pada nama tabel](/doc/guide/database.dao#using-table-prefix)
+
+* Menambah seluruh set ekstensi baru yang dikenal dengan [pustaka Zii](http://code.google.com/p/zii/).
+
+* Nama alias untuk tabel utama dalam sebuah query AR ditetapkan sebagai 't'
+
+Versi 1.0.11
+------------
+
+* Menambah dukungan untuk mengurai dan membuat URL dengan hostname berparameter
+  - [Memparameterkan Hostname](/doc/guide/topics.url#parameterizing-hostnames).
+
+Versi 1.0.10
+-----------
+
+* Meningkatkan dukungan penggunaan CPhpMessageSource untuk pengaturan pesan(message) modul
+	 - [Penerjemahan Pesan](/doc/guide/topics.i18n#message-translation)
+
+* Ditambahkan dukungan pelampiran fungsi anonim sebagai pengatur event (event handler)
+	 - [Event Komponen](/doc/guide/basics.component)
+
 Versi 1.0.8
 -----------
 
@@ -52,4 +120,4 @@ Versi 1.0.5
  * Peningkatan [CUrlManager] untuk mendukung parameterisasi bagian rute dalam aturan URL. Lihat:
      - [Parameterisasi Rute dalam Aturan URL](/doc/guide/topics.url#parameterizing-routes)
 
-<div class="revision">$Id: changes.txt 1299 2009-08-07 00:25:55Z qiang.xue $</div>
+<div class="revision">$Id: changes.txt 2633 2010-11-09 10:05:20Z haertl.mike $</div>

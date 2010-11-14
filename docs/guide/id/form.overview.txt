@@ -12,7 +12,7 @@ Langkah-langkah berikut umumnya diperlukan saat berhadapan dengan formulir dalam
 
    1. Buat kelas model yang mewakili field data yang dikumpulkan;
    2. Buat aksi kontroler dengan kode yang merespon pengiriman formulir.
-   3. Buat formulir dalam file naskah tampilan sesuai dengan aksi kontroler.
+   3. Buat formulir dalam file skrip tampilan sesuai dengan aksi kontroler.
 
 Dalam subseksi berikut, kami menjelaskan setiap langkah ini secara lebih rinci.
 

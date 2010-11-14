@@ -3,11 +3,11 @@ Tinjauan
 
 Memperluas Yii merupakan kegiatan umum selama pengembangan. Contohnya, saat
 Anda membuat kontroler baru, Anda memperluas Yii dengan menurunkan kelas [CController]
-dan saat Anda membuat widget baru, Anda memperluas [CWidget] atau kelas widget
-lain yang sudah ada. Jika kode yang diperluas didesain untuk dipakai ulang oleh pengembang
+dan saat membuat widget baru, Anda memperluas [CWidget] atau kelas widget
+lain yang sudah ada. Jika kode yang diperluas, didesain untuk dipakai ulang, oleh pengembang
 pihak ketiga, kita menyebutnya sebagai *ekstensi*.
 
-Ekstensi biasanya melayani satu kebutuhan tertentu. Dalam batasan Yii, ia dapat
+Ekstensi biasanya melakukan satu pekerjaan tertentu. Dalam batasan Yii, ekstensi dapat
 diklasifikasikan sebagai berikut,
 
  * [komponen aplikasi](/doc/guide/basics.application#application-component)
@@ -18,13 +18,13 @@ diklasifikasikan sebagai berikut,
  * [filter](/doc/guide/basics.controller#filter)
  * [perintah konsol](/doc/guide/topics.console)
  * validator: validator adalah kelas komponen yang memperluas [CValidator].
- * helper: helper adalah kelas hanya dengan metode statis saja. Ia mirip fungsi global
+ * helper: helper adalah kelas yang hanya dengan metode statis saja. Kelas ini mirip fungsi global
    yang menggunakan nama kelas sebagai namespace-nya.
- * [modul](/doc/guide/basics.module): modul adalah unit software beriri sendiri yang terdiri dari [model](/doc/guide/basics.model), [tampilan](/doc/guide/basics.view), [kontroler](/doc/guide/basics.controller) dan komponen pendukung lainnya. Dalam banyak aspek, modul mirip dengan [aplikasi](/doc/guide/basics.application). Perbedaan utamanya adalah bahwa modul ada di dalam aplikasi. Sebagai contoh, kita dapat memiliki modul yang menyediakan fungsionalitas manajemen pengguna.
+ * [modul](/doc/guide/basics.module): modul adalah unit software berdiri sendiri yang terdiri dari [model](/doc/guide/basics.model), [tampilan](/doc/guide/basics.view), [kontroler](/doc/guide/basics.controller) dan komponen pendukung lainnya. Dalam banyak aspek, modul mirip dengan [aplikasi](/doc/guide/basics.application). Perbedaan utamanya adalah bahwa modul ada di dalam aplikasi. Sebagai contoh, kita dapat memiliki modul yang menyediakan fungsionalitas manajemen pengguna.
 
 Ekstensi juga dapat berupa komponen yang tidak masuk ke dalam kategori
-di atas. Bahkan, Yii didesain secara hati-hati sehingga hampir seluruh kodenya
-dapat diperluas dan dikustomisasi agar sesuai dengan kebutuhan secara
-individual.
+di atas. Bahkan, Yii didesain secara teliti sehingga hampir seluruh kodenya
+dapat diperluas dan diatur agar sesuai dengan kebutuhan
+setiap individu.
 
-<div class="revision">$Id: extension.overview.txt 1392 2009-09-04 20:39:11Z qiang.xue $</div>
+<div class="revision">$Id: extension.overview.txt 1398 2009-09-06 01:15:01Z qiang.xue $</div>

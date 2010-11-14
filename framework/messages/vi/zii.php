@@ -16,22 +16,23 @@
  * @version $Id: $
  */
 return array (
-  'Are you sure to delete this item?' => 'Bạn có chắc là muốn xóa?',
+  'Are you sure you want to delete this item?' => 'Bạn có chắc là muốn xóa?',
+  'Either "name" or "value" must be specified for CDataColumn.' => '"name" hoặc "value" phải được quy định cho CDataColumn.',
+  'Home' => 'Trang Chủ',
+  'Please specify the "data" property.' => 'Hãy chỉ định cho thuộc tính "data".',
+  'The button type "{type}" is not supported.' => 'Loại button "{type}" không được hổ trợ.',
+  'The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'Cột phải được quy định trong dạng "Name:Type:Label", với "Type" và "Label" là tùy chọn.',
   'Delete' => 'Xóa',
   'Displaying {start}-{end} of {count} result(s).' => 'Hiển thị {start}-{end} của {count} kết quả.',
-  'No' => 'No',
   'No results found.' => 'Không có dữ liệu.',
   'Not set' => 'Chưa có thông tin',
   'Please specify the "attributes" property.' => 'Xin hãy chỉ rõ nội dung "attributes".',
-  'Please specify the "model" property.' => 'Xin hãy chỉ rõ nội dung "model".',
   'Sort by: ' => 'Sắp theo:',
   'The "dataProvider" property cannot be empty.' => '"dataProvider" không được phép rỗng.',
   'The attribute must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'Thuộc tính phải được định nghĩa theo dạng "Name:Type:Label", với "Type" và "Label" là tùy chọn.',
   'The property "itemView" cannot be empty.' => 'Thuộc tính "itemView" không được phép rỗng.',
   'Total {count} result(s).' => 'Tất cả {count} kết quả',
-  'Unknown type "{type}".' => 'Không hiểu loại "{type}".',
   'Update' => 'Cập nhật',
   'View' => 'Xem',
-  'Yes' => 'Yes',
   '{class} must specify "model" and "attribute" or "name" property values.' => 'Lới {class} phải xác định rõ giá trị "model" và "attribute" hoặc "name".',
 );

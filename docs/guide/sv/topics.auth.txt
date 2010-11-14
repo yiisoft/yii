@@ -2,11 +2,11 @@ Autentisering och auktorisering
 ===============================
 
 Autentisering och auktorisering erfordras för en webbsida som skall vara 
-tillgänglig endast för vissa användare. Autentisering handlar om att verifiera 
+tillgänglig endast för vissa användare. *Autentisering* handlar om att verifiera 
 att någon är den han/hon uppger sig vara. Identifieringsförfarandet involverar 
 vanligtvis ett användarnamn och ett lösenord, men kan också omfatta någon annan 
 metod för att verifiera identitet, såsom smartcard, fingeravtryck etc. 
-Auktorisering innebär att avgöra huruvida en person, när denne väl är 
+*Auktorisering* innebär att avgöra huruvida en person, när denne väl är 
 identifierad (autentiserad), har tillåtelse att manipulera specifika resurser. 
 Detta avgörs vanligtvis genom att undersöka om denna person ingår i en viss roll 
 som har tillgång till resurserna.
@@ -27,27 +27,50 @@ specifika operationer genom att anropa [CWebUser::checkAccess]; samt även
 erhålla [den unika identifieraren|CWebUser::name] och annan icke-flyktig 
 identitetsinformation rörande användaren.
 
+
 Definiera identitetsklass
 -------------------------
 
-För att autentisera en användare, definierar vi en identitetsklass som 
-innehåller den faktiska autentiseringslogiken. Identitetsklassen skall 
-implementera gränssnittet [IUserIdentity]. Skilda klasser kan implementeras för 
-varierande autentiseringsmetoder (t.ex. OpenID, LDAP). En bra start är att ärva 
-och utvidga [CUserIdentity] som är basklass för autenticeringsmetoden baserad på 
+Som nämnts ovan handlar autentisering om att validera användarens identitet. 
+En typisk webbapplikations implementering av autentisering involverar vanligtvis 
+en kombination av användarnamn och lösenord för att verifiera en användares identitet. 
+Den kan dock omfatta andra metoder och skilda implementeringar kan erfordras. 
+För att åstadkomma varierande autentiseringsmetoder introducerar Yii:s auth-ramverk 
+begreppet identitetsklass.
+
+Vi definierar en identitetsklass som innehåller den faktiska autentiseringslogiken. 
+Identitetsklassen skall implementera gränssnittet [IUserIdentity]. Olika klasser 
+kan implementeras för varierande autentiseringsmetoder (t.ex. OpenID, LDAP, 
+Twitter OAuth, Facebook Connect). En bra start är att ärva och utvidga 
+[CUserIdentity] som är basklass för autenticeringsmetoden som baseras på 
 användarnamn och lösenord.
 
 Det mesta arbetet med att definiera en identitetsklass är implementeringen av 
-metoden [IUserIdentity::authenticate]. En identitetsklass kan även deklarera 
-ytterligare identitetsinformation som behöver förbli icke-flyktig under pågående 
-användarsession.
+metoden [IUserIdentity::authenticate]. Detta är metoden som används för att kapsla in 
+de huvudsakliga detaljerna för tillvägagångssättet vid autentisering. 
+En identitetsklass kan även deklarera ytterligare identitetsinformation som behöver 
+förbli icke-flyktig under pågående användarsession.
 
-I följande exempel, valideras angivet användarnamn och lösenord med hjälp av 
-[Active Record](/doc/guide/database.ar) mot tabellen user i en databas. Vi 
+#### Ett exempel
+
 åsidosätter även metoden `getId` så att den returnerar variabeln `_id`, vilken 
 åsätts ett värde under autentiseringen (standardimplementeringen returnerar 
 användarnamnet som ID). Under autentiseringen kan inhämtad `title`-information 
 lagras i ett state med samma namn medelst anrop av [CBaseUserIdentity::setState].
+
+I följande exempel, använder vi en identitetsklass för att demonstrera 
+tillvägagångssättet att använda en databas för autentisering. Detta är 
+mycket typiskt för de flesta webbapplikationer. En användare matar in sitt användarnamn 
+och lösenord i ett inmatningsformulär, därefter validerar vi, med hjälp av [ActiveRecord](/doc/guide/database.ar), 
+dessa inloggningsuppgifter mot en användartabell i databasen. 
+Flera olika saker demonstreras i detta enstaka exempel:
+
+1. Implementering av metoden `authenticate()` så att den använder databasen för validering 
+av inloggningsuppgifter.
+2. Åsidosättning av metoden `CUserIdentity::getId()` så att den returnerar propertyn `_id` 
+eftersom standardimplementeringen returnerar användarnamnet som ID.
+3. Användning av metoden `setState()` ([CBaseUserIdentity::setState]) för att visa 
+hur man kan lagra ytterligare information som lätt kan återhämtas vid senare request.
 
 ~~~
 [php]
@@ -84,17 +107,32 @@ det att erhålla `title`-information för aktuell användare via  `Yii::app()->u
 (Detta sätt har varit tillgängligt från version 1.0.3. I tidigare versioner användes 
 i stället `Yii::app()->user->getState('title')`.)
 
+När vi i nästa avsnitt går igenom inloggning och utloggning, kommer det att framgå att vi 
+bifogar denna identitetsklass vid anrop inloggningsmetoden för en användare.
+Information som sparas i ett state (genom anrop av [CBaseUserIdentity::setState]) 
+förmedlas till [CWebUser] vilken lagrar den i icke-flyktigt minne, så som session.
+Denna information kan sedan kommas åt i form av propertyn i [CWebUser]. 
+I vårt exempel lagrade vi information om användarens titel via anropet 
+`$this->setState('title', $record->title);`. När väl inloggningsprocesen är genomförd, 
+går det att erhålla `title`-information för aktuell användare via  `Yii::app()->user->title` 
+(Detta sätt har varit tillgängligt från version 1.0.3. I tidigare versioner användes 
+i stället `Yii::app()->user->getState('title')`.)
+
 > Info: Som standard använder [CWebUser] sessionen för icke-flyktig lagring av 
 information om användaridentitet. Om cookie-baserad inloggning gjorts möjlig 
 (genom att sätta [CWebUser::allowAutoLogin] till true), kan informationen om 
 användarens identitet även lagras i en cookie. Se till att känslig information 
 (t.ex. lösenord) ej deklareras som icke-flyktig.
 
+
 In- och utloggning
 ------------------
 
 Genom användning av identitetsklassen och user-komponenten kan in-och 
 utloggningsåtgärder enkelt implementeras.
+När vi nu sett ett exempel på hur en användaridentitet kan skapas, använder vi 
+detta som hjälp att underlätta implementeringen av erforderliga inloggnings- och 
+utloggningsåtgärder. Följande kod visar hur detta kan åstadkommas:
 
 ~~~
 [php]
@@ -109,6 +147,25 @@ else
 Yii::app()->user->logout();
 ~~~
 
+Här skapar vi ett nytt UserIdentity-objekt och lämnar med autentiseringsuppgifterna 
+(d.v.s `$username`- och `$password`-värdena användaren matat in) till dess constructor. 
+Därefter anropar vi helt enkelt metoden `authenticate()`. Vid lyckad autentisering  
+lämnar vi vidare identitetsinformationen till metoden [CWebUser::login], som kommer  
+att spara identitetsinformationen till icke-flyktigt minne (som standard PHP:s session), 
+för senare återhämtning vid kommande request. Om autentiseringen misslyckas kan vi 
+erhålla mer information om anledningen från propertyn `errorMessage`.
+
+Huruvida en användare blivit autentiserad kan lätt kontrolleras från valfri plats i 
+applikationen med hjälp av `Yii::app()->user->isGuest`. Om icke-flyktigt minne 
+(som standard session) och/eller en cookie (se nedan) används till att lagra 
+identitetsinformationen, kan användaren förbli inloggad inför efterkommande request. 
+I detta fall behöver inte klassen UserIdentity och hela inloggningsprocessen användas 
+vid varje request. I stället kommer CWebUser att automatiskt ombesörja laddning av 
+identitetsinformationen från icke-flyktigt minne och använda den för att avgöra 
+huruvida `Yii::app()->user->isGuest` returnerar true eller false.
+
+### Cookie-baserad inloggning
+
 Som standard loggas en användare ut efter en viss tid utan aktivitet, beroende på 
 [sessionskonfigurationen](http://www.php.net/manual/en/session.configuration.php). 
 Detta beteende kan man ändra genom att propertyn 
@@ -120,10 +177,47 @@ finess kräver att användarens webbläsare accepterar cookies.
 
 ~~~
 [php]
-// Keep the user logged in for 7 days.
-// Make sure allowAutoLogin is set true for the user component.
+// Låt användaren förbli inloggad i 7 dagar.
+// Kontrollera att allowAutoLogin är konfigurerad till true i komponenten user.
 Yii::app()->user->login($identity,3600*24*7);
 ~~~
+
+Som tidigare nämnts kommer, om cookie-baserad inloggning är aktiverad, även de 
+tillstånd som lagrats via [CBaseUserIdentity::setState] att sparas i cookie.
+Nästa gång användaren loggas in, kommer dessa tillstånd att läsas från cookie 
+och göras tillgängliga via `Yii::app()->user`.
+
+Även om Yii kan vidta åtgärder för att skydda en tillstånds-cookie från att bli ändrad 
+på klientsidan, rekommenderar vi bestämt att ur säkerhetssynpunkt känslig information 
+ej lagras som tillstånd (states). Istället bör sådan information återskapas på serversidan 
+genom att den läses från något icke-flyktigt lagringsmedium (t.ex. databas).
+
+Vidare, i fråga om seriösa webbapplikationer, rekommenderar vi starkt användning av följande 
+strategi för ökad säkerhet vid cookie-baserad inloggning.
+
+* När en användare genomför en lyckad inloggning genom att fylla i ett inloggningsformulär, 
+lagrar vi en slumpgenererad nyckel såväl i cookielagrad tillståndinformation som i 
+icke-flyktigt medium på serversidan (t.ex. databas).
+
+* När, vid en senare kommande request, autentisering av användaren sker via cookielagrad information, 
+jämför vi de två exemplaren av den slumpgenererade nyckeln och förvissar oss om att de överensstämmer 
+innan användaren loggas in.
+
+* Om inloggningsformuläret återigen används för inloggning, behöver nyckeln genereras på nytt.
+
+Genom användning av ovanstående strategi eliminerar vi möjligheten att en användare återanvänder 
+en gammal cookie, som kan innehålla inaktuell tillståndsinformation.
+
+För att implementera ovanstående strategi, behöver vi åsidosätta följande två metoder:
+
+* [CUserIdentity::authenticate()]: här utförs den egentliga autentiseringen.
+Om användaren är korrekt autentiserad, genererar vi en ny slumpgenererad nyckel och lagrar den 
+i såväl databasen som i identitetstillståndet, via [CBaseUserIdentity::setState].
+
+* [CWebUser::beforeLogin()]: anropas när användaren faktiskt loggas in.
+Här kontrollerar vi att nyckeln som erhålls från tillstånds-cookie överensstämmer med 
+den som hämtas från databasen.
+
 
 Filter för åtkomstkontroll
 --------------------------
@@ -135,8 +229,8 @@ ip-adress samt typ av request. Den tillhandahålls som ett filter benämnt
 ["accessControl"|CController::filterAccessControl].
 
 > Tip|Tips: Ett filter för åtkomstkontroll är tillräckligt för enklare scenarier. 
-För komplex åtkomstkontroll, kan rollbaserad åtkomsthantering (RBAC) användas, vilket 
-beskrivs längre fram i texten.
+För mer komplex åtkomstkontroll kan rollbaserad åtkomsthantering (RBAC) användas, vilket 
+beskrivs i nästa avsnitt.
 
 För att hantera åtkomst till åtgärder i en kontroller, installerar man ett 
 filter för åtkomstkontroll genom att åsidosätta [CController::filters] (se 
@@ -189,10 +283,10 @@ class PostController extends CController
 ~~~
 
 Ovanstående kod specificerar tre regler, var och en representerad av en array. 
-Det första elementet i arrayen är antingen `'allow'` eller `'deny'`, resten 
-består av namn-värdepar som specificerar reglerna genom  mönsterparametrar. 
+Det första elementet i arrayen är antingen `'allow'` eller `'deny'`, övriga 
+består av namn-värdepar som specificerar reglerna genom mönsterparametrar. 
 Exemplets regler skall utläsas: åtgärderna `create` och `edit` kan inte utföras 
-av ej autentiserade användare; åtgärden `delete` kan utföras av användare med 
+av ej autentiserade användare (anonymous); åtgärden `delete` kan utföras av användare med 
 rollen `admin`; åtgärden `delete` kan inte utföras av någon.
 
 Åtkomstreglerna utvärderas en och en i den ordning de specificerats. Den 
@@ -216,7 +310,7 @@ en `allow`-regel, kan åtgärden exekveras; om den är en `deny`-regel, kan
 > );
 > ~~~
 > Anledningen till ovanstående regel är att om ingen regel alls matchar ett kontext,
-> kommer en åtgärd att kunna exekveras.
+> kommer en åtgärd att fortsätta exekveras.
 
 En åtkomstregel kan matcha följande kontextparametrar:
 
@@ -294,6 +388,7 @@ kan omstyrningen åstadkommas på följande sätt:
 [php]
 Yii::app()->request->redirect(Yii::app()->user->returnUrl);
 ~~~
+
 
 Rollbaserad åtkomsthantering
 ----------------------------
@@ -463,10 +558,15 @@ $auth->assign('editor','editorC');
 $auth->assign('admin','adminD');
 ~~~
 
+När vi väl har etablerat denna hierarki, kommer komponenten [authManager|CWebApplication::authManager] 
+(t. ex. [CPhpAuthManager], [CDbAuthManager]) att ladda auktoriseringsartiklarna 
+automatiskt när de skapas. Därför behöver vi bara exekvera  ovanstående kod en gång 
+och INTE vid varje request.
+
 > Info: Även om ovanstående exempel framstår som omfattande och långrandigt, 
-återfinns det här som demonstration. Utvecklare behöver vanligtvis utveckla 
-någon form av användargränssnitt som slutanvändare sedan kan använda för att, på 
-ett mer intuitivt sätt, åstadkomma en auktoriseringshierarki.
+> återfinns det här som demonstration. Utvecklare behöver vanligtvis utveckla 
+> någon form av administrativt användargränssnitt som slutanvändare sedan kan 
+> använda för att, på ett mer intuitivt sätt, åstadkomma en auktoriseringshierarki.
 
 
 ### Använda affärsregler
@@ -500,7 +600,8 @@ if(Yii::app()->user->checkAccess('createPost'))
 
 Om auktoriseringsregeln är associerad med en affärsregel som erfordrar 
 ytterligare parametrar, kan vi även lämna med dem. Till exempel, för att 
-undersöka huruvida en användare tillåts uppdatera en postning, gör vi så här:
+undersöka huruvida en användare tillåts uppdatera en postning, lämnar vi med 
+postningsdata i argumentet `$params`:
 
 ~~~
 [php]
@@ -558,4 +659,4 @@ $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('guest', 'guest user', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 2360 2010-08-28 23:55:47Z qiang.xue $</div>
+<div class="revision">$Id: topics.auth.txt 2638 2010-11-11 14:18:59Z jefftulsa@gmail.com $</div>

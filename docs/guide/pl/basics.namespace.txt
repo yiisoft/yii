@@ -6,11 +6,20 @@ lub też ścieżkę pliku. Zapisany jest przy użyciu składni zawierającej kro
 do powszechnie znanego formatu przestrzeni nazw:
 
 ~~~
-AliasGłowny.ścieżka.do.celu
+AliasNadrzędny.ścieżka.do.celu
 ~~~
 
-gdzie `AliasGłówny` jest aliasem do pewnego istniejącego folderu. Poprzez wywołanie [YiiBase::setPathOfAlias()]
-możemy zdefiniować nowe aliasy ścieżek. Dla wygody, Yii predefiniuje domyślne, główne aliasy:
+gdzie `AliasNadrzędny` jest aliasem do pewnego istniejącego folderu. 
+
+Używając [YiiBase::setPathOfAlias()], możemy przetłumaczyć alias na odpowiadającą mu ścieżkę.
+Na przykład, `system.web.CController` zostanie przetłumaczony na ścieżkę `yii/framework/web/CController`.
+
+Za pomocą [YiiBase::setPathOfAlias()] możemy również zdefiniować nowy alias do ścieżki katalogu głównego. 
+
+Aliasy nadrzędne
+----------
+
+Dla wygody, Yii predefiniuje następujące aliasy nadrzędne: 
 
  - `system`: wskazuje katalog framework Yii; 
  - `zii`: wskazuje na katalog z [biblioteką Zii](/doc/guide/extension.use#zii-extensions); 
@@ -22,10 +31,10 @@ Dodatkowo, jeśli aplikacja używa [modułów](/doc/guide/basics.module)
 alias główny jest również predefiniowany dla każdego ID modułu i wskazuje na 
 katalog główny odpowiedniego modułu. Funkcjonalność ta jest dostępna od wersji 1.0.3.
 
-Używając [YiiBase::getPathOfAlias()] alias może zostać przetłumaczony na odpowiadającą 
-mu ścieżkę. Na przykład `system.web.CController` będzie przetłumaczony jako `yii/framework/web/CController`.
+Importowanie klas
+-----------------
 
-Używanie aliasów jest bardzo wygodne dla importowania definicji klasy. 
+Używanie aliasów jest bardzo wygodne w celu dołączenia definicji klasy. 
 Na przykład, jeśli chcemy dołączyć definicję klasy [CController], możemy to zrobić następująco:
 
 ~~~
@@ -35,11 +44,16 @@ Yii::import('system.web.CController');
 
 Metoda [import|YiiBase::import] różni się od `include` oraz `require` w tym, że jest 
 bardziej wydajna. Definicja klasy, która została importowana, nie jest ładowana 
-dopóki, nie zostanie użyta po raz pierwszy. Importowanie wielokrotnie tej samej 
+dopóki, nie zostanie użyta po raz pierwszy (zaimplementowano przy użyciu mechanizmu 
+autoładowania PHP). Importowanie wielokrotnie tej samej 
 przestrzeni nazw jest także dużo szybsze niż `include_once` czy też `require_once`.
 
 > Tip|Wskazówka: Kiedy odnosimy się do klasy zdefiniowanej we frameworku Yii, nie musimy
 > importować jej lub dołączać. Wszystkie klasy Yii są preimportowane.
+
+
+Importowanie katalogów
+---------------------
 
 Możemy również użyć następującej składni do importowania całego katalogu, tak, że 
 wszystkie pliki klas w katalogu będą automatycznie dołączone gdy zajdzie taka potrzeba.
@@ -53,10 +67,13 @@ Poza metodą [import|YiiBase::import] aliasy są używane w wielu innych miejsca
 Na przykład, alias może zostać przekazany do metody [Yii::createComponent()] w celu
 utworzenia instancji klasy komponentu, nawet jeśli plik klasy nie był dołączony wcześniej.
 
-Nie myl ścieżek plików z przestrzeniami nazw. Przestrzeń nazw wskazuje na logiczną 
-grupę nazw klas, tak, że mogą one zostać odróżnione od innych klas, nawet jeśli ich 
-nazwy są identyczne, podczas gdy alias jest używany do wskazywania pliku klasy bądź
-też katalogu. Aliasy ścieżek nie kłócą się z przestrzenią nazw. 
+Przestrzeń nazw (ang. namespace)
+---------
+
+Przestrzeń nazw wskazuje na logiczne grupowanie pewnych nazw klas, w celu 
+rozróżnienia ich od innych klas, nawet gdy te mają te same nazwy. Nie należy mylić 
+aliasów do ścieżek z przestrzeniami nazw. Alias jest jedynie wygodnym sposobem
+nazwania pliku lub katalogu. Nie ma to nic wspólnego z przestrzenią nazw.
 
 > Tip|Wskazówka: Ponieważ wcześniejsze wersje PHP niż 5.3.0 nie wspierały przestrzeni 
 nazw, nie możesz stworzyć instancji dwóch klasy, które posiadają tą samą nazwę 
@@ -66,4 +83,20 @@ od klas zdefiniowanych przez użytkownika. Zaleca się, aby prefix 'C' był zare
 wyłącznie dla frameworku Yii a klasy użytkownika były poprzedzone prefiksem składającym 
 się z innej litery.
 
-<div class="revision">$Id: basics.namespace.txt 1602 2009-12-18 19:33:34Z qiang.xue $</div>
+Klasy w przestrzeni nazw
+------------------
+
+Klasy w przestrzeni nazw są klasami zadeklarowanymi w nieglobalnej przestrzeni nazw.
+Na przykład, klasa `application\components\GoogleMap` zadeklarowana jest w przestrzeni nazw
+`application\components`. Używanie klas w przestrzeni nazw wymaga PHP w wersji 5.3.0 lub wyższej.
+
+Poczynając od wersji 1.1.5, istnieje możliwość używanie klas w przestrzeni nazw bez konieczności 
+ich dołączania w sposób jawny. Na przykład, możemy utworzyć nową instancję 
+`application\components\GoogleMap` bez dołączania odpowiadającego jej pliku w sposób jawny.
+Jest to możliwe, dzięki rozszerzeniu zaimplementowanego w Yii mechanizmu autoładowania klas.
+
+W celu umożliwienia autoładowania klas w przestrzeni nazw, przestrzeń nazw musi być nazwana
+w podobny sposób do nazw aliasów ścieżek. Na przykład, klasa `application\components\GoogleMap`
+musi być zapisana w pliku, którego aliasem jest `application.components.GoogleMap`.
+
+<div class="revision">$Id: basics.namespace.txt 2616 2010-11-03 19:17:20Z qiang.xue $</div>

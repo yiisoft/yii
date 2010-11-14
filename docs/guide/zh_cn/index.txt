@@ -9,6 +9,7 @@ Yii 权威指南
 * dofy
 * dongbeta
 * dreaminto
+* HonestQiao
 * imdong
 * Leric
 * moho
@@ -25,4 +26,4 @@ All Rights Reserved.
 2008-2010 &copy; Yii Software LLC.
 
 
-<div class="revision">$Id: index.txt 1679 2010-01-07 21:03:36Z qiang.xue $</div>
+<div class="revision">$Id: index.txt 1703 2010-10-08 05:26:18Z HonestQiao $</div>

@@ -1,9 +1,9 @@
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 /*<![CDATA[*/
 if(typeof(console)=='object')
 {
-	console.group("Profilowanie: raport podsumowuj¹cy");
-	console.log(" iloœæ   razem   œrednia    min      max   ");
+	console.group("Profilowanie: raport podsumowujï¿½cy");
+	console.log(" iloï¿½ï¿½   razem   ï¿½rednia    min      max   ");
 <?php
 foreach($data as $index=>$entry)
 {

@@ -26,6 +26,27 @@ mengenai ekstensi, berdasarkan pada kategorisasinya seperti dijelaskan dalam
 [tinjauan](/doc/guide/extension.overview).
 
 
+Ekstensi Zii
+--------------
+
+Sebelum kita mulai melihat penggunaan ekstensi pihak ketiga, kami akan memperkenalkan
+pustaka ekstensi Zii, yang merupakan kumpulan ekstensi yang dikembangkan oleh tim developer Yii
+dan disertakan dalam setiap rilis semenjak versi 1.1.0. Pustaka Zii di-host sebagai
+projek Google bernama [zii](http://code.google.com/p/zii/).
+
+Ketika menggunakan sebuah ektensi Zii, kita harus merujuk ke kelas bersangkutan dengan menggunakan
+alias path dalam bentuk `zii.path.ke.NamaKelas`. Di sini akar alias `zii` ditentukan oleh Yii. Dia akan dirujukkan
+ke direktori pustaka Zii. Misalnya, untuk menggunakan [CGridView], kita akan menggunakan
+kode berikut dalam skrip view ketika merujuk ke ekstensi:
+
+~~~
+[php]
+$this->widget('zii.widgets.grid.CGridView', array(
+	'dataProvider'=>$dataProvider,
+));
+~~~
+
+
 Komponen Aplikasi
 -----------------
 
@@ -68,7 +89,7 @@ $component->attachBehavior($name,$behavior);
 $component->test();
 ~~~
 
-Seringkali sebuah behavior dilampirkan ke komponen menggunakan cara konfiguratif dariapada
+Seringkali sebuah behavior dilampirkan ke komponen menggunakan cara konfiguratif alih-alih
 memanggil metode `attachBehavior`. Sebagai contoh, untuk melampirkan behavior ke sebuah
 [komponen aplikasi](/doc/guide/basics.application#application-component), kita dapat
 menggunakan
@@ -98,8 +119,9 @@ karena [CApplicationComponent] mendefinisikan properti bernama `behaviors`. Deng
 dengan sebuah daftar konfigurasi behavior, komponen akan melampirkan behavior terkait
 saat ia diinisialisasi.
 
-Untuk kelas [CController], [CFormModel] dan [CActiveModel] yang biasanya harus diperluas,
-melampirkan behaviors dikerjakan dengan menimpa metode `behaviors()`. Sebagai contoh,
+Untuk kelas [CController], [CFormModel] dan [CActiveModel] yang biasanya harus diturunkan,
+melampirkan behaviors dikerjakan dengan menimpa metode `behaviors()`. Kelas-kelas tersebut akan
+terpasang secara otomatis behavior-behavior yang dideklarasi dalam metode ini ketika inisialisasi. Sebagai contoh,
 
 ~~~
 [php]
@@ -140,13 +162,13 @@ sebuah tampilan seperti berikut,
 <?php $this->endWidget(); ?>
 ~~~
 
-Aksi
+Action (Aksi)
 ----
 
-[Aksi](/doc/guide/basics.controller#action) dipakai oleh [kontroler](/doc/guide/basics.controller)
+[Action](/doc/guide/basics.controller#action) dipakai oleh [controller](/doc/guide/basics.controller)
 untuk merespon permintaan spesifik pengguna. Kelas aksi `XyzClass` dimiliki oleh ekstensi
-`xyz`, kita dapat menggunakannya dengan menimpa metode [CController::actions] dalam
-kelas kontroler kita:
+`xyz`, kita dapat menggunakannya dengan meng-override metode [CController::actions] dalam
+kelas controller  kita:
 
 ~~~
 [php]
@@ -172,11 +194,11 @@ Selanjutnya, aksi dapat diakses via [rute](/doc/guide/basics.controller#route)
 Filter
 ------
 [Filter](/doc/guide/basics.controller#filter) juga dipakai oleh [kontroler](/doc/guide/basics.controller).
-Terutama pre- dan post-process permintaan pengguna saat ia ditangani oleh sebuah
+Terutama pre- dan post-process permintaan pengguna saat ditangani oleh sebuah
 [aksi](/doc/guide/basics.controller#action).
 Kelas filter `XyzClass` dimiliki oleh
-ekstensi `xyz`, kita dapat menggunakannya dengan menimpa metode [CController::filters]
-dalam file kontroler kita:
+ekstensi `xyz`, kita dapat menggunakannya dengan meng-override metode [CController::filters]
+dalam file controller kita:
 
 ~~~
 [php]
@@ -197,13 +219,13 @@ class TestController extends CController
 ~~~
 
 Dalam contoh di atas, kita dapat menggunakan operator plus dan minus dalam elemen pertama array
-untuk menerapkan filter ke aksi terbatas saja. Untuk lebih jelasnya, silahkan merujuk ke
+untuk menerapkan filter ke action dalam jumlah terbatas saja. Untuk lebih jelasnya, silahkan merujuk ke
 dokumentasi [CController].
 
-Kontroler
+Controller
 ----------
-[Kontroler](/doc/guide/basics.controller) menyediakan satu set aksi yang dapat diminta
-oleh pengguna. Untuk menggunakan ekstensi kontroler, kita perlu mengkonfigurasi
+[Controller](/doc/guide/basics.controller) menyediakan satu set action yang dapat di-request
+oleh pengguna. Untuk menggunakan ekstensi controller, kita perlu mengkonfigurasi
 properti [CWebApplication::controllerMap] dalam
 [konfigurasi aplikasi](/doc/guide/basics.application#application-configuration):
 
@@ -221,7 +243,7 @@ return array(
 );
 ~~~
 
-Kemudian, aksi `a` dalam kontroler dapat diakses via
+Kemudian, action `a` dalam kontroler dapat diakses via
 [rute](/doc/guide/basics.controller#route) `xyz/a`.
 
 Validator
@@ -297,7 +319,7 @@ Yii::import('ext.xyz.XyzClass');
 ~~~
 
 Selanjutnya, kita dapat membuat turunan kelas, mengkonfigurasi propertinya,
-dan memanggi metodenya. Kita juga bisa memperluasnya untuk membuat anak kelas baru.
+dan memanggi metodenya. Kita juga bisa menurunkannya untuk membuat anak kelas baru.
 
 
-<div class="revision">$Id: extension.use.txt 1392 2009-09-04 20:39:11Z qiang.xue $</div>
+<div class="revision">$Id: extension.use.txt 1780 2010-02-01 20:32:50Z qiang.xue $</div>

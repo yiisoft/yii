@@ -1,20 +1,20 @@
 Tampilan
 ========
 
-Tampilan (view) adalah naskah PHP yang berisi terutama elemen antar muka pengguna. Ia
-bisa berisi pernyataan PHP, tapi direkomendasikan bahwa pernyataan ini
-tidak mengubah model data dan harus tetap relatif sederhana. Untuk semangat
-pemisahan logika dan penyajian, bagian besar logika harus ditempatkan
-dalam kontroler atau model daripada tampilan.
+Tampilan (view) adalah skrip PHP yang berisi terutama elemen antar muka pengguna. View
+bisa saja berisi pernyataan PHP, tetapi direkomendasikan bahwa pernyataan ini
+tidak mengubah model data dan harus tetap relatif sederhana. Dalam rangka mempertahankan semangat
+pemisahan logika dan penampilan, bagian besar logika harus ditempatkan
+dalam kontroler atau model alih-alih view.
 
-Tampilan memiliki nama yang dipakai untuk mengidentifikasi file naskah tampilan
-saat penyiapan. Nama tampilan sama seperti nama file naskah tampilan.
-Sebagai contoh, tampilan `edit` merujuk pada file naskah bernama seperti
-`edit.php`. Untuk menyiapkan tampilan, pangil [CController::render()] dengan
-nama tampilan. Metode akan mencari file tampilan terkait di bawah direktori 
+View  memiliki nama yang dipakai untuk mengidentifikasi file skrip tampilan
+saat me-render. Nama view sama seperti nama file skrip view-nya.
+Sebagai contoh, tampilan `edit` merujuk pada file skrip bernama seperti
+`edit.php`. Untuk me-render tampilan, pangil [CController::render()] dengan
+nama tampilan. Metode tersebut akan mencari file view terkait di bawah direktori
 `protected/views/ControllerID`.
 
-Di dalam naskah tampilan, kita dapat mengakses turunan kontroler menggunakan
+Di dalam skrip view, kita dapat mengakses instance kontroler menggunakan
 `$this`. Selanjutnya kita bisa `menarik` setiap properti kontroler dengan
 mengevaluasi `$this->propertyName` dalam tampilan.
 
@@ -29,15 +29,15 @@ $this->render('edit', array(
 ~~~
 
 Dalam contoh di atas, metode [render()|CController::render] akan mengurai parameter array 
-kedua ke dalam variabel. Hasilnya, dalam naskah tampilan kita dapat mengakses
+kedua ke dalam variabel. Hasilnya, dalam skrip tampilan kita dapat mengakses
 variabel lokal `$var1` dan `$var2`.
 
 Tata Letak
 ----------
 
-Tata letak adalah tampilan khusus yang dipakai untuk mendekorasi tampilan. Biasanya
-berisi bagian antar muka pengguna yang umum diantara beberapa tampilan.
-Sebagai contoh, tata letak mungkin berisi bagian header dan footer serta menyertakan
+Tata letak(layout) adalah view khusus yang dipakai untuk mendekorasi tampilan. Biasanya
+berisi bagian antar muka pengguna yang umum diantara beberapa view.
+Sebagai contoh, sebuah layout mungkin berisi bagian header dan footer serta menyertakan
 tampilan konten diantarana,
 
 ~~~
@@ -47,24 +47,24 @@ tampilan konten diantarana,
 ......footer di sini......
 ~~~
 
-di mana `$content` menyimpan hasil pembuatan tampilan konten.
+dengan `$content` menyimpan hasil render view konten.
 
-Tata letak secara implisit diterapkan saat memanggil [render()|CController::render].
-Secara standar, naskah tampilan `protected/views/layouts/main.php` dipakai sebagai
-tata letak. Ini bisa dikustomisasi dengan mengubah baik [CWebApplication::layout]
-ataupun [CController::layout]. Sebaliknya, untuk menyiapkan tampilan tanpa menerapkan tata letak apapun,
+Layout secara implisit diterapkan saat memanggil [render()|CController::render].
+Secara default, skrip view `protected/views/layouts/main.php` dipakai sebagai
+layout. Ini bisa dikustomisasi dengan mengubah baik [CWebApplication::layout]
+ataupun [CController::layout]. Sebaliknya, untuk menyiapkan tampilan tanpa menerapkan layout apapun,
 panggil [renderPartial()|CController::renderPartial].
 
 Widget
 ------
 
-Widget adalah turunan dari [CWidget] atau anak kelasnya. Komponen yang
-terutama ditujukan guna keperluan penyajian. Widget biasanya disertakan dalam naskah
-tampilan untuk menghasilkan beberapa antar muka pengguna yang kompleks dan berdiri sendiri. Sebagai
+Widget adalah istance dari [CWidget] atau anak kelasnya. Komponen yang
+terutama ditujukan guna keperluan penampilan. Widget biasanya disertakan dalam skrip
+view untuk menghasilkan beberapa antar muka pengguna yang kompleks dan berdiri sendiri. Sebagai
 contoh, widget kalender bisa dipakai untuk menyiapkan antar muka kalender pengguna yang 
 kompleks. Widget menghidupkan pemakaian kembali yang lebih baik dalam antar muka pengguna.
 
-Untuk menggunakan widget, lakukan seperti berikut dalam naskah tampilan:
+Untuk menggunakan widget, lakukan seperti berikut dalam skrip tampilan:
 
 ~~~
 [php]
@@ -99,7 +99,7 @@ $this->widget('CMaskedTextField',array(
 ?>
 ~~~
 
-Untuk mendefinisikan widget baru, perluas [CWidget] dan timpa metode
+Untuk mendefinisikan widget baru, turunkan [CWidget] dan override metode
 [init()|CWidget::init] dan [run()|CWidget::run]:
 
 ~~~
@@ -118,25 +118,27 @@ class MyWidget extends CWidget
 }
 ~~~
 
-Seperti halnya kontroler, widget juga bisa memiliki tampilan sendiri. Standarnya, file
+Sama seperti halnya dengan kontroler, widget juga bisa memiliki tampilan sendiri. Standarnya, file
 tampilan widget ditempatkan di bawah subdirektori `views` pada direktori
-yang berisi file kelas widget. Tampilan ini disiapkan dengan memanggil
-[CWidget::render()], mirip dengan pemanggilan kontroler. Perbedaannya 
-tidak ada tata letak yang akan diterapkan pada tampilan widget.
+yang berisi file kelas widget. View ini dapat di-render dengan memanggil
+[CWidget::render()], mirip dengan pemanggilan kontroler. Perbedaannya adalah
+tidak ada tata letak(layout) yang akan diterapkan pada tampilan widget. Selain itu,
+`$this` dalam view juga merujuk ke instance widget alih-alih instance controller.
 
-Tampilan Sistem
+
+View Sistem
 ---------------
 
-Tampilan sistem merujuk pada tampilan yang dipakai oleh Yii untuk menampilkan kesalahan dan pencatatan
+View(tampilan) sistem merujuk pada tampilan yang dipakai oleh Yii untuk menampilkan kesalahan dan pencatatan(logging)
 informasi. Sebagai contoh, ketika permintaan pengguna untuk kontroler atau aksi 
 yang tidak ada, Yii akan memunculkan eksepsi yang menjelaskan kesalahan. Yii menampilkan
 eksepsi menggunakan tampilan sistem tertentu.
 
-Penamaan tampilan sistem mengikuti beberapa aturan. Nama seperti `errorXXX` merujuk pada
-tampilan untuk menampilkan [CHttpException] dengan kode kesalahan `XXX`. Sebagai contoh, jika [CHttpException] dimunculkan dengan kode kesalahan 404, tampilan `error404`
-akan diperlihatkan.
+Penamaan view sistem mengikuti beberapa aturan. Nama seperti `errorXXX` merujuk pada
+tampilan untuk menampilkan [CHttpException] dengan kode kesalahan `XXX`. Sebagai contoh, jika [CHttpException] dimunculkan dengan kode kesalahan 404, view `error404`
+akan ditampilkan.
 
-Yii menyediakan satu set tampilan sistem standar yang ditempatkan di bawah 
-`framework/views`. Ini bisa dikustomisasi dengan membuat file tampilan yang sama dengan nama yang sama di bawah `protected/views/system`.
+Yii menyediakan satu set tampilan sistem default yang ditempatkan di bawah
+`framework/views`. View-view ini bisa dikustomisasi dengan membuat file tampilan yang sama dengan nama yang sama di bawah `protected/views/system`.
 
-<div class="revision">$Id: basics.view.txt 409 2008-12-26 02:55:09Z qiang.xue $</div>
+<div class="revision">$Id: basics.view.txt 2367 2010-08-29 17:29:22Z qiang.xue $</div>

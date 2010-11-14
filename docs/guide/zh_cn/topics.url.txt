@@ -79,6 +79,37 @@ array(
 规则可以绑定少量的GET参数。这些出现在规则格式的GET参数，以一种特殊令牌格式表现如下：
 
 ~~~
+[php]
+'pattern1'=>array('route1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
+~~~
+
+In the above, the array contains a list of customized options. As of version 1.1.0,
+the following options are available:
+
+   - [urlSuffix|CUrlRule::urlSuffix]: the URL suffix used specifically for this rule. Defaults to null,
+meaning using the value of [CUrlManager::urlSuffix].
+
+   - [caseSensitive|CUrlRule::caseSensitive]: whether this rule is case sensitive. Defaults to null,
+meaning using the value of [CUrlManager::caseSensitive].
+
+   - [defaultParams|CUrlRule::defaultParams]: the default GET parameters (name=>value) that this rule provides.
+When this rule is used to parse the incoming request, the values declared in this property
+will be injected into $_GET.
+
+   - [matchValue|CUrlRule::matchValue]: whether the GET parameter values should match the corresponding
+sub-patterns in the rule when creating a URL. Defaults to null,
+meaning using the value of [CUrlManager::matchValue]. If this property is false, it means
+a rule will be used for creating a URL if its route and parameter names match the given ones.
+If this property is set true, then the given parameter values must also match the corresponding
+parameter sub-patterns. Note that setting this property to true will degrade performance.
+
+
+### Using Named Parameters
+
+A rule can be associated with a few GET parameters. These GET parameters
+appear in the rule's pattern as special tokens in the following format:
+
+~~~
 &lt;ParamName:ParamPattern&gt;
 ~~~
 
@@ -112,6 +143,67 @@ sample post'))`生成`/index.php/post/2008/a%20sample%20post`。第三个规则�
 当用户请求`/index.php/post/100` ，上面例子的第二个规则将适用来解析路线`post/read`和GET参数`array('id'=>100)` （可通过`$_GET`获得） 。
 
 > 注：使用的URL规则将降低应用的性能。这是因为当解析请求的URL ，[ CUrlManager ]尝试使用每个规则来匹配它，直到某个规则可以适用。因此，高流量网站应用应尽量减少其使用的URL规则。
+
+
+### Parameterizing Routes
+
+Starting from version 1.0.5, we may reference named parameters in the route part
+of a rule. This allows a rule to be applied to multiple routes based on matching
+criteria. It may also help reduce the number of rules needed for an application,
+and thus improve the overall performance.
+
+We use the following example rules to illustrate how to parameterize routes
+with named parameters:
+
+~~~
+[php]
+array(
+	'<_c:(post|comment)>/<id:\d+>/<_a:(create|update|delete)>' => '<_c>/<_a>',
+	'<_c:(post|comment)>/<id:\d+>' => '<_c>/read',
+	'<_c:(post|comment)>s' => '<_c>/list',
+)
+~~~
+
+In the above, we use two named parameters in the route part of the rules:
+`_c` and `_a`. The former matches a controller ID to be either `post` or `comment`,
+while the latter matches an action ID to be `create`, `update` or `delete`.
+You may name the parameters differently as long as they do not conflict with
+GET parameters that may appear in URLs.
+
+Using the aboving rules, the URL `/index.php/post/123/create`
+would be parsed as the route `post/create` with GET parameter `id=123`.
+And given the route `comment/list` and GET parameter `page=2`, we can create a URL
+`/index.php/comments?page=2`.
+
+
+### Parameterizing Hostnames
+
+Starting from version 1.0.11, it is also possible to include hostname into the rules
+for parsing and creating URLs. One may extract part of the hostname to be a GET parameter.
+For example, the URL `http://admin.example.com/en/profile` may be parsed into GET parameters
+`user=admin` and `lang=en`. On the other hand, rules with hostname may also be used to
+create URLs with paratermized hostnames.
+
+In order to use parameterized hostnames, simply declare URL rules with host info, e.g.:
+
+~~~
+[php]
+array(
+	'http://<user:\w+>.example.com/<lang:\w+>/profile' => 'user/profile',
+)
+~~~
+
+The above example says that the first segment in the hostname should be treated as `user`
+parameter while the first segment in the path info should be `lang` parameter. The rule
+corresponds to the `user/profile` route.
+
+Note that [CUrlManager::showScriptName] will not take effect when a URL is being created
+using a rule with parameterized hostname.
+
+Also note that the rule with parameterized hostname should NOT contain the sub-folder
+if the application is under a sub-folder of the Web root. For example, if the application
+is under `http://www.example.com/sandbox/blog`, then we should still use the same URL rule
+as described above without the sub-folder `sandbox/blog`.
 
 ### 隐藏 `index.php`
 

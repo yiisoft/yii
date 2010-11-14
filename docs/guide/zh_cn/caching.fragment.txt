@@ -65,7 +65,12 @@
 
    - [varyByParam|COutputCache::varyByParam]: 设置此选项的数组里的名字，缓存的内容将根据GET参数的值变动。例如，如果一个页面显示文章的内容根据`id`的GET参数，我们可以指定[varyByParam|COutputCache::varyByParam]为`array('id')`，以使我们能够缓存每篇文章内容。如果没有这样的变化，我们只能能够缓存某一文章。
 
-### 请求类型(Request Types)
+   - [varyByExpression|COutputCache::varyByExpression]: by setting this option
+to a PHP expression, we can make the cached content to be variated according
+to the result of this PHP expression. This option has been available since
+version 1.0.4.
+
+### Request Types
 
 有时候，我们希望片段缓存只对某些类型的请求启用。例如，对于某张网页上显示表单，我们只想要缓存initially requested表单(通过GET请求)。任何随后显示（通过POST请求）的表单将不被缓存，因为表单可能包含用户输入。要做到这一点，我们可以指定[requestTypes|COutputCache::requestTypes] 选项：
 

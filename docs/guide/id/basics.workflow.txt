@@ -1,11 +1,11 @@
 Alur Kerja Pengembangan
 =======================
 
-Setelah menjelaskan konsep fundamental Yii, kami memperlihatkan alur kerja
+Setelah menjelaskan konsep fundamental Yii, kami akan memperlihatkan alur kerja
 umum untuk pengembangan aplikasi web menggunakan Yii. Alur kerja mengasumsikan
 bahwa kita sudah menyelesaikan analisis persyaratan juga analisis desain aplikasi.
 
-   1. Membuat kerangka struktur direktori. Piranti `yiic` yang dijelaskan dalam
+   1. Membuat kerangka struktur direktori. Tool bernama `yiic` yang dijelaskan dalam
 [Membuat Aplikasi Pertama Yii](/doc/guide/quickstart.first-app) dapat
 dipakai untuk mempercepat langkah ini.
 
@@ -13,18 +13,19 @@ dipakai untuk mempercepat langkah ini.
 dengan memodifikasi file konfigurasi aplikasi. Langkah ini juga
 memerlukan penulisan beberapa komponen aplikasi (misalnya komponen pengguna).
 
-   3. Membuat kelas [model](/doc/guide/basics.model) untuk setiap jenis data
+   3. Membuat sebuah kelas [model](/doc/guide/basics.model) untuk setiap jenis data
 untuk diatur. Sekali lagi, `yiic` bisa dipakai guna membuat kelas
-[rekaman aktif](/doc/guide/database.ar) secara otomatis untuk tabel database
+[active record](/doc/guide/database.ar) secara otomatis untuk tabel database
 yang diperlukan.
 
-   4. Membuat kelas [kontroler](/doc/guide/basics.controller) untuk setiap jenis permintaan pengguna. Bagaimana untuk mengklasifikasian permintaan pengguna tergantung pada
-kebutuhan sebenarnya. Secara umum, jika kelas model perlu diakses oleh pengguna, ia
-harus memiliki kelas kontroler terkait. Piranti `yiic` dapat mengotomasi
+   4. Membuat kelas [controller](/doc/guide/basics.controller) untuk setiap jenis permintaan pengguna.
+Bagaimana untuk mengklasifikasikan permintaan pengguna tergantung pada
+kebutuhan sebenarnya. Secara umum, jika perlu diakses oleh pengguna, kelas model
+harus memiliki kelas controller terkait. Piranti `Gii` dapat mengotomatisasi
 langkah ini juga.
 
    5. Mengimplementasikan [aksi](/doc/guide/basics.controller#action) dan
-[tampilan](/doc/guide/basics.view) terkait. Di sinilah pekerjaan sebenarnya
+[view](/doc/guide/basics.view) terkait. Di sinilah pekerjaan sebenarnya
 yang perlu dilakukan.
 
    6. Mengkonfigurasi aksi yang diperlukan
@@ -35,11 +36,11 @@ yang perlu dilakukan.
    8. Membuat pesan terjemahan jika
 [internasionalisasi](/doc/guide/topics.i18n) diperlukan.
 
-   9. Memilih data dan tampilan yang dapat di-cache dan menerapkan teknik
+   9. Memilih data dan view yang dapat di-cache (ditembolokkan) dan menerapkan teknik
 [caching](/doc/guide/caching.overview) yang sesuai.
 
-   10. Terakhir, [penyesuaian](/doc/guide/topics.performance) dan penyebaran.
+   10. Terakhir, [optimasi](/doc/guide/topics.performance) dan deployment.
 
-Untuk setiap langkah di atas, pengujian kasus mungkin perlu dibuat dan diperlihatkan.
+Untuk setiap langkah di atas, pengujian kasus mungkin perlu dibuat dan dilakukan test case .
 
-<div class="revision">$Id: basics.workflow.txt 1034 2009-05-19 21:33:55Z qiang.xue $</div>
+<div class="revision">$Id: basics.workflow.txt 2388 2010-08-30 22:56:26Z alexander.makarow $</div>
