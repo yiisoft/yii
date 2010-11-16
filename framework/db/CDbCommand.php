@@ -28,6 +28,16 @@
  * When binding a parameter, the SQL statement is automatically prepared.
  * You may also call {@link prepare} to explicitly prepare an SQL statement.
  *
+ * Starting from version 1.1.6, CDbCommand can also be used as a query builder
+ * that builds a SQL statement from code fragments. For example,
+ * <pre>
+ * $user = Yii::app()->db->createCommand()
+ *     ->select('username, password')
+ *     ->from('tbl_user')
+ *     ->where('id=:id', array(':id'=>1))
+ *     ->queryRow();
+ * </pre>
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.db
@@ -35,20 +45,41 @@
  */
 class CDbCommand extends CComponent
 {
+	public $params=array();
+
 	private $_connection;
-	private $_text='';
-	private $_statement=null;
-	private $_params=array();
+	private $_text;
+	private $_statement;
+	private $_paramLog=array();
+	private $_query;
 
 	/**
 	 * Constructor.
 	 * @param CDbConnection $connection the database connection
-	 * @param string $text the SQL statement to be executed
+	 * @param mixed $query the DB query to be executed. This can be either
+	 * a string representing a SQL statement, or an array whose name-value pairs
+	 * will be used to set the corresponding properties of the created command object.
+	 *
+	 * For example, you can pass in either <code>'SELECT * FROM tbl_user'</code>
+	 * or <code>array('select'=>'*', 'from'=>'tbl_user')</code>. They are equivalent
+	 * in terms of the final query result.
+	 *
+	 * When passing the query as an array, the following properties are commonly set:
+	 * {@link select}, {@link distinct}, {@link from}, {@link where}, {@link join},
+	 * {@link group}, {@link having}, {@link order}, {@link limit}, {@link offset} and
+	 * {@link union}. Please refer to the setter of each of these properties for details
+	 * about valid property values. This feature has been available since version 1.1.6.
 	 */
-	public function __construct(CDbConnection $connection,$text)
+	public function __construct(CDbConnection $connection,$query=null)
 	{
 		$this->_connection=$connection;
-		$this->setText($text);
+		if(is_array($query))
+		{
+			foreach($query as $name=>$value)
+				$this->$name=$value;
+		}
+		else
+			$this->setText($query);
 	}
 
 	/**
@@ -65,6 +96,8 @@ class CDbCommand extends CComponent
 	 */
 	public function getText()
 	{
+		if($this->_text=='' && !empty($this->_query))
+			$this->_text=$this->buildQuery($this->_query);
 		return $this->_text;
 	}
 
@@ -75,7 +108,7 @@ class CDbCommand extends CComponent
 	 */
 	public function setText($value)
 	{
-		if($this->_connection->tablePrefix!==null)
+		if($this->_connection->tablePrefix!==null && $value!='')
 			$this->_text=preg_replace('/{{(.*?)}}/',$this->_connection->tablePrefix.'\1',$value);
 		else
 			$this->_text=$value;
@@ -113,7 +146,7 @@ class CDbCommand extends CComponent
 			try
 			{
 				$this->_statement=$this->getConnection()->getPdoInstance()->prepare($this->getText());
-				$this->_params=array();
+				$this->_paramLog=array();
 			}
 			catch(Exception $e)
 			{
@@ -155,7 +188,7 @@ class CDbCommand extends CComponent
 		else
 			$this->_statement->bindParam($name,$value,$dataType,$length);
 		if($this->_connection->enableParamLogging)
-			$this->_params[$name]=&$value;
+			$this->_paramLog[$name]=&$value;
 		return $this;
 	}
 
@@ -178,7 +211,7 @@ class CDbCommand extends CComponent
 		else
 			$this->_statement->bindValue($name,$value,$dataType);
 		if($this->_connection->enableParamLogging)
-			$this->_params[$name]=var_export($value,true);
+			$this->_paramLog[$name]=var_export($value,true);
 		return $this;
 	}
 
@@ -199,7 +232,7 @@ class CDbCommand extends CComponent
 		{
 			$this->_statement->bindValue($name,$value,$this->_connection->getPdoType(gettype($value)));
 			if($this->_connection->enableParamLogging)
-				$this->_params[$name]=var_export($value,true);
+				$this->_paramLog[$name]=var_export($value,true);
 		}
 		return $this;
 	}
@@ -210,7 +243,7 @@ class CDbCommand extends CComponent
 	 * No result set will be returned.
 	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
-	 * them in this way can improve the performance. Note that you pass parameters in this way,
+	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
 	 * binding methods and  the input parameters this way can improve the performance.
 	 * This parameter has been available since version 1.0.10.
@@ -219,7 +252,7 @@ class CDbCommand extends CComponent
 	 */
 	public function execute($params=array())
 	{
-		if($this->_connection->enableParamLogging && ($pars=array_merge($this->_params,$params))!==array())
+		if($this->_connection->enableParamLogging && ($pars=array_merge($this->_paramLog,$params))!==array())
 		{
 			$p=array();
 			foreach($pars as $name=>$value)
@@ -263,7 +296,7 @@ class CDbCommand extends CComponent
 	 * This method is for executing an SQL query that returns result set.
 	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
-	 * them in this way can improve the performance. Note that you pass parameters in this way,
+	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
 	 * binding methods and  the input parameters this way can improve the performance.
 	 * This parameter has been available since version 1.0.10.
@@ -281,7 +314,7 @@ class CDbCommand extends CComponent
 	 * column names as the keys or the array keys are column indexes (0-based).
 	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
-	 * them in this way can improve the performance. Note that you pass parameters in this way,
+	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
 	 * binding methods and  the input parameters this way can improve the performance.
 	 * This parameter has been available since version 1.0.10.
@@ -301,7 +334,7 @@ class CDbCommand extends CComponent
 	 * column names as the keys or the array keys are column indexes (0-based).
 	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
-	 * them in this way can improve the performance. Note that you pass parameters in this way,
+	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
 	 * binding methods and  the input parameters this way can improve the performance.
 	 * This parameter has been available since version 1.0.10.
@@ -319,7 +352,7 @@ class CDbCommand extends CComponent
 	 * value is needed (e.g. obtaining the count of the records).
 	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
-	 * them in this way can improve the performance. Note that you pass parameters in this way,
+	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
 	 * binding methods and  the input parameters this way can improve the performance.
 	 * This parameter has been available since version 1.0.10.
@@ -341,7 +374,7 @@ class CDbCommand extends CComponent
 	 * Note, the column returned will contain the first element in each row of result.
 	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
-	 * them in this way can improve the performance. Note that you pass parameters in this way,
+	 * them in this way can improve the performance. Note that if you pass parameters in this way,
 	 * you cannot bind parameters or values using {@link bindParam} or {@link bindValue}, and vice versa.
 	 * binding methods and  the input parameters this way can improve the performance.
 	 * This parameter has been available since version 1.0.10.
@@ -366,7 +399,9 @@ class CDbCommand extends CComponent
 	 */
 	private function queryInternal($method,$mode,$params=array())
 	{
-		if($this->_connection->enableParamLogging && ($pars=array_merge($this->_params,$params))!==array())
+		$params=array_merge($this->params,$params);
+
+		if($this->_connection->enableParamLogging && ($pars=array_merge($this->_paramLog,$params))!==array())
 		{
 			$p=array();
 			foreach($pars as $name=>$value)
@@ -409,5 +444,796 @@ class CDbCommand extends CComponent
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
 				array('{error}'=>$e->getMessage())),(int)$e->getCode(),$errorInfo);
 		}
+	}
+
+	/**
+	 * Builds a SQL SELECT statement from the given query specification.
+	 * @param array $query the query specification in name-value pairs. The following
+	 * query options are supported: {@link select}, {@link distinct}, {@link from},
+	 * {@link where}, {@link join}, {@link group}, {@link having}, {@link order},
+	 * {@link limit}, {@link offset} and {@link union}.
+	 * @return string the SQL statement
+	 * @since 1.1.6
+	 */
+	public function buildQuery($query)
+	{
+		$sql=isset($query['distinct']) && $query['distinct'] ? 'SELECT DISTINCT' : 'SELECT';
+		$sql.=' '.(isset($query['select']) ? $query['select'] : '*');
+
+		if(isset($query['from']))
+			$sql.="\nFROM ".$query['from'];
+		else
+			throw new CDbException(Yii::t('yii','The DB query must contain the "from" portion.'));
+
+		if(isset($query['where']))
+			$sql.="\nWHERE ".$query['where'];
+
+		if(isset($query['join']))
+			$sql.="\n".(is_array($query['join']) ? implode("\n",$query['join']) : $query['join']);
+
+		if(isset($query['group']))
+			$sql.="\nGROUP BY ".$query['group'];
+
+		if(isset($query['having']))
+			$sql.="\nHAVING ".$query['having'];
+
+		if(isset($query['order']))
+			$sql.="\nORDER BY ".$query['order'];
+
+		$limit=isset($query['limit']) ? (int)$query['limit'] : -1;
+		$offset=isset($query['offset']) ? (int)$query['offset'] : -1;
+		if($limit>=0 && $offset>=0)
+			$sql=$this->_connection->getCommandBuilder()->applyLimit($sql,$limit,$offset);
+
+		if(isset($query['union']))
+			$sql.="\nUNION (\n".(is_array($query['union']) ? implode("\n) UNION (\n",$query['union']) : $query['union']) . ')';
+
+		return $sql;
+	}
+
+	/**
+	 * Sets the SELECT part of the query.
+	 * @param mixed $columns the columns to be selected. Defaults to '*', meaning all columns.
+	 * Columns can be specified in either a string (e.g. "id, name") or an array (e.g. array('id', 'name')).
+	 * Columns can contain table prefixes (e.g. "tbl_user.id") and/or column aliases (e.g. "tbl_user.id AS user_id").
+	 * The method will automatically quote the column names unless a column contains some parenthesis
+	 * (which means the column contains a DB expression).
+	 * @return CDbCommand the command object itself
+	 * @since 1.1.6
+	 */
+	public function select($columns='*')
+	{
+		if(is_string($columns) && strpos($columns,'(')!==false)
+			$this->_query['select']=$columns;
+		else
+		{
+			if(!is_array($columns))
+				$columns=preg_split('/\s*,\s*/',trim($columns),-1,PREG_SPLIT_NO_EMPTY);
+
+			foreach($columns as $i=>$column)
+			{
+				if(is_object($column))
+					$columns[$i]=(string)$column;
+				else if(strpos($column,'(')===false)
+				{
+					if(preg_match('/^(.*?)\s+as\s+(.*)$/i',$column,$matches))
+						$columns[$i]=$this->quoteColumnName($matches[1]).' AS '.$this->quoteColumnName($matches[2]);
+					else
+						$columns[$i]=$this->quoteColumnName($column);
+				}
+			}
+			$this->_query['select']=implode(', ',$columns);
+		}
+		return $this;
+	}
+
+	/**
+	 * Returns the SELECT part in the query.
+	 * @return string the SELECT part (without 'SELECT') in the query.
+	 * @since 1.1.6
+	 */
+	public function getSelect()
+	{
+		return isset($this->_query['select']) ? $this->_query['select'] : '';
+	}
+
+	/**
+	 * Sets the SELECT part in the query.
+	 * @param mixed $value the data to be selected. Please refer to {@link select()} for details
+	 * on how to specify this parameter.
+	 * @since 1.1.6
+	 */
+	public function setSelect($value)
+	{
+		$this->select($value);
+	}
+
+	/**
+	 * Sets the SELECT part of the query with the DISTINCT flag turned on.
+	 * This is the same as {@link select} except that the DISTINCT flag is turned on.
+	 * @param mixed $columns the columns to be selected. See {@link select} for more details.
+	 * @return CDbCommand the command object itself
+	 * @since 1.1.6
+	 */
+	public function selectDistinct($columns)
+	{
+		$this->_query['distinct']=true;
+		return $this->select($columns);
+	}
+
+	/**
+	 * Returns a value indicating whether SELECT DISTINCT should be used.
+	 * @return boolean a value indicating whether SELECT DISTINCT should be used.
+	 * @since 1.1.6
+	 */
+	public function getDistinct()
+	{
+		return isset($this->_query['distinct']) ? $this->_query['distinct'] : false;
+	}
+
+	/**
+	 * Sets a value indicating whether SELECT DISTINCT should be used.
+	 * @param boolean $value a value indicating whether SELECT DISTINCT should be used.
+	 * @since 1.1.6
+	 */
+	public function setDistinct($value)
+	{
+		$this->_query['distinct']=$value;
+	}
+
+	/**
+	 * Sets the FROM part of the query.
+	 * @param mixed $tables the table(s) to be selected from. This can be either a string (e.g. 'tbl_user')
+	 * or an array (e.g. array('tbl_user', 'tbl_profile')) specifying one or several table names.
+	 * Table names can contain schema prefixes (e.g. 'public.tbl_user') and/or table aliases (e.g. 'tbl_user u').
+	 * The method will automatically quote the table names unless it contains some parenthesis
+	 * (which means the table is given as a sub-query or DB expression).
+	 * @return CDbCommand the command object itself
+	 * @since 1.1.6
+	 */
+	public function from($tables)
+	{
+		if(is_string($tables) && strpos($tables,'(')!==false)
+			$this->_query['from']=$tables;
+		else
+		{
+			if(!is_array($tables))
+				$tables=preg_split('/\s*,\s*/',trim($tables),-1,PREG_SPLIT_NO_EMPTY);
+			foreach($tables as $i=>$table)
+			{
+				if(strpos($table,'(')===false)
+				{
+					if(preg_match('/^(.*?)\s+(.*)$/',$table,$matches))  // with alias
+						$tables[$i]=$this->quoteTableName($matches[1]).' '.$this->quoteTableName($matches[2]);
+					else
+						$tables[$i]=$this->quoteTableName($table);
+				}
+			}
+			$this->_query['from']=implode(', ',$tables);
+		}
+		return $this;
+	}
+
+	/**
+	 * Returns the FROM part in the query.
+	 * @return string the FROM part (without 'FROM' ) in the query.
+	 * @since 1.1.6
+	 */
+	public function getFrom()
+	{
+		return isset($this->_query['from']) ? $this->_query['from'] : '';
+	}
+
+	/**
+	 * Sets the FROM part in the query.
+	 * @param mixed $value the tables to be selected from. Please refer to {@link from()} for details
+	 * on how to specify this parameter.
+	 * @since 1.1.6
+	 */
+	public function setFrom($value)
+	{
+		$this->from($value);
+	}
+
+	/**
+	 * Sets the WHERE part of the query.
+	 *
+	 * The method requires a $conditions parameter, and optionally a $params parameter
+	 * specifying the values to be bound to the query.
+	 *
+	 * The $conditions parameter should be either a string (e.g. 'id=1') or an array.
+	 * If the latter, it must be of the format <code>array(operator, operand1, operand2, ...)</code>,
+	 * where the operator can be one of the followings, and the possible operands depend on the corresponding
+	 * operator:
+	 * <ul>
+	 * <li><code>and</code>: the operands should be concatenated together using AND. For example,
+	 * array('and', 'id=1', 'id=2') will generate 'id=1 AND id=2'. If an operand is an array,
+	 * it will be converted into a string using the same rules described here. For example,
+	 * array('and', 'type=1', array('or', 'id=1', 'id=2')) will generate 'type=1 AND (id=1 OR id=2)'.
+	 * The method will NOT do any quoting or escaping.</li>
+	 * <li><code>or</code>: similar as the <code>and</code> operator except that the operands are concatenated using OR.</li>
+	 * <li><code>in</code>: operand 1 should be a column or DB expression, and operand 2 be an array representing
+	 * the range of the values that the column or DB expression should be in. For example,
+	 * array('in', 'id', array(1,2,3)) will generate 'id IN (1,2,3)'.
+	 * The method will properly quote the column name and escape values in the range.</li>
+	 * <li><code>not in</code>: similar as the <code>in</code> operator except that IN is replaced with NOT IN in the generated condition.</li>
+	 * <li><code>like</code>: operand 1 should be a column or DB expression, and operand 2 be a string or an array representing
+	 * the range of the values that the column or DB expression should be like.
+	 * For example, array('like', 'name', 'tester') will generate "name LIKE '%tester%'".
+	 * When the value range is given as an array, multiple LIKE predicates will be generated and concatenated using AND.
+	 * For example, array('like', 'name', array('test', 'sample')) will generate
+	 * "name LIKE '%test%'" AND "name LIKE '%sample%'".
+	 * The method will properly quote the column name and escape values in the range.</li>
+	 * <li><code>not like</code>: similar as the <code>like</code> operator except that LIKE is replaced with NOT LIKE in the generated condition.</li>
+	 * <li><code>or like</code>: similar as the <code>like</code> operator except that OR is used to concatenated the LIKE predicates.</li>
+	 * <li><code>or not like</code>: similar as the <code>not like</code> operator except that OR is used to concatenated the NOT LIKE predicates.</li>
+	 * </ul>
+	 * @param mixed $conditions the conditions that should be put in the WHERE part.
+	 * @param array $params the parameters (name=>value) to be bound to the query
+	 * @return CDbCommand the command object itself
+	 * @since 1.1.6
+	 */
+	public function where($conditions, $params=array())
+	{
+		$this->_query['where']=$this->processConditions($conditions);
+		foreach($params as $name=>$value)
+			$this->params[$name]=$value;
+		return $this;
+	}
+
+	/**
+	 * Returns the WHERE part in the query.
+	 * @return string the WHERE part (without 'WHERE' ) in the query.
+	 * @since 1.1.6
+	 */
+	public function getWhere()
+	{
+		return isset($this->_query['where']) ? $this->_query['where'] : '';
+	}
+
+	/**
+	 * Sets the WHERE part in the query.
+	 * @param mixed $value the where part. Please refer to {@link where()} for details
+	 * on how to specify this parameter.
+	 * @since 1.1.6
+	 */
+	public function setWhere($value)
+	{
+		$this->where($value);
+	}
+
+	/**
+	 * Appends an INNER JOIN part to the query.
+	 * @param string $table the table to be joined.
+	 * Table name can contain schema prefix (e.g. 'public.tbl_user') and/or table alias (e.g. 'tbl_user u').
+	 * The method will automatically quote the table name unless it contains some parenthesis
+	 * (which means the table is given as a sub-query or DB expression).
+	 * @param mixed $conditions the join condition that should appear in the ON part.
+	 * Please refer to {@link where} on how to specify conditions.
+	 * @param array $params the parameters (name=>value) to be bound to the query
+	 * @return CDbCommand the command object itself
+	 * @since 1.1.6
+	 */
+	public function join($table, $conditions, $params=array())
+	{
+		return $this->joinInternal('join', $table, $conditions, $params);
+	}
+
+	/**
+	 * Returns the join part in the query.
+	 * @return mixed the join part in the query. This can be an array representing
+	 * multiple join fragments, or a string representing a single jojin fragment.
+	 * Each join fragment will contain the proper join operator (e.g. LEFT JOIN).
+	 * @since 1.1.6
+	 */
+	public function getJoin()
+	{
+		return isset($this->_query['join']) ? $this->_query['join'] : '';
+	}
+
+	/**
+	 * Sets the join part in the query.
+	 * @param mixed $value the join part in the query. This can be either a string or
+	 * an array representing multiple join parts in the query. Each part must contain
+	 * the proper join operator (e.g. 'LEFT JOIN tbl_profile ON tbl_user.id=tbl_profile.id')
+	 * @since 1.1.6
+	 */
+	public function setJoin($value)
+	{
+		$this->_query['join']=$value;
+	}
+
+	/**
+	 * Appends a LEFT OUTER JOIN part to the query.
+	 * @param string $table the table to be joined.
+	 * Table name can contain schema prefix (e.g. 'public.tbl_user') and/or table alias (e.g. 'tbl_user u').
+	 * The method will automatically quote the table name unless it contains some parenthesis
+	 * (which means the table is given as a sub-query or DB expression).
+	 * @param mixed $conditions the join condition that should appear in the ON part.
+	 * Please refer to {@link where} on how to specify conditions.
+	 * @param array $params the parameters (name=>value) to be bound to the query
+	 * @return CDbCommand the command object itself
+	 * @since 1.1.6
+	 */
+	public function leftJoin($table, $conditions, $params=array())
+	{
+		return $this->joinInternal('left join', $table, $conditions, $params);
+	}
+
+	/**
+	 * Appends a RIGHT OUTER JOIN part to the query.
+	 * @param string $table the table to be joined.
+	 * Table name can contain schema prefix (e.g. 'public.tbl_user') and/or table alias (e.g. 'tbl_user u').
+	 * The method will automatically quote the table name unless it contains some parenthesis
+	 * (which means the table is given as a sub-query or DB expression).
+	 * @param mixed $conditions the join condition that should appear in the ON part.
+	 * Please refer to {@link where} on how to specify conditions.
+	 * @param array $params the parameters (name=>value) to be bound to the query
+	 * @return CDbCommand the command object itself
+	 * @since 1.1.6
+	 */
+	public function rightJoin($table, $conditions, $params=array())
+	{
+		return $this->joinInternal('right join', $table, $conditions, $params);
+	}
+
+	/**
+	 * Appends a CROSS JOIN part to the query.
+	 * Note that not all DBMS support CROSS JOIN.
+	 * @param string $table the table to be joined.
+	 * Table name can contain schema prefix (e.g. 'public.tbl_user') and/or table alias (e.g. 'tbl_user u').
+	 * The method will automatically quote the table name unless it contains some parenthesis
+	 * (which means the table is given as a sub-query or DB expression).
+	 * @return CDbCommand the command object itself
+	 * @since 1.1.6
+	 */
+	public function crossJoin($table)
+	{
+		return $this->joinInternal('cross join', $table);
+	}
+
+	/**
+	 * Appends a NATURAL JOIN part to the query.
+	 * Note that not all DBMS support NATURAL JOIN.
+	 * @param string $table the table to be joined.
+	 * Table name can contain schema prefix (e.g. 'public.tbl_user') and/or table alias (e.g. 'tbl_user u').
+	 * The method will automatically quote the table name unless it contains some parenthesis
+	 * (which means the table is given as a sub-query or DB expression).
+	 * @return CDbCommand the command object itself
+	 * @since 1.1.6
+	 */
+	public function naturalJoin($table)
+	{
+		return $this->joinInternal('natural join', $table);
+	}
+
+	/**
+	 * Sets the GROUP BY part of the query.
+	 * @param mixed $columns the columns to be grouped by.
+	 * Columns can be specified in either a string (e.g. "id, name") or an array (e.g. array('id', 'name')).
+	 * The method will automatically quote the column names unless a column contains some parenthesis
+	 * (which means the column contains a DB expression).
+	 * @return CDbCommand the command object itself
+	 * @since 1.1.6
+	 */
+	public function group($columns)
+	{
+		if(is_string($columns) && strpos($columns,'(')!==false)
+			$this->_query['group']=$columns;
+		else
+		{
+			if(!is_array($columns))
+				$columns=preg_split('/\s*,\s*/',trim($columns),-1,PREG_SPLIT_NO_EMPTY);
+			foreach($columns as $i=>$column)
+			{
+				if(is_object($column))
+					$columns[$i]=(string)$column;
+				else if(strpos($column,'(')===false)
+					$columns[$i]=$this->quoteColumnName($column);
+			}
+			$this->_query['group']=implode(', ',$columns);
+		}
+		return $this;
+	}
+
+	/**
+	 * Returns the GROUP BY part in the query.
+	 * @return string the GROUP BY part (without 'GROUP BY' ) in the query.
+	 * @since 1.1.6
+	 */
+	public function getGroup()
+	{
+		return isset($this->_query['group']) ? $this->_query['group'] : '';
+	}
+
+	/**
+	 * Sets the GROUP BY part in the query.
+	 * @param mixed $value the GROUP BY part. Please refer to {@link group()} for details
+	 * on how to specify this parameter.
+	 * @since 1.1.6
+	 */
+	public function setGroup($value)
+	{
+		$this->group($value);
+	}
+
+	/**
+	 * Sets the HAVING part of the query.
+	 * @param mixed $conditions the conditions to be put after HAVING.
+	 * Please refer to {@link where} on how to specify conditions.
+	 * @param array $params the parameters (name=>value) to be bound to the query
+	 * @return CDbCommand the command object itself
+	 * @since 1.1.6
+	 */
+	public function having($conditions, $params=array())
+	{
+		$this->_query['having']=$this->processConditions($conditions);
+		foreach($params as $name=>$value)
+			$this->params[$name]=$value;
+		return $this;
+	}
+
+	/**
+	 * Returns the HAVING part in the query.
+	 * @return string the HAVING part (without 'HAVING' ) in the query.
+	 * @since 1.1.6
+	 */
+	public function getHaving()
+	{
+		return isset($this->_query['having']) ? $this->_query['having'] : '';
+	}
+
+	/**
+	 * Sets the HAVING part in the query.
+	 * @param mixed $value the HAVING part. Please refer to {@link having()} for details
+	 * on how to specify this parameter.
+	 * @since 1.1.6
+	 */
+	public function setHaving($value)
+	{
+		$this->having($value);
+	}
+
+	/**
+	 * Sets the ORDER BY part of the query.
+	 * @param mixed $columns the columns (and the directions) to be ordered by.
+	 * Columns can be specified in either a string (e.g. "id ASC, name DESC") or an array (e.g. array('id ASC', 'name DESC')).
+	 * The method will automatically quote the column names unless a column contains some parenthesis
+	 * (which means the column contains a DB expression).
+	 * @return CDbCommand the command object itself
+	 * @since 1.1.6
+	 */
+	public function order($columns)
+	{
+		if(is_string($columns) && strpos($columns,'(')!==false)
+			$this->_query['order']=$columns;
+		else
+		{
+			if(!is_array($columns))
+				$columns=preg_split('/\s*,\s*/',trim($columns),-1,PREG_SPLIT_NO_EMPTY);
+			foreach($columns as $i=>$column)
+			{
+				if(is_object($column))
+					$columns[$i]=(string)$column;
+				else if(strpos($column,'(')===false)
+				{
+					if(preg_match('/^(.*?)\s+(asc|desc)$/i',$column,$matches))
+						$columns[$i]=$this->quoteColumnName($matches[1]).' '.strtoupper($matches[2]);
+					else
+						$columns[$i]=$this->quoteColumnName($column);
+				}
+			}
+			$this->_query['order']=implode(', ',$columns);
+		}
+		return $this;
+	}
+
+	/**
+	 * Returns the ORDER BY part in the query.
+	 * @return string the ORDER BY part (without 'ORDER BY' ) in the query.
+	 * @since 1.1.6
+	 */
+	public function getOrder()
+	{
+		return isset($this->_query['order']) ? $this->_query['order'] : '';
+	}
+
+	/**
+	 * Sets the ORDER BY part in the query.
+	 * @param mixed $value the ORDER BY part. Please refer to {@link order()} for details
+	 * on how to specify this parameter.
+	 * @since 1.1.6
+	 */
+	public function setOrder($value)
+	{
+		$this->order($value);
+	}
+
+	/**
+	 * Sets the LIMIT part of the query.
+	 * @param integer $limit the limit
+	 * @param integer $offset the offset
+	 * @return CDbCommand the command object itself
+	 * @since 1.1.6
+	 */
+	public function limit($limit, $offset=null)
+	{
+		$this->_query['limit']=(int)$limit;
+		if($offset!==null)
+			$this->offset($offset);
+		return $this;
+	}
+
+	/**
+	 * Returns the LIMIT part in the query.
+	 * @return string the LIMIT part (without 'LIMIT' ) in the query.
+	 * @since 1.1.6
+	 */
+	public function getLimit()
+	{
+		return isset($this->_query['limit']) ? $this->_query['limit'] : -1;
+	}
+
+	/**
+	 * Sets the LIMIT part in the query.
+	 * @param integer $value the LIMIT part. Please refer to {@link limit()} for details
+	 * on how to specify this parameter.
+	 * @since 1.1.6
+	 */
+	public function setLimit($value)
+	{
+		$this->limit($value);
+	}
+
+	/**
+	 * Sets the OFFSET part of the query.
+	 * @param integer $offset the offset
+	 * @return CDbCommand the command object itself
+	 * @since 1.1.6
+	 */
+	public function offset($offset)
+	{
+		$this->_query['offset']=(int)$offset;
+		return $this;
+	}
+
+	/**
+	 * Returns the OFFSET part in the query.
+	 * @return string the OFFSET part (without 'OFFSET' ) in the query.
+	 * @since 1.1.6
+	 */
+	public function getOffset()
+	{
+		return isset($this->_query['offset']) ? $this->_query['offset'] : -1;
+	}
+
+	/**
+	 * Sets the OFFSET part in the query.
+	 * @param integer $value the OFFSET part. Please refer to {@link offset()} for details
+	 * on how to specify this parameter.
+	 * @since 1.1.6
+	 */
+	public function setOffset($value)
+	{
+		$this->offset($value);
+	}
+
+	/**
+	 * Appends a SQL statement using UNION operator.
+	 * @param string the SQL statement to be appended using UNION
+	 * @return CDbCommand the command object itself
+	 * @since 1.1.6
+	 */
+	public function union($sql)
+	{
+		if(isset($this->_query['union']) && is_string($this->_query['union']))
+			$this->_query['union']=array($this->_query['union']);
+
+		$this->_query['union'][]=$sql;
+
+		return $this;
+	}
+
+	/**
+	 * Returns the UNION part in the query.
+	 * @return mixed the UNION part (without 'UNION' ) in the query.
+	 * This can be either a string or an array representing multiple union parts.
+	 * @since 1.1.6
+	 */
+	public function getUnion()
+	{
+		return isset($this->_query['union']) ? $this->_query['union'] : '';
+	}
+
+	/**
+	 * Sets the UNION part in the query.
+	 * @param mixed $value the UNION part. This can be either a string or an array
+	 * representing multiple SQL statements to be unioned together.
+	 * @since 1.1.6
+	 */
+	public function setUnion($value)
+	{
+		$this->_query['union']=$value;
+	}
+
+	/**
+	 * Creates an INSERT SQL statement.
+	 * The method will properly escape the column names, and bind the values to be inserted.
+	 * @param string $table the table that new rows will be inserted into.
+	 * @param array $columns the column data (name=>value) to be inserted into the table.
+	 * @return CDbCommand the command object itself
+	 * @since 1.1.6
+	 */
+	public function insert($table, $columns)
+	{
+		$params=array();
+		$names=array();
+		foreach($columns as $name=>$value)
+		{
+			$names[]=$this->_connection->quoteColumnName($name);
+			$params[':'.$name]=$value;
+		}
+		$this->_text='INSERT INTO ' . $this->quoteTableName($table) . ' (' . implode(', ',$names) . ') VALUES (' . implode(', ', array_keys($params)) . ')';
+		$this->params=$params;
+		return $this;
+	}
+
+	/**
+	 * Creates an UPDATE SQL statement.
+	 * The method will properly escape the column names and bind the values to be updated.
+	 * @param string $table the table to be updated.
+	 * @param array $columns the column data (name=>value) to be updated.
+	 * @param mixed $conditions the conditions that will be put in the WHERE part. Please
+	 * refer to {@link where} on how to specify conditions.
+	 * @param array the parameters to be bound to the query.
+	 * @return CDbCommand the command object itself
+	 * @since 1.1.6
+	 */
+	public function update($table, $columns, $conditions='', $params=array())
+	{
+		$lines=array();
+		foreach($columns as $name=>$value)
+		{
+			$params[':'.$name]=$value;
+			$lines[]=$this->_connection->quoteColumnName($name).'=:'.$name;
+		}
+		$this->_text='UPDATE ' . $this->quoteTableName($table) . ' SET ' . implode(', ', $lines);
+		if(($where=$this->processConditions($conditions))!='')
+			$this->_text.=' WHERE '.$where;
+		$this->params=$params;
+		return $this;
+	}
+
+	/**
+	 * Creates a DELETE SQL statement.
+	 * @param string $table the table where the data will be deleted from.
+	 * @param mixed $conditions the conditions that will be put in the WHERE part. Please
+	 * refer to {@link where} on how to specify conditions.
+	 * @param array the parameters to be bound to the query.
+	 * @return CDbCommand the command object itself
+	 * @since 1.1.6
+	 */
+	public function delete($table, $conditions='', $params=array())
+	{
+		$this->_text='DELETE FROM ' . $this->quoteTableName($table);
+		if(($where=$this->processConditions($conditions))!='')
+			$this->_text.=' WHERE '.$where;
+		$this->params=$params;
+		return $this;
+	}
+
+	private function quoteColumnName($name)
+	{
+		if(($pos=strrpos($name,'.'))!==false)
+		{
+			$prefix=$this->quoteTableName(substr($name,0,$pos)).'.';
+			$name=substr($name,$pos+1);
+		}
+		else
+			$prefix='';
+		return $prefix . ($name==='*' ? $name : $this->_connection->quoteColumnName($name));
+	}
+
+	private function quoteTableName($name)
+	{
+		if(strpos($name,'.')===false)
+			return $this->_connection->quoteTableName($name);
+		$parts=explode('.',$name);
+		foreach($parts as $i=>$part)
+			$parts[$i]=$this->_connection->quoteTableName($part);
+		return implode('.',$parts);
+	}
+
+	private function processConditions($conditions)
+	{
+		if(!is_array($conditions))
+			return $conditions;
+		else if($conditions===array())
+			return '';
+		$n=count($conditions);
+		$operator=strtoupper($conditions[0]);
+		if($operator==='OR' || $operator==='AND')
+		{
+			$parts=array();
+			for($i=1;$i<$n;++$i)
+			{
+				$condition=$this->processConditions($conditions[$i]);
+				if($condition!=='')
+					$parts[]='('.$condition.')';
+			}
+			return $parts===array() ? '' : implode(' '.$operator.' ', $parts);
+		}
+
+		if(!isset($conditions[1],$conditions[2]))
+			return '';
+
+		$column=$conditions[1];
+		if(strpos($column,'(')===false)
+			$column=$this->quoteColumnName($column);
+
+		$values=$conditions[2];
+		if(!is_array($values))
+			$values=array($values);
+
+		if($operator==='IN' || $operator==='NOT IN')
+		{
+			if($values===array())
+				return $operator==='IN' ? '0=1' : '';
+			foreach($values as $i=>$value)
+			{
+				if(is_string($value))
+					$values[$i]=$this->_connection->quoteValue($value);
+				else
+					$values[$i]=(string)$value;
+			}
+			return $column.' '.$operator.' ('.implode(', ',$values).')';
+		}
+
+		if($operator==='LIKE' || $operator==='NOT LIKE' || $operator==='OR LIKE' || $operator==='OR NOT LIKE')
+		{
+			if($values===array())
+				return $operator==='LIKE' || $operator==='OR LIKE' ? '0=1' : '';
+
+			if($operator==='LIKE' || $operator==='NOT LIKE')
+				$andor=' AND ';
+			else
+			{
+				$andor=' OR ';
+				$operator=$operator==='OR LIKE' ? 'LIKE' : 'NOT LIKE';
+			}
+			$expressions=array();
+			foreach($values as $value)
+			{
+				$value=$this->_connection->quoteValue('%'.strtr($value,array('%'=>'\%', '_'=>'\_')).'%');
+				$expressions[]=$column.' '.$operator.' '.$value;
+			}
+			return implode($andor,$expressions);
+		}
+
+		throw new CDbException(Yii::t('yii', 'Unknown operator "{operator}".', array('{operator}'=>$operator)));
+	}
+
+	private function joinInternal($type, $table, $conditions='', $params=array())
+	{
+		if(strpos($table,'(')===false)
+		{
+			if(preg_match('/^(.*?)\s+(.*)$/',$table,$matches))  // with alias
+				$table=$this->quoteTableName($matches[1]).' '.$this->quoteTableName($matches[2]);
+			else
+				$table=$this->quoteTableName($table);
+		}
+
+		$conditions=$this->processConditions($conditions);
+		if($conditions!='')
+			$conditions=' ON '.$conditions;
+
+		if(isset($this->_query['join']) && is_string($this->_query['join']))
+			$this->_query['join']=array($this->_query['join']);
+
+		$this->_query['join'][]=strtoupper($type) . ' ' . $table . $conditions;
+
+		foreach($params as $name=>$value)
+			$this->params[$name]=$value;
+		return $this;
 	}
 }
