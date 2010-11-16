@@ -464,7 +464,7 @@ class CDbConnection extends CApplicationComponent
 		{
 			if(($str=$this->_pdo->quote($str))!==false)
 				return $str;
-			else
+			else  // the driver doesn't support quote (e.g. oci)
 				return "'" . addcslashes(str_replace("'", "''", $str), "\000\n\r\\\032") . "'";
 		}
 		else
