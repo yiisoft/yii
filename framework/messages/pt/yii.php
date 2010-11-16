@@ -153,7 +153,7 @@ return array (
   'The requested controller "{controller}" does not exist.' => 'O controle "{controller}" solicitado não existe.',
   'The requested view "{name}" is not found.' => 'A visão "{name}" não foi encontrada.',
   'The stack is empty.' => 'A pilha está vazia.',
-  'The system is unable to find the requested action "{action}".' => 'O sistema não foi capaz de encotrar a ação "{action}" solicitada.',
+  'The system is unable to find the requested action "{action}".' => 'O sistema não foi capaz de encontrar a ação "{action}" solicitada.',
   'The system view path "{path}" is not a valid directory.' => 'O caminho "{path}" para a visão do sistema não é um diretório válido.',
   'The table "{table}" for active record class "{class}" cannot be found in the database.' => 'A tabela "{table}" da classe de active record "{class}", não pôde ser encontrada no banco de dados.',
   'The value for the primary key "{key}" is not supplied when querying the table "{table}".' => 'O valor para a chave primária "{key}" não foi fornecido ao consultar a tabela "{table}".',
