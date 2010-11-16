@@ -135,7 +135,8 @@ class COciSchema extends CDbSchema
 	 */
 	protected function findColumns($table)
 	{
-		list($schemaName,$tableName) = $this->getSchemaTableName($table->name);
+		$schemaName=$table->schemaName;
+		$tableName=$table->name;
 
 		$sql=<<<EOD
 SELECT a.column_name, a.data_type ||
