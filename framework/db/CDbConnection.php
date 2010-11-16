@@ -457,8 +457,16 @@ class CDbConnection extends CApplicationComponent
 	 */
 	public function quoteValue($str)
 	{
+		if(is_int($str) || is_float($str))
+			return $str;
+
 		if($this->getActive())
-			return $this->_pdo->quote($str);
+		{
+			if(($str=$this->_pdo->quote($str))!==false)
+				return $str;
+			else
+				return "'" . addcslashes(str_replace("'", "''", $str), "\000\n\r\\\032") . "'";
+		}
 		else
 			throw new CDbException(Yii::t('yii','CDbConnection is inactive and cannot perform any DB operations.'));
 	}
