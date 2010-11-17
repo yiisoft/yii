@@ -54,6 +54,12 @@ class CAssetManager extends CApplicationComponent
 	 */
 	public $linkAssets=false;
 	/**
+	 * @var array list of directories and files which should be excluded from the publishing process.
+	 * Defaults to exclude '.svn' files only. This option has no effect if {@link linkAssets} is enabled.	 
+	 * @since 1.1.6
+	 **/
+	public $excludeFiles=array('.svn');
+	/**
 	 * @var string base web accessible path for storing private files
 	 */
 	private $_basePath;
@@ -184,7 +190,7 @@ class CAssetManager extends CApplicationComponent
 						symlink($src,$dstDir);
 				}
 				else if(!is_dir($dstDir) || $forceCopy)
-					CFileHelper::copyDirectory($src,$dstDir,array('exclude'=>array('.svn'),'level'=>$level));
+					CFileHelper::copyDirectory($src,$dstDir,array('exclude'=>$this->excludeFiles,'level'=>$level));
 
 				return $this->_published[$path]=$this->getBaseUrl().'/'.$dir;
 			}
