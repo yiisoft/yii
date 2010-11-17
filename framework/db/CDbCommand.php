@@ -45,6 +45,10 @@
  */
 class CDbCommand extends CComponent
 {
+	/**
+	 * @var array the parameters (name=>value) to be bound to the current query.
+	 * @since 1.1.6
+	 */
 	public $params=array();
 
 	private $_connection;
@@ -555,7 +559,7 @@ class CDbCommand extends CComponent
 	 * @return CDbCommand the command object itself
 	 * @since 1.1.6
 	 */
-	public function selectDistinct($columns)
+	public function selectDistinct($columns='*')
 	{
 		$this->_query['distinct']=true;
 		return $this->select($columns);
@@ -662,7 +666,7 @@ class CDbCommand extends CComponent
 	 * For example, array('like', 'name', 'tester') will generate "name LIKE '%tester%'".
 	 * When the value range is given as an array, multiple LIKE predicates will be generated and concatenated using AND.
 	 * For example, array('like', 'name', array('test', 'sample')) will generate
-	 * "name LIKE '%test%'" AND "name LIKE '%sample%'".
+	 * "name LIKE '%test%' AND name LIKE '%sample%'".
 	 * The method will properly quote the column name and escape values in the range.</li>
 	 * <li><code>not like</code>: similar as the <code>like</code> operator except that LIKE is replaced with NOT LIKE in the generated condition.</li>
 	 * <li><code>or like</code>: similar as the <code>like</code> operator except that OR is used to concatenated the LIKE predicates.</li>

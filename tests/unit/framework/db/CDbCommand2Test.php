@@ -367,4 +367,25 @@ class CDbCommand2Test extends CTestCase
 		$this->assertEquals('user2',$rows[0]['username']);
 		$this->assertEquals('pass2',$rows[0]['password']);
 	}
+
+	public function testArraySyntax()
+	{
+		$command=$this->_connection->createCommand(array(
+			'select'=>'username, password',
+			'from'=>'users',
+			'where'=>'email=:email or email=:email2',
+			'params'=>array(':email'=>'email2', ':email2'=>'email4'),
+			'order'=>'username desc',
+			'limit'=>2,
+			'offset'=>1,
+		));
+
+		$sql="SELECT \"username\", \"password\"\nFROM 'users'\nWHERE email=:email or email=:email2\nORDER BY \"username\" DESC LIMIT 2 OFFSET 1";
+		$this->assertEquals($sql, $command->text);
+
+		$rows=$command->queryAll();
+		$this->assertEquals(1,count($rows));
+		$this->assertEquals('user2',$rows[0]['username']);
+		$this->assertEquals('pass2',$rows[0]['password']);
+	}
 }

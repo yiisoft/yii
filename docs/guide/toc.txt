@@ -30,6 +30,7 @@
 * Working with Databases
     - [Overview](database.overview)
     - [Database Access Objects](database.dao)
+    - [Query Builder](database.query-builder)
     - [Active Record](database.ar)
     - [Relational Active Record](database.arr)
 
