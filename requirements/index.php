@@ -52,7 +52,7 @@ $requirements=array(
 		t('yii','DOM extension'),
 		false,
 		class_exists("DOMDocument",false),
-		'<a href="http://www.yiiframework.com/doc/api/CWsdlGenerator">CWsdlGenerator</a>',
+		'<a href="http://www.yiiframework.com/doc/api/CHtmlPurifier">CHtmlPurifier</a>, <a href="http://www.yiiframework.com/doc/api/CWsdlGenerator">CWsdlGenerator</a>',
 		''),
 	array(
 		t('yii','PDO extension'),
