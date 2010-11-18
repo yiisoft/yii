@@ -45,7 +45,7 @@ Unglücklicherweise erfüllt Ihr Server die Anforderungen von Yii nicht.
 	<?php echo $requirement[0]; ?>
 	</td>
 	<td class="<?php echo $requirement[2] ? 'passed' : ($requirement[1] ? 'failed' : 'warning'); ?>">
-	<?php echo $requirement[2] ? 'Bestanden' : 'Verfehlt'; ?>
+	<?php echo $requirement[2] ? 'Bestanden' : ($requirement[1] ? 'Verfehlt' : 'Warnung'); ?>
 	</td>
 	<td>
 	<?php echo $requirement[3]; ?>
