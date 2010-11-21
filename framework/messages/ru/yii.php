@@ -47,7 +47,7 @@ return array (
   'CDbCommand failed to execute the SQL statement: {error}' => 'CDbCommand не удалось исполнить SQL-запрос: {error}',
   'CDbCommand failed to prepare the SQL statement: {error}' => 'CDbCommand не удалось подготовить SQL-запрос: {error}',
   'CDbConnection does not support reading schema for {driver} database.' => 'CDbConnection не поддерживает чтения из базы данных {driver}.',
-  'CDbConnection failed to open the DB connection.' => 'CDbConnection не удалось устоновить соединение с БД.',
+  'CDbConnection failed to open the DB connection.' => 'CDbConnection не удалось установить соединение с БД.',
   'CDbConnection failed to open the DB connection: {error}' => 'CDbConnection не удалось открыть соединение с базой данных: {error}',
   'CDbConnection is inactive and cannot perform any DB operations.' => 'Соединение CDbConnection не активно, операции над базой данных невозможны.',
   'CDbConnection.connectionString cannot be empty.' => 'Параметр CDbConnection.connectionString должен быть заполнен.',
