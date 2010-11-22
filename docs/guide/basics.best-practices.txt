@@ -1,0 +1,84 @@
+Best MVC Practices
+==================
+
+Although Model-View-Controller (MVC) is known by nearly every Web developer, how to properly use MVC in real application development still eludes many people. The central idea behind MVC is **code reusability and separation of concerns**. In this section, we describe some general guidelines on how to better follow MVC when developing a Yii application.
+
+To better explain these guidelines, we assume a Web application consists of several sub-applications, such as
+
+* front end: a website targeting at normal end users;
+* back end: a website targeting at administrative staff for the application;
+* console: consisting of console commands to be run in terminal window or as cron jobs to support the whole application;
+* Web API: providing interfaces to third parties for integrating with the application.
+
+The sub-applications may be implemented in terms of [modules](/doc/guide/basics.module), or as a Yii application that shares some code with other sub-applications.
+
+
+Model
+-----
+
+[Models](/doc/guide/basics.model) represent the underlying data structure of a Web application. Models are often shared among different sub-applications of a Web application. For example, a `LoginForm` model may be used by both the front end and the back end of an application; a `News` model may be used by the console commands, Web APIs, and the front/back end of an application. Therefore, models
+
+* should contain properties to represent specific data;
+
+* should contain business logic (e.g. validation rules) to ensure the represented data fulfills the design requirement;
+
+* may contain code for manipulating data. For example, a `SearchForm` model, besides representing the search input data, may contain a `search` method to implement the actual search.
+
+Sometimes, following the last rule above may make a model very fat, containing too much code in a single class. It may also make the model hard to maintain if the code it contains serves for different purposes. For example, a `News` model may contain a method named `getLatestNews` which is only used by the front end; it may also contain a method named `getDeletedNews` which is only used by the back end. This may be fine for an application of small to medium size. For large applications, the following strategy may be used to make models more maintainable:
+
+* Define a `NewsBase` model class which only contains code shared by different sub-applications (e.g. front end, back end);
+
+* In each sub-application, define a `News` model by extending from `NewsBase`. The `News` model may contain code specific for the sub-application that the model resides in.
+
+For the above example, using this strategy we may a `News` model in the front end which contains the `getLatestNews` method only, and we may have another `News` model in the back end which contains the `getDeleteNews` method only.
+
+In general, models should not contain logic directly dealing with end users. More specifically, models
+
+* should not use `$_GET`, `$_POST`, or other similar variables that represent the request of end users. Remember that a model may be used by a totally different sub-application (e.g. unit test, Web API) that may not use these variables to represent user requests. Controller in this case is the more appropriate party taking care of these variables.
+
+* should avoid embedding HTML or other presentational code. Because presentational code varies according to end user requirements (e.g. front end and back end may show the detail of a news in completely different formats), it is better taken care of by views.
+
+
+View
+----
+
+[Views](/doc/guide/basics.view) are responsible for presenting models in the format that end users desire. In general, views
+
+* should mainly contain presentational code, such as HTML, simple PHP code to traverse, format and render data;
+
+* should avoid containing code that performs explicit DB queries. These code are better put in models.
+
+* should avoid directly access `$_GET`, `$_POST`, or other similar variables that represent the request of end users. Like models, views should be dumb enough not to take over the work from controller.
+
+* may access properties and methods of controllers and models directly. However, this should be done only for presentational purpose.
+
+
+Views can be reused in different ways:
+
+* Layout: common presentational areas (e.g. page header, footer) can be put in a layout view.
+
+* Partial views: use partial views (views that are not decorated by layouts) to reuse fragments of presentational code. For example, we use `_form.php` partial view to render the model input form that is used in both model creation and updating pages.
+
+* Widgets: if a lot of logic is needed to present a partial view, the partial view can be turned into a widget whose class file is the best place to contain these logic. For widgets that generate a lot of HTML markups, they better use view files to hold these markups.
+
+* Helper classes: in views we often need some code snippets to do tiny tasks such as formatting data, generating HTML tags. These code snippets are best implemented in terms of view helper classes. For example, Yii has a powerful [CHtml] helper class that can produce commonly used HTML code. Helper classes may be put in an [autoloadable directory](/doc/guide/basics.namespace) so that they can be used without explicit class inclusion.
+
+
+Controller
+----------
+
+[Controllers](/doc/guide/basics.controller) are the glue that binds models, views and other components together into a runnable application. Controllers are the frontier dealing directly with end user requests. Therefore, controllers
+
+* may access `$_GET`, `$_POST` and other PHP variables that represent user requests;
+
+* may create model instances and manage their life cycles. For example, in a typical model update action, the controller may first create the model instance; then populate the model with the user input from `$_POST`; after saving the model successfully, the controller may redirect the user browser to the model detail page. Note that the actual implementation of saving a model should be located in the model instead of the controller.
+
+* should avoid embedding SQL statements which are better kept in models.
+
+* should avoid embedding HTML and other presentational markups which are better kept in views.
+
+
+In a well-designed MVC application, controllers are often very thin, containing probably only dozens of lines of code; while models are very fat, containing most code representing and manipulating data. This is because the data structure and business logic represented by models vary widely across different applications and must be written freshly; while controller logic often follows the similar pattern that may well be simplified by the underlying framework or the base classes.
+
+
+<div class="revision">$Id$</div>
