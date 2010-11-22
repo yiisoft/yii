@@ -12,13 +12,22 @@ which action to execute, the default action will be executed. By default,
 the default action is named as `index`. It can be changed by setting
 [CController::defaultAction].
 
-Below is the minimal code needed by a controller class. Since this controller
-does not define any action, requesting for it would throw an exception.
+The following code defines a `site` controller, an `index` action (the default
+action), and a `contact` action:
 
 ~~~
 [php]
 class SiteController extends CController
 {
+	public function actionIndex()
+	{
+		// ...
+	}
+
+	public function actionContact()
+	{
+		// ...
+	}
 }
 ~~~
 

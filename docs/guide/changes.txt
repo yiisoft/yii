@@ -6,6 +6,7 @@ This page summarizes the main new features introduced in each Yii release.
 Version 1.1.6
 -------------
  * [Added query builder](/doc/guide/database.query-builder)
+ * [Best MVC Practices](/doc/guide/basics.best-practices)
 
 Version 1.1.5
 -------------
