@@ -61,7 +61,7 @@
  * For example,
  * <pre>
  * array(
- *      '<_c:(post|comment)>/<id:\d+>/<_a:(create|update|delete)&gt;'=>'<_c>/<_a>',
+ *      '<_c:(post|comment)>/<id:\d+>/<_a:(create|update|delete)>'=>'<_c>/<_a>',
  *      '<_c:(post|comment)>/<id:\d+>'=>'<_a>/view',
  *      '<_c:(post|comment)>s/*'=>'<_a>/list',
  * )
