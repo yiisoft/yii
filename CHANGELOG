@@ -7,6 +7,7 @@ Version 1.1.6 to be released
 - Bug #1775: Fixed the bug that AR and Gii may fail for tables not in default schema in Oracle DB (Qiang)
 - Bug #1790: Fixed the bug that CJSON::encode may generate invalid encoding result when data contains float numbers (Qiang)
 - Bug #1799: Fixed the bug that CJuiDatePicker::$name may cause a PHP error (Y!!)
+- Bug #1819: CHttpRequest::getPathInfo() now respects encoded characters (Sam Dark, creocoder)
 - Bug: Fixed the bug that CActiveForm generates unnecessary js code about setting focus (Qiang)
 - Enh #1785: Added CAssetManager::$excludeFiles property to support exclusion of irrelevant files from the publishing process (Y!!)
 - Enh: CDbConnection::quoteColumnName and quoteTableName will properly quote table prefix and schema prefix. (Qiang)
