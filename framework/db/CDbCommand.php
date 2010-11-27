@@ -521,9 +521,9 @@ class CDbCommand extends CComponent
 				else if(strpos($column,'(')===false)
 				{
 					if(preg_match('/^(.*?)\s+as\s+(.*)$/i',$column,$matches))
-						$columns[$i]=$this->quoteColumnName($matches[1]).' AS '.$this->quoteColumnName($matches[2]);
+						$columns[$i]=$this->_connection->quoteColumnName($matches[1]).' AS '.$this->_connection->quoteColumnName($matches[2]);
 					else
-						$columns[$i]=$this->quoteColumnName($column);
+						$columns[$i]=$this->_connection->quoteColumnName($column);
 				}
 			}
 			$this->_query['select']=implode(', ',$columns);
@@ -608,9 +608,9 @@ class CDbCommand extends CComponent
 				if(strpos($table,'(')===false)
 				{
 					if(preg_match('/^(.*?)\s+(.*)$/',$table,$matches))  // with alias
-						$tables[$i]=$this->quoteTableName($matches[1]).' '.$this->quoteTableName($matches[2]);
+						$tables[$i]=$this->_connection->quoteTableName($matches[1]).' '.$this->_connection->quoteTableName($matches[2]);
 					else
-						$tables[$i]=$this->quoteTableName($table);
+						$tables[$i]=$this->_connection->quoteTableName($table);
 				}
 			}
 			$this->_query['from']=implode(', ',$tables);
@@ -833,7 +833,7 @@ class CDbCommand extends CComponent
 				if(is_object($column))
 					$columns[$i]=(string)$column;
 				else if(strpos($column,'(')===false)
-					$columns[$i]=$this->quoteColumnName($column);
+					$columns[$i]=$this->_connection->quoteColumnName($column);
 			}
 			$this->_query['group']=implode(', ',$columns);
 		}
@@ -922,9 +922,9 @@ class CDbCommand extends CComponent
 				else if(strpos($column,'(')===false)
 				{
 					if(preg_match('/^(.*?)\s+(asc|desc)$/i',$column,$matches))
-						$columns[$i]=$this->quoteColumnName($matches[1]).' '.strtoupper($matches[2]);
+						$columns[$i]=$this->_connection->quoteColumnName($matches[1]).' '.strtoupper($matches[2]);
 					else
-						$columns[$i]=$this->quoteColumnName($column);
+						$columns[$i]=$this->_connection->quoteColumnName($column);
 				}
 			}
 			$this->_query['order']=implode(', ',$columns);
@@ -1077,7 +1077,7 @@ class CDbCommand extends CComponent
 			$names[]=$this->_connection->quoteColumnName($name);
 			$params[':'.$name]=$value;
 		}
-		$this->_text='INSERT INTO ' . $this->quoteTableName($table) . ' (' . implode(', ',$names) . ') VALUES (' . implode(', ', array_keys($params)) . ')';
+		$this->_text='INSERT INTO ' . $this->_connection->quoteTableName($table) . ' (' . implode(', ',$names) . ') VALUES (' . implode(', ', array_keys($params)) . ')';
 		$this->params=$params;
 		return $this;
 	}
@@ -1101,7 +1101,7 @@ class CDbCommand extends CComponent
 			$params[':'.$name]=$value;
 			$lines[]=$this->_connection->quoteColumnName($name).'=:'.$name;
 		}
-		$this->_text='UPDATE ' . $this->quoteTableName($table) . ' SET ' . implode(', ', $lines);
+		$this->_text='UPDATE ' . $this->_connection->quoteTableName($table) . ' SET ' . implode(', ', $lines);
 		if(($where=$this->processConditions($conditions))!='')
 			$this->_text.=' WHERE '.$where;
 		$this->params=$params;
@@ -1119,33 +1119,11 @@ class CDbCommand extends CComponent
 	 */
 	public function delete($table, $conditions='', $params=array())
 	{
-		$this->_text='DELETE FROM ' . $this->quoteTableName($table);
+		$this->_text='DELETE FROM ' . $this->_connection->quoteTableName($table);
 		if(($where=$this->processConditions($conditions))!='')
 			$this->_text.=' WHERE '.$where;
 		$this->params=$params;
 		return $this;
-	}
-
-	private function quoteColumnName($name)
-	{
-		if(($pos=strrpos($name,'.'))!==false)
-		{
-			$prefix=$this->quoteTableName(substr($name,0,$pos)).'.';
-			$name=substr($name,$pos+1);
-		}
-		else
-			$prefix='';
-		return $prefix . ($name==='*' ? $name : $this->_connection->quoteColumnName($name));
-	}
-
-	private function quoteTableName($name)
-	{
-		if(strpos($name,'.')===false)
-			return $this->_connection->quoteTableName($name);
-		$parts=explode('.',$name);
-		foreach($parts as $i=>$part)
-			$parts[$i]=$this->_connection->quoteTableName($part);
-		return implode('.',$parts);
 	}
 
 	private function processConditions($conditions)
@@ -1173,7 +1151,7 @@ class CDbCommand extends CComponent
 
 		$column=$conditions[1];
 		if(strpos($column,'(')===false)
-			$column=$this->quoteColumnName($column);
+			$column=$this->_connection->quoteColumnName($column);
 
 		$values=$conditions[2];
 		if(!is_array($values))
@@ -1222,9 +1200,9 @@ class CDbCommand extends CComponent
 		if(strpos($table,'(')===false)
 		{
 			if(preg_match('/^(.*?)\s+(.*)$/',$table,$matches))  // with alias
-				$table=$this->quoteTableName($matches[1]).' '.$this->quoteTableName($matches[2]);
+				$table=$this->_connection->quoteTableName($matches[1]).' '.$this->_connection->quoteTableName($matches[2]);
 			else
-				$table=$this->quoteTableName($table);
+				$table=$this->_connection->quoteTableName($table);
 		}
 
 		$conditions=$this->processConditions($conditions);

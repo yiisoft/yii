@@ -25,11 +25,11 @@ abstract class CDbSchema extends CComponent
 	private $_cacheExclude=array();
 
 	/**
-	 * Creates a table instance representing the metadata for the named table.
+	 * Loads the metadata for the specified table.
 	 * @param string $name table name
 	 * @return CDbTableSchema driver dependent table metadata, null if the table does not exist.
 	 */
-	abstract protected function createTable($name);
+	abstract protected function loadTable($name);
 
 	/**
 	 * Constructor.
@@ -71,14 +71,14 @@ abstract class CDbSchema extends CComponent
 				$key='yii:dbschema'.$this->_connection->connectionString.':'.$this->_connection->username.':'.$name;
 				if(($table=$cache->get($key))===false)
 				{
-					$table=$this->createTable($realName);
+					$table=$this->loadTable($realName);
 					if($table!==null)
 						$cache->set($key,$table,$duration);
 				}
 				return $this->_tables[$name]=$table;
 			}
 			else
-				return $this->_tables[$name]=$this->createTable($realName);
+				return $this->_tables[$name]=$this->loadTable($realName);
 		}
 	}
 
@@ -151,20 +151,61 @@ abstract class CDbSchema extends CComponent
 
 	/**
 	 * Quotes a table name for use in a query.
+	 * If the table name contains schema prefix, the prefix will also be properly quoted.
 	 * @param string $name table name
 	 * @return string the properly quoted table name
+	 * @see quoteSimpleTableName
 	 */
 	public function quoteTableName($name)
+	{
+		if(strpos($name,'.')===false)
+			return $this->quoteSimpleTableName($name);
+		$parts=explode('.',$name);
+		foreach($parts as $i=>$part)
+			$parts[$i]=$this->quoteSimpleTableName($part);
+		return implode('.',$parts);
+
+	}
+
+	/**
+	 * Quotes a simple table name for use in a query.
+	 * A simple table name does not schema prefix.
+	 * @param string $name table name
+	 * @return string the properly quoted table name
+	 * @since 1.1.6
+	 */
+	public function quoteSimpleTableName($name)
 	{
 		return "'".$name."'";
 	}
 
 	/**
 	 * Quotes a column name for use in a query.
+	 * If the column name contains prefix, the prefix will also be properly quoted.
 	 * @param string $name column name
 	 * @return string the properly quoted column name
+	 * @see quoteSimpleColumnName
 	 */
 	public function quoteColumnName($name)
+	{
+		if(($pos=strrpos($name,'.'))!==false)
+		{
+			$prefix=$this->quoteTableName(substr($name,0,$pos)).'.';
+			$name=substr($name,$pos+1);
+		}
+		else
+			$prefix='';
+		return $prefix . ($name==='*' ? $name : $this->quoteSimpleColumnName($name));
+	}
+
+	/**
+	 * Quotes a simple column name for use in a query.
+	 * A simple column name does not contain prefix.
+	 * @param string $name column name
+	 * @return string the properly quoted column name
+	 * @since 1.1.6
+	 */
+	public function quoteSimpleColumnName($name)
 	{
 		return '"'.$name.'"';
 	}
