@@ -473,6 +473,7 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Quotes a table name for use in a query.
+	 * If the table name contains schema prefix, the prefix will also be properly quoted.
 	 * @param string $name table name
 	 * @return string the properly quoted table name
 	 */
@@ -483,6 +484,7 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Quotes a column name for use in a query.
+	 * If the column name contains prefix, the prefix will also be properly quoted.
 	 * @param string $name column name
 	 * @return string the properly quoted column name
 	 */

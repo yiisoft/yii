@@ -20,20 +20,24 @@ class CMysqlSchema extends CDbSchema
 {
 	/**
 	 * Quotes a table name for use in a query.
+	 * A simple table name does not schema prefix.
 	 * @param string $name table name
 	 * @return string the properly quoted table name
+	 * @since 1.1.6
 	 */
-	public function quoteTableName($name)
+	public function quoteSimpleTableName($name)
 	{
 		return '`'.$name.'`';
 	}
 
 	/**
 	 * Quotes a column name for use in a query.
+	 * A simple column name does not contain prefix.
 	 * @param string $name column name
 	 * @return string the properly quoted column name
+	 * @since 1.1.6
 	 */
-	public function quoteColumnName($name)
+	public function quoteSimpleColumnName($name)
 	{
 		return '`'.$name.'`';
 	}
@@ -84,11 +88,11 @@ class CMysqlSchema extends CDbSchema
 	}
 
 	/**
-	 * Creates a table instance representing the metadata for the named table.
+	 * Loads the metadata for the specified table.
 	 * @param string $name table name
 	 * @return CMysqlTableSchema driver dependent table metadata. Null if the table does not exist.
 	 */
-	protected function createTable($name)
+	protected function loadTable($name)
 	{
 		$table=new CMysqlTableSchema;
 		$this->resolveTableNames($table,$name);
