@@ -13,6 +13,7 @@ Version 1.1.6 to be released
 - Enh: CDbConnection::quoteColumnName and quoteTableName will properly quote table prefix and schema prefix. (Qiang)
 - New: Added query builder (Qiang)
 
+
 Version 1.1.5 November 14, 2010
 -------------------------------
 - Bug #997: Fixed the bug that relational AR query with page-by and sorting may fail to work for SQL Server (Qiang)
