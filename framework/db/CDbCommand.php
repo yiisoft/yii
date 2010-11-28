@@ -96,6 +96,22 @@ class CDbCommand extends CComponent
 	}
 
 	/**
+	 * Cleans up the command and prepares for building a new query.
+	 * This method is mainly used when a command object is being reused
+	 * multiple times for building different queries.
+	 * Calling this method will clean up all internal states of the command object.
+	 * @since 1.1.6
+	 */
+	public function reset()
+	{
+		$this->_text=null;
+		$this->_query=null;
+		$this->_statement=null;
+		$this->_paramLog=array();
+		$this->params=array();
+	}
+
+	/**
 	 * @return string the SQL statement to be executed
 	 */
 	public function getText()
