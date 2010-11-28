@@ -322,6 +322,7 @@ class CDbCommand2Test extends CTestCase
 		$this->assertEquals(array('select * from user', 'select * from post'), $command->union);
 	}
 
+	/*
 	public function testInsert()
 	{
 		$command=$this->_connection->createCommand();
@@ -348,6 +349,7 @@ class CDbCommand2Test extends CTestCase
 		$this->assertEquals('DELETE FROM \'user\' WHERE status=:status', $command->text);
 		$this->assertEquals(array(':status'=>2), $command->params);
 	}
+	*/
 
 	public function testQuery()
 	{
