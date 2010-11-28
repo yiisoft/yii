@@ -19,6 +19,25 @@
 class CSqliteSchema extends CDbSchema
 {
 	/**
+	 * @var array the abstract column types mapped to physical column types.
+	 * @since 1.1.6
+	 */
+    public $columnTypes=array(
+        'pk' => 'integer PRIMARY KEY AUTOINCREMENT NOT NULL',
+        'string' => 'varchar(255)',
+        'text' => 'text',
+        'integer' => 'integer',
+        'float' => 'float',
+        'decimal' => 'decimal',
+        'datetime' => 'datetime',
+        'timestamp' => 'timestamp',
+        'time' => 'time',
+        'date' => 'date',
+        'binary' => 'blob',
+        'boolean' => 'tinyint(1)',
+    );
+
+	/**
 	 * Resets the sequence value of a table's primary key.
 	 * The sequence will be reset such that the primary key of the next new row inserted
 	 * will have the specified value or 1.
@@ -157,5 +176,60 @@ class CSqliteSchema extends CDbSchema
 		$c->isForeignKey=false;
 		$c->init(strtolower($column['type']),$column['dflt_value']);
 		return $c;
+	}
+
+	/**
+	 * Builds a SQL statement for dropping a DB column.
+	 * Because SQLite does not support dropping a DB column, calling this method will throw an exception.
+	 * @param string $table the table whose column is to be dropped. The name will be properly quoted by the method.
+	 * @param string $column the name of the column to be dropped. The name will be properly quoted by the method.
+	 * @return string the SQL statement for dropping a DB column.
+	 * @since 1.1.6
+	 */
+	public function dropColumn($table, $column)
+	{
+		throw new CDbException(Yii::t('yii', 'Dropping DB column is not supported by SQLite.'));
+	}
+
+	/**
+	 * Builds a SQL statement for renaming a column.
+	 * Because SQLite does not support renaming a DB column, calling this method will throw an exception.
+	 * @param string $table the table whose column is to be renamed. The name will be properly quoted by the method.
+	 * @param string $name the old name of the column. The name will be properly quoted by the method.
+	 * @param string $newName the new name of the column. The name will be properly quoted by the method.
+	 * @return string the SQL statement for renaming a DB column.
+	 * @since 1.1.6
+	 */
+	public function renameColumn($table, $name, $newName)
+	{
+		throw new CDbException(Yii::t('yii', 'Renaming a DB column is not supported by SQLite.'));
+	}
+
+	/**
+	 * Builds a SQL statement for changing the definition of a column.
+	 * Because SQLite does not support altering a DB column, calling this method will throw an exception.
+	 * @param string $table the table whose column is to be changed. The table name will be properly quoted by the method.
+	 * @param string $column the name of the column to be changed. The name will be properly quoted by the method.
+	 * @param string $type the new column type. The {@link getColumnType} method will be invoked to convert abstract column type (if any)
+	 * into the physical one. Anything that is not recognized as abstract type will be kept in the generated SQL.
+	 * For example, 'string' will be turned into 'varchar(255)', while 'string not null' will become 'varchar(255) not null'.
+	 * @return string the SQL statement for changing the definition of a column.
+	 * @since 1.1.6
+	 */
+	public function alterColumn($table, $column, $type)
+	{
+		throw new CDbException(Yii::t('yii', 'Altering a DB column is not supported by SQLite.'));
+	}
+
+	/**
+	 * Builds a SQL statement for dropping an index.
+	 * @param string $table the table whose index is to be dropped. The name will be properly quoted by the method.
+	 * @param string $name the name of the index to be dropped. The name will be properly quoted by the method.
+	 * @return string the SQL statement for dropping an index.
+	 * @since 1.1.6
+	 */
+	public function dropIndex($table, $name)
+	{
+		return 'DROP INDEX '.$this->quoteTableName($name);
 	}
 }

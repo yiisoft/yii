@@ -18,6 +18,12 @@
  */
 abstract class CDbSchema extends CComponent
 {
+	/**
+	 * @var array the abstract column types mapped to physical column types.
+	 * @since 1.1.6
+	 */
+    public $columnTypes=array();
+
 	private $_tableNames=array();
 	private $_tables=array();
 	private $_connection;
@@ -284,5 +290,199 @@ abstract class CDbSchema extends CComponent
 	{
 		throw new CDbException(Yii::t('yii','{class} does not support fetching all table names.',
 			array('{class}'=>get_class($this))));
+	}
+
+	/**
+	 * Converts an abstract column type into a physical column type.
+	 * The conversion is done using the type map specified in {@link columnTypes}.
+	 * These abstract column types are supported (using MySQL as example to explain the corresponding
+	 * physical types):
+	 * <ul>
+	 * <li>pk: an auto-incremental primary key type, will be converted into "int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY"</li>
+	 * <li>string: string type, will be converted into "varchar(255)"</li>
+	 * <li>text: a long string type, will be converted into "text"</li>
+	 * <li>integer: integer type, will be converted into "int(11)"</li>
+	 * <li>boolean: boolean type, will be converted into "tinyint(1)"</li>
+	 * <li>float: float number type, will be converted into "float"</li>
+	 * <li>decimal: decimal number type, will be converted into "decimal"</li>
+	 * <li>datetime: datetime type, will be converted into "datetime"</li>
+	 * <li>timestamp: timestamp type, will be converted into "timestamp"</li>
+	 * <li>time: time type, will be converted into "time"</li>
+	 * <li>date: date type, will be converted into "date"</li>
+	 * <li>binary: binary data type, will be converted into "blob"</li>
+	 * </ul>
+	 *
+	 * If the abstract type contains two or more parts separated by spaces (e.g. "string NOT NULL"), then only
+	 * the first part will be converted, and the rest of the parts will be appended to the conversion result.
+	 * For example, 'string NOT NULL' is converted to 'varchar(255) NOT NULL'.
+	 * @param string $type abstract column type
+	 * @return string physical column type.
+	 * @since 1.1.6
+	 */
+    public function getColumnType($type)
+    {
+    	if(isset($this->columnTypes[$type]))
+    		return $this->columnTypes[$type];
+    	else if(($pos=strpos($type,' '))!==false)
+    	{
+    		$t=substr($type,0,$pos);
+    		return (isset($this->columnTypes[$t]) ? $this->columnTypes[$t] : $t).substr($type,$pos);
+    	}
+    	else
+    		return $type;
+    }
+
+	/**
+	 * Builds a SQL statement for creating a new DB table.
+	 *
+	 * The columns in the new  table should be specified as name-definition pairs (e.g. 'name'=>'string'),
+	 * where name stands for a column name which will be properly quoted by the method, and definition
+	 * stands for the column type which can contain an abstract DB type.
+	 * The {@link getColumnType} method will be invoked to convert any abstract type into a physical one.
+	 *
+	 * If a column is specified with definition only (e.g. 'PRIMARY KEY (name, type)'), it will be directly
+	 * inserted into the generated SQL.
+	 *
+	 * @param string $table the name of the table to be created. The name will be properly quoted by the method.
+	 * @param array $columns the columns (name=>definition) in the new table.
+	 * @param string $options additional SQL fragment that will be appended to the generated SQL.
+	 * @return string the SQL statement for creating a new DB table.
+	 * @since 1.1.6
+	 */
+	public function createTable($table, $columns, $options=null)
+	{
+		$cols=array();
+		foreach($columns as $name=>$type)
+		{
+			if(is_string($name))
+				$cols[]="\t".$this->quoteColumnName($name).' '.$this->getColumnType($type);
+			else
+				$cols[]="\t".$type;
+		}
+		$sql="CREATE TABLE ".$this->quoteTableName($table)." (\n".implode(",\n",$cols)."\n)";
+		return $options===null ? $sql : $sql.' '.$options;
+	}
+
+	/**
+	 * Builds a SQL statement for renaming a DB table.
+	 * @param string $table the table to be renamed. The name will be properly quoted by the method.
+	 * @param string $newName the new table name. The name will be properly quoted by the method.
+	 * @return string the SQL statement for renaming a DB table.
+	 * @since 1.1.6
+	 */
+	public function renameTable($table, $newName)
+	{
+		return 'RENAME TABLE ' . $this->quoteTableName($table) . ' TO ' . $this->quoteTableName($newName);
+	}
+
+	/**
+	 * Builds a SQL statement for dropping a DB table.
+	 * @param string $table the table to be dropped. The name will be properly quoted by the method.
+	 * @return string the SQL statement for dropping a DB table.
+	 * @since 1.1.6
+	 */
+	public function dropTable($table)
+	{
+		return "DROP TABLE ".$this->quoteTableName($table);
+	}
+
+	/**
+	 * Builds a SQL statement for adding a new DB column.
+	 * @param string $table the table that the new column will be added to. The table name will be properly quoted by the method.
+	 * @param string $column the name of the new column. The name will be properly quoted by the method.
+	 * @param string $type the column type. The {@link getColumnType} method will be invoked to convert abstract column type (if any)
+	 * into the physical one. Anything that is not recognized as abstract type will be kept in the generated SQL.
+	 * For example, 'string' will be turned into 'varchar(255)', while 'string not null' will become 'varchar(255) not null'.
+	 * @return string the SQL statement for adding a new column.
+	 * @since 1.1.6
+	 */
+	public function addColumn($table, $column, $type)
+	{
+		$type=$this->getColumnType($type);
+		$sql='ALTER TABLE ' . $this->quoteTableName($table)
+			. ' ADD ' . $this->quoteColumnName($column) . ' '
+			. $this->getColumnType($type);
+		return $sql;
+	}
+
+	/**
+	 * Builds a SQL statement for dropping a DB column.
+	 * @param string $table the table whose column is to be dropped. The name will be properly quoted by the method.
+	 * @param string $column the name of the column to be dropped. The name will be properly quoted by the method.
+	 * @return string the SQL statement for dropping a DB column.
+	 * @since 1.1.6
+	 */
+	public function dropColumn($table, $column)
+	{
+		return "ALTER TABLE ".$this->quoteTableName($table)
+			." DROP COLUMN ".$this->quoteColumnName($column);
+	}
+
+	/**
+	 * Builds a SQL statement for renaming a column.
+	 * @param string $table the table whose column is to be renamed. The name will be properly quoted by the method.
+	 * @param string $name the old name of the column. The name will be properly quoted by the method.
+	 * @param string $newName the new name of the column. The name will be properly quoted by the method.
+	 * @return string the SQL statement for renaming a DB column.
+	 * @since 1.1.6
+	 */
+	public function renameColumn($table, $name, $newName)
+	{
+		return "ALTER TABLE ".$this->quoteTableName($table)
+			. " RENAME COLUMN ".$this->quoteColumnName($name)
+			. " TO ".$this->quoteColumnName($newName);
+	}
+
+	/**
+	 * Builds a SQL statement for changing the definition of a column.
+	 * @param string $table the table whose column is to be changed. The table name will be properly quoted by the method.
+	 * @param string $column the name of the column to be changed. The name will be properly quoted by the method.
+	 * @param string $type the new column type. The {@link getColumnType} method will be invoked to convert abstract column type (if any)
+	 * into the physical one. Anything that is not recognized as abstract type will be kept in the generated SQL.
+	 * For example, 'string' will be turned into 'varchar(255)', while 'string not null' will become 'varchar(255) not null'.
+	 * @return string the SQL statement for changing the definition of a column.
+	 * @since 1.1.6
+	 */
+	public function alterColumn($table, $column, $type)
+	{
+		$type=$this->getColumnType($type);
+		$sql='ALTER TABLE ' . $this->quoteTableName($table) . ' CHANGE '
+			. $this->quoteColumnName($column) . ' '
+			. $this->quoteColumnName($column) . ' '
+			. $this->getColumnType($type);
+		return $sql;
+	}
+
+	/**
+	 * Builds a SQL statement for creating a new index.
+	 * @param string $table the table that the new index will be created for. The table name will be properly quoted by the method.
+	 * @param string $name the name of the index. The name will be properly quoted by the method.
+	 * @param string $column the column(s) that should be included in the index. If there are multiple columns, please separate them
+	 * by commas. The column names will be properly quoted by the method.
+	 * @param boolean $unique whether to add UNIQUE constraint on the created index.
+	 * @return string the SQL statement for creating a new index.
+	 * @since 1.1.6
+	 */
+	public function createIndex($table, $name, $column, $unique=false)
+	{
+		$cols=array();
+		$columns=preg_split('/\s*,\s*/',$column,-1,PREG_SPLIT_NO_EMPTY);
+		foreach($columns as $col)
+			$cols[]=$this->quoteColumnName($col);
+		return ($unique ? 'CREATE UNIQUE INDEX ' : 'CREATE INDEX ')
+			. $this->quoteTableName($name).' ON '
+			. $this->quoteTableName($table).' ('.implode(', ',$cols).')';
+	}
+
+	/**
+	 * Builds a SQL statement for dropping an index.
+	 * @param string $table the table whose index is to be dropped. The name will be properly quoted by the method.
+	 * @param string $name the name of the index to be dropped. The name will be properly quoted by the method.
+	 * @return string the SQL statement for dropping an index.
+	 * @since 1.1.6
+	 */
+	public function dropIndex($table, $name)
+	{
+		return 'DROP INDEX '.$this->quoteTableName($name).' ON '.$this->quoteTableName($table);
 	}
 }

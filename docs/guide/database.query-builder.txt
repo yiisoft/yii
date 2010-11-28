@@ -1,7 +1,7 @@
 Query Builder
 =============
 
-The Yii Query Builder provides an object-orient way of writing SQL statements. It allows developers to use class methods and properties to specify individual parts of a SQL statement. It then assembles different parts into a valid SQL statement that can be further executed by calling the DAO methods as described in [Data Access Objects](/doc/guide/database.dao). The following shows a typical usage of the Query Builder:
+The Yii Query Builder provides an object-orient way of writing SQL statements. It allows developers to use class methods and properties to specify individual parts of a SQL statement. It then assembles different parts into a valid SQL statement that can be further executed by calling the DAO methods as described in [Data Access Objects](/doc/guide/database.dao). The following shows a typical usage of the Query Builder to build a SELECT SQL statement:
 
 ~~~
 [php]
@@ -45,12 +45,29 @@ That is, we use `Yii::app()->db` to get the DB connection, and then call [CDbCon
 Note that instead of passing a whole SQL statement to the `createCommand()` call as we do in [Data Access Objects](/doc/guide/database.dao), we leave it empty. This is because we will build individual parts of the SQL statement using the Query Builder methods explained in the following.
 
 
-Building Queries
-----------------
+Building Data Retrieval Queries
+-------------------------------
 
-Building a SQL query involves calling different query builder methods to build individual parts of the query. Because all these methods return the [CDbCommand] instance, we can call them using method chaining, as shown in the previous example.
+Data retrieval queries refer to SELECT SQL statements. The query builder provides a set of methods to build individual parts of a SELECT statement. Because all these methods return the [CDbCommand] instance, we can call them using method chaining, as shown in the example at the beginning of this section.
 
-In the following, we explain how to use these query builder methods. We assume the underlying database is MySQL. Note that if you are using other DBMS, the table/column/value quoting shown in the examples may be different.
+* [select|CDbCommand::select]: specifies the SELECT part of the query
+* [selectDistinct|CDbCommand::selectDistinct]: specifies the SELECT part of the query and turns on the DISTINCT flag
+* [from|CDbCommand::from]: specifies the FROM part of the query
+* [where|CDbCommand::where]: specifies the WHERE part of the query
+* [join|CDbCommand::join]: appends an inner join query fragment
+* [leftJoin|CDbCommand::leftJoin]: appends a left outer join query fragment
+* [rightJoin|CDbCommand::rightJoin]: appends a right outer join query fragment
+* [crossJoin|CDbCommand::crossJoin]: appends a cross join query fragment
+* [naturalJoin|CDbCommand::naturalJoin]: appends a natural join query fragment
+* [group|CDbCommand::group]: specifies the GROUP BY part of the query
+* [having|CDbCommand::having]: specifies the HAVING part of the query
+* [order|CDbCommand::order]: specifies the ORDER BY part of the query
+* [limit|CDbCommand::limit]: specifies the LIMIT part of the query
+* [offset|CDbCommand::offset]: specifies the OFFSET part of the query
+* [union|CDbCommand::union]: appends a UNION query fragment
+
+
+In the following, we explain how to use these query builder methods. For simplicity, we assume the underlying database is MySQL. Note that if you are using other DBMS, the table/column/value quoting shown in the examples may be different.
 
 
 ### select
@@ -308,6 +325,71 @@ union('select * from tbl_profile')
 ~~~
 
 
+### Executing Queries
+
+After calling the above query builder methods to build a query, we can call the DAO methods as described in [Data Access Objects](/doc/guide/database.dao) to execute the query. For example, we can call [CDbCommand::queryRow()] to obtain a row of result, or [CDbCommand::queryAll()] to get all rows at once.
+Below are some examples:
+
+~~~
+[php]
+$users = Yii::app()->db->createCommand()
+	->select('*')
+	->from('tbl_user')
+	->queryAll();
+~~~
+
+
+### Retrieving SQLs
+
+Besides executing a query built by the Query Builder, we can also retrieve the corresponding SQL statement. This can be done by calling [CDbCommand::getText()].
+
+~~~
+[php]
+$sql = Yii::app()->db->createCommand()
+	->select('*')
+	->from('tbl_user')
+	->getText();
+~~~
+
+If there are any parameters to be bound to the query, they can be retrieved via the [CDbCommand::params] property.
+
+
+### Alternative Syntax for Building Queries
+
+Sometimes, using method chaining to build a query may not be the optimal choice. The Yii Query Builder allows a query to be built using simple object property assignments. In particular, for each query builder method, there is a corresponding property that has the same name. Assigning a value to the property is equivalent to calling the corresponding method. For example, the following two statements are equivalent, assuming `$command` represents a [CDbCommand] object:
+
+~~~
+[php]
+$command->select(array('id', 'username'));
+$command->select = array('id', 'username');
+~~~
+
+Furthermore, the [CDbConnection::createCommand()] method can take an array as the parameter. The name-value pairs in the array will be used to initialize the properties of the created [CDbCommand] instance. This means, we can use the following code to build a query:
+
+~~~
+[php]
+$row = Yii::app()->db->createCommand(array(
+	'select' => array('id', 'username'),
+	'from' => 'tbl_user',
+	'where' => 'id=:id',
+	'params' => array(':id'=>1),
+))->queryRow();
+~~~
+
+
+Building Data Manipulation Queries
+----------------------------------
+
+Data manipulation queries refer to SQL statements for inserting, updating and deleting data in a DB table. Corresponding to these queries, the query builder provides `insert`, `update` and `delete` methods, respectively. Unlike the SELECT query methods described above, each of these data manipulation query methods specifies a complete SQL statement.
+
+* [insert|CDbCommand::insert]: inserts a row into a table
+* [update|CDbCommand::update]: updates the data in a table
+* [delete|CDbCommand::delete]: deletes the data from a table
+
+
+Below we describe these data manipulation query methods.
+
+
 ### insert
 
 ~~~
@@ -316,8 +398,6 @@ function insert($table, $columns)
 ~~~
 
 The [insert|CDbCommand::insert] method specifies an `INSERT` SQL statement. The `$table` parameter specifies which table to be inserted into, while `$columns` is an array of name-value pairs specifying the column values to be inserted. The method will quote the table name properly and will use parameter-binding for the values to be inserted.
-
-Noe that unlike the previous query methods which specify parts of a `SELECT` query, the `insert`, `update` and `delete` methods (the latter two are to be described shortly) specify a complete SQL statement.
 
 Below are some examples:
 
@@ -364,20 +444,12 @@ delete('tbl_user', 'id=:id', array(':id'=>1))
 ~~~
 
 
-Executing Queries
------------------
+### Executing Queries
 
-After calling the above query builder methods to build a query, we can call the DAO methods as described in [Data Access Objects](/doc/guide/database.dao) to execute the query. For example, we can call [CDbCommand::queryRow()] to obtain a row of result, or [CDbCommand::queryAll()] to get all rows at once. Note that for `INSERT`, `UPDATE` and `DELETE` queries, we must use [CDbCommand::execute()] to execute them.
-
-Below are some examples:
+Because data manipulation queries do not return data, we call [CDbCommand::execute()] to execute these queries. The following is an example:
 
 ~~~
 [php]
-$users = Yii::app()->db->createCommand()
-	->select('*')
-	->from('tbl_user')
-	->queryAll();
-
 Yii::app()->db->createCommand()
 	->insert('tbl_user', array(
 		'username' => 'tester',
@@ -386,43 +458,215 @@ Yii::app()->db->createCommand()
 ~~~
 
 
-Retrieving SQLs
----------------
+Building Schema Manipulating Queries
+------------------------------------
 
-Besides executing a query built by the Query Builder, we can also retrieve the corresponding SQL statement. This can be done by calling [CDbCommand::getText()].
+Besides normal data retrieval and manipulation queries, the query builder also offers a set of methods for building SQL queries that can manipulate the schema of a database. In particular, it supports the following queries:
+
+* [createTable|CDbCommand::createTable]: creates a table
+* [renameTable|CDbCommand::renameTable]: renames a table
+* [dropTable|CDbCommand::dropTable]: drops a table
+* [addColumn|CDbCommand::addColumn]: adds a table column
+* [renameColumn|CDbCommand::renameColumn]: adds a table column
+* [alterColumn|CDbCommand::alterColumn]: alters a table column
+* [dropColumn|CDbCommand::dropColumn]: drops a table column
+* [createIndex|CDbCommand::createIndex]: creates an index
+* [dropIndex|CDbCommand::dropIndex]: drops an index
+
+> Info: Although the actual SQL statements for manipulating database schema vary widely across different DBMS, the query builder attempts to provide a uniform interface for building these queries. This simplifies the task of migrating a database from one DBMS to another.
+
+
+###Abstract Data Types
+
+The query builder introduces a set of abstract data types that can be used in defining table columns. Unlike the physical data types that are specific to particular DBMS and are quite different in different DBMS, the abstract data types are independent of DBMS. When abstract data types are used in defining table columns, the query builder will convert them into the corresponding physical data types.
+
+The following abstract data types are supported by the query builder.
+
+* `pk`: a generic primary key type, will be converted into `int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY` for MySQL;
+* `string`: string type, will be converted into `varchar(255)` for MySQL;
+* `text`: text type (long string), will be converted into `text` for MySQL;
+* `integer`: integer type, will be converted into `int(11)` for MySQL;
+* `float`: floating number type, will be converted into `float` for MySQL;
+* `decimal`: decimal number type, will be converted into `decimal` for MySQL;
+* `datetime`: datetime type, will be converted into `datetime` for MySQL;
+* `timestamp`: timestamp type, will be converted into `timestamp` for MySQL;
+* `time`: time type, will be converted into `time` for MySQL;
+* `date`: date type, will be converted into `date` for MySQL;
+* `binary`: binary data type, will be converted into `blob` for MySQL;
+* `boolean`: boolean type, will be converted into `tinyint(1)` for MySQL.
+
+
+###createTable
 
 ~~~
 [php]
-$sql = Yii::app()->db->createCommand()
-	->select('*')
-	->from('tbl_user')
-	->getText();
+function createTable($table, $columns, $options=null)
 ~~~
 
-If there are any parameters to be bound to the query, they can be retrieved via the [CDbCommand::params] property.
+The [createTable|CDbCommand::createTable] method specifies a SQL statement for creating a table. The `$table` parameter specifies the name of the table to be created. The `$columns` parameter specifies the columns in the new table. They must be given as name-definition pairs (e.g. `'username'=>'string'`). The `$options` parameter specifies any extra SQL fragment that should be appended to the generated SQL. The query builder will quote the table name as well as the column names properly.
 
+When specifying a column definition, one can use an abstract data type as described above. The query builder will convert the abstract data type into the corresponding physical data type, according to the currently used DBMS. For example, `string` will be converted into `varchar(255)` for MySQL.
 
-Alternative Syntax
-------------------
+A column definition can also contain non-abstract data type or specifications. They will be put in the generated SQL without any change. For example, `point` is not an abstract data type, and if used in a column definition, it will appear as is in the resulting SQL; and `string NOT NULL` will be converted into `varchar(255) NOT NULL` (i.e., only the abstract type `string` is converted).
 
-Sometimes, using method chaining to build a query may not be the optimal choice. The Yii Query Builder allows a query to be built using simple object property assignments. In particular, for each query builder method, there is a corresponding property that has the same name. Assigning a value to the property is equivalent to calling the corresponding method. For example, the following two statements are equivalent, assuming `$command` represents a [CDbCommand] object:
+Below is an example showing how to create a table:
 
 ~~~
 [php]
-$command->select(array('id', 'username'));
-$command->select = array('id', 'username');
+// CREATE TABLE `tbl_user` (
+//     `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+//     `username` varchar(255) NOT NULL,
+//     `location` point
+// ) ENGINE=InnoDB
+createTable('tbl_user', array(
+	'id' => 'pk',
+	'username' => 'string NOT NULL',
+	'location' => 'point',
+), 'ENGINE=InnoDB')
 ~~~
 
-Furthermore, the [CDbConnection::createCommand()] method can take an array as the parameter. The name-value pairs in the array will be used to initialize the properties of the created [CDbCommand] instance. This means, we can use the following code to build a query:
+
+###renameTable
 
 ~~~
 [php]
-$row = Yii::app()->db->createCommand(array(
-	'select' => array('id', 'username'),
-	'from' => 'tbl_user',
-	'where' => 'id=:id',
-	'params' => array(':id'=>1),
-))->queryRow();
+function renameTable($table, $newName)
+~~~
+
+The [renameTable|CDbCommand::renameTable] method specifies a SQL statement for renaming a table. The `$table` parameter specifies the name of the table to be renamed. The `$newName` parameter specifies the new name of the table. The query builder will quote the table names properly.
+
+Below is an example showing how to rename a table:
+
+~~~
+[php]
+// RENAME TABLE `tbl_users` TO `tbl_user`
+renameTable('tbl_users', 'tbl_user')
+~~~
+
+
+###dropTable
+
+~~~
+[php]
+function dropTable($table)
+~~~
+
+The [dropTable|CDbCommand::dropTable] method specifies a SQL statement for dropping a table. The `$table` parameter specifies the name of the table to be dropped. The query builder will quote the table name properly.
+
+Below is an example showing how to drop a table:
+
+~~~
+[php]
+// DROP TABLE `tbl_user`
+dropTable('tbl_user')
+~~~
+
+
+###addColumn
+
+~~~
+[php]
+function addColumn($table, $column, $type)
+~~~
+
+The [addColumn|CDbCommand::addColumn] method specifies a SQL statement for adding a new table column. The `$table` parameter specifies the name of the table that the new column will be added to. The `$column` parameter specifies the name of the new column. And `$type` specifies the definition of the new column. Column definition can contain abstract data type, as described in the subsection of "createTable". The query builder will quote the table name as well as the column name properly.
+
+Below is an example showing how to add a table column:
+
+~~~
+[php]
+// ALTER TABLE `tbl_user` ADD `email` varchar(255) NOT NULL
+addColumn('tbl_user', 'email', 'string NOT NULL')
+~~~
+
+
+###dropColumn
+
+~~~
+[php]
+function dropColumn($table, $column)
+~~~
+
+The [dropColumn|CDbCommand::dropColumn] method specifies a SQL statement for dropping a table column. The `$table` parameter specifies the name of the table whose column is to be dropped. The `$column` parameter specifies the name of the column to be dropped. The query builder will quote the table name as well as the column name properly.
+
+Below is an example showing how to drop a table column:
+
+~~~
+[php]
+// ALTER TABLE `tbl_user` DROP COLUMN `location`
+dropColumn('tbl_user', 'location')
+~~~
+
+
+###renameColumn
+
+~~~
+[php]
+function renameColumn($table, $name, $newName)
+~~~
+
+The [renameColumn|CDbCommand::renameColumn] method specifies a SQL statement for renaming a table column. The `$table` parameter specifies the name of the table whose column is to be renamed. The `$name` parameter specifies the old column name. And `$newName` specifies the new column name. The query builder will quote the table name as well as the column names properly.
+
+Below is an example showing how to rename a table column:
+
+~~~
+[php]
+// ALTER TABLE `tbl_users` CHANGE `name` `username` varchar(255) NOT NULL
+renameColumn('tbl_user', 'name', 'username')
+~~~
+
+
+###alterColumn
+
+~~~
+[php]
+function alterColumn($table, $column, $type)
+~~~
+
+The [alterColumn|CDbCommand::alterColumn] method specifies a SQL statement for altering a table column. The `$table` parameter specifies the name of the table whose column is to be altered. The `$column` parameter specifies the name of the column to be altered. And `$type` specifies the new definition of the column. Column definition can contain abstract data type, as described in the subsection of "createTable". The query builder will quote the table name as well as the column name properly.
+
+Below is an example showing how to alter a table column:
+
+~~~
+[php]
+// ALTER TABLE `tbl_user` CHANGE `username` `username` varchar(255) NOT NULL
+alterColumn('tbl_user', 'username', 'string NOT NULL')
+~~~
+
+
+###createIndex
+
+~~~
+[php]
+function createIndex($table, $name, $column, $unique=false)
+~~~
+
+The [createIndex|CDbCommand::createIndex] method specifies a SQL statement for creating an index. The `$table` parameter specifies the name of the table that the index is on. The `$name` parameter specifies the name of the index to be created. The `$column` parameter specifies the name of the column to be indexed. And the `$unique` parameter specifies whether a unique index should be created. If the index consists of multiple columns, they must be separated by commas. The query builder will properly quote the table name, index name and column name(s).
+
+Below is an example showing how to create an index:
+
+~~~
+[php]
+// CREATE INDEX `idx_username` ON `tbl_user` (`username`)
+createIndex('tbl_user', 'idx_username')
+~~~
+
+
+###dropIndex
+
+~~~
+[php]
+function dropIndex($table, $name)
+~~~
+
+The [dropIndex|CDbCommand::dropIndex] method specifies a SQL statement for dropping an index. The `$table` parameter specifies the name of the table that the index is on. The `$name` parameter specifies the name of the index to be dropped. The query builder will quote the table name as well as the index names properly.
+
+Below is an example showing how to drop an index:
+
+~~~
+[php]
+// DROP INDEX `idx_username` ON `tbl_user`
+dropIndex('tbl_user', 'idx_username')
 ~~~
 
 <div class="revision">$Id$</div>
