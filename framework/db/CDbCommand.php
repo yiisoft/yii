@@ -100,6 +100,7 @@ class CDbCommand extends CComponent
 	 * This method is mainly used when a command object is being reused
 	 * multiple times for building different queries.
 	 * Calling this method will clean up all internal states of the command object.
+	 * @return CDbCommand this command instance
 	 * @since 1.1.6
 	 */
 	public function reset()
@@ -109,6 +110,7 @@ class CDbCommand extends CComponent
 		$this->_statement=null;
 		$this->_paramLog=array();
 		$this->params=array();
+		return $this;
 	}
 
 	/**
@@ -1079,11 +1081,11 @@ class CDbCommand extends CComponent
 	}
 
 	/**
-	 * Creates an INSERT SQL statement.
+	 * Creates and executes an INSERT SQL statement.
 	 * The method will properly escape the column names, and bind the values to be inserted.
 	 * @param string $table the table that new rows will be inserted into.
 	 * @param array $columns the column data (name=>value) to be inserted into the table.
-	 * @return CDbCommand the command object itself
+	 * @return integer number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
 	public function insert($table, $columns)
@@ -1098,20 +1100,18 @@ class CDbCommand extends CComponent
 		$sql='INSERT INTO ' . $this->_connection->quoteTableName($table)
 			. ' (' . implode(', ',$names) . ') VALUES ('
 			. implode(', ', array_keys($params)) . ')';
-		$this->setText($sql);
-		$this->params=$params;
-		return $this;
+		return $this->setText($sql)->execute($params);
 	}
 
 	/**
-	 * Creates an UPDATE SQL statement.
+	 * Creates and executes an UPDATE SQL statement.
 	 * The method will properly escape the column names and bind the values to be updated.
 	 * @param string $table the table to be updated.
 	 * @param array $columns the column data (name=>value) to be updated.
 	 * @param mixed $conditions the conditions that will be put in the WHERE part. Please
 	 * refer to {@link where} on how to specify conditions.
-	 * @param array the parameters to be bound to the query.
-	 * @return CDbCommand the command object itself
+	 * @param array $params the parameters to be bound to the query.
+	 * @return integer number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
 	public function update($table, $columns, $conditions='', $params=array())
@@ -1125,18 +1125,16 @@ class CDbCommand extends CComponent
 		$sql='UPDATE ' . $this->_connection->quoteTableName($table) . ' SET ' . implode(', ', $lines);
 		if(($where=$this->processConditions($conditions))!='')
 			$sql.=' WHERE '.$where;
-		$this->setText($sql);
-		$this->params=$params;
-		return $this;
+		return $this->setText($sql)->execute($params);
 	}
 
 	/**
-	 * Creates a DELETE SQL statement.
+	 * Creates and executes a DELETE SQL statement.
 	 * @param string $table the table where the data will be deleted from.
 	 * @param mixed $conditions the conditions that will be put in the WHERE part. Please
 	 * refer to {@link where} on how to specify conditions.
-	 * @param array the parameters to be bound to the query.
-	 * @return CDbCommand the command object itself
+	 * @param array $params the parameters to be bound to the query.
+	 * @return integer number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
 	public function delete($table, $conditions='', $params=array())
@@ -1144,13 +1142,11 @@ class CDbCommand extends CComponent
 		$sql='DELETE FROM ' . $this->_connection->quoteTableName($table);
 		if(($where=$this->processConditions($conditions))!='')
 			$sql.=' WHERE '.$where;
-		$this->setText($sql);
-		$this->params=$params;
-		return $this;
+		return $this->setText($sql)->execute($params);
 	}
 
 	/**
-	 * Builds a SQL statement for creating a new DB table.
+	 * Builds and executes a SQL statement for creating a new DB table.
 	 *
 	 * The columns in the new  table should be specified as name-definition pairs (e.g. 'name'=>'string'),
 	 * where name stands for a column name which will be properly quoted by the method, and definition
@@ -1163,117 +1159,117 @@ class CDbCommand extends CComponent
 	 * @param string $table the name of the table to be created. The name will be properly quoted by the method.
 	 * @param array $columns the columns (name=>definition) in the new table.
 	 * @param string $options additional SQL fragment that will be appended to the generated SQL.
-	 * @return CDbCommand the command object itself
+	 * @return integer number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
 	public function createTable($table, $columns, $options=null)
 	{
-		return $this->setText($this->getSchema()->createTable($table, $columns, $options));
+		return $this->setText($this->getSchema()->createTable($table, $columns, $options))->execute();
 	}
 
 	/**
-	 * Builds a SQL statement for renaming a DB table.
+	 * Builds and executes a SQL statement for renaming a DB table.
 	 * @param string $table the table to be renamed. The name will be properly quoted by the method.
 	 * @param string $newName the new table name. The name will be properly quoted by the method.
-	 * @return CDbCommand the command object itself
+	 * @return integer number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
 	public function renameTable($table, $newName)
 	{
-		return $this->setText($this->getSchema()->renameTable($table, $newName));
+		return $this->setText($this->getSchema()->renameTable($table, $newName))->execute();
 	}
 
 	/**
-	 * Builds a SQL statement for dropping a DB table.
+	 * Builds and executes a SQL statement for dropping a DB table.
 	 * @param string $table the table to be dropped. The name will be properly quoted by the method.
-	 * @return CDbCommand the command object itself
+	 * @return integer number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
 	public function dropTable($table)
 	{
-		return $this->setText($this->getSchema()->dropTable($table));
+		return $this->setText($this->getSchema()->dropTable($table))->execute();
 	}
 
 	/**
-	 * Builds a SQL statement for adding a new DB column.
+	 * Builds and executes a SQL statement for adding a new DB column.
 	 * @param string $table the table that the new column will be added to. The table name will be properly quoted by the method.
 	 * @param string $column the name of the new column. The name will be properly quoted by the method.
 	 * @param string $type the column type. The {@link getColumnType} method will be invoked to convert abstract column type (if any)
 	 * into the physical one. Anything that is not recognized as abstract type will be kept in the generated SQL.
 	 * For example, 'string' will be turned into 'varchar(255)', while 'string not null' will become 'varchar(255) not null'.
-	 * @return CDbCommand the command object itself
+	 * @return integer number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
 	public function addColumn($table, $column, $type)
 	{
-		return $this->setText($this->getSchema()->addColumn($table, $column, $type));
+		return $this->setText($this->getSchema()->addColumn($table, $column, $type))->execute();
 	}
 
 	/**
-	 * Builds a SQL statement for dropping a DB column.
+	 * Builds and executes a SQL statement for dropping a DB column.
 	 * @param string $table the table whose column is to be dropped. The name will be properly quoted by the method.
 	 * @param string $column the name of the column to be dropped. The name will be properly quoted by the method.
-	 * @return CDbCommand the command object itself
+	 * @return integer number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
 	public function dropColumn($table, $column)
 	{
-		return $this->setText($this->getSchema()->dropColumn($table, $column));
+		return $this->setText($this->getSchema()->dropColumn($table, $column))->execute();
 	}
 
 	/**
-	 * Builds a SQL statement for renaming a column.
+	 * Builds and executes a SQL statement for renaming a column.
 	 * @param string $table the table whose column is to be renamed. The name will be properly quoted by the method.
 	 * @param string $name the old name of the column. The name will be properly quoted by the method.
 	 * @param string $newName the new name of the column. The name will be properly quoted by the method.
-	 * @return CDbCommand the command object itself
+	 * @return integer number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
 	public function renameColumn($table, $name, $newName)
 	{
-		return $this->setText($this->getSchema()->renameColumn($table, $name, $newName));
+		return $this->setText($this->getSchema()->renameColumn($table, $name, $newName))->execute();
 	}
 
 	/**
-	 * Builds a SQL statement for changing the definition of a column.
+	 * Builds and executes a SQL statement for changing the definition of a column.
 	 * @param string $table the table whose column is to be changed. The table name will be properly quoted by the method.
 	 * @param string $column the name of the column to be changed. The name will be properly quoted by the method.
 	 * @param string $type the new column type. The {@link getColumnType} method will be invoked to convert abstract column type (if any)
 	 * into the physical one. Anything that is not recognized as abstract type will be kept in the generated SQL.
 	 * For example, 'string' will be turned into 'varchar(255)', while 'string not null' will become 'varchar(255) not null'.
-	 * @return CDbCommand the command object itself
+	 * @return integer number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
 	public function alterColumn($table, $column, $type)
 	{
-		return $this->setText($this->getSchema()->alterColumn($table, $column, $type));
+		return $this->setText($this->getSchema()->alterColumn($table, $column, $type))->execute();
 	}
 
 	/**
-	 * Builds a SQL statement for creating a new index.
+	 * Builds and executes a SQL statement for creating a new index.
 	 * @param string $table the table that the new index will be created for. The table name will be properly quoted by the method.
 	 * @param string $name the name of the index. The name will be properly quoted by the method.
 	 * @param string $column the column(s) that should be included in the index. If there are multiple columns, please separate them
 	 * by commas. The column names will be properly quoted by the method.
 	 * @param boolean $unique whether to add UNIQUE constraint on the created index.
-	 * @return CDbCommand the command object itself
+	 * @return integer number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
 	public function createIndex($table, $name, $column, $unique=false)
 	{
-		return $this->setText($this->getSchema()->createIndex($table, $name, $column, $unique));
+		return $this->setText($this->getSchema()->createIndex($table, $name, $column, $unique))->execute();
 	}
 
 	/**
-	 * Builds a SQL statement for dropping an index.
+	 * Builds and executes a SQL statement for dropping an index.
 	 * @param string $table the table whose index is to be dropped. The name will be properly quoted by the method.
 	 * @param string $name the name of the index to be dropped. The name will be properly quoted by the method.
-	 * @return CDbCommand the command object itself
+	 * @return integer number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
 	public function dropIndex($table, $name)
 	{
-		return $this->setText($this->getSchema()->dropIndex($table, $name));
+		return $this->setText($this->getSchema()->dropIndex($table, $name))->execute();
 	}
 
 	private function processConditions($conditions)

@@ -348,7 +348,7 @@ Besides executing a query built by the Query Builder, we can also retrieve the c
 $sql = Yii::app()->db->createCommand()
 	->select('*')
 	->from('tbl_user')
-	->getText();
+	->text;
 ~~~
 
 If there are any parameters to be bound to the query, they can be retrieved via the [CDbCommand::params] property.
@@ -377,10 +377,23 @@ $row = Yii::app()->db->createCommand(array(
 ~~~
 
 
+### Building Multiple Queries
+
+A [CDbCommand] instance can be reused multiple times to build several queries. Before building a new query, however, the [CDbCommand::reset()] method must be invoked to clean up the previous query. For example:
+
+~~~
+[php]
+$command = Yii::app()->createCommand();
+$users = $command->select('*')->from('tbl_users')->queryAll();
+$command->reset();  // clean up the previous query
+$posts = $command->select('*')->from('tbl_posts')->queryAll();
+~~~
+
+
 Building Data Manipulation Queries
 ----------------------------------
 
-Data manipulation queries refer to SQL statements for inserting, updating and deleting data in a DB table. Corresponding to these queries, the query builder provides `insert`, `update` and `delete` methods, respectively. Unlike the SELECT query methods described above, each of these data manipulation query methods specifies a complete SQL statement.
+Data manipulation queries refer to SQL statements for inserting, updating and deleting data in a DB table. Corresponding to these queries, the query builder provides `insert`, `update` and `delete` methods, respectively. Unlike the SELECT query methods described above, each of these data manipulation query methods will build a complete SQL statement and execute it immediately.
 
 * [insert|CDbCommand::insert]: inserts a row into a table
 * [update|CDbCommand::update]: updates the data in a table
@@ -397,14 +410,18 @@ Below we describe these data manipulation query methods.
 function insert($table, $columns)
 ~~~
 
-The [insert|CDbCommand::insert] method specifies an `INSERT` SQL statement. The `$table` parameter specifies which table to be inserted into, while `$columns` is an array of name-value pairs specifying the column values to be inserted. The method will quote the table name properly and will use parameter-binding for the values to be inserted.
+The [insert|CDbCommand::insert] method builds and executes an `INSERT` SQL statement. The `$table` parameter specifies which table to be inserted into, while `$columns` is an array of name-value pairs specifying the column values to be inserted. The method will quote the table name properly and will use parameter-binding for the values to be inserted.
 
-Below are some examples:
+Below is an example:
 
 ~~~
 [php]
+// build and execute the following SQL:
 // INSERT INTO `tbl_user` (`name`, `email`) VALUES (:name, :email)
-insert('tbl_user', array('name'=>'Tester', 'email'=>'tester@example.com'))
+$command->insert('tbl_user', array(
+	'name'=>'Tester',
+	'email'=>'tester@example.com',
+));
 ~~~
 
 
@@ -415,14 +432,17 @@ insert('tbl_user', array('name'=>'Tester', 'email'=>'tester@example.com'))
 function update($table, $columns, $conditions='', $params=array())
 ~~~
 
-The [update|CDbCommand::update] method specifies an `UPDATE` SQL statement. The `$table` parameter specifies which table to be updated; `$columns` is an array of name-value pairs specifying the column values to be updated; `$conditions` and `$params` are like in [where|CDbCommand::where], which specify the `WHERE` clause in the `UPDATE` statement. The method will quote the table name properly and will use parameter-binding for the values to be updated.
+The [update|CDbCommand::update] method builds and executes an `UPDATE` SQL statement. The `$table` parameter specifies which table to be updated; `$columns` is an array of name-value pairs specifying the column values to be updated; `$conditions` and `$params` are like in [where|CDbCommand::where], which specify the `WHERE` clause in the `UPDATE` statement. The method will quote the table name properly and will use parameter-binding for the values to be updated.
 
-Below are some examples:
+Below is an example:
 
 ~~~
 [php]
+// build and execute the following SQL:
 // UPDATE `tbl_user` SET `name`=:name WHERE id=:id
-update('tbl_user', array('name'=>'Tester'), 'id=:id', array(':id'=>1))
+$command->update('tbl_user', array(
+	'name'=>'Tester',
+), 'id=:id', array(':id'=>1));
 ~~~
 
 
@@ -433,35 +453,21 @@ update('tbl_user', array('name'=>'Tester'), 'id=:id', array(':id'=>1))
 function delete($table, $conditions='', $params=array())
 ~~~
 
-The [delete|CDbCommand::delete] method specifies a `DELETE` SQL statement. The `$table` parameter specifies which table to be updated; `$conditions` and `$params` are like in [where|CDbCommand::where], which specify the `WHERE` clause in the `DELETE` statement. The method will quote the table name properly.
+The [delete|CDbCommand::delete] method builds and executes a `DELETE` SQL statement. The `$table` parameter specifies which table to be updated; `$conditions` and `$params` are like in [where|CDbCommand::where], which specify the `WHERE` clause in the `DELETE` statement. The method will quote the table name properly.
 
-Below are some examples:
+Below is an example:
 
 ~~~
 [php]
+// build and execute the following SQL:
 // DELETE FROM `tbl_user` WHERE id=:id
-delete('tbl_user', 'id=:id', array(':id'=>1))
+$command->delete('tbl_user', 'id=:id', array(':id'=>1));
 ~~~
 
-
-### Executing Queries
-
-Because data manipulation queries do not return data, we call [CDbCommand::execute()] to execute these queries. The following is an example:
-
-~~~
-[php]
-Yii::app()->db->createCommand()
-	->insert('tbl_user', array(
-		'username' => 'tester',
-		'email' => 'tester@example.com',
-	))->execute();
-~~~
-
-
-Building Schema Manipulating Queries
+Building Schema Manipulation Queries
 ------------------------------------
 
-Besides normal data retrieval and manipulation queries, the query builder also offers a set of methods for building SQL queries that can manipulate the schema of a database. In particular, it supports the following queries:
+Besides normal data retrieval and manipulation queries, the query builder also offers a set of methods for building and executing SQL queries that can manipulate the schema of a database. In particular, it supports the following queries:
 
 * [createTable|CDbCommand::createTable]: creates a table
 * [renameTable|CDbCommand::renameTable]: renames a table
@@ -503,7 +509,7 @@ The following abstract data types are supported by the query builder.
 function createTable($table, $columns, $options=null)
 ~~~
 
-The [createTable|CDbCommand::createTable] method specifies a SQL statement for creating a table. The `$table` parameter specifies the name of the table to be created. The `$columns` parameter specifies the columns in the new table. They must be given as name-definition pairs (e.g. `'username'=>'string'`). The `$options` parameter specifies any extra SQL fragment that should be appended to the generated SQL. The query builder will quote the table name as well as the column names properly.
+The [createTable|CDbCommand::createTable] method builds and executes a SQL statement for creating a table. The `$table` parameter specifies the name of the table to be created. The `$columns` parameter specifies the columns in the new table. They must be given as name-definition pairs (e.g. `'username'=>'string'`). The `$options` parameter specifies any extra SQL fragment that should be appended to the generated SQL. The query builder will quote the table name as well as the column names properly.
 
 When specifying a column definition, one can use an abstract data type as described above. The query builder will convert the abstract data type into the corresponding physical data type, according to the currently used DBMS. For example, `string` will be converted into `varchar(255)` for MySQL.
 
@@ -533,7 +539,7 @@ createTable('tbl_user', array(
 function renameTable($table, $newName)
 ~~~
 
-The [renameTable|CDbCommand::renameTable] method specifies a SQL statement for renaming a table. The `$table` parameter specifies the name of the table to be renamed. The `$newName` parameter specifies the new name of the table. The query builder will quote the table names properly.
+The [renameTable|CDbCommand::renameTable] method builds and executes a SQL statement for renaming a table. The `$table` parameter specifies the name of the table to be renamed. The `$newName` parameter specifies the new name of the table. The query builder will quote the table names properly.
 
 Below is an example showing how to rename a table:
 
@@ -551,7 +557,7 @@ renameTable('tbl_users', 'tbl_user')
 function dropTable($table)
 ~~~
 
-The [dropTable|CDbCommand::dropTable] method specifies a SQL statement for dropping a table. The `$table` parameter specifies the name of the table to be dropped. The query builder will quote the table name properly.
+The [dropTable|CDbCommand::dropTable] method builds and executes a SQL statement for dropping a table. The `$table` parameter specifies the name of the table to be dropped. The query builder will quote the table name properly.
 
 Below is an example showing how to drop a table:
 
@@ -569,7 +575,7 @@ dropTable('tbl_user')
 function addColumn($table, $column, $type)
 ~~~
 
-The [addColumn|CDbCommand::addColumn] method specifies a SQL statement for adding a new table column. The `$table` parameter specifies the name of the table that the new column will be added to. The `$column` parameter specifies the name of the new column. And `$type` specifies the definition of the new column. Column definition can contain abstract data type, as described in the subsection of "createTable". The query builder will quote the table name as well as the column name properly.
+The [addColumn|CDbCommand::addColumn] method builds and executes a SQL statement for adding a new table column. The `$table` parameter specifies the name of the table that the new column will be added to. The `$column` parameter specifies the name of the new column. And `$type` specifies the definition of the new column. Column definition can contain abstract data type, as described in the subsection of "createTable". The query builder will quote the table name as well as the column name properly.
 
 Below is an example showing how to add a table column:
 
@@ -587,7 +593,7 @@ addColumn('tbl_user', 'email', 'string NOT NULL')
 function dropColumn($table, $column)
 ~~~
 
-The [dropColumn|CDbCommand::dropColumn] method specifies a SQL statement for dropping a table column. The `$table` parameter specifies the name of the table whose column is to be dropped. The `$column` parameter specifies the name of the column to be dropped. The query builder will quote the table name as well as the column name properly.
+The [dropColumn|CDbCommand::dropColumn] method builds and executes a SQL statement for dropping a table column. The `$table` parameter specifies the name of the table whose column is to be dropped. The `$column` parameter specifies the name of the column to be dropped. The query builder will quote the table name as well as the column name properly.
 
 Below is an example showing how to drop a table column:
 
@@ -605,7 +611,7 @@ dropColumn('tbl_user', 'location')
 function renameColumn($table, $name, $newName)
 ~~~
 
-The [renameColumn|CDbCommand::renameColumn] method specifies a SQL statement for renaming a table column. The `$table` parameter specifies the name of the table whose column is to be renamed. The `$name` parameter specifies the old column name. And `$newName` specifies the new column name. The query builder will quote the table name as well as the column names properly.
+The [renameColumn|CDbCommand::renameColumn] method builds and executes a SQL statement for renaming a table column. The `$table` parameter specifies the name of the table whose column is to be renamed. The `$name` parameter specifies the old column name. And `$newName` specifies the new column name. The query builder will quote the table name as well as the column names properly.
 
 Below is an example showing how to rename a table column:
 
@@ -623,7 +629,7 @@ renameColumn('tbl_user', 'name', 'username')
 function alterColumn($table, $column, $type)
 ~~~
 
-The [alterColumn|CDbCommand::alterColumn] method specifies a SQL statement for altering a table column. The `$table` parameter specifies the name of the table whose column is to be altered. The `$column` parameter specifies the name of the column to be altered. And `$type` specifies the new definition of the column. Column definition can contain abstract data type, as described in the subsection of "createTable". The query builder will quote the table name as well as the column name properly.
+The [alterColumn|CDbCommand::alterColumn] method builds and executes a SQL statement for altering a table column. The `$table` parameter specifies the name of the table whose column is to be altered. The `$column` parameter specifies the name of the column to be altered. And `$type` specifies the new definition of the column. Column definition can contain abstract data type, as described in the subsection of "createTable". The query builder will quote the table name as well as the column name properly.
 
 Below is an example showing how to alter a table column:
 
@@ -641,7 +647,7 @@ alterColumn('tbl_user', 'username', 'string NOT NULL')
 function createIndex($table, $name, $column, $unique=false)
 ~~~
 
-The [createIndex|CDbCommand::createIndex] method specifies a SQL statement for creating an index. The `$table` parameter specifies the name of the table that the index is on. The `$name` parameter specifies the name of the index to be created. The `$column` parameter specifies the name of the column to be indexed. And the `$unique` parameter specifies whether a unique index should be created. If the index consists of multiple columns, they must be separated by commas. The query builder will properly quote the table name, index name and column name(s).
+The [createIndex|CDbCommand::createIndex] method builds and executes a SQL statement for creating an index. The `$table` parameter specifies the name of the table that the index is on. The `$name` parameter specifies the name of the index to be created. The `$column` parameter specifies the name of the column to be indexed. And the `$unique` parameter specifies whether a unique index should be created. If the index consists of multiple columns, they must be separated by commas. The query builder will properly quote the table name, index name and column name(s).
 
 Below is an example showing how to create an index:
 
@@ -659,7 +665,7 @@ createIndex('tbl_user', 'idx_username')
 function dropIndex($table, $name)
 ~~~
 
-The [dropIndex|CDbCommand::dropIndex] method specifies a SQL statement for dropping an index. The `$table` parameter specifies the name of the table that the index is on. The `$name` parameter specifies the name of the index to be dropped. The query builder will quote the table name as well as the index names properly.
+The [dropIndex|CDbCommand::dropIndex] method builds and executes a SQL statement for dropping an index. The `$table` parameter specifies the name of the table that the index is on. The `$name` parameter specifies the name of the index to be dropped. The query builder will quote the table name as well as the index names properly.
 
 Below is an example showing how to drop an index:
 
