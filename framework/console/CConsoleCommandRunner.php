@@ -59,6 +59,7 @@ class CConsoleCommandRunner extends CComponent
 
 		if(($command=$this->createCommand($name))===null)
 			$command=$this->createCommand('help');
+		$command->init();
 		$command->run($args);
 	}
 

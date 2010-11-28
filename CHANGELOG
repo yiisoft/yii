@@ -11,6 +11,7 @@ Version 1.1.6 to be released
 - Bug: Fixed the bug that CActiveForm generates unnecessary js code about setting focus (Qiang)
 - Enh #1785: Added CAssetManager::$excludeFiles property to support exclusion of irrelevant files from the publishing process (Y!!)
 - Enh: CDbConnection::quoteColumnName and quoteTableName will properly quote table prefix and schema prefix. (Qiang)
+- Enh: Added CConsoleCommand::init() (Qiang)
 - New: Added query builder (Qiang)
 
 

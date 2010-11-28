@@ -62,6 +62,16 @@ abstract class CConsoleCommand extends CComponent
 	}
 
 	/**
+	 * Initializes the command object.
+	 * This method is invoked after a command object is created and initialized with configurations.
+	 * You may override this method to further customize the command before it executes.
+	 * @since 1.1.6
+	 */
+	public function init()
+	{
+	}
+
+	/**
 	 * Executes the command.
 	 * The default implementation will parse the input parameters and
 	 * dispatch the command request to an appropriate action with the corresponding
