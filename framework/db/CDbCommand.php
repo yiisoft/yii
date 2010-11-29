@@ -506,7 +506,7 @@ class CDbCommand extends CComponent
 
 		$limit=isset($query['limit']) ? (int)$query['limit'] : -1;
 		$offset=isset($query['offset']) ? (int)$query['offset'] : -1;
-		if($limit>=0 && $offset>=0)
+		if($limit>=0 || $offset>0)
 			$sql=$this->_connection->getCommandBuilder()->applyLimit($sql,$limit,$offset);
 
 		if(isset($query['union']))
