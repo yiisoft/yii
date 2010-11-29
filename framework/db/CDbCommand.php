@@ -1164,7 +1164,7 @@ class CDbCommand extends CComponent
 	 */
 	public function createTable($table, $columns, $options=null)
 	{
-		return $this->setText($this->getSchema()->createTable($table, $columns, $options))->execute();
+		return $this->setText($this->getConnection()->getSchema()->createTable($table, $columns, $options))->execute();
 	}
 
 	/**
@@ -1176,7 +1176,7 @@ class CDbCommand extends CComponent
 	 */
 	public function renameTable($table, $newName)
 	{
-		return $this->setText($this->getSchema()->renameTable($table, $newName))->execute();
+		return $this->setText($this->getConnection()->getSchema()->renameTable($table, $newName))->execute();
 	}
 
 	/**
@@ -1187,7 +1187,7 @@ class CDbCommand extends CComponent
 	 */
 	public function dropTable($table)
 	{
-		return $this->setText($this->getSchema()->dropTable($table))->execute();
+		return $this->setText($this->getConnection()->getSchema()->dropTable($table))->execute();
 	}
 
 	/**
@@ -1202,7 +1202,7 @@ class CDbCommand extends CComponent
 	 */
 	public function addColumn($table, $column, $type)
 	{
-		return $this->setText($this->getSchema()->addColumn($table, $column, $type))->execute();
+		return $this->setText($this->getConnection()->getSchema()->addColumn($table, $column, $type))->execute();
 	}
 
 	/**
@@ -1214,7 +1214,7 @@ class CDbCommand extends CComponent
 	 */
 	public function dropColumn($table, $column)
 	{
-		return $this->setText($this->getSchema()->dropColumn($table, $column))->execute();
+		return $this->setText($this->getConnection()->getSchema()->dropColumn($table, $column))->execute();
 	}
 
 	/**
@@ -1227,7 +1227,7 @@ class CDbCommand extends CComponent
 	 */
 	public function renameColumn($table, $name, $newName)
 	{
-		return $this->setText($this->getSchema()->renameColumn($table, $name, $newName))->execute();
+		return $this->setText($this->getConnection()->getSchema()->renameColumn($table, $name, $newName))->execute();
 	}
 
 	/**
@@ -1242,7 +1242,7 @@ class CDbCommand extends CComponent
 	 */
 	public function alterColumn($table, $column, $type)
 	{
-		return $this->setText($this->getSchema()->alterColumn($table, $column, $type))->execute();
+		return $this->setText($this->getConnection()->getSchema()->alterColumn($table, $column, $type))->execute();
 	}
 
 	/**
@@ -1257,7 +1257,7 @@ class CDbCommand extends CComponent
 	 */
 	public function createIndex($table, $name, $column, $unique=false)
 	{
-		return $this->setText($this->getSchema()->createIndex($table, $name, $column, $unique))->execute();
+		return $this->setText($this->getConnection()->getSchema()->createIndex($table, $name, $column, $unique))->execute();
 	}
 
 	/**
@@ -1269,7 +1269,7 @@ class CDbCommand extends CComponent
 	 */
 	public function dropIndex($table, $name)
 	{
-		return $this->setText($this->getSchema()->dropIndex($table, $name))->execute();
+		return $this->setText($this->getConnection()->getSchema()->dropIndex($table, $name))->execute();
 	}
 
 	/**
@@ -1357,6 +1357,7 @@ class CDbCommand extends CComponent
 	 * Please refer to {@link where} on how to specify conditions.
 	 * @param array $params the parameters (name=>value) to be bound to the query
 	 * @return CDbCommand the command object itself
+	 * @since 1.1.6
 	 */
 	private function joinInternal($type, $table, $conditions='', $params=array())
 	{

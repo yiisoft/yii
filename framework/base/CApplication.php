@@ -766,7 +766,25 @@ abstract class CApplication extends CModule
 			echo "<h1>PHP Error [$code]</h1>\n";
 			echo "<p>$message ($file:$line)</p>\n";
 			echo '<pre>';
-			debug_print_backtrace();
+
+			$trace=debug_backtrace();
+			// skip the first 3 stacks as they do not tell the error position
+			if(count($trace)>3)
+				$trace=array_slice($trace,3);
+			foreach($trace as $i=>$t)
+			{
+				if(!isset($t['file']))
+					$t['file']='unknown';
+				if(!isset($t['line']))
+					$t['line']=0;
+				if(!isset($t['function']))
+					$t['function']='unknown';
+				echo "#$i {$t['file']}({$t['line']}): ";
+				if(isset($t['object']) && is_object($t['object']))
+					echo get_class($t['object']).'->';
+				echo "{$t['function']}()\n";
+			}
+
 			echo '</pre>';
 		}
 		else
