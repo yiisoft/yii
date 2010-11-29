@@ -1044,7 +1044,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Appends a SQL statement using UNION operator.
-	 * @param string the SQL statement to be appended using UNION
+	 * @param string $sql the SQL statement to be appended using UNION
 	 * @return CDbCommand the command object itself
 	 * @since 1.1.6
 	 */
@@ -1272,6 +1272,11 @@ class CDbCommand extends CComponent
 		return $this->setText($this->getSchema()->dropIndex($table, $name))->execute();
 	}
 
+	/**
+	 * Generates the condition string that will be put in the WHERE part
+	 * @param mixed $conditions the conditions that will be put in the WHERE part.
+	 * @return string the condition string to put in the WHERE part
+	 */
 	private function processConditions($conditions)
 	{
 		if(!is_array($conditions))
@@ -1341,6 +1346,19 @@ class CDbCommand extends CComponent
 		throw new CDbException(Yii::t('yii', 'Unknown operator "{operator}".', array('{operator}'=>$operator)));
 	}
 
+	/**
+	 * Appends an JOIN part to the query.
+	 * @param string $type the join type ('join', 'left join', 'right join', 'cross join', 'natural join')
+	 * @param string $table the table to be joined.
+	 * Table name can contain schema prefix (e.g. 'public.tbl_user') and/or table alias (e.g. 'tbl_user u').
+	 * The method will automatically quote the table name unless it contains some parenthesis
+	 * (which means the table is given as a sub-query or DB expression).
+	 * @param mixed $conditions the join condition that should appear in the ON part.
+	 * Please refer to {@link where} on how to specify conditions.
+	 * @param array $params the parameters (name=>value) to be bound to the query
+	 * @return CDbCommand the command object itself
+	 * @since 1.1.6
+	 */
 	private function joinInternal($type, $table, $conditions='', $params=array())
 	{
 		if(strpos($table,'(')===false)
