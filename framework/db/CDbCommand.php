@@ -1357,7 +1357,6 @@ class CDbCommand extends CComponent
 	 * Please refer to {@link where} on how to specify conditions.
 	 * @param array $params the parameters (name=>value) to be bound to the query
 	 * @return CDbCommand the command object itself
-	 * @since 1.1.6
 	 */
 	private function joinInternal($type, $table, $conditions='', $params=array())
 	{
