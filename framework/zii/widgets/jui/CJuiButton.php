@@ -20,7 +20,8 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  * <pre>
  * $this->widget('zii.widgets.jui.CJuiButton', array(
  * 		'name'=>'submit',
- *     'options'=>array(
+ * 		'caption'=>'Save',
+ * 		'options'=>array(
  *         'onclick'=>'js:function(){alert("Yes");}',
  *     ),
  * ));
@@ -31,8 +32,9 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  * $this->widget('zii.widgets.jui.CJuiButton',
  *		array(
  *			'name'=>'button',
+ * 			'caption'=>'Save',
  *			'value'=>'asd',
- *			'onclick'=>'js:function(){alert("clicked"); this.blur(); return false;}',
+ *			'onclick'=>'js:function(){alert("Save button clicked"); this.blur(); return false;}',
  * 		)
  * );
  * </pre>
@@ -65,7 +67,7 @@ class CJuiButton extends CJuiInputWidget
 	public $url = null;
 
 	/**
-	 * @var mixed The value of the current item. Used only for "submit", "button", "radio" and "checkbox"
+	 * @var mixed The value of the current item. Used only for "radio" and "checkbox"
 	 */
 	public $value;
 
