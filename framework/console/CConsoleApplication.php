@@ -109,8 +109,24 @@ class CConsoleApplication extends CApplication
 	public function displayError($code,$message,$file,$line)
 	{
 		echo "PHP Error[$code]: $message\n";
-		echo "in file $file at line $line\n";
-		debug_print_backtrace();
+		echo "    in file $file at line $line\n";
+		$trace=debug_backtrace();
+		// skip the first 4 stacks as they do not tell the error position
+		if(count($trace)>4)
+			$trace=array_slice($trace,4);
+		foreach($trace as $i=>$t)
+		{
+			if(!isset($t['file']))
+				$t['file']='unknown';
+			if(!isset($t['line']))
+				$t['line']=0;
+			if(!isset($t['function']))
+				$t['function']='unknown';
+			echo "#$i {$t['file']}({$t['line']}): ";
+			if(isset($t['object']) && is_object($t['object']))
+				echo get_class($t['object']).'->';
+			echo "{$t['function']}()\n";
+		}
 	}
 
 	/**
