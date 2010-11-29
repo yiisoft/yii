@@ -25,7 +25,7 @@ class CTypedMap extends CMap
 
 	/**
 	 * Constructor.
-	 * @param string class type
+	 * @param string $type class type
 	 */
 	public function __construct($type)
 	{
@@ -36,8 +36,8 @@ class CTypedMap extends CMap
 	 * Adds an item into the map.
 	 * This method overrides the parent implementation by
 	 * checking the item to be inserted is of certain type.
-	 * @param mixed key
-	 * @param mixed value
+	 * @param integer $index the specified position.
+	 * @param mixed $item new item
 	 * @throws CException If the index specified exceeds the bound,
 	 * the map is read-only or the element is not of the expected type.
 	 */
