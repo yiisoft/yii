@@ -34,6 +34,7 @@
     - [Query Builder](database.query-builder)
     - [Active Record](database.ar)
     - [Relational Active Record](database.arr)
+    - [Database Migration](database.migration)
 
 * Caching
     - [Overview](caching.overview)
