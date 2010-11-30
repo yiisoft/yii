@@ -623,6 +623,7 @@ class YiiBase
 		'CDbConnection' => '/db/CDbConnection.php',
 		'CDbDataReader' => '/db/CDbDataReader.php',
 		'CDbException' => '/db/CDbException.php',
+		'CDbMigration' => '/db/CDbMigration.php',
 		'CDbTransaction' => '/db/CDbTransaction.php',
 		'CActiveFinder' => '/db/ar/CActiveFinder.php',
 		'CActiveRecord' => '/db/ar/CActiveRecord.php',
