@@ -122,7 +122,7 @@ class MigrateCommand extends CConsoleCommand
 		{
 			foreach($migrations as $migration)
 				$this->migrateUp($migration);
-			echo "\nMigration up successfully.\n";
+			echo "\nMigrated up successfully.\n";
 		}
 	}
 
@@ -148,7 +148,7 @@ class MigrateCommand extends CConsoleCommand
 		{
 			foreach($migrations as $migration)
 				$this->migrateDown($migration);
-			echo "\nMigration down successfully.\n";
+			echo "\nMigrated down successfully.\n";
 		}
 	}
 
@@ -201,7 +201,7 @@ class MigrateCommand extends CConsoleCommand
 	{
 		$migrations=$this->getNewMigrations();
 		if($migrations===array())
-			echo "No new migration found. Your system is up-to-date.\n";
+			echo "No new migrations found. Your system is up-to-date.\n";
 		else
 		{
 			$n=count($migrations);
@@ -349,26 +349,26 @@ ACTIONS
    - yiic migrate up
      applies the next available migration
    - yiic migrate up --step=3
-     apply the next 3 available migrations
+     applies the next 3 available migrations
 
  * down [--step=1]
-   Removes a number of migrations. The number is specified by the optional
+   Reverts a number of migrations. The number is specified by the optional
    parameter 'step' which defaults to 1.
    Examples:
    - yiic migrate down
-     removes the most recently applied migration
+     reverts the most recently applied migration
    - yiic migrate down --step=3
-     removes the 3 most recently applied migrations
+     reverts the 3 most recently applied migrations
 
  * redo [--step=1]
    Redoes a number of migrations. The number is specified by the optional
-   parameter 'step' which defaults to 1. This command is equivalent to removing
+   parameter 'step' which defaults to 1. This command is equivalent to reverting
    the spcified number of migrations and then applying them.
    Examples:
    - yiic migrate redo
-     removes the most recently applied migration and then applies it
+     reverts the most recently applied migration and then applies it
    - yiic migrate redo --step=3
-     removes the 3 most recently applied migrations and then applies them
+     reverts the 3 most recently applied migrations and then applies them
 
  * create [--name=untitled]
    Creates a new migration whose name is specified by the optional parameter
