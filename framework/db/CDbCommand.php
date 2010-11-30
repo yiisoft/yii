@@ -1247,29 +1247,29 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Builds and executes a SQL statement for creating a new index.
-	 * @param string $table the table that the new index will be created for. The table name will be properly quoted by the method.
 	 * @param string $name the name of the index. The name will be properly quoted by the method.
+	 * @param string $table the table that the new index will be created for. The table name will be properly quoted by the method.
 	 * @param string $column the column(s) that should be included in the index. If there are multiple columns, please separate them
 	 * by commas. The column names will be properly quoted by the method.
 	 * @param boolean $unique whether to add UNIQUE constraint on the created index.
 	 * @return integer number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
-	public function createIndex($table, $name, $column, $unique=false)
+	public function createIndex($name, $table, $column, $unique=false)
 	{
-		return $this->setText($this->getConnection()->getSchema()->createIndex($table, $name, $column, $unique))->execute();
+		return $this->setText($this->getConnection()->getSchema()->createIndex($name, $table, $column, $unique))->execute();
 	}
 
 	/**
 	 * Builds and executes a SQL statement for dropping an index.
-	 * @param string $table the table whose index is to be dropped. The name will be properly quoted by the method.
 	 * @param string $name the name of the index to be dropped. The name will be properly quoted by the method.
+	 * @param string $table the table whose index is to be dropped. The name will be properly quoted by the method.
 	 * @return integer number of rows affected by the execution.
 	 * @since 1.1.6
 	 */
-	public function dropIndex($table, $name)
+	public function dropIndex($name, $table)
 	{
-		return $this->setText($this->getConnection()->getSchema()->dropIndex($table, $name))->execute();
+		return $this->setText($this->getConnection()->getSchema()->dropIndex($name, $table))->execute();
 	}
 
 	/**
