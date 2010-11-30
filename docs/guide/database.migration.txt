@@ -3,7 +3,7 @@ Database Migration
 
 > Note: The database migration feature has been available since version 1.1.6.
 
-Like source code, the structure of a database is evolving as we develop and maintain a database-driven application. For example, during development, we may want to add a new table; or after the application is put into production, we may realize the need of adding an index on a column. It is important to keep track of these structural database changes (called **migration**) like we do with our source code. If the source code and the database are out of sync, it is very likely the whole system may break. For this reason, Yii provides a database migration tool that can keep track of database migration history, apply new migrations, or remove existing ones.
+Like source code, the structure of a database is evolving as we develop and maintain a database-driven application. For example, during development, we may want to add a new table; or after the application is put into production, we may realize the need of adding an index on a column. It is important to keep track of these structural database changes (called **migration**) like we do with our source code. If the source code and the database are out of sync, it is very likely the whole system may break. For this reason, Yii provides a database migration tool that can keep track of database migration history, apply new migrations, or revert existing ones.
 
 The following steps how we can use database migration during development:
 
@@ -99,7 +99,7 @@ To migrate the database to a specific version, we can use the following followin
 yiic migrate --version=20101129185401
 ~~~
 
-That is, we use the `version` parameter to specify the timestamp of the migration that we want to migrate the database to. If there are multiple migrations between the last applied migration and the specified migration, all these migrations will be applied. If the specified migration has been applied before, then all migrations applied after it will be removed.
+That is, we use the `version` parameter to specify the timestamp of the migration that we want to migrate the database to. If there are multiple migrations between the last applied migration and the specified migration, all these migrations will be applied. If the specified migration has been applied before, then all migrations applied after it will be reverted.
 
 Sometimes, we may only want to apply one or a few new migrations. We can use the following command:
 
@@ -110,24 +110,24 @@ yiic migrate up --step=3
 This command will apply the next 3 new migrations. Changing the parameter `step` will allow us to change the number of migrations to be applied. If the parameter is not specified, it will take the default value 1, meaning one migration at a time.
 
 
-Removing Migrations
--------------------
+Reverting Migrations
+--------------------
 
-To remove the last one or several applied migrations, we can use the following command:
+To revert the last one or several applied migrations, we can use the following command:
 
 ~~~
 yiic migrate down --step=3
 ~~~
 
-This command will call the `down()` method of the last 3 applied migrations.   Changing the parameter `step` will allow us to change the number of migrations to be removed. If the parameter is not specified, it will take the default value 1, meaning removing one migration at a time.
+This command will call the `down()` method of the last 3 applied migrations.   Changing the parameter `step` will allow us to change the number of migrations to be reverted. If the parameter is not specified, it will take the default value 1, meaning removing one migration at a time.
 
-It is also possible to remove migrations down to a specific version, as shown in the previous sub-section:
+It is also possible to revert migrations down to a specific version, as shown in the previous sub-section:
 
 ~~~
 yiic migrate --version=20101129185401
 ~~~
 
-As we described before, not all migrations can be removed. Trying to remove such migrations will throw an exception and stop the whole removing process.
+As we described before, not all migrations can be reverted. Trying to revert such migrations will throw an exception and stop the whole removing process.
 
 
 Redoing Migrations
