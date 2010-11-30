@@ -644,17 +644,17 @@ alterColumn('tbl_user', 'username', 'string NOT NULL')
 
 ~~~
 [php]
-function createIndex($table, $name, $column, $unique=false)
+function createIndex($name, $table, $column, $unique=false)
 ~~~
 
-The [createIndex|CDbCommand::createIndex] method builds and executes a SQL statement for creating an index. The `$table` parameter specifies the name of the table that the index is on. The `$name` parameter specifies the name of the index to be created. The `$column` parameter specifies the name of the column to be indexed. And the `$unique` parameter specifies whether a unique index should be created. If the index consists of multiple columns, they must be separated by commas. The query builder will properly quote the table name, index name and column name(s).
+The [createIndex|CDbCommand::createIndex] method builds and executes a SQL statement for creating an index. The `$name` parameter specifies the name of the index to be created. The `$table` parameter specifies the name of the table that the index is on. The `$column` parameter specifies the name of the column to be indexed. And the `$unique` parameter specifies whether a unique index should be created. If the index consists of multiple columns, they must be separated by commas. The query builder will properly quote the table name, index name and column name(s).
 
 Below is an example showing how to create an index:
 
 ~~~
 [php]
 // CREATE INDEX `idx_username` ON `tbl_user` (`username`)
-createIndex('tbl_user', 'idx_username')
+createIndex('idx_username', 'tbl_user')
 ~~~
 
 
@@ -662,17 +662,17 @@ createIndex('tbl_user', 'idx_username')
 
 ~~~
 [php]
-function dropIndex($table, $name)
+function dropIndex($name, $table)
 ~~~
 
-The [dropIndex|CDbCommand::dropIndex] method builds and executes a SQL statement for dropping an index. The `$table` parameter specifies the name of the table that the index is on. The `$name` parameter specifies the name of the index to be dropped. The query builder will quote the table name as well as the index names properly.
+The [dropIndex|CDbCommand::dropIndex] method builds and executes a SQL statement for dropping an index. The `$name` parameter specifies the name of the index to be dropped. The `$table` parameter specifies the name of the table that the index is on. The query builder will quote the table name as well as the index names properly.
 
 Below is an example showing how to drop an index:
 
 ~~~
 [php]
 // DROP INDEX `idx_username` ON `tbl_user`
-dropIndex('tbl_user', 'idx_username')
+dropIndex('idx_username', 'tbl_user')
 ~~~
 
 <div class="revision">$Id$</div>
