@@ -39,7 +39,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.5';
+		return '1.1.6-dev';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -352,6 +352,7 @@ class YiiBase
 		'CDbConnection' => '/db/CDbConnection.php',
 		'CDbDataReader' => '/db/CDbDataReader.php',
 		'CDbException' => '/db/CDbException.php',
+		'CDbMigration' => '/db/CDbMigration.php',
 		'CDbTransaction' => '/db/CDbTransaction.php',
 		'CActiveFinder' => '/db/ar/CActiveFinder.php',
 		'CActiveRecord' => '/db/ar/CActiveRecord.php',
@@ -1415,7 +1416,23 @@ abstract class CApplication extends CModule
 			echo "<h1>PHP Error [$code]</h1>\n";
 			echo "<p>$message ($file:$line)</p>\n";
 			echo '<pre>';
-			debug_print_backtrace();
+			$trace=debug_backtrace();
+			// skip the first 3 stacks as they do not tell the error position
+			if(count($trace)>3)
+				$trace=array_slice($trace,3);
+			foreach($trace as $i=>$t)
+			{
+				if(!isset($t['file']))
+					$t['file']='unknown';
+				if(!isset($t['line']))
+					$t['line']=0;
+				if(!isset($t['function']))
+					$t['function']='unknown';
+				echo "#$i {$t['file']}({$t['line']}): ";
+				if(isset($t['object']) && is_object($t['object']))
+					echo get_class($t['object']).'->';
+				echo "{$t['function']}()\n";
+			}
 			echo '</pre>';
 		}
 		else
@@ -2224,19 +2241,20 @@ class CHttpRequest extends CApplicationComponent
 	{
 		if($this->_pathInfo===null)
 		{
-			$requestUri=urldecode($this->getRequestUri());
+			$pathInfo=$this->getRequestUri();
+			if(($pos=strpos($pathInfo,'?'))!==false)
+			   $pathInfo=substr($pathInfo,0,$pos);
+			$pathInfo=urldecode($pathInfo);
 			$scriptUrl=$this->getScriptUrl();
 			$baseUrl=$this->getBaseUrl();
-			if(strpos($requestUri,$scriptUrl)===0)
-				$pathInfo=substr($requestUri,strlen($scriptUrl));
-			else if($baseUrl==='' || strpos($requestUri,$baseUrl)===0)
-				$pathInfo=substr($requestUri,strlen($baseUrl));
+			if(strpos($pathInfo,$scriptUrl)===0)
+				$pathInfo=substr($pathInfo,strlen($scriptUrl));
+			else if($baseUrl==='' || strpos($pathInfo,$baseUrl)===0)
+				$pathInfo=substr($pathInfo,strlen($baseUrl));
 			else if(strpos($_SERVER['PHP_SELF'],$scriptUrl)===0)
 				$pathInfo=substr($_SERVER['PHP_SELF'],strlen($scriptUrl));
 			else
 				throw new CException(Yii::t('yii','CHttpRequest is unable to determine the path info of the request.'));
-			if(($pos=strpos($pathInfo,'?'))!==false)
-				$pathInfo=substr($pathInfo,0,$pos);
 			$this->_pathInfo=trim($pathInfo,'/');
 		}
 		return $this->_pathInfo;
@@ -7424,10 +7442,10 @@ class CDbConnection extends CApplicationComponent
 	{
 		return $this->_pdo;
 	}
-	public function createCommand($sql)
+	public function createCommand($query=null)
 	{
 		if($this->getActive())
-			return new CDbCommand($this,$sql);
+			return new CDbCommand($this,$query);
 		else
 			throw new CDbException(Yii::t('yii','CDbConnection is inactive and cannot perform any DB operations.'));
 	}
@@ -7495,8 +7513,15 @@ class CDbConnection extends CApplicationComponent
 	}
 	public function quoteValue($str)
 	{
+		if(is_int($str) || is_float($str))
+			return $str;
 		if($this->getActive())
-			return $this->_pdo->quote($str);
+		{
+			if(($value=$this->_pdo->quote($str))!==false)
+				return $value;
+			else  // the driver doesn't support quote (e.g. oci)
+				return "'" . addcslashes(str_replace("'", "''", $str), "\000\n\r\\\032") . "'";
+		}
 		else
 			throw new CDbException(Yii::t('yii','CDbConnection is inactive and cannot perform any DB operations.'));
 	}
@@ -7607,12 +7632,13 @@ class CDbConnection extends CApplicationComponent
 }
 abstract class CDbSchema extends CComponent
 {
+    public $columnTypes=array();
 	private $_tableNames=array();
 	private $_tables=array();
 	private $_connection;
 	private $_builder;
 	private $_cacheExclude=array();
-	abstract protected function createTable($name);
+	abstract protected function loadTable($name);
 	public function __construct($conn)
 	{
 		$conn->setActive(true);
@@ -7639,14 +7665,14 @@ abstract class CDbSchema extends CComponent
 				$key='yii:dbschema'.$this->_connection->connectionString.':'.$this->_connection->username.':'.$name;
 				if(($table=$cache->get($key))===false)
 				{
-					$table=$this->createTable($realName);
+					$table=$this->loadTable($realName);
 					if($table!==null)
 						$cache->set($key,$table,$duration);
 				}
 				return $this->_tables[$name]=$table;
 			}
 			else
-				return $this->_tables[$name]=$this->createTable($realName);
+				return $this->_tables[$name]=$this->loadTable($realName);
 		}
 	}
 	public function getTables($schema='')
@@ -7691,9 +7717,29 @@ abstract class CDbSchema extends CComponent
 	}
 	public function quoteTableName($name)
 	{
+		if(strpos($name,'.')===false)
+			return $this->quoteSimpleTableName($name);
+		$parts=explode('.',$name);
+		foreach($parts as $i=>$part)
+			$parts[$i]=$this->quoteSimpleTableName($part);
+		return implode('.',$parts);
+	}
+	public function quoteSimpleTableName($name)
+	{
 		return "'".$name."'";
 	}
 	public function quoteColumnName($name)
+	{
+		if(($pos=strrpos($name,'.'))!==false)
+		{
+			$prefix=$this->quoteTableName(substr($name,0,$pos)).'.';
+			$name=substr($name,$pos+1);
+		}
+		else
+			$prefix='';
+		return $prefix . ($name==='*' ? $name : $this->quoteSimpleColumnName($name));
+	}
+	public function quoteSimpleColumnName($name)
 	{
 		return '"'.$name.'"';
 	}
@@ -7731,9 +7777,98 @@ abstract class CDbSchema extends CComponent
 		throw new CDbException(Yii::t('yii','{class} does not support fetching all table names.',
 			array('{class}'=>get_class($this))));
 	}
+    public function getColumnType($type)
+    {
+    	if(isset($this->columnTypes[$type]))
+    		return $this->columnTypes[$type];
+    	else if(($pos=strpos($type,' '))!==false)
+    	{
+    		$t=substr($type,0,$pos);
+    		return (isset($this->columnTypes[$t]) ? $this->columnTypes[$t] : $t).substr($type,$pos);
+    	}
+    	else
+    		return $type;
+    }
+	public function createTable($table, $columns, $options=null)
+	{
+		$cols=array();
+		foreach($columns as $name=>$type)
+		{
+			if(is_string($name))
+				$cols[]="\t".$this->quoteColumnName($name).' '.$this->getColumnType($type);
+			else
+				$cols[]="\t".$type;
+		}
+		$sql="CREATE TABLE ".$this->quoteTableName($table)." (\n".implode(",\n",$cols)."\n)";
+		return $options===null ? $sql : $sql.' '.$options;
+	}
+	public function renameTable($table, $newName)
+	{
+		return 'RENAME TABLE ' . $this->quoteTableName($table) . ' TO ' . $this->quoteTableName($newName);
+	}
+	public function dropTable($table)
+	{
+		return "DROP TABLE ".$this->quoteTableName($table);
+	}
+	public function addColumn($table, $column, $type)
+	{
+		$type=$this->getColumnType($type);
+		$sql='ALTER TABLE ' . $this->quoteTableName($table)
+			. ' ADD ' . $this->quoteColumnName($column) . ' '
+			. $this->getColumnType($type);
+		return $sql;
+	}
+	public function dropColumn($table, $column)
+	{
+		return "ALTER TABLE ".$this->quoteTableName($table)
+			." DROP COLUMN ".$this->quoteColumnName($column);
+	}
+	public function renameColumn($table, $name, $newName)
+	{
+		return "ALTER TABLE ".$this->quoteTableName($table)
+			. " RENAME COLUMN ".$this->quoteColumnName($name)
+			. " TO ".$this->quoteColumnName($newName);
+	}
+	public function alterColumn($table, $column, $type)
+	{
+		$type=$this->getColumnType($type);
+		$sql='ALTER TABLE ' . $this->quoteTableName($table) . ' CHANGE '
+			. $this->quoteColumnName($column) . ' '
+			. $this->quoteColumnName($column) . ' '
+			. $this->getColumnType($type);
+		return $sql;
+	}
+	public function createIndex($table, $name, $column, $unique=false)
+	{
+		$cols=array();
+		$columns=preg_split('/\s*,\s*/',$column,-1,PREG_SPLIT_NO_EMPTY);
+		foreach($columns as $col)
+			$cols[]=$this->quoteColumnName($col);
+		return ($unique ? 'CREATE UNIQUE INDEX ' : 'CREATE INDEX ')
+			. $this->quoteTableName($name).' ON '
+			. $this->quoteTableName($table).' ('.implode(', ',$cols).')';
+	}
+	public function dropIndex($table, $name)
+	{
+		return 'DROP INDEX '.$this->quoteTableName($name).' ON '.$this->quoteTableName($table);
+	}
 }
 class CSqliteSchema extends CDbSchema
 {
+    public $columnTypes=array(
+        'pk' => 'integer PRIMARY KEY AUTOINCREMENT NOT NULL',
+        'string' => 'varchar(255)',
+        'text' => 'text',
+        'integer' => 'integer',
+        'float' => 'float',
+        'decimal' => 'decimal',
+        'datetime' => 'datetime',
+        'timestamp' => 'timestamp',
+        'time' => 'time',
+        'date' => 'date',
+        'binary' => 'blob',
+        'boolean' => 'tinyint(1)',
+    );
 	public function resetSequence($table,$value=null)
 	{
 		if($table->sequenceName!==null)
@@ -7759,7 +7894,7 @@ class CSqliteSchema extends CDbSchema
 	{
 		return new CSqliteCommandBuilder($this);
 	}
-	protected function createTable($name)
+	protected function loadTable($name)
 	{
 		$table=new CDbTableSchema;
 		$table->name=$name;
@@ -7820,6 +7955,22 @@ class CSqliteSchema extends CDbSchema
 		$c->init(strtolower($column['type']),$column['dflt_value']);
 		return $c;
 	}
+	public function dropColumn($table, $column)
+	{
+		throw new CDbException(Yii::t('yii', 'Dropping DB column is not supported by SQLite.'));
+	}
+	public function renameColumn($table, $name, $newName)
+	{
+		throw new CDbException(Yii::t('yii', 'Renaming a DB column is not supported by SQLite.'));
+	}
+	public function alterColumn($table, $column, $type)
+	{
+		throw new CDbException(Yii::t('yii', 'Altering a DB column is not supported by SQLite.'));
+	}
+	public function dropIndex($table, $name)
+	{
+		return 'DROP INDEX '.$this->quoteTableName($name);
+	}
 }
 class CDbTableSchema extends CComponent
 {
@@ -7840,31 +7991,51 @@ class CDbTableSchema extends CComponent
 }
 class CDbCommand extends CComponent
 {
+	public $params=array();
 	private $_connection;
-	private $_text='';
-	private $_statement=null;
-	private $_params=array();
-	public function __construct(CDbConnection $connection,$text)
+	private $_text;
+	private $_statement;
+	private $_paramLog=array();
+	private $_query;
+	public function __construct(CDbConnection $connection,$query=null)
 	{
 		$this->_connection=$connection;
-		$this->setText($text);
+		if(is_array($query))
+		{
+			foreach($query as $name=>$value)
+				$this->$name=$value;
+		}
+		else
+			$this->setText($query);
 	}
 	public function __sleep()
 	{
 		$this->_statement=null;
 		return array_keys(get_object_vars($this));
 	}
+	public function reset()
+	{
+		$this->_text=null;
+		$this->_query=null;
+		$this->_statement=null;
+		$this->_paramLog=array();
+		$this->params=array();
+		return $this;
+	}
 	public function getText()
 	{
+		if($this->_text=='' && !empty($this->_query))
+			$this->setText($this->buildQuery($this->_query));
 		return $this->_text;
 	}
 	public function setText($value)
 	{
-		if($this->_connection->tablePrefix!==null)
+		if($this->_connection->tablePrefix!==null && $value!='')
 			$this->_text=preg_replace('/{{(.*?)}}/',$this->_connection->tablePrefix.'\1',$value);
 		else
 			$this->_text=$value;
 		$this->cancel();
+		return $this;
 	}
 	public function getConnection()
 	{
@@ -7881,7 +8052,7 @@ class CDbCommand extends CComponent
 			try
 			{
 				$this->_statement=$this->getConnection()->getPdoInstance()->prepare($this->getText());
-				$this->_params=array();
+				$this->_paramLog=array();
 			}
 			catch(Exception $e)
 			{
@@ -7906,7 +8077,7 @@ class CDbCommand extends CComponent
 		else
 			$this->_statement->bindParam($name,$value,$dataType,$length);
 		if($this->_connection->enableParamLogging)
-			$this->_params[$name]=&$value;
+			$this->_paramLog[$name]=&$value;
 		return $this;
 	}
 	public function bindValue($name, $value, $dataType=null)
@@ -7917,7 +8088,7 @@ class CDbCommand extends CComponent
 		else
 			$this->_statement->bindValue($name,$value,$dataType);
 		if($this->_connection->enableParamLogging)
-			$this->_params[$name]=var_export($value,true);
+			$this->_paramLog[$name]=var_export($value,true);
 		return $this;
 	}
 	public function bindValues($values)
@@ -7927,13 +8098,13 @@ class CDbCommand extends CComponent
 		{
 			$this->_statement->bindValue($name,$value,$this->_connection->getPdoType(gettype($value)));
 			if($this->_connection->enableParamLogging)
-				$this->_params[$name]=var_export($value,true);
+				$this->_paramLog[$name]=var_export($value,true);
 		}
 		return $this;
 	}
 	public function execute($params=array())
 	{
-		if($this->_connection->enableParamLogging && ($pars=array_merge($this->_params,$params))!==array())
+		if($this->_connection->enableParamLogging && ($pars=array_merge($this->_paramLog,$params))!==array())
 		{
 			$p=array();
 			foreach($pars as $name=>$value)
@@ -7992,7 +8163,8 @@ class CDbCommand extends CComponent
 	}
 	private function queryInternal($method,$mode,$params=array())
 	{
-		if($this->_connection->enableParamLogging && ($pars=array_merge($this->_params,$params))!==array())
+		$params=array_merge($this->params,$params);
+		if($this->_connection->enableParamLogging && ($pars=array_merge($this->_paramLog,$params))!==array())
 		{
 			$p=array();
 			foreach($pars as $name=>$value)
@@ -8030,6 +8202,417 @@ class CDbCommand extends CComponent
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
 				array('{error}'=>$e->getMessage())),(int)$e->getCode(),$errorInfo);
 		}
+	}
+	public function buildQuery($query)
+	{
+		$sql=isset($query['distinct']) && $query['distinct'] ? 'SELECT DISTINCT' : 'SELECT';
+		$sql.=' '.(isset($query['select']) ? $query['select'] : '*');
+		if(isset($query['from']))
+			$sql.="\nFROM ".$query['from'];
+		else
+			throw new CDbException(Yii::t('yii','The DB query must contain the "from" portion.'));
+		if(isset($query['where']))
+			$sql.="\nWHERE ".$query['where'];
+		if(isset($query['join']))
+			$sql.="\n".(is_array($query['join']) ? implode("\n",$query['join']) : $query['join']);
+		if(isset($query['group']))
+			$sql.="\nGROUP BY ".$query['group'];
+		if(isset($query['having']))
+			$sql.="\nHAVING ".$query['having'];
+		if(isset($query['order']))
+			$sql.="\nORDER BY ".$query['order'];
+		$limit=isset($query['limit']) ? (int)$query['limit'] : -1;
+		$offset=isset($query['offset']) ? (int)$query['offset'] : -1;
+		if($limit>=0 || $offset>0)
+			$sql=$this->_connection->getCommandBuilder()->applyLimit($sql,$limit,$offset);
+		if(isset($query['union']))
+			$sql.="\nUNION (\n".(is_array($query['union']) ? implode("\n) UNION (\n",$query['union']) : $query['union']) . ')';
+		return $sql;
+	}
+	public function select($columns='*')
+	{
+		if(is_string($columns) && strpos($columns,'(')!==false)
+			$this->_query['select']=$columns;
+		else
+		{
+			if(!is_array($columns))
+				$columns=preg_split('/\s*,\s*/',trim($columns),-1,PREG_SPLIT_NO_EMPTY);
+			foreach($columns as $i=>$column)
+			{
+				if(is_object($column))
+					$columns[$i]=(string)$column;
+				else if(strpos($column,'(')===false)
+				{
+					if(preg_match('/^(.*?)\s+as\s+(.*)$/i',$column,$matches))
+						$columns[$i]=$this->_connection->quoteColumnName($matches[1]).' AS '.$this->_connection->quoteColumnName($matches[2]);
+					else
+						$columns[$i]=$this->_connection->quoteColumnName($column);
+				}
+			}
+			$this->_query['select']=implode(', ',$columns);
+		}
+		return $this;
+	}
+	public function getSelect()
+	{
+		return isset($this->_query['select']) ? $this->_query['select'] : '';
+	}
+	public function setSelect($value)
+	{
+		$this->select($value);
+	}
+	public function selectDistinct($columns='*')
+	{
+		$this->_query['distinct']=true;
+		return $this->select($columns);
+	}
+	public function getDistinct()
+	{
+		return isset($this->_query['distinct']) ? $this->_query['distinct'] : false;
+	}
+	public function setDistinct($value)
+	{
+		$this->_query['distinct']=$value;
+	}
+	public function from($tables)
+	{
+		if(is_string($tables) && strpos($tables,'(')!==false)
+			$this->_query['from']=$tables;
+		else
+		{
+			if(!is_array($tables))
+				$tables=preg_split('/\s*,\s*/',trim($tables),-1,PREG_SPLIT_NO_EMPTY);
+			foreach($tables as $i=>$table)
+			{
+				if(strpos($table,'(')===false)
+				{
+					if(preg_match('/^(.*?)\s+(.*)$/',$table,$matches))  // with alias
+						$tables[$i]=$this->_connection->quoteTableName($matches[1]).' '.$this->_connection->quoteTableName($matches[2]);
+					else
+						$tables[$i]=$this->_connection->quoteTableName($table);
+				}
+			}
+			$this->_query['from']=implode(', ',$tables);
+		}
+		return $this;
+	}
+	public function getFrom()
+	{
+		return isset($this->_query['from']) ? $this->_query['from'] : '';
+	}
+	public function setFrom($value)
+	{
+		$this->from($value);
+	}
+	public function where($conditions, $params=array())
+	{
+		$this->_query['where']=$this->processConditions($conditions);
+		foreach($params as $name=>$value)
+			$this->params[$name]=$value;
+		return $this;
+	}
+	public function getWhere()
+	{
+		return isset($this->_query['where']) ? $this->_query['where'] : '';
+	}
+	public function setWhere($value)
+	{
+		$this->where($value);
+	}
+	public function join($table, $conditions, $params=array())
+	{
+		return $this->joinInternal('join', $table, $conditions, $params);
+	}
+	public function getJoin()
+	{
+		return isset($this->_query['join']) ? $this->_query['join'] : '';
+	}
+	public function setJoin($value)
+	{
+		$this->_query['join']=$value;
+	}
+	public function leftJoin($table, $conditions, $params=array())
+	{
+		return $this->joinInternal('left join', $table, $conditions, $params);
+	}
+	public function rightJoin($table, $conditions, $params=array())
+	{
+		return $this->joinInternal('right join', $table, $conditions, $params);
+	}
+	public function crossJoin($table)
+	{
+		return $this->joinInternal('cross join', $table);
+	}
+	public function naturalJoin($table)
+	{
+		return $this->joinInternal('natural join', $table);
+	}
+	public function group($columns)
+	{
+		if(is_string($columns) && strpos($columns,'(')!==false)
+			$this->_query['group']=$columns;
+		else
+		{
+			if(!is_array($columns))
+				$columns=preg_split('/\s*,\s*/',trim($columns),-1,PREG_SPLIT_NO_EMPTY);
+			foreach($columns as $i=>$column)
+			{
+				if(is_object($column))
+					$columns[$i]=(string)$column;
+				else if(strpos($column,'(')===false)
+					$columns[$i]=$this->_connection->quoteColumnName($column);
+			}
+			$this->_query['group']=implode(', ',$columns);
+		}
+		return $this;
+	}
+	public function getGroup()
+	{
+		return isset($this->_query['group']) ? $this->_query['group'] : '';
+	}
+	public function setGroup($value)
+	{
+		$this->group($value);
+	}
+	public function having($conditions, $params=array())
+	{
+		$this->_query['having']=$this->processConditions($conditions);
+		foreach($params as $name=>$value)
+			$this->params[$name]=$value;
+		return $this;
+	}
+	public function getHaving()
+	{
+		return isset($this->_query['having']) ? $this->_query['having'] : '';
+	}
+	public function setHaving($value)
+	{
+		$this->having($value);
+	}
+	public function order($columns)
+	{
+		if(is_string($columns) && strpos($columns,'(')!==false)
+			$this->_query['order']=$columns;
+		else
+		{
+			if(!is_array($columns))
+				$columns=preg_split('/\s*,\s*/',trim($columns),-1,PREG_SPLIT_NO_EMPTY);
+			foreach($columns as $i=>$column)
+			{
+				if(is_object($column))
+					$columns[$i]=(string)$column;
+				else if(strpos($column,'(')===false)
+				{
+					if(preg_match('/^(.*?)\s+(asc|desc)$/i',$column,$matches))
+						$columns[$i]=$this->_connection->quoteColumnName($matches[1]).' '.strtoupper($matches[2]);
+					else
+						$columns[$i]=$this->_connection->quoteColumnName($column);
+				}
+			}
+			$this->_query['order']=implode(', ',$columns);
+		}
+		return $this;
+	}
+	public function getOrder()
+	{
+		return isset($this->_query['order']) ? $this->_query['order'] : '';
+	}
+	public function setOrder($value)
+	{
+		$this->order($value);
+	}
+	public function limit($limit, $offset=null)
+	{
+		$this->_query['limit']=(int)$limit;
+		if($offset!==null)
+			$this->offset($offset);
+		return $this;
+	}
+	public function getLimit()
+	{
+		return isset($this->_query['limit']) ? $this->_query['limit'] : -1;
+	}
+	public function setLimit($value)
+	{
+		$this->limit($value);
+	}
+	public function offset($offset)
+	{
+		$this->_query['offset']=(int)$offset;
+		return $this;
+	}
+	public function getOffset()
+	{
+		return isset($this->_query['offset']) ? $this->_query['offset'] : -1;
+	}
+	public function setOffset($value)
+	{
+		$this->offset($value);
+	}
+	public function union($sql)
+	{
+		if(isset($this->_query['union']) && is_string($this->_query['union']))
+			$this->_query['union']=array($this->_query['union']);
+		$this->_query['union'][]=$sql;
+		return $this;
+	}
+	public function getUnion()
+	{
+		return isset($this->_query['union']) ? $this->_query['union'] : '';
+	}
+	public function setUnion($value)
+	{
+		$this->_query['union']=$value;
+	}
+	public function insert($table, $columns)
+	{
+		$params=array();
+		$names=array();
+		foreach($columns as $name=>$value)
+		{
+			$names[]=$this->_connection->quoteColumnName($name);
+			$params[':'.$name]=$value;
+		}
+		$sql='INSERT INTO ' . $this->_connection->quoteTableName($table)
+			. ' (' . implode(', ',$names) . ') VALUES ('
+			. implode(', ', array_keys($params)) . ')';
+		return $this->setText($sql)->execute($params);
+	}
+	public function update($table, $columns, $conditions='', $params=array())
+	{
+		$lines=array();
+		foreach($columns as $name=>$value)
+		{
+			$params[':'.$name]=$value;
+			$lines[]=$this->_connection->quoteColumnName($name).'=:'.$name;
+		}
+		$sql='UPDATE ' . $this->_connection->quoteTableName($table) . ' SET ' . implode(', ', $lines);
+		if(($where=$this->processConditions($conditions))!='')
+			$sql.=' WHERE '.$where;
+		return $this->setText($sql)->execute($params);
+	}
+	public function delete($table, $conditions='', $params=array())
+	{
+		$sql='DELETE FROM ' . $this->_connection->quoteTableName($table);
+		if(($where=$this->processConditions($conditions))!='')
+			$sql.=' WHERE '.$where;
+		return $this->setText($sql)->execute($params);
+	}
+	public function createTable($table, $columns, $options=null)
+	{
+		return $this->setText($this->getConnection()->getSchema()->createTable($table, $columns, $options))->execute();
+	}
+	public function renameTable($table, $newName)
+	{
+		return $this->setText($this->getConnection()->getSchema()->renameTable($table, $newName))->execute();
+	}
+	public function dropTable($table)
+	{
+		return $this->setText($this->getConnection()->getSchema()->dropTable($table))->execute();
+	}
+	public function addColumn($table, $column, $type)
+	{
+		return $this->setText($this->getConnection()->getSchema()->addColumn($table, $column, $type))->execute();
+	}
+	public function dropColumn($table, $column)
+	{
+		return $this->setText($this->getConnection()->getSchema()->dropColumn($table, $column))->execute();
+	}
+	public function renameColumn($table, $name, $newName)
+	{
+		return $this->setText($this->getConnection()->getSchema()->renameColumn($table, $name, $newName))->execute();
+	}
+	public function alterColumn($table, $column, $type)
+	{
+		return $this->setText($this->getConnection()->getSchema()->alterColumn($table, $column, $type))->execute();
+	}
+	public function createIndex($table, $name, $column, $unique=false)
+	{
+		return $this->setText($this->getConnection()->getSchema()->createIndex($table, $name, $column, $unique))->execute();
+	}
+	public function dropIndex($table, $name)
+	{
+		return $this->setText($this->getConnection()->getSchema()->dropIndex($table, $name))->execute();
+	}
+	private function processConditions($conditions)
+	{
+		if(!is_array($conditions))
+			return $conditions;
+		else if($conditions===array())
+			return '';
+		$n=count($conditions);
+		$operator=strtoupper($conditions[0]);
+		if($operator==='OR' || $operator==='AND')
+		{
+			$parts=array();
+			for($i=1;$i<$n;++$i)
+			{
+				$condition=$this->processConditions($conditions[$i]);
+				if($condition!=='')
+					$parts[]='('.$condition.')';
+			}
+			return $parts===array() ? '' : implode(' '.$operator.' ', $parts);
+		}
+		if(!isset($conditions[1],$conditions[2]))
+			return '';
+		$column=$conditions[1];
+		if(strpos($column,'(')===false)
+			$column=$this->_connection->quoteColumnName($column);
+		$values=$conditions[2];
+		if(!is_array($values))
+			$values=array($values);
+		if($operator==='IN' || $operator==='NOT IN')
+		{
+			if($values===array())
+				return $operator==='IN' ? '0=1' : '';
+			foreach($values as $i=>$value)
+			{
+				if(is_string($value))
+					$values[$i]=$this->_connection->quoteValue($value);
+				else
+					$values[$i]=(string)$value;
+			}
+			return $column.' '.$operator.' ('.implode(', ',$values).')';
+		}
+		if($operator==='LIKE' || $operator==='NOT LIKE' || $operator==='OR LIKE' || $operator==='OR NOT LIKE')
+		{
+			if($values===array())
+				return $operator==='LIKE' || $operator==='OR LIKE' ? '0=1' : '';
+			if($operator==='LIKE' || $operator==='NOT LIKE')
+				$andor=' AND ';
+			else
+			{
+				$andor=' OR ';
+				$operator=$operator==='OR LIKE' ? 'LIKE' : 'NOT LIKE';
+			}
+			$expressions=array();
+			foreach($values as $value)
+			{
+				$value=$this->_connection->quoteValue('%'.strtr($value,array('%'=>'\%', '_'=>'\_')).'%');
+				$expressions[]=$column.' '.$operator.' '.$value;
+			}
+			return implode($andor,$expressions);
+		}
+		throw new CDbException(Yii::t('yii', 'Unknown operator "{operator}".', array('{operator}'=>$operator)));
+	}
+	private function joinInternal($type, $table, $conditions='', $params=array())
+	{
+		if(strpos($table,'(')===false)
+		{
+			if(preg_match('/^(.*?)\s+(.*)$/',$table,$matches))  // with alias
+				$table=$this->_connection->quoteTableName($matches[1]).' '.$this->_connection->quoteTableName($matches[2]);
+			else
+				$table=$this->_connection->quoteTableName($table);
+		}
+		$conditions=$this->processConditions($conditions);
+		if($conditions!='')
+			$conditions=' ON '.$conditions;
+		if(isset($this->_query['join']) && is_string($this->_query['join']))
+			$this->_query['join']=array($this->_query['join']);
+		$this->_query['join'][]=strtoupper($type) . ' ' . $table . $conditions;
+		foreach($params as $name=>$value)
+			$this->params[$name]=$value;
+		return $this;
 	}
 }
 class CDbColumnSchema extends CComponent
