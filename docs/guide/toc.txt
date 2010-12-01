@@ -18,7 +18,7 @@
     - [Path Alias and Namespace](basics.namespace)
     - [Conventions](basics.convention)
     - [Development Workflow](basics.workflow)
-    - [Best MVC Practices](basic.best-practices)
+    - [Best MVC Practices](basics.best-practices)
 
 * Working with Forms
     - [Overview](form.overview)
