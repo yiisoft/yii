@@ -73,8 +73,8 @@ class CDetailView extends CWidget
 	 * <li>label: the label associated with the attribute. If this is not specified, the following "name" element
 	 * will be used to generate an appropriate label.</li>
 	 * <li>name: the name of the attribute. This can be either a property or a sub-property of the model.
-	 * If the above "value" element is specified, this will be ignored.</li>
-	 * <li>value: the value to be displayed. If this is not specified, the following "name" element will be used
+	 * If the below "value" element is specified, this will be ignored.</li>
+	 * <li>value: the value to be displayed. If this is not specified, the above "name" element will be used
 	 * to retrieve the corresponding attribute value for display. Note that this value will be formatted according
 	 * to the "type" option as described below.</li>
 	 * <li>type: the type of the attribute that determines how the attribute value would be formatted.
