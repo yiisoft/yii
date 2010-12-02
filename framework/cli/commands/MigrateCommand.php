@@ -43,9 +43,9 @@ class MigrateCommand extends CConsoleCommand
 	 */
 	public $templateFile;
 	/**
-	 * @var string the default command action. It defaults to 'to'.
+	 * @var string the default command action. It defaults to 'up'.
 	 */
-	public $defaultAction='to';
+	public $defaultAction='up';
 
 	public function beforeAction($action,$params)
 	{
@@ -60,50 +60,7 @@ class MigrateCommand extends CConsoleCommand
 		return true;
 	}
 
-	public function actionTo($version=null, $args=array())
-	{
-		if($version===null)
-		{
-			$this->actionUp(-1);
-			return;
-		}
-		$originalVersion=$version;
-		if(preg_match('/^\d{14}$/',$version))
-			$version='m'.$version;
-		else if(preg_match('/^(m\d{14})_.*?/',$version,$matches))
-			$version=$matches[1];
-		else
-			die("Error: The version option must be either a timestamp (e.g. 20101129185401)\nor the full name of a migration (e.g. m20101129185401_create_user_table).\n");
-
-		// try migrate up
-		$migrations=$this->getNewMigrations();
-		foreach($migrations as $i=>$migration)
-		{
-			if(strpos($migration,$version.'_')===0)
-			{
-				$this->actionUp($i+1);
-				return;
-			}
-		}
-
-		// try migrate down
-		$migrations=array_keys($this->getMigrationHistory(-1));
-		foreach($migrations as $i=>$migration)
-		{
-			if(strpos($migration,$version.'_')===0)
-			{
-				if($i===0)
-					echo "Already at '$originalVersion'. Nothing needs to be done.\n";
-				else
-					$this->actionDown($i);
-				return;
-			}
-		}
-
-		die("Error: Unable to find the version '$originalVersion'.\n");
-	}
-
-	public function actionUp($step=1)
+	public function actionUp($args=array())
 	{
 		if(($migrations=$this->getNewMigrations())===array())
 		{
@@ -111,11 +68,17 @@ class MigrateCommand extends CConsoleCommand
 			return;
 		}
 
-		if(($step=(int)$step)>0)
+		$total=count($migrations);
+		$step=isset($args[0]) ? (int)$args[0] : 0;
+		if($step>0)
 			$migrations=array_slice($migrations,0,$step);
 
 		$n=count($migrations);
-		echo "Total $n new ".($n===1 ? 'migration':'migrations')." to be applied:\n";
+		if($n===$total)
+			echo "Total $n new ".($n===1 ? 'migration':'migrations')." to be applied:\n";
+		else
+			echo "Total $n out of $total new ".($total===1 ? 'migration':'migrations')." to be applied:\n";
+
 		foreach($migrations as $migration)
 			echo "    $migration\n";
 		echo "\n";
@@ -128,10 +91,11 @@ class MigrateCommand extends CConsoleCommand
 		}
 	}
 
-	public function actionDown($step=1)
+	public function actionDown($args=array())
 	{
-		if(($step=(int)$step)<=0)
-			die("Error: The step option must be greater than 0.");
+		$step=isset($args[0]) ? (int)$args[0] : 1;
+		if($step<1)
+			die("Error: The step parameter must be greater than 0.");
 
 		if(($migrations=$this->getMigrationHistory($step))===array())
 		{
@@ -141,12 +105,12 @@ class MigrateCommand extends CConsoleCommand
 		$migrations=array_keys($migrations);
 
 		$n=count($migrations);
-		echo "Total $n ".($n===1 ? 'migration':'migrations')." to be removed:\n";
+		echo "Total $n ".($n===1 ? 'migration':'migrations')." to be reverted:\n";
 		foreach($migrations as $migration)
 			echo "    $migration\n";
 		echo "\n";
 
-		if($this->confirm('Remove the above '.($n===1 ? 'migration':'migrations')."?"))
+		if($this->confirm('Revert the above '.($n===1 ? 'migration':'migrations')."?"))
 		{
 			foreach($migrations as $migration)
 				$this->migrateDown($migration);
@@ -154,10 +118,11 @@ class MigrateCommand extends CConsoleCommand
 		}
 	}
 
-	public function actionRedo($step=1)
+	public function actionRedo($args=array())
 	{
-		if(($step=(int)$step)<=0)
-			die("Error: The step option must be greater than 0.");
+		$step=isset($args[0]) ? (int)$args[0] : 1;
+		if($step<1)
+			die("Error: The step parameter must be greater than 0.");
 
 		if(($migrations=$this->getMigrationHistory($step))===array())
 		{
@@ -182,8 +147,50 @@ class MigrateCommand extends CConsoleCommand
 		}
 	}
 
-	public function actionHistory($limit=10)
+	public function actionTo($args=array())
 	{
+		if(isset($args[0]))
+			$version=$args[0];
+		else
+			$this->usageError('Please specify which version to migrate to.');
+
+		$originalVersion=$version;
+		if(preg_match('/^m?(\d{6}_\d{6})(_.*?)?$/',$version,$matches))
+			$version='m'.$matches[1];
+		else
+			die("Error: The version option must be either a timestamp (e.g. 101129_185401)\nor the full name of a migration (e.g. m101129_185401_create_user_table).\n");
+
+		// try migrate up
+		$migrations=$this->getNewMigrations();
+		foreach($migrations as $i=>$migration)
+		{
+			if(strpos($migration,$version.'_')===0)
+			{
+				$this->actionUp(array($i+1));
+				return;
+			}
+		}
+
+		// try migrate down
+		$migrations=array_keys($this->getMigrationHistory(-1));
+		foreach($migrations as $i=>$migration)
+		{
+			if(strpos($migration,$version.'_')===0)
+			{
+				if($i===0)
+					echo "Already at '$originalVersion'. Nothing needs to be done.\n";
+				else
+					$this->actionDown(array($i));
+				return;
+			}
+		}
+
+		die("Error: Unable to find the version '$originalVersion'.\n");
+	}
+
+	public function actionHistory($args=array())
+	{
+		$limit=isset($args[0]) ? (int)$args[0] : -1;
 		$migrations=$this->getMigrationHistory($limit);
 		if($migrations===array())
 			echo "No migration has been done before.\n";
@@ -199,26 +206,39 @@ class MigrateCommand extends CConsoleCommand
 		}
 	}
 
-	public function actionList()
+	public function actionList($args=array())
 	{
+		$limit=isset($args[0]) ? (int)$args[0] : -1;
 		$migrations=$this->getNewMigrations();
 		if($migrations===array())
 			echo "No new migrations found. Your system is up-to-date.\n";
 		else
 		{
 			$n=count($migrations);
-			echo "Found $n new ".($n===1 ? 'migration' : 'migrations').":\n";
+			if($limit>0 && $n>$limit)
+			{
+				$migrations=array_slice($migrations,0,$limit);
+				echo "Showing $limit out of $n new ".($n===1 ? 'migration' : 'migrations').":\n";
+			}
+			else
+				echo "Found $n new ".($n===1 ? 'migration' : 'migrations').":\n";
+
 			foreach($migrations as $migration)
 				echo "    ".$migration."\n";
 		}
 	}
 
-	public function actionCreate($name='untitled')
+	public function actionCreate($args=array())
 	{
-		if(!preg_match('/^\w+$/',$name))
-			die('Error: The name of the migration must contain letters, digits and underscore characters only.');
+		if(isset($args[0]))
+			$name=$args[0];
+		else
+			$this->usageError('Please provide the name of the new migration.');
 
-		$name='m'.gmdate('YmdHis').'_'.$name;
+		if(!preg_match('/^\w+$/',$name))
+			die('Error: The name of the migration must contain letters, digits and/or underscore characters only.');
+
+		$name='m'.gmdate('ymd_His').'_'.$name;
 		$content=strtr($this->getTemplate(), array('{ClassName}'=>$name));
 		$file=$this->migrationPath.DIRECTORY_SEPARATOR.$name.'.php';
 
@@ -251,13 +271,13 @@ class MigrateCommand extends CConsoleCommand
 
 	protected function migrateDown($class)
 	{
-		echo "*** removing $class\n";
+		echo "*** reverting $class\n";
 		$start=microtime(true);
 		$migration=$this->instantiateMigration($class);
 		$migration->down();
 		$this->getDbConnection()->createCommand()->delete($this->migrationTable, 'version=:version', array(':version'=>$class));
 		$time=microtime(true)-$start;
-		echo "*** removed $class (time: ".sprintf("%.3f",$time)."s)\n\n";
+		echo "*** reverted $class (time: ".sprintf("%.3f",$time)."s)\n\n";
 	}
 
 	protected function instantiateMigration($class)
@@ -305,7 +325,7 @@ class MigrateCommand extends CConsoleCommand
 	{
 		$applied=array();
 		foreach($this->getMigrationHistory(-1) as $version=>$time)
-			$applied[substr($version,1,14)]=true;
+			$applied[substr($version,1,13)]=true;
 
 		$migrations=array();
 		$handle=opendir($this->migrationPath);
@@ -314,7 +334,7 @@ class MigrateCommand extends CConsoleCommand
 			if($file==='.' || $file==='..')
 				continue;
 			$path=$this->migrationPath.DIRECTORY_SEPARATOR.$file;
-			if(preg_match('/^(m(\d{14})_.*?)\.php$/',$file,$matches) && is_file($path) && !isset($applied[$matches[2]]))
+			if(preg_match('/^(m(\d{6}_\d{6})_.*?)\.php$/',$file,$matches) && is_file($path) && !isset($applied[$matches[2]]))
 				$migrations[]=$matches[1];
 		}
 		closedir($handle);
@@ -326,70 +346,75 @@ class MigrateCommand extends CConsoleCommand
 	{
 		return <<<EOD
 USAGE
-  yiic migrate <action> [options]
+  yiic migrate <action> [parameter]
 
 DESCRIPTION
   This command provides support for database migrations.
 
 ACTIONS
- * to [--version=20101129185401]
-   Migrates the database up or down to a specific version. The optional
-   'version' option specifies which version the database should be migrated
-   up or down to. If 'version' is not given, it means the database should be
-   migrated up with all available migrations. This action is the default
-   action of the migrate command.
+ * up [step]
+   Applies a number of new migrations. The number can be specified by
+   the optional parameter 'step'. If it is not given, ALL new migrations
+   will be applied.
    Examples:
    - yiic migrate
-     applies all available migrations
-   - yiic migrate to --version=20101129185401
-     migrates up or down to version 20101129185401.
+     applies ALL new migrations. Note that the 'up' action is a default
+     action. Therefore, the above command is equivalent to
+     yiic migrate up
+   - yiic migrate up 3
+     applies the next 3 new migrations
 
- * up [--step=1]
-   Applies a number of migrations. The number is specified by the optional
-   parameter 'step' which defaults to 1.
-   Examples:
-   - yiic migrate up
-     applies the next available migration
-   - yiic migrate up --step=3
-     applies the next 3 available migrations
-
- * down [--step=1]
+ * down [step]
    Reverts a number of migrations. The number is specified by the optional
    parameter 'step' which defaults to 1.
    Examples:
    - yiic migrate down
      reverts the most recently applied migration
-   - yiic migrate down --step=3
+   - yiic migrate down 3
      reverts the 3 most recently applied migrations
 
- * redo [--step=1]
+ * to <version>
+   Migrates the database up or down to a specific version. The 'version'
+   parameter specifies which version the database should be migrated
+   up or down to. It must be given in terms of a timestamp or the full
+   migration class name.
+   Examples:
+   - yiic migrate to 101129_185401
+     migrates up or down to version 101129_185401.
+   - yiic migrate to m101129_185401_create_user_table
+     migrates up or down to version m101129_185401_create_user_table.
+
+ * redo [step]
    Redoes a number of migrations. The number is specified by the optional
-   parameter 'step' which defaults to 1. This command is equivalent to reverting
-   the spcified number of migrations and then applying them.
+   parameter 'step' which defaults to 1. This command is equivalent to
+   reverting the spcified number of migrations and then applying them.
    Examples:
    - yiic migrate redo
      reverts the most recently applied migration and then applies it
-   - yiic migrate redo --step=3
+   - yiic migrate redo 3
      reverts the 3 most recently applied migrations and then applies them
 
- * create [--name=untitled]
-   Creates a new migration whose name is specified by the optional parameter
+ * create <name>
+   Creates a new migration whose name is specified by the parameter
    'name'. The new migration will be saved as a PHP class under the migration
    directory (which defaults to 'protected/migrations'). The class name will
-   be prefixed with a UTC timestamp to avoid conflict among different parties.
+   be prefixed with a UTC timestamp in the format of 'yymmdd_hhmmss' to
+   avoid conflict with other migrations. The name should only contain
+   letters, digits, and/or underscore characters.
    Examples:
-   - yiic migrate create
-     creates a new migration named as 'm20101129185401_untitled'
-   - yiic migrate create --name=create_user_table
+   - yiic migrate create create_user_table
      creates a new migration named as 'm20101129185401_create_user_table'
 
- * history [--limit=10]
+ * history [limit]
    Displays the most recently applied migrations. The optional parameter
    'limit' specifies the number of migrations to be displayed.
-   It defaults to 10.
+   If the limit is not given, all applied migrations will be displayed.
 
- * list
+ * list [limit]
    Displays the migrations that have not been applied yet.
+   The optional parameter 'limit' specifies the number of migrations to
+   be displayed. If the limit is not given, all unapplied migrations will
+   be displayed.
 
 EOD;
 	}
