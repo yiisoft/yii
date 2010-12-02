@@ -11,7 +11,7 @@
 /**
  * MigrateCommand manages the database migrations.
  *
- * The implementation of this command and other supporting classes refers to
+ * The implementation of this command and other supporting classes referenced
  * the yii-dbmigrations extension ((https://github.com/pieterclaerhout/yii-dbmigrations),
  * authored by Pieter Claerhout.
  *
@@ -23,9 +23,11 @@
 class MigrateCommand extends CConsoleCommand
 {
 	/**
-	 * @var string the directory that stores the migrations. Defaults to 'protected/migrations'.
+	 * @var string the directory that stores the migrations. This must be specified
+	 * in terms of a path alias, and the corresponding directory must exist.
+	 * Defaults to 'application.migrations' (meaning 'protected/migrations').
 	 */
-	public $migrationPath;
+	public $migrationPath='application.migrations';
 	/**
 	 * @var string the name of the table for keeping applied migration information.
 	 * This table will be automatically created if not exists. Defaults to 'tbl_migration'.
@@ -38,8 +40,9 @@ class MigrateCommand extends CConsoleCommand
 	 */
 	public $connectionID='db';
 	/**
-	 * @var string the path of the template file for generating new migrations. If not set,
-	 * an internal template will be used.
+	 * @var string the path of the template file for generating new migrations. This
+	 * must be specified in terms of a path alias (e.g. application.migrations.template).
+	 * If not set, an internal template will be used.
 	 */
 	public $templateFile;
 	/**
@@ -49,10 +52,10 @@ class MigrateCommand extends CConsoleCommand
 
 	public function beforeAction($action,$params)
 	{
-		if($this->migrationPath===null)
-			$this->migrationPath=Yii::getPathOfAlias('application.migrations');
-		if(!is_dir($this->migrationPath))
+		$path=Yii::getPathOfAlias($this->migrationPath);
+		if($path===false || !is_dir($path))
 			die('Error: The migration directory does not exist: '.$this->migrationPath);
+		$this->migrationPath=$path;
 
 		$yiiVersion=Yii::getVersion();
 		echo "\nYii Migration Tool v1.0 (based on Yii v{$yiiVersion})\n\n";
@@ -60,7 +63,7 @@ class MigrateCommand extends CConsoleCommand
 		return true;
 	}
 
-	public function actionUp($args=array())
+	public function actionUp($args)
 	{
 		if(($migrations=$this->getNewMigrations())===array())
 		{
@@ -91,7 +94,7 @@ class MigrateCommand extends CConsoleCommand
 		}
 	}
 
-	public function actionDown($args=array())
+	public function actionDown($args)
 	{
 		$step=isset($args[0]) ? (int)$args[0] : 1;
 		if($step<1)
@@ -118,7 +121,7 @@ class MigrateCommand extends CConsoleCommand
 		}
 	}
 
-	public function actionRedo($args=array())
+	public function actionRedo($args)
 	{
 		$step=isset($args[0]) ? (int)$args[0] : 1;
 		if($step<1)
@@ -147,7 +150,7 @@ class MigrateCommand extends CConsoleCommand
 		}
 	}
 
-	public function actionTo($args=array())
+	public function actionTo($args)
 	{
 		if(isset($args[0]))
 			$version=$args[0];
@@ -188,7 +191,7 @@ class MigrateCommand extends CConsoleCommand
 		die("Error: Unable to find the version '$originalVersion'.\n");
 	}
 
-	public function actionHistory($args=array())
+	public function actionHistory($args)
 	{
 		$limit=isset($args[0]) ? (int)$args[0] : -1;
 		$migrations=$this->getMigrationHistory($limit);
@@ -206,7 +209,7 @@ class MigrateCommand extends CConsoleCommand
 		}
 	}
 
-	public function actionList($args=array())
+	public function actionList($args)
 	{
 		$limit=isset($args[0]) ? (int)$args[0] : -1;
 		$migrations=$this->getNewMigrations();
@@ -228,7 +231,7 @@ class MigrateCommand extends CConsoleCommand
 		}
 	}
 
-	public function actionCreate($args=array())
+	public function actionCreate($args)
 	{
 		if(isset($args[0]))
 			$name=$args[0];
@@ -422,7 +425,7 @@ EOD;
 	protected function getTemplate()
 	{
 		if($this->templateFile!==null)
-			return file_get_contents($this->templateFile);
+			return file_get_contents(Yii::getPathOfAlias($this->templateFile).'.php');
 		else
 			return <<<EOD
 <?php

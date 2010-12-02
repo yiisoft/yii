@@ -123,7 +123,7 @@ To revert the last one or several applied migrations, we can use the following c
 yiic migrate down [step]
 ~~~
 
-This command will call the `down()` method of the last few applied migrations.  Changing the parameter `step` will allow us to change the number of migrations to be reverted. If the parameter is not specified, it will take the default value 1, meaning reverting one migration at a time.
+where the optional `step` parameter specifies how many migrations to be reverted back. It defaults to 1, meaning reverting back the last applied migration.
 
 As we described before, not all migrations can be reverted. Trying to revert such migrations will throw an exception and stop the whole reverting process.
 
@@ -134,10 +134,10 @@ Redoing Migrations
 Redoing migrations means first reverting and then applying the specified migrations. This can be done with the following command:
 
 ~~~
-yiic migrate redo 3
+yiic migrate redo [step]
 ~~~
 
-This command will revert and apply the last 3 applied migrations. If the value 3 is not given, it will revert and apply the last applied migration.
+where the optional `step` parameter specifies how many migrations to be redone. It defaults to 1, meaning redoing the last migration.
 
 
 Showing Migration Information
@@ -146,17 +146,48 @@ Showing Migration Information
 Besides applying and reverting migrations, the migration tool can also display the migration history and the new migrations to be applied.
 
 ~~~
-yiic migrate history 10
-yiic migrate list 10
+yiic migrate history [limit]
+yiic migrate list [limit]
 ~~~
 
-The first command shows the last 10 migrations that have been applied and when they are applied. And the second command shows the next 10 migrations that have not been applied.
+where the optional parameter `limit` specifies the number of migrations to be displayed. If `limit` is not specified, all available migrations will be displayed.
+
+The first command shows the migrations that have been applied, while the second command shows the migrations that have not been applied.
 
 
-Customizing Migration Tool
---------------------------
+Customizing Migration Command
+-----------------------------
 
-The migration tool can be customized in several aspects. To do so, we have to modify the console application's configuration file by adding the following:
+There are several ways to customize the migration command.
+
+### Use Command Line Options
+
+The migration command comes with four options that can be specified in command line:
+
+* `migrationPath`: string, specifies the directory storing all migration class files. This must be specified in terms of a path alias, and the corresponding directory must exist. If not specified, it will use the `migrations` sub-directory under the application base path.
+
+* `migrationTable`: string, specifies the name of the database table for storing migration history information. It defaults to `tbl_migration`. The table structure is `version varchar(255) primary key, apply_time integer`.
+
+* `connectionID`: string, specifies the ID of the database application component. Defaults to 'db'.
+
+* `templateFile`: string, specifies the path of the file to be served as the code template for generating the migration classes. This must be specified in terms of a path alias (e.g. `application.migrations.template`). If not set, an internal template will be used. Inside the template, the token `{ClassName}` will be replaced with the actual migration class name.
+
+To specify these options, execute the migrate command using the following format
+
+~~~
+yiic migrate up --option1=value1 --option2=value2 ...
+~~~
+
+For example, if we want to migrate for a `forum` module whose migration files are located within the module's `migrations` directory, we can use the following command:
+
+~~~
+yiic migrate up --migrationPath=ext.forum.migrations
+~~~
+
+
+### Configure Command Globally
+
+While command line options allow us to configure the migration command on-the-fly, sometimes we may want to configure the command once for all. For example, we may want to use a different table to store the migration history, or we may want to use a customized migration template. We can do so by modifying the console application's configuration file like the following,
 
 ~~~
 [php]
@@ -165,10 +196,10 @@ return array(
 	'commandMap'=>array(
 		'migrate'=>array(
 			'class'=>'system.cli.commands.MigrateCommand',
-			'migrationPath'=>'path/to/migrations',
-			'migrationTable'=>'migration_table_name',
-			'connectionID'=>'db_app_id',
-			'templateFile'=>'path/to/template',
+			'migrationPath'=>'application.migrations',
+			'migrationTable'=>'tbl_migration',
+			'connectionID'=>'db',
+			'templateFile'=>'application.migrations.template',
 		),
 		......
 	),
@@ -176,15 +207,7 @@ return array(
 );
 ~~~
 
-The above code allows us to configure several properties of the migration tool:
-
-* `migrationPath`: string, specifies the directory storing all migration class files. If not specified, it will use the `migrations` sub-directory under the application base path.
-
-* `migrationTable`: string, specifies the name of the database table for storing migration history information. It defaults to `tbl_migration`. The table structure is `version varchar(255) primary key, apply_time integer`.
-
-* `connectionID`: string, specifies the ID of the database application component. Defaults to 'db'.
-
-* `templateFile`: string, specifies the path of the file to be served as the code template for generating the migration classes. If not set, an internal template will be used. In the template, the token `{ClassName}` will be replaced with the actual migration class name.
+Now if we run the `migrate` command, the above configurations will take effect without requiring us to enter the command line options every time.
 
 
 <div class="revision">$Id$</div>
