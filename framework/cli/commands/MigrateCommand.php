@@ -419,75 +419,40 @@ class MigrateCommand extends CConsoleCommand
 	{
 		return <<<EOD
 USAGE
-  yiic migrate <action> [parameter]
+  yiic migrate [action] [parameter]
 
 DESCRIPTION
-  This command provides support for database migrations.
+  This command provides support for database migrations. The optional
+  'action' parameter specifies which specific migration task to perform.
+  It can take these values: up, down, to, create, history, new, mark.
+  If the 'action' parameter is not given, it defaults to 'up'.
+  Each action takes different parameters. Their usage can be found in
+  the following examples.
 
-ACTIONS
- * up [step]
-   Applies a number of new migrations. The number can be specified by
-   the optional parameter 'step'. If it is not given, ALL new migrations
-   will be applied.
-   Examples:
-   - yiic migrate
-     applies ALL new migrations. Note that the 'up' action is a default
-     action. Therefore, the above command is equivalent to
-     yiic migrate up
-   - yiic migrate up 3
-     applies the next 3 new migrations
-
- * down [step]
-   Reverts a number of migrations. The number is specified by the optional
-   parameter 'step' which defaults to 1.
-   Examples:
-   - yiic migrate down
-     reverts the most recently applied migration
-   - yiic migrate down 3
-     reverts the 3 most recently applied migrations
-
- * to <version>
-   Migrates the database up or down to a specific version. The 'version'
-   parameter specifies which version the database should be migrated
-   up or down to. It must be given in terms of a timestamp or the full
-   migration class name.
-   Examples:
-   - yiic migrate to 101129_185401
-     migrates up or down to version 101129_185401.
-   - yiic migrate to m101129_185401_create_user_table
-     migrates up or down to version m101129_185401_create_user_table.
-
- * redo [step]
-   Redoes a number of migrations. The number is specified by the optional
-   parameter 'step' which defaults to 1. This command is equivalent to
-   reverting the spcified number of migrations and then applying them.
-   Examples:
-   - yiic migrate redo
-     reverts the most recently applied migration and then applies it
-   - yiic migrate redo 3
-     reverts the 3 most recently applied migrations and then applies them
-
- * create <name>
-   Creates a new migration whose name is specified by the parameter
-   'name'. The new migration will be saved as a PHP class under the migration
-   directory (which defaults to 'protected/migrations'). The class name will
-   be prefixed with a UTC timestamp in the format of 'yymmdd_hhmmss' to
-   avoid conflict with other migrations. The name should only contain
-   letters, digits, and/or underscore characters.
-   Examples:
-   - yiic migrate create create_user_table
-     creates a new migration named as 'm20101129185401_create_user_table'
-
- * history [limit]
-   Displays the most recently applied migrations. The optional parameter
-   'limit' specifies the number of migrations to be displayed.
-   If the limit is not given, all applied migrations will be displayed.
-
- * list [limit]
-   Displays the migrations that have not been applied yet.
-   The optional parameter 'limit' specifies the number of migrations to
-   be displayed. If the limit is not given, all unapplied migrations will
-   be displayed.
+EXAMPLES
+ * yiic migrate
+   Applies ALL new migrations. This is equivalent to 'yiic migrate to'.
+ * yiic migrate up 3
+   Applies the next 3 new migrations.
+ * yiic migrate down
+   Reverts the last applied migration.
+ * yiic migrate down 3
+   Reverts the last 3 applied migrations.
+ * yiic migrate to 101129_185401
+   Migrates up or down to version 101129_185401.
+ * yiic migrate mark 101129_185401
+   Modifies the migration history up or down to version 101129_185401.
+   No actual migration will be performed.
+ * yiic migrate create create_user_table
+   Creates a new migration named 'create_user_table'.
+ * yiic migrate history
+   Shows all previously applied migration information.
+ * yiic migrate history 10
+   Shows the last 10 applied migrations.
+ * yiic migrate new
+   Shows all new migrations.
+ * yiic migrate new 10
+   Shows the next 10 migrations that have not been applied.
 
 EOD;
 	}
