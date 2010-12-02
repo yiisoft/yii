@@ -8,6 +8,7 @@ Version 1.1.6
  * [Added query builder](/doc/guide/database.query-builder)
  * [Added database migration](/doc/guide/database.migration)
  * [Best MVC Practices](/doc/guide/basics.best-practices)
+ * [Added support for using anonymous parameters and global options in console commands](/doc/guide/topics.console)
 
 Version 1.1.5
 -------------
