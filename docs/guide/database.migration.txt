@@ -147,12 +147,24 @@ Besides applying and reverting migrations, the migration tool can also display t
 
 ~~~
 yiic migrate history [limit]
-yiic migrate list [limit]
+yiic migrate new [limit]
 ~~~
 
 where the optional parameter `limit` specifies the number of migrations to be displayed. If `limit` is not specified, all available migrations will be displayed.
 
 The first command shows the migrations that have been applied, while the second command shows the migrations that have not been applied.
+
+
+Modifying Migration History
+---------------------------
+
+Sometimes, we may want to modify the migration history to a specific migration version without actually applying or reverting the relevant migrations. This often happens when developing a new migration. We can use the the following command to achieve this goal.
+
+~~~
+yiic migrate mark 101129_185401
+~~~
+
+This command is very similar to `yiic migrate to` command, except that it only modifies the migration history table to the specified version without applying or reverting the migrations.
 
 
 Customizing Migration Command
