@@ -22,6 +22,8 @@
  */
 class MigrateCommand extends CConsoleCommand
 {
+	const BASE_MIGRATION='m000000_000000_base';
+
 	/**
 	 * @var string the directory that stores the migrations. This must be specified
 	 * in terms of a path alias, and the corresponding directory must exist.
@@ -191,6 +193,64 @@ class MigrateCommand extends CConsoleCommand
 		die("Error: Unable to find the version '$originalVersion'.\n");
 	}
 
+	public function actionMark($args)
+	{
+		if(isset($args[0]))
+			$version=$args[0];
+		else
+			$this->usageError('Please specify which version to mark to.');
+		$originalVersion=$version;
+		if(preg_match('/^m?(\d{6}_\d{6})(_.*?)?$/',$version,$matches))
+			$version='m'.$matches[1];
+		else
+			die("Error: The version option must be either a timestamp (e.g. 101129_185401)\nor the full name of a migration (e.g. m101129_185401_create_user_table).\n");
+		// try mark up
+		$migrations=$this->getNewMigrations();
+		foreach($migrations as $i=>$migration)
+		{
+			if(strpos($migration,$version.'_')===0)
+			{
+				if($this->confirm("Set migration history at $originalVersion?"))
+				{
+					$command=$this->getDbConnection()->createCommand();
+					for($j=0;$j<=$i;++$j)
+					{
+						$command->insert($this->migrationTable, array(
+							'version'=>$migrations[$j],
+							'apply_time'=>time(),
+						));
+					}
+					echo "The migration history is set at $originalVersion.\nNo actual migration was performed.\n";
+				}
+				return;
+			}
+		}
+
+		// try mark down
+		$migrations=array_keys($this->getMigrationHistory(-1));
+		foreach($migrations as $i=>$migration)
+		{
+			if(strpos($migration,$version.'_')===0)
+			{
+				if($i===0)
+					echo "Already at '$originalVersion'. Nothing needs to be done.\n";
+				else
+				{
+					if($this->confirm("Set migration history at $originalVersion?"))
+					{
+						$command=$this->getDbConnection()->createCommand();
+						for($j=0;$j<$i;++$j)
+							$command->delete($this->migrationTable, 'version=:version', array(':version'=>$migrations[$j]));
+						echo "The migration history is set at $originalVersion.\nNo actual migration was performed.\n";
+					}
+				}
+				return;
+			}
+		}
+
+		die("Error: Unable to find the version '$originalVersion'.\n");
+	}
+
 	public function actionHistory($args)
 	{
 		$limit=isset($args[0]) ? (int)$args[0] : -1;
@@ -209,7 +269,7 @@ class MigrateCommand extends CConsoleCommand
 		}
 	}
 
-	public function actionList($args)
+	public function actionNew($args)
 	{
 		$limit=isset($args[0]) ? (int)$args[0] : -1;
 		$migrations=$this->getNewMigrations();
@@ -260,6 +320,9 @@ class MigrateCommand extends CConsoleCommand
 
 	protected function migrateUp($class)
 	{
+		if($class===self::BASE_MIGRATION)
+			return;
+
 		echo "*** applying $class\n";
 		$start=microtime(true);
 		$migration=$this->instantiateMigration($class);
@@ -274,6 +337,9 @@ class MigrateCommand extends CConsoleCommand
 
 	protected function migrateDown($class)
 	{
+		if($class===self::BASE_MIGRATION)
+			return;
+
 		echo "*** reverting $class\n";
 		$start=microtime(true);
 		$migration=$this->instantiateMigration($class);
@@ -313,6 +379,10 @@ class MigrateCommand extends CConsoleCommand
 			$db->createCommand()->createTable($this->migrationTable, array(
 				'version'=>'string NOT NULL PRIMARY KEY',
 				'apply_time'=>'integer',
+			));
+			$db->createCommand()->insert($this->migrationTable, array(
+				'version'=>self::BASE_MIGRATION,
+				'apply_time'=>time(),
 			));
 			echo "done.\n";
 		}
