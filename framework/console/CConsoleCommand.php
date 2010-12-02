@@ -80,13 +80,14 @@ abstract class CConsoleCommand extends CComponent
 	 */
 	public function run($args)
 	{
-		list($action, $options)=$this->resolveRequest($args);
+		list($action, $options, $args)=$this->resolveRequest($args);
 		$methodName='action'.$action;
 		if(!preg_match('/^\w+$/',$action) || !method_exists($this,$methodName))
 			$this->usageError("Unknown action: ".$action);
 
 		$method=new ReflectionMethod($this,$methodName);
 		$params=array();
+		// named and unnamed options
 		foreach($method->getParameters() as $i=>$param)
 		{
 			$name=$param->getName();
@@ -99,12 +100,33 @@ abstract class CConsoleCommand extends CComponent
 				else
 					$this->usageError("Option --$name requires a scalar. Array is given.");
 			}
+			else if($name==='args')
+				$params[]=$args;
 			else if($param->isDefaultValueAvailable())
 				$params[]=$param->getDefaultValue();
 			else
 				$this->usageError("Missing required option --$name.");
 			unset($options[$name]);
 		}
+
+		// try global options
+		if(!empty($options))
+		{
+			$class=new ReflectionClass(get_class($this));
+			foreach($options as $name=>$value)
+			{
+				if($class->hasProperty($name))
+				{
+					$property=$class->getProperty($name);
+					if($property->isPublic() && !$property->isStatic())
+					{
+						$this->$name=$value;
+						unset($options[$name]);
+					}
+				}
+			}
+		}
+
 		if(!empty($options))
 			$this->usageError("Unknown options: ".implode(', ',array_keys($options)));
 
@@ -140,7 +162,7 @@ abstract class CConsoleCommand extends CComponent
 	/**
 	 * Parses the command line arguments and determines which action to perform.
 	 * @param array $args command line arguments
-	 * @return array the action and the corresponding option values
+	 * @return array the action name, named options (name=>value), and unnamed options
 	 * @since 1.1.5
 	 */
 	protected function resolveRequest($args)
@@ -162,15 +184,15 @@ abstract class CConsoleCommand extends CComponent
 				else
 					$options[$name]=$value;
 			}
-			else
+			else if(isset($action))
 				$params[]=$arg;
+			else
+				$action=$arg;
 		}
-		if(empty($params))
+		if(!isset($action))
 			$action=$this->defaultAction;
-		else
-			$action=$params[0];
 
-		return array($action,$options);
+		return array($action,$options,$params);
 	}
 
 	/**

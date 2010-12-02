@@ -47,7 +47,7 @@ class MigrateCommand extends CConsoleCommand
 	 */
 	public $defaultAction='to';
 
-	public function init()
+	public function beforeAction($action,$params)
 	{
 		if($this->migrationPath===null)
 			$this->migrationPath=Yii::getPathOfAlias('application.migrations');
