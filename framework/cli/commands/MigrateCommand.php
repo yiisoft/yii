@@ -56,9 +56,11 @@ class MigrateCommand extends CConsoleCommand
 
 		$yiiVersion=Yii::getVersion();
 		echo "\nYii Migration Tool v1.0 (based on Yii v{$yiiVersion})\n\n";
+
+		return true;
 	}
 
-	public function actionTo($version=null)
+	public function actionTo($version=null, $args=array())
 	{
 		if($version===null)
 		{
