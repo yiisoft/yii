@@ -90,20 +90,38 @@ class CMysql2Test extends CTestCase
 		$this->assertEquals($expect, $sql);
 	}
 
+	public function testAddForeignKey()
+	{
+		$sql=$this->db->schema->addForeignKey('fk_test', 'profile', 'user_id', 'users', 'id');
+		$expect='ALTER TABLE `profile` ADD CONSTRAINT `fk_test` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)';
+		$this->assertEquals($expect, $sql);
+
+		$sql=$this->db->schema->addForeignKey('fk_test', 'profile', 'user_id', 'users', 'id','CASCADE','RESTRICTED');
+		$expect='ALTER TABLE `profile` ADD CONSTRAINT `fk_test` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE RESTRICTED';
+		$this->assertEquals($expect, $sql);
+	}
+
+	public function testDropForeignKey()
+	{
+		$sql=$this->db->schema->dropForeignKey('fk_test', 'profile');
+		$expect='ALTER TABLE `profile` DROP FOREIGN KEY `fk_test`';
+		$this->assertEquals($expect, $sql);
+	}
+
 	public function testCreateIndex()
 	{
-		$sql=$this->db->schema->createIndex('test','id_pk','id');
+		$sql=$this->db->schema->createIndex('id_pk','test','id');
 		$expect='CREATE INDEX `id_pk` ON `test` (`id`)';
 		$this->assertEquals($expect, $sql);
 
-		$sql=$this->db->schema->createIndex('test','id_pk','id1,id2',true);
+		$sql=$this->db->schema->createIndex('id_pk','test','id1,id2',true);
 		$expect='CREATE UNIQUE INDEX `id_pk` ON `test` (`id1`, `id2`)';
 		$this->assertEquals($expect, $sql);
 	}
 
 	public function testDropIndex()
 	{
-		$sql=$this->db->schema->dropIndex('test','id_pk');
+		$sql=$this->db->schema->dropIndex('id_pk','test');
 		$expect='DROP INDEX `id_pk` ON `test`';
 		$this->assertEquals($expect, $sql);
 	}
