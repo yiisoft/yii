@@ -221,6 +221,7 @@ class CSqliteSchema extends CDbSchema
 	public function addForeignKey($name, $table, $columns, $refTable, $refColumns, $delete=null, $update=null)
 	{
 		throw new CDbException(Yii::t('yii', 'Adding a foreign key constraint to an existing table is not supported by SQLite.'));
+	}
 
 	/**
 	 * Builds a SQL statement for dropping a foreign key constraint.
