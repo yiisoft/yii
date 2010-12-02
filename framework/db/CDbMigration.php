@@ -236,6 +236,38 @@ abstract class CDbMigration extends CComponent
 	}
 
 	/**
+	 * Builds a SQL statement for adding a foreign key constraint to an existing table.
+	 * The method will properly quote the table and column names.
+	 * @param string $name the name of the foreign key constraint.
+	 * @param string $table the table that the foreign key constraint will be added to.
+	 * @param string $columns the name of the column to that the constraint will be added on. If there are multiple columns, separate them with commas.
+	 * @param string $refTable the table that the foreign key references to.
+	 * @param string $refColumns the name of the column that the foreign key references to. If there are multiple columns, separate them with commas.
+	 * @param string $delete the ON DELETE option. Most DBMS support these options: RESTRICT, CASCADE, NO ACTION, SET DEFAULT, SET NULL
+	 * @param string $update the ON UPDATE option. Most DBMS support these options: RESTRICT, CASCADE, NO ACTION, SET DEFAULT, SET NULL
+	 */
+	public function addForeignKey($name, $table, $columns, $refTable, $refColumns, $delete=null, $update=null)
+	{
+		echo "    > add foreign key $name: $table ($columns) references $refTable ($refColumns) ...";
+		$time=microtime(true);
+		$this->getDbConnection()->createCommand()->addForeignKey($name, $table, $columns, $refTable, $refColumns, $delete, $update);
+		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+	}
+
+	/**
+	 * Builds a SQL statement for dropping a foreign key constraint.
+	 * @param string $name the name of the foreign key constraint to be dropped. The name will be properly quoted by the method.
+	 * @param string $table the table whose foreign is to be dropped. The name will be properly quoted by the method.
+	 */
+	public function dropForeignKey($name, $table)
+	{
+		echo "    > drop foreign key $name from table $table ...";
+		$time=microtime(true);
+		$this->getDbConnection()->createCommand()->dropForeignKey($name, $table);
+		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+	}
+
+	/**
 	 * Builds and executes a SQL statement for creating a new index.
 	 * @param string $name the name of the index. The name will be properly quoted by the method.
 	 * @param string $table the table that the new index will be created for. The table name will be properly quoted by the method.

@@ -640,6 +640,48 @@ alterColumn('tbl_user', 'username', 'string NOT NULL')
 ~~~
 
 
+
+
+###addForeignKey
+
+~~~
+[php]
+function addForeignKey($name, $table, $columns,
+	$refTable, $refColumns, $delete=null, $update=null)
+~~~
+
+The [addForeignKey|CDbCommand::addForeignKey] method builds and executes a SQL statement for adding a foreign key constraint  to a table. The `$name` parameter specifies the name of the foreign key. The `$table` and `$columns` parameters specify the table name and column name that the foreign key is about. If there are multiple columns, they should be separated by comma characters. The `$refTable` and `$refColumns` parameters specify the table name and column name that the foreign key references. The `$delete` and `$update` parameters specify the `ON DELETE` and `ON UPDATE` options in the SQL statement, respectively. Most DBMS support these options: `RESTRICT`, `CASCADE`, `NO ACTION`, `SET DEFAULT`, `SET NULL`. The query builder will properly quote the table name, index name and column name(s).
+
+Below is an example showing how to add a foreign key constraint,
+
+~~~
+[php]
+// ALTER TABLE `tbl_profile` ADD CONSTRAINT `fk_profile_user_id`
+// FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`id`)
+// ON DELETE CASCADE ON UPDATE CASCADE
+addForeignKey('fk_profile_user_id', 'tbl_profile', 'user_id',
+	'tbl_user', 'id', 'CASCADE', 'CASCADE')
+~~~
+
+
+###dropForeignKey
+
+~~~
+[php]
+function dropForeignKey($name, $table)
+~~~
+
+The [dropForeignKey|CDbCommand::dropForeignKey] method builds and executes a SQL statement for dropping a foreign key constraint. The `$name` parameter specifies the name of the foreign key constraint to be dropped. The `$table` parameter specifies the name of the table that the foreign key is on. The query builder will quote the table name as well as the constraint names properly.
+
+Below is an example showing how to drop a foreign key constraint:
+
+~~~
+[php]
+// ALTER TABLE `tbl_profile` DROP FOREIGN KEY `fk_profile_user_id`
+dropForeignKey('fk_profile_user_id', 'tbl_profile')
+~~~
+
+
 ###createIndex
 
 ~~~

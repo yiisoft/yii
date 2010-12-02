@@ -291,4 +291,17 @@ class CMysqlSchema extends CDbSchema
 		return "ALTER TABLE ".$db->quoteTableName($table)
 			. " CHANGE ".$db->quoteColumnName($name).' '.$newName;
 	}
+
+	/**
+	 * Builds a SQL statement for dropping a foreign key constraint.
+	 * @param string $name the name of the foreign key constraint to be dropped. The name will be properly quoted by the method.
+	 * @param string $table the table whose foreign is to be dropped. The name will be properly quoted by the method.
+	 * @return string the SQL statement for dropping a foreign key constraint.
+	 * @since 1.1.6
+	 */
+	public function dropForeignKey($name, $table)
+	{
+		return 'ALTER TABLE '.$this->quoteTableName($table)
+			.' DROP FOREIGN KEY '.$this->quoteColumnName($name);
+	}
 }
