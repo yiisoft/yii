@@ -489,11 +489,11 @@ class CDbCommand extends CComponent
 		else
 			throw new CDbException(Yii::t('yii','The DB query must contain the "from" portion.'));
 
-		if(isset($query['where']))
-			$sql.="\nWHERE ".$query['where'];
-
 		if(isset($query['join']))
 			$sql.="\n".(is_array($query['join']) ? implode("\n",$query['join']) : $query['join']);
+
+		if(isset($query['where']))
+			$sql.="\nWHERE ".$query['where'];
 
 		if(isset($query['group']))
 			$sql.="\nGROUP BY ".$query['group'];
