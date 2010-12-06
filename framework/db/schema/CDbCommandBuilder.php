@@ -113,7 +113,7 @@ class CDbCommandBuilder extends CComponent
 			$alias=$criteria->alias;
 		$alias=$this->_schema->quoteTableName($alias);
 
-		if(!empty($this->group) || !empty($this->having))
+		if(!empty($criteria->group) || !empty($criteria->having))
 		{
 			$select=is_array($criteria->select) ? implode(', ',$criteria->select) : $criteria->select;
 			if($criteria->alias!='')
