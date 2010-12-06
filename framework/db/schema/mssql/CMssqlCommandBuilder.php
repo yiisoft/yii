@@ -304,4 +304,28 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 		}
 		return $criteria;
 	}
+
+	/**
+	 * Generates the expression for selecting rows with specified composite key values.
+	 * @param CDbTableSchema $table the table schema
+	 * @param array $values list of primary key values to be selected within
+	 * @param string $prefix column prefix (ended with dot)
+	 * @return string the expression for selection
+	 * @since 1.0.4
+	 */
+	protected function createCompositeInCondition($table,$values,$prefix)
+	{
+		$keyNames=array();
+		foreach(array_keys($values[0]) as $name)
+			$keyNames[]=$prefix.$table->columns[$name]->rawName;
+		$vs=array();
+		foreach($values as $value)
+		{
+			$c=array();
+			foreach($keyNames as $key)
+				$c[]=$key.'='.$value[$key];
+			$vs[]='('.implode(' AND ',$c).')';
+		}
+		return '('.implode(' OR ',$vs).')';
+	}
 }
