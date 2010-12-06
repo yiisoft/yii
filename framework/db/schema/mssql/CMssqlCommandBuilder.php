@@ -315,15 +315,12 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 	 */
 	protected function createCompositeInCondition($table,$values,$prefix)
 	{
-		$keyNames=array();
-		foreach(array_keys($values[0]) as $name)
-			$keyNames[]=$prefix.$table->columns[$name]->rawName;
 		$vs=array();
 		foreach($values as $value)
 		{
 			$c=array();
-			foreach($keyNames as $key)
-				$c[]=$key.'='.$value[$key];
+			foreach($value as $k=>$v)
+				$c[]=$prefix.$table->columns[$k]->rawName.'='.$v;
 			$vs[]='('.implode(' AND ',$c).')';
 		}
 		return '('.implode(' OR ',$vs).')';
