@@ -125,7 +125,7 @@ abstract class CValidator extends CComponent
 	 * @param array $params initial values to be applied to the validator properties
 	 * @return CValidator the validator
 	 */
-	public static function createValidator($name,$object,$attributes,$params)
+	public static function createValidator($name,$object,$attributes,$params=array())
 	{
 		if(is_string($attributes))
 			$attributes=preg_split('/[\s,]+/',$attributes,-1,PREG_SPLIT_NO_EMPTY);
