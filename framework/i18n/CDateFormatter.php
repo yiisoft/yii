@@ -13,7 +13,7 @@
  * CDateFormatter provides date/time localization functionalities.
  *
  * CDateFormatter allows you to format dates and times in a locale-sensitive manner.
- * Patterns are interpretted in the locale that the CDateFormatter instance
+ * Patterns are interpreted in the locale that the CDateFormatter instance
  * is associated with. For example, month names and weekday names may vary
  * under different locales, which yields different formatting results.
  * The patterns that CDateFormatter recognizes are as defined in
