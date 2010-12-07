@@ -45,6 +45,7 @@ class CJuiDatePicker extends CJuiInputWidget
 	/**
 	 * @var string the locale ID (e.g. 'fr', 'de') for the language to be used by the date picker.
 	 * If this property is not set, I18N will not be involved. That is, the date picker will show in English.
+	 * You can force English language by setting the language attribute as '' (empty string)
 	 */
 	public $language;
 
