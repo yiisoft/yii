@@ -17,6 +17,7 @@ Version 1.1.6 to be released
 - Enh: Added CConsoleCommand::init() (Qiang)
 - Enh: Improved the error display in console command mode (Qiang)
 - Enh: Added support for using anonymous parameters and global options in console commands (Qiang)
+- Enh: Added message translations in Czech (Tomas Sara)
 - New #1191: Implemented the database migration feature (Qiang)
 - New: Added query builder (Qiang)
 
