@@ -271,6 +271,7 @@ class ApiModel
 			$p->isOptional=$param->isOptional();
 			if($param->isDefaultValueAvailable())
 				$p->defaultValue=$param->getDefaultValue();
+			$p->isPassedByReference=$param->isPassedByReference();
 			$doc->input[]=$p;
 		}
 		reset($doc->input);
@@ -282,9 +283,9 @@ class ApiModel
 		{
 			$type=empty($param->type)?'':$this->getTypeUrl($param->type).' ';
 			if($param->isOptional)
-				$params[]=$type.'$'.$param->name.'='.str_replace("\r",'',var_export($param->defaultValue,true));
+				$params[]=$type.($param->isPassedByReference?'&':'').'$'.$param->name.'='.str_replace("\r",'',var_export($param->defaultValue,true));
 			else
-				$params[]=$type.'$'.$param->name;
+				$params[]=$type.($param->isPassedByReference?'&':'').'$'.$param->name;
 		}
 		$doc->signature='{{'.$class->name.'::'.$doc->name.'|<b>'.$doc->name.'</b>}}('.implode(', ',$params).')';
 		if($doc->output!==null)
@@ -794,4 +795,5 @@ class ParamDoc
 	public $type;
 	public $isOptional;
 	public $defaultValue;
+	public $isPassedByReference;
 }
