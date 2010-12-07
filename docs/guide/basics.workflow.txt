@@ -16,8 +16,8 @@ require writing some application components (e.g. the user component).
 
    3. Create a [model](/doc/guide/basics.model) class for each type of data
 to be managed. The `Gii` tool described in
-[Creating First Yii Application](doc/guide/quickstart.first-app#implementing-crud-operations)
-and in [Automatic Code Generation](doc/guide/topics.gii) can be used to
+[Creating First Yii Application](/doc/guide/quickstart.first-app#implementing-crud-operations)
+and in [Automatic Code Generation](/doc/guide/topics.gii) can be used to
 automatically generate the [active record](/doc/guide/database.ar) class
 for each interested database table.
 
