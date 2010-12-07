@@ -53,7 +53,7 @@ class CJuiButton extends CJuiInputWidget
 {
 	/**
 	 * @var string The button type (possible types: submit, button, link, radio, checkbox, buttonset).
-	 * For radio and checkbox you could add
+	 * "submit" is used as default.
 	 */
 	public $buttonType = 'submit';
 
