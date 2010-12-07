@@ -134,8 +134,10 @@ class CFileLogRoute extends CLogRoute
 		$logFile=$this->getLogPath().DIRECTORY_SEPARATOR.$this->getLogFile();
 		if(@filesize($logFile)>$this->getMaxFileSize()*1024)
 			$this->rotateFiles();
+		$fp=@fopen($logFile,'a');
 		foreach($logs as $log)
-			error_log($this->formatLogMessage($log[0],$log[1],$log[2],$log[3]),3,$logFile);
+			@fwrite($fp,$this->formatLogMessage($log[0],$log[1],$log[2],$log[3]));
+		@fclose($fp);
 	}
 
 	/**
