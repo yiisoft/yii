@@ -49,6 +49,26 @@
  * @version $Id$
  * @package system.base
  * @since 1.0
+ *
+ * @property string $basePath Returns the root path of the application.
+ * @property CCache $cache Returns the cache component.
+ * @property CPhpMessageSource $coreMessages Returns the core message translations.
+ * @property CDateFormatter $dateFormatter Returns the locale-dependent date formatter.
+ * @property CDbConnection $db Returns the database connection component.
+ * @property CErrorHandler $errorHandler Returns the error handler component.
+ * @property string $extensionPath Returns the root directory that holds all third-party extensions.
+ * @property string $id Returns the unique identifier for the application.
+ * @property string $language Returns the language that the user is using and the application should be targeted to.
+ * @property CLocale $locale Returns the locale instance.
+ * @property string $localeDataPath Returns the directory that contains the locale data.
+ * @property CMessageSource $messages Returns the application message translations component.
+ * @property CNumberFormatter $numberFormatter The locale-dependent number formatter.
+ * @property CHttpRequest $request Returns the request component.
+ * @property string $runtimePath Returns the directory that stores runtime files.
+ * @property CSecurityManager $securityManager Returns the security manager component.
+ * @property CStatePersister $statePersister Returns the state persister component.
+ * @property string $timeZone Returns the time zone used by this application.
+ * @property CUrlManager $urlManager Returns the URL manager component.
  */
 abstract class CApplication extends CModule
 {
