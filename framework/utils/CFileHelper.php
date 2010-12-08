@@ -218,7 +218,9 @@ class CFileHelper
 	{
 		if(function_exists('finfo_open'))
 		{
-			$info=$magicFile===null ? finfo_open(FILEINFO_MIME_TYPE) : finfo_open(FILEINFO_MIME_TYPE,$magicFile);
+			$options=defined('FILEINFO_MIME_TYPE') ? FILEINFO_MIME_TYPE : FILEINFO_MIME;
+			$info=$magicFile===null ? finfo_open($options) : finfo_open($options,$magicFile);
+
 			if($info && ($result=finfo_file($info,$file))!==false)
 				return $result;
 		}
