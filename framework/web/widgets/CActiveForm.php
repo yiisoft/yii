@@ -44,7 +44,7 @@
  * <?php $form = $this->beginWidget('CActiveForm', array(
  *     'id'=>'user-form',
  *     'enableAjaxValidation'=>true,
- *     'focus'=>array($model,firstName),
+ *     'focus'=>array($model,'firstName'),
  * )); ?>
  *
  * <?php echo $form->errorSummary($model); ?>
