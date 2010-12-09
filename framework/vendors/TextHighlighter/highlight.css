@@ -64,69 +64,6 @@ ol.php-hl-main pre {
     border: solid 1px #505050;
 }
 
-
-.prado-hl-default {
-    color: Black;
-}
-.prado-hl-code {
-    color: Gray;
-}
-.prado-hl-brackets {
-    color: Olive;
-}
-.prado-hl-comment {
-   color: #808080;
-	font-style: italic;
-}
-.prado-hl-quotes {
-    color: red;
-}
-.prado-hl-string {
-    color: Red;
-}
-.prado-hl-identifier {
-    color: Blue;
-}
-.prado-hl-builtin {
-    color: Teal;
-}
-.prado-hl-reserved {
-    color: Green;
-}
-.prado-hl-inlinedoc {
-    color: Blue;
-}
-.prado-hl-var {
-    color: #000020;
-}
-.prado-hl-url {
-    color: Blue;
-}
-.prado-hl-special {
-    color: Navy;
-	font-weight: bold;
-}
-.prado-hl-number {
-    color: Maroon;
-}
-.prado-hl-inlinetags {
-    color: Blue;
-}
-.prado-hl-main {
-	font-family: 'Courier New', Courier, monospace;
-	font-weight: normal;
-}
-.prado-hl-gutter {
-    background-color: #999999;
-    color: White
-}
-.prado-hl-table {
-    font-family: courier;
-    font-size: 12px;
-    border: solid 1px #505050;
-}
-
-
 .xml-hl-default {
     color: Black;
 }
