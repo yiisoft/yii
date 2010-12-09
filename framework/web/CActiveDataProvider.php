@@ -35,7 +35,7 @@ class CActiveDataProvider extends CDataProvider
 	 */
 	public $modelClass;
 	/**
-	 * @var CActiveRecord the AR finder instance (e.g. <code>Post::model()</code>).
+	 * @var CActiveRecord the AR finder instance (eg <code>Post::model()</code>).
 	 * This property can be set by passing the finder instance as the first parameter
 	 * to the constructor.
 	 * @since 1.1.3
