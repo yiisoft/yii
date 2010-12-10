@@ -184,7 +184,7 @@ abstract class CBaseListView extends CWidget
 			'title'=>Yii::app()->getRequest()->getUrl(),
 		));
 		foreach($this->dataProvider->getKeys() as $key)
-			echo "<span>$key</span>";
+			echo "<span>".CHtml::encode($key)."</span>";
 		echo "</div>\n";
 	}
 
