@@ -11,6 +11,7 @@ Version 1.1.6 to be released
 - Bug #1851: CFileHelper::getMimeType() was causing an error if used with PHP 5.2 and PECL fileinfo extension (Sam Dark)
 - Bug #1858: Fixed the bug that CDbCommandBuilder::createInCondition() doesn't work with composite keys (Qiang)
 - Bug #1864: Fixed a typo in CDbCommandBuilder that disables correct handling of group and having in createCountCommand (Qiang)
+- Bug #1878: Fixed the issue that keys rendered in grid view and list view should be encoded (Qiang)
 - Bug: Fixed the bug that CActiveForm generates unnecessary js code about setting focus (Qiang)
 - Enh #1733: Updated multifile plugin used by CMultiFileUpload to version 1.47 (mdomba)
 - Enh #1785: Added CAssetManager::$excludeFiles property to support exclusion of irrelevant files from the publishing process (Y!!)
