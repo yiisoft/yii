@@ -39,7 +39,7 @@ class CHttpRequest extends CApplicationComponent
 	 * Note, this feature requires that the user client accepts cookie.
 	 * You also need to use {@link CHtml::form} or {@link CHtml::statefulForm} to generate
 	 * the needed HTML forms in your pages.
-	 * @see http://freedom-to-tinker.com/sites/default/files/csrf.pdf
+	 * @see http://seclab.stanford.edu/websec/csrf/csrf.pdf
 	 */
 	public $enableCsrfValidation=false;
 	/**
