@@ -18,6 +18,7 @@ Version 1.1.6 to be released
 - Enh #1836: The contact form model of the blog demo does now make use of CCaptcha::checkRequirements (Y!!)
 - Enh #1860: Changed the signature of CValidator::createValidator() to make it easier to use (Qiang)
 - Enh #1849: Updated Blueprint CSS to version 1.0 (sebas)
+- Enh #1885: Added ipFilters to the Gii-created config file to reduce user confusion (Sam Dark, Steve Friedl)
 - Enh: CDbConnection::quoteColumnName and quoteTableName will properly quote table prefix and schema prefix. (Qiang)
 - Enh: Added CConsoleCommand::init() (Qiang)
 - Enh: Improved the error display in console command mode (Qiang)
