@@ -106,7 +106,8 @@ Here we are creating a new UserIdentity object and passing in the authentication
 
 Whether or not a user has been authenticated can easily be checked throughout the application by using `Yii::app()->user->isGuest`. If using persistent storage like session (the default) and/or a cookie (discussed below) to store the identity information, the user can remain logged in upon subsequent requests. In this case, we don't need to use the UserIdentity class and the entire login process upon each request. Rather CWebUser will automatically take care of loading the identity information from this persistent storage and will use it to determine whether `Yii::app()->user->isGuest` returns true or false.
 
-### Cookie-based Login
+Cookie-based Login
+------------------
 
 By default, a user will be logged out after a certain period of inactivity,
 depending on the [session configuration](http://www.php.net/manual/en/session.configuration.php).
@@ -289,7 +290,8 @@ indicates whether this rule matches. In the expression, you can use variable `$u
 which refers to `Yii::app()->user`. This option has been available since version 1.0.3.
 
 
-### Handling Authorization Result
+Handling Authorization Result
+-----------------------------
 
 When authorization fails, i.e., the user is not allowed to perform the
 specified action, one of the following two scenarios may happen:
@@ -402,7 +404,8 @@ if(Yii::app()->user->checkAccess('deletePost'))
 }
 ~~~
 
-### Configuring Authorization Manager
+Configuring Authorization Manager
+---------------------------------
 
 Before we set off to define an authorization hierarchy and perform access
 checking, we need to configure the
@@ -433,7 +436,8 @@ return array(
 We can then access the [authManager|CWebApplication::authManager]
 application component using `Yii::app()->authManager`.
 
-### Defining Authorization Hierarchy
+Defining Authorization Hierarchy
+--------------------------------
 
 Defining authorization hierarchy involves three steps: defining
 authorization items, establishing relationships between authorization
@@ -511,7 +515,8 @@ items automatically. Therefore, we only need to run the above code one time, and
 > hierarchy more intuitively.
 
 
-### Using Business Rules
+Using Business Rules
+--------------------
 
 When we are defining the authorization hierarchy, we can associate a role, a task or an operation with a so-called *business rule*. We may also associate a business rule when we assign a role to a user. A business rule is a piece of PHP code that is executed when we perform access checking. The returning value of the code is used to determine if the role or assignment applies to the current user. In the example above, we associated a business rule with the `updateOwnPost` task. In the business rule we simply check if the current user ID is the same as the specified post's author ID. The post information in the `$params` array is supplied by developers when performing access checking.
 
