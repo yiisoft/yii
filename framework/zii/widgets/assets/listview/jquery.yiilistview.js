@@ -86,7 +86,7 @@
 			success: function(data,status) {
 				$.each(settings.ajaxUpdate, function(i,v) {
 					var id='#'+v,
-						$d=$(data)
+						$d=$(data),
 						$filtered=$d.filter(id);
 					$(id).replaceWith( $filtered.size() ? $filtered : $d.find(id));
 				});
