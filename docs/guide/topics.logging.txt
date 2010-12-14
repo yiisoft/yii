@@ -104,7 +104,8 @@ of `die()` or `exit()`, because [CApplication::end()] will raise the
 [onEndRequest|CApplication::onEndRequest] event so that the messages can
 be properly logged.
 
-### Message Filtering
+Message Filtering
+-----------------
 
 As we mentioned, messages can be filtered according to their levels and
 categories before they are sent long a log route. This is done by setting
@@ -118,7 +119,8 @@ parent of `xxx.yyy` which is the parent of `xxx.yyy.zzz`. We can then use
 `xxx.*` to represent category `xxx` and all its child and grandchild
 categories.
 
-### Logging Context Information
+Logging Context Information
+---------------------------
 
 Starting from version 1.0.6, we can specify to log additional context information,
 such as PHP predefined variables (e.g. `$_GET`, `$_SERVER`), session ID, user name, etc.
@@ -197,7 +199,8 @@ with normal message routing. The [CProfileLogRoute] route will display the
 performance results at the end of the current page.
 
 
-### Profiling SQL Executions
+Profiling SQL Executions
+------------------------
 
 Profiling is especially useful when working with database since SQL executions
 are often the main performance bottleneck of an application. While we can manually

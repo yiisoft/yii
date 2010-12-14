@@ -1,5 +1,5 @@
-Overview
-========
+Extending Yii
+=============
 
 Extending Yii is a common activity during development. For example, when
 you write a new controller, you extend Yii by inheriting its  [CController]

@@ -135,7 +135,8 @@ If this property is set true, then the given parameter values must also match th
 parameter sub-patterns. Note that setting this property to true will degrade performance.
 
 
-### Using Named Parameters
+Using Named Parameters
+----------------------
 
 A rule can be associated with a few GET parameters. These GET parameters
 appear in the rule's pattern as special tokens in the following format:
@@ -208,7 +209,8 @@ the more the performance impact. Therefore, a high-traffic Web
 application should minimize its use of URL rules.
 
 
-### Parameterizing Routes
+Parameterizing Routes
+---------------------
 
 Starting from version 1.0.5, we may reference named parameters in the route part
 of a rule. This allows a rule to be applied to multiple routes based on matching
@@ -239,7 +241,8 @@ And given the route `comment/list` and GET parameter `page=2`, we can create a U
 `/index.php/comments?page=2`.
 
 
-### Parameterizing Hostnames
+Parameterizing Hostnames
+------------------------
 
 Starting from version 1.0.11, it is also possible to include hostname into the rules
 for parsing and creating URLs. One may extract part of the hostname to be a GET parameter.
@@ -268,7 +271,8 @@ if the application is under a sub-folder of the Web root. For example, if the ap
 is under `http://www.example.com/sandbox/blog`, then we should still use the same URL rule
 as described above without the sub-folder `sandbox/blog`.
 
-### Hiding `index.php`
+Hiding `index.php`
+-----------------
 
 There is one more thing that we can do to further clean our URLs, i.e.,
 hiding the entry script `index.php` in the URL. This requires us to
@@ -304,7 +308,8 @@ Now if we call `$this->createUrl('post/read',array('id'=>100))`, we would
 obtain the URL `/post/100`. More importantly, this URL can be properly
 recognized by our Web application.
 
-### Faking URL Suffix
+Faking URL Suffix
+-----------------
 
 We may also add some suffix to our URLs. For example, we can have
 `/post/100.html` instead of `/post/100`. This makes it look more like a URL
