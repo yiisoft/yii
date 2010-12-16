@@ -649,7 +649,7 @@ class CJoinElement
 	/**
 	 * Count the number of primary records returned by the join statement.
 	 * @param CDbCriteria $criteria the query criteria
-	 * @return integer number of primary records.
+	 * @return string number of primary records. Note: type is string to keep max. precision.
 	 * @since 1.0.3
 	 */
 	public function count($criteria=null)

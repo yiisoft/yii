@@ -941,7 +941,6 @@ abstract class CActiveRecord extends CModel
 			$event->criteria=func_num_args()>0 ? func_get_arg(0) : null;
 			$this->onBeforeFind($event);
 		}
-	}
 
 	/**
 	 * This method is invoked after each record is instantiated by a find method.
@@ -1440,7 +1439,7 @@ abstract class CActiveRecord extends CModel
 	 * See {@link find()} for detailed explanation about $condition and $params.
 	 * @param mixed $condition query condition or criteria.
 	 * @param array $params parameters to be bound to an SQL statement.
-	 * @return integer the number of rows satisfying the specified query condition.
+	 * @return string the number of rows satisfying the specified query condition. Note: type is string to keep max. precision.
 	 */
 	public function count($condition='',$params=array())
 	{
@@ -1465,7 +1464,7 @@ abstract class CActiveRecord extends CModel
 	 * An attribute value can be an array which will be used to generate an IN condition.
 	 * @param mixed $condition query condition or criteria.
 	 * @param array $params parameters to be bound to an SQL statement.
-	 * @return integer the number of rows satisfying the specified query condition.
+	 * @return string the number of rows satisfying the specified query condition. Note: type is string to keep max. precision.
 	 * @since 1.1.4
 	 */
 	public function countByAttributes($attributes,$condition='',$params=array())
@@ -1491,7 +1490,7 @@ abstract class CActiveRecord extends CModel
 	 * SQL statement and the parameters.
 	 * @param string $sql the SQL statement
 	 * @param array $params parameters to be bound to the SQL statement
-	 * @return integer the number of rows using the given SQL statement.
+	 * @return string the number of rows using the given SQL statement. Note: type is string to keep max. precision.
 	 */
 	public function countBySql($sql,$params=array())
 	{
