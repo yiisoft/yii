@@ -941,6 +941,7 @@ abstract class CActiveRecord extends CModel
 			$event->criteria=func_num_args()>0 ? func_get_arg(0) : null;
 			$this->onBeforeFind($event);
 		}
+	}
 
 	/**
 	 * This method is invoked after each record is instantiated by a find method.
