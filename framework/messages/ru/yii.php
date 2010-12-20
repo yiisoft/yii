@@ -224,7 +224,7 @@ return array (
   '{attribute} must be repeated exactly.' => '{attribute} должен быть повторен в точности.',
   '{attribute} must be {type}.' => '{attribute} должен быть {type}.',
   '{attribute} must be {value}.' => '{attribute} должно быть равно {value}.',
-  '{attribute} must not be equal to "{compareValue}".' => '{attribute} не должно быть равно {value}.',
+  '{attribute} must not be equal to "{compareValue}".' => '{attribute} не должно быть равно "{compareValue}".',
   '{className} does not support add() functionality.' => 'Класс {className} не поддерживает функционал add().',
   '{className} does not support delete() functionality.' => 'Класс {className} не поддерживает функционал delete() .',
   '{className} does not support get() functionality.' => 'Класс {className} не поддерживает функционал get().',
