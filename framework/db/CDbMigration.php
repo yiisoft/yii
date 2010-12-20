@@ -75,7 +75,7 @@ abstract class CDbMigration extends CComponent
 	/**
 	 * Sets the currently active database connection.
 	 * The database connection will be used by the methods such as {@link insert}, {@link createTable}.
-	 * @param CDbConnection the database connection component
+	 * @param CDbConnection $db the database connection component
 	 */
 	public function setDbConnection($db)
 	{
