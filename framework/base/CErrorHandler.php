@@ -137,6 +137,23 @@ class CErrorHandler extends CApplicationComponent
 				$fileName=$trace['file'];
 				$errorLine=$trace['line'];
 			}
+
+			$trace = $exception->getTrace();
+
+			foreach($trace as $i=>$t)
+			{
+				if(!isset($t['file']))
+					$trace[$i]['file']='unknown';
+
+				if(!isset($t['line']))
+					$trace[$i]['line']=0;
+
+				if(!isset($t['function']))
+					$trace[$i]['function']='unknown';
+
+				unset($trace[$i]['object']);
+			}
+
 			$this->_error=$data=array(
 				'code'=>($exception instanceof CHttpException)?$exception->statusCode:500,
 				'type'=>get_class($exception),
@@ -144,7 +161,7 @@ class CErrorHandler extends CApplicationComponent
 				'message'=>$exception->getMessage(),
 				'file'=>$fileName,
 				'line'=>$errorLine,
-				'trace'=>$exception->getTraceAsString(),
+				'trace'=>$trace,
 				'source'=>$this->getSourceLines($fileName,$errorLine),
 			);
 
@@ -169,19 +186,19 @@ class CErrorHandler extends CApplicationComponent
 		// skip the first 3 stacks as they do not tell the error position
 		if(count($trace)>3)
 			$trace=array_slice($trace,3);
-		$traceString='';
+
 		foreach($trace as $i=>$t)
 		{
 			if(!isset($t['file']))
-				$t['file']='unknown';
+				$trace[$i]['file']='unknown';
+
 			if(!isset($t['line']))
-				$t['line']=0;
+				$trace[$i]['line']=0;
+
 			if(!isset($t['function']))
-				$t['function']='unknown';
-			$traceString.="#$i {$t['file']}({$t['line']}): ";
-			if(isset($t['object']) && is_object($t['object']))
-				$traceString.=get_class($t['object']).'->';
-			$traceString.="{$t['function']}()\n";
+				$trace[$i]['function']='unknown';
+
+			unset($trace[$i]['object']);
 		}
 
 		$app=Yii::app();
@@ -193,7 +210,7 @@ class CErrorHandler extends CApplicationComponent
 				'message'=>$event->message,
 				'file'=>$event->file,
 				'line'=>$event->line,
-				'trace'=>$traceString,
+				'trace'=>$trace,
 				'source'=>$this->getSourceLines($event->file,$event->line),
 			);
 			if(!headers_sent())
@@ -335,5 +352,40 @@ class CErrorHandler extends CApplicationComponent
 		for($i=$beginLine;$i<=$endLine;++$i)
 			$sourceLines[$i+1]=$lines[$i];
 		return $sourceLines;
+	}
+
+	/**
+	 * Converts arguments array to its string representation
+	 *
+	 * @param array $args
+	 * @param int $level
+	 * @return string
+	 */
+	protected function argumentsToString($args, $level = 0)
+	{
+		foreach($args as $key => $value)
+		{
+			if(is_object($value))
+			{
+				if($value instanceof Iterator)
+					$args[$key] = get_class($value).'('.$this->argumentsToString($value, ++$level).')';
+				else
+					$args[$key] = get_class($value);
+			}
+			else if(is_bool($value))
+				$args[$key] = $value ? 'true' : 'false';
+			else if(is_string($value))
+				$args[$key] = '"'.$value.'"';
+			else if(is_array($value))
+				$args[$key] = 'array('.$this->argumentsToString($value, ++$level).')';
+			else if(is_resource($value))
+				$args[$key] = 'resource';
+		}
+
+		$out = implode(", ", $args);
+		if(strlen($out)>100)
+			return '…';
+
+		return $out;
 	}
 }
