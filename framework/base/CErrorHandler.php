@@ -161,7 +161,8 @@ class CErrorHandler extends CApplicationComponent
 				'message'=>$exception->getMessage(),
 				'file'=>$fileName,
 				'line'=>$errorLine,
-				'trace'=>$trace,
+				'trace'=>$exception->getTraceAsString(),
+				'traces'=>$trace,
 				'source'=>$this->getSourceLines($fileName,$errorLine),
 			);
 
@@ -186,7 +187,7 @@ class CErrorHandler extends CApplicationComponent
 		// skip the first 3 stacks as they do not tell the error position
 		if(count($trace)>3)
 			$trace=array_slice($trace,3);
-
+		$traceString='';
 		foreach($trace as $i=>$t)
 		{
 			if(!isset($t['file']))
@@ -197,6 +198,11 @@ class CErrorHandler extends CApplicationComponent
 
 			if(!isset($t['function']))
 				$trace[$i]['function']='unknown';
+
+			$traceString.="#$i {$t['file']}({$t['line']}): ";
+			if(isset($t['object']) && is_object($t['object']))
+				$traceString.=get_class($t['object']).'->';
+			$traceString.="{$t['function']}()\n";
 
 			unset($trace[$i]['object']);
 		}
@@ -210,7 +216,8 @@ class CErrorHandler extends CApplicationComponent
 				'message'=>$event->message,
 				'file'=>$event->file,
 				'line'=>$event->line,
-				'trace'=>$trace,
+				'trace'=>$traceString,
+				'traces'=>$trace,
 				'source'=>$this->getSourceLines($event->file,$event->line),
 			);
 			if(!headers_sent())
@@ -297,6 +304,7 @@ class CErrorHandler extends CApplicationComponent
 	protected function getViewFileInternal($viewPath,$view,$code,$srcLanguage=null)
 	{
 		$app=Yii::app();
+		$app->language='zh_cn';
 		if($view==='error')
 		{
 			$viewFile=$app->findLocalizedFile($viewPath.DIRECTORY_SEPARATOR."error{$code}.php",$srcLanguage);
@@ -304,7 +312,7 @@ class CErrorHandler extends CApplicationComponent
 				$viewFile=$app->findLocalizedFile($viewPath.DIRECTORY_SEPARATOR.'error.php',$srcLanguage);
 		}
 		else
-			$viewFile=$app->findLocalizedFile($viewPath.DIRECTORY_SEPARATOR."exception.php",$srcLanguage);
+			$viewFile=$viewPath.DIRECTORY_SEPARATOR."exception.php";
 		return $viewFile;
 	}
 
@@ -400,5 +408,52 @@ class CErrorHandler extends CApplicationComponent
 	protected function getTraceCssClass($trace)
 	{
 		return isset($trace['file']) && preg_match('/^(C[A-Z]|Yii)/',basename($trace['file'])) ? 'core' : 'app';
+	}
+
+	protected function renderSource($data)
+	{
+		if(empty($data['source']))
+			return;
+		$output='<pre>';
+		foreach($data['source'] as $line=>$code)
+		{
+			if($line!==$data['line'])
+				$output.=CHtml::encode(sprintf("%05d: %s",$line,str_replace("\t",'    ',$code)));
+			else
+			{
+				$output.='<div class="error">';
+				$output.=CHtml::encode(sprintf("%05d: %s",$line,str_replace("\t",'    ',$code)));
+				$output.="</div>";
+			}
+		}
+		$output.='</pre>';
+		return $output;
+	}
+
+	protected function renderTrace($data)
+	{
+		if(empty($data['traces']))
+			return;
+		$output='<table>';
+		foreach($data['traces'] as $n => $trace)
+		{
+			$output.='<tr class="'.$this->getTraceCssClass($trace).'">';
+			$output.='<td class="number">'.$n.'</td>';
+			$output.='<td>';
+
+			$output.='<p class="method">at ';
+			if(!empty($trace['class']))
+				$output.="<strong>{$trace['class']}</strong>{$trace['type']}";
+			$output.="<strong>{$trace['function']}</strong>(";
+			if(!empty($trace['args']))
+				$output.=CHtml::encode($this->argumentsToString($trace['args']));
+			$output.=')</p>';
+
+			$output.='<p class="file">'.CHtml::encode($trace['file'])."(".$trace['line'].")</p>";
+			$output.='</td></tr>';
+		}
+		$output.='</table>';
+
+		return $output;
 	}
 }

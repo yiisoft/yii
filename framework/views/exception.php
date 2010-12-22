@@ -1,7 +1,9 @@
-<!doctype html>
-<html>
+<!DOCTYPE html PUBLIC
+	"-//W3C//DTD XHTML 1.0 Transitional//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <title><?php echo CHtml::encode($data['type'])?></title>
 
 <style type="text/css">
@@ -151,71 +153,13 @@ pre {
 
 <div class="source">
 <p class="file"><?php echo CHtml::encode($data['file'])."({$data['line']})"?></p>
-
-<pre>
-<?php
-if(empty($data['source']))
-	echo 'No source code available.';
-else
-{
-	echo CHtml::openTag('table');
-	foreach($data['source'] as $line=>$code)
-	{
-		if($line!==$data['line'])
-			echo CHtml::openTag('tr');
-		else
-			echo CHtml::openTag('tr', array('class' => 'error'));
-
-		echo CHtml::openTag('th');
-		echo CHtml::encode(sprintf("%05d",$line));
-		echo CHtml::closeTag('th');
-
-		echo CHtml::openTag('td');
-		echo CHtml::encode(str_replace("\t",'    ',$code));
-		echo CHtml::closeTag('td');
-
-		echo CHtml::closeTag('tr');
-	}
-	echo CHtml::closeTag('table');
-}
-?>
-</pre>
+<?php echo $this->renderSource($data); ?>
 </div>
 
-<?php if(!empty($data['trace'])):?>
 <div class="trace">
 	<h2>Stack Trace</h2>
-	<table>
-		<?php foreach($data['trace'] as $n => $trace):?>
-		<tr class="<?php echo $this->getTraceCssClass($trace); ?>">
-			<td class="number">
-				<?php echo $n?>
-			</td>
-			<td>
-				<p class="method">
-					at
-					<?php
-					if(!empty($trace['class'])){
-						echo "<strong>{$trace['class']}</strong>";
-						echo $trace['type'];
-					}
-
-					echo "<strong>{$trace['function']}</strong>(";
-
-					if(!empty($trace['args'])){
-						echo $this->argumentsToString($trace['args']);
-					}
-
-					echo ')';
-					?>
-				</p>
-				<p class="file"><?php echo $trace['file']."(".$trace['line'].")"?></p>
-			</td>
-		</tr>
-		<?php endforeach?>
-	</table>
+	<?php echo $this->renderTrace($data); ?>
 </div>
-<?php endif?>
 
 <div class="version">
 <?php echo date('Y-m-d H:i:s',$data['time']) .' '. $data['version']; ?>
