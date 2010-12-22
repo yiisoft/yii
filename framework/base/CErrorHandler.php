@@ -163,7 +163,6 @@ class CErrorHandler extends CApplicationComponent
 				'line'=>$errorLine,
 				'trace'=>$exception->getTraceAsString(),
 				'traces'=>$trace,
-				'source'=>$this->getSourceLines($fileName,$errorLine),
 			);
 
 			if(!headers_sent())
@@ -218,7 +217,6 @@ class CErrorHandler extends CApplicationComponent
 				'line'=>$event->line,
 				'trace'=>$traceString,
 				'traces'=>$trace,
-				'source'=>$this->getSourceLines($event->file,$event->line),
 			);
 			if(!headers_sent())
 				header("HTTP/1.0 500 PHP Error");
@@ -332,49 +330,18 @@ class CErrorHandler extends CApplicationComponent
 	}
 
 	/**
-	 * Returns the source lines around the error line.
-	 * At most {@link maxSourceLines} lines will be returned.
-	 * @param string $file source file path
-	 * @param integer $line the error line number
-	 * @return array source lines around the error line, indxed by line numbers
-	 */
-	protected function getSourceLines($file,$line)
-	{
-		// determine the max number of lines to display
-		$maxLines=$this->maxSourceLines;
-		if($maxLines<1)
-			$maxLines=1;
-		else if($maxLines>100)
-			$maxLines=100;
-
-		$line--;	// adjust line number to 0-based from 1-based
-		if($line<0 || ($lines=@file($file))===false || ($lineCount=count($lines))<=$line)
-			return array();
-
-		$halfLines=(int)($maxLines/2);
-		$beginLine=$line-$halfLines>0?$line-$halfLines:0;
-		$endLine=$line+$halfLines<$lineCount?$line+$halfLines:$lineCount-1;
-
-		$sourceLines=array();
-		for($i=$beginLine;$i<=$endLine;++$i)
-			$sourceLines[$i+1]=$lines[$i];
-		return $sourceLines;
-	}
-
-	/**
 	 * Converts arguments array to its string representation
 	 *
 	 * @param array $args
-	 * @param int $level
 	 * @return string
 	 */
-	protected function argumentsToString($args, $level = 0)
+	protected function argumentsToString($args)
 	{
 		$count=0;
 		foreach($args as $key => $value)
 		{
 			$count++;
-			if($count>10)
+			if($count>5)
 			{
 				$args[$key]='...';
 				break;
@@ -392,7 +359,7 @@ class CErrorHandler extends CApplicationComponent
 					$args[$key] = '"'.$value.'"';
 			}
 			else if(is_array($value))
-				$args[$key] = 'array('.$this->argumentsToString($value, ++$level).')';
+				$args[$key] = 'array('.$this->argumentsToString($value).')';
 			else if($value===null)
 				$args[$key] = 'null';
 			else if(is_resource($value))
@@ -404,60 +371,48 @@ class CErrorHandler extends CApplicationComponent
 		return $out;
 	}
 
-	protected function getTraceCssClass($trace)
+	/**
+	 * Returns a value indicating whether the call stack is from application code.
+	 * @param array $trace the trace data
+	 * @return boolean whether the call stack is from application code.
+	 */
+	protected function isCoreCode($trace)
 	{
 		if(isset($trace['file']))
 		{
 			$systemPath=realpath(dirname(__FILE__).'/..');
-			return strpos(realpath($trace['file']),$systemPath.DIRECTORY_SEPARATOR)===0 ? 'core' : 'app';
+			return strpos(realpath($trace['file']),$systemPath.DIRECTORY_SEPARATOR)===0;
 		}
-		return 'app';
+		return false;
 	}
 
-	protected function renderSource($data)
+	/**
+	 * Renders the source code around the error line.
+	 * @param string $file source file path
+	 * @param integer $errorLine the error line number
+	 * @param integer $maxLines maximum number of lines to display
+	 * @return string the rendering result
+	 */
+	protected function renderSourceCode($file,$errorLine,$maxLines)
 	{
-		if(empty($data['source']))
-			return;
-		$output='<pre>';
-		foreach($data['source'] as $line=>$code)
+		$errorLine--;	// adjust line number to 0-based from 1-based
+		if($errorLine<0 || ($lines=@file($file))===false || ($lineCount=count($lines))<=$errorLine)
+			return '';
+
+		$halfLines=(int)($maxLines/2);
+		$beginLine=$errorLine-$halfLines>0 ? $errorLine-$halfLines:0;
+		$endLine=$errorLine+$halfLines<$lineCount?$errorLine+$halfLines:$lineCount-1;
+		$lineNumberWidth=strlen($endLine+1);
+
+		$output='';
+		for($i=$beginLine;$i<=$endLine;++$i)
 		{
-			if($line!==$data['line'])
-				$output.=CHtml::encode(sprintf("%05d: %s",$line,str_replace("\t",'    ',$code)));
+			$code=sprintf("<span class=\"ln\">%0{$lineNumberWidth}d</span> %s",$i+1,CHtml::encode(str_replace("\t",'    ',$lines[$i])));
+			if($i!==$errorLine)
+				$output.=$code;
 			else
-			{
-				$output.='<div class="error">';
-				$output.=CHtml::encode(sprintf("%05d: %s",$line,str_replace("\t",'    ',$code)));
-				$output.="</div>";
-			}
+				$output.='<span class="error">'.$code.'</span>';
 		}
-		$output.='</pre>';
-		return $output;
-	}
-
-	protected function renderTrace($data)
-	{
-		if(empty($data['traces']))
-			return;
-		$output='<table>';
-		foreach($data['traces'] as $n => $trace)
-		{
-			$output.='<tr class="'.$this->getTraceCssClass($trace).'">';
-			$output.='<td class="number">'.$n.'</td>';
-			$output.='<td>';
-
-			$output.='<p class="method">at ';
-			if(!empty($trace['class']))
-				$output.="<strong>{$trace['class']}</strong>{$trace['type']}";
-			$output.="<strong>{$trace['function']}</strong>(";
-			if(!empty($trace['args']))
-				$output.=CHtml::encode($this->argumentsToString($trace['args']));
-			$output.=')</p>';
-
-			$output.='<p class="file">'.CHtml::encode($trace['file'])."(".$trace['line'].")</p>";
-			$output.='</td></tr>';
-		}
-		$output.='</table>';
-
-		return $output;
+		return '<div class="code"><pre>'.$output.'</pre></div>';
 	}
 }

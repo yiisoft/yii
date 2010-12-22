@@ -46,6 +46,15 @@ pre {
 	font-size: 10pt;
 }
 
+pre span.error {
+	display: block;
+	background: #fce3e3;
+}
+
+pre span.ln {
+	color: #999;
+}
+
 .container {
 	margin: 1em 4em;
 }
@@ -76,10 +85,12 @@ pre {
 	margin-bottom: 1em;
 }
 
-.source pre {
+.code pre {
 	font-family: "Lucida Console";
 	font-weight: normal;
 	background-color: #ffe;
+	margin: 0.5em 0;
+	padding: 0.5em;
 }
 
 .source .file {
@@ -87,84 +98,140 @@ pre {
 	font-weight: bold;
 }
 
-.source table {
-	width: 100%;
+.traces
+{
+	margin: 2em 0;
 }
 
-.source th {
-	font-weight: normal;
-	padding-right: 10px;
-	width: 50px;
-	text-align: right;
+.trace
+{
+	margin: 0.5em 0;
+	padding: 0.5em;
 }
 
-.source .error th {
-	font-weight: bold;
-}
-
-.error {
-	background-color: #fce3e3;
-}
-
-.trace {
-	margin-bottom: 1em;
-}
-
-.trace td {
-	font: normal 9pt "Verdana";
-	padding: .3em;
-	vertical-align: top;
-}
-
-.trace .number {
-	text-align: right;
-}
-
-.trace .method {
-	margin-bottom: .6em;
-}
-
-.trace .core {
-	color: #444;
-}
-
-.trace .app {
+.trace.app
+{
 	border: 1px dashed #cc0000;
 }
 
-.trace .app .number {
-	font-weight: bold;
+.trace .number
+{
+	float: left;
+	text-align: right;
+	width: 3em;
+	margin: 0 1em 0 0;
 }
 
-.file {
-	color: #666;
+.trace .content
+{
+	float: left;
 }
+
+.trace .plus,
+.trace .minus
+{
+	display:inline-block;
+	vertical-align:middle;
+	text-align:center;
+	border:1px solid #000;
+	color:#000;
+	font-size:10px;
+	line-height:10px;
+	margin:0;
+	padding:0;
+	width:10px;
+	height:10px;
+}
+
+.trace.collapsed .minus,
+.trace.expanded .plus,
+.trace.collapsed pre
+{
+	display: none;
+}
+
+.trace .file
+{
+	cursor: pointer;
+}
+
 /*]]>*/
 </style>
 </head>
 
 <body>
 <div class="container">
-<h1><?php echo $data['type']?></h1>
+	<h1><?php echo $data['type']?></h1>
 
-<p class="message">
-<?php echo nl2br(CHtml::encode($data['message']))?>
-</p>
+	<p class="message">
+		<?php echo nl2br(CHtml::encode($data['message']))?>
+	</p>
 
-<div class="source">
-<p class="file"><?php echo CHtml::encode($data['file'])."({$data['line']})"?></p>
-<?php echo $this->renderSource($data); ?>
+	<div class="source">
+		<p class="file"><?php echo CHtml::encode($data['file'])."({$data['line']})"?></p>
+		<?php echo $this->renderSourceCode($data['file'],$data['line'],$this->maxSourceLines); ?>
+	</div>
+
+	<div class="traces">
+		<h2>Stack Trace</h2>
+		<?php $count=0; ?>
+		<?php foreach($data['traces'] as $n => $trace): ?>
+		<?php
+			if($this->isCoreCode($trace))
+				$cssClass='core collapsed';
+			else if(++$count>3)
+				$cssClass='app collapsed';
+			else
+				$cssClass='app expanded';
+			$hasCode=$trace['file']!=='unknown' && is_file($trace['file']);
+		?>
+		<div class="trace <?php echo $cssClass; ?>">
+			<div class="number">
+				#<?php echo $n; ?>
+			</div>
+			<div class="content">
+				<div class="file">
+					<?php if($hasCode): ?>
+						<div class="plus">+</div><div class="minus">-</div>
+					<?php endif; ?>
+					<?php
+						echo CHtml::encode($trace['file'])."(".$trace['line'].")";
+						echo ': ';
+						if(!empty($trace['class']))
+							echo "<strong>{$trace['class']}</strong>{$trace['type']}";
+						echo "<strong>{$trace['function']}</strong>(";
+						if(!empty($trace['args']))
+							echo CHtml::encode($this->argumentsToString($trace['args']));
+						echo ')';
+					?>
+				</div>
+
+				<?php if($hasCode) echo $this->renderSourceCode($trace['file'],$trace['line'],10); ?>
+			</div>
+			<div style="clear:both"></div>
+		</div>
+		<?php endforeach; ?>
+	</div>
+
+	<div class="version">
+		<?php echo date('Y-m-d H:i:s',$data['time']) .' '. $data['version']; ?>
+	</div>
 </div>
 
-<div class="trace">
-	<h2>Stack Trace</h2>
-	<?php echo $this->renderTrace($data); ?>
-</div>
+<script type="text/javascript">
+/*<![CDATA[*/
+<?php echo file_get_contents(YII_PATH.'/web/js/source/jquery.min.js'); ?>
+jQuery(document).ready(function($) {
+	$('.trace .file').click(function(){
+		$trace=$(this).parent().parent();
+		if($trace.hasClass('collapsed'))
+			$trace.removeClass('collapsed').addClass('expanded');
+		else
+			$trace.removeClass('expanded').addClass('collapsed');
+	});
+});
+/*]]>*/
+</script>
 
-<div class="version">
-<?php echo date('Y-m-d H:i:s',$data['time']) .' '. $data['version']; ?>
-</div>
-
-</div>
 </body>
 </html>
