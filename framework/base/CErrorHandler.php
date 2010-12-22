@@ -199,10 +199,10 @@ class CErrorHandler extends CApplicationComponent
 			if(!isset($t['function']))
 				$trace[$i]['function']='unknown';
 
-			$traceString.="#$i {$t['file']}({$t['line']}): ";
+			$traceString.="#$i {$trace[$i]['file']}({$trace[$i]['line']}): ";
 			if(isset($t['object']) && is_object($t['object']))
 				$traceString.=get_class($t['object']).'->';
-			$traceString.="{$t['function']}()\n";
+			$traceString.="{$trace[$i]['function']}()\n";
 
 			unset($trace[$i]['object']);
 		}
@@ -406,7 +406,12 @@ class CErrorHandler extends CApplicationComponent
 
 	protected function getTraceCssClass($trace)
 	{
-		return isset($trace['file']) && preg_match('/^(C[A-Z]|Yii)/',basename($trace['file'])) ? 'core' : 'app';
+		if(isset($trace['file']))
+		{
+			$systemPath=realpath(dirname(__FILE__).'/..');
+			return strpos(realpath($trace['file']),$systemPath.DIRECTORY_SEPARATOR)===0 ? 'core' : 'app';
+		}
+		return 'app';
 	}
 
 	protected function renderSource($data)
