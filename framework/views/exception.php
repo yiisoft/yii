@@ -187,7 +187,7 @@ else
 	<h2>Stack Trace</h2>
 	<table>
 		<?php foreach($data['trace'] as $n => $trace):?>
-		<tr class="<?php echo !empty($trace['class']) && $trace['class'][0]=='C' ? 'core' : 'app'?>">
+		<tr class="<?php echo $this->getTraceCssClass($trace); ?>">
 			<td class="number">
 				<?php echo $n?>
 			</td>
