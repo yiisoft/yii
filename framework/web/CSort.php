@@ -330,16 +330,14 @@ class CSort extends CComponent
 				$attributes=explode($this->separators[0],$_GET[$this->sortVar]);
 				foreach($attributes as $attribute)
 				{
-					$segments=explode($this->separators[1],$attribute);
-					$count=count($segments);
-					$descending=false;
-
-					if ($count>1 && strcasecmp($segments[$count-1],$this->descTag)===0)
+					if(($pos=strrpos($attribute,$this->separators[1]))!==false)
 					{
-						$descending = true;
-						unset($segments[$count-1]);
-						$attribute = implode($this->separators[1],$segments);
+						$descending=substr($attribute,$pos+1)===$this->descTag;
+						if($descending)
+							$attribute=substr($attribute,0,$pos);
 					}
+					else
+						$descending=false;
 
 					if(($this->resolveAttribute($attribute))!==false)
 					{
