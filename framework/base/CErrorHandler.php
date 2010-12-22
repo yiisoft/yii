@@ -363,29 +363,42 @@ class CErrorHandler extends CApplicationComponent
 	 */
 	protected function argumentsToString($args, $level = 0)
 	{
+		$count=0;
 		foreach($args as $key => $value)
 		{
-			if(is_object($value))
+			$count++;
+			if($count>10)
 			{
-				if($value instanceof Iterator)
-					$args[$key] = get_class($value).'('.$this->argumentsToString($value, ++$level).')';
-				else
-					$args[$key] = get_class($value);
+				$args[$key]='...';
+				break;
 			}
+
+			if(is_object($value))
+				$args[$key] = get_class($value);
 			else if(is_bool($value))
 				$args[$key] = $value ? 'true' : 'false';
 			else if(is_string($value))
-				$args[$key] = '"'.$value.'"';
+			{
+				if(strlen($value)>64)
+					$args[$key] = '"'.substr($value,0,64).'..."';
+				else
+					$args[$key] = '"'.$value.'"';
+			}
 			else if(is_array($value))
 				$args[$key] = 'array('.$this->argumentsToString($value, ++$level).')';
+			else if($value===null)
+				$args[$key] = 'null';
 			else if(is_resource($value))
 				$args[$key] = 'resource';
 		}
 
 		$out = implode(", ", $args);
-		if(strlen($out)>100)
-			return '…';
 
 		return $out;
+	}
+
+	protected function getTraceCssClass($trace)
+	{
+		return isset($trace['file']) && preg_match('/^(C[A-Z]|Yii)/',basename($trace['file'])) ? 'core' : 'app';
 	}
 }
