@@ -304,7 +304,6 @@ class CErrorHandler extends CApplicationComponent
 	protected function getViewFileInternal($viewPath,$view,$code,$srcLanguage=null)
 	{
 		$app=Yii::app();
-		$app->language='zh_cn';
 		if($view==='error')
 		{
 			$viewFile=$app->findLocalizedFile($viewPath.DIRECTORY_SEPARATOR."error{$code}.php",$srcLanguage);
