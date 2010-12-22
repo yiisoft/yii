@@ -169,6 +169,8 @@ class CErrorHandler extends CApplicationComponent
 				header("HTTP/1.0 {$data['code']} ".get_class($exception));
 			if($exception instanceof CHttpException || !YII_DEBUG)
 				$this->render('error',$data);
+			else if($this->isAjaxRequest())
+				$app->displayException($exception);
 			else
 				$this->render('exception',$data);
 		}
@@ -220,13 +222,23 @@ class CErrorHandler extends CApplicationComponent
 			);
 			if(!headers_sent())
 				header("HTTP/1.0 500 PHP Error");
-			if(YII_DEBUG)
+			if($this->isAjaxRequest())
+				$app->displayError($event->code,$event->message,$event->file,$event->line);
+			else if(YII_DEBUG)
 				$this->render('exception',$data);
 			else
 				$this->render('error',$data);
 		}
 		else
 			$app->displayError($event->code,$event->message,$event->file,$event->line);
+	}
+
+	/**
+	 * @return boolean whether the current request is an AJAX request.
+	 */
+	protected function isAjaxRequest()
+	{
+		return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH']==='XMLHttpRequest';
 	}
 
 	/**
