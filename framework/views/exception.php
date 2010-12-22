@@ -171,7 +171,7 @@ else
 		echo CHtml::closeTag('th');
 
 		echo CHtml::openTag('td');
-		echo CHtml::encode(sprintf("%s",str_replace("\t",'    ',$code)));
+		echo CHtml::encode(str_replace("\t",'    ',$code));
 		echo CHtml::closeTag('td');
 
 		echo CHtml::closeTag('tr');
