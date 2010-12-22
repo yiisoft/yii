@@ -22,6 +22,7 @@ Version 1.1.6 to be released
 - Enh #1885: Added ipFilters to the Gii-created config file to reduce user confusion (Sam Dark, Steve Friedl)
 - Enh: CDbConnection::quoteColumnName and quoteTableName will properly quote table prefix and schema prefix. (Qiang)
 - Enh: Added CConsoleCommand::init() (Qiang)
+- Enh: Improved the exception display (Sam Dark)
 - Enh: Improved the error display in console command mode (Qiang)
 - Enh: Added support for using anonymous parameters and global options in console commands (Qiang)
 - Enh: Added message translations in Czech and Croatia (Qiang)
