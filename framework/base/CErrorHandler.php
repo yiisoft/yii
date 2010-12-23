@@ -400,7 +400,7 @@ class CErrorHandler extends CApplicationComponent
 		if(isset($trace['file']))
 		{
 			$systemPath=realpath(dirname(__FILE__).'/..');
-			return strpos(realpath($trace['file']),$systemPath.DIRECTORY_SEPARATOR)===0;
+			return $trace['file']==='unknown' || strpos(realpath($trace['file']),$systemPath.DIRECTORY_SEPARATOR)===0;
 		}
 		return false;
 	}
