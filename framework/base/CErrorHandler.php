@@ -55,9 +55,16 @@ Yii::import('CHtml',true);
 class CErrorHandler extends CApplicationComponent
 {
 	/**
-	 * @var integer maximum number source code lines to be displayed. Defaults to 25.
+	 * @var integer maximum number of source code lines to be displayed. Defaults to 25.
 	 */
 	public $maxSourceLines=25;
+
+	/**
+	 * @var integer maximum number of trace source code lines to be displayed. Defaults to 10.
+	 * @since 1.1.6
+	 */
+	public $maxTraceSourceLines = 10;
+
 	/**
 	 * @var string the application administrator information (could be a name or email link). It is displayed in error pages to end users. Defaults to 'the webmaster'.
 	 */

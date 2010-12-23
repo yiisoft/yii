@@ -207,7 +207,7 @@ pre span.ln {
 					?>
 				</div>
 
-				<?php if($hasCode) echo $this->renderSourceCode($trace['file'],$trace['line'],10); ?>
+				<?php if($hasCode) echo $this->renderSourceCode($trace['file'],$trace['line'],$this->maxTraceSourceLines); ?>
 			</div>
 			<div style="clear:both"></div>
 		</div>
