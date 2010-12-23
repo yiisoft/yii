@@ -438,15 +438,11 @@ class YiiBase
 			$count=0;
 			foreach($traces as $trace)
 			{
-				if(isset($trace['file'],$trace['line']))
+				if(isset($trace['file'],$trace['line']) && strpos($trace['file'],YII_PATH)!==0)
 				{
-					$className=substr(basename($trace['file']),0,-4);
-					if(!isset(self::$_coreClasses[$className]) && $className!=='YiiBase')
-					{
-						$msg.="\nin ".$trace['file'].' ('.$trace['line'].')';
-						if(++$count>=YII_TRACE_LEVEL)
-							break;
-					}
+					$msg.="\nin ".$trace['file'].' ('.$trace['line'].')';
+					if(++$count>=YII_TRACE_LEVEL)
+						break;
 				}
 			}
 		}

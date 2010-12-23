@@ -53,6 +53,8 @@ pre span.error {
 
 pre span.ln {
 	color: #999;
+	padding-right: 0.5em;
+	border-right:1px solid #ccc;
 }
 
 .container {
@@ -92,6 +94,7 @@ pre span.ln {
 	margin: 0.5em 0;
     padding: 0.5em;
     line-height: 125%;
+    border: 1px solid #eee;
 }
 
 .source .file {
@@ -117,21 +120,20 @@ pre span.ln {
 
 .trace .number
 {
-	float: left;
 	text-align: right;
-	width: 3em;
-	margin: 0 1em 0 0;
+	width: 2em;
+	padding: 0.5em;
 }
 
 .trace .content
 {
-	float: left;
+	padding: 0.5em;
 }
 
 .trace .plus,
 .trace .minus
 {
-	display:inline-block;
+	display:inline;
 	vertical-align:middle;
 	text-align:center;
 	border:1px solid #000;
@@ -140,6 +142,7 @@ pre span.ln {
 	line-height:10px;
 	margin:0;
 	padding:0;
+	padding:0 1px;
 	width:10px;
 	height:10px;
 }
@@ -154,6 +157,12 @@ pre span.ln {
 .trace-file
 {
 	cursor: pointer;
+	padding: 0.2em;
+}
+
+.trace-file:hover
+{
+	background: #F0FFFF;
 }
 
 /*]]>*/
@@ -176,6 +185,7 @@ pre span.ln {
 	<div class="traces">
 		<h2>Stack Trace</h2>
 		<?php $count=0; ?>
+		<table style="width:100%;">
 		<?php foreach($data['traces'] as $n => $trace): ?>
 		<?php
 			if($this->isCoreCode($trace))
@@ -186,16 +196,18 @@ pre span.ln {
 				$cssClass='app expanded';
 			$hasCode=$trace['file']!=='unknown' && is_file($trace['file']);
 		?>
-		<div class="trace <?php echo $cssClass; ?>">
-			<div class="number">
+		<tr class="trace <?php echo $cssClass; ?>">
+			<td class="number">
 				#<?php echo $n; ?>
-			</div>
-			<div class="content">
+			</td>
+			<td class="content">
 				<div class="trace-file">
 					<?php if($hasCode): ?>
-						<div class="plus">+</div><div class="minus">–</div>
+						<div class="plus">+</div>
+						<div class="minus">–</div>
 					<?php endif; ?>
 					<?php
+						echo '&nbsp;';
 						echo CHtml::encode($trace['file'])."(".$trace['line'].")";
 						echo ': ';
 						if(!empty($trace['class']))
@@ -208,10 +220,10 @@ pre span.ln {
 				</div>
 
 				<?php if($hasCode) echo $this->renderSourceCode($trace['file'],$trace['line'],$this->maxTraceSourceLines); ?>
-			</div>
-			<div style="clear:both"></div>
-		</div>
+			</td>
+		</tr>
 		<?php endforeach; ?>
+		</table>
 	</div>
 
 	<div class="version">
