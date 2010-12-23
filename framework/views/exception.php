@@ -151,7 +151,7 @@ pre span.ln {
 	display: none;
 }
 
-.trace .file
+.trace-file
 {
 	cursor: pointer;
 }
@@ -191,7 +191,7 @@ pre span.ln {
 				#<?php echo $n; ?>
 			</div>
 			<div class="content">
-				<div class="file">
+				<div class="trace-file">
 					<?php if($hasCode): ?>
 						<div class="plus">+</div><div class="minus">-</div>
 					<?php endif; ?>
@@ -221,16 +221,21 @@ pre span.ln {
 
 <script type="text/javascript">
 /*<![CDATA[*/
-<?php echo file_get_contents(YII_PATH.'/web/js/source/jquery.min.js'); ?>
-jQuery(document).ready(function($) {
-	$('.trace .file').click(function(){
-		$trace=$(this).parent().parent();
-		if($trace.hasClass('collapsed'))
-			$trace.removeClass('collapsed').addClass('expanded');
-		else
-			$trace.removeClass('expanded').addClass('collapsed');
-	});
-});
+var traceReg = new RegExp("(^|\\s)trace-file(\\s|$)");
+var collapsedReg = new RegExp("(^|\\s)collapsed(\\s|$)");
+
+var e = document.getElementsByTagName("div");
+for(var j=0,len=e.length;j<len;j++){
+	if(traceReg.test(e[j].className)){
+		e[j].onclick = function(){
+			var trace = this.parentNode.parentNode;
+			if(collapsedReg.test(trace.className))
+				trace.className = trace.className.replace("collapsed", "expanded");
+			else
+				trace.className = trace.className.replace("expanded", "collapsed");
+		}
+	}
+}
 /*]]>*/
 </script>
 
