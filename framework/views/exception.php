@@ -43,7 +43,7 @@ h3 {
 
 pre {
 	font-family: Menlo, Consolas, "Lucida Console";
-	font-size: 10pt;
+	font-size: 11pt;
 }
 
 pre span.error {
@@ -193,7 +193,7 @@ pre span.ln {
 			<div class="content">
 				<div class="trace-file">
 					<?php if($hasCode): ?>
-						<div class="plus">+</div><div class="minus">-</div>
+						<div class="plus">+</div><div class="minus">–</div>
 					<?php endif; ?>
 					<?php
 						echo CHtml::encode($trace['file'])."(".$trace['line'].")";
