@@ -42,7 +42,7 @@ h3 {
 }
 
 pre {
-	font-family: "Lucida Console";
+	font-family: Menlo, Consolas, "Lucida Console";
 	font-size: 10pt;
 }
 
@@ -73,9 +73,9 @@ pre span.ln {
 	font-size: 11pt;
 
 	background: #f3f3f3;
-	-webkit-border-radius: 15px;
-	-moz-border-radius: 15px;
-	border-radius: 15px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
 
 	margin-bottom: 1em;
 	line-height: 160%;
@@ -86,11 +86,12 @@ pre span.ln {
 }
 
 .code pre {
-	font-family: "Lucida Console";
+	font-family: Menlo, Consolas, "Lucida Console";
 	font-weight: normal;
 	background-color: #ffe;
 	margin: 0.5em 0;
-	padding: 0.5em;
+    padding: 0.5em;
+    line-height: 125%;
 }
 
 .source .file {
