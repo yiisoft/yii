@@ -33,7 +33,7 @@ In order to display comments on the post detail page, we modify the view script 
 
 In the above, we call `renderPartial()` to render a partial view named `_comments` to display the list of comments belonging to the current post. Note that in the view we use the expression `$model->comments` to retrieve the comments for the post. This is valid because we have declared a `comments` relation in the `Post` class. Evaluating this expression would trigger an implicit JOIN database query to bring back the proper comments. This feature is known as [lazy relational query](http://www.yiiframework.com/doc/guide/database.arr).
 
-The partial view `_comments` is not very interesting. It mainly goes through every comment and displays the detail of it. Interested readers may refer to `/wwwroot/yii/demos/blog/protected/post/_comments.php`.
+The partial view `_comments` is not very interesting. It mainly goes through every comment and displays the detail of it. Interested readers may refer to `/wwwroot/yii/demos/blog/protected/views/post/_comments.php`.
 
 
 Creating Comments
