@@ -426,8 +426,9 @@ class CErrorHandler extends CApplicationComponent
 		$output='';
 		for($i=$beginLine;$i<=$endLine;++$i)
 		{
-			$code=sprintf("<span class=\"ln\">%0{$lineNumberWidth}d</span> %s",$i+1,CHtml::encode(str_replace("\t",'    ',$lines[$i])));
-			if($i!==$errorLine)
+			$isErrorLine = $i===$errorLine;
+			$code=sprintf("<span class=\"ln".($isErrorLine?' error-ln':'')."\">%0{$lineNumberWidth}d</span> %s",$i+1,CHtml::encode(str_replace("\t",'    ',$lines[$i])));
+			if(!$isErrorLine)
 				$output.=$code;
 			else
 				$output.='<span class="error">'.$code.'</span>';

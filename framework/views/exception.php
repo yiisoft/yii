@@ -19,10 +19,9 @@ del{text-decoration:line-through;}
 table{border-collapse:collapse;border-spacing:0;}
 
 body {
-	font-family: "Verdana";
+	font: normal 9pt "Verdana";
 	color: #000;
 	background: #fff;
-	font-size: 9pt;
 }
 
 h1 {
@@ -42,8 +41,7 @@ h3 {
 }
 
 pre {
-	font-family: Menlo, Consolas, "Lucida Console";
-	font-size: 11pt;
+	font: normal 11pt Menlo, Consolas, "Lucida Console";
 }
 
 pre span.error {
@@ -54,7 +52,11 @@ pre span.error {
 pre span.ln {
 	color: #999;
 	padding-right: 0.5em;
-	border-right:1px solid #ccc;
+	border-right: 1px solid #ccc;
+}
+
+pre span.error-ln {
+	font-weight: bold;
 }
 
 .container {
@@ -73,12 +75,10 @@ pre span.ln {
 	color: #000;
 	padding: 1em;
 	font-size: 11pt;
-
 	background: #f3f3f3;
 	-webkit-border-radius: 10px;
 	-moz-border-radius: 10px;
 	border-radius: 10px;
-
 	margin-bottom: 1em;
 	line-height: 160%;
 }
@@ -88,8 +88,6 @@ pre span.ln {
 }
 
 .code pre {
-	font-family: Menlo, Consolas, "Lucida Console";
-	font-weight: normal;
 	background-color: #ffe;
 	margin: 0.5em 0;
     padding: 0.5em;
@@ -102,37 +100,31 @@ pre span.ln {
 	font-weight: bold;
 }
 
-.traces
-{
+.traces {
 	margin: 2em 0;
 }
 
-.trace
-{
+.trace {
 	margin: 0.5em 0;
 	padding: 0.5em;
 }
 
-.trace.app
-{
-	border: 1px dashed #cc0000;
+.trace.app {
+	border: 1px dashed #c00;
 }
 
-.trace .number
-{
+.trace .number {
 	text-align: right;
 	width: 2em;
 	padding: 0.5em;
 }
 
-.trace .content
-{
+.trace .content {
 	padding: 0.5em;
 }
 
 .trace .plus,
-.trace .minus
-{
+.trace .minus {
 	display:inline;
 	vertical-align:middle;
 	text-align:center;
@@ -141,7 +133,6 @@ pre span.ln {
 	font-size:10px;
 	line-height:10px;
 	margin:0;
-	padding:0;
 	padding:0 1px;
 	width:10px;
 	height:10px;
@@ -149,22 +140,18 @@ pre span.ln {
 
 .trace.collapsed .minus,
 .trace.expanded .plus,
-.trace.collapsed pre
-{
+.trace.collapsed pre {
 	display: none;
 }
 
-.trace-file
-{
+.trace-file {
 	cursor: pointer;
 	padding: 0.2em;
 }
 
-.trace-file:hover
-{
-	background: #F0FFFF;
+.trace-file:hover {
+	background: #f0ffff;
 }
-
 /*]]>*/
 </style>
 </head>
