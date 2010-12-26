@@ -288,8 +288,6 @@ Note that the same content can also be put in the Apache configuration
 file within the `Directory` element for `/wwwroot/blog`.
 
 ~~~
-Options +FollowSymLinks
-IndexIgnore */*
 RewriteEngine on
 
 # if a directory or a file exists, use it directly
