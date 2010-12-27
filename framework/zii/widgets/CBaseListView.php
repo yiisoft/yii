@@ -202,11 +202,18 @@ abstract class CBaseListView extends CWidget
 			if(($summaryText=$this->summaryText)===null)
 				$summaryText=Yii::t('zii','Displaying {start}-{end} of {count} result(s).');
 			$pagination=$this->dataProvider->getPagination();
+			$total=$this->dataProvider->getTotalItemCount();
 			$start=$pagination->currentPage*$pagination->pageSize+1;
+			$end=$start+$count-1;
+			if($end>$total)
+			{
+				$end=$total;
+				$start=$end-$count+1;
+			}
 			echo strtr($summaryText,array(
 				'{start}'=>$start,
-				'{end}'=>$start+$count-1,
-				'{count}'=>$this->dataProvider->getTotalItemCount(),
+				'{end}'=>$end,
+				'{count}'=>$total,
 				'{page}'=>$pagination->currentPage+1,
 				'{pages}'=>$pagination->pageCount,
 			));
