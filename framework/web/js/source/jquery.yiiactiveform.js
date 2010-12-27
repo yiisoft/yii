@@ -34,7 +34,7 @@
 					afterValidateAttribute : settings.afterValidateAttribute,
 					validatingCssClass : settings.validatingCssClass
 				}, attribute);
-				settings.attributes[i].value = $('#'+attribute.inputID).val();
+				settings.attributes[i].value = $('#'+attribute.inputID, $form).val();
 			});
 			$(this).data('settings', settings);
 
@@ -43,7 +43,7 @@
 				if (forceValidate)
 					attribute.status = 2;
 				$.each(settings.attributes, function(){
-					if (this.value != $('#'+this.inputID).val()) {
+					if (this.value != $('#'+this.inputID, $form).val()) {
 						this.status = 2;
 						forceValidate = true;
 					}
@@ -62,14 +62,14 @@
 						$.each(settings.attributes, function(){
 							if (this.status == 2) {
 								this.status = 3;
-								$.fn.yiiactiveform.getInputContainer(this).addClass(this.validatingCssClass);
+								$.fn.yiiactiveform.getInputContainer(this, $form).addClass(this.validatingCssClass);
 							}
 						});
 						$.fn.yiiactiveform.validate($form, function(data) {
 							var hasError=false;
 							$.each(settings.attributes, function(){
 								if (this.status > 0) {
-									hasError = $.fn.yiiactiveform.updateInput(this, data) || hasError;
+									hasError = $.fn.yiiactiveform.updateInput(this, data, $form) || hasError;
 								}
 							});
 							if(attribute.afterValidateAttribute!=undefined) {
@@ -82,7 +82,7 @@
 
 			$.each(settings.attributes, function(i, attribute) {
 				if (attribute.validateOnChange) {
-					$('#'+attribute.inputID).change(function(){
+					$('#'+attribute.inputID, $form).change(function(){
 						validate(attribute,false);
 					}).blur(function(){
 						if(attribute.status!=2 && attribute.status!=3)
@@ -90,8 +90,8 @@
 					});
 				}
 				if (attribute.validateOnType) {
-					$('#'+attribute.inputID).keyup(function(){
-						if (attribute.value != $('#'+attribute.inputID).val())
+					$('#'+attribute.inputID, $form).keyup(function(){
+						if (attribute.value != $('#'+attribute.inputID, $form).val())
 							validate(attribute, false);
 					});
 				}
@@ -113,7 +113,7 @@
 						$.fn.yiiactiveform.validate($form, function(data){
 							var hasError = false;
 							$.each(settings.attributes, function(i, attribute){
-								hasError = $.fn.yiiactiveform.updateInput(attribute, data) || hasError;
+								hasError = $.fn.yiiactiveform.updateInput(attribute, data, $form) || hasError;
 							});
 							$.fn.yiiactiveform.updateSummary($form, data);
 							if(settings.afterValidate==undefined || settings.afterValidate($form, data, hasError)) {
@@ -152,8 +152,8 @@
 				setTimeout(function(){
 					$.each(settings.attributes, function(i, attribute){
 						attribute.status = 0;
-						var $error = $('#'+attribute.errorID);
-						var $container = $.fn.yiiactiveform.getInputContainer(attribute);
+						var $error = $('#'+attribute.errorID, $form);
+						var $container = $.fn.yiiactiveform.getInputContainer(attribute, $form);
 
 						$container
 							.removeClass(attribute.validatingCssClass)
@@ -165,7 +165,7 @@
 						/*
 						 * without the setTimeout() call val() would return the entered value instead of the reseted value
 						 */
-						attribute.value = $('#'+attribute.inputID).val();
+						attribute.value = $('#'+attribute.inputID, $form).val();
 
 						/*
 						 * If the form is submited (non ajax) with errors, labels and input gets the class 'error'
@@ -193,11 +193,12 @@
 	/**
 	 * Returns the container element of the specified attribute.
 	 * @param attribute object the configuration for a particular attribute.
+	 * @param the form jQuery object
 	 * @return jquery the jquery representation of the container
 	 */
-	$.fn.yiiactiveform.getInputContainer = function(attribute) {
+	$.fn.yiiactiveform.getInputContainer = function(attribute, form) {
 		if(attribute.inputContainer == undefined)
-			return $('#'+attribute.inputID).closest('div');
+			return $('#'+attribute.inputID, form).closest('div');
 		else
 			return $(attribute.inputContainer).filter(':has("#'+attribute.inputID+'")');
 	};
@@ -206,13 +207,14 @@
 	 * updates the error message and the input container for a particular attribute.
 	 * @param attribute object the configuration for a particular attribute.
 	 * @param messages array the json data obtained from the ajax validation request
+	 * @param the form jQuery object
 	 * @return boolean whether there is a validation error for the specified attribute
 	 */
-	$.fn.yiiactiveform.updateInput = function(attribute, messages) {
+	$.fn.yiiactiveform.updateInput = function(attribute, messages, form) {
 		attribute.status = 1;
 		var hasError = messages!=null && $.isArray(messages[attribute.inputID]) && messages[attribute.inputID].length>0;
-		var $error = $('#'+attribute.errorID);
-		var $container = $.fn.yiiactiveform.getInputContainer(attribute);
+		var $error = $('#'+attribute.errorID, form);
+		var $container = $.fn.yiiactiveform.getInputContainer(attribute, form);
 		$container.removeClass(attribute.validatingCssClass)
 			.removeClass(attribute.errorCssClass)
 			.removeClass(attribute.successCssClass);
@@ -227,7 +229,7 @@
 		if(!attribute.hideErrorMessage)
 			$error.toggle(hasError);
 
-		attribute.value = $('#'+attribute.inputID).val();
+		attribute.value = $('#'+attribute.inputID, form).val();
 
 		return hasError;
 	};
