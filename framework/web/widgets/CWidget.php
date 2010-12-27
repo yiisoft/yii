@@ -122,6 +122,7 @@ class CWidget extends CBaseController
 	}
 
 	/**
+	 * Returns the controller that this widget belongs to.
 	 * @return CController the controller that this widget belongs to.
 	 */
 	public function getController()

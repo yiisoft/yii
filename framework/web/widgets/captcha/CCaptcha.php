@@ -136,8 +136,8 @@ class CCaptcha extends CWidget
 		}
 	}
 
-	/*
-	 * Checks if GD with FreeType support is loadded
+	/**
+	 * Checks if GD with FreeType support is loadded.
 	 * @return boolean true if GD with FreeType support is loaded, otherwise false
 	 * @since 1.1.5
 	 */
