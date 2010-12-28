@@ -1512,7 +1512,7 @@ abstract class CActiveRecord extends CModel
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
 		$table=$this->getTableSchema();
-		$criteria->select=reset($table->columns)->rawName;
+		$criteria->select='1';
 		$criteria->limit=1;
 		$this->applyScopes($criteria);
 		return $builder->createFindCommand($table,$criteria)->queryRow()!==false;
