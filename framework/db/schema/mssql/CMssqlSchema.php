@@ -81,6 +81,45 @@ class CMssqlSchema extends CDbSchema
 	}
 
 	/**
+	 * Resets the sequence value of a table's primary key.
+	 * The sequence will be reset such that the primary key of the next new row inserted
+	 * will have the specified value or 1.
+	 * @param CDbTableSchema $table the table schema whose primary key sequence will be reset
+	 * @param mixed $value the value for the primary key of the next new row inserted. If this is not set,
+	 * the next new row's primary key will have a value 1.
+	 * @since 1.1.6
+	 */
+	public function resetSequence($table,$value=null)
+	{
+		if($table->sequenceName!==null)
+		{
+			$db=$this->getDbConnection();
+			if($value===null)
+				$value=$db->createCommand("SELECT MAX(`{$table->primaryKey}`) FROM {$table->rawName}")->queryScalar();
+			$value=(int)$value;
+			$db->createCommand("DBCC CHECKIDENT ({$table->rawName}, RESEED, $value)")->execute();
+		}
+	}
+
+	/**
+	 * Enables or disables integrity check.
+	 * @param boolean $check whether to turn on or off the integrity check.
+	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
+	 * @since 1.1.6
+	 */
+	public function checkIntegrity($check=true,$schema='')
+	{
+		$enable=$check ? 'CHECK' : 'NOCHECK';
+		$tableNames=$this->getTableNames($schema);
+		$db=$this->getDbConnection();
+		foreach($tableNames as $tableName)
+		{
+			$tableName=$this->quoteTableName($tableName);
+			$db->createCommand("ALTER TABLE $tableName $enable CONSTRAINT ALL")->execute();
+		}
+	}
+
+	/**
 	 * Loads the metadata for the specified table.
 	 * @param string $name table name
 	 * @return CMssqlTableSchema driver dependent table metadata. Null if the table does not exist.
