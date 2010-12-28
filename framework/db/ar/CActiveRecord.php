@@ -436,7 +436,7 @@ abstract class CActiveRecord extends CModel
 	 * following four constants: self::BELONGS_TO, self::HAS_ONE, self::HAS_MANY and self::MANY_MANY;
 	 * 'className' refers to the name of the active record class that the related object(s) is of;
 	 * and 'foreign_key' states the foreign key that relates the two kinds of active record.
-	 * Note, for composite foreign keys, they must be listed together, separating with space or comma;
+	 * Note, for composite foreign keys, they must be listed together, separated by commas;
 	 * and for foreign keys used in MANY_MANY relation, the joining table must be declared as well
 	 * (e.g. 'join_table(fk1, fk2)').
 	 *

@@ -33,6 +33,7 @@ Version 1.1.6 to be released
 - Enh: Enhanced CFileLogRoute to process the logs faster (Y!!)
 - Enh: Improved IDE code completion for Yii::app()-> (Sam Dark)
 - Enh: CSort now supports relation.field notation to sort grids by related model fields (Sam Dark, denis909)
+- Chg #1914: Composite foreign keys should be separated by commas in CActiveRecord::relations() (Qiang)
 - New #1191: Implemented the database migration feature (Qiang)
 - New: Added query builder (Qiang)
 
