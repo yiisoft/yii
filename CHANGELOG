@@ -20,6 +20,7 @@ Version 1.1.6 to be released
 - Enh #1733: Updated multifile plugin used by CMultiFileUpload to version 1.47 (mdomba)
 - Enh #1785: Added CAssetManager::$excludeFiles property to support exclusion of irrelevant files from the publishing process (Y!!)
 - Enh #1836: The contact form model of the blog demo does now make use of CCaptcha::checkRequirements (Y!!)
+- Enh #1842: CHtml::button will not render the name attribute if it is set null (Qiang)
 - Enh #1860: Changed the signature of CValidator::createValidator() to make it easier to use (Qiang)
 - Enh #1849: Updated Blueprint CSS to version 1.0 (sebas)
 - Enh #1872: Added $defaultUrl parameter to CWebUser::getReturnUrl() (Qiang)
