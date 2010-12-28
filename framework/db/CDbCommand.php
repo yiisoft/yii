@@ -1191,6 +1191,21 @@ class CDbCommand extends CComponent
 	}
 
 	/**
+	 * Builds and executes a SQL statement for truncating a DB table.
+	 * @param string $table the table to be truncated. The name will be properly quoted by the method.
+	 * @return integer number of rows affected by the execution.
+	 * @since 1.1.6
+	 */
+	public function truncateTable($table)
+	{
+		$schema=$this->getConnection()->getSchema();
+		$n=$this->setText($schema->truncateTable($table))->execute();
+		if(strncasecmp($this->getConnection()->getDriverName(),'sqlite',6)===0)
+			$schema->resetSequence($table);
+		return $n;
+	}
+
+	/**
 	 * Builds and executes a SQL statement for adding a new DB column.
 	 * @param string $table the table that the new column will be added to. The table name will be properly quoted by the method.
 	 * @param string $column the name of the new column. The name will be properly quoted by the method.

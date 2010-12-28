@@ -177,6 +177,18 @@ abstract class CDbMigration extends CComponent
 	}
 
 	/**
+	 * Builds and executes a SQL statement for truncating a DB table.
+	 * @param string $table the table to be truncated. The name will be properly quoted by the method.
+	 */
+	public function truncateTable($table)
+	{
+		echo "    > truncate table $table ...";
+		$time=microtime(true);
+		$this->getDbConnection()->createCommand()->truncateTable($table);
+		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+	}
+
+	/**
 	 * Builds and executes a SQL statement for adding a new DB column.
 	 * @param string $table the table that the new column will be added to. The table name will be properly quoted by the method.
 	 * @param string $column the name of the new column. The name will be properly quoted by the method.
