@@ -103,7 +103,7 @@ class User extends CActiveRecord
 
 > Info: A foreign key may be composite, consisting of two or more columns.
 In this case, we should concatenate the names of the foreign key columns
-and separate them with space or comma. For `MANY_MANY` relationship type,
+and separate them with commas. For `MANY_MANY` relationship type,
 the associative table name must also be specified in the foreign key. For
 example, the `categories` relationship in `Post` is specified with the
 foreign key `tbl_post_category(post_id, category_id)`.
