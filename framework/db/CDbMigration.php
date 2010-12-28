@@ -49,7 +49,7 @@ abstract class CDbMigration extends CComponent
 	 */
 	public function down()
 	{
-		throw new CException(Yii::t('yii', 'Unable to remove migration {class}', array('{class}'=>get_class($this))));
+		throw new CException(Yii::t('yii', 'Unable to remove migration {class}.', array('{class}'=>get_class($this))));
 	}
 
 	/**
