@@ -253,7 +253,6 @@ abstract class CDbSchema extends CComponent
 	 */
 	public function resetSequence($table,$value=null)
 	{
-		throw new CDbException(Yii::t('yii','Resetting PK sequence is not supported.'));
 	}
 
 	/**
@@ -264,7 +263,6 @@ abstract class CDbSchema extends CComponent
 	 */
 	public function checkIntegrity($check=true,$schema='')
 	{
-		throw new CDbException(Yii::t('yii','Setting integrity check is not supported.'));
 	}
 
 	/**
