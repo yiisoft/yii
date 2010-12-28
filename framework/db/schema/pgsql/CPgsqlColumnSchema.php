@@ -24,7 +24,7 @@ class CPgsqlColumnSchema extends CDbColumnSchema
 	 */
 	protected function extractType($dbType)
 	{
-		if(strpos($dbType,'char')!==false || strpos($dbType,'text')!==false)
+		if(strpos($dbType,'[')!==false || strpos($dbType,'char')!==false || strpos($dbType,'text')!==false)
 			$this->type='string';
 		else if(strpos($dbType,'bool')!==false)
 			$this->type='boolean';
