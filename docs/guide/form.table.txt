@@ -27,7 +27,7 @@ public function actionBatchUpdate()
 		{
 			if(isset($_POST['Item'][$i]))
 				$item->attributes=$_POST['Item'][$i];
-			$valid=$valid && $item->validate();
+			$valid=$item->validate() && $valid;
 		}
 		if($valid)  // all items are valid
 			// ...do something here
