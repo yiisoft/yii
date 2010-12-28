@@ -13,6 +13,7 @@ Version 1.1.6 to be released
 - Bug #1864: Fixed a typo in CDbCommandBuilder that disables correct handling of group and having in createCountCommand (Qiang)
 - Bug #1878: Fixed the issue that keys rendered in grid view and list view should be encoded (Qiang)
 - Bug #1891: Fixed the bug that on CListView ajax request was generating a DOM container inside itself (mdomba)
+- Bug #1902: Fixed the issue that CActiveRecord::exists() may cause ambiguous column error when used in relational query (Qiang)
 - Bug #1920: Fixed the issue that the summary displayed by CGridView and CListView may be incorrect for SQL Server (Qiang)
 - Bug: Fixed the bug that CActiveForm generates unnecessary js code about setting focus (Qiang)
 - Enh #1733: Updated multifile plugin used by CMultiFileUpload to version 1.47 (mdomba)
