@@ -385,6 +385,17 @@ abstract class CDbSchema extends CComponent
 	}
 
 	/**
+	 * Builds a SQL statement for truncating a DB table.
+	 * @param string $table the table to be truncated. The name will be properly quoted by the method.
+	 * @return string the SQL statement for truncating a DB table.
+	 * @since 1.1.6
+	 */
+	public function truncateTable($table)
+	{
+		return "TRUNCATE TABLE ".$this->quoteTableName($table);
+	}
+
+	/**
 	 * Builds a SQL statement for adding a new DB column.
 	 * @param string $table the table that the new column will be added to. The table name will be properly quoted by the method.
 	 * @param string $column the name of the new column. The name will be properly quoted by the method.

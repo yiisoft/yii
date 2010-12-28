@@ -179,6 +179,17 @@ class CSqliteSchema extends CDbSchema
 	}
 
 	/**
+	 * Builds a SQL statement for truncating a DB table.
+	 * @param string $table the table to be truncated. The name will be properly quoted by the method.
+	 * @return string the SQL statement for truncating a DB table.
+	 * @since 1.1.6
+	 */
+	public function truncateTable($table)
+	{
+		return "DELETE FROM ".$this->quoteTableName($table);
+	}
+
+	/**
 	 * Builds a SQL statement for dropping a DB column.
 	 * Because SQLite does not support dropping a DB column, calling this method will throw an exception.
 	 * @param string $table the table whose column is to be dropped. The name will be properly quoted by the method.

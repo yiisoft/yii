@@ -472,6 +472,7 @@ Besides normal data retrieval and manipulation queries, the query builder also o
 * [createTable|CDbCommand::createTable]: creates a table
 * [renameTable|CDbCommand::renameTable]: renames a table
 * [dropTable|CDbCommand::dropTable]: drops a table
+* [truncateTable|CDbCommand::truncateTable]: truncates a table
 * [addColumn|CDbCommand::addColumn]: adds a table column
 * [renameColumn|CDbCommand::renameColumn]: adds a table column
 * [alterColumn|CDbCommand::alterColumn]: alters a table column
@@ -565,6 +566,23 @@ Below is an example showing how to drop a table:
 [php]
 // DROP TABLE `tbl_user`
 dropTable('tbl_user')
+~~~
+
+###truncateTable
+
+~~~
+[php]
+function truncateTable($table)
+~~~
+
+The [truncateTable|CDbCommand::truncateTable] method builds and executes a SQL statement for truncating a table. The `$table` parameter specifies the name of the table to be truncated. The query builder will quote the table name properly.
+
+Below is an example showing how to drop a table:
+
+~~~
+[php]
+// TRUNCATE TABLE `tbl_user`
+truncateTable('tbl_user')
 ~~~
 
 
