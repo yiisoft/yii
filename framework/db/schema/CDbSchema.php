@@ -68,7 +68,7 @@ abstract class CDbSchema extends CComponent
 			return $this->_tables[$name];
 		else
 		{
-			if($this->_connection->tablePrefix!='' && strpos($name,'{{')!==false)
+			if($this->_connection->tablePrefix!==null && strpos($name,'{{')!==false)
 				$realName=preg_replace('/\{\{(.*?)\}\}/',$this->_connection->tablePrefix.'$1',$name);
 			else
 				$realName=$name;
