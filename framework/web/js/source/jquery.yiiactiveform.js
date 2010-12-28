@@ -193,7 +193,7 @@
 	/**
 	 * Returns the container element of the specified attribute.
 	 * @param attribute object the configuration for a particular attribute.
-	 * @param the form jQuery object
+	 * @param form the form jQuery object
 	 * @return jquery the jquery representation of the container
 	 */
 	$.fn.yiiactiveform.getInputContainer = function(attribute, form) {
@@ -207,7 +207,7 @@
 	 * updates the error message and the input container for a particular attribute.
 	 * @param attribute object the configuration for a particular attribute.
 	 * @param messages array the json data obtained from the ajax validation request
-	 * @param the form jQuery object
+	 * @param form the form jQuery object
 	 * @return boolean whether there is a validation error for the specified attribute
 	 */
 	$.fn.yiiactiveform.updateInput = function(attribute, messages, form) {
