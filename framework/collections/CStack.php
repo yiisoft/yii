@@ -150,6 +150,7 @@ class CStack extends CComponent implements IteratorAggregate,Countable
 	}
 
 	/**
+	 * Returns the number of items in the stack.
 	 * @return integer the number of items in the stack
 	 */
 	public function getCount()

@@ -241,6 +241,7 @@ class CErrorHandler extends CApplicationComponent
 	}
 
 	/**
+	 * whether the current request is an AJAX (XMLHttpRequest) request.
 	 * @return boolean whether the current request is an AJAX request.
 	 */
 	protected function isAjaxRequest()
@@ -249,6 +250,7 @@ class CErrorHandler extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the exact trace where the problem occurs.
 	 * @param Exception $exception the uncaught exception
 	 * @return array the exact trace where the problem occurs
 	 */
@@ -333,7 +335,9 @@ class CErrorHandler extends CApplicationComponent
 	}
 
 	/**
-	 * @return string server version information. If the application is in production mode, nothing is returned.
+	 * Returns server version information.
+	 * If the application is in production mode, empty string is returned.
+	 * @return string server version information. Empty if in production mode.
 	 */
 	protected function getVersionInfo()
 	{
@@ -351,8 +355,8 @@ class CErrorHandler extends CApplicationComponent
 	/**
 	 * Converts arguments array to its string representation
 	 *
-	 * @param array $args
-	 * @return string
+	 * @param array $args arguments array to be converted
+	 * @return string string representation of the arguments array
 	 */
 	protected function argumentsToString($args)
 	{

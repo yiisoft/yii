@@ -159,13 +159,14 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
-	 * @return string part of the request URL after the host info.
+	 * Returns part of the request URL after the host info.
 	 * It consists of the following parts:
 	 * <ul>
 	 * <li>{@link getScriptUrl scriptUrl}</li>
 	 * <li>{@link getPathInfo pathInfo}</li>
 	 * <li>{@link getQueryString queryString}</li>
 	 * </ul>
+	 * @return string part of the request URL after the host info.
 	 */
 	public function getUrl()
 	{
@@ -385,6 +386,7 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Returns part of the request URL that is after the question mark.
 	 * @return string part of the request URL that is after the question mark
 	 */
 	public function getQueryString()
@@ -393,6 +395,7 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Return if the request is sent via secure channel (https).
 	 * @return boolean if the request is sent via secure channel (https)
 	 */
 	public function getIsSecureConnection()
@@ -401,6 +404,7 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the request type, such as GET, POST, HEAD, PUT, DELETE.
 	 * @return string request type, such as GET, POST, HEAD, PUT, DELETE.
 	 */
 	public function getRequestType()
@@ -409,7 +413,8 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
-	 * @return boolean whether this is POST request.
+	 * Returns whether this is an POST request.
+	 * @return boolean whether this is an POST request.
 	 */
 	public function getIsPostRequest()
 	{
@@ -417,6 +422,7 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Returns whether this is an AJAX (XMLHttpRequest) request.
 	 * @return boolean whether this is an AJAX (XMLHttpRequest) request.
 	 */
 	public function getIsAjaxRequest()
@@ -425,6 +431,7 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the server name.
 	 * @return string server name
 	 */
 	public function getServerName()
@@ -433,6 +440,7 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the server port number.
 	 * @return integer server port number
 	 */
 	public function getServerPort()
@@ -441,6 +449,7 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the URL referrer, null if not present
 	 * @return string URL referrer, null if not present
 	 */
 	public function getUrlReferrer()
@@ -449,6 +458,7 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the user agent, null if not present.
 	 * @return string user agent, null if not present
 	 */
 	public function getUserAgent()
@@ -457,6 +467,7 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the user IP address.
 	 * @return string user IP address
 	 */
 	public function getUserHostAddress()
@@ -465,6 +476,7 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the user host name, null if it cannot be determined.
 	 * @return string user host name, null if cannot be determined
 	 */
 	public function getUserHost()
@@ -473,6 +485,7 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Returns entry script file path.
 	 * @return string entry script file path (processed w/ realpath())
 	 */
 	public function getScriptFile()
@@ -496,6 +509,7 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
+	 * Returns user browser accept types, null if not present.
 	 * @return string user browser accept types, null if not present
 	 */
 	public function getAcceptTypes()
@@ -598,9 +612,10 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
-	 * @return string the user preferred language.
+	 * Returns the user preferred language.
 	 * The returned language ID will be canonicalized using {@link CLocale::getCanonicalID}.
 	 * This method returns false if the user does not have language preference.
+	 * @return string the user preferred language.
 	 */
 	public function getPreferredLanguage()
 	{
