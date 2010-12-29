@@ -23,7 +23,7 @@ class CMssqlPdoAdapter extends PDO
 	 * MSSQL doesn't support sequence, so, argument is ignored
 	 *
 	 * @param string sequence name. Defaults to null
-	 * @return int last inserted id
+	 * @return integer last inserted id
 	 */
 	public function lastInsertId ($sequence=NULL)
 	{

@@ -3480,7 +3480,7 @@ class HTMLPurifier_ErrorCollector
 
     /**
      * Sends an error message to the collector for later use
-     * @param $severity int Error severity, PHP error style (don't use E_USER_)
+     * @param $severity integer Error severity, PHP error style (don't use E_USER_)
      * @param $msg string Error message text
      * @param $subst1 string First substitution for $msg
      * @param $subst2 string ...
@@ -7434,7 +7434,7 @@ class HTMLPurifier_UnitConverter
     /**
      * Returns the number of significant figures in a string number.
      * @param string $n Decimal number
-     * @return int number of sigfigs
+     * @return integer number of sigfigs
      */
     public function getSigFigs($n) {
         $n = ltrim($n, '0+-');
