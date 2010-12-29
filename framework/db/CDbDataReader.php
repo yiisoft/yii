@@ -30,7 +30,7 @@
  * @package system.db
  * @since 1.0
  */
-class CDbDataReader extends CComponent implements Iterator
+class CDbDataReader extends CComponent implements Iterator, Countable
 {
 	private $_statement;
 	private $_closed=false;
@@ -141,6 +141,7 @@ class CDbDataReader extends CComponent implements Iterator
 	}
 
 	/**
+	 * whether the reader is closed or not.
 	 * @return boolean whether the reader is closed or not.
 	 */
 	public function getIsClosed()
@@ -149,9 +150,10 @@ class CDbDataReader extends CComponent implements Iterator
 	}
 
 	/**
-	 * @return int number of rows contained in the result.
+	 * Returns the number of rows in the result set.
 	 * Note, most DBMS may not give a meaningful count.
 	 * In this case, use "SELECT COUNT(*) FROM tableName" to obtain the number of rows.
+	 * @return int number of rows contained in the result.
 	 */
 	public function getRowCount()
 	{
@@ -159,8 +161,21 @@ class CDbDataReader extends CComponent implements Iterator
 	}
 
 	/**
-	 * @return int the number of columns in the result set.
+	 * Returns the number of rows in the result set.
+	 * This method is required by the Countable interface.
+	 * Note, most DBMS may not give a meaningful count.
+	 * In this case, use "SELECT COUNT(*) FROM tableName" to obtain the number of rows.
+	 * @return int number of rows contained in the result.
+	 */
+	public function count()
+	{
+		return $this->getRowCount();
+	}
+
+	/**
+	 * Returns the number of columns in the result set.
 	 * Note, even there's no row in the reader, this still gives correct column number.
+	 * @return int the number of columns in the result set.
 	 */
 	public function getColumnCount()
 	{
