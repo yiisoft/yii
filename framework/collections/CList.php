@@ -98,6 +98,7 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 	}
 
 	/**
+	 * Returns the number of items in the list.
 	 * @return integer the number of items in the list
 	 */
 	public function getCount()

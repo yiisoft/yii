@@ -386,6 +386,7 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	}
 
 	/**
+	 * Returns the number of items in the session.
 	 * @return integer the number of session variables
 	 */
 	public function getCount()

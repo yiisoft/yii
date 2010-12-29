@@ -90,6 +90,7 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 	}
 
 	/**
+	 * Returns the number of items in the map.
 	 * @return integer the number of items in the map
 	 */
 	public function getCount()

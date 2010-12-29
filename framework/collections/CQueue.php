@@ -149,6 +149,7 @@ class CQueue extends CComponent implements IteratorAggregate,Countable
 	}
 
 	/**
+	 * Returns the number of items in the queue.
 	 * @return integer the number of items in the queue
 	 */
 	public function getCount()
