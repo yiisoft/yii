@@ -75,7 +75,7 @@ class CDirectoryCacheDependency extends CCacheDependency
 	 * Determines the last modification time for files under the directory.
 	 * This method may go recursively into subdirectories if {@link recursiveLevel} is not 0.
 	 * @param string $directory the directory name
-	 * @param int $level level of the recursion
+	 * @param integer $level level of the recursion
 	 * @return array list of file modification time indexed by the file path
 	 */
 	protected function generateTimestamps($directory,$level=0)

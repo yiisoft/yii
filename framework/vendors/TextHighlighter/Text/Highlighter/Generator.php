@@ -209,10 +209,10 @@ class Text_Highlighter_Generator extends  XML_Parser
     /**
     * Format error message
     *
-    * @param int $code error code
+    * @param integer $code error code
     * @param string $params parameters
     * @param string $fileName file name
-    * @param int $lineNo line number
+    * @param integer $lineNo line number
     * @return  array
     * @access  public
     */

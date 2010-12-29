@@ -199,6 +199,7 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
+	 * Returns a list of available PDO drivers.
 	 * @return array list of available PDO drivers
 	 * @see http://www.php.net/manual/en/function.PDO-getAvailableDrivers.php
 	 */
@@ -222,6 +223,7 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
+	 * Returns whether the DB connection is established.
 	 * @return boolean whether the DB connection is established
 	 */
 	public function getActive()
@@ -335,6 +337,7 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the PDO instance.
 	 * @return PDO the PDO instance, null if the connection is not established yet
 	 */
 	public function getPdoInstance()
@@ -360,6 +363,7 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the currently active transaction.
 	 * @return CDbTransaction the currently active transaction. Null if no active transaction.
 	 */
 	public function getCurrentTransaction()
@@ -389,6 +393,7 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the database schema for the current connection
 	 * @return CDbSchema the database schema for the current connection
 	 * @throws CException if the connection is not active yet
 	 */
@@ -511,6 +516,7 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the case of the column names
 	 * @return mixed the case of the column names
 	 * @see http://www.php.net/manual/en/pdo.setattribute.php
 	 */
@@ -520,6 +526,7 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
+	 * Sets the case of the column names.
 	 * @param mixed $value the case of the column names
 	 * @see http://www.php.net/manual/en/pdo.setattribute.php
 	 */
@@ -529,6 +536,7 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
+	 * Returns how the null and empty strings are converted.
 	 * @return mixed how the null and empty strings are converted
 	 * @see http://www.php.net/manual/en/pdo.setattribute.php
 	 */
@@ -538,6 +546,7 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
+	 * Sets how the null and empty strings are converted.
 	 * @param mixed $value how the null and empty strings are converted
 	 * @see http://www.php.net/manual/en/pdo.setattribute.php
 	 */
@@ -547,8 +556,9 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
-	 * @return boolean whether creating or updating a DB record will be automatically committed.
+	 * Returns whether creating or updating a DB record will be automatically committed.
 	 * Some DBMS (such as sqlite) may not support this feature.
+	 * @return boolean whether creating or updating a DB record will be automatically committed.
 	 */
 	public function getAutoCommit()
 	{
@@ -556,8 +566,9 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
-	 * @param boolean $value whether creating or updating a DB record will be automatically committed.
+	 * Sets whether creating or updating a DB record will be automatically committed.
 	 * Some DBMS (such as sqlite) may not support this feature.
+	 * @param boolean $value whether creating or updating a DB record will be automatically committed.
 	 */
 	public function setAutoCommit($value)
 	{
@@ -565,8 +576,9 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
-	 * @return boolean whether the connection is persistent or not
+	 * Returns whether the connection is persistent or not.
 	 * Some DBMS (such as sqlite) may not support this feature.
+	 * @return boolean whether the connection is persistent or not
 	 */
 	public function getPersistent()
 	{
@@ -574,8 +586,9 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
-	 * @param boolean $value whether the connection is persistent or not
+	 * Sets whether the connection is persistent or not.
 	 * Some DBMS (such as sqlite) may not support this feature.
+	 * @param boolean $value whether the connection is persistent or not
 	 */
 	public function setPersistent($value)
 	{
@@ -583,6 +596,7 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the name of the DB driver
 	 * @return string name of the DB driver
 	 */
 	public function getDriverName()
@@ -591,6 +605,7 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the version information of the DB driver.
 	 * @return string the version information of the DB driver
 	 */
 	public function getClientVersion()
@@ -599,8 +614,9 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
-	 * @return string the status of the connection
+	 * Returns the status of the connection.
 	 * Some DBMS (such as sqlite) may not support this feature.
+	 * @return string the status of the connection
 	 */
 	public function getConnectionStatus()
 	{
@@ -608,6 +624,7 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
+	 * Returns whether the connection performs data prefetching.
 	 * @return boolean whether the connection performs data prefetching
 	 */
 	public function getPrefetch()
@@ -616,6 +633,7 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the information of DBMS server.
 	 * @return string the information of DBMS server
 	 */
 	public function getServerInfo()
@@ -624,6 +642,7 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the version information of DBMS server.
 	 * @return string the version information of DBMS server
 	 */
 	public function getServerVersion()
@@ -632,7 +651,8 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
-	 * @return int timeout settings for the connection
+	 * Returns the timeout settings for the connection.
+	 * @return integer timeout settings for the connection
 	 */
 	public function getTimeout()
 	{
@@ -641,7 +661,7 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Obtains a specific DB connection attribute information.
-	 * @param int $name the attribute to be queried
+	 * @param integer $name the attribute to be queried
 	 * @return mixed the corresponding attribute information
 	 * @see http://www.php.net/manual/en/function.PDO-getAttribute.php
 	 */
@@ -655,7 +675,7 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Sets an attribute on the database connection.
-	 * @param int $name the attribute to be set
+	 * @param integer $name the attribute to be set
 	 * @param mixed $value the attribute value
 	 * @see http://www.php.net/manual/en/function.PDO-setAttribute.php
 	 */

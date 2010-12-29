@@ -138,10 +138,8 @@ class Text_Diff_Engine_shell {
      * @access private
      *
      * @param array &$text_lines Either $from_lines or $to_lines
-     * @param int   &$line_no    Current line number
-     * @param int   $end         Optional end line, when we want to chop more
-     *                           than one line.
-     *
+     * @param integer &$line_no Current line number
+     * @param integer $end Optional end line, when we want to chop more than one line.
      * @return array The chopped lines
      */
     function _getLines(&$text_lines, &$line_no, $end = false)
