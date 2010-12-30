@@ -110,7 +110,7 @@ class CJuiDatePicker extends CJuiInputWidget
 			$this->htmlOptions['id'] = $id = $this->htmlOptions['id'].'_container';
 			$this->htmlOptions['name'] = $name = $this->htmlOptions['name'].'_container';
 
-			echo CHtml::tag('div', $this->htmlOptions);
+			echo CHtml::tag('div', $this->htmlOptions, '');
 		}
 
 		$options=CJavaScript::encode($this->options);
