@@ -134,12 +134,13 @@ class CGridView extends CBaseListView
 	public $ajaxVar='ajax';
 	/**
 	 * @var string a javascript function that will be invoked before an AJAX update occurs.
-	 * The function signature is <code>function(id)</code> where 'id' refers to the ID of the grid view.
+	 * The function signature is <code>function(id,options)</code> where 'id' refers to the ID of the grid view,
+	 * 'options' the AJAX request options  (see jQuery.ajax api manual).
 	 */
 	public $beforeAjaxUpdate;
 	/**
 	 * @var string a javascript function that will be invoked after a successful AJAX response is received.
-	 * The function signature is <code>function(id, data)</code> where 'id' refers to the ID of the grid view
+	 * The function signature is <code>function(id, data)</code> where 'id' refers to the ID of the grid view,
 	 * 'data' the received ajax response data.
 	 */
 	public $afterAjaxUpdate;
