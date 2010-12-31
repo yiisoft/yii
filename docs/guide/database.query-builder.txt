@@ -474,7 +474,7 @@ Besides normal data retrieval and manipulation queries, the query builder also o
 * [dropTable|CDbCommand::dropTable]: drops a table
 * [truncateTable|CDbCommand::truncateTable]: truncates a table
 * [addColumn|CDbCommand::addColumn]: adds a table column
-* [renameColumn|CDbCommand::renameColumn]: adds a table column
+* [renameColumn|CDbCommand::renameColumn]: renames a table column
 * [alterColumn|CDbCommand::alterColumn]: alters a table column
 * [dropColumn|CDbCommand::dropColumn]: drops a table column
 * [createIndex|CDbCommand::createIndex]: creates an index

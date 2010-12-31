@@ -28,9 +28,9 @@ Sometimes, following the last rule above may make a model very fat, containing t
 
 * Define a `NewsBase` model class which only contains code shared by different sub-applications (e.g. front end, back end);
 
-* In each sub-application, define a `News` model by extending from `NewsBase`. Place all of the code that is specific to the sub-application in this `News` model. 
+* In each sub-application, define a `News` model by extending from `NewsBase`. Place all of the code that is specific to the sub-application in this `News` model.
 
-So, if we were to employ this strategy in our above example, we would add a `News` model in the front end application that contains only the `getLatestNews` method, and we would add another `News` model in the back end application, which contains only the `getDeleteNews` method.
+So, if we were to employ this strategy in our above example, we would add a `News` model in the front end application that contains only the `getLatestNews` method, and we would add another `News` model in the back end application, which contains only the `getDeletedNews` method.
 
 In general, models should not contain logic that deals directly with end users. More specifically, models
 
