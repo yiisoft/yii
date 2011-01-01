@@ -281,7 +281,11 @@ class CSecurityManager extends CApplicationComponent
 			$pack='H32';
 			$func='md5';
 		}
-		$key=str_pad($func($key), 64, chr(0));
-		return $func((str_repeat(chr(0x5C), 64) ^ substr($key, 0, 64)) . pack($pack, $func((str_repeat(chr(0x36), 64) ^ substr($key, 0, 64)) . $data)));
+		if(strlen($key) > 64)
+			$key=pack($pack, $func($key));
+		if(strlen($key) < 64)
+			$key=str_pad($key, 64, chr(0));
+	    $key=substr($key,0,64);
+		return $func((str_repeat(chr(0x5C), 64) ^ $key) . pack($pack, $func((str_repeat(chr(0x36), 64) ^ $key) . $data)));
 	}
 }
