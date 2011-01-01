@@ -439,6 +439,7 @@ abstract class CCodeModel extends CFormModel
 			'new',
 			'old_function',
 			'or',
+			'parent',
 			'php_user_filter',
 			'print',
 			'private',
