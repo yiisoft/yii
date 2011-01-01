@@ -17,6 +17,7 @@ Version 1.1.6 to be released
 - Bug #1902: Fixed the issue that CActiveRecord::exists() may cause ambiguous column error when used in relational query (Qiang)
 - Bug #1920: Fixed the issue that the summary displayed by CGridView and CListView may be incorrect for SQL Server (Qiang)
 - Bug #1936: Fixed the issue that flat CJuiDatePicker is not closing it's tag correctly (sebas)
+- Bug #1942: Fixed the bug that CSecurityManager::computeHMAC() generates non-standard HMAC (Qiang)
 - Bug: Fixed the bug that CActiveForm generates unnecessary js code about setting focus (Qiang)
 - Enh #1733: Updated multifile plugin used by CMultiFileUpload to version 1.47 (mdomba)
 - Enh #1785: Added CAssetManager::$excludeFiles property to support exclusion of irrelevant files from the publishing process (Y!!)
