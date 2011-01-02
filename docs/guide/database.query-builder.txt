@@ -184,15 +184,25 @@ where(array('in', 'id', array(1, 2))
 // WHERE `id` NOT IN (1, 2)
 where(array('not in', 'id', array(1,2)))
 // WHERE `name` LIKE '%Qiang%'
-where(array('like', 'name', 'Qiang'))
-// WHERE `name` LIKE '%Qiang%' AND `name` LIKE '%Xue%'
-where(array('like', 'name', array('Qiang', 'Xue')))
-// WHERE `name` LIKE '%Qiang%' OR `name` LIKE '%Xue%'
-where(array('or like', 'name', array('Qiang', 'Xue')))
+where(array('like', 'name', '%Qiang%'))
+// WHERE `name` LIKE '%Qiang' AND `name` LIKE '%Xue'
+where(array('like', 'name', array('%Qiang', '%Xue')))
+// WHERE `name` LIKE '%Qiang' OR `name` LIKE '%Xue'
+where(array('or like', 'name', array('%Qiang', '%Xue')))
 // WHERE `name` NOT LIKE '%Qiang%'
-where(array('not like', 'name', 'Qiang'))
+where(array('not like', 'name', '%Qiang%'))
 // WHERE `name` NOT LIKE '%Qiang%' OR `name` NOT LIKE '%Xue%'
-where(array('or not like', 'name', array('Qiang', 'Xue')))
+where(array('or not like', 'name', array('%Qiang%', '%Xue%')))
+~~~
+
+Please note that when the operator contains `like`, we have to explicitly specify the wildcard characters (such as `%` and `_`) in the patterns. If the patterns are from user input, we should also use the following code to escape the special characters to prevent them from being treated as wildcards:
+
+~~~
+[php]
+$keyword=$_GET['q'];
+// escape % and _ characters
+$keyword=strtr($keyword, array('%'=>'\%', '_'=>'\_'));
+$command->where(array('like', 'title', '%'.$keyword.'%'));
 ~~~
 
 

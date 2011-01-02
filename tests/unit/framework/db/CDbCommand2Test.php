@@ -148,20 +148,20 @@ class CDbCommand2Test extends CTestCase
 		$this->assertEquals("\"id\" NOT IN (1, '2', 3)", $command->where);
 
 		// like, string
-		$command->where(array('like', 'name', 'tester'));
-		$this->assertEquals('"name" LIKE \'%tester%\'', $command->where);
+		$command->where(array('like', 'name', '%tester'));
+		$this->assertEquals('"name" LIKE \'%tester\'', $command->where);
 
-		$command->where(array('like', 'name', array('tester', 'tester2')));
-		$this->assertEquals('"name" LIKE \'%tester%\' AND "name" LIKE \'%tester2%\'', $command->where);
+		$command->where(array('like', 'name', array('%tester', '%tester2')));
+		$this->assertEquals('"name" LIKE \'%tester\' AND "name" LIKE \'%tester2\'', $command->where);
 
-		$command->where(array('not like', 'name', array('tester', 'tester2')));
-		$this->assertEquals('"name" NOT LIKE \'%tester%\' AND "name" NOT LIKE \'%tester2%\'', $command->where);
+		$command->where(array('not like', 'name', array('tester%', 'tester2%')));
+		$this->assertEquals('"name" NOT LIKE \'tester%\' AND "name" NOT LIKE \'tester2%\'', $command->where);
 
-		$command->where(array('or like', 'name', array('tester', 'tester2')));
-		$this->assertEquals('"name" LIKE \'%tester%\' OR "name" LIKE \'%tester2%\'', $command->where);
+		$command->where(array('or like', 'name', array('%tester', '%tester2')));
+		$this->assertEquals('"name" LIKE \'%tester\' OR "name" LIKE \'%tester2\'', $command->where);
 
-		$command->where(array('or not like', 'name', array('tester', 'tester2')));
-		$this->assertEquals('"name" NOT LIKE \'%tester%\' OR "name" NOT LIKE \'%tester2%\'', $command->where);
+		$command->where(array('or not like', 'name', array('%tester', '%tester2')));
+		$this->assertEquals('"name" NOT LIKE \'%tester\' OR "name" NOT LIKE \'%tester2\'', $command->where);
 	}
 
 	public function testJoin()

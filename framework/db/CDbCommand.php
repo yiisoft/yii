@@ -1381,10 +1381,7 @@ class CDbCommand extends CComponent
 			}
 			$expressions=array();
 			foreach($values as $value)
-			{
-				$value=$this->_connection->quoteValue('%'.strtr($value,array('%'=>'\%', '_'=>'\_')).'%');
-				$expressions[]=$column.' '.$operator.' '.$value;
-			}
+				$expressions[]=$column.' '.$operator.' '.$this->_connection->quoteValue($value);
 			return implode($andor,$expressions);
 		}
 
