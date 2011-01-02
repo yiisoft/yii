@@ -587,7 +587,7 @@ function truncateTable($table)
 
 The [truncateTable|CDbCommand::truncateTable] method builds and executes a SQL statement for truncating a table. The `$table` parameter specifies the name of the table to be truncated. The query builder will quote the table name properly.
 
-Below is an example showing how to drop a table:
+Below is an example showing how to truncate a table:
 
 ~~~
 [php]
