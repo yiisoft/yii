@@ -5,7 +5,7 @@ CREATE TABLE tbl_lookup
 	code INTEGER NOT NULL,
 	type VARCHAR(128) NOT NULL,
 	position INTEGER NOT NULL
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE tbl_user
 (
@@ -15,7 +15,7 @@ CREATE TABLE tbl_user
 	salt VARCHAR(128) NOT NULL,
 	email VARCHAR(128) NOT NULL,
 	profile TEXT
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE tbl_post
 (
@@ -29,7 +29,7 @@ CREATE TABLE tbl_post
 	author_id INTEGER NOT NULL,
 	CONSTRAINT FK_post_author FOREIGN KEY (author_id)
 		REFERENCES tbl_user (id) ON DELETE CASCADE ON UPDATE RESTRICT
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE tbl_comment
 (
@@ -43,14 +43,14 @@ CREATE TABLE tbl_comment
 	post_id INTEGER NOT NULL,
 	CONSTRAINT FK_comment_post FOREIGN KEY (post_id)
 		REFERENCES tbl_post (id) ON DELETE CASCADE ON UPDATE RESTRICT
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE tbl_tag
 (
 	id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	name VARCHAR(128) NOT NULL,
 	frequency INTEGER DEFAULT 1
-);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 INSERT INTO tbl_lookup (name, type, code, position) VALUES ('Draft', 'PostStatus', 1, 1);
 INSERT INTO tbl_lookup (name, type, code, position) VALUES ('Published', 'PostStatus', 2, 2);
