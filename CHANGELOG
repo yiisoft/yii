@@ -19,7 +19,6 @@ Version 1.1.6 to be released
 - Bug #1936: Fixed the issue that flat CJuiDatePicker is not closing it's tag correctly (sebas)
 - Bug #1942: Fixed the bug that CSecurityManager::computeHMAC() generates non-standard HMAC (Qiang)
 - Bug: Fixed the bug that CActiveForm generates unnecessary js code about setting focus (Qiang)
-- Bug: Fixed error in CFormInputElement->render() (mdomba)
 - Enh #1733: Updated multifile plugin used by CMultiFileUpload to version 1.47 (mdomba)
 - Enh #1785: Added CAssetManager::$excludeFiles property to support exclusion of irrelevant files from the publishing process (Y!!)
 - Enh #1836: The contact form model of the blog demo does now make use of CCaptcha::checkRequirements (Y!!)
