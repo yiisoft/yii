@@ -18,6 +18,7 @@ Version 1.1.6 to be released
 - Bug #1920: Fixed the issue that the summary displayed by CGridView and CListView may be incorrect for SQL Server (Qiang)
 - Bug #1936: Fixed the issue that flat CJuiDatePicker is not closing it's tag correctly (sebas)
 - Bug #1942: Fixed the bug that CSecurityManager::computeHMAC() generates non-standard HMAC (Qiang)
+- Bug #1948: Fixed a bug in generating the number symbols of I18N data from CLDR (Qiang)
 - Bug: Fixed the bug that CActiveForm generates unnecessary js code about setting focus (Qiang)
 - Enh #1733: Updated multifile plugin used by CMultiFileUpload to version 1.47 (mdomba)
 - Enh #1785: Added CAssetManager::$excludeFiles property to support exclusion of irrelevant files from the publishing process (Y!!)

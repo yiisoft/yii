@@ -14,7 +14,7 @@ return array (
   'numberSymbols' => 
   array (
     'decimal' => '.',
-    'group' => 'ወ',
+    'group' => ',',
     'list' => ';',
     'percentSign' => '%',
     'nativeZeroDigit' => '0',
