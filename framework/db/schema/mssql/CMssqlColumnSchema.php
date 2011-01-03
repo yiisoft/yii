@@ -26,7 +26,7 @@ class CMssqlColumnSchema extends CDbColumnSchema
 	 */
 	protected function extractType($dbType)
 	{
-		if(strpos($dbType,'float')!==false || strpos($dbType,'real')!==false)
+		if(strpos($dbType,'float')!==false || strpos($dbType,'real')!==false || strpos($dbType,'decimal')!==false)
 			$this->type='double';
 		else if(strpos($dbType,'bigint')===false && (strpos($dbType,'int')!==false || strpos($dbType,'smallint')!==false || strpos($dbType,'tinyint')))
 			$this->type='integer';
