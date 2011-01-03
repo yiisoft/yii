@@ -271,7 +271,8 @@ class CActiveForm extends CWidget
 	 */
 	public function init()
 	{
-		$this->htmlOptions['id']=$this->id;
+		if(!isset($this->htmlOptions['id']))
+			$this->htmlOptions['id']=$this->id;
 		if($this->stateful)
 			echo CHtml::statefulForm($this->action, $this->method, $this->htmlOptions);
 		else
