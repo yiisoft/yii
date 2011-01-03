@@ -42,6 +42,8 @@
 			var inputSelector='#'+id+' .'+settings.filterClass+' input, '+'#'+id+' .'+settings.filterClass+' select';
 			$('body').delegate(inputSelector, 'change', function(){
 				var data = $.param($(inputSelector));
+				if(settings.pageVar!=undefined)
+					data += '&'+settings.pageVar+'=1';
 				$.fn.yiiGridView.update(id, {data: data});
 			});
 

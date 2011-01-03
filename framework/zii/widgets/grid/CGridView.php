@@ -316,6 +316,8 @@ class CGridView extends CBaseListView
 			'tableClass'=>$this->itemsCssClass,
 			'selectableRows'=>$this->selectableRows,
 		);
+		if($this->enablePagination)
+			$options['pageVar']=$this->dataProvider->getPagination()->pageVar;
 		if($this->beforeAjaxUpdate!==null)
 			$options['beforeAjaxUpdate']=(strpos($this->beforeAjaxUpdate,'js:')!==0 ? 'js:' : '').$this->beforeAjaxUpdate;
 		if($this->afterAjaxUpdate!==null)
