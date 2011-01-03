@@ -13,8 +13,8 @@ return array (
   'version' => '4123',
   'numberSymbols' => 
   array (
-    'decimal' => ',',
-    'group' => '.',
+    'decimal' => '.',
+    'group' => ',',
     'list' => ';',
     'percentSign' => '%',
     'nativeZeroDigit' => '0',

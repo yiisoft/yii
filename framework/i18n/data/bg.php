@@ -24,7 +24,7 @@ return array (
     'exponential' => 'E',
     'perMille' => '‰',
     'infinity' => '∞',
-    'nan' => 'Н/Ч',
+    'nan' => 'NaN',
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',

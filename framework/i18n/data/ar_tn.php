@@ -21,7 +21,7 @@ return array (
     'patternDigit' => '#',
     'plusSign' => '+',
     'minusSign' => '-',
-    'exponential' => 'E',
+    'exponential' => 'اس',
     'perMille' => '؉',
     'infinity' => '∞',
     'nan' => 'ليس رقم',

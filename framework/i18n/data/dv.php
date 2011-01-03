@@ -15,9 +15,9 @@ return array (
   array (
     'decimal' => '.',
     'group' => ',',
-    'list' => '،',
+    'list' => ';',
     'percentSign' => '%',
-    'nativeZeroDigit' => '٠',
+    'nativeZeroDigit' => '0',
     'patternDigit' => '#',
     'plusSign' => '+',
     'minusSign' => '-',

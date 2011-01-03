@@ -17,7 +17,7 @@ return array (
     'group' => ',',
     'list' => ';',
     'percentSign' => '%',
-    'nativeZeroDigit' => '0',
+    'nativeZeroDigit' => '০',
     'patternDigit' => '#',
     'plusSign' => '+',
     'minusSign' => '-',

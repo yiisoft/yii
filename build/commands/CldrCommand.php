@@ -161,7 +161,11 @@ EOD;
 	protected function parseNumberSymbols($xml,&$data)
 	{
 		foreach($xml->xpath('/ldml/numbers/symbols/*') as $symbol)
-			$data['numberSymbols'][$symbol->getName()]=(string)$symbol;
+		{
+			$name=$symbol->getName();
+			if(!isset($data['numberSymbols'][$name]) || (string)$symbol['draft']==='')
+				$data['numberSymbols'][$name]=(string)$symbol;
+		}
 	}
 
 	protected function parseNumberFormats($xml,&$data)

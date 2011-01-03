@@ -18,7 +18,7 @@ return array (
     'list' => ';',
     'percentSign' => '%',
     'nativeZeroDigit' => '0',
-    'patternDigit' => 'nº',
+    'patternDigit' => '#',
     'plusSign' => '+',
     'minusSign' => '-',
     'exponential' => 'E',
