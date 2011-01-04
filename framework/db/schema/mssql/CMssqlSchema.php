@@ -340,7 +340,7 @@ EOD;
 			$schema=self::DEFAULT_SCHEMA;
 		$sql=<<<EOD
 SELECT TABLE_NAME, TABLE_SCHEMA FROM [INFORMATION_SCHEMA].[TABLES]
-WHERE TABLE_SCHEMA=:schema
+WHERE TABLE_SCHEMA=:schema AND TABLE_TYPE='BASE TABLE' AND TABLE_NAME!='dtproperties'
 EOD;
 		$command=$this->getDbConnection()->createCommand($sql);
 		$command->bindParam(":schema", $schema);
