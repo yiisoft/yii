@@ -97,7 +97,8 @@ class CMssqlSchema extends CDbSchema
 			if($value===null)
 				$value=$db->createCommand("SELECT MAX(`{$table->primaryKey}`) FROM {$table->rawName}")->queryScalar();
 			$value=(int)$value;
-			$db->createCommand("DBCC CHECKIDENT ({$table->rawName}, RESEED, $value)")->execute();
+			$name=strtr($table->rawName,array('['=>'',']'=>''));
+			$db->createCommand("DBCC CHECKIDENT ('$name', RESEED, $value)")->execute();
 		}
 	}
 
