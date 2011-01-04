@@ -102,6 +102,7 @@ class CMssqlSchema extends CDbSchema
 		}
 	}
 
+	private $_normalTables=array();  // non-view tables
 	/**
 	 * Enables or disables integrity check.
 	 * @param boolean $check whether to turn on or off the integrity check.
@@ -111,9 +112,10 @@ class CMssqlSchema extends CDbSchema
 	public function checkIntegrity($check=true,$schema='')
 	{
 		$enable=$check ? 'CHECK' : 'NOCHECK';
-		$tableNames=$this->getTableNames($schema);
+		if(!isset($this->_normalTables[$schema]))
+			$this->_normalTables[$schema]=$this->findTableNames($schema,false);
 		$db=$this->getDbConnection();
-		foreach($tableNames as $tableName)
+		foreach($this->_normalTables[$schema] as $tableName)
 		{
 			$tableName=$this->quoteTableName($tableName);
 			$db->createCommand("ALTER TABLE $tableName $enable CONSTRAINT ALL")->execute();
@@ -331,16 +333,21 @@ EOD;
 	 * Returns all table names in the database.
 	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
 	 * If not empty, the returned table names will be prefixed with the schema name.
+	 * @param boolean $includeViews whether to include views in the result. Defaults to true.
 	 * @return array all table names in the database.
 	 * @since 1.0.4
 	 */
-	protected function findTableNames($schema='')
+	protected function findTableNames($schema='',$includeViews=true)
 	{
 		if($schema==='')
 			$schema=self::DEFAULT_SCHEMA;
+		if($includeViews)
+			$condition="TABLE_TYPE in ('BASE TABLE','VIEW')";
+		else
+			$condition="TABLE_TYPE='BASE TABLE'";
 		$sql=<<<EOD
 SELECT TABLE_NAME, TABLE_SCHEMA FROM [INFORMATION_SCHEMA].[TABLES]
-WHERE TABLE_SCHEMA=:schema AND TABLE_TYPE='BASE TABLE' AND TABLE_NAME!='dtproperties'
+WHERE TABLE_SCHEMA=:schema AND $condition
 EOD;
 		$command=$this->getDbConnection()->createCommand($sql);
 		$command->bindParam(":schema", $schema);
