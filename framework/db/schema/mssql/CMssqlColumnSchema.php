@@ -28,7 +28,7 @@ class CMssqlColumnSchema extends CDbColumnSchema
 	{
 		if(strpos($dbType,'float')!==false || strpos($dbType,'real')!==false)
 			$this->type='double';
-		else if(strpos($dbType,'bigint')===false && (strpos($dbType,'int')!==false || strpos($dbType,'smallint')!==false || strpos($dbType,'tinyint')) || strpos($dbType,'money')!==false)
+		else if(strpos($dbType,'bigint')===false && (strpos($dbType,'int')!==false || strpos($dbType,'smallint')!==false || strpos($dbType,'tinyint')))
 			$this->type='integer';
 		else if(strpos($dbType,'bit')!==false)
 			$this->type='boolean';
