@@ -14,7 +14,6 @@
  * $count=Yii::app()->db->createCommand('SELECT COUNT(*) FROM tbl_user')->queryScalar();
  * $sql='SELECT * FROM tbl_user';
  * $dataProvider=new CSqlDataProvider($sql, array(
- *     'id'=>'user',
  *     'totalItemCount'=>$count,
  *     'sort'=>array(
  *         'attributes'=>array(
