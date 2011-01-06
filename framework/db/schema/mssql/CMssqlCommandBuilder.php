@@ -199,8 +199,8 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 		$fetch = $limit+$offset;
 		$sql = preg_replace('/^([\s(])*SELECT( DISTINCT)?(?!\s*TOP\s*\()/i',"\\1SELECT\\2 TOP $fetch", $sql);
 		$ordering = $this->findOrdering($sql);
-		$orginalOrdering = $this->joinOrdering($ordering, '[__inner__]');
-		$reverseOrdering = $this->joinOrdering($this->reverseDirection($ordering), '[__outer__]');
+		$orginalOrdering = $this->joinOrdering($ordering, '[__outer__]');
+		$reverseOrdering = $this->joinOrdering($this->reverseDirection($ordering), '[__inner__]');
 		$sql = "SELECT * FROM (SELECT TOP {$limit} * FROM ($sql) as [__inner__] {$reverseOrdering}) as [__outer__] {$orginalOrdering}";
 		return $sql;
 	}
