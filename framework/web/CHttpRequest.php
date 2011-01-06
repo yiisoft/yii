@@ -740,17 +740,11 @@ class CHttpRequest extends CApplicationComponent
 
         header('Content-type: '.$options['mimeType']);
         header('Content-Disposition: attachment; filename="'.$options['saveName'].'"');
-        //header('Content-Length: '.filesize($filePath));
-        header('Content-Transfer-Encoding: binary');
         header(trim($options['xHeader']).': '.$filePath);
 
         if(isset($options['terminate']) && $options['terminate'])
-        {
-            // if Yii::app()->end() is used and eg CWebLogRoute is enabled that
-            // the "application log" would be added to the download content
-            //Yii::app()->end(0,false);
             exit();
-        }
+
 		return true;
     }
 
