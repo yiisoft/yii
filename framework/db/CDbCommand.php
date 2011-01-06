@@ -199,18 +199,21 @@ class CDbCommand extends CComponent
 	 * @param mixed $value Name of the PHP variable to bind to the SQL statement parameter
 	 * @param integer $dataType SQL data type of the parameter. If null, the type is determined by the PHP type of the value.
 	 * @param integer $length length of the data type
+	 * @param mixed $driverOptions the driver-specific options (this is available since version 1.1.6)
 	 * @return CDbCommand the current command being executed (this is available since version 1.0.8)
 	 * @see http://www.php.net/manual/en/function.PDOStatement-bindParam.php
 	 */
-	public function bindParam($name, &$value, $dataType=null, $length=null)
+	public function bindParam($name, &$value, $dataType=null, $length=null, $driverOptions=null)
 	{
 		$this->prepare();
 		if($dataType===null)
 			$this->_statement->bindParam($name,$value,$this->_connection->getPdoType(gettype($value)));
 		else if($length===null)
 			$this->_statement->bindParam($name,$value,$dataType);
-		else
+		else if($driverOptions===null)
 			$this->_statement->bindParam($name,$value,$dataType,$length);
+		else
+			$this->_statement->bindParam($name,$value,$dataType,$length,$driverOptions);
 		if($this->_connection->enableParamLogging)
 			$this->_paramLog[$name]=&$value;
 		return $this;
