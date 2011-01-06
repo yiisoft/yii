@@ -4,6 +4,7 @@
 
 Version 1.1.6 to be released
 ----------------------------
+- Bug #997: Fixed the bug that relational AR query with page-by and sorting may fail to work for SQL Server (Qiang)
 - Bug #1775: Fixed the bug that AR and Gii may fail for tables not in default schema in Oracle DB (Qiang)
 - Bug #1790: Fixed the bug that CJSON::encode may generate invalid encoding result when data contains float numbers (Qiang)
 - Bug #1799: Fixed the bug that CJuiDatePicker::$name may cause a PHP error (Y!!)

@@ -230,7 +230,14 @@ class CMssqlCommandBuilder extends CDbCommandBuilder
 				{
 					if(count($subs) > 1 && count($subs[2]) > 0)
 					{
-						$ordering[$subs[1][0]] = $subs[2][0];
+						$name='';
+						foreach(explode('.', $subs[1][0]) as $p)
+						{
+							if($name!=='')
+								$name.='.';
+							$name.='[' . trim($p, '[]') . ']';
+						}
+						$ordering[$name] = $subs[2][0];
 					}
 					//else what?
 				}
