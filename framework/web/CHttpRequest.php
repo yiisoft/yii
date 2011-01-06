@@ -743,7 +743,10 @@ class CHttpRequest extends CApplicationComponent
         header(trim($options['xHeader']).': '.$filePath);
 
         if(isset($options['terminate']) && $options['terminate'])
-            exit();
+		{
+			Yii::app()->end(0,false);
+            exit(0);
+		}
 
 		return true;
     }
