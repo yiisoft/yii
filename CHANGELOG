@@ -22,6 +22,7 @@ Version 1.1.6 to be released
 - Bug #1945: Fixed the bug that user-supplied form ID is not honored when building a form using CForm with a model (Qiang)
 - Bug #1948: Fixed a bug in generating the number symbols of I18N data from CLDR (Qiang)
 - Bug: Fixed the bug that CActiveForm generates unnecessary js code about setting focus (Qiang)
+- Bug: Fixed CDateTimeParser::parse() default hour, minute and second handling when they are not used in pattern (Sam Dark)
 - Enh #1733: Updated multifile plugin used by CMultiFileUpload to version 1.47 (mdomba)
 - Enh #1771: Added $driverOptions parameter to CDbCommand::bindParam() method (Qiang)
 - Enh #1785: Added CAssetManager::$excludeFiles property to support exclusion of irrelevant files from the publishing process (Y!!)
