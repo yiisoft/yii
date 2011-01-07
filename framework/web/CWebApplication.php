@@ -44,7 +44,7 @@
 class CWebApplication extends CApplication
 {
 	/**
-	 * @return string the ID of the default controller. Defaults to 'site'.
+	 * @return string the route of the default controller, action or module. Defaults to 'site'.
 	 */
 	public $defaultController='site';
 	/**
