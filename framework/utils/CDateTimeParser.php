@@ -203,7 +203,10 @@ class CDateTimeParser
 		$month=(int)$month;
 		$day=(int)$day;
 
-		if(!isset($hour) && !isset($minute) && !isset($second))
+		if(
+			!isset($hour) && !isset($minute) && !isset($second)
+			&& !isset($defaults['hour']) && !isset($defaults['minute']) && !isset($defaults['second'])
+		)
 			$hour=$minute=$second=0;
 		else
 		{
