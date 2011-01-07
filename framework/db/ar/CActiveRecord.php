@@ -1770,7 +1770,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function offsetExists($offset)
 	{
-		return isset($this->getMetaData()->columns[$offset]);
+		return $this->__isset($offset);
 	}
 }
 
