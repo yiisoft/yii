@@ -687,7 +687,7 @@ class CHttpRequest extends CApplicationComponent
 	 * <ul>
 	 * <li>Apache: {@link http://tn123.org/mod_xsendfile X-Sendfile}</li>
 	 * <li>Lighttpd v1.4: {@link http://redmine.lighttpd.net/wiki/lighttpd/X-LIGHTTPD-send-file X-LIGHTTPD-send-file}</li>
-	 * <li>Lighttpd v1.5: X-Sendfile {@link http://redmine.lighttpd.net/wiki/lighttpd/X-LIGHTTPD-send-file X-LIGHTTPD-send-file}</li>
+	 * <li>Lighttpd v1.5: X-Sendfile {@link http://redmine.lighttpd.net/wiki/lighttpd/X-LIGHTTPD-send-file X-Sendfile}</li>
 	 * <li>Nginx: {@link http://wiki.nginx.org/XSendfile X-Accel-Redirect}</li>
 	 * <li>Cherokee: {@link http://www.cherokee-project.com/doc/other_goodies.html#x-sendfile X-Sendfile and X-Accel-Redirect}</li>
 	 * </ul>
