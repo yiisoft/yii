@@ -1864,14 +1864,22 @@ EOD;
 	 * javascript would not cause the default behavior of the event. This option has been available since version 1.0.2.</li>
 	 * <li>confirm: string, specifies the message that should show in a pop-up confirmation dialog.</li>
 	 * <li>ajax: array, specifies the AJAX options (see {@link ajax}).</li>
+	 * <li>live: boolean, whether the event handler should be bound in "live" (a jquery event concept). Defaults to true. This option has been available since version 1.1.6.</li>
 	 * </ul>
-	 * @param boolean $live whether the event should be "live" (a jquery event concept). Defaults to true.
 	 * This parameter has been available since version 1.1.1.
 	 */
-	protected static function clientChange($event,&$htmlOptions,$live=true)
+	protected static function clientChange($event,&$htmlOptions)
 	{
 		if(!isset($htmlOptions['submit']) && !isset($htmlOptions['confirm']) && !isset($htmlOptions['ajax']))
 			return;
+
+		if(isset($htmlOptions['live']))
+		{
+			$live=$htmlOptions['live'];
+			unset($htmlOptions['live']);
+		}
+		else
+			$live=true;
 
 		if(isset($htmlOptions['return']) && $htmlOptions['return'])
 			$return='return true';

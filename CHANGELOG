@@ -50,6 +50,7 @@ Version 1.1.6 to be released
 - Chg #1914: Composite foreign keys should be separated by commas in CActiveRecord::relations() (Qiang)
 - Chg #1949: CGridView will now display the first page after changing filters (Qiang)
 - Chg: isset($model->x) and isset($model['x']) are now identical for CActiveRecord models (Sam Dark)
+- Chg: Changed CHtml::clientChange() to make $live a configurable option in $htmlOptions (Qiang)
 - New #1191: Implemented the database migration feature (Qiang)
 - New: Added query builder (Qiang)
 
