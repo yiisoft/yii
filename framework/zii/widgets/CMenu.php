@@ -62,6 +62,9 @@ class CMenu extends CWidget
 	 * Please see {@link itemTemplate} for more details. This option has been available since version 1.1.1.</li>
 	 * <li>linkOptions: array, optional, additional HTML attributes to be rendered for the link or span tag of the menu item.</li>
 	 * <li>itemOptions: array, optional, additional HTML attributes to be rendered for the container tag of the menu item.</li>
+	 * <li>submenuOptions: array, optional, additional HTML attributes to be rendered for the container of the submenu if this menu item has one.
+	 * When this option is set, the {@link submenuHtmlOptions} property will be ignored for this particular submenu.
+	 * This option has been available since version 1.1.6.</li>
 	 * </ul>
 	 */
 	public $items=array();
@@ -208,7 +211,7 @@ class CMenu extends CWidget
 				echo $menu;
 			if(isset($item['items']) && count($item['items']))
 			{
-				echo "\n".CHtml::openTag('ul',$this->submenuHtmlOptions)."\n";
+				echo "\n".CHtml::openTag('ul',isset($item['submenuOptions']) ? $item['submenuOptions'] : $this->submenuHtmlOptions)."\n";
 				$this->renderMenuRecursive($item['items']);
 				echo CHtml::closeTag('ul')."\n";
 			}
