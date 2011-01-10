@@ -31,6 +31,7 @@ Version 1.1.6 to be released
 - Enh #1860: Changed the signature of CValidator::createValidator() to make it easier to use (Qiang)
 - Enh #1849: Updated Blueprint CSS to version 1.0 (sebas)
 - Enh #1872: Added $defaultUrl parameter to CWebUser::getReturnUrl() (Qiang)
+- Enh #1877: createAbsoluteUrl in CWebApplication and CController will now respect URL rules that already have host info built-in (Qiang)
 - Enh #1885: Added ipFilters to the Gii-created config file to reduce user confusion (Sam Dark, Steve Friedl)
 - Enh #1895: Added CDbDataReader implements Countable interface (mdomba)
 - Enh #1899: Added checkIntegrity and resetSequence for SQL Server (Qiang)
