@@ -921,7 +921,11 @@ class CController extends CBaseController
 	 */
 	public function createAbsoluteUrl($route,$params=array(),$schema='',$ampersand='&')
 	{
-		return Yii::app()->getRequest()->getHostInfo($schema).$this->createUrl($route,$params,$ampersand);
+		$url=$this->createUrl($route,$params,$ampersand);
+		if(strpos($url,'http')===0)
+			return $url;
+		else
+			return Yii::app()->getRequest()->getHostInfo($schema).$url;
 	}
 
 	/**
