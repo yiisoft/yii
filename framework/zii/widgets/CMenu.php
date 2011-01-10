@@ -58,7 +58,7 @@ class CMenu extends CWidget
 	 * If this option is not set, the menu item will be set active automatically when the current request
 	 * is triggered by {@link url}. Note that the GET parameters not specified in the 'url' option will be ignored.</li>
 	 * <li>template: string, optional, the template used to render this menu item.
-	 * In this template, the token "{menu}" will be replaced with the corresponding menu link or text.
+	 * When this option is set, it will override the global setting {@link itemTemplate}.
 	 * Please see {@link itemTemplate} for more details. This option has been available since version 1.1.1.</li>
 	 * <li>linkOptions: array, optional, additional HTML attributes to be rendered for the link or span tag of the menu item.</li>
 	 * <li>itemOptions: array, optional, additional HTML attributes to be rendered for the container tag of the menu item.</li>
@@ -193,15 +193,10 @@ class CMenu extends CWidget
 				else
 					$options['class'].=' '.implode(' ',$class);
 			}
+
 			echo CHtml::openTag('li', $options);
 
-			if(isset($item['url']))
-			{
-				$label=$this->linkLabelWrapper===null ? $item['label'] : '<'.$this->linkLabelWrapper.'>'.$item['label'].'</'.$this->linkLabelWrapper.'>';
-				$menu=CHtml::link($label,$item['url'],isset($item['linkOptions']) ? $item['linkOptions'] : array());
-			}
-			else
-				$menu=CHtml::tag('span',isset($item['linkOptions']) ? $item['linkOptions'] : array(), $item['label']);
+			$menu=$this->renderMenuItem($item);
 			if(isset($this->itemTemplate) || isset($item['template']))
 			{
 				$template=isset($item['template']) ? $item['template'] : $this->itemTemplate;
@@ -209,14 +204,33 @@ class CMenu extends CWidget
 			}
 			else
 				echo $menu;
+
 			if(isset($item['items']) && count($item['items']))
 			{
 				echo "\n".CHtml::openTag('ul',isset($item['submenuOptions']) ? $item['submenuOptions'] : $this->submenuHtmlOptions)."\n";
 				$this->renderMenuRecursive($item['items']);
 				echo CHtml::closeTag('ul')."\n";
 			}
+
 			echo CHtml::closeTag('li')."\n";
 		}
+	}
+
+	/**
+	 * Renders the content of a menu item.
+	 * Note that the container and the sub-menus are not rendered here.
+	 * @param array $item the menu item to be rendered. Please see {@link items} on what data might be in the item.
+	 * @since 1.1.6
+	 */
+	protected function renderMenuItem($item)
+	{
+		if(isset($item['url']))
+		{
+			$label=$this->linkLabelWrapper===null ? $item['label'] : '<'.$this->linkLabelWrapper.'>'.$item['label'].'</'.$this->linkLabelWrapper.'>';
+			return CHtml::link($label,$item['url'],isset($item['linkOptions']) ? $item['linkOptions'] : array());
+		}
+		else
+			return CHtml::tag('span',isset($item['linkOptions']) ? $item['linkOptions'] : array(), $item['label']);
 	}
 
 	/**
