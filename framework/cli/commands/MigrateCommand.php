@@ -51,6 +51,11 @@ class MigrateCommand extends CConsoleCommand
 	 * @var string the default command action. It defaults to 'up'.
 	 */
 	public $defaultAction='up';
+	/**
+	 * @var boolean whether to execute the migration in an interactive mode. Defaults to true.
+	 * Set this to false when performing migration in a cron job or background process.
+	 */
+	public $interactive=true;
 
 	public function beforeAction($action,$params)
 	{
@@ -314,6 +319,8 @@ class MigrateCommand extends CConsoleCommand
 
 	protected function confirm($message)
 	{
+		if(!$this->interactive)
+			return true;
 		echo $message.' [yes|no] ';
 		return !strncasecmp(trim(fgets(STDIN)),'y',1);
 	}

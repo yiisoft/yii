@@ -176,6 +176,8 @@ There are several ways to customize the migration command.
 
 The migration command comes with four options that can be specified in command line:
 
+* `interactive`: boolean, specifies whether to perform migrations in an interactive mode. Defaults to true, meaning the user will be prompted when performing a specific migration. You may set this to false should the migrations be done in a background process.
+
 * `migrationPath`: string, specifies the directory storing all migration class files. This must be specified in terms of a path alias, and the corresponding directory must exist. If not specified, it will use the `migrations` sub-directory under the application base path.
 
 * `migrationTable`: string, specifies the name of the database table for storing migration history information. It defaults to `tbl_migration`. The table structure is `version varchar(255) primary key, apply_time integer`.
