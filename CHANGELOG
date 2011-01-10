@@ -48,6 +48,7 @@ Version 1.1.6 to be released
 - Enh: Improved IDE code completion for Yii::app()-> (Sam Dark)
 - Enh: CSort now supports relation.field notation to sort grids by related model fields (Sam Dark, denis909)
 - Enh: Added CHttpRequest->xSendFile() to process file download requests by using X-Sendfile header (mdomba)
+- Enh: Refactored CMenu by adding CMenu::renderMenuItem to make it easier to be extended (Qiang)
 - Chg #1914: Composite foreign keys should be separated by commas in CActiveRecord::relations() (Qiang)
 - Chg #1949: CGridView will now display the first page after changing filters (Qiang)
 - Chg: isset($model->x) and isset($model['x']) are now identical for CActiveRecord models (Sam Dark)

@@ -41,7 +41,7 @@ h3 {
 }
 
 pre {
-	font: normal 10pt Menlo, Consolas, "Lucida Console";
+	font: normal 11pt Menlo, Consolas, "Lucida Console";
 }
 
 pre span.error {
