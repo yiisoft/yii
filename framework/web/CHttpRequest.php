@@ -681,7 +681,7 @@ class CHttpRequest extends CApplicationComponent
 	 *
 	 * The request is sent to the server through a special non-standard HTTP-header.
 	 * When the web server encounters the presence of such header it will discard all output and send the file
-	 * specified by that header instead using internals including all optimizations like caching-headers and sendfile.
+	 * specified by that header using web server internals including all optimizations like caching-headers.
 	 *
 	 * As this header directive is non-standard different directives exists for different web servers applications:
 	 * <ul>
@@ -715,7 +715,7 @@ class CHttpRequest extends CApplicationComponent
 	 * @param array $options additional options:
 	 * <ul>
 	 * <li>saveName: file name shown to the user, if not set real file name will be used</li>
-	 * <li>mimeType: mime type of the file, if not set it will be guessed automaticaly based on the file name.</li>
+	 * <li>mimeType: mime type of the file, if not set it will be guessed automatically based on the file name.</li>
 	 * <li>xHeader: appropriate x-sendfile header, defaults to "X-Sendfile"</li>
 	 * <li>terminate: whether to terminate the current application after calling this method, defaults to true</li>
 	 * </ul>
