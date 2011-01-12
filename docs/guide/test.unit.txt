@@ -1,7 +1,7 @@
 Unit Testing
 ============
 
-Because the Yii testing framework is built on top of [PHPUnit](http://www.phpunit.de/), it is recommended that you go through the [PHPUnit documentation](http://www.phpunit.de/wiki/Documentation) first to get the basic understanding on how to write a unit test. We summarize in the following the basic principles of writing a unit test in Yii:
+Because the Yii testing framework is built on top of [PHPUnit](http://www.phpunit.de/), it is recommended that you go through the [PHPUnit documentation](http://www.phpunit.de/manual/current/en/index.html) first to get the basic understanding on how to write a unit test. We summarize in the following the basic principles of writing a unit test in Yii:
 
  * A unit test is written in terms of a class `XyzTest` which extends from [CTestCase] or [CDbTestCase], where `Xyz` stands for the class being tested. For example, to test the `Post` class, we would name the corresponding unit test as `PostTest` by convention. The base class [CTestCase] is meant for generic unit tests, while [CDbTestCase] is suitable for testing [active record](/doc/guide/database.ar) model classes. Because `PHPUnit_Framework_TestCase` is the ancestor class for both classes, we can use all methods inherited from this class.
 
