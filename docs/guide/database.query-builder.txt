@@ -178,7 +178,7 @@ where('id=:id1 or id=:id2', array(':id1'=>1, ':id2'=>2))
 // WHERE id=1 OR id=2
 where(array('or', 'id=1', 'id=2'))
 // WHERE id=1 AND (type=2 OR type=3)
-where(array('and', id=1', array('or', 'type=2', 'type=3')))
+where(array('and', 'id=1', array('or', 'type=2', 'type=3')))
 // WHERE `id` IN (1, 2)
 where(array('in', 'id', array(1, 2))
 // WHERE `id` NOT IN (1, 2)
@@ -338,7 +338,7 @@ union('select * from tbl_profile')
 ### Executing Queries
 
 After calling the above query builder methods to build a query, we can call the DAO methods as described in [Data Access Objects](/doc/guide/database.dao) to execute the query. For example, we can call [CDbCommand::queryRow()] to obtain a row of result, or [CDbCommand::queryAll()] to get all rows at once.
-Below are some examples:
+Example:
 
 ~~~
 [php]
