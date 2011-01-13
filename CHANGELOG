@@ -40,6 +40,7 @@ Version 1.1.6 to be released
 - Enh #1929: Improved CActiveForm so that it can be used multiple times on the same page for the same type of data model (Qiang)
 - Enh #1931: CDbConnection.tablePrefix can now use an empty string as table prefix (Qiang)
 - Enh #1962: Added submenuOptions option to CMenu::items (Qiang)
+- Enh: Allowed passing multiple forms or choice format quantity parameter without wrapping it with array (Sam Dark)
 - Enh: CDbConnection::quoteColumnName and quoteTableName will properly quote table prefix and schema prefix. (Qiang)
 - Enh: Added CConsoleCommand::init() (Qiang)
 - Enh: Improved the exception display with source code for each call stack (Sam Dark, Qiang)

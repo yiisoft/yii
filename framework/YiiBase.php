@@ -520,6 +520,8 @@ class YiiBase
 	 * Starting from version 1.0.2, the first parameter can be a number without key.
 	 * And in this case, the method will call {@link CChoiceFormat::format} to choose
 	 * an appropriate message translation.
+	 * Starting from version 1.1.6 you can pass parameter for {@link CChoiceFormat::format}
+	 * or plural forms format without wrapping it with array.
 	 * @param string $source which message source application component to use.
 	 * Defaults to null, meaning using 'coreMessages' for messages belonging to
 	 * the 'yii' category and using 'messages' for the rest messages.
@@ -539,6 +541,10 @@ class YiiBase
 		}
 		if($params===array())
 			return $message;
+
+		if (!is_array($params))
+			$params = array($params);
+
 		if(isset($params[0])) // number choice
 		{
 			$expressions=self::$_app->getLocale($language)->getPluralRules();
