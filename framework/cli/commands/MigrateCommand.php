@@ -439,25 +439,35 @@ DESCRIPTION
 EXAMPLES
  * yiic migrate
    Applies ALL new migrations. This is equivalent to 'yiic migrate to'.
+
+ * yiic migrate create create_user_table
+   Creates a new migration named 'create_user_table'.
+
  * yiic migrate up 3
    Applies the next 3 new migrations.
+
  * yiic migrate down
    Reverts the last applied migration.
+
  * yiic migrate down 3
    Reverts the last 3 applied migrations.
+
  * yiic migrate to 101129_185401
    Migrates up or down to version 101129_185401.
+
  * yiic migrate mark 101129_185401
    Modifies the migration history up or down to version 101129_185401.
    No actual migration will be performed.
- * yiic migrate create create_user_table
-   Creates a new migration named 'create_user_table'.
+
  * yiic migrate history
    Shows all previously applied migration information.
+
  * yiic migrate history 10
    Shows the last 10 applied migrations.
+
  * yiic migrate new
    Shows all new migrations.
+
  * yiic migrate new 10
    Shows the next 10 migrations that have not been applied.
 
