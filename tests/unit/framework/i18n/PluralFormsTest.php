@@ -8,7 +8,7 @@ class PluralFormsTest extends CTestCase
 	function setUp()
 	{
 		$config = array(
-			'sourceLanguage' => 'test',
+			'sourceLanguage' => 'es',
 			'components' => array(
 				'messages' => array(
 					'class' => 'CPhpMessageSource',
@@ -44,5 +44,10 @@ class PluralFormsTest extends CTestCase
 		$this->assertEquals('тестов', Yii::t('plural', 'test', array(78)));
 		$this->assertEquals('тестов', Yii::t('plural', 'test', array(320)));
 		$this->assertEquals('тестов', Yii::t('plural', 'test', array(0)));
+	}
+
+	function testParametersShortForm(){
+		Yii::app()->setLanguage('en');
+		$this->assertEquals('tests', Yii::t('plural', 'test', 2));
 	}
 }
