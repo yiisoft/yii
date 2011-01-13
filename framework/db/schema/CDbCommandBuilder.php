@@ -265,14 +265,8 @@ class CDbCommandBuilder extends CComponent
 		if($fields===array())
 			throw new CDbException(Yii::t('yii','No columns are being updated for table "{table}".',
 				array('{table}'=>$table->name)));
-
-		$alias='';
-		if(!empty($criteria->alias))
-			$alias = $this->_schema->quoteTableName($criteria->alias);
-
-        $sql="UPDATE {$table->rawName} {$alias}";
-        $sql=$this->applyJoin($sql,$criteria->join)." SET ".implode(', ',$fields);
-
+		$sql="UPDATE {$table->rawName} SET ".implode(', ',$fields);
+		$sql=$this->applyJoin($sql,$criteria->join);
 		$sql=$this->applyCondition($sql,$criteria->condition);
 		$sql=$this->applyOrder($sql,$criteria->order);
 		$sql=$this->applyLimit($sql,$criteria->limit,$criteria->offset);
