@@ -47,13 +47,53 @@
 				$.fn.yiiGridView.update(id, {data: data});
 			});
 
+			$.fn.yiiGridView.selectCheckedRows(id);
+
 			if(settings.selectableRows > 0) {
-				$('#'+id+' .'+settings.tableClass+' > tbody > tr').live('click',function(){
-					if(settings.selectableRows == 1)
-						$(this).siblings().removeClass('selected');
-					$(this).toggleClass('selected');
+				$('#'+id+' .'+settings.tableClass+' > tbody > tr').live('click',function(e){
+					if('checkbox'!=e.target.type){
+						var $sbox=$('input.select-on-check',this);
+						if(settings.selectableRows == 1){
+							$(this).siblings().removeClass('selected');
+							$("input[name='"+$sbox.attr('name')+"']").attr('checked',false);
+						}
+						$(this).toggleClass('selected');
+						$sbox.attr('checked',$(this).hasClass('selected'));
+						if(settings.selectionChanged != undefined)
+							settings.selectionChanged(id);
+					}
+				});
+			}
+
+			$('#'+id+' .'+settings.tableClass+' > tbody > tr > td > input.select-on-check').live('click',function(){
+					if(settings.selectableRows ==0)
+						return false;
+
+					var $row=$(this).parent().parent();
+					if(settings.selectableRows == 1){
+						$row.siblings().removeClass('selected');
+						$("input:not(#"+this.id+")[name='"+this.name+"']").attr('checked',false);
+					}
+					if($(this).attr('checked'))
+						$row.addClass('selected');
+					else
+						$row.removeClass('selected');
 					if(settings.selectionChanged != undefined)
 						settings.selectionChanged(id);
+					return true;
+			});
+
+			if(settings.selectableRows > 1) {
+				$('#'+id+' .'+settings.tableClass+' > thead > tr > th > input.select-on-check-all').live('click',function(){
+					var checked=this.checked;
+					var name=this.name.substring(0,this.name.length-4)+'\[\]';	//.. remove '_all' and add '[]''
+					$("input[name='"+name+"']").each(function() {
+						this.checked=checked;
+						if(checked)
+							$(this).parent().parent().addClass('selected');
+						else
+							$(this).parent().parent().removeClass('selected');
+					});
 				});
 			}
 		});
@@ -134,6 +174,7 @@
 						$d=$(data),
 						$filtered=$d.filter(id);
 					$(id).replaceWith( $filtered.size() ? $filtered : $d.find(id));
+					$.fn.yiiGridView.selectCheckedRows(v);
 				});
 				if(settings.afterAjaxUpdate != undefined)
 					settings.afterAjaxUpdate(id, data);
@@ -176,6 +217,18 @@
 	};
 
 	/**
+	 * Selects rows that have checkbox checked (only checkbox that is connected with selecting a row)
+	 * @param id string the ID of the grid view container
+	 */
+	$.fn.yiiGridView.selectCheckedRows = function(id) {
+		var settings = $.fn.yiiGridView.settings[id];
+		$('#'+id+' .'+settings.tableClass+' > tbody > tr > td >input.select-on-check').each(function(){
+			if($(this).attr('checked'))
+				$(this).parent().parent().addClass('selected');
+		});
+	};
+
+	/**
 	 * Returns the key values of the currently selected rows.
 	 * @param id string the ID of the grid view container
 	 * @return array the key values of the currently selected rows.
@@ -189,6 +242,25 @@
 				selection.push(keys.eq(i).text());
 		});
 		return selection;
+	};
+
+	/**
+	 * Returns the key values of the currently checked rows.
+	 * @param id string the ID of the grid view container
+	 * @param column_id string the ID of the column
+	 * @return array the key values of the currently selected rows.
+	 */
+	$.fn.yiiGridView.getChecked = function(id,column_id) {
+		var settings = $.fn.yiiGridView.settings[id];
+		var keys = $('#'+id+' > div.keys > span');
+		if(column_id.substring(column_id.length-2)!='\[\]')
+			column_id=column_id+'\[\]';
+		var checked = [];
+		$('#'+id+' .'+settings.tableClass+' > tbody > tr > td > input[name="'+column_id+'"]').each(function(i){
+			if($(this).attr('checked'))
+				checked.push(keys.eq(i).text());
+		});
+		return checked;
 	};
 
 })(jQuery);
