@@ -303,4 +303,9 @@ return array (
   'amName' => 'BN',
   'pmName' => 'PN',
   'orientation' => 'rtl',
+  'pluralRules' => 
+  array (
+    0 => 'n==1',
+    1 => 'true',
+  ),
 );

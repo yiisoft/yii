@@ -320,4 +320,9 @@ return array (
   'amName' => 'ጡዋት',
   'pmName' => 'ከሳዓት',
   'orientation' => 'ltr',
+  'pluralRules' => 
+  array (
+    0 => '(n>=0&&n<=1&&fmod(n,1)==0)',
+    1 => 'true',
+  ),
 );

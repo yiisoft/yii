@@ -28,6 +28,8 @@
  */
 class CldrCommand extends CConsoleCommand
 {
+	protected $pluralRules = array();
+
 	public function getHelp()
 	{
 		return <<<EOD
@@ -52,7 +54,8 @@ DESCRIPTION
 
 PARAMETERS
  * data-path: required, the original CLDR data directory. This
-   directory should contain hundreds of XML files.
+   directory should contain "main" subdirectory with hundreds of XML files
+   and "supplemental" subdirectory with "plurals.xml".
 
 EOD;
 	}
@@ -65,8 +68,16 @@ EOD;
 	{
 		if(!isset($args[0]))
 			$this->usageError('the CLDR data directory is not specified.');
-		if(!is_dir($path=$args[0]))
+		if(!is_dir($basePath=$args[0]))
+			$this->usageError("Directory '$basePath' does not exist.");
+		if(!is_dir($path=$basePath.DIRECTORY_SEPARATOR.'main'))
 			$this->usageError("directory '$path' does not exist.");
+		if(!is_file($pluralFile=$basePath.DIRECTORY_SEPARATOR.'supplemental'.DIRECTORY_SEPARATOR.'plurals.xml'))
+			$this->usageError("File '$pluralFile' does not exist.");
+
+		// parse plural.xml before locale files
+		$pluralXml = simplexml_load_file($pluralFile);
+		$this->parsePluralRules($pluralXml);
 
 		// collect XML files to be processed
 		$options=array(
@@ -92,7 +103,7 @@ EOD;
 				$this->process($sourceFile);
 		}
 		else
-			die('Unable to find the required root.xml under CLDR data directory.');
+			die('Unable to find the required root.xml under CLDR "main" data directory.');
 	}
 
 	protected function process($path)
@@ -106,7 +117,7 @@ EOD;
 
 		// retrieve parent data first
 		if(($pos=strrpos($locale,'_'))!==false)
-			$data=require($dir.DIRECTORY_SEPARATOR.substr($locale,0,$pos).'.php');
+			$data=require($dir.DIRECTORY_SEPARATOR.strtolower(substr($locale,0,$pos)).'.php');
 		else if($locale!=='root')
 			$data=require($dir.DIRECTORY_SEPARATOR.'root.php');
 		else
@@ -130,6 +141,8 @@ EOD;
 		$this->parsePeriodNames($xml,$data);
 
 		$this->parseOrientation($xml,$data);
+
+		$this->addPluralRules($data, $locale);
 
 		$data=str_replace("\r",'',var_export($data,true));
 		$locale=substr(basename($path),0,-4);
@@ -348,5 +361,56 @@ EOD;
 			$data['orientation']='rtl';
 		else if(!isset($data['orientation']))
 			$data['orientation']='ltr';
+	}
+
+	/**
+	 * @see http://cldr.unicode.org/index/cldr-spec/plural-rules
+	 */
+	protected function parsePluralRules($xml)
+	{
+		echo "Processing plural.xml...";
+		$patterns = array(
+			'/\s+is\s+not\s+/i'=>'!=', //is not
+			'/\s+is\s+/i'=>'==', //is
+			'/n\s+mod\s+(\d+)/i'=>'fmod(n,$1)', //mod (CLDR's "mod" is "fmod()", not "%")
+			'/^(.*?)\s+not\s+(?:in|within)\s+(\d+)\.\.(\d+)/i'=>'($1<$2||$1>$3)', //not in, not within
+			'/^(.*?)\s+within\s+(\d+)\.\.(\d+)/i'=>'($1>=$2&&$1<=$3)', //within
+			'/^(.*?)\s+in\s+(\d+)\.\.(\d+)/i'=>'($1>=$2&&$1<=$3&&fmod($1,1)==0)', //in
+		);
+		foreach($xml->plurals->pluralRules as $node)
+		{
+			$attributes=$node->attributes();
+			$locales=explode(' ',$attributes['locales']);
+			$rules=array();
+
+			if(!empty($node->pluralRule))
+			{
+				foreach($node->pluralRule as $rule)
+				{
+					$expr_or=preg_split('/\s+or\s+/i', $rule);
+					foreach ($expr_or as $key_or => $val_or)
+					{
+						$expr_and=preg_split('/\s+and\s+/i', $val_or);
+						$expr_and=preg_replace(array_keys($patterns), array_values($patterns), $expr_and);
+						$expr_or[$key_or]=implode('&&', $expr_and);
+					}
+					$rules[]=implode('||', $expr_or);
+				}
+				//append last rule to match "other"
+				$rules[] = 'true';
+				foreach ($locales as $locale)
+				{
+					$this->pluralRules[$locale] = $rules;
+				}
+			}
+
+		}
+		echo "Done.\n";
+	}
+
+	protected function addPluralRules(&$data, $locale)
+	{
+		if (!empty($this->pluralRules[$locale]))
+			$data['pluralRules']=$this->pluralRules[$locale];
 	}
 }

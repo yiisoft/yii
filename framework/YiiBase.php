@@ -541,7 +541,8 @@ class YiiBase
 			return $message;
 		if(isset($params[0])) // number choice
 		{
-			$message=CChoiceFormat::format($message,$params[0]);
+			$expressions=self::$_app->getLocale($language)->getPluralRules();
+			$message=CChoiceFormat::format($message,$params[0],$expressions);
 			unset($params[0]);
 		}
 		return $params!==array() ? strtr($message,$params) : $message;

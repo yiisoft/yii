@@ -208,6 +208,29 @@ As a shortcut notation, if an expression is a number, it will be treated as
 ~~~
 
 
+### Plural forms format
+
+Since version 1.1.6 CLDR-based choice format can be used with a bit simpler
+syntax that is handy for languages with complex plural form rules.
+
+The rule for English plural forms above be written the following way:
+
+~~~
+[php]
+'one book|many books'
+~~~
+
+For Russian it will be:
+~~~
+[php]
+'одна книга|две книги|пять книг'
+~~~
+
+
+> Information: to learn about how many values you should supply and in which
+ order they should be, please refer to CLDR
+ [Language Plural Rules page](http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html).
+
 ### File Translation
 
 File translation is accomplished by calling

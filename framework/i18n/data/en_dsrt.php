@@ -363,4 +363,9 @@ return array (
   'amName' => '𐐈𐐣',
   'pmName' => '𐐑𐐣',
   'orientation' => 'ltr',
+  'pluralRules' => 
+  array (
+    0 => 'n==1',
+    1 => 'true',
+  ),
 );

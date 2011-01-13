@@ -350,4 +350,10 @@ return array (
   'amName' => 'dop.',
   'pmName' => 'odp.',
   'orientation' => 'ltr',
+  'pluralRules' => 
+  array (
+    0 => 'n==1',
+    1 => '(n>=2&&n<=4&&fmod(n,1)==0)',
+    2 => 'true',
+  ),
 );

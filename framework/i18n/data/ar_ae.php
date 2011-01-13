@@ -327,4 +327,13 @@ return array (
   'amName' => 'ص',
   'pmName' => 'م',
   'orientation' => 'rtl',
+  'pluralRules' => 
+  array (
+    0 => 'n==0',
+    1 => 'n==1',
+    2 => 'n==2',
+    3 => '(fmod(n,100)>=3&&fmod(n,100)<=10&&fmod(fmod(n,100),1)==0)',
+    4 => '(fmod(n,100)>=11&&fmod(n,100)<=99&&fmod(fmod(n,100),1)==0)',
+    5 => 'true',
+  ),
 );

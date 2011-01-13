@@ -330,4 +330,9 @@ return array (
   'amName' => 'قبل دوپہر',
   'pmName' => 'بعد دوپہر',
   'orientation' => 'rtl',
+  'pluralRules' => 
+  array (
+    0 => 'n==1',
+    1 => 'true',
+  ),
 );

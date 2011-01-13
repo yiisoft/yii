@@ -335,4 +335,11 @@ return array (
   'amName' => 'AM',
   'pmName' => 'PM',
   'orientation' => 'ltr',
+  'pluralRules' => 
+  array (
+    0 => 'n==1',
+    1 => 'n==2',
+    2 => 'n==8||n==11',
+    3 => 'true',
+  ),
 );

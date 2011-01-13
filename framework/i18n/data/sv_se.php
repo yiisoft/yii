@@ -332,4 +332,9 @@ return array (
   'amName' => 'fm',
   'pmName' => 'em',
   'orientation' => 'ltr',
+  'pluralRules' => 
+  array (
+    0 => 'n==1',
+    1 => 'true',
+  ),
 );

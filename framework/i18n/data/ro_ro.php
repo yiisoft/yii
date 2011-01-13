@@ -329,4 +329,10 @@ return array (
   'amName' => 'AM',
   'pmName' => 'PM',
   'orientation' => 'ltr',
+  'pluralRules' => 
+  array (
+    0 => 'n==1',
+    1 => 'n==0||n!=1&&(fmod(n,100)>=1&&fmod(n,100)<=19&&fmod(fmod(n,100),1)==0)',
+    2 => 'true',
+  ),
 );

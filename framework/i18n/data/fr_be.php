@@ -326,4 +326,9 @@ return array (
   'amName' => 'AM',
   'pmName' => 'PM',
   'orientation' => 'ltr',
+  'pluralRules' => 
+  array (
+    0 => '(n>=0&&n<=2)&&n!=2',
+    1 => 'true',
+  ),
 );

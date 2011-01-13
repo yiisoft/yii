@@ -371,4 +371,9 @@ return array (
   'amName' => 'ap.',
   'pmName' => 'ip.',
   'orientation' => 'ltr',
+  'pluralRules' => 
+  array (
+    0 => 'n==1',
+    1 => 'true',
+  ),
 );
