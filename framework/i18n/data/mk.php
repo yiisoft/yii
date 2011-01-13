@@ -320,4 +320,9 @@ return array (
   'amName' => 'претпладне',
   'pmName' => 'попладне',
   'orientation' => 'ltr',
+  'pluralRules' => 
+  array (
+    0 => 'fmod(n,10)==1',
+    1 => 'true',
+  ),
 );

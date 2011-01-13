@@ -320,4 +320,9 @@ return array (
   'amName' => 'পূর্বাহ্ণ',
   'pmName' => 'অপরাহ্ণ',
   'orientation' => 'ltr',
+  'pluralRules' => 
+  array (
+    0 => 'n==1',
+    1 => 'true',
+  ),
 );

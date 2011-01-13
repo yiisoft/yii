@@ -335,4 +335,10 @@ return array (
   'amName' => 'priešpiet',
   'pmName' => 'popiet',
   'orientation' => 'ltr',
+  'pluralRules' => 
+  array (
+    0 => 'fmod(n,10)==1&&(fmod(n,100)<11||fmod(n,100)>19)',
+    1 => '(fmod(n,10)>=2&&fmod(n,10)<=9&&fmod(fmod(n,10),1)==0)&&(fmod(n,100)<11||fmod(n,100)>19)',
+    2 => 'true',
+  ),
 );

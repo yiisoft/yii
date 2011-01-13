@@ -320,4 +320,9 @@ return array (
   'amName' => '𐑨𐑥',
   'pmName' => '𐑐𐑥',
   'orientation' => 'ltr',
+  'pluralRules' => 
+  array (
+    0 => 'n==1',
+    1 => 'true',
+  ),
 );

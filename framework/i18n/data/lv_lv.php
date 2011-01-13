@@ -320,4 +320,10 @@ return array (
   'amName' => 'AM',
   'pmName' => 'PM',
   'orientation' => 'ltr',
+  'pluralRules' => 
+  array (
+    0 => 'n==0',
+    1 => 'fmod(n,10)==1&&fmod(n,100)!=11',
+    2 => 'true',
+  ),
 );

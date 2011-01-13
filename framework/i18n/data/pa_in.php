@@ -320,4 +320,9 @@ return array (
   'amName' => 'ਸਵੇਰੇ',
   'pmName' => 'ਸ਼ਾਮ',
   'orientation' => 'ltr',
+  'pluralRules' => 
+  array (
+    0 => 'n==1',
+    1 => 'true',
+  ),
 );

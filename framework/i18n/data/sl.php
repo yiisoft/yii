@@ -320,4 +320,11 @@ return array (
   'amName' => 'dop.',
   'pmName' => 'pop.',
   'orientation' => 'ltr',
+  'pluralRules' => 
+  array (
+    0 => 'fmod(n,100)==1',
+    1 => 'fmod(n,100)==2',
+    2 => '(fmod(n,100)>=3&&fmod(n,100)<=4&&fmod(fmod(n,100),1)==0)',
+    3 => 'true',
+  ),
 );

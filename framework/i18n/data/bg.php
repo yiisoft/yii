@@ -321,4 +321,9 @@ return array (
   'amName' => 'пр. об.',
   'pmName' => 'сл. об.',
   'orientation' => 'ltr',
+  'pluralRules' => 
+  array (
+    0 => 'n==1',
+    1 => 'true',
+  ),
 );

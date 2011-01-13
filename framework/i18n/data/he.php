@@ -320,4 +320,9 @@ return array (
   'amName' => 'לפנה"צ',
   'pmName' => 'אחה"צ',
   'orientation' => 'rtl',
+  'pluralRules' => 
+  array (
+    0 => 'n==1',
+    1 => 'true',
+  ),
 );

@@ -295,4 +295,12 @@ class CLocale extends CComponent
 	{
 		return isset($this->_data['orientation']) ? $this->_data['orientation'] : 'ltr';
 	}
+
+	/**
+	 * @return array plural forms expressions
+	 */
+	public function getPluralRules()
+	{
+		return isset($this->_data['pluralRules']) ? $this->_data['pluralRules'] : array();
+	}
 }
