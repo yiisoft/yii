@@ -227,7 +227,7 @@ For Russian it will be:
 ~~~
 
 
-> Information: to learn about how many values you should supply and in which
+> Info: to learn about how many values you should supply and in which
  order they should be, please refer to CLDR
  [Language Plural Rules page](http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html).
 
