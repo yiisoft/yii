@@ -541,14 +541,23 @@ class YiiBase
 		}
 		if($params===array())
 			return $message;
-
-		if (!is_array($params))
-			$params = array($params);
-
+		if(!is_array($params))
+			$params=array($params);
 		if(isset($params[0])) // number choice
 		{
-			$expressions=self::$_app->getLocale($language)->getPluralRules();
-			$message=CChoiceFormat::format($message,$params[0],$expressions);
+			if(strpos($message,'#')===false)
+			{
+				$chunks=explode('|',$message);
+				$expressions=self::$_app->getLocale($language)->getPluralRules();
+				if(($c=count($chunks)) && $c<=count($expressions))
+				{
+					foreach(array_keys($chunks) as $key)
+						$chunks[$key]=$expressions[$key].'#'.$chunks[$key];
+						
+					$message=implode('|',$chunks);					
+				}
+			}
+			$message=CChoiceFormat::format($message,$params[0]);
 			unset($params[0]);
 		}
 		return $params!==array() ? strtr($message,$params) : $message;
