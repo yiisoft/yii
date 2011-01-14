@@ -91,6 +91,30 @@ class YiiTTest extends CTestCase
 		$this->assertEquals('один огурец', Yii::t('test', '{n} cucumber|{n} cucumbers', array(1, '{n}' => 'один')));
 	}
 
+	/**
+	 * If there are useless params in translation just ignore them.
+	 */
+	function testPluralMoreVariants(){
+		Yii::app()->setLanguage('ru');
+		$this->assertEquals('шляпы', Yii::t('test', 'hat|hats', array(2)));
+	}
+
+	/**
+	 * If there are less variants in translation like
+	 * 'zombie|zombies' => 'зомби' (CLDR requires 3 variants for Russian
+	 * but zombie is too special to be plural)
+	 *
+	 * Same for Chinese but there are no plurals at all.
+	 */
+	function testPluralLessVariants(){
+		Yii::app()->setLanguage('ru');
+		$this->assertEquals('зомби', Yii::t('test', 'zombie|zombies', 10));
+		$this->assertEquals('зомби', Yii::t('test', 'zombie|zombies', 1));
+
+		Yii::app()->setLanguage('zh_cn');
+		$this->assertEquals('k-s', Yii::t('test', 'kiss|kisses', 1));
+	}
+
 	function testPluralSameLanguage(){
 
 	}
