@@ -164,6 +164,22 @@ class CDbConnection extends CApplicationComponent
 	 * @since 1.1.1
 	 */
 	public $initSQLs;
+	/**
+	 * @var array mapping between PDO driver and schema class name.
+	 * A schema class can be specified using path alias.
+	 * @since 1.1.6
+	 */
+	public $driverMap=array(
+		'pgsql'=>'CPgsqlSchema',    // PostgreSQL
+		'mysqli'=>'CMysqlSchema',   // MySQL
+		'mysql'=>'CMysqlSchema',    // MySQL
+		'sqlite'=>'CSqliteSchema',  // sqlite 3
+		'sqlite2'=>'CSqliteSchema', // sqlite 2
+		'mssql'=>'CMssqlSchema',    // Mssql driver on windows hosts
+		'dblib'=>'CMssqlSchema',    // dblib drivers on linux (and maybe others os) hosts
+		'sqlsrv'=>'CMssqlSchema',   // Mssql
+		'oci'=>'CMssqlSchema',      // Oracle driver
+	);
 
 	private $_attributes=array();
 	private $_active=false;
@@ -405,28 +421,12 @@ class CDbConnection extends CApplicationComponent
 		{
 			if(!$this->getActive())
 				throw new CDbException(Yii::t('yii','CDbConnection is inactive and cannot perform any DB operations.'));
-			$driver=$this->getDriverName();
-			switch(strtolower($driver))
-			{
-				case 'pgsql':  // PostgreSQL
-					return $this->_schema=new CPgsqlSchema($this);
-				case 'mysqli': // MySQL
-				case 'mysql':
-					return $this->_schema=new CMysqlSchema($this);
-				case 'sqlite': // sqlite 3
-				case 'sqlite2': // sqlite 2
-					return $this->_schema=new CSqliteSchema($this);
-				case 'mssql': // Mssql driver on windows hosts
-				case 'dblib': // dblib drivers on linux (and maybe others os) hosts
-				case 'sqlsrv':
-					return $this->_schema=new CMssqlSchema($this);
-				case 'oci':  // Oracle driver
-					return $this->_schema=new COciSchema($this);
-				case 'ibm':
-				default:
-					throw new CDbException(Yii::t('yii','CDbConnection does not support reading schema for {driver} database.',
-						array('{driver}'=>$driver)));
-			}
+			$driver=strtolower($this->getDriverName());
+			if(isset($this->driverMap[$driver]))
+				return $this->_schema=Yii::createComponent($this->driverMap[$driver], $this);
+			else
+				throw new CDbException(Yii::t('yii','CDbConnection does not support reading schema for {driver} database.',
+					array('{driver}'=>$driver)));
 		}
 	}
 
