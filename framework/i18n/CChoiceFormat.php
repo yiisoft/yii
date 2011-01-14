@@ -41,33 +41,17 @@ class CChoiceFormat
 	 * @param string $messages the candidate messages in the format of 'expr1#message1|expr2#message2|expr3#message3'.
 	 * See {@link CChoiceFormat} for more details.
 	 * @param mixed $number the number value
-	 * @param array $expressions default message selection expressions
 	 * @return string the selected message
 	 */
-	public static function format($messages, $number, $expressions = array())
+	public static function format($messages, $number)
 	{
 		$n=preg_match_all('/\s*([^#]*)\s*#([^\|]*)\|/',$messages.'|',$matches);
-		if($n>0)
-		{
-			$expressions=$matches[1];
-			$matchedMessages=$matches[2];
-		}
-		else
-		{
-			//no expressions provided inside messages, try to use default expressions
-			$n=preg_match_all('/\s*([^\|]*)\|/', $messages.'|', $matches);
-			if ($n>0 && count($expressions)>0)
-			{
-				$matchedMessages=$matches[1];
-				$n=min($n, count($expressions));
-			}
-			else
-				return $messages;
-		}
+		if($n===0)
+			return $messages;
 		for($i=0;$i<$n;++$i)
 		{
-			$expression=$expressions[$i];
-			$message=$matchedMessages[$i];
+			$expression=$matches[1][$i];
+			$message=$matches[2][$i];
 			$intval=(int)$expression;
 			if($expression==="$intval")
 			{
