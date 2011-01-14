@@ -2,6 +2,17 @@
 /**
  * Plural forms test for translations
  * http://code.google.com/p/yii/issues/detail?id=1875
+ * http://code.google.com/p/yii/issues/detail?id=1987
+ *
+ * Basically if the translation has more or less choices than what CLDR specifies,
+ * we should still try to make it work without exception.
+ *
+ *
+ * forceTranslation && | in translation && [0] param is number = choice format
+ * !forceTranslation && | in source msg && [0] param is number = choice format
+ *
+ * when a developer writes code, he should be aware if a message embeds a number,
+ * it is better he also embeds a '|', even if the source language doesnt have plural form
  */
 class PluralFormsTest extends CTestCase
 {
@@ -49,5 +60,28 @@ class PluralFormsTest extends CTestCase
 	function testParametersShortForm(){
 		Yii::app()->setLanguage('en');
 		$this->assertEquals('tests', Yii::t('plural', 'test', 2));
+	}
+
+	function testSpecialCases(){
+		Yii::app()->setLanguage('en');
+		$this->assertEquals('single', Yii::t('plural', 'single', 2));
+
+		$this->assertEquals('tests', Yii::t('plural', '|test', 2));
+	}
+
+	function testPlaceholders(){
+		Yii::app()->setLanguage('en');
+		$this->assertEquals('51 apples', Yii::t('app', '1 apple|{n} apple', 51));
+
+		Yii::app()->setLanguage('ru');
+		$this->assertEquals('51 яблоко', Yii::t('app', '1 apple|{n} apple', 51));
+	}
+
+	function testChoiceFormat(){
+		//$this->assertEquals('51 apples', Yii::t('app', '1#1apple|n>1|{n} apples', array(51, 'n'=>51)));
+	}
+
+	function testNoForcePlurals(){
+
 	}
 }
