@@ -549,15 +549,17 @@ class YiiBase
 			{
 				$chunks=explode('|',$message);
 				$expressions=self::$_app->getLocale($language)->getPluralRules();
-				if(($c=count($chunks)) && $c<=count($expressions))
+				if($n=min(count($chunks),count($expressions)))
 				{
-					foreach(array_keys($chunks) as $key)
-						$chunks[$key]=$expressions[$key].'#'.$chunks[$key];
+					for($i=0;$i<$n;$i++)
+						$chunks[$i]=$expressions[$i].'#'.$chunks[$i];
 						
-					$message=implode('|',$chunks);					
+					$message=implode('|',$chunks);
 				}
 			}
 			$message=CChoiceFormat::format($message,$params[0]);
+			if(!isset($params['{n}']))
+				$params['{n}']=$params[0];
 			unset($params[0]);
 		}
 		return $params!==array() ? strtr($message,$params) : $message;

@@ -32,7 +32,7 @@ Version 1.1.6 to be released
 - Enh #1860: Changed the signature of CValidator::createValidator() to make it easier to use (Qiang)
 - Enh #1849: Updated Blueprint CSS to version 1.0 (sebas)
 - Enh #1872: Added $defaultUrl parameter to CWebUser::getReturnUrl() (Qiang)
-- Eng #1875: Added support for CLDR-based plural forms format to Yii::t (Sam Dark, dmitriy.trt)
+- Eng #1875, #1987: Added support for CLDR-based plural forms format and number placeholders to Yii::t (creocoder, Sam Dark, Qiang, dmitriy.trt)
 - Enh #1877: createAbsoluteUrl in CWebApplication and CController will now respect URL rules that already have host info built-in (Qiang)
 - Enh #1885: Added ipFilters to the Gii-created config file to reduce user confusion (Sam Dark, Steve Friedl)
 - Enh #1895: Added CDbDataReader implements Countable interface (mdomba)
