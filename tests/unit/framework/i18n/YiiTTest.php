@@ -150,6 +150,8 @@ class YiiTTest extends CTestCase
 
 	// Choice: 'expr1#msg1|expr2#msg2|expr3#msg3'
 	function testChoice(){
+		Yii::app()->setLanguage('ru');
+		
 		// simple choices
 		$this->assertEquals('одна книга', Yii::t('test', 'n==1#one book|n>1#many books', 1));
 		$this->assertEquals('много книг', Yii::t('test', 'n==1#one book|n>1#many books', 10));
