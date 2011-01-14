@@ -419,6 +419,11 @@ class ApiModel
 					 */
 					$segs[1]=trim(preg_replace('/^\$\w+/','',$segs[1]));
 					$param->description=$this->processDescription($segs[1]);
+					if(empty($object->introduction))
+					{
+						if(substr($object->name,0,3)=='set')
+							$object->introduction='Sets '.$param->description;
+					}
 				}
 				next($object->input);
 			}
@@ -433,7 +438,22 @@ class ApiModel
 			$object->output=new ParamDoc;
 			$object->output->type=$segs[0];
 			if(isset($segs[1]))
+			{
 				$object->output->description=$this->processDescription($segs[1]);
+				if(empty($object->introduction))
+				{
+					/*
+					 * If no custom introduction, add automatically
+					 * with this getters introduction displayed in public methods table is resolved
+					 */
+					if(substr($object->name,0,5)=='getIs')
+						$object->introduction='Checks '.$object->output->description;
+					elseif(substr($object->name,0,3)=='get')
+						$object->introduction='Returns '.$object->output->description;
+					elseif(substr($object->name,0,3)=='has')
+						$object->introduction='Determines '.$object->output->description;
+				}
+			}
 		}
 		else if($object instanceof PropertyDoc)
 		{
