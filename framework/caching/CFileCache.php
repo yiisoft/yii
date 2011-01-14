@@ -91,7 +91,8 @@ class CFileCache extends CCache
 	 */
 	protected function flushValues()
 	{
-		return $this->gc(false);
+		$this->gc(false);
+		return true;
 	}
 
 	/**
