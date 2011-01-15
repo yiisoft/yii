@@ -33,7 +33,8 @@ class YiiTTest extends CTestCase
 	}
 
 	function testSimpleSameLanguage(){
-
+		Yii::app()->setLanguage('es');
+		$this->assertEquals('no_changes', Yii::t('test', 'no_changes'));
 	}
 
 	function testSimplePlaceholders(){
@@ -43,7 +44,8 @@ class YiiTTest extends CTestCase
 	}
 
 	function testSimplePlaceholdersSameLanguage(){
-
+		Yii::app()->setLanguage('es');
+		$this->assertEquals('10 changes', Yii::t('test', '{n} changes', 10));
 	}
 
 	// Plural: 'msg1|msg2|msg3'
@@ -66,15 +68,15 @@ class YiiTTest extends CTestCase
 		$this->assertEquals('огурцов', Yii::t('test', 'cucumber|cucumbers', 320));
 		$this->assertEquals('огурцов', Yii::t('test', 'cucumber|cucumbers', 0));
 
-		// fractions
+		// fractions (you should specify fourh variant to use these in Russian)
 		$this->assertEquals('огурца', Yii::t('test', 'cucumber|cucumbers', 1.5));
 
 		// en
 		Yii::app()->setLanguage('en');
 
-        $this->assertEquals('cucumber', Yii::t('plural', 'cucumber|cucumbers', 1));
-        $this->assertEquals('cucumbers', Yii::t('plural', 'cucumber|cucumbers', 2));
-        $this->assertEquals('cucumbers', Yii::t('plural', 'cucumber|cucumbers', 0));
+        $this->assertEquals('cucumber', Yii::t('test', 'cucumber|cucumbers', 1));
+        $this->assertEquals('cucumbers', Yii::t('test', 'cucumber|cucumbers', 2));
+        $this->assertEquals('cucumbers', Yii::t('test', 'cucumber|cucumbers', 0));
 
 		// short forms
 		Yii::app()->setLanguage('ru');
@@ -141,17 +143,25 @@ class YiiTTest extends CTestCase
 	}
 
 	function testPluralSameLanguage(){
+		Yii::app()->setLanguage('es');
 
+		$this->assertEquals('cucumbez', Yii::t('test', 'cucumbez|cucumberz', 1));
+        $this->assertEquals('cucumberz', Yii::t('test', 'cucumbez|cucumberz', 2));
+        $this->assertEquals('cucumberz', Yii::t('test', 'cucumbez|cucumberz', 0));
 	}
 
 	function testPluralPlaceholdersSameLanguage(){
+		Yii::app()->setLanguage('es');
 
+		$this->assertEquals('1 cucumbez', Yii::t('test', '{n} cucumbez|{n} cucumberz', 1));
+		$this->assertEquals('2 cucumberz', Yii::t('test', '{n} cucumbez|{n} cucumberz', 2));
+		$this->assertEquals('5 cucumberz', Yii::t('test', '{n} cucumbez|{n} cucumberz', 5));
 	}
 
 	// Choice: 'expr1#msg1|expr2#msg2|expr3#msg3'
 	function testChoice(){
 		Yii::app()->setLanguage('ru');
-		
+
 		// simple choices
 		$this->assertEquals('одна книга', Yii::t('test', 'n==1#one book|n>1#many books', 1));
 		$this->assertEquals('много книг', Yii::t('test', 'n==1#one book|n>1#many books', 10));
@@ -160,7 +170,10 @@ class YiiTTest extends CTestCase
 	}
 
 	function testChoiceSameLanguage(){
+		Yii::app()->setLanguage('es');
 
+		$this->assertEquals('one book', Yii::t('test', 'n==1#one book|n>1#many books', 1));
+		$this->assertEquals('many books', Yii::t('test', 'n==1#one book|n>1#many books', 10));
 	}
 
 	function testChoicePlaceholders(){
