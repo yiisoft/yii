@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -283,15 +281,6 @@ return array (
       5 => 'V',
       6 => 'S',
     ),
-    'abbreviated' => 
-    array (
-      0 => 'Du',
-      1 => 'Lu',
-    ),
-    'wide' => 
-    array (
-      6 => 'sâmbătă',
-    ),
   ),
   'eraNames' => 
   array (
@@ -326,8 +315,6 @@ return array (
     'short' => 'HH:mm',
   ),
   'dateTimeFormat' => '{1}, {0}',
-  'amName' => 'AM',
-  'pmName' => 'PM',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

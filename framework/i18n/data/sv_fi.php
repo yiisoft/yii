@@ -10,7 +10,7 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '4169',
+  'version' => '4599',
   'numberSymbols' => 
   array (
     'decimal' => ',',
@@ -33,18 +33,18 @@ return array (
   'currencySymbols' => 
   array (
     'AFN' => 'AFN',
-    'ANG' => 'NAf.',
+    'ANG' => 'ANG',
     'AOA' => 'AOA',
     'ARA' => 'ARA',
     'ARL' => 'ARL',
     'ARM' => 'ARM',
     'ARS' => 'ARS',
-    'AUD' => 'AU$',
+    'AUD' => 'AUD',
     'AWG' => 'AWG',
     'AZN' => 'AZN',
     'BAM' => 'BAM',
-    'BBD' => 'Bds$',
-    'BDT' => 'Tk',
+    'BBD' => 'BBD',
+    'BDT' => 'BDT',
     'BEF' => 'BEF',
     'BHD' => 'BHD',
     'BIF' => 'BIF',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZD',
     'CAD' => 'CAD',
     'CDF' => 'CDF',
-    'CHF' => 'CHF',
     'CLE' => 'CLE',
     'CLP' => 'CLP',
     'CNY' => 'CNY',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'DOP',
     'DZD' => 'DZD',
     'EEK' => 'Ekr',
-    'EGP' => 'EGP',
     'ERN' => 'ERN',
     'ESP' => 'ESP',
     'ETB' => 'ETB',
@@ -120,7 +118,7 @@ return array (
     'LRD' => 'LRD',
     'LSL' => 'LSL',
     'LTL' => 'LTL',
-    'LVL' => 'Ls',
+    'LVL' => 'LVL',
     'LYD' => 'LYD',
     'MMK' => 'MMK',
     'MNT' => 'MNT',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'MTL',
     'MTP' => 'MTP',
     'MUR' => 'MUR',
-    'MXP' => 'MXP',
+    'MXN' => 'MX$',
     'MYR' => 'MYR',
     'MZM' => 'MZM',
     'MZN' => 'MZN',
@@ -195,7 +193,7 @@ return array (
     'ZMK' => 'ZMK',
     'ZRN' => 'ZRN',
     'ZRZ' => 'ZRZ',
-    'ZWD' => 'Z$',
+    'ZWD' => 'ZWD',
     'BAD' => 'BAD',
     'BRB' => 'BRB',
     'BRC' => 'BRC',
@@ -203,10 +201,9 @@ return array (
     'BRN' => 'BRN',
     'BRR' => 'BRR',
     'BRZ' => 'BRZ',
-    'KPW' => 'KPW',
-    'MVR' => 'MVR',
-    'MWK' => 'MWK',
-    'RWF' => 'RWF',
+    'CHF' => 'CHF',
+    'EGP' => 'EGP',
+    'MXP' => 'MXP',
     'VEB' => 'VEB',
   ),
   'monthNames' => 
@@ -316,21 +313,19 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE d MMMM y',
+    'full' => 'EEEE\'en\' \'den\' d:\'e\' MMMM y',
     'long' => 'd MMMM y',
     'medium' => 'd MMM y',
     'short' => 'yyyy-MM-dd',
   ),
   'timeFormats' => 
   array (
-    'full' => '\'kl\'. HH.mm.ss zzzz',
-    'long' => 'HH.mm.ss z',
-    'medium' => 'HH.mm.ss',
-    'short' => 'HH.mm',
+    'full' => '\'kl\'. HH:mm:ss zzzz',
+    'long' => 'HH:mm:ss z',
+    'medium' => 'HH:mm:ss',
+    'short' => 'HH:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'fm',
-  'pmName' => 'em',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

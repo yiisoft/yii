@@ -10,7 +10,7 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '4178',
+  'version' => '4768',
   'numberSymbols' => 
   array (
     'decimal' => '.',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -202,13 +200,13 @@ return array (
     'wide' => 
     array (
       1 => 'Janairu',
-      2 => 'Fabrairu',
+      2 => 'Faburairu',
       3 => 'Maris',
-      4 => 'Afrilu',
+      4 => 'Afirilu',
       5 => 'Mayu',
       6 => 'Yuni',
       7 => 'Yuli',
-      8 => 'Augusta',
+      8 => 'Agusta',
       9 => 'Satumba',
       10 => 'Oktoba',
       11 => 'Nuwamba',
@@ -219,11 +217,11 @@ return array (
       1 => 'Jan',
       2 => 'Fab',
       3 => 'Mar',
-      4 => 'Afr',
+      4 => 'Afi',
       5 => 'May',
       6 => 'Yun',
       7 => 'Yul',
-      8 => 'Aug',
+      8 => 'Agu',
       9 => 'Sat',
       10 => 'Okt',
       11 => 'Nuw',
@@ -253,7 +251,7 @@ return array (
     'wide' => 
     array (
       0 => 'Lahadi',
-      1 => 'Litini',
+      1 => 'Litinin',
       2 => 'Talata',
       3 => 'Laraba',
       4 => 'Alhamis',
@@ -262,13 +260,13 @@ return array (
     ),
     'abbreviated' => 
     array (
-      0 => 'Lah',
-      1 => 'Lit',
-      2 => 'Tal',
-      3 => 'Lar',
-      4 => 'Alh',
-      5 => 'Jum',
-      6 => 'Asa',
+      0 => 'Lh',
+      1 => 'Li',
+      2 => 'Ta',
+      3 => 'Lr',
+      4 => 'Al',
+      5 => 'Ju',
+      6 => 'As',
     ),
   ),
   'weekDayNamesSA' => 
@@ -288,18 +286,18 @@ return array (
   array (
     'abbreviated' => 
     array (
-      0 => 'GM',
-      1 => 'M',
+      0 => 'KHAI',
+      1 => 'BHAI',
     ),
     'wide' => 
     array (
-      0 => 'Gabanin Miladi',
-      1 => 'Miladi',
+      0 => 'Kafin haihuwar annab',
+      1 => 'Bayan haihuwar annab',
     ),
     'narrow' => 
     array (
-      0 => 'GM',
-      1 => 'M',
+      0 => 'KHAI',
+      1 => 'BHAI',
     ),
   ),
   'dateFormats' => 
@@ -317,8 +315,6 @@ return array (
     'short' => 'HH:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'AM',
-  'pmName' => 'PM',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

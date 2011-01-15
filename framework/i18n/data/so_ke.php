@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -254,7 +252,7 @@ return array (
     array (
       0 => 'Axad',
       1 => 'Isniin',
-      2 => 'Salaaso',
+      2 => 'Talaado',
       3 => 'Arbaco',
       4 => 'Khamiis',
       5 => 'Jimco',
@@ -262,9 +260,9 @@ return array (
     ),
     'abbreviated' => 
     array (
-      0 => 'Axa',
+      0 => 'Axd',
       1 => 'Isn',
-      2 => 'Sal',
+      2 => 'Tal',
       3 => 'Arb',
       4 => 'Kha',
       5 => 'Jim',
@@ -277,7 +275,7 @@ return array (
     array (
       0 => 'A',
       1 => 'I',
-      2 => 'S',
+      2 => 'T',
       3 => 'A',
       4 => 'K',
       5 => 'J',
@@ -288,18 +286,18 @@ return array (
   array (
     'abbreviated' => 
     array (
-      0 => 'Ciise ka hor',
-      1 => 'Ciise ka dib',
+      0 => 'CK',
+      1 => 'CD',
     ),
     'wide' => 
     array (
-      0 => 'Ciise ka hor',
-      1 => 'Ciise ka dib',
+      0 => 'Ciise ka hor (CS)',
+      1 => 'Ciise ka dib (CS)',
     ),
     'narrow' => 
     array (
-      0 => 'Ciise ka hor',
-      1 => 'Ciise ka dib',
+      0 => 'CK',
+      1 => 'CD',
     ),
   ),
   'dateFormats' => 
@@ -317,8 +315,6 @@ return array (
     'short' => 'h:mm a',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'sn',
-  'pmName' => 'gn',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

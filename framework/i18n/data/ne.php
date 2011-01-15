@@ -10,14 +10,14 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '4179',
+  'version' => '5094',
   'numberSymbols' => 
   array (
     'decimal' => '.',
     'group' => ',',
     'list' => ';',
     'percentSign' => '%',
-    'nativeZeroDigit' => '०',
+    'nativeZeroDigit' => '0',
     'patternDigit' => '#',
     'plusSign' => '+',
     'minusSign' => '-',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -307,7 +305,7 @@ return array (
     'full' => 'EEEE, y MMMM dd',
     'long' => 'y MMMM d',
     'medium' => 'y MMM d',
-    'short' => 'yy/MM/dd',
+    'short' => 'yyyy-MM-dd',
   ),
   'timeFormats' => 
   array (
@@ -317,8 +315,6 @@ return array (
     'short' => 'HH:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'पूर्व मध्यान्ह',
-  'pmName' => 'उत्तर मध्यान्ह',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

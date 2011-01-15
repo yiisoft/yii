@@ -10,14 +10,14 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '4123',
+  'version' => '4763',
   'numberSymbols' => 
   array (
     'decimal' => '.',
     'group' => ',',
     'list' => ';',
     'percentSign' => '%',
-    'nativeZeroDigit' => '०',
+    'nativeZeroDigit' => '0',
     'patternDigit' => '#',
     'plusSign' => '+',
     'minusSign' => '-',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -202,17 +200,17 @@ return array (
     'wide' => 
     array (
       1 => 'जनवरी',
-      2 => 'फेब्रुअरी',
+      2 => 'फरवरी',
       3 => 'मार्च',
-      4 => 'अप्रिल',
-      5 => 'मे',
+      4 => 'अप्रेल',
+      5 => 'मई',
       6 => 'जुन',
       7 => 'जुलाई',
       8 => 'अगस्त',
       9 => 'सेप्टेम्बर',
       10 => 'अक्टोबर',
       11 => 'नोभेम्बर',
-      12 => 'डिसेम्बर',
+      12 => 'दिसम्बर',
     ),
     'abbreviated' => 
     array (
@@ -252,13 +250,13 @@ return array (
   array (
     'wide' => 
     array (
-      0 => 'आइतबार',
-      1 => 'सोमबार',
-      2 => 'मङ्गलबार',
-      3 => 'बुधबार',
-      4 => 'बिहीबार',
-      5 => 'शुक्रबार',
-      6 => 'शनिबार',
+      0 => 'आइतवार',
+      1 => 'सोमवार',
+      2 => 'मङ्गलवार',
+      3 => 'बुधवार',
+      4 => 'बिहीवार',
+      5 => 'शुक्रवार',
+      6 => 'शनिवार',
     ),
     'abbreviated' => 
     array (
@@ -307,7 +305,7 @@ return array (
     'full' => 'EEEE, y MMMM dd',
     'long' => 'y MMMM d',
     'medium' => 'y MMM d',
-    'short' => 'yy/MM/dd',
+    'short' => 'yyyy-MM-dd',
   ),
   'timeFormats' => 
   array (
@@ -317,8 +315,6 @@ return array (
     'short' => 'HH:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'पूर्व मध्यान्ह',
-  'pmName' => 'उत्तर मध्यान्ह',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

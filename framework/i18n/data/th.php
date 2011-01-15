@@ -10,7 +10,7 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '4178',
+  'version' => '5094',
   'numberSymbols' => 
   array (
     'decimal' => '.',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -229,23 +227,38 @@ return array (
       11 => 'พ.ย.',
       12 => 'ธ.ค.',
     ),
+    'narrow' => 
+    array (
+      1 => 'ม',
+      2 => 'ก',
+      3 => 'ม',
+      4 => 'ม',
+      5 => 'พ',
+      6 => 'ม',
+      7 => 'ก',
+      8 => 'ส',
+      9 => 'ก',
+      10 => 'ต',
+      11 => 'พ',
+      12 => 'ธ',
+    ),
   ),
   'monthNamesSA' => 
   array (
     'narrow' => 
     array (
-      1 => 'ม.ค.',
-      2 => 'ก.พ.',
-      3 => 'มี.ค.',
-      4 => 'เม.ย.',
-      5 => 'พ.ค.',
-      6 => 'มิ.ย.',
-      7 => 'ก.ค.',
-      8 => 'ส.ค.',
-      9 => 'ก.ย.',
-      10 => 'ต.ค.',
-      11 => 'พ.ย.',
-      12 => 'ธ.ค.',
+      1 => 'ม',
+      2 => 'ก',
+      3 => 'ม',
+      4 => 'ม',
+      5 => 'พ',
+      6 => 'ม',
+      7 => 'ก',
+      8 => 'ส',
+      9 => 'ก',
+      10 => 'ต',
+      11 => 'พ',
+      12 => 'ธ',
     ),
   ),
   'weekDayNames' => 
@@ -288,7 +301,7 @@ return array (
   array (
     'abbreviated' => 
     array (
-      0 => 'ปีก่อน ค.ศ.',
+      0 => 'ก่อน ค.ศ.',
       1 => 'ค.ศ.',
     ),
     'wide' => 
@@ -299,6 +312,7 @@ return array (
     'narrow' => 
     array (
       0 => 'ก่อน ค.ศ.',
+      1 => 'ค.ศ.',
     ),
   ),
   'dateFormats' => 
@@ -316,7 +330,5 @@ return array (
     'short' => 'H:mm',
   ),
   'dateTimeFormat' => '{1}, {0}',
-  'amName' => 'ก่อนเที่ยง',
-  'pmName' => 'หลังเที่ยง',
   'orientation' => 'ltr',
 );

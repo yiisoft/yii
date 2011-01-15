@@ -10,7 +10,7 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '4166',
+  'version' => '4767',
   'numberSymbols' => 
   array (
     'decimal' => '.',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -217,18 +215,18 @@ return array (
     ),
     'abbreviated' => 
     array (
-      1 => 'Jan',
-      2 => 'Feb',
-      3 => 'Mär',
-      4 => 'Apr',
+      1 => 'Jan.',
+      2 => 'Feb.',
+      3 => 'März',
+      4 => 'Apr.',
       5 => 'Mai',
-      6 => 'Jun',
-      7 => 'Jul',
-      8 => 'Aug',
-      9 => 'Sep',
-      10 => 'Okt',
-      11 => 'Nov',
-      12 => 'Dez',
+      6 => 'Juni',
+      7 => 'Juli',
+      8 => 'Aug.',
+      9 => 'Sep.',
+      10 => 'Okt.',
+      11 => 'Nov.',
+      12 => 'Dez.',
     ),
   ),
   'monthNamesSA' => 
@@ -250,13 +248,18 @@ return array (
     ),
     'abbreviated' => 
     array (
-      3 => 'Mär',
-      7 => 'Jul',
-      8 => 'Aug',
-      9 => 'Sep',
-      10 => 'Okt',
-      11 => 'Nov',
-      12 => 'Dez',
+      1 => 'Jan',
+      2 => 'Feb',
+      3 => 'März',
+      4 => 'Apr',
+      5 => 'Mai',
+      6 => 'Jun',
+      7 => 'Juli',
+      8 => 'Aug.',
+      9 => 'Sep.',
+      10 => 'Okt.',
+      11 => 'Nov.',
+      12 => 'Dez.',
     ),
   ),
   'weekDayNames' => 
@@ -273,13 +276,13 @@ return array (
     ),
     'abbreviated' => 
     array (
-      0 => 'So.',
-      1 => 'Mo.',
-      2 => 'Di.',
-      3 => 'Mi.',
-      4 => 'Do.',
-      5 => 'Fr.',
-      6 => 'Sa.',
+      0 => 'So',
+      1 => 'Mo',
+      2 => 'Di',
+      3 => 'Mi',
+      4 => 'Do',
+      5 => 'Fr',
+      6 => 'Sa',
     ),
   ),
   'weekDayNamesSA' => 
@@ -294,6 +297,16 @@ return array (
       5 => 'F',
       6 => 'S',
     ),
+    'abbreviated' => 
+    array (
+      0 => 'So',
+      1 => 'Mo',
+      2 => 'Di',
+      3 => 'Mi',
+      4 => 'Do',
+      5 => 'Fr',
+      6 => 'Sa',
+    ),
   ),
   'eraNames' => 
   array (
@@ -304,8 +317,8 @@ return array (
     ),
     'wide' => 
     array (
-      0 => 'v. Chr.',
-      1 => 'n. Chr.',
+      0 => 'vor Christus',
+      1 => 'nach Christus',
     ),
     'narrow' => 
     array (
@@ -328,8 +341,6 @@ return array (
     'short' => 'HH:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'vorm.',
-  'pmName' => 'nachm.',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

@@ -10,7 +10,7 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '4178',
+  'version' => '4582',
   'numberSymbols' => 
   array (
     'decimal' => ',',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -216,18 +214,18 @@ return array (
     ),
     'abbreviated' => 
     array (
-      1 => 'jan.',
-      2 => 'feb.',
-      3 => 'mrt.',
-      4 => 'apr.',
+      1 => 'jan',
+      2 => 'feb',
+      3 => 'mrt',
+      4 => 'apr',
       5 => 'mei',
-      6 => 'jun.',
-      7 => 'jul.',
-      8 => 'aug.',
-      9 => 'sep.',
-      10 => 'okt.',
-      11 => 'nov.',
-      12 => 'dec.',
+      6 => 'jun',
+      7 => 'jul',
+      8 => 'aug',
+      9 => 'sep',
+      10 => 'okt',
+      11 => 'nov',
+      12 => 'dec',
     ),
   ),
   'monthNamesSA' => 
@@ -246,6 +244,20 @@ return array (
       10 => 'O',
       11 => 'N',
       12 => 'D',
+    ),
+    'abbreviated' => 
+    array (
+      1 => 'jan',
+      2 => 'feb',
+      3 => 'mrt',
+      4 => 'apr',
+      6 => 'jun',
+      7 => 'jul',
+      8 => 'aug',
+      9 => 'sep',
+      10 => 'okt',
+      11 => 'nov',
+      12 => 'dec',
     ),
   ),
   'weekDayNames' => 
@@ -298,8 +310,8 @@ return array (
     ),
     'narrow' => 
     array (
-      0 => 'v. Chr.',
-      1 => 'n. Chr.',
+      0 => 'v.C.',
+      1 => 'n.C.',
     ),
   ),
   'dateFormats' => 
@@ -317,8 +329,6 @@ return array (
     'short' => 'HH:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'AM',
-  'pmName' => 'PM',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

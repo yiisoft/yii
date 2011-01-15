@@ -10,7 +10,7 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '4178',
+  'version' => '5096',
   'numberSymbols' => 
   array (
     'decimal' => ',',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -223,7 +221,7 @@ return array (
       5 => 'Mei',
       6 => 'Jun',
       7 => 'Jul',
-      8 => 'Agu',
+      8 => 'Agt',
       9 => 'Sep',
       10 => 'Okt',
       11 => 'Nov',
@@ -234,18 +232,18 @@ return array (
   array (
     'narrow' => 
     array (
-      1 => '1',
-      2 => '2',
-      3 => '3',
-      4 => '4',
-      5 => '5',
-      6 => '6',
-      7 => '7',
-      8 => '8',
-      9 => '9',
-      10 => '10',
-      11 => '11',
-      12 => '12',
+      1 => 'J',
+      2 => 'F',
+      3 => 'M',
+      4 => 'A',
+      5 => 'M',
+      6 => 'J',
+      7 => 'J',
+      8 => 'A',
+      9 => 'S',
+      10 => 'O',
+      11 => 'N',
+      12 => 'D',
     ),
   ),
   'weekDayNames' => 
@@ -275,31 +273,31 @@ return array (
   array (
     'narrow' => 
     array (
-      0 => '1',
-      1 => '2',
-      2 => '3',
-      3 => '4',
-      4 => '5',
-      5 => '6',
-      6 => '7',
+      0 => 'M',
+      1 => 'S',
+      2 => 'S',
+      3 => 'R',
+      4 => 'K',
+      5 => 'J',
+      6 => 'S',
     ),
   ),
   'eraNames' => 
   array (
     'abbreviated' => 
     array (
-      0 => 'BCE',
-      1 => 'CE',
+      0 => 'SM',
+      1 => 'M',
     ),
     'wide' => 
     array (
-      0 => 'BCE',
-      1 => 'CE',
+      0 => 'SM',
+      1 => 'M',
     ),
     'narrow' => 
     array (
-      0 => 'BCE',
-      1 => 'CE',
+      0 => 'SM',
+      1 => 'M',
     ),
   ),
   'dateFormats' => 
@@ -317,7 +315,5 @@ return array (
     'short' => 'HH:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'AM',
-  'pmName' => 'PM',
   'orientation' => 'ltr',
 );

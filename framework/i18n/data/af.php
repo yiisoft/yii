@@ -10,7 +10,7 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '4178',
+  'version' => '4768',
   'numberSymbols' => 
   array (
     'decimal' => ',',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -307,7 +305,7 @@ return array (
     'full' => 'EEEE dd MMMM y',
     'long' => 'dd MMMM y',
     'medium' => 'dd MMM y',
-    'short' => 'yyyy/MM/dd',
+    'short' => 'yyyy-MM-dd',
   ),
   'timeFormats' => 
   array (
@@ -317,8 +315,6 @@ return array (
     'short' => 'h:mm a',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'vm.',
-  'pmName' => 'nm.',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

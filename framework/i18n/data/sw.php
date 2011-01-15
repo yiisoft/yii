@@ -10,7 +10,7 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '4123',
+  'version' => '4907',
   'numberSymbols' => 
   array (
     'decimal' => '.',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -234,18 +232,18 @@ return array (
   array (
     'narrow' => 
     array (
-      1 => '1',
-      2 => '2',
-      3 => '3',
-      4 => '4',
-      5 => '5',
-      6 => '6',
-      7 => '7',
-      8 => '8',
-      9 => '9',
-      10 => '10',
-      11 => '11',
-      12 => '12',
+      1 => 'J',
+      2 => 'F',
+      3 => 'M',
+      4 => 'A',
+      5 => 'M',
+      6 => 'J',
+      7 => 'J',
+      8 => 'A',
+      9 => 'S',
+      10 => 'O',
+      11 => 'N',
+      12 => 'D',
     ),
   ),
   'weekDayNames' => 
@@ -262,26 +260,26 @@ return array (
     ),
     'abbreviated' => 
     array (
-      0 => 'Jpi',
-      1 => 'Jtt',
-      2 => 'Jnn',
-      3 => 'Jtn',
+      0 => 'J2',
+      1 => 'J3',
+      2 => 'J4',
+      3 => 'J5',
       4 => 'Alh',
-      5 => 'Iju',
-      6 => 'Jmo',
+      5 => 'Ij',
+      6 => 'J1',
     ),
   ),
   'weekDayNamesSA' => 
   array (
     'narrow' => 
     array (
-      0 => '1',
-      1 => '2',
-      2 => '3',
-      3 => '4',
-      4 => '5',
-      5 => '6',
-      6 => '7',
+      0 => '2',
+      1 => '3',
+      2 => '4',
+      3 => '5',
+      4 => 'A',
+      5 => 'I',
+      6 => '1',
     ),
   ),
   'eraNames' => 
@@ -304,21 +302,19 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE, y MMMM dd',
-    'long' => 'y MMMM d',
-    'medium' => 'y MMM d',
-    'short' => 'yy/MM/dd',
+    'full' => 'EEEE, d MMMM y',
+    'long' => 'd MMMM y',
+    'medium' => 'd MMM y',
+    'short' => 'dd/MM/yyyy',
   ),
   'timeFormats' => 
   array (
-    'full' => 'HH:mm:ss zzzz',
-    'long' => 'HH:mm:ss z',
-    'medium' => 'HH:mm:ss',
-    'short' => 'HH:mm',
+    'full' => 'h:mm:ss a zzzz',
+    'long' => 'h:mm:ss a z',
+    'medium' => 'h:mm:ss a',
+    'short' => 'h:mm a',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'AM',
-  'pmName' => 'PM',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

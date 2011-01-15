@@ -10,7 +10,7 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '4178',
+  'version' => '5094',
   'numberSymbols' => 
   array (
     'decimal' => '.',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -209,7 +207,7 @@ return array (
       6 => 'ஜூன்',
       7 => 'ஜூலை',
       8 => 'ஆகஸ்ட்',
-      9 => 'செப்டம்பர்',
+      9 => 'செப்டெம்ப்ர்',
       10 => 'அக்டோபர்',
       11 => 'நவம்பர்',
       12 => 'டிசம்பர்',
@@ -252,6 +250,16 @@ return array (
   array (
     'wide' => 
     array (
+      0 => 'ஞாயிற்று கிழமை',
+      1 => 'திங்கட் கிழமை',
+      2 => 'செவ்வாய் கிழமை',
+      3 => 'புதன் கிழமை',
+      4 => 'வியாழக் கிழமை',
+      5 => 'வெள்ளிக் கிழமை',
+      6 => 'சனிக் கிழமை',
+    ),
+    'abbreviated' => 
+    array (
       0 => 'ஞாயிறு',
       1 => 'திங்கள்',
       2 => 'செவ்வாய்',
@@ -259,16 +267,6 @@ return array (
       4 => 'வியாழன்',
       5 => 'வெள்ளி',
       6 => 'சனி',
-    ),
-    'abbreviated' => 
-    array (
-      0 => 'ஞா',
-      1 => 'தி',
-      2 => 'செ',
-      3 => 'பு',
-      4 => 'வி',
-      5 => 'வெ',
-      6 => 'ச',
     ),
   ),
   'weekDayNamesSA' => 
@@ -317,8 +315,6 @@ return array (
     'short' => 'h:mm a',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'am',
-  'pmName' => 'pm',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

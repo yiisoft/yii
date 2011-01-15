@@ -10,7 +10,7 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '4123',
+  'version' => '4753',
   'numberSymbols' => 
   array (
     'decimal' => ',',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -201,19 +199,11 @@ return array (
   array (
     'wide' => 
     array (
-      1 => 'Ἰανουαρίου',
-      4 => 'Ἀπριλίου',
-      6 => 'Ἰουνίου',
-      7 => 'Ἰουλίου',
       8 => 'Αὐγούστου',
       10 => 'Ὀκτωβρίου',
     ),
     'abbreviated' => 
     array (
-      1 => 'Ἰαν',
-      4 => 'Ἀπρ',
-      6 => 'Ἰουν',
-      7 => 'Ἰουλ',
       8 => 'Αὐγ',
       10 => 'Ὀκτ',
     ),
@@ -237,21 +227,8 @@ return array (
     ),
     'wide' => 
     array (
-      1 => 'Ἰανουάριος',
-      4 => 'Ἀπρίλιος',
-      6 => 'Ἰούνιος',
-      7 => 'Ἰούλιος',
       8 => 'Αὔγουστος',
       10 => 'Ὀκτώβριος',
-    ),
-    'abbreviated' => 
-    array (
-      1 => 'Ἰαν',
-      4 => 'Ἀπρ',
-      6 => 'Ἰουν',
-      7 => 'Ἰουλ',
-      8 => 'Αὐγ',
-      10 => 'Ὀκτ',
     ),
   ),
   'weekDayNames' => 
@@ -310,10 +287,10 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE, dd MMMM y',
-    'long' => 'dd MMMM y',
-    'medium' => 'dd MMM y',
-    'short' => 'dd/MM/yyyy',
+    'full' => 'EEEE, d MMMM y',
+    'long' => 'd MMMM y',
+    'medium' => 'd MMM y',
+    'short' => 'd/M/yy',
   ),
   'timeFormats' => 
   array (
@@ -323,8 +300,6 @@ return array (
     'short' => 'h:mm a',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'π.μ.',
-  'pmName' => 'μ.μ.',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

@@ -10,7 +10,7 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '4123',
+  'version' => '4763',
   'numberSymbols' => 
   array (
     'decimal' => '.',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -216,18 +214,18 @@ return array (
     ),
     'abbreviated' => 
     array (
-      1 => 'ᔭᓐᓄᐊᓕ',
-      2 => 'ᕕᕝᕗᐊᓕ',
-      3 => 'ᒫᑦᓯ',
-      4 => 'ᐊᐃᑉᐳᓗ',
-      5 => 'ᒪᐃ',
-      6 => 'ᔫᓂ',
-      7 => 'ᔪᓚᐃ',
-      8 => 'ᐊᐅᒡᒍᓯ',
-      9 => 'ᓰᑦᑏᕝᕙ',
-      10 => 'ᐆᑦᑑᕝᕙ',
-      11 => 'ᓅᕙᐃᕝᕙ',
-      12 => 'ᑏᓰᕝᕙ',
+      1 => '1',
+      2 => '2',
+      3 => '3',
+      4 => '4',
+      5 => '5',
+      6 => '6',
+      7 => '7',
+      8 => '8',
+      9 => '9',
+      10 => '10',
+      11 => '11',
+      12 => '12',
     ),
   ),
   'monthNamesSA' => 
@@ -262,13 +260,13 @@ return array (
     ),
     'abbreviated' => 
     array (
-      0 => 'ᓈᑦᓰᖑᔭ',
-      1 => 'ᓇᒡᒐᔾᔭᐅ',
-      2 => 'ᓇᒡᒐᔾᔭᐅᓕᖅᑭ',
-      3 => 'ᐱᖓᑦᓯᖅ',
-      4 => 'ᓯᑕᒻᒥᖅ',
-      5 => 'ᑕᓪᓕᕐᒥᖅ',
-      6 => 'ᓈᑦᓰᖑᔭᓕᖅᕿ',
+      0 => '1',
+      1 => '2',
+      2 => '3',
+      3 => '4',
+      4 => '5',
+      5 => '6',
+      6 => '7',
     ),
   ),
   'weekDayNamesSA' => 
@@ -307,7 +305,7 @@ return array (
     'full' => 'EEEE, y MMMM dd',
     'long' => 'y MMMM d',
     'medium' => 'y MMM d',
-    'short' => 'yy/MM/dd',
+    'short' => 'yyyy-MM-dd',
   ),
   'timeFormats' => 
   array (
@@ -317,7 +315,5 @@ return array (
     'short' => 'HH:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'AM',
-  'pmName' => 'PM',
   'orientation' => 'ltr',
 );

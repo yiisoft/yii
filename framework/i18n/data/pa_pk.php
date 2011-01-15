@@ -17,7 +17,7 @@ return array (
     'group' => ',',
     'list' => ';',
     'percentSign' => '%',
-    'nativeZeroDigit' => '੦',
+    'nativeZeroDigit' => '0',
     'patternDigit' => '#',
     'plusSign' => '+',
     'minusSign' => '-',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -288,8 +286,8 @@ return array (
   array (
     'abbreviated' => 
     array (
-      0 => 'BCE',
-      1 => 'CE',
+      0 => 'ਈਸਾਪੂਰਵ',
+      1 => 'ਸੰਨ',
     ),
     'wide' => 
     array (
@@ -298,8 +296,8 @@ return array (
     ),
     'narrow' => 
     array (
-      0 => 'BCE',
-      1 => 'CE',
+      0 => 'ਈਸਾਪੂਰਵ',
+      1 => 'ਸੰਨ',
     ),
   ),
   'dateFormats' => 
@@ -317,8 +315,6 @@ return array (
     'short' => 'h:mm a',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'ਸਵੇਰੇ',
-  'pmName' => 'ਸ਼ਾਮ',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

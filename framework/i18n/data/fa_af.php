@@ -10,14 +10,14 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '4182',
+  'version' => '4753',
   'numberSymbols' => 
   array (
     'decimal' => '٫',
     'group' => '٬',
     'list' => '؛',
     'percentSign' => '٪',
-    'nativeZeroDigit' => '۰',
+    'nativeZeroDigit' => '0',
     'patternDigit' => '#',
     'plusSign' => '+',
     'minusSign' => '−',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -219,7 +217,6 @@ return array (
     array (
       1 => 'جنو',
       5 => 'مـی',
-      6 => 'جون',
       7 => 'جول',
       12 => 'دسم',
     ),
@@ -298,7 +295,7 @@ return array (
     'abbreviated' => 
     array (
       0 => 'ق.م.',
-      1 => 'م.',
+      1 => 'ب. م.',
     ),
     'wide' => 
     array (
@@ -313,10 +310,10 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE d MMMM y',
-    'long' => 'd MMMM y',
-    'medium' => 'yyyy/M/d',
-    'short' => 'yy/M/d',
+    'full' => 'EEEE, MMMM d, y',
+    'long' => 'MMMM d, y',
+    'medium' => 'MMM d, y',
+    'short' => 'M/d/yy',
   ),
   'timeFormats' => 
   array (
@@ -326,7 +323,5 @@ return array (
     'short' => 'H:mm',
   ),
   'dateTimeFormat' => '{1}، ساعت {0}',
-  'amName' => 'قبل از ظهر',
-  'pmName' => 'بعد از ظهر',
   'orientation' => 'rtl',
 );

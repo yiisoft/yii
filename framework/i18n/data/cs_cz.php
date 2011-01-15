@@ -28,7 +28,7 @@ return array (
   ),
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
-  'percentFormat' => '#,##0%',
+  'percentFormat' => '#,##0 %',
   'currencyFormat' => '#,##0.00 ¤',
   'currencySymbols' => 
   array (
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -201,51 +199,18 @@ return array (
   array (
     'wide' => 
     array (
-      1 => 'ledna',
-      2 => 'února',
-      3 => 'března',
-      4 => 'dubna',
-      5 => 'května',
-      6 => 'června',
-      7 => 'července',
-      8 => 'srpna',
+      1 => 'leden',
+      2 => 'únor',
+      3 => 'březen',
+      4 => 'duben',
+      5 => 'květen',
+      6 => 'červen',
+      7 => 'červenec',
+      8 => 'srpen',
       9 => 'září',
-      10 => 'října',
-      11 => 'listopadu',
-      12 => 'prosince',
-    ),
-    'abbreviated' => 
-    array (
-      1 => '1.',
-      2 => '2.',
-      3 => '3.',
-      4 => '4.',
-      5 => '5.',
-      6 => '6.',
-      7 => '7.',
-      8 => '8.',
-      9 => '9.',
-      10 => '10.',
-      11 => '11.',
-      12 => '12.',
-    ),
-  ),
-  'monthNamesSA' => 
-  array (
-    'narrow' => 
-    array (
-      1 => 'l',
-      2 => 'ú',
-      3 => 'b',
-      4 => 'd',
-      5 => 'k',
-      6 => 'č',
-      7 => 'č',
-      8 => 's',
-      9 => 'z',
-      10 => 'ř',
-      11 => 'l',
-      12 => 'p',
+      10 => 'říjen',
+      11 => 'listopad',
+      12 => 'prosinec',
     ),
     'abbreviated' => 
     array (
@@ -261,6 +226,39 @@ return array (
       10 => '10',
       11 => '11',
       12 => '12',
+    ),
+  ),
+  'monthNamesSA' => 
+  array (
+    'narrow' => 
+    array (
+      1 => '1',
+      2 => '2',
+      3 => '3',
+      4 => '4',
+      5 => '5',
+      6 => '6',
+      7 => '7',
+      8 => '8',
+      9 => '9',
+      10 => '10',
+      11 => '11',
+      12 => '12',
+    ),
+    'abbreviated' => 
+    array (
+      1 => '1.',
+      2 => '2.',
+      3 => '3.',
+      4 => '4.',
+      5 => '5.',
+      6 => '6.',
+      7 => '7.',
+      8 => '8.',
+      9 => '9.',
+      10 => '10.',
+      11 => '11.',
+      12 => '12.',
     ),
     'wide' => 
     array (
@@ -318,18 +316,18 @@ return array (
   array (
     'abbreviated' => 
     array (
-      0 => 'př.Kr.',
-      1 => 'po Kr.',
+      0 => 'př.n.l.',
+      1 => 'n.l.',
     ),
     'wide' => 
     array (
-      0 => 'př.Kr.',
-      1 => 'po Kr.',
+      0 => 'př.n.l.',
+      1 => 'n.l.',
     ),
     'narrow' => 
     array (
-      0 => 'př.Kr.',
-      1 => 'po Kr.',
+      0 => 'př.n.l.',
+      1 => 'n.l.',
     ),
   ),
   'dateFormats' => 
@@ -341,14 +339,12 @@ return array (
   ),
   'timeFormats' => 
   array (
-    'full' => 'HH:mm:ss zzzz',
-    'long' => 'HH:mm:ss z',
+    'full' => 'H:mm:ss zzzz',
+    'long' => 'H:mm:ss z',
     'medium' => 'H:mm:ss',
     'short' => 'H:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'dop.',
-  'pmName' => 'odp.',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (
