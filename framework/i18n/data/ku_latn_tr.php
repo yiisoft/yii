@@ -298,6 +298,8 @@ return array (
     'short' => 'HH:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
+  'amName' => 'BN',
+  'pmName' => 'PN',
   'orientation' => 'rtl',
   'pluralRules' => 
   array (

@@ -315,6 +315,8 @@ return array (
     'short' => 'H:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
+  'amName' => 'غ.م.',
+  'pmName' => 'غ.و.',
   'orientation' => 'rtl',
   'pluralRules' => 
   array (

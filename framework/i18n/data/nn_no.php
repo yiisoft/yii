@@ -322,6 +322,8 @@ return array (
     'short' => 'HH:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
+  'amName' => 'formiddag',
+  'pmName' => 'ettermiddag',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

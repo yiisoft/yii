@@ -315,6 +315,8 @@ return array (
     'short' => 'hh:mm a',
   ),
   'dateTimeFormat' => '{1} {0}',
+  'amName' => 'પૂર્વ મધ્યાહ્ન',
+  'pmName' => 'ઉત્તર મધ્યાહ્ન',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

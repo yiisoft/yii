@@ -315,5 +315,7 @@ return array (
     'short' => 'h:mm a',
   ),
   'dateTimeFormat' => '{1} {0}',
+  'amName' => 'kang\'ama',
+  'pmName' => 'kingoto',
   'orientation' => 'ltr',
 );

@@ -316,6 +316,8 @@ return array (
     'short' => 'h.mm.a',
   ),
   'dateTimeFormat' => '{1} {0}',
+  'amName' => 'PD',
+  'pmName' => 'MD',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

@@ -315,5 +315,7 @@ return array (
     'short' => 'H:mm',
   ),
   'dateTimeFormat' => '{1}, {0}',
+  'amName' => 'ກ່ອນທ່ຽງ',
+  'pmName' => 'ຫລັງທ່ຽງ',
   'orientation' => 'ltr',
 );

@@ -320,6 +320,8 @@ return array (
     'short' => 'HH:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
+  'amName' => 'AM',
+  'pmName' => 'PM',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

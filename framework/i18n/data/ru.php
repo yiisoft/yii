@@ -367,6 +367,8 @@ return array (
     'short' => 'H:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
+  'amName' => 'AM',
+  'pmName' => 'PM',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

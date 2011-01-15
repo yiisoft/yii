@@ -315,6 +315,8 @@ return array (
     'short' => 'h:mm a',
   ),
   'dateTimeFormat' => '{1} {0}',
+  'amName' => 'asubuhi',
+  'pmName' => 'alasiri',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (
