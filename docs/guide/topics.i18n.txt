@@ -204,7 +204,7 @@ translated message:
 Yii::t('app', 'n==1#one book|n>1#many books', array(1)));
 //or since 1.1.6
 Yii::t('app', 'n==1#one book|n>1#many books', 1));
-~~~~
+~~~
 
 As a shortcut notation, if an expression is a number, it will be treated as
 `n==Number`. Therefore, the above translated message can be also be written as:
