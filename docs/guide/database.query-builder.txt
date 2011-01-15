@@ -103,7 +103,7 @@ select(array('id', 'count(*) as num'))
 function selectDistinct($columns)
 ~~~
 
-The [selectDistinct|CDbCommand::selectDistinct] method is similar as [select|CDbCommand::select] except that it turns on the `DISTINCT` flag. For example, `select('id, username')` will generate the following SQL:
+The [selectDistinct|CDbCommand::selectDistinct] method is similar as [select|CDbCommand::select] except that it turns on the `DISTINCT` flag. For example, `selectDistinct('id, username')` will generate the following SQL:
 
 ~~~
 SELECT DISTINCT `id`, `username`
