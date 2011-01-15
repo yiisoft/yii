@@ -306,5 +306,7 @@ return array (
     'short' => 'h:mm a',
   ),
   'dateTimeFormat' => '{1} {0}',
+  'amName' => 'saaku',
+  'pmName' => 'carra',
   'orientation' => 'ltr',
 );

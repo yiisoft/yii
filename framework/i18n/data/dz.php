@@ -315,5 +315,7 @@ return array (
     'short' => 'ཆུ་ཚོད་ h སྐར་མ་ mm a',
   ),
   'dateTimeFormat' => '{1} {0}',
+  'amName' => 'སྔ་ཆ་',
+  'pmName' => 'ཕྱི་ཆ་',
   'orientation' => 'ltr',
 );

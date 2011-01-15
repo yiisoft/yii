@@ -323,6 +323,8 @@ return array (
     'short' => 'h:mm a',
   ),
   'dateTimeFormat' => '{1} {0}',
+  'amName' => 'ص',
+  'pmName' => 'م',
   'orientation' => 'rtl',
   'pluralRules' => 
   array (

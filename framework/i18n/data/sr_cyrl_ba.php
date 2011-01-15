@@ -293,6 +293,8 @@ return array (
     'short' => 'HH:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
+  'amName' => 'пре подне',
+  'pmName' => 'поподне',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

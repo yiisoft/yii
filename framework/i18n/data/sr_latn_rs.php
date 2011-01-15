@@ -315,6 +315,8 @@ return array (
     'short' => 'HH.mm',
   ),
   'dateTimeFormat' => '{1} {0}',
+  'amName' => 'pre podne',
+  'pmName' => 'popodne',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

@@ -419,6 +419,8 @@ return array (
     'short' => 'H.mm',
   ),
   'dateTimeFormat' => '{1} {0}',
+  'amName' => 'ap.',
+  'pmName' => 'ip.',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

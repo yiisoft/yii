@@ -315,6 +315,8 @@ return array (
     'short' => 'h:mm a',
   ),
   'dateTimeFormat' => '{1} {0}',
+  'amName' => 'ਸਵੇਰੇ',
+  'pmName' => 'ਸ਼ਾਮ',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

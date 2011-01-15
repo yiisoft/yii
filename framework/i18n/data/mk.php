@@ -315,6 +315,8 @@ return array (
     'short' => 'HH:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
+  'amName' => 'претпладне',
+  'pmName' => 'попладне',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

@@ -341,6 +341,8 @@ return array (
     'short' => 'HH:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
+  'amName' => 'vorm.',
+  'pmName' => 'nachm.',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

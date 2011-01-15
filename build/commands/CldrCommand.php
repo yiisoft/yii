@@ -282,10 +282,10 @@ EOD;
 
 	protected function parsePeriodNames($xml,&$data)
 	{
-		$am=$xml->xpath('/ldml/dates/calendars/calendar[@type=\'gregorian\']/am');
+		$am=$xml->xpath('/ldml/dates/calendars/calendar[@type=\'gregorian\']/dayPeriods/dayPeriodContext[@type=\'format\']/dayPeriodWidth[@type=\'wide\']/dayPeriod[@type=\'am\']');
 		if(is_array($am) && isset($am[0]))
 			$data['amName']=(string)$am[0];
-		$pm=$xml->xpath('/ldml/dates/calendars/calendar[@type=\'gregorian\']/pm');
+		$pm=$xml->xpath('/ldml/dates/calendars/calendar[@type=\'gregorian\']/dayPeriods/dayPeriodContext[@type=\'format\']/dayPeriodWidth[@type=\'wide\']/dayPeriod[@type=\'pm\']');
 		if(is_array($pm) && isset($pm[0]))
 			$data['pmName']=(string)$pm[0];
 	}

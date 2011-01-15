@@ -345,5 +345,7 @@ return array (
     'short' => 'ah:mm',
   ),
   'dateTimeFormat' => '{1}{0}',
+  'amName' => '上午',
+  'pmName' => '下午',
   'orientation' => 'ltr',
 );
