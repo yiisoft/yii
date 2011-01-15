@@ -10,7 +10,7 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '4183',
+  'version' => '4958',
   'numberSymbols' => 
   array (
     'decimal' => '.',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -293,8 +291,8 @@ return array (
     ),
     'wide' => 
     array (
-      0 => '서력기원전',
-      1 => '서력기원',
+      0 => '기원전',
+      1 => '서기',
     ),
     'narrow' => 
     array (
@@ -311,13 +309,11 @@ return array (
   ),
   'timeFormats' => 
   array (
-    'full' => 'a hh시 mm분 ss초 zzzz',
-    'long' => 'a hh시 mm분 ss초 z',
+    'full' => 'a h시 m분 s초 zzzz',
+    'long' => 'a h시 m분 s초 z',
     'medium' => 'a h:mm:ss',
     'short' => 'a h:mm',
   ),
-  'dateTimeFormat' => '{1}{0}',
-  'amName' => '오전',
-  'pmName' => '오후',
+  'dateTimeFormat' => '{1} {0}',
   'orientation' => 'ltr',
 );

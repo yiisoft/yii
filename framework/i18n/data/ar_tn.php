@@ -10,7 +10,7 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '4178',
+  'version' => '4849',
   'numberSymbols' => 
   array (
     'decimal' => '٫',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'ي.ص',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'د.ج.‏',
     'EEK' => 'Ekr',
-    'EGP' => 'ج.م.‏',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -197,6 +195,7 @@ return array (
     'ZRZ' => 'ZRZ',
     'ZWD' => 'Z$',
     'AED' => 'د.إ.‏',
+    'EGP' => 'ج.م.‏',
     'IQD' => 'د.ع.‏',
     'MAD' => 'د.م.‏',
     'OMR' => 'ر.ع.‏',
@@ -223,18 +222,18 @@ return array (
     ),
     'abbreviated' => 
     array (
-      1 => 'يناير',
-      2 => 'فبراير',
-      3 => 'مارس',
-      4 => 'أبريل',
-      5 => 'مايو',
-      6 => 'يونيو',
-      7 => 'يوليو',
-      8 => 'أغسطس',
-      9 => 'سبتمبر',
-      10 => 'أكتوبر',
-      11 => 'نوفمبر',
-      12 => 'ديسمبر',
+      1 => '1',
+      2 => '2',
+      3 => '3',
+      4 => '4',
+      5 => '5',
+      6 => '6',
+      7 => '7',
+      8 => '8',
+      9 => '9',
+      10 => '10',
+      11 => '11',
+      12 => '12',
     ),
   ),
   'monthNamesSA' => 
@@ -260,7 +259,7 @@ return array (
     'wide' => 
     array (
       0 => 'الأحد',
-      1 => 'الاثنين',
+      1 => 'الإثنين',
       2 => 'الثلاثاء',
       3 => 'الأربعاء',
       4 => 'الخميس',
@@ -313,8 +312,8 @@ return array (
   array (
     'full' => 'EEEE، d MMMM، y',
     'long' => 'd MMMM، y',
-    'medium' => 'dd‏/MM‏/yyyy',
-    'short' => 'd‏/M‏/yyyy',
+    'medium' => 'yyyy/MM/dd',
+    'short' => 'yyyy/M/d',
   ),
   'timeFormats' => 
   array (
@@ -324,8 +323,6 @@ return array (
     'short' => 'h:mm a',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'ص',
-  'pmName' => 'م',
   'orientation' => 'rtl',
   'pluralRules' => 
   array (

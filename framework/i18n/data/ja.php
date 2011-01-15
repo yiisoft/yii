@@ -10,7 +10,7 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '4178',
+  'version' => '5094',
   'numberSymbols' => 
   array (
     'decimal' => '.',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => '元',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -216,18 +214,18 @@ return array (
     ),
     'abbreviated' => 
     array (
-      1 => '1月',
-      2 => '2月',
-      3 => '3月',
-      4 => '4月',
-      5 => '5月',
-      6 => '6月',
-      7 => '7月',
-      8 => '8月',
-      9 => '9月',
-      10 => '10月',
-      11 => '11月',
-      12 => '12月',
+      1 => '1',
+      2 => '2',
+      3 => '3',
+      4 => '4',
+      5 => '5',
+      6 => '6',
+      7 => '7',
+      8 => '8',
+      9 => '9',
+      10 => '10',
+      11 => '11',
+      12 => '12',
     ),
   ),
   'monthNamesSA' => 
@@ -246,21 +244,6 @@ return array (
       10 => '10',
       11 => '11',
       12 => '12',
-    ),
-    'abbreviated' => 
-    array (
-      1 => '1月',
-      2 => '2月',
-      3 => '3月',
-      4 => '4月',
-      5 => '5月',
-      6 => '6月',
-      7 => '7月',
-      8 => '8月',
-      9 => '9月',
-      10 => '10月',
-      11 => '11月',
-      12 => '12月',
     ),
   ),
   'weekDayNames' => 
@@ -303,8 +286,8 @@ return array (
   array (
     'abbreviated' => 
     array (
-      0 => '紀元前',
-      1 => '西暦',
+      0 => 'BC',
+      1 => 'AD',
     ),
     'wide' => 
     array (
@@ -313,8 +296,8 @@ return array (
     ),
     'narrow' => 
     array (
-      0 => '紀元前',
-      1 => '西暦',
+      0 => 'BC',
+      1 => 'AD',
     ),
   ),
   'dateFormats' => 
@@ -327,12 +310,10 @@ return array (
   'timeFormats' => 
   array (
     'full' => 'H時mm分ss秒 zzzz',
-    'long' => 'HH:mm:ss z',
+    'long' => 'H:mm:ss z',
     'medium' => 'H:mm:ss',
     'short' => 'H:mm',
   ),
   'dateTimeFormat' => '{1}{0}',
-  'amName' => '午前',
-  'pmName' => '午後',
   'orientation' => 'ltr',
 );

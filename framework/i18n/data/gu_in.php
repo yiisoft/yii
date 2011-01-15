@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -288,8 +286,8 @@ return array (
   array (
     'abbreviated' => 
     array (
-      0 => 'BCE',
-      1 => 'CE',
+      0 => 'ઈલુના જન્મ પહેસાં',
+      1 => 'ઇસવીસન',
     ),
     'wide' => 
     array (
@@ -317,8 +315,6 @@ return array (
     'short' => 'hh:mm a',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'am',
-  'pmName' => 'pm',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

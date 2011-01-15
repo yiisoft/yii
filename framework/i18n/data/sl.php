@@ -10,7 +10,7 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '4179',
+  'version' => '5094',
   'numberSymbols' => 
   array (
     'decimal' => ',',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -216,18 +214,18 @@ return array (
     ),
     'abbreviated' => 
     array (
-      1 => 'jan',
-      2 => 'feb',
-      3 => 'mar',
-      4 => 'apr',
+      1 => 'jan.',
+      2 => 'feb.',
+      3 => 'mar.',
+      4 => 'apr.',
       5 => 'maj',
-      6 => 'jun',
-      7 => 'jul',
-      8 => 'avg',
-      9 => 'sep',
-      10 => 'okt',
-      11 => 'nov',
-      12 => 'dec',
+      6 => 'jun.',
+      7 => 'jul.',
+      8 => 'avg.',
+      9 => 'sep.',
+      10 => 'okt.',
+      11 => 'nov.',
+      12 => 'dec.',
     ),
   ),
   'monthNamesSA' => 
@@ -246,6 +244,21 @@ return array (
       10 => 'o',
       11 => 'n',
       12 => 'd',
+    ),
+    'abbreviated' => 
+    array (
+      1 => 'jan',
+      2 => 'feb',
+      3 => 'mar',
+      4 => 'apr',
+      5 => 'maj',
+      6 => 'jun',
+      7 => 'jul',
+      8 => 'avg',
+      9 => 'sep',
+      10 => 'okt',
+      11 => 'nov',
+      12 => 'dec',
     ),
   ),
   'weekDayNames' => 
@@ -306,19 +319,17 @@ return array (
   array (
     'full' => 'EEEE, dd. MMMM y',
     'long' => 'dd. MMMM y',
-    'medium' => 'd. MMM. yyyy',
+    'medium' => 'd. MMM yyyy',
     'short' => 'd. MM. yy',
   ),
   'timeFormats' => 
   array (
-    'full' => 'H:mm:ss zzzz',
+    'full' => 'HH:mm:ss zzzz',
     'long' => 'HH:mm:ss z',
     'medium' => 'HH:mm:ss',
     'short' => 'HH:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'dop.',
-  'pmName' => 'pop.',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

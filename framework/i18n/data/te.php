@@ -10,7 +10,7 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '4178',
+  'version' => '5094',
   'numberSymbols' => 
   array (
     'decimal' => '.',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -236,10 +234,10 @@ return array (
     array (
       1 => 'జ',
       2 => 'ఫి',
-      3 => 'మ',
-      4 => 'ఎ',
-      5 => 'మె',
-      6 => 'జు',
+      3 => 'మా',
+      4 => 'ఏ',
+      5 => 'మే',
+      6 => 'జూ',
       7 => 'జు',
       8 => 'ఆ',
       9 => 'సె',
@@ -278,7 +276,7 @@ return array (
       0 => 'ఆ',
       1 => 'సో',
       2 => 'మ',
-      3 => 'భు',
+      3 => 'బు',
       4 => 'గు',
       5 => 'శు',
       6 => 'శ',
@@ -288,18 +286,18 @@ return array (
   array (
     'abbreviated' => 
     array (
-      0 => 'BCE',
-      1 => 'CE',
-    ),
-    'wide' => 
-    array (
       0 => 'ఈసాపూర్వ.',
       1 => 'సన్.',
     ),
+    'wide' => 
+    array (
+      0 => 'క్రీస్తుపూర్యం',
+      1 => 'క్రీస్తుశకం',
+    ),
     'narrow' => 
     array (
-      0 => 'BCE',
-      1 => 'CE',
+      0 => 'ఈసాపూర్వ.',
+      1 => 'సన్.',
     ),
   ),
   'dateFormats' => 
@@ -317,8 +315,6 @@ return array (
     'short' => 'h:mm a',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'am',
-  'pmName' => 'pm',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

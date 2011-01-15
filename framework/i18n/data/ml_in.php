@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -208,7 +206,7 @@ return array (
       5 => 'മേയ്',
       6 => 'ജൂണ്‍',
       7 => 'ജൂലൈ',
-      8 => 'ഓഗസ്റ്റ്',
+      8 => 'ആഗസ്റ്റ്',
       9 => 'സെപ്റ്റംബര്‍',
       10 => 'ഒക്ടോബര്‍',
       11 => 'നവംബര്‍',
@@ -288,7 +286,7 @@ return array (
   array (
     'abbreviated' => 
     array (
-      0 => 'ക്രി.മു.',
+      0 => 'ക്രി.മൂ',
       1 => 'ക്രി.പി.',
     ),
     'wide' => 
@@ -298,7 +296,7 @@ return array (
     ),
     'narrow' => 
     array (
-      0 => 'ക്രി.മു.',
+      0 => 'ക്രി.മൂ',
       1 => 'ക്രി.പി.',
     ),
   ),
@@ -317,8 +315,6 @@ return array (
     'short' => 'h:mm a',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'am',
-  'pmName' => 'pm',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -247,21 +245,6 @@ return array (
       11 => 'N',
       12 => 'D',
     ),
-    'wide' => 
-    array (
-      1 => 'Enero',
-      2 => 'Pebrero',
-      3 => 'Marso',
-      4 => 'Abril',
-      5 => 'Mayo',
-      6 => 'Hunyo',
-      7 => 'Hulyo',
-      8 => 'Agosto',
-      9 => 'Setyembre',
-      10 => 'Oktubre',
-      11 => 'Nobyembre',
-      12 => 'Disyembre',
-    ),
   ),
   'weekDayNames' => 
   array (
@@ -337,8 +320,6 @@ return array (
     'short' => 'HH:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'AM',
-  'pmName' => 'PM',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

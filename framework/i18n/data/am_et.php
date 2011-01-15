@@ -29,7 +29,7 @@ return array (
   'decimalFormat' => '#,##0.###',
   'scientificFormat' => '#E0',
   'percentFormat' => '#,##0%',
-  'currencyFormat' => '#,##0.00 ¤',
+  'currencyFormat' => '¤#,##0.00;(¤#,##0.00)',
   'currencySymbols' => 
   array (
     'AFN' => 'Af',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'ብር',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -293,8 +291,8 @@ return array (
     ),
     'wide' => 
     array (
-      0 => 'ዓ/ዓ',
-      1 => 'ዓ/ም',
+      0 => 'ዓመተ፡ዓለም',
+      1 => 'ዓመተ፡ምሕረት',
     ),
     'narrow' => 
     array (
@@ -304,21 +302,19 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE፣ dd MMMM ቀን y G',
-    'long' => 'dd MMMM y',
-    'medium' => 'MMM d y',
-    'short' => 'dd/MM/yy',
+    'full' => 'EEEE, d MMMM y',
+    'long' => 'd MMMM y',
+    'medium' => 'd MMM y',
+    'short' => 'dd/MM/yyyy',
   ),
   'timeFormats' => 
   array (
-    'full' => 'hh:mm:ss a zzzz',
-    'long' => 'hh:mm:ss a z',
+    'full' => 'h:mm:ss a zzzz',
+    'long' => 'h:mm:ss a z',
     'medium' => 'h:mm:ss a',
     'short' => 'h:mm a',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'ጡዋት',
-  'pmName' => 'ከሳዓት',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

@@ -10,7 +10,7 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '4178',
+  'version' => '5096',
   'numberSymbols' => 
   array (
     'decimal' => ',',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -218,18 +216,18 @@ return array (
     ),
     'abbreviated' => 
     array (
-      1 => 'янв.',
-      2 => 'февр.',
-      3 => 'марта',
-      4 => 'апр.',
+      1 => 'янв',
+      2 => 'фев',
+      3 => 'мар',
+      4 => 'апр',
       5 => 'мая',
-      6 => 'июня',
-      7 => 'июля',
-      8 => 'авг.',
-      9 => 'сент.',
-      10 => 'окт.',
-      11 => 'нояб.',
-      12 => 'дек.',
+      6 => 'июн',
+      7 => 'июл',
+      8 => 'авг',
+      9 => 'сен',
+      10 => 'окт',
+      11 => 'ноя',
+      12 => 'дек',
     ),
   ),
   'monthNamesSA' => 
@@ -294,13 +292,13 @@ return array (
     ),
     'abbreviated' => 
     array (
-      0 => 'Вс',
-      1 => 'Пн',
-      2 => 'Вт',
-      3 => 'Ср',
-      4 => 'Чт',
-      5 => 'Пт',
-      6 => 'Сб',
+      0 => 'вс',
+      1 => 'пн',
+      2 => 'вт',
+      3 => 'ср',
+      4 => 'чт',
+      5 => 'пт',
+      6 => 'сб',
     ),
   ),
   'weekDayNamesSA' => 
@@ -314,6 +312,16 @@ return array (
       4 => 'Ч',
       5 => 'П',
       6 => 'С',
+    ),
+    'abbreviated' => 
+    array (
+      0 => 'Вс',
+      1 => 'Пн',
+      2 => 'Вт',
+      3 => 'Ср',
+      4 => 'Чт',
+      5 => 'Пт',
+      6 => 'Сб',
     ),
     'wide' => 
     array (
@@ -330,24 +338,24 @@ return array (
   array (
     'abbreviated' => 
     array (
-      0 => 'до н.э.',
-      1 => 'н.э.',
+      0 => 'до н. э.',
+      1 => 'н. э.',
     ),
     'wide' => 
     array (
-      0 => 'до н.э.',
-      1 => 'н.э.',
+      0 => 'до н. э.',
+      1 => 'н. э.',
     ),
     'narrow' => 
     array (
-      0 => 'до н.э.',
-      1 => 'н.э.',
+      0 => 'до н. э.',
+      1 => 'н. э.',
     ),
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE, d MMMM y \'г\'.',
-    'long' => 'd MMMM y \'г\'.',
+    'full' => 'EEEE, d MMMM y \'г\'.',
+    'long' => 'd MMMM y \'г\'.',
     'medium' => 'dd.MM.yyyy',
     'short' => 'dd.MM.yy',
   ),
@@ -359,8 +367,6 @@ return array (
     'short' => 'H:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'AM',
-  'pmName' => 'PM',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

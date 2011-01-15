@@ -10,7 +10,7 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '4178',
+  'version' => '5094',
   'numberSymbols' => 
   array (
     'decimal' => ',',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => '₧',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -201,18 +199,66 @@ return array (
   array (
     'wide' => 
     array (
-      1 => 'gener',
-      2 => 'febrer',
-      3 => 'març',
-      4 => 'abril',
-      5 => 'maig',
-      6 => 'juny',
-      7 => 'juliol',
-      8 => 'agost',
-      9 => 'setembre',
-      10 => 'octubre',
-      11 => 'novembre',
-      12 => 'desembre',
+      1 => 'de gener',
+      2 => 'de febrer',
+      3 => 'de març',
+      4 => 'd’abril',
+      5 => 'de maig',
+      6 => 'de juny',
+      7 => 'de juliol',
+      8 => 'd’agost',
+      9 => 'de setembre',
+      10 => 'd’octubre',
+      11 => 'de novembre',
+      12 => 'de desembre',
+    ),
+    'abbreviated' => 
+    array (
+      1 => 'de gen.',
+      2 => 'de febr.',
+      3 => 'de març',
+      4 => 'd’abr.',
+      5 => 'de maig',
+      6 => 'de juny',
+      7 => 'de jul.',
+      8 => 'd’ag.',
+      9 => 'de set.',
+      10 => 'd’oct.',
+      11 => 'de nov.',
+      12 => 'de des.',
+    ),
+    'narrow' => 
+    array (
+      1 => 'G',
+      2 => 'F',
+      3 => 'M',
+      4 => 'A',
+      5 => 'M',
+      6 => 'J',
+      7 => 'J',
+      8 => 'A',
+      9 => 'S',
+      10 => 'O',
+      11 => 'N',
+      12 => 'D',
+    ),
+  ),
+  'monthNamesSA' => 
+  array (
+    'narrow' => 
+    array (
+      1 => 'G',
+      2 => 'F',
+      3 => 'M',
+      4 => 'A',
+      5 => 'M',
+      6 => 'J',
+      7 => 'J',
+      8 => 'A',
+      9 => 'S',
+      10 => 'O',
+      11 => 'N',
+      12 => 'D',
     ),
     'abbreviated' => 
     array (
@@ -229,59 +275,65 @@ return array (
       11 => 'nov.',
       12 => 'des.',
     ),
-  ),
-  'monthNamesSA' => 
-  array (
-    'narrow' => 
+    'wide' => 
     array (
-      1 => 'g',
-      2 => 'f',
-      3 => 'm',
-      4 => 'a',
-      5 => 'm',
-      6 => 'j',
-      7 => 'j',
-      8 => 'a',
-      9 => 's',
-      10 => 'o',
-      11 => 'n',
-      12 => 'd',
+      1 => 'gener',
+      2 => 'febrer',
+      3 => 'març',
+      4 => 'abril',
+      5 => 'maig',
+      6 => 'juny',
+      7 => 'juliol',
+      8 => 'agost',
+      9 => 'setembre',
+      10 => 'octubre',
+      11 => 'novembre',
+      12 => 'desembre',
     ),
   ),
   'weekDayNames' => 
   array (
     'wide' => 
     array (
-      0 => 'diumenge',
-      1 => 'dilluns',
-      2 => 'dimarts',
-      3 => 'dimecres',
-      4 => 'dijous',
-      5 => 'divendres',
-      6 => 'dissabte',
+      0 => 'Diumenge',
+      1 => 'Dilluns',
+      2 => 'Dimarts',
+      3 => 'Dimecres',
+      4 => 'Dijous',
+      5 => 'Divendres',
+      6 => 'Dissabte',
     ),
     'abbreviated' => 
     array (
-      0 => 'dg.',
-      1 => 'dl.',
-      2 => 'dt.',
-      3 => 'dc.',
-      4 => 'dj.',
-      5 => 'dv.',
-      6 => 'ds.',
+      0 => 'Dg.',
+      1 => 'Dl.',
+      2 => 'Dt.',
+      3 => 'Dc.',
+      4 => 'Dj.',
+      5 => 'Dv.',
+      6 => 'Ds.',
+    ),
+    'narrow' => 
+    array (
+      0 => 'G',
+      2 => 'T',
+      3 => 'C',
+      4 => 'J',
+      5 => 'V',
+      6 => 'S',
     ),
   ),
   'weekDayNamesSA' => 
   array (
     'narrow' => 
     array (
-      0 => 'g',
+      0 => 'G',
       1 => 'l',
-      2 => 't',
-      3 => 'c',
-      4 => 'j',
-      5 => 'v',
-      6 => 's',
+      2 => 'T',
+      3 => 'G',
+      4 => 'J',
+      5 => 'V',
+      6 => 'S',
     ),
     'abbreviated' => 
     array (
@@ -293,6 +345,16 @@ return array (
       5 => 'dv',
       6 => 'ds',
     ),
+    'wide' => 
+    array (
+      0 => 'Diumenge',
+      1 => 'Dilluns',
+      2 => 'Dimarts',
+      3 => 'Dimecres',
+      4 => 'Dijous',
+      5 => 'Divendres',
+      6 => 'dissabte',
+    ),
   ),
   'eraNames' => 
   array (
@@ -303,8 +365,8 @@ return array (
     ),
     'wide' => 
     array (
-      0 => 'aC',
-      1 => 'dC',
+      0 => 'abans de Crist',
+      1 => 'després de Crist',
     ),
     'narrow' => 
     array (
@@ -314,8 +376,8 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE d \'de\' MMMM \'de\' y',
-    'long' => 'd \'de\' MMMM \'de\' y',
+    'full' => 'EEEE d MMMM \'de\' y',
+    'long' => 'd MMMM \'de\' y',
     'medium' => 'dd/MM/yyyy',
     'short' => 'dd/MM/yy',
   ),
@@ -327,8 +389,6 @@ return array (
     'short' => 'H:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'a.m.',
-  'pmName' => 'p.m.',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

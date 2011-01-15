@@ -10,7 +10,7 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '4178',
+  'version' => '4765',
   'numberSymbols' => 
   array (
     'decimal' => '.',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -252,13 +250,23 @@ return array (
   array (
     'wide' => 
     array (
+      0 => 'ሰንበት',
+      1 => 'ሰኑይ',
       2 => 'ሰሉስ',
+      3 => 'ረቡዕ',
       4 => 'ሓሙስ',
+      5 => 'ዓርቢ',
+      6 => 'ቀዳም',
     ),
     'abbreviated' => 
     array (
-      2 => 'ሰሉስ',
-      4 => 'ሓሙስ',
+      0 => '1',
+      1 => '2',
+      2 => '3',
+      3 => '4',
+      4 => '5',
+      5 => '6',
+      6 => '7',
     ),
   ),
   'weekDayNamesSA' => 
@@ -307,8 +315,6 @@ return array (
     'short' => 'h:mm a',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'ንጉሆ ሰዓተ',
-  'pmName' => 'ድሕር ሰዓት',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

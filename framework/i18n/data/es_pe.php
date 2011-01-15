@@ -10,7 +10,7 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '4178',
+  'version' => '4743',
   'numberSymbols' => 
   array (
     'decimal' => '.',
@@ -32,16 +32,16 @@ return array (
   'currencyFormat' => '¤ #,##0.00',
   'currencySymbols' => 
   array (
-    'AFN' => 'Af',
-    'ANG' => 'NAf.',
-    'AOA' => 'Kz',
+    'AFN' => 'AFN',
+    'ANG' => 'ANG',
+    'AOA' => 'AOA',
     'ARA' => '₳',
     'ARL' => '$L',
     'ARM' => 'm$n',
-    'ARS' => 'AR$',
-    'AUD' => 'AU$',
-    'AWG' => 'Afl.',
-    'AZN' => 'man.',
+    'ARS' => 'ARS',
+    'AUD' => 'AUD',
+    'AWG' => 'AWG',
+    'AZN' => 'AZN',
     'BAM' => 'KM',
     'BBD' => 'Bds$',
     'BDT' => 'Tk',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => '₧',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -311,14 +309,12 @@ return array (
   ),
   'timeFormats' => 
   array (
-    'full' => 'HH\'H\'mm\'\'ss" zzzz',
+    'full' => 'HH\'H\'mm\'\'ss\'\' zzzz',
     'long' => 'HH:mm:ss z',
     'medium' => 'HH:mm:ss',
     'short' => 'HH:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'a.m.',
-  'pmName' => 'p.m.',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

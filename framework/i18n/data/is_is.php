@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -229,23 +227,38 @@ return array (
       11 => 'nóv',
       12 => 'des',
     ),
+    'narrow' => 
+    array (
+      1 => 'J',
+      2 => 'F',
+      3 => 'M',
+      4 => 'A',
+      5 => 'M',
+      6 => 'J',
+      7 => 'J',
+      8 => 'Á',
+      9 => 'S',
+      10 => 'O',
+      11 => 'N',
+      12 => 'D',
+    ),
   ),
   'monthNamesSA' => 
   array (
     'narrow' => 
     array (
-      1 => 'j',
-      2 => 'f',
-      3 => 'm',
-      4 => 'a',
-      5 => 'm',
-      6 => 'j',
-      7 => 'j',
-      8 => 'á',
-      9 => 's',
-      10 => 'o',
-      11 => 'n',
-      12 => 'd',
+      1 => 'J',
+      2 => 'F',
+      3 => 'M',
+      4 => 'A',
+      5 => 'M',
+      6 => 'J',
+      7 => 'J',
+      8 => 'Á',
+      9 => 'S',
+      10 => 'O',
+      11 => 'N',
+      12 => 'D',
     ),
   ),
   'weekDayNames' => 
@@ -270,18 +283,28 @@ return array (
       5 => 'fös',
       6 => 'lau',
     ),
+    'narrow' => 
+    array (
+      0 => 'S',
+      1 => 'M',
+      2 => 'Þ',
+      3 => 'M',
+      4 => 'F',
+      5 => 'F',
+      6 => 'L',
+    ),
   ),
   'weekDayNamesSA' => 
   array (
     'narrow' => 
     array (
-      0 => 's',
-      1 => 'm',
-      2 => 'þ',
-      3 => 'm',
-      4 => 'f',
-      5 => 'f',
-      6 => 'l',
+      0 => 'S',
+      1 => 'M',
+      2 => 'Þ',
+      3 => 'M',
+      4 => 'F',
+      5 => 'F',
+      6 => 'L',
     ),
   ),
   'eraNames' => 
@@ -293,13 +316,13 @@ return array (
     ),
     'wide' => 
     array (
-      0 => 'f.Kr.',
-      1 => 'e.Kr.',
+      0 => 'fyrir Krist',
+      1 => 'eftir Krist',
     ),
     'narrow' => 
     array (
-      0 => 'f.k.',
-      1 => 'e.k.',
+      0 => 'f.Kr.',
+      1 => 'e.Kr.',
     ),
   ),
   'dateFormats' => 
@@ -317,8 +340,6 @@ return array (
     'short' => 'HH:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'f.h.',
-  'pmName' => 'e.h.',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

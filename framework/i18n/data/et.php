@@ -10,7 +10,7 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '4178',
+  'version' => '5094',
   'numberSymbols' => 
   array (
     'decimal' => ',',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -69,14 +68,13 @@ return array (
     'CUP' => 'CU$',
     'CVE' => 'CV$',
     'CYP' => 'CY£',
-    'CZK' => 'Kč',
+    'CZK' => 'CZK',
     'DEM' => 'DM',
     'DJF' => 'Fdj',
-    'DKK' => 'Dkr',
+    'DKK' => 'DKK',
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'kr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -137,7 +135,7 @@ return array (
     'NGN' => '₦',
     'NIO' => 'C$',
     'NLG' => 'fl',
-    'NOK' => 'Nkr',
+    'NOK' => 'NOK',
     'NPR' => 'NPRs',
     'NZD' => 'NZ$',
     'PAB' => 'B/.',
@@ -157,7 +155,7 @@ return array (
     'SBD' => 'SI$',
     'SCR' => 'SRe',
     'SDD' => 'LSd',
-    'SEK' => 'Skr',
+    'SEK' => 'SEK',
     'SGD' => 'S$',
     'SHP' => 'SH£',
     'SKK' => 'Sk',
@@ -234,18 +232,18 @@ return array (
   array (
     'narrow' => 
     array (
-      1 => '1',
-      2 => '2',
-      3 => '3',
-      4 => '4',
-      5 => '5',
-      6 => '6',
-      7 => '7',
-      8 => '8',
-      9 => '9',
-      10 => '10',
-      11 => '11',
-      12 => '12',
+      1 => 'J',
+      2 => 'V',
+      3 => 'M',
+      4 => 'A',
+      5 => 'M',
+      6 => 'J',
+      7 => 'J',
+      8 => 'A',
+      9 => 'S',
+      10 => 'O',
+      11 => 'N',
+      12 => 'D',
     ),
   ),
   'weekDayNames' => 
@@ -262,6 +260,19 @@ return array (
     ),
     'abbreviated' => 
     array (
+      0 => 'püh',
+      1 => 'esm',
+      2 => 'tei',
+      3 => 'kol',
+      4 => 'nel',
+      5 => 'ree',
+      6 => 'lau',
+    ),
+  ),
+  'weekDayNamesSA' => 
+  array (
+    'narrow' => 
+    array (
       0 => 'P',
       1 => 'E',
       2 => 'T',
@@ -269,19 +280,6 @@ return array (
       4 => 'N',
       5 => 'R',
       6 => 'L',
-    ),
-  ),
-  'weekDayNamesSA' => 
-  array (
-    'narrow' => 
-    array (
-      0 => '1',
-      1 => '2',
-      2 => '3',
-      3 => '4',
-      4 => '5',
-      5 => '6',
-      6 => '7',
     ),
   ),
   'eraNames' => 
@@ -304,21 +302,19 @@ return array (
   ),
   'dateFormats' => 
   array (
-    'full' => 'EEEE, d, MMMM y',
-    'long' => 'd MMMM y',
+    'full' => 'EEEE, d. MMMM y',
+    'long' => 'd. MMMM y',
     'medium' => 'dd.MM.yyyy',
     'short' => 'dd.MM.yy',
   ),
   'timeFormats' => 
   array (
-    'full' => 'H:mm:ss zzzz',
-    'long' => 'H:mm:ss z',
-    'medium' => 'H:mm:ss',
+    'full' => 'H:mm.ss zzzz',
+    'long' => 'H:mm.ss z',
+    'medium' => 'H:mm.ss',
     'short' => 'H:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'AM',
-  'pmName' => 'PM',
   'orientation' => 'ltr',
   'pluralRules' => 
   array (

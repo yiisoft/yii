@@ -10,7 +10,7 @@
  * Copyright © 2008-2011 Yii Software LLC (http://www.yiiframework.com/license/)
  */
 return array (
-  'version' => '4178',
+  'version' => '4767',
   'numberSymbols' => 
   array (
     'decimal' => '.',
@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -201,18 +199,18 @@ return array (
   array (
     'wide' => 
     array (
-      1 => 'জানুয়াৰী',
-      2 => 'ফেব্ৰুয়াৰী',
+      1 => 'জানুৱাৰী',
+      2 => 'ফেব্ৰুৱাৰী',
       3 => 'মাৰ্চ',
       4 => 'এপ্ৰিল',
       5 => 'মে',
       6 => 'জুন',
       7 => 'জুলাই',
       8 => 'আগষ্ট',
-      9 => 'সেপ্টেম্বৰ',
+      9 => 'ছেপ্তেম্বৰ',
       10 => 'অক্টোবৰ',
-      11 => 'নভেম্বৰ',
-      12 => 'ডিসেম্বৰ',
+      11 => 'নৱেম্বৰ',
+      12 => 'ডিচেম্বৰ',
     ),
     'abbreviated' => 
     array (
@@ -317,7 +315,5 @@ return array (
     'short' => 'h.mm. a',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'পূৰ্বা',
-  'pmName' => 'অপ',
   'orientation' => 'ltr',
 );

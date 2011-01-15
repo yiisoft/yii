@@ -59,7 +59,6 @@ return array (
     'BZD' => 'BZ$',
     'CAD' => 'CA$',
     'CDF' => 'CDF',
-    'CHF' => 'Fr.',
     'CLE' => 'Eº',
     'CLP' => 'CL$',
     'CNY' => 'CN¥',
@@ -76,7 +75,6 @@ return array (
     'DOP' => 'RD$',
     'DZD' => 'DA',
     'EEK' => 'Ekr',
-    'EGP' => 'EG£',
     'ERN' => 'Nfk',
     'ESP' => 'Pts',
     'ETB' => 'Br',
@@ -129,7 +127,7 @@ return array (
     'MTL' => 'Lm',
     'MTP' => 'MT£',
     'MUR' => 'MURs',
-    'MXP' => 'MX$',
+    'MXN' => 'MX$',
     'MYR' => 'RM',
     'MZM' => 'Mt',
     'MZN' => 'MTn',
@@ -209,10 +207,10 @@ return array (
       6 => 'Sune',
       7 => 'Siulai',
       8 => 'ʻAokosi',
-      9 => 'Sēpitema',
+      9 => 'Sepitema',
       10 => 'ʻOkatopa',
       11 => 'Nōvema',
-      12 => 'Tisema',
+      12 => 'Tīsema',
     ),
     'abbreviated' => 
     array (
@@ -224,10 +222,10 @@ return array (
       6 => 'Sun',
       7 => 'Siu',
       8 => 'ʻAok',
-      9 => 'Sēp',
+      9 => 'Sep',
       10 => 'ʻOka',
       11 => 'Nōv',
-      12 => 'Tis',
+      12 => 'Tīs',
     ),
   ),
   'monthNamesSA' => 
@@ -254,7 +252,7 @@ return array (
     array (
       0 => 'Sāpate',
       1 => 'Mōnite',
-      2 => 'Tusite',
+      2 => 'Tūsite',
       3 => 'Pulelulu',
       4 => 'Tuʻapulelulu',
       5 => 'Falaite',
@@ -264,7 +262,7 @@ return array (
     array (
       0 => 'Sāp',
       1 => 'Mōn',
-      2 => 'Tus',
+      2 => 'Tūs',
       3 => 'Pul',
       4 => 'Tuʻa',
       5 => 'Fal',
@@ -307,7 +305,7 @@ return array (
     'full' => 'EEEE d MMMM y',
     'long' => 'd MMMM y',
     'medium' => 'd MMM y',
-    'short' => 'dd-MM-yyyy',
+    'short' => 'd/M/yy',
   ),
   'timeFormats' => 
   array (
@@ -317,7 +315,5 @@ return array (
     'short' => 'HH:mm',
   ),
   'dateTimeFormat' => '{1} {0}',
-  'amName' => 'HH',
-  'pmName' => 'EA',
   'orientation' => 'ltr',
 );
