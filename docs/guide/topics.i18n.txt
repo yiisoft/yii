@@ -197,7 +197,14 @@ assuming a translated message is:
 
 and we are passing a number value 2 in the message parameter array when
 calling [Yii::t()|YiiBase::t], we would obtain `many books` as the final
-translated message.
+translated message:
+
+~~~
+[php]
+Yii::t('app', 'n==1#one book|n>1#many books', array(1)));
+//or since 1.1.6
+Yii::t('app', 'n==1#one book|n>1#many books', 1));
+~~~~
 
 As a shortcut notation, if an expression is a number, it will be treated as
 `n==Number`. Therefore, the above translated message can be also be written as:
@@ -207,23 +214,84 @@ As a shortcut notation, if an expression is a number, it will be treated as
 '1#one book|n>1#many books'
 ~~~
 
-
 ### Plural forms format
 
-Since version 1.1.6 CLDR-based choice format can be used with a bit simpler
-syntax that is handy for languages with complex plural form rules.
+Since version 1.1.6 CLDR-based plural choice format can be used with a simpler
+syntax that. It is handy for languages with complex plural form rules.
 
-The rule for English plural forms above be written the following way:
+
+
+The rule for English plural forms above can be written in the following way:
 
 ~~~
 [php]
-'one book|many books'
+Yii::t('test', 'cucumber|cucumbers', 1);
+Yii::t('test', 'cucumber|cucumbers', 2);
+Yii::t('test', 'cucumber|cucumbers', 0);
+~~~
+
+The code above will give you:
+
+~~~
+cucumber
+cucumbers
+cucumbers
+~~~
+
+If you want to include number you can use the following code.
+
+~~~
+[php]
+echo Yii::t('test', '{n} cucumber|{n} cucumbers', 1);
+~~~
+
+Here `{n}` is a special placeholder holding number passed. It will print `1 cucumber`.
+
+You can pass additional parameters:
+
+~~~
+[php]
+Yii::t('test', '{username} has a cucumber|{username} has {n} cucumbers',
+array(5, '{username}' => 'samdark'));
+~~~
+
+and even replace number parameter with something else:
+
+~~~
+[php]
+function convertNumber($number)
+{
+	// convert number to word
+	return $number;
+}
+
+Yii::t('test', '{n} cucumber|{n} cucumbers',
+array(5, '{n}' => convertNumber(5)));
 ~~~
 
 For Russian it will be:
 ~~~
 [php]
-'одна книга|две книги|пять книг'
+Yii::t('app', 'cucumber|cucumbers', 62);
+Yii::t('app', 'cucumber|cucumbers', 1.5);
+Yii::t('app', 'cucumber|cucumbers', 1);
+Yii::t('app', 'cucumber|cucumbers', 7);
+~~~
+
+with translated message
+
+~~~
+[php]
+'cucumber|cucumbers' => 'огурец|огурца|огурцов|огурца',
+~~~
+
+and will give you
+
+~~~
+62 огурца
+1.5 огурца
+1 огурец
+7 огурцов
 ~~~
 
 
