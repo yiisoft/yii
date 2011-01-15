@@ -151,7 +151,7 @@ public function actionIndex(array $types) { ... }
 To supply the array value, we simply repeat the same option in the command line as needed:
 
 ~~~
-php entryScript.php sitemap index --types=News --types=Article
+yiic sitemap index --types=News --types=Article
 ~~~
 
 The above command will call `actionIndex(array('News', 'Article'))` ultimately.
