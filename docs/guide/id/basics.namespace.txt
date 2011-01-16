@@ -27,7 +27,7 @@ Untuk kemudahan, Yii mendefinisikan beberapa alias root berikut :
  - `zii` : merujuk pada direktori [pustaka Zii] (/doc/guide/extension.use#zii-extensions);
  - `application`: merujuk pada [basis direktori](/doc/guide/basics.application#application-base-directory) aplikasi;
  - `webroot`: merujuk pada direktori yang berisi file [skrip entri](/doc/guide/basics.entry). Alias ini sudah tersedia sejak versi 1.0.3.
- - `ext`: merujuk ke direktori yang berisi semua [extensions|ekstensi](/doc/guide/extension.overview) pihak ketiga. Alias ini sudah tersedia sejak versi 1.0.8.
+ - `ext`: merujuk ke direktori yang berisi semua [extensions|extension](/doc/guide/extension.overview) pihak ketiga. Alias ini sudah tersedia sejak versi 1.0.8.
  
 Sebagai tambahan, jika aplikasi menggunakan [modul](/doc/guide/basics.module), alias root juga didefinisikan untuk setiap ID modul dan merujuk pada basis path modul terkait. Fitur ini sudah tersedia sejak versi 1.0.3.
 

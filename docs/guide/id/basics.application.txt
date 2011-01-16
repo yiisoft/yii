@@ -163,7 +163,7 @@ Catatan, Anda harus mengkonfigurasi properti
 komponen ini.
 
    - [errorHandler|CApplication::errorHandler]: [CErrorHandler] - menangani
-eksepsi dan kesalahan PHP yang tidak tercakup.
+exception dan kesalahan PHP yang tidak tercakup.
 
    - [messages|CApplication::messages]: [CPhpMessageSource] - menyediakan 
 terjemahan pesan yang dipakai oleh aplikasi Yii.

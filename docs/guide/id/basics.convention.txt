@@ -108,7 +108,7 @@ yang dibuat selama menjalankan aplikasi. Direktori ini harus bisa ditulis oleh
 server Web. Dapat dikustomisasi melalui
 [CApplication::runtimePath].
 
-   - `WebRoot/protected/extensions`: direktori ini menampung semua ekstensi dari
+   - `WebRoot/protected/extensions`: direktori ini menampung semua extension dari
 pihak ketiga. Dapat dikustomisasi melalui [CApplication::extensionPath].
 
    - `WebRoot/protected/modules`: direktori ini menampung semua 
@@ -129,7 +129,7 @@ kontroler. Dapat dikustomisasi melalui [CController::getViewPath].
 tampilan tata letak. Dapat dikustomisasi melalui [CWebApplication::layoutPath].
 
    - `WebRoot/protected/views/system`: direktori ini menampung semua file tampilan
-sistem. Tampilan sistem adalah template yang dipakai dalam menampilkan eksepsi (exception) dan
+sistem. Tampilan sistem adalah template yang dipakai dalam menampilkan exception (exception) dan
 kesalahan. Dapat dikustomisasi melalui [CWebApplication::systemViewPath].
 
    - `WebRoot/assets`: direktori ini menampung file aset yang dipublikasikan. File

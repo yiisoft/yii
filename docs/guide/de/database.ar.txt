@@ -694,4 +694,4 @@ $contents=Content::model()->findAll();
 Beachten Sie, dass der Standardscope nur für `SELECT`-Abfragen verwendet wird. 
 Bei `INSERT`-, `UPDATE`- und `DELETE`-Statements wird er ignoriert.
 
-<div class="revision">$Id: database.ar.txt 1681 2010-01-08 03:04:35Z qiang.xue $</div>
+<div class="revision">$Id: database.ar.txt 2771 2010-12-24 14:48:44Z alexander.makarow $</div>

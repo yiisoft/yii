@@ -3,6 +3,13 @@
 
 На этой странице кратко излагаются новые возможности, внесённые в каждом релизе Yii.
 
+Версия 1.1.6
+-------------
+ * [Добавлен построитель запросов](/doc/guide/database.query-builder)
+ * [Добавлены миграции](/doc/guide/database.migration)
+ * [Лучшие практики MVC](/doc/guide/basics.best-practices)
+ * [Консольным командам добавлена поддержка анонимных параметров и глобальных опций](/doc/guide/topics.console)
+
 Версия 1.1.5
 -------------
 
@@ -133,4 +140,4 @@
  * Расширен класс [CUrlManager] поддержкой параметризованных маршрутов в URL-правилах:
      - [Параметризация маршрутов](/doc/guide/topics.url#parameterizing-routes)
 
-<div class="revision">$Id: changes.txt 2633 2010-11-09 10:05:20Z haertl.mike $</div>
+<div class="revision">$Id: changes.txt 2701 2010-12-02 04:30:18Z qiang.xue $</div>

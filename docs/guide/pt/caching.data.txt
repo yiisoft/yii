@@ -111,4 +111,4 @@ dependências na cadeia informada sofrer alteração.
    - [CExpressionDependency]: a dependência é alterada se o resultado da expressão 
 PHP informada for alterado. Essa classe está disponível a partir da versão 1.0.4.
 
-<div class="revision">$Id: caching.data.txt 1295 2009-08-06 20:00:34Z qiang.xue $</div>
+<div class="revision">$Id: caching.data.txt 1855 2010-03-04 22:42:32Z qiang.xue $</div>

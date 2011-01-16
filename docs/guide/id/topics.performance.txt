@@ -7,13 +7,13 @@ Yii sudah mencoba di setiap aspek guna mengurangi pengurangan performa
 yang disebabkan oleh framework. Akan tetapi, masih ada banyak tempat dalam
 aplikasi pengguna yang bisa ditingkatkan untuk mempercepat performa.
 
-Menghidupkan Ekstensi APC
+Menghidupkan Extension APC
 -------------------------
 
-Menghidupkan [ekstensi
+Menghidupkan [extension
 PHP APC](http://www.php.net/manual/en/book.apc.php) barangkali merupakan
 cara termudah untuk meningkatkan performa aplikasi secara keseluruhan.
-ekstensi men-cache dan mengoptimasi kode menengah PHP dan menghindari waktu
+extension men-cache dan mengoptimasi kode menengah PHP dan menghindari waktu
 yang dipakai dalam penguraian skrip PHP untuk setiap permintaan yang masuk.
 
 Mematikan Mode Debug
@@ -29,7 +29,7 @@ setiap pesan yang sedang dicatat.
 Menggunakan `yiilite.php`
 -------------------------
 
-Saat [ekstensi PHP APC](http://www.php.net/manual/en/book.apc.php) dihidupkan,
+Saat [extension PHP APC](http://www.php.net/manual/en/book.apc.php) dihidupkan,
 kita dapat mengganti `yii.php` dengan file bootstrap Yii yang berbeda bernama
 `yiilite.php` untuk lebih meningkatkan performa aplikasi berbasis-Yii.
 

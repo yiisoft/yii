@@ -15,8 +15,8 @@ tak samo, jak że przeprowadziliśmy analizę projektową dla aplikacji.
 
    3. Tworzenie klasy [modelu](/doc/guide/basics.model) dla każdego typu danych, 
    którym będziemy zarządzać. Narzędzie `Gii` opisane w [Tworzeniu pierwszej aplikacji Yii](doc/guide/quickstart.first-app#implementing-crud-operations)
-   oraz w [Automatycznym generowaniu kodu](doc/guide/topics.gii) może zostać użyte do automatycznego
-   wygenerowania klasy [rekordu aktywnego](/doc/guide/database.ar) dla każdej z interesujących nas
+   oraz w [Automatycznym generowaniu kodu](/doc/guide/topics.gii) może zostać użyte do automatycznego
+   wygenerowania klasy [rekordu aktywnego](//doc/guide/database.ar) dla każdej z interesujących nas
    tabel bazodanowych.
 
    4. Tworzenie klasy [kontrolera](/doc/guide/basics.controller) dla każdego typu 
@@ -46,4 +46,4 @@ tak samo, jak że przeprowadziliśmy analizę projektową dla aplikacji.
 Dla każdego z powyższych kroków, może być konieczne stworzenie przypadków testowych 
 i sprawdzenie ich.
 
-<div class="revision">$Id: basics.workflow.txt 2388 2010-08-30 22:56:26Z alexander.makarow $</div>
+<div class="revision">$Id: basics.workflow.txt 2718 2010-12-07 15:17:04Z qiang.xue $</div>

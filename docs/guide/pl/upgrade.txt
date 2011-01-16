@@ -1,26 +1,25 @@
-Upgrade z wersji 1.0 do 1.1
+Migracja z wersji 1.0 do 1.1
 =================================
 
 Zmiany związane z scenariuszami modelu
 ------------------------------------
 
-- usunięto CModel::safeAttributes(). Bezpieczne atrybuty definiowane są teraz jako te,
-które będą sprawdzane poprzez reguły spradzania poprawności zdefiniowane w CModel::rules()
-dla konkretnego scenariusza.
+- usunięto metodę CModel::safeAttributes(). Bezpiecznymi atrybutami w ramach konkretnego scenariusza
+są teraz atrybuty, które posiadają zdefiniowane reguły w metodzie CModel::rules() dla tego scenariusza.
 
 - zmieniono metody CModel::validate(), CModel::beforeValidate() oraz CModel::afterValidate().
 Dla metod CModel::setAttributes(), CModel::getSafeAttributeNames() usunięto parametr
 'scenario'. Powinieneś teraz ustawiać i usuwać scenariusz modelu poprzez CModel::scenario.
 
 - zmieniono metody CModel::getValidators() oraz CModel::getValidatorsForAttribute().
-CModel::getValidators() zwracają tylko validatory, mające zastosowanie dla scenariusza określonego
+CModel::getValidators() zwraca tylko validatory, mające zastosowanie dla scenariusza określonego
 we właściwości scenario modelu.
 
 - zmieniono metodę CModel::isAttributeRequired() oraz CModel::getValidatorsForAttribute().
-Parametr przekazujący scenariusz został usunięty. Właściwość scenario modelu będzie    
-używana w zamian. 
+Parametr przekazujący scenariusz został usunięty. W zamian w modelu 
+należy używać właściwości scenariusza `scenaio`.
 
-- usunięto CHtml::scenario. CHtml będzie używał właściwości scenariusza modelu w zamian.
+- usunięto CHtml::scenario. W zamian CHtml będzie używać właściwości scenariusza `scenario` modelu.
 
 Zmiany związane z zachłannym ładowaniem dla relacyjnego rekordy aktywnego (AR)
 ---------------------------------------------------------------
@@ -36,8 +35,8 @@ Zmiany związane z aliasem tabeli w relacyjnym rekordzie aktywnym.
 ------------------------------------------------------------
 
 - Domyślny alias dla tabeli relacyjnej odpowiada nazwie tej relacji. Poprzednio, 
-w wersji 1.0.x, Yii generowały domyślny alias tabeli automatycznie, przez co należało
-używać prefiksu `??.` podczas odnoszenia się do tego wygenerowanego automatycznie aliasu
+w wersji 1.0.x, Yii generował domyślny alias tabeli automatycznie, przez co należało
+używać prefiksu `??.` podczas odnoszenia się do tego wygenerowanego automatycznie aliasu.
 
 - Alias nazwy tabeli głównej w zapytaniu AR ustalony został jako `t`.
 Poprzednio w wersji 1.0.x, był on taki sam jak nazwa tabeli. Powodowało to, 
@@ -48,8 +47,8 @@ tych prefiksów przez 't.'.
 Zmiany związane tablicowymi danymi wejściowymi
 ----------------------------------
 
-- Używanie `Field[$i]` dla nazw atrybutów nie jest już poprawne. Powinno zostać zastąpione
-przez `[$i]Field` w celu wspierania pól o typie tablicowym (np. `[$i]Field[$index]`).
+- Używanie `Field[$i]` dla nazw atrybutów nie jest już poprawne. W zamian należy stosować `[$i]Field` 
+w celu wspierania pól o typie tablicowym (np. `[$i]Field[$index]`).
 
 Pozostałe zmiany
 -------------

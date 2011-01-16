@@ -24,7 +24,7 @@ Yii::trace($message, $category);
 Beim Loggen einer Meldung muss eine Kategorie und eine Stufe angegeben werden.
 Die Kategorie ist ein String im Format `xxx.yyy.zzz`, ähnlich einem
 [Pfadalias](/doc/guide/basics.namespace). Wenn eine Meldung zum
-Beispiel in [CController] geloggt wird, könnten wir die Kategorie
+Beispiel in [CController] geloggt wird, könnte man die Kategorie
 `system.web.CController` verwenden. Die Logstufe sollte einem der folgenden
 Werte entpsrechen:
 
@@ -33,7 +33,7 @@ Nachverfolgen (engl.: trace) des Programmablaufs während der Entwicklungsphase.
 
    - `info`: dient zum Loggen allgemeiner Informationen.
 
-   - `profile`: dient zur Performance-Analyse, die wir in Kürze behandeln.
+   - `profile`: dient zur Performance-Analyse, siehe unten.
 
    - `warning`: dient für Warnhinweise.
 
@@ -88,7 +88,7 @@ array(
 )
 ~~~
 
-In obigem Beispiel verwenden wir zwei Logrouten. Die erste ist
+In obigem Beispiel gibt es zwei Logrouten. Die erste ist
 [CFileLogRoute], welche Logmeldungen in einer Datei im Runtime-Verzeichnis der
 Anwendung speichert. Nur Meldungen, die der Stufe `trace` oder `info`
 angehören und deren Kategorie mit `system.` beginnt, werden gespeichert. Die
@@ -113,7 +113,8 @@ die Bearbeitung des aktuellen Requests explizit zu beenden, rufen Sie
 [CApplication::end()] das [onEndRequest|CApplication::onEndRequest]-Event
 auslöst und somit Logmeldungen ordnungsgemäß geloggt werden können.
 
-### Filtern von Logmeldungen
+Filtern von Logmeldungen
+------------------------
 
 Wie erwähnt, können Logeinträge nach ihrer Stufe und ihrer Kategorie gefiltert
 werden, bevor sie an eine Logroute geleitet werden. Dies geschieht,
@@ -121,17 +122,18 @@ indem man die [levels|CLogRoute::levels]- und
 [categories|CLogRoute::categories]-Eigenschaften der entsprechenden Route
 setzt. Mehrere Stufen oder Kategorien sollten mit Kommas verbunden werden.
 
-Da Logkategorien im Format `xxx.yyy.zzz` vorliegen, können wir sie wie
-eine Hierarchie von Kategorien behandeln. In diesem Fall können wir sagen, `xxx`
+Da Logkategorien im Format `xxx.yyy.zzz` vorliegen, können man sie wie
+eine Hierarchie von Kategorien behandeln. In diesem Fall könnte man sagen, `xxx`
 ist die Elternkategorie von `xxx.yyy`, welche wiederum die Elternkategorie von
-`xxx.yyy.zzz` bildet.  Wir können `xxx.*` verwenden, um die Kategorie
+`xxx.yyy.zzz` bildet.  Man könnte daher `xxx.*` verwenden, um die Kategorie
 `xxx` und all ihre Kind- und Enkelkategorien darzustellen.
 
-### Loggen von Kontextinformationen
+Loggen von Kontextinformationen
+-------------------------------
 
-Seit Version 1.0.6 können wir angeben, dass zusätzliche Kontextinformationen
+Seit Version 1.0.6 kann man zusätzliche Kontextinformationen,
 wie vordefinierte PHP-Variablen (z.B. `$_GET`, `$_SERVER`), die Session-ID
-oder der Benutzername mit geloggt werden. Dies erreicht man, indem man
+oder den Benutzernamen mitloggen werden. Dies erreicht man, indem man
 [CLogRoute::filter] auf einen passenden Logfilter weisen lässt.
 
 Im Framework ist bereits der nützliche [CLogFilter] enthalten, der in den
@@ -209,27 +211,28 @@ bedeutet, dass sich zwei Blöcke nicht überschneiden dürfen. Sie müssen
 entweder auf der selben Ebene nebeneinander liegen, oder vollständig von einem
 anderen Codeblock umschlossen werden.
 
-Um die Ergebnisse der Messung anzuzeigen, müssen wir eine
-[CLogRouter]-Komponente mit einer [CProfileLogRoute]-Logroute installieren.
+Um die Ergebnisse der Messung anzuzeigen, muss eine
+[CLogRouter]-Komponente mit einer [CProfileLogRoute]-Logroute installiert werden.
 Dies geht genauso wie beim normalen Logrouting. Die
 [CProfileLogRoute]-Route zeigt das Ergebnis der Analyse am Ende der aktuellen
 Seite an.
 
 
-### Performance-Analyse von SQL-Anweisungen
+Analyse von SQL-Anweisungen
+---------------------------
 
-Im Zusammenhang mit Datenbanken ist die Performance-Analyse besonders sinnvoll,
+Performance-Analyse ist bei Datenbanken besonders sinnvoll,
 da SQL-Anweisungen oft den größten leistungsmäßigen Flaschenhals einer Anwendung
-darstellen. Obwohl wir manuell `beginProfile`- und `endProfile`-Ausdrücke an
-die passenden Stellen setzen könnten, um die Zeit für jede SQL-Anweisung zu
-messen, bietet Yii seit Version 1.0.6 eine systematischere Herangehensweise,
-um dieses Problem zu lösen.
+darstellen. Man könnte die Zeit für die Ausführung einer SQL-Anweisung zwar
+auch messen, indem man manuell `beginProfile`- und `endProfile`-Ausdrücke an
+die passenden Stellen setzt. Seit Version 1.0.6 bietet Yii dafür aber eine 
+einfachere Option.
 
-Indem [CDbConnection::enableProfiling] in der Anwendungskonfiguration auf true
-gesetzt wird, wird jede SQL-Anweisung gemessen. Mit der erwähnten [CProfileLogRoute]
+Wenn man [CDbConnection::enableProfiling] per Konfiguration auf true setzt, 
+wird jede SQL-Anweisung gemessen. Mit der erwähnten [CProfileLogRoute]
 können die Ergebnisse leicht aufgegliedert nach den einzelnen SQL-Anweisungen
 und den dafür benötigten Zeiten angezeigt werden. Durch Aufruf von
-[CDbConnection::getStats()] können wir auch die Gesamtzahl aller
+[CDbConnection::getStats()] kann man die Gesamtzahl aller
 SQL-Anweisungen sowie deren gesamte Ausführungszeit abfragen.
 
-<div class="revision">$Id: topics.logging.txt 1147 2009-06-18 19:14:12Z qiang.xue $</div>
+<div class="revision">$Id: topics.logging.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>

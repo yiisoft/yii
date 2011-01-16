@@ -135,7 +135,8 @@ Jika properti ini di-ste true, maka nilai parameter yang diberikan juga harus se
 Harap dicatat bahwa jika mengeset properti ini menjadi true akan menurunkan kinerja.
 
 
-### Menggunakan Parameter Bernama
+Menggunakan Parameter Bernama
+----------------------------------------------------------
 
 Aturan dapat dikaitkan dengan beberapa parameter GET. Parameter GET ini
 muncul dalam pola aturan sebagai token khusus dengan format sebagai berikut:
@@ -208,7 +209,8 @@ lalu lintas tinggi harus meminimalisir pemakaian
 aturan URL.
 
 
-### Parameterisasi Rute
+Parameterisasi Rute
+---------------------------------
 
 Mulai dari versi 1.0.5, kita dapat merujuk parameter bernama dalam bagian rute pada sebuah
 aturan. Ini mengijinkan aturan untuk diterapkan pada multi rute berdasarkan pada kriteria
@@ -239,7 +241,8 @@ Dan menghasilkan `comment/list` dan parameter GET `page=2`, kita dapat membuat U
 `/index.php/comments?page=2`.
 
 
-### Memparameterkan Hostname(Parameterizing Hostname)
+Memparameterkan Hostname(Parameterizing Hostname)
+------------------------------------------------------------------------------------------
 
 Mulai dari versi 1.0.11, Yii sudah memungkinkan untuk menyertakan hostname ke dalam
 aturan penguraian dan pembuatan URL. Kita dapat mengeluarkan bagian dari hostname
@@ -268,7 +271,8 @@ berada di bawah sebuah sub-folder Web root. Contohnya, jika sebuah aplikasi bera
 maka kita masih menggunakan aturan URL yang sama seperti
  yang dijelaskan di atas tanpa sub-folder sandbox/blog.
 
-### Menyembunyikan `index.php`
+Menyembunyikan `index.php`
+------------------------------------------------
 
 Ada satu hal lagi yang dapat kita lakukan untuk membersihkan URL kita, misalnya
 menyembunyikan entri skrip `index.php` dalam URL. Ini mengharuskan kita untuk
@@ -284,8 +288,6 @@ Catatan bahwa konten yang sama juga bisa disimpan dalam file konfigurasi Apache
 di dalam elemen `Directory` untuk `/wwwroot/blog`.
 
 ~~~
-Options +FollowSymLinks
-IndexIgnore */*
 RewriteEngine on
 
 # jika ia berupa direktori atau file sudah ada, gunakan langsung
@@ -304,7 +306,8 @@ Sekarang jika kita memanggil `$this->createUrl('post/read',array('id'=>100))`, k
 mendapatkan URL `/post/100`. Lebih penting lagi, URL ini bisa dikenal oleh
 aplikasi Web kita dengan benar.
 
-### Memalsukan Sufiks URL
+Memalsukan Sufiks URL
+------------------------------------------
 
 Kita juga bisa menambahkan beberapa sufiks ke URL kita. Sebagai contoh, kita dapat
 memiliki `/post/100.html` daripada `/post/100`. Ini membuat URL lebih terlihat sebagai
@@ -312,4 +315,4 @@ halaman Web statis. Untuk melakukannya, cukup konfigurasi komponen
 [urlManager|CWebApplication::urlManager] dengan menyetel properti
 [urlSuffix|CUrlManager::urlSuffix] ke sufiks yang Anda inginkan.
 
-<div class="revision">$Id: topics.url.txt 2229 2010-06-25 19:57:54Z poppitypop@gmail.com $</div>
+<div class="revision">$Id: topics.url.txt 2773 2010-12-26 16:58:38Z jefftulsa $</div>

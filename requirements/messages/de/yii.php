@@ -16,8 +16,8 @@
  * @version $Id: $
  */
 return array (
-  'GD extension with<br />FreeType support' => 'GD Erweiterung mit<br />FreeType-Unterstützung',
-  'GD installed<br />FreeType support not installed' => 'GD installiert.<br />FreeType-Unterstützung nicht installiert',
+  'GD extension with<br />FreeType support' => 'GD Erweiterung mit <br />FreeType-Unterstützung',
+  'GD installed<br />FreeType support not installed' => 'GD installiert<br />FreeType-Unterstützung nicht installiert',
   'GD not installed' => 'GD nicht installiert',
   '$_SERVER does not have {vars}.' => '$_SERVER verfügt nicht über {vars}.',
   '$_SERVER variable' => '$_SERVER Variable',
@@ -42,5 +42,5 @@ return array (
   'This is required if you are using MySQL database.' => 'Wird für die Verwendung einer MySQL Datenbank benötigt.',
   'This is required if you are using PostgreSQL database.' => 'Wird für die Verwendung einer PostgreSQL Datenbank benötigt.',
   'This is required if you are using SQLite database.' => 'Wird für die Verwendung einer SQLite Datenbank benötigt.',
-  'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' => 'Die URL-Pfadinformation kann nicht ermittelt werden. Stellen Sie bitte sicher, dass $_SERVER["PATH_INFO"] (oder $_SERVER["PHP_SELF"] und $_SERVER["SCRIPT_NAME"]) den richtigen Wert enthält.',
+  'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' => 'Die URL-Pfadinformation kann nicht ermittelt werden. Stellen Sie bitte sicher, dass $_SERVER["PATH_INFO"] (oder $_SERVER["PHP_SELF"] und $_SERVER["SCRIPT_NAME"]) den entsprechenden Wert enthält.',
 );

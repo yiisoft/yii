@@ -55,7 +55,7 @@ memcache для PHP и использует память как хранилищ
 [connectionID|CDbCache::connectionID];
 
    - [CZendDataCache]: использует
-   [Zend Data Cache](http://files.zend.com/help/Zend-Server/zenddatacache.html).
+   [Zend Data Cache](http://files.zend.com/help/Zend-Server-Community-Edition/data_cache_component.htm).
    Доступно с верии 1.0.4;
 
    - [CFileCache]: для хранения кэшированных данных используются файлы. Хорошо
@@ -89,4 +89,4 @@ memcache для PHP и использует память как хранилищ
 Поэтому не используйте кэш как постоянное хранилище данных (например, не
 используйте кэш для хранения данных сессий).
 
-<div class="revision">$Id: caching.overview.txt 2005 2010-04-03 16:24:46Z alexander.makarow $</div>
+<div class="revision">$Id: caching.overview.txt 2769 2010-12-24 13:40:32Z alexander.makarow $</div>

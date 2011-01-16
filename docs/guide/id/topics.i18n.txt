@@ -155,10 +155,10 @@ dan menggabungnya dengan terjemahan yang sudah ada bila diperlukan. Untuk menggu
 perintah `message`, silahkan menjalankan perintah `yiic help message`.
 
 Semenjak versi 1.0.10, ketika menggunakan [CPhpMessageSource] untuk mengatur sumber pesan,
-pesan untuk sebuah kelas ekstensi (seperti sebuah widget, module) dapat digunakan dan atur secara spesial.
-Khususnya, jika sebuah pesan milik ekstensi dengan nama `Xyz`, maka kategori pesan dapat diasumsi sebagai
-`BasePath/messages/LanguageID/categoryName.php`, dengan `BasePath` dirujuk ke direktori yang berisi file kelas ekstensi.
-Dan ketika menggunakan `Yii::t()` untuk menerjemah pesan ekstensi, format berikut harus digunakan :
+pesan untuk sebuah kelas extension (seperti sebuah widget, module) dapat digunakan dan atur secara spesial.
+Khususnya, jika sebuah pesan milik extension dengan nama `Xyz`, maka kategori pesan dapat diasumsi sebagai
+`BasePath/messages/LanguageID/categoryName.php`, dengan `BasePath` dirujuk ke direktori yang berisi file kelas extension.
+Dan ketika menggunakan `Yii::t()` untuk menerjemah pesan extension, format berikut harus digunakan :
 
 ~~~
 [php]

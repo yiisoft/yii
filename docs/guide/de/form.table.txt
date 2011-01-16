@@ -28,7 +28,7 @@ public function actionBatchUpdate()
 		{
 			if(isset($_POST['Item'][$i]))
 				$item->attributes=$_POST['Item'][$i];
-			$valid=$valid && $item->validate();
+			$valid=$item->validate() && $valid;
 		}
 		if($valid)  // alle Daten sind gültig
 			// ...Daten werden hier weiter verarbeitet
@@ -68,4 +68,4 @@ statt `"name"` verwendet wird.
 Genau wie beim View für einfache Models werden auch hier die fehlerhaften
 Eingabefelder automatisch hervorgehoben.
 
-<div class="revision">$Id: form.table.txt 2232 2010-06-26 22:42:03Z qiang.xue $</div>
+<div class="revision">$Id: form.table.txt 2783 2010-12-28 16:20:41Z qiang.xue $</div>

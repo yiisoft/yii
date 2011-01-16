@@ -106,7 +106,8 @@ Di sini kita akan membuat sebuah kelas UserIdentity yang baru dan pass ke dalam 
 
 Apakah seorang user sudah terotentikasi atau belum dapat diperiksa dengan mudah melalui penggunaan `Yii::app()->user->isGuest`. Jika menggunakan penyimpanan tetap (persistent) seperti sesi dan/atau cookie (akan dibahas di bawah) untuk menyimpan informasi identitas, seorang user dapat tetap dalam keadaan login pada request berikutnya. Pada kasus ini, kita tidak perlu kelas UserIdentity dan seluruh proses login pada request selanjutnya. Namun CWebUser yang akan secara otomatis mengurus pengisian informasi identitas dari tempat penyimpanan tetap dan menggunakannya untuk menentukan apakah `Yii::app()->user->isGuest` akan mengembalikan true atau false.
 
-### Cookie-based Login
+Cookie-based Login
+----------------------------------
 
 Secara default, seorang pengguna akan di-logout-kan setelah periode waktu tertentu bila tidak aktif,
 tergantung pada [konfigurasi sesi](http://www.php.net/manual/en/session.configuration.php).
@@ -289,7 +290,8 @@ apakah aturan ini sesuai atau tidak. Dalam ekspresi, Anda dapat menggunakan vari
 yang merujuk ke `Yii::app()->user`. Opsi ini sudah tersedia sejak versi 1.0.3.
 
 
-### Menangani Hasil Otorisasi
+Menangani Hasil Otorisasi
+--------------------------------------------
 
 Ketika otorisasi gagal, misalnya, pengguna tidak diijinkan untuk melakukan
 aksi yang ditetapkan, salah satu dari dua skenario berikut mungkin terjadi:
@@ -299,7 +301,7 @@ komponen pengguna dikonfigurasi menjadi URL halaman login,
 browser akan mengalihkan ke halaman itu. Catatan bahwa standarnya,
 [loginUrl|CWebUser::loginUrl] merujuk ke halaman `site/login`.
 
-   - Sebaliknya eksepsi HTTP akan ditampilkan dengan kode kesalahan 401.
+   - Sebaliknya exception HTTP akan ditampilkan dengan kode kesalahan 401.
 
 Ketika mengkonfigurasi properti [loginUrl|CWebUser::loginUrl], Anda dapat
 menyediakan URL relatif ataupun absolut. Selain itu, Anda juga bisa menyediakan array
@@ -402,7 +404,8 @@ if(Yii::app()->user->checkAccess('deletePost'))
 }
 ~~~
 
-### Mengkonfigurasi Manajer Otorisasi
+Mengkonfigurasi Manajer Otorisasi
+---------------------------------------------------------------
 
 Sebelum kita mendefinisikan hirarki otorisasi dan melakukan pemeriksaan akses,
 kita perlu mengkonfigurasi komponen aplikasi
@@ -433,7 +436,8 @@ return array(
 Selanjutnya kita dapat mengakses komponen aplikasi [authManager|CWebApplication::authManager]
 menggunakan `Yii::app()->authManager`.
 
-### Mendefinisikan Hirarki Otorisasi
+Mendefinisikan Hirarki Otorisasi
+------------------------------------------------------
 
 Mendefinisikan hirarki otorisasi mencakup tiga langkah: mendefinisikan
 item otorisasi, membuat hubungan diantara item otorisasi,
@@ -511,7 +515,8 @@ antar muka agar pengguna akhir bisa menggunakan hirarki otorisasi
 lebih intuitif.
 
 
-### Menggunakan Aturan Bisnis
+Menggunakan Aturan Bisnis (Business Rule)
+-----------------------------------------------
 
 Ketika kita mendefinisikan hirarki otorisasi, kita dapat mengaitkan sebuah role, tugas atau operasi dengan apa yang disebut *aturan bisnis*. Kita juga dapat mengaitkan aturan bisnis saat kita menempatkan sebuah role kepada pengguna. Aturan bisnis adalah bagian dari kode PHP (teppatnya pernyataan PHP) yang dijalankan ketika kita melakukan pemeriksaan akses. Nilai kode yang dikembalikan dipakai untuk menentukan apakah role atau penempatan diterapkan pada pengguna saat ini. Dalam contoh di atas, kita mengaitkan aturan bisnis dengan tugas `updateOwnPost`. Dalam aturan bisnis, kita cukup memeriksa apakah ID pengguna saat ini sama dengan ID pembuat tulisan. Informasi tulisan dalam array `$params` disediakan oleh para pengembang saat melakukan pemeriksaan akses.
 
@@ -591,4 +596,4 @@ $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('guest', 'guest user', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 2637 2010-11-11 04:39:58Z jefftulsa@gmail.com $</div>
+<div class="revision">$Id: topics.auth.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>

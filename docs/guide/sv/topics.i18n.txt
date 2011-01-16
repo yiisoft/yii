@@ -195,6 +195,13 @@ och vi lämnar det numeriska värdet 2 i arrayen av meddelandeparameter när
 [Yii::t()|YiiBase::t] anropas, erhåller vi `many books` som det slutliga 
 översatta meddelandet.
 
+~~~
+[php]
+Yii::t('app', 'n==1#one book|n>1#many books', array(1)));
+//or since 1.1.6
+Yii::t('app', 'n==1#one book|n>1#many books', 1));
+~~~
+
 Som kortform om uttrycket är ett tal, kommer det att behandlas som `n==Number`. 
 Ovanstående översatta meddelande kan därför även skrivas:
 
@@ -203,6 +210,88 @@ Ovanstående översatta meddelande kan därför även skrivas:
 '1#one book|n>1#many books'
 ~~~
 
+### Pluralisformat
+
+Sedan version 1.1.6 kan CLDR-baserat pluralisformat användas med en enklare syntax. 
+Det är användbart för språk som har komplexa regler för pluralisformer.
+
+
+Regeln för engelska pluralisformer ovan, kan skrivas påföljande sätt:
+
+~~~
+[php]
+Yii::t('test', 'cucumber|cucumbers', 1);
+Yii::t('test', 'cucumber|cucumbers', 2);
+Yii::t('test', 'cucumber|cucumbers', 0);
+~~~
+
+Ovanstående kod ger som resultat:
+
+~~~
+cucumber
+cucumbers
+cucumbers
+~~~
+
+Om tal skall inkluderas kan följande kod användas.
+
+~~~
+[php]
+echo Yii::t('test', '{n} cucumber|{n} cucumbers', 1);
+~~~
+
+Här är `{n}` en speciell platsmarkör för talet som lämnas med. Resultatet blir `1 cucumber`.
+
+Det är möjligt att lämna med ytterligare parametrar:
+
+~~~
+[php]
+Yii::t('test', '{username} has a cucumber|{username} has {n} cucumbers',
+array(5, '{username}' => 'samdark'));
+~~~
+
+och även att byta ut tal mot något annat:
+
+~~~
+[php]
+function convertNumber($number)
+{
+	// byt tal till ord
+	return $number;
+}
+
+Yii::t('test', '{n} cucumber|{n} cucumbers',
+array(5, '{n}' => convertNumber(5)));
+~~~
+
+För ryska blir det:
+~~~
+[php]
+Yii::t('app', '{n} cucumber|{n} cucumbers', 62);
+Yii::t('app', '{n} cucumber|{n} cucumbers', 1.5);
+Yii::t('app', '{n} cucumber|{n} cucumbers', 1);
+Yii::t('app', '{n} cucumber|{n} cucumbers', 7);
+~~~
+
+om meddelandeöversättningen är
+
+~~~
+[php]
+'{n} cucumber|{n} cucumbers' => '{n} Ð¾Ð³ÑƒÑ€ÐµÑ†|{n} Ð¾Ð³ÑƒÑ€Ñ†Ð°|{n} Ð¾Ð³ÑƒÑ€Ñ†Ð¾Ð²|{n} Ð¾Ð³ÑƒÑ€Ñ†Ð°',
+~~~
+
+blir resultatet
+
+~~~
+62 Ð¾Ð³ÑƒÑ€Ñ†Ð°
+1.5 Ð¾Ð³ÑƒÑ€Ñ†Ð°
+1 Ð¾Ð³ÑƒÑ€ÐµÑ†
+7 Ð¾Ð³ÑƒÑ€Ñ†Ð¾Ð²
+~~~
+
+
+> Info: För detaljer om hur många värden som skall lämnas med och i vilken ordning, 
+vänligen se CLDR [Language Plural Rules page](http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html).
 
 ### Översättning av fil
 
@@ -276,4 +365,4 @@ eller flyttal (double).
    formaterar det givna talet genom användning av det fördefinierade 
    procentmönstret i mål-localens data.
 
-<div class="revision">$Id: topics.i18n.txt 2522 2010-09-30 21:13:25Z alexander.makarow $</div>
+<div class="revision">$Id: topics.i18n.txt 2870 2011-01-16 04:56:12Z alexander.makarow $</div>

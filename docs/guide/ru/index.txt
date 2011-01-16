@@ -9,7 +9,7 @@
 - Александр Макаров, Sam Dark ([rmcreative.ru](http://rmcreative.ru/))
 - Алексей Лукьяненко, Caveman ([caveman.ru](http://caveman.ru/))
 - Евгений Халецкий, xenon
-- multif
+- Александр Овчинников, multif
 - Сергей Кузнецов, cr0t ([summercode.ru](http://summercode.ru/))
 - Александр Кожевников, Bethrezen ([bethrezen.ru](http://bethrezen.ru/))
 

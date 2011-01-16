@@ -1,5 +1,5 @@
 Uwierzytelnienie i autoryzacja
-================================
+==============================
 
 Uwierzytelnienie oraz autoryzacja są wymagane dla stron WWW, które powinny mieć 
 ograniczony dostęp dla pewnych osób. "Uwierzytelnienie" dotyczy weryfikacji czy ktoś 
@@ -27,7 +27,7 @@ również otrzymać [unikalny identyfikator|CWebUser::name] oraz inne trwałe in
 dotyczące tożsamości użytkownika.
 
 Definiowanie klasy tożsamości
------------------------
+-----------------------------
 
 Jak wspomniano wcześniej, uwierzytelnienie dotyczy sprawdzania tożsamości użytkownika. Typowa implementacja uwierzytelnienia w aplikacji sieciowej zazwyczaj używa kominacji nazwy użytkownika oraz hasła w celu sprawdzenia tożsamości użytkownika. Jednakże, może ona zawierać różne metody a także różne implementacj moga być wymagane. Aby dostosować się do różnych metod uwierzytelniania, framework auth Yii wprowadza klasę tożsamości.
 
@@ -88,7 +88,7 @@ o tożsamości użytkownika mogą także zostać zapisane w ciasteczku. Upewnij 
 zadeklarowałeś ważnych danych (np. hasła) jako wartości trwałe.
 
 Logowanie i wylogowanie
-----------------
+-----------------------
 
 Teraz gdy widzieliśmy przykład tworzenia klasy tożsamości, użyjemy tego aby ułatwić implementację
 akcji naszych akcji logowania i wylogowania. Następujący kod demonstruje jak można to uczynić:
@@ -110,8 +110,8 @@ Tutaj utworzyliśmy nowy obiekt UserIdentity i przekazaliśmy mu dane uwierzytel
 
 Czy użytkownik został uwierzytelniony czy też nie, można sprawdzić w całej aplikacji poprzez użycie `Yii::app()->user->isGuest`. Jeśli używamy nośników trwałych danych takich jak sesja (domyślnie) i/lub ciasteczek (omówionych później) w celu zapisania informacji o tożsamości, użytkownik może pozostać zalogowany podczas kolejnych żądań. W tym przypadku, gdy nie potrzebujemy klasy UserIdentity oraz całego procesu logowania podczas każdege żądania. Raczej to CWebUser automatycznie zadba o ładowanie informacji o tożsamości użytkownika z nośnika trwałych danych i będzie używał ich do zdeterminowania czy `Yii::app()->user->isGuest` zwraca prawdę lub fałsz.
 
-### Logowanie przy użyciu ciasteczek
-
+Logowanie przy użyciu ciasteczek
+--------------------------------
 
 Domyślnie, użytkownik będzie wylogowany po pewnym czasie braku aktywności, w zależności
 od [konfiguracji sesji](http://www.php.net/manual/en/session.configuration.php).
@@ -286,7 +286,8 @@ Reguła dostępu może pasować do następujących parametrów kontekstowych:
    która referuje do `Yii::app()->user`. Opcja ta została udostępniona od wersji 1.0.3.
 
 
-### Zarządzanie wynikami autoryzacji
+Zarządzanie wynikami autoryzacji
+--------------------------------
 
 Kiedy autoryzacja nie powiedzie się, np. użytkownik nie może wykonać określonej
 akcji, jeden z dwóch poniższych scenariuszy może mieć miejsce:
@@ -329,7 +330,7 @@ Yii::app()->request->redirect(Yii::app()->user->returnUrl);
 ~~~
 
 Bazująca na rolach kontrola dostępu (ang. Role-Based Access Control)
--------------------------
+--------------------------------------------------------------------
 
 Bazująca na rolach kontrola dostępu (RBAC) dostarcza prostej a zarazem potężnej, 
 scentralizowanej kontroli dostępu. Zobacz [artykuł wiki](http://en.wikipedia.org/wiki/Role-based_access_control) 
@@ -397,7 +398,8 @@ if(Yii::app()->user->checkAccess('deletePost'))
 }
 ~~~
 
-### Konfigurowanie menadżera autoryzacji (ang. Configuring Authorization Manager)
+Konfigurowanie menadżera autoryzacji (ang. Configuring Authorization Manager)
+-----------------------------------------------------------------------------
 
 Zanim zaczniemy definiować hierarchię autoryzacji oraz sprawdzać dostęp, musimy 
 skonfigurować komponent aplikacji [authManager|CWebApplication::authManager].
@@ -427,7 +429,8 @@ return array(
 Następnie możemy otrzymać dostęp do komponentu aplikacji 
 [authManager|CWebApplication::authManager] używając `Yii::app()->authManager`.
 
-### Definiowanie hierarchii autoryzacji (ang. Defining Authorization Hierarchy)
+Definiowanie hierarchii autoryzacji (ang. Defining Authorization Hierarchy)
+---------------------------------------------------------------------------
 
 Definiowanie hierarchii auoryzacji składa się z 3 kroków: definiowania jednostek
 autoryzacji, ustalania relacji pomiędzy jednostkami autoryzacji oraz przypisywania 
@@ -508,7 +511,8 @@ będą potrzebowali wykonać pewne interfejsy użytkownika, tak, że użytkownic
 ich uzywać do tworzenia hierarchii autoryzacji w sposób bardziej intuicyjny.
 
 
-### Używanie reguł biznesowych
+Używanie reguł biznesowych
+--------------------------
 
 Podczas definiowania hierarchii autoryzacji, możemy powiązać rolę, zadanie lub operację z tak zwaną *reguły biznesowej* (ang. business rule). 
 Możemy również powiązać regułę biznesową podczas przypisywania roli do użytkownika. Reguła biznesowa jest fragmentem kodu PHP,
@@ -548,9 +552,9 @@ if(Yii::app()->user->checkAccess('updateOwnPost',$params))
 ~~~
 
 
-### Uzywanie domyślnych ról
+### Używanie domyślnych ról
 
-> Przypis: Domyślne rolę są dostępne od wersji 1.0.3
+> Note|Uwaga: Domyślne rolę są dostępne od wersji 1.0.3
 
 Wiele aplikacji webowych potrzebuje pewnych bardzo specjalnych ról, które będą 
 przypisane do każdego lub prawie każdego użytkownika systemu. Na przykład, 
@@ -595,4 +599,4 @@ $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('guest','gość', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 2638 2010-11-11 14:18:59Z jefftulsa@gmail.com $</div>
+<div class="revision">$Id: topics.auth.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>

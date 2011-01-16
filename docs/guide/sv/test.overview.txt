@@ -1,4 +1,4 @@
-Översikt
+Testning
 ========
 
 > Note|Märk: Stödet för testning, som beskrivs i detta kapitel kräver Yii 
@@ -36,7 +36,7 @@ kvalitetssäkringsingenjörer).
 
 
 Testdriven utveckling
-=====================
+---------------------
 
 Nedan visas utvecklingscykeln inom så kallad [testdriven utveckling (TDD)](http://en.wikipedia.org/wiki/Test-driven_development):
 
@@ -50,7 +50,7 @@ Upprepa steg 1 till 5 för att driva implementeringen av funktionalitet framåt.
 
 
 Sätta upp testomgivning
-=======================
+-----------------------
 
 Stödet för testning som Yii erbjuder kräver [PHPUnit](http://www.phpunit.de/) 
 3.4+ samt [Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+.
@@ -93,7 +93,7 @@ måste vara installerat och aktiverat för att kodtäckningsrapport skall kunna 
 
 
 Bootstrap-skript för test
-=========================
+-------------------------
 
 Låt oss titta på vad som kan finnas i filen `bootstrap.php`. Denna fil är 
 speciell eftersom den motsvarar [startskriptet](/doc/guide/basics.entry) och utgör 
@@ -147,4 +147,4 @@ webbanvändare. Den huvudsakliga skillnaden är att den innehåller fixturhanter
 använder testdatabasen.
 
 
-<div class="revision">$Id: test.overview.txt 2249 2010-07-06 11:43:48Z qiang.xue $</div>
+<div class="revision">$Id: test.overview.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>

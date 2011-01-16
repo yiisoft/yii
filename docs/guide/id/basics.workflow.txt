@@ -1,9 +1,10 @@
 Alur Kerja Pengembangan
 =======================
 
-Setelah menjelaskan konsep fundamental Yii, kami akan memperlihatkan alur kerja
-umum untuk pengembangan aplikasi web menggunakan Yii. Alur kerja mengasumsikan
-bahwa kita sudah menyelesaikan analisis persyaratan juga analisis desain aplikasi.
+Setelah menjelaskan konsep fundamental Yii, kita akan melihat alur kerja
+umum untuk pengembangan aplikasi web menggunakan Yii. Diasumsikan
+bahwa kita sudah menyelesaikan analisis persyaratan 
+dan juga analisis desain aplikasi.
 
    1. Membuat kerangka struktur direktori. Tool bernama `yiic` yang dijelaskan dalam
 [Membuat Aplikasi Pertama Yii](/doc/guide/quickstart.first-app) dapat
@@ -13,10 +14,12 @@ dipakai untuk mempercepat langkah ini.
 dengan memodifikasi file konfigurasi aplikasi. Langkah ini juga
 memerlukan penulisan beberapa komponen aplikasi (misalnya komponen pengguna).
 
-   3. Membuat sebuah kelas [model](/doc/guide/basics.model) untuk setiap jenis data
-untuk diatur. Sekali lagi, `yiic` bisa dipakai guna membuat kelas
-[active record](/doc/guide/database.ar) secara otomatis untuk tabel database
-yang diperlukan.
+   3. Membuat sebuah kelas [model](/doc/guide/basics.model) untuk setiap tipe data
+yang diatur. Tool `Gii` yang dijelaskan di
+[Membuat Aplikasi Yii Pertama](/doc/guide/quickstart.first-app#implementing-crud-operations)
+dan di [Pembuat Code Otomatis]](/doc/guide/topics.gii) dapat digunakan
+untuk men-generate code kelas [active record](/doc/guide/database.ar) secara otomatis
+untuk setiap tabel database.
 
    4. Membuat kelas [controller](/doc/guide/basics.controller) untuk setiap jenis permintaan pengguna.
 Bagaimana untuk mengklasifikasikan permintaan pengguna tergantung pada
@@ -31,7 +34,8 @@ yang perlu dilakukan.
    6. Mengkonfigurasi aksi yang diperlukan
 [filter](/doc/guide/basics.controller#filter) dalam kelas.
 
-   7. Membuat [tema](/doc/guide/topics.theming) jika fitur tema diperlukan.
+   7. Membuat [tema](/doc/guide/topics.theming) jika fitur tema
+diperlukan.
 
    8. Membuat pesan terjemahan jika
 [internasionalisasi](/doc/guide/topics.i18n) diperlukan.
@@ -41,6 +45,7 @@ yang perlu dilakukan.
 
    10. Terakhir, [optimasi](/doc/guide/topics.performance) dan deployment.
 
-Untuk setiap langkah di atas, pengujian kasus mungkin perlu dibuat dan dilakukan test case .
+Untuk setiap langkah di atas, pengujian kasus mungkin perlu dibuat dan
+dilakukan test case .
 
-<div class="revision">$Id: basics.workflow.txt 2388 2010-08-30 22:56:26Z alexander.makarow $</div>
+<div class="revision">$Id: basics.workflow.txt 2718 2010-12-07 15:17:04Z qiang.xue $</div>

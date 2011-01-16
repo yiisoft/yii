@@ -155,7 +155,8 @@ Permanentspeicher und verwendet sie um den Rückgabewert von
 `Yii::app()->user->isGuest` zu bestimmen.
 
 
-### Cookie-basierte Anmdeldung
+Cookie-basierte Anmdeldung
+--------------------------
 
 Ein Benutzer wird automatisch wieder abgemeldet, wenn er für einen bestimmten
 Zeitraum nicht aktiv war. Die Dauer hängt von der 
@@ -354,7 +355,8 @@ können Sie `$user` für `Yii::app()->user` verwenden. Diese Option ist seit
 Version 1.0.3 verfügbar.
 
 
-### Verhalten nach der Autorisierung
+Verhalten nach der Autorisierung
+--------------------------------
 
 Wurde eine Autorisierung verweigert, so ist der Benutzer nicht berechtigt, 
 die gewünschte Action auszuführen und es passiert folgendes:
@@ -472,7 +474,8 @@ if(Yii::app()->user->checkAccess('löscheBeitrag'))
 }
 ~~~
 
-### Konfigurieren des Autorisierungsmanagers 
+Konfigurieren des Autorisierungsmanagers 
+----------------------------------------
 
 Bevor man eine Autorisierungshierarchie anlegen und den Zugriffsschutz
 einsetzen kann, muss die [authManager|CWebApplication::authManager]-Komponente 
@@ -507,7 +510,8 @@ die entsprechenden Tabellen mit UTF-8-Codierung anlegen und sie bei der
 Konfiguration der Datenbankverbindung die Eigenschaft 
 [CDbConnection::charset] ebenfalls auf `utf8` setzen.
 
-### Anlegen einer Autorisierungshierarchie
+Anlegen einer Autorisierungshierarchie
+--------------------------------------
 
 Das Anlegen einer Autorisierungshierarchie beinhaltet drei Schritte: 
 Autorisierungselemente anlegen, zwischen diesen Elementen Beziehungen 
@@ -586,7 +590,8 @@ Code also nur einmal ausführen, NICHT bei jeden Request.
 > der man Autorisierungshierarchien intuitiver erstellen kann.
 
 
-### Anwendung von Geschäftsregeln
+Anwendung von Geschäftsregeln
+-----------------------------
 
 Erstellt man eine Autorisierungshierarchie, kann man eine Rolle, eine
 Tätigkeit oder eine Operation mit einer sogenannten *Geschäftsregel* versehen.
@@ -676,4 +681,4 @@ $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('gast','Gast-Benutzer', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 2638 2010-11-11 14:18:59Z jefftulsa@gmail.com $</div>
+<div class="revision">$Id: topics.auth.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>

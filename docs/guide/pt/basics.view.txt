@@ -123,7 +123,8 @@ os arquivos de visão de um widget estão localizados no diretório `views`, den
 do diretório onde está localizado o arquivo de classe do widget. Essas visões 
 podem ser renderizadas executando-se o método [CWidget::render()], assim como 
 o método de mesmo nome existente no controle. A única diferença entre eles é 
-que nenhum layout será aplicado a visão do widget.
+que nenhum layout será aplicado a visão do widget. Além disso, nessa view, `$this`
+refere-se a instância do widget em vez da instância do controller.
 
 Visão do Sistema (System View)
 ------------------------------
@@ -142,4 +143,4 @@ O Yii framework já possui um conjunto padrão de visões do sistema, localizada
 `framework/views`. Elas podem ser personalizadas criando-se visões com o mesmo nome 
 que as originais em `protected/views/system`.
 
-<div class="revision">$Id: basics.view.txt 416 2008-12-28 05:28:11Z qiang.xue $</div>
+<div class="revision">$Id: basics.view.txt 2367 2010-08-29 17:29:22Z qiang.xue $</div>

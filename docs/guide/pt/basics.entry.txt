@@ -34,4 +34,4 @@ incluir o arquivo `yii.php`. Executando a aplicação em modo de debug é import
 durante a fase de desenvolvimento pois fornece ricas informações de depuração 
 quando um erro ocorre.
 
-<div class="revision">$Id: basics.entry.txt 162 2008-11-05 12:44:08Z weizhuo $</div>
+<div class="revision">$Id: basics.entry.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

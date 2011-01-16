@@ -1,5 +1,5 @@
-Przegląd
-========
+Rozszerzanie Yii
+================
 
 Rozszerzanie Yii jest powszednią czynnością podczas dewelopmentu. Na przykład, gdy
 piszesz nowy kontroler, rozszerzasz Yii poprzez dziedziczenie po klasie jego 
@@ -31,4 +31,4 @@ Rozszerzenie może być również komponentem, który nie należy do żadnej z w
 wymienionych kategorii. W rzeczy samej, framework Yii jest starannie zaprojektowany, tak że
 niemal każda jego część kodu może być rozszerzona oraz dostosowana do indywidualnych potrzeb.
 
-<div class="revision">$Id: extension.overview.txt 1398 2009-09-06 01:15:01Z qiang.xue $</div>
+<div class="revision">$Id: extension.overview.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>

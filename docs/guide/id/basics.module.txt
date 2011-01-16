@@ -20,7 +20,7 @@ forum/
       views/                  berisi file tampilan untuk widgets
    controllers/               berisi file kelas kontroler
       DefaultController.php   file kelas kontroler standar
-   extensions/                berisi ekstensi pihak-ketiga
+   extensions/                berisi extension pihak-ketiga
    models/                    berisi file kelas model
    views/                     berisi file tampilan kontroler dan tatat letak
       layouts/                berisi file tampilan tata letak

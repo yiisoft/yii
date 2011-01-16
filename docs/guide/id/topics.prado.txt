@@ -186,7 +186,7 @@ sintaks alternatif template dengan sintaks PHP normal. Untuk melakukannya, prope
 [CViewRenderer::fileExtension] yang terinstalasi pada pe-render view harus dikonfigurasi
 dengan sebuah nilai selain `.php`. Misalnya, jika properti di-set sebagai `.tpl`, maka setiap
 view yang berakhiran `.tpl` akan di-render dengan menggunakan pe-render view yang terinstalasi,
-sedangkan file view lain yang berekstensi `.php` akan dianggap sebagai skrip view PHP biasa.
+sedangkan file view lain yang berextension `.php` akan dianggap sebagai skrip view PHP biasa.
 
 
 <div class="revision">$Id: topics.prado.txt 1983 2010-03-31 19:46:37Z qiang.xue $</div>

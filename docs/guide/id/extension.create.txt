@@ -1,25 +1,25 @@
-Membuat Ekstensi
+Membuat Extension
 ================
 
-Karena tujuan ekstensi adalah agar dipakai oleh pengembang pihak ketiga, diperlukan
+Karena tujuan extension adalah agar dipakai oleh pengembang pihak ketiga, diperlukan
 beberapa usaha tambahan untuk membuatnya. Berikut ini adalah beberapa pedoman umum:
 
-* Ekstensi harus berdiri sendiri. Yakni, ketergantungan internalnya harus
-  minimal. Ini akan memusingkan bagi para penggunanya jika sebuah ekstensi masih harus
+* Extension harus berdiri sendiri. Yakni, ketergantungan internalnya harus
+  minimal. Ini akan memusingkan bagi para penggunanya jika sebuah extension masih harus
   menginstalasi paket, kelas atau file sumber tambahan.
-* File yang dimiliki ekstensi harus diatur pada direktori yang sama di mana
-  namanya adalah nama ekstensi.
-* Kelas dalam ekstensi harus diawali dengan huruf untuk menghindari konflik
-  penamaan dengan kelas dalam ekstensi lainnya.
-* Ekstensi harus disertai dengan rincian instalasi dan dokumentasi API.
+* File yang dimiliki extension harus diatur pada direktori yang sama di mana
+  namanya adalah nama extension.
+* Kelas dalam extension harus diawali dengan huruf untuk menghindari konflik
+  penamaan dengan kelas dalam extension lainnya.
+* Extension harus disertai dengan rincian instalasi dan dokumentasi API.
   Tujuannya untuk mengurangi waktu dan usaha yang diperlukan oleh pengembang lain
   saat mereka menggunakan esktensi.
-* Ekstensi harus menggunakan lisensi yang sesuai. Jika Anda ingin menjadikan
-  ekstensi Anda dipakai baik oleh proyek open-source dan closed-source,
+* Extension harus menggunakan lisensi yang sesuai. Jika Anda ingin menjadikan
+  extension Anda dipakai baik oleh proyek open-source dan closed-source,
   Anda dapat menggunakan lisensi seperti BSD, MIT, dll., bukan GPL karena kalau GPL
   mengharuskan kode yang dipakainya juga open-source.
 
-Berikut ini, kita akan melihat bagaimana untuk membuat sebuah ekstensi baru, berdasarkan
+Berikut ini, kita akan melihat bagaimana untuk membuat sebuah extension baru, berdasarkan
 pada pengkategorian dalam [tinjauan](/doc/guide/extension.overview).
 Deskripsi ini juga berlaku saat Anda membuat komponen, terutama yang dipakai
 dalam proyek Anda sendiri.
@@ -107,7 +107,7 @@ Dalam contoh di atas, kita menimpa metode [CWidget::init] dan menempatkan
 URL [CTabView::cssFile] ke gaya standar CSS baru kita jika properti
 belum ditentukan. Kita menempatkan file gaya CSS baru di bawah direktori yang sama
 dengan file kelas `MyTabView` agar bisa dipaketkan sebagai sebuah
-ekstensi. Karena file gaya CSS tidak bisa diakses oleh Web, kita perlu
+extension. Karena file gaya CSS tidak bisa diakses oleh Web, kita perlu
 mempublikasinya sebagai sebuah asset.
 
 Untuk membuat widget baru dari awal, kita perlu mengimplementasikan dua metode:
@@ -183,7 +183,7 @@ tentang aksi yang saat ini disaring.
 
 Kontroler
 ---------
-[Kontroler](/doc/guide/basics.controller) yang didistribusikan sebagai ekstensi
+[Kontroler](/doc/guide/basics.controller) yang didistribusikan sebagai extension
 harus diturunkan dari [CExtController], bukan dari [CController]. Alasan utama
 karena [CController] menganggap file tampilan kontroler ditempatkan di bawah
 `application.views.ControllerID`, sementara [CExtController] menganggap file tampilan
@@ -243,7 +243,7 @@ Petunjuk umum untuk mengembangkan modul adalah bahwa ia harus berdiri sendiri. F
 
 Komponen Generik
 ----------------
-Mengembangkan ekstensi komponen generik mirip dengan pembuatan sebuah kelas. Sekali lagi, komponen
+Mengembangkan extension komponen generik mirip dengan pembuatan sebuah kelas. Sekali lagi, komponen
 juga harus berdiri sendiri agar dapat dipakai dengan mudah oleh pengembang yang lain.
 
 

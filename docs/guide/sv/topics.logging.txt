@@ -104,7 +104,8 @@ uttryckligen stoppa bearbetningen av pågående request, anropa
 [CApplication::end()] signalerar [onEndRequest|CApplication::onEndRequest]-
 händelsen så att meddelanden kan loggas korrekt.
 
-### Meddelandefiltrering
+Meddelandefiltrering
+--------------------
 
 Som tidigare nämnts kan meddelanden filtreras enligt deras nivåer och kategorier 
 innan de skickas längs en loggningsväg. Detta utförs genom att sätta propertyna 
@@ -118,7 +119,8 @@ som en kategorihierkarki. Närmare bestämt, säger vi att `xxx` är förälder 
 användas för att representera kategori `xxx` samt alla dess barn- och 
 barnbarnskategorier.
 
-### Loggning av kontextinformation
+Loggning av kontextinformation
+------------------------------
 
 Från och med version 1.0.6, är det möjligt att specificera loggning av ytterligare 
 kontextinformation, såsom fördefinierade PHP-variabler (t.ex. `$_GET`, `$_SERVER`), 
@@ -201,7 +203,8 @@ detsamma som vi gör vid vanlig meddelandestyrning. [CProfileLogRoute]-loggnings
 kommer att presentera prestandaresultaten vid slutet av den aktuella sidan.
 
 
-### Profilering av SQL-exekvering
+Profilering av SQL-exekvering
+-----------------------------
 
 Profilering är speciellt användbar vid arbete med databaser eftersom SQL-exekvering 
 ofta står för den huvudsakliga prestandaförlusten i en applikation. Utöver att vi 
@@ -217,4 +220,4 @@ som spenderas för exekvering av respektive SQL-sats. Vi kan även anropa
 samt total exekveringstid.
 
 
-<div class="revision">$Id: topics.logging.txt 1147 2009-06-18 19:14:12Z qiang.xue $</div>
+<div class="revision">$Id: topics.logging.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>

@@ -91,7 +91,8 @@ HTML-kod. För fler detaljer, studera standardvyfilerna under ramverkets `view`-
 katalog.
 
 
-### Felhantering med hjälp av en Åtgärd
+Felhantering med hjälp av en Åtgärd
+-----------------------------------
 
 Från och med version 1.0.6 tillåter Yii att man använder en 
 [kontrolleråtgärd](/doc/guide/basics.controller#action) för att hantera uppgiften 
@@ -157,4 +158,4 @@ kategori). Man kan därför dra fördel av finessen
 [loggning](/doc/guide/topics.logging) till att monitorera fel som inträffat när 
 applikationen kördes.
 
-<div class="revision">$Id: topics.error.txt 1064 2009-05-26 00:15:33Z qiang.xue $</div>
+<div class="revision">$Id: topics.error.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>

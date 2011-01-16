@@ -65,33 +65,29 @@ class LoginForm extends CFormModel
 	public $password;
 	public $rememberMe=false;
 
+	private $_identity;
+
 	public function rules()
 	{
 		return array(
 			array('username, password', 'required'),
+			array('rememberMe', 'boolean'),
 			array('password', 'authenticate'),
-	);
+		);
 	}
 
 	public function authenticate($attribute,$params)
 	{
-		if(!$this->hasErrors())  // devemos autenticar o usuário somente se não existir erros de validação
-		{
-			$identity=new UserIdentity($this->username,$this->password);
-			if($identity->authenticate())
-			{
-				$duration=$this->rememberMe ? 3600*24*30 : 0; // 30 dias
-				Yii::app()->user->login($identity,$duration);
-			}
-			else
-				$this->addError('password','Senha Incorreta.');
-		}
+		$this->_identity=new UserIdentity($this->username,$this->password);
+		if(!$this->_identity->authenticate())
+			$this->addError('password','Incorrect username or password.');
 	}
 }
 ~~~
 
 No código acima, especificamos que `username` e `password` são obrigatórios (required). 
-Além disso, definimos que `password` deve ser autenticado (authenticate).
+Além disso, definimos que `password` deve ser autenticado (authenticate) e
+`rememberMe` deve aceitar apenas valores booleanos (boolean).
 
 Cada regra retornada pelo método `rules()` deve estar no seguinte formato:
 
@@ -123,11 +119,6 @@ Segunda, `Validador` pode ser o nome de uma classe validadora. Dessa maneira, qu
 a regra é aplicada, uma instância dessa classe será criada para efetuar a validação. 
 As opções adicionais na regra serão utilizadas para iniciar os valores dos atributos 
 da instância. Uma classe validadora deve estender a classe [CValidator].
-
-> Note|Nota: Quando especificamos regras para um modelo active record, podemos utilizar 
-a opção especial `on`. Os valores dessa opção podem ser `insert` ou `update`, de forma que 
-a regra seja aplicada somente ao inserir ou atualizar um registro. Se não for utilizada, 
-a regra será aplicada em ambos os casos, quando o método `save()` for utilizado.
 
 Terceira, `Validador` pode ser um alias (apelido) predefinido para uma classe validadora. 
 No exemplo acima, o nome `required` é um alias para a classe [CRequiredValidator], a qual 
@@ -195,8 +186,6 @@ array('password', 'authenticate', 'on'=>'login'),
 Atribuição Segura de Atributos
 ------------------------------
 
-> Note|Nota: a atribuição de atributos baseada em cenários está disponível desde a versão 1.0.2 do framework.
-
 Normalmente, depois que uma instância de um modelo é criada, precisamos popular seus 
 atributos com as informações enviadas pelo usuário. Isso pode ser feito de uma 
 maneira conveniente, utilizando a atribuição em massa, como pode ser visto no código abaixo:
@@ -204,24 +193,13 @@ maneira conveniente, utilizando a atribuição em massa, como pode ser visto no 
 ~~~
 [php]
 $model=new LoginForm;
-$model->scenario='login';
 if(isset($_POST['LoginForm']))
 	$model->attributes=$_POST['LoginForm'];
 ~~~
 
-> Note:Nota: A propriedade [scenario|CModel::scenario] está disponível desde a versão 1.0.4. 
-> A atribuição em massa irá utilizar o valor dessa propriedade para determinar quais atributos 
-> podem ser atribuídos dessa maneira. Nas versões 1.0.2 e 1.0.3, para fazer a atribuição 
-> em massa em um cenário específico, deveríamos proceder da seguinte maneira:
->
-> ~~~
-> [php]
-> $model->setAttributes($_POST['LoginForm'], 'login');
-> ~~~
-
-Nesse trecho de código, temos uma atribuição em massa que atribui cada entrada em 
-`$_POST['LoginForm']` ao atributo correspondente no modelo, no cenário `login`. Isso 
-é equivalente a:
+A forma de atribuição utilizada no exemplo acima é chamada *atribuição em massa*.
+Nela cada entrada em `$_POST['LoginForm']` será atribuída ao atributo correspondente
+no modelo ($model). Ela é equivalente a:
 
 ~~~
 [php]
@@ -232,7 +210,80 @@ foreach($_POST['LoginForm'] as $name=>$value)
 }
 ~~~
 
-A tarefa de decidir se um dado é seguro ou não é baseada no valor de retorno do 
+É crucial determinar quais atributos são seguros. Por exemplo, se expormos a
+chave primária de uma tabela como um atributo seguro, um atacante terá a chance
+de modificar o valor da chave para um determinado registro e adulterar dados que
+ele não tem autorizaçao de modificação.
+
+O política utilizada para decidir quais atributos são seguros ou não, foi alterada
+entre as versões 1.0 e 1.1. A seguir elas serão descritas separadamente:
+
+###Atributos Seguros na versão 1.1
+
+Na versão 1.1, um atributo é considerado seguro se ele aparece em alguma das
+regras de validação aplicáveis para o dado cenário. Por exemplo:
+
+~~~
+[php]
+array('username, password', 'required', 'on'=>'login, register'),
+array('email', 'required', 'on'=>'register'),
+~~~
+
+No trecho de código acima, os atributos `username` e `password` são obrigatórios
+no cenário `login`, enquanto `username`, `password` e `email` são obrigatórios no
+cenário `register`. Como resultado disso, se efetuarmos uma atribuição em massa
+no cenário `login`, somente os campos `username` e `password` serão atribuídos, uma
+vez que somente eles possuem regras de validação nesse cenário. Por outro lado,
+caso o cenário seja `register`, todos os três campos serão atribuídos.
+
+~~~
+[php]
+// no cenário login
+$model=new User('login');
+if(isset($_POST['User']))
+	$model->attributes=$_POST['User'];
+
+// no cenário register
+$model=new User('register');
+if(isset($_POST['User']))
+	$model->attributes=$_POST['User'];
+~~~
+
+Então por que utilizamos essa política para determinar se um atributo é seguro ou
+não?
+A idéia por tras disso é, se um atributo já tem uma ou mais regras de validação
+para garantir seus valores, por que devemos nos preocupar com ele?
+
+É importante lembrar que regras de validação são utilizadas para verificar
+dados inseridos pelo usuário e não dados gerados no código (ex.: timestamps,
+chaves primárias criadas automaticamente). Portanto, NÃO adicione regras para
+os atributos que não irão receber dados dos usuários.
+
+As vezes, precisamos declarar um atributo como seguro sem que seja necessária
+qualquer regra de validação para ele. Um exemplo para isso, seria um atributo para
+armazenar o conteúdo de um artigo, que pode receber qualquer tipo de entrada de
+um usuário. Nesse caso, podemos utilizar a regra especial chamada `safe`:
+
+~~~
+[php]
+array('conteudo', 'safe')
+~~~
+
+Além disso, também existe uma regra `unsafe`, utilizada para declarar explicitamente
+que um atributo não é seguro:
+
+~~~
+[php]
+array('permission', 'unsafe')
+~~~
+
+A regra `unsafe` raramente é utilizada e trata-se de uma excessão a regra para
+atributos seguros.
+
+###Atributos Seguros na versão 1.0
+
+
+Na versão 1.0, a tarefa de decidir se um dado é seguro ou não é baseada no valor de retorno do
 método `safeAttributes` e o cenário especificado. Por padrão, esse método 
 retorna todas as variáveis membro públicas como atributos seguros para a classe 
 [CFormModel], ou todas as colunas de uma tabela, menos a chave primária, como atributos 
@@ -290,38 +341,41 @@ $model->id=1;
 Disparando a Validação
 ----------------------
 
-Uma vez que o modelo tenha sido populado com os dados enviados pelo usuário, 
+Uma vez que o modelo foi preenchido com os dados enviados pelo usuário,
 podemos executar o método [CModel::validate()] para disparar o processo de 
 validação. Esse método retorna uma valor indicando se a validação ocorreu com 
 sucesso ou não. Para modelos utilizando [CActiveRecord], a validação pode ser 
 disparada automaticamente quando o método [CActiveRecord::save()] é executado.
 
-Quando chamamos [CModel::validate()], podemos especificar um parâmetro com o nome 
-de um cenário. Assim, somente as regras desse cenário serão aplicadas na 
-validação. Uma regra é aplicada a um cenário, se não existir a opção `on` nela, 
-ou, caso exista, seu valor corresponda ao cenário especificado.
+Podemos configurar utilizando o cenário utilizando a propriedade
+[scenario|CModel::scenario]. O valor informado será utilizado para decidir quais
+regras de validação serão aplicadas.
 
-Por exemplo, executamos o código a seguir para executar a validação ao registrar 
-um usuário:
+Por exemplo, no cenário `login`, queremos validar apenas as entradas para os
+campos `username` e `password`; enquanto que, no cenário `register`, precisamos
+validar mais entradas, tais como `email`, `address`, etc. O exemplo a seguir
+mostra como executar a validação no cenário `register`:
 
 ~~~
 [php]
-$model->scenario='register';
-$model->validate();
+// cria uma instância do modelo User no cenário register. É equivalente a:
+// $model=new User;
+// $model->scenario='register';
+$model=new User('register');
+
+// popula o modelo com as entradas do usuário
+$model->attributes=$_POST['User'];
+
+// executa a validação
+if($model->validate())   // se as entradas são validas
+    ...
+else
+    ...
 ~~~
 
-> Note|Nota: A propriedade [scenario|CModel::scenario] está disponível a partir 
-> da versão 1.0.4. O método de validação irá utilizar essa propriedade para 
-> determinar quais regras irá utilizar. Nas versões 1.0.2 e 1.0.3, devemos 
-> informar o cenário da seguinte maneira:
->
-> ~~~
-> [php]
-> $model->validate('register');
-> ~~~
-
-Devemos declarar as regras de validação na classe do modelo de formulário da 
-seguinte maneira:
+Os cenários aplicáveis a uma regra pode ser especificados através da opção `on`.
+Caso ela não seja especificada, a regra será aplicada em todos os cenários. Por
+exemplo:
 
 ~~~
 [php]
@@ -335,19 +389,17 @@ public function rules()
 }
 ~~~
 
-Como resultado, a primeira regra será aplicada para todos os cenários, enquanto 
+A primeira regra será aplicada para todos os cenários, enquanto
 as outras duas serão aplicadas apenas no cenário `register`
-
-> Note|Nota: validação baseada em cenários está disponível desde a versão 1.0.1.
 
 Recuperando Erros de Validação
 ------------------------------
 
-Podemos usar o método [CModel::hasErrors()] para verificar se existe algum erro 
-de validação e, caso existir, podemos utilizar o método [CModel::getErrors()] 
-para obter as mensagens de erro. Ambos os métodos podem ser utilizados para 
-verificar erros em todos os atributos de uma única vez, ou para cada atributo 
-individualmente.
+Uma vez que a validação foi executada, qualquer erro encontrado será armazenado
+na instância do modelo. Podemos recuperar as mensagens de erro através dos métodos
+[CModel::getErrors()] e [CModel::getError()]. A diferença entre esses dois métodos
+é que o primeiro retorna *todos* os erros para o atributo especificado, enquando o
+segundo irá retornar apenas o *primeiro* erro.
 
 Rótulos de Atributos
 --------------------
@@ -364,4 +416,4 @@ Essa característica pode ser alterada sobrescrevendo o método
 especificando rótulos nos modelos nos permite criar formulários poderosos de uma 
 maneira mais rápida.
 
-<div class="revision">$Id: form.model.txt 1425 2009-09-28 03:28:17Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 2285 2010-07-28 20:40:00Z qiang.xue $</div>

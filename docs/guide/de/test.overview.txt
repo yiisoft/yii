@@ -39,7 +39,7 @@ entweder dem Entwickler selbst oder Qualitätssicherungsingenieuren).
 
 
 Testgetriebene Entwicklung
-==========================
+--------------------------
 
 Unten zeigen wir den Entwicklungszyklus bei der sogenannten [testgetriebenen
 Entwicklung](http://de.wikipedia.org/wiki/Testgetriebene_Entwicklung) (engl.:
@@ -61,7 +61,7 @@ implementieren.
 
 
 Einrichten der Testumgebung
-===========================
+---------------------------
 
 Die von Yii unterstützten Tests benötigen [PHPUnit](http://www.phpunit.de/)
 3.4+ und [Selenium Remote
@@ -106,7 +106,7 @@ muss, damit Reports zur Codeabdeckung erstellt werden können.
 
 
 Test Bootstrap-Script
-====================
+---------------------
 
 Werfen wir einen Blick auf die Datei `bootstrap.php`. Diese Datei ist ebenso
 besonders wie das [Startscript](/doc/guide/basics.entry) unserer Anwendung. 
@@ -159,4 +159,4 @@ einer Anwendungsinstanz, die fast genauso aussieht, wie jene die unsere
 Web-Requests beantwortet. Der wesentliche Unterschied liegt darin, dass ein
 Fixturemanager enthalten ist und sie die Testdatenbank verwendet.
 
-<div class="revision">$Id: test.overview.txt 2249 2010-07-06 11:43:48Z qiang.xue $</div>
+<div class="revision">$Id: test.overview.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>

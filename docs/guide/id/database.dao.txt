@@ -7,9 +7,9 @@ dapat diubah ke yang lain yang berbeda tanpa memerlukan perubahan kode
 yang menggunakan DAO untuk mengakses data.
 
 Yii DAO dibangun di atas [PHP Data Objects
-(PDO)](http://php.net/manual/en/book.pdo.php) yang merupakan ekstensi
+(PDO)](http://php.net/manual/en/book.pdo.php) yang merupakan extension
 yang menyediakan akses data gabungan untuk beberapa DBMS populer, seperti MySQL,
-PostgreSQL. Oleh karena itu, untuk menggunakan Yii DAO, ekstensi PDO dan driver database
+PostgreSQL. Oleh karena itu, untuk menggunakan Yii DAO, extension PDO dan driver database
 PDO tertentu (misalnya `PDO_MYSQL`) harus sudah terinstal.
 
 Yii DAO terdiri dari empat kelas utama sebagai berikut:
@@ -28,14 +28,14 @@ Membuat Koneksi Database
 Untuk membuat koneksi database, buat instance [CDbConnection] dan mengaktifkannya.
 Nama sumber data (DSN) diperlukan untuk menetapkan informasi yang diperlukan
 untuk menyambung ke database. Nama pengguna dan kata sandi juga diperlukan
-guna melakukan koneksi. Eksepsi akan dimunculkan seandainya kesalahan terjadi
+guna melakukan koneksi. Exception akan dimunculkan seandainya kesalahan terjadi
 selama pelaksanaan koneksi (misalnya DSN tidak benar atau username/password
 tidak benar).
 
 ~~~
 [php]
 $connection=new CDbConnection($dsn,$username,$password);
-// melakukan koneksi. Anda dapat mencoba try...catch eksepsi yang mungkin
+// melakukan koneksi. Anda dapat mencoba try...catch exception yang mungkin
 $connection->active=true;
 ......
 $connection->active=false;  // tutup koneksi
@@ -111,7 +111,7 @@ yang dapat ditelusuri baris data yang dihasilkan. Untuk
 kenyamanan, satu set metode `queryXXX()` juga diimplementasikan yang secara
 langsung mengembalikan hasil queri.
 
-Eksepsi akan dimunculkan jika kesalahan terjadi selama eksekusi pernyataan
+Exception akan dimunculkan jika kesalahan terjadi selama eksekusi pernyataan
 SQL.
 
 ~~~
@@ -173,7 +173,7 @@ try
 	//.... eksekusi SQL lainnya
 	$transaction->commit();
 }
-catch(Exception $e) // eksepsi dimunculkan jika queri gagal
+catch(Exception $e) // exception dimunculkan jika queri gagal
 {
 	$transaction->rollBack();
 }

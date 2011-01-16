@@ -101,6 +101,16 @@ do método `raiseEvent()`). O parâmetro `$event` é uma instância da classe [C
 ou uma de suas classes derivadas, e, no mínimo, ele contém a informação sobre quem 
 originou o evento.
 
+A partir da versão 1.0.10, um manipulador de eventos também pode ser uma função
+anônima, suportada a partir do php 5.3. Por exemplo:
+
+~~~
+[php]
+$component->onClicked=function($event) {
+	......
+}
+~~~
+
 Agora, se executarmos o método `onClicked()`, o evento `onClicked` será disparado 
 e o manipulador de evento a ele atribuído será invocado automaticamente.
 
@@ -162,9 +172,9 @@ $component->test();
 É possível que dois comportamentos atribuídos ao mesmo componente tenham métodos com o mesmo nome. 
 Nesse caso, o método do comportamento atribuído primeiro terá precedência.
 
-Os comportamentos são ainda mais poderosos quando utilizado com [eventos](#component-event). Um 
+Os comportamentos são ainda mais poderosos quando utilizado com [eventos](/doc/guide/basics.component#component-event). Um
 comportamento, quando atribuído a um componente, pode utilizar alguns de seus métodos como callbacks 
 para os eventos do componente. Dessa forma, o comportamento tem a possibilidade de observar ou alterar 
 o fluxo de execução do componente.
 
-<div class="revision">$Id: basics.component.txt 1474 2009-10-18 21:13:52Z qiang.xue $</div>
+<div class="revision">$Id: basics.component.txt 2346 2010-08-28 13:12:27Z mdomba $</div>

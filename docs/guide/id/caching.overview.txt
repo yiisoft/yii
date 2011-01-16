@@ -2,12 +2,12 @@ Penembolokan(Caching)
 =====================
 
 Penembolokan(Caching) merupakan sebuah cara sederhana dan efektif guna meningkatkan performa aplikasi
-Web. Dengan menyimpan data yang relatif statis dalam tembolok dan mengambilnya dari
-tembolok bila diperlukan, maka kita dapat menghemat waktu yang diperlukan dalam menghasilkan data.
+Web. Dengan menyimpan data yang relatif statis dalam cache dan mengambilnya dari
+cache bila diperlukan, maka kita dapat menghemat waktu yang diperlukan dalam menghasilkan data.
 
-Pada utamanya, pemakaian tembolok dalam Yii mencakup pengaturan dan pengaksesan komponen aplikasi
-tembolok. Konfigurasi aplikasi berikut merincikan komponen tembolok yang
-menggunakan memcache dengan dua server tembolok.
+Pada utamanya, pemakaian cache dalam Yii mencakup pengaturan dan pengaksesan komponen aplikasi
+cache. Konfigurasi aplikasi berikut merincikan komponen cache yang
+menggunakan memcache dengan dua server cache.
 
 ~~~
 [php]
@@ -26,58 +26,60 @@ array(
 );
 ~~~
 
-Ketika aplikasi berjalan, komponen tembolok dapat diakses melalui `Yii::app()->cache`.
+Ketika aplikasi berjalan, komponen cache dapat diakses melalui
+`Yii::app()->cache`.
 
-Yii menyediakan berbagai komponen tembolok yang dapat menyimpan data tembolok dalam
-berbagai media. Misalnya, komponen [CMemCache] mengenkapsulasi ekstensi
-PHP memcache dan menggunakan memori sebagai media penyimpanan tembolok; komponen
-[CApcCache] mengenkapsulasi ekstensi PHP APC; dan komponen
-[CDbCache] menyimpan data tembolok di dalam database. Berikut ini adalah
+Yii menyediakan berbagai komponen cache yang dapat menyimpan data cache dalam
+berbagai media. Misalnya, komponen [CMemCache] mengenkapsulasi extension
+PHP memcache dan menggunakan memori sebagai media penyimpanan cache; komponen
+[CApcCache] mengenkapsulasi extension PHP APC; dan komponen
+[CDbCache] menyimpan data cache di dalam database. Berikut ini adalah
 komponen-komponen cache yang tersedia:
 
-   - [CMemCache]: menggunakan [ekstensi memcache](http://www.php.net/manual/en/book.memcache.php) PHP.
+   - [CMemCache]: menggunakan [extension memcache](http://www.php.net/manual/en/book.memcache.php) PHP.
 
-   - [CApcCache]: menggunakan [ekstensi APC](http://www.php.net/manual/en/book.apc.php) PHP.
+   - [CApcCache]: menggunakan [extension APC](http://www.php.net/manual/en/book.apc.php) PHP.
 
-   - [CXCache]: menggunakan [ekstensi XCache](http://xcache.lighttpd.net/) PHP.
+   - [CXCache]: menggunakan [extension XCache](http://xcache.lighttpd.net/) PHP.
 Catatan, [CXCache] sudah tersedia sejak versi 1.0.1.
 
    - [CEAcceleratorCache]: menggunakan PHP [EAccelerator extension](http://eaccelerator.net/).
 
-   - [CDbCache]: menggunakan tabel database untuk menyimpan data tembolok. Secara default,
+   - [CDbCache]: menggunakan tabel database untuk menyimpan data cache. Secara default,
 komponen ini akan membuat serta menggunakan database SQLite3 di direktori runtime. Anda
 dapat menetapkan database yang ingin dipakai secara eksplisit dengan mengatur properti
 [connectionID|CDbCache::connectionID].
 
-   - [CZendDataCache]: menggunakan Zend Data Cache sebagai media pokok penembolokan.
-Harap diketahui, komponen ini sudah tersedia sejak versi 1.0.4.
+   - [CZendDataCache]: menggunakan Zend Data Cacheuses [Zend Data Cache](http://files.zend.com/help/Zend-Server-Community-Edition/data_cache_component.htm)
+ sebagai media pokok penembolokan. Harap diketahui, komponen ini sudah tersedia sejak versi 1.0.4.
 
-   - [CFileCache]: menggunakan file untuk menyimpan data tembolok. Komponen ini biasanya seringkali cocok untuk
+   - [CFileCache]: menggunakan file untuk menyimpan data cache. Komponen ini biasanya seringkali cocok untuk
 menembolok potongan data yang besar(misalnya halaman). Harap diketahui bahwa komponen ini sudah tersedia sejak versi 1.0.6.
 
-   - [CDummyCache]: menyajikan tembolok tiruan(cache dummy) yang tidak melakukan penembolokan sama sekali. Tujuan
-komponen ini adalah menyederhanakan kode yang perlu memeriksa ketersediaan tembolok.
-Misalnya, selama pengembangan atau jika server tidak memiliki dukungan tembolok yang sebenarnya, kita
-dapat menggunakan komponen tembolok ini. Seandainya dukungan tembolok yang sebenarnya dihidupkan, kita dapat beralih
-ke penggunaan komponen tembolok yang terkait. Dalam kedua kasus tersebut, kita dapat menggunakan kode yang sama
+   - [CDummyCache]: menyajikan cache tiruan(cache dummy) yang tidak melakukan penembolokan sama sekali. Tujuan
+komponen ini adalah menyederhanakan kode yang perlu memeriksa ketersediaan cache.
+Misalnya, selama pengembangan atau jika server tidak memiliki dukungan cache yang sebenarnya, kita
+dapat menggunakan komponen cache ini. Seandainya dukungan cache yang sebenarnya dihidupkan, kita dapat beralih
+ke penggunaan komponen cache yang terkait. Dalam kedua kasus tersebut, kita dapat menggunakan kode yang sama
 `Yii::app()->cache->get($key)` untuk mencoba mengambil bagian data tanpa perlu mencemaskan
 apakah `Yii::app()->cache` mungkin bernilai `null`. Komponen ini sudah tersedia sejak versi 1.0.5.
 
-> Tip: Karena semua komponen tembolok ini diturunkan dari basis kelas yang sama, yakni
-[CCache], Anda bisa beralih untuk menggunakan tipe tembolok yang lain tanpa perlu mengubah kode yang menggunakan tembolok.
+> Tip: Karena semua komponen cache ini diturunkan dari basis kelas yang sama, yakni
+[CCache], Anda bisa beralih untuk menggunakan tipe cache yang lain tanpa perlu mengubah
+kode yang menggunakan cache.
 
-Penembolokan dapat dipakai pada tingkat yang bebeda. Pada tingkat terendah, kita menggunakan tembolok
+Penembolokan dapat dipakai pada tingkat yang bebeda. Pada tingkat terendah, kita menggunakan cache
 untuk menyimpan sebuah data, misalnya sebuah variabel, dan kita menyebutnya
 *penembolokan data(data caching)*. Pada tingkat berikutnya, kita menyimpan sebuah fragmen halaman
-dalam tembolok yang dibuat oleh bagian skrip tilik(view script). Dan pada tingkat
-tertinggi, kita menyimpan seluruh halaman ke dalam tembolok dan mengambil dari tembolok bila diperlukan.
+dalam cache yang dibuat oleh bagian skrip tilik(view script). Dan pada tingkat
+tertinggi, kita menyimpan seluruh halaman ke dalam cache dan mengambil dari cache bila diperlukan.
 
 Dalam beberapa subbab berikut, kita akan menguraikan bagaimana untuk menggunakan
-tembolok pada tingkatan-tingkatan tersebut.
+cache pada tingkatan-tingkatan tersebut.
 
-> Note|Catatan: Secara definisi, tembolok merupakan media penyimpanan yang tidak tetap alias volatile.
-Tembolok tidak memastikan keberadaan data yang ditembolok meskipun belum kadaluarsa.
-Oleh karenanya, jangan menggunakan tembolok sebagai tempat penyimpanan persisten (misalnya, jangan
-menggunakan tembolok untuk menyimpan session data).
+> Note|Catatan: Secara definisi, cache merupakan media penyimpanan yang tidak tetap alias volatile.
+Cache tidak memastikan keberadaan data yang di-cache meskipun belum kadaluarsa.
+Oleh karenanya, jangan menggunakan cache sebagai tempat penyimpanan persisten (misalnya, jangan
+menggunakan cache untuk menyimpan session data).
 
-<div class="revision">$Id: caching.overview.txt 2005 2010-04-03 16:24:46Z alexander.makarow $</div>
+<div class="revision">$Id: caching.overview.txt 2769 2010-12-24 13:40:32Z alexander.makarow $</div>

@@ -131,8 +131,8 @@ View Sistem
 
 View(tampilan) sistem merujuk pada tampilan yang dipakai oleh Yii untuk menampilkan kesalahan dan pencatatan(logging)
 informasi. Sebagai contoh, ketika permintaan pengguna untuk kontroler atau aksi 
-yang tidak ada, Yii akan memunculkan eksepsi yang menjelaskan kesalahan. Yii menampilkan
-eksepsi menggunakan tampilan sistem tertentu.
+yang tidak ada, Yii akan memunculkan exception yang menjelaskan kesalahan. Yii menampilkan
+exception menggunakan tampilan sistem tertentu.
 
 Penamaan view sistem mengikuti beberapa aturan. Nama seperti `errorXXX` merujuk pada
 tampilan untuk menampilkan [CHttpException] dengan kode kesalahan `XXX`. Sebagai contoh, jika [CHttpException] dimunculkan dengan kode kesalahan 404, view `error404`

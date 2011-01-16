@@ -1,7 +1,15 @@
 Nowe funkcjonalności
 ============
 
-Ta strona zawiera streszczenie najważniejszych nowych funkcji wprowadzonych w każdym wydaniu Yii. 
+Na tej stronie znajdziesz podsumowanie najważniejszych funkcji dodanych w danym wydaniu Yii. 
+
+Wersja 1.1.6
+-------------
+ * [Dodano konstruktor zapytań](/doc/guide/database.query-builder)
+ * [Dodano migrację bazy danych](/doc/guide/database.migration) 
+ * [Najlepsze praktyki w MVC](/doc/guide/basics.best-practices) 
+ * [Dodanow wsparcie dla anonimowych parametrów oraz globalnych opcji w konsoli poleceń](/doc/guide/topics.console) 
+
 
 Wersja 1.1.5
 -------------
@@ -13,12 +21,12 @@ Wersja 1.1.5
 Version 1.1.4
 -------------
 
- * [Dodano wsparcji dla automatycznego wiązania parametrów akcji](/doc/guide/basics.controller#action-parameter-binding)
+ * [Dodano wsparcie dla automatycznego wiązania parametrów akcji](/doc/guide/basics.controller#action-parameter-binding)
 
 Wersja 1.1.3
 -------------
 
- * [Dodano wsparcie umożliwiające konfigurowanie domyslnych wartości widżetu w konfiguracji aplikacji](/doc/guide/topics.theming#customizing-widgets-globally)
+ * [Dodano wsparcie umożliwiające konfigurowanie domyślnych wartości widżetu w konfiguracji aplikacji](/doc/guide/topics.theming#customizing-widgets-globally)
 
 Wersja 1.1.2
 -------------
@@ -29,11 +37,11 @@ Wersja 1.1.1
 -------------
 
  * Dodano klasę CActiveForm, która upraszcza pisanie kodu związanego z formularzami 
- i umożliwia nierozróżnialne i spójne sprawdzanie poprawności zarówno po stronie klienta 
+ oraz umożliwia jednolite i spójne sprawdzanie poprawności zarówno po stronie klienta 
  jak i serwera.
 
  * Przepisano kod generowany przez narzędzie yiic. W szczególności, szkielet
- aplikacji jest terz generowany z wieloma układami; menu operacji zostało zreorganizowane 
+ aplikacji jest teraz generowany za pomocą wielu układów; menu operacji zostało zreorganizowane 
  dla stron CRUD; dodano funkcjonalność wyszukiwania i filtrowania dla stron
  administratora generowanych przez polecenie crud; użyto CActiveForm w celu
  wygenerowania formularza.
@@ -59,7 +67,7 @@ Wersja 1.1.0
 
  * [Dodano wsparcie dla prefiksów tabel](/doc/guide/database.dao#using-table-prefix).
  
- * Dodano cały zesaw rozszerzeń znanych jako [biblioteka Zii](http://code.google.com/p/zii/).
+ * Dodano cały zestaw rozszerzeń znanych jako [biblioteka Zii](http://code.google.com/p/zii/).
 
  * Alias nazwy dla tabeli głównej w zapytaniu AR ustalony został jako 't'.
 
@@ -77,13 +85,13 @@ Wersja 1.0.10
  * Rozszerzono zarządzanie modułami wiadomości o obsługę CPhpMessageSource 
      - [Tłumaczenia wiadomości](/doc/guide/topics.i18n#message-translation)
 
- * Dodano wsparcie dla dołączania anonimowych funkcji jako uchwyty zdarzeń
+ * Dodano wsparcie dla dołączania anonimowych funkcji jako uchwytów zdarzeń
      - [Zdarzenia komponentów](/doc/guide/basics.component#component-event)
 
 Wersja 1.0.8
 -------------
 
- * Dodano wsparcie dla pobierania wartości wielokrotnie buforowanych w jendym czasie
+ * Dodano wsparcie dla jednokrotnego pobierania wartości wielokrotnie zbuforowanych
    - [Buforowanie danych](/doc/guide/caching.data)
 
  * Wprowadzono nowy, domyślny alias dla ścieżki głównej `ext`, który wskazuje na katalog zawierający wszystkie 
@@ -134,7 +142,7 @@ Wersja 1.0.5
  * Rozszerzono record aktywny o wsparcie opcji dynamicznych zapytań dla leniwego ładowania. Zobacz:
      - [dynamiczne opcje zapytań relacyjnych](/doc/guide/database.arr#dynamic-relational-query-options)
 
- * Rozszerzono[CUrlManager] o wsparcie dla parametryzacji reguł dla części URL zawierającej trasę. Zobacz:
+ * Rozszerzono [CUrlManager] o wsparcie dla parametryzacji reguł dla części URL zawierającej trasę. Zobacz:
      - [Parametryzacja trasy w regułach URL](/doc/guide/topics.url#parameterizing-routes)
 
-<div class="revision">$Id: changes.txt 2633 2010-11-09 10:05:20Z haertl.mike $</div>
+<div class="revision">$Id: changes.txt 2701 2010-12-02 04:30:18Z qiang.xue $</div>

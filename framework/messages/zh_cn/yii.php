@@ -43,7 +43,7 @@ return array (
   'The module path "{path}" is not a valid directory.' => '模块路径 "{path}" 不是一个有效的路径。',
   'The pattern for day of the week must be "E", "EE", "EEE", "EEEE", "EEEEE", "e", "ee", "eee", "eeee", "eeeee", "c", "cccc" or "ccccc".' => '星期几的格式必须是 "E", "EE", "EEE", "EEEE", "EEEEE", "e", "ee", "eee", "eeee", "eeeee", "c", "cccc" 或者 "ccccc"。',
   'The pattern for month must be "M", "MM", "MMM", "MMMM", "L", "LL", "LLL" or "LLLL".' => '月份的格式必须是 "M", "MM", "MMM", "MMMM", "L", "LL", "LLL" 或者 "LLLL"。',
-  'The relation "{relation}" in active record class "{class}" is not specified correctly. The join table "{joinTable}" given in the foreign key cannot be found in the database.'=>'AR类 "{class}" 的关联 "{relation}" 的设定不正确。通过外键连接的数据表 "{joinTable}" 在数据库中找不到。',
+  'The relation "{relation}" in active record class "{class}" is not specified correctly. The join table "{joinTable}" given in the foreign key cannot be found in the database.'=>'AR类 "{class}" 的关联 "{relation}" 的设定不正确。通过外键连接的数据表 "{joinTable}" 在数据库中找不到。'
   'The relation "{relation}" in active record class "{class}" is specified with a foreign key "{key}" that does not point to the parent table "{table}".' => 'AR类 "{class}" 的关联 "{relation}" 设定的外键 "{key}" 没有指向父表 "{table}"。',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". There is no such column in the table "{table}".' => 'AR类 "{class}" 的关联 "{relation}" 设定了一个无效的外键 "{key}"。在数据表 "{table}" 中没有这样的列。',
   'The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The columns in the key must match the primary keys of the table "{table}".' => 'AR类 "{class}" 的关联 "{relation}" 设定了一个无效的外键 "{key}"。该键的列必须是数据表 "{table}" 的主键。',

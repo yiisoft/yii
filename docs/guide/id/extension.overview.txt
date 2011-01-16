@@ -1,13 +1,13 @@
-Tinjauan
+Meng-extend Yii
 ========
 
 Memperluas Yii merupakan kegiatan umum selama pengembangan. Contohnya, saat
 Anda membuat kontroler baru, Anda memperluas Yii dengan menurunkan kelas [CController]
 dan saat membuat widget baru, Anda memperluas [CWidget] atau kelas widget
 lain yang sudah ada. Jika kode yang diperluas, didesain untuk dipakai ulang, oleh pengembang
-pihak ketiga, kita menyebutnya sebagai *ekstensi*.
+pihak ketiga, kita menyebutnya sebagai *extension*.
 
-Ekstensi biasanya melakukan satu pekerjaan tertentu. Dalam batasan Yii, ekstensi dapat
+Extension biasanya melakukan satu pekerjaan tertentu. Dalam batasan Yii, extension dapat
 diklasifikasikan sebagai berikut,
 
  * [komponen aplikasi](/doc/guide/basics.application#application-component)
@@ -22,9 +22,9 @@ diklasifikasikan sebagai berikut,
    yang menggunakan nama kelas sebagai namespace-nya.
  * [modul](/doc/guide/basics.module): modul adalah unit software berdiri sendiri yang terdiri dari [model](/doc/guide/basics.model), [tampilan](/doc/guide/basics.view), [kontroler](/doc/guide/basics.controller) dan komponen pendukung lainnya. Dalam banyak aspek, modul mirip dengan [aplikasi](/doc/guide/basics.application). Perbedaan utamanya adalah bahwa modul ada di dalam aplikasi. Sebagai contoh, kita dapat memiliki modul yang menyediakan fungsionalitas manajemen pengguna.
 
-Ekstensi juga dapat berupa komponen yang tidak masuk ke dalam kategori
+Extension juga dapat berupa komponen yang tidak masuk ke dalam kategori
 di atas. Bahkan, Yii didesain secara teliti sehingga hampir seluruh kodenya
 dapat diperluas dan diatur agar sesuai dengan kebutuhan
 setiap individu.
 
-<div class="revision">$Id: extension.overview.txt 1398 2009-09-06 01:15:01Z qiang.xue $</div>
+<div class="revision">$Id: extension.overview.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>

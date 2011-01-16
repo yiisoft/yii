@@ -2,11 +2,11 @@ Penanganan Error
 ================
 
 Yii menyediakan kerangka kerja penanganan error yang lengkap berdasarkan
-pada mekanisme eksepsi PHP 5. Saat aplikasi dibuat untuk menangani permintaan
+pada mekanisme exception PHP 5. Saat aplikasi dibuat untuk menangani permintaan
 pengguna yang masuk, ia meregistrasi metode [handleError|CApplication::handleError]
 untuk menangani peringatan dan pemberitahuan PHP; dan meregistrasi metode
-[handleException|CApplication::handleException] guna menangani eksepsi PHP
-yang tidak tertangkap. Konsekuensinya, jika peringatan/pemberitahuan PHP atau eksepsi
+[handleException|CApplication::handleException] guna menangani exception PHP
+yang tidak tertangkap. Konsekuensinya, jika peringatan/pemberitahuan PHP atau exception
 yang tidak tertangkap terjadi selama eksekusi aplikasi, salah satu pengendali
 error akan mengambil alih kontrol dan memulai prosedur penanganan error
 tertentu.
@@ -15,36 +15,36 @@ tertentu.
 dengan memanggil fungsi PHP
 [set_exception_handler](http://www.php.net/manual/en/function.set-exception-handler.php)
 dan [set_error_handler](http://www.php.net/manual/en/function.set-error-handler.php).
-Jika Anda tidak menginginkan Yii menangani error dan eksepsi, Anda dapat mendefinisikan
+Jika Anda tidak menginginkan Yii menangani error dan exception, Anda dapat mendefinisikan
 constant `YII_ENABLE_ERROR_HANDLER` dan `YII_ENABLE_EXCEPTION_HANDLER` menjadi
 false dalam [skrip entri](/doc/guide/basics.entry).
 
 Standarnya, [errorHandler|CApplication::errorHandler] (atau
 [exceptionHandler|CApplication::exceptionHandler]) akan memunculkan event
 [onError|CApplication::onError] (atau event
-[onException|CApplication::onException]). Jika error (atau eksepsi)
+[onException|CApplication::onException]). Jika error (atau exception)
 tidak ditangani oleh pengendali event manapun, ia akan memanggil bantuan dari
 komponen aplikasi [errorHandler|CErrorHandler].
 
-Memunculkan Eksepsi
+Memunculkan Exception
 -------------------
 
-Memunculkan eksepsi dalam Yii tidak berbeda dengan memunculkan eksepsi normal PHP.
-Anda menggunakan sintaks berikut untuk memunculkan eksepsi bila diperlukan:
+Memunculkan exception dalam Yii tidak berbeda dengan memunculkan exception normal PHP.
+Anda menggunakan sintaks berikut untuk memunculkan exception bila diperlukan:
 
 ~~~
 [php]
 throw new ExceptionClass('ExceptionMessage');
 ~~~
 
-Yii mendefinisikan dua kelas eksepsi: [CException] dan [CHttpException]. Kelas
-pertma adalah kelas eksepsi generik, sementara kelas kedua mewakili eksepsi
+Yii mendefinisikan dua kelas exception: [CException] dan [CHttpException]. Kelas
+pertma adalah kelas exception generik, sementara kelas kedua mewakili exception
 yang harus ditampilkan kepada pengguna akhir. Kelas kedua juga membawa properti
 [statusCode|CHttpException::statusCode] yang mewakili kode status HTTP.
-Kelas eksepsi menentukan bagaimana ia harus ditampilkan,
+Kelas exception menentukan bagaimana ia harus ditampilkan,
 kita akan menjelaskannya nanti.
 
-> Tip: Memunculkan eksepsi [CHttpException] adalah cara mudah pelaporan
+> Tip: Memunculkan exception [CHttpException] adalah cara mudah pelaporan
 error yang disebabkan oleh error pengguna mengoperasikan. Sebagai contoh, jika pengguna menyediakan
 ID tulisan tidak benar dalam URL, kita dapat melakukan hal berikut untuk menampilkan error 404
 (halaman tidak ditemukan):
@@ -92,7 +92,8 @@ Untuk lebih jelasnya, silahkan merujuk ke file tampilan standar framework di baw
 direktori `view`.
 
 
-### Penanganan Error dengan Penggunaan Action(Aksi)
+Penanganan Error dengan Penggunaan Action(Aksi)
+---------------------------------------------------------------------------------
 
 Mulai dari Yii versi 1.0.6, Yii memungkinkan kita menggunakan sebuah [action dari controller](/doc/guide/basics.controller#action)
 untuk menangani tugas penampilan error. Untuk itu, kita harus mengatur error handler(penanganan error) dalam konfigurasi aplikasi:
@@ -141,15 +142,15 @@ aksi `error` bisa saja di-request oleh end user secara langsung yang berarti tid
 Karena kita sedang melemparkan larik(array) `$error` ke view, kita akan memperluas variabel individu
 secara otomatis. Sebagai hasilnya, kita dapat mengakses variabel-variabel `$code`, `$type` secara langsung di view.
 
-Pencatatan Pesan
+Pencatatan Message(Pesan)
 ----------------
 
 Pesan tingkat `error` akan selalu dicatat bila terjadi kesalahan. Jika error
 disebabkan oleh peringatan atau pemberitahuan PHP, pesan akan dicatat dengan
-kategori `php`; jika error disebabkan oleh eksepsi tidak tertangkap, kategori
+kategori `php`; jika error disebabkan oleh exception tidak tertangkap, kategori
 akan menjadi `exception.ExceptionClassName` (untuk [CHttpException]
 [statusCode|CHttpException::statusCode] juga akan ditambahkan ke
 kategori). Selanjutnya Anda dapat mengeksploitasi fitur [pencatatan](/doc/guide/topics.logging)
 untuk memonitor error yang terjadi selama eksekusi aplikasi.
 
-<div class="revision">$Id: topics.error.txt 1064 2009-05-26 00:15:33Z qiang.xue $</div>
+<div class="revision">$Id: topics.error.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>

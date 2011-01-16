@@ -16,7 +16,7 @@
  * @version $Id: $
  */
 return array (
-  'Home' => 'Home',
+  'Home' => 'Start',
   'The button type "{type}" is not supported.' => 'Typ przycisku "{type}" nie jest obsługiwany.',
   'Are you sure you want to delete this item?' => 'Czy na pewno usunąć ten element?',
   'Delete' => 'Usuń',

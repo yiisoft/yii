@@ -33,7 +33,7 @@ W celu wyświetlenia komentarzy na stronie szczegółów wiadomości, zmodyfikuj
 
 W powyższym kodzie, wywołujemy metodę `renderPartial()` aby wygenerować częściowy widok o nazwie `_comments` w celu wyświetlenia listy komentarzy aktualnie wyświetlanej wiadomości. Zauważ, że w widoku używamy wyrażenia `$model->comments` w celu zwrócenia komentarzy dla tej wiadomości. Jest to poprawne wywołanie dlatego, że zadeklarowaliśmy relację `comments` w klasie wiadomości `Post`.  Wykonanie tego wyrażenia spowoduje niejawne wywołanie zapytania do bazy danych z JOIN-em, które zwróci nam odpowiednie komentarze. Funkcjonalność ta znana jest jako [leniwe zapytania relacyjne](http://www.yiiframework.com/doc/guide/database.arr).
 
-Częściowy widok `_comments` nie jest zbyt interesujący. Głównie przechodzi on przez wszystkie komentarze i wyświetla ich szczegóły. Zainteresowanych czytelników odsyłamy do pliku `/wwwroot/yii/demos/blog/protected/post/_comments.php`.
+Częściowy widok `_comments` nie jest zbyt interesujący. Głównie przechodzi on przez wszystkie komentarze i wyświetla ich szczegóły. Zainteresowanych czytelników odsyłamy do pliku `/wwwroot/yii/demos/blog/protected/views/post/_comments.php`.
 
 
 Tworzenie komentarzy
@@ -147,4 +147,4 @@ protected function newComment($post)
 }
 ~~~
 
-<div class="revision">$Id: comment.create.txt 1753 2010-01-25 18:25:03Z qiang.xue $</div>
+<div class="revision">$Id: comment.create.txt 2772 2010-12-24 16:24:12Z alexander.makarow $</div>

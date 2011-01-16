@@ -51,6 +51,26 @@ przestrzeni nazw jest także dużo szybsze niż `include_once` czy też `require
 > Tip|Wskazówka: Kiedy odnosimy się do klasy zdefiniowanej we frameworku Yii, nie musimy
 > importować jej lub dołączać. Wszystkie klasy Yii są preimportowane.
 
+###Używanie map klas
+
+Poczynając od wersji 1.1.5, Yii umożliwia preimportowanie klas poprzez mechanizm
+mapowania klas, które jest również używany przez klasy bazowe Yii. Preimportowane
+klasy mogą być używane w dowolnym miejsu w aplikacji Yii bez potrzeby jawnego
+importu czy też dołączania. funkcjonalnośc ta jest najczęściej używana przez frameworki
+lub też biblioteki, które zostały zbudowane w oparciu o Yii.
+
+Aby preimportować zestaw klasy, następujący kod musi zostać wykonany, zanim 
+metoda [CWebApplication::run()] zostanie wywołana:
+
+~~~
+[php]
+Yii::$classMap=array(
+	'NazwaKlasy1' => 'ścieżka/do/Klasy1.php',
+	'NazwaKlasy2' => 'ścieżka/do/Klasy2.php',
+	......
+);
+~~~
+
 
 Importowanie katalogów
 ---------------------
@@ -99,4 +119,4 @@ W celu umożliwienia autoładowania klas w przestrzeni nazw, przestrzeń nazw mu
 w podobny sposób do nazw aliasów ścieżek. Na przykład, klasa `application\components\GoogleMap`
 musi być zapisana w pliku, którego aliasem jest `application.components.GoogleMap`.
 
-<div class="revision">$Id: basics.namespace.txt 2616 2010-11-03 19:17:20Z qiang.xue $</div>
+<div class="revision">$Id: basics.namespace.txt 2630 2010-11-08 21:13:33Z qiang.xue $</div>
