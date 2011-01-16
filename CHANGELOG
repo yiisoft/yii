@@ -2,6 +2,10 @@
                    Yii Framework Change Log
                    ========================
 
+Version 1.1.7 to be released
+----------------------------
+
+
 Version 1.1.6 January 16, 2011
 ------------------------------
 - Bug #997: Fixed the bug that relational AR query with page-by and sorting may fail to work for SQL Server (Qiang)
