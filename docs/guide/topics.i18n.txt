@@ -272,17 +272,17 @@ array(5, '{n}' => convertNumber(5)));
 For Russian it will be:
 ~~~
 [php]
-Yii::t('app', 'cucumber|cucumbers', 62);
-Yii::t('app', 'cucumber|cucumbers', 1.5);
-Yii::t('app', 'cucumber|cucumbers', 1);
-Yii::t('app', 'cucumber|cucumbers', 7);
+Yii::t('app', '{n} cucumber|{n} cucumbers', 62);
+Yii::t('app', '{n} cucumber|{n} cucumbers', 1.5);
+Yii::t('app', '{n} cucumber|{n} cucumbers', 1);
+Yii::t('app', '{n} cucumber|{n} cucumbers', 7);
 ~~~
 
 with translated message
 
 ~~~
 [php]
-'cucumber|cucumbers' => 'огурец|огурца|огурцов|огурца',
+'{n} cucumber|{n} cucumbers' => '{n} огурец|{n} огурца|{n} огурцов|{n} огурца',
 ~~~
 
 and will give you
