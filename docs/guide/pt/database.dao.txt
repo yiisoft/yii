@@ -88,6 +88,9 @@ com a instrução SQL desejada:
 
 ~~~
 [php]
+$connection=Yii::app()->db;   // Aqui, estamos assumind que você configurou um conexão com o banco de dados
+// Caso contrario, você deverá cria-la explicitamente:
+// $connection=new CDbConnection($dsn,$username,$password);
 $command=$connection->createCommand($sql);
 // se necessário, a instrução SQL pode ser alterada da seguinte maneira:
 // $command->text=$newSQL;
@@ -192,7 +195,7 @@ A vinculação de parâmetros deve ser realizada antes da instrução SQL ser ex
 ~~~
 [php]
 // uma consulta com dois marcadores ":username" e ":email"
-$sql="INSERT INTO users(username, email) VALUES(:username,:email)";
+$sql="INSERT INTO tbl_users(username, email) VALUES(:username,:email)";
 $command=$connection->createCommand($sql);
 // substitui o marcador ":username" com o valor atual de $username
 $command->bindParam(":username",$username,PDO::PARAM_STR);
@@ -224,7 +227,7 @@ novo registro é recuperado:
 
 ~~~
 [php]
-$sql="SELECT username, email FROM users";
+$sql="SELECT username, email FROM tbl_users";
 $dataReader=$connection->createCommand($sql)->query();
 // vincula a 1ª coluna (username) à variável $username
 $dataReader->bindColumn(1,$username);
@@ -236,4 +239,27 @@ while($dataReader->read()!==false)
 }
 ~~~
 
-<div class="revision">$Id: database.dao.txt 1479 2009-10-23 13:24:20Z qiang.xue $</div>
+Utilizando Prefixos de Tabelas
+------------------------------
+
+A partir da versão 1.1.0, o Yii framework possui suporte integrado para a utilização
+de prefixos em nomes de tabela. Um prefixo é uma string que será anexada ao início dos
+nomes das tabelas do banco de dados conectado. Normalmente, eles são utilizados em
+ambientes de hospedagem compartilhada, onde múltiplas aplicações utilizam um único
+banco de dados e é necessário diferenciar as tabelas de cada aplicação. Por exemplo,
+uma aplicação pode utilizar o prefixo `tbl_`, enquanto outra utiliza `yii_`.
+
+Para utiliza-los, você deverá configurar a propriedade
+[CDbConnection::tablePrefix] com o prefixo desejado. Feito isso, em suas consultas
+SQL você deverá utilizar `{{NomeDaTabela}}`, onde `NomeDaTabela` é o nome da tabela
+sem o prefixo. Por exemplo, se um banco de dados contém uma tabela chamada `tbl_user`
+e `tbl_` é o prefixo configurado, então você pode utilizar o seguinte código para
+realizar consultas nessa tabela:
+
+~~~
+[php]
+$sql='SELECT * FROM {{user}}';
+$users=$connection->createCommand($sql)->queryAll();
+~~~
+
+<div class="revision">$Id: database.dao.txt 2266 2010-07-17 13:58:30Z qiang.xue $</div>

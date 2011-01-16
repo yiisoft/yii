@@ -18,7 +18,7 @@ Domyślnie Yii rozpoznaje adresy URL w następującym formacie:
 http://hostname/index.php?r=IdKontrolera/IdAkcji
 ~~~
 
-Zmienna GET `r prezentuje [trasę](/doc/guide/basics.controller#route) która może 
+Zmienna GET `r` prezentuje [trasę](/doc/guide/basics.controller#route) która może 
 zostać rozkodowana przez Yii na nazwę kontrolera i akcji. Jeśli `IdAkcji` jest pominięte 
 kontroler weźmie akcję domyślną (zdefiniowaną poprzez [CController::defaultAction]); 
 a jeśli `IdKontrolera` zostanie również pominięte (lub zmienna `r` nie będzie występować) 
@@ -143,7 +143,7 @@ Większość aplikacji internetowych posiłkuje się bazami danych. Jako najleps
 
    - dla nazw tabeli, możesz używacz zarówno liczny pojedynczej jak i mnogiej, ale nie obu równocześnie. Dla prostoty, zalecamy używanie liczny pojedynczej.
 
-   - nazwy trabel mogą być poprzedzone przez wspólny token, np. `tbl_`. Jest to szczególnie użyteczne kiedy tabele aplikacji współisnieją w tej samej bazie danych z tabelami innej aplikacji. Oba zestawy tabel mogą zostać z łatwością rozdzielone poprzez użycie różnych prefiksów dla nazw tabel.
+   - nazwy tabel mogą być poprzedzone przez wspólny token, np. `tbl_`. Jest to szczególnie użyteczne kiedy tabele aplikacji współisnieją w tej samej bazie danych z tabelami innej aplikacji. Oba zestawy tabel mogą zostać z łatwością rozdzielone poprzez użycie różnych prefiksów dla nazw tabel.
 
 
 <div class="revision">$Id: basics.convention.txt 2345 2010-08-28 12:51:08Z mdomba $</div>

@@ -11,13 +11,22 @@ Kontroler posiada domyślną akcję. Kiedy żądanie użytkownika nie określa k
 powinna zostać wykonana, domyślna akcja jest wykonywana. Domyślnie, domyślna akcja 
 nosi nazwę `index`. Może ona zostać zmieniona poprzez ustawienie [CController::defaultAction].
 
-Poniżej znajduje się minimalny kod wymagany przez klasę kontrolera. Ponieważ kontroler
-nie definiuje żadnej, jeśli zażądamy jakiejś akcji, akcji zostanie rzucony wyjątek. 
+Następujący kod definiuje kontroler `site` a w nim akcje `index` (akcja domyślna) 
+oraz `contact`:
 
 ~~~
 [php]
 class SiteController extends CController
 {
+	public function actionIndex()
+	{
+		// ...
+	}
+
+	public function actionContact()
+	{
+		// ...
+	}
 }
 ~~~
 
@@ -305,4 +314,4 @@ powinien zostać zastosowany dla akcji `edit` oraz `create`, zaś filtr
 `edit` oraz `create`. Jeśli żaden z operatorów plus lub minus nie pojawia się 
 w konfiguracji filtra, filtr będzie zastosowany do wszystkich akcji.
 
-<div class="revision">$Id: basics.controller.txt 2576 2010-10-28 02:46:14Z qiang.xue $</div>
+<div class="revision">$Id: basics.controller.txt 2672 2010-11-22 19:13:16Z qiang.xue $</div>

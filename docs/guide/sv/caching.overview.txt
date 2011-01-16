@@ -48,7 +48,7 @@ Här följer en sammanfattning av de tillgängliga cachekomponenterna:
    ange en databas CDbCache skall använda genom att sätta dess 
    [connectionID|CDbCache::connectionID]-property.
 
-   - [CZendDataCache]: använder Zend Data Cache som underliggande cachningsmedium. 
+   - [CZendDataCache]: använder [Zend Data Cache](http://files.zend.com/help/Zend-Server-Community-Edition/data_cache_component.htm) som underliggande cachningsmedium. 
    Detta har varit tillgängligt sedan version 1.0.4.
 
    - [CFileCache]: använder filer för cachelagring. Detta är speciellt passande 
@@ -80,4 +80,4 @@ existensen av cachelagrat data, även sådant vars giltighetstid inte löpt ut. 
 anledning, använd inte cache för icke-flyktig lagring (t.ex. använd inte cache 
 till att lagra sessionsdata).
 
-<div class="revision">$Id: caching.overview.txt 2005 2010-04-03 16:24:46Z alexander.makarow $</div>
+<div class="revision">$Id: caching.overview.txt 2769 2010-12-24 13:40:32Z alexander.makarow $</div>

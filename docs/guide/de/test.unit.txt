@@ -3,7 +3,7 @@ Unittests
 
 Da das Yii-Testframework auf [PHPUnit](http://www.phpunit.de/) basiert,
 empfehlen wir Ihnen, sich zunächst die [Dokumenation von
-PHPUnit](http://www.phpunit.de/wiki/Documentation) durchzulesen, um die
+PHPUnit](http://www.phpunit.de/manual/current/en/index.html) durchzulesen, um die
 Grundsätze beim Schreiben eines Tests zu verstehen. Zusammengefasst gelten
 diese Grundprinzipien für das Schreiben von Unittests in Yii:
 
@@ -115,4 +115,4 @@ public function testApprove()
 ~~~
 
 
-<div class="revision">$Id: test.unit.txt 1745 2010-01-24 14:23:36Z qiang.xue $</div>
+<div class="revision">$Id: test.unit.txt 2841 2011-01-12 21:04:12Z alexander.makarow $</div>

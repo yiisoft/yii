@@ -37,4 +37,4 @@
 
 Для каждого из представленых этапов может потребоваться создание и применение тестов.
 
-<div class="revision">$Id: basics.workflow.txt 2388 2010-08-30 22:56:26Z alexander.makarow $</div>
+<div class="revision">$Id: basics.workflow.txt 2718 2010-12-07 15:17:04Z qiang.xue $</div>

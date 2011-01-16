@@ -24,6 +24,28 @@ Extensões diferentes tem requisitos diferentes para importação, configuraçã
 utilização. Abaixo, resumimos os tipos mais comuns de utilização de extensões, 
 de acordo com as categorias descritas na [visão geral](/doc/guide/extensions.overview).
 
+Extensões Zii
+-------------
+
+Antes de descrever a utilização de extensões de terceiros, gostariamos de
+apresentar a biblioteca de extensões Zii. Trata-se de um conjunto de extensões
+criadas pelo time de desenvolvedores do Yii e é incluída em todos os lançamentos
+do framework, a partir da versão 1.1.0. Essa biblioteca está hospedada no Google
+Code, no projeto chamado [zii](http://code.google.com/p/zii).
+
+Ao utilizar uma das extensões da Zii, você deve utilizar um path alias para fazer referências às classes
+correspondentes, no formato `zii.caminho.para.NomeDaClasse`.
+O alias `zii` é definido pelo framework e aponta para o diretório raiz da biblioteca
+Zii. Por exemplo, para utilizar a extensão [CGridView], devemos utilizar o seguinte
+código em uma view:
+
+~~~
+[php]
+$this->widget('zii.widgets.grid.CGridView', array(
+	'dataProvider'=>$dataProvider,
+));
+~~~
+
 Componente de Aplicação
 -----------------------
 
@@ -95,7 +117,9 @@ possível porque a classe [CApplicationComponent] define uma propriedade chamada
 atribuir a ela uma lista de configurações de comportamentos, o componente irá anexa-los quando for inicializado.
 
 Para as classes [CController], [CFormModel] e [CActiveModel], que, normalmente, necessitam ser estendidas, 
-a atribuição de comportamentos é feita sobrescrevendo-se o método `behaviors()`. Por exemplo:
+a atribuição de comportamentos é feita sobrescrevendo-se o método `behaviors()`.
+Qualquer comportamento desclarado nesse método será automaticamente anexo à classe.
+Por exemplo:
 
 ~~~
 [php]
@@ -200,7 +224,7 @@ Controle
 --------
 
 Um [controle](/doc/guide/basics.controller), fornece um conjunto de ações que podem 
-ser requisitadas pelos usuários. Para utilizar um extensão de um controle, precisamos 
+ser requisitadas pelos usuários. Para utilizar uma extensão de um controle, precisamos 
 configurar a propriedade [CWebApplication::controllerMap] na 
 [configuração da aplicação](/doc/guide/basics.application#application-configuration):
 
@@ -296,4 +320,4 @@ Yii::import('ext.xyz.XyzClass');
 Feito isso, podemos criar uma instância dessa classe, configurar suas propriedades e 
 chamar seus métodos. Podemos também estendê-lo para criar novas classes.
 
-<div class="revision">$Id: extension.use.txt 1398 2009-09-06 01:15:01Z qiang.xue $</div>
+<div class="revision">$Id: extension.use.txt 1780 2010-02-01 20:32:50Z qiang.xue $</div>

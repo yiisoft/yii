@@ -138,7 +138,8 @@ finns följande alternativ tilllgängliga:
    Lägg märke till att prestanda påverkas negativt om detta alternativ är satt till true.
 
 
-### Användning av namngivna parametrar
+Användning av namngivna parametrar
+----------------------------------
 
 En regel kan associeras med några GET-parametrar. Dessa GET-parametrar uppträder 
 i regelns mönster som speciella symboler på följande format:
@@ -207,7 +208,8 @@ större prestandaförlust. Av denna anledning skall en webbapplikation med
 intensiv trafik minimera sin användning av URL-regler.
 
 
-### Parametrisering av route
+Parametrisering av route
+------------------------
 
 Med start fr o m version 1.0.5, kan vi referera till namngivna parametrar i 
 routedelen av en regel. Detta medger att regeln appliceras på multipla route 
@@ -238,7 +240,8 @@ Och givet routen `comment/list` och GET-parametern `page=2`, kan vi generera
 URL:en `/index.php/comments?page=2`.
 
 
-### Parametrisering av värdnamn
+Parametrisering av värdnamn
+---------------------------
 
 Med start från version 1.0.11 är det nu möjligt att inkludera värdnamn i regler för tolkning
 och generering av URL:er. Man kan extrahera delar av ett värdnamn till att bilda en GET-parameter.
@@ -269,7 +272,8 @@ befinner sig under `http://www.example.com/sandbox/blog`, skall fortfarande samm
 beskrivs ovan användas, utan underkatalogen `sandbox/blog`.
 
 
-### Gömma `index.php`
+Gömma `index.php`
+----------------
 
 Det finns en sak till att göra för att ytterligare rensa upp URL:er, att 
 eliminera startskriptet `index.php` från URL:en. Detta kräver att vi 
@@ -285,8 +289,6 @@ Märk att samma innehåll även kan placeras i Apaches konfigurationsfil
 inuti elementet `Directory` för `/wwwroot/blog`.
 
 ~~~
-Options +FollowSymLinks
-IndexIgnore */*
 RewriteEngine on
 
 # if a directory or a file exists, use it directly
@@ -304,7 +306,8 @@ Med anropet `$this->createUrl('post/read',array('id'=>100))`, erhålls nu URL:en
 `/post/100`. Och nog så viktigt, denna URL kan kännas igen korrekt av 
 webbapplikationen.
 
-### Låtsat URL-suffix
+Låtsat URL-suffix
+-----------------
 
 Vi kan även lägga till något suffix till URL:er. Till exempel, kan vi erhålla 
 `/post/100.html` i stället för `/post/100`. Detta liknar mer en URL till en 
@@ -312,4 +315,4 @@ statisk webbsida. För att göra så, konfigurera komponenten
 [urlManager|CWebApplication::urlManager] genom att sätta dess property 
 [urlSuffix|CUrlManager::urlSuffix] till önskad suffixsträng.
 
-<div class="revision">$Id: topics.url.txt 2229 2010-06-25 19:57:54Z poppitypop@gmail.com $</div>
+<div class="revision">$Id: topics.url.txt 2773 2010-12-26 16:58:38Z jefftulsa $</div>

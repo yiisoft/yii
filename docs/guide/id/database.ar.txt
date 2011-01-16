@@ -4,8 +4,7 @@ Active Record
 Meskipun Yii DAO secara virtual dapat menangani setiap tugas terkait database,
 kemungkinan kita akan menghabiskan 90% waktu kita dalam penulisan beberapa pernyataan SQL
 yang melakukan operasi umum CRUD (create, read, update dan delete) tetap ada.
-Pemeliharaan kode kita saat dicampur dengan
-pernyataan SQL juga akan menambah kesulitan.
+Pemeliharaan kode kita saat dicampur dengan pernyataan SQL juga akan menambah kesulitan.
 Untuk memecahkan masalah ini, kita dapat menggunakan Active Record.
 
 Active Record (AR) adalah teknik populer Pemetaan Relasional Objek / Object-Relational Mapping (ORM).
@@ -31,11 +30,11 @@ Anda harus mengganti `AUTOINCREMENT` dengan `AUTO_INCREMENT` dalam SQL berikut.
 
 ~~~
 [sql]
-CREATE TABLE Post (
+CREATE TABLE tbl_post (
 	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	title VARCHAR(128) NOT NULL,
 	content TEXT NOT NULL,
-	createTime INTEGER NOT NULL
+	create_time INTEGER NOT NULL
 );
 ~~~
 
@@ -114,6 +113,11 @@ class Post extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	public function tableName()
+	{
+		return 'tbl_post';
+	}
 }
 ~~~
 
@@ -161,7 +165,7 @@ $post->title='a sample post';
 Meskipun kita tidak pernah mendeklarasikan properti `title` secara eksplisit dalam kelas `Post`,
 kita masih dapat mengaksesnya dalam kode di atas. Ini disebabkan `title` adalah
 kolom dalam tabel `Post`, dan CActiveRecord membuatnya bisa diakses seperti layaknya
-properti dengan bantuan metode magic PHP `__get()`. Eksepsi (exception) akan ditampilkan
+properti dengan bantuan metode magic PHP `__get()`. Exception (exception) akan ditampilkan
 jika kita mencoba mengakses kolom yang tidak ada, dengan cara yang sama.
 
 > Info: Di dalam panduan ini, kita menggunakan huruf kecil untuk seluruh nama tabel dan kolom.
@@ -659,4 +663,4 @@ $contents=Content::model()->findAll();
 
 Catatan bahwa standar named scope hanya berlaku pada queri `SELECT`. Named scope diabaikan untuk queri `INSERT`, `UPDATE` dan `DELETE`.
 
-<div class="revision">$Id: database.ar.txt 1681 2010-01-08 03:04:35Z qiang.xue $</div>
+<div class="revision">$Id: database.ar.txt 2771 2010-12-24 14:48:44Z alexander.makarow $</div>

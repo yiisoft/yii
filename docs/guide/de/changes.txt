@@ -3,6 +3,13 @@ Neue Features
 
 Diese Seite fasst die wesentlichen neuen Features jeder Yii-Version zusammen.
 
+Version 1.1.6
+-------------
+ * [Query Builder hinzugefügt](/doc/guide/database.query-builder)
+ * [Datenbankmigration hinzugefügt](/doc/guide/database.migration)
+ * [Bewährte MVC-Verfahren](/doc/guide/basics.best-practices)
+ * [Anonyme Parameter und globale Optionen in Konsolenbefehlen](/doc/guide/topics.console)
+
 Version 1.1.5
 -------------
 
@@ -135,4 +142,4 @@ Version 1.0.5
  * [CUrlManager] unterstützt nun das Parametrisieren des Routenteils einer URL. Siehe:
      - [Parametrisierte Routen in URL-Regeln](/doc/guide/topics.url#parameterizing-routes)
 
-<div class="revision">$Id: changes.txt 2633 2010-11-09 10:05:20Z haertl.mike $</div>
+<div class="revision">$Id: changes.txt 2701 2010-12-02 04:30:18Z qiang.xue $</div>

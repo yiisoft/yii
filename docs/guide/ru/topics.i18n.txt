@@ -164,7 +164,14 @@ Yii::t('Xyz.имяКатегории', 'сообщение для перевод
 'n==1#one book|n>1#many books'
 ~~~
 
-и передаём число 2 параметром [Yii::t()|YiiBase::t], то получим `many books`.
+и передаём число 2 параметром [Yii::t()|YiiBase::t], то получим `many books`:
+
+~~~
+[php]
+Yii::t('app', 'n==1#one book|n>1#many books', array(1)));
+//or since 1.1.6
+Yii::t('app', 'n==1#one book|n>1#many books', 1));
+~~~
 
 Если проверяется соответствие определённому числу, можно использовать сокращённую запись,
 которая будет рассматриваться как `n==Number`:
@@ -174,6 +181,95 @@ Yii::t('Xyz.имяКатегории', 'сообщение для перевод
 '1#one book|n>1#many books'
 ~~~
 
+### Формат для множественных форм
+
+С версии 1.1.6 доступен ещё один механизм, выполняющий перевод множественных
+форм слова по правилам CLDR. Он позволяет использовать более простую запись
+правил, что особенно актуально для языков со сложными правилами для множественных
+форм слова.
+
+Правило для множественных форм Английского языка, приведённое выше, можно
+записать так:
+
+~~~
+[php]
+Yii::t('test', 'cucumber|cucumbers', 1);
+Yii::t('test', 'cucumber|cucumbers', 2);
+Yii::t('test', 'cucumber|cucumbers', 0);
+~~~
+
+что даст на выходе:
+
+~~~
+cucumber
+cucumbers
+cucumbers
+~~~
+
+Если требуется включить в сообщение число, можно использовать следующий код:
+
+~~~
+[php]
+echo Yii::t('test', '{n} cucumber|{n} cucumbers', 1);
+~~~
+
+Здесь `{n}` — специальный токен, который будет заменён на переданное число.
+В данном случае будет напечатано `1 cucumber`.
+
+Можно передать дополнительные параметры:
+
+~~~
+[php]
+Yii::t('test', '{username} has a cucumber|{username} has {n} cucumbers',
+array(5, '{username}' => 'samdark'));
+~~~
+
+и даже заменить число чем-нибудь ещё:
+
+~~~
+[php]
+function convertNumber($number)
+{
+	// число прописью
+	return $number;
+}
+
+Yii::t('test', '{n} cucumber|{n} cucumbers',
+array(5, '{n}' => convertNumber(5)));
+~~~
+
+
+Для Русского строка перевода будет выглядеть так:
+~~~
+[php]
+Yii::t('app', '{n} cucumber|{n} cucumbers', 62);
+Yii::t('app', '{n} cucumber|{n} cucumbers', 1.5);
+Yii::t('app', '{n} cucumber|{n} cucumbers', 1);
+Yii::t('app', '{n} cucumber|{n} cucumbers', 7);
+~~~
+
+Соответствующая строка из файла с переводом:
+
+~~~
+[php]
+'{n} cucumber|{n} cucumbers' => '{n} огурец|{n} огурца|{n} огурцов|{n} огурца',
+~~~
+
+На выходе:
+
+~~~
+62 огурца
+1.5 огурца
+1 огурец
+7 огурцов
+~~~
+
+
+
+
+> Info|Информация: число и порядок значений можно узнать в разделе
+ [Language Plural Rules](http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html)
+ на сайте CLDR.
 
 ### Перевод файлов
 
@@ -235,4 +331,4 @@ timestamp:
    - [formatPercentage|CNumberFormatter::formatPercentage]: форматирует число в соответствии с форматом форматирования процентов,
    заданным для текущего языка приложения.
 
-<div class="revision">$Id: topics.i18n.txt 2522 2010-09-30 21:13:25Z alexander.makarow $</div>
+<div class="revision">$Id: topics.i18n.txt 2870 2011-01-16 04:56:12Z alexander.makarow $</div>

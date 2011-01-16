@@ -18,6 +18,7 @@
     - [Pfadaliase und Namespace](basics.namespace)
     - [Konventionen](basics.convention)
     - [Entwickeln mit Yii](basics.workflow)
+    - [Bewährte MVC-Verfahren](basics.best-practices)
 
 * Arbeiten mit Formularen
     - [Übersicht](form.overview)
@@ -30,8 +31,10 @@
 * Arbeiten mit Datenbanken
     - [Übersicht](database.overview)
     - [Data Access Objects (DAO)](database.dao)
+    - [Query Builder](database.query-builder)
     - [ActiveRecord](database.ar)
     - [Relationale ActiveRecords](database.arr)
+    - [Datenbankmigration](database.migration)
 
 * Caching
     - [Übersicht](caching.overview)
@@ -67,4 +70,4 @@
     - [Performance-Optimierung](topics.performance)
     - [Codegenerierung an der Kommandozeile (veraltet)](quickstart.first-app-yiic)
 
-<div class="revision">$Id: toc.txt 2098 2010-05-05 19:49:51Z qiang.xue $</div>
+<div class="revision">$Id: toc.txt 2700 2010-12-01 13:08:26Z alexander.makarow $</div>

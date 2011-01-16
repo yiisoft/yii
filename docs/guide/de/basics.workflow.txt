@@ -19,8 +19,8 @@ angelegt werden.
    3. Erstellen der jeweiligen [Model](/doc/guide/basics.model)-Klassen für
 alle vorkommenden Daten. Die [ActiveRecord](/doc/guide/database.ar)-Klassen
 für alle Datenbanktabellen können mit dem `Gii`-Werkzeug erstellt werden, das in den
-Kapiteln [Automatische Codegenerierung] und [Erstellen der ersten
-Yii-Anwendung](doc/guide/quickstart.first-app#implementing-crud-operations)
+Kapiteln [Automatische Codegenerierung](/doc/guide/topics.gii) und [Erstellen der ersten
+Yii-Anwendung](/doc/guide/quickstart.first-app#implementing-crud-operations)
 beschrieben wird.
 
    4. Erstellen der [Controller](/doc/guide/basics.controller)-Klassen 
@@ -51,4 +51,4 @@ Onlinestellung.
 Für jeden der obigen Schritte kann es nötig sein, "Test cases" (sinngem:
 automatisierte Funktionstests) zu erstellen und durchzuführen.
 
-<div class="revision">$Id: basics.workflow.txt 2388 2010-08-30 22:56:26Z alexander.makarow $</div>
+<div class="revision">$Id: basics.workflow.txt 2718 2010-12-07 15:17:04Z qiang.xue $</div>

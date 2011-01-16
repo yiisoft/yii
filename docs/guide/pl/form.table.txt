@@ -27,7 +27,7 @@ public function actionBatchUpdate()
 		{
 			if(isset($_POST['Item'][$i]))
 				$item->attributes=$_POST['Item'][$i];
-			$valid=$valid && $item->validate();
+			$valid=$item->validate() && $valid;
 		}
 		if($valid)  // all items are valid
 			// ...rób coś tutaj
@@ -68,4 +68,4 @@ Jeśli wystąpił tutaj jakikolwiek błąd sprawdzania danych, odpowiednie pole 
 zostanie podświetlone automatycznie, tak jak to było w przypadku pojedynczego 
 modelu opisanego wcześniej.
 
-<div class="revision">$Id: form.table.txt 2232 2010-06-26 22:42:03Z qiang.xue $</div>
+<div class="revision">$Id: form.table.txt 2783 2010-12-28 16:20:41Z qiang.xue $</div>

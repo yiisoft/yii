@@ -75,7 +75,7 @@ testdrive/
          main.php            konfigurasi aplikasi Web
       controllers/           berisi file kelas kontroler
          SiteController.php  standar kelas kontroler
-      extensions/            berisi ekstensi pihak-ketiga
+      extensions/            berisi extension pihak-ketiga
       messages/              berisi terjemahan pesan
       models/                berisi file kelas model
          LoginForm.php       model formulir untuk aksi 'login'
@@ -133,9 +133,9 @@ CREATE TABLE tbl_user (
 Jika ingin mencoba database MySQL, anda harus menyertakan file skema MySQL
  `WebRoot/testdrive/protected/data/schema.mysql.sql` untuk membuat database.
 
-> Note|Catatan: Untuk menggunakan fitur database, kita harus mengaktifkan ekstensi
-PDO dan ekstensi PDO driver-spesifik. Untuk aplikasi testdrive, kita perlu
-mengaktifkan ekstensi `php_pdo` dan `php_pdo_sqlite`
+> Note|Catatan: Untuk menggunakan fitur database, kita harus mengaktifkan extension
+PDO dan extension PDO driver-spesifik. Untuk aplikasi testdrive, kita perlu
+mengaktifkan extension `php_pdo` dan `php_pdo_sqlite`
 
 
 Mengimplementasikan Operasi CRUD

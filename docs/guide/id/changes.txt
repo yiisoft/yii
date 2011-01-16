@@ -3,6 +3,13 @@ Fitur Baru
 
 Halaman ini meringkas fitur-fitur utama baru yang diperkenalkan dalam setiap rilis Yii.
 
+Version 1.1.6
+-------------
+ * [Menambah query builder](/doc/guide/database.query-builder)
+ * [Menambah migrasi database ](/doc/guide/database.migration)
+ * [Praktek MVC Terbaik](/doc/guide/basics.best-practices)
+ * [Menambah dukungan penggunaan parameter anonim dan opsi global dalam perintah console](/doc/guide/topics.console)
+
 Version 1.1.5
 -------------
 
@@ -52,7 +59,7 @@ Versi 1.1.0
 
 * [Menambah dukungan penggunaan prefiks pada nama tabel](/doc/guide/database.dao#using-table-prefix)
 
-* Menambah seluruh set ekstensi baru yang dikenal dengan [pustaka Zii](http://code.google.com/p/zii/).
+* Menambah seluruh set extension baru yang dikenal dengan [pustaka Zii](http://code.google.com/p/zii/).
 
 * Nama alias untuk tabel utama dalam sebuah query AR ditetapkan sebagai 't'
 
@@ -78,8 +85,8 @@ Versi 1.0.8
 	 - [Cache Data](/doc/guide/caching.data)
 
  * Diperkenalkan standar alias path root `ext` baru yang merujuk ke direktori
-yang berisi semua ekstensi pihak ketiga.
-	 - [Menggunakan Ekstensi](/doc/guide/extension.use)
+yang berisi semua extension pihak ketiga.
+	 - [Menggunakan Extension](/doc/guide/extension.use)
 
 Versi 1.0.7
 -----------
@@ -120,4 +127,4 @@ Versi 1.0.5
  * Peningkatan [CUrlManager] untuk mendukung parameterisasi bagian rute dalam aturan URL. Lihat:
      - [Parameterisasi Rute dalam Aturan URL](/doc/guide/topics.url#parameterizing-routes)
 
-<div class="revision">$Id: changes.txt 2633 2010-11-09 10:05:20Z haertl.mike $</div>
+<div class="revision">$Id: changes.txt 2701 2010-12-02 04:30:18Z qiang.xue $</div>

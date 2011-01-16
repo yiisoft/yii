@@ -3,7 +3,14 @@
 
 此页面总结了每次 Yii 发布所引入的新功能。
 
-Version 1.1.5
+版本 1.1.6
+-------------
+ * [添加了查询生成器](/doc/guide/database.query-builder)
+ * [添加了数据库迁移](/doc/guide/database.migration)
+ * [MVC最佳实践](/doc/guide/basics.best-practices)
+ * [添加了在控制台命令中使用匿名参数和全局选项](/doc/guide/topics.console)
+
+版本 1.1.5
 -------------
 
  * [添加了对控制台命令的动作和参数绑定的支持](/doc/guide/topics.console)
@@ -128,4 +135,4 @@ Version 1.1.5
  * 增强了 [CUrlManager] ，支持URL规则中的 route 部分。查看：
      - [Parameterizing Routes in URL Rules](/doc/guide/topics.url#parameterizing-routes)
 
-<div class="revision">$Id: changes.txt 1774 2010-11-13 15:34:33Z HonestQiao $</div>
+<div class="revision">$Id: changes.txt 1823 2010-12-10 07:36:08Z yiidoc@dongbeta.com $</div>

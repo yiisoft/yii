@@ -100,7 +100,7 @@ class User extends CActiveRecord
 
 > Info|Info: Es gibt auch zusammengesetzte Fremdschlüssel, die zwei oder
 > mehr Spalten verwenden. In diesem Fall müssen alle Spaltennamen des
-> Fremdschlüssels hintereinander mit Leerzeichen oder Komma getrennt angegeben
+> Fremdschlüssels hintereinander mit Komma getrennt angegeben
 > werden. Außerdem benötigt die MANY_MANY-Beziehung zusätzlich den Namen der
 > Verknüpfungstabelle. Er wird zusammen mit dem Fremdschlüssel wie in diesem
 > Beispiel für die `categories`-Beziehung in `Post` angegeben:
@@ -580,4 +580,4 @@ class User extends CActiveRecord
 verwendet werden, die in [CActiveRecord::scopes] definiert wurden. Man kann
 daher keine parametrisierten Scopes verwenden.
 
-<div class="revision">$Id: database.arr.txt 2350 2010-08-28 18:57:21Z qiang.xue $</div>
+<div class="revision">$Id: database.arr.txt 2782 2010-12-28 16:18:06Z qiang.xue $</div>

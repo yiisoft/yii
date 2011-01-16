@@ -49,8 +49,7 @@ verwenden. Dazu setzen Sie die Eigenschaft [CApplication::localeDataPath]
 auf das Verzeichnis, dass die angepassten Locale-Daten enthält. Zum Anlegen
 dieser Dateien verweisen wir auf die Dateien unter `framework/i18n/data`.
 
-Bei einer Yii-Anwendung unterscheiden wir zwischen
-[Zielsprache|CApplication::language] und
+Bei einer Yii-Anwendung unterscheidet man zwischen [Zielsprache|CApplication::language] und
 [Quellsprache|CApplication::sourceLanguage] (engl: source language). Die
 Zielsprache bezieht sich auf die Sprache (Locale) der Zielgruppe, für die die
 Anwendung geschrieben wurde, während die Quellsprache die Sprache (Locale)
@@ -62,9 +61,9 @@ Die [Zielsprache|CApplication::language] kann in der
 definiert oder dynamisch angepasst werden, bevor die Internationalisierung
 durchgeführt wird.
 
-> Tip|Tipp: Manchmal möchten wir evtl. die Zielsprache auf die vom Besucher
-bevorzugte Sprache (entsprechend seinen Browsereinstellungen) setzen. Wir
-können die SprachID seiner bevorzugten Sprache über [CHttpRequest::preferredLanguage] 
+> Tip|Tipp: Manchmal möchte man evtl. die Zielsprache auf die vom Besucher
+bevorzugte Sprache (entsprechend seinen Browsereinstellungen) setzen. Man kann
+dazu die SprachID seiner bevorzugten Sprache über [CHttpRequest::preferredLanguage] 
 beziehen.
 
 Übersetzung
@@ -181,7 +180,7 @@ Erweiterungstexten verwendet, sollte man also stattdessen dieses Format verwende
 Yii::t('Xyz.kategorieName', 'Zu übersetzender Text')
 ~~~
 
-Seit Version 1.0.2 unterstütz Yii das [Auswahlformat|CChoiceFormat] (engl.:
+Seit Version 1.0.2 unterstützt Yii das [Auswahlformat|CChoiceFormat] (engl.:
 choice format). Dieses Format bezieht sich auf die Auswahl einer Übersetzung
 in Abhängigkeit von einem gegebenen Zahlenwert. Zum Beispiel gibt es für das 
 Wort 'Buch' im Deutschen eine Singular- und eine Pluralform, während sich das
@@ -190,7 +189,7 @@ Wort in anderen Sprachen gar nicht (Chinesisch) oder nach komplexen Regeln
 dieses Problem auf einfache und dennoch wirksame Weise.
 
 Um das Auswahlformat zu verwenden, muss eine übersetzte Meldung aus einer
-Folge von Ausdruck-Textmeldungs-Paaren bestehen, die wie folgt durch `|` 
+Folge von Ausdruck-Übersetzungs-Paaren bestehen, die wie folgt durch `|` 
 getrennt werden:
 
 ~~~
@@ -199,8 +198,8 @@ getrennt werden:
 ~~~
 
 wobei `ausdrN` sich auf einen gültigen PHP-Ausdruck bezieht, der in einen
-boole'schen Wert resultiert und anzeigt, ob die entsprechende Textmeldung
-verwendet werden soll. Die erste Meldung, deren Ausdruck ein true
+boole'schen Wert resultiert und anzeigt, ob die zugehörige Übersetzung
+verwendet werden soll. Der erste Text, dessen Ausdruck ein true
 liefert, wird verwendet. Ein Ausdruck kann auch eine spezielle Variable
 `n` (nicht `$n`!) verwenden, die den Zahlenwert enthält, der als erster
 Parameter übergeben wurde. Nehmen wir zum Beispiel an, die
@@ -211,18 +210,114 @@ Parameter übergeben wurde. Nehmen wir zum Beispiel an, die
 'n==1#ein Buch|n>1#viele Bücher'
 ~~~
 
-und beim Aufruf von [Yii::t()|YiiBase::t] würden wir den Wert 2 im
+und beim Aufruf von [Yii::t()|YiiBase::t] würde man den Wert 2 im
 Parameter-Array der Meldung übergeben, so würde letztlich `viele Bücher` 
-als übersetzte Meldung verwendet werden. 
+als Übersetzung verwendet:
 
-Als Kurzschreibweise kann der Ausdruck `n==Zahl` auch als einzelne Zahl
-geschrieben werden. Die obige übersetzte Meldung kann daher auch so
-geschrieben werden:
+~~~
+[php]
+Yii::t('app', 'n==1#ein Buch|n>1#viele Bücher', array(1)));
+// Oder seit Version 1.1.6
+Yii::t('app', 'n==1#ein Buch|n>1#viele Bücher', 1));
+~~~
+
+Der Ausdruck `n==Zahl` kann in Kurzschreibweise auch als einzelne Zahl
+angegeben werden:
 
 ~~~
 [php]
 '1#ein Buch|n>1#viele Bücher'
 ~~~
+
+### Format für Pluralformen
+
+Seit Version 1.1.6 kann das CLDR-basierte Auswahlformat für Pluralformen auch
+mit einer einfacheren Syntax verwendet werden. Das ist bei Sprachen mit
+komplexen Pluralformen sehr nützlich.
+
+Die obige Regel für deutsche Pluralformen kann damit wie folgt geschrieben
+werden:
+
+~~~
+[php]
+Yii::t('test', 'Gurke|Gurken', 1);
+Yii::t('test', 'Gurke|Gurken', 2);
+Yii::t('test', 'Gurke|Gurken', 0);
+~~~
+
+Dieser Code liefert:
+
+~~~
+Gurke
+Gurken
+Gurken
+~~~
+
+Sollen Zahlen mit eingebunden werden, kann man auch dieses Format verwenden:
+
+~~~
+[php]
+echo Yii::t('test', '{n} Gurke|{n} Gurken', 1);
+~~~
+
+
+`{n}` ist hier ein Platzhalter für die übergebene Zahl. Im Beispiel wird `1 Gurke` ausgegeben.
+
+Man kann auch weitere Parameter übergeben:
+
+~~~
+[php]
+Yii::t('test', '{username} hat eine Gurke|{username} hat {n} Gurken',
+array(5, '{username}' => 'samdark'));
+~~~
+
+und numerische Parameter sogar ersetzen lassen:
+
+~~~
+[php]
+function convertNumber($zahl)
+{
+	// ... hier Zahl zu Wort konvertieren ...
+	return $zahl;
+}
+
+Yii::t('test', '{n} Gurke|{n} Gurken',
+array(5, '{n}' => convertNumber(5)));
+~~~
+
+In einigen Sprachen, wie etwa im Russischen gibt es noch komplexere Pluralregeln.
+So würde zum Beispiel
+
+~~~
+[php]
+Yii::t('app', 'Gurke|Gurken', 62);
+Yii::t('app', 'Gurke|Gurken', 1.5);
+Yii::t('app', 'Gurke|Gurken', 1);
+Yii::t('app', 'Gurke|Gurken', 7);
+~~~
+
+mit der Übersetzung
+
+~~~
+[php]
+'Gurke|Gurken' => 'огурец|огурца|огурцов|огурца',
+~~~
+
+zu dieser Ausgabe führen:
+
+~~~
+62 огурца
+1.5 огурца
+1 огурец
+7 огурцов
+~~~
+
+
+> Info: Weitere Informationen darüber, wieviele Werte man in welcher
+> Reihenfolge angeben kann finden auf der Seite mit den 
+> [Pluralregeln einzelner Sprachen](http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html)
+> des CLDR.
+
 
 
 ### Übersetzen ganzer Dateien
@@ -258,7 +353,7 @@ zur Verfügung.
 
 Jede Instanz von [CDateFormatter] ist mit 
 einer bestimmten Ziel-Locale verknüpft. Um den Formatierer für die 
-Ziel-Locale der gesamten Anwendung zu erhalten, können wir
+Ziel-Locale der gesamten Anwendung zu erhalten, kann man
 einfach auf die Eigenschaft [dateFormatter|CApplication::dateFormatter] der
 Applikation zugreifen.
 
@@ -283,7 +378,7 @@ Formatierung, Währungsformatierung und Prozentsatzformatierung. Zu diesem
 Zweck stellt Yii die Klasse [CNumberFormatter] (Zahlenformatierer) zur Verfügung.
 
 Um den Zahlenformatierer für die Ziel-Locale der gesamten Anwendung zu
-beziehen, können wir auf die Eigenschaft
+beziehen, kann man auf die Eigenschaft
 [numberFormatter|CApplication::numberFormatter] der Applikation zugreifen.
 
 Die folgenden Methoden werden von [CNumberFormatter] zum Formatieren eines
@@ -305,4 +400,4 @@ Ziel-Locale vorgegebene Währungsmuster verwendet.
 formatiert die gegebene Zahl, indem sie das in der Ziel-Locale vorgegebene 
 Prozentsatz-Muster verwendet.
 
-<div class="revision">$Id: topics.i18n.txt 2522 2010-09-30 21:13:25Z alexander.makarow $</div>
+<div class="revision">$Id: topics.i18n.txt 2866 2011-01-15 09:20:03Z haertl.mike $</div>

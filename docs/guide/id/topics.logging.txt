@@ -115,7 +115,8 @@ sebagai hirarki kategori. Khususnya, kita katakan `xxx` adalah induk dari
 `xxx.yyy` yang merupakan induk dari `xxx.yyy.zzz`. Selanjutnya kita bisa menggunakan
 `xxx.*` untuk mewakili kategori `xxx` dan semua anak dan cucu(turunan) kategori.
 
-### Pencatatan Informasi Konteks
+Pencatatan Informasi Konteks
+-----------------------------------------------
 
 Mulai dari versi 1.0.6, kita bisa menetapkan log informasi konteks tambahan,
 seperti variabel pradefinisi PHP (misal `$_GET`, `$_SERVER`), session ID, nama pengguna, dll.
@@ -193,7 +194,8 @@ dengan rute log [CProfileLogRoute]. Hal ini sama seperti yang kita lakukan denga
 message routing biasa. Rute [CProfileLogRoute] akan menampilkan hasil
 pengukuran di akhir halaman tersebut.
 
-### Mengukur Eksekusi SQL
+Mengukur Eksekusi SQL
+---------------------------------------
 
 Pengukuran sangat berguna terutama saat bekerja dengan database karena eksekusi SQL
 sering menjadi sumber bottleneck kinerja yang utama pada aplikasi. Sementara kita dapat menyisipkan
@@ -208,4 +210,4 @@ dalam menjalankan pernyataan SQL. Kita juga dapat memanggil [CDbConnection::getS
 jumlah pernyataan SQL dan total waktu eksekusi.
 
 
-<div class="revision">$Id: topics.logging.txt 1147 2009-06-18 19:14:12Z qiang.xue $</div>
+<div class="revision">$Id: topics.logging.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>

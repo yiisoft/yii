@@ -48,8 +48,8 @@ Uwaga, rozszerzenie to zostało udostępnione w wersji 1.0.1.
    określić bazę danych, którą będzie to rozszerzenie używało poprzez ustawienie 
    właściwości [connectionID|CDbCache::connectionID],
    
-   - [CZendDataCache]: używa Zend Data Cache jako medium buforowania. Uwaga, rozszerzenie to 
-   jest dostępne od wersji 1.0.4.   
+   - [CZendDataCache]: używa [Zend Data Cache](http://files.zend.com/help/Zend-Server-Community-Edition/data_cache_component.htm)
+   jako medium buforowania. Uwaga, rozszerzenie to jest dostępne od wersji 1.0.4.  
    
    - [CFileCache]: używa plików do przechowywania buforowanych danych. Komponent ten jest przydatny 
    w szczególności do buforowania dużych porcji danych (takich jak strony). Zauważ, że jest on dostępny 
@@ -81,4 +81,4 @@ W następnych dwóch podpunktach opowiemy jak używać buforowania na tych pozio
 buforowanych danych nawet jeśli nie wygasa. Dlatego też, nie używaj buforu jako 
 miejsca stałego składowania (np. nie używaj buforu do przechowywania danych sesji).
 
-<div class="revision">$Id: caching.overview.txt 2005 2010-04-03 16:24:46Z alexander.makarow $</div>
+<div class="revision">$Id: caching.overview.txt 2769 2010-12-24 13:40:32Z alexander.makarow $</div>

@@ -164,7 +164,8 @@ vid varje request. I stället kommer CWebUser att automatiskt ombesörja laddnin
 identitetsinformationen från icke-flyktigt minne och använda den för att avgöra 
 huruvida `Yii::app()->user->isGuest` returnerar true eller false.
 
-### Cookie-baserad inloggning
+Cookie-baserad inloggning
+-------------------------
 
 Som standard loggas en användare ut efter en viss tid utan aktivitet, beroende på 
 [sessionskonfigurationen](http://www.php.net/manual/en/session.configuration.php). 
@@ -346,7 +347,8 @@ En åtkomstregel kan matcha följande kontextparametrar:
    `GET`, `POST`) denna regel, matchar. Jämförelsen sker skiftlägesoberoende.
 
 
-### Hantera resultat av auktorisering
+Hantera resultat av auktorisering
+---------------------------------
 
 När en auktorisering misslyckas, dvs användaren tillåts inte utföra den 
 tilltänkta åtgärden, kan ett av följande två scenarier utspela sig:
@@ -459,7 +461,8 @@ if(Yii::app()->user->checkAccess('deletePost'))
 }
 ~~~
 
-### Konfigurera auktoriseringshanteraren
+Konfigurera auktoriseringshanteraren
+------------------------------------
 
 Innan vi sätter igång med att definiera en auktoriseringshierarki och genomföra 
 åtkomstkontroll, behöver vi konfigurera applikationskomponenten 
@@ -490,7 +493,8 @@ return array(
 Därefter kan [authManager|CWebApplication::authManager] kommas åt via 
 `Yii::app()->authManager`.
 
-### Definiera auktoriseringshierarki
+Definiera auktoriseringshierarki
+--------------------------------
 
 Att definiera en auktoriseringshierarki involverar tre steg: definiera 
 auktoriseringsartiklar, upprätta samband mellan auktoriseringsartiklar samt 
@@ -569,7 +573,8 @@ och INTE vid varje request.
 > använda för att, på ett mer intuitivt sätt, åstadkomma en auktoriseringshierarki.
 
 
-### Använda affärsregler
+Använda affärsregler
+--------------------
 
 När vi definierar en auktoriseringshierarki kan vi associera en roll, en uppgift 
 eller en operation med en så kallad *affärsregel*. Vi kan även associera en affärsregel 
@@ -659,4 +664,4 @@ $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('guest', 'guest user', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 2638 2010-11-11 14:18:59Z jefftulsa@gmail.com $</div>
+<div class="revision">$Id: topics.auth.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>

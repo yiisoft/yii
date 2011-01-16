@@ -3,7 +3,7 @@
 
 Поскольку тестировочная часть Yii построена на
 [PHPUnit](http://www.phpunit.de/), рекомендуется сначала изучить
-[документацию PHPUnit](http://www.phpunit.de/wiki/Documentation), чтобы
+[документацию PHPUnit](http://www.phpunit.de/manual/current/en/index.html), чтобы
 получить общее представление о том, как писать модульные тесты. Далее мы
 приведём основные принципы написания модульных тестов в Yii:
 
@@ -115,4 +115,4 @@ public function testApprove()
 ~~~
 
 
-<div class="revision">$Id: test.unit.txt 1745 2010-01-24 14:23:36Z qiang.xue $</div>
+<div class="revision">$Id: test.unit.txt 2841 2011-01-12 21:04:12Z alexander.makarow $</div>

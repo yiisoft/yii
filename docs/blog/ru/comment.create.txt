@@ -45,7 +45,7 @@ Yii версии 1.1.1 и старше.
 
 Отображение `_comments` не очень интересно. В нём производится обход всех комментариев
 и их вывод. Заинтересованные читатели могут посмотреть файл
-`/wwwroot/yii/demos/blog/protected/post/_comments.php`.
+`/wwwroot/yii/demos/blog/protected/views/post/_comments.php`.
 
 Создание комментариев
 ---------------------
@@ -172,4 +172,4 @@ protected function newComment($post)
 }
 ~~~
 
-<div class="revision">$Id: comment.create.txt 1753 2010-01-25 18:25:03Z qiang.xue $</div>
+<div class="revision">$Id: comment.create.txt 2772 2010-12-24 16:24:12Z alexander.makarow $</div>

@@ -27,33 +27,36 @@ Por exemplo, para criar um caixa de texto, podemos utilizar o método
 > Se não fosse assim, seria necessário um monte de código em JavaScript espalhado.
 
 No exemplo a seguir, utilizamos a classe [CHtml] para criar o formulário de login. 
-Assumimos que a variável `$user` representa uma instância de `LoginForm`.
+Assumimos que a variável `$model` representa uma instância de `LoginForm`.
 
 ~~~
 [php]
-<div class="yiiForm">
+<div class="form">
 <?php echo CHtml::beginForm(); ?>
 
-<?php echo CHtml::errorSummary($user); ?>
+	<?php echo CHtml::errorSummary($model); ?>
 
-<div class="simple">
-<?php echo CHtml::activeLabel($user,'username'); ?>
-<?php echo CHtml::activeTextField($user,'username'); ?>
-</div>
+	<div class="row">
+		<?php echo CHtml::activeLabel($model,'username'); ?>
+		<?php echo CHtml::activeTextField($model,'username') ?>
+	</div>
 
-<div class="simple">
-<?php echo CHtml::activeLabel($user,'password'); ?>
-<?php echo CHtml::activePasswordField($user,'password'); ?>
-</div>
+	<div class="row">
+		<?php echo CHtml::activeLabel($model,'password'); ?>
+		<?php echo CHtml::activePasswordField($model,'password') ?>
+	</div>
 
-<div class="action">
-<?php echo CHtml::activeCheckBox($user,'rememberMe'); ?>
-Remember me next time<br/>
-<?php echo CHtml::submitButton('Login'); ?>
-</div>
+	<div class="row rememberMe">
+		<?php echo CHtml::activeCheckBox($model,'rememberMe'); ?>
+		<?php echo CHtml::activeLabel($model,'rememberMe'); ?>
+	</div>
+
+	<div class="row submit">
+		<?php echo CHtml::submitButton('Login'); ?>
+	</div>
 
 <?php echo CHtml::endForm(); ?>
-</div><!-- yiiForm -->
+</div><!-- form -->
 ~~~
 
 Esse código gera um formulário mais dinâmico. Por exemplo, o método [CHtml::activeLabel()] 
@@ -70,4 +73,40 @@ formulário gerado terá a seguinte aparência:
 
 ![A Página de Login com Erros](login2.png)
 
-<div class="revision">$Id: form.view.txt 857 2009-03-20 17:31:09Z qiang.xue $</div>
+A partir da versão 1.1.1, existe um novo widget chamado [CActiveForm], que pode
+ser utilizado para facilitar a criação de formulários. Esse widget é capaz de
+realizar validações de forma consistente e transparente, tanto do lado do cliente,
+quanto do lado do servidor. Utilizando o [CActiveForm], o código do último
+exemplo pode ser reescrito da seguinte maneira:
+
+~~~
+[php]
+<div class="form">
+<?php $form=$this->beginWidget('CActiveForm'); ?>
+
+	<?php echo $form->errorSummary($model); ?>
+
+	<div class="row">
+		<?php echo $form->label($model,'username'); ?>
+		<?php echo $form->textField($model,'username') ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'password'); ?>
+		<?php echo $form->passwordField($model,'password') ?>
+	</div>
+
+	<div class="row rememberMe">
+		<?php echo $form->checkBox($model,'rememberMe'); ?>
+		<?php echo $form->label($model,'rememberMe'); ?>
+	</div>
+
+	<div class="row submit">
+		<?php echo CHtml::submitButton('Login'); ?>
+	</div>
+
+<?php $this->endWidget(); ?>
+</div><!-- form -->
+~~~
+
+<div class="revision">$Id: form.view.txt 1751 2010-01-25 17:21:31Z qiang.xue $</div>

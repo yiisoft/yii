@@ -4,38 +4,38 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta http-equiv="content-language" content="en"/>
 <link rel="stylesheet" type="text/css" href="css/main.css" />
-<title>Sprawdzanie wymagañ przez Yii</title>
+<title>Sprawdzanie wymagaÅ„ przez Yii</title>
 </head>
 
 <body>
 <div id="page">
 
 <div id="header">
-<h1>Sprawdzanie wymagañ stawianych przez Yii</h1>
+<h1>Sprawdzanie wymagaÅ„ stawianych przez Yii</h1>
 </div><!-- header-->
 
 <div id="content">
 <h2>Opis</h2>
 <p>
-Skrypt ten sprawdza czy konfiguracja twojego serwera spe³nia wymagania
-pozwalaj¹ce uruchomiæ aplikacjê napisan¹ przy u¿yciu <a href="http://www.yiiframework.com/">Yii</a>.
-Sprawdza on, czy serwej u¿ywa poprawnej wersji PHP,
-czy zosta³y za³adowane odpowiednie rozszerzenia PHP oraz czy ustawienia w pliku plik php.ini s¹ prawid³owe.
+Skrypt ten sprawdza czy konfiguracja twojego serwera speÅ‚nia wymagania
+pozwalajÄ…ce uruchomiÄ‡ aplikacjÄ™ napisanÄ… przy uÅ¼yciu <a href="http://www.yiiframework.com/">Yii</a>.
+Sprawdza on, czy serwej uÅ¼ywa poprawnej wersji PHP,
+czy zostaÅ‚y zaÅ‚adowane odpowiednie rozszerzenia PHP oraz czy ustawienia w pliku plik php.ini sÄ… prawidÅ‚owe.
 </p>
 
-<h2>Rozstrzygniêcie</h2>
+<h2>RozstrzygniÄ™cie</h2>
 <p>
 <?php if($result>0): ?>
-Gratulacje! Konfiguracja Twojego serwera spe³nia wszystkie wymagania stawiane przez Yii.
+Gratulacje! Konfiguracja Twojego serwera speÅ‚nia wszystkie wymagania stawiane przez Yii.
 <?php elseif($result<0): ?>
-Konfiguracja Twojego serwera spe³nia minimalne qymagania stawiane przez Yii.
-Zwróæ uwagê na ostrze¿enia wyœwietlone poni¿ej jeœli Twoja aplikacja bêdzie u¿ywa³a odpowiadaj¹ce im funkcjonalnoœci.
+Konfiguracja Twojego serwera speÅ‚nia minimalne qymagania stawiane przez Yii.
+ZwrÃ³Ä‡ uwagÄ™ na ostrzeÅ¼enia wyÅ›wietlone poniÅ¼ej jeÅ›li Twoja aplikacja bÄ™dzie uÅ¼ywaÅ‚a odpowiadajÄ…ce im funkcjonalnoÅ›ci.
 <?php else: ?>
-Niestety konfiguracja Twojego serwera nie spe³nia wymagañ stawianych przez Yii.
+Niestety konfiguracja Twojego serwera nie speÅ‚nia wymagaÅ„ stawianych przez Yii.
 <?php endif; ?>
 </p>
 
-<h2>Szczegó³y</h2>
+<h2>SzczegÃ³Å‚y</h2>
 
 <table class="result">
 <tr><th>Nazwa</th><th>Rezultat</th><th>Wymagana przez</th><th>Notka</th></tr>
@@ -59,9 +59,9 @@ Niestety konfiguracja Twojego serwera nie spe³nia wymagañ stawianych przez Yii.
 
 <table>
 <tr>
-<td class="passed">&nbsp;</td><td>powiód³ siê</td>
-<td class="failed">&nbsp;</td><td>nie powiód³ siê</td>
-<td class="warning">&nbsp;</td><td>ostrze¿enie</td>
+<td class="passed">&nbsp;</td><td>powiÃ³dÅ‚ siÄ™</td>
+<td class="failed">&nbsp;</td><td>nie powiÃ³dÅ‚ siÄ™</td>
+<td class="warning">&nbsp;</td><td>ostrzeÅ¼enie</td>
 </tr>
 </table>
 

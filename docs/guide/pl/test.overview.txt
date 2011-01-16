@@ -1,5 +1,5 @@
-Przegląd
-========
+Testowanie
+==========
 
 > Note|Uwaga: Wparcie dla testowania opisane w tym rozdziale wymaga Yii w wersji 1.1 lub wyższej.
 Nie oznacza to jednak, że nie możesz testować aplikacji utworzonej za pomocą Yii 1.0.x.  
@@ -35,7 +35,7 @@ wymagania stawiane systemowi (mogą być to zarówno programiści jak i inżynie
 
 
 Programowanie sterowanie testami (ang. TDD, Test-Driven Development)
-=======================
+--------------------------------------------------------------------
 
 Poniżej przedstawimy cykle programowania w tak zwanym [programowaniu sterowanym testami (TDD)](http://en.wikipedia.org/wiki/Test-driven_development):
 
@@ -49,7 +49,7 @@ Poniżej przedstawimy cykle programowania w tak zwanym [programowaniu sterowanym
 Powtarzaj kroki od 1 do 5 w celu kontynuowania implementacji funcjonalności. 
 
 Konfiguracja środowiska testowego
-======================
+---------------------------------
 
 Wsparcie dla testów oferowane przez Yii wymaga [PHPUnit](http://www.phpunit.de/) 3.4+ 
 oraz [Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+. 
@@ -91,7 +91,7 @@ i wygeneruje raport pokrycia kodu w katalogu `report`. Zauważ, że
 w celu wygenerowania raportów pokrycia kodu.
 
 Skrypt startowy testu
-====================
+---------------------
 
 Zobaczmy co można znaleźć w pliku `bootstrap.php`. Plik ten jest szególny ze względu
 na to, że przypomina [skrypt wejściowy](/doc/guide/basics.entry) i jest on punktem startowym 
@@ -143,4 +143,4 @@ otrzymamy instancję aplikacji, która jest niemal identyczna z tą dostarczaną
 żądań sieciowych. Główna różnica polega na tym, że posiada ona menedżer zarządzania stałymi  
 składnikami (ang. fixture manager) oraz używa bazę testową.
 
-<div class="revision">$Id: test.overview.txt 2249 2010-07-06 11:43:48Z qiang.xue $</div>
+<div class="revision">$Id: test.overview.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>

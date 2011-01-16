@@ -1,4 +1,4 @@
-Tinjauan
+Testing
 ========
 
 > Note|Catatan: Fitur uji coba yang disinggung dalam bagian ini memerlukan Yii versi 1.1 atau lebih tinggi.  Tetapi tidak berarti anda tidak bisa menguji aplikasi yang dikembangkan dengan menggunakan Yii 1.0.x. Terdapat banyak sekali framework uji coba yang tersedia untuk membantu melakukan pekerjaan ini seperti [PHPUnit](http://www.phpunit.de/), [SimpleTest](http://www.simpletest.org/).
@@ -13,7 +13,7 @@ Sebuah uji coba fungsional adalah uji coba yang memeriksa sebuah fitur (seperti 
 
 
 Test-Driven Development
-=======================
+---------------------------------------
 
 Berikut ini merupakan siklus pengembangan yang dikenal dengan [test-driven development (TDD)](http://en.wikipedia.org/wiki/Test-driven_development):
 
@@ -27,7 +27,7 @@ Ulangi langkah 1 sampai 5 guna meningkatkan fungsionalitas dalam implementasi.
 
 
 Test Environment Setup
-======================
+---------------------------------------
 
 Fitur uji coba yang disediakan Yii memerlukan [PHPUnit](http://www.phpunit.de/) 3.4+ dan [Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+. Oleh karenanya, silahkan melihat dokumentasi masing-masing bagaimana melakukan instalasi PHPUnit dan Selenium Remote Control.
 
@@ -61,7 +61,7 @@ Di atas, perintah paling terakhir akan menjalankan seluruh uji coba di direktori
 
 
 Uji Coba Skrip Bootstrap
-========================
+---------------------------------------
 
 Mari perhatikan apa yang terdapat dalam file `bootstrap.php`. File ini cukup spesial karena mirip dengan [skrip entri(entry script)](/doc/guide/basics.entry) dan merupakan titik awal ketika kita memulai rangkaian uji coba.
 
@@ -100,4 +100,4 @@ Ketika menjalankan uji coba yang berhubungan dengan database, kita harus menyedi
 Dengan sebuah skrip bootstrap ini, ketika kita menjalankan uji coba unit, kita akan memiliki sebuah instance aplikasi yang hampir sama dengan aplikasi yang umumnya, yakni untuk melayani Web request. Perbedaan utamanya adalah bootstrap memiliki manager fixture dan menggunakan database uji coba.
 
 
-<div class="revision">$Id: test.overview.txt 2249 2010-07-06 11:43:48Z qiang.xue $</div>
+<div class="revision">$Id: test.overview.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>

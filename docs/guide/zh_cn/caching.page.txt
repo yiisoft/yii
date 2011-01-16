@@ -24,6 +24,6 @@ public function filters()
 
 上述过滤器配置会使过滤器适用于控制器中的所有行动。我们可能会限制它在一个或几个行动通过使用插件操作器。更多的细节中可以看[过滤器]（/doc/guide/basics.controller#filter） 。
 
-> 提示：我们可以使用[ COutputCache ]作为一个过滤器，因为它从[CFilterWidget]继承过来 ，这意味着它是一个工具(widget)和一个过滤器。事实上， widge的工作方式和过滤器非常相似：工具widget (过滤器filter)是在action动作里的内容执行前执行，在执行后结束。
+> Tip: 我们可以使用[COutputCache]作为一个过滤器，因为它从[CFilterWidget]继承过来 ，这意味着它是一个工具(widget)和一个过滤器。事实上，widget的工作方式和过滤器非常相似：工具widget (过滤器filter)是在action动作里的内容执行前执行，在执行后结束。
 
 <div class="revision">$Id: caching.page.txt 162 2008-11-05 12:44:08Z weizhuo 译：sharehua$</div>

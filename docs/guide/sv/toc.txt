@@ -18,6 +18,7 @@
     - [Sökvägsalias och namnområde](basics.namespace)
     - [Konventioner](basics.convention)
     - [Arbetsgång vid utveckling](basics.workflow)
+    - [MVC - bästa tillvägagångssätt](basics.best-practices)
 
 * Arbeta med formulär
     - [Översikt](form.overview)
@@ -30,8 +31,10 @@
 * Arbeta med databaser
     - [Översikt](database.overview)
     - [Database Access Objects](database.dao)
+    - [Frågeverktyg (Query Builder) (eng)](database.query-builder)
     - [Active Record](database.ar)
-    - [Relational Active Record](database.arr)
+    - [Relationell Active Record](database.arr)
+    - [Databasmigrering](database.migration)
 
 * Cachning
     - [Översikt](caching.overview)
@@ -67,4 +70,4 @@
     - [Prestandaoptimering](topics.performance)
     - [Kodgenerering med kommandoradsverktyg (under utfasning)](quickstart.first-app-yiic)
 
-<div class="revision">$Id: toc.txt 2098 2010-05-05 19:49:51Z qiang.xue $</div>
+<div class="revision">$Id: toc.txt 2700 2010-12-01 13:08:26Z alexander.makarow $</div>

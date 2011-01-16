@@ -2,7 +2,7 @@ Enhetstestning
 ==============
 
 Eftersom Yii:s testningsramverk använder sig av [PHPUnit](http://www.phpunit.de/),
-rekommenderas [PHPUnit-dokumentationen](http://www.phpunit.de/wiki/Documentation) för att ge 
+rekommenderas [PHPUnit-dokumentationen](http://www.phpunit.de/manual/current/en/index.html) för att ge 
 en grundläggande förståelse för hur man skriver ett enhetstest. Vi sammanfattar följande 
 grundläggande principer för hur man skriver ett enhetstest i Yii:
 
@@ -107,4 +107,4 @@ public function testApprove()
 ~~~
 
 
-<div class="revision">$Id: test.unit.txt 1745 2010-01-24 14:23:36Z qiang.xue $</div>
+<div class="revision">$Id: test.unit.txt 2841 2011-01-12 21:04:12Z alexander.makarow $</div>

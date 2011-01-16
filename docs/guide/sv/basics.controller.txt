@@ -13,13 +13,22 @@ inte specificerar vilken åtgärd som skall köras. Som standard har
 standardåtgärden namnet `index`. Detta kan ändras genom inställningen 
 [CController::defaultAction].
 
-Nedan visas minimal kod som erfordras i en kontrollerklass. Eftersom denna klass 
-inte definierar någon åtgärd genererar den en exception vid anrop.
+Följande kod definierar en `site`-controller, en `index`-åtgärd (standardåtgärden), 
+samt en `contact`-åtgärd:
 
 ~~~
 [php]
 class SiteController extends CController
 {
+	public function actionIndex()
+	{
+		// ...
+	}
+
+	public function actionContact()
+	{
+		// ...
+	}
 }
 ~~~
 
@@ -302,4 +311,4 @@ filtret `postOnly` på åtgärderna `edit` och `create`, medan `PerformanceFilte
 tillämpas på alla åtgärder UTOM `edit` och `create`. Om varken plus eller minus 
 förekommer i filterkonfigurationen tillämpas filtret på alla åtgärder.
 
-<div class="revision">$Id: basics.controller.txt 2576 2010-10-28 02:46:14Z qiang.xue $</div>
+<div class="revision">$Id: basics.controller.txt 2672 2010-11-22 19:13:16Z qiang.xue $</div>

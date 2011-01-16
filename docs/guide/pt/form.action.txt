@@ -10,23 +10,23 @@ necessário:
 [php]
 public function actionLogin()
 {
-	$form=new LoginForm;
+	$model=new LoginForm;
 	if(isset($_POST['LoginForm']))
 	{
 		// coleta a informação inserida pelo usuário
-		$form->attributes=$_POST['LoginForm'];
+		$model->attributes=$_POST['LoginForm'];
 		// valida a entrada do usuário e redireciona para a página anterior, caso valide
-		if($form->validate())
+		if($model->validate())
 			$this->redirect(Yii::app()->user->returnUrl);
 	}
 	// exibe o formulário de login
-	$this->render('login',array('user'=>$form));
+	$this->render('login',array('model'=>$model));
 }
 ~~~
 
 No código acima, primeiro criamos uma instância de um `LoginForm`. Se a requisição 
 for do tipo POST (indicando que um formulário de login foi enviado), nós 
-preenchemos o `$form` com os dados enviados via `$_POST['LoginForm']`. Em 
+preenchemos o `$model` com os dados enviados via `$_POST['LoginForm']`. Em
 seguida, validamos os dados e, em caso de sucesso, redirecionamos o navegador 
 para a página que requisitou a autenticação. Se a validação falhar, ou se for o 
 primeiro acesso a essa ação, renderizamos o conteúdo da visão 'login', que será 
@@ -43,7 +43,7 @@ ação `login`:
 
 ~~~
 [php]
-$form->attributes=$_POST['LoginForm'];
+$model->attributes=$_POST['LoginForm'];
 ~~~
 
 Como descrevemos em [Atribuição Segura de Atributos](/doc/guide/form.model#securing-attribute-assignments), 
@@ -56,9 +56,9 @@ atributos necessários estão presentes no vetor):
 
 ~~~
 [php]
-$form->username=$_POST['LoginForm']['username'];
-$form->password=$_POST['LoginForm']['password'];
-$form->rememberMe=$_POST['LoginForm']['rememberMe'];
+$model->username=$_POST['LoginForm']['username'];
+$model->password=$_POST['LoginForm']['password'];
+$model->rememberMe=$_POST['LoginForm']['rememberMe'];
 ~~~
 
 > Note|Nota: Para fazer com que a variável `$_POST['LoginForm']` nos retorne um 
@@ -70,4 +70,4 @@ o campo correspondente ao atributo `username` do modelo `LoginForm`.
 O trabalho restante agora é criar a visão `login` que deve conter um formulário 
 HTML com os campos necessários.
 
-<div class="revision">$Id: form.action.txt 626 2009-02-04 20:51:13Z qiang.xue $</div>
+<div class="revision">$Id: form.action.txt 1837 2010-02-24 22:49:51Z qiang.xue $</div>

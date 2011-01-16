@@ -102,8 +102,8 @@ class User extends CActiveRecord
 
 > Info: Ett referensattribut kan vara sammansatt och bestå av två eller flera 
 kolumner. I det fallet skall namnen på kolumner som ingår i referensattributet 
-skrivas efter varandra, separerade av blanksteg eller komma. För samband av 
-typen `MANY_MANY` måste namnet på den assisterande tabellen också specificeras i 
+skrivas efter varandra, separerade av kommatecken. För samband av typen 
+`MANY_MANY` måste namnet på den assisterande tabellen också specificeras i 
 referensattributet. Till exempel, sambandet  `categories` i `Post` är 
 specificerat med referensattributet `tbl_post_category(post_id, category_id)`.
 
@@ -587,4 +587,4 @@ class User extends CActiveRecord
 [CActiveRecord::scopes]. Detta innebär också att de inte kan parametriseras.
 
 
-<div class="revision">$Id: database.arr.txt 2350 2010-08-28 18:57:21Z qiang.xue $</div>
+<div class="revision">$Id: database.arr.txt 2782 2010-12-28 16:18:06Z qiang.xue $</div>

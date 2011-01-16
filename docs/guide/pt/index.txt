@@ -9,4 +9,4 @@ Todos os Direitos Reservados.
 
 Tradução para o Português: Wanderson C. Bragança, luiz.uo e davi_alexandre
 
-<div class="revision">$Id: index.txt 687 2009-02-17 02:57:56Z qiang.xue $</div>
+<div class="revision">$Id: index.txt 1679 2010-01-07 21:03:36Z qiang.xue $</div>

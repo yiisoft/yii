@@ -96,7 +96,8 @@ Themes View-Dateien anlegen. Jede View-Datei ist ein gewöhnliches PHP-Script, d
 hauptsächlich aus HTML-Code besteht. Mehr Details finden sie in den
 vorgegebenen View-Dateien im `view`-Verzeichnis des Frameworks.
 
-### Fehlerbehandlung mit einer Action
+Fehlerbehandlung mit einer Action
+---------------------------------
 
 Seit Version 1.0.6 erlaubt Yii die Verwendung einer
 [Controller-Action](/doc/guide/basics.controller#action) zur Anzeige eines
@@ -163,4 +164,4 @@ einer nicht-abgefangenen Exception, lautet die Kategorie
 somit die Verfahren zur [Protokollierung](/doc/guide/topics.logging) benutzen,
 um Ausführungsfehler einer Anwendung zu überwachen.
 
-<div class="revision">$Id: topics.error.txt 1064 2009-05-26 00:15:33Z qiang.xue $</div>
+<div class="revision">$Id: topics.error.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>

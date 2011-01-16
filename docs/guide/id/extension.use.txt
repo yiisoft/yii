@@ -1,43 +1,43 @@
-Menggunakan Ekstensi
+Menggunakan Extension
 ====================
 
-Menggunakan ekstensi biasanya berkaitan dengan tiga langkah berikut:
+Menggunakan extension biasanya berkaitan dengan tiga langkah berikut:
 
-  1. Download ekstensi dari
-     [repositori ekstensi](http://www.yiiframework.com/extensions/) Yii.
-  2. Urai ekstensi di bawah subdirektori `extensions/xyz` pada
+  1. Download extension dari
+     [repositori extension](http://www.yiiframework.com/extensions/) Yii.
+  2. Urai extension di bawah subdirektori `extensions/xyz` pada
      [direktori basis aplikasi](/doc/guide/basics.application#application-base-directory),
-     di mana `xyz` adalah nama ekstensi.
-  3. Impor, konfigurasi dan gunakan ekstensi.
+     di mana `xyz` adalah nama extension.
+  3. Impor, konfigurasi dan gunakan extension.
 
-Setiap ekstensi memiliki nama yang secara identitas unik diantara semua ekstensi.
-Ekstensi diberi nama `xyz`, kita dapat menggunakan alias path `ext.xyz` untuk 
+Setiap extension memiliki nama yang secara identitas unik diantara semua extension.
+Extension diberi nama `xyz`, kita dapat menggunakan alias path `ext.xyz` untuk 
 menempatkannya pada basis direktori yang berisi semua file `xyz`.
 
 > Note|Catatan: Alias path root `ext` sudah tersedia sejak versi 1.0.8.
 Sebelumnya, kita perlu menggunakan `application.extensions` untuk merujuk ke
-direktori yang berisi semua ekstensi. Dalam penjelasan berikut, kita
+direktori yang berisi semua extension. Dalam penjelasan berikut, kita
 menganggap `ext` sudah didefinisikan. Anda perlu menggantinya dengan `application.extensions`
 jika Anda menggunakan versi 1.0.7 atau lebih rendah.
 
-Ekstensi yang berbeda memiliki persyaratan mengenai pengimporan,
+Extension yang berbeda memiliki persyaratan mengenai pengimporan,
 konfigurasi dan pemakaian. Selanjutnya, kita meringkas skenario pemakaian umum
-mengenai ekstensi, berdasarkan pada kategorisasinya seperti dijelaskan dalam
+mengenai extension, berdasarkan pada kategorisasinya seperti dijelaskan dalam
 [tinjauan](/doc/guide/extension.overview).
 
 
-Ekstensi Zii
+Extension Zii
 --------------
 
-Sebelum kita mulai melihat penggunaan ekstensi pihak ketiga, kami akan memperkenalkan
-pustaka ekstensi Zii, yang merupakan kumpulan ekstensi yang dikembangkan oleh tim developer Yii
+Sebelum kita mulai melihat penggunaan extension pihak ketiga, kami akan memperkenalkan
+pustaka extension Zii, yang merupakan kumpulan extension yang dikembangkan oleh tim developer Yii
 dan disertakan dalam setiap rilis semenjak versi 1.1.0. Pustaka Zii di-host sebagai
 projek Google bernama [zii](http://code.google.com/p/zii/).
 
 Ketika menggunakan sebuah ektensi Zii, kita harus merujuk ke kelas bersangkutan dengan menggunakan
 alias path dalam bentuk `zii.path.ke.NamaKelas`. Di sini akar alias `zii` ditentukan oleh Yii. Dia akan dirujukkan
 ke direktori pustaka Zii. Misalnya, untuk menggunakan [CGridView], kita akan menggunakan
-kode berikut dalam skrip view ketika merujuk ke ekstensi:
+kode berikut dalam skrip view ketika merujuk ke extension:
 
 ~~~
 [php]
@@ -142,7 +142,7 @@ Widget
 ------
 
 [Widget](/doc/guide/basics.view#widget) dipakai terutama dalam [tampilan](/doc/guide/basics.view).
-Kelas widget yang diberiktan `XyzClass` dimiliki oleh ekstensi `xyz`, kita bisa menggunakannya dalam
+Kelas widget yang diberiktan `XyzClass` dimiliki oleh extension `xyz`, kita bisa menggunakannya dalam
 sebuah tampilan seperti berikut,
 
 ~~~
@@ -166,7 +166,7 @@ Action (Aksi)
 ----
 
 [Action](/doc/guide/basics.controller#action) dipakai oleh [controller](/doc/guide/basics.controller)
-untuk merespon permintaan spesifik pengguna. Kelas aksi `XyzClass` dimiliki oleh ekstensi
+untuk merespon permintaan spesifik pengguna. Kelas aksi `XyzClass` dimiliki oleh extension
 `xyz`, kita dapat menggunakannya dengan meng-override metode [CController::actions] dalam
 kelas controller  kita:
 
@@ -197,7 +197,7 @@ Filter
 Terutama pre- dan post-process permintaan pengguna saat ditangani oleh sebuah
 [aksi](/doc/guide/basics.controller#action).
 Kelas filter `XyzClass` dimiliki oleh
-ekstensi `xyz`, kita dapat menggunakannya dengan meng-override metode [CController::filters]
+extension `xyz`, kita dapat menggunakannya dengan meng-override metode [CController::filters]
 dalam file controller kita:
 
 ~~~
@@ -225,7 +225,7 @@ dokumentasi [CController].
 Controller
 ----------
 [Controller](/doc/guide/basics.controller) menyediakan satu set action yang dapat di-request
-oleh pengguna. Untuk menggunakan ekstensi controller, kita perlu mengkonfigurasi
+oleh pengguna. Untuk menggunakan extension controller, kita perlu mengkonfigurasi
 properti [CWebApplication::controllerMap] dalam
 [konfigurasi aplikasi](/doc/guide/basics.application#application-configuration):
 
@@ -251,7 +251,7 @@ Validator
 Validator dipakai terutama dalam kelas [model](/doc/guide/basics.model)
 (salah satu yang diperluas baik dari [CFormModel] ataupun [CActiveRecord]).
 Kelas validator `XyzClass` dimiliki oleh
-ekstensi `xyz`, kita bisa menggunakannya dengan menimpa metode [CModel::rules]
+extension `xyz`, kita bisa menggunakannya dengan menimpa metode [CModel::rules]
 dalam kelas model kita:
 
 ~~~
@@ -275,9 +275,9 @@ class MyModel extends CActiveRecord // atau CFormModel
 
 Perintah Konsol
 ---------------
-Ekstensi [perintah konsol](/doc/guide/topics.console) biasanya meningkatkan
+Extension [perintah konsol](/doc/guide/topics.console) biasanya meningkatkan
 piranti `yiic` dengan perintah tambahan. Perintah konsol
-`XyzClass` dimiliki oleh ekstensi `xyz`, kita bisa menggunakannya dengan mengatur
+`XyzClass` dimiliki oleh extension `xyz`, kita bisa menggunakannya dengan mengatur
 file konfigurasi untuk aplikasi konsol:
 
 ~~~

@@ -1,5 +1,5 @@
-Übersicht
-=========
+Yii erweitern
+=============
 
 Eigentlich erweitert man Yii bereits, wenn man eine ganz normale Anwendung damit
 entwickelt. Erstellt man z.B. einen neuen Controller, so leitet man diesen von
@@ -35,4 +35,4 @@ Eine Erweiterung kann auch eine Komponente sein, die in keine dieser
 Kategorien fällt. Yii ist nämlich so konzipiert, dass fast alles 
 auf individuelle Bedürfnisse hin erweitert oder angepasst werden kann.
 
-<div class="revision">$Id: extension.overview.txt 1398 2009-09-06 01:15:01Z qiang.xue $</div>
+<div class="revision">$Id: extension.overview.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>

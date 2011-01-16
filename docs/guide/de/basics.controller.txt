@@ -14,13 +14,22 @@ dem Request nicht hervorgeht, welche Action ausgeführt werden soll.
 Als Vorgabewert ist dafür die Action `index` definiert. 
 Überschreibt man [CController::defaultAction], kann die Standardaction verändert werden.
 
-Die Minimalvariante eines Controllers sieht wie folgt aus. Allerdings würde
-beim Aufruf eine Exception ausgelöst, da er keine Action enthält.
+Der folgende Code definiert einen Controller `site` sowie die beiden Actions
+`index` (die Standardaction) und `contact`.
 
 ~~~
 [php]
 class SiteController extends CController
 {
+	public function actionIndex()
+	{
+		// ...
+	}
+
+	public function actionContact()
+	{
+		// ...
+	}
 }
 ~~~
 
@@ -322,4 +331,4 @@ Filter angewendet werden soll und auf welche nicht. Oben soll der Filter
 weder Plus noch Minus in der Filterkonfiguration auftauchen, wird der Filter
 auf alle Actions angewendet.
 
-<div class="revision">$Id: basics.controller.txt 2576 2010-10-28 02:46:14Z qiang.xue $</div>
+<div class="revision">$Id: basics.controller.txt 2672 2010-11-22 19:13:16Z qiang.xue $</div>

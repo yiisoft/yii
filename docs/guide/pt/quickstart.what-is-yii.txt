@@ -39,4 +39,4 @@ de algum projeto, nem um conglomerado de trabalho de terceiros. É o resultado
 da rica experiência de seus autores no desenvolvimento Web e da investigação 
 e reflexão das aplicações e dos mais populares frameworks de programação Web.
 
-<div class="revision">$Id: quickstart.what-is-yii.txt 813 2009-03-10 17:52:23Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.what-is-yii.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

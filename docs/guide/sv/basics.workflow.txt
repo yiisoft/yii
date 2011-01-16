@@ -16,9 +16,9 @@ applikationen.
 
    3. Skapa en [modell](/doc/guide/basics.model)-klass för varje typ av data som 
    skall hanteras.  Verktyget `Gii`, beskrivet i
-   [Skapa en första Yii-applikation](doc/guide/quickstart.first-app#implementing-crud-operations) 
-   samt i [Automatisk kodgenerering](doc/guide/topics.gii), kan användas 
-   till att automatiskt generera [active record](/doc/guide/database.ar)-klassen för varje 
+   [Skapa en första Yii-applikation](/doc/guide/quickstart.first-app#implementing-crud-operations) 
+   samt i [Automatisk kodgenerering](/doc/guide/topics.gii), kan användas till att 
+   automatiskt generera [active record](/doc/guide/database.ar)-klassen för varje 
    databastabell av intresse.
 
    4. Skapa en [kontroller](/doc/guide/basics.controller)-klass för varje typ av 
@@ -46,4 +46,4 @@ applikationen.
 För vart och ett av ovanstående steg kan testfall behöva skapas och utföras.
 
 
-<div class="revision">$Id: basics.workflow.txt 2388 2010-08-30 22:56:26Z alexander.makarow $</div>
+<div class="revision">$Id: basics.workflow.txt 2718 2010-12-07 15:17:04Z qiang.xue $</div>

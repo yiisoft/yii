@@ -1,4 +1,4 @@
-﻿Automatyczne generowanie kodu
+Automatyczne generowanie kodu
 =========================
 
 Poczynając od wersji 1.1.2, Yii wyposażone jest w opartym na przegląradkowym narzędziu do generowania kodu *Gii*. Zastępuje ona poprzednie narzędzie do generacji `yiic shell`, które uruchamiane jest z linii poleceń. W tej części opiszemy jak używać Gii i jak rozszerzać Gii by zwiększyć produktywność dewelopmentu.

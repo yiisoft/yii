@@ -9,7 +9,7 @@ maile, okno przeglądarki, itp.
 
 
 Logowanie komunikatów
----------------
+---------------------
 
 Komunikaty mogą być logowane poprzez wywołanie zarówno metody [Yii::log] jak i [Yii::trace].
 Metody te różnią się tym, że druga loguje komunikat tylko wtedy, gdy aplikacja 
@@ -39,7 +39,7 @@ Poziom komunikatu powinien przyjmować jedną z poniższych wartości:
    - `error`: dla komunikatów o błędach krytycznych.
 
 Przekierowywanie komunikatów
----------------
+----------------------------
 
 Komunikaty rejestrowane przy użyciu metod [Yii::log] oraz [Yii::trace] trzymane są w pamięci.
 Zazwyczaj potrzebujemy wyświetlić je w oknie przeglądarki lub też zapisać je w pewnej 
@@ -102,8 +102,8 @@ zamiast używać funkcji `die()` lub też `exit()`, dlatego że [CApplication::e
 wywoła zdarzenie [onEndRequest|CApplication::onEndRequest] dzięki czemu komunikaty będą mogły
 zostać poprawnie zarejestrowane.
 
-### Filtrowanie komunikatów
-
+Filtrowanie komunikatów
+-----------------------
 
 Jak już wspominaliśmy komunikaty mogą być filtrowane w zależności od ich poziomów oraz
 kategorii zanim zostaną wysłane go dziennika trasy. Dzieje się to poprzez ustawienie
@@ -117,7 +117,8 @@ rodzicem `xxx.yyy.zzz`. Możemy zatem użyć `xxx.*` w celu reprezentowania kate
 oraz jej wszystkich kategorii potomnych i ich kategorii potomnych. 
 
 
-### Logowanie informacji kontekstowych
+Logowanie informacji kontekstowych
+----------------------------------
 
 Poczynając od wersji 1.0.6 możemy zadeklarować logowanie dodatkowych informacji zależnych  
 od kontekstu, takich jak predefiniowane zmienne PHP (np. `$_GET`, `$_SERVER`), ID sesji,  
@@ -168,7 +169,7 @@ wywołuje śledzenie wiadomości.
 
 
 Profilowanie wydajności
----------------------
+-----------------------
 
 Profilowanie wydajności jest specjalnym typem logowania rejestrowania komunikatów. 
 Profilowanie wydajności może być używane do mierzenia czasu potrzebnego do wykonania  
@@ -196,7 +197,8 @@ zwyczajnego przekierowywania komunikatów. Trasa [CProfileLogRoute] wyświetli w
 na końcu aktualnej strony. 
 
 
-### Profilowanie zapytań SQL
+Profilowanie zapytań SQL
+------------------------
 
 Profilowanie jest szczególnie użyteczne podczas pracy z bazami danych, ponieważ wywołania SQL
 są często główną przyczyną wąskich gardeł w wydajności aplikacji. Chociaż możemy wstawiać 
@@ -211,4 +213,4 @@ czasu zostało spędzone na wykonywaniu danego zapytania SQL. Możemy również 
 [CDbConnection::getStats()] aby otrzymać całkowitą ilość wywołań zapytań SQL oraz ich całkowity czas wykonania.
 
 
-<div class="revision">$Id: topics.logging.txt 1147 2009-06-18 19:14:12Z qiang.xue $</div>
+<div class="revision">$Id: topics.logging.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>

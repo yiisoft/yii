@@ -1,15 +1,14 @@
 Aplikacja
 ===========
 
-Aplikacja reprezentuje kontekst wykonywania podczas przetwarzania żądania. 
-Jej głównym zadaniem jest rozszyfrowywanie żądań użytkownika oraz rozprowadzanie 
-ich do odpowiednich kontrolerów w celu ich późniejszego przetworzenia. Służy ona również
-jako główne miejsce do przechowywania konfiguracji na poziomie aplikacji. Z tego powodu,
+Aplikacja reprezentuje wykonanie kontekstu przetwarzanego żądania. 
+Jej głównym zadaniem jest rozszyfrowywanie żądania użytkownika oraz wysłanie 
+ich do odpowiedniego kontrolera w celu ich późniejszego przetworzenia. Służy ona również
+jako główne miejsce przechowywujące konfigurację na poziomie aplikacji. Z tego powodu,
 aplikacja jest również nazywana `front-controller'em`.
 
 Aplikacja jest tworzona jako singleton przez [skrypt wejściowy](/doc/guide/basics.entry).
-Singletor reprezentujący aplikację jest dostępny w każdym miejscu poprzez wywołanie 
-[Yii::app()|YiiBase::app].
+Jest on dostępny w każdym miejscu poprzez wywołanie [Yii::app()|YiiBase::app].
 
 
 Konfiguracja aplikacji
@@ -17,13 +16,13 @@ Konfiguracja aplikacji
 
 Domyślnie, aplikacja jest instancją klasy [CWebApplication]. Aby dostosować ją
 do własnych potrzeb, zazwyczaj dostarczamy jej plik konfiguracyjny (lub tablicę) 
-w celu zainicjalizowania wartości właściwości aplikacji podczas tworzenia jej instancji.
+podczas tworzenia jej instancji w celu zainicjalizowania wartości jej właściwości.
 Alternatywnym sposobem dostosowywania aplikacji do własnych potrzeb jest rozszerzenie
 klasy [CWebApplication].
 
-Konfiguracja jest tablicą par klucz-wartość. Każdy klucz reprezentuje nazwę właściwości
-instancji aplikacji a każda wartość odpowiadającą jej wartość początkową. Na przykład, 
-następująca konfiguracja, konfiguruje właściwości [name|CApplication::name] oraz
+Konfigurację stanowi tablica par klucz-wartość. Każdy klucz reprezentuje nazwę właściwości
+instancji aplikacji a każda wartość z party reprezentuj odpowiadającą tej właściwości wartość początkową. 
+Na przykład, następująca konfiguracja, konfiguruje właściwości [name|CApplication::name] oraz
 [defaultController|CWebApplication::defaultController] aplikacji.
 
 ~~~

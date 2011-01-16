@@ -79,7 +79,7 @@ class User extends CActiveRecord
 ~~~
 
 > Info|信息: 外键可能是复合的，包含两个或更多个列。
-这种情况下，我们应该将这些外键名字链接，中介用空格或逗号分割。对于 `MANY_MANY` 关系类型，
+这种情况下，我们应该将这些外键名字链接，中间用空格或逗号分割。对于 `MANY_MANY` 关系类型，
 关联表的名字必须也必须在外键中指定。例如， `Post` 中的 `categories` 关系由外键 `tbl_post_category(post_id, category_id)` 指定。
 
 AR 类中的关系定义为每个关系向类中隐式添加了一个属性。在一个关联查询执行后，相应的属性将将被以关联的 AR 实例填充。
@@ -107,7 +107,7 @@ $author=$post->author;
 注意， `HAS_MANY` 和 `MANY_MANY` 关系返回对象数组，你需要在访问任何属性之前先遍历这些结果。
 否则，你可能会收到 "Trying to get property of non-object（尝试访问非对象的属性）" 错误。
 
-懒惰式加载用起来很方便，但在某些情况下并不高效。入股，如果我们想获取 `N` 个帖子的作者，使用这种懒惰式加载将会导致执行 `N` 个关联查询。
+懒惰式加载用起来很方便，但在某些情况下并不高效。如果我们想获取 `N` 个帖子的作者，使用这种懒惰式加载将会导致执行 `N` 个关联查询。
 这种情况下，我们应该改为使用 *渴求式加载（eager loading）*方式。
 
 渴求式加载方式会在获取主 AR 实例的同时获取关联的 AR 实例。
@@ -169,32 +169,22 @@ $posts=Post::model()->findAll(array(
 ~~~
 
 
-Relational Query Options
+关系型查询选项
 ------------------------
 
-We mentioned that additional options can be specified in relationship
-declaration. These options, specified as name-value pairs, are used to
-customize the relational query. They are summarized as below.
+我们提到在关系声明时可以指定附加的选项。这些 名-值 对形式的选项用于自定义关系型查询。概括如下：
 
-   - `select`: a list of columns to be selected for the related AR class.
-It defaults to '*', meaning all columns. Column names referenced in this option
-should be disambiguated.
+   - `select`: 关联的 AR 类中要选择(select)的列的列表。
+默认为 '*'，即选择所有列。此选项中的列名应该是已经消除歧义的。
 
-   - `condition`: the `WHERE` clause. It defaults to empty. Column names
-referenced in this option should be disambiguated.
+   - `condition`: 即 `WHERE` 条件。默认为空。此选项中的列名应该是已经消除歧义的。
 
-   - `params`: the parameters to be bound to the generated SQL statement.
-This should be given as an array of name-value pairs. This option has been
-available since version 1.0.3.
+   - `params`: 要绑定到所生成的 SQL 语句的参数。应该以 名-值 对数组的形式赋值。此选项从 1.0.3 版起有效。
 
-   - `on`: the `ON` clause. The condition specified here will be appended
-to the joining condition using the `AND` operator. Column names referenced
-in this option should be disambiguated.
-This option does not apply to `MANY_MANY` relations. This option has been
-available since version 1.0.2.
+   - `on`: 即 `ON` 语句。此处指定的条件将会通过 `AND` 操作符附加到 join 条件中。此选项中的列名应该是已经消除歧义的。
+此选项不会应用到 `MANY_MANY` 关系中。此选项从 1.0.2 版起有效。
 
-   - `order`: the `ORDER BY` clause. It defaults to empty. Column names
-referenced in this option should be disambiguated.
+   - `order`: 即 `ORDER BY` 语句。默认为空。 此选项中的列名应该是已经消除歧义的。
 
    - `with`: a list of child related objects that should be loaded
 together with this object. Be aware that using this option inappropriately

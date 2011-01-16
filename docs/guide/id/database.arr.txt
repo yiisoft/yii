@@ -104,7 +104,7 @@ class User extends CActiveRecord
 
 > Info: Foreign key bisa berupa composite, terdiri dari dua atau lebih kolom.
 Dalam hal ini, kita harus menggabungkan nama-nama kolom kunci dan
-memisahkannya dengan spasi atau koma. Untuk jenis hubungan `MANY_MANY`,
+memisahkannya dengan koma. Untuk jenis hubungan `MANY_MANY`,
 nama tabel asosiatif juga harus ditetapkan dalam foreign key. Contohnya,
 hubungan `categories` dalam `Post` ditetapkan dengan foreign key
 `tbl_post_category(post_id, category_id)`.
@@ -535,4 +535,4 @@ class User extends CActiveRecord
 
 > Note|Catatan: Named scope yang diterapkan ke model terkait harus ditetapkan dalam [CActiveRecord::scopes]. Sebagai hasilnya, named scope tidak bisa diparameterisasi.
 
-<div class="revision">$Id: database.arr.txt 2350 2010-08-28 18:57:21Z qiang.xue $</div>
+<div class="revision">$Id: database.arr.txt 2782 2010-12-28 16:18:06Z qiang.xue $</div>

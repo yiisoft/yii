@@ -123,7 +123,7 @@ através da propriedade [CWebApplication::viewPath].
 
 - `WebRoot/protected/views/ControllerID`: neste diretório estão os arquivos das visões 
 para um controle específico. Aqui, `ControllerID` é o ID 
-do controle. Ele pode ser alterado através da propriedade [CController::getViewPath].
+do controle. Ele pode ser alterado através da propriedade [CController::viewPath].
 
 - `WebRoot/protected/views/layouts`: este diretório possui todos os arquivos de visão 
 do layout. Ele pode ser alterado através da propriedade [CWebApplication::layoutPath].
@@ -141,5 +141,27 @@ alterado através da propriedade [CAssetManager::basePath].
 aplicados à aplicação. Cada subdiretório representa um único tema 
 cujo nome é o nome do tema. Ele pode ser alterado através da propriedade 
 [CThemeManager::basePath].
+
+Banco de Dados
+--------------
+
+A maioria das aplicações web utilizam algum tipo de banco de dados. Como boa prática,
+propomos as seguintes convenções para a criação de nomes de tabelas e colunas. Note
+que nenhuma delas é obrigatória para a utilização do Yii.
+
+ - Nomes de tabelas e colunas devem utilizar apenas letras minúsculas.
+
+ - As palavras de um nome devem ser separadas por underscores (ex.: `product_order`).
+
+ - Para as tabelas, você pode utilizar nomes no singular ou no plural, mas nunca
+ambos ao mesmo tempo. Para simplificar, recomendamos a utilização de nomes no singular.
+
+ - Os nomes das tabelas devem ser prefixados com um token como, por exemplo,
+`tbl_`. Isso é especialmente útil em casos onde as tabelas de uma aplicação estão
+no mesmo banco de dados utilizado por tabelas de outra aplicação. Assim, os dois
+conjuntos de tabelas podem ser lidos separadamente utilizando os prefixos dos nomes
+das tabelas.
+
+<div class="revision">$Id: basics.convention.txt 2345 2010-08-28 12:51:08Z mdomba $</div>
 
 <div class="revision">$Id: basics.convention.txt 749 2009-02-26 02:11:31Z qiang.xue $</div>

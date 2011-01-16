@@ -124,9 +124,9 @@ class User extends CActiveRecord
 ~~~
 
 > Info|Info: Klucz obcy może być kluczem złożonym, zawierającym dwie lub więcej kolumn.
-W takim przypadku, powinniśmy złączyć nazwy kolumn dla kluczy obcych rozdzielając je spacją 
-lub przecinkiem. Dla typu relacji `MANY_MANY`, nazwa tablicy asocjacyjnej musi 
-również być określona w kluczach obcych. Na przykład, relacja kategorii `categories` w `tbl_post`
+W takim przypadku, powinniśmy złączyć nazwy kolumn dla kluczy obcych rozdzielając przecinkiem. 
+Dla typu relacji `MANY_MANY`, nazwa tablicy asocjacyjnej musi 
+również być określona w kluczu obcym. Na przykład, relacja kategorii `categories` w `tbl_post`
 jest określona przez klucz obcy `tbl_post_category(post_id, category_id)`.
 
 Deklaracja relacji w klasie AR domyślnie dodaje właściwość do klasy 
@@ -568,4 +568,4 @@ class User extends CActiveRecord
 w [CActiveRecord::scopes]. W rezultacie, nie mogą one zostać sparametryzowane.
 
 
-<div class="revision">$Id: database.arr.txt 2350 2010-08-28 18:57:21Z qiang.xue $</div>
+<div class="revision">$Id: database.arr.txt 2782 2010-12-28 16:18:06Z qiang.xue $</div>

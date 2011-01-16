@@ -18,6 +18,7 @@
 	- [Псевдоним пути и пространство имен](basics.namespace)
 	- [Соглашения](basics.convention)
 	- [Процесс разработки](basics.workflow)
+	- [Лучшие практики MVC](basics.best-practices)
 
 * Работа с формами
 	- [Обзор](form.overview)
@@ -30,8 +31,10 @@
 * Работа с БД
 	- [Обзор](database.overview)
 	- [Объекты доступа к данным (DAO)](database.dao)
+	- [Построитель запросов](database.query-builder)
 	- [Active Record](database.ar)
 	- [Реляционная Active Record](database.arr)
+	- [Миграции](database.migration)
 
 * Кэширование
 	- [Обзор](caching.overview)
@@ -67,4 +70,4 @@
 	- [Улучшение производительности](topics.performance)
 	- [Генерация кода при помощи консоли (устаревшее)](quickstart.first-app-yiic)
 
-<div class="revision">$Id: toc.txt 2098 2010-05-05 19:49:51Z qiang.xue $</div>
+<div class="revision">$Id: toc.txt 2700 2010-12-01 13:08:26Z alexander.makarow $</div>

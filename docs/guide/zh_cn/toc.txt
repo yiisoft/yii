@@ -18,6 +18,7 @@
     - [路径别名与名字空间](basics.namespace)
     - [开发规范](basics.convention)
     - [开发流程](basics.workflow)
+    - [最佳 MVC 实践](basics.best-practices)    
 
 * 使用表单
     - [概览](form.overview)
@@ -30,9 +31,11 @@
 * 使用数据库
     - [概览](database.overview)
     - [数据访问对象（DAO）](database.dao)
+    - [Query Builder](database.query-builder)    
     - [Active Record](database.ar)
     - [Relational Active Record](database.arr)
-
+    - [数据库迁移](database.migration)
+    
 * 缓存
     - [概览](caching.overview)
     - [数据缓存](caching.data)
@@ -67,4 +70,4 @@
     - [性能调节](topics.performance)
     - [使用命令行工具生成代码 (deprecated)](quickstart.first-app-yiic)
 
-<div class="revision">$Id: toc.txt 2098 2010-05-05 19:49:51Z qiang.xue $</div>
+<div class="revision">$Id: toc.txt 2700 2010-12-01 13:08:26Z alexander.makarow $</div>
