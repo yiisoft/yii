@@ -39,7 +39,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.6-dev';
+		return '1.1.6';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -242,15 +242,11 @@ class YiiBase
 			$count=0;
 			foreach($traces as $trace)
 			{
-				if(isset($trace['file'],$trace['line']))
+				if(isset($trace['file'],$trace['line']) && strpos($trace['file'],YII_PATH)!==0)
 				{
-					$className=substr(basename($trace['file']),0,-4);
-					if(!isset(self::$_coreClasses[$className]) && $className!=='YiiBase')
-					{
-						$msg.="\nin ".$trace['file'].' ('.$trace['line'].')';
-						if(++$count>=YII_TRACE_LEVEL)
-							break;
-					}
+					$msg.="\nin ".$trace['file'].' ('.$trace['line'].')';
+					if(++$count>=YII_TRACE_LEVEL)
+						break;
 				}
 			}
 		}
@@ -286,9 +282,27 @@ class YiiBase
 		}
 		if($params===array())
 			return $message;
+		if(!is_array($params))
+			$params=array($params);
 		if(isset($params[0])) // number choice
 		{
-			$message=CChoiceFormat::format($message,$params[0]);
+			if(strpos($message,'|')!==false)
+			{
+				if(strpos($message,'#')===false)
+				{
+					$chunks=explode('|',$message);
+					$expressions=self::$_app->getLocale($language)->getPluralRules();
+					if($n=min(count($chunks),count($expressions)))
+					{
+						for($i=0;$i<$n;$i++)
+							$chunks[$i]=$expressions[$i].'#'.$chunks[$i];
+						$message=implode('|',$chunks);
+					}
+				}
+				$message=CChoiceFormat::format($message,$params[0]);
+			}
+			if(!isset($params['{n}']))
+				$params['{n}']=$params[0];
 			unset($params[0]);
 		}
 		return $params!==array() ? strtr($message,$params) : $message;
@@ -632,7 +646,7 @@ class CComponent
 					return call_user_func_array(array($object,$name),$parameters);
 			}
 		}
-		if(class_exists('Closure', false) && $this->$name instanceof Closure)
+		if(class_exists('Closure', false) && $this->canGetProperty($name) && $this->$name instanceof Closure)
 			return call_user_func_array($this->$name, $parameters);
 		throw new CException(Yii::t('yii','{class} does not have a method named "{name}".',
 			array('{class}'=>get_class($this), '{name}'=>$name)));
@@ -1599,7 +1613,11 @@ class CWebApplication extends CApplication
 	}
 	public function createAbsoluteUrl($route,$params=array(),$schema='',$ampersand='&')
 	{
-		return $this->getRequest()->getHostInfo($schema).$this->createUrl($route,$params,$ampersand);
+		$url=$this->createUrl($route,$params,$ampersand);
+		if(strpos($url,'http')===0)
+			return $url;
+		else
+			return $this->getRequest()->getHostInfo($schema).$url;
 	}
 	public function getBaseUrl($absolute=false)
 	{
@@ -2293,7 +2311,7 @@ class CHttpRequest extends CApplicationComponent
 	}
 	public function getIsSecureConnection()
 	{
-	    return isset($_SERVER['HTTPS']) && !strcasecmp($_SERVER['HTTPS'],'on');
+		return isset($_SERVER['HTTPS']) && !strcasecmp($_SERVER['HTTPS'],'on');
 	}
 	public function getRequestType()
 	{
@@ -2427,6 +2445,26 @@ class CHttpRequest extends CApplicationComponent
 		}
 		else
 			echo $content;
+	}
+	public function xSendFile($filePath, $options=array())
+	{
+		if(!is_file($filePath))
+			return false;
+		if(!isset($options['saveName']))
+			$options['saveName']=basename($filePath);
+		if(!isset($options['mimeType']))
+		{
+			if(($options['mimeType']=CFileHelper::getMimeTypeByExtension($filePath))===null)
+				$options['mimeType']='text/plain';
+		}
+		if(!isset($options['xHeader']))
+			$options['xHeader']='X-Sendfile';
+		header('Content-type: '.$options['mimeType']);
+		header('Content-Disposition: attachment; filename="'.$options['saveName'].'"');
+		header(trim($options['xHeader']).': '.$filePath);
+		if(!isset($options['terminate']) || $options['terminate'])
+			Yii::app()->end();
+		return true;
 	}
 	public function getCsrfToken()
 	{
@@ -2609,7 +2647,12 @@ class CUrlManager extends CApplicationComponent
 		foreach($this->_rules as $rule)
 		{
 			if(($url=$rule->createUrl($this,$route,$params,$ampersand))!==false)
-				return $rule->hasHostInfo ? $url.$anchor : $this->getBaseUrl().'/'.$url.$anchor;
+			{
+				if($rule->hasHostInfo)
+					return $url==='' ? '/'.$anchor : $url.$anchor;
+				else
+					return $this->getBaseUrl().'/'.$url.$anchor;
+			}
 		}
 		return $this->createUrlDefault($route,$params,$ampersand).$anchor;
 	}
@@ -3375,7 +3418,11 @@ class CController extends CBaseController
 	}
 	public function createAbsoluteUrl($route,$params=array(),$schema='',$ampersand='&')
 	{
-		return Yii::app()->getRequest()->getHostInfo($schema).$this->createUrl($route,$params,$ampersand);
+		$url=$this->createUrl($route,$params,$ampersand);
+		if(strpos($url,'http')===0)
+			return $url;
+		else
+			return Yii::app()->getRequest()->getHostInfo($schema).$url;
 	}
 	public function getPageTitle()
 	{
@@ -3669,9 +3716,9 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	{
 		$this->setState('__name',$value);
 	}
-	public function getReturnUrl()
+	public function getReturnUrl($defaultUrl=null)
 	{
-		return $this->getState('__returnUrl',Yii::app()->getRequest()->getScriptUrl());
+		return $this->getState('__returnUrl', $defaultUrl===null ? Yii::app()->getRequest()->getScriptUrl() : CHtml::normalizeUrl($defaultUrl));
 	}
 	public function setReturnUrl($value)
 	{
@@ -4289,7 +4336,10 @@ class CHtml
 	public static function button($label='button',$htmlOptions=array())
 	{
 		if(!isset($htmlOptions['name']))
-			$htmlOptions['name']=self::ID_PREFIX.self::$count++;
+		{
+			if(!array_key_exists('name',$htmlOptions))
+				$htmlOptions['name']=self::ID_PREFIX.self::$count++;
+		}
 		if(!isset($htmlOptions['type']))
 			$htmlOptions['type']='button';
 		if(!isset($htmlOptions['value']))
@@ -4950,10 +5000,17 @@ EOD;
 		unset($htmlOptions['key']);
 		return $content;
 	}
-	protected static function clientChange($event,&$htmlOptions,$live=true)
+	protected static function clientChange($event,&$htmlOptions)
 	{
 		if(!isset($htmlOptions['submit']) && !isset($htmlOptions['confirm']) && !isset($htmlOptions['ajax']))
 			return;
+		if(isset($htmlOptions['live']))
+		{
+			$live=$htmlOptions['live'];
+			unset($htmlOptions['live']);
+		}
+		else
+			$live=true;
 		if(isset($htmlOptions['return']) && $htmlOptions['return'])
 			$return='return true';
 		else
@@ -5038,6 +5095,13 @@ EOD;
 	{
 		if(($pos=strpos($attribute,'['))!==false)
 		{
+			if($pos===0)  // [a]name[b][c], should ignore [a]
+			{
+				if(preg_match('/\](\w+)/',$attribute,$matches))
+					$attribute=$matches[1];
+				if(($pos=strpos($attribute,'['))===false)
+					return $model->$attribute;
+			}
 			$name=substr($attribute,0,$pos);
 			$value=$model->$name;
 			foreach(explode('][',rtrim(substr($attribute,$pos+1),']')) as $id)
@@ -7007,7 +7071,7 @@ abstract class CActiveRecord extends CModel
 		$builder=$this->getCommandBuilder();
 		$criteria=$builder->createCriteria($condition,$params);
 		$table=$this->getTableSchema();
-		$criteria->select=reset($table->columns)->rawName;
+		$criteria->select='1';
 		$criteria->limit=1;
 		$this->applyScopes($criteria);
 		return $builder->createFindCommand($table,$criteria)->queryRow()!==false;
@@ -7120,7 +7184,7 @@ abstract class CActiveRecord extends CModel
 	}
 	public function offsetExists($offset)
 	{
-		return isset($this->getMetaData()->columns[$offset]);
+		return $this->__isset($offset);
 	}
 }
 class CBaseActiveRelation extends CComponent
@@ -7336,6 +7400,17 @@ class CDbConnection extends CApplicationComponent
 	public $enableProfiling=false;
 	public $tablePrefix;
 	public $initSQLs;
+	public $driverMap=array(
+		'pgsql'=>'CPgsqlSchema',    // PostgreSQL
+		'mysqli'=>'CMysqlSchema',   // MySQL
+		'mysql'=>'CMysqlSchema',    // MySQL
+		'sqlite'=>'CSqliteSchema',  // sqlite 3
+		'sqlite2'=>'CSqliteSchema', // sqlite 2
+		'mssql'=>'CMssqlSchema',    // Mssql driver on windows hosts
+		'dblib'=>'CMssqlSchema',    // dblib drivers on linux (and maybe others os) hosts
+		'sqlsrv'=>'CMssqlSchema',   // Mssql
+		'oci'=>'CMssqlSchema',      // Oracle driver
+	);
 	private $_attributes=array();
 	private $_active=false;
 	private $_pdo;
@@ -7476,28 +7551,12 @@ class CDbConnection extends CApplicationComponent
 		{
 			if(!$this->getActive())
 				throw new CDbException(Yii::t('yii','CDbConnection is inactive and cannot perform any DB operations.'));
-			$driver=$this->getDriverName();
-			switch(strtolower($driver))
-			{
-				case 'pgsql':  // PostgreSQL
-					return $this->_schema=new CPgsqlSchema($this);
-				case 'mysqli': // MySQL
-				case 'mysql':
-					return $this->_schema=new CMysqlSchema($this);
-				case 'sqlite': // sqlite 3
-				case 'sqlite2': // sqlite 2
-					return $this->_schema=new CSqliteSchema($this);
-				case 'mssql': // Mssql driver on windows hosts
-				case 'dblib': // dblib drivers on linux (and maybe others os) hosts
-				case 'sqlsrv':
-					return $this->_schema=new CMssqlSchema($this);
-				case 'oci':  // Oracle driver
-					return $this->_schema=new COciSchema($this);
-				case 'ibm':
-				default:
-					throw new CDbException(Yii::t('yii','CDbConnection does not support reading schema for {driver} database.',
-						array('{driver}'=>$driver)));
-			}
+			$driver=strtolower($this->getDriverName());
+			if(isset($this->driverMap[$driver]))
+				return $this->_schema=Yii::createComponent($this->driverMap[$driver], $this);
+			else
+				throw new CDbException(Yii::t('yii','CDbConnection does not support reading schema for {driver} database.',
+					array('{driver}'=>$driver)));
 		}
 	}
 	public function getCommandBuilder()
@@ -7656,7 +7715,7 @@ abstract class CDbSchema extends CComponent
 			return $this->_tables[$name];
 		else
 		{
-			if($this->_connection->tablePrefix!='' && strpos($name,'{{')!==false)
+			if($this->_connection->tablePrefix!==null && strpos($name,'{{')!==false)
 				$realName=preg_replace('/\{\{(.*?)\}\}/',$this->_connection->tablePrefix.'$1',$name);
 			else
 				$realName=$name;
@@ -7762,11 +7821,9 @@ abstract class CDbSchema extends CComponent
 	}
 	public function resetSequence($table,$value=null)
 	{
-		throw new CDbException(Yii::t('yii','Resetting PK sequence is not supported.'));
 	}
 	public function checkIntegrity($check=true,$schema='')
 	{
-		throw new CDbException(Yii::t('yii','Setting integrity check is not supported.'));
 	}
 	protected function createCommandBuilder()
 	{
@@ -7810,6 +7867,10 @@ abstract class CDbSchema extends CComponent
 	{
 		return "DROP TABLE ".$this->quoteTableName($table);
 	}
+	public function truncateTable($table)
+	{
+		return "TRUNCATE TABLE ".$this->quoteTableName($table);
+	}
 	public function addColumn($table, $column, $type)
 	{
 		$type=$this->getColumnType($type);
@@ -7832,13 +7893,36 @@ abstract class CDbSchema extends CComponent
 	public function alterColumn($table, $column, $type)
 	{
 		$type=$this->getColumnType($type);
-		$sql='ALTER TABLE ' . $this->quoteTableName($table) . ' CHANGE '
+		return 'ALTER TABLE ' . $this->quoteTableName($table) . ' CHANGE '
 			. $this->quoteColumnName($column) . ' '
 			. $this->quoteColumnName($column) . ' '
 			. $this->getColumnType($type);
+	}
+	public function addForeignKey($name, $table, $columns, $refTable, $refColumns, $delete=null, $update=null)
+	{
+		$columns=preg_split('/\s*,\s*/',$columns,-1,PREG_SPLIT_NO_EMPTY);
+		foreach($columns as $i=>$col)
+			$columns[$i]=$this->quoteColumnName($col);
+		$refColumns=preg_split('/\s*,\s*/',$refColumns,-1,PREG_SPLIT_NO_EMPTY);
+		foreach($refColumns as $i=>$col)
+			$refColumns[$i]=$this->quoteColumnName($col);
+		$sql='ALTER TABLE '.$this->quoteTableName($table)
+			.' ADD CONSTRAINT '.$this->quoteColumnName($name)
+			.' FOREIGN KEY ('.implode(', ', $columns).')'
+			.' REFERENCES '.$this->quoteTableName($refTable)
+			.' ('.implode(', ', $refColumns).')';
+		if($delete!==null)
+			$sql.=' ON DELETE '.$delete;
+		if($update!==null)
+			$sql.=' ON UPDATE '.$update;
 		return $sql;
 	}
-	public function createIndex($table, $name, $column, $unique=false)
+	public function dropForeignKey($name, $table)
+	{
+		return 'ALTER TABLE '.$this->quoteTableName($table)
+			.' DROP CONSTRAINT '.$this->quoteColumnName($name);
+	}
+	public function createIndex($name, $table, $column, $unique=false)
 	{
 		$cols=array();
 		$columns=preg_split('/\s*,\s*/',$column,-1,PREG_SPLIT_NO_EMPTY);
@@ -7848,7 +7932,7 @@ abstract class CDbSchema extends CComponent
 			. $this->quoteTableName($name).' ON '
 			. $this->quoteTableName($table).' ('.implode(', ',$cols).')';
 	}
-	public function dropIndex($table, $name)
+	public function dropIndex($name, $table)
 	{
 		return 'DROP INDEX '.$this->quoteTableName($name).' ON '.$this->quoteTableName($table);
 	}
@@ -7955,6 +8039,10 @@ class CSqliteSchema extends CDbSchema
 		$c->init(strtolower($column['type']),$column['dflt_value']);
 		return $c;
 	}
+	public function truncateTable($table)
+	{
+		return "DELETE FROM ".$this->quoteTableName($table);
+	}
 	public function dropColumn($table, $column)
 	{
 		throw new CDbException(Yii::t('yii', 'Dropping DB column is not supported by SQLite.'));
@@ -7963,11 +8051,19 @@ class CSqliteSchema extends CDbSchema
 	{
 		throw new CDbException(Yii::t('yii', 'Renaming a DB column is not supported by SQLite.'));
 	}
+	public function addForeignKey($name, $table, $columns, $refTable, $refColumns, $delete=null, $update=null)
+	{
+		throw new CDbException(Yii::t('yii', 'Adding a foreign key constraint to an existing table is not supported by SQLite.'));
+	}
+	public function dropForeignKey($name, $table)
+	{
+		throw new CDbException(Yii::t('yii', 'Dropping a foreign key constraint is not supported by SQLite.'));
+	}
 	public function alterColumn($table, $column, $type)
 	{
 		throw new CDbException(Yii::t('yii', 'Altering a DB column is not supported by SQLite.'));
 	}
-	public function dropIndex($table, $name)
+	public function dropIndex($name, $table)
 	{
 		return 'DROP INDEX '.$this->quoteTableName($name);
 	}
@@ -8067,15 +8163,17 @@ class CDbCommand extends CComponent
 	{
 		$this->_statement=null;
 	}
-	public function bindParam($name, &$value, $dataType=null, $length=null)
+	public function bindParam($name, &$value, $dataType=null, $length=null, $driverOptions=null)
 	{
 		$this->prepare();
 		if($dataType===null)
 			$this->_statement->bindParam($name,$value,$this->_connection->getPdoType(gettype($value)));
 		else if($length===null)
 			$this->_statement->bindParam($name,$value,$dataType);
-		else
+		else if($driverOptions===null)
 			$this->_statement->bindParam($name,$value,$dataType,$length);
+		else
+			$this->_statement->bindParam($name,$value,$dataType,$length,$driverOptions);
 		if($this->_connection->enableParamLogging)
 			$this->_paramLog[$name]=&$value;
 		return $this;
@@ -8211,10 +8309,10 @@ class CDbCommand extends CComponent
 			$sql.="\nFROM ".$query['from'];
 		else
 			throw new CDbException(Yii::t('yii','The DB query must contain the "from" portion.'));
-		if(isset($query['where']))
-			$sql.="\nWHERE ".$query['where'];
 		if(isset($query['join']))
 			$sql.="\n".(is_array($query['join']) ? implode("\n",$query['join']) : $query['join']);
+		if(isset($query['where']))
+			$sql.="\nWHERE ".$query['where'];
 		if(isset($query['group']))
 			$sql.="\nGROUP BY ".$query['group'];
 		if(isset($query['having']))
@@ -8510,6 +8608,14 @@ class CDbCommand extends CComponent
 	{
 		return $this->setText($this->getConnection()->getSchema()->dropTable($table))->execute();
 	}
+	public function truncateTable($table)
+	{
+		$schema=$this->getConnection()->getSchema();
+		$n=$this->setText($schema->truncateTable($table))->execute();
+		if(strncasecmp($this->getConnection()->getDriverName(),'sqlite',6)===0)
+			$schema->resetSequence($table);
+		return $n;
+	}
 	public function addColumn($table, $column, $type)
 	{
 		return $this->setText($this->getConnection()->getSchema()->addColumn($table, $column, $type))->execute();
@@ -8526,13 +8632,21 @@ class CDbCommand extends CComponent
 	{
 		return $this->setText($this->getConnection()->getSchema()->alterColumn($table, $column, $type))->execute();
 	}
-	public function createIndex($table, $name, $column, $unique=false)
+	public function addForeignKey($name, $table, $columns, $refTable, $refColumns, $delete=null, $update=null)
 	{
-		return $this->setText($this->getConnection()->getSchema()->createIndex($table, $name, $column, $unique))->execute();
+		return $this->setText($this->getConnection()->getSchema()->addForeignKey($name, $table, $columns, $refTable, $refColumns, $delete, $update))->execute();
 	}
-	public function dropIndex($table, $name)
+	public function dropForeignKey($name, $table)
 	{
-		return $this->setText($this->getConnection()->getSchema()->dropIndex($table, $name))->execute();
+		return $this->setText($this->getConnection()->getSchema()->dropForeignKey($name, $table))->execute();
+	}
+	public function createIndex($name, $table, $column, $unique=false)
+	{
+		return $this->setText($this->getConnection()->getSchema()->createIndex($name, $table, $column, $unique))->execute();
+	}
+	public function dropIndex($name, $table)
+	{
+		return $this->setText($this->getConnection()->getSchema()->dropIndex($name, $table))->execute();
 	}
 	private function processConditions($conditions)
 	{
@@ -8587,10 +8701,7 @@ class CDbCommand extends CComponent
 			}
 			$expressions=array();
 			foreach($values as $value)
-			{
-				$value=$this->_connection->quoteValue('%'.strtr($value,array('%'=>'\%', '_'=>'\_')).'%');
-				$expressions[]=$column.' '.$operator.' '.$value;
-			}
+				$expressions[]=$column.' '.$operator.' '.$this->_connection->quoteValue($value);
 			return implode($andor,$expressions);
 		}
 		throw new CDbException(Yii::t('yii', 'Unknown operator "{operator}".', array('{operator}'=>$operator)));
@@ -8715,7 +8826,7 @@ abstract class CValidator extends CComponent
 	public $on;
 	public $safe=true;
 	abstract protected function validateAttribute($object,$attribute);
-	public static function createValidator($name,$object,$attributes,$params)
+	public static function createValidator($name,$object,$attributes,$params=array())
 	{
 		if(is_string($attributes))
 			$attributes=preg_split('/[\s,]+/',$attributes,-1,PREG_SPLIT_NO_EMPTY);

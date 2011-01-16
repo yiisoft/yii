@@ -74,7 +74,7 @@ class YiiBase
 	 */
 	public static function getVersion()
 	{
-		return '1.1.6-dev';
+		return '1.1.6';
 	}
 
 	/**
@@ -555,7 +555,7 @@ class YiiBase
 					{
 						for($i=0;$i<$n;$i++)
 							$chunks[$i]=$expressions[$i].'#'.$chunks[$i];
-							
+
 						$message=implode('|',$chunks);
 					}
 				}
