@@ -56,6 +56,9 @@ class CMaskedTextField extends CInputWidget
 	 */
 	public function run()
 	{
+		if($this->mask=='')
+			throw new CException(Yii::t('yii','Property CMaskedTextField.mask cannot be empty.'));
+
 		list($name,$id)=$this->resolveNameID();
 		if(isset($this->htmlOptions['id']))
 			$id=$this->htmlOptions['id'];
