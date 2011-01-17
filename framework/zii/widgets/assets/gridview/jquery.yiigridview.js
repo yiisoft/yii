@@ -174,11 +174,11 @@
 						$d=$(data),
 						$filtered=$d.filter(id);
 					$(id).replaceWith( $filtered.size() ? $filtered : $d.find(id));
-					$.fn.yiiGridView.selectCheckedRows(v);
 				});
 				if(settings.afterAjaxUpdate != undefined)
 					settings.afterAjaxUpdate(id, data);
 				$('#'+id).removeClass(settings.loadingClass);
+				$.fn.yiiGridView.selectCheckedRows(id);
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
 				$('#'+id).removeClass(settings.loadingClass);
