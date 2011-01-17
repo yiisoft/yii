@@ -129,7 +129,7 @@ class CMarkdownParser extends MarkdownExtra_Parser
 			return "<div class=\"{$this->highlightCssClass}\">".$output."</div>";
 		}
 		else
-			return "<pre>".$codeblock."</pre>";
+			return "<pre>".CHtml::encode($codeblock)."</pre>";
 	}
 
 	/**
