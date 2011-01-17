@@ -364,10 +364,13 @@ class CErrorHandler extends CApplicationComponent
 		foreach($args as $key => $value)
 		{
 			$count++;
-			if($count>5)
+			if($count>=5)
 			{
-				$args[$key]='...';
-				break;
+				if($count>5)
+					unset($args[$key]);
+				else
+					$args[$key]='...';
+				continue;
 			}
 
 			if(is_object($value))
@@ -388,7 +391,6 @@ class CErrorHandler extends CApplicationComponent
 			else if(is_resource($value))
 				$args[$key] = 'resource';
 		}
-
 		$out = implode(", ", $args);
 
 		return $out;

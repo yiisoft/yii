@@ -4,7 +4,7 @@
 
 Version 1.1.7 to be released
 ----------------------------
-
+- Bug: Fixed the bug that a PHP notice may occur in exception view if a method in the call stack has a very complex signature (Qiang)
 
 Version 1.1.6 January 16, 2011
 ------------------------------
