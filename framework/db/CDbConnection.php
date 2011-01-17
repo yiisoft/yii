@@ -178,7 +178,7 @@ class CDbConnection extends CApplicationComponent
 		'mssql'=>'CMssqlSchema',    // Mssql driver on windows hosts
 		'dblib'=>'CMssqlSchema',    // dblib drivers on linux (and maybe others os) hosts
 		'sqlsrv'=>'CMssqlSchema',   // Mssql
-		'oci'=>'CMssqlSchema',      // Oracle driver
+		'oci'=>'COciSchema',        // Oracle driver
 	);
 
 	private $_attributes=array();
