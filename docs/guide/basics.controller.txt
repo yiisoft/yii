@@ -44,9 +44,6 @@ name without the `action` prefix. For example, if a controller class
 contains a method named `actionEdit`, the ID of the corresponding action
 would be `edit`.
 
-> Note: Before version 1.0.3, the controller ID format was `path.to.xyz`
-instead of `path/to/xyz`.
-
 Users request for a particular controller and action in terms of route. A
 route is formed by concatenating a controller ID and an action ID separated
 by a slash. For example, the route `post/edit` refers to `PostController`
@@ -54,14 +51,16 @@ and its `edit` action. And by default, the URL
 `http://hostname/index.php?r=post/edit` would request for this controller
 and action.
 
->Note: By default, routes are case-sensitive. Since version 1.0.1, it is
+>Note: By default, routes are case-sensitive. It is
 >possible to make routes case-insensitive by setting [CUrlManager::caseSensitive]
 >to be false in the application configuration. When in case-insensitive mode,
 >make sure you follow the convention that directories containing controller
 >class files are in lower case, and both [controller map|CWebApplication::controllerMap]
 >and [action map|CController::actions] are using keys in lower case.
 
-Since version 1.0.3, an application can contain [modules](/doc/guide/basics.module). The route for a controller action inside a module is in the format of `moduleID/controllerID/actionID`. For more details, see the [section about modules](/doc/guide/basics.module).
+An application can contain [modules](/doc/guide/basics.module). The route for
+a controller action inside a module is in the format of `moduleID/controllerID/actionID`.
+For more details, see the [section about modules](/doc/guide/basics.module).
 
 
 Controller Instantiation
@@ -88,7 +87,10 @@ ID `admin/user` would be resolved as the controller class `UserController`
 and the class file `protected/controllers/admin/UserController.php`.
 If the class file does not exist, a 404 [CHttpException] will be raised.
 
-In case when [modules](/doc/guide/basics.module) are used (available since version 1.0.3), the above process is slighly different. In particular, the application will check if the ID refers to a controller inside a module, and if so, the module instance will be created first followed by the controller instance.
+In case when [modules](/doc/guide/basics.module) are used, the above process is
+slightly different. In particular, the application will check if the ID refers
+to a controller inside a module, and if so, the module instance will be created
+first followed by the controller instance.
 
 
 Action

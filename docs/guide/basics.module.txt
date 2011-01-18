@@ -1,8 +1,6 @@
 Module
 ======
 
-> Note: Support for module has been available since version 1.0.3.
-
 A module is a self-contained software unit that consists of [models](/doc/guide/basics.model), [views](/doc/guide/basics.view), [controllers](/doc/guide/basics.controller) and other supporting components. In many aspects, a module resembles to an [application](/doc/guide/basics.application). The main difference is that a module cannot be deployed alone and it must reside inside of an application. Users can access the controllers in a module like they do with normal application controllers.
 
 Modules are useful in several scenarios. For a large-scale application, we may divide it into several modules, each being developed and maintained separately. Some commonly used features, such as user management, comment management, may be developed in terms of modules so that they can be reused easily in future projects.

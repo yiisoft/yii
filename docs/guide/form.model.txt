@@ -221,12 +221,10 @@ expose the primary key of a table to be safe, then an attacker could
 get a chance to modify the primary key of the given record and thus tamper
 the data he is not authorized to.
 
-The policy of deciding which attributes are safe is different in version 1.0
-and 1.1. In the following, we will describe them separately.
 
-###Safe Attributes in 1.1
+###Declaring Safe Attributes
 
-In version 1.1, an attribute is considered safe if it appears in a validation
+An attribute is considered safe if it appears in a validation
 rule that is applicable in the given scenario. For example,
 
 ~~~
@@ -285,56 +283,6 @@ array('permission', 'unsafe')
 The `unsafe` rule is rarely used, and it is an exception to our previous definition of safe
 attributes.
 
-
-###Safe Attributes in 1.0
-
-In version 1.0, the task of deciding whether a data entry is safe or not is based on
-the return value of a method named `safeAttributes` and the specified
-scenario. By default, the method returns all public member variables
-as safe attributes for [CFormModel], while it returns all table columns
-except the primary key as safe attributes for [CActiveRecord]. We may
-override this method to limit safe attributes according to scenarios.
-For example, a user model may contain many attributes, but in `login`
-scenario we only need to use `username` and `password` attributes.
-We can specify this limit as follows:
-
-~~~
-[php]
-public function safeAttributes()
-{
-	return array(
-		parent::safeAttributes(),
-		'login' => 'username, password',
-	);
-}
-~~~
-
-More accurately, the return value of the `safeAttributes` method should be
-of the following structure:
-
-~~~
-[php]
-array(
-   // these attributes can be massively assigned in any scenario
-   // that is not explicitly specified below
-   'attr1, attr2, ...',
-	 *
-   // these attributes can be massively assigned only in scenario 1
-   'scenario1' => 'attr2, attr3, ...',
-	 *
-   // these attributes can be massively assigned only in scenario 2
-   'scenario2' => 'attr1, attr3, ...',
-)
-~~~
-
-If the model is not scenario-sensitive (i.e., it is only used
-in one scenario, or all scenarios share the same set of safe attributes),
-the return value can be simplified as a single string:
-
-~~~
-[php]
-'attr1, attr2, ...'
-~~~
 
 For data entries that are not safe, we need to assign them to the corresponding
 attributes using individual assign statements, like the following:

@@ -1,8 +1,6 @@
 Testing
 =======
 
-> Note: The testing support described in this chapter requires Yii version 1.1 or higher. This does not mean, however, that you cannot test applications developed using Yii 1.0.x. There are many great testing frameworks available to help you accomplish this task, such as [PHPUnit](http://www.phpunit.de/), [SimpleTest](http://www.simpletest.org/).
-
 Testing is an indispensable process of software development. Whether we are aware of it or not, we conduct testing all the time when we are developing a Web application. For example, when we write a class in PHP, we may use some `echo` or `die` statement to show that we implement a method correctly; when we implement a Web page containing a complex HTML form, we may try entering some test data to ensure the page interacts with us as expected. More advanced developers would write some code to automate this testing process so that each time when we need to test something, we just need to call up the code and let the computer to perform testing for us. This is known as *automated testing*, which is the main topic of this chapter.
 
 The testing support provided by Yii includes *unit testing* and *functional testing*.

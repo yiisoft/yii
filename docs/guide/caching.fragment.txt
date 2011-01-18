@@ -111,8 +111,7 @@ able to cache a single post.
 
    - [varyByExpression|COutputCache::varyByExpression]: by setting this option
 to a PHP expression, we can make the cached content to be variated according
-to the result of this PHP expression. This option has been available since
-version 1.0.4.
+to the result of this PHP expression.
 
 ### Request Types
 

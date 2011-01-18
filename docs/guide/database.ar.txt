@@ -82,9 +82,6 @@ supported:
    - [Microsoft SQL Server 2000 or later](http://www.microsoft.com/sqlserver/)
    - [Oracle](http://www.oracle.com)
 
-> Note: The support for Microsoft SQL Server has been available since version 1.0.4;
-> And the support for Oracle has been available since version 1.0.5.
-
 If you want to use an application component other than `db`, or if you
 want to work with multiple databases using AR, you should override
 [CActiveRecord::getDbConnection()]. The [CActiveRecord] class is the base
@@ -139,8 +136,8 @@ name. Override the [tableName()|CActiveRecord::tableName] method if they
 are different. The [model()|CActiveRecord::model] method is declared as
 such for every AR class (to be explained shortly).
 
-> Info: To use the [table prefix feature](/doc/guide/database.dao#using-table-prefix)
-> introduced in version 1.1.0, the [tableName()|CActiveRecord::tableName] method
+> Info: To use the [table prefix feature](/doc/guide/database.dao#using-table-prefix),
+> the [tableName()|CActiveRecord::tableName] method
 > for an AR class may be overridden as follows,
 > ~~~
 > [php]
@@ -227,7 +224,7 @@ $post=new Post;
 echo $post->title;  // this would display: please enter a title
 ~~~
 
-Starting from version 1.0.2, an attribute can be assigned a value of [CDbExpression]
+An attribute can be assigned a value of [CDbExpression]
 type before the record is saved (either insertion or updating) to the database.
 For example, in order to save a timestamp returned by the MySQL `NOW()` function,
 we can use the following code:
@@ -246,7 +243,7 @@ cumbersom SQL statements, we often want to know what SQL statements are executed
 by AR underneath. This can be achieved by turning on the [logging feature](/doc/guide/topics.logging)
 of Yii. For example, we can turn on [CWebLogRoute] in the application configuration,
 and we will see the executed SQL statements being displayed at the end of each Web page.
-Since version 1.0.5, we can set [CDbConnection::enableParamLogging] to be true in
+We can set [CDbConnection::enableParamLogging] to be true in
 the application configuration so that the parameter values bound to the SQL
 statements are also logged.
 
@@ -524,8 +521,7 @@ after an AR instance is deleted.
 every AR instance created using the `new` operator.
 
    - [beforeFind|CActiveRecord::beforeFind]: this is invoked before an AR finder
-is used to perform a query (e.g. `find()`, `findAll()`). This has been available
-since version 1.0.9.
+is used to perform a query (e.g. `find()`, `findAll()`).
 
    - [afterFind|CActiveRecord::afterFind]: this is invoked after every AR
 instance created as a result of query.
@@ -563,8 +559,7 @@ catch(Exception $e)
 Named Scopes
 ------------
 
-> Note: The support for named scopes has been available since version 1.0.5.
-> The original idea of named scopes came from Ruby on Rails.
+> Info: The original idea of named scopes came from Ruby on Rails.
 
 A *named scope* represents a *named* query criteria that can be combined with other named scopes and applied to an active record query.
 
@@ -601,7 +596,7 @@ $posts=Post::model()->published()->recently()->findAll();
 
 In general, named scopes must appear to the left of a `find` method call. Each of them provides a query criteria, which is combined with other criterias, including the one passed to the `find` method call. The net effect is like adding a list of filters to a query.
 
-Starting from version 1.0.6, named scopes can also be used with `update` and `delete` methods. For example, the following code would delete all recently published posts:
+Named scopes can also be used with `update` and `delete` methods. For example, the following code would delete all recently published posts:
 
 ~~~
 [php]

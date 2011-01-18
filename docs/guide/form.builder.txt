@@ -4,8 +4,7 @@ Using Form Builder
 When creating HTML forms, we often find that we are writing a lot of repetitive view code
 which is difficult to be reused in a different project. For example, for every
 input field, we need to associate it with a text label and display possible validation errors.
-To improve the reusability of these code, we can use the form builder feature which has
-been available since Yii version 1.1.0.
+To improve the reusability of these code, we can use the form builder feature.
 
 
 Basic Concepts

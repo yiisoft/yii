@@ -14,12 +14,6 @@ Each extension has a name that uniquely identifies it among all extensions.
 Given an extension named as `xyz`, we can always use the path alias
 `ext.xyz` to locate its base directory which contains all files of `xyz`.
 
-> Note: The root path alias `ext` has been available since version 1.0.8.
-Previously, we would need to use `application.extensions` to refer to the
-directory containing all extensions. In the following description, we
-assume `ext` is defined. You will need to replace it with `application.extensions`
-if you are using version 1.0.7 or lower.
-
 Different extensions have different requirements about importing,
 configuration and usage. In the following, we summarize common usage scenarios
 about extensions, according to their categorization described in the
@@ -31,8 +25,7 @@ Zii Extensions
 
 Before we start describing the usage of third-party extensions, we would like to introduce
 the Zii extension library, which is a set of extensions developed by the Yii developer team
-and included in every release since Yii version 1.1.0. The Zii library is hosted as a
-Google project called [zii](http://code.google.com/p/zii/).
+and included in every release.
 
 When using a Zii extension, one must refer to the corresponding class using a path alias
 in the form of `zii.path.to.ClassName`. Here the root alias `zii` is predefined by Yii. It refers

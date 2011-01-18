@@ -244,7 +244,7 @@ while($dataReader->read()!==false)
 Using Table Prefix
 ------------------
 
-Starting from version 1.1.0, Yii provides integrated support for using
+Yii provides integrated support for using
 table prefix. Table prefix means a string that is prepended to the names of
 the tables in the currently connected database. It is mostly used in a shared
 hosting environment where multiple applications share a single database and use
