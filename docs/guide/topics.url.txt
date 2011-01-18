@@ -114,8 +114,8 @@ with customized options, like the following:
 'pattern1'=>array('route1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
 ~~~
 
-In the above, the array contains a list of customized options. As of version 1.1.0,
-the following options are available:
+In the above, the array contains a list of customized options. The following options can be specified
+for a URL rule:
 
    - [urlSuffix|CUrlRule::urlSuffix]: the URL suffix used specifically for this rule. Defaults to null,
 meaning using the value of [CUrlManager::urlSuffix].
@@ -133,6 +133,17 @@ meaning using the value of [CUrlManager::matchValue]. If this property is false,
 a rule will be used for creating a URL if its route and parameter names match the given ones.
 If this property is set true, then the given parameter values must also match the corresponding
 parameter sub-patterns. Note that setting this property to true will degrade performance.
+
+   - [verb|CUrlRule::verb]: the HTTP verb (e.g. `GET`, `POST`, `DELETE`) that this rule must match
+in order to be used for parsing the current request. Defaults to null, meaning the rule can match any HTTP verb.
+If a rule can match multiple verbs, they must be separated by commas. When a rule does not match
+the specified verb(s), it will be skipped during the request parsing process. This option is only
+used for request parsing. This option is provided mainly for RESTful URL support.
+This option has been available since version 1.1.7.
+
+   - [parsingOnly|CUrlRule::parsingOnly]: whether the rule is used for parsing request only.
+Defaults to false, meaning a rule is used for both URL parsing and creation.
+This option has been available since version 1.1.7.
 
 
 Using Named Parameters

@@ -471,4 +471,89 @@ class CUrlManagerTest extends CTestCase
 		$this->assertEquals('news/list',$route);
 		$this->assertEquals(array('slug'=>'example', 'page'=>'1'),$_GET);
 	}
+
+	public function testVerb()
+	{
+		$config=array(
+			'basePath'=>dirname(__FILE__),
+			'components'=>array(
+				'request'=>array(
+					'class'=>'TestHttpRequest',
+				),
+			),
+		);
+		$rules=array(
+			'article/<id:\d+>'=>array('article/read', 'verb'=>'GET'),
+			'article/update/<id:\d+>'=>array('article/update', 'verb'=>'POST'),
+			'article/update/*'=>'article/admin',
+		);
+
+		$entries=array(
+			array(
+				'scriptUrl'=>'/apps/index.php',
+				'url'=>'article/123',
+				'verb'=>'GET',
+				'route'=>'article/read',
+			),
+			array(
+				'scriptUrl'=>'/apps/index.php',
+				'url'=>'article/update/123',
+				'verb'=>'POST',
+				'route'=>'article/update',
+			),
+			array(
+				'scriptUrl'=>'/apps/index.php',
+				'url'=>'article/update/123',
+				'verb'=>'GET',
+				'route'=>'article/admin',
+			),
+		);
+
+		foreach($entries as $entry)
+		{
+			$_SERVER['REQUEST_METHOD']=$entry['verb'];
+			$app=new TestApplication($config);
+			$app->request->baseUrl=null; // reset so that it can be determined based on scriptUrl
+			$app->request->scriptUrl=$entry['scriptUrl'];
+			$app->request->pathInfo=$entry['url'];
+			$um=new CUrlManager;
+			$um->urlFormat='path';
+			$um->rules=$rules;
+			$um->init($app);
+			$route=$um->parseUrl($app->request);
+			$this->assertEquals($entry['route'],$route);
+		}
+	}
+
+	public function testParsingOnly()
+	{
+		$config=array(
+			'basePath'=>dirname(__FILE__),
+			'components'=>array(
+				'request'=>array(
+					'class'=>'TestHttpRequest',
+				),
+			),
+		);
+		$rules=array(
+			'(articles|article)/<id:\d+>'=>array('article/read', 'parsingOnly'=>true),
+			'article/<id:\d+>'=>array('article/read', 'verb'=>'GET'),
+		);
+
+		$_SERVER['REQUEST_METHOD']='GET';
+		$app=new TestApplication($config);
+		$app->request->baseUrl=null; // reset so that it can be determined based on scriptUrl
+		$app->request->scriptUrl='/apps/index.php';
+		$app->request->pathInfo='articles/123';
+		$um=new CUrlManager;
+		$um->urlFormat='path';
+		$um->rules=$rules;
+		$um->init($app);
+
+		$route=$um->parseUrl($app->request);
+		$this->assertEquals('article/read',$route);
+
+		$url=$um->createUrl('article/read', array('id'=>345));
+		$this->assertEquals('/apps/index.php/article/345',$url);
+	}
 }

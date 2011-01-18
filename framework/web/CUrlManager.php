@@ -507,6 +507,20 @@ class CUrlRule extends CComponent
 	 */
 	public $matchValue;
 	/**
+	 * @var string the HTTP verb (e.g. GET, POST, DELETE) that this rule should match.
+	 * If this rule can match multiple verbs, please separate them with commas.
+	 * If this property is not set, the rule can match any verb.
+	 * Note that this property is only used when parsing a request. It is ignored for URL creation.
+	 * @since 1.1.7
+	 */
+	public $verb;
+	/**
+	 * @var boolean whether this rule is only used for request parsing.
+	 * Defaults to false, meaning the rule is used for both URL parsing and creation.
+	 * @since 1.1.7
+	 */
+	public $parsingOnly=false;
+	/**
 	 * @var string the controller/action pair
 	 */
 	public $route;
@@ -551,14 +565,11 @@ class CUrlRule extends CComponent
 	{
 		if(is_array($route))
 		{
-			if(isset($route['urlSuffix']))
-				$this->urlSuffix=$route['urlSuffix'];
-			if(isset($route['caseSensitive']))
-				$this->caseSensitive=$route['caseSensitive'];
-			if(isset($route['defaultParams']))
-				$this->defaultParams=$route['defaultParams'];
-			if(isset($route['matchValue']))
-				$this->matchValue=$route['matchValue'];
+			foreach(array('urlSuffix', 'caseSensitive', 'defaultParams', 'matchValue', 'verb', 'parsingOnly') as $name)
+			{
+				if(isset($route[$name]))
+					$this->$name=$route[$name];
+			}
 			$route=$this->route=$route[0];
 		}
 		else
@@ -573,6 +584,9 @@ class CUrlRule extends CComponent
 		}
 
 		$this->hasHostInfo=!strncasecmp($pattern,'http://',7) || !strncasecmp($pattern,'https://',8);
+
+		if($this->verb!==null)
+			$this->verb=preg_split('/[\s,]+/',strtoupper($this->verb),-1,PREG_SPLIT_NO_EMPTY);
 
 		if(preg_match_all('/<(\w+):?(.*?)?>/',$pattern,$matches))
 		{
@@ -616,6 +630,9 @@ class CUrlRule extends CComponent
 	 */
 	public function createUrl($manager,$route,$params,$ampersand)
 	{
+		if($this->parsingOnly)
+			return false;
+
 		if($manager->caseSensitive && $this->caseSensitive===null || $this->caseSensitive)
 			$case='';
 		else
@@ -699,6 +716,9 @@ class CUrlRule extends CComponent
 	 */
 	public function parseUrl($manager,$request,$pathInfo,$rawPathInfo)
 	{
+		if($this->verb!==null && !in_array($request->getRequestType(), $this->verb, true))
+			return false;
+
 		if($manager->caseSensitive && $this->caseSensitive===null || $this->caseSensitive)
 			$case='';
 		else
