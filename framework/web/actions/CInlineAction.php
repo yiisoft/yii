@@ -22,6 +22,19 @@
 class CInlineAction extends CAction
 {
 	/**
+	 * @var string the error message to display when action parameter binding fails.
+	 * If not set, it will use "Your request is invalid."
+	 * @since 1.1.7
+	 */
+	public $errorMessage;
+	/**
+	 * @var array the input parameters (name=>value) that will be used to populate action parameters.
+	 * If not set, it will use $_GET.
+	 * @since 1.1.7
+	 */
+	public $inputParams;
+
+	/**
 	 * Runs the action.
 	 * The action method defined in the controller is invoked.
 	 * This method is required by {@link CAction}.
@@ -33,23 +46,27 @@ class CInlineAction extends CAction
 		$method=new ReflectionMethod($controller,$methodName);
 		if(($n=$method->getNumberOfParameters())>0)
 		{
+			if($this->errorMessage===null)
+				$this->errorMessage=Yii::t('yii','Your request is invalid.');
+			if($this->inputParams===null)
+				$this->inputParams=$_GET;
 			$params=array();
 			foreach($method->getParameters() as $i=>$param)
 			{
 				$name=$param->getName();
-				if(isset($_GET[$name]))
+				if(isset($this->inputParams[$name]))
 				{
 					if($param->isArray())
-						$params[]=is_array($_GET[$name]) ? $_GET[$name] : array($_GET[$name]);
-					else if(!is_array($_GET[$name]))
-						$params[]=$_GET[$name];
+						$params[]=is_array($this->inputParams[$name]) ? $this->inputParams[$name] : array($this->inputParams[$name]);
+					else if(!is_array($this->inputParams[$name]))
+						$params[]=$this->inputParams[$name];
 					else
-						throw new CHttpException(400,Yii::t('yii','Your request is invalid.'));
+						throw new CHttpException(400, $this->errorMessage);
 				}
 				else if($param->isDefaultValueAvailable())
 					$params[]=$param->getDefaultValue();
 				else
-					throw new CHttpException(400,Yii::t('yii','Your request is invalid.'));
+					throw new CHttpException(400, $this->errorMessage);
 			}
 			$method->invokeArgs($controller,$params);
 		}

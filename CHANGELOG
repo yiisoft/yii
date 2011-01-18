@@ -6,7 +6,7 @@ Version 1.1.7 to be released
 ----------------------------
 - Bug: Fixed the bug that a PHP notice may occur in exception view if a method in the call stack has a very complex signature (Qiang)
 - Bug: Fixed error that CGridview breaks when updating non-cgridview elements (mdomba)
-- Enh: Added CController::createInlineAction to allow easier override (Qiang)
+- Enh: Added CController::createInlineAction, CInlineAction::inputParams and errorMessage to allow easier override (Qiang)
 
 Version 1.1.6 January 16, 2011
 ------------------------------
