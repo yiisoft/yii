@@ -376,9 +376,20 @@ class CController extends CBaseController
 		if($actionID==='')
 			$actionID=$this->defaultAction;
 		if(method_exists($this,'action'.$actionID) && strcasecmp($actionID,'s')) // we have actions method
-			return new CInlineAction($this,$actionID);
+			return $this->createInlineAction($actionID);
 		else
 			return $this->createActionFromMap($this->actions(),$actionID,$actionID);
+	}
+
+	/**
+	 * Creates the action to represent an inline controller action.
+	 * @param string $actionID the action ID
+	 * @return CInlineAction the inline action instance
+	 * @since 1.1.7
+	 */
+	protected function createInlineAction($actionID)
+	{
+		return new CInlineAction($this,$actionID);
 	}
 
 	/**
