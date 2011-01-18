@@ -207,8 +207,6 @@ $this->widget('CLinkPager', array(
 Skin
 ----
 
-> Note: The skin feature has been available since version 1.1.0.
-
 While using a theme we can quickly change the outlook of views, we can use skins to systematically customize the outlook of the [widgets](/doc/guide/basics.view#widget) used in the views.
 
 A skin is an array of name-value pairs that can be used to initialize the properties of a widget. A skin belongs to a widget class, and a widget class can have multiple skins identified by their names. For example, we can have a skin for the [CLinkPager] widget and the skin is named as `classic`.

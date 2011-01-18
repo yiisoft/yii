@@ -223,7 +223,7 @@ application should minimize its use of URL rules.
 Parameterizing Routes
 ---------------------
 
-Starting from version 1.0.5, we may reference named parameters in the route part
+We may reference named parameters in the route part
 of a rule. This allows a rule to be applied to multiple routes based on matching
 criteria. It may also help reduce the number of rules needed for an application,
 and thus improve the overall performance.
@@ -255,7 +255,7 @@ And given the route `comment/list` and GET parameter `page=2`, we can create a U
 Parameterizing Hostnames
 ------------------------
 
-Starting from version 1.0.11, it is also possible to include hostname into the rules
+It is also possible to include hostname into the rules
 for parsing and creating URLs. One may extract part of the hostname to be a GET parameter.
 For example, the URL `http://admin.example.com/en/profile` may be parsed into GET parameters
 `user=admin` and `lang=en`. On the other hand, rules with hostname may also be used to

@@ -122,8 +122,7 @@ categories.
 Logging Context Information
 ---------------------------
 
-Starting from version 1.0.6, we can specify to log additional context information,
-such as PHP predefined variables (e.g. `$_GET`, `$_SERVER`), session ID, user name, etc.
+We can log additional context information, such as PHP predefined variables (e.g. `$_GET`, `$_SERVER`), session ID, user name, etc.
 This is accomplished by specifying the [CLogRoute::filter] property of a log route to be
 a suitable log filter.
 
@@ -159,7 +158,7 @@ array(
 ~~~
 
 
-Starting from version 1.0.7, Yii supports logging call stack information in the messages that are
+Yii supports logging call stack information in the messages that are
 logged by calling `Yii::trace`. This feature is disabled by default because it lowers performance.
 To use this feature, simply define a constant named `YII_TRACE_LEVEL` at the beginning of the entry
 script (before including `yii.php`) to be an integer greater than 0. Yii will then append to
@@ -205,7 +204,7 @@ Profiling SQL Executions
 Profiling is especially useful when working with database since SQL executions
 are often the main performance bottleneck of an application. While we can manually
 insert `beginProfile` and `endProfile` statements at appropriate places to measure
-the time spent in each SQL execution, starting from version 1.0.6, Yii provides
+the time spent in each SQL execution, Yii provides
 a more systematic approach to solve this problem.
 
 By setting [CDbConnection::enableProfiling] to be true in the application configuration,

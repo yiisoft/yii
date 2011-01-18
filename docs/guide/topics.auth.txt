@@ -76,7 +76,7 @@ class UserIdentity extends CUserIdentity
 ~~~
 
 When we cover login and logout in the next section, we'll see that we pass this identity class into the login method for a user. Any information that we store in a state (by calling [CBaseUserIdentity::setState]) will be passed to [CWebUser], which in turn will store them in a persistent storage, such as session.
-This information can then be accessed like properties of [CWebUser]. In our example, we stored the user title information via `$this->setState('title', $record->title);`. Once we complete our login process, we can obtain the `title` information of the current user by simply using `Yii::app()->user->title` (This has been available since version 1.0.3. In prior versions, one must instead use `Yii::app()->user->getState('title')`.)
+This information can then be accessed like properties of [CWebUser]. In our example, we stored the user title information via `$this->setState('title', $record->title);`. Once we complete our login process, we can obtain the `title` information of the current user by simply using `Yii::app()->user->title`.
 
 > Info: By default, [CWebUser] uses session as persistent storage for user
 identity information. If cookie-based login is enabled (by setting
@@ -260,7 +260,6 @@ matches. This should be an array of action IDs. The comparison is case-insensiti
 
    - [controllers|CAccessRule::controllers]: specifies which controllers this rule
 matches. This should be an array of controller IDs. The comparison is case-insensitive.
-This option has been available since version 1.0.4.
 
    - [users|CAccessRule::users]: specifies which users this rule matches.
 The current user's [name|CWebUser::name] is used for matching. The comparison
@@ -287,7 +286,7 @@ matches.
 
    - [expression|CAccessRule::expression]: specifies a PHP expression whose value
 indicates whether this rule matches. In the expression, you can use variable `$user`
-which refers to `Yii::app()->user`. This option has been available since version 1.0.3.
+which refers to `Yii::app()->user`.
 
 
 Handling Authorization Result
@@ -552,8 +551,6 @@ if(Yii::app()->user->checkAccess('updateOwnPost',$params))
 
 
 ### Using Default Roles
-
-> Note: The default role feature has been available since version 1.0.3
 
 Many Web applications need some very special roles that would be assigned to
 every or most of the system users. For example, we may want to assign some

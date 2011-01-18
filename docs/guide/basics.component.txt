@@ -99,8 +99,7 @@ the `raiseEvent()` call). The `$event` parameter is an instance of [CEvent] or
 its derived class. At the minimum, it contains the information about who
 raises the event.
 
-Starting from version 1.0.10, an event handler can also be an anonymous function
-which is supported by PHP 5.3 or above. For example,
+An event handler can also be an anonymous function which is supported by PHP 5.3 or above. For example,
 
 ~~~
 [php]
@@ -122,7 +121,7 @@ If a handler decides to prevent the rest handlers from being invoked, it can set
 Component Behavior
 ------------------
 
-Starting from version 1.0.2, a component has added support for [mixin](http://en.wikipedia.org/wiki/Mixin)
+A component supports the [mixin](http://en.wikipedia.org/wiki/Mixin) pattern
 and can be attached with one or several behaviors. A *behavior* is an object
 whose methods can be 'inherited' by its attached component through the means of collecting
 functionality instead of specialization (i.e., normal class inheritance).
@@ -176,7 +175,7 @@ A behavior, when being attached to a component, can attach some of its methods t
 of the component. By doing so, the behavior gets a chance to observe or change the normal
 execution flow of the component.
 
-Starting from version 1.1.0, a behavior's properties can also be accessed via the component it
+A behavior's properties can also be accessed via the component it
 is attached to. The properties include both the public member variables and the properties defined
 via getters and/or setters of the behavior. For example, if a behavior has a property named `xyz`
 and the behavior is attached to a component `$a`. Then we can use the expression `$a->xyz` to access

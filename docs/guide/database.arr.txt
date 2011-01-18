@@ -190,7 +190,7 @@ $posts=Post::model()->with(
 The above example will bring back all posts together with their author and
 categories. It will also bring back each author's profile and posts.
 
-Starting from version 1.1.0, eager loading may also be executed by specifying
+Eager loading may also be executed by specifying
 the [CDbCriteria::with] property, like the following:
 
 ~~~
@@ -233,14 +233,12 @@ should be disambiguated.
 referenced in this option should be disambiguated.
 
    - `params`: the parameters to be bound to the generated SQL statement.
-This should be given as an array of name-value pairs. This option has been
-available since version 1.0.3.
+This should be given as an array of name-value pairs.
 
    - `on`: the `ON` clause. The condition specified here will be appended
 to the joining condition using the `AND` operator. Column names referenced
 in this option should be disambiguated.
-This option does not apply to `MANY_MANY` relations. This option has been
-available since version 1.0.2.
+This option does not apply to `MANY_MANY` relations.
 
    - `order`: the `ORDER BY` clause. It defaults to empty. Column names
 referenced in this option should be disambiguated.
@@ -253,8 +251,7 @@ may form an infinite relation loop.
 OUTER JOIN`.
 
    - `alias`: the alias for the table associated with this relationship.
-This option has been available since version 1.0.1. It defaults to null,
-meaning the table alias is the same as the relation name.
+It defaults to null, meaning the table alias is the same as the relation name.
 
    - `together`: whether the table associated with this relationship should
 be forced to join together with the primary table and other tables.
@@ -267,7 +264,6 @@ primary table in a single SQL query, even if the primary table is paginated.
 If this option is not set, the associated table will be joined with the
 primary table in a single SQL query only when the primary table is not paginated.
 For more details, see the section "Relational Query Performance".
-This option has been available since version 1.0.3.
 
    - `join`: the extra `JOIN` clause. It defaults to empty. This option
 has been available since version 1.1.3.
@@ -277,13 +273,11 @@ referenced in this option should be disambiguated.
 
    - `having`: the `HAVING` clause. It defaults to empty. Column names
 referenced in this option should be disambiguated.
-Note: option has been available since version 1.0.1.
 
    - `index`: the name of the column whose values should be used as keys
 of the array that stores related objects. Without setting this option,
 an related object array would use zero-based integer index.
 This option can only be set for `HAS_MANY` and `MANY_MANY` relations.
-This option has been available since version 1.0.7.
 
 
 In addition, the following options are available for certain relationships
@@ -349,17 +343,11 @@ $posts=Post::model()->with('comments')->findAll(array(
 ));
 ~~~
 
-> Note: the behavior of column disambiguation has been changed since version 1.1.0.
-> Previously in version 1.0.x, by default Yii would automatically generate a table
-> alias for each relational table, and we had to use the prefix `??.` to refer to
-> this automatically generated alias. Also, in version 1.0.x, the alias name
-> of the primary table is the table name itself.
-
 
 Dynamic Relational Query Options
 --------------------------------
 
-Starting from version 1.0.2, we can use dynamic relational query options
+We can use dynamic relational query options
 in both [with()|CActiveRecord::with] and the `with` option. The dynamic
 options will overwrite existing options as specified in the [relations()|CActiveRecord::relations]
 method. For example, with the above `User` model, if we want to use eager
@@ -375,7 +363,7 @@ User::model()->with(array(
 ))->findAll();
 ~~~
 
-Starting from version 1.0.5, dynamic query options can also be used when using the lazy loading approach to perform relational query. To do so, we should call a method whose name is the same as the relation name and pass the dynamic query options as the method parameter. For example, the following code returns a user's posts whose `status` is 1:
+Dynamic query options can also be used when using the lazy loading approach to perform relational query. To do so, we should call a method whose name is the same as the relation name and pass the dynamic query options as the method parameter. For example, the following code returns a user's posts whose `status` is 1:
 
 ~~~
 [php]
@@ -429,26 +417,9 @@ We can also dynamically set this option when we perform the eager loading:
 $posts = Post::model()->with(array('comments'=>array('together'=>false)))->findAll();
 ~~~
 
-> Note: In version 1.0.x, the default behavior is that Yii will generate and
-> execute `N+1` SQL statements if there are `N` `HAS_MANY` or `MANY_MANY` relations.
-> Each `HAS_MANY` or `MANY_MANY` relation has its own SQL statement. By calling
-> the `together()` method after `with()`, we can enforce only a single SQL statement
-> is generated and executed. For example,
->
-> ~~~
-> [php]
-> $posts=Post::model()->with(
-> 	'author.profile',
-> 	'author.posts',
-> 	'categories')->together()->findAll();
-> ~~~
->
-
 
 Statistical Query
 -----------------
-
-> Note: Statistical query has been supported since version 1.0.4.
 
 Besides the relational query described above, Yii also supports the so-called statistical query (or aggregational query). It refers to retrieving the aggregational information about the related objects, such as the number of comments for each post, the average rating for each product, etc. Statistical query can only be performed for objects related in `HAS_MANY` (e.g. a post has many comments) or `MANY_MANY` (e.g. a post belongs to many categories and a category has many posts).
 
@@ -500,8 +471,6 @@ This should be given as an array of name-value pairs.
 
 Relational Query with Named Scopes
 ----------------------------------
-
-> Note: The support for named scopes has been available since version 1.0.5.
 
 Relational query can also be performed in combination with [named scopes](/doc/guide/database.ar#named-scopes). It comes in two forms. In the first form, named scopes are applied to the main model. In the second form, named scopes are applied to the related models.
 

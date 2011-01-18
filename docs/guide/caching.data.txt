@@ -50,7 +50,7 @@ applications.
 
 Some cache storages, such as MemCache, APC, support retrieving
 multiple cached values in a batch mode, which may reduce the overhead involved
-in retrieving cached data. Starting from version 1.0.8, a new method named
+in retrieving cached data. A method named
 [mget()|CCache::mget] is provided to exploit this feature. In case the underlying
 cache storage does not support this feature, [mget()|CCache::mget] will still
 simulate it.
@@ -112,7 +112,6 @@ application. It is defined via [CApplication::setGlobalState()].
 dependencies on the chain is changed.
 
    - [CExpressionDependency]: the dependency is changed if the result of
-the specified PHP expression is changed. This class has been available
-since version 1.0.4.
+the specified PHP expression is changed.
 
 <div class="revision">$Id$</div>

@@ -41,7 +41,6 @@ summary of the available cache components:
    - [CApcCache]: uses PHP [APC extension](http://www.php.net/manual/en/book.apc.php).
 
    - [CXCache]: uses PHP [XCache extension](http://xcache.lighttpd.net/).
-Note, this has been available since version 1.0.1.
 
    - [CEAcceleratorCache]: uses PHP [EAccelerator extension](http://eaccelerator.net/).
 
@@ -51,10 +50,10 @@ can explicitly specify a database for it to use by setting its
 [connectionID|CDbCache::connectionID] property.
 
    - [CZendDataCache]: uses [Zend Data Cache](http://files.zend.com/help/Zend-Server-Community-Edition/data_cache_component.htm)
-   as the underlying caching medium. Note, this has been available since version 1.0.4.
+   as the underlying caching medium.
 
    - [CFileCache]: uses files to store cached data. This is particular suitable to
-cache large chunk of data (such as pages). Note that this has been available since version 1.0.6.
+cache large chunk of data (such as pages).
 
    - [CDummyCache]: presents dummy cache that does no caching at all. The purpose
 of this component is to simplify the code that needs to check the availability of cache.
@@ -62,7 +61,7 @@ For example, during development or if the server doesn't have actual cache suppo
 can use this cache component. When an actual cache support is enabled, we can switch
 to use the corresponding cache component. In both cases, we can use the same code
 `Yii::app()->cache->get($key)` to attempt retrieving a piece of data without worrying
-that `Yii::app()->cache` might be `null`. This component has been available since version 1.0.5.
+that `Yii::app()->cache` might be `null`.
 
 > Tip: Because all these cache components extend from the same base class
 [CCache], one can switch to use a different type of cache without modifying

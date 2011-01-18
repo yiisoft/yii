@@ -95,7 +95,7 @@ framework's `view` directory.
 Handling Errors Using an Action
 -------------------------------
 
-Starting from version 1.0.6, Yii allows using a [controller action](/doc/guide/basics.controller#action)
+Yii allows using a [controller action](/doc/guide/basics.controller#action)
 to handle the error display work. To do so, we should configure the error handler
 in the application configuration as follows:
 
