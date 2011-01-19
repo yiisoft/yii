@@ -61,7 +61,7 @@ class MigrateCommand extends CConsoleCommand
 	{
 		$path=Yii::getPathOfAlias($this->migrationPath);
 		if($path===false || !is_dir($path))
-			die('Error: The migration directory does not exist: '.$this->migrationPath);
+			die('Error: The migration directory does not exist: '.$this->migrationPath."\n");
 		$this->migrationPath=$path;
 
 		$yiiVersion=Yii::getVersion();
@@ -105,7 +105,7 @@ class MigrateCommand extends CConsoleCommand
 	{
 		$step=isset($args[0]) ? (int)$args[0] : 1;
 		if($step<1)
-			die("Error: The step parameter must be greater than 0.");
+			die("Error: The step parameter must be greater than 0.\n");
 
 		if(($migrations=$this->getMigrationHistory($step))===array())
 		{
@@ -132,7 +132,7 @@ class MigrateCommand extends CConsoleCommand
 	{
 		$step=isset($args[0]) ? (int)$args[0] : 1;
 		if($step<1)
-			die("Error: The step parameter must be greater than 0.");
+			die("Error: The step parameter must be greater than 0.\n");
 
 		if(($migrations=$this->getMigrationHistory($step))===array())
 		{
@@ -304,7 +304,7 @@ class MigrateCommand extends CConsoleCommand
 			$this->usageError('Please provide the name of the new migration.');
 
 		if(!preg_match('/^\w+$/',$name))
-			die('Error: The name of the migration must contain letters, digits and/or underscore characters only.');
+			die("Error: The name of the migration must contain letters, digits and/or underscore characters only.\n");
 
 		$name='m'.gmdate('ymd_His').'_'.$name;
 		$content=strtr($this->getTemplate(), array('{ClassName}'=>$name));
