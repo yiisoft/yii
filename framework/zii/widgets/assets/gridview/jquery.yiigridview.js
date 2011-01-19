@@ -53,12 +53,15 @@
 				$('#'+id+' .'+settings.tableClass+' > tbody > tr').live('click',function(e){
 					if('checkbox'!=e.target.type){
 						var $sbox=$('input.select-on-check',this);
+						var sboxname=$sbox.attr('name');
 						if(settings.selectableRows == 1){
 							$(this).siblings().removeClass('selected');
-							$("input[name='"+$sbox.attr('name')+"']").attr('checked',false);
+							$("input[name='"+sboxname+"']").attr('checked',false);
 						}
 						$(this).toggleClass('selected');
 						$sbox.attr('checked',$(this).hasClass('selected'));
+						var sboxallname=sboxname.substring(0,sboxname.length-2)+'_all';	//.. remove '[]' and add '_all'
+						$("input[name='"+sboxallname+"']").attr('checked', $("input[name='"+sboxname+"']").length==$("input[name='"+sboxname+"']:checked").length);
 						if(settings.selectionChanged != undefined)
 							settings.selectionChanged(id);
 					}
@@ -89,7 +92,7 @@
 			if(settings.selectableRows > 1) {
 				$('#'+id+' .'+settings.tableClass+' > thead > tr > th > input.select-on-check-all').live('click',function(){
 					var checked=this.checked;
-					var name=this.name.substring(0,this.name.length-4)+'\[\]';	//.. remove '_all' and add '[]''
+					var name=this.name.substring(0,this.name.length-4)+'\[\]';	//.. remove '_all' and add '[]'
 					$("input[name='"+name+"']").each(function() {
 						this.checked=checked;
 						if(checked)
