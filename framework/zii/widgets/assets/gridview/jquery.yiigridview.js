@@ -74,6 +74,9 @@
 						$row.siblings().removeClass('selected');
 						$("input:not(#"+this.id+")[name='"+this.name+"']").attr('checked',false);
 					}
+					else
+						$('#'+id+' .'+settings.tableClass+' > thead > tr > th >input.select-on-check-all').attr('checked', $("input.select-on-check").length==$("input.select-on-check:checked").length);
+
 					if($(this).attr('checked'))
 						$row.addClass('selected');
 					else
@@ -217,7 +220,8 @@
 	};
 
 	/**
-	 * Selects rows that have checkbox checked (only checkbox that is connected with selecting a row)
+	 * 1. Selects rows that have checkbox checked (only checkbox that is connected with selecting a row)
+	 * 2. Check if "check all" need to be checked/unchecked (all checkboxes)
 	 * @param id string the ID of the grid view container
 	 */
 	$.fn.yiiGridView.selectCheckedRows = function(id) {
@@ -225,6 +229,11 @@
 		$('#'+id+' .'+settings.tableClass+' > tbody > tr > td >input.select-on-check').each(function(){
 			if($(this).attr('checked'))
 				$(this).parent().parent().addClass('selected');
+		});
+
+		$('#'+id+' .'+settings.tableClass+' > thead > tr > th >input[type="checkbox"]').each(function(){
+			var name=this.name.substring(0,this.name.length-4)+'\[\]';	//.. remove '_all' and add '[]''
+			$(this).attr('checked', $("input[name='"+name+"']").length==$("input[name='"+name+"']:checked").length);
 		});
 	};
 
