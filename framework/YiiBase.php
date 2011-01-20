@@ -119,6 +119,7 @@ class YiiBase
 	}
 
 	/**
+	 * Returns the application singleton, null if the singleton has not been created yet.
 	 * @return CApplication the application singleton, null if the singleton has not been created yet.
 	 */
 	public static function app()
@@ -499,6 +500,7 @@ class YiiBase
 	}
 
 	/**
+	 * Returns a string that can be displayed on your Web page showing Powered-by-Yii information
 	 * @return string a string that can be displayed on your Web page showing Powered-by-Yii information
 	 */
 	public static function powered()
