@@ -463,7 +463,7 @@ $command->update('tbl_user', array(
 function delete($table, $conditions='', $params=array())
 ~~~
 
-The [delete|CDbCommand::delete] method builds and executes a `DELETE` SQL statement. The `$table` parameter specifies which table to be updated; `$conditions` and `$params` are like in [where|CDbCommand::where], which specify the `WHERE` clause in the `DELETE` statement. The method will quote the table name properly.
+The [delete|CDbCommand::delete] method builds and executes a `DELETE` SQL statement. The `$table` parameter specifies which table to delete from; `$conditions` and `$params` are like in [where|CDbCommand::where], which specify the `WHERE` clause in the `DELETE` statement. The method will quote the table name properly.
 
 Below is an example:
 
