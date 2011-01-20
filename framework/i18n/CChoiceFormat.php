@@ -52,10 +52,9 @@ class CChoiceFormat
 		{
 			$expression=$matches[1][$i];
 			$message=$matches[2][$i];
-			$intval=(int)$expression;
-			if($expression==="$intval")
+			if($expression===(string)(int)$expression)
 			{
-				if($intval==$number)
+				if($expression==$number)
 					return $message;
 			}
 			else if(self::evaluate(str_replace('n','$n',$expression),$number))
