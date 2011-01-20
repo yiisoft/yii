@@ -374,7 +374,7 @@ class MigrateCommand extends CConsoleCommand
 			return $this->_db;
 		}
 		else
-			die("Error: CMigrationCommand.connectionID '{$this->connectionID}' is invalid. Please make sure it refers to the ID of a CDbConnection application component.");
+			die("Error: CMigrationCommand.connectionID '{$this->connectionID}' is invalid. Please make sure it refers to the ID of a CDbConnection application component.\n");
 	}
 
 	protected function getMigrationHistory($limit)
