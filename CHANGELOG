@@ -8,6 +8,7 @@ Version 1.1.7 to be released
 - Bug: Fixed error that CGridview breaks when updating non-cgridview elements (mdomba)
 - Bug: Fixed a bug in CCheckBoxColumn, "check all" checkbox was not being checked/unchecked when needed (mdomba)
 - Enh: Added CController::createInlineAction, CInlineAction::inputParams and errorMessage to allow easier override (Qiang)
+- Enh #801: Added RESTful URL management (Qiang)
 
 Version 1.1.6 January 16, 2011
 ------------------------------
