@@ -342,8 +342,8 @@ class CGridView extends CBaseListView
 		{
 			echo "<table class=\"{$this->itemsCssClass}\">\n";
 			$this->renderTableHeader();
-			$this->renderTableFooter();
 			$this->renderTableBody();
+			$this->renderTableFooter();
 			echo "</table>";
 		}
 		else
