@@ -114,8 +114,20 @@ with customized options, like the following:
 'pattern1'=>array('route1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
 ~~~
 
-In the above, the array contains a list of customized options. The following options can be specified
-for a URL rule:
+Starting from version 1.1.7, the following format may also be used (that is,
+the pattern is specified as an array element), which allows specifying several
+rules with the same pattern:
+
+~~~
+[php]
+array('route1', 'pattern'=>'pattern1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
+~~~
+
+In the above, the array contains a list of extra options for the rule. Possible options
+are explained as follows:
+
+   - [pattern|CUrlRule::pattern]: the pattern to be used for matching and creating URLs.
+This option has been available since version 1.1.7.
 
    - [urlSuffix|CUrlRule::urlSuffix]: the URL suffix used specifically for this rule. Defaults to null,
 meaning using the value of [CUrlManager::urlSuffix].
