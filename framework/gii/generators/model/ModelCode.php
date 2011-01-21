@@ -55,7 +55,7 @@ class ModelCode extends CCodeModel
 		parent::init();
 	}
 
-	public function prepare($checkFieldNames=false)
+	public function prepare()
 	{
 		if(($pos=strrpos($this->tableName,'.'))!==false)
 		{
@@ -81,24 +81,6 @@ class ModelCode extends CCodeModel
 		}
 		else
 			$tables=array($this->getTableSchema($this->tableName));
-
-		/*
-		 * Check that all database field names conform to PHP variable naming rules
-		 * For example mysql allows field name like "2011aa", but PHP does not allow variable liek "$model->2011aa"
-		 */
-		if($checkFieldNames)
-		{
-			foreach($tables as $table)
-			{
-				$tableName=$this->removePrefix($table->name);
-				foreach($table->columns as $column)
-				{
-					if(!preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/',$column->name))
-						return $tableName.'->'.$column->name;
-				}
-			}
-			return '';
-		}
 
 		$this->files=array();
 		$templatePath=$this->templatePath;
@@ -135,8 +117,51 @@ class ModelCode extends CCodeModel
 				$this->addError('modelClass','Model Class cannot be blank.');
 		}
 
-		if(!$this->hasErrors($attribute) && ''!=($tbl=$this->prepare(true)))
+		if(!$this->hasErrors($attribute) && ''!=($tbl=$this->checkFieldNames()))
 			$this->addError('tableName',"Field name '{$tbl}' does not follow PHP variable naming convention.");
+	}
+
+	/*
+	 * Check that all database field names conform to PHP variable naming rules
+	 * For example mysql allows field name like "2011aa", but PHP does not allow variable liek "$model->2011aa"
+	 */
+	public function checkFieldNames()
+	{
+		if(($pos=strrpos($this->tableName,'.'))!==false)
+		{
+			$schema=substr($this->tableName,0,$pos);
+			$tableName=substr($this->tableName,$pos+1);
+		}
+		else
+		{
+			$schema='';
+			$tableName=$this->tableName;
+		}
+		if($tableName[strlen($tableName)-1]==='*')
+		{
+			$tables=Yii::app()->db->schema->getTables($schema);
+			if($this->tablePrefix!='')
+			{
+				foreach($tables as $i=>$table)
+				{
+					if(strpos($table->name,$this->tablePrefix)!==0)
+						unset($tables[$i]);
+				}
+			}
+		}
+		else
+			$tables=array($this->getTableSchema($this->tableName));
+
+		foreach($tables as $table)
+		{
+			$tableName=$this->removePrefix($table->name);
+			foreach($table->columns as $column)
+			{
+				if(!preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/',$column->name))
+					return $tableName.'->'.$column->name;
+			}
+		}
+		return '';
 	}
 
 	public function validateModelPath($attribute,$params)
