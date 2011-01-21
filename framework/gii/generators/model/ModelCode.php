@@ -55,11 +55,8 @@ class ModelCode extends CCodeModel
 		parent::init();
 	}
 
-	public function prepare()
+	public function prepare($checkFieldNames=false)
 	{
-		$this->files=array();
-		$templatePath=$this->templatePath;
-
 		if(($pos=strrpos($this->tableName,'.'))!==false)
 		{
 			$schema=substr($this->tableName,0,$pos);
@@ -85,6 +82,26 @@ class ModelCode extends CCodeModel
 		else
 			$tables=array($this->getTableSchema($this->tableName));
 
+		/*
+		 * Check that all database field names conform to PHP variable naming rules
+		 * For example mysql allows field name like "2011aa", but PHP does not allow variable liek "$model->2011aa"
+		 */
+		if($checkFieldNames)
+		{
+			foreach($tables as $table)
+			{
+				$tableName=$this->removePrefix($table->name);
+				foreach($table->columns as $column)
+				{
+					if(!preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/',$column->name))
+						return $tableName.'->'.$column->name;
+				}
+			}
+			return '';
+		}
+
+		$this->files=array();
+		$templatePath=$this->templatePath;
 		$this->relations=$this->generateRelations();
 
 		foreach($tables as $table)
@@ -108,7 +125,7 @@ class ModelCode extends CCodeModel
 
 	public function validateTableName($attribute,$params)
 	{
-		if($this->tableName!='' && $this->tableName[strlen($this->tableName)-1]==='*')
+		if($this->tableName[strlen($this->tableName)-1]==='*')
 			$this->modelClass='';
 		else
 		{
@@ -117,6 +134,9 @@ class ModelCode extends CCodeModel
 			if($this->modelClass==='')
 				$this->addError('modelClass','Model Class cannot be blank.');
 		}
+
+		if(!$this->hasErrors($attribute) && ''!=($tbl=$this->prepare(true)))
+			$this->addError('tableName',"Field name '{$tbl}' does not follow PHP variable naming convention.");
 	}
 
 	public function validateModelPath($attribute,$params)
