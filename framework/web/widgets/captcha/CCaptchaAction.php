@@ -83,6 +83,12 @@ class CCaptchaAction extends CAction
 	 */
 	public $maxLength = 7;
 	/**
+	 * @var integer the offset between characters. Defaults to -2. You can adjust this property
+	 * in order to decrease or increase the readability of the captcha.
+	 * @since 1.1.7
+	 **/
+	public $offset = -2;
+	/**
 	 * @var string the TrueType font file. Defaults to Duality.ttf which is provided
 	 * with the Yii release.
 	 */
@@ -220,10 +226,9 @@ class CCaptchaAction extends CAction
 		if($this->fontFile === null)
 			$this->fontFile = dirname(__FILE__) . '/Duality.ttf';
 
-		$offset = 2;
 		$length = strlen($code);
 		$box = imagettfbbox(30,0,$this->fontFile,$code);
-		$w = $box[4] - $box[0] - $offset * ($length - 1);
+		$w = $box[4] - $box[0] + $this->offset * ($length - 1);
 		$h = $box[1] - $box[5];
 		$scale = min(($this->width - $this->padding * 2) / $w,($this->height - $this->padding * 2) / $h);
 		$x = 10;
@@ -234,7 +239,7 @@ class CCaptchaAction extends CAction
 			$angle = rand(-10,10);
 			$letter = $code[$i];
 			$box = imagettftext($image,$fontSize,$angle,$x,$y,$foreColor,$this->fontFile,$letter);
-			$x = $box[2] - $offset;
+			$x = $box[2] + $this->offset;
 		}
 
 		imagecolordeallocate($image,$foreColor);
