@@ -360,7 +360,9 @@ class MigrateCommand extends CConsoleCommand
 	{
 		$file=$this->migrationPath.DIRECTORY_SEPARATOR.$class.'.php';
 		require_once($file);
-		return new $class;
+		$migration=new $class;
+		$migration->setDbConnection($this->getDbConnection());
+		return $migration;
 	}
 
 	private $_db;
