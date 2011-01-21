@@ -107,6 +107,8 @@ class ModelCode extends CCodeModel
 
 	public function validateTableName($attribute,$params)
 	{
+		$invalidColumns=array();
+
 		if($this->tableName[strlen($this->tableName)-1]==='*')
 		{
 			if(($pos=strrpos($this->tableName,'.'))!==false)
@@ -120,8 +122,7 @@ class ModelCode extends CCodeModel
 			{
 				if($this->tablePrefix=='' || strpos($table->name,$this->tablePrefix)===0)
 				{
-					if(($invalidColumn=$this->checkColumns($table))===null)
-						break;
+					$invalidColumns[]=$this->checkColumns($table);
 				}
 			}
 		}
@@ -131,11 +132,11 @@ class ModelCode extends CCodeModel
 				$this->addError('tableName',"Table '{$this->tableName}' does not exist.");
 			if($this->modelClass==='')
 				$this->addError('modelClass','Model Class cannot be blank.');
-			$invalidColumn=$this->checkColumns($table);
+			$invalidColumns[]=$this->checkColumns($table);
 		}
 
-		if(!$this->hasErrors($attribute) && isset($invalidColumn))
-			$this->addError('tableName',"The name of column '{$invalidColumn}' does not follow PHP variable naming convention.");
+		if(!$this->hasErrors($attribute) && $invalidColumns!=array())
+			$this->addError('tableName',"Column names that does not follow PHP variable naming convention: ".implode(', ', $invalidColumns)."."	);
 	}
 
 	/*
