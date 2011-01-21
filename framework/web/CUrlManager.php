@@ -215,8 +215,8 @@ class CUrlManager extends CApplicationComponent
 	/**
 	 * Creates a URL rule instance.
 	 * The default implementation returns a CUrlRule object.
-	 * @param string $route the pattern part of the rule
-	 * @param mixed $pattern the route part of the rule. This could be a string or an array
+	 * @param mixed $route the route part of the rule. This could be a string or an array
+	 * @param string $pattern the pattern part of the rule
 	 * @return CUrlRule the URL rule instance
 	 * @since 1.1.0
 	 */
@@ -570,6 +570,8 @@ class CUrlRule extends CComponent
 				if(isset($route[$name]))
 					$this->$name=$route[$name];
 			}
+			if(isset($route['pattern']))
+				$pattern=$route['pattern'];
 			$route=$this->route=$route[0];
 		}
 		else
