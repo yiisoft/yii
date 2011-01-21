@@ -108,60 +108,49 @@ class ModelCode extends CCodeModel
 	public function validateTableName($attribute,$params)
 	{
 		if($this->tableName[strlen($this->tableName)-1]==='*')
+		{
+			if(($pos=strrpos($this->tableName,'.'))!==false)
+				$schema=substr($this->tableName,0,$pos);
+			else
+				$schema='';
+
 			$this->modelClass='';
+			$tables=Yii::app()->db->schema->getTables($schema);
+			foreach($tables as $table)
+			{
+				if($this->tablePrefix=='' || strpos($table->name,$this->tablePrefix)===0)
+				{
+					if(($invalidColumn=$this->checkColumns($table))===null)
+						break;
+				}
+			}
+		}
 		else
 		{
-			if($this->getTableSchema($this->tableName)===null)
+			if(($table=$this->getTableSchema($this->tableName))===null)
 				$this->addError('tableName',"Table '{$this->tableName}' does not exist.");
 			if($this->modelClass==='')
 				$this->addError('modelClass','Model Class cannot be blank.');
+			$invalidColumn=$this->checkColumns($table);
 		}
 
-		if(!$this->hasErrors($attribute) && ''!=($tbl=$this->checkFieldNames()))
-			$this->addError('tableName',"Field name '{$tbl}' does not follow PHP variable naming convention.");
+		if(!$this->hasErrors($attribute) && isset($invalidColumn))
+			$this->addError('tableName',"The name of column '{$invalidColumn}' does not follow PHP variable naming convention.");
 	}
 
 	/*
 	 * Check that all database field names conform to PHP variable naming rules
 	 * For example mysql allows field name like "2011aa", but PHP does not allow variable liek "$model->2011aa"
+	 * @param CDbTableSchema $table the table schema object
+	 * @return string the invalid table column name. Null if no error.
 	 */
-	public function checkFieldNames()
+	public function checkColumns($table)
 	{
-		if(($pos=strrpos($this->tableName,'.'))!==false)
+		foreach($table->columns as $column)
 		{
-			$schema=substr($this->tableName,0,$pos);
-			$tableName=substr($this->tableName,$pos+1);
+			if(!preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/',$column->name))
+				return $table->name.'.'.$column->name;
 		}
-		else
-		{
-			$schema='';
-			$tableName=$this->tableName;
-		}
-		if($tableName[strlen($tableName)-1]==='*')
-		{
-			$tables=Yii::app()->db->schema->getTables($schema);
-			if($this->tablePrefix!='')
-			{
-				foreach($tables as $i=>$table)
-				{
-					if(strpos($table->name,$this->tablePrefix)!==0)
-						unset($tables[$i]);
-				}
-			}
-		}
-		else
-			$tables=array($this->getTableSchema($this->tableName));
-
-		foreach($tables as $table)
-		{
-			$tableName=$this->removePrefix($table->name);
-			foreach($table->columns as $column)
-			{
-				if(!preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/',$column->name))
-					return $tableName.'->'.$column->name;
-			}
-		}
-		return '';
 	}
 
 	public function validateModelPath($attribute,$params)
