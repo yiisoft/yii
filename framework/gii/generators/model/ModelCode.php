@@ -122,7 +122,8 @@ class ModelCode extends CCodeModel
 			{
 				if($this->tablePrefix=='' || strpos($table->name,$this->tablePrefix)===0)
 				{
-					$invalidColumns[]=$this->checkColumns($table);
+					if(($invalidColumn=$this->checkColumns($table))!==null)
+						$invalidColumns[]=$invalidColumn;
 				}
 			}
 		}
@@ -132,10 +133,12 @@ class ModelCode extends CCodeModel
 				$this->addError('tableName',"Table '{$this->tableName}' does not exist.");
 			if($this->modelClass==='')
 				$this->addError('modelClass','Model Class cannot be blank.');
-			$invalidColumns[]=$this->checkColumns($table);
+
+			if(!$this->hasErrors($attribute) && ($invalidColumn=$this->checkColumns($table))!==null)
+					$invalidColumns[]=$invalidColumn;
 		}
 
-		if(!$this->hasErrors($attribute) && $invalidColumns!=array())
+		if($invalidColumns!=array())
 			$this->addError('tableName',"Column names that does not follow PHP variable naming convention: ".implode(', ', $invalidColumns)."."	);
 	}
 
