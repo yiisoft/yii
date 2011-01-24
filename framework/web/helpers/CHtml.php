@@ -462,7 +462,7 @@ class CHtml
 
 	/**
 	 * Generates an image submit button.
-	 * @param string $src the button label
+	 * @param string $src the image URL
 	 * @param array $htmlOptions additional HTML attributes. Besides normal HTML attributes, a few special
 	 * attributes are also recognized (see {@link clientChange} and {@link tag} for more details.)
 	 * @return string the generated button tag
