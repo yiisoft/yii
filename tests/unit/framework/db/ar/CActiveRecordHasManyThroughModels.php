@@ -2,7 +2,7 @@
 /**
  * Models for CActiveRecordHasManyThroughTest
  */
-class User extends CActiveRecord {
+class TestUser extends CActiveRecord {
 	public static function model($className=__CLASS__) {
         return parent::model($className);
     }
@@ -14,12 +14,12 @@ class User extends CActiveRecord {
 	public function relations() {
         return array(
            'usergroups'=>array(self::HAS_MANY, 'UserGroup', 'user_id'),
-           'groups'=>array(self::HAS_MANY, 'Group', 'through'=>'usergroups'),
+           'groups'=>array(self::HAS_MANY, 'TestGroup', 'through'=>'usergroups'),
         );
     }
 }
 
-class Group extends CActiveRecord {
+class TestGroup extends CActiveRecord {
 	public static function model($className=__CLASS__) {
         return parent::model($className);
     }
@@ -30,13 +30,13 @@ class Group extends CActiveRecord {
 
 	public function relations() {
         return array(
-           'usergroups'=>array(self::HAS_MANY, 'UserGroup', 'group_id'),
-           'users'=>array(self::HAS_MANY, 'User', 'through'=>'usergroups'),
+           'usergroups'=>array(self::HAS_MANY, 'TestUserGroup', 'group_id'),
+           'users'=>array(self::HAS_MANY, 'TestUser', 'through'=>'usergroups'),
         );
     }
 }
 
-class UserGroup extends CActiveRecord {
+class TestUserGroup extends CActiveRecord {
 	public static function model($className=__CLASS__) {
         return parent::model($className);
     }
@@ -47,8 +47,8 @@ class UserGroup extends CActiveRecord {
 
 	public function relations() {
         return array(
-           'users'=>array(self::BELONGS_TO, 'User', 'user_id'),
-           'groups'=>array(self::BELONGS_TO, 'Group', 'group_id'),
+           'users'=>array(self::BELONGS_TO, 'TestUser', 'user_id'),
+           'groups'=>array(self::BELONGS_TO, 'TestGroup', 'group_id'),
         );
     }
 }
