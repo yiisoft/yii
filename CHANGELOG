@@ -10,6 +10,7 @@ Version 1.1.7 to be released
 - Bug: Fixed a bug in CCheckBoxColumn, "check all" checkbox was not being checked/unchecked when needed (mdomba)
 - Enh: Added CController::createInlineAction, CInlineAction::inputParams and errorMessage to allow easier override (Qiang)
 - Enh #801: Added RESTful URL management (Qiang)
+- Enh #1786: Enhanced CUrlValidator by adding 'validSchemes' and 'defaultScheme' property (Y!!)
 - Enh #1999: Added CCaptchaAction::offset property in order to decrease or increase the readability of the captcha (Y!!)
 - Enh #2013: When creating model with Gii, database field names will be checked to conform with PHP variable naming rules (mdomba)
 - Chg #2001: CGridView now renders footer after the body content (Qiang)
