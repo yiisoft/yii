@@ -33,8 +33,7 @@ class CUrlValidator extends CValidator
 	/**
 	 * @var string the default URI scheme. If the input doesn't contain the scheme part, the default
 	 * scheme will be prepended to it (thus changing the input). Defaults to null, meaning a URL must
-	 * contain the scheme part. In order to use this feature outside of the model validation rule mechanism
-	 * (that is by calling {@see validateValue} directly), the input must be passed as reference.
+	 * contain the scheme part.
 	 * @since 1.1.7
 	 **/
 	public $defaultScheme;
@@ -52,10 +51,12 @@ class CUrlValidator extends CValidator
 	 */
 	protected function validateAttribute($object,$attribute)
 	{
-		$value=&$object->$attribute;
+		$value=$object->$attribute;
 		if($this->allowEmpty && $this->isEmpty($value))
 			return;
-		if(!$this->validateValue(&$value))
+		if(($value=$this->validateValue($value))!==false)
+			$object->$attribute=$value;
+		else
 		{
 			$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} is not a valid URL.');
 			$this->addError($object,$attribute,$message);
@@ -67,23 +68,25 @@ class CUrlValidator extends CValidator
 	 * Note that this method does not respect {@link allowEmpty} property.
 	 * This method is provided so that you can call it directly without going through the model validation rule mechanism.
 	 * @param mixed $value the value to be validated
-	 * @return boolean whether the value is a valid URL
+	 * @return mixed false if the the value is not a valid URL, otherwise the possibly modified value ({@see defaultScheme})
 	 * @since 1.1.1
 	 */
 	public function validateValue($value)
 	{
-		if(!is_string($value))
-			return false;
-
-		if(!empty($this->defaultScheme) && strpos($value,'://')===false)
-			$value=$this->defaultScheme.'://'.$value;
-
-		if(strpos($this->pattern,'{schemes}')!==false)
-			$pattern=str_replace('{schemes}','('.implode('|',$this->validSchemes).')',$this->pattern);
-		else
-			$pattern=$this->pattern;
-
-		return (bool)preg_match($pattern,$value);
+		if(is_string($value))
+		{
+			if(!empty($this->defaultScheme) && strpos($value,'://')===false)
+				$value=$this->defaultScheme.'://'.$value;
+	
+			if(strpos($this->pattern,'{schemes}')!==false)
+				$pattern=str_replace('{schemes}','('.implode('|',$this->validSchemes).')',$this->pattern);
+			else
+				$pattern=$this->pattern;
+	
+			if(preg_match($pattern,$value))
+				return $value;
+		}
+		return false;
 	}
 }
 
