@@ -75,7 +75,7 @@ class CUrlValidator extends CValidator
 	{
 		if(is_string($value))
 		{
-			if(!empty($this->defaultScheme) && strpos($value,'://')===false)
+			if($this->defaultScheme!==null && strpos($value,'://')===false)
 				$value=$this->defaultScheme.'://'.$value;
 	
 			if(strpos($this->pattern,'{schemes}')!==false)
