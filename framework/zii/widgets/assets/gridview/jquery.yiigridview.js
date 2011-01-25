@@ -52,16 +52,18 @@
 			if(settings.selectableRows > 0) {
 				$('#'+id+' .'+settings.tableClass+' > tbody > tr').live('click',function(e){
 					if('checkbox'!=e.target.type){
-						var $sbox=$('input.select-on-check',this);
-						var sboxname=$sbox.attr('name');
 						if(settings.selectableRows == 1){
 							$(this).siblings().removeClass('selected');
-							$("input[name='"+sboxname+"']").attr('checked',false);
 						}
-						$(this).toggleClass('selected');
-						$sbox.attr('checked',$(this).hasClass('selected'));
-						var sboxallname=sboxname.substring(0,sboxname.length-2)+'_all';	//.. remove '[]' and add '_all'
-						$("input[name='"+sboxallname+"']").attr('checked', $("input[name='"+sboxname+"']").length==$("input[name='"+sboxname+"']:checked").length);
+						var isRowSelected=$(this).toggleClass('selected').hasClass('selected');
+						$('input.select-on-check',this).each(function(){
+							if(settings.selectableRows == 1){
+								$("input[name='"+this.name+"']").attr('checked',false);
+							}
+							this.checked=isRowSelected;
+							var sboxallname=this.name.substring(0,this.name.length-2)+'_all';	//.. remove '[]' and add '_all'
+							$("input[name='"+sboxallname+"']").attr('checked', $("input[name='"+this.name+"']").length==$("input[name='"+this.name+"']:checked").length);
+						})
 						if(settings.selectionChanged != undefined)
 							settings.selectionChanged(id);
 					}
