@@ -319,7 +319,10 @@ class CController extends CBaseController
 
 		// if using page caching, we should delay dynamic output replacement
 		if($this->_dynamicOutput!==null && $this->isCachingStackEmpty())
+		{
 			$output=$this->processDynamicOutput($output);
+			$this->_dynamicOutput=null;
+		}
 
 		if($this->_pageStates===null)
 			$this->_pageStates=$this->loadPageStates();
@@ -358,7 +361,7 @@ class CController extends CBaseController
 		if(isset($this->_dynamicOutput[$matches[1]]))
 		{
 			$content=$this->_dynamicOutput[$matches[1]];
-			unset($this->_dynamicOutput[$matches[1]]);
+			$this->_dynamicOutput[$matches[1]]=null;
 		}
 		return $content;
 	}
@@ -1028,6 +1031,7 @@ class CController extends CBaseController
 	}
 
 	/**
+	 * Returns whether the caching stack is empty.
 	 * @return boolean whether the caching stack is empty. If not empty, it means currently there are
 	 * some output cache in effect. Note, the return result of this method may change when it is
 	 * called in different output regions, depending on the partition of output caches.
