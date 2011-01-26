@@ -311,6 +311,10 @@ class ModelCode extends CCodeModel
 					// Add relation for the referenced table
 					$relationType=$table->primaryKey === $fkName ? 'HAS_ONE' : 'HAS_MANY';
 					$relationName=$this->generateRelationName($refTable, $this->removePrefix($tableName,false), $relationType==='HAS_MANY');
+					$i=1;
+					$rawName=$relationName;
+					while(isset($relations[$refClassName][$relationName]))
+						$relationName=$rawName.($i++);
 					$relations[$refClassName][$relationName]="array(self::$relationType, '$className', '$fkName')";
 				}
 			}
@@ -363,19 +367,20 @@ class ModelCode extends CCodeModel
 			$relationName=$fkName;
 		$relationName[0]=strtolower($relationName);
 
-		$rawName=$relationName;
 		if($multiple)
 			$relationName=$this->pluralize($relationName);
-
-		$table=Yii::app()->db->schema->getTable($tableName);
-		$i=0;
-		while(isset($table->columns[$relationName]))
-			$relationName=$rawName.($i++);
 
 		$names=preg_split('/_+/',$relationName,-1,PREG_SPLIT_NO_EMPTY);
 		if(empty($names)) return $relationName;  // unlikely
 		for($name=$names[0], $i=1;$i<count($names);++$i)
 			$name.=ucfirst($names[$i]);
+
+		$rawName=$name;
+		$table=Yii::app()->db->schema->getTable($tableName);
+		$i=0;
+		while(isset($table->columns[$name]))
+			$name=$rawName.($i++);
+
 		return $name;
 	}
 }
