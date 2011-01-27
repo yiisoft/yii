@@ -62,8 +62,8 @@
  * <pre>
  * array(
  *      '<_c:(post|comment)>/<id:\d+>/<_a:(create|update|delete)>'=>'<_c>/<_a>',
- *      '<_c:(post|comment)>/<id:\d+>'=>'<_a>/view',
- *      '<_c:(post|comment)>s/*'=>'<_a>/list',
+ *      '<_c:(post|comment)>/<id:\d+>'=>'<_c>/view',
+ *      '<_c:(post|comment)>s/*'=>'<_c>/list',
  * )
  * </pre>
  * In the above, we use two named parameters '<_c>' and '<_a>' in the route part. The '<_c>'
