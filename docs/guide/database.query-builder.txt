@@ -393,7 +393,7 @@ A [CDbCommand] instance can be reused multiple times to build several queries. B
 
 ~~~
 [php]
-$command = Yii::app()->createCommand();
+$command = Yii::app()->db->createCommand();
 $users = $command->select('*')->from('tbl_users')->queryAll();
 $command->reset();  // clean up the previous query
 $posts = $command->select('*')->from('tbl_posts')->queryAll();
