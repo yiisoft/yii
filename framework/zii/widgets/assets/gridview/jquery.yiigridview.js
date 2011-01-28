@@ -20,6 +20,7 @@
 	 * - updateSelector: string, the selector for choosing which elements can trigger ajax requests
 	 * - beforeAjaxUpdate: function, the function to be called before ajax request is sent
 	 * - afterAjaxUpdate: function, the function to be called after ajax response is received
+	 * - ajaxUpdateError: function, the function to be called if an ajax error occurs
 	 * - selectionChanged: function, the function to be called after the row selection is changed
 	 */
 	$.fn.yiiGridView = function(options) {
@@ -190,7 +191,28 @@
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
 				$('#'+id).removeClass(settings.loadingClass);
-				alert(XMLHttpRequest.responseText);
+				var err='';
+				switch(textStatus) {
+					case 'timeout':
+						err='The request timed out!';
+						break;
+					case 'parsererror':
+						err='Parser error!';
+						break;
+					case 'error':
+						if(XMLHttpRequest.status && !/^\s*$/.test(XMLHttpRequest.status))
+							err='Error ' + XMLHttpRequest.status;
+						else
+							err='Error';
+						if(XMLHttpRequest.responseText && !/^\s*$/.test(XMLHttpRequest.responseText))
+							err=err + ': ' + XMLHttpRequest.responseText;
+						break
+				}
+
+				if(settings.ajaxUpdateError != undefined)
+					settings.ajaxUpdateError(XMLHttpRequest, textStatus, errorThrown,err);
+				else if(err)
+					alert(err);
 			}
 		}, options || {});
 		if(options.data!=undefined && options.type=='GET') {
