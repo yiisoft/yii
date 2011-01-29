@@ -165,7 +165,7 @@ A rule can be associated with a few GET parameters. These GET parameters
 appear in the rule's pattern as special tokens in the following format:
 
 ~~~
-&lt;ParamName:ParamPattern&gt;
+<ParamName:ParamPattern>
 ~~~
 
 where `ParamName` specifies the name of a GET parameter, and the optional
