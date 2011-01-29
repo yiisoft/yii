@@ -61,7 +61,7 @@ EOD;
 		{
 			$sourceDir=realpath(dirname(__FILE__).'/../views/webapp');
 			if($sourceDir===false)
-				die('Unable to locate the source directory.');
+				die("\nUnable to locate the source directory.\n");
 			$list=$this->buildFileList($sourceDir,$path);
 			$list['index.php']['callback']=array($this,'generateIndex');
 			$list['index-test.php']['callback']=array($this,'generateIndex');
