@@ -21,6 +21,7 @@ Version 1.1.7 to be released
 - Enh #2013: When creating model with Gii, database field names will be checked to conform with PHP variable naming rules (mdomba)
 - Chg #2001: CGridView now renders footer after the body content (Qiang)
 - Chg: Upgraded jQuery to version 1.5 (Sam Dark)
+- Chg: Upgraded jQuery UI to version 1.8.9 (Sam Dark)
 
 Version 1.1.6 January 16, 2011
 ------------------------------
