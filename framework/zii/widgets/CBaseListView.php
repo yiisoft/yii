@@ -123,8 +123,8 @@ abstract class CBaseListView extends CWidget
 
 		echo CHtml::openTag($this->tagName,$this->htmlOptions)."\n";
 
-		$this->renderKeys();
 		$this->renderContent();
+		$this->renderKeys();
 
 		echo CHtml::closeTag($this->tagName);
 	}
