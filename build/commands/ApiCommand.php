@@ -21,7 +21,7 @@ Yii::import('application.commands.api.ApiModel');
  */
 class ApiCommand extends CConsoleCommand
 {
-	const URL_PATTERN='/\{\{([^\}]+)\|([^\}]+)\}\}/s';
+	const URL_PATTERN='/\{\{(.*?)\|(.*?)\}\}/';
 	public $classes;
 	public $packages;
 	public $pageTitle;
