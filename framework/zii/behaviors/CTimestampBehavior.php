@@ -60,19 +60,14 @@ class CTimestampBehavior extends CActiveRecordBehavior {
 	public $setUpdateOnCreate = false;
 
 	/**
-	* @var string The expression to use to generate the timestamp.  e.g. 'time()'.
-	* Defaults to null meaning that we will attempt to figure out the appropriate timestamp
-	* automatically.  If we fail at finding the appropriate timestamp, then it will
+	* @var mixed The expression that will be used for generating the timestamp.
+	* This can be either a string representing a PHP expression (e.g. 'time()'),
+	* or a {@link CDbExpression} object representing a DB expression (e.g. new CDbExpression('NOW()')).
+	* Defaults to null, meaning that we will attempt to figure out the appropriate timestamp
+	* automatically. If we fail at finding the appropriate timestamp, then it will
 	* fall back to using the current UNIX timestamp
 	*/
 	public $timestampExpression;
-	/**
-	 * @var string the DB expression (e.g. 'NOW()') that will be used for generating the timestamp.
-	 * If {@link timestampExpression} and this property are both set, the former will take
-	 * precedence.
-	 * @since 1.1.7
-	 */
-	public $timestampDbExpression;
 
 	/**
 	* @var array Maps column types to database method
@@ -105,10 +100,10 @@ class CTimestampBehavior extends CActiveRecordBehavior {
 	* @return mixed timestamp (eg unix timestamp or a mysql function)
 	*/
 	protected function getTimestampByAttribute($attribute) {
-		if ($this->timestampExpression !== null)
+		if ($this->timestampExpression instanceof CDbExpression)
+			return $this->timestampExpression;
+		else if ($this->timestampExpression !== null)
 			return @eval('return '.$this->timestampExpression.';');
-		else if($this->timestampDbExpression !== null)
-			return new CDbExpression($this->timestampDbExpression);
 
 		$columnType = $this->getOwner()->getTableSchema()->getColumn($attribute)->dbType;
 		return $this->getTimestampByColumnType($columnType);
