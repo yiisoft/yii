@@ -271,7 +271,7 @@ class CMysqlSchema extends CDbSchema
 			$sql=$row['Create Table'];
 		else
 		{
-			$row=array_values($rows);
+			$row=array_values($row);
 			$sql=$row[1];
 		}
 		if(preg_match_all('/^\s*`(.*?)`\s+(.*?),?$/m',$sql,$matches))
