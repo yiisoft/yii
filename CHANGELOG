@@ -11,6 +11,7 @@ Version 1.1.7 to be released
 - Bug: Fixed the bug that a PHP notice may occur in exception view if a method in the call stack has a very complex signature (Qiang)
 - Bug: Fixed error that CGridview breaks when updating non-cgridview elements (mdomba)
 - Bug: Fixed a bug in CCheckBoxColumn, "check all" checkbox was not being checked/unchecked when needed (mdomba)
+- Bug: Fixed resetting sequence in CDbCommand::truncateTable (Sam Dark)
 - Enh: Added CController::createInlineAction, CInlineAction::inputParams and errorMessage to allow easier override (Qiang)
 - Enh #801: Added RESTful URL management (Qiang)
 - Enh #1786: Enhanced CUrlValidator by adding 'validSchemes' and 'defaultScheme' property (Y!!)
