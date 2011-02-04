@@ -198,7 +198,7 @@
 	 */
 	$.fn.yiiactiveform.getInputContainer = function(attribute, form) {
 		if(attribute.inputContainer == undefined)
-			return $('#'+attribute.inputID, form).parent();
+			return $('#'+attribute.inputID, form).closest('div');
 		else
 			return $(attribute.inputContainer).filter(':has("#'+attribute.inputID+'")');
 	};
