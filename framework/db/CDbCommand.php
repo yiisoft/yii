@@ -1204,7 +1204,7 @@ class CDbCommand extends CComponent
 		$schema=$this->getConnection()->getSchema();
 		$n=$this->setText($schema->truncateTable($table))->execute();
 		if(strncasecmp($this->getConnection()->getDriverName(),'sqlite',6)===0)
-				$schema->resetSequence($schema->getTable($table));
+			$schema->resetSequence($schema->getTable($table));
 		return $n;
 	}
 
