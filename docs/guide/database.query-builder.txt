@@ -1,7 +1,7 @@
 Query Builder
 =============
 
-The Yii Query Builder provides an object-orient way of writing SQL statements. It allows developers to use class methods and properties to specify individual parts of a SQL statement. It then assembles different parts into a valid SQL statement that can be further executed by calling the DAO methods as described in [Data Access Objects](/doc/guide/database.dao). The following shows a typical usage of the Query Builder to build a SELECT SQL statement:
+The Yii Query Builder provides an object-oriented way of writing SQL statements. It allows developers to use class methods and properties to specify individual parts of a SQL statement. It then assembles different parts into a valid SQL statement that can be further executed by calling the DAO methods as described in [Data Access Objects](/doc/guide/database.dao). The following shows a typical usage of the Query Builder to build a SELECT SQL statement:
 
 ~~~
 [php]
