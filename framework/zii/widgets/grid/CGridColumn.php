@@ -110,6 +110,7 @@ abstract class CGridColumn extends CComponent
 	public function renderHeaderCell()
 	{
 		$this->headerHtmlOptions['id']=$this->id;
+		$this->headerHtmlOptions['scope']='col';
 		echo CHtml::openTag('th',$this->headerHtmlOptions);
 		$this->renderHeaderCellContent();
 		echo "</th>";
