@@ -301,8 +301,6 @@ EOD;
 		if($text===null)
 			$text=$subject;
 		if(isset($this->classes[$type])) {
-			if(substr($text,-2)==='()')
-				$subject=$this->fixMethodAnchor($type,$subject);
 			return '{{'.$type.'::'.$subject.'-detail'.'|'.$text.'}}';
 		}
 		else
