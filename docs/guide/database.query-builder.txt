@@ -50,21 +50,21 @@ Building Data Retrieval Queries
 
 Data retrieval queries refer to SELECT SQL statements. The query builder provides a set of methods to build individual parts of a SELECT statement. Because all these methods return the [CDbCommand] instance, we can call them using method chaining, as shown in the example at the beginning of this section.
 
-* [select|CDbCommand::select]: specifies the SELECT part of the query
-* [selectDistinct|CDbCommand::selectDistinct]: specifies the SELECT part of the query and turns on the DISTINCT flag
-* [from|CDbCommand::from]: specifies the FROM part of the query
-* [where|CDbCommand::where]: specifies the WHERE part of the query
-* [join|CDbCommand::join]: appends an inner join query fragment
-* [leftJoin|CDbCommand::leftJoin]: appends a left outer join query fragment
-* [rightJoin|CDbCommand::rightJoin]: appends a right outer join query fragment
-* [crossJoin|CDbCommand::crossJoin]: appends a cross join query fragment
-* [naturalJoin|CDbCommand::naturalJoin]: appends a natural join query fragment
-* [group|CDbCommand::group]: specifies the GROUP BY part of the query
-* [having|CDbCommand::having]: specifies the HAVING part of the query
-* [order|CDbCommand::order]: specifies the ORDER BY part of the query
-* [limit|CDbCommand::limit]: specifies the LIMIT part of the query
-* [offset|CDbCommand::offset]: specifies the OFFSET part of the query
-* [union|CDbCommand::union]: appends a UNION query fragment
+* [select()|CDbCommand::select() ]: specifies the SELECT part of the query
+* [selectDistinct()|CDbCommand::selectDistinct]: specifies the SELECT part of the query and turns on the DISTINCT flag
+* [from()|CDbCommand::from() ]: specifies the FROM part of the query
+* [where()|CDbCommand::where() ]: specifies the WHERE part of the query
+* [join()|CDbCommand::join() ]: appends an inner join query fragment
+* [leftJoin()|CDbCommand::leftJoin]: appends a left outer join query fragment
+* [rightJoin()|CDbCommand::rightJoin]: appends a right outer join query fragment
+* [crossJoin()|CDbCommand::crossJoin]: appends a cross join query fragment
+* [naturalJoin()|CDbCommand::naturalJoin]: appends a natural join query fragment
+* [group()|CDbCommand::group() ]: specifies the GROUP BY part of the query
+* [having()|CDbCommand::having() ]: specifies the HAVING part of the query
+* [order()|CDbCommand::order() ]: specifies the ORDER BY part of the query
+* [limit()|CDbCommand::limit() ]: specifies the LIMIT part of the query
+* [offset()|CDbCommand::offset() ]: specifies the OFFSET part of the query
+* [union()|CDbCommand::union() ]: appends a UNION query fragment
 
 
 In the following, we explain how to use these query builder methods. For simplicity, we assume the underlying database is MySQL. Note that if you are using other DBMS, the table/column/value quoting shown in the examples may be different.
