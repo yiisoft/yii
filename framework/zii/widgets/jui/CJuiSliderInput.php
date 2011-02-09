@@ -62,12 +62,19 @@ class CJuiSliderInput extends CJuiInputWidget
 	public $event = 'slide';
 
 	/**
+	 * @var string name of attribute for max value if slider uses range=true
+	 */
+	public $attributeMax;
+
+	/**
 	 * Run this widget.
 	 * This method registers necessary javascript and renders the needed HTML code.
 	 */
 	public function run()
 	{
 		list($name,$id)=$this->resolveNameID();
+
+		$isRange=isset($this->options['range']) && $this->options['range'];
 
 		if(isset($this->htmlOptions['id']))
 			$id=$this->htmlOptions['id'];
@@ -76,13 +83,30 @@ class CJuiSliderInput extends CJuiInputWidget
 		if(isset($this->htmlOptions['name']))
 			$name=$this->htmlOptions['name'];
 
-		if($this->hasModel()===false && $this->value!==null)
-			$this->options['value']=$this->value;
-
 		if($this->hasModel())
-			echo CHtml::activeHiddenField($this->model,$this->attribute,$this->htmlOptions);
+		{
+			$attribute=$this->attribute;
+			if ($isRange)
+			{
+				$options=$this->htmlOptions;
+				echo CHtml::activeHiddenField($this->model,$this->attribute,$options);
+				$options['id']=$options['id'].'_end';
+				echo CHtml::activeHiddenField($this->model,$this->attributeMax,$options);
+				$attrMax=$this->attributeMax;
+				$this->options['values']=array($this->model->$attribute,$this->model->$attrMax);
+			}
+			else
+			{
+				echo CHtml::activeHiddenField($this->model,$this->attribute,$this->htmlOptions);
+				$this->options['value']=$this->model->$attribute;
+			}
+		}
 		else
+		{
 			echo CHtml::hiddenField($name,$this->value,$this->htmlOptions);
+			if($this->value!==null)
+				$this->options['value']=$this->value;
+		}
 		
 
 		$idHidden = $this->htmlOptions['id'];
@@ -94,7 +118,9 @@ class CJuiSliderInput extends CJuiInputWidget
 		echo CHtml::openTag($this->tagName,$this->htmlOptions);
 		echo CHtml::closeTag($this->tagName);
 
-		$this->options[$this->event]= 'js:function(event, ui) { jQuery(\'#'. $idHidden .'\').val(ui.value); }';
+		$this->options[$this->event]= $isRange ?
+			"js:function(e,ui){ v=ui.values; jQuery('#{$idHidden}').val(v[0]); jQuery('#{$idHidden}_end').val(v[1]); }":
+			'js:function(event, ui) { jQuery(\'#'. $idHidden .'\').val(ui.value); }';
 
 		$options=empty($this->options) ? '' : CJavaScript::encode($this->options);
 
