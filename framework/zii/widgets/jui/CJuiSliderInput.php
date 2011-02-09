@@ -32,6 +32,23 @@ Yii::import('zii.widgets.jui.CJuiInputWidget');
  * ));
  * </pre>
  *
+ * The widget can also be used in range mode which uses 2 sliders to set a range.
+ * In this mode, {@link attribute} and {@link maxAttribute} will define the attribute
+ * names for the minimum and maximum range values, respectively. For example:
+ *
+ * <pre>
+ * $this->widget('zii.widgets.jui.CJuiSliderInput', array(
+ *     'model'=>$model,
+ *     'attribute'=>'timeMin',
+ *     'maxAttribute'=>'timeMax,
+ *     // additional javascript options for the slider plugin
+ *     'options'=>array(
+ *         'range'=>true,
+ *         'min'=>0,
+ *         'max'=>24,
+ *     ),
+ * ));
+ *
  * If you need to use the slider event, please change the event value for 'stop' or 'change'.
  *
  * By configuring the {@link options} property, you may specify the options
@@ -62,9 +79,9 @@ class CJuiSliderInput extends CJuiInputWidget
 	public $event = 'slide';
 
 	/**
-	 * @var string name of attribute for max value if slider uses range=true
+	 * @var string name of attribute for max value if slider is used in range mode
 	 */
-	public $attributeMax;
+	public $maxAttribute;
 
 	/**
 	 * Run this widget.
@@ -91,8 +108,8 @@ class CJuiSliderInput extends CJuiInputWidget
 				$options=$this->htmlOptions;
 				echo CHtml::activeHiddenField($this->model,$this->attribute,$options);
 				$options['id']=$options['id'].'_end';
-				echo CHtml::activeHiddenField($this->model,$this->attributeMax,$options);
-				$attrMax=$this->attributeMax;
+				echo CHtml::activeHiddenField($this->model,$this->maxAttribute,$options);
+				$attrMax=$this->maxAttribute;
 				$this->options['values']=array($this->model->$attribute,$this->model->$attrMax);
 			}
 			else
