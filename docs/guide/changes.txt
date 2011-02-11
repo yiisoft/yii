@@ -6,6 +6,7 @@ This page summarizes the main new features introduced in each Yii release.
 Version 1.1.7
 -------------
  * [Added RESTful URL support](/doc/guide/topics.url#user-friendly-urls)
+ * [Added query caching support](/doc/guide/caching.data#query-caching)
 
 Version 1.1.6
 -------------

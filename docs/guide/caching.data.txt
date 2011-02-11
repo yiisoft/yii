@@ -114,4 +114,118 @@ dependencies on the chain is changed.
    - [CExpressionDependency]: the dependency is changed if the result of
 the specified PHP expression is changed.
 
+
+Query Caching
+-------------
+
+Since version 1.1.7, Yii has added support for query caching.
+Built on top of data caching, query caching stores the result of a DB query
+in cache and may thus save the DB query execution time if the same query is requested
+in future, as the result can be directly served from the cache.
+
+> Info: Some DBMS (e.g. [MySQL](http://dev.mysql.com/doc/refman/5.1/en/query-cache.html))
+> also support query caching on the DB server side. Compared with the server-side
+> query caching, the same feature we support here offers more flexibility and
+> potentially may be more efficient.
+
+
+### Query Caching with DAO
+
+To use query caching, we call the [CDbConnection::cache()] method when we perform DB queries.
+The following is an example:
+
+~~~
+[php]
+$sql = 'SELECT * FROM tbl_post LIMIT 20';
+$rows = Yii::app()->db->cache(1000)->createCommand($sql)->queryAll();
+~~~
+
+Here we specify that the query results should remain valid in cache for 1000 seconds.
+If we execute the same lines of code within the next 100 seconds again, the query results
+will be fetched from cache without actually executing the SQL statement.
+
+We can also specify a cache dependency for the query result we are caching. For example,
+if there are any changes to the `tbl_post` table, then we should invalidate the cached
+query results.
+
+~~~
+[php]
+$sql = 'SELECT * FROM tbl_post LIMIT 20';
+$dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM tbl_post');
+$rows = Yii::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
+~~~
+
+In the above code, we create a dependency which checks the maximum `update_time` of all records
+in the table. If the value has any change, it means the table data is changed and we should
+invalidate the query cache.
+
+
+### Query Caching with ActiveRecord
+
+Query caching can also be used with [Active Record](/doc/guide/database.ar).
+To do so, we call a similar [CActiveRecord::cache()] method like the following:
+
+~~~
+[php]
+$posts = Post::model()->cache(1000)->findAll();
+~~~
+
+It also works with [Relational Active Record](/doc/guide/database.arr). For example,
+
+~~~
+[php]
+$posts = Post::model()->cache(1000)->with('author')->findAll();
+~~~
+
+By default, each time we call the `cache()` method (of either [CDbConnection] or [CActiveRecord]),
+it will mark the next SQL query to be cached. Any other SQL queries will NOT be cached
+unless we call `cache()` again.
+
+As we know, when doing a single relational AR query, it is possible several SQL queries will
+be performed. For example, if the relationship between `post` and `comments` is `HAS_MANY`,
+then the following code will actually execute two DB queries: it first selects the posts limited by 20,
+and then selects the comments for the previously selected posts.
+
+~~~
+[php]
+$posts = Post::model()->with('comments')->findAll(array(
+	'limit'=>20,
+));
+~~~
+
+If we use query caching as follows, only the first DB query will be cached:
+
+~~~
+[php]
+$posts = Post::model()->cache(1000)->with('comments')->findAll(array(
+	'limit'=>20,
+));
+~~~
+
+In order to cache both DB queries, we can supply an extra parameter indicating how
+many DB queries we want to cache next:
+
+~~~
+[php]
+$posts = Post::model()->cache(1000, null, 2)->with('comments')->findAll(array(
+	'limit'=>20,
+));
+~~~
+
+
+### Configuring Query Caching
+
+To configure query caching, we can set the relevant properties of [CDbConnection].
+
+By default, query results are cached in a cache application component named `cache`.
+We can change this by modifying the property [CDbConnection::queryCacheID].
+If we set this property to be false, then query caching will be disabled completely.
+
+We can also configure [CDbConnection::queryCachingDuration], [CDbConnection::queryCachingDependency]
+and [CDbConnection::queryCachingCount]. However, these properties are more often
+configured by calling [CDbConnection::cache()] or [CActiveRecord::cache()], as we
+have shown in the above.
+
+
+
 <div class="revision">$Id$</div>
