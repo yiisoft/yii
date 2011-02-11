@@ -44,4 +44,26 @@ $hits=$lucene->find(strtolower($keyword));
 ~~~
 
 
+Using Yii in 3rd-Party Systems
+------------------------------
+
+Yii can also be used as a self-contained library to support developing and enhancing
+existing 3rd-party systems, such as WordPress, Joomla, etc. To do so, include
+the following code in the bootstrap code of the 3rd-party system:
+
+~~~
+[php]
+require_once('path/to/yii.php');
+Yii::createWebApplication('path/to/config.php');
+~~~
+
+The above code is very similar to the bootstrap code used by a typical Yii application
+except one thing: it does not call the `run()` method after creating the Web application
+instance.
+
+Now we can use most features offered by Yii when developing 3rd-party enhancements. For example,
+we can use `Yii::app()` to access the application instance; we can use the database features
+such as DAO and ActiveRecord; we can use the model and validation feature; and so on.
+
+
 <div class="revision">$Id$</div>
