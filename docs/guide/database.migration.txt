@@ -158,7 +158,7 @@ The first command shows the migrations that have been applied, while the second 
 Modifying Migration History
 ---------------------------
 
-Sometimes, we may want to modify the migration history to a specific migration version without actually applying or reverting the relevant migrations. This often happens when developing a new migration. We can use the the following command to achieve this goal.
+Sometimes, we may want to modify the migration history to a specific migration version without actually applying or reverting the relevant migrations. This often happens when developing a new migration. We can use the following command to achieve this goal.
 
 ~~~
 yiic migrate mark 101129_185401
