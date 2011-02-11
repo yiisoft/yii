@@ -56,6 +56,7 @@ class CDbCommand extends CComponent
 	private $_statement;
 	private $_paramLog=array();
 	private $_query;
+	private $_fetchMode = array(PDO::FETCH_ASSOC);
 
 	/**
 	 * Constructor.
@@ -73,6 +74,10 @@ class CDbCommand extends CComponent
 	 * {@link group}, {@link having}, {@link order}, {@link limit}, {@link offset} and
 	 * {@link union}. Please refer to the setter of each of these properties for details
 	 * about valid property values. This feature has been available since version 1.1.6.
+	 *
+	 * Since 1.1.7 it is possible to use a specific mode of data fetching by setting
+ 	 * {@link setFetchMode FetchMode}. See {@link http://www.php.net/manual/en/function.PDOStatement-setFetchMode.php}
+ 	 * for more details.
 	 */
 	public function __construct(CDbConnection $connection,$query=null)
 	{
@@ -94,6 +99,26 @@ class CDbCommand extends CComponent
 		$this->_statement=null;
 		return array_keys(get_object_vars($this));
 	}
+
+	/**
+	 * Set the default fetch mode for this statement
+	 * @param mixed $mode fetch mode
+	 * @return CDbCommand
+	 * @see http://www.php.net/manual/en/function.PDOStatement-setFetchMode.php
+	 * @since 1.1.7
+	 */
+	public function setFetchMode($mode)
+	{
+		$params=func_get_args();
+		$this->_fetchMode = $params;
+		return $this;
+	}
+
+	private function getFetchMode()
+	{
+		return $this->_fetchMode;
+	}
+
 
 	/**
 	 * Cleans up the command and prepares for building a new query.
@@ -351,7 +376,7 @@ class CDbCommand extends CComponent
 	 */
 	public function queryAll($fetchAssociative=true,$params=array())
 	{
-		return $this->queryInternal('fetchAll',$fetchAssociative ? PDO::FETCH_ASSOC : PDO::FETCH_NUM, $params);
+		return $this->queryInternal('fetchAll',$fetchAssociative ? $this->getFetchMode() : PDO::FETCH_NUM, $params);
 	}
 
 	/**
@@ -370,7 +395,7 @@ class CDbCommand extends CComponent
 	 */
 	public function queryRow($fetchAssociative=true,$params=array())
 	{
-		return $this->queryInternal('fetch',$fetchAssociative ? PDO::FETCH_ASSOC : PDO::FETCH_NUM, $params);
+		return $this->queryInternal('fetch',$fetchAssociative ? $this->getFetchMode() : PDO::FETCH_NUM, $params);
 	}
 
 	/**
@@ -415,7 +440,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * @param string $method method of PDOStatement to be called
-	 * @param mixed $mode the first parameter to be passed to the method
+	 * @param mixed $mode parameters to be passed to the method
 	 * @param array $params input parameters (name=>value) for the SQL execution. This is an alternative
 	 * to {@link bindParam} and {@link bindValue}. If you have multiple input parameters, passing
 	 * them in this way can improve the performance. Note that you pass parameters in this way,
@@ -470,7 +495,8 @@ class CDbCommand extends CComponent
 				$result=new CDbDataReader($this);
 			else
 			{
-				$result=$this->_statement->{$method}($mode);
+				$mode=(array)$mode;
+				$result=call_user_func_array(array($this->_statement, $method), $mode);
 				$this->_statement->closeCursor();
 			}
 
