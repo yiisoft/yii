@@ -228,4 +228,17 @@ class CDbCommandTest extends CTestCase
 		$this->setExpectedException('CException');
 		$command->queryScalar();
 	}
+
+	public function testFetchMode(){
+		$sql='SELECT * FROM posts';
+		$command=$this->_connection->createCommand($sql);
+		$result = $command->queryRow();
+		$this->assertTrue(is_array($result));
+
+		$sql='SELECT * FROM posts';
+		$command=$this->_connection->createCommand($sql);
+		$command->setFetchMode(PDO::FETCH_OBJ);
+		$result = $command->queryRow();
+		$this->assertTrue(is_object($result));
+	}
 }
