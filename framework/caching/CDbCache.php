@@ -182,7 +182,17 @@ EOD;
 	{
 		$time=time();
 		$sql="SELECT value FROM {$this->cacheTableName} WHERE id='$key' AND (expire=0 OR expire>$time)";
-		return $this->getDbConnection()->createCommand($sql)->queryScalar();
+		$db=$this->getDbConnection();
+		if($db->queryCachingDuration>0)
+		{
+			$duration=$db->queryCachingDuration;
+			$db->queryCachingDuration=0;
+			$result=$db->createCommand($sql)->queryScalar();
+			$db->queryCachingDuration=$duration;
+			return $result;
+		}
+		else
+			return $db->createCommand($sql)->queryScalar();
 	}
 
 	/**
@@ -199,7 +209,18 @@ EOD;
 		$ids=implode("','",$keys);
 		$time=time();
 		$sql="SELECT id, value FROM {$this->cacheTableName} WHERE id IN ('$ids') AND (expire=0 OR expire>$time)";
-		$rows=$this->getDbConnection()->createCommand($sql)->queryRows();
+
+		$db=$this->getDbConnection();
+		if($db->queryCachingDuration>0)
+		{
+			$duration=$db->queryCachingDuration;
+			$db->queryCachingDuration=0;
+			$rows=$db->createCommand($sql)->queryRows();
+			$db->queryCachingDuration=$duration;
+		}
+		else
+			$rows=$db->createCommand($sql)->queryRows();
+
 		$results=array();
 		foreach($keys as $key)
 			$results[$key]=false;

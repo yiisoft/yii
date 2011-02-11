@@ -68,13 +68,24 @@ class CDbCacheDependency extends CCacheDependency
 	{
 		if($this->sql!==null)
 		{
-			$command=$this->getDbConnection()->createCommand($this->sql);
+			$db=$this->getDbConnection();
+			$command=$db->createCommand($this->sql);
 			if(is_array($this->params))
 			{
 				foreach($this->params as $name=>$value)
 					$command->bindValue($name,$value);
 			}
-			return $command->queryRow();
+			if($db->queryCachingDuration>0)
+			{
+				// temporarily disable and re-enable query caching
+				$duration=$db->queryCachingDuration;
+				$db->queryCachingDuration=0;
+				$result=$command->queryRow();
+				$db->queryCachingDuration=$duration;
+			}
+			else
+				$result=$command->queryRow();
+			return $result;
 		}
 		else
 			throw new CException(Yii::t('yii','CDbCacheDependency.sql cannot be empty.'));

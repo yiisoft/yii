@@ -118,6 +118,43 @@ class CDbConnection extends CApplicationComponent
 	 */
 	public $schemaCacheID='cache';
 	/**
+	 * @var integer number of seconds that query results can remain valid in cache.
+	 * Use 0 or negative value to indicate not caching query results (the default behavior).
+	 *
+	 * In order to enable query caching, this property must be a positive
+	 * integer and {@link queryCacheID} must point to a valid cache component ID.
+	 *
+	 * The method {@link cache()} is provided as a convenient way of setting this property
+	 * and {@link queryCachingDependency} on the fly.
+	 *
+	 * @see cache
+	 * @see queryCachingDependency
+	 * @see queryCacheID
+	 * @since 1.1.7
+	 */
+	public $queryCachingDuration=0;
+	/**
+	 * @var CCacheDependency the dependency that will be used when saving query results into cache.
+	 * @see queryCachingDuration
+	 * @since 1.1.7
+	 */
+	public $queryCachingDependency;
+	/**
+	 * @var integer the number of SQL statements that need to be cached next.
+	 * If this is 0, then even if query caching is enabled, no query will be cached.
+	 * Note that each time after executing a SQL statement (whether executed on DB server or fetched from
+	 * query cache), this property will be reduced by 1 until 0.
+	 * @since 1.1.7
+	 */
+	public $queryCachingCount=0;
+	/**
+	 * @var string the ID of the cache application component that is used for query caching.
+	 * Defaults to 'cache' which refers to the primary cache application component.
+	 * Set this property to false if you want to disable query caching.
+	 * @since 1.1.7
+	 */
+	public $queryCacheID='cache';
+	/**
 	 * @var boolean whether the database connection should be automatically established
 	 * the component is being initialized. Defaults to true. Note, this property is only
 	 * effective when the CDbConnection object is used as an application component.
@@ -261,6 +298,30 @@ class CDbConnection extends CApplicationComponent
 			else
 				$this->close();
 		}
+	}
+
+	/**
+	 * Sets the parameters about query caching.
+	 * This method can be used to enable or disable query caching.
+	 * By setting the $duration parameter to be 0, the query caching will be disabled.
+	 * Otherwise, query results of the new SQL statements executed next will be saved in cache
+	 * and remain valid for the specified duration.
+	 * If the same query is executed again, the result may be fetched from cache directly
+	 * without actually executing the SQL statement.
+	 * @param integer $duration the number of seconds that query results may remain valid in cache.
+	 * If this is 0, the caching will be disabled.
+	 * @param CCacheDependency $dependency the dependency that will be used when saving the query results into cache.
+	 * @param integer $queryCount number of SQL queries that need to be cached after calling this method. Defaults to 1,
+	 * meaning that the next SQL query will be cached.
+	 * @return CDbConnection the connection instance itself.
+	 * @since 1.1.7
+	 */
+	public function cache($duration, $dependency=null, $queryCount=1)
+	{
+		$this->queryCachingDuration=$duration;
+		$this->queryCachingDependency=$dependency;
+		$this->queryCachingCount=$queryCount;
+		return $this;
 	}
 
 	/**

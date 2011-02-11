@@ -72,6 +72,14 @@ abstract class CDbSchema extends CComponent
 				$realName=preg_replace('/\{\{(.*?)\}\}/',$this->_connection->tablePrefix.'$1',$name);
 			else
 				$realName=$name;
+
+			// temporarily disable query caching
+			if($this->_connection->queryCachingDuration>0)
+			{
+				$qcDuration=$this->_connection->queryCachingDuration;
+				$this->_connection->queryCachingDuration=0;
+			}
+
 			if(!isset($this->_cacheExclude[$name]) && ($duration=$this->_connection->schemaCachingDuration)>0 && $this->_connection->schemaCacheID!==false && ($cache=Yii::app()->getComponent($this->_connection->schemaCacheID))!==null)
 			{
 				$key='yii:dbschema'.$this->_connection->connectionString.':'.$this->_connection->username.':'.$name;
@@ -81,10 +89,15 @@ abstract class CDbSchema extends CComponent
 					if($table!==null)
 						$cache->set($key,$table,$duration);
 				}
-				return $this->_tables[$name]=$table;
+				$this->_tables[$name]=$table;
 			}
 			else
-				return $this->_tables[$name]=$this->loadTable($realName);
+				$this->_tables[$name]=$table=$this->loadTable($realName);
+
+			if(isset($qcDuration))  // re-enable query caching
+				$this->_connection->queryCachingDuration=$qcDuration;
+
+			return $table;
 		}
 	}
 
