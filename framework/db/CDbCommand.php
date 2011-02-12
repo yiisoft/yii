@@ -114,12 +114,6 @@ class CDbCommand extends CComponent
 		return $this;
 	}
 
-	private function getFetchMode()
-	{
-		return $this->_fetchMode;
-	}
-
-
 	/**
 	 * Cleans up the command and prepares for building a new query.
 	 * This method is mainly used when a command object is being reused
@@ -376,7 +370,7 @@ class CDbCommand extends CComponent
 	 */
 	public function queryAll($fetchAssociative=true,$params=array())
 	{
-		return $this->queryInternal('fetchAll',$fetchAssociative ? $this->getFetchMode() : PDO::FETCH_NUM, $params);
+		return $this->queryInternal('fetchAll',$fetchAssociative ? $this->_fetchMode : PDO::FETCH_NUM, $params);
 	}
 
 	/**
@@ -395,7 +389,7 @@ class CDbCommand extends CComponent
 	 */
 	public function queryRow($fetchAssociative=true,$params=array())
 	{
-		return $this->queryInternal('fetch',$fetchAssociative ? $this->getFetchMode() : PDO::FETCH_NUM, $params);
+		return $this->queryInternal('fetch',$fetchAssociative ? $this->_fetchMode : PDO::FETCH_NUM, $params);
 	}
 
 	/**
