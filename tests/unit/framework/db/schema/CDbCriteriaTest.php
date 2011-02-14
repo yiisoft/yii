@@ -406,7 +406,6 @@ class CDbCriteriaTest extends CTestCase {
 
 		$criteria1->mergeWith($criteria2);
 
-		// TODO: shouldn't it produce 'a', 'b', 'c'?
 		$this->assertEquals(array('a', 'b', 'a', 'c'), $criteria1->with);
 
 		// merging two criteria with parameters
