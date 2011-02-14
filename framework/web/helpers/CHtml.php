@@ -1467,6 +1467,10 @@ EOD;
 	 * <li>encode: boolean, specifies whether to encode HTML-encode tag attributes and values. Defaults to true.
 	 * This option has been available since version 1.0.5.</li>
 	 * </ul>
+	 * Since 1.1.7, a special option named 'uncheckValue' is available. It can be used to set the value
+	 * that will be returned when the checkbox is not checked. By default, this value is ''.
+	 * Internally, a hidden field is rendered so when the checkbox is not checked, we can still
+	 * obtain the value. If 'uncheckValue' is set to NULL, there will be no hidden field rendered.
 	 * @return string the generated check box list
 	 * @see checkBoxList
 	 */
@@ -1479,9 +1483,18 @@ EOD;
 		$name=$htmlOptions['name'];
 		unset($htmlOptions['name']);
 
+		if(array_key_exists('uncheckValue',$htmlOptions))
+		{
+			$uncheck=$htmlOptions['uncheckValue'];
+			unset($htmlOptions['uncheckValue']);
+		}
+		else
+			$uncheck='';
+
 		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
-		return self::hiddenField($name,'',$hiddenOptions)
-			. self::checkBoxList($name,$selection,$data,$htmlOptions);
+		$hidden=$uncheck!==null ? self::hiddenField($name,$uncheck,$hiddenOptions) : '';
+
+		return $hidden . self::checkBoxList($name,$selection,$data,$htmlOptions);
 	}
 
 	/**
@@ -1503,6 +1516,10 @@ EOD;
 	 * <li>encode: boolean, specifies whether to encode HTML-encode tag attributes and values. Defaults to true.
 	 * This option has been available since version 1.0.5.</li>
 	 * </ul>
+	 * Since version 1.1.7, a special option named 'uncheckValue' is available that can be used to specify the value
+	 * returned when the radio button is not checked. By default, this value is ''. Internally, a hidden field is
+	 * rendered so that when the radio button is not checked, we can still obtain the posted uncheck value.
+	 * If 'uncheckValue' is set as NULL, the hidden field will not be rendered.
 	 * @return string the generated radio button list
 	 * @see radioButtonList
 	 */
@@ -1515,9 +1532,18 @@ EOD;
 		$name=$htmlOptions['name'];
 		unset($htmlOptions['name']);
 
+		if(array_key_exists('uncheckValue',$htmlOptions))
+		{
+			$uncheck=$htmlOptions['uncheckValue'];
+			unset($htmlOptions['uncheckValue']);
+		}
+		else
+			$uncheck='';
+
 		$hiddenOptions=isset($htmlOptions['id']) ? array('id'=>self::ID_PREFIX.$htmlOptions['id']) : array('id'=>false);
-		return self::hiddenField($name,'',$hiddenOptions)
-			. self::radioButtonList($name,$selection,$data,$htmlOptions);
+		$hidden=$uncheck!==null ? self::hiddenField($name,$uncheck,$hiddenOptions) : '';
+
+		return $hidden . self::radioButtonList($name,$selection,$data,$htmlOptions);
 	}
 
 	/**
