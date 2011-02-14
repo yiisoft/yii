@@ -48,6 +48,7 @@ Version 1.1.6 January 16, 2011
 - Bug #1945: Fixed the bug that user-supplied form ID is not honored when building a form using CForm with a model (Qiang)
 - Bug #1948: Fixed a bug in generating the number symbols of I18N data from CLDR (Qiang)
 - Bug #1975: Fixed the bug that caused a PHP error when CAssetManager::publish() tried to create a symlink in a non-existing directory (Y!!)
+- Bug #2099: Fixed CDbCriteria::mergeWith error (creocoder, Sam Dark)
 - Bug: Fixed the bug that CActiveForm generates unnecessary js code about setting focus (Qiang)
 - Bug: Fixed CDateTimeParser::parse() default hour, minute and second handling when they are not used in pattern (Sam Dark)
 - Enh #1733: Updated multifile plugin used by CMultiFileUpload to version 1.47 (mdomba)
