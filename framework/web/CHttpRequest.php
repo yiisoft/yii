@@ -59,7 +59,6 @@ class CHttpRequest extends CApplicationComponent
 	private $_scriptFile;
 	private $_scriptUrl;
 	private $_hostInfo;
-	private $_url;
 	private $_baseUrl;
 	private $_cookies;
 	private $_preferredLanguage;
