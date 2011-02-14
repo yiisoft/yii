@@ -159,33 +159,13 @@ class CHttpRequest extends CApplicationComponent
 	}
 
 	/**
-	 * Returns part of the request URL after the host info.
-	 * It consists of the following parts:
-	 * <ul>
-	 * <li>{@link getScriptUrl scriptUrl}</li>
-	 * <li>{@link getPathInfo pathInfo}</li>
-	 * <li>{@link getQueryString queryString}</li>
-	 * </ul>
+	 * Returns the currently requested URL.
+	 * This is the same as {@link getRequestUri}.
 	 * @return string part of the request URL after the host info.
 	 */
 	public function getUrl()
 	{
-		if($this->_url!==null)
-			return $this->_url;
-		else
-		{
-			if(isset($_SERVER['REQUEST_URI']))
-				$this->_url=$_SERVER['REQUEST_URI'];
-			else
-			{
-				$this->_url=$this->getScriptUrl();
-				if(($pathInfo=$this->getPathInfo())!=='')
-					$this->_url.='/'.$pathInfo;
-				if(($queryString=$this->getQueryString())!=='')
-					$this->_url.='?'.$queryString;
-			}
-			return $this->_url;
-		}
+		return $this->getRequestUri();
 	}
 
 	/**

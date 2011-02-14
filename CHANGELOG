@@ -8,6 +8,7 @@ Version 1.1.7 to be released
 - Bug #2026: Fixed the bug that migration command does not respect the connectionID property value (Qiang)
 - Bug #2032: Fixed the bug that beginCache with renderDynamic was not working if used multiple times (mdomba)
 - Bug #2037: Fixed CGridView js bug on selectionChanged "sboxname is undefined" (mdomba)
+- Bug #2097: CHttpRequest::getUrl() should be the same as getRequestUri (Qiang)
 - Bug: Fixed the bug that a PHP notice may occur in exception view if a method in the call stack has a very complex signature (Qiang)
 - Bug: Fixed error that CGridview breaks when updating non-cgridview elements (mdomba)
 - Bug: Fixed a bug in CCheckBoxColumn, "check all" checkbox was not being checked/unchecked when needed (mdomba)
