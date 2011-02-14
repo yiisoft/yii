@@ -22,7 +22,7 @@ INSERT INTO tbl_user (username, password, email) VALUES ('test14', 'pass14', 'te
 INSERT INTO tbl_user (username, password, email) VALUES ('test15', 'pass15', 'test15@example.com');
 INSERT INTO tbl_user (username, password, email) VALUES ('test16', 'pass16', 'test16@example.com');
 INSERT INTO tbl_user (username, password, email) VALUES ('test17', 'pass17', 'test17@example.com');
-INSERT INTO tbl_user (username, password, email) VALUES ('test18', 'pass18', 'test18example.com');
-INSERT INTO tbl_user (username, password, email) VALUES ('test19', 'pass19', 'test19example.com');
+INSERT INTO tbl_user (username, password, email) VALUES ('test18', 'pass18', 'test18@example.com');
+INSERT INTO tbl_user (username, password, email) VALUES ('test19', 'pass19', 'test19@example.com');
 INSERT INTO tbl_user (username, password, email) VALUES ('test20', 'pass20', 'test20@example.com');
 INSERT INTO tbl_user (username, password, email) VALUES ('test21', 'pass21', 'test21@example.com');
