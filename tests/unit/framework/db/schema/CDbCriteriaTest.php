@@ -388,6 +388,17 @@ class CDbCriteriaTest extends CTestCase {
 
 		// not empty with are merged
 		$criteria1 = new CDbCriteria;
+		$criteria1->with = 'a';
+
+		$criteria2 = new CDbCriteria;
+		$criteria2->with = 'b';
+
+		$criteria1->mergeWith($criteria2);
+
+		$this->assertEquals(array('a', 'b'), $criteria1->with);
+
+		// not empty with are merged (more complex test)
+		$criteria1 = new CDbCriteria;
 		$criteria1->with = array('a', 'b');
 
 		$criteria2 = new CDbCriteria;
