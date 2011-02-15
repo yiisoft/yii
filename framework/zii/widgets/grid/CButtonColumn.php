@@ -229,13 +229,13 @@ class CButtonColumn extends CGridColumn
 			$csrf = '';
 
 		if($this->afterDelete===null)
-			$this->afterDelete='function(){};';
+			$this->afterDelete='function(){}';
 
 		$this->buttons['delete']['click']=<<<EOD
 function() {
 	$confirmation
 	var th=this;
-	var afterDelete=$this->afterDelete
+	var afterDelete=$this->afterDelete;
 	$.fn.yiiGridView.update('{$this->grid->id}', {
 		type:'POST',
 		url:$(this).attr('href'),$csrf
