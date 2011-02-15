@@ -493,7 +493,22 @@ class CDbCriteria extends CComponent
 		if(empty($this->with))
 			$this->with=$criteria->with;
 		else if(!empty($criteria->with))
-			$this->with=CMap::mergeArray((array)$this->with,(array)$criteria->with);
+		{
+			$this->with=(array)$this->with;
+			foreach((array)$criteria->with as $k=>$v)
+			{
+				if(is_integer($k))
+					$this->with[]=$v;
+				else if(isset($this->with[$k]))
+				{					
+					$this->with[$k]=new self($this->with[$k]);
+					$this->with[$k]->mergeWith($v,$useAnd);				
+					$this->with[$k]=$this->with[$k]->toArray();
+				}
+				else
+					$this->with[$k]=$v;
+			}
+		}
 	}
 
 	/**
