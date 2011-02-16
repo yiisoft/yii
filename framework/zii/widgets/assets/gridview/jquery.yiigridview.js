@@ -83,10 +83,7 @@
 					else
 						$('#'+id+' .'+settings.tableClass+' > thead > tr > th >input.select-on-check-all').attr('checked', $("input.select-on-check").length==$("input.select-on-check:checked").length);
 
-					if($(this).attr('checked'))
-						$row.addClass('selected');
-					else
-						$row.removeClass('selected');
+					$row.toggleClass('selected',this.checked);
 					if(settings.selectionChanged != undefined)
 						settings.selectionChanged(id);
 					return true;
@@ -94,15 +91,14 @@
 
 			if(settings.selectableRows > 1) {
 				$('#'+id+' .'+settings.tableClass+' > thead > tr > th > input.select-on-check-all').live('click',function(){
-					var checked=this.checked;
+					var checkedall=this.checked;
 					var name=this.name.substring(0,this.name.length-4)+'\[\]';	//.. remove '_all' and add '[]'
 					$("input[name='"+name+"']").each(function() {
-						this.checked=checked;
-						if(checked)
-							$(this).parent().parent().addClass('selected');
-						else
-							$(this).parent().parent().removeClass('selected');
+						this.checked=checkedall;
+						$(this).parent().parent().toggleClass('selected',checkedall);
 					});
+					if(settings.selectionChanged != undefined)
+						settings.selectionChanged(id);
 				});
 			}
 		});
@@ -253,9 +249,8 @@
 	 */
 	$.fn.yiiGridView.selectCheckedRows = function(id) {
 		var settings = $.fn.yiiGridView.settings[id];
-		$('#'+id+' .'+settings.tableClass+' > tbody > tr > td >input.select-on-check').each(function(){
-			if($(this).attr('checked'))
-				$(this).parent().parent().addClass('selected');
+		$('#'+id+' .'+settings.tableClass+' > tbody > tr > td >input.select-on-check:checked').each(function(){
+			$(this).parent().parent().addClass('selected');
 		});
 
 		$('#'+id+' .'+settings.tableClass+' > thead > tr > th >input[type="checkbox"]').each(function(){
@@ -284,7 +279,7 @@
 	 * Returns the key values of the currently checked rows.
 	 * @param id string the ID of the grid view container
 	 * @param column_id string the ID of the column
-	 * @return array the key values of the currently selected rows.
+	 * @return array the key values of the currently checked rows.
 	 */
 	$.fn.yiiGridView.getChecked = function(id,column_id) {
 		var settings = $.fn.yiiGridView.settings[id];
