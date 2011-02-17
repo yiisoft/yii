@@ -1245,7 +1245,7 @@ abstract class CActiveRecord extends CModel
 	 */
 	private function query($criteria,$all=false)
 	{
-        $this->beforeFind($criteria);
+        $this->beforeFind();
 		$this->applyScopes($criteria);
 		if(empty($criteria->with))
 		{
