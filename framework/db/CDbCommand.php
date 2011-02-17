@@ -725,10 +725,10 @@ class CDbCommand extends CComponent
 	 * The method will properly quote the column name and escape values in the range.</li>
 	 * <li><code>not in</code>: similar as the <code>in</code> operator except that IN is replaced with NOT IN in the generated condition.</li>
 	 * <li><code>like</code>: operand 1 should be a column or DB expression, and operand 2 be a string or an array representing
-	 * the range of the values that the column or DB expression should be like.
-	 * For example, array('like', 'name', 'tester') will generate "name LIKE '%tester%'".
+	 * the values that the column or DB expression should be like.
+	 * For example, array('like', 'name', '%tester%') will generate "name LIKE '%tester%'".
 	 * When the value range is given as an array, multiple LIKE predicates will be generated and concatenated using AND.
-	 * For example, array('like', 'name', array('test', 'sample')) will generate
+	 * For example, array('like', 'name', array('%test%', '%sample%')) will generate
 	 * "name LIKE '%test%' AND name LIKE '%sample%'".
 	 * The method will properly quote the column name and escape values in the range.</li>
 	 * <li><code>not like</code>: similar as the <code>like</code> operator except that LIKE is replaced with NOT LIKE in the generated condition.</li>
