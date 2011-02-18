@@ -13,7 +13,7 @@ class TestUser extends CActiveRecord {
 
 	public function relations() {
         return array(
-           'usergroups'=>array(self::HAS_MANY, 'UserGroup', 'user_id'),
+           'usergroups'=>array(self::HAS_MANY, 'TestUserGroup', 'user_id'),
            'groups'=>array(self::HAS_MANY, 'TestGroup', 'through'=>'usergroups'),
         );
     }
