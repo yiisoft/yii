@@ -21,8 +21,7 @@ class CActiveRecordHasManyThroughTest extends CTestCase {
 	}
 
 	public function tearDown(){
-		if($this->db)
-			$this->db->active=false;
+		$this->_connection->active=false;
 	}
 
 	public function testEager(){
