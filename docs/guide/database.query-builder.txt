@@ -27,6 +27,18 @@ The Query Builder is best used when you need to assemble a SQL statement procedu
 
 It is not mandatory to use the Query Builder. In fact, if your queries are simple, it is easier and faster to directly write SQL statements.
 
+> Note: Query builder cannot be used to modify an existing query specified as a
+> SQL statement. For example, the following code will not work:
+>
+> ~~~
+> [php]
+> $command = Yii::app()->db->createCommand('SELECT * FROM tbl_user');
+> // the following line will NOT append WHERE clause to the above SQL
+> $command->where('id=:id', array(':id'=>$id));
+> ~~~
+>
+> In other words, do not mix the usage of plain SQL and query builder.
+
 
 Preparing Query Builder
 -----------------------
