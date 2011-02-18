@@ -1,0 +1,49 @@
+CREATE TABLE teams
+(
+	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	name VARCHAR(128) NOT NULL,
+	create_time TIMESTAMP NOT NULL,
+	description TEXT DEFAULT 'not set'
+);
+
+CREATE TABLE players
+(
+	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	name VARCHAR(128) NOT NULL,
+	team_id INTEGER NOT NULL,
+	CONSTRAINT FK_team_player FOREIGN KEY (team_id)
+		REFERENCES teams (id) ON DELETE CASCADE ON UPDATE RESTRICT
+);
+
+CREATE TABLE skills
+(
+	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	name VARCHAR(128) NOT NULL
+);
+
+CREATE TABLE player_skill
+(
+	player_id INTEGER NOT NULL,
+	skill_id INTEGER NOT NULL,
+	level REAL (3,4),
+	PRIMARY KEY (player_id, skill_id),
+	CONSTRAINT FK_player_skill_player FOREIGN KEY (player_id)
+		REFERENCES players (id) ON DELETE CASCADE ON UPDATE RESTRICT,
+	CONSTRAINT FK_player_skill_skill FOREIGN KEY (skill_id)
+		REFERENCES skills (id) ON DELETE CASCADE ON UPDATE RESTRICT
+);
+
+CREATE TABLE categories
+(
+	id INTEGER NOT NULL,
+	sub_id INTEGER NOT NULL
+);
+
+CREATE TABLE products
+(
+	id INTEGER NOT NULL,
+	cat_id INTEGER NOT NULL,
+	subcat_id INTEGER NOT NULL,
+	CONSTRAINT FK_product_categories FOREIGN KEY (cat_id,subcat_id)
+		REFERENCES categories (id,sub_id) ON DELETE CASCADE ON UPDATE RESTRICT
+);
