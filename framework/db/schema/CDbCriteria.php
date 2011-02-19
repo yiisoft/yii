@@ -75,7 +75,7 @@ class CDbCriteria extends CComponent
 	 */
 	public $having='';
 	/**
-	 * @var array the relational query criteria. This is used for fetching related objects in eager loading fashion.
+	 * @var mixed the relational query criteria. This is used for fetching related objects in eager loading fashion.
 	 * This property is effective only when the criteria is passed as a parameter to the following methods of CActiveRecord:
 	 * <ul>
 	 * <li>{@link CActiveRecord::find()}</li>
@@ -117,6 +117,31 @@ class CDbCriteria extends CComponent
 	 * @since 1.1.5
 	 */
 	public $index;
+	/**
+     * @var mixed scopes to apply
+	 *
+     * This property is effective only when passing criteria to
+	 * the one of the following methods:
+     * <ul>
+     * <li>{@link CActiveRecord::find()}</li>
+     * <li>{@link CActiveRecord::findAll()}</li>
+     * <li>{@link CActiveRecord::findByPk()}</li>
+     * <li>{@link CActiveRecord::findAllByPk()}</li>
+     * <li>{@link CActiveRecord::findByAttributes()}</li>
+     * <li>{@link CActiveRecord::findAllByAttributes()}</li>
+     * <li>{@link CActiveRecord::count()}</li>
+     * </ul>
+	 *
+     * Can be set to one of the following:
+     * <ul>
+     * <li>One scope: $criteria->scopes='scopeName';</li>
+     * <li>Multiple scopes: $criteria->scopes=array('scopeName1','scopeName1');</li>
+     * <li>Scope with parameters: $criteria->scopes=array('scopeName'=>array($paramters));</li>
+     * <li>Multiple scopes with the same name: array(array('scopeName'=>array($paramters1)),array('scopeName'=>array($paramters2)));</li>
+     * </ul>
+     * @since 1.1.7
+     */
+	public $scopes;
 
 	/**
 	 * Constructor.
@@ -490,6 +515,33 @@ class CDbCriteria extends CComponent
 		if($criteria->index!==null)
 			$this->index=$criteria->index;
 
+		if(empty($this->scopes))
+			$this->scopes=$criteria->scopes;
+		else if(!empty($criteria->scopes))
+		{
+			$scopes1=(array)$this->scopes;
+			$scopes2=(array)$criteria->scopes;
+			foreach($scopes1 as $k=>$v)
+			{
+				if(is_integer($k))
+					$scopes[]=$v;
+				else if(isset($scopes2[$k]))
+					$scopes[]=array($k=>$v);
+				else
+					$scopes[$k]=$v;
+			}
+			foreach($scopes2 as $k=>$v)
+			{
+				if(is_integer($k))
+					$scopes[]=$v;
+				else if(isset($scopes1[$k]))
+					$scopes[]=array($k=>$v);
+				else
+					$scopes[$k]=$v;
+			}
+			$this->scopes=$scopes;
+		}
+
 		if(empty($this->with))
 			$this->with=$criteria->with;
 		else if(!empty($criteria->with))
@@ -500,9 +552,9 @@ class CDbCriteria extends CComponent
 				if(is_integer($k))
 					$this->with[]=$v;
 				else if(isset($this->with[$k]))
-				{					
+				{
 					$this->with[$k]=new self($this->with[$k]);
-					$this->with[$k]->mergeWith($v,$useAnd);				
+					$this->with[$k]->mergeWith($v,$useAnd);
 					$this->with[$k]=$this->with[$k]->toArray();
 				}
 				else
@@ -518,7 +570,7 @@ class CDbCriteria extends CComponent
 	public function toArray()
 	{
 		$result=array();
-		foreach(array('select', 'condition', 'params', 'limit', 'offset', 'order', 'group', 'join', 'having', 'distinct', 'with', 'alias', 'index', 'together') as $name)
+		foreach(array('select', 'condition', 'params', 'limit', 'offset', 'order', 'group', 'join', 'having', 'distinct', 'scopes', 'with', 'alias', 'index', 'together') as $name)
 			$result[$name]=$this->$name;
 		return $result;
 	}

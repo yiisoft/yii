@@ -81,6 +81,16 @@ class Post extends CActiveRecord
 		));
 		return $this;
 	}
+
+	//used for relation model scopes test
+	public function p($id)
+	{
+		$this->getDbCriteria()->mergeWith(array(
+			'condition'=>'posts.id=?',
+			'params'=>array($id),
+		));
+		return $this;
+	}
 }
 
 class PostSpecial extends CActiveRecord

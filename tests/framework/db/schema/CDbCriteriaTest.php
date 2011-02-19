@@ -408,6 +408,67 @@ class CDbCriteriaTest extends CTestCase {
 
 		$this->assertEquals(array('a', 'b', 'a', 'c'), $criteria1->with);
 
+		// merging scopes
+		$criteria1=new CDbCriteria;
+		$criteria1->scopes='scope1';
+
+		$criteria2=new CDbCriteria;
+		$criteria2->scopes='scope2';
+
+		$criteria1->mergeWith($criteria2);
+
+		$this->assertEquals(array('scope1','scope2'),$criteria1->scopes);
+
+		$criteria1=new CDbCriteria;
+		$criteria1->scopes='scope1';
+
+		$criteria2=new CDbCriteria;
+		$criteria2->scopes=array('scope2'=>1);
+
+		$criteria1->mergeWith($criteria2);
+
+		$this->assertEquals(array('scope1','scope2'=>1),$criteria1->scopes);
+
+		$criteria1=new CDbCriteria;
+		$criteria1->scopes=array('scope1'=>array(1,2));
+
+		$criteria2=new CDbCriteria;
+		$criteria2->scopes=array('scope2'=>array(3,4));
+
+		$criteria1->mergeWith($criteria2);
+
+		$this->assertEquals(array('scope1'=>array(1,2),'scope2'=>array(3,4)),$criteria1->scopes);
+
+		$criteria1=new CDbCriteria;
+		$criteria1->scopes=array('scope'=>array(1,2));
+
+		$criteria2=new CDbCriteria;
+		$criteria2->scopes=array('scope'=>array(3,4));
+
+		$criteria1->mergeWith($criteria2);
+
+		$this->assertEquals(array(array('scope'=>array(1,2)),array('scope'=>array(3,4))),$criteria1->scopes);
+
+		$criteria1=new CDbCriteria;
+		$criteria1->scopes=array('scope'=>array(1,2),'scope1');
+
+		$criteria2=new CDbCriteria;
+		$criteria2->scopes=array('scope2','scope'=>array(3,4));
+
+		$criteria1->mergeWith($criteria2);
+
+		$this->assertEquals(array(array('scope'=>array(1,2)),'scope1','scope2',array('scope'=>array(3,4))),$criteria1->scopes);
+
+		$criteria1=new CDbCriteria;
+		$criteria1->scopes=array(array('scope'=>array(1,2)),array('scope'=>array(3,4)));
+
+		$criteria2=new CDbCriteria;
+		$criteria2->scopes=array(array('scope'=>array(5,6)),array('scope'=>array(7,8)));
+
+		$criteria1->mergeWith($criteria2);
+
+		$this->assertEquals(array(array('scope'=>array(1,2)),array('scope'=>array(3,4)),array('scope'=>array(5,6)),array('scope'=>array(7,8))),$criteria1->scopes);
+
 		// merging two criteria with parameters
 		$criteria1 = new CDbCriteria;
 		$criteria1->compare('A1', 1);
@@ -500,7 +561,7 @@ class CDbCriteriaTest extends CTestCase {
 	}
 
 	function testToArray(){
-		$keys = array('select', 'condition', 'params', 'limit', 'offset', 'order', 'group', 'join', 'having', 'distinct', 'with', 'alias', 'index', 'together');
+		$keys = array('select', 'condition', 'params', 'limit', 'offset', 'order', 'group', 'join', 'having', 'distinct', 'scopes', 'with', 'alias', 'index', 'together');
 		$criteria = new CDbCriteria();
 		$this->assertEquals($keys, array_keys($criteria->toArray()));
 	}
