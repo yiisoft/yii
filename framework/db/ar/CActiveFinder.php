@@ -200,6 +200,7 @@ class CActiveFinder extends CComponent
 			}
 
 			// named scope
+			$scopes=array();
 			if(($pos=strpos($with,':'))!==false)
 			{
 				$scopes=explode(':',substr($with,$pos+1));
@@ -220,15 +221,48 @@ class CActiveFinder extends CComponent
 				$oldAlias=$model->getTableAlias(false,false);
 				$model->setTableAlias($relation->alias===null?$relation->name:$relation->alias);
 			}
+
 			if(($scope=$model->defaultScope())!==array())
 				$relation->mergeWith($scope,true);
-			if(!empty($scopes))
+
+			if(!empty($options['scopes']))
+				$scopes=array_merge($scopes,(array)$options['scopes']); // no need complex merging, $scopes always in simle format
+
+			if($scopes!==array())
 			{
 				$scs=$model->scopes();
-				foreach($scopes as $scope)
+				foreach($scopes as $k=>$v)
 				{
-					if(isset($scs[$scope]))
-						$relation->mergeWith($scs[$scope],true);
+					if(is_integer($k))
+					{
+						if(is_string($v))
+						{
+							if(isset($scs[$v]))
+							{
+								$relation->mergeWith($scs[$v],true);
+								continue;
+							}
+							$scope=$v;
+							$params=array();
+						}
+						else if(is_array($v))
+						{
+							$scope=key($v);
+							$params=current($v);
+						}
+					}
+					else if(is_string($k))
+					{
+						$scope=$k;
+						$params=$v;
+					}
+
+					if(method_exists($model,$scope))
+					{
+						$model->resetScope();
+						call_user_func_array(array($model,$scope),(array)$params);
+						$relation->mergeWith($model->getDbCriteria(),true);
+					}
 					else
 						throw new CDbException(Yii::t('yii','Active record class "{class}" does not have a scope named "{scope}".',
 							array('{class}'=>get_class($model), '{scope}'=>$scope)));

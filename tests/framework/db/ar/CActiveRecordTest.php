@@ -691,59 +691,6 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(4,count($users));
 	}
 
-	public function testScopes()
-	{
-		$posts=Post::model()->post23()->findAll();
-		$this->assertEquals(2,count($posts));
-		$this->assertEquals(2,$posts[0]->id);
-		$this->assertEquals(3,$posts[1]->id);
-
-		$post=Post::model()->post23()->find();
-		$this->assertEquals(2,$post->id);
-
-		$posts=Post::model()->post23()->post3()->findAll();
-		$this->assertEquals(1,count($posts));
-		$this->assertEquals(3,$posts[0]->id);
-
-		$post=Post::model()->post23()->find();
-		$this->assertTrue($post instanceof Post);
-		$this->assertEquals(2,$post->id);
-
-		$posts=Post::model()->post23()->findAll('id=3');
-		$this->assertEquals(1,count($posts));
-		$this->assertEquals(3,$posts[0]->id);
-
-		$posts=Post::model()->recent()->with('author')->findAll();
-		$this->assertEquals(5,count($posts));
-		$this->assertEquals(5,$posts[0]->id);
-		$this->assertEquals(4,$posts[1]->id);
-
-		$posts=Post::model()->recent(3)->findAll();
-		$this->assertEquals(3,count($posts));
-		$this->assertEquals(5,$posts[0]->id);
-		$this->assertEquals(4,$posts[1]->id);
-
-		$posts=PostSpecial::model()->findAll();
-		$this->assertEquals(2,count($posts));
-		$this->assertEquals(2,$posts[0]->id);
-		$this->assertEquals(3,$posts[1]->id);
-
-		$posts=PostSpecial::model()->desc()->findAll();
-		$this->assertEquals(2,count($posts));
-		$this->assertEquals(3,$posts[0]->id);
-		$this->assertEquals(2,$posts[1]->id);
-	}
-
-	public function testResetScope(){
-		// resetting named scope
-		$posts=Post::model()->post23()->resetScope()->findAll();
-		$this->assertEquals(5,count($posts));
-
-		// resetting default scope
-		$posts=PostSpecial::model()->resetScope()->findAll();
-		$this->assertEquals(5,count($posts));
-	}
-
 	public function testLazyLoadingWithConditions()
 	{
 		$user=User::model()->findByPk(2);
@@ -751,26 +698,6 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(3,count($posts));
 		$posts=$user->posts(array('condition'=>'posts.id>=3', 'alias'=>'posts'));
 		$this->assertEquals(2,count($posts));
-	}
-
-	public function testScopeWithRelations()
-	{
-		$user=User::model()->with('posts:post23')->findByPk(2);
-		$this->assertEquals(2,count($user->posts));
-		$this->assertEquals(2,$user->posts[0]->id);
-		$this->assertEquals(3,$user->posts[1]->id);
-
-		$user=UserSpecial::model()->findByPk(2);
-		$posts=$user->posts;
-		$this->assertEquals(2,count($posts));
-		$this->assertEquals(2,$posts[0]->id);
-		$this->assertEquals(3,$posts[1]->id);
-
-		$user=UserSpecial::model()->findByPk(2);
-		$posts=$user->posts(array('params'=>array(':id1'=>4),'order'=>'posts.id DESC'));
-		$this->assertEquals(2,count($posts));
-		$this->assertEquals(4,$posts[0]->id);
-		$this->assertEquals(3,$posts[1]->id);
 	}
 
 	public function testDuplicateLazyLoadingBug()
@@ -874,5 +801,137 @@ class CActiveRecordTest extends CTestCase
 		$n=Post::model()->countByAttributes(array('author_id'=>2));
 		$this->assertEquals(3,$n);
 
+	}
+
+	public function testScopes()
+	{
+		$models1=Post::model()->post23()->findAll();
+		$models2=Post::model()->findAll(array('scopes'=>'post23'));
+
+		foreach(array($models1,$models2) as $models)
+		{
+			$this->assertEquals(2,count($models));
+			$this->assertEquals(2,$models[0]->id);
+			$this->assertEquals(3,$models[1]->id);
+		}
+
+		$model1=Post::model()->post23()->find();
+		$model2=Post::model()->find(array('scopes'=>'post23'));
+
+		foreach(array($model1,$model2) as $model)
+			$this->assertEquals(2,$model->id);
+
+		$models1=Post::model()->post23()->post3()->findAll();
+		$models2=Post::model()->findAll(array('scopes'=>array('post23','post3')));
+
+		foreach(array($models1,$models2) as $models)
+		{
+			$this->assertEquals(1,count($models));
+			$this->assertEquals(3,$models[0]->id);
+		}
+
+		$models1=Post::model()->post23()->findAll('id=3');
+		$models2=Post::model()->post23()->findAll(array('condition'=>'id=3','scopes'=>'post23'));
+
+		foreach(array($models1,$models2) as $models)
+		{
+			$this->assertEquals(1,count($models));
+			$this->assertEquals(3,$models[0]->id);
+		}
+
+		$models1=Post::model()->recent()->with('author')->findAll();
+		$models2=Post::model()->with('author')->findAll(array('scopes'=>'recent'));
+		$models3=Post::model()->with('author')->findAll(array('scopes'=>array('recent')));
+		$models4=Post::model()->with('author')->findAll(array('scopes'=>array(array('recent'=>array()))));
+
+		foreach(array($models1,$models2,$models3,$models4) as $models)
+		{
+			$this->assertEquals(5,count($models));
+			$this->assertEquals(5,$models[0]->id);
+			$this->assertEquals(4,$models[1]->id);
+		}
+
+		$models1=Post::model()->recent(3)->findAll();
+		$models2=Post::model()->findAll(array('scopes'=>array('recent'=>3)));
+		$models3=Post::model()->findAll(array('scopes'=>array(array('recent'=>3))));
+
+		foreach(array($models1,$models2,$models3) as $models)
+		{
+			$this->assertEquals(3,count($models));
+			$this->assertEquals(5,$models[0]->id);
+			$this->assertEquals(4,$models[1]->id);
+		}
+
+		//default scope
+		$models=PostSpecial::model()->findAll();
+		$this->assertEquals(2,count($models));
+		$this->assertEquals(2,$models[0]->id);
+		$this->assertEquals(3,$models[1]->id);
+
+		//default scope + scope
+		$models1=PostSpecial::model()->desc()->findAll();
+		$models2=PostSpecial::model()->findAll(array('scopes'=>'desc'));
+
+		foreach(array($models1,$models2) as $models)
+		{
+			$this->assertEquals(2,count($models));
+			$this->assertEquals(3,$models[0]->id);
+			$this->assertEquals(2,$models[1]->id);
+		}
+
+		//TODO: test 'scopes' option in scopes()
+	}
+
+	public function testScopeWithRelations()
+	{
+		$user1=User::model()->with('posts:post23')->findByPk(2);
+		$user2=User::model()->with(array('posts'=>array('scopes'=>'post23')))->findByPk(2);
+		$user3=User::model()->findByPk(2,array('with'=>array('posts'=>array('scopes'=>'post23'))));
+
+		foreach(array($user1,$user2,$user3) as $user)
+		{
+			$this->assertEquals(2,count($user->posts));
+			$this->assertEquals(2,$user->posts[0]->id);
+			$this->assertEquals(3,$user->posts[1]->id);
+		}
+
+		$user1=User::model()->with(array('posts'=>array('scopes'=>array('p'=>4))))->findByPk(2);
+		$user2=User::model()->with(array('posts'=>array('scopes'=>array('p'=>array(4)))))->findByPk(2);
+		$user3=User::model()->with(array('posts'=>array('scopes'=>array(array('p'=>4)))))->findByPk(2);
+		$user4=User::model()->with(array('posts'=>array('scopes'=>array(array('p'=>array(4))))))->findByPk(2);
+		$user5=User::model()->findByPk(2,array('with'=>array('posts'=>array('scopes'=>array('p'=>4)))));
+		$user6=User::model()->findByPk(2,array('with'=>array('posts'=>array('scopes'=>array('p'=>array(4))))));
+		$user7=User::model()->findByPk(2,array('with'=>array('posts'=>array('scopes'=>array(array('p'=>4))))));
+		$user8=User::model()->findByPk(2,array('with'=>array('posts'=>array('scopes'=>array(array('p'=>array(4)))))));
+
+		foreach(array($user1,$user2,$user3,$user4,$user5,$user6,$user7,$user8) as $user)
+		{
+			$this->assertEquals(1,count($user->posts));
+			$this->assertEquals(4,$user->posts[0]->id);
+		}
+
+		$user=UserSpecial::model()->findByPk(2);
+		$posts=$user->posts;
+		$this->assertEquals(2,count($posts));
+		$this->assertEquals(2,$posts[0]->id);
+		$this->assertEquals(3,$posts[1]->id);
+
+		$user=UserSpecial::model()->findByPk(2);
+		$posts=$user->posts(array('params'=>array(':id1'=>4),'order'=>'posts.id DESC'));
+		$this->assertEquals(2,count($posts));
+		$this->assertEquals(4,$posts[0]->id);
+		$this->assertEquals(3,$posts[1]->id);
+
+		//TODO: test 'scopes' option in scopes()
+	}
+
+	public function testResetScope(){
+		// resetting named scope
+		$posts=Post::model()->post23()->resetScope()->findAll();
+		$this->assertEquals(5,count($posts));
+
+		// resetting default scope
+		$posts=PostSpecial::model()->resetScope()->findAll();
+		$this->assertEquals(5,count($posts));
 	}
 }

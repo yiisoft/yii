@@ -1270,7 +1270,45 @@ abstract class CActiveRecord extends CModel
 	 */
 	public function applyScopes(&$criteria)
 	{
-		if(($c=$this->getDbCriteria(false))!==null)
+		if(!empty($criteria->scopes))
+		{
+			$scs=$this->scopes();
+			$c=$this->getDbCriteria();
+			foreach((array)$criteria->scopes as $k=>$v)
+			{
+				if(is_integer($k))
+				{
+					if(is_string($v))
+					{
+						if(isset($scs[$v]))
+						{
+							$c->mergeWith($scs[$v],true);
+							continue;
+						}
+						$scope=$v;
+						$params=array();
+					}
+					else if(is_array($v))
+					{
+						$scope=key($v);
+						$params=current($v);
+					}
+				}
+				else if(is_string($k))
+				{
+					$scope=$k;
+					$params=$v;
+				}
+
+				if(method_exists($this,$scope))
+					call_user_func_array(array($this,$scope),(array)$params);
+				else
+					throw new CDbException(Yii::t('yii','Active record class "{class}" does not have a scope named "{scope}".',
+						array('{class}'=>get_class($this), '{scope}'=>$scope)));
+			}
+		}
+
+		if(isset($c) || ($c=$this->getDbCriteria(false))!==null)
 		{
 			$c->mergeWith($criteria);
 			$criteria=$c;
@@ -2055,7 +2093,7 @@ class CActiveRelation extends CBaseActiveRelation
 		if(isset($criteria['alias']))
 			$this->alias=$criteria['alias'];
 
-		if(array_key_exists('together',$criteria))
+		if(isset($criteria['together']))
 			$this->together=$criteria['together'];
 	}
 }
