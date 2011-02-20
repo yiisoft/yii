@@ -7,8 +7,9 @@ Version 1.1.7
 -------------
  * [Added RESTful URL support](/doc/guide/topics.url#user-friendly-urls)
  * [Added query caching support](/doc/guide/caching.data#query-caching)
+ * [Now it's possible to pass parameters for relational named scopes](/doc/guide/database.arr#relational-query-with-named-scopes)
 
-Version 1.1.6
+ Version 1.1.6
 -------------
  * [Added query builder](/doc/guide/database.query-builder)
  * [Added database migration](/doc/guide/database.migration)

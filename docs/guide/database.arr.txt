@@ -488,6 +488,20 @@ And the following code shows how to apply named scopes to the related models.
 ~~~
 [php]
 $posts=Post::model()->with('comments:recently:approved')->findAll();
+// or since 1.1.7
+$posts=Post::model()->with(
+    'comments'=>array(
+        'scopes'=>array('recently','approved')
+    ),
+)->findAll();
+// or since 1.1.7
+$posts=Post::model()->findAll(array(
+    'with'=>array(
+        'comments'=>array(
+            'scopes'=>array('recently','approved')
+        ),
+    ),
+));
 ~~~
 
 The above query will bring back all posts together with their approved comments. Note that `comments` refers to the relation name, while `recently` and `approved` refer to two named scopes declared in the `Comment` model class. The relation name and the named scopes should be separated by colons.
@@ -506,9 +520,40 @@ class User extends CActiveRecord
 		);
 	}
 }
+
+// or since 1.1.7
+class User extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+		    'posts'=>array(self::HAS_MANY, 'Post', 'author_id',
+				'with'=>array(
+					'comments'=>array(
+						'scopes'=>'approved'
+					),
+				),
+			),
+		);
+	}
+}
 ~~~
 
-> Note: Named scopes applied to related models must be specified in [CActiveRecord::scopes]. As a result, they cannot be parameterized.
+Since 1.1.7 it's possible to pass parameters for relational named scopes.
+For example, if you have scope named `rated` in the `Post` that accepts minimum
+rating of post, you can use it from `User` the following way:
 
+~~~
+[php]
+$users=User::model()->findAll(
+	'with'=>array(
+		'posts'=>array(
+			'scopes'=>array(
+				'rated'=>5,
+			),
+		),
+	),
+);
+~~~
 
 <div class="revision">$Id$</div>
