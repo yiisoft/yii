@@ -34,14 +34,14 @@
 			$.fn.yiiGridView.settings[id] = settings;
 
 			if(settings.ajaxUpdate.length > 0) {
-				$(settings.updateSelector).live('click',function(){
+				$(settings.updateSelector).die('click').live('click',function(){
 					$.fn.yiiGridView.update(id, {url: $(this).attr('href')});
 					return false;
 				});
 			}
 
 			var inputSelector='#'+id+' .'+settings.filterClass+' input, '+'#'+id+' .'+settings.filterClass+' select';
-			$('body').delegate(inputSelector, 'change', function(){
+			$('body').undelegate(inputSelector, 'change').delegate(inputSelector, 'change', function(){
 				var data = $.param($(inputSelector));
 				if(settings.pageVar!=undefined)
 					data += '&'+settings.pageVar+'=1';
@@ -51,7 +51,7 @@
 			$.fn.yiiGridView.selectCheckedRows(id);
 
 			if(settings.selectableRows > 0) {
-				$('#'+id+' .'+settings.tableClass+' > tbody > tr').live('click',function(e){
+				$('#'+id+' .'+settings.tableClass+' > tbody > tr').die('click').live('click',function(e){
 					if('checkbox'!=e.target.type){
 						if(settings.selectableRows == 1){
 							$(this).siblings().removeClass('selected');
@@ -71,7 +71,7 @@
 				});
 			}
 
-			$('#'+id+' .'+settings.tableClass+' > tbody > tr > td > input.select-on-check').live('click',function(){
+			$('#'+id+' .'+settings.tableClass+' > tbody > tr > td > input.select-on-check').die('click').live('click',function(){
 					if(settings.selectableRows ==0)
 						return false;
 
@@ -90,7 +90,7 @@
 			});
 
 			if(settings.selectableRows > 1) {
-				$('#'+id+' .'+settings.tableClass+' > thead > tr > th > input.select-on-check-all').live('click',function(){
+				$('#'+id+' .'+settings.tableClass+' > thead > tr > th > input.select-on-check-all').die('click').live('click',function(){
 					var checkedall=this.checked;
 					var name=this.name.substring(0,this.name.length-4)+'\[\]';	//.. remove '_all' and add '[]'
 					$("input[name='"+name+"']").each(function() {
