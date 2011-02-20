@@ -6,6 +6,7 @@ Version 1.1.7 to be released
 ----------------------------
 - Bug #1080: Correct recursive merging for CDbCriteria::with (creocoder, Sam Dark)
 - Bug #1624: Fixed the bug that Gii would generate only one relation for a parent that has a child with more FK linking to it (mdomba)
+- Bug #1984: Fixed firing event multiple times when using live()/delegate() on AJAXified pages (Ekstazi, Sam Dark)
 - Bug #2026: Fixed the bug that migration command does not respect the connectionID property value (Qiang)
 - Bug #2032: Fixed the bug that beginCache with renderDynamic was not working if used multiple times (mdomba)
 - Bug #2037: Fixed CGridView js bug on selectionChanged "sboxname is undefined" (mdomba)
