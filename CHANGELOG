@@ -16,6 +16,7 @@ Version 1.1.7 to be released
 - Bug: Fixed the bug in CCheckBoxColumn, "check all" checkbox was not being checked/unchecked when needed (mdomba)
 - Bug: Fixed the bug in CGridView, selectionChanged was not called when "check all" was clicked (mdomba)
 - Bug: Fixed resetting sequence in CDbCommand::truncateTable (Sam Dark)
+- Bug: Fixed CMemCache incompatibility with some pecl-memcache and memcached versions (Sam Dark)
 - Enh #558: Added parametrized named scopes, added scopes to criteria, implemented scope criteria merging (creocoder, Sam Dark)
 - Enh #801: Added RESTful URL management (Qiang)
 - Enh #1786: Enhanced CUrlValidator by adding 'validSchemes' and 'defaultScheme' property (Y!!)
