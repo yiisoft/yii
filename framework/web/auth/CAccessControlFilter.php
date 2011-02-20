@@ -16,7 +16,7 @@
  * he will be able to access the action.
  *
  * For maximum security consider adding
- * <pre>array('deny', 'users'=>array('*'))</pre>
+ * <pre>array('deny')</pre>
  * as a last rule in a list so all actions will be denied by default.
  *
  * To specify the access rules, set the {@link setRules rules} property, which should
