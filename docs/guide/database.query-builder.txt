@@ -62,21 +62,21 @@ Building Data Retrieval Queries
 
 Data retrieval queries refer to SELECT SQL statements. The query builder provides a set of methods to build individual parts of a SELECT statement. Because all these methods return the [CDbCommand] instance, we can call them using method chaining, as shown in the example at the beginning of this section.
 
-* [select()|CDbCommand::select() ]: specifies the SELECT part of the query
+* [select()|CDbCommand::select]: specifies the SELECT part of the query
 * [selectDistinct()|CDbCommand::selectDistinct]: specifies the SELECT part of the query and turns on the DISTINCT flag
-* [from()|CDbCommand::from() ]: specifies the FROM part of the query
-* [where()|CDbCommand::where() ]: specifies the WHERE part of the query
-* [join()|CDbCommand::join() ]: appends an inner join query fragment
+* [from()|CDbCommand::from]: specifies the FROM part of the query
+* [where()|CDbCommand::where]: specifies the WHERE part of the query
+* [join()|CDbCommand::join]: appends an inner join query fragment
 * [leftJoin()|CDbCommand::leftJoin]: appends a left outer join query fragment
 * [rightJoin()|CDbCommand::rightJoin]: appends a right outer join query fragment
 * [crossJoin()|CDbCommand::crossJoin]: appends a cross join query fragment
 * [naturalJoin()|CDbCommand::naturalJoin]: appends a natural join query fragment
-* [group()|CDbCommand::group() ]: specifies the GROUP BY part of the query
-* [having()|CDbCommand::having() ]: specifies the HAVING part of the query
-* [order()|CDbCommand::order() ]: specifies the ORDER BY part of the query
-* [limit()|CDbCommand::limit() ]: specifies the LIMIT part of the query
-* [offset()|CDbCommand::offset() ]: specifies the OFFSET part of the query
-* [union()|CDbCommand::union() ]: appends a UNION query fragment
+* [group()|CDbCommand::group]: specifies the GROUP BY part of the query
+* [having()|CDbCommand::having]: specifies the HAVING part of the query
+* [order()|CDbCommand::order]: specifies the ORDER BY part of the query
+* [limit()|CDbCommand::limit]: specifies the LIMIT part of the query
+* [offset()|CDbCommand::offset]: specifies the OFFSET part of the query
+* [union()|CDbCommand::union]: appends a UNION query fragment
 
 
 In the following, we explain how to use these query builder methods. For simplicity, we assume the underlying database is MySQL. Note that if you are using other DBMS, the table/column/value quoting shown in the examples may be different.
@@ -89,7 +89,7 @@ In the following, we explain how to use these query builder methods. For simplic
 function select($columns='*')
 ~~~
 
-The [select()|CDbCommand::select() ] method specifies the `SELECT` part of a query. The `$columns` parameter specifies the columns to be selected, which can be either a string representing comma-separated columns, or an array of column names. Column names can contain table prefixes and/or column aliases. The method will automatically quote the column names unless a column contains some parenthesis (which means the column is given as a DB expression).
+The [select()|CDbCommand::select] method specifies the `SELECT` part of a query. The `$columns` parameter specifies the columns to be selected, which can be either a string representing comma-separated columns, or an array of column names. Column names can contain table prefixes and/or column aliases. The method will automatically quote the column names unless a column contains some parenthesis (which means the column is given as a DB expression).
 
 Below are some examples:
 
@@ -115,7 +115,7 @@ select(array('id', 'count(*) as num'))
 function selectDistinct($columns)
 ~~~
 
-The [selectDistinct()|CDbCommand::selectDistinct] method is similar as [select()|CDbCommand::select() ] except that it turns on the `DISTINCT` flag. For example, `selectDistinct('id, username')` will generate the following SQL:
+The [selectDistinct()|CDbCommand::selectDistinct] method is similar as [select()|CDbCommand::select] except that it turns on the `DISTINCT` flag. For example, `selectDistinct('id, username')` will generate the following SQL:
 
 ~~~
 SELECT DISTINCT `id`, `username`
@@ -129,7 +129,7 @@ SELECT DISTINCT `id`, `username`
 function from($tables)
 ~~~
 
-The [from()|CDbCommand::from() ] method specifies the `FROM` part of a query. The `$tables` parameter specifies which tables to be selected from. This can be either a string representing comma-separated table names, or an array of table names. Table names can contain schema prefixes (e.g. `public.tbl_user`) and/or table aliases (e.g. `tbl_user u`). The method will automatically quote the table names unless it contains some parenthesis (which means the table is given as a sub-query or DB expression).
+The [from()|CDbCommand::from] method specifies the `FROM` part of a query. The `$tables` parameter specifies which tables to be selected from. This can be either a string representing comma-separated table names, or an array of table names. Table names can contain schema prefixes (e.g. `public.tbl_user`) and/or table aliases (e.g. `tbl_user u`). The method will automatically quote the table names unless it contains some parenthesis (which means the table is given as a sub-query or DB expression).
 
 Below are some examples:
 
@@ -153,7 +153,7 @@ from(array('tbl_user', '(select * from tbl_profile) p'))
 function where($conditions, $params=array())
 ~~~
 
-The [where()|CDbCommand::where() ] method specifies the `WHERE` part of a query. The `$conditions` parameter specifies query conditions while `$params` specifies the parameters to be bound to the whole query. The `$conditions` parameter can be either a string (e.g. `id=1`) or an array of the format:
+The [where()|CDbCommand::where] method specifies the `WHERE` part of a query. The `$conditions` parameter specifies query conditions while `$params` specifies the parameters to be bound to the whole query. The `$conditions` parameter can be either a string (e.g. `id=1`) or an array of the format:
 
 ~~~
 [php]
@@ -225,7 +225,7 @@ $command->where(array('like', 'title', '%'.$keyword.'%'));
 function order($columns)
 ~~~
 
-The [order()|CDbCommand::order() ] method specifies the `ORDER BY` part of a query.
+The [order()|CDbCommand::order] method specifies the `ORDER BY` part of a query.
 The `$columns` parameter specifies the columns to be ordered by, which can be either a string representing comma-separated columns and order directions (`ASC` or `DESC`), or an array of columns and order directions. Column names can contain table prefixes. The method will automatically quote the column names unless a column contains some parenthesis (which means the column is given as a DB expression).
 
 Below are some examples:
@@ -247,7 +247,7 @@ function limit($limit, $offset=null)
 function offset($offset)
 ~~~
 
-The [limit()|CDbCommand::limit() ] and [offset()|CDbCommand::offset() ] methods specify the `LIMIT` and `OFFSET` part of a query. Note that some DBMS may not support `LIMIT` and `OFFSET` syntax. In this case, the Query Builder will rewrite the whole SQL statement to simulate the function of limit and offset.
+The [limit()|CDbCommand::limit] and [offset()|CDbCommand::offset] methods specify the `LIMIT` and `OFFSET` part of a query. Note that some DBMS may not support `LIMIT` and `OFFSET` syntax. In this case, the Query Builder will rewrite the whole SQL statement to simulate the function of limit and offset.
 
 Below are some examples:
 
@@ -273,7 +273,7 @@ function crossJoin($table)
 function naturalJoin($table)
 ~~~
 
-The [join()|CDbCommand::join() ] method and its variants specify how to join with other tables using `INNER JOIN`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, `CROSS JOIN`, or `NATURAL JOIN`. The `$table` parameter specifies which table to be joined with. The table name can contain schema prefix and/or alias. The method will quote the table name unless it contains a parenthesis meaning it is either a DB expression or sub-query. The `$conditions` parameter specifies the join condition. Its syntax is the same as that in [where()|CDbCommand::where() ]. And `$params` specifies the parameters to be bound to the whole query.
+The [join()|CDbCommand::join] method and its variants specify how to join with other tables using `INNER JOIN`, `LEFT OUTER JOIN`, `RIGHT OUTER JOIN`, `CROSS JOIN`, or `NATURAL JOIN`. The `$table` parameter specifies which table to be joined with. The table name can contain schema prefix and/or alias. The method will quote the table name unless it contains a parenthesis meaning it is either a DB expression or sub-query. The `$conditions` parameter specifies the join condition. Its syntax is the same as that in [where()|CDbCommand::where]. And `$params` specifies the parameters to be bound to the whole query.
 
 Note that unlike other query builder methods, each call of a join method will be appended to the previous ones.
 
@@ -295,7 +295,7 @@ leftJoin('pub.tbl_profile p', 'p.user_id=id AND type=:type', array(':type'=>1))
 function group($columns)
 ~~~
 
-The [group()|CDbCommand::group() ] method specifies the `GROUP BY` part of a query.
+The [group()|CDbCommand::group] method specifies the `GROUP BY` part of a query.
 The `$columns` parameter specifies the columns to be grouped by, which can be either a string representing comma-separated columns, or an array of columns. Column names can contain table prefixes. The method will automatically quote the column names unless a column contains some parenthesis (which means the column is given as a DB expression).
 
 Below are some examples:
@@ -316,7 +316,7 @@ group(array('tbl_profile.name', 'id')
 function having($conditions, $params=array())
 ~~~
 
-The [having()|CDbCommand::having() ] method specifies the `HAVING` part of a query. Its usage is the same as [where()|CDbCommand::where() ].
+The [having()|CDbCommand::having] method specifies the `HAVING` part of a query. Its usage is the same as [where()|CDbCommand::where].
 
 Below are some examples:
 
@@ -336,7 +336,7 @@ having(array('or', 'id=1', 'id=2'))
 function union($sql)
 ~~~
 
-The [union()|CDbCommand::union() ] method specifies the `UNION` part of a query. It appends `$sql` to the existing SQL using `UNION` operator. Calling `union()` multiple times will append multiple SQLs to the existing SQL.
+The [union()|CDbCommand::union] method specifies the `UNION` part of a query. It appends `$sql` to the existing SQL using `UNION` operator. Calling `union()` multiple times will append multiple SQLs to the existing SQL.
 
 Below are some examples:
 
@@ -454,7 +454,7 @@ $command->insert('tbl_user', array(
 function update($table, $columns, $conditions='', $params=array())
 ~~~
 
-The [update()|CDbCommand::update] method builds and executes an `UPDATE` SQL statement. The `$table` parameter specifies which table to be updated; `$columns` is an array of name-value pairs specifying the column values to be updated; `$conditions` and `$params` are like in [where()|CDbCommand::where() ], which specify the `WHERE` clause in the `UPDATE` statement. The method will quote the table name properly and will use parameter-binding for the values to be updated.
+The [update()|CDbCommand::update] method builds and executes an `UPDATE` SQL statement. The `$table` parameter specifies which table to be updated; `$columns` is an array of name-value pairs specifying the column values to be updated; `$conditions` and `$params` are like in [where()|CDbCommand::where], which specify the `WHERE` clause in the `UPDATE` statement. The method will quote the table name properly and will use parameter-binding for the values to be updated.
 
 Below is an example:
 
@@ -475,7 +475,7 @@ $command->update('tbl_user', array(
 function delete($table, $conditions='', $params=array())
 ~~~
 
-The [delete()|CDbCommand::delete] method builds and executes a `DELETE` SQL statement. The `$table` parameter specifies which table to delete from; `$conditions` and `$params` are like in [where()|CDbCommand::where() ], which specify the `WHERE` clause in the `DELETE` statement. The method will quote the table name properly.
+The [delete()|CDbCommand::delete] method builds and executes a `DELETE` SQL statement. The `$table` parameter specifies which table to delete from; `$conditions` and `$params` are like in [where()|CDbCommand::where], which specify the `WHERE` clause in the `DELETE` statement. The method will quote the table name properly.
 
 Below is an example:
 
