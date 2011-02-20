@@ -197,7 +197,7 @@ class CMemCache extends CCache
 	 */
 	protected function deleteValue($key)
 	{
-		return $this->_cache->delete($key);
+		return $this->_cache->delete($key, 0);
 	}
 
 	/**
