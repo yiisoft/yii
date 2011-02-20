@@ -81,9 +81,9 @@ $requirements=array(
 	array(
 		t('yii','Memcache extension'),
 		false,
-		extension_loaded("memcache"),
+		extension_loaded("memcache") || extension_loaded("memcached"),
 		'<a href="http://www.yiiframework.com/doc/api/CMemCache">CMemCache</a>',
-		''),
+		extension_loaded("memcached") ? t('yii', 'To use memcached set <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.') : ''),
 	array(
 		t('yii','APC extension'),
 		false,
