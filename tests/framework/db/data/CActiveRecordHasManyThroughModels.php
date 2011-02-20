@@ -14,7 +14,7 @@ class TestUser extends CActiveRecord {
 	public function relations() {
         return array(
            'usergroups'=>array(self::HAS_MANY, 'TestUserGroup', 'user_id'),
-           'groups'=>array(self::HAS_MANY, 'TestGroup', 'through'=>'usergroups'),
+           'groups'=>array(self::HAS_MANY, 'TestGroup', 'group_id', 'through'=>'usergroups'),
         );
     }
 }
@@ -31,7 +31,7 @@ class TestGroup extends CActiveRecord {
 	public function relations() {
         return array(
            'usergroups'=>array(self::HAS_MANY, 'TestUserGroup', 'group_id'),
-           'users'=>array(self::HAS_MANY, 'TestUser', 'through'=>'usergroups'),
+           'users'=>array(self::HAS_MANY, 'TestUser', 'user_id', 'through'=>'usergroups'),
         );
     }
 }
