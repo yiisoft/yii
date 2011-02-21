@@ -922,6 +922,12 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(4,$posts[0]->id);
 		$this->assertEquals(3,$posts[1]->id);
 
+		$user=User::model()->with('posts:post23')->findByPk(2);
+		$posts=$user->posts(array('scopes'=>'post23'));
+		$this->assertEquals(2,count($posts));
+		$this->assertEquals(2,$posts[0]->id);
+		$this->assertEquals(3,$posts[1]->id);
+
 		//TODO: test 'scopes' option in scopes()
 	}
 
