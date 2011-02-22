@@ -200,10 +200,9 @@ class CActiveFinder extends CComponent
 			}
 
 			// named scope
-			$scopes=array();
 			if(($pos=strpos($with,':'))!==false)
 			{
-				$scopes=explode(':',substr($with,$pos+1));
+				$options['scopes']=array_merge(explode(':',substr($with,$pos+1)),(array)$options['scopes']);
 				$with=substr($with,0,$pos);
 			}
 
@@ -222,52 +221,11 @@ class CActiveFinder extends CComponent
 				$model->setTableAlias($relation->alias===null?$relation->name:$relation->alias);
 			}
 
-			if(($scope=$model->defaultScope())!==array())
-				$relation->mergeWith($scope,true);
-
+			$criteria=new CDbCriteria;
 			if(!empty($options['scopes']))
-				$scopes=array_merge($scopes,(array)$options['scopes']); // no need complex merging, $scopes always in simle format
-
-			if($scopes!==array())
-			{
-				$scs=$model->scopes();
-				foreach($scopes as $k=>$v)
-				{
-					if(is_integer($k))
-					{
-						if(is_string($v))
-						{
-							if(isset($scs[$v]))
-							{
-								$relation->mergeWith($scs[$v],true);
-								continue;
-							}
-							$scope=$v;
-							$params=array();
-						}
-						else if(is_array($v))
-						{
-							$scope=key($v);
-							$params=current($v);
-						}
-					}
-					else if(is_string($k))
-					{
-						$scope=$k;
-						$params=$v;
-					}
-
-					if(method_exists($model,$scope))
-					{
-						$model->resetScope();
-						call_user_func_array(array($model,$scope),(array)$params);
-						$relation->mergeWith($model->getDbCriteria(),true);
-					}
-					else
-						throw new CDbException(Yii::t('yii','Active record class "{class}" does not have a scope named "{scope}".',
-							array('{class}'=>get_class($model), '{scope}'=>$scope)));
-				}
-			}
+				$criteria->scopes=$options['scopes'];
+			$model->applyScopes($criteria);
+			$relation->mergeWith($criteria,true);
 
 			// dynamic options
 			if($options!==null)
@@ -981,16 +939,16 @@ class CJoinElement
 	{
 		$parent=$this->_parent;
 		$relation=$this->relation;
-		if($this->relation instanceof CManyManyRelation)
+		if($relation instanceof CManyManyRelation)
 		{
-			if(!preg_match('/^\s*(.*?)\((.*)\)\s*$/',$this->relation->foreignKey,$matches))
+			if(!preg_match('/^\s*(.*?)\((.*)\)\s*$/',$relation->foreignKey,$matches))
 				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".',
-					array('{class}'=>get_class($parent->model),'{relation}'=>$this->relation->name)));
+					array('{class}'=>get_class($parent->model),'{relation}'=>$relation->name)));
 
 			$schema=$this->_builder->getSchema();
 			if(($joinTable=$schema->getTable($matches[1]))===null)
 				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is not specified correctly: the join table "{joinTable}" given in the foreign key cannot be found in the database.',
-					array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{joinTable}'=>$matches[1])));
+					array('{class}'=>get_class($parent->model), '{relation}'=>$relation->name, '{joinTable}'=>$matches[1])));
 			$fks=preg_split('/\s*,\s*/',$matches[2],-1,PREG_SPLIT_NO_EMPTY);
 
 			return $this->joinManyMany($joinTable,$fks,$parent);
@@ -998,7 +956,7 @@ class CJoinElement
 		else
 		{
 			$fks=preg_split('/\s*,\s*/',$relation->foreignKey,-1,PREG_SPLIT_NO_EMPTY);
-			if($this->relation instanceof CBelongsToRelation)
+			if($relation instanceof CBelongsToRelation)
 			{
 				$pke=$this;
 				$fke=$parent;
