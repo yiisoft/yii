@@ -118,10 +118,11 @@ class CButtonColumn extends CGridColumn
 	/**
 	 * @var string a javascript function that will be invoked after the delete ajax call.
 	 *
-	 * The function signature is <code>function(link, success)</code>
+	 * The function signature is <code>function(link, success, data)</code>
 	 * <ul>
 	 * <li><code>link</code> references the delete link.</li>
 	 * <li><code>success</code> status of the ajax call, true if the ajax call was successful, false if the ajax call failed.
+	 * <li><code>data</code> the data returned by the server (in case of a successful call).
 	 * </ul>
 	 * Note that if success is true it does not mean that the delete was successful, it only means that the ajax call was successful.
 	 *
@@ -129,7 +130,7 @@ class CButtonColumn extends CGridColumn
 	 * <pre>
 	 *  array(
 	 *     class'=>'CButtonColumn',
-	 *     'afterDelete'=>'function(link,success){ if(success) alert("Delete completed successfuly"); }',
+	 *     'afterDelete'=>'function(link,success,data){ if(success) alert("Delete completed successfuly"); }',
 	 *  ),
 	 * </pre>
 	 */
@@ -239,9 +240,9 @@ function() {
 	$.fn.yiiGridView.update('{$this->grid->id}', {
 		type:'POST',
 		url:$(this).attr('href'),$csrf
-		success:function() {
+		success:function(data) {
 			$.fn.yiiGridView.update('{$this->grid->id}');
-			afterDelete(th,true);
+			afterDelete(th,true,data);
 		},
 		error:function() {
 			afterDelete(th,false);
