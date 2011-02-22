@@ -59,9 +59,10 @@
 class CMemCache extends CCache
 {
 	/**
-	 * @var boolean whether to use {@link http://pecl.php.net/package/memcached memcached}
-	 * as the underlying caching extension. Defaults to false, meaning using
-	 * {@link http://pecl.php.net/package/memcache memcache}.
+	 * @var boolean whether to use memcached or memcache as the underlying caching extension.
+	 * If true {@link http://pecl.php.net/package/memcached memcached} will be used.
+	 * If false {@link http://pecl.php.net/package/memcache memcache}. will be used.
+	 * Defaults to false.
 	 * @since 1.0.6
 	 */
 	public $useMemcached=false;
