@@ -28,9 +28,9 @@
 			var settings = $.extend({}, $.fn.yiiGridView.defaults, options || {});
 			var $this = $(this);
 			var id = $this.attr('id');
-			if(settings.updateSelector == undefined) {
+			if(settings.updateSelector === undefined)
 				settings.updateSelector = '#'+id+' .'+settings.pagerClass.replace(/\s+/g,'.')+' a, #'+id+' .'+settings.tableClass.replace(/\s+/g,'.')+' thead th a';
-			}
+
 			$.fn.yiiGridView.settings[id] = settings;
 
 			if(settings.ajaxUpdate.length > 0) {
@@ -43,7 +43,7 @@
 			var inputSelector='#'+id+' .'+settings.filterClass+' input, '+'#'+id+' .'+settings.filterClass+' select';
 			$('body').undelegate(inputSelector, 'change').delegate(inputSelector, 'change', function(){
 				var data = $.param($(inputSelector));
-				if(settings.pageVar!=undefined)
+				if(settings.pageVar!==undefined)
 					data += '&'+settings.pageVar+'=1';
 				$.fn.yiiGridView.update(id, {data: data});
 			});
@@ -53,26 +53,25 @@
 			if(settings.selectableRows > 0) {
 				$('#'+id+' .'+settings.tableClass+' > tbody > tr').die('click').live('click',function(e){
 					if('checkbox'!=e.target.type){
-						if(settings.selectableRows == 1){
+						if(settings.selectableRows == 1)
 							$(this).siblings().removeClass('selected');
-						}
+
 						var isRowSelected=$(this).toggleClass('selected').hasClass('selected');
 						$('input.select-on-check',this).each(function(){
-							if(settings.selectableRows == 1){
+							if(settings.selectableRows == 1)
 								$("input[name='"+this.name+"']").attr('checked',false);
-							}
 							this.checked=isRowSelected;
 							var sboxallname=this.name.substring(0,this.name.length-2)+'_all';	//.. remove '[]' and add '_all'
 							$("input[name='"+sboxallname+"']").attr('checked', $("input[name='"+this.name+"']").length==$("input[name='"+this.name+"']:checked").length);
-						})
-						if(settings.selectionChanged != undefined)
+						});
+						if(settings.selectionChanged !== undefined)
 							settings.selectionChanged(id);
 					}
 				});
 			}
 
 			$('#'+id+' .'+settings.tableClass+' > tbody > tr > td > input.select-on-check').die('click').live('click',function(){
-					if(settings.selectableRows ==0)
+					if(settings.selectableRows === 0)
 						return false;
 
 					var $row=$(this).parent().parent();
@@ -84,7 +83,7 @@
 						$('#'+id+' .'+settings.tableClass+' > thead > tr > th >input.select-on-check-all').attr('checked', $("input.select-on-check").length==$("input.select-on-check:checked").length);
 
 					$row.toggleClass('selected',this.checked);
-					if(settings.selectionChanged != undefined)
+					if(settings.selectionChanged !== undefined)
 						settings.selectionChanged(id);
 					return true;
 			});
@@ -92,12 +91,12 @@
 			if(settings.selectableRows > 1) {
 				$('#'+id+' .'+settings.tableClass+' > thead > tr > th > input.select-on-check-all').die('click').live('click',function(){
 					var checkedall=this.checked;
-					var name=this.name.substring(0,this.name.length-4)+'\[\]';	//.. remove '_all' and add '[]'
+					var name=this.name.substring(0,this.name.length-4)+'[]';	//.. remove '_all' and add '[]'
 					$("input[name='"+name+"']").each(function() {
 						this.checked=checkedall;
 						$(this).parent().parent().toggleClass('selected',checkedall);
 					});
-					if(settings.selectionChanged != undefined)
+					if(settings.selectionChanged !== undefined)
 						settings.selectionChanged(id);
 				});
 			}
@@ -180,7 +179,7 @@
 						$filtered=$d.filter(id);
 					$(id).replaceWith( $filtered.size() ? $filtered : $d.find(id));
 				});
-				if(settings.afterAjaxUpdate != undefined)
+				if(settings.afterAjaxUpdate !== undefined)
 					settings.afterAjaxUpdate(id, data);
 				$('#'+id).removeClass(settings.loadingClass);
 				$.fn.yiiGridView.selectCheckedRows(id);
@@ -202,23 +201,23 @@
 							err='Error';
 						if(XMLHttpRequest.responseText && !/^\s*$/.test(XMLHttpRequest.responseText))
 							err=err + ': ' + XMLHttpRequest.responseText;
-						break
+						break;
 				}
 
-				if(settings.ajaxUpdateError != undefined)
+				if(settings.ajaxUpdateError !== undefined)
 					settings.ajaxUpdateError(XMLHttpRequest, textStatus, errorThrown,err);
 				else if(err)
 					alert(err);
 			}
 		}, options || {});
-		if(options.data!=undefined && options.type=='GET') {
+		if(options.data!==undefined && options.type=='GET') {
 			options.url = $.param.querystring(options.url, options.data);
 			options.data = {};
 		}
 
 		if(settings.ajaxUpdate!==false) {
 			options.url = $.param.querystring(options.url, settings.ajaxVar+'='+id);
-			if(settings.beforeAjaxUpdate != undefined)
+			if(settings.beforeAjaxUpdate !== undefined)
 				settings.beforeAjaxUpdate(id, options);
 			$.ajax(options);
 		}
@@ -228,12 +227,12 @@
 			}
 			else {  // POST mode
 				var $form=$('<form action="'+options.url+'" method="post"></form>').appendTo('body');
-				if(options.data==undefined) {
+				if(options.data===undefined)
 					options.data={};
-				}
-				if(options.data['returnUrl']==undefined) {
-					options.data['returnUrl']=window.location.href;
-				}
+
+				if(options.data.returnUrl===undefined)
+					options.data.returnUrl=window.location.href;
+
 				$.each(options.data, function(name,value) {
 					$form.append($('<input type="hidden" name="t" value="" />').attr('name',name).val(value));
 				});
@@ -254,8 +253,8 @@
 		});
 
 		$('#'+id+' .'+settings.tableClass+' > thead > tr > th >input[type="checkbox"]').each(function(){
-			var name=this.name.substring(0,this.name.length-4)+'\[\]';	//.. remove '_all' and add '[]''
-			$(this).attr('checked', $("input[name='"+name+"']").length==$("input[name='"+name+"']:checked").length);
+			var name=this.name.substring(0,this.name.length-4)+'[]';	//.. remove '_all' and add '[]''
+			this.checked=$("input[name='"+name+"']").length==$("input[name='"+name+"']:checked").length;
 		});
 	};
 
@@ -284,11 +283,11 @@
 	$.fn.yiiGridView.getChecked = function(id,column_id) {
 		var settings = $.fn.yiiGridView.settings[id];
 		var keys = $('#'+id+' > div.keys > span');
-		if(column_id.substring(column_id.length-2)!='\[\]')
-			column_id=column_id+'\[\]';
+		if(column_id.substring(column_id.length-2)!='[]')
+			column_id=column_id+'[]';
 		var checked = [];
 		$('#'+id+' .'+settings.tableClass+' > tbody > tr > td > input[name="'+column_id+'"]').each(function(i){
-			if($(this).attr('checked'))
+			if(this.checked)
 				checked.push(keys.eq(i).text());
 		});
 		return checked;
