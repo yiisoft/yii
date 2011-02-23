@@ -21,9 +21,7 @@ General upgrade intructions
 
 Upgrading from v1.1.6
 ---------------------
-- The 'condition' declared in the scopes of the related AR classes will now
-be put in the 'WHERE' clause when performing relational AR queries. If you
-need to to put it into 'ON' clause of the JOIN statement use 'on'.
+
 
 Upgrading from v1.1.5
 ---------------------
