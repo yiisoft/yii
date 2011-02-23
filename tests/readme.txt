@@ -1,5 +1,5 @@
 This folder contains unit tests of Yii framework.
-PHPUnit 3.3+ and xdebug (for code coverage report) are required.
+PHPUnit 3.5+ and xdebug (for code coverage report) are required.
 
 To run a single unit test, use:
 >> phpunit path/to/test.php
