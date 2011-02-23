@@ -200,9 +200,10 @@ class CActiveFinder extends CComponent
 			}
 
 			// named scope
+			$scopes=empty($options['scopes']) ? array() : (array)$options['scopes'];
 			if(($pos=strpos($with,':'))!==false)
 			{
-				$options['scopes']=array_merge(explode(':',substr($with,$pos+1)),(array)$options['scopes']);
+				$scopes=array_merge(explode(':',substr($with,$pos+1)),$scopes);
 				$with=substr($with,0,$pos);
 			}
 
@@ -222,8 +223,8 @@ class CActiveFinder extends CComponent
 			}
 
 			$criteria=new CDbCriteria;
-			if(!empty($options['scopes']))
-				$criteria->scopes=$options['scopes'];
+			if($scopes!==array())
+				$criteria->scopes=$scopes;
 			$model->applyScopes($criteria);
 			$relation->mergeWith($criteria,true);
 
