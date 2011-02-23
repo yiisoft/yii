@@ -21,6 +21,7 @@ General upgrade intructions
 
 Upgrading from v1.1.6
 ---------------------
+- Make sure you are using latest stable PHPUnit 3.5 if you are using unit tests.
 
 
 Upgrading from v1.1.5
