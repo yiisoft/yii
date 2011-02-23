@@ -225,7 +225,7 @@ class CActiveFinder extends CComponent
 			if(!empty($options['scopes']))
 				$criteria->scopes=$options['scopes'];
 			$model->applyScopes($criteria);
-			$relation->mergeWith($criteria,true);
+			$relation->mergeWith($criteria);
 
 			// dynamic options
 			if($options!==null)
