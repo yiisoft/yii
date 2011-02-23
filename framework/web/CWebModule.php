@@ -92,6 +92,7 @@ class CWebModule extends CModule
 
 	/**
 	 * @param string $value the directory that contains the controller classes.
+	 * @return CWebModule
 	 * @throws CException if the directory is invalid
 	 */
 	public function setControllerPath($value)
@@ -99,6 +100,7 @@ class CWebModule extends CModule
 		if(($this->_controllerPath=realpath($value))===false || !is_dir($this->_controllerPath))
 			throw new CException(Yii::t('yii','The controller path "{path}" is not a valid directory.',
 				array('{path}'=>$value)));
+		return $this;
 	}
 
 	/**
@@ -114,6 +116,7 @@ class CWebModule extends CModule
 
 	/**
 	 * @param string $path the root directory of view files.
+	 * @return CWebModule
 	 * @throws CException if the directory does not exist.
 	 */
 	public function setViewPath($path)
@@ -121,6 +124,7 @@ class CWebModule extends CModule
 		if(($this->_viewPath=realpath($path))===false || !is_dir($this->_viewPath))
 			throw new CException(Yii::t('yii','The view path "{path}" is not a valid directory.',
 				array('{path}'=>$path)));
+		return $this;
 	}
 
 	/**
@@ -136,6 +140,7 @@ class CWebModule extends CModule
 
 	/**
 	 * @param string $path the root directory of layout files.
+	 * @return CWebModule
 	 * @throws CException if the directory does not exist.
 	 */
 	public function setLayoutPath($path)
@@ -143,6 +148,7 @@ class CWebModule extends CModule
 		if(($this->_layoutPath=realpath($path))===false || !is_dir($this->_layoutPath))
 			throw new CException(Yii::t('yii','The layout path "{path}" is not a valid directory.',
 				array('{path}'=>$path)));
+		return $this;
 	}
 
 	/**

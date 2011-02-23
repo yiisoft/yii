@@ -64,6 +64,7 @@ class CQueue extends CComponent implements IteratorAggregate,Countable
 	 * Copies iterable data into the queue.
 	 * Note, existing data in the list will be cleared first.
 	 * @param mixed $data the data to be copied from, must be an array or object implementing Traversable
+	 * @return CQueue
 	 * @throws CException If data is neither an array nor a Traversable.
 	 */
 	public function copyFrom($data)
@@ -79,15 +80,18 @@ class CQueue extends CComponent implements IteratorAggregate,Countable
 		}
 		else if($data!==null)
 			throw new CException(Yii::t('yii','Queue data must be an array or an object implementing Traversable.'));
+		return $this;
 	}
 
 	/**
 	 * Removes all items in the queue.
+	 * @return CQueue
 	 */
 	public function clear()
 	{
 		$this->_c=0;
 		$this->_d=array();
+		return $this;
 	}
 
 	/**
@@ -131,11 +135,13 @@ class CQueue extends CComponent implements IteratorAggregate,Countable
 	/**
 	 * Adds an object to the end of the queue.
 	 * @param mixed $item the item to be appended into the queue
+	 * @return CQueue
 	 */
 	public function enqueue($item)
 	{
 		++$this->_c;
 		array_push($this->_d,$item);
+		return $this;
 	}
 
 	/**

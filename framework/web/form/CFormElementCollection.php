@@ -53,6 +53,7 @@ class CFormElementCollection extends CMap
 	 * can be stored in this collection.
 	 * @param mixed $key key
 	 * @param mixed $value value
+	 * @return CFormElementCollection
 	 * @throws CException if the value is invalid.
 	 */
 	public function add($key,$value)
@@ -98,15 +99,18 @@ class CFormElementCollection extends CMap
 			$element=new CFormStringElement(array('content'=>$value),$this->_form);
 		parent::add($key,$element);
 		$this->_form->addedElement($key,$element,$this->_forButtons);
+		return $this;
 	}
 
 	/**
 	 * Removes the specified element by key.
 	 * @param string $key the name of the element to be removed from the collection
+	 * @return CFormElementCollection
 	 */
 	public function remove($key)
 	{
 		if(($item=parent::remove($key))!==null)
 			$this->_form->removedElement($key,$item,$this->_forButtons);
+		return $this;
 	}
 }

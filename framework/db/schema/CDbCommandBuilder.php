@@ -421,6 +421,7 @@ class CDbCommandBuilder extends CComponent
 	 * Binds parameter values for an SQL command.
 	 * @param CDbCommand $command database command
 	 * @param array $values values for binding (integer-indexed array for question mark placeholders, string-indexed array for named placeholders)
+	 * @return CDbCommandBuilder
 	 */
 	public function bindValues($command, $values)
 	{
@@ -440,6 +441,7 @@ class CDbCommandBuilder extends CComponent
 				$command->bindValue($name,$value);
 			}
 		}
+		return $this;
 	}
 
 	/**

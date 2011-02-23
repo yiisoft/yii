@@ -95,6 +95,7 @@ class CConsoleCommandRunner extends CComponent
 	 * Adds commands from the specified command path.
 	 * If a command already exists, the new one will be ignored.
 	 * @param string $path the alias of the directory containing the command class files.
+	 * @return CConsoleCommandRunner
 	 */
 	public function addCommands($path)
 	{
@@ -106,6 +107,7 @@ class CConsoleCommandRunner extends CComponent
 					$this->commands[$name]=$file;
 			}
 		}
+		return $this;
 	}
 
 	/**

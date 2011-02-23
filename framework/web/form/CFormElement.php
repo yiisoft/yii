@@ -110,6 +110,7 @@ abstract class CFormElement extends CComponent
 	 * representing the property names and their initial values.
 	 * It can also be a string representing the file name of the PHP script
 	 * that returns a configuration array.
+	 * @return CFormElement
 	 */
 	public function configure($config)
 	{
@@ -120,6 +121,7 @@ abstract class CFormElement extends CComponent
 			foreach($config as $name=>$value)
 				$this->$name=$value;
 		}
+		return $this;
 	}
 
 	/**
@@ -136,10 +138,12 @@ abstract class CFormElement extends CComponent
 
 	/**
 	 * @param boolean $value whether this element is visible and should be rendered.
+	 * @return CFormElement
 	 */
 	public function setVisible($value)
 	{
 		$this->_visible=$value;
+		return $this;
 	}
 
 	/**

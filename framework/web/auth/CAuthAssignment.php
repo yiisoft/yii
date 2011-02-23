@@ -70,6 +70,7 @@ class CAuthAssignment extends CComponent
 
 	/**
 	 * @param string $value the business rule associated with this assignment
+	 * @return CAuthAssignment
 	 */
 	public function setBizRule($value)
 	{
@@ -78,6 +79,7 @@ class CAuthAssignment extends CComponent
 			$this->_bizRule=$value;
 			$this->_auth->saveAuthAssignment($this);
 		}
+		return $this;
 	}
 
 	/**
@@ -90,6 +92,7 @@ class CAuthAssignment extends CComponent
 
 	/**
 	 * @param mixed $value additional data for this assignment
+	 * @return CAuthAssignment
 	 */
 	public function setData($value)
 	{
@@ -98,5 +101,6 @@ class CAuthAssignment extends CComponent
 			$this->_data=$value;
 			$this->_auth->saveAuthAssignment($this);
 		}
+		return $this;
 	}
 }

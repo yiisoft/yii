@@ -181,6 +181,7 @@ class CDbCommand extends CComponent
 	 * this may improve performance.
 	 * For SQL statement with binding parameters, this method is invoked
 	 * automatically.
+	 * @return CDbCommand
 	 */
 	public function prepare()
 	{
@@ -199,14 +200,17 @@ class CDbCommand extends CComponent
 					array('{error}'=>$e->getMessage())),(int)$e->getCode(),$errorInfo);
 			}
 		}
+		return $this;
 	}
 
 	/**
 	 * Cancels the execution of the SQL statement.
+	 * @return CDbCommand
 	 */
 	public function cancel()
 	{
 		$this->_statement=null;
+		return $this;
 	}
 
 	/**
@@ -608,11 +612,13 @@ class CDbCommand extends CComponent
 	 * Sets the SELECT part in the query.
 	 * @param mixed $value the data to be selected. Please refer to {@link select()} for details
 	 * on how to specify this parameter.
+	 * @return CDbCommand
 	 * @since 1.1.6
 	 */
 	public function setSelect($value)
 	{
 		$this->select($value);
+		return $this;
 	}
 
 	/**
@@ -641,11 +647,13 @@ class CDbCommand extends CComponent
 	/**
 	 * Sets a value indicating whether SELECT DISTINCT should be used.
 	 * @param boolean $value a value indicating whether SELECT DISTINCT should be used.
+	 * @return CDbCommand
 	 * @since 1.1.6
 	 */
 	public function setDistinct($value)
 	{
 		$this->_query['distinct']=$value;
+		return $this;
 	}
 
 	/**
@@ -695,11 +703,13 @@ class CDbCommand extends CComponent
 	 * Sets the FROM part in the query.
 	 * @param mixed $value the tables to be selected from. Please refer to {@link from()} for details
 	 * on how to specify this parameter.
+	 * @return CDbCommand
 	 * @since 1.1.6
 	 */
 	public function setFrom($value)
 	{
 		$this->from($value);
+		return $this;
 	}
 
 	/**
@@ -762,11 +772,13 @@ class CDbCommand extends CComponent
 	 * Sets the WHERE part in the query.
 	 * @param mixed $value the where part. Please refer to {@link where()} for details
 	 * on how to specify this parameter.
+	 * @return CDbCommand
 	 * @since 1.1.6
 	 */
 	public function setWhere($value)
 	{
 		$this->where($value);
+		return $this;
 	}
 
 	/**
@@ -803,11 +815,13 @@ class CDbCommand extends CComponent
 	 * @param mixed $value the join part in the query. This can be either a string or
 	 * an array representing multiple join parts in the query. Each part must contain
 	 * the proper join operator (e.g. 'LEFT JOIN tbl_profile ON tbl_user.id=tbl_profile.id')
+	 * @return CDbCommand
 	 * @since 1.1.6
 	 */
 	public function setJoin($value)
 	{
 		$this->_query['join']=$value;
+		return $this;
 	}
 
 	/**
@@ -917,11 +931,13 @@ class CDbCommand extends CComponent
 	 * Sets the GROUP BY part in the query.
 	 * @param mixed $value the GROUP BY part. Please refer to {@link group()} for details
 	 * on how to specify this parameter.
+	 * @return CDbCommand
 	 * @since 1.1.6
 	 */
 	public function setGroup($value)
 	{
 		$this->group($value);
+		return $this;
 	}
 
 	/**
@@ -954,11 +970,13 @@ class CDbCommand extends CComponent
 	 * Sets the HAVING part in the query.
 	 * @param mixed $value the HAVING part. Please refer to {@link having()} for details
 	 * on how to specify this parameter.
+	 * @return CDbCommand
 	 * @since 1.1.6
 	 */
 	public function setHaving($value)
 	{
 		$this->having($value);
+		return $this;
 	}
 
 	/**
@@ -1009,11 +1027,13 @@ class CDbCommand extends CComponent
 	 * Sets the ORDER BY part in the query.
 	 * @param mixed $value the ORDER BY part. Please refer to {@link order()} for details
 	 * on how to specify this parameter.
+	 * @return CDbCommand
 	 * @since 1.1.6
 	 */
 	public function setOrder($value)
 	{
 		$this->order($value);
+		return $this;
 	}
 
 	/**
@@ -1045,11 +1065,13 @@ class CDbCommand extends CComponent
 	 * Sets the LIMIT part in the query.
 	 * @param integer $value the LIMIT part. Please refer to {@link limit()} for details
 	 * on how to specify this parameter.
+	 * @return CDbCommand
 	 * @since 1.1.6
 	 */
 	public function setLimit($value)
 	{
 		$this->limit($value);
+		return $this;
 	}
 
 	/**
@@ -1078,11 +1100,13 @@ class CDbCommand extends CComponent
 	 * Sets the OFFSET part in the query.
 	 * @param integer $value the OFFSET part. Please refer to {@link offset()} for details
 	 * on how to specify this parameter.
+	 * @return CDbCommand
 	 * @since 1.1.6
 	 */
 	public function setOffset($value)
 	{
 		$this->offset($value);
+		return $this;
 	}
 
 	/**
@@ -1116,11 +1140,13 @@ class CDbCommand extends CComponent
 	 * Sets the UNION part in the query.
 	 * @param mixed $value the UNION part. This can be either a string or an array
 	 * representing multiple SQL statements to be unioned together.
+	 * @return CDbCommand
 	 * @since 1.1.6
 	 */
 	public function setUnion($value)
 	{
 		$this->_query['union']=$value;
+		return $this;
 	}
 
 	/**

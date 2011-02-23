@@ -109,10 +109,12 @@ class CFormInputElement extends CFormElement
 
 	/**
 	 * @param boolean $value whether this input is required.
+	 * @return CFormInputElement
 	 */
 	public function setRequired($value)
 	{
 		$this->_required=$value;
+		return $this;
 	}
 
 	/**
@@ -129,10 +131,12 @@ class CFormInputElement extends CFormElement
 
 	/**
 	 * @param string $value the label for this input
+	 * @return CFormInputElement
 	 */
 	public function setLabel($value)
 	{
 		$this->_label=$value;
+		return $this;
 	}
 
 	/**

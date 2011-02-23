@@ -116,6 +116,7 @@ class CDbAuthManager extends CAuthManager
 	 * Adds an item as a child of another item.
 	 * @param string $itemName the parent item name
 	 * @param string $childName the child item name
+	 * @return CDbAuthManager
 	 * @throws CException if either parent or child doesn't exist or if a loop has been detected.
 	 */
 	public function addItemChild($itemName,$childName)
@@ -153,6 +154,7 @@ class CDbAuthManager extends CAuthManager
 		}
 		else
 			throw new CException(Yii::t('yii','Either "{parent}" or "{child}" does not exist.',array('{child}'=>$childName,'{parent}'=>$itemName)));
+		return $this;
 	}
 
 	/**
@@ -315,6 +317,7 @@ class CDbAuthManager extends CAuthManager
 	/**
 	 * Saves the changes to an authorization assignment.
 	 * @param CAuthAssignment $assignment the assignment that has been changed.
+	 * @return CDbAuthManager
 	 */
 	public function saveAuthAssignment($assignment)
 	{
@@ -325,6 +328,7 @@ class CDbAuthManager extends CAuthManager
 		$command->bindValue(':itemname',$assignment->getItemName());
 		$command->bindValue(':userid',$assignment->getUserId());
 		$command->execute();
+		return $this;
 	}
 
 	/**
@@ -455,6 +459,7 @@ class CDbAuthManager extends CAuthManager
 	 * Saves an authorization item to persistent storage.
 	 * @param CAuthItem $item the item to be saved.
 	 * @param string $oldName the old item name. If null, it means the item name is not changed.
+	 * @return CDbAuthManager
 	 */
 	public function saveAuthItem($item,$oldName=null)
 	{
@@ -486,6 +491,7 @@ class CDbAuthManager extends CAuthManager
 		$command->bindValue(':bizrule',$item->getBizRule());
 		$command->bindValue(':data',serialize($item->getData()));
 		$command->execute();
+		return $this;
 	}
 
 	/**
@@ -497,20 +503,24 @@ class CDbAuthManager extends CAuthManager
 
 	/**
 	 * Removes all authorization data.
+	 * @return CDbAuthManager
 	 */
 	public function clearAll()
 	{
 		$this->clearAuthAssignments();
 		$this->db->createCommand("DELETE FROM {$this->itemChildTable}")->execute();
 		$this->db->createCommand("DELETE FROM {$this->itemTable}")->execute();
+		return $this;
 	}
 
 	/**
 	 * Removes all authorization assignments.
+	 * @return CDbAuthManager
 	 */
 	public function clearAuthAssignments()
 	{
 		$this->db->createCommand("DELETE FROM {$this->assignmentTable}")->execute();
+		return $this;
 	}
 
 	/**

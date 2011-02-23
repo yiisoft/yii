@@ -76,10 +76,12 @@ abstract class CDbMigration extends CComponent
 	 * Sets the currently active database connection.
 	 * The database connection will be used by the methods such as {@link insert}, {@link createTable}.
 	 * @param CDbConnection $db the database connection component
+	 * @return CDbMigration
 	 */
 	public function setDbConnection($db)
 	{
 		$this->_db=$db;
+		return $this;
 	}
 
 	/**
@@ -87,6 +89,7 @@ abstract class CDbMigration extends CComponent
 	 * The method will properly escape the column names, and bind the values to be inserted.
 	 * @param string $table the table that new rows will be inserted into.
 	 * @param array $columns the column data (name=>value) to be inserted into the table.
+	 * @return CDbMigration
 	 */
 	public function insert($table, $columns)
 	{
@@ -94,6 +97,7 @@ abstract class CDbMigration extends CComponent
 		$time=microtime(true);
 		$this->getDbConnection()->createCommand()->insert($table, $columns);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+		return $this;
 	}
 
 	/**
@@ -104,6 +108,7 @@ abstract class CDbMigration extends CComponent
 	 * @param mixed $conditions the conditions that will be put in the WHERE part. Please
 	 * refer to {@link where} on how to specify conditions.
 	 * @param array $params the parameters to be bound to the query.
+	 * @return CDbMigration
 	 */
 	public function update($table, $columns, $conditions='', $params=array())
 	{
@@ -111,6 +116,7 @@ abstract class CDbMigration extends CComponent
 		$time=microtime(true);
 		$this->getDbConnection()->createCommand()->update($table, $columns, $conditions, $params);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+		return $this;
 	}
 
 	/**
@@ -119,6 +125,7 @@ abstract class CDbMigration extends CComponent
 	 * @param mixed $conditions the conditions that will be put in the WHERE part. Please
 	 * refer to {@link where} on how to specify conditions.
 	 * @param array $params the parameters to be bound to the query.
+	 * @return CDbMigration
 	 */
 	public function delete($table, $conditions='', $params=array())
 	{
@@ -126,6 +133,7 @@ abstract class CDbMigration extends CComponent
 		$time=microtime(true);
 		$this->getDbConnection()->createCommand()->delete($table, $conditions, $params);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+		return $this;
 	}
 
 	/**
@@ -142,6 +150,7 @@ abstract class CDbMigration extends CComponent
 	 * @param string $table the name of the table to be created. The name will be properly quoted by the method.
 	 * @param array $columns the columns (name=>definition) in the new table.
 	 * @param string $options additional SQL fragment that will be appended to the generated SQL.
+	 * @return CDbMigration
 	 */
 	public function createTable($table, $columns, $options=null)
 	{
@@ -149,12 +158,14 @@ abstract class CDbMigration extends CComponent
 		$time=microtime(true);
 		$this->getDbConnection()->createCommand()->createTable($table, $columns, $options);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+		return $this;
 	}
 
 	/**
 	 * Builds and executes a SQL statement for renaming a DB table.
 	 * @param string $table the table to be renamed. The name will be properly quoted by the method.
 	 * @param string $newName the new table name. The name will be properly quoted by the method.
+	 * @return CDbMigration
 	 */
 	public function renameTable($table, $newName)
 	{
@@ -162,11 +173,13 @@ abstract class CDbMigration extends CComponent
 		$time=microtime(true);
 		$this->getDbConnection()->createCommand()->renameTable($table, $newName);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+		return $this;
 	}
 
 	/**
 	 * Builds and executes a SQL statement for dropping a DB table.
 	 * @param string $table the table to be dropped. The name will be properly quoted by the method.
+	 * @return CDbMigration
 	 */
 	public function dropTable($table)
 	{
@@ -174,11 +187,13 @@ abstract class CDbMigration extends CComponent
 		$time=microtime(true);
 		$this->getDbConnection()->createCommand()->dropTable($table);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+		return $this;
 	}
 
 	/**
 	 * Builds and executes a SQL statement for truncating a DB table.
 	 * @param string $table the table to be truncated. The name will be properly quoted by the method.
+	 * @return CDbMigration
 	 */
 	public function truncateTable($table)
 	{
@@ -186,6 +201,7 @@ abstract class CDbMigration extends CComponent
 		$time=microtime(true);
 		$this->getDbConnection()->createCommand()->truncateTable($table);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+		return $this;
 	}
 
 	/**
@@ -195,6 +211,7 @@ abstract class CDbMigration extends CComponent
 	 * @param string $type the column type. The {@link getColumnType} method will be invoked to convert abstract column type (if any)
 	 * into the physical one. Anything that is not recognized as abstract type will be kept in the generated SQL.
 	 * For example, 'string' will be turned into 'varchar(255)', while 'string not null' will become 'varchar(255) not null'.
+	 * @return CDbMigration
 	 */
 	public function addColumn($table, $column, $type)
 	{
@@ -202,12 +219,14 @@ abstract class CDbMigration extends CComponent
 		$time=microtime(true);
 		$this->getDbConnection()->createCommand()->addColumn($table, $column, $type);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+		return $this;
 	}
 
 	/**
 	 * Builds and executes a SQL statement for dropping a DB column.
 	 * @param string $table the table whose column is to be dropped. The name will be properly quoted by the method.
 	 * @param string $column the name of the column to be dropped. The name will be properly quoted by the method.
+	 * @return CDbMigration
 	 */
 	public function dropColumn($table, $column)
 	{
@@ -215,6 +234,7 @@ abstract class CDbMigration extends CComponent
 		$time=microtime(true);
 		$this->getDbConnection()->createCommand()->dropColumn($table, $column);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+		return $this;
 	}
 
 	/**
@@ -222,6 +242,7 @@ abstract class CDbMigration extends CComponent
 	 * @param string $table the table whose column is to be renamed. The name will be properly quoted by the method.
 	 * @param string $name the old name of the column. The name will be properly quoted by the method.
 	 * @param string $newName the new name of the column. The name will be properly quoted by the method.
+	 * @return CDbMigration
 	 */
 	public function renameColumn($table, $name, $newName)
 	{
@@ -229,6 +250,7 @@ abstract class CDbMigration extends CComponent
 		$time=microtime(true);
 		$this->getDbConnection()->createCommand()->renameColumn($table, $name, $newName);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+		return $this;
 	}
 
 	/**
@@ -238,6 +260,7 @@ abstract class CDbMigration extends CComponent
 	 * @param string $type the new column type. The {@link getColumnType} method will be invoked to convert abstract column type (if any)
 	 * into the physical one. Anything that is not recognized as abstract type will be kept in the generated SQL.
 	 * For example, 'string' will be turned into 'varchar(255)', while 'string not null' will become 'varchar(255) not null'.
+	 * @return CDbMigration
 	 */
 	public function alterColumn($table, $column, $type)
 	{
@@ -245,6 +268,7 @@ abstract class CDbMigration extends CComponent
 		$time=microtime(true);
 		$this->getDbConnection()->createCommand()->alterColumn($table, $column, $type);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+		return $this;
 	}
 
 	/**
@@ -257,6 +281,7 @@ abstract class CDbMigration extends CComponent
 	 * @param string $refColumns the name of the column that the foreign key references to. If there are multiple columns, separate them with commas.
 	 * @param string $delete the ON DELETE option. Most DBMS support these options: RESTRICT, CASCADE, NO ACTION, SET DEFAULT, SET NULL
 	 * @param string $update the ON UPDATE option. Most DBMS support these options: RESTRICT, CASCADE, NO ACTION, SET DEFAULT, SET NULL
+	 * @return CDbMigration
 	 */
 	public function addForeignKey($name, $table, $columns, $refTable, $refColumns, $delete=null, $update=null)
 	{
@@ -264,12 +289,14 @@ abstract class CDbMigration extends CComponent
 		$time=microtime(true);
 		$this->getDbConnection()->createCommand()->addForeignKey($name, $table, $columns, $refTable, $refColumns, $delete, $update);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+		return $this;
 	}
 
 	/**
 	 * Builds a SQL statement for dropping a foreign key constraint.
 	 * @param string $name the name of the foreign key constraint to be dropped. The name will be properly quoted by the method.
 	 * @param string $table the table whose foreign is to be dropped. The name will be properly quoted by the method.
+	 * @return CDbMigration
 	 */
 	public function dropForeignKey($name, $table)
 	{
@@ -277,6 +304,7 @@ abstract class CDbMigration extends CComponent
 		$time=microtime(true);
 		$this->getDbConnection()->createCommand()->dropForeignKey($name, $table);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+		return $this;
 	}
 
 	/**
@@ -286,6 +314,7 @@ abstract class CDbMigration extends CComponent
 	 * @param string $column the column(s) that should be included in the index. If there are multiple columns, please separate them
 	 * by commas. The column names will be properly quoted by the method.
 	 * @param boolean $unique whether to add UNIQUE constraint on the created index.
+	 * @return CDbMigration
 	 */
 	public function createIndex($name, $table, $column, $unique=false)
 	{
@@ -293,12 +322,14 @@ abstract class CDbMigration extends CComponent
 		$time=microtime(true);
 		$this->getDbConnection()->createCommand()->createIndex($name, $table, $column, $unique);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+		return $this;
 	}
 
 	/**
 	 * Builds and executes a SQL statement for dropping an index.
 	 * @param string $name the name of the index to be dropped. The name will be properly quoted by the method.
 	 * @param string $table the table whose index is to be dropped. The name will be properly quoted by the method.
+	 * @return CDbMigration
 	 */
 	public function dropIndex($name, $table)
 	{
@@ -306,5 +337,6 @@ abstract class CDbMigration extends CComponent
 		$time=microtime(true);
 		$this->getDbConnection()->createCommand()->dropIndex($name, $table);
 		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+		return $this;
 	}
 }

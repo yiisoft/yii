@@ -292,16 +292,19 @@ class CComponent
 	 * )
 	 * </pre>
 	 * @param array $behaviors list of behaviors to be attached to the component
+	 * @return CComponent
 	 * @since 1.0.2
 	 */
 	public function attachBehaviors($behaviors)
 	{
 		foreach($behaviors as $name=>$behavior)
 			$this->attachBehavior($name,$behavior);
+		return $this;
 	}
 
 	/**
 	 * Detaches all behaviors from the component.
+	 * @return CComponent
 	 * @since 1.0.2
 	 */
 	public function detachBehaviors()
@@ -312,6 +315,7 @@ class CComponent
 				$this->detachBehavior($name);
 			$this->_m=null;
 		}
+		return $this;
 	}
 
 	/**
@@ -354,6 +358,7 @@ class CComponent
 
 	/**
 	 * Enables all behaviors attached to this component.
+	 * @return CComponent
 	 * @since 1.0.2
 	 */
 	public function enableBehaviors()
@@ -363,10 +368,12 @@ class CComponent
 			foreach($this->_m as $behavior)
 				$behavior->setEnabled(true);
 		}
+		return $this;
 	}
 
 	/**
 	 * Disables all behaviors attached to this component.
+	 * @return CComponent
 	 * @since 1.0.2
 	 */
 	public function disableBehaviors()
@@ -376,6 +383,7 @@ class CComponent
 			foreach($this->_m as $behavior)
 				$behavior->setEnabled(false);
 		}
+		return $this;
 	}
 
 	/**
@@ -383,24 +391,28 @@ class CComponent
 	 * A behavior is only effective when it is enabled.
 	 * A behavior is enabled when first attached.
 	 * @param string $name the behavior's name. It uniquely identifies the behavior.
+	 * @return CComponent
 	 * @since 1.0.2
 	 */
 	public function enableBehavior($name)
 	{
 		if(isset($this->_m[$name]))
 			$this->_m[$name]->setEnabled(true);
+		return $this;
 	}
 
 	/**
 	 * Disables an attached behavior.
 	 * A behavior is only effective when it is enabled.
 	 * @param string $name the behavior's name. It uniquely identifies the behavior.
+	 * @return CComponent
 	 * @since 1.0.2
 	 */
 	public function disableBehavior($name)
 	{
 		if(isset($this->_m[$name]))
 			$this->_m[$name]->setEnabled(false);
+		return $this;
 	}
 
 	/**
@@ -515,12 +527,14 @@ class CComponent
 	 *
 	 * @param string $name the event name
 	 * @param callback $handler the event handler
+	 * @return CComponent
 	 * @throws CException if the event is not defined
 	 * @see detachEventHandler
 	 */
 	public function attachEventHandler($name,$handler)
 	{
 		$this->getEventHandlers($name)->add($handler);
+		return $this;
 	}
 
 	/**
@@ -545,6 +559,7 @@ class CComponent
 	 * all attached handlers for the event.
 	 * @param string $name the event name
 	 * @param CEvent $event the event parameter
+	 * @return CComponent
 	 * @throws CException if the event is undefined or an event handler is invalid.
 	 */
 	public function raiseEvent($name,$event)
@@ -578,12 +593,14 @@ class CComponent
 						array('{class}'=>get_class($this), '{event}'=>$name, '{handler}'=>gettype($handler))));
 				// stop further handling if param.handled is set true
 				if(($event instanceof CEvent) && $event->handled)
-					return;
+					return $this;
 			}
 		}
 		else if(YII_DEBUG && !$this->hasEvent($name))
 			throw new CException(Yii::t('yii','Event "{class}.{event}" is not defined.',
 				array('{class}'=>get_class($this), '{event}'=>$name)));
+
+		return $this;
 	}
 
 	/**

@@ -75,6 +75,7 @@ class CAccessControlFilter extends CFilter
 
 	/**
 	 * @param array $rules list of access rules.
+	 * @return CAccessControlFilter
 	 */
 	public function setRules($rules)
 	{
@@ -94,6 +95,7 @@ class CAccessControlFilter extends CFilter
 				$this->_rules[]=$r;
 			}
 		}
+		return $this;
 	}
 
 	/**

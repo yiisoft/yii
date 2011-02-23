@@ -100,9 +100,11 @@ class CDbTransaction extends CComponent
 
 	/**
 	 * @param boolean $value whether this transaction is active
+	 * @return CDbTransaction
 	 */
 	protected function setActive($value)
 	{
 		$this->_active=$value;
+		return $this;
 	}
 }

@@ -201,6 +201,7 @@ class CForm extends CFormElement implements ArrayAccess
 	 * This method will go through all models associated with this form and its sub-forms
 	 * and massively assign the submitted data to the models.
 	 * @see submitted
+	 * @return CForm
 	 */
 	public function loadData()
 	{
@@ -220,6 +221,7 @@ class CForm extends CFormElement implements ArrayAccess
 			if($element instanceof self)
 				$element->loadData();
 		}
+		return $this;
 	}
 
 	/**
@@ -276,10 +278,12 @@ class CForm extends CFormElement implements ArrayAccess
 
 	/**
 	 * @param CModel $model the model to be associated with this form
+	 * @return CForm
 	 */
 	public function setModel($model)
 	{
 		$this->_model=$model;
+		return $this;
 	}
 
 	/**
@@ -321,12 +325,14 @@ class CForm extends CFormElement implements ArrayAccess
 	 * (when 'type' is a string ending with 'Form'), or a {@link CFormInputElement} object in
 	 * all other cases.
 	 * @param array $elements the button configurations
+	 * @return CForm
 	 */
 	public function setElements($elements)
 	{
 		$collection=$this->getElements();
 		foreach($elements as $name=>$config)
 			$collection->add($name,$config);
+		return $this;
 	}
 
 	/**
@@ -348,12 +354,14 @@ class CForm extends CFormElement implements ArrayAccess
 	 * Each button configuration array consists of name-value pairs that are used to initialize
 	 * a {@link CFormButtonElement} object.
 	 * @param array $buttons the button configurations
+	 * @return CForm
 	 */
 	public function setButtons($buttons)
 	{
 		$collection=$this->getButtons();
 		foreach($buttons as $name=>$config)
 			$collection->add($name,$config);
+		return $this;
 	}
 
 	/**

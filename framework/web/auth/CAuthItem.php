@@ -102,6 +102,7 @@ class CAuthItem extends CComponent
 
 	/**
 	 * @param string $value the item name
+	 * @return CAuthItem
 	 */
 	public function setName($value)
 	{
@@ -111,6 +112,7 @@ class CAuthItem extends CComponent
 			$this->_name=$value;
 			$this->_auth->saveAuthItem($this,$oldName);
 		}
+		return $this;
 	}
 
 	/**
@@ -123,6 +125,7 @@ class CAuthItem extends CComponent
 
 	/**
 	 * @param string $value the item description
+	 * @return CAuthItem
 	 */
 	public function setDescription($value)
 	{
@@ -131,6 +134,7 @@ class CAuthItem extends CComponent
 			$this->_description=$value;
 			$this->_auth->saveAuthItem($this);
 		}
+		return $this;
 	}
 
 	/**
@@ -143,6 +147,7 @@ class CAuthItem extends CComponent
 
 	/**
 	 * @param string $value the business rule associated with this item
+	 * @return CAuthItem
 	 */
 	public function setBizRule($value)
 	{
@@ -151,6 +156,7 @@ class CAuthItem extends CComponent
 			$this->_bizRule=$value;
 			$this->_auth->saveAuthItem($this);
 		}
+		return $this;
 	}
 
 	/**
@@ -163,6 +169,7 @@ class CAuthItem extends CComponent
 
 	/**
 	 * @param string $value the business rule associated with this item
+	 * @return CAuthItem
 	 */
 	public function setData($value)
 	{
@@ -171,6 +178,7 @@ class CAuthItem extends CComponent
 			$this->_data=$value;
 			$this->_auth->saveAuthItem($this);
 		}
+		return $this;
 	}
 
 	/**
@@ -241,7 +249,7 @@ class CAuthItem extends CComponent
 	 */
 	public function revoke($userId)
 	{
-		$this->_auth->revoke($this->_name,$userId);
+		return $this->_auth->revoke($this->_name,$userId);
 	}
 
 	/**

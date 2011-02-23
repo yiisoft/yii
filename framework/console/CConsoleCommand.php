@@ -295,6 +295,7 @@ abstract class CConsoleCommand extends CComponent
 	 * <li>params: optional, the parameters to be passed to the callback</li>
 	 * </ul>
 	 * @see buildFileList
+	 * @return CConsoleCommand
 	 */
 	public function copyFiles($fileList)
 	{
@@ -353,6 +354,7 @@ abstract class CConsoleCommand extends CComponent
 			}
 			file_put_contents($target,$content);
 		}
+		return $this;
 	}
 
 	/**
@@ -387,6 +389,7 @@ abstract class CConsoleCommand extends CComponent
 	/**
 	 * Creates all parent directories if they do not exist.
 	 * @param string $directory the directory to be checked
+	 * @return CConsoleCommand
 	 */
 	public function ensureDirectory($directory)
 	{
@@ -396,6 +399,7 @@ abstract class CConsoleCommand extends CComponent
 			echo "      mkdir ".strtr($directory,'\\','/')."\n";
 			mkdir($directory);
 		}
+		return $this;
 	}
 
 	/**

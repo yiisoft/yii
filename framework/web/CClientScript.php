@@ -103,6 +103,7 @@ class CClientScript extends CApplicationComponent
 
 	/**
 	 * Cleans all registered scripts.
+	 * @return CClientScript
 	 */
 	public function reset()
 	{
@@ -116,6 +117,7 @@ class CClientScript extends CApplicationComponent
 		$this->linkTags=array();
 
 		$this->recordCachingAction('clientScript','reset',array());
+		return $this;
 	}
 
 	/**
@@ -392,10 +394,12 @@ class CClientScript extends CApplicationComponent
 	 * This setter is provided in case when core javascript files are manually published
 	 * to a pre-specified location. This may save asset publishing time for large-scale applications.
 	 * @param string $value the base URL of all core javascript files.
+	 * @return CClientScript
 	 */
 	public function setCoreScriptUrl($value)
 	{
 		$this->_baseUrl=$value;
+		return $this;
 	}
 
 	/**

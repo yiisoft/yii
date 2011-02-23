@@ -64,6 +64,7 @@ class CStack extends CComponent implements IteratorAggregate,Countable
 	 * Copies iterable data into the stack.
 	 * Note, existing data in the list will be cleared first.
 	 * @param mixed $data the data to be copied from, must be an array or object implementing Traversable
+	 * @return CStack
 	 * @throws CException If data is neither an array nor a Traversable.
 	 */
 	public function copyFrom($data)
@@ -79,15 +80,18 @@ class CStack extends CComponent implements IteratorAggregate,Countable
 		}
 		else if($data!==null)
 			throw new CException(Yii::t('yii','Stack data must be an array or an object implementing Traversable.'));
+		return $this;
 	}
 
 	/**
 	 * Removes all items in the stack.
+	 * @return CStack
 	 */
 	public function clear()
 	{
 		$this->_c=0;
 		$this->_d=array();
+		return $this;
 	}
 
 	/**
@@ -132,11 +136,13 @@ class CStack extends CComponent implements IteratorAggregate,Countable
 	/**
 	 * Pushes an item into the stack.
 	 * @param mixed $item the item to be pushed into the stack
+	 * @return CStack
 	 */
 	public function push($item)
 	{
 		++$this->_c;
 		array_push($this->_d,$item);
+		return $this;
 	}
 
 	/**

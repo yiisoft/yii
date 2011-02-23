@@ -44,10 +44,12 @@ class CExtController extends CController
 
 	/**
 	 * @param string $value the directory containing the view files for this controller.
+	 * @return CExtController
 	 * @since 1.0.1
 	 */
 	public function setViewPath($value)
 	{
 		$this->_viewPath=$value;
+		return $this;
 	}
 }

@@ -65,6 +65,7 @@ class CFileLogRoute extends CLogRoute
 
 	/**
 	 * @param string $value directory for storing log files.
+	 * @return CFileLogRoute
 	 * @throws CException if the path is invalid
 	 */
 	public function setLogPath($value)
@@ -73,6 +74,7 @@ class CFileLogRoute extends CLogRoute
 		if($this->_logPath===false || !is_dir($this->_logPath) || !is_writable($this->_logPath))
 			throw new CException(Yii::t('yii','CFileLogRoute.logPath "{path}" does not point to a valid directory. Make sure the directory exists and is writable by the Web server process.',
 				array('{path}'=>$value)));
+		return $this;
 	}
 
 	/**
@@ -85,10 +87,12 @@ class CFileLogRoute extends CLogRoute
 
 	/**
 	 * @param string $value log file name
+	 * @return CFileLogRoute
 	 */
 	public function setLogFile($value)
 	{
 		$this->_logFile=$value;
+		return $this;
 	}
 
 	/**
@@ -101,11 +105,13 @@ class CFileLogRoute extends CLogRoute
 
 	/**
 	 * @param integer $value maximum log file size in kilo-bytes (KB).
+	 * @return CFileLogRoute
 	 */
 	public function setMaxFileSize($value)
 	{
 		if(($this->_maxFileSize=(int)$value)<1)
 			$this->_maxFileSize=1;
+		return $this;
 	}
 
 	/**
@@ -118,11 +124,13 @@ class CFileLogRoute extends CLogRoute
 
 	/**
 	 * @param integer $value number of files used for rotation.
+	 * @return CFileLogRoute
 	 */
 	public function setMaxLogFiles($value)
 	{
 		if(($this->_maxLogFiles=(int)$value)<1)
 			$this->_maxLogFiles=1;
+		return $this;
 	}
 
 	/**

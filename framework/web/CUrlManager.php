@@ -204,12 +204,14 @@ class CUrlManager extends CApplicationComponent
 	 * In order to make the new rules effective, this method must be called BEFORE
 	 * {@link CWebApplication::processRequest}.
 	 * @param array $rules new URL rules (pattern=>route).
+	 * @return CUrlManager
 	 * @since 1.1.4
 	 */
 	public function addRules($rules)
 	{
 		foreach($rules as $pattern=>$route)
 			$this->_rules[]=$this->createUrlRule($route,$pattern);
+		return $this;
 	}
 
 	/**
@@ -430,11 +432,13 @@ class CUrlManager extends CApplicationComponent
 	 * The ending slashes should be stripped off. And you are also responsible to remove the script name
 	 * if you set {@link showScriptName} to be false.
 	 * @param string $value the base URL of the application
+	 * @return CUrlManager
 	 * @since 1.1.1
 	 */
 	public function setBaseUrl($value)
 	{
 		$this->_baseUrl=$value;
+		return $this;
 	}
 
 	/**
@@ -450,6 +454,7 @@ class CUrlManager extends CApplicationComponent
 	/**
 	 * Sets the URL format.
 	 * @param string $value the URL format. It must be either 'path' or 'get'.
+	 * @return CUrlManager
 	 */
 	public function setUrlFormat($value)
 	{
@@ -457,6 +462,7 @@ class CUrlManager extends CApplicationComponent
 			$this->_urlFormat=$value;
 		else
 			throw new CException(Yii::t('yii','CUrlManager.UrlFormat must be either "path" or "get".'));
+		return $this;
 	}
 }
 
