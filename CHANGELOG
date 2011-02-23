@@ -35,6 +35,7 @@ Version 1.1.7 to be released
 - Chg #2001: CGridView now renders footer after the body content (Qiang)
 - Chg: Upgraded jQuery to version 1.5 (Sam Dark)
 - Chg: Upgraded jQuery UI to version 1.8.9 (Sam Dark)
+- Chg: The 'condition' declared in the scopes of the related AR classes will now be put in the 'WHERE' clause when performing relational AR queries (creocoder, Sam Dark)
 - New: Added support for query caching (Qiang)
 
 Version 1.1.6 January 16, 2011
