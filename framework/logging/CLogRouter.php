@@ -84,17 +84,20 @@ class CLogRouter extends CApplicationComponent
 	 * <li>class: specifies the class name or alias for the route class.</li>
 	 * <li>name-value pairs: configure the initial property values of the route.</li>
 	 * </ul>
+	 * @return CLogRouter
 	 */
 	public function setRoutes($config)
 	{
 		foreach($config as $name=>$route)
 			$this->_routes[$name]=$route;
+		return $this;
 	}
 
 	/**
 	 * Collects log messages from a logger.
 	 * This method is an event handler to the {@link CLogger::onFlush} event.
 	 * @param CEvent $event event parameter
+	 * @return CLogRouter
 	 */
 	public function collectLogs($event)
 	{
@@ -104,12 +107,14 @@ class CLogRouter extends CApplicationComponent
 			if($route->enabled)
 				$route->collectLogs($logger,false);
 		}
+		return $this;
 	}
 
 	/**
 	 * Collects and processes log messages from a logger.
 	 * This method is an event handler to the {@link CApplication::onEndRequest} event.
 	 * @param CEvent $event event parameter
+	 * @return CLogRouter
 	 * @since 1.1.0
 	 */
 	public function processLogs($event)
@@ -120,5 +125,6 @@ class CLogRouter extends CApplicationComponent
 			if($route->enabled)
 				$route->collectLogs($logger,true);
 		}
+		return $this;
 	}
 }

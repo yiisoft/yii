@@ -44,6 +44,7 @@ class CSqliteSchema extends CDbSchema
 	 * @param CDbTableSchema $table the table schema whose primary key sequence will be reset
 	 * @param mixed $value the value for the primary key of the next new row inserted. If this is not set,
 	 * the next new row's primary key will have a value 1.
+	 * @return CSqliteSchema
 	 * @since 1.1
 	 */
 	public function resetSequence($table,$value=null)
@@ -56,18 +57,20 @@ class CSqliteSchema extends CDbSchema
 				$value=(int)$value-1;
 			$this->getDbConnection()->createCommand("UPDATE sqlite_sequence SET seq='$value' WHERE name='{$table->name}'")->execute();
 		}
+		return $this;
 	}
 
 	/**
 	 * Enables or disables integrity check.
 	 * @param boolean $check whether to turn on or off the integrity check.
 	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
+	 * @return CSqliteSchema
 	 * @since 1.1
 	 */
 	public function checkIntegrity($check=true,$schema='')
 	{
 		// SQLite doesn't enforce integrity
-		return;
+		return $this;
 	}
 
 	/**

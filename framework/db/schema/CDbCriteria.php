@@ -435,6 +435,7 @@ class CDbCriteria extends CComponent
 	 * @param boolean $useAnd whether to use 'AND' to merge condition and having options.
 	 * If false, 'OR' will be used instead. Defaults to 'AND'. This parameter has been
 	 * available since version 1.0.6.
+	 * @return CDbCriteria criteria obejct itself
 	 * @since 1.0.5
 	 */
 	public function mergeWith($criteria,$useAnd=true)
@@ -561,6 +562,7 @@ class CDbCriteria extends CComponent
 					$this->with[$k]=$v;
 			}
 		}
+		return $this;
 	}
 
 	/**

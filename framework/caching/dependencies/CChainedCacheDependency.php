@@ -52,6 +52,7 @@ class CChainedCacheDependency extends CComponent implements ICacheDependency
 	 * @param array $values list of dependency objects or configurations to be added to this chain.
 	 * If a depedency is specified as a configuration, it must be an array that can be recognized
 	 * by {@link YiiBase::createComponent}.
+	 * @return CChainedCacheDependency
 	 * @since 1.0.10
 	 */
 	public function setDependencies($values)
@@ -63,10 +64,12 @@ class CChainedCacheDependency extends CComponent implements ICacheDependency
 				$value=Yii::createComponent($value);
 			$dependencies->add($value);
 		}
+		return $this;
 	}
 
 	/**
 	 * Evaluates the dependency by generating and saving the data related with dependency.
+	 * @return CChainedCacheDependency
 	 */
 	public function evaluateDependency()
 	{
@@ -75,6 +78,7 @@ class CChainedCacheDependency extends CComponent implements ICacheDependency
 			foreach($this->_dependencies as $dependency)
 				$dependency->evaluateDependency();
 		}
+		return $this;
 	}
 
 	/**

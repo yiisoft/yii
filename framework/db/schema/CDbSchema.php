@@ -149,6 +149,7 @@ abstract class CDbSchema extends CComponent
 	 * Refreshes the schema.
 	 * This method resets the loaded table metadata and command builder
 	 * so that they can be recreated to reflect the change of schema.
+	 * @return CDbSchema
 	 */
 	public function refresh()
 	{
@@ -166,6 +167,7 @@ abstract class CDbSchema extends CComponent
 		$this->_tables=array();
 		$this->_tableNames=array();
 		$this->_builder=null;
+		return $this;
 	}
 
 	/**
@@ -183,7 +185,6 @@ abstract class CDbSchema extends CComponent
 		foreach($parts as $i=>$part)
 			$parts[$i]=$this->quoteSimpleTableName($part);
 		return implode('.',$parts);
-
 	}
 
 	/**

@@ -60,6 +60,7 @@ class CPgsqlSchema extends CDbSchema
 	 * @param CDbTableSchema $table the table schema whose primary key sequence will be reset
 	 * @param mixed $value the value for the primary key of the next new row inserted. If this is not set,
 	 * the next new row's primary key will have a value 1.
+	 * @return CPgsqlSchema
 	 * @since 1.1
 	 */
 	public function resetSequence($table,$value=null)
@@ -75,12 +76,14 @@ class CPgsqlSchema extends CDbSchema
 				$value=(int)$value;
 			$this->getDbConnection()->createCommand("SELECT SETVAL('$seq', $value, false)")->execute();
 		}
+		return $this;
 	}
 
 	/**
 	 * Enables or disables integrity check.
 	 * @param boolean $check whether to turn on or off the integrity check.
 	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
+	 * @return CPgsqlSchema
 	 * @since 1.1
 	 */
 	public function checkIntegrity($check=true,$schema='')
@@ -95,6 +98,7 @@ class CPgsqlSchema extends CDbSchema
 				$tableName=str_replace('.','"."',$tableName);
 			$db->createCommand("ALTER TABLE $tableName $enable TRIGGER ALL")->execute();
 		}
+		return $this;
 	}
 
 	/**

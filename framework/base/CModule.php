@@ -115,10 +115,12 @@ abstract class CModule extends CComponent
 	/**
 	 * Sets the module ID.
 	 * @param string $id the module ID
+	 * @return CModule
 	 */
 	public function setId($id)
 	{
 		$this->_id=$id;
+		return $this;
 	}
 
 	/**
@@ -139,6 +141,7 @@ abstract class CModule extends CComponent
 	 * Sets the root directory of the module.
 	 * This method can only be invoked at the beginning of the constructor.
 	 * @param string $path the root directory of the module.
+	 * @return CModule
 	 * @throws CException if the directory does not exist.
 	 */
 	public function setBasePath($path)
@@ -146,6 +149,7 @@ abstract class CModule extends CComponent
 		if(($this->_basePath=realpath($path))===false || !is_dir($this->_basePath))
 			throw new CException(Yii::t('yii','Base path "{path}" is not a valid directory.',
 				array('{path}'=>$path)));
+		return $this;
 	}
 
 	/**
@@ -167,12 +171,14 @@ abstract class CModule extends CComponent
 	/**
 	 * Sets user-defined parameters.
 	 * @param array $value user-defined parameters. This should be in name-value pairs.
+	 * @return CModule
 	 */
 	public function setParams($value)
 	{
 		$params=$this->getParams();
 		foreach($value as $k=>$v)
 			$params->add($k,$v);
+		return $this;
 	}
 
 	/**
@@ -190,6 +196,7 @@ abstract class CModule extends CComponent
 	/**
 	 * Sets the directory that contains the application modules.
 	 * @param string $value the directory that contains the application modules.
+	 * @return CModule
 	 * @throws CException if the directory is invalid
 	 */
 	public function setModulePath($value)
@@ -197,16 +204,19 @@ abstract class CModule extends CComponent
 		if(($this->_modulePath=realpath($value))===false || !is_dir($this->_modulePath))
 			throw new CException(Yii::t('yii','The module path "{path}" is not a valid directory.',
 				array('{path}'=>$value)));
+		return $this;
 	}
 
 	/**
 	 * Sets the aliases that are used in the module.
 	 * @param array $aliases list of aliases to be imported
+	 * @return CModule
 	 */
 	public function setImport($aliases)
 	{
 		foreach($aliases as $alias)
 			Yii::import($alias);
+		return $this;
 	}
 
 	/**
@@ -221,6 +231,7 @@ abstract class CModule extends CComponent
 	 *    'backend'=>dirname(__FILE__).'/../backend',  // a directory
 	 * )
 	 * </pre>
+	 * @return CModule
 	 * @since 1.0.5
 	 */
 	public function setAliases($mappings)
@@ -232,6 +243,7 @@ abstract class CModule extends CComponent
 			else
 				Yii::setPathOfAlias($name,$alias);
 		}
+		return $this;
 	}
 
 	/**
@@ -316,6 +328,7 @@ abstract class CModule extends CComponent
 	 * You may also enable or disable a module by specifying the 'enabled' option in the configuration.
 	 *
 	 * @param array $modules module configurations.
+	 * @return CModule
 	 */
 	public function setModules($modules)
 	{
@@ -337,6 +350,7 @@ abstract class CModule extends CComponent
 			else
 				$this->_moduleConfig[$id]=$module;
 		}
+		return $this;
 	}
 
 	/**
@@ -382,6 +396,7 @@ abstract class CModule extends CComponent
 	 * @param string $id component ID
 	 * @param IApplicationComponent $component the component to be added to the module.
 	 * If this parameter is null, it will unload the component from the module.
+	 * @return CModule
 	 */
 	public function setComponent($id,$component)
 	{
@@ -393,6 +408,7 @@ abstract class CModule extends CComponent
 			if(!$component->getIsInitialized())
 				$component->init();
 		}
+		return $this;
 	}
 
 	/**
@@ -441,6 +457,7 @@ abstract class CModule extends CComponent
 	 * @param boolean $merge whether to merge the new component configuration with the existing one.
 	 * Defaults to true, meaning the previously registered component configuration of the same ID
 	 * will be merged with the new configuration. If false, the existing configuration will be replaced completely.
+	 * @return CModule
 	 */
 	public function setComponents($components,$merge=true)
 	{
@@ -453,11 +470,13 @@ abstract class CModule extends CComponent
 			else
 				$this->_componentConfig[$id]=$component;
 		}
+		return $this;
 	}
 
 	/**
 	 * Configures the module with the specified configuration.
 	 * @param array $config the configuration array
+	 * @return CModule
 	 */
 	public function configure($config)
 	{
@@ -466,6 +485,7 @@ abstract class CModule extends CComponent
 			foreach($config as $key=>$value)
 				$this->$key=$value;
 		}
+		return $this;
 	}
 
 	/**

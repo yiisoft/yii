@@ -39,12 +39,14 @@ class CBehavior extends CComponent implements IBehavior
 	 * and attach event handlers as declared in {@link events}.
 	 * Make sure you call the parent implementation if you override this method.
 	 * @param CComponent $owner the component that this behavior is to be attached to.
+	 * @return CBehavior
 	 */
 	public function attach($owner)
 	{
 		$this->_owner=$owner;
 		foreach($this->events() as $event=>$handler)
 			$owner->attachEventHandler($event,array($this,$handler));
+		return $this;
 	}
 
 	/**
@@ -53,12 +55,14 @@ class CBehavior extends CComponent implements IBehavior
 	 * and detach event handlers declared in {@link events}.
 	 * Make sure you call the parent implementation if you override this method.
 	 * @param CComponent $owner the component that this behavior is to be detached from.
+	 * @return CBehavior
 	 */
 	public function detach($owner)
 	{
 		foreach($this->events() as $event=>$handler)
 			$owner->detachEventHandler($event,array($this,$handler));
 		$this->_owner=null;
+		return $this;
 	}
 
 	/**
@@ -79,6 +83,7 @@ class CBehavior extends CComponent implements IBehavior
 
 	/**
 	 * @param boolean $value whether this behavior is enabled
+	 * @return CBehavior
 	 */
 	public function setEnabled($value)
 	{
@@ -96,5 +101,6 @@ class CBehavior extends CComponent implements IBehavior
 			}
 		}
 		$this->_enabled=$value;
+		return $this;
 	}
 }

@@ -38,6 +38,7 @@ class CTypedMap extends CMap
 	 * checking the item to be inserted is of certain type.
 	 * @param integer $index the specified position.
 	 * @param mixed $item new item
+	 * @return CTypedMap
 	 * @throws CException If the index specified exceeds the bound,
 	 * the map is read-only or the element is not of the expected type.
 	 */
@@ -48,5 +49,6 @@ class CTypedMap extends CMap
 		else
 			throw new CException(Yii::t('yii','CTypedMap<{type}> can only hold objects of {type} class.',
 				array('{type}'=>$this->_type)));
+		return $this;
 	}
 }

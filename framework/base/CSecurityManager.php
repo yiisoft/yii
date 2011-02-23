@@ -99,6 +99,7 @@ class CSecurityManager extends CApplicationComponent
 
 	/**
 	 * @param string $value the key used to generate HMAC
+	 * @return CSecurityManager
 	 * @throws CException if the key is empty
 	 */
 	public function setValidationKey($value)
@@ -107,6 +108,7 @@ class CSecurityManager extends CApplicationComponent
 			$this->_validationKey=$value;
 		else
 			throw new CException(Yii::t('yii','CSecurityManager.validationKey cannot be empty.'));
+		return $this;
 	}
 
 	/**
@@ -133,6 +135,7 @@ class CSecurityManager extends CApplicationComponent
 
 	/**
 	 * @param string $value the key used to encrypt/decrypt data.
+	 * @return CSecurityManager
 	 * @throws CException if the key is empty
 	 */
 	public function setEncryptionKey($value)
@@ -141,6 +144,7 @@ class CSecurityManager extends CApplicationComponent
 			$this->_encryptionKey=$value;
 		else
 			throw new CException(Yii::t('yii','CSecurityManager.encryptionKey cannot be empty.'));
+		return $this;
 	}
 
 	/**

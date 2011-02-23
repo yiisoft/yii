@@ -132,6 +132,7 @@ class CDbFixtureManager extends CApplicationComponent
 	 * Otherwise, {@link truncateTable} will be invoked to delete all rows in the table
 	 * and reset primary key sequence, if any.
 	 * @param string $tableName the table name
+	 * @return CDbFixtureManager
 	 */
 	public function resetTable($tableName)
 	{
@@ -140,6 +141,7 @@ class CDbFixtureManager extends CApplicationComponent
 			require($initFile);
 		else
 			$this->truncateTable($tableName);
+		return $this;
 	}
 
 	/**
@@ -225,11 +227,13 @@ class CDbFixtureManager extends CApplicationComponent
 	 * Enables or disables database integrity check.
 	 * This method may be used to temporarily turn off foreign constraints check.
 	 * @param boolean $check whether to enable database integrity check
+	 * @return CDbFixtureManager
 	 */
 	public function checkIntegrity($check)
 	{
 		foreach($this->schemas as $schema)
 			$this->getDbConnection()->getSchema()->checkIntegrity($check,$schema);
+		return $this;
 	}
 
 	/**
@@ -237,6 +241,7 @@ class CDbFixtureManager extends CApplicationComponent
 	 * You may need to call {@link checkIntegrity} to turn off integrity check temporarily
 	 * before you call this method.
 	 * @param string $tableName the table name
+	 * @return CDbFixtureManager
 	 */
 	public function truncateTable($tableName)
 	{
@@ -249,6 +254,7 @@ class CDbFixtureManager extends CApplicationComponent
 		}
 		else
 			throw new CException("Table '$tableName' does not exist.");
+		return $this;
 	}
 
 	/**
@@ -257,12 +263,14 @@ class CDbFixtureManager extends CApplicationComponent
 	 * before you call this method.
 	 * @param string $schema the schema name. Defaults to empty string, meaning the default database schema.
 	 * @see truncateTable
+	 * @return CDbFixtureManager
 	 */
 	public function truncateTables($schema='')
 	{
 		$tableNames=$this->getDbConnection()->getSchema()->getTableNames($schema);
 		foreach($tableNames as $tableName)
 			$this->truncateTable($tableName);
+		return $this;
 	}
 
 	/**
@@ -277,6 +285,7 @@ class CDbFixtureManager extends CApplicationComponent
 	 * and the array values are either AR class names or table names.
 	 * If table names, they must begin with a colon character (e.g. 'Post'
 	 * means an AR class, while ':Post' means a table name).
+	 * @return CDbFixtureManager
 	 */
 	public function load($fixtures)
 	{
@@ -313,6 +322,7 @@ class CDbFixtureManager extends CApplicationComponent
 		}
 
 		$schema->checkIntegrity(true);
+		return $this;
 	}
 
 	/**

@@ -183,6 +183,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * @param integer $duration number of seconds that the user can remain in logged-in status. Defaults to 0, meaning login till the user closes the browser.
 	 * If greater than 0, cookie-based login will be used. In this case, {@link allowAutoLogin}
 	 * must be set true, otherwise an exception will be thrown.
+	 * @return CWebUser
 	 */
 	public function login($identity,$duration=0)
 	{
@@ -203,6 +204,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 
 			$this->afterLogin(false);
 		}
+		return $this;
 	}
 
 	/**
@@ -213,6 +215,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * then {@link clearStates} will be called, which removes only the data stored via {@link setState}.
 	 * This parameter has been available since version 1.0.7. Before 1.0.7, the behavior
 	 * is to destroy the whole session.
+	 * @return CWebUser
 	 */
 	public function logout($destroySession=true)
 	{
@@ -235,6 +238,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 				$this->clearStates();
 			$this->afterLogout();
 		}
+		return $this;
 	}
 
 	/**
@@ -255,10 +259,12 @@ class CWebUser extends CApplicationComponent implements IWebUser
 
 	/**
 	 * @param mixed $value the unique identifier for the user. If null, it means the user is a guest.
+	 * @return CWebUser
 	 */
 	public function setId($value)
 	{
 		$this->setState('__id',$value);
+		return $this;
 	}
 
 	/**
@@ -278,10 +284,12 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * Sets the unique identifier for the user (e.g. username).
 	 * @param string $value the user name.
 	 * @see getName
+	 * @return CWebUser
 	 */
 	public function setName($value)
 	{
 		$this->setState('__name',$value);
+		return $this;
 	}
 
 	/**
@@ -300,10 +308,12 @@ class CWebUser extends CApplicationComponent implements IWebUser
 
 	/**
 	 * @param string $value the URL that the user should be redirected to after login.
+	 * @return CWebUser
 	 */
 	public function setReturnUrl($value)
 	{
 		$this->setState('__returnUrl',$value);
+		return $this;
 	}
 
 	/**
@@ -492,11 +502,13 @@ class CWebUser extends CApplicationComponent implements IWebUser
 
 	/**
 	 * @param string $value a prefix for the name of the session variables storing user session data.
+	 * @return CWebUser
 	 * @since 1.0.9
 	 */
 	public function setStateKeyPrefix($value)
 	{
 		$this->_keyPrefix=$value;
+		return $this;
 	}
 
 	/**
@@ -533,6 +545,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * @param mixed $defaultValue default value. If $value===$defaultValue, the variable will be
 	 * removed from the session
 	 * @see getState
+	 * @return CWebUser
 	 */
 	public function setState($key,$value,$defaultValue=null)
 	{
@@ -541,6 +554,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 			unset($_SESSION[$key]);
 		else
 			$_SESSION[$key]=$value;
+		return $this;
 	}
 
 	/**
@@ -558,6 +572,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	/**
 	 * Clears all user identity information from persistent storage.
 	 * This will remove the data stored via {@link setState}.
+	 * @return CWebUser
 	 */
 	public function clearStates()
 	{
@@ -569,6 +584,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 			if(!strncmp($key,$prefix,$n))
 				unset($_SESSION[$key]);
 		}
+		return $this;
 	}
 
 	/**
@@ -623,6 +639,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * @param mixed $value flash message
 	 * @param mixed $defaultValue if this value is the same as the flash message, the flash message
 	 * will be removed. (Therefore, you can use setFlash('key',null) to remove a flash message.)
+	 * @return CWebUser
 	 */
 	public function setFlash($key,$value,$defaultValue=null)
 	{
@@ -633,6 +650,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		else
 			$counters[$key]=0;
 		$this->setState(self::FLASH_COUNTERS,$counters,array());
+		return $this;
 	}
 
 	/**

@@ -63,10 +63,12 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 
 	/**
 	 * @param boolean $value whether this list is read-only or not
+	 * @return CMap
 	 */
 	protected function setReadOnly($value)
 	{
 		$this->_r=$value;
+		return $this;
 	}
 
 	/**
@@ -125,6 +127,7 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 	 * Note, if the specified key already exists, the old value will be overwritten.
 	 * @param mixed $key key
 	 * @param mixed $value value
+	 * @return CMap
 	 * @throws CException if the map is read-only
 	 */
 	public function add($key,$value)
@@ -138,6 +141,7 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 		}
 		else
 			throw new CException(Yii::t('yii','The map is read only.'));
+		return $this;
 	}
 
 	/**
@@ -169,11 +173,13 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 
 	/**
 	 * Removes all items in the map.
+	 * @return CMap
 	 */
 	public function clear()
 	{
 		foreach(array_keys($this->_d) as $key)
 			$this->remove($key);
+		return $this;
 	}
 
 	/**
@@ -197,6 +203,7 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 	 * Copies iterable data into the map.
 	 * Note, existing data in the map will be cleared first.
 	 * @param mixed $data the data to be copied from, must be an array or object implementing Traversable
+	 * @return CMap
 	 * @throws CException If data is neither an array nor an iterator.
 	 */
 	public function copyFrom($data)
@@ -212,6 +219,7 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 		}
 		else if($data!==null)
 			throw new CException(Yii::t('yii','Map data must be an array or an object implementing Traversable.'));
+		return $this;
 	}
 
 	/**
@@ -228,6 +236,7 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 	 *
 	 * @param mixed $data the data to be merged with, must be an array or object implementing Traversable
 	 * @param boolean $recursive whether the merging should be recursive.
+	 * @return CMap
 	 *
 	 * @throws CException If data is neither an array nor an iterator.
 	 */
@@ -257,6 +266,7 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 		}
 		else if($data!==null)
 			throw new CException(Yii::t('yii','Map data must be an array or an object implementing Traversable.'));
+		return $this;
 	}
 
 	/**

@@ -90,6 +90,7 @@ class CPhpAuthManager extends CAuthManager
 	 * Adds an item as a child of another item.
 	 * @param string $itemName the parent item name
 	 * @param string $childName the child item name
+	 * @return CPhpAuthManager
 	 * @throws CException if either parent or child doesn't exist or if a loop has been detected.
 	 */
 	public function addItemChild($itemName,$childName)
@@ -106,6 +107,7 @@ class CPhpAuthManager extends CAuthManager
 			throw new CException(Yii::t('yii','The item "{parent}" already has a child "{child}".',
 				array('{child}'=>$childName,'{parent}'=>$itemName)));
 		$this->_children[$itemName][$childName]=$this->_items[$childName];
+		return $this;
 	}
 
 	/**
@@ -318,6 +320,7 @@ class CPhpAuthManager extends CAuthManager
 	 * Saves an authorization item to persistent storage.
 	 * @param CAuthItem $item the item to be saved.
 	 * @param string $oldName the old item name. If null, it means the item name is not changed.
+	 * @return CPhpAuthManager
 	 */
 	public function saveAuthItem($item,$oldName=null)
 	{
@@ -352,6 +355,7 @@ class CPhpAuthManager extends CAuthManager
 				}
 			}
 		}
+		return $this;
 	}
 
 	/**
@@ -366,6 +370,7 @@ class CPhpAuthManager extends CAuthManager
 	 * Saves authorization data into persistent storage.
 	 * If any change is made to the authorization data, please make
 	 * sure you call this method to save the changed data into persistent storage.
+	 * @return CPhpAuthManager
 	 */
 	public function save()
 	{
@@ -400,10 +405,12 @@ class CPhpAuthManager extends CAuthManager
 		}
 
 		$this->saveToFile($items,$this->authFile);
+		return $this;
 	}
 
 	/**
 	 * Loads authorization data.
+	 * @return CPhpAuthManager
 	 */
 	public function load()
 	{
@@ -432,24 +439,29 @@ class CPhpAuthManager extends CAuthManager
 				}
 			}
 		}
+		return $this;
 	}
 
 	/**
 	 * Removes all authorization data.
+	 * @return CPhpAuthManager
 	 */
 	public function clearAll()
 	{
 		$this->clearAuthAssignments();
 		$this->_children=array();
 		$this->_items=array();
+		return $this;
 	}
 
 	/**
 	 * Removes all authorization assignments.
+	 * @return CPhpAuthManager
 	 */
 	public function clearAuthAssignments()
 	{
 		$this->_assignments=array();
+		return $this;
 	}
 
 	/**

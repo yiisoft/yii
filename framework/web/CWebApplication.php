@@ -240,10 +240,12 @@ class CWebApplication extends CApplication
 
 	/**
 	 * @param string $value the theme name
+	 * @return CWebApplication
 	 */
 	public function setTheme($value)
 	{
 		$this->_theme=$value;
+		return $this;
 	}
 
 	/**
@@ -306,10 +308,12 @@ class CWebApplication extends CApplication
 
 	/**
 	 * @param string $value the homepage URL
+	 * @return CWebApplication
 	 */
 	public function setHomeUrl($value)
 	{
 		$this->_homeUrl=$value;
+		return $this;
 	}
 
 	/**
@@ -438,11 +442,13 @@ class CWebApplication extends CApplication
 
 	/**
 	 * @param CController $value the currently active controller
+	 * @return CWebApplication
 	 * @since 1.0.6
 	 */
 	public function setController($value)
 	{
 		$this->_controller=$value;
+		return $this;
 	}
 
 	/**
@@ -458,6 +464,7 @@ class CWebApplication extends CApplication
 
 	/**
 	 * @param string $value the directory that contains the controller classes.
+	 * @return CWebApplication
 	 * @throws CException if the directory is invalid
 	 */
 	public function setControllerPath($value)
@@ -465,6 +472,7 @@ class CWebApplication extends CApplication
 		if(($this->_controllerPath=realpath($value))===false || !is_dir($this->_controllerPath))
 			throw new CException(Yii::t('yii','The controller path "{path}" is not a valid directory.',
 				array('{path}'=>$value)));
+		return $this;
 	}
 
 	/**
@@ -480,6 +488,7 @@ class CWebApplication extends CApplication
 
 	/**
 	 * @param string $path the root directory of view files.
+	 * @return CWebApplication
 	 * @throws CException if the directory does not exist.
 	 */
 	public function setViewPath($path)
@@ -487,6 +496,7 @@ class CWebApplication extends CApplication
 		if(($this->_viewPath=realpath($path))===false || !is_dir($this->_viewPath))
 			throw new CException(Yii::t('yii','The view path "{path}" is not a valid directory.',
 				array('{path}'=>$path)));
+		return $this;
 	}
 
 	/**
@@ -502,6 +512,7 @@ class CWebApplication extends CApplication
 
 	/**
 	 * @param string $path the root directory of system view files.
+	 * @return CWebApplication
 	 * @throws CException if the directory does not exist.
 	 */
 	public function setSystemViewPath($path)
@@ -509,6 +520,7 @@ class CWebApplication extends CApplication
 		if(($this->_systemViewPath=realpath($path))===false || !is_dir($this->_systemViewPath))
 			throw new CException(Yii::t('yii','The system view path "{path}" is not a valid directory.',
 				array('{path}'=>$path)));
+		return $this;
 	}
 
 	/**
@@ -524,6 +536,7 @@ class CWebApplication extends CApplication
 
 	/**
 	 * @param string $path the root directory of layout files.
+	 * @return CWebApplication
 	 * @throws CException if the directory does not exist.
 	 */
 	public function setLayoutPath($path)
@@ -531,6 +544,7 @@ class CWebApplication extends CApplication
 		if(($this->_layoutPath=realpath($path))===false || !is_dir($this->_layoutPath))
 			throw new CException(Yii::t('yii','The layout path "{path}" is not a valid directory.',
 				array('{path}'=>$path)));
+		return $this;
 	}
 
 	/**

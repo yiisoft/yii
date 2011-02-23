@@ -165,11 +165,13 @@ EOD;
 	/**
 	 * Sets the DB connection used by the cache component.
 	 * @param CDbConnection $value the DB connection instance
+	 * @return CDbCache
 	 * @since 1.1.5
 	 */
 	public function setDbConnection($value)
 	{
 		$this->_db=$value;
+		return $this;
 	}
 
 	/**

@@ -373,10 +373,12 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * Adds a new error to the specified attribute.
 	 * @param string $attribute attribute name
 	 * @param string $error new error message
+	 * @return CModel
 	 */
 	public function addError($attribute,$error)
 	{
 		$this->_errors[$attribute][]=$error;
+		return $this;
 	}
 
 	/**
@@ -385,6 +387,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * The array values should be error messages. If an attribute has multiple errors,
 	 * these errors must be given in terms of an array.
 	 * You may use the result of {@link getErrors} as the value for this parameter.
+	 * @return CModel
 	 * @since 1.0.5
 	 */
 	public function addErrors($errors)
@@ -399,11 +402,13 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 			else
 				$this->_errors[$attribute][]=$error;
 		}
+		return $this;
 	}
 
 	/**
 	 * Removes errors for all attributes or a single attribute.
 	 * @param string $attribute attribute name. Use null to remove errors for all attribute.
+	 * @return CModel
 	 */
 	public function clearErrors($attribute=null)
 	{
@@ -411,6 +416,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 			$this->_errors=array();
 		else
 			unset($this->_errors[$attribute]);
+		return $this;
 	}
 
 	/**
@@ -455,13 +461,14 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	 * @param array $values attribute values (name=>value) to be set.
 	 * @param boolean $safeOnly whether the assignments should only be done to the safe attributes.
 	 * A safe attribute is one that is associated with a validation rule in the current {@link scenario}.
+	 * @return CModel
 	 * @see getSafeAttributeNames
 	 * @see attributeNames
 	 */
 	public function setAttributes($values,$safeOnly=true)
 	{
 		if(!is_array($values))
-			return;
+			return $this;
 		$attributes=array_flip($safeOnly ? $this->getSafeAttributeNames() : $this->attributeNames());
 		foreach($values as $name=>$value)
 		{
@@ -470,12 +477,14 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 			else if($safeOnly)
 				$this->onUnsafeAttribute($name,$value);
 		}
+		return $this;
 	}
 
 	/**
 	 * Unsets the attributes.
 	 * @param array $names list of attributes to be set null. If this parameter is not given,
 	 * all attributes as specified by {@link attributeNames} will have their values unset.
+	 * @return CModel
 	 * @since 1.1.3
 	 */
 	public function unsetAttributes($names=null)
@@ -484,6 +493,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 			$names=$this->attributeNames();
 		foreach($names as $name)
 			$this->$name=null;
+		return $this;
 	}
 
 	/**
@@ -525,12 +535,14 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	/**
 	 * Sets the scenario for the model.
 	 * @param string $value the scenario that this model is in.
+	 * @return CModel
 	 * @see getScenario
 	 * @since 1.0.4
 	 */
 	public function setScenario($value)
 	{
 		$this->_scenario=$value;
+		return $this;
 	}
 
 	/**
