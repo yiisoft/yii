@@ -26,6 +26,7 @@ Version 1.1.7 to be released
 - Enh #1999: Added CCaptchaAction::offset property in order to decrease or increase the readability of the captcha (Y!!)
 - Enh #2011: Added CDbCommand::setFetchMode to allow setting PDO result fetching mode (Sam Dark)
 - Enh #2013: When creating model with Gii, database field names will be checked to conform with PHP variable naming rules (mdomba)
+- Enh #2063: The CActiveForm JavaScript should now correctly trigger validaton for checkbox and radio type input fields (Y!!)
 - Enh #2068: CTimestampBehavior::timestampExpression can now be a DB expression (Qiang)
 - Enh #2105: Added CButtonCOlumn::afterDelete so that a custom javascript function can be called after the delete function (mdomba)
 - Enh #2125: Added memcached check and hint to requirements checker (Sam Dark)

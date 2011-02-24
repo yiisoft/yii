@@ -83,7 +83,8 @@
 			$.each(settings.attributes, function(i, attribute) {
 				if (attribute.validateOnChange) {
 					$('#'+attribute.inputID, $form).change(function(){
-						validate(attribute,false);
+						var inputType = $('#'+attribute.inputID).attr('type');
+						validate(attribute, inputType=='checkbox' || inputType=='radio');
 					}).blur(function(){
 						if(attribute.status!=2 && attribute.status!=3)
 							validate(attribute, !attribute.status);
