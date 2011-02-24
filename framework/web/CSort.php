@@ -194,7 +194,6 @@ class CSort extends CComponent
 	 * They will be put in the ORDER BY clause. If the criteria already has non-empty {@link CDbCriteria::order} value,
 	 * the new value will be appended to it.
 	 * @param CDbCriteria $criteria the query criteria
-	 * @return CSort
 	 */
 	public function applyOrder($criteria)
 	{
@@ -205,7 +204,6 @@ class CSort extends CComponent
 				$criteria->order.=', ';
 			$criteria->order.=$order;
 		}
-		return $this;
 	}
 
 	/**

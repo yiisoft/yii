@@ -210,12 +210,10 @@ abstract class CApplication extends CModule
 	/**
 	 * Sets the unique identifier for the application.
 	 * @param string $id the unique identifier for the application.
-	 * @return CApplication
 	 */
 	public function setId($id)
 	{
 		$this->_id=$id;
-		return $this;
 	}
 
 	/**
@@ -231,7 +229,6 @@ abstract class CApplication extends CModule
 	 * Sets the root directory of the application.
 	 * This method can only be invoked at the begin of the constructor.
 	 * @param string $path the root directory of the application.
-	 * @return CApplication
 	 * @throws CException if the directory does not exist.
 	 */
 	public function setBasePath($path)
@@ -239,7 +236,6 @@ abstract class CApplication extends CModule
 		if(($this->_basePath=realpath($path))===false || !is_dir($this->_basePath))
 			throw new CException(Yii::t('yii','Application base path "{path}" is not a valid directory.',
 				array('{path}'=>$path)));
-		return $this;
 	}
 
 	/**
@@ -260,7 +256,6 @@ abstract class CApplication extends CModule
 	/**
 	 * Sets the directory that stores runtime files.
 	 * @param string $path the directory that stores runtime files.
-	 * @return CApplication
 	 * @throws CException if the directory does not exist or is not writable
 	 */
 	public function setRuntimePath($path)
@@ -269,7 +264,6 @@ abstract class CApplication extends CModule
 			throw new CException(Yii::t('yii','Application runtime path "{path}" is not valid. Please make sure it is a directory writable by the Web server process.',
 				array('{path}'=>$path)));
 		$this->_runtimePath=$runtimePath;
-		return $this;
 	}
 
 	/**
@@ -284,7 +278,6 @@ abstract class CApplication extends CModule
 	/**
 	 * Sets the root directory that holds all third-party extensions.
 	 * @param string $path the directory that contains all third-party extensions.
-	 * @return CApplication
 	 */
 	public function setExtensionPath($path)
 	{
@@ -292,7 +285,6 @@ abstract class CApplication extends CModule
 			throw new CException(Yii::t('yii','Extension path "{path}" does not exist.',
 				array('{path}'=>$path)));
 		Yii::setPathOfAlias('ext',$extensionPath);
-		return $this;
 	}
 
 	/**
@@ -315,12 +307,10 @@ abstract class CApplication extends CModule
 	 * set this language to null to maximize the application's performance.
 	 * @param string $language the user language (e.g. 'en_US', 'zh_CN').
 	 * If it is null, the {@link sourceLanguage} will be used.
-	 * @return CApplication
 	 */
 	public function setLanguage($language)
 	{
 		$this->_language=$language;
-		return $this;
 	}
 
 	/**
@@ -340,13 +330,11 @@ abstract class CApplication extends CModule
 	 * This is a simple wrapper of PHP function date_default_timezone_set().
 	 * @param string $value the time zone used by this application.
 	 * @see http://php.net/manual/en/function.date-default-timezone-set.php
-	 * @return CApplication
 	 * @since 1.0.9
 	 */
 	public function setTimeZone($value)
 	{
 		date_default_timezone_set($value);
-		return $this;
 	}
 
 	/**
@@ -403,13 +391,11 @@ abstract class CApplication extends CModule
 	/**
 	 * Sets the directory that contains the locale data.
 	 * @param string $value the directory that contains the locale data.
-	 * @return CApplication
 	 * @since 1.1.0
 	 */
 	public function setLocaleDataPath($value)
 	{
 		CLocale::$dataPath=$value;
-		return $this;
 	}
 
 	/**
@@ -539,7 +525,6 @@ abstract class CApplication extends CModule
 	 * @param string $key the name of the value to be saved
 	 * @param mixed $value the global value to be saved. It must be serializable.
 	 * @param mixed $defaultValue the default value. If the named global value is the same as this value, it will be cleared from the current storage.
-	 * @return CApplication
 	 * @see getGlobalState
 	 */
 	public function setGlobalState($key,$value,$defaultValue=null)
@@ -564,8 +549,6 @@ abstract class CApplication extends CModule
 
 		if($this->_stateChanged!==$changed)
 			$this->attachEventHandler('onEndRequest',array($this,'saveGlobalState'));
-
-		return $this;
 	}
 
 	/**
@@ -573,19 +556,16 @@ abstract class CApplication extends CModule
 	 *
 	 * The value cleared will no longer be available in this request and the following requests.
 	 * @param string $key the name of the value to be cleared
-	 * @return CApplication
 	 */
 	public function clearGlobalState($key)
 	{
 		$this->setGlobalState($key,true,true);
-		return $this;
 	}
 
 	/**
 	 * Loads the global state data from persistent storage.
 	 * @see getStatePersister
 	 * @throws CException if the state persister is not available
-	 * @return CApplication
 	 */
 	public function loadGlobalState()
 	{
@@ -594,14 +574,12 @@ abstract class CApplication extends CModule
 			$this->_globalState=array();
 		$this->_stateChanged=false;
 		$this->detachEventHandler('onEndRequest',array($this,'saveGlobalState'));
-		return $this;
 	}
 
 	/**
 	 * Saves the global state data into persistent storage.
 	 * @see getStatePersister
 	 * @throws CException if the state persister is not available
-	 * @return CApplication
 	 */
 	public function saveGlobalState()
 	{
@@ -611,7 +589,6 @@ abstract class CApplication extends CModule
 			$this->detachEventHandler('onEndRequest',array($this,'saveGlobalState'));
 			$this->getStatePersister()->save($this->_globalState);
 		}
-		return $this;
 	}
 
 	/**

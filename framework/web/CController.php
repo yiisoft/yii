@@ -469,12 +469,10 @@ class CController extends CBaseController
 
 	/**
 	 * @param CAction $value the action currently being executed.
-	 * @return CController
 	 */
 	public function setAction($value)
 	{
 		$this->_action=$value;
-		return $this;
 	}
 
 	/**
@@ -963,12 +961,10 @@ class CController extends CBaseController
 
 	/**
 	 * @param string $value the page title.
-	 * @return CController
 	 */
 	public function setPageTitle($value)
 	{
 		$this->_pageTitle=$value;
-		return $this;
 	}
 
 	/**
@@ -1160,7 +1156,6 @@ class CController extends CBaseController
 	 * the given value, the state will be removed from persistent storage.
 	 * @see getPageState
 	 * @see CHtml::statefulForm
-	 * @return CController
 	 */
 	public function setPageState($name,$value,$defaultValue=null)
 	{
@@ -1173,17 +1168,14 @@ class CController extends CBaseController
 
 		$params=func_get_args();
 		$this->recordCachingAction('','setPageState',$params);
-		return $this;
 	}
 
 	/**
 	 * Removes all page states.
-	 * @return CController
 	 */
 	public function clearPageStates()
 	{
 		$this->_pageStates=array();
-		return $this;
 	}
 
 	/**

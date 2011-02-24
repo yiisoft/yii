@@ -81,7 +81,6 @@ class CEmailLogRoute extends CLogRoute
 	/**
 	 * @param mixed $value list of destination email addresses. If the value is
 	 * a string, it is assumed to be comma-separated email addresses.
-	 * @return CEmailLogRoute
 	 */
 	public function setEmails($value)
 	{
@@ -89,7 +88,6 @@ class CEmailLogRoute extends CLogRoute
 			$this->_email=$value;
 		else
 			$this->_email=preg_split('/[\s,]+/',$value,-1,PREG_SPLIT_NO_EMPTY);
-		return $this;
 	}
 
 	/**
@@ -102,12 +100,10 @@ class CEmailLogRoute extends CLogRoute
 
 	/**
 	 * @param string $value email subject.
-	 * @return CEmailLogRoute
 	 */
 	public function setSubject($value)
 	{
 		$this->_subject=$value;
-		return $this;
 	}
 
 	/**
@@ -120,12 +116,10 @@ class CEmailLogRoute extends CLogRoute
 
 	/**
 	 * @param string $value send from address of the email
-	 * @return CEmailLogRoute
 	 */
 	public function setSentFrom($value)
 	{
 		$this->_from=$value;
-		return $this;
 	}
 
 	/**
@@ -141,7 +135,6 @@ class CEmailLogRoute extends CLogRoute
 	 * @param mixed $value list of additional headers to use when sending an email.
 	 * If the value is a string, it is assumed to be line break separated headers.
 	 * @since 1.1.4
-	 * @return CEmailLogRoute
 	 */
 	public function setHeaders($value)
 	{
@@ -149,6 +142,5 @@ class CEmailLogRoute extends CLogRoute
 			$this->_headers=$value;
 		else
 			$this->_headers=preg_split('/\r\n|\n/',$value,-1,PREG_SPLIT_NO_EMPTY);
-		return $this;
 	}
 }

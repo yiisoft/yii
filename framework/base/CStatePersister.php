@@ -101,11 +101,9 @@ class CStatePersister extends CApplicationComponent implements IStatePersister
 	/**
 	 * Saves application state in persistent storage.
 	 * @param mixed $state state data (must be serializable).
-	 * @return CStatePersister
 	 */
 	public function save($state)
 	{
 		file_put_contents($this->stateFile,serialize($state),LOCK_EX);
-		return $this;
 	}
 }

@@ -77,12 +77,10 @@ abstract class CBaseUserIdentity extends CComponent implements IUserIdentity
 	 * Sets an array of presistent states.
 	 *
 	 * @param array $states the identity states that should be persisted.
-	 * @return CBaseUserIdentity
 	 */
 	public function setPersistentStates($states)
 	{
 		$this->_state = $states;
-		return $this;
 	}
 
 	/**
@@ -110,23 +108,19 @@ abstract class CBaseUserIdentity extends CComponent implements IUserIdentity
 	 * Sets the named state with a given value.
 	 * @param string $name the name of the state
 	 * @param mixed $value the value of the named state
-	 * @return CBaseUserIdentity
 	 */
 	public function setState($name,$value)
 	{
 		$this->_state[$name]=$value;
-		return $this;
 	}
 
 	/**
 	 * Removes the specified state.
 	 * @param string $name the name of the state
-	 * @return CBaseUserIdentity
 	 * @since 1.0.8
 	 */
 	public function clearState($name)
 	{
 		unset($this->_state[$name]);
-		return $this;
 	}
 }

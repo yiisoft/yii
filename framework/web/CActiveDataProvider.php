@@ -87,12 +87,10 @@ class CActiveDataProvider extends CDataProvider
 	 * Sets the query criteria.
 	 * @param mixed $value the query criteria. This can be either a CDbCriteria object or an array
 	 * representing the query criteria.
-	 * @return CActiveDataProvider
 	 */
 	public function setCriteria($value)
 	{
 		$this->_criteria=$value instanceof CDbCriteria ? $value : new CDbCriteria($value);
-		return $this;
 	}
 
 	/**

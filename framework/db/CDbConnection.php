@@ -287,7 +287,6 @@ class CDbConnection extends CApplicationComponent
 	/**
 	 * Open or close the DB connection.
 	 * @param boolean $value whether to open or close DB connection
-	 * @return CDbConnection
 	 * @throws CException if connection fails
 	 */
 	public function setActive($value)
@@ -299,7 +298,6 @@ class CDbConnection extends CApplicationComponent
 			else
 				$this->close();
 		}
-		return $this;
 	}
 
 	/**
@@ -328,7 +326,6 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Opens DB connection if it is currently not
-	 * @return CDbConnection
 	 * @throws CException if connection fails
 	 */
 	protected function open()
@@ -358,13 +355,11 @@ class CDbConnection extends CApplicationComponent
 				}
 			}
 		}
-		return $this;
 	}
 
 	/**
 	 * Closes the currently active DB connection.
 	 * It does nothing if the connection is already closed.
-	 * @return CDbConnection
 	 */
 	protected function close()
 	{
@@ -372,7 +367,6 @@ class CDbConnection extends CApplicationComponent
 		$this->_pdo=null;
 		$this->_active=false;
 		$this->_schema=null;
-		return $this;
 	}
 
 	/**
@@ -595,13 +589,11 @@ class CDbConnection extends CApplicationComponent
 	/**
 	 * Sets the case of the column names.
 	 * @param mixed $value the case of the column names
-	 * @return CDbConnection
 	 * @see http://www.php.net/manual/en/pdo.setattribute.php
 	 */
 	public function setColumnCase($value)
 	{
 		$this->setAttribute(PDO::ATTR_CASE,$value);
-		return $this;
 	}
 
 	/**
@@ -617,13 +609,11 @@ class CDbConnection extends CApplicationComponent
 	/**
 	 * Sets how the null and empty strings are converted.
 	 * @param mixed $value how the null and empty strings are converted
-	 * @return CDbConnection
 	 * @see http://www.php.net/manual/en/pdo.setattribute.php
 	 */
 	public function setNullConversion($value)
 	{
 		$this->setAttribute(PDO::ATTR_ORACLE_NULLS,$value);
-		return $this;
 	}
 
 	/**
@@ -640,12 +630,10 @@ class CDbConnection extends CApplicationComponent
 	 * Sets whether creating or updating a DB record will be automatically committed.
 	 * Some DBMS (such as sqlite) may not support this feature.
 	 * @param boolean $value whether creating or updating a DB record will be automatically committed.
-	 * @return CDbConnection
 	 */
 	public function setAutoCommit($value)
 	{
 		$this->setAttribute(PDO::ATTR_AUTOCOMMIT,$value);
-		return $this;
 	}
 
 	/**
@@ -662,7 +650,6 @@ class CDbConnection extends CApplicationComponent
 	 * Sets whether the connection is persistent or not.
 	 * Some DBMS (such as sqlite) may not support this feature.
 	 * @param boolean $value whether the connection is persistent or not
-	 * @return CDbConnection
 	 */
 	public function setPersistent($value)
 	{
@@ -752,7 +739,6 @@ class CDbConnection extends CApplicationComponent
 	 * @param integer $name the attribute to be set
 	 * @param mixed $value the attribute value
 	 * @see http://www.php.net/manual/en/function.PDO-setAttribute.php
-	 * @return CDbConnection
 	 */
 	public function setAttribute($name,$value)
 	{
@@ -760,7 +746,6 @@ class CDbConnection extends CApplicationComponent
 			$this->_pdo->setAttribute($name,$value);
 		else
 			$this->_attributes[$name]=$value;
-		return $this;
 	}
 
 	/**

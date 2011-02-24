@@ -123,13 +123,11 @@ class CMemCache extends CCache
 	 * @param array $config list of memcache server configurations. Each element must be an array
 	 * with the following keys: host, port, persistent, weight, timeout, retryInterval, status.
 	 * @see http://www.php.net/manual/en/function.Memcache-addServer.php
-	 * @return CMemCache
 	 */
 	public function setServers($config)
 	{
 		foreach($config as $c)
 			$this->_servers[]=new CMemCacheServerConfiguration($c);
-		return $this;
 	}
 
 	/**

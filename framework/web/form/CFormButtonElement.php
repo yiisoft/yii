@@ -82,12 +82,10 @@ class CFormButtonElement extends CFormElement
 
 	/**
 	 * @param string $value scenario names separated by commas.
-	 * @return CFormButtonElement
 	 */
 	public function setOn($value)
 	{
 		$this->_on=preg_split('/[\s,]+/',$value,-1,PREG_SPLIT_NO_EMPTY);
-		return $this;
 	}
 
 	/**

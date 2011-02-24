@@ -112,7 +112,6 @@ class CAttributeCollection extends CMap
 	 * This overrides the parent implementation by converting the key to lower case first if {@link caseSensitive} is false.
 	 * @param mixed $key key
 	 * @param mixed $value value
-	 * @return CAttributeCollection
 	 */
 	public function add($key,$value)
 	{
@@ -120,7 +119,6 @@ class CAttributeCollection extends CMap
 			parent::add($key,$value);
 		else
 			parent::add(strtolower($key),$value);
-		return $this;
 	}
 
 	/**

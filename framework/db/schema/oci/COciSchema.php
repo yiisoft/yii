@@ -75,12 +75,10 @@ class COciSchema extends CDbSchema
 
 	/**
      * @param string $schema default schema.
-	 * @return COciSchema
      */
     public function setDefaultSchema($schema)
     {
 		$this->_defaultSchema=$schema;
-		return $this;
     }
 
     /**
