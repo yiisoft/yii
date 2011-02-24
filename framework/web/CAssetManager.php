@@ -55,7 +55,7 @@ class CAssetManager extends CApplicationComponent
 	public $linkAssets=false;
 	/**
 	 * @var array list of directories and files which should be excluded from the publishing process.
-	 * Defaults to exclude '.svn' files only. This option has no effect if {@link linkAssets} is enabled.
+	 * Defaults to exclude '.svn' files only. This option has no effect if {@link linkAssets} is enabled.	 
 	 * @since 1.1.6
 	 **/
 	public $excludeFiles=array('.svn');
@@ -88,7 +88,6 @@ class CAssetManager extends CApplicationComponent
 	/**
 	 * Sets the root directory storing published asset files.
 	 * @param string $value the root directory storing published asset files
-	 * @return CAssetManager
 	 * @throws CException if the base path is invalid
 	 */
 	public function setBasePath($value)
@@ -98,7 +97,6 @@ class CAssetManager extends CApplicationComponent
 		else
 			throw new CException(Yii::t('yii','CAssetManager.basePath "{path}" is invalid. Please make sure the directory exists and is writable by the Web server process.',
 				array('{path}'=>$value)));
-		return $this;
 	}
 
 	/**
@@ -117,12 +115,10 @@ class CAssetManager extends CApplicationComponent
 
 	/**
 	 * @param string $value the base url that the published asset files can be accessed
-	 * @return CAssetManager
 	 */
 	public function setBaseUrl($value)
 	{
 		$this->_baseUrl=rtrim($value,'/');
-		return $this;
 	}
 
 	/**

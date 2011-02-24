@@ -139,12 +139,10 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * @param string $value the session ID for the current session
-	 * @return CHttpSession
 	 */
 	public function setSessionID($value)
 	{
 		session_id($value);
-		return $this;
 	}
 
 	/**
@@ -157,12 +155,10 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * @param string $value the session name for the current session, must be an alphanumeric string, defaults to PHPSESSID
-	 * @return CHttpSession
 	 */
 	public function setSessionName($value)
 	{
 		session_name($value);
-		return $this;
 	}
 
 	/**
@@ -175,7 +171,6 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * @param string $value the current session save path
-	 * @return CHttpSession
 	 * @throws CException if the path is not a valid directory
 	 */
 	public function setSavePath($value)
@@ -185,7 +180,6 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 		else
 			throw new CException(Yii::t('yii','CHttpSession.savePath "{path}" is not a valid directory.',
 				array('{path}'=>$value)));
-		return $this;
 	}
 
 	/**
@@ -202,7 +196,6 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * The effect of this method only lasts for the duration of the script.
 	 * Call this method before the session starts.
 	 * @param array $value cookie parameters, valid keys include: lifetime, path, domain, secure.
-	 * @return CHttpSession
 	 * @see http://us2.php.net/manual/en/function.session-set-cookie-params.php
 	 */
 	public function setCookieParams($value)
@@ -214,7 +207,6 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 			session_set_cookie_params($lifetime,$path,$domain,$secure,$httponly);
 		else
 			session_set_cookie_params($lifetime,$path,$domain,$secure);
-		return $this;
 	}
 
 	/**
@@ -232,7 +224,6 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * @param string $value how to use cookie to store session ID. Valid values include 'none', 'allow' and 'only'.
-	 * @return CHttpSession
 	 */
 	public function setCookieMode($value)
 	{
@@ -250,7 +241,6 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 		}
 		else
 			throw new CException(Yii::t('yii','CHttpSession.cookieMode can only be "none", "allow" or "only".'));
-		return $this;
 	}
 
 	/**
@@ -263,7 +253,6 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * @param integer $value the probability (percentage) that the gc (garbage collection) process is started on every session initialization.
-	 * @return CHttpSession
 	 * @throws CException if the value is beyond [0,100]
 	 */
 	public function setGCProbability($value)
@@ -277,7 +266,6 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 		else
 			throw new CException(Yii::t('yii','CHttpSession.gcProbability "{value}" is invalid. It must be an integer between 0 and 100.',
 				array('{value}'=>$value)));
-		return $this;
 	}
 
 	/**
@@ -290,12 +278,10 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * @param boolean $value whether transparent sid support is enabled or not.
-	 * @return CHttpSession
 	 */
 	public function setUseTransparentSessionID($value)
 	{
 		ini_set('session.use_trans_sid',$value?'1':'0');
-		return $this;
 	}
 
 	/**
@@ -308,12 +294,10 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * @param integer $value the number of seconds after which data will be seen as 'garbage' and cleaned up
-	 * @return CHttpSession
 	 */
 	public function setTimeout($value)
 	{
 		ini_set('session.gc_maxlifetime',$value);
-		return $this;
 	}
 
 	/**
@@ -458,12 +442,10 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	 * Note, if the specified name already exists, the old value will be removed first.
 	 * @param mixed $key session variable name
 	 * @param mixed $value session variable value
-	 * @return CHttpSession
 	 */
 	public function add($key,$value)
 	{
 		$_SESSION[$key]=$value;
-		return $this;
 	}
 
 	/**
@@ -485,13 +467,11 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 
 	/**
 	 * Removes all session variables
-	 * @return CHttpSession
 	 */
 	public function clear()
 	{
 		foreach(array_keys($_SESSION) as $key)
 			unset($_SESSION[$key]);
-		return $this;
 	}
 
 	/**

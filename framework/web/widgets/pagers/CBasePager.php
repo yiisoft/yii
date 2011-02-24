@@ -36,12 +36,10 @@ abstract class CBasePager extends CWidget
 	/**
 	 * Sets the pagination information used by this pager.
 	 * @param CPagination $pages the pagination information
-	 * @return CBasePager
 	 */
 	public function setPages($pages)
 	{
 		$this->_pages=$pages;
-		return $this;
 	}
 
 	/**
@@ -66,12 +64,10 @@ abstract class CBasePager extends CWidget
 	/**
 	 * @param integer $value number of items in each page
 	 * @see CPagination::setPageSize
-	 * @return CBasePager
 	 */
 	public function setPageSize($value)
 	{
 		$this->getPages()->setPageSize($value);
-		return $this;
 	}
 
 	/**
@@ -86,12 +82,10 @@ abstract class CBasePager extends CWidget
 	/**
 	 * @param integer $value total number of items.
 	 * @see CPagination::setItemCount
-	 * @return CBasePager
 	 */
 	public function setItemCount($value)
 	{
 		$this->getPages()->setItemCount($value);
-		return $this;
 	}
 
 	/**
@@ -116,12 +110,10 @@ abstract class CBasePager extends CWidget
 	/**
 	 * @param integer $value the zero-based index of the current page.
 	 * @see CPagination::setCurrentPage
-	 * @return CBasePager
 	 */
 	public function setCurrentPage($value)
 	{
 		$this->getPages()->setCurrentPage($value);
-		return $this;
 	}
 
 	/**

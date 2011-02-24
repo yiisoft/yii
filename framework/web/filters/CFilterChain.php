@@ -105,7 +105,6 @@ class CFilterChain extends CList
 	 * only objects implementing {@link IFilter} can be added to the list.
 	 * @param integer $index the specified position.
 	 * @param mixed $item new item
-	 * @return CFilterChain
 	 * @throws CException If the index specified exceeds the bound or the list is read-only, or the item is not an {@link IFilter} instance.
 	 */
 	public function insertAt($index,$item)
@@ -114,7 +113,6 @@ class CFilterChain extends CList
 			parent::insertAt($index,$item);
 		else
 			throw new CException(Yii::t('yii','CFilterChain can only take objects implementing the IFilter interface.'));
-		return $this;
 	}
 
 	/**

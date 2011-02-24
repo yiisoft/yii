@@ -63,7 +63,6 @@ class CLogger extends CComponent
 	 * @param string $level level of the message (e.g. 'Trace', 'Warning', 'Error'). It is case-insensitive.
 	 * @param string $category category of the message (e.g. 'system.web'). It is case-insensitive.
 	 * @see getLogs
-	 * @return CLogger
 	 */
 	public function log($message,$level='info',$category='application')
 	{
@@ -71,7 +70,6 @@ class CLogger extends CComponent
 		$this->_logCount++;
 		if($this->autoFlush>0 && $this->_logCount>=$this->autoFlush)
 			$this->flush();
-		return $this;
 	}
 
 	/**
@@ -255,7 +253,6 @@ class CLogger extends CComponent
 	 * Removes all recorded messages from the memory.
 	 * This method will raise an {@link onFlush} event.
 	 * The attached event handlers can process the log messages before they are removed.
-	 * @return CLogger
 	 * @since 1.1.0
 	 */
 	public function flush()
@@ -263,7 +260,6 @@ class CLogger extends CComponent
 		$this->onFlush(new CEvent($this));
 		$this->_logs=array();
 		$this->_logCount=0;
-		return $this;
 	}
 
 	/**

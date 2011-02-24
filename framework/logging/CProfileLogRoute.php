@@ -59,7 +59,6 @@ class CProfileLogRoute extends CWebLogRoute
 
 	/**
 	 * @param string $value the type of the profiling report to display. Valid values include 'summary' and 'callstack'.
-	 * @return CProfileLogRoute
 	 */
 	public function setReport($value)
 	{
@@ -68,13 +67,11 @@ class CProfileLogRoute extends CWebLogRoute
 		else
 			throw new CException(Yii::t('yii','CProfileLogRoute.report "{report}" is invalid. Valid values include "summary" and "callstack".',
 				array('{report}'=>$value)));
-		return $this;
 	}
 
 	/**
 	 * Displays the log messages.
 	 * @param array $logs list of log messages
-	 * @return CProfileLogRoute
 	 */
 	public function processLogs($logs)
 	{
@@ -86,7 +83,6 @@ class CProfileLogRoute extends CWebLogRoute
 			$this->displaySummary($logs);
 		else
 			$this->displayCallstack($logs);
-		return $this;
 	}
 
 	/**

@@ -71,12 +71,10 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 
 	/**
 	 * @param boolean $value whether this list is read-only or not
-	 * @return CList
 	 */
 	protected function setReadOnly($value)
 	{
 		$this->_r=$value;
-		return $this;
 	}
 
 	/**
@@ -143,7 +141,6 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 	 * will be moved one step towards the end.
 	 * @param integer $index the specified position.
 	 * @param mixed $item new item
-	 * @return CList
 	 * @throws CException If the index specified exceeds the bound or the list is read-only
 	 */
 	public function insertAt($index,$item)
@@ -163,7 +160,6 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 		}
 		else
 			throw new CException(Yii::t('yii','The list is read only.'));
-		return $this;
 	}
 
 	/**
@@ -217,13 +213,11 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 
 	/**
 	 * Removes all items in the list.
-	 * @return CList
 	 */
 	public function clear()
 	{
 		for($i=$this->_c-1;$i>=0;--$i)
 			$this->removeAt($i);
-		return $this;
 	}
 
 	/**
@@ -259,7 +253,6 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 	 * Copies iterable data into the list.
 	 * Note, existing data in the list will be cleared first.
 	 * @param mixed $data the data to be copied from, must be an array or object implementing Traversable
-	 * @return CList
 	 * @throws CException If data is neither an array nor a Traversable.
 	 */
 	public function copyFrom($data)
@@ -275,14 +268,12 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 		}
 		else if($data!==null)
 			throw new CException(Yii::t('yii','List data must be an array or an object implementing Traversable.'));
-		return $this;
 	}
 
 	/**
 	 * Merges iterable data into the map.
 	 * New data will be appended to the end of the existing data.
 	 * @param mixed $data the data to be merged with, must be an array or object implementing Traversable
-	 * @return CList
 	 * @throws CException If data is neither an array nor an iterator.
 	 */
 	public function mergeWith($data)
@@ -296,7 +287,6 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 		}
 		else if($data!==null)
 			throw new CException(Yii::t('yii','List data must be an array or an object implementing Traversable.'));
-		return $this;
 	}
 
 	/**

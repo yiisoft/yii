@@ -312,13 +312,11 @@ abstract class CActiveRecord extends CModel
 	/**
 	 * Sets the query criteria for the current model.
 	 * @param CDbCriteria $criteria the query criteria
-	 * @return CActiveRecord
 	 * @since 1.1.3
 	 */
 	public function setDbCriteria($criteria)
 	{
 		$this->_c=$criteria;
-		return $this;
 	}
 
 	/**
@@ -394,7 +392,6 @@ abstract class CActiveRecord extends CModel
 	 * This is useful if the table schema has been changed and you want to use the latest
 	 * available table schema. Make sure you have called {@link CDbSchema::refresh}
 	 * before you call this method. Otherwise, old table schema data will still be used.
-	 * @return CActiveRecord
 	 * @since 1.0.8
 	 */
 	public function refreshMetaData()
@@ -403,7 +400,6 @@ abstract class CActiveRecord extends CModel
 		$finder->_md=new CActiveRecordMetaData($finder);
 		if($this!==$finder)
 			$this->_md=$finder->_md;
-		return $this;
 	}
 
 	/**
@@ -803,13 +799,11 @@ abstract class CActiveRecord extends CModel
 	/**
 	 * Sets if the record is new.
 	 * @param boolean $value whether the record is new and should be inserted when calling {@link save}.
-	 * @return CActiveRecord
 	 * @see getIsNewRecord
 	 */
 	public function setIsNewRecord($value)
 	{
 		$this->_new=$value;
-		return $this;
 	}
 
 	/**
@@ -1206,7 +1200,6 @@ abstract class CActiveRecord extends CModel
 	 * After calling this method, the old primary key value can be obtained from {@link oldPrimaryKey}.
 	 * @param mixed $value the new primary key value. If the primary key is composite, the new value
 	 * should be provided as an array (column name=>column value).
-	 * @return CActiveRecord
 	 * @since 1.1.0
 	 */
 	public function setPrimaryKey($value)
@@ -1220,7 +1213,6 @@ abstract class CActiveRecord extends CModel
 			foreach($table->primaryKey as $name)
 				$this->$name=$value[$name];
 		}
-		return $this;
 	}
 
 	/**
@@ -1240,13 +1232,11 @@ abstract class CActiveRecord extends CModel
 	/**
 	 * Sets the old primary key value.
 	 * @param mixed $value the old primary key value.
-	 * @return CActiveRecord
 	 * @since 1.1.3
 	 */
 	public function setOldPrimaryKey($value)
 	{
 		$this->_pk=$value;
-		return $this;
 	}
 
 	/*
@@ -1276,7 +1266,6 @@ abstract class CActiveRecord extends CModel
 	 * This method merges {@link dbCriteria} with the given criteria parameter.
 	 * It then resets {@link dbCriteria} to be null.
 	 * @param CDbCriteria $criteria the query criteria. This parameter may be modified by merging {@link dbCriteria}.
-	 * @return CActiveRecord
 	 * @since 1.0.12
 	 */
 	public function applyScopes(&$criteria)
@@ -1325,8 +1314,6 @@ abstract class CActiveRecord extends CModel
 			$criteria=$c;
 			$this->_c=null;
 		}
-
-		return $this;
 	}
 
 	/**
@@ -1353,13 +1340,11 @@ abstract class CActiveRecord extends CModel
 	/**
 	 * Sets the table alias to be used in queries.
 	 * @param string $alias the table alias to be used in queries. The alias should NOT be quoted.
-	 * @return CActiveRecord
 	 * @since 1.1.3
 	 */
 	public function setTableAlias($alias)
 	{
 		$this->_alias=$alias;
-		return $this;
 	}
 
 	/**
@@ -1925,7 +1910,6 @@ class CBaseActiveRelation extends CComponent
 	 * Merges this relation with a criteria specified dynamically.
 	 * @param array $criteria the dynamically specified criteria
 	 * @param boolean $fromScope whether the criteria to be merged is from scopes
-	 * @return CBaseActiveRelation
 	 * @since 1.0.5
 	 */
 	public function mergeWith($criteria,$fromScope=false)
@@ -1986,8 +1970,6 @@ class CBaseActiveRelation extends CComponent
 			else if($criteria['having']!=='')
 				$this->having="({$this->having}) AND ({$criteria['having']})";
 		}
-
-		return $this;
 	}
 }
 
@@ -2016,7 +1998,6 @@ class CStatRelation extends CBaseActiveRelation
 	 * Merges this relation with a criteria specified dynamically.
 	 * @param array $criteria the dynamically specified criteria
 	 * @param boolean $fromScope whether the criteria to be merged is from scopes
-	 * @return CStatRelation
 	 * @since 1.0.5
 	 */
 	public function mergeWith($criteria,$fromScope=false)
@@ -2027,8 +2008,6 @@ class CStatRelation extends CBaseActiveRelation
 
 		if(isset($criteria['defaultValue']))
 			$this->defaultValue=$criteria['defaultValue'];
-
-		return $this;
 	}
 }
 
@@ -2077,7 +2056,6 @@ class CActiveRelation extends CBaseActiveRelation
 	 * Merges this relation with a criteria specified dynamically.
 	 * @param array $criteria the dynamically specified criteria
 	 * @param boolean $fromScope whether the criteria to be merged is from scopes
-	 * @return CActiveRelation
 	 * @since 1.0.5
 	 */
 	public function mergeWith($criteria,$fromScope=false)
@@ -2117,8 +2095,6 @@ class CActiveRelation extends CBaseActiveRelation
 
 		if(isset($criteria['together']))
 			$this->together=$criteria['together'];
-
-		return $this;
 	}
 }
 
@@ -2175,7 +2151,6 @@ class CHasManyRelation extends CActiveRelation
 	 * Merges this relation with a criteria specified dynamically.
 	 * @param array $criteria the dynamically specified criteria
 	 * @param boolean $fromScope whether the criteria to be merged is from scopes
-	 * @return CHasManyRelation
 	 * @since 1.0.5
 	 */
 	public function mergeWith($criteria,$fromScope=false)
@@ -2191,8 +2166,6 @@ class CHasManyRelation extends CActiveRelation
 
 		if(isset($criteria['index']))
 			$this->index=$criteria['index'];
-
-		return $this;
 	}
 }
 
@@ -2276,7 +2249,7 @@ class CActiveRecordMetaData
 	 * @throws CDbException
 	 * @param string $name $name Name of the relation.
 	 * @param array $config $config Relation parameters.
-     * @return CActiveRecordMetaData
+     * @return void
 	 * @since 1.1.2
 	 */
 	public function addRelation($name,$config)
@@ -2285,8 +2258,6 @@ class CActiveRecordMetaData
 			$this->relations[$name]=new $config[0]($name,$config[1],$config[2],array_slice($config,3));
 		else
 			throw new CDbException(Yii::t('yii','Active record "{class}" has an invalid configuration for relation "{relation}". It must specify the relation type, the related active record class and the foreign key.', array('{class}'=>get_class($this->_model),'{relation}'=>$name)));
-
-		return $this;
 	}
 
 	/**
@@ -2305,12 +2276,11 @@ class CActiveRecordMetaData
 	 * Deletes a relation with specified name.
 	 *
 	 * @param string $name $name
-	 * @return CActiveRecordMetaData
+	 * @return void
 	 * @since 1.1.2
 	 */
 	public function removeRelation($name)
 	{
 		unset($this->relations[$name]);
-		return $this;
 	}
 }

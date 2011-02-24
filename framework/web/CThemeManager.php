@@ -98,7 +98,6 @@ class CThemeManager extends CApplicationComponent
 
 	/**
 	 * @param string $value the base path for all themes.
-	 * @return CThemeManager
 	 * @throws CException if the base path does not exist
 	 */
 	public function setBasePath($value)
@@ -106,7 +105,6 @@ class CThemeManager extends CApplicationComponent
 		$this->_basePath=realpath($value);
 		if($this->_basePath===false || !is_dir($this->_basePath))
 			throw new CException(Yii::t('yii','Theme directory "{directory}" does not exist.',array('{directory}'=>$value)));
-		return $this;
 	}
 
 	/**
@@ -121,11 +119,9 @@ class CThemeManager extends CApplicationComponent
 
 	/**
 	 * @param string $value the base URL for all themes.
-	 * @return CThemeManager
 	 */
 	public function setBaseUrl($value)
 	{
 		$this->_baseUrl=rtrim($value,'/');
-		return $this;
 	}
 }

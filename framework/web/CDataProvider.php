@@ -47,12 +47,10 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	/**
 	 * Sets the provider ID.
 	 * @param string $value the unique ID that uniquely identifies the data provider among all data providers.
-	 * @return CDataProvider
 	 */
 	public function setId($value)
 	{
 		$this->_id=$value;
-		return $this;
 	}
 
 	/**
@@ -74,7 +72,6 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	 * Sets the pagination for this data provider.
 	 * @param mixed $value the pagination to be used by this data provider. This could be a {@link CPagination} object
 	 * or an array used to configure the pagination object. If this is false, it means the pagination should be disabled.
-	 * @return CDataProvider
 	 */
 	public function setPagination($value)
 	{
@@ -86,7 +83,6 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 		}
 		else
 			$this->_pagination=$value;
-		return $this;
 	}
 
 	/**
@@ -108,7 +104,6 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	 * Sets the sorting for this data provider.
 	 * @param mixed $value the sorting to be used by this data provider. This could be a {@link CSort} object
 	 * or an array used to configure the sorting object. If this is false, it means the sorting should be disabled.
-	 * @return CDataProvider
 	 */
 	public function setSort($value)
 	{
@@ -120,7 +115,6 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 		}
 		else
 			$this->_sort=$value;
-		return $this;
 	}
 
 	/**
@@ -138,12 +132,10 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	/**
 	 * Sets the data items for this provider.
 	 * @param array $value put the data items into this provider.
-	 * @return CDataProvider
 	 */
 	public function setData($value)
 	{
 		$this->_data=$value;
-		return $this;
 	}
 
 	/**
@@ -162,12 +154,10 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	/**
 	 * Sets the data item keys for this provider.
 	 * @param array $value put the data item keys into this provider.
-	 * @return CDataProvider
 	 */
 	public function setKeys($value)
 	{
 		$this->_keys=$value;
-		return $this;
 	}
 
 	/**
@@ -199,12 +189,10 @@ abstract class CDataProvider extends CComponent implements IDataProvider
 	 * Sets the total number of data items.
 	 * This method is provided in case when the total number cannot be determined by {@link calculateTotalItemCount}.
 	 * @param integer $value the total number of data items.
-	 * @return CDataProvider
 	 * @since 1.1.1
 	 */
 	public function setTotalItemCount($value)
 	{
 		$this->_totalItemCount=$value;
-		return $this;
 	}
 }

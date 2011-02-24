@@ -81,7 +81,6 @@ class CMysqlSchema extends CDbSchema
 	 * @param CDbTableSchema $table the table schema whose primary key sequence will be reset
 	 * @param mixed $value the value for the primary key of the next new row inserted. If this is not set,
 	 * the next new row's primary key will have a value 1.
-	 * @return CMysqlSchema
 	 * @since 1.1
 	 */
 	public function resetSequence($table,$value=null)
@@ -94,20 +93,17 @@ class CMysqlSchema extends CDbSchema
 				$value=(int)$value;
 			$this->getDbConnection()->createCommand("ALTER TABLE {$table->rawName} AUTO_INCREMENT=$value")->execute();
 		}
-		return $this;
 	}
 
 	/**
 	 * Enables or disables integrity check.
 	 * @param boolean $check whether to turn on or off the integrity check.
 	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
-	 * @return CMysqlSchema
 	 * @since 1.1
 	 */
 	public function checkIntegrity($check=true,$schema='')
 	{
 		$this->getDbConnection()->createCommand('SET FOREIGN_KEY_CHECKS='.($check?1:0))->execute();
-		return $this;
 	}
 
 	/**

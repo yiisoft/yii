@@ -32,16 +32,14 @@ class CWebLogRoute extends CLogRoute
 	 * For example if the ajax call expects a json type result any output from the logger will cause ajax call to fail.
 	 */
 	public $ignoreAjaxInFireBug=true;
-
+	
 	/**
 	 * Displays the log messages.
 	 * @param array $logs list of log messages
-	 * @return CWebLogRoute
 	 */
 	public function processLogs($logs)
 	{
 		$this->render('log',$logs);
-		return $this;
 	}
 
 	/**

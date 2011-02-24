@@ -218,12 +218,10 @@ class CHttpRequest extends CApplicationComponent
 	 * This setter is provided in case the schema and hostname cannot be determined
 	 * on certain Web servers.
 	 * @param string $value the schema and host part of the application URL.
-	 * @return CHttpRequest
 	 */
 	public function setHostInfo($value)
 	{
 		$this->_hostInfo=rtrim($value,'/');
-		return $this;
 	}
 
 	/**
@@ -247,12 +245,10 @@ class CHttpRequest extends CApplicationComponent
 	 * By default the URL is determined based on the entry script URL.
 	 * This setter is provided in case you want to change this behavior.
 	 * @param string $value the relative URL for the application
-	 * @return CHttpRequest
 	 */
 	public function setBaseUrl($value)
 	{
 		$this->_baseUrl=$value;
-		return $this;
 	}
 
 	/**
@@ -286,12 +282,10 @@ class CHttpRequest extends CApplicationComponent
 	 * This setter is provided in case the entry script URL cannot be determined
 	 * on certain Web servers.
 	 * @param string $value the relative URL for the application entry script.
-	 * @return CHttpRequest
 	 */
 	public function setScriptUrl($value)
 	{
 		$this->_scriptUrl='/'.trim($value,'/');
-		return $this;
 	}
 
 	/**
@@ -525,14 +519,12 @@ class CHttpRequest extends CApplicationComponent
 	 * This setter is provided in case a custom port is necessary for certain
 	 * server configurations.
 	 * @param integer $value port number.
-	 * @return CHttpRequest
 	 * @since 1.1.3
 	 */
 	public function setPort($value)
 	{
 		$this->_port=(int)$value;
 		$this->_hostInfo=null;
-		return $this;
 	}
 
 	private $_securePort;
@@ -558,14 +550,12 @@ class CHttpRequest extends CApplicationComponent
 	 * This setter is provided in case a custom port is necessary for certain
 	 * server configurations.
 	 * @param integer $value port number.
-	 * @return CHttpRequest
 	 * @since 1.1.3
 	 */
 	public function setSecurePort($value)
 	{
 		$this->_securePort=(int)$value;
 		$this->_hostInfo=null;
-		return $this;
 	}
 
 	/**
@@ -879,7 +869,6 @@ class CCookieCollection extends CMap
 	 * operations for each newly added CHttpCookie object.
 	 * @param mixed $name Cookie name.
 	 * @param CHttpCookie $cookie Cookie object.
-	 * @return CCookieCollection
 	 * @throws CException if the item to be inserted is not a CHttpCookie object.
 	 */
 	public function add($name,$cookie)
@@ -893,7 +882,6 @@ class CCookieCollection extends CMap
 		}
 		else
 			throw new CException(Yii::t('yii','CHttpCookieCollection can only hold CHttpCookie objects.'));
-		return $this;
 	}
 
 	/**

@@ -27,12 +27,10 @@ class CCacheDependency extends CComponent implements ICacheDependency
 	/**
 	 * Evaluates the dependency by generating and saving the data related with dependency.
 	 * This method is invoked by cache before writing data into it.
-	 * @return CCacheDependency
 	 */
 	public function evaluateDependency()
 	{
 		$this->_data=$this->generateDependentData();
-		return $this;
 	}
 
 	/**

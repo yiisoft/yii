@@ -152,7 +152,6 @@ class CConsoleApplication extends CApplication
 
 	/**
 	 * @param string $value the directory that contains the command classes.
-	 * @return CConsoleApplication
 	 * @throws CException if the directory is invalid
 	 */
 	public function setCommandPath($value)
@@ -160,7 +159,6 @@ class CConsoleApplication extends CApplication
 		if(($this->_commandPath=realpath($value))===false || !is_dir($this->_commandPath))
 			throw new CException(Yii::t('yii','The command path "{path}" is not a valid directory.',
 				array('{path}'=>$value)));
-		return $this;
 	}
 
 	/**

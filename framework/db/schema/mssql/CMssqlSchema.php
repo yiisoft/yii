@@ -87,7 +87,6 @@ class CMssqlSchema extends CDbSchema
 	 * @param CDbTableSchema $table the table schema whose primary key sequence will be reset
 	 * @param mixed $value the value for the primary key of the next new row inserted. If this is not set,
 	 * the next new row's primary key will have a value 1.
-	 * @return CMssqlSchema
 	 * @since 1.1.6
 	 */
 	public function resetSequence($table,$value=null)
@@ -101,7 +100,6 @@ class CMssqlSchema extends CDbSchema
 			$name=strtr($table->rawName,array('['=>'',']'=>''));
 			$db->createCommand("DBCC CHECKIDENT ('$name', RESEED, $value)")->execute();
 		}
-		return $this;
 	}
 
 	private $_normalTables=array();  // non-view tables
@@ -109,7 +107,6 @@ class CMssqlSchema extends CDbSchema
 	 * Enables or disables integrity check.
 	 * @param boolean $check whether to turn on or off the integrity check.
 	 * @param string $schema the schema of the tables. Defaults to empty string, meaning the current or default schema.
-	 * @return CMssqlSchema
 	 * @since 1.1.6
 	 */
 	public function checkIntegrity($check=true,$schema='')
@@ -123,7 +120,6 @@ class CMssqlSchema extends CDbSchema
 			$tableName=$this->quoteTableName($tableName);
 			$db->createCommand("ALTER TABLE $tableName $enable CONSTRAINT ALL")->execute();
 		}
-		return $this;
 	}
 
 	/**
