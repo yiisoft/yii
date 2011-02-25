@@ -32,13 +32,15 @@ class CTreeView extends CWidget
 	 * Each array element corresponds to a tree view node with the following structure:
 	 * <ul>
 	 * <li>text: string, required, the HTML text associated with this node.</li>
-	 * <li>expanded: boolean, optional, whether the tree view node is in expanded.</li>
+	 * <li>expanded: boolean, optional, whether the tree view node is expanded.</li>
 	 * <li>id: string, optional, the ID identifying the node. This is used
 	 *   in dynamic loading of tree view (see {@link url}).</li>
 	 * <li>hasChildren: boolean, optional, defaults to false, whether clicking on this
 	 *   node should trigger dynamic loading of more tree view nodes from server.
 	 *   The {@link url} property must be set in order to make this effective.</li>
 	 * <li>children: array, optional, child nodes of this node.</li>
+	 * <li>htmlOptions: array, additional HTML attributes (see {@link CHtml::tag}).
+	 *   This option has been available since version 1.1.7.</li>
 	 * </ul>
 	 * Note, anything enclosed between the beginWidget and endWidget calls will
 	 * also be treated as tree view content, which appends to the content generated
@@ -188,27 +190,38 @@ class CTreeView extends CWidget
 			{
 				if(!isset($node['text']))
 					continue;
-				$id=isset($node['id']) ? (' id="'.$node['id'].'"') : '';
+
 				if(isset($node['expanded']))
 					$css=$node['expanded'] ? 'open' : 'closed';
 				else
 					$css='';
+
 				if(isset($node['hasChildren']) && $node['hasChildren'])
 				{
 					if($css!=='')
 						$css.=' ';
 					$css.='hasChildren';
 				}
+
+				$options=isset($node['htmlOptions']) ? $node['htmlOptions'] : array();
 				if($css!=='')
-					$css=' class="'.$css.'"';
-				$html.="<li{$id}{$css}>{$node['text']}";
+				{
+					if(isset($options['css']))
+						$options['css'].=' ';
+					$options['css'].=$css;
+				}
+
+				if(isset($node['id']))
+					$options['id']=$node['id'];
+
+				$html.=CHtml::tag('li',$options,$node['text'],false);
 				if(!empty($node['children']))
 				{
 					$html.="\n<ul>\n";
 					$html.=self::saveDataAsHtml($node['children']);
 					$html.="</ul>\n";
 				}
-				$html.="</li>\n";
+				$html.=CHtml::closeTag('li')."\n";
 			}
 		}
 		return $html;
