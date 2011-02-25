@@ -34,6 +34,7 @@ Version 1.1.7 to be released
 - Enh: Added CGridView::ajaxUpdateError for the possibility to use a custom ajax error handler (mdomba)
 - Enh: Allowed using CController instead of Controller with webapp generated application (Sam Dark)
 - Enh: Added CController::createInlineAction, CInlineAction::inputParams and errorMessage to allow easier override (Qiang)
+- Enh: Added ability to perform Relational JOIN without getting related models (creocoder, Sam Dark)
 - Chg #2001: CGridView now renders footer after the body content (Qiang)
 - Chg #2144: Upgraded jQuery UI to version 1.8.10 (Sam Dark)
 - Chg #2148: Upgraded jQuery to version 1.5.1 (Sam Dark)

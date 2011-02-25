@@ -931,7 +931,8 @@ class CActiveRecordTest extends CTestCase
 		//TODO: test 'scopes' option in scopes()
 	}
 
-	public function testResetScope(){
+	public function testResetScope()
+	{
 		// resetting named scope
 		$posts=Post::model()->post23()->resetScope()->findAll();
 		$this->assertEquals(5,count($posts));
@@ -939,5 +940,152 @@ class CActiveRecordTest extends CTestCase
 		// resetting default scope
 		$posts=PostSpecial::model()->resetScope()->findAll();
 		$this->assertEquals(5,count($posts));
+	}
+
+	public function testJoinWithoutSelect()
+	{
+        // 1:1 test
+		$groups=Group::model()->findAll(array(
+			'with'=>array(
+				'description'=>array(
+					'select'=>false,
+					'joinType'=>'INNER JOIN',
+				),
+			),
+		));
+
+		$result=array();
+		foreach($groups as $group)
+		{
+			// there should be nothing in relation
+			$this->assertFalse($group->hasRelated('description'));
+			$result[]=array($group->id,$group->name);
+		}
+
+		$this->assertEquals(array(
+			array(1,'group1'),
+			array(2,'group2'),
+			array(3,'group3'),
+			array(4,'group4'),
+		),$result);
+
+		// 1:M test
+		$users=User::model()->findAll(array(
+			'with'=>array(
+				'roles'=>array(
+					'select'=>false,
+					'joinType'=>'INNER JOIN',
+				),
+			),
+		));
+
+		$result=array();
+		foreach($users as $user)
+		{
+			// there should be nothing in relation
+			$this->assertFalse($user->hasRelated('roles'));
+			$result[]=array($user->id,$user->username,$user->email);
+		}
+
+		$this->assertEquals(array(
+			array(1,'user1','email1'),
+			array(2,'user2','email2'),
+		),$result);
+	}
+
+	public function testHasManyThroughEager()
+	{
+		$this->markTestSkipped('Through feature is not implemented yet.');
+		$user=User::model()->with('groups')->findByPk(1);
+
+		$result=array();
+		foreach($user->groups as $group)
+		{
+			foreach($group->roles as $role)
+				$result[]=array($user->username,$group->name,$role->name);
+		}
+
+		$this->assertEquals(array(
+			array('user1','group1','dev'),
+			array('user1','group2','user'),
+		),$result);
+
+		// 'through' should not clear existing relations defined via short syntax
+		$user=User::model()->with('groups.description')->findByPk(1);
+
+		$result=array();
+		foreach($user->groups as $group)
+		{
+			foreach($group->roles as $role)
+				$result[]=array($user->username,$group->name,$role->name,$group->description->name);
+		}
+
+		$this->assertEquals(array(
+			array('user1','group1','dev','room1'),
+			array('user1','group2','user','room2'),
+		),$result);
+
+		// 'through' should not clear existing with
+		$user=User::model()->with(array('groups'=>array('with'=>'description')))->findByPk(1);
+
+		$result=array();
+		foreach($user->groups as $group)
+		{
+			foreach($group->roles as $role)
+				$result[]=array($user->username,$group->name,$role->name,$group->description->name);
+		}
+
+		$this->assertEquals(array(
+			array('user1','group1','dev','room1'),
+			array('user1','group2','user','room2'),
+		),$result);
+	}
+
+	public function testHasManyThroughLazy()
+	{
+		$this->markTestSkipped('Through feature is not implemented yet.');
+		$user=User::model()->with('groups')->findByPk(1);
+
+		$result=array();
+		foreach($user->groups as $group)
+		{
+			foreach($group->roles as $role)
+				$result[]=array($user->username,$group->name,$role->name);
+		}
+
+		$this->assertEquals(array(
+			array('user1','group1','dev'),
+			array('user1','group2','user'),
+		),$result);
+
+		// 'through' should not clear existing with defined via short syntax
+		$user=User::model()->with('groups.description')->findByPk(1);
+
+		$result=array();
+		foreach($user->groups as $group)
+		{
+			foreach($group->roles as $role)
+				$result[]=array($user->username,$group->name,$role->name,$group->description->name);
+		}
+
+		$this->assertEquals(array(
+			array('user1','group1','dev','room1'),
+			array('user1','group2','user','room2'),
+		),$result);
+
+		// 'through' should not clear existing with
+		$user=User::model()->with(array('groups'=>array('with'=>'description')))->findByPk(1);
+
+		$result=array();
+		foreach($user->groups as $group)
+		{
+			foreach($group->roles as $role)
+				$result[]=array($user->username,$group->name,$role->name,$group->description->name);
+		}
+
+		$this->assertEquals(array(
+			array('user1','group1','dev','room1'),
+			array('user1','group2','user','room2'),
+		),$result);
 	}
 }

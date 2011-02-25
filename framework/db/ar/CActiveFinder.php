@@ -772,14 +772,17 @@ class CJoinElement
 			}
 			$record=$this->model->populateRecord($attributes,false);
 			foreach($this->children as $child)
-				$record->addRelatedRecord($child->relation->name,null,$child->relation instanceof CHasManyRelation);
+			{
+				if(!empty($child->relation->select))
+					$record->addRelatedRecord($child->relation->name,null,$child->relation instanceof CHasManyRelation);
+			}
 			$this->records[$pk]=$record;
 		}
 
 		// populate child records recursively
 		foreach($this->children as $child)
 		{
-			if(!isset($query->elements[$child->id]))
+			if(!isset($query->elements[$child->id]) || empty($child->relation->select))
 				continue;
 			$childRecord=$child->populateRecord($query,$row);
 			if($child->relation instanceof CHasOneRelation || $child->relation instanceof CBelongsToRelation)
@@ -1179,7 +1182,8 @@ class CJoinQuery
 	 */
 	public function join($element)
 	{
-		$this->selects[]=$element->getColumnSelect($element->relation->select);
+		if(!empty($element->relation->select))
+			$this->selects[]=$element->getColumnSelect($element->relation->select);
 		$this->conditions[]=$element->relation->condition;
 		$this->orders[]=$element->relation->order;
 		$this->joins[]=$element->getJoinCondition();
