@@ -23,6 +23,9 @@ class User extends CActiveRecord
 	public function relations()
 	{
 		return array(
+			// uncomment when through feature will be implemented
+			//'groups'=>array(self::HAS_MANY,'Group','user_id','through'=>'roles'),
+			'roles'=>array(self::HAS_MANY,'Role','user_id'),
 			'posts'=>array(self::HAS_MANY,'Post','author_id'),
 			'postCount'=>array(self::STAT,'Post','author_id'),
 		);
@@ -31,6 +34,53 @@ class User extends CActiveRecord
 	public function tableName()
 	{
 		return 'users';
+	}
+}
+
+class Group extends CActiveRecord
+{
+	public static function model($class=__CLASS__)
+	{
+		return parent::model($class);
+	}
+
+	public function relations()
+	{
+		return array(
+			'roles'=>array(self::HAS_MANY,'Role','group_id'),
+			'description'=>array(self::HAS_ONE,'GroupDescription','group_id'),
+		);
+	}
+
+	public function tableName()
+	{
+		return 'groups';
+	}
+}
+
+class GroupDescription extends CActiveRecord
+{
+	public static function model($class=__CLASS__)
+	{
+		return parent::model($class);
+	}
+
+	public function tableName()
+	{
+		return 'groups_descriptions';
+	}
+}
+
+class Role extends CActiveRecord
+{
+	public static function model($class=__CLASS__)
+	{
+		return parent::model($class);
+	}
+
+	public function tableName()
+	{
+		return 'roles';
 	}
 }
 

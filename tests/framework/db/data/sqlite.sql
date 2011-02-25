@@ -1,16 +1,52 @@
-
 CREATE TABLE users
 (
-	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	id INTEGER NOT NULL PRIMARY KEY,
 	username VARCHAR(128) NOT NULL,
 	password VARCHAR(128) NOT NULL,
 	email VARCHAR(128) NOT NULL
 );
 
-INSERT INTO users (username, password, email) VALUES ('user1','pass1','email1');
-INSERT INTO users (username, password, email) VALUES ('user2','pass2','email2');
-INSERT INTO users (username, password, email) VALUES ('user3','pass3','email3');
-INSERT INTO users (username, password, email) VALUES ('user4','pass4','email4');
+INSERT INTO users(id,username,password,email) VALUES (1,'user1','pass1','email1');
+INSERT INTO users(id,username,password,email) VALUES (2,'user2','pass2','email2');
+INSERT INTO users(id,username,password,email) VALUES (3,'user3','pass3','email3');
+INSERT INTO users(id,username,password,email) VALUES (4,'user4','pass4','email4');
+
+CREATE TABLE groups
+(
+	id INTEGER NOT NULL PRIMARY KEY,
+	name VARCHAR(128) NOT NULL
+);
+
+INSERT INTO groups(id,name) VALUES (1,'group1');
+INSERT INTO groups(id,name) VALUES (2,'group2');
+INSERT INTO groups(id,name) VALUES (3,'group3');
+INSERT INTO groups(id,name) VALUES (4,'group4');
+INSERT INTO groups(id,name) VALUES (5,'group5');
+INSERT INTO groups(id,name) VALUES (6,'group6');
+
+CREATE TABLE groups_descriptions
+(
+	group_id INTEGER NOT NULL PRIMARY KEY,
+	name VARCHAR(128) NOT NULL
+);
+
+INSERT INTO groups_descriptions(group_id,name) VALUES (1,'room1');
+INSERT INTO groups_descriptions(group_id,name) VALUES (2,'room2');
+INSERT INTO groups_descriptions(group_id,name) VALUES (3,'room3');
+INSERT INTO groups_descriptions(group_id,name) VALUES (4,'room4');
+
+CREATE TABLE roles
+(
+	user_id INTEGER NOT NULL,
+	group_id INTEGER NOT NULL,
+	name VARCHAR(128) NOT NULL,
+	PRIMARY KEY(user_id,group_id)
+);
+
+INSERT INTO roles (user_id,group_id,name) VALUES (1,1,'dev');
+INSERT INTO roles (user_id,group_id,name) VALUES (1,2,'user');
+INSERT INTO roles (user_id,group_id,name) VALUES (2,1,'dev');
+INSERT INTO roles (user_id,group_id,name) VALUES (2,3,'user');
 
 CREATE TABLE profiles
 (

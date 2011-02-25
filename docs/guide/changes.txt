@@ -8,6 +8,7 @@ Version 1.1.7
  * [Added RESTful URL support](/doc/guide/topics.url#user-friendly-urls)
  * [Added query caching support](/doc/guide/caching.data#query-caching)
  * [Now it's possible to pass parameters for relational named scopes](/doc/guide/database.arr#relational-query-with-named-scopes)
+ * [Added ability to perform Relational JOIN without getting related models](/doc/guide/database.arr#performing-relational-join-without-getting-related-models)
 
  Version 1.1.6
 -------------
