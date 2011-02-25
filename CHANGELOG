@@ -35,8 +35,9 @@ Version 1.1.7 to be released
 - Enh: Allowed using CController instead of Controller with webapp generated application (Sam Dark)
 - Enh: Added CController::createInlineAction, CInlineAction::inputParams and errorMessage to allow easier override (Qiang)
 - Chg #2001: CGridView now renders footer after the body content (Qiang)
-- Chg: Upgraded jQuery to version 1.5 (Sam Dark)
-- Chg: Upgraded jQuery UI to version 1.8.9 (Sam Dark)
+- Chg #2144: Upgraded jQuery UI to version 1.8.10 (Sam Dark)
+- Chg #2148: Upgraded jQuery to version 1.5.1 (Sam Dark)
+- Chg: jQuery UI now uses minified CSS (Sam Dark)
 - New: Added support for query caching (Qiang)
 
 Version 1.1.6 January 16, 2011
