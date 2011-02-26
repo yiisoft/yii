@@ -390,6 +390,9 @@ class CErrorHandler extends CApplicationComponent
 				$args[$key] = 'null';
 			else if(is_resource($value))
 				$args[$key] = 'resource';
+
+			if(is_string($key))
+				$args[$key] = '"'.$key.'" => '.$args[$key];
 		}
 		$out = implode(", ", $args);
 
