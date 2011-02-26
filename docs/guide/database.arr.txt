@@ -218,10 +218,10 @@ $posts=Post::model()->findAll(array(
 ~~~
 
 
-Performing Relational JOIN without getting related models
+Performing Relational query without getting related models
 ---------------------------------------------------------
 
-Sometimes we need to perform JOIN using relation but don't want to get related
+Sometimes we need to perform query using relation but don't want to get related
 models. Let's assume we have `User`s who posted many `Post`s. Post can be published
 but also can be in a draft state. This is determined by `published` field in the
 post model. Now we need to get all users who have published posts and we are not
