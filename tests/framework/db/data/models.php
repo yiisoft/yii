@@ -23,9 +23,10 @@ class User extends CActiveRecord
 	public function relations()
 	{
 		return array(
-			// uncomment when through feature will be implemented
-			//'groups'=>array(self::HAS_MANY,'Group','user_id','through'=>'roles'),
 			'roles'=>array(self::HAS_MANY,'Role','user_id'),
+			'groups'=>array(self::HAS_MANY,'Group','group_id','through'=>'roles'),
+			'mentorships'=>array(self::HAS_MANY,'Mentorship','teacher_id','joinType'=>'INNER JOIN'),
+			'students'=>array(self::HAS_MANY,'User','student_id','through'=>'mentorships','joinType'=>'INNER JOIN'),
 			'posts'=>array(self::HAS_MANY,'Post','author_id'),
 			'postCount'=>array(self::STAT,'Post','author_id'),
 		);
@@ -34,6 +35,19 @@ class User extends CActiveRecord
 	public function tableName()
 	{
 		return 'users';
+	}
+}
+
+class Mentorship extends CActiveRecord
+{
+	public static function model($class=__CLASS__)
+	{
+		return parent::model($class);
+	}
+
+	public function tableName()
+	{
+		return 'mentorships';
 	}
 }
 
@@ -48,6 +62,8 @@ class Group extends CActiveRecord
 	{
 		return array(
 			'roles'=>array(self::HAS_MANY,'Role','group_id'),
+			'users'=>array(self::HAS_MANY,'User','user_id','through'=>'roles'),
+			'comments'=>array(self::HAS_MANY,'Comment','author_id','through'=>'users'),
 			'description'=>array(self::HAS_ONE,'GroupDescription','group_id'),
 		);
 	}

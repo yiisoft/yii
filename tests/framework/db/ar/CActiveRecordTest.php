@@ -995,19 +995,16 @@ class CActiveRecordTest extends CTestCase
 
 	public function testHasManyThroughEager()
 	{
-		$this->markTestSkipped('Through feature is not implemented yet.');
+		// just bridge
 		$user=User::model()->with('groups')->findByPk(1);
 
 		$result=array();
 		foreach($user->groups as $group)
-		{
-			foreach($group->roles as $role)
-				$result[]=array($user->username,$group->name,$role->name);
-		}
+			$result[]=array($user->username,$group->name);
 
 		$this->assertEquals(array(
-			array('user1','group1','dev'),
-			array('user1','group2','user'),
+			array('user1','group1'),
+			array('user1','group2'),
 		),$result);
 
 		// 'through' should not clear existing relations defined via short syntax
@@ -1015,14 +1012,11 @@ class CActiveRecordTest extends CTestCase
 
 		$result=array();
 		foreach($user->groups as $group)
-		{
-			foreach($group->roles as $role)
-				$result[]=array($user->username,$group->name,$role->name,$group->description->name);
-		}
+			$result[]=array($user->username,$group->name,$group->description->name);
 
 		$this->assertEquals(array(
-			array('user1','group1','dev','room1'),
-			array('user1','group2','user','room2'),
+			array('user1','group1','room1'),
+			array('user1','group2','room2'),
 		),$result);
 
 		// 'through' should not clear existing with
@@ -1030,62 +1024,129 @@ class CActiveRecordTest extends CTestCase
 
 		$result=array();
 		foreach($user->groups as $group)
+			$result[]=array($user->username,$group->name,$group->description->name);
+
+		$this->assertEquals(array(
+			array('user1','group1','room1'),
+			array('user1','group2','room2'),
+		),$result);
+
+		// bridge fields handling
+		$user=User::model()->with('roles','groups')->findByPk(1);
+
+		$result=array();
+		foreach($user->groups as $group)
+			$result[]=array($user->username,$group->name);
+
+		$this->assertEquals(array(
+			array('user1','group1'),
+			array('user1','group2'),
+		),$result);
+
+		$result=array();
+		foreach($user->roles as $role)
+			$result[]=array($user->username,$role->name);
+
+		$this->assertEquals(array(
+			array('user1','dev'),
+			array('user1','user'),
+		),$result);
+
+		// nested through
+		$group=Group::model()->with('comments')->findByPk(1);
+
+		$result=array();
+		foreach($group->comments as $comment)
+			$result[]=array($group->name,$comment->content);
+
+		$this->assertEquals(array(
+			array('group1','comment 1'),
+			array('group1','comment 2'),
+			array('group1','comment 3'),
+			array('group1','comment 4'),
+			array('group1','comment 5'),
+			array('group1','comment 6'),
+			array('group1','comment 7'),
+			array('group1','comment 8'),
+			array('group1','comment 9'),
+		),$result);
+
+		// self through
+		$teachers=User::model()->with('students')->findAll();
+
+		$result=array();
+		foreach($teachers as $teacher)
 		{
-			foreach($group->roles as $role)
-				$result[]=array($user->username,$group->name,$role->name,$group->description->name);
+			foreach($teacher->students as $student)
+				$result[]=array($teacher->username,$student->username);
 		}
 
 		$this->assertEquals(array(
-			array('user1','group1','dev','room1'),
-			array('user1','group2','user','room2'),
+			array('user1','user3'),
+			array('user2','user4'),
+		),$result);
+
+		// self through, bridge fields handling for right part
+		$teachers=User::model()->with('mentorships','students')->findAll();
+
+		$result=array();
+		foreach($teachers as $teacher)
+		{
+			foreach($teacher->students as $student)
+				$result[$student->primaryKey]=array('teacher'=>$teacher->username,'student'=>$student->username);
+
+			foreach($teacher->mentorships as $mentorship)
+				$result[$mentorship->student_id]['progress']=$mentorship->progress;
+		}
+
+		$this->assertEquals(array(
+			3=>array('teacher'=>'user1','student'=>'user3','progress'=>'good'),
+			4=>array('teacher'=>'user2','student'=>'user4','progress'=>'average'),
 		),$result);
 	}
 
 	public function testHasManyThroughLazy()
 	{
-		$this->markTestSkipped('Through feature is not implemented yet.');
-		$user=User::model()->with('groups')->findByPk(1);
+		$user=User::model()->findByPk(1);
 
 		$result=array();
 		foreach($user->groups as $group)
-		{
-			foreach($group->roles as $role)
-				$result[]=array($user->username,$group->name,$role->name);
-		}
+			$result[]=array($user->username,$group->name);
 
 		$this->assertEquals(array(
-			array('user1','group1','dev'),
-			array('user1','group2','user'),
+			array('user1','group1'),
+			array('user1','group2'),
 		),$result);
 
-		// 'through' should not clear existing with defined via short syntax
-		$user=User::model()->with('groups.description')->findByPk(1);
+
+		$user=User::model()->findByPk(1);
 
 		$result=array();
-		foreach($user->groups as $group)
-		{
-			foreach($group->roles as $role)
-				$result[]=array($user->username,$group->name,$role->name,$group->description->name);
-		}
+		foreach($user->groups(array('with'=>'description')) as $group)
+			$result[]=array($user->username,$group->name,$group->description->name);
 
 		$this->assertEquals(array(
-			array('user1','group1','dev','room1'),
-			array('user1','group2','user','room2'),
+			array('user1','group1','room1'),
+			array('user1','group2','room2'),
 		),$result);
 
-		// 'through' should not clear existing with
-		$user=User::model()->with(array('groups'=>array('with'=>'description')))->findByPk(1);
+		// nested through
+		$group=Group::model()->findByPk(1);
 
 		$result=array();
-		foreach($user->groups as $group)
-		{
-			foreach($group->roles as $role)
-				$result[]=array($user->username,$group->name,$role->name,$group->description->name);
-		}
+		foreach($group->comments as $comment)
+			$result[]=array($group->name,$comment->content);
 
 		$this->assertEquals(array(
-			array('user1','group1','dev','room1'),
-			array('user1','group2','user','room2'),
+			array('group1','comment 1'),
+			array('group1','comment 2'),
+			array('group1','comment 3'),
+			array('group1','comment 4'),
+			array('group1','comment 5'),
+			array('group1','comment 6'),
+			array('group1','comment 7'),
+			array('group1','comment 8'),
+			array('group1','comment 9'),
 		),$result);
 	}
 }

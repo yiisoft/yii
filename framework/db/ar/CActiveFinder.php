@@ -207,12 +207,15 @@ class CActiveFinder extends CComponent
 				$with=substr($with,0,$pos);
 			}
 
-			if(isset($parent->children[$with]))
+			if(isset($parent->children[$with]) && empty($parent->children[$with]->relation->through))
 				return $parent->children[$with];
 
 			if(($relation=$parent->model->getActiveRelation($with))===null)
 				throw new CDbException(Yii::t('yii','Relation "{name}" is not defined in active record class "{class}".',
 					array('{class}'=>get_class($parent->model), '{name}'=>$with)));
+
+			if(!empty($relation->through) && !isset($parent->children[$relation->through]))
+				$this->buildJoinTree($parent,$relation->through,array('select'=>false));
 
 			$relation=clone $relation;
 			$model=CActiveRecord::model($relation->className);
@@ -292,7 +295,7 @@ class CActiveFinder extends CComponent
 			if(is_string($value))  // the value is a relation name
 				$this->buildJoinTree($parent,$value);
 			else if(is_string($key) && is_array($value))
-				$element=$this->buildJoinTree($parent,$key,$value);
+				$this->buildJoinTree($parent,$key,$value);
 		}
 	}
 }
@@ -462,10 +465,19 @@ class CJoinElement
 		foreach($this->stats as $stat)
 			$stat->query();
 
-		if(empty($this->children))
-			return;
+		switch(count($this->children))
+		{
+			case 0:
+				return;
+			break;
+			case 1:
+				$child=reset($this->children);
+			break;
+			default: // bridge(s) inside
+				$child=end($this->children);
+			break;
+		}
 
-		$child=reset($this->children);
 		$query=new CJoinQuery($child);
 		$query->selects=array();
 		$query->selects[]=$child->getColumnSelect($child->relation->select);
@@ -608,7 +620,26 @@ class CJoinElement
 		}
 		else
 		{
-			$fks=preg_split('/\s*,\s*/',$this->relation->foreignKey,-1,PREG_SPLIT_NO_EMPTY);
+			$element=$this;
+			while(!empty($element->relation->through))
+			{
+				$fks=preg_split('/\s*,\s*/',$element->relation->foreignKey,-1,PREG_SPLIT_NO_EMPTY);
+				$child=$parent->children[$element->relation->through];
+				if(!empty($child->relation->through)) // nested through detected
+				{
+					$fke=$element;
+					$pke=$child;
+				}
+				else
+				{
+					$fke=$child;
+					$pke=$element;
+				}
+				$query->joins[]=$child->joinOneMany($fke,$fks,$pke,$parent);
+				$element=$child;
+			}
+			$fks=preg_split('/\s*,\s*/',$element->relation->foreignKey,-1,PREG_SPLIT_NO_EMPTY);
+			$prefix=$element->getColumnPrefix();
 			$params=array();
 			foreach($fks as $i=>$fk)
 			{
@@ -633,7 +664,6 @@ class CJoinElement
 					$params[$fk]=$record->$pk;
 				}
 			}
-			$prefix=$this->getColumnPrefix();
 			$count=0;
 			foreach($params as $name=>$value)
 			{
@@ -982,28 +1012,41 @@ class CJoinElement
 	public function getJoinCondition()
 	{
 		$parent=$this->_parent;
-		$relation=$this->relation;
-		if($relation instanceof CManyManyRelation)
+		if($this->relation instanceof CManyManyRelation)
 		{
-			if(!preg_match('/^\s*(.*?)\((.*)\)\s*$/',$relation->foreignKey,$matches))
+			if(!preg_match('/^\s*(.*?)\((.*)\)\s*$/',$this->relation->foreignKey,$matches))
 				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key. The format of the foreign key must be "joinTable(fk1,fk2,...)".',
-					array('{class}'=>get_class($parent->model),'{relation}'=>$relation->name)));
+					array('{class}'=>get_class($parent->model),'{relation}'=>$this->relation->name)));
 
 			$schema=$this->_builder->getSchema();
 			if(($joinTable=$schema->getTable($matches[1]))===null)
 				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is not specified correctly: the join table "{joinTable}" given in the foreign key cannot be found in the database.',
-					array('{class}'=>get_class($parent->model), '{relation}'=>$relation->name, '{joinTable}'=>$matches[1])));
+					array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{joinTable}'=>$matches[1])));
 			$fks=preg_split('/\s*,\s*/',$matches[2],-1,PREG_SPLIT_NO_EMPTY);
 
 			return $this->joinManyMany($joinTable,$fks,$parent);
 		}
 		else
 		{
-			$fks=preg_split('/\s*,\s*/',$relation->foreignKey,-1,PREG_SPLIT_NO_EMPTY);
-			if($relation instanceof CBelongsToRelation)
+			$fks=preg_split('/\s*,\s*/',$this->relation->foreignKey,-1,PREG_SPLIT_NO_EMPTY);
+			if($this->relation instanceof CBelongsToRelation)
 			{
 				$pke=$this;
 				$fke=$parent;
+			}
+			else if(!empty($this->relation->through))
+			{
+				$child=$parent->children[$this->relation->through];
+				if(!empty($child->relation->through)) // nested through detected
+				{
+					$pke=$child;
+					$fke=$this;
+				}
+				else
+				{
+					$pke=$this;
+					$fke=$child;
+				}
 			}
 			else
 			{
