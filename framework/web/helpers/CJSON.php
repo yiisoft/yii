@@ -90,10 +90,7 @@ class CJSON
 	* Encodes an arbitrary variable into JSON format
 	*
 	* @param mixed $var any number, boolean, string, array, or object to be encoded.
-	*						   see argument 1 to JSON() above for array-parsing behavior.
-	*						   if var is a strng, note that encode() always expects it
-	*						   to be in ASCII or UTF-8 format!
-	*
+	*  if var is a string, note that encode() always expects it to be in ASCII or UTF-8 format!
 	* @return string JSON string representation of input var
 	*/
 	public static function encode($var)
@@ -320,12 +317,8 @@ class CJSON
 	*
 	* @param string $str  JSON-formatted string
 	* @param boolean $useArray  whether to use associative array to represent object data
-	*
-	* @return mixed   number, boolean, string, array, or object
-	*				   corresponding to given JSON input string.
-	*				   See argument 1 to JSON() above for object-output behavior.
-	*				   Note that decode() always returns strings
-	*				   in ASCII or UTF-8 format!
+	* @return mixed   number, boolean, string, array, or object corresponding to given JSON input string.
+	*    Note that decode() always returns strings in ASCII or UTF-8 format!
 	* @access   public
 	*/
 	public static function decode($str, $useArray=true)
