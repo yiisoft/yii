@@ -43,10 +43,21 @@ CREATE TABLE roles
 	PRIMARY KEY(user_id,group_id)
 );
 
-INSERT INTO roles (user_id,group_id,name) VALUES (1,1,'dev');
-INSERT INTO roles (user_id,group_id,name) VALUES (1,2,'user');
-INSERT INTO roles (user_id,group_id,name) VALUES (2,1,'dev');
-INSERT INTO roles (user_id,group_id,name) VALUES (2,3,'user');
+INSERT INTO roles(user_id,group_id,name) VALUES (1,1,'dev');
+INSERT INTO roles(user_id,group_id,name) VALUES (1,2,'user');
+INSERT INTO roles(user_id,group_id,name) VALUES (2,1,'dev');
+INSERT INTO roles(user_id,group_id,name) VALUES (2,3,'user');
+
+CREATE TABLE mentorships
+(
+	teacher_id INTEGER NOT NULL,
+	student_id INTEGER NOT NULL,
+	progress VARCHAR(128) NOT NULL,
+	PRIMARY KEY(teacher_id,student_id)
+);
+
+INSERT INTO mentorships(teacher_id,student_id,progress) VALUES (1,3,'good');
+INSERT INTO mentorships(teacher_id,student_id,progress) VALUES (2,4,'average');
 
 CREATE TABLE profiles
 (
