@@ -1,4 +1,8 @@
 $(document).ready(function() {
+	if($('div.form.login').length) {  // in login page
+		$('input#LoginForm_password').focus();
+	}
+
 	$('table.preview input[name="checkAll"]').click(function() {
 		$('table.preview .confirm input').attr('checked', this.checked);
 	});
@@ -7,7 +11,6 @@ $(document).ready(function() {
 		$('table.preview input[name="checkAll"]').attr('checked', !$('table.preview td.confirm input:not(:checked)').length);
 	});
 	$('table.preview input[name="checkAll"]').attr('checked', !$('table.preview td.confirm input:not(:checked)').length);
-
 
 	$('.form .row.sticky input:not(.error), .form .row.sticky select:not(.error), .form .row.sticky textarea:not(.error)').each(function(){
 		var value;
