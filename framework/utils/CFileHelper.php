@@ -27,10 +27,7 @@ class CFileHelper
 	 */
 	public static function getExtension($path)
 	{
-		if(($pos=strrpos($path,'.'))!==false)
-			return substr($path,$pos+1);
-		else
-			return '';
+		return pathinfo($path, PATHINFO_EXTENSION);
 	}
 
 	/**
@@ -189,11 +186,8 @@ class CFileHelper
 		}
 		if(!$isFile || empty($fileTypes))
 			return true;
-		if(($pos=strrpos($file,'.'))!==false)
-		{
-			$type=substr($file,$pos+1);
+		if(($type=pathinfo($file, PATHINFO_EXTENSION))!=='')
 			return in_array($type,$fileTypes);
-		}
 		else
 			return false;
 	}
@@ -245,9 +239,9 @@ class CFileHelper
 		static $extensions;
 		if($extensions===null)
 			$extensions=$magicFile===null ? require(Yii::getPathOfAlias('system.utils.mimeTypes').'.php') : $magicFile;
-		if(($pos=strrpos($file,'.'))!==false)
+		if(($ext=pathinfo($path, PATHINFO_EXTENSION))!=='')
 		{
-			$ext=strtolower(substr($file,$pos+1));
+			$ext=strtolower($ext);
 			if(isset($extensions[$ext]))
 				return $extensions[$ext];
 		}
