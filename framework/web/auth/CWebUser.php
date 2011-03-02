@@ -89,6 +89,14 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * @since 1.1.0
 	 */
 	public $autoRenewCookie=false;
+	/**
+	 * @var boolean whether to automatically update the validity of flash messages.
+	 * Defaults to true, meaning flash messages will be valid only in the current and the next requests.
+	 * If this is set false, you will be responsible for ensuring a flash message is deleted after usage.
+	 * (This can be achieved by calling {@link getFlash} with the 3rd parameter being true).
+	 * @since 1.1.7
+	 */
+	public $autoUpdateFlash=true;
 
 	private $_keyPrefix;
 	private $_access=array();
@@ -165,7 +173,8 @@ class CWebUser extends CApplicationComponent implements IWebUser
 			$this->restoreFromCookie();
 		else if($this->autoRenewCookie && $this->allowAutoLogin)
 			$this->renewCookie();
-		$this->updateFlash();
+		if($this->autoUpdateFlash())
+			$this->updateFlash();
 	}
 
 	/**
