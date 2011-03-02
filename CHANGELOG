@@ -43,6 +43,7 @@ Version 1.1.7 to be released
 - Chg #2001: CGridView now renders footer after the body content (Qiang)
 - Chg #2144: Upgraded jQuery UI to version 1.8.10 (Sam Dark)
 - Chg #2148: Upgraded jQuery to version 1.5.1 (Sam Dark)
+- Chg #2163: CConsoleCommand::usageError() will now exit with error code 1 (Qiang)
 - Chg: jQuery UI now uses minified CSS (Sam Dark)
 - New: Added support for query caching (Qiang)
 

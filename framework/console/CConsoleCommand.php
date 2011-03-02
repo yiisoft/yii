@@ -274,7 +274,8 @@ abstract class CConsoleCommand extends CComponent
 	 */
 	public function usageError($message)
 	{
-		die("Error: $message\n\n".$this->getHelp()."\n");
+		echo "Error: $message\n\n".$this->getHelp()."\n";
+		exit(1);
 	}
 
 	/**
