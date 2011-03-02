@@ -173,7 +173,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 			$this->restoreFromCookie();
 		else if($this->autoRenewCookie && $this->allowAutoLogin)
 			$this->renewCookie();
-		if($this->autoUpdateFlash())
+		if($this->autoUpdateFlash)
 			$this->updateFlash();
 	}
 
