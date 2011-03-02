@@ -5,7 +5,7 @@
  * CActiveDataProvider provides data in terms of ActiveRecord objects which are
  * of class {@link modelClass}. It uses the AR {@link CActiveRecord::findAll} method
  * to retrieve the data from database. The {@link criteria} property can be used to
- * specify various query options, such as conditions, sorting, pagination, etc.
+ * specify various query options.
  *
  * CActiveDataProvider may be used in the following way:
  * <pre>
