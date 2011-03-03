@@ -59,7 +59,10 @@ $(document).ready(function() {
 					'showCloseButton': false,
 					'autoDimensions': false,
 					'width': 800,
-					'height': 'auto'
+					'height': 'auto',
+					'onComplete':function(){
+						$('#fancybox-inner').scrollTop(0);
+					}
 				});
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {

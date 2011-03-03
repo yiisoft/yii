@@ -530,6 +530,11 @@ div.form.gii pre.results span.error
 	text-align: left;
 }
 
+#fancybox-inner pre.diff
+{
+	margin:0;
+}
+
 #fancybox-inner pre.diff del
 {
 	background: pink;
