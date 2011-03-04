@@ -207,15 +207,12 @@ class CActiveFinder extends CComponent
 				$with=substr($with,0,$pos);
 			}
 
-			if(isset($parent->children[$with]) && empty($parent->children[$with]->relation->through))
+			if(isset($parent->children[$with]) && $parent->children[$with]->master===null)
 				return $parent->children[$with];
 
 			if(($relation=$parent->model->getActiveRelation($with))===null)
 				throw new CDbException(Yii::t('yii','Relation "{name}" is not defined in active record class "{class}".',
 					array('{class}'=>get_class($parent->model), '{name}'=>$with)));
-
-			if(!empty($relation->through) && !isset($parent->children[$relation->through]))
-				$this->buildJoinTree($parent,$relation->through,array('select'=>false));
 
 			$relation=clone $relation;
 			$model=CActiveRecord::model($relation->className);
@@ -282,7 +279,20 @@ class CActiveFinder extends CComponent
 				return new CStatElement($this,$relation,$parent);
 			else
 			{
-				$element=$parent->children[$with]=new CJoinElement($this,$relation,$parent,++$this->_joinCount);
+				if(isset($parent->children[$with]))
+				{
+					$element=$parent->children[$with];
+					$element->relation=$relation;
+				}
+				else
+					$element=new CJoinElement($this,$relation,$parent,++$this->_joinCount);
+				if(!empty($relation->through))
+				{
+					$slave=$this->buildJoinTree($parent,$relation->through,array('select'=>false));
+					$slave->master=$element;
+					$element->slave=$slave;
+				}
+				$parent->children[$with]=$element;
 				if(!empty($relation->with))
 					$this->buildJoinTree($element,$relation->with);
 				return $element;
@@ -319,6 +329,14 @@ class CJoinElement
 	 * @var CActiveRelation the relation represented by this tree node
 	 */
 	public $relation;
+	/**
+	 * @var CActiveRelation the master relation
+	 */
+	public $master;
+	/**
+	 * @var CActiveRelation the slave relation
+	 */
+	public $slave;
 	/**
 	 * @var CActiveRecord the model associated with this tree node
 	 */
@@ -413,7 +431,7 @@ class CJoinElement
 			foreach($this->children as $child)
 				$child->destroy();
 		}
-		unset($this->_finder, $this->_parent, $this->model, $this->relation, $this->records, $this->children, $this->stats);
+		unset($this->_finder, $this->_parent, $this->model, $this->relation, $this->master, $this->slave, $this->records, $this->children, $this->stats);
 	}
 
 	/**
@@ -429,6 +447,13 @@ class CJoinElement
 			$this->buildQuery($query);
 			$this->_finder->baseLimited=false;
 			$this->runQuery($query);
+			// relational query with two or more HAS_MANY
+			if(!empty($this->records))
+			{
+				$query=new CJoinQuery($this);
+				$this->buildQuery($query);
+				$this->runQuery($query);
+			}
 		}
 		else if(!$this->_joined && !empty($this->_parent->records)) // not joined before
 		{
@@ -621,22 +646,21 @@ class CJoinElement
 		else
 		{
 			$element=$this;
-			while(!empty($element->relation->through))
+			while($element->slave!==null)
 			{
 				$fks=preg_split('/\s*,\s*/',$element->relation->foreignKey,-1,PREG_SPLIT_NO_EMPTY);
-				$child=$parent->children[$element->relation->through];
-				if(!empty($child->relation->through)) // nested through detected
+				if($element->slave->slave===null)
 				{
-					$fke=$element;
-					$pke=$child;
-				}
-				else
-				{
-					$fke=$child;
+					$fke=$element->slave;
 					$pke=$element;
 				}
-				$query->joins[]=$child->joinOneMany($fke,$fks,$pke,$parent);
-				$element=$child;
+				else // nested through detected
+				{
+					$fke=$element;
+					$pke=$element->slave;
+				}
+				$query->joins[]=$element->slave->joinOneMany($fke,$fks,$pke,$parent);
+				$element=$element->slave;
 			}
 			$fks=preg_split('/\s*,\s*/',$element->relation->foreignKey,-1,PREG_SPLIT_NO_EMPTY);
 			$prefix=$element->getColumnPrefix();
@@ -1034,23 +1058,19 @@ class CJoinElement
 				$pke=$this;
 				$fke=$parent;
 			}
-			else if(!empty($this->relation->through))
-			{
-				$child=$parent->children[$this->relation->through];
-				if(!empty($child->relation->through)) // nested through detected
-				{
-					$pke=$child;
-					$fke=$this;
-				}
-				else
-				{
-					$pke=$this;
-					$fke=$child;
-				}
-			}
-			else
+			else if($this->slave===null)
 			{
 				$pke=$parent;
+				$fke=$this;
+			}
+			else if($this->slave->slave===null)
+			{
+				$pke=$this;
+				$fke=$this->slave;
+			}
+			else // nested through detected
+			{
+				$pke=$this->slave;
 				$fke=$this;
 			}
 			return $this->joinOneMany($fke,$fks,$pke,$parent);
