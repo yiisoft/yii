@@ -38,9 +38,28 @@ abstract class CDbMigration extends CComponent
 
 	/**
 	 * This method contains the logic to be executed when applying this migration.
-	 * Child classes must implement this method to provide actual migration logic.
+	 * Child classes may implement this method to provide actual migration logic.
 	 */
-	abstract public function up();
+	public function up()
+	{
+		$transaction=$this->getDbConnection()->beginTransaction();
+		try
+		{
+			if($this->safeUp()===false)
+			{
+				$transaction->rollBack();
+				return false;
+			}
+			$transaction->commit();
+		}
+		catch(Exception $e)
+		{
+			echo "Exception: ".$e->getMessage().' ('.$e->getFile().':'.$e->getLine().")\n";
+			echo $e->getTraceAsString()."\n";
+			$transaction->rollBack();
+			return false;
+		}
+	}
 
 	/**
 	 * This method contains the logic to be executed when removing this migration.
@@ -49,7 +68,47 @@ abstract class CDbMigration extends CComponent
 	 */
 	public function down()
 	{
-		throw new CException(Yii::t('yii', 'Unable to remove migration {class}.', array('{class}'=>get_class($this))));
+		$transaction=$this->getDbConnection()->beginTransaction();
+		try
+		{
+			if($this->safeDown()===false)
+			{
+				$transaction->rollBack();
+				return false;
+			}
+			$transaction->commit();
+		}
+		catch(Exception $e)
+		{
+			echo "Exception: ".$e->getMessage().' ('.$e->getFile().':'.$e->getLine().")\n";
+			echo $e->getTraceAsString()."\n";
+			$transaction->rollBack();
+			return false;
+		}
+	}
+
+	/**
+	 * This method contains the logic to be executed when applying this migration.
+	 * This method differs from {@link up} in that the DB logic implemented here will
+	 * be enclosed within a DB transaction.
+	 * Child classes may implement this method instead of {@link up} if the DB logic
+	 * needs to be within a transaction.
+	 * @since 1.1.7
+	 */
+	public function safeUp()
+	{
+	}
+
+	/**
+	 * This method contains the logic to be executed when removing this migration.
+	 * This method differs from {@link down} in that the DB logic implemented here will
+	 * be enclosed within a DB transaction.
+	 * Child classes may implement this method instead of {@link up} if the DB logic
+	 * needs to be within a transaction.
+	 * @since 1.1.7
+	 */
+	public function safeDown()
+	{
 	}
 
 	/**
