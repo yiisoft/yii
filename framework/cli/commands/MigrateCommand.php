@@ -209,6 +209,9 @@ class MigrateCommand extends CConsoleCommand
 			$version='m'.$matches[1];
 		else
 			die("Error: The version option must be either a timestamp (e.g. 101129_185401)\nor the full name of a migration (e.g. m101129_185401_create_user_table).\n");
+
+		$db=$this->getDbConnection();
+
 		// try mark up
 		$migrations=$this->getNewMigrations();
 		foreach($migrations as $i=>$migration)
@@ -217,7 +220,7 @@ class MigrateCommand extends CConsoleCommand
 			{
 				if($this->confirm("Set migration history at $originalVersion?"))
 				{
-					$command=$this->getDbConnection()->createCommand();
+					$command=$db->createCommand();
 					for($j=0;$j<=$i;++$j)
 					{
 						$command->insert($this->migrationTable, array(
@@ -243,9 +246,9 @@ class MigrateCommand extends CConsoleCommand
 				{
 					if($this->confirm("Set migration history at $originalVersion?"))
 					{
-						$command=$this->getDbConnection()->createCommand();
+						$command=$db->createCommand();
 						for($j=0;$j<$i;++$j)
-							$command->delete($this->migrationTable, 'version=:version', array(':version'=>$migrations[$j]));
+							$command->delete($this->migrationTable, $db->quoteColumnName('version').'=:version', array(':version'=>$migrations[$j]));
 						echo "The migration history is set at $originalVersion.\nNo actual migration was performed.\n";
 					}
 				}
@@ -351,7 +354,8 @@ class MigrateCommand extends CConsoleCommand
 		$start=microtime(true);
 		$migration=$this->instantiateMigration($class);
 		$migration->down();
-		$this->getDbConnection()->createCommand()->delete($this->migrationTable, 'version=:version', array(':version'=>$class));
+		$db=$this->getDbConnection();
+		$db->createCommand()->delete($this->migrationTable, $db->quoteColumnName('version').'=:version', array(':version'=>$class));
 		$time=microtime(true)-$start;
 		echo "*** reverted $class (time: ".sprintf("%.3f",$time)."s)\n\n";
 	}
@@ -486,15 +490,15 @@ EOD;
 
 class {ClassName} extends CDbMigration
 {
-    public function up()
-    {
-    }
+	public function up()
+	{
+	}
 
-    /*
-    public function down()
-    {
-    }
-    */
+	/*
+	public function down()
+	{
+	}
+	*/
 }
 EOD;
 	}

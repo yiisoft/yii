@@ -15,6 +15,7 @@ Version 1.1.7 to be released
 - Bug #2130: Fixed bug that Gii code/diff view was not starting from top (mdomba)
 - Bug #2140: Fixed the problem that CGridView even rows where not properly rendered in Firefox and Chrome (mdomba)
 - Bug #2146: Fixed the bug in CFileHelper::getExtension, validatePath and getMimeTypeByExtension that was not finding the file extension correctly (mdomba)
+- Bug #2169: Fixed the bug that some columns are not properly quoted in MigrateCommand (Qiang)
 - Bug: Fixed the bug that a PHP notice may occur in exception view if a method in the call stack has a very complex signature (Qiang)
 - Bug: Fixed error that CGridview breaks when updating non-cgridview elements (mdomba)
 - Bug: Fixed the bug in CCheckBoxColumn, "check all" checkbox was not being checked/unchecked when needed (mdomba)
