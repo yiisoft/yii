@@ -43,11 +43,22 @@ class m101129_185401_create_news_table extends CDbMigration
 	{
 	}
 
-    /*
     public function down()
     {
+		echo "m101129_185401_create_news_table does not support migration down.\n";
+		return false;
     }
-    */
+
+	/*
+	// implement safeUp/safeDown instead if transaction is needed
+	public function safeUp()
+	{
+	}
+
+	public function safeDown()
+	{
+	}
+	*/
 }
 ~~~
 
@@ -55,7 +66,11 @@ Notice that the class name is the same as the file name which is of the pattern 
 
 The `up()` method should contain the code implementing the actual database migration, while the `down()` method may contain the code reverting what is done in `up()`.
 
-Sometimes, it is impossible to implement `down()`. For example, if we delete table rows in `up()`, we will not be able to recover them in `down()`. In this case, the migration is called irreversible, meaning we cannot roll back to a previous state of the database.
+Sometimes, it is impossible to implement `down()`. For example, if we delete table rows in `up()`, we will not be able to recover them in `down()`. In this case, the migration is called irreversible, meaning we cannot roll back to a previous state of the database. In the above generated code, the `down()` method returns `false` to indicate that the migration cannot be reverted.
+
+> Info: Starting from version 1.1.7, if the `up()` or `down()` method returns
+> `false`, all the following migrations will be canceled. Previously in version
+> 1.1.6, one has to throw exceptions to cancel the following migrations.
 
 As an example, let's show the migration about creating a news table.
 
@@ -82,6 +97,72 @@ class m101129_185401_create_news_table extends CDbMigration
 The base class [CDbMigration] provides a set of methods for manipulating data and schema of a database. For example, [CDbMigration::createTable] will create a database table, while [CDbMigration::insert] will insert a row of data. These methods all use the database connection returned by [CDbMigration::getDbConnection()], which by default returns `Yii::app()->db`.
 
 > Info: You may notice that the database methods provided by [CDbMigration] are very similar to those in [CDbCommand]. Indeed they are nearly the same except that [CDbMigration] methods will measure the time used by their methods and print some messages about the method parameters.
+
+
+Transactional Migrations
+------------------------
+
+> Info: The feature of transactional migrations has been supported since version 1.1.7.
+
+While performing complex DB migrations, we usually want to make sure that each migration succeed or fail as a whole so that the database maintains the consistency and integrity. In order to achieve this goal, we can exploit DB transactions.
+
+We could explicitly start a DB transaction and enclose the rest of the DB-related code within the transaction, like the following:
+
+~~~
+[php]
+class m101129_185401_create_news_table extends CDbMigration
+{
+	public function up()
+	{
+		$transaction=$this->getDbConnection()->beginTransaction();
+		try
+		{
+			$this->createTable('tbl_news', array(
+				'id' => 'pk',
+				'title' => 'string NOT NULL',
+				'content' => 'text',
+			));
+			$transaction->commit();
+		}
+		catch(Exception $e)
+		{
+			echo "Exception: ".$e->getMessage()."\n";
+			$transaction->rollBack();
+			return false;
+		}
+	}
+
+	// ...similar code for down()
+}
+~~~
+
+However, an easier way to get transaction support is to implement the `safeUp()` method instead of `up()`, and `safeDown()` instead of `down()`. For example,
+
+~~~
+[php]
+class m101129_185401_create_news_table extends CDbMigration
+{
+	public function safeUp()
+	{
+		$this->createTable('tbl_news', array(
+			'id' => 'pk',
+			'title' => 'string NOT NULL',
+			'content' => 'text',
+		));
+	}
+
+	public function safeDown()
+	{
+		$this->dropTable('tbl_news');
+	}
+}
+~~~
+
+When Yii performs the migration, it will start a DB transaction and then call `safeUp()` or `safeDown()`. If any DB error occurs in `safeUp()` or `safeDown()`, the transaction will be rolled back, thus ensuring the database remain in a good shape.
+
+> Note: Not all DBMS support transactions. And some DB queries cannot be put
+> into a transaction. In this case, you will have to implement `up()` and
+> `down()`, instead.
 
 
 Applying Migrations

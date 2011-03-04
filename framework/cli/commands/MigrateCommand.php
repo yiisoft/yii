@@ -96,7 +96,13 @@ class MigrateCommand extends CConsoleCommand
 		if($this->confirm('Apply the above '.($n===1 ? 'migration':'migrations')."?"))
 		{
 			foreach($migrations as $migration)
-				$this->migrateUp($migration);
+			{
+				if($this->migrateUp($migration)===false)
+				{
+					echo "\nMigration failed. All later migrations are canceled.\n";
+					return;
+				}
+			}
 			echo "\nMigrated up successfully.\n";
 		}
 	}
@@ -123,7 +129,13 @@ class MigrateCommand extends CConsoleCommand
 		if($this->confirm('Revert the above '.($n===1 ? 'migration':'migrations')."?"))
 		{
 			foreach($migrations as $migration)
-				$this->migrateDown($migration);
+			{
+				if($this->migrateDown($migration)===false)
+				{
+					echo "\nMigration failed. All later migrations are canceled.\n";
+					return;
+				}
+			}
 			echo "\nMigrated down successfully.\n";
 		}
 	}
@@ -150,9 +162,21 @@ class MigrateCommand extends CConsoleCommand
 		if($this->confirm('Redo the above '.($n===1 ? 'migration':'migrations')."?"))
 		{
 			foreach($migrations as $migration)
-				$this->migrateDown($migration);
+			{
+				if($this->migrateDown($migration)===false)
+				{
+					echo "\nMigration failed. All later migrations are canceled.\n";
+					return;
+				}
+			}
 			foreach(array_reverse($migrations) as $migration)
-				$this->migrateUp($migration);
+			{
+				if($this->migrateUp($migration)===false)
+				{
+					echo "\nMigration failed. All later migrations are canceled.\n";
+					return;
+				}
+			}
 			echo "\nMigration redone successfully.\n";
 		}
 	}
@@ -336,13 +360,20 @@ class MigrateCommand extends CConsoleCommand
 		echo "*** applying $class\n";
 		$start=microtime(true);
 		$migration=$this->instantiateMigration($class);
-		$migration->up();
-		$this->getDbConnection()->createCommand()->insert($this->migrationTable, array(
-			'version'=>$class,
-			'apply_time'=>time(),
-		));
 		$time=microtime(true)-$start;
-		echo "*** applied $class (time: ".sprintf("%.3f",$time)."s)\n\n";
+		if($migration->up()!==false)
+		{
+			$this->getDbConnection()->createCommand()->insert($this->migrationTable, array(
+				'version'=>$class,
+				'apply_time'=>time(),
+			));
+			echo "*** applied $class (time: ".sprintf("%.3f",$time)."s)\n\n";
+		}
+		else
+		{
+			echo "*** failed to apply $class (time: ".sprintf("%.3f",$time)."s)\n\n";
+			return false;
+		}
 	}
 
 	protected function migrateDown($class)
@@ -353,11 +384,18 @@ class MigrateCommand extends CConsoleCommand
 		echo "*** reverting $class\n";
 		$start=microtime(true);
 		$migration=$this->instantiateMigration($class);
-		$migration->down();
-		$db=$this->getDbConnection();
-		$db->createCommand()->delete($this->migrationTable, $db->quoteColumnName('version').'=:version', array(':version'=>$class));
 		$time=microtime(true)-$start;
-		echo "*** reverted $class (time: ".sprintf("%.3f",$time)."s)\n\n";
+		if($migration->down()!==false)
+		{
+			$db=$this->getDbConnection();
+			$db->createCommand()->delete($this->migrationTable, $db->quoteColumnName('version').'=:version', array(':version'=>$class));
+			echo "*** reverted $class (time: ".sprintf("%.3f",$time)."s)\n\n";
+		}
+		else
+		{
+			echo "*** failed to revert $class (time: ".sprintf("%.3f",$time)."s)\n\n";
+			return false;
+		}
 	}
 
 	protected function instantiateMigration($class)
@@ -494,8 +532,19 @@ class {ClassName} extends CDbMigration
 	{
 	}
 
-	/*
 	public function down()
+	{
+		echo "{ClassName} does not support migration down.\\n";
+		return false;
+	}
+
+	/*
+	// Use safeUp/safeDown to do migration with transaction
+	public function safeUp()
+	{
+	}
+
+	public function safeDown()
 	{
 	}
 	*/
