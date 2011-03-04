@@ -85,10 +85,8 @@
 			url: $.fn.yiiListView.getUrl(id),
 			success: function(data,status) {
 				$.each(settings.ajaxUpdate, function(i,v) {
-					var id='#'+v,
-						$d=$(data),
-						$filtered=$d.filter(id);
-					$(id).replaceWith( $filtered.size() ? $filtered : $d.find(id));
+					var id='#'+v;
+					$(id).replaceWith($(id,'<div>'+data+'</div>'));
 				});
 				if(settings.afterAjaxUpdate != undefined)
 					settings.afterAjaxUpdate(id, data);
