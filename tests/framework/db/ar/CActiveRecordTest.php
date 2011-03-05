@@ -1007,6 +1007,21 @@ class CActiveRecordTest extends CTestCase
 			array('user1','group2'),
 		),$result);
 
+		// just bridge, base limited
+		$users=User::model()->with('groups')->findAll(array('limit'=>1));
+
+		$result=array();
+		foreach($users as $user)
+		{
+			foreach($user->groups as $group)
+				$result[]=array($user->username,$group->name);
+		}
+
+		$this->assertEquals(array(
+			array('user1','group1'),
+			array('user1','group2'),
+		),$result);
+
 		// 'through' should not clear existing relations defined via short syntax
 		$user=User::model()->with('groups.description')->findByPk(1);
 
@@ -1052,12 +1067,82 @@ class CActiveRecordTest extends CTestCase
 			array('user1','user'),
 		),$result);
 
+		// bridge fields handling, another relations order
+		$user=User::model()->with('groups','roles')->findByPk(1);
+
+		$result=array();
+		foreach($user->groups as $group)
+			$result[]=array($user->username,$group->name);
+
+		$this->assertEquals(array(
+			array('user1','group1'),
+			array('user1','group2'),
+		),$result);
+
+		$result=array();
+		foreach($user->roles as $role)
+			$result[]=array($user->username,$role->name);
+
+		$this->assertEquals(array(
+			array('user1','dev'),
+			array('user1','user'),
+		),$result);
+
+		// bridge fields handling, base limited
+		$users=User::model()->with('roles','groups')->findAll(array('limit'=>1));
+
+		$result=array();
+		foreach($users as $user)
+		{
+			foreach($user->groups as $group)
+				$result[]=array($user->username,$group->name);
+		}
+
+		$this->assertEquals(array(
+			array('user1','group1'),
+			array('user1','group2'),
+		),$result);
+
+		$result=array();
+		foreach($users as $user)
+		{
+			foreach($user->roles as $role)
+				$result[]=array($user->username,$role->name);
+		}
+
+		$this->assertEquals(array(
+			array('user1','dev'),
+			array('user1','user'),
+		),$result);
+
 		// nested through
 		$group=Group::model()->with('comments')->findByPk(1);
 
 		$result=array();
 		foreach($group->comments as $comment)
 			$result[]=array($group->name,$comment->content);
+
+		$this->assertEquals(array(
+			array('group1','comment 1'),
+			array('group1','comment 2'),
+			array('group1','comment 3'),
+			array('group1','comment 4'),
+			array('group1','comment 5'),
+			array('group1','comment 6'),
+			array('group1','comment 7'),
+			array('group1','comment 8'),
+			array('group1','comment 9'),
+		),$result);
+
+		// nested through, base limited
+		$groups=Group::model()->with('comments')->findAll(array('limit'=>1));
+
+		$result=array();
+		foreach($groups as $group)
+		{
+			foreach($group->comments as $comment)
+				$result[]=array($group->name,$comment->content);
+		}
 
 		$this->assertEquals(array(
 			array('group1','comment 1'),
@@ -1103,6 +1188,20 @@ class CActiveRecordTest extends CTestCase
 			3=>array('teacher'=>'user1','student'=>'user3','progress'=>'good'),
 			4=>array('teacher'=>'user2','student'=>'user4','progress'=>'average'),
 		),$result);
+
+		// self through, base limited
+		$teachers=User::model()->with('students')->findAll(array('limit'=>1));
+
+		$result=array();
+		foreach($teachers as $teacher)
+		{
+			foreach($teacher->students as $student)
+				$result[]=array($teacher->username,$student->username);
+		}
+
+		$this->assertEquals(array(
+			array('user1','user3'),
+		),$result);
 	}
 
 	public function testHasManyThroughLazy()
@@ -1147,6 +1246,17 @@ class CActiveRecordTest extends CTestCase
 			array('group1','comment 7'),
 			array('group1','comment 8'),
 			array('group1','comment 9'),
+		),$result);
+
+		// self through
+		$teacher=User::model()->with('students')->findByPk(1);
+
+		$result=array();
+		foreach($teacher->students as $student)
+			$result[]=array($teacher->username,$student->username);
+
+		$this->assertEquals(array(
+			array('user1','user3'),
 		),$result);
 	}
 }
