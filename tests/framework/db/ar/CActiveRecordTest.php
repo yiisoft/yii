@@ -1249,7 +1249,7 @@ class CActiveRecordTest extends CTestCase
 		),$result);
 
 		// self through
-		$teacher=User::model()->with('students')->findByPk(1);
+		$teacher=User::model()->findByPk(1);
 
 		$result=array();
 		foreach($teacher->students as $student)
