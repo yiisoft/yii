@@ -44,7 +44,7 @@ class CInlineFilter extends CFilter
 			return $filter;
 		}
 		else
-			throw new CException(Yii::t('yii','Filter "{filter}" is invalid. Controller "{class}" does have the filter method "filter{filter}".',
+			throw new CException(Yii::t('yii','Filter "{filter}" is invalid. Controller "{class}" does not have the filter method "filter{filter}".',
 				array('{filter}'=>$filterName, '{class}'=>get_class($controller))));
 	}
 
