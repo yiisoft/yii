@@ -583,7 +583,7 @@ class CDbCommand extends CComponent
 					$columns[$i]=(string)$column;
 				else if(strpos($column,'(')===false)
 				{
-					if(preg_match('/^(.*?)\s+as\s+(.*)$/i',$column,$matches))
+					if(preg_match('/^(.*?)(?i:\s+as\s+|\s+)(.*)$/',$column,$matches))
 						$columns[$i]=$this->_connection->quoteColumnName($matches[1]).' AS '.$this->_connection->quoteColumnName($matches[2]);
 					else
 						$columns[$i]=$this->_connection->quoteColumnName($column);
