@@ -142,6 +142,21 @@ abstract class CDbMigration extends CComponent
 	}
 
 	/**
+	 * Executes a SQL statement.
+	 * This method executes the specified SQL statement using {@link dbConnection}.
+	 * @param string $sql the SQL statement to be executed
+	 * @param array $params input parameters (name=>value) for the SQL execution. See {@link CDbCommand::execute} for more details.
+	 * @since 1.1.7
+	 */
+	public function execute($sql, $params=array())
+	{
+		echo "    > execute SQL: $sql ...";
+		$time=microtime(true);
+		$this->getDbConnection()->createCommand($sql)->execute($params);
+		echo " done (time: ".sprintf('%.3f', microtime(true)-$time)."s)\n";
+	}
+
+	/**
 	 * Creates and executes an INSERT SQL statement.
 	 * The method will properly escape the column names, and bind the values to be inserted.
 	 * @param string $table the table that new rows will be inserted into.
