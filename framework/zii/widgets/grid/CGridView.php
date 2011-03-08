@@ -140,7 +140,7 @@ class CGridView extends CBaseListView
 	 * Usefull if you just want to display this error differently. CGridView by default displays this error with an javascript.alert()</li>
 	 * </ul>
 	 * Note: This handler is not called for JSONP requests, because they do not use an XMLHttpRequest.
-	 * 
+	 *
 	 * Example (add in a call to CGridView):
 	 * <pre>
 	 *  ...
@@ -311,7 +311,7 @@ class CGridView extends CBaseListView
 			throw new CException(Yii::t('zii','The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.'));
 		$column=new CDataColumn($this);
 		$column->name=$matches[1];
-		if(isset($matches[3]))
+		if(isset($matches[3]) && $matches[3]!=='')
 			$column->type=$matches[3];
 		if(isset($matches[5]))
 			$column->header=$matches[5];
