@@ -46,8 +46,8 @@ class CMenu extends CWidget
 	 * @var array list of menu items. Each menu item is specified as an array of name-value pairs.
 	 * Possible option names include the following:
 	 * <ul>
-	 * <li>label: string, required, specifies the menu item label. When {@link encodeLabel} is true, the label
-	 * will be HTML-encoded.</li>
+	 * <li>label: string, optional, specifies the menu item label. When {@link encodeLabel} is true, the label
+	 * will be HTML-encoded. If the label is not specified, it defaults to an empty string.</li>
 	 * <li>url: string or array, optional, specifies the URL of the menu item. It is passed to {@link CHtml::normalizeUrl}
 	 * to generate a valid URL. If this is not set, the menu item will be rendered as a span text.</li>
 	 * <li>visible: boolean, optional, whether this menu item is visible. Defaults to true.
@@ -249,6 +249,8 @@ class CMenu extends CWidget
 				unset($items[$i]);
 				continue;
 			}
+			if(!isset($item['label']))
+				$item['label']='';
 			if($this->encodeLabel)
 				$items[$i]['label']=CHtml::encode($item['label']);
 			$hasActiveChild=false;
