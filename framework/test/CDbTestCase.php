@@ -42,7 +42,7 @@ abstract class CDbTestCase extends CTestCase
 	 * @var array a list of fixtures that should be loaded before each test method executes.
 	 * The array keys are fixture names, and the array values are either AR class names
 	 * or table names. If table names, they must begin with a colon character (e.g. 'Post'
-	 * means an AR class, while ':Post' means a table name).
+	 * means an AR class, while ':post' means a table name).
 	 * Defaults to false, meaning fixtures will not be used at all.
 	 */
 	protected $fixtures=false;
