@@ -15,6 +15,25 @@
  * The uploaded file information can be accessed via $_FILES[widget-name], which gives an array of the uploaded
  * files. Note, you have to set the enclosing form's 'enctype' attribute to be 'multipart/form-data'.
  *
+ * Example:
+ * <pre>
+ * <?php
+ *   $this->widget('CMultiFileUpload', array(
+ *      'model'=>$model,
+ *      'attribute'=>'files',
+ *      'accept'=>'jpg|gif',
+ *      'options'=>array(
+ *         'onFileSelect'=>'function(element, value, master){ alert("onFileSelect - "+value) }',
+ *         'afterFileSelect'=>'function(element, value, master){ alert("afterFileSelect - "+value) }'
+ *         'onFileAppend'=>'function(element, value, master){ alert("onFileAppend - "+value) }',
+ *         'afterFileAppend'=>'function(element, value, master){ alert("afterFileAppend - "+value) }',
+ *         'onFileRemove'=>'function(element, value, master){ alert("onFileRemove - "+value) }',
+ *         'afterFileRemove'=>'function(element, value, master){ alert("afterFileRemove - "+value) }',
+ *      ),
+ *   ));
+ * ?>
+ * </pre>
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web.widgets
@@ -23,8 +42,8 @@
 class CMultiFileUpload extends CInputWidget
 {
 	/**
-	 * @var string the file types that are allowed (e.g. "gif|jpg"). Note, the server side still
-	 * needs to check if the uploaded files have allowed types.
+	 * @var string the file types that are allowed (eg "gif|jpg").
+	 * Note, the server side still needs to check if the uploaded files have allowed types.
 	 */
 	public $accept;
 	/**
@@ -52,6 +71,11 @@ class CMultiFileUpload extends CInputWidget
 	 * @since 1.1.3
 	 */
 	public $file;
+	/**
+	 * @var array additional options that can be passed to the constructor of the multifile js object.
+	 * @since 1.1.7
+	 */
+	public $options=array();
 
 
 	/**
@@ -79,11 +103,32 @@ class CMultiFileUpload extends CInputWidget
 	public function registerClientScript()
 	{
 		$id=$this->htmlOptions['id'];
-		$mfOptions=array();
+		
+		$options=$this->getClientOptions();
+		$options=$options===array()? '' : CJavaScript::encode($options);
+
+		$cs=Yii::app()->getClientScript();
+		$cs->registerCoreScript('multifile');
+		$cs->registerScript('Yii.CMultiFileUpload#'.$id,"jQuery(\"#{$id}\").MultiFile({$options});");
+	}
+
+	/**
+	 * @return array the javascript options
+	 */
+	protected function getClientOptions()
+	{
+		$options=$this->options;
+		foreach(array('onFileRemove','afterFileRemove','onFileAppend','afterFileAppend','onFileSelect','afterFileSelect') as $event)
+		{
+			if(isset($options[$event]) && strpos($options[$event],'js:')!==0)
+				$options[$event]='js:'.$options[$event];
+		}
+
 		if($this->accept!==null)
-			$mfOptions['accept']=$this->accept;
+			$options['accept']=$this->accept;
 		if($this->max>0)
-			$mfOptions['max']=$this->max;
+			$options['max']=$this->max;
+
 		$messages=array();
 		foreach(array('remove','denied','selected','duplicate','file') as $messageName)
 		{
@@ -91,11 +136,8 @@ class CMultiFileUpload extends CInputWidget
 				$messages[$messageName]=$this->$messageName;
 		}
 		if($messages!==array())
-			$mfOptions['STRING']=$messages;
-		$options=$mfOptions===array()?'':CJavaScript::encode($mfOptions);
+			$options['STRING']=$messages;
 
-		$cs=Yii::app()->getClientScript();
-		$cs->registerCoreScript('multifile');
-		$cs->registerScript('Yii.CMultiFileUpload#'.$id,"jQuery(\"#{$id}\").MultiFile({$options});");
+		return $options;
 	}
 }
