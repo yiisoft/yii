@@ -17,6 +17,7 @@ Version 1.1.7 to be released
 - Bug #2146: Fixed the bug in CFileHelper::getExtension, validatePath and getMimeTypeByExtension that was not finding the file extension correctly (mdomba)
 - Bug #2169: Fixed the bug that some columns are not properly quoted in MigrateCommand (Qiang)
 - Bug #2178: Fixed the bug that query builder did not recognize the AS keyword when using table alias (Qiang)
+- Bug #2188: 'join' in default scopes is now respected by STAT relations (creocoder, Sam Dark)
 - Bug: Fixed the bug that a PHP notice may occur in exception view if a method in the call stack has a very complex signature (Qiang)
 - Bug: Fixed error that CGridview breaks when updating non-cgridview elements (mdomba)
 - Bug: Fixed the bug in CCheckBoxColumn, "check all" checkbox was not being checked/unchecked when needed (mdomba)
