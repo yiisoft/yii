@@ -239,7 +239,7 @@ class CFileHelper
 		static $extensions;
 		if($extensions===null)
 			$extensions=$magicFile===null ? require(Yii::getPathOfAlias('system.utils.mimeTypes').'.php') : $magicFile;
-		if(($ext=pathinfo($path, PATHINFO_EXTENSION))!=='')
+		if(($ext=pathinfo($file, PATHINFO_EXTENSION))!=='')
 		{
 			$ext=strtolower($ext);
 			if(isset($extensions[$ext]))
