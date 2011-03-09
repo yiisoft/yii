@@ -1436,6 +1436,7 @@ class CStatElement
 
 		$records=$this->_parent->records;
 
+		$join=empty($relation->join)?'' : ' '.$relation->join;
 		$where=empty($relation->condition)?' WHERE ' : ' WHERE ('.$relation->condition.') AND ';
 		$group=empty($relation->group)?'' : ', '.$relation->group;
 		$having=empty($relation->having)?'' : ' HAVING ('.$relation->having.')';
@@ -1450,7 +1451,7 @@ class CStatElement
 		if(count($fks)===1)  // single column FK
 		{
 			$col=$table->columns[$fks[0]]->rawName;
-			$sql="SELECT $col AS $c, {$relation->select} AS $s FROM {$table->rawName} ".$tableAlias
+			$sql="SELECT $col AS $c, {$relation->select} AS $s FROM {$table->rawName} ".$tableAlias.$join
 				.$where.'('.$builder->createInCondition($table,$fks[0],array_keys($records),$tableAlias.'.').')'
 				." GROUP BY $col".$group
 				.$having.$order;
@@ -1477,7 +1478,7 @@ class CStatElement
 				$name=$table->columns[$map[$pk]]->rawName;
 				$cols[$name]=$name.' AS '.$schema->quoteColumnName('c'.$n);
 			}
-			$sql='SELECT '.implode(', ',$cols).", {$relation->select} AS $s FROM {$table->rawName} ".$tableAlias
+			$sql='SELECT '.implode(', ',$cols).", {$relation->select} AS $s FROM {$table->rawName} ".$tableAlias.$join
 				.$where.'('.$builder->createInCondition($table,$fks,$keys,$tableAlias.'.').')'
 				.' GROUP BY '.implode(', ',array_keys($cols)).$group
 				.$having.$order;
@@ -1598,6 +1599,7 @@ class CStatElement
 			}
 		}
 
+		$join=empty($relation->join)?'' : ' '.$relation->join;
 		$where=empty($relation->condition)?'' : ' WHERE ('.$relation->condition.')';
 		$group=empty($relation->group)?'' : ', '.$relation->group;
 		$having=empty($relation->having)?'' : ' AND ('.$relation->having.')';
@@ -1605,7 +1607,7 @@ class CStatElement
 
 		$sql='SELECT '.$this->relation->select.' AS '.$schema->quoteColumnName('s').', '.implode(', ',$cols)
 			.' FROM '.$table->rawName.' '.$tableAlias.' INNER JOIN '.$joinTable->rawName
-			.' ON ('.implode(') AND (',$joinCondition).')'
+			.' ON ('.implode(') AND (',$joinCondition).')'.$join
 			.$where
 			.' GROUP BY '.implode(', ',array_keys($cols)).$group
 			.' HAVING ('.$builder->createInCondition($joinTable,$map,$keys).')'
