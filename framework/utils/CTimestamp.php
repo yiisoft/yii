@@ -367,15 +367,15 @@ class CTimestamp
 
 	/**
 	 * Generates a timestamp.
-	 * Not a very fast algorithm - O(n) operation. Could be optimized to O(1).
+	 * This is the same as the PHP function {@link mktime http://php.net/manual/en/function.mktime.php}.
 	 * @param integer $hr hour
 	 * @param integer $min minute
 	 * @param integer $sec second
 	 * @param integer $mon month
 	 * @param integer $day day
 	 * @param integer $year year
-	 * @param boolean $is_gmt whether this is GMT time
-	 * @return integer|float a timestamp given a local time. Originally by jackbbs.
+	 * @param boolean $is_gmt whether this is GMT time. If true, gmmktime() will be used.
+	 * @return integer|float a timestamp given a local time.
      */
 	public static function getTimestamp($hr,$min,$sec,$mon=false,$day=false,$year=false,$is_gmt=false)
 	{
