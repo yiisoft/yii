@@ -572,10 +572,9 @@ class CUrlRule extends CComponent
 			}
 			if(isset($route['pattern']))
 				$pattern=$route['pattern'];
-			$route=$this->route=$route[0];
+			$route=$route[0];
 		}
-		else
-			$this->route=$route;
+		$this->route=trim($route,'/');
 
 		$tr2['/']=$tr['/']='\\/';
 
