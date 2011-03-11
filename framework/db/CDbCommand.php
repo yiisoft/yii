@@ -331,9 +331,11 @@ class CDbCommand extends CComponent
 				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
 			Yii::log('Error in executing SQL: '.$this->getText().$par,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
             $errorInfo = $e instanceof PDOException ? $e->errorInfo : null;
-
+            $message = $e->getMessage();
+            if(YII_DEBUG)
+            	$message .= ' with SQL statement: '.$this->getText().$par;
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
-				array('{error}'=>$e->getMessage())),(int)$e->getCode(),$errorInfo);
+				array('{error}'=>$message)),(int)$e->getCode(),$errorInfo);
 		}
 	}
 
@@ -508,8 +510,11 @@ class CDbCommand extends CComponent
 				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().$par.')','system.db.CDbCommand.query');
 			Yii::log('Error in querying SQL: '.$this->getText().$par,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
             $errorInfo = $e instanceof PDOException ? $e->errorInfo : null;
+            $message = $e->getMessage();
+            if(YII_DEBUG)
+            	$message .= ' with SQL statement: '.$this->getText().$par;
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
-				array('{error}'=>$e->getMessage())),(int)$e->getCode(),$errorInfo);
+				array('{error}'=>$message)),(int)$e->getCode(),$errorInfo);
 		}
 	}
 
