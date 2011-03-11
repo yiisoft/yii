@@ -36,6 +36,7 @@ Version 1.1.7 to be released
 - Enh #2063: The CActiveForm JavaScript should now correctly trigger validaton for checkbox and radio type input fields (Y!!)
 - Enh #2068: CTimestampBehavior::timestampExpression can now be a DB expression (Qiang)
 - Enh #2105: Added CButtonCOlumn::afterDelete so that a custom javascript function can be called after the delete function (mdomba)
+- Enh #2108: Added CGridView::blankDisplay to allow customizing blank cell display (Qiang)
 - Enh #2125: Added memcached check and hint to requirements checker (Sam Dark)
 - Enh #2133: Set default focus to the password input for Gii login page (Qiang)
 - Enh #2141: Allow the 'label' option of CMenu menu items to be optional and take an empty string value (Qiang)

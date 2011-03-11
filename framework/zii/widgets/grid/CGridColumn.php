@@ -153,7 +153,7 @@ abstract class CGridColumn extends CComponent
 	 */
 	protected function renderHeaderCellContent()
 	{
-		echo trim($this->header)!=='' ? $this->header : '&nbsp;';
+		echo trim($this->header)!=='' ? $this->header : $this->grid->blankDisplay;
 	}
 
 	/**
@@ -163,7 +163,7 @@ abstract class CGridColumn extends CComponent
 	 */
 	protected function renderFooterCellContent()
 	{
-		echo trim($this->footer)!=='' ? $this->footer : '&nbsp;';
+		echo trim($this->footer)!=='' ? $this->footer : $this->grid->blankDisplay;
 	}
 
 	/**
@@ -174,7 +174,7 @@ abstract class CGridColumn extends CComponent
 	 */
 	protected function renderDataCellContent($row,$data)
 	{
-		echo '&nbsp;';
+		echo $this->grid->blankDisplay;
 	}
 
 	/**
@@ -185,6 +185,6 @@ abstract class CGridColumn extends CComponent
 	 */
 	protected function renderFilterCellContent()
 	{
-		echo '&nbsp;';
+		echo $this->grid->blankDisplay;
 	}
 }

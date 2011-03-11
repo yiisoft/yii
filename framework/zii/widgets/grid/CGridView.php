@@ -197,6 +197,13 @@ class CGridView extends CBaseListView
 	 */
 	public $nullDisplay='&nbsp;';
 	/**
+	 * @var string the text to be displayed in an empty grid cell. This property will NOT be HTML-encoded when rendering. Defaults to an HTML blank.
+	 * This differs from {@link nullDisplay} in that {@link nullDisplay} is only used by {@link CDataColumn} to render
+	 * null data values.
+	 * @since 1.1.7
+	 */
+	public $blankDisplay='&nbsp;';
+	/**
 	 * @var string the CSS class name that will be assigned to the widget container element
 	 * when the widget is updating its content via AJAX. Defaults to 'grid-view-loading'.
 	 * @since 1.1.1
