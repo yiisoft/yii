@@ -10,6 +10,7 @@ Version 1.1.7 to be released
 - Bug #2026: Fixed the bug that migration command does not respect the connectionID property value (Qiang)
 - Bug #2032: Fixed the bug that beginCache with renderDynamic was not working if used multiple times (mdomba)
 - Bug #2037: Fixed CGridView js bug on selectionChanged "sboxname is undefined" (mdomba)
+- Bug #2060: Fixed the bug that CWebUser::getFlashes() would return a counter array in the result (Qiang)
 - Bug #2097: CHttpRequest::getUrl() should be the same as getRequestUri (Qiang)
 - Bug #2099: Fixed CDbCriteria::mergeWith error (creocoder, Sam Dark)
 - Bug #2130: Fixed bug that Gii code/diff view was not starting from top (mdomba)
