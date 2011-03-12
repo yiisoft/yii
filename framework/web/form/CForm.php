@@ -317,7 +317,7 @@ class CForm extends CFormElement implements ArrayAccess
 	 * Configures the input elements of this form.
 	 * The configuration must be an array of input configuration array indexed by input name.
 	 * Each input configuration array consists of name-value pairs that are used to initialize
-	 * a {@link CFormStringElement} object (when 'type' is 'string'), a {@link CFormElement} object
+	 * a {@link CFormStringElement} object (when 'type' is 'text'), a {@link CFormElement} object
 	 * (when 'type' is a string ending with 'Form'), or a {@link CFormInputElement} object in
 	 * all other cases.
 	 * @param array $elements the button configurations
