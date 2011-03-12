@@ -139,6 +139,9 @@ equal to another attribute or constant.
    - `email`: alias of [CEmailValidator], ensuring the attribute is a
 valid email address.
 
+   - `date`: alias of [CDateValidator], ensuring the attribute represents
+a valid date, time, or datetime value.
+
    - `default`: alias of [CDefaultValueValidator], assigning a default value
 to the specified attributes.
 

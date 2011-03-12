@@ -61,6 +61,7 @@ Version 1.1.7 to be released
 - Chg #2148: Upgraded jQuery to version 1.5.1 (Sam Dark)
 - Chg #2163: CConsoleCommand::usageError() will now exit with error code 1 (Qiang)
 - Chg: jQuery UI now uses minified CSS (Sam Dark)
+- New #2069: Added CDateValidator (Qiang)
 - New: Added support for query caching (Qiang)
 
 Version 1.1.6 January 16, 2011

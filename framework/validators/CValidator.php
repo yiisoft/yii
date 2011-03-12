@@ -44,6 +44,7 @@
  * <li>default: {@link CDefaultValueValidator}</li>
  * <li>exist: {@link CExistValidator}</li>
  * <li>boolean: {@link CBooleanValidator}</li>
+ * <li>date: {@link CDateValidator}</li>
  * <li>safe: {@link CSafeValidator}</li>
  * <li>unsafe: {@link CUnsafeValidator}</li>
  * </ul>
@@ -77,6 +78,7 @@ abstract class CValidator extends CComponent
 		'boolean'=>'CBooleanValidator',
 		'safe'=>'CSafeValidator',
 		'unsafe'=>'CUnsafeValidator',
+		'date'=>'CDateValidator',
 	);
 
 	/**
