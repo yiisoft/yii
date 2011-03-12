@@ -45,12 +45,13 @@ class CArrayDataProvider extends CDataProvider
 	/**
 	 * @var array the data that is not paginated or sorted. When pagination is enabled,
 	 * this property usually contains more elements than {@link data}.
+	 * The array elements must use zero-based integer keys.
 	 */
 	public $rawData=array();
 
 	/**
 	 * Constructor.
-	 * @param array $rawData the data that is not paginated or sorted.
+	 * @param array $rawData the data that is not paginated or sorted. The array elements must use zero-based integer keys.
 	 * @param array $config configuration (name=>value) to be applied as the initial property values of this class.
 	 */
 	public function __construct($rawData,$config=array())
