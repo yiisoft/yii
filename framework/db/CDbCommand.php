@@ -329,11 +329,12 @@ class CDbCommand extends CComponent
 		{
 			if($this->_connection->enableProfiling)
 				Yii::endProfile('system.db.CDbCommand.execute('.$this->getText().')','system.db.CDbCommand.execute');
-			Yii::log('Error in executing SQL: '.$this->getText().$par,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
             $errorInfo = $e instanceof PDOException ? $e->errorInfo : null;
             $message = $e->getMessage();
+			Yii::log(Yii::t('yii','CDbCommand::execute() failed: {error}. The SQL statement executed was: {sql}.',
+				array('{error}'=>$message, '{sql}'=>$this->getText().$par)),CLogger::LEVEL_ERROR,'system.db.CDbCommand');
             if(YII_DEBUG)
-            	$message .= ' with SQL statement: '.$this->getText().$par;
+            	$message .= '. The SQL statement executed was: '.$this->getText().$par;
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
 				array('{error}'=>$message)),(int)$e->getCode(),$errorInfo);
 		}
@@ -508,11 +509,12 @@ class CDbCommand extends CComponent
 		{
 			if($this->_connection->enableProfiling)
 				Yii::endProfile('system.db.CDbCommand.query('.$this->getText().$par.')','system.db.CDbCommand.query');
-			Yii::log('Error in querying SQL: '.$this->getText().$par,CLogger::LEVEL_ERROR,'system.db.CDbCommand');
             $errorInfo = $e instanceof PDOException ? $e->errorInfo : null;
             $message = $e->getMessage();
+			Yii::log(Yii::t('yii','CDbCommand::{method}() failed: {error}. The SQL statement executed was: {sql}.',
+				array('{method}'=>$method, '{error}'=>$message, '{sql}'=>$this->getText().$par)),CLogger::LEVEL_ERROR,'system.db.CDbCommand');
             if(YII_DEBUG)
-            	$message .= ' with SQL statement: '.$this->getText().$par;
+            	$message .= '. The SQL statement executed was: '.$this->getText().$par;
 			throw new CDbException(Yii::t('yii','CDbCommand failed to execute the SQL statement: {error}',
 				array('{error}'=>$message)),(int)$e->getCode(),$errorInfo);
 		}
