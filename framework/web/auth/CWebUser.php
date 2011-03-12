@@ -429,7 +429,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 
 	/**
 	 * Renews the identity cookie.
-	 * This method will set the expriation time of the identity cookie to be the current time
+	 * This method will set the expiration time of the identity cookie to be the current time
 	 * plus the originally specified cookie duration.
 	 * @since 1.1.3
 	 */

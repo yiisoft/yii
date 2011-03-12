@@ -24,6 +24,10 @@ $.yii = {
 		if (typeof url == 'string' && url != '') {
 			f.action = url;
 		}
+		if (element.target != null) {
+			f.target = element.target;
+		}
+
 		var inputs = [];
 		$.each(params, function(name, value) {
 			var input = document.createElement("input");
