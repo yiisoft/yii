@@ -177,11 +177,11 @@ class CHttpRequest extends CApplicationComponent
 
 	/**
 	 * Returns the named PUT parameter value.
-	 * If the DELETE parameter does not exist or if the current request is not a PUT request,
+	 * If the PUT parameter does not exist or if the current request is not a PUT request,
 	 * the second parameter to this method will be returned.
 	 * @param string $name the PUT parameter name
 	 * @param mixed $defaultValue the default parameter value if the PUT parameter does not exist.
-	 * @return mixed the DELETE parameter value
+	 * @return mixed the PUT parameter value
 	 * @since 1.1.7
 	 */
 	public function getPut($name,$defaultValue=null)
