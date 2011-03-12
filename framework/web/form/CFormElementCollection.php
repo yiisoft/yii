@@ -71,7 +71,7 @@ class CFormElementCollection extends CMap
 			{
 				if(!isset($value['type']))
 					$value['type']='text';
-				if($value['type']==='text')
+				if($value['type']==='string')
 				{
 					unset($value['type'],$value['name']);
 					$element=new CFormStringElement($value,$this->_form);
