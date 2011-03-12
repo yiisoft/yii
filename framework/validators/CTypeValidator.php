@@ -26,6 +26,9 @@
  * will be used to determine how to parse the date string. If the given date
  * value doesn't follow the format, the attribute is considered as invalid.
  *
+ * Starting from version 1.1.7, we have a dedicated date validator {@link CDateValidator}.
+ * Please consider using this validator to validate a date-typed value.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.validators
