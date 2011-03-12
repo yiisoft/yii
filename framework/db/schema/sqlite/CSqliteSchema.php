@@ -54,7 +54,14 @@ class CSqliteSchema extends CDbSchema
 				$value=$this->getDbConnection()->createCommand("SELECT MAX(`{$table->primaryKey}`) FROM {$table->rawName}")->queryScalar();
 			else
 				$value=(int)$value-1;
-			$this->getDbConnection()->createCommand("UPDATE sqlite_sequence SET seq='$value' WHERE name='{$table->name}'")->execute();
+			try
+			{
+				// it's possible sqlite_sequence does not exist
+				$this->getDbConnection()->createCommand("UPDATE sqlite_sequence SET seq='$value' WHERE name='{$table->name}'")->execute();
+			}
+			catch(Exception $e)
+			{
+			}
 		}
 	}
 
