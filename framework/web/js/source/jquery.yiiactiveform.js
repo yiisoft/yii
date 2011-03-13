@@ -213,7 +213,7 @@
 	 */
 	$.fn.yiiactiveform.updateInput = function(attribute, messages, form) {
 		attribute.status = 1;
-		var hasError = messages!=null && $.isArray(messages[attribute.inputID]) && messages[attribute.inputID].length>0;
+		var hasError = messages!=null && $.isArray(messages[attribute.id]) && messages[attribute.id].length>0;
 		var $error = $('#'+attribute.errorID, form);
 		var $container = $.fn.yiiactiveform.getInputContainer(attribute, form);
 		$container.removeClass(attribute.validatingCssClass)
@@ -221,7 +221,7 @@
 			.removeClass(attribute.successCssClass);
 
 		if(hasError) {
-			$error.html(messages[attribute.inputID][0]);
+			$error.html(messages[attribute.id][0]);
 			$container.addClass(attribute.errorCssClass);
 		}
 		else {
@@ -246,8 +246,8 @@
 			return;
 		var content = '';
 		$.each(settings.attributes, function(i, attribute){
-			if(messages && $.isArray(messages[attribute.inputID])) {
-				$.each(messages[attribute.inputID],function(j,message){
+			if(messages && $.isArray(messages[attribute.id])) {
+				$.each(messages[attribute.id],function(j,message){
 					content = content + '<li>' + message + '</li>';
 				});
 			}
@@ -315,6 +315,7 @@
 		/**
 		 * list of attributes to be validated. Each array element is of the following structure:
 		 * {
+		 *     id : 'ModelClass_attribute', // the unique attribute ID
 		 *     model : 'ModelClass', // the model class name
 		 *     name : 'name', // attribute name
 		 *     inputID : 'input-tag-id',
