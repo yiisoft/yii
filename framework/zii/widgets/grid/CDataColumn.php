@@ -30,7 +30,7 @@ class CDataColumn extends CGridColumn
 	/**
 	 * @var string the attribute name of the data model. The corresponding attribute value will be rendered
 	 * in each data cell. If {@link value} is specified, this property will be ignored
-	 * unless the column needs to be sortable.
+	 * unless the column needs to be sortable or filtered.
 	 * @see value
 	 * @see sortable
 	 */
