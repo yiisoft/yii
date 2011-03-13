@@ -42,7 +42,7 @@ Yii::import('zii.widgets.jui.CJuiWidget');
  * @package zii.widgets.jui
  * @since 1.1
  */
-class CJuiTabs extends CJuiWidget 
+class CJuiTabs extends CJuiWidget
 {
 	/**
 	 * @var array list of tabs (tab title=>tab content).
@@ -102,15 +102,15 @@ class CJuiTabs extends CJuiWidget
 				$tabsOut .= strtr($this->headerTemplate, array('{title}'=>$title, '{url}'=>'#'.$tabId))."\n";
 				$contentOut .= strtr($this->contentTemplate, array('{content}'=>$content,'{id}'=>$tabId))."\n";
 			}
-			elseif (isset($content['content']))
-			{
-				$tabsOut .= strtr($this->headerTemplate, array('{title}'=>$title, '{url}'=>'#'.$tabId))."\n";
-				$contentOut .= strtr($this->contentTemplate, array('{content}'=>$content['content'],'{id}'=>$tabId))."\n";
-
-			}
 			elseif (isset($content['ajax']))
 			{
 				$tabsOut .= strtr($this->headerTemplate,array('{title}'=>$title, '{url}'=>CHtml::normalizeUrl($content['ajax'])))."\n";
+			}
+			else
+			{
+				$tabsOut .= strtr($this->headerTemplate, array('{title}'=>$title, '{url}'=>'#'.$tabId))."\n";
+				if(isset($content['content']))
+					$contentOut .= strtr($this->contentTemplate, array('{content}'=>$content['content'],'{id}'=>$tabId))."\n";
 			}
 		}
 		echo "<ul>\n" . $tabsOut . "</ul>\n";
