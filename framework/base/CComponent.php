@@ -649,6 +649,11 @@ class CEvent extends CComponent
 	 * When a handler sets this true, the rest of the uninvoked event handlers will not be invoked anymore.
 	 */
 	public $handled=false;
+	/**
+	 * @var mixed additional event parameters.
+	 * @since 1.1.7
+	 */
+	public $params;
 
 	/**
 	 * Constructor.
