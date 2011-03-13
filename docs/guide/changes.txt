@@ -10,6 +10,7 @@ Version 1.1.7
  * [Now it's possible to pass parameters for relational named scopes](/doc/guide/database.arr#relational-query-with-named-scopes)
  * [Added ability to perform Relational query without getting related models](/doc/guide/database.arr#performing-relational-query-without-getting-related-models)
  * [Added transaction support for the DB migration feature](/doc/guide/database.migration#transactional-migrations)
+ * [Added support for using parameter binding with class-based actions](/doc/guide/basics.controller#action-parameter-binding)
 
  Version 1.1.6
 -------------
