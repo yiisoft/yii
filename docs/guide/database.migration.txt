@@ -17,6 +17,8 @@ Yii supports database migration via the `yiic migrate` command line tool. This t
 
 In the following, we will describe how to use this tool.
 
+> Note: It's better to use application-specific yiic (e.g. `cd path/to/protected`)
+> when working with `migrate` command instead of one from `framework` directory.
 
 Creating Migrations
 -------------------
