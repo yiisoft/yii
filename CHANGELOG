@@ -52,6 +52,7 @@ Version 1.1.7 to be released
 - Enh #2172: Added CDbMigration::execute() (Qiang)
 - Enh #2179: Added CMultiFileUpload::options so that additional options can be passed to the constructor of the multifile object (mdomba)
 - Enh #2185: Allow the column type to be optional when specifying columns for CGridView (Qiang)
+- Enh #2197: Added $escape parameter to CDbCriteria::compare() (Qiang)
 - Enh #2198: Improved CJuiTabs so that the tab content can be skipped (Qiang)
 - Enh: Added CGridView::ajaxUpdateError for the possibility to use a custom ajax error handler (mdomba)
 - Enh: Allowed using CController instead of Controller with webapp generated application (Sam Dark)
