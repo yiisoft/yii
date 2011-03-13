@@ -447,13 +447,6 @@ class CJoinElement
 			$this->buildQuery($query);
 			$this->_finder->baseLimited=false;
 			$this->runQuery($query);
-			// relational query with two or more HAS_MANY
-			if(!empty($this->records))
-			{
-				$query=new CJoinQuery($this);
-				$this->buildQuery($query);
-				$this->runQuery($query);
-			}
 		}
 		else if(!$this->_joined && !empty($this->_parent->records)) // not joined before
 		{
