@@ -235,6 +235,22 @@ converted into an array consisting of that string.
 > must be a scalar (i.e., not an array). In this case, passing in an array parameter via
 > `$_GET` would cause an HTTP exception.
 
+Starting from version 1.1.7, automatic parameter binding also works for
+class-based actions. When the `run()` method of an action class is defined
+with some parameters, they will be populated with the corresponding named
+request parameter values. For example,
+
+~~~
+[php]
+class UpdateAction extends CAction
+{
+	public function run($id)
+	{
+		// $id will be populated with $_GET['id']
+	}
+}
+~~~
+
 
 Filter
 ------

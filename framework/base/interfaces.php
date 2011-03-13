@@ -180,11 +180,6 @@ interface IFilter
 interface IAction
 {
 	/**
-	 * Runs the action.
-	 * This method is invoked by the controller owning this action.
-	 */
-	public function run();
-	/**
 	 * @return string id of the action
 	 */
 	public function getId();
