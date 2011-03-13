@@ -56,6 +56,7 @@ Version 1.1.7 to be released
 - Enh: Allowed using CController instead of Controller with webapp generated application (Sam Dark)
 - Enh: Added ability to perform Relational query without getting related models (creocoder, Sam Dark)
 - Enh: Error page now displays associative array keys in parameter list (Sam Dark)
+- Enh: Added CController::getActionParams() and invalidActionParams() to allow customizing action parameter binding feature (Qiang)
 - Chg #2001: CGridView now renders footer after the body content (Qiang)
 - Chg #2111: Calling CActiveRecord::getRelated($name, true) now will redo the DB query even if isNewRecord is true (qiang)
 - Chg #2144: Upgraded jQuery UI to version 1.8.10 (Sam Dark)
