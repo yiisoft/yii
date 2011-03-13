@@ -658,10 +658,12 @@ class CEvent extends CComponent
 	/**
 	 * Constructor.
 	 * @param mixed $sender sender of the event
+	 * @param mixed $params additional parameters for the event
 	 */
-	public function __construct($sender=null)
+	public function __construct($sender=null,$params=null)
 	{
 		$this->sender=$sender;
+		$this->params=$params;
 	}
 }
 

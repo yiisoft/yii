@@ -255,9 +255,9 @@ class CLogger extends CComponent
 	 * The attached event handlers can process the log messages before they are removed.
 	 * @since 1.1.0
 	 */
-	public function flush()
+	public function flush($dumpLogs=false)
 	{
-		$this->onFlush(new CEvent($this));
+		$this->onFlush(new CEvent($this, array('dumpLogs'=>$dumpLogs)));
 		$this->_logs=array();
 		$this->_logCount=0;
 	}
