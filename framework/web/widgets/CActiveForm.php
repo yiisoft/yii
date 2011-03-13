@@ -353,12 +353,14 @@ class CActiveForm extends CWidget
 		if(!$this->enableAjaxValidation || !$enableAjaxValidation)
 			return CHtml::error($model,$attribute,$htmlOptions);
 
-		$inputID=isset($htmlOptions['inputID']) ? $htmlOptions['inputID'] : CHtml::activeId($model,$attribute);
+		$id=CHtml::activeId($model,$attribute);
+		$inputID=isset($htmlOptions['inputID']) ? $htmlOptions['inputID'] : $id;
 		unset($htmlOptions['inputID']);
 		if(!isset($htmlOptions['id']))
 			$htmlOptions['id']=$inputID.'_em_';
 
 		$option=array(
+			'id'=>$id,
 			'inputID'=>$inputID,
 			'errorID'=>$htmlOptions['id'],
 			'model'=>get_class($model),
