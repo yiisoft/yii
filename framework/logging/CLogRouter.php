@@ -99,10 +99,11 @@ class CLogRouter extends CApplicationComponent
 	public function collectLogs($event)
 	{
 		$logger=Yii::getLogger();
+		$dumpLogs=isset($event->params['dumpLogs']) && $event->params['dumpLogs'];
 		foreach($this->_routes as $route)
 		{
 			if($route->enabled)
-				$route->collectLogs($logger,false);
+				$route->collectLogs($logger,$dumpLogs);
 		}
 	}
 

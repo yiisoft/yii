@@ -31,6 +31,7 @@ Version 1.1.7 to be released
 - Enh #1117: Added support for "through" in Active Record relations allowing to handle association table data (creocoder, Sam Dark)
 - Enh #1786: Enhanced CUrlValidator by adding 'validSchemes' and 'defaultScheme' property (Y!!)
 - Enh #1792: Enhanced CGridView: on ajax error a proper message is composed and displayed or optionally sent to the custom error handler (mdomba)
+- Enh #1816: Added $dumpLogs parameter to CLogger::flush() so that log messages can be forced to be dumped at will (Qiang)
 - Enh #1843: Added 'uncheckValue' option to CHtml::activeRadioButtonList and CHtml::activeCheckBoxList. It allows to avoid hidden field rendering (creocoder, Sam Dark)
 - Enh #1993: Allow AR relations across separate db connections (Qiang)
 - Enh #1996: Added support for using parameter binding with class-based actions (Qiang)
