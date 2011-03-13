@@ -350,10 +350,16 @@ class CDbCriteria extends CComponent
 	 * Defaults to false, meaning exact comparison.
 	 * @param string $operator the operator used to concatenate the new condition with the existing one.
 	 * Defaults to 'AND'.
+	 * @param boolean $escape whether the value should be escaped if $partialMatch is true and
+	 * the value contains characters % or _. When this parameter is true (default),
+	 * the special characters % (matches 0 or more characters)
+	 * and _ (matches a single character) will be escaped, and the value will be surrounded with a %
+	 * character on both ends. When this parameter is false, the value will be directly used for
+	 * matching without any change.
 	 * @return CDbCriteria the criteria object itself
 	 * @since 1.1.1
 	 */
-	public function compare($column, $value, $partialMatch=false, $operator='AND')
+	public function compare($column, $value, $partialMatch=false, $operator='AND', $escape=true)
 	{
 		if(is_array($value))
 		{
@@ -378,9 +384,9 @@ class CDbCriteria extends CComponent
 		if($partialMatch)
 		{
 			if($op==='')
-				return $this->addSearchCondition($column,$value,true,$operator);
+				return $this->addSearchCondition($column,$value,$escape,$operator);
 			if($op==='<>')
-				return $this->addSearchCondition($column,$value,true,$operator,'NOT LIKE');
+				return $this->addSearchCondition($column,$value,$escape,$operator,'NOT LIKE');
 		}
 		else if($op==='')
 			$op='=';
