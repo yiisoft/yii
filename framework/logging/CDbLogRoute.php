@@ -67,11 +67,9 @@ class CDbLogRoute extends CLogRoute
 	{
 		parent::init();
 
-		$db=$this->getDbConnection();
-		$db->setActive(true);
-
 		if($this->autoCreateLogTable)
 		{
+			$db=$this->getDbConnection();
 			$sql="DELETE FROM {$this->logTableName} WHERE 0=1";
 			try
 			{

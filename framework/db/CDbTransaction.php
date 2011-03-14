@@ -47,7 +47,7 @@ class CDbTransaction extends CComponent
 	public function __construct(CDbConnection $connection)
 	{
 		$this->_connection=$connection;
-		$this->setActive(true);
+		$this->_active=true;
 	}
 
 	/**

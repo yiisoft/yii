@@ -429,14 +429,11 @@ class CDbConnection extends CApplicationComponent
 	 * for more details about how to pass an array as the query. If this parameter is not given,
 	 * you will have to call query builder methods of {@link CDbCommand} to build the DB query.
 	 * @return CDbCommand the DB command
-	 * @throws CException if the connection is not active
 	 */
 	public function createCommand($query=null)
 	{
-		if($this->getActive())
-			return new CDbCommand($this,$query);
-		else
-			throw new CDbException(Yii::t('yii','CDbConnection is inactive and cannot perform any DB operations.'));
+		$this->setActive(true);
+		return new CDbCommand($this,$query);
 	}
 
 	/**
@@ -456,23 +453,17 @@ class CDbConnection extends CApplicationComponent
 	/**
 	 * Starts a transaction.
 	 * @return CDbTransaction the transaction initiated
-	 * @throws CException if the connection is not active
 	 */
 	public function beginTransaction()
 	{
-		if($this->getActive())
-		{
-			$this->_pdo->beginTransaction();
-			return $this->_transaction=new CDbTransaction($this);
-		}
-		else
-			throw new CDbException(Yii::t('yii','CDbConnection is inactive and cannot perform any DB operations.'));
+		$this->setActive(true);
+		$this->_pdo->beginTransaction();
+		return $this->_transaction=new CDbTransaction($this);
 	}
 
 	/**
 	 * Returns the database schema for the current connection
 	 * @return CDbSchema the database schema for the current connection
-	 * @throws CException if the connection is not active yet
 	 */
 	public function getSchema()
 	{
@@ -480,9 +471,7 @@ class CDbConnection extends CApplicationComponent
 			return $this->_schema;
 		else
 		{
-			if(!$this->getActive())
-				throw new CDbException(Yii::t('yii','CDbConnection is inactive and cannot perform any DB operations.'));
-			$driver=strtolower($this->getDriverName());
+			$driver=$this->getDriverName();
 			if(isset($this->driverMap[$driver]))
 				return $this->_schema=Yii::createComponent($this->driverMap[$driver], $this);
 			else
@@ -509,10 +498,8 @@ class CDbConnection extends CApplicationComponent
 	 */
 	public function getLastInsertID($sequenceName='')
 	{
-		if($this->getActive())
-			return $this->_pdo->lastInsertId($sequenceName);
-		else
-			throw new CDbException(Yii::t('yii','CDbConnection is inactive and cannot perform any DB operations.'));
+		$this->setActive(true);
+		return $this->_pdo->lastInsertId($sequenceName);
 	}
 
 	/**
@@ -526,15 +513,11 @@ class CDbConnection extends CApplicationComponent
 		if(is_int($str) || is_float($str))
 			return $str;
 
-		if($this->getActive())
-		{
-			if(($value=$this->_pdo->quote($str))!==false)
-				return $value;
-			else  // the driver doesn't support quote (e.g. oci)
-				return "'" . addcslashes(str_replace("'", "''", $str), "\000\n\r\\\032") . "'";
-		}
-		else
-			throw new CDbException(Yii::t('yii','CDbConnection is inactive and cannot perform any DB operations.'));
+		$this->setActive(true);
+		if(($value=$this->_pdo->quote($str))!==false)
+			return $value;
+		else  // the driver doesn't support quote (e.g. oci)
+			return "'" . addcslashes(str_replace("'", "''", $str), "\000\n\r\\\032") . "'";
 	}
 
 	/**
@@ -662,7 +645,9 @@ class CDbConnection extends CApplicationComponent
 	 */
 	public function getDriverName()
 	{
-		return $this->getAttribute(PDO::ATTR_DRIVER_NAME);
+		if(($pos=strpos($this->connectionString, ':'))!==false)
+			return strtolower(substr($this->connectionString, 0, $pos));
+		// return $this->getAttribute(PDO::ATTR_DRIVER_NAME);
 	}
 
 	/**
@@ -728,10 +713,8 @@ class CDbConnection extends CApplicationComponent
 	 */
 	public function getAttribute($name)
 	{
-		if($this->getActive())
-			return $this->_pdo->getAttribute($name);
-		else
-			throw new CDbException(Yii::t('yii','CDbConnection is inactive and cannot perform any DB operations.'));
+		$this->setActive(true);
+		return $this->_pdo->getAttribute($name);
 	}
 
 	/**

@@ -73,7 +73,6 @@ class CDbCache extends CCache
 
 		$db=$this->getDbConnection();
 		$db->setActive(true);
-
 		if($this->autoCreateCacheTable)
 		{
 			$sql="DELETE FROM {$this->cacheTableName} WHERE expire>0 AND expire<".time();

@@ -102,9 +102,8 @@ class CDbMessageSource extends CMessageSource
 	{
 		if($this->_db===null)
 		{
-			if(($this->_db=Yii::app()->getComponent($this->connectionID)) instanceof CDbConnection)
-				$this->_db->setActive(true);
-			else
+			$this->_db=Yii::app()->getComponent($this->connectionID);
+			if(!$this->_db instanceof CDbConnection)
 				throw new CException(Yii::t('yii','CDbMessageSource.connectionID is invalid. Please make sure "{id}" refers to a valid database application component.',
 					array('{id}'=>$this->connectionID)));
 		}
