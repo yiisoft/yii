@@ -128,6 +128,12 @@ class CGridView extends CBaseListView
 	 */
 	public $ajaxUpdate;
 	/**
+	 * @var string the jQuery selector of the HTML elements that may trigger AJAX updates when they are clicked.
+	 * If not set, the pagination links and the sorting links will trigger AJAX updates.
+	 * @since 1.1.7
+	 */
+	public $updateSelector;
+	/**
 	 * @var string a javascript function that will be invoked if an AJAX update error occurs.
 	 *
 	 * The function signature is <code>function(xhr, textStatus, errorThrown, errorMessage)</code>
@@ -347,6 +353,8 @@ class CGridView extends CBaseListView
 			'tableClass'=>$this->itemsCssClass,
 			'selectableRows'=>$this->selectableRows,
 		);
+		if($this->updateSelector!==null)
+			$options['updateSelector']=$this->updateSelector;
 		if($this->enablePagination)
 			$options['pageVar']=$this->dataProvider->getPagination()->pageVar;
 		if($this->beforeAjaxUpdate!==null)
