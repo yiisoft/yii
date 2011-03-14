@@ -688,7 +688,7 @@ class CUrlRule extends CComponent
 		if($this->hasHostInfo)
 		{
 			$hostInfo=Yii::app()->getRequest()->getHostInfo();
-			if(strpos($url,$hostInfo)===0)
+			if(stripos($url,$hostInfo)===0)
 				$url=substr($url,strlen($hostInfo));
 		}
 
