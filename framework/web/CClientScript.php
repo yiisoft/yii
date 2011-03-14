@@ -88,6 +88,11 @@ class CClientScript extends CApplicationComponent
 	 */
 	protected $css=array();
 	/**
+	 * @var boolean whether there are any javascript or css to be rendered.
+	 * @since 1.1.7
+	 */
+	protected $hasScripts=false;
+	/**
 	 * @var integer Where the core scripts will be inserted in the page.
 	 * This can be one of the CClientScript::POS_* constants.
 	 * Defaults to CClientScript::POS_HEAD.
@@ -95,7 +100,6 @@ class CClientScript extends CApplicationComponent
 	 */
 	public $coreScriptPosition=self::POS_HEAD;
 
-	private $_hasScripts=false;
 	private $_packages;
 	private $_dependencies;
 	private $_baseUrl;
@@ -106,7 +110,7 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function reset()
 	{
-		$this->_hasScripts=false;
+		$this->hasScripts=false;
 		$this->_coreScripts=array();
 		$this->cssFiles=array();
 		$this->css=array();
@@ -127,7 +131,7 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function render(&$output)
 	{
-		if(!$this->_hasScripts)
+		if(!$this->hasScripts)
 			return;
 
 		$this->renderCoreScripts();
@@ -423,7 +427,7 @@ class CClientScript extends CApplicationComponent
 				$this->registerCoreScript($depName);
 		}
 
-		$this->_hasScripts=true;
+		$this->hasScripts=true;
 		$this->_coreScripts[$name]=$name;
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerCoreScript',$params);
@@ -439,7 +443,7 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function registerCssFile($url,$media='')
 	{
-		$this->_hasScripts=true;
+		$this->hasScripts=true;
 		$this->cssFiles[$url]=$media;
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerCssFile',$params);
@@ -455,7 +459,7 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function registerCss($id,$css,$media='')
 	{
-		$this->_hasScripts=true;
+		$this->hasScripts=true;
 		$this->css[$id]=array($css,$media);
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerCss',$params);
@@ -475,7 +479,7 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function registerScriptFile($url,$position=self::POS_HEAD)
 	{
-		$this->_hasScripts=true;
+		$this->hasScripts=true;
 		$this->scriptFiles[$position][$url]=$url;
 		$params=func_get_args();
 		$this->recordCachingAction('clientScript','registerScriptFile',$params);
@@ -498,7 +502,7 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function registerScript($id,$script,$position=self::POS_READY)
 	{
-		$this->_hasScripts=true;
+		$this->hasScripts=true;
 		$this->scripts[$position][$id]=$script;
 		if($position===self::POS_READY || $position===self::POS_LOAD)
 			$this->registerCoreScript('jquery');
@@ -518,7 +522,7 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function registerMetaTag($content,$name=null,$httpEquiv=null,$options=array())
 	{
-		$this->_hasScripts=true;
+		$this->hasScripts=true;
 		if($name!==null)
 			$options['name']=$name;
 		if($httpEquiv!==null)
@@ -542,7 +546,7 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function registerLinkTag($relation=null,$type=null,$href=null,$media=null,$options=array())
 	{
-		$this->_hasScripts=true;
+		$this->hasScripts=true;
 		if($relation!==null)
 			$options['rel']=$relation;
 		if($type!==null)
