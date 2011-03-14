@@ -79,11 +79,19 @@ class CFormInputElement extends CFormElement
 	public $items=array();
 	/**
 	 * @var array the options used when rendering the error part. This property will be passed
-	 * to the {@link CActiveForm::error} method call.
+	 * to the {@link CActiveForm::error} method call as its $htmlOptions parameter.
 	 * @see CActiveForm::error
 	 * @since 1.1.1
 	 */
 	public $errorOptions=array();
+	/**
+	 * @var boolean whether to allow AJAX-based validation for this input. Note that in order to use
+	 * AJAX-based validation, {@link CForm::activeForm} must be configured with 'enableAjaxValidation'=>true.
+	 * This property allows turning on or off  AJAX-based validation for individual input fields.
+	 * Defaults to true.
+	 * @since 1.1.7
+	 */
+	public $enableAjaxValidation=true;
 	/**
 	 * @var string the layout used to render label, input, hint and error. They correspond to the placeholders
 	 * "{label}", "{input}", "{hint}" and "{error}".
@@ -209,7 +217,7 @@ class CFormInputElement extends CFormElement
 	public function renderError()
 	{
 		$parent=$this->getParent();
-		return $parent->getActiveFormWidget()->error($parent->getModel(), $this->name, $this->errorOptions);
+		return $parent->getActiveFormWidget()->error($parent->getModel(), $this->name, $this->errorOptions, $this->enableAjaxValidation);
 	}
 
 	/**
