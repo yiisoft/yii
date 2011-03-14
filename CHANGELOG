@@ -62,6 +62,7 @@ Version 1.1.7 to be released
 - Enh #2185: Allow the column type to be optional when specifying columns for CGridView (Qiang)
 - Enh #2197: Added $escape parameter to CDbCriteria::compare() (Qiang)
 - Enh #2198: Improved CJuiTabs so that the tab content can be skipped (Qiang)
+- Enh #2199: Added CListView::separator (Qiang)
 - Enh: Added CGridView::ajaxUpdateError for the possibility to use a custom ajax error handler (mdomba)
 - Enh: Allowed using CController instead of Controller with webapp generated application (Sam Dark)
 - Enh: Added ability to perform Relational query without getting related models (creocoder, Sam Dark)

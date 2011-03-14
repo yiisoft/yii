@@ -71,6 +71,11 @@ class CListView extends CBaseListView
 	 */
 	public $itemView;
 	/**
+	 * @var string the HTML code to be displayed between any two consecutive items.
+	 * @since 1.1.7
+	 */
+	public $separator;
+	/**
 	 * @var array additional data to be passed to {@link itemView} when rendering each data item.
 	 * This array will be extracted into local PHP variables that can be accessed in the {@link itemView}.
 	 */
@@ -207,12 +212,14 @@ class CListView extends CBaseListView
 	{
 		echo CHtml::openTag($this->itemsTagName,array('class'=>$this->itemsCssClass))."\n";
 		$data=$this->dataProvider->getData();
-		if(count($data)>0)
+		if(($n=count($data))>0)
 		{
 			$owner=$this->getOwner();
 			$render=$owner instanceof CController ? 'renderPartial' : 'render';
 			foreach($data as $i=>$item)
 			{
+				if($i && $i<$n-1)
+					echo $this->separator;
 				$data=$this->viewData;
 				$data['index']=$i;
 				$data['data']=$item;
