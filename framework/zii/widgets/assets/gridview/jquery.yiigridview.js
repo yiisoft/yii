@@ -42,7 +42,7 @@
 
 			var inputSelector='#'+id+' .'+settings.filterClass+' input, '+'#'+id+' .'+settings.filterClass+' select';
 			$('body').undelegate(inputSelector, 'change').delegate(inputSelector, 'change', function(){
-				var data = $.param($(inputSelector));
+				var data = $(inputSelector).serialize();
 				if(settings.pageVar!==undefined)
 					data += '&'+settings.pageVar+'=1';
 				$.fn.yiiGridView.update(id, {data: data});
