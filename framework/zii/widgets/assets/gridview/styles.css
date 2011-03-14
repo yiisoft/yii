@@ -3,6 +3,11 @@
 	background:url(loading.gif) no-repeat;
 }
 
+.grid-view
+{
+	padding: 15px 0;
+}
+
 .grid-view table.items
 {
 	background: white;
