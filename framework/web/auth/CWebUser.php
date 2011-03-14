@@ -54,6 +54,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	const FLASH_KEY_PREFIX='Yii.CWebUser.flash.';
 	const FLASH_COUNTERS='Yii.CWebUser.flashcounters';
 	const STATES_VAR='__states';
+	const AUTH_TIMEOUT_VAR='__timeout';
 
 	/**
 	 * @var boolean whether to enable cookie-based login. Defaults to false.
@@ -79,6 +80,13 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * @since 1.0.5
 	 */
 	public $identityCookie;
+	/**
+	 * @var integer timeout in seconds after which user is logged out if inactive.
+	 * If this property is not set, the user will be logged out after the current session expires
+	 * (c.f. {@link CHttpSession::timeout}).
+	 * @since 1.1.7
+	 */
+	public $authTimeout;
 	/**
 	 * @var boolean whether to automatically renew the identity cookie each time a page is requested.
 	 * Defaults to false. This property is effective only when {@link allowAutoLogin} is true.
@@ -175,6 +183,8 @@ class CWebUser extends CApplicationComponent implements IWebUser
 			$this->renewCookie();
 		if($this->autoUpdateFlash)
 			$this->updateFlash();
+
+		$this->updateAuthStatus();
 	}
 
 	/**
@@ -722,6 +732,24 @@ class CWebUser extends CApplicationComponent implements IWebUser
 				$counters[$key]++;
 		}
 		$this->setState(self::FLASH_COUNTERS,$counters,array());
+	}
+
+	/**
+	 * Updates the authentication status according to {@link authTimeout}.
+	 * If the user has been inactive for {@link authTimeout} seconds,
+	 * he will be automatically logged out.
+	 * @since 1.1.7
+	 */
+	protected function updateAuthStatus()
+	{
+		if($this->authTimeout!==null && !$this->getIsGuest())
+		{
+			$expires=$this->getState(self::AUTH_TIMEOUT_VAR);
+			if ($expires!==null && $expires < time())
+				$this->logout(false);
+			else
+				$this->setState(self::AUTH_TIMEOUT_VAR,time()+$this->authTimeout);
+		}
 	}
 
 	/**

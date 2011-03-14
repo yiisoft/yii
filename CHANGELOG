@@ -38,6 +38,7 @@ Version 1.1.7 to be released
 - Enh #1816: Added $dumpLogs parameter to CLogger::flush() so that log messages can be forced to be dumped at will (Qiang)
 - Enh #1843: Added 'uncheckValue' option to CHtml::activeRadioButtonList and CHtml::activeCheckBoxList. It allows to avoid hidden field rendering (creocoder, Sam Dark)
 - Enh #1847: Exposed CClientScript::$hasScripts (Qiang)
+- Enh #1852: Added CWebUser::authTimeout to support separation between authentication timeout and session timeout (Qiang)
 - Enh #1868: CDbConnection will now open a DB connection only when needed, unless autoConnection is set true (Qiang)
 - Enh #1937: Added support to use custom input ID for input fields that need AJAX-based validation (Qiang)
 - Enh #1993: Allow AR relations across separate db connections (Qiang)
