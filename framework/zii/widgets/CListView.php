@@ -216,15 +216,16 @@ class CListView extends CBaseListView
 		{
 			$owner=$this->getOwner();
 			$render=$owner instanceof CController ? 'renderPartial' : 'render';
+			$j=0;
 			foreach($data as $i=>$item)
 			{
-				if($i && $i<$n-1)
-					echo $this->separator;
 				$data=$this->viewData;
 				$data['index']=$i;
 				$data['data']=$item;
 				$data['widget']=$this;
 				$owner->$render($this->itemView,$data);
+				if($j++ < $n-1)
+					echo $this->separator;
 			}
 		}
 		else
