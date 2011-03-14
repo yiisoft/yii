@@ -33,7 +33,7 @@ Version 1.1.7 to be released
 - Enh #1792: Enhanced CGridView: on ajax error a proper message is composed and displayed or optionally sent to the custom error handler (mdomba)
 - Enh #1816: Added $dumpLogs parameter to CLogger::flush() so that log messages can be forced to be dumped at will (Qiang)
 - Enh #1843: Added 'uncheckValue' option to CHtml::activeRadioButtonList and CHtml::activeCheckBoxList. It allows to avoid hidden field rendering (creocoder, Sam Dark)
-- Enh #1868: CDbConnection will now automatically open a DB connection before executing a SQL statement (Qiang)
+- Enh #1868: CDbConnection will now open a DB connection only when needed, unless autoConnection is set true (Qiang)
 - Enh #1937: Added support to use custom input ID for input fields that need AJAX-based validation (Qiang)
 - Enh #1993: Allow AR relations across separate db connections (Qiang)
 - Enh #1996: Added support for using parameter binding with class-based actions (Qiang)
