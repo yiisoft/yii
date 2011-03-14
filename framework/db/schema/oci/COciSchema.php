@@ -240,7 +240,8 @@ EOD;
 	{
 		$sql=<<<EOD
 		SELECT D.constraint_type as CONSTRAINT_TYPE, C.COLUMN_NAME, C.position, D.r_constraint_name,
-                E.table_name as table_ref, f.column_name as column_ref
+                E.table_name as table_ref, f.column_name as column_ref,
+            	C.table_name
         FROM ALL_CONS_COLUMNS C
         inner join ALL_constraints D on D.OWNER = C.OWNER and D.constraint_name = C.constraint_name
         left join ALL_constraints E on E.OWNER = D.r_OWNER and E.constraint_name = D.r_constraint_name
