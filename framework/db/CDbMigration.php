@@ -126,7 +126,6 @@ abstract class CDbMigration extends CComponent
 			$this->_db=Yii::app()->getComponent('db');
 			if(!$this->_db instanceof CDbConnection)
 				throw new CException(Yii::t('yii', 'The "db" application component must be configured to be a CDbConnection object.'));
-			$this->_db->setActive(true);
 		}
 		return $this->_db;
 	}

@@ -128,11 +128,10 @@ CREATE TABLE $tableName
 	 */
 	public function openSession($savePath,$sessionName)
 	{
-		$db=$this->getDbConnection();
-		$db->setActive(true);
-
 		if($this->autoCreateSessionTable)
 		{
+			$db=$this->getDbConnection();
+			$db->setActive(true);
 			$sql="DELETE FROM {$this->sessionTableName} WHERE expire<".time();
 			try
 			{
@@ -216,10 +215,8 @@ WHERE expire>$now AND id=:id
 	 */
 	public function gcSession($maxLifetime)
 	{
-		$db=$this->getDbConnection();
-		$db->setActive(true);
 		$sql="DELETE FROM {$this->sessionTableName} WHERE expire<".time();
-		$db->createCommand($sql)->execute();
+		$this->getDbConnection()->createCommand($sql)->execute();
 		return true;
 	}
 }

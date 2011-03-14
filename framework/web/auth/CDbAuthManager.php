@@ -55,8 +55,6 @@ class CDbAuthManager extends CAuthManager
 	public function init()
 	{
 		parent::init();
-
-		$this->getDbConnection()->setActive(true);
 		$this->_usingSqlite=!strncmp($this->getDbConnection()->getDriverName(),'sqlite',6);
 	}
 

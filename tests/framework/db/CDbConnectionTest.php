@@ -72,10 +72,6 @@ class CDbConnectionTest extends CTestCase
 		$this->_connection->pdoInstance->exec(file_get_contents(dirname(__FILE__).'/data/sqlite.sql'));
 		$command=$this->_connection->createCommand($sql);
 		$this->assertTrue($command instanceof CDbCommand);
-
-		$this->_connection->active=false;
-		$this->setExpectedException('CException');
-		$this->_connection->createCommand($sql);
 	}
 
 	public function testLastInsertID()
