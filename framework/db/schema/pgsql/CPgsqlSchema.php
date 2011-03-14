@@ -110,15 +110,15 @@ class CPgsqlSchema extends CDbSchema
 			return null;
 		$this->findConstraints($table);
 
-		if(is_string($table->primaryKey) && isset($this->_sequences[$table->primaryKey]))
-			$table->sequenceName=$this->_sequences[$table->primaryKey];
+		if(is_string($table->primaryKey) && isset($this->_sequences[$table->rawName.'.'.$table->primaryKey]))
+			$table->sequenceName=$this->_sequences[$table->rawName.'.'.$table->primaryKey];
 		else if(is_array($table->primaryKey))
 		{
 			foreach($table->primaryKey as $pk)
 			{
-				if(isset($this->_sequences[$pk]))
+				if(isset($this->_sequences[$table->rawName.'.'.$pk]))
 				{
-					$table->sequenceName=$this->_sequences[$pk];
+					$table->sequenceName=$this->_sequences[$table->rawName.'.'.$pk];
 					break;
 				}
 			}
@@ -184,9 +184,9 @@ EOD;
 			if(stripos($column['adsrc'],'nextval')===0 && preg_match('/nextval\([^\']*\'([^\']+)\'[^\)]*\)/i',$column['adsrc'],$matches))
 			{
 				if(strpos($matches[1],'.')!==false || $table->schemaName===self::DEFAULT_SCHEMA)
-					$this->_sequences[$c->name]=$matches[1];
+					$this->_sequences[$table->rawName.'.'.$c->name]=$matches[1];
 				else
-					$this->_sequences[$c->name]=$table->schemaName.'.'.$matches[1];
+					$this->_sequences[$table->rawName.'.'.$c->name]=$table->schemaName.'.'.$matches[1];
 			}
 		}
 		return true;
