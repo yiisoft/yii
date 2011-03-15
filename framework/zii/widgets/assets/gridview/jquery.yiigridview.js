@@ -182,8 +182,10 @@
 				$('#'+id).removeClass(settings.loadingClass);
 				$.fn.yiiGridView.selectCheckedRows(id);
 			},
-			error: function(XMLHttpRequest, textStatus, errorThrown) {
+			error: function(XHR, textStatus, errorThrown) {
 				$('#'+id).removeClass(settings.loadingClass);
+				if(XHR.readyState == 0 || XHR.status == 0)
+					return;
 				var err='';
 				switch(textStatus) {
 					case 'timeout':
@@ -193,17 +195,17 @@
 						err='Parser error!';
 						break;
 					case 'error':
-						if(XMLHttpRequest.status && !/^\s*$/.test(XMLHttpRequest.status))
-							err='Error ' + XMLHttpRequest.status;
+						if(XHR.status && !/^\s*$/.test(XHR.status))
+							err='Error ' + XHR.status;
 						else
 							err='Error';
-						if(XMLHttpRequest.responseText && !/^\s*$/.test(XMLHttpRequest.responseText))
-							err=err + ': ' + XMLHttpRequest.responseText;
+						if(XHR.responseText && !/^\s*$/.test(XHR.responseText))
+							err=err + ': ' + XHR.responseText;
 						break;
 				}
 
 				if(settings.ajaxUpdateError !== undefined)
-					settings.ajaxUpdateError(XMLHttpRequest, textStatus, errorThrown,err);
+					settings.ajaxUpdateError(XHR, textStatus, errorThrown,err);
 				else if(err)
 					alert(err);
 			}
