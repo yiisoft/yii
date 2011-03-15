@@ -29,7 +29,9 @@ For convenience, Yii predefines the following root aliases:
  - `webroot`: refers to the directory containing the [entry script](/doc/guide/basics.entry) file.
  - `ext`: refers to the directory containing all third-party [extensions](/doc/guide/extension.overview).
 
-Additionally, if the application uses [modules](/doc/guide/basics.module), a root alias is also predefined for each module ID and refers to the base path of the corresponding module.
+Additionally, if an application uses [modules](/doc/guide/basics.module), each module will have a predefined
+root alias that has the same name as the module ID and refers to the module's base path. For example,
+if an application uses a module whose ID is `users`, a root alias named `users` will be predefined.
 
 
 Importing Classes
