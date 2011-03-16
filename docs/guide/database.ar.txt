@@ -596,13 +596,6 @@ $posts=Post::model()->published()->recently()->findAll();
 
 In general, named scopes must appear to the left of a `find` method call. Each of them provides a query criteria, which is combined with other criterias, including the one passed to the `find` method call. The net effect is like adding a list of filters to a query.
 
-Named scopes can also be used with `update` and `delete` methods. For example, the following code would delete all recently published posts:
-
-~~~
-[php]
-Post::model()->published()->recently()->delete();
-~~~
-
 > Note: Named scopes can only be used with class-level methods. That is, the method must be called using `ClassName::model()`.
 
 
