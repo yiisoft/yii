@@ -56,7 +56,7 @@ class CClientScript extends CApplicationComponent
 	 */
 	public $scriptMap=array();
 	/**
-	 * @var array list of script packages (name=>package spec).
+	 * @var array list of custom script packages (name=>package spec).
 	 * This property keeps a list of named script packages, each of which can contain
 	 * a set of CSS and/or JavaScript script files, and their dependent package names.
 	 * By calling {@link registerPackage}, one can register a whole package of client
@@ -92,15 +92,27 @@ class CClientScript extends CApplicationComponent
 	 * If 'baseUrl' is not set, the script will be published by {@link CAssetManager}
 	 * and the corresponding published URL will be used.
 	 *
-	 * If this property is not set, the default core packages will be loaded from
-	 * 'framework/web/js/packages.php'.
-	 *
-	 * If you set this property, make sure you merge your own packages with
-	 * the core packages.
+	 * When calling {@link registerPackage} to register a script package,
+	 * this property will be checked first followed by {@link corePackages}.
+	 * If a package is found, it will be registered for rendering later on.
 	 *
 	 * @since 1.1.7
 	 */
-	public $packages;
+	public $packages=array();
+	/**
+	 * @var array list of core script packages (name=>package spec).
+	 * Please refer to {@link packages} for details about package spec.
+	 *
+	 * By default, the core script packages are specified in 'framework/web/js/packages.php'.
+	 * You may configure this property to customize the core script packages.
+	 *
+	 * When calling {@link registerPackage} to register a script package,
+	 * {@link packages} will be checked first followed by this property.
+	 * If a package is found, it will be registered for rendering later on.
+	 *
+	 * @since 1.1.7
+	 */
+	public $corePackages;
 	/**
 	 * @var array the registered CSS files (CSS URL=>media type).
 	 * @since 1.0.4
@@ -486,16 +498,23 @@ class CClientScript extends CApplicationComponent
 	{
 		if(isset($this->coreScripts[$name]))
 			return $this;
-		if($this->packages===null)
-			$this->packages=require(YII_PATH.'/web/js/packages.php');
 		if(isset($this->packages[$name]))
+			$package=$this->packages[$name];
+		else
 		{
-			if(!empty($this->packages[$name]['depends']))
+			if($this->corePackages===null)
+				$this->corePackages=require(YII_PATH.'/web/js/packages.php');
+			if(isset($this->corePackages[$name]))
+				$package=$this->corePackages[$name];
+		}
+		if(isset($package))
+		{
+			if(!empty($package['depends']))
 			{
-				foreach($this->packages[$name]['depends'] as $package)
-					$this->registerCoreScript($package);
+				foreach($package['depends'] as $p)
+					$this->registerCoreScript($p);
 			}
-			$this->coreScripts[$name]=$this->packages[$name];
+			$this->coreScripts[$name]=$package;
 			$this->hasScripts=true;
 			$params=func_get_args();
 			$this->recordCachingAction('clientScript','registerCoreScript',$params);
