@@ -261,9 +261,18 @@ class CActiveForm extends CWidget
 	 * @since 1.1.4
 	 */
 	public $focus;
-
-	private $_attributes=array();
-	private $_summary;
+	/**
+	 * @var array the javascript options for model attributes (input ID => options)
+	 * @see error
+	 * @since 1.1.7
+	 */
+	protected $attributes=array();
+	/**
+	 * @var string the ID of the container element for error summary
+	 * @see errorSummary
+	 * @since 1.1.7
+	 */
+	protected $summaryID;
 
 	/**
 	 * Initializes the widget.
@@ -290,7 +299,7 @@ class CActiveForm extends CWidget
 
 		echo CHtml::endForm();
 		$cs=Yii::app()->clientScript;
-		if((!$this->enableAjaxValidation || empty($this->_attributes)))
+		if(!$this->enableAjaxValidation || empty($this->attributes))
 		{
 			if($this->focus!==null)
 			{
@@ -307,10 +316,10 @@ class CActiveForm extends CWidget
 		if(isset($this->clientOptions['validationUrl']) && is_array($this->clientOptions['validationUrl']))
 			$options['validationUrl']=CHtml::normalizeUrl($this->clientOptions['validationUrl']);
 
-		$options['attributes']=array_values($this->_attributes);
+		$options['attributes']=array_values($this->attributes);
 
-		if($this->_summary!==null)
-			$options['summaryID']=$this->_summary;
+		if($this->summaryID!==null)
+			$options['summaryID']=$this->summaryID;
 
 		if($this->focus!==null)
 			$options['focus']=$this->focus;
@@ -404,7 +413,7 @@ class CActiveForm extends CWidget
 			$html=CHtml::tag('div',$htmlOptions,'');
 		}
 
-		$this->_attributes[$inputID]=$option;
+		$this->attributes[$inputID]=$option;
 		return $html;
 	}
 
@@ -438,7 +447,7 @@ class CActiveForm extends CWidget
 			$html=CHtml::tag('div',$htmlOptions,$header."\n<ul><li>dummy</li></ul>".$footer);
 		}
 
-		$this->_summary=$htmlOptions['id'];
+		$this->summaryID=$htmlOptions['id'];
 		return $html;
 	}
 
