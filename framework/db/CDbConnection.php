@@ -732,6 +732,18 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
+	 * Sets a set of attributes on the database connection.
+	 * @param array $values attributes (name=>value) to be set.
+	 * @see setAttribute
+	 * @since 1.1.7
+	 */
+	public function setAttributes($values)
+	{
+		foreach($values as $name=>$value)
+			$this->_attributes[$name]=$value;
+	}
+
+	/**
 	 * Returns the statistical results of SQL executions.
 	 * The results returned include the number of SQL statements executed and
 	 * the total time spent.
