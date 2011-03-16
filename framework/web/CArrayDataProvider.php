@@ -1,5 +1,14 @@
 <?php
 /**
+ * CArrayDataProvider class file.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @link http://www.yiiframework.com/
+ * @copyright Copyright &copy; 2008-2011 Yii Software LLC
+ * @license http://www.yiiframework.com/license/
+ */
+
+/**
  * CArrayDataProvider implements a data provider based on a raw data array.
  *
  * The {@link rawData} property contains all data that may be sorted and/or paginated.

@@ -56,6 +56,52 @@ class CClientScript extends CApplicationComponent
 	 */
 	public $scriptMap=array();
 	/**
+	 * @var array list of script packages (name=>package spec).
+	 * This property keeps a list of named script packages, each of which can contain
+	 * a set of CSS and/or JavaScript script files, and their dependent package names.
+	 * By calling {@link registerPackage}, one can register a whole package of client
+	 * scripts together with their dependent packages and render them in the HTML output.
+	 *
+	 * The array structure is as follows:
+	 * <pre>
+	 * array(
+	 *   'package-name'=>array(
+     *     'basePath'=>'alias of the directory containing the script files',
+     *     'baseUrl'=>'base URL for the script files',
+     *     'js'=>array(list of js files relative to basePath/baseUrl),
+     *     'css'=>array(list of css files relative to basePath/baseUrl),
+     *     'depends'=>array(list of dependent packages),
+     *   ),
+     *   ......
+     * )
+	 * </pre>
+	 *
+	 * The JS and CSS files listed are relative to 'basePath'.
+	 * For example, if 'basePath' is 'application.assets', a script named 'comments.js'
+	 * will refer to the file 'protected/assets/comments.js'.
+	 *
+	 * When a script is being rendered in HTML, it will be prefixed with 'baseUrl'.
+	 * For example, if 'baseUrl' is '/assets', the 'comments.js' script will be rendered
+	 * using URL '/assets/comments.js'.
+	 *
+	 * If 'baseUrl' does not start with '/', the relative URL of the application entry
+	 * script will be inserted at the beginning. For example, if 'baseUrl' is 'assets'
+	 * and the current application runs with the URL 'http://localhost/demo/index.php',
+	 * then the 'comments.js' script will be rendered using URL '/demo/assets/comments.js'.
+	 *
+	 * If 'baseUrl' is not set, the script will be published by {@link CAssetManager}
+	 * and the corresponding published URL will be used.
+	 *
+	 * If this property is not set, the default core packages will be loaded from
+	 * 'framework/web/js/packages.php'.
+	 *
+	 * If you set this property, make sure you merge your own packages with
+	 * the core packages.
+	 *
+	 * @since 1.1.7
+	 */
+	public $packages;
+	/**
 	 * @var array the registered CSS files (CSS URL=>media type).
 	 * @since 1.0.4
 	 */
@@ -71,19 +117,19 @@ class CClientScript extends CApplicationComponent
 	 */
 	protected $scripts=array();
 	/**
-	 * @var array the register head meta tags. Each array element represents an option array
+	 * @var array the registered head meta tags. Each array element represents an option array
 	 * that will be passed as the last parameter of {@link CHtml::metaTag}.
 	 * @since 1.1.3
 	 */
 	protected $metaTags=array();
 	/**
-	 * @var array the register head link tags. Each array element represents an option array
+	 * @var array the registered head link tags. Each array element represents an option array
 	 * that will be passed as the last parameter of {@link CHtml::linkTag}.
 	 * @since 1.1.3
 	 */
 	protected $linkTags=array();
 	/**
-	 * @var array the register css code blocks (key => array(CSS code, media type)).
+	 * @var array the registered css code blocks (key => array(CSS code, media type)).
 	 * @since 1.1.3
 	 */
 	protected $css=array();
@@ -93,17 +139,19 @@ class CClientScript extends CApplicationComponent
 	 */
 	protected $hasScripts=false;
 	/**
-	 * @var integer Where the core scripts will be inserted in the page.
+	 * @var array the registered script packages (name => package spec)
+	 * @since 1.1.7
+	 */
+	protected $coreScripts=array();
+	/**
+	 * @var integer Where the scripts registered using {@link registerCoreScript} will be inserted in the page.
 	 * This can be one of the CClientScript::POS_* constants.
 	 * Defaults to CClientScript::POS_HEAD.
 	 * @since 1.1.3
 	 */
 	public $coreScriptPosition=self::POS_HEAD;
 
-	private $_packages;
-	private $_dependencies;
 	private $_baseUrl;
-	private $_coreScripts=array();
 
 	/**
 	 * Cleans all registered scripts.
@@ -111,7 +159,7 @@ class CClientScript extends CApplicationComponent
 	public function reset()
 	{
 		$this->hasScripts=false;
-		$this->_coreScripts=array();
+		$this->coreScripts=array();
 		$this->cssFiles=array();
 		$this->css=array();
 		$this->scriptFiles=array();
@@ -237,20 +285,33 @@ class CClientScript extends CApplicationComponent
 	 */
 	public function renderCoreScripts()
 	{
-		if($this->_packages===null)
+		if($this->coreScripts===null)
 			return;
-		$baseUrl=$this->getCoreScriptUrl();
 		$cssFiles=array();
 		$jsFiles=array();
-		foreach($this->_coreScripts as $name)
+		$am=Yii::app()->getAssetManager();
+		foreach($this->coreScripts as $name=>$package)
 		{
-			foreach($this->_packages[$name] as $path)
+			if(isset($package['baseUrl']))
 			{
-				$url=$baseUrl.'/'.$path;
-				if(substr($path,-4)==='.css')
-					$cssFiles[$url]='';
-				else
-					$jsFiles[$url]=$url;
+				$baseUrl=$package['baseUrl'];
+				if($baseUrl==='' || $baseUrl[0]!=='/')
+					$baseUrl=Yii::app()->getRequest()->getBaseUrl.'/'.$baseUrl;
+				$baseUrl=rtrim($baseUrl,'/');
+			}
+			else if(isset($package['basePath']))
+				$baseUrl=$am->publish(Yii::getPathOfAlias($package['basePath']));
+			else
+				$baseUrl=$this->getCoreScriptUrl();
+			if(!empty($package['js']))
+			{
+				foreach($package['js'] as $js)
+					$jsFiles[$baseUrl.'/'.$js]=$baseUrl.'/'.$js;
+			}
+			if(!empty($package['css']))
+			{
+				foreach($package['css'] as $css)
+					$cssFiles[$baseUrl.'/'.$css]='';
 			}
 		}
 		// merge in place
@@ -403,35 +464,29 @@ class CClientScript extends CApplicationComponent
 	}
 
 	/**
-	 * Registers a core javascript library.
-	 * @param string $name the core javascript library name
+	 * Registers a script package that is listed in {@link packages}.
+	 * @param string $name the name of the script package.
 	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
 	 * @see renderCoreScript
 	 */
 	public function registerCoreScript($name)
 	{
-		if(isset($this->_coreScripts[$name]))
+		if(isset($this->coreScripts[$name]))
 			return $this;
-
-		if($this->_packages===null)
+		if($this->packages===null)
+			$this->packages=require(YII_PATH.'/web/js/packages.php');
+		if(isset($this->packages[$name]))
 		{
-			$config=require(YII_PATH.'/web/js/packages.php');
-			$this->_packages=$config[0];
-			$this->_dependencies=$config[1];
+			if(!empty($this->packages[$name]['depends']))
+			{
+				foreach($this->packages[$name]['depends'] as $package)
+					$this->registerCoreScript($package);
+			}
+			$this->coreScripts[$name]=$this->packages[$name];
+			$this->hasScripts=true;
+			$params=func_get_args();
+			$this->recordCachingAction('clientScript','registerCoreScript',$params);
 		}
-		if(!isset($this->_packages[$name]))
-			return $this;
-		if(isset($this->_dependencies[$name]))
-		{
-			foreach($this->_dependencies[$name] as $depName)
-				$this->registerCoreScript($depName);
-		}
-
-		$this->hasScripts=true;
-		$this->_coreScripts[$name]=$name;
-		$params=func_get_args();
-		$this->recordCachingAction('clientScript','registerCoreScript',$params);
-
 		return $this;
 	}
 
