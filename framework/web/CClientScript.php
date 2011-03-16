@@ -59,7 +59,7 @@ class CClientScript extends CApplicationComponent
 	 * @var array list of script packages (name=>package spec).
 	 * This property keeps a list of named script packages, each of which can contain
 	 * a set of CSS and/or JavaScript script files, and their dependent package names.
-	 * By calling {@link registerPackage}, one can register a whole package of client
+	 * By calling {@link registerCoreScript}, one can register a whole package of client
 	 * scripts together with their dependent packages and render them in the HTML output.
 	 *
 	 * The array structure is as follows:
