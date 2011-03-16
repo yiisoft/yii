@@ -34,6 +34,7 @@ Version 1.1.7 to be released
 - Enh #801: Added RESTful URL management (Qiang)
 - Enh #1117: Added support for "through" in Active Record relations allowing to handle association table data (creocoder, Sam Dark)
 - Enh #1285: Added support for using custom script packages with CClientScript (Qiang)
+- Enh #1741: Exposed CActiveForm::attributes and summaryID (Qiang)
 - Enh #1782: Added updateSelector property to both CGridView and CListView (Qiang)
 - Enh #1786: Enhanced CUrlValidator by adding 'validSchemes' and 'defaultScheme' property (Y!!)
 - Enh #1792: Enhanced CGridView: on ajax error a proper message is composed and displayed or optionally sent to the custom error handler (mdomba)
