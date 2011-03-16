@@ -59,7 +59,7 @@ class CClientScript extends CApplicationComponent
 	 * @var array list of script packages (name=>package spec).
 	 * This property keeps a list of named script packages, each of which can contain
 	 * a set of CSS and/or JavaScript script files, and their dependent package names.
-	 * By calling {@link registerCoreScript}, one can register a whole package of client
+	 * By calling {@link registerPackage}, one can register a whole package of client
 	 * scripts together with their dependent packages and render them in the HTML output.
 	 *
 	 * The array structure is as follows:
@@ -144,8 +144,8 @@ class CClientScript extends CApplicationComponent
 	 */
 	protected $coreScripts=array();
 	/**
-	 * @var integer Where the scripts registered using {@link registerCoreScript} will be inserted in the page.
-	 * This can be one of the CClientScript::POS_* constants.
+	 * @var integer Where the scripts registered using {@link registerCoreScript} or {@link registerPackage}
+	 * will be inserted in the page. This can be one of the CClientScript::POS_* constants.
 	 * Defaults to CClientScript::POS_HEAD.
 	 * @since 1.1.3
 	 */
@@ -461,6 +461,19 @@ class CClientScript extends CApplicationComponent
 	public function setCoreScriptUrl($value)
 	{
 		$this->_baseUrl=$value;
+	}
+
+	/**
+	 * Registers a script package that is listed in {@link packages}.
+	 * This method is the same as {@link registerCoreScript}.
+	 * @param string $name the name of the script package.
+	 * @return CClientScript the CClientScript object itself (to support method chaining, available since version 1.1.5).
+	 * @since 1.1.7
+	 * @see renderCoreScript
+	 */
+	public function registerPackage($name)
+	{
+		return $this->registerCoreScript($name);
 	}
 
 	/**
