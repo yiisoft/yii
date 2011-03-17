@@ -154,16 +154,29 @@ class CWidget extends CBaseController
 	/**
 	 * Returns the directory containing the view files for this widget.
 	 * The default implementation returns the 'views' subdirectory of the directory containing the widget class file.
+	 * If $checkTheme is set true, the directory "ThemeID/views/ClassName" will be returned when it exists.
+	 * @param boolean $checkTheme whether to check if the theme contains a view path for the widget.
 	 * @return string the directory containing the view files for this widget.
 	 */
-	public function getViewPath()
+	public function getViewPath($checkTheme=false)
 	{
 		$className=get_class($this);
 		if(isset(self::$_viewPaths[$className]))
 			return self::$_viewPaths[$className];
 		else
 		{
-			$class=new ReflectionClass(get_class($this));
+			if($checkTheme && ($theme=Yii::app()->getTheme())!==null)
+			{
+				$path=$theme->getViewPath().DIRECTORY_SEPARATOR;
+				if(strpos($className,'\\')!==false) // namespaced class
+					$path.=str_replace('\\','_',ltrim($className,'\\'));
+				else
+					$path.=$className;
+				if(is_dir($path))
+					return self::$_viewPaths[$className]=$path;
+			}
+
+			$class=new ReflectionClass($className);
 			return self::$_viewPaths[$className]=dirname($class->getFileName()).DIRECTORY_SEPARATOR.'views';
 		}
 	}
@@ -190,16 +203,12 @@ class CWidget extends CBaseController
 			$viewFile=Yii::getPathOfAlias($viewName);
 		else
 		{
-			if(($theme=Yii::app()->getTheme())!==null)
-			{
-				$className=str_replace('\\','_',ltrim(get_class($this),'\\')); // possibly namespaced class
-				$viewFile=$theme->getViewPath().DIRECTORY_SEPARATOR.$className.DIRECTORY_SEPARATOR.$viewName;
-				if(is_file($viewFile.$extension))
-					return Yii::app()->findLocalizedFile($viewFile.$extension);
-				else if($extension!=='.php' && is_file($viewFile.'.php'))
-					return Yii::app()->findLocalizedFile($viewFile.'.php');
-			}
-			$viewFile=$this->getViewPath().DIRECTORY_SEPARATOR.$viewName;
+			$viewFile=$this->getViewPath(true).DIRECTORY_SEPARATOR.$viewName;
+			if(is_file($viewFile.$extension))
+				return Yii::app()->findLocalizedFile($viewFile.$extension);
+			else if($extension!=='.php' && is_file($viewFile.'.php'))
+				return Yii::app()->findLocalizedFile($viewFile.'.php');
+			$viewFile=$this->getViewPath(false).DIRECTORY_SEPARATOR.$viewName;
 		}
 
 		if(is_file($viewFile.$extension))

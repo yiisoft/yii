@@ -38,6 +38,7 @@ Version 1.1.7 to be released
 - Enh #1741: Exposed CActiveForm::attributes and summaryID (Qiang)
 - Enh #1782: Added updateSelector property to both CGridView and CListView (Qiang)
 - Enh #1786: Enhanced CUrlValidator by adding 'validSchemes' and 'defaultScheme' property (Y!!)
+- Enh #1784: Enhanced CWidget::getViewPath() to support returning themed view path (Qiang)
 - Enh #1792: Enhanced CGridView: on ajax error a proper message is composed and displayed or optionally sent to the custom error handler (mdomba)
 - Enh #1795: Added CFormInputElement::$enableAjaxValidation to allow turning on/off AJAX validation for individual input fields (Qiang)
 - Enh #1816: Added $dumpLogs parameter to CLogger::flush() so that log messages can be forced to be dumped at will (Qiang)
