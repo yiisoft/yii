@@ -396,7 +396,7 @@ EOD;
 	 */
 	public function renameColumn($table, $name, $newName)
 	{
-		return "sp_rename '$table.$name', '$table.$newName'";
+		return "sp_rename '$table.$name', '$newName', 'COLUMN'";
 	}
 
 	/**
