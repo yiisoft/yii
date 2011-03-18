@@ -120,31 +120,31 @@ class CActiveDataProvider extends CDataProvider
 	protected function fetchData()
 	{
 		$criteria=clone $this->getCriteria();
-		$baseCriteria=$this->model->getDbCriteria(false);
 
 		if(($pagination=$this->getPagination())!==false)
 		{
-			if($baseCriteria!==null)
-				$this->model->setDbCriteria(clone $baseCriteria);
 			$pagination->setItemCount($this->getTotalItemCount());
 			$pagination->applyLimit($criteria);
 		}
 
+		$baseCriteria=$this->model->getDbCriteria(false);
 		if(($sort=$this->getSort())!==false)
 		{
 			if($baseCriteria!==null)
 			{
 				$c=clone $baseCriteria;
 				$c->mergeWith($criteria);
-				$this->model->setDbCriteria($c);
+				$sort->applyOrder($c);
 			}
 			else
-				$this->model->setDbCriteria($criteria);
-			$sort->applyOrder($criteria);
+				$sort->applyOrder($criteria);
 		}
 
+		if($baseCriteria!==null)
+			$baseCriteria=clone $baseCriteria;
+		$data=$this->model->findAll($criteria);
 		$this->model->setDbCriteria($baseCriteria);
-		return $this->model->findAll($criteria);
+		return $data;
 	}
 
 	/**
@@ -168,6 +168,11 @@ class CActiveDataProvider extends CDataProvider
 	 */
 	protected function calculateTotalItemCount()
 	{
-		return $this->model->count($this->getCriteria());
+		$baseCriteria=$this->model->getDbCriteria(false);
+		if($baseCriteria!==null)
+			$baseCriteria=clone $baseCriteria;
+		$count=$this->model->count($this->getCriteria());
+		$this->model->setDbCriteria($baseCriteria);
+		return $count;
 	}
 }
