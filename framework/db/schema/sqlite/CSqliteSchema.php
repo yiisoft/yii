@@ -145,7 +145,10 @@ class CSqliteSchema extends CDbSchema
 			}
 		}
 		if(is_string($table->primaryKey) && !strncasecmp($table->columns[$table->primaryKey]->dbType,'int',3))
+		{
 			$table->sequenceName='';
+			$table->columns[$table->primaryKey]->autoIncrement=true;
+		}
 
 		return true;
 	}

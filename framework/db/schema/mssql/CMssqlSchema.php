@@ -297,7 +297,7 @@ EOD;
 
 			$c->isForeignKey=isset($table->foreignKeys[$c->name]);
 			$table->columns[$c->name]=$c;
-			if ($column['IsIdentity']==1 && $table->sequenceName===null)
+			if ($c->autoIncrement && $table->sequenceName===null)
 				$table->sequenceName=$table->name;
 		}
 		return true;
@@ -324,6 +324,7 @@ EOD;
 			$c->size=$c->precision=null;
 		else
 			$c->size=$c->precision=($column['CHARACTER_MAXIMUM_LENGTH']!== null)?(int)$column['CHARACTER_MAXIMUM_LENGTH']:null;
+		$c->autoIncrement=$column['IsIdentity']==1;
 
 		$c->init($column['DATA_TYPE'],$column['COLUMN_DEFAULT']);
 		return $c;

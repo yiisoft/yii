@@ -62,6 +62,11 @@ class CDbColumnSchema extends CComponent
 	 * @var boolean whether this column is a foreign key
 	 */
 	public $isForeignKey;
+	/**
+	 * @var boolean whether this column is auto-incremental
+	 * @since 1.1.7
+	 */
+	public $autoIncrement=false;
 
 
 	/**
