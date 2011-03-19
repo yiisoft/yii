@@ -349,16 +349,19 @@ class CUrlManager extends CApplicationComponent
 			$key=$segs[$i];
 			if($key==='') continue;
 			$value=$segs[$i+1];
-			if(($pos=strpos($key,'['))!==false && ($pos2=strpos($key,']',$pos+1))!==false)
+			if(($pos=strpos($key,'['))!==false && ($m=preg_match_all('/\[(.*?)\]/',$key,$matches))>0)
 			{
 				$name=substr($key,0,$pos);
-				if($pos2===$pos+1)
-					$_REQUEST[$name][]=$_GET[$name][]=$value;
-				else
+				for($j=$m-1;$j>=0;--$j)
 				{
-					$key=substr($key,$pos+1,$pos2-$pos-1);
-					$_REQUEST[$name][$key]=$_GET[$name][$key]=$value;
+					if($matches[1][$j]==='')
+						$value=array($value);
+					else
+						$value=array($matches[1][$j]=>$value);
 				}
+				if(isset($_GET[$name]) && is_array($_GET[$name]))
+					$value=array_merge_recursive($_GET[$name],$value);
+				$_REQUEST[$name]=$_GET[$name]=$value;
 			}
 			else
 				$_REQUEST[$key]=$_GET[$key]=$value;
