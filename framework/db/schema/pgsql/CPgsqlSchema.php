@@ -187,6 +187,7 @@ EOD;
 					$this->_sequences[$table->rawName.'.'.$c->name]=$matches[1];
 				else
 					$this->_sequences[$table->rawName.'.'.$c->name]=$table->schemaName.'.'.$matches[1];
+				$c->autoIncrement=true;
 			}
 		}
 		return true;

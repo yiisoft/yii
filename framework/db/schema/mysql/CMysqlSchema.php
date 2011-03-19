@@ -174,7 +174,7 @@ class CMysqlSchema extends CDbSchema
 					$table->primaryKey=array($table->primaryKey,$c->name);
 				else
 					$table->primaryKey[]=$c->name;
-				if(strpos(strtolower($column['Extra']),'auto_increment')!==false)
+				if($c->autoIncrement)
 					$table->sequenceName='';
 			}
 		}
@@ -195,6 +195,8 @@ class CMysqlSchema extends CDbSchema
 		$c->isPrimaryKey=strpos($column['Key'],'PRI')!==false;
 		$c->isForeignKey=false;
 		$c->init($column['Type'],$column['Default']);
+		$c->autoIncrement=strpos(strtolower($column['Extra']),'auto_increment')!==false;
+
 		return $c;
 	}
 

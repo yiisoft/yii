@@ -37,6 +37,7 @@ Version 1.1.7 to be released
 - Enh #1117: Added support for "through" in Active Record relations allowing to handle association table data (creocoder, Sam Dark)
 - Enh #1285: Added support for using custom script packages with CClientScript (Qiang)
 - Enh #1741: Exposed CActiveForm::attributes and summaryID (Qiang)
+- Enh #1770: Added CDbColumnSchema::autoIncrement property to allow checking whether a DB column is auto-incremental (Qiang)
 - Enh #1782: Added updateSelector property to both CGridView and CListView (Qiang)
 - Enh #1786: Enhanced CUrlValidator by adding 'validSchemes' and 'defaultScheme' property (Y!!)
 - Enh #1784: Enhanced CWidget::getViewPath() to support returning themed view path (Qiang)

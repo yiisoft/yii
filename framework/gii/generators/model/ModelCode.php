@@ -203,7 +203,7 @@ class ModelCode extends CCodeModel
 		$safe=array();
 		foreach($table->columns as $column)
 		{
-			if($column->isPrimaryKey && $table->sequenceName!==null)
+			if($column->autoIncrement)
 				continue;
 			$r=!$column->allowNull && $column->defaultValue===null;
 			if($r)

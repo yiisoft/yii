@@ -209,6 +209,7 @@ EOD;
 				else
 					$table->primaryKey[]=$c->name;
 				$table->sequenceName='';
+				$c->autoIncrement=true;
 			}
 		}
 		return true;
