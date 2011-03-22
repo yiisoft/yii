@@ -1236,11 +1236,15 @@ abstract class CActiveRecord extends CModel
 		$this->_pk=$value;
 	}
 
-	/*
+	/**
+	 * Performs the actual DB query and populates the AR objects with the query result.
+	 * This method is mainly internally used by other AR query methods.
 	 * @param CDbCriteria $criteria the query criteria
 	 * @param boolean $all whether to return all data
+	 * @return mixed the AR objects populated with the query result
+	 * @since 1.1.7
 	 */
-	private function query($criteria,$all=false)
+	protected function query($criteria,$all=false)
 	{
         $this->beforeFind();
 		$this->applyScopes($criteria);
