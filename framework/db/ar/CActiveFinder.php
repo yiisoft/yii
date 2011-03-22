@@ -795,7 +795,9 @@ class CJoinElement
 	{
 		foreach($this->children as $child)
 		{
-			if($child->relation instanceof CHasOneRelation || $child->relation instanceof CBelongsToRelation
+			if($child->master!==null)
+				$child->_joined=true;
+			else if($child->relation instanceof CHasOneRelation || $child->relation instanceof CBelongsToRelation
 				|| $this->_finder->joinAll || $child->relation->together || (!$this->_finder->baseLimited && $child->relation->together===null))
 			{
 				$child->_joined=true;
@@ -1278,6 +1280,8 @@ class CJoinQuery
 	 */
 	public function join($element)
 	{
+		if($element->slave!==null)
+			$this->join($element->slave);
 		if(!empty($element->relation->select))
 			$this->selects[]=$element->getColumnSelect($element->relation->select);
 		$this->conditions[]=$element->relation->condition;
