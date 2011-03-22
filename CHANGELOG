@@ -77,6 +77,7 @@ Version 1.1.7 to be released
 - Enh #2206: Added $clearErrors parameter to CModel::validate() (Qiang)
 - Enh #2209: Added CDbConnection::setAttributes() to support initializing DB connection with PDO attributes (Qiang)
 - Enh #2226: Added more tokens to summaryText when CBaseListView.enablePagination is set false (Qiang)
+- Enh #2227: Exposed CActiveRecord::query() (Qiang)
 - Enh: Added CGridView::ajaxUpdateError for the possibility to use a custom ajax error handler (mdomba)
 - Enh: Allowed using CController instead of Controller with webapp generated application (Sam Dark)
 - Enh: Added ability to perform Relational query without getting related models (creocoder, Sam Dark)
