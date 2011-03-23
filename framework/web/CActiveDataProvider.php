@@ -127,19 +127,10 @@ class CActiveDataProvider extends CDataProvider
 			$pagination->applyLimit($criteria);
 		}
 
-		$baseCriteria=$this->model->getDbCriteria(false);
 		if(($sort=$this->getSort())!==false)
-		{
-			if($baseCriteria!==null)
-			{
-				$c=clone $baseCriteria;
-				$c->mergeWith($criteria);
-				$sort->applyOrder($c);
-			}
-			else
-				$sort->applyOrder($criteria);
-		}
+			$sort->applyOrder($criteria);
 
+		$baseCriteria=$this->model->getDbCriteria(false);
 		if($baseCriteria!==null)
 			$baseCriteria=clone $baseCriteria;
 		$data=$this->model->findAll($criteria);
