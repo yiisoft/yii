@@ -92,6 +92,7 @@ Version 1.1.7 to be released
 - Chg #2163: CConsoleCommand::usageError() will now exit with error code 1 (Qiang)
 - Chg: jQuery UI now uses minified CSS (Sam Dark)
 - Chg: Removed jQuery dimensions plugin since it's in jQuery core (Sam Dark)
+- Chg: Upgraded bgiframe to 2.1.2 (Sam Dark)
 - New #2069: Added CDateValidator (Qiang)
 - New: Added support for query caching (Qiang)
 
