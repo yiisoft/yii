@@ -35,17 +35,13 @@ return array(
 		'js'=>array('jquery.bgiframe.js'),
 		'depends'=>array('jquery'),
 	),
-	'dimensions'=>array(
-		'js'=>array('jquery.dimensions.js'),
-		'depends'=>array('jquery'),
-	),
 	'ajaxqueue'=>array(
 		'js'=>array('jquery.ajaxqueue.js'),
 		'depends'=>array('jquery'),
 	),
 	'autocomplete'=>array(
 		'js'=>array('jquery.autocomplete.js'),
-		'depends'=>array('jquery', 'bgiframe', 'dimensions', 'ajaxqueue'),
+		'depends'=>array('jquery', 'bgiframe', 'ajaxqueue'),
 	),
 	'maskedinput'=>array(
 		'js'=>array('jquery.maskedinput.js'),
