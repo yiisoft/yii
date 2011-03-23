@@ -33,7 +33,7 @@ Version 1.1.7 to be released
 - Bug: Fixed resetting sequence in CDbCommand::truncateTable (Sam Dark)
 - Bug: Fixed CMemCache incompatibility with some pecl-memcache and memcached versions (Sam Dark)
 - Enh #558, #1755: Added parametrized named scopes, added scopes to criteria, implemented scope criteria merging (creocoder, Sam Dark)
-- Enh #801: Added RESTful URL management (Qiang)
+- Enh #802: Added RESTful URL management (Qiang)
 - Enh #923: Improved CUrlManager::parsePathInfo() to support multi-dimensional input arrays (Qiang)
 - Enh #1117: Added support for "through" in Active Record relations allowing to handle association table data (creocoder, Sam Dark)
 - Enh #1285: Added support for using custom script packages with CClientScript (Qiang)
