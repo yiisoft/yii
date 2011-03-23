@@ -61,7 +61,7 @@ Version 1.1.7 to be released
 - Enh #2068: CTimestampBehavior::timestampExpression can now be a DB expression (Qiang)
 - Enh #2093: CDataColumn will now always render a filter if the filter property is a string (Qiang)
 - Enh #2094: Added SQL statement display in debug mode when an error occurs while executing a SQL (Qiang)
-- Enh #2105: Added CButtonCOlumn::afterDelete so that a custom javascript function can be called after the delete function (mdomba)
+- Enh #2105: Added CButtonColumn::afterDelete so that a custom javascript function can be called after the delete function (mdomba)
 - Enh #2108: Added CGridView::blankDisplay to allow customizing blank cell display (Qiang)
 - Enh #2125: Added memcached check and hint to requirements checker (Sam Dark)
 - Enh #2133: Set default focus to the password input for Gii login page (Qiang)

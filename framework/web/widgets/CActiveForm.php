@@ -652,7 +652,7 @@ class CActiveForm extends CWidget
 
 	/**
 	 * Validates one or several models and returns the results in JSON format.
-	 * This is a helper method that simplies the way of writing AJAX validation code.
+	 * This is a helper method that simplifies the way of writing AJAX validation code.
 	 * @param mixed $models a single model instance or an array of models.
 	 * @param array $attributes list of attributes that should be validated. Defaults to null,
 	 * meaning any attribute listed in the applicable validation rules of the models should be
