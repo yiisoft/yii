@@ -48,9 +48,12 @@ class CStringValidator extends CValidator
 	/**
 	 * @var string the encoding of the string value to be validated (e.g. 'UTF-8').
 	 * Setting this property requires you to enable mbstring PHP extension.
-	 * The value of this property will be used as the 2nd parameter of the mb_strlen() function.
-	 * Defaults to false, which means the strlen() function will be used for calculating the length
-	 * of the string.
+	 * The value of this property will be used as the 2nd parameter of the
+	 * mb_strlen() function.
+	 *
+	 * Defaults to application charset, which means the application charset
+	 * will be used for calculating the length of the string if mb_strlen() is
+	 * available and strlen() if it isn't.
 	 * @since 1.1.1
 	 */
 	public $encoding=false;
@@ -66,8 +69,9 @@ class CStringValidator extends CValidator
 		$value=$object->$attribute;
 		if($this->allowEmpty && $this->isEmpty($value))
 			return;
-		if($this->encoding!==false && function_exists('mb_strlen'))
-			$length=mb_strlen($value,$this->encoding);
+
+		if(function_exists('mb_strlen'))
+			$length=mb_strlen($value,$this->encoding?$this->encoding:Yii::app()->charset);
 		else
 			$length=strlen($value);
 		if($this->min!==null && $length<$this->min)
