@@ -84,6 +84,7 @@ Version 1.1.7 to be released
 - Enh: Error page now displays associative array keys in parameter list (Sam Dark)
 - Enh: Added CController::getActionParams() and invalidActionParams() to allow customizing action parameter binding feature (Qiang)
 - Enh: Added CEvent::$params (Qiang)
+- Enh: CStringValidator now uses application charset by default if mb_strlen is available (Sam Dark)
 - Chg #2001: CGridView now renders footer after the body content (Qiang)
 - Chg #2111: Calling CActiveRecord::getRelated($name, true) now will redo the DB query even if isNewRecord is true (qiang)
 - Chg #2144: Upgraded jQuery UI to version 1.8.11 (Sam Dark)
