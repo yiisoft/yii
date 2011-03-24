@@ -95,6 +95,7 @@ Version 1.1.7 to be released
 - Chg: Upgraded bgiframe to 2.1.2 (Sam Dark)
 - New #2069: Added CDateValidator (Qiang)
 - New: Added support for query caching (Qiang)
+- New: Added Lithuanian translations (tomas.valacka)
 
 Version 1.1.6 January 16, 2011
 ------------------------------
