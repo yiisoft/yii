@@ -313,6 +313,10 @@ to `BELONGS_TO` relation.
    - `offset`: offset of the rows to be selected. This option does NOT
 apply to `BELONGS_TO` relation.
 
+   - `through`: name of the model's relation that will be used as a bridge when
+   getting related data. Can be set only for `HAS_ONE` and `HAS_MANY`.
+   This option has been available since version 1.1.7.
+
 Below we modify the `posts` relationship declaration in the `User` by
 including some of the above options:
 
@@ -581,6 +585,138 @@ $users=User::model()->findAll(
 		),
 	),
 );
+~~~
+
+Relational Query with through
+-----------------------------
+
+When using `through`, relation definition should look like the following:
+
+~~~
+[php]
+'relationName'=>array('relationType', 'ClassName', 'foreign_key', 'through'=>'relationName', ...additional options)
+~~~
+
+In the above the `foreignKey` value is a name of a key that is:
+
+  - Defined in the table specified in `relationName`.
+  - Pointig to a table holding data for `ClassName` model.
+
+`through` can be used with both `HAS_ONE` and `HAS_MANY` relations.
+
+### HAS_MANY through
+
+![HAS_MANY through ER](has_many_through.png)
+
+An example of `HAS_MANY` with `through` is getting users from a particular group when
+users are assigned to groups via roles.
+
+A bit more complex example is getting all comments for all users of a particular
+group. In this case we have to use several relations with `through` is a single model:
+
+~~~
+[php]
+class Group extends CActiveRecord
+{
+   ...
+   public function relations()
+   {
+       return array(
+           'roles'=>array(self::HAS_MANY,'Role','group_id'),
+           'users'=>array(self::HAS_MANY,'User','user_id','through'=>'roles'),
+           'comments'=>array(self::HAS_MANY,'Comment','user_id','through'=>'users'),
+       );
+   }
+}
+~~~
+
+#### Usage examples
+
+~~~
+[php]
+// get all groups with all corresponding users
+$groups=Group::model()->with('users')->findAll();
+
+// get all groups with all corresponding users and roles
+$groups=Group::model()->with('roles','users')->findAll();
+
+// get all users and roles where group ID is 1
+$group=Group::model()->findByPk(1);
+$users=$group->users;
+$roles=$group->roles;
+
+// get all comments where group ID is 1
+$group=Group::model()->findByPk(1);
+$comments=$group->comments;
+~~~
+
+
+### HAS_ONE through
+
+![HAS_ONE through ER](has_one_through.png)
+
+An example of using `HAS_ONE` with `through` is getting user address where
+user is bound to address using profile. All these entities (user, profile, and address)
+do have a corresponding models:
+
+~~~
+[php]
+class User extends CActiveRecord
+{
+   ...
+   public function relations()
+   {
+       return array(
+           'profile'=>array(self::HAS_ONE,'Profile','user_id'),
+           'address'=>array(self::HAS_ONE,'Address','profile_id','through'=>'profile'),
+       );
+   }
+}
+~~~
+
+#### Usage examples
+
+~~~
+[php]
+// get address of a user whose ID is 1
+$user=User::model()->findByPk(1);
+$address=$user->address;
+~~~
+
+
+### through on self
+
+`through` can be used for a model bound to itself using a bridge model. In our case
+it's a user mentoring other users:
+
+
+![through self ER](through_self.png)
+
+
+That's how we can define relations for this case:
+
+~~~
+[php]
+class User extends CActiveRecord
+{
+   ...
+   public function relations()
+   {
+       return array(
+           'mentorships'=>array(self::HAS_MANY,'Mentorship','teacher_id','joinType'=>'INNER JOIN'),
+           'students'=>array(self::HAS_MANY,'User','student_id','through'=>'mentorships','joinType'=>'INNER JOIN'),
+       );
+   }
+}
+~~~
+
+#### Usage examples
+
+~~~
+[php]
+// get all students taught by teacher whose ID is 1
+$teacher=User::model()->findByPk(1);
+$students=$teacher->students;
 ~~~
 
 <div class="revision">$Id$</div>
