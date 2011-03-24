@@ -9,6 +9,7 @@ Version 1.1.7
  * [Added query caching support](/doc/guide/caching.data#query-caching)
  * [Now it's possible to pass parameters for relational named scopes](/doc/guide/database.arr#relational-query-with-named-scopes)
  * [Added ability to perform Relational query without getting related models](/doc/guide/database.arr#performing-relational-query-without-getting-related-models)
+ * [Added support for HAS_MANY through and HAS_ONE through AR relations](/doc/guide/database.arr#relational-query-with-through)
  * [Added transaction support for the DB migration feature](/doc/guide/database.migration#transactional-migrations)
  * [Added support for using parameter binding with class-based actions](/doc/guide/basics.controller#action-parameter-binding)
  * Added support for performing seamless client-side data validation using [CActiveForm]
