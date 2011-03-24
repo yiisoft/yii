@@ -108,10 +108,16 @@ abstract class CValidator extends CComponent
 	 * @since 1.1.4
 	 */
 	public $safe=true;
+	/**
+	 * @var boolean whether to perform client-side validation. Defaults to true.
+	 * Please refer to {@link CActiveForm::enableClientValidation} for more details about client-side validation.
+	 * @since 1.1.7
+	 */
+	public $enableClientValidation=true;
 
 	/**
 	 * Validates a single attribute.
-	 * This method should be overriden by child classes.
+	 * This method should be overridden by child classes.
 	 * @param CModel $object the data object being validated
 	 * @param string $attribute the name of the attribute to be validated.
 	 */
@@ -185,6 +191,24 @@ abstract class CValidator extends CComponent
 			if(!$this->skipOnError || !$object->hasErrors($attribute))
 				$this->validateAttribute($object,$attribute);
 		}
+	}
+
+	/**
+	 * Returns the JavaScript needed for performing client-side validation.
+	 * Do not override this method if the validator does not support client-side validation.
+	 * Two predefined JavaScript variables can be used:
+	 * <ul>
+	 * <li>value: the value to be validated</li>
+	 * <li>messages: an array used to hold the validation error messages for the value</li>
+	 * </ul>
+	 * @param CModel $object the data object being validated
+	 * @param string $attribute the name of the attribute to be validated.
+	 * @return string the client-side validation script. Null if the validator does not support client-side validation.
+	 * @see CActiveForm::enableClientValidation
+	 * @since 1.1.7
+	 */
+	public function clientValidateAttribute($object,$attribute)
+	{
 	}
 
 	/**

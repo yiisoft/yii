@@ -57,4 +57,29 @@ class CBooleanValidator extends CValidator
 			$this->addError($object,$attribute,$message);
 		}
 	}
+
+	/**
+	 * Returns the JavaScript needed for performing client-side validation.
+	 * @param CModel $object the data object being validated
+	 * @param string $attribute the name of the attribute to be validated.
+	 * @return string the client-side validation script.
+	 * @see CActiveForm::enableClientValidation
+	 * @since 1.1.7
+	 */
+	public function clientValidateAttribute($object,$attribute)
+	{
+		if(($message=$this->message)===null)
+		{
+			$message=Yii::t('yii','{attribute} must be either {true} or {false}.', array(
+				'{attribute}'=>$object->getAttributeLabel($attribute),
+				'{true}'=>$this->trueValue,
+				'{false}'=>$this->falseValue,
+			));
+		}
+		return "
+if(".($this->allowEmpty ? "$.trim(value)!='' && " : '')."value!=".CJSON::encode($this->trueValue)." && value!=".CJSON::encode($this->falseValue).") {
+	messages.push(".CJSON::encode($message).");
+}
+";
+	}
 }

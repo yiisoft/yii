@@ -90,5 +90,76 @@ class CStringValidator extends CValidator
 			$this->addError($object,$attribute,$message,array('{length}'=>$this->is));
 		}
 	}
+
+	/**
+	 * Returns the JavaScript needed for performing client-side validation.
+	 * @param CModel $object the data object being validated
+	 * @param string $attribute the name of the attribute to be validated.
+	 * @return string the client-side validation script.
+	 * @see CActiveForm::enableClientValidation
+	 * @since 1.1.7
+	 */
+	public function clientValidateAttribute($object,$attribute)
+	{
+		$label=$object->getAttributeLabel($attribute);
+		if(($message=$this->message)===null)
+		{
+			$message=Yii::t('yii','{attribute} is of the wrong length (should be {length} characters).', array(
+				'{attribute}'=>$label,
+				'{length}'=>$this->is,
+			));
+		}
+		if(($tooShort=$this->tooShort)===null)
+		{
+			$tooShort=Yii::t('yii','{attribute} is too short (minimum is {min} characters).', array(
+				'{attribute}'=>$label,
+				'{min}'=>$this->min,
+			));
+		}
+		if(($tooLong=$this->tooLong)===null)
+		{
+			$tooLong=Yii::t('yii','{attribute} is too long (maximum is {max} characters).', array(
+				'{attribute}'=>$label,
+				'{max}'=>$this->max,
+			));
+		}
+
+		$js='';
+		if($this->min!==null)
+		{
+			$js.="
+if(value.length<{$this->min}) {
+	messages.push(".CJSON::encode($tooShort).");
+}
+";
+		}
+		if($this->max!==null)
+		{
+			$js.="
+if(value.length>{$this->max}) {
+	messages.push(".CJSON::encode($tooLong).");
+}
+";
+		}
+		if($this->is!==null)
+		{
+			$js.="
+if(value.length!={$this->is}) {
+	messages.push(".CJSON::encode($message).");
+}
+";
+		}
+
+		if($this->allowEmpty)
+		{
+			$js="
+if($.trim(value)!='') {
+	$js
+}
+";
+		}
+
+		return $js;
+	}
 }
 

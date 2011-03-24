@@ -240,6 +240,16 @@ class CActiveForm extends CWidget
 	 * </pre>
  	 */
 	public $enableAjaxValidation=false;
+	/**
+	 * @var boolean whether to enable client-side data validation. Defaults to false.
+	 *
+	 * When this property is set true, client-side validation will be performed by validators
+	 * that support it (see {@link CValidator::enableClientValidation} and {@link CValidator::clientValidateAttribute}).
+	 *
+	 * @see error
+	 * @since 1.1.7
+	 */
+	public $enableClientValidation=false;
 
 	/**
 	 * @var mixed form element to get initial input focus on page load.
@@ -299,7 +309,7 @@ class CActiveForm extends CWidget
 
 		echo CHtml::endForm();
 		$cs=Yii::app()->clientScript;
-		if(!$this->enableAjaxValidation || empty($this->attributes))
+		if(!$this->enableAjaxValidation && !$this->enableClientValidation || empty($this->attributes))
 		{
 			if($this->focus!==null)
 			{
@@ -356,12 +366,20 @@ class CActiveForm extends CWidget
 	 * @param boolean $enableAjaxValidation whether to enable AJAX validation for the specified attribute.
 	 * Note that in order to enable AJAX validation, both {@link enableAjaxValidation} and this parameter
 	 * must be true.
+	 * @param boolean $enableClientValidation whether to enable client-side validation for the specified attribute.
+	 * Note that in order to enable client-side validation, both {@link enableClientValidation} and this parameter
+	 * must be true. This parameter has been available since version 1.1.7.
 	 * @return string the validation result (error display or success message).
 	 * @see CHtml::error
 	 */
-	public function error($model,$attribute,$htmlOptions=array(),$enableAjaxValidation=true)
+	public function error($model,$attribute,$htmlOptions=array(),$enableAjaxValidation=true,$enableClientValidation=true)
 	{
-		if(!$this->enableAjaxValidation || !$enableAjaxValidation)
+		if(!$this->enableAjaxValidation)
+			$enableAjaxValidation=false;
+		if(!$this->enableClientValidation)
+			$enableClientValidation=false;
+
+		if(!$enableAjaxValidation && !$enableClientValidation)
 			return CHtml::error($model,$attribute,$htmlOptions);
 
 		$id=CHtml::activeId($model,$attribute);
@@ -376,6 +394,7 @@ class CActiveForm extends CWidget
 			'errorID'=>$htmlOptions['id'],
 			'model'=>get_class($model),
 			'name'=>$attribute,
+			'enableAjaxValidation'=>$enableAjaxValidation,
 		);
 
 		$optionNames=array(
@@ -400,6 +419,21 @@ class CActiveForm extends CWidget
 		}
 		if($model instanceof CActiveRecord && !$model->isNewRecord)
 			$option['status']=1;
+
+		if($enableClientValidation)
+		{
+			$validators=array();
+			foreach($model->getValidators($attribute) as $validator)
+			{
+				if($enableClientValidation && $validator->enableClientValidation)
+				{
+					if(($js=$validator->clientValidateAttribute($model,$attribute))!='')
+						$validators[]=$js;
+				}
+			}
+			if($validators!==array())
+				$option['clientValidation']="js:function(value, messages) {\n".implode("\n",$validators)."\n}";
+		}
 
 		if(!isset($htmlOptions['class']))
 			$htmlOptions['class']=$this->errorMessageCssClass;
@@ -431,7 +465,7 @@ class CActiveForm extends CWidget
 	 */
 	public function errorSummary($models,$header=null,$footer=null,$htmlOptions=array())
 	{
-		if(!$this->enableAjaxValidation)
+		if(!$this->enableAjaxValidation && !$this->enableClientValidation)
 			return CHtml::errorSummary($models,$header,$footer,$htmlOptions);
 
 		if(!isset($htmlOptions['id']))

@@ -77,16 +77,65 @@ class CUrlValidator extends CValidator
 		{
 			if($this->defaultScheme!==null && strpos($value,'://')===false)
 				$value=$this->defaultScheme.'://'.$value;
-	
+
 			if(strpos($this->pattern,'{schemes}')!==false)
 				$pattern=str_replace('{schemes}','('.implode('|',$this->validSchemes).')',$this->pattern);
 			else
 				$pattern=$this->pattern;
-	
+
 			if(preg_match($pattern,$value))
 				return $value;
 		}
 		return false;
+	}
+
+	/**
+	 * Returns the JavaScript needed for performing client-side validation.
+	 * @param CModel $object the data object being validated
+	 * @param string $attribute the name of the attribute to be validated.
+	 * @return string the client-side validation script.
+	 * @see CActiveForm::enableClientValidation
+	 * @since 1.1.7
+	 */
+	public function clientValidateAttribute($object,$attribute)
+	{
+		if(($message=$this->message)===null)
+		{
+			$message=Yii::t('yii','{attribute} is not a valid URL.', array(
+				'{attribute}'=>$object->getAttributeLabel($attribute),
+			));
+		}
+
+		if(strpos($this->pattern,'{schemes}')!==false)
+			$pattern=str_replace('{schemes}','('.implode('|',$this->validSchemes).')',$this->pattern);
+		else
+			$pattern=$this->pattern;
+
+		$js="
+if(!value.match($pattern)) {
+	messages.push(".CJSON::encode($message).");
+}
+";
+		if($this->defaultScheme!==null)
+		{
+			$js="
+if(!value.match(/:\\/\\//)) {
+	value=".CJSON::encode($this->defaultScheme)."+'://'+value;
+}
+$js
+";
+		}
+
+		if($this->allowEmpty)
+		{
+			$js="
+if($.trim(value)!='') {
+	$js
+}
+";
+		}
+
+		return $js;
 	}
 }
 
