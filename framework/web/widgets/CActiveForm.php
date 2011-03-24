@@ -22,19 +22,29 @@
  * which is a wrapper of {@link CHtml::activeTextField}, would generate an input field
  * for a specified model attribute.
  *
- * Besides the wrapper methods, CActiveForm also implements an important feature
- * known as AJAX validation. This feature may be turned on setting {@link enableAjaxValidation}
- * to be true. When the user enters some value in an input field, the AJAX validation
- * feature would trigger an AJAX request to the server to call for validating the model
- * with the current user inputs. If there are any validation errors, the corresponding
- * error messages will show up next to the input fields immediately.
+ * Besides the wrapper methods, CActiveForm also implements two important features:
+ * AJAX-based validation and client-side validation. The former will allow input data
+ * to be validated on the server side via AJAX requests without submitting the form;
+ * while the latter will perform pure client-side data validation.
  *
- * The AJAX validation feature may greatly improve the user experience at entering
- * data into a form. Because the validation is done on the server side using the rules
- * defined in the data model, no extra javascript code needs to be written.
- * More importantly, and the validation result is consistent with the server-side validation.
- * And in case when the user turns off javascript in his browser, it automatically
+ * To use these two features, one simply needs to set {@link enableAjaxValidation} and/or
+ * {@link enableClientValidation} to be true. Then, validation rules declared in the
+ * data model class will be automatically performed.
+ *
+ * Using AJAX-based and client-side validations may improve user experience when they
+ * are entering data into a lengthy form. Because the validations are performed purely
+ * based on the rules declared in the model classes, no extra javascript code needs to be written
+ * and the validation result is consistent with the server-side validation.
+ *
+ * In case when the user turns off javascript in his browser, it automatically
  * falls back to traditional validation via whole page submission.
+ *
+ * Note that the server-side validation will always be performed because validation done
+ * on the browser side can be disabled easily by end users.
+ *
+ * To use CActiveForm with client-side validation, one simply needs to configure
+ * its {@link enableClientValidation} property to be true with the view code shown
+ * in the following.
  *
  * To use CActiveForm with AJAX validation, one needs to write both the view code
  * and the controller action code.
@@ -98,6 +108,10 @@
  * By default, these CSS classes are named as 'validating', 'error' and 'success', respectively.
  * They may be changed by configuring the {@link options} property or specifying in the {@link error} method.
  *
+ * Support for client-side validation varies for different validators. A validator
+ * will support client-side validation only if it implements {@link clientValidateAttribute}
+ * and has its {@link enableClientValidation} property set true.
+ *
  * Sometimes, we may want to limit the AJAX validation to certain model attributes only.
  * This can be achieved by setting the model with a scenario that is specific for AJAX validation.
  * Then only list those attributes that need AJAX validation in the scenario in {@link CModel::rules()} declaration.
@@ -111,7 +125,7 @@
  *
  * Because CActiveForm relies on submitting the whole form in AJAX mode to perform the validation,
  * if the form has a lot of data to submit, the performance may not be good. In this case,
- * you should design your own lightweight AJAX validation.
+ * you may turn off ajax-based validation and rely on pure client-side validation instead.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
