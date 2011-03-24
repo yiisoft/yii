@@ -563,6 +563,9 @@ class User extends CActiveRecord
 }
 ~~~
 
+> Note: Named scopes applied to related models must be specified in CActiveRecord::scopes.
+> As a result, they cannot be parameterized.
+
 Since 1.1.7 it's possible to pass parameters for relational named scopes.
 For example, if you have scope named `rated` in the `Post` that accepts minimum
 rating of post, you can use it from `User` the following way:
