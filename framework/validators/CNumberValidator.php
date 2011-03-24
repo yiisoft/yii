@@ -43,6 +43,16 @@ class CNumberValidator extends CValidator
 	 * @var string user-defined error message used when the value is too small.
 	 */
 	public $tooSmall;
+	/**
+	 * @var string the regular expression for matching integers.
+	 * @since 1.1.7
+	 */
+	public $integerPattern='/^\s*[+-]?\d+\s*$/';
+	/**
+	 * @var string the regular expression for matching numbers.
+	 * @since 1.1.7
+	 */
+	public $numberPattern='/^\s*[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?\s*$/';
 
 
 	/**
@@ -58,7 +68,7 @@ class CNumberValidator extends CValidator
 			return;
 		if($this->integerOnly)
 		{
-			if(!preg_match('/^\s*[+-]?\d+\s*$/',"$value"))
+			if(!preg_match($this->integerPattern,"$value"))
 			{
 				$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} must be an integer.');
 				$this->addError($object,$attribute,$message);
@@ -66,7 +76,7 @@ class CNumberValidator extends CValidator
 		}
 		else
 		{
-			if(!preg_match('/^\s*[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?\s*$/',"$value"))
+			if(!preg_match($this->numberPattern,"$value"))
 			{
 				$message=$this->message!==null?$this->message:Yii::t('yii','{attribute} must be a number.');
 				$this->addError($object,$attribute,$message);
@@ -82,5 +92,77 @@ class CNumberValidator extends CValidator
 			$message=$this->tooBig!==null?$this->tooBig:Yii::t('yii','{attribute} is too big (maximum is {max}).');
 			$this->addError($object,$attribute,$message,array('{max}'=>$this->max));
 		}
+	}
+
+	/**
+	 * Returns the JavaScript needed for performing client-side validation.
+	 * @param CModel $object the data object being validated
+	 * @param string $attribute the name of the attribute to be validated.
+	 * @return string the client-side validation script.
+	 * @see CActiveForm::enableClientValidation
+	 * @since 1.1.7
+	 */
+	public function clientValidateAttribute($object,$attribute)
+	{
+		$label=$object->getAttributeLabel($attribute);
+		if(($message=$this->message)===null)
+		{
+			if($this->integerOnly)
+				$message=Yii::t('yii','{attribute} must be an integer.', array(
+					'{attribute}'=>$label,
+				));
+			else
+				$message=Yii::t('yii','{attribute} must be a number.', array(
+					'{attribute}'=>$label,
+				));
+		}
+		if(($tooBig=$this->tooBig)===null)
+		{
+			$tooBig=Yii::t('yii','{attribute} is too big (maximum is {max}).', array(
+				'{attribute}'=>$label,
+				'{max}'=>$this->max,
+			));
+		}
+		if(($tooSmall=$this->tooSmall)===null)
+		{
+			$tooSmall=Yii::t('yii','{attribute} is too small (minimum is {min}).', array(
+				'{attribute}'=>$label,
+				'{min}'=>$this->min,
+			));
+		}
+
+		$pattern=$this->integerOnly ? $this->integerPattern : $this->numberPattern;
+		$js="
+if(!value.match($pattern)) {
+	messages.push(".CJSON::encode($message).");
+}
+";
+		if($this->min!==null)
+		{
+			$js.="
+if(value.length<{$this->min}) {
+	messages.push(".CJSON::encode($tooSmall).");
+}
+";
+		}
+		if($this->max!==null)
+		{
+			$js.="
+if(value>{$this->max}) {
+	messages.push(".CJSON::encode($tooBig).");
+}
+";
+		}
+
+		if($this->allowEmpty)
+		{
+			$js="
+if($.trim(value)!='') {
+	$js
+}
+";
+		}
+
+		return $js;
 	}
 }

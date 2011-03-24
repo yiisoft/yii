@@ -59,4 +59,46 @@ class CRequiredValidator extends CValidator
 			$this->addError($object,$attribute,$message);
 		}
 	}
+
+	/**
+	 * Returns the JavaScript needed for performing client-side validation.
+	 * @param CModel $object the data object being validated
+	 * @param string $attribute the name of the attribute to be validated.
+	 * @return string the client-side validation script.
+	 * @see CActiveForm::enableClientValidation
+	 * @since 1.1.7
+	 */
+	public function clientValidateAttribute($object,$attribute)
+	{
+		$message=$this->message;
+		if($this->requiredValue!==null)
+		{
+			if($message===null)
+			{
+				$message=Yii::t('yii','{attribute} must be {value}.', array(
+					'{value}'=>$this->requiredValue,
+					'{attribute}'=>$object->getAttributeLabel($attribute),
+				));
+			}
+			return "
+if(value!=" . CJSON::encode($this->requiredValue) . ") {
+	messages.push(".CJSON::encode($message).");
+}
+";
+		}
+		else
+		{
+			if($message===null)
+			{
+				$message=Yii::t('yii','{attribute} cannot be blank.', array(
+					'{attribute}'=>$object->getAttributeLabel($attribute),
+				));
+			}
+			return "
+if($.trim(value)=='') {
+	messages.push(".CJSON::encode($message).");
+}
+";
+		}
+	}
 }

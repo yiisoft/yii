@@ -38,7 +38,7 @@
 			});
 			$(this).data('settings', settings);
 
-			var submitting=false;  // whether it is waiting for ajax submission result
+			settings.submitting=false;  // whether it is waiting for ajax submission result
 			var validate = function(attribute, forceValidate) {
 				if (forceValidate)
 					attribute.status = 2;
@@ -56,7 +56,7 @@
 				}
 
 				settings.timer = setTimeout(function(){
-					if(submitting)
+					if(settings.submitting)
 						return;
 					if(attribute.beforeValidateAttribute==undefined || attribute.beforeValidateAttribute($form, attribute)) {
 						$.each(settings.attributes, function(){
@@ -68,7 +68,7 @@
 						$.fn.yiiactiveform.validate($form, function(data) {
 							var hasError=false;
 							$.each(settings.attributes, function(){
-								if (this.status > 0) {
+								if (this.status == 2 || this.status == 3) {
 									hasError = $.fn.yiiactiveform.updateInput(this, data, $form) || hasError;
 								}
 							});
@@ -109,7 +109,7 @@
 					if(settings.timer!=undefined) {
 						clearTimeout(settings.timer);
 					}
-					submitting=true;
+					settings.submitting=true;
 					if(settings.beforeValidate==undefined || settings.beforeValidate($form)) {
 						$.fn.yiiactiveform.validate($form, function(data){
 							var hasError = false;
@@ -129,11 +129,11 @@
 									return false;
 								}
 							}
-							submitting=false;
+							settings.submitting=false;
 						});
 					}
 					else {
-						submitting=false;
+						settings.submitting=false;
 					}
 					return false;
 				});
@@ -266,6 +266,35 @@
 	$.fn.yiiactiveform.validate = function(form, successCallback, errorCallback) {
 		var $form = $(form);
 		var settings = $form.data('settings');
+
+		var messages = {};
+		var needAjaxValidation = false;
+		$.each(settings.attributes, function(){
+			var msg = [];
+			if (this.clientValidation != undefined && (settings.submitting || this.status == 2 || this.status == 3)) {
+				var value = $('#'+this.inputID, $form).val();
+				this.clientValidation(value, msg);
+				if (msg.length) {
+					messages[this.id] = msg;
+				}
+			}
+			if (this.enableAjaxValidation && !msg.length && (settings.submitting || this.status == 2 || this.status == 3))
+				needAjaxValidation = true;
+		});
+
+		if (!needAjaxValidation || settings.submitting && !$.isEmptyObject(messages)) {
+			if(settings.submitting) {
+				// delay callback so that the form can be submitted without problem
+				setTimeout(function(){
+					successCallback(messages);
+				},200);
+			}
+			else {
+				successCallback(messages);
+			}
+			return;
+		}
+
 		$.ajax({
 			url : settings.validationUrl,
 			type : $form.attr('method'),
@@ -273,7 +302,10 @@
 			dataType : 'json',
 			success : function(data) {
 				if (data != null && typeof data == 'object') {
-					successCallback(data);
+					successCallback($.extend({}, messages, data));
+				}
+				else {
+					successCallback(messages);
 				}
 			},
 			error : function() {
@@ -331,6 +363,9 @@
 		 *     errorCssClass : 'error',
 		 *     successCssClass : 'success',
 		 *     validatingCssClass : 'validating',
+		 *     enableAjaxValidation : true,
+		 *     enableClientValidation : true,
+		 *     clientValidation : undefined, // function(value, messages) : client-side validation
 		 *     beforeValidateAttribute: undefined, // function(form, attribute) : boolean
 		 *     afterValidateAttribute: undefined,  // function(form, attribute, data, hasError)
 		 * }

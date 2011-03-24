@@ -11,6 +11,7 @@ Version 1.1.7
  * [Added ability to perform Relational query without getting related models](/doc/guide/database.arr#performing-relational-query-without-getting-related-models)
  * [Added transaction support for the DB migration feature](/doc/guide/database.migration#transactional-migrations)
  * [Added support for using parameter binding with class-based actions](/doc/guide/basics.controller#action-parameter-binding)
+ * Added support for performing seamless client-side data validation using [CActiveForm]
 
  Version 1.1.6
 -------------

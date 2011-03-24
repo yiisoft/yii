@@ -91,4 +91,32 @@ class CEmailValidator extends CValidator
 			$valid=fsockopen($domain,25)!==false;
 		return $valid;
 	}
+
+	/**
+	 * Returns the JavaScript needed for performing client-side validation.
+	 * @param CModel $object the data object being validated
+	 * @param string $attribute the name of the attribute to be validated.
+	 * @return string the client-side validation script.
+	 * @see CActiveForm::enableClientValidation
+	 * @since 1.1.7
+	 */
+	public function clientValidateAttribute($object,$attribute)
+	{
+		if(($message=$this->message)===null)
+		{
+			$message=Yii::t('yii','{attribute} is not a valid email address.', array(
+				'{attribute}'=>$object->getAttributeLabel($attribute),
+			));
+		}
+
+		$condition="!value.match({$this->pattern})";
+		if($this->allowName)
+			$condition.=" && !value.match({$this->fullPattern})";
+
+		return "
+if(".($this->allowEmpty ? "$.trim(value)!='' && " : '').$condition.") {
+	messages.push(".CJSON::encode($message).");
+}
+";
+	}
 }
