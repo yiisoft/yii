@@ -1,4 +1,4 @@
-Relational Active Record
+	Relational Active Record
 ========================
 
 We have already seen how to use Active Record (AR) to select data from a
@@ -517,11 +517,11 @@ And the following code shows how to apply named scopes to the related models.
 [php]
 $posts=Post::model()->with('comments:recently:approved')->findAll();
 // or since 1.1.7
-$posts=Post::model()->with(
+$posts=Post::model()->with(array(
     'comments'=>array(
         'scopes'=>array('recently','approved')
     ),
-)->findAll();
+))->findAll();
 // or since 1.1.7
 $posts=Post::model()->findAll(array(
     'with'=>array(
@@ -576,7 +576,7 @@ rating of post, you can use it from `User` the following way:
 
 ~~~
 [php]
-$users=User::model()->findAll(
+$users=User::model()->findAll(array(
 	'with'=>array(
 		'posts'=>array(
 			'scopes'=>array(
@@ -584,7 +584,7 @@ $users=User::model()->findAll(
 			),
 		),
 	),
-);
+));
 ~~~
 
 Relational Query with through
