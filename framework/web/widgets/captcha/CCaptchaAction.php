@@ -110,16 +110,31 @@ class CCaptchaAction extends CAction
 	{
 		if(isset($_GET[self::REFRESH_GET_VAR]))  // AJAX request for regenerating code
 		{
-			$this->getVerifyCode(true);
-			// we add a random 'v' parameter so that FireFox can refresh the image
-			// when src attribute of image tag is changed
-			echo $this->getController()->createUrl($this->getId(),array('v' => uniqid()));
+			$code=$this->getVerifyCode(true);
+			echo CJSON::encode(array(
+				'hash1'=>$this->generateValidationHash($code),
+				'hash2'=>$this->generateValidationHash(strtolower($code)),
+				// we add a random 'v' parameter so that FireFox can refresh the image
+				// when src attribute of image tag is changed
+				'url'=>$this->getController()->createUrl($this->getId(),array('v' => uniqid())),
+			));
 		}
 		else
-		{
 			$this->renderImage($this->getVerifyCode());
-			Yii::app()->end();
-		}
+		Yii::app()->end();
+	}
+
+	/**
+	 * Generates a hash code that can be used for client side validation.
+	 * @param string $code the CAPTCHA code
+	 * @return string a hash code generated from the CAPTCHA code
+	 * @since 1.1.7
+	 */
+	public function generateValidationHash($code)
+	{
+		for($h=0,$i=strlen($code)-1;$i>=0;--$i)
+			$h+=ord($code[$i]);
+		return $h;
 	}
 
 	/**
