@@ -625,9 +625,9 @@ $posts=Post::model()->published()->recently(3)->findAll();
 If we do not supply the parameter 3 in the above, we would retrieve the 5 recently published posts by default.
 
 
-### Default Named Scope
+### Default Scope
 
-A model class can have a default named scope that would be applied for all queries (including relational ones) about the model. For example, a website supporting multiple languages may only want to display contents that are in the language the current user specifies. Because there may be many queries about the site contents, we can define a default named scope to solve this problem. To do so, we override the [CActiveRecord::defaultScope] method as follows,
+A model class can have a default scope that would be applied for all queries (including relational ones) about the model. For example, a website supporting multiple languages may only want to display contents that are in the language the current user specifies. Because there may be many queries about the site contents, we can define a default scope to solve this problem. To do so, we override the [CActiveRecord::defaultScope] method as follows,
 
 ~~~
 [php]
@@ -649,6 +649,6 @@ Now, if the following method call will automatically use the query criteria as d
 $contents=Content::model()->findAll();
 ~~~
 
-Note that default named scope only applies to `SELECT` queries. It is ignored for `INSERT`, `UPDATE` and `DELETE` queries.
+Note that default scope only applies to `SELECT` queries. It is ignored for `INSERT`, `UPDATE` and `DELETE` queries.
 
 <div class="revision">$Id$</div>
