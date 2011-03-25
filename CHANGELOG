@@ -75,7 +75,7 @@ Version 1.1.7 to be released
 - Enh #2198: Improved CJuiTabs so that the tab content can be skipped (Qiang)
 - Enh #2199: Added CListView::separator (Qiang)
 - Enh #2206: Added $clearErrors parameter to CModel::validate() (Qiang)
-- Enh #2209: Added CDbConnection::setAttributes() to support initializing DB connection with PDO attributes (Qiang)
+- Enh #2209: Added CDbConnection::setAttributes() and getAttributes() to support initializing DB connection with PDO attributes (Qiang)
 - Enh #2226: Added more tokens to summaryText when CBaseListView.enablePagination is set false (Qiang)
 - Enh #2227: Exposed CActiveRecord::query() (Qiang)
 - Enh: Added CGridView::ajaxUpdateError for the possibility to use a custom ajax error handler (mdomba)

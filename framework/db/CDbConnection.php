@@ -732,6 +732,17 @@ class CDbConnection extends CApplicationComponent
 	}
 
 	/**
+	 * Returns the attributes that are previously explicitly set for the DB connection.
+	 * @return array attributes (name=>value) that are previously explicitly set for the DB connection.
+	 * @see setAttributes
+	 * @since 1.1.7
+	 */
+	public function getAttributes()
+	{
+		return $this->_attributes;
+	}
+
+	/**
 	 * Sets a set of attributes on the database connection.
 	 * @param array $values attributes (name=>value) to be set.
 	 * @see setAttribute
