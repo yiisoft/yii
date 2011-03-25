@@ -224,7 +224,7 @@
 			$error.html(messages[attribute.id][0]);
 			$container.addClass(attribute.errorCssClass);
 		}
-		else {
+		else if(attribute.enableAjaxValidation || attribute.clientValidation) {
 			$container.addClass(attribute.successCssClass);
 		}
 		if(!attribute.hideErrorMessage)
