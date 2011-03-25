@@ -68,12 +68,10 @@ class CRegularExpressionValidator extends CValidator
 		if($this->pattern===null)
 			throw new CException(Yii::t('yii','The "pattern" property must be specified with a valid regular expression.'));
 
-		if(($message=$this->message)===null)
-		{
-			$message=Yii::t('yii','{attribute} is invalid.', array(
-				'{attribute}'=>$object->getAttributeLabel($attribute),
-			));
-		}
+		$message=$this->message!==null ? $this->message : Yii::t('yii','{attribute} is invalid.');
+		$message=strtr($message, array(
+			'{attribute}'=>$object->getAttributeLabel($attribute),
+		));
 
 		$pattern=$this->pattern;
 		$pattern=preg_replace('/\\\\x\{?([0-9a-fA-F]+)\}?/', '\u$1', $pattern);

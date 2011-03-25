@@ -78,16 +78,10 @@ class CRangeValidator extends CValidator
 			throw new CException(Yii::t('yii','The "range" property must be specified with a list of values.'));
 
 		if(($message=$this->message)===null)
-		{
-			if($this->not)
-				$message=Yii::t('yii','{attribute} is in the list.', array(
-					'{attribute}'=>$object->getAttributeLabel($attribute),
-				));
-			else
-				$message=Yii::t('yii','{attribute} is not in the list.', array(
-					'{attribute}'=>$object->getAttributeLabel($attribute),
-				));
-		}
+			$message=$this->not ? Yii::t('yii','{attribute} is in the list.') : Yii::t('yii','{attribute} is not in the list.');
+		$message=strtr($message,array(
+			'{attribute}'=>$object->getAttributeLabel($attribute),
+		));
 
 		$range=array();
 		foreach($this->range as $value)
