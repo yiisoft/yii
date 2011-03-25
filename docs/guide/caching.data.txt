@@ -243,7 +243,7 @@ $posts = Post::model()->cache(1000, $dependency, 2)->with('comments')->findAll(a
 
 ### Limitations
 
-Query caching does not work query results that contain resource handles. For example,
+Query caching does not work with query results that contain resource handles. For example,
 when using the `BLOB` column type in some DBMS, the query result will return a resource
 handle for the column data.
 
