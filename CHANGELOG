@@ -93,7 +93,7 @@ Version 1.1.7 to be released
 - Chg: jQuery UI now uses minified CSS (Sam Dark)
 - Chg: Removed jQuery dimensions plugin since it's in jQuery core (Sam Dark)
 - Chg: Upgraded bgiframe to 2.1.2 (Sam Dark)
-- New #1763: Added support for performing seamless client-side data validation using CActiveForm (Qiang)
+- New #1763: Added support for performing seamless client-side data validation using CActiveForm (Qiang, hightman)
 - New #2069: Added CDateValidator (Qiang)
 - New: Added support for query caching (Qiang)
 - New: Added Lithuanian translations (tomas.valacka)
