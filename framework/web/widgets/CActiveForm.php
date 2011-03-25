@@ -56,9 +56,7 @@
  *
  * The AJAX-based validation has a few limitations. First, it does not work
  * with file upload fields. Second, it should not be used to perform validations that
- * may cause server-side state changes. For example, it is not suitable to perform
- * CAPTCHA (see {@link CCaptchaAction}) validation, because each validation request
- * will increase the number of tests by one. Third, it is not designed
+ * may cause server-side state changes. Third, it is not designed
  * to work with tabular data input for the moment.
  *
  * Support for client-side validation varies for different validators. A validator
@@ -67,6 +65,7 @@
  * At this moment, the following core validators support client-side validation:
  * <ul>
  * <li>{@link CBooleanValidator}</li>
+ * <li>{@link CCaptchaValidator}</li>
  * <li>{@link CCompareValidator}</li>
  * <li>{@link CEmailValidator}</li>
  * <li>{@link CNumberValidator}</li>
