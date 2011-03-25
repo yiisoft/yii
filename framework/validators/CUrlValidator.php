@@ -99,12 +99,10 @@ class CUrlValidator extends CValidator
 	 */
 	public function clientValidateAttribute($object,$attribute)
 	{
-		if(($message=$this->message)===null)
-		{
-			$message=Yii::t('yii','{attribute} is not a valid URL.', array(
-				'{attribute}'=>$object->getAttributeLabel($attribute),
-			));
-		}
+		$message=$this->message!==null ? $this->message : Yii::t('yii','{attribute} is not a valid URL.');
+		$message=strtr($message, array(
+			'{attribute}'=>$object->getAttributeLabel($attribute),
+		));
 
 		if(strpos($this->pattern,'{schemes}')!==false)
 			$pattern=str_replace('{schemes}','('.implode('|',$this->validSchemes).')',$this->pattern);

@@ -102,12 +102,10 @@ class CEmailValidator extends CValidator
 	 */
 	public function clientValidateAttribute($object,$attribute)
 	{
-		if(($message=$this->message)===null)
-		{
-			$message=Yii::t('yii','{attribute} is not a valid email address.', array(
-				'{attribute}'=>$object->getAttributeLabel($attribute),
-			));
-		}
+		$message=$this->message!==null ? $this->message : Yii::t('yii','{attribute} is not a valid email address.');
+		$message=strtr($message, array(
+			'{attribute}'=>$object->getAttributeLabel($attribute),
+		));
 
 		$condition="!value.match({$this->pattern})";
 		if($this->allowName)

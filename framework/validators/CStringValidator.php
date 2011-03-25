@@ -102,27 +102,27 @@ class CStringValidator extends CValidator
 	public function clientValidateAttribute($object,$attribute)
 	{
 		$label=$object->getAttributeLabel($attribute);
+
 		if(($message=$this->message)===null)
-		{
-			$message=Yii::t('yii','{attribute} is of the wrong length (should be {length} characters).', array(
-				'{attribute}'=>$label,
-				'{length}'=>$this->is,
-			));
-		}
+			$message=Yii::t('yii','{attribute} is of the wrong length (should be {length} characters).');
+		$message=strtr($message, array(
+			'{attribute}'=>$label,
+			'{length}'=>$this->is,
+		));
+
 		if(($tooShort=$this->tooShort)===null)
-		{
-			$tooShort=Yii::t('yii','{attribute} is too short (minimum is {min} characters).', array(
-				'{attribute}'=>$label,
-				'{min}'=>$this->min,
-			));
-		}
+			$tooShort=Yii::t('yii','{attribute} is too short (minimum is {min} characters).');
+		$tooShort=strtr($tooShort, array(
+			'{attribute}'=>$label,
+			'{min}'=>$this->min,
+		));
+
 		if(($tooLong=$this->tooLong)===null)
-		{
-			$tooLong=Yii::t('yii','{attribute} is too long (maximum is {max} characters).', array(
-				'{attribute}'=>$label,
-				'{max}'=>$this->max,
-			));
-		}
+			$tooLong=Yii::t('yii','{attribute} is too long (maximum is {max} characters).');
+		$tooLong=strtr($tooLong, array(
+			'{attribute}'=>$label,
+			'{max}'=>$this->max,
+		));
 
 		$js='';
 		if($this->min!==null)

@@ -74,12 +74,11 @@ class CRequiredValidator extends CValidator
 		if($this->requiredValue!==null)
 		{
 			if($message===null)
-			{
-				$message=Yii::t('yii','{attribute} must be {value}.', array(
-					'{value}'=>$this->requiredValue,
-					'{attribute}'=>$object->getAttributeLabel($attribute),
-				));
-			}
+				$message=Yii::t('yii','{attribute} must be {value}.');
+			$message=strtr($message, array(
+				'{value}'=>$this->requiredValue,
+				'{attribute}'=>$object->getAttributeLabel($attribute),
+			));
 			return "
 if(value!=" . CJSON::encode($this->requiredValue) . ") {
 	messages.push(".CJSON::encode($message).");
@@ -90,7 +89,8 @@ if(value!=" . CJSON::encode($this->requiredValue) . ") {
 		{
 			if($message===null)
 			{
-				$message=Yii::t('yii','{attribute} cannot be blank.', array(
+				$message=Yii::t('yii','{attribute} cannot be blank.');
+				$message=strtr($message, array(
 					'{attribute}'=>$object->getAttributeLabel($attribute),
 				));
 			}

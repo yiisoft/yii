@@ -105,31 +105,26 @@ class CNumberValidator extends CValidator
 	public function clientValidateAttribute($object,$attribute)
 	{
 		$label=$object->getAttributeLabel($attribute);
+
 		if(($message=$this->message)===null)
-		{
-			if($this->integerOnly)
-				$message=Yii::t('yii','{attribute} must be an integer.', array(
-					'{attribute}'=>$label,
-				));
-			else
-				$message=Yii::t('yii','{attribute} must be a number.', array(
-					'{attribute}'=>$label,
-				));
-		}
+			$message=$this->integerOnly ? Yii::t('yii','{attribute} must be an integer.') : Yii::t('yii','{attribute} must be a number.');
+		$message=strtr($message, array(
+			'{attribute}'=>$label,
+		));
+
 		if(($tooBig=$this->tooBig)===null)
-		{
-			$tooBig=Yii::t('yii','{attribute} is too big (maximum is {max}).', array(
-				'{attribute}'=>$label,
-				'{max}'=>$this->max,
-			));
-		}
+			$tooBig=Yii::t('yii','{attribute} is too big (maximum is {max}).');
+		$tooBig=strtr($tooBig, array(
+			'{attribute}'=>$label,
+			'{max}'=>$this->max,
+		));
+
 		if(($tooSmall=$this->tooSmall)===null)
-		{
-			$tooSmall=Yii::t('yii','{attribute} is too small (minimum is {min}).', array(
-				'{attribute}'=>$label,
-				'{min}'=>$this->min,
-			));
-		}
+			$tooSmall=Yii::t('yii','{attribute} is too small (minimum is {min}).');
+		$tooSmall=strtr($tooSmall, array(
+			'{attribute}'=>$label,
+			'{min}'=>$this->min,
+		));
 
 		$pattern=$this->integerOnly ? $this->integerPattern : $this->numberPattern;
 		$js="
