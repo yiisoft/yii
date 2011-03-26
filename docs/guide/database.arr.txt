@@ -594,13 +594,13 @@ When using `through`, relation definition should look like the following:
 
 ~~~
 [php]
-'relationName'=>array('relationType', 'ClassName', 'foreign_key', 'through'=>'relationName', ...additional options)
+'relationName'=>array('relationType', 'ClassName', 'foreign_key', 'through'=>'throughRelationName', ...additional options)
 ~~~
 
-In the above the `foreignKey` value is a name of a key that is:
+In the above the `foreign_key` value is a name of a key that is:
 
-  - Defined in the table specified in `relationName`.
-  - Pointig to a table holding data for `ClassName` model.
+  - Defined in the table specified in `throughRelationName`.
+  - Pointing to a table holding data for `ClassName` model.
 
 `through` can be used with both `HAS_ONE` and `HAS_MANY` relations.
 
@@ -612,7 +612,7 @@ An example of `HAS_MANY` with `through` is getting users from a particular group
 users are assigned to groups via roles.
 
 A bit more complex example is getting all comments for all users of a particular
-group. In this case we have to use several relations with `through` is a single model:
+group. In this case we have to use several relations with `through` in a single model:
 
 ~~~
 [php]
@@ -657,7 +657,7 @@ $comments=$group->comments;
 
 An example of using `HAS_ONE` with `through` is getting user address where
 user is bound to address using profile. All these entities (user, profile, and address)
-do have a corresponding models:
+do have corresponding models:
 
 ~~~
 [php]
