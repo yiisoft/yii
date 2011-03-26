@@ -389,7 +389,17 @@ class CActiveForm extends CWidget
 	 * </ul>
 	 * These options override the corresponding options as declared in {@link options} for this
 	 * particular model attribute. For more details about these options, please refer to {@link clientOptions}.
-	 * Note that these options are only used when {@link enableAjaxValidation} is set true.
+	 * Note that these options are only used when {@link enableAjaxValidation} or {@link enableClientValidation}
+	 * is set true.
+	 *
+	 * When client-side validation is enabled, an option named "clientValidation" is also recognized.
+	 * This option should take a piece of JavaScript code to perform client-side validation. In the code,
+	 * the variables are predefined:
+	 * <ul>
+	 * <li>value: the current input value associated with this attribute.</li>
+	 * <li>messages: an array that may be appended with new error messages for the attribute.</li>
+	 * <li>attribute: a data structure keeping all client-side options for the attribute</li>
+	 * </ul>
 	 * @param boolean $enableAjaxValidation whether to enable AJAX validation for the specified attribute.
 	 * Note that in order to enable AJAX validation, both {@link enableAjaxValidation} and this parameter
 	 * must be true.
@@ -449,7 +459,7 @@ class CActiveForm extends CWidget
 
 		if($enableClientValidation)
 		{
-			$validators=array();
+			$validators=isset($htmlOptions['clientValidation']) ? $htmlOptions['clientValidation'] : array();
 			foreach($model->getValidators($attribute) as $validator)
 			{
 				if($enableClientValidation && $validator->enableClientValidation)
@@ -459,7 +469,7 @@ class CActiveForm extends CWidget
 				}
 			}
 			if($validators!==array())
-				$option['clientValidation']="js:function(value, messages) {\n".implode("\n",$validators)."\n}";
+				$option['clientValidation']="js:function(value, messages, attribute) {\n".implode("\n",$validators)."\n}";
 		}
 
 		if(!isset($htmlOptions['class']))
