@@ -93,6 +93,14 @@ class CFormInputElement extends CFormElement
 	 */
 	public $enableAjaxValidation=true;
 	/**
+	 * @var boolean whether to allow client-side validation for this input. Note that in order to use
+	 * client-side validation, {@link CForm::activeForm} must be configured with 'enableClientValidation'=>true.
+	 * This property allows turning on or off  client-side validation for individual input fields.
+	 * Defaults to true.
+	 * @since 1.1.7
+	 */
+	public $enableClientValidation=true;
+	/**
 	 * @var string the layout used to render label, input, hint and error. They correspond to the placeholders
 	 * "{label}", "{input}", "{hint}" and "{error}".
 	 */
@@ -217,7 +225,7 @@ class CFormInputElement extends CFormElement
 	public function renderError()
 	{
 		$parent=$this->getParent();
-		return $parent->getActiveFormWidget()->error($parent->getModel(), $this->name, $this->errorOptions, $this->enableAjaxValidation);
+		return $parent->getActiveFormWidget()->error($parent->getModel(), $this->name, $this->errorOptions, $this->enableAjaxValidation, $this->enableClientValidation);
 	}
 
 	/**
