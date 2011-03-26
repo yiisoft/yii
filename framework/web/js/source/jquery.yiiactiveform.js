@@ -273,7 +273,7 @@
 			var msg = [];
 			if (this.clientValidation != undefined && (settings.submitting || this.status == 2 || this.status == 3)) {
 				var value = $('#'+this.inputID, $form).val();
-				this.clientValidation(value, msg);
+				this.clientValidation(value, msg, this);
 				if (msg.length) {
 					messages[this.id] = msg;
 				}
@@ -365,7 +365,7 @@
 		 *     validatingCssClass : 'validating',
 		 *     enableAjaxValidation : true,
 		 *     enableClientValidation : true,
-		 *     clientValidation : undefined, // function(value, messages) : client-side validation
+		 *     clientValidation : undefined, // function(value, messages, attribute) : client-side validation
 		 *     beforeValidateAttribute: undefined, // function(form, attribute) : boolean
 		 *     afterValidateAttribute: undefined,  // function(form, attribute, data, hasError)
 		 * }
