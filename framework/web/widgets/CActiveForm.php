@@ -459,7 +459,7 @@ class CActiveForm extends CWidget
 
 		if($enableClientValidation)
 		{
-			$validators=isset($htmlOptions['clientValidation']) ? $htmlOptions['clientValidation'] : array();
+			$validators=isset($htmlOptions['clientValidation']) ? array($htmlOptions['clientValidation']) : array();
 			foreach($model->getValidators($attribute) as $validator)
 			{
 				if($enableClientValidation && $validator->enableClientValidation)
