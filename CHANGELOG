@@ -2,7 +2,7 @@
                    Yii Framework Change Log
                    ========================
 
-Version 1.1.7 to be released
+Version 1.1.7 March 27, 2011
 ----------------------------
 - Bug #1080: Correct recursive merging for CDbCriteria::with (creocoder, Sam Dark)
 - Bug #1624: Fixed the bug that Gii would generate only one relation for a parent that has a child with more FK linking to it (mdomba)

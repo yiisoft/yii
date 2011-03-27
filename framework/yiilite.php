@@ -39,7 +39,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.7-dev';
+		return '1.1.7';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -9112,14 +9112,14 @@ class CStringValidator extends CValidator
 	public $tooShort;
 	public $tooLong;
 	public $allowEmpty=true;
-	public $encoding=false;
+	public $encoding;
 	protected function validateAttribute($object,$attribute)
 	{
 		$value=$object->$attribute;
 		if($this->allowEmpty && $this->isEmpty($value))
 			return;
-		if(function_exists('mb_strlen'))
-			$length=mb_strlen($value,$this->encoding?$this->encoding:Yii::app()->charset);
+		if(function_exists('mb_strlen') && $this->encoding!==false)
+			$length=mb_strlen($value,$this->encoding ? $this->encoding : Yii::app()->charset);
 		else
 			$length=strlen($value);
 		if($this->min!==null && $length<$this->min)
