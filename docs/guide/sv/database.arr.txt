@@ -19,7 +19,8 @@ avsnitt.
 
 > Info: Stödet för referensattributrestriktioner varierar mellan olika databashanterare.
 > SQLite < 3.6.19 stöder inte referensattributrestriktioner, men det går ändå
-> att deklarera restriktionerna när tabeller skapas.
+> att deklarera restriktionerna när tabeller skapas. MySQL:s MyISAM-motor
+> saknar stöd för referensattributrestriktioner.
 
 
 Deklarera tabellsamband
@@ -189,8 +190,8 @@ Ovanstående exempel hämtar in alla postningar tillsammans med deras respektive
 författare och kategorier. Det hämtar även in varje författares profil samt 
 postningar.
 
-Från och med version 1.1.0, kan eager loading även exekveras genom att man
-specificerar propertyn [CDbCriteria::with], som i följande exempel:
+Eager loading kan även exekveras genom att man specificerar propertyn [CDbCriteria::with], 
+som i följande exempel:
 
 ~~~
 [php]
@@ -217,6 +218,29 @@ $posts=Post::model()->findAll(array(
 ~~~
 
 
+Genomföra relationell fråga utan att hämta relaterade modeller
+--------------------------------------------------------------
+
+Ibland vill vi utföra frågor som använder samband, utan att hämta in relaterade modeller. 
+Antag att vi har `User`-poster som skapat många `Post`-poster. Post kan ha status publicerad 
+men kan även ha utkaststatus. Detta bestäms av fältet `published` i modellen Post. 
+Ny vill vi hämta alla användare som har publicerade postningar utan att inkludera själva 
+postningarna. Detta kan upppnås på följande sätt:
+
+~~~
+[php]
+$users=User::model()->with(array(
+	'posts'=>array(
+		// vi vill inte selektera fält från postningar
+		'select'=>false,
+		// men vi vill bara ha användare med publicerade postningar
+		'joinType'=>'INNER JOIN',
+		'condition'=>'posts.published=1',
+	),
+))->findAll();
+~~~
+
+
 Alternativ för relationella frågor
 ----------------------------------
 
@@ -232,13 +256,12 @@ relationella frågan. De sammanfattas nedan.
    detta alternativ måste göras otvetydiga.
 
    - `params`: parametrarna som skall kopplas ihop med den genererade SQL-satsen. 
-   Dessa skall ges som en array bestående av namn-värdepar. Detta alternativ har 
-   varit tillgängligt sedan version 1.0.3.
+   Dessa skall ges som en array bestående av namn-värdepar.
 
    - `on`: motsvarar `ON`-ledet. Villkoret som specificeras här kommer att läggas till 
    sammanslagningsvillkoret med hjälp av `AND`-operatorn. Kolumnnamn som refereras till 
    i detta alternativ måste göras otvetydiga. Detta alternativ är inte relevant vid 
-   `MANY_MANY`-relationer. Alternativet har varit tillgängligt sedan version 1.0.2.
+   `MANY_MANY`-relationer.
 
    - `order`: motsvarar `ORDER BY`-ledet. Det är som standard tomt. Kolumnnamn som 
    refereras till i detta alternativ måste göras otvetydiga. 
@@ -250,8 +273,7 @@ relationella frågan. De sammanfattas nedan.
    - `joinType`: typ av sammanslagning för detta samband. Den är som standard 
    `LEFT OUTER JOIN`.
 
-   - `alias`: aliasnamn för tabellen som förknippas med detta samband. Detta 
-   alternativ har varit tillgängligt sedan version 1.0.1. Standardvärde 
+   - `alias`: aliasnamn för tabellen som förknippas med detta samband. Standardvärde 
    är null, vilket innebär att tabellalias genereras automatiskt. Detta skiljer 
    sig från `aliasToken` på så sätt att den senare bara är en platshållare och 
    ersätts med faktiskt tabellalias.
@@ -267,7 +289,6 @@ relationella frågan. De sammanfattas nedan.
    Om detta alternativ inte sätts, kommer den associerade tabellen att sammanfogas med 
    den primära tabellen i en och samma SQL-fråga, endast när den primära tabellen inte sidindelas.
    För fler detaljer se avsnittet "Relational Query Performance". 
-   Detta alternativ har varit tillgängligt sedan version 1.0.3.
 
    - `join`: ett tillkommande `JOIN`-led. Det är som standard tomt. Detta alternativ har 
    varit tillgängligt sedan version 1.1.3.
@@ -276,14 +297,12 @@ relationella frågan. De sammanfattas nedan.
    refereras till i detta alternativ måste göras otvetydiga. 
 
    - `having`: motsvarar `HAVING`-ledet. Det är som standard tomt. Kolumnnamn som 
-   refereras till i detta alternativ måste göras otvetydiga. Detta alternativ har 
-   varit tillgängligt sedan version 1.0.1.
+   refereras till i detta alternativ måste göras otvetydiga.
 
    - `index`: namnet på kolumnen vars värden skall användas som nycklar 
    i den array som lagrar relaterade objekt. Om detta alternativ inte sätts 
    kommer en relaterad objektarray att använda ett nollbaserat heltalsindex. 
    Detta alternativ kan endast sättas för sambandstyperna `HAS_MANY` och `MANY_MANY`. 
-   Detta alternativ har varit tillgängligt sedan version 1.0.7.
 
 
 Dessutom är följande alternativ tillgängliga för vissa samband när lazy loading används:
@@ -293,6 +312,10 @@ Dessutom är följande alternativ tillgängliga för vissa samband när lazy loa
 
    - `offset`: offset till rader som skall selekteras. Detta alternativ är 
    INTE tillämpligt på `BELONGS_TO`-samband.
+
+   - `through`: namnet på en modells samband, vilket skall användas som brygga 
+   vid hämtning av relaterad data. Kan tillämpas enbart på `HAS_ONE`- och 
+   `HAS_MANY`-samband. Detta alternativ har varit tillgängligt sedan version 1.1.7.
 
 Nedan har deklarationen av sambandet `posts` i `User` varierats genom 
 inkludering av några av ovanstående alternativ:
@@ -358,18 +381,12 @@ $posts=Post::model()->with('comments')->findAll(array(
 ));
 ~~~
 
-> Note|Märk: semantiken vid otvetydiggörande av kolumnnamn har ändrats fr o m version 1.1.0.
-> Tidigare, i version 1.0.x, genererade Yii underförstått ett tabellalias för varje relaterad
-> tabell prefixet `??.` användes för referens till detta automatiskt genererade alias. Vidare är, 
-> i version 1.0.x, aliasnamnet för den primära tabellen identiskt med tabellnamnet.
-
 
 Alternativ för dynamisk relationell fråga
 -----------------------------------------
 
-Med start från och med version 1.0.2, går det att använda alternativ för 
-dynamisk relationell fråga både med metoden [with()|CActiveRecord::with] och 
-med `with`-alternativet. De dynamiska alternativen skriver över existerande 
+Det går att använda alternativ för dynamisk relationell fråga både med metoden [with()|CActiveRecord::with] 
+och med `with`-alternativet. De dynamiska alternativen skriver över existerande 
 alternativ som specificerats i metoden [relations()|CActiveRecord::relations]. 
 Till exempel, för att, med ovanstående `User`-modell, använda tillvägagångssättet 
 eager loading till att hämta in postningar tillhörande en författare i *stigande 
@@ -384,11 +401,10 @@ User::model()->with(array(
 ))->findAll();
 ~~~
 
-Med start fr o m version 1.0.5 kan dynamiska frågealternativ även användas 
-med relationella frågor som använder tillvägagångssättet lazy loading. 
-För att göra så, anropa en metod vars namn är lika sambandsnamnet och lämna med 
-de dynamiska frågealternativen som metodparameter. Till exempel returnerar 
-följande kod de av en användares postningar vars status` är lika med 1:
+Dynamiska frågealternativ kan även användas med relationella frågor som använder 
+tillvägagångssättet lazy loading. För att göra så, anropa en metod vars namn är 
+lika sambandsnamnet och lämna med de dynamiska frågealternativen som metodparameter. 
+Till exempel returnerar följande kod de av en användares postningar vars status` är lika med 1:
 
 ~~~
 [php]
@@ -442,27 +458,9 @@ Vi kan även sätta detta alternativ dynamiskt när vi genomför eager loading:
 $posts = Post::model()->with(array('comments'=>array('together'=>false)))->findAll();
 ~~~
 
-> Note|Märk: I version 1.0.x, var det underförstådda beteendet att Yii genererade och
-> exekverade `N+1` SQL-satser om det fanns `N` `HAS_MANY`- eller `MANY_MANY`-samband.
-> Varje `HAS_MANY`- eller `MANY_MANY`-samband hade sin egen SQL-sats. Genom att anropa
-> metoden `together()` efter `with()` kunde generering och exekvering av endast en SQL-sats 
-> tvingas fram. Till exempel,
->
-> ~~~
-> [php]
-> $posts=Post::model()->with(
-> 	'author.profile',
-> 	'author.posts',
-> 	'categories')->together()->findAll();
-> ~~~
->
-
-
 
 Statistikfråga
 --------------
-
-> Note|Märk: Statistikfrågor har understötts fr o m version 1.0.4.
 
 Utöver relationella frågor som beskrivits ovan, stöder Yii också så kallade statistikfrågor 
 (eller aggregationsfrågor). Detta refererar till inhämtning av aggregeringsinformation om 
@@ -536,8 +534,6 @@ De skall anges som en array av namn-värdepar.
 Relationell fråga med namngivna omfång
 --------------------------------------
 
-> Note|Märk: Stödet för namngivna omfång har varit tillgängligt sedan version 1.0.5.
-
 Relationella frågor kan även utföras i kombination med [namngivna omfång](/doc/guide/database.ar#named-scopes). 
 Detta kan ske i två former. I den första formen appliceras namngivna omfång på huvudmodellen. 
 I den andra formen appliceras namngivna omfång på relaterade modeller.
@@ -558,6 +554,20 @@ Fäljande kod visar hur namngivna omfång appliceras på relaterade modeller.
 ~~~
 [php]
 $posts=Post::model()->with('comments:recently:approved')->findAll();
+// eller sedan 1.1.7
+$posts=Post::model()->with(array(
+    'comments'=>array(
+        'scopes'=>array('recently','approved')
+    ),
+))->findAll();
+// eller sedan 1.1.7
+$posts=Post::model()->findAll(array(
+    'with'=>array(
+        'comments'=>array(
+            'scopes'=>array('recently','approved')
+        ),
+    ),
+));
 ~~~
 
 Ovanstående fråga skulle hämta alla postningar tillsammans med deras för publicering 
@@ -581,10 +591,177 @@ class User extends CActiveRecord
 		);
 	}
 }
+
+// eller sedan 1.1.7
+class User extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+		    'posts'=>array(self::HAS_MANY, 'Post', 'author_id',
+				'with'=>array(
+					'comments'=>array(
+						'scopes'=>'approved'
+					),
+				),
+			),
+		);
+	}
+}
 ~~~
 
-> Note|Märk: Namngivna omfång som appliceras på relaterade modeller måste specificeras i 
-[CActiveRecord::scopes]. Detta innebär också att de inte kan parametriseras.
+> Note|Märk: Namngivna omfång som appliceras på relaterade modeller måste specificeras 
+> i CActiveRecord::scopes. Detta medför att de inte kan parametriseras.
+
+Sedan version 1.1.7 är det möjligt att lämna med parametrar för relationella namngivna omfång.
+Till exempel, ett omfång med namnet `rated` i modellen `Post` som accepterar minsta önskade 
+ratingvärde för en postning, kan användas på följande sätt från modellen `User`:
+
+~~~
+[php]
+$users=User::model()->findAll(array(
+	'with'=>array(
+		'posts'=>array(
+			'scopes'=>array(
+				'rated'=>5,
+			),
+		),
+	),
+));
+~~~
 
 
-<div class="revision">$Id: database.arr.txt 2782 2010-12-28 16:18:06Z qiang.xue $</div>
+Relationell fråga med 'through'
+------------------------------
+
+Vid användning av `through` skall sambandsdefinitionen se ut som följer:
+
+~~~
+[php]
+'relationName'=>array('relationType', 'ClassName', 'foreign_key', 'through'=>'throughRelationName', ...additional options)
+~~~
+
+I ovanstående är värdet av `foreign_key` namnet på ett referensattribut som är:
+
+  - Definierat i tabellen specificerad genom `throughRelationName`.
+  - Pekar mot en tabell som innehåller data för modellen `ClassName`.
+
+`through` kan användas med `HAS_ONE`- och `HAS_MANY`-samband.
+
+### HAS_MANY through
+
+![HAS_MANY through ER](has_many_through.png)
+
+Ett exempel på `HAS_MANY` med `through` är att hämta användare tillhörande 
+en specifik grupp när användare är tilldelade grupp via roller.
+
+Ett mer komplext exempel är att hämta samtliga kommentarer för alla användare 
+tillhörande en specifik grupp . I detta fall behöver vi använda flera samband 
+med `through`, i en enda modell:
+
+~~~
+[php]
+class Group extends CActiveRecord
+{
+   ...
+   public function relations()
+   {
+       return array(
+           'roles'=>array(self::HAS_MANY,'Role','group_id'),
+           'users'=>array(self::HAS_MANY,'User','user_id','through'=>'roles'),
+           'comments'=>array(self::HAS_MANY,'Comment','user_id','through'=>'users'),
+       );
+   }
+}
+~~~
+
+#### Användningsexempel
+
+~~~
+[php]
+// hämta alla grupper samt alla tillhörande användare
+$groups=Group::model()->with('users')->findAll();
+
+// hämta alla grupper med alla tillhörande användare och roller
+$groups=Group::model()->with('roles','users')->findAll();
+
+// hämta alla användare och roller för vilka grupp-ID är 1
+$group=Group::model()->findByPk(1);
+$users=$group->users;
+$roles=$group->roles;
+
+// hämta alla kommentarer för vilka grupp-ID är 1
+$group=Group::model()->findByPk(1);
+$comments=$group->comments;
+~~~
+
+
+### HAS_ONE through
+
+![HAS_ONE through ER](has_one_through.png)
+
+Ett exempel på användning av `HAS_ONE` med `through` är att hämta en användares adress 
+när användaren är kopplad till addressen genom en profil. Alla dessa entiteter 
+(user, profile, och address) har motsvarande modeller:
+
+~~~
+[php]
+class User extends CActiveRecord
+{
+   ...
+   public function relations()
+   {
+       return array(
+           'profile'=>array(self::HAS_ONE,'Profile','user_id'),
+           'address'=>array(self::HAS_ONE,'Address','profile_id','through'=>'profile'),
+       );
+   }
+}
+~~~
+
+#### Användningsexempel
+
+~~~
+[php]
+// hämta adressen för en användare vars ID är 1
+$user=User::model()->findByPk(1);
+$address=$user->address;
+~~~
+
+
+### Egensamband med through 
+
+`through` kan användas för en modell som relaterar till sig själv via en bryggmodell. 
+I exemplet handlar det om en användare som är mentor för andra användare:
+
+
+![through self ER](through_self.png)
+
+
+I detta fall definierar vi sambandet så här:
+
+~~~
+[php]
+class User extends CActiveRecord
+{
+   ...
+   public function relations()
+   {
+       return array(
+           'mentorships'=>array(self::HAS_MANY,'Mentorship','teacher_id','joinType'=>'INNER JOIN'),
+           'students'=>array(self::HAS_MANY,'User','student_id','through'=>'mentorships','joinType'=>'INNER JOIN'),
+       );
+   }
+}
+~~~
+
+#### Användningsexempel
+
+~~~
+[php]
+// hämta alla studenter som undervisas av läraren vars ID är 1
+$teacher=User::model()->findByPk(1);
+$students=$teacher->students;
+~~~
+
+<div class="revision">$Id: database.arr.txt 3127 2011-03-26 12:21:47Z alexander.makarow $</div>

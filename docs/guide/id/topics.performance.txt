@@ -50,7 +50,7 @@ Menggunakan Teknik Cache
 ------------------------
 
 Seperti dijelaskan dalam seksi [Caching](/doc/guide/caching.overview), Yii
-menyediakan beberapa solusi penembolokan yang bisa meningkatkan performa aplikasi
+menyediakan beberapa solusi caching yang bisa meningkatkan performa aplikasi
 Web secara signifikan. Jika pembuatan beberapa data memerlukan waktu lama,
 kita dapat menggunakan pendekatan [cache data](/doc/guide/caching.data) untuk
 mengurangi frekuensi pembuatan data; Jika bagian halaman relatif tetap statis,
@@ -80,23 +80,23 @@ Pengambilan data dari database sering menjadi hambatan utama performa dalam
 aplikasi Web. Meskipun menggunakan caching tetap dapat mengurangi performa,
 ini tidak sepenuhnya memecahkan masalah. Ketika database berisi data yang besar
 dan data yang di-cache tidak benar, pengambilan besar data bisa sangat lambat
-tanpa desain database dan queri yang benar.
+tanpa desain database dan query yang benar.
 
-Desainlah indeks dengan benar dalam database. Mengindeks bisa menjadikan queri `SELECT` jauh
-lebih cepat, tapi dapat memperlambat queri `INSERT`, `UPDATE` atau `DELETE`.
+Desainlah indeks dengan benar dalam database. Mengindeks bisa menjadikan query `SELECT` jauh
+lebih cepat, tapi dapat memperlambat query `INSERT`, `UPDATE` atau `DELETE`.
 
-Untuk queri yang kompleks, direkomendasikan membuat view database daripada
-menggunakan queri di dalam kode PHP dan meminta DBMS untuk menguraikannya
+Untuk query yang kompleks, direkomendasikan membuat view database daripada
+menggunakan query di dalam kode PHP dan meminta DBMS untuk menguraikannya
 berulang kali.
 
 Jangan berlebihan menggunakan [Active Record](/doc/guide/database.ar). Meskipun [Active
 Record](/doc/guide/database.ar) baik pada pemodelan data dalam gaya OOP,
 sebenarnya menurunkan performa karena harus membuat satu atau beberapa
-objek untuk mewakili setiap baris dari hasil queri. Untuk aplikasi intensif
+objek untuk mewakili setiap baris dari hasil query. Untuk aplikasi intensif
 data, penggunaan [DAO](/doc/guide/database.dao) atau
 API database di tingkat lebih rendah bisa menjadi pilihan yang lebih baik.
 
-Terakhir, gunakan `LIMIT` dalam queri `SELECT` Anda. Ini akan menghindari
+Terakhir, gunakan `LIMIT` dalam query `SELECT` Anda. Ini akan menghindari
 pengambilan data berlebihan dari database dan menghabiskan alokasi memori
 untuk PHP.
 
@@ -106,8 +106,6 @@ Memperkecil File Skrip
 Halaman yang kompleks sering harus menyertakan banyak file eksternal JavaScript dan CSS. Karena setiap file akan menyebabkan lalu lintas tambahan ke server dan sebaliknya, kita harus memperkecil jumlah file skrip dengan menggabungnya ke dalam file agar lebih sedikit jumlahnya. Kita juga harus mempertimbangkan pengurangan ukuran setiap file skrip guna mengurangi waktu transmisi jaringan. Ada banyak piranti untuk membantu dua aspek ini.
 
 Untuk halaman yang dibuat oleh Yii, kenyataannya bahwa beberapa file skrip dirender oleh komponen yang tidak ingin kita ubah (misalnya komponen inti Yii, komponen pihak ketiga). Untuk memperkecil file skrip ini, kita memerlukan dua langkah.
-
-> Note|Catatan: Fitur `scriptMap` yang dijelaskan berikut ini sudah tersedia sejak versi 1.0.3.
 
 Pertama, kita mendeklarasikan skrip yang diperkecil dengan mengkonfigurasi properti [scriptMap|CClientScript::scriptMap] pada komponen aplikasi [clientScript|CWebApplication::clientScript]. Ini bisa dikerjakan baik dalam konfigurasi aplikasi ataupun dalam kode. Sebagai contoh,
 
@@ -157,4 +155,4 @@ Dengan memetakan file skrip ini menjadi false, kita melarang Yii untuk membuat k
 </head>
 ~~~
 
-<div class="revision">$Id: topics.performance.txt 2343 2010-08-26 21:10:08Z alexander.makarow $</div>
+<div class="revision">$Id: topics.performance.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

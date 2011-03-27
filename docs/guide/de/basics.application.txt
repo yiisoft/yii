@@ -175,7 +175,7 @@ müssen um diese Komponente zu verwenden.
 nicht-abgefangene PHP-Fehler und -Exceptions.
 
    - [format|CApplication::format]: [CFormatter] - formatiert Datenwerte für
-die Anzeige. Seit Version 1.1.0 verfügbar.
+die Anzeige.
 
    - [messages|CApplication::messages]: [CPhpMessageSource] - stellt
 übersetzte Textmeldungen für die Yii-Anwendung bereit.
@@ -228,4 +228,4 @@ Beim Bearbeiten eines Requests durchläuft eine Anwendung diesen Zyklus:
 
    7. Auslösen des [onEndRequest|CApplication::onEndRequest]-Events
 
-<div class="revision">$Id: basics.application.txt 2488 2010-09-20 11:38:02Z mdomba $</div>
+<div class="revision">$Id: basics.application.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

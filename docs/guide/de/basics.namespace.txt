@@ -25,12 +25,13 @@ Die folgenden praktischen Rootaliase werden von Yii schon vorbelegt:
  - `system`: Verweist auf das Frameworkverzeichnis von Yii
  - `zii`: Verweist auf das Verzeichnis der [Zii-Bibliothek](/doc/guide/extension.use#zii-extensions).
  - `application`: Verweist auf das [Anwendungsverzeichnis](/doc/guide/basics.application#application-base-directory) 
- - `webroot`: Steht für das Verzeichnis, das das [Startscript](/doc/guide/basics.entry) enthält. Dieser Alias ist seit Version 1.0.3 verfügbar.
- - `ext`: Verweist auf das Verzeichnis, das alle [Erweiterungen](/doc/guide/extension.overview) enthält. Dieser Alias steht seit Version 1.0.8 zur Verfügung.
+ - `webroot`: Steht für das Verzeichnis, das das [Startscript](/doc/guide/basics.entry) enthält.
+ - `ext`: Verweist auf das Verzeichnis, das alle [Erweiterungen](/doc/guide/extension.overview) enthält.
 
 Falls die Anwendung [Module](/doc/guide/basics.module) verwendet, wird für
-jedes Modulstammverzeichnis ein zusätzlicher RootAlias in Form der ModulID 
-angelegt. Dieses Feature steht seit Version 1.0.3 zur Verfügung.
+jedes Modulstammverzeichnis ein zusätzlicher RootAlias entsprechend der ModulID
+angelegt. Bei einem Modul mit der ID `users` ergibt so zum Beispiel den
+RootAlias `users`.
 
 Importieren von Klassen
 -----------------------
@@ -128,4 +129,4 @@ wie ein Pfadalias benannt sein. Die Klasse `application\components\GoogleMap`
 muss zum Beispiel an dem Ort gespeichert werden, der dem Pfadalias
 `application.components.GoogleMap` entspricht.
 
-<div class="revision">$Id: basics.namespace.txt 2630 2010-11-08 21:13:33Z qiang.xue $</div>
+<div class="revision">$Id: basics.namespace.txt 3086 2011-03-15 00:04:53Z qiang.xue $</div>

@@ -114,8 +114,6 @@ För en sida som genererats av Yii, är det stor risk att en del skriptfiler har
 komponenter som vi inte vill ändra (t.ex. Yii:s kärnkomponenter, tredjepartskomponenter). 
 För att minimera dessa skriptfiler behöver vi göra det i två steg.
 
-> Note|Märk: Finessen `scriptMap` som beskrivs nedan har varit tillgänglig fr o m version 1.0.3.
-
 Först deklarerar vi att skripten skall minimeras genom att konfigurera propertyn 
 [scriptMap|CClientScript::scriptMap] i applikationskomponenten [clientScript|CWebApplication::clientScript]. 
 Detta kan ske antingen i applikationskonfigurationen eller i kod. Till exempel,
@@ -172,4 +170,4 @@ I stället lägger vi in följande kod i våra sidor för att uttryckligen inklu
 </head>
 ~~~
 
-<div class="revision">$Id: topics.performance.txt 2343 2010-08-26 21:10:08Z alexander.makarow $</div>
+<div class="revision">$Id: topics.performance.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

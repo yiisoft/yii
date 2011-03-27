@@ -39,7 +39,7 @@ Mając ID ustawień lokalnych można otrzymać odpowiadającą mu instancję [CL
 Dane uzyskano ze [wspólnego repozytorium danych lokalnych ](http://unicode.org/cldr/) (CLDR). 
 Dla każdego ustawienia lokalnego dostarczany jest wyłącznie zbiór danych pochodzących z CLDR,
 gdyż w dane oryginalne zawierają wiele rzadko używanych informacji.
-Poczynając od wersji 1.1.0, użytkownicy mogą również dostarczać swoje własne, niestandardowe
+Użytkownicy mogą również dostarczać swoje własne, niestandardowe
 dane lokalne. Aby to zrobić, ustaw właściwość [CApplication::localeDataPath]
 by wskazywała na katalog, który zawiera niestandardowe dane lokalne. Aby stworzyć
 pliki z niestandardowymi danymi lokalnymi, wzoruj się na zawartości plików lokalnych 
@@ -142,7 +142,7 @@ może automatycznie wydobyć komunikaty, które powinny zostać przetłumaczone 
 oraz jeśli jest to konieczne dołączyć je do istniejących tłumaczeń. Aby uzyskać więcej szczegółów 
 dotyczących komendy `message`, uruchom polecenie `yiic help message`.
 
-Poczynając od wersji 1.0.10, używając klasy [CPhpMessageSource] do zarządzania źródłem 
+Używając klasy [CPhpMessageSource] do zarządzania źródłem 
 komunikatów, możemy również, w specjalny sposób, zarządzać i używać komunikaty dla klas rozszerzeń 
 (np. klas widżetów, modułów). W szczególności, jeśli komunikat należy do rozszerzenia, którego nazwa 
 to `Xyz`, wtedy kategoria komunikatu może zostać zapisana w formacie `Xyz.categoryName`. 
@@ -156,7 +156,7 @@ używać następującego formatu:
 Yii::t('Xyz.categoryName', 'wiadomość do przetłumaczenia')
 ~~~
 
-Od wersji 1.0.2, Yii posiada wsparcie dla [formatów alternatywnych|CChoiceFormat]. 
+Yii posiada wsparcie dla [formatów alternatywnych|CChoiceFormat]. 
 Alternatywny format odnosi się do wybierania tłumaczenia w zależności od podanej wartości numerycznej.
 Na przykład w języku angielskim słowo 'book' oznaczające książkę może przyjmować formę liczby pojedynczej 
 lub też formę liczby mnogiej, w zależności od ilości książek, gdy zaś w innych językach, 
@@ -260,17 +260,17 @@ array(5, '{n}' => convertNumber(5)));
 Dla porównania w języku rosyjskim będzie to:
 ~~~
 [php]
-Yii::t('app', 'cucumber|cucumbers', 62);
-Yii::t('app', 'cucumber|cucumbers', 1.5);
-Yii::t('app', 'cucumber|cucumbers', 1);
-Yii::t('app', 'cucumber|cucumbers', 7);
+Yii::t('app', '{n} cucumber|{n} cucumbers', 62);
+Yii::t('app', '{n} cucumber|{n} cucumbers', 1.5);
+Yii::t('app', '{n} cucumber|{n} cucumbers', 1);
+Yii::t('app', '{n} cucumber|{n} cucumbers', 7);
 ~~~
 
 z przetłumaczonym komunikatem
 
 ~~~
 [php]
-'cucumber|cucumbers' => 'огурец|огурца|огурцов|огурца',
+'{n} cucumber|{n} cucumbers' => '{n} огурец|{n} огурца|{n} огурцов|{n} огурца',
 ~~~
 
 co w rezultacie da nam
@@ -352,4 +352,4 @@ lub zmiennoprzeciwkową.
    - [formatPercentage|CNumberFormatter::formatPercentage]: metoda ta formatuje podaną liczbę używając 
    wzorca procentowego predefiniowanego w danych docelowych ustawień lokalnych.
 
-<div class="revision">$Id: topics.i18n.txt 2866 2011-01-15 09:20:03Z haertl.mike $</div>
+<div class="revision">$Id: topics.i18n.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

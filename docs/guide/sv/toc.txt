@@ -31,7 +31,7 @@
 * Arbeta med databaser
     - [Översikt](database.overview)
     - [Database Access Objects](database.dao)
-    - [Frågeverktyg (Query Builder) (eng)](database.query-builder)
+    - [Frågeverktyg (Query Builder)](database.query-builder)
     - [Active Record](database.ar)
     - [Relationell Active Record](database.arr)
     - [Databasmigrering](database.migration)

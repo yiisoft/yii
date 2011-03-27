@@ -3,8 +3,19 @@
 
 На этой странице кратко излагаются новые возможности, внесённые в каждом релизе Yii.
 
+Версия 1.1.7
+------------
+ * [Добавлена поддержка URL в стиле REST](/doc/guide/topics.url#user-friendly-urls)
+ * [Добавлена поддержка кэширования запросов](/doc/guide/caching.data#query-caching)
+ * [Теперь возможно передать параметры именованной группе условий отношения](/doc/guide/database.arr#relational-query-with-named-scopes)
+ * [Добавлена возможность выполнения реляционных запросов без получения данных из связанных моделей](/doc/guide/database.arr#performing-relational-query-without-getting-related-models)
+ * [В AR добавлена поддержка отношений HAS_MANY through и HAS_ONE through](/doc/guide/database.arr#relational-query-with-through)
+ * [В миграции добавлена поддержка транзакций](/doc/guide/database.migration#transactional-migrations)
+ * [Теперь возможно использовать привязку параметров с отдельными классами действий](/doc/guide/basics.controller#action-parameter-binding)
+ * [Добавлена поддержка валидации на клиенте без AJAX с использованием [CActiveForm]]
+
 Версия 1.1.6
--------------
+------------
  * [Добавлен построитель запросов](/doc/guide/database.query-builder)
  * [Добавлены миграции](/doc/guide/database.migration)
  * [Лучшие практики MVC](/doc/guide/basics.best-practices)
@@ -68,76 +79,4 @@
 
  * Псевдоним для главной таблицы в AR запросе теперь всегда равен 't'.
 
-
-Версия 1.0.11
--------------
-
- * Добавлена поддержка разбора и создания URL с параметризованными именами хостов:
-     - [Параметризация имен хостов](/doc/guide/topics.url#parameterizing-hostnames)
-
-
-Версия 1.0.10
--------------
-
- * Улучшен CPhpMessageSource. Теперь можно использовать для перевода сообщений модулей:
-     - [Перевод сообщений](/doc/guide/topics.i18n#message-translation)
-
- * Добавлена поддержка анонимных функций в качестве обработчиков событий:
-     - [События компонента](/doc/guide/basics.component#component-event)
-
-Версия 1.0.8
--------------
-
- * Добавлена поддержка получения нескольких кэшированных значений одновременно:
-	 - [Кэширование данных](/doc/guide/caching.data)
-
- * Введен новый корневой псевдоним `ext` для директории, содержащей сторонние расширения:
-	 - [Использование расширений](/doc/guide/extension.use)
-
-Версия 1.0.7
--------------
-
- * Добавлена поддержка отображения информации стека вызовов в трассирующих сообщениях:
-     - [Сохранение контекста сообщений](/doc/guide/topics.logging#logging-context-information)
-
-  * В отношениях AR добавлена опция `index`, позволяющая использовать значения
-столбца в качестве ключей массива связанных объектов:
-     - [Параметры реляционного запроса](/doc/guide/database.arr#relational-query-options)
-
-Версия 1.0.6
--------------
-
- * Добавлена поддержка использования именованной группы условий с методами `update` и `delete`:
-     - [Именованные группы условий](/doc/guide/database.ar#named-scopes)
-
- * Добавлена поддержка использования именованной группы условий в параметре `with` реляционных правил:
-     - [Реляционные запросы с именованными группами условий](/doc/guide/database.arr#relational-query-with-named-scopes)
-
- * Добавлена поддержка профилирования SQL-запросов:
-     - [Профилирование SQL-запросов](/doc/guide/topics.logging#profiling-sql-executions)
-
- * Добавлена поддержка журналирования дополнительной информации контекста сообщений:
-     - [Сохранение контекста сообщений](/doc/guide/topics.logging#logging-context-information)
-
- * Добавлена поддержка настройки одиночного URL-правила установкой его параметров `urlFormat` и `caseSensitive`:
-     - [Человекопонятные URL](/doc/guide/topics.url#user-friendly-urls)
-
- * Добавлена возможность отображения ошибок приложения в действии контроллера:
-     - [Управление отображением ошибок в действии контроллера](/doc/guide/topics.error#handling-errors-using-an-action)
-
-Версия 1.0.5
--------------
-
- * Active Record расширена поддержкой именованных групп условий:
-     - [Именованные группы условий](/doc/guide/database.ar#named-scopes)
-     - [Именованная группа условий по умолчанию](/doc/guide/database.ar#default-named-scope)
-     - [Реляционные запросы с именованными группами условий](/doc/guide/database.arr#relational-query-with-named-scopes)
-
-
- * Active Record расширена поддержкой отложенной загрузки с динамическими параметрами реляционного запроса:
-     - [Динамические параметры реляционного запроса](/doc/guide/database.arr#dynamic-relational-query-options)
-
- * Расширен класс [CUrlManager] поддержкой параметризованных маршрутов в URL-правилах:
-     - [Параметризация маршрутов](/doc/guide/topics.url#parameterizing-routes)
-
-<div class="revision">$Id: changes.txt 2701 2010-12-02 04:30:18Z qiang.xue $</div>
+<div class="revision">$Id: changes.txt 3116 2011-03-24 23:16:05Z alexander.makarow $</div>

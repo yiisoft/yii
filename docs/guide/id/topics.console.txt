@@ -151,7 +151,7 @@ public function actionIndex(array $types) { ... }
 Untuk memberikan nilai array, kita cukup mengulangi opsi yang sama dalam command line :
 
 ~~~
-php entryScript.php sitemap index --types=News --types=Article
+yiic sitemap index --types=News --types=Article
 ~~~
 
 Command di atas akan memanggil `actionIndex(array('News', 'Article'))`.
@@ -219,9 +219,9 @@ return array(
 );
 ~~~
 
-Seperti yang anda lihat, format konfigurasi sangat mirip dengan 
+Seperti yang Anda lihat, format konfigurasi sangat mirip dengan 
 apa yang kita lakukan pada konfigurasi aplikasi Web. Ini dikarenakan kelas [CConsoleApplication] dan [CWebApplication]
 berbagi kelas dasar yang sama.
 
 
-<div class="revision">$Id: topics.console.txt 2701 2010-12-02 04:30:18Z qiang.xue $</div>
+<div class="revision">$Id: topics.console.txt 2867 2011-01-15 10:22:03Z haertl.mike $</div>

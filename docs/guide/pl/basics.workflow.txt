@@ -33,10 +33,10 @@ tak samo, jak że przeprowadziliśmy analizę projektową dla aplikacji.
    akcji w klasach kontrolera.
 
    7. Tworzenie [tematów](/doc/guide/topics.theming) jeśli korzystanie z tematów
-   jest wymagana.
+   jest wymagane.
 
    8. Tworzenie tłumaczeń komunikatów jeśli [internacjonalizacja](/doc/guide/topics.i18n) 
-   jest wymagana.
+   jest wymagane.
 
    9. Rozpoznawanie danych oraz widoków, które mogą być buforowane oraz stosowanie odpowiednich 
    technik [buforowania](/doc/guide/caching.overview).

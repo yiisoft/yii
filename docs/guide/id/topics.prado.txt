@@ -2,7 +2,7 @@ Menggunakan Sintaks Template Alternatif
 =======================================
 
 Yii mengijinkan pengembang untuk menggunakan sintaks template favorit sendiri (misalnya
-Prado, Smarty) untuk menulis kontroler atau tampilan widget. Ini dilakukan dengan
+Prado, Smarty) untuk menulis controller atau tampilan widget. Ini dilakukan dengan
 menulis dan menginstalasi komponen aplikasi [viewRenderer|CWebApplication::viewRenderer].
 Pembuat tampilan mengintersepsi penyertaan
 [CBaseController::renderFile], sesuai dengan file tampilan dengan sintaks

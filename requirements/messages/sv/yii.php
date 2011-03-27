@@ -11,14 +11,15 @@
  * Messages that no longer need translation will have their translations
  * enclosed between a pair of '@@' marks.
  *
+ * Message string can be used with plural forms format. Check i18n section
+ * of the guide for details.
+ *
  * NOTE, this file must be saved in UTF-8 encoding.
  *
  * @version $Id: $
  */
 return array (
-  'GD extension with<br />FreeType support' => 'GD-tillägg med<br />FreeType-stöd',
-  'GD installed<br />FreeType support not installed' => 'GD installerad<br />FreeType-stöd ej installerat',
-  'GD not installed' => 'GD ej installerat',
+  'To use memcached set <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'För att använda memcached, sätt <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> till <code>true</code>.',
   '$_SERVER does not have {vars}.' => '$_SERVER innehåller inte {vars}.',
   '$_SERVER variable' => '$_SERVER-variabel',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '$_SERVER["SCRIPT_FILENAME"] måste vara samma som startskriptets namn och sökväg.',
@@ -26,6 +27,9 @@ return array (
   'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Alla <a href="http://www.yiiframework.com/doc/api/#system.db">DB-relaterade klasser</a>',
   'DOM extension' => 'DOM-tillägg',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => 'Antingen $_SERVER["REQUEST_URI"] eller $_SERVER["QUERY_STRING"] måste finnas.',
+  'GD extension with<br />FreeType support' => 'GD-tillägg med<br />FreeType-stöd',
+  'GD installed<br />FreeType support not installed' => 'GD installerad<br />FreeType-stöd ej installerat',
+  'GD not installed' => 'GD ej installerat',
   'Mcrypt extension' => 'Mcrypt-tillägg',
   'Memcache extension' => 'Memcache-tillägg',
   'PCRE extension' => 'PCRE-tillägg',

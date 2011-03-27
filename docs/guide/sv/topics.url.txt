@@ -117,8 +117,20 @@ anpassade alternativ, enligt följande:
 'pattern1'=>array('route1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
 ~~~
 
-I ovanstående exempel innehåller arrayen en lista med anpassade alternativ. Per version 1.1.0,
-finns följande alternativ tilllgängliga:
+Med start från version 1.1.7, kan även följande format användas (dvs mönstret specificeras som 
+ett element i en vektor), vilket medger att man specificerar ett flertal regler med hjälp av 
+samma mönster:
+
+~~~
+[php]
+array('route1', 'pattern'=>'pattern1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
+~~~
+
+I ovanstående exempel innehåller vektorn en lista med extra alternativ till regeln. Möjliga 
+alternativ är:
+
+   - [pattern|CUrlRule::pattern]: mönstret som skall användaas för att matcha och skapa URL:er. 
+   Detta alternativ har varit tillgängligt sedan version 1.1.7.
 
    - [urlSuffix|CUrlRule::urlSuffix]: URL suffix som skall användas specifikt för denna regel.
    Standardvärde är null, vilket innebär värdet av [CUrlManager::urlSuffix].
@@ -137,6 +149,17 @@ finns följande alternativ tilllgängliga:
    är satt till true, måste de givna parametervärdena även matcha motsvarande (parameter-)delmönster.
    Lägg märke till att prestanda påverkas negativt om detta alternativ är satt till true.
 
+   - [verb|CUrlRule::verb]: HTTP-verbet (t.ex. `GET`, `POST`, `DELETE`) som denna regel måste matcha 
+   för att kunna användas vid analys av aktuell request. Standardvärde är null, med innebörd att regeln 
+   kan matcha varje HTTP-verb. Om en regel kan matcha multipla verb, måste de separeras med kommatecken. 
+   När en regel inte matchar (de) specificerade verb(en), utelämnas den vid analys av request. Det här 
+   alternativet används enbart vid analys av request. Det tillhandahålls huvudsakligen för att stödja 
+   RESTful URL:er. Detta alternativ har varit tillgängligt sedan  1.1.7.
+
+   - [parsingOnly|CUrlRule::parsingOnly]: huruvida regeln används enbart för analys av request. 
+   Standardvärde är false, med innebörden att en regel används både vid analys respektive skapande av URL. 
+   Detta alternativ har varit tillgängligt sedan  1.1.7.
+
 
 Användning av namngivna parametrar
 ----------------------------------
@@ -145,7 +168,7 @@ En regel kan associeras med några GET-parametrar. Dessa GET-parametrar uppträd
 i regelns mönster som speciella symboler på följande format:
 
 ~~~
-&lt;ParamName:ParamPattern&gt;
+<ParamName:ParamPattern>
 ~~~
 
 där `ParamName` specificerar namnet på en GET-parameter och det frivilliga 
@@ -211,10 +234,10 @@ intensiv trafik minimera sin användning av URL-regler.
 Parametrisering av route
 ------------------------
 
-Med start fr o m version 1.0.5, kan vi referera till namngivna parametrar i 
-routedelen av en regel. Detta medger att regeln appliceras på multipla route 
-baserat på matchningskriterium. Det kan även hjälpa till att reducera antalet 
-regler i en applikation och därmed förbättra totalprestanda.
+Vi kan referera till namngivna parametrar i routedelen av en regel. Detta medger 
+att regeln appliceras på multipla route baserat på matchningskriterium. Det kan 
+även hjälpa till att reducera antalet regler i en applikation och därmed förbättra 
+totalprestanda.
 
 Följande exempelregler illustrerar hur route parametriseras med hjälp av 
 namngivna parametrar:
@@ -243,9 +266,9 @@ URL:en `/index.php/comments?page=2`.
 Parametrisering av värdnamn
 ---------------------------
 
-Med start från version 1.0.11 är det nu möjligt att inkludera värdnamn i regler för tolkning
-och generering av URL:er. Man kan extrahera delar av ett värdnamn till att bilda en GET-parameter.
-Till exempel URL:en `http://admin.example.com/en/profile` kan tolkas om till GET-parametrarna
+Det är möjligt att inkludera värdnamn i regler för tolkning och generering av URL:er. 
+Man kan extrahera delar av ett värdnamn till att bilda en GET-parameter. Till exempel 
+URL:en `http://admin.example.com/en/profile` kan tolkas om till GET-parametrarna 
 `user=admin` och `lang=en`. Å andra sidan kan regler med väednamn även användas till att
 bilda URL:er med parametriserade värdnamn.
 
@@ -315,4 +338,4 @@ statisk webbsida. För att göra så, konfigurera komponenten
 [urlManager|CWebApplication::urlManager] genom att sätta dess property 
 [urlSuffix|CUrlManager::urlSuffix] till önskad suffixsträng.
 
-<div class="revision">$Id: topics.url.txt 2773 2010-12-26 16:58:38Z jefftulsa $</div>
+<div class="revision">$Id: topics.url.txt 2923 2011-01-29 21:02:46Z mdomba $</div>

@@ -84,9 +84,6 @@ Derzeit werden folgende DBMS unterstützt:
    - [Microsoft SQL Server 2000 oder höher](http://www.microsoft.com/sqlserver/)
    - [Oracle](http://www.oracle.com)
 
-> Note|Hinweis: Microsoft SQL Server wird seit Version 1.0.4 unterstützt,
-> Oracle seit Version 1.0.5.
-
 Falls Sie statt `db` eine andere Verbindungskomponente verwenden möchten oder
 Sie mit AR auf mehreren Datenbanken arbeiten, können Sie
 [CActiveRecord::getDbConnection()] in Ihrer Klasse überschreiben. 
@@ -138,8 +135,8 @@ Die [model()|CActiveRecord::model]-Methode muss in jeder AR-Klasse definiert
 werden, worauf wir in Kürze noch näher eingehen werden.
 
 > Info: Um ein [Tabellenpräfix](/doc/guide/database.dao#using-table-prefix) zu
-> verwenden, kann man seit Version 1.1.0 die 
-> [tableName()|CActiveRecord::tableName]-Methode auch wie folgt überschreiben:
+> verwenden, kann man die  [tableName()|CActiveRecord::tableName]-Methode auch 
+> wie folgt überschreiben:
 > ~~~
 > [php]
 > public function tableName()
@@ -229,7 +226,7 @@ $post=new Post;
 echo $post->title;  // Dies führt zur Anzeige von: Bitte den Titel eingeben
 ~~~
 
-Seit Version 1.0.2 kann man einem Attribut auch einen Wert vom Typ
+Man kann einem Attribut auch einen Wert vom Typ
 [CDbExpression] zuweisen, bevor der Datensatz in der Datenbank gespeichert
 wird. Um zum Beispiel einen Zeitstempel zu speichern, wie er von der 
 MySQL-Funktion `NOW()` geliefert wird, schreibt man:
@@ -248,9 +245,8 @@ $post->save();
 > im Hintergrund verwendeten SQL-Befehle zu untersuchen. Das geht mit
 > Hilfe des [Log-Features](/doc/guide/topics.logging) von Yii. Konfiguriert
 > man zum Beispiel eine [CWebLogRoute], werden die ausgeführten SQL-Befehle
-> am Ende der Seite angezeigt. Seit Version 1.0.5 kann man auch die gebundenen
-> Parameterwerte anzeigen lassen, indem man [CDbConnection::enableParamLogging] 
-> in der Konfiguration auf `true` setzt.
+> am Ende der Seite angezeigt.  Setzt man [CDbConnection::enableParamLogging] 
+> auf `true`, werden dort auch die gebundenen Parameterwerte angezeigt.
 
 
 
@@ -525,7 +521,7 @@ werden vor bzw. nach dem Löschen einer AR-Instanz aufgerufen
 einer neuen Instanz aufgerufen
 
    - [beforeFind|CActiveRecord::beforeFind]: werden vor einer Suchabfrage
-(z.B. `find()`, `findAll()`) ausgeführt. Diese Methode steht seit Version 1.0.9 zur Verfügung.
+(z.B. `find()`, `findAll()`) ausgeführt.
 
    - [afterFind|CActiveRecord::afterFind]: wird aufgerufen, nachdem eine
 Instanz aus einem Suchergebnis erzeugt wurde.
@@ -562,8 +558,7 @@ catch(Exception $e)
 Scopes
 ------
 
-> Note|Hinweis: Scopes werden seit Version 1.0.5 unterstützt.
-> Die usprüngliche Idee für Scopes stammt von Ruby on Rails.
+> Note|Hinweis: Die Idee für Scopes stammt ursprünglich von Ruby on Rails.
 
 Ein *Scope* (engl.: named scope, sinngem.: benannter Bereich) stellt ein
 vordefiniertes Abfragekriterium dar, das man bei einem AR unter einem bestimmten Namen 
@@ -615,17 +610,8 @@ $beitraege=Beitrag::model()->veroeffentlicht()->kuerzlich()->findAll();
 Scopes müssen grundsätzlich links vom Aufruf einer
 `find`-Methode stehen. Jeder einzelne von ihnen liefert ein Abfragekriterium, das
 mit weiteren Kriterien kombiniert wird, inklusive demjenigen, das als
-Parameter and die `find`-Methode übergeben wurde. Letztendlich fügt man 
+Parameter and die `find`-Methode übergeben wurde. Letztendlich fügt man
 einer Abfrage also eine Liste von Filtern hinzu.
-
-Seit Version 1.0.6 können Scopes auch mit `update`- und
-`delete`-Methoden verwendet werden. Der folgende Code löscht zum Beispiel
-alle kürzlich veröffentlichten Beiträge:
-
-~~~
-[php]
-Beitrag::model()->veroeffentlicht()->kuerzlich()->delete();
-~~~
 
 > Note|Hinweis: Scopes können nur mit Methoden auf Klassenebene
 verwendet werden. Das bedeutet, dass die Methoden über `KlassenName::model()`
@@ -694,4 +680,4 @@ $contents=Content::model()->findAll();
 Beachten Sie, dass der Standardscope nur für `SELECT`-Abfragen verwendet wird. 
 Bei `INSERT`-, `UPDATE`- und `DELETE`-Statements wird er ignoriert.
 
-<div class="revision">$Id: database.ar.txt 2771 2010-12-24 14:48:44Z alexander.makarow $</div>
+<div class="revision">$Id: database.ar.txt 3122 2011-03-25 02:45:43Z qiang.xue $</div>

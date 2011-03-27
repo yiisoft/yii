@@ -11,7 +11,7 @@ Untuk aplikasi Yii, ini dilakukan dengan bantuan
 Membuat URL
 -----------
 
-Meskipun URL bisa dibuat secara manual dalam view kontroler, seringkali lebih
+Meskipun URL bisa dibuat secara manual dalam view controller, seringkali lebih
 jauh fleksibel jika membuatnya secara dinamis:
 
 ~~~
@@ -19,7 +19,7 @@ jauh fleksibel jika membuatnya secara dinamis:
 $url=$this->createUrl($route,$params);
 ~~~
 
-di mana `$this` merujuk ke instance kontroler; `$route` menetapkan
+di mana `$this` merujuk ke instance controller; `$route` menetapkan
 [rute](/doc/guide/basics.controller#route) permintaan; dan `$params`
 adalah daftar parameter `GET` yang akan ditambahkan ke URL.
 
@@ -31,13 +31,13 @@ apa yang disebut dengan format `get`. Sebagai contoh, `$route='post/read'` dan
 /index.php?r=post/read&id=100
 ~~~
 
-di mana parameter terlihat dalam string queri sebagai daftar `Nama=Nilai`
+di mana parameter terlihat dalam string query sebagai daftar `Nama=Nilai`
 yang disambung dengan karakter ampersand (karakter &), dan parameter `r` menetapkan
 permintaan [rute](/doc/guide/basics.controller#route). Format URL ini
 tidak ramah-pengguna karena memakai beberapa karakter bukan-kata.
 
 Kita ingin menjadikan URL di atas terlihat lebih bersih dan lebih jelas dengan
-menggunakan apa yang disebut format `path` yang mengeliminir string queri dan
+menggunakan apa yang disebut format `path` yang mengeliminir string query dan
 menyimpan parameter GET ke dalam info path bagian dari URL:
 
 ~~~
@@ -104,7 +104,7 @@ array(
 Aturan ditetapkan sebagai array dengan pasangan pola-rute (pattern-route), masing-masing
 berkaitan dengan satu aturan. Pola aturan harus ekspresi reguler yang benar
 tanpa pemisah dan pembeda. Ini dipakai untuk menyamakan bagian info path
-URL. Dan [rute](/doc/guide/basics.controller#route) harus merujuk ke kontroler rute yang valid.
+URL. Dan [rute](/doc/guide/basics.controller#route) harus merujuk ke controller rute yang valid.
 
 Selain format pola-rute demikian, aturan juga dapat ditentukan
 dengan opsi yang dikustomisasi, seperti berikut ini :
@@ -114,8 +114,20 @@ dengan opsi yang dikustomisasi, seperti berikut ini :
 'pattern1'=>array('route1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
 ~~~
 
-Di atas, array berisi daftar opsi yang terkustomisasi. Pada versi 1.1.0, terdapat
-beberapa opsi yang tersedia:
+Mulai versi 1.1.7, format berikut juga dapat digunakan (yakni
+pola yang ditetapkan sebagai elemen array), yang memungkinkan menentukan beberapa
+aturan dengan pola yang sama:
+
+~~~
+[php]
+array('route1', 'pattern'=>'pattern1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
+~~~
+
+Di atas, array tersebut berisi daftar opsi-opsi extra untuk aturan. Option yang memungkinkan
+akan dijelaskan pada bawah ini:
+
+   - [pattern|CUrlRule::pattern]: pola yang digunakan untuk mencocokkan serta membuat URL.
+Opsi ini sudah tersedia pada versi 1.1.7.
 
    - [urlSuffix|CUrlRule::urlSuffix]: merupakan akhir dari URL yang dipakai pada atran. Secara default bernilai null
 yang berarti menggunakan nilai [CUrlManager::urlSuffix].
@@ -134,6 +146,17 @@ sebuah aturan akan digunakan untuk membuat sebuah URL jika rute dan nama paramet
 Jika properti ini di-ste true, maka nilai parameter yang diberikan juga harus sesuai dengan sub-pola parameter bersangkutan.
 Harap dicatat bahwa jika mengeset properti ini menjadi true akan menurunkan kinerja.
 
+- [verb|CUrlRule::verb]: verb HTTP (misalnya `GET`, `POST`, `DELETE`) jadi aturan harus cocok
+dengan urutan yang digunakan untuk parsing request sekarang. Default-nya adalah null, yang artinya aturan bersangkutan akan cocok dengan verb HTTP apa saja.
+Jika sebuah aturan bisa cocok lebih dari satu verb, maka verb-verb ini harus ditulis dengan dipisah oleh koma. Ketika sebuah aturan tidak cocok
+dengan verb yang ditentukan, maka akan dilangkahi pada saat proses parsing request. Opsi ini hanya 
+digunakan untuk parsing request. Tujuan utama terdapat opsi ini supaya mendukung URL RESTful.
+Opsi ini sudah tersedia semenjak versi 1.1.7.
+
+   - ]parsingOnly|CUrlRule::parsingOnly]: menentukan apakah aturan digunakan hanya untuk request saja.
+Nilai default false, yang artinya sebuah rule digunakan untuk parsing dan juga pembuatan URL.
+Opsi ini tersedia di versi 1.1.7.
+
 
 Menggunakan Parameter Bernama
 ----------------------------------------------------------
@@ -142,7 +165,7 @@ Aturan dapat dikaitkan dengan beberapa parameter GET. Parameter GET ini
 muncul dalam pola aturan sebagai token khusus dengan format sebagai berikut:
 
 ~~~
-&lt;ParamName:ParamPattern&gt;
+ 	<ParamName:ParamPattern>
 ~~~
 
 di mana `ParamName` menetapkan nama parameter GET, dan opsional
@@ -188,7 +211,7 @@ sesuai dengan parameter rute, aturan akan dipakai untuk membuat URL.
 
 Jika parameter GET dioper ke [createUrl|CController::createUrl] lebih
 dari yang dibutuhkan oleh aturan, parameter tambahan akan muncul dalam
-string queri. Sebagai contoh, jika kita memanggil
+string query. Sebagai contoh, jika kita memanggil
 `$this->createUrl('post/read',array('id'=>100,'year'=>2008))`, kita akan
 mendapatkan `/index.php/post/100?year=2008`. Agar parameter tambahan ini
 muncul dalam bagian info path, kita harus menambahkan `/*` pada aturan.
@@ -212,7 +235,7 @@ aturan URL.
 Parameterisasi Rute
 ---------------------------------
 
-Mulai dari versi 1.0.5, kita dapat merujuk parameter bernama dalam bagian rute pada sebuah
+Kita dapat merujuk parameter bernama dalam bagian rute pada sebuah
 aturan. Ini mengijinkan aturan untuk diterapkan pada multi rute berdasarkan pada kriteria
 yang sesuai. Ini juga membantu mengurangi jumlah aturan yang diperlukan oleh aplikasi,
 Selanjutnya tentunya meingkatkan kinerja secara keseluruhan.
@@ -230,7 +253,7 @@ array(
 ~~~
 
 Dalam contoh di atas, kita menggunakan parameter bernama dalam bagian rute pada sebuah aturan:
-`_c` dan `_a`. Yang pertama sesuai dengan ID kontroler yang bisa berupa `post` ataupun `comment`,
+`_c` dan `_a`. Yang pertama sesuai dengan ID controller yang bisa berupa `post` ataupun `comment`,
 sementara yang kedua sesuai dengan ID aksi yakni `create`, `update` atau `delete`.
 Anda dapat menamai parameter secara berbeda selama tidak bertabrakan dengan parameter
 GET yang terlihat dalam URL.
@@ -244,7 +267,7 @@ Dan menghasilkan `comment/list` dan parameter GET `page=2`, kita dapat membuat U
 Memparameterkan Hostname(Parameterizing Hostname)
 ------------------------------------------------------------------------------------------
 
-Mulai dari versi 1.0.11, Yii sudah memungkinkan untuk menyertakan hostname ke dalam
+Yii sudah memungkinkan untuk menyertakan hostname ke dalam
 aturan penguraian dan pembuatan URL. Kita dapat mengeluarkan bagian dari hostname
 untuk menjadi sebuah parameter GET. Misalnya, URL `http://admin.example.com/en/profile`
 dapat diuraikan menjadi parameter GET `user=admin` dan `lang=en`. Di lain sisi, aturan dengan hostname
@@ -315,4 +338,4 @@ halaman Web statis. Untuk melakukannya, cukup konfigurasi komponen
 [urlManager|CWebApplication::urlManager] dengan menyetel properti
 [urlSuffix|CUrlManager::urlSuffix] ke sufiks yang Anda inginkan.
 
-<div class="revision">$Id: topics.url.txt 2773 2010-12-26 16:58:38Z jefftulsa $</div>
+<div class="revision">$Id: topics.url.txt 2923 2011-01-29 21:02:46Z mdomba $</div>

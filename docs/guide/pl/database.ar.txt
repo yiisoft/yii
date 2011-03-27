@@ -81,9 +81,6 @@ Wsparcie dla AR jest ograniczone przez DBMS. Aktualnie, tylko następujące DBMS
    - [SQLite 2 oraz 3](http://www.sqlite.org)
    - [Microsoft SQL Server 2000 lub nowsze](http://www.microsoft.com/sqlserver/)
    - [Oracle](http://www.oracle.com)
-   
-> Note|Uwaga: Wsparcie dla Microsoft SQL Server jest dostępne od wersji 1.0.4;
-> a wsparcie dla Oracle'a od wersji 1.0.5.   
 
 Jeśli chcesz używać komponentu aplikacji innego niż `db` lub jeśli chcesz pracować z wieloma 
 bazami danych używając AR, powinieneś nadpisać metodę [CActiveRecord::getDbConnection()]. 
@@ -131,7 +128,7 @@ klasy różni się, nadpisz metodę [tableName()|CActiveRecord::tableName]. Meto
 jest zadeklarowana jako taka dla każdej klasy AR (wyjaśnienie tego nastąpi później).
 
 > Info|Info: Aby móc używać [prefiksów tablic](/doc/guide/database.dao#using-table-prefix)
-> wprowadzonych w wersji 1.1.0, metoda [tableName()|CActiveRecord::tableName] dla klasy AR
+> metoda [tableName()|CActiveRecord::tableName] dla klasy AR
 > może być nadpisana następująco,
 > ~~~
 > [php]
@@ -216,7 +213,7 @@ $post=new Post;
 echo $post->title;  // to wyświetli tekst: proszę wprowadź tytuł
 ~~~
 
-Poczynając od wersji 1.0.2 atrybut może mieć przypisaną wartość typu [CDbExpression]
+Atrybut może mieć przypisaną wartość typu [CDbExpression]
 zanim rekord zostanie zapisany (zarówno podczas wstawiania jak i aktualizacji) do bazy danych.
 Na przykład, w celu zapisania stempla czasu (ang. timestamp) zwracanego przez funkcję MYSQL 
 `NOW()`, możemy użyć następującego kodu:
@@ -235,7 +232,7 @@ pisania uciążliwych zapytań SQL, często chcemy wiedzieć jakie zapytanie SQL
 wykonywane w tle przez AR. Możemy uzyskać tą informację poprzez włączenie w Yii 
 [funkcjonalności logowania](/doc/guide/topics.logging). Na przykład, możemy włączyć
 [CWebLogRoute] w konfiguracji aplikacji, dzięki czemu bedziemy widzieć wykonywane zapytania 
-SQL na końcu każdej strony. Od wersji 1.0.5, możemy ustawić właściwość 
+SQL na końcu każdej strony. Możemy ustawić właściwość 
 [CDbConnection::enableParamLogging] jako true w konfiguracji aplikacji, tak, że wartości 
 parametrów powiązanych z instrukcją SQL będą również logowane.
 
@@ -500,7 +497,7 @@ w klasach potomnych aby dostosować ich sterowanie kolejnością zadań (ang. wo
    utworzonej za pomocą operatora `new`.
 
    - [beforeFind|CActiveRecord::beforeFind]: jest wywoływana zanim instancja AR zostanie
-   użyta do wykonania zapytania (np. `find()`, `findAll()`). Dostępna od wersji 1.0.9.
+   użyta do wykonania zapytania (np. `find()`, `findAll()`).
 
    - [afterFind|CActiveRecord::afterFind]: jest wywoływana dla każdej instancji AR utworzonej 
    jako rezultat zapytania.
@@ -535,8 +532,7 @@ catch(Exception $e)
 Nazwane podzbiory (ang. Named Scopes)
 ------------
 
-> Note|Uwaga: Wsparcie dla nazwanych podzbiorów zostało udostępnione wraz z wersją 1.0.5.
-> Pierwotny pomysł na nazwane podzbiory pochodzi z Ruby on Rails.
+> Note|Uwaga: Pierwotny pomysł na nazwane podzbiory pochodzi z Ruby on Rails.
 
 *Nazwany podzbiór* reprezentuje *nazwane* kryteria zapytania, które mogą być połączone z innymi nazwanymi podzbiorami  
 i zastosowane do zapytania generowanego przez rekord aktywny. 
@@ -580,14 +576,6 @@ Ogólnie rzecz biorąc, nazwane podzbiory musza pojawić się po lewej stronie o
 które są łączone z pozostałymi kryteriami, włączając w to te, które zostały przekazane do metody `find`. Efekt końcowy jest podobny do tego,  
 jakby do zapytania dodano listę filtrów.
 
-Poczynając od wersji 1.0.6, nazwane podzbiory mogą być również używane wraz z metodami 
-`update` oraz `delete`. Na przykład, następujący kod usunie wszystkie aktualnie opublikowane posty: 
-
-~~~
-[php]
-Post::model()->published()->recently()->delete();
-~~~
-
 > Note|Uwaga: Nazwane podzbiory mogą być tylko używane wyłącznie z poziomu metod klasowych.   
 Oznacza to, że muszą one być wywołane w przy użyciu `NazwaKlasy::model()`.
 
@@ -619,14 +607,9 @@ $posts=Post::model()->opublikowane()->najnowsze(3)->findAll();
 
 Jeśli w powyższym kodzie nie przekazalibyśmy 3, otrzymalibyśmy domyślnie 5 ostatnio opublikowanych postów.
 
-### Domyślne nazwane podzbiory
+### Domyślne podzbiory
 
-Klasa modelu może posiadać domyślne nazwane podzbiory, które będą stosowane dla wszystkich zapytań
-(włączająć w to zapytania relacyjne) dla modelu. Na przykład, strona wspierająca wielojęzyczność| 
-może chcież wyświetlać zawartość w aktualnie wybranym języku. Ponieważ, możemy mieć wiele 
-zapytań związanych z zawartością strony, możemy zdecydować się na zdefiniowanie
-domyśnie nazwanych podzbiorów, aby rozwiązać ten problem. Aby to zrobić, nadpisujemy 
-metodę [CActiveRecord::defaultScope] w następujący sposób:
+Klasa modelu może posiadać domyślne podzbiory, które będą stosowane dla wszystkich zapytań (włączająć w to zapytania relacyjne) dla modelu. Na przykład, strona wspierająca wielojęzyczność może chcież wyświetlać zawartość w aktualnie wybranym języku. Ponieważ, możemy mieć wiele zapytań związanych z zawartością strony, możemy zdecydować się na zdefiniowanie domyślnych podzbiorów, aby rozwiązać ten problem. Aby to zrobić, nadpisujemy  metodę [CActiveRecord::defaultScope] w następujący sposób:
 
 
 ~~~
@@ -650,6 +633,6 @@ kreteriów zapytania:
 $contents=Content::model()->findAll();
 ~~~
 
-Zauważ, że domyślne nazwane podzbiory mają zastosowanie tylko dla zapytań `SELECT`. Są one ignorowane dla zapytań `INSERT`, `UPDATE` oraz `DELETE`.
+Zauważ, że domyślne podzbiory mają zastosowanie tylko dla zapytań `SELECT`. Są one ignorowane dla zapytań `INSERT`, `UPDATE` oraz `DELETE`.
 
-<div class="revision">$Id: database.ar.txt 2771 2010-12-24 14:48:44Z alexander.makarow $</div>
+<div class="revision">$Id: database.ar.txt 3122 2011-03-25 02:45:43Z qiang.xue $</div>

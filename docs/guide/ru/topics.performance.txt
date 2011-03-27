@@ -106,9 +106,6 @@ CSS. Так как каждый файл равен дополнительном
 компонентами, код которых изменять не хочется (например, компоненты ядра Yii).
 Как минимизировать такие скрипты показано далее.
 
-> Note|Примечание: Возможность использования `scriptMap`, описанная далее,
-> доступна с версии 1.0.3.
-
 Для начала опишем, какие файлы минимизировать. Зададим свойство
 [scriptMap|CClientScript::scriptMap] компонента
 [clientScript|CWebApplication::clientScript]. Это можно сделать как в настройках
@@ -168,4 +165,4 @@ $cs->scriptMap=array(
 </head>
 ~~~
 
-<div class="revision">$Id: topics.performance.txt 2343 2010-08-26 21:10:08Z alexander.makarow $</div>
+<div class="revision">$Id: topics.performance.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

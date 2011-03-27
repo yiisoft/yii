@@ -15,7 +15,7 @@
     - [View](basics.view)
     - [Komponen](basics.component)
     - [Alias Path dan Namespace](basics.namespace)
-    - [Modul](basics.module)
+    - [Module](basics.module)
     - [Konvensi](basics.convention)
     - [Alur Kerja Pengembangan](basics.workflow)
     - [Praktek MVC Terbaik](basics.best-practices)

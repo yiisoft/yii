@@ -100,13 +100,6 @@ class UserIdentity extends CUserIdentity
 }
 ~~~
 
-Information som sparas i ett state (genom anrop av [CBaseUserIdentity::setState]) 
-förmedlas till [CWebUser] vilken lagrar den i icke-flyktigt minne, så som session.
-Sådan information kan kommas åt i form av propertyn i [CWebUser]. Till exempel, går 
-det att erhålla `title`-information för aktuell användare via  `Yii::app()->user->title`
-(Detta sätt har varit tillgängligt från version 1.0.3. I tidigare versioner användes 
-i stället `Yii::app()->user->getState('title')`.)
-
 När vi i nästa avsnitt går igenom inloggning och utloggning, kommer det att framgå att vi 
 bifogar denna identitetsklass vid anrop inloggningsmetoden för en användare.
 Information som sparas i ett state (genom anrop av [CBaseUserIdentity::setState]) 
@@ -114,9 +107,7 @@ förmedlas till [CWebUser] vilken lagrar den i icke-flyktigt minne, så som sess
 Denna information kan sedan kommas åt i form av propertyn i [CWebUser]. 
 I vårt exempel lagrade vi information om användarens titel via anropet 
 `$this->setState('title', $record->title);`. När väl inloggningsprocesen är genomförd, 
-går det att erhålla `title`-information för aktuell användare via  `Yii::app()->user->title` 
-(Detta sätt har varit tillgängligt från version 1.0.3. I tidigare versioner användes 
-i stället `Yii::app()->user->getState('title')`.)
+går det att erhålla `title`-information för aktuell användare via  `Yii::app()->user->title`.
 
 > Info: Som standard använder [CWebUser] sessionen för icke-flyktig lagring av 
 information om användaridentitet. Om cookie-baserad inloggning gjorts möjlig 
@@ -321,7 +312,7 @@ En åtkomstregel kan matcha följande kontextparametrar:
 
    - [controllers|CAccessRule::controllers]: specificerar vilka kontroller denna regel 
    matchar. Detta skall vara en array av kontroller-ID:n. Jämförelsen sker 
-   skiftlägesoberoende. Detta alternativ har varit tillgängligt fr o m version 1.0.4.
+   skiftlägesoberoende.
 
    - [users|CAccessRule::users]: specificerar vilka användare denna regel 
    matchar. Aktuellt [användarnamn|CWebUser::name] används för matchning. Jämförelsen 
@@ -345,6 +336,10 @@ En åtkomstregel kan matcha följande kontextparametrar:
 
    - [verbs|CAccessRule::verbs]: specificerar vilka typer av request (t.ex. 
    `GET`, `POST`) denna regel, matchar. Jämförelsen sker skiftlägesoberoende.
+
+   - [expression|CAccessRule::expression]: specificerar ett PHP-uttryck vars värde 
+   indikerar huruvida denna regel matchar. I uttrycket kan man använda variabeln 
+   `$user`, vilken refererar till `Yii::app()->user`.
 
 
 Hantera resultat av auktorisering
@@ -620,8 +615,6 @@ if(Yii::app()->user->checkAccess('updateOwnPost',$params))
 
 ### Använda standardroller
 
-> Note|Märk: Finessen standardroller har varit tillgänglig sedan version 1.0.3
-
 Många webbapplikationer behöver ett antal mycket specialiserade roller som 
 tilldelas varje eller åtminstone de flesta systemanvändarna. Vi kanske vill 
 tilldela alla autentiserade användare vissa rättigheter. Det kan skapa en 
@@ -664,4 +657,4 @@ $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('guest', 'guest user', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>
+<div class="revision">$Id: topics.auth.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

@@ -129,9 +129,6 @@ von Komponenten einige Scriptdateien gerendert werden, die wir nicht verändern
 möchten (z.B. von Yii-Kernkomponenten oder Komponten von Drittanbietern). Um
 diese Dateien zu verkleinern, bedarf es zweier Schritte.
 
-> Note|Hinweis: Das im folgenden beschriebene `scriptMap`-Feature ist seit
-Version 1.0.3 verfügbar.
-
 Als erstes legen wir die zu minimierenden Scripte über die Eigenschaft
 [scriptMap|CClientScript::scriptMap] der
 [clientScript|CWebApplication::clientScript]-Anwendungskomponente fest. Dies
@@ -194,4 +191,4 @@ einzubinden.
 </head>
 ~~~
 
-<div class="revision">$Id: topics.performance.txt 2343 2010-08-26 21:10:08Z alexander.makarow $</div>
+<div class="revision">$Id: topics.performance.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

@@ -16,12 +16,6 @@ Erweiterungen zu unterscheiden. Heißt eine Erweiterung `xyz`, kann
 man über den Pfadalias `ext.xyz` von überallher auf Dateien dieser Erweiterung
 zugreifen.
 
-> Note|Hinweis: Der RootAlias `ext` steht seit Version 1.0.8 zur Verfügung.
-Vorher musste man `application.extensions` für das Erweiterungsverzeichnis
-verwenden. Im folgenden gehen wir davon aus, dass `ext` zur Verfügung steht.
-Sie müssen es durch `application.extensions` ersetzen, falls Sie Version 1.0.7
-oder kleiner verwenden.
-
 Jede Erweiterung muss anders importiert, konfiguriert bzw. angewendet werden.
 Wir zeigen hier einige typische Anwendungsfälle für die in der 
 [Übersicht](/doc/guide/extension.overview) beschriebenen Kategorien.
@@ -32,8 +26,7 @@ Zii Erweiterungen
 Bevor wir auf andere Erweiterungen eingehen, möchten wir an dieser Stelle kurz
 die Zii-Erweiterungsbibliothek vorstellen. Dabei handelt es sich um eine Reihe von
 Erweiterungen, die vom Yii-Entwicklerteam erstellt wurden und die seit Version
-1.1.0 in jedem Release enthalten sind. Die Zii-Bibliothek wird als
-Google-Projekt unter dem Namen [zii](http://code.google.com/p/zii/) gehosted.
+1.1.0 in jedem Release enthalten sind. 
 
 Um eine Zii-Erweiterung zu verwenden, muss die entsprechende Klasse mit einem
 Pfadalias der Form `zii.pfad.zur.Klasse` referenziert werden. Der Rootalias
@@ -334,4 +327,4 @@ Danach kann man entweder eine Instanz dieser Klasse erzeugen, Eigenschaften
 belegen und Methoden aufrufen. Oder man kann die Klasse erweitern und neue
 Kindklassen davon erstellen.
 
-<div class="revision">$Id: extension.use.txt 1780 2010-02-01 20:32:50Z qiang.xue $</div>
+<div class="revision">$Id: extension.use.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

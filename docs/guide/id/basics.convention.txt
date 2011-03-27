@@ -21,7 +21,7 @@ http://hostname/index.php?r=ControllerID/ActionID
 
 Variabel GET `r` merujuk pada
 [rute](/doc/guide/basics.controller#route) yang bisa diurai oleh Yii
-menjadi kontroler dan aksi. Jika `ActionID` dihilangkan, kontroler akan
+menjadi controller dan aksi. Jika `ActionID` dihilangkan, controller akan
 mengambil aksi default (didefinisikan via [CController::defaultAction]); dan jika
 `ControllerID` juga tidak ada (atau variabel `r` tidak ada), aplikasi
 akan menggunakan kontoler default (didefinsikan via
@@ -48,12 +48,12 @@ kelas dinamai dalam cara yang unik guna menghindari konflik nama dengan
 kelas pihak-ketiga. Untuk alasan ini, semua kelas Yii framework diawali dengan
 huruf "C".
 
-Aturan khusus untuk nama kelas kontroler adalah harus diakhiri dengan kata
-`Controller`. Kemudian ID kontroler didefinisikan sebagai nama kelas dengan
+Aturan khusus untuk nama kelas controller adalah harus diakhiri dengan kata
+`Controller`. Kemudian ID controller didefinisikan sebagai nama kelas dengan
 huruf pertamanya dalam huruf kecil dan kata `Controller` dibuang.
 Sebagai contoh, kelas `PageController` akan memiliki ID `page`. Aturan ini
 membuat aplikasi lebih aman. Ini juga menjadikan URL yang terkait dengan
-kontroler sedikit lebih bersih (contoh `/index.php?r=page/index` daripada
+controller sedikit lebih bersih (contoh `/index.php?r=page/index` daripada
 `/index.php?r=PageController/index`).
 
 Konfigurasi
@@ -112,18 +112,18 @@ server Web. Dapat dikustomisasi melalui
 pihak ketiga. Dapat dikustomisasi melalui [CApplication::extensionPath].
 
    - `WebRoot/protected/modules`: direktori ini menampung semua 
-[modul](/doc/guide/basics.module) aplikasi, masing-masing diwakili oleh subdirektori.
+[module](/doc/guide/basics.module) aplikasi, masing-masing diwakili oleh subdirektori.
 
    - `WebRoot/protected/controllers`: direktori ini menampung semua file kelas
-kontroler. Dapat dikustomisasi melalui [CWebApplication::controllerPath].
+controller. Dapat dikustomisasi melalui [CWebApplication::controllerPath].
 
    - `WebRoot/protected/views`: direktori ini menampung semua file tampilan,
-termasuk tampilan kontroler, tampilan tata letak dan tampilan sistem. Dapat
+termasuk tampilan controller, tampilan tata letak dan tampilan sistem. Dapat
 dikustomisasi melalui [CWebApplication::viewPath].
 
    - `WebRoot/protected/views/ControllerID`: direktori ini menampung file tampilan
-untuk satu kelas kontroler. Di sini, `ControllerID` merupakan ID
-kontroler. Dapat dikustomisasi melalui [CController::getViewPath].
+untuk satu kelas controller. Di sini, `ControllerID` merupakan ID
+controller. Dapat dikustomisasi melalui [CController::getViewPath].
 
    - `WebRoot/protected/views/layouts`: direktori ini menampung semua file
 tampilan tata letak. Dapat dikustomisasi melalui [CWebApplication::layoutPath].

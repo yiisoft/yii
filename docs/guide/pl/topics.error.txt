@@ -84,10 +84,10 @@ możemy po prostu utworzyć plik widoku w folderze systemowym aplikacji lub tema
 Każdy plik widoku jest zwykłym skryptem PHP zawierającym głównie kod HTML.
 Aby uzyskać więcej szczegółów, zobacz domyślne pliki widoków w folderze `view` frameworku.
 
-Obsługa błędów przy użyciu akcj
--------------------------------
+Obsługa błędów przy użyciu akcji
+--------------------------------
 
-Poczynając od wersji 1.0.3, Yii umożliwia używanie [akcji kontrolera](/doc/guide/basics.controller#action)
+Yii umożliwia używanie [akcji kontrolera](/doc/guide/basics.controller#action)
 do obsługi wyświetlania błędu. Aby to uzyskać, powinniśmy skonfigurować obsługę błędu 
 w konfiguracji aplikacji w następujący sposób:
 
@@ -145,4 +145,4 @@ kategorią będzie `exception.ExceptionClassName` (dla [CHttpException] jego
 Można więc wykorzystać tą funkcjonalność [logowania](/doc/guide/topics.logging)
 do monitorowania błędów powstałych podczas działania aplikacji.
 
-<div class="revision">$Id: topics.error.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>
+<div class="revision">$Id: topics.error.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

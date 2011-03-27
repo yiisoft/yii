@@ -1,7 +1,7 @@
 Uji Coba Fungsional(Functional Testing)
 =======================================
 
-Sebelum membaca bagian ini, anda disarankan untuk membaca [dokumentasi Selenium](http://seleniumhq.org/docs/) dan [dokumentasi PHPUnit](http://www.phpunit.de/wiki/Documentation) terlebih dahulu. Kita merangkum beberapa prinsip dasar penulisan sebuah functional test(percobaan fungsional) dalam Yii menjadi:
+Sebelum membaca bagian ini, Anda disarankan untuk membaca [dokumentasi Selenium](http://seleniumhq.org/docs/) dan [dokumentasi PHPUnit](http://www.phpunit.de/wiki/Documentation) terlebih dahulu. Kita merangkum beberapa prinsip dasar penulisan sebuah functional test(percobaan fungsional) dalam Yii menjadi:
 
  * Seperti halnya uji coba unit(unit test), sebuah uji coba fungsional(functional test) ditulis dalam bentuk sebuah kelas `XyzTest` yang diturunkan dari [CWebTestCase]. `Xyz` merupakan bagian dari kelas yang diuji coba. Dikarenakan `PHPUnit_Extensions_SeleniumTestCase` merupakan kelas induk dari [CWebTestCase], kita dapat menggunakan seluruh metode yang diturunkan oleh kelas ini.
 

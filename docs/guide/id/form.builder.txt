@@ -4,8 +4,7 @@ Menggunakan Form Builder
 Ketika kita membuat form HTML, kita sering harus menulis kode view yang berulang-ulang. Hal seperti
 ini biasanya cukup sulit untuk dipakai ulang pada projek lain. Contohnya, untuk setiap input field,
 kita harus menghubungkannya pada sebuah label dan menampilkan pesan error validasi yang mungkin ada.
-Untuk meningkatkan kemungkinan pemakaian ulang pada kode-kode ini, kita dapat menggunakan fitur
-form builder yang sudah terdapat di Yii semenjak versi 1.1.0
+Untuk meningkatkan kemungkinan pemakaian ulang pada kode-kode ini, kita dapat menggunakan fitur form builder.
 
 
 Konsep Dasar
@@ -483,4 +482,4 @@ menspesifikasi form dengan menggunakan file konfigurasi yang terpisah sehingga m
 lebih fokus ke logika.
 
 
-<div class="revision">$Id: form.builder.txt 2353 2010-08-28 20:45:26Z qiang.xue $</div>
+<div class="revision">$Id: form.builder.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

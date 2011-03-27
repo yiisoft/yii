@@ -40,7 +40,7 @@ Powyższy kod definiuje właściwość do zapisu nazwaną `textWidth` (nazwa zal
 od wielkości liter). Podczas czytania właściwości, wywoływana jest metoda `getTextWidth()`,
 a wartość, którą zwróciła staje się wartością właściwości; podobnie, gdy ustawiamy
 właściwość, wywoływana jest metoda `setTextWidth()`. Jeśli setter nie został zdefiniowany,
-właściwość będzie można tylko odczytywań a próba jej ustawienia zakończy się 
+właściwość będzie można tylko odczytywać a próba jej ustawienia zakończy się 
 rzuceniem wyjątku. Używanie getterów oraz setterów do definiowania właściwości 
 ma tą zaletę, że dodatkowa logika (np. sprawdzanie poprawności, wywoływanie zdarzeń)
 może zostać wywołana podczas odczytu lub zapisu właściwości.
@@ -99,8 +99,7 @@ gdzie `$event` jest parametrem opisującym zdarzenie (pochodzi z `raiseEvent()`)
 Parametr `$event` jest instancją klasy [CEvent] lub jej klasy pochodnych. 
 Musi ona posiadać co najmniej informację o tym kto wywołuje zdarzenie.
 
-Poczynając od wersji 1.0.10, uchwytem zdarzenia może być również anonimowa funkcja,
-co jest wpierane przez PHP w wersji 5.3 lub wyższej. Na przykład
+Uchwytem zdarzenia może być również anonimowa funkcja co jest wspierane przez PHP w wersji 5.3 lub wyższej. Na przykład:
 
 ~~~
 [php]
@@ -121,7 +120,7 @@ wartość [$event->handled|CEvent::handled] jako true.
 Zachowanie komponentu
 ------------------
 
-Rozpoczynając od wersji 1.02., do komponentów dodano wsparcie dla [mixin](http://en.wikipedia.org/wiki/Mixin)
+Komponenty posiadają wsparcie dla [mixin](http://en.wikipedia.org/wiki/Mixin)
 oraz można do nich dołączyć jeden lub więcej zachowań (behaviour). *Zachowanie* jest 
 obiektem, którego metody mogą być 'dziedziczone' przez dołączone do niego komponenty   
 bezpośrednio poprzez sumowanie funkcjonalności zamiast specjalizacji (np. zwykłe 
@@ -180,10 +179,10 @@ potężne. Zachowanie, dołączane do komponentu, może dołączyć pewną czę�
 do pewnych zdarzeń komponentu. W taki sposób, zdarzeniu udostępnia się możliwość
 obserwowania lub zmiany zwykłego przepływu wykonywania czynności komponentu. 
 
-Poczynając od wersji 1.1.0, właściwości zachowania są dostępne poprzez komponent,
-do którego są one przypisane. Właściwości obejmują zarówno publiczne zmienne klasy
-jak i metody get (gettery) i set (settery) zachowania. Na przykład, jeśli zachowanie   
+Właściwości zachowania dostępne są poprzez komponent, do którego są one przypisane. 
+Właściwości obejmują zarówno publiczne zmienne klasy jak i metody get (gettery) 
+i set (settery) zachowania. Na przykład, jeśli zachowanie   
 posiada właściwość o nazwie `xyz` i jest ono powiązane z komponentem `$a`, to możemy 
 użyć wyrażenia `$a->xyz` w celu otrzymania dostępu do właściwości zachowania.
 
-<div class="revision">$Id: basics.component.txt 2346 2010-08-28 13:12:27Z mdomba $</div>
+<div class="revision">$Id: basics.component.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

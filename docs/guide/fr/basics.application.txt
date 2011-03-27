@@ -24,7 +24,7 @@ La configuration est un tableau de paires clef-valeur ou chaque clef représente
 le nom d'une propriété de l'instance de l'application et chaque valeur, la valeur
 à affecter lors de l'initialisation.
 Par exemple, la configuration suivante permet de paramétrer les
-propriété [name|CApplication::name] et [defaultController|CWebApplication::defaultController]
+propriétés [name|CApplication::name] et [defaultController|CWebApplication::defaultController]
 d'une application.
 
 ~~~
@@ -36,7 +36,7 @@ array(
 ~~~
 
 De façon générale, la configuration est stockée dans un script PHP
-séparé (e.g. `protected/config/main.php`) qui retourne le tableau
+séparé (par exemple `protected/config/main.php`) qui retourne le tableau
 de paramétrage.
 
 ~~~
@@ -45,8 +45,8 @@ return array(...);
 ~~~
 
 Pour utiliser cette méthode de configuration, il suffit de passer le nom du
-fichier au constructeur de l'application ou a la méthode [Yii::createWebApplication()]
-comme dans l'exemple suivant,, ce qui est fait la plupart du temps dans le
+fichier au constructeur de l'application ou à la méthode [Yii::createWebApplication()]
+comme dans l'exemple suivant, ce qui est fait la plupart du temps dans le
 [script de démarrage](/doc/guide/basics.entry):
 
 ~~~
@@ -55,7 +55,7 @@ $app=Yii::createWebApplication($configFile);
 ~~~
 
 > Tip|Astuce : si la configuration est très complexe, il est possible de la segmenter
-en plusieurs fichiers, chacun retournant un fraction du tableau de configuration.
+en plusieurs fichiers, chacun retournant une fraction du tableau de configuration.
 Ensuite, il ne reste qu'à assembler au sein du fichier de configuration général les
 différents segments (en utilisant la directive PHP `include()`).
 
@@ -66,7 +66,7 @@ Le dossier de base de l'application est le dossier racine qui contient tous les
 élément sensibles de l'application (scripts PHP, données, ...). En standard,
 c'est le sous dossier `protected` qui se trouve à l'intérieur du dossier
 qui contient le script de démarrage. Ce dossier peut être changé en modifiant
-la propriété [basePath|CWebApplication::basePath] dans le fichier de [configuration de l'application](#application-configuration).
+la propriété [basePath|CWebApplication::basePath] dans le fichier de [configuration de l'application](/doc/guide/basics.application#application-configuration).
 
 Les utilisateurs Web ne doivent pas pouvoir accéder aux contenus de ce dossier.
 Cela peut être réalisé très simplement sur [serveur Web Apache](http://httpd.apache.org/),
@@ -135,7 +135,7 @@ Par défaut, Yii prédéfini les propriétés de toute une série de composants
 communs aux applications web. C'est, par exemple, le cas du composant
 [request|CWebApplication::request] chargé de gérer les requêtes utilisateur.
 En paramétrant ces composants, il est possible d'adapter quasiment tous les
-aspects du comportement de Yii
+aspects du comportement de Yii.
 
 Voici une liste des composants du noyau pré-déclarés par [CWebApplication].
 
@@ -164,6 +164,9 @@ composant.
    - [errorHandler|CApplication::errorHandler]: [CErrorHandler] - gestion
 des erreurs PHP et des exceptions.
 
+   - [format|CApplication::format]: [CFormatter] - formate les données pour
+l'affichage.
+
    - [messages|CApplication::messages]: [CPhpMessageSource] -
 fourni la traduction des messages utilisés par Yii.
 
@@ -177,7 +180,7 @@ fourni les services de sécurity tels que le hashage ou le cryptage de données.
 les fonctionnalités relatives aux sessions.
 
    - [statePersister|CApplication::statePersister]: [CStatePersister] -
-fourni une méthode globale de gestion de la persistance persistance des données.
+fourni une méthode globale de gestion de la persistance des données.
 
    - [urlManager|CWebApplication::urlManager]: [CUrlManager] - fourni
 les fonctionnalités de création et d'interprétation des URLs.
@@ -215,4 +218,4 @@ par les étapes suivantes :
 
    7. Levée de l'évènement [onEndRequest|CApplication::onEndRequest];
 
-<div class="revision">$Id: basics.application.txt 857 $</div>
+<div class="revision">$Id: basics.application.txt 1906 $</div>

@@ -39,10 +39,11 @@ Dengan menentukan ID lokal, Anda bisa mendapatkan instance [CLocale] terkait den
 > Info: Yii datang dengan data lokal untuk hampir semua bahasa dan wilayah.
 Data diperoleh dari [Repositori Data Lokal Umum](http://unicode.org/cldr/) (CLDR). Untuk setiap lokal, hanya
 sebuah subset data CLDR yang disediakan karena data aslinya berisi banyak informasi yang
-jarang dipakai. Mulai dari versi 1.1.0, pengguna juga dapat menyediakan data lokal kustomisasi mereka sendiri.
+jarang dipakai. Pengguna juga dapat menyediakan data lokal kustomisasi mereka sendiri.
 Untuk melakukannya, konfigurasikan properti [CApplication::localeDataPath] dalam direktori yang
 berisi data lokal terkustomisasi.
-Silahkan merujuk file data lokal yang terletak di `framework/i18n/data` guna membuat file data lokal kustomisasi.
+Silahkan merujuk file data lokal yang terletak di `framework/i18n/data`
+guna membuat file data lokal kustomisasi.
 
 Untuk aplikasi Yii, kita membedakan [target
 bahasa|CApplication::language] dari [sumber
@@ -154,18 +155,20 @@ secara otomatis mengurai pesan yang akan diterjemahkan dari file sumber yang dip
 dan menggabungnya dengan terjemahan yang sudah ada bila diperlukan. Untuk menggunakan
 perintah `message`, silahkan menjalankan perintah `yiic help message`.
 
-Semenjak versi 1.0.10, ketika menggunakan [CPhpMessageSource] untuk mengatur sumber pesan,
+Ketika menggunakan [CPhpMessageSource] untuk mengatur sumber pesan,
 pesan untuk sebuah kelas extension (seperti sebuah widget, module) dapat digunakan dan atur secara spesial.
-Khususnya, jika sebuah pesan milik extension dengan nama `Xyz`, maka kategori pesan dapat diasumsi sebagai
-`BasePath/messages/LanguageID/categoryName.php`, dengan `BasePath` dirujuk ke direktori yang berisi file kelas extension.
-Dan ketika menggunakan `Yii::t()` untuk menerjemah pesan extension, format berikut harus digunakan :
+Khususnya, jika sebuah pesan milik extension dengan nama `Xyz`,
+maka kategori pesan dapat diasumsi sebagai
+`BasePath/messages/LanguageID/categoryName.php`, dengan `BasePath` dirujuk
+ke direktori yang berisi file kelas extension. Dan ketika menggunakan `Yii::t()` untuk
+menerjemah pesan extension, format berikut harus digunakan :
 
 ~~~
 [php]
 Yii::t('Xyz.categoryName', 'message to be translated')
 ~~~
 
-Sejak versi 1.0.2, Yii menambahkan dukungan untuk [choice format|CChoiceFormat]. Pilihan format
+Yii mendukung [choice format|CChoiceFormat]. Choice format
 merujuk ke pemilihan terjemahan berdasarkan nilai angka yang diberikan. Sebagai contoh,
 dalam bahasa Inggris, kata 'book' mungkin berupa bentuk tunggal atau bentuk jamak tergantung
 pada jumlah buku, sementara dalam bahasa lain, kata mungkin tidak memiliki bentuk
@@ -194,7 +197,14 @@ menganggap pesan yang diterjemahkan adalah:
 
 dan kita mengoper nilai angka 2 dalam array parameter pesan saat
 memanggil [Yii::t()|YiiBase::t], kita akan memperoleh  `many books` sebagai pesan
-yang diterjemahkan.
+yang diterjemahkan:
+
+~~~
+[php]
+Yii::t('app', 'n==1#one book|n>1#many books', array(1)));
+//or since 1.1.6
+Yii::t('app', 'n==1#one book|n>1#many books', 1));
+~~~
 
 Sebagai notasi jalan pintas, jika ekspresi adalah angka, ia akan diperlakukan sebagai
 `n==Number`. Oleh karena itu pesan yang diterjemahkan juga bisa ditulis seperti:
@@ -204,6 +214,90 @@ Sebagai notasi jalan pintas, jika ekspresi adalah angka, ia akan diperlakukan se
 '1#one book|n>1#many books'
 ~~~
 
+### Format Bentuk Jamak
+
+Sejak versi 1.1.6 choice format jamak yang berbasis CLDR dapat digunakan
+dengan sintaks yang lebih sederhana. Fungsi ini sangat berguna untuk bahasa yang memiliki aturan jamak yang kompleks
+
+
+
+Aturan untuk bentuk jamak dalam bahasa Inggris dapat ditulis sebagai berikut:
+
+~~~
+[php]
+Yii::t('test', 'cucumber|cucumbers', 1);
+Yii::t('test', 'cucumber|cucumbers', 2);
+Yii::t('test', 'cucumber|cucumbers', 0);
+~~~
+
+Code di atas akan memberikan hasil
+
+~~~
+cucumber
+cucumbers
+cucumbers
+~~~
+
+Jika ingin menyertakan angka Anda dapat menggunakan code berikut.
+
+~~~
+[php]
+echo Yii::t('test', '{n} cucumber|{n} cucumbers', 1);
+~~~
+
+Di sini `{n}` merupakan placeholder spesial yang menyimpan nilai yang dipassing. Code ini akan mencetak `1 cucumber`.
+
+Anda dapat pass parameter-parameter tambahan:
+
+~~~
+[php]
+Yii::t('test', '{username} has a cucumber|{username} has {n} cucumbers',
+array(5, '{username}' => 'samdark'));
+~~~
+
+dan bahkan menggantikan angka parameter dengan yang lainnya:
+
+~~~
+[php]
+function convertNumber($number)
+{
+	// convert number to word
+	return $number;
+}
+
+Yii::t('test', '{n} cucumber|{n} cucumbers',
+array(5, '{n}' => convertNumber(5)));
+~~~
+
+Untuk bahasa Rusia akan seperti ini
+~~~
+[php]
+Yii::t('app', '{n} cucumber|{n} cucumbers', 62);
+Yii::t('app', '{n} cucumber|{n} cucumbers', 1.5);
+Yii::t('app', '{n} cucumber|{n} cucumbers', 1);
+Yii::t('app', '{n} cucumber|{n} cucumbers', 7);
+~~~
+
+dengan pesan yang diterjemahkan
+
+~~~
+[php]
+'{n} cucumber|{n} cucumbers' => '{n} огурец|{n} огурца|{n} огурцов|{n} огурца',
+~~~
+
+akan memberikan hasil
+
+~~~
+62 огурца
+1.5 огурца
+1 огурец
+7 огурцов
+~~~
+
+
+> Info: untuk mempelajari berapa banyak nilai yang harus anda sediakan dan
+bagaimana urutan yang seharusnya, silahkan merujuk ke CLDR
+[halaman Language Plural Rules] (http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html).
 
 ### Terjemahan File
 
@@ -214,7 +308,7 @@ subdirektori `LocaleID`. Jika ditemukan, path file yang akan dikembalikan;
 jika tidak, path file asli yang akan dikembalikan.
 
 Terjemahan file dipakai terutama saat membuat tampilan. Ketika memanggil salah satu
-metode render dalam kontroler atau widget, file tampilan akan diterjemahkan
+metode render dalam controller atau widget, file tampilan akan diterjemahkan
 secara otomatis. Sebagai contoh, jika [target
 bahasa|CApplication::language] adalah `zh_cn` sementara [sumber
 bahasa|CApplication::sourceLanguage] adalah `en_us`, pembuatan tampilan bernama
@@ -283,4 +377,4 @@ pradefinisi dalam data lokal target.
 memformat angka menggunakan pola persentase pradefinisi dalam data lokal
 target.
 
-<div class="revision">$Id: topics.i18n.txt 2522 2010-09-30 21:13:25Z alexander.makarow $</div>
+<div class="revision">$Id: topics.i18n.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

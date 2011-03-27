@@ -115,8 +115,7 @@ Ohne diese Variation könnten wir nur einen einzelnen Beitrag cachen.
 
    - [varyByExpression|COutputCache::varyByExpression]: Indem diese Option auf
 einen PHP-Ausdruck gesetzt wird, kann der geachte Inhalt entsprechend dem
-Ergebnis dieses Ausdrucks variiert werden. Diese Option steht seit Version
-1.0.4 zur Verfügung.
+Ergebnis dieses Ausdrucks variiert werden.
 
 ### Request-Typen
 
@@ -166,4 +165,4 @@ Fragment liefern. Allerdings gilt das nicht umgekehrt. Falls der äußere
 Cache noch gültige Daten enthält, wird er immer die gecachte Kopie ausliefern,
 selbst wenn die Daten des inneren Cache bereits abgelaufen sind.
 
-<div class="revision">$Id: caching.fragment.txt 956 2009-04-21 15:16:03Z qiang.xue@gmail.com $</div>
+<div class="revision">$Id: caching.fragment.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

@@ -3,7 +3,7 @@
 	<tr>
 		<th style="background:black;color:white;" colspan="6">
 			Обобщен доклад от профилирането
-			(Време: <?php echo sprintf('%0.5f',Yii::getLogger()->getExecutionTime()); ?>s,
+			(Време: <?php echo sprintf('%0.5f',Yii::getLogger()->getExecutionTime()); ?>с,
 			Памет: <?php echo number_format(Yii::getLogger()->getMemoryUsage()/1024); ?>KB)
 		</th>
 	</tr>

@@ -40,7 +40,7 @@ diperlukan.
    8. Membuat pesan terjemahan jika
 [internasionalisasi](/doc/guide/topics.i18n) diperlukan.
 
-   9. Memilih data dan view yang dapat di-cache (ditembolokkan) dan menerapkan teknik
+   9. Memilih data dan view yang dapat di-cache dan menerapkan teknik
 [caching](/doc/guide/caching.overview) yang sesuai.
 
    10. Terakhir, [optimasi](/doc/guide/topics.performance) dan deployment.

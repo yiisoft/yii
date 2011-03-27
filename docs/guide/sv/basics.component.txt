@@ -101,6 +101,16 @@ där `$event` är parametern som beskriver händelsen (med ursprung i
 nedärvd klass. Som ett minimum innehåller den information om vem som signalerat 
 händelsen.
 
+En händelsehanterare kan även ha formen av en anonym funktion, vilket stöds av
+PHP 5.3 eller senare. Till exempel,
+
+~~~
+[php]
+$component->onClicked=function($event) {
+	......
+}
+~~~
+
 Om vi nu anropar `onClicked()` kommer `onClicked`-händelsen att signaleras (inuti
 `onClicked()`), vilket leder till att den anslutna händelsehanteraren anropas automatiskt.
 
@@ -112,11 +122,10 @@ sätta [$event->handled|CEvent::handled] till true.
 Komponents "Behavior"
 ---------------------
 
-Från och med version 1.0.2 har komponenter försetts med stöd för 
-[mixin](http://en.wikipedia.org/wiki/Mixin) och kan sammankopplas med en eller 
-flera behavior. En  *behavior* är ett objekt vars metoder kan ärvas 'inherited' 
-av dess sammankopplade komponent genom att aggregera funktionalitet i stället 
-för specialisering (dvs normalt klassarv). En komponent kan sammankopplas med 
+Komponenter stöder designmönstret [mixin](http://en.wikipedia.org/wiki/Mixin) och kan sammankopplas 
+med en eller flera behavior. En  *behavior* är ett objekt vars metoder kan 
+ärvas 'inherited' av dess sammankopplade komponent genom att aggregera funktionalitet 
+i stället för specialisering (dvs normalt klassarv). En komponent kan sammankopplas med 
 flera behavior och på så sätt åstadkomma 'multipelt arv'.
 
 Behavior-klasser måste implementera gränssnittet [IBehavior]. De flesta behavior 
@@ -171,10 +180,10 @@ koppla någon/några av sina metoder till komponentens händelser (events). En
 behavior kan, genom att göra detta, ges en chans att observera eller ändra 
 komponentens normala exekveringsflöde.
 
-Med start från version 1.1.0, har man även tillgång till en behavior:s propertyn via komponenten den 
-är knuten till. Dessa propertyn omfattar såväl publika medlemsvariabler som propertyn definierade 
+En behavior:s propertyn kan även nås via komponenten den är knuten till. 
+Dessa propertyn omfattar såväl publika medlemsvariabler som propertyn definierade 
 via get- och/eller set-metoder i denna behavior. Till exempel, om en behavior har en property `xyz` 
 och behaviorn kopplas till komponenten `$a` kan uttrycket `$a->xyz` användas för tillgång till
 behaviorns property.
 
-<div class="revision">$Id: basics.component.txt 2346 2010-08-28 13:12:27Z mdomba $</div>
+<div class="revision">$Id: basics.component.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

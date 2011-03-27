@@ -120,10 +120,10 @@ oraz jej wszystkich kategorii potomnych i ich kategorii potomnych.
 Logowanie informacji kontekstowych
 ----------------------------------
 
-Poczynając od wersji 1.0.6 możemy zadeklarować logowanie dodatkowych informacji zależnych  
+Możemy zadeklarować logowanie dodatkowych informacji zależnych  
 od kontekstu, takich jak predefiniowane zmienne PHP (np. `$_GET`, `$_SERVER`), ID sesji,  
-nazwa użytkownika, itp. Osiągamy to poprzez ustawienie właściwości [CLogRoute::filter] 
-trasy logowania jako odpowiedni filtr logowania.
+nazwa użytkownika, itp. Osiągamy to poprzez ustawienie odpowiedniego filtru logowania
+we właściwości [CLogRoute::filter] trasy logowania.
 
 Framework dostarcza wygodnego filtru [CLogFilter], który może zostać użyty, w większości przypadków,
 jako wymagany filtr logu. Domyślnie [CLogFilter] będzie logował komunikaty zawierające zmienne  
@@ -158,7 +158,7 @@ array(
 )
 ~~~
 
-Poczynając od wersji 1.0.7 Yii wspiera logowanie informacji ze stosu wywołani w komunikatach logowanych poprzez
+Yii wspiera logowanie informacji ze stosu wywołani w komunikatach logowanych poprzez
 wywołanie `Yii::trace`. Domyślnie funkcjonalnośc ta jest wyłączona ze względu na zmniejszanie wydajności. Aby móc  
 używac tej funkcjonalności, po prostu zdefiniuj stałą nazwaną `YII_TRACE_LEVEL` na początku skryptu wejściowego 
 (zanim załączysz `yii.php`) jako wartość całkowita większa niż 0. Yii dołaczy wtedy do każdego śledzonego komunikatu 
@@ -203,8 +203,7 @@ Profilowanie zapytań SQL
 Profilowanie jest szczególnie użyteczne podczas pracy z bazami danych, ponieważ wywołania SQL
 są często główną przyczyną wąskich gardeł w wydajności aplikacji. Chociaż możemy wstawiać 
 wyrażenia `beginProfile` oraz `endProfile` w odpowiednich miejscach aby mierzyć czas spędzony na 
-wykonywaniu danego zapytania SQL, poczynając od wersji 1.0.6, Yii dostarcza porządniejszego
-podejścia do rozwiązania tego problemu.
+wykonywaniu danego zapytania SQL, Yii dostarcza porządniejszego podejścia do rozwiązania tego problemu.
 
 Poprzez ustawienie właściwości [CDbConnection::enableProfiling] na true w konfiguracji aplikacji,
 każde wyrażenie SQL, które zostanie wywołane będzie profilowane. Rezultat może zostać łatwo
@@ -213,4 +212,4 @@ czasu zostało spędzone na wykonywaniu danego zapytania SQL. Możemy również 
 [CDbConnection::getStats()] aby otrzymać całkowitą ilość wywołań zapytań SQL oraz ich całkowity czas wykonania.
 
 
-<div class="revision">$Id: topics.logging.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>
+<div class="revision">$Id: topics.logging.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

@@ -17,6 +17,8 @@ Yii wspiera migrację bazy danych poprzez narzędzie linii poleceń `yiic migrat
 
 W dalszej części opiszemy w jaki sposób używać to narzędzie.
 
+> Note|Uwaga: Zaleca się używanie narzędzia yiic właściwego dla danej aplikacji (np. `cd ścieżka/do/protected`)
+> podczas pracy z komendą `migrate` zamiast tego, który znajduje się w katalogu `framework`.
 
 Tworzenie migracji
 -------------------
@@ -43,11 +45,22 @@ class m101129_185401_create_news_table extends CDbMigration
 	{
 	}
 
-    /*
     public function down()
     {
+		echo "m101129_185401_create_news_table does not support migration down.\n";
+		return false;
     }
-    */
+
+	/*
+	// implement safeUp/safeDown instead if transaction is needed
+	public function safeUp()
+	{
+	}
+
+	public function safeDown()
+	{
+	}
+	*/
 }
 ~~~
 
@@ -55,7 +68,11 @@ Zauważ, że nazwa klasy jest taka sama jak nazwa pliku, zgodnie z wzorcem `m<ti
 
 Metoda `up()` powinna zawierać kod implementujący aklualną migrację bazy danych, podczas gdy metoda `down()` może zawierać kod odwracający to, co zostało zrobione w metodzie `up()`.
 
-Czasami niemożliwe jest zaimplementowanie metody `down()`. Na przykład, jeśli usunęliśmy wiersze tabeli w metodzie `up()`, nie będziemy w stanie ich odtwozyć w metodzie `down()`. W takim przypadku migracja nazywana jest nieodwracalną, co oznacza, że nie możemy powrócić do poprzedniego stanu bazy danych.
+Czasami niemożliwe jest zaimplementowanie metody `down()`. Na przykład, jeśli usunęliśmy wiersze tabeli w metodzie `up()`, nie będziemy w stanie ich odtworzyć w metodzie `down()`. W takim przypadku migracja nazywana jest nieodwracalną, co oznacza, że nie możemy powrócić do poprzedniego stanu bazy danych. W kodzie wygenerowanym powyżej, metoda `down()` zwraca `false` w celu zasygnalizowania nieodwracalności migracji.
+
+> Info|Info: Poczynając od wersji 1.1.7, jeśli metody `up()` oraz `down()` zwracają
+> `false`, wszystkie następne migrację zostaną anulowane. W poprzedniej wersji
+> 1.1.6, każda musiała zwrócić wyjątek aby anulować kolejne migracje. 
 
 W ramach przykładu pokażemy migrację tworzącą tabelę wiadomości.
 
@@ -82,6 +99,73 @@ class m101129_185401_create_news_table extends CDbMigration
 Klasa bazowa [CDbMigration] dostarcza metod manipulujących danymi oraz schematem bazy danych. Na przykład, metoda [CDbMigration::createTable] utworzy tabelę w bazie danych, zaś metoda [CDbMigration::insert] wstawi wiersz danych. Wszystkie te metody używają połączenia z bazą danych zwracanego przez metodę [CDbMigration::getDbConnection()], która domyślnie zwraca `Yii::app()->db`.
 
 > Info|Info: Jak zauważyłeś, metody bazodanowe dostarczane przez [CDbMigration] są bardzo podobne do tych z [CDbCommand]. Rzeczywiście są one prawie takie same z tym wyjątkien, że metody [CDbMigration] odmierzają czas zużyty na ich wykonanie oraz wyświetlają pewne dodatkowe informację o parametrach metody.
+
+
+Migracje transakcyjne
+---------------------
+
+> Info|Info: Wsparcie dla migracji transakcyjnych jest wpierane od wersji 1.1.7.
+
+W trakcie wykonywania skomplikowanych migracji baz danych, zazwyczaj chcemy być pewni, że każda migracja powiedzie się lub nie w całości tak aby baza danych zachowała swoją spójność i integralność. Aby uzyskać ten efekt możemy wykorzystać transakcje baz danych.
+
+Możemy wprost rozpocząć transakcję bazodanowa i ująć resztę kodu związanego z bazą w ramach tej transakcji w następujący sposób:
+
+~~~
+[php]
+class m101129_185401_create_news_table extends CDbMigration
+{
+	public function up()
+	{
+		$transaction=$this->getDbConnection()->beginTransaction();
+		try
+		{
+			$this->createTable('tbl_news', array(
+				'id' => 'pk',
+				'title' => 'string NOT NULL',
+				'content' => 'text',
+			));
+			$transaction->commit();
+		}
+		catch(Exception $e)
+		{
+			echo "Exception: ".$e->getMessage()."\n";
+			$transaction->rollBack();
+			return false;
+		}
+	}
+
+	// ...podobny kod dlam metody down()
+}
+~~~
+
+Jednakże łatwiejszym sposobem uzyskania wparcia dla transakcyjności jest zaimplementowanie metody `safeUp()` zamiast `up()` oraz `safeDown()` zamiast`down()`. Na przykład:
+
+~~~
+[php]
+class m101129_185401_create_news_table extends CDbMigration
+{
+	public function safeUp()
+	{
+		$this->createTable('tbl_news', array(
+			'id' => 'pk',
+			'title' => 'string NOT NULL',
+			'content' => 'text',
+		));
+	}
+
+	public function safeDown()
+	{
+		$this->dropTable('tbl_news');
+	}
+}
+~~~
+
+Podczas przeprowadzania migracji przez framework Yii, rozpocznie on transakcję bazy danych a następnie wywoła metodę `safeUp()` lub `safeDown()`. Jeśli w metodzie `safeUp()` lub `safeDown()` wystąpi błąd na bazie transakcja zostanie wycofana zapewniając w ten sposób poprawny stan bazy danych.
+
+> Note|Uwaga: Nie wszystkie DBMS wspierają transakcje. Również niektóre zapytania nie mogą być umieszczane
+> w ramach transakcji. W takim przypadku będziesz musiał zaimplementować metodę `up()` oraz
+> `down()`. Dla MySQL, część instrukcji SQL może powodować wywołanie
+> [niejawne polecenia COMMIT](http://dev.mysql.com/doc/refman/5.1/en/implicit-commit.html).
 
 
 Aplikowanie migracji
@@ -224,4 +308,4 @@ return array(
 Jeśli teraz uruchomimy polecenie `migrate` powyższa konfiguracja będzie obowiązywać bez konieczności wprowadzania za każdym razem opcji poprzez linię poleceń.
 
 
-<div class="revision">$Id: database.migration.txt 2832 2011-01-10 14:37:04Z qiang.xue $</div>
+<div class="revision">$Id: database.migration.txt 3060 2011-03-13 11:44:14Z alexander.makarow $</div>

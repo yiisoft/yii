@@ -73,18 +73,18 @@ testdrive/
       config/                berisi file konfigurasi
          console.php         konfigurasi aplikasi konsol
          main.php            konfigurasi aplikasi Web
-      controllers/           berisi file kelas kontroler
-         SiteController.php  standar kelas kontroler
+      controllers/           berisi file kelas controller
+         SiteController.php  standar kelas controller
       extensions/            berisi extension pihak-ketiga
       messages/              berisi terjemahan pesan
       models/                berisi file kelas model
-         LoginForm.php       model formulir untuk aksi 'login'
-         ContactForm.php     model formulir untuk aksi 'contact'
+         LoginForm.php       model form untuk aksi 'login'
+         ContactForm.php     model form untuk aksi 'contact'
       runtime/               berisi file yang dibuat secara temporal
-      views/                 berisi file kontroler tampilan dan tata letak
+      views/                 berisi file controller tampilan dan tata letak
          layouts/            berisi file tampilan tata letak
             main.php         standar tata letak untuk semua tampilan
-         site/               berisi file tampilan untuk kontroler 'site'
+         site/               berisi file tampilan untuk controller 'site'
             contact.php      tampilan untuk aksi 'contact'
             index.php        tampilan untuk aksi 'index'
             login.php        tampilan untuk aksi 'login'
@@ -130,7 +130,7 @@ CREATE TABLE tbl_user (
 );
 ~~~
 
-Jika ingin mencoba database MySQL, anda harus menyertakan file skema MySQL
+Jika ingin mencoba database MySQL, Anda harus menyertakan file skema MySQL
  `WebRoot/testdrive/protected/data/schema.mysql.sql` untuk membuat database.
 
 > Note|Catatan: Untuk menggunakan fitur database, kita harus mengaktifkan extension
@@ -199,8 +199,8 @@ http://hostname/testdrive/index.php?r=user
 Ini akan menampilkan sebuah daftar entri pengguna dalam tabel `User`. 
 
 Klik tombol `Create User`. Kita akan dibawa ke halaman login
-jika kita belum login sebelumnya. Setelah masuk, kita melihat formulir
-input yang mengijinkan kita untuk menambah entri pengguna baru. Lengkapi formulir dan
+jika kita belum login sebelumnya. Setelah masuk, kita melihat form
+input yang mengijinkan kita untuk menambah entri pengguna baru. Lengkapi form dan
 klik tombol `Create`. Lengkapi form dan klik tombol `Create`. Jika terjadi kesalahan input,
 sebuah tampilan error yang bagus akan muncul dan mencegah kita menyimpan inputan kita.
 Kembali ke halaman daftar user, kita seharusnya melihat sebuah user baru sudah muncul di daftar.

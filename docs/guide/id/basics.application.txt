@@ -2,10 +2,10 @@ Aplikasi
 ========
 
 Aplikasi menggambarkan konteks dijalankannya pemrosesan sebuah permintaan. Tugas
-utamanya adalah menangani permintaan pengguna dan meneruskannya ke kontroler(controller)
+utamanya adalah menangani permintaan pengguna dan meneruskannya ke controller
 guna pemrosesan selanjutnya. Aplikasi juga bertindak sebagai tempat pusat
 untuk menyimpan konfigurasi tingkat-aplikasi. Oleh karena itu, aplikasi juga
-disebut `kontroler-depan(front controller)`.
+disebut `controller-depan(front controller)`.
 
 Aplikasi dibuat sebagai singleton(tunggal) oleh [skrip entri](/doc/guide/basics.entry).
 Singleton aplikasi dapat diakses di mana saja melalui [Yii::app()|YiiBase::app].
@@ -91,7 +91,7 @@ Dengan mengkonfigurasi properti [komponen|CApplication::components] aplikasi,
 kita bisa mengkustomisasi kelas dan nilai properti setiap komponen
 aplikasi yang dipakai dalam sebuah aplikasi. Sebagai contoh, kita dapat
 mengkonfigurasi komponen [CMemCache] agar bisa menggunakan beberapa server memcache
-untuk penembolokan(caching),
+untuk caching,
 
 ~~~
 [php]
@@ -147,7 +147,7 @@ mengatur publikasi file asset privat.
    - [authManager|CWebApplication::authManager]: [CAuthManager] - mengatur role-based access control (RBAC).
 
    - [cache|CApplication::cache]: [CCache] - menyediakan fungsionalitas
-penembolokan(caching) data. Catatan, Anda harus menetapkan kelas sebenarnya (misal
+caching data. Catatan, Anda harus menetapkan kelas sebenarnya (misal
 [CMemCache], [CDbCache]). Jika tidak, null akan dikembalikan saat Anda
 mengakses komponen ini.
 
@@ -164,6 +164,9 @@ komponen ini.
 
    - [errorHandler|CApplication::errorHandler]: [CErrorHandler] - menangani
 exception dan kesalahan PHP yang tidak tercakup.
+
+   - [format|CApplication::format]: [CFormatter] - memformat nilai data untuk
+sisi tampilan.
 
    - [messages|CApplication::messages]: [CPhpMessageSource] - menyediakan 
 terjemahan pesan yang dipakai oleh aplikasi Yii.
@@ -211,9 +214,9 @@ sebagai berikut:
 
    6. Mengolah permintaan pengguna:
 	   - Menangani permintaan pengguna;
-	   - Membuat kontroler;
-	   - Menjalankan kontroler;
+	   - Membuat controller;
+	   - Menjalankan controller;
 
    7. Menghidupkan event [onEndRequest|CApplication::onEndRequest];
 
-<div class="revision">$Id: basics.application.txt 2488 2010-09-20 11:38:02Z mdomba $</div>
+<div class="revision">$Id: basics.application.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

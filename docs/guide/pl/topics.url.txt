@@ -112,8 +112,20 @@ dostosowania opcji w następujący sposób:
 'pattern1'=>array('route1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
 ~~~
 
-W powyższym kodzie, tablica zawiera listę opcji, które można dostosowywać. Od wersji 1.1.0
-następujące opcje są dostępne:
+Poczynając od wersji 1.1.7, można używać następującego formatu ( wzorzec jest 
+określony w postaci elementu tablicy ) co pozwala określić kilka reguł 
+z tym samym wzorcem:
+
+~~~
+[php]
+array('route1', 'pattern'=>'pattern1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
+~~~
+
+W powyższym kodzie, tablica zawiera listę dodatkowych opcji dla reguły. 
+Dostępne opcje zostały wyjaśnione poniżej:
+
+   - [pattern|CUrlRule::pattern]: wzorzec używany do dopasowywania oraz tworzenia URLi. 
+   Opcja ta jest dostępna od wersji 1.1.7
 
    - [urlSuffix|CUrlRule::urlSuffix]: sufiks adresu URL używany specjalnie dla danej reguły.  
    Domyślnie posiada wartość null, oznaczającą że używana jest wartość [CUrlManager::urlSuffix].
@@ -131,7 +143,17 @@ następujące opcje są dostępne:
    jeśli jej trasa i nazwy parametrów są zgodnie z podanymi. Jeśli właściwość ta przyjmuje wartość tryu, wtedy 
    podane wartości parametru muszą również pasować do odpowiadających parametrowi podwzorców. Zauważ, że 
    ustawienie tej pozycji na true może obniżyć wydajność.
+   
+   - [verb|CUrlRule::verb]: metody HTTP (np. `GET`, `POST`, `DELETE`), do których ta reguła ma być dopasowana
+   w celu używania jej do analizowania aktualnego żądania. Domyślnie null, co oznacza, że reguła jest dopasowywana
+   do każdej metody HTTP. Jeżeli reguła ma być dopasowana do wielu metod, ich nazwy muszą być rozdzielone przecinkami. 
+   Jeżeli reguła nie jest dopasowana do określonej metody (metod), zostanie ona pominięta podczas analizowania żądania.
+   Opcja ta jest używana jedynie do analizowania żądania i dostarczona jest głównie w celu wsparcia RESTful URL. 
+   Opcja ta jest dostępna od wersji 1.1.7.
 
+   - [parsingOnly|CUrlRule::parsingOnly]: określa czy reguła jest używana jedynie do analizowania żądania.
+   Domyślnie przyjmuje wartość false, co oznacza, że reguła jest używana zarówno do analizowania adresów URL jak i ich tworzenia.
+   Opcja ta jest dostępna od wersji 1.1.7.
 
 Używanie nazwanych parametrów
 -----------------------------
@@ -140,7 +162,7 @@ Reguła może być powiązana z kilkoma parametrami GET. Te parametry pojawiają
 się we wzorcu reguły jako specjalne znaczniki o formacie:
 
 ~~~
-&lt;ParamName:ParamPattern&gt;
+<ParamName:ParamPattern>
 ~~~
 
 gdzie `ParamName` określa nazwe parametru GET, a opcjonalny `ParamPattern` definiuje
@@ -207,8 +229,8 @@ Z tego względu w mocno obciążanych aplikacjach webowych należy minimalizowa�
 Parametryzowane trasy
 ---------------------
 
-Poczynając od wersji 1.0.5, możemy odnosić się do nazwanych parametrów w części reguły 
-związanej z trasą. Pozwala to zastosować regułę do wielu tras w oparciu o spełniane kryterium.
+Możemy odnosić się do nazwanych parametrów w części reguły związanej z trasą. 
+Pozwala to zastosować regułę do wielu tras w oparciu o spełniane kryterium.
 Może to pomóc zredukować ilość reguł potrzebnych dla aplikacji i przez to zwiększyć
 ogólną wydajność. 
 
@@ -238,7 +260,7 @@ trasę `post/create` z parametrem GET `id=123`. A biorąc pod uwagę trasę
 Parametryzowanie nazw hostów
 ----------------------------
 
-Zaczynając od wersji 1.0.11, możliwym jest dołaczanie nazwy hosta do reguł parsowania 
+Możliwe jest dołączanie nazwy hosta do reguł parsowania 
 oraz tworzenia URLi. Można wyodrębnić część nazwy hosta do parametru GET. Na przykład,
 adres URL `http://admin.example.com/en/profile` może zostać sparsowany do parametrów 
 GET `user=admin` oraz `lang=en`. Z drugiej strony, reguły z nazwą hosta mogą zostać użyte 
@@ -309,4 +331,4 @@ do strony statycznej. Aby to zrobić po prostu skonfiguruj komponent
 [urlManager|CWebApplication::urlManager] ustawiając jego właściwość
 [urlSuffix|CUrlManager::urlSuffix] na taki sufiks, jaki ci odpowiada.
 
-<div class="revision">$Id: topics.url.txt 2773 2010-12-26 16:58:38Z jefftulsa $</div>
+<div class="revision">$Id: topics.url.txt 2923 2011-01-29 21:02:46Z mdomba $</div>

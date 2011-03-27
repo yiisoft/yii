@@ -1,8 +1,6 @@
 Modul
 =====
 
-> Note|Hinweis: Module werden seit Version 1.0.3 unterstützt.
-
 Ein Modul ist eine in sich geschlossene Einheit, die aus
 [Models](/doc/guide/basics.model), [Views](/doc/guide/basics.view),
 [Controllern](/doc/guide/basics.controller) und evtl. weiteren Komponenten 
@@ -139,4 +137,4 @@ Um eine Controller-Action in einem Kindmodul aufzurufen,
 wird die Route `elternModulID/kindModulID/controllerID/actionID`
 verwendet.
 
-<div class="revision">$Id: basics.module.txt 2363 2010-08-29 02:35:15Z qiang.xue $</div>
+<div class="revision">$Id: basics.module.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

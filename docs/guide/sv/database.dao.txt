@@ -243,12 +243,12 @@ while($dataReader->read()!==false)
 Användning av tabellprefix
 --------------------------
 
-Med start från version 1.1.0, tillhandahåller Yii inbyggt stöd för användning av
-tabellprefix. Tabellprefix innebär att en sträng sätts in före namnen på tabeller 
-i den för tillfället anslutna databasen. Detta kommer mest till användning i en 
-webbhotellmiljö där fler än en applikation delar samma databas och applikationerna 
-hålls åtskilda genom att tabellprefix sätts in före tabellnamnen. Till exempel kan 
-en applikation använda `tbl_` som prefix, medan en annan använder `yii_`.
+Yii erbjuder inbyggt stöd för användning av tabellprefix. Tabellprefix innebär 
+att en sträng sätts in före namnen på tabeller i den för tillfället anslutna 
+databasen. Detta kommer mest till användning i en webbhotellmiljö där fler än en 
+applikation delar samma databas och applikationerna hålls åtskilda genom att 
+tabellprefix sätts in före tabellnamnen. Till exempel kan en applikation använda 
+`tbl_` som prefix, medan en annan använder `yii_`.
 
 För att använda tabellprefix, konfigurera propertyn [CDbConnection::tablePrefix] med
 det önskade tabellprefixet. Därefter används `{{TableName}}` - där `TableName` innebär 
@@ -262,4 +262,4 @@ $sql='SELECT * FROM {{user}}';
 $users=$connection->createCommand($sql)->queryAll();
 ~~~
 
-<div class="revision">$Id: database.dao.txt 2266 2010-07-17 13:58:30Z qiang.xue $</div>
+<div class="revision">$Id: database.dao.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

@@ -17,12 +17,13 @@ Yii mendukung migrasi database melalui perintah `yiic migrate`. Tool ini menduku
 
 Berikut ini, kita akan menjelaskan cara penggunaan tool ini.
 
+> Note| Catatan: Lebih baik menggunakan yiic dari aplikasi (yakni `cd path/ke/protected`)
+> ketika menjalankan command `migrate` daripada dari direktori `framework`.
 
 Pembutan Migrasi
 -------------------
 
 Untuk membuat sebuah migrasi baru (seperti membuat table news), kita jalankan perintah ini:
-To create a new migration (e.g. create a news table), we run the following command:
 
 ~~~
 yiic migrate create <name>
@@ -44,11 +45,22 @@ class m101129_185401_create_news_table extends CDbMigration
 	{
 	}
 
-    /*
-    public function down()
+public function down()
     {
+		echo "m101129_185401_create_news_table tidak mendukung migration down.\n";
+		return false;
     }
-    */
+
+	/*
+	// implementasi safeUp/safeDown jika perlu transaction.
+	public function safeUp()
+	{
+	}
+
+	public function safeDown()
+	{
+	}
+	*/
 }
 ~~~
 
@@ -56,7 +68,11 @@ Perhatikan bahwa nama kelas sama dengan nama file dengan pola `m<timestamp>_<nam
 
 Method `up()` harus mengandung code yang mengimplementasikan migrasi database aktual, sedangkan method `down()` bisa berisi code yang me-revert apa yang telah dilakukan `up()`.
 
-Kadangkala, mengimplementasi `down()` adalah tidak mungkin. Misalnya, kita menghapus baris tabel di `up()`, kita tidak akan bisa mengembalikan mereka dengan `down()`. Dalam hal ini, migrasi disebut sebagai irreversible(tidak dapat dibalikkan), yang artinya kita tidak bisa roll back ke keadaan sebelumnya dalam database.
+Kadangkala, mengimplementasi `down()` adalah tidak mungkin. Misalnya, kita menghapus baris tabel di `up()`, kita tidak akan bisa mengembalikan mereka dengan `down()`. Dalam hal ini, migrasi disebut sebagai irreversible(tidak dapat dibalikkan), yang berarti kita tidak bisa roll back ke keadaan sebelumnya dalam database. Pada code yang di-generate di atas, method `down()` mengembalikan false untuk menandakan bahwa migration tersebut tidak dapat dibalikkan.
+
+> Info: Mulai dari versi 1.1.7, jika method `up()` atau `down()` mengembalikan
+> `false`, maka semua migration selanjutnya akan dibatalkan. Sebelumnya pada versi
+> 1.1.6, kita harus melempar exception untuk membatalkan migration selanjutnya
 
 Contohnya, mari melihat tentang cara pembuatan sebuah tabel news.
 
@@ -85,6 +101,73 @@ Kelas dasar [CDbMigration] menyediakan sekumpulan method untuk manipulasi data d
 > Info|Catatan: Kamu mungkin menyadari bahwa method-method database yang disediakan oleh [CDbMigration] sangat mirip dengan method-method di [CDbCommand]. Memang mereka hampir sama kecuali method [CDbMigration] akan mengukur waktu yang digunakan oleh methodnya dan mencetak beberapa pesan tentang parameter method.
 
 
+Transactional Migrations
+------------------------
+
+> Info: Fitur transactional migration didukung mulai versi 1.1.7.
+
+Ketika melakukan migrasi DB yang kompleks, kita umumnya ingin memastikan apakah setiap migrasi cukup berhasil atau gagal sebagai kesatuan sehingga perawatan database bisa tetap konsisten dan integritas. Guna mencapai tujuan ini, kita dapat memanfaatkan DB transaction.
+
+Kita dapat secara eksplisit memulai sebuah transaksi DB dan menyertakan sisa code yang berhubungan dengan DB, seperti berikut ini:
+
+~~~
+[php]
+class m101129_185401_create_news_table extends CDbMigration
+{
+	public function up()
+	{
+		$transaction=$this->getDbConnection()->beginTransaction();
+		try
+		{
+			$this->createTable('tbl_news', array(
+				'id' => 'pk',
+				'title' => 'string NOT NULL',
+				'content' => 'text',
+			));
+			$transaction->commit();
+		}
+		catch(Exception $e)
+		{
+			echo "Exception: ".$e->getMessage()."\n";
+			$transaction->rollBack();
+			return false;
+		}
+	}
+
+	// ...similar code for down()
+}
+~~~
+
+Namun, cara lebih gampang untuk mendapatkan dukungan transaction adalah dengan mengimplementasikan `safeUp()` daripada `up()`, dan `safeDown()` daripada `down()`. Misalnya,
+
+~~~
+[php]
+class m101129_185401_create_news_table extends CDbMigration
+{
+	public function safeUp()
+	{
+		$this->createTable('tbl_news', array(
+			'id' => 'pk',
+			'title' => 'string NOT NULL',
+			'content' => 'text',
+		));
+	}
+
+	public function safeDown()
+	{
+		$this->dropTable('tbl_news');
+	}
+}
+~~~
+
+Ketika Yii melakukan migrasi, maka Yii akan memulai DB transaction dan memanggil `safeUp()` atau `safeDown()`. Jika terdapat error DB yang terjadi di `safeUp()` atau `safeDown()`, maka transaksi akan di-rollback, sehingga memastikan database tetap dalam keadaan baik.
+
+> Note|Catatan: Tidak semua DBMS mendukung transaction. Dan beberapa query DB tidak dapat dimasukkan
+> ke transaction. Dalam hal ini, Anda tetap harus mengimplementasikan `up()` dan
+> `down()`. Untuk MySQL, beberapa statement bisa menyebabkan
+> [implicit commit](http://dev.mysql.com/doc/refman/5.1/en/implicit-commit.html).
+
+
 Mengaplikasikan Migrasi
 -------------------
 
@@ -94,7 +177,7 @@ Untuk mengaplikasikan migrasi baru yang tersedia (misalnya membuat database loka
 yiic migrate
 ~~~
 
-Perintah ini akan menampilkan daftar semua migrasi yang baru. Jika anda konfirmasi untuk mengaplikasikan migrasi, maka akan dijalankan method `up()` di setiap kelas migrasi baru, satu per satu secara berurutan, sesuai dengan urutan nilai timstamp di dalam nama kelas.
+Perintah ini akan menampilkan daftar semua migrasi yang baru. Jika Anda konfirmasi untuk mengaplikasikan migrasi, maka akan dijalankan method `up()` di setiap kelas migrasi baru, satu per satu secara berurutan, sesuai dengan urutan nilai timstamp di dalam nama kelas.
 
 Setelah mengaplikasikan migrasi, tool migrasi akan mencatat record di sebuah table database bernama `tbl_migration`. Dengan demikian memungkinkan tool untuk mengidentifikasikan berapa migrasi yang telah diaplikasikan dan yang mana belum. Jika table `tbl_migration` tidak ada, maka tool ini akan secara otomatis membuatkannya, tergantung pada database yang dispesifikasikan komponen aplikasi `db`.
 
@@ -225,4 +308,4 @@ return array(
 Sekarang jika kita jalankan perintah `migrate`, konfigurasi di atas akan berefek tanpa kita harus menulis perintah opsi setiap saat lagi.
 
 
-<div class="revision">$Id: database.migration.txt 2832 2011-01-10 14:37:04Z qiang.xue $</div>
+<div class="revision">$Id: database.migration.txt 3060 2011-03-13 11:44:14Z alexander.makarow $</div>

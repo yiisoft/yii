@@ -11,6 +11,9 @@
  * Messages that no longer need translation will have their translations
  * enclosed between a pair of '@@' marks.
  *
+ * Message string can be used with plural forms format. Check i18n section
+ * of the guide for details.
+ *
  * NOTE, this file must be saved in UTF-8 encoding.
  *
  * @version $Id: $
@@ -20,7 +23,7 @@ return array (
   'Either "name" or "value" must be specified for CDataColumn.' => '"name" hoặc "value" phải được quy định cho CDataColumn.',
   'Home' => 'Trang Chủ',
   'Please specify the "data" property.' => 'Hãy chỉ định cho thuộc tính "data".',
-  'The button type "{type}" is not supported.' => 'Loại button "{type}" không được hổ trợ.',
+  'The button type "{type}" is not supported.' => 'Loại button "{type}" không được hỗ trợ.',
   'The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'Cột phải được quy định trong dạng "Name:Type:Label", với "Type" và "Label" là tùy chọn.',
   'Delete' => 'Xóa',
   'Displaying {start}-{end} of {count} result(s).' => 'Hiển thị {start}-{end} của {count} kết quả.',

@@ -18,6 +18,7 @@
     - [Path Alias and Namespace](basics.namespace)
     - [Convenções](basics.convention)
     - [Fluxo de Trabalho](basics.workflow)
+    - [Melhores Práticas em MVC](basics.best-practices)
 
 * Trabalhando com Formulários
     - [Visão Geral](form.overview)
@@ -25,12 +26,15 @@
     - [Criando uma Ação](form.action)
     - [Criando o Formulário](form.view)
     - [Coletando Entradas Tabulares](form.table)
+    - [Usando o Gerador de Formulários](form.builder)
 
 * Trabalhando com Banco de Dados
     - [Visão Geral](database.overview)
     - [Data Access Objects (DAO)](database.dao)
+    - [Gerador de Consultas](database.query-builder)
     - [Active Record](database.ar)
     - [Active Record Relacional](database.arr)
+    - [Migração de Banco de Dados](database.migration)
 
 * Caching
     - [Visão Geral](caching.overview)
@@ -44,14 +48,15 @@
     - [Usando Extensões](extension.use)
     - [Criando Extensões](extension.create)
     - [Utilizando Bibliotecas de Terceiros](extension.integration)
-    
+
 * Testes
 	- [Visão Geral](test.overview)
 	- [Definindo Fixtures](test.fixture)
 	- [Testes Unitários](test.unit)
 	- [Testes Funcionais](test.functional)
-	
+
 * Tópicos Especiais
+  - [Geração automática de código](topics.gii)
     - [Gerenciamento de URL](topics.url)
     - [Autenticação e Autorização](topics.auth)
     - [Temas](topics.theming)
@@ -63,5 +68,6 @@
     - [Aplicativos de Console](topics.console)
     - [Segurança](topics.security)
     - [Ajustes no Desempenho](topics.performance)
-    
+    - [Geração de código utilizando a ferramenta de linha de comando (deprecated)](quickstart.first-app-yiic)
+
 <div class="revision">$Id: toc.txt 1409 2009-09-13 19:21:34Z qiang.xue $</div>

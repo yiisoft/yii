@@ -17,7 +17,7 @@ p {font-family:"Verdana";font-weight:normal;color:black;font-size:9pt;margin-top
 </style>
 </head>
 <body>
-<h1>Page Not Found</h1>
+<h1>Страницата не е намерена</h1>
 <h2><?php echo nl2br(CHtml::encode($data['message'])); ?></h2>
 <p>
 Поисканата страница не е намерена на сървъра. Ако сте въвели URL ръчно, проверете дали е въведен коректно и опитайте отново.

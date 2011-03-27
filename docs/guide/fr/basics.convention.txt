@@ -22,8 +22,8 @@ http://hostname/index.php?r=ControllerID/ActionID
 
 La variable GET `r` correspond à la [route](/doc/guide/basics.controller#route) 
 qui est transcodée par le framework en contrôleur et action. Si `ActionID` 
-n'est pas spécifiée, le contrôleur prendra l'action par défaut (definie via la propriété [CController::defaultAction]); 
-de plus, si `ControllerID` n'est pas défini,(ou si la variable `r` est absente), l'application
+n'est pas spécifiée, le contrôleur prendra l'action par défaut (définie via la propriété [CController::defaultAction]); 
+de plus, si `ControllerID` n'est pas défini (ou si la variable `r` est absente), l'application
 utilisera le contrôleur par défaut (défini via la propriété [CWebApplication::defaultController]).
 
 En utilisant le [CUrlManager], il est possible de concevoir et de reconnaître 
@@ -99,7 +99,7 @@ Par défaut, Yii s'appuie sur plusieurs répertoires. Chacun peut
 être configuré en fonction des besoins.
 
    - `WebRoot/protected`: C'est le [dossier de base de l'application](/doc/guide/basics.application#application-base-directory) 
-qui contient tous les élément sensibles (PHP et données). Yii dispose d'un
+qui contient tous les éléments sensibles (PHP et données). Yii dispose d'un
 raccourcis par défaut `application` associé à ce chemin. Tout accès à ce dossier, 
 ainsi qu'à ce qu'il contient doit être interdit aux utilisateurs web. Ce chemin
 peut être modifié via la propriété [CWebApplication::basePath].
@@ -131,7 +131,7 @@ la propriété [CController::getViewPath].
 layouts. Ce chemin peut être modifié via la propriété [CWebApplication::layoutPath].
 
    - `WebRoot/protected/views/system`: ce dossier contient toutes les
-vues système. Les vues systèmes sont des gabarits permettant l'affichage
+vues systèmes. Les vues systèmes sont des gabarits permettant l'affichage
 des exceptions et des erreurs. Ce chemin peut être modifié via 
 la propriété [CWebApplication::systemViewPath].
 
@@ -145,4 +145,22 @@ utilisés par l'application. Chaque sous dossier correspond à un et un seul th�
 le nom est le nom du dossier. Ce chemin peut être modifié via 
 la propriété [CThemeManager::basePath].
 
-<div class="revision">$Id: basics.convention.txt 749 $</div>
+Base de données
+---------------
+
+La plupart des applications Web utilisent une base de données. En guise de bonne pratique,
+nous proposons les conventions de nommage suivantes (qui ne sont pas nécessaire au bon
+fonctionnement de Yii):
+
+   - Les noms de tables et de colonnes doivent être en minuscules.
+
+   - Les mots au sein d'un nom doivent être séparés par des underscores (ex: `product_order`).
+
+   - Les noms de tables peuvent être au singulier ou au pluriel, mais pas les deux.
+Pour simplifier, nous recommandons d'utiliser des noms singuliers.
+
+   - Les noms des tables peuvent être préfixés d'une chaine commune telle que `tbl_`. Cela peut
+être utile lorsque des tables de plusieurs applications distinctes doivent coexister au sein
+de la même base de données.
+
+<div class="revision">$Id: basics.convention.txt 1906 $</div>

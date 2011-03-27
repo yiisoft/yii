@@ -44,9 +44,6 @@ action tanpa berawalan `action`. Sebagai contoh, jika kelas controller berisi
 sebuah metode bernama `actionEdit`, ID dari action tersebut adalah
 `edit`.
 
-> Note|Catatan: Sebelum versi 1.0.3, format ID controller adalah `path.ke.xyz`
-sedangkan sekarang dalam format `path/ke/xyz`.
-
 Request pengguna terhadap controller dan action tertentu sesuai dengan aturan route.
 Route dibentuk dengan menggabungkan ID controller dan ID action yang dipisahkan
 dengan garis miring. Sebagai contoh, route `post/edit` merujuk ke `PostController`
@@ -54,14 +51,16 @@ dan action `edit`. Dan secara default, URL
 `http://hostname/index.php?r=post/edit` akan meminta controller dan
 action tersebut.
 
->Note|Catatan: Secara default, route bersifat case-sensitive. Sejak versi 1.0.1, dimungkinkan
+>Note|Catatan: Secara default, route bersifat case-sensitive. Kita bisa saja
 >menjadikan route tidak bersifat case-sensitive dengan mengatur [CUrlManager::caseSensitive]
 >menjadi false dalam konfigurasi aplikasi. Ketika dalam mode tidak bersifat case-sensitive,
 >pastikan Anda mengikuti konvensi bahwa direktori yang berisi file kelas controller
 >dalam huruf kecil, dan [peta controller|CWebApplication::controllerMap]
 >serta [peta action|CController::actions] keduanya menggunakan kunci dalam huruf kecil.
 
-Semenjak versi 1.0.3, sebuah aplikasi bisa berisi [module](/doc/guide/basics.module). Route action controller di dalam sebuah module yakni dalam format `moduleID/controllerID/actionID`. Untuk lebih rinci, lihat [bagian mengenai module](/doc/guide/basics.module).
+Sebuah aplikasi bisa berisi [module](/doc/guide/basics.module). Route action controller
+di dalam sebuah module yakni dalam format `moduleID/controllerID/actionID`.
+Untuk lebih rinci, lihat [bagian mengenai module](/doc/guide/basics.module).
 
 
 Instansiasi Controller
@@ -88,7 +87,10 @@ diasumsikan adalah `XyzController` dan file kelas terkait adalah
 dan file kelas `protected/controllers/admin/UserController.php`.
 Jika file kelas tidak ada, 404 [CHttpException] akan dimunculkan.
 
-Dalam hal ketika [modul](/doc/guide/basics.module) dipakai (tersedia sejak versi 1.0.3), proses di atas cukup berbeda. Dalam keadaan tertentu, aplikasi akan memeriksa apakah ID merujuk ke controller di dalam sebuah modul, dan jika demikian, turunan modul akan dibuat lebih dulu diikuti dengan turunan controller.
+Apabila [module](/doc/guide/basics.module) dipakai ,
+proses di atas akan cukup berbeda. Dalam keadaan tertentu, aplikasi akan memeriksa apakah ID
+merujuk ke controller di dalam sebuah module, jika demikian, instance module akan dibuat lebih
+dulu diikuti dengan instance controller.
 
 
 Action
@@ -233,6 +235,10 @@ sebuah string sederhana, akan diubah menjadi sebuah array yang terdiri dari stri
 > haruslah skalar (seperti non-array). Dalam kasus ini, mem-pass sebuah parameter array dengan
 > `$_GET` akan mengakibatkan HTTP exception.
 
+Mulai dari versi 1.1.7, binding parameter otomatis akan bekerja juga pada
+action yang menggunakan class. Ketika method `run()` didefinisikan 
+beberapa parameter, maka parameter-parameter ini akan diisi sesuai dengan
+nilai parameter request yang diberi nama. Contohnya,
 
 Filter
 ------
@@ -324,4 +330,4 @@ harus diterapkan ke action `edit` dan `create`, sementara
 `create`. Jika plus maupun minus tidak muncul dalam konfigurasi filter,
 maka filter akan diterapkan ke semua action.
 
-<div class="revision">$Id: basics.controller.txt 2672 2010-11-22 19:13:16Z qiang.xue $</div>
+<div class="revision">$Id: basics.controller.txt 3058 2011-03-13 04:20:12Z qiang.xue $</div>

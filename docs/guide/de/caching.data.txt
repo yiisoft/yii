@@ -47,10 +47,9 @@ selben Server eindeutig sein. Die Cachekomponente kann die IDs
 unterschiedlicher Anwendungen unterscheiden.
 
 Einige Cachespeicher, wie MemCache oder APC, unterstützen die Abfrage mehrerer
-gespeicherter Werte auf einmal. Dadurch kann der Overhead beim Abrufen von
-gecachten Daten reduziert wreden. Seit Version 1.0.8 wird dieses Feature
-per [mget()|CCache::mget] unterstützt. Falls der zugrundeliegende
-Cachespeicher dieses Feature nicht unterstützt, wird es von
+gespeicherter Werte auf einmal. Durch Verwendung von [mget()|CCache::mget] 
+kann so der Overhead beim Abrufen von gecachten Daten reduziert werden.
+Wird dieses Feature nicht vom Cachespeicher unterstützt, wird es von
 [mget()|CCache::mget] simuliert.
 
 Mit [delete()|CCache::delete] wird ein einzelner Cacheeintrag gelöscht. Mit 
@@ -110,7 +109,141 @@ Wert über mehrere Requests und Sessions hinweg beständig bleibt. Er wird über
    - [CChainedCacheDependency]: Ändert sich, wenn eine der Abhängigkeiten in
 der Kette eine Änderung anzeigt.
 
-   - [CExpressionDependency]: Ändert sich, wenn der Wert des angegebenen PHP-Ausdrucks sich ändert. Diese Klasse
-steht seit Version 1.0.4 zur Verfügung.
+   - [CExpressionDependency]: Ändert sich, wenn der Wert des angegebenen PHP-Ausdrucks sich ändert.
 
-<div class="revision">$Id: caching.data.txt 1855 2010-03-04 22:42:32Z qiang.xue $</div>
+Cachen von Abfragen
+-------------------
+
+Seit Version 1.1.7 kann Yii auch Abfragen cachen. Der Abfragecache basiert
+auf einem Datencache um die Ergebnisse einer Datenbankabfrage zu cachen.
+Dadurch kann später die Zeit zum Ausführen der Abfrage eingespart werden, weil
+das Ergebnis direkt aus dem Cache geliefert wird.
+
+>Info|Info: Einige DBMS (z.B. [MySQL](http://dev.mysql.com/doc/refman/5.1/en/query-cache.html)
+>haben einen solchen Abfragecache bereits serverseitig eingebaut. Unser
+>Abfragecache ist allerdings flexibler und - zumindest potentiell -
+>effizienter.
+
+### Aktivieren des Abfragecaches
+
+Zum Aktivieren des Abfragecaches muss [CDbConnection::queryCacheID] auf die
+ID einer gültigen Cache-Komponente verweisen (Vorgabewert ist `cache`).
+
+### Verwendung des Abfragencaches mit DAO
+
+Um den Abfragecache zu verwenden, ruft man die Methode
+[CDbConnection::cache()] auf, wenn eine DB-Abfrage durchgeführt wird:
+
+~~~
+[php]
+$sql = 'SELECT * FROM tbl_post LIMIT 20';
+$dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM tbl_post');
+$rows = Yii::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
+~~~
+
+Yii prüft hier zunächst, ob im Cache bereits ein noch gültiges Ergebnis für
+die SQL-Abfrage vorliegt. Dazu werden folgende drei Bedingungen sichergestellt:
+
+- dass sich im Cache ein Eintrag mit dem SQL-Ausdruck als Schlüssel befindet.
+- dass der Eintrag nicht verfallen ist (weniger als 1000 Sekunden seit dem
+Speichern im Cache vergangen sind)
+- dass die Abhängigkeit sich nicht verändert hat (der größte Wert für
+`update_time` ist immer noch der selbe wie beim Schreiben in den Cache).
+
+Wenn alle diese Bedingungen erfüllt sind, wird das Abfrageergebnis direkt aus
+dem Cache geliefert. Andernfalls wird der SQL-Ausdruck an die Datenbank
+geschickt, das Ergebnis im Cache abgelegt und zurückgegeben.
+
+###Verwendung des Abfragecaches mit ActiveRecord
+
+Man kann den Abfragecache auch mit [Active Record](/doc/guide/database.ar)
+verwenden. Dazu ruft man analog [CActiveRecord::cache()] wie folgt auf:
+
+~~~
+[php]
+$dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM tbl_post');
+$posts = Post::model()->cache(1000, $dependency)->findAll();
+// relational AR query
+$posts = Post::model()->cache(1000, $dependency)->with('author')->findAll();
+~~~
+
+Die `cache()`-Methode ist in diesem Fall eine Abkürzung für [CDbConnection::cache()].
+Intern versucht Yii beim Ausführen des SQL-Ausdrucks den Abfragecache wie im
+letzten Absatz beschrieben anzuwenden.
+
+###Cachen mehrfacher Abfragen
+
+Normalerweise markiert ein Aufruf von `cache` (in [CDbConnection] oder [CActiveRecord]),
+dass die nächste SQL-Abfrage gecacht werden soll. Sämtlichen weiteren
+SQL-Abfragen werden NICHT gecacht, bis `cache()` erneut aufgerufen wird:
+
+~~~
+[php]
+$sql = 'SELECT * FROM tbl_post LIMIT 20';
+$dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM tbl_post');
+
+$rows = Yii::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
+// Abfragencache wird NICHT verwendet:
+$rows = Yii::app()->db->createCommand($sql)->queryAll();
+~~~
+
+Übergibt man an `cache()` den zusätzlichen Parameter `$queryCount`, kann man
+damit erzwingen, dass mehrere darauffolgende Abfragen gecacht werden. Im
+nächsten Beispiel wird `cache()` angewiesen, die nächsten zwei Abfragen zu
+cachen:
+
+~~~
+[php]
+// ...
+$rows = Yii::app()->db->cache(1000, $dependency, 2)->createCommand($sql)->queryAll();
+// Abfragencache WIRD verwendet:
+$rows = Yii::app()->db->createCommand($sql)->queryAll();
+~~~
+
+Wie bekannt kann es vorkommen, dass bei relationalen AR-Abfragen manchmal
+mehrere SQL-Abfragen ausgeführt werden (was man in den
+[Logmeldungen](/doc/guide/topics.logging) kontrollieren kann). Der folgende
+Code führt zum Beispiel zu zwei Abfragen, sofern `Beitrag` und `Kommentar` mit
+`HAS_MANY` verknüpft sind:
+
+- Es holt sich zunächst die ersten 20 Beiträge
+- und dann die Kommentare für die erhaltenen Beiträge
+
+~~~
+[php]
+$beitraege= Beitrag::model()->with('kommmentare')->findAll(array(
+	'limit'=>20,
+));
+~~~
+
+Verwendet man den Abfragencache wie folgt, wird lediglich die erste Abfrage
+gecacht:
+
+~~~
+[php]
+$beitraege= Beitrag::model()->cache(1000, $dependency)->with('kommentare')->findAll(array(
+	'limit'=>20,
+));
+~~~
+
+Damit die Ergebnisse von beiden DB-Abfragen im Cache landen, muss die Anzahl
+der zu cachenden Abfragen über den zusätzlichen Parameter angegeben werden:
+
+~~~
+[php]
+$beitraege= Beitrag::model()->cache(1000, $dependency, 2)->with('kommentare')->findAll(array(
+	'limit'=>20,
+));
+~~~
+
+### Beschränkungen
+
+Der Abfragecache funktioniert nicht mit Ergebnissen, die Ressource-Handles
+enthalten. Verwendet man z.B. den Spaltentyp `BLOB`, liefern einige DBMS ein
+Ressource-Handle als Daten zurück.
+
+Einige Cache-Speicher begrenzen außerdem die Größe der ablegbaren Daten.
+Bei Memcache liegt diese Größe bei 1MB. Übersteigt ein Abfrageergebnis diese
+Größe, kann es nicht gecacht werden.
+
+<div class="revision">$Id: caching.data.txt 3125 2011-03-25 17:05:31Z qiang.xue $</div>

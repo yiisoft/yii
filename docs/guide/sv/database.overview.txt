@@ -3,7 +3,7 @@ Arbeta med databaser
 
 Yii erbjuder kraftfullt stöd för databasprogrammering.
 
-Baserat på PHP-tillägget Data Objects (PDO) möjliggör Yii Data Access Objects 
+Genom användning av PHP-tillägget Data Objects (PDO) möjliggör Yii Data Access Objects 
 (DAO) åtkomst till olika databashanterare (DBMS) via ett enda enhetligt gränssnitt. 
 Applikationer utvecklade för att använda Yii DAO kan enkelt ställas om för 
 användning med en annan DBMS utan att koden för databasåtkomst behöver ändras. 

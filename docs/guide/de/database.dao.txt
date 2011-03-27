@@ -246,9 +246,8 @@ while($dataReader->read()!==false)
 Verwenden eines Tabellenpräfix
 ------------------------------
 
-Seit Version 1.1.0 unterstützt Yii auch Tabellenpräfixe. Ein Präfix ist ein
-String, der allen Tabellennamen der aktuellen Verbindung vorangestellt wird.
-Es wird meist in gemeinsam genutzten Hosting-Umgebungen verwendet, wo mehrere
+Ein Tabellenpräfix wird allen Tabellennamen der aktuellen Verbindung
+vorangestellt.  Es wird meist in gemeinsam genutzten Hosting-Umgebungen verwendet, wo mehrere
 Anwendungen sich eine einzelne Datenbank teilen und zur Unterscheidung eben
 verschiedene Präfixe verwenden. Eine Anwendung könnte z.B. `tbl_`, eine andere
 `yii_` vor alle Tabellennamen stellen.
@@ -266,4 +265,4 @@ $sql='SELECT * FROM {{user}}';
 $users=$connection->createCommand($sql)->queryAll();
 ~~~
 
-<div class="revision">$Id: database.dao.txt 2266 2010-07-17 13:58:30Z qiang.xue $</div>
+<div class="revision">$Id: database.dao.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

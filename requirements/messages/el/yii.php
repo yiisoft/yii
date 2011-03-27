@@ -11,14 +11,15 @@
  * Messages that no longer need translation will have their translations
  * enclosed between a pair of '@@' marks.
  *
+ * Message string can be used with plural forms format. Check i18n section
+ * of the guide for details.
+ *
  * NOTE, this file must be saved in UTF-8 encoding.
  *
- * @version $Id: yii.php 1734 2010-11-08 21:56:42Z yii@lourdas.name $
+ * @version $Id: yii.php 1986 2011-03-24 22:24:22Z yii@lourdas.name $
  */
 return array (
-  'GD extension with<br />FreeType support' => 'Επέκταση GD με<br />υποστήριξη για FreeType',
-  'GD installed<br />FreeType support not installed' => 'Επέκταση GD εγκατεστημένη<br />υποστήριξη FreeType δεν υπάρχει.',
-  'GD not installed' => 'Δεν είναι εγκατεστημένη η επέκταση GD',
+  'To use memcached set <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'Για να χρησιμοποιήσετε memcached, ορίστε το <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> να είναι <code>true</code>.',
   '$_SERVER does not have {vars}.' => 'Ο πίνακας $_SERVER δεν περιέχει τη(τις) μεταβλητή(-ές) {vars}.',
   '$_SERVER variable' => 'Μεταβλητή $_SERVER',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => 'Το $_SERVER["SCRIPT_FILENAME"] πρέπει να είναι το ίδιο με το αρχικό αρχείο σεναρίου.',
@@ -26,6 +27,9 @@ return array (
   'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Όλες οι <a href="http://www.yiiframework.com/doc/api/#system.db">σχετικές με βάση κλάσεις</a>',
   'DOM extension' => 'Επέκταση DOM',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => 'Πρέπει να υπάρχει είτε το $_SERVER["REQUEST_URI"] είτε το $_SERVER["QUERY_STRING"].',
+  'GD extension with<br />FreeType support' => 'Επέκταση GD με<br />υποστήριξη για FreeType',
+  'GD installed<br />FreeType support not installed' => 'Επέκταση GD εγκατεστημένη<br />υποστήριξη FreeType δεν υπάρχει.',
+  'GD not installed' => 'Δεν είναι εγκατεστημένη η επέκταση GD',
   'Mcrypt extension' => 'Επέκταση Mcrypt',
   'Memcache extension' => 'Επέκταση Memcache',
   'PCRE extension' => 'Επέκταση PCRE',

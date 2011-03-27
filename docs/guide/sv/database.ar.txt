@@ -81,9 +81,6 @@ stöds endast följande databashanterare:
    - [Microsoft SQL Server 2000 eller senare](http://www.microsoft.com/sqlserver/)
    - [Oracle](http://www.oracle.com)
 
-> Note|Märk: Stöd för Microsoft SQL Server har varit tillgängligt sedan version 1.0.4;
-> Stöd för Oracle har varit tillgängligt sedan version 1.0.5.
-
 Vid önskemål om att använda en annan applikationskomponent än `db`, eller om att 
 använda AR till att arbeta mot flera databaser, åsidosätt 
 [CActiveRecord::getDbConnection()]. Klassen [CActiveRecord] utgör basklass för alla 
@@ -138,9 +135,8 @@ Som standard är namnet på AR-klassen samma som namnet på databastabellen.
 Metoden [model()|CActiveRecord::model] finns deklarerad per se i varje AR-klass 
 (förklaring följer längre ned).
 
-> Info: För att använda [tabellprefix-finessen](/doc/guide/database.dao#using-table-prefix)
-> som introducerades i version 1.1.0, kan [tableName()|CActiveRecord::tableName]-metoden
-> i en AR-klass behöva åsidosättas på följande sätt,
+> Info: För att använda [tabellprefix-finessen](/doc/guide/database.dao#using-table-prefix),
+> kan [tableName()|CActiveRecord::tableName]-metoden i en AR-klass behöva åsidosättas på följande sätt,
 > ~~~
 > [php]
 > public function tableName()
@@ -226,10 +222,9 @@ $post=new Post;
 echo $post->title;  // this would display: please enter a title
 ~~~
 
-Med start i version 1.0.2, kan ett attribut tilldelas ett värde av typen 
-[CDbExpression] innan posten sparas till databasen (antingen insättning eller 
-uppdatering). Exempelvis, för att spara en tidstämpel, returnerad av MySQL:s 
-funktion `NOW()`, kan följande kod användas:
+Ett attribut kan tilldelas ett värde av typen [CDbExpression] innan posten sparas 
+till databasen (antingen insättning eller uppdatering). Exempelvis, för att spara 
+en tidstämpel, returnerad av MySQL:s funktion `NOW()`, kan följande kod användas:
 
 ~~~
 [php]
@@ -245,9 +240,8 @@ arbetskrävande SQL-satser, vill vi ofta veta vilka SQL-satser som exekveras av 
 Detta kan uppnås genom att slå på Yii:s [loggningsfiness](/doc/guide/topics.logging).
 Till exempel kan vi aktivera [CWebLogRoute] i applikationskonfigurationen, vilket 
 leder till att exekverade SQL-satser kan avläsas i slutet av varje webbsida.
-Sedan version 1.0.5, kan vi sätta [CDbConnection::enableParamLogging] till true i
-applikationskonfigurationen så att även parametervärden knutna till SQL-satserna 
-loggas.
+Vi kan sätta [CDbConnection::enableParamLogging] till true i applikationskonfigurationen 
+så att även parametervärden knutna till SQL-satserna loggas.
 
 
 Läsa DB-post
@@ -522,7 +516,6 @@ klasser för att anpassa arbetsflödet i dessa.
 
    - [beforeFind|CActiveRecord::beforeFind]: körs innan någon av AR:s 
    'find'-metoder används för att exekvera en fråga (t.ex. `find()`, `findAll()`). 
-   Detta har varit tillgängligt sedan version 1.0.9.
 
    - [afterFind|CActiveRecord::afterFind]: körs varje gång en AR-instans 
    har skapats som resultat av en fråga.
@@ -560,8 +553,7 @@ catch(Exception $e)
 Namngivna omfång
 ----------------
 
-> Note|Märk: Stöd för namngivna omfång (named scopes) har varit tillgängligt sedan 
-> version 1.0.5. Ursprungsidén är hämtad från Ruby on Rails.
+> Note|Märk: Ursprungsidén till namngivna omfång (named scopes) är hämtad från Ruby on Rails.
 
 Ett *namngivet omfång* representerar ett *namngivet* frågekriterium som kan kombineras 
 med andra namngivna omfång och appliceras på en Active Record-fråga.
@@ -611,14 +603,6 @@ Vart och ett av dem tillhandahåller ett frågekriterium som kombineras med andr
 inklusive det som lämnas med i anropet `find`-metoden. Nettoeffekten blir som att lägga till 
 en lista av filter till en fråga.
 
-Med start fr o m version 1.0.6 kan namngivna omfång även användas med metoderna `update` och 
-`delete`. Till exempel följande kod skulle ta bort alla nyligen publicerade postningar:
-
-~~~
-[php]
-Post::model()->published()->recently()->delete();
-~~~
-
 > Note|Märk: Namngivna omfång kan endast användas för metoder på klassnivå. 
 Det innebär att metoden måste anropas på formatet `Klassnamn::model()`.
 
@@ -654,13 +638,13 @@ Om parametern 3 ovan utelämnas kommer de fem senaste postningarna att
 hämtas, enligt förbestämt standardvärde.
 
 
-### Förbestämt namngivet omfång
+### Förbestämt omfång
 
-En modellklass kan ha ett förbestämt namngivet omfång som kommer att åsättas 
+En modellklass kan ha ett förbestämt omfång som kommer att åsättas 
 alla frågor (inklusive relationella sådana) avseende modellen. Till exempel kan  
 en webbplats som stöder flera språk vilja begränsa innehåll som visas till 
 det språk den aktuella användaren valt. Eftersom det kan bli många frågor 
-gällande webbplatsens innehåll, kan ett förbestämt namngivet omfång lindra 
+gällande webbplatsens innehåll, kan ett förbestämt omfång lindra 
 detta problem. För att göra detta, åsidosätt metoden [CActiveRecord::defaultScope] enligt följande,
 
 ~~~
@@ -683,7 +667,7 @@ Nu kommer följande metodanrop att automatiskt använda frågekriteriet som defi
 $contents=Content::model()->findAll();
 ~~~
 
-Märk att ett förbestämt namngivet omfång endast gäller för `SELECT`-frågor. 
+Märk att ett förbestämt omfång endast gäller för `SELECT`-frågor. 
 Det ignoreras för `INSERT`-, `UPDATE`- och `DELETE`-frågor.
 
-<div class="revision">$Id: database.ar.txt 2771 2010-12-24 14:48:44Z alexander.makarow $</div>
+<div class="revision">$Id: database.ar.txt 3122 2011-03-25 02:45:43Z qiang.xue $</div>

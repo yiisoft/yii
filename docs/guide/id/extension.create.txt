@@ -144,7 +144,7 @@ class MyWidget extends CWidget
 Widget juga dapat memiliki file tampilan sendiri. Jika seperti itu, buat direktori bernama
 `views` di bawah direktori yang berisi file kelas widget, dan simpan semua file
 tampilan di sana. Dalam kelas widget, untuk me-render tampilan widget, gunakan
-`$this->render('NamaTampilan')`, yang mirip dengan apa yang dilakukan dalam sebuah kontroler.
+`$this->render('NamaTampilan')`, yang mirip dengan apa yang dilakukan dalam sebuah controller.
 
 Aksi
 ----
@@ -181,16 +181,16 @@ Parameter `$filterChain` adalah tipe [CFilterChain] yang berisi informasi
 tentang aksi yang saat ini disaring.
 
 
-Kontroler
+Controller
 ---------
-[Kontroler](/doc/guide/basics.controller) yang didistribusikan sebagai extension
+[Controller](/doc/guide/basics.controller) yang didistribusikan sebagai extension
 harus diturunkan dari [CExtController], bukan dari [CController]. Alasan utama
-karena [CController] menganggap file tampilan kontroler ditempatkan di bawah
+karena [CController] menganggap file tampilan controller ditempatkan di bawah
 `application.views.ControllerID`, sementara [CExtController] menganggap file tampilan
 ditempatkan di bawah direktori `views` yang tidak lain adalah subdirektori
-dari direktori yang berisi file kelas kontroler. Oleh karena itu, lebih mudah
-dalam menditribusikan kembali kontroler karena file tampilan tetap bersama dengan
-file kelas kontroler.
+dari direktori yang berisi file kelas controller. Oleh karena itu, lebih mudah
+dalam menditribusikan kembali controller karena file tampilan tetap bersama dengan
+file kelas controller.
 
 
 Validator
@@ -234,11 +234,11 @@ class MyCommand extends CConsoleCommand
 }
 ~~~
 
-Modul
+Module
 -----
-Silahkan merujuk ke seksi tentang [modul](/doc/guide/basics.module#creating-module) bagaimana membuat sebuah modul.
+Silahkan merujuk ke seksi tentang [module](/doc/guide/basics.module#creating-module) bagaimana membuat sebuah module.
 
-Petunjuk umum untuk mengembangkan modul adalah bahwa ia harus berdiri sendiri. File sumber (seperti CSS, JavaScript, gambar) yang dipakai oleh modul harus didistribusikan bersamaan dengan modul. Dan modul harus menerbitkannya agar bisa diakses oleh Web.
+Petunjuk umum untuk mengembangkan module adalah bahwa ia harus berdiri sendiri. File sumber (seperti CSS, JavaScript, gambar) yang dipakai oleh module harus didistribusikan bersamaan dengan module. Dan module harus menerbitkannya agar bisa diakses oleh Web.
 
 
 Komponen Generik

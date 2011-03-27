@@ -26,4 +26,4 @@ La condition minimum requise par Yii est d'avoir un serveur Web qui supporte PHP
 Yii a été testé avec le [serveur HTTP Apache](http://httpd.apache.org/) sur Windows et Linux.
 Yii devrait également fonctionner sur les autres serveurs et os supportant PHP 5.
 
-<div class="revision">$Id: quickstart.installation.txt 359 $</div>
+<div class="revision">$Id: quickstart.installation.txt 1906 $</div>

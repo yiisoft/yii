@@ -99,7 +99,6 @@ Som alternativ till att utvecklare varierar ID:n enligt något schema, har
 
    - [varyByExpression|COutputCache::varyByExpression]: genom att sätta detta alternativ till ett PHP-uttryck 
 kan det cachelagrade innehållet fås att variera i enlighet med värdet av detta PHP-uttryck. 
-Detta alternativ har varit tillgängligt fr o m version 1.0.4.
 
 ### Typ av Request
 
@@ -148,4 +147,4 @@ omvänd ordning. Om den yttre cachen innehåller giltig data kommer alltid den
 cachelagrade kopian att tillhandahållas, även om innehållet i den inre cachen 
 redan blivit för gammalt och klassat ogiltigt.
 
-<div class="revision">$Id: caching.fragment.txt 956 2009-04-21 15:16:03Z qiang.xue@gmail.com $</div>
+<div class="revision">$Id: caching.fragment.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

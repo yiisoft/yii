@@ -145,6 +145,9 @@ Attribut oder einer Konstanten übereinstimmt.
 
    - `email`: Alias für [CEmailValidator]; prüft auf eine gültige E-Mail Adresse.
 
+   - `date` : Alias für [CDateValidator]; stellt sicher, dass das Attribut
+ein gültiges Datum, eine Uhrzeit oder eine Datetime enthält.
+
    - `default`: Alias für [CDefaultValueValidator]; weist dem Attribut einen
 Standardwert zu.
 
@@ -227,13 +230,9 @@ auch das Attribut für den Primärschlüssel einer Tabelle als sicher
 definieren, könnte ein Angreifer diesen evtl. bei einem gegebenen
 Record verändern und sich so Zugang zu ansonsten geschützten Daten verschaffen.
 
-Wann ein Attribut als *sicher* gilt und wann nicht, unterscheidet sich zwischen
-den Yii-Versionen 1.0 und 1.1. Wir gehen daher auf beide Versionen gesondert
-ein.
+###Definition von sicheren Attribute
 
-###Sichere Attribute in 1.1
-
-In Version 1.1 gilt ein Attribut als sicher, wenn es dafür eine
+Ein Attribut gilt als sicher, wenn es dafür eine
 Validierungsregel im gegebenen Szenario gibt. Zum Beispiel:
 
 ~~~
@@ -292,55 +291,6 @@ array('erlaubnis', 'unsafe')
 
 Diese Regel wird nur selten verwendet. Sie bildet eine Ausnahme zu unserer
 Konvention über sichere Attribute.
-
-
-###Sichere Attribute in 1.0
-
-In Version 1.0 wurden die sicheren Attribute von der Methode `safeAttributes` 
-(sichere Attribute) zurückgeliefert. Für [CFormModel] gab diese Methode 
-alle als public deklarierten Attribute und für [CActiveRecord] alle Tabellenspalten 
-außer dem Primärschlüssel zurück. Man kann diese
-Methode überschreiben, um die je nach Szenario als sicher geltenden Attribute 
-einzuschränken.  Ein Benutzermodel kann zum Beispiel viele Attribute enthalten,
-im `login`-Szenario davon aber nur `username` und `password` als sicher
-definieren. Die Methode sieht dann wie folgt aus:
-
-~~~
-[php]
-public function safeAttributes()
-{
-	return array(
-		parent::safeAttributes(),
-		'login' => 'username, password',
-	);
-}
-~~~
-
-Der Rückgabewert von `safeAttributes` muss dieser Struktur entsprechen:
-
-~~~
-[php]
-array(
-    // Diese Attribute können per Massenzuweisung in jedem Szenario befüllt
-	// werden, das unten nicht explizit angegeben wird
-    'attr1, attr2, ...',
-	 *
-   // Diese Attribute können nur in `szenario1` per Massenzuweisung befüllt werden
-   'szenario1' => 'attr2, attr3, ...',
-	 *
-   // Diese Attribute können nur in `scenario2` per Massenzuweisung befüllt werden
-   'Scenario2' => 'attr1, attr3, ...',
-)
-~~~
-
-Wenn ein Model keine unterschiedlichen Szenarien benötigt (es also nur in
-einem Szenario verwendet wird, oder alle Szenarien die selben sicheren
-Attribute haben), kann auch ein einfacher String zurückgegeben werden:
-
-~~~
-[php]
-'attr1, attr2, ...'
-~~~
 
 Möchte man einem nicht-sicheren Attribut Daten zuweisen, muss dies von Hand
 erfolgen:
@@ -427,4 +377,4 @@ können die Labels angepasst werden. Wie wir in den nächsten Abschnitten sehen
 werden, ermöglicht die Labeldefinition innerhalb des Models, die 
 zugehörigen Formulare schnell und effektiv zu erzeugen.
 
-<div class="revision">$Id: form.model.txt 2285 2010-07-28 20:40:00Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 3052 2011-03-12 14:27:07Z qiang.xue $</div>

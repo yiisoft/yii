@@ -39,7 +39,6 @@ się podsumowanie dostępnych komponentów cache:
    - [CApcCache]: używa [rozszerzenia APC](http://www.php.net/manual/en/book.apc.php) dla PHP.
 
    - [CXCache]: używa [rozszerzenia XCache](http://xcache.lighttpd.net/) dla PHP.
-Uwaga, rozszerzenie to zostało udostępnione w wersji 1.0.1.
 
    - [CEAcceleratorCache]: używa [rozszerzenia EAccelerator](http://eaccelerator.net/).
 
@@ -49,20 +48,18 @@ Uwaga, rozszerzenie to zostało udostępnione w wersji 1.0.1.
    właściwości [connectionID|CDbCache::connectionID],
    
    - [CZendDataCache]: używa [Zend Data Cache](http://files.zend.com/help/Zend-Server-Community-Edition/data_cache_component.htm)
-   jako medium buforowania. Uwaga, rozszerzenie to jest dostępne od wersji 1.0.4.  
+   jako medium buforowania.
    
    - [CFileCache]: używa plików do przechowywania buforowanych danych. Komponent ten jest przydatny 
-   w szczególności do buforowania dużych porcji danych (takich jak strony). Zauważ, że jest on dostępny 
-   od wersji 1.0.6.   
+   w szczególności do buforowania dużych porcji danych (takich jak strony).
    
    - [CDummyCache]: reprezentuje imitację buforowania (ang. dummy cache), która w praktyce nie buforuje. 
-   Celem tego komponentu jest uproszczenie kodu, który sprawdzić dostępność bufora. 
+   Celem tego komponentu jest uproszczenie kodu, który sprawdzi dostępność bufora. 
    Na przykład, podczas tworzenia lub gdy serwer nie posiada aktualnie wsparcia dla buforowania, 
-   możemy użyć tego komponentu buforowania. W momencie, gdy wsparcie dla buforowanie będzie udostępnione,
+   możemy użyć tego komponentu buforowania. W momencie, gdy wsparcie dla buforowania będzie udostępnione,
    możemy go przełączyć na używanie odpowiedniego komponentu buforującego. W obu przypadkach,
    możemy używać tego samego kodu `Yii::app()->cache->get($key)` aby próbować pobrać część danych 
-   bez martwienia się, że `Yii::app()->cache` może mieć wartość `null`. Ten komponent został udostępniony 
-   wraz z wersją 1.0.5.   
+   bez martwienia się, że `Yii::app()->cache` może mieć wartość `null`.
 
 > Tip|Wskazówka: Ponieważ wszystkie te komponenty dziedziczą z tej samej klasy bazowej 
 [CCache], można je zamienić na inną metodę buforowania bez modyfikowania kodu, który 
@@ -81,4 +78,4 @@ W następnych dwóch podpunktach opowiemy jak używać buforowania na tych pozio
 buforowanych danych nawet jeśli nie wygasa. Dlatego też, nie używaj buforu jako 
 miejsca stałego składowania (np. nie używaj buforu do przechowywania danych sesji).
 
-<div class="revision">$Id: caching.overview.txt 2769 2010-12-24 13:40:32Z alexander.makarow $</div>
+<div class="revision">$Id: caching.overview.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>
