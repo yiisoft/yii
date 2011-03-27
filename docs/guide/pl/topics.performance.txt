@@ -111,8 +111,6 @@ skryptów generowane przez komponenty, których nie chcemy modyfikować
 (np. rdzenne komponenty Yii, komponenty stron trzecich). W celu minimalizacji tych plików 
 skryptów, potrzebujemy wykonać dwa kroki.
 
-> Note|Uwaga: Funkcjonalność `scriptMap`, która zostanie opisana poniżej została udostępniona wraz z wersją 1.0.3.
-
 Najpierw deklarujemy, które pliki chcemy zminimalizować poprzez skonfigurowanie właściwości  
 [scriptMap|CClientScript::scriptMap] komponentu aplikacji [clientScript|CWebApplication::clientScript].
 Możemy to zrobić zarówno w konfiguracji aplikacji jak i w kodzie. Na przykład:
@@ -171,4 +169,4 @@ aby bezpośrednio dołączyć pliki skryptów ze strony Google:
 </head>
 ~~~
 
-<div class="revision">$Id: topics.performance.txt 2343 2010-08-26 21:10:08Z alexander.makarow $</div>
+<div class="revision">$Id: topics.performance.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

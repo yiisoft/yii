@@ -40,7 +40,7 @@ CREATE TABLE tbl_post (
 
 > Note|Catatan: AR tidak ditujukan untuk memecahkan semua tugas-tugas terkait-database. 
 AR paling cocok dipakai untuk memodelkan tabel database dalam konstruksi PHP dan melakukan
-queri yang tidak melibatkan SQL yang kompleks. Yii DAO baru dipakai untuk skenario
+query yang tidak melibatkan SQL yang kompleks. Yii DAO baru dipakai untuk skenario
 kompleks tersebut.
 
 
@@ -81,9 +81,6 @@ didukung:
    - [SQLite 2 dan 3](http://www.sqlite.org)
    - [Microsoft SQL Server 2000 atau lebih tinggi](http://www.microsoft.com/sqlserver/)
    - [Oracle](http://www.oracle.com)
-
-> Note|Catatan: Dukungan untuk Microsoft SQL Server sudah tersedia sejak versi 1.0.4;
-> Dan dukungan untuk Oracle sudah tersedia sejak versi 1.0.5.
 
 Jika Anda ingin menggunakan komponen aplikasi selain `db`, atau jika Anda
 ingin bekerja dengan multipel database menggunakan AR, Anda harus meng-override
@@ -139,9 +136,9 @@ Meng-override metode [tableName()|CActiveRecord::tableName] jika berbeda.
 Metode [model()|CActiveRecord::model] dideklarasikan seperti itu
 untuk setiap kelas AR (akan dijelaskan kemudian).
 
-> Info: Untuk menggunakan [fitur prefiks tabel](/doc/guide/database.dao#using-table-prefix)
-> yang sudah ada di versi 1.1.0, metode [tableName()|CActiveRecord::tableName]
-> untuk kelas AR mungkin harus di-override demikian,
+> Info: Untuk menggunakan [fitur prefiks tabel](/doc/guide/database.dao#using-table-prefix),
+> metode [tableName()|CActiveRecord::tableName]
+> untuk kelas AR harus di-override demikian,
 > ~~~
 > [php]
 > public function tableName()
@@ -227,7 +224,7 @@ $post=new Post;
 echo $post->title;  // ini akan menampilkan: please enter a title
 ~~~
 
-Mulai dari versi 1.0.2, atribut dapat menempatkan nilai tipe [CDbExpression]
+Atribut dapat menempatkan nilai tipe [CDbExpression]
 sebelum record disimpan (baik skenario insert ataupun update) ke database.
 Sebagai contoh, untuk menyimpan timestamp yang dihasilkan oleh fungsi MySQL `NOW()`,
 kita dapat menggunakan kode berikut:
@@ -246,7 +243,7 @@ sejumlah pernyataan SQL, seringkali kita ingin mengetahui pernyataan SQL apa yan
 oleh AR. Ini bisa dilakukan dengan menghidupkan [fitur pencatatan](/doc/guide/topics.logging)
 pada Yii. Sebagai contoh, kita dapat menghidupkan [CWebLogRoute] dalam konfigurasi aplikasi,
 dan kita akan melihat pernyataan SQL yang dijalankan untuk ditampilkan  di akhir setiap halaman Web.
-Sejak versi 1.0.5, kita dapat menyetel [CDbConnection::enableParamLogging] menjadi true dalam
+Kita dapat menyetel [CDbConnection::enableParamLogging] menjadi true dalam
 konfigurasi aplikasi agar nilai parameter yang diikat ke pernyataan SQL
 juga dicatat.
 
@@ -274,16 +271,16 @@ bahwa metode statis `model()` diperlukan oleh setiap kelas AR. Metode ini
 menghasilkan instance AR yang dipakai untuk mengakses metode tingkat kelas
 (mirip dengan metode kelas static) dalam konteks obyek.
 
-Jika metode `find` menemukan baris yang sesuai dengan kondisi queri, ia akan
+Jika metode `find` menemukan baris yang sesuai dengan kondisi query, ia akan
 mengembalikan turunan `Post` yang propertinya berisi nilai kolom terkait
 dari baris table. Kemudian kita dapat membaca nilai yang diambil sepert yang
 kita lakukan pada properti obyek, sebagai contoh, `echo $post->title;`.
 
 Metode `find` akan menghasilkan null jika tidak ada yang ditemukan dalam database
-dengan kondisi queri yang diberikan.
+dengan kondisi query yang diberikan.
 
 Ketika memanggil `find`, kita menggunakan `$condition` dan `$params` untuk menetapkan kondisi
-queri. Di sini, `$condition` dapat berupa string yang mewakili klausul `WHERE` dalam
+query. Di sini, `$condition` dapat berupa string yang mewakili klausul `WHERE` dalam
 pernyataan SQL, dan `$params` adalah array parameter yang nilainya harus diikat
 ke tempat di dalam `$condition`. Sebagai contoh,
 
@@ -298,7 +295,7 @@ untuk DBMS tertentu. Sebagai contoh, jika kita menggunakan PostgreSQL, kita haru
 kondisi sebagai `"postID"=:postID`, karena PostgreSQL standarnya akan memperlakukan nama
 kolom tidak case-sensitive.
 
-Kita juga bisa menggunakan `$condition` untuk menetapkan kondisi queri lebih kompleks
+Kita juga bisa menggunakan `$condition` untuk menetapkan kondisi query lebih kompleks
 Alih-alih mengisi sebuah string, kita dapat mengatur `$condition` menjadi instance [CDbCriteria] yang
 mengijinkan kita untuk menetapkan kondisi selain klausul `WHERE`. Sebagai contoh,
 
@@ -311,7 +308,7 @@ $criteria->params=array(':postID'=>10);
 $post=Post::model()->find($criteria); // $params tidak diperlukan
 ~~~
 
-Catatan, saat menggunakan [CDbCriteria] sebagai kondisi queri, parameter `$params`
+Catatan, saat menggunakan [CDbCriteria] sebagai kondisi query, parameter `$params`
 tidak lagi diperlukan karena ia bisa ditetapkan dalam [CDbCriteria], seperti dicontohkan
 di atas.
 
@@ -328,7 +325,7 @@ $post=Post::model()->find(array(
 ));
 ~~~
 
-> Info: Saat kondisi queri menemukan beberapa kolom dengan nilai yang
+> Info: Saat kondisi query menemukan beberapa kolom dengan nilai yang
 ditetapkan, kita dapat menggunakan
 [findByAttributes()|CActiveRecord::findByAttributes]. Kita biarkan parameter
 `$attributes` menjadi array nilai yang diindeks oleh nama kolom.
@@ -337,7 +334,7 @@ seperti `findByNameAndTitle`. Meskipun pendekatan ini terlihat atraktif, sering
 menyebabkan kebingungan, konflik dan masalah seperti sensitifitas-jenis huruf pada
 nama-nama kolom.
 
-Ketika lebih dari satu baris data memenuhi kondisi queri yang ditetapkan, kita dapat
+Ketika lebih dari satu baris data memenuhi kondisi query yang ditetapkan, kita dapat
 mengambilnya sekaligus menggunakan metode `findAll`, masing-masing memiliki
 pasangan metode `find`, seperti yang sudah kami jelaskan.
 
@@ -353,7 +350,7 @@ $posts=Post::model()->findAllByAttributes($attributes,$condition,$params);
 $posts=Post::model()->findAllBySql($sql,$params);
 ~~~
 
-Jika tidak ada yang sama dengan kondisi queri, `findAll` akan mengembalikan array
+Jika tidak ada yang sama dengan kondisi query, `findAll` akan mengembalikan array
 kosong. Ini berbeda dengan `find` yang akan mengembalikan null jika tidak menemukan
 apapun.
 
@@ -524,11 +521,10 @@ instance AR dihapus.
 setiap instance AR yang dibuat menggunakan operator `new`.
 
    - [beforeFind|CActiveRecord::beforeFind]: ini dipanggil sebelum pencari AR
-dipakai untuk melakukan queri (misal `find()`, `findAll()`). Ini sudah tersedia
-sejak versi 1.0.9.
+dipakai untuk melakukan query (misal `find()`, `findAll()`). 
 
    - [afterFind|CActiveRecord::afterFind]: ini dipanggil untuk setiap instance AR
-yang dibuat sebagai hasil dari queri.
+yang dibuat sebagai hasil dari query.
 
 
 Menggunakan Transaksi dengan AR
@@ -563,10 +559,9 @@ catch(Exception $e)
 Named Scope
 ---------------
 
-> Note|Catatan: Dukungan named scope(lingkup bernama) sudah tersedia sejak versi 1.0.5.
-> Ide named scope berasal dari Ruby on Rails.
+> Note|Catatan: Ide named scope berasal dari Ruby on Rails.
 
-Sebuah *named scope* mewakili kriteria queri *bernama* yang dapat digabung dengan named scope lain dan diterapkan ke queri active record.
+Sebuah *named scope* mewakili kriteria query *bernama* yang dapat digabung dengan named scope lain dan diterapkan ke query active record.
 
 Named scope dideklarasikan terutama dalam metode [CActiveRecord::scopes()] sebagai pasangan nama-kriteria. Kode berikut mendeklarasikan tiga named scope, `published` dan `recently`, dalam kelas model `Post`
 
@@ -590,7 +585,7 @@ class Post extends CActiveRecord
 }
 ~~~
 
-Setiap named scope dideklarasikan sebagai sebuah array yang dipakai untuk menginisialisasi instance [CDbCriteria]. Sebagai contoh, named scope `recently` menetapkan bahwa properti `order` adalah `createTime DESC` dan properti `limit` adalah 5 yang diterjemahkan ke dalam sebuah kriteria queri yang harus menghasilkan paling banyak 5 tulisan terbaru.
+Setiap named scope dideklarasikan sebagai sebuah array yang dipakai untuk menginisialisasi instance [CDbCriteria]. Sebagai contoh, named scope `recently` menetapkan bahwa properti `order` adalah `createTime DESC` dan properti `limit` adalah 5 yang diterjemahkan ke dalam sebuah kriteria query yang harus menghasilkan paling banyak 5 tulisan terbaru.
 
 Named scope dipakai sebagai pembeda pada pemanggilan metode `find`. Beberapa named scope dapat dikaitkan bersamaan dan menghasilkan set yang lebih terbatas. Sebagai contoh, untuk mencari tulisan terbaru yang diterbitkan, kita menggunakan kode berikut:
 
@@ -599,9 +594,9 @@ Named scope dipakai sebagai pembeda pada pemanggilan metode `find`. Beberapa nam
 $posts=Post::model()->published()->recently()->findAll();
 ~~~
 
-Secara umum, named scope harus berada di sebelah kiri pemanggilan metode `find`. Masing-masing menyediakan kriteria queri, yang merupakan gabungan dengan kriteria lain, termasuk yang dioper ke pemanggilan metode `find`. Hal ini mirip dengan menambahkan sebuah daftar filter ke sebuah queri.
+Secara umum, named scope harus berada di sebelah kiri pemanggilan metode `find`. Masing-masing menyediakan kriteria query, yang merupakan gabungan dengan kriteria lain, termasuk yang dioper ke pemanggilan metode `find`. Hal ini mirip dengan menambahkan sebuah daftar filter ke sebuah query.
 
-Mulai dari versi 1.0.6, named scope juga dapat dipakai dengan metode `update` dan `delete`. Sebagai contoh, kode bberikut akan menghapus semua tulisan yang akhir-akhir ini diterbitkan:
+Named scope juga dapat dipakai dengan metode `update` dan `delete`. Sebagai contoh, kode bberikut akan menghapus semua tulisan yang akhir-akhir ini diterbitkan:
 
 ~~~
 [php]
@@ -639,7 +634,7 @@ Jika kita tidak melengkapi parameter 3 di atas, secara standar kita akan mengamb
 
 ### Standar Named Scope
 
-Kelas model dapat memiliki standar named scope yang akan diterapkan untuk semua queri (termasuk yang relasional) berkenaan dengan model. Sebagai contoh, website yang mendukung multi bahasa mungkin hanya ingin menampilkan konten yang ditetapkan oleh pengguna saat ini. Karena di sana ada banyak queri atas konten situs, kita dapat mendefinisikan standar named scope guna memecahkan masalah ini. Untuk melakukannya, kita meng-override metode [CActiveRecord::defaultScope] seperti berikut,
+Kelas model dapat memiliki standar named scope yang akan diterapkan untuk semua query (termasuk yang relasional) berkenaan dengan model. Sebagai contoh, website yang mendukung multi bahasa mungkin hanya ingin menampilkan konten yang ditetapkan oleh pengguna saat ini. Karena di sana ada banyak query atas konten situs, kita dapat mendefinisikan standar named scope guna memecahkan masalah ini. Untuk melakukannya, kita meng-override metode [CActiveRecord::defaultScope] seperti berikut,
 
 ~~~
 [php]
@@ -654,13 +649,13 @@ class Content extends CActiveRecord
 }
 ~~~
 
-Sekarang, jika metode di bawah ini dipanggil, Yii akan secara otomatis menggunakan kriteria queri seperti didefinisikan di atas:
+Sekarang, jika metode di bawah ini dipanggil, Yii akan secara otomatis menggunakan kriteria query seperti didefinisikan di atas:
 
 ~~~
 [php]
 $contents=Content::model()->findAll();
 ~~~
 
-Catatan bahwa standar named scope hanya berlaku pada queri `SELECT`. Named scope diabaikan untuk queri `INSERT`, `UPDATE` dan `DELETE`.
+Catatan bahwa standar named scope hanya berlaku pada query `SELECT`. Named scope diabaikan untuk query `INSERT`, `UPDATE` dan `DELETE`.
 
-<div class="revision">$Id: database.ar.txt 2771 2010-12-24 14:48:44Z alexander.makarow $</div>
+<div class="revision">$Id: database.ar.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

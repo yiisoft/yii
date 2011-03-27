@@ -233,7 +233,7 @@ while($dataReader->read()!==false)
 Używanie prefiksów w tabelach
 -----------------------------
 
-Poczynając od wersji 1.1.0, Yii dostarcza zintegrowanego wsparcia dla prefiksów tabel.
+Yii dostarcza zintegrowanego wsparcia dla prefiksów tabel.
 Prefiks tabeli to łańcuch znaków, który poprzedza nazwę tabel w bazie danych, 
 z którą jesteśmy połączeni. Prefiksów używa się najczęsciej we współdzielonych środowiku hostingowym, 
 gdzie wiele aplikacji dzieli jedną tabelę bazodanową i używa różnych prefiksów tabeli 
@@ -252,4 +252,4 @@ $sql='SELECT * FROM {{user}}';
 $users=$connection->createCommand($sql)->queryAll();
 ~~~
 
-<div class="revision">$Id: database.dao.txt 2266 2010-07-17 13:58:30Z qiang.xue $</div>
+<div class="revision">$Id: database.dao.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

@@ -3,6 +3,17 @@ Neue Features
 
 Diese Seite fasst die wesentlichen neuen Features jeder Yii-Version zusammen.
 
+Version 1.1.7
+-------------
+ * [REST-basierte URLs hinzugefügt](/doc/guide/topics.url#user-friendly-urls)
+ * [Abfragecache hinzugefügt](/doc/guide/caching.data#query-caching)
+ * [Bei Scopes mit verknüpften Abfragen können jetzt Parameter übergeben werden](/doc/guide/database.arr#relational-query-with-named-scopes)
+ * [Relationale Abfragen können jetzt ausgeführt werden, ohne verknüpfte Models auszulesen](/doc/guide/database.arr#performing-relational-query-without-getting-related-models)
+ * [HAS_MANY-through- und HAS_ONE-through- AR-Beziehungen hinzugefügt](/doc/guide/database.arr#relational-query-with-through)
+ * [Unterstützung für Transaktionen zu DB-Migrationen hinzugefügt](/doc/guide/database.migration#transactional-migrations)
+ * [Binden von Parametern für klassenbasierte Actions](/doc/guide/basics.controller#action-parameter-binding)
+ * Unterstützung für clientseitige Validierung zu [CActiveForm] hinzugefügt
+
 Version 1.1.6
 -------------
  * [Query Builder hinzugefügt](/doc/guide/database.query-builder)
@@ -70,76 +81,4 @@ Erstellen von Formularen.
 
  * Bei AR-Abfragen lautet der Alias für die Haupttabelle immer `t`.
 
-
-Version 1.0.11
---------------
-
- * URLs können auch mit parametrisierten Hostnamen erzeugt und ausgewertet werden
-     - [Parametrisierte Hostnamen](/doc/guide/topics.url#parameterizing-hostnames)
-
-
-Version 1.0.10
---------------
-
- * Modul-Logmeldungen können nun einfacher mit CPhpMessageSource übersetzt werden
-     - [Übersetzen von Textmeldungen](/doc/guide/topics.i18n#message-translation)
-
- * Als Event-Handler können nun auch anonyme Funktionen verwendet werden
-     - [Event](/doc/guide/basics.component#component-event)
-
-Version 1.0.8
--------------
-
- * Es können nun auch mehrere gecachete Werte auf einmal abgerufen werden
-	 - [Cachen von Daten](/doc/guide/caching.data)
-
- * Der neue Standard-RootAlias `ext` verweist auf das Verzeichnis mit
-anderen Erweiterungen
-	 - [Verwenden von Erweiterungen](/doc/guide/extension.use)
-
-Version 1.0.7
--------------
-
- * Logmeldungen können nun mit Informationen aus dem Aufrufstapel geloggt werden
-     - [Loggen von Kontextinformationen](/doc/guide/topics.logging#logging-context-information)
-
- * Mit der `index`-Option können relationale AR-Objekte nach einer bestimmten
-  Spalte indiziert werden
-     - [Optionen für relationale Abfragen](/doc/guide/database.arr#relational-query-options)
-
-Version 1.0.6
--------------
-
- * Scopes werden nun auch in `update`- und `delete`-Methoden unterstützt:
-     - [Scopes](/doc/guide/database.ar#named-scopes)
-
- * Scopes können nun auch in der `with`-Option von Beziehungsdefinitionen verwendet werden:
-     - [Relationale Abfragen mit benannten Scopes](/doc/guide/database.arr#relational-query-with-named-scopes)
-
- * SQL-Anweisungen können nun ebenfalls einer Performance-Analyse unterzogen werden
-     - [Perfomance-Analyse von SQL-Anweisungen](/doc/guide/topics.logging#profiling-sql-executions)
-
- * Logmeldungen können nun auch mit zusätzlichen Kontextinformationen geloggt werden 
-     - [Loggen von Kontextinformationen](/doc/guide/topics.logging#logging-context-information)
-
- * URL-Regeln können nun mit den Optionen urlFormat und caseSensitive weiter angepasst werden:
-     - [Benutzerfreundliche URLs](/doc/guide/topics.url#user-friendly-urls)
-
- * Fehler können nun auch über eine Controller-Action angezeigt werden:
-     - [Fehlerbehandlung mit einer Action](/doc/guide/topics.error#handling-errors-using-an-action)
-
-Version 1.0.5
--------------
-
- * ActiveRecord wurden um Scopes erweitert. Siehe:
-     - [Scopes](/doc/guide/database.ar#named-scopes)
-     - [Relationale Abfragen mit Scopes](/doc/guide/database.arr#relational-query-with-named-scopes)
-
-
- * ActiveRecord unterstützt nun Lazy Loading mit dynamischen Abfrageoptionen. Siehe:
-     - [Dynamische Optionen für relationale Abfragen](/doc/guide/database.arr#dynamic-relational-query-options)
-
- * [CUrlManager] unterstützt nun das Parametrisieren des Routenteils einer URL. Siehe:
-     - [Parametrisierte Routen in URL-Regeln](/doc/guide/topics.url#parameterizing-routes)
-
-<div class="revision">$Id: changes.txt 2701 2010-12-02 04:30:18Z qiang.xue $</div>
+<div class="revision">$Id: changes.txt 3116 2011-03-24 23:16:05Z alexander.makarow $</div>

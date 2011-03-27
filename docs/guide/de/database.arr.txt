@@ -18,7 +18,8 @@ Beziehungsmodell:
 > Info|Info: Je nach DBMS werden Fremdschlüssel-Constraints auf
 > unterschiedliche Arten unterstützt. So verwendet z.B. SQLite 
 > vor Version 3.6.19 keine Constraints. Man kann sie aber trotzdem
-> beim Erstellen einer Tabelle angeben.
+> beim Erstellen einer Tabelle angeben. MySQLs MyISAM-Engine kann gar keine
+> Constraints.
 
 Angeben von Beziehungen
 -----------------------
@@ -187,7 +188,7 @@ Dieses Beispiel liefert alle Beiträge zusammen mit ihrem Autor und den
 Kategorien zurück. Zusätzlich wird zu jedem Autor auch gleich sein Profil 
 sowie die Liste aller seiner Beiträge abgefragt.
 
-Seit Version 1.1.0 kann `eager loading` auch über die
+`Eager loading` kann auch über die
 [CDbCriteria::with]-Eigenschaft angestoßen werden:
 
 ~~~
@@ -214,6 +215,30 @@ $posts=Post::model()->findAll(array(
 );
 ~~~
 
+Relationale Abfragen ohne verknüpfte Models zu beziehen
+-------------------------------------------------------
+
+Manchmal müssen relationale Abfragen ausgeführt werden, ohne dass Daten
+aus den verknüpften Models (Tabellen) benötigt werden. Ein `User` könnte z.B.
+viele `Post`s (Beiträge) haben. Ein Beitrag kann entweder veröffentlicht sein,
+oder sich im Entwurfsmodus befinden, was über das Feld `published` im
+Post-Model festgelegt wird. Nun sei angenommen, man möchte alle Benutzer
+abfragen, die einen Beitrag veröffentlicht haben, ohne dass die Beiträge an
+sich weiter interessieren. Das erreicht man wie folgt:
+
+~~~
+[php]
+$users=User::model()->with(array(
+	'posts'=>array(
+		// von posts soll nichts geliefert werden:
+		'select'=>false,
+		// aber es sollen nur die Benutzer mit veröffentlichten Beiträgen
+		// gewählt werden:
+		'joinType'=>'INNER JOIN',
+		'condition'=>'posts.published=1',
+	),
+))->findAll();
+~~~
 
 Optionen für relationale Abfragen
 ---------------------------------
@@ -230,12 +255,11 @@ vereindeutigt werden.
 sollten vereindeutigt werden.
 
    - `params`: Parameter (als Name-Wert-Paare), die an die erzeugte SQL Abfrage gebunden werden
-sollen. Verfügbar seit Version 1.0.3.
+sollen. 
 
    - `on`: Zusätzliche `ON` Klausel, die an die JOIN-Kondition
 mit einem `AND` Operator angehängt werden soll. Die Spaltennamen sollten
 vereindeutigt werden. Bei `MANY_MANY`-Beziehungen wird diese Option ignoriert.
-Sie ist seit Version 1.0.2 verfügbar.
 
    - `order`: Die `ORDER BY` Klausel, standardmäßig leer. Spaltennamen
 sollten vereindeutigt werden. 
@@ -247,8 +271,7 @@ Option eine Endlosschleife entstehen kann.
    - `joinType`: Der Typ des JOINs für diese Beziehung. Der Standardwert ist `LEFT
 OUTER JOIN`.
 
-   - `alias`: Der Alias für die verknüpfte Tabelle. Diese Option ist seit Version 1.0.1 verfügbar. 
-Mit dem Standardwert `null` wird der Beziehungsname als Alias verwendet.
+   - `alias`: Der Alias für die verknüpfte Tabelle. Mit dem Standardwert `null` wird der Beziehungsname als Alias verwendet.
 
    - `together`: Ob ein JOIN der verknüpften Tabelle mit der Haupt- bzw. anderen Tabellen 
 erzwungen werden soll. Diese Option ist nur für `HAS_MANY` und `MANY_MANY` von Bedeutung.
@@ -261,7 +284,6 @@ Bleibt die Option leer, wird die verbundene Tabelle nur dann
 zusammen mit der Haupttabelle in einer einzigen Abfrage eingelesen, falls 
 diese keine Seitenblätterung verwendet. Für weitere Informationen 
 lesen Sie bitte auch den Abschnitt "Geschwindigkeit von relationalen Abfragen". 
-Diese Option ist seit Version 1.0.3 verfügbar.
 
    - `join`: Zusätzliche `JOIN`-Ausdrück, standardmäßig leer. Diese Option ist seit
 Version 1.1.3 verfügbar.
@@ -270,13 +292,13 @@ Version 1.1.3 verfügbar.
 sollten vereindeutigt werden.
 
    - `having`: Die `HAVING` Klausel, standarmäßig leer. Spaltennamen
-sollten vereindeutigt werden. Diese Option ist seit Version 1.0.1. verfügbar.
+sollten vereindeutigt werden. 
 
    - `index`: Der Spaltenname, deren Wert als Schlüssel für den Array mit
 relationalen Objekten verwendet werden soll. Wird diese Option nicht gesetzt, 
 wird ein 0-basierter ganzzahliger Index verwendet.
 Diese Option kann nur für `HAS_MANY`- und `MANY_MANY`-Beziehungen gesetzt
-werden. Diese Option ist seit Version 1.0.7 verfügbar.
+werden.
 
 Zusätzlich sind beim `lazy loading` folgende Optionen für bestimmte Beziehungen 
 verfügbar:
@@ -285,8 +307,11 @@ verfügbar:
 verwendet werden.
 
    - `offset`: Offset der abzufragenden Zeilen. Kann NICHT mit `BELONGS_TO`
-verwendet werden.   
-   
+verwendet werden.
+
+   - `through`: Name des Models das als Brücke zu den verknüpften Daten
+dienen soll. Kann nur mit `HAS_ONE` und `HAS_MANY` verwendet werden. Diese
+Option ist seit Version 1.1.7 verfügbar.
 
 Hier sehen Sie am Beispiel der `posts`-Beziehung in `User`, wie man einige dieser
 Optionen verwenden kann:
@@ -343,18 +368,12 @@ $posts=Post::model()->with('comments')->findAll(array(
 ));
 ~~~
 
-> Note|Hinweis: Die Art und Weise, wie Spaltennamen eindeutig angesprochen
-> werden, hat sich seit Version 1.1.0 geändert. In früheren 1.0.x-Versionen hat
-> Yii automatisch ein Alias für jede verknüpfte Tabelle erstellt und man
-> musste die Präfix `??.` als Platzhalter für diesen Alias verwenden. Der
-> Alias der Haupttabelle entsprach deren Namen.
-
 
 Dynamische Optionen für relationale Abfragen 
 --------------------------------------------
 
-Seit Version 1.0.2 kann man sowohl beim [with()|CActiveRecord::with]-Aufruf 
-als auch bei der `with`-Eigenschaft dynamische Optionen angeben. Diese 
+Sowohl beim [with()|CActiveRecord::with]-Aufruf 
+als auch bei der `with`-Eigenschaft kann man dynamische Optionen angeben. Diese 
 überschreiben dann jene Optionen, die fest in
 [relations()|CActiveRecord::relations] definiert wurden. Möchte man zum
 Beispiel beim obigen `User`-Model per `eager loading` gemeinsam alle Beiträge in
@@ -369,7 +388,7 @@ User::model()->with(array(
 ))->findAll();
 ~~~
 
-Seit Version 1.0.5 kann man auch beim `lazy loading` dynamisch Optionen
+Auch beim `lazy loading` kann man dynamisch Optionen
 überschreiben, indem man den Beziehungsnamen als Methode aufruft, und die
 dynamischen Optionen als Parameter übergibt. Dieser Aufruf liefert zum
 Beispiel alle Beiträge mit `status` 1 eines Benutzers:
@@ -430,25 +449,8 @@ Man kann diese Option auch dynamisch beim eager loading setzen:
 $posts = Post::model()->with(array('comments'=>array('together'=>false)))->findAll();
 ~~~
 
-> Note|Hinweis: In Version 1.0.x führt Yii bei `N` `HAS_MANY`- oder `MANY_MANY`-Beziehungen 
-> standardmäßig `N+1` SQL-Abfragen aus. Jede dieser Beziehungen führt also zu einer weiteren 
-> SQL-Abfrage. Um auch hier eine einzelne Abfrage zu erzwingen, kann man die `together()`-Methode 
-> nach `with()` aufrufen:
->
-> ~~~
-> [php]
-> $posts=Post::model()->with(
-> 	'author.profile',
-> 	'author.posts',
-> 	'categories')->together()->findAll();
-> ~~~
->
-
-
 Statistische Abfragen
 ---------------------
-
-> Note|Hinweis: Statistische Abfragen werden seit Version 1.0.4 unterstützt.
 
 Neben den oben beschriebenen relationalen Abfragen unterstützt Yii auch sogenannte
 statistische (auch: aggregierte) Abfragen. Damit können statistische
@@ -527,8 +529,6 @@ werden sollen. Sie müssen als Array aus Name-Wert-Paare angegeben werden.
 Relationale Abfragen mit Scopes
 -------------------------------
 
-> Note|Hinweis: Scopes werden seit Version 1.0.5 unterstützt.
-
 Auch relationale Abfragen können mit [Scopes](/doc/guide/database.ar#named-scopes) 
 kombiniert werden. Dabei unterscheidet man zwei Fälle: Scopes die auf das Hauptobjekt
 und Scopes die auf die verknüpften Objekte angewendet werden.
@@ -550,6 +550,20 @@ Bei verknüpften Objekten können Scopes so verwendet werden:
 ~~~
 [php]
 $posts=Post::model()->with('comments:kuerzlich:freigegeben')->findAll();
+// oder seit 1.1.7
+$posts=Post::model()->with(array(
+    'comments'=>array(
+        'scopes'=>array('kuerzlich','freigegeben')
+    ),
+))->findAll();
+// oder seit 1.1.7
+$posts=Post::model()->findAll(array(
+    'with'=>array(
+        'comments'=>array(
+            'scopes'=>array('kuerzlich','freigegeben')
+        ),
+    ),
+));
 ~~~
 
 Diese Abfrage liefert alle Beiträge zusammen mit ihren freigegebenen
@@ -574,10 +588,175 @@ class User extends CActiveRecord
 		);
 	}
 }
+
+// oder seit 1.1.7
+class User extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+		    'posts'=>array(self::HAS_MANY, 'Post', 'author_id',
+				'with'=>array(
+					'comments'=>array(
+						'scopes'=>'freigegeben'
+					),
+				),
+			),
+		);
+	}
+}
 ~~~
 
 > Note|Hinweis: Bei relationalen Abfragen können nur Scopes
 verwendet werden, die in [CActiveRecord::scopes] definiert wurden. Man kann
 daher keine parametrisierten Scopes verwenden.
 
-<div class="revision">$Id: database.arr.txt 2782 2010-12-28 16:18:06Z qiang.xue $</div>
+Seit Version 1.1.17 kann man auch bei verknüpften Objekten Scopes mit
+Parametern verwenden. Hat `Post` zum Beispiel einen Scope `bewertung` der eine
+Minimalbewertung als Parameter erwartet, kann man ihn von `User` wie folgt
+verwenden:
+
+~~~
+[php]
+$users=User::model()->findAll(array(
+	'with'=>array(
+		'posts'=>array(
+			'scopes'=>array(
+				'bewertung'=>5,
+			),
+		),
+	),
+));
+~~~
+
+Relationale Abfragen mit through
+--------------------------------
+
+Verwendet man `through`, sollte eine Beziehung wie folgt definiert sein:
+
+~~~
+[php]
+'name'=>array('beziehungsTyp', 'KlassenName', 'fremdSchluessel', 'through'=>'beziehungsName', ...weitere Optionen)
+~~~
+
+Hierbei ist `fremdSchluessel` der Name eines Schlüssels, der
+
+ - in einer Tabelle `beziehungsName` definiert ist
+ - auf eine Tabelle mit Daten für `KlassenName` verweist
+
+`through` kann mit `HAS_ONE` und `HAS_MANY` verwendet werden.
+
+### Through mit HAS_MANY
+
+![HAS_MANY through ER](has_many_through.png)
+
+Ein Beispiel für `HAS_MANY` mit `through` sind Benutzer in einer bestimmten
+Gruppe, falls ein Benutzer über Rollen zu einer Gruppe hinzugefügt wird.
+
+Ein komplizierteres Beispiel wären alle Kommenatre für Benutzer in einer
+bestimmten Gruppe zu beziehen. In diesem Fall müssen mehrere Beziehungen mit
+`through` in einem einzelnen Model verwendet werden:
+
+~~~
+[php]
+class Group extends CActiveRecord
+{
+   ...
+   public function relations()
+   {
+       return array(
+           'roles'=>array(self::HAS_MANY,'Role','group_id'),
+           'users'=>array(self::HAS_MANY,'User','user_id','through'=>'roles'),
+           'comments'=>array(self::HAS_MANY,'Comment','user_id','through'=>'users'),
+       );
+   }
+}
+~~~
+
+### Verwendungsbeispiele
+
+~~~
+[php]
+// Alle Gruppen mit allen zugehörigen Usern beziehen:
+$groups=Group::model()->with('users')->findAll();
+
+// Alle Gruppen mit allen zugehörigen Usern und Rollen beziehen
+$groups=Group::model()->with('roles','users')->findAll();
+
+// Alle User und Rollen beziehen, deren Group-ID 1 ist
+$group=Group::model()->findByPk(1);
+$users=$group->users;
+$roles=$group->roles;
+
+// Alle Kommentare beziehen, deren Group-ID 1 ist
+$group=Group::model()->findByPk(1);
+$comments=$group->comments;
+~~~
+
+### Through mit HAS_ONE
+
+![HAS_ONE through ER](has_one_through.png)
+
+Ein Beispiel für `HAS_ONE` mit `through` wären User-Adressen, die über ein
+Profil an User gebunden sind. All diese Einheiten (User, Profil und Adresse)
+haben entsprechende Models:
+
+~~~
+[php]
+class User extends CActiveRecord
+{
+   ...
+   public function relations()
+   {
+       return array(
+           'profile'=>array(self::HAS_ONE,'Profile','user_id'),
+           'address'=>array(self::HAS_ONE,'Address','profile_id','through'=>'profile'),
+       );
+   }
+}
+~~~
+
+### Verwendungsbeispiele
+
+~~~
+[php]
+// Adresse für den User mit ID 1 beziehen
+$user=User::model()->findByPk(1);
+$address=$user->address;
+~~~
+
+### through auf sich selbst
+
+`through` kann mit einem Model angewendet werden, dass per Brückenmodel auf
+sich selbst verweist. Im folgenden Beispiel unterrichten manche User andere
+User:
+
+![through self ER](through_self.png)
+
+In diesem Fall können Beziehungen wie folgt definiert werden:
+
+~~~
+[php]
+class User extends CActiveRecord
+{
+   ...
+   public function relations()
+   {
+       return array(
+           'mentorships'=>array(self::HAS_MANY,'Mentorship','teacher_id','joinType'=>'INNER JOIN'),
+           'students'=>array(self::HAS_MANY,'User','student_id','through'=>'mentorships','joinType'=>'INNER JOIN'),
+       );
+   }
+}
+~~~
+
+### Verwendungsbeispiele
+
+~~~
+[php]
+// Alle Schüler die von Lehrer mit ID 1 unterrichtet werden
+$teacher=User::model()->findByPk(1);
+$students=$teacher->students;
+~~~
+
+<div class="revision">$Id: database.arr.txt 3127 2011-03-26 12:21:47Z alexander.makarow $</div>

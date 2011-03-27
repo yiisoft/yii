@@ -1,7 +1,7 @@
 Dostosowywanie modelu wiadomości
 ======================
 
-Klasa wiadomości `Post`, wygenerowana przez narzędzie `yiic` musi zostać zmodyfikowana przede głównie w dwóch miejscach:
+Klasa wiadomości `Post`, wygenerowana przez narzędzie `Gii` musi zostać zmodyfikowana przede głównie w dwóch miejscach:
 
  - w metodzie `rules()`: określającej reguły sprawdzania poprawności dla atrybutów modelu;
  - w metodzie `relations()`: definiującej obiekty pokrewne;
@@ -12,7 +12,7 @@ Klasa wiadomości `Post`, wygenerowana przez narzędzie `yiic` musi zostać zmod
 Dostosowywanie metody `rules()`
 ----------------------------
 
-Najpierw określamy zasady sprawdzania poprawności, które pozwalają nam upewnić się, że wartości atrybutów wprowadzonych przez użytkownika są poprawne, zanim zostaną zapisane do bazy danych. Na przykład, atrybut `status` dla wiadomości `Post` powinien posiadać wartość 1, 2 lub 3. Narzędzie `yiic` również generuje zasady sprawdzania poprawności dla każdego modelu. Jednakże, reguły te bazują na informacjach o kolumnie tabeli i mogą być nieodpowiednie.
+Najpierw określamy zasady sprawdzania poprawności, które pozwalają nam upewnić się, że wartości atrybutów wprowadzonych przez użytkownika są poprawne, zanim zostaną zapisane do bazy danych. Na przykład, atrybut `status` dla wiadomości `Post` powinien posiadać wartość 1, 2 lub 3. Narzędzie `Gii` również generuje zasady sprawdzania poprawności dla każdego modelu. Jednakże, reguły te bazują na informacjach o kolumnie tabeli i mogą być nieodpowiednie.
 
 W oparciu o analizę potrzeb, modyfikujemy metodę `rules()` w następujący sposób:
 
@@ -197,4 +197,4 @@ class Post extends CActiveRecord
 Dlatego też możemy wywołać metodę `Lookup::items('PostStatus')` aby uzyskać listę możliwych statusów wiadomości (łańcuchy tekstowe indeksowane przez odpowiadające im wartości całkowite) jak również wywoływać metodę `Lookup::item('PostStatus', Post::STATUS_PUBLISHED)` aby otrzymać łańcuch reprezentujący status "opublikowany".
 
 
-<div class="revision">$Id: post.model.txt 2119 2010-05-10 01:27:29Z qiang.xue $</div>
+<div class="revision">$Id: post.model.txt 2922 2011-01-29 19:51:56Z alexander.makarow $</div>

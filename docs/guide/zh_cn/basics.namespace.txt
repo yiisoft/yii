@@ -50,16 +50,12 @@ Yii::import('system.web.CController');
 > Tip|提示: 当引用 Yii 框架定义的类时，我们不需要导入或包含它。所有的核心 Yii
 类都已被提前导入了。
 
-###Using Class Map
+###使用Class Map
 
-Starting from version 1.1.5, Yii allows user classes to be pre-imported via
-a class mapping mechanism that is also used by core Yii classes. Pre-imported
-classes can be used anywhere in a Yii application without being explicitly
-imported or included. This feature is most useful for a framework or library
-that is built on top of Yii.
+从1.1.5版本开始，Yii允许用户定义的类通过使Class Map机制来预先导入，这也是Yii内置类使用的方法。
+预先引入机制可以在Yii应用的任何地方使用，无需显式地导入或者包含文件。这个特性对于一个建立在Yii基础上的框架或者类库来说很有用。
 
-To pre-import a set of classes, the following code must be executed before
-[CWebApplication::run()] is invoked:
+若要使用预导入功能，要在[CWebApplication::run()]执行前执行下面的代码：
 
 ~~~
 [php]
@@ -70,7 +66,7 @@ Yii::$classMap=array(
 );
 ~~~
 
-Importing Directories
+导入目录
 ---------------------
 
 我们还可以使用如下语法导入整个目录，这样此目录下的类文件就会在需要时被自动包含。
@@ -94,20 +90,16 @@ Namespace
 鉴于此，所有的 Yii 框架类都以字母 'C'（意为 'Class'） 作前缀，这样它们可以区分于用户定义的类。我们建议前缀 'C'
 只保留给 Yii 框架使用，用户定义的类则使用其他的字母作前缀。
 
-Namespaced Classes
+使用命名空间的类
 ------------------
 
-A namespaced class refers to a class declared within a non-global namespace.
-For example, the `application\components\GoogleMap` class is declared within
-the namespace `application\components`. Using namespaced classes requires PHP 5.3.0 or above.
+使用命名空间的类是指一个在非全局命名空间下声明的类。比如说，类`application\components\GoogleMap`
+在命名空间`application\components`下的类。使用命名空间需要 PHP 5.3.0 或者以上版本。
 
-Starting from version 1.1.5, it is possible to use a namespaced class without
-including it explicitly. For example, we can create a new instance of
-`application\components\GoogleMap` without including the corresponding class file
-explicitly. This is made possible with the enhanced Yii class autoloading mechanism.
+从1.1.5开始，可以无需显式引入而使用一个包含命名空间的类。比如说，我们可以创建一个`application\components\GoogleMap`
+的实例而无需去处理引入的路径，这样就增强了Yii的自动导入机制。
 
-In order to be able to autoload a namespaced class, the namespace must be named in
-a way similar to naming a path alias. For example, the class `application\components\GoogleMap`
-must be stored in a file that can be aliased as `application.components.GoogleMap`.
+若要自动导入使用命名空间的类，命名空间的格式必须和路径别名相似。比如说，类`application\components\GoogleMap`
+所对应的路径必须和别名`application.components.GoogleMap`一致。
 
-<div class="revision">$Id: basics.namespace.txt 1774 2010-11-13 15:34:33Z HonestQiao $</div>
+<div class="revision">$Id$</div>

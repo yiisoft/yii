@@ -6,7 +6,7 @@ wiederholbar bleibt, führen wir ihn in einem wohldefinierten Zustand genannt
 *Fixture* (sinngem: festes Inventar) aus. Testen wir zum Beispiel das Anlegen
 eines Beitrags in einer Bloganwendung, sollten alle betroffenen Tabellen (z.B.
 `Post` und `Comment`) auf einen festen Zustand zurückgesetzt werden. In der
-[Dokumentation von PHPUnit](http://www.phpunit.de/wiki/Documentation) ist das
+[Dokumentation von PHPUnit](http://www.phpunit.de/manual/current/en/fixtures.html) ist das
 allgemeine Einrichten von Fixtures genau beschrieben. In diesem Abschnitt
 beschreiben wir, wie wir die eben beschriebenen Datenbankfixtures einrichten.
 
@@ -102,4 +102,4 @@ In den nächsten beiden Abschnitten beschreiben wir, wie die vom
 [CDbFixtureManager] verwalteten Fixtures in Unit- und Funktionstests verwendet
 werden.
 
-<div class="revision">$Id: test.fixture.txt 1148 2009-06-18 22:06:22Z qiang.xue $</div>
+<div class="revision">$Id: test.fixture.txt 3039 2011-03-09 19:48:15Z qiang.xue $</div>

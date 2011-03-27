@@ -16,7 +16,7 @@ Yii DAO terdiri dari empat kelas utama sebagai berikut:
 
    - [CDbConnection]: mewakili koneksi ke database.
    - [CDbCommand]: mewakili pernyataan SQL untuk dijalankan pada database.
-   - [CDbDataReader]: mewakili forward-only stream terhadap baris dari set hasil queri.
+   - [CDbDataReader]: mewakili forward-only stream terhadap baris dari set hasil query.
    - [CDbTransaction]: mewakili transaksi DB.
 
 Berikutnya, kami memperkenalkan pemakaian Yii DAO dalam skenario
@@ -90,8 +90,8 @@ menggunakan [CDbCommand]. Membuat instance [CDbCommand] dengan memanggil
 
 ~~~
 [php]
-$connection=Yii::app()->db;   // asumsi bahwa anda memiliki koneksi "db" yang terkonfigurasi
-// Jika tidak, anda bisa membuat sebuah koneksi secara eksplisit
+$connection=Yii::app()->db;   // asumsi bahwa Anda memiliki koneksi "db" yang terkonfigurasi
+// Jika tidak, Anda bisa membuat sebuah koneksi secara eksplisit
 // $connection=new CDbConnection($dsn,$username,$password);
 $command=$connection->createCommand($sql);
 // jika diperlukan, statement SQL dapat diupdate sebagai berikut
@@ -101,7 +101,7 @@ $command=$connection->createCommand($sql);
 Pernyataan SQL dijalankan via [CDbCommand] dalam dua cara
 berikut:
 
-   - [execute()|CDbCommand::execute]: melakukan pernyataan SQL non-queri,
+   - [execute()|CDbCommand::execute]: melakukan pernyataan SQL non-query,
 seperti `INSERT`, `UPDATE` and `DELETE`. Jika berhasil, mengembalikan
 sejumlah baris yang dipengaruhi oleh eksekusi
 
@@ -109,22 +109,22 @@ sejumlah baris yang dipengaruhi oleh eksekusi
 baris data, seperti `SELECT`. Jika berhasil,mengembalikan instance [CDbDataReader]
 yang dapat ditelusuri baris data yang dihasilkan. Untuk
 kenyamanan, satu set metode `queryXXX()` juga diimplementasikan yang secara
-langsung mengembalikan hasil queri.
+langsung mengembalikan hasil query.
 
 Exception akan dimunculkan jika kesalahan terjadi selama eksekusi pernyataan
 SQL.
 
 ~~~
 [php]
-$rowCount=$command->execute();   // jalankan SQL non-queri
-$dataReader=$command->query();   // jalankan queri SQL
-$rows=$command->queryAll();      // queri dan kembalikan seluruh baris hasil
+$rowCount=$command->execute();   // jalankan SQL non-query
+$dataReader=$command->query();   // jalankan query SQL
+$rows=$command->queryAll();      // query dan kembalikan seluruh baris hasil
 $row=$command->queryRow();       // query dan kembalikan baris pertama hasil
 $column=$command->queryColumn(); // query dan kembalikan kolom pertama hasil
 $value=$command->queryScalar();  // query dan kembalikan field pertama dalam baris pertama
 ~~~
 
-Mengambil Hasil Queri
+Mengambil Hasil Query
 ---------------------
 
 Setelah [CDbCommand::query()] membuat instance [CDbDataReader], Anda
@@ -145,21 +145,21 @@ $rows=$dataReader->readAll();
 
 > Note|Catatan: Tidak seperti [query()|CDbCommand::query], semua metode `queryXXX()`
 mengembalikan data secara langsung. Sebagai contoh, [queryRow()|CDbCommand::queryRow]
-mengembalikan array yang mewakili baris pertama pada hasil queri.
+mengembalikan array yang mewakili baris pertama pada hasil query.
 
 Menggunakan Transaksi
 ---------------------
 
-Ketika aplikasi menjalankan beberapa queri, setiap pembacaan dan/atau penulisan
+Ketika aplikasi menjalankan beberapa query, setiap pembacaan dan/atau penulisan
 informasi dalam database, penting untuk memastikan bahwa database tidak
-tertinggal dengan hanya beberapa queri yang dihasilkan. Transaksi diwakili
+tertinggal dengan hanya beberapa query yang dihasilkan. Transaksi diwakili
 oleh instance [CDbTransaction] dalam Yii, dapat diinisiasi dalam
 hal:
 
    - Mulai transaksi.
-   - Jalankan queri satu demi satu. Setiap pemutakhiran pada database tidak terlihat bagi dunia luar.
+   - Jalankan query satu demi satu. Setiap pemutakhiran pada database tidak terlihat bagi dunia luar.
    - Lakukan transaksi. Pemutakhiran menjadi terlihat jika transaksi berhasil.
-   - Jika salah satu queri gagal, seluruh transaksi dibatalkan.
+   - Jika salah satu query gagal, seluruh transaksi dibatalkan.
 
 Alur kerja di atas dapat diimplementasikan menggunakan kode berikut:
 
@@ -173,7 +173,7 @@ try
 	//.... eksekusi SQL lainnya
 	$transaction->commit();
 }
-catch(Exception $e) // exception dimunculkan jika queri gagal
+catch(Exception $e) // exception dimunculkan jika query gagal
 {
 	$transaction->rollBack();
 }
@@ -223,7 +223,7 @@ relevan](http://www.php.net/manual/en/pdostatement.bindparam.php).
 Mengikat Kolom
 --------------
 
-Ketika mengambil hasil queri, Anda dapat mengikat kolom ke variabel PHP
+Ketika mengambil hasil query, Anda dapat mengikat kolom ke variabel PHP
 dengan demikian hasil akan dipopulasi secara otomatis dengan data terbaru setiap kali
 baris diambil.
 
@@ -244,7 +244,7 @@ while($dataReader->read()!==false)
 Menggunakan Prefiks Tabel
 ------------------
 
-Mulai dari versi 1.1.0, Yii menyediakan dukungan terintegrasi untuk menggunakan
+Yii menyediakan dukungan terintegrasi untuk menggunakan
 prefiks tabel. Prefiks tabel merupakan sebuah string yang dipasang di depan  nama
 tabel yang sedang terkoneksi ke database. Kebanyakan digunakan pada lingkungan
 shared-hosting yang mana berbagai aplikasi saling pakai sebuah database dan menggunakan
@@ -263,4 +263,4 @@ $sql='SELECT * FROM {{user}}';
 $users=$connection->createCommand($sql)->queryAll();
 ~~~
 
-<div class="revision">$Id: database.dao.txt 2266 2010-07-17 13:58:30Z qiang.xue $</div>
+<div class="revision">$Id: database.dao.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

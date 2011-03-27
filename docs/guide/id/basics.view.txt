@@ -5,7 +5,7 @@ Tampilan (view) adalah skrip PHP yang berisi terutama elemen antar muka pengguna
 bisa saja berisi pernyataan PHP, tetapi direkomendasikan bahwa pernyataan ini
 tidak mengubah model data dan harus tetap relatif sederhana. Dalam rangka mempertahankan semangat
 pemisahan logika dan penampilan, bagian besar logika harus ditempatkan
-dalam kontroler atau model alih-alih view.
+dalam controller atau model alih-alih view.
 
 View  memiliki nama yang dipakai untuk mengidentifikasi file skrip tampilan
 saat me-render. Nama view sama seperti nama file skrip view-nya.
@@ -14,8 +14,8 @@ Sebagai contoh, tampilan `edit` merujuk pada file skrip bernama seperti
 nama tampilan. Metode tersebut akan mencari file view terkait di bawah direktori
 `protected/views/ControllerID`.
 
-Di dalam skrip view, kita dapat mengakses instance kontroler menggunakan
-`$this`. Selanjutnya kita bisa `menarik` setiap properti kontroler dengan
+Di dalam skrip view, kita dapat mengakses instance controller menggunakan
+`$this`. Selanjutnya kita bisa `menarik` setiap properti controller dengan
 mengevaluasi `$this->propertyName` dalam tampilan.
 
 Kita juga bisa menggunakan pendekatan `dorong` berikut guna mengoper data ke tampilan:
@@ -118,10 +118,10 @@ class MyWidget extends CWidget
 }
 ~~~
 
-Sama seperti halnya dengan kontroler, widget juga bisa memiliki tampilan sendiri. Standarnya, file
+Sama seperti halnya dengan controller, widget juga bisa memiliki tampilan sendiri. Standarnya, file
 tampilan widget ditempatkan di bawah subdirektori `views` pada direktori
 yang berisi file kelas widget. View ini dapat di-render dengan memanggil
-[CWidget::render()], mirip dengan pemanggilan kontroler. Perbedaannya adalah
+[CWidget::render()], mirip dengan pemanggilan controller. Perbedaannya adalah
 tidak ada tata letak(layout) yang akan diterapkan pada tampilan widget. Selain itu,
 `$this` dalam view juga merujuk ke instance widget alih-alih instance controller.
 
@@ -130,7 +130,7 @@ View Sistem
 ---------------
 
 View(tampilan) sistem merujuk pada tampilan yang dipakai oleh Yii untuk menampilkan kesalahan dan pencatatan(logging)
-informasi. Sebagai contoh, ketika permintaan pengguna untuk kontroler atau aksi 
+informasi. Sebagai contoh, ketika permintaan pengguna untuk controller atau aksi 
 yang tidak ada, Yii akan memunculkan exception yang menjelaskan kesalahan. Yii menampilkan
 exception menggunakan tampilan sistem tertentu.
 

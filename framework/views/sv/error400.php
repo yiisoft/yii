@@ -26,9 +26,6 @@ Vänligen repetera inte denna förfrågan omodifierad.
 <p>
 Vid misstanke om serverfel, kontakta <?php echo $data['admin']; ?>.
 </p>
-<p>
-Tack.
-</p>
 <div class="version">
 <?php echo date('Y-m-d H:i:s',$data['time']) .' '. $data['version']; ?>
 </div>

@@ -4,7 +4,7 @@ Aplikacja
 Aplikacja reprezentuje wykonanie kontekstu przetwarzanego żądania. 
 Jej głównym zadaniem jest rozszyfrowywanie żądania użytkownika oraz wysłanie 
 ich do odpowiedniego kontrolera w celu ich późniejszego przetworzenia. Służy ona również
-jako główne miejsce przechowywujące konfigurację na poziomie aplikacji. Z tego powodu,
+jako główne miejsce przechowujące konfigurację na poziomie aplikacji. Z tego powodu,
 aplikacja jest również nazywana `front-controller'em`.
 
 Aplikacja jest tworzona jako singleton przez [skrypt wejściowy](/doc/guide/basics.entry).
@@ -57,16 +57,16 @@ załadowania pozostałych plików konfiguracyjnych oraz złączamy je w jedną, 
 tablicę konfiguracyjną.
 
 
-Folder główny aplikacji (ang. Application Base Directory)
+Katalog główny aplikacji (ang. Application Base Directory)
 --------------------------
 
-Folder główny aplikacji wskazuje na katalog główny, który zawiera wszystkie 
+Katalog główny aplikacji wskazuje na katalog główny, który zawiera wszystkie 
 wrażliwe na bezpieczeństwo skrypty PHP oraz dane. Domyślnie, jest to podkatalog 
 nazwany `protected`, który znajduje się w katalogu zawierającym skrypt wejściowy.
 Można go dostosować do własnych potrzeb poprzez ustawienie właściwości  
 [basePath|CWebApplication::basePath] w [konfiguracji aplikacji](/doc/guide/basics.application#application-configuration).
 
-Dostęp do zawartości w folderze głównym aplikacji powinien być chroniony, tak by 
+Dostęp do zawartości w katalog głównym aplikacji powinien być chroniony, tak by 
 żaden użytkownik webowy nie miał do niego dostępu. Dla [serwera HTTP Apache](http://httpd.apache.org/)
 można to uczynić prosto poprzez umieszczenie pliku `.htaccess` w katalogu głównym. 
 Zawartość pliku `.htaccess` powinna być następująca:
@@ -148,20 +148,19 @@ Poniżej znajduje się lista tych rdzennych komponentów, które są predeklarow
    próbował uzyskać dostęp do tego komponentu.
 
    - [clientScript|CWebApplication::clientScript]: [CClientScript] - zarządza 
-   skryptami klienta (skrypty javascripts oraz CSS).
+   skryptami klienta (skrypty javascript oraz CSS).
 
    - [coreMessages|CApplication::coreMessages]: [CPhpMessageSource] - dostarcza 
-   przetłumaczone rdzennych komunikaty używane przez framework Yii.
+   tłumaczenia rdzennych komunikatów używanych przez framework Yii.
 
    - [db|CApplication::db]: [CDbConnection] - dostarcza połączenia z bazą danych. 
-   Zauważ, że musisz skonfigurować jego właściwość 
-   [connectionString|CDbConnection::connectionString] aby móc używać ten komponent.
+   Zauważ, że aby móc używać tego komponentu, musisz skonfigurować jego właściwość 
+   [connectionString|CDbConnection::connectionString].
 
    - [errorHandler|CApplication::errorHandler]: [CErrorHandler] - zarządza niezłapanymi
    błędami oraz wyjątkami PHP.
    
    - [format|CApplication::format]: [CFormatter] - formatuje wartości danych w celu wyświetlenia.
-   Udostępniono od wersji 1.1.0.   
 
    - [messages|CApplication::messages]: [CPhpMessageSource] - dostarcza przetłumaczone
    komunikaty używane przez aplikacje Yii.
@@ -214,4 +213,4 @@ Podczas przetwarzania żądania użytkownika aplikacja podlega następującemu c
 
    7. Zgłoszenie zdarzenia [onEndRequest|CApplication::onEndRequest];
 
-<div class="revision">$Id: basics.application.txt 2488 2010-09-20 11:38:02Z mdomba $</div>
+<div class="revision">$Id: basics.application.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

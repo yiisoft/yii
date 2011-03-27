@@ -2,7 +2,7 @@ Konwencje
 ===========
 
 Yii przedkłada konwencje nad konfiguracją. Stosując się do konwencji można stworzyć
-wyszukaną aplikację w Yii bez potrzeby pisania i zarządzania skomplikowanej konfiguracji.
+wyszukaną aplikację w Yii bez potrzeby pisania i zarządzania skomplikowaną konfiguracją.
 Oczywiście, Yii wciąż można dostosowywać prawie w każdym aspekcie za pomocą konfiguracji, 
 jeśli występuje taka potrzeba.
 
@@ -31,8 +31,8 @@ Funkcjonalność ta jest szczegółowo opisana w [Zarządzaniu adresami URL](/do
 Kod
 ----
 
-Yii zaleca nazywać zmienne, funkcje oraz typy klas stosując notację wielbłąda, w której 
-to pierwsza litera każdego słowa jest duża a słowa połączone są bez spacji. 
+Yii zaleca nazywać zmienne, funkcje oraz typy klas stosując notację wielbłądzią, w której 
+to pierwsza litera każdego słowa jest wielka a słowa połączone są bez spacji. 
 Nazwy zmiennych oraz funkcji powinny mieć pierwsze słowo zawsze pisane małą literą,
 w celu odróżnienia ich od nazw klas (np. `$basePath`, `runController()`, `LinkPager`). 
 Dla zmiennych prywatnych klasy zaleca się poprzedzić ich nazwy znakiem podkreślenia 
@@ -88,7 +88,7 @@ Katalogi
 Yii zakłada, że istnieje pewien zestaw katalogów używanych do różnych celów. 
 Każdy z nich może zostać zmieniony, jeśli występuje taka potrzeba:
 
-   - `WebRoot/protected`: jest to [główny folder aplikacji](/doc/guide/basics.application#application-base-directory) 
+   - `WebRoot/protected`: jest to [główny katalog aplikacji](/doc/guide/basics.application#application-base-directory) 
    zawierający wszystkie ważne ze względu na bezpieczeństwo skrypty PHP oraz
    pliki z danymi. Yii posiada domyślny alias nazwany `application` powiązany z tą ścieżką. 
    Katalog ten, oraz wszystko co się w nim znajduje powinny być zabezpieczone przed 
@@ -141,9 +141,9 @@ Większość aplikacji internetowych posiłkuje się bazami danych. Jako najleps
 
    - słowa w nazwie powinny być rozdzielone za pomocą podkreślenia (e.g. `product_order`).
 
-   - dla nazw tabeli, możesz używacz zarówno liczny pojedynczej jak i mnogiej, ale nie obu równocześnie. Dla prostoty, zalecamy używanie liczny pojedynczej.
+   - dla nazw tabeli, możesz używać zarówno liczby pojedynczej jak i mnogiej, ale nie obu równocześnie. Dla prostoty, zalecamy używanie liczby pojedynczej.
 
-   - nazwy tabel mogą być poprzedzone przez wspólny token, np. `tbl_`. Jest to szczególnie użyteczne kiedy tabele aplikacji współisnieją w tej samej bazie danych z tabelami innej aplikacji. Oba zestawy tabel mogą zostać z łatwością rozdzielone poprzez użycie różnych prefiksów dla nazw tabel.
+   - nazwy tabel mogą być poprzedzone przez wspólny token, np. `tbl_`. Jest to szczególnie użyteczne kiedy tabele aplikacji współistnieją w tej samej bazie danych z tabelami innej aplikacji. Oba zestawy tabel mogą zostać z łatwością rozdzielone poprzez użycie różnych prefiksów dla nazw tabel.
 
 
 <div class="revision">$Id: basics.convention.txt 2345 2010-08-28 12:51:08Z mdomba $</div>

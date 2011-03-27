@@ -44,24 +44,20 @@ ersättas med aktuella namn (t.ex. `post` motsvarar
 minus dess `action`-prefix. Exempelvis, om en kontrollerklass innehåller en 
 metod `actionEdit` så är ID för motsvarande åtgärd `edit`.
 
-> Note|Märk: Före version 1.0.3, var formatet för controller-ID `path.to.xyz`
-i stället för `path/to/xyz`.
-
 Användare begär körning av en viss kontroller och åtgärd genom att ange en 
 route. En route består av controller-ID samt action-ID separerat av ett 
 snedstreck. Exempel: `post/edit` refererar till `PostController` och 
 dess `edit`-åtgärd. Som standard refererar URL:en 
 `http://hostname/index.php?r=post/edit` till denna kontroller resp. åtgärd.
 
-> Note|Märk: Som standard är route skiftlägesberoende. Fr o m version 1.0.1, kan route 
-göras okänslig för skiftläge genom att inställningen 
-[CUrlManager::caseSensitive] sätts till false i applikationens konfiguration. I 
-detta läge, se till att följa konventionen att kataloger som innehåller 
-kontrollerklassfiler anges med gemener samt att både [controller 
-map|CWebApplication::controllerMap] och [action map|CController::actions] 
+> Note|Märk: Som standard är route skiftlägesberoende. Route kan göras okänslig 
+för skiftläge genom att inställningen [CUrlManager::caseSensitive] sätts till false i 
+applikationens konfiguration. I detta läge, se till att följa konventionen att 
+kataloger som innehåller kontrollerklassfiler anges med gemener samt att både 
+[controller map|CWebApplication::controllerMap] och [action map|CController::actions] 
 använder gemener i sina nyckelvärden.
 
-Fr o m version 1.0.3 kan en applikation innehålla [moduler](/doc/guide/basics.module). 
+En applikation kan innehålla [moduler](/doc/guide/basics.module). 
 En kontrolleråtgärd inuti en modul har en route på följande format 
 `moduleID/controllerID/actionID`. För fler detaljer hänvisas till 
 [avsnittet om moduler](/doc/guide/basics.module).
@@ -79,10 +75,9 @@ att bestämma kontrollerklass samt var dess klassfil är placerad.
 
    - Om begärt ID har formatet `'path/to/xyz'`, förmodas kontrollerklassen vara `XyzController` och motsvarande klassfil `protected/controllers/path/to/XyzController.php`. Exempelvis kontroller-ID `admin/user` löses upp som kontrollerklassen `UserController` med klassfilen `protected/controllers/admin/UserController.php`. Om klassfilen inte kan hittas ges en 404 [CHttpException].
 
-Om [moduler](/doc/guide/basics.module) används (tillgängligt fr o m version 1.0.3), 
-är ovanstående process aningen annorlunda. Mer detaljerat, applikationen kontrollerar 
-om ID:t refererar till en kontroller inuti en modul och om så är fallet skapas 
-modulinstansen först, därefter kontrollerinstansen.
+Om [moduler](/doc/guide/basics.module) används, är ovanstående process aningen annorlunda. 
+Mer detaljerat, applikationen kontrollerar om ID:t refererar till en kontroller 
+inuti en modul och om så är fallet skapas modulinstansen först, därefter kontrollerinstansen.
 
 
 Action
@@ -224,6 +219,21 @@ att konverteras till en array med strängen som innehåll.
 > mäste vara skalär (dvs inte en array). Om, i detta fall, en arrayparameter förmedlas via
 > `$_GET` leder det till en HTTP-exception.
 
+Med start från version 1.1.7, fungerar automatisk koppling av parametrar även för klassbaserade 
+åtgärder. När metoden `run()` i en åtgärdsklass deklareras med parametrar, kommer dessa att erhålla 
+värden från motsvarande namngivna request-parametrar. Till exempel,
+
+~~~
+[php]
+class UpdateAction extends CAction
+{
+	public function run($id)
+	{
+		// $id erhåller värde från $_GET['id']
+	}
+}
+~~~
+
 
 Filter
 ------
@@ -311,4 +321,4 @@ filtret `postOnly` på åtgärderna `edit` och `create`, medan `PerformanceFilte
 tillämpas på alla åtgärder UTOM `edit` och `create`. Om varken plus eller minus 
 förekommer i filterkonfigurationen tillämpas filtret på alla åtgärder.
 
-<div class="revision">$Id: basics.controller.txt 2672 2010-11-22 19:13:16Z qiang.xue $</div>
+<div class="revision">$Id: basics.controller.txt 3058 2011-03-13 04:20:12Z qiang.xue $</div>

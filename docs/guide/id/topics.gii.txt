@@ -6,7 +6,7 @@ Mulai dari versi 1.1.2, Yii sudah dilengkapi dengan sebuah code generator berbas
 Penggunaan Gii
 ---------
 
-Gii diimplementasi sebagai modul dan harus digunakan di dalam aplikasi Yii. Untuk menggunakan Gii, kita pertama-tama memodifikasi konfigurasi aplikasi sebagai berikut:
+Gii diimplementasi sebagai module dan harus digunakan di dalam aplikasi Yii. Untuk menggunakan Gii, kita pertama-tama memodifikasi konfigurasi aplikasi sebagai berikut:
 
 ~~~
 [php]
@@ -24,7 +24,7 @@ return array(
 );
 ~~~
 
-Pada kode di atas, kita mendeklarasi sebuah modul bernama `gii` yang merupakan instance dari kelas [GiiModule]. Kita juga menentukan sebuah password untuk modul yang akan ditanyakan ketika mengakses Gii.
+Pada kode di atas, kita mendeklarasi sebuah module bernama `gii` yang merupakan instance dari kelas [GiiModule]. Kita juga menentukan sebuah password untuk module yang akan ditanyakan ketika mengakses Gii.
 
 Secara default, Gii diatur supaya hanya dapat diakses di localhost saja demi alasan keamanan. Jika kita ingin membuatnya dapat diakses di komputer lain yang sudah dipercaya, kita dapat mengaturnya di properti [Gii::ipFilters] seperti yang ditunjukkan di kode di atas.
 
@@ -77,7 +77,7 @@ Sebuah code generator disimpan dalam sebuah direktori yang namanya diperlakukan 
 ~~~
 model/                       folder root dari model generator
    ModelCode.php             kode model yang digunakan untuk menghasilkan kode
-   ModelGenerator.php        kontroler dari code generator
+   ModelGenerator.php        controller dari code generator
    views/                    berisi skrip tilik(view) untuk generator
       index.php              default dari skrip tilik
    templates/                berisi kumpulan templat(template) kode

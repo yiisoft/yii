@@ -1,27 +1,26 @@
 Czym jest Yii
-============
+=============
 
 Yii jest bardzo wydajnym, opartym na komponentach frameworkiem PHP przeznaczonym
-do szybkiego tworzenia aplikacji webowych wielkiej skali. Pozwala na zwiększenie ponownego
-używania kodu (ang. maximum reusability) oraz w znaczącym stopniu przyspiesza proces
-tworzenia. Nazwa Yii (wymawiana jako `Yee` lub `[ji:]`) pochodzi od słów *łatwy*
+do szybkiego tworzenia aplikacji webowych wielkiej skali. Pozwala na częstsze
+używania tego samego kodu (ang. maximum reusability) a także w znaczącym stopniu przyspiesza proces
+tworzenia aplikacji. Nazwa Yii (wymawiana jako `Yee` lub `[ji:]`) pochodzi od słów *łatwy*
 (ang. easy), *wydajny* (ang. efficient) i *rozszerzalny* (ang. extensible).
 
 Wymagania
 ---------
 
-Aby uruchomić napisaną w Yii aplikację webową, potrzebujesz serwera www
+Aby uruchomić napisaną w Yii aplikację webową, potrzebujesz serwera WWW
 wspierającego PHP w wersji 5.1.0 lub wyższej.
 
-Dla developerów chcących używać Yii bardzo przydatne jest rozumienie
-koncepcji programowania obiektowego (OOP), ponieważ Yii jest czysto
-obiektowym frameworkiem.
+Dla programistów chcących używać Yii bardzo przydatne jest rozumienie
+koncepcji programowania obiektowego (OOP), ponieważ Yii jest frameworkiem czysto obiektowym.
 
 Do czego najlepiej nadaje się Yii?
 ----------------------------------
 
 Yii jest frameworkiem ogólnego zastosowania i dlatego może być użyty
-do utworzenia niemal dowolnego rodzaju aplikacji webowej. Ponieważ jest
+do utworzenia niemal dowolnego rodzaju aplikacji. Ponieważ jest
 lekki i wyposażony w wymyślne mechanizmy buforujące (ang. sophisticated caching solutions),
 szczególnie nadaje się do tworzenia aplikacji o dużym ruchu, takich jak portale,
 fora, systemy zarządzania treścią (CMS), systemy e-commerce, itp.
@@ -33,10 +32,10 @@ Jak większość frameworków PHP, Yii jest frameworkiem o architekturze MVC.
 
 Yii przewyższa inne frameworki PHP w zakresie wydajności, ogromu funkcji
 i przejrzystości dokumentacji. Od samego początku Yii został starannie
-zaprojektowany aby nadawać się do tworzenia poważnych aplikacji webowych.
+zaprojektowany aby nadawać się do tworzenia poważnych aplikacji.
 Nie jest produktem ubocznym, powstałym przy okazji innego projektu, ani też
 zlepkiem prac osób trzecich. Jest rezultatem dużego doświadczenia autora 
-w tworzeniu aplikacji webowych oraz jego badań i przemyśleń nad funkcjonowaniem 
+w tworzeniu aplikacji oraz jego badań i przemyśleń nad funkcjonowaniem 
 najpopularniejszych frameworków i aplikacji sieciowych.
 
 <div class="revision">$Id: quickstart.what-is-yii.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>

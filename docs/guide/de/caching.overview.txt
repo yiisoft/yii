@@ -45,7 +45,6 @@ von PHP.
 
    - [CXCache]: Verwendet die
 [XCache-Erweiterung](http://xcache.lighttpd.net/) von PHP.
-Beachten Sie, dass diese Komponente seit Version 1.0.1 zur Verfügung steht.
 
    - [CEAcceleratorCache]: Verwendet die
 [EAccelerator-Erweiterung](http://eaccelerator.net/) für PHP.
@@ -56,18 +55,16 @@ angelegt und verwendet. Man kann auch explizit eine Datenbank angeben, indem
 man [connectionID|CDbCache::connectionID] konfiguriert.
 
    - [CZendDataCache]: Verwendet den [Zend Data Cache](http://files.zend.com/help/Zend-Server-Community-Edition/data_cache_component.htm) als Cache-Medium.
-Dieses Feature steht seit Version 1.0.4 zur Verfügung.
 
    - [CFileCache]: Verwendet Dateien um gecachte Daten zu speichern. Dies
 eignet sich besonders zum Cachen umfangreicher Daten (z.B. ganzer Seiten).
-Dieses Feature steht seit Version 1.0.4 zur Verfügung.
 
    - [CDummyCache]: stellt einen Dummy-Cache bereit, der überhaupt nicht
 cacht. Diese Komponente bietet sich für die Entwicklungsphase an, damit nicht
 dauernd geprüft werden muss, ob eine Cachekomponente bereit steht. Stattdessen
 kann man z.B. `Yii::app()->cache->get($key)` aufrufen, ohne Gefahr zu laufen,
 dass `Yii::app()->cache` null ist.  Im Livebetrieb wird dann die eigentliche 
-Cachekomponente eingestellt. Diese Komponente ist seit Version 1.0.5 verfügbar.
+Cachekomponente eingestellt.
 
 > Tip|Tipp: Da alle Cachekomponenten von der selben Basisklasse [CCache]
 abgeleitet sind, kann auf eine andere Cache-Art umgestellt werden, ohne den
@@ -88,4 +85,4 @@ Es ist also niemals garantiert, dass ein bestimmter Wert im Cache existiert -
 selbst wenn dieser niemals verfallen sollte. Sie sollten daher keine
 beständige Daten im Cache speichern (also z.B. keine Sessiondaten).
 
-<div class="revision">$Id: caching.overview.txt 2769 2010-12-24 13:40:32Z alexander.makarow $</div>
+<div class="revision">$Id: caching.overview.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

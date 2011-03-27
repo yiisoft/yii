@@ -1,8 +1,6 @@
 Moduler
 =======
 
-> Note|Märk: Stöd för moduler har varit tillgängligt fr o m version 1.0.3.
-
 En modul är en komplett och oberoende mjukvaruenhet som består av [modeller](/doc/guide/basics.model), 
 [vyer](/doc/guide/basics.view), [kontrollrar](/doc/guide/basics.controller) samt andra stödkomponenter. 
 En modul motsvarar ur många aspekter en [applikation](/doc/guide/basics.application). Den huvudsakliga 
@@ -120,4 +118,4 @@ För att komma åt en kontrolleråtgärd i en barnmodul, använder vi följande 
 `parentModuleID/childModuleID/controllerID/actionID`.
 
 
-<div class="revision">$Id: basics.module.txt 2363 2010-08-29 02:35:15Z qiang.xue $</div>
+<div class="revision">$Id: basics.module.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

@@ -1,7 +1,7 @@
 * Początek
 	- [Przegląd](index)
     - [Nowe funkcjonalności](changes)
-	- [Migracja wersji 1.0 do 1.1](upgrade)
+	- [Migracja z wersji 1.0 do 1.1](upgrade)
     - [Czym jest Yii](quickstart.what-is-yii)
     - [Instalacja](quickstart.installation)
     - [Pierwsza aplikacja w Yii](quickstart.first-app)

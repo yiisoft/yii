@@ -4,9 +4,9 @@ Verwenden des Form-Builders
 Beim Erstellen von HTML-Formularen stellt man oft fest, dass in Views immer
 wieder ähnlicher Code auftaucht, den man aber nur schwer in anderen Projekten
 wiederverwenden kann. Für jedes Eingabefeld muss zum Beispiel immer ein Label
-generiert und die aufgetretenen Fehler angezeigt werden. Seit Version 1.1.0
-kann man dafür den Form-Builder (engl. sinngem. "Formularersteller")
-einsetzen, was die Wiederverwendbarkeit deutlich erhöht.
+generiert und die aufgetretenen Fehler angezeigt werden. Zwecks besserer
+Wiederverwendbarkeit kann man dafür den Form-Builder (engl. sinngem. "Formularersteller")
+einsetzen.
 
 
 Grundprinzip
@@ -536,4 +536,4 @@ noch fast genauso viel Code wie bisher braucht. Trotzdem kann sich der Einsatz
 lohnen, da das Formular in einer separaten Datei definiert wird und sich
 der Entwickler so besser auf die Logik konzentrieren kann.
 
-<div class="revision">$Id: form.builder.txt 2353 2010-08-28 20:45:26Z qiang.xue $</div>
+<div class="revision">$Id: form.builder.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

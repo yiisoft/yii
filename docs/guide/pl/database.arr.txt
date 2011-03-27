@@ -5,44 +5,19 @@ Dotychczas zobaczyliśmy jak używać Rekordu Aktywnego (AR) aby wybierać dane 
 tabeli bazodanowej. W tej sekcji opiszemy jak używać AR aby złączyć kilka powiązanych 
 tabel baz danych i zwrócić połączony zbiór danych. 
 
-W celu używania relacyjnego AR, wymagane jest, aby relacja dla obcego klucza głównego 
-była dobrze zdefiniowana pomiędzy tabelami, które będą łączone. AR bazuje na metadanych 
-tych relacji gdy decyduje jak połączyć tabele.
-
-> Note|Uwaga: Poczynając od wersji 1.0.1, możesz używać relacyjnego AR nawet jeśli
-> nie zdefiniowałeś kluczy obcych w swojej bazie danych.
+W celu używania relacyjnego AR, rekomendujemy aby zadekalrować ograniczenia postawowego klucza obcego
+dla tabel, które potrzebujemy złączać. Ograniczenia przyczynią się do zachowania
+spójności i integralności danych relacyjnych.
 
 Dla uproszczenia, będziemy używali schematu bazy danych pokazanego na następnym 
 diagramie zależności encji (ER) celem zilustrowania przykładów w tej sekcji.
 
 ![Diagram ER](er.png)
 
-> Info|Info: Wsparcie dla ograniczeń kluczy obcych różni sie w różnych DBMS.
->
+> Info|Info: Wsparcie dla ograniczeń kluczy obcych różni sie dla różnych DBMS.
 > SQLite < 3.6.19 nie wspiera ograniczeń kluczy obcych, lecz wciąż możesz deklarować
-> ograniczenia, podczas tworzenia tabel. AR może wykorzystać te deklaracje
-> aby prawidłowo wspierać relacyjne zapytania.
->
-> MySQL wspiera ograniczenia kluczy obcych gdy używany jest silnik InnoDB, 
-> w przeciwieństwie do silnika MyISAM. Zalecamy zatem używanie InnoDB dla twoich
-> baz danych MySQL.
-> Podczas używania MyISAM, możesz wykorzystać następujący trik
-> aby móc wykonywać relacyjne zapytania przy użyciu AR:
-> ~~~
-> [sql]
-> CREATE TABLE Foo
-> (
->   id INTEGER NOT NULL PRIMARY KEY
-> );
-> CREATE TABLE bar
-> (
->   id INTEGER NOT NULL PRIMARY KEY,
->   fooID INTEGER
->      COMMENT 'CONSTRAINT FOREIGN KEY (fooID) REFERENCES Foo(id)'
-> );
-> ~~~
-> Powyżej użyliśmy słowa kluczowego `COMMENT` aby opisać ograniczenia klucza obcego
-> co może zostać przeczytanie przez AR aby rozponać opisywaną relację.
+> ograniczenia, podczas tworzenia tabel. Silnik MyISAM w ogóle nie posiada wsparcia 
+> dla kluczy obcych.
 
 Deklarowanie relacji
 ----------------------
@@ -209,7 +184,7 @@ $posts=Post::model()->with(
 Powyższy przykład zwróci wszystkie posty razem z ich autorami oraz kategoriami. 
 Zwróci również dla każdego autora profil oraz posty.
 
-Poczynając od wersji 1.1.0, zachłanne ładowanie może zostać również wywołane poprzez
+Zachłanne ładowanie może zostać również wywołane poprzez
 określenie właściwości [CDbCriteria::with] w następujący sposób:
 
 ~~~
@@ -236,6 +211,31 @@ $posts=Post::model()->findAll(array(
 );
 ~~~
 
+
+Wykonywanie relacyjnych zapytań bez konieczności zwracania powiązanych modeli
+-----------------------------------------------------------------------------
+
+Czasami potrzebujemy wykonać zapytanie relacyjne ale nie potrzebujemy danych z powiązanych
+modeli. Załóżmy, że mamy użytkowników `User`, którzy utworzyli wiele postów `Post`. 
+Posty mogą być zarówno opublikowane jak i zapisane jako szkice. O tym stanie decyduje pole 
+`published` w modelu postu. Chcielibyśmy więc otrzymać listę wszystkich użytkowników,
+którzy opublikowali posty ale nie jesteśmy zainteresowani treścią tych postów. Możemy
+to osiągnąć w następujący sposób:
+
+~~~
+[php]
+$users=User::model()->with(array(
+	'posts'=>array(
+		// nie chcemy wybierać postów
+		'select'=>false,
+		// lecz chcemy dostać tylko użytkowników, którzy publikowali posty
+		'joinType'=>'INNER JOIN',
+		'condition'=>'posts.published=1',
+	),
+))->findAll();
+~~~
+
+
 Opcje zapytań relacyjnych
 ------------------------
 
@@ -251,12 +251,11 @@ do których się odwołujemy w tej opcji powinny zostać ujednoznacznione.
 do których się odwołujemy w tej opcji powinny zostać ujednoznacznione.
 
    - `params`: parametry, które zostaną przypięte do wygenerowanego wyrażenia SQL. 
-   Powinny zostać przekazane jako tablica par nazwa-wartość. Opcja ta jest dostępna 
-   od wersji 1.0.3.
+   Powinny zostać przekazane jako tablica par nazwa-wartość. 
 
    - `on`: klauzula `ON`. Warunki określone tutaj będą dołączone do warunków złączenia 
    przy użyciu operatora `AND`. Nazwy kolumn do których się odwołujemy w tej opcji 
-   powinny zostać ujednoznacznione. Opcja ta jest dostępna od wersji 1.0.2.
+   powinny zostać ujednoznacznione. 
 
    - `order`: klauzula `ORDER BY`. Nazwy kolumn do których się odwołujemy 
    w tej opcji powinny zostać ujednoznacznione
@@ -267,12 +266,11 @@ do których się odwołujemy w tej opcji powinny zostać ujednoznacznione.
 
    - `joinType`: typ złączenia dla relacji. Domyślna wartość to `LEFT OUTER JOIN`.
 
-   - `alias`: alias dla tablicy powiązanej z relacją. Opcja ta jest dostępna 
-   od wersji 1.0.1. Domyślnie posiada wartość null, co oznacza iż alias tablicy 
-   jest taki sam jak nazwa relacji.
+   - `alias`: alias dla tablicy powiązanej z relacją. Domyślnie posiada wartość null, 
+   co oznacza iż alias tablicy jest taki sam jak nazwa relacji.
    
    - `together`: używana jeśli tabele powiązane mają zostać zmuszone do połączenia się razem
-   z główną tabelą. Opcja ta ma znaczenie dla relacji `HAS_MANY` oraz `MANY_MANY`. 
+   z główną tabelą oraz pozostałymi tabelami. Opcja ta ma znaczenie dla relacji `HAS_MANY` oraz `MANY_MANY`. 
    Jeśli opcja ta ma wartość ustawioną jako false, wtedy tabela związana z relacją `HAS_MANY` 
    lub `MANY_MANY` zostanie połączona z tabelą główną w osobnym zapytaniu SQL, co może zwiększyć 
    ogólną wydajność zapytania, gdyż zwracana jest mniejsza ilość powtarzających się danych.
@@ -289,11 +287,10 @@ do których się odwołujemy w tej opcji powinny zostać ujednoznacznione.
 
    - `having`: klauzula `HAVING`. Domyślnie pusta. Nazwy kolumn  
 	do których się odwołujemy w tej opcji powinny zostać ujednoznacznione.
-	Uwaga, opcja ta jest dostępna od wersji 1.0.1.
    
    - `index`: nazwa kolumny, której wartość powinna zostać użyta jako klucz tablicy, która zawiera powiązane obiekty. 
    Bez ustawienia tej opcji, tablica obiektów powiązanych będzie używała indeksu całkowitoliczbowego rozpoczynającego się od liczby zero.
-   Opcja ta może zotać ustawiona tylko dla relacji `HAS_MANY` oraz `MANY_MANY`. Opcja ta jest dostępna od wesji 1.0.7.   
+   Opcja ta może zotać ustawiona tylko dla relacji `HAS_MANY` oraz `MANY_MANY`.
    
 Dodatkowo, następujące opcje są dostępne dla wybranych relacji podczas opóźnionego 
 ładowania:   
@@ -303,9 +300,12 @@ Dodatkowo, następujące opcje są dostępne dla wybranych relacji podczas opó�
 
    - `offset`: offset dla zwracanych wierszy. Opcja ta nie ma zastosowania 
    dla relacji `BELONGS_TO`.
+   
+   - `through`: nazwa relacji modelu, która będzie używany jako pomost 
+   podczas zwracania powiązanych danych. Opcja ta może zotać ustawiona tylko dla relacji `HAS_ONE` oraz `HAS_MANY`.
+   Opcja ta jest dostępna od wersji 1.1.7.
 
-  Poniżej zmodyfikujemy deklarację relacji `posts` w klasie `User` poprzez 
-  wybranie części z powyższych opcji.
+Poniżej zmodyfikujemy deklarację relacji `posts` w klasie `User` poprzez wybranie części z powyższych opcji.
 
 ~~~
 [php]
@@ -328,7 +328,7 @@ posortowanych malejąco wg czasu ich utworzenia. Każda instancja postu będzie
 również posiadała wczytaną odpowiadającą jej kategorię.
 
 Ujednoznacznianie nazw kolumn
----------------------------
+-----------------------------
 
 Kiedy nazwa kolumny pojawia się w dwóch lub więcej tabelach, które będą łączone 
 należy ją ujednoznacznić (rozróżnić). Robi się to poprzedzając nazwę kolumny
@@ -356,16 +356,11 @@ $posts=Post::model()->with('comments')->findAll(array(
 ));
 ~~~
 
-> Note|Uwaga: sposób ujednoznaczniania kolumn zmienił się od wersji 1.1.0. 
-> Poprzednie w wersji 1.0.x, Yii domyślnie generowało w sposób automatyczny 
-> alias tabeli sla każdej tabeli relacyjnej i musieliśmy używać prefiksu `??.` 
-> w celu odniesienia się do automatycznie wygenerowanego aliasu. Również, w wersji 
-> 1.0.x, alias nazwy tabeli głównej był nazwą samej tabeli.
 
 Dynamiczne opcje pytań relacyjnych
 --------------------------------
 
-Wraz z wersją 1.0.2 możemy używać dynamicznych opcji zapytań relacyjnych zarówno w metodzie 
+Możemy używać dynamicznych opcji zapytań relacyjnych zarówno w metodzie 
 [with()|CActiveRecord::with] jak i opcji `with`. Dynamiczne opcje nadpiszą istniejące 
 opcje tak jak zostało to określone w metodzie [relations()|CActiveRecord::relations].
 Na przykład, dla powyższego modelu `User`, jeśli chcemy używać techniki zachłannego ładowania
@@ -380,7 +375,7 @@ User::model()->with(array(
 ))->findAll();
 ~~~
 
-Poczynając od wersji 1.0.5, opcje dynamicznych zapytań mogą być również używane dla leniwego ładowania  
+Opcje dynamicznych zapytań mogą być również używane dla leniwego ładowania  
 w celu wykonywania zapytań relacyjnych. Aby to zrobić, powinniśmy wywołać metodę, której nazwa jest identyczna
 z nazwą relacji oraz przekazać opcje dynamicznego zapytania jako parametr metody. 
 Na przykład, następujący kod zwróci posty użytkownika, których `status` wynosi 1:
@@ -438,25 +433,9 @@ Możemy również dynamicznie ustawić tą opcję kiedy wykonujemy zachłanne ł
 $posts = Post::model()->with(array('comments'=>array('together'=>false)))->findAll();
 ~~~
 
-> Note|Uwaga: W wersji 1.0.x, domyślnym zachowaniem Yii jest generowanie i wykonywanie 
-> `N+1` zapytań SQL, jeśli występuje `N` relacji `HAS_MANY` lub `MANY_MANY`.
-> Każda relacja `HAS_MANY` lub `MANY_MANY` posiada swoje własne zapytanie SQL. Poprzez wywołanie 
-> metody `together()` po `with()`, możemy narzucić wygenerowania i wykonanie się tylko 
-> jednego zapytania SQL. Na przykład:
->
-> ~~~
-> [php]
-> $posts=Post::model()->with(
-> 	'author.profile',
-> 	'author.posts',
-> 	'categories')->together()->findAll();
-> ~~~
-
 
 Zapytania statystyczne (ang. Statistical Query)
 -----------------
-
-> Note|Uwaga: Zapytania statystyczne są wspierane od wersji 1.0.4
 
 Poza zapytaniami relacyjnymi opisanymi powyżej, Yii wspiera również tak zwane zapytania statystyczne (lub zapytania agregacyjne). Odnoszą się one do uzyskiwania agregowanych 
 informacji o powiązanych obiektach, takich jak liczba komentarzy dla każdego postu, średni ocena dla każdego produktu, itp. Zapytania statystyczne mogą być wykonywane dla obiektów   
@@ -520,8 +499,6 @@ do własnych potrzeb poprzez określenie dodatkowych opcji podczas deklarowania 
 Relacyjne zapytania z nazwanymi podzbiorami
 ----------------------------------
 
-> Note|Uwaga: Wsparcie dla nazwanych podzbiorów zostało wprowadzone wraz z wersją 1.0.5.
-
 Relacyjne zapytania mogą być wykonywane w połączeniu z [nazwanymi zbiorami](/doc/guide/database.ar#named-scopes).
 Rozróżniamy dwa przypadki. W pierwszym, nazwany podzbiór stosowany jest do głównego modelu. W drugim, nazwany podzbiór stosowany jest 
 do powiązanego modelu. 
@@ -541,6 +518,20 @@ Następujący kod pokazuje, jak zastosować nazwane podzbiory do modelu powiąza
 ~~~
 [php]
 $posts=Post::model()->with('comments:recently:approved')->findAll();
+// lub od 1.1.7
+$posts=Post::model()->with(array(
+    'comments'=>array(
+        'scopes'=>array('recently','approved')
+    ),
+))->findAll();
+// lub od 1.1.7
+$posts=Post::model()->findAll(array(
+    'with'=>array(
+        'comments'=>array(
+            'scopes'=>array('recently','approved')
+        ),
+    ),
+));
 ~~~
 
 Powyższe zapytanie zwróci wszystkie posty wraz z zatwierdzonymi komentarzami. Zauważ, że `comments` jest referencją 
@@ -562,10 +553,176 @@ class User extends CActiveRecord
 		);
 	}
 }
+
+// lub od 1.1.7
+class User extends CActiveRecord
+{
+	public function relations()
+	{
+		return array(
+		    'posts'=>array(self::HAS_MANY, 'Post', 'author_id',
+				'with'=>array(
+					'comments'=>array(
+						'scopes'=>'approved'
+					),
+				),
+			),
+		);
+	}
+}
 ~~~
 
-> Note|Uwaga: Nazwane podzbiory zastosowane dla modelów w relacji muszą zostać określone
-w [CActiveRecord::scopes]. W rezultacie, nie mogą one zostać sparametryzowane.
+> Note|Uwaga: Nazwane podzbiory zastosowane do powiązanych modeli muszą być określone w CActiveRecord::scopes.
+> W wyniku tego, nie mogą one zostać sparametryozwane.
+
+Poczynając od wersji 1.1.7 pożliwe jest przekazywanie parametrów do ralacyjnych nazwanych podzbiorów.
+Na przykład, jeśli posiadasz podzbiór o nazwie `rated` w modelu `Post`, który określa miminalną ocenę
+postu, możesz go używać z poziomu klasy użytkownika `User` w następujący sposób:
+
+~~~
+[php]
+$users=User::model()->findAll(array(
+	'with'=>array(
+		'posts'=>array(
+			'scopes'=>array(
+				'rated'=>5,
+			),
+		),
+	),
+));
+~~~
+
+Zapytania relacyjne z użyciem pomostu (ang. through)
+----------------------------------------------------
+
+W przypadky korzystania z `through`, definicja relacji powinna wyglądać w następujący sposób:
+
+~~~
+[php]
+'relationName'=>array('relationType', 'ClassName', 'foreign_key', 'through'=>'throughRelationName', ...dodatkowe opcje)
+~~~
+
+W powyższym przykładzie wartość `foreign_key` jest nazwą klucza, który:
+
+  - jest zdefiniowany w tabeli określonej poprzez `throughRelationName`.
+  - wskazuje na tabelę przechowującą dane dla modelu `ClassName`.
+
+Pomost `through` można używać z relacjami typu `HAS_ONE` oraz `HAS_MANY`.
+
+### Pomosty w HAS_MANY
+
+![Diagram relacji encji dla pomostów w HAS_MANY](has_many_through.png)
+
+Przykładem relacji `HAS_MANY` z pomostem `through` jest zwracanie użytkowników danej grupy 
+jeśli są oni przypisani do nich poprzez role.
+
+Trochę bardziej skomplikowanym przykładem jest zwracanie wszyskich komentarzy dla 
+wszystkich użytkowników danej grupy. W takim przypadku musimy użyć kilku relacji z
+pomostem `through` w jednym modelu:
+
+~~~
+[php]
+class Group extends CActiveRecord
+{
+   ...
+   public function relations()
+   {
+       return array(
+           'roles'=>array(self::HAS_MANY,'Role','group_id'),
+           'users'=>array(self::HAS_MANY,'User','user_id','through'=>'roles'),
+           'comments'=>array(self::HAS_MANY,'Comment','user_id','through'=>'users'),
+       );
+   }
+}
+~~~
+
+#### Przykłady użycia
+
+~~~
+[php]
+// zwtóć wszystkie grupy wraz z odpowiadającymi im użytkownikami
+$groups=Group::model()->with('users')->findAll();
+
+// zwróć wsztystkie grupy wraz z odpowiadającymi im użytkownikami i rolami
+$groups=Group::model()->with('roles','users')->findAll();
+
+// zwróć wszystkich użytkowników i role gdzie ID grupy to 1
+$group=Group::model()->findByPk(1);
+$users=$group->users;
+$roles=$group->roles;
+
+// zwróć wszystkie komentarze gdzie ID grupy to 1
+$group=Group::model()->findByPk(1);
+$comments=$group->comments;
+~~~
 
 
-<div class="revision">$Id: database.arr.txt 2782 2010-12-28 16:18:06Z qiang.xue $</div>
+### Pomosty w HAS_ONE
+
+![Diagram relacji encji dla pomostów w HAS_ONE](has_one_through.png)
+
+Przykładem relacji `HAS_ONE` z pomostem `through` jest zwracanie adresu użytkownika
+gdy adres jest przypisane do użytkownika poprzez profil. Wszystkie 
+user is bound to address using profile. Każdy z tych bytów (użytkownik, profil oraz adres)
+posiada odpowiadające im modele:
+
+~~~
+[php]
+class User extends CActiveRecord
+{
+   ...
+   public function relations()
+   {
+       return array(
+           'profile'=>array(self::HAS_ONE,'Profile','user_id'),
+           'address'=>array(self::HAS_ONE,'Address','profile_id','through'=>'profile'),
+       );
+   }
+}
+~~~
+
+#### Przykłady użycia
+
+~~~
+[php]
+// zwróć adres użytkownika o ID równym 1
+$user=User::model()->findByPk(1);
+$address=$user->address;
+~~~
+
+
+### pomost wskazujący na własny model
+
+Pomost `through` może być używany w modelu wiążącym się z samym sobą za pomocą pomostowego modelu. W naszym przypadku
+jest to użytkownik będący mentorem innego użytkownika:
+
+
+![Diagram relacji encji dla pomostów wskazujących na własny model](through_self.png)
+
+W takim przypadku możemy określić relacje następująco:
+
+~~~
+[php]
+class User extends CActiveRecord
+{
+   ...
+   public function relations()
+   {
+       return array(
+           'mentorships'=>array(self::HAS_MANY,'Mentorship','teacher_id','joinType'=>'INNER JOIN'),
+           'students'=>array(self::HAS_MANY,'User','student_id','through'=>'mentorships','joinType'=>'INNER JOIN'),
+       );
+   }
+}
+~~~
+
+#### Przykłady użycia
+
+~~~
+[php]
+// zwróć wszystkich studentów prowadzonych przez nauczyciela o ID równym 1
+$teacher=User::model()->findByPk(1);
+$students=$teacher->students;
+~~~
+
+<div class="revision">$Id: database.arr.txt 3127 2011-03-26 12:21:47Z alexander.makarow $</div>

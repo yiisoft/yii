@@ -46,5 +46,26 @@ $lucene=new Zend_Search_Lucene($pathOfIndex);
 $hits=$lucene->find(strtolower($keyword));
 ~~~
 
+Verwenden von Yii in anderen Systemen
+-------------------------------------
 
-<div class="revision">$Id: extension.integration.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>
+Man kann Yii kann auch als eigenständige Bibliothek verwenden, die einen bei
+der Entwicklung und Verbesserung von Drittsystemen wie WordPress oder Joomla
+unterstützt. Dazu wird folgender Ladecode in das Drittsystem eingebunden:
+
+~~~
+[php]
+require_once('path/to/yii.php');
+Yii::createWebApplication('path/to/config.php');
+~~~
+
+Das ist fast der selbe Code, wie ihn auch eine typische Yii-Anwendung
+verwendet. Allerdings mit dem Unterschied, dass hier nicht die Methode
+`run()` auf dem erstellten Anwendungsobjekt aufgerufen wird.
+
+Ab nun kann man die meisten Yii-Features auch im Fremdsystem verwenden. Über
+`Yii::app()` lässt sich zum Beispiel auf die Anwendungsinstanz zugreifen. Auch
+Datenbankfeatures wie DAO und ActiveRecord stehen zur Verfügung. Ebenso Models
+und deren Validierungsfeature und vieles mehr.
+
+<div class="revision">$Id: extension.integration.txt 2953 2011-02-11 15:52:21Z qiang.xue $</div>

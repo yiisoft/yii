@@ -1,11 +1,9 @@
 Moduł
 ======
 
-> Note|Uwaga: Wsparcie dla modułów zostało dodane od wersji 1.0.3.
-
 Moduł jest samowystarczalną jednostką aplikacji, która zawiera [modele](/doc/guide/basics.model), 
 [widoki](/doc/guide/basics.view), [kontrolery](/doc/guide/basics.controller) oraz inne 
-wpierające komponenty. W wielu aspektach, moduły przypominają [aplikację](/doc/guide/basics.application). 
+wspierające komponenty. W wielu aspektach, moduły przypominają [aplikację](/doc/guide/basics.application). 
 Główna różnica jest taka, że moduł nie może istnieć sam i musi rezydować 
 w aplikacji. Użytkownicy posiadają dostęp do kontrolerów w modułach w ten sam sposób
 jak w kontrolerze aplikacji. 
@@ -19,9 +17,9 @@ wykorzystać w przyszłych projektach.
 Tworzenie modułu
 ---------------
 
-Moduł jest zorganizowany w folderze, którego nazwa służy jako jego unikalne [ID|CWebModule::id].
-Struktura folderu modułu jest podobna do tej z 
-[folderu głównego aplikacji](/doc/guide/basics.application#application-base-directory).
+Moduł jest zorganizowany w katalogu, którego nazwa służy jako jego unikalne [ID|CWebModule::id].
+Struktura katalogów modułu jest podobna do tej z 
+[katalogu głównego aplikacji](/doc/guide/basics.application#application-base-directory).
 Poniżej pokażemy typową strukturę modułu nazwanego `forum`:
 
 ~~~
@@ -41,22 +39,20 @@ forum/
 
 Moduł musi posiadać klasę modułu, która dziedziczy z [CWebModule]. Nazwa klasy zależy
 od wyniku wyrażenia `ucfirst($id).'Module'`, gdzie `$id` odpowiada ID modułu 
-(lub folderowi modułu). Klasa modułu służy jako główne miejsce dla przechowywania 
+(lub katalogowi modułu). Klasa modułu służy jako główne miejsce dla przechowywania 
 informacji współdzielonych wewnątrz kodu modułu. Na przykład, możemy użyć [CWebModule::params] 
 do przechowywania parametrów modułu oraz [CWebModule::components] do dzielenia 
 [komponentów aplikacji](/doc/guide/basics.application#application-component) na poziomie 
 modułu. 
 
-> Tip: We can use the module generator in Gii to create the basic skeleton of a new module.
-
-> Tip|Wskazówka: Możemy używać generatora modułów zawartego w Gii aby utworzyć podstawowy szkielet nowego modułu.
+> Tip|Wskazówka: Aby utworzyć podstawowy szkielet nowego modułu możemy używać generatora modułów zawartego w Gii.
 
 
 Używanie modułów
 ------------
 
 Aby używać modułu, najpierw umieść moduł w katalogu `modules` w 
-[folderze głównym aplikacji](/doc/guide/basics.application#application-base-directory). 
+[katalogu głównym aplikacji](/doc/guide/basics.application#application-base-directory). 
 Następnie zadeklaruj ID modułu we właściwości [modules|CWebApplication::modules] aplikacji. 
 Na przykład, w celu używania powyższego modułu `forum`, możemy używać następującej
 [konfiguracji aplikacji](/doc/guide/basics.application#application-configuration):
@@ -118,11 +114,11 @@ Na przykład, zakładając, że kontroler `PostController` znajduje się wewnąt
 Zagnieżdżone moduły
 -------------
 
-Liczba zagnieżdzeń modułów jest nieograniczone. Oznacza to, że jeden moduł może posiadać inne moduły,
+Liczba zagnieżdzeń modułów jest nieograniczona. Oznacza to, że jeden moduł może posiadać inne moduły,
 które mogą posiadać kolejne moduły. Pierwszego nazywamy *modułem rodzica* a drugiego *modułem dziecka*. Moduły dzieci muszą zostać zadeklarowane we właściwości [modules|CWebModule::modules] swego rodzica,
-w taki sam sposób jak moduły w configuracji aplikacji z wcześniejszych przykładów.
+w taki sam sposób jak moduły w konfiguracji aplikacji z wcześniejszych przykładów.
 Aby uzyskać dostęp do akcji modułu dziecka, powinniśmy skorzystać z trasy
 `IDModułuRodzica/IDModułuDziecka/IDKontrolera/IDAkcji`.
 
 
-<div class="revision">$Id: basics.module.txt 2363 2010-08-29 02:35:15Z qiang.xue $</div>
+<div class="revision">$Id: basics.module.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

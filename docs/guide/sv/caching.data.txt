@@ -48,10 +48,9 @@ intelligent nog att åtskilja ID:n tillhörande skilda applikationer.
 
 Vissa cachelagringar, så som MemCache, APC, stöder återhämtning av multipla
 cachelagrade värden genom ett satsvis arbetssätt, vilket kan reducera
-onödig resursanvändning vid återhämtning av cachelagrad data. Med start fr o m 
-version 1.0.8, tillhandahålls en ny metod, [mget()|CCache::mget], för att dra 
-nytta av finessen. I händelse av att den underliggande cachelagringen inte stöder
-nämnda finess, simuleras den av [mget()|CCache::mget].
+onödig resursanvändning vid återhämtning av cachelagrad data. Metoden [mget()|CCache::mget] 
+finns tillgänglig för detta ändamål. I händelse av att den underliggande cachelagringen 
+inte stöder nämnda finess, simuleras den av [mget()|CCache::mget].
 
 För att ta bort ett cachat värde, anropa [delete()|CCache::delete]; för att ta 
 bort allting från cache, anropa [flush()|CCache::flush]. Var mycket försiktig 
@@ -103,6 +102,142 @@ Nedan följer en sammanställning av tillgängliga cacheberoenden:
    - [CChainedCacheDependency]: beroendet ändras om något av beroendena i kedjan förändras.
 
    - [CExpressionDependency]: beroendet ändras om värdet av det specificerade PHP-uttrycket ändras. 
-Denna klass har varit tillgänglig fr o m version 1.0.4.
 
-<div class="revision">$Id: caching.data.txt 1855 2010-03-04 22:42:32Z qiang.xue $</div>
+
+Cachning av databasfrågor
+-------------------------
+
+Sedan version 1.1.7, har Yii stöd för cachning av databasfrågor.
+Med hjälp av datacachning lagrar frågecachning resultatet av en DB-fråga 
+och kan på så vis spara exekveringstid i databasen för en fråga som upprepas senare, 
+eftersom den kan hämtas direkt från cache.
+
+> Info: Vissa DBMS (t.ex. [MySQL](http://dev.mysql.com/doc/refman/5.1/en/query-cache.html))
+> stöder även frågecachning i databasservern. Jämfört med denna frågecachning i server, är
+> finessen som avhandlas här mer flexibel samt har potential att vara mer effektiv.
+
+
+### Aktivera frågecachning
+
+För att aktivera frågecachning, tillse att [CDbConnection::queryCacheID] refererar till ID för en 
+giltig cache-applikationskomponent (standardvärde `cache`).
+
+
+### Använda frågecachning med DAO
+
+För att använda frågecachning, anropa metoden [CDbConnection::cache()] när DB-frågor genomförs.
+Följande är ett exempel:
+
+~~~
+[php]
+$sql = 'SELECT * FROM tbl_post LIMIT 20';
+$dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM tbl_post');
+$rows = Yii::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
+~~~
+
+När ovanstående programsatser körs, kommer Yii att först att undersöka om det finns 
+ett giltigt resultat i cache för den SQL-sats som skall exekveras. Det sker genom att 
+följande tre villkor kontrolleras:
+
+- cache innehåller en post indexerad av aktuell SQL-sats.
+- postens giltighetstid ej överskriden (mindre än 1000 sekunder sedan den först sparades i cache).
+- dess dependency ej ändrad (maxvärdet av `update_time` oförändrat sedan frågeresultatet sparades i cache).
+
+Om samtliga villkor ovan är uppfyllda, kommer det cachelagrade resultatet att returneras.
+I annat fall skickas SQL-satsen till databasservern för exekvering och tillhörande resultat lagras 
+i cache, samt returneras.
+
+
+### Använda frågecachning med ActiveRecord
+
+Frågecachning kan även användas med [Active Record](/doc/guide/database.ar).
+För att göra detta anropas en snarlik metod [CActiveRecord::cache()] på följande sätt:
+
+~~~
+[php]
+$dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM tbl_post');
+$posts = Post::model()->cache(1000, $dependency)->findAll();
+// relationell AR-fråga
+$posts = Post::model()->cache(1000, $dependency)->with('author')->findAll();
+~~~
+
+Metoden `cache()` här, är i praktiken en genväg till [CDbConnection::cache()].
+Internt, vid exekvering av SQL-satsen som ActiveRecord genererat, kommer Yii 
+att försöka använda frågecachning så som beskrivits i förra delavsnittet.
+
+
+### Cachning av multipla frågor
+
+Som standard gäller att ett anrop till metoden `cache()` (i antingen [CDbConnection] eller [CActiveRecord]),
+medför att nästa SQL-sats markeras för cachning. Varje annan SQL-fråga kommer INTE att cachelagras, 
+såvida inte `cache()` anropas igen. Till exempel,
+
+~~~
+[php]
+$sql = 'SELECT * FROM tbl_post LIMIT 20';
+$dependency = new CDbCacheDependency('SELECT MAX(update_time) FROM tbl_post');
+
+$rows = Yii::app()->db->cache(1000, $dependency)->createCommand($sql)->queryAll();
+// frågecachning kommer INTE att användas
+$rows = Yii::app()->db->createCommand($sql)->queryAll();
+~~~
+
+Genom att lämna med en extra `$queryCount`-parameter till metoden `cache()`, kan vi 
+framtvinga frågecachning av multipla frågor. När vi i följande exempel anropar `cache()`, 
+specificeras att frågecachning skall användas för de två följande frågorna:
+
+~~~
+[php]
+// ...
+$rows = Yii::app()->db->cache(1000, $dependency, 2)->createCommand($sql)->queryAll();
+// frågecachning KOMMER ATT användas
+$rows = Yii::app()->db->createCommand($sql)->queryAll();
+~~~
+
+Som bekant är det möjligt att flera SQL-frågor exekveras när en relationell AR-fråga 
+genomförs (möjlig att kontrollera i [loggmeddelanden](/doc/guide/topics.logging)).
+Till exempel, om sambandet mellan `Post` och `Comment` är `HAS_MANY`, 
+kommer följande kod att faktiskt exekvera två DB-frågor:
+
+- first selekteras posterna med antal begränsat till 20;
+- därefter hämtas kommentarerna som tillhör de tidigare selekterade posterna.
+
+~~~
+[php]
+$posts = Post::model()->with('comments')->findAll(array(
+	'limit'=>20,
+));
+~~~
+
+Om vi använder frågecachning på följande sätt kommer endast den första DB-frågan att cachelagras:
+
+~~~
+[php]
+$posts = Post::model()->cache(1000, $dependency)->with('comments')->findAll(array(
+	'limit'=>20,
+));
+~~~
+
+För att cachelagra båda DB-frågorna behöver vi lämna med den extra parametern som indikerar 
+hur många DB-frågor vi vill cachelagra härnäst:
+
+~~~
+[php]
+$posts = Post::model()->cache(1000, $dependency, 2)->with('comments')->findAll(array(
+	'limit'=>20,
+));
+~~~
+
+
+### Begränsningar
+
+Frågecachning fungerar inte med frågeresultat som innehåller resursidentifierare (resource handles). 
+Till exempel, när kolumntypen `BLOB` används i vissa DBMS, kommer frågeresultatet att returnera 
+en resursidentifierare som kolumndata.
+
+Somliga cachelagringsmetoder har begränsningar i minnesstorlek. Till exempel memcache begränsar 
+storleken på varje post till 1MB. Om ett frågeresultat överskrider denna maxstorlek kommer 
+cachelagringen att misslyckas.
+
+
+<div class="revision">$Id: caching.data.txt 3125 2011-03-25 17:05:31Z qiang.xue $</div>

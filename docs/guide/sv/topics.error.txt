@@ -94,9 +94,8 @@ katalog.
 Felhantering med hjälp av en Åtgärd
 -----------------------------------
 
-Från och med version 1.0.6 tillåter Yii att man använder en 
-[kontrolleråtgärd](/doc/guide/basics.controller#action) för att hantera uppgiften 
-felpresentation. För att åstadkomma detta skall felhanteringskomponenten i 
+Yii tillåter att man använder en [kontrolleråtgärd](/doc/guide/basics.controller#action) 
+för att hantera uppgiften felpresentation. För att åstadkomma detta skall felhanteringskomponenten i 
 applikationskonfigurationen konfigureras på följande sätt:
 
 ~~~
@@ -158,4 +157,4 @@ kategori). Man kan därför dra fördel av finessen
 [loggning](/doc/guide/topics.logging) till att monitorera fel som inträffat när 
 applikationen kördes.
 
-<div class="revision">$Id: topics.error.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>
+<div class="revision">$Id: topics.error.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

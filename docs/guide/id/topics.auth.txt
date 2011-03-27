@@ -76,7 +76,7 @@ class UserIdentity extends CUserIdentity
 ~~~
 
 Ketika kita memahami login dan logout di bagian berikutnya, kita akan melihat bahwa kita pass kelas identity ini ke metode login untuk seorang user. Informasi yang disimpan dalam sebuah state(dengan memanggil [CBaseUserIdentity::setState]) akan di-pass ke [CWebUser] yang menyimpannya dalam bentuk penyimpanan permanen (persistent), seperti misalnya sesi.
-Informasi ini dapat diakses seperti properti [CWebUser]. Sebagai contoh, kita menyimpan informasi title user via `$this->setState('title', $record->title);`. Begitu kita sudah menyelesaikan proses login kita, maka kita dapat mengambil informasi `title` dari user sekarang dengan menggunakan `Yii::app()->user->title` (Ini sudah tersedia sejak versi 1.0.3. Pada versi sebelumnya, kita harus menggunakan `Yii::app()->user->getState('title')`.)
+Informasi ini dapat diakses seperti properti [CWebUser]. Sebagai contoh, kita menyimpan informasi title user via `$this->setState('title', $record->title);`. Begitu kita sudah menyelesaikan proses login kita, maka kita dapat mengambil informasi `title` dari user sekarang dengan menggunakan `Yii::app()->user->title`.
 
 > Info: Secara default, [CWebUser] menggunakan sesi sebagai penyimpanan permanen atas informasi
 identitas pengguna. Jika login berbasis-cookie dihidupkan (dengan menyetel
@@ -197,7 +197,7 @@ Dalam contoh di atas, kita menetapkan bahwa filter [kontrol
 akses|CController::filterAccessControl] harus diterapkan pada setiap
 aksi `PostController`. Rincian aturan otorisasi yang dipakai oleh
 filter ditetapkan dengan meng-override [CController::accessRules] pada kelas
-kontroler.
+controller.
 
 ~~~
 [php]
@@ -258,9 +258,8 @@ Aturan akses akan sesuai dengan parameter konteks berikut:
    - [aksi|CAccessRule::actions]: menetapkan aksi mana dijalankan jika aturan sesuai.
 Ini harus berupa array ID aksi. Pembandingannya bersifat case-sensitive.
 
-   - [kontroler|CAccessRule::controllers]: menetapkan kontroler mana yang sesuai aturan
-ini. Ini harus berupa array ID kontroler. Pembandingannya bersifat case-sensitive.
-Opsi ini sudah tersedia sejak versi 1.0.4.
+   - [controller|CAccessRule::controllers]: menetapkan controller mana yang sesuai aturan
+ini. Ini harus berupa array ID controller. Pembandingannya bersifat case-sensitive.
 
    - [pengguna|CAccessRule::users]: menetapkan pengguna mana yang sesuai aturan ini.
 [Nama|CWebUser::name] pengguna saat ini dipakai untuk penyesuaian. Pembandingannya
@@ -287,7 +286,7 @@ ini.
 
    - [ekspresi|CAccessRule::expression]: menetapkan ekspresi PHP yang nilainya menunjukan
 apakah aturan ini sesuai atau tidak. Dalam ekspresi, Anda dapat menggunakan variabel `$user`
-yang merujuk ke `Yii::app()->user`. Opsi ini sudah tersedia sejak versi 1.0.3.
+yang merujuk ke `Yii::app()->user`.
 
 
 Menangani Hasil Otorisasi
@@ -307,7 +306,7 @@ Ketika mengkonfigurasi properti [loginUrl|CWebUser::loginUrl], Anda dapat
 menyediakan URL relatif ataupun absolut. Selain itu, Anda juga bisa menyediakan array
 yang akan dipakai untuk membuat URL dengan memanggil [CWebApplication::createUrl].
 Elemen pertma array harus menetapkan
-[rute](/doc/guide/basics.controller#route) ke aksi kontroler login,
+[rute](/doc/guide/basics.controller#route) ke aksi controller login,
 dan pasangan nama-nilai lainnya adalah parmeter GET. Sebagai contoh,
 
 ~~~
@@ -392,7 +391,7 @@ perijinan yang disajikan oleh role. Sebagai contoh, jika kita menempatkan role
 yang termasuk `post management` dan `user management` (dan operasi terkait
 seperti misalnya `create user`).
 
-Sekarang bagian yang menyenangkan. Dalam aksi kontroler, kita ingin memeriksa apakah
+Sekarang bagian yang menyenangkan. Dalam aksi controller, kita ingin memeriksa apakah
 pengguna saat ini dapat menghapus tulisan yang ditetapkan. Menggunakan hirarki RBAC serta
 penempatan, ini bisa dikerjakan dengan mudah seperti berikut:
 
@@ -553,8 +552,6 @@ if(Yii::app()->user->checkAccess('updateOwnPost',$params))
 
 ### Menggunakan Role Default
 
-> Note|Catatan: Fitur role default sudah tersedia sejak versi 1.0.3
-
 Banyak aplikasi Web memerlukan beberapa role sangat khusus yang ditempatkan ke
 setiap pengguna atau hampir semua pengguna sistem. Sebagai contoh, kita mungkin ingin menempatkan beberapa
 hak bagi para pengguna terotentikasi. Ini akan memunculkan banyak masalah pemeliharaan jika
@@ -596,4 +593,4 @@ $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('guest', 'guest user', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>
+<div class="revision">$Id: topics.auth.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

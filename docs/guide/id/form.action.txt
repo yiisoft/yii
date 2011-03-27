@@ -2,8 +2,8 @@ Membuat Aksi
 ============
 
 Setelah kita memiliki model, kita dapat mulai menulis logika yang diperlukan
-untuk memanipulasi model. Kita tempatkan logika ini di dalam sebuah aksi kontroler.
-Untuk contoh formulir login, kode berikut diperlukan:
+untuk memanipulasi model. Kita tempatkan logika ini di dalam sebuah aksi controller.
+Untuk contoh form login, kode berikut diperlukan:
 
 ~~~
 [php]
@@ -24,7 +24,7 @@ public function actionLogin()
 ~~~
 
 Dalam contoh di atas, pertama kita membuat instance `LoginForm`; jika permintaannya adalah
-permintaan POST (berarti formulir login dikirimkan), kita mempopulasikan `$form`
+permintaan POST (berarti form login dikirimkan), kita mempopulasikan `$form`
 dengan data yang dikirimkan `$_POST['LoginForm']`; kemudian kita memvalidasi input
 dan jika sukses, mengalihkan browser pengguna ke halaman sebelumnya yang
 memerlukan otentikasi. Jika validasi gagal, atau jika aksi diakses dari
@@ -68,6 +68,6 @@ keadaan tertentu, sebuah field input berkaitan dengan atribut `a` pada kelas mod
 `username`.
 
 Tugas selanjutnya sekarang adalah membuat tampilan `login` yang harus berisi
-formulir HTML dengan field input yang dibutuhkan.
+form HTML dengan field input yang dibutuhkan.
 
 <div class="revision">$Id: form.action.txt 1837 2010-02-24 22:49:51Z qiang.xue $</div>

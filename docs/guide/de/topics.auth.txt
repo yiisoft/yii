@@ -102,9 +102,7 @@ Speicher, wie etwa der Session, abgelegt. Diese Daten stehen dann direkt als
 Eigenschaften von [CWebUser] zur Verfügung. In unserem Beispiel haben wir den
 Titel über `$this->setState('title', $record->title);` gespeichert. Wurde der
 Anmeldeprozess durchlaufen, kann man daher die `title`-Information des aktuellen
-Benutzers über `Yii::app()->user->title` abrufen. (Dies ist seit Version 1.0.3 
-möglich. In früheren Versionen musste man stattdessen
-`Yii::app()->user->getState('title')` verwenden.)
+Benutzers über `Yii::app()->user->title` abrufen.
 
 > Info|Info: Standardmäßig verwendet [CWebUser] die Session als beständigen
 Speicher für solche Identitätsdaten. Wenn die cookie-basierte Anmeldung aktiviert
@@ -155,7 +153,7 @@ Permanentspeicher und verwendet sie um den Rückgabewert von
 `Yii::app()->user->isGuest` zu bestimmen.
 
 
-Cookie-basierte Anmdeldung
+Cookie-basierte Anmeldung
 --------------------------
 
 Ein Benutzer wird automatisch wieder abgemeldet, wenn er für einen bestimmten
@@ -319,8 +317,7 @@ spielt hierbei keine Rolle.
 
    - [controllers|CAccessRule::controllers]: Definiert, welche Controller
 diese Regel betrifft. Dies sollte ein Array aus Controller-IDs sein,
-Groß-/Kleinschreibung spielt hierbei keine Rolle. Diese Option ist seit
-Version 1.0.4 verfügbar.
+Groß-/Kleinschreibung spielt hierbei keine Rolle.
 
    - [users|CAccessRule::users]: Definiert, welche Benutzer diese Regel
 betrifft. Zur Prüfung wird der [Name|CWebUser::name] des aktuellen Benutzers
@@ -351,8 +348,7 @@ Rolle.
 
    - [expression|CAccessRule::expression]: Definiert einen PHP-Ausdruck,
 dessen Wert darüber entscheidet, ob die Regel zutrifft oder nicht. Im Ausdruck
-können Sie `$user` für `Yii::app()->user` verwenden. Diese Option ist seit
-Version 1.0.3 verfügbar.
+können Sie `$user` für `Yii::app()->user` verwenden.
 
 
 Verhalten nach der Autorisierung
@@ -636,8 +632,6 @@ if(Yii::app()->user->checkAccess('aktualisiereEigenenBeitrag',$params))
 
 ### Verwenden von Standardrollen
 
-> Note|Hinweis: Standardrollen können seit Version 1.0.3 verwendet werden.
-
 In vielen Webanwendungen gibt es einige Rollen, denen praktisch alle Benutzer
 zugewiesen werden sollen, um z.B. alle authentifizierten Benutzer mit
 bestimmten Basisberechtigungen zu versehen. Man könnte also diesen Rollen
@@ -681,4 +675,4 @@ $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('gast','Gast-Benutzer', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>
+<div class="revision">$Id: topics.auth.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

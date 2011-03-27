@@ -6,7 +6,7 @@ pour créer des application Web de grande qualité.
 Yii a été conçu autour de composants dans le but d'accélerer le développement
 d'applications Web en simplifiant la réutilisation de code existant.
 
-Le nom Yii (à prononcer `Yee` ou `[ji:]`) se veut être un synonyme de *facile*, *efficace* et *extensible*
+Le nom Yii (à prononcer `Yee` ou `[ji:]`) se veut être un synonyme de *facile*, *efficace* et *extensible*.
 
 Pré-requis
 ----------
@@ -40,4 +40,4 @@ d'un projet existant ni l'aggrégation de composants tiers. Ce framework résult
 de la riche expérience des auteurs ainsi que de l'analyse des meilleurs framework
 et applications Web du marché.
 
-<div class="revision">$Id: quickstart.what-is-yii.txt 814 $</div>
+<div class="revision">$Id: quickstart.what-is-yii.txt 1906 $</div>

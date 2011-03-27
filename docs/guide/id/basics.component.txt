@@ -2,9 +2,9 @@ Komponen
 ========
 
 Aplikasi Yii dibangun dari komponen-komponen yang berupa objek yang ditulis ke sebuah
-spesifikasi. Sebuah komponen adalah isntance dari
+spesifikasi. Sebuah komponen adalah instance dari
 [CComponent] atau kelas induknya. Pemakaian komponen meliputi
-pengaksesan propertinya dan memunculkan/menangani event-nya. Kelas basis
+pengaksesan propertinya dan memunculkan/menangani event-nya. Kelas dasar
 [CComponent] menetapkan bagaimana untuk mendefinisikan properti dan event.
 
 Properti Komponen
@@ -99,8 +99,8 @@ panggilan `raiseEvent()`). Parameter `$event` adalah instance dari [CEvent] atau
 kelas induk. Pada kondisi minimum, parameter ini berisi informasi mengenai siapa
 yang memunculkan event.
 
-Mulai dari versi 1.0.10, sebuah handler event dapat berupa fungsi tidak bernama yang
-didukung PHP 5.3 ke atas. Misalnya, 
+Sebuah event handler dapat berupa fungsi anonim yang didukung PHP 5.3 atau ke atas. Misalnya,
+
 ~~~
 [php]
 $component->onClicked=function($event) {
@@ -121,7 +121,7 @@ bisa dilakukan dengan menyetel [$event->handled|CEvent::handled] menjadi true.
 Behavior Komponen
 -----------------
 
-Mulai dari versi 1.0.2, komponen sudah ditambahkan dukungan terhadap [mixin](http://en.wikipedia.org/wiki/Mixin)
+Komponen mendukung pattern [mixin](http://en.wikipedia.org/wiki/Mixin)
 dan dapat dilampirkan dengan satu atau beberapa behavior. Sebuah *behavior(perilaku)* adalah objek
 yang metodenya bisa 'inherited' (diturunkan) dengan komponen lampirannya dalam arti pengumpulan
 fungsionalitas alih-alih spesialisasi (misal, penurunan kelas normal).
@@ -175,9 +175,9 @@ Sebuah behavior, bila dilampirkan ke sebuah komponen dapat melampirkan beberapa 
 komponen. Dengan melakukan itu, perilaku mendapat kesempatan untuk mengawasi atau mengubah alur
 eksekusi normal komponen.
 
-Semenjak versi 1.1.0, properti behavior juga dapat diakses melalui komponen yang dilampirkannya. Properti
+Properti behavior juga dapat diakses melalui komponen yang dilampirkannya. Properti
 -propertinya termasuk variabel member publik dan properti yang didefinisikan melalui getter dan/atau setter behavior.
 Misalnya, sebuah behavior dengan nama `xyz` dan behavior dilampirkan ke sebuah komponen `$a`. Kita dapat
 menggunakan ekspresi `$a->xyz` untuk mengakses properti behavior.
 
-<div class="revision">$Id: basics.component.txt 2346 2010-08-28 13:12:27Z mdomba $</div>
+<div class="revision">$Id: basics.component.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

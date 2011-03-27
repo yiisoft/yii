@@ -1,8 +1,6 @@
 Testing
 ========
 
-> Note|Catatan: Fitur uji coba yang disinggung dalam bagian ini memerlukan Yii versi 1.1 atau lebih tinggi.  Tetapi tidak berarti anda tidak bisa menguji aplikasi yang dikembangkan dengan menggunakan Yii 1.0.x. Terdapat banyak sekali framework uji coba yang tersedia untuk membantu melakukan pekerjaan ini seperti [PHPUnit](http://www.phpunit.de/), [SimpleTest](http://www.simpletest.org/).
-
 Uji coba merupakan proses pengembangan piranti lunak yang tidak bisa diabaikan. Disadari atau tidak, kita selalu melakukan uji coba setiap saat ketika mengembangkan aplikasi Web. Misalnya, ketika kita menulis sebuah kelas di PHP, kita mungkin menggunakan beberapa `echo` atau `die` untuk memastikan implementasi kita benar. Ketika kita mengimplementasi ke halaman Web yang berisi form HTML yang kompleks, kita juga mungkin mencoba menginput beberapa data untuk memastikan halaman web berinteraksi sesuai harapan. Pengembang yang lebih ahli akan menulis beberapa kode untuk mengotomatisasi proses ini sehingga setiap kali ingin melakukan uji coba, cukup memanggil kodenya dan komputer yang akan mengerjakannya. Proses ini dikenal dengan sebutan *otomatisasi test*, yang merupakan topik utama dalam bagian ini.
 
 Uji coba yang disediakan oleh Yii adalah *uji coba unit(unit testing)* dan *uji coba fungsional(functional testing)*.
@@ -29,7 +27,7 @@ Ulangi langkah 1 sampai 5 guna meningkatkan fungsionalitas dalam implementasi.
 Test Environment Setup
 ---------------------------------------
 
-Fitur uji coba yang disediakan Yii memerlukan [PHPUnit](http://www.phpunit.de/) 3.4+ dan [Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+. Oleh karenanya, silahkan melihat dokumentasi masing-masing bagaimana melakukan instalasi PHPUnit dan Selenium Remote Control.
+Fitur uji coba yang disediakan Yii memerlukan [PHPUnit](http://www.phpunit.de/) 3.5+ dan [Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+. Oleh karenanya, silahkan melihat dokumentasi masing-masing bagaimana melakukan instalasi PHPUnit dan Selenium Remote Control.
 
 Ketika kita menggunakan perintah konsol `yiic webapp` untuk membuat aplikasi Yii yang baru, Yii akan menghasilkan beberapa file dan direktori berikut supaya kita dapat menulis dan menguji percobaan:
 
@@ -100,4 +98,4 @@ Ketika menjalankan uji coba yang berhubungan dengan database, kita harus menyedi
 Dengan sebuah skrip bootstrap ini, ketika kita menjalankan uji coba unit, kita akan memiliki sebuah instance aplikasi yang hampir sama dengan aplikasi yang umumnya, yakni untuk melayani Web request. Perbedaan utamanya adalah bootstrap memiliki manager fixture dan menggunakan database uji coba.
 
 
-<div class="revision">$Id: test.overview.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>
+<div class="revision">$Id: test.overview.txt 2997 2011-02-23 13:51:40Z alexander.makarow $</div>

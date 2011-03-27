@@ -109,7 +109,7 @@ Zamiast prosić dewelopera do uzmiennienie ID odpowiednio do pewnego wzorca,
    Bez takiej parametryzacji, będziemy mogli buforować pojedyncze posty.
    
    - [varyByExpression|COutputCache::varyByExpression]: ustawiając tą opcję jako wyrażenie PHP, możemy zbuforowaną
-   zawartość uzmiennić w zależności od wyniku wyrażenia PHP. Opcja ta jest dostępna od wersji 1.0.4.
+   zawartość uzmiennić w zależności od wyniku wyrażenia PHP.
 
 ### Typy żądań
 
@@ -158,4 +158,4 @@ Jednakże, nie jest to prawdą, jeśli sytuacja się odwróci. Jeśli zewnętrzn
 zawiera poprawne dane, będzie on zawsze dostarczał zbuforowaną kopię, nawet jeśli 
 zawartość w wewnętrznym buforze wygaśnie.
 
-<div class="revision">$Id: caching.fragment.txt 956 2009-04-21 15:16:03Z qiang.xue@gmail.com $</div>
+<div class="revision">$Id: caching.fragment.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

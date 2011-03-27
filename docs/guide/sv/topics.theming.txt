@@ -213,8 +213,6 @@ $this->widget('CLinkPager', array(
 Skin
 ----
 
-> Note|Märk: Finessen skin har varit tillgänglig sedan version 1.1.0.
-
 Medan användning av teman snabbt kan få vyer att ändra skepnad, kan skin användas 
 för att systematiskt anpassa utseendet hos [widgetar](/doc/guide/basics.view#widget) som används i vyer.
 
@@ -316,4 +314,4 @@ Skin är mycket snarlikt finessen global anpassning av widget. De huvudsakliga s
    - Skin kan åsättas via teman;
    - Användning av skin är mer resurskrävande än global anpassning av widget.
 
-<div class="revision">$Id: topics.theming.txt 2619 2010-11-04 15:30:43Z qiang.xue $</div>
+<div class="revision">$Id: topics.theming.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

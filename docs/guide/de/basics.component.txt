@@ -106,7 +106,7 @@ aus dem Aufruf von `raiseEvent()`. Der Eventparameter ist eine Instanz vom
 Typ [CEvent] oder einer Kindklasse. Er enthält mindestens die
 Information, wer das Event ausgelöst hat.
 
-Seit Version 1.0.10 kann ein Eventhandler auch eine anonyme Funktion sein, die
+Ein Eventhandler kann auch eine anonyme Funktion sein, wie sie
 seit PHP 5.3 unterstützt werden. Zum Beispiel:
 
 ~~~
@@ -188,12 +188,11 @@ es eine oder mehrere seiner Methoden an Events dieser Komponente anhängen.
 Dadurch kann kann das Behavior den normalen Prozessablauf innerhalb
 einer Komponente überwachen oder verändern.
 
-Ab Version 1.1.0 kann auch von einer Komponente aus auf
-die Eigenschaften eines angehängten Behaviors zugegriffen werden. Die
-zugänglichen Eigenschaften umfassen öffentliche Variablen und Eigenschaften
-die mit Getter-/Setter-Methoden im Behavior definiert wurden. Falls ein
+Die Eigenschaften eines Behaviors können auch über die Komponente, an der es
+hängt, erreicht werden. Zugänglich sind alle öffentlichen Variablen bzw. 
+Eigenschaften die mit Getter-/Setter-Methoden im Behavior definiert wurden. Falls ein
 Behavior zum Beispiel eine Eigenschaft namens `xyz` besitzt und an eine
 Komponente `$a` angebunden wurde, kann mit `$a->xyz` darauf zugegriffen
 werden.
 
-<div class="revision">$Id: basics.component.txt 2346 2010-08-28 13:12:27Z mdomba $</div>
+<div class="revision">$Id: basics.component.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

@@ -61,7 +61,7 @@ View dapat didaya ulang dengan beberapa cara:
 
 * Widgets: jika banyak sekali logic yang diperlukan untuk menampilkan suatu partial view, maka partial view ini dapat diubah menjadi sebuah widget yang file kelas paling cocok digunakan untuk menampung logic ini. Untuk widget yang men-generate banyak markup HTML, lebih baik menggunakan file view khusus untuk widget untuk menampung markup.
 
-* Helper classes: di view kita sering memerlukan code snippet untuk melakukan tugas-tugas kecil seperti memformat data atau menghasilkan tag HTML. Daripada meletakkan code ini langsung ke file view, pendekatan lain yang lebih baik adalah meletakkan seluruh code snippet ini ke kelas helper view. Kemudian gunakan kelas helper ini di file view anda. Yii menyediakan contoh seperti ini. Yii memiliki sebuah kelas helper [CHtml] yang bisa menghasilkan code HTML umum. Kelas helper dapat diletakkan di sebuah [direktori autoloadable](/doc/guide/basics.namespace) sehingga kita bisa menggunakannya tanpa perlu menyertakan kelas secara eksplisit.
+* Helper classes: di view kita sering memerlukan code snippet untuk melakukan tugas-tugas kecil seperti memformat data atau menghasilkan tag HTML. Daripada meletakkan code ini langsung ke file view, pendekatan lain yang lebih baik adalah meletakkan seluruh code snippet ini ke kelas helper view. Kemudian gunakan kelas helper ini di file view Anda. Yii menyediakan contoh seperti ini. Yii memiliki sebuah kelas helper [CHtml] yang bisa menghasilkan code HTML umum. Kelas helper dapat diletakkan di sebuah [direktori autoloadable](/doc/guide/basics.namespace) sehingga kita bisa menggunakannya tanpa perlu menyertakan kelas secara eksplisit.
 
 
 Controller

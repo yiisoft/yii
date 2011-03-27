@@ -3,14 +3,23 @@ Fitur Baru
 
 Halaman ini meringkas fitur-fitur utama baru yang diperkenalkan dalam setiap rilis Yii.
 
-Version 1.1.6
+Versi 1.1.7
+-------------
+ * [Menambah dukungan URL RESTful URL ](/doc/guide/topics.url#user-friendly-urls)
+ * [Menambah dukungan caching query](/doc/guide/caching.data#query-caching)
+ * [Sekarang sudah bisa passing parameter untuk relational named scopes](/doc/guide/database.arr#relational-query-with-named-scopes)
+ * [Menambah kemampuan melakukan query Relational tanpa mengambil model bersangkutan](/doc/guide/database.arr#performing-relational-query-without-getting-related-models)
+ * [Menambah dukungan transaksi pada fitur migrasi DB](/doc/guide/database.migration#transactional-migrations)
+ * [Menambah dukungan penggunaan parameter binding dengan action berjenis class](/doc/guide/basics.controller#action-parameter-binding)
+
+Versi 1.1.6
 -------------
  * [Menambah query builder](/doc/guide/database.query-builder)
  * [Menambah migrasi database ](/doc/guide/database.migration)
  * [Praktek MVC Terbaik](/doc/guide/basics.best-practices)
  * [Menambah dukungan penggunaan parameter anonim dan opsi global dalam perintah console](/doc/guide/topics.console)
 
-Version 1.1.5
+Versi 1.1.5
 -------------
 
  * [Menambah dukungan untuk command action dan parameter binding](/doc/guide/topics.console)
@@ -35,9 +44,13 @@ Versi 1.1.2
 Versi 1.1.1
 -------------
 
-* Menambah CActiveForm yang berguna untuk mempermudah penulisan kode yang berhubungan dengan form serta mendukung validasi yang konsisten dan mulus baik pada bagian klien maupun server.
+* Menambah CActiveForm untuk mempermudah penulisan kode yang berhubungan dengan form
+serta mendukung validasi yang konsisten dan seamless baik pada bagian klien maupun server.
 
-* Menyusun ulang kode yang dihasilkan oleh yiic. Secara khusus, aplikasi kerangka sekarang diciptakan dengan beberapa susunan (multiple layout); menu operasi ditata ulang untuk halaman-halaman CRUD; menambah pencarian dan penyaringan pada halaman admin yang dihasilkan oleh perinta crud; menggunakan CActiveForm untuk menghasilkan sebuah form;
+* Refaktor ulang kode yang dihasilkan oleh yiic. Khususnya, aplikasi
+kerangka sekarang diciptakan dengan beberapa susunan (multiple layout); menu operasi 
+disusun ulang untuk halaman-halaman CRUD; menambah pencarian dan penyaringan pada halaman admin yang
+dihasilkan oleh perinta crud; menggunakan CActiveForm untuk menghasilkan sebuah form;
 
 * [Menambah dukungan untuk memungkinkan mendefinisikan perintah yiic global](/doc/guide/topics.console)
 
@@ -63,68 +76,4 @@ Versi 1.1.0
 
 * Nama alias untuk tabel utama dalam sebuah query AR ditetapkan sebagai 't'
 
-Versi 1.0.11
-------------
-
-* Menambah dukungan untuk mengurai dan membuat URL dengan hostname berparameter
-  - [Memparameterkan Hostname](/doc/guide/topics.url#parameterizing-hostnames).
-
-Versi 1.0.10
------------
-
-* Meningkatkan dukungan penggunaan CPhpMessageSource untuk pengaturan pesan(message) modul
-	 - [Penerjemahan Pesan](/doc/guide/topics.i18n#message-translation)
-
-* Ditambahkan dukungan pelampiran fungsi anonim sebagai pengatur event (event handler)
-	 - [Event Komponen](/doc/guide/basics.component)
-
-Versi 1.0.8
------------
-
- * Ditambahkan dukungan untuk mengambil multipel nilai yang di-cache sekali waktu
-	 - [Cache Data](/doc/guide/caching.data)
-
- * Diperkenalkan standar alias path root `ext` baru yang merujuk ke direktori
-yang berisi semua extension pihak ketiga.
-	 - [Menggunakan Extension](/doc/guide/extension.use)
-
-Versi 1.0.7
------------
-
- * Ditambahkan dukungan untuk menampilkan informasi stack pemanggilan dalam pesan pelacakan
-     - [Informasi Konteks Pencatatan](/doc/guide/topics.logging#logging-context-information)
-
- * Ditambahkan opsi `index` pada relasi AR agar obyek terkait bisa diindeks
-menggunakan nilai kolom tertentu
-     - [Opsi Queri Relasional](/doc/guide/database.arr#relational-query-options)
-
-Versi 1.0.6
--------------
-
- * Ditambahkan dukungan untuk pemakaian lingkup bernama dengan metode `update` dan `delete`:
-     - [Lingkup Bernama](/doc/guide/database.ar#named-scopes)
-
- * Ditambahkan dukungan untuk pemakaian lingkup bernama dalam opsi `with` pada aturan relasional:
-     - [Queri Relasional dengan Lingkup Bernama](/doc/guide/database.arr#relational-query-with-named-scopes)
-
- * Ditambahkan dukungan untuk pengukuran eksekusi SQL
-     - [Mengukur Eksekusi SQL](/doc/guide/topics.logging#profiling-sql-executions)
-
- * Ditambahkan dukungan untuk kustomisasi aturan URL tunggal dengan menyetel opsi urlFormat dan caseSensitive:
-     - [URL Ramah-Pengguna](/doc/guide/topics.url#user-friendly-urls)
-
-Versi 1.0.5
--------------
-
- * Rekaman aktif ditingkatkan dengan mendukung lingkup penamaan. Lihat:
-     - [Lingkup Bernama](/doc/guide/database.ar#named-scopes)
-     - [Query Relasional dengan Lingkup Bernama](/doc/guide/database.arr#relational-query-with-named-scopes)
-
-
- * Rekaman aktif ditingkatkan dengan mendukung pemanggilan lazy dengan opsi query dinamis. Lihat:
-     - [Opsi Query Relasional Dinamis](/doc/guide/database.arr#dynamic-relational-query-options)
-
- * Peningkatan [CUrlManager] untuk mendukung parameterisasi bagian rute dalam aturan URL. Lihat:
-     - [Parameterisasi Rute dalam Aturan URL](/doc/guide/topics.url#parameterizing-routes)
-
-<div class="revision">$Id: changes.txt 2701 2010-12-02 04:30:18Z qiang.xue $</div>
+<div class="revision">$Id: changes.txt 3058 2011-03-13 04:20:12Z qiang.xue $</div>

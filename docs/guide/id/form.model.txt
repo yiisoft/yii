@@ -9,7 +9,7 @@ tempat utama untuk menyimpan  input pengguna dan memvalidasinya.
 
 Tergantung pada bagaimana kita menggunakan input pengguna, kita bisa membuat dua jenis
 model. Jika input pengguna dikumpulkan, dipakai dan kemudian diabaikan, kita bisa
-membuat [model formulir](/doc/guide/basics.model); jika input pengguna
+membuat [model form](/doc/guide/basics.model); jika input pengguna
 dikumpulkan dan disimpan ke dalam database, sebaliknya kita dapat menggunakan [active
 record](/doc/guide/database.ar). Kedua jenis model berbagi basis kelas
 [CModel] yang sama yang mendefinisikan antar muka umum yang diperlukan oleh form.
@@ -23,7 +23,7 @@ Mendefinisikan Kelas Model
 
 Di bawah ini kita membuat kelas model `LoginForm` yang dipakai untuk mengumpulkan input pengguna pada
 halaman login. Karena informasi login hanya dipakai untuk mengotentikasi pengguna
-dan tidak perlu menyimpan, kita membuat `LoginForm` sebagai sebuah model formulir.
+dan tidak perlu menyimpan, kita membuat `LoginForm` sebagai sebuah model form.
 
 ~~~
 [php]
@@ -39,7 +39,7 @@ Tiga atribut dideklarasikan dalam `LoginForm`: `$username`, `$password` dan
 `$rememberMe`. Ini dipakai untuk memelihara nama pengguna dan kata sandi
 yang dimasukkan, dan opsi apakah pengguna menginginkan untuk mengingat login-nya.
 Karena `$rememberMe` memiliki nilai standar `false`, opsi terkait
-saat awal ditampilkan dalam formulir login tidak akan dicentang.
+saat awal ditampilkan dalam form login tidak akan dicentang.
 
 > Info: Alih-alih memanggil properi variabel anggota ini, kita menggunakan
 nama *attributes* untuk membedakannya dari properti normal. Atribut
@@ -139,6 +139,9 @@ atribut atau konstan lain.
    - `email`: alias [CEmailValidator], memastikan atribut berupa alamat
 email yang benar.
 
+   - `date`: alias [CDateValidator], memastikan atribut mewakili nilai
+tanggal, waktu atau tanggal waktu yang valid.
+
    - `default`: alias [CDefaultValueValidator], menempatkan nilai standar
 ke atribut yang ditetapkan.
 
@@ -194,7 +197,7 @@ Mengamankan Penempatan Atribut
 
 Setelah instance model dibuat, seringkali kita perlu mempopulasikan atributnya
 dengan data yang dikirimkan oleh pengguna-akhir. Ini bisa dikerjakan
-dengan nyaman menggunakan penempatan masal berikut:
+dengan nyaman menggunakan massive assignment masal berikut:
 
 ~~~
 [php]
@@ -203,9 +206,9 @@ if(isset($_POST['LoginForm']))
 	$model->attributes=$_POST['LoginForm'];
 ~~~
 
-Pernyataan terakhir adalah *penempatan masal (massive assignment)* yang menempatkan setiap entri
-dalam `$_POST['LoginForm']` ke atribut model terkait dalam skenario
-`login`. Ini sama dengan penempatan berikut:
+Statement terakhir adalah *massive assignment* yang menempatkan setiap entri
+dalam `$_POST['LoginForm']` ke atribut model bersangkutan dalam skenario
+`login`. Ini sama dengan assignment berikut:
 
 ~~~
 [php]
@@ -221,12 +224,10 @@ mengekspos primary key suatu tabel menjadi safe, maka penyerang
 memiliki kesempatan mengubah primary key dari record yang diberikan dan sehingga
 memalsukan data yang seharusnya dia tidak memiliki hak untuk itu.
 
-Aturan untuk menentukan apakah sebuah atribut itu safe atau tidak berbeda antara versi 1.0
-dan 1.1. Berikut, kita akan menjelaskan mereka secara terpisah.
 
-###Atribut Safe dalam 1.1
+###Deklarasi Atribut Safe
 
-Pada versi 1.1, sebuah atribut dianggap aman jika muncul dalam rule validasi
+Sebuah atribut dianggap aman jika muncul dalam rule validasi
 yang dapat diaplikasikan pada skenario yang diberikan. Misalnya,
 
 ~~~
@@ -286,58 +287,8 @@ Peraturan `unsafe` jarang digunakan, dan merupakan perkecualian untuk definisi a
 safe sebelumnya.
 
 
-###Safe Attributes in 1.0
-
-Dalam versi 1.0, tugas menentukan apakah sebuah entri data aman atau tidak
-tergantung pada nilai return dari sebuah metode bernama `safeAttributes` dan skenario
-yang dispesifikasi. Secara default, metode mengembalikan semua nilai variabel member publik
-sebagai atribut aman untuk [CFormModel], sedangkan pada [CActiveRecord] dia mengembalikan
-semua kolom pada tabel sebagai aman kecuali primary key. Kita bisa
-meng-override metode ini untuk membatasi atribut safe sesuai skenario.
-Misalnya, sebuah model user mungkin mengandung banyak atribut, tetapi dalam skenario
-`login` kita hanya memerlukan atribut `username` dan `password`.
-Kita dapat mespesifikasi batasan sebagai berikut :
-
-~~~
-[php]
-public function safeAttributes()
-{
-	return array(
-		parent::safeAttributes(),
-		'login' => 'username, password',
-	);
-}
-~~~
-
-Lebih tepatnya, nilai balik metode `safeAttributes` seharusnya dalam struktur
-sebagai berikut:
-
-~~~
-[php]
-array(
-   // atribut ini dapat ditempatkan secara masalah dalam setiap skenario
-   // yang tidak ditetapkan secara eksplisit di bawah ini
-   'attr1, attr2, ...',
-	 *
-   // atribut ini dapat ditempatkan secara masal hana dalam skenario 1
-   'scenario1' => 'attr2, attr3, ...',
-	 *
-   // atribut ini dapat ditempatkan secara masal hana dalam skenario 2
-   'scenario2' => 'attr1, attr3, ...',
-)
-~~~
-
-Jika model bukan sensitif-skenario (misalnya, ia hanya dipakai dalam
-satu skenario, atau semua skenario berbagi set atribut aman yang sama),
-nilai balik dapat disederhanakan sebagai string tunggal:
-
-~~~
-[php]
-'attr1, attr2, ...'
-~~~
-
 Untuk entri data yang tidak aman, kita perlu menempatkannya ke atribut
-terkait menggunakan pernyataan penempatan individual, seperti berikut:
+bersangkutan menggunakan individual assignment statement, seperti berikut:
 
 ~~~
 [php]
@@ -383,7 +334,7 @@ else
     ...
 ~~~
 
-Skenario yang dapat diaplikasikan pada aturan yang terkait dapat dispesifikasikan
+Skenario yang dapat diaplikasikan pada aturan bersangkutan dapat dispesifikasikan
 dengan opsi `on` pada aturan. Jika opsi `on` tidak diset, artinya aturan bersangkutan
 akan digunakan di seluturh skenario. Contohnya,
 
@@ -427,4 +378,4 @@ Ini dapat dikustomisasi dengan meng-override metode
 subbagian berikutnya, menetapkan label dalam model memungkinkan kita untuk membuat
 form lebih cepat dan powerful.
 
-<div class="revision">$Id: form.model.txt 2285 2010-07-28 20:40:00Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 3052 2011-03-12 14:27:07Z qiang.xue $</div>

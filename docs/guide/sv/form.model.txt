@@ -141,6 +141,9 @@ aliasnamn:
    - `email`: alias för [CEmailValidator], garanterar att attributet är en 
    giltig email-adress.
 
+   - `date`: alias för [CDateValidator], garanterar att attributet representerar 
+   ett giltigt datum-, tid-, eller datetime-värde.
+
    - `default`: alias för [CDefaultValueValidator], tilldelar specificerade 
    attribut ett standardvärde.
 
@@ -224,13 +227,11 @@ exponerar primärnyckeln till en tabell som säker, kan en angripare få
 chansen att modifiera primärnyckeln för en given databaspost och därmed
 göra ändringar i data han saknar auktorisation att ändra.
 
-Policyn för att avgöra vilka attribut som är säkra skiljer sig åt i version 1.0
-och 1.1. I följande stycken beskrivs de var för sig.
 
-###Säkra attribut i 1.1
+###Deklarera säkra attribut
 
-I version 1.1, betraktas ett attribut som säkert om det förekommer i en 
-valideringsregel som är applicerbar på det givna scenariet. Till exempel,
+Ett attribut betraktas som säkert om det förekommer i en valideringsregel 
+som är applicerbar på det givna scenariet. Till exempel,
 
 ~~~
 [php]
@@ -287,56 +288,6 @@ array('permission', 'unsafe')
 `unsafe`-regeln används sällan och den utgör ett undantag från den tidigare definitionen av 
 säkra attribut.
 
-
-###Säkra attribut i 1.0
-
-I version 1.0 baseras uppgiften att avgöra huruvida en datainmatning är säker 
-eller inte på returvärdet från en metod med namnet `safeAttributes` samt det 
-specificerade scenariet. Som standard returnerar denna metod alla publika 
-medlemsvariabler som säkra attribut till [CFormModel], medan den returnerar 
-alla tabellkolumner utom primärnyckeln som säkra attribut till [CActiveRecord]. 
-Denna metod kan åsidosättas i enlighet med scenarier, för att begränsa de säkra 
-attributen. Till exempel, en modell för användare kan innehålla många attribut, 
-men i scenariet `login` erfordras endast attributen `username` och `password`. 
-Denna begränsning kan specificeras som följer:
-
-~~~
-[php]
-public function safeAttributes()
-{
-	return array(
-		parent::safeAttributes(),
-		'login' => 'username, password',
-	);
-}
-~~~
-
-Formellt uttryckt, skall returvärdena från `safeAttributes` ha följande 
-struktur:
-
-~~~
-[php]
-array(
-   // dessa attribut kan tilldelas massivt i varje scenario
-   // som inte uttryckligen specificeras nedan
-   'attr1, attr2, ...',
-	 *
-   // dessa attribut kan endast tilldelas massivt i scenario 1
-   'scenario1' => 'attr2, attr3, ...',
-	 *
-   // dessa attribut kan endast tilldelas massivt i scenario 2
-   'scenario2' => 'attr1, attr3, ...',
-)
-~~~
-
-Om modellen okänslig för scenarier (dvs den används endast i ett scenario, eller 
-alla scenarier delar samma uppsättning av säkra attribut), kan returvärdet 
-förenklas till en enda sträng:
-
-~~~
-[php]
-'attr1, attr2, ...'
-~~~
 
 I fråga om inmatningar som inte är säkra, behöver vi tilldela dem till 
 motsvarande attribut med hjälp av individuella tilldelningssatser, som i 
@@ -431,4 +382,4 @@ ledtext. Detta kan anpassas genom att åsidosätta metoden
 avsnitt, tillåter specificering av ledtexter i modellen, oss att skapa formulär 
 snabbare och mer kraftfullt.
 
-<div class="revision">$Id: form.model.txt 2285 2010-07-28 20:40:00Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 3052 2011-03-12 14:27:07Z qiang.xue $</div>

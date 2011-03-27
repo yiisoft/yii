@@ -40,4 +40,4 @@ partie, la richesse et la diversité de ces informations est particulièrement
 utile pendant les phases de développement pour identifier et corriger les 
 erreurs qui surviennent.
 
-<div class="revision">$Id: basics.entry.txt 162 $</div>
+<div class="revision">$Id: basics.entry.txt 1850 $</div>

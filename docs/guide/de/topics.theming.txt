@@ -225,8 +225,6 @@ $this->widget('CLinkPager', array(
 Skin
 ----
 
-> Note|Hinweis: Das Skin-Feature ist seit Version 1.1.0 verfügbar.
-
 Während man mit Themes das Aussehen von Views schnell verändern können,
 erlauben Skins (sinngem.: Haut, Verkleidung), das Aussehen von
 [Widgets](/doc/guide/basics.view#widget) systematisch anzupassen.
@@ -339,4 +337,4 @@ Unterschiede sind:
    - Eine Skin kann mit einem Theme versehen werden
    - Skins beeinflußen die Leistung mehr, als Widgets global anzupassen
 
-<div class="revision">$Id: topics.theming.txt 2619 2010-11-04 15:30:43Z qiang.xue $</div>
+<div class="revision">$Id: topics.theming.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

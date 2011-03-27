@@ -46,7 +46,7 @@ untuk yang mengoperasikan CRUD.
 
 > Note|Catatan: Anda mungkin akan menemukan error seperti "...could not find driver", walaupun
 > ketika melihat pengecek persyaratan PDO dan driver PDO yang bersangkutan sudah diaktifkan
-> Apabila demikian mungkin anda dapat mencoba menjalankan tool `yiic` dengan ini,
+> Apabila demikian mungkin Anda dapat mencoba menjalankan tool `yiic` dengan ini,
 >
 > ~~~
 > % php -c path/to/php.ini protected/yiic.php shell

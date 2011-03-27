@@ -137,6 +137,9 @@ pełna lista predefiniowanych aliasów walidatorów:
 
    - `email`: alias klasy [CEmailValidator], sprawdza czy atrybut jest poprawnym
    adresem email.
+   
+   - `date`: alias klasy [CDateValidator], sprawdza czy atrybut jest poprawną datą, czasem 
+   lub datą z czasem (ang. datetime value).
 
    - `default`: alias klasy [CDefaultValueValidator], przypisuje domyślną wartość 
    do danego atrybutu.
@@ -217,13 +220,10 @@ uwidocznimy klucz główny  tablicy jako bezpieczny, wtedy osoba atakująca dost
 szanse do zmodyfikowania klucza głównego danego rekordu i tym samym manipulację danych,
 do których nie jest on upoważniony.
 
-Polityka decydowania, które atrybuty są bezpieczne różnic się w wersjach 1.0 
-oraz 1.1. W następnych akapitach opiszemy ją osobno dla każdej z wersji.
+###Deklarowanie bbezpiecznych atrybutów
 
-###Bezpieczne atrybuty w wersji 1.1
-
-W wersji 1.1, atrybut rozważany jest jako bezpieczny jeśli pojawia się on w regule 
-sprawdzania poprawności, która ma zastosowanie w danym scenariuszu. Na przykład,
+Atrybut traktowany jest jako bezpieczny jeśli pojawia się on w regule 
+sprawdzania poprawności, posaidającej zastosowanie w danym scenariuszu. Na przykład,
 
 ~~~
 [php]
@@ -280,57 +280,6 @@ array('permission', 'unsafe')
 
 Atrybut `unsafe` jest używany rzadko i jest wyjątkiem do naszego wcześniej zdefiniowanego
 atrybutu `safe`.
-
-
-###Bezpieczne atrybuty w wersji 1.0
-
-W wersji 1.0, decyzja o tym, czy dane wejściowe są bezpieczne czy też nie jest podejmowana
-na podstawie wartości zwracanej przez metodę `safeAttributes` dla wybranego scenariusza. 
-Domyślnie metoda ta zwraca wszystkie publiczne zmienne jako bezpieczne atrybuty,
-dla klasy [CFormModel], jednakże dla klasy [CActiveRecord] zwracane są wszystkie 
-kolumny z wyjątkiem klucza głównego. Możemy nadpisać tą metodę aby ograniczyć liczbę 
-bezpiecznych argumentów w zależności od scenariusza. Na przykład, model użytkownika
-może zawierać wiele atrybutów, ale dla scenariusza logowania `login`, powinniśmy 
-używać tylko atrybutów: nazwy użytkownika `username` oraz hasła `password`. Ograniczenie
-te możemy zdefiniować następująco:
-
-~~~
-[php]
-public function safeAttributes()
-{
-	return array(
-		parent::safeAttributes(),
-		'login' => 'username, password',
-	);
-}
-~~~
-
-Ściślej rzecz ujmując, wartości zwracane przez metodę `safeAttributes` powinny posiadać 
-następującą strukturę:
-
-~~~
-[php]
-array(
-   // atrybuty te mogą być grupowo przypisane w każdym scenariuszu,
-   // który nie jest bezpośrednio podany poniżej
-   'attr1, attr2, ...',
-	 *
-   // atrybuty te mogą być grupowo przypisane tylko dla scenariusza scenario 1
-   'scenario1' => 'attr2, attr3, ...',
-	 *
-   // atrybuty te mogą być grupowo przypisane tylko dla scenariusza scenario 2
-   'scenario2' => 'attr1, attr3, ...',
-)
-~~~
-
-Jeśli model nie zależy od scenariuszy (np. jest on używany tylko w jednym scenariuszu, 
-albo wszystkie scenariusze współdzielą ten sam zestaw bezpiecznych atrybutów),
-wartości zwracane mogą być uproszczone do pojedynczego łańcucha znaków:
-
-~~~
-[php]
-'attr1, attr2, ...'
-~~~
 
 Dla danych wejściowych, które nie są bezpieczne, musimy je przypisać do odpowiadających
 mu atrybutów przy użyciu indywidualnych wyrażeń przypisujących wartość, jak w kolejnym
@@ -422,4 +371,4 @@ potrzeb poprzez nadpisanie metody [attributeLabels()|CModel::attributeLabels].
 Jak zobaczymy w następnych punktach, zdefiniowanie etykiet w modelu umożliwia nam tworzenie 
 formularzy szybciej i lepiej.
 
-<div class="revision">$Id: form.model.txt 2285 2010-07-28 20:40:00Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 3052 2011-03-12 14:27:07Z qiang.xue $</div>

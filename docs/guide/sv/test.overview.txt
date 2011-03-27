@@ -1,12 +1,6 @@
 Testning
 ========
 
-> Note|Märk: Stödet för testning, som beskrivs i detta kapitel kräver Yii 
-version 1.1 eller senare. Detta innebär dock inte något hinder för att testa 
-applikationer utvecklade för användning med Yii 1.0.x. Det finns många 
-fantastiska testningsramverk tillgängliga för ändamålet, så som 
-[PHPUnit](http://www.phpunit.de/), [SimpleTest](http://www.simpletest.org/).
-
 Testning är en nödvändig process vid mjukvaruutveckling. Vare sig vi är medvetna 
 om det eller inte, genomför vi testning hela tiden medan vi utvecklar en 
 webbapplikation. Till exempel när vi skriver en klass i PHP, kan det hända att 
@@ -53,7 +47,7 @@ Sätta upp testomgivning
 -----------------------
 
 Stödet för testning som Yii erbjuder kräver [PHPUnit](http://www.phpunit.de/) 
-3.4+ samt [Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+.
+3.5+ samt [Selenium Remote Control](http://seleniumhq.org/projects/remote-control/) 1.0+.
 Se deras respektive dokumentation angående installation av PHPUnit och Selenium Remote Control.
 
 När vi använder konsolkommandot `yiic webapp` till att skapa en ny Yii-
@@ -147,4 +141,4 @@ webbanvändare. Den huvudsakliga skillnaden är att den innehåller fixturhanter
 använder testdatabasen.
 
 
-<div class="revision">$Id: test.overview.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>
+<div class="revision">$Id: test.overview.txt 2997 2011-02-23 13:51:40Z alexander.makarow $</div>

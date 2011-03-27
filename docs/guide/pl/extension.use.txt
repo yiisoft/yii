@@ -15,7 +15,6 @@ wszystkich rozszerzeń. Biorąc pod uwagę rozszerzenie nazwane `xyz`, możemy z
 użyć aliasu ścieżki `ext.xyz` by zlokalizować jego główny katalog, 
 który zawiera wszystkie pliki z `xyz`.
 
-
 Różne rozszerzenia posiadają różne wymagania dotyczące importowania, konfiguracji
 oraz użycia. W dalszej części, podsumujemy najczęściej używane scenariusze dotyczące
 rozszerzeń, zgodnie z kategoriami opisanymi w [przeglądzie](/doc/guide/extension.overview).
@@ -25,8 +24,7 @@ Rozszerzenie Zii
 
 Zanim rozpoczniemy opisuywanie jak używać rozszerzenia firm trzecich, chcielibyśmy przedstawić
 bibliotekę rozszerzeń Zii, która jest zestawem rozszerzeń oprogranowanych przez zespół  
-programistów Yii. Jest ona dołączana do każdego wydania poczynając od Yii w wesji 1.1.0.
-Biblioteka Zii jet utrzymywana w projekcie Google nazwanym [zii](http://code.google.com/p/zii/).
+programistów Yii. Jest ona dołączana do każdego wydania.
 
 Podczas używanie rozszerzenia Zii, należy odnosić się do odpowiednich klas używając aliasu ścieżki
 w formacie `zii.ścieżka.do.NazwyKlasy`. Główny alias  `zii` został zdefiniowany w Yii. Wskazuje on na 
@@ -312,4 +310,4 @@ Następnie, możemy utworzyć instancję tej klasy, skonfigurować jej właściw
 oraz zawołać jej metody. Możemy również rozszerzyć go do tworzenia nowych
 klas potomnych.
 
-<div class="revision">$Id: extension.use.txt 1780 2010-02-01 20:32:50Z qiang.xue $</div>
+<div class="revision">$Id: extension.use.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

@@ -72,7 +72,7 @@ class UserIdentity extends CUserIdentity
 ~~~
 
 Kiedy opiszemy logowanie i wylogowywanie w następnych rozdziałach, zobaczymy, że przekazujemy tą klasę rożsamości do metody logowania użytkownika. Pozostałe informacje, które zapisujemy w stanach (poprzez wywołanie [CBaseUserIdentity::setState]) będą przekazane do kalsy [CWebUser], która z kolei zapisze je w nośniku trwałych danych, np. takim jak sesja.
-Informacje te mogą być później dostępne jak właściwości [CWebUser]. W naszym przykładzie,  przechowujemy informację o tytule użytkownika poprzez `$this->setState('title', $record->title);`. Gdy już zakończymy proces logowania, możemy uzyskać informację o tytule `title` użytkownika poprzez proste użycie `Yii::app()->user->title` (Funkcja ta jest dostępna od wersji 1.0.3. W poprzednich, należało używać `Yii::app()->user->getState('title')`.)
+Informacje te mogą być później dostępne jak właściwości [CWebUser]. W naszym przykładzie,  przechowujemy informację o tytule użytkownika poprzez `$this->setState('title', $record->title);`. Gdy już zakończymy proces logowania, możemy uzyskać informację o tytule `title` użytkownika poprzez proste użycie `Yii::app()->user->title`.
 
 W następnym przykładzie sprawdzimy poprawność użytkownika i hasła porównując je 
 z tabelą użytkowników w bazie danych przy użyciu [Rekordu Aktywnego](/doc/guide/database.ar). 
@@ -283,7 +283,7 @@ Reguła dostępu może pasować do następujących parametrów kontekstowych:
 
    - [expression|CAccessRule::expression]: określenia wyrażenie PHP, którego wartość
    określa czy reguła jest pasującą. W wyrażeniach możesz używać zmiennej użytkownika `$user`,
-   która referuje do `Yii::app()->user`. Opcja ta została udostępniona od wersji 1.0.3.
+   która referuje do `Yii::app()->user`. 
 
 
 Zarządzanie wynikami autoryzacji
@@ -554,8 +554,6 @@ if(Yii::app()->user->checkAccess('updateOwnPost',$params))
 
 ### Używanie domyślnych ról
 
-> Note|Uwaga: Domyślne rolę są dostępne od wersji 1.0.3
-
 Wiele aplikacji webowych potrzebuje pewnych bardzo specjalnych ról, które będą 
 przypisane do każdego lub prawie każdego użytkownika systemu. Na przykład, 
 możemy chcież przypisać pewne uprawnienia do wszystkich uwierzytelnionych użytkowników. 
@@ -599,4 +597,4 @@ $bizRule='return Yii::app()->user->isGuest;';
 $auth->createRole('guest','gość', $bizRule);
 ~~~
 
-<div class="revision">$Id: topics.auth.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>
+<div class="revision">$Id: topics.auth.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

@@ -27,6 +27,10 @@ verwaltet. Mit diesem Befehl können neue Migrationen erstellt, angewendet,
 zurückgenommen oder wiederholt werden. Man kann auch die Historie aller
 Migrationen oder neue Migrationen anzeigen lassen.
 
+>Note|Hinweis: Es wird empfohlen, den `migrate`-Befehl mit der yiic-Version 
+>im Applikationspfad (z.B. `cd pfad/zu/protected`) statt der im
+>Framework-Verzeichnis auszuführen.
+
 Migrationen erstellen
 ---------------------
 
@@ -57,11 +61,22 @@ class m101129_185401_erstelle_news_tabelle extends CDbMigration
 	{
 	}
 
-    /*
     public function down()
     {
+		echo "m101129_185401_erstelle_news_tabelle unterstützt migration down nicht.\n";
+		return false;
     }
-    */
+
+	/*
+	// Falls Transaktionen benötigt werden, kann stattdessen safeUp/safeDown implementiert werden
+	public function safeUp()
+	{
+	}
+
+	public function safeDown()
+	{
+	}
+	*/
 }
 ~~~
 
@@ -76,7 +91,13 @@ Die `up()`-Methode sollte den Code für die eigentliche Migration enthalten,
 Manchmal kommt es vor, dass eine `down()`-Methode nicht möglich ist, zum
 Beispiel wenn in `up()` einige Tabellenzeilen gelöscht wurden. In diesem Fall
 wird die Migration irreversibel genannt. Man kann sie also nicht rückgängig
-machen und die Datenbank in einen früheren Zustand zurückfahren.
+machen und die Datenbank in einen früheren Zustand zurückfahren. Im
+generierten Code oben liefert die `down()`-Methode `false` zurück um
+dies anzuzeigen.
+
+>Info: Seit Version 1.1.7 werden alle folgenden Migrationen abgebrochen,
+>falls `up()` oder `down()` den Wert `false` zurückgeben. In Version 1.1.6
+>musste man dazu noch eine Exception werfen.
 
 Das folgende Beispiel zeigt die Migration zum Erstellen einer News-Tabelle.
 
@@ -113,6 +134,83 @@ Tabelle einfügt. Alle Methoden verwenden die Datenbankverbindung, die von
 > Zeit gemessen, sowie einige Informationen über die Parameter ausgegeben
 > werden.
 
+Transaktionen in Migrationen
+----------------------------
+
+>Info: Dieses Feature steht seit Version 1.1.7 zur Verfügung.
+
+Werden komplexe Migrationen auf einer Datenbank ausgeführt, möchte man für
+gewöhnlich sicherstellen, dass jede einzelne Migration erfolgreich war. Falls
+nicht, sollen alle Migrationen abgebrochen werden, um die Datenbank in einem
+konsistenten Zustand zu hinterlassen. Zu diesem Zweck kann man
+DB-Transaktionen einsetzen.
+
+Man könnte hierzu explizit eine Transaktion starten und sämtlichen
+DB-bezogenen Code innerhalb dieser Transaktion ausführen:
+
+~~~
+[php]
+class m101129_185401_erstelle_news_tabelle extends CDbMigration
+{
+	public function up()
+	{
+		$transaction=$this->getDbConnection()->beginTransaction();
+		try
+		{
+			$this->createTable('tbl_news', array(
+				'id' => 'pk',
+				'title' => 'string NOT NULL',
+				'content' => 'text',
+			));
+			$transaction->commit();
+		}
+		catch(Exception $e)
+		{
+			echo "Exception: ".$e->getMessage()."\n";
+			$transaction->rollBack();
+			return false;
+		}
+	}
+
+	// ...ähnlicher Code für down()
+}
+~~~
+
+Stattdessen kann man aber auch einfach die Funktionen `safeUp()`
+statt `up()` und `safeDown()` statt `down()` implementieren:
+
+~~~
+[php]
+class m101129_185401_erstelle_news_tabelle extends CDbMigration
+{
+	public function safeUp()
+	{
+		$this->createTable('tbl_news', array(
+			'id' => 'pk',
+			'title' => 'string NOT NULL',
+			'content' => 'text',
+		));
+	}
+
+	public function safeDown()
+	{
+		$this->dropTable('tbl_news');
+	}
+}
+~~~
+
+Wenn Yii die Migrationen durchführt, startet es automatisch eine
+DB-Transaktion und führt danach `safeUp()` oder `safeDown()` aus. Falls diese
+Methoden einen Datenbankfehler verursachen, wird die Transaktion
+zurückgefahren. Damit wird gewährleistet, dass die Datenbank in einem
+definierten Status verbleibt.
+
+>Note|Hinweis: Nicht alle DBMS unterstützen Transaktionen. Einige DB-Befehle
+>können auch gar nicht in Transaktionen gesetzt werden. In diesen Fällen
+>müssen sie stattdessen `up()` und `down()` implementieren. Beachten Sie für
+>MySQL außerdem, dass einige Ausdrücke ein [implizites
+>Commit](http://dev.mysql.com/doc/refman/5.1/en/implicit-commit.html)
+>verursachen.
 
 Migrationen anwenden
 --------------------
@@ -301,4 +399,4 @@ return array(
 Ruft man nun den `migrate`-Befehl auf, werden obige Optionen immer angewendet,
 ohne sie explizit mit angeben zu müssen.
 
-<div class="revision">$Id: database.migration.txt 2832 2011-01-10 14:37:04Z qiang.xue $</div>
+<div class="revision">$Id: database.migration.txt 3060 2011-03-13 11:44:14Z alexander.makarow $</div>

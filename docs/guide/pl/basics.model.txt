@@ -20,7 +20,7 @@ dostarczone przez użytkownika końcowego. Aby uzyskać więcej szczegółów, z
 sekcję [Praca z formularzami](/doc/guide/form.model).
 
 Rekord aktywny (AR) jest wzorcem projektowym używanym do uzyskania dostępu do abstrakcji 
-bazy danych w bardziej obiektowo zorientowanym sposób. Każdy obiekt AR jest instancją 
+bazy danych w bardziej obiektowo zorientowany sposób. Każdy obiekt AR jest instancją 
 klasy [CActiveRecord] lub jej klas pochodnych, reprezentujących pojedynczy wiersz 
 w bazie danych. Pola w wierszu są reprezentowane przez właściwości obiektu AR.
 Szczegóły dotyczące AR można znaleźć w sekcji [Rekord aktywny](/doc/guide/database.ar).

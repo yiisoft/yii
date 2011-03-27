@@ -53,13 +53,13 @@ und die Anwendung die neuen URLs auch richtig interpretiert:
 ~~~
 [php]
 array(
-	......
-	'components'=>array(
-		......
-		'urlManager'=>array(
-			'urlFormat'=>'path',
-		),
-	),
+    ......
+    'components'=>array(
+        ......
+        'urlManager'=>array(
+            'urlFormat'=>'path',
+        ),
+    ),
 );
 ~~~
 
@@ -87,18 +87,18 @@ der [urlManager|CWebApplication::urlManager]-Komponente konfigurieren:
 ~~~
 [php]
 array(
-	......
-	'components'=>array(
-		......
-		'urlManager'=>array(
-			'urlFormat'=>'path',
-			'rules'=>array(
-				'pattern1'=>'route1',
-				'pattern2'=>'route2',
-				'pattern3'=>'route3',
-			),
-		),
-	),
+    ......
+    'components'=>array(
+        ......
+        'urlManager'=>array(
+            'urlFormat'=>'path',
+            'rules'=>array(
+                'pattern1'=>'route1',
+                'pattern2'=>'route2',
+                'pattern3'=>'route3',
+            ),
+        ),
+    ),
 );
 ~~~
 
@@ -116,8 +116,18 @@ Format verwenden:
 'pattern1'=>array('route1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
 ~~~
 
-Hier wird die Route sowie eine Reihe von Zusatzoptionen als Array angegeben. Seit Version 1.1.0
-stehen diese Optionen zur Verfügung:
+Seit Version 1.1.7 kann man auch mehrere Regeln für das selbe Muster wie folgt
+definieren:
+
+~~~
+[php]
+array('route1', 'pattern'=>'pattern1', 'urlSuffix'=>'.xml', 'caseSensitive'=>false)
+~~~
+
+Hier die möglichen Optionen für jede Regel:
+
+   - [pattern|CUrlRule::pattern]: Das Suchmuster, dem erzeugte, bzw. zu
+analysierende URLs entpsrechen müssen. Seit Version 1.1.7 verfügbar.
 
    - [urlSuffix|CUrlRule::urlSuffix]: Die Endung (Suffix) speziell für diese
    Regel. Standardmäßig null, was bedeutet, dass der Wert von
@@ -129,8 +139,8 @@ stehen diese Optionen zur Verfügung:
    wird.
 
    - [defaultParams|CUrlRule::defaultParams]: Die GET-Parameter (Name=>Wert)
-	für diese Regel. Wenn diese Regel für einen eingehenden Request verwendet
-	wird, werden die hier angegebenen Werte nach $_GET eingeschleust.
+    für diese Regel. Wenn diese Regel für einen eingehenden Request verwendet
+    wird, werden die hier angegebenen Werte nach $_GET eingeschleust.
 
    - [matchValue|CUrlRule::matchValue]: Ob die GET-Parameter beim Erzeugen
    einer URL mit den entsprechenden Submustern übereinstimmen müssen.
@@ -141,6 +151,19 @@ stehen diese Optionen zur Verfügung:
    dann müssen die gegebenen Parameterwerte auch mit den entsprechenden
    Submusterwerten übereinstimmen. Beachten Sie, dass letzteres die 
    Geschwindigkeit negativ beeinflussen kann.
+
+   - [verb|CUrlRule::verb]: Das HTTP-Verb (z.B. `GET`, `POST`, `DELETE`) für
+    das diese Regel gültig sein soll. Der Vorgabewert null bedeutet, dass die
+    Regel für alle HTTP-Verben gilt. Soll eine Regel auf mehrere Verben zutreffen,
+    müssen diese mit Komma getrennt werden. Beim Auswerten eines Requests wird eine Regel 
+    übersprungen, wenn das aktuelle Verb nicht mit dem/den angegebenen Verb(en) übereinstimmt.
+    Diese Option wird nur beim Auswerten verwendet und ist für REST-Support nützlich.
+    Sie steht seit Version 1.1.7 zur Verfügung.
+
+   - [parsingOnly|CUrlRule::parsingOnly]: ob diese Regel nur zum Auswerten
+   eines Requests verwendet werden soll. Vorgabewert is `false`, wodurch eine Regel
+   sowohl zum Auswerten als auch zum Erstellen von URLs verwendet wird.
+   Diese Option steht seit Version 1.1.7 zur Verfügung.
 
 
 Verwenden von benannten Parametern
@@ -168,9 +191,9 @@ funktionieren:
 ~~~
 [php]
 array(
-	'posts'=>'post/list',
-	'post/<id:\d+>'=>'post/read',
-	'post/<year:\d{4}>/<title>'=>'post/read',
+    'posts'=>'post/list',
+    'post/<id:\d+>'=>'post/read',
+    'post/<year:\d{4}>/<title>'=>'post/read',
 )
 ~~~
 
@@ -221,8 +244,8 @@ Traffic-Aufkommen sollte daher die Anzahl ihrer URL-Regeln minimieren.
 Parametrisierte Routen
 ----------------------
 
-Seit Version 1.0.5 kann man benannte Parameter im Routen-Teil einer Regel
-ansprechen. Dadurch kann die Regel je nach Suchkriterium auf mehrere Routen 
+Man kann benannte Parameter auch im Routen-Teil einer Regel
+ansprechen. Dadurch kann die Regel je nach Suchkriterium auf mehrere Routen
 angewendet werden. Es kann auch helfen, die Anzahl der benötigten Regeln in
 einer Anwendung zu minimieren und dadurch die Gesamtperformance zu
 steigern.
@@ -232,9 +255,9 @@ Hier ein Beispiel, wie Routen mit benannten Parametern parametrisiert werden:
 ~~~
 [php]
 array(
-	'<_c:(post|comment)>/<id:\d+>/<_a:(create|update|delete)>' => '<_c>/<_a>',
-	'<_c:(post|comment)>/<id:\d+>' => '<_c>/read',
-	'<_c:(post|comment)>s' => '<_c>/list',
+    '<_c:(post|comment)>/<id:\d+>/<_a:(create|update|delete)>' => '<_c>/<_a>',
+    '<_c:(post|comment)>/<id:\d+>' => '<_c>/read',
+    '<_c:(post|comment)>s' => '<_c>/list',
 )
 ~~~
 
@@ -253,7 +276,7 @@ URL `/index.php/comments?page=2` erzeugt.
 Parametrisierte Hostnamen
 -------------------------
 
-Seit Version 1.0.11 kann auch der Hostname in URL-Regeln verwendet werden.
+Auch der Hostname kann in URL-Regeln verwendet werden.
 Teile des Hostnamens können extrahiert und in GET-Parameter überführt werden.
 Die URL `http://admin.example.com/en/profile` kann zum Beispiel in die
 GET-Parameter `user=admin` und `lang=en` ausgewertet werden. Regeln mit
@@ -266,7 +289,7 @@ mit Host-Informationen. Zum Beispiel:
 ~~~
 [php]
 array(
-	'http://<user:\w+>.example.com/<lang:\w+>/profile' => 'user/profile',
+    'http://<user:\w+>.example.com/<lang:\w+>/profile' => 'user/profile',
 )
 ~~~
 
@@ -327,4 +350,4 @@ einer statischen Webseite aus. Setzen Sie dazu einfach die gewünschte Endung
 über die Eigenschaft [urlSuffix|CUrlManager::urlSuffix] der
 [urlManager|CWebApplication::urlManager]-Komponente.
 
-<div class="revision">$Id: topics.url.txt 2773 2010-12-26 16:58:38Z jefftulsa $</div>
+<div class="revision">$Id: topics.url.txt 2923 2011-01-29 21:02:46Z mdomba $</div>

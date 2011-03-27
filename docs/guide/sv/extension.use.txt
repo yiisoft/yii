@@ -17,12 +17,6 @@ utvidgningar. Givet en utvidgning med namnet `xyz`, kan alltid aliassökvägen
 `ext.xyz` användas för att lokalisera dess rotkatalog, vilken innehåller 
 alla filer som tillhör `xyz`.
 
-> Note|Märk: Rotsökvägsalias `ext` har varit tillgängligt sedan version 1.0.8.
-Tidigare behövde man använda `application.extensions` för att referera till
-katalogen med alla utvidgningar. Exemplen i nedanstående stycken förutsätter att 
-`ext` är definierad. För version 1.0.7 eller lägre måste 
-`application.extensions` användas istället.
-
 Olika utvidgningar har varierande krav kring import av konfiguration samt 
 användning. I det följande sammanfattas vanliga användningsfall för 
 utvidgningar, enligt respektive kategorier, beskrivna i 
@@ -33,8 +27,7 @@ Zii-utvidgningar
 
 Innan vi börjar beskriva användning av tredjepartstillägg vill vi introducera 
 utvidgningsbiblioteket Zii, vilket består av en uppsättning tillägg framtagna av Yii:s 
-team av utvecklare och kommer att följa med i varje release av Yii fr o m version 1.1.0. 
-Zii-biblioteket underhålls under Google-projektet [zii](http://code.google.com/p/zii/).
+team av utvecklare och kommer att följa med i varje release.
 
 För att använda Zii-tillägg måste man referera till motsvarande klass med hjälp av ett 
 sökvägsalias på formen `zii.path.to.ClassName`. Rotalias `zii` är fördefinierat av Yii. 
@@ -334,4 +327,4 @@ Sedan kan en instans av klassen skapas, dess propertyn konfigureras och dess
 metoder anropas. Man kan även ärva och utvidga komponentens klass.
 
 
-<div class="revision">$Id: extension.use.txt 1780 2010-02-01 20:32:50Z qiang.xue $</div>
+<div class="revision">$Id: extension.use.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

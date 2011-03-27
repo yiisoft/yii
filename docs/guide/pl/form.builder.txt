@@ -5,8 +5,7 @@ Podczas tworzenia formularzy HTML często mamy do czynienia z pisaniem dużej il
 się kodu widoków, który trudno jest użyć ponownie w innych projektach. Na przykład, potrzebujemy 
 skojarzyć każde pole wejściowe z etykietą tekstową i wyświetlić możliwe błędy pochodzące ze 
 sprawdzania poprawności wprowadzonych danych. Aby dać większą możliwość ponownego wykorzystania
-tego kodu, możemy używać funkcjonalności generatora formularzy, która została udostępniona wraz 
-z wersją Yii 1.1.0.
+tego kodu, możemy używać funkcjonalności generatora formularzy.
 
 Założenia początkowe
 --------------
@@ -504,4 +503,4 @@ gdyż nadal porzebujemy pisać podobną ilość kodu formularza. Mimo to, jest t
 korzyści, gdyż formularz jest opisywany za pomocą oddzielnego pliku konfiguracyjnego, co pomaga 
 programistom lepiej skupić się na logice.
 
-<div class="revision">$Id: form.builder.txt 2353 2010-08-28 20:45:26Z qiang.xue $</div>
+<div class="revision">$Id: form.builder.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

@@ -41,24 +41,21 @@ zastąpiony przez aktualną nazwę (np. `post` odpowiada
 bez prefiksu `action`. Na przykład, jeśli klasa kontrolera zawiera metodę nazwaną
 `actionEdit`, ID odpowiadającej jej akcji to `edit`.
 
-> Note|Uwaga: Przed wersją 1.0.3, formatem ID kontrolera był ciąg `path.to.xyz`
-zamiast `path/to/xyz`.
-
 Użytkownicy żądają poszczególnych kontrolerów oraz akcji za pomocą trasy.
 Trasę tworzy połączenie ID kontrolera oraz ID akcji rozdzielone za pomocą ukośnika.
 Na przykład, trasa `post/edit` odpowiada kontrolerowi `PostController` oraz jego
 akcji `edit`. Domyślnie, adres URL `http://hostname/index.php?r=post/edit` będzie 
 żądał tego kontrolera oraz tą akcję.
 
->Note|Uwaga: Domyślnie, trasy rozróżniają wielkość liter. Od wersji 1.0.1, 
-> możliwe jest wyłączenie rozróżnienia wielkości liter poprzez ustawienie właściwości
->[CUrlManager::caseSensitive] jako false w konfiguracji aplikacji.
+>Note|Uwaga: Domyślnie, trasy rozróżniają wielkość liter.  
+> Możliwe jest wyłączenie rozróżnienia wielkości liter poprzez ustawienie właściwości
+>[CUrlManager::caseSensitive] na false w konfiguracji aplikacji.
 >Będąc w trybie rozróżniania wielkości liter, upewnij się, że używasz konwencji 
 > mówiącej, że nazwy folderów zawierające pliki klas kontrolerów zapisane są małymi
 > literami a zarówno [mapa kontrolerów|CWebApplication::controllerMap]
 >oraz [mapa akcji|CController::actions] używają kluczy zapisanych małymi literami.
 
-Od wersji 1.0.3, aplikacja może posiadać [moduły](/doc/guide/basics.module). 
+Aplikacja może posiadać [moduły](/doc/guide/basics.module). 
 Trasa dla akcji kontrolera wewnątrz modułu posiada format `IDmodułu/IDkontrolera/IDakcji`.
 Aby uzyskać więcej szczegółów zobacz [sekcję dotyczącą modułów](/doc/guide/basics.module).
 
@@ -85,14 +82,12 @@ reguł aby zdeterminować, która to klasa kontrolera oraz gdzie plik tej klasy 
 nazwą pliku klasy będzie `protected/controllers/admin/UserController.php`. Jeśli 
 plik klasy nie istnieje wywoła to błąd 404 [CHttpException].
 
-W przypadku gdy używane są [moduły](/doc/guide/basics.module) (dostępne od wersji 1.0.3), 
-powyższy proces będzie trochę inny. W szczególności, aplikacja sprawdzi czy ID odpowiada
-kontrolerowi wewnątrz modułu, jeśli tak, instancja modułu zostanie utworzona najpierw 
-poprzedzona przez instancję kontrolera.
+W przypadku gdy używane są [moduły](/doc/guide/basics.module), powyższy proces będzie trochę inny. 
+W szczególności, aplikacja sprawdzi czy ID odpowiada kontrolerowi wewnątrz modułu, 
+jeśli tak, instancja modułu zostanie utworzona najpierw poprzedzona przez instancję kontrolera.
 
 Akcja
 ------
-
 
 Jak wspomniano wyżej akcja może zostać zdefiniowana jako metoda, której nazwa rozpoczyna 
 się słowem `action`. Bardziej zaawansowanym sposobem jest zdefiniowanie klasy akcji 
@@ -206,7 +201,7 @@ Nazwa tych parametrów musi taka sama jak parametry, których oczekujemy w zmien
 Parametr języka `$language` przyjmuje domyślną wartość `en` w przypadku, gdy użytkownik nie 
 dostarczył go w swoim żądaniu. Poniewać kategoria `$category` nie posiada wartości domyślnej
 jeśli użytkownik jej nie dostarczy nam parametru `category` w `$_GET`, 
-automatycznie zostanie wyrzucony błąd [CHttpException] (kod błędu 400).
+automatycznie zostanie wyrzucony błąd [CHttpException] (kod błędu 404).
 
 Poczynając od wersji 1.1.5, Yii wspiera również wykrywanie typu tablicowego dla parametrów akcji.
 Odbywa się przy użyciu podpowiadania typów PHP o następującej składni:
@@ -229,6 +224,21 @@ zawierającej ten ciąg znaków.
 > Note|Uwaga: Jeśli parametr został zadeklarowany bez określenia typu tablicowego `array`, oznacza to,
 > że parametr musi być skalarem (np. nie może być tablicą). W takim przypadku, przekazywanie parametrów 
 > poprzez tablicę w `$_GET` spowoduje błąd HTTP.
+
+Poczynając od wersji 1.1.7 automatyczne wiązanie parametrów działa również dla akcji opartych na klasach.
+Jeśli metoda `run()` klasy akcji zdefiniowana jest wraz z parametrami, będą one wypełnione odpowiadającymi 
+im parametrami z żądania. Na przykład:
+
+~~~
+[php]
+class UpdateAction extends CAction
+{
+	public function run($id)
+	{
+		// $id zostanie uzupełnione wartością  $_GET['id']
+	}
+}
+~~~
 
 
 Filtry
@@ -299,7 +309,7 @@ class PostController extends CController
 }
 ~~~
 
-Powyższy kod definiuje dwa filtry: `postOnly` praz `PerformanceFilter`.
+Powyższy kod definiuje dwa filtry: `postOnly` oraz `PerformanceFilter`.
 Filtr `postOnly` jest filtrem opartym na metodzie (odpowiadająca filtrowi metoda jest 
 już zdefiniowana w klasie [CController]); zaś filtr `PerformanceFilter` jest filtrem opartym 
 na obiekcie. Alias ścieżki `application.filters.PerformanceFilter` określa, iż plikiem 
@@ -307,6 +317,7 @@ klasy filtru jest `protected/filters/PerformanceFilter`. W celu skonfigurowania
 filtru `PerformanceFilter` używamy tablicy, tak, że może ona zostać użyta do zainicjalizowania wartości
 właściwości obiektu filtru. Tutaj właściwość `unit` klasy `PerformanceFilter` 
 będzie zainicjowana wartością `'second'`.
+
 Używając operatora plusa oraz minusa, możemy określić dla których akcji filtr powinien
 a dla których nie powinien mieć zastosowania. W powyższym kodzie filtr `postOnly`
 powinien zostać zastosowany dla akcji `edit` oraz `create`, zaś filtr
@@ -314,4 +325,4 @@ powinien zostać zastosowany dla akcji `edit` oraz `create`, zaś filtr
 `edit` oraz `create`. Jeśli żaden z operatorów plus lub minus nie pojawia się 
 w konfiguracji filtra, filtr będzie zastosowany do wszystkich akcji.
 
-<div class="revision">$Id: basics.controller.txt 2672 2010-11-22 19:13:16Z qiang.xue $</div>
+<div class="revision">$Id: basics.controller.txt 3058 2011-03-13 04:20:12Z qiang.xue $</div>

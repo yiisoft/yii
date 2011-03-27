@@ -1,7 +1,7 @@
-Tworzenie pierwszej aplikacji
-=============================
+Tworzenie pierwszej aplikacji w Yii
+===================================
 
-W tym rozdziale pokażemy jak utworzyć naszą pierwszą aplikacje, po to, byś nabył 
+W tym rozdziale pokażemy jak utworzyć naszą pierwszą aplikacje, po to, abyś nabył 
 niezbędnego doświadczenia w pracy z Yii. Aby utworzyć nową aplikację Yii 
 użyjemy `yiic` (narzędzia linii poleceń) oraz `Gii` (potężnego, przeglądarkowego generatora kodu)
 pozwalających na automatyczne generowanie kodu dla określonych zadań. Dla wygody przyjmijmy, że
@@ -22,8 +22,8 @@ Uruchom `yiic` z wiersza poleceń w następujący sposób:
 > % php YiiRoot/framework/yiic.php webapp testdrive
 > ~~~
 
-Wywołanie takie utworzy szkielet aplikacji Yii w katalogu
-`WebRoot/testdrive`, który posiada strukturę katalogów, wymaganą przez 
+Powyższe instrukcje utworzą szkielet aplikacji Yii w katalogu
+`WebRoot/testdrive`, który posiada strukturę katalogów wymaganą przez 
 większość aplikacji Yii.
 
 Bez pisania nawet pojedynczej linijki kodu, możemy przetestować naszą pierwszą
@@ -74,7 +74,7 @@ testdrive/
       config/                zawiera pliki konfiguracyjne
          console.php         konfiguracja aplikacji konsolowej
          main.php            konfiguracja aplikacji webowej
-         test.php            konfirguracja dla testów funkcjonalnych         
+         test.php            konfiguracja dla testów funkcjonalnych         
       controllers/           zawiera pliki klas kontrolerów
          SiteController.php  klasa domyślnego kontrolera
       data/                  zawiera przykładowe bazy danych
@@ -92,7 +92,7 @@ testdrive/
          layouts/            zawiera pliki układów (ang. layout) dla widoków
             main.php         podstawowy widok dzielony przez wszystkie strony
             column1.php      układ dla stron jednokolumnowych
-            column2.php      układ dla stron dwuklumnowych
+            column2.php      układ dla stron dwukolumnowych
          site/               zawiera pliki widoków dla kontrolera 'site'
          	pages/           zawiera "statyczne" strony
          	   about.php     widok dla strony "o nas" (ang. about)         
@@ -102,7 +102,7 @@ testdrive/
             login.php        widok dla akcji 'login'
 ~~~
 
-Łączenie z bazą danych
+Łączenie się z bazą danych
 ----------------------
 
 Większość aplikacji webowych wykorzystuje bazy danych. Nasz aplikacja
@@ -125,7 +125,7 @@ return array(
 );
 ~~~
 
-Powyższy kod instruuje Yii, że aplikacja powina łączyć się z bazą danych SQLite
+Powyższy kod instruuje Yii, że aplikacja powinna łączyć się z bazą danych SQLite
 `WebRoot/testdrive/protected/data/testdrive.db` jeśli zajdzie taka potrzeba.
 Zauważ, że baza danych SQLite jest już załączona do szkieletu aplikacji, który 
 przed chwilą wygenerowaliśmy. Ta baza danych zawiera jedynie tabelę o nazwie `tbl_user`:
@@ -154,16 +154,16 @@ Implementowanie operacji CRUD
 Ta część to czysta zabawa. Chcemy zaimplementować operacje CRUD (od ang. create - tworzenie,
 read - odczyt, update - aktualizacji i delete - usuwanie) dla tabeli `tbl_user`, 
 którą przed chwilą utworzyliśmy. Operacje te są powszechnie wymagane w typowych
-aplikacjach. Zamiast męczyć się pisząc rzeczywisty kod możemy skorzystać 
+aplikacjach. Zamiast męczyć się pisząc kod możemy skorzystać 
 z `Gii` -- potężnego przeglądarkowego generatora kodu.
 
 > Info|Info: Gii dostępne jest poczynając od wersji 1.1.2. Wcześniej mogliśmy używać wspomnianego narzędzia `yiic` w celu osiągnięcia tego samego efektu. Aby uzyskać więcej szczegółów na ten temat, 
-przejdź do rozdziału [implementowanie operacji CRUD z yii](/doc/guide/quickstart.first-app-yiic).
+przejdź do rozdziału [implementowanie operacji CRUD z Yii](/doc/guide/quickstart.first-app-yiic).
 
 
 ### Konfigurowanie Gii
 
-W celu używania Gii musimy najpierw wyedytować plik `WebRoot/testdrive/protected/config/main.php`, który określany mianem [konfiguracji aplikacji](/doc/guide/basics.application#application-configuration):
+Aby używać Gii musimy najpierw zmienić plik `WebRoot/testdrive/protected/config/main.php`, który określany mianem [konfiguracji aplikacji](/doc/guide/basics.application#application-configuration):
 
 ~~~
 [php]
@@ -183,17 +183,17 @@ return array(
 );
 ~~~
 
-Następnie odwiedźmy adres URL `http://hostname/testdrive/index.php?r=gii`. 
-Zostaniemy poproszeni o wprowadzenia hasła, które powinno
-zgadzać się z tym, które przed chwilą dodaliśmy do konfiguracji aplikacji.
+Teraz możesz odwiedzić adres URL `http://hostname/testdrive/index.php?r=gii`. 
+Zostaniemy tam poproszeni o wprowadzenia hasła, które powinno
+zgadzać się z tym, które przed chwilą podaliśmy w konfiguracji aplikacji.
 
 ### Generowanie modelu użytkownika
 
-Po zalogowaniu się, kliknij na link `Model Generator`. Spowoduje to przeniesienie nas do następującej strony generującej model,
+Po zalogowaniu się, kliknij na link `Model Generator`. Spowoduje to przeniesienie nas do następującej strony generującej model.
 
 ![Generator modeli](gii-model.png)
 
-W polu nazwy tabeli `Table Name`, wprowadź `tbl_user`. W polu klasy modelu `Model Class` wprowadź `User`. Następnie naciśnij przycisk podglądu `Preview`. Spowoduje to ukazanie się nam nowego pliku z kodem, który ma zostać wygenerowany. Teraz naciśnij przycisk generowania `Generate`. Nowy plik o nazwie `User.php` zostanie wygenerowany w katalogu `protected/models`. Wygenerowana w ten sposób klasa modelu `User` pozwoli nam porozumiewywać się z tabelą bazy danych `tbl_user` w sposób obiektowy, co zostanie opisane w dalszej części przewodnika, 
+W polu nazwy tabeli `Table Name`, wprowadź `tbl_user`. W polu klasy modelu `Model Class` wprowadź `User`. Następnie naciśnij przycisk podglądu `Preview`. Spowoduje to ukazanie się nam nowego pliku z kodem, który ma zostać wygenerowany. Teraz naciśnij przycisk generowania `Generate`. Nowy plik o nazwie `User.php` zostanie wygenerowany w katalogu `protected/models`. Wygenerowana w ten sposób klasa modelu `User` pozwoli nam porozumiewać się z tabelą bazy danych `tbl_user` w sposób obiektowy, co zostanie opisane w dalszej części przewodnika, 
 
 ### Generowanie kodu CRUD
 
@@ -214,8 +214,8 @@ http://hostname/testdrive/index.php?r=user
 
 Spowoduje to wyświetlenie listy użytkowników z tabeli `tbl_user`.
 
-Kliknij przycisk `Create User` znajdujacy się na tej stronie. 
-Zostaniemy przeniesieni do strony logowania, o ile wcześniej nie zalogowaliśmy się. 
+Kliknij przycisk `Create User` znajdujący się na tej stronie. 
+Zostaniesz przeniesiony do strony logowania, o ile wcześniej nie zalogowałeś się. 
 Po zalogowaniu zobaczymy formularz wprowadzania danych, który pozwoli nam dodać nowego użytkownika.
 Wypełnij formularz i kliknij przycisk `Create`. Jeżeli wystąpił jakikolwiek błąd
 danych wejściowych, pojawi się zgrabny komunikat informujący o błędzie co ustrzeże nas 
@@ -223,7 +223,7 @@ przed zapisaniem niepoprawnych danych. Wracając do listy użytkowników powinni
 nowo dodanego użytkownika.
 	
 Aby dodać kolejnych użytkowników powtórz powyższe kroki. Zauważ, że strona z listą
-użytkowników podlega automatycznej paginacji (podzieleniu na strony), jeśli w tabeli istnieje
+użytkowników podlega automatycznemu podziałowi na strony, jeśli w tabeli istnieje
 zbyt wiele użytkowników by wyświetlić ich na jednej stronie.
 
 Jeżeli zalogowaliśmy się jako administrator używając użytkownika/hasła `admin/admin`, 
@@ -236,7 +236,7 @@ http://hostname/testdrive/index.php?r=user/admin
 Powyższe wywołanie spowoduje pokazanie się nam wpisów z użytkownikami przy 
 użyciu ładnego formatu tabelarycznego. Możemy klikać w nagłówki
 komórek, aby uporządkować odpowiadającą mu kolumnę. Możemy klikać przyciski
-w każdym wierszu danych w celu wyświetlenia, aktualziacji lub usunięcia 
+w każdym wierszu danych w celu wyświetlenia, aktualizacji lub usunięcia 
 odpowiadającego im wiersza danych. Możemy przeglądać pozostałe strony. Możemy
 również filtrować i wyszukiwać interesujące nas dane.
 

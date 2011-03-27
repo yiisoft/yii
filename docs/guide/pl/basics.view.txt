@@ -137,7 +137,7 @@ przy użyciu określonego widoku systemowego.
 
 Nazywanie widoków systemowych podlega pewnym regułom. Nazwy takie jak `errorXXX` 
 odpowiadają widokom do wyświetlania wyjątków [CHttpException] dla kodu błędu `XXX`.
-Na przykład, jeśli wywołany jejs wyjątek [CHttpException] o kodzie błędu 404, 
+Na przykład, jeśli wywołany jest wyjątek [CHttpException] o kodzie błędu 404, 
 wtedy błąd `error404` będzie wyświetlony.
 
 Yii dostarcza zestawu domyślnych widoków systemowych umieszczonych w folderze 

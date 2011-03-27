@@ -44,4 +44,26 @@ $hits=$lucene->find(strtolower($keyword));
 ~~~
 
 
-<div class="revision">$Id: extension.integration.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>
+Använda Yii med tredjepartsystem
+--------------------------------
+
+Yii kan även användas som ett självständigt bibliotek för att stödja utveckling 
+och förbättring av existerande tredjepartsystem, så som WordPress, Joomla, etc. 
+För att åstadkomma detta, inkludera följande kod i tredjepartsystemets startskript:
+
+~~~
+[php]
+require_once('path/to/yii.php');
+Yii::createWebApplication('path/to/config.php');
+~~~
+
+Ovanstående kod är mycket lik kod som används i startskriptet för en typisk Yii-applikation, 
+med undantag för en sak: metoden `run()` anropas inte när webapplikationens instans skapats.
+
+Nu kan de flesta finesser som Yii erbjuder användas för vidareutveckling av tredjepartskod. 
+Till exempel kan `Yii::app()` användas för att ge tillgång till applikationsinstansen; 
+databasfinesser som DAO och ActiveRecord kan användas liksom modell och valideringsfinesser 
+för att nämna några.
+
+
+<div class="revision">$Id: extension.integration.txt 2953 2011-02-11 15:52:21Z qiang.xue $</div>

@@ -6,7 +6,7 @@ testningsprocessen är repeterbar vill vi kunna köra testerna i ett känt
 tillstånd, benämnt *fixtur*. Till exempel, för att testa att skapa poster i en 
 bloggapplikation bör, varje gång vi kör testerna, tabellerna som lagrar 
 relevanta data om postningar (t.ex. tabellen `Post`, tabellen `Comment`) 
-återställas till något bestämt tillstånd. [PHPUnit-dokumentationen](http://www.phpunit.de/wiki/Documentation) 
+återställas till något bestämt tillstånd. [PHPUnit-dokumentationen](http://www.phpunit.de/manual/current/en/fixtures.html) 
 har en bra beskrivning av fixturpreparering i allmänhet. I detta avsnitt 
 kommer vi att beskriva hur man sätter upp databasfixturer.
 
@@ -101,4 +101,4 @@ att söka fram data ändras inte och behöver därför inte fixturfiler.
 I följande två avsnitt kommer att beskrivas hur man använder fixturer hanterade 
 av [CDbFixtureManager] i enhetstester och funktionella tester.
 
-<div class="revision">$Id: test.fixture.txt 1148 2009-06-18 22:06:22Z qiang.xue $</div>
+<div class="revision">$Id: test.fixture.txt 3039 2011-03-09 19:48:15Z qiang.xue $</div>

@@ -67,9 +67,9 @@ Mendeklarasikan Aksi Layanan Web
 --------------------------------
 
 Setelah mendefinisikan penyedia layanan, kita harus membuatnya tersedia bagi
-klien. Sebenarnya kita ingin membuat aksi kontroler untuk mengekspos layanan.
+klien. Sebenarnya kita ingin membuat aksi controller untuk mengekspos layanan.
 Ini bisa dilakukan secara mudah dengan mendeklarasikan aksi [CWebServiceAction] dalam
-kelas kontroler. Dalam contoh kita, kita akan memasukkan
+kelas controller. Dalam contoh kita, kita akan memasukkan
 `StockController`.
 
 ~~~
@@ -102,7 +102,7 @@ aksi dengan URL `http://hostname/path/to/index.php?r=stock/quote`, kita akan
 melihat banyak konten XML yang sebenarnya WSDL bagi layanan Web yang kita
 definisikan.
 
-> Tip: Secara default, [CWebServiceAction] menganggap kontroler saat ini adalah
+> Tip: Secara default, [CWebServiceAction] menganggap controller saat ini adalah
 penyedia layanan. Itulah mengapa kita mendefinisikan metode `getPrice` di dalam
 kelas `StockController`.
 

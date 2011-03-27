@@ -26,6 +26,8 @@ och nya migreringar.
 
 I det följande kommer vi att visa hur detta verktyg används.
 
+> Note|Märk: Det är bättre att använda applikationens instans av yiic (t.ex. `cd path/to/protected`)
+> vid arbete med `migrate`-kommandot, i stället för den i `framework`-katalogen.
 
 Skapa migreringar
 -----------------
@@ -56,11 +58,22 @@ class m101129_185401_create_news_table extends CDbMigration
 	{
 	}
 
-    /*
     public function down()
     {
+		echo "m101129_185401_create_news_table does not support migration down.\n";
+		return false;
     }
-    */
+
+	/*
+	// implementera safeUp/safeDown i stället, om transaktioner skall användas
+	public function safeUp()
+	{
+	}
+
+	public function safeDown()
+	{
+	}
+	*/
 }
 ~~~
 
@@ -73,7 +86,12 @@ medan metoden `down()` kan innehålla kod för att återställa det som sker i `
 
 Ibland är det inte möjligt att implementera `down()`. Om vi exempelvis tar bort tabellrader i `up()`, 
 kommer vi inte att kunna återställa dem i `down()`. I sådant fall kallas migreringen irreversibel, 
-med innebörden att vi inte kan backa till ett tidigare tillstånd för databasen.
+med innebörden att vi inte kan backa till ett tidigare tillstånd för databasen. I den generarade 
+koden ovan, returnerar metoden `down()` värdet `false` som indikation att migreringen inte är reversibel.
+
+> Info: Med start från version 1.1.7 gäller att returvärdet `false` fråm metoderna `up()` och `down()` 
+> medför att efterföljande migreringar annulleras. Tidigare, i version 1.1.6, krävdes att man 
+> genererade en exception för att övriga migreringar skulle annulleras.
 
 Tag som exempel migreringen att skapa en news-tabell.
 
@@ -105,6 +123,78 @@ som standard `Yii::app()->db`.
 > Info: Noterbart är att databasmetoderna som [CDbMigration] erbjuder är mycket lika de i [CDbCommand]. 
 Faktiskt så är de likadana med undantaget att [CDbMigration]-metoderna mäter tidåtgång och skriver ut 
 några meddelanden om metodparametrarna.
+
+
+Transaktionella migreringar
+---------------------------
+
+> Info: Finessen transaktionella migreringar stöds sedan version 1.1.7.
+
+Vid genomförande av komplexa DB-migreringar vill vi vanligen försäkra oss om att samtliga migreringssteg 
+utförs korrekt eller fallerar som en enhet, så att databasen upprätthåller korrekthet och integritet. 
+För att uppnå detta mål kan vi dra nytta av DB-transaktioner.
+
+Vi kan uttryckligen starta en DB-transaktion och låta transaktionen omge resterande DB-relaterad kod, 
+på följande sätt:
+
+~~~
+[php]
+class m101129_185401_create_news_table extends CDbMigration
+{
+	public function up()
+	{
+		$transaction=$this->getDbConnection()->beginTransaction();
+		try
+		{
+			$this->createTable('tbl_news', array(
+				'id' => 'pk',
+				'title' => 'string NOT NULL',
+				'content' => 'text',
+			));
+			$transaction->commit();
+		}
+		catch(Exception $e)
+		{
+			echo "Exception: ".$e->getMessage()."\n";
+			$transaction->rollBack();
+			return false;
+		}
+	}
+
+	// ...liknande kod för down()
+}
+~~~
+
+Ett enklare sätt att erhålla transaktionsstöd är att implementera metoden `safeUp()` i stället för `up()`, 
+och metoden `safeDown()` i stället för `down()`. Till exempel,
+
+~~~
+[php]
+class m101129_185401_create_news_table extends CDbMigration
+{
+	public function safeUp()
+	{
+		$this->createTable('tbl_news', array(
+			'id' => 'pk',
+			'title' => 'string NOT NULL',
+			'content' => 'text',
+		));
+	}
+
+	public function safeDown()
+	{
+		$this->dropTable('tbl_news');
+	}
+}
+~~~
+
+När migreringen utförs kommer Yii att starta en DB-transaktion och därefter anropa `safeUp()` eller `safeDown()`. 
+Om något DB-fel inträffar i `safeUp()` eller `safeDown()`, kommer transaktionen att reverseras och därmed  
+säkerställa att databasen förblir i ett gott skick.
+
+> Note|Märk: Transaktioner stöds inte av alla databashanterare. Vissa DB-frågor kan inte ingå i en 
+> transaktion. I sådant fall måste i stället `up()` och `down()` implementeras. 
+> I fråga om MySQL, kan vissa SQL-satser leda till en [underförstådd commit-operation](http://dev.mysql.com/doc/refman/5.1/en/implicit-commit.html).
 
 
 Applicera migreringar
@@ -281,4 +371,4 @@ Om vi nu kör `migrate`-kommandot, kommer ovanstående konfigureringar att gäll
 mata in kommandoradsalternativ varje gång.
 
 
-<div class="revision">$Id: database.migration.txt 2832 2011-01-10 14:37:04Z qiang.xue $</div>
+<div class="revision">$Id: database.migration.txt 3060 2011-03-13 11:44:14Z alexander.makarow $</div>

@@ -1,7 +1,7 @@
 Migracja z wersji 1.0 do 1.1
 =================================
 
-Zmiany związane z scenariuszami modelu
+Zmiany związane ze scenariuszami modelu
 ------------------------------------
 
 - usunięto metodę CModel::safeAttributes(). Bezpiecznymi atrybutami w ramach konkretnego scenariusza
@@ -12,24 +12,24 @@ Dla metod CModel::setAttributes(), CModel::getSafeAttributeNames() usunięto par
 'scenario'. Powinieneś teraz ustawiać i usuwać scenariusz modelu poprzez CModel::scenario.
 
 - zmieniono metody CModel::getValidators() oraz CModel::getValidatorsForAttribute().
-CModel::getValidators() zwraca tylko validatory, mające zastosowanie dla scenariusza określonego
+CModel::getValidators() zwraca tylko validatory mające zastosowanie dla scenariusza określonego
 we właściwości scenario modelu.
 
 - zmieniono metodę CModel::isAttributeRequired() oraz CModel::getValidatorsForAttribute().
 Parametr przekazujący scenariusz został usunięty. W zamian w modelu 
-należy używać właściwości scenariusza `scenaio`.
+należy używać właściwości scenariusza `scenario`.
 
 - usunięto CHtml::scenario. W zamian CHtml będzie używać właściwości scenariusza `scenario` modelu.
 
-Zmiany związane z zachłannym ładowaniem dla relacyjnego rekordy aktywnego (AR)
+Zmiany związane z zachłannym ładowaniem dla relacyjnego rekordu aktywnego (AR)
 ---------------------------------------------------------------
 
 - Domyślnie, pojedyncze wyrażenie JOIN będzie wygenerowane i użyte dla wszystkich  
 relacji zaangażowanych w zachłanne ładowanie. Jeśli dla głównej tabeli ustawione są 
-opcje zapytania `LIMIT` oraz `OFFSET`, najpierw zostanie zadane zapytanie tylko dla niej 
+opcje zapytania takie jak `LIMIT` oraz `OFFSET`, najpierw zostanie zadane zapytanie tylko dla tej tabeli
 a następnie wywołane zostanie kolejne zapytanie SQL, które zwróci wszystkie powiązane
 obiekty. Poprzednio w wersji 1.0.x, domyślnym zachowaniem było wywołanie `N+1` 
-zapytań SQL jeśli zachłanne ładowanie angażowało `N` relacji `HAS_MANY` lub `MANY_MANY`.
+zapytań SQL jeśli zachłanne ładowanie angażowało `N` relacji typu `HAS_MANY` lub `MANY_MANY`.
 
 Zmiany związane z aliasem tabeli w relacyjnym rekordzie aktywnym.
 ------------------------------------------------------------
@@ -41,7 +41,7 @@ używać prefiksu `??.` podczas odnoszenia się do tego wygenerowanego automatyc
 - Alias nazwy tabeli głównej w zapytaniu AR ustalony został jako `t`.
 Poprzednio w wersji 1.0.x, był on taki sam jak nazwa tabeli. Powodowało to, 
 iż istniejący kod zapytania AR przestawał działać, jeśli jawnie zdefiniowaliśmy
-prefiksy kolumn używajac nazwy tabeli. Rozwiązaniem tego problemu jest zastąpienie
+prefiksy kolumn używając nazwy tabeli. Rozwiązaniem tego problemu jest zastąpienie
 tych prefiksów przez 't.'.
 
 Zmiany związane tablicowymi danymi wejściowymi

@@ -92,11 +92,12 @@ Untuk lebih jelasnya, silahkan merujuk ke file tampilan standar framework di baw
 direktori `view`.
 
 
-Penanganan Error dengan Penggunaan Action(Aksi)
+Penanganan Error dengan Penggunaan Action
 ---------------------------------------------------------------------------------
 
-Mulai dari Yii versi 1.0.6, Yii memungkinkan kita menggunakan sebuah [action dari controller](/doc/guide/basics.controller#action)
-untuk menangani tugas penampilan error. Untuk itu, kita harus mengatur error handler(penanganan error) dalam konfigurasi aplikasi:
+Yii memungkinkan kita menggunakan sebuah [action dari controller](/doc/guide/basics.controller#action)
+untuk menangani tugas penampilan error. Untuk itu, kita harus mengatur error handler(penanganan error)
+dalam konfigurasi aplikasi:
 
 ~~~
 [php]
@@ -111,10 +112,10 @@ return array(
 ~~~
 
 Pada kode di atas, kita mengkonfigurasi properti [CErrorHandler::errorAction] untuk menjadi rute
-`site/error` yang merujuk aksi `error` di `SiteController`. Kita akan menggunakan rute yang berbeda
+`site/error` yang merujuk action `error` di `SiteController`. Kita akan menggunakan rute yang berbeda
 apabila diperlukan
 
-Kita dapat menulis aksi `error` seperti berikut:
+Kita dapat menulis action `error` seperti berikut:
 
 ~~~
 [php]
@@ -138,9 +139,11 @@ Informasi error yang dikembalikan dari [CErrorHandler::error] adalah sebuah lari
  * `source`: kode sumber(source code) konteks di tempat error terjadi..
 
 > Tip: Alasan kita mengecek apakah [CErrorHandler::error] kosong atau tidak dikarenakan
-aksi `error` bisa saja di-request oleh end user secara langsung yang berarti tidak ada error.
+action `error` bisa saja di-request oleh end user secara langsung yang berarti tidak ada error.
 Karena kita sedang melemparkan larik(array) `$error` ke view, kita akan memperluas variabel individu
-secara otomatis. Sebagai hasilnya, kita dapat mengakses variabel-variabel `$code`, `$type` secara langsung di view.
+secara otomatis. Sebagai hasilnya, kita dapat mengakses variabel-variabel `$code`, `$type`
+secara langsung di view.
+
 
 Pencatatan Message(Pesan)
 ----------------
@@ -153,4 +156,4 @@ akan menjadi `exception.ExceptionClassName` (untuk [CHttpException]
 kategori). Selanjutnya Anda dapat mengeksploitasi fitur [pencatatan](/doc/guide/topics.logging)
 untuk memonitor error yang terjadi selama eksekusi aplikasi.
 
-<div class="revision">$Id: topics.error.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>
+<div class="revision">$Id: topics.error.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

@@ -1,7 +1,7 @@
 Uji Coba Unit(Unit Testing)
 ===========================
 
-Karena framework uji coba Yii dibuat dari [PHPUnit](http://www.phpunit.de/), maka Anda direkomendasi untuk membaca [dokumentasi PHPUnit](http://www.phpunit.de/wiki/Documentation) terlebih dahulu untuk memahami bagaimana menulis sebuah uji coba unit. Kita meringkaskan prinsip dasar dalam penulisan uji coba unit dalam Yii sebagai berikut:
+Karena framework uji coba Yii dibuat dari [PHPUnit](http://www.phpunit.de/), maka Anda direkomendasi untuk membaca [dokumentasi PHPUnit](http://www.phpunit.de/manual/current/en/index.html) terlebih dahulu untuk memahami bagaimana menulis sebuah uji coba unit. Kita meringkaskan prinsip dasar dalam penulisan uji coba unit dalam Yii sebagai berikut:
 
  * Sebuah uji coba unit ditulis dalam bentuk kelas dengan aturan nama `XyzTest` yang diturunkan [CTestCase] atau [CDbTestCase]. `Xyz` merupakan nama kelas yang diuji coba. Misalnya, kita ingin menguji kelas `Post`, kita akan menamakan unit uji coba bersangkutan dengan `PostTest` sesuai aturan. Kelas dasar [CTestCase] ditujukan untuk uji coba unit yang umum, sedangkan [CDbTestCase] lebih cocok untuk uji coba kelas model [rekaman aktif(active record)](/doc/guide/database.ar). Karena `PHPUnit_Framework_TestCase` merupakan induk dari kedua kelas tersebut, kita dapat menggunakan semua metode yang diturunkan dari kelas ini.
 
@@ -77,4 +77,4 @@ public function testApprove()
 ~~~
 
 
-<div class="revision">$Id: test.unit.txt 1745 2010-01-24 14:23:36Z qiang.xue $</div>
+<div class="revision">$Id: test.unit.txt 2841 2011-01-12 21:04:12Z alexander.makarow $</div>

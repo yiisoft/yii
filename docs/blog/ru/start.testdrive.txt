@@ -8,7 +8,7 @@
 Установка Yii
 -------------
 
-Сначала мы установим фрейморк. Скачаем копию архива релиза (версии
+Сначала мы установим фреймворк. Скачаем копию архива релиза (версии
 1.1.1 или выше) с сайта
 [www.yiiframework.com](http://www.yiiframework.com/download) и распакуем в
 директорию `/wwwroot/yii`. Убедимся, что получили директорию
@@ -107,7 +107,7 @@ deny from all
  2. С определенными в файле конфигурации `/wwwroot/blog/protected/config/main.php`
     начальными значениями создаётся экземпляр [приложения](/doc/guide/ru/basics.application);
  3. Приложение отдаёт обработку запроса определённому [действию](/doc/guide/ru/basics.controller#action)
-    [контроллера](/doc/guide/ru/basics.controller).    
+    [контроллера](/doc/guide/ru/basics.controller).
 	Запрос страницы `Контакты` обрабатывается действием `contact` контроллера `site`
 	(методом `actionContact` класса `/wwwroot/blog/protected/controllers/SiteController.php`);
  4. Приложение создает контроллер `site` (экземпляр класса `SiteController`)

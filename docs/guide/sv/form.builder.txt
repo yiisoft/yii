@@ -4,8 +4,7 @@ Använda Form Builder
 När vi skapar HTML-formulär, finner vi ofta att vi skriver mängder av repetitiv vykod 
 som är svår att återanvända i ett annat projekt. Till exempel, för varje inmatningsfält
 behöver vi associera fältet med dess textetikett samt presentera eventuella valideringsfel.
-För att göra sådan kod mer återanvändningsbar, kan vi använda formulärbyggaren, en finess som  
-har varit  tillgänglig sedan version 1.1.0.
+För att göra sådan kod mer återanvändningsbar, kan vi använda formulärbyggaren.
 
 
 Grundkoncept
@@ -498,4 +497,4 @@ nytta, dock, att formuläret specificeras genom användning av en separat konfig
 hjälper utvecklare att bättre fokusera på logiken.
 
 
-<div class="revision">$Id: form.builder.txt 2353 2010-08-28 20:45:26Z qiang.xue $</div>
+<div class="revision">$Id: form.builder.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>
