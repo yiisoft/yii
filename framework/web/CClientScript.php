@@ -307,7 +307,7 @@ class CClientScript extends CApplicationComponent
 			if(isset($package['baseUrl']))
 			{
 				$baseUrl=$package['baseUrl'];
-				if($baseUrl==='' || $baseUrl[0]!=='/')
+				if($baseUrl==='' || $baseUrl[0]!=='/' && strpos($baseUrl,'://')>0)
 					$baseUrl=Yii::app()->getRequest()->getBaseUrl().'/'.$baseUrl;
 				$baseUrl=rtrim($baseUrl,'/');
 			}
