@@ -320,7 +320,7 @@ class CController extends CBaseController
 	/**
 	 * This method is invoked when the request parameters do not satisfy the requirement of the specified action.
 	 * The default implementation will throw a 400 HTTP exception.
-	 * @pararm CAction $action the action being executed
+	 * @param CAction $action the action being executed
 	 * @since 1.1.7
 	 */
 	public function invalidActionParams($action)
