@@ -5,6 +5,7 @@
 Version 1.1.8 work in progress
 ------------------------------
 - Bug: Fixed a typo that may cause issue when setting custom script packages with baseUrl option for CClientScript (Qiang)
+- Bug #2272: Fixed the bug undefined index css in CTreeView (mdomba)
 - Enh #2262: Added warning log when a session fails to start by CHttpSession (Qiang)
 - Enh #2268: Added CClientScript::getPackageBaseUrl() (Qiang)
 
