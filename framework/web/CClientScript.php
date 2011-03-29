@@ -301,20 +301,9 @@ class CClientScript extends CApplicationComponent
 			return;
 		$cssFiles=array();
 		$jsFiles=array();
-		$am=Yii::app()->getAssetManager();
 		foreach($this->coreScripts as $name=>$package)
 		{
-			if(isset($package['baseUrl']))
-			{
-				$baseUrl=$package['baseUrl'];
-				if($baseUrl==='' || $baseUrl[0]!=='/' && strpos($baseUrl,'://')===false)
-					$baseUrl=Yii::app()->getRequest()->getBaseUrl().'/'.$baseUrl;
-				$baseUrl=rtrim($baseUrl,'/');
-			}
-			else if(isset($package['basePath']))
-				$baseUrl=$am->publish(Yii::getPathOfAlias($package['basePath']));
-			else
-				$baseUrl=$this->getCoreScriptUrl();
+			$baseUrl=$this->getPackageBaseUrl($name);
 			if(!empty($package['js']))
 			{
 				foreach($package['js'] as $js)
@@ -473,6 +462,34 @@ class CClientScript extends CApplicationComponent
 	public function setCoreScriptUrl($value)
 	{
 		$this->_baseUrl=$value;
+	}
+
+	/**
+	 * Returns the base URL for a registered package with the specified name.
+	 * If needed, this method may publish the assets of the package and returns the published base URL.
+	 * @param string $name the package name
+	 * @return string the base URL for the named package. False is returned if the package is not registered yet.
+	 * @see registerPackage
+	 * @since 1.1.8
+	 */
+	public function getPackageBaseUrl($name)
+	{
+		if(!isset($this->coreScripts[$name]))
+			return false;
+		$package=$this->coreScripts[$name];
+		if(isset($package['baseUrl']))
+		{
+			$baseUrl=$package['baseUrl'];
+			if($baseUrl==='' || $baseUrl[0]!=='/' && strpos($baseUrl,'://')===false)
+				$baseUrl=Yii::app()->getRequest()->getBaseUrl().'/'.$baseUrl;
+			$baseUrl=rtrim($baseUrl,'/');
+		}
+		else if(isset($package['basePath']))
+			$baseUrl=Yii::app()->getAssetManager()->publish(Yii::getPathOfAlias($package['basePath']));
+		else
+			$baseUrl=$this->getCoreScriptUrl();
+
+		return $this->coreScripts[$name]['baseUrl']=$baseUrl;
 	}
 
 	/**
