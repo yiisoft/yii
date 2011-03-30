@@ -206,10 +206,10 @@ class CTreeView extends CWidget
 				$options=isset($node['htmlOptions']) ? $node['htmlOptions'] : array();
 				if($css!=='')
 				{
-					if(isset($options['css']))
-						$options['css'].=' '.$css;
+					if(isset($options['class']))
+						$options['class'].=' '.$css;
 					else
-						$options['css']=$css;
+						$options['class']=$css;
 				}
 
 				if(isset($node['id']))
