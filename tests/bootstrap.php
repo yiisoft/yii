@@ -18,3 +18,5 @@ class CTestCase extends PHPUnit_Framework_TestCase
 class CActiveRecordTestCase extends CTestCase
 {
 }
+
+new TestApplication();
