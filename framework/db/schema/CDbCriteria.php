@@ -560,12 +560,12 @@ class CDbCriteria extends CComponent
 				else if(isset($this->with[$k]))
 				{
 					$excludes=array();
-					foreach(array('joinType','on') as $opt) 
+					foreach(array('joinType','on') as $opt)
 					{
-						if (isset($this->with[$k][$opt]))
+						if(isset($this->with[$k][$opt]))
 							$excludes[$opt]=$this->with[$k][$opt];
-						if (isset($v[$opt]))
-							$excludes[$opt]= ($opt==='on'&&isset($excludes[$opt]) ? "($excludes[$opt]) AND ": '').$v[$opt];
+						if(isset($v[$opt]))
+							$excludes[$opt]=($opt==='on'&&isset($excludes[$opt]) ? "($excludes[$opt]) AND " : '').$v[$opt];
 						unset($this->with[$k][$opt]);
 						unset($v[$opt]);
 					}
