@@ -36,6 +36,19 @@ class User extends CActiveRecord
 	{
 		return 'users';
 	}
+
+	public function scopes()
+    {
+        return array(
+            'nonEmptyPosts'=>array(
+                'with'=>array(
+                    'posts'=>array(
+                        'condition'=>'posts.id is not NULL',
+                    ),
+                ),
+            ),
+        );
+    }
 }
 
 class Mentorship extends CActiveRecord

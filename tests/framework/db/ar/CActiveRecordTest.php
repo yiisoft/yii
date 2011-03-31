@@ -1259,4 +1259,18 @@ class CActiveRecordTest extends CTestCase
 			array('user1','user3'),
 		),$result);
 	}
+
+	/**
+	 * @see issue2274
+	 */
+	function testMergingWith()
+	{
+		User::model()->nonEmptyPosts()->findAll(array(
+			'with'=>array(
+        		'posts'=>array(
+            		'joinType'=>'INNER JOIN',
+        		),
+    		)
+		));
+	}
 }
