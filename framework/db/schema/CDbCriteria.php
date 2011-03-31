@@ -559,9 +559,21 @@ class CDbCriteria extends CComponent
 					$this->with[]=$v;
 				else if(isset($this->with[$k]))
 				{
+					$excludes=array();
+					foreach(array('joinType','on') as $opt) 
+					{
+						if (isset($this->with[$k][$opt]))
+							$excludes[$opt]=$this->with[$k][$opt];
+						if (isset($v[$opt]))
+							$excludes[$opt]= ($opt==='on'&&isset($excludes[$opt]) ? "($excludes[$opt]) AND ": '').$v[$opt];
+						unset($this->with[$k][$opt]);
+						unset($v[$opt]);
+					}
 					$this->with[$k]=new self($this->with[$k]);
 					$this->with[$k]->mergeWith($v,$useAnd);
 					$this->with[$k]=$this->with[$k]->toArray();
+					if (count($excludes)!==0)
+						$this->with[$k]=CMap::mergeArray($this->with[$k],$excludes);
 				}
 				else
 					$this->with[$k]=$v;
