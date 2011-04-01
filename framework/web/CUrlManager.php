@@ -360,7 +360,7 @@ class CUrlManager extends CApplicationComponent
 						$value=array($matches[1][$j]=>$value);
 				}
 				if(isset($_GET[$name]) && is_array($_GET[$name]))
-					$value=array_merge_recursive($_GET[$name],$value);
+					$value=CMap::mergeArray($_GET[$name],$value);
 				$_REQUEST[$name]=$_GET[$name]=$value;
 			}
 			else
