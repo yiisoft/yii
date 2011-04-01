@@ -10,6 +10,7 @@ Version 1.1.8 work in progress
 - Bug #2275: Fixed the bug that ajax error handler was not called in case of exception (mdomba)
 - Enh #2262: Added warning log when a session fails to start by CHttpSession (Qiang)
 - Enh #2268: Added CClientScript::getPackageBaseUrl() (Qiang)
+- Enh #2273: Used better merging algorithm to build query parameters that are of array type in CUrlManager (Qiang)
 
 Version 1.1.7 March 27, 2011
 ----------------------------

@@ -261,6 +261,12 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 
 	/**
 	 * Merges two arrays into one recursively.
+	 * If each array has an element with the same string key value, the latter
+	 * will overwrite the former (different from array_merge_recursive).
+	 * Recursive merging will be conducted if both arrays have an element of array
+	 * type and are having the same key.
+	 * For integer-keyed elements, the elements from the latter array will
+	 * be appended to the former array.
 	 * @param array $a array to be merged to
 	 * @param array $b array to be merged from
 	 * @return array the merged array (the original arrays are not changed.)
@@ -271,7 +277,7 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 		foreach($b as $k=>$v)
 		{
 			if(is_integer($k))
-				$a[]=$v;
+				isset($a[$k]) ? $a[]=$v : $a[$k]=$v;
 			else if(is_array($v) && isset($a[$k]) && is_array($a[$k]))
 				$a[$k]=self::mergeArray($a[$k],$v);
 			else
