@@ -245,7 +245,7 @@ function() {
 			afterDelete(th,true,data);
 		},
 		error:function() {
-			afterDelete(th,false);
+			return afterDelete(th,false);
 		}
 	});
 	return false;

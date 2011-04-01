@@ -169,6 +169,12 @@
 	$.fn.yiiGridView.update = function(id, options) {
 		var settings = $.fn.yiiGridView.settings[id];
 		$('#'+id).addClass(settings.loadingClass);
+
+		if(options.error !== undefined) {
+			var customError=options.error;
+			delete options.error;
+		}
+
 		options = $.extend({
 			type: 'GET',
 			url: $.fn.yiiGridView.getUrl(id),
@@ -186,6 +192,11 @@
 				$('#'+id).removeClass(settings.loadingClass);
 				if(XHR.readyState == 0 || XHR.status == 0)
 					return;
+				if(customError!==undefined) {
+					var ret = customError();
+					if( ret!==undefined && !ret)
+						return;
+				}
 				var err='';
 				switch(textStatus) {
 					case 'timeout':
