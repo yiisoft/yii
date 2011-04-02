@@ -216,7 +216,7 @@ abstract class CValidator extends CComponent
 	 * A validator applies to a scenario as long as any of the following conditions is met:
 	 * <ul>
 	 * <li>the validator's "on" property is empty</li>
-	 * <li>the validator's "on" property contains the specified scenario</li>
+	 * <li>the validator's "on" property contains the specified scenario or '*'</li>
 	 * </ul>
 	 * @param string $scenario scenario name
 	 * @return boolean whether the validator applies to the specified scenario.
@@ -224,7 +224,7 @@ abstract class CValidator extends CComponent
 	 */
 	public function applyTo($scenario)
 	{
-		return empty($this->on) || isset($this->on[$scenario]);
+		return empty($this->on) || isset($this->on[$scenario]) || isset($this->on['*']);
 	}
 
 	/**
