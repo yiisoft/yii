@@ -1,5 +1,6 @@
 <?php
 $cs=Yii::app()->clientScript;
+$cs->coreScriptPosition=CClientScript::POS_HEAD;
 $cs->scriptMap=array();
 $baseUrl=$this->module->assetsUrl;
 $cs->registerCoreScript('jquery');
