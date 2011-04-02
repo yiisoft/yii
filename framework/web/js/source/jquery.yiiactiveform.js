@@ -302,6 +302,10 @@
 			dataType : 'json',
 			success : function(data) {
 				if (data != null && typeof data == 'object') {
+					$.each(settings.attributes, function() {
+						if (!this.enableAjaxValidation)
+							delete data[this.id];
+					});
 					successCallback($.extend({}, messages, data));
 				}
 				else {
