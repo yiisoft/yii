@@ -170,7 +170,7 @@
 		var settings = $.fn.yiiGridView.settings[id];
 		$('#'+id).addClass(settings.loadingClass);
 
-		if(options.error !== undefined) {
+		if(options && options.error !== undefined) {
 			var customError=options.error;
 			delete options.error;
 		}
