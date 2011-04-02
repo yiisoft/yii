@@ -5,7 +5,7 @@
  * @link http://www.yiiframework.com/
  * @copyright Copyright &copy; 2008-2010 Yii Software LLC
  * @license http://www.yiiframework.com/license/
- * @version $Id: jquery.yiigridview.js 208 2010-08-06 20:03:22Z qiang.xue $
+ * @version $Id$
  */
 
 ;(function($) {
