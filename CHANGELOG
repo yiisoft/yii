@@ -11,6 +11,7 @@ Version 1.1.8 work in progress
 - Enh #2262: Added warning log when a session fails to start by CHttpSession (Qiang)
 - Enh #2268: Added CClientScript::getPackageBaseUrl() (Qiang)
 - Enh #2273: Used better merging algorithm to build query parameters that are of array type in CUrlManager (Qiang)
+- Enh: Added support for using '*' to indicate that a validation rule applies to all scenarios (Qiang)
 
 Version 1.1.7 March 27, 2011
 ----------------------------

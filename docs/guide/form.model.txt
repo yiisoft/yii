@@ -334,9 +334,9 @@ else
     ...
 ~~~
 
-The applicable scenarios that a rule is associated can be specified via
-the `on` option in the rule. If the `on` option is not set, it means the
-rule will be used for all scenarios. For example,
+The applicable scenarios that a rule is associated with can be specified via
+the `on` option in the rule. If the `on` option is not set or contains '*',
+it means the rule will be used for all scenarios. For example,
 
 ~~~
 [php]
