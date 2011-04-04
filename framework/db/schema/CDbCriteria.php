@@ -565,7 +565,8 @@ class CDbCriteria extends CComponent
 						if(isset($this->with[$k][$opt]))
 							$excludes[$opt]=$this->with[$k][$opt];
 						if(isset($v[$opt]))
-							$excludes[$opt]=($opt==='on'&&isset($excludes[$opt]) ? "($excludes[$opt]) AND " : '').$v[$opt];
+							$excludes[$opt]= ($opt==='on' && isset($excludes[$opt]) && $v[$opt]!==$excludes[$opt]) ?
+								"($excludes[$opt]) AND $v[opt])" : $v[$opt];
 						unset($this->with[$k][$opt]);
 						unset($v[$opt]);
 					}
