@@ -152,7 +152,7 @@ jQuery('$selector').live('click',function(){
 	}
 
 	/**
-	 * Checks if GD with FreeType support is loadded.
+	 * Checks if GD with FreeType support is loaded.
 	 * @return boolean true if GD with FreeType support is loaded, otherwise false
 	 * @since 1.1.5
 	 */
