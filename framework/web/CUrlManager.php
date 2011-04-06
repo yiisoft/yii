@@ -79,7 +79,7 @@
  * for parsing and creating URLs. One may extract part of the hostname to be a GET parameter.
  * For example, the URL <code>http://admin.example.com/en/profile</code> may be parsed into GET parameters
  * <code>user=admin</code> and <code>lang=en</code>. On the other hand, rules with hostname may also be used to
- * create URLs with paratermized hostnames.
+ * create URLs with parameterized hostnames.
  *
  * In order to use parameterized hostnames, simply declare URL rules with host info, e.g.:
  * <pre>

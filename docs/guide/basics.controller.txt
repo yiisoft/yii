@@ -222,7 +222,7 @@ class PostController extends CController
 {
 	public function actionCreate(array $categories)
 	{
-		// Yii will make sure $categories be an array
+		// Yii will make sure that $categories is an array
 	}
 }
 ~~~
