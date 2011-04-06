@@ -16,7 +16,7 @@ A form model is an instance of [CFormModel]. Form model is used to keep
 data collected from user inputs. Such data are often collected, used and
 then discarded. For example, on a login page, we can use a form model to
 represent the username and password information that are provided by an end
-user. For more details, please refer to [Working with Form](/doc/guide/form.model)
+user. For more details, please refer to [Working with Forms](/doc/guide/form.overview)
 
 Active Record (AR) is a design pattern used to abstract database access in
 an object-oriented fashion. Each AR object is an instance of

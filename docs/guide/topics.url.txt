@@ -258,7 +258,7 @@ while the latter matches an action ID to be `create`, `update` or `delete`.
 You may name the parameters differently as long as they do not conflict with
 GET parameters that may appear in URLs.
 
-Using the aboving rules, the URL `/index.php/post/123/create`
+Using the above rules, the URL `/index.php/post/123/create`
 would be parsed as the route `post/create` with GET parameter `id=123`.
 And given the route `comment/list` and GET parameter `page=2`, we can create a URL
 `/index.php/comments?page=2`.
@@ -271,7 +271,7 @@ It is also possible to include hostname into the rules
 for parsing and creating URLs. One may extract part of the hostname to be a GET parameter.
 For example, the URL `http://admin.example.com/en/profile` may be parsed into GET parameters
 `user=admin` and `lang=en`. On the other hand, rules with hostname may also be used to
-create URLs with paratermized hostnames.
+create URLs with parameterized hostnames.
 
 In order to use parameterized hostnames, simply declare URL rules with host info, e.g.:
 
