@@ -80,6 +80,44 @@ class CDbHttpSession extends CHttpSession
 	}
 
 	/**
+	 * Updates the current session id with a newly generated one .
+	 * Please refer to {@link http://php.net/session_regenerate_id} for more details.
+	 * @param boolean $deleteOldSession Whether to delete the old associated session file or not.
+	 * @since 1.1.8
+	 */
+	public function regenerateID($deleteOldSession=false)
+	{
+		$oldID=session_id();;
+		parent::regenerateID(false);
+		$newID=session_id();
+		$db=$this->getDbConnection();
+
+		$sql="SELECT * FROM {$this->sessionTableName} WHERE id=:id";
+		$row=$db->createCommand($sql)->bindValue(':id',$oldID)->queryRow();
+		if($row!==false)
+		{
+			if($deleteOldSession)
+			{
+				$sql="UPDATE {$this->sessionTableName} SET id=:newID WHERE id=:oldID";
+				$db->createCommand($sql)->bindValue(':newID',$newID)->bindValue(':oldID',$oldID)->execute();
+			}
+			else
+			{
+				$row['id']=$newID;
+				$db->createCommand()->insert($this->sessionTableName, $row);
+			}
+		}
+		else
+		{
+			// shouldn't reach here normally
+			$db->createCommand()->insert($this->sessionTableName, array(
+				'id'=>$newID,
+				'expire'=>time()+$this->getTimeout(),
+			));
+		}
+	}
+
+	/**
 	 * Creates the session DB table.
 	 * @param CDbConnection $db the database connection
 	 * @param string $tableName the name of the table to be created
