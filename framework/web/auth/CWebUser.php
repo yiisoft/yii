@@ -676,6 +676,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	protected function changeIdentity($id,$name,$states)
 	{
+		session_regenerate_id();
 		$this->setId($id);
 		$this->setName($name);
 		$this->loadIdentityStates($states);
