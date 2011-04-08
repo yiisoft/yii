@@ -24,7 +24,7 @@
  *      'accept'=>'jpg|gif',
  *      'options'=>array(
  *         'onFileSelect'=>'function(element, value, master){ alert("onFileSelect - "+value) }',
- *         'afterFileSelect'=>'function(element, value, master){ alert("afterFileSelect - "+value) }'
+ *         'afterFileSelect'=>'function(element, value, master){ alert("afterFileSelect - "+value) }',
  *         'onFileAppend'=>'function(element, value, master){ alert("onFileAppend - "+value) }',
  *         'afterFileAppend'=>'function(element, value, master){ alert("afterFileAppend - "+value) }',
  *         'onFileRemove'=>'function(element, value, master){ alert("onFileRemove - "+value) }',
@@ -103,7 +103,7 @@ class CMultiFileUpload extends CInputWidget
 	public function registerClientScript()
 	{
 		$id=$this->htmlOptions['id'];
-		
+
 		$options=$this->getClientOptions();
 		$options=$options===array()? '' : CJavaScript::encode($options);
 
