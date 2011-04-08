@@ -60,6 +60,20 @@ class CAssetManager extends CApplicationComponent
 	 **/
 	public $excludeFiles=array('.svn');
 	/**
+	 * @var integer the permission to be set for newly generated asset files.
+	 * This value will be used by PHP chmod function.
+	 * Defaults to 0666, meaning the file is read-writable by all users.
+	 * @since 1.1.8
+	 */
+	public $newFileMode=0666;
+	/**
+	 * @var integer the permission to be set for newly generated asset directories.
+	 * This value will be used by PHP chmod function.
+	 * Defaults to 0777, meaning the directory can be read, written and executed by all users.
+	 * @since 1.1.8
+	 */
+	public $newDirMode=0777;
+	/**
 	 * @var string base web accessible path for storing private files
 	 */
 	private $_basePath;
@@ -169,7 +183,7 @@ class CAssetManager extends CApplicationComponent
 						if(!is_dir($dstDir))
 						{
 							mkdir($dstDir);
-							@chmod($dstDir,0777);
+							@chmod($dstDir, $this->newDirMode);
 						}
 						symlink($src,$dstFile);
 					}
@@ -179,9 +193,10 @@ class CAssetManager extends CApplicationComponent
 					if(!is_dir($dstDir))
 					{
 						mkdir($dstDir);
-						@chmod($dstDir,0777);
+						@chmod($dstDir, $this->newDirMode);
 					}
 					copy($src,$dstFile);
+					@chmod($dstFile, $this->newFileMode);
 				}
 
 				return $this->_published[$path]=$this->getBaseUrl()."/$dir/$fileName";
