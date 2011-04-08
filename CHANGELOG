@@ -10,6 +10,7 @@ Version 1.1.8 work in progress
 - Bug #2275: Fixed the bug that ajax error handler was not called in case of exception (mdomba)
 - Bug #2284: Fixed the bug that CActiveForm clientValidation did not work with tabular input forms (Qiang)
 - Bug #2292: Fixed the bug that CActiveDataProvider may ignore the specified criteria for the sorting configuration (Qiang)
+- Bug #2294: Fixed the bug that duplicated PK columns may appear in the join SQL statement if custom select option is used (Qiang)
 - Enh #2262: Added warning log when a session fails to start by CHttpSession (Qiang)
 - Enh #2268: Added CClientScript::getPackageBaseUrl() (Qiang)
 - Enh #2273: Used better merging algorithm to build query parameters that are of array type in CUrlManager (Qiang)
