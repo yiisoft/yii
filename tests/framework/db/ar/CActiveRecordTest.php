@@ -197,6 +197,17 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(1,Post::model()->findByPk(3)->author_id);
 	}
 
+	public function testSaveCounters()
+	{
+		$post=Post::model()->findByPk(2);
+		$this->assertEquals(2, $post->author_id);
+		$result=$post->saveCounters(array('author_id'=>-1));
+		$this->assertTrue($result);
+		$this->assertEquals(1, $post->author_id);
+		$this->assertEquals(1, Post::model()->findByPk(2)->author_id);
+		$this->assertEquals(2, Post::model()->findByPk(3)->author_id);
+	}
+
 	public function testDelete()
 	{
 		$post=Post::model()->findByPk(1);

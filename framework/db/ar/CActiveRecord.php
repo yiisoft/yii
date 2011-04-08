@@ -1114,6 +1114,38 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
+	 * Saves one or several counter columns for the current AR object.
+	 * Note that this method differs from {@link updateCounters} in that it only
+	 * saves the current AR object.
+	 * An example usage is as follows:
+	 * <pre>
+	 * $postRecord=Post::model()->findByPk($postID);
+	 * $postRecord->saveCounters(array('view_count'=>1));
+	 * </pre>
+	 * Use negative values if you want to decrease the counters.
+	 * @param array $counters the counters to be updated (column name=>increment value)
+	 * @return boolean whether the saving is successful
+	 * @see updateCounters
+	 * @since 1.1.8
+	 */
+	public function saveCounters($counters)
+	{
+		Yii::trace(get_class($this).'.saveCounters()','system.db.ar.CActiveRecord');
+		$builder=$this->getCommandBuilder();
+		$table=$this->getTableSchema();
+		$criteria=$builder->createPkCriteria($table,$this->getOldPrimaryKey());
+		$command=$builder->createUpdateCounterCommand($this->getTableSchema(),$counters,$criteria);
+		if($command->execute())
+		{
+			foreach($counters as $name=>$value)
+				$this->$name=$this->$name+$value;
+			return true;
+		}
+		else
+			return false;
+	}
+
+	/**
 	 * Deletes the row corresponding to this active record.
 	 * @return boolean whether the deletion is successful.
 	 * @throws CException if the record is new
@@ -1677,6 +1709,7 @@ abstract class CActiveRecord extends CModel
 	 * @param mixed $condition query condition or criteria.
 	 * @param array $params parameters to be bound to an SQL statement.
 	 * @return integer the number of rows being updated
+	 * @see saveCounters
 	 */
 	public function updateCounters($counters,$condition='',$params=array())
 	{
