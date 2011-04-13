@@ -283,7 +283,7 @@ abstract class CActiveRecord extends CModel
 	/**
 	 * Returns a value indicating whether the named related object(s) has been loaded.
 	 * @param string $name the relation name
-	 * @return booolean a value indicating whether the named related object(s) has been loaded.
+	 * @return boolean a value indicating whether the named related object(s) has been loaded.
 	 * @since 1.0.3
 	 */
 	public function hasRelated($name)
