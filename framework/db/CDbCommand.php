@@ -572,10 +572,12 @@ class CDbCommand extends CComponent
 	 * Columns can contain table prefixes (e.g. "tbl_user.id") and/or column aliases (e.g. "tbl_user.id AS user_id").
 	 * The method will automatically quote the column names unless a column contains some parenthesis
 	 * (which means the column contains a DB expression).
+	 * @param string $option additional option that should be appended to the 'SELECT' keyword. For example,
+	 * in MySQL, the option 'SQL_CALC_FOUND_ROWS' can be used. This parameter is supported since version 1.1.8.
 	 * @return CDbCommand the command object itself
 	 * @since 1.1.6
 	 */
-	public function select($columns='*')
+	public function select($columns='*', $option='')
 	{
 		if(is_string($columns) && strpos($columns,'(')!==false)
 			$this->_query['select']=$columns;
@@ -598,6 +600,8 @@ class CDbCommand extends CComponent
 			}
 			$this->_query['select']=implode(', ',$columns);
 		}
+		if($option!='')
+			$this->_query['select']=$option.' '.$this->_query['select'];
 		return $this;
 	}
 
