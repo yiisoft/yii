@@ -198,8 +198,6 @@ class CWebService extends CComponent
 			Yii::app()->onEndRequest(new CEvent($this));
 			$server->fault(get_class($e),$message);
 			exit(1);
-
-			$server->fault(get_class($e),$message);
 		}
 	}
 
