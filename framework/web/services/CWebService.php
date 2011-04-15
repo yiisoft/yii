@@ -193,9 +193,12 @@ class CWebService extends CComponent
 			if(YII_DEBUG)
 				$message.="\n".$e->getTraceAsString();
 
+			// We need to end application explicitly because of
 			// http://bugs.php.net/bug.php?id=49513
-			if(!empty(Yii::app()->log))
-				Yii::app()->log->processLogs(new CEvent($this));
+			Yii::app()->onEndRequest(new CEvent($this));
+			$server->fault(get_class($e),$message);
+			exit(1);
+
 			$server->fault(get_class($e),$message);
 		}
 	}
