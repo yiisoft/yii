@@ -199,6 +199,13 @@ class CMapTest extends CTestCase
 	public function testToArray()
 	{
 		$map = new CMap(array('key' => 'value'));
-		self::assertEquals(array('key' => 'value'), $map->toArray());
+		$this->assertEquals(array('key' => 'value'), $map->toArray());
+	}
+
+	public function testIteratorCurrent()
+	{
+		$map = new CMap(array('key1' => 'value1', 'key2' => 'value2'));
+		$val = $map->getIterator()->current();
+		$this->assertEquals('value1', $val);
 	}
 }
