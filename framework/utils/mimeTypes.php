@@ -170,7 +170,7 @@ return array(
 	'xlm'=>'application/vnd.ms-excel',
 	'xls'=>'application/vnd.ms-excel',
 	'xlw'=>'application/vnd.ms-excel',
-	'xml'=>'text/xml',
+	'xml'=>'application/xml',
 	'xpm'=>'image/x-xpixmap',
 	'xwd'=>'image/x-xwindowdump',
 	'xyz'=>'chemical/x-pdb',

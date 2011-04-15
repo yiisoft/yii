@@ -20,6 +20,7 @@ Version 1.1.8 work in progress
 - Enh: Added CHttpSession::regenerateID() and improved CWebUser::changeIdentity() by regenerating session ID (Qiang)
 - Enh: Added CActiveRecord::saveCounters() (Qiang)
 - Chg #2261: Upgraded HTMLPurifier to v4.3.0 (Sam Dark)
+- Chg #2309: Changed XML mimetype to application/xml for more interoperability (Sam Dark)
 - Chg: Upgraded jQuery to 1.5.2 (Qiang)
 
 Version 1.1.7 March 27, 2011
