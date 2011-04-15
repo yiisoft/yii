@@ -41,6 +41,7 @@ class CMapIterator implements Iterator
 	{
 		$this->_d=&$data;
 		$this->_keys=array_keys($data);
+		$this->_key=reset($this->_keys);
 	}
 
 	/**

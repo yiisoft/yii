@@ -205,4 +205,11 @@ class CListTest extends CTestCase
 		$list->offsetUnset(1);
 		$this->assertEquals(array(1, 3), $list->toArray());
 	}
+
+	public function testIteratorCurrent()
+	{
+		$list = new CList(array('value1', 'value2'));
+		$val = $list->getIterator()->current();
+		$this->assertEquals('value1', $val);
+	}
 }
