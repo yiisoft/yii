@@ -491,6 +491,7 @@ abstract class CActiveRecord extends CModel
 	 *   be disambiguated with prefix 'relationName.' (e.g. relationName.age). This option only applies to HAS_MANY and MANY_MANY relations.</li>
 	 * <li>'limit': limit of the rows to be selected. This option does not apply to BELONGS_TO relation.</li>
 	 * <li>'offset': offset of the rows to be selected. This option does not apply to BELONGS_TO relation.</li>
+	 * <li>'through': name of the model's relation that will be used as a bridge when getting related data. Can be set only for HAS_ONE and HAS_MANY. This option has been available since version 1.1.7.</li>
 	 * </ul>
 	 *
 	 * Below is an example declaring related objects for 'Post' active record class:
