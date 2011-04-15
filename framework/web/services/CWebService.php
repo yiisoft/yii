@@ -192,6 +192,10 @@ class CWebService extends CComponent
 			}
 			if(YII_DEBUG)
 				$message.="\n".$e->getTraceAsString();
+
+			// http://bugs.php.net/bug.php?id=49513
+			if(!empty(Yii::app()->log))
+				Yii::app()->log->processLogs(new CEvent($this));
 			$server->fault(get_class($e),$message);
 		}
 	}
