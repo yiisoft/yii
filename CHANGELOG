@@ -15,6 +15,7 @@ Version 1.1.8 work in progress
 - Enh #2268: Added CClientScript::getPackageBaseUrl() (Qiang)
 - Enh #2273: Used better merging algorithm to build query parameters that are of array type in CUrlManager (Qiang)
 - Enh #2299: Added CAssetManager.newFileMode and newDirMode (Qiang)
+- Eng #2320: CListView now doesn't register clientscripts if no AJAX is used (Sam Dark)
 - Enh #2325: Added $option parameter to CDbCommand::select() to support special SELECT syntax (Qiang)
 - Enh: Added CHttpSession::regenerateID() and improved CWebUser::changeIdentity() by regenerating session ID (Qiang)
 - Enh: Added CActiveRecord::saveCounters() (Qiang)
