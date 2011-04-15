@@ -187,7 +187,7 @@ class CListView extends CBaseListView
 	{
 		$id=$this->getId();
 
-		if($this->ajaxUpdate===false)
+		if($this->ajaxUpdate===false && $this->beforeAjaxUpdate===null && $this->afterAjaxUpdate===null)
 			return;
 
 		$ajaxUpdate=array_unique(preg_split('/\s*,\s*/',$this->ajaxUpdate.','.$id,-1,PREG_SPLIT_NO_EMPTY));
