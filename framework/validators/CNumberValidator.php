@@ -135,7 +135,7 @@ if(!value.match($pattern)) {
 		if($this->min!==null)
 		{
 			$js.="
-if(value.length<{$this->min}) {
+if(value<{$this->min}) {
 	messages.push(".CJSON::encode($tooSmall).");
 }
 ";
