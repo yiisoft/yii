@@ -18,6 +18,7 @@ Version 1.1.8 work in progress
 - Enh #2273: Used better merging algorithm to build query parameters that are of array type in CUrlManager (Qiang)
 - Enh #2299: Added CAssetManager.newFileMode and newDirMode (Qiang)
 - Enh #2325: Added $option parameter to CDbCommand::select() to support special SELECT syntax (Qiang)
+- Enh: XHR is now passed to CButtonColumn error JavaScript callback as a first argument (Sam Dark)
 - Enh: Added CHttpSession::regenerateID() and improved CWebUser::changeIdentity() by regenerating session ID (Qiang)
 - Enh: Added CActiveRecord::saveCounters() (Qiang)
 - Chg #2261: Upgraded HTMLPurifier to v4.3.0 (Sam Dark)

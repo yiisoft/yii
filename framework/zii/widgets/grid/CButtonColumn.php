@@ -244,8 +244,8 @@ function() {
 			$.fn.yiiGridView.update('{$this->grid->id}');
 			afterDelete(th,true,data);
 		},
-		error:function() {
-			return afterDelete(th,false);
+		error:function(XHR) {
+			return afterDelete(th,false,XHR);
 		}
 	});
 	return false;
