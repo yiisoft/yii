@@ -193,7 +193,7 @@
 				if(XHR.readyState == 0 || XHR.status == 0)
 					return;
 				if(customError!==undefined) {
-					var ret = customError();
+					var ret = customError(XHR);
 					if( ret!==undefined && !ret)
 						return;
 				}
