@@ -890,7 +890,17 @@ class CActiveRecordTest extends CTestCase
 			$this->assertEquals(2,$models[1]->id);
 		}
 
-		//TODO: test 'scopes' option in scopes()
+		//behavior scope
+		$models=Post::model()->findAll(array('scopes'=>'behaviorPost23'));
+		$this->assertEquals(2,count($models));
+		$this->assertEquals(2,$models[0]->id);
+		$this->assertEquals(3,$models[1]->id);
+
+		//behavior parametrized scope
+		$models=Post::model()->findAll(array('scopes'=>array('behaviorRecent'=>3)));
+		$this->assertEquals(3,count($models));
+		$this->assertEquals(5,$models[0]->id);
+		$this->assertEquals(4,$models[1]->id);
 	}
 
 	public function testScopeWithRelations()
@@ -939,7 +949,33 @@ class CActiveRecordTest extends CTestCase
 		$this->assertEquals(2,$posts[0]->id);
 		$this->assertEquals(3,$posts[1]->id);
 
-		//TODO: test 'scopes' option in scopes()
+		//related model behavior scope
+		$user1=User::model()->with('posts:behaviorPost23')->findByPk(2);
+		$user2=User::model()->with(array('posts'=>array('scopes'=>'behaviorPost23')))->findByPk(2);
+		$user3=User::model()->findByPk(2,array('with'=>array('posts'=>array('scopes'=>'behaviorPost23'))));
+
+		foreach(array($user1,$user2,$user3) as $user)
+		{
+			$this->assertEquals(2,count($user->posts));
+			$this->assertEquals(2,$user->posts[0]->id);
+			$this->assertEquals(3,$user->posts[1]->id);
+		}
+
+		//related model with behavior parametrized scope
+		$user1=User::model()->with(array('posts'=>array('scopes'=>array('behaviorP'=>4))))->findByPk(2);
+		$user2=User::model()->with(array('posts'=>array('scopes'=>array('behaviorP'=>array(4)))))->findByPk(2);
+		$user3=User::model()->with(array('posts'=>array('scopes'=>array(array('behaviorP'=>4)))))->findByPk(2);
+		$user4=User::model()->with(array('posts'=>array('scopes'=>array(array('behaviorP'=>array(4))))))->findByPk(2);
+		$user5=User::model()->findByPk(2,array('with'=>array('posts'=>array('scopes'=>array('behaviorP'=>4)))));
+		$user6=User::model()->findByPk(2,array('with'=>array('posts'=>array('scopes'=>array('behaviorP'=>array(4))))));
+		$user7=User::model()->findByPk(2,array('with'=>array('posts'=>array('scopes'=>array(array('behaviorP'=>4))))));
+		$user8=User::model()->findByPk(2,array('with'=>array('posts'=>array('scopes'=>array(array('behaviorP'=>array(4)))))));
+
+		foreach(array($user1,$user2,$user3,$user4,$user5,$user6,$user7,$user8) as $user)
+		{
+			$this->assertEquals(1,count($user->posts));
+			$this->assertEquals(4,$user->posts[0]->id);
+		}
 	}
 
 	public function testResetScope()

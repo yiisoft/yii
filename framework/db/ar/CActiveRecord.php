@@ -1333,12 +1333,8 @@ abstract class CActiveRecord extends CModel
 					$scope=$k;
 					$params=$v;
 				}
-
-				if(method_exists($this,$scope))
-					call_user_func_array(array($this,$scope),(array)$params);
-				else
-					throw new CDbException(Yii::t('yii','Active record class "{class}" does not have a scope named "{scope}".',
-						array('{class}'=>get_class($this), '{scope}'=>$scope)));
+				
+				call_user_func_array(array($this,$scope),(array)$params);
 			}
 		}
 

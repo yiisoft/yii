@@ -136,6 +136,13 @@ class Post extends CActiveRecord
 		return 'posts';
 	}
 
+	public function behaviors()
+	{
+		return array(
+			'PostScopesBehavior',
+		);
+	}
+
 	public function scopes()
 	{
 		return array(
@@ -168,6 +175,41 @@ class Post extends CActiveRecord
 			'condition'=>'posts.id=?',
 			'params'=>array($id),
 		));
+		return $this;
+	}
+}
+
+class PostScopesBehavior extends CActiveRecordBehavior
+{
+	public function behaviorPost23()
+	{
+		$this->getOwner()->getDbCriteria()->mergeWith(array(
+			'condition'=>'posts.id=2 OR posts.id=3',
+			'alias'=>'posts',
+			'order'=>'posts.id',
+		));
+
+		return $this;
+	}
+
+	public function behaviorRecent($limit)
+	{
+		$this->getOwner()->getDbCriteria()->mergeWith(array(
+			'order'=>'create_time DESC',
+			'limit'=>$limit,
+		));
+
+		return $this;
+	}
+
+	//used for relation model scopes test
+	public function behaviorP($id)
+	{
+		$this->getOwner()->getDbCriteria()->mergeWith(array(
+			'condition'=>'posts.id=?',
+			'params'=>array($id),
+		));
+
 		return $this;
 	}
 }

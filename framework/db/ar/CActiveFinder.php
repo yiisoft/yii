@@ -256,15 +256,10 @@ class CActiveFinder extends CComponent
 						$scope=$k;
 						$params=$v;
 					}
-					if(method_exists($model,$scope))
-					{
-						$model->resetScope();
-						call_user_func_array(array($model,$scope),(array)$params);
-						$relation->mergeWith($model->getDbCriteria(),true);
-					}
-					else
-						throw new CDbException(Yii::t('yii','Active record class "{class}" does not have a scope named "{scope}".',
-							array('{class}'=>get_class($model), '{scope}'=>$scope)));
+					
+					$model->resetScope();
+					call_user_func_array(array($model,$scope),(array)$params);
+					$relation->mergeWith($model->getDbCriteria(),true);
 				}
 			}
 
