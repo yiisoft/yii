@@ -14,6 +14,7 @@ Version 1.1.8 work in progress
 - Bug #2303: Fixed not logging anything on WSDL service failure (Sam Dark)
 - Bug #2338: Fixed a typo in the client validation code for CNumberValidator (Qiang)
 - Bug: CMapIterator current key wasn't initialized properly (Sam Dark, Detonator)
+- Enh #2319: Added support to call behavior scope through criteria 'with'=>array('scopes'=>'behaviorScope') (Sam Dark, creocoder)
 - Enh #2262: Added warning log when a session fails to start by CHttpSession (Qiang)
 - Enh #2268: Added CClientScript::getPackageBaseUrl() (Qiang)
 - Enh #2273: Used better merging algorithm to build query parameters that are of array type in CUrlManager (Qiang)
