@@ -122,7 +122,7 @@ class CButtonColumn extends CGridColumn
 	 * <ul>
 	 * <li><code>link</code> references the delete link.</li>
 	 * <li><code>success</code> status of the ajax call, true if the ajax call was successful, false if the ajax call failed.
-	 * <li><code>data</code> the data returned by the server (in case of a successful call).
+	 * <li><code>data</code> the data returned by the server in case of a successful call or XHR object in case of error.
 	 * </ul>
 	 * Note that if success is true it does not mean that the delete was successful, it only means that the ajax call was successful.
 	 *
