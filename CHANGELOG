@@ -24,6 +24,7 @@ Version 1.1.8 work in progress
 - Enh: XHR is now passed to CButtonColumn error JavaScript callback as a first argument (Sam Dark)
 - Enh: Added CHttpSession::regenerateID() and improved CWebUser::changeIdentity() by regenerating session ID (Qiang)
 - Enh: Added CActiveRecord::saveCounters() (Qiang)
+- Enh: Added Brazilian Portuguese translation (pt_br) of the core messages (bastardgoblin)
 - Chg #2261: Upgraded HTMLPurifier to v4.3.0 (Sam Dark)
 - Chg #2309: Changed XML mimetype to application/xml for more interoperability (Sam Dark)
 - Chg: Upgraded jQuery to 1.5.2 (Qiang)
