@@ -233,8 +233,7 @@ class CDbCommand extends CComponent
 			$this->_statement->bindParam($name,$value,$dataType,$length);
 		else
 			$this->_statement->bindParam($name,$value,$dataType,$length,$driverOptions);
-		if($this->_connection->enableParamLogging)
-			$this->_paramLog[$name]=&$value;
+		$this->_paramLog[$name]=&$value;
 		return $this;
 	}
 
@@ -256,8 +255,7 @@ class CDbCommand extends CComponent
 			$this->_statement->bindValue($name,$value,$this->_connection->getPdoType(gettype($value)));
 		else
 			$this->_statement->bindValue($name,$value,$dataType);
-		if($this->_connection->enableParamLogging)
-			$this->_paramLog[$name]=var_export($value,true);
+		$this->_paramLog[$name]=$value;
 		return $this;
 	}
 
@@ -277,8 +275,7 @@ class CDbCommand extends CComponent
 		foreach($values as $name=>$value)
 		{
 			$this->_statement->bindValue($name,$value,$this->_connection->getPdoType(gettype($value)));
-			if($this->_connection->enableParamLogging)
-				$this->_paramLog[$name]=var_export($value,true);
+			$this->_paramLog[$name]=$value;
 		}
 		return $this;
 	}
@@ -302,7 +299,7 @@ class CDbCommand extends CComponent
 		{
 			$p=array();
 			foreach($pars as $name=>$value)
-				$p[$name]=$name.'='.$value;
+				$p[$name]=$name.'='.var_export($value,true);
 			$par='. Bound with ' .implode(', ',$p);
 		}
 		else
@@ -454,7 +451,7 @@ class CDbCommand extends CComponent
 		{
 			$p=array();
 			foreach($pars as $name=>$value)
-				$p[$name]=$name.'='.$value;
+				$p[$name]=$name.'='.var_export($value,true);
 			$par='. Bound with '.implode(', ',$p);
 		}
 		else
