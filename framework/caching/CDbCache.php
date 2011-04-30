@@ -214,11 +214,11 @@ EOD;
 		{
 			$duration=$db->queryCachingDuration;
 			$db->queryCachingDuration=0;
-			$rows=$db->createCommand($sql)->queryRows();
+			$rows=$db->createCommand($sql)->queryAll();
 			$db->queryCachingDuration=$duration;
 		}
 		else
-			$rows=$db->createCommand($sql)->queryRows();
+			$rows=$db->createCommand($sql)->queryAll();
 
 		$results=array();
 		foreach($keys as $key)
