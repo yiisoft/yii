@@ -90,7 +90,7 @@ class CJSON
 	* Encodes an arbitrary variable into JSON format
 	*
 	* @param mixed $var any number, boolean, string, array, or object to be encoded.
-	*  if var is a string, note that encode() always expects it to be in ASCII or UTF-8 format!
+	* If var is a string, it will be converted to UTF-8 format first before being encoded.
 	* @return string JSON string representation of input var
 	*/
 	public static function encode($var)
@@ -110,11 +110,11 @@ class CJSON
 				return str_replace(',','.',(float)$var); // locale-independent representation
 
 			case 'string':
-				if(function_exists('json_encode'))
-					return json_encode($var);
-
 				if (($enc=strtoupper(Yii::app()->charset))!=='UTF-8')
 					$var=iconv($enc, 'UTF-8', $var);
+
+				if(function_exists('json_encode'))
+					return json_encode($var);
 
 				// STRINGS ARE EXPECTED TO BE IN ASCII OR UTF-8 FORMAT
 				$ascii = '';
