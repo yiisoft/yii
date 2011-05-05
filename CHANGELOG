@@ -28,6 +28,7 @@ Version 1.1.8 work in progress
 - Enh: Added CHttpSession::regenerateID() and improved CWebUser::changeIdentity() by regenerating session ID (Qiang)
 - Enh: Added CActiveRecord::saveCounters() (Qiang)
 - Enh: Added Brazilian Portuguese translation (pt_br) of the core messages (bastardgoblin)
+- Enh: CJSON::encode() can now encode non-UTF8 data (Qiang)
 - Chg #2261: Upgraded HTMLPurifier to v4.3.0 (Sam Dark)
 - Chg #2309: Changed XML mimetype to application/xml for more interoperability (Sam Dark)
 - Chg: Changed CHtml::clientChange event binding to support custom event types and avoid conflicts when using AJAX (Sam Dark)
