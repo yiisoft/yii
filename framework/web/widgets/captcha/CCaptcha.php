@@ -124,7 +124,10 @@ class CCaptcha extends CWidget
 				$buttonID=$options['id'];
 			else
 				$buttonID=$options['id']=$id.'_button';
-			$html=CHtml::$button($label, $url, $options);
+			if($this->buttonType==='button')
+				$html=CHtml::button($label, $options);
+			else
+				$html=CHtml::link($label, $url, $options);
 			$js="jQuery('#$id').after(".CJSON::encode($html).");";
 			$selector="#$buttonID";
 		}
