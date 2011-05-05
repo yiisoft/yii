@@ -143,6 +143,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * PHP magic method.
 	 * This method is overriden so that persistent states can also be checked for null value.
 	 * @param string $name property name
+	 * @return boolean
 	 * @since 1.0.3
 	 */
 	public function __isset($name)

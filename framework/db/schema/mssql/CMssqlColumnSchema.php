@@ -36,7 +36,7 @@ class CMssqlColumnSchema extends CDbColumnSchema
 			$this->type='string';
 	}
 
-	/*
+	/**
 	 * Extracts the default value for the column.
 	 * The value is typecasted to correct PHP type.
 	 * @param mixed $defaultValue the default value obtained from metadata

@@ -39,6 +39,7 @@ abstract class CDbMigration extends CComponent
 	/**
 	 * This method contains the logic to be executed when applying this migration.
 	 * Child classes may implement this method to provide actual migration logic.
+	 * @return boolean
 	 */
 	public function up()
 	{
@@ -65,6 +66,7 @@ abstract class CDbMigration extends CComponent
 	 * This method contains the logic to be executed when removing this migration.
 	 * The default implementation throws an exception indicating the migration cannot be removed.
 	 * Child classes may override this method if the corresponding migrations can be removed.
+	 * @return boolean
 	 */
 	public function down()
 	{
@@ -93,6 +95,7 @@ abstract class CDbMigration extends CComponent
 	 * be enclosed within a DB transaction.
 	 * Child classes may implement this method instead of {@link up} if the DB logic
 	 * needs to be within a transaction.
+	 * @return boolean
 	 * @since 1.1.7
 	 */
 	public function safeUp()
@@ -105,6 +108,7 @@ abstract class CDbMigration extends CComponent
 	 * be enclosed within a DB transaction.
 	 * Child classes may implement this method instead of {@link up} if the DB logic
 	 * needs to be within a transaction.
+	 * @return boolean
 	 * @since 1.1.7
 	 */
 	public function safeDown()

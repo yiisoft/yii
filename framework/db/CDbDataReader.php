@@ -121,6 +121,7 @@ class CDbDataReader extends CComponent implements Iterator, Countable
 	 * Advances the reader to the next result when reading the results of a batch of statements.
 	 * This method is only useful when there are multiple result sets
 	 * returned by the query. Not all DBMS support this feature.
+	 * @return boolean Returns true on success or false on failure.
 	 */
 	public function nextResult()
 	{

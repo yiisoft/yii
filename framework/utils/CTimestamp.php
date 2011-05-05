@@ -156,7 +156,7 @@ class CTimestamp
 
 	/**
 	 * Returns the getdate() array.
-	 * @param integer $d original date timestamp. False to use the current timestamp.
+	 * @param integer|boolean $d original date timestamp. False to use the current timestamp.
 	 * @param boolean $fast false to compute the day of the week, default is true
 	 * @param boolean $gmt true to calculate the GMT dates
 	 * @return array an array with date info.
@@ -209,7 +209,7 @@ class CTimestamp
 	/**
 	 * Formats a timestamp to a date string.
 	 * @param string $fmt format pattern
-	 * @param integer $d timestamp
+	 * @param integer|boolean $d timestamp
 	 * @param boolean $is_gmt whether this is a GMT timestamp
 	 * @return string formatted date based on timestamp $d
 	 */
@@ -361,12 +361,12 @@ class CTimestamp
 	 * @param integer $hr hour
 	 * @param integer $min minute
 	 * @param integer $sec second
-	 * @param integer $mon month
-	 * @param integer $day day
-	 * @param integer $year year
+	 * @param integer|boolean $mon month
+	 * @param integer|boolean $day day
+	 * @param integer|boolean $year year
 	 * @param boolean $is_gmt whether this is GMT time. If true, gmmktime() will be used.
 	 * @return integer|float a timestamp given a local time.
-     */
+	 */
 	public static function getTimestamp($hr,$min,$sec,$mon=false,$day=false,$year=false,$is_gmt=false)
 	{
 		if ($mon === false)

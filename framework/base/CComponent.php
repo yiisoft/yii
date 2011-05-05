@@ -142,6 +142,7 @@ class CComponent
 	 * </pre>
 	 * @param string $name the property name or the event name
 	 * @param mixed $value the property value or callback
+	 * @return mixed
 	 * @throws CException if the property/event is not defined or the property is read only.
 	 * @see __get
 	 */
@@ -179,6 +180,7 @@ class CComponent
 	 * Do not call this method. This is a PHP magic method that we override
 	 * to allow using isset() to detect if a component property is set or not.
 	 * @param string $name the property name or the event name
+	 * @return boolean
 	 * @since 1.0.1
 	 */
 	public function __isset($name)
@@ -210,6 +212,7 @@ class CComponent
 	 * to allow using unset() to set a component property to be null.
 	 * @param string $name the property name or the event name
 	 * @throws CException if the property is read only.
+	 * @return mixed
 	 * @since 1.0.1
 	 */
 	public function __unset($name)

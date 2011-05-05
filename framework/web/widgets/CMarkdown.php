@@ -97,7 +97,7 @@ class CMarkdown extends COutputProcessor
 	 * Returns the markdown parser instance.
 	 * This method calls {@link createMarkdownParser} to create the parser instance.
 	 * Call this method multipe times will only return the same instance.
-	 * @param CMarkdownParser the parser instance
+	 * @return CMarkdownParser the parser instance
 	 * @since 1.0.1
 	 */
 	public function getMarkdownParser()
