@@ -139,7 +139,7 @@ class CCaptchaAction extends CAction
 
 	/**
 	 * Gets the verification code.
-	 * @param string $regenerate whether the verification code should be regenerated.
+	 * @param boolean $regenerate whether the verification code should be regenerated.
 	 * @return string the verification code.
 	 */
 	public function getVerifyCode($regenerate=false)

@@ -72,6 +72,8 @@ class CWidget extends CBaseController
 	 * Note, when creating URLs referring to the actions listed in this method,
 	 * make sure the action IDs are prefixed with {@link actionPrefix}.
 	 *
+	 * @return array
+	 *
 	 * @see actionPrefix
 	 * @see CController::actions
 	 * @since 1.0.1

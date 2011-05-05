@@ -85,6 +85,7 @@ class YiiBase
 	 * Please make sure you specify the {@link CApplication::basePath basePath} property in the configuration,
 	 * which should point to the directory containing all application logic, template and data.
 	 * If not, the directory will be defaulted to 'protected'.
+	 * @return CWebApplication
 	 */
 	public static function createWebApplication($config=null)
 	{
@@ -99,6 +100,7 @@ class YiiBase
 	 * Please make sure you specify the {@link CApplication::basePath basePath} property in the configuration,
 	 * which should point to the directory containing all application logic, template and data.
 	 * If not, the directory will be defaulted to 'protected'.
+	 * @return CConsoleApplication
 	 */
 	public static function createConsoleApplication($config=null)
 	{

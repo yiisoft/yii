@@ -244,6 +244,7 @@ class CDbConnection extends CApplicationComponent
 
 	/**
 	 * Close the connection when serializing.
+	 * @return array
 	 */
 	public function __sleep()
 	{

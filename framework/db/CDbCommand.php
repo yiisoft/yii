@@ -93,6 +93,7 @@ class CDbCommand extends CComponent
 
 	/**
 	 * Set the statement to null when serializing.
+	 * @return array
 	 */
 	public function __sleep()
 	{

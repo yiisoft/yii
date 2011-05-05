@@ -52,6 +52,7 @@ class CDbCacheDependency extends CCacheDependency
 	/**
 	 * PHP sleep magic method.
 	 * This method ensures that the database instance is set null because it contains resource handles.
+	 * @return array
 	 */
 	public function __sleep()
 	{

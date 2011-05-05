@@ -97,6 +97,7 @@ class CActiveFinder extends CComponent
 	 * This method is internally called.
 	 * @param string $sql the SQL statement
 	 * @param array $params parameters to be bound to the SQL statement
+	 * @return CActiveRecord
 	 */
 	public function findBySql($sql,$params=array())
 	{
@@ -118,6 +119,7 @@ class CActiveFinder extends CComponent
 	 * This method is internally called.
 	 * @param string $sql the SQL statement
 	 * @param array $params parameters to be bound to the SQL statement
+	 * @return CActiveRecord[]
 	 */
 	public function findAllBySql($sql,$params=array())
 	{
@@ -141,6 +143,7 @@ class CActiveFinder extends CComponent
 	/**
 	 * This method is internally called.
 	 * @param CDbCriteria $criteria the query criteria
+	 * @return string
 	 */
 	public function count($criteria)
 	{
@@ -256,7 +259,7 @@ class CActiveFinder extends CComponent
 						$scope=$k;
 						$params=$v;
 					}
-					
+
 					$model->resetScope();
 					call_user_func_array(array($model,$scope),(array)$params);
 					$relation->mergeWith($model->getDbCriteria(),true);

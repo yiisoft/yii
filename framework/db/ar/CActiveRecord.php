@@ -100,6 +100,7 @@ abstract class CActiveRecord extends CModel
 	/**
 	 * PHP sleep magic method.
 	 * This method ensures that the model meta data reference is set to null.
+	 * @return array
 	 */
 	public function __sleep()
 	{
@@ -1333,7 +1334,7 @@ abstract class CActiveRecord extends CModel
 					$scope=$k;
 					$params=$v;
 				}
-				
+
 				call_user_func_array(array($this,$scope),(array)$params);
 			}
 		}

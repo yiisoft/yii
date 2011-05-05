@@ -185,6 +185,7 @@ class CProfileLogRoute extends CWebLogRoute
 	 * Aggregates the report result.
 	 * @param array $result log result for this code block
 	 * @param float $delta time spent for this code block
+	 * @return array
 	 */
 	protected function aggregateResult($result,$delta)
 	{

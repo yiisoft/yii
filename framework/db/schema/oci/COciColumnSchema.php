@@ -21,6 +21,7 @@ class COciColumnSchema extends CDbColumnSchema
 	/**
 	 * Extracts the PHP type from DB type.
 	 * @param string $dbType DB type
+	 * @return string
 	 */
 	protected function extractOraType($dbType){
 		if(strpos($dbType,'FLOAT')!==false) return 'double';
@@ -51,7 +52,7 @@ class COciColumnSchema extends CDbColumnSchema
 		$this->type=$this->extractOraType($dbType);
 	}
 
-	/*
+	/**
 	 * Extracts the default value for the column.
 	 * The value is typecasted to correct PHP type.
 	 * @param mixed $defaultValue the default value obtained from metadata
