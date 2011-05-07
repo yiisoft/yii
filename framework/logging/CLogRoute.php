@@ -96,6 +96,7 @@ abstract class CLogRoute extends CComponent
 			if($this->filter!==null)
 				Yii::createComponent($this->filter)->filter($this->logs);
 			$this->processLogs($this->logs);
+			$this->logs=array();
 		}
 	}
 
