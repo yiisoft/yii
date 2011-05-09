@@ -35,6 +35,15 @@ class CLogger extends CComponent
 	 */
 	public $autoFlush=10000;
 	/**
+	 * @var boolean this property will be passed as the parameter to {@link flush()} when it is
+	 * called in {@link log()} due to the limit of {@link autoFlush} being reached.
+	 * By default, this property is false, meaning the filtered messages are still kept in the memory
+	 * by each log route after calling {@link flush()}. If this is true, the filtered messages
+	 * will be written to the actual medium each time {@link flush()} is called within {@link log()}.
+	 * @since 1.1.8
+	 */
+	public $autoDump=false;
+	/**
 	 * @var array log messages
 	 */
 	private $_logs=array();
@@ -69,7 +78,7 @@ class CLogger extends CComponent
 		$this->_logs[]=array($message,$level,$category,microtime(true));
 		$this->_logCount++;
 		if($this->autoFlush>0 && $this->_logCount>=$this->autoFlush)
-			$this->flush();
+			$this->flush($this->autoDump);
 	}
 
 	/**
