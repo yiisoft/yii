@@ -218,6 +218,12 @@ class CDbConnection extends CApplicationComponent
 		'oci'=>'COciSchema',        // Oracle driver
 	);
 
+	/**
+	 * @var string Custom PDO wrapper class.
+	 * @since 1.1.8
+	 */
+	public $pdoClass = 'PDO';
+
 	private $_attributes=array();
 	private $_active=false;
 	private $_pdo;
@@ -379,7 +385,7 @@ class CDbConnection extends CApplicationComponent
 	 */
 	protected function createPdoInstance()
 	{
-		$pdoClass='PDO';
+		$pdoClass=$this->pdoClass;
 		if(($pos=strpos($this->connectionString,':'))!==false)
 		{
 			$driver=strtolower(substr($this->connectionString,0,$pos));
