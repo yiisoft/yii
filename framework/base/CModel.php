@@ -499,7 +499,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	public function onUnsafeAttribute($name,$value)
 	{
 		if(YII_DEBUG)
-			Yii::log(Yii::t('yii','Failed to set unsafe attribute "{attribute}".',array('{attribute}'=>$name)),CLogger::LEVEL_WARNING);
+			Yii::log(Yii::t('yii','Failed to set unsafe attribute "{attribute}" of "{class}".',array('{attribute}'=>$name, '{class}'=>get_class($this))),CLogger::LEVEL_WARNING);
 	}
 
 	/**
