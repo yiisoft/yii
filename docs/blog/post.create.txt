@@ -36,7 +36,7 @@ The above rules state that all users can access the `index` and `view` actions, 
 Customizing `create` and `update` Operations
 --------------------------------------------
 
-The `create` and `update` operations are very similar. They both need to display an HTML form to collect user inputs, validate them, and save them into database. The main difference is that the `update` operation will pre-populate the form with the existing post data found in the database. For this reason, the `gii` tool generates a partial view `/wwwroot/blog/protected/views/post/_form.php` that is embedded in both the `create` and `update` views to render the needed HTML form.
+The `create` and `update` operations are very similar. They both need to display an HTML form to collect user inputs, validate them, and save them into database. The main difference is that the `update` operation will pre-populate the form with the existing post data found in the database. For this reason, `gii` generates a partial view `/wwwroot/blog/protected/views/post/_form.php` that is embedded in both the `create` and `update` views to render the needed HTML form.
 
 We first change the `_form.php` file so that the HTML form only collects the inputs we want: `title`, `content`, `tags` and `status`. We use plain text fields to collect inputs for the first three attributes, and a dropdown list to collect input for `status`. The dropdown list options are the text displays of the possible post statuses:
 
