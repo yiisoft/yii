@@ -29,6 +29,7 @@ Version 1.1.8 work in progress
 - Enh #2299: Added CAssetManager.newFileMode and newDirMode (Qiang)
 - Enh #2325: Added $option parameter to CDbCommand::select() to support special SELECT syntax (Qiang)
 - Enh #2357: Documented CWebApplication accessors with @property for better IDE autocomplete (Sam Dark)
+- Enh #2361: Added CDbConnection::pdoClass that allows to specify and use custom PDO wrapper class (Sam Dark)
 - Enh #2389: MessageCommand now accepts overwrite option determining if merge result will overwrite existing file (Sam Dark)
 - Enh: XHR is now passed to CButtonColumn error JavaScript callback as a first argument (Sam Dark)
 - Enh: Added CHttpSession::regenerateID() and improved CWebUser::changeIdentity() by regenerating session ID (Qiang)
