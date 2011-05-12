@@ -38,7 +38,7 @@ PARAMETERS
    returns an array of name-value pairs. Each name-value pair represents
    a configuration option.
 
-   The following options must be specified:
+   The following options are available:
 
    - sourcePath: string, root directory of all source files.
    - messagePath: string, root directory containing message translations.
@@ -56,6 +56,8 @@ PARAMETERS
    - translator: the name of the function for translating messages.
      Defaults to 'Yii::t'. This is used as a mark to find messages to be
      translated.
+   - overwrite: if message file must be overwritten with the merged messages.
+
 
 EOD;
 	}
@@ -84,6 +86,9 @@ EOD;
 		if(empty($languages))
 			$this->usageError("Languages cannot be empty.");
 
+		if(!isset($overwrite))
+			$overwrite = false;
+
 		$options=array();
 		if(isset($fileTypes))
 			$options['fileTypes']=$fileTypes;
@@ -103,7 +108,7 @@ EOD;
 			foreach($messages as $category=>$msgs)
 			{
 				$msgs=array_values(array_unique($msgs));
-				$this->generateMessageFile($msgs,$dir.DIRECTORY_SEPARATOR.$category.'.php');
+				$this->generateMessageFile($msgs,$dir.DIRECTORY_SEPARATOR.$category.'.php',$overwrite);
 			}
 		}
 	}
@@ -126,7 +131,7 @@ EOD;
 		return $messages;
 	}
 
-	protected function generateMessageFile($messages,$fileName)
+	protected function generateMessageFile($messages,$fileName,$overwrite)
 	{
 		echo "Saving messages to $fileName...";
 		if(is_file($fileName))
@@ -160,7 +165,8 @@ EOD;
 					$todo[$message]='@@'.$translation.'@@';
 			}
 			$merged=array_merge($todo,$merged);
-			$fileName.='.merged';
+			if($overwrite === false)
+				$fileName.='.merged';
 			echo "translation merged.\n";
 		}
 		else
