@@ -48,7 +48,7 @@ class CJuiSelectable extends CJuiWidget {
 	 */
 	public $items=array();
 	/**
-	 * @var string the name of the container element that contains all items. Defaults to 'ul'.
+	 * @var string the name of the container element that contains all items. Defaults to 'ol'.
 	 */
 	public $tagName='ol';
 	/**
