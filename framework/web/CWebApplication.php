@@ -40,6 +40,24 @@
  * @version $Id$
  * @package system.web
  * @since 1.0
+ *
+ * @property CHttpSession $session the session component
+ * @property CAssetManager $assetManager the asset manager component
+ * @property CWebUser $user the user session information
+ * @property CThemeManager $themeManager the theme manager
+ * @property IAuthManager $authManager the authorization manager component
+ * @property CClientScript $clientScript the client script manager
+ * @property IWidgetFactory $widgetFactory the widget factory
+ * @property IViewRenderer $viewRenderer the view renderer
+ *
+ * @property string $baseUrl Returns the relative URL for the application
+ * @property CController $controller the currently active controller
+ * @property CTheme $theme the theme used currently
+ * @property string $controllerPath the directory that contains the controller classes
+ * @property string $homeUrl the homepage URL
+ * @property string $layoutPath the root directory of layout files
+ * @property string $systemViewPath the root directory of system view files
+ * @property string $viewPath the root directory of view files
  */
 class CWebApplication extends CApplication
 {
