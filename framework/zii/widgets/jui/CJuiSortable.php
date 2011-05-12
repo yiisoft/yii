@@ -11,7 +11,7 @@
 Yii::import('zii.widgets.jui.CJuiWidget');
 
 /**
- * CJuiSortable displays an accordion widget.
+ * CJuiSortable makes selected elements sortable by dragging with the mouse.
  *
  * CJuiSortable encapsulates the {@link http://jqueryui.com/demos/sortable/ JUI Sortable}
  * plugin.
