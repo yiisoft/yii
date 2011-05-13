@@ -1,8 +1,8 @@
-Creating First Yii Application
-==============================
+Creating Your First Yii Application
+===================================
 
-To get an initial experience with Yii, we describe in this section how to
-create our first Yii application. We will use `yiic` (command line tool)
+To give you an initial experience with Yii, in this section we describe how to
+create your first Yii application. We will use `yiic` (command line tool)
 to create a new Yii application and `Gii` (powerful web based code generator)
 to automate code creation for certain tasks. For convenience,
 we assume that `YiiRoot` is the directory where Yii is installed, and `WebRoot`
@@ -46,14 +46,14 @@ contents. See the following screenshots for more details.
 
 ![Contact page with input errors](first-app3.png)
 
-![Contact page with success](first-app4.png)
+![Contact page with success message](first-app4.png)
 
 ![Login page](first-app5.png)
 
 
 The following diagram shows the directory structure of our application.
-Please see [Conventions](/doc/guide/basics.convention#directory) for detailed
-explanation about this structure.
+Please see [Conventions](/doc/guide/basics.convention#directory) for a detailed
+explanation.
 
 ~~~
 testdrive/
@@ -143,7 +143,7 @@ CREATE TABLE tbl_user (
 If you want to try a MySQL database instead, you may use the included MySQL
 schema file `WebRoot/testdrive/protected/data/schema.mysql.sql` to create the database.
 
-> Note: To use Yii's database feature, we need to enable PHP PDO extension
+> Note: To use Yii's database feature, we need to enable the PHP PDO extension
 and the driver-specific PDO extension. For the test-drive application, we
 need to turn on both the `php_pdo` and `php_pdo_sqlite` extensions.
 
@@ -151,12 +151,12 @@ need to turn on both the `php_pdo` and `php_pdo_sqlite` extensions.
 Implementing CRUD Operations
 ----------------------------
 
-Now is the fun part. We would like to implement the CRUD (create, read,
+Now comes the fun part. We would like to implement CRUD (create, read,
 update and delete) operations for the `tbl_user` table we just created. This is
 also commonly needed in practical applications. Instead of taking the trouble
 to write the actual code, we will use `Gii` -- a powerful Web-based code generator.
 
-> Info: Gii has been available since version 1.1.2. Before that, we can use the aforementioned `yiic` tool to accomplish the same goal. For more details, please refer to [Implementing CRUD Operations with yiic shell](/doc/guide/quickstart.first-app-yiic).
+> Info: Gii has been available since version 1.1.2. Before that, we could use the aforementioned `yiic` tool to accomplish the same goal. For more details, please refer to [Implementing CRUD Operations with yiic shell](/doc/guide/quickstart.first-app-yiic).
 
 
 ### Configuring Gii
@@ -183,7 +183,7 @@ return array(
 
 Then, visit the URL `http://hostname/testdrive/index.php?r=gii`. We will be prompted for a password, which should be the one that we just entered in the above application configuration.
 
-### Generating User Model
+### Generating the User Model
 
 After login, click on the link `Model Generator`. This will bring us to the following model generation page,
 
@@ -210,13 +210,13 @@ http://hostname/testdrive/index.php?r=user
 This will display a list of user entries in the `tbl_user` table.
 
 Click the `Create User` button on the page. We will be brought to the login
-page if we have not logged in before. After logged in, we see
+page if we have not logged in before. After logging in, we see
 an input form that allows us to add a new user entry. Complete the form and
-click on the `Create` button. If there is any input error, a nice error
-prompt will show up which prevents us from saving the input. Back to the
+click the `Create` button. If there is any input error, a nice error
+prompt will show up which prevents us from saving the input. Back on the
 user list page, we should see the newly added user appearing in the list.
 
-Repeat the above steps to add more users. Notice that user list page
+Repeat the above steps to add more users. Notice that the user list page
 will automatically paginate the user entries if there are too many to be
 displayed in one page.
 
