@@ -67,7 +67,7 @@ class CJuiTabs extends CJuiWidget
 	 * The token "{title}" in the template will be replaced with the panel title and
 	 * the token "{url}" will be replaced with "#TabID" or with the url of the ajax request.
 	 */
-	public $headerTemplate='<li><a href="{url}">{title}</a></li>';
+	public $headerTemplate='<li><a href="{url}" title="{id}">{title}</a></li>';
 	/**
 	 * @var string the template that is used to generated every tab content.
 	 * The token "{content}" in the template will be replaced with the panel content
@@ -99,12 +99,12 @@ class CJuiTabs extends CJuiWidget
 
 			if (!is_array($content))
 			{
-				$tabsOut .= strtr($this->headerTemplate, array('{title}'=>$title, '{url}'=>'#'.$tabId))."\n";
+				$tabsOut .= strtr($this->headerTemplate, array('{title}'=>$title, '{url}'=>'#'.$tabId, '{id}'=>'#' . $tabId))."\n";
 				$contentOut .= strtr($this->contentTemplate, array('{content}'=>$content,'{id}'=>$tabId))."\n";
 			}
 			elseif (isset($content['ajax']))
 			{
-				$tabsOut .= strtr($this->headerTemplate,array('{title}'=>$title, '{url}'=>CHtml::normalizeUrl($content['ajax'])))."\n";
+				$tabsOut .= strtr($this->headerTemplate, array('{title}'=>$title, '{url}'=>CHtml::normalizeUrl($content['ajax']), '{id}'=>'#' . $tabId))."\n";
 			}
 			else
 			{
