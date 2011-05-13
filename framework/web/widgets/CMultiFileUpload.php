@@ -23,12 +23,12 @@
  *      'attribute'=>'files',
  *      'accept'=>'jpg|gif',
  *      'options'=>array(
- *         'onFileSelect'=>'function(element, value, master){ alert("onFileSelect - "+value) }',
- *         'afterFileSelect'=>'function(element, value, master){ alert("afterFileSelect - "+value) }',
- *         'onFileAppend'=>'function(element, value, master){ alert("onFileAppend - "+value) }',
- *         'afterFileAppend'=>'function(element, value, master){ alert("afterFileAppend - "+value) }',
- *         'onFileRemove'=>'function(element, value, master){ alert("onFileRemove - "+value) }',
- *         'afterFileRemove'=>'function(element, value, master){ alert("afterFileRemove - "+value) }',
+ *         'onFileSelect'=>'function(e, v, m){ alert("onFileSelect - "+v) }',
+ *         'afterFileSelect'=>'function(e, v, m){ alert("afterFileSelect - "+v) }',
+ *         'onFileAppend'=>'function(e, v, m){ alert("onFileAppend - "+v) }',
+ *         'afterFileAppend'=>'function(e, v, m){ alert("afterFileAppend - "+v) }',
+ *         'onFileRemove'=>'function(e, v, m){ alert("onFileRemove - "+v) }',
+ *         'afterFileRemove'=>'function(e, v, m){ alert("afterFileRemove - "+v) }',
  *      ),
  *   ));
  * ?>
