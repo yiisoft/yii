@@ -34,7 +34,7 @@ Because Gii may generate and save new code files in the existing application, we
 
 We can now access Gii via the URL `http://hostname/path/to/index.php?r=gii`. Here we assume `http://hostname/path/to/index.php` is the URL for accessing the existing Yii application.
 
-If the existing Yii application uses `path`-format URLs (see [URL management](/doc/guide/topics.url)), we can access Gii via the URL `http://hostnamepath/to/index.php/gii`. We may need to add the following URL rules to the front of the existing URL rules:
+If the existing Yii application uses `path`-format URLs (see [URL management](/doc/guide/topics.url)), we can access Gii via the URL `http://hostname/path/to/index.php/gii`. We may need to add the following URL rules to the front of the existing URL rules:
 
 ~~~
 [php]
