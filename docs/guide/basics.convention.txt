@@ -109,7 +109,8 @@ writable by Web server process. It can be customized via
 [CApplication::runtimePath].
 
    - `WebRoot/protected/extensions`: this directory holds all third-party
-extensions. It can be customized via [CApplication::extensionPath].
+extensions. It can be customized via [CApplication::extensionPath]. Yii has
+a default alias named `ext` associated with this path.
 
    - `WebRoot/protected/modules`: this directory holds all application
 [modules](/doc/guide/basics.module), each represented as a subdirectory.
