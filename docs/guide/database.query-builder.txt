@@ -283,7 +283,7 @@ Below are some examples:
 [php]
 // JOIN `tbl_profile` ON user_id=id
 join('tbl_profile', 'user_id=id')
-// LEFT JOIN `pub`.`tbl_profile` `p` ON p.user_id=id AND type=:type
+// LEFT JOIN `pub`.`tbl_profile` `p` ON p.user_id=id AND type=1
 leftJoin('pub.tbl_profile p', 'p.user_id=id AND type=:type', array(':type'=>1))
 ~~~
 
