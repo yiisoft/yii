@@ -137,7 +137,7 @@ would be translated as
 
 ~~~
 [php]
-<?php if($this->cache('profile', array('duration'=>3600))): ?>
+<?php if($this->beginCache('profile', array('duration'=>3600))): ?>
 	// user profile information here
 <?php $this->endCache(); endif; ?>
 ~~~
