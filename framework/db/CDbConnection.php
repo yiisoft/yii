@@ -463,6 +463,7 @@ class CDbConnection extends CApplicationComponent
 	 */
 	public function beginTransaction()
 	{
+		Yii::trace('Starting transaction','system.db.CDbConnection');
 		$this->setActive(true);
 		$this->_pdo->beginTransaction();
 		return $this->_transaction=new CDbTransaction($this);
