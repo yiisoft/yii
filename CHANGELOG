@@ -20,7 +20,6 @@ Version 1.1.8 work in progress
 - Bug #2409: Fixed the bug that CCaptcha::buttonOptions is not respected (Qiang)
 - Bug #2411: Fixed the bug that CCaptcha will fail when setting buttonType to be 'button' (Qiang)
 - Bug #2422: Fixed the bug that calling CLogger::flush(true) multiple times may cause duplication of dumped messages (Qiang)
-- Bug #2460: fixed the problem that CClientScript::registerMetaTags() would register tags with same names (mdomba)
 - Bug: CMapIterator current key wasn't initialized properly (Sam Dark, Detonator)
 - Bug: Controller generated with Gii CRUD wasn't able to handle non-integer primary key (Sam Dark)
 - Bug: Query caching may give incorrect caching results when bindParam or bindValue is used (Qiang)
