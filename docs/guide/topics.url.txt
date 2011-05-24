@@ -338,4 +338,91 @@ to a static Web page. To do so, simply configure the
 [urlManager|CWebApplication::urlManager] component by setting its
 [urlSuffix|CUrlManager::urlSuffix] property to the suffix you like.
 
+
+Using Custom URL Rule Classes
+-----------------------------
+
+> Note: Using custom URL rule classes has been supported since version 1.1.8.
+
+By default, each URL rule declared with [CUrlManager] is represented as
+a [CUrlRule] object which performs the task of parsing requests and creating URLs
+based on the rule specified. While [CUrlRule] is flexible enough to handle most
+URL formats, sometimes we still want to enhance it with special features.
+
+For example, in a car dealer website, we may want to support the URL format like
+`/Manufacturer/Model`, where `Manufacturer` and `Model` must both match some data in
+in a database table. The [CUrlRule] class will not work because it mostly relies
+on statically declared regular expressions which have no database knowledge.
+
+We can write a new URL rule class and use it in one or multiple URL rules.
+Using the above car dealer website as an example, we may declare the following
+URL rules,
+
+~~~
+[php]
+array(
+	// a standard rule mapping '/' to 'site/index' action
+	'' => 'site/index',
+
+	// a standard rule mapping '/login' to 'site/login', and so on
+	'<action:(login|logout|about)>' => 'site/<action>',
+
+	// a custom rule to handle '/Manufacturer/Model'
+	array(
+	    'class' => 'application.components.CarUrlRule',
+	    'connectionID' => 'db',
+	),
+
+	// a standard rule to handle 'post/update' and so on
+	'<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+),
+~~~
+
+In the above, we use the custom URL rule class `CarUrlRule` to handle
+the URL format `/Manufacturer/Model`. The class can be written like the following:
+
+~~~
+[php]
+class CarUrlRule extends CComponent
+{
+	public $connectionID = 'db';
+
+	public function createUrl($manager,$route,$params,$ampersand)
+	{
+		if ($route==='car/index')
+		{
+			if (isset($params['manufacturer'], $params['model']))
+				return $params['manufacturer'] . '/' . $params['model'];
+			else if (isset($params['manufacturer']))
+				return $params['manufacturer'];
+		}
+		return false;  // this rule does not apply
+	}
+
+	public function parseUrl($manager,$request,$pathInfo,$rawPathInfo)
+	{
+		if (preg_match('%^(\w+)(/(\w+))?$%', $pathInfo, $matches))
+		{
+			// check $matches[1] and $matches[2] to see
+			// if they match a manufacturer and a model in the database
+			// If so, set $_GET['manufacturer'] and $_GET['model']
+			// and return 'car/index'
+		}
+		return false;  // this rule does not apply
+	}
+}
+~~~
+
+Two methods must be implemented, as shown in the above code:
+
+* [CUrlRule::createUrl()|createUrl()]
+* [CUrlRule::parseUrl()|parseUrl()]
+
+Besides the above typical usage, custom URL rule classes can also be implemented
+for many other purposes. For example, we can write a rule class to log the URL parsing
+and creation requests. This may be useful during development stage. We can also
+write a rule class to display a special 404 error page in case all other URL rules fail
+to resolve the current request. Note that in this case, the rule of this special class
+must be declared as the last rule.
+
 <div class="revision">$Id$</div>
