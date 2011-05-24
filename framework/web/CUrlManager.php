@@ -101,7 +101,8 @@
  *   ),
  * )
  * </pre>
- * Please note that the custom URL rule class must implement the following two methods, like {@link CUrlRule}:
+ * Please note that the custom URL rule class must implement the following two methods,
+ * like {@link CUrlRule}:
  * <ul>
  *    <li>{@link CUrlRule::createUrl()}</li>
  *    <li>{@link CUrlRule::parseUrl()}</li>
@@ -283,7 +284,7 @@ class CUrlManager extends CApplicationComponent
 				$this->_rules[$i]=$rule=Yii::createComponent($rule);
 			if(($url=$rule->createUrl($this,$route,$params,$ampersand))!==false)
 			{
-				if($rule->hasHostInfo)
+				if(property_exists($rule,'hasHostInfo') && $rule->hasHostInfo)
 					return $url==='' ? '/'.$anchor : $url.$anchor;
 				else
 					return $this->getBaseUrl().'/'.$url.$anchor;
