@@ -88,6 +88,25 @@
  * )
  * </pre>
  *
+ * Starting from version 1.1.8, one can write custom URL rule classes and use them for one or several URL rules.
+ * For example,
+ * <pre>
+ * array(
+ *   // a standard rule
+ *   '<action:(login|logout)>' => 'site/<action>',
+ *   // a custom rule using data in DB
+ *   array(
+ *     'class' => 'application.components.MyUrlRule',
+ *     'connectionID' => 'db',
+ *   ),
+ * )
+ * </pre>
+ * Please note that the custom URL rule class must implement the following two methods, like {@link CUrlRule}:
+ * <ul>
+ *    <li>{@link CUrlRule::createUrl()}</li>
+ *    <li>{@link CUrlRule::parseUrl()}</li>
+ * </ul>
+ *
  * CUrlManager is a default application component that may be accessed via
  * {@link CWebApplication::getUrlManager()}.
  *
@@ -162,6 +181,13 @@ class CUrlManager extends CApplicationComponent
 	 * @since 1.0.6
 	 */
 	public $useStrictParsing=false;
+	/**
+	 * @var string the class name or path alias for the URL rule instances. Defaults to 'CUrlRule'.
+	 * If you change this to something else, please make sure that the new class must have the same
+	 * signature as {@link CUrlRule} and must be serializable and autoloadable.
+	 * @since 1.1.8
+	 */
+	public $urlRuleClass='CUrlRule';
 
 	private $_urlFormat=self::GET_FORMAT;
 	private $_rules=array();
@@ -222,7 +248,10 @@ class CUrlManager extends CApplicationComponent
 	 */
 	protected function createUrlRule($route,$pattern)
 	{
-		return new CUrlRule($route,$pattern);
+		if(is_array($route) && isset($route['class']))
+			return $route;
+		else
+			return new $this->urlRuleClass($route,$pattern);
 	}
 
 	/**
@@ -248,8 +277,10 @@ class CUrlManager extends CApplicationComponent
 		else
 			$anchor='';
 		$route=trim($route,'/');
-		foreach($this->_rules as $rule)
+		foreach($this->_rules as $i=>$rule)
 		{
+			if(is_array($rule))
+				$this->_rules[$i]=$rule=Yii::createComponent($rule);
 			if(($url=$rule->createUrl($this,$route,$params,$ampersand))!==false)
 			{
 				if($rule->hasHostInfo)
@@ -262,7 +293,7 @@ class CUrlManager extends CApplicationComponent
 	}
 
 	/**
-	 * Contructs a URL based on default settings.
+	 * Creates a URL based on default settings.
 	 * @param string $route the controller and the action (e.g. article/read)
 	 * @param array $params list of GET parameters
 	 * @param string $ampersand the token separating name-value pairs in the URL.
@@ -314,8 +345,10 @@ class CUrlManager extends CApplicationComponent
 		{
 			$rawPathInfo=$request->getPathInfo();
 			$pathInfo=$this->removeUrlSuffix($rawPathInfo,$this->urlSuffix);
-			foreach($this->_rules as $rule)
+			foreach($this->_rules as $i=>$rule)
 			{
+				if(is_array($rule))
+					$this->_rules[$i]=$rule=Yii::createComponent($rule);
 				if(($r=$rule->parseUrl($this,$request,$pathInfo,$rawPathInfo))!==false)
 					return isset($_GET[$this->routeVar]) ? $_GET[$this->routeVar] : $r;
 			}
