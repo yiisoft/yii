@@ -92,7 +92,11 @@ EOD;
 			{
 				$fields[]=$column->rawName;
 				if($value instanceof CDbExpression)
+				{
 					$placeholders[]=$value->expression;
+					foreach($value->params as $n=>$v)
+						$values[$n]=$v;
+				}
 				else
 				{
 					$placeholders[]=self::PARAM_PREFIX.$i;
