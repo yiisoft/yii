@@ -35,6 +35,7 @@ Version 1.1.8 work in progress
 - Enh #2361: Added CDbConnection::pdoClass that allows to specify and use custom PDO wrapper class (Sam Dark)
 - Enh #2389: MessageCommand now accepts overwrite option determining if merge result will overwrite existing file (Sam Dark)
 - Enh #2424: CDbConnection::beginTransaction() will now trigger a trace message for better debugging (Y!!)
+- Enh #2474: Enhanced CDbCommand::insert() and update() to support CDbExpression (Qiang)
 - Enh: XHR is now passed to CButtonColumn error JavaScript callback as a first argument (Sam Dark)
 - Enh: Added CHttpSession::regenerateID() and improved CWebUser::changeIdentity() by regenerating session ID (Qiang)
 - Enh: Added CActiveRecord::saveCounters() (Qiang)
