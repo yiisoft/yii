@@ -101,11 +101,11 @@
  *   ),
  * )
  * </pre>
- * Please note that the custom URL rule class must implement the following two methods,
- * like {@link CUrlRule}:
+ * Please note that the custom URL rule class should extend from {@link CBaseUrlRule} and
+ * implement the following two methods,
  * <ul>
- *    <li>{@link CUrlRule::createUrl()}</li>
- *    <li>{@link CUrlRule::parseUrl()}</li>
+ *    <li>{@link CBaseUrlRule::createUrl()}</li>
+ *    <li>{@link CBaseUrlRule::parseUrl()}</li>
  * </ul>
  *
  * CUrlManager is a default application component that may be accessed via
@@ -284,7 +284,7 @@ class CUrlManager extends CApplicationComponent
 				$this->_rules[$i]=$rule=Yii::createComponent($rule);
 			if(($url=$rule->createUrl($this,$route,$params,$ampersand))!==false)
 			{
-				if(property_exists($rule,'hasHostInfo') && $rule->hasHostInfo)
+				if($rule->hasHostInfo)
 					return $url==='' ? '/'.$anchor : $url.$anchor;
 				else
 					return $this->getBaseUrl().'/'.$url.$anchor;
@@ -499,6 +499,43 @@ class CUrlManager extends CApplicationComponent
 
 
 /**
+ * CBaseUrlRule is the base class for a URL rule class.
+ *
+ * Custom URL rule classes should extend from this class and implement two methods:
+ * {@link createUrl} and {@link parseUrl}.
+ *
+ * @author Qiang Xue <qiang.xue@gmail.com>
+ * @version $Id$
+ * @package system.web
+ * @since 1.1.8
+ */
+abstract class CBaseUrlRule extends CComponent
+{
+	/**
+	 * @var boolean whether this rule will also parse the host info part. Defaults to false.
+	 */
+	public $hasHostInfo=false;
+	/**
+	 * Creates a URL based on this rule.
+	 * @param CUrlManager $manager the manager
+	 * @param string $route the route
+	 * @param array $params list of parameters (name=>value) associated with the route
+	 * @param string $ampersand the token separating name-value pairs in the URL.
+	 * @return mixed the constructed URL. False if this rule does not apply.
+	 */
+	abstract public function createUrl($manager,$route,$params,$ampersand);
+	/**
+	 * Parses a URL based on this rule.
+	 * @param CUrlManager $manager the URL manager
+	 * @param CHttpRequest $request the request object
+	 * @param string $pathInfo path info part of the URL (URL suffix is already removed based on {@link CUrlManager::urlSuffix})
+	 * @param string $rawPathInfo path info that contains the potential URL suffix
+	 * @return mixed the route that consists of the controller ID and action ID. False if this rule does not apply.
+	 */
+	abstract public function parseUrl($manager,$request,$pathInfo,$rawPathInfo);
+}
+
+/**
  * CUrlRule represents a URL formatting/parsing rule.
  *
  * It mainly consists of two parts: route and pattern. The former classifies
@@ -511,7 +548,7 @@ class CUrlManager extends CApplicationComponent
  * @package system.web
  * @since 1.0
  */
-class CUrlRule extends CComponent
+class CUrlRule extends CBaseUrlRule
 {
 	/**
 	 * @var string the URL suffix used for this rule.
@@ -745,7 +782,7 @@ class CUrlRule extends CComponent
 	}
 
 	/**
-	 * Parases a URL based on this rule.
+	 * Parses a URL based on this rule.
 	 * @param CUrlManager $manager the URL manager
 	 * @param CHttpRequest $request the request object
 	 * @param string $pathInfo path info part of the URL

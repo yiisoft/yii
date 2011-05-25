@@ -354,9 +354,9 @@ For example, in a car dealer website, we may want to support the URL format like
 in a database table. The [CUrlRule] class will not work because it mostly relies
 on statically declared regular expressions which have no database knowledge.
 
-We can write a new URL rule class and use it in one or multiple URL rules.
-Using the above car dealer website as an example, we may declare the following
-URL rules,
+We can write a new URL rule class by extending from [CBaseUrlRule] and use it in one
+or multiple URL rules. Using the above car dealer website as an example,
+we may declare the following URL rules,
 
 ~~~
 [php]
@@ -383,7 +383,7 @@ the URL format `/Manufacturer/Model`. The class can be written like the followin
 
 ~~~
 [php]
-class CarUrlRule extends CComponent
+class CarUrlRule extends CBaseUrlRule
 {
 	public $connectionID = 'db';
 
@@ -403,9 +403,9 @@ class CarUrlRule extends CComponent
 	{
 		if (preg_match('%^(\w+)(/(\w+))?$%', $pathInfo, $matches))
 		{
-			// check $matches[1] and $matches[2] to see
+			// check $matches[1] and $matches[3] to see
 			// if they match a manufacturer and a model in the database
-			// If so, set $_GET['manufacturer'] and $_GET['model']
+			// If so, set $_GET['manufacturer'] and/or $_GET['model']
 			// and return 'car/index'
 		}
 		return false;  // this rule does not apply
@@ -413,10 +413,10 @@ class CarUrlRule extends CComponent
 }
 ~~~
 
-Two methods must be implemented, as shown in the above code:
+The custom URL class must implement the two abstract methods declared in [CBaseUrlRule]:
 
-* [CUrlRule::createUrl()|createUrl()]
-* [CUrlRule::parseUrl()|parseUrl()]
+* [CBaseUrlRule::createUrl()|createUrl()]
+* [CBaseUrlRule::parseUrl()|parseUrl()]
 
 Besides the above typical usage, custom URL rule classes can also be implemented
 for many other purposes. For example, we can write a rule class to log the URL parsing
