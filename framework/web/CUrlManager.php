@@ -184,8 +184,9 @@ class CUrlManager extends CApplicationComponent
 	public $useStrictParsing=false;
 	/**
 	 * @var string the class name or path alias for the URL rule instances. Defaults to 'CUrlRule'.
-	 * If you change this to something else, please make sure that the new class must have the same
-	 * signature as {@link CUrlRule} and must be serializable and autoloadable.
+	 * If you change this to something else, please make sure that the new class must extend from
+	 * {@link CBaseUrlRule} and have the same constructor signature as {@link CUrlRule}.
+	 * It must also be serializable and autoloadable.
 	 * @since 1.1.8
 	 */
 	public $urlRuleClass='CUrlRule';
