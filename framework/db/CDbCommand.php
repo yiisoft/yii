@@ -1144,14 +1144,25 @@ class CDbCommand extends CComponent
 	{
 		$params=array();
 		$names=array();
+		$placeholders=array();
 		foreach($columns as $name=>$value)
 		{
 			$names[]=$this->_connection->quoteColumnName($name);
-			$params[':'.$name]=$value;
+			if($value instanceof CDbExpression)
+			{
+				$placeholders[] = $value->expression;
+				foreach($value->params as $n => $v)
+					$params[$n] = $v;
+			}
+			else
+			{
+				$placeholders[] = ':' . $name;
+				$params[':' . $name] = $value;
+			}
 		}
 		$sql='INSERT INTO ' . $this->_connection->quoteTableName($table)
 			. ' (' . implode(', ',$names) . ') VALUES ('
-			. implode(', ', array_keys($params)) . ')';
+			. implode(', ', $placeholders) . ')';
 		return $this->setText($sql)->execute($params);
 	}
 
@@ -1171,8 +1182,17 @@ class CDbCommand extends CComponent
 		$lines=array();
 		foreach($columns as $name=>$value)
 		{
-			$params[':'.$name]=$value;
-			$lines[]=$this->_connection->quoteColumnName($name).'=:'.$name;
+			if($value instanceof CDbExpression)
+			{
+				$lines[]=$this->_connection->quoteColumnName($name) . '=' . $value->expression;
+				foreach($value->params as $n => $v)
+					$params[$n] = $v;
+			}
+			else
+			{
+				$lines[]=$this->_connection->quoteColumnName($name) . '=:' . $name;
+				$params[':' . $name]=$value;
+			}
 		}
 		$sql='UPDATE ' . $this->_connection->quoteTableName($table) . ' SET ' . implode(', ', $lines);
 		if(($where=$this->processConditions($conditions))!='')
