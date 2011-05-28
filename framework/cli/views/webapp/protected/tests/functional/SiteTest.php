@@ -17,7 +17,7 @@ class SiteTest extends WebTestCase
 		$this->type('name=ContactForm[name]','tester');
 		$this->type('name=ContactForm[email]','tester@example.com');
 		$this->type('name=ContactForm[subject]','test subject');
-		$this->clickAndWait("//input[@value='Submit']");
+		$this->click("//input[@value='Submit']");
 		$this->assertTextPresent('Body cannot be blank.');
 	}
 
@@ -26,13 +26,13 @@ class SiteTest extends WebTestCase
 		$this->open('');
 		// ensure the user is logged out
 		if($this->isTextPresent('Logout'))
-			$this->clickAndWait('link=Logout');
+			$this->clickAndWait('link=Logout (demo)');
 
 		// test login process, including validation
 		$this->clickAndWait('link=Login');
 		$this->assertElementPresent('name=LoginForm[username]');
 		$this->type('name=LoginForm[username]','demo');
-		$this->clickAndWait("//input[@value='Login']");
+		$this->click("//input[@value='Login']");
 		$this->assertTextPresent('Password cannot be blank.');
 		$this->type('name=LoginForm[password]','demo');
 		$this->clickAndWait("//input[@value='Login']");
