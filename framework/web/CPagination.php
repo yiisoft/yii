@@ -192,7 +192,7 @@ class CPagination extends CComponent
 	 */
 	public function createPageUrl($controller,$page)
 	{
-		$params=$this->params===null ? $_GET : $this->params;
+		$params=$this->params===null ? $_GET : array_merge($_GET, $this->params);
 		if($page>0) // page 0 is the default
 			$params[$this->pageVar]=$page+1;
 		else
@@ -218,7 +218,7 @@ class CPagination extends CComponent
 	 */
 	public function getOffset()
 	{
-		return $this->currentPage*$this->pageSize;
+		return $this->getCurrentPage()*$this->getPageSize();
 	}
 
 	/**
@@ -229,6 +229,6 @@ class CPagination extends CComponent
 	 */
 	public function getLimit()
 	{
-		return $this->pageSize;
+		return $this->getPageSize();
 	}
 }
