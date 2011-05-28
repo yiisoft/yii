@@ -20,6 +20,7 @@ Version 1.1.8 work in progress
 - Bug #2409: Fixed the bug that CCaptcha::buttonOptions is not respected (Qiang)
 - Bug #2411: Fixed the bug that CCaptcha will fail when setting buttonType to be 'button' (Qiang)
 - Bug #2422: Fixed the bug that calling CLogger::flush(true) multiple times may cause duplication of dumped messages (Qiang)
+- Bug #2438: Fixed the bug that CPagination will ignore $_GET when CPagination::params is used (Sam Dark)
 - Bug #2475: Fixed the bug that CMssqlCommandBuilder and COciCommandBuilder don't respect parameters declared in CDbExpression when doing insertion and updating (Qiang)
 - Bug #2485: Fixed the bug that CMssqlPdoAdapter is not used when the driver is sqlsrv (Qiang)
 - Bug: CMapIterator current key wasn't initialized properly (Sam Dark, Detonator)
