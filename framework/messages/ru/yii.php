@@ -24,7 +24,7 @@ return array (
   'CDbCommand::{method}() failed: {error}. The SQL statement executed was: {sql}.' => 'Не удалось выполнить CDbCommand::{method}(): {error}. Выполнявшийся SQL-запрос: {sql}.',
   'Filter "{filter}" is invalid. Controller "{class}" does not have the filter method "filter{filter}".' => 'Фильтр "{filter}" неверный. Контроллер "{class}" не содержит метода "filter{filter}".',
   'Property CMaskedTextField.mask cannot be empty.' => 'CMaskedTextField.mask не может быть пустым.',
-  'The format of {attribute} is invalid.' => '',
+  'The format of {attribute} is invalid.' => 'Неправильный формат поля {attribute}.',
   '"{path}" is not a valid directory.' => 'Путь "{path}" не является правильной директорией.',
   '&lt; Previous' => '&lt; Предыдущая',
   '&lt;&lt; First' => '&lt;&lt; Первая',
