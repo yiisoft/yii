@@ -71,7 +71,7 @@ class CPagination extends CComponent
 	 */
 	public $route='';
 	/**
-	 * @var array the additional GET parameters (name=>value) that should be used when generating pagination URLs.
+	 * @var array of parameters (name=>value) that should be used instead of GET when generating pagination URLs.
 	 * Defaults to null, meaning using the currently available GET parameters.
 	 * @since 1.0.9
 	 */
@@ -192,7 +192,7 @@ class CPagination extends CComponent
 	 */
 	public function createPageUrl($controller,$page)
 	{
-		$params=$this->params===null ? $_GET : array_merge($_GET, $this->params);
+		$params=$this->params===null ? $_GET : $this->params;
 		if($page>0) // page 0 is the default
 			$params[$this->pageVar]=$page+1;
 		else
