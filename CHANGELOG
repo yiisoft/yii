@@ -48,8 +48,9 @@ Version 1.1.8 work in progress
 - Enh: Added input length check to email and url validators to improve security (Qiang)
 - Chg #2261: Upgraded HTMLPurifier to v4.3.0 (Sam Dark)
 - Chg #2309: Changed XML mimetype to application/xml for more interoperability (Sam Dark)
-- Chg: #2370: Upgraded JQuery UI to 1.8.13 (Sam Dark)
+- Chg #2370: Upgraded JQuery UI to 1.8.13 (Sam Dark)
 - Chg #2401: Upgraded jQuery to 1.6.1 (Sam Dark)
+- Chg #2496: Setting CDbConnection::$emulatePrepare to be false will now explicitly set PDO::ATTR_EMULATE_PREPARES to be false (Qiang)
 - Chg: Changed CHtml::clientChange event binding to support custom event types and avoid conflicts when using AJAX (Sam Dark)
 
 Version 1.1.7 March 27, 2011

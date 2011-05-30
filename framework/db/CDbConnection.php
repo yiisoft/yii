@@ -171,8 +171,9 @@ class CDbConnection extends CApplicationComponent
 	 * will use the native prepare support if available. For some databases (such as MySQL),
 	 * this may need to be set true so that PDO can emulate the prepare support to bypass
 	 * the buggy native prepare support. Note, this property is only effective for PHP 5.1.3 or above.
+	 * The default value is null, which will not change the ATTR_EMULATE_PREPARES value of PDO.
 	 */
-	public $emulatePrepare=false;
+	public $emulatePrepare;
 	/**
 	 * @var boolean whether to log the values that are bound to a prepare SQL statement.
 	 * Defaults to false. During development, you may consider setting this property to true
@@ -405,8 +406,8 @@ class CDbConnection extends CApplicationComponent
 	protected function initConnection($pdo)
 	{
 		$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		if($this->emulatePrepare && constant('PDO::ATTR_EMULATE_PREPARES'))
-			$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,true);
+		if($this->emulatePrepare!==null && constant('PDO::ATTR_EMULATE_PREPARES'))
+			$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES,$this->emulatePrepare);
 		if($this->charset!==null)
 		{
 			$driver=strtolower($pdo->getAttribute(PDO::ATTR_DRIVER_NAME));
