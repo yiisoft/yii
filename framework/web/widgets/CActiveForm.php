@@ -416,6 +416,9 @@ class CActiveForm extends CWidget
 		if(!$this->enableClientValidation)
 			$enableClientValidation=false;
 
+		if(!isset($htmlOptions['class']))
+			$htmlOptions['class']=$this->errorMessageCssClass;
+
 		if(!$enableAjaxValidation && !$enableClientValidation)
 			return CHtml::error($model,$attribute,$htmlOptions);
 
@@ -472,8 +475,6 @@ class CActiveForm extends CWidget
 				$option['clientValidation']="js:function(value, messages, attribute) {\n".implode("\n",$validators)."\n}";
 		}
 
-		if(!isset($htmlOptions['class']))
-			$htmlOptions['class']=$this->errorMessageCssClass;
 		$html=CHtml::error($model,$attribute,$htmlOptions);
 		if($html==='')
 		{
