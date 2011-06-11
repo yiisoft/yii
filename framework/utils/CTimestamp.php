@@ -163,6 +163,8 @@ class CTimestamp
 	 */
 	public static function getDate($d=false,$fast=false,$gmt=false)
 	{
+		if($d===false)
+			$d=time();
 		if($gmt)
 		{
 			$tz = date_default_timezone_get();
