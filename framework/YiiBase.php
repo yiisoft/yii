@@ -601,13 +601,22 @@ class YiiBase
 	 * The new autoloader will be placed before {@link autoload} and after
 	 * any other existing autoloaders.
 	 * @param callback $callback a valid PHP callback (function name or array($className,$methodName)).
+	 * @param boolean $append whether to append the new autoloader after the default Yii autoloader.
 	 * @since 1.0.10
 	 */
-	public static function registerAutoloader($callback)
+	public static function registerAutoloader($callback, $append=false)
 	{
-		spl_autoload_unregister(array('YiiBase','autoload'));
-		spl_autoload_register($callback);
-		spl_autoload_register(array('YiiBase','autoload'));
+		if($append)
+		{
+			self::$enableIncludePath=false;
+			spl_autoload_register($callback);
+		}
+		else
+		{
+			spl_autoload_unregister(array('YiiBase','autoload'));
+			spl_autoload_register($callback);
+			spl_autoload_register(array('YiiBase','autoload'));
+		}
 	}
 
 	/**
