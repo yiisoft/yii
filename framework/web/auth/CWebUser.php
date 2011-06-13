@@ -208,7 +208,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	{
 		$id=$identity->getId();
 		$states=$identity->getPersistentStates();
-		if($this->beforeLogin($id,$states,false))
+		if($this->beforeLogin($id,$states,false)!==false)
 		{
 			$this->changeIdentity($id,$identity->getName(),$states);
 
@@ -236,7 +236,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	public function logout($destroySession=true)
 	{
-		if($this->beforeLogout())
+		if($this->beforeLogout()!==false)
 		{
 			if($this->allowAutoLogin)
 			{
@@ -366,7 +366,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * @param mixed $id the user ID. This is the same as returned by {@link getId()}.
 	 * @param array $states a set of name-value pairs that are provided by the user identity.
 	 * @param boolean $fromCookie whether the login is based on cookie
-	 * @return boolean whether the user should be logged in
+	 * @return boolean whether the user should be logged in. Defaults to true.
 	 * @since 1.1.3
 	 */
 	protected function beforeLogin($id,$states,$fromCookie)
@@ -390,7 +390,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * If this method return false, the logout action will be cancelled.
 	 * You may override this method to provide additional check before
 	 * logging out a user.
-	 * @return boolean whether to log out the user
+	 * @return boolean whether to log out the user. Defaults to true.
 	 * @since 1.1.3
 	 */
 	protected function beforeLogout()
@@ -424,7 +424,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 			if(is_array($data) && isset($data[0],$data[1],$data[2],$data[3]))
 			{
 				list($id,$name,$duration,$states)=$data;
-				if($this->beforeLogin($id,$states,true))
+				if($this->beforeLogin($id,$states,true)!==false)
 				{
 					$this->changeIdentity($id,$name,$states);
 					if($this->autoRenewCookie)

@@ -146,7 +146,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	{
 		if($clearErrors)
 			$this->clearErrors();
-		if($this->beforeValidate())
+		if($this->beforeValidate()!==false)
 		{
 			foreach($this->getValidators() as $validator)
 				$validator->validate($this,$attributes);

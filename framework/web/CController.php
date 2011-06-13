@@ -295,7 +295,7 @@ class CController extends CBaseController
 	{
 		$priorAction=$this->_action;
 		$this->_action=$action;
-		if($this->beforeAction($action))
+		if($this->beforeAction($action)!==false)
 		{
 			if($action->runWithParams($this->getActionParams())===false)
 				$this->invalidActionParams($action);
@@ -774,7 +774,7 @@ class CController extends CBaseController
 	 */
 	public function render($view,$data=null,$return=false)
 	{
-		if($this->beforeRender($view))
+		if($this->beforeRender($view)!==false)
 		{
 			$output=$this->renderPartial($view,$data,true);
 			if(($layoutFile=$this->getLayoutFile($this->layout))!==false)
@@ -795,7 +795,7 @@ class CController extends CBaseController
 	 * This method is invoked at the beginning of {@link render()}.
 	 * You may override this method to do some preprocessing when rendering a view.
 	 * @param string $view the view to be rendered
-	 * @return boolean whether the view should be rendered.
+	 * @return boolean whether the view should be rendered. Defaults to true.
 	 * @since 1.1.5
 	 */
 	protected function beforeRender($view)
@@ -1065,7 +1065,7 @@ class CController extends CBaseController
 	 * This method is invoked right before an action is to be executed (after all possible filters.)
 	 * You may override this method to do last-minute preparation for the action.
 	 * @param CAction $action the action to be executed.
-	 * @return boolean whether the action should be executed.
+	 * @return boolean whether the action should be executed. Defaults to true.
 	 */
 	protected function beforeAction($action)
 	{
