@@ -51,6 +51,7 @@ Version 1.1.8 work in progress
 - Enh: Added CLogger::autoDump to allow writing log messages to destinations in "real time" (Qiang)
 - Enh: Added support for using custom URL rule classes with CUrlManager (Qiang)
 - Enh: Added input length check to email and url validators to improve security (Qiang)
+- Enh: Added support to allow registering a class autoloader after Yii's default autoloader (Qiang)
 - Chg #2261: Upgraded HTMLPurifier to v4.3.0 (Sam Dark)
 - Chg #2309: Changed XML mimetype to application/xml for more interoperability (Sam Dark)
 - Chg #2370: Upgraded JQuery UI to 1.8.13 (Sam Dark)
