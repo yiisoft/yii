@@ -65,8 +65,10 @@ class YiiBase
 	private static $_aliases=array('system'=>YII_PATH,'zii'=>YII_ZII_PATH); // alias => path
 	private static $_imports=array();					// alias => class name or directory
 	private static $_includePaths;						// list of include paths
+	private static $_includePathEnabled;                // whether hosting env supports changing include_path
 	private static $_app;
 	private static $_logger;
+
 
 
 	/**
@@ -328,8 +330,8 @@ class YiiBase
 
 				array_unshift(self::$_includePaths,$path);
 
-				if(set_include_path('.'.PATH_SEPARATOR.implode(PATH_SEPARATOR,self::$_includePaths))===false)
-					throw new CException(Yii::t('yii','Unable to import "{alias}". Please check your server configuration to make sure you are allowed to change PHP include_path.',array('{alias}'=>$alias)));
+				if(self::$_includePathEnabled!==false && set_include_path('.'.PATH_SEPARATOR.implode(PATH_SEPARATOR,self::$_includePaths))===false)
+					self::$_includePathEnabled=false;
 
 				return self::$_imports[$alias]=$path;
 			}
@@ -394,8 +396,24 @@ class YiiBase
 			include(self::$classMap[$className]);
 		else
 		{
-			if(strpos($className,'\\')===false)
-				include($className.'.php');
+			// include class file relying on include_path
+			if(strpos($className,'\\')===false)  // class without namespace
+			{
+				if(self::$_includePathEnabled===false)
+				{
+					foreach(self::$_includePaths as $path)
+					{
+						$classFile=$path.DIRECTORY_SEPARATOR.$className.'.php';
+						if(is_file($classFile))
+						{
+							include($classFile);
+							break;
+						}
+					}
+				}
+				else
+					include($className.'.php');
+			}
 			else  // class name with namespace in PHP 5.3
 			{
 				$namespace=str_replace('\\','.',ltrim($className,'\\'));
