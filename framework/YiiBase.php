@@ -61,11 +61,17 @@ class YiiBase
 	 * @since 1.1.5
 	 */
 	public static $classMap=array();
+	/**
+	 * @var boolean whether to rely on PHP include path to autoload class files. Defaults to true.
+	 * You may set this to be false if your hosting environment doesn't allow changing PHP include path,
+	 * or if you want to append additional autoloaders to the default Yii autoloader.
+	 * @since 1.1.8
+	 */
+	public static $enableIncludePath=true;
 
 	private static $_aliases=array('system'=>YII_PATH,'zii'=>YII_ZII_PATH); // alias => path
 	private static $_imports=array();					// alias => class name or directory
 	private static $_includePaths;						// list of include paths
-	private static $_includePathEnabled;                // whether hosting env supports changing include_path
 	private static $_app;
 	private static $_logger;
 
@@ -330,8 +336,8 @@ class YiiBase
 
 				array_unshift(self::$_includePaths,$path);
 
-				if(self::$_includePathEnabled!==false && set_include_path('.'.PATH_SEPARATOR.implode(PATH_SEPARATOR,self::$_includePaths))===false)
-					self::$_includePathEnabled=false;
+				if(self::$enableIncludePath && set_include_path('.'.PATH_SEPARATOR.implode(PATH_SEPARATOR,self::$_includePaths))===false)
+					self::$enableIncludePath=false;
 
 				return self::$_imports[$alias]=$path;
 			}
@@ -399,7 +405,7 @@ class YiiBase
 			// include class file relying on include_path
 			if(strpos($className,'\\')===false)  // class without namespace
 			{
-				if(self::$_includePathEnabled===false)
+				if(self::$enableIncludePath===false)
 				{
 					foreach(self::$_includePaths as $path)
 					{
