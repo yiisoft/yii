@@ -130,7 +130,7 @@ abstract class CConsoleCommand extends CComponent
 		if(!empty($options))
 			$this->usageError("Unknown options: ".implode(', ',array_keys($options)));
 
-		if($this->beforeAction($action,$params))
+		if($this->beforeAction($action,$params)!==false)
 		{
 			$method->invokeArgs($this,$params);
 			$this->afterAction($action,$params);
@@ -142,7 +142,7 @@ abstract class CConsoleCommand extends CComponent
 	 * You may override this method to do last-minute preparation for the action.
 	 * @param string $action the action name
 	 * @param array $params the parameters to be passed to the action method.
-	 * @return boolean whether the action should be executed.
+	 * @return boolean whether the action should be executed. Defaults to true.
 	 */
 	protected function beforeAction($action,$params)
 	{
