@@ -88,6 +88,10 @@ class CDbConnection extends CApplicationComponent
 	/**
 	 * @var string The Data Source Name, or DSN, contains the information required to connect to the database.
 	 * @see http://www.php.net/manual/en/function.PDO-construct.php
+	 *
+	 * Note that if you're using GBK or BIG5 then it's highly recommended to
+	 * update to PHP 5.3.6+ and to specify charset via DSN like
+	 * 'mysql:dbname=mydatabase;host=127.0.0.1;charset=GBK;'.
 	 */
 	public $connectionString;
 	/**
@@ -164,6 +168,10 @@ class CDbConnection extends CApplicationComponent
 	 * @var string the charset used for database connection. The property is only used
 	 * for MySQL and PostgreSQL databases. Defaults to null, meaning using default charset
 	 * as specified by the database.
+	 *
+	 * Note that if you're using GBK or BIG5 then it's highly recommended to
+	 * update to PHP 5.3.6+ and to specify charset via DSN like
+	 * 'mysql:dbname=mydatabase;host=127.0.0.1;charset=GBK;'.
 	 */
 	public $charset;
 	/**
