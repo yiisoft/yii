@@ -21,7 +21,32 @@ General upgrade intructions
 
 Upgrading from v1.1.7
 ---------------------
+Default behavior for handling before* events via overriding methods of parent class changed.
+Now you don't have to return true to continue execution.
 
+public function beforeControllerAction($controller, $action)
+{
+	if(parent::beforeControllerAction($controller, $action))
+	{
+		// this method is called before any module controller action is performed
+		// you may place customized code here
+		return true;
+	}
+	else
+		return false;
+}
+
+should be changed to
+
+public function beforeControllerAction($controller, $action)
+{
+	if(parent::beforeControllerAction($controller, $action)!==false)
+	{
+		// this method is called before any module controller action is performed
+		// you may place customized code here
+	}
+	return false;
+}
 
 Upgrading from v1.1.6
 ---------------------
