@@ -154,8 +154,10 @@ class CWebModule extends CModule
 	 * {
 	 *     // your code
 	 * }
-	 *
-	 * return false;
+	 * else
+	 * {
+	 * 	   return false;
+	 * }
 	 * </pre>
 	 * @param CController $controller the controller
 	 * @param CAction $action the action
