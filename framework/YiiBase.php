@@ -526,6 +526,16 @@ class YiiBase
 	}
 
 	/**
+	 * Sets the logger object.
+	 * @param CLogger $logger the logger object.
+	 * @since 1.1.8
+	 */
+	public static function setLogger($logger)
+	{
+		self::$_logger=$logger;
+	}
+
+	/**
 	 * Returns a string that can be displayed on your Web page showing Powered-by-Yii information
 	 * @return string a string that can be displayed on your Web page showing Powered-by-Yii information
 	 */

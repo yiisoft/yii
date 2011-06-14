@@ -47,6 +47,7 @@ Version 1.1.8 work in progress
 - Enh #2524: CActiveRecord::exists() now respects the scopes applied (Qiang)
 - Enh #2532: Improved Yii class autoloader to support Web servers that do not allow changing PHP include paths. (Qiang)
 - Enh #2534: Added CHtml::decode() (Qiang)
+- Enh #2535: Added YiiBase::setLogger() (Qiang)
 - Enh: XHR is now passed to CButtonColumn error JavaScript callback as a first argument (Sam Dark)
 - Enh: Added CHttpSession::regenerateID() and improved CWebUser::changeIdentity() by regenerating session ID (Qiang)
 - Enh: Added CActiveRecord::saveCounters() (Qiang)
