@@ -1602,7 +1602,15 @@ abstract class CActiveRecord extends CModel
 		$criteria->select='1';
 		$criteria->limit=1;
 		$this->applyScopes($criteria);
-		return $builder->createFindCommand($table,$criteria)->queryRow()!==false;
+
+		if(empty($criteria->with))
+			return $builder->createFindCommand($table,$criteria)->queryRow()!==false;
+		else
+		{
+			$criteria->select='*';
+			$finder=new CActiveFinder($this,$criteria->with);
+			return $finder->count($criteria)>0;
+		}
 	}
 
 	/**
