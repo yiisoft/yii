@@ -252,7 +252,7 @@ class CController extends CBaseController
 		{
 			if(($parent=$this->getModule())===null)
 				$parent=Yii::app();
-			if($parent->beforeControllerAction($this,$action))
+			if($parent->beforeControllerAction($this,$action)!==false)
 			{
 				$this->runActionWithFilters($action,$this->filters());
 				$parent->afterControllerAction($this,$action);

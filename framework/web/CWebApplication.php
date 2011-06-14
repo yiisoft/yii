@@ -558,7 +558,7 @@ class CWebApplication extends CApplication
 	 * before all controller actions.
 	 * @param CController $controller the controller
 	 * @param CAction $action the action
-	 * @return boolean whether the action should be executed.
+	 * @return boolean whether the action should be executed. Defaults to true.
 	 * @since 1.0.4
 	 */
 	public function beforeControllerAction($controller,$action)
