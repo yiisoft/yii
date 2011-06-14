@@ -21,7 +21,7 @@ General upgrade intructions
 
 Upgrading from v1.1.7
 ---------------------
-Default behavior for handling before* events via overriding methods of parent class are changed.
+- Default behavior for handling before* events via overriding methods of parent class are changed.
 Now in order to cancel the execution of the next method, a boolean false value must be returned.
 This means, if null or any other non-boolean-false value is returned, the next
 will continue to be executed. This change will affect you if you have code like the following:
@@ -39,6 +39,12 @@ public function beforeControllerAction($controller, $action)
 }
 
 In the above code, the "return 0" statement should be changed to be "return false".
+
+- CDbAuthManager will now quote columns and tables referenced in its SQL code.
+If your auth tables were created in a case-insensitive fashion (e.g. on PostgreSQL)
+while your DBMS is case-sensitive, this change may cause DB query errors.
+To fix this issue, you will have to rename the table names and columns, or re-create
+the auth tables by following the SQL code given in framework/web/auth/*.sql.
 
 
 Upgrading from v1.1.6
