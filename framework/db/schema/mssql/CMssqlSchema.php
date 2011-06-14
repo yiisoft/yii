@@ -276,14 +276,19 @@ EOD;
 	 */
 	protected function findColumns($table)
 	{
+		$columnsTable="INFORMATION_SCHEMA.COLUMNS";
 		$where=array();
 		$where[]="TABLE_NAME='".$table->name."'";
 		if (isset($table->catalogName))
+		{
 			$where[]="TABLE_CATALOG='".$table->catalogName."'";
+			$columnsTable = $table->catalogName.'.'.$columnsTable;
+		}
 		if (isset($table->schemaName))
 			$where[]="TABLE_SCHEMA='".$table->schemaName."'";
+
 		$sql="SELECT *, columnproperty(object_id(table_schema+'.'+table_name), column_name, 'IsIdentity') as IsIdentity ".
-			 "FROM INFORMATION_SCHEMA.COLUMNS WHERE ".join(' AND ',$where);
+			 "FROM ".$this->quoteTableName($columnsTable)." WHERE ".join(' AND ',$where);
 		if (($columns=$this->getDbConnection()->createCommand($sql)->queryAll())===array())
 			return false;
 
