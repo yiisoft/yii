@@ -113,10 +113,12 @@ class CButtonColumn extends CGridColumn
 	/**
 	 * @var string the confirmation message to be displayed when delete button is clicked.
 	 * By setting this property to be false, no confirmation message will be displayed.
+	 * This property is used only if <code>$this->buttons['delete']['click']</code> is not set.
 	 */
 	public $deleteConfirmation;
 	/**
 	 * @var string a javascript function that will be invoked after the delete ajax call.
+	 * This property is used only if <code>$this->buttons['delete']['click']</code> is not set.
 	 *
 	 * The function signature is <code>function(link, success, data)</code>
 	 * <ul>
@@ -215,24 +217,26 @@ class CButtonColumn extends CGridColumn
 				$this->buttons[$id]=$button;
 		}
 
-		if(is_string($this->deleteConfirmation))
-			$confirmation="if(!confirm(".CJavaScript::encode($this->deleteConfirmation).")) return false;";
-		else
-			$confirmation='';
-
-		if(Yii::app()->request->enableCsrfValidation)
+		if(!isset($this->buttons['delete']['click']))
 		{
-	        $csrfTokenName = Yii::app()->request->csrfTokenName;
-	        $csrfToken = Yii::app()->request->csrfToken;
-	        $csrf = "\n\t\tdata:{ '$csrfTokenName':'$csrfToken' },";
-		}
-		else
-			$csrf = '';
+			if(is_string($this->deleteConfirmation))
+				$confirmation="if(!confirm(".CJavaScript::encode($this->deleteConfirmation).")) return false;";
+			else
+				$confirmation='';
 
-		if($this->afterDelete===null)
-			$this->afterDelete='function(){}';
+			if(Yii::app()->request->enableCsrfValidation)
+			{
+				$csrfTokenName = Yii::app()->request->csrfTokenName;
+				$csrfToken = Yii::app()->request->csrfToken;
+				$csrf = "\n\t\tdata:{ '$csrfTokenName':'$csrfToken' },";
+			}
+			else
+				$csrf = '';
 
-		$this->buttons['delete']['click']=<<<EOD
+			if($this->afterDelete===null)
+				$this->afterDelete='function(){}';
+
+			$this->buttons['delete']['click']=<<<EOD
 function() {
 	$confirmation
 	var th=this;
@@ -251,6 +255,7 @@ function() {
 	return false;
 }
 EOD;
+		}
 	}
 
 	/**

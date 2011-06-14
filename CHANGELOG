@@ -43,6 +43,7 @@ Version 1.1.8 work in progress
 - Enh #2450: Added Ctype extension check to Yii requirements checker (Sam Dark)
 - Enh #2474: Enhanced CDbCommand::insert() and update() to support CDbExpression (Qiang)
 - Enh #2498: When no value is returned from before* event-methods, it now always behaves the same way as when true was returned (Sam Dark)
+- Enh #2500: Added possibility to use a custom click handler for CButtonColumn default delete button (mdomba)
 - Enh #2524: CActiveRecord::exists() now respects the scopes applied (Qiang)
 - Enh #2532: Improved Yii class autoloader to support Web servers that do not allow changing PHP include paths. (Qiang)
 - Enh #2534: Added CHtml::decode() (Qiang)
