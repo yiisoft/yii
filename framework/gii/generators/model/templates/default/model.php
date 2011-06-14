@@ -137,7 +137,7 @@ foreach($columns as $name=>$column)
 }
 ?>
 
-		return new CActiveDataProvider(get_class($this), array(
+		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
 	}
