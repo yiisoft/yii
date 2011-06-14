@@ -72,6 +72,7 @@ class CHtml
 	 * @param string $text data to be decoded
 	 * @return string the decoded data
 	 * @see http://www.php.net/manual/en/function.htmlspecialchars-decode.php
+	 * @since 1.1.8
 	 */
 	public static function decode($text)
 	{
