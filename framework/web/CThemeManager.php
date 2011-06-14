@@ -57,7 +57,7 @@ class CThemeManager extends CApplicationComponent
 		$themePath=$this->getBasePath().DIRECTORY_SEPARATOR.$name;
 		if(is_dir($themePath))
 		{
-			$class=Yii::import($this->themeClass);
+			$class=Yii::import($this->themeClass, true);
 			return new $class($name,$themePath,$this->getBaseUrl().'/'.$name);
 		}
 		else
