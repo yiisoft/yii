@@ -67,6 +67,18 @@ class CHtml
 	}
 
 	/**
+	 * Decodes special HTML entities back to the corresponding characters.
+	 * This is the opposite of {@link encode()}.
+	 * @param string $text data to be decoded
+	 * @return string the decoded data
+	 * @see http://www.php.net/manual/en/function.htmlspecialchars-decode.php
+	 */
+	public static function decode($text)
+	{
+		return htmlspecialchars_decode($text,ENT_QUOTES);
+	}
+
+	/**
 	 * Encodes special characters in an array of strings into HTML entities.
 	 * Both the array keys and values will be encoded if needed.
 	 * If a value is an array, this method will also encode it recursively.
