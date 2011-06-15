@@ -170,7 +170,7 @@ class CWebService extends CComponent
 
 			if($provider instanceof IWebServiceProvider)
 			{
-				if($provider->beforeWebMethod($this)!==false)
+				if($provider->beforeWebMethod($this))
 				{
 					$server->handle();
 					$provider->afterWebMethod($this);

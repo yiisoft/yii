@@ -1008,7 +1008,7 @@ abstract class CActiveRecord extends CModel
 	{
 		if(!$this->getIsNewRecord())
 			throw new CDbException(Yii::t('yii','The active record cannot be inserted to database because it is not new.'));
-		if($this->beforeSave()!==false)
+		if($this->beforeSave())
 		{
 			Yii::trace(get_class($this).'.insert()','system.db.ar.CActiveRecord');
 			$builder=$this->getCommandBuilder();
@@ -1056,7 +1056,7 @@ abstract class CActiveRecord extends CModel
 	{
 		if($this->getIsNewRecord())
 			throw new CDbException(Yii::t('yii','The active record cannot be updated because it is new.'));
-		if($this->beforeSave()!==false)
+		if($this->beforeSave())
 		{
 			Yii::trace(get_class($this).'.update()','system.db.ar.CActiveRecord');
 			if($this->_pk===null)
@@ -1157,7 +1157,7 @@ abstract class CActiveRecord extends CModel
 		if(!$this->getIsNewRecord())
 		{
 			Yii::trace(get_class($this).'.delete()','system.db.ar.CActiveRecord');
-			if($this->beforeDelete()!==false)
+			if($this->beforeDelete())
 			{
 				$result=$this->deleteByPk($this->getPrimaryKey())>0;
 				$this->afterDelete();
