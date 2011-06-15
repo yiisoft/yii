@@ -63,7 +63,7 @@ class Text_Diff {
     {
         return $this->_edits;
     }
-    
+
     /**
      * returns the number of new (added) lines in a given diff.
      *
@@ -83,7 +83,7 @@ class Text_Diff {
         }
         return $count;
     }
-    
+
     /**
      * Returns the number of deleted (removed) lines in a given diff.
      *
@@ -208,7 +208,7 @@ class Text_Diff {
      * @param string $line  The line to trim.
      * @param integer $key  The index of the line in the array. Not used.
      */
-    function trimNewlines(&$line, $key)
+    static function trimNewlines(&$line, $key)
     {
         $line = str_replace(array("\n", "\r"), '', $line);
     }
