@@ -52,8 +52,8 @@ class CActiveFinder extends CComponent
 	}
 
 	/**
-	 * Performs the relational query based on the given DB criteria.
-	 * Do not call this method. This method is used internally.
+	 * Do not call this method. This method is used internally to perform the relational query 
+	 * based on the given DB criteria.
 	 * @param CDbCriteria $criteria the DB criteria
 	 * @param boolean $all whether to bring back all records
 	 * @return mixed the query result

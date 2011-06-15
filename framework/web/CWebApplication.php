@@ -580,8 +580,7 @@ class CWebApplication extends CApplication
 	}
 
 	/**
-	 * Searches for a module by its ID.
-	 * This method is used internally. Do not call this method.
+	 * Do not call this method. This method is used internally to search for a module by its ID.
 	 * @param string $id module ID
 	 * @return CWebModule the module that has the specified ID. Null if no module is found.
 	 * @since 1.0.3
