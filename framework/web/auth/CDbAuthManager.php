@@ -12,7 +12,7 @@
  * CDbAuthManager represents an authorization manager that stores authorization information in database.
  *
  * The database connection is specified by {@link connectionID}. And the database schema
- * should be as described in "framework/web/auth/schema.sql". You may change the names of
+ * should be as described in "framework/web/auth/*.sql". You may change the names of
  * the three tables used to store the authorization data by setting {@link itemTable},
  * {@link itemChildTable} and {@link assignmentTable}.
  *
@@ -25,7 +25,7 @@ class CDbAuthManager extends CAuthManager
 {
 	/**
 	 * @var string the ID of the {@link CDbConnection} application component. Defaults to 'db'.
-	 * The database must have the tables as declared in "framework/web/auth/schema.sql".
+	 * The database must have the tables as declared in "framework/web/auth/*.sql".
 	 */
 	public $connectionID='db';
 	/**
