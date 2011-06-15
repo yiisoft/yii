@@ -58,7 +58,7 @@ $(document).ready(function() {
 					},
 					'showCloseButton': false,
 					'autoDimensions': false,
-					'width': 800,
+					'width': 900,
 					'height': 'auto',
 					'onComplete':function(){
 						$('#fancybox-inner').scrollTop(0);
