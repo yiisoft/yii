@@ -181,17 +181,15 @@ class CWebService extends CComponent
 		}
 		catch(Exception $e)
 		{
-			if($e->getCode()===self::SOAP_ERROR) // a PHP error
-				$message=$e->getMessage();
-			else
+			if($e->getCode()!==self::SOAP_ERROR) // non-PHP error
 			{
-				$message=$e->getMessage().' ('.$e->getFile().':'.$e->getLine().')';
 				// only log for non-PHP-error case because application's error handler already logs it
 				// php <5.2 doesn't support string conversion auto-magically
 				Yii::log($e->__toString(),CLogger::LEVEL_ERROR,'application');
 			}
+			$message=$e->getMessage();
 			if(YII_DEBUG)
-				$message.="\n".$e->getTraceAsString();
+				$message.=' ('.$e->getFile().':'.$e->getLine().")\n".$e->getTraceAsString();
 
 			// We need to end application explicitly because of
 			// http://bugs.php.net/bug.php?id=49513
