@@ -152,11 +152,11 @@ class GiiModule extends CWebModule
 	 * to access actions other than "default/login" and "default/error".
 	 * @param CController $controller the controller to be accessed.
 	 * @param CAction $action the action to be accessed.
-	 * @return boolean whether the action should be executed. Defaults to true.
+	 * @return boolean whether the action should be executed.
 	 */
 	public function beforeControllerAction($controller, $action)
 	{
-		if(parent::beforeControllerAction($controller, $action)!==false)
+		if(parent::beforeControllerAction($controller, $action))
 		{
 			$route=$controller->id.'/'.$action->id;
 			if(!$this->allowIp(Yii::app()->request->userHostAddress) && $route!=='default/error')
@@ -168,6 +168,8 @@ class GiiModule extends CWebModule
 			);
 			if($this->password!==false && Yii::app()->user->isGuest && !in_array($route,$publicPages))
 				Yii::app()->user->loginRequired();
+			else
+				return true;
 		}
 		return false;
 	}
