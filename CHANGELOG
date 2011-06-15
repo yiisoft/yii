@@ -20,6 +20,7 @@ Version 1.1.8 work in progress
 - Bug #2409: Fixed the bug that CCaptcha::buttonOptions is not respected (Qiang)
 - Bug #2411: Fixed the bug that CCaptcha will fail when setting buttonType to be 'button' (Qiang)
 - Bug #2422: Fixed the bug that calling CLogger::flush(true) multiple times may cause duplication of dumped messages (Qiang)
+- Bug #2426: Fixed the bug in Gii about calling a non-static method in a static way (Qiang)
 - Bug #2475: Fixed the bug that CMssqlCommandBuilder and COciCommandBuilder don't respect parameters declared in CDbExpression when doing insertion and updating (Qiang)
 - Bug #2485: Fixed the bug that CMssqlPdoAdapter is not used when the driver is sqlsrv (Qiang)
 - Bug #2509: Fixed the bug that AR for MSSQL may fail if on different catalogues (Qiang)
