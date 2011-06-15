@@ -52,7 +52,7 @@ class CActiveFinder extends CComponent
 	}
 
 	/**
-	 * Do not call this method. This method is used internally to perform the relational query 
+	 * Do not call this method. This method is used internally to perform the relational query
 	 * based on the given DB criteria.
 	 * @param CDbCriteria $criteria the DB criteria
 	 * @param boolean $all whether to bring back all records
@@ -1097,7 +1097,8 @@ class CJoinElement
 				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". There is no such column in the table "{table}".',
 					array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{key}'=>$fk, '{table}'=>$fke->_table->name)));
 
-			if(isset($fke->_table->foreignKeys[$fk]))
+
+			if(isset($fke->_table->foreignKeys[$fk]) && $schema->compareTableNames($pke->_table->rawName, $fke->_table->foreignKeys[$fk][0]))
 				$pk=$fke->_table->foreignKeys[$fk][1];
 			else  // FK constraints undefined
 			{

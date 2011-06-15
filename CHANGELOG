@@ -25,6 +25,7 @@ Version 1.1.8 work in progress
 - Bug #2485: Fixed the bug that CMssqlPdoAdapter is not used when the driver is sqlsrv (Qiang)
 - Bug #2509: Fixed the bug that AR for MSSQL may fail if on different catalogues (Qiang)
 - Bug #2516: CTimestamp::getDate() produced wrong output with the default timestamp (Y!!)
+- Bug #2538: Fixed the bug that AR may join with incorrect columns (Qiang)
 - Bug: CMapIterator current key wasn't initialized properly (Sam Dark, Detonator)
 - Bug: Controller generated with Gii CRUD wasn't able to handle non-integer primary key (Sam Dark)
 - Bug: Query caching may give incorrect caching results when bindParam or bindValue is used (Qiang)
