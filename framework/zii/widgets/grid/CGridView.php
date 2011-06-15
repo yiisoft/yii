@@ -383,8 +383,11 @@ class CGridView extends CBaseListView
 		{
 			echo "<table class=\"{$this->itemsCssClass}\">\n";
 			$this->renderTableHeader();
+			ob_start();
 			$this->renderTableBody();
+			$body=ob_get_clean();
 			$this->renderTableFooter();
+			echo $body; // TFOOT must appear before TBODY according to the standard.
 			echo "</table>";
 		}
 		else
