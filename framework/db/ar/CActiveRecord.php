@@ -691,8 +691,8 @@ abstract class CActiveRecord extends CModel
 	}
 
 	/**
-	 * Adds a related object to this record.
-	 * This method is used internally by {@link CActiveFinder} to populate related objects.
+	 * Do not call this method. This method is used internally by {@link CActiveFinder} to populate
+	 * related objects. This method adds a related object to this record.
 	 * @param string $name attribute name
 	 * @param mixed $record the related record
 	 * @param mixed $index the index value in the related object collection.
