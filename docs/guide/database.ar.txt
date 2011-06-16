@@ -651,4 +651,6 @@ $contents=Content::model()->findAll();
 
 Note that default scope only applies to `SELECT` queries. It is ignored for `INSERT`, `UPDATE` and `DELETE` queries.
 
+Also note that when declaring a scope, no DB queries can be made on the corresponding AR class.
+
 <div class="revision">$Id$</div>
