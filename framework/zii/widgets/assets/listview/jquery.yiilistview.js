@@ -48,6 +48,7 @@
 		// updateSelector: '#id .pager a, '#id .sort a',
 		// beforeAjaxUpdate: function(id) {},
 		// afterAjaxUpdate: function(id, data) {},
+		// url: 'ajax request URL'
 	};
 
 	$.fn.yiiListView.settings = {};
@@ -68,7 +69,8 @@
 	 * @return string the URL that generates the list view content.
 	 */
 	$.fn.yiiListView.getUrl = function(id) {
-		return $('#'+id+' > div.keys').attr('title');
+		var settings = $.fn.yiiListView.settings[id];
+		return settings.url || $('#'+id+' > div.keys').attr('title');
 	};
 
 	/**
