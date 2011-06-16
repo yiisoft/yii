@@ -115,6 +115,7 @@
 		// beforeAjaxUpdate: function(id) {},
 		// afterAjaxUpdate: function(id, data) {},
 		// selectionChanged: function(id) {},
+		// url: 'ajax request URL'
 	};
 
 	$.fn.yiiGridView.settings = {};
@@ -135,7 +136,8 @@
 	 * @return string the URL that generates the grid view content.
 	 */
 	$.fn.yiiGridView.getUrl = function(id) {
-		return $('#'+id+' > div.keys').attr('title');
+		var settings = $.fn.yiiGridView.settings[id];
+		return settings.url || $('#'+id+' > div.keys').attr('title');
 	};
 
 	/**
