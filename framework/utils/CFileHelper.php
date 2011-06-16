@@ -107,7 +107,8 @@ class CFileHelper
 	 */
 	protected static function copyDirectoryRecursive($src,$dst,$base,$fileTypes,$exclude,$level)
 	{
-		@mkdir($dst);
+		if(!is_dir($dst))
+			mkdir($dst);
 		@chmod($dst,0777);
 		$folder=opendir($src);
 		while(($file=readdir($folder))!==false)
