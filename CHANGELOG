@@ -63,7 +63,6 @@ Version 1.1.8 work in progress
 - Chg #2309: Changed XML mimetype to application/xml for more interoperability (Sam Dark)
 - Chg #2370: Upgraded JQuery UI to 1.8.13 (Sam Dark)
 - Chg #2401: Upgraded jQuery to 1.6.1 (Sam Dark)
-- Chg #2443: Disabled client-side validation by default for the skeleton application (Qiang)
 - Chg #2482: CWebService will not display source file name and error line number in production mode (Qiang)
 - Chg #2496: Setting CDbConnection::$emulatePrepare to be false will now explicitly set PDO::ATTR_EMULATE_PREPARES to be false (Qiang)
 - Chg: Changed CHtml::clientChange event binding to support custom event types and avoid conflicts when using AJAX (Sam Dark)
