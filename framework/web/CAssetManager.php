@@ -212,7 +212,14 @@ class CAssetManager extends CApplicationComponent
 						symlink($src,$dstDir);
 				}
 				else if(!is_dir($dstDir) || $forceCopy)
-					CFileHelper::copyDirectory($src,$dstDir,array('exclude'=>$this->excludeFiles,'level'=>$level));
+				{
+					CFileHelper::copyDirectory($src,$dstDir,array(
+						'exclude'=>$this->excludeFiles,
+						'level'=>$level,
+						'newDirMode'=>$this->newDirMode,
+						'newFileMode'=>$this->newFileMode,
+					));
+				}
 
 				return $this->_published[$path]=$this->getBaseUrl().'/'.$dir;
 			}
