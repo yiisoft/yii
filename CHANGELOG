@@ -32,6 +32,7 @@ Version 1.1.8 work in progress
 - Bug: Query caching may give incorrect caching results when bindParam or bindValue is used (Qiang)
 - Bug: Changing CActiveForm.errorMessageCssClass had no effect when ajax and client validation were disabled (Y!!)
 - Bug: Error when using CUniqueValidator with models indexed by specific field (Sam Dark, Yiivgeny)
+- Bug: Fixed the bug that CAssetManager doesn't set permission mode according to newDirMode and newFileModel properties when publishing a directory (Qiang)
 - Enh #2319: Added support to call behavior scope through criteria 'with'=>array('scopes'=>'behaviorScope') (Sam Dark, creocoder)
 - Enh #2262: Added warning log when a session fails to start by CHttpSession (Qiang)
 - Enh #2268: Added CClientScript::getPackageBaseUrl() (Qiang)

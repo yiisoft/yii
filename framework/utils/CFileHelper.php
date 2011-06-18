@@ -56,7 +56,7 @@ class CFileHelper
 		$exclude=array();
 		$level=-1;
 		extract($options);
-		self::copyDirectoryRecursive($src,$dst,'',$fileTypes,$exclude,$level);
+		self::copyDirectoryRecursive($src,$dst,'',$fileTypes,$exclude,$level,$options);
 	}
 
 	/**
@@ -104,12 +104,18 @@ class CFileHelper
 	 * Level -1 means copying all directories and files under the directory;
 	 * Level 0 means copying only the files DIRECTLY under the directory;
 	 * level N means copying those directories that are within N levels.
+	 * @param array $options additional options. The following options are supported:
+	 * newDirMode - the permission to be set for newly copied directories (defaults to 0777);
+	 * newFileMode - the permission to be set for newly copied files (defaults to the current environment setting).
 	 */
-	protected static function copyDirectoryRecursive($src,$dst,$base,$fileTypes,$exclude,$level)
+	protected static function copyDirectoryRecursive($src,$dst,$base,$fileTypes,$exclude,$level,$options)
 	{
 		if(!is_dir($dst))
 			mkdir($dst);
-		@chmod($dst,0777);
+		if(isset($options['newDirMode']))
+			@chmod($dst,$options['newDirMode']);
+		else
+			@chmod($dst,0777);
 		$folder=opendir($src);
 		while(($file=readdir($folder))!==false)
 		{
@@ -120,9 +126,13 @@ class CFileHelper
 			if(self::validatePath($base,$file,$isFile,$fileTypes,$exclude))
 			{
 				if($isFile)
+				{
 					copy($path,$dst.DIRECTORY_SEPARATOR.$file);
+					if(isset($options['newFileMode']))
+						@chmod($dst.DIRECTORY_SEPARATOR.$file, $options['newFileMode']);
+				}
 				else if($level)
-					self::copyDirectoryRecursive($path,$dst.DIRECTORY_SEPARATOR.$file,$base.'/'.$file,$fileTypes,$exclude,$level-1);
+					self::copyDirectoryRecursive($path,$dst.DIRECTORY_SEPARATOR.$file,$base.'/'.$file,$fileTypes,$exclude,$level-1,$options);
 			}
 		}
 		closedir($folder);
