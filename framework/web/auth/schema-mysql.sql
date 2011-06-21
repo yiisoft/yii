@@ -20,7 +20,7 @@ create table `AuthItem`
    `bizrule`              text,
    `data`                 text,
    primary key (`name`)
-);
+) engine InnoDB;
 
 create table `AuthItemChild`
 (
@@ -29,7 +29,7 @@ create table `AuthItemChild`
    primary key (`parent`,`child`),
    foreign key (`parent`) references `AuthItem` (`name`) on delete cascade on update cascade,
    foreign key (`child`) references `AuthItem` (`name`) on delete cascade on update cascade
-);
+) engine InnoDB;
 
 create table `AuthAssignment`
 (
@@ -39,4 +39,4 @@ create table `AuthAssignment`
    `data`                 text,
    primary key (`itemname`,`userid`),
    foreign key (`itemname`) references `AuthItem` (`name`) on delete cascade on update cascade
-);
+) engine InnoDB;
