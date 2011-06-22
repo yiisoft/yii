@@ -28,10 +28,10 @@
 				.filter("." + CLASSES.collapsable).replaceClass(CLASSES.last, CLASSES.lastCollapsable).end()
 				.find(">.hitarea").replaceClass(CLASSES.collapsableHitarea, CLASSES.lastCollapsableHitarea);
 			if (parent.is(":not(:has(>))") && parent[0] != this) {
-				parent.parent().removeClass(CLASSES.collapsable).removeClass(CLASSES.expandable)
+				parent.parent().removeClass(CLASSES.collapsable).removeClass(CLASSES.expandable);
 				parent.siblings(".hitarea").andSelf().remove();
 			}
 		});
 	};
-	
+
 })(jQuery);
