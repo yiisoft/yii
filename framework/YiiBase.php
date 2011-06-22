@@ -210,9 +210,7 @@ class YiiBase
 			{
 				unset($args[0]);
 				$class=new ReflectionClass($type);
-				// Note: ReflectionClass::newInstanceArgs() is available for PHP 5.1.3+
-				// $object=$class->newInstanceArgs($args);
-				$object=call_user_func_array(array($class,'newInstance'),$args);
+				$object=$class->newInstanceArgs($args);
 			}
 		}
 		else
