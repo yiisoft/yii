@@ -42,6 +42,7 @@ Version 1.1.8 work in progress
 - Enh #2341: More verbose log message for CModel::onUnsafeAttribute. Added model class (Sam Dark)
 - Enh #2357: Documented CWebApplication accessors with @property for better IDE autocomplete (Sam Dark)
 - Enh #2361: Added CDbConnection::pdoClass that allows to specify and use custom PDO wrapper class (Sam Dark)
+- Enh #2365: Added support for creating more complex index by using createIndex() of query builder. (Qiang)
 - Enh #2389: MessageCommand now accepts overwrite option determining if merge result will overwrite existing file (Sam Dark)
 - Enh #2424: CDbConnection::beginTransaction() will now trigger a trace message for better debugging (Y!!)
 - Enh #2450: Added Ctype extension check to Yii requirements checker (Sam Dark)
