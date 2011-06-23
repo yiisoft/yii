@@ -50,6 +50,7 @@ Version 1.1.8 work in progress
 - Enh #2450: Added Ctype extension check to Yii requirements checker (Sam Dark)
 - Enh #2474: Enhanced CDbCommand::insert() and update() to support CDbExpression (Qiang)
 - Enh #2483: Added CGridView::$ajaxUrl and CListView::$ajaxUrl (Qiang)
+- Enh #2493: Added money column type to the query builder (Qiang)
 - Enh #2500: Added possibility to use a custom click handler for CButtonColumn default delete button (mdomba)
 - Enh #2524: CActiveRecord::exists() now respects the scopes applied (Qiang)
 - Enh #2532: Improved Yii class autoloader to support Web servers that do not allow changing PHP include paths. (Qiang)

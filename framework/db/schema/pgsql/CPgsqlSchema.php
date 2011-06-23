@@ -37,6 +37,7 @@ class CPgsqlSchema extends CDbSchema
         'date' => 'date',
         'binary' => 'bytea',
         'boolean' => 'boolean',
+		'money' => 'decimal(19,4)',
     );
 
 	private $_sequences=array();

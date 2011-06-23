@@ -35,6 +35,7 @@ class CSqliteSchema extends CDbSchema
         'date' => 'date',
         'binary' => 'blob',
         'boolean' => 'tinyint(1)',
+		'money' => 'decimal(19,4)',
     );
 
 	/**
