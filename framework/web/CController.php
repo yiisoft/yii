@@ -545,7 +545,7 @@ class CController extends CBaseController
 	{
 		if(($module=$this->getModule())===null)
 			$module=Yii::app();
-		return $module->getViewPath().'/'.$this->getId();
+		return $module->getViewPath().DIRECTORY_SEPARATOR.$this->getId();
 	}
 
 	/**
