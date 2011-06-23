@@ -37,6 +37,7 @@ class COciSchema extends CDbSchema
         'date' => 'DATE',
         'binary' => 'BLOB',
         'boolean' => 'NUMBER(1)',
+		'money' => 'NUMBER(19,4)',
     );
 
 	/**

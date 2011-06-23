@@ -522,7 +522,8 @@ The following abstract data types are supported by the query builder.
 * `time`: time type, will be converted into `time` for MySQL;
 * `date`: date type, will be converted into `date` for MySQL;
 * `binary`: binary data type, will be converted into `blob` for MySQL;
-* `boolean`: boolean type, will be converted into `tinyint(1)` for MySQL.
+* `boolean`: boolean type, will be converted into `tinyint(1)` for MySQL;
+* `money`: money/currency type, will be converted into `decimal(19,4)` for MySQL. This type has been available since version 1.1.8.
 
 
 ###createTable()
