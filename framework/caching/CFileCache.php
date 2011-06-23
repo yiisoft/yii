@@ -199,7 +199,7 @@ class CFileCache extends CCache
 	 * @param boolean $expiredOnly whether to removed expired cache files only. If true, all cache files under {@link cachePath} will be removed.
 	 * @param string $path the path to clean with. If null, it will be {@link cachePath}.
 	 */
-	protected function gc($expiredOnly=true,$path=null)
+	public function gc($expiredOnly=true,$path=null)
 	{
 		if($path===null)
 			$path=$this->cachePath;
