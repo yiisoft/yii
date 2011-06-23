@@ -50,11 +50,9 @@
  * @property IWidgetFactory $widgetFactory the widget factory
  * @property IViewRenderer $viewRenderer the view renderer
  *
- * @property string $baseUrl Returns the relative URL for the application
  * @property CController $controller the currently active controller
  * @property CTheme $theme the theme used currently
  * @property string $controllerPath the directory that contains the controller classes
- * @property string $homeUrl the homepage URL
  * @property string $layoutPath the root directory of layout files
  * @property string $systemViewPath the root directory of system view files
  * @property string $viewPath the root directory of view files
@@ -117,7 +115,6 @@ class CWebApplication extends CApplication
 	private $_systemViewPath;
 	private $_layoutPath;
 	private $_controller;
-	private $_homeUrl;
 	private $_theme;
 
 
@@ -262,72 +259,6 @@ class CWebApplication extends CApplication
 	public function setTheme($value)
 	{
 		$this->_theme=$value;
-	}
-
-	/**
-	 * Creates a relative URL based on the given controller and action information.
-	 * @param string $route the URL route. This should be in the format of 'ControllerID/ActionID'.
-	 * @param array $params additional GET parameters (name=>value). Both the name and value will be URL-encoded.
-	 * @param string $ampersand the token separating name-value pairs in the URL.
-	 * @return string the constructed URL
-	 */
-	public function createUrl($route,$params=array(),$ampersand='&')
-	{
-		return $this->getUrlManager()->createUrl($route,$params,$ampersand);
-	}
-
-	/**
-	 * Creates an absolute URL based on the given controller and action information.
-	 * @param string $route the URL route. This should be in the format of 'ControllerID/ActionID'.
-	 * @param array $params additional GET parameters (name=>value). Both the name and value will be URL-encoded.
-	 * @param string $schema schema to use (e.g. http, https). If empty, the schema used for the current request will be used.
-	 * @param string $ampersand the token separating name-value pairs in the URL.
-	 * @return string the constructed URL
-	 */
-	public function createAbsoluteUrl($route,$params=array(),$schema='',$ampersand='&')
-	{
-		$url=$this->createUrl($route,$params,$ampersand);
-		if(strpos($url,'http')===0)
-			return $url;
-		else
-			return $this->getRequest()->getHostInfo($schema).$url;
-	}
-
-	/**
-	 * Returns the relative URL for the application.
-	 * This is a shortcut method to {@link CHttpRequest::getBaseUrl()}.
-	 * @param boolean $absolute whether to return an absolute URL. Defaults to false, meaning returning a relative one.
-	 * This parameter has been available since 1.0.2.
-	 * @return string the relative URL for the application
-	 * @see CHttpRequest::getBaseUrl()
-	 */
-	public function getBaseUrl($absolute=false)
-	{
-		return $this->getRequest()->getBaseUrl($absolute);
-	}
-
-	/**
-	 * @return string the homepage URL
-	 */
-	public function getHomeUrl()
-	{
-		if($this->_homeUrl===null)
-		{
-			if($this->getUrlManager()->showScriptName)
-				return $this->getRequest()->getScriptUrl();
-			else
-				return $this->getRequest()->getBaseUrl().'/';
-		}
-		else
-			return $this->_homeUrl;
-	}
-
-	/**
-	 * @param string $value the homepage URL
-	 */
-	public function setHomeUrl($value)
-	{
-		$this->_homeUrl=$value;
 	}
 
 	/**
