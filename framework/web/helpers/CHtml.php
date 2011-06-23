@@ -1637,6 +1637,7 @@ EOD;
 	 */
 	public static function error($model,$attribute,$htmlOptions=array())
 	{
+		self::resolveName($model,$attribute); // turn [a][b]attr into attr
 		$error=$model->getError($attribute);
 		if($error!='')
 		{
@@ -2024,8 +2025,7 @@ EOD;
 				return $name;
 			}
 		}
-		else
-			return get_class($model).'['.$attribute.']';
+		return get_class($model).'['.$attribute.']';
 	}
 
 	/**
