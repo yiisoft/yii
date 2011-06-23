@@ -89,5 +89,15 @@ $('.form .row.model-class').toggle($('#{$class}_tableName').val().substring($('#
 		</div>
 		<?php echo $form->error($model,'modelPath'); ?>
 	</div>
+	<div class="row">
+		<?php echo $form->labelEx($model,'buildRelations'); ?>
+		<?php echo $form->checkBox($model,'buildRelations'); ?>
+		<div class="tooltip">
+			Whether relations should be generated for the model class.
+			In order to generate relations, full scan of the whole database is needed.
+			You should disable this option if your database contains too many tables.
+		</div>
+		<?php echo $form->error($model,'buildRelations'); ?>
+	</div>
 
 <?php $this->endWidget(); ?>

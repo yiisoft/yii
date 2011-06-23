@@ -7,6 +7,7 @@ class ModelCode extends CCodeModel
 	public $modelClass;
 	public $modelPath='application.models';
 	public $baseClass='CActiveRecord';
+	public $buildRelations=true;
 
 	/**
 	 * @var array list of candidate relation code. The array are indexed by AR class names and relation names.
@@ -25,7 +26,7 @@ class ModelCode extends CCodeModel
 			array('modelPath', 'validateModelPath', 'skipOnError'=>true),
 			array('baseClass, modelClass', 'validateReservedWord', 'skipOnError'=>true),
 			array('baseClass', 'validateBaseClass', 'skipOnError'=>true),
-			array('tablePrefix, modelPath, baseClass', 'sticky'),
+			array('tablePrefix, modelPath, baseClass, buildRelations', 'sticky'),
 		));
 	}
 
@@ -37,6 +38,7 @@ class ModelCode extends CCodeModel
 			'modelPath'=>'Model Path',
 			'modelClass'=>'Model Class',
 			'baseClass'=>'Base Class',
+			'buildRelations'=>'Build Relations',
 		));
 	}
 
@@ -269,6 +271,8 @@ class ModelCode extends CCodeModel
 
 	protected function generateRelations()
 	{
+		if(!$this->buildRelations)
+			return array();
 		$relations=array();
 		foreach(Yii::app()->db->schema->getTables() as $table)
 		{

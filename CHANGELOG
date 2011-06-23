@@ -39,6 +39,7 @@ Version 1.1.8 work in progress
 - Bug: Fixed the bug that CAssetManager doesn't set permission mode according to newDirMode and newFileModel properties when publishing a directory (Qiang)
 - Enh #2319: Added support to call behavior scope through criteria 'with'=>array('scopes'=>'behaviorScope') (Sam Dark, creocoder)
 - Enh #2262: Added warning log when a session fails to start by CHttpSession (Qiang)
+- Enh #2264: Added an option to the model code generator such that the relation generation can be disabled (Qiang)
 - Enh #2268: Added CClientScript::getPackageBaseUrl() (Qiang)
 - Enh #2273: Used better merging algorithm to build query parameters that are of array type in CUrlManager (Qiang)
 - Enh #2299: Added CAssetManager.newFileMode and newDirMode (Qiang)
