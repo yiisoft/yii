@@ -17,6 +17,7 @@ Version 1.1.8 work in progress
 - Bug #2312: Fixed the bug that auto-incremental columns for MSSQL may return non-integers as last insert ID (Qiang)
 - Bug #2328: Fixed the bug that table names was not quoted in CDbAuthManager (mdomba)
 - Bug #2338: Fixed a typo in the client validation code for CNumberValidator (Qiang)
+- Bug #2359: Fixed the bug that checkbox in Gii view template may be hidden automatically (Qiang)
 - Bug #2382: Fixed the bug that yiic wasn't able to run if there is no commands dir in application (Sam Dark)
 - Bug #2394: Fixed a typo in CDbCache that may cause mget() to fail (Qiang)
 - Bug #2409: Fixed the bug that CCaptcha::buttonOptions is not respected (Qiang)
