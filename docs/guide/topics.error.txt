@@ -19,8 +19,8 @@ If you do not want Yii to handle the errors and exceptions, you may define
 constant `YII_ENABLE_ERROR_HANDLER` and `YII_ENABLE_EXCEPTION_HANDLER` to
 be false in the [entry script](/doc/guide/basics.entry).
 
-By default, [errorHandler|CApplication::errorHandler] (or
-[exceptionHandler|CApplication::exceptionHandler]) will raise an
+By default, [handleError|CApplication::handleError] (or
+[handleException|CApplication::handleException]) will raise an
 [onError|CApplication::onError] event (or
 [onException|CApplication::onException] event). If the error (or exception)
 is not handled by any event handler, it will call for help from the
