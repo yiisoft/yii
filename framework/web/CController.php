@@ -877,6 +877,28 @@ class CController extends CBaseController
 	}
 
 	/**
+	 * Renders a named clip with the supplied parameters.
+	 * This is similar to directly accessing the {@link clips} property.
+	 * The main difference is that it can take an array of named parameters
+	 * which will replace the corresponding placeholders in the clip.
+	 * @param string $name the name of the clip
+	 * @param array $params an array of named parameters (name=>value) that should replace
+	 * their corresponding placeholders in the clip
+	 * @param boolean $return whether to return the clip content or echo it.
+	 * @return mixed either the clip content or null
+	 * @since 1.1.8
+	 */
+	public function renderClip($name,$params=array(),$return=false)
+	{
+		$text=isset($this->clips[$name]) ? strtr($this->clips[$name], $params) : '';
+
+		if($return)
+			return $text;
+		else
+			echo $text;
+	}
+
+	/**
 	 * Renders dynamic content returned by the specified callback.
 	 * This method is used together with {@link COutputCache}. Dynamic contents
 	 * will always show as their latest state even if the content surrounding them is being cached.
