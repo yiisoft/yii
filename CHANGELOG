@@ -64,6 +64,7 @@ Version 1.1.8 work in progress
 - Enh #2535: Added YiiBase::setLogger() (Qiang)
 - Enh #2555: Exposed CFileCache::gc() so that garbage collection can be explicitly invoked (Qiang)
 - Enh #2556: Improved exception display in ajax mode (Qiang)
+- Enh #2571: Improved the code for cleaning output buffers in CErrorHandler (Qiang)
 - Enh: XHR is now passed to CButtonColumn error JavaScript callback as a first argument (Sam Dark)
 - Enh: Added CHttpSession::regenerateID() and improved CWebUser::changeIdentity() by regenerating session ID (Qiang)
 - Enh: Added CActiveRecord::saveCounters() (Qiang)

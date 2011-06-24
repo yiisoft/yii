@@ -96,7 +96,8 @@ class CErrorHandler extends CApplicationComponent
 
 		if($this->discardOutput)
 		{
-			while(@ob_end_clean()) ;
+			while (ob_get_length())
+				@ob_end_clean();
 		}
 
 		if($event instanceof CExceptionEvent)
