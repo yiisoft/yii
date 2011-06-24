@@ -2276,7 +2276,19 @@ class CActiveRecordMetaData
 			throw new CDbException(Yii::t('yii','The table "{table}" for active record class "{class}" cannot be found in the database.',
 				array('{class}'=>get_class($model),'{table}'=>$tableName)));
 		if($table->primaryKey===null)
+		{
 			$table->primaryKey=$model->primaryKey();
+			if(is_string($table->primaryKey) && isset($table->columns[$table->primaryKey]))
+				$table->columns[$table->primaryKey]->isPrimaryKey=true;
+			else if(is_array($table->primaryKey))
+			{
+				foreach($table->primaryKey as $name)
+				{
+					if(isset($table->columns[$name]))
+						$table->columns[$name]->isPrimaryKey=true;
+				}
+			}
+		}
 		$this->tableSchema=$table;
 		$this->columns=$table->columns;
 
