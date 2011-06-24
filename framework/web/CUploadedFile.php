@@ -147,7 +147,7 @@ class CUploadedFile extends CComponent
 	 * @param integer $size the actual size of the uploaded file in bytes
 	 * @param integer $error the error code
 	 */
-	protected function __construct($name,$tempName,$type,$size,$error)
+	public function __construct($name,$tempName,$type,$size,$error)
 	{
 		$this->_name=$name;
 		$this->_tempName=$tempName;
