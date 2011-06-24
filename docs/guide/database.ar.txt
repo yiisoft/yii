@@ -649,7 +649,7 @@ Now, if the following method call will automatically use the query criteria as d
 $contents=Content::model()->findAll();
 ~~~
 
-> Note: Scopes only apply to `SELECT` queries. They are ignored for `INSERT`, `UPDATE` and `DELETE` queries.
-> Also, when declaring a scope, the AR class cannot be used to make DB queries in the method that declares the scope.
+> Note: Default scope and named scopes only apply to `SELECT` queries. They are ignored for `INSERT`, `UPDATE` and `DELETE` queries.
+> Also, when declaring a scope (default or named), the AR class cannot be used to make DB queries in the method that declares the scope.
 
 <div class="revision">$Id$</div>
