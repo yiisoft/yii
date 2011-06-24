@@ -26,6 +26,8 @@ If your auth tables were created in a case-insensitive fashion (e.g. on PostgreS
 while your DBMS is case-sensitive, this change may cause DB query errors.
 To fix this issue, you will have to rename the table names and columns, or re-create
 the auth tables by following the SQL code given in framework/web/auth/*.sql.
+- jQuery was upgraded to 1.6.1. Check your client side code and if you have issues consider
+downgrading to 1.5.1 or 1.4.4.
 
 
 Upgrading from v1.1.6
