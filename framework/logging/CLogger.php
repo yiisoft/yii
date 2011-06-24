@@ -200,32 +200,12 @@ class CLogger extends CComponent
 
 	/**
 	 * Returns the memory usage of the current application.
-	 * This method relies on the PHP function memory_get_usage().
-	 * If it is not available, the method will attempt to use OS programs
-	 * to determine the memory usage. A value 0 will be returned if the
-	 * memory usage can still not be determined.
+	 * This method relies on the PHP function memory_get_peak_usage().
 	 * @return integer memory usage of the application (in bytes).
 	 */
 	public function getMemoryUsage()
 	{
-		if(function_exists('memory_get_usage'))
-			return memory_get_usage();
-		else
-		{
-			$output=array();
-			if(strncmp(PHP_OS,'WIN',3)===0)
-			{
-				exec('tasklist /FI "PID eq ' . getmypid() . '" /FO LIST',$output);
-				return isset($output[5])?preg_replace('/[\D]/','',$output[5])*1024 : 0;
-			}
-			else
-			{
-				$pid=getmypid();
-				exec("ps -eo%mem,rss,pid | grep $pid", $output);
-				$output=explode("  ",$output[0]);
-				return isset($output[1]) ? $output[1]*1024 : 0;
-			}
-		}
+        return memory_get_peak_usage(true);
 	}
 
 	/**
