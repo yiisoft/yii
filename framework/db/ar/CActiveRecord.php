@@ -2162,7 +2162,7 @@ class CHasOneRelation extends CActiveRelation
 {
 	/**
 	 * @var string the name of the relation that should be used as the bridge to this relation.
-	 * Deafults to null, meaning don't use any bridge.
+	 * Defaults to null, meaning don't use any bridge.
 	 * @since 1.1.7
 	 */
 	public $through;
@@ -2194,7 +2194,7 @@ class CHasManyRelation extends CActiveRelation
 	public $index;
 	/**
 	 * @var string the name of the relation that should be used as the bridge to this relation.
-	 * Deafults to null, meaning don't use any bridge.
+	 * Defaults to null, meaning don't use any bridge.
 	 * @since 1.1.7
 	 */
 	public $through;
