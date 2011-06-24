@@ -57,6 +57,11 @@ caches the content fragment for at most one hour:
 If we do not set the duration, it would default to 60, meaning the cached
 content will be invalidated after 60 seconds.
 
+Starting from version 1.1.8, if the duration is set 0, any existing cached
+content will be removed from the cache. If the duration is a negative value,
+the cache will be disabled, but existing cached content will remain in the cache.
+Prior to version 1.1.8, if the duration is 0 or negative, the cache will be disabled.
+
 ### Dependency
 
 Like [data caching](/doc/guide/caching.data), content fragment being

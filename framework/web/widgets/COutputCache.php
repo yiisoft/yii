@@ -71,7 +71,11 @@ class COutputCache extends CFilterWidget
 
 	/**
 	 * @var integer number of seconds that the data can remain in cache. Defaults to 60 seconds.
-	 * If 0 or negative, it means the cache is disabled. Note, if cache dependency changes or cache space is limited,
+	 * If it is 0, existing cached content would be removed from the cache.
+	 * If it is a negative value, the cache will be disabled (any existing cached content will
+	 * remain in the cache.)
+	 *
+	 * Note, if cache dependency changes or cache space is limited,
 	 * the data may be purged out of cache earlier.
 	 */
 	public $duration=60;
@@ -188,7 +192,7 @@ class COutputCache extends CFilterWidget
 			$data=array($this->_content,$this->_actions);
 			if(is_array($this->dependency))
 				$this->dependency=Yii::createComponent($this->dependency);
-			$this->_cache->set($this->getCacheKey(),$data,$this->duration>0 ? $this->duration : 0,$this->dependency);
+			$this->_cache->set($this->getCacheKey(),$data,$this->duration,$this->dependency);
 
 			if($this->getController()->isCachingStackEmpty())
 				echo $this->getController()->processDynamicOutput($this->_content);
@@ -215,14 +219,18 @@ class COutputCache extends CFilterWidget
 	protected function checkContentCache()
 	{
 		if((empty($this->requestTypes) || in_array(Yii::app()->getRequest()->getRequestType(),$this->requestTypes))
-			&& $this->duration>0 && ($this->_cache=$this->getCache())!==null)
+			&& ($this->_cache=$this->getCache())!==null)
 		{
-			if(($data=$this->_cache->get($this->getCacheKey()))!==false)
+			if($this->duration>0 && ($data=$this->_cache->get($this->getCacheKey()))!==false)
 			{
 				$this->_content=$data[0];
 				$this->_actions=$data[1];
 				return true;
 			}
+			if($this->duration==0)
+				$this->_cache->delete($this->getCacheKey());
+			if($this->duration<=0)
+				$this->_cache=null;
 		}
 		return false;
 	}
