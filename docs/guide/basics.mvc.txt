@@ -1,4 +1,4 @@
-Mode-View-Controller (MVC)
+Model-View-Controller (MVC)
 ===========================
 
 Yii implements the model-view-controller (MVC) design pattern, which is
