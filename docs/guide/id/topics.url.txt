@@ -338,4 +338,92 @@ halaman Web statis. Untuk melakukannya, cukup konfigurasi komponen
 [urlManager|CWebApplication::urlManager] dengan menyetel properti
 [urlSuffix|CUrlManager::urlSuffix] ke sufiks yang Anda inginkan.
 
-<div class="revision">$Id: topics.url.txt 2923 2011-01-29 21:02:46Z mdomba $</div>
+
+Menggunakan Custom Class URL Rules (Kelas Aturan URL Buatan Sendiri)
+-----------------------------
+
+> Note|Catatan: Menggunakan kelas aturan URL buatan sendiri didukung mulai dari versi 1.1.8
+
+Secara default, setiap aturan URL yang dibuat di [CUrlManager] diwakili sebagai
+sebuah objek [CUrlRule] yang melakukan penguraian dan pembuatan URL-URL 
+berdasarkan aturan yang ditetapkan. Walaupun [CUrlRule] cukup fleksibel untuk menangani
+sebagian besar format URL, tetapi terkadang kita butuh jauh lebih dari itu.
+
+Misalnya, dalam sebuah website dealer mobil, kita mungkin ingin format URL seperti 
+demikian `/Manufacturer/Model`, dengan `Manufacturer` dan `Model` harus cocok dengan data
+di dalam tabel database. Kelas [CUrlRule] tidak akan berjalan dikarenakan kelas ini bergantung
+pada regular expressions yang dideklarasikan secara statis tanpa pengetahuan mengenai database.
+
+Kita dapat menulis kelas aturan URL dengan menurunkan [CBaseUrlRule] dan menggunakannya
+di dalam satu atau lebih aturan URL. Dengan contoh website dealer mobil tadi, kita dapat 
+mendeklarasikan aturan URL berikut,
+
+~~~
+[php]
+array(
+	// Standar aturan mapping '/' ke action 'site/index' 
+	'' => 'site/index',
+
+	// sebuah aturan mapping standar '/login' ke 'site/login' dan lainnya 
+	'<action:(login|logout|about)>' => 'site/<action>',
+
+	// Aturan buatan sendiri untuk menangani '/Manufacturer/Model'
+	array(
+	    'class' => 'application.components.CarUrlRule',
+	    'connectionID' => 'db',
+	),
+
+	// Aturan standar untuk menangani 'post/update' dan lainnya
+	'<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+),
+~~~
+
+Pada contoh di atas, kita menggunakan kelas aturan URL buatan sendiri `CarUrlRule` untuk menangani
+format URL `/Manufacturer/Model`. Kelas ini dapat ditulis sebagai berikut:
+
+~~~
+[php]
+class CarUrlRule extends CBaseUrlRule
+{
+	public $connectionID = 'db';
+
+	public function createUrl($manager,$route,$params,$ampersand)
+	{
+		if ($route==='car/index')
+		{
+			if (isset($params['manufacturer'], $params['model']))
+				return $params['manufacturer'] . '/' . $params['model'];
+			else if (isset($params['manufacturer']))
+				return $params['manufacturer'];
+		}
+		return false;  // this rule does not apply
+	}
+
+	public function parseUrl($manager,$request,$pathInfo,$rawPathInfo)
+	{
+		if (preg_match('%^(\w+)(/(\w+))?$%', $pathInfo, $matches))
+		{
+			// check $matches[1] and $matches[3] to see
+			// if they match a manufacturer and a model in the database
+			// If so, set $_GET['manufacturer'] and/or $_GET['model']
+			// and return 'car/index'
+		}
+		return false;  // this rule does not apply
+	}
+}
+~~~
+
+Kelas URL buatan sendiri ini harus mengimplementasi dua method abstrak yang dideklarasikan di dalam [CBaseUrlRule]:
+
+* [CBaseUrlRule::createUrl()|createUrl()]
+* [CBaseUrlRule::parseUrl()|parseUrl()]
+
+Selain penggunaan di atas, kelas aturan URL custom juga dapat diimplementasikan
+tujuan lainnya. Misalnya, kita dapat menulis sebuah kelas aturan yang melakukan pencatatan 
+URL parsing dan request pembuatan. Biasanya fungsi ini kita perlukan pada saat tahap pengembangan. Kita juga dapat
+menulis kelas aturan untuk menampilkan halaman error 404 khusus apabila aturan URL request gagal diuraikan.
+Harap dicatat, khusus kasus ini, aturan dari kelas spesial ini harus 
+dideklarasikan sebagai aturan terakhir.
+
+<div class="revision">$Id: topics.url.txt 3236 2011-05-25 13:11:58Z qiang.xue $</div>
+

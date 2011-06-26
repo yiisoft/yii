@@ -109,7 +109,8 @@ server Web. Dapat dikustomisasi melalui
 [CApplication::runtimePath].
 
    - `WebRoot/protected/extensions`: direktori ini menampung semua extension dari
-pihak ketiga. Dapat dikustomisasi melalui [CApplication::extensionPath].
+pihak ketiga. Dapat dikustomisasi melalui [CApplication::extensionPath]. Yii memiliki alias default
+bernama `ext` untuk mewakilinya.
 
    - `WebRoot/protected/modules`: direktori ini menampung semua 
 [module](/doc/guide/basics.module) aplikasi, masing-masing diwakili oleh subdirektori.
@@ -160,4 +161,7 @@ tunggal (singular) atau jamak (plural) tetapi jangan dua-duanya. Supaya sederhan
 terutama jika tabel-tabel suatu aplikasi berbaur dalam satu tabel dengan tabel-tabel aplikasi lain.
 Dua kumpulan tabel itu dapat dipisahkan dengan menggunakan nama tabel dengan prefiks yang berbeda.
 
-<div class="revision">$Id: basics.convention.txt 2345 2010-08-28 12:51:08Z mdomba $</div>
+
+
+
+<div class="revision">$Id: basics.convention.txt 3225 2011-05-17 23:23:05Z alexander.makarow $</div>

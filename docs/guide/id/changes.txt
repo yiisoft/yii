@@ -3,14 +3,20 @@ Fitur Baru
 
 Halaman ini meringkas fitur-fitur utama baru yang diperkenalkan dalam setiap rilis Yii.
 
+Version 1.1.8
+-------------
+ * [Menambah dukungan kelas aturan URL buatan sendiri](/doc/guide/topics.url#using-custom-url-rule-classes)
+
 Versi 1.1.7
 -------------
  * [Menambah dukungan URL RESTful URL ](/doc/guide/topics.url#user-friendly-urls)
  * [Menambah dukungan caching query](/doc/guide/caching.data#query-caching)
  * [Sekarang sudah bisa passing parameter untuk relational named scopes](/doc/guide/database.arr#relational-query-with-named-scopes)
  * [Menambah kemampuan melakukan query Relational tanpa mengambil model bersangkutan](/doc/guide/database.arr#performing-relational-query-without-getting-related-models)
+ * [Menambah dukungan HAS_MANY through dan HAS_ONE through pada relasi AR](/doc/guide/database.arr#relational-query-with-through)
  * [Menambah dukungan transaksi pada fitur migrasi DB](/doc/guide/database.migration#transactional-migrations)
  * [Menambah dukungan penggunaan parameter binding dengan action berjenis class](/doc/guide/basics.controller#action-parameter-binding)
+ * Menambah dukungan untuk melakukan validasi data pada sisi client secara seamless dengan menggunakan [CActiveForm]
 
 Versi 1.1.6
 -------------
@@ -76,4 +82,4 @@ Versi 1.1.0
 
 * Nama alias untuk tabel utama dalam sebuah query AR ditetapkan sebagai 't'
 
-<div class="revision">$Id: changes.txt 3058 2011-03-13 04:20:12Z qiang.xue $</div>
+<div class="revision">$Id: changes.txt 3235 2011-05-24 18:54:01Z qiang.xue $</div>

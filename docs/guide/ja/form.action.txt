@@ -9,23 +9,23 @@
 [php]
 public function actionLogin()
 {
-	$form=new LoginForm;
+	$model=new LoginForm;
 	if(isset($_POST['LoginForm']))
 	{
 		// ユーザの入力データの収集
-		$form->attributes=$_POST['LoginForm'];
+		$model->attributes=$_POST['LoginForm'];
 		// ユーザの入力の検証、検証が通った際は前のページへリダイレクト
-		if($form->validate())
-			$this->redirect($Yii::app()->user->returnUrl);
+		if($model->validate())
+			$this->redirect(Yii::app()->user->returnUrl);
 	}
 	// ログインフォームの表示
-	$this->render('login',array('user'=>$form));
+	$this->render('login',array('model'=>$model));
 }
 ~~~
 
-上記の様に、はじめに `LoginForm` インスタンスを作成します; 
+上記の様に、はじめに `LoginForm` モデルのインスタンスを作成します; 
 もしリクエストがPOSTリクエストであった場合(ログインフォームが送信された事
-を意味します)、`$form` の中へ送信されたデータ `$_POST['LoginForm']` 
+を意味します)、`$model` の中へ送信されたデータ `$_POST['LoginForm']` 
 を入れます。そして入力を検証し、成功した場合はユーザのブラウザを
 認証によって必要とされたページの前のページへリダイレクトします。
 もし検証が失敗した場合、またはアクションが直接アクセスされた場合は、
@@ -43,7 +43,7 @@ public function actionLogin()
 
 ~~~
 [php]
-$form->attributes=$_POST['LoginForm'];
+$model->attributes=$_POST['LoginForm'];
 ~~~
 
 ここまでで述べたように、このコードは単純にユーザーの送信データを
@@ -55,9 +55,9 @@ $form->attributes=$_POST['LoginForm'];
 
 ~~~
 [php]
-$form->username=$_POST['LoginForm']['username'];
-$form->password=$_POST['LoginForm']['password'];
-$form->rememberMe=$_POST['LoginForm']['rememberMe'];
+$model->username=$_POST['LoginForm']['username'];
+$model->password=$_POST['LoginForm']['password'];
+$model->rememberMe=$_POST['LoginForm']['rememberMe'];
 ~~~
 
 > Note|注意: `$_POST['LoginForm']` から文字列ではなく配列を受け取る為に、
@@ -71,4 +71,4 @@ $form->rememberMe=$_POST['LoginForm']['rememberMe'];
 さあ、残りのタスクは、必要なインプットフィールドとHTMLフォームを含んだ
  `login` ビューの作成です。
 
-<div class="revision">$Id: form.action.txt 626 2009-02-04 20:51:13Z qiang.xue $</div>
+<div class="revision">$Id: form.action.txt 1837 2010-02-24 22:49:51Z qiang.xue $</div>

@@ -10,7 +10,7 @@ Yii DAOが実質的にどんなデータベース関連のタスクでも取り�
 各々のARクラスはアトリビュートがARクラスのプロパティとして描写されるデータベーステーブル(またはビュー)を表します。そして、ARインスタンスはそのテーブルでの列を表します。
 共通のCRUDオペレーションは、ARメソッドとして実装されます。
 その結果、我々はよりオブジェクト指向方向でデータにアクセスすることができます。
-例えば、我々は`Post`テーブルに新しい列を挿入するために、以下のコードを使用することができます:
+例えば、我々は`tbl_post`テーブルに新しい列を挿入するために、以下のコードを使用することができます:
 
 ~~~
 [php]
@@ -26,11 +26,11 @@ $post->save();
 
 ~~~
 [sql]
-CREATE TABLE Post (
+CREATE TABLE tbl_post (
 	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	title VARCHAR(128) NOT NULL,
 	content TEXT NOT NULL,
-	createTime INTEGER NOT NULL
+	create_time INTEGER NOT NULL
 );
 ~~~
 
@@ -71,9 +71,6 @@ ARに対するサポートは、DBMSによって制限されます。現在以�
    - [Microsoft SQL Server 2000 or later](http://www.microsoft.com/sqlserver/)
    - [Oracle](http://www.oracle.com)
 
-> Note|注意: Microsoft SQL Server のサポートは、バージョン 1.0.4 以降で有効です。
-> また、Oracle のサポートは、バージョン 1.0.5 以降で有効です。
-
 `db`以外のアプリケーションコンポーネントを使いたいか、あるいはARを使う複数のデータベースで作業することを望む場合は[CActiveRecord：getDbConnection()]をオーバライドしなければなりません。
 [CActiveRecord]クラスは、すべてのARクラスのためのベースクラスです。
 
@@ -87,7 +84,7 @@ ARクラス定義
 データベーステーブルにアクセスするために、最初に[CActiveRecord]を継承ことによってARクラスを定義する必要があります。
 それぞれのARクラスは一つのデータベーステーブルを表します。
 そして、ARインスタンスはそのテーブルでの列を表します。
-以下の例は、`Post`テーブルを表しているARクラスのために必要な最小のコードを示します。
+以下の例は、`tbl_post`テーブルを表しているARクラスのために必要な最小のコードを示します。
 
 ~~~
 [php]
@@ -96,6 +93,11 @@ class Post extends CActiveRecord
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
+	}
+
+	public function tableName()
+	{
+		return 'tbl_post';
 	}
 }
 ~~~
@@ -115,6 +117,18 @@ class Post extends CActiveRecord
 もし異なる場合は[tableName()|CActiveRecord:tableName]メソッドをオーバライドしてください。
 [model()|CActiveRecord:model］メソッドはあらゆるARクラス(まもなく説明されます)のためにそのように宣言されます。
 
+> Info|情報: [テーブルプレフィクス機能](/doc/guide/database.dao#using-table-prefix)を使うためには
+> ARクラスのための[tableName()|CActiveRecord::tableName]メソッドは以下のようにオーバライドする必要
+> があります。
+> ~~~
+> [php]
+> public function tableName()
+> {
+>     return '{{post}}';
+> }
+> ~~~
+> フルに定義されたテーブル名を返す代わりに、テーブル名を二重ヒゲ括弧で囲んだ名前を返します。
+
 テーブル列の列値は、対応するARクラスインスタンスのプロパティとしてアクセスされます。
 例えば、以下のコードは、`タイトル`列(アトリビュート)をセットします:
 
@@ -125,17 +139,24 @@ $post->title='a sample post';
 ~~~
 
 `Post`クラスでは決してはっきりと`title`プロパティを宣言していませんが、上記のコードでそれにまだアクセスすることができます。
-これは、`title`が`Post`テーブルの列であるからであり、CActiveRecordがそれをPHPの魔法の方法である`__get()`の助けを借りて、プロパティとしてアクセスできるようにします。
+これは、`title`が`tbl_post`テーブルの列であるからであり、CActiveRecordがそれをPHPの魔法の方法である`__get()`の助けを借りて、プロパティとしてアクセスできるようにします。
 同様な方法で存在しない列にアクセスしようとすると、例外が発生します。
 
-> Info|情報: 読みやすいように、キャメルケースでテーブルカラム（列）名をつけることを提案します。
-特にカラム名は、名前の最初を除き、各々の語の先頭を大文字にして、空白無しで繋げ合せることによって作られます。
-たとえば、行の作成時間を保存するカラム名は `createTime` を使います。
-テーブル名は、あなたの嗜好次第です。
-このガイドでは、最初の文字が大文字である事を除いて、キャメルケース命名規則に従います。
-たとえば、投稿データを保存するテーブルには、`Post` という名前を用います。
-注意：しかしながら、キャメルケースを使うとある種のDBMS、例えばMySQLでは不便になることがあります。というのは、異なるOS上では異なる動作となるからです。
+> Info|情報: このガイドでは、すべてのテーブル名やカラム名にはロワーケースを使用します。
+これは、DBMSによってケースの扱いが異るからです。例えば、PostgreSQLではデフォルトではカラム名はケースセンシティブです。カラム名が大文字小文字を含んでいる場合には、クエリ条件の中でカラム名を記述するときにはクオートしなければなりません。
+ロワーケースのみを用いることでこのような問題を回避することができます。
 
+ARはテーブルのプライマリキーに依存しています。もしテーブルがプライマリーキーを持たない場合、対応するクラスにおいて、どのカラムがプライマリーキーなのか、`primaryKey()`メソッドを以下のようにオーバライドすることが必要です。
+
+~~~
+[php]
+public function primaryKey()
+{
+	return 'id';
+	// For composite primary key, return an array like the following
+	// return array('pk1', 'pk2');
+}
+~~~
 
 レコードの作成
 ---------------
@@ -149,7 +170,7 @@ $post->title='a sample post';
 $post=new Post;
 $post->title='sample post';
 $post->content='content for the sample post';
-$post->createTime=time();
+$post->create_time=time();
 $post->save();
 ~~~
 
@@ -172,14 +193,14 @@ $post=new Post;
 echo $post->title;  // this would display: please enter a title
 ~~~
 
-バージョン1.0.2からは、レコードがデータベースにセーブされる(挿入か更新のいずれか)前に、アトリビュートには［CDbExpression］タイプの値を割り当てることができます。
+レコードがデータベースにセーブされる(挿入か更新のいずれか)前に、アトリビュートには［CDbExpression］タイプの値を割り当てることができます。
 例えば、MySQLの`NOW()`関数によって返されるタイムスタンプを保存するために、以下のコードを使用することができます:
 
 ~~~
 [php]
 $post=new Post;
-$post->createTime=new CDbExpression('NOW()');
-// $post->createTime='NOW()'; は'NOW()'が文字列として扱われるため、
+$post->create_time=new CDbExpression('NOW()');
+// $post->create_time='NOW()'; は'NOW()'が文字列として扱われるため、
 // 動作しません
 $post->save();
 ~~~
@@ -188,7 +209,7 @@ $post->save();
 しばしば、AR 下でどんな SQL 文が実行されるかを知りたい場合があります。
 これは Yii の [ロギング機能](/doc/guide/topics.logging) により実現可能です。
 たとえば、アプリケーション初期構成で、[CWebLogRoute] をつけると、実行された SQL 文を各ウェブページの終わりに表示させられます。
-バージョン 1.0.5 以降、アプリケーション初期構成で、[CDbConnection::enableParamLogging] を true に設定すると、
+アプリケーション初期構成で、[CDbConnection::enableParamLogging] を true に設定すると、
 SQL 文と結合したパラメータ値もログされます。
 
 
@@ -212,7 +233,6 @@ $post=Post::model()->findBySql($sql,$params);
 静的メソッド`model()`が全てのARクラスで必要なことを覚えてください。
 メソッドは、オブジェクトコンテキストにおけるクラスレベルメソッド(静的クラスメソッドに類似したもの)にアクセスするために用いられるARインスタンスを返します。
 
-
 もし`find`メソッドがクエリ条件を満足する列を見つけた場合、`Post`インスタンスが返されます。そのプロパティはテーブル列の対応する項目値となります。そのため、普通のオブジェクトのプロパティを読むように、例えば、`echo $post->title;`のように値を読むことができます。
 
 与えられたクエリ条件でデータベースからみつけることができない場合には、`find`メソッドはナルを返します。
@@ -226,6 +246,10 @@ $post=Post::model()->findBySql($sql,$params);
 // postIDが10である列を見つけます
 $post=Post::model()->find('postID=:postID', array(':postID'=>10));
 ~~~
+
+> Note|注: 上記において、ある種のDBMSでは`postID`カラムを参照するためにエスケープする必要があります。
+例えば、もしPostgreSQLを使っている場合は`"postID"=:postID`のように記述する必要があります。
+というのはPostgreSQLはデフォルトではカラム名をケースセンシティブで取り扱うからです。
 
 `$condition`はもっと複雑なクエリ条件に使うことができます。`$condition`は文字列ではなく[CDbCriteria]インスタンスを使うことができ、それは`WHERE`句だけでない他の条件を使用することができます。例えば、
 
@@ -412,7 +436,9 @@ $post->save();
 
    - [afterConstruct|CActiveRecord::afterConstruct]: これは`new`演算子により新なARインスタンスが作成されるたびに実行されます。
 
-   - [afterFind|CActiveRecord::afterFind]: これはクエリの結果によりARインスタンスが作成されるたびに実行されます。
+   - [[beforeFind|CActiveRecord::beforeFind]: これはARファインダがクエリ(例 `find()`, `findAll()`)を実行する前に実行されます。
+
+   - [afterFind|CActiveRecord::afterFind]: これはクエリの結果によりARインスタンスが作成された後に実行されます。
 
 
 ARを用いたトランザクション
@@ -441,17 +467,15 @@ catch(Exception $e)
 ~~~
 
 
-Named Scope
+名前付きスコープ
 ------------
 
-> Note|注意: Named Scope のサポートは、バージョン 1.0.5 以降で有効です。
-> Named Scope の発想元は、Ruby on Rails から来ました。
+> Note|注意: 名前付きスコープの元になる発想は、Ruby on Rails から来ました。
 
-*Named Scope* は、他の Named Scope に結合して、アクティブレコードクエリーに適用できる、
-*Named（名前の付けられた）*クエリー基準（クライテリア）のことです。
+*名前付きスコープ*とは、*名前の付けられた*クエリ基準（クライテリア）のことで、他の名前付きスコープと結合して、アクティブレコードクエリに適用できるものです。
 
-Named Scope は主に、名前 - 基準の対として、[CActiveRecord::scopes()] メソッドで宣言されます。
-下記コードでは、`Post` モデルクラスで `published` と `recently` の 2 つの Named Scope を宣言しています:
+名前付きスコープは主に、名前 - 基準の対として、[CActiveRecord::scopes()] メソッドで宣言されます。
+下記コードでは、`Post` モデルクラスで `published` と `recently` の 2 つの名前付きスコープを宣言しています:
 
 ~~~
 [php]
@@ -465,7 +489,7 @@ class Post extends CActiveRecord
 				'condition'=>'status=1',
 			),
 			'recently'=>array(
-				'order'=>'createTime DESC',
+				'order'=>'create_time DESC',
 				'limit'=>5,
 			),
 		);
@@ -473,69 +497,59 @@ class Post extends CActiveRecord
 }
 ~~~
 
-各 Named Scope は、[CDbCriteria] インスタンスを初期化するのに使用できる
+それぞれの名前付きスコープは、[CDbCriteria] インスタンスを初期化するのに使用できる
 配列として宣言されます。
-例えば、`recently` Named Scope は、`order` プロパティを `createTime DESC` に、
-`limit` プロパティを 5 に（最新の 5 件を返すはずであるクエリー基準として解釈される）
-指定します。
+例えば、`recently` という名前付きスコープは、`order` プロパティを `create_time DESC` に、
+`limit` プロパティを 5 に指定します。これは、最新の 5 件の投稿記事を返すクエリ基準として解釈されます。
 
-Named Scope は、`find` メソッド呼び出しの修飾句としてとして主に使用されます。
-いくつかの Named Scope が、連結されて使用されると、より絞り込まれたクエリ結果のセットが返ります。
-例えば、最近公開された（published）投稿を見つけるために、下記コードを利用できます:
+名前付きスコープは、`find` メソッド呼び出しの修飾句としてとして主に使用されます。
+いくつかの名前付きスコープが、連結されて使用されると、より絞り込まれたクエリ結果のセットが返ります。
+例えば、最近公開された投稿記事を見つけるために、下記コードを利用できます:
 
 ~~~
 [php]
 $posts=Post::model()->published()->recently()->findAll();
 ~~~
 
-一般的に、Named Scope は `find` メソッド呼び出しの左側に現れなくてはなりません。
-それらは `find` メソッド呼び出しへ渡されたものを含むクエリー基準（他の基準と結合されて）を提供します。
-実際は、クエリーにフィルタのリストを加えるのとほぼ同じです。
+一般的に、名前付きスコープは `find` メソッド呼び出しの左側に現れなくてはなりません。
+それぞれの名前付きスコープがクエリ基準を提供して、それらがすべて、`find` メソッドの呼出しに渡されたクエリ基準も含めて結合されます。
+実質的な効果は、クエリにフィルタのリストを加えるのとほぼ同じです。
 
-バージョン 1.0.6 移行、Named Scope は `update` と `delete` メソッドと共に使用することもできます。
-たとえば、下記コードは全ての最近公開された投稿を削除します:
-
-~~~
-[php]
-Post::model()->published()->recently()->delete();
-~~~
-
-> Note|注意: Named Scope はクラスレベルのメソッドと共にのみ使用できます。すなわち、メソッドは `ClassName::model()` を使用してコールしなければなりません。
+> Note|注意: 名前付きスコープはクラスレベルのメソッドと共にのみ使用できます。すなわち、メソッドは `ClassName::model()` を使用してコールしなければなりません。
 
 
-### パラメータ化された Named Scopes
+### パラメータ化された名前付きスコープ
 
-Named Scope はパラメータ化することが可能です。
-例えば、`recently` Named Scope によって指定された投稿数をカスタマイズ出来るようにしたいとします。
-その場合、[CActiveRecord::scopes] で Named Scope を宣言する代わりに、
-その Named Scope と同じ名前で、新しいメソッドを定義します:
+名前付きスコープはパラメータ化することが可能です。
+例えば、`recently` という名前付きスコープによって指定される投稿数をカスタマイズ出来るようにしたいとします。
+その場合、[CActiveRecord::scopes] で名前付きスコープを宣言する代わりに、
+その名前付きスコープと同じ名前で、新しいメソッドを定義します:
 
 ~~~
 [php]
 public function recently($limit=5)
 {
 	$this->getDbCriteria()->mergeWith(array(
-		'order'=>'createTime DESC',
+		'order'=>'create_time DESC',
 		'limit'=>$limit,
 	));
 	return $this;
 }
 ~~~
 
-その後、最近公開された 3 つの投稿を検索するには、下記のように使用できます:
+こうすると、最近公開された 3 つの投稿記事を検索するために、下記の文を使用できるようになります:
 
 ~~~
 [php]
 $posts=Post::model()->published()->recently(3)->findAll();
 ~~~
 
-もし、上記でパラメータ 3 を渡さなければ、デフォルトで最近公開された 5 つの投稿が検索されます。
+上記でパラメータ 3 を渡さない場合は、デフォルトで最近公開された 5 つの投稿記事が検索されます。
 
-### デフォルト Named Scope
-モデルクラスにはデフォルトのNamed Scopeを設定し、
-(リレーションを含めた)すべてのクエリに適用するようにすることができます。
+### デフォルトスコープ
+モデルクラスに対して、(リレーショナルクエリを含めた)すべてのクエリに適用されるデフォルトのスコープを設定することができます。
 例えば、複数の言語で利用できるウェブサイトでは、利用中のユーザが指定した言語のコンテンツだけを表示したいということがありうるでしょう。
-サイトコンテンツを取り出すクエリはたくさんあるでしょうから、デフォルト Named Scope を定義して、この問題を解決することができます。
+サイトコンテンツを取り出すクエリはたくさんあるでしょうから、デフォルトスコープを定義して、この問題を解決することができます。
 そのために[CActiveRecord::defaultScope]メソッドを以下のようにオーバーライドします。
 
 ~~~
@@ -551,11 +565,15 @@ class Content extends CActiveRecord
 }
 ~~~
 
-これで、次のようにメソッドを呼ぶことで、自動的に上記で定義されたクエリクライテリアが利用つかわれます。
+これで、次のようにメソッドを呼ぶことで、自動的に上記で定義されたクエリ基準が使用されます。
 
 ~~~
 [php]
 $contents=Content::model()->findAll();
 ~~~
 
-<div class="revision">$Id: database.ar.txt 1027 2009-05-12 17:59:03Z qiang.xue $</div>
+> Note|注意: デフォルトスコープと名前付きスコープは `SELECT` クエリにのみ適用されます。`INSERT`、`UPDATE`、`DELETE` クエリに対しては無視されます。
+
+> さらに、デフォルトスコープまたは名前付きスコープを宣言するとき、そのスコープを宣言するメソッドの中では AR クラスを使って DB クエリを作成することが出来ません。
+
+<div class="revision">$Id: database.ar.txt 3318 2011-06-24 21:40:34Z qiang.xue $</div>

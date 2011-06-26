@@ -4,7 +4,7 @@
 HTMLフォームを作成するときに、しばしばビューについて大量のコードを繰り返し書くはめに陥ります。
 そしてそれは他のプロジェクトでは再利用が困難な場合が多いです。
 例えば、全ての入力フィールドについて、テキストラベルと可能性のある入力検証エラーの表示を関連づける必要があります。
-これらのコードの再利用性を高めるため、Yii 1.1.0からはフォームビルダ機能を使うことが可能になりました。
+これらのコードの再利用性を高めるためにフォームビルダ機能を使うことが出来ます。
 
 
 基本概念
@@ -129,12 +129,14 @@ return array(
 ~~~
 
 モデルアトリビュートは`username`であり、入力フィールド型は`text`であり、その最長長さを示す`maxlength`アトリビュートは32であることを示します。
-上記配列中に、[CFormInputElement]のプロパティである限り他のオプションを書くことができます。
-例えば、ヒントテキストを表示するために[hint|CFormInputElement::hint]オプションを指定できます。
-また、入力フィールドがリストボックスやドロップダウンリストやチェックボックスやラジオボタンである場合は[items|CFormInputElement::items]を指定します。
 
-[type|CFormInputElement::type]オプションは注意が必要です。これは入力フィールドの型を指定します。
-例えば、`text`は通常のテキスト入力フィールドが表示されることを意味します。一方、`password`型はパスワード入力フィールドが表示されることを意味します。[CFormInputElement]は以下のあらかじめ定められた型を認識します。
+[CFormInputElement] の設定可能なプロパティはすべて上記のようにして構成することが出来ます。
+例えば、ヒントテキストを表示するために[hint|CFormInputElement::hint]オプションを指定できます。
+また、入力フィールドがリストボックスやドロップダウンリストやチェックボックスやラジオボタンである場合は[items|CFormInputElement::items]を指定できます。
+オプションの名前が[CFormInputElement]のプロパティでない場合は、対応するHTML入力要素の属性として扱われます。例えば、上記の`maxlength`は[CFormInputElement]のプロパティではありませんので、HTMLのテキスト入力フィールドの`maxlength`属性として扱われます。
+
+[type|CFormInputElement::type]オプションは注意が必要です。これは入力フィールドのタイプを指定します。
+例えば、`text`は通常のテキスト入力フィールドが表示されることを意味します。一方、`password`タイプはパスワード入力フィールドが表示されることを意味します。[CFormInputElement]は以下の内蔵型のタイプを認識します。
 
  - text
  - hidden
@@ -148,8 +150,39 @@ return array(
  - checkboxlist
  - radiolist
 
-これら以外の型を使用する場合、ウィジェットクラス名かそれのパスエイリアスをとる[type|CFormInputElement::type]オプションを指定します。
-ウィジェットクラスは[CInputWidget]を継承する必要があります。入力フィールドを表示する場合、指定されたウィジェットクラスインスタンスが生成され、表示されます。ウィジェットは与えられた入力要素の仕様により構成されます。
+上記の内蔵型のタイプ中で、"リスト"タイプのものの使い方について、もう少し詳しく説明したいと思います。
+リストタイプには、`dropdownlist`、`checkboxlist`、そして、`radiolist`が含まれます。
+これらのタイプでは、対応する入力要素の[items|CFormInputElement::items]プロパティを設定することが要求されます。
+これは次のようにして設定することが出来ます。
+
+~~~
+[php]
+'gender'=>array(
+    'type'=>'dropdownlist',
+    'items'=>User::model()->getGenderOptions(),
+    'prompt'=>'選択して下さい:',
+),
+
+...
+
+class User extends CActiveRecord
+{
+	public function getGenderOptions()
+	{
+		return array(
+			0 => '男性',
+			1 => '女性',
+		);
+	}
+}
+~~~
+
+上記のコードによって、"選択して下さい:"というプロンプトテキストを持ったドロップダウンリストセレクタが生成されます。
+セレクタのオプションは"男性"と"女性"を含みますが、これらは`User`モデルクラスの`getGenderOptions`メソッドから返されたものです。
+
+これら内蔵型のタイプの他に、[type|CFormInputElement::type]には、ウィジェットクラス名かそれのパスエイリアスを指定する事が出来ます。
+ウィジェットクラスは[CInputWidget]または[CJuiInputWidget]を継承する必要があります。
+入力フィールドを表示する場合、指定されたウィジェットクラスインスタンスが生成され、表示されます。ウィジェットは入力要素のために指定した仕様によって構成されます。
 
 
 ### スタティックテキストの指定
@@ -276,6 +309,8 @@ $email = $form['user']['email'];
 public function actionRegister()
 {
 	$form = new CForm('application.views.user.registerForm');
+	$form['user']->model = new User;
+	$form['profile']->model = new Profile;
 	if($form->submitted('register') && $form->validate())
 	{
 		$user = $form['user']->model;
@@ -394,7 +429,7 @@ echo $form->renderBegin();
 foreach($form->getElements() as $element)
 	echo $element->render();
 
-echo $this->renderEnd();
+echo $form->renderEnd();
 ~~~
 
 このビュースクリプトを使用するには、単に以下のようにコールするだけです。
@@ -426,4 +461,4 @@ $this->renderPartial('_form', array('form'=>$form));
 しかしながら、フォームは別の構成ファイルにより指定されるため、開発者はロジックに集中できるという利点があります。
 
 
-<div class="revision">$Id: form.builder.txt 1616 2009-12-18 21:22:43Z qiang.xue $</div>
+<div class="revision">$Id: form.builder.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

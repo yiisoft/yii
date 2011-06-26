@@ -43,17 +43,17 @@ public function loadModel()
 }
 ~~~
 
-Nasza zmiana dotyczy przede wszystkim metody `loadModel()`. W metodzie tej odpytujemy tabelę z wiadomościami `Post` w zależności od parametru `id` GET. Jeśli wiadomość nie została znalezione lub jeśli nie jest ona opublikowana lub zarchiwizowana (gdy użytkownik jest gościem), rzucimy błędem HTTP 404. W przeciwnym przypadku obiekt wiadomości jest zwracany do metody `actionView()`, która z kolei przekazuje obiekt wiadomości do widoku `view` w celu późniejszego jej wyświetlenia.
+Nasza zmiana dotyczy przede wszystkim metody `loadModel()`. W metodzie tej odpytujemy tabelę z wiadomościami `Post` w zależności od parametru `id` GET. Jeśli wiadomość nie została znaleziona lub jeśli nie jest ona opublikowana lub zarchiwizowana (gdy użytkownik jest gościem), rzucimy błędem HTTP 404. W przeciwnym przypadku obiekt wiadomości jest zwracany do metody `actionView()`, która z kolei przekazuje obiekt wiadomości do widoku `view` w celu późniejszego jej wyświetlenia.
 
 > Tip|Wskazówka: Yii przechwytuje wyjątki HTTP (instancje klasy [CHttpException]) i wyświetla je zarówno przy użyciu zdefiniowanych szablonów czy też widoków błędów. Szkielet aplikacji wygenerowany przez narzędzie `yiic` zawiera już niestandardowy widok błędów w `/wwwroot/blog/protected/views/site/error.php`. Możemy zmodyfikować ten plik, jeśli mamy taką potrzebę, później jeśli chcemy zmienić sposób wyświetlania błędów.
 
-Zmiana w skrypcie `view` dotyczy przede wszystkim dostosowania formatowania oraz stylów wyświetlenia wiadomości. Nie będziemy tutaj wdawać się w szczegóły. Zainteresowani, mogą zajrzeć do pliku `/wwwroot/blog/protected/views/post/view.php`.
+Zmiana w skrypcie `view` dotyczy przede wszystkim dostosowania formatowania oraz stylów wyświetlania wiadomości. Nie będziemy tutaj wdawać się w szczegóły. Zainteresowani, mogą zajrzeć do pliku `/wwwroot/blog/protected/views/post/view.php`.
 
 
 Dostosowywanie operacji wyświetlenia listy `index`
 ----------------------------
 
-Podobnie jak operację wyświetlenie `view`, dostosujemy operację wyświetlenia listy `index` w dwóch miejscach: metodzie `actionIndex()` w kontrolerze `PostController` oraz pliku widoku  `/wwwroot/blog/protected/views/post/index.php`. Musimy przede wszystkim dodać wsparcie dla wyświetlania listy wiadomości, które powiązane są z określonym tagiem.
+Podobnie jak operację wyświetlenia `view`, dostosujemy operację wyświetlenia listy `index` w dwóch miejscach: metodzie `actionIndex()` w kontrolerze `PostController` oraz pliku widoku  `/wwwroot/blog/protected/views/post/index.php`. Musimy przede wszystkim dodać wsparcie dla wyświetlania listy wiadomości, które powiązane są z określonym tagiem.
 
 Poniżej znajduje się zmieniona metoda `actionIndex()` kontrolera `PostController`:
 
@@ -82,13 +82,13 @@ public function actionIndex()
 }
 ~~~
 
-W powyższym kodzie, tworzymy najpierw kryteria zapytania służące otrzyaniu listy wiadomości. Kryteria te określają, iż tylko opublikowane wiadomości powinny zostać zwrócone i posortowane zgodnie z datą ostatniej modyfikacji w porządku malejącym. Ponieważ wyświetlając listę wiadomości chcemy wiedzieć ile każda z nich ostrzymała komentarzy, podajemy w kryteriach iż chcemy zwrócić `commentCount`, które to jak zapewne pamiętasz, jest relacją zadeklarowaną w `Post::relations()`.
+W powyższym kodzie, tworzymy najpierw kryteria zapytania służące otrzymaniu listy wiadomości. Kryteria te określają, iż tylko opublikowane wiadomości powinny zostać zwrócone i posortowane zgodnie z datą ostatniej modyfikacji w porządku malejącym. Ponieważ wyświetlając listę wiadomości chcemy wiedzieć ile każda z nich otrzymała komentarzy, podajemy w kryteriach iż chcemy zwrócić `commentCount`, które to jak zapewne pamiętasz, jest relacją zadeklarowaną w `Post::relations()`.
 
 W przypadku kiedy użytkownik chce zobaczyć wiadomości z określonym tagiem, dodamy warunek przeszukiwania do kryteriów uwzględniający ten tag.
 
 Używając kryteria zapytań, tworzymy dostawcę danych (ang. data provider), który służy głównie do trzech celów. Po pierwsze, dzieli dane na strony jeśli zbyt wiele wyników zostanie zwróconych. Tutaj dostosowujemy stronicowanie poprzez ustawienie rozmiaru strony równego 5. Po drugie, sortuje on w zależności od żądania użytkownika. I wreszcie, dostarcza podzielone na strony oraz posortowane dane do widżetu lub kodu widoku w celu wyświetlenia. 
 
-Po zakończeniu prac z metodą `actionIndex()`, możemy przejść do modyfikacji widoku `index`. Nasze zmiany wiążą się głównie z dodanie nagłówka `h1` jeśli użytkownik określił, że chce wyświetlić wiadomości o określonym tagu. 
+Po zakończeniu prac z metodą `actionIndex()`, możemy przejść do modyfikacji widoku `index`. Nasze zmiany wiążą się głównie z dodaniem nagłówka `h1` jeśli użytkownik określił, że chce wyświetlić wiadomości o określonym tagu. 
 
 ~~~
 [php]

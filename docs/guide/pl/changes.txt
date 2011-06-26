@@ -3,6 +3,10 @@ Nowe funkcjonalności
 
 Na tej stronie znajdziesz podsumowanie najważniejszych funkcji dodawanych w kolejnych wydaniach Yii.
 
+Wersja 1.1.8
+-------------
+ * [Dodano wsparcie dla używania własnych klas reguł URL](/doc/guide/topics.url#using-custom-url-rule-classes)
+
 Wersja 1.1.7
 -------------
  * [Dodano wsparcie dla RESTful URL](/doc/guide/topics.url#user-friendly-urls)
@@ -81,4 +85,4 @@ Wersja 1.1.0
 
  * Alias nazwy dla tabeli głównej w zapytaniu AR ustalony został jako 't'.
 
-<div class="revision">$Id: changes.txt 3116 2011-03-24 23:16:05Z alexander.makarow $</div>
+<div class="revision">$Id: changes.txt 3235 2011-05-24 18:54:01Z qiang.xue $</div>

@@ -20,8 +20,8 @@ exception, kan konstanterna `YII_ENABLE_ERROR_HANDLER` respektive
 `YII_ENABLE_EXCEPTION_HANDLER` sättas till false i 
 [startskriptet](/doc/guide/basics.entry).
 
-Som standard, signalerar [errorHandler|CApplication::errorHandler] (eller 
-[exceptionHandler|CApplication::exceptionHandler]) en [onError|CApplication::onError]-händelse 
+Som standard, signalerar [handleError|CApplication::handleError] (eller 
+[handleException|CApplication::handleException]) en [onError|CApplication::onError]-händelse 
 (eller [onException|CApplication::onException]-händelse). Om fel (eller 
 exception respektive) inte fångas upp av någon händelsehanterare, kommer 
 applikationskomponenten [errorHandler|CErrorHandler] att konsulteras.
@@ -157,4 +157,4 @@ kategori). Man kan därför dra fördel av finessen
 [loggning](/doc/guide/topics.logging) till att monitorera fel som inträffat när 
 applikationen kördes.
 
-<div class="revision">$Id: topics.error.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>
+<div class="revision">$Id: topics.error.txt 3308 2011-06-23 16:06:51Z qiang.xue $</div>

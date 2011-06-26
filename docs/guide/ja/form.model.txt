@@ -13,8 +13,8 @@
 使用された後に破棄される場合は、 [form model](/doc/guide/basics.model)
  を作成しましょう;もしユーザーの入力が収集され、データベースへ保存される場合
 は代わりに [active record](/doc/guide/database.ar) を使いましょう。
-両方のモデルは共通のインターフェースとして定義された [CModel]
- という基底クラスを必要とします。
+両方のモデルは [CModel] という基底クラスを共有しており、この基底クラスが
+フォームによって必要とされる共通のインターフェースを定義しています。
 
 > Note|注意: このセクションでは例として form model を主に扱いますが、
 [active record](/doc/guide/database.ar) においても同様なことが可能です。
@@ -39,7 +39,7 @@ class LoginForm extends CFormModel
 
 ３つの属性が `LoginForm` の中で宣言されています: `$username`、`$password`、
 そして `$rememberMe`です。これらはユーザーの入力したユーザー名とパスワード、
-そして、ユーザーがログイン情報を保存するかどうかのオプションを保持する為に
+そして、ユーザーがログイン状態を維持したいかどうかのオプションを保持する為に
 用いられます。`$rememberMe` は、デフォルトで `false` になっているので、
 ログインフォームに表示される結びついたオプションは、初期状態では
 チェックされてない状態となります。
@@ -66,40 +66,36 @@ class LoginForm extends CFormModel
 	public $password;
 	public $rememberMe=false;
 
+	private $_identity;
+
 	public function rules()
 	{
 		return array(
 			array('username, password', 'required'),
+			array('rememberMe', 'boolean'),
 			array('password', 'authenticate'),
 		);
 	}
 
 	public function authenticate($attribute,$params)
 	{
-		if(!$this->hasErrors())  // インプットエラーが無い場合にのみ認証を行います
-		{
-			$identity=new UserIdentity($this->username,$this->password);
-			if($identity->authenticate())
-			{
-				$duration=$this->rememberMe ? 3600*24*30 : 0; // 30 days
-				Yii::app()->user->login($identity,$duration);
-			}
-			else
-				$this->addError('password','Incorrect password.');
-		}
+		$this->_identity=new UserIdentity($this->username,$this->password);
+		if(!$this->_identity->authenticate())
+			$this->addError('password','Incorrect username or password.');
 	}
 }
 ~~~
 
 上記のコードは `username` と `password` の両方が必須であり、`password` 
-は認証に掛けられなければならない事を示しています。
+は認証に掛けられなければならない事、そして `rememberMe` が真偽値(boolean)
+であるべきことを示しています。
 
 `rules()` によって返される、それぞれのルールは下記の様なフォーマット
 でなければなりません:
 
 ~~~
 [php]
-array('AttributeList', 'Validator', 'on'=>'ScenarioList', ...additional options)
+array('AttributeList', 'Validator', 'on'=>'ScenarioList', ... 追加のオプション)
 ~~~
 
 `AttributeList` の箇所は、ルールによって検証されなければならない属性
@@ -118,8 +114,8 @@ array('AttributeList', 'Validator', 'on'=>'ScenarioList', ...additional options)
 ~~~
 [php]
 /**
- * @param string the name of the attribute to be validated
- * @param array options specified in the validation rule
+ * @param string 検証される属性の名前
+ * @param array バリデーションルールで指定されたオプション
  */
 public function ValidatorName($attribute,$params) { ... }
 ~~~
@@ -130,17 +126,10 @@ public function ValidatorName($attribute,$params) { ... }
 初期化する為に用いられます。バリデータクラスは [CValidator]
  を継承しなければいけません。
 
-> Note|注意: アクティブレコードモデルでルールを定義する場合、`on` 
-という名前の特別なオプションを使用する事ができます。このオプションは
- `'insert'` か `'update'` のどちらかにする事が可能で、レコードのインサート
-の時のみにルールが適用されるか、アップデートの時のみにルールが
-適用されるかをそれぞれ指定することが出来ます。もしセットされていない場合、
-ルールは `save()` がコールされた時に両方のケースで適用されます。
-
 三つ目に、`Validator` は予め定義されたバリデータクラスの
-エイリアスを用いる事が出来ます。上記の例にあるように、`required` は
- [CRequiredValidator] のエイリアスで、これは属性の値が、空の値では無い
-と検証された事を保証します。下記は予め定義されたバリデータの
+エイリアスを用いる事が出来ます。上記の例では、`required` が
+ [CRequiredValidator] のエイリアスで、これは検証される属性の値が、
+空の値ではないことを確認するものです。下記は予め定義されたバリデータの
 エイリアスの完全なリストです:
 
    - `boolean`: [CBooleanValidator]のエイリアスで、属性の値が
@@ -156,7 +145,10 @@ public function ValidatorName($attribute,$params) { ... }
    - `email`: [CEmailValidator] のエイリアスで、属性の値が正式な
 Eメールアドレスである事を確認します。
 
-   - `default`: [CDefaultValueValidator]のエイリアスで、指定した属性にデフォルト地を代入します。
+   - `date`: [CDateValidator] のエイリアスで、属性が正当な日付(date)、時刻(time)、
+または日付と時刻(datetime)を表していることを確認します。
+
+   - `default`: [CDefaultValueValidator]のエイリアスで、指定した属性にデフォルト値を代入します。
 
    - `exist`: [CExistValidator]のエイリアスで、属性値が指定されたテーブルの列に存在することを保証します。
 
@@ -207,87 +199,85 @@ array('password', 'authenticate', 'on'=>'login'),
 属性への代入をセキュアにする
 --------------------------------
 
-> 注意：シナリオベースでの属性への代入は1.0.2から利用可能です。
-
-モデルインスタンスが作成した後、多くの場合は属性値にユーザからの入力値を代入する必要があります。
+モデルのインスタンスが作成された後、多くの場合は属性値にユーザからの入力値を代入する必要があります。
 これは以下のように一括代入を使うと容易に行えます。
 
 ~~~
 [php]
 $model=new LoginForm;
-$model->scenario='login';
 if(isset($_POST['LoginForm']))
 	$model->attributes=$_POST['LoginForm'];
 ~~~
 
-> Note|注意: [scenario|CModel::scenario] プロパティは、バージョン 1.0.4
-> 以降で利用可能です。一括代入では、どの属性を一括代入できるかを決定するために、
-> このプロパティ値が利用されます。
-> バージョン 1.0.2 と 1.0.3 では、特定のシナリオに一括代入を行うために、
-> 下記の方法を使用する必要があります。
->
-> ~~~
-> [php]
-> $model->setAttributes($_POST['LoginForm'], 'login');
-> ~~~
-
-最後の文は、`login` シナリオの対応モデル属性に `$_POST['LoginForm']` の
-すべてのエントリを一括代入します。
+最後の文が *一括代入* と呼ばれるもので、`$_POST['LoginForm']` のすべてのエントリーを対応するモデルの属性に代入しています。
 これは、下記の代入と同等です。
 
 ~~~
 [php]
 foreach($_POST['LoginForm'] as $name=>$value)
 {
+        // $name が安全な属性であれば
 	if($name is a safe attribute)
 		$model->$name=$value;
 }
 ~~~
 
-各属性が一括代入しても安全かどうかの判断は、
-`safeAttributes`メソッドの戻り値と、指定されたシナリオによって決定されます。
-デフォルトでは、[CFormModel]のすべてのパブリックメンバプロパティが安全と返されます。
-一方で [CActiveRecord]では、プライマリキーを除いたテーブルのカラムすべてが安全と返されます。
-このメソッドをオーバーライドして、安全な属性をシナリオによって制限することができます。
-例えば、ユーザモデルはたくさんの属性を持ちますが、`login`シナリオでは`username`と`password`
-しか使わないので、以下のようにして制限を加えます。
+どの属性が安全であるかの判断は、決定的に重要です。例えば、テーブルの主キーを
+安全であるとしてしまうと、攻撃者は自分に与えられたレコードの主キーを修正することが出来て、
+その結果、彼には権限の無いデータを改竄することが出来るようになってしまいます。
+
+### 安全な属性を宣言する
+
+属性は、与えられたシナリオにおいてバリデーションルールに出現すると、
+安全であると見なされます。例えば
 
 ~~~
 [php]
-public function safeAttributes()
-{
-	return array(
-		parent::safeAttributes(),
-		'login' => 'username, password',
-	);
-}
+array('username, password', 'required', 'on'=>'login, register'),
+array('email', 'required', 'on'=>'register'),
 ~~~
 
-より正確には、`safeAttributes`メソッドの戻り値は以下のような構造です。
+上記では、`login` のシナリオでは `username` と `password` の属性が入力必須とされており、`register` のシナリオでは `username`、`password` および `email` の属性が入力必須とされています。
+この結果、`login` シナリオにおいて一括代入をすると、`username` と `password` だけが一括代入されます。`login` のシナリオではこの二つの属性だけがバリデーションルールに出現するからです。その一方で、シナリオが `register` であるときには、三つの属性はすべて一括代入が可能になります。
 
 ~~~
 [php]
-array(
-   // これらの属性は下で明示的に指定されたしなりの以外のすべてのケースで一括代入の対象になる
-   'attr1, attr2, ...',
-	 *
-   // これらの属性はシナリオ1でのみ一括代入される
-   'scenario1' => 'attr2, attr3, ...',
-	 *
-   // これらの属性はシナリオ2でのみ一括代入される
-   'scenario2' => 'attr1, attr3, ...',
-)
+// login シナリオで
+$model=new User('login');
+if(isset($_POST['User']))
+	$model->attributes=$_POST['User'];
+
+// register シナリオで
+$model=new User('register');
+if(isset($_POST['User']))
+	$model->attributes=$_POST['User'];
 ~~~
 
-モデルでシナリオを必要としない場合(例：常にひとつのシナリオで使われる、
-すべてのシナリオで同じ安全な属性のセットを使う)、戻り値は単純な文字列でもかまいません。
+それでは、なぜ、属性が安全か否かの決定について、このような方針を取るのでしょうか？
+その論理的根拠は、属性の正当性をチェックするためのバリデーションルールが既に一つないし複数あるときに、他に何を心配したら良いというのか、ということです。
+
+記憶しておくべき重要なことは、バリデーションルールはユーザの入力データをチェックするために使うものであり、コードの中で生成するデータ (例えば、タイムスタンプや自動生成される主キー) をチェックするためのものではない、ということです。
+従って、エンドユーザからの入力を予定しない属性については、バリデーションルールを追加してはいけません。
+
+ときとして、何ら特定のルールが無い場合であっても、属性を安全であると宣言したいときがあります。
+例えば、記事データの内容を表す属性で、どのようなユーザ入力も受け付けるようなものです。
+このためには、`safe` という特別なルールを使うことが出来ます。
 
 ~~~
 [php]
-'attr1, attr2, ...'
+array('content', 'safe')
 ~~~
 
-安全でない属性にデータを代入するには、以下のように個々に代入式を書く必要があります。
+完全を期すために `unsafe` というルールも有ります。これは、属性が安全でないことを明示的に宣言するものです。
+
+~~~
+[php]
+array('permission', 'unsafe')
+~~~
+
+この `unsafe` ルールは滅多に使用されません。そして、これは、既に述べた安全な属性の定義の例外です。
+
+安全でないデータ項目については、下記のように、個別の代入文を使って、対応する属性に代入しなければなりません。
 
 ~~~
 [php]
@@ -300,35 +290,35 @@ $model->id=1;
 
 モデルにユーザからの入力値をセットしたら、
 バリデーションを始動する為に、[CModel::validate()] をコールする事
-が出来ます。このメソッドは、一つのエラーも起こらずに、バリデーションが
-成功したかどうかを示す値を返します。アクティブレコードモデルでは、
-モデルをデータベースに保存する為に、 [save()|CActiveRecord::save] 
-をコールした時点で、バリデーションは自動的に動作します。
+が出来ます。このメソッドは、バリデーションが成功したかどうかを示す値を返します。
+[CActiveRecord] モデルでは、[save()|CActiveRecord::save] メソッドを呼んだ時も、バリデーションが自動的に動作します。
 
-[CModel::validate()]を呼ぶ際に、シナリオパラメータを指定することができます。
-指定されたシナリオに当てはまるバリデーションルールのみが実行されます。
-シナリオに当てはまるバリデーションデータは、ルールの `on` オプションが設定されていないか、
-指定されたシナリオ名を含むものです。
-[CModel::validate()]を呼ぶ際にシナリオを指定しないと、`on` オプションが設定されていないルールのみが実行されます。
+[scenario|CModel::scenario] プロパティによってシナリオをセットし、それによって、どのバリデーションルールのセットが適用されるべきかを示すことが出来ます。
 
-例えば、以下の評価式を実行して、ユーザ登録時のバリデーションをおこうなうことができます。
+バリデーションはシナリオを基準にして実行されます。[scenario|CModel::scenario] 
+プロパティは、モデルがどのシナリオで使われるのか、そして、どのバリデーションルールのセットが使われるのかを決定します。
+例えば、`login` シナリオにおいては、`username` と `password` だけを検証する必要がありますが、一方、`register` シナリオでは、`email` や `address` など、もっと多くの入力を検証する必要があるでしょう。
+以下の例は `register` シナリオにおいてバリデーションを実行する方法を示すものです。
 
 ~~~
 [php]
-$model->scenario='register';
-$model->validate();
+// User モデルを register シナリオで作成する。以下と等しい
+// $model=new User;
+// $model->scenario='register';
+$model=new User('register');
+
+// 入力値をモデルに代入
+$model->attributes=$_POST['User'];
+
+// バリデーションを実行
+if($model->validate())   // 入力が正当であれば
+    ...
+else
+    ...
 ~~~
 
-> Note: [scenario|CModel::scenario]プロパティはバージョン1.0.4から利用可能です。
-> validationメソッドはどのルールがチェックされるかどうかをこのプロパティによって決定します。
-> バージョン1.0.2と1.0.3では、シナリオベースのバリデーションを実行する際に以下のようにする必要があります。
-> 
-> ~~~
-> [php]
-> $model->validate('register');
-> ~~~
-
-バリデーションルールはフォームモデルクラスで以下のように宣言できます。
+ルールが適用されるシナリオは、ルールの `on` オプションによって指定することが出来ます。
+`on` オプションがセットされていない場合は、そのルールがすべてのシナリオに適用されることを意味します。例えば、
 
 ~~~
 [php]
@@ -342,32 +332,27 @@ public function rules()
 }
 ~~~
 
-結果として、最初のルールはすべてのシナリオに適用され、
-そのほかの二つのシナリオは`register`シナリオの場合のみ適用されます。
-
-> 注意: シナリオベースのバリデーションはバージョン1.0.1から利用可能です。
+最初のルールはすべてのシナリオに適用され、残りの二つのルールは `register` シナリオにだけ適用されます。
 
 
-バリデーションエラーの回収
+バリデーションエラーの取得
 ----------------------------
 
-バリデーションエラーがあるかどうかをチェックする為に [CModel::hasErrors()]
- を使用する事ができ、もしエラーがある場合、エラーメッセージ獲得の為に 
-[CModel::getErrors()] を使用する事ができます。メソッドは両方とも、
-個別の属性か全ての属性に対して使用する事が出来ます。
+バリデーションが実行されたとき、生じ得る検証エラーはすべてモデルオブジェクトに保存されます。このエラーメッセージは、[CModel::getErrors()] と [CMode::getError()] を呼んで取得することが出来ます。
+二つのメソッドの違いは、第一のメソッドが指定されたモデルの属性の *すべての* エラーを返すのに対して、第二のメソッドは *最初の* エラーだけを返すという点です。
 
 属性のラベル
 ----------------
 
 フォームをデザインする時、それぞれのインプットフィールドにラベルの表示
 が必要となる事が度々あります。ラベルはユーザに、どの様な種類の情報を
-フィールドに入力するかを伝えます。ビューの中にラベルを直接書き込む事も可能
-ですが、結びついたモデルの中で定めた方がより柔軟で便利なことが多いでしょう。
+フィールドに入力するかを伝えます。ビューの中にラベルをハードコーディングする事も可能ですが、
+対応するモデルの中でラベルを定義した方がより柔軟で便利なことが多いでしょう。
 
 デフォルトでは、[CModel] は単純に属性の名前をラベルとして返します。
 これは [attributeLabels()|CModel::attributeLabels] メソッドを
 オーバーライドする事でカスタマイズ可能です。次のサブセクション
-に見るように、モデルの中でのラベルの定義は、より早く、
-力強いフォームの作成を私達にもたらします。
+で見るように、モデルの中でラベルを定義すると、より早くフォームを作成でき、
+またより強力なフォームを作成することが出来るようになります。
 
-<div class="revision">$Id: form.model.txt 1423 2009-04-05 21:36:33Z qiang.xue $</div>
+<div class="revision">$Id: form.model.txt 3160 2011-04-03 01:08:23Z qiang.xue $</div>

@@ -9,23 +9,22 @@ Installation av Yii omfattar vanligtvis följande två steg:
 > Tip|Tips: Yii behöver inte installeras i en katalog med webbåtkomst. En Yii-
 applikation har ett startskript som vanligtvis är den enda filen som behöver 
 exponeras för webbanvändare. Andra PHP-skript, inklusive de från Yii, bör 
-skyddas från webbanvändare eftersom de riskerar att utsättas för hackning.
+skyddas från webbanvändare, då de annars riskerar att utnyttjas av hackers.
 
 Systemkrav
 ----------
 
 När Yii har installerats kan det vara önskvärt att verifiera att servern 
-uppfyller alla krav för användning av Yii. Detta kan göras med hjälp av skriptet 
-för kontroll av systemkrav, genom att mata in följande URL i webbläsarens 
-adressfält:
+uppfyller kraven för användning av Yii. Detta kan göras med hjälp av skriptet 
+för kontroll av systemkrav, via följande URL i en webbläsare:
 
 ~~~
 http://hostname/path/to/yii/requirements/index.php
 ~~~
 
-Minimikrav för Yii är att webbservern stöder PHP 5.1.0 eller senare. Yii har 
-testats med [Apache HTTP-server](http://httpd.apache.org/) på Windows och Linux 
-operativsystem. Det bör även gå att köra på andra webbservrar och plattformar, 
-förutsatt att PHP 5 stöds.
+Yii kräver PHP 5.1, så  servern måste ha PHP 5.1 eller senare installerad 
+och åtkomlig för webbservern. Yii har testats med [Apache HTTP-server](http://httpd.apache.org/) 
+på Windows och Linux. Det bör även gå att köra på andra webbservrar och plattformar, 
+förutsatt att PHP 5.1 stöds.
 
-<div class="revision">$Id: quickstart.installation.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.installation.txt 3219 2011-05-13 03:03:35Z qiang.xue $</div>

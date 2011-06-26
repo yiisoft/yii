@@ -1,12 +1,12 @@
 Dostosowywanie modelu wiadomości
 ======================
 
-Klasa wiadomości `Post`, wygenerowana przez narzędzie `Gii` musi zostać zmodyfikowana przede głównie w dwóch miejscach:
+Klasa wiadomości `Post`, wygenerowana przez narzędzie `Gii` musi zostać zmodyfikowana głównie w dwóch miejscach:
 
  - w metodzie `rules()`: określającej reguły sprawdzania poprawności dla atrybutów modelu;
  - w metodzie `relations()`: definiującej obiekty pokrewne;
 
-> Info|Info: [Model](http://www.yiiframework.com/doc/guide/basics.model) zawiera listę atrybutów, każdy z nich jest powiązany z odpowiadającą mu kolumną w bazie danych. Atrybuty mogą być zadeklarowane bezpośrednio jako jako zmienne klasy lub też pośrednio bez żadnej deklaracji. 
+> Info|Info: [Model](http://www.yiiframework.com/doc/guide/basics.model) zawiera listę atrybutów, każdy z nich jest powiązany z odpowiadającą mu kolumną w bazie danych. Atrybuty mogą być zadeklarowane bezpośrednio jako zmienne klasy lub też pośrednio bez żadnej deklaracji. 
 
 
 Dostosowywanie metody `rules()`
@@ -35,7 +35,7 @@ public function rules()
 
 W powyższym kodzie określiliśmy, że atrybuty tytułu `title`, zawartości `content` i statusu `status` są atrybutami wymaganymi (muszą być wypełnione); długość tytułu `title` nie powinna przekraczać 128 (znaków); wartość atrybutu statusu `status` powinna być 1 (wersja robocza, ang. draft), 2 (opublikowana, ang. published) lub 3 (zarchiwizowana, ang. archived); a atrybut otagowania `tags` powinien zawierać wyłącznie znaki słów oraz przecinki. Dodatkowo używamy metody `normalizeTags` do unormowania wprowadzonych przez użytkownika tagów, w taki sposób, że tagi będą unikalne i poprawnie rozdzielone za pomocą przecinków. Ostatnia reguła jest używana przez funkcjonalność wyszukiwania, co zostanie opisane później.
 
-Walidatory takie jak `required`, `length`, `in` oraz `match` są wbudowanymi walidatorami dostarczanymi przez Yii. Natomiast walidator `normalizeTags` jest walidatorem opartym na metodzie, która musimy zdefiniować w klasie wiadomości `Post`. Aby uzyskać więcej informacji o tym jak określić reguły sprawdzania poprawności, zajrzyj do [poradnika](http://www.yiiframework.com/doc/guide/form.model#declaring-validation-rules).
+Walidatory takie jak `required`, `length`, `in` oraz `match` są wbudowanymi walidatorami dostarczanymi przez Yii. Natomiast walidator `normalizeTags` jest walidatorem opartym na metodzie, którą musimy zdefiniować w klasie wiadomości `Post`. Aby uzyskać więcej informacji o tym jak określić reguły sprawdzania poprawności, zajrzyj do [poradnika](http://www.yiiframework.com/doc/guide/form.model#declaring-validation-rules).
 
 ~~~
 [php]
@@ -57,7 +57,7 @@ Po wprowadzeniu tych zmian, możemy odwiedzić ponownie stronę tworzenia wiadom
 Dostosowywanie metody `relations()`
 --------------------------------
 
-Na samym końcu dostosowujemy metodę `relations()` w celu zdefiniowania obiektów powiązanych przez do wiadomości. Poprzez zadeklarowanie tych powiązanych obiektów w metodzie `relations()`, możemy wykorzystać potęgę funkcji [relacyjnego aktywnego rekordu (RAR)](http://www.yiiframework.com/doc/guide/database.arr) w celu uzyskanie dostępu do informacji z powiązanych z wiadomością obiektów, takich jak jej autor oraz komentarze, bez potrzeby pisanie złożonych wyrażeń SQL z JOIN.
+Na samym końcu dostosowujemy metodę `relations()` w celu zdefiniowania obiektów powiązanych do wiadomości. Poprzez zadeklarowanie tych powiązanych obiektów w metodzie `relations()`, możemy wykorzystać potęgę funkcji [relacyjnego aktywnego rekordu (RAR)](http://www.yiiframework.com/doc/guide/database.arr) w celu uzyskania dostępu do informacji z powiązanych z wiadomością obiektów, takich jak jej autor oraz komentarze bez potrzeby pisania złożonych wyrażeń SQL z JOIN.
 
 Dostosowujemy metodę `relations()` w następujący sposób:
 
@@ -88,7 +88,7 @@ class Comment extends CActiveRecord
 }
 ~~~
 
-Relacje zadeklarowanie w metodzi `relations()` ozczanają, że:
+Relacje zadeklarowane w metodzie `relations()` oznaczają, że:
 
  * Wiadomość należy do autora, którego reprezentuje klasa `User` a relacja pomiędzy nimi zostaje określona w oparciu o wartość atrybutu `author_id` wiadomości;
  * Wiadomość posiada wiele komentarzy, które reprezentuje klasa `Comment` a relacja pomiędzy nimi zostaje określona w oparciu o wartość atrybutu `post_id` tych komentarzy. Komentarze te powinny zostać posortowane odpowiednio do czasu ich utworzenia.
@@ -113,7 +113,7 @@ Aby uzyskać więcej informacji o tym jak deklarować i używać relacji, sprawd
 Dodanie właściwości `url`
 ---------------------
 
-Wiadomość jest pewną zawartością, która jest powiązana z unikalnym adresem URL, służacym do jej wyświetlenia. Zamiast wywoływać metodę [CWebApplication::createUrl] wszędzie, w naszym kodzie, gdzie chcemy dostać ten adres URL, możemy dodać właściwość `url` do modelu wiadomości `Post`, tak że ten sama część kodu tworzącego adres URL może zostać użyta ponownie. W dalszej części, gdy już opiszemy jak upiększać URLe, zobaczymy że wprowadzenie tej właściwości niesie za sobą dużo wygody.
+Wiadomość jest pewną zawartością, która jest powiązana z unikalnym adresem URL, służącym do jej wyświetlenia. Zamiast wywoływać metodę [CWebApplication::createUrl] wszędzie, w naszym kodzie, gdzie chcemy dostać ten adres URL, możemy dodać właściwość `url` do modelu wiadomości `Post`, tak że ta sama część kodu tworzącego adres URL może zostać użyta ponownie. W dalszej części, gdy już opiszemy jak upiększać URLe, zobaczymy że wprowadzenie tej właściwości niesie za sobą dużo wygody.
 
 Aby dodać właściwość `url` zmodyfikujemy klasę wiadomości `Post` w następujący sposób poprzez dodanie metody gettera:
 
@@ -177,7 +177,7 @@ class Lookup extends CActiveRecord
 }
 ~~~
 
-Nasz kod głównie dostarcza dwóch metod statycznych: `Lookup::items()` oraz `Lookup::item()`. Pierwsza zwraca listę łańcuchów należących do określonego typu danych, gdy druga zwraca poszczególny łańcuch dla danego typu danych i wartości 
+Nasz kod głównie dostarcza dwóch metod statycznych: `Lookup::items()` oraz `Lookup::item()`. Pierwsza zwraca listę łańcuchów należących do określonego typu danych, gdy druga zwraca poszczególny łańcuch dla danego typu danych i wartości.
 
 Nasza baza danych blogu jest wstępnie wypełniona przez dwa typy: status wiadomości `PostStatus` oraz status komentarza `CommentStatus`. Pierwszy przedstawia możliwe statusy wiadomości, drugi zaś komentarzy.
 

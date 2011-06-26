@@ -2,7 +2,7 @@ Buforowanie stron
 ============
 
 Buforowanie stron odnosi się do buforowania zawartości całej strony. Buforowanie 
-strony może występować w różnych miejscach. Na przykład, poprzez wybór odpowiedniego
+strony może występować w różnych miejscach. Na przykład poprzez wybór odpowiedniego
 nagłówka strony, przeglądarka może buforować stronę wyświetlaną w ograniczonym 
 czasie. Aplikacja sieciowa sama może również przechowywać zawartość strony w buforze.
 W tym podpunkcie skupimy się na tym drugim przypadku.
@@ -12,7 +12,7 @@ fragmentarycznego](/doc/guide/caching.fragment). Ponieważ zawartość strony cz
 generowana jest poprzez zastosowanie układu do widoku, nie zadziała proste wywołanie
 [beginCache()|CBaseController::beginCache] oraz 
 [endCache()|CBaseController::endCache] w układzie. Powodem tego jest to, że układ 
-jest stosowany wewnątrz metody [CController::render()] PO TYM jak zawartość widoku 
+jest stosowany wewnątrz metody [CController::render()] po tym jak zawartość widoku 
 jest przetwarzana.
 
 Aby zbuforować całą stronę, powinniśmy pominąć wywołanie akcji generującej zawartość
@@ -39,10 +39,10 @@ akcji w kontrolerze. Możemy ograniczyć go, do jednej lub więcej akcji tylko p
 zastosowanie operatora dodawania. Więcej szczegółów można znaleźć w sekcji 
 [filtry](/doc/guide/basics.controller#filter).
 
-> Tip|Wskazówka: Możemy używać klasę [COutputCache] jako filtr ponieważ dziedziczy ona 
+> Tip|Wskazówka: Możemy użyć klasę [COutputCache] jako filtr ponieważ dziedziczy ona 
 po klasie [CFilterWidget], co oznacza, że jest ona zarówno widżetem oraz filtrem. 
 W rzeczy samej, sposób w jaki widżet działa jest bardzo podobny do filtru: widżet
-(filtr) rozpoczyna się zanim zamknięta zawartość (akcja) jest przetwarzana is evaluated
-i widżet (filtr) kończy po tym jak zamknięta zawartość (akcja) jest przetwarzana.
+(filtr) rozpoczyna się zanim zamknięta zawartość (akcja) jest przetwarzana i widżet 
+(filtr) kończy po tym jak zamknięta zawartość (akcja) jest przetwarzana.
 
 <div class="revision">$Id: caching.page.txt 1014 2009-05-10 12:25:55Z qiang.xue $</div>

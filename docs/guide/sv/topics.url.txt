@@ -338,4 +338,95 @@ statisk webbsida. För att göra så, konfigurera komponenten
 [urlManager|CWebApplication::urlManager] genom att sätta dess property 
 [urlSuffix|CUrlManager::urlSuffix] till önskad suffixsträng.
 
-<div class="revision">$Id: topics.url.txt 2923 2011-01-29 21:02:46Z mdomba $</div>
+
+Anpassade URL-regelklasser
+--------------------------
+
+> Note|Märk: Användning av anpassade URL-regelklasser har stöd sedan version 1.1.8.
+
+Som standard representeras varje URL-regel deklarerad med [CUrlManager] som ett 
+[CUrlRule]-objekt som genomför uppgiften att analysera request och skapa URL:er 
+baserat på den specificerade regeln. Även om [CUrlRule] är tillräckligt flexibel 
+att hantera de flesta URL-format, kan det ibland vara önskvärt att utöka den med 
+speciella finesser.
+
+Till exempel, för en bilhandlares webbplats, kan önskemål uppstå om stöd för 
+URL-format som `/Manufacturer/Model`, där `Manufacturer` och `Model` båda måste 
+överensstämma med data i en databastabell. Klassen [CUrlRule] kommer inte att fungera 
+eftersom den till största delen förlitar sig på statiskt deklarerade reguljära uttryck, 
+vilka saknar kunskap om databaser.
+
+En ny URL-regelklass kan skapas genom utökning av [CBaseUrlRule] för användning 
+i en eller flera URL-regler. Med ovanstående bilhandlares webbplats som exempel, 
+kan följande URL-regler deklareras,
+
+~~~
+[php]
+array(
+	// en standardregel som mappar '/' till 'site/index'
+	'' => 'site/index',
+
+	// en standardregel som mappar '/login' till 'site/login', osv
+	'<action:(login|logout|about)>' => 'site/<action>',
+
+	// en anpassad regel för hantering av '/Manufacturer/Model'
+	array(
+	    'class' => 'application.components.CarUrlRule',
+	    'connectionID' => 'db',
+	),
+
+	// en standardregel för hantering av 'post/update' osv
+	'<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+),
+~~~
+
+Ovan används den anpassade URL-regelklassen `CarUrlRule` för hantering 
+av URL-formatet `/Manufacturer/Model`. Klassen kan skrivas som följer:
+
+~~~
+[php]
+class CarUrlRule extends CBaseUrlRule
+{
+	public $connectionID = 'db';
+
+	public function createUrl($manager,$route,$params,$ampersand)
+	{
+		if ($route==='car/index')
+		{
+			if (isset($params['manufacturer'], $params['model']))
+				return $params['manufacturer'] . '/' . $params['model'];
+			else if (isset($params['manufacturer']))
+				return $params['manufacturer'];
+		}
+		return false;  // denna regel tillämpas inte
+	}
+
+	public function parseUrl($manager,$request,$pathInfo,$rawPathInfo)
+	{
+		if (preg_match('%^(\w+)(/(\w+))?$%', $pathInfo, $matches))
+		{
+			// check $matches[1] and $matches[3] to see
+			// if they match a manufacturer and a model in the database
+			// If so, set $_GET['manufacturer'] and/or $_GET['model']
+			// and return 'car/index'
+		}
+		return false;  // denna regel tillämpas inte
+	}
+}
+~~~
+
+Den anpassade URL-klassen måste implementera de två abstrakta metoderna 
+deklarerade i [CBaseUrlRule]:
+
+* [CBaseUrlRule::createUrl()|createUrl()]
+* [CBaseUrlRule::parseUrl()|parseUrl()]
+
+Utöver ovanstående typiska användningssätt kan anpassade URL-regelklasser även 
+implementeras för många andra ändamål. Till exempel kan vi skriva en regelklass 
+som loggar anropen för URL-analys och -konstruktion. Detta kan vara användbart 
+i utvecklingsfasen. Vi kan även skriva en regelklass som presenterar en speciell 
+404-felsida i händelse av att alla andra URL-regler misslyckad med att tolka 
+det aktuella anropet. Märk att i sådant fall måste regeln för denna specialklass 
+deklareras som sista regel.
+
+<div class="revision">$Id: topics.url.txt 3236 2011-05-25 13:11:58Z qiang.xue $</div>

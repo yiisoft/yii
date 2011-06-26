@@ -17,10 +17,10 @@
 <div id="content">
 <h2>Opis</h2>
 <p>
-Skrypt ten sprawdza czy konfiguracja twojego serwera spełnia wymagania
+Skrypt ten sprawdza czy konfiguracja Twojego serwera spełnia wymagania
 pozwalające uruchomić aplikację napisaną przy użyciu <a href="http://www.yiiframework.com/">Yii</a>.
 Sprawdza on, czy serwej używa poprawnej wersji PHP,
-czy zostały załadowane odpowiednie rozszerzenia PHP oraz czy ustawienia w pliku plik php.ini są prawidłowe.
+czy zostały załadowane odpowiednie rozszerzenia PHP oraz czy ustawienia w pliku php.ini są prawidłowe.
 </p>
 
 <h2>Rozstrzygnięcie</h2>
@@ -28,8 +28,8 @@ czy zostały załadowane odpowiednie rozszerzenia PHP oraz czy ustawienia w plik
 <?php if($result>0): ?>
 Gratulacje! Konfiguracja Twojego serwera spełnia wszystkie wymagania stawiane przez Yii.
 <?php elseif($result<0): ?>
-Konfiguracja Twojego serwera spełnia minimalne qymagania stawiane przez Yii.
-Zwróć uwagę na ostrzeżenia wyświetlone poniżej jeśli Twoja aplikacja będzie używała odpowiadające im funkcjonalności.
+Konfiguracja Twojego serwera spełnia minimalne wymagania stawiane przez Yii.
+Zwróć uwagę na ostrzeżenia wyświetlone poniżej jeśli Twoja aplikacja będzie używała odpowiadających im funkcjonalności.
 <?php else: ?>
 Niestety konfiguracja Twojego serwera nie spełnia wymagań stawianych przez Yii.
 <?php endif; ?>

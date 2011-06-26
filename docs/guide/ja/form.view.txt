@@ -2,12 +2,12 @@
 =============
 
 `login` ビューを書くのは簡単な事です。始めに、先ほど述べた `login` 
-アクション のURLを属性とする `form` タグを書きます。その後 `LoginForm` 
-クラスで定義された属性の為のインプットフィールドを挿入します。
+アクションのURLを属性とする `form` タグを書きます。次に `LoginForm` 
+クラスで定義された属性の為のラベルとインプットフィールドを挿入します。
 最後にユーザがクリックしてフォームの内容を送信する為の送信ボタンを
-挿入します。これらは全て、単純なHTMLコードで成し遂げられます。
+挿入します。これらは全て、純粋なHTMLコードで成し遂げられます。
 
-Yiiはビューの作成を手助けするいくつかのヘルパークラスを供給します。
+Yiiはビューの作成を手助けするいくつかのヘルパークラスを提供します。
 例えば、テキスト入力フィールドを作成する為に、[CHtml::textField()] 
 をコールする事が出来ます; ドロップダウンリストの作成の為には、
 [CHtml::dropDownList()] をコールできます。
@@ -21,39 +21,40 @@ Yiiはビューの作成を手助けするいくつかのヘルパークラス�
 > [php]
 > CHtml::textField($name,$value,array('submit'=>''));
 > ~~~
-> このヘルパーが無ければ、ごちゃごちゃしたJavaScriptをあちこちへ
-書く必要があるでしょう。
+> このヘルパーが無ければ、ごちゃごちゃしたJavaScriptをあちこちへ書く必要があるでしょう。
 
 
 下記では [CHtml] をログインフォームの作成に使用しています。ここでは
- `$user` という変数が `LoginForm` のインスタンスを表していると仮定します。
+ `$model` という変数が `LoginForm` のインスタンスを表していると仮定します。
 
 ~~~
 [php]
-<div class="yiiForm">
+<div class="form">
 <?php echo CHtml::beginForm(); ?>
 
-<?php echo CHtml::errorSummary($user); ?>
+	<?php echo CHtml::errorSummary($model); ?>
 
-<div class="simple">
-<?php echo CHtml::activeLabel($user,'username'); ?>
-<?php echo CHtml::activeTextField($user,'username'); ?>
-</div>
+	<div class="row">
+		<?php echo CHtml::activeLabel($model,'username'); ?>
+		<?php echo CHtml::activeTextField($model,'username') ?>
+	</div>
 
-<div class="simple">
-<?php echo CHtml::activeLabel($user,'password'); ?>
-<?php echo CHtml::activePasswordField($user,'password');
- ?>
-</div>
+	<div class="row">
+		<?php echo CHtml::activeLabel($model,'password'); ?>
+		<?php echo CHtml::activePasswordField($model,'password') ?>
+	</div>
 
-<div class="action">
-<?php echo CHtml::activeCheckBox($user,'rememberMe'); ?>
-Remember me next time<br/>
-<?php echo CHtml::submitButton('Login'); ?>
-</div>
+	<div class="row rememberMe">
+		<?php echo CHtml::activeCheckBox($model,'rememberMe'); ?>
+		<?php echo CHtml::activeLabel($model,'rememberMe'); ?>
+	</div>
+
+	<div class="row submit">
+		<?php echo CHtml::submitButton('Login'); ?>
+	</div>
 
 <?php echo CHtml::endForm(); ?>
-</div><!-- yiiForm -->
+</div><!-- form -->
 ~~~
 
 上記のコードは、よりダイナミックなフォームを生成します。例えば、
@@ -71,4 +72,38 @@ Remember me next time<br/>
 
 ![The login with error page](login2.png)
 
-<div class="revision">$Id: form.view.txt 857 2008-11-30 23:01:07Z qiang.xue $</div>
+バージョン 1.1.1 以降、[CActiveForm] と呼ばれる新しいウィジェットが提供されて、
+フォーム作成がさらに容易になりました。このウィジェットは、クライアントとサーバーの両サイドで
+継ぎ目のない一貫したバリデーションをサポートすることが出来ます。[CActiveForm] を使うと、
+上記のビューのコードは下記のように書き換えることが出来ます。
+
+~~~
+[php]
+<div class="form">
+<?php $form=$this->beginWidget('CActiveForm'); ?>
+
+	<?php echo $form->errorSummary($model); ?>
+
+	<div class="row">
+		<?php echo $form->label($model,'username'); ?>
+		<?php echo $form->textField($model,'username') ?>
+	</div>
+
+	<div class="row">
+		<?php echo $form->label($model,'password'); ?>
+		<?php echo $form->passwordField($model,'password') ?>
+	</div>
+
+	<div class="row rememberMe">
+		<?php echo $form->checkBox($model,'rememberMe'); ?>
+		<?php echo $form->label($model,'rememberMe'); ?>
+	</div>
+
+	<div class="row submit">
+		<?php echo CHtml::submitButton('Login'); ?>
+	</div>
+
+<?php $this->endWidget(); ?>
+</div><!-- form -->
+~~~
+<div class="revision">$Id: form.view.txt 1751 2010-01-25 17:21:31Z qiang.xue $</div>

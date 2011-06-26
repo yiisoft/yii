@@ -4,7 +4,7 @@ Dalsze rozszerzanie
 Używanie tematów
 -------------
 
-Bez pisania dodatkowej linijki kodu nasz blog jest gotowy do używania [tematów](http://www.yiiframework.com/doc/guide/topics.theming). Aby użyć nowy temat musimy przede wszystkim utworzyć temat poprzez napisanie niestandardowego pliku widoku dla tematu. Na przykład, aby móc używać temat o nazwie `classic`, który używa innego układy strony utworzymy plik układu `/wwwroot/blog/themes/classic/views/layouts/column2.php`. Musimy również zmienić konfigurację aplikacji aby wskazać, że wybraliśmy temat `classic`:
+Bez pisania dodatkowej linijki kodu nasz blog jest gotowy do używania [tematów](http://www.yiiframework.com/doc/guide/topics.theming). Aby użyć nowy temat musimy przede wszystkim utworzyć temat poprzez napisanie niestandardowego pliku widoku dla tematu. Na przykład, aby móc używać temat o nazwie `classic`, który używa innego układu strony utworzymy plik układu `/wwwroot/blog/themes/classic/views/layouts/column2.php`. Musimy również zmienić konfigurację aplikacji aby wskazać, że wybraliśmy temat `classic`:
 
 ~~~
 [php]

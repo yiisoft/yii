@@ -18,4 +18,4 @@
 一般的には、最初に[モデル](http://www.yiiframework.com/doc/guide/basics.model)クラスファイルで、適切な[バリデーション](http://www.yiiframework.com/doc/guide/form.model#declaring-validation-rules)ルールを加え、[リレーションオブジェクト](http://www.yiiframework.com/doc/guide/database.arr#declaring-relationship)を宣言する変更を行います。その後、それぞれの CRUD 操作のために[コントローラアクション](http://www.yiiframework.com/doc/guide/basics.controller)と[ビュー](http://www.yiiframework.com/doc/guide/basics.view)コードを変更します。
 
 
-<div class="revision">$Id: prototype.summary.txt 1677 2009-02-16 05:20:17Z qiang.xue $</div>
+<div class="revision">$Id: prototype.summary.txt 2333 2009-02-16 05:20:17Z qiang.xue $</div>

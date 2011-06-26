@@ -22,7 +22,7 @@ return array (
   'Either "name" or "value" must be specified for CDataColumn.' => 'Uveďte prosím  "name" alebo "value" pre CDataColumn.',
   'Home' => 'Úvod',
   'No results found.' => 'Neboli nájdené žiadne záznamy.',
-  'Not set' => 'Nie je nastavený',
+  'Not set' => 'Nie je nastavené',
   'Please specify the "attributes" property.' => 'Zadajte prosím vlastnosti pre "attributes".',
   'Please specify the "data" property.' => 'Zadajte prosím vlastnosti pre "data".',
   'Sort by: ' => 'Zoradané podľa:',
@@ -32,7 +32,7 @@ return array (
   'The column must be specified in the format of "Name:Type:Label", where "Type" and "Label" are optional.' => 'Stĺpec musí byť špecifikovaný v tvare "Name:Type:Label", pričom "Type" a "Label" sú nepovinné.',
   'The property "itemView" cannot be empty.' => 'Vlastnosť "itemView" nesmie byť prázdna.',
   'Total {count} result(s).' => 'Nájdených celkovo {count} záznamov',
-  'Update' => 'Uložiť zmeny',
+  'Update' => 'Upraviť',
   'View' => 'Náhľad',
   '{class} must specify "model" and "attribute" or "name" property values.' => '{class} musí mať špecifikované vlastnosti pre "model" a "attribute" alebo "name".',
 );

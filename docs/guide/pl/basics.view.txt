@@ -4,8 +4,8 @@ Widok
 Widok jest skryptem PHP zawierającym przede wszystkim elementy interfejsu użytkownika.
 Może on zawierać wyrażenia PHP, ale rekomendowane jest, aby te wyrażenia 
 nie zmieniały danych modelu oraz były w miarę proste. W duchu rozdzielania 
-logiki i prezentacji, duże porcje logiki powinny zostać umieszczone w kontrolerze
-lub modelu zamiast w widoku.
+logiki i prezentacji, duże porcje logiki powinny zostać umieszczone w kontrolerach
+lub modelach zamiast w widokach.
 
 Widok posiada nazwę, która jest używana do zidentyfikowania pliku skryptu widoku 
 podczas generowania. Nazwa widoku to ta sama nazwa co nazwa pliku skryptu zawierającego
@@ -36,9 +36,9 @@ Układ (ang. Layout)
 ------
 
 Układ jest specjalnym widokiem, który jest używany do dekorowania widoku. 
-Zazwyczaj zawiera porcję interfejsu użytkownika, która jest wspólna dla różnych 
+Zazwyczaj zawiera części interfejsu użytkownika, które są wspólne dla różnych 
 widoków. Na przykład, widok może zawierać część nagłówkową i stopkę oraz osadzać 
-zawartość widoku pomiędzy nimi,
+widok pomiędzy nimi, jak w poniższym kodzie:
 
 ~~~
 [php]
@@ -47,7 +47,7 @@ zawartość widoku pomiędzy nimi,
 ......stopka......
 ~~~
 
-gdzie `$content` przechowuje wynik generowania zawartości widoku.
+gdzie `$content` przechowuje wynik generowania widoku.
 
 Widok jest domyślnie stosowany podczas wołania metody [render()|CController::render].
 Domyślnie, skrypt widoku `protected/views/layouts/main.php` jest używany jako widok.
@@ -58,14 +58,14 @@ Aby wygenerować widok bez korzystania z żadnego widoku wywołaj w zamian metod
 Widżety (ang. Widget)
 ------
 
-Widżet jest instancją klasy [CWidget] lub jej klas pochodnych. Jest komponentem 
-stosowanym dla celów prezentacji. Widżety są zazwyczaj osadzane w skrypcie w celu
+Widżet jest instancją klasy [CWidget] lub klas pochodnych [CWidget]. Jest komponentem 
+stosowanym dla celów prezentacji. Widżet jest zazwyczaj osadzany w skrypcie w celu
 generowania pewnych skomplikowanych, samowystarczalnych (niezależnych)
 interfejsów użytkownika. Na przykład, widżet kalendarza może być używany do wygenerowania 
-skomplikowanego interfejsu użytkownika dla kalendarza. Widżety umożliwiają 
+skomplikowanego interfejsu użytkownika dla kalendarza. Widżety ułatwiają 
 lepsze ponowne wykorzystanie kodu w interfejsie użytkownika.
 
-Aby użyć widżetu, zrób co następuje w skrypcie widoku:
+Aby użyć widżetu w skrypcie widoku, zrób co następuje:
 
 ~~~
 [php]
@@ -85,7 +85,7 @@ Drugie podejście jest używane kiedy widżet nie potrzebuje żadnej zawartości
 
 Widżety można skonfigurować, tak by zmienić ich zachowanie. Można to zrobić poprzez 
 ustawienie wartości ich początkowych właściwości podczas wywołania [CBaseController::beginWidget] 
-lub [CBaseController::widget]. Na przykład, podczas używania widżetu [CMaskedTextField],
+lub [CBaseController::widget]. Na przykład, używając widżetu [CMaskedTextField],
 chcielibyśmy określić używaną maskę. Możemy to zrobić przez przekazywanie tablicy  
 początkowych wartości właściwości, w której kluczami są nazwy właściwości a wartościami 
 inicjalne wartości tych właściwości, w następujący sposób:
@@ -144,4 +144,4 @@ Yii dostarcza zestawu domyślnych widoków systemowych umieszczonych w folderze
 `framework/views`. Mogą one zostać zmienione poprzez utworzenie tak samo nazwanych
 plików widoku w folderze `protected/views/system`.
 
-<div class="revision">$Id: basics.view.txt 2367 2010-08-29 17:29:22Z qiang.xue $</div>
+<div class="revision">$Id: basics.view.txt 3251 2011-06-01 00:24:06Z qiang.xue $</div>

@@ -2,7 +2,7 @@ Erstellen der ersten Yii-Anwendung
 ==================================
 
 Um einen ersten Eindruck von Yii zu bekommen, demonstrieren wir zunächst, wie
-man mit `yiic` (einem Kommandozeilenbefehl) eine Anwendung erstellt und mit 
+man mit `yiic` (einem Kommandozeilenbefehl) eine Anwendung erstellt und mit
 `Gii` (einem mächtigen, webbasierten Codegenerator) automatisch
 verschiedene Codeteile generieren kann. Das Installationsverzeichnis von
 Yii nennen wir im folgenden `YiiVerzeichnis`, das Webverzeichnis entsprechend
@@ -23,7 +23,7 @@ Starten Sie `yiic` von der Kommandozeile wie folgt:
 > % php YiiVerzeichnis/framework/yiic.php webapp testdrive
 > ~~~
 
-Damit wird im Verzeichnis `WebVerzeichnis/testdrive` die Grundstruktur einer 
+Damit wird im Verzeichnis `WebVerzeichnis/testdrive` die Grundstruktur einer
 Anwendung angelegt. Diese Verzeichnisstruktur wird von fast allen Yii-Anwendungen
 benötigt.
 
@@ -37,7 +37,7 @@ http://hostname/testdrive/index.php
 
 Wie Sie sehen, besteht die Anwendung aus vier Seiten: Der Startseite, der
 About-Seite, der Kontakt- sowie der Anmeldeseite. Die Kontaktseite enthält ein
-Kontaktformular für Anfragen an den Webmaster. Über die Anmeldeseite können 
+Kontaktformular für Anfragen an den Webmaster. Über die Anmeldeseite können
 Besucher sich einloggen, um auch geschützte Inhalte zu erreichen. Weitere
 Details sehen Sie auf diesen Screenshots:
 
@@ -54,16 +54,16 @@ Details sehen Sie auf diesen Screenshots:
 
 
 Das folgende Diagramm zeigt die Verzeichnisstruktur der Testanwendung. Weitere
-Erläuterungen dazu finden Sie in den [Konventionen](/doc/guide/basics.convention#directory). 
+Erläuterungen dazu finden Sie in den [Konventionen](/doc/guide/basics.convention#directory).
 
 ~~~
 testdrive/
    index.php                 Startscript der Anwendung
    index-test.php            Startscript für die Funktionstests
-   assets/                   enthält veröffentlichte Zusatzdateien 
+   assets/                   enthält veröffentlichte Zusatzdateien
    css/                      enthält CSS-Dateien
    images/                   enthält Bilddateien
-   themes/                   enthält Themes 
+   themes/                   enthält Themes
    protected/                enthält die geschützten Dateien dieser Anwendung
       yiic                   yiic-Script für die Kommandozeile unter Linux/Unix
       yiic.bat               yiic-Script für die Kommandozeile unter Windows
@@ -124,7 +124,7 @@ return array(
 );
 ~~~
 
-Damit wird Yii angewiesen, sich bei Bedarf mit der SQLite-Datenbank 
+Damit wird Yii angewiesen, sich bei Bedarf mit der SQLite-Datenbank
 `WebVerzeichnis/testdrive/protected/data/testdrive.db` zu verbinden. Beachten Sie,
 dass die SQLite-Datenbank bereits in der Beispielanwendung enthalten ist, die
 Sie gerade erstellt haben. Die Datenbank enthält nur die Tabelle `tbl_user`:
@@ -139,7 +139,7 @@ CREATE TABLE tbl_user (
 );
 ~~~
 
-Falls Sie stattdessen eine MySQL-Datenbank einsetzen möchten, können Sie die 
+Falls Sie stattdessen eine MySQL-Datenbank einsetzen möchten, können Sie die
 Schemadatei `WebVerzeichnis/testdrive/protected/data/schema.mysql.sql` verwenden, um
 die Datenbank anzulegen.
 
@@ -152,7 +152,7 @@ die Datenbank anzulegen.
 Erstellen von CRUD-Operationen
 ------------------------------
 
-Kommen wir nun zum unterhaltsamen Teil: Wir möchten CRUD-Operationen (
+Kommen wir nun zum angenehmen Teil: Wir möchten CRUD-Operationen (
 für "*C*reate, *R*ead, *U*pdate, *D*elete", "Erstellen, Lesen, Aktualisieren, Löschen")
 für die eben erstellte Tabelle `tbl_user` bereitstellen. Eine typische
 Aufgabenstellung aus der Praxis. Statt den nötigen Code mühevoll selbst zu schreiben,
@@ -217,7 +217,7 @@ erzeugen. Rufen Sie dazu den `Crud Generator` in Gii auf:
 Geben Sie `User` in das Feld `Model Class` und `user` (in Kleinbuchstaben) in
 das Feld `Controller ID` ein. Auch hier können Sie zunächst `Preview` klicken,
 bevor Sie die nötigen Codedateien mit `Generate` erstellen. Damit haben Sie
-die CRUD-Generierung abgeschlossen.  
+die CRUD-Generierung abgeschlossen.
 
 
 ### Aufruf der CRUD-Seiten
@@ -263,4 +263,4 @@ schreiben zu müssen!
 
 ![Seite zum Erstellen eines neuen Benutzers](first-app7.png)
 
-<div class="revision">$Id: quickstart.first-app.txt 2375 2010-08-30 12:19:23Z mdomba $</div>
+<div class="revision">$Id: quickstart.first-app.txt 3219 2011-05-13 03:03:35Z qiang.xue $</div>

@@ -252,4 +252,4 @@ ukuran setiap entri hanya 1MB. Oleh karenanya, jika ukuran query melebihi batasa
 maka caching akan gagal.
 
 
-<div class="revision">$Id: caching.data.txt 2952 2011-02-11 14:55:40Z qiang.xue $</div>
+<div class="revision">$Id: caching.data.txt 3125 2011-03-25 17:05:31Z qiang.xue $</div>

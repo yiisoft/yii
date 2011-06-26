@@ -282,7 +282,7 @@ Poniżej znajduje się kilka przykładów:
 [php]
 // JOIN `tbl_profile` ON user_id=id
 join('tbl_profile', 'user_id=id')
-// LEFT JOIN `pub`.`tbl_profile` `p` ON p.user_id=id AND type=:type
+// LEFT JOIN `pub`.`tbl_profile` `p` ON p.user_id=id AND type=1
 leftJoin('pub.tbl_profile p', 'p.user_id=id AND type=:type', array(':type'=>1))
 ~~~
 
@@ -522,6 +522,7 @@ Następujące abstrakcyjne typy danych wspomagane są przez kreator zapytań.
 * `date`: typ reprezentujący datę, dla MySQL-a zostanie przekonwertowany na `date`;
 * `binary`: typ danych binarnych, dla MySQL-a zostanie przekonwertowany na `blob`;
 * `boolean`: typ logiczny, dla MySQL-a zostanie przekonwertowany na `tinyint(1)`;
+* `money`: typ walutowy, dla MySQL-a zostanie przekonwertowany na `decimal(19,4)`. Typ ten jest dostępny od wersji 1.1.8.
 
 
 ###createTable()
@@ -756,4 +757,4 @@ Poniżej znajduje się przykład pokazujący jak usunąć indeks.
 dropIndex('idx_username', 'tbl_user')
 ~~~
 
-<div class="revision">$Id: database.query-builder.txt 2979 2011-02-20 02:35:48Z alexander.makarow $</div>
+<div class="revision">$Id: database.query-builder.txt 3304 2011-06-23 14:53:50Z qiang.xue $</div>

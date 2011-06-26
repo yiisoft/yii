@@ -60,7 +60,7 @@ Końcowy proces wdrażana polega głównie na kopiowaniu katalogu `/wwwroot/blog
 
  1. Zainstaluj Yii w docelowym miejscu jeśli nie jest ono jeszcze tam dostępne; 
  2. Skopiuj całą zawartość katalogu `/wwwroot/blog` do miejsca docelowego;
- 3. Zmień plik skrytu wejściowego `index.php` poprzez wskazanie zmiennej `$yii` na nowy plik rozruchowy (ang. bootstrap file);
+ 3. Zmień plik skryptu wejściowego `index.php` poprzez wskazanie zmiennej `$yii` na nowy plik rozruchowy (ang. bootstrap file);
  4. Wyedytuj plik `protected/yiic.php` poprzez ustawienie zmiennej `$yiic` wskazujące  
  na nowy plik `yiic.php`;
  5. Zmień uprawnienia do katalogów `assets` oraz `protected/runtime` tak aby były one 

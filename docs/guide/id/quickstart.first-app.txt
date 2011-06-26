@@ -1,11 +1,12 @@
-Membuat Aplikasi Pertama Yii
+Membuat Aplikasi Pertama Yii Anda
 ============================
 
-Agar mendapatkan pengalaman pertama dengan Yii, kita akan melihat dalam bab ini bagaimana
-untuk membuat aplikasi pertama Yii. Kita akan menggunakan piranti bertenaga `yiic`
-yang dapat dipakai dalam mengotomatisasi pembuatan tugas-tugas tertentu. Demi kenyamanan,
-kita beranggapan bahwa `YiiRoot` adalah direktori di mana Yii diinstalasi, dan `WebRoot`
-adalah root dokumen pada server Web kita.
+Sebagai pengalaman pertama dengan Yii, di bagian ini kami akan menjelaskan bagaimana
+membuat aplikasi Yii. Kita akan menggunakan `yiic` (tool command line)
+untuk membuat aplikasi Yii baru dan `Gii` (sebuah code generator berbasis web)
+untuk mengautomatisasi pembuatan code untuk tugas-tugas tertentu. Untuk kenyamanan,
+kita akan berasumsi `YiiRoot` sebagai direktori di mana Yii diinstalasi, dan `WebRoot` 
+adalah document root dari Web Server kita.
 
 Jalankan `yiic` pada baris perintah seperti berikut:
 
@@ -36,7 +37,8 @@ http://hostname/testdrive/index.php
 Seperti yang kita lihat, aplikasi memiliki empat halaman: halaman beranda, halaman tentang (about)
 halaman kontak dan halaman masuk(login). Halaman kontak menampilkan sebuah form kontak
 yang dapat diisi pengguna  dan mengirim pertanyaan mereka ke webmaster, sedangkan
-halaman masuk memungkinkan pengunjung diotentikasi sebelum mengakses isi khusus bagi yang sudah login.
+halaman masuk memungkinkan pengunjung diotentikasi 
+sebelum mengakses isi khusus bagi yang sudah login.
 
 ![Halaman beranda](first-app1.png)
 
@@ -55,40 +57,50 @@ lebih rinci mengenai struktur ini.
 
 ~~~
 testdrive/
-   index.php                 File skrip entri aplikasi Web
-   assets/                   berisi file resource yang diterbitkan
-   css/                      berisi file CSS
-   images/                   berisi file gambar
-   themes/                   berisi tema aplikasi
-   protected/                berisi file perlindungan aplikasi
-      yiic                   skrip baris perintah yiic
-      yiic.bat               skrip baris perintah untuk Windows
-      commands/              berisi perintah 'yiic' yang dikustomisasi
-         shell/              berisi perintah 'yiic shell' yang dikustomisasi
-      components/            berisi komponen pengguna
-         MainMenu.php        kelas widget 'MainMenu'
-         Identity.php        kelas 'Identity' yang dipakai untuk otentikasi
-         views/              berisi file view untuk widget
-            mainMenu.php     file view file untuk widget 'MainMenu'
-      config/                berisi file konfigurasi
-         console.php         konfigurasi aplikasi konsol
-         main.php            konfigurasi aplikasi Web
-      controllers/           berisi file kelas controller
-         SiteController.php  standar kelas controller
-      extensions/            berisi extension pihak-ketiga
-      messages/              berisi terjemahan pesan
-      models/                berisi file kelas model
-         LoginForm.php       model form untuk aksi 'login'
-         ContactForm.php     model form untuk aksi 'contact'
-      runtime/               berisi file yang dibuat secara temporal
-      views/                 berisi file controller tampilan dan tata letak
-         layouts/            berisi file tampilan tata letak
-            main.php         standar tata letak untuk semua tampilan
-         site/               berisi file tampilan untuk controller 'site'
-            contact.php      tampilan untuk aksi 'contact'
-            index.php        tampilan untuk aksi 'index'
-            login.php        tampilan untuk aksi 'login'
-         system/             berisi file tampilan sistem
+   index.php                 Web application entry script file
+   index-test.php            entry script file for the functional tests
+   assets/                   containing published resource files
+   css/                      containing CSS files
+   images/                   containing image files
+   themes/                   containing application themes
+   protected/                containing protected application files
+      yiic                   yiic command line script for Unix/Linux
+      yiic.bat               yiic command line script for Windows
+      yiic.php               yiic command line PHP script
+      commands/              containing customized 'yiic' commands
+         shell/              containing customized 'yiic shell' commands
+      components/            containing reusable user components
+         Controller.php      the base class for all controller classes
+         UserIdentity.php    the 'UserIdentity' class used for authentication
+      config/                containing configuration files
+         console.php         the console application configuration
+         main.php            the Web application configuration
+         test.php            the configuration for the functional tests
+      controllers/           containing controller class files
+         SiteController.php  the default controller class
+      data/                  containing the sample database
+         schema.mysql.sql    the DB schema for the sample MySQL database
+         schema.sqlite.sql   the DB schema for the sample SQLite database
+         testdrive.db        the sample SQLite database file
+      extensions/            containing third-party extensions
+      messages/              containing translated messages
+      models/                containing model class files
+         LoginForm.php       the form model for 'login' action
+         ContactForm.php     the form model for 'contact' action
+      runtime/               containing temporarily generated files
+      tests/                 containing test scripts
+      views/                 containing controller view and layout files
+         layouts/            containing layout view files
+            main.php         the base layout shared by all pages
+            column1.php      the layout for pages using a single column
+            column2.php      the layout for pages using two columns
+         site/               containing view files for the 'site' controller
+            pages/           containing "static" pages
+               about.php     the view for the "about" page
+            contact.php      the view for 'contact' action
+            error.php        the view for 'error' action (displaying external errors)
+            index.php        the view for 'index' action
+            login.php        the view for 'login' action
 ~~~
 
 Sambungan ke Database
@@ -97,8 +109,7 @@ Sambungan ke Database
 Umumnya aplikasi Web didukung oleh database. Aplikasi testdrive (pengujian) kita tidak
 terkecuali. Untuk menggunakan database, pertama kita perlu memberitahu
 aplikasi bagaimana untuk berhubungan dengannya. Ini dilakukan dengan mengubah file
-konfigurasi aplikasi `WebRoot/testdrive/protected/config/main.php`, seperti
-terlihat di bawah ini:
+konfigurasi aplikasi `WebRoot/testdrive/protected/config/main.php`, seperti terlihat di bawah ini:
 
 ~~~
 [php]
@@ -114,11 +125,10 @@ return array(
 );
 ~~~
 
-Dalam contoh di atas, kita menambah entri `db` ke `components`, yang memerintahkan
-aplikasi untuk menyambung ke database SQLite
-`WebRoot/testdrive/protected/data/source.db` saat diperlukan. Harap diingat bahwa
-database SQLite sudah disertakan dalam aplikasi kerangka yang di-generate kita tadi.
-Database tersebut berisi sebuah tabel bernama `tbl_user`:
+Kode di atas akan menginstruksi Yii bahwa aplikasi harus terkoneksi dengan database SQLite 
+`WebRoot/testdrive/protected/data/testdrive.db` ketika diperlukan. Perhatikan bahwa database
+SQLite sudah di dalam kerangka aplikasi yang baru saja kita generate. Database mengandung
+sebuah tabel bernama `tbl_user`:
 
 ~~~
 [sql]
@@ -141,9 +151,10 @@ mengaktifkan extension `php_pdo` dan `php_pdo_sqlite`
 Mengimplementasikan Operasi CRUD
 --------------------------------
 
-Sekarang merupakan bagian yang menarik. Kita akan mengimplementasi operasi CRUD (create, read, update, delete) atau
-membuat, membaca, meng-update dan menghapus pada tabel `tbl_user` yang baru saja dibuat. Operasi ini juga
-merupakan aplikasi praktis yang umumnya diperlukan. Alih-alih menulis kode, kita akan menggunakan `Gii` -- sebuah generator kode yang powerful
+Sekarang tiba saat yang menarik. Kita akan mengimplementasi operasi
+CRUD (create, read, update dan delete) untuk tabel `tbl_user` yang baru saja kita buat. 
+Biasanya hal seperti ini sering kita lakukan dalam aplikasi umumnya. Alih-alih harus
+merepotkan diri menulis code, kita akan menggunakan `Gii` -- sebuah generator berbasis web.
 
 > Info: Gii sudah tersedia semenjak versi 1.1.2. Sebelumnya, kita menggunakan `yiic` (yang baru saja disinggung) untuk melakukan hal yang sama. Untuk lebih detail silahkan merujuk ke [Mengimplementasi Operasi CRUD dengan yiic shell](/doc/guide/quickstart.first-app-yiic).
 
@@ -222,7 +233,8 @@ untuk melihat, meng-update atau menghapus baris data bersangkutan.
 Kita dapat membuka halaman-halaman berbeda. Kita juga dapat memfilter dan mencari
 data yang diinginkan.
 
-Semua fitur bagus ini disediakan tanpa harus menulis satu baris kode pun!
+Semua fitur bagus ini disediakan tanpa harus menulis satu baris 
+kode pun!
 
 ![Halaman admin pengguna](first-app6.png)
 
@@ -230,4 +242,4 @@ Semua fitur bagus ini disediakan tanpa harus menulis satu baris kode pun!
 
 
 
-<div class="revision">$Id: quickstart.first-app.txt 2375 2010-08-30 12:19:23Z mdomba $</div>
+<div class="revision">$Id: quickstart.first-app.txt 3219 2011-05-13 03:03:35Z qiang.xue $</div>

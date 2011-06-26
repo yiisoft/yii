@@ -19,6 +19,10 @@ Yiiでの各テーマは、ビューファイル、レイアウトファイル�
  [themeManager|CWebApplication::themeManager] 
 アプリケーションコンポーネントのプロパティを望む物に設定して下さい。
 
+
+テーマを使う
+------------
+
 テーマを有効にするには、ウェブアプリケーションのプロパティである、
 [theme|CWebApplication::theme] の名前を望むものにセットします。
 これは [application
@@ -28,6 +32,10 @@ configuration](/doc/guide/basics.application#application-configuration)
 > Note|注意: テーマの名前は大文字小文字を区別します。もしアクティブ
 にしようとしたテーマが存在していない場合、`Yii::app()->theme` は 
 `null` を返すでしょう。
+
+
+テーマを作成する
+----------------
 
 テーマディレクトリの中身は [application base
 path](/doc/guide/basics.application#application-base-directory) 
@@ -66,4 +74,229 @@ path](/doc/guide/basics.application#application-base-directory)
 >Yii::app()->theme->baseUrl . '/images/FileName.gif'
 >~~~
 
-<div class="revision">$Id: topics.theming.txt 878 2008-11-06 20:33:35Z qiang.xue $</div>
+以下は、`basic` と `fancy` という二つのテーマを持ったアプリケーションのディレクトリ構成例です。
+
+~~~
+WebRoot/
+	assets
+	protected/
+		.htaccess
+		components/
+		controllers/
+		models/
+		views/
+			layouts/
+				main.php
+			site/
+				index.php
+	themes/
+		basic/
+			views/
+				.htaccess
+				layouts/
+					main.php
+				site/
+					index.php
+		fancy/
+			views/
+				.htaccess
+				layouts/
+					main.php
+				site/
+					index.php
+~~~
+
+アプリケーション構成ファイルで以下のように構成します。
+
+~~~
+[php]
+return array(
+	'theme'=>'basic',
+	......
+);
+~~~
+
+これで `basic` テーマが有効になります。つまり、アプリケーションのレイアウトは `themes/basic/views/layouts` ディレクトリ下のものが使われ、
+サイトの index ビューは `themes/basic/views/site` にあるものが使われます。
+ビューファイルがテーマの中に見つからなかった場合は、デフォルトの `protected/views` ディレクトリの下にあるものが使われます。
+
+
+ウィジェットにテーマを適用する
+------------------------------
+
+バージョン 1.1.5 からは、ウィジェットによって使われるビューにもテーマを適用することが出来ます。
+具体的に言うと、[CWidget::render()] を呼んでウィジェットのビューを表示するときに、
+Yii は要求されているビューファイルをウィジェットのビューフォルダーだけでなく、テーマフォルダーの下からも見つけ出そうと試みます。
+
+`Foo` というクラス名のウィジェットの `xyz` ビューにテーマを適用するためには、まず、現在アクティブなテーマのビューフォルダの下に、`Foo` という(ウィジェットのクラス名と同じ) 名前のフォルダを作成します。
+ウィジェットクラスが(PHP 5.3.0 以降でサポートされている)ネームスペースを持っている場合は、例えば `\app\widgets\Foo` であれば `app_widgets_Foo` という名前のフォルダを作成します。つまり、ネームスペースのセパレータをアンダースコアで置き換えます。
+
+次に、新しく作成されたフォルダの下に、`xyz.php` というビューファイルを作成します。
+このため、現在のアクティブなテーマが `basic` である場合は、`themes/basic/views/Foo/xyz.php` というファイルを作成しなければなりません。このファイルがオリジナルのビューの代りにウィジェットによって使用されます。
+
+
+ウィジェットをグローバルにカスタマイズする
+----------------------------
+
+> Note|注意: この機能はバージョン 1.1.3 以降で利用できます。
+
+サードパーティまたは Yii によって提供されているウィジェットを使用するときに、特定の要求にあわせてカスタマイズする必要があることがよくあります。
+例えば、[CLinkPager::maxButtonCount] を 10(デフォルト値) から 5 に変更したいことがあるでしょう。
+これは、[CBaseController::widget] を呼んでウィジェットを作成するときに、プロパティの初期値を渡すことで実現できます。
+しかし、[CLinkPager] を使用するすべての場所で同じカスタマイズを繰り返さなければならないとすれば、それは煩わしいことです。
+
+~~~
+[php]
+$this->widget('CLinkPager', array(
+	'pages'=>$pagination,
+	'maxButtonCount'=>5,
+	'cssFile'=>false,
+));
+~~~
+
+グローバルなウィジェットカスタマイズ機能を利用すると、これらの初期値を一ヶ所だけ、すなわち、アプリケーション設定ファイルで設定すればよくなります。
+これによって、ウィジェットのカスタマイズを管理しやすくなります。
+
+グローバルなウィジェットカスタマイズ機能を使うためには、
+[widgetFactory|CWebApplication::widgetFactory] を以下のように構成する必要があります。
+
+~~~
+[php]
+return array(
+    'components'=>array(
+        'widgetFactory'=>array(
+            'widgets'=>array(
+                'CLinkPager'=>array(
+                    'maxButtonCount'=>5,
+                    'cssFile'=>false,
+                ),
+                'CJuiDatePicker'=>array(
+                    'language'=>'ru',
+                ),
+            ),
+        ),
+    ),
+);
+~~~
+
+上記においては、[CWidgetFactory::widgets] プロパティを構成することによって、
+[CLinkPager] および [CJuiDatePicker] のグローバルなウィジェットカスタマイズを指定しています。
+各ウィジェットのグローバルなカスタマイズは、配列の中の key-value ペアによって表されています。ここで、key はウィジェットのクラス名であり、value はプロパティの初期値の配列を指定するものです。
+
+こうしておけば、[CLinkPager] ウィジェットをビューで生成する時には、いつでも、上記のプロパティ値がウィジェットに割り当てられるようになります。そして、ビューでウィジェットを生成する時には、次のコードのように書くだけでよくなります。
+
+~~~
+[php]
+$this->widget('CLinkPager', array(
+	'pages'=>$pagination,
+));
+~~~
+
+必要なときに初期プロパティ値をオーバーライドすることも引き続いて可能です。
+例えば、あるビューにおいて `maxButtonCount` を 2 に設定したい場合は、次のようにすることが出来ます。
+
+~~~
+[php]
+$this->widget('CLinkPager', array(
+	'pages'=>$pagination,
+	'maxButtonCount'=>2,
+));
+~~~
+
+
+スキン
+------
+
+テーマを使用するとビューの外観を即座に変更できる一方で、スキンを使用するとビューで使用される [widgets](/doc/guide/basics.view#widget) の外観を体系的にカスタマイズすることが出来ます。
+
+スキンは、ウィジェットのプロパティ初期化に使用できる name-value のペアの配列です。
+スキンはウィジェットクラスに属するもので、ウィジェットクラスは名前で区別される複数のスキンを持つことが出来ます。
+例えば、[CLinkPager] ウィジェットにひとつのスキンを与えて、その名前を `classic` とすることが出来ます。
+
+スキン機能を使用するためには、まず、アプリケーション設定を変更して、`widgetFactory` アプリケーションコンポーネントの [CWidgetFactory::enableSkin] プロパティを true に構成しなければなりません。
+
+~~~
+[php]
+return array(
+    'components'=>array(
+        'widgetFactory'=>array(
+            'enableSkin'=>true,
+        ),
+    ),
+);
+~~~
+
+バージョン 1.1.3 より前である場合は、ウィジェットのスキン機能を有効にするために下記の構成が必要になることに注意してください。
+
+~~~
+[php]
+return array(
+    'components'=>array(
+        'widgetFactory'=>array(
+            'class'=>'CWidgetFactory',
+        ),
+    ),
+);
+~~~
+
+そして次に必要なスキンを作成します。同一のウィジェットクラスに属するスキンは、ウィジェットのクラス名と同じ名前の単一の PHP スクリプトファイルに保存されます。
+デフォルトではこれらのスキンファイルはすべて `protexted/views/skins` ディレクトリに保存されます。
+これを別のディレクトリに変更したい場合は、`widgetFactory` コンポーネントの `skinPath` プロパティを構成してください。
+例として、`protected/views/skins` の下に `CLinkPager.php` という名前のファイルを作るとしましょう。その内容は以下のようなものです。
+
+~~~
+[php]
+<?php
+return array(
+    'default'=>array(
+        'nextPageLabel'=>'&gt;&gt;',
+        'prevPageLabel'=>'&lt;&lt;',
+    ),
+    'classic'=>array(
+        'header'=>'',
+        'maxButtonCount'=>5,
+    ),
+);
+~~~
+
+上記においては、[CLinkPager] のために二つのスキンを作成しています。`default` と `classic` です。
+前者は、明示的に `skin` プロパティを指定しない場合に、すべての [CLinkPager] ウィジェットに適用されるスキンです。
+後者は、`skin` プロパティが `classic` と指定された [CLinkPager] ウィジェットに適用されるスキンです。
+例えば、以下のビューのコードにおいては、第一のページャは `default` スキンを使用し、第二のページャは `classic` スキンを使用します。
+
+~~~
+[php]
+<?php $this->widget('CLinkPager'); ?>
+
+<?php $this->widget('CLinkPager', array('skin'=>'classic')); ?>
+~~~
+
+ウィジェットを生成する際に初期プロパティ値を指定した場合は、そのプロパティ値が優先され、アプリケーションのスキンと結合されます。
+例えば、下記のビューのコードが生成するページャの初期値は、`array('header'=>'', 'maxButtonCount'=>6, 'cssFile'=>false)` となりますが、それはビューで指定された初期プロパティ値と `classic` スキンを結合した結果です。
+
+~~~
+[php]
+<?php $this->widget('CLinkPager', array(
+    'skin'=>'classic',
+    'maxButtonCount'=>6,
+    'cssFile'=>false,
+)); ?>
+~~~
+
+スキン機能はテーマの使用を必要としない、ということに注意してください。
+しかしながら、テーマがアクティブなときは、Yii はテーマのビューディレクトリの下の `skins` ディレクトリ (例えば、`WebRoot/themes/classic/views/skins`) からもスキンを見つけようとします。
+テーマのビューディレクトリにも、メインのアプリケーションビューディレクトリにも同じ名前のスキンが存在する場合は、テーマのスキンが優先されます。
+
+ウィジェットが存在しないスキンを使おうとしている場合でも、Yii はいつも通り、何のエラーもなく、ウィジェットを生成します。
+
+> Info|情報: スキンを使用するとパフォーマンスの低下を招くことがあります。ウィジェットが最初に生成されるときに、Yii がスキンファイルを探す必要があるためです。
+
+スキンはグローバルなウィジェットカスタマイズ機能と非常によく似ています。
+主な違いは次の各点です。
+
+   - スキンは表示に関するプロパティ値のカスタマイズに関係が深い
+   - ウィジェットは複数のスキンを持つことが出来る
+   - スキンに対してはテーマの適用が可能である
+   - スキンの使用はグローバルなウィジェットカスタマイズの使用に比べて、コストが高く付く
+
+<div class="revision">$Id: topics.theming.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

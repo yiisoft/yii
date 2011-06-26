@@ -1,5 +1,5 @@
-Wzorzec Active Record
-=============
+Wzorzec Rekordu Aktywnego (ang. Active Record)
+==============================================
 
 Chociaż Yii DAO może uporać się z wirtualnymi oraz bazodanowymi zadaniami, istnieje 
 szansa, że będziemy spędzać 90% naszego czasu pisząc wyrażenia SQL, które wykonują 
@@ -633,6 +633,7 @@ kreteriów zapytania:
 $contents=Content::model()->findAll();
 ~~~
 
-Zauważ, że domyślne podzbiory mają zastosowanie tylko dla zapytań `SELECT`. Są one ignorowane dla zapytań `INSERT`, `UPDATE` oraz `DELETE`.
+> Note|Uwaga: Zauważ, że domyślne i nazwane podzbiory mają zastosowanie tylko dla zapytań `SELECT`. Są one ignorowane dla zapytań `INSERT`, `UPDATE` oraz `DELETE`.
+> Ponadto, podczas deklarowania podzbiorów (domyślnych i nazwanych), klasa rekordu aktywnego nie może być używana do tworzenia zapytań do bazy w metodzie deklarującej podzbiór.
 
-<div class="revision">$Id: database.ar.txt 3122 2011-03-25 02:45:43Z qiang.xue $</div>
+<div class="revision">$Id: database.ar.txt 3318 2011-06-24 21:40:34Z qiang.xue $</div>

@@ -15,7 +15,7 @@ Yii предоставляет полноценный функционал об�
 Если вы не хотите, чтобы Yii обрабатывал ошибки и исключения, во [входном скрипте](/doc/guide/basics.entry)
  установите значение *false* константам `YII_ENABLE_ERROR_HANDLER` и `YII_ENABLE_EXCEPTION_HANDLER`.
 
-По умолчанию, метод [errorHandler|CApplication::errorHandler] (или [exceptionHandler|CApplication::exceptionHandler])
+По умолчанию, метод [handleError|CApplication::handleError] (или [handleException|CApplication::handleException])
 вызывает событие [onError|CApplication::onError] (или [onException|CApplication::onException]). Если ошибка (или исключение)
 не обрабатывается обработчиком события, он обращается за помощью к компоненту приложения [errorHandler|CErrorHandler].
 
@@ -138,4 +138,4 @@ public function actionError()
 [код состояния|CHttpException::statusCode]). Для отслеживания ошибок, возникающих в процессе
 выполнения приложения, можно использовать функционал [журналирования](/doc/guide/topics.logging).
 
-<div class="revision">$Id: topics.error.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>
+<div class="revision">$Id: topics.error.txt 3308 2011-06-23 16:06:51Z qiang.xue $</div>

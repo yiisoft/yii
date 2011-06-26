@@ -11,14 +11,16 @@
  * Messages that no longer need translation will have their translations
  * enclosed between a pair of '@@' marks.
  *
+ * Message string can be used with plural forms format. Check i18n section
+ * of the guide for details.
+ *
  * NOTE, this file must be saved in UTF-8 encoding.
  *
  * @version $Id: $
  */
 return array (
-  'GD extension with<br />FreeType support' => 'GD Erweiterung mit <br />FreeType-Unterstützung',
-  'GD installed<br />FreeType support not installed' => 'GD installiert<br />FreeType-Unterstützung nicht installiert',
-  'GD not installed' => 'GD nicht installiert',
+  'Ctype extension' => 'Ctype Erweiterung',
+  'To use memcached set <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'Um memcached verwenden zu können, muss <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> auf <code>true</code> gesetzt werden.',
   '$_SERVER does not have {vars}.' => '$_SERVER verfügt nicht über {vars}.',
   '$_SERVER variable' => '$_SERVER Variable',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '$_SERVER["SCRIPT_FILENAME"] muss auf das Startscript verweisen.',
@@ -26,6 +28,9 @@ return array (
   'All <a href="http://www.yiiframework.com/doc/api/#system.db">DB-related classes</a>' => 'Alle <a href="http://www.yiiframework.com/doc/api/#system.db">DB-bezogenen Klassen</a>',
   'DOM extension' => 'DOM Erweiterung',
   'Either $_SERVER["REQUEST_URI"] or $_SERVER["QUERY_STRING"] must exist.' => 'Entweder $_SERVER["REQUEST_URI"] oder $_SERVER["QUERY_STRING"] müssen exisitieren.',
+  'GD extension with<br />FreeType support' => 'GD Erweiterung mit <br />FreeType-Unterstützung',
+  'GD installed<br />FreeType support not installed' => 'GD installiert<br />FreeType-Unterstützung nicht installiert',
+  'GD not installed' => 'GD nicht installiert',
   'Mcrypt extension' => 'Mcyrpt Erweiterung',
   'Memcache extension' => 'Memcache Erweiterung',
   'PCRE extension' => 'PCRE Erweiterung',

@@ -3,6 +3,17 @@
 
 此页面总结了每次 Yii 发布所引入的新功能。
 
+版本 1.1.7
+-------------
+ * [支持RESTful URL](/doc/guide/topics.url#user-friendly-urls)
+ * [支持查询缓存](/doc/guide/caching.data#query-caching)
+ * [现在可以为关联relational named scopes传入参数](/doc/guide/database.arr#relational-query-with-named-scopes)
+ * [支持不通过相关模型来执行关联表的查询](/doc/guide/database.arr#performing-relational-query-without-getting-related-models)
+ * [支持对HAS_MANY和HAS_ONE多重关联的查询](/doc/guide/database.arr#relational-query-with-through)
+ * [支持数据库迁移的事务](/doc/guide/database.migration#transactional-migrations)
+ * [支持对基于类的动作传入参数](/doc/guide/basics.controller#action-parameter-binding)
+ * 支持使用[CActiveForm]对客户端数据进行无缝数据验证
+
 版本 1.1.6
 -------------
  * [添加了查询生成器](/doc/guide/database.query-builder)

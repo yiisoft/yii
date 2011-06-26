@@ -19,7 +19,7 @@
  * @version $Id: $
  */
 return array (
-  'To use memcached set <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'För att använda memcached, sätt <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> till <code>true</code>.',
+  'Ctype extension' => 'Ctype-tillägg',
   '$_SERVER does not have {vars}.' => '$_SERVER innehåller inte {vars}.',
   '$_SERVER variable' => '$_SERVER-variabel',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '$_SERVER["SCRIPT_FILENAME"] måste vara samma som startskriptets namn och sökväg.',
@@ -46,5 +46,6 @@ return array (
   'This is required if you are using MySQL database.' => 'Detta krävs om MySQL-databas används.',
   'This is required if you are using PostgreSQL database.' => 'Detta krävs om PostgresSQL-databas används.',
   'This is required if you are using SQLite database.' => 'Detta krävs om SQLite-databas används.',
+  'To use memcached set <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'För att använda memcached, sätt <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> till <code>true</code>.',
   'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' => 'Kan inte avgöra URL:ens sökvägsinfo. Kontrollera att $_SERVER["PATH_INFO"] (eller $_SERVER["PHP_SELF"] och $_SERVER["SCRIPT_NAME"]) innehåller korrekta värden.',
 );

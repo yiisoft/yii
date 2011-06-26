@@ -15,7 +15,7 @@ Dla większości nowych projektów najwięcej czasu zostanie poświęconego dla 
 
 Chociaż kod wygenerowany przez narzędzie `gii` implementuje funkcjonalnie w pełni operacje CRUD dla tabeli bazy danych, często musi on być modyfikowany w poszczególnych aplikacjach. Z tego powodu w następnych dwóch krokach milowych, praca którą wykonamy skupi się na dostosowywaniu wygenerowanego kodu CRUD dla wiadomości i komentarzy w taki sposób aby spełnić nasze początkowe wymagania.
 
-Ogólnie rzecz biorą, najpierw modyfikujemy klasę [modelu](http://www.yiiframework.com/doc/guide/basics.model) poprzez dodawanie odpowiednich reguł [sprawdzania poprawności](http://www.yiiframework.com/doc/guide/form.model#declaring-validation-rules) i deklarowania [obiektów relacyjnych](http://www.yiiframework.com/doc/guide/database.arr#declaring-relationship). Następnie modyfikujemy [akcje kontrolera](http://www.yiiframework.com/doc/guide/basics.controller) oraz kod [widoku](http://www.yiiframework.com/doc/guide/basics.view) dla każdej z poszczególnych operacji CRUD.
+Ogólnie rzecz biorąc, najpierw modyfikujemy klasę [modelu](http://www.yiiframework.com/doc/guide/basics.model) poprzez dodawanie odpowiednich reguł [sprawdzania poprawności](http://www.yiiframework.com/doc/guide/form.model#declaring-validation-rules) i deklarowania [obiektów relacyjnych](http://www.yiiframework.com/doc/guide/database.arr#declaring-relationship). Następnie modyfikujemy [akcje kontrolera](http://www.yiiframework.com/doc/guide/basics.controller) oraz kod [widoku](http://www.yiiframework.com/doc/guide/basics.view) dla każdej z poszczególnych operacji CRUD.
 
 
 <div class="revision">$Id: prototype.summary.txt 2333 2010-08-24 21:11:55Z mdomba $</div>

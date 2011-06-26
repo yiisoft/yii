@@ -1,7 +1,8 @@
 Yiiを使ってブログシステムを作る
 ================================
 
- このチュートリアルでは、Yiiを用いて[ブログデモ](http://www.yiiframework.com/demos/blog/)のようなブログアプリケーションをどのように開発するのかを説明します。 開発のステップを順を追って詳細に解説してあります。
+このチュートリアルでは、Yiiを用いてYiiリリースファイルに同梱されている[ブログデモ](http://www.yiiframework.com/demos/blog/)のようなブログアプリケーションをどのように開発するのかを説明します。
+開発のステップを順を追って詳細に解説してあります。
 ここで述べている内容は、他のウェブアプリケーションの開発においても有用でしょう。
 [Yiiガイド](http://www.yiiframework.com/doc/guide/)や、[クラスリファレンス](http://www.yiiframework.com/doc/api/)の補足として、 このチュートリアルでは、Yiiの実践的な使用法を紹介するのが目的です。
 
@@ -10,4 +11,4 @@ Yiiを使ってブログシステムを作る
 
 このチュートリアルは、[the Terms of Yii Documentation](http://www.yiiframework.com/doc/terms/)のもとでリリースされます。 
 
-<div class="revision">$Id: start.overview.txt 683 2009-02-16 05:20:17Z qiang.xue $</div>
+<div class="revision">$Id: start.overview.txt 1677 2009-02-16 05:20:17Z qiang.xue $</div>

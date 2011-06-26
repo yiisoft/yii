@@ -11,7 +11,7 @@
 
 Первое, что мы запланировали — настройка
 [прав доступа](/doc/guide/ru/topics.auth#access-control-filter). Код,
-сгенерированный при помощи `yiic` нам не подойдёт.
+сгенерированный при помощи `gii` нам не подойдёт.
 
 Необходимо изменить метод `accessRules()` в файле
 `/wwwroot/blog/protected/controllers/PostController.php` следующим образом:
@@ -50,7 +50,7 @@ public function accessRules()
 Операции `create` и `update` довольно похожи. В обоих случаях требуется
 вывести HTML форму для сбора данных, вводимых пользователем. Также требуется
 валидация и сохранение данных в БД. Главное отличие в том, что при `update`
-форма будет заполняться данными о редактируемой записи. По этой причине `yiic`
+форма будет заполняться данными о редактируемой записи. По этой причине `gii`
 генерирует вложенное отображение `/wwwroot/blog/protected/views/post/_form.php`,
 которое включается как в отображение `create`, так и отображение `update` для
 вывода HTML формы.
@@ -122,4 +122,4 @@ protected function afterFind()
 Заинтересованные читатели могут ознакомиться с ним в файле
 `/wwwroot/yii/demos/blog/protected/models/Tag.php`.
 
-<div class="revision">$Id: post.create.txt 2120 2010-05-10 01:29:41Z qiang.xue $</div>
+<div class="revision">$Id: post.create.txt 3209 2011-05-12 12:11:03Z mdomba $</div>

@@ -1,17 +1,17 @@
-Tampilan
+View
 ========
 
-Tampilan (view) adalah skrip PHP yang berisi terutama elemen antar muka pengguna. View
-bisa saja berisi pernyataan PHP, tetapi direkomendasikan bahwa pernyataan ini
-tidak mengubah model data dan harus tetap relatif sederhana. Dalam rangka mempertahankan semangat
-pemisahan logika dan penampilan, bagian besar logika harus ditempatkan
-dalam controller atau model alih-alih view.
+View (tampilan) adalah skrip PHP yang berisi terutama elemen antar muka pengguna. View
+bisa saja berisi code PHP, tetapi direkomendasikan code ini
+tidak mengubah model data dan harus tetap relatif sederhana. Guna mempertahankan semangat
+pemisahan logika dan penampilan, bagian besar dari logika harus ditempatkan
+dalam controller ataupun model alih-alih view.
 
 View  memiliki nama yang dipakai untuk mengidentifikasi file skrip tampilan
 saat me-render. Nama view sama seperti nama file skrip view-nya.
-Sebagai contoh, tampilan `edit` merujuk pada file skrip bernama seperti
-`edit.php`. Untuk me-render tampilan, pangil [CController::render()] dengan
-nama tampilan. Metode tersebut akan mencari file view terkait di bawah direktori
+Sebagai contoh, file view `edit` merujuk pada file skrip bernama
+`edit.php`. Untuk me-render view, pangil [CController::render()] dengan
+nama view. Metode tersebut akan mencari file view terkait di dalam direktori
 `protected/views/ControllerID`.
 
 Di dalam skrip view, kita dapat mengakses instance controller menggunakan
@@ -29,16 +29,16 @@ $this->render('edit', array(
 ~~~
 
 Dalam contoh di atas, metode [render()|CController::render] akan mengurai parameter array 
-kedua ke dalam variabel. Hasilnya, dalam skrip tampilan kita dapat mengakses
+kedua ke dalam variabel. Hasilnya, dalam skrip view kita dapat mengakses
 variabel lokal `$var1` dan `$var2`.
 
-Tata Letak
+Layout
 ----------
 
-Tata letak(layout) adalah view khusus yang dipakai untuk mendekorasi tampilan. Biasanya
+Layout(tata letak) adalah view khusus yang dipakai untuk mendekorasi tampilan. Biasanya
 berisi bagian antar muka pengguna yang umum diantara beberapa view.
-Sebagai contoh, sebuah layout mungkin berisi bagian header dan footer serta menyertakan
-tampilan konten diantarana,
+Sebagai contoh, sebuah layout mungkin berisi sebuah header dan sebuah footer serta menyertakan
+tampilan konten diantaranya,
 
 ~~~
 [php]
@@ -51,20 +51,21 @@ dengan `$content` menyimpan hasil render view konten.
 
 Layout secara implisit diterapkan saat memanggil [render()|CController::render].
 Secara default, skrip view `protected/views/layouts/main.php` dipakai sebagai
-layout. Ini bisa dikustomisasi dengan mengubah baik [CWebApplication::layout]
-ataupun [CController::layout]. Sebaliknya, untuk menyiapkan tampilan tanpa menerapkan layout apapun,
+layout. Kita dapat mengubahnya dengan mengubah baik [CWebApplication::layout]
+ataupun [CController::layout]. Sedangkan, untuk membuat tampilan tanpa menerapkan layout apapun,
 panggil [renderPartial()|CController::renderPartial].
 
 Widget
 ------
 
-Widget adalah istance dari [CWidget] atau anak kelasnya. Komponen yang
+Widget adalah istance dari [CWidget] atau anak kelas dari [CWidget]. Komponen yang
 terutama ditujukan guna keperluan penampilan. Widget biasanya disertakan dalam skrip
 view untuk menghasilkan beberapa antar muka pengguna yang kompleks dan berdiri sendiri. Sebagai
 contoh, widget kalender bisa dipakai untuk menyiapkan antar muka kalender pengguna yang 
-kompleks. Widget menghidupkan pemakaian kembali yang lebih baik dalam antar muka pengguna.
+kompleks. Widget memungkinkan reusability (pemakaian kembali) yang 
+lebih baik dalam antar muka pengguna.
 
-Untuk menggunakan widget, lakukan seperti berikut dalam skrip tampilan:
+Untuk menggunakan widget, lakukan seperti berikut dalam skrip view:
 
 ~~~
 [php]
@@ -139,6 +140,7 @@ tampilan untuk menampilkan [CHttpException] dengan kode kesalahan `XXX`. Sebagai
 akan ditampilkan.
 
 Yii menyediakan satu set tampilan sistem default yang ditempatkan di bawah
-`framework/views`. View-view ini bisa dikustomisasi dengan membuat file tampilan yang sama dengan nama yang sama di bawah `protected/views/system`.
+`framework/views`. View-view ini bisa dikustomisasi dengan membuat file tampilan 
+yang sama dengan nama yang sama di bawah `protected/views/system`.
 
-<div class="revision">$Id: basics.view.txt 2367 2010-08-29 17:29:22Z qiang.xue $</div>
+<div class="revision">$Id: basics.view.txt 3251 2011-06-01 00:24:06Z qiang.xue $</div>

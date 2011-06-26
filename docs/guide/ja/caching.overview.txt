@@ -1,4 +1,4 @@
-キャッシュ
+キャッシュ概要
 =======
 
 キャッシュはウェブアプリケーションのパフォーマンスを改善する、安く効果的な方法です。
@@ -43,7 +43,6 @@ Yii は、異なるメディアにキャッシュデータを保存すること�
    - [CApcCache]: PHP [APC 拡張](http://www.php.net/manual/en/book.apc.php)を使用します。
 
    - [CXCache]: PHP [XCache 拡張](http://xcache.lighttpd.net/)を使用します。
-注意、これは version 1.0.1 以降で利用可能です。
 
    - [CEAcceleratorCache]: PHP[EAccelerator拡張](http://eaccelerator.net/)を使用します。
 
@@ -52,12 +51,15 @@ Yii は、異なるメディアにキャッシュデータを保存すること�
 [connectionID|CDbCache::connectionID] プロパティを設定することで、
 明示的にデータベースを指定することができます。
 
+   - [CZendDataCache]: キャッシュメディアとして[Zend Data Cache](http://files.zend.com/help/Zend-Server-Community-Edition/data_cache_component.htm)を使用します。
+
+   - [CFileCache]: キャッシュされたデータとしてファイルを使用します。これはページのような大きな単位のデータに好都合です。
+
    - [CDummyCache]: なにもキャッシュを行わないダミーキャッシュを提供します。
 このコンポーネントの目的は、キャッシュを利用できることをチェックする必要があるコードを簡素化することです。
 たとえば、開発中やサーバに実際のキャッシュサポートがない際に、このキャッシュコンポーネントを使用できます。
 実際のキャッシュサポートが有効になった際に、対応するキャッシュコンポーネントを使用するために、切り替えることができます。
 どちらの場合も、`Yii::app()->cache` が `null` であっても、データを取得するために同じコード `Yii::app()->cache->get($key)` を使用できます。
-このコンポーネントはバージョン 1.0.5 以降で有効です。
 
 > Tip|ヒント: これら全てのキャッシュコンポーネントは同じベースクラス
 [CCache] より継承されているため、コードの修正なしに、
@@ -78,4 +80,4 @@ Yii は、異なるメディアにキャッシュデータを保存すること�
 したがって、永続的なストレージとしてキャッシュを使用しないでください。
 （たとえば、セッションデータを保存するために、キャッシュを用いない）
 
-<div class="revision">$Id: caching.overview.txt 1014 2009-05-10 12:25:55Z qiang.xue $</div>
+<div class="revision">$Id: caching.overview.txt 2890 2009-05-10 12:25:55Z qiang.xue $</div>

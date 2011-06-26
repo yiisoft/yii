@@ -51,7 +51,7 @@ return array(
 
 Если существующее приложение использует формат URL `path`
 (см. [красивые адреса URL](/doc/guide/topics.url)), мы можем запустить Gii по URL
-`http://hostnamepath/to/index.php/gii`. Может понадобится добавить следующие правила
+`http://hostname/path/to/index.php/gii`. Может понадобиться добавить следующие правила
 URL перед уже существующими:
 
 ~~~
@@ -365,4 +365,4 @@ class <?php echo $this->className; ?> extends CWidget
 На этом реализация генератора кода завершена. Обратиться к нему можно по
 URL `http://hostname/path/to/index.php?r=gii/widget`.
 
-<div class="revision">$Id: topics.gii.txt 2055 2010-04-17 22:33:46Z qiang.xue $</div>
+<div class="revision">$Id: topics.gii.txt 3223 2011-05-17 23:02:50Z alexander.makarow $</div>

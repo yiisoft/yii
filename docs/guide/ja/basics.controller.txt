@@ -1,25 +1,31 @@
 コントローラ
 ==========
 
-`コントローラ` は [CController] かその子クラスのインスタンスです。
-インスタンスは、これを求めるユーザーからの要求があった際にアプリケーション
-により生成されます。コントローラが起動するとき、通常、必要なモデルを持ち、
-適切なビューのレンダリングを行うことで、要求されたアクションを実行します。
-簡単なフォームでのアクションは、`action` から始まる名前のコントローラクラス
-メソッドとなります。
+`コントローラ` は [CController] か、[CController]を拡張したクラスのインスタンスです。
+コントローラは、ユーザが要求した時にアプリケーションオブジェクト
+により生成されます。コントローラは、起動されると、要求されたアクションを実行するために、通常は、必要なモデルを取り込んで適切なビューを表示します。
+`アクション`は、最も単純化された形式としては、コントローラクラスの `action` で始まる名前のメソッドです。
 
-コントローラは規定のアクション（デフォルトアクション）を持っています。
-どのアクションを実行するかをユーザーが指定しない場合、デフォルトアクション
+コントローラは既定のアクション（デフォルトアクション）を持っています。
+どのアクションを実行するかをユーザが指定しない場合、デフォルトアクション
 が実行されます。デフォルトでは、デフォルトアクション名は `index` です。
-これは、[CController::defaultAction] を設定することで変更できます。
+これは、インスタンスのパブリック変数、[CController::defaultAction] を設定することで変更できます。
 
-以下にコントローラクラスに必要な最小のコードを示します。
-このコントローラにはアクションが定義されていないため、
-このコントローラへのリクエストは例外が発生します。
+以下のコードは`site`コントローラと、`index`アクション(デフォルトのアクション)と、
+`contact`アクションを定義します。
 ~~~
 [php]
 class SiteController extends CController
 {
+	public function actionIndex()
+	{
+		// ...
+	}
+
+	public function actionContact()
+	{
+		// ...
+	}
 }
 ~~~
 
@@ -36,26 +42,22 @@ class SiteController extends CController
 除いたものです。たとえば、コントローラクラスに `actionEdit` という名前の
 メソッドがあれば、アクション ID は `edit` になります。
 
-> Note|注意: バージョン1.0.3以前ではコントローラIDのフォーマットは`path.to.xyz`であり、
-`path/to/xyz`ではありません。
-
 ユーザーはルート（道筋）により、特定のコントローラとアクションをリクエスト
 します。ルートはスラッシュによりコントローラ ID とアクション ID を連結する
 ことで形成されます。たとえば、ルート `post/edit` は `PostController` の
 `edit` アクションを参照します。そして、デフォルトでは
-`http://hostname/index.php?r=post/edit` という URL によりこのコントローラと
-アクションをリクエストできます。
+`http://hostname/index.php?r=post/edit` という URL が post コントローラと
+edit アクションをリクエストするものになります。
 
 >Note|注意: デフォルトでは、ルートは大文字と小文字を区別します。
->バージョン1.0.1 以降では、[CUrlManager::caseSensitive] を false に設定するこ
->とで、大文字と小文字を区別しないようすることも可能になりました。
->大文字と小文字を区別しないモード（case-insensitive mode）の場合、
->コントローラクラスファイルを含んでいるディレクトリが小文字かどうかを確かめ、
+>アプリケーション構成で[CUrlManager::caseSensitive] を false に設定することで、大文字と小文字を区別しないようすることも可能です。
+>大文字と小文字を区別しないモード（case-insensitive mode）の場合は、
+>コントローラクラスファイルを含むディレクトリ名が小文字であること、さらに、
 >[controller map|CWebApplication::controllerMap] と
->[action map|CController::actions] の両方では、キーは小文字に変換し使用され
->ます。
+>[action map|CController::actions] の両方でキーが小文字であることという規約を
+>必ず守って下さい。
 
-バージョン1.0.3からはアプリケーションは[モジュール](/doc/guide/basics.module)を含むことができます。
+アプリケーションは[モジュール](/doc/guide/basics.module)を含むことができます。
 モジュール中のコントローラのアクションは`moduleID/controllerID/actionID`のフォーマットで表されます。
 より詳細には[モジュールに関する章](/doc/guide/basics.module)を見てください。
 
@@ -63,8 +65,8 @@ class SiteController extends CController
 コントローラのインスタンス
 ------------------------
 
-コントローラのインスタンスは [CWebApplication] ハンドラにリクエストが入って
-きた際に生成されます。コントローラ ID が与えられると、アプリケーションは
+コントローラのインスタンスは [CWebApplication] が入ってきたリクエストを処理する
+際に生成されます。コントローラ ID が与えられると、アプリケーションは
 次のルールを用いて、コントローラクラスとクラスファイルを探し出します。
 
    - [CWebApplication::catchAllRequest] が指定されている場合、コントローラ
@@ -80,10 +82,10 @@ class SiteController extends CController
 であると仮定されます。たとえば、コントローラ ID が `admin/user` なら、コン
 トローラクラス名が `UserController` で、クラスファイルが
 `protected/controllers/admin/UserController.php` になります。
-もしクラスがなければ、404 [CHttpException] が呼び出されます。
+もしクラスファイルがなければ、404 [CHttpException] が呼び出されます。
 
-[モジュール](/doc/guide/basics.module)が使われる場合(バージョン1.0.3以降)には、上記の
-プロセスは若干異ります。具体的にはアプリケーションはIDがモジュール中のコントローラを参照しているかを調べ、
+[モジュール](/doc/guide/basics.module)が使われる場合には、上記の
+プロセスは若干異ります。具体的には、アプリケーションはIDがモジュール中のコントローラを参照しているかを調べ、
 もしそうなら、モジュールインスタンスが最初に生成されコントローラインスタンスが次に生成されます。
 
 
@@ -148,11 +150,106 @@ protected/
             UpdateAction.php
 ~~~
 
+
+### アクションパラメータ結合
+
+バージョン1.1.4からは自動アクションパラメータ結合がサポートされました。
+これは、コントローラアクションメソッドにおいて名前付きパラメータを定義し、その値が自動的に$_GETから
+代入されるものです。
+
+これがどのように動作するかを説明するために、`PostController`コントローラの`create`アクションを記述することを考えてみましょう。
+このアクションは2つのパラメータを必要とします。
+
+* `category`: カテゴリIDを意味する整数で、この元で新規ポストが作成されます。
+* `language`: 新規ポストが書かれる言語コードを意味する文字列です。
+
+必要なパラメータ値を`$_GET`から取得するために以下のようなつまらないコードを書くはめになるかもしれません。
+
+~~~
+[php]
+class PostController extends CController
+{
+	public function actionCreate()
+	{
+		if(isset($_GET['category']))
+			$category=(int)$_GET['category'];
+		else
+			throw new CHttpException(404,'invalid request');
+
+		if(isset($_GET['language']))
+			$language=$_GET['language'];
+		else
+			$language='en';
+
+		// ... 面白いコードはここから開始 ...
+	}
+}
+~~~
+
+さて、アクションパラメータ機能を用いると、タスクがもっと楽しいものになります。
+
+~~~
+[php]
+class PostController extends CController
+{
+	public function actionCreate($category, $language='en')
+	{
+		$category=(int)$category;
+
+		// ... 面白いコードはここから開始 ...
+	}
+}
+~~~
+
+2つのパラメータをアクションメソッド`actionCreate`に追加したことに注意してください。
+パラメータの名前は`$_GET`から得られるパラメータと全く同じにする必要があります。
+`$language`パラメータは、リクエストがそういうパラメータを含んでいない場合は、デフォルト値`en`を取ります。
+一方`$category`はデフォルト値が無いため、もしリクエストが`category`パラメータを含んでいない場合は、
+[CHttpException] (error code 400) エラーが自動的に発行されます。
+
+バージョン 1.1.5 からは、配列タイプのアクションパラメータをサポートします。これはPHPのタイプヒンティングを利用しており、
+以下のような文法により行われます。
+
+~~~
+[php]
+class PostController extends CController
+{
+	public function actionCreate(array $categories)
+	{
+		// Yii は必ず $categories を配列にします
+	}
+}
+~~~
+
+すなわち、メソッドのパラメータ宣言において、`$categories`の直前に`array`キーワードを置きます。
+こうすることによって、`$_GET['categories']`が単純な文字列である場合には、
+その文字列からなる配列に変換されます。
+
+> Note|注: もしパラメータが`array`タイプヒント無しに宣言された場合は、そのパラメータは
+> スカラー(配列でない)でなくてはいけません。この場合、`$_GET`から配列パラメータが渡された場合、
+> HTTP例外が発生します。
+
+バージョン 1.1.7 からは、自動パラメータ結合はクラスベースのアクションにも適用されます。
+もしアクションクラス`run()`メソッドがパラメータ付きで定義された場合、それらのパラメータには
+対応する名前のリクエストパラメータが代入されます。例えば、
+
+~~~
+[php]
+class UpdateAction extends CAction
+{
+	public function run($id)
+	{
+		// $id には $_GET['id'] が代入される
+	}
+}
+~~~
+
+
 フィルタ
 ------
 
-フィルタは、コードのまとまりで、コントローラのアクション実行の前か後（もし
-くはその両方）に実行されるように構成されます。たとえば、アクセスコントロー
+フィルタは、コントローラのアクション実行の前か後（もしくはその両方）に実行
+されるように構成されるコードの断片です。たとえば、アクセスコントロー
 ルフィルタは、ユーザーがリクエストしたアクションを実行する前に、認証済みで
 ある事を確実にするために使用されるかもしれません; パフォーマンスフィルタは、
 アクションの実行所要時間を計測するために使用されるかもしれません。
@@ -180,7 +277,7 @@ public function filterAccessControl($filterChain)
 ます。
 
 フィルタもまた [CFilter] かその子クラスのインスタンスにする事が出来ます。
-次のコードように新しいフィルタクラスを定義します:
+次のコードは新しいフィルタクラスを定義するものです:
 
 ~~~
 [php]
@@ -237,4 +334,4 @@ class PostController extends CController
 アクションに適用されます。もし、プラスとマイナスのどちらも使用されていない
 場合、フィルタはすべてのアクションに適用されます。
 
-<div class="revision">$Id: basics.controller.txt 745 2009-02-04 20:51:13Z qiang.xue $</div>
+<div class="revision">$Id: basics.controller.txt 3251 2011-06-01 00:24:06Z qiang.xue $</div>

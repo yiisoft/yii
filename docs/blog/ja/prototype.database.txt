@@ -77,4 +77,4 @@ DB コネクションのメソッドやプロパティに興味があれば、[�
 > ~~~
 
 
-<div class="revision">$Id: prototype.database.txt 1677 2009-02-16 05:20:17Z qiang.xue $</div>
+<div class="revision">$Id: prototype.database.txt 2332 2009-02-16 05:20:17Z qiang.xue $</div>

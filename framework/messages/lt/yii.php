@@ -11,6 +11,9 @@
  * Messages that no longer need translation will have their translations
  * enclosed between a pair of '@@' marks.
  *
+ * Message string can be used with plural forms format. Check i18n section
+ * of the guide for details.
+ *
  * NOTE, this file must be saved in UTF-8 encoding.
  *
  * @version $Id: $
@@ -19,10 +22,10 @@ return array (
   '"{path}" is not a valid directory.' => '„{path}“ nėra galiojantis katalogas.',
   '&lt; Previous' => '&lt; Ankstesnis',
   '&lt;&lt; First' => '&lt;&lt; Pirmas',
+  'Action class {class} must implement the "run" method.' => 'Action klasėje {class} turi būti realizuotas metodas „run“.',
   'Active Record requires a "db" CDbConnection application component.' => 'Active record reikalingas  programos komponentas „db“ CDbConnection.',
   'Active record "{class}" has an invalid configuration for relation "{relation}". It must specify the relation type, the related active record class and the foreign key.' => 'Active record klasės „{class}“ ryšys „{relation}“ sukonfigūruotas neteisingai. Jis turi nurodyti ryšio tipą, siejamą active record klasę ir išorinį raktą.',
   'Active record "{class}" is trying to select an invalid column "{column}". Note, the column must exist in the table or be an expression with alias.' => 'Active record klasė „{class}“ neranda lauko „{column}“. Laukas turi egzistuoti lentelėje arba gali būti išraiška alternatyviuoju vardu.',
-  'Active record class "{class}" does not have a scope named "{scope}".' => 'Active record klasė „{class}“ neturi srities „{scope}“.',
   'Adding a foreign key constraint to an existing table is not supported by SQLite.' => 'Egzistuojančios lentelės papildymas išorinio rakto ribojimu SQLite nepalaikomas.',
   'Alias "{alias}" is invalid. Make sure it points to an existing PHP file.' => 'Negaliojantis alternatyvusis vardas „{alias}“. Pasitikslinkite, ar jis nurodo egzistuojantį PHP failą.',
   'Alias "{alias}" is invalid. Make sure it points to an existing directory or file.' => 'Negaliojantis alternatyvusis vardas „{alias}“. Pasitikslinkite, ar jis nurodo egzistuojantį katalogą ar failą.',
@@ -43,10 +46,11 @@ return array (
   'CDbCacheDependency.sql cannot be empty.' => 'CDbCacheDependency.sql negali būti tuščias.',
   'CDbCommand failed to execute the SQL statement: {error}' => 'CDbCommand nepavyko įvykdyti SQL sakinio: {error}',
   'CDbCommand failed to prepare the SQL statement: {error}' => 'CDbCommand nepavyko paruošti SQL sakinio: {error}',
+  'CDbCommand::execute() failed: {error}. The SQL statement executed was: {sql}.' => 'CDbCommand::execute() nepavyko: {error}. Vykdytas SQL sakinys: {sql}.',
+  'CDbCommand::{method}() failed: {error}. The SQL statement executed was: {sql}.' => 'CDbCommand::{method}() nepavyko: {error}. Vykdytas SQL sakinys: {sql}.',
   'CDbConnection does not support reading schema for {driver} database.' => 'CDbConnection nepalaiko schemos skaitymo iš {driver} duomenų bazių.',
   'CDbConnection failed to open the DB connection.' => 'CDbConnection nepavyko prisijungti prie duomenų bazės.',
   'CDbConnection failed to open the DB connection: {error}' => 'CDbConnection nepavyko prisijungti prie duomenų bazės: {error}',
-  'CDbConnection is inactive and cannot perform any DB operations.' => 'CDbConnection yra neaktyvus ir negali atlikti veiksmų duomenų bazėje.',
   'CDbConnection.connectionString cannot be empty.' => 'CDbConnection.connectionString negali būti tuščias.',
   'CDbDataReader cannot rewind. It is a forward-only reader.' => 'CDbDataReader negali skaityti atbuline seka, tik pirmyn.',
   'CDbHttpSession.connectionID "{id}" is invalid. Please make sure it refers to the ID of a CDbConnection application component.' => 'Negaliojantis CDbHttpSession.connectionID „{id}“. Pasitikslinkite, ar jis nurodo programos komponento CDbConnection identifikatorių.',
@@ -97,10 +101,11 @@ return array (
   'Event "{class}.{event}" is not defined.' => 'Įvykis „{class}.{event}“ nėra apibrėžtas.',
   'Extension path "{path}" does not exist.' => 'Išplėtimo kelias „{path}“ neegzistuoja.',
   'Failed to initialize the mcrypt module.' => 'Nepavyko inicializuoti mcrypt modulio.',
-  'Failed to set unsafe attribute "{attribute}".' => 'Nepavyko priskirti reikšmės nesaugiam atributui „{attribute}“.',
+  'Failed to set unsafe attribute "{attribute}" of "{class}".' => 'Nepavyko priskirti reikšmės nesaugiam „{class}“ atributui „{attribute}“.',
+  'Failed to start session.' => 'Nepavyko pradėti sesijos.',
   'Failed to write the uploaded file "{file}" to disk.' => 'Nepavyko įrašyti į diską nusiųsto failo „{file}“.',
   'File upload was stopped by extension.' => 'Plėtinys neleido nusiųsti failo.',
-  'Filter "{filter}" is invalid. Controller "{class}" does have the filter method "filter{filter}".' => 'Filtras „{filter}“ yra negaliojantis. Valdiklis „{class}“ neturi filtro metodo „filter{filter}“.',
+  'Filter "{filter}" is invalid. Controller "{class}" does not have the filter method "filter{filter}".' => 'Filtras „{filter}“ yra negaliojantis. Valdiklis „{class}“ neturi filtro metodo „filter{filter}“.',
   'GD and FreeType PHP extensions are required.' => 'Reikalingi PHP plėtiniai GD ir Freetype.',
   'Get a new code' => 'Gauti naują kodą',
   'Go to page: ' => 'Eiti į puslapį: ',
@@ -147,6 +152,7 @@ return array (
   'The file "{file}" is too small. Its size cannot be smaller than {limit} bytes.' => 'Failas „{file}“ yra per mažas. Failo dydis negali būti mažesnis nei {limit} baitų.',
   'The file "{file}" was only partially uploaded.' => 'Failas „{file}“ nusiųstas tik dalinai.',
   'The first element in a filter configuration must be the filter class.' => 'Pirmas elementas filtro konfigūracijoje turi būti filtro klasė.',
+  'The format of {attribute} is invalid.' => 'Negaliojantis „{attribute}“ formatas.',
   'The item "{name}" does not exist.' => 'Elementas „{name}“ neegzistuoja.',
   'The item "{parent}" already has a child "{child}".' => 'Elementas „{parent}“ jau turi priklausinį „{child}“.',
   'The layout path "{path}" is not a valid directory.' => 'Maketo kelias „{path}“ nėra galiojantis katalogas.',
@@ -191,11 +197,9 @@ return array (
   'Unable to change the item name. The name "{name}" is already used by another item.' => 'Neįmanoma pervardinti elemento. Pavadinimą „{name}“ jau naudoja kitas elementas.',
   'Unable to create application state file "{file}". Make sure the directory containing the file exists and is writable by the Web server process.' => 'Neįmanoma sukurti programos būsenos failo „{file}“. Pasitikslinkite, ar failo katalogas egzistuoja ir ar WWW serverio procesas turi teisę į jį rašyti.',
   'Unable to find "{column}" in table "{table}".' => 'Laukas „{column}“ lentelėje „{table}“ nerastas.',
-  'Unable to import "{alias}". Please check your server configuration to make sure you are allowed to change PHP include_path.' => 'Neįmanoma importuoti „{alias}“. Pasitikrinkite ar serverio nustatymuose leidžiama keisti PHP include_path.',
   'Unable to lock file "{file}" for reading.' => 'Neįmanoma užsklęsti failo „{file}“ skaitymui.',
   'Unable to lock file "{file}" for writing.' => 'Neįmanoma užsklęsti failo „{file}“ rašymui.',
   'Unable to read file "{file}".' => 'Neįmanoma nuskaityti failo „{file}“.',
-  'Unable to remove migration {class}.' => 'Negalima atšaukti perkėlimo {class}.',
   'Unable to replay the action "{object}.{method}". The method does not exist.' => 'Neįmanoma atkartoti veiksmo „{object}.{method}“. Metodas neegzistuoja.',
   'Unable to resolve the request "{route}".' => 'Neįmanoma apdoroti užklausos „{route}“.',
   'Unable to write file "{file}".' => 'Neįmanoma įrašyti į failą „{file}“.',
@@ -238,7 +242,7 @@ return array (
   '{className} does not support flushValues() functionality.' => '{className} nepalaiko flushValues() funkcionalumo.',
   '{className} does not support get() functionality.' => '{className} nepalaiko get() funkcionalumo.',
   '{className} does not support set() functionality.' => '{className} nepalaiko set() funkcionalumo.',
-  '{class} does not have a method named "{name}".' => '{class} neturi metodo „{name}“.',
+  '{class} and its behaviors do not have a method or closure named "{name}".' => '{class} ir jo elgsenos neturi metodo ar uždarinio „{name}“.',
   '{class} does not have relation "{name}".' => '{class} neturi ryšio „{name}“.',
   '{class} does not support fetching all table names.' => '{class} nepalaiko visų lentelių vardų gavimo.',
   '{class} has an invalid validation rule. The rule must specify attributes to be validated and the validator name.' => '{class} turi neteisingą patikros taisyklę. Taisyklėje turi būti nurodyti tikrinami atributai ir tikrintuvo pavadinimas.',

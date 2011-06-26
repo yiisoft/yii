@@ -7,7 +7,7 @@ W części tej, utworzymy nasz pierwszy, konkretny portlet - portlet menu użytk
 
  * zatwierdź komentarz: hiperłącze, które prowadzi do lity komentarzy czekających na zatwierdzenie;
  * utwórz nową wiadomość: hiperłącze, które prowadzi do strony tworzenia wiadomości;
- * zarządzanie wiadomości: hiperłącze, które prowadzi do strony zarządzania wiadomościami;
+ * zarządzanie wiadomościami: hiperłącze, które prowadzi do strony zarządzania wiadomościami;
  * wylogowanie: link będący przyciskiem, który wyloguje aktualnego użytkownika;
 
 
@@ -35,9 +35,9 @@ class UserMenu extends CPortlet
 }
 ~~~
 
-Klasa `UserMenu` dziedziczy z klasy `CPortlet`, z biblioteki `zii`. Nadpisuje zarówno metodę `init()` jak i metodę `renderContent()` z klasy `CPortlet`. Pierwsza metoda ustawia tytuł jako nazwę aktualnego użytkownika; druga generuje zawartość ciała portletu poprzez wygenerowanie widoku o nazwie `userMenu`.
+Klasa `UserMenu` dziedziczy z klasy `CPortlet` z biblioteki `zii`. Nadpisuje zarówno metodę `init()` jak i metodę `renderContent()` z klasy `CPortlet`. Pierwsza metoda ustawia tytuł jako nazwę aktualnego użytkownika; druga generuje zawartość ciała portletu poprzez wygenerowanie widoku o nazwie `userMenu`.
 
-> Tip|Wskazówka: Zauważ, że dołączamy jawnie klasę `CPortlet` poprzez wywołanie metody `Yii::import()` zanim odwołamy się do niej po raz pierwszy. Dzieje się tak, ponieważ `CPortlet` jest częścią projektu `zii` -- oficjalnej biblioteki rozszerzeń dla Yii. Ze względu na wydajność, klasy w tym projekcie nie są wymieniane jako klasy podstawowe (ang. core classes). Dlatego też, musimy je zaimportować zanim ich użyjemy po raz pierwszy. 
+> Tip|Wskazówka: Zauważ, że dołączamy jawnie klasę `CPortlet` poprzez wywołanie metody `Yii::import()` zanim odwołamy się do niej po raz pierwszy. Dzieje się tak, ponieważ `CPortlet` jest częścią projektu `zii` - oficjalnej biblioteki rozszerzeń dla Yii. Ze względu na wydajność, klasy w tym projekcie nie są wymieniane jako klasy podstawowe (ang. core classes). Dlatego też, musimy je zaimportować zanim ich użyjemy po raz pierwszy. 
 
 
 Tworzenie widoku `userMenu`
@@ -73,7 +73,7 @@ Nadszedł już czas, aby użyć nasz nowo ukończony portlet `UserMenu`. Zmienim
 ......
 ~~~
 
-W powyższym kodzie wołamy metodę `widget()` w celu wygenerowania i wywołania instancji klasy `UserMenu`. Ponieważ portlet powinien być wyświetlany tylko dla uwierzytelnionych użytkowników, wywołujemy metodę `widget()` jeśli wartość właściwości `isGuest` dla aktualnego użytkownika to fals (co oznacza, że użytkownik został uwierzytelniony).
+W powyższym kodzie wołamy metodę `widget()` w celu wygenerowania i wywołania instancji klasy `UserMenu`. Ponieważ portlet powinien być wyświetlany tylko dla uwierzytelnionych użytkowników, wywołujemy metodę `widget()` jeśli wartość właściwości `isGuest` dla aktualnego użytkownika to false (co oznacza, że użytkownik został uwierzytelniony).
 
 
 Testowanie portletu `UserMenu`
@@ -89,6 +89,6 @@ Przetestujmy to co dotychczas mamy.
 Podsumowanie
 -------
 
-To co stworzyliśmy to portlet, który można wielokrotnie, ponownie używać. Możemy do w prosty sposób użyć ponownie w innych projektach z drobnymi lub bez żadnych modyfikacji. Więcej, zaprojektowanie tego portletu zgadza się ściśle z filozofią mówiącą, że warstwa logiczna i prezentacyjna powinny być rozdzielone. Chociaż nie zwróciliśmy na to uwagi w poprzednich częściach, praktyka taka ma miejsce niemal wszędzie w typowych aplikacjach opartych na Yii.
+To co stworzyliśmy to portlet, który można wielokrotnie, ponownie używać. Możemy go w prosty sposób użyć ponownie w innych projektach z drobnymi lub bez żadnych modyfikacji. Więcej, zaprojektowanie tego portletu zgadza się ściśle z filozofią mówiącą, że warstwa logiczna i prezentacyjna powinny być rozdzielone. Chociaż nie zwróciliśmy na to uwagi w poprzednich częściach, praktyka taka ma miejsce niemal wszędzie w typowych aplikacjach opartych na Yii.
 
 <div class="revision">$Id: portlet.menu.txt 1739 2010-01-22 15:20:03Z qiang.xue $</div>

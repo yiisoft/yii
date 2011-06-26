@@ -21,10 +21,10 @@ PHPのwarningやnotice、キャッチされない例外が発生した場合は�
 `YII_ENABLE_ERROR_HANDLER`と`YII_ENABLE_EXCEPTION_HANDLER`の定数をfalse
 として定義する事で対応できます。
 
-デフォルトでは[errorHandler|CApplication::errorHandler]
-（[exceptionHandler|CApplication::exceptionHandler]も同様）は
-[onError|CApplication::onError]
-(または[onException|CApplication::onException])イベントを発生させます。
+デフォルトでは、[handleError|CApplication::handleError] (または
+[handleException|CApplication::handleException]) は
+[onError|CApplication::onError]イベント
+(または[onException|CApplication::onException]イベント) を発生させます。
 これらは、もしエラー（あるいは例外）がイベントハンドラに全く
 ハンドルされていない場合、[errorHandler|CErrorHandler]アプリケーション
 コンポーネントから助けを呼びます。
@@ -95,21 +95,21 @@ mode](/doc/guide/basics.entry#debug-mode)で実行された時、内部的なエ
 成り立った通常のPHPスクリプトです。詳細はframeworkの`view`ディレクトリの
 デフォルトのビューファイルを参考にして下さい。
 
-### アクションを用いたエラーハンドリング
+アクションを用いたエラーハンドリング
+-------------------------------
 
-1.0.6からはコントローラアクション[controller action](/doc/guide/basics.controller#action)を用いた
-エラー表示を受け付けます。
+Yiiではコントローラアクション[controller action](/doc/guide/basics.controller#action)を用いてエラー表示をすることが出来ます。
 これを行うために、アプリケーション構成ファイル中のエラーハンドラを以下のように構成します。
 
 ~~~
 [php]
 return array(
-       ......
-       'components'=>array(
-	'errorHandler'=>array(
+	......
+	'components'=>array(
+		'errorHandler'=>array(
 			'errorAction'=>'site/error',
-				),
-			),
+		),
+	),
 );
 ~~~
 
@@ -158,4 +158,4 @@ public function actionError()
 このようにアプリケーションの実行の間に起きるエラーをモニターする為の
 [logging](/doc/guide/topics.logging)機能を利用することが出来ます。
 
-<div class="revision">$Id: topics.error.txt 1053 2008-11-06 20:33:35Z qiang.xue $</div>
+<div class="revision">$Id: topics.error.txt 3308 2011-06-23 16:06:51Z qiang.xue $</div>

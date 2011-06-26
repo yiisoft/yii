@@ -1,4 +1,4 @@
-エクステンション
+エクステンション概要
 ========
 
 Yiiを拡張することは開発の最中に普通に行われます。
@@ -9,6 +9,7 @@ Yiiを拡張することは開発の最中に普通に行われます。
 エクステンションは通常単一の目的で使用されます。Yiiの用語では、以下の種類に分類されます。
 
  * [アプリケーションコンポーネント](/doc/guide/basics.application#application-component)
+ * [ビヘイビア](/doc/guide/basics.component#component-behavior)
  * [ウィジェット](/doc/guide/basics.view#widget)
  * [コントローラ](/doc/guide/basics.controller)
  * [アクション](/doc/guide/basics.controller#action)
@@ -24,4 +25,4 @@ Yiiを拡張することは開発の最中に普通に行われます。
 エクステンションは上のどれにも当てはまらないコンポーネントの場合があります。
 実際に、コードのほとんどすべての部分が個々のニーズに適するために拡張でき、カスタマイズできるように、Yiiは注意深く設計されています。
 
-<div class="revision">$Id: extension.overview.txt 759 2008-11-18 04:27:50Z qiang.xue $</div>
+<div class="revision">$Id: extension.overview.txt 2739 2010-12-14 01:50:04Z weizhuo $</div>

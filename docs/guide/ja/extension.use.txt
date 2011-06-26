@@ -10,14 +10,33 @@
      `xyz` にはエクステンション名が入ります。
   3. インポート、初期構成を行い、エクステンションを使用します。
 
-各エクステンションはユニークで全てのエクステンション中でそれを特定するための名前を持ちます。
+各エクステンションは全てのエクステンション中でそれを特定するためのユニークな名前を持ちます。
 エクステンション名を `xyz` にした場合、`xyz` のすべてのファイルを含む
-ベースディレクトリを示す、`application.extensions.xyz` というパスエイリアスを
+ベースディレクトリを示す、`ext.xyz` というパスエイリアスを
 いつでも使用できます。
 
 異なるエクステンションは、インポート、初期構成、使用方法に関する異なる要件があります。
 以下では、エクステンションに関して、[概要](/doc/guide/extension.overview) で記述したカテゴリに従い、
 一般的な使用方法のシナリオをまとめます。
+
+
+Ziiエクステンション
+-------------------
+
+サードパーティー製のエクステンションの使い方を説明する前に、Ziiエクステンションライブラリを紹介したいと思います。
+これはYii開発チームによって開発された一連のエクステンションで、すべてのリリースに含まれています。
+
+Ziiエクステンションを使う場合は、対応するクラスを`zii.path.to.ClassName`という形式のパスエイリアスで指定しなければなりません。
+ここでルートのエイリアス`zii`はYiiによってあらかじめ定義されたもので、Ziiライブラリのルートディレクトリを示すものです。
+例えば、[CGridView]を使う場合は、このエクステンションを参照するときにビュースクリプトの中で次のようなコードを使用します。
+
+~~~
+[php]
+$this->widget('zii.widgets.grid.CGridView', array(
+	'dataProvider'=>$dataProvider,
+));
+~~~
+
 
 アプリケーションコンポーネント
 ---------------------
@@ -32,7 +51,7 @@ return array(
     // 'preload'=>array('xyz',...),
     'components'=>array(
         'xyz'=>array(
-            'class'=>'application.extensions.xyz.XyzClass',
+            'class'=>'ext.xyz.XyzClass',
             'property1'=>'value1',
             'property2'=>'value2',
         ),
@@ -45,6 +64,67 @@ return array(
 コンポーネントは `preload` プロパティにリストしない限り、
 初めてアクセスした時に生成されます。
 
+ビヘイビア
+----------
+
+[ビヘイビア](/doc/guide/basics.component#component-behavior) はすべての種類のコンポーネントの中で使用することが出来ます。
+ビヘイビアの使用方法は二つのステップから成ります。最初のステップで、ビヘイビアが対象のコンポーネントにアタッチされます。
+第二のステップで、対象のコンポーネントを通じてビヘイビアのメソッドが呼ばれます。
+例えば
+
+~~~
+[php]
+// $name がコンポーネントの中におけるビヘイビアを特定する
+$component->attachBehavior($name,$behavior);
+// test() は $behavior のメソッド
+$component->test();
+~~~
+
+しばしば、ビヘイビアは`attachBehavior`メソッドを使うのでなく、構成的な方法によってコンポーネントにアタッチされます。
+例えば、[アプリケーションコンポーネント](/doc/guide/basics.application#application-component)にビヘイビアをアタッチするために、
+次のような, [アプリケーション構成](/doc/guide/basics.application#application-configuration)を使うことが出来ます。:
+
+~~~
+[php]
+return array(
+	'components'=>array(
+		'db'=>array(
+			'class'=>'CDbConnection',
+			'behaviors'=>array(
+				'xyz'=>array(
+					'class'=>'ext.xyz.XyzBehavior',
+					'property1'=>'value1',
+					'property2'=>'value2',
+				),
+			),
+		),
+		//....
+	),
+);
+~~~
+
+上記のコードは、`xyz`ビヘイビアを`db`アプリケーションコンポーネントにアタッチします。
+このように出来るのは、[CApplicationComponent]が`behaviors`という名前のプロパティを定義しているからです。
+このプロパティにビヘイビア設定のリストをセットすると、コンポーネントは初期化されるときに対応するビヘイビアをアタッチします。
+
+[CController]、[CFormModel]、そして、[CActiveRecord]は、通常、継承して使用されるべきクラスですが、これらのクラスでは`behaviors()`メソッドをオーバーライドすることによってビヘイビアをアタッチすることが出来ます。これらのクラスは、このメソッドの中で宣言されているすべてのビヘイビアを、初期化の最中に自動的にアタッチします。
+例えば、
+
+~~~
+[php]
+public function behaviors()
+{
+	return array(
+		'xyz'=>array(
+			'class'=>'ext.xyz.XyzBehavior',
+			'property1'=>'value1',
+			'property2'=>'value2',
+		),
+	);
+}
+~~~
+
+
 ウィジェット
 ------
 
@@ -56,13 +136,13 @@ return array(
 ~~~
 [php]
 // 本文（body content）を必要としないウィジェット
-<?php $this->widget('application.extensions.xyz.XyzClass', array(
+<?php $this->widget('ext.xyz.XyzClass', array(
     'property1'=>'value1',
     'property2'=>'value2')); ?>
 
 // 本文（body content）を含められるウィジェット
 // widget that can contain body content
-<?php $this->beginWidget('application.extensions.xyz.XyzClass', array(
+<?php $this->beginWidget('ext.xyz.XyzClass', array(
     'property1'=>'value1',
     'property2'=>'value2')); ?>
 
@@ -88,7 +168,7 @@ class TestController extends CController
 	{
 		return array(
 			'xyz'=>array(
-				'class'=>'application.extensions.xyz.XyzClass',
+				'class'=>'ext.xyz.XyzClass',
 				'property1'=>'value1',
 				'property2'=>'value2',
 			),
@@ -119,7 +199,7 @@ class TestController extends CController
 	{
 		return array(
 			array(
-				'application.extensions.xyz.XyzClass',
+				'ext.xyz.XyzClass',
 				'property1'=>'value1',
 				'property2'=>'value2',
 			),
@@ -146,7 +226,7 @@ class TestController extends CController
 return array(
 	'controllerMap'=>array(
 		'xyz'=>array(
-			'class'=>'application.extensions.xyz.XyzClass',
+			'class'=>'ext.xyz.XyzClass',
 			'property1'=>'value1',
 			'property2'=>'value2',
 		),
@@ -175,7 +255,7 @@ class MyModel extends CActiveRecord // または CFormModel
 		return array(
 			array(
 				'attr1, attr2',
-				'application.extensions.xyz.XyzClass',
+				'ext.xyz.XyzClass',
 				'property1'=>'value1',
 				'property2'=>'value2',
 			),
@@ -198,7 +278,7 @@ class MyModel extends CActiveRecord // または CFormModel
 return array(
 	'commandMap'=>array(
 		'xyz'=>array(
-			'class'=>'application.extensions.xyz.XyzClass',
+			'class'=>'ext.xyz.XyzClass',
 			'property1'=>'value1',
 			'property2'=>'value2',
 		),
@@ -228,10 +308,10 @@ return array(
 はじめに、下記のようにそのクラスファイルをインクルードする必要があります。
 
 ~~~
-Yii::import('application.extensions.xyz.XyzClass');
+Yii::import('ext.xyz.XyzClass');
 ~~~
 
 その後、クラスのインスタンスの生成やプロパティの設定、メソッドのコールを
 行えます。それを継承して新しい子クラスを作成してもいいです。
 
-<div class="revision">$Id: extension.use.txt 749 2009-02-26 02:11:31Z qiang.xue $</div>
+<div class="revision">$Id: extension.use.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

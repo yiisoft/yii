@@ -1,7 +1,7 @@
 Jazda próbna z Yii
 ====================
 
-W części tej napiszemy jak utworzyć szkielet aplikacji, który będzie stanowić nasz punkt startowy. Dla uproszczenia, zakładamy, ze główny katalog naszego serwera to `/wwwroot` a odpowiadający mu adres URL to `http://www.example.com/`.
+W części tej napiszemy jak utworzyć szkielet aplikacji, który będzie stanowić nasz punkt startowy. Dla uproszczenia, zakładamy, że główny katalog naszego serwera to `/wwwroot` a odpowiadający mu adres URL to `http://www.example.com/`.
 
 
 Instalacja Yii
@@ -33,7 +33,7 @@ Create a Web application under '/wwwroot/blog'? [Yes|No]y
 > ścieżka/do/php /wwwroot/yii/framework/yiic.php webapp /wwwroot/blog
 >~~~
 
-Aby wypróbować aplikację, która właśnie stworzyliśmy, otwórz przeglądarkę i przejdź do adresu `http://www.example.com/blog/index.php`. Powinniśmy zobaczyć, że nasza szkieletowa aplikacja posiada już cztery w pełni funkcjonalne strony: stronę domową, stronę o nas, stronę kontaktową oraz stronę logowania. 
+Aby wypróbować aplikację, którą właśnie stworzyliśmy, otwórz przeglądarkę i przejdź do adresu `http://www.example.com/blog/index.php`. Powinniśmy zobaczyć, że nasza szkieletowa aplikacja posiada już cztery w pełni funkcjonalne strony: stronę domową, stronę o nas, stronę kontaktową oraz stronę logowania. 
 
 W dalszej części, pokrótce opiszemy co znajduje się w właśnie stworzonym szkielecie aplikacji.
 
@@ -65,19 +65,19 @@ Mamy również [główny katalog aplikacji](http://www.yiiframework.com/doc/guid
 deny from all
 ~~~
 
-Dla pozostałych serwerów informacje o tym jak ochronić katalog przed dostępem z zewnątrz przez internautów można znaleźć w odpowiadającym im podręcznikach.
+Dla pozostałych serwerów informacje o tym jak ochronić katalog przed dostępem z zewnątrz przez internautów można znaleźć w odpowiadających im podręcznikach.
 
 
 Działanie aplikacji (ang. Application Workflow)
 --------------------
 
-Aby pomóc zrozumieć w jaki sposób Yii działa, opiszemy ogólnie przebieg działania aplikacji w naszym szkielecie aplikacji podczas gdy użytkownik żąda dostęp do strony kontaktowej:
+Aby pomóc zrozumieć w jaki sposób Yii działa, opiszemy ogólnie przebieg działania aplikacji w naszym szkielecie aplikacji podczas gdy użytkownik żąda dostępu do strony kontaktowej:
 
  0. Użytkownik zażądał adresu URL `http://www.example.com/blog/index.php?r=site/contact`;
  1. [Skrypt wejściowy](http://www.yiiframework.com/doc/guide/basics.entry) jest wykonywany przez serwer sieciowy aby przetworzyć żądanie.
  2. Instancja [aplikacji](http://www.yiiframework.com/doc/guide/basics.application) jest tworzona i konfigurowana początkowymi wartościami określonymi w pliku konfiguracyjnym aplikacji `/wwwroot/blog/protected/config/main.php`;
  3. Aplikacja dzieli żądanie na [kontroler](http://www.yiiframework.com/doc/guide/basics.controller) oraz [akcję kontrolera](http://www.yiiframework.com/doc/guide/basics.controller#action). Dla żądania strony kontaktowej, aplikacja dzieli żądanie na kontroler `site` oraz akcję `contact` (metoda `actionContact` w `/wwwroot/blog/protected/controllers/SiteController.php`);
- 4. Aplikacja twórz kontroler `site` pod postacią instancji `SiteController` a następnie uruchamia go;
+ 4. Aplikacja tworzy kontroler `site` pod postacią instancji `SiteController` a następnie uruchamia go;
  5. Instancja kontrolera `SiteController` wykonuje akcję `contact` poprzez wywołanie metody kontrolera `actionContact()`;
  6. Metoda `actionContact` generuje internaucie [widok](http://www.yiiframework.com/doc/guide/basics.view) o nazwie `contact`. Wewnętrznie dzieje się to poprzez załączenie pliku widoku `/wwwroot/blog/protected/views/site/contact.php` i osadzeniu wyniku w pliku [układu](http://www.yiiframework.com/doc/guide/basics.view#layout) `/wwwroot/blog/protected/views/layouts/column1.php`.
 

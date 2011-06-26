@@ -18,9 +18,10 @@
     - [パスエイリアスと名前空間](basics.namespace)
     - [取り決め](basics.convention)
     - [開発ワークフロー](basics.workflow)
+    - [MVCのベストプラクティス](basics.best-practices)
 
 * フォームを使う
-    - [フォームを使う](form.overview)
+    - [フォーム概要](form.overview)
     - [モデルの作成](form.model)
     - [アクションの作成](form.action)
     - [フォームの作成](form.view)
@@ -28,41 +29,45 @@
     - [フォームビルダを使う](form.builder)
 
 * データベースを使う
-    - [データベースを使う](database.overview)
+    - [データベース概要](database.overview)
     - [データアクセスオブジェクト](database.dao)
+    - [クエリビルダ](database.query-builder)
     - [アクティブレコード](database.ar)
     - [リレーショナルアクティブレコード](database.arr)
+    - [データベースマイグレーション](database.migration)
 
 * キャッシュ
-    - [キャッシュ](caching.overview)
+    - [キャッシュ概要](caching.overview)
     - [データキャッシュ](caching.data)
     - [フラグメントキャッシュ](caching.fragment)
     - [ページキャッシュ](caching.page)
     - [ダイナミックコンテンツ](caching.dynamic)
 
-* Yiiのエクステンション
-    - [エクステンション](extension.overview)
+* エクステンション
+    - [エクステンション概要](extension.overview)
     - [エクステンションを使う](extension.use)
     - [エクステンションを作成する](extension.create)
     - [サードパーティライブラリを使う](extension.integration)
 
 * テスト
-	- [テスト](test.overview)
-	- [Defining Fixtures](test.fixture)
+	- [テスト概要](test.overview)
+	- [フィクスチャを定義する](test.fixture)
 	- [ユニットテスト](test.unit)
 	- [機能テスト](test.functional)
 
 * その他のトピック
+    - [自動的なコード生成](topics.gii)
     - [URLの取り扱い](topics.url)
-    - [認証](topics.auth)
+    - [認証と権限付与](topics.auth)
     - [テーマ](topics.theming)
-    - [ログをとる](topics.logging)
+    - [ロギング](topics.logging)
     - [エラーハンドリング](topics.error)
     - [ウェブサービス](topics.webservice)
     - [国際化 (I18N)](topics.i18n)
-    - [代替テンプレート文法](topics.prado)
+    - [他のテンプレートシステムを使う](topics.prado)
     - [コンソールアプリケーション](topics.console)
     - [セキュリティ](topics.security)
-    - [性能チューニング](topics.performance)
+    - [パフォーマンスチューニング](topics.performance)
+    - [コマンドラインツールを使用するコード生成(非推奨)](quickstart.first-app-yiic)
 
-<div class="revision">$Id: toc.txt 1603 2009-09-13 19:21:34Z qiang.xue $</div>
+<div class="revision">$Id: toc.txt 2700 2009-09-13 19:21:34Z qiang.xue $</div>

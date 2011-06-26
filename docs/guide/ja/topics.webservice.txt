@@ -30,7 +30,7 @@ extension](http://www.php.net/manual/en/ref.soap.php) に依存します。
 
 Yiiは[doc
 comment](http://java.sun.com/j2se/javadoc/writingdoccomments/) と [class
-reflection](http://www.php.net/manual/en/language.oop5.reflection.php) に基づいて、
+reflection](http://php.net/manual/en/book.reflection.php) に基づいて、
 どのメソッドがリモートから呼び出し可能であり、どのような引数をとり、そしてどのような返り値を返すのかを決定します。
 
 まず単純な株価情報サービスからはじめましょう。
@@ -170,6 +170,11 @@ class Post extends CActiveRecord
 	 * @soap
 	 */
 	public $title;
+
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
 }
 ~~~
 
@@ -210,4 +215,4 @@ class PostController extends CController
 何らかの理由でリモートからのメソッド呼び出しを許可したくない場合は、false を返すことで実行を中断できます。
 (例：認証が必要なアクセス)
 
-<div class="revision">$Id: topics.webservice.txt 265 2008-11-23 12:30:16Z weizhuo $</div>
+<div class="revision">$Id: topics.webservice.txt 1808 2010-02-17 21:49:42Z qiang.xue $</div>
