@@ -1,5 +1,5 @@
 
-         Upgrading Instructions for Yii Framework v1.1.8
+         Upgrading Instructions for Yii Framework v1.1.9
          ===============================================
 
 !!!IMPORTANT!!!
@@ -18,6 +18,9 @@ General upgrade intructions
 - Check if everything is OK, if not — revert from backup and post
   issues to Yii issue tracker.
 
+
+Upgrading from v1.1.8
+---------------------
 
 Upgrading from v1.1.7
 ---------------------
