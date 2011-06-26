@@ -7,9 +7,8 @@ Yii は、より一層 Yii の機能性を拡張するために、
 たびたびクラスの名前付けやファイルのインクルードに関する問題に直面します。
 全ての Yii クラスは、`C` から始まるので、クラスの命名問題はそれほど起こらないでしょうし、
 また、Yii はクラスファイルのインクルードを行うために
-[SPL autoload](http://us3.php.net/manual/en/function.spl-autoload.php) を頼っているので、
-同じオートローディング機能を使用するか、クラスファイルを含むように
-PHP インクルードパスが設定されていれば、うまく他のライブラリーを動作させられます。
+[SPL autoload](http://us3.php.net/manual/en/function.spl-autoload.php) を使用しているので、
+他のライブラリがクラスファイルをインクルードするために、同じオートローディング機能か PHP インクルードパスを使っている場合には、お互いにうまく動作することが出来ます。
 
 以下では、例として、Yii アプリケーションで
 [Zend framework](http://www.zendframework.com) の、
@@ -34,7 +33,7 @@ require_once('Zend/Search/Lucene.php');
 インクルードパスを変える必要があります。
 これは、`require_once` の前に、`Yii::import` をコールする事で行われます。
 
-上記セットアップの時点で、準備が出来ているため、
+一旦上記のセットアップが完了すれば、
 下記のように、コントローラアクション中で `Lucene` クラスを使用できます。
 
 ~~~
@@ -43,4 +42,23 @@ $lucene=new Zend_Search_Lucene($pathOfIndex);
 $hits=$lucene->find(strtolower($keyword));
 ~~~
 
-<div class="revision">$Id: extension.integration.txt 251 2008-11-19 22:28:46Z qiang.xue $</div>
+Yii をサードパーティのシステムで使う
+------------------------------
+
+また、Yii は、WordPress、Joomla などの既存のサードパーティシステムの開発や
+拡張をサポートするための自己充足的なライブラリとして使用することも出来ます。
+そうするためには、次のコードをサードパーティシステムのブートストラップコードに含めます。
+
+~~~
+[php]
+require_once('path/to/yii.php');
+Yii::createWebApplication('path/to/config.php');
+~~~
+
+上記のコードは典型的な Yii アプリケーションで使われるブートストラップコードとほとんど同一ですが、ただ一点、ウェブアプリケーションのインスタンスを作成した後に、`run()` メソッドを呼ばないという違いがあります。
+
+これによって、サードパーティの拡張機能を開発するときに、Yii によって提供されるほとんどの機能を使用することが可能になります。
+例えば、`Yii::app()` を使ってアプリケーションインスタンスにアクセス出来ます。
+また、DAO やアクティブレコードといったデータベース機能を使うことも出来ます。さらに、モデルとバリデーションの機能も使うことが出来る、等々です。
+
+<div class="revision">$Id: extension.integration.txt 2953 2011-02-11 15:52:21Z qiang.xue $</div>

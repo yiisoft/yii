@@ -32,9 +32,9 @@ Ponieważ Gii może generować i zapisywać nowe pliki z kodem w istniejącej ap
 
 > Note|Uwaga: Gii jest przewidziane jako narzędzie deweloperskie. Dlatego też, powinno być zainstalowane jedynie na maszynie deweloperskiej. Ponieważ może ono generować nowe skrypty PHP w aplikacji, powinniśmy zwracać dostateczną uwagę na środki bezpieczeństwa (np. hasła, filtry IP).
 
-Możemy uzyskać dostęp do Gii poprzez adres URL `http://hostname/path/to/index.php?r=gii`. Zakładamy, że `http://hostname/path/to/index.php` to URL dostępu do istniejącej aplikacji Yii.
+Możemy uzyskać dostęp do Gii poprzez adres URL `http://hostname/sciezka/do/index.php?r=gii`. Zakładamy, że `http://hostname/sciezka/do/index.php` to URL dostępu do istniejącej aplikacji Yii.
 
-Jeśli istniejąca aplikacjia Yii używa formatu URL `ścieżek` (zobacz [zarządzanie URL-ami](/doc/guide/topics.url)), możemy uzyskać dostęp do Gii poprzez adres URL `http://hostnamepath/to/index.php/gii`. Możemy dodać następujący reguły URL na początej istniejących reguł URL:
+Jeśli istniejąca aplikacjia Yii używa formatu URL `ścieżek` (zobacz [zarządzanie URL-ami](/doc/guide/topics.url)), możemy uzyskać dostęp do Gii poprzez adres URL `http://hostname/sciezka/do/index.php/gii`. Możemy dodać następujący reguły URL na początej istniejących reguł URL:
 
 ~~~
 [php]
@@ -274,6 +274,6 @@ class <?php echo $this->className; ?> extends CWidget
 }
 ~~~
 
-Na tym kończy się tworzenie nowego generatora kodu. Możemy uzyskać dostęp do tego generatora kodu bezpośrednio poprzez adres URL `http://hostname/path/to/index.php?r=gii/widget`.
+Na tym kończy się tworzenie nowego generatora kodu. Możemy uzyskać dostęp do tego generatora kodu bezpośrednio poprzez adres URL `http://hostname/sciezka/do/index.php?r=gii/widget`.
 
-<div class="revision">$Id: topics.gii.txt 2055 2010-04-17 22:33:46Z qiang.xue $</div>
+<div class="revision">$Id: topics.gii.txt 3223 2011-05-17 23:02:50Z alexander.makarow $</div>

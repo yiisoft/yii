@@ -136,7 +136,7 @@ dienen. Zum Beispiel würde
 
 ~~~
 [php]
-<?php if($this->cache('profile', array('duration'=>3600))): ?>
+<?php if($this->beginCache('profile', array('duration'=>3600))): ?>
 	// Informationen zum Benutzerprofil
 <?php $this->endCache(); endif; ?>
 ~~~
@@ -187,4 +187,4 @@ werden alle Dateien mit der Endung `.tpl` mit dem angegebenen Viewrenderer
 dargestellt. Alle anderen Dateien werden als normale PHP-Viewdateien
 behandelt.
 
-<div class="revision">$Id: topics.prado.txt 1983 2010-03-31 19:46:37Z qiang.xue $</div>
+<div class="revision">$Id: topics.prado.txt 3226 2011-05-18 10:37:47Z mdomba $</div>

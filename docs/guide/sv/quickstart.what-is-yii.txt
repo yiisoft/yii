@@ -1,11 +1,17 @@
 Vad är Yii
 ==========
 
-Yii är ett högpresterande komponentbaserat PHP-ramverk för utveckling av 
+Yii är ett högpresterande, komponentbaserat PHP-ramverk för snabb utveckling av 
 storskaliga webbapplikationer. Det möjliggör maximal återanvändningsbarhet inom 
 webbprogrammering och kan på ett signifikant sätt snabba upp utvecklingen av en 
-webbapplikation. Namnet Yii (uttalas `Yee` eller `/ji:/`) står för *lätt*, 
-*effektivt* och *utbyggbart*.
+webbapplikation. Namnet Yii (uttalas `Yee` eller `/ji:/`) är en akronym för 
+"**Yes It Is!**". Detta är ofta det precisa, kortfattade svaret på frågor från 
+de som just hittat fram till Yii:
+
+
+Är det snabbt? ... Är det säkert? ... Är det professionellt? ... Är det rätt för mitt nästa projekt? ... **Yes, it is!**
+
+
 
 Systemkrav
 ----------
@@ -21,7 +27,7 @@ Till vad passar Yii bäst?
 
 Yii är ett generiskt webbprogrammeringsramverk som kan användas till att 
 utveckla så gott som alla sorters webbapplikationer. Eftersom det är lättviktigt 
-och försett med sofistikerade cachningslösningar, lämpar det sig speciellt bra 
+och försett med sofistikerade cachningsmekanismer, lämpar det sig speciellt bra 
 för utveckling av trafikintensiva applikationer som portaler, forum, 
 innehållshanteringssystem (CMS), e-handelssystem etc.
 
@@ -34,8 +40,7 @@ Yii överträffar andra PHP-ramverk genom att det är effektivt, finessrikt och
 tydligt dokumenterat. Yii är omsorgsfullt utformat från grunden för att passa 
 till seriös utveckling av webbapplikationer. Det är varken en biprodukt av något 
 projekt eller en sammanslagning av tredjepartsarbete. Det är resultatet av 
-upphovsmannens rika erfarenhet från utveckling av webbapplikationer samt 
-utforskning och reflektioner kring de populäraste webbprogrammeringsramverken 
-och -applikationerna.
+upphovsmännens extensiva erfarenhet från utveckling av webbapplikationer samt 
+utforskning av de populäraste webbprogrammeringsramverken och -applikationerna.
 
-<div class="revision">$Id: quickstart.what-is-yii.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.what-is-yii.txt 3244 2011-05-28 22:42:03Z alexander.makarow $</div>

@@ -340,7 +340,7 @@ Nedan följer några exempel:
 [php]
 // JOIN `tbl_profile` ON user_id=id
 join('tbl_profile', 'user_id=id')
-// LEFT JOIN `pub`.`tbl_profile` `p` ON p.user_id=id AND type=:type
+// LEFT JOIN `pub`.`tbl_profile` `p` ON p.user_id=id AND type=1
 leftJoin('pub.tbl_profile p', 'p.user_id=id AND type=:type', array(':type'=>1))
 ~~~
 
@@ -623,6 +623,7 @@ Följande abstrakta datatyper stöds av frågeverktyget.
 * `date`: datum, konverteras till `date` för MySQL;
 * `binary`: binärdata, konverteras till `blob` för MySQL;
 * `boolean`: boolsk data, konverteras till `tinyint(1)` för MySQL;
+* `money`: monetär/valuta-data, konverteras till `decimal(19,4)` för MySQL. Denna typ har varit tillgänglig sedan version 1.1.8.
 
 
 ###createTable()
@@ -906,4 +907,4 @@ Nedan följer ett exempel på hur man tar bort ett index:
 dropIndex('idx_username', 'tbl_user')
 ~~~
 
-<div class="revision">$Id: database.query-builder.txt 2979 2011-02-20 02:35:48Z alexander.makarow $</div>
+<div class="revision">$Id: database.query-builder.txt 3304 2011-06-23 14:53:50Z qiang.xue $</div>

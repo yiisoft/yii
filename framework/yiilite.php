@@ -40,7 +40,7 @@ class YiiBase
 	private static $_logger;
 	public static function getVersion()
 	{
-		return '1.1.8-dev';
+		return '1.1.8';
 	}
 	public static function createWebApplication($config=null)
 	{
@@ -1102,6 +1102,7 @@ abstract class CApplication extends CModule
 	private $_stateChanged;
 	private $_ended=false;
 	private $_language;
+	private $_homeUrl;
 	abstract public function processRequest();
 	public function __construct($config=null)
 	{
@@ -1285,6 +1286,42 @@ abstract class CApplication extends CModule
 	public function getUrlManager()
 	{
 		return $this->getComponent('urlManager');
+	}
+	public function getController()
+	{
+		return null;
+	}
+	public function createUrl($route,$params=array(),$ampersand='&')
+	{
+		return $this->getUrlManager()->createUrl($route,$params,$ampersand);
+	}
+	public function createAbsoluteUrl($route,$params=array(),$schema='',$ampersand='&')
+	{
+		$url=$this->createUrl($route,$params,$ampersand);
+		if(strpos($url,'http')===0)
+			return $url;
+		else
+			return $this->getRequest()->getHostInfo($schema).$url;
+	}
+	public function getBaseUrl($absolute=false)
+	{
+		return $this->getRequest()->getBaseUrl($absolute);
+	}
+	public function getHomeUrl()
+	{
+		if($this->_homeUrl===null)
+		{
+			if($this->getUrlManager()->showScriptName)
+				return $this->getRequest()->getScriptUrl();
+			else
+				return $this->getRequest()->getBaseUrl().'/';
+		}
+		else
+			return $this->_homeUrl;
+	}
+	public function setHomeUrl($value)
+	{
+		$this->_homeUrl=$value;
 	}
 	public function getGlobalState($key,$defaultValue=null)
 	{
@@ -1555,7 +1592,6 @@ class CWebApplication extends CApplication
 	private $_systemViewPath;
 	private $_layoutPath;
 	private $_controller;
-	private $_homeUrl;
 	private $_theme;
 	public function processRequest()
 	{
@@ -1638,38 +1674,6 @@ class CWebApplication extends CApplication
 	public function setTheme($value)
 	{
 		$this->_theme=$value;
-	}
-	public function createUrl($route,$params=array(),$ampersand='&')
-	{
-		return $this->getUrlManager()->createUrl($route,$params,$ampersand);
-	}
-	public function createAbsoluteUrl($route,$params=array(),$schema='',$ampersand='&')
-	{
-		$url=$this->createUrl($route,$params,$ampersand);
-		if(strpos($url,'http')===0)
-			return $url;
-		else
-			return $this->getRequest()->getHostInfo($schema).$url;
-	}
-	public function getBaseUrl($absolute=false)
-	{
-		return $this->getRequest()->getBaseUrl($absolute);
-	}
-	public function getHomeUrl()
-	{
-		if($this->_homeUrl===null)
-		{
-			if($this->getUrlManager()->showScriptName)
-				return $this->getRequest()->getScriptUrl();
-			else
-				return $this->getRequest()->getBaseUrl().'/';
-		}
-		else
-			return $this->_homeUrl;
-	}
-	public function setHomeUrl($value)
-	{
-		$this->_homeUrl=$value;
 	}
 	public function runController($route)
 	{
@@ -3348,7 +3352,7 @@ class CController extends CBaseController
 	{
 		if(($module=$this->getModule())===null)
 			$module=Yii::app();
-		return $module->getViewPath().'/'.$this->getId();
+		return $module->getViewPath().DIRECTORY_SEPARATOR.$this->getId();
 	}
 	public function getViewFile($viewName)
 	{
@@ -3479,6 +3483,14 @@ class CController extends CBaseController
 		else
 			throw new CException(Yii::t('yii','{controller} cannot find the requested view "{view}".',
 				array('{controller}'=>get_class($this), '{view}'=>$view)));
+	}
+	public function renderClip($name,$params=array(),$return=false)
+	{
+		$text=isset($this->clips[$name]) ? strtr($this->clips[$name], $params) : '';
+		if($return)
+			return $text;
+		else
+			echo $text;
 	}
 	public function renderDynamic($callback)
 	{
@@ -5008,6 +5020,7 @@ EOD;
 	}
 	public static function error($model,$attribute,$htmlOptions=array())
 	{
+		self::resolveName($model,$attribute); // turn [a][b]attr into attr
 		$error=$model->getError($attribute);
 		if($error!='')
 		{
@@ -5242,8 +5255,7 @@ EOD;
 				return $name;
 			}
 		}
-		else
-			return get_class($model).'['.$attribute.']';
+		return get_class($model).'['.$attribute.']';
 	}
 	public static function resolveValue($model,$attribute)
 	{
@@ -7599,7 +7611,19 @@ class CActiveRecordMetaData
 			throw new CDbException(Yii::t('yii','The table "{table}" for active record class "{class}" cannot be found in the database.',
 				array('{class}'=>get_class($model),'{table}'=>$tableName)));
 		if($table->primaryKey===null)
+		{
 			$table->primaryKey=$model->primaryKey();
+			if(is_string($table->primaryKey) && isset($table->columns[$table->primaryKey]))
+				$table->columns[$table->primaryKey]->isPrimaryKey=true;
+			else if(is_array($table->primaryKey))
+			{
+				foreach($table->primaryKey as $name)
+				{
+					if(isset($table->columns[$name]))
+						$table->columns[$name]->isPrimaryKey=true;
+				}
+			}
+		}
 		$this->tableSchema=$table;
 		$this->columns=$table->columns;
 		foreach($table->columns as $name=>$column)
@@ -8185,7 +8209,12 @@ abstract class CDbSchema extends CComponent
 		$cols=array();
 		$columns=preg_split('/\s*,\s*/',$column,-1,PREG_SPLIT_NO_EMPTY);
 		foreach($columns as $col)
-			$cols[]=$this->quoteColumnName($col);
+		{
+			if(strpos($col,'(')!==false)
+				$cols[]=$col;
+			else
+				$cols[]=$this->quoteColumnName($col);
+		}
 		return ($unique ? 'CREATE UNIQUE INDEX ' : 'CREATE INDEX ')
 			. $this->quoteTableName($name).' ON '
 			. $this->quoteTableName($table).' ('.implode(', ',$cols).')';
@@ -8210,6 +8239,7 @@ class CSqliteSchema extends CDbSchema
         'date' => 'date',
         'binary' => 'blob',
         'boolean' => 'tinyint(1)',
+		'money' => 'decimal(19,4)',
     );
 	public function resetSequence($table,$value=null)
 	{

@@ -638,7 +638,7 @@ Om parametern 3 ovan utelämnas kommer de fem senaste postningarna att
 hämtas, enligt förbestämt standardvärde.
 
 
-### Förbestämt omfång
+### Förbestämt omfång (default scope)
 
 En modellklass kan ha ett förbestämt omfång som kommer att åsättas 
 alla frågor (inklusive relationella sådana) avseende modellen. Till exempel kan  
@@ -667,7 +667,7 @@ Nu kommer följande metodanrop att automatiskt använda frågekriteriet som defi
 $contents=Content::model()->findAll();
 ~~~
 
-Märk att ett förbestämt omfång endast gäller för `SELECT`-frågor. 
-Det ignoreras för `INSERT`-, `UPDATE`- och `DELETE`-frågor.
+> Note|Märk: Förbestämt omfång och namngivna omfång har effekt endast vid `SELECT`-frågor. De ignoreras vid `INSERT`-, `UPDATE`- och `DELETE`-frågor.
+> Dessutom, när ett omfång deklareras (förbestämt eller namngivet), kan AR-klassen inte användas för DB-frågor i metoden som deklarerar omfånget.
 
-<div class="revision">$Id: database.ar.txt 3122 2011-03-25 02:45:43Z qiang.xue $</div>
+<div class="revision">$Id: database.ar.txt 3318 2011-06-24 21:40:34Z qiang.xue $</div>

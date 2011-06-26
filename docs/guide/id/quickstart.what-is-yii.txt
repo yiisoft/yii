@@ -1,27 +1,33 @@
 Apa itu Yii
 ===========
 
-Yii adalah kerangka kerja(framework) PHP berbasis-komponen dengan performa tinggi untuk
-pengembangan aplikasi Web berskala-besar. Yii menyediakan penggunaan ulang (reusability) maksimum dalam
-pemrograman Web dan mampu mempercepat proses pengembangan secara signifikan. Nama
-Yii (dieja sebagai `/i:/`) singkatan dari *easy*,
-*efficient* dan *extensible* (*mudah*, *efisien*, dan *bisa diperluas*).
+Yii adalah framework (kerangka kerja) PHP berbasis-komponen, berkinerja tinggi untuk
+pengembangan aplikasi Web berskala-besar. Yii menyediakan reusability maksimum dalam
+pemrograman Web dan mampu meningkatkan kecepatan pengembangan secara signifikan. Nama
+Yii (dieja sebagai `/i:/`) singkatan dari 
+"**Yes It Is!**". Berikut merupakan respon yang paling tepat dan akurat untuk
+yang baru dengan Yii:
+
+
+Apakah Yii cepat? ... Apakah Yii aman? ... Apakah Yii profesional? ... Apakah Yii 
+cocok untuk projek saya berikutnya? ... **Yes, it is!** 
+
 
 Persyaratan
 -----------
 
-Untuk menjalankan aplikasi Web yang diperkuat Yii, Anda memerlukan server Web yang mendukung
-PHP 5.1.0 atau lebih tinggi.
+Untuk menjalankan aplikasi Web berbasis Yii, Anda memerlukan server Web yang mendukung
+PHP 5.1.0.
 
 Bagi para pengembang yang ingin menggunakan Yii, mengerti pemrograman berorientasi-objek
-(OOP) akan sangat membantu, karena Yii merupakan kerangka kerja OOP murni.
+(OOP) akan sangat membantu, karena Yii merupakan framework OOP murni.
 
-Yii Terbaik untuk apa?
+Yii Paling Cocok untuk Apa?
 ----------------------
 
-Yii adalah kerangka kerja pemrograman umum Web yang bisa dipakai untuk mengembangkan
+Yii adalah framework pemrograman umum Web yang bisa dipakai untuk mengembangkan
 semua jenis aplikasi Web. Dikarenakan sangat ringan dan dilengkapi
-dengan solusi caching yang canggih, Yii sangat cocok untuk pengembangan
+dengan mekanisme caching yang canggih, Yii sangat cocok untuk pengembangan
 aplikasi dengan lalu lintas-tinggi, seperti portal, forum, sistem manajemen
 konten (CMS), sistem e-commerce, dan lain-lain.
 
@@ -35,6 +41,6 @@ kejelasan dokumentasi. Yii didesain dengan hati-hati dari awal agar
 sesuai untuk pengembangan aplikasi Web secara serius. Yii bukan berasal dari produk pada
 beberapa proyek maupun konglomerasi pekerjaan pihak-ketiga. Yii adalah hasil dari
 pengalaman kaya para pembuat pada pengembangan aplikasi Web dan investigasi
-serta refleksi kerangka kerja pemrograman Web dan aplikasi yang paling populer.
+framework pemrograman Web dan aplikasi yang paling populer.
 
-<div class="revision">$Id: quickstart.what-is-yii.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.what-is-yii.txt 3244 2011-05-28 22:42:03Z alexander.makarow $</div>

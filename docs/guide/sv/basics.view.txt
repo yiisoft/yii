@@ -5,10 +5,10 @@ En vy (view) är ett PHP-skript huvudsakligen bestående av element som hör til
 användargränssnittet. Vyn kan innehålla PHP-satser, men det rekommenderas att 
 dessa satser inte ändrar datamodeller samt att de förblir relativt enkla. I 
 andan av separation mellan programlogik och presentation, bör stora block av 
-programlogik placeras i kontroller eller modell istället för i vyn.
+programlogik placeras i kontroller eller modeller hellre än i vyer.
 
 En vy har ett namn avsett att identifiera vyns skriptfil vid rendering. Vyn och 
-dess skriptfil har samma namn. Till exempel, vyn `edit` refererar till en 
+dess skriptfil har samma namn. Till exempel, vynamnet `edit` refererar till en 
 vyskriptfil med namnet `edit.php`. En vy kan renderas genom anrop till 
 [CController::render()] med vyns namn bifogat. Metoden kommer att söka efter 
 motsvarande vyfil i katalogen `protected/views/ControllerID`.
@@ -36,7 +36,8 @@ Layout
 
 Layout är en speciell vy som används för att dekorera vyer. Den innehåller 
 vanligtvis delar av användargränssnittet vilka är gemensamma för många vyer. 
-Till exempel kan en layout innehålla sidhuvud och sidfot samt bädda in innehållsvyn däremellan,
+Till exempel kan en layout innehålla sidhuvud och sidfot samt på 
+följande sätt bädda in vyn däremellan:
 
 ~~~
 [php]
@@ -45,7 +46,7 @@ Till exempel kan en layout innehålla sidhuvud och sidfot samt bädda in innehå
 ......footer here......
 ~~~
 
-där `$content` innehåller renderingsresultatet för innehållsvyn.
+där `$content` innehåller renderingsresultatet för vyn.
 
 Layout blir underförstått applicerad vid anrop till 
 [render()|CController::render]. Som standard används vyskriptet 
@@ -57,12 +58,13 @@ applicera någon layout.
 Widget
 ------
 
-En widget är en instans av [CWidget] eller nedärvd klass. Den är en komponent 
-huvudsakligen avsedd för presentation. Widget bäddas vanligen in i vyskript för 
-att generera något komplext, men ändå komplett och oberoende, användargränssnitt. 
-Till exempel kan en kalenderwidget användas till att rendera ett avancerat 
-kalendergränssnitt. Widget möjliggör bättre återanvändningsbarhet av 
-användargränssnittet.
+En widget är en instans av [CWidget] eller av en nedärvd klass. 
+Den är en komponent huvudsakligen avsedd för presentation. 
+Widget bäddas vanligen in i vyskript för att generera något 
+komplext, men ändå komplett och oberoende, användargränssnitt. 
+Till exempel kan en kalenderwidget användas till att rendera 
+ett avancerat kalendergränssnitt. Widget möjliggör bättre 
+återanvändningsbarhet av användargränssnittets kod.
 
 För att använda en widget, gör så här i ett vyskript:
 
@@ -82,13 +84,14 @@ eller
 
 Det senare används när widget:en inte behöver omfatta innehåll (body content).
 
-Widget kan konfigureras för anpassning av dess beteende. Detta sker genom att 
+Widgetar kan konfigureras för anpassning av deras beteende. Detta sker genom att 
 man sätter dess initiala propertyvärden vid anrop till 
 [CBaseController::beginWidget] eller [CBaseController::widget]. Till exempel, 
-för [CMaskedTextField] widget:en, vill vi kunna specificera vilken mask som 
-skall användas. Detta kan göras genom att lämna med en array av initialvärden 
-för widget-egenskaper (property) på följande sätt, där arrayens nycklar är 
-egenskapsnamn, arrayvärdena initialvärden för widgetens egenskaper:
+vid användning av en [CMaskedTextField] widget, kan vi vilja specificera 
+vilken mask som skall användas. Detta kan göras genom att på följande sätt 
+lämna med en vektor (array) innehållande initialvärden för widget-egenskaper 
+(property), där vektorns nycklar är egenskapsnamn och vektorns värden är 
+initialvärden för widgetens egenskaper:
 
 ~~~
 [php]
@@ -142,4 +145,4 @@ Yii erbjuder en standarduppsättning systemvyer placerade under
 `framework/views`. Dessa kan anpassas genom att vyfiler med samma namn placeras 
 under `protected/views/system`.
 
-<div class="revision">$Id: basics.view.txt 2367 2010-08-29 17:29:22Z qiang.xue $</div>
+<div class="revision">$Id: basics.view.txt 3251 2011-06-01 00:24:06Z qiang.xue $</div>

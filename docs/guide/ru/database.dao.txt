@@ -81,7 +81,7 @@ array(
 
 ~~~
 [php]
-$connection=Yii::app()->db; // так можно сделать, если в конфигурации описан копмпонент соединения "db"
+$connection=Yii::app()->db; // так можно сделать, если в конфигурации описан компонент соединения "db"
 // Если не описан — можно создать соединение явно:
 // $connection=new CDbConnection($dsn,$username,$password);
 $command=$connection->createCommand($sql);

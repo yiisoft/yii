@@ -63,7 +63,7 @@ array(
 ~~~
 
 Zauważ, że nie musimy definiować klasy komponentu [urlManager|CWebApplication::urlManager]
-ponieważ jest on wstępnie zadeklarowana jako [CUrlManager] w [CWebApplication].
+ponieważ jest ona wstępnie zadeklarowana jako [CUrlManager] w [CWebApplication].
 
 > Wskazówka: URL wygenerowany przy pomocy metody [createUrl|CController::createUrl]
 jest adresem względnym. Aby uzyskać pełny adres wystarczy poprzedzić adres względny
@@ -104,8 +104,8 @@ wzorzec-trasa, każda z takich par odpowiada jednej regule. Wzorzec reguły jest
 używanym w celu dopasowania części informacyjnej adresu URL do wzorca. 
 [Trasa](/doc/guide/basics.controller#route) powinna odnosić się do poprawnej trasy kontrolera.
 
-Poza powyższym formatem wzorzec-trasa, regułą może być również określona poprzez
-dostosowania opcji w następujący sposób:
+Poza powyższym formatem wzorzec-trasa, reguła może być również określona poprzez
+dostosowanie opcji w następujący sposób:
 
 ~~~
 [php]
@@ -140,7 +140,7 @@ Dostępne opcje zostały wyjaśnione poniżej:
    - [matchValue|CUrlRule::matchValue]: określa czy wartości parametru GET powinny pasować do odpowiadających 
    im podwzorców w regule, kiedy tworzony jest URL. Domyślnie przyjmuje wartość null, oznaczającą używanie wartości
    [CUrlManager::matchValue]. Jeśli wartość ta wynosi false, oznacza to, że reguła będzie używana do tworzenia URL 
-   jeśli jej trasa i nazwy parametrów są zgodnie z podanymi. Jeśli właściwość ta przyjmuje wartość tryu, wtedy 
+   jeśli jej trasa i nazwy parametrów są zgodnie z podanymi. Jeśli właściwość ta przyjmuje wartość true, wtedy 
    podane wartości parametru muszą również pasować do odpowiadających parametrowi podwzorców. Zauważ, że 
    ustawienie tej pozycji na true może obniżyć wydajność.
    
@@ -187,7 +187,7 @@ array(
    - Wywołanie `$this->createUrl('post/list')` tworzy `/index.php/posts`.
 Stosowana jest pierwsza reguła.
 
-   - Wywołanie `$this->createUrl('post/read',array('id'=>100))` generates
+   - Wywołanie `$this->createUrl('post/read',array('id'=>100))` tworzy
 `/index.php/post/100`. Zastosowana została druga reguła.
 
    - Wywołanie `$this->createUrl('post/read',array('year'=>2008,'title'=>'a
@@ -217,7 +217,7 @@ reguły `post/<id:\d+>/*`, możemy uzyskać adres URL postaci
 Jak wcześniej wspominaliśmy innym zastosowaniem reguł URL jest przetwarzanie
 wywoływanych adresów URL. Jest to oczywiście proces odwrotny do tworzenia
 adresów. Np. gdy użytkownik zgłasza żądanie adresu `/index.php/post/100`,
-zastosowanie będzie miała druga reguła z przykłady wyżej. Spowoduje to
+zastosowanie będzie miała druga reguła z przykładu wyżej. Spowoduje to
 rozłożenie żądania na trasę `post/read` i parametr GET `array('id'=>100)`
 (dostępny poprzez `$_GET`).
 
@@ -246,8 +246,8 @@ array(
 )
 ~~~
 
-W powyższym kodzie, uzyliśmy dwóch nazwancyh parametrów w cześci reguły odnoszącej się 
-do strasy: `_c` oraz `_a`. Pierwszy parametr odpowiada ID kontrolera posiadającym wartość `post` lub `comment`,
+W powyższym kodzie, użyliśmy dwóch nazwanych parametrów w części reguły odnoszącej się 
+do trasy: `_c` oraz `_a`. Pierwszy parametr odpowiada ID kontrolera posiadającym wartość `post` lub `comment`,
 podczas gdy drugi odpowiada ID akcji, która może mieć wartość `create`, `update` lub `delete`.
 Możesz nazywać parametry dowolnie, dopóki ich nazwy nie konfliktują z parametrami GET 
 znajdującymi się w URLach.
@@ -281,7 +281,7 @@ parametr `user`, zaś pierwszy segment w ścieżce powinien być parametrem `lan
 Reguła odpowiada trasie `user/profile`.
 
 Zauważ, że [CUrlManager::showScriptName] nie będzie działało, jeśli URL zostanie  
-utworzony za pomocę reguły z parametryzowaną nazwą hosta.
+utworzony za pomocą reguły z parametryzowaną nazwą hosta.
 
 Zauważ, że reguła ze sparametryzowaną nazwą hosta NIE POWINNA zawierać podkatalogu
 jeśli aplikacja znajduje się w podkatalogu katalogu głównego www.
@@ -331,4 +331,92 @@ do strony statycznej. Aby to zrobić po prostu skonfiguruj komponent
 [urlManager|CWebApplication::urlManager] ustawiając jego właściwość
 [urlSuffix|CUrlManager::urlSuffix] na taki sufiks, jaki ci odpowiada.
 
-<div class="revision">$Id: topics.url.txt 2923 2011-01-29 21:02:46Z mdomba $</div>
+Używanie własnych klas reguł URL
+--------------------------------
+
+> Note|Uwaga: Używanie własnych klas reguł URL jest wspierane od wersji 1.1.8.
+
+Domyślnie, każda reguła URL zadeklarowana w [CUrlManager] jest reprezentowana jako 
+obiekt [CUrlRule], który wykonuje zadanie przetwarzania żądań i tworzenia URLi
+w oparciu o określone reguły. Chociaż klasa [CUrlRule] jest dostatecznie elastyczna aby
+poradzić sobie z wszystkimi formatani URL, czasami wciąż chcemy ją rozszerzyć o dodatkowe
+funkcjonalności.
+
+Na przykład, na stronie dilera samochodów, chcemy wspierać format URL w postaci
+`/Manufacturer/Model`, gdzie producent `Manufacturer` i model samochodu `Model` 
+muszą zgadzać się z danymi znajdującymi się w bazie danych. 
+Klasa [CUrlRule] nie zadziała, gdyż działa w oparciu o statycznie zadeklarowane wyrażenia
+regularne, które nie mają wiedzy o bazie danych.
+
+Możemy utworzyć nową klasę reguł URL poprzez rozszerzenie [CBaseUrlRule] i użycie jej 
+w jednej lub wielu regułach URL. Używając powyższej strony dilera samochodowego jako przykładu,
+możemy zadeklarować następujące reguły URL:
+
+~~~
+[php]
+array(
+	// standardowa reguła mapująca '/' do akcji 'site/index'
+	'' => 'site/index',
+
+	// standardowa reguła mapująca '/login' do 'site/login', i tak dalej...
+	'<action:(login|logout|about)>' => 'site/<action>',
+
+	// własna reguła obsługującca format '/Manufacturer/Model'
+	array(
+	    'class' => 'application.components.CarUrlRule',
+	    'connectionID' => 'db',
+	),
+
+	// standardowa reguła obsługująca 'post/update', i tak dalej...
+	'<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+),
+~~~
+
+W powyższym kodzie użyliśmy własnej klasy reguł URL `CarUrlRule` aby obsłużyć format URL
+`/Manufacturer/Model`. Klasa ta może zostać napisana w następujący sposób:
+
+~~~
+[php]
+class CarUrlRule extends CBaseUrlRule
+{
+	public $connectionID = 'db';
+
+	public function createUrl($manager,$route,$params,$ampersand)
+	{
+		if ($route==='car/index')
+		{
+			if (isset($params['manufacturer'], $params['model']))
+				return $params['manufacturer'] . '/' . $params['model'];
+			else if (isset($params['manufacturer']))
+				return $params['manufacturer'];
+		}
+		return false;  // this rule does not apply
+	}
+
+	public function parseUrl($manager,$request,$pathInfo,$rawPathInfo)
+	{
+		if (preg_match('%^(\w+)(/(\w+))?$%', $pathInfo, $matches))
+		{
+			// sprawdź $matches[1] oraz $matches[3] aby zobaczyć, czy
+			// zawierają one producenta oraz model z bazy danych
+			// Jeśli tak, to ustaw $_GET['manufacturer'] oraz $_GET['model']
+			// i zwróć 'car/index'
+		}
+		return false;  // reguła ta nie ma zastosowania
+	}
+}
+~~~
+
+Własna klasa URL musi implementować dwie abstrakcyjne metody zadeklarowane w klasie [CBaseUrlRule]:
+
+* [CBaseUrlRule::createUrl()|createUrl()]
+* [CBaseUrlRule::parseUrl()|parseUrl()]
+
+Poza powyższym, typowym użyciem, własne klasy reguł URL mogą być implementowane z innych powodów.
+Na przykład, chcemy napisać klasę reguł logującą parsowanie URL i tworzenie żądania.
+Może być to bardzo użyteczne na etapie rozwoju aplikacji. Możemy również napisać klasę reguły
+do wyświetlania specjalnej strony błędu 404 w przypadku gdy wszystkie pozostałe reguły URL
+nie będą potrafiły rozszyfrować aktualnego żądania. Zauwać, że w takim przypadku, reguła
+z tą specjalną klasą musi zostać zadeklarowana jako ostatnia.
+
+<div class="revision">$Id: topics.url.txt 3236 2011-05-25 13:11:58Z qiang.xue $</div>

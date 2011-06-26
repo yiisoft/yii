@@ -1,7 +1,7 @@
-Data Access Objects (DAO)
+データアクセスオブジェクト (DAO)
 =========================
 
-Data Access Objects (DAO) は、異なるデータベース管理システム (DBMS) 上に保存されたデータに
+データアクセスオブジェクト (DAO) は、異なるデータベース管理システム (DBMS) 上に保存されたデータに
 接続するための包括的なAPIを提供します。
 DAO を用いてデータにアクセスすることで、コードを変更せずに異なる DBMS を利用する事が可能になります
 
@@ -66,6 +66,7 @@ array(
 			'connectionString'=>'mysql:host=localhost;dbname=testdb',
 			'username'=>'root',
 			'password'=>'password',
+			'emulatePrepare'=>true,  // MySQL の設定によっては必要
 		),
 	),
 )
@@ -85,6 +86,9 @@ SQL 文の実行
 
 ~~~
 [php]
+$connection=Yii::app()->db;   // "db" 接続を構成したと仮定した場合
+// もしくは、明示的に接続を作成してもよい
+// $connection=new CDbConnection($dsn,$username,$password);
 $command=$connection->createCommand($sql);
 // もし必要なら、SQL 文を下記のように更新できます:
 // $command->text=$newSQL;
@@ -183,7 +187,7 @@ catch(Exception $e) // クエリの実行に失敗した場合、例外が発生
 ~~~
 [php]
 // ":username" と ":email" の 2 つのプレースホルダを利用する SQL
-$sql="INSERT INTO users(username, email) VALUES(:username,:email)";
+$sql="INSERT INTO tbl_user (username, email) VALUES(:username,:email)";
 $command=$connection->createCommand($sql);
 // プレースホルダ ":username" を実際の username 値で置き換える
 $command->bindParam(":username",$username,PDO::PARAM_STR);
@@ -213,7 +217,7 @@ $command->execute();
 
 ~~~
 [php]
-$sql="SELECT username, email FROM users";
+$sql="SELECT username, email FROM tbl_user";
 $dataReader=$connection->createCommand($sql)->query();
 // 1つめのカラム (username) を $username 変数にバインドする
 $dataReader->bindColumn(1,$username);
@@ -225,4 +229,23 @@ while($dataReader->read()!==false)
 }
 ~~~
 
-<div class="revision">$Id: database.dao.txt 978 2009-05-06 03:36:09Z qiang.xue $</div>
+テーブルプレフィックスを使う
+------------------
+
+Yii はテーブルプレフィックスの使用について、統合的なサポートを提供しています。
+テーブルプレフィックスとは、現在接続されているデータベースのテーブル名の前に付加されている文字列を意味します。
+たいていは、共有ホスティング環境において使われます。複数のアプリケーションが単一のデータベースを共有しつつ、お互いを区別するために違うテーブルプレフィックスを使うという形です。
+例えば、あるアプリケーションは `tbl_` をプレフィックスとして使い、他のアプリケーションは `yii_` を使うという具合です。
+
+テーブルプレフィックスを使うためには、[CDbConnection::tablePrefix] プロパティを望みのテーブルプレフィックスに構成します。
+そして、SQL 文においてテーブル名を指定するのに `{{TableName}}` という書式を使います。
+ここで `TableName` はプレフィックスを除外したテーブル名を指します。
+例えば、データベースが `tbl_user` という名前のテーブルを持っていて、`tbl_` がテーブルプレフィックスとして構成されている場合、ユーザに関するクエリのコードとして下記を使うことが出来ます。
+
+~~~
+[php]
+$sql='SELECT * FROM {{user}}';
+$users=$connection->createCommand($sql)->queryAll();
+~~~
+
+<div class="revision">$Id: database.dao.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

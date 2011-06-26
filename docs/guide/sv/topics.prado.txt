@@ -133,7 +133,7 @@ fragmentcachen. Till exempel,
 
 ~~~
 [php]
-<?php if($this->cache('profile', array('duration'=>3600))): ?>
+<?php if($this->beginCache('profile', array('duration'=>3600))): ?>
 	// user profile information here
 <?php $this->endCache(); endif; ?>
 ~~~
@@ -185,4 +185,4 @@ att renderas med hjälp av den installerade vyrenderaren, medan alla andra vyfil
 `.php` kommer att behandlas som vanliga PHP-vyskript.
 
 
-<div class="revision">$Id: topics.prado.txt 1983 2010-03-31 19:46:37Z qiang.xue $</div>
+<div class="revision">$Id: topics.prado.txt 3226 2011-05-18 10:37:47Z mdomba $</div>

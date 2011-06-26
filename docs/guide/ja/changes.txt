@@ -1,7 +1,64 @@
 新機能
 ============
 
-このページは、各々のYiiリリースにおいて導入される主な新機能をまとめます。
+このページは、各々のYiiリリースにおいて導入された主な新機能をまとめています。
+
+Version 1.1.8
+-------------
+ * [カスタムURLルールクラスのサポートを追加](/doc/guide/topics.url#using-custom-url-rule-classes)
+
+Version 1.1.7
+-------------
+ * [RESTful URL に対するサポートを追加](/doc/guide/topics.url#user-friendly-urls)
+ * [クエリキャッシングに対するサポートを追加](/doc/guide/caching.data#query-caching)
+ * [リレーショナル named scope にパラメータを渡すことが可能になった](/doc/guide/database.arr#relational-query-with-named-scopes)
+ * [関連するモデルを取得することなくリレーショナルクエリを実行する機能を追加](/doc/guide/database.arr#performing-relational-query-without-getting-related-models)
+ * [HAS_MANY through と HAS_ONE through の AR リレーションに対するサポートを追加](/doc/guide/database.arr#relational-query-with-through)
+ * [DB 移行変換機能においてトランザクションのサポートを追加](/doc/guide/database.migration#transactional-migrations)
+ * [クラスベースのアクションにおけるパラメータバインディングの使用に対するサポートを追加](/doc/guide/basics.controller#action-parameter-binding)
+ * [CActiveForm]によるシームレスなクライアント側のデータ検証に対するサポートを追加
+
+ Version 1.1.6
+-------------
+ * [クエリビルダーを追加](/doc/guide/database.query-builder)
+ * [データベース移行変換機能を追加](/doc/guide/database.migration)
+ * [MVC のベストプラクティス](/doc/guide/basics.best-practices)
+ * [コンソールコマンドで無名パラメータとグローバルオプションの使用に対するサポートを追加](/doc/guide/topics.console)
+
+Version 1.1.5
+-------------
+
+ * [コンソールコマンドアクションとパラメータバインディングに対するサポートを追加](/doc/guide/topics.console)
+ * [ネームスペースを持つクラスのオートローディングに対するサポートを追加](/doc/guide/basics.namespace)
+ * [ウィジェットのビューに対するテーマ適用のサポートを追加](/doc/guide/topics.theming#theming-widget-views)
+
+Version 1.1.4
+-------------
+
+ * [自動的なアクションのパラメータバインディングに対するサポートを追加](/doc/guide/basics.controller#action-parameter-binding)
+
+Version 1.1.3
+-------------
+
+ * [アプリケーション構成でウィジェットのデフォルト値を構成する機能の追加](/doc/guide/topics.theming#customizing-widgets-globally)
+
+Version 1.1.2
+-------------
+
+ * [Gii と呼ばれるウェブベースのコード生成ツールを追加](/doc/guide/topics.gii)
+
+Version 1.1.1
+-------------
+
+ * CActiveForm を追加。CActiveForm は、フォームに関係するコードの作成を単純化し、クライアントとサーバーの両側においてシームレスで一貫性のあるバリデーションをサポートする。
+
+ * yiic ツールによって生成されるコードを見直した。
+ 具体的には、スケルトンアプリケーションは複数のレイアウトを持つようになった。
+ 操作メニューは CRUD のページのために再構成された。
+ crud コマンドで生成される admin ページは検索とフィルターリングの機能を持つようになった。
+ フォームの表示に CActiveForm を使った。
+
+ * [グローバルな yiic コマンドを定義することを可能にした](/doc/guide/topics.console)
 
 Version 1.1.0
 -------------
@@ -21,77 +78,8 @@ Version 1.1.0
 
  * [テーブルプレフィクスを使用するためのサポートを追加](/doc/guide/database.dao#using-table-prefix).
 
- * [Ziiライブラリ](http://code.google.com/p/zii/)として知られる新しいイクステンションを追加
+ * [Ziiライブラリ](http://code.google.com/p/zii/)として知られる新しいエクステンションを追加
 
+ * AR クエリにおける主テーブルのエイリアスを 't' に固定
 
-Version 1.0.11
---------------
-
- * パラメータ化されたホスト名を使用したURL生成とパースのサポートを追加
-     - [ホスト名のパラメタライズ](/doc/guide/topics.url#parameterizing-hostnames)
-
-
-Version 1.0.10
---------------
-
- * CPhpMessageSourceを使用したモジュールメッセージのサポートの拡張
-     - [メッセージ翻訳](/doc/guide/topics.i18n#message-translation)
-
- * イベントハンドラとしての匿名関数を登録するサポートの追加
-     - [コンポーネントイベント](/doc/guide/basics.component#component-event)
-
-Version 1.0.8
--------------
-
- * 複数のキャッシュされたデータを一時に取得する方法のサポートを追加
-         - [データキャッシング](/doc/guide/caching.data)
-
- * 新しく`ext`という、サードパーティエクステンションを含むディレクトリを指し示すデフォルトルートパスを導入
-         - [エクステンションを使う](/doc/guide/extension.use)
-
-Version 1.0.7
--------------
-
- * トレースメッセージにコールスタック情報を表示するサポートを追加
-     - [コンテクスト情報のロギング](/doc/guide/topics.logging#logging-context-information)
-
- * 特定のカラム値で関係するオブジェクトをインデクスできるように、ARリレーションに`index`を追加。
-     - [リレーショナルクエリオプション](/doc/guide/database.arr#relational-query-options)
-
-Version 1.0.6
--------------
-
- * Named Scope を使用しての `update` と `delete` メソッドサポートの追加:
-     - [Named Scope](/doc/guide/database.ar#named-scopes)
-
- * Named Scope のリレーションルールの `with` オプション内でのサポートの追加:
-     - [Named Scope を使用したリレーショナルクエリ](/doc/guide/database.arr#relational-query-with-named-scopes)
-
- * SQL実行のプロファイルのサポートを追加
-     - [SQL実行のプロファイル](/doc/guide/topics.logging#profiling-sql-executions)
-
- * 附加コンテキスト情報のログ取得のためのサポートを追加
-     - [コンテキスト情報のログ](/doc/guide/topics.logging#logging-context-information)
-
- * urlFormatとcaseSensitiveオプションを設定することによる単一のURLルールのカスタマイズサポートを追加
-     - [ユーザフレンドリURL](/doc/guide/topics.url#user-friendly-urls)
-
- * アプリケーションエラーを表示するコントローラアクションの使用のサポートを追加
-     - [アクションを使用したエラーハンドリング](/doc/guide/topics.error#handling-errors-using-an-action)
-
-Version 1.0.5
--------------
-
- * Named Scope をサポートするアクティブレコードの機能拡張です。以下を参照してください。
-     - [Named Scope](/doc/guide/database.ar#named-scopes)
-     - [デフォルト Named Scope](/doc/guide/database.ar#default-named-scope)
-     - [Named Scope を使用したリレーショナルクエリ](/doc/guide/database.arr#relational-query-with-named-scopes)
-
-
- * 動的クエリオプションを伴うレイジーローディングをサポートするアクティブレコードの機能拡張。以下を参照してください。
-     - [動的リレーショナルクエリオプション](/doc/guide/database.arr#dynamic-relational-query-options)
-
- * URL ルールでのルート部分のパラメータ化をサポートする [CUrlManager] の機能拡張。以下を参照してください。
-     - [URL ルールでのルートのパラメータ化](/doc/guide/topics.url#parameterizing-routes)
-
-<div class="revision">$Id: changes.txt 1699 2010-01-10 16:32:09Z qiang.xue $</div>
+<div class="revision">$Id: changes.txt 3235 2011-03-24 23:16:05Z alexander.makarow $</div>

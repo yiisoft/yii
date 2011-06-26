@@ -108,10 +108,11 @@ Webserver-Prozess muss in dieses Verzeichnis schreiben können. Der Pfad kann
 über [CApplication::runtimePath] angepasst werden.
 
    - `WebVerzeichnis/protected/extensions`: Enthält Erweiterungen. Der Pfad kann über
-[CApplication::extensionPath] angepasst werden.
+[CApplication::extensionPath] angepasst werden. Das Verzeichnis kann in Yii
+über den Pfadalias `ext` verwendet werden.
 
    - `WebVerzeichnis/protected/modules`: Enthält [Module](/doc/guide/basics.module), 
-jeweils in einem entsprechenden Unterverzeichnis
+jeweils in einem entsprechenden Unterverzeichnis.
 
    - `WebVerzeichnis/protected/controllers`: Enthält alle Controllerdateien. Der Pfad kann über
 [CWebApplication::controllerPath] angepasst werden.
@@ -163,4 +164,4 @@ nicht gemischt. Der Einfachheit halber empfehlen wir den Singular.
 insbesondere nützlich, wenn sich mehrere Anwendungen eine Datenbank teilen
 müssen. 
 
-<div class="revision">$Id: basics.convention.txt 2345 2010-08-28 12:51:08Z mdomba $</div>
+<div class="revision">$Id: basics.convention.txt 3225 2011-05-17 23:23:05Z alexander.makarow $</div>

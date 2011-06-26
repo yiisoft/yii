@@ -1,0 +1,213 @@
+Postモデルのカスタマイズ
+======================
+
+`Gii`ツールにより生成された`Post`モデルクラスは、主に2つの点において修正されます。
+
+ - `rules()`メソッド: モデルアトリビュートに対する検証規則を規定
+ - `relations()`メソッド: リレーショナルオブジェクトを規定
+
+> Info|情報: [モデル](http://www.yiiframework.com/doc/guide/basics.model)
+はアトリビュートのリストから構成され、それぞれに対応するデータベーステーブルのコラムを持ちます。
+アトリビュートは明示的にクラスメンバ変数として宣言される場合もあり、宣言無しで宣言されることもあります。
+
+`rules()`メソッドのカスタマイズ
+----------------------------
+
+最初に、アトリビュート値がデータベースに格納される前に正しいことが確実になるような検証ルールを定めます。
+例えば、`Post`クラスの`status`アトリビュートは整数の1, 2か3でなければなりません。
+`Gii`ツールもそれぞれのモデルに対してまた検証ルールを生成します。
+しかしながらそれはテーブルカラム情報に基いたルールであり、妥当とは言えません。
+
+要求分析に基き、`rules()`メソッドを以下のように修正します。
+
+~~~
+[php]
+public function rules()
+{
+	return array(
+		array('title, content, status', 'required'),
+		array('title', 'length', 'max'=>128),
+		array('status', 'in', 'range'=>array(1,2,3)),
+		array('tags', 'match', 'pattern'=>'/^[\w\s,]+$/',
+			'message'=>'Tags can only contain word characters.'),
+		array('tags', 'normalizeTags'),
+
+		array('title, status', 'safe', 'on'=>'search'),
+	);
+}
+~~~
+
+上記において、`title`、`content`、`status`アトリビュートは必須です。
+`title`長は128を超えてはなりません。
+`status`アトリビュート値は1 (ドラフト)、2 (公開)、3 (書庫)のうちのいずれかです。
+`tags`アトリビュートは語句とカンマしか含むことはできません。
+さらに、ユーザが入力したタグを、ユニークでカンマで正しく分離されるように`normalizeTags`を使用します。
+最後のルールはサーチ機能で使用しますが、後で説明します。
+
+`required`、`length`、`in`、`match`のような検証ルールは全てYiiが提供する備え付けのものです。
+`normalizeTags`バリデータはメソッドで構成されるバリデータで、`Post`クラスにおいて定義される必要があります。
+より詳細な、どのようにバリデータを定義するかの情報は、[ガイド](http://www.yiiframework.com/doc/guide/form.model#declaring-validation-rules)を参照してください。
+
+~~~
+[php]
+public function normalizeTags($attribute,$params)
+{
+	$this->tags=Tag::array2string(array_unique(Tag::string2array($this->tags)));
+}
+~~~
+
+ここで、`array2string`と`string2array`は新しいメソッドで、`Tag`モデルクラス内で定義されます。
+より詳細にはファイル`/wwwroot/yii/demos/blog/protected/models/Tag.php`を参照してください。
+
+`rules()`メソッドで宣言されたルールはひとつひとつ、モデルインスタンスの
+[validate()|CModel::validate]メソッドまたは[save()|CActiveRecord::save]メソッドをコールする際に実行されます。
+
+> Note|注: It is very important to remember that attributes appearing in `rules()` must be those to be entered by end users. Other attributes, such as `id` and `create_time` in the `Post` model, which are set by our code or database, should not be in `rules()`. For more details, please refer to [Securing Attribute Assignments](http://www.yiiframework.com/doc/guide/form.model#securing-attribute-assignments).
+
+After making these changes, we can visit the post creation page again to verify that the new validation rules are taking effect.
+
+
+Customizing `relations()` Method
+--------------------------------
+
+Lastly we customize the `relations()` method to specify the related objects of a post. By declaring these related objects in `relations()`, we can exploit the powerful [Relational ActiveRecord (RAR)](http://www.yiiframework.com/doc/guide/database.arr) feature to access the related object information of a post, such as its author and comments, without the need to write complex SQL JOIN statements.
+
+We customize the `relations()` method as follows:
+
+~~~
+[php]
+public function relations()
+{
+	return array(
+		'author' => array(self::BELONGS_TO, 'User', 'author_id'),
+		'comments' => array(self::HAS_MANY, 'Comment', 'post_id',
+			'condition'=>'comments.status='.Comment::STATUS_APPROVED,
+			'order'=>'comments.create_time DESC'),
+		'commentCount' => array(self::STAT, 'Comment', 'post_id',
+			'condition'=>'status='.Comment::STATUS_APPROVED),
+	);
+}
+~~~
+
+We also introduce in the `Comment` model class two constants that are used in the above method:
+
+~~~
+[php]
+class Comment extends CActiveRecord
+{
+	const STATUS_PENDING=1;
+	const STATUS_APPROVED=2;
+	......
+}
+~~~
+
+The relations declared in `relations()` state that
+
+ * A post belongs to an author whose class is `User` and the relationship is established based on the `author_id` attribute value of the post;
+ * A post has many comments whose class is `Comment` and the relationship is established based on the `post_id` attribute value of the comments. These comments should be sorted according to their creation time and the comments must be approved.
+ * The `commentCount` relation is a bit special as it returns back an aggregation result which is about how many comments the post has.
+
+
+With the above relation declaration, we can easily access the author and comments of a post like the following:
+
+~~~
+[php]
+$author=$post->author;
+echo $author->username;
+
+$comments=$post->comments;
+foreach($comments as $comment)
+	echo $comment->content;
+~~~
+
+For more details about how to declare and use relations, please refer to [the Guide](http://www.yiiframework.com/doc/guide/database.arr).
+
+
+Adding `url` Property
+---------------------
+
+A post is a content that is associated with a unique URL for viewing it. Instead of calling [CWebApplication::createUrl] everywhere in our code to get this URL, we may add a `url` property in the `Post` model so that the same piece of URL creation code can be reused. Later when we describe how beautify URLs, we will see adding this property will bring us great convenience.
+
+To add the `url` property, we modify the `Post` class by adding a getter method like the following:
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	public function getUrl()
+	{
+		return Yii::app()->createUrl('post/view', array(
+			'id'=>$this->id,
+			'title'=>$this->title,
+		));
+	}
+}
+~~~
+
+Note that in addition to the post ID, we also add the post title as a GET parameter in the URL. This is mainly for search engine optimization (SEO) purpose, as we will describe in [Beautifying URLs](/doc/blog/final.url).
+
+Because [CComponent] is the ultimate ancestor class of `Post`, adding the getter method `getUrl()` enables us to use the expression like `$post->url`. When we access `$post->url`, the getter method will be executed and its result is returned as the expression value. For more details about such component features, please refer to [the guide](/doc/guide/basics.component).
+
+
+Representing Status in Text
+---------------------------
+
+Because the status of a post is stored as an integer in the database, we need to provide a textual representation so that it is more intuitive when being displayed to end users. In a large system, the similar requirement is very common.
+
+As a generic solution, we use the `tbl_lookup` table to store the mapping between integer values and textual representations that are needed by other data objects. We modify the `Lookup` model class as follows to more easily access the textual data in the table,
+
+~~~
+[php]
+class Lookup extends CActiveRecord
+{
+	private static $_items=array();
+
+	public static function items($type)
+	{
+		if(!isset(self::$_items[$type]))
+			self::loadItems($type);
+		return self::$_items[$type];
+	}
+
+	public static function item($type,$code)
+	{
+		if(!isset(self::$_items[$type]))
+			self::loadItems($type);
+		return isset(self::$_items[$type][$code]) ? self::$_items[$type][$code] : false;
+	}
+
+	private static function loadItems($type)
+	{
+		self::$_items[$type]=array();
+		$models=self::model()->findAll(array(
+			'condition'=>'type=:type',
+			'params'=>array(':type'=>$type),
+			'order'=>'position',
+		));
+		foreach($models as $model)
+			self::$_items[$type][$model->code]=$model->name;
+	}
+}
+~~~
+
+Our new code mainly provides two static methods: `Lookup::items()` and `Lookup::item()`. The former returns a list of strings belonging to the specified data type, while the latter returns a particular string for the given data type and data value.
+
+Our blog database is pre-populated with two lookup types: `PostStatus` and `CommentStatus`. The former refers to the possible post statuses, while the latter the comment statuses.
+
+In order to make our code easier to read, we also declare a set of constants to represent the status integer values. We should use these constants through our code when referring to the corresponding status values.
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	const STATUS_DRAFT=1;
+	const STATUS_PUBLISHED=2;
+	const STATUS_ARCHIVED=3;
+	......
+}
+~~~
+
+Therefore, we can call `Lookup::items('PostStatus')` to get the list of possible post statuses (text strings indexed by the corresponding integer values), and call `Lookup::item('PostStatus', Post::STATUS_PUBLISHED)` to get the string representation of the published status.
+
+
+<div class="revision">$Id: post.model.txt 2922 2011-01-29 19:51:56Z alexander.makarow $</div>

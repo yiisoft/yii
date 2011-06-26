@@ -1,7 +1,7 @@
 Upiększanie URLi
 ================
 
-Adresy URL łączące różne strony naszego blogu wyglądają obecnie brzydko. Na przykład, URL dla strony wyświetlającej wiadomości wygląda następująco:
+Adresy URL łączące różne strony naszego blogu wyglądają obecnie brzydko. Na przykład URL dla strony wyświetlającej wiadomości wygląda następująco:
 
 ~~~
 /index.php?r=post/show&id=1&title=A+Test+Post
@@ -37,7 +37,7 @@ return array(
 
 W powyższym kodzie, skonfigurowaliśmy komponent [urlManager](http://www.yiiframework.com/doc/guide/topics.url) poprzez ustawienie jego właściwości `urlFormat` jako `path` oraz dodanie zestawu reguł `rules`.
 
-Reguły używane są przez `urlManager` do analizowanie i tworzenia URLi w zaprojektowanym formacie. Na przykład, pierwsza reguła mówi, że jeśli żądamy URLu `/index.php/posts/yii` komponent `urlManager` powinien być odpowiedzialny za wysłania żądania do [trasy](http://www.yiiframework.com/doc/guide/basics.controller#route) `post/index` oraz wygenerowania parametru GET o nazwie`tag` i wartości `yii`. Z drugiej strony, podczas tworzenia URL-a o ścieżce `post/list` oraz parametrze `tag`, komponent `urlManager` również użyje tej reguły do wygenerowania pożądanego adresu URL `/index.php/posts/yii`. Z tego też powodu mówimy, że `urlManager` jest dwukierunkowym menadżerem URLi.
+Reguły używane są przez `urlManager` do analizowania i tworzenia URLi w zaprojektowanym formacie. Na przykład, pierwsza reguła mówi, że jeśli żądamy URLu `/index.php/posts/yii` komponent `urlManager` powinien być odpowiedzialny za wysłania żądania do [trasy](http://www.yiiframework.com/doc/guide/basics.controller#route) `post/index` oraz wygenerowania parametru GET o nazwie`tag` i wartości `yii`. Z drugiej strony, podczas tworzenia URL-a o ścieżce `post/list` oraz parametrze `tag`, komponent `urlManager` również użyje tej reguły do wygenerowania pożądanego adresu URL `/index.php/posts/yii`. Z tego też powodu mówimy, że `urlManager` jest dwukierunkowym menadżerem URLi.
 
 Komponent `urlManager` może później upiększyć nasze URLe, np. poprzez ukrycie `index.php` w URLach, dodanie sufiksu takiego jak `.html` do URLi. Możemy uzyskać te funkcje w prosty sposób poprzez konfigurowanie różnych właściwości `urlManager` w konfiguracji aplikacji. Aby uzyskać więcej szczegółów, zajrzyj do [przewodnika](http://www.yiiframework.com/doc/guide/topics.url).
 

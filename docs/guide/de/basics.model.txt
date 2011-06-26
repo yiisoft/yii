@@ -1,11 +1,11 @@
 Model
 =====
 
-Ein Model ist eine Instanz von [CModel] oder einer davon abgeleiteten Klasse. Models
+Ein Model ist eine Instanz von [CModel] oder dessen Kindklasse. Models
 werden verwendet, um Daten und ihre Geschäftslogik festzuhalten.
 
 Ein Model steht für ein einzelnes Datenobjekt. Dabei kann es sich um eine Zeile
-in einer Datenbanktabelle oder ein Formular mit Benutzereingaben handeln.
+in einer Datenbanktabelle oder ein HTML-Formular mit Benutzereingaben handeln.
 Jedes Attribut des Models entspricht einem Feld des Datenjobekts.
 Ein Attribut hat ein Label (Bezeichnung bzw. Beschriftung) und kann mit einer
 Reihe von Regeln validiert, also auf Gültigkeit geprüft werden.
@@ -26,4 +26,4 @@ Klasse. Ein Record steht für eine einzelne Zeile einer Datenbanktabelle. Die
 Datenfelder werden auf die Eigenschaften des AR-Objekts abgebildet. Weitere
 Details zu AR finden Sie unter [ActiveRecord](/doc/guide/database.ar).
 
-<div class="revision">$Id: basics.model.txt 162 2008-11-05 12:44:08Z weizhuo $</div>
+<div class="revision">$Id: basics.model.txt 3251 2011-06-01 00:24:06Z qiang.xue $</div>

@@ -366,7 +366,7 @@ Einige Beispiele:
 [php]
 // JOIN `tbl_profile` ON user_id=id
 join('tbl_profile', 'user_id=id')
-// LEFT JOIN `pub`.`tbl_profile` `p` ON p.user_id=id AND type=:type
+// LEFT JOIN `pub`.`tbl_profile` `p` ON p.user_id=id AND type=1
 leftJoin('pub.tbl_profile p', 'p.user_id=id AND type=:type', array(':type'=>1))
 ~~~
 
@@ -652,7 +652,8 @@ Folgende abstrakten Datentypen werden unterstützt:
 * `time`: Zeit, wird bei MySQL zu `time`
 * `date`: Datum, wird bei MySQL zu `date`
 * `binary`: Binärdaten, wird bei MySQL zu `blob`
-* `boolean`: Bool'scher Wert, wird by MySQL zu `tinyint(1)`
+* `boolean`: Bool'scher Wert, wird bei MySQL zu `tinyint(1)`
+* `money`: Monetärer Wert/Währung, wird bei MySQL zu `decimal(19,4)`. Verfügbar seit Version 1.1.8
 
 
 ###createTable()
@@ -936,4 +937,4 @@ Hier ein Beispiel:
 dropIndex('idx_username', 'tbl_user')
 ~~~
 
-<div class="revision">$Id: database.query-builder.txt 2979 2011-02-20 02:35:48Z alexander.makarow $</div>
+<div class="revision">$Id: database.query-builder.txt 3304 2011-06-23 14:53:50Z qiang.xue $</div>

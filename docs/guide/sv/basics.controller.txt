@@ -1,17 +1,17 @@
 Controller
 ==========
 
-En `controller` är en instans av [CController] eller en nedärvd klass. Den 
-skapas av Application till följd av en request från användare. När en kontroller 
-körs utför den den begärda åtgärden (action), vilken vanligen laddar in 
-erforderliga modeller (model) samt renderar en relevant vy (view). En åtgärd är, 
-i sin enklaste form, en vanlig metod i kontrollerklassen vars namn börjar med 
-`action`
+En `controller` är en instans av [CController] eller av en klass som 
+utökar [CController]. Den skapas av applikationsobjektet till följd 
+av en request från användare. När en kontroller körs utförs den begärda 
+åtgärden (action), vilken vanligen laddar in erforderliga modeller (model) 
+samt renderar en relevant vy (view). En åtgärd är, i sin enklaste form, 
+en vanlig metod i kontrollerklassen vars namn börjar med `action`
 
-En kontroller har en standardåtgärd. Denna körs om en request från användare 
-inte specificerar vilken åtgärd som skall köras. Som standard har 
-standardåtgärden namnet `index`. Detta kan ändras genom inställningen 
-[CController::defaultAction].
+En kontroller har en standardåtgärd. Denna körs om en request från 
+användare inte specificerar vilken åtgärd som skall köras. Normalt har 
+standardåtgärden namnet `index`. Detta kan ändras medelst den publikt 
+tillgängliga instansvariablen [CController::defaultAction].
 
 Följande kod definierar en `site`-controller, en `index`-åtgärd (standardåtgärden), 
 samt en `contact`-åtgärd:
@@ -36,19 +36,19 @@ class SiteController extends CController
 Route
 -----
 
-Kontroller och åtgärd identifieras genom ID:n. Controller-ID har formatet 
+Kontroller och åtgärd identifieras genom ID:n. Ett kontroller-ID har formatet 
 `path/to/xyz` motsvarande kontrollerklassfilen 
 `protected/controllers/path/to/XyzController.php`, där ledet `xyz` skall 
-ersättas med aktuella namn (t.ex. `post` motsvarar 
+ersättas med aktuella namn (exempelvis motsvarar `post` 
 `protected/controllers/PostController.php`). Action-ID är en åtgärds metodnamn 
 minus dess `action`-prefix. Exempelvis, om en kontrollerklass innehåller en 
 metod `actionEdit` så är ID för motsvarande åtgärd `edit`.
 
 Användare begär körning av en viss kontroller och åtgärd genom att ange en 
-route. En route består av controller-ID samt action-ID separerat av ett 
+route. En route består av controller-ID samt action-ID, separerat av ett 
 snedstreck. Exempel: `post/edit` refererar till `PostController` och 
 dess `edit`-åtgärd. Som standard refererar URL:en 
-`http://hostname/index.php?r=post/edit` till denna kontroller resp. åtgärd.
+`http://hostname/index.php?r=post/edit` till post-kontrollern och dess edit-åtgärd.
 
 > Note|Märk: Som standard är route skiftlägesberoende. Route kan göras okänslig 
 för skiftläge genom att inställningen [CUrlManager::caseSensitive] sätts till false i 
@@ -69,15 +69,15 @@ En kontrollerinstans skapas när [CWebApplication] behandlar en inkommande
 request. Givet ett kontroller-ID använder sig Application av följande regler för 
 att bestämma kontrollerklass samt var dess klassfil är placerad.
 
-   - Om [CWebApplication::catchAllRequest] har specificerats, skapas en kontroller baserat på denna property och användarspecificerat kontroller-ID ignoreras. Detta används i första hand till att sätta applikationen i underhållsläge och visa en informationssida.
+   - Om [CWebApplication::catchAllRequest] har specificerats, skapas en kontroller baserat på denna property och användarspecificerat kontroller-ID ignoreras. Detta används i första hand till att sätta applikationen i underhållsläge och visa en statisk informationssida.
 
    - Om begärt ID kan hittas i [CWebApplication::controllerMap], används motsvarande kontrollerkonfiguration för att skapa kontrollerinstansen.
 
-   - Om begärt ID har formatet `'path/to/xyz'`, förmodas kontrollerklassen vara `XyzController` och motsvarande klassfil `protected/controllers/path/to/XyzController.php`. Exempelvis kontroller-ID `admin/user` löses upp som kontrollerklassen `UserController` med klassfilen `protected/controllers/admin/UserController.php`. Om klassfilen inte kan hittas ges en 404 [CHttpException].
+   - Om begärt ID har formatet `'path/to/xyz'`, förmodas kontrollerklassen vara `XyzController` och motsvarande klassfil `protected/controllers/path/to/XyzController.php`. Exempelvis kontroller-ID `admin/user` mappas till kontrollerklassen `UserController` med klassfilen `protected/controllers/admin/UserController.php`. Om klassfilen inte kan hittas ges en 404 [CHttpException].
 
 Om [moduler](/doc/guide/basics.module) används, är ovanstående process aningen annorlunda. 
 Mer detaljerat, applikationen kontrollerar om ID:t refererar till en kontroller 
-inuti en modul och om så är fallet skapas modulinstansen först, därefter kontrollerinstansen.
+inuti en modul och om så är fallet skapas modulen först, därefter kontrollerinstansen.
 
 
 Action
@@ -147,7 +147,7 @@ parametrar till kontrolleråtgärder. Det innebär att en kontrollers åtgärdsm
 kan definiera namngivna parametrar vars värde automatiskt kommer att hämtas från 
 `$_GET` av Yii.
 
-För fördjupad inblick i denna finess, antag att vi behöver skriva en `create`-åtgärd 
+För att åskådliggöra denna finess, antag att vi behöver skriva en `create`-åtgärd 
 för `PostController`. Åtgärden behöver två parametrar:
 
 * `category`: ett heltal som indikerar det kategori-ID under vilket den nya postningen skall skapas
@@ -206,7 +206,7 @@ class PostController extends CController
 {
 	public function actionCreate(array $categories)
 	{
-		// Yii ser till att $categories kommer att vara en array
+		// Yii ser till att $categories är en array
 	}
 }
 ~~~
@@ -248,9 +248,9 @@ En åtgärd kan ha flera filter. Filtren körs i den ordning de förekommer i
 filterdeklarationen. Ett filter kan förhindra exekvering av åtgärden såväl som 
 återstående ej exekverade filter.
 
-Ett filter kan definieras som en metod i kontrollerklassen. Metoden namn måste 
-börja med `filter`. Exempelvis förekomsten av en metod `filterAccessControl` 
-definierar ett filter med namnet `accessControl`. Signaturen för filtermetoden måste vara:
+Ett filter kan definieras som en metod i kontrollerklassen. Metodens namn måste 
+börja med `filter`. Exempelvis en metod `filterAccessControl` definierar 
+ett filter med namnet `accessControl`. Filtermetoden måste ha korrekt signatur:
 
 ~~~
 [php]
@@ -261,7 +261,7 @@ public function filterAccessControl($filterChain)
 ~~~
 
 där `$filterChain` är en instans av [CFilterChain] vilken representerar begärd 
-åtgärds filterlista. I filtermetoden kan vi anropa `$filterChain->run()` för att 
+åtgärds filterlista. I en filtermetod kan vi anropa `$filterChain->run()` för att 
 fortsätta med exekvering av övriga filter samt åtgärd.
 
 Ett filter kan också vara en instans av [CFilter] eller en nedärvd klass. 
@@ -317,8 +317,8 @@ filterobjektet kan initialiseras. I exemplet initialiseras propertyn `unit` i
 
 Genom användning av plus- och minusoperatorerna kan vi specificera vilka 
 åtgärder filtret skall eller inte skall tillämpas på. I exemplet ovan tillämpas 
-filtret `postOnly` på åtgärderna `edit` och `create`, medan `PerformanceFilter` 
+filtret `postOnly` på åtgärderna `edit` och `create`, medan filtret `PerformanceFilter` 
 tillämpas på alla åtgärder UTOM `edit` och `create`. Om varken plus eller minus 
 förekommer i filterkonfigurationen tillämpas filtret på alla åtgärder.
 
-<div class="revision">$Id: basics.controller.txt 3058 2011-03-13 04:20:12Z qiang.xue $</div>
+<div class="revision">$Id: basics.controller.txt 3251 2011-06-01 00:24:06Z qiang.xue $</div>

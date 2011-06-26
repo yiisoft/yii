@@ -47,7 +47,7 @@ Nu kan Gii nås via URL:en `http://hostname/path/to/index.php?r=gii`. Här antas
 är URL:en som används för tillgång till den befintliga Yii-applikationen.
 
 Om den befintliga Yii-applikationen använder URL:er enligt `path`-format (se [URL-hantering](/doc/guide/topics.url)), 
-kan vi nå Gii via URL:en `http://hostnamepath/to/index.php/gii`. Följande URL-regler kan behöva läggas till före redan 
+kan vi nå Gii via URL:en `http://hostname/path/to/index.php/gii`. Följande URL-regler kan behöva läggas till före redan 
 befintliga URL-regler:
 
 ~~~
@@ -346,4 +346,4 @@ class <?php echo $this->className; ?> extends CWidget
 
 Därmed är vår nyskapade kodgenerator komplett. Den kan användas omedelbart via URL:en `http://hostname/path/to/index.php?r=gii/widget`.
 
-<div class="revision">$Id: topics.gii.txt 2055 2010-04-17 22:33:46Z qiang.xue $</div>
+<div class="revision">$Id: topics.gii.txt 3223 2011-05-17 23:02:50Z alexander.makarow $</div>

@@ -1,7 +1,7 @@
 Tworzenie portletu ostatnich komentarzy
 ================================
 
-W części tej utworzymy portlet, który wyświetli listę komentarzy, które zostały ostatnie opublikowane. 
+W części tej utworzymy portlet, który wyświetli listę komentarzy, które zostały ostatnio opublikowane. 
 
 
 Tworzenie klasy `RecentComments`

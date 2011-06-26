@@ -63,7 +63,7 @@ representerar ett enstaka samband, på följande format:
 ~~~
 
 där `VarName` är sambandets namn; `RelationType` specificerar sambandets typ, 
-som kan vara en av de fyra konstanternas: `self::BELONGS_TO`, `self::HAS_ONE`, 
+som kan vara en av de fyra konstanterna: `self::BELONGS_TO`, `self::HAS_ONE`, 
 `self::HAS_MANY` samt `self::MANY_MANY`; `ClassName` är namnet på den AR-klass 
 som har samband med denna AR-klass; `ForeignKey` specificerar det eller de 
 referensattribut som är involverade i sambandet. Ytterligare alternativ kan 
@@ -261,7 +261,7 @@ relationella frågan. De sammanfattas nedan.
    - `on`: motsvarar `ON`-ledet. Villkoret som specificeras här kommer att läggas till 
    sammanslagningsvillkoret med hjälp av `AND`-operatorn. Kolumnnamn som refereras till 
    i detta alternativ måste göras otvetydiga. Detta alternativ är inte relevant vid 
-   `MANY_MANY`-relationer.
+   `MANY_MANY`-samband.
 
    - `order`: motsvarar `ORDER BY`-ledet. Det är som standard tomt. Kolumnnamn som 
    refereras till i detta alternativ måste göras otvetydiga. 

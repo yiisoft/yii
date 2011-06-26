@@ -36,10 +36,12 @@ Yii は I18N のサポートをいくつかの面から提供します。
 `CApplication::getLocale($localeID)` により、
 それに一致する [CLocale] インタンスを取得できます。
 
-> Info|情報: Yii にはほとんど全ての言語と地域のためのロケールデータを含まれます。
+> Info|情報: Yii にはほとんど全ての言語と地域のためのロケールデータが含まれています。
 データは [共通ロケールデータリポジトリ](http://unicode.org/cldr/) (CLDR) より取得されています。
-各ロケールは、CLDR により提供されたオリジナルデータに含まれるうちの
-主要な情報のサブセットになります。
+オリジナルのデータは滅多に使用されない多くの情報を含んでいるため、各ロケールとも、そのサブセットだけが提供されます。
+ユーザーが自分自身のカスタマイズしたロケールデータを供給することも出来ます。
+そうするためには、[CApplication::localeDataPath]プロパティを構成して、カスタマイズされたロケールデータを含むディレクトリを指定します。
+カスタマイズされたロケールデータファイルを作る場合は、`framework/i18n/data`の下にあるロケールデータファイルを参照して下さい。
 
 Yii アプリケーションのために、[ソース言語|CApplication::sourceLanguage] と
 [ターゲット言語|CApplication::language] を区別します。ターゲット言語は、
@@ -89,7 +91,7 @@ Yii では、ソース言語はデフォルトの [アプリケーションソ�
 
 ~~~
 [php]
-Yii::t('yii', 'Path alias "{alias}" is redefined.',
+Yii::t('app', 'Path alias "{alias}" is redefined.',
 	array('{alias}'=>$alias))
 ~~~
 
@@ -136,20 +138,33 @@ Yii は、[messages|CApplication::messages] という名前のアプリケーシ
 
    2. `protected/messages/LocaleID/CategoryName.php` に
 PHP 翻訳ファイルを作成します。各ファイルは、単にメッセージ翻訳の配列を返します。
-注：あなたが翻訳メッセージを保存するのにデフォルトｍｐ [CPhpMessageSource] を使用すると仮定しています。
+注：あなたが翻訳メッセージを保存するのにデフォルトの [CPhpMessageSource] を使用すると仮定しています。
 
    3. [CApplication::sourceLanguage] と [CApplication::language] の設定を行います。
 
 > Tip|ヒント: [CPhpMessageSource] をメッセージソースとして使用する場合、
 メッセージ翻訳を管理するために、Yii の `yiic` ツールを利用できます。
-`message` コマンドでは、自動的に選択されたソースファイルから
+`message` コマンドによって、自動的に選択されたソースファイルから
 翻訳されるべきメッセージを抽出し、必要なら、既存の翻訳にそれらをマージできます。
+`message`コマンドのさらに詳細な使用方法については、`yiic help message`を実行して下さい。
 
-バージョン 1.0.2 以降、Yii は [choice format|CChoiceFormat] のサポートが追加されました。
+[CPhpMessageSource]を使ってメッセージソースを管理する場合、
+エクステンションクラス(例えばウィジェットやモジュール)のメッセージは分離して管理および使用することが出来ます。
+具体的に言うと、メッセージが`Xyz`というクラス名のエクステンションに属している場合、
+メッセージカテゴリを`Xyz.categoryName`の形式で指定することが出来ます。 
+対応するメッセージファイルは`BasePath/messages/LanguageID/categoryName.php`であると見なされます。ここで`BasePath`はエクステンションクラスファイルを含むディレクトリを指します。
+そして、`Yii::t()`を使ってエクステンションのメッセージを翻訳するときは、かわりに、以下の書式が使用されなければなりません。
+
+~~~
+[php]
+Yii::t('Xyz.categoryName', 'message to be translated')
+~~~
+
+Yii は [choice format|CChoiceFormat] をサポートしています。これは、複数形書式(plural forms)としても知られているものです。
 choice format は、与えられた数値に従い翻訳を選択します。
 たとえば、'book' という単語は、英語では、本の数によって単数形か複数形のどちらかを取りますし、
-また、他の言語では、（中国語のような）異なる形を持たない場合、
-（ロシア語などのように）より複雑な複数形の規則がある場合があります。
+また、他の言語では、（中国語のように）異なる形を持たない場合、
+（ロシア語のように）より複雑な複数形の規則がある場合があります。
 choice format はこの問題を簡単かつ効果的な方法で解決します。
 
 choice format を使用するには、翻訳メッセージが下記のように `|`
@@ -174,6 +189,13 @@ choice format を使用するには、翻訳メッセージが下記のように
 と仮定し、[Yii::t()|YiiBase::t] を呼び出す際、メッセージのパラメータ配列に
 数値 2 を渡した場合、最終的に翻訳メッセージには `many books` が返されます。
 
+~~~
+[php]
+Yii::t('app', 'n==1#one book|n>1#many books', array(1)));
+// または、1.1.6 以降なら
+Yii::t('app', 'n==1#one book|n>1#many books', 1));
+~~~
+
 略記法として、式が数値のみの場合、`n==数値` と解釈されます。
 そのため、上記の翻訳メッセージは下記のように記述することも可能です。
 
@@ -181,6 +203,89 @@ choice format を使用するには、翻訳メッセージが下記のように
 [php]
 '1#one book|n>1#many books'
 ~~~
+
+### 複数形の書式
+
+バージョン 1.1.6 以降、CLDR ベースの複数形選択書式がより単純な文法で使用出来るようになりました。
+これは複雑な複数形の規則を持つ言語のために便利です。
+
+
+この複数形の選択書式の規則は、英語の場合、次のように書くことが出来ます。
+
+~~~
+[php]
+Yii::t('test', 'cucumber|cucumbers', 1);
+Yii::t('test', 'cucumber|cucumbers', 2);
+Yii::t('test', 'cucumber|cucumbers', 0);
+~~~
+
+上記のコードは次のように翻訳されます。
+
+~~~
+cucumber
+cucumbers
+cucumbers
+~~~
+
+数値を含めたい場合は、次のように書くことが出来ます。
+
+~~~
+[php]
+echo Yii::t('test', '{n} cucumber|{n} cucumbers', 1);
+~~~
+
+ここで `{n}` は渡された数値を保持する特別なプレースホルダです。上記のコードは `1 cucumber` を表示します。
+
+追加の引数を渡すことも出来ます。
+
+~~~
+[php]
+Yii::t('test', '{username} has a cucumber|{username} has {n} cucumbers',
+array(5, '{username}' => 'samdark'));
+~~~
+
+さらに、数値の引数を別のもので置き換えることも出来ます。
+
+~~~
+[php]
+function convertNumber($number)
+{
+	// 数値を言葉に変換
+	return $number;
+}
+
+Yii::t('test', '{n} cucumber|{n} cucumbers',
+array(5, '{n}' => convertNumber(5)));
+~~~
+
+ロシア語の場合で見てみましょう。まず、元のメッセージが以下の通りであるとします。
+~~~
+[php]
+Yii::t('app', '{n} cucumber|{n} cucumbers', 62);
+Yii::t('app', '{n} cucumber|{n} cucumbers', 1.5);
+Yii::t('app', '{n} cucumber|{n} cucumbers', 1);
+Yii::t('app', '{n} cucumber|{n} cucumbers', 7);
+~~~
+
+そして、以下のような翻訳メッセージが提供されているとします。
+
+~~~
+[php]
+'{n} cucumber|{n} cucumbers' => '{n} огурец|{n} огурца|{n} огурцов|{n} огурца',
+~~~
+
+すると、表示結果は以下のようになります。
+
+~~~
+62 огурца
+1.5 огурца
+1 огурец
+7 огурцов
+~~~
+
+
+> Info|情報: どれだけの数の値を、どの順序で記述すべきかについては、CLDR
+ [Language Plural Rules page](http://unicode.org/repos/cldr-tmp/trunk/diff/supplemental/language_plural_rules.html) を参照して下さい。
 
 
 ### ファイル翻訳
@@ -259,4 +364,4 @@ UNIX タイムスタンプを文字列にフォーマットします。（たと
 ターゲットロケールデータに定義されているパーセンテージパターンに基づき、
 数値を文字列にフォーマットします。
 
-<div class="revision">$Id: topics.i18n.txt 772 2009-02-28 18:23:17Z qiang.xue $</div>
+<div class="revision">$Id: topics.i18n.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>

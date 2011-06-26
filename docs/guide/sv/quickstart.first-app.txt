@@ -1,11 +1,11 @@
 Skapa en första Yii-applikation
 ===============================
 
-För en inledande bekantskap med Yii beskrivs i detta avsnitt hur man kan skapa 
+För att ge en inledande erfarenhet av Yii beskrivs i detta avsnitt hur man kan skapa 
 en första Yii-applikation. Vi kommer att använda `yiic` (kommandoradsverktyg)
 till att skapa en ny Yii-applikation samt `Gii` (kraftfull webbaserad kodgenerator) 
-för automatiserad kodgenerering för bestämda ändamål. Vi antar att `YiiRoot` är 
-katalogen där Yii är installerat, samt att `WebRoot` är webbserverns rotkatalog 
+till att automatisera kodgenerering för bestämda ändamål. Vi antar att `YiiRoot` 
+är katalogen där Yii är installerat, samt att `WebRoot` är webbserverns rotkatalog 
 för dokument. 
 
 Kör `yiic` från en kommandorad enligt följande:
@@ -46,14 +46,13 @@ priviligierat innehåll. Se nedanstående skärmdumpar för närmare detaljer.
 
 ![Kontaktsida med inmatningsfel](first-app3.png)
 
-![Kontaktsida med korrekt inmatning](first-app4.png)
+![Kontaktsida vid korrekt inmatning](first-app4.png)
 
 ![Inloggningssida](first-app5.png)
 
 
 Följande diagram visar applikationens katalogstruktur. Se 
-[Konventioner](/doc/guide/basics.convention#directory) för detaljerad förklaring 
-till denna struktur.
+[Konventioner](/doc/guide/basics.convention#directory) för en detaljerad förklaring.
 
 ~~~
 testdrive/
@@ -249,4 +248,4 @@ Allt detta uppnåddes utan att skriva en enda rad kod!
 
 
 
-<div class="revision">$Id: quickstart.first-app.txt 2375 2010-08-30 12:19:23Z mdomba $</div>
+<div class="revision">$Id: quickstart.first-app.txt 3219 2011-05-13 03:03:35Z qiang.xue $</div>

@@ -34,4 +34,4 @@ langsamer, da intern eine wesentlich größere Menge an Logmeldungen anfällt.
 In der Entwicklungsphase ist der Debugmodus allerdings sehr hilfreich, da 
 im Fehlerfall umfangreiche Debuginformationen angezeigt werden können.
 
-<div class="revision">$Id: basics.entry.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>
+<div class="revision">$Id: basics.entry.txt 3251 2011-06-01 00:24:06Z qiang.xue $</div>

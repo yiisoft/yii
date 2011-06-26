@@ -1,7 +1,7 @@
 Controller
 ====================
 
-Sebuah `controller` adalah turunan dari [CController] atau anak kelasnya.
+Sebuah `controller` adalah instance dari [CController] atau kelas turunan [CController].
 Controller dibuat oleh aplikasi saat pengguna me-request-nya. Ketika berjalan, controller
 melakukan action yang di-request yang biasanya memerlukan model
 dan membuat view yang sesuai. Sebuah `action`, dalam bentuk paling sederhana sebenarnya
@@ -9,8 +9,8 @@ hanyalah metode kelas controller yang namanya dimulai dengan kata `action`.
 
 Controller memiliki action standar. Ketika permintaan pengguna tidak menetapkan
 action mana yang dijalankan, action standar yang akan dijalankan. Biasanya
-action default dinamai sebagai `index`. Action default bisa diubah dengan menyetel
-[CController::defaultAction].
+action default dinamai sebagai `index`. Action default bisa diubah dengan mengeset
+variabel instance publik, [CController::defaultAction].
 
 Berikut merupakan code untuk mendefinisikan controller `site`, sebuah action `index` (action
 default), dan sebuah action `contact`:
@@ -48,8 +48,7 @@ Request pengguna terhadap controller dan action tertentu sesuai dengan aturan ro
 Route dibentuk dengan menggabungkan ID controller dan ID action yang dipisahkan
 dengan garis miring. Sebagai contoh, route `post/edit` merujuk ke `PostController`
 dan action `edit`. Dan secara default, URL
-`http://hostname/index.php?r=post/edit` akan meminta controller dan
-action tersebut.
+`http://hostname/index.php?r=post/edit` akan meminta controller post dan action edit.
 
 >Note|Catatan: Secara default, route bersifat case-sensitive. Kita bisa saja
 >menjadikan route tidak bersifat case-sensitive dengan mengatur [CUrlManager::caseSensitive]
@@ -83,7 +82,7 @@ controller.
    - Jika ID ada dalam format `'path/ke/xyz'`, nama kelas controller
 diasumsikan adalah `XyzController` dan file kelas terkait adalah
 `protected/controllers/path/ke/XyzController.php`. Sebagai contoh, ID controller
-`admin/user` akan dipecahkan sebagai kelas controller `UserController`
+`admin/user` akan diuraikan sebagai kelas controller `UserController`
 dan file kelas `protected/controllers/admin/UserController.php`.
 Jika file kelas tidak ada, 404 [CHttpException] akan dimunculkan.
 
@@ -97,7 +96,7 @@ Action
 ------------
 
 Seperti yang telah disinggung, action dapat didefinisikan sebagai metode yang namanya dimulai
-dengan kata `action`. Cara tingkat mahir adalah dengan mendefinisikan kelas action
+dengan kata `action`. Cara lebih advance adalah dengan mendefinisikan kelas action
 dan meminta controller untuk menurunkannya apabila diperlukan. Dengan demikian memungkinkan sebuah action
 untuk dipakai ulang.
 
@@ -160,7 +159,7 @@ Semenjak versi 1.1.4, Yii telah menambah dukungan binding (pengikatan) parameter
 yakni sebuah action controller dapat mendefinisikan parameter yang nilainya akan secara
 otomatis diisi oleh Yii dari nilai `$_GET`.
 
-Untuk menjelaskan fitur ini, mari kita asumsi bahwa kita perlu membuat sebuah action `create`
+Untuk mengilustrasi bagaimana cara kerjanya, mari kita asumsi bahwa kita perlu membuat sebuah action `create`
 pada `PostController`. Action ini memerlukan dua buah parameter :
 
    * `category`: sebuah integer yang menunjukkan ID kategori ke berapa post baru yang
@@ -222,7 +221,7 @@ class PostController extends CController
 {
 	public function actionCreate(array $categories)
 	{
-		// Yii akan memastikan $categories menjadi sebuah array
+		// Yii akan memastikan $categories adalah sebuah array
 	}
 }
 ~~~
@@ -240,16 +239,28 @@ action yang menggunakan class. Ketika method `run()` didefinisikan
 beberapa parameter, maka parameter-parameter ini akan diisi sesuai dengan
 nilai parameter request yang diberi nama. Contohnya,
 
+~~~
+[php]
+class UpdateAction extends CAction
+{
+	public function run($id)
+	{
+		// $id akan diisi dengan $_GET['id']
+	}
+}
+~~~
+
+
 Filter
 ------
 
-Filter adalah kode yang dikonfigurasi untuk dijalankan sebelum dan/atau
+Filter adalah code yang dikonfigurasikan supaya berjalan sebelum dan/atau
 setelah action controller dijalankan. Misalnya, filter kontrol akses
-dapat dijalankan guna memastikan bahwa pengguna diotentikasi sebelum menjalankan
+dijalankan guna memastikan bahwa pengguna diotentikasi sebelum menjalankan
 action yang diminta; filter kinerja bisa dipakai untuk mengukur waktu
 yang diperlukan dalam menjalankan action.
 
-Action bisa memiliki multipel filter. Filter dijalankan dalam urutan seperti
+Action bisa memiliki lebih dari satu filter. Filter dijalankan dalam urutan seperti
 yang terlihat dalam daftar filter. Filter bisa menjaga eksekusi action dan filter
 lain yang tidak dieksekusi.
 
@@ -266,10 +277,9 @@ public function filterAccessControl($filterChain)
 }
 ~~~
 
-di mana `$filterChain` adalah turunan [CFilterChain] yang menggambarkan daftar
+di mana `$filterChain` adalah instance [CFilterChain] yang menggambarkan daftar
 filter yang dikaitkan dengan action yang diminta. Di dalam metode filter, kita
-dapat memanggil `$filterChain->run()` untuk melanjutkan penyaringan dan jalannya
-action.
+dapat memanggil `$filterChain->run()` untuk melanjutkan penyaringan dan jalannya action.
 
 Filter juga dapat berupa turunan [CFilter] atau anak kelasnya. Kode
 berikut mendefinisikan kelas filter baru:
@@ -291,7 +301,7 @@ class PerformanceFilter extends CFilter
 }
 ~~~
 
-Untuk menerapkan filter terhadap action, kita perlu menimpa metode
+Untuk menerapkan filter terhadap action, kita perlu meng-override metode
 `CController::filters()`. Metode harus mengembalikan array konfigurasi
 filter. Contoh,
 
@@ -314,20 +324,20 @@ class PostController extends CController
 ~~~
 
 Kode di atas menetapkan dua filter: `postOnly` dan `PerformanceFilter`.
-Filter `postOnly` berbasis-metode (metode filter terkait sudah didefinisikan
+Filter `postOnly` berbasis-metode (metode filter yang berhubungan sudah didefinisikan
 dalam [CController]); sementara filter `PerformanceFilter` berbasis
-obyek. Alias path `application.filters.PerformanceFilter`
+objek. Alias path `application.filters.PerformanceFilter`
 menetapkan bahwa file kelas filter adalah
 `protected/filters/PerformanceFilter`. Kita menggunakan array untuk mengkonfigurasi
-`PerformanceFilter` agar ia dapat dipakai guna menginisialisasi nilai
-properti obyek filter. Di sini, properti `unit` pada
+`PerformanceFilter` agar dapat dipakai guna menginisialisasi nilai
+properti objek filter. Di sini, properti `unit` pada
 `PerformanceFilter` akan diinisialisasi sebagai `'second'`.
 
-Dengan menggunakan operator plus dan minus, kita dapat menetapakan action mana
-yang harus dan tidak diterapkan oleh filter. Dalam contoh di atas, `postOnly`
+Dengan menggunakan operator plus dan minus, kita dapat menetapkan action mana
+yang harus diterapkan dan yang mana tidak diterapkan oleh filter. Dalam contoh di atas, `postOnly`
 harus diterapkan ke action `edit` dan `create`, sementara
 `PerformanceFilter` harus diterapkan ke semua action KECUALI `edit` dan
 `create`. Jika plus maupun minus tidak muncul dalam konfigurasi filter,
 maka filter akan diterapkan ke semua action.
 
-<div class="revision">$Id: basics.controller.txt 3058 2011-03-13 04:20:12Z qiang.xue $</div>
+<div class="revision">$Id: basics.controller.txt 3251 2011-06-01 00:24:06Z qiang.xue $</div>

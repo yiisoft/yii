@@ -3,7 +3,7 @@ Tworzenie i wyświetlanie komentarzy
 
 W części tej zaimplementujemy funkcje wyświetlania oraz tworzenia komentarzy.
 
-W celu zwiększenia interakcji z użytkownikiem będziemy chcieli poinformować użytkownika o możliwych błędach za każdym razem gdy skończy on wprowadzać wartości do danego pola. Znane jest to po pojęciem sprawdzania poprawności danych po stronie klienta. Pokażemy jak można to zrobić w Yii w sposób nierozróżnialny i ekstremalnie prosty. Zauważ, że wymagana jest do tego wersja Yii 1.1.1 lub późniejsza. 
+W celu zwiększenia interakcji z użytkownikiem będziemy chcieli poinformować użytkownika o możliwych błędach za każdym razem gdy skończy on wprowadzać wartości do danego pola. Znane jest to pod pojęciem sprawdzania poprawności danych po stronie klienta. Pokażemy jak można to zrobić w Yii w sposób nierozróżnialny i ekstremalnie prosty. Zauważ, że wymagana jest do tego wersja Yii 1.1.1 lub późniejsza. 
 
 
 Wyświetlanie komentarzy
@@ -15,7 +15,7 @@ W celu wyświetlenia komentarzy na stronie szczegółów wiadomości, zmodyfikuj
 
 ~~~
 [php]
-...post view here...
+...widok posta...
 
 <div id="comments">
 	<?php if($model->commentCount>=1): ?>

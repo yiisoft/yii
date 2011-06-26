@@ -372,4 +372,4 @@ class <?php echo $this->className; ?> extends CWidget
 Damit ist der neue Codegenerator fertig und man kann ihn über die URL
 `http://hostname/path/to/index.php?r=gii/widget` aufrufen.
 
-<div class="revision">$Id: topics.gii.txt 2055 2010-04-17 22:33:46Z qiang.xue $</div>
+<div class="revision">$Id: topics.gii.txt 3223 2011-05-17 23:02:50Z alexander.makarow $</div>

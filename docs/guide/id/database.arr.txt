@@ -1,4 +1,4 @@
-Active Record Relasional
+	Active Record Relasional
 ========================
 
 Kita sudah melihat bagaimana menggunakan Active Record (AR) untuk memilih data dari
@@ -313,6 +313,10 @@ relasi `BELONGS_TO`.
    - `offset`: offset baris yang dipilih. opsi ini TIDAK berlaku pada
 relasi `BELONGS_TO`.
 
+   - `through`: Nama dari relasi model yang digunakan sebagai penghubung ketika
+mengambil data relasi. Hanya bisa di-set untuk `HAS_ONE` dan `HAS_MANY`.
+Opsi ini sudah ada mulai dari versi 1.1.7.
+
 Di bawah ini kita memodifikasi deklarasi relasi `posts` dalam `User` dengan
 menyertakan beberapa opsi di atas
 
@@ -513,11 +517,11 @@ Kode berikut memperlihatkan bagaimana untuk menerapkan named scope ke model bers
 [php]
 $posts=Post::model()->with('comments:recently:approved')->findAll();
 // atau kalau mulai dari 1.1.7
-$posts=Post::model()->with(
+$posts=Post::model()->with(array(
     'comments'=>array(
         'scopes'=>array('recently','approved')
     ),
-)->findAll();
+))->findAll();
 // or semenjak 1.1.7
 $posts=Post::model()->findAll(array(
     'with'=>array(
@@ -563,13 +567,16 @@ class User extends CActiveRecord
 }
 ~~~
 
+> Note|Catatan: Named scope diaplikasikan ke model yang berelasi harus ditentukan di CActiveRecord::scopes.
+> Oleh karenanya, tidak dapat diberi parameter.
+
 Mulai dari versi 1.1.7, Yii memungkinkan passing parameter untuk relational named scopes.
 Misalnya, jika anda memiliki scope bernama `rated` di dalam `Post` yang menerima rating
 minimal post, Anda dapat menggunakannya dari `User` dengan cara berikut:
 
 ~~~
 [php]
-$users=User::model()->findAll(
+$users=User::model()->findAll(array(
 	'with'=>array(
 		'posts'=>array(
 			'scopes'=>array(
@@ -577,7 +584,138 @@ $users=User::model()->findAll(
 			),
 		),
 	),
-);
+));
 ~~~
 
-<div class="revision">$Id: database.arr.txt 3061 2011-03-13 11:44:46Z alexander.makarow $</div>
+Query Relasional dengan through
+-----------------------------
+
+Ketika menggunakan `through`, definisi relasi harus dilihat seperti berikut:
+
+~~~
+[php]
+'relationName'=>array('relationType', 'ClassName', 'foreign_key', 'through'=>'throughRelationName', ...additional options)
+~~~
+
+Di atas, nilai `foreign_key` adalah nama sebuah key yang:
+  - Didefinisikan di tabel yang ditetapkan di dalam `throughRelationName`.
+  - Menunjuk ke sebuah tabel yang menyimpan data untuk model `ClassName`.
+
+`through` dapat digunakan oleh relasi `HAS_ONE` dan `HAS_MANY`.
+
+### HAS_MANY through
+
+![HAS_MANY through ER](has_many_through.png)
+
+Contoh `HAS_MANY` dengan `through` adalah mendapatkan user dari sebuah grup ketika
+user-user dimasukkan ke group tertentu melalui roles.
+
+Contoh yang lebih kompleks misalnya mengambil semua komentar dari semua user 
+dalam grup tertentu. Pada kasus ini kita harus menggunakan beberapa relasi melalui `through` dalam satu model:
+
+~~~
+[php]
+class Group extends CActiveRecord
+{
+   ...
+   public function relations()
+   {
+       return array(
+           'roles'=>array(self::HAS_MANY,'Role','group_id'),
+           'users'=>array(self::HAS_MANY,'User','user_id','through'=>'roles'),
+           'comments'=>array(self::HAS_MANY,'Comment','user_id','through'=>'users'),
+       );
+   }
+}
+~~~
+
+#### Contoh Penggunaan
+
+~~~
+[php]
+// mendapatkan semua grup dengan usernya
+$groups=Group::model()->with('users')->findAll();
+
+// mendapatkan semua group dengan usernya dan role-nya.
+$groups=Group::model()->with('roles','users')->findAll();
+
+// mendapatkan semua user dan role yang ID grup-nya 1
+$group=Group::model()->findByPk(1);
+$users=$group->users;
+$roles=$group->roles;
+
+// mendapatkan semua komentar yang grup ID-nya 1
+$group=Group::model()->findByPk(1);
+$comments=$group->comments;
+~~~
+
+
+### HAS_ONE through
+
+![HAS_ONE through ER](has_one_through.png)
+
+Contoh penggunaan `HAS_ONE` dengan `through` adalah mendapatkan alamat user
+di mana user diikat dengan address menggunakan profile. Semua entiti ini (user, profile, address)
+masing-masing memiliki model:
+
+~~~
+[php]
+class User extends CActiveRecord
+{
+   ...
+   public function relations()
+   {
+       return array(
+           'profile'=>array(self::HAS_ONE,'Profile','user_id'),
+           'address'=>array(self::HAS_ONE,'Address','profile_id','through'=>'profile'),
+       );
+   }
+}
+~~~
+
+#### Contoh penggunaan
+
+~~~
+[php]
+// mendapatkan alamat user yang ID-nya 1
+$user=User::model()->findByPk(1);
+$address=$user->address;
+~~~
+
+
+### through pada diri sendiri
+
+`through` dapat digunakan pada model yang diikat diri sendiri dengan menggunakan sebuah model penghubung. Pada kasus
+kita, seorang user merupakan mentor bagi user lain:
+
+
+![through self ER](through_self.png)
+
+
+Beginilah kita mendefinisikan relasi pada kasus ini:
+
+~~~
+[php]
+class User extends CActiveRecord
+{
+   ...
+   public function relations()
+   {
+       return array(
+           'mentorships'=>array(self::HAS_MANY,'Mentorship','teacher_id','joinType'=>'INNER JOIN'),
+           'students'=>array(self::HAS_MANY,'User','student_id','through'=>'mentorships','joinType'=>'INNER JOIN'),
+       );
+   }
+}
+~~~
+
+#### Contoh Penggunaan
+
+~~~
+[php]
+// Dapatkan semua siswa yang diajarkan guru dengan ID 1
+$teacher=User::model()->findByPk(1);
+$students=$teacher->students;
+~~~
+
+<div class="revision">$Id: database.arr.txt 3127 2011-03-26 12:21:47Z alexander.makarow $</div>

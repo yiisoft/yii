@@ -124,7 +124,7 @@ return array (
   'Login Required' => 'Yêu cầu đăng nhập',
   'Map data must be an array or an object implementing Traversable.' => 'Map data phải là một array hoặc là một object implementing Traversable.',
   'Missing the temporary folder to store the uploaded file "{file}".' => 'Thư mục tạm thời để chứa file tải lên "{file}" không tồn tại.',
-  'Next &gt;' => 'Tiếp theo',
+  'Next &gt;' => 'Tiếp theo &gt;',
   'No columns are being updated for table "{table}".' => 'Không có cột nào được cập nhật trong bảng "{table}".',
   'No counter columns are being updated for table "{table}".' => 'Không có cột counter nào được cập nhật trong bảng "{table}".',
   'Object configuration must be an array containing a "class" element.' => 'Object configuration phải là một array chứa một "class" element.',

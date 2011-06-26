@@ -1,15 +1,16 @@
 Kontroler
 ==========
 
-`Kontroler` jest instancją klasy [CController] lub jej klas potomnych. Jest on tworzony
-przez aplikację kiedy użytkownik zażąda tego. Kiedy kontroler jest uruchomiony, wykonuje
+`Kontroler` jest instancją klasy [CController] lub klasy, która rozszerza [CController]. Jest on tworzony
+przez obiekt aplikacji gdy użytkownik zażąda tego. Kiedy kontroler jest uruchomiony, wykonuje
 żądaną akcję, która zazwyczaj wprowadza wymagane modele oraz generuje odpowiedni widok.
 `Akcja`, w jej najprostszej formie, jest metodą klasy kontrolera, której nazwa rozpoczyna 
 się od słowa `action`.
 
 Kontroler posiada domyślną akcję. Kiedy żądanie użytkownika nie określa która akcja
 powinna zostać wykonana, domyślna akcja jest wykonywana. Domyślnie, domyślna akcja 
-nosi nazwę `index`. Może ona zostać zmieniona poprzez ustawienie [CController::defaultAction].
+nosi nazwę `index`. Może ona zostać zmieniona poprzez ustawienie publicznej zmiennej 
+instancji kontrolera [CController::defaultAction].
 
 Następujący kod definiuje kontroler `site` a w nim akcje `index` (akcja domyślna) 
 oraz `contact`:
@@ -45,7 +46,7 @@ Użytkownicy żądają poszczególnych kontrolerów oraz akcji za pomocą trasy.
 Trasę tworzy połączenie ID kontrolera oraz ID akcji rozdzielone za pomocą ukośnika.
 Na przykład, trasa `post/edit` odpowiada kontrolerowi `PostController` oraz jego
 akcji `edit`. Domyślnie, adres URL `http://hostname/index.php?r=post/edit` będzie 
-żądał tego kontrolera oraz tą akcję.
+żądał kontrolera post oraz akcji edit.
 
 >Note|Uwaga: Domyślnie, trasy rozróżniają wielkość liter.  
 > Możliwe jest wyłączenie rozróżnienia wielkości liter poprzez ustawienie właściwości
@@ -77,20 +78,20 @@ reguł aby zdeterminować, która to klasa kontrolera oraz gdzie plik tej klasy 
 
    - Jeśli ID posiada format `'ścieżka/do/xyz'`, zakłada się, że klasa kontrolera 
    będzie nazywała się `XyzController` a odpowiadający plik klasy to 
-`protected/controllers/path/to/XyzController.php`. Na przykład, ID kontrolera 
-`admin/user` będzie rozszyfrowane jako klasa kontrolera `UserController` oraz 
-nazwą pliku klasy będzie `protected/controllers/admin/UserController.php`. Jeśli 
-plik klasy nie istnieje wywoła to błąd 404 [CHttpException].
+   `protected/controllers/path/to/XyzController.php`. Na przykład, ID kontrolera 
+   `admin/user` będzie zmapowane do klasy kontrolera `UserController` 
+   i pliku klasy `protected/controllers/admin/UserController.php`. Jeśli 
+   plik klasy nie istnieje wywoła to błąd 404 [CHttpException].
 
-W przypadku gdy używane są [moduły](/doc/guide/basics.module), powyższy proces będzie trochę inny. 
-W szczególności, aplikacja sprawdzi czy ID odpowiada kontrolerowi wewnątrz modułu, 
+Gdy używane są [moduły](/doc/guide/basics.module), powyższy proces będzie trochę inny. 
+W szczególności, aplikacja sprawdzi czy ID odpowiada, bądź nie, kontrolerowi wewnątrz modułu, 
 jeśli tak, instancja modułu zostanie utworzona najpierw poprzedzona przez instancję kontrolera.
 
 Akcja
 ------
 
 Jak wspomniano wyżej akcja może zostać zdefiniowana jako metoda, której nazwa rozpoczyna 
-się słowem `action`. Bardziej zaawansowanym sposobem jest zdefiniowanie klasy akcji 
+się słowem `action`. Bardziej zaawansowaną techniką jest zdefiniowanie klasy akcji 
 i poproszenie kontrolera o utworzenie jej instancji na żądanie. To pozwala akcjom
 być używanym ponownie a to wprowadza możliwość ponownego użycia.
 
@@ -107,7 +108,7 @@ class UpdateAction extends CAction
 }
 ~~~
 
-W celu poinformowania kontrolera o tej akcji, nadpisujemy metodę 
+Aby kontroler był świadom istnienia tej akcji, nadpisujemy metodę 
 [actions()|CController::actions] naszej klasy kontrolera:
 
 ~~~
@@ -126,7 +127,7 @@ class PostController extends CController
 Powyżej, użyliśmy aliasu ścieżki `application.controllers.post.UpdateAction` aby 
 określić, że plik klasy akcji to `protected/controllers/post/UpdateAction.php`.
 
-Pisząc akcje przy użyciu klas, możemy zorganizować aplikację w bardziej zmodularyzowany
+Tworząc akcje oparte na klasach, możemy zorganizować aplikację w bardziej zmodularyzowany
 sposób. Na przykład, następująca struktura katalogu może zostać użyta do zorganizowania 
 kodu dla kontrolerów:
 
@@ -152,7 +153,7 @@ Od wersji 1.1.4, Yii dodało wsparcie dla automatycznego wiązania parametrów a
 Oznacza to, że metoda kontrolera akcji może zdefiniować nazwane parametry, których wartości
 będą automatycznie pobrane przez Yii ze zmiennej `$_GET`.
 
-W celu wyjaśnienia tej funkcjonalności, załóżmy, że potrzebujemy napisać akcję tworznia `create` 
+W celu zilustrowania jak to działa, załóżmy, że potrzebujemy napisać akcję tworznia `create` 
 dla kontrolera wiadomości `PostController`. Akcja ta wymaga dwóch parametrów:
 
 * kategoria `category`: liczba całkowita określająca ID kategorii w której post zostanie utworzony;
@@ -198,10 +199,10 @@ class PostController extends CController
 
 Zauważ, że dodaliśmy dwa parametry do metody akcji `actionCreate`.
 Nazwa tych parametrów musi taka sama jak parametry, których oczekujemy w zmiennej `$_GET`.
-Parametr języka `$language` przyjmuje domyślną wartość `en` w przypadku, gdy użytkownik nie 
-dostarczył go w swoim żądaniu. Poniewać kategoria `$category` nie posiada wartości domyślnej
-jeśli użytkownik jej nie dostarczy nam parametru `category` w `$_GET`, 
-automatycznie zostanie wyrzucony błąd [CHttpException] (kod błędu 404).
+Parametr języka `$language` przyjmie domyślną wartość `en` w przypadku, gdy żądanie nie zawiera 
+takiego parametru. Poniewać kategoria `$category` nie posiada wartości domyślnej
+jeśli żądanie nie zawiera parametru `category`, automatycznie zostanie wyrzucony 
+błąd [CHttpException] (o kodzie 404).
 
 Poczynając od wersji 1.1.5, Yii wspiera również wykrywanie typu tablicowego dla parametrów akcji.
 Odbywa się przy użyciu podpowiadania typów PHP o następującej składni:
@@ -212,7 +213,7 @@ class PostController extends CController
 {
 	public function actionCreate(array $categories)
 	{
-		// Yii upewni się, że kategoria $categories jest tablicą
+		// Yii upewni się, że zmienna $categories jest tablicą
 	}
 }
 ~~~
@@ -253,20 +254,20 @@ Akcja może posiadać wiele filtrów. Filtry są wykonywane w kolejności pojawi
 się na liście folderów. Filtr może zabronić wywołania akcji oraz pozostałych niewykonanych filtrów.
 
 Filtr może zostać zdefiniowany jako metoda kontrolera klasy. Nazwa metody musi rozpoczynać 
-się słowem `filter`. Na przykład, istnienie metody `filterAccessControl` definiuje 
-filtr nazwany `accessControl`. Metoda filtra musi posiadać następującą składnię:
+się słowem `filter`. Na przykład, metoda `filterAccessControl` definiuje 
+filtr `accessControl`. Metoda filtra musi posiadać następującą składnię:
 
 ~~~
 [php]
 public function filterAccessControl($filterChain)
 {
-	// wywołaj $filterChain->run() aby kontynuować filtrowanie oraz wykonywanie akcji
+	// wywołaj $filterChain->run() aby kontynuować wykonywanie filtra i akcji
 }
 ~~~
 
 gdzie `$filterChain` jest instancją klasy [CFilterChain], która reprezentuje listę filtrów
 powiązanych z żądaną akcją. Wewnątrz metody filtra możemy wywołać `$filterChain->run()` 
-aby kontynuować filtrowanie oraz wykonywanie akcji.
+aby kontynuować wykonywanie filtra i akcji.
 
 Filtr może być instancją klasy [CFilter] lub jej klas pochodnych. Następujący kod 
 definiuje nową klasę filtra:
@@ -320,9 +321,9 @@ będzie zainicjowana wartością `'second'`.
 
 Używając operatora plusa oraz minusa, możemy określić dla których akcji filtr powinien
 a dla których nie powinien mieć zastosowania. W powyższym kodzie filtr `postOnly`
-powinien zostać zastosowany dla akcji `edit` oraz `create`, zaś filtr
-`PerformanceFilter` powinien zostać zastosowany do wszystkich akcji ZA WYJĄTKIEM 
+zostanie zastosowany dla akcji `edit` oraz `create`, zaś filtr
+`PerformanceFilter` zostanie zastosowany do wszystkich akcji ZA WYJĄTKIEM 
 `edit` oraz `create`. Jeśli żaden z operatorów plus lub minus nie pojawia się 
 w konfiguracji filtra, filtr będzie zastosowany do wszystkich akcji.
 
-<div class="revision">$Id: basics.controller.txt 3058 2011-03-13 04:20:12Z qiang.xue $</div>
+<div class="revision">$Id: basics.controller.txt 3251 2011-06-01 00:24:06Z qiang.xue $</div>

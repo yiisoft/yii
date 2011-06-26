@@ -3,6 +3,10 @@ Neue Features
 
 Diese Seite fasst die wesentlichen neuen Features jeder Yii-Version zusammen.
 
+Version 1.1.8
+-------------
+ * [Eigene URL-Regel Klassen](/doc/guide/topics.url#using-custom-url-rule-classes)
+
 Version 1.1.7
 -------------
  * [REST-basierte URLs hinzugefügt](/doc/guide/topics.url#user-friendly-urls)
@@ -81,4 +85,4 @@ Erstellen von Formularen.
 
  * Bei AR-Abfragen lautet der Alias für die Haupttabelle immer `t`.
 
-<div class="revision">$Id: changes.txt 3116 2011-03-24 23:16:05Z alexander.makarow $</div>
+<div class="revision">$Id: changes.txt 3235 2011-05-24 18:54:01Z qiang.xue $</div>

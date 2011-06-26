@@ -3,15 +3,15 @@ Controller
 
 Ein `Controller` ist eine Instanz von [CController] oder einer davon
 abgeleiteten Klasse. Er wird von der Applikation erzeugt, wenn ein Request
-dafür vorliegt. Wird ein Controller gestartet, 
-führt er die angeforderte Action aus, die dann in der Regel die benötigten Models 
-einbindet und einen passenden View rendert (sinngem.: macht). 
+dafür vorliegt. Wird ein Controller gestartet,
+führt er die angeforderte Action aus, die dann in der Regel die benötigten Models
+einbindet und einen passenden View rendert (sinngem.: macht).
 Die einfachste Form einer `Action` ist eine Methode im Controller,
-deren Name mit `action` anfängt. 
+deren Name mit `action` anfängt.
 
 Jeder Controller hat eine Standardaction. Sie wird ausgeführt, wenn aus
 dem Request nicht hervorgeht, welche Action ausgeführt werden soll.
-Als Vorgabewert ist dafür die Action `index` definiert. 
+Als Vorgabewert ist dafür die Action `index` definiert.
 Überschreibt man [CController::defaultAction], kann die Standardaction verändert werden.
 
 Der folgende Code definiert einen Controller `site` sowie die beiden Actions
@@ -52,10 +52,10 @@ somit auf die `edit`-Action im `PostController`. In der Voreinstellung
 würde diese Action über die URL `http://hostname/index.php?r=post/edit` aufgerufen.
 
 >Note|Hinweis: Normalerweise ist die Schreibweise (groß/klein) bei Routen von
->Bedeutung. Dies kann man aber deaktivieren, indem man 
+>Bedeutung. Dies kann man aber deaktivieren, indem man
 >[CUrlManager::caseSensitive] in der Konfiguration auf false setzt.
 >Falls Groß-/Kleinschreibung aktiviert ist, stellen Sie bitte sicher, dass
->Verzeichnisnamen von Controllern sowie die Schlüssel in 
+>Verzeichnisnamen von Controllern sowie die Schlüssel in
 >[controllerMap|CWebApplication::controllerMap] und
 >[actionMap|CController::actions] klein geschrieben werden.
 
@@ -85,10 +85,10 @@ Controllerklasse `XyzController` in der Datei
 `protected/controllers/pfad/zu/XyzController.php` ausgegangen. Die
 Controller-ID `admin/user` würde zum Beispiel in die Controllerklasse
 `UserController` in der Datei `protected/controllers/admin/UserController.php`
-aufgelöst werden. Existiert die Klassendatei nicht, wird eine 
+aufgelöst werden. Existiert die Klassendatei nicht, wird eine
 404-[CHttpException] ausgelöst.
 
-Falls [Module](/doc/guide/basics.module) verwendet werden, unterscheidet sich 
+Falls [Module](/doc/guide/basics.module) verwendet werden, unterscheidet sich
 der obige Prozess etwas. Die Anwendung prüft in
 diesem Fall, ob sich die ID auf einen Controller eines Moduls bezieht. Falls
 ja, erzeugt sie zunächst die Modulinstanz und danach die Controllerinstanz.
@@ -136,7 +136,7 @@ Dieses Beispiel verwendet den Pfadalias
 Actionklasse in `protected/controllers/post/UpdateAction.php` befindet.
 
 Indem man klassenbasierte Actions verwendet, kann man eine Anwendung
-modular organisieren. So könnte man zur Ablage des Controllercodes z.B. 
+modular organisieren. So könnte man zur Ablage des Controllercodes z.B.
 diese Verzeichnisstruktur verwenden:
 
 ~~~
@@ -265,7 +265,7 @@ Bei einem Filter handelt es sich um Code, der je nach Konfiguration vor
 und/oder nach einer Action ausgeführt wird. Ein Filter könnte z.B. die
 Zugriffskontroller übernehmen und sicherstellen, dass ein Benutzer
 authentifiziert wurde, bevor eine Action ausgeführt wird. Mit einem
-Performancefilter könnte man die benötigte Zeit für eine Action messen, etc. 
+Performancefilter könnte man die benötigte Zeit für eine Action messen, etc.
 
 Für eine Action können mehrere Filter definiert sein. Sie werden in der
 Reihenfolge ausgeführt, in der sie in der Liste der Filter erscheinen. Ein
@@ -281,13 +281,13 @@ Signatur entsprechen:
 [php]
 public function filterAccessControl($filterChain)
 {
-	// Rufen Sie $filterChain->run() auf, um mit der Filterung 
+	// Rufen Sie $filterChain->run() auf, um mit der Filterung
 	// fortzufahren bzw. die Action auszuführen.
 }
 ~~~
 
-`$filterChain` (Filterkette) ist eine Instanz vom Typ [CFilterChain]. 
-Sie stellt die Liste der Filter dar, die mit der Action verbunden sind. Innerhalb 
+`$filterChain` (Filterkette) ist eine Instanz vom Typ [CFilterChain].
+Sie stellt die Liste der Filter dar, die mit der Action verbunden sind. Innerhalb
 der Filtermethode kann `$filterChain->run()` aufgerufen werden, um mit der Filterung
 fortzufahren, bzw. die Action auszuführen.
 
@@ -311,7 +311,7 @@ class PerformanceFilter extends CFilter
 }
 ~~~
 
-Um eine Action mit einem Filter zu versehen, muss die Methode 
+Um eine Action mit einem Filter zu versehen, muss die Methode
 `CController::filters()` überschrieben werden. Die Methode sollte ein Array von
 Filterkonfigurationen zurückliefern. Zum Beispiel
 
@@ -336,17 +336,17 @@ class PostController extends CController
 Hier werden zwei Filter definiert: `postOnly` und `PerformanceFilter`.
 Der `postOnly`-Filter ist methodenbasiert (die entsprechende Filtermethode ist
 bereits in [CController] definiert), während der `PerformanceFilter`
-als Objekt vorliegt. Mit dem Pfadalias `application.filters.PerformanceFilter` 
+als Objekt vorliegt. Mit dem Pfadalias `application.filters.PerformanceFilter`
 geben wir an, dass sich die Filterklasse in `protected/filters/PerformanceFilter.php`
 befindet. Da ein Array für die Konfiguration von `PerformanceFilter` verwendet
 wird, können damit auch gleich die Starteigenschaften des Filterobjekts
 definiert werden.  Im Beispiel setzen wir die Eigenschaft `unit` auf `'second'`.
 
 Durch Plus- und Minusoperatoren kann man bestimmen, auf welche Actions der
-Filter angewendet werden soll und auf welche nicht. Oben soll der Filter
-`postOnly` auf die Actions `edit` und `create` angewendet werden, wohingegen
-`PerformanceFilter` für alle Actions AUSSER `edit` und `create` gilt. Falls
+Filter angewendet werden soll und auf welche nicht. Oben wird der Filter
+`postOnly` auf die Actions `edit` und `create` und `PerformanceFilter`
+auf alle Actions AUSSER `edit` und `create` angewendet. Falls
 weder Plus noch Minus in der Filterkonfiguration auftauchen, wird der Filter
 auf alle Actions angewendet.
 
-<div class="revision">$Id: basics.controller.txt 3058 2011-03-13 04:20:12Z qiang.xue $</div>
+<div class="revision">$Id: basics.controller.txt 3251 2011-06-01 00:24:06Z qiang.xue $</div>

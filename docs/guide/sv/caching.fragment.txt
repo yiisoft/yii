@@ -57,6 +57,12 @@ cachelagrar innehållsfragmentet i upp till en timme:
 Om duration inte anges, antar den standardvärdet 60, vilket innebär att det 
 cachelagrade innehållet blir ogiltigt efter 60 sekunder.
 
+Med start från version 1.1.8, gäller att om duration sätts till 0, kommer allt 
+befintligt cachelagrat innehåll att tas bort från cache. Om duration ges ett 
+negativt värde, avaktiveras cachningen, men befintligt cachelagrat innehåll 
+blir kvar i cachen. I versioner före 1.1.8, avaktiveras cachen om duration 
+sätts till 0 eller negativt värde.
+
 ### Beroende
 
 Liksom vid [datacachning](/doc/guide/caching.data) kan innehållsfragment som 
@@ -147,4 +153,4 @@ omvänd ordning. Om den yttre cachen innehåller giltig data kommer alltid den
 cachelagrade kopian att tillhandahållas, även om innehållet i den inre cachen 
 redan blivit för gammalt och klassat ogiltigt.
 
-<div class="revision">$Id: caching.fragment.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>
+<div class="revision">$Id: caching.fragment.txt 3315 2011-06-24 15:18:11Z qiang.xue $</div>

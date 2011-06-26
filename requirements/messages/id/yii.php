@@ -19,7 +19,7 @@
  * @version $Id: $
  */
 return array (
-  'To use memcached set <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'Untuk menggunakan memcached set <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> menjadi <code>true</code>.',
+  'Ctype extension' => 'Extension Ctype',
   '$_SERVER does not have {vars}.' => '$_SERVER tidak memiliki {vars}.',
   '$_SERVER variable' => 'Variabel $_SERVER',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => '$_SERVER["SCRIPT_FILENAME"] harus sama dengan alur file skrip entri',
@@ -46,5 +46,6 @@ return array (
   'This is required if you are using MySQL database.' => 'Ini diperlukan apabila anda menggunakan database MySQL',
   'This is required if you are using PostgreSQL database.' => 'Ini diperlukan apabila anda menggunakan database PostgreSQL',
   'This is required if you are using SQLite database.' => 'Ini diperlukan apabila anda menggunakan database SQLite',
-  'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' => 'Tidak dapat menentukan info alur URL. Harap memastikan $_SERVER["PATH_INFO"] (atau $_SERVER["PHP_SELF"] dan $_SERVER"SCRIPT_NAME"]) mengandung nilai yang benar.',
+  'To use memcached set <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'Untuk menggunakan memcached set <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> menjadi <code>true</code>.',
+  'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' => 'Tidak dapat menentukan info alur URL. Harap memastikan $_SERVER["PATH_INFO"] (atau $_SERVER["PHP_SELF"] dan $_SERVER"SCRIPT_NAME"]) berisi nilai yang benar.',
 );

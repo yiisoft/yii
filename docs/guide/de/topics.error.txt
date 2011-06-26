@@ -22,8 +22,8 @@ registriert. Wenn Sie nicht möchten, dass Yii sich um Fehler und Exceptions
 kümmert, können Sie im [Startscript](/doc/guide/basics.entry) die Konstanten 
 `YII_ENABLE_ERROR_HANDLER` und `YII_ENABLE_EXCEPTION_HANDLER` als false definieren.
 
-Per Vorgabe löst [errorHandler|CApplication::errorHandler] (bzw.
-[exceptionHandler|CApplication::exceptionHandler]) ein
+Per Vorgabe löst [handleError|CApplication::handleError] (bzw.
+[handleException|CApplication::handleException]) ein
 [onError|CApplication::onError]-Event (bzw.
 [onException|CApplication::onException]-Event) aus. Falls der Fehler (bzw. die
 Exception) von keinem Eventhandler behandelt wird, ruft die Routine die
@@ -164,4 +164,4 @@ einer nicht-abgefangenen Exception, lautet die Kategorie
 somit die Verfahren zur [Protokollierung](/doc/guide/topics.logging) benutzen,
 um Ausführungsfehler einer Anwendung zu überwachen.
 
-<div class="revision">$Id: topics.error.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>
+<div class="revision">$Id: topics.error.txt 3308 2011-06-23 16:06:51Z qiang.xue $</div>

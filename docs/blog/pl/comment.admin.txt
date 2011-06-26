@@ -1,10 +1,10 @@
 Administrowanie komentarzami
 =================
 
-Administrowanie komentarzami zawiera aktualizowanie, usuwanie oraz zatwierdzanie komentarzy. Operacja te są zaimplementowane jako akcje w klasie kontrolera `CommentController`.
+Administrowanie komentarzami zawiera aktualizowanie, usuwanie oraz zatwierdzanie komentarzy. Operacje te są zaimplementowane jako akcje w klasie kontrolera `CommentController`.
 
 
-Aktualizowanie i usuwanie komentarzami
+Aktualizowanie i usuwanie komentarzy
 ------------------------------
 
 Kod wygenerowany przez narzędzie `yiic` do aktualizowania oraz usuwania komentarzy pozostaje w większej części niezmieniony.

@@ -92,7 +92,7 @@ Yii рекомендует именовать переменные, функци
 Эта директория должна быть доступна для записи вебсервером. Она может быть настроена через [CApplication::runtimePath];
 
    - `WebRoot/protected/extensions`: эта директория содержит все сторонние расширения. Она может быть настроена через
-[CApplication::extensionPath];
+[CApplication::extensionPath]. Псевдоним по умолчанию для этого пути — `ext`;
 
    - `WebRoot/protected/modules`: эта директория содержит все [модули](/doc/guide/basics.module) приложения, каждый из которых представлен в отдельной поддиректории. Директория может быть настроена через [CWebApplication::modulePath];
 
@@ -134,4 +134,4 @@ Yii рекомендует именовать переменные, функци
 когда таблицы нашего приложения находятся в БД, используемой одновременно другими
 приложениями.
 
-<div class="revision">$Id: basics.convention.txt 2345 2010-08-28 12:51:08Z mdomba $</div>
+<div class="revision">$Id: basics.convention.txt 3225 2011-05-17 23:23:05Z alexander.makarow $</div>

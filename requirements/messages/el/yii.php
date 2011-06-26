@@ -16,10 +16,10 @@
  *
  * NOTE, this file must be saved in UTF-8 encoding.
  *
- * @version $Id: yii.php 1986 2011-03-24 22:24:22Z yii@lourdas.name $
+ * @version $Id: yii.php 2164 2011-06-23 13:46:17Z yiifrmwrk@lourdas.name $
  */
 return array (
-  'To use memcached set <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'Για να χρησιμοποιήσετε memcached, ορίστε το <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> να είναι <code>true</code>.',
+  'Ctype extension' => 'Επέκταση Ctype',
   '$_SERVER does not have {vars}.' => 'Ο πίνακας $_SERVER δεν περιέχει τη(τις) μεταβλητή(-ές) {vars}.',
   '$_SERVER variable' => 'Μεταβλητή $_SERVER',
   '$_SERVER["SCRIPT_FILENAME"] must be the same as the entry script file path.' => 'Το $_SERVER["SCRIPT_FILENAME"] πρέπει να είναι το ίδιο με το αρχικό αρχείο σεναρίου.',
@@ -46,5 +46,6 @@ return array (
   'This is required if you are using MySQL database.' => 'Απαιτείται αν χρησιμοποιείτε βάση MySQL.',
   'This is required if you are using PostgreSQL database.' => 'Απαιτείται αν χρησιμοποιείτε βάση PostgreSQL.',
   'This is required if you are using SQLite database.' => 'Απαιτείται αν χρησιμοποιείτε βάση SQLite.',
+  'To use memcached set <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> to <code>true</code>.' => 'Για να χρησιμοποιήσετε memcached, ορίστε το <a href="http://www.yiiframework.com/doc/api/CMemCache#useMemcached-detail">CMemCache::useMemcached</a> να είναι <code>true</code>.',
   'Unable to determine URL path info. Please make sure $_SERVER["PATH_INFO"] (or $_SERVER["PHP_SELF"] and $_SERVER["SCRIPT_NAME"]) contains proper value.' => 'Δεν ήταν δυνατός ο καθορισμός της διαδρομής URL. Σιγουρευτείτε ότι το $_SERVER["PATH_INFO"] (ή $_SERVER["PHP_SELF"] και $_SERVER["SCRIPT_NAME"]) περιέχει τη σωστή τιμή.',
 );

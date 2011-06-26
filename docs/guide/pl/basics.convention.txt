@@ -100,7 +100,8 @@ Każdy z nich może zostać zmieniony, jeśli występuje taka potrzeba:
    serwera WWW. Można ją zmienić poprzez zmianę wartości [CApplication::runtimePath].
 
    - `WebRoot/protected/extensions`: katalog ten zawiera wszystkie zewnętrzne rozszerzenia. 
-   Można go zmienić poprzez zmianę wartości [CApplication::extensionPath].
+   Można go zmienić poprzez zmianę wartości [CApplication::extensionPath]. Yii posiada domyślny
+   alias `ext` skojarzony z tą ścieżką.
 
    - `WebRoot/protected/modules`: katalog ten zawiera wszystkie [moduły](/doc/guide/basics.module)
    aplikacji, z których każdy reprezentowany jest przez podkatalog.
@@ -146,4 +147,4 @@ Większość aplikacji internetowych posiłkuje się bazami danych. Jako najleps
    - nazwy tabel mogą być poprzedzone przez wspólny token, np. `tbl_`. Jest to szczególnie użyteczne kiedy tabele aplikacji współistnieją w tej samej bazie danych z tabelami innej aplikacji. Oba zestawy tabel mogą zostać z łatwością rozdzielone poprzez użycie różnych prefiksów dla nazw tabel.
 
 
-<div class="revision">$Id: basics.convention.txt 2345 2010-08-28 12:51:08Z mdomba $</div>
+<div class="revision">$Id: basics.convention.txt 3225 2011-05-17 23:23:05Z alexander.makarow $</div>

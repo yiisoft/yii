@@ -6,7 +6,7 @@ Skrip entri adalah skrip bootstrap PHP yang bagian awal menangani permintaan pen
 untuk dijalankan.
 
 Dalam banyak kasus, skrip entri aplikasi Yii berisi kode yang sesederhana
-seperti berikut,
+seperti ini,
 
 ~~~
 [php]
@@ -26,12 +26,12 @@ dan menjalankannya.
 Mode Debug
 ----------
 
-Aplikasi Yii dapat berjalan baik dalam mode debug(awakutu) ataupun mode produksi berdasarkan
+Aplikasi Yii dapat berjalan baik dalam mode debug(awakutu) ataupun dalam mode produksi berdasarkan
 pada nilai konstan `YII_DEBUG`. Secara default, nilai konstan ini didefinisikan
-sebagai `false`, yang artinya mode produksi. Untuk dijalankan dalam mode debug, definisikan
+sebagai `false`, yang artinya sebagai mode produksi. Untuk dijalankan dalam mode debug, definisikan
 konstan ini menjadi `true` sebelum menyertakan file `yii.php`. Menjalankan aplikasi
-dalam mode debug kurang efisien karena aplikasi akan menyimpan banyak log internal. Di sisi
-lain, mode debug juga lebih membantu selama tahap pengembangan karena menyediakan
+dalam mode debug kurang efisien karena aplikasi akan menyimpan banyak log internal. Namun di sisi
+lain, mode debug lebih membantu selama tahap pengembangan karena menyediakan
 banyak informasi debug saat terjadi kesalahan.
 
-<div class="revision">$Id: basics.entry.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>
+<div class="revision">$Id: basics.entry.txt 3251 2011-06-01 00:24:06Z qiang.xue $</div>

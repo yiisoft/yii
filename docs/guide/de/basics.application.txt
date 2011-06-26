@@ -1,21 +1,23 @@
 Applikation
 ===========
 
-Die Applikation (bzw. Anwendung) bildet die Laufzeitumgebung bei der
-Verarbeitung eines Requests. Ihre Hauptaufgabe besteht im Auflösen eines Requests
-und dessen Weiterleitung an den zuständigen Controller. Außerdem dient dieses
+Die Applikation (bzw. Anwendung) bildet die abgeschlossene Laufzeitumgebung
+innerhalb der ein Request bearbeitet wird. Ihr Hauptzweck liegt darin, einige
+Informationen über den vorliegenden Request zu sammeln und diesen dann zur
+Bearbeitung an den richtigen Controller weiterzuleiten. Außerdem dient dieses
 Objekt als zentraler Speicherort für Konfigurationsdaten der gesamten Anwendung.
+Man nennt dieses Objekt auch `Front-Controller`.
 
-Das Applikationsobjekt wird vom [Startscript](/doc/guide/basics.entry) als 
-Singleton erzeugt und kann daher an jeder Stelle über [Yii::app()|YiiBase::app] 
+Das Applikationsobjekt wird vom [Startscript](/doc/guide/basics.entry) als
+Singleton erzeugt und kann daher an jeder Stelle über [Yii::app()|YiiBase::app]
 abgerufen werden.
 
 Konfiguration
 -------------
 
-Standardmäßig besteht eine Applikation aus einer Instanz der Klasse [CWebApplication]. 
-Beim Erstellen dieses Objekts wird in der Regel eine Konfigurationsdatei
-(oder ein Array mit Konfigurationsdaten) übergeben, um 
+Standardmäßig besteht eine Applikation aus einer Instanz der Klasse [CWebApplication].
+Beim Instanziieren dieses Objekts wird in der Regel eine Konfigurationsdatei
+(oder ein Array mit Konfigurationsdaten) übergeben, um
 die nötigen Einstellungen an der Applikation vorzunehmen. Alternativ dazu
 kann man auch eine Klasse von [CWebApplication] ableiten und die
 Konfigurationsdaten dort "hardcoden" (also direkt im Klassenquelltext
@@ -46,8 +48,8 @@ return array(...);
 ~~~
 
 Der Name der Konfigurationsdatei kann als Parameter an den Konstruktor der
-Applikation übergeben werden oder wie im folgenden Beispiel an 
-[Yii::createWebApplication()]. Für gewöhnlich geschieht dies im 
+Applikation übergeben werden oder wie im folgenden Beispiel an
+[Yii::createWebApplication()]. Für gewöhnlich geschieht dies im
 [Startscript](/doc/guide/basics.entry):
 
 ~~~
@@ -65,14 +67,14 @@ Anwendungsverzeichnis
 ---------------------
 
 Im Anwendungsverzeichnis sind alle sicherheitsempfindlichen Dateien der
-Applikation abgelegt. Per Voreinstellung ist dies der `protected`-Ordner 
+Applikation abgelegt. Per Voreinstellung ist dies der `protected`-Ordner
 im Verzeichnis, das auch das Startscript enthält. Der Pfad zum
-Anwendungsverzeichnis kann in der [Konfiguration](/doc/guide/basics.application#application-configuration) über 
+Anwendungsverzeichnis kann in der [Konfiguration](/doc/guide/basics.application#application-configuration) über
 [basePath|CWebApplication::basePath] angepasst werden.
 
 Sämtliche Inhalte in diesem Verzeichnis sollten vor Zugriff über das Web
 geschützt werden. Beim [Apache HTTP-Server](http://httpd.apache.org/) erreicht
-man das, indem eine `.htaccess`-Datei mit folgendem Inhalt in diesem Verzeichnis 
+man das, indem eine `.htaccess`-Datei mit folgendem Inhalt in diesem Verzeichnis
 abgelegt wird:
 
 ~~~
@@ -116,11 +118,11 @@ Mit diesem Eintrag in `components` wird `cache` als Objekt der Klasse
 Objekts mit den angegebenen Parametern initialisiert.
 
 
-Um auf eine dieser Anwendungskomponenten zuzugreifen, benutzen Sie 
-`Yii::app()->KomponentenID`, wobei `KomponentenID` sich auf die ID 
+Um auf eine dieser Anwendungskomponenten zuzugreifen, benutzen Sie
+`Yii::app()->KomponentenID`, wobei `KomponentenID` sich auf die ID
 der Komponente bezieht (z.B. `Yii::app()->cache`).
 
-Eine Komponente kann auch deaktiviert werden, indem man bei ihr den 
+Eine Komponente kann auch deaktiviert werden, indem man bei ihr den
 Schlüssel `enabled` als `false` konfiguriert. In diesem Fall wird `null`
 zurückgeliefert, wenn man auf die Komponente zugreift.
 
@@ -132,7 +134,7 @@ zurückgeliefert, wenn man auf die Komponente zugreift.
 > die Gesamtperformance so evtl. unbeeinflusst, sofern immer nur ein Teil
 > davon eingesetzt wird. Einige Komponenten müssen aber evtl. immer erstellt
 > werden, ganz egal, ob sie verwendet werden oder nicht (z.B. CLogRouter).
-> Das lässt sich erreichen, indem man die Komponenten-ID in der 
+> Das lässt sich erreichen, indem man die Komponenten-ID in der
 > [preload|CApplication::preload]-Eigenschaft ein der Konfiguration angibt.
 
 
@@ -171,7 +173,7 @@ bereit.  Beachten Sie, dass sie deren
 [connectionString|CDbConnection::connectionString]-Eigenschaft konfigurieren
 müssen um diese Komponente zu verwenden.
 
-   - [errorHandler|CApplication::errorHandler]: [CErrorHandler] - bearbeitet 
+   - [errorHandler|CApplication::errorHandler]: [CErrorHandler] - bearbeitet
 nicht-abgefangene PHP-Fehler und -Exceptions.
 
    - [format|CApplication::format]: [CFormatter] - formatiert Datenwerte für
@@ -180,7 +182,7 @@ die Anzeige.
    - [messages|CApplication::messages]: [CPhpMessageSource] - stellt
 übersetzte Textmeldungen für die Yii-Anwendung bereit.
 
-   - [request|CWebApplication::request]: [CHttpRequest] - stellt Informationen 
+   - [request|CWebApplication::request]: [CHttpRequest] - stellt Informationen
 über den HTTP-Request bereit
 
    - [securityManager|CApplication::securityManager]: [CSecurityManager] -
@@ -192,7 +194,7 @@ sessionbezogene Funktionen zur Verfügung.
    - [statePersister|CApplication::statePersister]: [CStatePersister] -
 stellt Methoden zur globalen beständigen Datenhaltung bereit.
 
-   - [urlManager|CWebApplication::urlManager]: [CUrlManager] - beinhaltet 
+   - [urlManager|CWebApplication::urlManager]: [CUrlManager] - beinhaltet
 Funktionen zur URL-Analyse und -Erstellung.
 
    - [user|CWebApplication::user]: [CWebUser] - repräsentiert die
@@ -222,10 +224,10 @@ Beim Bearbeiten eines Requests durchläuft eine Anwendung diesen Zyklus:
    5. Auslösen des [onBeginRequest|CApplication::onBeginRequest]-Events
 
    6. Bearbeiten des Benutzer-Requests:
-       - Auflösen des Benutzer-Requests
-       - Erzeugen des Controllers
-       - Ausführen des Controllers
+       - Informationen zum Request sammeln
+       - Einen Controller instanziieren
+       - Controller ausführen
 
    7. Auslösen des [onEndRequest|CApplication::onEndRequest]-Events
 
-<div class="revision">$Id: basics.application.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>
+<div class="revision">$Id: basics.application.txt 3251 2011-06-01 00:24:06Z qiang.xue $</div>

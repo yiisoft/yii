@@ -34,7 +34,7 @@ Karena Gii bisa dihasilkan dan menyimpan file kode baru di dalam aplikasi yang s
 
 Kita dapat menggunakan Gii dengan URL `http://hostname/path/to/index.php?r=gii`. Di sini kita mengasumsi `http://hostname/path/to/index.php` merupakan URL untuk mengakses aplikasi Yii yang sudah ada.
 
-Jika aplikasi Yii yang sudah ada menggunakan URL format `path` (lihat [URL management](/doc/guide/topics.url)), kita dapat mengakses Gii dengan URL `http://hostnamepath/to/index.php/gii`. Kita perlu menambah aturan URL berikut di depan aturan URL yang sudah ada:
+Jika aplikasi Yii yang sudah ada menggunakan URL format `path` (lihat [URL management](/doc/guide/topics.url)), kita dapat mengakses Gii dengan URL `http://hostname/path/to/index.php/gii`. Kita perlu menambah aturan URL berikut di depan aturan URL yang sudah ada:
 
 ~~~
 [php]
@@ -276,4 +276,4 @@ class <?php echo $this->className; ?> extends CWidget
 
 Langkah ini mengakhiri proses pembuatan code generator yang baru. Kita dapat mengakses code generator ini dengan segera melakui URL `http://hostname/path/to/index.php?r=gii/widget`.
 
-<div class="revision">$Id: topics.gii.txt 2055 2010-04-17 22:33:46Z qiang.xue $</div>
+<div class="revision">$Id: topics.gii.txt 3223 2011-05-17 23:02:50Z alexander.makarow $</div>

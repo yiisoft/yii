@@ -22,10 +22,10 @@ skrip pemeriksa persyaratan di URL berikut dalam browser Web:
 http://hostname/path/ke/yii/requirements/index.php
 ~~~
 
-Persyaratan minimum Yii adalah bahwa server Web Anda mendukung PHP 5.1.0
+Yii membutuhkan PHP 5.1 sehingga server Web Anda harus mendukung PHP 5.1.0
 atau lebih tinggi. Yii sudah diuji dengan [Apache HTTP
 server](http://httpd.apache.org/) pada sistem operasi Windows dan Linux.
 Yii juga bisa berjalan pada server Web dan platform lain yang mendukung
-PHP 5.
+PHP 5.1
 
-<div class="revision">$Id: quickstart.installation.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>
+<div class="revision">$Id: quickstart.installation.txt 3219 2011-05-13 03:03:35Z qiang.xue $</div>

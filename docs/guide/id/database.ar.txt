@@ -596,13 +596,6 @@ $posts=Post::model()->published()->recently()->findAll();
 
 Secara umum, named scope harus berada di sebelah kiri pemanggilan metode `find`. Masing-masing menyediakan kriteria query, yang merupakan gabungan dengan kriteria lain, termasuk yang dioper ke pemanggilan metode `find`. Hal ini mirip dengan menambahkan sebuah daftar filter ke sebuah query.
 
-Named scope juga dapat dipakai dengan metode `update` dan `delete`. Sebagai contoh, kode bberikut akan menghapus semua tulisan yang akhir-akhir ini diterbitkan:
-
-~~~
-[php]
-Post::model()->published()->recently()->delete();
-~~~
-
 > Note|Catatan: Named scope hanya bisa dipakai dengan metode tingkat-kelas. Yakni, metode harus dipanggil menggunakan `ClassName::model()`.
 
 
@@ -632,9 +625,9 @@ $posts=Post::model()->published()->recently(3)->findAll();
 Jika kita tidak melengkapi parameter 3 di atas, secara standar kita akan mengambil 5 tulisan terbaru yang diterbitkan.
 
 
-### Standar Named Scope
+### Standar  Scope
 
-Kelas model dapat memiliki standar named scope yang akan diterapkan untuk semua query (termasuk yang relasional) berkenaan dengan model. Sebagai contoh, website yang mendukung multi bahasa mungkin hanya ingin menampilkan konten yang ditetapkan oleh pengguna saat ini. Karena di sana ada banyak query atas konten situs, kita dapat mendefinisikan standar named scope guna memecahkan masalah ini. Untuk melakukannya, kita meng-override metode [CActiveRecord::defaultScope] seperti berikut,
+Kelas model dapat memiliki standar scope yang akan diterapkan untuk semua query (termasuk yang relasional) berkenaan dengan model. Sebagai contoh, website yang mendukung multi bahasa mungkin hanya ingin menampilkan konten yang ditetapkan oleh pengguna saat ini. Karena di sana ada banyak query atas konten situs, kita dapat mendefinisikan standar scope guna memecahkan masalah ini. Untuk melakukannya, kita meng-override metode [CActiveRecord::defaultScope] seperti berikut,
 
 ~~~
 [php]
@@ -656,6 +649,8 @@ Sekarang, jika metode di bawah ini dipanggil, Yii akan secara otomatis menggunak
 $contents=Content::model()->findAll();
 ~~~
 
-Catatan bahwa standar named scope hanya berlaku pada query `SELECT`. Named scope diabaikan untuk query `INSERT`, `UPDATE` dan `DELETE`.
+Catatan bahwa standar scope hanya berlaku pada query `SELECT`. Scope diabaikan untuk query `INSERT`, `UPDATE` dan `DELETE`.
 
-<div class="revision">$Id: database.ar.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>
+Juga perlu dicatat, bahwa mendeklarasikan sebuah scope, tidak ada query DB dibuat pada kelas AR bersangkutan.
+
+<div class="revision">$Id: database.ar.txt 3283 2011-06-16 13:18:13Z qiang.xue $</div>

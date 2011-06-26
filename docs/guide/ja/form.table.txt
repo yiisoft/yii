@@ -29,7 +29,7 @@ public function actionBatchUpdate()
 		{
 			if(isset($_POST['Item'][$i]))
 				$item->attributes=$_POST['Item'][$i];
-			$valid=$valid && $item->validate();
+			$valid=$item->validate() && $valid;
 		}
 		if($valid)  // 全てのアイテムが検証を通る際に
 			// 処理する内容をここに…
@@ -44,30 +44,30 @@ public function actionBatchUpdate()
 
 ~~~
 [php]
-<div class="yiiForm">
+<div class="form">
 <?php echo CHtml::beginForm(); ?>
 <table>
 <tr><th>Name</th><th>Price</th><th>Count</th><th>Description</th></tr>
 <?php foreach($items as $i=>$item): ?>
 <tr>
-<td><?php echo CHtml::activeTextField($item,"name[$i]"); ?></td>
-<td><?php echo CHtml::activeTextField($item,"price[$i]"); ?></td>
-<td><?php echo CHtml::activeTextField($item,"count[$i]"); ?></td>
-<td><?php echo CHtml::activeTextArea($item,"description[$i]"); ?></td>
+<td><?php echo CHtml::activeTextField($item,"[$i]name"); ?></td>
+<td><?php echo CHtml::activeTextField($item,"[$i]price"); ?></td>
+<td><?php echo CHtml::activeTextField($item,"[$i]count"); ?></td>
+<td><?php echo CHtml::activeTextArea($item,"[$i]description"); ?></td>
 </tr>
 <?php endforeach; ?>
 </table>
 
 <?php echo CHtml::submitButton('Save'); ?>
 <?php echo CHtml::endForm(); ?>
-</div><!-- yiiForm -->
+</div><!-- form -->
 ~~~
 
 上記では、[CHtml::activeTextField] がコールされた際の二番目のパラメータ
-として、`"name"` の代わりに `"name[$i]"` を使用している事
+として、`"name"` の代わりに `"[$i]name"` を使用している事
 に注意してください。
 
 もし何か検証にエラーがある場合は、シングルモデルでの入力の際
 に述べたのと同様に、結びついた入力フィールドが自動的にハイライトされます。
 
-<div class="revision">$Id: form.table.txt 857 2009-01-04 20:57:35Z qiang.xue $</div>
+<div class="revision">$Id: form.table.txt 2783 2010-12-28 16:20:41Z qiang.xue $</div>

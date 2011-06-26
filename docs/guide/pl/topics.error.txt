@@ -18,9 +18,9 @@ Jeśli nie chcesz by Yii zarządzało błędami i wyjątkami, musisz zdefiniowa�
 `YII_ENABLE_ERROR_HANDLER` oraz `YII_ENABLE_EXCEPTION_HANDLER` i przypisać jej wartość false w 
 [skrypcie wejściowym](/doc/guide/basics.entry).
 
-Domyślnie, [errorHandler|CApplication::errorHandler] (lub
-[exceptionHandler|CApplication::exceptionHandler]) wywoła zdarzenie 
-[onError|CApplication::onError] (lub zdarzenie [onException|CApplication::onException]). 
+Domyślnie, [handleError|CApplication::handleError] (lub
+[handleException|CApplication::handleException]) wywoła zdarzenie 
+[onError|CApplication::onError] (lub [onException|CApplication::onException]). 
 Jeśli błąd (lub wyjątek) nie zostanie przechwycony przez żaden kontroler błędów
 to wezwie na pomoc komponent aplikacji [errorHandler|CErrorHandler].
 
@@ -145,4 +145,4 @@ kategorią będzie `exception.ExceptionClassName` (dla [CHttpException] jego
 Można więc wykorzystać tą funkcjonalność [logowania](/doc/guide/topics.logging)
 do monitorowania błędów powstałych podczas działania aplikacji.
 
-<div class="revision">$Id: topics.error.txt 2890 2011-01-18 15:58:34Z qiang.xue $</div>
+<div class="revision">$Id: topics.error.txt 3308 2011-06-23 16:06:51Z qiang.xue $</div>

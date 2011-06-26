@@ -4,7 +4,7 @@ Web Service
 [Web service](http://en.wikipedia.org/wiki/Web_service) jest opartym o sieć
 systemem informatycznym zaprojektowanym do wspierania wzajemnej interakcji
 maszyna-maszyna. W kontekście aplikacji webowej termin odnosi się do zbioru
-funkcji API, które są dostępne poprzez Internet i wykonywane są zdalnym
+funkcji API, które są dostępne poprzez Internet i wykonywane są w zdalnym
 systemie utrzymującym udostępnianą usługę. Przykładowo: klient oparty
 o [Flex](http://www.adobe.com/products/flex/) może wywoływać funkcje zaimplementowane
 na serwerze utrzymującym aplikację opartą o PHP. Web service opiera się
@@ -14,7 +14,7 @@ protokołu komunikacyjnego.
 Yii dostarcza klas [CWebService] i [CWebServiceAction] dla uproszczenia pracy
 związanej z implementacją Web service'u w aplikacji webowej. Poszczególne
 API pogrupowane są w klasy, zwane *dostawcami usług*. Dla każej z tych klas
-Yii generuje specyfikację [WSDL](http://www.w3.org/TR/wsdl) określająca,
+Yii generuje specyfikację [WSDL](http://www.w3.org/TR/wsdl) określającą,
 jakie funkcje API są dostępne i jak powinny być wywoływane przez klienta.
 W momencie gdy funkcja API jest wywoływana przez klienta, Yii tworzy instancję
 odpowiedniego dostawcy usługi i wywołuje potrzebne API, aby zrealizować żądanie.

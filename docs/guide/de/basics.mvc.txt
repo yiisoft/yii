@@ -11,10 +11,10 @@ Geschäftslogik durch das Model (Modell) repräsentiert. Der (auch "die") View
 Formularelemente. Und der Controller (Steuerung) verwaltet die Kommunikation
 zwischen Model und View.
 
-Neben MVC führt Yii außerdem einen Front-Controller namens Applikation
-ein, der die Laufzeitumgebung für die Bearbeitung eines Requests (Anfrage) 
-darstellt. Die Applikation löst einen Benutzer-Request auf und leitet ihn zur
-Bearbeitung an einen passenden Controller weiter.
+Neben der MVC-Implementierung führt Yii außerdem einen Front-Controller namens
+`Applikation` ein. Sie stellt die gekapselte Laufzeitumgebung für die Bearbeitung eines
+Requests (Anfrage) dar. Die Applikation sammelt einige Informationen über den
+Benutzer-Request und leitet ihn dann zur Bearbeitung an den passenden Controller weiter.
 
 Das folgende Diagramm zeigt die statische Struktur einer Yii-Applikation:
 
@@ -27,14 +27,14 @@ Ein typischer Ablauf
 Hier sehen wir den typischen Ablauf einer Yii-Anwendung beim
 Bearbeiten eines einzelnen Requests:
 
-![Ein typischer Ablauf einer Yii-Applikation](flow.png)
+![Typischer Ablauf einer Yii-Applikation](flow.png)
 
    1. Ein Benutzer schickt einen Request mit der URL
 `http://www.example.com/index.php?r=post/show&id=1`
    2. Das Startscript erzeugt eine Instanz einer
 [Applikation](/doc/guide/basics.application) und startet diese.
    3. Die Applikation fragt bei der [Anwendungskomponente](/doc/guide/basics.application#application-component)
-`request` nach den Detailinformationen des Requests.
+`request` nach den Detailinformationen zum Request.
    4. Über die `urlManager`-Komponente ermittelt die Applikation den angeforderten
 [Controller](/doc/guide/basics.controller). In diesem Beispiel ist der
 Controller `post`. Es wird also die Klasse `PostController` verwendet. Die
@@ -56,4 +56,4 @@ ausgeführt wenn dies von den Filtern erlaubt wird.
    11. Die Action beendet das Rendern des Views und schickt das Ergebnis
 zurück zum Browser.
 
-<div class="revision">$Id: basics.mvc.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>
+<div class="revision">$Id: basics.mvc.txt 3251 2011-06-01 00:24:06Z qiang.xue $</div>

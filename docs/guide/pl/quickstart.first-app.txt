@@ -1,7 +1,7 @@
 Tworzenie pierwszej aplikacji w Yii
 ===================================
 
-W tym rozdziale pokażemy jak utworzyć naszą pierwszą aplikacje, po to, abyś nabył 
+W tym rozdziale pokażemy jak utworzyć Twoją pierwszą aplikacje, po to, abyś nabył 
 niezbędnego doświadczenia w pracy z Yii. Aby utworzyć nową aplikację Yii 
 użyjemy `yiic` (narzędzia linii poleceń) oraz `Gii` (potężnego, przeglądarkowego generatora kodu)
 pozwalających na automatyczne generowanie kodu dla określonych zadań. Dla wygody przyjmijmy, że
@@ -51,8 +51,7 @@ Poniższe zrzuty ekranów prezentują więcej szczegółów.
 
 
 Poniższy diagram prezentuje strukturę naszej aplikacji.
-Szczegółowe informacje na temat tej struktury znajdziesz
-w dziale [konwencje](/doc/guide/basics.convention#directory).
+Aby dowiedzieć się więcej zajrzyj do działu [konwencje](/doc/guide/basics.convention#directory).
 
 ~~~
 testdrive/
@@ -248,4 +247,4 @@ pojedynczej linijki kodu!
 ![Strona tworzenia nowego użytkownika](first-app7.png)
 
 
-<div class="revision">$Id: quickstart.first-app.txt 2375 2010-08-30 12:19:23Z mdomba $</div>
+<div class="revision">$Id: quickstart.first-app.txt 3219 2011-05-13 03:03:35Z qiang.xue $</div>

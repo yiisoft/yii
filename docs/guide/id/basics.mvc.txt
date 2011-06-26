@@ -1,7 +1,7 @@
 Model-View-Controller (MVC)
 ===========================
 
-Yii mengimplementasikan pola desain model-view-controller (MVC) atau model-tampilan-controller yang
+Yii mengimplementasikan pola desain model-view-controller (MVC), yang
 diadopsi secara luas dalam pemrograman Web. MVC bertujuan untuk memisahkan logika bisnis dari
 pertimbangan antar muka pengguna agar para pengembang bisa lebih mudah mengubah
 setiap bagian tanpa mempengaruhi yang lain. Dalam MVC, model menggambarkan 
@@ -9,9 +9,9 @@ informasi (data) dan aturan bisnis; view(tampilan) berisi elemen
 antar muka pengguna seperti teks, input form; sementara controller mengatur
 komunikasi antar model dan view.
 
-Selain MVC, Yii juga memperkenalkan front-controller(controller-depan), yang disebut aplikasi,
-yang menggambarkan berjalannya konteks proses permintaan. Aplikasi 
-menangani permintaan pengguna dan mengirimnya ke controller yang sesuai
+Selain implementasi MVC, Yii juga memperkenalkan front-controller(controller-depan), yang disebut `Aplikasi`,
+yang mengenkapsulasi konteks eksekusi untuk memproses sebuah request. Aplikasi 
+mengumpulkan beberapa informasi mengenai request pengguna dan kemudian mengirimnya ke controller yang sesuai
 untuk penanganan selanjutnya.
 
 Diagram berikut memperlihatkan struktur statis sebuah aplikasi Yii:
@@ -28,7 +28,7 @@ menangani permintaan pengguna:
 
    1. Pengguna membuat permintaan dengan URL `http://www.example.com/index.php?r=post/show&id=1`
 dan server Web menangani permintaan dengan menjalankan skrip bootstrap `index.php`.
-   2. Skrip bootstrap membuat sebuah instance [aplikasi](/doc/guide/basics.application)
+   2. Skrip bootstrap membuat sebuah instance [Aplikasi](/doc/guide/basics.application)
 dan menjalankannya.
    3. Aplikasi mendapatkan rincian informasi permintaan pengguna dari
 [komponen aplikasi](/doc/guide/basics.application#application-component)
@@ -50,4 +50,4 @@ terkait dengan aksi ini. Aksi dijalankan jika diijinkan oleh filter.
    11. Aksi mengakhiri pembuatan view dan menampilkan hasil akhir kepada pengguna.
 
 
-<div class="revision">$Id: basics.mvc.txt 1622 2009-12-26 20:56:05Z qiang.xue $</div>
+<div class="revision">$Id: basics.mvc.txt 3251 2011-06-01 00:24:06Z qiang.xue $</div>

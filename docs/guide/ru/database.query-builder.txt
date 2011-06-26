@@ -49,7 +49,7 @@ $user = Yii::app()->db->createCommand()
 > $command->where('id=:id', array(':id'=>$id));
 > ~~~
 >
-> Не стоит использовать для одного запроса и SQL и построитель запросов.
+> Не стоит использовать для одного запроса и SQL, и построитель запросов.
 
 
 Подготовка построителя запросов
@@ -353,7 +353,7 @@ function naturalJoin($table)
 [php]
 // JOIN `tbl_profile` ON user_id=id
 join('tbl_profile', 'user_id=id')
-// LEFT JOIN `pub`.`tbl_profile` `p` ON p.user_id=id AND type=:type
+// LEFT JOIN `pub`.`tbl_profile` `p` ON p.user_id=id AND type=1
 leftJoin('pub.tbl_profile p', 'p.user_id=id AND type=:type', array(':type'=>1))
 ~~~
 
@@ -632,7 +632,8 @@ $command->delete('tbl_user', 'id=:id', array(':id'=>1));
 * `time`: время. Для MySQL конвертируется в `time`;
 * `date`: дата. Для MySQL конвертируется в `date`;
 * `binary`: бинарный. Для MySQL конвертируется в `blob`;
-* `boolean`: булевый. Для MySQL конвертируется в `tinyint(1)`.
+* `boolean`: булевый. Для MySQL конвертируется в `tinyint(1)`;
+* `money`: деньги/валюта. Для MySQL конвертируется в `decimal(19,4)`. Доступен с 1.1.8.
 
 
 ###createTable()
@@ -650,7 +651,7 @@ function createTable($table, $columns, $options=null)
 Построитель запроса экранирует имя таблицы и имена полей.
 
 Для указания определения поля можно использовать абстрактный тип данных, как уже
-было описано ранее. Построитель конвертирует абстрактный тип дынных в
+было описано ранее. Построитель конвертирует абстрактный тип данных в
 соответствующий реальный тип данных в соответствии с используемой СУБД. К примеру,
 `string` в случае MySQL сконвертируется в `varchar(255)`.
 
@@ -923,4 +924,4 @@ function dropIndex($name, $table)
 dropIndex('idx_username', 'tbl_user')
 ~~~
 
-<div class="revision">$Id: database.query-builder.txt 2979 2011-02-20 02:35:48Z alexander.makarow $</div>
+<div class="revision">$Id: database.query-builder.txt 3304 2011-06-23 14:53:50Z qiang.xue $</div>

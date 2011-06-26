@@ -1,7 +1,7 @@
 Analiza wymagań
 =====================
 
-System blogowy, który zamierzamy utworzyć jest systemem przeznaczonym dla jednego użytkownika. Właściciel systemy będzie mógł wykonywać następujące akcje:
+System blogowy, który zamierzamy utworzyć jest systemem przeznaczonym dla jednego użytkownika. Właściciel systemu będzie mógł wykonywać następujące akcje:
  
  * zalogowania i wylogowania;
  * tworzenia, aktualizowania i usuwania wiadomości;

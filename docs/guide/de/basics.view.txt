@@ -1,9 +1,10 @@
 View
 ====
 
-Ein View ist ein Script, das zum größten Teil aus Elementen der Bedienoberfläche
-besteht. Es kann durchaus PHP-Befehle enthalten. Aber es wird dringend empfohlen,
-diese Anweisungen einfach zu halten und z.B. keine
+Ein View ist ein PHP-Script, das hauptsächlich Elemente der
+Benutzerschnittstelle erzeugt. Es kann durchaus PHP-Befehle
+enthalten. Aber es wird dringend empfohlen,
+diese Anweisungen sehr einfach zu halten und z.B. keine
 Datenmodels zu verändern. Im Sinne einer Trennung von Logik und
 Präsentation, sollten größere Logikblöcke besser im
 Controller oder im Model untergebracht werden.
@@ -14,12 +15,12 @@ einen View zu rendern, rufen Sie [CController::render()] mit dem Namen des
 Views auf. Die Methode sucht dann im Verzeichnis
 `protected/views/ControllerID` nach der entsprechenden Viewdatei.
 
-Innerhalb eines Views kann über `$this` auf die Controllerinstanz 
+Innerhalb eines Views kann über `$this` auf die Controllerinstanz
 zugegriffen werden. Mit `$this->propertyName` kann man so im View
-jede Eigenschaft des Controllers "beziehen", was man daher auch als 
-`pull`-Verfahren (ziehen) bezeichnet. 
+jede Eigenschaft des Controllers beziehen. Man nennt das auch
+`pull`-Verfahren (ziehen).
 
-Der Controller kann die Daten auch in den View "schieben", also entsprechend 
+Der Controller kann die Daten auch in den View "schieben", also entsprechend
 einen `push`-Ansatz (schieben) verfolgen:
 
 ~~~
@@ -31,14 +32,14 @@ $this->render('edit', array(
 ~~~
 
 Die Methode [render()|CController::render] extrahiert den
-zweiten Array-Parameter in einzelne Variablen. Im Viewscript stehen 
+zweiten Array-Parameter in einzelne Variablen. Im Viewscript stehen
 dann die lokalen Variablen `$var1` und `$var2` zur Verfügung.
 
 Layout
 ------
 
 Ein Layout ist ein spezieller View, der zum "Dekorieren" anderer Views verwendet
-wird. Normalerweise enthält er jene Teile, die mehrere Views gemeinsam haben.
+wird. Normalerweise besteht er aus den Teilen, die mehrere Views gemeinsam haben.
 Ein Layout kann zum Beispiel Header- und
 Footerabschnitt enthalten, und den Viewinhalt zwischen den beiden einbinden,
 
@@ -49,10 +50,10 @@ Footerabschnitt enthalten, und den Viewinhalt zwischen den beiden einbinden,
 ......footer hier......
 ~~~
 
-wobei `$content` das Renderergebnis des eigentlichen Inhalt-Views enthält.
+wobei `$content` das Renderergebnis des eigentlichen Views enthält.
 
 Ein Layout wird immer "übergestülpt", wenn ein View mit [render()|CController::render]
-erstellt wird. Per Vorgabe wird dazu die Datei `protected/views/layouts/main.php` als Layout verwendet. 
+erstellt wird. Per Vorgabe wird dazu die Datei `protected/views/layouts/main.php` als Layout verwendet.
 Über [CWebApplication::layout] oder [CController::layout] kann der Pfad
 zum Layoutview angepasst werden. Möchte man einen View ohne Layout rendern, kann
 man stattdessen [renderPartial()|CController::renderPartial] aufrufen.
@@ -61,7 +62,7 @@ Widget
 ------
 
 Ein Widget (sinngem.: Dings) ist eine Instanz von [CWidget] oder
-einer davon abgeleiteten Klasse. Widgets sind Komponenten, die praktisch 
+einer davon abgeleiteten Klasse. Widgets sind Komponenten, die praktisch
 ausschließlich zur Anzeige dienen. Für gewöhnlich werden sie in
 Views verwendet, um komplexe, in sich geschlossene Bedienelemente
 zu erzeugen. Ein Kalenderwidget könnte z.B. ein
@@ -91,7 +92,7 @@ Auch Widgets können konfiguriert werden. Dazu übergibt man beim Aufruf von
 [CBaseController::beginWidget] oder [CBaseController::widget] ein weiteres
 Array mit den gewünschten Konfigurationsparametern.
 Bei [CMaskedTextField] kann man so zum Beispiel die zu verwendende Maske
-angeben. Wie üblich entsprechen die Schlüssel und Werte des Arrays den 
+angeben. Wie üblich entsprechen die Schlüssel und Werte des Arrays den
 Parameternamen und -werten des Widgets:
 
 ~~~
@@ -138,13 +139,13 @@ verwendet. Fordert ein Besucher z.B. eine Route an, die nicht existiert, löst
 Yii eine Exception aus, die den Fehler näher beschreibt. Für diese Exception
 verwendet Yii einen speziellen Systemview.
 
-Die Bezeichnung von Systemviews folgt einem Schema. Namen wie 
+Die Bezeichnung von Systemviews folgt einem Schema. Namen wie
 `errorXXX` werden zur Anzeige von [CHttpException]s mit
 HTTP-Fehlercode `XXX` verwendet. Eine [CHttpException] mit dem
-Fehlercode 404, wird z.B. mit dem View `error404` angezeigt. 
+Fehlercode 404, wird z.B. mit dem View `error404` angezeigt.
 
 Yii stellt eine Reihe von Vorgabe-Systemviews bereit, die unter
 `framework/views` zu finden sind. Man kann sie leicht anpassen, indem
 man gleichnamige Viewdateien in `protected/views/system` anlegt.
 
-<div class="revision">$Id: basics.view.txt 2367 2010-08-29 17:29:22Z qiang.xue $</div>
+sehr <div class="revision">$Id: basics.view.txt 3251 2011-06-01 00:24:06Z qiang.xue $</div>

@@ -1,0 +1,659 @@
+Active Record
+=============
+
+Apesar do DAO do Yii ser capaz de cuidar, praticamente, de qualquer tarefa 
+relacionada a banco de dados, há uma grande chance de que, ainda, gastaríamos 90% 
+do nosso tempo escrevendo instruções SQL para efetuar as operações de CRUD (create 
+(criar), read (ler), update (atualizar) e delete (excluir)). Além disso, nosso 
+código é mais difícil de manter quando temos instruções SQL misturadas com ele. 
+Para resolver esses problemas, podemos utilizar Active Record (Registro Ativo).
+
+Active Record (AR) é uma popular técnica de Mapeamento Objeto-Relacional ( 
+Object-Relational Mapping, ORM). Cada classe AR representa uma tabela (ou uma view) 
+do banco de dados, cujos campos são representados por propriedades na classe AR. 
+Uma instância de uma AR representa um único registro de uma tabela. As operações 
+de CRUD são implementadas como métodos na classe AR. Como resultado, podemos 
+acessar nossos dados de uma maneira orientada a objetos. Por exemplo, podemos 
+fazer como no código a seguir para inserir um novo registro na tabela `Post`:
+
+~~~
+[php]
+$post=new Post;
+$post->title='post de exemplo';
+$post->content='conteúdo do post';
+$post->save();
+~~~
+
+A seguir, descreveremos como configurar AR e como utiliza-lo para executar operações 
+de CRUD. Na próxima seção, iremos mostrar como utilizar AR para trabalhar com 
+relacionamentos. Para simplificar, utilizaremos a seguinte tabela para os exemplos 
+desta seção. Note que, se você estiver utilizando um banco de dados MySQL, você deve 
+substituir o `AUTOINCREMENT` por `AUTO_INCREMENT` na instrução abaixo:
+
+~~~
+[sql]
+CREATE TABLE Post (
+	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	title VARCHAR(128) NOT NULL,
+	content TEXT NOT NULL,
+	createTime INTEGER NOT NULL
+);
+~~~
+
+> Note|Nota: A intenção do AR não é resolver todas tarefas relacionadas a banco 
+de dados. Ele é melhor utilizado para modelar tabelas do banco para estruturas no 
+PHP e executar consultas que não envolvem instruções SQL complexas. O DAO do Yii 
+é o recomendado para esses cenários mais complexos.
+
+Estabelecendo uma Conexão com o Bando de Dados
+----------------------------------------------
+
+O AR precisa de uma conexão com o banco para executar suas operações. Por padrão, 
+assume-se que o componente de aplicação `db` possui uma instância da classe 
+[CDbConnection] que irá servir esta conexão. Abaixo temos um exemplo da 
+configuração de uma aplicação:
+
+~~~
+[php]
+return array(
+	'components'=>array(
+		'db'=>array(
+			'class'=>'system.db.CDbConnection',
+			'connectionString'=>'sqlite:path/to/dbfile',
+			// habilita o cache de schema para aumentar a performance
+			// 'schemaCachingDuration'=>3600,
+		),
+	),
+);
+~~~
+
+> Tip|Dica: Como o Active Record depende de metadados sobre as tabelas para 
+determinar informações sobre as colunas, gasta-se tempo lendo esses dados e 
+os analisando. Se o schema do seu banco de dados não irá sofrer alterações, 
+é interessante que você ative o caching de schema, configurando a propriedade 
+[CDbConnection::schemaCachingDuration] para um valor maior de que 0.
+
+O suporte para AR é limitado pelo Sistema de Gerenciamento de Banco de Dados. 
+Atualmente, somente os seguintes SGBDs são suportados:
+
+   - [MySQL 4.1 ou maior](http://www.mysql.com)
+   - [PostgreSQL 7.3 ou maior](http://www.postgres.com)
+   - [SQLite 2 e 3](http://www.sqlite.org)
+   - [Microsoft SQL Server 2000 ou maior](http://www.microsoft.com/sqlserver/)
+   - [Oracle](http://www.oracle.com)
+
+> Note|Nota: O suporte ao Microsoft SQL Server existe desde a versão 1.0.4; já 
+o suporte ao Oracle está disponível a partir da versão 1.0.5.
+
+Se você deseja utilizar um componente de aplicação diferente de `db`, ou 
+se quiser trabalhar com vários bancos de dados utilizando AR, você deve sobrescrever 
+o método [CActiveRecord::getDbConnection()]. A classe [CActiveRecord] é a base 
+para todas as classes Active Record.
+
+> Tip|Dica: Existem duas maneiras de trabalhar como AR utilizando vários bancos 
+de dados. Se os schemas dos bancos são diferentes, você deve criar diferentes 
+classes base AR, com diferentes implementações do método 
+[getDbConnection()|CActiveRecord::getDbConnection]. Caso contrário, alterar 
+dinamicamente a variável estática [CActiveRecord::db] é uma idéia melhor.
+
+Definindo Classes AR
+--------------------
+
+Para acessar uma tabela do banco de dados, precisamos primeiro definir uma classe 
+AR estendendo [CActiveRecord]. Cada classe Active Record representa uma única tabela 
+do banco, e uma instância dessa classe representa um registro dessa tabela. O 
+exemplo abaixo mostra o código mínimo necessário para uma classe AR que representa 
+a tabela `Post`: 
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	public static function model($className=__CLASS__)
+	{
+		return parent::model($className);
+	}
+}
+~~~
+
+> Tip|Dica: Como as classes Ar geralmente são utilizadas em diversos lugares, 
+> podemos importar todo o diretório onde elas estão localizadas, em vez de fazer 
+> a importação uma a uma. Por exemplo, se todos os arquivos de nossas classes estão 
+> em `protected/models`, podemos configurar a aplicação da seguinte maneira:
+> 
+> ~~~
+> [php]
+> return array(
+> 	'import'=>array(
+> 		'application.models.*',
+> 	),
+> );
+> ~~~
+
+Por padrão, o nome de uma classe AR é o mesmo que o da tabela do banco de dados. 
+Sobrescreva o método [tableName()|CActiveRecord::tableName] caso eles sejam 
+diferentes. O método [model()|CActiveRecord::model] deve ser declarado dessa maneira 
+para todos as classes AR (a ser explicado em breve).
+
+Os valores do registro de um tabela podem ser acessados pelas propriedades da 
+instância AR correspondente. Por exemplo, o código a seguir adiciona um valor 
+ao campo `title`:
+
+~~~
+[php]
+$post=new Post;
+$post->title='um post de exemplo';
+~~~
+
+Embora nunca tenhamos declarado uma propriedade `title` na classe `Post`, 
+ainda assim podemos acessa-la no exemplo acima. Isso acontece porque `title` 
+é uma coluna da tabela `Post`, e a classe [CActiveRecord] a deixa acessível 
+por meio de uma propriedade com a ajuda do método mágico `__get()`, do PHP. 
+Ao tentar acessar uma coluna que não existe na tabela será disparada uma exceção.
+
+> Info|Informação: Nesse guia, nomeamos as colunas utilizando o estilo camel case 
+(por exemplo, `createTime`). Isso acontece porque acessamos essas colunas através 
+de propriedades de objetos que também utilizam esse estilo para nomeá-las. Embora 
+a utilização de camel case faça nosso código ter uma nomenclatura mais consistente, 
+ele adiciona um problema relacionado aos bancos de dados que diferenciam letras 
+maiúsculas de minúsculas. Por exemplo, o PostgreSQL, por padrão, não faz essa 
+diferenciação nos nomes das colunas, e devemos colocar o nome da coluna entre aspas, 
+em uma consulta, se seu nome conter letras maiúsculas e minúsculas. Por isso, 
+é uma boa idéia nomear as colunas (e as tabelas também) somente com letras minúsculas 
+(por exemplo, `create_time`) para evitar esse tipo de problema.
+
+Criando um Registro
+-------------------
+
+Para inserir um novo registro em uma tabela, criamos uma nova instância da classe 
+AR correspondente, inserimos os valores nas propriedades relacionadas as colunas 
+da tabela e, então, utilizamos o método [save()|CActiveRecord::save] para concluir 
+a inserção.
+
+~~~
+[php]
+$post=new Post;
+$post->title='post de exemplo';
+$post->content='conteúdo do post de exemplo';
+$post->createTime=time();
+$post->save();
+~~~
+
+Se a chave primário da tabela é auto-numérica, após a inserção, a instância da 
+classe AR irá conter o valor atualizado da chave primária. No exemplo acima, a 
+propriedade `id` irá refletir o valor da chave primária no novo post inserido, 
+mesmo que não a tenhamos alterado explicitamente.
+
+Se alguma coluna é definida com um valor padrão estático (por exemplo, uma 
+string ou um número) no schema da tabela, a propriedade correspondente na 
+instância AR terá, automaticamente, este valor, assim que criada. Uma maneira 
+de alterar esse valor padrão é declarar explicitamente a propriedade na classe AR:
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	public $title='por favor insira um título';
+	......
+}
+
+$post=new Post;
+echo $post->title;  // irá exibir: por favor insira um título
+~~~
+
+A partir da versão 1.0.2, pode-se atribuir a um atributo um valor do tipo [CDbExpression], 
+antes que o registro seja salvo (tanto na inserção, quanto na atualização) no banco de dados. 
+Por exemplo, para salvar um timestamp retornado pela função `NOW()` do MySQL, 
+podemos utilizar o seguinte código:
+
+~~~
+[php]
+$post=new Post;
+$post->createTime=new CDbExpression('NOW()');
+// $post->createTime='NOW()'; não irá funcionar porque
+// 'NOW()' será tratado como uma string
+$post->save();
+~~~
+
+> Tip|Dica: Embora o Active Record torne possível que sejam realizadas operações 
+no banco de dados sem a necessidade de escrever consultas em SQL, geralmente 
+queremos saber quais consultas estão sendo executadas pelo AR. Para isso, ative 
+o recurso de [registros de logs](/doc/guide/topics.logging) do Yii. Por exemplo, 
+podemos ativar o componente [CWebLogRoute] na configuração da aplicação, e, então 
+poderemos ver as instruções SQL executadas exibidas no final de cada página. Desde 
+a versão 1.0.5, podemos alterar o valor da propriedade [CDbConnection::enableParamLogging] 
+para true, na configuração da aplicação, assim os valores dos parâmetros 
+vinculados a instrução também serão registrados.
+
+Lendo um Registro
+------------------
+
+Para ler dados de uma tabela, podemos utilizar um dos métodos `find`:
+
+~~~
+[php]
+// encontra o primeiro registro que atenda a condição especificada
+$post=Post::model()->find($condition,$params);
+// encontra o registro com a chave primária especificada
+$post=Post::model()->findByPk($postID,$condition,$params);
+// encontra o registro com os atributos tendo os valores especificados
+$post=Post::model()->findByAttributes($attributes,$condition,$params);
+// encontra o primeiro registro, utilizando o comando SQL especificado
+$post=Post::model()->findBySql($sql,$params);
+~~~
+
+No exemplo acima, utilizamos o método `find` em conjunto com `Post::model()`. 
+Lembre-se que o método estático `model()` é obrigatório em todas as classes AR. 
+Esse método retorna uma instância AR que é utilizada para acessar métodos a nível 
+de classe (algo parecido com métodos estáticos de classe) em um contexto de objeto.
+
+Se o método `find` encontra um registro que satisfaça as condições da consulta, 
+ele irá retornar uma instância cujas propriedades irão conter os valores do 
+registro específico. Podemos então ler os valores carregados normalmente como 
+fazemos com as propriedades de um objeto. Por exemplo, `echo $post->title;`.
+
+O método `find` irá retornar null se nenhum registro for encontrado.
+
+Ao executar o método `find`, utilizamos os parâmetros `$condition` e `$params` 
+para especificar as condições desejadas. Nesse caso, `$condition` pode ser uma 
+string representando uma cláusula `WHERE`, do SQL, e `$params` é um vetor 
+com parâmetros cujos valores devem ser vinculados a marcadores na `$condition`. 
+Por exemplo:
+
+~~~
+[php]
+// encontra o registro com postID=10
+$post=Post::model()->find('postID=:postID', array(':postID'=>10));
+~~~
+
+> Note|Nota: No exemplo acima, precisamos escapar a referência para a coluna `postID`, 
+em certos SGBDs. Por exemplo, se estivermos utilizando o PostgreSQL, deveríamos ter 
+escrito a condição como `"postID"=:postID`, porque este banco de dados, por padrão, 
+não diferencia letras maiúsculas e minúsculas nos nomes de colunas.
+
+Podemos também utilizar o parâmetro `$condition` para especificar condições de 
+pesquisa mais complexas. Em vez de uma string, `$condition` pode ser uma instância 
+de [CDbCriteria], o que permite especificar outras condições além do `WHERE`. 
+Por exemplo:
+
+~~~
+[php]
+$criteria=new CDbCriteria;
+$criteria->select='title';  // seleciona apenas a coluna title
+$criteria->condition='postID=:postID';
+$criteria->params=array(':postID'=>10);
+$post=Post::model()->find($criteria); // $params não é necessario
+~~~
+
+Note que, ao utilizar [CDbCriteria] como condição para a pesquisa, o parâmetro 
+`$params` não é mais necessário, uma vez que ele pode ser especificado diretamente 
+na instância de [CDbCriteria], como no exemplo acima.
+
+Uma maneira alternativa de utilizar [CDbCriteria] é passar um vetor para o método 
+`find`. As chaves e valores do vetor correspondem as propriedades e valores da condição, 
+respectivamente. O exemplo acima pode ser reescrito da seguinte maneira:
+
+~~~
+[php]
+$post=Post::model()->find(array(
+	'select'=>'title',
+	'condition'=>'postID=:postID',
+	'params'=>array(':postID'=>10),
+));
+~~~
+
+> Info|Informação: Quando a condição de uma consulta deve casar com colunas com 
+um determinado valor, utilizamos o método 
+[findByAttributes()|CActiveRecord::findByAttributes]. Fazemos com que o parâmetro 
+`$attributes` seja um vetor, onde os atributos são indexados pelos nomes das colunas. 
+Em alguns frameworks, essa tarefa é feita utilizando-se métodos como `findByNameAndTitle`.
+Apesar de parecer uma maneira mais atrativa, normalmente esses métodos causam 
+confusão, conflitos e problemas em relação aos nomes de colunas com maiúsculas e minúsculas.
+
+Quando uma condição encontra diversos resultados em uma consulta, podemos 
+traze-los todos de uma vez utilizando os seguintes métodos `findAll`, cada um 
+com sua contraparte na forma de métodos `find`, como já descrito.
+
+~~~
+[php]
+// encontra todos os registros que satisfação a condição informada
+$posts=Post::model()->findAll($condition,$params);
+// encontra todos os registros com a chave primária informada
+$posts=Post::model()->findAllByPk($postIDs,$condition,$params);
+// encontra todos os registros com campos com o valor informado
+$posts=Post::model()->findAllByAttributes($attributes,$condition,$params);
+// encontra todos os registros utilizando a consulta SQL informada
+$posts=Post::model()->findAllBySql($sql,$params);
+~~~
+
+Se nenhum registro for encontrada, `findAll` irá retornar um vetor vazio, 
+diferente dos métodos `find` que retornam null quando nada é encontrado.
+
+Em conjunto com os métodos `find` e `findAll`, já descritos, os seguintes 
+métodos também são fornecidos:
+
+~~~
+[php]
+// pega o número de registros que satisfaz a condição informada
+$n=Post::model()->count($condition,$params);
+// pega o número de registros que satisfaz a instrução SQL informada
+$n=Post::model()->countBySql($sql,$params);
+// verifica se há pelo menos um registro que satisfaz a condição informada
+$exists=Post::model()->exists($condition,$params);
+~~~
+
+Atualizando Registros
+---------------------
+
+Depois que uma instância AR tenha sido preenchida com os valores dos campos 
+da tabela, podemos atualiza-los e salva-los de volta para o banco de dados.
+
+~~~
+[php]
+$post=Post::model()->findByPk(10);
+$post->title='novo título do post';
+$post->save(); // salva as alterações para o banco de dados
+~~~
+
+Como podemos ver, utilizamos o mesmo método [save()|CActiveRecord::save] para 
+fazer a inserção e atualização dos dados. Se uma instância AR é criada por meio 
+do operador `new`, executar o método [save()|CActiveRecord::save] irá inserir um 
+novo registro no banco de dados; se a instância é o resultado de um `find` ou 
+`findAll`, executar o método [save()|CActiveRecord::save] irá atualizar o registro 
+existente na tabela. Podemos utilizar a propriedade [CActiveRecord::isNewRecord] 
+para verificar se uma instância AR é nova ou não.
+
+Também é possível atualizar um ou vários registros em uma tabela do banco, sem ter que 
+carrega-lo primeiro. Existem os seguinte métodos para efetuar essas operações 
+de uma maneira mais conveniente:
+
+~~~
+[php]
+// atualiza os registros que satisfação a condição informada
+Post::model()->updateAll($attributes,$condition,$params);
+// atualiza os registros que tenha a chave primária informada, e satisfação a condição
+Post::model()->updateByPk($pk,$attributes,$condition,$params);
+// atualiza uma coluna counter (contagem) que satisfaça a condição informada
+Post::model()->updateCounters($counters,$condition,$params);
+~~~
+
+No exemplo acima, `$attributes` é um vetor com os valores das colunas, indexados 
+pelos nomes delas. `$counter` é um vetor com as colunas que terão seus valores 
+incrementados, indexadas pelos seus nomes. `$condition` e `$paramns` estão 
+descritos nos itens anteriores.
+
+Excluindo um Registro
+---------------------
+
+Podemos também excluir um registro se a instância AR já estiver preenchida com ele.
+
+~~~
+[php]
+$post=Post::model()->findByPk(10); // assumindo que há um post com ID 10
+$post->delete(); // exclui o registro da tabela no banco de dados.
+~~~
+
+Note que, depois da exclusão, a instância AR continua inalterada, mas o registro 
+correspondente no banco de dados já foi excluído.
+
+Os seguintes métodos são utilizados para excluir registros sem a necessidade de 
+carrega-los primeiro:
+
+~~~
+[php]
+// exclui os registros que satisfação a condição informada
+Post::model()->deleteAll($condition,$params);
+// exclui os registros com a chave primária e condição informada
+Post::model()->deleteByPk($pk,$condition,$params);
+~~~
+
+Validação de Dados
+------------------
+
+Ao inserir ou atualizar um registro, geralmente precisamos verificar ser o valor 
+está de acordo com certas regras. Isso é especialmente importante nos casos em 
+que os valores das colunas são informados pelos usuários. No geral, é bom nunca 
+confiar em nenhum dado vindo do lado do cliente (usuário).
+
+O AR efetua a validação automaticamente quando o método [save()|CActiveRecord::save] 
+é executado. A validação é baseada em regras especificadas pelo método 
+[rules()|CActiveRecord::rules] da classe AR. Para mais detalhes sobre como 
+especificar regras de validação consulte 
+[Declarando Regras de Validação](/doc/guide/form.model#declaring-validation-rules). 
+Abaixo temos o fluxo típico necessário para salvar um registro:
+
+~~~
+[php]
+if($post->save())
+{
+	// dados são validos e são inseridos/atualizados no banco
+}
+else
+{
+	// dados são inválidos. utilize getErrors() para recuperar as mensagens de erro
+}
+~~~
+
+Quando os dados para inserção ou atualização são enviados pelos usuários através 
+de um formulário HTML, precisamos atribuí-los as propriedades correspondentes da 
+classe AR. Podemos fazer isso da seguinte maneira:
+
+~~~
+[php]
+$post->title=$_POST['title'];
+$post->content=$_POST['content'];
+$post->save();
+~~~
+
+Se existirem muitos campos, teríamos uma longa lista dessas atribuições. 
+Esse trabalho pode ser aliviado, por meio da propriedade [attributes|CActiveRecord::attributes], 
+como feito no exemplo abaixo. Mais detalhes podem ser consultados em 
+[Atribuição de Atributos Seguros](/doc/guide/form.model#securing-attribute-assignments)
+e [Criando uma Ação](/doc/guide/form.action).
+
+~~~
+[php]
+// assumindo que $_POST['Post'] é um vetor com os valores das colunas, indexados pelos seus nomes
+$post->attributes=$_POST['Post'];
+$post->save();
+~~~
+
+Comparando Registros
+--------------------
+
+Assim como registros de uma tabela, as instâncias AR também são unicamente identificadas 
+pelos valores de suas chaves primárias. Portanto, para comparar duas instâncias 
+AR, precisamos apenas comparar os valores de suas chaves, assumindo que ambas 
+pertencem a mesma classe. Entretanto, existe uma maneira mais simples de compara-las,
+que é utilizar o método [CActiveRecord::equals()].
+
+> Info|Informação: Diferente das implementações de Active Record em outros 
+frameworks, o Yii suporta chaves primárias compostas em seu AR. Uma chave primária 
+composta é formada por duas ou mais colunas. De forma correspondente, a chave 
+primária é representada por um vetor no Yii. A propriedade [primaryKey|CActiveRecord::primaryKey] 
+retorna a chave uma instância AR.
+
+Personalização
+--------------
+
+A classe [CActiveRecord] possui alguns métodos que podem ser sobrescritos por suas 
+classes derivadas, para personalizar seu fluxo de funcionamento.
+
+   - [beforeValidate|CModel::beforeValidate] e
+[afterValidate|CModel::afterValidate]: esses métodos são executados antes e 
+depois que uma validação é executada
+
+   - [beforeSave|CActiveRecord::beforeSave] e
+[afterSave|CActiveRecord::afterSave]: esses métodos são executados antes e 
+depois que um registro é salvo.
+
+   - [beforeDelete|CActiveRecord::beforeDelete] e
+[afterDelete|CActiveRecord::afterDelete]: esses métodos são executados antes e 
+depois que uma instância AR é excluída.
+
+   - [afterConstruct|CActiveRecord::afterConstruct]: esse método é utilizado 
+para toda instância AR criada por meio do operador `new`.
+
+   - [beforeFind|CActiveRecord::beforeFind]: esse método é chamado antes 
+que um objeto AR finder seja utilizado para executar uma consulta (por exemplo, 
+`find()`, `findAll()`). Ele está disponível a partir da versão 1.0.9.
+
+   - [afterFind|CActiveRecord::afterFind]: esse método é chamado após cada 
+instância AR criada como resultado de um consulta.
+
+Utilizando Transações com AR
+----------------------------
+
+Todas as instâncias AR contém uma propriedade chamada [dbConnection|CActiveRecord::dbConnection] 
+que é uma instância da classe [CDbConnection]. Podemos então, utilizar o recurso 
+de [transações](/doc/guide/database.dao#using-transactions) existente no DAO do Yii 
+para trabalhar com Active Record.
+
+~~~
+[php]
+$model=Post::model();
+$transaction=$model->dbConnection->beginTransaction();
+try
+{
+	// find e save são dois passos que podem ser interrompidos por outra requisição
+	// portanto utilizamos uma transação para garantir e a consistência a integridade dos dados
+	$post=$model->findByPk(10);
+	$post->title='novo título para o post';
+	$post->save();
+	$transaction->commit();
+}
+catch(Exception $e)
+{
+	$transaction->rollBack();
+}
+~~~
+
+Named Scopes (Escopos com Nomes)
+--------------------------------
+
+> Note|Nota: O suporte a named scopes está disponível a partir da versão 1.0.5.
+> A idéia original dos named scopes veio do Ruby on Rails.
+
+Um *named scope* representa um critério de consulta com um nome, que pode ser 
+combinado com outros named scopes e ser aplicado em uma consulta com active 
+record.
+
+Named scopes são declarados, normalmente, dentro do método [CActiveRecord::scopes()], 
+como pares nome-critério. O código a seguir, declara dois named scopes, `published` 
+e `recently`, dentro da classe `Post`:
+
+~~~
+[php]
+class Post extends CActiveRecord
+{
+	......
+	public function scopes()
+	{
+		return array(
+			'published'=>array(
+				'condition'=>'status=1',
+			),
+			'recently'=>array(
+				'order'=>'createTime DESC',
+				'limit'=>5,
+			),
+		);
+	}
+}
+~~~
+
+Cada named scope é declarado como um vetor que pode ser utilizado para iniciar 
+uma instância da classe [CDbCriteria]. Por exemplo, o named scope `recently` 
+especifica que o valor da propriedade `order` seja `createTime DESC` e o da 
+propriedade `limit` seja 5, que será traduzido em um critério de consulta que 
+retornará os 5 posts mais recentes.
+
+Na maioria das vezes, named scopes são utilizados como modificadores nas chamadas 
+aos métodos `find`. Vários named scopes podem ser encadeados para gerar um conjunto 
+de resultados mais restrito. Por exemplo, para encontrar os posts publicados recentemente, 
+podemos fazer como no código abaixo:
+
+~~~
+[php]
+$posts=Post::model()->published()->recently()->findAll();
+~~~
+
+Geralmente, os named scopes aparecem a esquerda da chamada ao método `find`. 
+Então, cada um deles fornece um critério de pesquisa que é combinado com outros 
+critérios, incluindo o que é passado para o método `find`. Esse encadeamento é 
+como adicionar uma lista de filtros em um consulta.
+
+A partir da versão 1.0.6, named scopes também podem ser utilizados com os métodos 
+`update` e `delete`. Por exemplo, no código a seguir vemos como deletar todos os 
+posts publicados recentemente:
+
+~~~
+[php]
+Post::model()->published()->recently()->delete();
+~~~
+
+> Note|Nota: Named scopes podem ser utilizados somente como métodos a nível de 
+classe. Por esse motivo, o método deve ser executando utilizando `NomeDaClasse::model()`.
+
+### Named Scopes Parametrizados
+
+Named scopes podem ser parametrizados. Por exemplo, podemos querer personalizar 
+o número de posts retornados no named scope `recently`, Para isso, em vez de 
+declarar o named scope dentro do método [CActiveRecord::scopes], precisamos definir 
+um novo método cujo nome seja o mesmo do escopo:
+
+~~~
+[php]
+public function recently($limit=5)
+{
+	$this->getDbCriteria()->mergeWith(array(
+		'order'=>'createTime DESC',
+		'limit'=>$limit,
+	));
+	return $this;
+}
+~~~
+
+Então, para recuperar apenas os 3 posts publicados recentemente, utilizamos:
+
+~~~
+[php]
+$posts=Post::model()->published()->recently(3)->findAll();
+~~~
+
+Se não tivéssemos informado o parâmetro 3 no exemplo acima, iriamos recuperar 5 
+posts, que é a quantidade padrão definida no método.
+
+### Named Scope Padrão
+
+A classe de um modelo pode ter um named scope padrão, que é aplicado para todas 
+as suas consultas (incluindo as relacionais). Por exemplo, um website que 
+suporte vários idiomas, pode querer exibir seu conteúdo somente no idioma que o 
+usuário especificar. Como devem existir muitas consultas para recuperar esse 
+conteúdo, podemos definir um named scope para resolver esse problema. Para isso 
+sobrescrevemos o método [CActiveRecord::defaultScope], como no código a seguir:
+
+~~~
+[php]
+class Content extends CActiveRecord
+{
+	public function defaultScope()
+	{
+		return array(
+			'condition'=>"idioma='".Yii::app()->idioma."'",
+		);
+	}
+}
+~~~
+
+Assim, a chamada de método a seguir irá utilizar automaticamente o critério definido acima:
+
+~~~
+[php]
+$contents=Content::model()->findAll();
+~~~
+
+Note que o named scope padrão é aplicado somente as consultas utilizando `SELECT`. 
+Ele é ignorado nas consultas com `INSERT`, `UPDATE` e `DELETE`.
+
+<div class="revision">$Id: database.ar.txt 1479 2009-10-23 13:24:20Z qiang.xue $</div>

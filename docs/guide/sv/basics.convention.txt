@@ -97,7 +97,7 @@ av dem kan anpassas om så önskas.
 
    - `WebRoot/protected/runtime`: denna katalog innehåller privata tillfälliga filer, genererade vid körning av applikationen. Webbserverprocessen måste ha skrivrättighet till denna katalog. Anpassning kan ske via [CApplication::runtimePath].
 
-   - `WebRoot/protected/extensions`: denna katalog innehåller alla tredjepartstillägg. Anpassning kan ske via [CApplication::extensionPath].
+   - `WebRoot/protected/extensions`: denna katalog innehåller alla tredjepartstillägg. Anpassning kan ske via [CApplication::extensionPath]. Yii har ett standardalias `ext` förknippat med denna sökväg.
 
    - `WebRoot/protected/modules`: denna katalog innehåller alla applikationens [moduler](/doc/guide/basics.module), var och en representerad som en underkatalog.
 
@@ -136,4 +136,4 @@ krav från Yii:s sida.
 
 
 
-<div class="revision">$Id: basics.convention.txt 2345 2010-08-28 12:51:08Z mdomba $</div>
+<div class="revision">$Id: basics.convention.txt 3225 2011-05-17 23:23:05Z alexander.makarow $</div>

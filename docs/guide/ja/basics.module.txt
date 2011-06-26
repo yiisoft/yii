@@ -1,8 +1,6 @@
 モジュール
 ======
 
-> Note|注意: モジュールは version 1.0.3 以降でサポートされました。
-
 モジュールは、[モデル](/doc/guide/basics.model)、
 [ビュー](/doc/guide/basics.view)、[コントローラ](/doc/guide/basics.controller)
 とその他のサポートしているコンポーネントから構成される自己完結した
@@ -54,17 +52,7 @@ forum/
 [アプリケーションコンポーネント](/doc/guide/basics.application#アプリケーションコンポーネント)
 を共有するために [CWebModule::components] を使用できます。
 
-> Tip|ヒント: 新しいモジュールの基本的なスケルトンを作成するために `yiic`
-ツールを使用することができます。たとえば、上記した `forum` モジュールを
-作るには、コマンドラインウィンドウで下記コマンドを実行します。
->
-> ~~~
-> % cd WebRoot/testdrive
-> % protected/yiic shell
-> Yii Interactive Tool v1.0
-> Please type 'help' for help. Type 'exit' to quit.
-> >> module forum
-> ~~~
+> Tip|ヒント: 新しいモジュールの基本的なスケルトンを作成するためにGiiのモジュールジェネレータを使うことができます。
 
 
 モジュールの使用
@@ -144,13 +132,13 @@ $postPerPage=Yii::app()->controller->module->postPerPage;
 モジュールのネスト化
 -------------
 
-モジュールはネスト化することができます。
-これは、モジュールが他のモジュールを含むことができるということです。
-前者の *親モジュール* を呼び出した上に、後者の *子モジュール* を
-呼び出します。子モジュールは親モジュールの `modules` ディレクトリ下に
-配置されなければなりません。
+モジュールは無限にネスト化することができます。
+これは、モジュールが、別のモジュールを含むような他のモジュールを含むことができるということです。
+前者を*親モジュール*と呼び、後者を*子モジュール*と呼びます。
+子モジュールは、上記のアプリケーション構成に見られるように、親モジュールの[modules|CWebModule::modules]プロパティ中で宣言されなければなりません。
+
 子モジュールでコントローラアクションにアクセスするために、
 ルート `parentModuleID/childModuleID/controllerID/actionID` を
 使用しなければなりません。
 
-<div class="revision">$Id: basics.module.txt 745 2009-02-25 21:45:42Z qiang.xue $</div>
+<div class="revision">$Id: basics.module.txt 2890 2009-02-25 21:45:42Z qiang.xue $</div>
