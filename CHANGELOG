@@ -2,6 +2,10 @@
                    Yii Framework Change Log
                    ========================
 
+Version 1.1.9 work in progress
+------------------------------
+
+
 Version 1.1.8 June 26, 2011
 ---------------------------
 - Bug: Fixed a typo that may cause issue when setting custom script packages with baseUrl option for CClientScript (Qiang)
