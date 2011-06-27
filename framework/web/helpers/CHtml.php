@@ -76,7 +76,7 @@ class CHtml
 	 */
 	public static function decode($text)
 	{
-		return htmlspecialchars_decode($text,ENT_QUOTES);
+		return htmlspecialchars_decode($text,ENT_QUOTES,Yii::app()->charset);
 	}
 
 	/**
