@@ -162,7 +162,7 @@ class CCaptchaAction extends CAction
 	 * Validates the input to see if it matches the generated code.
 	 * @param string $input user input
 	 * @param boolean $caseSensitive whether the comparison should be case-sensitive
-	 * @return whether the input is valid
+	 * @return boolean whether the input is valid
 	 */
 	public function validate($input,$caseSensitive)
 	{
