@@ -351,7 +351,7 @@ URL formats, sometimes we still want to enhance it with special features.
 
 For example, in a car dealer website, we may want to support the URL format like
 `/Manufacturer/Model`, where `Manufacturer` and `Model` must both match some data in
-in a database table. The [CUrlRule] class will not work because it mostly relies
+a database table. The [CUrlRule] class will not work because it mostly relies
 on statically declared regular expressions which have no database knowledge.
 
 We can write a new URL rule class by extending from [CBaseUrlRule] and use it in one
@@ -415,8 +415,8 @@ class CarUrlRule extends CBaseUrlRule
 
 The custom URL class must implement the two abstract methods declared in [CBaseUrlRule]:
 
-* [CBaseUrlRule::createUrl()|createUrl()]
-* [CBaseUrlRule::parseUrl()|parseUrl()]
+* [createUrl()|CBaseUrlRule::createUrl()]
+* [parseUrl()|CBaseUrlRule::parseUrl()]
 
 Besides the above typical usage, custom URL rule classes can also be implemented
 for many other purposes. For example, we can write a rule class to log the URL parsing
