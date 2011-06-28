@@ -48,7 +48,7 @@ We first need to create a [model](http://www.yiiframework.com/doc/guide/basics.m
 
 Click on the `Model Generator` link to start using the model generation tool.
 
-On the `Model Generator` page, enter `tbl_user` (the user table name) in the `Table Name` field, and then press the `Preview` button. A preview table will show up. We can click on the link in the table to preview the code to be generated. If everything is ok, we can press the `Generate` button to generate the code and save it into a file.
+On the `Model Generator` page, enter `tbl_user` (the user table name) in the `Table Name` field, `tbl_` in the `Table Prefix` field and then press the `Preview` button. A preview table will show up. We can click on the link in the table to preview the code to be generated. If everything is ok, we can press the `Generate` button to generate the code and save it into a file.
 
 > Info: Because the code generator needs to save the generated code into files, it is required that the Web process have the permission to create and modify the corresponding files. For simplicity, we may give the Web process the write permission to the whole `/wwwroot/blog` directory. Note that this is only needed on development machines when using `Gii`.
 
