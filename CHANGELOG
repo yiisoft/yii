@@ -6,6 +6,7 @@ Version 1.1.9 work in progress
 ------------------------------
 - Bug: Removed unnecessary COciCommandBuilder::createInsertCommand quotes (Sam Dark)
 - Chg: Upgraded JQuery UI to 1.8.14 (Sam Dark)
+- Chg: Upgraded jQuery to 1.6.2 (Sam Dark)
 - Chg: Reverted back the changes made to fix issue 2284 (Qiang)
 
 Version 1.1.8 June 26, 2011
