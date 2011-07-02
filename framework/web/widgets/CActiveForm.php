@@ -236,7 +236,7 @@ class CActiveForm extends CWidget
 	 * from being encoded as a string. This option has been available since version 1.1.3.</li>
 	 * <li>afterValidateAttribute: function, the function that will be invoked after performing ajax-based validation
 	 * triggered by a single attribute input change. The expected function signature should be
-	 * <code>beforeValidateAttribute(form, attribute, data, hasError) {...}</code>, where 'form' is the jquery
+	 * <code>afterValidateAttribute(form, attribute, data, hasError) {...}</code>, where 'form' is the jquery
 	 * representation of the form object; 'attribute' refers to the js options for the triggering attribute (see {@link error});
 	 * 'data' is the JSON response from the server-side validation; 'hasError' is a boolean value indicating whether
 	 * there is any validation error.
