@@ -80,14 +80,19 @@ class CDbHttpSession extends CHttpSession
 	}
 
 	/**
-	 * Updates the current session id with a newly generated one .
+	 * Updates the current session id with a newly generated one.
 	 * Please refer to {@link http://php.net/session_regenerate_id} for more details.
 	 * @param boolean $deleteOldSession Whether to delete the old associated session file or not.
 	 * @since 1.1.8
 	 */
 	public function regenerateID($deleteOldSession=false)
 	{
-		$oldID=session_id();;
+		$oldID=session_id();
+
+		// if no session is started, there is nothing to regenerate
+		if(empty($oldID))
+			return;
+
 		parent::regenerateID(false);
 		$newID=session_id();
 		$db=$this->getDbConnection();

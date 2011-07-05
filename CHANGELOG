@@ -6,6 +6,7 @@ Version 1.1.9 work in progress
 ------------------------------
 - Bug: Removed unnecessary COciCommandBuilder::createInsertCommand quotes (Sam Dark)
 - Bug: CHttpRequest.sendFile() gives incorrect content length when output_handler is enabled through code or non output_handler directive (Sam Dark)
+- Bug #2603: Fixed the bug that CDbHttpSession::regenerateID call when session isn't started results in SQL error (Sam Dark)
 - Chg: Upgraded JQuery UI to 1.8.14 (Sam Dark)
 - Chg: Upgraded jQuery to 1.6.2 (Sam Dark)
 - Chg: Reverted back the changes made to fix issue 2284 (Qiang)
