@@ -484,7 +484,7 @@ abstract class CActiveRecord extends CModel
 	 *   HAS_MANY and MANY_MANY relations. This option has been available since version 1.0.7.</li>
 	 * <li>'scopes': scopes to apply. In case of a single scope can be used like 'scopes'=>'scopeName',
 	 *   in case of multiple scopes can be used like 'scopes'=>array('scopeName1','scopeName2').
-	 *   This option has been available since version 1.0.9.</li>
+	 *   This option has been available since version 1.1.9.</li>
 	 * </ul>
 	 *
 	 * The following options are available for certain relations when lazy loading:

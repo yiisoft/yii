@@ -306,7 +306,7 @@ This option can only be set for `HAS_MANY` and `MANY_MANY` relations.
    - `scopes`: scopes to apply. In case of a single scope can be used like
 `'scopes'=>'scopeName'`, in case of multiple scopes can be used like
 `'scopes'=>array('scopeName1','scopeName2')`. This option has been available
-since version 1.0.9.
+since version 1.1.9.
 
 In addition, the following options are available for certain relationships
 during lazy loading:
