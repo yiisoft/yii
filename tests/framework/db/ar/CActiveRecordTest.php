@@ -976,6 +976,22 @@ class CActiveRecordTest extends CTestCase
 			$this->assertEquals(1,count($user->posts));
 			$this->assertEquals(4,$user->posts[0]->id);
 		}
+
+		//related model with 'scopes' as relation option
+		$user=User::model()->with('postsOrderDescFormat1')->findByPk(2);
+		$this->assertEquals(3,count($user->postsOrderDescFormat1));
+		$this->assertEquals(array(4,3,2),array(
+			$user->postsOrderDescFormat1[0]->id,
+			$user->postsOrderDescFormat1[1]->id,
+			$user->postsOrderDescFormat1[2]->id,
+		));
+		$user=User::model()->with('postsOrderDescFormat2')->findByPk(2);
+		$this->assertEquals(3,count($user->postsOrderDescFormat2));
+		$this->assertEquals(array(4,3,2),array(
+			$user->postsOrderDescFormat2[0]->id,
+			$user->postsOrderDescFormat2[1]->id,
+			$user->postsOrderDescFormat2[2]->id,
+		));
 	}
 
 	public function testResetScope()

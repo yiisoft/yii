@@ -482,6 +482,9 @@ abstract class CActiveRecord extends CModel
 	 * <li>'index': the name of the column whose values should be used as keys
 	 *   of the array that stores related objects. This option is only available to
 	 *   HAS_MANY and MANY_MANY relations. This option has been available since version 1.0.7.</li>
+	 * <li>'scopes': scopes to apply. In case of a single scope can be used like 'scopes'=>'scopeName',
+	 *   in case of multiple scopes can be used like 'scopes'=>array('scopeName1','scopeName2').
+	 *   This option has been available since version 1.0.9.</li>
 	 * </ul>
 	 *
 	 * The following options are available for certain relations when lazy loading:
@@ -2091,6 +2094,16 @@ class CActiveRelation extends CBaseActiveRelation
 	 * only when the primary table is not limited.
 	 */
 	public $together;
+	/**
+	 * @var mixed scopes to apply
+	 * Can be set to the one of the following:
+	 * <ul>
+	 * <li>Single scope: 'scopes'=>'scopeName'.</li>
+	 * <li>Multiple scopes: 'scopes'=>array('scopeName1','scopeName2').</li>
+	 * </ul>
+	 * @since 1.1.9
+	 */
+	 public $scopes;
 
 	/**
 	 * Merges this relation with a criteria specified dynamically.
