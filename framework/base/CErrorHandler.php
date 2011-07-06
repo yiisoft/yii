@@ -97,7 +97,6 @@ class CErrorHandler extends CApplicationComponent
 		if($this->discardOutput)
 		{
 			while (ob_get_length())
-				@ob_end_clean();
 		}
 
 		if($event instanceof CExceptionEvent)
@@ -362,6 +361,9 @@ class CErrorHandler extends CApplicationComponent
 	protected function argumentsToString($args)
 	{
 		$count=0;
+
+		$isAssoc=$args!==array_values($args);
+
 		foreach($args as $key => $value)
 		{
 			$count++;
@@ -393,7 +395,13 @@ class CErrorHandler extends CApplicationComponent
 				$args[$key] = 'resource';
 
 			if(is_string($key))
+			{
 				$args[$key] = '"'.$key.'" => '.$args[$key];
+			}
+			else if($isAssoc)
+			{
+				$args[$key] = $key.' => '.$args[$key];
+			}
 		}
 		$out = implode(", ", $args);
 
