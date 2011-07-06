@@ -97,7 +97,9 @@ class CHttpSession extends CApplicationComponent implements IteratorAggregate,Ar
 	{
 		if($this->getUseCustomStorage())
 			@session_set_save_handler(array($this,'openSession'),array($this,'closeSession'),array($this,'readSession'),array($this,'writeSession'),array($this,'destroySession'),array($this,'gcSession'));
-		if(@session_start()===false && YII_DEBUG)
+
+		@session_start();
+		if(session_id()=='' && YII_DEBUG)
 		{
 			$message=Yii::t('yii','Failed to start session.');
 			if(function_exists('error_get_last'))
