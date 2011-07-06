@@ -228,8 +228,11 @@ class CActiveFinder extends CComponent
 			if(($scope=$model->defaultScope())!==array())
 				$relation->mergeWith($scope,true);
 
+			if(!empty($relation->scopes))
+				$scopes=array_merge($scopes,(array)$relation->scopes); // no need for complex merging
+
 			if(!empty($options['scopes']))
-				$scopes=array_merge($scopes,(array)$options['scopes']); // no need complex merging, $scopes always in simle format
+				$scopes=array_merge($scopes,(array)$options['scopes']); // no need for complex merging
 
 			if($scopes!==array())
 			{

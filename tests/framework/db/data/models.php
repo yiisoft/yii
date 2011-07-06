@@ -28,6 +28,8 @@ class User extends CActiveRecord
 			'mentorships'=>array(self::HAS_MANY,'Mentorship','teacher_id','joinType'=>'INNER JOIN'),
 			'students'=>array(self::HAS_MANY,'User','student_id','through'=>'mentorships','joinType'=>'INNER JOIN'),
 			'posts'=>array(self::HAS_MANY,'Post','author_id'),
+			'postsOrderDescFormat1'=>array(self::HAS_MANY,'Post','author_id','scopes'=>'orderDesc'),
+			'postsOrderDescFormat2'=>array(self::HAS_MANY,'Post','author_id','scopes'=>array('orderDesc')),
 			'postCount'=>array(self::STAT,'Post','author_id'),
 		);
 	}
@@ -149,6 +151,7 @@ class Post extends CActiveRecord
 			'post23'=>array('condition'=>'posts.id=2 OR posts.id=3', 'alias'=>'posts', 'order'=>'posts.id'),
 			'post3'=>array('condition'=>'id=3'),
 			'postX'=>array('condition'=>'id=:id1 OR id=:id2', 'params'=>array(':id1'=>2, ':id2'=>3)),
+			'orderDesc'=>array('order'=>'posts.id DESC','alias'=>'posts'),
 		);
 	}
 
