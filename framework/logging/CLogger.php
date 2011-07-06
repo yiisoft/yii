@@ -262,7 +262,7 @@ class CLogger extends CComponent
 	 * Removes all recorded messages from the memory.
 	 * This method will raise an {@link onFlush} event.
 	 * The attached event handlers can process the log messages before they are removed.
-	 * @param boolean $dumpLogs whether to process the logs
+	 * @param boolean $dumpLogs whether to process the logs immediately as they are passed to log route
 	 * @since 1.1.0
 	 */
 	public function flush($dumpLogs=false)
