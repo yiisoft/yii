@@ -97,7 +97,7 @@ class CDbCriteria extends CComponent
 	public $alias;
 	/**
 	 * @var boolean whether the foreign tables should be joined with the primary table in a single SQL.
-	 * This property is only used in relational AR queries.
+	 * This property is only used in relational AR queries for HAS_MANY and MANY_MANY relations.
 	 *
 	 * When this property is set true, only a single SQL will be executed for a relational AR query,
 	 * even if the primary table is limited and the relationship between a foreign table and the primary
@@ -105,7 +105,8 @@ class CDbCriteria extends CComponent
 	 *
 	 * When this property is set false, a SQL statement will be executed for each HAS_MANY relation.
 	 *
-	 * When this property is not set, if the primary table is limited, a SQL statement will be executed for each HAS_MANY relation.
+	 * When this property is not set, if the primary table is limited or paginated,
+	 * a SQL statement will be executed for each HAS_MANY relation.
 	 * Otherwise, a single SQL statement will be executed for all.
 	 *
 	 * @since 1.1.4
