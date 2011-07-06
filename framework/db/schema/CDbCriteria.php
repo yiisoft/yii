@@ -132,15 +132,16 @@ class CDbCriteria extends CComponent
      * <li>{@link CActiveRecord::count()}</li>
      * </ul>
 	 *
-     * Can be set to one of the following:
-     * <ul>
-     * <li>One scope: $criteria->scopes='scopeName';</li>
-     * <li>Multiple scopes: $criteria->scopes=array('scopeName1','scopeName1');</li>
-     * <li>Scope with parameters: $criteria->scopes=array('scopeName'=>array($paramters));</li>
-     * <li>Multiple scopes with the same name: array(array('scopeName'=>array($paramters1)),array('scopeName'=>array($paramters2)));</li>
-     * </ul>
-     * @since 1.1.7
-     */
+	 * Can be set to one of the following:
+	 * <ul>
+	 * <li>One scope: $criteria->scopes='scopeName';</li>
+	 * <li>Multiple scopes: $criteria->scopes=array('scopeName1','scopeName2');</li>
+	 * <li>Scope with parameters: $criteria->scopes=array('scopeName'=>array($params));</li>
+	 * <li>Multiple scopes with parameters: $criteria->scopes=array('scopeName1'=>array($params1),'scopeName2'=>array($params2));</li>
+	 * <li>Multiple scopes with the same name: array(array('scopeName'=>array($params1)),array('scopeName'=>array($params2)));</li>
+	 * </ul>
+	 * @since 1.1.7
+	 */
 	public $scopes;
 
 	/**
