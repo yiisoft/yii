@@ -28,8 +28,9 @@
 			var settings = $.extend({}, $.fn.yiiGridView.defaults, options || {});
 			var $this = $(this);
 			var id = $this.attr('id');
+			settings.tableClass=settings.tableClass.replace(/\s+/g,'.');
 			if(settings.updateSelector === undefined)
-				settings.updateSelector = '#'+id+' .'+settings.pagerClass.replace(/\s+/g,'.')+' a, #'+id+' .'+settings.tableClass.replace(/\s+/g,'.')+' thead th a';
+				settings.updateSelector = '#'+id+' .'+settings.pagerClass.replace(/\s+/g,'.')+' a, #'+id+' .'+settings.tableClass+' thead th a';
 
 			$.fn.yiiGridView.settings[id] = settings;
 
