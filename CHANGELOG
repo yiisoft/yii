@@ -12,6 +12,7 @@ Version 1.1.9 work in progress
 - Chg: Upgraded jQuery to 1.6.2 (Sam Dark)
 - Chg: Reverted back the changes made to fix issue 2284 (Qiang)
 - Enh #2029: Added scope support to Model::relations() (creocoder, Sam Dark)
+- Enh #2334: CHttpRequest::getPathInfo() now properly decodes both UTF-8 and ISO-8859-1 encoded URIs (Sam Dark)
 - Enh #2387: Numeric keys are now displayed in error/exception stacktrace call argument if array isn't 0..X indexed (Sam Dark)
 - Enh #2602: Better error handling in CHttpSession::open() when using PHP <5.3.0 (Sam Dark)
 
