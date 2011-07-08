@@ -475,7 +475,7 @@ abstract class CModel extends CComponent implements IteratorAggregate, ArrayAcce
 	}
 
 	/**
-	 * Unsets the attributes.
+	 * Sets the attributes to be null.
 	 * @param array $names list of attributes to be set null. If this parameter is not given,
 	 * all attributes as specified by {@link attributeNames} will have their values unset.
 	 * @since 1.1.3
