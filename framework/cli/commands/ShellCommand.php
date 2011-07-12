@@ -48,7 +48,7 @@ EOD;
 
 	/**
 	 * Execute the action.
-	 * @param array command line parameters specific for this command
+	 * @param array $args command line parameters specific for this command
 	 */
 	public function run($args)
 	{
@@ -101,7 +101,7 @@ EOD;
 
 	/**
 	 * Reads input via the readline PHP extension if that's available, or fgets() if readline is not installed.
-	 * @param string prompt to echo out before waiting for user input
+	 * @param string $prompt to echo out before waiting for user input
 	 * @return mixed line read as a string, or false if input has been closed
 	 */
 	protected function readline($prompt)
@@ -144,6 +144,7 @@ EOD;
 				{
 					$_command_=$_runner_->createCommand($_args_[0]);
 					array_shift($_args_);
+					$_command_->init();
 					$_command_->run($_args_);
 				}
 				else
