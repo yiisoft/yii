@@ -360,17 +360,18 @@ class MigrateCommand extends CConsoleCommand
 		echo "*** applying $class\n";
 		$start=microtime(true);
 		$migration=$this->instantiateMigration($class);
-		$time=microtime(true)-$start;
 		if($migration->up()!==false)
 		{
 			$this->getDbConnection()->createCommand()->insert($this->migrationTable, array(
 				'version'=>$class,
 				'apply_time'=>time(),
 			));
+			$time=microtime(true)-$start;
 			echo "*** applied $class (time: ".sprintf("%.3f",$time)."s)\n\n";
 		}
 		else
 		{
+			$time=microtime(true)-$start;
 			echo "*** failed to apply $class (time: ".sprintf("%.3f",$time)."s)\n\n";
 			return false;
 		}
@@ -384,15 +385,16 @@ class MigrateCommand extends CConsoleCommand
 		echo "*** reverting $class\n";
 		$start=microtime(true);
 		$migration=$this->instantiateMigration($class);
-		$time=microtime(true)-$start;
 		if($migration->down()!==false)
 		{
 			$db=$this->getDbConnection();
 			$db->createCommand()->delete($this->migrationTable, $db->quoteColumnName('version').'=:version', array(':version'=>$class));
+			$time=microtime(true)-$start;
 			echo "*** reverted $class (time: ".sprintf("%.3f",$time)."s)\n\n";
 		}
 		else
 		{
+			$time=microtime(true)-$start;
 			echo "*** failed to revert $class (time: ".sprintf("%.3f",$time)."s)\n\n";
 			return false;
 		}
