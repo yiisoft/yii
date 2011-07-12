@@ -116,12 +116,12 @@ class GiiModule extends CWebModule
 		Yii::app()->setComponents(array(
 			'errorHandler'=>array(
 				'class'=>'CErrorHandler',
-				'errorAction'=>'gii/default/error',
+				'errorAction'=>$this->getId().'/default/error',
 			),
 			'user'=>array(
 				'class'=>'CWebUser',
 				'stateKeyPrefix'=>'gii',
-				'loginUrl'=>Yii::app()->createUrl('gii/default/login'),
+				'loginUrl'=>Yii::app()->createUrl($this->getId().'/default/login'),
 			),
 		), false);
 		$this->generatorPaths[]='gii.generators';
@@ -193,6 +193,7 @@ class GiiModule extends CWebModule
 
 	/**
 	 * Finds all available code generators and their code templates.
+	 * @return array
 	 */
 	protected function findGenerators()
 	{
