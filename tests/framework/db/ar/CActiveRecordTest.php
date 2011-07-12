@@ -908,8 +908,12 @@ class CActiveRecordTest extends CTestCase
 		$user1=User::model()->with('posts:post23')->findByPk(2);
 		$user2=User::model()->with(array('posts'=>array('scopes'=>'post23')))->findByPk(2);
 		$user3=User::model()->findByPk(2,array('with'=>array('posts'=>array('scopes'=>'post23'))));
+		//ensure alais overloading work correctly
+		$user4=User::model()->with(array('posts:post23A'=>array('alias'=>'alias')))->findByPk(2);
+		$user5=User::model()->with(array('posts'=>array('scopes'=>'post23A','alias'=>'alias')))->findByPk(2);
+		$user6=User::model()->findByPk(2,array('with'=>array('posts'=>array('scopes'=>'post23A','alias'=>'alias'))));
 
-		foreach(array($user1,$user2,$user3) as $user)
+		foreach(array($user1,$user2,$user3,$user4,$user5,$user6) as $user)
 		{
 			$this->assertEquals(2,count($user->posts));
 			$this->assertEquals(2,$user->posts[0]->id);

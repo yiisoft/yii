@@ -222,7 +222,12 @@ class CActiveFinder extends CComponent
 			if($relation instanceof CActiveRelation)
 			{
 				$oldAlias=$model->getTableAlias(false,false);
-				$model->setTableAlias($relation->alias===null?$relation->name:$relation->alias);
+				if(isset($options['alias']))
+					$model->setTableAlias($options['alias']);
+				else if($relation->alias===null)
+					$model->setTableAlias($relation->name);
+				else
+					$model->setTableAlias($relation->alias);
 			}
 
 			if(($scope=$model->defaultScope())!==array())

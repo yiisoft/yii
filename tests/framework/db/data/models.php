@@ -149,6 +149,7 @@ class Post extends CActiveRecord
 	{
 		return array(
 			'post23'=>array('condition'=>'posts.id=2 OR posts.id=3', 'alias'=>'posts', 'order'=>'posts.id'),
+			'post23A'=>array('condition'=>"$this->tableAlias.id=2 OR $this->tableAlias.id=3",'order'=>"$this->tableAlias.id"),
 			'post3'=>array('condition'=>'id=3'),
 			'postX'=>array('condition'=>'id=:id1 OR id=:id2', 'params'=>array(':id1'=>2, ':id2'=>3)),
 			'orderDesc'=>array('order'=>'posts.id DESC','alias'=>'posts'),
