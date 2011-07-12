@@ -48,7 +48,8 @@
 class CArrayDataProvider extends CDataProvider
 {
 	/**
-	 * @var string the name of key field. Defaults to 'id'.
+	 * @var string the name of key field. Defaults to 'id'. If it's set to false,
+	 * keys of $rawData array are used.
 	 */
 	public $keyField='id';
 	/**
@@ -94,6 +95,8 @@ class CArrayDataProvider extends CDataProvider
 	 */
 	protected function fetchKeys()
 	{
+		if($this->keyField===false)
+			return array_keys($this->rawData);
 		$keys=array();
 		foreach($this->getData() as $i=>$data)
 			$keys[$i]=is_object($data) ? $data->{$this->keyField} : $data[$this->keyField];
