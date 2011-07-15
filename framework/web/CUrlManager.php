@@ -232,12 +232,22 @@ class CUrlManager extends CApplicationComponent
 	 * In order to make the new rules effective, this method must be called BEFORE
 	 * {@link CWebApplication::processRequest}.
 	 * @param array $rules new URL rules (pattern=>route).
+	 * @param boolean $append whether the new URL rules should be appended to the existing ones. If false,
+	 * they will be inserted at the beginning.
 	 * @since 1.1.4
 	 */
-	public function addRules($rules)
+	public function addRules($rules, $append=true)
 	{
-		foreach($rules as $pattern=>$route)
-			$this->_rules[]=$this->createUrlRule($route,$pattern);
+		if ($append)
+		{
+			foreach($rules as $pattern=>$route)
+				$this->_rules[]=$this->createUrlRule($route,$pattern);
+		}
+		else
+		{
+			foreach($rules as $pattern=>$route)
+				array_unshift($this->_rules, $this->createUrlRule($route,$pattern));
+		}
 	}
 
 	/**
