@@ -63,9 +63,9 @@ server {
         include fastcgi_params;
         fastcgi_param  SCRIPT_FILENAME  $document_root$fsn;
 
-        #PATH_INFO and PATH_TRANSLATED aren't actually used, but RFC 3875 specifies them for CGI
+        #PATH_INFO and PATH_TRANSLATED can be omitted, but RFC 3875 specifies them for CGI
         fastcgi_param  PATH_INFO        $fastcgi_path_info;
-        fastcgi_param  PATH_TRANSLATED  $fastcgi_path_info;
+        fastcgi_param  PATH_TRANSLATED  $document_root$fsn;
     }
 
     location ~ /\.ht {
@@ -73,4 +73,4 @@ server {
     }
 }
 ~~~
-
+Using this configuration you can set cgi.fix_pathinfo=0 in php.ini to avoid many unnesessary system stat() calls.
