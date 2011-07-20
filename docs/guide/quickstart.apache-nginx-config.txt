@@ -1,0 +1,72 @@
+Apache and Nginx configurations
+===================================
+
+Apache
+------
+
+Yii is ready to work with a default Apache web server configuration. The .htaccess files contain the directives to restrict access to application and framework files, and mod_rewrite instructons for URL mangling.
+
+If you want to disable .htaccess files or your web server does not support them, it is recommended to place efforts to avoid direct web access to the the application and framework files (see Folder structure).
+
+
+Nginx
+-----
+
+You can use Yii with [Nginx](http://wiki.nginx.org/) and PHP with [FPM SAPI](http://ua2.php.net/install.fpm).
+Here is a sample host configuration. It defines the bootstrap file and makes yii catch all requests to unexisting files, which allows us to have nice-looking URLs.
+
+~~~
+server {
+    set $host_path "/www/mysite";
+    access_log  /www/mysite/log/access.log  main;
+
+    server_name  mysite;
+    root   $host_path/htdocs;
+    set $yii_bootstrap "index.php";
+
+    charset utf-8;
+
+    location / {
+        index  index.html $yii_bootstrap;
+        try_files $uri $uri/ $yii_bootstrap?$args;
+    }
+
+    location ~ ^/(protected|framework|nbproject|themes/\w+/views) {
+        deny  all;
+    }
+
+    #avoid processing of calls to unexisting static files by yii
+    location ~ \.(js|css|png|jpg|gif|swf|ico|pdf|mov|fla|zip|rar)$ {
+        try_files $uri =404;
+        #For production servers you can set expires header with a long period
+        #expires 3M;
+    }
+
+    # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+    #
+    location ~ \.php {
+        fastcgi_split_path_info  ^(.+\.php)(.*)$;
+
+        #let yii catch the calls to unexising PHP files
+        set $fsn /$yii_bootstrap;
+        if (-f $document_root$fastcgi_script_name){
+            set $fsn $fastcgi_script_name;
+        }
+
+        fastcgi_pass   127.0.0.1:9000;
+        include fastcgi_params;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fsn;
+
+        #PATH_INFO and PATH_TRANSLATED aren't actually used, but RFC 3875 specifies them for CGI
+        fastcgi_param  PATH_INFO        $fastcgi_path_info;
+        fastcgi_param  PATH_TRANSLATED  $fastcgi_path_info;
+
+        expires off;
+    }
+
+    location ~ /\.ht {
+        deny  all;
+    }
+}
+~~~
+
