@@ -17,6 +17,14 @@
  * @version $Id$
  * @package system.base
  * @since 1.0.4
+ *
+ * @property string $basePath Returns the root directory of the module.
+ * @property array $components Returns the application components.
+ * @property string $id Returns the module ID.
+ * @property string $modulePath Returns the directory that contains the application modules.
+ * @property array $modules Returns the configuration of the currently installed modules.
+ * @property CAttributeCollection $params Returns user-defined parameters.
+ * @property CModule $parentModule Returns the parent module.
  */
 abstract class CModule extends CComponent
 {

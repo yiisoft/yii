@@ -20,6 +20,7 @@ Version 1.1.9 work in progress
 - Enh #2604: CArrayDataProvider::keyField can now be set to false to use keys from $rawData array instead of a named keyField (creocoder, Sam Dark)
 - Enh #2637: Related table alias set dynamically in relational query is now available in the scopes of related model (creocoder, Sam Dark)
 - Enh #2654: Enhanced CUrlManager::addRules() by allowing new rules to be inserted in front of the existing rules (Qiang)
+- Enh: Documented CModule accessors with @property for better IDE autocomplete (Sam Dark)
 
 Version 1.1.8 June 26, 2011
 ---------------------------
