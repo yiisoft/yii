@@ -32,7 +32,7 @@
  *                 array(
  *                     'class'=>'CEmailLogRoute',
  *                     'levels'=>'error, warning',
- *                     'email'=>'admin@example.com',
+ *                     'emails'=>array('admin@example.com'),
  *                 ),
  *             ),
  *         ),
