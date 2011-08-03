@@ -105,6 +105,18 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 * @since 1.1.7
 	 */
 	public $autoUpdateFlash=true;
+	/**
+	 * @var string value that will be echoed in case that user session has expired during an ajax call.
+	 * When a request is made and user session has expired, {@link loginRequired} redirects to {@link loginUrl} for login.
+	 * If that happens during an ajax call, the complete HTML login page is returned as the result of that ajax call. That could be
+	 * a problem if the ajax call expects the result to be a json array or a predefined string, as the login page is ignored in that case.
+	 * To solve this, set this property to the desired return value.
+	 * 
+	 * If this property is set, this value will be returned as the result of the ajax call in case that the user session has expired.
+	 * @since 1.1.9
+	 * @see loginRequired
+	 */
+	public $loginRequiredAjaxResponse;
 
 	private $_keyPrefix;
 	private $_access=array();
@@ -342,6 +354,11 @@ class CWebUser extends CApplicationComponent implements IWebUser
 
 		if(!$request->getIsAjaxRequest())
 			$this->setReturnUrl($request->getUrl());
+		elseif(isset($this->loginRequiredAjaxResponse))
+		{
+			echo $this->loginRequiredAjaxResponse;
+			Yii::app()->end();
+		}
 
 		if(($url=$this->loginUrl)!==null)
 		{
