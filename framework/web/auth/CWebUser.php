@@ -449,7 +449,8 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	 */
 	protected function renewCookie()
 	{
-		$cookies=Yii::app()->getRequest()->getCookies();
+		$request=Yii::app()->getRequest();
+		$cookies=$request->getCookies();
 		$cookie=$cookies->itemAt($this->getStateKeyPrefix());
 		if($cookie && !empty($cookie->value) && ($data=Yii::app()->getSecurityManager()->validateData($cookie->value))!==false)
 		{
