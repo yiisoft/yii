@@ -10,6 +10,7 @@ Version 1.1.9 work in progress
 - Bug #2623: Fixed the bug that by setting multiple classes in CGridView itemsCssClass prevents rows being selected (mdomba)
 - Bug #2635: MigrateCommand migration execution time is now measured correctly (Sam Dark)
 - Bug #2636: CConsoleCommand::init() wasn't called in yiic shell mode (Sam Dark)
+- bug #2709: Fixed the bug that enableCookieValidation breaks cookie based autoLogin feature (mdomba)
 - Chg: Upgraded JQuery UI to 1.8.14 (Sam Dark)
 - Chg: Upgraded jQuery to 1.6.2 (Sam Dark)
 - Chg: Reverted back the changes made to fix issue 2284 (Qiang)

@@ -417,10 +417,13 @@ class CWebUser extends CApplicationComponent implements IWebUser
 	protected function restoreFromCookie()
 	{
 		$app=Yii::app();
-		$cookie=$app->getRequest()->getCookies()->itemAt($this->getStateKeyPrefix());
+		$request=$app->getRequest();
+		$cookie=$request->getCookies()->itemAt($this->getStateKeyPrefix());
 		if($cookie && !empty($cookie->value) && ($data=$app->getSecurityManager()->validateData($cookie->value))!==false)
 		{
-			$data=@unserialize($data);
+			if(!$request->enableCookieValidation)
+				$data=@unserialize($data);
+
 			if(is_array($data) && isset($data[0],$data[1],$data[2],$data[3]))
 			{
 				list($id,$name,$duration,$states)=$data;
@@ -430,7 +433,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 					if($this->autoRenewCookie)
 					{
 						$cookie->expire=time()+$duration;
-						$app->getRequest()->getCookies()->add($cookie->name,$cookie);
+						$request->getCookies()->add($cookie->name,$cookie);
 					}
 					$this->afterLogin(true);
 				}
@@ -450,7 +453,9 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		$cookie=$cookies->itemAt($this->getStateKeyPrefix());
 		if($cookie && !empty($cookie->value) && ($data=Yii::app()->getSecurityManager()->validateData($cookie->value))!==false)
 		{
-			$data=@unserialize($data);
+			if(!$request->enableCookieValidation)
+				$data=@unserialize($data);
+
 			if(is_array($data) && isset($data[0],$data[1],$data[2],$data[3]))
 			{
 				$cookie->expire=time()+$data[2];
