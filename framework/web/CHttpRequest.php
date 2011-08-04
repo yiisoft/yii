@@ -1004,7 +1004,7 @@ class CCookieCollection extends CMap
 
 	/**
 	 * Sends a cookie.
-	 * @param CHttpCookie $cookie cook to be sent
+	 * @param CHttpCookie $cookie cookie to be sent
 	 */
 	protected function addCookie($cookie)
 	{
@@ -1019,7 +1019,7 @@ class CCookieCollection extends CMap
 
 	/**
 	 * Deletes a cookie.
-	 * @param CHttpCookie $cookie cook to be deleted
+	 * @param CHttpCookie $cookie cookie to be deleted
 	 */
 	protected function removeCookie($cookie)
 	{

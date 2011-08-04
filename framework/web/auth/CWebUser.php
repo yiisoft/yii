@@ -438,9 +438,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		$cookie=$request->getCookies()->itemAt($this->getStateKeyPrefix());
 		if($cookie && !empty($cookie->value) && ($data=$app->getSecurityManager()->validateData($cookie->value))!==false)
 		{
-			if(!$request->enableCookieValidation)
-				$data=@unserialize($data);
-
+			$data=@unserialize($data);
 			if(is_array($data) && isset($data[0],$data[1],$data[2],$data[3]))
 			{
 				list($id,$name,$duration,$states)=$data;
@@ -471,9 +469,7 @@ class CWebUser extends CApplicationComponent implements IWebUser
 		$cookie=$cookies->itemAt($this->getStateKeyPrefix());
 		if($cookie && !empty($cookie->value) && ($data=Yii::app()->getSecurityManager()->validateData($cookie->value))!==false)
 		{
-			if(!$request->enableCookieValidation)
-				$data=@unserialize($data);
-
+			$data=@unserialize($data);
 			if(is_array($data) && isset($data[0],$data[1],$data[2],$data[3]))
 			{
 				$cookie->expire=time()+$data[2];
