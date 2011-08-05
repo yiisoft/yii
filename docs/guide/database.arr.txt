@@ -426,9 +426,9 @@ the SQL statements. On the other hand, using the single SQL statement, we end up
 and thus need more time to read and process them.
 
 For this reason, Yii provides the `together` query option so that we choose between the two approaches as needed.
-By default, Yii adopts the first approach, i.e., generating a single SQL statement to perform
-eager loading. We can set the `together` option to be false in the relation declarations so that some of
-tables are joined in separate SQL statements. For example, in order to use the second approach
+By default, Yii uses eager loading, i.e., generating a single SQL statement, except when `LIMIT` is applied to the primary model.
+We can set the `together` option in the relation declarations to be true to force a single SQL statement even when `LIMIT` is used.
+Setting it to false will result in some of tables will be joined in separate SQL statements. For example, in order to use separate SQL statements
 to query for the latest posts with their comments, we can declare the `comments` relation
 in `Post` class as follows,
 
