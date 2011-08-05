@@ -37,10 +37,11 @@ exception. One uses the following syntax to raise an exception when needed:
 throw new ExceptionClass('ExceptionMessage');
 ~~~
 
-Yii defines two exception classes: [CException] and [CHttpException]. The
-former is a generic exception class, while the latter represents an
-exception that should be displayed to end users. The latter also carries a
-[statusCode|CHttpException::statusCode] property representing an HTTP
+Yii defines three exception classes: [CException], [CDbException] and
+[CHttpException]. [CException] is a generic exception class. [CDbException]
+represents an exception that is caused by some DB-related operations.
+[CHttpException] represents an exception that should be displayed to end users
+and carries a [statusCode|CHttpException::statusCode] property representing an HTTP
 status code. The class of an exception determines how it should be
 displayed, as we will explain next.
 
