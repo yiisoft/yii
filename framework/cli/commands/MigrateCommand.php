@@ -487,7 +487,7 @@ DESCRIPTION
 
 EXAMPLES
  * yiic migrate
-   Applies ALL new migrations. This is equivalent to 'yiic migrate to'.
+   Applies ALL new migrations. This is equivalent to 'yiic migrate up'.
 
  * yiic migrate create create_user_table
    Creates a new migration named 'create_user_table'.
