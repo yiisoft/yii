@@ -23,6 +23,7 @@ Version 1.1.9 work in progress
 - Enh #2717: Extracted MigrateCommand::createMigrationHistoryTable method from MigrateCommand::getMigrationHistory (Sam Dark)
 - Enh: Documented CModule accessors with @property for better IDE autocomplete (Sam Dark)
 - Enh: Added CWebUser->loginRequiredAjaxResponse - value to be returned for ajax calls in case the user session has expired (mdomba)
+- Enh: CFileCache::get() does now suppress a possible PHP error which might occur on concurrent requests (Y!!)
 
 Version 1.1.8 June 26, 2011
 ---------------------------
