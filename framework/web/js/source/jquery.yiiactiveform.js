@@ -56,7 +56,7 @@
 				}
 
 				settings.timer = setTimeout(function(){
-					if(settings.submitting)
+					if(settings.submitting || $form.is(':hidden'))
 						return;
 					if(attribute.beforeValidateAttribute==undefined || attribute.beforeValidateAttribute($form, attribute)) {
 						$.each(settings.attributes, function(){
