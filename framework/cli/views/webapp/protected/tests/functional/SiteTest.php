@@ -18,7 +18,7 @@ class SiteTest extends WebTestCase
 		$this->type('name=ContactForm[email]','tester@example.com');
 		$this->type('name=ContactForm[subject]','test subject');
 		$this->click("//input[@value='Submit']");
-		$this->assertTextPresent('Body cannot be blank.');
+		$this->waitForTextPresent('Body cannot be blank.');
 	}
 
 	public function testLoginLogout()
@@ -33,7 +33,7 @@ class SiteTest extends WebTestCase
 		$this->assertElementPresent('name=LoginForm[username]');
 		$this->type('name=LoginForm[username]','demo');
 		$this->click("//input[@value='Login']");
-		$this->assertTextPresent('Password cannot be blank.');
+		$this->waitForTextPresent('Password cannot be blank.');
 		$this->type('name=LoginForm[password]','demo');
 		$this->clickAndWait("//input[@value='Login']");
 		$this->assertTextNotPresent('Password cannot be blank.');
