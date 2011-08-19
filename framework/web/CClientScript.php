@@ -48,7 +48,7 @@ class CClientScript extends CApplicationComponent
 	 * The array keys are script file names (without directory part) and the array values are the corresponding URLs.
 	 * If an array value is false, the corresponding script file will not be rendered.
 	 * If an array key is '*.js' or '*.css', the corresponding URL will replace all
-	 * all JavaScript files or CSS files, respectively.
+	 * JavaScript files or CSS files, respectively.
 	 *
 	 * This property is mainly used to optimize the generated HTML pages
 	 * by merging different scripts files into fewer and optimized script files.
