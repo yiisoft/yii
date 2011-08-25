@@ -25,6 +25,8 @@ Version 1.1.9 work in progress
 - Enh: Added CWebUser->loginRequiredAjaxResponse - value to be returned for ajax calls in case the user session has expired (mdomba)
 - Enh: CFileCache::get() does now suppress a possible PHP error which might occur on concurrent requests (Y!!)
 - Enh: jquery.yiiactiveform.js added check for form visibility to validate() to prevent JS error when using CActiveForm with jQuery dialog (mdomba)
+- Enh: removed the check for ajax call in CErrorHandler::handleException() (mdomba)
+
 
 Version 1.1.8 June 26, 2011
 ---------------------------

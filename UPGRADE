@@ -21,6 +21,9 @@ General upgrade intructions
 
 Upgrading from v1.1.8
 ---------------------
+- In CErrorHandler::handleException() the checking for ajax call has been removed 
+as it was preventing to customize the display of the exception during an ajax call.
+
 
 Upgrading from v1.1.7
 ---------------------
