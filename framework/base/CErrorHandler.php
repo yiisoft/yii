@@ -175,9 +175,8 @@ class CErrorHandler extends CApplicationComponent
 
 			if(!headers_sent())
 				header("HTTP/1.0 {$data['code']} ".get_class($exception));
-			if($this->isAjaxRequest())
-				$app->displayException($exception);
-			else if($exception instanceof CHttpException || !YII_DEBUG)
+
+			if($exception instanceof CHttpException || !YII_DEBUG)
 				$this->render('error',$data);
 			else
 				$this->render('exception',$data);
