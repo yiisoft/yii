@@ -281,6 +281,8 @@ class CUrlManager extends CApplicationComponent
 		foreach($params as &$param)
 			if($param===null)
 				$param='';
+
+		unset($param);
 		if(isset($params['#']))
 		{
 			$anchor='#'.$params['#'];
