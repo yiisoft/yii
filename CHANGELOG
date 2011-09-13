@@ -12,7 +12,7 @@ Version 1.1.9 work in progress
 - Bug #2636: CConsoleCommand::init() wasn't called in yiic shell mode (Sam Dark)
 - Bug #2773: Fixed possible CUrlManager::createUrl parameters conflict when using custom URL rule classes (Sam Dark)
 - Chg: Upgraded JQuery UI to 1.8.16 (Sam Dark)
-- Chg: Upgraded jQuery to 1.6.3 (Sam Dark)
+- Chg: Upgraded jQuery to 1.6.4 (Sam Dark)
 - Chg: Reverted back the changes made to fix issue 2284 (Qiang)
 - Enh #2029: Added scope support to Model::relations() (creocoder, Sam Dark)
 - Enh #2334: CHttpRequest::getPathInfo() now properly decodes both UTF-8 and ISO-8859-1 encoded URIs (Sam Dark)
