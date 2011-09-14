@@ -571,7 +571,7 @@ class User extends CActiveRecord
 }
 ~~~
 
-> Note: Named scopes applied to related models must be specified in CActiveRecord::scopes.
+> Note: Before 1.1.7 named scopes applied to related models must be specified in CActiveRecord::scopes.
 > As a result, they cannot be parameterized.
 
 Since 1.1.7 it's possible to pass parameters for relational named scopes.
