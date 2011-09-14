@@ -907,8 +907,7 @@ EOD;
 	 * it only allows single selection.
 	 * @param string $name name of the radio button list. You can use this name to retrieve
 	 * the selected value(s) once the form is submitted.
-	 * @param mixed $select selection of the radio buttons. This can be either a string
-	 * for single selection or an array for multiple selections.
+	 * @param string $select selection of the radio buttons.
 	 * @param array $data value-label pairs used to generate the radio button list.
 	 * Note, the values will be automatically HTML-encoded, while the labels will not.
 	 * @param array $htmlOptions addtional HTML options. The options will be applied to
