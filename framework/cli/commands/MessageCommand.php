@@ -57,7 +57,8 @@ PARAMETERS
      Defaults to 'Yii::t'. This is used as a mark to find messages to be
      translated.
    - overwrite: if message file must be overwritten with the merged messages.
-
+   - removeOld: if message no longer needs translation it will be removed,
+     instead of being enclosed between a pair of '@@' marks.
 
 EOD;
 	}
@@ -89,6 +90,9 @@ EOD;
 		if(!isset($overwrite))
 			$overwrite = false;
 
+		if(!isset($removeOld))
+			$removeOld = false;
+		
 		$options=array();
 		if(isset($fileTypes))
 			$options['fileTypes']=$fileTypes;
@@ -108,7 +112,7 @@ EOD;
 			foreach($messages as $category=>$msgs)
 			{
 				$msgs=array_values(array_unique($msgs));
-				$this->generateMessageFile($msgs,$dir.DIRECTORY_SEPARATOR.$category.'.php',$overwrite);
+				$this->generateMessageFile($msgs,$dir.DIRECTORY_SEPARATOR.$category.'.php',$overwrite,$removeOld);
 			}
 		}
 	}
@@ -131,7 +135,7 @@ EOD;
 		return $messages;
 	}
 
-	protected function generateMessageFile($messages,$fileName,$overwrite)
+	protected function generateMessageFile($messages,$fileName,$overwrite,$removeOld)
 	{
 		echo "Saving messages to $fileName...";
 		if(is_file($fileName))
@@ -161,7 +165,7 @@ EOD;
 			ksort($translated);
 			foreach($translated as $message=>$translation)
 			{
-				if(!isset($merged[$message]) && !isset($todo[$message]))
+				if(!isset($merged[$message]) && !isset($todo[$message]) && !$removeOld)
 					$todo[$message]='@@'.$translation.'@@';
 			}
 			$merged=array_merge($todo,$merged);
