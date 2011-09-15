@@ -67,11 +67,50 @@ EOD;
 	public function run($args)
 	{
 		if(!isset($args[0]))
-			$this->usageError('the CLDR data directory is not specified.');
+		{
+			$cldrPath = dirname(__FILE__).'/../temp';
+			$args[0] = $cldrPath.'/common';
+			//$this->usageError('the CLDR data directory is not specified.');
+		}
 		if(!is_dir($basePath=$args[0]))
-			$this->usageError("Directory '$basePath' does not exist.");
+		{
+			if (!mkdir($basePath, 0777, true))
+			{
+				$this->usageError("Directory '$basePath' can not be created.");
+			}
+			//$this->usageError("Directory '$basePath' does not exist.");
+		}
 		if(!is_dir($path=$basePath.DIRECTORY_SEPARATOR.'main'))
-			$this->usageError("directory '$path' does not exist.");
+		{
+			// look for zip file
+			if(!is_file($zipFile=$cldrPath.'/core.zip')) {
+				// download latest core.zip file
+				$latestUrl = 'http://www.unicode.org/Public/cldr/latest/core.zip';
+				$ch = curl_init($latestUrl);
+				$fp = fopen($zipFile, "w");
+				curl_setopt($ch, CURLOPT_FILE, $fp);
+				curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+				curl_setopt($ch, CURLOPT_HEADER, FALSE);
+				if (curl_exec($ch)===FALSE)
+				{
+					$this->usageError("Failed to download from '$latestUrl'.");
+				};
+				curl_close($ch);
+				fclose($fp);
+			}
+			// unzip file
+			$zip = new ZipArchive;
+			if ($zip->open($zipFile) === TRUE)
+			{
+				$zip->extractTo($cldrPath);
+				$zip->close();
+			}
+			else
+			{
+				$this->usageError("Failed to unzip '$zipFile'.");
+			}
+		}
+
 		if(!is_file($pluralFile=$basePath.DIRECTORY_SEPARATOR.'supplemental'.DIRECTORY_SEPARATOR.'plurals.xml'))
 			$this->usageError("File '$pluralFile' does not exist.");
 
@@ -101,6 +140,15 @@ EOD;
 
 			foreach($sourceFiles as $sourceFile)
 				$this->process($sourceFile);
+
+			// clean up temporary files
+			function rrmdir($path)
+			{
+				return is_file($path)?
+					@unlink($path):
+					array_map('rrmdir',glob($path.'/*'))==@rmdir($path);
+			}
+			rrmdir($cldrPath);
 		}
 		else
 			die('Unable to find the required root.xml under CLDR "main" data directory.');
@@ -115,11 +163,13 @@ EOD;
 		$locale=substr($source,0,-4);
 		$target=$locale.'.php';
 
+		$i18nDataPath = dirname(__FILE__).'/../../framework/i18n/data';
+
 		// retrieve parent data first
 		if(($pos=strrpos($locale,'_'))!==false)
-			$data=require($dir.DIRECTORY_SEPARATOR.strtolower(substr($locale,0,$pos)).'.php');
+			$data=require($i18nDataPath.DIRECTORY_SEPARATOR.strtolower(substr($locale,0,$pos)).'.php');
 		else if($locale!=='root')
-			$data=require($dir.DIRECTORY_SEPARATOR.'root.php');
+			$data=require($i18nDataPath.DIRECTORY_SEPARATOR.'root.php');
 		else
 			$data=array();
 
@@ -130,6 +180,10 @@ EOD;
 		$this->parseNumberSymbols($xml,$data);
 		$this->parseNumberFormats($xml,$data);
 		$this->parseCurrencySymbols($xml,$data);
+
+		$this->parseLanguages($xml,$data);
+		$this->parseScripts($xml,$data);
+		$this->parseTerritories($xml,$data);
 
 		$this->parseMonthNames($xml,$data);
 		$this->parseWeekDayNames($xml,$data);
@@ -160,7 +214,7 @@ EOD;
 return $data;
 EOD;
 
-		file_put_contents($dir.DIRECTORY_SEPARATOR.strtolower($locale).'.php',"<?php\n".$content."\n");
+		file_put_contents($i18nDataPath.DIRECTORY_SEPARATOR.strtolower($locale).'.php',"<?php\n".$content."\n");
 
 		echo "done.\n";
 	}
@@ -204,6 +258,36 @@ EOD;
 		{
 			if((string)$currency->symbol!='')
 				$data['currencySymbols'][(string)$currency['type']]=(string)$currency->symbol;
+		}
+	}
+
+	protected function parseLanguages($xml,&$data)
+	{
+		$languages=$xml->xpath('/ldml/localeDisplayNames/languages/language');
+		foreach($languages as $language)
+		{
+			if((string)$language!='')
+				$data['languages'][strtolower(str_replace('-','_',(string)$language['type']))]=(string)$language;
+		}
+	}
+
+	protected function parseScripts($xml,&$data)
+	{
+		$scripts=$xml->xpath('/ldml/localeDisplayNames/scripts/script');
+		foreach($scripts as $script)
+		{
+			if((string)$script!='')
+				$data['scripts'][strtolower(str_replace('-','_',(string)$script['type']))]=(string)$script;
+		}
+	}
+
+	protected function parseTerritories($xml,&$data)
+	{
+		$territories=$xml->xpath('/ldml/localeDisplayNames/territories/territory');
+		foreach($territories as $territory)
+		{
+			if((string)$territory!='')
+				$data['territories'][strtolower(str_replace('-','_',(string)$territory['type']))]=(string)$territory;
 		}
 	}
 
