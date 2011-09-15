@@ -43,6 +43,14 @@
  * echo $this->clips['clipID'];
  * </pre>
  *
+ * Note that $this in the code above refers to current controller so, for example,
+ * if you need to access clip from a widget where $this refers to widget itself
+ * you need to do it the following way:
+ *
+ * <pre>
+ * echo $this->getController()->clips['clipID'];
+ * </pre>
+ *
  * To use fragment cache, do as follows,
  * <pre>
  * if($this->beginCache('cacheID',array('property1'=>'value1',...))
