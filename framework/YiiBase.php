@@ -396,10 +396,10 @@ class YiiBase
 	public static function autoload($className)
 	{
 		// use include so that the error PHP file may appear
-		if(isset(self::$_coreClasses[$className]))
-			include(YII_PATH.self::$_coreClasses[$className]);
-		else if(isset(self::$classMap[$className]))
+		if(isset(self::$classMap[$className]))
 			include(self::$classMap[$className]);
+		else if(isset(self::$_coreClasses[$className]))
+			include(YII_PATH.self::$_coreClasses[$className]);
 		else
 		{
 			// include class file relying on include_path
