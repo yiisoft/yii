@@ -388,19 +388,8 @@ class CLocale extends CComponent
 	}
 
 	/**
-	 * Converts a locale ID to a region ID.
-	 * A region ID is a territory ID.
-	 * @param string $id the locale ID to be converted
-	 * @return string the region ID
-	 * @since 1.1.9
-	 */
-	public function getRegionID($id)
-	{
-		return $this->getTerritoryID($id);
-	}
-
-	/**
 	 * @param string $id Unicode language identifier from IETF BCP 47. For example, the code "en_US" represents U.S. English and "en_GB" represents British English.
+	 * @param string $category
 	 * @return string the local display name for the language. Null if the language code does not exist.
 	 * @since 1.1.9
 	 */
