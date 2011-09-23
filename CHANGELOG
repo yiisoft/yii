@@ -12,6 +12,7 @@ Version 1.1.9 work in progress
 - Bug #2636: CConsoleCommand::init() wasn't called in yiic shell mode (Sam Dark)
 - Bug #2773: Fixed possible CUrlManager::createUrl parameters conflict when using custom URL rule classes (Sam Dark)
 - Bug #2581: Fixed CJuiTabs - not replacing id slug in header tool tips (sebas)
+- Bug #2824: Fixed the inconsistency in parameter order during evaluating expressions in CGridView components (mdomba)
 - Chg: Upgraded JQuery UI to 1.8.16 (Sam Dark)
 - Chg: Upgraded jQuery to 1.6.4 (Sam Dark)
 - Chg: Reverted back the changes made to fix issue 2284 (Qiang)
