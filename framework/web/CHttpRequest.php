@@ -25,6 +25,34 @@
  * @version $Id$
  * @package system.web
  * @since 1.0
+ *
+ * @property string $acceptTypes Returns user browser accept types, null if not present.
+ * @property string $baseUrl Returns the relative URL for the application.
+ * @property array $browser Returns information about the capabilities of user browser.
+ * @property CCookieCollection $cookies Returns the cookie collection.
+ * @property string $csrfToken Returns the random token used to perform CSRF validation.
+ * @property string $hostInfo Returns the schema and host part of the application URL.
+ * @property boolean $isAjaxRequest Returns whether this is an AJAX (XMLHttpRequest) request.
+ * @property boolean $isDeleteRequest Returns whether this is a DELETE request.
+ * @property boolean $isPostRequest Returns whether this is a POST request.
+ * @property boolean $isPutRequest Returns whether this is a PUT request.
+ * @property boolean $isSecureConnection Return if the request is sent via secure channel (https).
+ * @property string $pathInfo Returns the path info of the currently requested URL.
+ * @property int $port Returns the port to use for insecure requests.
+ * @property string $preferredLanguage Returns the user preferred language.
+ * @property string $queryString Returns part of the request URL that is after the question mark.
+ * @property string $requestType Returns the request type, such as GET, POST, HEAD, PUT, DELETE.
+ * @property string $requestUri Returns the request URI portion for the currently requested URL.
+ * @property string $scriptFile Returns entry script file path.
+ * @property string $scriptUrl Returns the relative URL of the entry script.
+ * @property int $securePort Returns the port to use for secure requests.
+ * @property string $serverName Returns the server name.
+ * @property int $serverPort Returns the server port number.
+ * @property string $url Returns the currently requested URL.
+ * @property string $urlReferrer Returns the URL referrer, null if not present.
+ * @property string $userAgent Returns the user agent, null if not present.
+ * @property string $userHost Returns the user host name, null if it cannot be determined.
+ * @property string $userHostAddress Returns the user IP address.
  */
 class CHttpRequest extends CApplicationComponent
 {

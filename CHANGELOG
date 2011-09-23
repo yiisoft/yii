@@ -28,12 +28,11 @@ Version 1.1.9 work in progress
 - Enh #2795: Added Yii::t() to YiiBase::powered() (Sam Dark)
 - Enh #2808: Added ability to override core classes using YiiBase::classMap (Sam Dark)
 - Enh #2811: Fully automated CLDR data update, updated data to 2.0.1. Added getLanguageID, getScriptID, getTerritoryID, getRegionID, getLocaleDisplayName, getLanguage, getScript, getTerritory methods to CLocale (kshaw, Sam Dark)
-- Enh: Documented CModule accessors with @property for better IDE autocomplete (Sam Dark)
+- Enh: Documented CModule and CHttpRequest accessors with @property for better IDE autocomplete (Sam Dark, Detonator)
 - Enh: Added CWebUser->loginRequiredAjaxResponse - value to be returned for ajax calls in case the user session has expired (mdomba)
 - Enh: CFileCache::get() does now suppress a possible PHP error which might occur on concurrent requests (Y!!)
 - Enh: jquery.yiiactiveform.js added check for form visibility to validate() to prevent JS error when using CActiveForm with jQuery dialog (mdomba)
 - Enh: removed the check for ajax call in CErrorHandler::handleException() (mdomba)
-
 
 Version 1.1.8 June 26, 2011
 ---------------------------
