@@ -53,7 +53,19 @@ $('.form .row.model-class').toggle($('#{$class}_tableName').val().substring($('#
 	</div>
 	<div class="row">
 		<?php echo $form->labelEx($model,'tableName'); ?>
-		<?php echo $form->textField($model,'tableName', array('size'=>65)); ?>
+		<?php $this->widget('zii.widgets.jui.CJuiAutoComplete',array(
+			'model'=>$model,
+			'attribute'=>'tableName',
+			'name'=>'tableName',
+			'source'=>array_keys(Yii::app()->db->schema->getTables()),
+			'options'=>array(
+				'minLength'=>'0',
+			),
+			'htmlOptions'=>array(
+				'id'=>'ModelCode_tableName',
+				'size'=>'65'
+			),
+		)); ?>
 		<div class="tooltip">
 		This refers to the table name that a new model class should be generated for
 		(e.g. <code>tbl_user</code>). It can contain schema name, if needed (e.g. <code>public.tbl_post</code>).
