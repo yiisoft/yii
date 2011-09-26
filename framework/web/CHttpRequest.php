@@ -452,7 +452,7 @@ class CHttpRequest extends CApplicationComponent
 			else if(isset($_SERVER['REQUEST_URI']))
 			{
 				$this->_requestUri=$_SERVER['REQUEST_URI'];
-				if(isset($_SERVER['HTTP_HOST']))
+				if(!empty($_SERVER['HTTP_HOST']))
 				{
 					if(strpos($this->_requestUri,$_SERVER['HTTP_HOST'])!==false)
 						$this->_requestUri=preg_replace('/^\w+:\/\/[^\/]+/','',$this->_requestUri);
