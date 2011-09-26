@@ -285,7 +285,7 @@ abstract class CBaseController extends CComponent
 	 * {@link CWebModule::layout default layout}.
 	 * @param array $data the variables (name=>value) to be extracted and made available in the decorative view.
 	 * This parameter has been available since version 1.0.4
-	 * @see beginContent
+	 * @see endContent
 	 * @see CContentDecorator
 	 */
 	public function beginContent($view=null,$data=array())
