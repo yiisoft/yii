@@ -215,7 +215,7 @@ $posts=Post::model()->findAll(array(
 		'author.posts',
 		'categories',
 	)
-);
+));
 ~~~
 
 
