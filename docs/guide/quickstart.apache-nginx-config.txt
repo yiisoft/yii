@@ -4,7 +4,7 @@ Apache and Nginx configurations
 Apache
 ------
 
-Yii is ready to work with a default Apache web server configuration. The .htaccess files in yii framework and application folders restrict access to the restricted resources. To hide the bootstrap file (usually index.php) in your URLs you can add mod_rewrite instructons to the .htaccess file in your document root or to the virtual host configuration:
+Yii is ready to work with a default Apache web server configuration. The `.htaccess` files in Yii framework and application folders restrict access to the restricted resources. To hide the bootstrap file (usually `index.php`) in your URLs you can add `mod_rewrite` instructons to the `.htaccess` file in your document root or to the virtual host configuration:
 
 ~~~
 RewriteEngine on
