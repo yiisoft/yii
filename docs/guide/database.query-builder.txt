@@ -235,7 +235,7 @@ Below are some examples:
 // ORDER BY `name`, `id` DESC
 order('name, id desc')
 // ORDER BY `tbl_profile`.`name`, `id` DESC
-order(array('tbl_profile.name', 'id desc')
+order(array('tbl_profile.name', 'id desc'))
 ~~~
 
 
