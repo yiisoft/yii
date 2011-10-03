@@ -39,7 +39,7 @@ server {
         try_files $uri $uri/ $yii_bootstrap?$args;
     }
 
-    location ~ ^/(protected|framework|nbproject|themes/\w+/views) {
+    location ~ ^/(protected|framework|themes/\w+/views) {
         deny  all;
     }
 
