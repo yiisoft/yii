@@ -14,6 +14,7 @@ Version 1.1.9 work in progress
 - Bug #2581: Fixed CJuiTabs - not replacing id slug in header tool tips (sebas)
 - Bug #2822: Fixed warning when "Host:" isn't present or is empty in HTTP request headers (Sam Dark)
 - Bug #2824: Fixed the inconsistency in parameter order during evaluating expressions in CGridView components (mdomba)
+- Bug #2853: Fixed sending of the button name in CActiveForm with enableAjaxValidation enabled (mdomba)
 - Chg: Upgraded JQuery UI to 1.8.16 (Sam Dark)
 - Chg: Upgraded jQuery to 1.6.4 (Sam Dark)
 - Chg: Reverted back the changes made to fix issue 2284 (Qiang)
