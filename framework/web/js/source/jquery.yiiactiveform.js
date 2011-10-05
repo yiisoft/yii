@@ -295,10 +295,15 @@
 			return;
 		}
 
+		var $button = $form.data('submitObject');
+		var extData = '&'+settings.ajaxVar+'='+$form.attr('id');
+		if($button && $button.length)
+			extData += '&'+$button.attr('name')+'='+$button.attr('value');
+
 		$.ajax({
 			url : settings.validationUrl,
 			type : $form.attr('method'),
-			data : $form.serialize()+'&'+settings.ajaxVar+'='+$form.attr('id'),
+			data : $form.serialize()+extData,
 			dataType : 'json',
 			success : function(data) {
 				if (data != null && typeof data == 'object') {
