@@ -916,7 +916,7 @@ EOD;
 	 * <li>template: string, specifies how each radio button is rendered. Defaults
 	 * to "{input} {label}", where "{input}" will be replaced by the generated
 	 * radio button input tag while "{label}" will be replaced by the corresponding radio button label.</li>
-	 * <li>separator: string, specifies the string that separates the generated radio buttons.</li>
+	 * <li>separator: string, specifies the string that separates the generated radio buttons. Defaults to new line (<br/>).</li>
 	 * <li>labelOptions: array, specifies the additional HTML attributes to be rendered
 	 * for every label tag in the list. This option has been available since version 1.0.10.</li>
 	 * </ul>
@@ -1524,7 +1524,7 @@ EOD;
 	 * <li>template: string, specifies how each radio button is rendered. Defaults
 	 * to "{input} {label}", where "{input}" will be replaced by the generated
 	 * radio button input tag while "{label}" will be replaced by the corresponding radio button label.</li>
-	 * <li>separator: string, specifies the string that separates the generated radio buttons.</li>
+	 * <li>separator: string, specifies the string that separates the generated radio buttons. Defaults to new line (<br/>).</li>
 	 * <li>encode: boolean, specifies whether to encode HTML-encode tag attributes and values. Defaults to true.
 	 * This option has been available since version 1.0.5.</li>
 	 * </ul>
