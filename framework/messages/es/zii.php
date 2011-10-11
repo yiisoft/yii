@@ -13,7 +13,7 @@
  *
  * NOTE, this file must be saved in UTF-8 encoding.
  *
- * @version $Id: $
+ * @version $Id$
  */
 return array (
   'Are you sure you want to delete this item?' => 'Seguro que desea borrar este elemento?',
@@ -32,5 +32,5 @@ return array (
   'Total {count} result(s).' => 'Total de {count} resultado(s).',
   'Update' => 'Actualiza',
   'View' => 'Mostrar',
-  '{class} must specify "model" and "attribute" or "name" property values.' => '{class} doit définir les valeurs des propriétés « model » et « attribute » ou « name ».',
+  '{class} must specify "model" and "attribute" or "name" property values.' => '{class} debe especificar valor/es para "model" y "atributte" o para "name".',
 );
