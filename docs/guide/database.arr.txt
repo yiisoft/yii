@@ -630,8 +630,8 @@ class Group extends CActiveRecord
    {
        return array(
            'roles'=>array(self::HAS_MANY,'Role','group_id'),
-           'users'=>array(self::HAS_MANY,'User','user_id','through'=>'roles'),
-           'comments'=>array(self::HAS_MANY,'Comment','user_id','through'=>'users'),
+           'users'=>array(self::HAS_MANY,'User',array('user_id'=>'id'),'through'=>'roles'),
+           'comments'=>array(self::HAS_MANY,'Comment',array('id'=>'user_id'),'through'=>'users'),
        );
    }
 }
@@ -675,7 +675,7 @@ class User extends CActiveRecord
    {
        return array(
            'profile'=>array(self::HAS_ONE,'Profile','user_id'),
-           'address'=>array(self::HAS_ONE,'Address','profile_id','through'=>'profile'),
+           'address'=>array(self::HAS_ONE,'Address',array('id'=>'profile_id'),'through'=>'profile'),
        );
    }
 }
@@ -711,7 +711,7 @@ class User extends CActiveRecord
    {
        return array(
            'mentorships'=>array(self::HAS_MANY,'Mentorship','teacher_id','joinType'=>'INNER JOIN'),
-           'students'=>array(self::HAS_MANY,'User','student_id','through'=>'mentorships','joinType'=>'INNER JOIN'),
+           'students'=>array(self::HAS_MANY,'User',array('student_id'=>'id'),'through'=>'mentorships','joinType'=>'INNER JOIN'),
        );
    }
 }
