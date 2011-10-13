@@ -104,11 +104,13 @@ class User extends CActiveRecord
 
 > Info: A foreign key may be composite, consisting of two or more columns.
 In this case, we should concatenate the names of the foreign key columns
-and separate them with commas. For `MANY_MANY` relationship type,
+and separate them with commas or an array such as array('key1','key2').
+In case you need to specify custom PK->FK association you can define it as
+array('fk'=>'pk'). For composite keys it will be array('fk_c1'=>'pk_с1','fk_c2'=>'pk_c2').
+For `MANY_MANY` relationship type,
 the associative table name must also be specified in the foreign key. For
 example, the `categories` relationship in `Post` is specified with the
 foreign key `tbl_post_category(post_id, category_id)`.
-
 The declaration of relationships in an AR class implicitly adds a property
 to the class for each relationship. After a relational query is performed,
 the corresponding property will be populated with the related AR
@@ -598,15 +600,16 @@ When using `through`, relation definition should look like the following:
 
 ~~~
 [php]
-'relationName'=>array('relationType', 'ClassName', 'foreign_key', 'through'=>'throughRelationName', ...additional options)
+'comments'=>array(self::HAS_MANY,'Comment',array('key1'=>'key2'),'through'=>'posts'),
 ~~~
 
-In the above the `foreign_key` value is a name of a key that is:
+In the above `array('key1'=>'key2')`:
 
-  - Defined in the table specified in `throughRelationName`.
-  - Pointing to a table holding data for `ClassName` model.
+  - `key1` is a key defined in `throughRelationName`.
+  - `key2` is a key defined in `ClassName`.
 
 `through` can be used with both `HAS_ONE` and `HAS_MANY` relations.
+
 
 ### HAS_MANY through
 
