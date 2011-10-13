@@ -647,43 +647,44 @@ class CJoinElement
 			$element=$this;
 			while($element->slave!==null)
 			{
-				$fks=preg_split('/\s*,\s*/',$element->relation->foreignKey,-1,PREG_SPLIT_NO_EMPTY);
-				if($element->slave->slave===null)
-				{
-					$fke=$element->slave;
-					$pke=$element;
-				}
-				else // nested through detected
-				{
-					$fke=$element;
-					$pke=$element->slave;
-				}
-				$query->joins[]=$element->slave->joinOneMany($fke,$fks,$pke,$parent);
+				$query->joins[]=$element->slave->joinOneMany($element->slave,$element->relation->foreignKey,$element,$parent);
 				$element=$element->slave;
 			}
-			$fks=preg_split('/\s*,\s*/',$element->relation->foreignKey,-1,PREG_SPLIT_NO_EMPTY);
+			$fks=is_array($element->relation->foreignKey) ? $element->relation->foreignKey : preg_split('/\s*,\s*/',$element->relation->foreignKey,-1,PREG_SPLIT_NO_EMPTY);
 			$prefix=$element->getColumnPrefix();
 			$params=array();
 			foreach($fks as $i=>$fk)
 			{
+				if(!is_int($i))
+				{
+					$pk=$fk;
+					$fk=$i;
+				}
+
 				if($this->relation instanceof CBelongsToRelation)
 				{
-					if(isset($parent->_table->foreignKeys[$fk]))  // FK defined
-						$pk=$parent->_table->foreignKeys[$fk][1];
-					else if(is_array($this->_table->primaryKey)) // composite PK
-						$pk=$this->_table->primaryKey[$i];
-					else
-						$pk=$this->_table->primaryKey;
+					if(is_int($i))
+					{
+						if(isset($parent->_table->foreignKeys[$fk]))  // FK defined
+							$pk=$parent->_table->foreignKeys[$fk][1];
+						else if(is_array($this->_table->primaryKey)) // composite PK
+							$pk=$this->_table->primaryKey[$i];
+						else
+							$pk=$this->_table->primaryKey;
+					}
 					$params[$pk]=$record->$fk;
 				}
 				else
 				{
-					if(isset($this->_table->foreignKeys[$fk]))  // FK defined
-						$pk=$this->_table->foreignKeys[$fk][1];
-					else if(is_array($parent->_table->primaryKey)) // composite PK
-						$pk=$parent->_table->primaryKey[$i];
-					else
-						$pk=$parent->_table->primaryKey;
+					if(is_int($i))
+					{
+						if(isset($this->_table->foreignKeys[$fk]))  // FK defined
+							$pk=$this->_table->foreignKeys[$fk][1];
+						else if(is_array($parent->_table->primaryKey)) // composite PK
+							$pk=$parent->_table->primaryKey[$i];
+						else
+							$pk=$parent->_table->primaryKey;
+					}
 					$params[$fk]=$record->$pk;
 				}
 			}
@@ -1060,7 +1061,7 @@ class CJoinElement
 		}
 		else
 		{
-			$fks=preg_split('/\s*,\s*/',$this->relation->foreignKey,-1,PREG_SPLIT_NO_EMPTY);
+			$fks=is_array($this->relation->foreignKey) ? $this->relation->foreignKey : preg_split('/\s*,\s*/',$this->relation->foreignKey,-1,PREG_SPLIT_NO_EMPTY);
 			if($this->relation instanceof CBelongsToRelation)
 			{
 				$pke=$this;
@@ -1071,15 +1072,10 @@ class CJoinElement
 				$pke=$parent;
 				$fke=$this;
 			}
-			else if($this->slave->slave===null)
+			else
 			{
 				$pke=$this;
 				$fke=$this->slave;
-			}
-			else // nested through detected
-			{
-				$pke=$this->slave;
-				$fke=$this;
 			}
 			return $this->joinOneMany($fke,$fks,$pke,$parent);
 		}
@@ -1101,20 +1097,29 @@ class CJoinElement
 		$joins=array();
 		foreach($fks as $i=>$fk)
 		{
+			if(!is_int($i))
+			{
+				$pk=$fk;
+				$fk=$i;
+			}
+
 			if(!isset($fke->_table->columns[$fk]))
 				throw new CDbException(Yii::t('yii','The relation "{relation}" in active record class "{class}" is specified with an invalid foreign key "{key}". There is no such column in the table "{table}".',
 					array('{class}'=>get_class($parent->model), '{relation}'=>$this->relation->name, '{key}'=>$fk, '{table}'=>$fke->_table->name)));
 
-
-			if(isset($fke->_table->foreignKeys[$fk]) && $schema->compareTableNames($pke->_table->rawName, $fke->_table->foreignKeys[$fk][0]))
-				$pk=$fke->_table->foreignKeys[$fk][1];
-			else  // FK constraints undefined
+			if(is_int($i))
 			{
-				if(is_array($pke->_table->primaryKey)) // composite PK
-					$pk=$pke->_table->primaryKey[$i];
-				else
-					$pk=$pke->_table->primaryKey;
+				if(isset($fke->_table->foreignKeys[$fk]) && $schema->compareTableNames($pke->_table->rawName, $fke->_table->foreignKeys[$fk][0]))
+					$pk=$fke->_table->foreignKeys[$fk][1];
+				else // FK constraints undefined
+				{
+					if(is_array($pke->_table->primaryKey)) // composite PK
+						$pk=$pke->_table->primaryKey[$i];
+					else
+						$pk=$pke->_table->primaryKey;
+				}
 			}
+
 			$joins[]=$fke->getColumnPrefix().$schema->quoteColumnName($fk) . '=' . $pke->getColumnPrefix().$schema->quoteColumnName($pk);
 		}
 		if(!empty($this->relation->on))

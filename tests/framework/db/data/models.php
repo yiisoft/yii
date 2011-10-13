@@ -24,9 +24,9 @@ class User extends CActiveRecord
 	{
 		return array(
 			'roles'=>array(self::HAS_MANY,'Role','user_id'),
-			'groups'=>array(self::HAS_MANY,'Group','group_id','through'=>'roles'),
+			'groups'=>array(self::HAS_MANY,'Group',array('group_id'=>'id'),'through'=>'roles'),
 			'mentorships'=>array(self::HAS_MANY,'Mentorship','teacher_id','joinType'=>'INNER JOIN'),
-			'students'=>array(self::HAS_MANY,'User','student_id','through'=>'mentorships','joinType'=>'INNER JOIN'),
+			'students'=>array(self::HAS_MANY,'User',array('student_id'=>'id'),'through'=>'mentorships','joinType'=>'INNER JOIN'),
 			'posts'=>array(self::HAS_MANY,'Post','author_id'),
 			'postsOrderDescFormat1'=>array(self::HAS_MANY,'Post','author_id','scopes'=>'orderDesc'),
 			'postsOrderDescFormat2'=>array(self::HAS_MANY,'Post','author_id','scopes'=>array('orderDesc')),
@@ -77,8 +77,8 @@ class Group extends CActiveRecord
 	{
 		return array(
 			'roles'=>array(self::HAS_MANY,'Role','group_id'),
-			'users'=>array(self::HAS_MANY,'User','user_id','through'=>'roles'),
-			'comments'=>array(self::HAS_MANY,'Comment','author_id','through'=>'users'),
+			'users'=>array(self::HAS_MANY,'User',array('user_id'=>'id'),'through'=>'roles'),
+			'comments'=>array(self::HAS_MANY,'Comment',array('id'=>'author_id'),'through'=>'users'),
 			'description'=>array(self::HAS_ONE,'GroupDescription','group_id'),
 		);
 	}
