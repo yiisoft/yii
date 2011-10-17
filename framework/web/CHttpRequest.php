@@ -1,4 +1,4 @@
-issecure<?php
+<?php
 /**
  * CHttpRequest and CCookieCollection class file.
  *
