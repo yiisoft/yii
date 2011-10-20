@@ -41,7 +41,7 @@
  * As aforementioned, a skin is a set of initial property values for a widget.
  * It is thus represented as an associative array of name-value pairs.
  * Skins are stored in PHP scripts like other configurations. Each script file stores the skins
- * for a particular widget type and is named as the wiget class name (e.g. CLinkPager.php).
+ * for a particular widget type and is named as the widget class name (e.g. CLinkPager.php).
  * Each widget type may have one or several skins, identified by the skin name set via
  * {@link CWidget::skin} property. If the {@link CWidget::skin} property is not set for a given
  * widget, it means the default skin would be used. The following shows the possible skins for
