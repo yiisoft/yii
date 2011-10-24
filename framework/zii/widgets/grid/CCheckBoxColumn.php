@@ -167,7 +167,7 @@ EOD;
 	protected function renderDataCellContent($row,$data)
 	{
 		if($this->value!==null)
-			$value=$this->evaluateExpression($this->value,array('row'=>$row,'data'=>$data));
+			$value=$this->evaluateExpression($this->value,array('data'=>$data,'row'=>$row));
 		else if($this->name!==null)
 			$value=CHtml::value($data,$this->name);
 		else
@@ -175,7 +175,7 @@ EOD;
 
 		$checked = false;
 		if($this->checked!==null)
-			$checked=$this->evaluateExpression($this->checked,array('row'=>$row,'data'=>$data));
+			$checked=$this->evaluateExpression($this->checked,array('data'=>$data,'row'=>$row));
 
 		$options=$this->checkBoxHtmlOptions;
 		$name=$options['name'];

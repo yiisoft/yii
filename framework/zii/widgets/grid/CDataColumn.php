@@ -130,7 +130,7 @@ class CDataColumn extends CGridColumn
 	protected function renderDataCellContent($row,$data)
 	{
 		if($this->value!==null)
-			$value=$this->evaluateExpression($this->value,array('row'=>$row,'data'=>$data));
+			$value=$this->evaluateExpression($this->value,array('data'=>$data,'row'=>$row));
 		else if($this->name!==null)
 			$value=CHtml::value($data,$this->name);
 		echo $value===null ? $this->grid->nullDisplay : $this->grid->getFormatter()->format($value,$this->type);
