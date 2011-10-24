@@ -80,11 +80,11 @@ class CLinkColumn extends CGridColumn
 	protected function renderDataCellContent($row,$data)
 	{
 		if($this->urlExpression!==null)
-			$url=$this->evaluateExpression($this->urlExpression,array('row'=>$row,'data'=>$data));
+			$url=$this->evaluateExpression($this->urlExpression,array('data'=>$data,'row'=>$row));
 		else
 			$url=$this->url;
 		if($this->labelExpression!==null)
-			$label=$this->evaluateExpression($this->labelExpression,array('row'=>$row,'data'=>$data));
+			$label=$this->evaluateExpression($this->labelExpression,array('data'=>$data,'row'=>$row));
 		else
 			$label=$this->label;
 		$options=$this->linkHtmlOptions;

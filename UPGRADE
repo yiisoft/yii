@@ -23,12 +23,6 @@ Upgrading from v1.1.8
 ---------------------
 - In CErrorHandler::handleException() the checking for ajax call has been removed
 as it was preventing to customize the display of the exception during an ajax call.
-- The parameter order during evaluating expressions in CGridView components
-(CGridView::rowCssClassExpression, CLinkColumn::urlExpression, ...) has been fixed to $row, $data.
-This affects only if the "expression" is an anonymous function as the parameters are passed in the
-order they are sent.
-If you used anonymous function for CGridView components in the previous versions of Yii, make sure
-the parameters in the anonymous function follows the new order - function($row, $data){}
 
 - If you've used "through" ActiveRecord option in your relation definitions it's good to update code as shown below.
 Old style of defining this option still works but is now deprecated.
