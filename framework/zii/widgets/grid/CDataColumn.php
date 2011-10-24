@@ -59,7 +59,7 @@ class CDataColumn extends CGridColumn
 	/**
 	 * @var mixed the HTML code representing a filter input (eg a text field, a dropdown list)
 	 * that is used for this data column. This property is effective only when
-	 * {@link CGridView::enableFiltering} is set true.
+	 * {@link CGridView::filter} is set.
 	 * If this property is not set, a text field will be generated as the filter input;
 	 * If this property is an array, a dropdown list will be generated that uses this property value as
 	 * the list options.
