@@ -244,6 +244,7 @@ class CGridView extends CBaseListView
 	 * at the top that users can fill in to filter the data.
 	 * Note that in order to show an input field for filtering, a column must have its {@link CDataColumn::name}
 	 * property set or have {@link CDataColumn::filter} as the HTML code for the input field.
+	 * When this property is not set (null) the filtering is disabled.
 	 * @since 1.1.1
 	 */
 	public $filter;
