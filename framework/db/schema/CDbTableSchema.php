@@ -23,6 +23,8 @@
  * <li>{@link sequenceName}</li>
  * </ul>
  *
+ * @property array $columnNames List of column names.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.db.schema

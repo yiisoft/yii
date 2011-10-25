@@ -57,6 +57,8 @@
  * </ul>
  * For more advanced variation, override {@link getBaseCacheKey()} method.
  *
+ * @property boolean $isContentCached Whether the content can be found from cache.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web.widgets

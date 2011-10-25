@@ -11,6 +11,8 @@
 /**
  * CConsoleCommandRunner manages commands and executes the requested command.
  *
+ * @property string $scriptName The entry script name.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.console

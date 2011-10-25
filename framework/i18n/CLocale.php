@@ -13,6 +13,23 @@
  *
  * The data includes the number formatting information and date formatting information.
  *
+ * @property string $id The locale ID (in canonical form).
+ * @property CNumberFormatter $numberFormatter The number formatter for this locale.
+ * @property CDateFormatter $dateFormatter The date formatter for this locale.
+ * @property string $decimalFormat The decimal format.
+ * @property string $currencyFormat The currency format.
+ * @property string $percentFormat The percent format.
+ * @property string $scientificFormat The scientific format.
+ * @property array $monthNames Month names indexed by month values (1-12).
+ * @property array $weekDayNames The weekday names indexed by weekday values (0-6, 0 means Sunday, 1 Monday, etc.).
+ * @property string $aMName The AM name.
+ * @property string $pMName The PM name.
+ * @property string $dateFormat Date format.
+ * @property string $timeFormat Date format.
+ * @property string $dateTimeFormat Datetime format, i.e., the order of date and time.
+ * @property string $orientation The character orientation, which is either 'ltr' (left-to-right) or 'rtl' (right-to-left).
+ * @property array $pluralRules Plural forms expressions.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.i18n

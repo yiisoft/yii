@@ -13,6 +13,10 @@
  *
  * CFormElement implements the way to get and set arbitrary attributes.
  *
+ * @property boolean $visible Whether this element is visible and should be rendered.
+ * @property mixed $parent The direct parent of this element. This could be either a {@link CForm} object or a {@link CBaseController} object
+ * (a controller or a widget).
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web.form

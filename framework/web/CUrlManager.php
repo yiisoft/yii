@@ -111,6 +111,12 @@
  * CUrlManager is a default application component that may be accessed via
  * {@link CWebApplication::getUrlManager()}.
  *
+ * @property string $baseUrl The base URL of the application (the part after host name and before query string).
+ * If {@link showScriptName} is true, it will include the script name part.
+ * Otherwise, it will not, and the ending slashes are stripped off.
+ * @property string $urlFormat The URL format. Defaults to 'path'. Valid values include 'path' and 'get'.
+ * Please refer to the guide for more details about the difference between these two formats.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web

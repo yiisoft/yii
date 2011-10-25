@@ -12,6 +12,8 @@
 /**
  * ShellCommand executes the specified Web application and provides a shell for interaction.
  *
+ * @property string $help The help information for the shell command.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.cli.commands

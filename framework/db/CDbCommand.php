@@ -38,6 +38,25 @@
  *     ->queryRow();
  * </pre>
  *
+ * @property string $text The SQL statement to be executed.
+ * @property CDbConnection $connection The connection associated with this command.
+ * @property PDOStatement $pdoStatement The underlying PDOStatement for this command
+ * It could be null if the statement is not prepared yet.
+ * @property string $select The SELECT part (without 'SELECT') in the query.
+ * @property boolean $distinct A value indicating whether SELECT DISTINCT should be used.
+ * @property string $from The FROM part (without 'FROM' ) in the query.
+ * @property string $where The WHERE part (without 'WHERE' ) in the query.
+ * @property mixed $join The join part in the query. This can be an array representing
+ * multiple join fragments, or a string representing a single jojin fragment.
+ * Each join fragment will contain the proper join operator (e.g. LEFT JOIN).
+ * @property string $group The GROUP BY part (without 'GROUP BY' ) in the query.
+ * @property string $having The HAVING part (without 'HAVING' ) in the query.
+ * @property string $order The ORDER BY part (without 'ORDER BY' ) in the query.
+ * @property string $limit The LIMIT part (without 'LIMIT' ) in the query.
+ * @property string $offset The OFFSET part (without 'OFFSET' ) in the query.
+ * @property mixed $union The UNION part (without 'UNION' ) in the query.
+ * This can be either a string or an array representing multiple union parts.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.db

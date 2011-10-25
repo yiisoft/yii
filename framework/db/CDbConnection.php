@@ -78,6 +78,27 @@
  * )
  * </pre>
  *
+ * @property boolean $active Whether the DB connection is established.
+ * @property PDO $pdoInstance The PDO instance, null if the connection is not established yet.
+ * @property CDbTransaction $currentTransaction The currently active transaction. Null if no active transaction.
+ * @property CDbSchema $schema The database schema for the current connection.
+ * @property CDbCommandBuilder $commandBuilder The command builder.
+ * @property string $lastInsertID The row ID of the last row inserted, or the last value retrieved from the sequence object.
+ * @property mixed $columnCase The case of the column names.
+ * @property mixed $nullConversion How the null and empty strings are converted.
+ * @property boolean $autoCommit Whether creating or updating a DB record will be automatically committed.
+ * @property boolean $persistent Whether the connection is persistent or not.
+ * @property string $driverName Name of the DB driver.
+ * @property string $clientVersion The version information of the DB driver.
+ * @property string $connectionStatus The status of the connection.
+ * @property boolean $prefetch Whether the connection performs data prefetching.
+ * @property string $serverInfo The information of DBMS server.
+ * @property string $serverVersion The version information of DBMS server.
+ * @property integer $timeout Timeout settings for the connection.
+ * @property array $attributes Attributes (name=>value) that are previously explicitly set for the DB connection.
+ * @property array $stats The first element indicates the number of SQL statements executed,
+ * and the second element the total time spent in SQL execution.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.db

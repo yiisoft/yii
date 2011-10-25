@@ -20,6 +20,8 @@
  * call {@link generateWsdl} or {@link renderWsdl}. To process the web service
  * requests, call {@link run}.
  *
+ * @property string $methodName The currently requested method name. Empty if no method is being requested.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web.services

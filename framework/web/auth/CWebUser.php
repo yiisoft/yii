@@ -44,6 +44,13 @@
  * store password or other sensitive data in the persistent storage. Instead,
  * you should store them directly in session on the server side if needed.
  *
+ * @property boolean $isGuest Whether the current application user is a guest.
+ * @property mixed $id The unique identifier for the user. If null, it means the user is a guest.
+ * @property string $name The user name. If the user is not logged in, this will be {@link guestName}.
+ * @property string $returnUrl The URL that the user should be redirected to after login.
+ * @property string $stateKeyPrefix A prefix for the name of the session variables storing user session data.
+ * @property array $flashes Flash messages (key => message).
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web.auth

@@ -31,6 +31,9 @@
  * // $dataProvider->getData() will return a list of Post objects
  * </pre>
  *
+ * @property CDbCriteria $criteria The query criteria.
+ * @property CSort $sort The sorting object. If this is false, it means the sorting is disabled.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web

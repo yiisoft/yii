@@ -17,6 +17,8 @@
  * the {@link init()} method instead of the constructor. This has the advantage that
  * the application component can be customized through application configuration.
  *
+ * @property boolean $isInitialized Whether this application component has been initialized (ie, {@link init()} is invoked).
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.base

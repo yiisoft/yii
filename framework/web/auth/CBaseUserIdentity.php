@@ -19,6 +19,13 @@
  * and {@link IUserIdentity::getId} that are required by the {@link IUserIdentity}
  * interface.
  *
+ * @property mixed $id A value that uniquely represents the identity (e.g. primary key value).
+ * The default implementation simply returns {@link name}.
+ * @property string $name The display name for the identity.
+ * The default implementation simply returns empty string.
+ * @property array $persistentStates The identity states that should be persisted.
+ * @property whether $isAuthenticated The authentication is successful.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web.auth

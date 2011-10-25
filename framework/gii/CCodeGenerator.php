@@ -18,6 +18,9 @@
  * while the latter should return a success message to be displayed when
  * code files are successfully generated.
  *
+ * @property string $pageTitle The page title.
+ * @property string $viewPath The view path of the generator.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.gii

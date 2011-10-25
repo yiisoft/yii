@@ -50,6 +50,16 @@
  * )) ?>
  * </pre>
  *
+ * @property integer $pageSize Number of items in each page. Defaults to 10.
+ * @property integer $itemCount Total number of items. Defaults to 0.
+ * @property integer $pageCount Number of pages.
+ * @property integer $currentPage The zero-based index of the current page. Defaults to 0.
+ * @property integer $offset The offset of the data. This may be used to set the
+ * OFFSET value for a SQL statement for fetching the current page of data.
+ * @property integer $limit The limit of the data. This may be used to set the
+ * LIMIT value for a SQL statement for fetching the current page of data.
+ * This returns the same value as {@link pageSize}.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web

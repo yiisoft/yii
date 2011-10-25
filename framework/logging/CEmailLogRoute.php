@@ -15,6 +15,11 @@
  * Optionally, you may set the email {@link setSubject subject}, the
  * {@link setSentFrom sentFrom} address and any additional {@link setHeaders headers}.
  *
+ * @property array $emails List of destination email addresses.
+ * @property string $subject Email subject. Defaults to CEmailLogRoute::DEFAULT_SUBJECT.
+ * @property string $sentFrom Send from address of the email.
+ * @property array $headers Additional headers to use when sending an email.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.logging

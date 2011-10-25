@@ -12,6 +12,8 @@
 /**
  * HelpCommand displays help information for commands under yiic shell.
  *
+ * @property string $help The command description.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.cli.commands.shell

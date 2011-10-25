@@ -21,6 +21,8 @@
  * In the above, if the command name is not provided, it will display all
  * available commands.
  *
+ * @property string $help The command description.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.console

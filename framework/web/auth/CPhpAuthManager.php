@@ -18,6 +18,8 @@
  * (for example, the authorization data for a personal blog system).
  * Use {@link CDbAuthManager} for more complex authorization data.
  *
+ * @property array $authItems The authorization items of the specific type.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web.auth

@@ -16,6 +16,8 @@
  * the three tables used to store the authorization data by setting {@link itemTable},
  * {@link itemChildTable} and {@link assignmentTable}.
  *
+ * @property array $authItems The authorization items of the specific type.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web.auth

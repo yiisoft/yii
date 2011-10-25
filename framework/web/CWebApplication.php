@@ -36,26 +36,25 @@
  * For example, the controller 'article' is defined by the class 'ArticleController'
  * which is in the file 'protected/controllers/ArticleController.php'.
  *
+ * @property IAuthManager $authManager The authorization manager component.
+ * @property CAssetManager $assetManager The asset manager component.
+ * @property CHttpSession $session The session component.
+ * @property CWebUser $user The user session information.
+ * @property IViewRenderer $viewRenderer The view renderer.
+ * @property CClientScript $clientScript The client script manager.
+ * @property IWidgetFactory $widgetFactory The widget factory.
+ * @property CThemeManager $themeManager The theme manager.
+ * @property CTheme $theme The theme used currently. Null if no theme is being used.
+ * @property CController $controller The currently active controller.
+ * @property string $controllerPath The directory that contains the controller classes. Defaults to 'protected/controllers'.
+ * @property string $viewPath The root directory of view files. Defaults to 'protected/views'.
+ * @property string $systemViewPath The root directory of system view files. Defaults to 'protected/views/system'.
+ * @property string $layoutPath The root directory of layout files. Defaults to 'protected/views/layouts'.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web
  * @since 1.0
- *
- * @property CHttpSession $session the session component
- * @property CAssetManager $assetManager the asset manager component
- * @property CWebUser $user the user session information
- * @property CThemeManager $themeManager the theme manager
- * @property IAuthManager $authManager the authorization manager component
- * @property CClientScript $clientScript the client script manager
- * @property IWidgetFactory $widgetFactory the widget factory
- * @property IViewRenderer $viewRenderer the view renderer
- *
- * @property CController $controller the currently active controller
- * @property CTheme $theme the theme used currently
- * @property string $controllerPath the directory that contains the controller classes
- * @property string $layoutPath the root directory of layout files
- * @property string $systemViewPath the root directory of system view files
- * @property string $viewPath the root directory of view files
  */
 class CWebApplication extends CApplication
 {

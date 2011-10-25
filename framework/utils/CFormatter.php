@@ -39,6 +39,8 @@
  * By default, {@link CApplication} registers {@link CFormatter} as an application component whose ID is 'format'.
  * Therefore, one may call <code>Yii::app()->format->boolean(1)</code>.
  *
+ * @property CHtmlPurifier $htmlPurifier The HTML purifier instance.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.utils

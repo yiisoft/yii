@@ -34,6 +34,10 @@
  * stored in {@link attributes} which will be passed as HTML attribute values to the {@link CHtml} method
  * generating the input or initial values of the widget properties.
  *
+ * @property boolean $required Whether this input is required.
+ * @property string $label The label for this input. If the label is not manually set,
+ * this method will call {@link CModel::getAttributeLabel} to determine the label.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web.form

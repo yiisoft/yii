@@ -20,6 +20,8 @@
  * <li>callstack: list the mark code blocks in a hierarchical view reflecting their calling sequence.</li>
  * </ul>
  *
+ * @property string $report The type of the profiling report to display. Defaults to 'summary'.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.logging

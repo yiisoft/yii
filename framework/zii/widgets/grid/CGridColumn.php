@@ -18,6 +18,9 @@
  * Child classes may override {@link renderHeaderCellContent}, {@link renderDataCellContent}
  * and {@link renderFooterCellContent} to customize how these cells are rendered.
  *
+ * @property boolean $hasFooter Whether this column has a footer cell.
+ * This is determined based on whether {@link footer} is set.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package zii.widgets.grid

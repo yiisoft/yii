@@ -34,6 +34,12 @@
  * }
  * </pre>
  *
+ * @property string $name The command name.
+ * @property CConsoleCommandRunner $commandRunner The command runner instance.
+ * @property string $help The command description. Defaults to 'Usage: php entry-script.php command-name'.
+ * @property array $optionHelp The command option help information. Each array element describes
+ * the help information for a single action.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.console

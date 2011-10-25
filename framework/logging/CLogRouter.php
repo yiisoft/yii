@@ -43,6 +43,8 @@
  * You can specify multiple routes with different filtering conditions and different
  * targets, even if the routes are of the same type.
  *
+ * @property array $routes The currently initialized routes.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.logging

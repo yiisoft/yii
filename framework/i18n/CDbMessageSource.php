@@ -35,6 +35,8 @@
  *
  * When {@link cachingDuration} is set as a positive number, message translations will be cached.
  *
+ * @property CDbConnection $dbConnection The DB connection used for the message source.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.i18n
