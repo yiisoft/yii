@@ -22,6 +22,9 @@
  * foreach($stack as $item) ...
  * </pre>
  *
+ * @property Iterator $iterator An iterator for traversing the items in the stack.
+ * @property integer $count The number of items in the stack.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.collections

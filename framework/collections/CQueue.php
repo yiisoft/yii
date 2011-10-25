@@ -22,6 +22,9 @@
  * foreach($queue as $item) ...
  * </pre>
  *
+ * @property Iterator $iterator An iterator for traversing the items in the queue.
+ * @property integer $count The number of items in the queue.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.collections

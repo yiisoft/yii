@@ -14,6 +14,14 @@
  *
  * CModel defines the basic framework for data models that need to be validated.
  *
+ * @property CList $validatorList All the validators declared in the model.
+ * @property array $validators The validators applicable to the current {@link scenario}.
+ * @property array $errors Errors for all attributes or the specified attribute. Empty array is returned if no error.
+ * @property array $attributes Attribute values (name=>value).
+ * @property string $scenario The scenario that this model is in.
+ * @property array $safeAttributeNames Safe attribute names.
+ * @property CMapIterator $iterator An iterator for traversing the items in the list.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.base
