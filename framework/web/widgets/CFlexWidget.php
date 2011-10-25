@@ -15,6 +15,8 @@
  * (without the .swf suffix), and set {@link baseUrl} to be URL (without the ending slash)
  * of the directory containing the SWF file of the Flex application.
  *
+ * @property string $flashVarsAsString The flash parameter string.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web.widgets

@@ -23,6 +23,10 @@
  * The property {@link setBaseUrl baseUrl} refers to the URL for accessing
  * the {@link setBasePath basePath}.
  *
+ * @property string $basePath The root directory storing the published asset files. Defaults to 'WebRoot/assets'.
+ * @property string $baseUrl The base url that the published asset files can be accessed.
+ * Note, the ending slashes are stripped off. Defaults to '/AppBaseUrl/assets'.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web

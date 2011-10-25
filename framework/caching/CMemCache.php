@@ -51,6 +51,9 @@
  * Since version 1.0.6, CMemCache can also be used with {@link http://pecl.php.net/package/memcached memcached}.
  * To do so, set {@link useMemcached} to be true.
  *
+ * @property mixed $memCache The memcache instance (or memcached if {@link useMemcached} is true) used by this component.
+ * @property array $servers List of memcache server configurations. Each element is a {@link CMemCacheServerConfiguration}.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.caching

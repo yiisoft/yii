@@ -23,6 +23,8 @@
  *
  * Note, PHP SOAP extension is required for this action.
  *
+ * @property CWebService $service The Web service instance.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web.services

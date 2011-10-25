@@ -31,6 +31,9 @@
  * the database. If this file is not found, all available fixtures will be loaded
  * into the database.
  *
+ * @property CDbConnection $dbConnection The database connection.
+ * @property array $fixtures The information of the available fixtures (table name => fixture file).
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.test

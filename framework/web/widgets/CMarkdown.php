@@ -22,6 +22,8 @@
  * <li>{@link CMarkdownParser markdown with syntax highlighting}</li>
  * </ul>
  *
+ * @property CMarkdownParser $markdownParser The parser instance.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web.widgets

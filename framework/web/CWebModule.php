@@ -16,6 +16,13 @@
  * project as a whole. Controllers inside a module must be accessed with routes
  * that are prefixed with the module ID.
  *
+ * @property string $name The name of this module.
+ * @property string $description The description of this module.
+ * @property string $version The version of this module.
+ * @property string $controllerPath The directory that contains the controller classes. Defaults to 'protected/controllers'.
+ * @property string $viewPath The root directory of view files. Defaults to 'protected/views'.
+ * @property string $layoutPath The root directory of layout files. Defaults to 'protected/views/layouts'.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web

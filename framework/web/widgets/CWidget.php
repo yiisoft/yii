@@ -19,6 +19,11 @@
  *
  * Usage is described at {@link CBaseController} and {@link CBaseController::widget}.
  *
+ * @property CBaseController $owner Owner/creator of this widget. It could be either a widget or a controller.
+ * @property string $id Id of the widget.
+ * @property CController $controller The controller that this widget belongs to.
+ * @property string $viewPath The directory containing the view files for this widget.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web.widgets

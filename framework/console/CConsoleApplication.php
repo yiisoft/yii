@@ -36,6 +36,9 @@
  * php path/to/entry_script.php help <command name>
  * </pre>
  *
+ * @property string $commandPath The directory that contains the command classes. Defaults to 'protected/commands'.
+ * @property CConsoleCommandRunner $commandRunner The command runner.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.console

@@ -18,6 +18,9 @@
  * which gives a {@link CTypedList} instance and can be used like an array
  * (see {@link CList} for more details}).
  *
+ * @property CTypedList $dependencies List of dependency objects.
+ * @property boolean $hasChanged Whether the dependency is changed or not.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.caching.dependencies

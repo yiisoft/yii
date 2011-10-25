@@ -72,6 +72,10 @@ Yii::import('zii.widgets.grid.CCheckBoxColumn');
  *
  * Please refer to {@link columns} for more details about how to configure this property.
  *
+ * @property boolean $hasFooter Whether the table should render a footer.
+ * This is true if any of the {@link columns} has a true {@link CGridColumn::hasFooter} value.
+ * @property CFormatter $formatter The formatter instance. Defaults to the 'format' application component.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package zii.widgets.grid

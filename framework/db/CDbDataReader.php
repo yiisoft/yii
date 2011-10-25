@@ -25,6 +25,11 @@
  * {@link setFetchMode FetchMode}. See {@link http://www.php.net/manual/en/function.PDOStatement-setFetchMode.php}
  * for more details.
  *
+ * @property boolean $isClosed Whether the reader is closed or not.
+ * @property integer $rowCount Number of rows contained in the result.
+ * @property integer $columnCount The number of columns in the result set.
+ * @property mixed $fetchMode Fetch mode.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.db

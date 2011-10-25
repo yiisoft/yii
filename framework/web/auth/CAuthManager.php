@@ -30,6 +30,10 @@
  * at appropriate places in the application code to check if the current user
  * has the needed permission for an operation.
  *
+ * @property array $roles Roles (name=>CAuthItem).
+ * @property array $tasks Tasks (name=>CAuthItem).
+ * @property array $operations Operations (name=>CAuthItem).
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web.auth

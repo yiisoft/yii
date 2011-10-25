@@ -49,6 +49,8 @@
  * )
  * </pre>
  *
+ * @property array $rules List of access rules.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web.auth

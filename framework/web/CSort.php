@@ -36,6 +36,12 @@
  * represent the attribute names, while the values represent the virtual attribute definitions.
  * For more details, please check the documentation about {@link attributes}.
  *
+ * @property string $orderBy The order-by columns represented by this sort object.
+ * This can be put in the ORDER BY clause of a SQL statement.
+ * @property array $directions Sort directions indexed by attribute names.
+ * The sort direction is true if the corresponding attribute should be
+ * sorted in descending order.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web

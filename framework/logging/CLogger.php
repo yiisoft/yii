@@ -14,6 +14,17 @@
  * CLogger implements the methods to retrieve the messages with
  * various filter conditions, including log levels and log categories.
  *
+ * @property array $logs List of messages. Each array elements represents one message
+ * with the following structure:
+ * array(
+ *   [0] => message (string)
+ *   [1] => level (string)
+ *   [2] => category (string)
+ *   [3] => timestamp (float, obtained by microtime(true));.
+ * @property float $executionTime The total time for serving the current request.
+ * @property integer $memoryUsage Memory usage of the application (in bytes).
+ * @property array $profilingResults The profiling results.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.logging

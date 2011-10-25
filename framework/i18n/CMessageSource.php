@@ -17,6 +17,9 @@
  *
  * A concrete class must implement {@link loadMessages} or override {@link translateMessage}.
  *
+ * @property string $language The language that the source messages are written in.
+ * Defaults to {@link CApplication::language application language}.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.i18n

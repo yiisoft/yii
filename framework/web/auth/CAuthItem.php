@@ -16,6 +16,14 @@
  * A user may be assigned one or several authorization items (called {@link CAuthAssignment assignments}.
  * He can perform an operation only when it is among his assigned items.
  *
+ * @property IAuthManager $authManager The authorization manager.
+ * @property integer $type The authorization item type. This could be 0 (operation), 1 (task) or 2 (role).
+ * @property string $name The item name.
+ * @property string $description The item description.
+ * @property string $bizRule The business rule associated with this item.
+ * @property string $data The additional data associated with this item.
+ * @property array $children All child items of this item.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web.auth

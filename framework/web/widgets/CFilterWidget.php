@@ -20,6 +20,8 @@
  *
  * CFilterWidget provides all properties and methods of {@link CWidget} and {@link CFilter}.
  *
+ * @property boolean $isFilter Whether this widget is used as a filter.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web.widgets

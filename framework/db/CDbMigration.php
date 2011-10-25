@@ -27,6 +27,8 @@
  * information showing the method parameters and execution time, which may be useful when
  * applying migrations.
  *
+ * @property CDbConnection $dbConnection The currently active database connection.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.db

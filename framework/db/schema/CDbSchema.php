@@ -11,6 +11,13 @@
 /**
  * CDbSchema is the base class for retrieving metadata information.
  *
+ * @property CDbConnection $dbConnection Database connection. The connection is active.
+ * @property array $tables The metadata for all tables in the database.
+ * Each array element is an instance of {@link CDbTableSchema} (or its child class).
+ * The array keys are table names.
+ * @property array $tableNames All table names in the database.
+ * @property CDbCommandBuilder $commandBuilder The SQL command builder for this connection.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.db.schema

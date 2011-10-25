@@ -19,6 +19,11 @@
  * to '.3', '.1' to '.2'. The property {@link setMaxLogFiles maxLogFiles}
  * specifies how many files to be kept.
  *
+ * @property string $logPath Directory storing log files. Defaults to application runtime path.
+ * @property string $logFile Log file name. Defaults to 'application.log'.
+ * @property integer $maxFileSize Maximum log file size in kilo-bytes (KB). Defaults to 1024 (1MB).
+ * @property integer $maxLogFiles Number of files used for rotation. Defaults to 5.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.logging

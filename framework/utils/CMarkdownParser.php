@@ -41,6 +41,8 @@ if(!class_exists('HTMLPurifier_Bootstrap',false))
  * <li>{@link http://michelf.com/projects/php-markdown/extra/ markdown extra syntax}</li>
  * </ul>
  *
+ * @property string $defaultCssFile The default CSS file that is used to highlight code blocks.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.utils

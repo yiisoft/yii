@@ -16,6 +16,8 @@
  * so that it points to the "views" subdirectory under the directory containing
  * the controller class file.
  *
+ * @property string $viewPath The directory containing the view files for this controller.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web

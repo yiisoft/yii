@@ -17,6 +17,9 @@
  *
  * See {@link CCache} manual for common cache operations that are supported by CFileCache.
  *
+ * @property integer $gCProbability The probability (parts per million) that garbage collection (GC) should be performed
+ * when storing a piece of data in the cache. Defaults to 100, meaning 0.01% chance.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.caching

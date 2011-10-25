@@ -57,6 +57,18 @@
  * while the '-' operator means the filter runs only when the requested action is not among those actions.
  * For object-based filters, the '+' and '-' operators are following the class name.
  *
+ * @property array $actionParams The request parameters to be used for action parameter binding.
+ * @property CAction $action The action currently being executed, null if no active action.
+ * @property string $id ID of the controller.
+ * @property string $uniqueId The controller ID that is prefixed with the module ID (if any).
+ * @property string $route The route (module ID, controller ID and action ID) of the current request.
+ * @property CWebModule $module The module that this controller belongs to. It returns null
+ * if the controller does not belong to any module.
+ * @property string $viewPath The directory containing the view files for this controller. Defaults to 'protected/views/ControllerID'.
+ * @property CMap $clips The list of clips.
+ * @property string $pageTitle The page title. Defaults to the controller name and the action name.
+ * @property CStack $cachingStack Stack of {@link COutputCache} objects.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web

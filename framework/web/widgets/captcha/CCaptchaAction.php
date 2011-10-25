@@ -28,6 +28,8 @@
  * <li>In the controller view, insert a {@link CCaptcha} widget in the form.</li>
  * </ol>
  *
+ * @property string $verifyCode The verification code.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.web.widgets.captcha

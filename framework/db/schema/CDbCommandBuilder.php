@@ -11,6 +11,9 @@
 /**
  * CDbCommandBuilder provides basic methods to create query commands for tables.
  *
+ * @property CDbConnection $dbConnection Database connection.
+ * @property CDbSchema $schema The schema for this command builder.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.db.schema
