@@ -23,6 +23,11 @@
  * $n=count($map);  // returns the number of items in the map
  * </pre>
  *
+ * @property boolean $readOnly Whether this map is read-only or not. Defaults to false.
+ * @property CMapIterator $iterator An iterator for traversing the items in the list.
+ * @property integer $count The number of items in the map.
+ * @property array $keys The key list.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.collections

@@ -47,6 +47,8 @@ Yii::import('CHtml',true);
  * CErrorHandler is a core application component that can be accessed via
  * {@link CApplication::getErrorHandler()}.
  *
+ * @property array $error The error details. Null if there is no error.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.base
