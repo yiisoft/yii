@@ -220,8 +220,11 @@ class CList extends CComponent implements IteratorAggregate,ArrayAccess,Countabl
 	 */
 	public function clear()
 	{
-		for($i=$this->_c-1;$i>=0;--$i)
-			$this->removeAt($i);
+		if($this->_r){
+			throw new CException(Yii::t('yii','The list is read only.'));
+		}
+		$this->_d = array();
+		$this->_c = 0;
 	}
 
 	/**
