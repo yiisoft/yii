@@ -43,6 +43,28 @@ $lucene=new Zend_Search_Lucene($pathOfIndex);
 $hits=$lucene->find(strtolower($keyword));
 ~~~
 
+Using namespaced 3rd-Party Libraries
+------------------------------------
+
+In order to use namespaced library that follows
+[PSR-0](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md)
+(such as Zend Framework 2 or Symfony2) you need to register its root as path alias.
+
+As an example we'll use [Imagine](https://github.com/avalanche123/Imagine).
+If we put the `Imagine` directory under `protected/vendors` we'll be able to use
+it like the following:
+
+~~~
+[php]
+Yii::setPathOfAlias('Imagine',Yii::getPathOfAlias('application.vendors.Imagine'));
+
+// Then standard code from Imagine guide:
+// $imagine = new Imagine\Gd\Imagine();
+// etc.
+~~~
+
+In the code above the name of the alias we've defined should match the first namespace
+part used in the library.
 
 Using Yii in 3rd-Party Systems
 ------------------------------
