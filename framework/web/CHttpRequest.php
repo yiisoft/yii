@@ -829,6 +829,7 @@ class CHttpRequest extends CApplicationComponent
 	 * <li>mimeType: mime type of the file, if not set it will be guessed automatically based on the file name.</li>
 	 * <li>xHeader: appropriate x-sendfile header, defaults to "X-Sendfile"</li>
 	 * <li>terminate: whether to terminate the current application after calling this method, defaults to true</li>
+	 * <li>forceDownload: specifies whether the file will be downloaded or shown inline. Defaults to true. (Since version 1.1.9.)</li>
 	 * </ul>
 	 * @return boolean false if file not found, true otherwise.
 	 */
@@ -836,6 +837,11 @@ class CHttpRequest extends CApplicationComponent
 	{
 		if(!is_file($filePath))
 			return false;
+
+		if(!isset($options['forceDownload']) || $options['forceDownload'])
+			$disposition='attachment';
+		else
+			$disposition='inline';
 
 		if(!isset($options['saveName']))
 			$options['saveName']=basename($filePath);
@@ -850,7 +856,7 @@ class CHttpRequest extends CApplicationComponent
 			$options['xHeader']='X-Sendfile';
 
 		header('Content-type: '.$options['mimeType']);
-		header('Content-Disposition: attachment; filename="'.$options['saveName'].'"');
+		header('Content-Disposition: '.$disposition.'; filename="'.$options['saveName'].'"');
 		header(trim($options['xHeader']).': '.$filePath);
 
 		if(!isset($options['terminate']) || $options['terminate'])
