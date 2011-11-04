@@ -33,6 +33,7 @@ Version 1.1.9 work in progress
 - Enh #2808: Added ability to override core classes using YiiBase::classMap (Sam Dark)
 - Enh #2811: Fully automated CLDR data update, updated data to 2.0.1. Added getLanguageID, getScriptID, getTerritoryID, getRegionID, getLocaleDisplayName, getLanguage, getScript, getTerritory methods to CLocale (kshaw, Sam Dark)
 - Enh #2823: Added autocomplete for Gii "Table Name" field (Sam Dark)
+- Enh #2929: Added forceDownload to xSendFile options to choose between attachment and inline disposition. (mdomba)
 - Enh: Documented component accessors with @property for significantly better IDE autocomplete (Sam Dark, Detonator, Athari)
 - Enh: Added CWebUser->loginRequiredAjaxResponse - value to be returned for ajax calls in case the user session has expired (mdomba)
 - Enh: CFileCache::get() does now suppress a possible PHP error which might occur on concurrent requests (Y!!)
