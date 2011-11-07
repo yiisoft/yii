@@ -97,7 +97,7 @@ class CAuthItem extends CComponent
 	 */
 	public function getType()
 	{
-		return $this->_type;
+		return (int)$this->_type;
 	}
 
 	/**
