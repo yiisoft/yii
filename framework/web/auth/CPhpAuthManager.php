@@ -92,6 +92,7 @@ class CPhpAuthManager extends CAuthManager
 	 * Adds an item as a child of another item.
 	 * @param string $itemName the parent item name
 	 * @param string $childName the child item name
+	 * @return boolean whether the item is added successfully
 	 * @throws CException if either parent or child doesn't exist or if a loop has been detected.
 	 */
 	public function addItemChild($itemName,$childName)
@@ -108,6 +109,7 @@ class CPhpAuthManager extends CAuthManager
 			throw new CException(Yii::t('yii','The item "{parent}" already has a child "{child}".',
 				array('{child}'=>$childName,'{parent}'=>$itemName)));
 		$this->_children[$itemName][$childName]=$this->_items[$childName];
+		return true;
 	}
 
 	/**
