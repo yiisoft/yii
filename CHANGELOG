@@ -15,6 +15,7 @@ Version 1.1.9 work in progress
 - Bug #2822: Fixed warning when "Host:" isn't present or is empty in HTTP request headers (Sam Dark)
 - Bug #2853: Fixed sending of the button name in CActiveForm with enableAjaxValidation enabled (mdomba)
 - Bug #2861: Removed the nested container css class in the skeleton application views (Qiang)
+- Bug #2932: CAuthItem::getType() returns string while using CDbAuthManager (Sam Dark)
 - Chg: Upgraded JQuery UI to 1.8.16 (Sam Dark)
 - Chg: Upgraded jQuery to 1.7 (Sam Dark,mdomba)
 - Chg: Reverted back the changes made to fix issue 2284 (Qiang)
