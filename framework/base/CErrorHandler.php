@@ -220,9 +220,32 @@ class CErrorHandler extends CApplicationComponent
 		$app=Yii::app();
 		if($app instanceof CWebApplication)
 		{
+			switch($event->code)
+			{
+				case E_WARNING:
+					$type = 'PHP warning';
+					break;
+				case E_NOTICE:
+					$type = 'PHP notice';
+					break;
+				case E_USER_ERROR:
+					$type = 'User error';
+					break;
+				case E_USER_WARNING:
+					$type = 'User warning';
+					break;
+				case E_USER_NOTICE:
+					$type = 'User notice';
+					break;
+				case E_RECOVERABLE_ERROR:
+					$type = 'Recoverable error';
+					break;
+				default:
+					$type = 'PHP error';
+			}
 			$this->_error=$data=array(
 				'code'=>500,
-				'type'=>'PHP Error',
+				'type'=>$type,
 				'message'=>$event->message,
 				'file'=>$event->file,
 				'line'=>$event->line,
