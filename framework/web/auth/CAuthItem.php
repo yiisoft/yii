@@ -53,7 +53,7 @@ class CAuthItem extends CComponent
 	 */
 	public function __construct($auth,$name,$type,$description='',$bizRule=null,$data=null)
 	{
-		$this->_type=$type;
+		$this->_type=(int)$type;
 		$this->_auth=$auth;
 		$this->_name=$name;
 		$this->_description=$description;
