@@ -60,10 +60,10 @@
 						var isRowSelected=$(this).toggleClass('selected').hasClass('selected');
 						$('input.select-on-check',this).each(function(){
 							if(settings.selectableRows == 1)
-								$("input[name='"+this.name+"']").attr('checked',false);
+								$("input[name='"+this.name+"']").prop('checked',false);
 							this.checked=isRowSelected;
 							var sboxallname=this.name.substring(0,this.name.length-2)+'_all';	//.. remove '[]' and add '_all'
-							$("input[name='"+sboxallname+"']").attr('checked', $("input[name='"+this.name+"']").length==$("input[name='"+this.name+"']:checked").length);
+							$("input[name='"+sboxallname+"']").prop('checked', $("input[name='"+this.name+"']").length==$("input[name='"+this.name+"']:checked").length);
 						});
 						if(settings.selectionChanged !== undefined)
 							settings.selectionChanged(id);
@@ -78,10 +78,10 @@
 					var $row=$(this).parent().parent();
 					if(settings.selectableRows == 1){
 						$row.siblings().removeClass('selected');
-						$("input:not(#"+this.id+")[name='"+this.name+"']").attr('checked',false);
+						$("input:not(#"+this.id+")[name='"+this.name+"']").prop('checked',false);
 					}
 					else
-						$('#'+id+' .'+settings.tableClass+' > thead > tr > th >input.select-on-check-all').attr('checked', $("input.select-on-check").length==$("input.select-on-check:checked").length);
+						$('#'+id+' .'+settings.tableClass+' > thead > tr > th >input.select-on-check-all').prop('checked', $("input.select-on-check").length==$("input.select-on-check:checked").length);
 
 					$row.toggleClass('selected',this.checked);
 					if(settings.selectionChanged !== undefined)

@@ -160,7 +160,7 @@ class CAssetManager extends CApplicationComponent
 	 *
 	 * @param string $path the asset (file or directory) to be published
 	 * @param boolean $hashByName whether the published directory should be named as the hashed basename.
-	 * If false, the name will be the hashed dirname of the path being published.
+	 * If false, the name will be the hash from dirname of the path being published and its mtime.
 	 * Defaults to false. Set true if the path being published is shared among
 	 * different extensions.
 	 * @param integer $level level of recursive copying when the asset is a directory.
@@ -183,7 +183,7 @@ class CAssetManager extends CApplicationComponent
 		{
 			if(is_file($src))
 			{
-				$dir=$this->hash($hashByName ? basename($src) : dirname($src));
+				$dir=$this->hash($hashByName ? basename($src) : dirname($src).filemtime(dirname($src)));
 				$fileName=basename($src);
 				$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
 				$dstFile=$dstDir.DIRECTORY_SEPARATOR.$fileName;
@@ -215,7 +215,7 @@ class CAssetManager extends CApplicationComponent
 			}
 			else if(is_dir($src))
 			{
-				$dir=$this->hash($hashByName ? basename($src) : $src);
+				$dir=$this->hash($hashByName ? basename($src) : $src.filemtime($src));
 				$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
 
 				if($this->linkAssets)
@@ -246,7 +246,7 @@ class CAssetManager extends CApplicationComponent
 	 * if the file or directory is published, where it will go.
 	 * @param string $path directory or file path being published
 	 * @param boolean $hashByName whether the published directory should be named as the hashed basename.
-	 * If false, the name will be the hashed dirname of the path being published.
+	 * If false, the name will be the hash from dirname of the path being published and its mtime.
 	 * Defaults to false. Set true if the path being published is shared among
 	 * different extensions.
 	 * @return string the published file path. False if the file or directory does not exist
@@ -257,9 +257,9 @@ class CAssetManager extends CApplicationComponent
 		{
 			$base=$this->getBasePath().DIRECTORY_SEPARATOR;
 			if(is_file($path))
-				return $base . $this->hash($hashByName ? basename($path) : dirname($path)) . DIRECTORY_SEPARATOR . basename($path);
+				return $base . $this->hash($hashByName ? basename($path) : dirname($path).filemtime(dirname($path))) . DIRECTORY_SEPARATOR . basename($path);
 			else
-				return $base . $this->hash($hashByName ? basename($path) : $path);
+				return $base . $this->hash($hashByName ? basename($path) : $path.filemtime($path));
 		}
 		else
 			return false;
@@ -271,7 +271,7 @@ class CAssetManager extends CApplicationComponent
 	 * if the file path is published, what the URL will be to access it.
 	 * @param string $path directory or file path being published
 	 * @param boolean $hashByName whether the published directory should be named as the hashed basename.
-	 * If false, the name will be the hashed dirname of the path being published.
+	 * If false, the name will be the hash from dirname of the path being published and its mtime.
 	 * Defaults to false. Set true if the path being published is shared among
 	 * different extensions.
 	 * @return string the published URL for the file or directory. False if the file or directory does not exist.
@@ -283,9 +283,9 @@ class CAssetManager extends CApplicationComponent
 		if(($path=realpath($path))!==false)
 		{
 			if(is_file($path))
-				return $this->getBaseUrl().'/'.$this->hash($hashByName ? basename($path) : dirname($path)).'/'.basename($path);
+				return $this->getBaseUrl().'/'.$this->hash($hashByName ? basename($path) : dirname($path).filemtime(dirname($path))).'/'.basename($path);
 			else
-				return $this->getBaseUrl().'/'.$this->hash($hashByName ? basename($path) : $path);
+				return $this->getBaseUrl().'/'.$this->hash($hashByName ? basename($path) : $path.filemtime($path));
 		}
 		else
 			return false;

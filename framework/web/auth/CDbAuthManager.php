@@ -120,6 +120,7 @@ class CDbAuthManager extends CAuthManager
 	 * Adds an item as a child of another item.
 	 * @param string $itemName the parent item name
 	 * @param string $childName the child item name
+	 * @return boolean whether the item is added successfully
 	 * @throws CException if either parent or child doesn't exist or if a loop has been detected.
 	 */
 	public function addItemChild($itemName,$childName)
@@ -159,6 +160,8 @@ class CDbAuthManager extends CAuthManager
 					'parent'=>$itemName,
 					'child'=>$childName,
 				));
+
+			return true;
 		}
 		else
 			throw new CException(Yii::t('yii','Either "{parent}" or "{child}" does not exist.',array('{child}'=>$childName,'{parent}'=>$itemName)));

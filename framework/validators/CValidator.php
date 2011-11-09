@@ -92,7 +92,7 @@ abstract class CValidator extends CComponent
 	 */
 	public $message;
 	/**
-	 * @var boolean whether this validation rule should be skipped if when there is already a validation
+	 * @var boolean whether this validation rule should be skipped when there is already a validation
 	 * error for the current attribute. Defaults to false.
 	 * @since 1.1.1
 	 */

@@ -21,7 +21,7 @@
  * @property string $name The item name.
  * @property string $description The item description.
  * @property string $bizRule The business rule associated with this item.
- * @property string $data The additional data associated with this item.
+ * @property mixed $data The additional data associated with this item.
  * @property array $children All child items of this item.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
@@ -53,7 +53,7 @@ class CAuthItem extends CComponent
 	 */
 	public function __construct($auth,$name,$type,$description='',$bizRule=null,$data=null)
 	{
-		$this->_type=$type;
+		$this->_type=(int)$type;
 		$this->_auth=$auth;
 		$this->_name=$name;
 		$this->_description=$description;
@@ -162,7 +162,7 @@ class CAuthItem extends CComponent
 	}
 
 	/**
-	 * @return string the additional data associated with this item
+	 * @return mixed the additional data associated with this item
 	 */
 	public function getData()
 	{
@@ -170,7 +170,7 @@ class CAuthItem extends CComponent
 	}
 
 	/**
-	 * @param string $value the business rule associated with this item
+	 * @param mixed $value the additional data associated with this item
 	 */
 	public function setData($value)
 	{
