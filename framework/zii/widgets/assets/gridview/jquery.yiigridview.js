@@ -28,25 +28,25 @@
 		 * @return object the jQuery object
 		 */
 		init: function(options) {
-			var defaults = {
-				ajaxUpdate: [],
-				ajaxVar: 'ajax',
-				pagerClass: 'pager',
-				loadingClass: 'loading',
-				filterClass: 'filters',
-				tableClass: 'items',
-				selectableRows: 1
-				// updateSelector: '#id .pager a, '#id .grid thead th a',
-				// beforeAjaxUpdate: function(id) {},
-				// afterAjaxUpdate: function(id, data) {},
-				// selectionChanged: function(id) {},
-				// url: 'ajax request URL'
-			};
+			var settings = $.extend( {
+					ajaxUpdate: [],
+					ajaxVar: 'ajax',
+					pagerClass: 'pager',
+					loadingClass: 'loading',
+					filterClass: 'filters',
+					tableClass: 'items',
+					selectableRows: 1
+					// updateSelector: '#id .pager a, '#id .grid thead th a',
+					// beforeAjaxUpdate: function(id) {},
+					// afterAjaxUpdate: function(id, data) {},
+					// selectionChanged: function(id) {},
+					// url: 'ajax request URL'
+				}, options || {});
 
 			return this.each(function(){
-				var settings = $.extend({}, defaults, options || {}),
-					$grid = $(this),
+				var $grid = $(this),
 					id = $grid.attr('id');
+
 				settings.tableClass=settings.tableClass.replace(/\s+/g,'.');
 				if(settings.updateSelector === undefined)
 					settings.updateSelector = '#'+id+' .'+settings.pagerClass.replace(/\s+/g,'.')+' a, #'+id+' .'+settings.tableClass+' thead th a';
@@ -54,23 +54,22 @@
 				gridSettings[id] = settings;
 
 				if(settings.ajaxUpdate.length > 0) {
-					$(settings.updateSelector).die('click').live('click',function(){
+					$(document).on('click', settings.updateSelector, function(){
 						$('#'+id).yiiGridView('update', {url: $(this).attr('href')});
 						return false;
 					});
 				}
 
 				var inputSelector = '#'+id+' .'+settings.filterClass+' input, '+'#'+id+' .'+settings.filterClass+' select';
-				$('body').undelegate(inputSelector, 'change').delegate(inputSelector, 'change', function(){
+				$(document).on('change', inputSelector, function(){
 					var data = $(inputSelector).serialize();
-					if(settings.pageVar!==undefined)
-						data += '&'+settings.pageVar+'=1';
+					if(settings.pageVar !== undefined)
+						data += '&' + settings.pageVar + '=1';
 					$('#'+id).yiiGridView('update', {data: data});
 				});
 
-				$grid.yiiGridView('selectCheckedRows');
-
 				if(settings.selectableRows > 0) {
+					$grid.yiiGridView('selectCheckedRows');
 					$(document).on('click','#'+id+' .'+settings.tableClass+' > tbody > tr',function(e){
 						var $target = $(e.target);
 						if($target.closest('td').hasClass('button-column') ||
@@ -111,9 +110,8 @@
 								settings.selectionChanged(id);
 						});
 					}
-				} else {
+				} else
 					$(document).on('click','#'+id+' .select-on-check',false);
-				}
 			});
 		},
 
@@ -123,7 +121,7 @@
 		 * @return string the key value
 		 */
 		getKey: function(row) {
-			return this.find('.keys span:eq('+row+')').text()
+			return this.children('.keys span:eq('+row+')').text()
 		},
 
 		/**
@@ -162,38 +160,39 @@
 		 * @return object the jQuery object
 		 */
 		update: function(options) {
+			if(options && options.error !== undefined) {
+				var customError=options.error;
+				delete options.error;
+			}
+
 			return this.each(function(){
 				var $grid = $(this),
 					id=$grid.attr('id'),
 					settings = gridSettings[id];
 				$grid.addClass(settings.loadingClass);
 
-				if(options && options.error !== undefined) {
-					var customError=options.error;
-					delete options.error;
-				}
-
 				options = $.extend({
 					type: 'GET',
 					url: $grid.yiiGridView('getUrl'),
 					success: function(data,status) {
+						var $data = $('<div>'+data+'</div>');
+						$grid.removeClass(settings.loadingClass)
 						$.each(settings.ajaxUpdate, function(i,v) {
-							var id='#'+v;
-							$(id).replaceWith($(id,'<div>'+data+'</div>'));
+							var updateId = '#'+v;
+							$(updateId).replaceWith($(updateId,$data));
 						});
 						if(settings.afterAjaxUpdate !== undefined)
 							settings.afterAjaxUpdate(id, data);
-						$('#'+id)
-							.removeClass(settings.loadingClass)
-							.yiiGridView('selectCheckedRows');
+						if(settings.selectableRows > 0)
+							$('#'+id).yiiGridView('selectCheckedRows');
 					},
 					error: function(XHR, textStatus, errorThrown) {
-						$('#'+id).removeClass(settings.loadingClass);
+						$grid.removeClass(settings.loadingClass);
 						if(XHR.readyState == 0 || XHR.status == 0)
 							return;
-						if(customError!==undefined) {
+						if(customError !== undefined) {
 							var ret = customError(XHR);
-							if( ret!==undefined && !ret)
+							if( ret !== undefined && !ret)
 								return;
 						}
 						var err='';
@@ -206,11 +205,11 @@
 								break;
 							case 'error':
 								if(XHR.status && !/^\s*$/.test(XHR.status))
-									err='Error ' + XHR.status;
+									err = 'Error ' + XHR.status;
 								else
-									err='Error';
+									err = 'Error';
 								if(XHR.responseText && !/^\s*$/.test(XHR.responseText))
-									err=err + ': ' + XHR.responseText;
+									err = err + ': ' + XHR.responseText;
 								break;
 						}
 
@@ -220,28 +219,28 @@
 							alert(err);
 					}
 				}, options || {});
-				if(options.data!==undefined && options.type=='GET') {
+				if(options.data !== undefined && options.type === 'GET') {
 					options.url = $.param.querystring(options.url, options.data);
 					options.data = {};
 				}
 
-				if(settings.ajaxUpdate!==false) {
+				if(settings.ajaxUpdate !== false) {
 					options.url = $.param.querystring(options.url, settings.ajaxVar+'='+id);
 					if(settings.beforeAjaxUpdate !== undefined)
 						settings.beforeAjaxUpdate(id, options);
 					$.ajax(options);
 				}
 				else {  // non-ajax mode
-					if(options.type=='GET') {
-						window.location.href=options.url;
+					if(options.type === 'GET') {
+						window.location.href = options.url;
 					}
 					else {  // POST mode
-						var $form=$('<form action="'+options.url+'" method="post"></form>').appendTo('body');
-						if(options.data===undefined)
-							options.data={};
+						var $form = $('<form action="'+options.url+'" method="post"></form>').appendTo('body');
+						if(options.data === undefined)
+							options.data = {};
 
-						if(options.data.returnUrl===undefined)
-							options.data.returnUrl=window.location.href;
+						if(options.data.returnUrl === undefined)
+							options.data.returnUrl = window.location.href;
 
 						$.each(options.data, function(name,value) {
 							$form.append($('<input type="hidden" name="t" value="" />').attr('name',name).val(value));
@@ -265,10 +264,10 @@
 				$(this).closest('tr').addClass('selected');
 			});
 
-			table.children('thead').find('input').filter('[type="checkbox"]').each(function(){
-				var name = this.name.substring(0,this.name.length-4)+'[]', //.. remove '_all' and add '[]''
+			table.children('thead').find('th input').filter('[type="checkbox"]').each(function(){
+				var name = this.name.substring(0, this.name.length-4)+'[]', //.. remove '_all' and add '[]''
 					$checks = $("input[name='"+name+"']",table);
-				this.checked = $checks.length === $checks.filter(':checked').length;
+				this.checked = $checks.length > 0 && $checks.length === $checks.filter(':checked').length;
 			});
 			return this;
 		},
