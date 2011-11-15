@@ -147,7 +147,7 @@ class CAssetManager extends CApplicationComponent
 	 * <li>If the asset is a file, its file modification time will be checked
 	 * to avoid unnecessary file copying;</li>
 	 * <li>If the asset is a directory, all files and subdirectories under it will
-	 * be published recursively. Note, in this case the method only checks the
+	 * be published recursively. Note, in case $forceCopy is false the method only checks the
 	 * existence of the target directory to avoid repetitive copying.</li>
 	 * </ul>
 	 *
@@ -160,14 +160,14 @@ class CAssetManager extends CApplicationComponent
 	 *
 	 * @param string $path the asset (file or directory) to be published
 	 * @param boolean $hashByName whether the published directory should be named as the hashed basename.
-	 * If false, the name will be the hash from dirname of the path being published and its mtime.
+	 * If false, the name will be the hash taken from dirname of the path being published and path mtime.
 	 * Defaults to false. Set true if the path being published is shared among
 	 * different extensions.
 	 * @param integer $level level of recursive copying when the asset is a directory.
 	 * Level -1 means publishing all subdirectories and files;
 	 * Level 0 means publishing only the files DIRECTLY under the directory;
 	 * level N means copying those directories that are within N levels.
-	 * @param boolean $forceCopy whether we should copy the asset file or directory even if it is already published before.
+	 * @param boolean $forceCopy whether we should check already published directory and copy it if its files were modified.
 	 * This parameter is set true mainly during development stage when the original
 	 * assets are being constantly changed. The consequence is that the performance
 	 * is degraded, which is not a concern during development, however.
@@ -183,7 +183,7 @@ class CAssetManager extends CApplicationComponent
 		{
 			if(is_file($src))
 			{
-				$dir=$this->hash($hashByName ? basename($src) : dirname($src).filemtime(dirname($src)));
+				$dir=$this->hash($hashByName ? basename($src) : dirname($src).filemtime($src));
 				$fileName=basename($src);
 				$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
 				$dstFile=$dstDir.DIRECTORY_SEPARATOR.$fileName;
@@ -200,7 +200,7 @@ class CAssetManager extends CApplicationComponent
 						symlink($src,$dstFile);
 					}
 				}
-				else if(@filemtime($dstFile)<@filemtime($src) || $forceCopy)
+				else if(@filemtime($dstFile)<@filemtime($src))
 				{
 					if(!is_dir($dstDir))
 					{
@@ -215,6 +215,31 @@ class CAssetManager extends CApplicationComponent
 			}
 			else if(is_dir($src))
 			{
+				if($forceCopy)
+				{
+					$maxmtime=filemtime($src);
+					$files=CFileHelper::findFiles($src,array(
+						'exclude'=>$this->excludeFiles,
+						'level'=>$level,
+					));
+					foreach($files as $file)
+					{
+						if(($filemtime=filemtime($file))>$maxmtime)
+							$maxmtime=$filemtime;
+					}
+
+					// touch() doesn't change mtime when using PHP < 5.3.0 under Windows
+					if(strtoupper(substr(PHP_OS, 0, 3))!=='WIN' || version_compare(PHP_VERSION,'5.3.0','>'))
+					{
+						touch($src,$maxmtime);
+					}
+					else
+					{
+						touch("$src/.tmp");
+						unlink("$src/.tmp");
+					}
+				}
+
 				$dir=$this->hash($hashByName ? basename($src) : $src.filemtime($src));
 				$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
 
@@ -223,7 +248,7 @@ class CAssetManager extends CApplicationComponent
 					if(!is_dir($dstDir))
 						symlink($src,$dstDir);
 				}
-				else if(!is_dir($dstDir) || $forceCopy)
+				else if(!is_dir($dstDir))
 				{
 					CFileHelper::copyDirectory($src,$dstDir,array(
 						'exclude'=>$this->excludeFiles,
@@ -246,7 +271,7 @@ class CAssetManager extends CApplicationComponent
 	 * if the file or directory is published, where it will go.
 	 * @param string $path directory or file path being published
 	 * @param boolean $hashByName whether the published directory should be named as the hashed basename.
-	 * If false, the name will be the hash from dirname of the path being published and its mtime.
+	 * If false, the name will be the hash taken from dirname of the path being published and path mtime.
 	 * Defaults to false. Set true if the path being published is shared among
 	 * different extensions.
 	 * @return string the published file path. False if the file or directory does not exist
@@ -257,7 +282,7 @@ class CAssetManager extends CApplicationComponent
 		{
 			$base=$this->getBasePath().DIRECTORY_SEPARATOR;
 			if(is_file($path))
-				return $base . $this->hash($hashByName ? basename($path) : dirname($path).filemtime(dirname($path))) . DIRECTORY_SEPARATOR . basename($path);
+				return $base . $this->hash($hashByName ? basename($path) : dirname($path).filemtime($path)) . DIRECTORY_SEPARATOR . basename($path);
 			else
 				return $base . $this->hash($hashByName ? basename($path) : $path.filemtime($path));
 		}
@@ -271,7 +296,7 @@ class CAssetManager extends CApplicationComponent
 	 * if the file path is published, what the URL will be to access it.
 	 * @param string $path directory or file path being published
 	 * @param boolean $hashByName whether the published directory should be named as the hashed basename.
-	 * If false, the name will be the hash from dirname of the path being published and its mtime.
+	 * If false, the name will be the hash taken from dirname of the path being published and path mtime.
 	 * Defaults to false. Set true if the path being published is shared among
 	 * different extensions.
 	 * @return string the published URL for the file or directory. False if the file or directory does not exist.
@@ -283,7 +308,7 @@ class CAssetManager extends CApplicationComponent
 		if(($path=realpath($path))!==false)
 		{
 			if(is_file($path))
-				return $this->getBaseUrl().'/'.$this->hash($hashByName ? basename($path) : dirname($path).filemtime(dirname($path))).'/'.basename($path);
+				return $this->getBaseUrl().'/'.$this->hash($hashByName ? basename($path) : dirname($path).filemtime($path)).'/'.basename($path);
 			else
 				return $this->getBaseUrl().'/'.$this->hash($hashByName ? basename($path) : $path.filemtime($path));
 		}
