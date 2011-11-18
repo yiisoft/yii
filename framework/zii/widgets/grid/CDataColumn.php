@@ -34,6 +34,12 @@ class CDataColumn extends CGridColumn
 	 * @see value
 	 * @see sortable
 	 */
+	/**
+	 * @var string the attribute name of the data model. Used for column sorting, filtering and to render the corresponding
+	 * attribute value in each data cell. If {@link value} is specified it will be used to rendered the data cell instead of the attribute value.
+	 * @see value
+	 * @see sortable
+	 */
 	public $name;
 	/**
 	 * @var string a PHP expression that will be evaluated for every data cell and whose result will be rendered
