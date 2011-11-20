@@ -19,6 +19,8 @@ In the following, we will describe how to use this tool.
 
 > Note: It's better to use application-specific yiic (e.g. `cd path/to/protected`)
 > when working with `migrate` command instead of one from `framework` directory.
+> Make sure you have `protected\migrations` directory and it is writable. Also check if
+> you've configured database connection in your `protected/config/console.php`.
 
 Creating Migrations
 -------------------
