@@ -167,7 +167,7 @@ class CAssetManager extends CApplicationComponent
 	 * Level -1 means publishing all subdirectories and files;
 	 * Level 0 means publishing only the files DIRECTLY under the directory;
 	 * level N means copying those directories that are within N levels.
-	 * @param boolean $forceCopy whether we should check already published directory and copy it if its files were modified.
+	 * @param boolean $forceCopy whether we should copy the asset file or directory even if it is already published before.
 	 * This parameter is set true mainly during development stage when the original
 	 * assets are being constantly changed. The consequence is that the performance
 	 * is degraded, which is not a concern during development, however.
@@ -215,31 +215,6 @@ class CAssetManager extends CApplicationComponent
 			}
 			else if(is_dir($src))
 			{
-				if($forceCopy)
-				{
-					$maxmtime=filemtime($src);
-					$files=CFileHelper::findFiles($src,array(
-						'exclude'=>$this->excludeFiles,
-						'level'=>$level,
-					));
-					foreach($files as $file)
-					{
-						if(($filemtime=filemtime($file))>$maxmtime)
-							$maxmtime=$filemtime;
-					}
-
-					// touch() doesn't change mtime when using PHP < 5.3.0 under Windows
-					if(strtoupper(substr(PHP_OS, 0, 3))!=='WIN' || version_compare(PHP_VERSION,'5.3.0','>'))
-					{
-						touch($src,$maxmtime);
-					}
-					else
-					{
-						touch("$src/.tmp");
-						unlink("$src/.tmp");
-					}
-				}
-
 				$dir=$this->hash($hashByName ? basename($src) : $src.filemtime($src));
 				$dstDir=$this->getBasePath().DIRECTORY_SEPARATOR.$dir;
 
@@ -248,7 +223,7 @@ class CAssetManager extends CApplicationComponent
 					if(!is_dir($dstDir))
 						symlink($src,$dstDir);
 				}
-				else if(!is_dir($dstDir))
+				else if(!is_dir($dstDir) || $forceCopy)
 				{
 					CFileHelper::copyDirectory($src,$dstDir,array(
 						'exclude'=>$this->excludeFiles,
