@@ -1,6 +1,6 @@
 CREATE TABLE users
 (
-	id INTEGER NOT NULL PRIMARY KEY,
+	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
 	username VARCHAR(128) NOT NULL,
 	password VARCHAR(128) NOT NULL,
 	email VARCHAR(128) NOT NULL
@@ -259,4 +259,3 @@ CREATE TABLE Comment
 INSERT INTO Comment (id,authorID,body) VALUES (3,1,'content for comment 1');
 INSERT INTO Comment (id,authorID,body) VALUES (5,1,'content for comment 2');
 INSERT INTO Comment (id,authorID,body) VALUES (6,1,'content for comment 3');
-
