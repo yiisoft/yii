@@ -21,6 +21,9 @@ General upgrade intructions
 
 Upgrading from v1.1.8
 ---------------------
+- CConfiguration::createObject, CController::paginate and CHtml::getActiveId deprecated since 1.0.x were removed. Use
+  Yii::createComponent, new CPagination directly and CHtml::activeId respectively.
+
 - In CErrorHandler::handleException() the checking for ajax call has been removed
 as it was preventing to customize the display of the exception during an ajax call.
 
