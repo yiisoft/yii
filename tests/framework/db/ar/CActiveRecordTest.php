@@ -7,6 +7,8 @@ require_once(dirname(__FILE__).'/../data/models.php');
 
 class CActiveRecordTest extends CTestCase
 {
+	protected $backupStaticAttributes = true;
+
 	private $_connection;
 
 	protected function setUp()

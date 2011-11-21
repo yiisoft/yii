@@ -98,21 +98,4 @@ class CConfiguration extends CMap
 		foreach($this->toArray() as $key=>$value)
 			$object->$key=$value;
 	}
-
-	/**
-	 * Creates an object and initializes it based on the given configuration.
-	 *
-	 * NOTE: this method has been deprecated since version 1.0.1.
-	 * Please use {@link YiiBase::createComponent Yii::createComponent}, instead.
-	 *
-	 * @param mixed $config the configuration. It can be either a string or an array.
-	 * @return mixed the created object
-	 * @throws CException if the configuration does not have 'class' value
-	 */
-	public static function createObject($config)
-	{
-		if($config instanceof self)
-			$config=$config->toArray();
-		return Yii::createComponent($config);
-	}
 }

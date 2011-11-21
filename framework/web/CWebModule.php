@@ -131,7 +131,8 @@ class CWebModule extends CModule
 	}
 
 	/**
-	 * @return string the root directory of layout files. Defaults to 'protected/views/layouts'.
+	 * @return string the root directory of layout files. Defaults to 'moduleDir/views/layouts' where
+	 * moduleDir is the directory containing the module class.
 	 */
 	public function getLayoutPath()
 	{

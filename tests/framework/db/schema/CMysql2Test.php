@@ -24,6 +24,17 @@ class CMysql2Test extends CTestCase
 			$schemaFile=realpath(dirname(__FILE__).'/../data/mysql.sql');
 			$this->markTestSkipped("Please read $schemaFile for details on setting up the test environment for MySQL test case.");
 		}
+
+		$tables=array('comments','post_category','posts','categories','profiles','users','items','orders','types');
+		foreach($tables as $table)
+			$this->db->createCommand("DROP TABLE IF EXISTS $table CASCADE")->execute();
+
+		$sqls=file_get_contents(dirname(__FILE__).'/../data/mysql.sql');
+		foreach(explode(';',$sqls) as $sql)
+		{
+			if(trim($sql)!=='')
+				$this->db->createCommand($sql)->execute();
+		}
 	}
 
 	public function tearDown()

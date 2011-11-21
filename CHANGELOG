@@ -20,6 +20,7 @@ Version 1.1.9 work in progress
 - Chg: Upgraded jQuery to 1.7 (Sam Dark,mdomba)
 - Chg: Reverted back the changes made to fix issue 2284 (Qiang)
 - Chg #2647: Fixed inconvenient way of defining through relation (creocoder, Sam Dark)
+- Chg #2951: Removed CConfiguration::createObject, CController::paginate and CHtml::getActiveId deprecated since 1.0.x (Sam Dark)
 - Enh #2029: Added scope support to Model::relations() (creocoder, Sam Dark)
 - Enh #2334: CHttpRequest::getPathInfo() now properly decodes both UTF-8 and ISO-8859-1 encoded URIs (Sam Dark)
 - Enh #2387: Numeric keys are now displayed in error/exception stacktrace call argument if array isn't 0..X indexed (Sam Dark)
@@ -40,7 +41,7 @@ Version 1.1.9 work in progress
 - Enh: CFileCache::get() does now suppress a possible PHP error which might occur on concurrent requests (Y!!)
 - Enh: jquery.yiiactiveform.js added check for form visibility to validate() to prevent JS error when using CActiveForm with jQuery dialog (mdomba)
 - Enh: removed the check for ajax call in CErrorHandler::handleException() (mdomba)
-- Enh: CAssetManager now generates different hash for files/directories with different mtime, better performance when using forceCopy (Sam Dark)
+- Enh: CAssetManager now generates different hash for files/directories with different mtime (Sam Dark)
 - Enh: Yii error screen will now display proper message like error/warning/notice (mdomba)
 
 Version 1.1.8 June 26, 2011
