@@ -35,7 +35,7 @@ class CSortTest extends CTestCase {
 		$criteria = new CDbCriteria();
 		$criteria->with = 'comments';
 
-		$sort = new CSort('Post');
+		$sort = new CSort('TestPost');
 		$sort->attributes = array(
 			'id',
 			'comments.id' => array(
