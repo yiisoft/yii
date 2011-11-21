@@ -1157,30 +1157,6 @@ class CController extends CBaseController
 	}
 
 	/**
-	 * Generates pagination information.
-	 * This method can be used to generate pagination information given item count
-	 * and page size. The pagination information can then be passed to {@link CBasePager pagers}
-	 * for corresponding rendering.
-	 *
-	 * Note: this method has been deprecated since version 1.0.1.
-	 * You should directly use "new CPagination" to create a pagination object.
-	 *
-	 * @param integer $itemCount the total item count
-	 * @param integer $pageSize the page size. See {@link CPagination} for default value.
-	 * @param string $pageVar the name of the GET variable storing the current page index. See {@link CPagination} for default value.
-	 * @return CPagination the pagination information
-	 */
-	public function paginate($itemCount,$pageSize=null,$pageVar=null)
-	{
-		$pages=new CPagination($itemCount);
-		if($pageSize!==null)
-			$pages->pageSize=$pageSize;
-		if($pageVar!==null)
-			$pages->pageVar=$pageVar;
-		return $pages;
-	}
-
-	/**
 	 * Returns a persistent page state value.
 	 * A page state is a variable that is persistent across POST requests of the same page.
 	 * In order to use persistent page states, the form(s) must be stateful

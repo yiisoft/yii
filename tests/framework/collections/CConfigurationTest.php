@@ -88,10 +88,4 @@ class CConfigurationTest extends CTestCase
 		$this->assertEquals(get_class($obj),'MyClass');
 		$this->assertEquals($obj->param2,3);
 	}
-
-	public function testCreateObject(){
-		$obj = CConfiguration::createObject(array('class'=>'MyClass','param2'=>3));		
-		$this->assertEquals(get_class($obj),'MyClass');
-		$this->assertEquals($obj->param2,3);
-	}
 }
