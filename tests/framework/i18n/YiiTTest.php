@@ -26,6 +26,11 @@ class YiiTTest extends CTestCase
 		Yii::app()->configure($config);
 	}
 
+	function tearDown()
+	{
+		Yii::app()->sourceLanguage = 'en_us';
+	}
+
 	// Simple: 'msg'
 	function testSimple(){
 		Yii::app()->setLanguage('ru');
