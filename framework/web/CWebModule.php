@@ -19,9 +19,12 @@
  * @property string $name The name of this module.
  * @property string $description The description of this module.
  * @property string $version The version of this module.
- * @property string $controllerPath The directory that contains the controller classes. Defaults to 'protected/controllers'.
- * @property string $viewPath The root directory of view files. Defaults to 'protected/views'.
- * @property string $layoutPath The root directory of layout files. Defaults to 'protected/views/layouts'.
+ * @property string $controllerPath The directory that contains the controller classes. Defaults to 'moduleDir/controllers'
+ * where moduleDir is the directory containing the module class.
+ * @property string $viewPath The root directory of view files. Defaults to 'moduleDir/views' where moduleDir is
+ * the directory containing the module class.
+ * @property string $layoutPath The root directory of layout files. Defaults to 'moduleDir/views/layouts' where
+ * moduleDir is the directory containing the module class.
  *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
@@ -87,7 +90,8 @@ class CWebModule extends CModule
 	}
 
 	/**
-	 * @return string the directory that contains the controller classes. Defaults to 'protected/controllers'.
+	 * @return string the directory that contains the controller classes. Defaults to 'moduleDir/controllers' where
+     * moduleDir is the directory containing the module class.
 	 */
 	public function getControllerPath()
 	{
@@ -109,7 +113,8 @@ class CWebModule extends CModule
 	}
 
 	/**
-	 * @return string the root directory of view files. Defaults to 'protected/views'.
+	 * @return string the root directory of view files. Defaults to 'moduleDir/views' where
+	 * moduleDir is the directory containing the module class.
 	 */
 	public function getViewPath()
 	{
