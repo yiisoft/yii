@@ -71,6 +71,21 @@ protected function newComment($post)
 }
 ~~~
 
+And then we modify the `Post` model class by adding the method `addComment()` as follows,
+
+~~~
+[php]
+public function addComment($comment)
+{
+	if(Yii::app()->params['commentNeedApproval'])
+		$comment->status=Comment::STATUS_PENDING;
+	else
+		$comment->status=Comment::STATUS_APPROVED;
+	$comment->post_id=$this->id;
+	return $comment->save();
+}
+~~~
+
 In the above, we call the `newComment()` method before we render `view`. In the `newComment()` method, we generate a `Comment` instance and check if the comment form is submitted. If so, we try to add the comment for the post by calling `$post->addComment($comment)`. If it goes through, we refresh the post detail page. In case the comment needs to be approved, we will show a flash message to indicate this decision. A flash message is usually a confirmation message displayed to end users. If the user clicks on the refresh button of his browser, the message will disappear.
 
 We also need to modify `/wwwroot/blog/protected/views/post/view.php` furthermore,
