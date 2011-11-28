@@ -227,7 +227,7 @@ class CMap extends CComponent implements IteratorAggregate,ArrayAccess,Countable
 	 * <ul>
 	 * <li>the map data is saved as $a, and the source data is saved as $b;</li>
 	 * <li>if $a and $b both have an array indxed at the same string key, the arrays will be merged using this algorithm;</li>
-	 * <li>any integer-indexed elements in $b will be appended to $a and reindxed accordingly;</li>
+	 * <li>any integer-indexed elements in $b will be appended to $a and reindexed accordingly;</li>
 	 * <li>any string-indexed elements in $b will overwrite elements in $a with the same index;</li>
 	 * </ul>
 	 *
