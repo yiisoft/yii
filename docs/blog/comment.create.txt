@@ -63,7 +63,7 @@ protected function newComment($post)
 		if($post->addComment($comment))
 		{
 			if($comment->status==Comment::STATUS_PENDING)
-				Yii::app()->user->setFlash('commentSubmitted','Thank you...');
+				Yii::app()->user->setFlash('commentSubmitted','Thank you for your comment. Your comment will be posted once it is approved.');
 			$this->refresh();
 		}
 	}
@@ -86,7 +86,7 @@ public function addComment($comment)
 }
 ~~~
 
-In the above, we call the `newComment()` method before we render `view`. In the `newComment()` method, we generate a `Comment` instance and check if the comment form is submitted. If so, we try to add the comment for the post by calling `$post->addComment($comment)`. If it goes through, we refresh the post detail page. In case the comment needs to be approved, we will show a flash message to indicate this decision. A flash message is usually a confirmation message displayed to end users. If the user clicks on the refresh button of his browser, the message will disappear.
+In the above, we call the `newComment()` method before we render `view`. In the `newComment()` method, we generate a `Comment` instance and check if the comment form is submitted. If so, we try to add the comment for the post by calling `$post->addComment($comment)`. If it goes through, we refresh the post detail page, which will display the newly created comment unless approval is required. In the case where the comment first requires approval prior to display, we will show a flash message to indicate to the user that the comment will be displayed once approved. A flash message is usually a confirmation message displayed to end users. If the user clicks on the refresh button of his browser, the message will disappear.
 
 We also need to modify `/wwwroot/blog/protected/views/post/view.php` furthermore,
 
@@ -154,7 +154,7 @@ protected function newComment($post)
 		if($post->addComment($comment))
 		{
 			if($comment->status==Comment::STATUS_PENDING)
-				Yii::app()->user->setFlash('commentSubmitted','Thank you...');
+				Yii::app()->user->setFlash('commentSubmitted','Thank you for your comment. Your comment will be posted once it is approved.');
 			$this->refresh();
 		}
 	}
