@@ -1,9 +1,8 @@
-/// <reference path="../../../lib/jquery-1.2.6.js" />
 /*
 	Masked Input plugin for jQuery
-	Copyright (c) 2007-2009 Josh Bush (digitalbush.com)
-	Licensed under the MIT license (http://digitalbush.com/projects/masked-input-plugin/#license)
-	Version: 1.2.2 (03/09/2009 22:39:06)
+	Copyright (c) 2007-2011 Josh Bush (digitalbush.com)
+	Licensed under the MIT license (http://digitalbush.com/projects/masked-input-plugin/#license) 
+	Version: 1.3
 */
 (function($) {
 	var pasteEventName = ($.browser.msie ? 'paste' : 'input') + ".mask";
@@ -15,7 +14,8 @@
 			'9': "[0-9]",
 			'a': "[A-Za-z]",
 			'*': "[A-Za-z0-9]"
-		}
+		},
+		dataName:"rawMaskFn"
 	};
 
 	$.fn.extend({
@@ -26,7 +26,6 @@
 				end = (typeof end == 'number') ? end : begin;
 				return this.each(function() {
 					if (this.setSelectionRange) {
-						this.focus();
 						this.setSelectionRange(begin, end);
 					} else if (this.createTextRange) {
 						var range = this.createTextRange();
@@ -52,10 +51,7 @@
 		mask: function(mask, settings) {
 			if (!mask && this.length > 0) {
 				var input = $(this[0]);
-				var tests = input.data("tests");
-				return $.map(input.data("buffer"), function(c, i) {
-					return tests[i] ? c : null;
-				}).join('');
+				return input.data($.mask.dataName)();
 			}
 			settings = $.extend({
 				placeholder: "_",
@@ -81,34 +77,36 @@
 				}
 			});
 
-			return this.each(function() {
+			return this.trigger("unmask").each(function() {
 				var input = $(this);
 				var buffer = $.map(mask.split(""), function(c, i) { if (c != '?') return defs[c] ? settings.placeholder : c });
-				var ignore = false;  			//Variable for ignoring control keys
 				var focusText = input.val();
-
-				input.data("buffer", buffer).data("tests", tests);
 
 				function seekNext(pos) {
 					while (++pos <= len && !tests[pos]);
 					return pos;
-				}
+				};
+				function seekPrev(pos) {
+					while (--pos >= 0 && !tests[pos]);
+					return pos;
+				};
 
-				function shiftL(pos) {
-					while (!tests[pos] && --pos >= 0);
-					for (var i = pos; i < len; i++) {
+				function shiftL(begin,end) {
+					if(begin<0)
+					   return;
+					for (var i = begin,j = seekNext(end); i < len; i++) {
 						if (tests[i]) {
-							buffer[i] = settings.placeholder;
-							var j = seekNext(i);
 							if (j < len && tests[i].test(buffer[j])) {
 								buffer[i] = buffer[j];
+								buffer[j] = settings.placeholder;
 							} else
 								break;
+							j = seekNext(j);
 						}
 					}
 					writeBuffer();
-					input.caret(Math.max(firstNonMaskPos, pos));
-				}
+					input.caret(Math.max(firstNonMaskPos, begin));
+				};
 
 				function shiftR(pos) {
 					for (var i = pos, c = settings.placeholder; i < len; i++) {
@@ -122,41 +120,43 @@
 								break;
 						}
 					}
-				}
+				};
 
 				function keydownEvent(e) {
-					var pos = $(this).caret();
-					var k = e.keyCode;
-					ignore = (k < 16 || (k > 16 && k < 32) || (k > 32 && k < 41));
-
-					//delete selection before proceeding
-					if ((pos.begin - pos.end) != 0 && (!ignore || k == 8 || k == 46))
-						clearBuffer(pos.begin, pos.end);
+					var k=e.which;
 
 					//backspace, delete, and escape get special treatment
-					if (k == 8 || k == 46 || (iPhone && k == 127)) {//backspace/delete
-						shiftL(pos.begin + (k == 46 ? 0 : -1));
+					if(k == 8 || k == 46 || (iPhone && k == 127)){
+						var pos = input.caret(),
+							begin = pos.begin,
+							end = pos.end;
+						
+						if(end-begin==0){
+							begin=k!=46?seekPrev(begin):(end=seekNext(begin-1));
+							end=k==46?seekNext(end):end;
+						}
+						clearBuffer(begin, end);
+						shiftL(begin,end-1);
+
 						return false;
 					} else if (k == 27) {//escape
 						input.val(focusText);
 						input.caret(0, checkVal());
 						return false;
 					}
-				}
+				};
 
 				function keypressEvent(e) {
-					if (ignore) {
-						ignore = false;
-						//Fixes Mac FF bug on backspace
-						return (e.keyCode == 8) ? false : null;
-					}
-					e = e || window.event;
-					var k = e.charCode || e.keyCode || e.which;
-					var pos = $(this).caret();
-
-					if (e.ctrlKey || e.altKey || e.metaKey) {//Ignore
+					var k = e.which,
+						pos = input.caret();
+					if (e.ctrlKey || e.altKey || e.metaKey || k<32) {//Ignore
 						return true;
-					} else if ((k >= 32 && k <= 125) || k > 186) {//typeable characters
+					} else if (k) {
+						if(pos.end-pos.begin!=0){
+							clearBuffer(pos.begin, pos.end);
+							shiftL(pos.begin, pos.end-1);
+						}
+
 						var p = seekNext(pos.begin - 1);
 						if (p < len) {
 							var c = String.fromCharCode(k);
@@ -165,23 +165,23 @@
 								buffer[p] = c;
 								writeBuffer();
 								var next = seekNext(p);
-								$(this).caret(next);
-								if (settings.completed && next == len)
+								input.caret(next);
+								if (settings.completed && next >= len)
 									settings.completed.call(input);
 							}
 						}
+						return false;
 					}
-					return false;
-				}
+				};
 
 				function clearBuffer(start, end) {
 					for (var i = start; i < end && i < len; i++) {
 						if (tests[i])
 							buffer[i] = settings.placeholder;
 					}
-				}
+				};
 
-				function writeBuffer() { return input.val(buffer.join('')).val(); }
+				function writeBuffer() { return input.val(buffer.join('')).val(); };
 
 				function checkVal(allow) {
 					//try to place characters where they belong
@@ -200,7 +200,7 @@
 							}
 							if (pos > test.length)
 								break;
-						} else if (buffer[i] == test[pos] && i!=partialPosition) {
+						} else if (buffer[i] == test.charAt(pos) && i!=partialPosition) {
 							pos++;
 							lastMatch = i;
 						}
@@ -213,26 +213,32 @@
 						if (!allow) input.val(input.val().substring(0, lastMatch + 1));
 					}
 					return (partialPosition ? i : firstNonMaskPos);
-				}
+				};
+
+				input.data($.mask.dataName,function(){
+					return $.map(buffer, function(c, i) {
+						return tests[i]&&c!=settings.placeholder ? c : null;
+					}).join('');
+				})
 
 				if (!input.attr("readonly"))
 					input
 					.one("unmask", function() {
 						input
 							.unbind(".mask")
-							.removeData("buffer")
-							.removeData("tests");
+							.removeData($.mask.dataName);
 					})
 					.bind("focus.mask", function() {
 						focusText = input.val();
 						var pos = checkVal();
 						writeBuffer();
-						setTimeout(function() {
+						var moveCaret=function(){
 							if (pos == mask.length)
 								input.caret(0, pos);
 							else
 								input.caret(pos);
-						}, 0);
+						};
+						($.browser.msie ? moveCaret:function(){setTimeout(moveCaret,0)})();
 					})
 					.bind("blur.mask", function() {
 						checkVal();

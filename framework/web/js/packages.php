@@ -44,7 +44,7 @@ return array(
 		'depends'=>array('jquery', 'bgiframe', 'ajaxqueue'),
 	),
 	'maskedinput'=>array(
-		'js'=>array('jquery.maskedinput.js'),
+		'js'=>array(YII_DEBUG ? 'jquery.maskedinput.js' : 'jquery.maskedinput.min.js'),
 		'depends'=>array('jquery'),
 	),
 	'cookie'=>array(
