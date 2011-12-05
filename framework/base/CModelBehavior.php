@@ -11,6 +11,9 @@
 /**
  * CModelBehavior is a base class for behaviors that are attached to a model component.
  * The model should extend from {@link CModel} or its child classes.
+ *
+ * @property CModel $owner The owner model that this behavior is attached to.
+ *
  * @author Qiang Xue <qiang.xue@gmail.com>
  * @version $Id$
  * @package system.base
